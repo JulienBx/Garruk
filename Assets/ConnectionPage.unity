@@ -87,6 +87,7 @@ GameObject:
   - 124: {fileID: 153763005}
   - 81: {fileID: 153763004}
   - 114: {fileID: 153763009}
+  - 114: {fileID: 153763010}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -160,6 +161,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
 --- !u!114 &153763009
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 153763003}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6343def60b0954547ae54ff46522be70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  formText: 
+  URL: http://localhost/GarrukServer/check_authentication.php
+  hash: J8xy9Uz4
+--- !u!114 &153763010
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
