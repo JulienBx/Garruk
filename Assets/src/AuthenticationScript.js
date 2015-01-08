@@ -2,7 +2,7 @@
 private var formPassword = ""; // Celui pour le mot de passe
 var formText = ""; // La réponse du serveur PHP
  
-var URL = "http://localhost/garruk/check_authentication.php"; // L'url d'authentification du serveur
+var URL = "http://localhost/GarrukServer/check_authentication.php"; // L'url d'authentification du serveur
 var hash = "J8xy9Uz4"; // clé secrète
  
 private var textrect = Rect (10, 130, 800, 23); // créé un rectangle visuel
@@ -31,6 +31,7 @@ function Login() {
     if (w.error != null) {
         print(w.error); // donne l'erreur eventuelle
     } else {
+    	print(w.text);
         if (w.text.Equals("PASSWORD CORRECT")) { // On affiche la page d'accueil si l'authentification réussie
         	ApplicationModel.username = formNick;
         	Application.LoadLevel("HomePage");

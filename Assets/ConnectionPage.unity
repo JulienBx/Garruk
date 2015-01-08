@@ -171,5 +171,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   formText: 
-  URL: http://localhost/garruk/check_authentication.php
+  URL: http://localhost/GarrukServer/check_authentication.php
   hash: J8xy9Uz4
