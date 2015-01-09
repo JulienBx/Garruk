@@ -170,7 +170,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b24c1a9a9d9f3c14387e367be6d825f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  URL: http://localhost/GarrukServer/get_cards_by_user.php
+  URL: http://54.77.118.214/GarrukServer/get_cards_by_user.php
 --- !u!1 &2056682727
 GameObject:
   m_ObjectHideFlags: 0

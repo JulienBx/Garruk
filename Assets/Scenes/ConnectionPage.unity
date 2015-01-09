@@ -170,4 +170,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22ff20eda393a83458dfae8339b5335d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  URL: http://localhost/GarrukServer/check_authentication.php
+  URL: http://54.77.118.214/GarrukServer/check_authentication.php
