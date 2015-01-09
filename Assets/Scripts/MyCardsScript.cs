@@ -53,9 +53,7 @@ public class MyCardsScript : MonoBehaviour
 
 				GameObject instance = Instantiate((GameObject)card.front) as GameObject;
 				instance.transform.localScale = new Vector3(15, 2, 20);
-				instance.transform.localPosition = new Vector3(instance.transform.localPosition.x + (i*30), 
-				                                               instance.transform.localPosition.y, 
-				                                               instance.transform.localPosition.z);
+				instance.transform.localPosition = new Vector3(-800 + (200 * i), 300, 0);
 			}
 		}
 	}
