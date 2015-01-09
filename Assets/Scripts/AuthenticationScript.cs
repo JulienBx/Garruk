@@ -8,7 +8,6 @@ public class AuthenticationScript : MonoBehaviour {
 	private string formText = ""; // La réponse du serveur PHP
 	
 	public string URL = "http://localhost/GarrukServer/check_authentication.php"; // L'url d'authentification du serveur
-	private string hash = "J8xy9Uz4"; // clé secrète
 	
 	private Rect textrect = new Rect (10, 130, 800, 23); // créé un rectangle visuel
 	
@@ -28,7 +27,7 @@ public class AuthenticationScript : MonoBehaviour {
 
 	IEnumerator Login() {
 		WWWForm form = new WWWForm(); // Création de la connexion
-		form.AddField("myform_hash", hash ); // hashcode de sécurité, doit etre identique à celui sur le serveur
+		form.AddField("myform_hash", ApplicationModel.hash ); // hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_nick", formNick );
 		form.AddField("myform_pass", formPassword );
 

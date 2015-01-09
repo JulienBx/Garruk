@@ -6,4 +6,5 @@
 public class ApplicationModel : MonoBehaviour
 {
 	static public string username = ""; // Pseudo de l'utilisateur connecté
+	static public string hash = "J8xy9Uz4"; // clé secrète
 }

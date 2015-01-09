@@ -6,6 +6,8 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/ConnectionPage.unity
+    path: Assets/Scenes/ConnectionPage.unity
   - enabled: 1
-    path: Assets/HomePage.unity
+    path: Assets/Scenes/HomePage.unity
+  - enabled: 1
+    path: Assets/Scenes/MyCardsPage.unity
