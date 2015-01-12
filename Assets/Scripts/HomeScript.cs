@@ -11,7 +11,7 @@ public class HomeScript : MonoBehaviour {
 			Application.LoadLevel("MyCardsPage"); // Chargement de la page "Mes cartes"
 		}
 
-		if ( GUI.Button(new Rect (10, 80, 80, 20) , "Créer des cartes" ) ){ // bouton de connexion
+		if ( GUI.Button(new Rect (10, 80, 150, 20) , "Créer des cartes" ) ){ // bouton de connexion
 			Application.LoadLevel("buyCards"); // Chargement de la page "Création de carte"
 		}
 	}

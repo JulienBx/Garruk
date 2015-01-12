@@ -3,6 +3,8 @@ using System.Collections;
 
 public class buyCardsScript : MonoBehaviour {
 
+	public string scriptGenerateURL = null ;
+
 	// Use this for initialization
 	void Start (){
 	
