@@ -9,17 +9,17 @@ public class AuthenticationScript : MonoBehaviour {
 	
 	public string URL = "http://localhost/GarrukServer/check_authentication.php"; // L'url d'authentification du serveur
 	
-	private Rect textrect = new Rect (10, 130, 800, 23); // créé un rectangle visuel
+	private Rect textrect = new Rect (10, 160, 800, 23); // créé un rectangle visuel
 	
 	void OnGUI() {
-		GUI.Label(new Rect (10, 5, 140, 20), "Page d'authentification" ); // label texte
-		GUI.Label(new Rect (10, 30, 100, 20), "votre identifiant:" ); // label texte
-		GUI.Label(new Rect (10, 60, 160, 20), "votre mot de passe:" );
+		GUI.Label(new Rect (10, 5, 140, 50), "Page d'authentification" ); // label texte
+		GUI.Label(new Rect (10, 55, 100, 30), "votre identifiant:" ); // label texte
+		GUI.Label(new Rect (10, 85, 160, 30), "votre mot de passe:" );
 		
-		formNick = GUI.TextField (new Rect (150, 30, 100, 20), formNick ); // Input pour le pseudo
-		formPassword = GUI.TextField (new Rect (150, 60, 100, 20), formPassword ); // Celui pour le mot de passe
+		formNick = GUI.TextField (new Rect (150, 55, 100, 20), formNick ); // Input pour le pseudo
+		formPassword = GUI.TextField (new Rect (150, 85, 100, 20), formPassword ); // Celui pour le mot de passe
 		
-		if ( GUI.Button(new Rect (10, 90, 100, 20) , "s'authentifier" ) ){ // bouton de connexion
+		if ( GUI.Button(new Rect (10, 130, 100, 20) , "s'authentifier" ) ){ // bouton de connexion
 			StartCoroutine(Login());
 		}
 		GUI.TextArea( textrect, formText );
