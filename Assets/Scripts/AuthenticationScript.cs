@@ -6,7 +6,7 @@ public class AuthenticationScript : MonoBehaviour
 	private string formNick = ""; 									// Le champ où l'utilisateur entre son pseudo
 	private string formPassword = ""; 								// Celui pour le mot de passe
 	private string formText = ""; 									// La réponse du serveur PHP
-	private Rect textrect = new Rect (10, 130, 800, 23); 			// créé un rectangle visuel
+	private Rect textrect = new Rect(10, 130, 800, 23); 			// créé un rectangle visuel
 	
 	public string URL; 												// L'url d'authentification du serveur
 		
