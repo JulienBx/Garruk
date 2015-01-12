@@ -4,7 +4,7 @@ using System.Collections;
 public class GameCard : MonoBehaviour 
 {
 	public Texture[] faces; 										// Les différentes images des cartes
-	public Card Card; 												// l'instance de la carte courante
+	public Card Card; 												// L'instance de la carte courante
 
 	public GameCard(Card card) 
 	{
@@ -22,6 +22,10 @@ public class GameCard : MonoBehaviour
 
 	public void ShowFace() 
 	{
-		renderer.material.mainTexture = faces[Card.ArtIndex]; 		// on affiche l'image correspondant à la carte
+		renderer.material.mainTexture = faces[Card.ArtIndex]; 		// On affiche l'image correspondant à la carte
+		transform.Find("Title")
+			.GetComponent<TextMesh>().text = Card.Title;			// On lui attribut son titre
+		transform.Find("Life")
+			.GetComponent<TextMesh>().text = Card.Life.ToString();	// Et son nombre de point de vie
 	}
 }
