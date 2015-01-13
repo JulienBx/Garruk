@@ -29,4 +29,9 @@ public class GameDeck : MonoBehaviour
 			.GetComponent<TextMesh>().text = 						// Et son nombre de cartes
 				"Nombre de cartes : " + Deck.NbCards.ToString();
 	}
+
+	void OnMouseDown() {
+		ApplicationModel.selectedDeck = Deck.Name;
+		Application.LoadLevel("MyDeckPage");
+	}
 }

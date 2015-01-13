@@ -5,6 +5,8 @@
 */
 public class ApplicationModel : MonoBehaviour
 {
+	static string host = "http://54.77.118.214/";					// Adresse du serveur
 	static public string username = "";								// Pseudo de l'utilisateur connecté
 	static public string hash = "J8xy9Uz4"; 						// Clé secrète
+	static public string selectedDeck = "";							// Deck à afficher
 }
