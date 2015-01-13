@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class MyCardsScript : MonoBehaviour
 {
 	public GameObject CardObject;									// Prefab de la carte vide
-	public string URL; 												// L'url d'authentification du serveur
+	public string URL; 												// L'url de récupération des cartes du joueur sur le serveur
 	
 	void Start() {
 
@@ -48,9 +48,9 @@ public class MyCardsScript : MonoBehaviour
 				GameObject instance = 
 					Instantiate(CardObject) as GameObject;			// On charge une instance du prefab Card
 				instance.transform.localScale = 
-					new Vector3(15, 2, 20);							// On change ses attributs d'échelle ...																	
+					new Vector3(0.15f, 0.02f, 0.20f);							// On change ses attributs d'échelle ...																	
 				instance.transform.localPosition = 
-					new Vector3(-800 + (200 * i), 300, 0);			// ..., de positionnement ...
+					new Vector3(-8 + (2 * i), 3, 0);			// ..., de positionnement ...
 				instance.GetComponent<GameCard>().Card = card;		// ... et la carte qu'elle représente
 				instance.GetComponent<GameCard>().ShowFace();		// On affiche la carte
 			}
