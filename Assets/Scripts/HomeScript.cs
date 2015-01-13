@@ -19,9 +19,14 @@ public class HomeScript : MonoBehaviour
 			Application.LoadLevel("MyDecksPage"); 						// Chargement de la page "Mes decks"
 		}
 		
-		if (GUI.Button(new Rect(10, 80, 180, 20), "Créer des cartes"))// bouton pour aller sur la page "Création des cartes"
+		if (GUI.Button(new Rect(10, 80, 170, 20), "Créer des cartes"))// bouton pour aller sur la page "Création des cartes"
 		{ 
 			Application.LoadLevel("buyCards"); 						// Chargement de la page "Création des cartes"
+		}
+		if (GUI.Button(new Rect(200, 50, 100, 20), "Déconnexion"))	// bouton pour aller sur la page "Création des cartes"
+		{ 
+			ApplicationModel.username = "";
+			Application.LoadLevel("ConnectionPage"); 				// Chargement de la page "dauthentification"
 		}
 	}
 
