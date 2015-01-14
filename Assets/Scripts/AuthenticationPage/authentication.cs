@@ -16,7 +16,7 @@ public class authentication : MonoBehaviour {
 		formNick =  inp.text;
 
 		GameObject obj2 = GameObject.Find("InputMdp");
-		InputField inp2 = obj.GetComponent<InputField>();
+		InputField inp2 = obj2.GetComponent<InputField>();
 		formPassword =  inp2.text;
 		
 		StartCoroutine(Login(formNick, formPassword));
