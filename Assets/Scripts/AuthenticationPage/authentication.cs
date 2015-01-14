@@ -3,8 +3,6 @@ using UnityEngine.UI;
 using System.Collections;
 
 public class authentication : MonoBehaviour {
-									// Celui pour le mot de passe
-	private string formText = ""; 									// La réponse du serveur PHP
 
 	public string URL; 												// L'url d'authentification du serveur
 	
