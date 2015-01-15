@@ -1,4 +1,4 @@
-﻿using UnityEngine; 
+﻿using UnityEngine; using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -19,7 +19,7 @@ public class MyCardsScript : MonoBehaviour
 	IEnumerator RetrieveCards() {
 		WWWForm form = new WWWForm(); 								// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_nick", ApplicationModel.username); 	// Pseudo de l'utilisateur connecté
+		form.AddField("myform_nick", "yoann"); 	// Pseudo de l'utilisateur connecté
 		form.AddField("myform_deck", ApplicationModel.selectedDeck);// Pseudo de l'utilisateur connecté
 		
 		WWW w = new WWW(URL, form); 								// On envoie le formulaire à l'url sur le serveur 
@@ -45,13 +45,13 @@ public class MyCardsScript : MonoBehaviour
 												
 				Card card = new Card(cardTitle, cardLife, cardArt);
 
-																	
 				GameObject instance = 
 					Instantiate(CardObject) as GameObject;			// On charge une instance du prefab Card
+			
 				instance.transform.localScale = 
 					new Vector3(0.15f, 0.02f, 0.20f);				// On change ses attributs d'échelle ...																	
 				instance.transform.localPosition = 
-					new Vector3(-8 + (2 * i), 3, 0);				// ..., de positionnement ...
+					new Vector3(-4 + (2 * i), 2, 0);				// ..., de positionnement ...
 				instance.GetComponent<GameCard>().Card = card;		// ... et la carte qu'elle représente
 				instance.GetComponent<GameCard>().ShowFace();		// On affiche la carte
 			}
@@ -60,18 +60,6 @@ public class MyCardsScript : MonoBehaviour
 	
 	void OnGUI()
 	{
-		if (GUI.Button(new Rect(10, 10, 100, 20), "Accueil"))		// Au clic sr le bouton d'accueil
-		{
-			Application.LoadLevel("HomePage");						// On charge la page d'accueil
-		}
-		if(Application.loadedLevelName.Equals("MyDeckPage")) 
-		{
-			if (GUI.Button(new Rect(120, 10, 100, 20), "Mes decks"))	// bouton pour aller sur la page "Mes decks"
-			{ 
-				Application.LoadLevel("MyDecksPage"); 				// Chargement de la page "Mes decks"
-			}
-		}
 
-	
 	}
 }
