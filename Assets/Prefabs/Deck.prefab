@@ -7,9 +7,9 @@ GameObject:
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 4
   m_Component:
-  - 224: {fileID: 22496748}
-  - 23: {fileID: 2396748}
+  - 4: {fileID: 448104}
   - 102: {fileID: 10296748}
+  - 23: {fileID: 2396748}
   m_Layer: 0
   m_Name: NbCards
   m_TagString: Untagged
@@ -24,9 +24,9 @@ GameObject:
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 4
   m_Component:
-  - 224: {fileID: 22496750}
-  - 23: {fileID: 2396750}
+  - 4: {fileID: 448106}
   - 102: {fileID: 10296750}
+  - 23: {fileID: 2396750}
   m_Layer: 0
   m_Name: Name
   m_TagString: Untagged
@@ -41,12 +41,12 @@ GameObject:
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 4
   m_Component:
-  - 224: {fileID: 22496752}
-  - 64: {fileID: 6496748}
+  - 4: {fileID: 448108}
   - 23: {fileID: 2396752}
   - 114: {fileID: 11496748}
   - 222: {fileID: 22296748}
   - 33: {fileID: 3396748}
+  - 64: {fileID: 6496748}
   m_Layer: 0
   m_Name: Deck
   m_TagString: Untagged
@@ -54,6 +54,44 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!4 &448104
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 196748}
+  m_LocalRotation: {x: 0, y: .707106829, z: -.707106829, w: 0}
+  m_LocalPosition: {x: 4.5, y: 0, z: 5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 448108}
+  m_RootOrder: 1
+--- !u!4 &448106
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 196750}
+  m_LocalRotation: {x: 3.09086197e-08, y: .707106829, z: -.707106829, w: -3.09086197e-08}
+  m_LocalPosition: {x: 4.5, y: 0, z: -6.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 448108}
+  m_RootOrder: 0
+--- !u!4 &448108
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 196752}
+  m_LocalRotation: {x: -3.09086232e-08, y: -.707106829, z: .707106829, w: -3.09086232e-08}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 2, z: 1.30499959}
+  m_Children:
+  - {fileID: 448106}
+  - {fileID: 448104}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
 --- !u!23 &2396748
 Renderer:
   m_ObjectHideFlags: 1
@@ -193,59 +231,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 196752}
---- !u!224 &22496748
-RectTransform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 196748}
-  m_LocalRotation: {x: 0, y: .707106829, z: -.707106829, w: 0}
-  m_LocalPosition: {x: 0, y: 0, z: 5.01999998}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 22496752}
-  m_RootOrder: 1
-  m_AnchorMin: {x: .5, y: .5}
-  m_AnchorMax: {x: .5, y: .5}
-  m_AnchoredPosition: {x: 4.5, y: .100000001}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: .5, y: .5}
---- !u!224 &22496750
-RectTransform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 196750}
-  m_LocalRotation: {x: 3.09086197e-08, y: .707106829, z: -.707106829, w: -3.09086197e-08}
-  m_LocalPosition: {x: 0, y: 0, z: -6.23000002}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 22496752}
-  m_RootOrder: 0
-  m_AnchorMin: {x: .5, y: .5}
-  m_AnchorMax: {x: .5, y: .5}
-  m_AnchoredPosition: {x: 4.5, y: .0999736786}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: .5, y: .5}
---- !u!224 &22496752
-RectTransform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 196752}
-  m_LocalRotation: {x: -3.09086232e-08, y: -.707106829, z: .707106829, w: -3.09086232e-08}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 2, z: 1.30499959}
-  m_Children:
-  - {fileID: 22496750}
-  - {fileID: 22496748}
-  m_Father: {fileID: 0}
-  m_RootOrder: 0
-  m_AnchorMin: {x: .5, y: .5}
-  m_AnchorMax: {x: .5, y: .5}
-  m_AnchoredPosition: {x: -8.04878616, y: -2.52509952}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: .5, y: .5}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

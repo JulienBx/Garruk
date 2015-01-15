@@ -11,11 +11,22 @@ public class MenuManager : MonoBehaviour {
 	
 	public void myCardsLink()
 	{
-		Application.LoadLevel("myCardsPage");
+		Application.LoadLevel("MyCardsPage");
+	}
+
+	public void myDecksLink()
+	{
+		Application.LoadLevel("MyDecksPage");
 	}
 	
 	public void magasinLink()
 	{
 		Application.LoadLevel("BuyCards");
+	}
+
+	public void logOutLink() 
+	{
+		ApplicationModel.username = "";
+		Application.LoadLevel("ConnectionPage");
 	}
 }

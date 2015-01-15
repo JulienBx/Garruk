@@ -10,9 +10,9 @@ public class Card
 	public int ArtIndex;											// Index de l'image de la carte
 	public int Life; 												// Point de vie de la carte
 			
-	public Card(int id, string title, int life, int artIndex) 
+	public Card(string title, int life, int artIndex) 
 	{
-		this.Id = id;
+		//this.Id = id;
 		this.Title = title;
 		this.Life = life;
 		this.ArtIndex = artIndex;
