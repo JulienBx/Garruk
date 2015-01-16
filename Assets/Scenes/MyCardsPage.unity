@@ -1402,7 +1402,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CardObject: {fileID: 144448, guid: 328a8c95257529d40a7734a106088afe, type: 2}
-  URL: http://54.77.118.214/GarrukServeur/get_cards_by_user.php
+  URL: http://54.77.118.214/GarrukServer/get_cards_by_user.php
+  cardEntries: []
 --- !u!1 &1977624833
 GameObject:
   m_ObjectHideFlags: 0
