@@ -38,10 +38,7 @@ public class DeckBuilder : MonoBehaviour {
 					{
 						movingCard = Instantiate(clickedCard, clickedCard.transform.position, clickedCard.transform.rotation) as GameObject;
 						movingCard.GetComponent<GameCard>().Card = clickedCard.GetComponent<GameCard>().Card;
-						
 
-						//clickedCard.GetComponent<MeshRenderer>().material.mainTexture = 
-						//	clickedCard.GetComponent<GameCard>().faces[0];
 						clickedCard.renderer.material = Instantiate(clickedCard.renderer.material) as Material;	
 						clickedCard.GetComponent<GameCard>().Card = null;
 						clickedCard.GetComponent<GameCard>().Hide();
@@ -58,7 +55,6 @@ public class DeckBuilder : MonoBehaviour {
 						}
 						CardsCount--;
 						RemainingCards rCards = GameObject.Find("Cards User Area").GetComponent<RemainingCards>();
-						targetPosition = rCards.lastRemainingPosition;
 
 						if (rCards.lastRemainingPosition.x < 40) 
 						{
@@ -70,6 +66,8 @@ public class DeckBuilder : MonoBehaviour {
 							rCards.lastRemainingPosition.y += -16;
 						}
 
+						targetPosition = rCards.lastRemainingPosition;
+
 						targetPosition.x += 12;
 						targetPosition.z = -4;
 						cardIsMoving = true;
@@ -80,20 +78,14 @@ public class DeckBuilder : MonoBehaviour {
 		}
 		if (cardIsMoving) 
 		{
-			//Vector3 targetPosition = new Vector3(targetCard.transform.position.x, targetCard.transform.position.y, movingCard.transform.position.z);
 			movingCard.transform.position = Vector3.MoveTowards(movingCard.transform.position, targetPosition, speed * Time.deltaTime);
 			if (Vector3.Distance(movingCard.transform.position, targetPosition) < 0.001f)
 			{
 				cardIsMoving = false;
 				RemainingCards rCards = GameObject.Find("Cards User Area").GetComponent<RemainingCards>();
 				movingCard.transform.parent = rCards.transform;
-			//	GameCard targetGameCard = targetCard.GetComponent<GameCard>();
-			//	targetGameCard.Card = movingCard.GetComponent<GameCard>().Card;
-			//	targetGameCard.ShowFace();
-			//	Destroy(movingCard);
 			}
 		}
-
 	}
 
 	private IEnumerator RetrieveCardsFromDeck()

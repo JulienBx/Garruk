@@ -26,6 +26,6 @@ public class MyDeckScript : MonoBehaviour
 			}
 		}
 
-		GUI.Label(new Rect(230, 10, 200, 20), ApplicationModel.selectedDeck.Name);
+		GUI.Label(new Rect(230, 10, 200, 20), "Deck : " + ApplicationModel.selectedDeck.Name);
 	}
 }
