@@ -37,13 +37,12 @@ public class MyDecksScript : MonoBehaviour {
 			{
 				string[] deckData = cardEntries[i].Split('\\'); 	// On découpe les attributs du deck qu'on place dans un tableau
 				
-				//int deckId = System.Convert.ToInt32(deckData[0]); 	// Ici, on récupère l'id en base
+				int deckId = System.Convert.ToInt32(deckData[0]); 	// Ici, on récupère l'id en base
 				string deckName = deckData[1]; 						// Le nom du deck
 				int deckNbC = System.Convert.ToInt32(deckData[2]);	// le nombre de cartes
 				
-				Deck deck = new Deck(deckName, deckNbC);
-				
-				
+				Deck deck = new Deck(deckId, deckName, deckNbC);
+								
 				GameObject instance = 
 					Instantiate(DeckObject) as GameObject;			// On charge une instance du prefab Deck
 				instance.transform.localScale = 

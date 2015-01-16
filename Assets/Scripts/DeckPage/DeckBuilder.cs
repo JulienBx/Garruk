@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using UnityEditor;
 
@@ -6,6 +6,7 @@ public class DeckBuilder : MonoBehaviour {
 
 	public GameObject[] Cards;
 	public string URL;
+	public string URLRemoveCard;
 	public GameObject CardObject;
 	public int CardsCount = 0;
 	public float speed;
@@ -33,19 +34,32 @@ public class DeckBuilder : MonoBehaviour {
 				{
 					GameObject clickedCard = hit.transform.gameObject;
 
-					if (clickedCard.GetComponent<GameCard>().Card != null && clickedCard.transform.IsChildOf(transform))
+					if (clickedCard.GetComponent<GameCard>() != null && clickedCard.GetComponent<GameCard>().Card != null && clickedCard.transform.IsChildOf(transform))
 					{
 						movingCard = Instantiate(clickedCard, clickedCard.transform.position, clickedCard.transform.rotation) as GameObject;
+						movingCard.GetComponent<GameCard>().Card = clickedCard.GetComponent<GameCard>().Card;
+						
 						CardsCount--;
 						//clickedCard.GetComponent<MeshRenderer>().material.mainTexture = 
 						//	clickedCard.GetComponent<GameCard>().faces[0];
 						clickedCard.renderer.material = Instantiate(clickedCard.renderer.material) as Material;	
 						clickedCard.GetComponent<GameCard>().Card = null;
 						clickedCard.GetComponent<GameCard>().Hide();
+						for (int i = 0 ; i <= CardsCount ; i++) 
+						{
+							if (Cards[i].GetComponent<GameCard>().Card == null)
+							{
+								Card temp = Cards[i].GetComponent<GameCard>().Card;
+								Cards[i].GetComponent<GameCard>().Card = Cards[i + 1].GetComponent<GameCard>().Card;
+								Cards[i + 1].GetComponent<GameCard>().Card = temp;
+								Cards[i].GetComponent<GameCard>().ShowFace();
+								Cards[i + 1].GetComponent<GameCard>().Hide();
+							}
+						}
 						RemainingCards rCards = GameObject.Find("Cards User Area").GetComponent<RemainingCards>();
 						targetPosition = rCards.lastRemainingPosition;
 
-						if (rCards.lastRemainingPosition.x != 40) 
+						if (rCards.lastRemainingPosition.x < 40) 
 						{
 							rCards.lastRemainingPosition.x +=12;
 						}
@@ -58,6 +72,7 @@ public class DeckBuilder : MonoBehaviour {
 						targetPosition.x += 12;
 						targetPosition.z = -4;
 						cardIsMoving = true;
+						StartCoroutine(RemoveCardFromDeck(CardsCount));
 					}
 				}
 			}
@@ -69,6 +84,8 @@ public class DeckBuilder : MonoBehaviour {
 			if (Vector3.Distance(movingCard.transform.position, targetPosition) < 0.001f)
 			{
 				cardIsMoving = false;
+				RemainingCards rCards = GameObject.Find("Cards User Area").GetComponent<RemainingCards>();
+				movingCard.transform.parent = rCards.transform;
 			//	GameCard targetGameCard = targetCard.GetComponent<GameCard>();
 			//	targetGameCard.Card = movingCard.GetComponent<GameCard>().Card;
 			//	targetGameCard.ShowFace();
@@ -83,7 +100,7 @@ public class DeckBuilder : MonoBehaviour {
 		WWWForm form = new WWWForm(); 								// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_nick", ApplicationModel.username); 	// Pseudo de l'utilisateur connecté
-		form.AddField("myform_deck", ApplicationModel.selectedDeck);// Pseudo de l'utilisateur connecté
+		form.AddField("myform_deck", ApplicationModel.selectedDeck.Id);// Pseudo de l'utilisateur connecté
 		
 		WWW w = new WWW(URL, form); 								// On envoie le formulaire à l'url sur le serveur 
 		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
@@ -101,12 +118,12 @@ public class DeckBuilder : MonoBehaviour {
 			{
 				string[] cardData = cardEntries[i].Split('\\'); 	// On découpe les attributs de la carte qu'on place dans un tableau
 				
-				//int cardId = System.Convert.ToInt32(cardData[0]); 	// Ici, on récupère l'id en base
+				int cardId = System.Convert.ToInt32(cardData[0]); 	// Ici, on récupère l'id en base
 				int cardArt = System.Convert.ToInt32(cardData[1]); 	// l'indice de l'image
 				string cardTitle = cardData[2]; 					// le titre de la carte
 				int cardLife = System.Convert.ToInt32(cardData[3]);	// le nombre de point de vie
 				
-				Card card = new Card(cardTitle, cardLife, cardArt);
+				Card card = new Card(cardId, cardTitle, cardLife, cardArt);
 				AddCard(i, card);
 				CardsCount = i;
 			}
@@ -118,5 +135,26 @@ public class DeckBuilder : MonoBehaviour {
 		GameCard gCard = Cards[index].GetComponent<GameCard>();		// On récupère l'instance de la GameCard
 		gCard.Card = card;											// On défini la carte qu'elle représente
 		gCard.ShowFace();											// On affiche la carte
+	}
+
+	private IEnumerator RemoveCardFromDeck(int cardsCount)
+	{		
+		WWWForm form = new WWWForm (); 								// Création de la connexion
+		form.AddField ("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
+		form.AddField ("myform_nick", ApplicationModel.username); 	// Pseudo de l'utilisateur connecté
+		form.AddField ("myform_deck", 								// deck en cours
+		               ApplicationModel.selectedDeck.Id.ToString());
+		form.AddField ("myform_idCard", 							// Pseudo de l'utilisateur connecté
+		               movingCard.GetComponent<GameCard>().Card.Id);
+		form.AddField ("myform_nbCards", cardsCount + 1);			// Pseudo de l'utilisateur connecté
+		
+		WWW w = new WWW (URLRemoveCard, form); 								// On envoie le formulaire à l'url sur le serveur 
+		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
+		if (w.error != null) 
+		{
+			print (w.error); 										// donne l'erreur eventuelle
+		} else {
+			print (w.text);
+		}
 	}
 }

@@ -188,10 +188,11 @@ MonoBehaviour:
   - {fileID: 1179857911}
   - {fileID: 1296781879}
   - {fileID: 1077513650}
-  URL: http://54.77.118.214//GarrukServer/get_cards_by_deck_by_user.php
+  URL: http://54.77.118.214/GarrukServer/get_cards_by_deck_by_user.php
+  URLRemoveCard: http://54.77.118.214/GarrukServer/remove_card_from_deck_by_user.php
   CardObject: {fileID: 144448, guid: 328a8c95257529d40a7734a106088afe, type: 2}
   CardsCount: 0
-  speed: 100
+  speed: 500
 --- !u!1 &899030415
 GameObject:
   m_ObjectHideFlags: 0
@@ -1318,10 +1319,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ff00724c5ef73843a03094c512805b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  URL: http://localhost/GarrukServer/get_cards_not_in_deck_by_user.php
-  CardsCount: 0
-  CardObject: {fileID: 105388, guid: 1b426e6cb9332d148a4d46f110689fe4, type: 2}
-  speed: 100
+  URLCards: http://54.77.118.214/GarrukServer/get_cards_not_in_deck_by_user.php
+  URLAddCard: http://54.77.118.214/GarrukServer/add_card_to_deck_by_user.php
+  CardObject: {fileID: 144448, guid: 328a8c95257529d40a7734a106088afe, type: 2}
+  speed: 500
   lastRemainingPosition: {x: 0, y: 0, z: 0}
 --- !u!1 &1627908719
 GameObject:
@@ -1407,6 +1408,7 @@ GameObject:
   - 92: {fileID: 1669393367}
   - 124: {fileID: 1669393366}
   - 81: {fileID: 1669393365}
+  - 114: {fileID: 1669393370}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1479,6 +1481,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
+--- !u!114 &1669393370
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1669393364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd8be1dd278f8fc4485aa78330cd273b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CardObject: {fileID: 0}
+  URL: 
 --- !u!1 &1859639451
 GameObject:
   m_ObjectHideFlags: 0
@@ -1664,12 +1679,20 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11462236, guid: a11865e26bc9a1d44b0368fd86ebe0cf, type: 2}
       propertyPath: speed
-      value: 100
+      value: 500
       objectReference: {fileID: 0}
     - target: {fileID: 11462236, guid: a11865e26bc9a1d44b0368fd86ebe0cf, type: 2}
       propertyPath: CardObject
       value: 
       objectReference: {fileID: 144448, guid: 328a8c95257529d40a7734a106088afe, type: 2}
+    - target: {fileID: 11462236, guid: a11865e26bc9a1d44b0368fd86ebe0cf, type: 2}
+      propertyPath: URL
+      value: http://54.77.118.214/GarrukServer/get_cards_by_deck_by_user.php
+      objectReference: {fileID: 0}
+    - target: {fileID: 11462236, guid: a11865e26bc9a1d44b0368fd86ebe0cf, type: 2}
+      propertyPath: URLRemoveCard
+      value: http://54.77.118.214/GarrukServer/remove_card_from_deck_by_user.php
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a11865e26bc9a1d44b0368fd86ebe0cf, type: 2}
   m_RootGameObject: {fileID: 781237335}

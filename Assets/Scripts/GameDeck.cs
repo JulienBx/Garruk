@@ -31,7 +31,7 @@ public class GameDeck : MonoBehaviour
 	}
 
 	void OnMouseDown() {
-		ApplicationModel.selectedDeck = Deck.Name;
+		ApplicationModel.selectedDeck = Deck;
 		Application.LoadLevel("MyDeckPage");
 	}
 }

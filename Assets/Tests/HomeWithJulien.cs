@@ -6,7 +6,7 @@ public class HomeWithJulien : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		ApplicationModel.username = "julien";
-		ApplicationModel.selectedDeck = "deck 1";
+		ApplicationModel.selectedDeck = new Deck(1, "deck 1", 2);
 		Application.LoadLevel("MyDeckPage");
 	}
 	
