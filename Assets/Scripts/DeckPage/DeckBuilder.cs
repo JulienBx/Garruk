@@ -68,7 +68,6 @@ public class DeckBuilder : MonoBehaviour {
 
 						targetPosition = rCards.lastRemainingPosition;
 
-						targetPosition.x += 12;
 						targetPosition.z = -4;
 						cardIsMoving = true;
 						StartCoroutine(RemoveCardFromDeck(CardsCount));
