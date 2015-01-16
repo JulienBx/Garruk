@@ -39,13 +39,13 @@ public class DeckBuilder : MonoBehaviour {
 						movingCard = Instantiate(clickedCard, clickedCard.transform.position, clickedCard.transform.rotation) as GameObject;
 						movingCard.GetComponent<GameCard>().Card = clickedCard.GetComponent<GameCard>().Card;
 						
-						CardsCount--;
+
 						//clickedCard.GetComponent<MeshRenderer>().material.mainTexture = 
 						//	clickedCard.GetComponent<GameCard>().faces[0];
 						clickedCard.renderer.material = Instantiate(clickedCard.renderer.material) as Material;	
 						clickedCard.GetComponent<GameCard>().Card = null;
 						clickedCard.GetComponent<GameCard>().Hide();
-						for (int i = 0 ; i <= CardsCount ; i++) 
+						for (int i = 0 ; i < CardsCount - 1 ; i++) 
 						{
 							if (Cards[i].GetComponent<GameCard>().Card == null)
 							{
@@ -56,6 +56,7 @@ public class DeckBuilder : MonoBehaviour {
 								Cards[i + 1].GetComponent<GameCard>().Hide();
 							}
 						}
+						CardsCount--;
 						RemainingCards rCards = GameObject.Find("Cards User Area").GetComponent<RemainingCards>();
 						targetPosition = rCards.lastRemainingPosition;
 
@@ -125,7 +126,7 @@ public class DeckBuilder : MonoBehaviour {
 				
 				Card card = new Card(cardId, cardTitle, cardLife, cardArt);
 				AddCard(i, card);
-				CardsCount = i;
+				CardsCount = i + 1;
 			}
 		}
 	}
@@ -146,7 +147,7 @@ public class DeckBuilder : MonoBehaviour {
 		               ApplicationModel.selectedDeck.Id.ToString());
 		form.AddField ("myform_idCard", 							// Pseudo de l'utilisateur connecté
 		               movingCard.GetComponent<GameCard>().Card.Id);
-		form.AddField ("myform_nbCards", cardsCount + 1);			// Pseudo de l'utilisateur connecté
+		form.AddField ("myform_nbCards", cardsCount);				// Pseudo de l'utilisateur connecté
 		
 		WWW w = new WWW (URLRemoveCard, form); 								// On envoie le formulaire à l'url sur le serveur 
 		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente

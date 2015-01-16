@@ -39,13 +39,13 @@ public class RemainingCards : MonoBehaviour {
 					{
 						deck = GameObject.Find("DeckBuilder");	// récupèration dans la scène l'object Deckbuilder
 						nbCardsInDeck = deck.GetComponent<DeckBuilder>().CardsCount; // on récupère le nombres de carte déjà présentes dans le deck
-						if (nbCardsInDeck < 4)					// test s'il y en a pas déjà 5 (on parle ici d'indice de tableau)
+						if (nbCardsInDeck < 5)					// test s'il y en a pas déjà 5
 						{
-							targetCard = deck.GetComponent<DeckBuilder>().Cards[nbCardsInDeck + 1]; // récupèration le furur emplacement pour la carte sélectionnée
+							targetCard = deck.GetComponent<DeckBuilder>().Cards[nbCardsInDeck]; // récupèration le furur emplacement pour la carte sélectionnée
 							cardIsMoving = true;													// positionnement du drapeau à true pour ne pas pouvoir bouger 2 cartes en mm temps
 							deck.GetComponent<DeckBuilder>().CardsCount++;							// incrémentation du nombre de cartes dans le deck
 
-							StartCoroutine(AddCardToDeck(nbCardsInDeck + 1));						// Nouvelle coroutine pour sauvegarder cette carte dans le deck en base
+							StartCoroutine(AddCardToDeck(nbCardsInDeck));						// Nouvelle coroutine pour sauvegarder cette carte dans le deck en base
 						}
 					}
 				}
@@ -90,9 +90,11 @@ public class RemainingCards : MonoBehaviour {
 			print (w.text);											// donne le retour
 			
 			string[] cardEntries = w.text.Split ('\n');				// Chaque ligne du serveur correspond à une carte
-			
+
+			int j = -1;
+			int k = 0;
 			for (int i = 0; i < cardEntries.Length - 1; i++) 		// On boucle sur les attributs d'une carte
-			{ 		
+			{ 	
 				string[] cardData = cardEntries [i].Split ('\\'); 	// On découpe les attributs de la carte qu'on place dans un tableau
 				if (cardData.Length < 2) 
 				{
@@ -107,8 +109,18 @@ public class RemainingCards : MonoBehaviour {
 
 				GameObject instance = 
 					Instantiate(CardObject) as GameObject;			// On charge une instance du prefab Card
+				if ((j * 12) > 80) 
+				{
+					j = 0;
+					k++;
+				}
+				else 
+				{
+					j++;
+				}
+
 				lastRemainingPosition = 
-					new Vector3(-32 + (12 * i), 31, -5);	
+					new Vector3(-32 + (12 * j), 31 + (k * -16), -5);	
 				instance.transform.localPosition = 	
 					lastRemainingPosition;							// ..., de positionnement ...
 				instance.GetComponent<GameCard>().Card = card;		// ... et la carte qu'elle représente
