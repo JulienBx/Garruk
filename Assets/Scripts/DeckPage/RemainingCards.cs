@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class RemainingCards : MonoBehaviour {
 
@@ -14,6 +15,7 @@ public class RemainingCards : MonoBehaviour {
 	private GameObject targetCard;			// L'emplacement de la carte dans le deck
 	private GameObject movingCard;			// La carte qui va etre ajouté au deck
 	public Vector3 lastRemainingPosition;	// Position possible pour ajouter une carte dans la liste des cartes disponibles
+	public List<Card> cardsRemaining = new List<Card>();				// Liste des cartes à ajouter au deck
 
 	// Use this for initialization
 	void Start () 
@@ -70,6 +72,10 @@ public class RemainingCards : MonoBehaviour {
 				targetGameCard.Card = movingCard.GetComponent<GameCard>().Card;		// 
 				targetGameCard.ShowFace();
 				Destroy(movingCard);
+
+				cardsRemaining.Remove(targetGameCard.Card);
+				DestroyChildren(this.transform);
+				ArrangeCard();
 			}
 		}
 
@@ -89,13 +95,10 @@ public class RemainingCards : MonoBehaviour {
 		} else {
 			print (w.text);											// donne le retour
 			
-			string[] cardEntries = w.text.Split ('\n');				// Chaque ligne du serveur correspond à une carte
-
-			int j = -1;
-			int k = 0;
+			string[] cardEntries = w.text.Split('\n');				// Chaque ligne du serveur correspond à une carte
 			for (int i = 0; i < cardEntries.Length - 1; i++) 		// On boucle sur les attributs d'une carte
 			{ 	
-				string[] cardData = cardEntries [i].Split ('\\'); 	// On découpe les attributs de la carte qu'on place dans un tableau
+				string[] cardData = cardEntries[i].Split ('\\'); 	// On découpe les attributs de la carte qu'on place dans un tableau
 				if (cardData.Length < 2) 
 				{
 					break;
@@ -106,27 +109,45 @@ public class RemainingCards : MonoBehaviour {
 				int cardLife = System.Convert.ToInt32(cardData[3]);// le nombre de point de vie
 				
 				Card card = new Card (cardId, cardTitle, cardLife, cardArt);
-
-				GameObject instance = 
-					Instantiate(CardObject) as GameObject;			// On charge une instance du prefab Card
-				if ((j * 12) > 80) 
-				{
-					j = 0;
-					k++;
-				}
-				else 
-				{
-					j++;
-				}
-
-				lastRemainingPosition = 
-					new Vector3(-32 + (12 * j), 31 + (k * -16), -5);	
-				instance.transform.localPosition = 	
-					lastRemainingPosition;							// ..., de positionnement ...
-				instance.GetComponent<GameCard>().Card = card;		// ... et la carte qu'elle représente
-				instance.GetComponent<GameCard>().ShowFace();		// On affiche la carte
-				instance.transform.parent = transform;
+				cardsRemaining.Add(card);
 			}
+			ArrangeCard();
+		}
+	}
+
+	public void DestroyChildren(Transform root) {
+		int childs = root.childCount;
+		for (int i = childs - 1; i >= 0; i--)
+		{
+			GameObject.Destroy(transform.GetChild(i).gameObject);	
+		}
+	}
+
+	private void ArrangeCard()
+	{
+		int j = -1;
+		int k = 0;
+		foreach(Card entry in cardsRemaining) 		// On boucle sur les attributs d'une carte
+		{ 	
+			GameObject instance = 
+				Instantiate(CardObject) as GameObject;			// On charge une instance du prefab Card
+			if ((j * 12) > 80) 
+			{
+				j = 0;
+				k++;
+			}
+			else 
+			{
+				j++;
+			}
+			
+			lastRemainingPosition = 
+				new Vector3(-32 + (12 * j), 31 + (k * -16), -5);	
+			instance.transform.localPosition = 	
+				lastRemainingPosition;							// ..., de positionnement ...
+			instance.GetComponent<GameCard>().Card = entry;		// ... et la carte qu'elle représente
+			instance.GetComponent<GameCard>().ShowFace();		// On affiche la carte
+			instance.transform.parent = transform;
 		}
 	}
 

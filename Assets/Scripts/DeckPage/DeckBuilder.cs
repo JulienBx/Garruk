@@ -1,6 +1,6 @@
 using UnityEngine;
 using System.Collections;
-using UnityEditor;
+//using UnityEditor;
 
 public class DeckBuilder : MonoBehaviour {
 
@@ -62,7 +62,7 @@ public class DeckBuilder : MonoBehaviour {
 						}
 						else 
 						{
-							rCards.lastRemainingPosition.x = -44;
+							rCards.lastRemainingPosition.x = -32;
 							rCards.lastRemainingPosition.y += -16;
 						}
 
@@ -82,7 +82,9 @@ public class DeckBuilder : MonoBehaviour {
 			{
 				cardIsMoving = false;
 				RemainingCards rCards = GameObject.Find("Cards User Area").GetComponent<RemainingCards>();
+				rCards.cardsRemaining.Add(movingCard.GetComponent<GameCard>().Card);
 				movingCard.transform.parent = rCards.transform;
+
 			}
 		}
 	}
