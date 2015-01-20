@@ -29,4 +29,9 @@ public class MenuManager : MonoBehaviour {
 		ApplicationModel.username = "";
 		Application.LoadLevel("ConnectionPage");
 	}
+
+	public void lobbyLink()
+	{
+		Application.LoadLevel("LobbyPage");
+	}
 }
