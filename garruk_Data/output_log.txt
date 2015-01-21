@@ -12,26 +12,26 @@ Platform assembly: D:\Documents\Garruk\garruk_Data\Managed\Assembly-CSharp.dll (
 Loading D:\Documents\Garruk\garruk_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
 Platform assembly: D:\Documents\Garruk\garruk_Data\Managed\UnityEngine.UI.dll (this message is harmless)
 Loading D:\Documents\Garruk\garruk_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
-- Completed reload, in  0.101 seconds
+- Completed reload, in  0.058 seconds
 desktop: 1920x1080 60Hz; virtual: 1920x1080 at 0,0
 <RI> Initializing input.
 <RI> Input initialized.
 Platform assembly: D:\Documents\Garruk\garruk_Data\Managed\System.Core.dll (this message is harmless)
-UnloadTime: 0.336647 ms
+UnloadTime: 0.263262 ms
 Unloading 4 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
 
 Unloading 14 unused Assets to reduce memory usage. Loaded Objects now: 137.
-Total: 0.572198 ms (FindLiveObjects: 0.005645 ms CreateObjectMapping: 0.009750 ms MarkObjects: 0.060042 ms  DeleteObjects: 0.025145 ms)
+Total: 0.379242 ms (FindLiveObjects: 0.008210 ms CreateObjectMapping: 0.009237 ms MarkObjects: 0.064147 ms  DeleteObjects: 0.020014 ms)
 
 serveur initialisé
  
 (Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
 
-UnloadTime: 0.211944 ms
+UnloadTime: 0.209378 ms
 Unloading 2 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
 
 Unloading 1 unused Assets to reduce memory usage. Loaded Objects now: 143.
-Total: 0.411572 ms (FindLiveObjects: 0.006158 ms CreateObjectMapping: 0.006671 ms MarkObjects: 0.110334 ms  DeleteObjects: 0.002565 ms)
+Total: 0.409006 ms (FindLiveObjects: 0.006671 ms CreateObjectMapping: 0.006158 ms MarkObjects: 0.111360 ms  DeleteObjects: 0.002565 ms)
 
 serveur initialisé
  

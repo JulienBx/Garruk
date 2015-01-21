@@ -11,9 +11,9 @@ public class GameScript : MonoBehaviour {
 	private const string typeName = "oojump_garruk_game";
 	private bool isConnecting = false;
 	private bool connected = false;
+	private bool attemptToConnect = false;
 	private List<string> playersName = new List<string>();
 	private HostData[] hostList;
-
 
 	void awake()
 	{
@@ -72,13 +72,14 @@ public class GameScript : MonoBehaviour {
 			{
 				if (!hd.gameName.Equals("lobby") && hd.comment.Equals("Open"))
 				{
+					attemptToConnect = true;
 					JoinServer(hd);
-					connected = true;
+					break;
 				}
-				if (!connected)
-				{
-					StartServer();
-				}
+			}
+			if (!connected && !attemptToConnect)
+			{
+				StartServer();
 			}
 		}
 		else
@@ -104,6 +105,7 @@ public class GameScript : MonoBehaviour {
 	
 	void OnConnectedToServer()
 	{
+		connected = true;
 		Debug.Log("client connecté");
 		networkView.RPC("AddPlayerToList", RPCMode.AllBuffered, ApplicationModel.username);
 	}
@@ -125,7 +127,17 @@ public class GameScript : MonoBehaviour {
 		Debug.Log("serveur initialisé");
 		networkView.RPC("AddPlayerToList", RPCMode.AllBuffered, ApplicationModel.username);
 	}
-	
+
+	void OnFailedToConnectToMasterServer(NetworkConnectionError info) {
+		Debug.Log("Could not connect to master server: " + info);
+		if (!Network.isClient && !Network.isServer) 
+		{
+			isConnecting = false;
+			attemptToConnect = false;
+			StartCoroutine(JoinGame());
+		}
+	}
+
 	[RPC]
 	void AddPlayerToList(string loginName)
 	{
