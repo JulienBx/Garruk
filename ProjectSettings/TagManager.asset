@@ -3,6 +3,10 @@
 --- !u!78 &1
 TagManager:
   tags:
+  - Column1
+  - Column2
+  - Column7
+  - Column8
   - 
   Builtin Layer 0: Default
   Builtin Layer 1: TransparentFX
