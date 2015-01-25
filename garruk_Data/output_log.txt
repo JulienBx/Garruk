@@ -12,18 +12,26 @@ Platform assembly: D:\Documents\Garruk\garruk_Data\Managed\Assembly-CSharp.dll (
 Loading D:\Documents\Garruk\garruk_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
 Platform assembly: D:\Documents\Garruk\garruk_Data\Managed\UnityEngine.UI.dll (this message is harmless)
 Loading D:\Documents\Garruk\garruk_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
-- Completed reload, in  0.100 seconds
+- Completed reload, in  0.085 seconds
 desktop: 1920x1080 60Hz; virtual: 1920x1080 at 0,0
 <RI> Initializing input.
 <RI> Input initialized.
 Platform assembly: D:\Documents\Garruk\garruk_Data\Managed\System.Core.dll (this message is harmless)
-UnloadTime: 0.364871 ms
+UnloadTime: 0.264801 ms
 Unloading 4 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
 
-Unloading 14 unused Assets to reduce memory usage. Loaded Objects now: 138.
-Total: 0.676885 ms (FindLiveObjects: 0.010263 ms CreateObjectMapping: 0.015395 ms MarkObjects: 0.071845 ms  DeleteObjects: 0.025145 ms)
+Unloading 14 unused Assets to reduce memory usage. Loaded Objects now: 139.
+Total: 0.472126 ms (FindLiveObjects: 0.006671 ms CreateObjectMapping: 0.011803 ms MarkObjects: 0.093398 ms  DeleteObjects: 0.066200 ms)
 
-serveur initialisé
+Received pong from 25.161.44.18:25000
+ 
+(Filename:  Line: 836)
+
+Received pong from 192.168.0.10:25000
+ 
+(Filename:  Line: 836)
+
+client connecté
  
 (Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
 
@@ -179,21 +187,34 @@ The referenced script on this Behaviour is missing!
  
 (Filename:  Line: 1788)
 
-The referenced script on this Behaviour is missing!
- 
-(Filename:  Line: 1788)
-
-UnloadTime: 0.204245 ms
+UnloadTime: 0.186284 ms
 Unloading 3 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
 
-Unloading 1 unused Assets to reduce memory usage. Loaded Objects now: 468.
-Total: 0.371542 ms (FindLiveObjects: 0.013855 ms CreateObjectMapping: 0.008210 ms MarkObjects: 0.080569 ms  DeleteObjects: 0.003079 ms)
+Unloading 1 unused Assets to reduce memory usage. Loaded Objects now: 470.
+Total: 0.377700 ms (FindLiveObjects: 0.013855 ms CreateObjectMapping: 0.009237 ms MarkObjects: 0.081595 ms  DeleteObjects: 0.002565 ms)
 
 serveur initialisé
  
 (Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
 
-9\1\carte 9\8
+1\1\carte 1\5
+1\1\carte 1\5
+2\2\carte 2\4
+3\3\carte 3\5
+3\3\carte 3\5
+12\6\carte 12\5
+19\6\carte 19\5
+20\4\carte 20\5
+21\4\carte 21\5
+22\4\carte 22\5
+23\1\carte 23\5
+
+ 
+(Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
+
+10\4\carte 10\5
+11\5\carte 11\5
+3\3\carte 3\5
 
  
 (Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)

@@ -6,8 +6,7 @@ public class GameScript : MonoBehaviour {
 
 	public string gameName = ApplicationModel.username;
 	public float WaitingTimeToRefresh;
-	public GameObject[] locations;
-	public GameObject Card;
+	public GameObject card;
 
 	private const string typeName = "oojump_garruk_game";
 	private bool isConnecting = false;
@@ -15,8 +14,6 @@ public class GameScript : MonoBehaviour {
 	private bool attemptToConnect = false;
 	private List<string> playersName = new List<string>();
 	private HostData[] hostList;
-	private Deck deck;
-
 
 
 	void awake()
@@ -90,6 +87,8 @@ public class GameScript : MonoBehaviour {
 			StartServer();
 		}
 	}
+
+	// Messages
 	
 	void OnMasterServerEvent(MasterServerEvent msEvent)
 	{
@@ -105,12 +104,21 @@ public class GameScript : MonoBehaviour {
 			}
 		}
 	}
+	void OnServerInitialized()
+	{
+		Debug.Log("serveur initialisé");
+		networkView.RPC("AddPlayerToList", RPCMode.AllBuffered, ApplicationModel.username);
+		GameBoard gb = GameObject.Find("Game Board").GetComponent<GameBoard> () as GameBoard;
+		gb.AddCardToBoard();
+	}
 
 	void OnConnectedToServer()
 	{
 		connected = true;
 		Debug.Log("client connecté");
 		networkView.RPC("AddPlayerToList", RPCMode.AllBuffered, ApplicationModel.username);
+		GameBoard gb = GameObject.Find("Game Board").GetComponent<GameBoard> () as GameBoard;
+		gb.AddCardToBoard();
 	}
 
 	void OnPlayerConnected(NetworkPlayer player)
@@ -123,13 +131,6 @@ public class GameScript : MonoBehaviour {
 		Network.RemoveRPCs(player);
 		Network.DestroyPlayerObjects(player);
 		playersName.Remove (ApplicationModel.username);
-	}
-
-	void OnServerInitialized()
-	{
-		Debug.Log("serveur initialisé");
-		networkView.RPC("AddPlayerToList", RPCMode.AllBuffered, ApplicationModel.username);
-		networkView.RPC("AddCardToBoard", RPCMode.AllBuffered);
 	}
 
 	void OnFailedToConnectToMasterServer(NetworkConnectionError info) {
@@ -148,45 +149,6 @@ public class GameScript : MonoBehaviour {
 		playersName.Add(loginName);
 	}
 
-	[RPC]
-	IEnumerator AddCardToBoard()
-	{
-		//TODO Comportement à changer
-		if (Network.isServer)
-		{
-			this.deck = new Deck(1, "deck server", 5);	
-		}
-		else 
-		{
-			this.deck = new Deck(2, "deck client", 5);
-		}
-		yield return StartCoroutine(deck.RetrieveCards());
-		ArrangeCards();
-	}
-	void ArrangeCards()
-	{
 
-		if (Network.isServer)
-		{
-			locations = GameObject.FindGameObjectsWithTag("Column1");
-		}
-		else
-		{
-			locations = GameObject.FindGameObjectsWithTag("Column8");
-		}
-		
-	 	foreach (GameObject location in locations) 
-		{
-			int line = int.Parse(location.name.Substring(4));
-			if (deck.Cards.Count >= line)
-			{
-				GameObject instance = Network.Instantiate(Card, location.transform.position, location.transform.rotation, 0) as GameObject;
-				instance.transform.Rotate(new Vector3(0, -90, 0));
-				GameCard gCard = instance.GetComponent<GameCard>();
-				gCard.Card = deck.Cards[line - 1];
-				gCard.ShowFace();
-				instance.transform.parent = location.transform;
-			}
-		}
-	}
+
 }

@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-public class Deck : MonoBehaviour {
+
+public class Deck : MonoBehaviour 
+{
 
 	public int Id; 												// Id unique de la carte
 	public string Name; 										// Nom du deck
@@ -11,12 +13,18 @@ public class Deck : MonoBehaviour {
 	//private string URLCards = ApplicationModel.host + "get_cards_from_deck.php";
 	private string URLCards = "http://localhost/GarrukServer/get_cards_by_deck.php";
 
+	public Deck(int id) 
+	{
+		this.Id = id;
+		this.Cards = new List<Card>();
+	}
+
 	public Deck(int id, string name, int nbCards) 
 	{
 		this.Id = id;
 		this.Name = name;
 		this.NbCards = nbCards;
-		this.Cards = new List<Card> ();
+		this.Cards = new List<Card>();
 	}
 
 	public Deck(int id, string name, int nbCards, List<Card> cards) 
@@ -34,8 +42,8 @@ public class Deck : MonoBehaviour {
 	public IEnumerator RetrieveCards() {
 		WWWForm form = new WWWForm(); 								// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_nick", ApplicationModel.username); 	// Pseudo de l'utilisateur connecté
-		form.AddField("myform_deck", Id);// Pseudo de l'utilisateur connecté
+		//form.AddField("myform_nick", ApplicationModel.username); 	// Pseudo de l'utilisateur connecté
+		form.AddField("myform_deck", Id);							// Id du	 deck
 		
 		WWW w = new WWW(URLCards, form); 								// On envoie le formulaire à l'url sur le serveur 
 		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente

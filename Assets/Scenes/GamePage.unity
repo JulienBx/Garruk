@@ -974,8 +974,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameName: oojump_garruk_game
   WaitingTimeToRefresh: 1.5
-  locations: []
-  Card: {fileID: 144448, guid: 328a8c95257529d40a7734a106088afe, type: 2}
+  card: {fileID: 158266, guid: 41e7592d34820a2439ba5cd78e942c28, type: 2}
 --- !u!148 &481987440
 NetworkView:
   m_ObjectHideFlags: 0
@@ -3081,6 +3080,8 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1766874476}
+  - 114: {fileID: 1766874477}
+  - 148: {fileID: 1766874478}
   m_Layer: 0
   m_Name: Game Board
   m_TagString: Untagged
@@ -3140,6 +3141,31 @@ Transform:
   - {fileID: 1808477567}
   m_Father: {fileID: 0}
   m_RootOrder: 0
+--- !u!114 &1766874477
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1766874475}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9adb4ee8d6e7c0b469016017a36ce6aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  locations: []
+  Card: {fileID: 158266, guid: 41e7592d34820a2439ba5cd78e942c28, type: 2}
+--- !u!148 &1766874478
+NetworkView:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1766874475}
+  m_Enabled: 1
+  m_StateSynchronization: 1
+  m_Observed: {fileID: 1766874476}
+  m_ViewID:
+    m_ID: 2
+    m_Type: 1
 --- !u!1 &1786538000
 GameObject:
   m_ObjectHideFlags: 0
