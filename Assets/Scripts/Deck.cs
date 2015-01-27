@@ -10,8 +10,8 @@ public class Deck : MonoBehaviour
 	public int NbCards; 										// Nombre de cartes présentes dans le deck
 	public List<Card> Cards;									// Liste de carte du deck
 
-	//private string URLCards = ApplicationModel.host + "get_cards_from_deck.php";
-	private string URLCards = "http://localhost/GarrukServer/get_cards_by_deck.php";
+	private string URLCards = ApplicationModel.host + "get_cards_by_deck.php";
+	//private string URLCards = "http://localhost/GarrukServer/get_cards_by_deck.php";
 
 	public Deck(int id) 
 	{

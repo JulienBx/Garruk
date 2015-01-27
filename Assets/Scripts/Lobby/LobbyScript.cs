@@ -13,12 +13,12 @@ public class LobbyScript : MonoBehaviour {
 	private HostData[] hostList;
 	private bool attemptToPlay = false;
 
-	void awake()
+	void Awake()
 	{
 		RefreshHostList();
 	}
 
-	void start()
+	void Start()
 	{
 		style.normal.textColor = Color.red;
 	}

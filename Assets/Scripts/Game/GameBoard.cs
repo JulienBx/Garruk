@@ -1,13 +1,22 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class GameBoard : MonoBehaviour {
-
-	private Deck deck;
-	private Deck opponentDeck;
+public class GameBoard : MonoBehaviour 
+{
 	public GameObject[] locations;
 	public GameObject Card;
+	public bool isDragging = false;
+	public bool droppedCard = false;
+	public GameCard CardSelected;
+	public GameCard CardHovered;
+	public static GameBoard instance = null;
 
+	private Deck deck;
+
+	void Awake()
+	{
+		instance = this;
+	}
 	// Use this for initialization
 	void Start () {
 	
@@ -18,9 +27,9 @@ public class GameBoard : MonoBehaviour {
 	
 	}
 
-	void ArrangeCards(bool leftSide)
+	void ArrangeCards()
 	{
-		if (leftSide)
+		if (Network.isServer)
 		{
 			locations = GameObject.FindGameObjectsWithTag("Column1");
 		}
@@ -28,58 +37,38 @@ public class GameBoard : MonoBehaviour {
 		{
 			locations = GameObject.FindGameObjectsWithTag("Column8");
 		}
-		Deck currentDeck;
-		if ((Network.isServer && leftSide) || (Network.isClient && !leftSide))
-		{
-			currentDeck = deck;
-		}
-		else 
-		{
-			currentDeck = opponentDeck;
-		}
 
 		foreach (GameObject location in locations) 
 		{
 			int line = int.Parse(location.name.Substring(4));
-			if (currentDeck.Cards.Count >= line)
+			if (deck.Cards.Count >= line)
 			{
-				GameObject instance = Network.Instantiate(Card, location.transform.position, location.transform.rotation * Quaternion.Euler(0, -90, 0), 0) as GameObject;
-				GameCard gCard = instance.GetComponent<GameCard>();
-				gCard.Card = currentDeck.Cards[line - 1];
-				gCard.ShowFace();
-				instance.transform.parent = location.transform;
+				NetworkViewID viewID = Network.AllocateViewID();
+				networkView.RPC("SpawnCard", RPCMode.AllBuffered, viewID, deck.Cards[line - 1].Id, location.transform.position + new Vector3(0, 0, -1), location.transform.rotation * Quaternion.Euler(0, -90, 0));
 			}
 		}
 	}
 
-	public void AddCardToBoard()
+	public IEnumerator AddCardToBoard()
 	{
-		//TODO Comportement à changer
-		if (Network.isServer)
-		{
-			networkView.RPC("Proceed", RPCMode.AllBuffered, Network.isServer, 1);
-		}
-		else 
-		{
-			networkView.RPC("Proceed", RPCMode.AllBuffered, Network.isServer, 2);
-		}
+		this.deck = new Deck(1);
+
+		yield return StartCoroutine(deck.RetrieveCards());
+
+		ArrangeCards();
 	}
 
 	[RPC]
-	IEnumerator Proceed(bool leftSide, int deckId)
+	IEnumerator SpawnCard(NetworkViewID viewID, int cardID, Vector3 location, Quaternion rotation)
 	{
-		if ((Network.isServer && leftSide) || (Network.isClient && !leftSide))
-		{
-			deck = new Deck(deckId);
-			yield return StartCoroutine(deck.RetrieveCards());
-
-		}
-		else
-		{
-			opponentDeck = new Deck(deckId);
-			yield return StartCoroutine(opponentDeck.RetrieveCards());
-		}
-		ArrangeCards(leftSide);
+		GameObject clone;
+		clone = Instantiate(Card, location, rotation) as GameObject;
+		NetworkView nView;
+		nView = clone.GetComponent<NetworkView>();
+		nView.viewID = viewID;
+		GameCard gCard = clone.GetComponent<GameCard>();
+		yield return StartCoroutine(gCard.RetrieveCard(cardID));
+		gCard.ShowFace();
 	}
 }
 

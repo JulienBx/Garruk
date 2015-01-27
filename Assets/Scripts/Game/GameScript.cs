@@ -16,12 +16,12 @@ public class GameScript : MonoBehaviour {
 	private HostData[] hostList;
 
 
-	void awake()
+	void Awake()
 	{
 		MasterServer.ClearHostList();
 	}
 
-	void start()
+	void Start()
 	{	
 	}
 	
@@ -106,19 +106,23 @@ public class GameScript : MonoBehaviour {
 	}
 	void OnServerInitialized()
 	{
+		GameTile.AvailableStartingColumns.Add("Column1");
+		GameTile.AvailableStartingColumns.Add("Column2");
 		Debug.Log("serveur initialisé");
 		networkView.RPC("AddPlayerToList", RPCMode.AllBuffered, ApplicationModel.username);
 		GameBoard gb = GameObject.Find("Game Board").GetComponent<GameBoard> () as GameBoard;
-		gb.AddCardToBoard();
+		StartCoroutine(gb.AddCardToBoard());
 	}
 
 	void OnConnectedToServer()
 	{
 		connected = true;
+		GameTile.AvailableStartingColumns.Add("Column7");
+		GameTile.AvailableStartingColumns.Add("Column8");
 		Debug.Log("client connecté");
 		networkView.RPC("AddPlayerToList", RPCMode.AllBuffered, ApplicationModel.username);
 		GameBoard gb = GameObject.Find("Game Board").GetComponent<GameBoard> () as GameBoard;
-		gb.AddCardToBoard();
+		StartCoroutine(gb.AddCardToBoard());
 	}
 
 	void OnPlayerConnected(NetworkPlayer player)
