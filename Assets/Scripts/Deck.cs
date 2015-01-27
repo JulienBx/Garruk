@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class Deck : MonoBehaviour 
+public class Deck 
 {
 
 	public int Id; 												// Id unique de la carte
@@ -49,12 +49,10 @@ public class Deck : MonoBehaviour
 		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
 		if (w.error != null) 
 		{
-			print(w.error); 										// donne l'erreur eventuelle
+			Debug.Log(w.error); 										// donne l'erreur eventuelle
 		} 
 		else 
 		{
-			print(w.text); 											// donne le retour
-			
 			string[] cardEntries = w.text.Split('\n'); 				// Chaque ligne du serveur correspond à une carte
 			
 			for(int i = 0 ; i < cardEntries.Length - 1 ; i++) 		// On boucle sur les attributs d'une carte
