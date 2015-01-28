@@ -11,6 +11,7 @@ public class GameBoard : MonoBehaviour
 	public GameCard CardHovered;
 	public static GameBoard instance = null;
 
+	public int MyPlayerNumber {get {return (Network.isServer)?1:2;}}
 	private Deck deck;
 
 	void Awake()
@@ -51,7 +52,14 @@ public class GameBoard : MonoBehaviour
 
 	public IEnumerator AddCardToBoard()
 	{
-		this.deck = new Deck(1);
+		if (Network.isServer)
+		{
+			this.deck = new Deck(2);
+		}
+		else 
+		{
+			this.deck = new Deck(1);
+		}
 
 		yield return StartCoroutine(deck.RetrieveCards());
 
@@ -67,7 +75,18 @@ public class GameBoard : MonoBehaviour
 		nView = clone.GetComponent<NetworkView>();
 		nView.viewID = viewID;
 		GameCard gCard = clone.GetComponent<GameCard>();
+		if (gCard.networkView.isMine && Network.isServer || !gCard.networkView.isMine && Network.isClient)
+		{
+			gCard.ownerNumber = 1;
+		}
+		else
+		{
+			gCard.ownerNumber = 2;
+		}
 		yield return StartCoroutine(gCard.RetrieveCard(cardID));
+		GameTimeLine.instance.GameCards.Add(gCard);
+		GameTimeLine.instance.SortCardsBySpeed();
+		GameTimeLine.instance.Arrange();
 		gCard.ShowFace();
 	}
 }

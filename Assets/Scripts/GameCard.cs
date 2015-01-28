@@ -6,6 +6,7 @@ public class GameCard : MonoBehaviour
 	public Texture[] faces; 										// Les différentes images des cartes
 	public Card Card; 												// L'instance de la carte courante 
 
+	public int ownerNumber;												// joueur 1 ou joueur 2
 	Vector3 currentTilePos;
 	public Tile currentTile;
 
@@ -144,8 +145,9 @@ public class GameCard : MonoBehaviour
 				int cardArt = System.Convert.ToInt32(cardData[1]); 	// l'indice de l'image
 				string cardTitle = cardData[2]; 					// le titre de la carte
 				int cardLife = System.Convert.ToInt32(cardData[3]);	// le nombre de point de vie
-				
-				Card card = new Card(cardId, cardTitle, cardLife, cardArt);
+				int speed = System.Convert.ToInt32(cardData[4]);	// la rapidité
+
+				Card card = new Card(cardId, cardTitle, cardLife, cardArt, speed);
 				this.Card = card;
 			}
 		}
