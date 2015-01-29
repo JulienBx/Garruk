@@ -117,7 +117,7 @@ public class DeckBuilder : MonoBehaviour {
 				string cardTitle = cardData[2]; 					// le titre de la carte
 				int cardLife = System.Convert.ToInt32(cardData[3]);	// le nombre de point de vie
 				
-				Card card = new Card(cardId, cardTitle, cardLife, cardArt);
+				Card card = new Card(cardId, cardTitle, cardLife, cardArt,0);
 				AddCard(i, card);
 				CardsCount = i + 1;
 			}
