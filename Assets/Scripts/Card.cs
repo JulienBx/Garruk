@@ -24,6 +24,15 @@ public class Card
 
 	}
 
+	public Card(int id, string title, int life, int artIndex) 
+	{
+		this.Id = id;
+		this.Title = title;
+		this.Life = life;
+		this.ArtIndex = artIndex;
+
+	}
+
 	public Card(string title, int life, int artIndex, int idclasse) 
 	{
 		this.Title = title;
