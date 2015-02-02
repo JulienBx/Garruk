@@ -7,9 +7,6 @@ public class GameCard : MonoBehaviour
 	public Card Card; 												// L'instance de la carte courante 
 
 	public int ownerNumber;												// joueur 1 ou joueur 2
-	Vector3 currentTilePos;
-	public Tile currentTile;
-
 	private string URLCard = ApplicationModel.host + "get_card.php";
 	//private string URLCard = "http://localhost/GarrukServer/get_card.php";
 
@@ -30,66 +27,118 @@ public class GameCard : MonoBehaviour
 	
 	}
 
+	public Vector2 CalcGridPos()
+	{
+		float x = (transform.position.x / (GameTile.instance.hexWidth * 1.5f/2) + (GameBoard.instance.gridWidthInHexes / 2f) + 1);
+		float y = Mathf.Floor(-(transform.position.y / (GameTile.instance.hexHeight) - (GameBoard.instance.gridHeightInHexes / 2f) + 1.5f));
+
+		return new Vector2(x, y);
+	}
+
 	void OnMouseDown() 
 	{
-		if (networkView.isMine)
+		if (GameBoard.instance.TimeOfPositionning)
 		{
-			Debug.Log("card : " + Card.Id);
-			GameBoard.instance.CardSelected = this;
-			GameBoard.instance.isDragging = true;
-			GameTile.instance.SetCursorToDrag();
+			if (networkView.isMine)
+			{
+				Debug.Log("card : " + Card.Id);
+				GameBoard.instance.CardSelected = this;
+				GameBoard.instance.isDragging = true;
+				GameTile.instance.SetCursorToDrag();
+			}
 		}
 	}
 
 	void OnMouseEnter()
 	{
-		if (networkView.isMine)
+		if (GameBoard.instance.TimeOfPositionning)
 		{
-		GameBoard.instance.CardHovered = this;
-			if (GameBoard.instance.isDragging)
+			if (networkView.isMine)
 			{
-				if (!this.Equals(GameBoard.instance.CardSelected))
+				GameBoard.instance.CardHovered = this;
+				if (GameBoard.instance.isDragging)
 				{
-					GameTile.instance.SetCursorToExchange();
-				}
-				else
-				{
-					GameTile.instance.SetCursorToDrag();
+					if (!this.Equals(GameBoard.instance.CardSelected))
+					{
+						GameTile.instance.SetCursorToExchange();
+					} else
+					{
+						GameTile.instance.SetCursorToDrag();
+					}
 				}
 			}
 		}
 	}
 	void OnMouseExit()
 	{
-		if (networkView.isMine)
+		if (GameBoard.instance.TimeOfPositionning)
 		{
-			if (GameBoard.instance.isDragging)
+			if (networkView.isMine)
 			{
-				GameBoard.instance.CardHovered = null;
+				if (GameBoard.instance.isDragging)
+				{
+					GameBoard.instance.CardHovered = null;
+				}
 			}
 		}
 	}
 	void OnMouseUp()
 	{
-		if (networkView.isMine)
+		if (GameBoard.instance.TimeOfPositionning)
 		{
-			if (GameBoard.instance.isDragging)
+			if (networkView.isMine)
 			{
-				if (!this.Equals(GameBoard.instance.CardHovered) && GameBoard.instance.CardHovered)
+				if (GameBoard.instance.isDragging)
 				{
-					Vector3 temp = this.transform.position;
-					this.transform.position = GameBoard.instance.CardHovered.transform.position;
-					GameBoard.instance.CardHovered.transform.position = temp;
+					if (!this.Equals(GameBoard.instance.CardHovered) && GameBoard.instance.CardHovered)
+					{
+						Vector3 temp = this.transform.position;
+						this.transform.position = GameBoard.instance.CardHovered.transform.position;
+						GameBoard.instance.CardHovered.transform.position = temp;
+					}
+					if (GameBoard.instance.CardHovered == null)
+					{
+						GameBoard.instance.droppedCard = true;
+					}
+					GameBoard.instance.isDragging = false;
+					GameTile.instance.SetCursorToDefault();
 				}
-				if (GameBoard.instance.CardHovered == null)
+			}
+		}
+		else
+		{
+			foreach(Transform go in GameBoard.instance.gameObject.transform)
+			{
+				if (!go.gameObject.name.Equals("Game Board"))
 				{
-					GameBoard.instance.droppedCard = true;
+					go.renderer.material = GameTile.instance.DefaultMaterial;
 				}
-				GameBoard.instance.isDragging = false;
-				GameTile.instance.SetCursorToDefault();
+			}
+			if (networkView.isMine)
+			{
+				Vector2 gridPosition = this.CalcGridPos();
+
+				Tile tile = GameBoard.instance.board[new Point((int)gridPosition.x, (int)gridPosition.y)];
+				colorNeighboringTiles(tile.AllNeighbours, Card.Move, Color.gray);
 			}
 		}
 	}
+
+	void colorNeighboringTiles(IEnumerable allNeighbours, int i, Color color)
+	{
+		if (i-- == 0)
+		{
+			return;
+		}
+		foreach (Tile tile in allNeighbours)
+		{
+			colorNeighboringTiles(tile.AllNeighbours, i, color);
+			GameTile gTile = GameObject.Find("hex " + tile.X + "-" + tile.Y).GetComponent<GameTile>();
+			gTile.changeColor(color);
+		}
+
+	}
+
 	public void ShowFace() 
 	{
 		renderer.material.mainTexture = faces[Card.ArtIndex]; 		// On affiche l'image correspondant à la carte
@@ -106,15 +155,6 @@ public class GameCard : MonoBehaviour
 		transform.Find("Life")
 			.GetComponent<TextMesh>().text = "Life";	// Et son nombre de point de vie
 	}
-
-	Vector3 calcTilePos(Tile tile)
-	{
-		Vector2 tileGridPos = new Vector2(tile.X + tile.Y / 2, tile.Y);
-		Vector3 tilePos = GameBoardGenerator.instance.calcWorldCoord(tileGridPos);
-		tilePos.y = transform.position.y;
-		return tilePos;
-	}
-
 
 	public IEnumerator RetrieveCard (int idCard)
 	{
@@ -146,8 +186,9 @@ public class GameCard : MonoBehaviour
 				string cardTitle = cardData[2]; 					// le titre de la carte
 				int cardLife = System.Convert.ToInt32(cardData[3]);	// le nombre de point de vie
 				int speed = System.Convert.ToInt32(cardData[4]);	// la rapidité
+				int move = System.Convert.ToInt32(cardData[5]);	// le mouvement
 
-				Card card = new Card(cardId, cardTitle, cardLife, cardArt, speed);
+				Card card = new Card(cardId, cardTitle, cardLife, cardArt, speed, move);
 				this.Card = card;
 			}
 		}

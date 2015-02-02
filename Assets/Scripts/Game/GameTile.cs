@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+﻿ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,12 +8,16 @@ public class GameTile : MonoBehaviour {
 	public Tile tile;
 	public Texture2D cursorDragging;
 	public Texture2D cursorExchange;
-	public bool TimeOfPositionning = true;
 	public static GameTile instance = null;
 	public static List<string> AvailableStartingColumns = new List<string>();
+	public Material DefaultMaterial;
+	public Material OpaqueMaterial;
 
 	private Vector2 cursorHotspot = Vector2.zero;
-
+	public float hexWidth;
+	public float hexHeight;
+	public int gridWidthInHexes = 5;
+	public int gridHeightInHexes = 8;
 
 	void Awake()
 	{
@@ -22,7 +26,13 @@ public class GameTile : MonoBehaviour {
 	}
 	// Use this for initialization
 	void Start () {
+		setSizes();
+	}
 
+	void setSizes()
+	{
+		hexWidth = renderer.bounds.size.x;
+		hexHeight = renderer.bounds.size.y;
 	}
 	
 	// Update is called once per frame
@@ -52,6 +62,13 @@ public class GameTile : MonoBehaviour {
 		}
 	}
 
+	public void changeColor(Color color)
+	{
+		if (color.a == 1)
+			color.a = 130f / 255f;
+		renderer.material = OpaqueMaterial;
+		renderer.material.color = color;
+	}
 
 	public void SetCursorToDrag()
 	{

@@ -183,7 +183,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 45
+  orthographic size: 65
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -202,7 +202,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1069985490}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.5, y: 0, z: -6.0999999}
+  m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -234,6 +234,7 @@ GameObject:
   - 65: {fileID: 1995621661}
   - 64: {fileID: 1995621660}
   - 114: {fileID: 1995621659}
+  - 114: {fileID: 1995621665}
   m_Layer: 0
   m_Name: Tile
   m_TagString: Untagged
@@ -324,3 +325,15 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+--- !u!114 &1995621665
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11473314, guid: e53d688a76983674491f60be94f8399a,
+    type: 2}
+  m_PrefabInternal: {fileID: 404111838}
+  m_GameObject: {fileID: 1995621658}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2cefee5b7df37cb44b030a67b354cfdc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

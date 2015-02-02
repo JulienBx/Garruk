@@ -13,6 +13,7 @@ GameObject:
   - 65: {fileID: 6500000}
   - 64: {fileID: 6400000}
   - 114: {fileID: 11412884}
+  - 114: {fileID: 11473314}
   m_Layer: 0
   m_Name: Tile
   m_TagString: Untagged
@@ -30,7 +31,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -12.8319263, y: -47.302372, z: -224.576508}
+  m_LocalPosition: {x: -77.9000015, y: 31.3999996, z: -224.600006}
   m_LocalScale: {x: 50, y: 1, z: 50}
   m_Children: []
   m_Father: {fileID: 0}
@@ -118,7 +119,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cursorDragging: {fileID: 2800000, guid: a160021e648165a4a96d4743fe4bd2c4, type: 3}
   cursorExchange: {fileID: 2800000, guid: 026af695b0b88b04eb51244dad137870, type: 3}
-  TimeOfPositionning: 1
+  DefaultMaterial: {fileID: 2100000, guid: 91084a6a05d9f8a4a9aa1094fa31cde7, type: 2}
+  OpaqueMaterial: {fileID: 2100000, guid: 250e1936a2209b748a246c44c8675cb4, type: 2}
+  hexWidth: 0
+  hexHeight: 0
+  gridWidthInHexes: 5
+  gridHeightInHexes: 8
+--- !u!114 &11473314
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2cefee5b7df37cb44b030a67b354cfdc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

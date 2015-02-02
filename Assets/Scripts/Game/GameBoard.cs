@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class GameBoard : MonoBehaviour 
 {
@@ -7,12 +8,17 @@ public class GameBoard : MonoBehaviour
 	public GameObject Card;
 	public bool isDragging = false;
 	public bool droppedCard = false;
+	public bool TimeOfPositionning;
 	public GameCard CardSelected;
 	public GameCard CardHovered;
 	public static GameBoard instance = null;
-
+	public int gridWidthInHexes = 5;
+	public int gridHeightInHexes = 8;
 	public int MyPlayerNumber {get {return (Network.isServer)?1:2;}}
+
 	private Deck deck;
+	private int nbPlayerReadyToFight = 0;
+	public Dictionary<Point, Tile> board = new Dictionary<Point, Tile>();
 
 	void Awake()
 	{
@@ -41,7 +47,7 @@ public class GameBoard : MonoBehaviour
 
 		foreach (GameObject location in locations) 
 		{
-			int line = int.Parse(location.name.Substring(4));
+			int line = int.Parse(location.name.Substring(6)) + 1;
 			if (deck.Cards.Count >= line)
 			{
 				NetworkViewID viewID = Network.AllocateViewID();
@@ -64,6 +70,23 @@ public class GameBoard : MonoBehaviour
 		yield return StartCoroutine(deck.RetrieveCards());
 
 		ArrangeCards();
+	}
+
+	public void StartFight()
+	{
+		nbPlayerReadyToFight++;
+		if (nbPlayerReadyToFight == 2)
+		{  
+			TimeOfPositionning = false;
+			if (GameTimeLine.instance.PlayingCard.ownerNumber == MyPlayerNumber)
+			{
+				GameScript.instance.labelText = "A vous de jouer";
+			}
+			else
+			{
+				GameScript.instance.labelText = "Au joueur adverse de jouer";
+			}
+		}
 	}
 
 	[RPC]

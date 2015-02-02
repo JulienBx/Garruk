@@ -169,8 +169,9 @@ public class MyCardsScript : MonoBehaviour
 				string cardTitle = cards_information_by_card_data[2]; 					
 				int cardLife = System.Convert.ToInt32(cards_information_by_card_data[3]);	
 				int speed = System.Convert.ToInt32(cards_information_by_card_data[4]);	// la rapidité
+				int move = System.Convert.ToInt32(cards_information_by_card_data[5]);	// la rapidité
 
-				Card card = new Card(cardTitle, cardLife, cardArt, speed);				// On fabrique et on affiche la carte
+				Card card = new Card(cardTitle, cardLife, cardArt, speed, move);				// On fabrique et on affiche la carte
 				
 				GameObject instance = 
 					Instantiate(CardObject) as GameObject;            					// On charge une instance du prefab Card

@@ -8,22 +8,40 @@ public class Card
 	public string Title; 											// Titre unique de la carte
 	public int ArtIndex;											// Index de l'image de la carte
 	public int Life; 												// Point de vie de la carte
-	public int Speed;
-
-	public Card(int id, string title, int life, int artIndex, int speed) 
+	public int Speed;                                               // Vitesse de la carte
+	public int Move;                                                // Points de mouvement de la carte    
+	
+	public Card(int id, string title, int life, int artIndex, int speed, int move)
 	{
 		this.Id = id;
 		this.Title = title;
 		this.Life = life;
 		this.ArtIndex = artIndex;
 		this.Speed = speed;
+		this.Move = move;
 	}
 
-	public Card(string title, int life, int artIndex, int speed) 
+	public Card(string title, int life, int artIndex, int speed, int move) 
 	{
 		this.Title = title;
 		this.Life = life;
 		this.ArtIndex = artIndex;
 		this.Speed = speed;
+		this.Move = move;
+	}
+
+	public override int GetHashCode() 
+	{
+		return Id.GetHashCode();
+	}
+	
+	public override bool Equals(object obj) 
+	{
+		return Equals(obj as Card);
+	}
+	
+	public bool Equals(Card obj) 
+	{
+		return obj != null && obj.Id == this.Id;
 	}
 }

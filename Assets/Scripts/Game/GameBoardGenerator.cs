@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 public class GameBoardGenerator : MonoBehaviour 
 {
@@ -51,7 +53,7 @@ public class GameBoardGenerator : MonoBehaviour
 
 	void createGrid()
 	{
-		GameObject hexGridGO = new GameObject("Game Board");
+		GameObject hexGridGO = GameObject.Find("Game Board");
 		
 		for (float y = 0; y < gridHeightInHexes; y++)
 		{
@@ -62,13 +64,38 @@ public class GameBoardGenerator : MonoBehaviour
 				{
 					hex.transform.tag = "Column" + (y + 1);
 				}
-				hex.name = "hex " + (x + 1);
+				hex.name = "hex " + (y) + "-" + (x) ;
 				Vector2 gridPos = new Vector2(x, y);
 				hex.transform.position = calcWorldCoord(gridPos);
 				hex.transform.parent = hexGridGO.transform;
+				var tb = (GameTile)hex.GetComponent("GameTile");
+				tb.tile = new Tile((int)y, (int)x);
+				GameBoard.instance.board.Add(tb.tile.Location, tb.tile);
 			}
 		}
+		foreach(Tile tile in GameBoard.instance.board.Values)
+			tile.FindNeighbours(GameBoard.instance.board, new Vector2(gridHeightInHexes, gridWidthInHexes));
 		hexGridGO.transform.Rotate(new Vector3(0, -90, 90));
-		hexGridGO.transform.localScale = new Vector3(40, 1, 40);
-	}
+		hexGridGO.transform.localScale = new Vector3(1, 40, 40);
+		hexGridGO.transform.CenterOnChildred();
+		hexGridGO.transform.localPosition = new Vector3(0, 0, 0);
+	}  
+}
+
+public static class GO_Extensions
+{
+	public static void CenterOnChildred(this Transform aParent)
+	{
+		var childs = aParent.Cast<Transform>().ToList();
+		var pos = Vector3.zero;
+		foreach(var C in childs)
+		{
+			pos += C.position;
+			C.parent = null;
+		}
+		pos /= childs.Count;
+		aParent.position = pos;
+		foreach(var C in childs)
+			C.parent = aParent;
+	}    
 }

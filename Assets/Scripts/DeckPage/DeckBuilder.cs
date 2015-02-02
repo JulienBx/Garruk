@@ -117,8 +117,9 @@ public class DeckBuilder : MonoBehaviour {
 				string cardTitle = cardData[2]; 					// le titre de la carte
 				int cardLife = System.Convert.ToInt32(cardData[3]);	// le nombre de point de vie
 				int speed = System.Convert.ToInt32(cardData[4]);	// la rapidité
+				int move = System.Convert.ToInt32(cardData[5]);	    // le mouvement
 				
-				Card card = new Card(cardId, cardTitle, cardLife, cardArt, speed);
+				Card card = new Card(cardId, cardTitle, cardLife, cardArt, speed, move);
 				AddCard(i, card);
 				CardsCount = i + 1;
 			}

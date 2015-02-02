@@ -14,11 +14,14 @@ public class GameScript : MonoBehaviour {
 	private bool attemptToConnect = false;
 	private List<string> playersName = new List<string>();
 	private HostData[] hostList;
-
+	public string labelText = "Placer vos héros sur le champ de bataille";
+	private bool hasClicked = false;
+	public static GameScript instance;
 
 	void Awake()
 	{
 		MasterServer.ClearHostList();
+		instance = this;
 	}
 
 	void Start()
@@ -29,7 +32,15 @@ public class GameScript : MonoBehaviour {
 	{
 		if (playersName.Count > 1)
 		{
-			GUI.Label(new Rect(10, 0, 500, 50), "les deux joueurs sont connectés");
+
+			GUI.Label(new Rect(10, 0, 500, 50), labelText);
+			if (!hasClicked && GUI.Button(new Rect(10, 20, 200, 35), "Commencer le combat"))
+			{
+				hasClicked = true;
+				labelText = "En attente d'actions de l'autre joueur";
+				networkView.RPC("AddPlayerToList", RPCMode.AllBuffered, ApplicationModel.username);
+				networkView.RPC("StartFight", RPCMode.AllBuffered);
+			}
 		}
 		else
 		{
@@ -106,12 +117,7 @@ public class GameScript : MonoBehaviour {
 	}
 	void OnServerInitialized()
 	{
-		GameTile.AvailableStartingColumns.Add("Column1");
-		GameTile.AvailableStartingColumns.Add("Column2");
 		Debug.Log("serveur initialisé");
-		networkView.RPC("AddPlayerToList", RPCMode.AllBuffered, ApplicationModel.username);
-		GameBoard gb = GameObject.Find("Game Board").GetComponent<GameBoard> () as GameBoard;
-		StartCoroutine(gb.AddCardToBoard());
 	}
 
 	void OnConnectedToServer()
@@ -128,6 +134,11 @@ public class GameScript : MonoBehaviour {
 	void OnPlayerConnected(NetworkPlayer player)
 	{
 		MasterServer.RegisterHost(typeName, gameName, "Closed");
+		GameTile.AvailableStartingColumns.Add("Column1");
+		GameTile.AvailableStartingColumns.Add("Column2");
+		networkView.RPC("AddPlayerToList", RPCMode.AllBuffered, ApplicationModel.username);
+		GameBoard gb = GameObject.Find("Game Board").GetComponent<GameBoard> () as GameBoard;
+		StartCoroutine(gb.AddCardToBoard());
 	}
 
 	void OnPlayerDisconnected(NetworkPlayer player)
@@ -152,7 +163,9 @@ public class GameScript : MonoBehaviour {
 	{
 		playersName.Add(loginName);
 	}
-
-
-
+	[RPC]
+	void StartFight()
+	{
+		GameBoard.instance.StartFight();
+	}
 }

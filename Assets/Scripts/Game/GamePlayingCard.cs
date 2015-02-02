@@ -24,10 +24,15 @@ public class GamePlayingCard : MonoBehaviour {
 	{
 		if (GameBoard.instance.MyPlayerNumber == gameCard.ownerNumber)
 		{
+			GameScript.instance.labelText = "A vous de jouer";
 			if (GUI.Button(new Rect(37, 505, 67, 25), "Passer"))
 			{
 				networkView.RPC("forwardInTime", RPCMode.AllBuffered); 
 			}
+		} 
+		else
+		{
+			GameScript.instance.labelText = "Au joueur adverse de jouer";
 		}
 	}
 	public void ChangeCurrentCard(GameCard card)
