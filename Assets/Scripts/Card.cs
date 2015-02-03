@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Card
 {
@@ -10,6 +11,9 @@ public class Card
 	public int Life; 												// Point de vie de la carte
 	public int Speed;                                               // Vitesse de la carte
 	public int Move;                                                // Points de mouvement de la carte    
+	public int Attack;                                              // les points d'attaque de la carte
+	public int Energy;                                              // les points d'energie de la carte
+	public List<Skill> Skills;
 	
 	public Card(int id, string title, int life, int artIndex, int speed, int move)
 	{
@@ -28,6 +32,31 @@ public class Card
 		this.ArtIndex = artIndex;
 		this.Speed = speed;
 		this.Move = move;
+	}
+
+	public Card(int id, string title, int life, int artIndex, int speed, int move, int attack, int energy)
+	{
+		this.Id = id;
+		this.Title = title;
+		this.Life = life;
+		this.ArtIndex = artIndex;
+		this.Speed = speed;
+		this.Move = move;
+		this.Attack = attack;
+		this.Energy = energy;
+	}
+
+	public Card(int id, string title, int life, int artIndex, int speed, int move, int attack, int energy, List<Skill> skills)
+	{
+		this.Id = id;
+		this.Title = title;
+		this.Life = life;
+		this.ArtIndex = artIndex;
+		this.Speed = speed;
+		this.Move = move;
+		this.Attack = attack;
+		this.Energy = energy;
+		this.Skills = skills;
 	}
 
 	public override int GetHashCode() 

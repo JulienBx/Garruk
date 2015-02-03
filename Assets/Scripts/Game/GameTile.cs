@@ -19,6 +19,8 @@ public class GameTile : MonoBehaviour {
 	public int gridWidthInHexes = 5;
 	public int gridHeightInHexes = 8;
 
+	public bool Passable = false;
+
 	void Awake()
 	{
 		instance = this;
@@ -42,13 +44,23 @@ public class GameTile : MonoBehaviour {
 
 	void OnMouseEnter()
 	{
-		if (GameBoard.instance.isDragging && AvailableStartingColumns.Any(e => e.Contains(this.tag)))
+		if (GameBoard.instance.TimeOfPositionning)
 		{
-			SetCursorToDrag();
-		}
-		else
+			if (GameBoard.instance.isDragging && AvailableStartingColumns.Any(e => e.Contains(this.tag)))
+			{
+				SetCursorToDrag();
+			} else
+			{
+				SetCursorToDefault();
+			}
+		} else
 		{
-			SetCursorToDefault();
+			if (GameBoard.instance.isMoving && this.Passable)
+			{
+				Vector3 newPosition = this.transform.position;
+				newPosition.z = -1;
+				GameBoard.instance.CardSelected.transform.position = newPosition;
+			}
 		}
 	}
 

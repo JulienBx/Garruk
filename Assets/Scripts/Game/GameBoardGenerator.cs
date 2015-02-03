@@ -9,6 +9,7 @@ public class GameBoardGenerator : MonoBehaviour
 	public int gridWidthInHexes;
 	public int gridHeightInHexes;
 	public static GameBoardGenerator instance = null;
+	public int GridLayerMask = 1 << 8;
 
 	private float hexWidth;
 	private float hexHeight;
@@ -65,6 +66,7 @@ public class GameBoardGenerator : MonoBehaviour
 					hex.transform.tag = "Column" + (y + 1);
 				}
 				hex.name = "hex " + (y) + "-" + (x) ;
+				hex.layer = GridLayerMask;
 				Vector2 gridPos = new Vector2(x, y);
 				hex.transform.position = calcWorldCoord(gridPos);
 				hex.transform.parent = hexGridGO.transform;

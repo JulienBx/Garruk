@@ -68,8 +68,10 @@ public class Deck
 				int cardLife = System.Convert.ToInt32(cardData[3]);	// le nombre de point de vie
 				int speed = System.Convert.ToInt32(cardData[4]);	// la rapidité
 				int move = System.Convert.ToInt32(cardData[5]);	    // le mouvement
+				int attack = System.Convert.ToInt32(cardData[6]);	// l'attaque
+				int energy = System.Convert.ToInt32(cardData[7]);	// l'attaque
 
-				Card card = new Card(cardId, cardTitle, cardLife, cardArt, speed, move);
+				Card card = new Card(cardId, cardTitle, cardLife, cardArt, speed, move, attack, energy, new List<Skill>());
 				AddCard(card);
 				NbCards = i + 1;
 			}

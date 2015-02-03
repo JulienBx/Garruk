@@ -6,10 +6,11 @@ public class GameBoard : MonoBehaviour
 {
 	public GameObject[] locations;
 	public GameObject Card;
-	public bool isDragging = false;
-	public bool droppedCard = false;
-	public bool TimeOfPositionning;
-	public GameCard CardSelected;
+	public bool isDragging = false;         // Pendant la phase de positionnement
+	public bool isMoving = false;           // Pendant la phase de combat
+	public bool droppedCard = false;        
+	public bool TimeOfPositionning;         // false : phase de positionnement, true : phase de combat
+	public GameCard CardSelected;           // Carte sélectionnée dans la phase de positionnement et la phase de combat 
 	public GameCard CardHovered;
 	public static GameBoard instance = null;
 	public int gridWidthInHexes = 5;

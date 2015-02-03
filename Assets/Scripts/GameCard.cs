@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class GameCard : MonoBehaviour 
 {
@@ -7,8 +8,10 @@ public class GameCard : MonoBehaviour
 	public Card Card; 												// L'instance de la carte courante 
 
 	public int ownerNumber;												// joueur 1 ou joueur 2
-	private string URLCard = ApplicationModel.host + "get_card.php";
-	//private string URLCard = "http://localhost/GarrukServer/get_card.php";
+	//private string URLCard = ApplicationModel.host + "get_card.php";
+	private string URLCard = "http://localhost/GarrukServer/get_card.php";
+//	private Vector3 offset;
+	private GameTile currentTile;
 
 	public GameCard() {
 	}
@@ -24,7 +27,7 @@ public class GameCard : MonoBehaviour
 	
 	// Update is called once per frame
 	void Update () {
-	
+
 	}
 
 	public Vector2 CalcGridPos()
@@ -37,15 +40,36 @@ public class GameCard : MonoBehaviour
 
 	void OnMouseDown() 
 	{
-		if (GameBoard.instance.TimeOfPositionning)
+		if (networkView.isMine)
 		{
-			if (networkView.isMine)
+			if (GameBoard.instance.TimeOfPositionning)
 			{
+
 				Debug.Log("card : " + Card.Id);
 				GameBoard.instance.CardSelected = this;
 				GameBoard.instance.isDragging = true;
 				GameTile.instance.SetCursorToDrag();
-			}
+			} 
+			else
+			{
+				if (GameTimeLine.instance.PlayingCard.Card.Equals(Card)) 
+				{
+					GameBoard.instance.CardSelected = this;
+					GameBoard.instance.isMoving = true;
+//					offset = transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -1));
+					RaycastHit hit;
+					Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+					
+					if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << GameBoardGenerator.instance.GridLayerMask))
+					{
+						currentTile = hit.transform.gameObject.GetComponent<GameTile>();
+					}
+				}
+				Vector2 gridPosition = this.CalcGridPos();
+				
+				Tile tile = GameBoard.instance.board[new Point((int)gridPosition.x, (int)gridPosition.y)];
+				colorAndMarkNeighboringTiles(tile.AllNeighbours, Card.Move, Color.gray);
+			}                         
 		}
 	}
 
@@ -112,19 +136,34 @@ public class GameCard : MonoBehaviour
 				if (!go.gameObject.name.Equals("Game Board"))
 				{
 					go.renderer.material = GameTile.instance.DefaultMaterial;
+					go.GetComponent<GameTile>().Passable = false;
 				}
 			}
 			if (networkView.isMine)
 			{
-				Vector2 gridPosition = this.CalcGridPos();
-
-				Tile tile = GameBoard.instance.board[new Point((int)gridPosition.x, (int)gridPosition.y)];
-				colorNeighboringTiles(tile.AllNeighbours, Card.Move, Color.gray);
+				GameBoard.instance.isMoving = false;
+				GameBoard.instance.CardSelected = null;
 			}
 		}
 	}
 
-	void colorNeighboringTiles(IEnumerable allNeighbours, int i, Color color)
+	void OnMouseDrag()
+	{
+//		if (networkView.isMine)
+//		{
+//			if (GameTimeLine.instance.PlayingCard.Card.Equals(Card)) 
+//			{
+//				Vector3 curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, -1);
+//				Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint) + offset;
+//				curPosition.z = -1;
+//				transform.position = curPosition;
+//
+//
+//			}
+//		}
+	}
+
+	void colorAndMarkNeighboringTiles(IEnumerable allNeighbours, int i, Color color)
 	{
 		if (i-- == 0)
 		{
@@ -132,8 +171,9 @@ public class GameCard : MonoBehaviour
 		}
 		foreach (Tile tile in allNeighbours)
 		{
-			colorNeighboringTiles(tile.AllNeighbours, i, color);
+			colorAndMarkNeighboringTiles(tile.AllNeighbours, i, color);
 			GameTile gTile = GameObject.Find("hex " + tile.X + "-" + tile.Y).GetComponent<GameTile>();
+			gTile.Passable = true;
 			gTile.changeColor(color);
 		}
 
@@ -187,8 +227,15 @@ public class GameCard : MonoBehaviour
 				int cardLife = System.Convert.ToInt32(cardData[3]);	// le nombre de point de vie
 				int speed = System.Convert.ToInt32(cardData[4]);	// la rapidité
 				int move = System.Convert.ToInt32(cardData[5]);	// le mouvement
-
-				Card card = new Card(cardId, cardTitle, cardLife, cardArt, speed, move);
+				int attack = System.Convert.ToInt32(cardData[6]);	// la rapidité
+				int energy = System.Convert.ToInt32(cardData[7]);	// le mouvement
+				string[] skillEntries = cardData[8].Split('&'); 	// Chaque ligne correspond à une compétence
+				List<Skill> skillList = new List<Skill>();
+				foreach(string skill in skillEntries)
+				{
+					skillList.Add(new Skill(skill));
+				}
+				Card card = new Card(cardId, cardTitle, cardLife, cardArt, speed, move, attack, energy, skillList);
 				this.Card = card;
 			}
 		}

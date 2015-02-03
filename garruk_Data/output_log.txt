@@ -12,94 +12,37 @@ Platform assembly: D:\Documents\Garruk\garruk_Data\Managed\Assembly-CSharp.dll (
 Loading D:\Documents\Garruk\garruk_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
 Platform assembly: D:\Documents\Garruk\garruk_Data\Managed\UnityEngine.UI.dll (this message is harmless)
 Loading D:\Documents\Garruk\garruk_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
-- Completed reload, in  0.078 seconds
+- Completed reload, in  0.123 seconds
 desktop: 1920x1080 60Hz; virtual: 1920x1080 at 0,0
 <RI> Initializing input.
 <RI> Input initialized.
 Platform assembly: D:\Documents\Garruk\garruk_Data\Managed\System.Core.dll (this message is harmless)
-NullReferenceException: Object reference not set to an instance of an object
-  at GameCard.OnMouseEnter () [0x00000] in <filename unknown>:0 
-UnityEngine.GameObject:SendMessage(String, Object, SendMessageOptions)
-UnityEngine.HitInfo:SendMessage(String)
-UnityEngine.SendMouseEvents:SendEvents(Int32, HitInfo)
-UnityEngine.SendMouseEvents:DoSendMouseEvents(Int32, Int32)
- 
-(Filename:  Line: -1)
-
-UnloadTime: 0.465454 ms
-Unloading 3 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
-
-Unloading 16 unused Assets to reduce memory usage. Loaded Objects now: 146.
-Total: 0.874459 ms (FindLiveObjects: 0.031817 ms CreateObjectMapping: 0.035922 ms MarkObjects: 0.216049 ms  DeleteObjects: 0.185258 ms)
-
 serveur initialisé
  
 (Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
 
-UnloadTime: 0.561932 ms
-Unloading 4 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
-
-Unloading 1 unused Assets to reduce memory usage. Loaded Objects now: 503.
-Total: 0.501890 ms (FindLiveObjects: 0.015908 ms CreateObjectMapping: 0.008724 ms MarkObjects: 0.132913 ms  DeleteObjects: 0.004105 ms)
-
-Empty game name given during host registration, aborting
- 
-(Filename:  Line: 585)
-
-Received pong from 25.161.44.18:25002
- 
-(Filename:  Line: 836)
-
-Received pong from 192.168.0.10:25002
- 
-(Filename:  Line: 836)
-
-client connecté
- 
-(Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
-
-Receiving state for an object whose network view exists but the observed object no longer exists
- 
-(Filename:  Line: 315)
-
-1\1\carte 1\5\0\1
+10\4\carte 10\5\9\1\0\0\
 
  
 (Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
 
-3\3\carte 3\5\2\2
+11\5\carte 11\5\10\3\0\0\
 
  
 (Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
 
-2\2\carte 2\4\5\2
+2\2\carte 2\4\5\2\0\0\R�flexes&Apathie&Renforcement&Sape&Lenteur
 
  
 (Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
 
-10\4\carte 10\5\9\1
+1\1\carte 1\5\2\1\4\3\Apathie&Renforcement&Sape&Lenteur
 
  
 (Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
 
-11\5\carte 11\5\10\3
+3\3\carte 3\5\2\2\0\0\Assassinat&Energie quantique&Ajout de mana&Virus&Renforcement
 
- 
-(Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
-
-card : 2
- 
-(Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
-
-card : 2
- 
-(Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
-
-card : 1
- 
-(Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
-
-card : 3
  
 (Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
 
