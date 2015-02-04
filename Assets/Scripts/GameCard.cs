@@ -92,6 +92,7 @@ public class GameCard : MonoBehaviour
 				}
 			}
 		}
+		GameHoveredCard.instance.ChangeCard(this);
 	}
 	void OnMouseExit()
 	{
@@ -105,6 +106,7 @@ public class GameCard : MonoBehaviour
 				}
 			}
 		}
+		GameHoveredCard.instance.hide();
 	}
 	void OnMouseUp()
 	{

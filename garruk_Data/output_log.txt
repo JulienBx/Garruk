@@ -12,7 +12,7 @@ Platform assembly: D:\Documents\Garruk\garruk_Data\Managed\Assembly-CSharp.dll (
 Loading D:\Documents\Garruk\garruk_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
 Platform assembly: D:\Documents\Garruk\garruk_Data\Managed\UnityEngine.UI.dll (this message is harmless)
 Loading D:\Documents\Garruk\garruk_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
-- Completed reload, in  0.123 seconds
+- Completed reload, in  0.055 seconds
 desktop: 1920x1080 60Hz; virtual: 1920x1080 at 0,0
 <RI> Initializing input.
 <RI> Input initialized.
@@ -45,4 +45,92 @@ serveur initialisé
 
  
 (Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at GameCard.ShowFace () [0x00000] in <filename unknown>:0 
+  at GameHoveredCard.ChangeCard (.GameCard card) [0x00000] in <filename unknown>:0 
+  at GameCard.OnMouseEnter () [0x00000] in <filename unknown>:0 
+UnityEngine.GameObject:SendMessage(String, Object, SendMessageOptions)
+UnityEngine.HitInfo:SendMessage(String)
+UnityEngine.SendMouseEvents:SendEvents(Int32, HitInfo)
+UnityEngine.SendMouseEvents:DoSendMouseEvents(Int32, Int32)
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at GameCard.ShowFace () [0x00000] in <filename unknown>:0 
+  at GameHoveredCard.ChangeCard (.GameCard card) [0x00000] in <filename unknown>:0 
+  at GameCard.OnMouseEnter () [0x00000] in <filename unknown>:0 
+UnityEngine.GameObject:SendMessage(String, Object, SendMessageOptions)
+UnityEngine.HitInfo:SendMessage(String)
+UnityEngine.SendMouseEvents:SendEvents(Int32, HitInfo)
+UnityEngine.SendMouseEvents:DoSendMouseEvents(Int32, Int32)
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at GameCard.ShowFace () [0x00000] in <filename unknown>:0 
+  at GameHoveredCard.ChangeCard (.GameCard card) [0x00000] in <filename unknown>:0 
+  at GameCard.OnMouseEnter () [0x00000] in <filename unknown>:0 
+UnityEngine.GameObject:SendMessage(String, Object, SendMessageOptions)
+UnityEngine.HitInfo:SendMessage(String)
+UnityEngine.SendMouseEvents:SendEvents(Int32, HitInfo)
+UnityEngine.SendMouseEvents:DoSendMouseEvents(Int32, Int32)
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at GameCard.ShowFace () [0x00000] in <filename unknown>:0 
+  at GameHoveredCard.ChangeCard (.GameCard card) [0x00000] in <filename unknown>:0 
+  at GameCard.OnMouseEnter () [0x00000] in <filename unknown>:0 
+UnityEngine.GameObject:SendMessage(String, Object, SendMessageOptions)
+UnityEngine.HitInfo:SendMessage(String)
+UnityEngine.SendMouseEvents:SendEvents(Int32, HitInfo)
+UnityEngine.SendMouseEvents:DoSendMouseEvents(Int32, Int32)
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at GameCard.ShowFace () [0x00000] in <filename unknown>:0 
+  at GameHoveredCard.ChangeCard (.GameCard card) [0x00000] in <filename unknown>:0 
+  at GameCard.OnMouseEnter () [0x00000] in <filename unknown>:0 
+UnityEngine.GameObject:SendMessage(String, Object, SendMessageOptions)
+UnityEngine.HitInfo:SendMessage(String)
+UnityEngine.SendMouseEvents:SendEvents(Int32, HitInfo)
+UnityEngine.SendMouseEvents:DoSendMouseEvents(Int32, Int32)
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at GameCard.ShowFace () [0x00000] in <filename unknown>:0 
+  at GameHoveredCard.ChangeCard (.GameCard card) [0x00000] in <filename unknown>:0 
+  at GameCard.OnMouseEnter () [0x00000] in <filename unknown>:0 
+UnityEngine.GameObject:SendMessage(String, Object, SendMessageOptions)
+UnityEngine.HitInfo:SendMessage(String)
+UnityEngine.SendMouseEvents:SendEvents(Int32, HitInfo)
+UnityEngine.SendMouseEvents:DoSendMouseEvents(Int32, Int32)
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at GameCard.ShowFace () [0x00000] in <filename unknown>:0 
+  at GameHoveredCard.ChangeCard (.GameCard card) [0x00000] in <filename unknown>:0 
+  at GameCard.OnMouseEnter () [0x00000] in <filename unknown>:0 
+UnityEngine.GameObject:SendMessage(String, Object, SendMessageOptions)
+UnityEngine.HitInfo:SendMessage(String)
+UnityEngine.SendMouseEvents:SendEvents(Int32, HitInfo)
+UnityEngine.SendMouseEvents:DoSendMouseEvents(Int32, Int32)
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at GameCard.ShowFace () [0x00000] in <filename unknown>:0 
+  at GameHoveredCard.ChangeCard (.GameCard card) [0x00000] in <filename unknown>:0 
+  at GameCard.OnMouseEnter () [0x00000] in <filename unknown>:0 
+UnityEngine.GameObject:SendMessage(String, Object, SendMessageOptions)
+UnityEngine.HitInfo:SendMessage(String)
+UnityEngine.SendMouseEvents:SendEvents(Int32, HitInfo)
+UnityEngine.SendMouseEvents:DoSendMouseEvents(Int32, Int32)
+ 
+(Filename:  Line: -1)
 
