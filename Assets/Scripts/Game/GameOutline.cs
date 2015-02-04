@@ -26,7 +26,7 @@ public class GameOutline : MonoBehaviour {
 			int i = 0;
 			foreach (GameObject go in GameTimeLine.instance.GameObjects)
 			{
-				GameCard gc = go.GetComponent<GameCard>();
+				GameNetworkCard gc = go.GetComponent<GameNetworkCard>();
 				if (gc.ownerNumber == 1 && Network.isServer || gc.ownerNumber == 2 && Network.isClient)
 				{
 					RedOutlines[i].renderer.enabled = false;

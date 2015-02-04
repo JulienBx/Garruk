@@ -4,7 +4,8 @@ using System.Collections;
 public class GamePlayingCard : MonoBehaviour {
 	
 	public static GamePlayingCard instance;
-	public GameCard gameCard;
+	public GameNetworkCard gameCard;
+	public bool hasMoved = false;
 
 	Vector3 WorldNamePos;
 
@@ -36,7 +37,9 @@ public class GamePlayingCard : MonoBehaviour {
 			if (GameBoard.instance.MyPlayerNumber == gameCard.ownerNumber)
 			{
 				GameScript.instance.labelText = "A vous de jouer";
-				if (GUI.Button(new Rect(37, 505, 67, 25), "Passer"))
+				Vector3 pos = transform.position;
+				pos = Camera.main.camera.WorldToScreenPoint(pos);
+				if (GUI.Button(new Rect(pos.x - 35, Screen.height - pos.y - 110, 67, 25), "Passer"))
 				{
 					networkView.RPC("forwardInTime", RPCMode.AllBuffered); 
 				}
@@ -47,9 +50,6 @@ public class GamePlayingCard : MonoBehaviour {
 		}
 		if (this.gameCard.Card != null)
 		{
-
-
-
 			GUI.BeginGroup(new Rect(WorldNamePos.x, Screen.height - WorldNamePos.y, 16, 50));
 				GUI.Box(new Rect(0,0,16,50), bgImage, progress_empty);
 				GUI.BeginGroup(new Rect(0, 0, 16, 50));
@@ -59,8 +59,9 @@ public class GamePlayingCard : MonoBehaviour {
 		}
 
 	}
-	public void ChangeCurrentCard(GameCard card)
+	public void ChangeCurrentCard(GameNetworkCard card)
 	{
+		hasMoved = false;
 		gameCard.Card = card.Card;
 		gameCard.ownerNumber = card.ownerNumber;
 		changeStats();

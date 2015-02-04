@@ -60,6 +60,13 @@ public class GameTile : MonoBehaviour {
 				Vector3 newPosition = this.transform.position;
 				newPosition.z = -1;
 				GameBoard.instance.CardSelected.transform.position = newPosition;
+				if (GameBoard.instance.CardSelected.currentTile.Equals(this))
+				{
+					GamePlayingCard.instance.hasMoved = false;
+				}
+				else{
+					GamePlayingCard.instance.hasMoved = true;
+				}
 			}
 		}
 	}

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class GameHoveredCard : MonoBehaviour {
 	
 	public static GameHoveredCard instance;
-	public GameCard gameCard;
+	public GameNetworkCard gameCard;
 
 	public void Awake()
 	{
@@ -24,7 +24,7 @@ public class GameHoveredCard : MonoBehaviour {
 	void OnGUI()
 	{
 	}
-	public void ChangeCard(GameCard card)
+	public void ChangeCard(GameNetworkCard card)
 	{
 		gameObject.SetActive(true);
 		gameCard.Card = card.Card;
@@ -52,9 +52,16 @@ public class GameHoveredCard : MonoBehaviour {
 		Transform speedText = transform.Find("Icons/Speed/Value");
 		speedText.GetComponent<TextMesh>().text = this.gameCard.Card.Speed.ToString();
 
-		int i = 1;
+		
+
 		if (gameCard.Card.Skills != null)
 		{
+			for (int j = 1 ; j <= 5 ; j++)
+			{
+				Transform skillText = transform.Find("Skills/Skill " + j++);
+				skillText.GetComponent<TextMesh>().text = "";
+			}
+			int i = 1;
 			foreach (Skill skill in gameCard.Card.Skills)
 			{
 				Transform skillText = transform.Find("Skills/Skill " + i++);

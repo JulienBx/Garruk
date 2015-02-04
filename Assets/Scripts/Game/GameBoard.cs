@@ -10,7 +10,7 @@ public class GameBoard : MonoBehaviour
 	public bool isMoving = false;           // Pendant la phase de combat
 	public bool droppedCard = false;        
 	public bool TimeOfPositionning;         // false : phase de positionnement, true : phase de combat
-	public GameCard CardSelected;           // Carte sélectionnée dans la phase de positionnement et la phase de combat 
+	public GameNetworkCard CardSelected;           // Carte sélectionnée dans la phase de positionnement et la phase de combat 
 	public GameCard CardHovered;
 	public static GameBoard instance = null;
 	public int gridWidthInHexes = 5;
@@ -98,7 +98,7 @@ public class GameBoard : MonoBehaviour
 		NetworkView nView;
 		nView = clone.GetComponent<NetworkView>();
 		nView.viewID = viewID;
-		GameCard gCard = clone.GetComponent<GameCard>();
+		GameNetworkCard gCard = clone.GetComponent<GameNetworkCard>();
 		if (gCard.networkView.isMine && Network.isServer || !gCard.networkView.isMine && Network.isClient)
 		{
 			gCard.ownerNumber = 1;

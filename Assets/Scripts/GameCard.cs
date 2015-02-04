@@ -7,11 +7,10 @@ public class GameCard : MonoBehaviour
 	public Texture[] faces; 										// Les différentes images des cartes
 	public Card Card; 												// L'instance de la carte courante 
 
-	public int ownerNumber;												// joueur 1 ou joueur 2
+
 	//private string URLCard = ApplicationModel.host + "get_card.php";
 	private string URLCard = "http://localhost/GarrukServer/get_card.php";
 //	private Vector3 offset;
-	private GameTile currentTile;
 
 	public GameCard() {
 	}
@@ -30,164 +29,17 @@ public class GameCard : MonoBehaviour
 
 	}
 
-	public Vector2 CalcGridPos()
-	{
-		float x = (transform.position.x / (GameTile.instance.hexWidth * 1.5f/2) + (GameBoard.instance.gridWidthInHexes / 2f) + 1);
-		float y = Mathf.Floor(-(transform.position.y / (GameTile.instance.hexHeight) - (GameBoard.instance.gridHeightInHexes / 2f) + 1.5f));
-
-		return new Vector2(x, y);
-	}
-
-	void OnMouseDown() 
-	{
-		if (networkView.isMine)
-		{
-			if (GameBoard.instance.TimeOfPositionning)
-			{
-
-				Debug.Log("card : " + Card.Id);
-				GameBoard.instance.CardSelected = this;
-				GameBoard.instance.isDragging = true;
-				GameTile.instance.SetCursorToDrag();
-			} 
-			else
-			{
-				if (GameTimeLine.instance.PlayingCard.Card.Equals(Card)) 
-				{
-					GameBoard.instance.CardSelected = this;
-					GameBoard.instance.isMoving = true;
-//					offset = transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -1));
-					RaycastHit hit;
-					Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-					
-					if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << GameBoardGenerator.instance.GridLayerMask))
-					{
-						currentTile = hit.transform.gameObject.GetComponent<GameTile>();
-					}
-				}
-				Vector2 gridPosition = this.CalcGridPos();
-				
-				Tile tile = GameBoard.instance.board[new Point((int)gridPosition.x, (int)gridPosition.y)];
-				colorAndMarkNeighboringTiles(tile.AllNeighbours, Card.Move, Color.gray);
-			}                         
-		}
-	}
-
-	void OnMouseEnter()
-	{
-		if (GameBoard.instance.TimeOfPositionning)
-		{
-			if (networkView.isMine)
-			{
-				GameBoard.instance.CardHovered = this;
-				if (GameBoard.instance.isDragging)
-				{
-					if (!this.Equals(GameBoard.instance.CardSelected))
-					{
-						GameTile.instance.SetCursorToExchange();
-					} else
-					{
-						GameTile.instance.SetCursorToDrag();
-					}
-				}
-			}
-		}
-		GameHoveredCard.instance.ChangeCard(this);
-	}
-	void OnMouseExit()
-	{
-		if (GameBoard.instance.TimeOfPositionning)
-		{
-			if (networkView.isMine)
-			{
-				if (GameBoard.instance.isDragging)
-				{
-					GameBoard.instance.CardHovered = null;
-				}
-			}
-		}
-		GameHoveredCard.instance.hide();
-	}
-	void OnMouseUp()
-	{
-		if (GameBoard.instance.TimeOfPositionning)
-		{
-			if (networkView.isMine)
-			{
-				if (GameBoard.instance.isDragging)
-				{
-					if (!this.Equals(GameBoard.instance.CardHovered) && GameBoard.instance.CardHovered)
-					{
-						Vector3 temp = this.transform.position;
-						this.transform.position = GameBoard.instance.CardHovered.transform.position;
-						GameBoard.instance.CardHovered.transform.position = temp;
-					}
-					if (GameBoard.instance.CardHovered == null)
-					{
-						GameBoard.instance.droppedCard = true;
-					}
-					GameBoard.instance.isDragging = false;
-					GameTile.instance.SetCursorToDefault();
-				}
-			}
-		}
-		else
-		{
-			foreach(Transform go in GameBoard.instance.gameObject.transform)
-			{
-				if (!go.gameObject.name.Equals("Game Board"))
-				{
-					go.renderer.material = GameTile.instance.DefaultMaterial;
-					go.GetComponent<GameTile>().Passable = false;
-				}
-			}
-			if (networkView.isMine)
-			{
-				GameBoard.instance.isMoving = false;
-				GameBoard.instance.CardSelected = null;
-			}
-		}
-	}
-
-	void OnMouseDrag()
-	{
-//		if (networkView.isMine)
-//		{
-//			if (GameTimeLine.instance.PlayingCard.Card.Equals(Card)) 
-//			{
-//				Vector3 curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, -1);
-//				Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint) + offset;
-//				curPosition.z = -1;
-//				transform.position = curPosition;
-//
-//
-//			}
-//		}
-	}
-
-	void colorAndMarkNeighboringTiles(IEnumerable allNeighbours, int i, Color color)
-	{
-		if (i-- == 0)
-		{
-			return;
-		}
-		foreach (Tile tile in allNeighbours)
-		{
-			colorAndMarkNeighboringTiles(tile.AllNeighbours, i, color);
-			GameTile gTile = GameObject.Find("hex " + tile.X + "-" + tile.Y).GetComponent<GameTile>();
-			gTile.Passable = true;
-			gTile.changeColor(color);
-		}
-
-	}
 
 	public void ShowFace() 
 	{
 		renderer.material.mainTexture = faces[Card.ArtIndex]; 		// On affiche l'image correspondant à la carte
 		transform.Find("Title")
 			.GetComponent<TextMesh>().text = Card.Title;			// On lui attribut son titre
-		transform.Find("Life")
-			.GetComponent<TextMesh>().text = Card.Life.ToString();	// Et son nombre de point de vie
+		Transform LifeTextPosition = transform.Find("Life");
+		if (LifeTextPosition != null)
+		{
+			LifeTextPosition.GetComponent<TextMesh>().text = Card.Life.ToString();	// Et son nombre de point de vie
+		}
 	}
 	public void Hide()
 	{

@@ -7,20 +7,20 @@ public class GameTimeLine : MonoBehaviour {
 
 	public static GameTimeLine instance;
 	public List<GameObject> GameObjects;
-	public List<GameCard> GameCards;
+	public List<GameNetworkCard> GameCards;
 
 	private int startPosition = 4;
 	private int position = 0;
 	private int playingCardPosition = 4;
 
-	public GameCard PlayingCard
+	public GameNetworkCard PlayingCard
 	{
-		get { return GameObjects[playingCardPosition].GetComponent<GameCard>(); }
+		get { return GameObjects[playingCardPosition].GetComponent<GameNetworkCard>(); }
 	}
 
 	public int WhosNext
 	{
-		get { return GameObjects[playingCardPosition].GetComponent<GameCard>().ownerNumber; }
+		get { return GameObjects[playingCardPosition].GetComponent<GameNetworkCard>().ownerNumber; }
 	}
 
 	void Awake()
@@ -56,7 +56,7 @@ public class GameTimeLine : MonoBehaviour {
 		position = 0;
 		for (int i = startPosition ; i < GameObjects.Count ; i++) 
 		{
-			GameCard gCard = GameObjects[i].GetComponent<GameCard>();
+			GameNetworkCard gCard = GameObjects[i].GetComponent<GameNetworkCard>();
 			gCard.Card = GameCards[position].Card;
 			gCard.ownerNumber = GameCards[position].ownerNumber;
 			position++;
@@ -68,7 +68,7 @@ public class GameTimeLine : MonoBehaviour {
 			GameOutline.instance.ToArrange = true;
 			gCard.ShowFace();
 		}
-		GamePlayingCard.instance.ChangeCurrentCard(GameObjects[playingCardPosition].GetComponent<GameCard>());
+		GamePlayingCard.instance.ChangeCurrentCard(GameObjects[playingCardPosition].GetComponent<GameNetworkCard>());
 	}
 
 	public void SortCardsBySpeed ()
