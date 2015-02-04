@@ -8,6 +8,7 @@ TagManager:
   - Column7
   - Column8
   - TimeLine
+  - NoPlayableCard
   - 
   Builtin Layer 0: Default
   Builtin Layer 1: TransparentFX
