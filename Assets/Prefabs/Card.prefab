@@ -226,16 +226,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   faces:
-  - {fileID: 2800000, guid: 5be4434f8643d2f458e01e8637fa07d6, type: 3}
-  - {fileID: 2800000, guid: 79eb351d424b76d4e9b0e8f48e7084ad, type: 3}
-  - {fileID: 2800000, guid: b54333bcb749e42448274692e4d38989, type: 3}
-  - {fileID: 2800000, guid: 82642cc29875c18499cdd7dafcccc5ad, type: 3}
-  - {fileID: 2800000, guid: c3f3da7940c432840ade5104798472d0, type: 3}
-  - {fileID: 2800000, guid: b7df14003758f7343943d4791f2fdba9, type: 3}
-  - {fileID: 2800000, guid: ee51ae37058f8464b823a7db2533bd06, type: 3}
-  - {fileID: 2800000, guid: 7360c852a1bd19e44b2f896f71ebd443, type: 3}
-  - {fileID: 2800000, guid: 29731b969e3b8414b96d6c6fdcd93785, type: 3}
-  - {fileID: 2800000, guid: ba6bb48ca259876429f8a1bc988f3790, type: 3}
+  - {fileID: 2800000, guid: fe27e4f1f3ccd468e90702649681ab42, type: 3}
+  - {fileID: 2800000, guid: 3c16ca512f0694398822c36cb3405ed3, type: 3}
+  - {fileID: 2800000, guid: ab564a8c1c0c747a695d37861b754078, type: 3}
+  - {fileID: 2800000, guid: dc8598c6b5f114ca983c08cbcf53f97b, type: 3}
+  - {fileID: 2800000, guid: b78d8e481ea5140168e338c5c86b54f0, type: 3}
+  - {fileID: 2800000, guid: aa697147120e94eab863f0c491d0db7d, type: 3}
+  - {fileID: 2800000, guid: dd0d544f2c3084bf1974ec5a11cb4e24, type: 3}
+  - {fileID: 2800000, guid: 7090a2934e7404d9090d7aeccb575f15, type: 3}
+  - {fileID: 2800000, guid: 1ac000f044213454683c1a7e0a223d4d, type: 3}
+  - {fileID: 2800000, guid: a8fa3d47f749144bda593767e3a52778, type: 3}
+  currentTile: {fileID: 0}
 --- !u!222 &22244444
 CanvasRenderer:
   m_ObjectHideFlags: 1
