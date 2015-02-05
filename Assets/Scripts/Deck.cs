@@ -45,11 +45,11 @@ public class Deck
 		//form.AddField("myform_nick", ApplicationModel.username); 	// Pseudo de l'utilisateur connecté
 		form.AddField("myform_deck", Id);							// Id du	 deck
 		
-		WWW w = new WWW(URLCards, form); 								// On envoie le formulaire à l'url sur le serveur 
+		WWW w = new WWW(URLCards, form); 							// On envoie le formulaire à l'url sur le serveur 
 		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
 		if (w.error != null) 
 		{
-			Debug.Log(w.error); 										// donne l'erreur eventuelle
+			Debug.Log(w.error + " " + URLCards); 									// donne l'erreur eventuelle
 		} 
 		else 
 		{

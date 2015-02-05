@@ -15,11 +15,11 @@ public class GameNetworkCard : GameCard {
 
 	void Start()
 	{
-		if (!gameObject.tag.Equals("NoPlayableCard"))
-		{
-			Vector3 GameCardPosition = transform.Find("Life/Life Bar").position;
-			WorldNamePos = Camera.main.camera.WorldToScreenPoint(GameCardPosition);
-		}
+		UpdatePosition();
+	}
+	void Update()
+	{
+		UpdatePosition();
 	}
 
 	void OnGUI()
@@ -34,6 +34,7 @@ public class GameNetworkCard : GameCard {
 			GUI.EndGroup();
 		}
 	}
+
 	public Vector2 CalcGridPos()
 	{
 		float x = (transform.position.x / (GameTile.instance.hexWidth * 1.5f/2) + (GameBoard.instance.gridWidthInHexes / 2f) + 1);
@@ -180,8 +181,6 @@ public class GameNetworkCard : GameCard {
 		}
 		foreach (Tile tile in allNeighbours)
 		{
-			colorAndMarkNeighboringTiles(tile.AllNeighbours, i, color);
-
 			GameTile gTile = GameObject.Find("hex " + tile.X + "-" + tile.Y).GetComponent<GameTile>();
 
 			Vector3 pos = gTile.transform.TransformPoint(Vector3.zero) + new Vector3(0, 0, -2); // les colliders fonctionnent que d'un coté sur les planes, on va donc reculer et regarder ensuite en avant
@@ -199,10 +198,19 @@ public class GameNetworkCard : GameCard {
 			
 			if (!hasCard)
 			{
+				colorAndMarkNeighboringTiles(tile.AllNeighbours, i, color);
 				gTile.Passable = true;
 				gTile.changeColor(color);
 			}
 		}
 	}
 
+	public void UpdatePosition()
+	{
+		if (!gameObject.tag.Equals("NoPlayableCard"))
+		{
+			Vector3 GameCardPosition = transform.Find("Life/Life Bar").position;
+			WorldNamePos = Camera.main.camera.WorldToScreenPoint(GameCardPosition);
+		}
+	}
 }

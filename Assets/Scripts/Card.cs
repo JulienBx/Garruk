@@ -5,16 +5,16 @@ using System.Collections.Generic;
 public class Card
 {
 	public int Id; 												// Id unique de la carte
-	public string Art; 												// Nom du dessin à appliquer à la carte
-	public string Title; 											// Titre unique de la carte
-	public int ArtIndex;											// Index de l'image de la carte
-	public int Life; 												// Point de vie de la carte
-	public int Speed;                                               // Vitesse de la carte
-	public int Move;                                                // Points de mouvement de la carte    
-	public int Attack;                                              // les points d'attaque de la carte
-	public int Energy;                                              // les points d'energie de la carte
+	public string Art; 									    	// Nom du dessin à appliquer à la carte
+	public string Title; 										// Titre unique de la carte
+	public int ArtIndex;										// Index de l'image de la carte
+	public int Life; 											// Point de vie de la carte
+	public int Speed;                                           // Vitesse de la carte
+	public int Move;                                            // Points de mouvement de la carte    
+	public int Attack;                                          // les points d'attaque de la carte
+	public int Energy;                                          // les points d'energie de la carte
 	public List<Skill> Skills;
-	
+
 	public Card(int id, string title, int life, int artIndex, int speed, int move)
 	{
 		this.Id = id;
@@ -47,6 +47,7 @@ public class Card
 	}
 
 	public Card(int id, string title, int life, int artIndex, int speed, int move, int attack, int energy, List<Skill> skills)
+
 	{
 		this.Id = id;
 		this.Title = title;
@@ -73,4 +74,5 @@ public class Card
 	{
 		return obj != null && obj.Id == this.Id;
 	}
+
 }
