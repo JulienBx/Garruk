@@ -14,6 +14,7 @@ public class Card
 	public int Attack;                                          // les points d'attaque de la carte
 	public int Energy;                                          // les points d'energie de la carte
 	public List<Skill> Skills;
+	public int IdClass;
 
 	public Card(int id, string title, int life, int artIndex, int speed, int move)
 	{
@@ -23,6 +24,14 @@ public class Card
 		this.ArtIndex = artIndex;
 		this.Speed = speed;
 		this.Move = move;
+	}
+
+	public Card(string title, int life, int artIndex, int idclass) 
+	{
+		this.Title = title;
+		this.Life = life;
+		this.ArtIndex = artIndex;
+		this.IdClass = idclass;
 	}
 
 	public Card(string title, int life, int artIndex, int speed, int move) 
@@ -47,7 +56,6 @@ public class Card
 	}
 
 	public Card(int id, string title, int life, int artIndex, int speed, int move, int attack, int energy, List<Skill> skills)
-
 	{
 		this.Id = id;
 		this.Title = title;

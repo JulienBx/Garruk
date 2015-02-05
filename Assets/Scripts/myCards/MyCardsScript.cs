@@ -164,8 +164,11 @@ public class MyCardsScript : MonoBehaviour
 				//print (w.text);
 				cardInformation = w.text.Split('\\');
 			}
-
-			this.cards[i].addSkills(cardInformation);
+			this.cards[i].Skills = new List<Skill>();
+			foreach(string ci in cardInformation)
+			{
+				this.cards[i].Skills.Add(new Skill(ci));
+			}
 			this.cardsToBeDisplayed.Add(i);
 		}
 	}
@@ -202,7 +205,7 @@ public class MyCardsScript : MonoBehaviour
 			this.clearCards();
 		}
 		for (int i = 0; i < cards.Length - 1; i++) {
-			if (cards[i].idClasse==a){
+			if (cards[i].IdClass==a){
 				cardsToBeDisplayed.Add(i);
 
 			}
@@ -221,7 +224,7 @@ public class MyCardsScript : MonoBehaviour
 		}
 		else {
 			for (int j = 0; j < cards.Length - 1; j++) {
-				if (cards [j].idClasse == a) {
+				if (cards [j].IdClass == a) {
 					cardsToBeDisplayed.Remove (j);
 				}
 			}
