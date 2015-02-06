@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-public class Test : MonoBehaviour
+public class MyCardsScript : MonoBehaviour
 {
 	public GameObject CardObject;												 
 	string[] skillsList;
