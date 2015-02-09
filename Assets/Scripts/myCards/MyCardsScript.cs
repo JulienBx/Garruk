@@ -10,25 +10,24 @@ public class MyCardsScript : MonoBehaviour
 	public GameObject CardObject;												 
 	string[] skillsList;
 	string[] cardTypeList;
-	IList<Card> cards;
-	public IList<int> cardsToBeDisplayed ;
+	public IList<Card> cards ;
+	public IList<int> cardsToBeFiltered ;
+	public bool[] cardsToBeDisplayed ;
+	
 	GameObject[] filtres ;
 	private bool[] togglesCurrentStates;
-	private string valueSkill ;
+	private string valueSkill = null ;
 	int counterFilters ;
-	
+	IList<string> matchValues;
+	public Texture2D textureAutoc ;
+	private string filtreAutoC ;
 	
 	bool dataIsLoaded = false ;
 	
 	private IEnumerator Start() 
 	{
+		matchValues = new List<string> ();
 		dataIsLoaded = false;
-		//yield return StartCoroutine("getSkillsList");
-		//yield return StartCoroutine("getCardTypeList");
-		
-		//préparation du tableau de filtres
-		
-		
 		yield return StartCoroutine ("getCards");
 		
 		togglesCurrentStates = new bool[this.cardTypeList.Length - 1];
@@ -37,10 +36,9 @@ public class MyCardsScript : MonoBehaviour
 			togglesCurrentStates[i] = false ;
 		}
 		valueSkill = "";
-		
 		displayCards ();
+
 		dataIsLoaded = true;
-		
 	}
 	
 	void OnGUI () {
@@ -55,7 +53,6 @@ public class MyCardsScript : MonoBehaviour
 				cardTypeData = cardTypeList [i].Split ('\\');
 				toggle = GUI.Toggle (new Rect (cadreFiltres.transform.position.x-cadreFiltres.GetComponent<RectTransform>().rect.width/2, cadreFiltres.transform.position.y+ 20 + i * 20-cadreFiltres.GetComponent<RectTransform>().rect.height/2, 150, 20), togglesCurrentStates[i], cardTypeData [1]);
 				if (toggle != togglesCurrentStates[i]){
-					print ("Filtre sur :" + i);
 					togglesCurrentStates[i]=toggle ;
 					if (toggle){
 						this.addCardTypes(i);
@@ -71,19 +68,34 @@ public class MyCardsScript : MonoBehaviour
 			GUI.Label (new Rect (cadreFiltres.transform.position.x-cadreFiltres.GetComponent<RectTransform>().rect.width/2, cadreFiltres.transform.position.y+ 40 + i * 20-cadreFiltres.GetComponent<RectTransform>().rect.height/2, 150, 20), "FILTRER PAR SKILL");
 			s = GUI.TextField (new Rect (cadreFiltres.transform.position.x-cadreFiltres.GetComponent<RectTransform>().rect.width/2, cadreFiltres.transform.position.y+ 60 + i * 20-cadreFiltres.GetComponent<RectTransform>().rect.height/2, 150, 20), valueSkill);
 			if (s!=valueSkill){
-				if (valueSkill.Length>1){
-					IList<string> matchValues = displaySkills (s);
-					for (int j=0; j<matchValues.Count(); j++) {
-						
-						GUI.Label (new Rect (cadreFiltres.transform.position.x-cadreFiltres.GetComponent<RectTransform>().rect.width/2+10, cadreFiltres.transform.position.y+ 80 + i * 20 + j*20-cadreFiltres.GetComponent<RectTransform>().rect.height/2, 150, 20), matchValues[j]);
-					}
+				if (s.Length>0){
+					StartCoroutine(displaySkills (s));
+					valueSkill = s.ToLower () ;
 				}
-				valueSkill = s ;
+				else{
+					StartCoroutine(displaySkills (s));
+					valueSkill = "";
+				}
+				cleanScreen();
+				filterCards ();
+				displayCards ();
+			}
+			GUIStyle myStyle = new GUIStyle();
+			myStyle.normal.textColor = Color.blue;
+			myStyle.fontSize = 12 ;
+			myStyle.normal.background = this.textureAutoc ;
+			for (int j=0; j<matchValues.Count(); j++) {
+				//GUI.Button (new Rect (cadreFiltres.transform.position.x-cadreFiltres.GetComponent<RectTransform>().rect.width/2+10, cadreFiltres.transform.position.y+ 80 + i * 20 + j*10-cadreFiltres.GetComponent<RectTransform>().rect.height/2, 150, 10), matchValues[j], myStyle);
+				if(GUI.Button (new Rect (cadreFiltres.transform.position.x-cadreFiltres.GetComponent<RectTransform>().rect.width/2+10, cadreFiltres.transform.position.y+ 80 + i * 20 + j*15-cadreFiltres.GetComponent<RectTransform>().rect.height/2, 150, 14), matchValues[j], myStyle)){
+					valueSkill=matchValues[j].ToLower ();
+					StartCoroutine(displaySkills (s));
+					cleanScreen();
+					filterCards ();
+					displayCards ();	
+				}
 			}
 		}
 	}
-	
-	
 	
 	private IEnumerator getCards() {
 		string[] cardsIDS = null;
@@ -99,7 +111,7 @@ public class MyCardsScript : MonoBehaviour
 		{
 			print (w.error); 										// donne l'erreur eventuelle
 		} else {
-			print (w.text);
+			//print (w.text);
 			
 			// cardsIDS = w.text.Split('\n');
 			string[] data=w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
@@ -110,56 +122,82 @@ public class MyCardsScript : MonoBehaviour
 		
 		this.cards = new List<Card>();
 		int j = 0;
-		this.cardsToBeDisplayed = new List<int>();
+		this.cardsToBeFiltered = new List<int>();
 		
 		for(int i = 1 ; i < cardsIDS.Length-1 ; i++)         			// On parcourt toutes les cartes de l'utilisateur
 		{
-			
 			string[] cardInformation=cardsIDS[i].Split(new string[] { "\\" }, System.StringSplitOptions.None);
+			//print (cardInformation[1]);
 			if(i!=1){
 				if(!cardsIDS[i].StartsWith(cardsIDS[i-1].Substring(0, 4))){
-					j=j+1;
 					this.cards.Add(new Card(cardInformation[1], System.Convert.ToInt32(cardInformation[2]),System.Convert.ToInt32(cardInformation[7]),System.Convert.ToInt32(cardInformation[9])));	
 					this.cards[j].Skills = new List<Skill>();
-					this.cardsToBeDisplayed.Add(j);
+					this.cardsToBeFiltered.Add(j);
+					j++;
 				}
 			}
 			else {
 				this.cards.Add(new Card(cardInformation[1], System.Convert.ToInt32(cardInformation[2]),System.Convert.ToInt32(cardInformation[7]),System.Convert.ToInt32(cardInformation[9])));	
 				this.cards[j].Skills = new List<Skill>();
+				this.cardsToBeFiltered.Add(j);
+				j++ ;
 			}
-			this.cards[j].Skills.Add(new Skill (cardInformation[10]));
-			print (cardInformation[10]);
-			
-			
+			if (cardInformation[10].Length>0){
+				//print ("id : "+cardInformation[10]);
+				this.cards[j-1].Skills.Add(new Skill (skillsList[System.Convert.ToInt32(cardInformation[10])]));
+			}
+		}
+		this.cardsToBeDisplayed = new bool[j];
+		for (int i = 0; i < j; i++){
+			this.cardsToBeDisplayed [i] = true;
 		}
 	}
-	
-	
+
 	public void displayCards()																// Fonction qui permet d'afficher toutes les cartes à l'initialisation et en fonction des filtres actifs
 	{
 		int x=0;												  						// initialisation des coordonnées des cartes
 		float y=2.5f;
 		int k = 0;
 		
-		for(int i = 0 ; i < this.cardsToBeDisplayed.Count ; i++)         			// On parcourt toutes les cartes de l'utilisateur
+		for(int i = 0 ; i < this.cardsToBeFiltered.Count ; i++)         			// On parcourt toutes les cartes de l'utilisateu
 		{
-			x= k % 5;																// On calcule les coordonnées de la prochaine carte
-			if (k % 5 == 0 && k>0) 
-			{
-				y=y-2.5f;
-				x=0;
+			if (this.cardsToBeDisplayed[this.cardsToBeFiltered[i]]){
+				x= k % 5;																// On calcule les coordonnées de la prochaine carte
+				if (k % 5 == 0 && k>0) 
+				{
+					y=y-2.5f;
+					x=0;
+				}
+				// On récupère les informations de la carte
+				GameObject instance = Instantiate(CardObject) as GameObject;            					// On charge une instance du prefab Card
+				instance.transform.localScale = new Vector3(0.15f, 0.02f, 0.20f);               					 // On change ses attributs d'échelle ...                                                                    
+				instance.transform.localPosition = new Vector3(-5 + (2 * x), y, 0);                					// ..., de positionnement ...
+				instance.GetComponent<GameCard>().Card = cards[cardsToBeFiltered[i]];        					// ... et la carte qu'elle représente
+				instance.GetComponent<GameCard>().ShowFace();        					// On affiche la carte
+				instance.gameObject.name = "Card" + k + "";	
+				k++;
 			}
-			// On récupère les informations de la carte
-			GameObject instance = Instantiate(CardObject) as GameObject;            					// On charge une instance du prefab Card
-			instance.transform.localScale = new Vector3(0.15f, 0.02f, 0.20f);               					 // On change ses attributs d'échelle ...                                                                    
-			instance.transform.localPosition = new Vector3(-5 + (2 * x), y, 0);                					// ..., de positionnement ...
-			instance.GetComponent<GameCard>().Card = cards[cardsToBeDisplayed[i]];        					// ... et la carte qu'elle représente
-			instance.GetComponent<GameCard>().ShowFace();        					// On affiche la carte
-			instance.gameObject.name = "Card" + k + "";	
-			k++;
 		}
 		
+	}
+	
+	public void filterCards() {			
+		if (valueSkill.Length < 1) {
+			for (int i = 0; i < this.cardsToBeFiltered.Count; i++) {
+				cardsToBeDisplayed [cardsToBeFiltered [i]] = true;
+			}
+		} 
+		else {
+			for (int i = 0; i < this.cardsToBeFiltered.Count; i++) {
+				if (cards [cardsToBeFiltered [i]].hasSkill (valueSkill)) {
+					cardsToBeDisplayed [cardsToBeFiltered [i]] = true;
+				} 
+				else {
+					cardsToBeDisplayed [cardsToBeFiltered [i]] = false;
+					//print ("Je passe a false " + cardsToBeDisplayed [cardsToBeFiltered [i]]);
+				}
+			}	
+		}
 	}
 	
 	public void addCardTypes(int a) {			
@@ -167,11 +205,13 @@ public class MyCardsScript : MonoBehaviour
 		if (counterFilters==0){
 			this.clearCards();
 		}
-		for (int i = 0; i < cards.Count() - 1; i++) {
+		for (int i = 0; i < cards.Count; i++) {
 			if (cards[i].IdClass==a){
-				cardsToBeDisplayed.Add(i);
-				
+				cardsToBeFiltered.Add(i);
 			}
+		}
+		if (valueSkill.Length>0){
+			filterCards ();
 		}
 		
 		displayCards ();							
@@ -181,115 +221,46 @@ public class MyCardsScript : MonoBehaviour
 		cleanScreen();
 		if (counterFilters == 1) {
 			this.clearCards ();
-			for (int j = 0; j < cards.Count() - 1; j++) {
-				cardsToBeDisplayed.Add (j);
+			for (int j = 0; j < cards.Count ; j++) {
+				cardsToBeFiltered.Add (j);
 			}
 		}
 		else {
-			for (int j = 0; j < cards.Count() - 1; j++) {
+			for (int j = 0; j < cards.Count ; j++) {
 				if (cards [j].IdClass == a) {
-					cardsToBeDisplayed.Remove (j);
+					cardsToBeDisplayed [cardsToBeFiltered [j]] = true;
+					cardsToBeFiltered.Remove (j);
 				}
 			}
+		}
+		if (valueSkill.Length>0){
+			filterCards ();
 		}
 		displayCards ();												// On lance le calcul après avoir supprimé les cartes de l'écran							
 	}
 	
 	public void clearCards() {
-		cardsToBeDisplayed.Clear ();
+		cardsToBeFiltered.Clear ();
 	}
 	
 	public void cleanScreen(){
-		for (int i = 0; i < cardsToBeDisplayed.Count(); i++) {         			// Il ne peut pas y avoir plus de cartes affichés sur le nombre de cartes possédées par l'utilisateur
+		for (int i = 0; i < cardsToBeFiltered.Count(); i++) {         			// Il ne peut pas y avoir plus de cartes affichés sur le nombre de cartes possédées par l'utilisateur
 			Destroy(GameObject.Find("Card" + i + ""));	
 		}	
 	}
 	
-	public IList<string> displaySkills(string a){
-		IList<string> matchValues = new List<string> ();
-		for (int i = 0; i < skillsList.Length; i++) {  
-			if(skillsList[i].ToLower().Contains(a)){
-				print ("Match avec "+skillsList[i]);
-				matchValues.Add(skillsList[i]);
+	private IEnumerator displaySkills(string a){
+		if (a == "") {
+			this.matchValues = new List<string> ();	
+		} 
+		else {
+			this.matchValues = new List<string> ();
+			for (int i = 0; i < skillsList.Length; i++) {  
+				if (skillsList [i].ToLower ().Contains (a)) {
+					matchValues.Add (skillsList [i]);
+				}
 			}
 		}
-		return matchValues;
-	}
-	
-	void testType(){
-		//		bool cardTypeFilterSucess = true;
-		//		bool toFilter;
-		//		bool skillsFilterSucess = true;
-		//		if (filters.Any ()) {
-		//						cardTypeFilterSucess = filters.Any (e => e == cards_information_by_card_data [4]);			// On vérifie si le cardType de la carte est dans la liste des filtres actifs
-		//	}
-		
-		//		if((cardTypeFilterSucess || !filters.Any()) &&								// Tests pour savoir si la carte correspond aux critères compétences et cardType
-		//		   (skillsFilterSucess || skillToFilter=="") ){								// Si tous les filtres sont désactivés on peut aussi afficher la carte
-		//toFilter=true;
-		//		}
-	}
-	
-	
-	// ----------------  Fonction d'affichage des cartes
-	
-	
-	
-	
-	// ----------------  Fonctions pour l'auto complétion
-	
-	
-	public void autoCompletion(string skill) {											// Script qui s'exécute lorsque l'on modifie l'interface de saisie d'une compétence
-		
-		skill = skill.ToLower ();														// On convertit en minuscule le texte saisi											
-		
-		//		AutoCompletion.SetActive(false);												// On masque le panneau de l'auto complétion
-		//		if (skill.Length > 0) {
-		//			List<string> found = skills.FindAll
-		//				( w => w.ToLowerInvariant().StartsWith(skill) );						// On cherche une correspondance dans la liste des compétences possédées par l'utilisateur
-		//			if (found.Count > 0 && found[0] != skill){
-		//				AutoCompletion.SetActive(true);											// Si une correspondance est trouvée on affiche le panneau
-		//				for(int i=0;i<4;i++){													// On met en forme les propositions d'auto complétion
-		//					if (i<=found.Count-1){
-		//						Proposition[i].SetActive(true);
-		//						var texteProposition = Proposition[i].GetComponent<Text>();
-		//						texteProposition.text = found[i];
-		//					}
-		//					else{
-		//						Proposition[i].SetActive(false);								// On masque les propositions selon le nombre de correspondances trouvées
-		//					}
-		//				}
-		//				var tailleAutoCompletion = 												// On modifie le panneau d'auto complétion
-		//					AutoCompletion.GetComponent<RectTransform>();
-		//				tailleAutoCompletion.sizeDelta =										// La taille
-		//					new Vector2(160,(found.Count)*25);
-		//				tailleAutoCompletion.transform.localPosition =							// et la position
-		//					new Vector2(0,-15-(found.Count)*12.5f);
-		//			}
-		//		}
-		
-	}
-	
-	
-	public void autoCompletionClick(string buttonName)									// Fonction qui s'exécute lorsque l'on clique sur une proposition
-	{
-		//		StopAllCoroutines ();															// On stoppe les autres fonctions (en fait le déclenchement de cette fonciton, exécute la fonction endTyping (cette instruction sert à la stopper)
-		//		cleanScreen();																	// On efface les cartes affichées
-		//		filterSkills = GameObject.Find("filterSkills");									// On récupère le texte cliqué par l'utilisateur
-		//		var skill = filterSkills.GetComponent<InputField> ();
-		//		button = GameObject.Find(buttonName);											// On met à jour le champs de saisie
-		//		var texteProposition = button.GetComponent<Text> ();
-		//		skill.text = texteProposition.text;
-		//		endTyping ();																	// On lance endTyping
-	}
-	
-	
-	public void endTyping()																// Fonction qui s'exécute lorsque l'on termine la saisie d'une compétence (ou lorsque l'on clique sur une proposition)
-	{
-		//		filterSkills = GameObject.Find("filterSkills");									// On enregistre dans une variable la compétence
-		//		var skill = filterSkills.GetComponent<InputField> ();							
-		//		skillToFilter = skill.text.ToLower ();											// On convertit en minuscule la variable
-		//		cleanScreen();																	// On efface les cartes affichées
-		//		//StartCoroutine(calcul ());														// On lance l'affichage des cartes
+		yield break;
 	}
 }

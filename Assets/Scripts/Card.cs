@@ -83,4 +83,19 @@ public class Card
 		return obj != null && obj.Id == this.Id;
 	}
 
+	public bool hasSkill(string s){
+		bool b = false;
+		int compteur = this.Skills.Count;
+		int i = 0;
+		while (!b && i<compteur) {
+			//UnityEngine.Debug.Log("Je teste le skill "+this.Skills[i].Name+" VS "+s);
+			if (Skills[i].Name.ToLower ().Contains(s)){
+				//UnityEngine.Debug.Log("Match");
+				b = true ;
+			}
+			i++;
+		}
+		return b;
+	}
+
 }
