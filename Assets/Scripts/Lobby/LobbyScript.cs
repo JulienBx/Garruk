@@ -9,7 +9,7 @@ public class LobbyScript : MonoBehaviour {
 
 	private const string typeName = "oojump_garruk";
 	private bool isConnecting = false;
-	private List<string> playersName = new List<string>();
+	private Dictionary<string, string> playersName = new Dictionary<string, string>();
 	private HostData[] hostList;
 	private bool attemptToPlay = false;
 
@@ -36,16 +36,16 @@ public class LobbyScript : MonoBehaviour {
 		{
 			int i = 0;
 			GUI.Label(new Rect(10, 0, 500, 50), "Liste des utilisateurs connectés");
-			foreach(string name in playersName)
+			foreach(KeyValuePair<string, string> entry in playersName)
 			{
 				i++;
-				if (name.Equals(ApplicationModel.username))
+				if (entry.Value == ApplicationModel.username)
 				{
-					GUI.Label(new Rect(10, i * 30, 100, 50), name, style);
+					GUI.Label(new Rect(10, i * 30, 100, 50), entry.Value, style);
 				}
 				else
 				{
-					GUI.Label(new Rect(10, i * 30, 100, 50), name);
+					GUI.Label(new Rect(10, i * 30, 100, 50), entry.Value);
 				}
 			}
 		}
@@ -77,37 +77,32 @@ public class LobbyScript : MonoBehaviour {
 	// RPC
 
 	[RPC]
-	void AddPlayerToList(string loginName)
+	void AddPlayerToList(string guid, string loginName)
 	{
-		if (playersName.Find(e => e == loginName) == null)
-		{
-			playersName.Add(loginName);
-		}
+		playersName.Add(guid, loginName);
 	}
 
 	[RPC]
-	void RemovePlayerFromList(string loginName)
+	void RemovePlayerFromList(string guid)
 	{
-		playersName.Remove(loginName);
+		playersName.Remove(guid);
 	}
-
 	// Messages
 
 	void OnServerInitialized()
 	{
 		Debug.Log("serveur initialisé");
-		networkView.RPC("AddPlayerToList", RPCMode.AllBuffered, ApplicationModel.username);
+		networkView.RPC("AddPlayerToList", RPCMode.AllBuffered, Network.player.guid, ApplicationModel.username);
 	}
 
 	void OnConnectedToServer()
 	{
 		Debug.Log("client connecté");
-		networkView.RPC("AddPlayerToList", RPCMode.AllBuffered, ApplicationModel.username);
+		networkView.RPC("AddPlayerToList", RPCMode.AllBuffered, Network.player.guid, ApplicationModel.username);
 	}
 
 	void OnDisconnectedFromServer()
 	{
-		networkView.RPC("RemovePlayerFromList", RPCMode.AllBuffered, ApplicationModel.username);
 		if (attemptToPlay)
 		{
 			Application.LoadLevel("GamePage");
@@ -116,10 +111,10 @@ public class LobbyScript : MonoBehaviour {
 
 	void OnPlayerDisconnected(NetworkPlayer player)
 	{
-		//networkView.RPC("RemovePlayerFromList", RPCMode.AllBuffered, ApplicationModel.username);
+		networkView.RPC("RemovePlayerFromList", RPCMode.AllBuffered, player.guid);
 		//Network.RemoveRPCs(player);
-		Network.DestroyPlayerObjects(player);
-		//playersName.Remove (ApplicationModel.username);
+		//Network.DestroyPlayerObjects(player);
+	
 	}
 
 	// MasterServerEvent
