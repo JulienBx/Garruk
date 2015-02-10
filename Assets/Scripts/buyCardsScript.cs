@@ -20,11 +20,25 @@ public class buyCardsScript : MonoBehaviour {
 
 		if (GUI.Button(new Rect(10, 40, 150, 20), "Me créer une carte"))
 		{
-			generateRandomCard();
+			StartCoroutine(generateRandomCard());
 		}
 	}
 
-	void generateRandomCard(){
+	private IEnumerator generateRandomCard(){
+
+		WWWForm form = new WWWForm(); 											// Création de la connexion
+		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
+		form.AddField("myform_nick", ApplicationModel.username);
 		
+		WWW w = new WWW("localhost/GarrukServer/buyRandomCards.php", form); 				// On envoie le formulaire à l'url sur le serveur 
+		yield return w;
+		if (w.error != null) 
+		{
+			print (w.error); 										// donne l'erreur eventuelle
+		} else {
+			print (w.text);
+			
+
+		}
 	}
 }
