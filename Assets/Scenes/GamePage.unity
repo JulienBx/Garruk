@@ -363,6 +363,7 @@ MonoBehaviour:
     m_FixedHeight: 0
     m_StretchWidth: 1
     m_StretchHeight: 0
+  neighbors: []
 --- !u!23 &143277198
 Renderer:
   m_ObjectHideFlags: 0
@@ -781,6 +782,7 @@ MonoBehaviour:
     m_FixedHeight: 0
     m_StretchWidth: 1
     m_StretchHeight: 0
+  neighbors: []
 --- !u!23 &282503603
 Renderer:
   m_ObjectHideFlags: 0
@@ -934,33 +936,6 @@ TextMesh:
   m_Color:
     serializedVersion: 2
     rgba: 4294967295
---- !u!1 &347764418
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 347764419}
-  m_Layer: 0
-  m_Name: GameObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &347764419
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 347764418}
-  m_LocalRotation: {x: 4.4478293e-16, y: -.707106829, z: .707106829, w: 4.4478293e-16}
-  m_LocalPosition: {x: -80, y: 4.26999998, z: 0}
-  m_LocalScale: {x: 1, y: 2, z: 1.30499995}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 3
 --- !u!1001 &372362832
 Prefab:
   m_ObjectHideFlags: 0
@@ -1235,7 +1210,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
 --- !u!114 &481987439
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1747,7 +1722,7 @@ Transform:
   - {fileID: 544625069}
   - {fileID: 2009796434}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
 --- !u!114 &594238136
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1905,6 +1880,7 @@ MonoBehaviour:
     m_FixedHeight: 0
     m_StretchWidth: 1
     m_StretchHeight: 0
+  neighbors: []
 --- !u!148 &594238138
 NetworkView:
   m_ObjectHideFlags: 0
@@ -2075,6 +2051,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameCard: {fileID: 631948794}
   hasMoved: 0
+  hasAttacked: 0
   Damage: 0
   bgImage: {fileID: 2800000, guid: bd00a143b50b5964e80272405ab41b17, type: 3}
   fgImage: {fileID: 2800000, guid: 0648d50748bd8b74884e747e292662bb, type: 3}
@@ -2370,6 +2347,7 @@ MonoBehaviour:
     m_FixedHeight: 0
     m_StretchWidth: 1
     m_StretchHeight: 0
+  neighbors: []
 --- !u!23 &631948795
 Renderer:
   m_ObjectHideFlags: 0
@@ -2627,6 +2605,7 @@ MonoBehaviour:
     m_FixedHeight: 0
     m_StretchWidth: 1
     m_StretchHeight: 0
+  neighbors: []
 --- !u!23 &648034868
 Renderer:
   m_ObjectHideFlags: 0
@@ -2856,6 +2835,7 @@ MonoBehaviour:
     m_FixedHeight: 0
     m_StretchWidth: 1
     m_StretchHeight: 0
+  neighbors: []
 --- !u!23 &714391904
 Renderer:
   m_ObjectHideFlags: 0
@@ -3708,6 +3688,7 @@ MonoBehaviour:
     m_FixedHeight: 0
     m_StretchWidth: 1
     m_StretchHeight: 0
+  neighbors: []
 --- !u!23 &924362476
 Renderer:
   m_ObjectHideFlags: 0
@@ -3758,7 +3739,7 @@ Transform:
   - {fileID: 938546762}
   - {fileID: 1774588333}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
 --- !u!114 &925700257
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4180,6 +4161,7 @@ MonoBehaviour:
     m_FixedHeight: 0
     m_StretchWidth: 1
     m_StretchHeight: 0
+  neighbors: []
 --- !u!23 &1063060250
 Renderer:
   m_ObjectHideFlags: 0
@@ -5587,6 +5569,7 @@ MonoBehaviour:
     m_FixedHeight: 0
     m_StretchWidth: 1
     m_StretchHeight: 0
+  neighbors: []
 --- !u!23 &1384295116
 Renderer:
   m_ObjectHideFlags: 0
@@ -7190,7 +7173,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
 --- !u!1 &1838416300
 GameObject:
   m_ObjectHideFlags: 0
@@ -7646,6 +7629,7 @@ MonoBehaviour:
     m_FixedHeight: 0
     m_StretchWidth: 1
     m_StretchHeight: 0
+  neighbors: []
 --- !u!23 &1891635632
 Renderer:
   m_ObjectHideFlags: 0
@@ -7875,6 +7859,7 @@ MonoBehaviour:
     m_FixedHeight: 0
     m_StretchWidth: 1
     m_StretchHeight: 0
+  neighbors: []
 --- !u!23 &1921161909
 Renderer:
   m_ObjectHideFlags: 0

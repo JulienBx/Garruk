@@ -12,68 +12,37 @@ Platform assembly: D:\Documents\Garruk\garruk_Data\Managed\Assembly-CSharp.dll (
 Loading D:\Documents\Garruk\garruk_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
 Platform assembly: D:\Documents\Garruk\garruk_Data\Managed\UnityEngine.UI.dll (this message is harmless)
 Loading D:\Documents\Garruk\garruk_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
-- Completed reload, in  0.141 seconds
+- Completed reload, in  0.050 seconds
 desktop: 1920x1080 60Hz; virtual: 1920x1080 at 0,0
 <RI> Initializing input.
 <RI> Input initialized.
 Platform assembly: D:\Documents\Garruk\garruk_Data\Managed\System.Core.dll (this message is harmless)
-Platform assembly: D:\Documents\Garruk\garruk_Data\Managed\System.dll (this message is harmless)
-UnloadTime: 5.786110 ms
-Unloading 4 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
-
-Unloading 4 unused Assets to reduce memory usage. Loaded Objects now: 233.
-Total: 0.975043 ms (FindLiveObjects: 0.018474 ms CreateObjectMapping: 0.015395 ms MarkObjects: 0.304316 ms  DeleteObjects: 0.013855 ms)
-
-UnloadTime: 1.029440 ms
-Unloading 1 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
-
-Unloading 3 unused Assets to reduce memory usage. Loaded Objects now: 155.
-Total: 0.866248 ms (FindLiveObjects: 0.016421 ms CreateObjectMapping: 0.014882 ms MarkObjects: 0.218101 ms  DeleteObjects: 0.018987 ms)
-
 serveur initialisé
  
 (Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
 
-UnloadTime: 0.389504 ms
-Unloading 5 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
-
-Unloading 1 unused Assets to reduce memory usage. Loaded Objects now: 687.
-Total: 1.052533 ms (FindLiveObjects: 0.053883 ms CreateObjectMapping: 0.021553 ms MarkObjects: 0.323816 ms  DeleteObjects: 0.009237 ms)
-
-serveur initialisé
- 
-(Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
-
-10\3\carte 10\5\9\1\0\0\
+10\3\carte 10\5\9\1\1\0\
 
  
 (Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
 
-11\4\carte 11\5\10\3\0\0\
+11\4\carte 11\5\10\3\1\0\
 
  
 (Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
 
-2\1\carte 2\4\5\2\0\0\R�flexes&Apathie&Renforcement&Sape&Lenteur
+3\2\carte 3\5\2\2\2\0\Assassinat&Energie quantique&Ajout de mana&Virus&Renforcement
+
+ 
+(Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
+
+2\1\carte 2\4\5\2\2\0\Reflexes&Apathie&Renforcement&Sape&Lenteur
 
  
 (Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
 
 1\0\carte 1\5\2\1\4\3\Apathie&Renforcement&Sape&Lenteur
 
- 
-(Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
-
-3\2\carte 3\5\2\2\0\0\Assassinat&Energie quantique&Ajout de mana&Virus&Renforcement
-
- 
-(Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
-
-card : 10
- 
-(Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
-
-card : 11
  
 (Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
 

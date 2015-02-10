@@ -15,6 +15,7 @@ public class GameScript : MonoBehaviour {
 	private List<string> playersName = new List<string>();
 	private HostData[] hostList;
 	public string labelText = "Placer vos héros sur le champ de bataille";
+	public string labelMessage = "";
 	private bool hasClicked = false;
 	public static GameScript instance;
 
@@ -30,6 +31,7 @@ public class GameScript : MonoBehaviour {
 	
 	void OnGUI()
 	{
+		GUI.Label(new Rect(530, 0, 800, 50), labelMessage);
 		if (playersName.Count > 1)
 		{
 
@@ -45,6 +47,11 @@ public class GameScript : MonoBehaviour {
 		else
 		{
 			GUI.Label(new Rect(10, 0, 500, 50), "En attente d'autres joueurs");
+		}
+		if (GUI.Button(new Rect(220, 20, 150, 35), "Quitter le match"))
+		{
+			Network.Disconnect();
+			MasterServer.UnregisterHost();
 		}
 
 	}
@@ -65,6 +72,11 @@ public class GameScript : MonoBehaviour {
 	private void JoinServer(HostData hostData)
 	{
 		Network.Connect(hostData);
+	}
+
+	void OnDisconnectedFromServer()
+	{
+		Application.LoadLevel("LobbyPage");
 	}
 
 	private IEnumerator RefreshHostList()

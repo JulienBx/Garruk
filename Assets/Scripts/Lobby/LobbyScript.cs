@@ -109,7 +109,7 @@ public class LobbyScript : MonoBehaviour {
 	{
 		Network.RemoveRPCs(player);
 		Network.DestroyPlayerObjects(player);
-		playersName.Remove (ApplicationModel.username);
+		//playersName.Remove (ApplicationModel.username);
 	}
 
 	// MasterServerEvent
@@ -132,6 +132,7 @@ public class LobbyScript : MonoBehaviour {
 					}
 					else
 					{
+						playersName.Clear();
 						StartServer();
 					}
 				}

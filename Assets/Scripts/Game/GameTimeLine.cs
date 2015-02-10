@@ -15,7 +15,10 @@ public class GameTimeLine : MonoBehaviour {
 
 	public GameNetworkCard PlayingCard
 	{
-		get { return GameObjects[playingCardPosition].GetComponent<GameNetworkCard>(); }
+		get { 
+			GameNetworkCard currentCardInTimeLine = GameObjects[playingCardPosition].GetComponent<GameNetworkCard>();
+			GameNetworkCard playingCard = GameObject.Find(currentCardInTimeLine.Card.Title + "-" + currentCardInTimeLine.ownerNumber).GetComponent<GameNetworkCard>();
+			return playingCard; }
 	}
 
 	public int WhosNext
@@ -69,6 +72,8 @@ public class GameTimeLine : MonoBehaviour {
 			gCard.ShowFace();
 		}
 		GamePlayingCard.instance.ChangeCurrentCard(GameObjects[playingCardPosition].GetComponent<GameNetworkCard>());
+		GameObject go = GameObject.Find(PlayingCard.Card.Title + "-" + WhosNext);
+		go.GetComponent<GameNetworkCard>().FindNeighbors();
 	}
 
 	public void SortCardsBySpeed ()

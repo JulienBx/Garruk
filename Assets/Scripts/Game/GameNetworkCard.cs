@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class GameNetworkCard : GameCard {
 
@@ -12,6 +13,9 @@ public class GameNetworkCard : GameCard {
 	public Texture2D bgImage; 
 	public Texture2D fgImage;
 	public GUIStyle progress_empty, progress_full;
+	public GameObject AttackAnim;
+
+	public List<GameNetworkCard> neighbors;
 
 	void Start()
 	{
@@ -28,8 +32,8 @@ public class GameNetworkCard : GameCard {
 		{
 			GUI.BeginGroup(new Rect(WorldNamePos.x, Screen.height - WorldNamePos.y, 16, 50));
 			GUI.Box(new Rect(0,0,16,50), bgImage, progress_empty);
-			GUI.BeginGroup(new Rect(0, 0, 16, 50));
-			GUI.Box (new Rect(0,0,8,50), fgImage, progress_full);
+			GUI.BeginGroup(new Rect(0, 50 * (Damage) / Card.Life, 16, 50));
+			GUI.Box(new Rect(0,0,16,50), fgImage, progress_empty);
 			GUI.EndGroup();
 			GUI.EndGroup();
 		}
@@ -57,26 +61,43 @@ public class GameNetworkCard : GameCard {
 			} 
 			else
 			{
-				if (GameTimeLine.instance.PlayingCard.Card.Equals(Card) && !GamePlayingCard.instance.hasMoved) 
+				if (!GameTimeLine.instance.PlayingCard.Card.Equals(Card) && GamePlayingCard.instance.attemptToAttack && !GamePlayingCard.instance.hasAttacked) 
 				{
-					GameBoard.instance.CardSelected = this;
-					GameBoard.instance.isMoving = true;
-					//					offset = transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -1));
-					RaycastHit hit;
-					Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-					
-					if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << GameBoardGenerator.instance.GridLayerMask))
+					if (GameTimeLine.instance.PlayingCard.neighbors.Find(e => e.Card.Equals(this.Card)))
 					{
-						currentTile = hit.transform.gameObject.GetComponent<GameTile>();
+						networkView.RPC("GetDamage", RPCMode.AllBuffered, this.GetComponent<NetworkView>().viewID, GameTimeLine.instance.PlayingCard.Card.Attack);
+						GamePlayingCard.instance.attemptToAttack = false;
+						GamePlayingCard.instance.hasAttacked = true;
+						GameTile.instance.SetCursorToDefault();
 					}
 				}
-				Vector2 gridPosition = this.CalcGridPos();
-				if (currentTile != null)
+				else
 				{
-					currentTile.Passable = true;
+					if (GameTimeLine.instance.PlayingCard.Card.Equals(Card) && !GamePlayingCard.instance.hasMoved) 
+					{
+						GameBoard.instance.CardSelected = this;
+						GameBoard.instance.isMoving = true;
+						//					offset = transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -1));
+						RaycastHit hit;
+						Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+						
+						if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << GameBoardGenerator.instance.GridLayerMask))
+						{
+							currentTile = hit.transform.gameObject.GetComponent<GameTile>();
+						}
+					}
+					if (GameTimeLine.instance.PlayingCard.Card.Equals(Card) && GamePlayingCard.instance.hasMoved) 
+					{
+						StartCoroutine(ChangeMessage("la carte s'est déjà déplacée pendant ce tour"));
+					}
+					Vector2 gridPosition = this.CalcGridPos();
+					if (currentTile != null)
+					{
+						currentTile.Passable = true;
+					}
+					Tile tile = GameBoard.instance.board[new Point((int)gridPosition.x, (int)gridPosition.y)];
+					colorAndMarkNeighboringTiles(tile.AllNeighbours, Card.Move, Color.gray);
 				}
-				Tile tile = GameBoard.instance.board[new Point((int)gridPosition.x, (int)gridPosition.y)];
-				colorAndMarkNeighboringTiles(tile.AllNeighbours, Card.Move, Color.gray);
 			}                         
 		}
 	}
@@ -172,7 +193,24 @@ public class GameNetworkCard : GameCard {
 		//			}
 		//		}
 	}
-	
+
+	IEnumerator ChangeMessage(string message)
+	{
+		GameScript.instance.labelMessage = message;
+		yield return new WaitForSeconds(2);
+		GameScript.instance.labelMessage = "";
+	}
+
+	[RPC]
+	void GetDamage(NetworkViewID id, int attack)
+	{
+		GameObject instance = Instantiate(AttackAnim, transform.position + new Vector3(0, 0, -2), Quaternion.identity) as GameObject;
+		GameObject go = NetworkView.Find(id).gameObject;
+		GameNetworkCard gnc = go.GetComponent<GameNetworkCard>();
+		gnc.Damage += attack;
+		gnc.ShowFace();
+	}
+
 	void colorAndMarkNeighboringTiles(IEnumerable allNeighbours, int i, Color color)
 	{
 		if (i-- == 0)
@@ -190,7 +228,7 @@ public class GameNetworkCard : GameCard {
 			bool hasCard = false;
 			if (Physics.Raycast(pos, Vector3.forward, out hit))
 			{
-				if (hit.transform.gameObject.name.Equals("CardNetwork(Clone)"))
+				if (hit.transform.gameObject.tag == "PlayableCard")
 				{
 					hasCard = true;
 				}
@@ -211,6 +249,53 @@ public class GameNetworkCard : GameCard {
 		{
 			Vector3 GameCardPosition = transform.Find("Life/Life Bar").position;
 			WorldNamePos = Camera.main.camera.WorldToScreenPoint(GameCardPosition);
+		}
+	}
+
+	public void FindNeighbors()
+	{
+		neighbors.Clear();
+		GameTile gTile = null;
+
+		RaycastHit hit;
+		Vector3 pos = transform.TransformPoint(Vector3.zero);
+
+		if (Physics.Raycast(pos, Vector3.forward, out hit, Mathf.Infinity, 1 << GameBoardGenerator.instance.GridLayerMask))
+		{
+			gTile = hit.transform.gameObject.GetComponent<GameTile>();
+		}
+
+		if (gTile != null)
+		{
+			foreach(Tile tile in gTile.tile.AllNeighbours)
+			{
+				GameTile neighborTile = GameObject.Find("hex " + tile.X + "-" + tile.Y).GetComponent<GameTile>();
+				pos = neighborTile.transform.TransformPoint(Vector3.zero) + new Vector3(0, 0, -2);
+
+				if (Physics.Raycast(pos, Vector3.forward, out hit))
+				{
+					if (hit.transform.gameObject.tag == "PlayableCard")
+					{
+						neighbors.Add(hit.transform.gameObject.GetComponent<GameNetworkCard>());
+					}
+				}
+			}
+		}
+	}
+	public bool hasNeighbor()
+	{
+		return neighbors.Count > 0;
+	}
+
+	public new void ShowFace() 
+	{
+		renderer.material.mainTexture = faces[Card.ArtIndex]; 		// On affiche l'image correspondant à la carte
+		transform.Find("Title")
+			.GetComponent<TextMesh>().text = Card.Title;			// On lui attribut son titre
+		Transform LifeTextPosition = transform.Find("Life");
+		if (LifeTextPosition != null)
+		{
+			LifeTextPosition.GetComponent<TextMesh>().text = (Card.Life - Damage).ToString();	// Et son nombre de point de vie
 		}
 	}
 }

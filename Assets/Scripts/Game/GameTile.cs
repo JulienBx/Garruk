@@ -8,6 +8,7 @@ public class GameTile : MonoBehaviour {
 	public Tile tile;
 	public Texture2D cursorDragging;
 	public Texture2D cursorExchange;
+	public Texture2D cursorAttack;
 	public static GameTile instance = null;
 	public static List<string> AvailableStartingColumns = new List<string>();
 	public Material DefaultMaterial;
@@ -100,5 +101,9 @@ public class GameTile : MonoBehaviour {
 	public void SetCursorToDefault()
 	{
 		Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
+	}
+	public void SetCursorToAttack()
+	{
+		Cursor.SetCursor(cursorAttack, Vector2.zero, CursorMode.Auto);
 	}
 }

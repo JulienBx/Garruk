@@ -76,6 +76,7 @@ public class GameBoard : MonoBehaviour
 	public void StartFight()
 	{
 		nbPlayerReadyToFight++;
+
 		if (nbPlayerReadyToFight == 2)
 		{  
 			TimeOfPositionning = false;
@@ -96,6 +97,7 @@ public class GameBoard : MonoBehaviour
 		GameObject clone;
 		clone = Instantiate(Card, location, rotation) as GameObject;
 		NetworkView nView;
+
 		nView = clone.GetComponent<NetworkView>();
 		nView.viewID = viewID;
 		GameNetworkCard gCard = clone.GetComponent<GameNetworkCard>();
@@ -108,6 +110,8 @@ public class GameBoard : MonoBehaviour
 			gCard.ownerNumber = 2;
 		}
 		yield return StartCoroutine(gCard.RetrieveCard(cardID));
+		clone.name = gCard.Card.Title + "-" + gCard.ownerNumber;
+		clone.tag = "PlayableCard";
 		GameTimeLine.instance.GameCards.Add(gCard);
 		GameTimeLine.instance.SortCardsBySpeed();
 		GameTimeLine.instance.Arrange();

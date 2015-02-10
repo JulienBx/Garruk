@@ -388,6 +388,8 @@ MonoBehaviour:
     m_FixedHeight: 0
     m_StretchWidth: 1
     m_StretchHeight: 0
+  AttackAnim: {fileID: 145750, guid: cd7ff7c5c68a9b645935252080c8b9a4, type: 2}
+  neighbors: []
 --- !u!148 &14854796
 NetworkView:
   m_ObjectHideFlags: 1

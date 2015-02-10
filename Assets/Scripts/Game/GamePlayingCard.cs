@@ -6,6 +6,8 @@ public class GamePlayingCard : MonoBehaviour {
 	public static GamePlayingCard instance;
 	public GameNetworkCard gameCard;
 	public bool hasMoved = false;
+	public bool attemptToAttack = false;
+	public bool hasAttacked = false;
 
 	Vector3 WorldNamePos;
 
@@ -41,7 +43,16 @@ public class GamePlayingCard : MonoBehaviour {
 				pos = Camera.main.camera.WorldToScreenPoint(pos);
 				if (GUI.Button(new Rect(pos.x - 35, Screen.height - pos.y - 110, 67, 25), "Passer"))
 				{
-					networkView.RPC("forwardInTime", RPCMode.AllBuffered); 
+					networkView.RPC("forwardInTime", RPCMode.AllBuffered);
+
+				}
+				if (GameTimeLine.instance.PlayingCard.hasNeighbor() && !hasAttacked && !attemptToAttack)
+				{
+					if (GUI.Button(new Rect(pos.x - 35, Screen.height - pos.y - 150, 67, 25), "Attaquer!"))
+					{
+						GameTile.instance.SetCursorToAttack();
+						attemptToAttack = true;
+					}
 				}
 			} else
 			{
@@ -62,6 +73,7 @@ public class GamePlayingCard : MonoBehaviour {
 	public void ChangeCurrentCard(GameNetworkCard card)
 	{
 		hasMoved = false;
+		hasAttacked = false;
 		gameCard.Card = card.Card;
 		gameCard.ownerNumber = card.ownerNumber;
 		changeStats();
