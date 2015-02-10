@@ -76,9 +76,19 @@ public class GameTile : MonoBehaviour {
 	{
 		if (GameBoard.instance.droppedCard && AvailableStartingColumns.Any(e => e.Contains(this.tag)))
 		{
-			GameBoard.instance.CardSelected.transform.position = this.transform.position + new Vector3(0, 0, -1);
-			GameBoard.instance.droppedCard = false;
-			GameBoard.instance.isDragging = false;
+			Vector3 pos = transform.TransformPoint(Vector3.zero) + new Vector3(0, 0, -2);
+			RaycastHit hit;
+
+			if (Physics.Raycast(pos, Vector3.forward, out hit))
+			{
+				if (hit.transform.gameObject.tag != "PlayableCard")
+				{
+					GameBoard.instance.CardSelected.transform.position = this.transform.position + new Vector3(0, 0, -1);
+					GameBoard.instance.droppedCard = false;
+					GameBoard.instance.isDragging = false;
+				}
+			}
+
 		}
 	}
 
