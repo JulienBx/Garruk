@@ -79,7 +79,16 @@ public class LobbyScript : MonoBehaviour {
 	[RPC]
 	void AddPlayerToList(string loginName)
 	{
-		playersName.Add(loginName);
+		if (playersName.Find(e => e == loginName) == null)
+		{
+			playersName.Add(loginName);
+		}
+	}
+
+	[RPC]
+	void RemovePlayerFromList(string loginName)
+	{
+		playersName.Remove(loginName);
 	}
 
 	// Messages
@@ -98,16 +107,17 @@ public class LobbyScript : MonoBehaviour {
 
 	void OnDisconnectedFromServer()
 	{
+		networkView.RPC("RemovePlayerFromList", RPCMode.AllBuffered, ApplicationModel.username);
 		if (attemptToPlay)
 		{
-
 			Application.LoadLevel("GamePage");
 		}
 	}
 
 	void OnPlayerDisconnected(NetworkPlayer player)
 	{
-		Network.RemoveRPCs(player);
+		//networkView.RPC("RemovePlayerFromList", RPCMode.AllBuffered, ApplicationModel.username);
+		//Network.RemoveRPCs(player);
 		Network.DestroyPlayerObjects(player);
 		//playersName.Remove (ApplicationModel.username);
 	}
