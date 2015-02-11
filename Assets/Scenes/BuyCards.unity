@@ -170,3 +170,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23f283f6ec5a18c49bbc977e4b800844, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scriptGenerateURL: 
+  CardObject: {fileID: 144448, guid: 328a8c95257529d40a7734a106088afe, type: 2}
