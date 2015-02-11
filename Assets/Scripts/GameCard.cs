@@ -1,10 +1,13 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 public class GameCard : MonoBehaviour 
 {
 	public Texture[] faces; 										// Les différentes images des cartes
+	public Texture[] pictos;
+	public Texture[] metals;
 	public Card Card; 												// L'instance de la carte courante 
 
 
@@ -32,22 +35,87 @@ public class GameCard : MonoBehaviour
 
 	public void ShowFace() 
 	{
+
 		renderer.material.mainTexture = faces[Card.ArtIndex]; 		// On affiche l'image correspondant à la carte
 		transform.Find("Title")
 			.GetComponent<TextMesh>().text = Card.Title;			// On lui attribut son titre
-		Transform LifeTextPosition = transform.Find("Life");
-		if (LifeTextPosition != null)
-		{
-			LifeTextPosition.GetComponent<TextMesh>().text = Card.Life.ToString();	// Et son nombre de point de vie
+		transform.Find ("Life")
+			.GetComponent<TextMesh> ().text = Card.Life.ToString(); // On affecte les caractéristiques de la carte
+		transform.Find ("Move")
+			.GetComponent<TextMesh> ().text = Card.Move.ToString();
+		transform.Find ("Attack")
+			.GetComponent<TextMesh> ().text = Card.Attack.ToString();
+		transform.Find ("Speed")
+			.GetComponent<TextMesh> ().text = Card.Speed.ToString();
+		transform.Find ("Class")
+			.GetComponent<TextMesh> ().text = Card.TitleClass;
+
+		transform.Find ("PictoMetalAttack")
+			.renderer.material.mainTexture = metals [Card.AttackLevel]; // On change la couleur des matériaux
+
+		transform.Find ("PictoMetalLife")
+			.renderer.material.mainTexture = metals [Card.LifeLevel];
+
+		transform.Find ("PictoMetalSpeed")
+			.renderer.material.mainTexture = metals [Card.SpeedLevel];
+
+		transform.Find ("PictoMetalMove")
+			.renderer.material.mainTexture = metals [Card.MoveLevel];
+
+
+		for(int i = 0 ; i < 4 ; i++) { // boucle sur la liste de compétence 
+
+			if (Card.Skills.Count > i && Card.Skills[i].IsActivated == 1 ){ // On vérifie que la compétence existe et qu'elle est active
+			transform.Find ("PictoSkill" + (i+1))
+					.renderer.material.mainTexture = pictos [Card.Skills [i].Id]; // On affecte une couleur pour le matériau
+			transform.Find ("Skill" + (i+1))
+					.GetComponent<TextMesh> ().text = Card.Skills[i].Name; // On renseigne les caractéristique des compétences
+
+			transform.Find ("PictoMetalSkill" + (i+1))
+					.renderer.material.mainTexture = metals [Card.Skills [i].Level];
+			
+			transform.Find ("SkillForce" + (i+1))
+					.GetComponent<TextMesh> ().text = Card.Skills[i].Power + "/" +Card.Skills[i].ManaCost ;
+			
+			}
 		}
+
+
+//		Transform LifeTextPosition = transform.Find("Life");
+//		if (LifeTextPosition != null)
+//		{
+//			LifeTextPosition.GetComponent<TextMesh>().text = Card.Life.ToString();	// Et son nombre de point de vie
+//		}
+//
+//		Transform MoveTextPosition = transform.Find("Move");
+//		if (MoveTextPosition != null)
+//		{
+//			MoveTextPosition.GetComponent<TextMesh>().text = Card.Move.ToString();	// Et son nombre de point de vie
+//		}
+//
+//		Transform AttackTextPosition = transform.Find("Attack");
+//		if (AttackTextPosition != null)
+//		{
+//			AttackTextPosition.GetComponent<TextMesh>().text = Card.Attack.ToString();	// Et son nombre de point de vie
+//		}
+//
+//		Transform SpeedTextPosition = transform.Find("Speed");
+//		if (SpeedTextPosition != null)
+//		{
+//			SpeedTextPosition.GetComponent<TextMesh>().text = Card.Speed.ToString();	// Et son nombre de point de vie
+//		}
+
+
+
 	}
 	public void Hide()
 	{
 		renderer.material.mainTexture = faces[0]; 		// On affiche l'image correspondant à la carte
 		transform.Find("Title")
-			.GetComponent<TextMesh>().text = "Title";			// On lui attribut son titre
+			.GetComponent<TextMesh>().text = "Title";	// On lui attribut son titre
 		transform.Find("Life")
 			.GetComponent<TextMesh>().text = "Life";	// Et son nombre de point de vie
+;
 	}
 
 	public IEnumerator RetrieveCard (int idCard)

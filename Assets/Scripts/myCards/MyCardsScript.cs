@@ -51,7 +51,7 @@ public class MyCardsScript : MonoBehaviour
 			GUI.Label (new Rect (cadreFiltres.transform.position.x-cadreFiltres.GetComponent<RectTransform>().rect.width/2, cadreFiltres.transform.position.y-cadreFiltres.GetComponent<RectTransform>().rect.height/2, 200, 20), "FILTRER PAR CLASSE");
 			for (i=0; i<this.cardTypeList.Length-1; i++) {		
 				cardTypeData = cardTypeList [i].Split ('\\');
-				toggle = GUI.Toggle (new Rect (cadreFiltres.transform.position.x-cadreFiltres.GetComponent<RectTransform>().rect.width/2, cadreFiltres.transform.position.y+ 20 + i * 20-cadreFiltres.GetComponent<RectTransform>().rect.height/2, 150, 20), togglesCurrentStates[i], cardTypeData [1]);
+				toggle = GUI.Toggle (new Rect (cadreFiltres.transform.position.x-cadreFiltres.GetComponent<RectTransform>().rect.width/2, cadreFiltres.transform.position.y+ 20 + i * 20-cadreFiltres.GetComponent<RectTransform>().rect.height/2, 150, 20), togglesCurrentStates[i], cardTypeData[0]);
 				if (toggle != togglesCurrentStates[i]){
 					togglesCurrentStates[i]=toggle ;
 					if (toggle){
@@ -130,21 +130,51 @@ public class MyCardsScript : MonoBehaviour
 			//print (cardInformation[1]);
 			if(i!=1){
 				if(!cardsIDS[i].StartsWith(cardsIDS[i-1].Substring(0, 4))){
-					this.cards.Add(new Card(cardInformation[1], System.Convert.ToInt32(cardInformation[2]),System.Convert.ToInt32(cardInformation[7]),System.Convert.ToInt32(cardInformation[9])));	
+					this.cards.Add(new Card(System.Convert.ToInt32(cardInformation[0]), // id
+					                        cardInformation[1], // title
+					                        System.Convert.ToInt32(cardInformation[2]), // life
+					                        System.Convert.ToInt32(cardInformation[3]), // attack
+					                        System.Convert.ToInt32(cardInformation[4]), // speed
+					                        System.Convert.ToInt32(cardInformation[5]), // move
+					                        System.Convert.ToInt32(cardInformation[6]), // artindex
+					                        System.Convert.ToInt32(cardInformation[7]), // idowner
+					                        System.Convert.ToInt32(cardInformation[8]), // idclass
+					                        this.cardTypeList.ElementAt(System.Convert.ToInt32(cardInformation[8])), // titleclass
+					                        System.Convert.ToInt32(cardInformation[9]), // lifelevel
+					                        System.Convert.ToInt32(cardInformation[10]), // movelevel
+					                        System.Convert.ToInt32(cardInformation[11]), // speedlevel
+					                        System.Convert.ToInt32(cardInformation[12]))); // attacklevel;
 					this.cards[j].Skills = new List<Skill>();
 					this.cardsToBeFiltered.Add(j);
 					j++;
 				}
 			}
 			else {
-				this.cards.Add(new Card(cardInformation[1], System.Convert.ToInt32(cardInformation[2]),System.Convert.ToInt32(cardInformation[7]),System.Convert.ToInt32(cardInformation[9])));	
+				this.cards.Add(new Card(System.Convert.ToInt32(cardInformation[0]), // id
+				                        cardInformation[1], // title
+				                        System.Convert.ToInt32(cardInformation[2]), // life
+				                        System.Convert.ToInt32(cardInformation[3]), // attack
+				                        System.Convert.ToInt32(cardInformation[4]), // speed
+				                        System.Convert.ToInt32(cardInformation[5]), // move
+				                        System.Convert.ToInt32(cardInformation[6]), // artindex
+				                        System.Convert.ToInt32(cardInformation[7]), // idowner
+				                        System.Convert.ToInt32(cardInformation[8]), // idclass
+				                        this.cardTypeList.ElementAt(System.Convert.ToInt32(cardInformation[8])), // titleclass
+				                        System.Convert.ToInt32(cardInformation[9]), // lifelevel
+				                        System.Convert.ToInt32(cardInformation[10]), // movelevel
+				                        System.Convert.ToInt32(cardInformation[11]), // speedlevel
+				                        System.Convert.ToInt32(cardInformation[12]))); // attacklevel
 				this.cards[j].Skills = new List<Skill>();
 				this.cardsToBeFiltered.Add(j);
 				j++ ;
 			}
-			if (cardInformation[10].Length>0){
-				//print ("id : "+cardInformation[10]);
-				this.cards[j-1].Skills.Add(new Skill (skillsList[System.Convert.ToInt32(cardInformation[10])]));
+			if (cardInformation[13].Length>0){
+				this.cards[j-1].Skills.Add(new Skill (skillsList[System.Convert.ToInt32(cardInformation[13])], //skillName
+				                                      System.Convert.ToInt32(cardInformation[13]), // idskill
+				                                      System.Convert.ToInt32(cardInformation[14]), // isactivated
+				                                      System.Convert.ToInt32(cardInformation[15]), // level
+				                                      System.Convert.ToInt32(cardInformation[16]), // power
+				                                      System.Convert.ToInt32(cardInformation[17]))); // costmana
 			}
 		}
 		this.cardsToBeDisplayed = new bool[j];

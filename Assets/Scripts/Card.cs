@@ -15,6 +15,12 @@ public class Card
 	public int Energy;                                          // les points d'energie de la carte
 	public List<Skill> Skills;
 	public int IdClass;
+	public string TitleClass;
+	public int IdOWner;
+	public int AttackLevel;
+	public int MoveLevel;
+	public int LifeLevel;
+	public int SpeedLevel;
 
 	public Card(int id, string title, int life, int artIndex, int speed, int move)
 	{
@@ -67,6 +73,39 @@ public class Card
 		this.Energy = energy;
 		this.Skills = skills;
 	}
+
+
+	public Card(int id, 
+	            string title, 
+	            int life, 
+	            int attack, 
+	            int speed, 
+	            int move, 
+	            int artIndex, 
+	            int idOwner,
+	            int idClass,
+	            string titleClass, 
+	            int lifeLevel, 
+	            int moveLevel, 
+	            int speedLevel, 
+	            int attackLevel)
+	{
+		this.Id = id;
+		this.Title = title;
+		this.Life = life;
+		this.Attack = attack;
+		this.Speed = speed;
+		this.Move = move;
+		this.ArtIndex = artIndex;
+		this.IdOWner = idOwner;
+		this.IdClass = idClass;
+		this.TitleClass = titleClass;
+		this.LifeLevel = lifeLevel;
+		this.MoveLevel = moveLevel;
+		this.SpeedLevel = speedLevel;
+		this.AttackLevel = attackLevel;
+	}
+	
 
 	public override int GetHashCode() 
 	{
