@@ -44,11 +44,12 @@ public class buyCardsScript : MonoBehaviour {
 		{
 			print (w.error); 										// donne l'erreur eventuelle
 		} else {
-			//print (w.text);
+			print (w.text);
 		}
 
 		string[] data = w.text.Split(new string[] { "\n" }, System.StringSplitOptions.None);
 		string[] cardInformation = data[0].Split(new string[] { "//" }, System.StringSplitOptions.None);
+		//print (cardInformation);
 		Card myCard = new Card(System.Convert.ToInt32(cardInformation[0]), // id
 		                        cardInformation[1], // title
 		                        System.Convert.ToInt32(cardInformation[2]), // life
@@ -80,7 +81,7 @@ public class buyCardsScript : MonoBehaviour {
 		}
 
 		GameObject instance = Instantiate(CardObject) as GameObject;            					// On charge une instance du prefab Card
-		instance.transform.localScale = new Vector3(0.75f, 0.10f, 1.00f);               					 // On change ses attributs d'échelle ...                                                                    
+		instance.transform.localScale = new Vector3(0.45f, 0.06f, 0.60f);               					 // On change ses attributs d'échelle ...                                                                    
 		instance.transform.localPosition = new Vector3(1,1,0);                					// ..., de positionnement ...
 		instance.GetComponent<GameCard>().Card = myCard;        					// ... et la carte qu'elle représente
 		instance.GetComponent<GameCard>().ShowFace();        					// On affiche la carte
