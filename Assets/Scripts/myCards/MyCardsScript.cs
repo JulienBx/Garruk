@@ -137,13 +137,12 @@ public class MyCardsScript : MonoBehaviour
 					                        System.Convert.ToInt32(cardInformation[4]), // speed
 					                        System.Convert.ToInt32(cardInformation[5]), // move
 					                        System.Convert.ToInt32(cardInformation[6]), // artindex
-					                        System.Convert.ToInt32(cardInformation[7]), // idowner
-					                        System.Convert.ToInt32(cardInformation[8]), // idclass
-					                        this.cardTypeList.ElementAt(System.Convert.ToInt32(cardInformation[8])), // titleclass
-					                        System.Convert.ToInt32(cardInformation[9]), // lifelevel
-					                        System.Convert.ToInt32(cardInformation[10]), // movelevel
-					                        System.Convert.ToInt32(cardInformation[11]), // speedlevel
-					                        System.Convert.ToInt32(cardInformation[12]))); // attacklevel;
+					                        System.Convert.ToInt32(cardInformation[7]), // idclass
+					                        this.cardTypeList.ElementAt(System.Convert.ToInt32(cardInformation[7])), // titleclass
+					                        System.Convert.ToInt32(cardInformation[8]), // lifelevel
+					                        System.Convert.ToInt32(cardInformation[9]), // movelevel
+					                        System.Convert.ToInt32(cardInformation[10]), // speedlevel
+					                        System.Convert.ToInt32(cardInformation[11]))); // attacklevel;
 					this.cards[j].Skills = new List<Skill>();
 					this.cardsToBeFiltered.Add(j);
 					j++;
@@ -157,24 +156,23 @@ public class MyCardsScript : MonoBehaviour
 				                        System.Convert.ToInt32(cardInformation[4]), // speed
 				                        System.Convert.ToInt32(cardInformation[5]), // move
 				                        System.Convert.ToInt32(cardInformation[6]), // artindex
-				                        System.Convert.ToInt32(cardInformation[7]), // idowner
-				                        System.Convert.ToInt32(cardInformation[8]), // idclass
-				                        this.cardTypeList.ElementAt(System.Convert.ToInt32(cardInformation[8])), // titleclass
-				                        System.Convert.ToInt32(cardInformation[9]), // lifelevel
-				                        System.Convert.ToInt32(cardInformation[10]), // movelevel
-				                        System.Convert.ToInt32(cardInformation[11]), // speedlevel
-				                        System.Convert.ToInt32(cardInformation[12]))); // attacklevel
+				                        System.Convert.ToInt32(cardInformation[7]), // idclass
+				                        this.cardTypeList.ElementAt(System.Convert.ToInt32(cardInformation[7])), // titleclass
+				                        System.Convert.ToInt32(cardInformation[8]), // lifelevel
+				                        System.Convert.ToInt32(cardInformation[9]), // movelevel
+				                        System.Convert.ToInt32(cardInformation[10]), // speedlevel
+				                        System.Convert.ToInt32(cardInformation[11]))); // attacklevel
 				this.cards[j].Skills = new List<Skill>();
 				this.cardsToBeFiltered.Add(j);
 				j++ ;
 			}
-			if (cardInformation[13].Length>0){
-				this.cards[j-1].Skills.Add(new Skill (skillsList[System.Convert.ToInt32(cardInformation[13])], //skillName
-				                                      System.Convert.ToInt32(cardInformation[13]), // idskill
-				                                      System.Convert.ToInt32(cardInformation[14]), // isactivated
-				                                      System.Convert.ToInt32(cardInformation[15]), // level
-				                                      System.Convert.ToInt32(cardInformation[16]), // power
-				                                      System.Convert.ToInt32(cardInformation[17]))); // costmana
+			if (cardInformation[12].Length>0){
+				this.cards[j-1].Skills.Add(new Skill (skillsList[System.Convert.ToInt32(cardInformation[12])], //skillName
+				                                      System.Convert.ToInt32(cardInformation[12]), // idskill
+				                                      System.Convert.ToInt32(cardInformation[13]), // isactivated
+				                                      System.Convert.ToInt32(cardInformation[14]), // level
+				                                      System.Convert.ToInt32(cardInformation[15]), // power
+				                                      System.Convert.ToInt32(cardInformation[16]))); // costmana
 			}
 		}
 		this.cardsToBeDisplayed = new bool[j];

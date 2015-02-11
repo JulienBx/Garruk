@@ -82,7 +82,6 @@ public class Card
 	            int speed, 
 	            int move, 
 	            int artIndex, 
-	            int idOwner,
 	            int idClass,
 	            string titleClass, 
 	            int lifeLevel, 
@@ -97,7 +96,6 @@ public class Card
 		this.Speed = speed;
 		this.Move = move;
 		this.ArtIndex = artIndex;
-		this.IdOWner = idOwner;
 		this.IdClass = idClass;
 		this.TitleClass = titleClass;
 		this.LifeLevel = lifeLevel;
