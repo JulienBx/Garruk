@@ -38,7 +38,7 @@ public class buyCardsScript : MonoBehaviour {
 		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_nick", ApplicationModel.username);
 		
-		WWW w = new WWW("http://localhost/GarrukServer/buyRandomCard.php", form); 				// On envoie le formulaire à l'url sur le serveur 
+		WWW w = new WWW("http://54.77.118.214/GarrukServer/buyRandomCard.php", form); 				// On envoie le formulaire à l'url sur le serveur 
 		yield return w;
 		if (w.error != null) 
 		{
