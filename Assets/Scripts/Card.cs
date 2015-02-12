@@ -126,9 +126,11 @@ public class Card
 		int i = 0;
 		while (!b && i<compteur) {
 			//UnityEngine.Debug.Log("Je teste le skill "+this.Skills[i].Name+" VS "+s);
-			if (Skills[i].Name.ToLower ().Contains(s)){
-				//UnityEngine.Debug.Log("Match");
-				b = true ;
+			if (Skills[i].IsActivated==1){
+				if (Skills[i].Name.ToLower ().Contains(s)){
+					//UnityEngine.Debug.Log("Match");
+					b = true ;
+				}
 			}
 			i++;
 		}
