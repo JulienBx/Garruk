@@ -23,6 +23,10 @@ public class MyCardsScript : MonoBehaviour
 	private string filtreAutoC ;
 	
 	bool dataIsLoaded = false ;
+
+	public Rect[] dragFilters = new Rect[2];
+
+	private Vector2 currentDrag = new Vector2();
 	
 	private IEnumerator Start() 
 	{
@@ -37,6 +41,11 @@ public class MyCardsScript : MonoBehaviour
 		}
 		valueSkill = "";
 		displayCards ();
+
+		GameObject cadreFiltres = GameObject.Find("filterCardsType");
+		dragFilters[0] = new Rect(cadreFiltres.transform.position.x-cadreFiltres.GetComponent<RectTransform>().rect.width/2, cadreFiltres.transform.position.y+ 60 + (cardTypeList.Length-1) * 20-cadreFiltres.GetComponent<RectTransform>().rect.height/2, 20, 20);
+		dragFilters[1] = new Rect(cadreFiltres.transform.position.x-cadreFiltres.GetComponent<RectTransform>().rect.width/2+120, cadreFiltres.transform.position.y+ 60 + (cardTypeList.Length-1) * 20-cadreFiltres.GetComponent<RectTransform>().rect.height/2, 20, 20);
+
 
 		dataIsLoaded = true;
 	}
@@ -65,8 +74,8 @@ public class MyCardsScript : MonoBehaviour
 				}
 			}
 			
-			GUI.Label (new Rect (cadreFiltres.transform.position.x-cadreFiltres.GetComponent<RectTransform>().rect.width/2, cadreFiltres.transform.position.y+ 40 + i * 20-cadreFiltres.GetComponent<RectTransform>().rect.height/2, 150, 20), "FILTRER PAR SKILL");
-			s = GUI.TextField (new Rect (cadreFiltres.transform.position.x-cadreFiltres.GetComponent<RectTransform>().rect.width/2, cadreFiltres.transform.position.y+ 60 + i * 20-cadreFiltres.GetComponent<RectTransform>().rect.height/2, 150, 20), valueSkill);
+			GUI.Label (new Rect (cadreFiltres.transform.position.x-cadreFiltres.GetComponent<RectTransform>().rect.width/2, cadreFiltres.transform.position.y+ 120 + i * 20-cadreFiltres.GetComponent<RectTransform>().rect.height/2, 150, 20), "FILTRER PAR SKILL");
+			s = GUI.TextField (new Rect (cadreFiltres.transform.position.x-cadreFiltres.GetComponent<RectTransform>().rect.width/2, cadreFiltres.transform.position.y+ 140 + i * 20-cadreFiltres.GetComponent<RectTransform>().rect.height/2, 150, 20), valueSkill);
 			if (s!=valueSkill){
 				if (s.Length>0){
 					StartCoroutine(displaySkills (s));
@@ -86,7 +95,7 @@ public class MyCardsScript : MonoBehaviour
 			myStyle.normal.background = this.textureAutoc ;
 			for (int j=0; j<matchValues.Count(); j++) {
 				//GUI.Button (new Rect (cadreFiltres.transform.position.x-cadreFiltres.GetComponent<RectTransform>().rect.width/2+10, cadreFiltres.transform.position.y+ 80 + i * 20 + j*10-cadreFiltres.GetComponent<RectTransform>().rect.height/2, 150, 10), matchValues[j], myStyle);
-				if(GUI.Button (new Rect (cadreFiltres.transform.position.x-cadreFiltres.GetComponent<RectTransform>().rect.width/2+10, cadreFiltres.transform.position.y+ 80 + i * 20 + j*15-cadreFiltres.GetComponent<RectTransform>().rect.height/2, 150, 14), matchValues[j], myStyle)){
+				if(GUI.Button (new Rect (cadreFiltres.transform.position.x-cadreFiltres.GetComponent<RectTransform>().rect.width/2+10, cadreFiltres.transform.position.y+ 160 + i * 20 + j*15-cadreFiltres.GetComponent<RectTransform>().rect.height/2, 150, 14), matchValues[j], myStyle)){
 					valueSkill=matchValues[j].ToLower ();
 					StartCoroutine(displaySkills (s));
 					cleanScreen();
@@ -94,14 +103,80 @@ public class MyCardsScript : MonoBehaviour
 					displayCards ();	
 				}
 			}
-		}
-	}
-	
-	private IEnumerator getCards() {
-		string[] cardsIDS = null;
-		//string[] cardInformation = null;
+
 		
-		WWWForm form = new WWWForm(); 											// Création de la connexion
+
+			GUI.Box (dragFilters[0],"");
+			GUI.Box (dragFilters[1],"");
+
+			GUI.Label (new Rect (cadreFiltres.transform.position.x-cadreFiltres.GetComponent<RectTransform>().rect.width/2, cadreFiltres.transform.position.y+ 40 + i * 20-cadreFiltres.GetComponent<RectTransform>().rect.height/2, 200, 20), "POINTS DE VIE");
+
+			float min = Mathf.Round(10*(dragFilters[0].x - (cadreFiltres.transform.position.x-cadreFiltres.GetComponent<RectTransform>().rect.width/2)));
+			float max = Mathf.Round(10*(dragFilters[1].x-20 - (cadreFiltres.transform.position.x-cadreFiltres.GetComponent<RectTransform>().rect.width/2)));
+
+
+			GUI.Label (new Rect (cadreFiltres.transform.position.x-cadreFiltres.GetComponent<RectTransform>().rect.width/2, cadreFiltres.transform.position.y+ 80 + i * 20-cadreFiltres.GetComponent<RectTransform>().rect.height/2, 200, 20), "Min " +min);
+			GUI.Label (new Rect (cadreFiltres.transform.position.x-cadreFiltres.GetComponent<RectTransform>().rect.width/2+90, cadreFiltres.transform.position.y+ 80 + i * 20-cadreFiltres.GetComponent<RectTransform>().rect.height/2, 200, 20), "Max " +max);
+
+			Vector2 screenMousePosition = new Vector2(Input.mousePosition.x, Screen.height - Input.mousePosition.y);
+
+			int filterToMove=-1;
+			for(int j = 0 ; j < 2 ; j++){
+				if (dragFilters[j].Contains(screenMousePosition)) {
+					filterToMove = j;
+				}
+			}
+
+			GUI.Box (new Rect(dragFilters[0].x,cadreFiltres.transform.position.y+ 65 + i * 20-cadreFiltres.GetComponent<RectTransform>().rect.height/2,dragFilters[1].x-dragFilters[0].x+20,10),"");
+
+			if ((currentDrag.sqrMagnitude != 0 && filterToMove!=-1) || filterToMove!=-1 ) {
+				if (Input.GetMouseButtonDown(0)) {
+					currentDrag = screenMousePosition;
+				} else if (Input.GetMouseButton(0)) {
+
+					if (filterToMove % 2==0){
+						if(dragFilters[filterToMove].x+20 > dragFilters[filterToMove+1].x)
+						{
+							dragFilters[filterToMove].x = dragFilters[filterToMove+1].x-20;
+						}
+					}
+
+					if (filterToMove % 2!=0){
+						if(dragFilters[filterToMove].x < dragFilters[filterToMove-1].x+20)
+						{
+							dragFilters[filterToMove].x = dragFilters[filterToMove-1].x+20;
+						}
+
+					}
+
+					dragFilters[filterToMove].x += (screenMousePosition.x - currentDrag.x);
+
+					if (dragFilters[filterToMove].x > cadreFiltres.transform.position.x-cadreFiltres.GetComponent<RectTransform>().rect.width/2 + 120){
+						dragFilters[filterToMove].x=cadreFiltres.transform.position.x-cadreFiltres.GetComponent<RectTransform>().rect.width/2 + 120;
+					}
+					if (dragFilters[filterToMove].x < cadreFiltres.transform.position.x-cadreFiltres.GetComponent<RectTransform>().rect.width/2){
+						dragFilters[filterToMove].x=cadreFiltres.transform.position.x-cadreFiltres.GetComponent<RectTransform>().rect.width/2;
+					}
+	
+					currentDrag = screenMousePosition;
+				} else {
+					currentDrag.x = 0;
+					currentDrag.y = 0;
+				}
+			}
+
+
+		
+		}
+	
+	}
+
+
+private IEnumerator getCards() {
+	string[] cardsIDS = null;
+	//string[] cardInformation = null;
+	
+	WWWForm form = new WWWForm(); 											// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_nick", ApplicationModel.username);
 		
