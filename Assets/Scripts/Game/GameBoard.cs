@@ -13,9 +13,10 @@ public class GameBoard : MonoBehaviour
 	public GameNetworkCard CardSelected;           // Carte sélectionnée dans la phase de positionnement et la phase de combat 
 	public GameCard CardHovered;
 	public static GameBoard instance = null;
-	public int gridWidthInHexes = 5;
-	public int gridHeightInHexes = 8;
+	public int gridWidthInHexes = 5, gridHeightInHexes = 0;
 	public int MyPlayerNumber {get {return (Network.isServer)?1:2;}}
+	public int nbCardsPlayer1 = 0, nbCardsPlayer2 = 0;
+
 
 	private Deck deck;
 	private int nbPlayerReadyToFight = 0;
@@ -104,10 +105,12 @@ public class GameBoard : MonoBehaviour
 		if (gCard.networkView.isMine && Network.isServer || !gCard.networkView.isMine && Network.isClient)
 		{
 			gCard.ownerNumber = 1;
+			nbCardsPlayer1++;
 		}
 		else
 		{
 			gCard.ownerNumber = 2;
+			nbCardsPlayer2++;
 		}
 		yield return StartCoroutine(gCard.RetrieveCard(cardID));
 		clone.name = gCard.Card.Title + "-" + gCard.ownerNumber;

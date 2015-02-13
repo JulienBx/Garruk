@@ -61,44 +61,41 @@ public class GameNetworkCard : GameCard {
 			} 
 			else
 			{
-				if (!GameTimeLine.instance.PlayingCard.Card.Equals(Card) && GamePlayingCard.instance.attemptToAttack && !GamePlayingCard.instance.hasAttacked) 
+				if (GameTimeLine.instance.PlayingCard.Card.Equals(Card) && !GamePlayingCard.instance.hasMoved) 
 				{
-					if (GameTimeLine.instance.PlayingCard.neighbors.Find(e => e.Card.Equals(this.Card)))
+					GameBoard.instance.CardSelected = this;
+					GameBoard.instance.isMoving = true;
+					//					offset = transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -1));
+					RaycastHit hit;
+					Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+					
+					if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << GameBoardGenerator.instance.GridLayerMask))
 					{
-						networkView.RPC("GetDamage", RPCMode.AllBuffered, this.GetComponent<NetworkView>().viewID, GameTimeLine.instance.PlayingCard.Card.Attack);
-						GamePlayingCard.instance.attemptToAttack = false;
-						GamePlayingCard.instance.hasAttacked = true;
-						GameTile.instance.SetCursorToDefault();
+						currentTile = hit.transform.gameObject.GetComponent<GameTile>();
 					}
 				}
-				else
+				if (GameTimeLine.instance.PlayingCard.Card.Equals(Card) && GamePlayingCard.instance.hasMoved) 
 				{
-					if (GameTimeLine.instance.PlayingCard.Card.Equals(Card) && !GamePlayingCard.instance.hasMoved) 
-					{
-						GameBoard.instance.CardSelected = this;
-						GameBoard.instance.isMoving = true;
-						//					offset = transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -1));
-						RaycastHit hit;
-						Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-						
-						if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << GameBoardGenerator.instance.GridLayerMask))
-						{
-							currentTile = hit.transform.gameObject.GetComponent<GameTile>();
-						}
-					}
-					if (GameTimeLine.instance.PlayingCard.Card.Equals(Card) && GamePlayingCard.instance.hasMoved) 
-					{
-						StartCoroutine(ChangeMessage("la carte s'est déjà déplacée pendant ce tour"));
-					}
-					Vector2 gridPosition = this.CalcGridPos();
-					if (currentTile != null)
-					{
-						currentTile.Passable = true;
-					}
-					Tile tile = GameBoard.instance.board[new Point((int)gridPosition.x, (int)gridPosition.y)];
-					colorAndMarkNeighboringTiles(tile.AllNeighbours, Card.Move, Color.gray);
+					StartCoroutine(ChangeMessage("la carte s'est déjà déplacée pendant ce tour"));
 				}
+				Vector2 gridPosition = this.CalcGridPos();
+				if (currentTile != null)
+				{
+					currentTile.Passable = true;
+				}
+				Tile tile = GameBoard.instance.board[new Point((int)gridPosition.x, (int)gridPosition.y)];
+				colorAndMarkNeighboringTiles(tile.AllNeighbours, Card.Move, Color.gray);
 			}                         
+		}
+		if (!GameTimeLine.instance.PlayingCard.Card.Equals(Card) && GamePlayingCard.instance.attemptToAttack && !GamePlayingCard.instance.hasAttacked) 
+		{
+			if (GameTimeLine.instance.PlayingCard.neighbors.Find(e => e.Card.Equals(this.Card)))
+			{
+				networkView.RPC("GetDamage", RPCMode.AllBuffered, this.GetComponent<NetworkView>().viewID, GameTimeLine.instance.PlayingCard.Card.Attack);
+				GamePlayingCard.instance.attemptToAttack = false;
+				GamePlayingCard.instance.hasAttacked = true;
+				GameTile.instance.SetCursorToDefault();
+			}
 		}
 	}
 	
@@ -170,6 +167,7 @@ public class GameNetworkCard : GameCard {
 					go.GetComponent<GameTile>().Passable = false;
 				}
 			}
+			this.FindNeighbors();
 			if (networkView.isMine)
 			{
 				GameBoard.instance.isMoving = false;
@@ -208,7 +206,29 @@ public class GameNetworkCard : GameCard {
 		GameObject go = NetworkView.Find(id).gameObject;
 		GameNetworkCard gnc = go.GetComponent<GameNetworkCard>();
 		gnc.Damage += attack;
-		gnc.ShowFace();
+		if (gnc.Damage >= gnc.Card.Life)
+		{
+			GameTimeLine.instance.GameCards.Remove(gnc);
+			GameTimeLine.instance.Arrange();
+			if (gnc.ownerNumber == 1)
+			{
+				if (--GameBoard.instance.nbCardsPlayer1 < 1)
+				{
+					GameScript.instance.EndOfGame(2);
+				}
+			}
+			else
+			{
+				if (--GameBoard.instance.nbCardsPlayer2 < 1)
+				{
+					GameScript.instance.EndOfGame(1);
+				}
+			}
+			gnc.gameObject.SetActive(false);
+		} else
+		{
+			gnc.ShowFace();
+		}
 	}
 
 	void colorAndMarkNeighboringTiles(IEnumerable allNeighbours, int i, Color color)

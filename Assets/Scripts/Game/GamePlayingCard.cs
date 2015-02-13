@@ -34,7 +34,7 @@ public class GamePlayingCard : MonoBehaviour {
 
 	void OnGUI()
 	{
-		if (!GameBoard.instance.TimeOfPositionning)
+		if (!GameBoard.instance.TimeOfPositionning && !GameScript.instance.gameOver)
 		{
 			if (GameBoard.instance.MyPlayerNumber == gameCard.ownerNumber)
 			{
@@ -43,6 +43,9 @@ public class GamePlayingCard : MonoBehaviour {
 				pos = Camera.main.camera.WorldToScreenPoint(pos);
 				if (GUI.Button(new Rect(pos.x - 35, Screen.height - pos.y - 110, 67, 25), "Passer"))
 				{
+					GamePlayingCard.instance.attemptToAttack = false;
+					GamePlayingCard.instance.hasAttacked = true;
+					GameTile.instance.SetCursorToDefault();
 					networkView.RPC("forwardInTime", RPCMode.AllBuffered);
 
 				}
@@ -85,8 +88,8 @@ public class GamePlayingCard : MonoBehaviour {
 		Transform attackText = transform.Find("Icons/Attack/Value");
 		attackText.GetComponent<TextMesh>().text = this.gameCard.Card.Attack.ToString();
 
-		Transform energyText = transform.Find("Icons/Energy/Value");
-		energyText.GetComponent<TextMesh>().text = this.gameCard.Card.Energy.ToString();
+		//Transform energyText = transform.Find("Icons/Energy/Value");
+		//energyText.GetComponent<TextMesh>().text = this.gameCard.Card.Energy.ToString();
 
 		Transform moveText = transform.Find("Icons/Move/Value");
 		moveText.GetComponent<TextMesh>().text = this.gameCard.Card.Move.ToString();

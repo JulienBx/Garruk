@@ -15,6 +15,10 @@ public class GameScript : MonoBehaviour {
 	private List<string> playersName = new List<string>();
 	private HostData[] hostList;
 	public string labelText = "Placer vos héros sur le champ de bataille";
+	public string labelInfo = "En attente d'autres joueurs";
+
+	public bool gameOver = false;
+
 	public string labelMessage = "";
 	private bool hasClicked = false;
 	public static GameScript instance;
@@ -31,6 +35,10 @@ public class GameScript : MonoBehaviour {
 	
 	void OnGUI()
 	{
+		if (gameOver)
+		{
+			StartCoroutine(returnToLobby());
+		}
 		GUI.Label(new Rect(530, 0, 800, 50), labelMessage);
 		if (playersName.Count > 1)
 		{
@@ -46,7 +54,7 @@ public class GameScript : MonoBehaviour {
 		}
 		else
 		{
-			GUI.Label(new Rect(10, 0, 500, 50), "En attente d'autres joueurs");
+			GUI.Label(new Rect(10, 0, 500, 50), labelInfo);
 		}
 		if (GUI.Button(new Rect(220, 20, 150, 35), "Quitter le match"))
 		{
@@ -61,6 +69,7 @@ public class GameScript : MonoBehaviour {
 		if (!Network.isClient && !Network.isServer) {
 			MasterServer.RequestHostList(typeName);
 		}
+
 	}
 
 	private void StartServer()
@@ -157,6 +166,7 @@ public class GameScript : MonoBehaviour {
 	{
 		Network.RemoveRPCs(player);
 		Network.DestroyPlayerObjects(player);
+		labelInfo = "l'utilisateur a quitté le match, en attente d'autres utilisateurs";
 		playersName.Remove (ApplicationModel.username);
 	}
 
@@ -168,6 +178,18 @@ public class GameScript : MonoBehaviour {
 			attemptToConnect = false;
 			StartCoroutine(JoinGame());
 		}
+	}
+
+	public void EndOfGame(int player)
+	{
+		gameOver = true;
+		labelText = "Joueur " + player + " a gagné";
+	}
+
+	private IEnumerator returnToLobby()
+	{
+		yield return new WaitForSeconds(5);
+		Application.LoadLevel("LobbyPage");
 	}
 
 	[RPC]

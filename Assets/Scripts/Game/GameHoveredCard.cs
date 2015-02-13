@@ -43,8 +43,8 @@ public class GameHoveredCard : MonoBehaviour {
 		Transform attackText = transform.Find("Icons/Attack/Value");
 		attackText.GetComponent<TextMesh>().text = this.gameCard.Card.Attack.ToString();
 
-		Transform energyText = transform.Find("Icons/Energy/Value");
-		energyText.GetComponent<TextMesh>().text = this.gameCard.Card.Energy.ToString();
+		//Transform energyText = transform.Find("Icons/Energy/Value");
+		//energyText.GetComponent<TextMesh>().text = this.gameCard.Card.Energy.ToString();
 
 		Transform moveText = transform.Find("Icons/Move/Value");
 		moveText.GetComponent<TextMesh>().text = this.gameCard.Card.Move.ToString();

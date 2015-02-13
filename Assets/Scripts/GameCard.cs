@@ -156,14 +156,14 @@ public class GameCard : MonoBehaviour
 				int speed = System.Convert.ToInt32(cardData[4]);	// la rapidité
 				int move = System.Convert.ToInt32(cardData[5]);	// le mouvement
 				int attack = System.Convert.ToInt32(cardData[6]);	// la rapidité
-				int energy = System.Convert.ToInt32(cardData[7]);	// le mouvement
+				//int energy = System.Convert.ToInt32(cardData[7]);	// l'energie
 				string[] skillEntries = cardData[8].Split('&'); 	// Chaque ligne correspond à une compétence
 				List<Skill> skillList = new List<Skill>();
 				foreach(string skill in skillEntries)
 				{
 					skillList.Add(new Skill(skill));
 				}
-				Card card = new Card(cardId, cardTitle, cardLife, cardArt, speed, move, attack, energy, skillList);
+				Card card = new Card(cardId, cardTitle, cardLife, cardArt, speed, move, attack, skillList);
 				this.Card = card;
 			}
 		}

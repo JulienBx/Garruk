@@ -49,7 +49,7 @@ public class Card
 		this.Move = move;
 	}
 
-	public Card(int id, string title, int life, int artIndex, int speed, int move, int attack, int energy)
+	public Card(int id, string title, int life, int artIndex, int speed, int move, int attack)
 	{
 		this.Id = id;
 		this.Title = title;
@@ -58,10 +58,9 @@ public class Card
 		this.Speed = speed;
 		this.Move = move;
 		this.Attack = attack;
-		this.Energy = energy;
 	}
 
-	public Card(int id, string title, int life, int artIndex, int speed, int move, int attack, int energy, List<Skill> skills)
+	public Card(int id, string title, int life, int artIndex, int speed, int move, int attack, List<Skill> skills)
 	{
 		this.Id = id;
 		this.Title = title;
@@ -70,7 +69,6 @@ public class Card
 		this.Speed = speed;
 		this.Move = move;
 		this.Attack = attack;
-		this.Energy = energy;
 		this.Skills = skills;
 	}
 
