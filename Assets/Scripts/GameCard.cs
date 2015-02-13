@@ -23,13 +23,6 @@ public class GameCard : MonoBehaviour
 		this.Card = card;
 	}
 	// Use this for initialization
-
-	
-	public void setCard(Card card) 
-	{
-		this.Card = card;
-	}
-
 	void Start () {
 	
 	}
@@ -38,6 +31,7 @@ public class GameCard : MonoBehaviour
 	void Update () {
 
 	}
+
 
 	public void ShowFace() 
 	{

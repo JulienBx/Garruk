@@ -114,6 +114,7 @@ public class MyCardsScript : MonoBehaviour
 			float min = Mathf.Round(10*(dragFilters[0].x - (cadreFiltres.transform.position.x-cadreFiltres.GetComponent<RectTransform>().rect.width/2)));
 			float max = Mathf.Round(10*(dragFilters[1].x-20 - (cadreFiltres.transform.position.x-cadreFiltres.GetComponent<RectTransform>().rect.width/2)));
 
+
 			GUI.Label (new Rect (cadreFiltres.transform.position.x-cadreFiltres.GetComponent<RectTransform>().rect.width/2, cadreFiltres.transform.position.y+ 80 + i * 20-cadreFiltres.GetComponent<RectTransform>().rect.height/2, 200, 20), "Min " +min);
 			GUI.Label (new Rect (cadreFiltres.transform.position.x-cadreFiltres.GetComponent<RectTransform>().rect.width/2+90, cadreFiltres.transform.position.y+ 80 + i * 20-cadreFiltres.GetComponent<RectTransform>().rect.height/2, 200, 20), "Max " +max);
 
@@ -169,6 +170,7 @@ public class MyCardsScript : MonoBehaviour
 		}
 	
 	}
+
 
 private IEnumerator getCards() {
 	string[] cardsIDS = null;

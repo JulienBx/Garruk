@@ -18,7 +18,7 @@ public class DeckBuilder : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		//StartCoroutine(RetrieveCardsFromDeck()); 							// Appel de la coroutine pour récupérer les cartes de l'utilisateur sur le serveur distant		
+		StartCoroutine(RetrieveCardsFromDeck()); 							// Appel de la coroutine pour récupérer les cartes de l'utilisateur sur le serveur distant		
 	}
 	
 	// Update is called once per frame
@@ -89,7 +89,42 @@ public class DeckBuilder : MonoBehaviour {
 		}
 	}
 
-
+	private IEnumerator RetrieveCardsFromDeck()
+	{
+		WWWForm form = new WWWForm(); 								// Création de la connexion
+		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
+		form.AddField("myform_nick", ApplicationModel.username); 	// Pseudo de l'utilisateur connecté
+		form.AddField("myform_deck", ApplicationModel.selectedDeck.Id);// id du deck courant
+		
+		WWW w = new WWW(URL, form); 								// On envoie le formulaire à l'url sur le serveur 
+		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
+		if (w.error != null) 
+		{
+			print(w.error); 										// donne l'erreur eventuelle
+		} 
+		else 
+		{
+			print(w.text); 											// donne le retour
+			
+			string[] cardEntries = w.text.Split('\n'); 				// Chaque ligne du serveur correspond à une carte
+			
+			for(int i = 0 ; i < cardEntries.Length - 1 ; i++) 		// On boucle sur les attributs d'une carte
+			{
+				string[] cardData = cardEntries[i].Split('\\'); 	// On découpe les attributs de la carte qu'on place dans un tableau
+				
+				int cardId = System.Convert.ToInt32(cardData[0]); 	// Ici, on récupère l'id en base
+				int cardArt = System.Convert.ToInt32(cardData[1]); 	// l'indice de l'image
+				string cardTitle = cardData[2]; 					// le titre de la carte
+				int cardLife = System.Convert.ToInt32(cardData[3]);	// le nombre de point de vie
+				int speed = System.Convert.ToInt32(cardData[4]);	// la rapidité
+				int move = System.Convert.ToInt32(cardData[5]);	    // le mouvement
+				
+				Card card = new Card(cardId, cardTitle, cardLife, cardArt, speed, move);
+				AddCard(i, card);
+				CardsCount = i + 1;
+			}
+		}
+	}
 
 	private void AddCard(int index, Card card)
 	{

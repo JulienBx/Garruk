@@ -410,8 +410,6 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 29731b969e3b8414b96d6c6fdcd93785, type: 3}
   - {fileID: 2800000, guid: ba6bb48ca259876429f8a1bc988f3790, type: 3}
   - {fileID: 2800000, guid: 79eb351d424b76d4e9b0e8f48e7084ad, type: 3}
-  pictos: []
-  metals: []
 --- !u!23 &1077513655
 Renderer:
   m_ObjectHideFlags: 0
@@ -534,8 +532,6 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 29731b969e3b8414b96d6c6fdcd93785, type: 3}
   - {fileID: 2800000, guid: ba6bb48ca259876429f8a1bc988f3790, type: 3}
   - {fileID: 2800000, guid: 79eb351d424b76d4e9b0e8f48e7084ad, type: 3}
-  pictos: []
-  metals: []
 --- !u!23 &1081189471
 Renderer:
   m_ObjectHideFlags: 0
@@ -716,8 +712,6 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 29731b969e3b8414b96d6c6fdcd93785, type: 3}
   - {fileID: 2800000, guid: ba6bb48ca259876429f8a1bc988f3790, type: 3}
   - {fileID: 2800000, guid: 79eb351d424b76d4e9b0e8f48e7084ad, type: 3}
-  pictos: []
-  metals: []
 --- !u!23 &1179857917
 Renderer:
   m_ObjectHideFlags: 0
@@ -826,8 +820,6 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 29731b969e3b8414b96d6c6fdcd93785, type: 3}
   - {fileID: 2800000, guid: ba6bb48ca259876429f8a1bc988f3790, type: 3}
   - {fileID: 2800000, guid: 79eb351d424b76d4e9b0e8f48e7084ad, type: 3}
-  pictos: []
-  metals: []
 --- !u!23 &1296781885
 Renderer:
   m_ObjectHideFlags: 0
@@ -1080,8 +1072,6 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 29731b969e3b8414b96d6c6fdcd93785, type: 3}
   - {fileID: 2800000, guid: ba6bb48ca259876429f8a1bc988f3790, type: 3}
   - {fileID: 2800000, guid: 79eb351d424b76d4e9b0e8f48e7084ad, type: 3}
-  pictos: []
-  metals: []
 --- !u!23 &1436856549
 Renderer:
   m_ObjectHideFlags: 0
@@ -1502,6 +1492,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd8be1dd278f8fc4485aa78330cd273b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CardObject: {fileID: 0}
+  URL: 
 --- !u!1 &1859639451
 GameObject:
   m_ObjectHideFlags: 0
