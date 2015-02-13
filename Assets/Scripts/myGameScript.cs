@@ -162,8 +162,9 @@ public class myGameScript : MonoBehaviour {
 					}
 					j++;
 				}
-				card.AddComponent<GameCard>(new GameCard(cards[id]));
-				card.GetComponent<GameCard>().ShowFace();
+				GameCard gCard = card.GetComponent<GameCard>();		// On récupère l'instance de la GameCard
+				gCard.Card = cards[id];											// On défini la carte qu'elle représente
+				gCard.ShowFace();	
 			}
 		}
 	}
