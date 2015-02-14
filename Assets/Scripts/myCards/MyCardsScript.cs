@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEditor;
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,6 +8,8 @@ using System.Text.RegularExpressions;
 
 public class MyCardsScript : MonoBehaviour
 {
+
+
 	public GameObject CardObject;												 
 	string[] skillsList;
 	string[] cardTypeList;
@@ -24,9 +27,36 @@ public class MyCardsScript : MonoBehaviour
 	
 	bool dataIsLoaded = false ;
 
-	public Rect[] dragFilters = new Rect[2];
+	float minLifeVal = 0;
+	float minLifeLimit = 0;
+	float maxLifeVal = 0;
+	float maxLifeLimit = 0;
+	float oldMinLifeVal = 0;
+	float oldMaxLifeVal = 0;
 
-	private Vector2 currentDrag = new Vector2();
+	float minSpeedVal = 0;
+	float minSpeedLimit = 0;
+	float maxSpeedVal = 0;
+	float maxSpeedLimit = 0;
+	float oldMinSpeedVal = 0;
+	float oldMaxSpeedVal = 0;
+
+	float minAttackVal = 0;
+	float minAttackLimit = 0;
+	float maxAttackVal =0;
+	float maxAttackLimit = 0;
+	float oldMinAttackVal = 0;
+	float oldMaxAttackVal = 0;
+
+	float minMoveVal = 0;
+	float minMoveLimit = 0;
+	float maxMoveVal = 0;
+	float maxMoveLimit = 0;
+	float oldMinMoveVal = 0;
+	float oldMaxMoveVal = 0;
+
+	bool isBeingDragged=false;
+
 	
 	private IEnumerator Start() 
 	{
@@ -40,137 +70,210 @@ public class MyCardsScript : MonoBehaviour
 			togglesCurrentStates[i] = false ;
 		}
 		valueSkill = "";
-		displayCards ();
 
-		GameObject cadreFiltres = GameObject.Find("filterCardsType");
-		dragFilters[0] = new Rect(cadreFiltres.transform.position.x-cadreFiltres.GetComponent<RectTransform>().rect.width/2, cadreFiltres.transform.position.y+ 60 + (cardTypeList.Length-1) * 20-cadreFiltres.GetComponent<RectTransform>().rect.height/2, 20, 20);
-		dragFilters[1] = new Rect(cadreFiltres.transform.position.x-cadreFiltres.GetComponent<RectTransform>().rect.width/2+120, cadreFiltres.transform.position.y+ 60 + (cardTypeList.Length-1) * 20-cadreFiltres.GetComponent<RectTransform>().rect.height/2, 20, 20);
+
+		maxAttackVal = maxAttackLimit;
+		oldMaxAttackVal = maxAttackLimit;
+		minAttackVal = minAttackLimit;
+		oldMinAttackVal = minAttackLimit;
+
+		maxSpeedVal = maxSpeedLimit;
+		oldMaxSpeedVal = maxSpeedLimit;
+		minSpeedVal = minSpeedLimit;
+		oldMinSpeedVal = minSpeedLimit;
+
+		maxMoveVal = maxMoveLimit;
+		oldMaxMoveVal = maxMoveLimit;
+		minMoveVal = minMoveLimit;
+		oldMinLifeVal = minMoveLimit;
+
+		maxLifeVal = maxLifeLimit;
+		oldMaxLifeVal = maxLifeLimit;
+		minLifeVal = minLifeLimit;
+		oldMinLifeVal = minLifeLimit;
+
+		displayCards ();
 
 
 		dataIsLoaded = true;
+
 	}
+
 	
 	void OnGUI () {
-		if (dataIsLoaded) {
-			bool toggle;
-			int i;
-			string s;
-			string[] cardTypeData = new string[this.cardTypeList.Length-1];
-			GameObject cadreFiltres = GameObject.Find("filterCardsType");
-			GUI.Label (new Rect (cadreFiltres.transform.position.x-cadreFiltres.GetComponent<RectTransform>().rect.width/2, cadreFiltres.transform.position.y-cadreFiltres.GetComponent<RectTransform>().rect.height/2, 200, 20), "FILTRER PAR CLASSE");
-			for (i=0; i<this.cardTypeList.Length-1; i++) {		
-				cardTypeData = cardTypeList [i].Split ('\\');
-				toggle = GUI.Toggle (new Rect (cadreFiltres.transform.position.x-cadreFiltres.GetComponent<RectTransform>().rect.width/2, cadreFiltres.transform.position.y+ 20 + i * 20-cadreFiltres.GetComponent<RectTransform>().rect.height/2, 150, 20), togglesCurrentStates[i], cardTypeData[0]);
-				if (toggle != togglesCurrentStates[i]){
-					togglesCurrentStates[i]=toggle ;
-					if (toggle){
-						this.addCardTypes(i);
-						counterFilters++;
-					}
-					else{
-						this.removeCardTypes(i);
-						counterFilters--;
-					}
-				}
-			}
-			
-			GUI.Label (new Rect (cadreFiltres.transform.position.x-cadreFiltres.GetComponent<RectTransform>().rect.width/2, cadreFiltres.transform.position.y+ 120 + i * 20-cadreFiltres.GetComponent<RectTransform>().rect.height/2, 150, 20), "FILTRER PAR SKILL");
-			s = GUI.TextField (new Rect (cadreFiltres.transform.position.x-cadreFiltres.GetComponent<RectTransform>().rect.width/2, cadreFiltres.transform.position.y+ 140 + i * 20-cadreFiltres.GetComponent<RectTransform>().rect.height/2, 150, 20), valueSkill);
-			if (s!=valueSkill){
-				if (s.Length>0){
-					StartCoroutine(displaySkills (s));
-					valueSkill = s.ToLower () ;
-				}
-				else{
-					StartCoroutine(displaySkills (s));
-					valueSkill = "";
-				}
-				cleanScreen();
-				filterCards ();
-				displayCards ();
-			}
-			GUIStyle myStyle = new GUIStyle();
-			myStyle.normal.textColor = Color.blue;
-			myStyle.fontSize = 12 ;
-			myStyle.normal.background = this.textureAutoc ;
-			for (int j=0; j<matchValues.Count(); j++) {
-				//GUI.Button (new Rect (cadreFiltres.transform.position.x-cadreFiltres.GetComponent<RectTransform>().rect.width/2+10, cadreFiltres.transform.position.y+ 80 + i * 20 + j*10-cadreFiltres.GetComponent<RectTransform>().rect.height/2, 150, 10), matchValues[j], myStyle);
-				if(GUI.Button (new Rect (cadreFiltres.transform.position.x-cadreFiltres.GetComponent<RectTransform>().rect.width/2+10, cadreFiltres.transform.position.y+ 160 + i * 20 + j*15-cadreFiltres.GetComponent<RectTransform>().rect.height/2, 150, 14), matchValues[j], myStyle)){
-					valueSkill=matchValues[j].ToLower ();
-					StartCoroutine(displaySkills (s));
-					cleanScreen();
-					filterCards ();
-					displayCards ();	
-				}
-			}
 
+
+		if (Input.GetMouseButtonDown(0))
+			isBeingDragged = true;
 		
+		if (Input.GetMouseButtonUp(0) && isBeingDragged )
+			isBeingDragged = false;
 
-			GUI.Box (dragFilters[0],"");
-			GUI.Box (dragFilters[1],"");
 
-			GUI.Label (new Rect (cadreFiltres.transform.position.x-cadreFiltres.GetComponent<RectTransform>().rect.width/2, cadreFiltres.transform.position.y+ 40 + i * 20-cadreFiltres.GetComponent<RectTransform>().rect.height/2, 200, 20), "POINTS DE VIE");
 
-			float min = Mathf.Round(10*(dragFilters[0].x - (cadreFiltres.transform.position.x-cadreFiltres.GetComponent<RectTransform>().rect.width/2)));
-			float max = Mathf.Round(10*(dragFilters[1].x-20 - (cadreFiltres.transform.position.x-cadreFiltres.GetComponent<RectTransform>().rect.width/2)));
 
-			GUI.Label (new Rect (cadreFiltres.transform.position.x-cadreFiltres.GetComponent<RectTransform>().rect.width/2, cadreFiltres.transform.position.y+ 80 + i * 20-cadreFiltres.GetComponent<RectTransform>().rect.height/2, 200, 20), "Min " +min);
-			GUI.Label (new Rect (cadreFiltres.transform.position.x-cadreFiltres.GetComponent<RectTransform>().rect.width/2+90, cadreFiltres.transform.position.y+ 80 + i * 20-cadreFiltres.GetComponent<RectTransform>().rect.height/2, 200, 20), "Max " +max);
-
-			Vector2 screenMousePosition = new Vector2(Input.mousePosition.x, Screen.height - Input.mousePosition.y);
-
-			int filterToMove=-1;
-			for(int j = 0 ; j < 2 ; j++){
-				if (dragFilters[j].Contains(screenMousePosition)) {
-					filterToMove = j;
-				}
-			}
-
-			GUI.Box (new Rect(dragFilters[0].x,cadreFiltres.transform.position.y+ 65 + i * 20-cadreFiltres.GetComponent<RectTransform>().rect.height/2,dragFilters[1].x-dragFilters[0].x+20,10),"");
-
-			if ((currentDrag.sqrMagnitude != 0 && filterToMove!=-1) || filterToMove!=-1 ) {
-				if (Input.GetMouseButtonDown(0)) {
-					currentDrag = screenMousePosition;
-				} else if (Input.GetMouseButton(0)) {
-
-					if (filterToMove % 2==0){
-						if(dragFilters[filterToMove].x+20 > dragFilters[filterToMove+1].x)
-						{
-							dragFilters[filterToMove].x = dragFilters[filterToMove+1].x-20;
+		GUILayout.BeginArea(new Rect(0.80f*Screen.width,0.05f*Screen.height,Screen.width * 0.18f,0.95f*Screen.height));
+		{
+			GUILayout.BeginVertical(); // also can put width in here
+			{
+				
+				GUI.skin = null;
+				
+				if (dataIsLoaded) {
+					bool toggle;
+					int i;
+					string s;
+					string[] cardTypeData = new string[this.cardTypeList.Length - 1];
+					GameObject cadreFiltres = GameObject.Find ("filterCardsType");
+					GUILayout.Label ("FILTRER PAR CLASSE");
+					for (i=0; i<this.cardTypeList.Length-1; i++) {		
+						cardTypeData = cardTypeList [i].Split ('\\');
+						toggle = GUILayout.Toggle (togglesCurrentStates [i], cardTypeData [0]);
+						if (toggle != togglesCurrentStates [i]) {
+							togglesCurrentStates [i] = toggle;
+							if (toggle) {
+								this.addCardTypes (i);
+								counterFilters++;
+							} else {
+								this.removeCardTypes (i);
+								counterFilters--;
+							}
 						}
 					}
-
-					if (filterToMove % 2!=0){
-						if(dragFilters[filterToMove].x < dragFilters[filterToMove-1].x+20)
-						{
-							dragFilters[filterToMove].x = dragFilters[filterToMove-1].x+20;
+					
+					GUILayout.Space(5);
+					
+					GUILayout.Label ("FILTRER PAR SKILL");
+					s = GUILayout.TextField (valueSkill);
+					if (s != valueSkill) {
+						if (s.Length > 0) {
+							StartCoroutine (displaySkills (s));
+							valueSkill = s.ToLower ();
+						} else {
+							StartCoroutine (displaySkills (s));
+							valueSkill = "";
 						}
-
+						cleanScreen ();
+						filterCards ();
+						displayCards ();
 					}
-
-					dragFilters[filterToMove].x += (screenMousePosition.x - currentDrag.x);
-
-					if (dragFilters[filterToMove].x > cadreFiltres.transform.position.x-cadreFiltres.GetComponent<RectTransform>().rect.width/2 + 120){
-						dragFilters[filterToMove].x=cadreFiltres.transform.position.x-cadreFiltres.GetComponent<RectTransform>().rect.width/2 + 120;
+					GUIStyle myStyle = new GUIStyle ();
+					myStyle.normal.textColor = Color.blue;
+					myStyle.fontSize = 12;
+					myStyle.normal.background = this.textureAutoc;
+					for (int j=0; j<matchValues.Count(); j++) {
+						//GUI.Button (matchValues[j], myStyle);
+						if (GUILayout.Button (matchValues [j], myStyle,GUILayout.Height(20))) {
+							valueSkill = matchValues [j].ToLower ();
+							StartCoroutine (displaySkills (s));
+							cleanScreen ();;
+							filterCards ();
+							displayCards ();	
+						}
 					}
-					if (dragFilters[filterToMove].x < cadreFiltres.transform.position.x-cadreFiltres.GetComponent<RectTransform>().rect.width/2){
-						dragFilters[filterToMove].x=cadreFiltres.transform.position.x-cadreFiltres.GetComponent<RectTransform>().rect.width/2;
+					
+					GUILayout.Space(5);
+					
+					GUILayout.Label ("PTS DE VIE");
+					GUILayout.BeginHorizontal(); // also can put width in here
+					{
+						GUILayout.Label ("Min :"+ Mathf.Round(minLifeVal).ToString());
+						GUILayout.FlexibleSpace();
+						GUILayout.Label ("Max :"+ Mathf.Round(maxLifeVal).ToString());
 					}
-	
-					currentDrag = screenMousePosition;
-				} else {
-					currentDrag.x = 0;
-					currentDrag.y = 0;
+					GUILayout.EndHorizontal();
+					
+					EditorGUILayout.MinMaxSlider (ref minLifeVal, ref maxLifeVal, minLifeLimit, maxLifeLimit);
+					minLifeVal = Mathf.Round (minLifeVal);
+					maxLifeVal = Mathf.Round (maxLifeVal);
+					
+					
+					GUILayout.Space(5);
+					
+					GUILayout.Label ("PTS D'ATTAQUE");
+					GUILayout.BeginHorizontal(); // also can put width in here
+					{
+						GUILayout.Label ("Min :"+ Mathf.Round(minAttackVal).ToString());
+						GUILayout.FlexibleSpace();
+						GUILayout.Label ("Max :"+ Mathf.Round(maxAttackVal).ToString());
+					}
+					GUILayout.EndHorizontal();
+					
+					EditorGUILayout.MinMaxSlider (ref minAttackVal, ref maxAttackVal, minAttackLimit, maxAttackLimit);
+					minAttackVal = Mathf.Round (minAttackVal);
+					maxAttackVal = Mathf.Round (maxAttackVal);
+					
+					GUILayout.Space(5);
+					
+					GUILayout.Label ("PTS DE VITESSE");
+					GUILayout.BeginHorizontal(); // also can put width in here
+					{
+						GUILayout.Label ("Min :"+ Mathf.Round(minSpeedVal).ToString());
+						GUILayout.FlexibleSpace();
+						GUILayout.Label ("Max :"+ Mathf.Round(maxSpeedVal).ToString());
+					}
+					GUILayout.EndHorizontal();
+					
+					EditorGUILayout.MinMaxSlider (ref minSpeedVal, ref maxSpeedVal, minSpeedLimit, maxSpeedLimit);
+					minSpeedVal = Mathf.Round (minSpeedVal);
+					maxSpeedVal = Mathf.Round (maxSpeedVal);
+					
+					GUILayout.Space(5);
+					
+					GUILayout.Label ("PTS DE DEPLACEMENT");
+					GUILayout.BeginHorizontal(); // also can put width in here
+					{
+						GUILayout.Label ("Min :"+ minMoveVal.ToString());
+						GUILayout.FlexibleSpace();
+						GUILayout.Label ("Max :"+ maxMoveVal.ToString());
+					}
+					GUILayout.EndHorizontal();
+					
+					EditorGUILayout.MinMaxSlider (ref minMoveVal, ref maxMoveVal, minMoveLimit, maxMoveLimit);
+					minMoveVal = Mathf.Round (minMoveVal);
+					maxMoveVal = Mathf.Round (maxMoveVal);
+					
+					
+					if (!isBeingDragged){
+						
+						if (oldMaxLifeVal != maxLifeVal 
+						    ||oldMinLifeVal != minLifeVal 
+						    ||oldMaxMoveVal != maxMoveVal
+						    ||oldMinMoveVal != minMoveVal
+						    ||oldMaxSpeedVal != maxSpeedVal
+						    ||oldMinSpeedVal != minSpeedVal
+						    ||oldMaxAttackVal != maxAttackVal
+						    ||oldMinAttackVal != minAttackVal) {
+							
+							oldMaxAttackVal = maxAttackVal;
+							oldMinAttackVal = minAttackVal;
+							oldMaxSpeedVal = maxSpeedVal;
+							oldMinSpeedVal = minSpeedVal;
+							oldMaxMoveVal = maxMoveVal;
+							oldMinLifeVal = minMoveVal;
+							oldMaxLifeVal = maxLifeVal;
+							oldMinLifeVal = minLifeVal;
+							
+							cleanScreen();
+							filterCardsByPoints();
+							displayCards ();
+							
+						}
+						
+					}
+					
+					
 				}
 			}
+			GUILayout.EndVertical();
 
-
-		
 		}
+		GUILayout.EndArea();
 	
 	}
+	
 
-private IEnumerator getCards() {
+	private IEnumerator getCards() {
 	string[] cardsIDS = null;
 	//string[] cardInformation = null;
 	
@@ -247,6 +350,31 @@ private IEnumerator getCards() {
 				                                      System.Convert.ToInt32(cardInformation[15]), // power
 				                                      System.Convert.ToInt32(cardInformation[16]))); // costmana
 			}
+		
+		
+			if (this.cards[j-1].Attack > maxAttackLimit)
+				maxAttackLimit = cards[j-1].Attack;
+			if (this.cards[j-1].Attack < minAttackLimit)
+				minAttackLimit = cards[j-1].Attack;
+
+			if (this.cards[j-1].Speed > maxSpeedLimit)
+				maxSpeedLimit = cards[j-1].Speed;
+			if (this.cards[j-1].Speed < minSpeedLimit)
+				minSpeedLimit = cards[j-1].Speed;
+
+			if (this.cards[j-1].Move > maxMoveLimit)
+				maxMoveLimit = cards[j-1].Move;
+			if (this.cards[j-1].Move < minMoveLimit)
+				minMoveLimit = cards[j-1].Move;
+
+			if (this.cards[j-1].Life > maxLifeLimit)
+				maxLifeLimit = cards[j-1].Life;
+			if (this.cards[j-1].Life < minLifeLimit)
+				minLifeLimit = cards[j-1].Life;
+
+		
+		
+		
 		}
 		this.cardsToBeDisplayed = new bool[j];
 		for (int i = 0; i < j; i++){
@@ -290,7 +418,9 @@ private IEnumerator getCards() {
 		} 
 		else {
 			for (int i = 0; i < this.cardsToBeFiltered.Count; i++) {
-				if (cards [cardsToBeFiltered [i]].hasSkill (valueSkill)) {
+				if (cards [cardsToBeFiltered [i]].hasSkill (valueSkill) 
+				    && cards [cardsToBeFiltered [i]].Life >= minLifeVal
+				    && cards [cardsToBeFiltered [i]].Life <= maxLifeVal) {
 					cardsToBeDisplayed [cardsToBeFiltered [i]] = true;
 				} 
 				else {
@@ -300,9 +430,35 @@ private IEnumerator getCards() {
 			}	
 		}
 	}
+
+
+
+
+	public void filterCardsByPoints() {	
+
+		for (int i = 0; i < this.cardsToBeFiltered.Count; i++) {
+			if (cards [cardsToBeFiltered [i]].Life >= minLifeVal
+			    && cards [cardsToBeFiltered [i]].Life <= maxLifeVal
+			    && cards [cardsToBeFiltered [i]].Speed >= minSpeedVal
+			    && cards [cardsToBeFiltered [i]].Speed <= maxSpeedVal
+			    && cards [cardsToBeFiltered [i]].Move >= minMoveVal
+			    && cards [cardsToBeFiltered [i]].Move <= maxMoveVal
+			    && cards [cardsToBeFiltered [i]].Attack >= minAttackVal
+			    && cards [cardsToBeFiltered [i]].Attack <= maxAttackVal) {
+
+				cardsToBeDisplayed [cardsToBeFiltered [i]] = true;
+			} 
+			else {
+				cardsToBeDisplayed [cardsToBeFiltered [i]] = false;
+			}
+		}	
+
+	}
+
+
 	
 	public void addCardTypes(int a) {			
-		cleanScreen();
+		cleanScreen ();
 		if (counterFilters==0){
 			this.clearCards();
 		}
@@ -319,7 +475,7 @@ private IEnumerator getCards() {
 	}	
 	
 	public void removeCardTypes(int a) {
-		cleanScreen();
+		cleanScreen ();
 		if (counterFilters == 1) {
 			this.clearCards ();
 			for (int j = 0; j < cards.Count ; j++) {
@@ -347,7 +503,8 @@ private IEnumerator getCards() {
 	public void cleanScreen(){
 		for (int i = 0; i < cardsToBeFiltered.Count(); i++) {         			// Il ne peut pas y avoir plus de cartes affichés sur le nombre de cartes possédées par l'utilisateur
 			Destroy(GameObject.Find("Card" + i + ""));	
-		}	
+		}
+
 	}
 	
 	private IEnumerator displaySkills(string a){
