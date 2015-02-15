@@ -8,12 +8,15 @@ public class GameCard : MonoBehaviour
 	public Texture[] faces; 										// Les différentes images des cartes
 	public Texture[] pictos;
 	public Texture[] metals;
-	public Card Card; 												// L'instance de la carte courante 
+	public Card Card; 
 
+	// L'instance de la carte courante 
 
 	private string URLCard = ApplicationModel.host + "get_card.php";
 	//private string URLCard = "http://localhost/GarrukServer/get_card.php";
 //	private Vector3 offset;
+	
+
 
 	public GameCard() {
 	}
@@ -31,13 +34,13 @@ public class GameCard : MonoBehaviour
 	}
 
 	void Start () {
-	
+
+
 	}
 	
 	// Update is called once per frame
-	void Update () {
 
-	}
+
 
 	public void ShowFace() 
 	{
@@ -114,6 +117,56 @@ public class GameCard : MonoBehaviour
 
 
 	}
+
+	public void setTextResolution(float resolution)
+	{
+		 		
+		transform.Find("Title")
+			.GetComponent<TextMesh>().fontSize = Mathf.RoundToInt(resolution * 17);	
+		transform.Find("Title").localScale = new Vector3(0.6f/resolution,0.6f/resolution,0);
+
+		transform.Find("Life")
+			.GetComponent<TextMesh>().fontSize = Mathf.RoundToInt(resolution * 17);	
+		transform.Find("Life").localScale = new Vector3(0.6f/resolution,0.6f/resolution,0);
+
+		transform.Find("Attack")
+			.GetComponent<TextMesh>().fontSize = Mathf.RoundToInt(resolution * 17);	
+		transform.Find("Attack").localScale = new Vector3(0.6f/resolution,0.6f/resolution,0);
+
+		transform.Find("Move")
+			.GetComponent<TextMesh>().fontSize = Mathf.RoundToInt(resolution * 17);	
+		transform.Find("Move").localScale = new Vector3(0.6f/resolution,0.6f/resolution,0);
+
+		transform.Find("Speed")
+			.GetComponent<TextMesh>().fontSize = Mathf.RoundToInt(resolution * 17);	
+		transform.Find("Speed").localScale = new Vector3(0.6f/resolution,0.6f/resolution,0);
+
+		transform.Find("Class")
+			.GetComponent<TextMesh>().fontSize = Mathf.RoundToInt(resolution * 12);	
+		transform.Find("Class").localScale = new Vector3(0.6f/resolution,0.6f/resolution,0);
+
+
+		for(int i = 1 ; i < 5 ; i++) { // boucle sur la liste de compétence 
+			
+			transform.Find("Skill"+i)
+				.GetComponent<TextMesh>().fontSize = Mathf.RoundToInt(resolution * 12);	
+			transform.Find("Skill"+i).localScale = new Vector3(0.6f/resolution,0.6f/resolution,0);
+
+			transform.Find("SkillForce"+i)
+				.GetComponent<TextMesh>().fontSize = Mathf.RoundToInt(resolution * 12);	
+			transform.Find("SkillForce"+i).localScale = new Vector3(0.6f/resolution,0.6f/resolution,0);
+
+				
+			}
+	
+	
+	
+	
+	}
+
+
+
+
 	public void Hide()
 	{
 		renderer.material.mainTexture = faces[0]; 		// On affiche l'image correspondant à la carte
@@ -121,7 +174,7 @@ public class GameCard : MonoBehaviour
 			.GetComponent<TextMesh>().text = "Title";	// On lui attribut son titre
 		transform.Find("Life")
 			.GetComponent<TextMesh>().text = "Life";	// Et son nombre de point de vie
-;
+
 	}
 
 	public IEnumerator RetrieveCard (int idCard)

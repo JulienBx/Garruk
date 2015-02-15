@@ -27,6 +27,9 @@ public class MyCardsScript : MonoBehaviour
 	
 	bool dataIsLoaded = false ;
 
+	GameObject hoveredCard = null;
+	GameObject oldHoveredCard = null;
+
 	float minLifeVal = 0;
 	float minLifeLimit = 0;
 	float maxLifeVal = 0;
@@ -56,6 +59,8 @@ public class MyCardsScript : MonoBehaviour
 	float oldMaxMoveVal = 0;
 
 	bool isBeingDragged=false;
+	Ray ray;
+	RaycastHit hit;
 
 	
 	private IEnumerator Start() 
@@ -100,6 +105,34 @@ public class MyCardsScript : MonoBehaviour
 	}
 
 	
+	void Update() {
+
+		ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+		if(Physics.Raycast(ray, out hit))
+		{
+			hoveredCard = GameObject.Find(hit.collider.name);
+			onHovering(hoveredCard);
+
+		}
+		else
+		{
+
+			if (oldHoveredCard != null)
+			endHovering(oldHoveredCard);
+
+			oldHoveredCard = hoveredCard;
+
+		}
+
+		if (oldHoveredCard != hoveredCard){
+			if (oldHoveredCard != null)
+			endHovering(oldHoveredCard);
+
+			oldHoveredCard = hoveredCard;
+
+		}
+	}
+
 	void OnGUI () {
 
 
@@ -272,7 +305,7 @@ public class MyCardsScript : MonoBehaviour
 	
 	}
 	
-
+	 
 	private IEnumerator getCards() {
 	string[] cardsIDS = null;
 	//string[] cardInformation = null;
@@ -521,4 +554,26 @@ public class MyCardsScript : MonoBehaviour
 		}
 		yield break;
 	}
+
+
+	public void onHovering (GameObject cardName){
+
+		cardName.transform.localScale = new Vector3(0.30f, 0.02f, 0.40f);
+		Vector3 cardPosition = cardName.transform.position; 
+		cardName.transform.position = new Vector3 (cardPosition.x, cardPosition.y, -1);
+		cardName.GetComponent<GameCard> ().setTextResolution (2f);
+
+
+	}
+
+	public void endHovering (GameObject cardName){
+		
+		cardName.transform.localScale = new Vector3(0.15f, 0.02f, 0.20f);
+		Vector3 cardPosition = cardName.transform.position; 
+		cardName.transform.position = new Vector3 (cardPosition.x, cardPosition.y, 0);
+		cardName.GetComponent<GameCard> ().setTextResolution (1f);
+	}
+	
+
+
 }
