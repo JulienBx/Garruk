@@ -1,5 +1,5 @@
 using UnityEngine;
-using UnityEditor;
+//using UnityEditor;
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
@@ -108,7 +108,7 @@ public class MyCardsScript : MonoBehaviour
 	void Update() {
 
 		ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-		if(Physics.Raycast(ray, out hit))
+		if(Physics.Raycast(ray, out hit) && hit.collider.name.StartsWith("Card"))
 		{
 			hoveredCard = GameObject.Find(hit.collider.name);
 			onHovering(hoveredCard);
@@ -216,7 +216,7 @@ public class MyCardsScript : MonoBehaviour
 					}
 					GUILayout.EndHorizontal();
 					
-					EditorGUILayout.MinMaxSlider (ref minLifeVal, ref maxLifeVal, minLifeLimit, maxLifeLimit);
+					//EditorGUILayout.MinMaxSlider (ref minLifeVal, ref maxLifeVal, minLifeLimit, maxLifeLimit);
 					minLifeVal = Mathf.Round (minLifeVal);
 					maxLifeVal = Mathf.Round (maxLifeVal);
 					
@@ -232,7 +232,7 @@ public class MyCardsScript : MonoBehaviour
 					}
 					GUILayout.EndHorizontal();
 					
-					EditorGUILayout.MinMaxSlider (ref minAttackVal, ref maxAttackVal, minAttackLimit, maxAttackLimit);
+					//EditorGUILayout.MinMaxSlider (ref minAttackVal, ref maxAttackVal, minAttackLimit, maxAttackLimit);
 					minAttackVal = Mathf.Round (minAttackVal);
 					maxAttackVal = Mathf.Round (maxAttackVal);
 					
@@ -247,7 +247,7 @@ public class MyCardsScript : MonoBehaviour
 					}
 					GUILayout.EndHorizontal();
 					
-					EditorGUILayout.MinMaxSlider (ref minSpeedVal, ref maxSpeedVal, minSpeedLimit, maxSpeedLimit);
+					//EditorGUILayout.MinMaxSlider (ref minSpeedVal, ref maxSpeedVal, minSpeedLimit, maxSpeedLimit);
 					minSpeedVal = Mathf.Round (minSpeedVal);
 					maxSpeedVal = Mathf.Round (maxSpeedVal);
 					
@@ -262,7 +262,7 @@ public class MyCardsScript : MonoBehaviour
 					}
 					GUILayout.EndHorizontal();
 					
-					EditorGUILayout.MinMaxSlider (ref minMoveVal, ref maxMoveVal, minMoveLimit, maxMoveLimit);
+					//EditorGUILayout.MinMaxSlider (ref minMoveVal, ref maxMoveVal, minMoveLimit, maxMoveLimit);
 					minMoveVal = Mathf.Round (minMoveVal);
 					maxMoveVal = Mathf.Round (maxMoveVal);
 					
