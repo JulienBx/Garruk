@@ -35,7 +35,7 @@ public class GameCard_skill : MonoBehaviour {
 
 
 	void OnGUI () {
-		if (isHovered && System.Convert.ToInt32(Parent.GetComponent<GameCard>().Card.Skills[skillNumber].IsActivated) == 1){
+		if (isHovered && transform.GetComponent<TextMesh> ().text != ""){
 			Rect windowRect = GUI.Window(0, new Rect(screenPos.x, Screen.height-screenPos.y+10, 250, 50), DoMyWindow, "Description de " + Parent.GetComponent<GameCard>().Card.Skills[skillNumber].Name);
 		}
 
