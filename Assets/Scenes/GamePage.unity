@@ -240,6 +240,8 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 7360c852a1bd19e44b2f896f71ebd443, type: 3}
   - {fileID: 2800000, guid: 29731b969e3b8414b96d6c6fdcd93785, type: 3}
   - {fileID: 2800000, guid: ba6bb48ca259876429f8a1bc988f3790, type: 3}
+  pictos: []
+  metals: []
   ownerNumber: 0
   currentTile: {fileID: 0}
   Damage: 0
@@ -363,6 +365,7 @@ MonoBehaviour:
     m_FixedHeight: 0
     m_StretchWidth: 1
     m_StretchHeight: 0
+  AttackAnim: {fileID: 0}
   neighbors: []
 --- !u!23 &143277198
 Renderer:
@@ -659,6 +662,8 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 7360c852a1bd19e44b2f896f71ebd443, type: 3}
   - {fileID: 2800000, guid: 29731b969e3b8414b96d6c6fdcd93785, type: 3}
   - {fileID: 2800000, guid: ba6bb48ca259876429f8a1bc988f3790, type: 3}
+  pictos: []
+  metals: []
   ownerNumber: 0
   currentTile: {fileID: 0}
   Damage: 0
@@ -782,6 +787,7 @@ MonoBehaviour:
     m_FixedHeight: 0
     m_StretchWidth: 1
     m_StretchHeight: 0
+  AttackAnim: {fileID: 0}
   neighbors: []
 --- !u!23 &282503603
 Renderer:
@@ -973,7 +979,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 438032, guid: 432732ce66e7c2144806e4e1d199a16f, type: 2}
       propertyPath: m_RootOrder
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 138012, guid: 432732ce66e7c2144806e4e1d199a16f, type: 2}
       propertyPath: m_IsActive
@@ -1226,6 +1232,9 @@ MonoBehaviour:
   WaitingTimeToRefresh: 1.5
   card: {fileID: 158266, guid: 41e7592d34820a2439ba5cd78e942c28, type: 2}
   labelText: "Placer vos h\xE9ros sur le champ de bataille"
+  labelInfo: En attente d'autres joueurs
+  gameOver: 0
+  labelMessage: 
 --- !u!148 &481987440
 NetworkView:
   m_ObjectHideFlags: 0
@@ -1757,6 +1766,8 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 7360c852a1bd19e44b2f896f71ebd443, type: 3}
   - {fileID: 2800000, guid: 29731b969e3b8414b96d6c6fdcd93785, type: 3}
   - {fileID: 2800000, guid: ba6bb48ca259876429f8a1bc988f3790, type: 3}
+  pictos: []
+  metals: []
   ownerNumber: 0
   currentTile: {fileID: 0}
   Damage: 0
@@ -1880,6 +1891,7 @@ MonoBehaviour:
     m_FixedHeight: 0
     m_StretchWidth: 1
     m_StretchHeight: 0
+  AttackAnim: {fileID: 0}
   neighbors: []
 --- !u!148 &594238138
 NetworkView:
@@ -2051,6 +2063,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameCard: {fileID: 631948794}
   hasMoved: 0
+  attemptToAttack: 0
   hasAttacked: 0
   Damage: 0
   bgImage: {fileID: 2800000, guid: bd00a143b50b5964e80272405ab41b17, type: 3}
@@ -2224,6 +2237,8 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 7360c852a1bd19e44b2f896f71ebd443, type: 3}
   - {fileID: 2800000, guid: 29731b969e3b8414b96d6c6fdcd93785, type: 3}
   - {fileID: 2800000, guid: ba6bb48ca259876429f8a1bc988f3790, type: 3}
+  pictos: []
+  metals: []
   ownerNumber: 0
   currentTile: {fileID: 0}
   Damage: 0
@@ -2347,6 +2362,7 @@ MonoBehaviour:
     m_FixedHeight: 0
     m_StretchWidth: 1
     m_StretchHeight: 0
+  AttackAnim: {fileID: 0}
   neighbors: []
 --- !u!23 &631948795
 Renderer:
@@ -2482,6 +2498,8 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 7360c852a1bd19e44b2f896f71ebd443, type: 3}
   - {fileID: 2800000, guid: 29731b969e3b8414b96d6c6fdcd93785, type: 3}
   - {fileID: 2800000, guid: ba6bb48ca259876429f8a1bc988f3790, type: 3}
+  pictos: []
+  metals: []
   ownerNumber: 0
   currentTile: {fileID: 0}
   Damage: 0
@@ -2605,6 +2623,7 @@ MonoBehaviour:
     m_FixedHeight: 0
     m_StretchWidth: 1
     m_StretchHeight: 0
+  AttackAnim: {fileID: 0}
   neighbors: []
 --- !u!23 &648034868
 Renderer:
@@ -2712,6 +2731,8 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 7360c852a1bd19e44b2f896f71ebd443, type: 3}
   - {fileID: 2800000, guid: 29731b969e3b8414b96d6c6fdcd93785, type: 3}
   - {fileID: 2800000, guid: ba6bb48ca259876429f8a1bc988f3790, type: 3}
+  pictos: []
+  metals: []
   ownerNumber: 0
   currentTile: {fileID: 0}
   Damage: 0
@@ -2835,6 +2856,7 @@ MonoBehaviour:
     m_FixedHeight: 0
     m_StretchWidth: 1
     m_StretchHeight: 0
+  AttackAnim: {fileID: 0}
   neighbors: []
 --- !u!23 &714391904
 Renderer:
@@ -3565,6 +3587,8 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 7360c852a1bd19e44b2f896f71ebd443, type: 3}
   - {fileID: 2800000, guid: 29731b969e3b8414b96d6c6fdcd93785, type: 3}
   - {fileID: 2800000, guid: ba6bb48ca259876429f8a1bc988f3790, type: 3}
+  pictos: []
+  metals: []
   ownerNumber: 0
   currentTile: {fileID: 0}
   Damage: 0
@@ -3688,6 +3712,7 @@ MonoBehaviour:
     m_FixedHeight: 0
     m_StretchWidth: 1
     m_StretchHeight: 0
+  AttackAnim: {fileID: 0}
   neighbors: []
 --- !u!23 &924362476
 Renderer:
@@ -3734,7 +3759,7 @@ Transform:
   m_GameObject: {fileID: 925700255}
   m_LocalRotation: {x: -3.09086232e-08, y: -.707106829, z: .707106829, w: -3.09086232e-08}
   m_LocalPosition: {x: 0, y: -56.6950035, z: 0}
-  m_LocalScale: {x: 1, y: 2, z: 1.30499995}
+  m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 938546762}
   - {fileID: 1774588333}
@@ -4038,6 +4063,8 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 7360c852a1bd19e44b2f896f71ebd443, type: 3}
   - {fileID: 2800000, guid: 29731b969e3b8414b96d6c6fdcd93785, type: 3}
   - {fileID: 2800000, guid: ba6bb48ca259876429f8a1bc988f3790, type: 3}
+  pictos: []
+  metals: []
   ownerNumber: 0
   currentTile: {fileID: 0}
   Damage: 0
@@ -4161,6 +4188,7 @@ MonoBehaviour:
     m_FixedHeight: 0
     m_StretchWidth: 1
     m_StretchHeight: 0
+  AttackAnim: {fileID: 0}
   neighbors: []
 --- !u!23 &1063060250
 Renderer:
@@ -5446,6 +5474,8 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 7360c852a1bd19e44b2f896f71ebd443, type: 3}
   - {fileID: 2800000, guid: 29731b969e3b8414b96d6c6fdcd93785, type: 3}
   - {fileID: 2800000, guid: ba6bb48ca259876429f8a1bc988f3790, type: 3}
+  pictos: []
+  metals: []
   ownerNumber: 0
   currentTile: {fileID: 0}
   Damage: 0
@@ -5569,6 +5599,7 @@ MonoBehaviour:
     m_FixedHeight: 0
     m_StretchWidth: 1
     m_StretchHeight: 0
+  AttackAnim: {fileID: 0}
   neighbors: []
 --- !u!23 &1384295116
 Renderer:
@@ -6828,6 +6859,8 @@ MonoBehaviour:
   CardHovered: {fileID: 0}
   gridWidthInHexes: 5
   gridHeightInHexes: 8
+  nbCardsPlayer1: 0
+  nbCardsPlayer2: 0
 --- !u!148 &1766874478
 NetworkView:
   m_ObjectHideFlags: 0
@@ -7506,6 +7539,8 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 7360c852a1bd19e44b2f896f71ebd443, type: 3}
   - {fileID: 2800000, guid: 29731b969e3b8414b96d6c6fdcd93785, type: 3}
   - {fileID: 2800000, guid: ba6bb48ca259876429f8a1bc988f3790, type: 3}
+  pictos: []
+  metals: []
   ownerNumber: 0
   currentTile: {fileID: 0}
   Damage: 0
@@ -7629,6 +7664,7 @@ MonoBehaviour:
     m_FixedHeight: 0
     m_StretchWidth: 1
     m_StretchHeight: 0
+  AttackAnim: {fileID: 0}
   neighbors: []
 --- !u!23 &1891635632
 Renderer:
@@ -7736,6 +7772,8 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 7360c852a1bd19e44b2f896f71ebd443, type: 3}
   - {fileID: 2800000, guid: 29731b969e3b8414b96d6c6fdcd93785, type: 3}
   - {fileID: 2800000, guid: ba6bb48ca259876429f8a1bc988f3790, type: 3}
+  pictos: []
+  metals: []
   ownerNumber: 0
   currentTile: {fileID: 0}
   Damage: 0
@@ -7859,6 +7897,7 @@ MonoBehaviour:
     m_FixedHeight: 0
     m_StretchWidth: 1
     m_StretchHeight: 0
+  AttackAnim: {fileID: 0}
   neighbors: []
 --- !u!23 &1921161909
 Renderer:

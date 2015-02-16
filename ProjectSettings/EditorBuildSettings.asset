@@ -6,8 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/GamePage.unity
-  - enabled: 1
     path: Assets/Scenes/ConnectionPage.unity
   - enabled: 1
     path: Assets/Scenes/HomePage.unity
@@ -21,3 +19,5 @@ EditorBuildSettings:
     path: Assets/Scenes/BuyCards.unity
   - enabled: 1
     path: Assets/Scenes/LobbyPage.unity
+  - enabled: 1
+    path: Assets/Scenes/GamePage.unity
