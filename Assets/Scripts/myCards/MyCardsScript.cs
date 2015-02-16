@@ -1,5 +1,7 @@
 using UnityEngine;
-//using UnityEditor;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,8 +12,8 @@ public class MyCardsScript : MonoBehaviour
 {
 
 
-	public GameObject CardObject;												 
-	string[] skillsList;
+	public GameObject CardObject;	
+	List<string> skillsList = new List<string>();
 	string[] cardTypeList;
 	public IList<Card> cards ;
 	public IList<int> cardsToBeFiltered ;
@@ -108,28 +110,27 @@ public class MyCardsScript : MonoBehaviour
 	void Update() {
 
 		ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-		if(Physics.Raycast(ray, out hit) && hit.collider.name.StartsWith("Card"))
+		if(Physics.Raycast(ray, out hit))
 		{
+			if (hit.collider.name.StartsWith("Card")){
 			hoveredCard = GameObject.Find(hit.collider.name);
 			onHovering(hoveredCard);
+			}
+
+			if (oldHoveredCard != hoveredCard){
+				if (oldHoveredCard != null)
+				endHovering(oldHoveredCard);
+			oldHoveredCard = hoveredCard;
+			}
+
 
 		}
 		else
 		{
-
-			if (oldHoveredCard != null)
+			if (oldHoveredCard != null){
 			endHovering(oldHoveredCard);
-
 			oldHoveredCard = hoveredCard;
-
-		}
-
-		if (oldHoveredCard != hoveredCard){
-			if (oldHoveredCard != null)
-			endHovering(oldHoveredCard);
-
-			oldHoveredCard = hoveredCard;
-
+			}
 		}
 	}
 
@@ -199,7 +200,7 @@ public class MyCardsScript : MonoBehaviour
 						if (GUILayout.Button (matchValues [j], myStyle,GUILayout.Height(20))) {
 							valueSkill = matchValues [j].ToLower ();
 							StartCoroutine (displaySkills (s));
-							cleanScreen ();;
+							cleanScreen ();
 							filterCards ();
 							displayCards ();	
 						}
@@ -215,8 +216,11 @@ public class MyCardsScript : MonoBehaviour
 						GUILayout.Label ("Max :"+ Mathf.Round(maxLifeVal).ToString());
 					}
 					GUILayout.EndHorizontal();
-					
-					//EditorGUILayout.MinMaxSlider (ref minLifeVal, ref maxLifeVal, minLifeLimit, maxLifeLimit);
+
+					#if UNITY_EDITOR
+					EditorGUILayout.MinMaxSlider (ref minLifeVal, ref maxLifeVal, minLifeLimit, maxLifeLimit);
+					#endif
+
 					minLifeVal = Mathf.Round (minLifeVal);
 					maxLifeVal = Mathf.Round (maxLifeVal);
 					
@@ -231,8 +235,11 @@ public class MyCardsScript : MonoBehaviour
 						GUILayout.Label ("Max :"+ Mathf.Round(maxAttackVal).ToString());
 					}
 					GUILayout.EndHorizontal();
-					
-					//EditorGUILayout.MinMaxSlider (ref minAttackVal, ref maxAttackVal, minAttackLimit, maxAttackLimit);
+
+					#if UNITY_EDITOR
+					EditorGUILayout.MinMaxSlider (ref minAttackVal, ref maxAttackVal, minAttackLimit, maxAttackLimit);
+					#endif
+
 					minAttackVal = Mathf.Round (minAttackVal);
 					maxAttackVal = Mathf.Round (maxAttackVal);
 					
@@ -247,7 +254,10 @@ public class MyCardsScript : MonoBehaviour
 					}
 					GUILayout.EndHorizontal();
 					
-					//EditorGUILayout.MinMaxSlider (ref minSpeedVal, ref maxSpeedVal, minSpeedLimit, maxSpeedLimit);
+					#if UNITY_EDITOR
+					EditorGUILayout.MinMaxSlider (ref minSpeedVal, ref maxSpeedVal, minSpeedLimit, maxSpeedLimit);
+					#endif
+
 					minSpeedVal = Mathf.Round (minSpeedVal);
 					maxSpeedVal = Mathf.Round (maxSpeedVal);
 					
@@ -262,7 +272,10 @@ public class MyCardsScript : MonoBehaviour
 					}
 					GUILayout.EndHorizontal();
 					
-					//EditorGUILayout.MinMaxSlider (ref minMoveVal, ref maxMoveVal, minMoveLimit, maxMoveLimit);
+					#if UNITY_EDITOR
+					EditorGUILayout.MinMaxSlider (ref minMoveVal, ref maxMoveVal, minMoveLimit, maxMoveLimit);
+					#endif
+
 					minMoveVal = Mathf.Round (minMoveVal);
 					maxMoveVal = Mathf.Round (maxMoveVal);
 					
@@ -308,6 +321,7 @@ public class MyCardsScript : MonoBehaviour
 	 
 	private IEnumerator getCards() {
 	string[] cardsIDS = null;
+	string[] skillsIDS = null;
 	//string[] cardInformation = null;
 	
 	WWWForm form = new WWWForm(); 											// Création de la connexion
@@ -325,8 +339,16 @@ public class MyCardsScript : MonoBehaviour
 			// cardsIDS = w.text.Split('\n');
 			string[] data=w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
 			cardsIDS=data[2].Split ('\n');
-			this.skillsList = data[1].Split('\n');
+			skillsIDS=data[1].Split ('\n');
+			//this.skillsList = data[1].Split('\n');
 			this.cardTypeList = data[0].Split('\n');
+
+			for (int i=1 ; i< skillsIDS.Length-1;i++){
+				string[] skillsInformation=skillsIDS[i].Split(new string[] { "\\" }, System.StringSplitOptions.None);
+				skillsList.Add(skillsInformation[0]);
+			}
+		
+		
 		}
 		
 		this.cards = new List<Card>();
@@ -376,12 +398,27 @@ public class MyCardsScript : MonoBehaviour
 				j++ ;
 			}
 			if (cardInformation[12].Length>0){
-				this.cards[j-1].Skills.Add(new Skill (skillsList[System.Convert.ToInt32(cardInformation[12])], //skillName
+				string[] skillsInformation=skillsIDS[System.Convert.ToInt32(cardInformation[12])].Split(new string[] { "\\" }, System.StringSplitOptions.None);
+
+				int skillForce=Mathf.RoundToInt(System.Convert.ToSingle(skillsInformation[3])*System.Convert.ToInt32(cardInformation[15]));
+				if (skillForce <=System.Convert.ToInt32(skillsInformation[2]))
+					skillForce = System.Convert.ToInt32(skillsInformation[2]);
+
+				string skillDescription= skillsInformation[1];
+				skillDescription=skillDescription.Replace(" X"," " + System.Convert.ToString(skillForce));
+				skillDescription=skillDescription.Replace(" X%"," " + System.Convert.ToString(skillForce) + "%");
+
+
+				this.cards[j-1].Skills.Add(new Skill (skillsInformation[0], //skillName
 				                                      System.Convert.ToInt32(cardInformation[12]), // idskill
 				                                      System.Convert.ToInt32(cardInformation[13]), // isactivated
 				                                      System.Convert.ToInt32(cardInformation[14]), // level
 				                                      System.Convert.ToInt32(cardInformation[15]), // power
-				                                      System.Convert.ToInt32(cardInformation[16]))); // costmana
+				                                      System.Convert.ToInt32(cardInformation[16]),
+				                                      skillDescription, // description du skill
+				                                      skillForce)); // force du skill
+				                                     
+													
 			}
 		
 		
@@ -546,7 +583,7 @@ public class MyCardsScript : MonoBehaviour
 		} 
 		else {
 			this.matchValues = new List<string> ();
-			for (int i = 0; i < skillsList.Length; i++) {  
+			for (int i = 0; i < skillsList.Count; i++) {  
 				if (skillsList [i].ToLower ().Contains (a)) {
 					matchValues.Add (skillsList [i]);
 				}

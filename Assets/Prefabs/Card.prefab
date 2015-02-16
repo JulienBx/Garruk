@@ -9,7 +9,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 411568}
   - 33: {fileID: 3311568}
-  - 64: {fileID: 6411568}
   - 23: {fileID: 2311568}
   m_Layer: 2
   m_Name: PictoMetalSpeed
@@ -27,7 +26,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 411570}
   - 33: {fileID: 3311570}
-  - 64: {fileID: 6411570}
   - 23: {fileID: 2311570}
   m_Layer: 2
   m_Name: PictoMetalMove
@@ -45,7 +43,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 411572}
   - 33: {fileID: 3311572}
-  - 64: {fileID: 6411572}
   - 23: {fileID: 2311572}
   m_Layer: 2
   m_Name: PictoMetalAttack
@@ -63,7 +60,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 411574}
   - 33: {fileID: 3311574}
-  - 64: {fileID: 6411574}
   - 23: {fileID: 2311574}
   m_Layer: 2
   m_Name: PictoMetalSkill1
@@ -81,7 +77,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 411576}
   - 33: {fileID: 3311576}
-  - 64: {fileID: 6411576}
   - 23: {fileID: 2311576}
   m_Layer: 2
   m_Name: PictoSkill4
@@ -99,7 +94,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 411578}
   - 33: {fileID: 3311578}
-  - 64: {fileID: 6411578}
   - 23: {fileID: 2311578}
   m_Layer: 2
   m_Name: PictoSkill3
@@ -117,7 +111,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 411580}
   - 33: {fileID: 3311580}
-  - 64: {fileID: 6411580}
   - 23: {fileID: 2311580}
   m_Layer: 2
   m_Name: PictoSkill2
@@ -135,7 +128,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 411582}
   - 33: {fileID: 3311582}
-  - 64: {fileID: 6411582}
   - 23: {fileID: 2311582}
   m_Layer: 2
   m_Name: PictoAttack
@@ -153,7 +145,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 421970}
   - 33: {fileID: 3321970}
-  - 64: {fileID: 6421970}
   - 23: {fileID: 2321970}
   m_Layer: 2
   m_Name: PictoSpeed
@@ -171,9 +162,8 @@ GameObject:
   m_Component:
   - 4: {fileID: 421972}
   - 33: {fileID: 3321972}
-  - 64: {fileID: 6421972}
   - 23: {fileID: 2321972}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: PictoMove
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -189,7 +179,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 421974}
   - 33: {fileID: 3321974}
-  - 64: {fileID: 6421974}
   - 23: {fileID: 2321974}
   m_Layer: 2
   m_Name: PictoSkill1
@@ -312,7 +301,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 491792}
   - 33: {fileID: 3391792}
-  - 64: {fileID: 6491792}
   - 23: {fileID: 2391792}
   m_Layer: 2
   m_Name: PictoMetalSkill4
@@ -330,7 +318,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 491794}
   - 33: {fileID: 3391794}
-  - 64: {fileID: 6491794}
   - 23: {fileID: 2391794}
   m_Layer: 2
   m_Name: PictoMetalSkill3
@@ -348,7 +335,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 491796}
   - 33: {fileID: 3391796}
-  - 64: {fileID: 6491796}
   - 23: {fileID: 2391796}
   m_Layer: 2
   m_Name: PictoMetalSkill2
@@ -366,7 +352,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 491798}
   - 33: {fileID: 3391798}
-  - 64: {fileID: 6491798}
   - 23: {fileID: 2391798}
   m_Layer: 2
   m_Name: PictoMetalLife
@@ -453,7 +438,9 @@ GameObject:
   - 4: {fileID: 491810}
   - 102: {fileID: 10291800}
   - 23: {fileID: 2391810}
-  m_Layer: 2
+  - 65: {fileID: 6541586}
+  - 114: {fileID: 11465502}
+  m_Layer: 0
   m_Name: Skill4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -470,7 +457,9 @@ GameObject:
   - 4: {fileID: 491812}
   - 102: {fileID: 10291802}
   - 23: {fileID: 2391812}
-  m_Layer: 2
+  - 65: {fileID: 6563228}
+  - 114: {fileID: 11414032}
+  m_Layer: 0
   m_Name: Skill3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -487,7 +476,9 @@ GameObject:
   - 4: {fileID: 491814}
   - 102: {fileID: 10291804}
   - 23: {fileID: 2391814}
-  m_Layer: 2
+  - 65: {fileID: 6518164}
+  - 114: {fileID: 11434562}
+  m_Layer: 0
   m_Name: Skill2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -504,7 +495,9 @@ GameObject:
   - 4: {fileID: 491816}
   - 102: {fileID: 10291806}
   - 23: {fileID: 2391816}
-  m_Layer: 2
+  - 65: {fileID: 6539064}
+  - 114: {fileID: 11407796}
+  m_Layer: 0
   m_Name: Skill1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1629,149 +1622,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 191798}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!64 &6411568
-MeshCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 111568}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_SmoothSphereCollisions: 0
-  m_Convex: 0
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!64 &6411570
-MeshCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 111570}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_SmoothSphereCollisions: 0
-  m_Convex: 0
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!64 &6411572
-MeshCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 111572}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_SmoothSphereCollisions: 0
-  m_Convex: 0
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!64 &6411574
-MeshCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 111574}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_SmoothSphereCollisions: 0
-  m_Convex: 0
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!64 &6411576
-MeshCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 111576}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_SmoothSphereCollisions: 0
-  m_Convex: 0
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!64 &6411578
-MeshCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 111578}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_SmoothSphereCollisions: 0
-  m_Convex: 0
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!64 &6411580
-MeshCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 111580}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_SmoothSphereCollisions: 0
-  m_Convex: 0
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!64 &6411582
-MeshCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 111582}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_SmoothSphereCollisions: 0
-  m_Convex: 0
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!64 &6421970
-MeshCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 121970}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_SmoothSphereCollisions: 0
-  m_Convex: 0
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!64 &6421972
-MeshCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 121972}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_SmoothSphereCollisions: 0
-  m_Convex: 0
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!64 &6421974
-MeshCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 121974}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_SmoothSphereCollisions: 0
-  m_Convex: 0
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!64 &6444444
 MeshCollider:
   m_ObjectHideFlags: 1
@@ -1785,58 +1635,54 @@ MeshCollider:
   m_SmoothSphereCollisions: 0
   m_Convex: 0
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!64 &6491792
-MeshCollider:
+--- !u!65 &6518164
+BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 191792}
+  m_GameObject: {fileID: 191814}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_SmoothSphereCollisions: 0
-  m_Convex: 0
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!64 &6491794
-MeshCollider:
+  m_Size: {x: 8, y: 1.25, z: 0}
+  m_Center: {x: 5.5, y: 0, z: 0}
+--- !u!65 &6539064
+BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 191794}
+  m_GameObject: {fileID: 191816}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_SmoothSphereCollisions: 0
-  m_Convex: 0
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!64 &6491796
-MeshCollider:
+  m_Size: {x: 8, y: 1.25, z: 0}
+  m_Center: {x: 5.5, y: 0, z: 0}
+--- !u!65 &6541586
+BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 191796}
+  m_GameObject: {fileID: 191810}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_SmoothSphereCollisions: 0
-  m_Convex: 0
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!64 &6491798
-MeshCollider:
+  m_Size: {x: 8, y: 1.25, z: 0}
+  m_Center: {x: 5.5, y: 0, z: 0}
+--- !u!65 &6563228
+BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 191798}
+  m_GameObject: {fileID: 191812}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_SmoothSphereCollisions: 0
-  m_Convex: 0
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+  m_Size: {x: 8, y: 1.25, z: 0}
+  m_Center: {x: 5.5, y: 0, z: 0}
 --- !u!102 &10244446
 TextMesh:
   serializedVersion: 3
@@ -2131,6 +1977,42 @@ TextMesh:
   m_Color:
     serializedVersion: 2
     rgba: 4278190080
+--- !u!114 &11407796
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 191816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9afb10180f654fe4bf09a4154841ae4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillNumber: 0
+--- !u!114 &11414032
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 191812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9afb10180f654fe4bf09a4154841ae4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillNumber: 2
+--- !u!114 &11434562
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 191814}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9afb10180f654fe4bf09a4154841ae4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillNumber: 1
 --- !u!114 &11444444
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2359,6 +2241,18 @@ MonoBehaviour:
   - {fileID: 2800000, guid: f60ccd4515e5746cc8c3865b55526e78, type: 3}
   - {fileID: 2800000, guid: 34d05eeaadee1483ba0ad7afa379c13c, type: 3}
   - {fileID: 2800000, guid: ba45ccf0d4ed4452bbf8f7b3c886f56e, type: 3}
+--- !u!114 &11465502
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 191810}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9afb10180f654fe4bf09a4154841ae4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillNumber: 3
 --- !u!222 &22244444
 CanvasRenderer:
   m_ObjectHideFlags: 1
