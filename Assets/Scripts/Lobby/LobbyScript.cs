@@ -9,12 +9,12 @@ public class LobbyScript : Photon.MonoBehaviour {
 	public GUIStyle style;
 
 //	private const string typeName = "oojump_garruk";
-	private bool isConnecting = false;
+//	private bool isConnecting = false;
 	public Dictionary<int, string> playersName = new Dictionary<int, string>();
 //	private HostData[] hostList;
 	private bool attemptToPlay = false;
 
-	private const string roomName = "RoomName";
+	private const string roomName = "GarrukLobby";
 	private RoomInfo[] roomsList;
 
 	void Awake()
@@ -59,8 +59,9 @@ public class LobbyScript : Photon.MonoBehaviour {
 		if (GUI.Button(new Rect(500, 0, 200, 50), "rejoindre un match"))
 	    {
 			attemptToPlay = true;
-			Network.Disconnect();
-			MasterServer.UnregisterHost();
+			PhotonNetwork.Disconnect();
+//			Network.Disconnect();
+//			MasterServer.UnregisterHost();
 
 		}
 
@@ -69,13 +70,24 @@ public class LobbyScript : Photon.MonoBehaviour {
 
 	void OnJoinedLobby()
 	{
-		PhotonNetwork.JoinRandomRoom();
+		TypedLobby sqlLobby = new TypedLobby("lobby", LobbyType.SqlLobby);    
+		string sqlLobbyFilter = "C0 = 0";
+		PhotonNetwork.JoinRandomRoom(null, 0, MatchmakingMode.FillRoom, sqlLobby, sqlLobbyFilter);
 	}
 
 	void OnPhotonRandomJoinFailed()
 	{
 		Debug.Log("Can't join random room!");
-		PhotonNetwork.CreateRoom(roomName + Guid.NewGuid().ToString("N"), true, true, 5);
+		RoomOptions newRoomOptions = new RoomOptions();
+		newRoomOptions.isOpen = true;
+		newRoomOptions.isVisible = true;
+		newRoomOptions.maxPlayers = 50;
+
+		newRoomOptions.customRoomProperties = new ExitGames.Client.Photon.Hashtable() { { "C0", 0 } };
+		newRoomOptions.customRoomPropertiesForLobby = new string[] { "C0" }; // C0 est récupérable dans le lobby
+		TypedLobby sqlLobby = new TypedLobby("lobby", LobbyType.SqlLobby);
+		
+		PhotonNetwork.CreateRoom(roomName, newRoomOptions, sqlLobby);
 	}
 	
 	void OnReceivedRoomListUpdate()
@@ -89,20 +101,22 @@ public class LobbyScript : Photon.MonoBehaviour {
 	}
 	void OnPhotonPlayerDisconnected(PhotonPlayer player)
 	{
-		photonView.RPC("RemovePlayerFromList", PhotonTargets.AllBuffered, player.ID);
+		RemovePlayerFromList(player.ID);
 	}
 
-	void OnLeftRoom()
+	void OnDisconnectedFromPhoton()
 	{
-		//photonView.RPC("RemovePlayerFromList", PhotonTargets.OthersBuffered, Network.player.guid);
+		if (attemptToPlay)
+		{
+			Application.LoadLevel("GamePage");
+		}
 	}
-	
 	/*private void StartServer()
 	{
 		Network.InitializeServer(5, 25000, !Network.HavePublicAddress());
 		MasterServer.RegisterHost(typeName, gameName);
 	}
-
+	
 	private void RefreshHostList()
 	{
 		MasterServer.RequestHostList(typeName);
@@ -121,7 +135,6 @@ public class LobbyScript : Photon.MonoBehaviour {
 		playersName.Add(id, loginName);
 	}
 
-	[RPC]
 	void RemovePlayerFromList(int id)
 	{
 		playersName.Remove(id);

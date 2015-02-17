@@ -1,18 +1,19 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
-public class GameScript : MonoBehaviour {
+public class GameScript : Photon.MonoBehaviour {
 
 	public string gameName = ApplicationModel.username;
 	public float WaitingTimeToRefresh;
 	public GameObject card;
 
-	private const string typeName = "oojump_garruk_game";
-	private bool isConnecting = false;
-	private bool connected = false;
-	private bool attemptToConnect = false;
-	private List<string> playersName = new List<string>();
+	//private const string typeName = "oojump_garruk_game";
+//	private bool isConnecting = false;
+//	private bool connected = false;
+//	private bool attemptToConnect = false;
+	private Dictionary<int, string> playersName = new Dictionary<int, string>();
 	private HostData[] hostList;
 	public string labelText = "Placer vos héros sur le champ de bataille";
 	public string labelInfo = "En attente d'autres joueurs";
@@ -23,6 +24,9 @@ public class GameScript : MonoBehaviour {
 	private bool hasClicked = false;
 	public static GameScript instance;
 
+	private const string roomName = "GarrukGame";
+	private RoomInfo[] roomsList;
+
 	void Awake()
 	{
 		MasterServer.ClearHostList();
@@ -31,6 +35,7 @@ public class GameScript : MonoBehaviour {
 
 	void Start()
 	{	
+		PhotonNetwork.ConnectUsingSettings("0.1");
 	}
 	
 	void OnGUI()
@@ -48,8 +53,8 @@ public class GameScript : MonoBehaviour {
 			{
 				hasClicked = true;
 				labelText = "En attente d'actions de l'autre joueur";
-				networkView.RPC("AddPlayerToList", RPCMode.AllBuffered, ApplicationModel.username);
-				networkView.RPC("StartFight", RPCMode.AllBuffered);
+				photonView.RPC("AddPlayerToList", PhotonTargets.AllBuffered, ApplicationModel.username);
+				photonView.RPC("StartFight", PhotonTargets.AllBuffered);
 			}
 		}
 		else
@@ -66,13 +71,13 @@ public class GameScript : MonoBehaviour {
 	
 	void Update()
 	{
-		if (!Network.isClient && !Network.isServer) {
-			MasterServer.RequestHostList(typeName);
-		}
+//		if (!Network.isClient && !Network.isServer) {
+//			MasterServer.RequestHostList(typeName);
+//		}
 
 	}
 
-	private void StartServer()
+	/*private void StartServer()
 	{
 		Network.InitializeServer(1, 25002, !Network.HavePublicAddress());
 		MasterServer.RegisterHost(typeName, gameName, "Open");
@@ -179,6 +184,65 @@ public class GameScript : MonoBehaviour {
 			StartCoroutine(JoinGame());
 		}
 	}
+*/
+	void OnJoinedLobby()
+	{
+		GameBoard.instance.nbPlayer = 2;
+		TypedLobby sqlLobby = new TypedLobby("rankedGame", LobbyType.SqlLobby);    
+		string sqlLobbyFilter = "C0 = 1";
+		PhotonNetwork.JoinRandomRoom(null, 0, MatchmakingMode.FillRoom, sqlLobby, sqlLobbyFilter);
+	}
+	
+	void OnPhotonRandomJoinFailed()
+	{
+		Debug.Log("Can't join random room!");
+		RoomOptions newRoomOptions = new RoomOptions();
+		newRoomOptions.isOpen = true;
+		newRoomOptions.isVisible = true;
+		newRoomOptions.maxPlayers = 2;
+		newRoomOptions.customRoomProperties = new ExitGames.Client.Photon.Hashtable() { { "C0", 1 } }; // CO pour une partie simple
+		newRoomOptions.customRoomPropertiesForLobby = new string[] { "C0" }; // C0 est récupérable dans le lobby
+		
+
+		TypedLobby sqlLobby = new TypedLobby("rankedGame", LobbyType.SqlLobby);
+		PhotonNetwork.CreateRoom(roomName + Guid.NewGuid().ToString("N"), newRoomOptions, sqlLobby);
+		GameBoard.instance.nbPlayer = 1;
+		
+	}
+	
+	void OnReceivedRoomListUpdate()
+	{
+		roomsList = PhotonNetwork.GetRoomList();
+	}
+
+
+
+	void OnJoinedRoom()
+	{
+		Debug.Log("Connected to Room");
+		photonView.RPC("AddPlayerToList", PhotonTargets.AllBuffered, PhotonNetwork.player.ID, ApplicationModel.username);
+
+		if (GameBoard.instance.nbPlayer == 1)
+		{
+			GameTile.AvailableStartingColumns.Add("Column1");
+			GameTile.AvailableStartingColumns.Add("Column2");
+		} else
+		{
+			GameTile.AvailableStartingColumns.Add("Column7");
+			GameTile.AvailableStartingColumns.Add("Column8");
+		}
+
+		GameBoard gb = GameObject.Find("Game Board").GetComponent<GameBoard> () as GameBoard;
+		StartCoroutine(gb.AddCardToBoard());
+	}
+
+
+	void OnPhotonPlayerDisconnected(PhotonPlayer player)
+	{
+		labelInfo = "l'utilisateur a quitté le match, en attente d'autres utilisateurs";
+		RemovePlayerFromList(player.ID);
+	}
+
 
 	public void EndOfGame(int player)
 	{
@@ -192,10 +256,15 @@ public class GameScript : MonoBehaviour {
 		Application.LoadLevel("LobbyPage");
 	}
 
-	[RPC]
-	void AddPlayerToList(string loginName)
+	void RemovePlayerFromList(int id)
 	{
-		playersName.Add(loginName);
+		playersName.Remove(id);
+	}
+
+	[RPC]
+	void AddPlayerToList(int id, string loginName)
+	{
+		playersName.Add(id, loginName);
 	}
 	[RPC]
 	void StartFight()

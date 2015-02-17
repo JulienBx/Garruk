@@ -27,7 +27,7 @@ public class GameOutline : MonoBehaviour {
 			foreach (GameObject go in GameTimeLine.instance.GameObjects)
 			{
 				GameNetworkCard gc = go.GetComponent<GameNetworkCard>();
-				if (gc.ownerNumber == 1 && Network.isServer || gc.ownerNumber == 2 && Network.isClient)
+				if (gc.ownerNumber == 1 && GameBoard.instance.nbPlayer == 1 || gc.ownerNumber == 2 && GameBoard.instance.nbPlayer == 2)
 				{
 					RedOutlines[i].renderer.enabled = false;
 					GreenOutlines[i].renderer.enabled = true;

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class GamePlayingCard : MonoBehaviour {
+public class GamePlayingCard : Photon.MonoBehaviour {
 	
 	public static GamePlayingCard instance;
 	public GameNetworkCard gameCard;
@@ -46,7 +46,7 @@ public class GamePlayingCard : MonoBehaviour {
 					GamePlayingCard.instance.attemptToAttack = false;
 					GamePlayingCard.instance.hasAttacked = true;
 					GameTile.instance.SetCursorToDefault();
-					networkView.RPC("forwardInTime", RPCMode.AllBuffered);
+					photonView.RPC("forwardInTime", PhotonTargets.AllBuffered);
 
 				}
 				if (GameTimeLine.instance.PlayingCard.hasNeighbor() && !hasAttacked && !attemptToAttack)
