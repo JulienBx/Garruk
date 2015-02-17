@@ -6,6 +6,7 @@ public class GameCard_skill : MonoBehaviour {
 	bool isHovered = false;
 	Vector3 screenPos;
 	GameObject Parent;
+	int sizeSkill;
 
 	public int skillNumber;
 
@@ -36,7 +37,8 @@ public class GameCard_skill : MonoBehaviour {
 
 	void OnGUI () {
 		if (isHovered && transform.GetComponent<TextMesh> ().text != ""){
-			Rect windowRect = GUI.Window(0, new Rect(screenPos.x, Screen.height-screenPos.y+10, 250, 50), DoMyWindow, "Description de " + Parent.GetComponent<GameCard>().Card.Skills[skillNumber].Name);
+			sizeSkill = Parent.GetComponent<GameCard> ().Card.Skills [skillNumber].Description.Length;
+			Rect windowRect = GUI.Window(0, new Rect(screenPos.x, Screen.height-screenPos.y+10, 250, 30 + (sizeSkill / 2)), DoMyWindow, "Description de " + Parent.GetComponent<GameCard>().Card.Skills[skillNumber].Name);
 		}
 
 
@@ -45,8 +47,7 @@ public class GameCard_skill : MonoBehaviour {
 	void DoMyWindow(int windowID) {
 
 
-
-		GUI.Label (new Rect(10,15,250, 35),"" + Parent.GetComponent<GameCard>().Card.Skills[skillNumber].Description) ;
+		GUI.Label (new Rect(10,15,230, 15 + (sizeSkill / 2)),"" + Parent.GetComponent<GameCard>().Card.Skills[skillNumber].Description) ;
 
 		
 	}

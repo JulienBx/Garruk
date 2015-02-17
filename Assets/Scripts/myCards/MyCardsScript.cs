@@ -1,7 +1,4 @@
 using UnityEngine;
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
@@ -143,9 +140,6 @@ public class MyCardsScript : MonoBehaviour
 		if (Input.GetMouseButtonUp(0) && isBeingDragged )
 			isBeingDragged = false;
 
-
-
-
 		GUILayout.BeginArea(new Rect(0.80f*Screen.width,0.05f*Screen.height,Screen.width * 0.18f,0.95f*Screen.height));
 		{
 			GUILayout.BeginVertical(); // also can put width in here
@@ -209,7 +203,7 @@ public class MyCardsScript : MonoBehaviour
 					GUILayout.Space(5);
 					
 					GUILayout.Label ("PTS DE VIE");
-					GUILayout.BeginHorizontal(); // also can put width in here
+					GUILayout.BeginHorizontal();
 					{
 						GUILayout.Label ("Min :"+ Mathf.Round(minLifeVal).ToString());
 						GUILayout.FlexibleSpace();
@@ -217,9 +211,8 @@ public class MyCardsScript : MonoBehaviour
 					}
 					GUILayout.EndHorizontal();
 
-					#if UNITY_EDITOR
-					EditorGUILayout.MinMaxSlider (ref minLifeVal, ref maxLifeVal, minLifeLimit, maxLifeLimit);
-					#endif
+					MyGUI.MinMaxSlider (ref minLifeVal, ref maxLifeVal, minLifeLimit, maxLifeLimit);
+
 
 					minLifeVal = Mathf.Round (minLifeVal);
 					maxLifeVal = Mathf.Round (maxLifeVal);
@@ -228,7 +221,7 @@ public class MyCardsScript : MonoBehaviour
 					GUILayout.Space(5);
 					
 					GUILayout.Label ("PTS D'ATTAQUE");
-					GUILayout.BeginHorizontal(); // also can put width in here
+					GUILayout.BeginHorizontal(); 
 					{
 						GUILayout.Label ("Min :"+ Mathf.Round(minAttackVal).ToString());
 						GUILayout.FlexibleSpace();
@@ -236,9 +229,9 @@ public class MyCardsScript : MonoBehaviour
 					}
 					GUILayout.EndHorizontal();
 
-					#if UNITY_EDITOR
-					EditorGUILayout.MinMaxSlider (ref minAttackVal, ref maxAttackVal, minAttackLimit, maxAttackLimit);
-					#endif
+					MyGUI.MinMaxSlider (ref minAttackVal, ref maxAttackVal, minAttackLimit, maxAttackLimit);
+			
+
 
 					minAttackVal = Mathf.Round (minAttackVal);
 					maxAttackVal = Mathf.Round (maxAttackVal);
@@ -253,10 +246,9 @@ public class MyCardsScript : MonoBehaviour
 						GUILayout.Label ("Max :"+ Mathf.Round(maxSpeedVal).ToString());
 					}
 					GUILayout.EndHorizontal();
-					
-					#if UNITY_EDITOR
-					EditorGUILayout.MinMaxSlider (ref minSpeedVal, ref maxSpeedVal, minSpeedLimit, maxSpeedLimit);
-					#endif
+
+					MyGUI.MinMaxSlider (ref minSpeedVal, ref maxSpeedVal, minSpeedLimit, maxSpeedLimit);
+
 
 					minSpeedVal = Mathf.Round (minSpeedVal);
 					maxSpeedVal = Mathf.Round (maxSpeedVal);
@@ -264,17 +256,15 @@ public class MyCardsScript : MonoBehaviour
 					GUILayout.Space(5);
 					
 					GUILayout.Label ("PTS DE DEPLACEMENT");
-					GUILayout.BeginHorizontal(); // also can put width in here
+					GUILayout.BeginHorizontal(); 
 					{
 						GUILayout.Label ("Min :"+ minMoveVal.ToString());
 						GUILayout.FlexibleSpace();
 						GUILayout.Label ("Max :"+ maxMoveVal.ToString());
 					}
 					GUILayout.EndHorizontal();
-					
-					#if UNITY_EDITOR
-					EditorGUILayout.MinMaxSlider (ref minMoveVal, ref maxMoveVal, minMoveLimit, maxMoveLimit);
-					#endif
+
+					MyGUI.MinMaxSlider (ref minMoveVal, ref maxMoveVal, minMoveLimit, maxMoveLimit);
 
 					minMoveVal = Mathf.Round (minMoveVal);
 					maxMoveVal = Mathf.Round (maxMoveVal);
