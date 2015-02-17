@@ -53,7 +53,6 @@ public class GameScript : Photon.MonoBehaviour {
 			{
 				hasClicked = true;
 				labelText = "En attente d'actions de l'autre joueur";
-				photonView.RPC("AddPlayerToList", PhotonTargets.AllBuffered, ApplicationModel.username);
 				photonView.RPC("StartFight", PhotonTargets.AllBuffered);
 			}
 		}

@@ -2081,6 +2081,7 @@ GameObject:
   - 114: {fileID: 631948790}
   - 148: {fileID: 631948797}
   - 114: {fileID: 631948794}
+  - 114: {fileID: 631948798}
   m_Layer: 0
   m_Name: Playing Card
   m_TagString: Untagged
@@ -2445,12 +2446,37 @@ NetworkView:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 631948789}
-  m_Enabled: 1
+  m_Enabled: 0
   m_StateSynchronization: 1
   m_Observed: {fileID: 0}
   m_ViewID:
     m_ID: 3
     m_Type: 1
+--- !u!114 &631948798
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 631948789}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownerId: 0
+  group: 0
+  prefixBackup: -1
+  observed: {fileID: 0}
+  synchronization: 0
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 0}
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 3
+  instantiationId: 3
+  isRuntimeInstantiated: 0
 --- !u!1 &648034862
 GameObject:
   m_ObjectHideFlags: 0
@@ -6856,6 +6882,7 @@ GameObject:
   - 4: {fileID: 1766874476}
   - 148: {fileID: 1766874478}
   - 114: {fileID: 1766874477}
+  - 114: {fileID: 1766874479}
   m_Layer: 0
   m_Name: Game Board
   m_TagString: Untagged
@@ -6907,12 +6934,37 @@ NetworkView:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1766874475}
-  m_Enabled: 1
+  m_Enabled: 0
   m_StateSynchronization: 1
   m_Observed: {fileID: 1766874476}
   m_ViewID:
     m_ID: 1
     m_Type: 1
+--- !u!114 &1766874479
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1766874475}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownerId: 0
+  group: 0
+  prefixBackup: -1
+  observed: {fileID: 0}
+  synchronization: 0
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 0}
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 2
+  instantiationId: 2
+  isRuntimeInstantiated: 0
 --- !u!1 &1774588332
 GameObject:
   m_ObjectHideFlags: 0

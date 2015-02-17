@@ -173,6 +173,16 @@ public class GameNetworkCard : GameCard {
 				GameBoard.instance.isMoving = false;
 				GameBoard.instance.CardSelected = null;
 			}
+			if (GamePlayingCard.instance.attemptToMoveTo != null)
+			{
+				GamePlayingCard.instance.attemptToMoveTo = null;
+				GamePlayingCard.instance.hasMoved = true;
+			}
+			if (GamePlayingCard.instance.hasMoved && GamePlayingCard.instance.hasAttacked)
+			{
+				GamePlayingCard.instance.Pass();
+			}
+
 		}
 	}
 	

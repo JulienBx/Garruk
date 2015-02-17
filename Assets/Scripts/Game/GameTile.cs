@@ -63,11 +63,16 @@ public class GameTile : MonoBehaviour {
 				GameBoard.instance.CardSelected.transform.position = newPosition;
 				if (GameBoard.instance.CardSelected.currentTile.Equals(this))
 				{
-					GamePlayingCard.instance.hasMoved = false;
+					GamePlayingCard.instance.attemptToMoveTo = null;
 				}
-				else{
-					GamePlayingCard.instance.hasMoved = true;
+				else
+				{
+					GamePlayingCard.instance.attemptToMoveTo = this;
 				}
+			}
+			else
+			{
+				GamePlayingCard.instance.attemptToMoveTo = null;
 			}
 		}
 	}

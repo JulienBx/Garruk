@@ -16,7 +16,7 @@ Platform assembly: D:\Documents\Garruk\garruk_Data\Managed\UnityEngine.UI.dll (t
 Loading D:\Documents\Garruk\garruk_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
 Platform assembly: D:\Documents\Garruk\garruk_Data\Managed\Photon3Unity3D.dll (this message is harmless)
 Loading D:\Documents\Garruk\garruk_Data\Managed\Photon3Unity3D.dll into Unity Child Domain
-- Completed reload, in  0.118 seconds
+- Completed reload, in  0.084 seconds
 desktop: 1920x1080 60Hz; virtual: 1920x1080 at 0,0
 <RI> Initializing input.
 <RI> Input initialized.
@@ -51,26 +51,18 @@ PhotonView register is ignored, because viewID is 0. No id assigned yet to: View
  
 (Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
 
-1\0\carte 1\5\2\1\4\\Apathie&Renforcement&Sape&Lenteur
+2\1\carte 2\4\5\2\2\\Reflexes&Apathie&Renforcement&Sape&Lenteur
 
  
 (Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
 
-2\1\carte 2\4\5\2\2\\Reflexes&Apathie&Renforcement&Sape&Lenteur
+1\0\carte 1\5\2\1\4\\Apathie&Renforcement&Sape&Lenteur
 
  
 (Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
 
 3\2\carte 3\5\2\2\2\\Assassinat&Energie quantique&Ajout de mana&Virus&Renforcement
 
- 
-(Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
-
-PhotonView with ID 1 has no method "AddPlayerToList" that takes 1 argument(s): String
- 
-(Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
-
-PhotonView with ID 1 has no method "AddPlayerToList" that takes 1 argument(s): String
  
 (Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
 
