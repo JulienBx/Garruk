@@ -2101,6 +2101,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameCard: {fileID: 631948794}
+  attemptToMoveTo: {fileID: 0}
   hasMoved: 0
   attemptToAttack: 0
   hasAttacked: 0
