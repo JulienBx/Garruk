@@ -72,6 +72,8 @@ public class myGameScript : MonoBehaviour {
 	bool recalculeFiltres = false;
 
 	GameObject[] displayedCards ;
+	GameObject[] displayedDeckCards ;
+
 	void Update () {
 		if (Screen.width != widthScreen || Screen.height != heightScreen) {
 			this.applyFilters();
@@ -90,13 +92,13 @@ public class myGameScript : MonoBehaviour {
 		filtersCardType = new List<int> ();
 		StartCoroutine(RetrieveDecks()); 
 		StartCoroutine(getCards()); 
-		//StartCoroutine(createDeckCards()); 
+
 	}
 
 	void OnGUI()
 	{
 		if (isDeckEnabled) {
-			GUILayout.BeginArea(new Rect(Screen.width * 0.02f,0.12f*Screen.height,Screen.width * 0.16f,0.9f*Screen.height));
+			GUILayout.BeginArea(new Rect(widthScreen * 0.02f,0.12f*heightScreen,widthScreen * 0.16f,0.9f*heightScreen));
 			{
 				GUILayout.BeginVertical(); // also can put width in here
 				{
@@ -119,8 +121,8 @@ public class myGameScript : MonoBehaviour {
 			}
 			GUILayout.EndArea();
 		}
-		if (isLoadedCards==0){
-			GUILayout.BeginArea(new Rect(Screen.width * 0.22f,0.26f*Screen.height,Screen.width * 0.78f,0.64f*Screen.height));
+		if (isLoadedCards<2){
+			GUILayout.BeginArea(new Rect(widthScreen * 0.22f,0.26f*heightScreen,widthScreen * 0.78f,0.64f*heightScreen));
 			{
 				GUILayout.BeginVertical(); // also can put width in here
 				{
@@ -141,6 +143,8 @@ public class myGameScript : MonoBehaviour {
 				GUI.skin.toggle.alignment = TextAnchor.LowerLeft;
 
 				createCards();
+				createDeckCards();
+
 			}
 
 			for (int i = 0 ; i < nbPages ; i++){
@@ -154,7 +158,7 @@ public class myGameScript : MonoBehaviour {
 				}
 			}
 
-			GUILayout.BeginArea(new Rect(0.82f*Screen.width,0.12f*Screen.height,Screen.width * 0.16f,0.85f*Screen.height));
+			GUILayout.BeginArea(new Rect(0.82f*widthScreen,0.12f*heightScreen,widthScreen * 0.16f,0.85f*heightScreen));
 			{
 				bool toggle;
 				string tempString ;
@@ -341,6 +345,9 @@ public class myGameScript : MonoBehaviour {
 		myStyle.fixedHeight = 12;
 		myStyle.alignment = TextAnchor.MiddleCenter;
 		myStyle.normal.background = this.backButton;
+
+		heightScreen = Screen.height;
+		widthScreen = Screen.width;
 	
 		yield break;
 	}
@@ -894,13 +901,13 @@ public class myGameScript : MonoBehaviour {
 					}
 				}
 			}
-			this.isLoadedCards = 2 ;
 		}
+		isLoadedCards++;
+		StartCoroutine(RetrieveCardsFromDeck ());
 	}
 
 	private void createCards(){
-		heightScreen = Screen.height;
-		widthScreen = Screen.width;
+
 		nbCardsPerRow = 7 * 377 * widthScreen / (711*heightScreen) ;
 		displayedCards = new GameObject[3*nbCardsPerRow];
 		int nbCardsToDisplay = this.cardsToBeDisplayed.Count;
@@ -908,7 +915,6 @@ public class myGameScript : MonoBehaviour {
 			displayedCards[i] = Instantiate(CardObject) as GameObject;
 			displayedCards[i].transform.localScale = new Vector3(1.5f, 1.5f, 1.5f); 
 			displayedCards[i].transform.localPosition = new Vector3(-5.6f + (8-nbCardsPerRow)*0.8f + (1.6f * (i%nbCardsPerRow)), 0.8f-(i-i%nbCardsPerRow)/nbCardsPerRow*2.2f, 0); 
-			//displayedCards[i].GetComponent<GameCard>().setTextResolution (1f);
 			displayedCards[i].gameObject.name = "Card" + i + "";	
 			if (i<nbCardsToDisplay){
 				displayedCards[i].GetComponent<GameCard>().Card = cards[this.cardsToBeDisplayed[i]]; 
@@ -934,6 +940,8 @@ public class myGameScript : MonoBehaviour {
 				paginatorGuiStyle[i].normal.textColor=Color.black;
 			}
 		}
+		heightScreen = Screen.height;
+		widthScreen = Screen.width;
 		this.setFilters ();
 	}
 
@@ -963,10 +971,7 @@ public class myGameScript : MonoBehaviour {
 		yield break;
 	}
 
-	private IEnumerator RetrieveCardsFromDeck()
-	{
-		deckCardsIds = new List<int>();
-
+	private IEnumerator RetrieveCardsFromDeck(){
 		WWWForm form = new WWWForm(); 								// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_nick", ApplicationModel.username); 	// Pseudo de l'utilisateur connecté
@@ -980,31 +985,44 @@ public class myGameScript : MonoBehaviour {
 		} 
 		else 
 		{
-//			print(w.text); 											// donne le retour
-			
+			print(w.text); 
+			int tempInt ;
+			int tempInt2 = this.cards.Count;
+			bool tempBool ;
+			int j = 0 ;
 			string[] cardDeckEntries = w.text.Split('\n'); 				// Chaque ligne du serveur correspond à une carte
-			
-			for(int i = 0 ; i < cardDeckEntries.Length-1 ; i++) 		// On boucle sur les attributs d'une carte
-			{
-				int j = 0 ;
-				int id = -1 ;
-				while(id==-1 && j<10000){
-
-					if (cardsIds[j]==System.Convert.ToInt32(cardDeckEntries[i])){
-						id = j;
+			deckCardsIds = new List<int>();
+			for(int i = 0 ; i < cardDeckEntries.Length-1 ; i++){
+				tempInt = System.Convert.ToInt32(cardDeckEntries[i]);
+				tempBool = true ; 
+				j = 0 ;
+				while (tempBool && j<tempInt2){
+					if (cards[j].Id == tempInt){
+						tempBool = false;
 					}
-					j++;
+					j++;		
 				}
-
-				GameObject instance = GameObject.Find("CardDeck"+i);
-				instance.renderer.enabled=true ;
-				instance.GetComponent<GameCard>().Card = cards[id];        					// ... et la carte qu'elle représente
-				instance.GetComponent<GameCard>().ShowFace();  
+				j--;
+				deckCardsIds.Add(j);
 			}
-			for(int i = cardDeckEntries.Length-1 ; i < 5 ; i++) 		// On boucle sur les attributs d'une carte
-			{
-				GameObject instance = GameObject.Find("CardDeck"+i);
-				instance.renderer.enabled=false ;
+		}
+		this.isLoadedCards++ ;
+	}
+
+	private void createDeckCards(){
+		displayedDeckCards = new GameObject[5];
+		int nbDeckCardsToDisplay = this.deckCardsIds.Count;
+		for(int i = 0 ; i < 5 ; i++){
+			displayedDeckCards[i] = Instantiate(CardObject) as GameObject;
+			displayedDeckCards[i].transform.localScale = new Vector3(1.5f, 1.5f, 1.5f); 
+			displayedDeckCards[i].transform.localPosition = new Vector3(-5.0f + i*2f , 3f, 0); 
+			displayedDeckCards[i].gameObject.name = "DeckCard" + i + "";	
+			if (i<nbDeckCardsToDisplay){
+				displayedDeckCards[i].GetComponent<GameCard>().Card = cards[this.deckCardsIds[i]]; 
+				displayedDeckCards[i].GetComponent<GameCard>().ShowFace();
+			}   
+			else{
+				displayedDeckCards[i].SetActive (false);
 			}
 		}
 	}
