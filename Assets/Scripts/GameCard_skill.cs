@@ -13,6 +13,7 @@ public class GameCard_skill : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		Parent = transform.parent.gameObject;
+		Parent = Parent.transform.parent.gameObject;
 
 	}
 	
