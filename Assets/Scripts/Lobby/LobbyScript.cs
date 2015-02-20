@@ -1,42 +1,49 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
-public class LobbyScript : MonoBehaviour {
+public class LobbyScript : Photon.MonoBehaviour {
 
-	public string gameName = "lobby";
+//	public string gameName = "lobby";
 	public GUIStyle style;
 
-	private const string typeName = "oojump_garruk";
-	private bool isConnecting = false;
-	private Dictionary<string, string> playersName = new Dictionary<string, string>();
-	private HostData[] hostList;
+//	private const string typeName = "oojump_garruk";
+//	private bool isConnecting = false;
+	public Dictionary<int, string> playersName = new Dictionary<int, string>();
+//	private HostData[] hostList;
 	private bool attemptToPlay = false;
+
+	private const string roomName = "GarrukLobby";
+	private RoomInfo[] roomsList;
 
 	void Awake()
 	{
-		RefreshHostList();
+//		RefreshHostList();
 	}
 
 	void Start()
 	{
 		style.normal.textColor = Color.red;
+		PhotonNetwork.ConnectUsingSettings("0.1");
 	}
 
 	void Update()
 	{
-		if (!Network.isClient && !Network.isServer) {
-			RefreshHostList();
-		}
+//		if (!Network.isClient && !Network.isServer) {
+//			RefreshHostList();
+//		}
 	}
 
 	void OnGUI()
 	{
+
+
 		if (playersName.Count > 0)
 		{
 			int i = 0;
 			GUI.Label(new Rect(10, 0, 500, 50), "Liste des utilisateurs connectés");
-			foreach(KeyValuePair<string, string> entry in playersName)
+			foreach(KeyValuePair<int, string> entry in playersName)
 			{
 				i++;
 				if (entry.Value == ApplicationModel.username)
@@ -52,18 +59,64 @@ public class LobbyScript : MonoBehaviour {
 		if (GUI.Button(new Rect(500, 0, 200, 50), "rejoindre un match"))
 	    {
 			attemptToPlay = true;
-			Network.Disconnect();
-			MasterServer.UnregisterHost();
+			PhotonNetwork.Disconnect();
+//			Network.Disconnect();
+//			MasterServer.UnregisterHost();
 
 		}
+
+		//Debug.Log(PhotonNetwork.connectionStateDetailed.ToString());
+	}
+
+	void OnJoinedLobby()
+	{
+		TypedLobby sqlLobby = new TypedLobby("lobby", LobbyType.SqlLobby);    
+		string sqlLobbyFilter = "C0 = 0";
+		PhotonNetwork.JoinRandomRoom(null, 0, MatchmakingMode.FillRoom, sqlLobby, sqlLobbyFilter);
+	}
+
+	void OnPhotonRandomJoinFailed()
+	{
+		Debug.Log("Can't join random room!");
+		RoomOptions newRoomOptions = new RoomOptions();
+		newRoomOptions.isOpen = true;
+		newRoomOptions.isVisible = true;
+		newRoomOptions.maxPlayers = 50;
+
+		newRoomOptions.customRoomProperties = new ExitGames.Client.Photon.Hashtable() { { "C0", 0 } };
+		newRoomOptions.customRoomPropertiesForLobby = new string[] { "C0" }; // C0 est récupérable dans le lobby
+		TypedLobby sqlLobby = new TypedLobby("lobby", LobbyType.SqlLobby);
+		
+		PhotonNetwork.CreateRoom(roomName, newRoomOptions, sqlLobby);
 	}
 	
-	private void StartServer()
+	void OnReceivedRoomListUpdate()
+	{
+		roomsList = PhotonNetwork.GetRoomList();
+	}
+	void OnJoinedRoom()
+	{
+		Debug.Log("Connected to Room");
+		photonView.RPC("AddPlayerToList", PhotonTargets.AllBuffered, PhotonNetwork.player.ID, ApplicationModel.username);
+	}
+	void OnPhotonPlayerDisconnected(PhotonPlayer player)
+	{
+		RemovePlayerFromList(player.ID);
+	}
+
+	void OnDisconnectedFromPhoton()
+	{
+		if (attemptToPlay)
+		{
+			Application.LoadLevel("GamePage");
+		}
+	}
+	/*private void StartServer()
 	{
 		Network.InitializeServer(5, 25000, !Network.HavePublicAddress());
 		MasterServer.RegisterHost(typeName, gameName);
 	}
-
+	
 	private void RefreshHostList()
 	{
 		MasterServer.RequestHostList(typeName);
@@ -73,75 +126,74 @@ public class LobbyScript : MonoBehaviour {
 	{
 		Network.Connect(hostData);
 	}
-
+*/
 	// RPC
 
 	[RPC]
-	void AddPlayerToList(string guid, string loginName)
+	void AddPlayerToList(int id, string loginName)
 	{
-		playersName.Add(guid, loginName);
+		playersName.Add(id, loginName);
 	}
 
-	[RPC]
-	void RemovePlayerFromList(string guid)
+	void RemovePlayerFromList(int id)
 	{
-		playersName.Remove(guid);
+		playersName.Remove(id);
 	}
 	// Messages
 
-	void OnServerInitialized()
-	{
-		Debug.Log("serveur initialisé");
-		networkView.RPC("AddPlayerToList", RPCMode.AllBuffered, Network.player.guid, ApplicationModel.username);
-	}
+//	void OnServerInitialized()
+//	{
+//		Debug.Log("serveur initialisé");
+//		networkView.RPC("AddPlayerToList", RPCMode.AllBuffered, Network.player.guid, ApplicationModel.username);
+//	}
 
-	void OnConnectedToServer()
-	{
-		Debug.Log("client connecté");
-		networkView.RPC("AddPlayerToList", RPCMode.AllBuffered, Network.player.guid, ApplicationModel.username);
-	}
+//	void OnConnectedToServer()
+//	{
+//		Debug.Log("client connecté");
+//		networkView.RPC("AddPlayerToList", RPCMode.AllBuffered, Network.player.guid, ApplicationModel.username);
+//	}
 
-	void OnDisconnectedFromServer()
-	{
-		if (attemptToPlay)
-		{
-			Application.LoadLevel("GamePage");
-		}
-	}
+//	void OnDisconnectedFromServer()
+//	{
+//		if (attemptToPlay)
+//		{
+//			Application.LoadLevel("GamePage");
+//		}
+//	}
 
-	void OnPlayerDisconnected(NetworkPlayer player)
-	{
-		networkView.RPC("RemovePlayerFromList", RPCMode.AllBuffered, player.guid);
-		//Network.RemoveRPCs(player);
-		//Network.DestroyPlayerObjects(player);
-	
-	}
+//	void OnPlayerDisconnected(NetworkPlayer player)
+//	{
+//		networkView.RPC("RemovePlayerFromList", RPCMode.AllBuffered, player.guid);
+//		//Network.RemoveRPCs(player);
+//		//Network.DestroyPlayerObjects(player);
+//	
+//	}
 
-	// MasterServerEvent
-	
-	void OnMasterServerEvent(MasterServerEvent msEvent)
-	{
-		if (!attemptToPlay)
-		{
-			if (msEvent == MasterServerEvent.HostListReceived) 
-			{
-				if (!Network.isClient && !Network.isServer) {
-					hostList = MasterServer.PollHostList();
-					if (hostList.Length > 0 )
-					{
-						if (!isConnecting)
-						{
-							isConnecting = true;
-							JoinServer(hostList[0]);
-						}
-					}
-					else
-					{
-						playersName.Clear();
-						StartServer();
-					}
-				}
-			}
-		}
-	}
+//	// MasterServerEvent
+//	
+//	void OnMasterServerEvent(MasterServerEvent msEvent)
+//	{
+//		if (!attemptToPlay)
+//		{
+//			if (msEvent == MasterServerEvent.HostListReceived) 
+//			{
+//				if (!Network.isClient && !Network.isServer) {
+//					hostList = MasterServer.PollHostList();
+//					if (hostList.Length > 0 )
+//					{
+//						if (!isConnecting)
+//						{
+//							isConnecting = true;
+//							JoinServer(hostList[0]);
+//						}
+//					}
+//					else
+//					{
+//						playersName.Clear();
+//						StartServer();
+//					}
+//				}
+//			}
+//		}
+//	}
 }

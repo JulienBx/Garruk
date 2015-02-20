@@ -1,49 +1,22 @@
-Initialize engine version: 4.6.2f1 (bd99309c2ad7)
+Initialize engine version: 4.6.1f1 (d1db7a1b5196)
 GfxDevice: creating device client; threaded=1
 Direct3D:
     Version:  Direct3D 11.0 [level 11.0]
-    Renderer: Intel(R) Iris(TM) Pro Graphics 5200 (ID=0xd26)
-    Vendor:   Intel
-    VRAM:     128 MB
+    Renderer: AMD Radeon HD 7900 Series (ID=0x679a)
+    Vendor:   ATI
+    VRAM:     3051 MB
 Begin MonoManager ReloadAssembly
-Platform assembly: D:\Documents\Garruk\garruk_Data\Managed\UnityEngine.dll (this message is harmless)
-Loading D:\Documents\Garruk\garruk_Data\Managed\UnityEngine.dll into Unity Child Domain
-Platform assembly: D:\Documents\Garruk\garruk_Data\Managed\Assembly-CSharp.dll (this message is harmless)
-Loading D:\Documents\Garruk\garruk_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
-Platform assembly: D:\Documents\Garruk\garruk_Data\Managed\UnityEngine.UI.dll (this message is harmless)
-Loading D:\Documents\Garruk\garruk_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
-- Completed reload, in  0.047 seconds
-desktop: 1920x1080 60Hz; virtual: 1920x1080 at 0,0
+Platform assembly: C:\Users\user\Documents\Garruk\garruk_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading C:\Users\user\Documents\Garruk\garruk_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: C:\Users\user\Documents\Garruk\garruk_Data\Managed\Assembly-CSharp-firstpass.dll (this message is harmless)
+Loading C:\Users\user\Documents\Garruk\garruk_Data\Managed\Assembly-CSharp-firstpass.dll into Unity Child Domain
+Platform assembly: C:\Users\user\Documents\Garruk\garruk_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading C:\Users\user\Documents\Garruk\garruk_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: C:\Users\user\Documents\Garruk\garruk_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading C:\Users\user\Documents\Garruk\garruk_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: C:\Users\user\Documents\Garruk\garruk_Data\Managed\Photon3Unity3D.dll (this message is harmless)
+Loading C:\Users\user\Documents\Garruk\garruk_Data\Managed\Photon3Unity3D.dll into Unity Child Domain
+- Completed reload, in  0.038 seconds
+desktop: 1360x768 60Hz; virtual: 1360x768 at 0,0
 <RI> Initializing input.
 <RI> Input initialized.
-Platform assembly: D:\Documents\Garruk\garruk_Data\Managed\System.Core.dll (this message is harmless)
-serveur initialisé
- 
-(Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
-
-11\4\carte 11\5\10\4\3\\
-
- 
-(Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
-
-2\1\carte 2\4\5\2\2\\Reflexes&Apathie&Renforcement&Sape&Lenteur
-
- 
-(Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
-
-1\0\carte 1\5\2\1\4\\Apathie&Renforcement&Sape&Lenteur
-
- 
-(Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
-
-3\2\carte 3\5\2\2\2\\Assassinat&Energie quantique&Ajout de mana&Virus&Renforcement
-
- 
-(Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
-
-UnloadTime: 1.242928 ms
-Unloading 4 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
-
-Unloading 27 unused Assets to reduce memory usage. Loaded Objects now: 240.
-Total: 0.700494 ms (FindLiveObjects: 0.013855 ms CreateObjectMapping: 0.009237 ms MarkObjects: 0.235550 ms  DeleteObjects: 0.147796 ms)
-

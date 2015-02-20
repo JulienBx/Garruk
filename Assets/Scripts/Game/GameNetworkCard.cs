@@ -49,7 +49,7 @@ public class GameNetworkCard : GameCard {
 	
 	void OnMouseDown() 
 	{
-		if (networkView.isMine)
+		if (photonView.isMine)
 		{
 			if (GameBoard.instance.TimeOfPositionning)
 			{
@@ -91,7 +91,7 @@ public class GameNetworkCard : GameCard {
 		{
 			if (GameTimeLine.instance.PlayingCard.neighbors.Find(e => e.Card.Equals(this.Card)))
 			{
-				networkView.RPC("GetDamage", RPCMode.AllBuffered, this.GetComponent<NetworkView>().viewID, GameTimeLine.instance.PlayingCard.Card.Attack);
+				photonView.RPC("GetDamage", PhotonTargets.AllBuffered, this.GetComponent<PhotonView>().viewID, GameTimeLine.instance.PlayingCard.Card.Attack);
 				GamePlayingCard.instance.attemptToAttack = false;
 				GamePlayingCard.instance.hasAttacked = true;
 				GameTile.instance.SetCursorToDefault();
@@ -103,7 +103,7 @@ public class GameNetworkCard : GameCard {
 	{
 		if (GameBoard.instance.TimeOfPositionning)
 		{
-			if (networkView.isMine)
+			if (photonView.isMine)
 			{
 				GameBoard.instance.CardHovered = this;
 				if (GameBoard.instance.isDragging)
@@ -124,7 +124,7 @@ public class GameNetworkCard : GameCard {
 	{
 		if (GameBoard.instance.TimeOfPositionning)
 		{
-			if (networkView.isMine)
+			if (photonView.isMine)
 			{
 				if (GameBoard.instance.isDragging)
 				{
@@ -138,7 +138,7 @@ public class GameNetworkCard : GameCard {
 	{
 		if (GameBoard.instance.TimeOfPositionning)
 		{
-			if (networkView.isMine)
+			if (photonView.isMine)
 			{
 				if (GameBoard.instance.isDragging)
 				{
@@ -168,11 +168,21 @@ public class GameNetworkCard : GameCard {
 				}
 			}
 			this.FindNeighbors();
-			if (networkView.isMine)
+			if (photonView.isMine)
 			{
 				GameBoard.instance.isMoving = false;
 				GameBoard.instance.CardSelected = null;
 			}
+			if (GamePlayingCard.instance.attemptToMoveTo != null)
+			{
+				GamePlayingCard.instance.attemptToMoveTo = null;
+				GamePlayingCard.instance.hasMoved = true;
+			}
+			if (GamePlayingCard.instance.hasMoved && GamePlayingCard.instance.hasAttacked)
+			{
+				GamePlayingCard.instance.Pass();
+			}
+
 		}
 	}
 	
@@ -200,10 +210,10 @@ public class GameNetworkCard : GameCard {
 	}
 
 	[RPC]
-	void GetDamage(NetworkViewID id, int attack)
+	void GetDamage(int id, int attack)
 	{
 		GameObject instance = Instantiate(AttackAnim, transform.position + new Vector3(0, 0, -2), Quaternion.identity) as GameObject;
-		GameObject go = NetworkView.Find(id).gameObject;
+		GameObject go = PhotonView.Find(id).gameObject;
 		GameNetworkCard gnc = go.GetComponent<GameNetworkCard>();
 		gnc.Damage += attack;
 		if (gnc.Damage >= gnc.Card.Life)

@@ -397,16 +397,6 @@ public class MyCardsScript : MonoBehaviour
 				string skillDescription= skillsInformation[1];
 				skillDescription=skillDescription.Replace(" X"," " + System.Convert.ToString(skillForce));
 				skillDescription=skillDescription.Replace(" X%"," " + System.Convert.ToString(skillForce) + "%");
-
-
-				this.cards[j-1].Skills.Add(new Skill (skillsInformation[0], //skillName
-				                                      System.Convert.ToInt32(cardInformation[12]), // idskill
-				                                      System.Convert.ToInt32(cardInformation[13]), // isactivated
-				                                      System.Convert.ToInt32(cardInformation[14]), // level
-				                                      System.Convert.ToInt32(cardInformation[15]), // power
-				                                      System.Convert.ToInt32(cardInformation[16]),
-				                                      skillDescription, // description du skill
-				                                      skillForce)); // force du skill
 				                                     
 													
 			}

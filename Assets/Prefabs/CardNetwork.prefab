@@ -29,6 +29,7 @@ GameObject:
   - 64: {fileID: 6458270}
   - 114: {fileID: 11415818}
   - 148: {fileID: 14854796}
+  - 114: {fileID: 11416702}
   m_Layer: 0
   m_Name: CardNetwork
   m_TagString: Untagged
@@ -265,6 +266,8 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 7360c852a1bd19e44b2f896f71ebd443, type: 3}
   - {fileID: 2800000, guid: 29731b969e3b8414b96d6c6fdcd93785, type: 3}
   - {fileID: 2800000, guid: ba6bb48ca259876429f8a1bc988f3790, type: 3}
+  pictos: []
+  metals: []
   ownerNumber: 0
   currentTile: {fileID: 0}
   Damage: 0
@@ -390,13 +393,38 @@ MonoBehaviour:
     m_StretchHeight: 0
   AttackAnim: {fileID: 145750, guid: cd7ff7c5c68a9b645935252080c8b9a4, type: 2}
   neighbors: []
+--- !u!114 &11416702
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 158266}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownerId: 0
+  group: 0
+  prefixBackup: -1
+  observed: {fileID: 0}
+  synchronization: 1
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 458270}
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 0
+  instantiationId: -1
+  isRuntimeInstantiated: 0
 --- !u!148 &14854796
 NetworkView:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 158266}
-  m_Enabled: 1
+  m_Enabled: 0
   m_StateSynchronization: 1
   m_Observed: {fileID: 458270}
   m_ViewID:

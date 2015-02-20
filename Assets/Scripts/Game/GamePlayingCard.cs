@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class GamePlayingCard : MonoBehaviour {
+public class GamePlayingCard : Photon.MonoBehaviour {
 	
 	public static GamePlayingCard instance;
 	public GameNetworkCard gameCard;
+	public GameTile attemptToMoveTo;
 	public bool hasMoved = false;
 	public bool attemptToAttack = false;
 	public bool hasAttacked = false;
@@ -29,7 +30,6 @@ public class GamePlayingCard : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	    
 	}
 
 	void OnGUI()
@@ -43,11 +43,7 @@ public class GamePlayingCard : MonoBehaviour {
 				pos = Camera.main.camera.WorldToScreenPoint(pos);
 				if (GUI.Button(new Rect(pos.x - 35, Screen.height - pos.y - 110, 67, 25), "Passer"))
 				{
-					GamePlayingCard.instance.attemptToAttack = false;
-					GamePlayingCard.instance.hasAttacked = true;
-					GameTile.instance.SetCursorToDefault();
-					networkView.RPC("forwardInTime", RPCMode.AllBuffered);
-
+					Pass();
 				}
 				if (GameTimeLine.instance.PlayingCard.hasNeighbor() && !hasAttacked && !attemptToAttack)
 				{
@@ -73,10 +69,19 @@ public class GamePlayingCard : MonoBehaviour {
 		}
 
 	}
+
+	public void Pass()
+	{
+		GamePlayingCard.instance.attemptToAttack = false;
+		GamePlayingCard.instance.hasAttacked = true;
+		GameTile.instance.SetCursorToDefault();
+		photonView.RPC("forwardInTime", PhotonTargets.AllBuffered);
+	}
 	public void ChangeCurrentCard(GameNetworkCard card)
 	{
 		hasMoved = false;
 		hasAttacked = false;
+		attemptToMoveTo = null;
 		gameCard.Card = card.Card;
 		gameCard.ownerNumber = card.ownerNumber;
 		changeStats();

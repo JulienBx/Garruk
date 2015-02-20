@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-public class GameCard : MonoBehaviour 
+public class GameCard : Photon.MonoBehaviour 
 {
 	public Texture[] faces; 										// Les différentes images des cartes
 	public Texture[] pictos;

@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class GameBoard : MonoBehaviour 
+public class GameBoard : Photon.MonoBehaviour 
 {
 	public GameObject[] locations;
 	public GameObject Card;
@@ -14,7 +14,8 @@ public class GameBoard : MonoBehaviour
 	public GameCard CardHovered;
 	public static GameBoard instance = null;
 	public int gridWidthInHexes = 5, gridHeightInHexes = 0;
-	public int MyPlayerNumber {get {return (Network.isServer)?1:2;}}
+	public int nbPlayer = 0;
+	public int MyPlayerNumber {get {return nbPlayer;}}
 	public int nbCardsPlayer1 = 0, nbCardsPlayer2 = 0;
 
 
@@ -38,7 +39,7 @@ public class GameBoard : MonoBehaviour
 
 	void ArrangeCards()
 	{
-		if (Network.isServer)
+		if (GameBoard.instance.nbPlayer == 1)
 		{
 			locations = GameObject.FindGameObjectsWithTag("Column1");
 		}
@@ -52,15 +53,15 @@ public class GameBoard : MonoBehaviour
 			int line = int.Parse(location.name.Substring(6)) + 1;
 			if (deck.Cards.Count >= line)
 			{
-				NetworkViewID viewID = Network.AllocateViewID();
-				networkView.RPC("SpawnCard", RPCMode.AllBuffered, viewID, deck.Cards[line - 1].Id, location.transform.position + new Vector3(0, 0, -1), location.transform.rotation * Quaternion.Euler(0, -90, 0));
+				int viewID = PhotonNetwork.AllocateViewID();
+				photonView.RPC("SpawnCard", PhotonTargets.AllBuffered, viewID, deck.Cards[line - 1].Id, location.transform.position + new Vector3(0, 0, -1), location.transform.rotation * Quaternion.Euler(0, -90, 0));
 			}
 		}
 	}
 
 	public IEnumerator AddCardToBoard()
 	{
-		if (Network.isServer)
+		if (GameBoard.instance.nbPlayer == 1)
 		{
 			this.deck = new Deck(2);
 		}
@@ -93,16 +94,16 @@ public class GameBoard : MonoBehaviour
 	}
 
 	[RPC]
-	IEnumerator SpawnCard(NetworkViewID viewID, int cardID, Vector3 location, Quaternion rotation)
+	IEnumerator SpawnCard(int viewID, int cardID, Vector3 location, Quaternion rotation)
 	{
 		GameObject clone;
 		clone = Instantiate(Card, location, rotation) as GameObject;
-		NetworkView nView;
+		PhotonView nView;
 
-		nView = clone.GetComponent<NetworkView>();
+		nView = clone.GetComponent<PhotonView>();
 		nView.viewID = viewID;
 		GameNetworkCard gCard = clone.GetComponent<GameNetworkCard>();
-		if (gCard.networkView.isMine && Network.isServer || !gCard.networkView.isMine && Network.isClient)
+		if (gCard.photonView.isMine && GameBoard.instance.nbPlayer == 1 || !gCard.photonView.isMine && GameBoard.instance.nbPlayer == 2)
 		{
 			gCard.ownerNumber = 1;
 			nbCardsPlayer1++;
