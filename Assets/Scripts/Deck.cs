@@ -42,7 +42,6 @@ public class Deck
 	public IEnumerator RetrieveCards() {
 		WWWForm form = new WWWForm(); 								// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
-		//form.AddField("myform_nick", ApplicationModel.username); 	// Pseudo de l'utilisateur connecté
 		form.AddField("myform_deck", Id);							// Id du	 deck
 		
 		WWW w = new WWW(URLCards, form); 							// On envoie le formulaire à l'url sur le serveur 
