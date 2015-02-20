@@ -4,9 +4,9 @@ using System.Collections.Generic;
 
 public class myGameScript : MonoBehaviour {
 	private string URLGetDecks = "http://54.77.118.214/GarrukServer/get_decks_by_user.php";
-	private string URLGetCardsByDeck = "http://localhost/GarrukServer/get_cards_by_deck.php";
+	private string URLGetCardsByDeck = "http://54.77.118.214/GarrukServer/get_cards_by_deck.php";
 //	private string URLGetCardsFullByDeck = "http://localhost/GarrukServer/get_cards_full_by_deck.php";
-	private string URLGetMyCardsPage = "http://localhost/GarrukServer/get_mycardspage_data.php";
+	private string URLGetMyCardsPage = "http://54.77.118.214/GarrukServer/get_mycardspage_data.php";
 
 	private IList<Deck> myDecks;
 	private bool isDeckEnabled = false ;
