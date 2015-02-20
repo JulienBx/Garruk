@@ -74,6 +74,12 @@ public class myGameScript : MonoBehaviour {
 	GameObject[] displayedCards ;
 	GameObject[] displayedDeckCards ;
 
+	GameObject hoveredCard = null;
+	GameObject oldHoveredCard = null;
+
+	Ray ray;
+	RaycastHit hit;
+
 	void Update () {
 		if (Screen.width != widthScreen || Screen.height != heightScreen) {
 			this.applyFilters();
@@ -85,6 +91,33 @@ public class myGameScript : MonoBehaviour {
 			StartCoroutine(this.displayPage ());
 			toReload = false ;
 		}
+
+
+		ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+		if(Physics.Raycast(ray, out hit))
+		{
+			if (hit.collider.name.StartsWith("Card")){
+				hoveredCard = GameObject.Find(hit.collider.name);
+				onHovering(hoveredCard);
+			}
+			
+			if (oldHoveredCard != hoveredCard){
+				if (oldHoveredCard != null)
+					endHovering(oldHoveredCard);
+				oldHoveredCard = hoveredCard;
+			}
+			
+			
+		}
+		else
+		{
+			if (oldHoveredCard != null){
+				endHovering(oldHoveredCard);
+				oldHoveredCard = hoveredCard;
+			}
+		}
+
+
 	}
 
 	void Start() {
@@ -1026,4 +1059,27 @@ public class myGameScript : MonoBehaviour {
 			}
 		}
 	}
+
+
+	public void onHovering (GameObject cardName){
+		
+		cardName.transform.localScale = new Vector3(2.5f, 2.5f, 2.5f);
+		Vector3 cardPosition = cardName.transform.position; 
+		cardName.transform.position = new Vector3 (cardPosition.x, cardPosition.y, -1);
+		//cardName.GetComponent<GameCard> ().setTextResolution (2f);
+		
+		
+	}
+	
+	public void endHovering (GameObject cardName){
+		
+		cardName.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
+		Vector3 cardPosition = cardName.transform.position; 
+		cardName.transform.position = new Vector3 (cardPosition.x, cardPosition.y, 0);
+		//cardName.GetComponent<GameCard> ().setTextResolution (1f);
+	}
+
+
+
+
 }

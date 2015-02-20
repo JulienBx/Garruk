@@ -102,6 +102,7 @@ public class GameCard : Photon.MonoBehaviour
 
 					transform.Find ("Skill"+(i+1)+"Area").FindChild ("PictoMetalSkill" + (i+1))
 						.renderer.materials[j].mainTexture = metals [Card.Skills [i].Level];
+
 				
 				}
 			
@@ -114,6 +115,28 @@ public class GameCard : Photon.MonoBehaviour
 			transform.Find ("Skill"+(i+1)+"Area").FindChild ("PictoMetalSkill" + (i+1)).FindChild ("SkillForce" + (i+1))
 					.GetComponent<TextMesh> ().text = Card.Skills[i].Power + "/" +Card.Skills[i].ManaCost ;
 			
+			}
+
+			else {
+
+				for (int j = 0 ; j<6 ; j++){
+					
+					transform.Find ("Skill"+(i+1)+"Area").FindChild ("PictoMetalSkill" + (i+1))
+						.renderer.materials[j].mainTexture = metals [0];
+				}
+
+					transform.Find ("Skill"+(i+1)+"Area").FindChild ("Skill" + (i+1))
+						.GetComponent<TextMesh> ().text = ""; // On renseigne les caractéristique des compétences
+					
+					transform.Find ("Skill"+(i+1)+"Area").FindChild ("PictoSkill" + (i+1))
+						.renderer.material.mainTexture = skillsPictos[199]; // On affecte une couleur pour le matériau
+					
+					transform.Find ("Skill"+(i+1)+"Area").FindChild ("PictoMetalSkill" + (i+1)).FindChild ("SkillForce" + (i+1))
+						.GetComponent<TextMesh> ().text = "";
+
+					
+				}
+
 			}
 		}
 
@@ -143,8 +166,7 @@ public class GameCard : Photon.MonoBehaviour
 //		}
 
 
-
-	}
+	
 
 	public void setTextResolution(float resolution)
 	{
