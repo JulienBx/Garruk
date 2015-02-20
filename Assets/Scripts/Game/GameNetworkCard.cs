@@ -319,7 +319,7 @@ public class GameNetworkCard : GameCard {
 
 	public new void ShowFace() 
 	{
-		renderer.material.mainTexture = faces[Card.ArtIndex]; 		// On affiche l'image correspondant à la carte
+		renderer.material.mainTexture = frontFaces[Card.ArtIndex]; 		// On affiche l'image correspondant à la carte
 		transform.Find("Title")
 			.GetComponent<TextMesh>().text = Card.Title;			// On lui attribut son titre
 		Transform LifeTextPosition = transform.Find("Life");

@@ -23,6 +23,7 @@ public class MyCardsScript : MonoBehaviour
 	IList<string> matchValues;
 	public Texture2D textureAutoc ;
 	private string filtreAutoC ;
+
 	
 	bool dataIsLoaded = false ;
 
@@ -388,7 +389,7 @@ public class MyCardsScript : MonoBehaviour
 				j++ ;
 			}
 			if (cardInformation[12].Length>0){
-				string[] skillsInformation=skillsIDS[System.Convert.ToInt32(cardInformation[12])].Split(new string[] { "\\" }, System.StringSplitOptions.None);
+				string[] skillsInformation=skillsIDS[System.Convert.ToInt32(cardInformation[12])+1].Split(new string[] { "\\" }, System.StringSplitOptions.None);
 
 				int skillForce=Mathf.RoundToInt(System.Convert.ToSingle(skillsInformation[3])*System.Convert.ToInt32(cardInformation[15]));
 				if (skillForce <=System.Convert.ToInt32(skillsInformation[2]))
@@ -449,7 +450,7 @@ public class MyCardsScript : MonoBehaviour
 				}
 				// On récupère les informations de la carte
 				GameObject instance = Instantiate(CardObject) as GameObject;            					// On charge une instance du prefab Card
-				instance.transform.localScale = new Vector3(0.15f, 0.02f, 0.20f);               					 // On change ses attributs d'échelle ...                                                                    
+				instance.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);               					 // On change ses attributs d'échelle ...                                                                    
 				instance.transform.localPosition = new Vector3(-5 + (2 * x), y, 0);                					// ..., de positionnement ...
 				instance.GetComponent<GameCard>().Card = cards[cardsToBeFiltered[i]];        					// ... et la carte qu'elle représente
 				instance.GetComponent<GameCard>().ShowFace();        					// On affiche la carte
@@ -575,20 +576,20 @@ public class MyCardsScript : MonoBehaviour
 
 	public void onHovering (GameObject cardName){
 
-		cardName.transform.localScale = new Vector3(0.30f, 0.02f, 0.40f);
+		cardName.transform.localScale = new Vector3(2.5f, 2.5f, 2.5f);
 		Vector3 cardPosition = cardName.transform.position; 
 		cardName.transform.position = new Vector3 (cardPosition.x, cardPosition.y, -1);
-		cardName.GetComponent<GameCard> ().setTextResolution (2f);
+		//cardName.GetComponent<GameCard> ().setTextResolution (2f);
 
 
 	}
 
 	public void endHovering (GameObject cardName){
 		
-		cardName.transform.localScale = new Vector3(0.15f, 0.02f, 0.20f);
+		cardName.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
 		Vector3 cardPosition = cardName.transform.position; 
 		cardName.transform.position = new Vector3 (cardPosition.x, cardPosition.y, 0);
-		cardName.GetComponent<GameCard> ().setTextResolution (1f);
+		//cardName.GetComponent<GameCard> ().setTextResolution (1f);
 	}
 	
 

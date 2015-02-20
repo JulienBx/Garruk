@@ -1032,8 +1032,7 @@ MonoBehaviour:
   backButton: {fileID: 2800000, guid: 270df454f8aced9459353ce23e5ea4bb, type: 3}
   backCard: {fileID: 2800000, guid: 61b1a253993ab174ea81e7e2a1d3e7b6, type: 3}
   backActivatedButton: {fileID: 2800000, guid: e1eff2bad0c09fd40b92fda0be0ac729, type: 3}
-  textureAutoc: {fileID: 2800000, guid: 485ee55873fe8554ca4d3f3919bc9fb7, type: 3}
-  CardObject: {fileID: 144448, guid: 328a8c95257529d40a7734a106088afe, type: 2}
+  CardObject: {fileID: 157076, guid: 5aec1731b1da74118aaca3ee17b3c4e1, type: 2}
 --- !u!1 &1187778461
 GameObject:
   m_ObjectHideFlags: 0

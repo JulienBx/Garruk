@@ -906,7 +906,7 @@ public class myGameScript : MonoBehaviour {
 		int nbCardsToDisplay = this.cardsToBeDisplayed.Count;
 		for(int i = 0 ; i < 3*nbCardsPerRow ; i++){
 			displayedCards[i] = Instantiate(CardObject) as GameObject;
-			displayedCards[i].transform.localScale = new Vector3(0.15f, 0.02f, 0.20f); 
+			displayedCards[i].transform.localScale = new Vector3(1.5f, 1.5f, 1.5f); 
 			displayedCards[i].transform.localPosition = new Vector3(-5.6f + (8-nbCardsPerRow)*0.8f + (1.6f * (i%nbCardsPerRow)), 0.8f-(i-i%nbCardsPerRow)/nbCardsPerRow*2.2f, 0); 
 			//displayedCards[i].GetComponent<GameCard>().setTextResolution (1f);
 			displayedCards[i].gameObject.name = "Card" + i + "";	
