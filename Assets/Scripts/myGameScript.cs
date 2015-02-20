@@ -496,6 +496,15 @@ public class myGameScript : MonoBehaviour {
 		}
 
 		if (recalculeFiltres) {
+			bool minLifeBool = (minLifeLimit==minLifeVal);
+			bool maxLifeBool = (maxLifeLimit==maxLifeVal);
+			bool minMoveBool = (minMoveLimit==minMoveVal);
+			bool maxMoveBool = (maxMoveLimit==maxMoveVal);
+			bool minQuicknessBool = (minQuicknessLimit==minQuicknessVal);
+			bool maxQuicknessBool = (maxQuicknessLimit==maxQuicknessVal);
+			bool minAttackBool = (minAttackLimit==minAttackVal);
+			bool maxAttackBool = (maxAttackLimit==maxAttackVal);
+			print ("test : "+minLifeBool);
 			minLifeLimit=10000;
 			maxLifeLimit=0;
 			minAttackLimit=10000;
@@ -547,28 +556,52 @@ public class myGameScript : MonoBehaviour {
 							if (cards[i].IdClass==this.filtersCardType[j]){
 								test=true ;
 								if (cards[i].hasSkill(this.valueSkill)){
-									if (this.cards[i].Life<minLifeLimit){
+									if (minLifeBool){
+										minLifeVal=minLifeLimit;
+									}
+									else if (this.cards[i].Life<minLifeLimit){
 										minLifeLimit = this.cards[i].Life;
 									}
-									if (this.cards[i].Life>maxLifeLimit){
+									if (maxLifeBool){
+										maxLifeVal=maxLifeLimit;
+									}
+									else if (this.cards[i].Life>maxLifeLimit){
 										maxLifeLimit = this.cards[i].Life;
 									}
-									if (this.cards[i].Attack<minAttackLimit){
+									if (minAttackBool){
+										minAttackVal=minAttackLimit;
+									}
+									else if (this.cards[i].Attack<minAttackLimit){
 										minAttackLimit = this.cards[i].Attack;
 									}
-									if (this.cards[i].Attack>maxAttackLimit){
+									if (maxAttackBool){
+										maxAttackVal=maxAttackLimit;
+									}
+									else if (this.cards[i].Attack>maxAttackLimit){
 										maxAttackLimit = this.cards[i].Attack;
 									}
-									if (this.cards[i].Move<minMoveLimit){
+									if (minMoveBool){
+										minMoveVal=minMoveLimit;
+									}
+									else if (this.cards[i].Move<minMoveLimit){
 										minMoveLimit = this.cards[i].Move;
 									}
-									if (this.cards[i].Move>maxMoveLimit){
+									if (maxMoveBool){
+										maxMoveVal=maxMoveLimit;
+									}
+									else if (this.cards[i].Move>maxMoveLimit){
 										maxMoveLimit = this.cards[i].Move;
 									}
-									if (this.cards[i].Speed<minQuicknessLimit){
+									if (minQuicknessBool){
+										minQuicknessVal=minQuicknessLimit;
+									}
+									else if (this.cards[i].Speed<minQuicknessLimit){
 										minQuicknessLimit = this.cards[i].Speed;
 									}
-									if (this.cards[i].Speed>maxQuicknessLimit){
+									if(maxQuicknessBool){
+										maxQuicknessVal=maxQuicknessLimit;
+									}
+									else if (this.cards[i].Speed>maxQuicknessLimit){
 										maxQuicknessLimit = this.cards[i].Speed;
 									}
 								}
@@ -649,33 +682,34 @@ public class myGameScript : MonoBehaviour {
 				}
 			}
 			recalculeFiltres=false;
-			if (minLifeVal<minLifeLimit){
+
+			if (minLifeBool || minLifeVal<minLifeLimit){
 				minLifeVal = minLifeLimit;
 			}
-			if (maxLifeVal>maxLifeLimit){
+			if (maxLifeBool || maxLifeVal>maxLifeLimit){
 				maxLifeVal = maxLifeLimit;
 			}
-			if (minAttackVal<minAttackLimit){
+			if (minAttackBool || minAttackVal<minAttackLimit){
 				minAttackVal = minAttackLimit;
 			}
-			if (maxAttackVal>maxAttackLimit){
+			if (maxAttackBool || maxAttackVal>maxAttackLimit){
 				maxAttackVal = maxAttackLimit;
 			}
-			if (minMoveVal<minMoveLimit){
+			if (minMoveBool || minMoveVal<minMoveLimit){
 				minMoveVal = minMoveLimit;
 			}
-			if (maxMoveVal>maxMoveLimit){
+			if (maxMoveBool || maxMoveVal>maxMoveLimit){
 				maxMoveVal = maxMoveLimit;
 			}
-			if (minQuicknessVal<minQuicknessLimit){
+			if (minQuicknessBool || minQuicknessVal<minQuicknessLimit){
 				minQuicknessVal = minQuicknessLimit;
 			}
-			if (maxQuicknessVal>maxQuicknessLimit){
+			if (maxQuicknessBool || maxQuicknessVal>maxQuicknessLimit){
 				maxQuicknessVal = maxQuicknessLimit;
 			}
-			print ("filtres recalculés");
-			print ("minLife "+minLifeLimit);
-			print ("maxLife "+maxLifeLimit);
+			//print ("filtres recalculés");
+			//print ("minLife "+minLifeLimit);
+			//print ("maxLife "+maxLifeLimit);
 		}
 
 		nbPages = Mathf.CeilToInt(cardsToBeDisplayed.Count / (3.0f*nbCardsPerRow));
@@ -695,6 +729,46 @@ public class myGameScript : MonoBehaviour {
 			}
 		}
 		yield break;
+	}
+
+	public void setFilters(){
+			minLifeLimit=10000;
+			maxLifeLimit=0;
+			minAttackLimit=10000;
+			maxAttackLimit=0;
+			minMoveLimit=10000;
+			maxMoveLimit=0;
+			minQuicknessLimit=10000;
+			maxQuicknessLimit=0;
+			
+				
+					int max = this.cards.Count;
+					for (int i = 0; i < max ; i++) {
+						if (this.cards[i].Life<minLifeLimit){
+							minLifeLimit = this.cards[i].Life;
+						}
+						if (this.cards[i].Life>maxLifeLimit){
+							maxLifeLimit = this.cards[i].Life;
+						}
+						if (this.cards[i].Attack<minAttackLimit){
+							minAttackLimit = this.cards[i].Attack;
+						}
+						if (this.cards[i].Attack>maxAttackLimit){
+							maxAttackLimit = this.cards[i].Attack;
+						}
+						if (this.cards[i].Move<minMoveLimit){
+							minMoveLimit = this.cards[i].Move;
+						}
+						if (this.cards[i].Move>maxMoveLimit){
+							maxMoveLimit = this.cards[i].Move;
+						}
+						if (this.cards[i].Speed<minQuicknessLimit){
+							minQuicknessLimit = this.cards[i].Speed;
+						}
+						if (this.cards[i].Speed>maxQuicknessLimit){
+							maxQuicknessLimit = this.cards[i].Speed;
+						}
+					}
 	}
 
 	IEnumerator RetrieveDecks() {
@@ -860,6 +934,7 @@ public class myGameScript : MonoBehaviour {
 				paginatorGuiStyle[i].normal.textColor=Color.black;
 			}
 		}
+		this.setFilters ();
 	}
 
 	private IEnumerator displayPage(){
