@@ -82,10 +82,11 @@ public class buyCardsScript : MonoBehaviour {
 		}
 
 		GameObject instance = Instantiate(CardObject) as GameObject;            					// On charge une instance du prefab Card
-		instance.transform.localScale = new Vector3(3f, 3f, 3f);               					 // On change ses attributs d'échelle ...                                                                    
+		instance.transform.localScale = new Vector3(4f, 4f, 4f);               					 // On change ses attributs d'échelle ...                                                                    
 		instance.transform.localPosition = new Vector3(1,1,0);                					// ..., de positionnement ...
 		instance.GetComponent<GameCard>().Card = myCard;        					// ... et la carte qu'elle représente
 		instance.GetComponent<GameCard>().ShowFace();        					// On affiche la carte
+		instance.animation.Play ("flipCard");
 		instance.gameObject.name = "Card";	
 	}
 }

@@ -259,6 +259,7 @@ GameObject:
   - 4: {fileID: 457076}
   - 114: {fileID: 11457054}
   - 65: {fileID: 6572546}
+  - 111: {fileID: 11168280}
   m_Layer: 0
   m_Name: Card
   m_TagString: Untagged
@@ -2500,6 +2501,21 @@ TextMesh:
   m_Color:
     serializedVersion: 2
     rgba: 4278190080
+--- !u!111 &11168280
+Animation:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 157076}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 0}
+  m_Animations:
+  - {fileID: 7400000, guid: d67baa9942caa474e858ee4f160a0b89, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!114 &11457048
 MonoBehaviour:
   m_ObjectHideFlags: 1
