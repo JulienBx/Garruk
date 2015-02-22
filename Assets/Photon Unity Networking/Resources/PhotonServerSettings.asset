@@ -39,4 +39,5 @@ MonoBehaviour:
   - SpawnCard
   - StartFight
   - TaggedPlayer
+  - LoadSelectedDeck
   DisableAutoOpenWizard: 0

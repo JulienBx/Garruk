@@ -7,7 +7,7 @@ public class GameNetworkCard : GameCard {
 	public int ownerNumber;											// joueur 1 ou joueur 2
 	public GameTile currentTile;
 	Vector3 WorldNamePos;
-
+	public GameObject YellowOutlines;
 	public int Damage = 0;
 
 	public Texture2D bgImage; 
@@ -159,14 +159,8 @@ public class GameNetworkCard : GameCard {
 		}
 		else
 		{
-			foreach(Transform go in GameBoard.instance.gameObject.transform)
-			{
-				if (!go.gameObject.name.Equals("Game Board"))
-				{
-					go.renderer.material = GameTile.instance.DefaultMaterial;
-					go.GetComponent<GameTile>().Passable = false;
-				}
-			}
+			GameTile.RemovePassableTile();
+
 			this.FindNeighbors();
 			if (photonView.isMine)
 			{
@@ -218,8 +212,9 @@ public class GameNetworkCard : GameCard {
 		gnc.Damage += attack;
 		if (gnc.Damage >= gnc.Card.Life)
 		{
+			GameTile.RemovePassableTile();
 			GameTimeLine.instance.GameCards.Remove(gnc);
-			GameTimeLine.instance.Arrange();
+			//GameTimeLine.instance.Arrange();
 			if (gnc.ownerNumber == 1)
 			{
 				if (--GameBoard.instance.nbCardsPlayer1 < 1)

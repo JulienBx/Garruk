@@ -7,6 +7,7 @@ public class GameOutline : MonoBehaviour {
 	public bool ToArrange = false;
 	public List<GameObject> RedOutlines;
 	public List<GameObject> GreenOutlines;
+	public GameObject YellowOutlines;
 	public static GameOutline instance;
 
 	void Awake()
@@ -26,16 +27,19 @@ public class GameOutline : MonoBehaviour {
 			int i = 0;
 			foreach (GameObject go in GameTimeLine.instance.GameObjects)
 			{
-				GameNetworkCard gc = go.GetComponent<GameNetworkCard>();
-				if (gc.ownerNumber == 1 && GameBoard.instance.nbPlayer == 1 || gc.ownerNumber == 2 && GameBoard.instance.nbPlayer == 2)
+				if (i != 4)
 				{
-					RedOutlines[i].renderer.enabled = false;
-					GreenOutlines[i].renderer.enabled = true;
-				}
-				else
-				{
-					RedOutlines[i].renderer.enabled = true;
-					GreenOutlines[i].renderer.enabled = false;
+					GameNetworkCard gc = go.GetComponent<GameNetworkCard>();
+					if (gc.ownerNumber == 1 && GameBoard.instance.nbPlayer == 1 || gc.ownerNumber == 2 && GameBoard.instance.nbPlayer == 2)
+					{
+						RedOutlines[i].renderer.enabled = false;
+						GreenOutlines[i].renderer.enabled = true;
+					}
+					else
+					{
+						RedOutlines[i].renderer.enabled = true;
+						GreenOutlines[i].renderer.enabled = false;
+					}
 				}
 				i++;
 			}

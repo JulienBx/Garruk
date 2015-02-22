@@ -262,7 +262,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bdb4fe789734f8d49b0a75058eddd295, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameName: oojump_garruk
   style:
     m_Name: 
     m_Normal:
@@ -322,6 +321,9 @@ MonoBehaviour:
     m_FixedHeight: 0
     m_StretchWidth: 1
     m_StretchHeight: 0
+  URLGetDecks: http://54.77.118.214/GarrukServer/get_decks_by_user.php
+  URLSelectedDeck: http://54.77.118.214/GarrukServer/set_selected_deck.php
+  selectedDeck: 0
 --- !u!148 &2003945753
 NetworkView:
   m_ObjectHideFlags: 0

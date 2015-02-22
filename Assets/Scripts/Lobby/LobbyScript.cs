@@ -5,40 +5,30 @@ using System.Collections.Generic;
 
 public class LobbyScript : Photon.MonoBehaviour {
 
-//	public string gameName = "lobby";
 	public GUIStyle style;
-
-//	private const string typeName = "oojump_garruk";
-//	private bool isConnecting = false;
+	public List<Deck> decks = new List<Deck>();
+	public string URLGetDecks = "http://54.77.118.214/GarrukServer/get_decks_by_user.php";
+	public string URLSelectedDeck = "http://54.77.118.214/GarrukServer/set_selected_deck.php";
 	public Dictionary<int, string> playersName = new Dictionary<int, string>();
-//	private HostData[] hostList;
-	private bool attemptToPlay = false;
 
+	private bool attemptToPlay = false;
 	private const string roomName = "GarrukLobby";
 	private RoomInfo[] roomsList;
-
-	void Awake()
-	{
-//		RefreshHostList();
-	}
+	public int selectedDeck;
 
 	void Start()
 	{
+		ApplicationModel.username = "julien";
+		StartCoroutine(RetrieveDecks());
 		style.normal.textColor = Color.red;
-		PhotonNetwork.ConnectUsingSettings("0.1");
+		PhotonNetwork.ConnectUsingSettings(ApplicationModel.photonSettings);
 	}
 
-	void Update()
-	{
-//		if (!Network.isClient && !Network.isServer) {
-//			RefreshHostList();
-//		}
+	void Update() {
 	}
 
 	void OnGUI()
 	{
-
-
 		if (playersName.Count > 0)
 		{
 			int i = 0;
@@ -60,14 +50,87 @@ public class LobbyScript : Photon.MonoBehaviour {
 	    {
 			attemptToPlay = true;
 			PhotonNetwork.Disconnect();
-//			Network.Disconnect();
-//			MasterServer.UnregisterHost();
-
 		}
-
-		//Debug.Log(PhotonNetwork.connectionStateDetailed.ToString());
+		
+		for( int j = 0 ; j < decks.Count ; j++)
+		{
+			if (selectedDeck == decks[j].Id)
+			{
+				if (GUI.Button(new Rect(400, j * 20, 100, j * 20 + 20), decks[j].Name, style))
+				{
+					selectedDeck = decks[j].Id;
+					StartCoroutine(SetSelectedDeck(selectedDeck));
+				}
+			}
+			else
+			{
+				if(GUI.Button(new Rect(400, j * 20, 100, j * 20 + 20), decks[j].Name))
+				{
+					selectedDeck = decks[j].Id;
+					StartCoroutine(SetSelectedDeck(selectedDeck));
+				}
+			}
+		}
 	}
 
+	IEnumerator RetrieveDecks() {
+
+		WWWForm form = new WWWForm(); 								// Création de la connexion
+		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
+		form.AddField("myform_nick", ApplicationModel.username); 	// Pseudo de l'utilisateur connecté
+		
+		WWW w = new WWW(URLGetDecks, form); 								// On envoie le formulaire à l'url sur le serveur 
+		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
+		if (w.error != null) 
+		{
+			print(w.error); 										// donne l'erreur eventuelle
+		} 
+		else 
+		{
+			print(w.text); 											// donne le retour
+			
+			string[] decksInformation = w.text.Split('\n'); 
+			string[] deckInformation;
+						
+			for(int i = 0 ; i < decksInformation.Length - 1 ; i++) 		// On boucle sur les attributs d'un deck
+			{
+				deckInformation = decksInformation[i].Split('\\'); 	// On découpe les attributs du deck qu'on place dans un tableau
+				
+				int deckId = System.Convert.ToInt32(deckInformation[0]); 	// Ici, on récupère l'id en base
+				string deckName = deckInformation[1]; 						// Le nom du deck
+				int deckNbC = System.Convert.ToInt32(deckInformation[2]);	// le nombre de cartes
+				if (i == 0)
+				{
+					selectedDeck = deckId;
+				}
+				decks.Add(new Deck(deckId, deckName, deckNbC));
+			}
+		}
+	}
+
+	IEnumerator SetSelectedDeck(int selectedDeck)
+	{
+		WWWForm form = new WWWForm (); 								// Création de la connexion
+		form.AddField ("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
+		form.AddField ("myform_nick", ApplicationModel.username); 	// Pseudo de l'utilisateur connecté
+		form.AddField("myform_deck", selectedDeck);                 // Deck sélectionné
+		
+		WWW w = new WWW (URLSelectedDeck, form); 								// On envoie le formulaire à l'url sur le serveur 
+		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
+		if (w.error != null) 
+		{
+			print (w.error); 										// donne l'erreur eventuelle
+		} else {
+			print (w.text);
+		}
+	}
+
+	void RemovePlayerFromList(int id)
+	{
+		playersName.Remove(id);
+	}
+
+	// Photon
 	void OnJoinedLobby()
 	{
 		TypedLobby sqlLobby = new TypedLobby("lobby", LobbyType.SqlLobby);    
@@ -89,16 +152,18 @@ public class LobbyScript : Photon.MonoBehaviour {
 		
 		PhotonNetwork.CreateRoom(roomName, newRoomOptions, sqlLobby);
 	}
-	
+
 	void OnReceivedRoomListUpdate()
 	{
 		roomsList = PhotonNetwork.GetRoomList();
 	}
+
 	void OnJoinedRoom()
 	{
 		Debug.Log("Connected to Room");
 		photonView.RPC("AddPlayerToList", PhotonTargets.AllBuffered, PhotonNetwork.player.ID, ApplicationModel.username);
 	}
+
 	void OnPhotonPlayerDisconnected(PhotonPlayer player)
 	{
 		RemovePlayerFromList(player.ID);
@@ -108,92 +173,15 @@ public class LobbyScript : Photon.MonoBehaviour {
 	{
 		if (attemptToPlay)
 		{
+			StartCoroutine(SetSelectedDeck(selectedDeck));
 			Application.LoadLevel("GamePage");
 		}
 	}
-	/*private void StartServer()
-	{
-		Network.InitializeServer(5, 25000, !Network.HavePublicAddress());
-		MasterServer.RegisterHost(typeName, gameName);
-	}
-	
-	private void RefreshHostList()
-	{
-		MasterServer.RequestHostList(typeName);
-	}
 
-	private void JoinServer(HostData hostData)
-	{
-		Network.Connect(hostData);
-	}
-*/
 	// RPC
-
 	[RPC]
 	void AddPlayerToList(int id, string loginName)
 	{
 		playersName.Add(id, loginName);
 	}
-
-	void RemovePlayerFromList(int id)
-	{
-		playersName.Remove(id);
-	}
-	// Messages
-
-//	void OnServerInitialized()
-//	{
-//		Debug.Log("serveur initialisé");
-//		networkView.RPC("AddPlayerToList", RPCMode.AllBuffered, Network.player.guid, ApplicationModel.username);
-//	}
-
-//	void OnConnectedToServer()
-//	{
-//		Debug.Log("client connecté");
-//		networkView.RPC("AddPlayerToList", RPCMode.AllBuffered, Network.player.guid, ApplicationModel.username);
-//	}
-
-//	void OnDisconnectedFromServer()
-//	{
-//		if (attemptToPlay)
-//		{
-//			Application.LoadLevel("GamePage");
-//		}
-//	}
-
-//	void OnPlayerDisconnected(NetworkPlayer player)
-//	{
-//		networkView.RPC("RemovePlayerFromList", RPCMode.AllBuffered, player.guid);
-//		//Network.RemoveRPCs(player);
-//		//Network.DestroyPlayerObjects(player);
-//	
-//	}
-
-//	// MasterServerEvent
-//	
-//	void OnMasterServerEvent(MasterServerEvent msEvent)
-//	{
-//		if (!attemptToPlay)
-//		{
-//			if (msEvent == MasterServerEvent.HostListReceived) 
-//			{
-//				if (!Network.isClient && !Network.isServer) {
-//					hostList = MasterServer.PollHostList();
-//					if (hostList.Length > 0 )
-//					{
-//						if (!isConnecting)
-//						{
-//							isConnecting = true;
-//							JoinServer(hostList[0]);
-//						}
-//					}
-//					else
-//					{
-//						playersName.Clear();
-//						StartServer();
-//					}
-//				}
-//			}
-//		}
-//	}
 }

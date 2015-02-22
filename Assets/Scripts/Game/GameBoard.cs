@@ -17,9 +17,8 @@ public class GameBoard : Photon.MonoBehaviour
 	public int nbPlayer = 0;
 	public int MyPlayerNumber {get {return nbPlayer;}}
 	public int nbCardsPlayer1 = 0, nbCardsPlayer2 = 0;
+	public static Deck deck;
 
-
-	private Deck deck;
 	private int nbPlayerReadyToFight = 0;
 	public Dictionary<Point, Tile> board = new Dictionary<Point, Tile>();
 
@@ -61,15 +60,8 @@ public class GameBoard : Photon.MonoBehaviour
 
 	public IEnumerator AddCardToBoard()
 	{
-		if (GameBoard.instance.nbPlayer == 1)
-		{
-			this.deck = new Deck(2);
-		}
-		else 
-		{
-			this.deck = new Deck(1);
-		}
-
+		GameBoard.deck = new Deck(ApplicationModel.username);
+		yield return StartCoroutine(GameBoard.deck.LoadSelectedDeck());
 		yield return StartCoroutine(deck.RetrieveCards());
 
 		ArrangeCards();

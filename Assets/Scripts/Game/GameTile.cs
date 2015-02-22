@@ -105,6 +105,19 @@ public class GameTile : MonoBehaviour {
 		renderer.material.color = color;
 	}
 
+	public static void RemovePassableTile()
+	{
+		foreach(Transform go in GameBoard.instance.gameObject.transform)
+		{
+			if (!go.gameObject.name.Equals("Game Board"))
+			{
+				go.renderer.material = GameTile.instance.DefaultMaterial;
+				go.GetComponent<GameTile>().Passable = false;
+			}
+		}
+	}
+
+
 	public void SetCursorToDrag()
 	{
 		Cursor.SetCursor(cursorDragging, cursorHotspot, CursorMode.Auto);
