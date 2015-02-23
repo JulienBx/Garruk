@@ -75,7 +75,7 @@ public class GamePlayingCard : Photon.MonoBehaviour {
 		GamePlayingCard.instance.attemptToAttack = false;
 		GamePlayingCard.instance.hasAttacked = true;
 		GameTile.instance.SetCursorToDefault();
-		photonView.RPC("forwardInTime", PhotonTargets.AllBuffered);
+		photonView.RPC("ForwardInTime", PhotonTargets.AllBuffered);
 	}
 	public void ChangeCurrentCard(GameNetworkCard card)
 	{
@@ -114,7 +114,7 @@ public class GamePlayingCard : Photon.MonoBehaviour {
 	}
 
 	[RPC]
-	private void forwardInTime()
+	private void ForwardInTime()
 	{
 		GameTimeLine.instance.PlayingCard.transform.Find("Yellow Outline").renderer.enabled = false;
 		GameTimeLine.instance.forward();

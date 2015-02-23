@@ -15,6 +15,9 @@ public class GameNetworkCard : GameCard {
 	public GUIStyle progress_empty, progress_full;
 	public GameObject AttackAnim;
 
+	public Material Outline;
+	public Material Default;
+
 	public List<GameNetworkCard> neighbors;
 
 	void Start()
@@ -314,9 +317,7 @@ public class GameNetworkCard : GameCard {
 
 	public new void ShowFace() 
 	{
-		renderer.material.mainTexture = faces[Card.ArtIndex]; 		// On affiche l'image correspondant à la carte
-		transform.Find("Title")
-			.GetComponent<TextMesh>().text = Card.Title;			// On lui attribut son titre
+		base.ShowFace();
 		Transform LifeTextPosition = transform.Find("Life");
 		if (LifeTextPosition != null)
 		{

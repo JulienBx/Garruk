@@ -53,7 +53,7 @@ public class GameBoard : Photon.MonoBehaviour
 			if (deck.Cards.Count >= line)
 			{
 				int viewID = PhotonNetwork.AllocateViewID();
-				photonView.RPC("SpawnCard", PhotonTargets.AllBuffered, viewID, deck.Cards[line - 1].Id, location.transform.position + new Vector3(0, 0, -1), location.transform.rotation * Quaternion.Euler(0, -90, 0));
+				photonView.RPC("SpawnCard", PhotonTargets.AllBuffered, viewID, deck.Cards[line - 1].Id, location.transform.position + new Vector3(0, 0, -1));
 			}
 		}
 	}
@@ -87,10 +87,10 @@ public class GameBoard : Photon.MonoBehaviour
 	}
 
 	[RPC]
-	IEnumerator SpawnCard(int viewID, int cardID, Vector3 location, Quaternion rotation)
+	IEnumerator SpawnCard(int viewID, int cardID, Vector3 location)
 	{
 		GameObject clone;
-		clone = Instantiate(Card, location, rotation) as GameObject;
+		clone = Instantiate(Card, location, Quaternion.identity) as GameObject;
 		PhotonView nView;
 
 		nView = clone.GetComponent<PhotonView>();

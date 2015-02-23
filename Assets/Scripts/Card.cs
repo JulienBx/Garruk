@@ -135,4 +135,22 @@ public class Card
 		return b;
 	}
 
+	public bool verifyC(float minLife,float maxLife,float minAttack,float maxAttack,float minMove,float maxMove,float minQuickness,float maxQuickness){
+		if (minLife > this.Life || maxLife < this.Life){
+			return false ;
+		}
+		else if (minAttack > this.Attack || maxAttack < this.Attack){
+			return false ;
+		}
+		else if (minMove > this.Move || maxMove < this.Move){
+			return false ;
+		}
+		else if (minMove > this.Move || maxMove < this.Move){
+			return false ;
+		}
+		else{
+			return true ;
+		}
+	}
+
 }

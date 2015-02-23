@@ -10,7 +10,6 @@ public class buyCardsScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start (){
-	
 	}
 
 	void OnGUI() {
@@ -38,7 +37,7 @@ public class buyCardsScript : MonoBehaviour {
 		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_nick", ApplicationModel.username);
 		
-		WWW w = new WWW("http://54.77.118.214/GarrukServer/buyRandomCard.php", form); 				// On envoie le formulaire à l'url sur le serveur 
+		WWW w = new WWW("http://54.77.118.214//GarrukServer/buyRandomCard.php", form); 				// On envoie le formulaire à l'url sur le serveur 
 		yield return w;
 		if (w.error != null) 
 		{
@@ -76,15 +75,17 @@ public class buyCardsScript : MonoBehaviour {
 		                                  System.Convert.ToInt32 (cardInformation [2]), // isactivated
 		                                  System.Convert.ToInt32 (cardInformation [3]), // level
 		                                  System.Convert.ToInt32 (cardInformation [4]), // power
-		                                  System.Convert.ToInt32 (cardInformation [5]))); // costmana
+			                              System.Convert.ToInt32 (cardInformation [5]),
+			                              cardInformation [6])); // costmana
 
 		}
 
 		GameObject instance = Instantiate(CardObject) as GameObject;            					// On charge une instance du prefab Card
-		instance.transform.localScale = new Vector3(0.45f, 0.06f, 0.60f);               					 // On change ses attributs d'échelle ...                                                                    
-		instance.transform.localPosition = new Vector3(1,1,0);                					// ..., de positionnement ...
+		instance.transform.localScale = new Vector3(1f, 1f, 1f);               					 // On change ses attributs d'échelle ...                                                                    
+		instance.transform.localPosition = new Vector3(0,0,0);                					// ..., de positionnement ...
 		instance.GetComponent<GameCard>().Card = myCard;        					// ... et la carte qu'elle représente
 		instance.GetComponent<GameCard>().ShowFace();        					// On affiche la carte
+		instance.transform.FindChild("texturedGameCard").animation.Play ("flipCard");
 		instance.gameObject.name = "Card";	
 	}
 }

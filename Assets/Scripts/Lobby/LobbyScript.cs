@@ -18,7 +18,6 @@ public class LobbyScript : Photon.MonoBehaviour {
 
 	void Start()
 	{
-		ApplicationModel.username = "julien";
 		StartCoroutine(RetrieveDecks());
 		style.normal.textColor = Color.red;
 		PhotonNetwork.ConnectUsingSettings(ApplicationModel.photonSettings);

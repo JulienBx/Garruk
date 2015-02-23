@@ -10,9 +10,8 @@ public class Skill
 	public int Power;
 	public int ManaCost;
 	public string Description;
-	public int Force;
 
-	public Skill(string name, int id, int isactivated, int level, int power, int manaCost, string description, int force)
+	public Skill(string name, int id, int isactivated, int level, int power, int manaCost, string description)
 	{
 		this.Name = name;
 		this.Id = id;
@@ -21,7 +20,6 @@ public class Skill
 		this.Power = power;
 		this.ManaCost = manaCost;
 		this.Description = description;
-		this.Force = force;
 	}
 
 	public Skill(string name, int id, int isactivated, int level, int power, int manaCost)
