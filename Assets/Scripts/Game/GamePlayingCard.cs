@@ -116,6 +116,8 @@ public class GamePlayingCard : Photon.MonoBehaviour {
 	[RPC]
 	private void forwardInTime()
 	{
+		GameTimeLine.instance.PlayingCard.transform.Find("Yellow Outline").renderer.enabled = false;
 		GameTimeLine.instance.forward();
+		GameTimeLine.instance.PlayingCard.transform.Find("Yellow Outline").renderer.enabled = true;
 	}
 }

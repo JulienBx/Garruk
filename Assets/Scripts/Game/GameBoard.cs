@@ -74,6 +74,7 @@ public class GameBoard : Photon.MonoBehaviour
 		if (nbPlayerReadyToFight == 2)
 		{  
 			TimeOfPositionning = false;
+			GameTimeLine.instance.PlayingCard.transform.Find("Yellow Outline").renderer.enabled = true;
 			if (GameTimeLine.instance.PlayingCard.ownerNumber == MyPlayerNumber)
 			{
 				GameScript.instance.labelText = "A vous de jouer";

@@ -244,6 +244,7 @@ MonoBehaviour:
   metals: []
   ownerNumber: 0
   currentTile: {fileID: 0}
+  YellowOutlines: {fileID: 0}
   Damage: 0
   bgImage: {fileID: 2800000, guid: bd00a143b50b5964e80272405ab41b17, type: 3}
   fgImage: {fileID: 2800000, guid: 0648d50748bd8b74884e747e292662bb, type: 3}
@@ -694,6 +695,7 @@ MonoBehaviour:
   metals: []
   ownerNumber: 0
   currentTile: {fileID: 0}
+  YellowOutlines: {fileID: 0}
   Damage: 0
   bgImage: {fileID: 2800000, guid: bd00a143b50b5964e80272405ab41b17, type: 3}
   fgImage: {fileID: 2800000, guid: 0648d50748bd8b74884e747e292662bb, type: 3}
@@ -874,7 +876,7 @@ Transform:
   - {fileID: 1384295111}
   - {fileID: 648034863}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
 --- !u!114 &288092503
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1708,6 +1710,7 @@ MonoBehaviour:
   metals: []
   ownerNumber: 0
   currentTile: {fileID: 0}
+  YellowOutlines: {fileID: 0}
   Damage: 0
   bgImage: {fileID: 2800000, guid: bd00a143b50b5964e80272405ab41b17, type: 3}
   fgImage: {fileID: 2800000, guid: 0648d50748bd8b74884e747e292662bb, type: 3}
@@ -2181,6 +2184,7 @@ MonoBehaviour:
   metals: []
   ownerNumber: 0
   currentTile: {fileID: 0}
+  YellowOutlines: {fileID: 0}
   Damage: 0
   bgImage: {fileID: 2800000, guid: bd00a143b50b5964e80272405ab41b17, type: 3}
   fgImage: {fileID: 2800000, guid: 0648d50748bd8b74884e747e292662bb, type: 3}
@@ -2340,7 +2344,7 @@ Transform:
   - {fileID: 817193093}
   - {fileID: 1870891441}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
 --- !u!148 &631948797
 NetworkView:
   m_ObjectHideFlags: 0
@@ -2467,6 +2471,7 @@ MonoBehaviour:
   metals: []
   ownerNumber: 0
   currentTile: {fileID: 0}
+  YellowOutlines: {fileID: 0}
   Damage: 0
   bgImage: {fileID: 2800000, guid: bd00a143b50b5964e80272405ab41b17, type: 3}
   fgImage: {fileID: 2800000, guid: 0648d50748bd8b74884e747e292662bb, type: 3}
@@ -2700,6 +2705,7 @@ MonoBehaviour:
   metals: []
   ownerNumber: 0
   currentTile: {fileID: 0}
+  YellowOutlines: {fileID: 0}
   Damage: 0
   bgImage: {fileID: 2800000, guid: bd00a143b50b5964e80272405ab41b17, type: 3}
   fgImage: {fileID: 2800000, guid: 0648d50748bd8b74884e747e292662bb, type: 3}
@@ -3556,6 +3562,7 @@ MonoBehaviour:
   metals: []
   ownerNumber: 0
   currentTile: {fileID: 0}
+  YellowOutlines: {fileID: 0}
   Damage: 0
   bgImage: {fileID: 2800000, guid: bd00a143b50b5964e80272405ab41b17, type: 3}
   fgImage: {fileID: 2800000, guid: 0648d50748bd8b74884e747e292662bb, type: 3}
@@ -4033,6 +4040,7 @@ MonoBehaviour:
   metals: []
   ownerNumber: 0
   currentTile: {fileID: 0}
+  YellowOutlines: {fileID: 0}
   Damage: 0
   bgImage: {fileID: 2800000, guid: bd00a143b50b5964e80272405ab41b17, type: 3}
   fgImage: {fileID: 2800000, guid: 0648d50748bd8b74884e747e292662bb, type: 3}
@@ -5444,6 +5452,7 @@ MonoBehaviour:
   metals: []
   ownerNumber: 0
   currentTile: {fileID: 0}
+  YellowOutlines: {fileID: 0}
   Damage: 0
   bgImage: {fileID: 2800000, guid: bd00a143b50b5964e80272405ab41b17, type: 3}
   fgImage: {fileID: 2800000, guid: 0648d50748bd8b74884e747e292662bb, type: 3}
@@ -7535,6 +7544,7 @@ MonoBehaviour:
   metals: []
   ownerNumber: 0
   currentTile: {fileID: 0}
+  YellowOutlines: {fileID: 0}
   Damage: 0
   bgImage: {fileID: 2800000, guid: bd00a143b50b5964e80272405ab41b17, type: 3}
   fgImage: {fileID: 2800000, guid: 0648d50748bd8b74884e747e292662bb, type: 3}
@@ -7768,6 +7778,7 @@ MonoBehaviour:
   metals: []
   ownerNumber: 0
   currentTile: {fileID: 0}
+  YellowOutlines: {fileID: 0}
   Damage: 0
   bgImage: {fileID: 2800000, guid: bd00a143b50b5964e80272405ab41b17, type: 3}
   fgImage: {fileID: 2800000, guid: 0648d50748bd8b74884e747e292662bb, type: 3}
