@@ -16,6 +16,7 @@ public class myGameScript : MonoBehaviour {
 	GameObject myDecksPanel ;
 	GUIStyle[] myDecksGuiStyle ;
 	GUIStyle[] paginatorGuiStyle;
+	public GUIStyle mySuppressButton ;
 	private int chosenDeck = 0 ;
 	private int chosenIdDeck ;
 	private int chosenPage ;
@@ -70,17 +71,19 @@ public class myGameScript : MonoBehaviour {
 	bool isBeingDragged = false;
 	bool toReload = false ;
 	bool recalculeFiltres = false;
+	bool confirmSuppress ;
 
 	GameObject[] displayedCards ;
 	GameObject[] displayedDeckCards ;
 
-	GameObject hoveredCard = null;
-	GameObject oldHoveredCard = null;
-
-	Ray ray;
-	RaycastHit hit;
-
+	GameObject clickedCard = null;
+	GameObject zoomedCard = null;
+	bool cardIsMoving = false;
+	Vector3 destination;
+	float speed =55f;
+	
 	void Update () {
+		
 		if (Screen.width != widthScreen || Screen.height != heightScreen) {
 			this.applyFilters();
 			StartCoroutine(this.setStyles());
@@ -94,27 +97,55 @@ public class myGameScript : MonoBehaviour {
 			StartCoroutine(this.displayPage ());
 			toReload = false ;
 		}
-
-
-		ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-		if(Physics.Raycast(ray, out hit))
-		{
-			if (hit.collider.name.StartsWith("Card")){
-				hoveredCard = GameObject.Find(hit.collider.name);
-				onHovering(hoveredCard);
-			}
-			if (oldHoveredCard != hoveredCard){
-				if (oldHoveredCard != null)
-					endHovering(oldHoveredCard);
-				oldHoveredCard = hoveredCard;
+		
+		if (Input.GetMouseButtonDown(0)) {
+			
+			RaycastHit hit;
+			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+			
+			if(Physics.Raycast(ray, out hit))
+			{
+				if (hit.collider.name.StartsWith("Card") || hit.collider.name.StartsWith("DeckCard") || hit.collider.name.StartsWith("Skill")){
+					
+					if (zoomedCard != null)
+						Destroy (zoomedCard);
+					
+					
+					if (hit.collider.name.StartsWith("Skill"))
+						clickedCard = GameObject.Find(hit.collider.name).transform.parent.gameObject.transform.parent.gameObject;
+					
+					else
+						clickedCard = GameObject.Find(hit.collider.name);
+					
+					zoomedCard = Instantiate(CardObject) as GameObject;
+					zoomedCard.transform.localScale= new Vector3(1.5f,1.5f,1.5f); 
+					zoomedCard.GetComponent<GameCard>().Card=clickedCard.GetComponent<GameCard>().Card;
+					zoomedCard.transform.localPosition=clickedCard.transform.localPosition;
+					zoomedCard.GetComponent<GameCard>().ShowFace();
+					zoomedCard.gameObject.name = "ZoomedCard";
+					cardIsMoving = true;
+					destination = camera.ScreenToWorldPoint(new Vector3(0.1f*widthScreen,0.35f*heightScreen,0));
+					destination = new Vector3(destination.x,destination.y,-1);
+					
+				}
+				
+				
 			}
 		}
-		else
-		{
-			if (oldHoveredCard != null){
-				endHovering(oldHoveredCard);
-				oldHoveredCard = hoveredCard;
-			}
+		
+		
+		if (cardIsMoving) {
+			
+			zoomedCard.transform.position = Vector3.MoveTowards(zoomedCard.transform.position, destination, speed * Time.deltaTime);
+			
+			if(Vector3.Distance(zoomedCard.transform.position, destination) < 0.001f)
+				cardIsMoving=false;
+		}
+		
+		if (zoomedCard!=null && !cardIsMoving) {
+			
+			zoomedCard.transform.position = destination;
+			zoomedCard.transform.localScale= new Vector3(3f,3f,3f); 
 		}
 	}
 
@@ -129,24 +160,40 @@ public class myGameScript : MonoBehaviour {
 	void OnGUI()
 	{
 		if (isDeckEnabled) {
-			GUILayout.BeginArea(new Rect(widthScreen * 0.01f,0.12f*heightScreen,widthScreen * 0.18f,0.9f*heightScreen));
+//			if (confirmSuppress){
+//				if (GUILayout.Button(myDecks[i].Name+" ("+myDecks[i].NbCards+")",myDecksGuiStyle[i])){
+//				}
+//			}
+
+			GUILayout.BeginArea(new Rect(widthScreen * 0.01f,0.12f*heightScreen,widthScreen * 0.18f,0.17f*heightScreen));
 			{
 				GUILayout.BeginVertical(); // also can put width in here
 				{
 					GUILayout.Label("Mes decks",mesDecksTitleStyle,GUILayout.Height(heightScreen/30));
 					GUILayout.Space(5);
 					for(int i = 0 ; i < myDecks.Count ; i++){	
-						if (GUILayout.Button(myDecks[i].Name+" ("+myDecks[i].NbCards+")",myDecksGuiStyle[i], GUILayout.Height(heightScreen/30))) // also can put width here
-						{
-							if (chosenDeck != i){
-								myDecksGuiStyle[chosenDeck].normal.background=backButton;
-								myDecksGuiStyle[chosenDeck].normal.textColor=Color.black;
-								chosenDeck = i;
-								myDecksGuiStyle[i].normal.background=backActivatedButton;
-								myDecksGuiStyle[i].normal.textColor=Color.white;
-								chosenIdDeck=myDecks[i].Id;
+
+							GUILayout.BeginHorizontal();
+							{
+							if (GUILayout.Button(myDecks[i].Name+" ("+myDecks[i].NbCards+")",myDecksGuiStyle[i])) // also can put width here
+							{
+								if (chosenDeck != i){
+									myDecksGuiStyle[chosenDeck].normal.background=backButton;
+									myDecksGuiStyle[chosenDeck].normal.textColor=Color.black;
+									chosenDeck = i;
+									myDecksGuiStyle[i].normal.background=backActivatedButton;
+									myDecksGuiStyle[i].normal.textColor=Color.white;
+									chosenIdDeck=myDecks[i].Id;
+								}
 							}
-						}
+								GUILayout.Space(10);
+							if (GUILayout.Button("",mySuppressButton,GUILayout.Width (heightScreen/30), GUILayout.Height(heightScreen/30))) // also can put width here
+								{
+							
+								}
+							}
+							GUILayout.EndHorizontal();
+						
 						GUILayout.Space(1);
 					}
 				}
@@ -388,6 +435,13 @@ public class myGameScript : MonoBehaviour {
 				this.myDecksGuiStyle [i].fontSize = heightScreen / 40;
 			}
 		}
+		
+//		mySuppressButton = new GUIStyle();
+//		mySuppressButton.margin=new RectOffset(0,0,0,0);
+//		mySuppressButton.alignment= TextAnchor.MiddleCenter;
+//		mySuppressButton.normal.background=suppressButton;
+//		 mySuppressButton.normal.background.wrapMode = TextureWrapMode.Repeat;
+
 
 		yield break;
 	}
@@ -1085,27 +1139,4 @@ public class myGameScript : MonoBehaviour {
 			}
 		}
 	}
-
-
-	public void onHovering (GameObject cardName){
-		
-		cardName.transform.localScale = new Vector3(2.5f, 2.5f, 2.5f);
-		Vector3 cardPosition = cardName.transform.position; 
-		cardName.transform.position = new Vector3 (cardPosition.x, cardPosition.y, -1);
-		//cardName.GetComponent<GameCard> ().setTextResolution (2f);
-		
-		
-	}
-	
-	public void endHovering (GameObject cardName){
-		
-		cardName.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
-		Vector3 cardPosition = cardName.transform.position; 
-		cardName.transform.position = new Vector3 (cardPosition.x, cardPosition.y, 0);
-		//cardName.GetComponent<GameCard> ().setTextResolution (1f);
-	}
-
-
-
-
 }
