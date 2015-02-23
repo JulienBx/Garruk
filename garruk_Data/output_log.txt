@@ -6,6 +6,7 @@ Direct3D:
     Vendor:   Intel
     VRAM:     128 MB
 Begin MonoManager ReloadAssembly
+<<<<<<< HEAD
 Platform assembly: D:\Documents\Garruk\garruk_Data\Managed\UnityEngine.dll (this message is harmless)
 Loading D:\Documents\Garruk\garruk_Data\Managed\UnityEngine.dll into Unity Child Domain
 Platform assembly: D:\Documents\Garruk\garruk_Data\Managed\Assembly-CSharp-firstpass.dll (this message is harmless)
@@ -18,5 +19,19 @@ Platform assembly: D:\Documents\Garruk\garruk_Data\Managed\Photon3Unity3D.dll (t
 Loading D:\Documents\Garruk\garruk_Data\Managed\Photon3Unity3D.dll into Unity Child Domain
 - Completed reload, in  0.080 seconds
 desktop: 1920x1080 60Hz; virtual: 1920x1080 at 0,0
+=======
+Platform assembly: C:\Users\user\Documents\Garruk\garruk_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading C:\Users\user\Documents\Garruk\garruk_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: C:\Users\user\Documents\Garruk\garruk_Data\Managed\Assembly-CSharp-firstpass.dll (this message is harmless)
+Loading C:\Users\user\Documents\Garruk\garruk_Data\Managed\Assembly-CSharp-firstpass.dll into Unity Child Domain
+Platform assembly: C:\Users\user\Documents\Garruk\garruk_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading C:\Users\user\Documents\Garruk\garruk_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: C:\Users\user\Documents\Garruk\garruk_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading C:\Users\user\Documents\Garruk\garruk_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: C:\Users\user\Documents\Garruk\garruk_Data\Managed\Photon3Unity3D.dll (this message is harmless)
+Loading C:\Users\user\Documents\Garruk\garruk_Data\Managed\Photon3Unity3D.dll into Unity Child Domain
+- Completed reload, in  0.035 seconds
+desktop: 1600x900 60Hz; virtual: 1600x900 at 0,0
+>>>>>>> 05f90ef4a914d1d5992e1cb08a4b115205ca17ba
 <RI> Initializing input.
 <RI> Input initialized.

@@ -29,7 +29,6 @@ public class GameScript : Photon.MonoBehaviour {
 
 	void Awake()
 	{
-		ApplicationModel.username = "julien";
 		MasterServer.ClearHostList();
 		instance = this;
 	}
