@@ -129,7 +129,7 @@ public class myGameScript : MonoBehaviour {
 	void OnGUI()
 	{
 		if (isDeckEnabled) {
-			GUILayout.BeginArea(new Rect(widthScreen * 0.01f,0.12f*heightScreen,widthScreen * 0.13f,0.9f*heightScreen));
+			GUILayout.BeginArea(new Rect(widthScreen * 0.01f,0.12f*heightScreen,widthScreen * 0.18f,0.9f*heightScreen));
 			{
 				GUILayout.BeginVertical(); // also can put width in here
 				{
@@ -948,9 +948,9 @@ public class myGameScript : MonoBehaviour {
 	private void createCards(){
 		
 		float tempF = 10f*widthScreen/heightScreen;
-		float width = tempF * 0.65f;
+		float width = tempF * 0.6f;
 		nbCardsPerRow = Mathf.FloorToInt(width/1.6f);
-		float debutLargeur = -0.35f * tempF+0.8f + (width - 1.6f * nbCardsPerRow)/2 ;
+		float debutLargeur = -0.3f * tempF+0.8f + (width - 1.6f * nbCardsPerRow)/2 ;
 		displayedCards = new GameObject[3*nbCardsPerRow];
 		int nbCardsToDisplay = this.cardsToBeDisplayed.Count;
 		for(int i = 0 ; i < 3*nbCardsPerRow ; i++){
@@ -1061,16 +1061,20 @@ public class myGameScript : MonoBehaviour {
 	private void createDeckCards(){
 		float tempF = 10f*widthScreen/heightScreen;
 		print (tempF);
-		float width = tempF * 0.65f;
-		float scale = Mathf.Min (1.6f, width / 5f);
-		float debutLargeur = -0.35f * tempF+(scale/2f) + (width - scale * 5f)/2f ;
+		float width = tempF * 0.6f;
+		float scale = Mathf.Min (1.6f, width / 6f);
+		print ("scale : "+scale);
+		float pas = (width - 5f * scale) / 6f;
+		print ("pas : "+pas);
+		float debutLargeur = -0.3f * tempF + pas + scale/2 ;
+		print ("debutLargeur : "+debutLargeur);
 
 		displayedDeckCards = new GameObject[5];
 		int nbDeckCardsToDisplay = this.deckCardsIds.Count;
 		for(int i = 0 ; i < 5 ; i++){
 			displayedDeckCards[i] = Instantiate(CardObject) as GameObject;
 			displayedDeckCards[i].transform.localScale = new Vector3(scale,scale,scale); 
-			displayedDeckCards[i].transform.localPosition = new Vector3(debutLargeur + scale*(i%nbCardsPerRow) , 2.82f, 0); 
+			displayedDeckCards[i].transform.localPosition = new Vector3(debutLargeur + (scale+pas)*i , 2.9f, 0); 
 			displayedDeckCards[i].gameObject.name = "DeckCard" + i + "";	
 			if (i<nbDeckCardsToDisplay){
 				displayedDeckCards[i].GetComponent<GameCard>().Card = cards[this.deckCardsIds[i]]; 
