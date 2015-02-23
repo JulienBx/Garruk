@@ -14,7 +14,7 @@ public class myGameScript : MonoBehaviour {
 	public Texture2D backCard ;
 	public Texture2D backActivatedButton ;
 	GameObject myDecksPanel ;
-	GUIStyle[] myDecksGuiStyle;
+	GUIStyle[] myDecksGuiStyle ;
 	GUIStyle[] paginatorGuiStyle;
 	private int chosenDeck = 0 ;
 	private int chosenIdDeck ;
@@ -83,8 +83,11 @@ public class myGameScript : MonoBehaviour {
 	void Update () {
 		if (Screen.width != widthScreen || Screen.height != heightScreen) {
 			this.applyFilters();
+			StartCoroutine(this.setStyles());
 			StartCoroutine(clearCards());
+			StartCoroutine(clearDeckCards());
 			this.createCards();
+			this.createDeckCards();
 		}
 		if (toReload) {
 			StartCoroutine(this.applyFilters ());
@@ -100,14 +103,11 @@ public class myGameScript : MonoBehaviour {
 				hoveredCard = GameObject.Find(hit.collider.name);
 				onHovering(hoveredCard);
 			}
-			
 			if (oldHoveredCard != hoveredCard){
 				if (oldHoveredCard != null)
 					endHovering(oldHoveredCard);
 				oldHoveredCard = hoveredCard;
 			}
-			
-			
 		}
 		else
 		{
@@ -116,28 +116,27 @@ public class myGameScript : MonoBehaviour {
 				oldHoveredCard = hoveredCard;
 			}
 		}
-
-
 	}
 
 	void Start() {
-		StartCoroutine(setStyles()); 
-		filtersCardType = new List<int> ();
 		StartCoroutine(RetrieveDecks()); 
-		StartCoroutine(getCards()); 
+		StartCoroutine(setStyles());
 
+		filtersCardType = new List<int> ();
+		StartCoroutine(getCards()); 
 	}
 
 	void OnGUI()
 	{
 		if (isDeckEnabled) {
-			GUILayout.BeginArea(new Rect(widthScreen * 0.02f,0.12f*heightScreen,widthScreen * 0.16f,0.9f*heightScreen));
+			GUILayout.BeginArea(new Rect(widthScreen * 0.01f,0.12f*heightScreen,widthScreen * 0.13f,0.9f*heightScreen));
 			{
 				GUILayout.BeginVertical(); // also can put width in here
 				{
-					GUILayout.Label("Mes decks",mesDecksTitleStyle,GUILayout.Height(20));
+					GUILayout.Label("Mes decks",mesDecksTitleStyle,GUILayout.Height(heightScreen/30));
+					GUILayout.Space(5);
 					for(int i = 0 ; i < myDecks.Count ; i++){	
-						if (GUILayout.Button(myDecks[i].Name+" ("+myDecks[i].NbCards+")",myDecksGuiStyle[i], GUILayout.Height(20))) // also can put width here
+						if (GUILayout.Button(myDecks[i].Name+" ("+myDecks[i].NbCards+")",myDecksGuiStyle[i], GUILayout.Height(heightScreen/30))) // also can put width here
 						{
 							if (chosenDeck != i){
 								myDecksGuiStyle[chosenDeck].normal.background=backButton;
@@ -148,6 +147,7 @@ public class myGameScript : MonoBehaviour {
 								chosenIdDeck=myDecks[i].Id;
 							}
 						}
+						GUILayout.Space(1);
 					}
 				}
 				GUILayout.EndVertical();
@@ -174,7 +174,6 @@ public class myGameScript : MonoBehaviour {
 				GUI.skin.toggle.hover.textColor = Color.blue;
 				GUI.skin.toggle.fontSize = 10;
 				GUI.skin.toggle.alignment = TextAnchor.LowerLeft;
-
 				createCards();
 				createDeckCards();
 
@@ -358,9 +357,13 @@ public class myGameScript : MonoBehaviour {
 	}
 
 	private IEnumerator setStyles() {
+
+		heightScreen = Screen.height;
+		widthScreen = Screen.width;
+
 		this.mesDecksTitleStyle = new GUIStyle ();
 		mesDecksTitleStyle.normal.textColor = Color.black;
-		mesDecksTitleStyle.fontSize = 14;
+		mesDecksTitleStyle.fontSize = heightScreen/40;
 		mesDecksTitleStyle.alignment = TextAnchor.MiddleCenter;
 		
 		this.monLoaderStyle = new GUIStyle ();
@@ -379,9 +382,13 @@ public class myGameScript : MonoBehaviour {
 		myStyle.alignment = TextAnchor.MiddleCenter;
 		myStyle.normal.background = this.backButton;
 
-		heightScreen = Screen.height;
-		widthScreen = Screen.width;
-	
+		if (myDecksGuiStyle != null) {
+			print ("je resize");
+			for (int i = 0; i < myDecksGuiStyle.Length; i++) {
+				this.myDecksGuiStyle [i].fontSize = heightScreen / 40;
+			}
+		}
+
 		yield break;
 	}
 
@@ -772,43 +779,42 @@ public class myGameScript : MonoBehaviour {
 	}
 
 	public void setFilters(){
-			minLifeLimit=10000;
-			maxLifeLimit=0;
-			minAttackLimit=10000;
-			maxAttackLimit=0;
-			minMoveLimit=10000;
-			maxMoveLimit=0;
-			minQuicknessLimit=10000;
-			maxQuicknessLimit=0;
-			
-				
-					int max = this.cards.Count;
-					for (int i = 0; i < max ; i++) {
-						if (this.cards[i].Life<minLifeLimit){
-							minLifeLimit = this.cards[i].Life;
-						}
-						if (this.cards[i].Life>maxLifeLimit){
-							maxLifeLimit = this.cards[i].Life;
-						}
-						if (this.cards[i].Attack<minAttackLimit){
-							minAttackLimit = this.cards[i].Attack;
-						}
-						if (this.cards[i].Attack>maxAttackLimit){
-							maxAttackLimit = this.cards[i].Attack;
-						}
-						if (this.cards[i].Move<minMoveLimit){
-							minMoveLimit = this.cards[i].Move;
-						}
-						if (this.cards[i].Move>maxMoveLimit){
-							maxMoveLimit = this.cards[i].Move;
-						}
-						if (this.cards[i].Speed<minQuicknessLimit){
-							minQuicknessLimit = this.cards[i].Speed;
-						}
-						if (this.cards[i].Speed>maxQuicknessLimit){
-							maxQuicknessLimit = this.cards[i].Speed;
-						}
-					}
+		minLifeLimit=10000;
+		maxLifeLimit=0;
+		minAttackLimit=10000;
+		maxAttackLimit=0;
+		minMoveLimit=10000;
+		maxMoveLimit=0;
+		minQuicknessLimit=10000;
+		maxQuicknessLimit=0;
+						
+		int max = this.cards.Count;
+		for (int i = 0; i < max ; i++) {
+			if (this.cards[i].Life<minLifeLimit){
+				minLifeLimit = this.cards[i].Life;
+			}
+			if (this.cards[i].Life>maxLifeLimit){
+				maxLifeLimit = this.cards[i].Life;
+			}
+			if (this.cards[i].Attack<minAttackLimit){
+				minAttackLimit = this.cards[i].Attack;
+			}
+			if (this.cards[i].Attack>maxAttackLimit){
+				maxAttackLimit = this.cards[i].Attack;
+			}
+			if (this.cards[i].Move<minMoveLimit){
+				minMoveLimit = this.cards[i].Move;
+			}
+			if (this.cards[i].Move>maxMoveLimit){
+				maxMoveLimit = this.cards[i].Move;
+			}
+			if (this.cards[i].Speed<minQuicknessLimit){
+				minQuicknessLimit = this.cards[i].Speed;
+			}
+			if (this.cards[i].Speed>maxQuicknessLimit){
+				maxQuicknessLimit = this.cards[i].Speed;
+			}
+		}
 	}
 
 	IEnumerator RetrieveDecks() {
@@ -839,7 +845,7 @@ public class myGameScript : MonoBehaviour {
 				myDecksGuiStyle[i] = new GUIStyle();
 				myDecksGuiStyle[i].margin=new RectOffset(0,0,0,0);
 				myDecksGuiStyle[i].alignment= TextAnchor.MiddleCenter;
-				myDecksGuiStyle[i].fontSize=12;
+				myDecksGuiStyle[i].fontSize=heightScreen/40;
 
 				if (i>0){
 					myDecksGuiStyle[i].normal.background=backButton;
@@ -940,14 +946,17 @@ public class myGameScript : MonoBehaviour {
 	}
 
 	private void createCards(){
-
-		nbCardsPerRow = 7 * 377 * widthScreen / (711*heightScreen) ;
+		
+		float tempF = 10f*widthScreen/heightScreen;
+		float width = tempF * 0.65f;
+		nbCardsPerRow = Mathf.FloorToInt(width/1.6f);
+		float debutLargeur = -0.35f * tempF+0.8f + (width - 1.6f * nbCardsPerRow)/2 ;
 		displayedCards = new GameObject[3*nbCardsPerRow];
 		int nbCardsToDisplay = this.cardsToBeDisplayed.Count;
 		for(int i = 0 ; i < 3*nbCardsPerRow ; i++){
 			displayedCards[i] = Instantiate(CardObject) as GameObject;
 			displayedCards[i].transform.localScale = new Vector3(1.5f, 1.5f, 1.5f); 
-			displayedCards[i].transform.localPosition = new Vector3(-5.6f + (8-nbCardsPerRow)*0.8f + (1.6f * (i%nbCardsPerRow)), 0.8f-(i-i%nbCardsPerRow)/nbCardsPerRow*2.2f, 0); 
+			displayedCards[i].transform.localPosition = new Vector3(debutLargeur + 1.6f*(i%nbCardsPerRow), 0.8f-(i-i%nbCardsPerRow)/nbCardsPerRow*2.2f, 0); 
 			displayedCards[i].gameObject.name = "Card" + i + "";	
 			if (i<nbCardsToDisplay){
 				displayedCards[i].GetComponent<GameCard>().Card = cards[this.cardsToBeDisplayed[i]]; 
@@ -999,7 +1008,14 @@ public class myGameScript : MonoBehaviour {
 
 	private IEnumerator clearCards(){
 		for (int i = 0; i < 3*nbCardsPerRow; i++) {
-			displayedCards[i].SetActive(false);
+			Destroy(displayedCards[i]);
+		}
+		yield break;
+	}
+
+	private IEnumerator clearDeckCards(){
+		for (int i = 0; i < 5; i++) {
+			Destroy(displayedDeckCards[i]);
 		}
 		yield break;
 	}
@@ -1043,12 +1059,18 @@ public class myGameScript : MonoBehaviour {
 	}
 
 	private void createDeckCards(){
+		float tempF = 10f*widthScreen/heightScreen;
+		print (tempF);
+		float width = tempF * 0.65f;
+		float scale = Mathf.Min (1.6f, width / 5f);
+		float debutLargeur = -0.35f * tempF+(scale/2f) + (width - scale * 5f)/2f ;
+
 		displayedDeckCards = new GameObject[5];
 		int nbDeckCardsToDisplay = this.deckCardsIds.Count;
 		for(int i = 0 ; i < 5 ; i++){
 			displayedDeckCards[i] = Instantiate(CardObject) as GameObject;
-			displayedDeckCards[i].transform.localScale = new Vector3(1.5f, 1.5f, 1.5f); 
-			displayedDeckCards[i].transform.localPosition = new Vector3(-5.0f + i*2f , 3f, 0); 
+			displayedDeckCards[i].transform.localScale = new Vector3(scale,scale,scale); 
+			displayedDeckCards[i].transform.localPosition = new Vector3(debutLargeur + scale*(i%nbCardsPerRow) , 2.82f, 0); 
 			displayedDeckCards[i].gameObject.name = "DeckCard" + i + "";	
 			if (i<nbDeckCardsToDisplay){
 				displayedDeckCards[i].GetComponent<GameCard>().Card = cards[this.deckCardsIds[i]]; 
