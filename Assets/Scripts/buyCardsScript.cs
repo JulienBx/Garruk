@@ -7,9 +7,17 @@ public class buyCardsScript : MonoBehaviour {
 	public string scriptGenerateURL = null ;
 	private bool isExistingCard = false ;
 	public GameObject CardObject;
+	GameObject instance;
+
+	int cost;
+	float cardHeight;
+	Vector3 sellButtonPos;
+	int money;
 
 	// Use this for initialization
 	void Start (){
+
+		StartCoroutine (getUserMoney ());
 	
 	}
 
@@ -25,12 +33,84 @@ public class buyCardsScript : MonoBehaviour {
 		{
 			StartCoroutine(generateRandomCard());
 		}
+
+		if (money>0)
+		GUI.Label(new Rect(Screen.width-140-Mathf.RoundToInt(money/100), 10, 130+ Mathf.RoundToInt(money/100), 20), "Vous avez "+ money + " crédits");
+		else
+		GUI.Label(new Rect(Screen.width-150, 10, 130, 20), "Vous avez 0 crédit");
+
+
+		if (instance!=null){
+			if(!instance.transform.FindChild ("texturedGameCard").animation.IsPlaying("flipCard")){
+
+				Vector3 cardTopPosition = new Vector3(0,instance.transform.FindChild ("texturedGameCard").renderer.bounds.max.y,instance.transform.FindChild ("texturedGameCard").renderer.bounds.min.z);
+				cardTopPosition = camera.WorldToScreenPoint(cardTopPosition);
+
+				Vector3 cardbottomPosition = new Vector3(0,instance.transform.FindChild ("texturedGameCard").renderer.bounds.min.y,instance.transform.FindChild ("texturedGameCard").renderer.bounds.min.z);
+				cardbottomPosition = camera.WorldToScreenPoint(cardbottomPosition);
+
+				cardHeight=cardTopPosition.y-cardbottomPosition.y;
+
+				if (GUI.Button (new Rect(Screen.width/2-75,Screen.height/2+10+cardHeight/2, 150,20), "Vendre pour "+cost+" crédits"))
+				{
+
+					StartCoroutine(sellCard());							
+
+					Destroy(GameObject.Find("Card"));
+
+				}
+			}
+
+		}
+
 	}
+
+	private IEnumerator getUserMoney(){
+		
+		WWWForm form = new WWWForm(); 											// Création de la connexion
+		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
+		form.AddField("myform_nick", ApplicationModel.username);
+		
+		WWW w = new WWW("http://54.77.118.214//GarrukServer/get_money_by_user.php", form); 				// On envoie le formulaire à l'url sur le serveur 
+		yield return w;
+		if (w.error != null) 
+			print (w.error); 	
+		else 
+		{
+			print(w.text); 											// donne le retour
+			money = System.Convert.ToInt32(w.text);
+		}
+	}
+
+
+
+	private IEnumerator sellCard(){
+
+		WWWForm form = new WWWForm(); 											// Création de la connexion
+		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
+		form.AddField("myform_nick", ApplicationModel.username);
+		form.AddField("myform_idcard", instance.GetComponent<GameCard>().Card.Id);
+		form.AddField("myform_cost", cost);
+		
+		WWW w = new WWW("http://54.77.118.214//GarrukServer/sellRandomCard.php", form); 				// On envoie le formulaire à l'url sur le serveur 
+		yield return w;
+		if (w.error != null) 
+			print (w.error); 
+		else 
+		{
+			print(w.text); 											// donne le retour
+			money = System.Convert.ToInt32(w.text);
+		}
+
+	}
+
 
 	private IEnumerator generateRandomCard(){
 
 		if (isExistingCard) {
+			isExistingCard = false;
 			Destroy(GameObject.Find("Card"));
+
 		}
 		isExistingCard = true;
 
@@ -81,12 +161,32 @@ public class buyCardsScript : MonoBehaviour {
 
 		}
 
-		GameObject instance = Instantiate(CardObject) as GameObject;            					// On charge une instance du prefab Card
+		instance = Instantiate(CardObject) as GameObject;            					// On charge une instance du prefab Card
 		instance.transform.localScale = new Vector3(1f, 1f, 1f);               					 // On change ses attributs d'échelle ...                                                                    
 		instance.transform.localPosition = new Vector3(0,0,0);                					// ..., de positionnement ...
 		instance.GetComponent<GameCard>().Card = myCard;        					// ... et la carte qu'elle représente
 		instance.GetComponent<GameCard>().ShowFace();        					// On affiche la carte
 		instance.transform.FindChild("texturedGameCard").animation.Play ("flipCard");
-		instance.gameObject.name = "Card";	
+		instance.gameObject.name = "Card";
+		cost = cardCost (myCard);
+
+
 	}
+
+
+	public int cardCost(Card Card){
+
+		int cost;
+
+		cost = Mathf.RoundToInt (Card.Speed +
+		Card.Attack +
+		Card.Move * 10 +
+		Card.Life +
+		Card.Skills [0].Power * (1/Card.Skills [0].ManaCost) +
+		Card.Skills [1].Power * (1/Card.Skills [1].ManaCost));
+
+		return cost;
+
+		}
+
 }
