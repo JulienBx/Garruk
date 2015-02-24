@@ -6,7 +6,6 @@ Direct3D:
     Vendor:   Intel
     VRAM:     128 MB
 Begin MonoManager ReloadAssembly
-<<<<<<< HEAD
 Platform assembly: D:\Documents\Garruk\garruk_Data\Managed\UnityEngine.dll (this message is harmless)
 Loading D:\Documents\Garruk\garruk_Data\Managed\UnityEngine.dll into Unity Child Domain
 Platform assembly: D:\Documents\Garruk\garruk_Data\Managed\Assembly-CSharp-firstpass.dll (this message is harmless)
@@ -17,21 +16,122 @@ Platform assembly: D:\Documents\Garruk\garruk_Data\Managed\UnityEngine.UI.dll (t
 Loading D:\Documents\Garruk\garruk_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
 Platform assembly: D:\Documents\Garruk\garruk_Data\Managed\Photon3Unity3D.dll (this message is harmless)
 Loading D:\Documents\Garruk\garruk_Data\Managed\Photon3Unity3D.dll into Unity Child Domain
-- Completed reload, in  0.080 seconds
+- Completed reload, in  0.135 seconds
 desktop: 1920x1080 60Hz; virtual: 1920x1080 at 0,0
-=======
-Platform assembly: C:\Users\user\Documents\Garruk\garruk_Data\Managed\UnityEngine.dll (this message is harmless)
-Loading C:\Users\user\Documents\Garruk\garruk_Data\Managed\UnityEngine.dll into Unity Child Domain
-Platform assembly: C:\Users\user\Documents\Garruk\garruk_Data\Managed\Assembly-CSharp-firstpass.dll (this message is harmless)
-Loading C:\Users\user\Documents\Garruk\garruk_Data\Managed\Assembly-CSharp-firstpass.dll into Unity Child Domain
-Platform assembly: C:\Users\user\Documents\Garruk\garruk_Data\Managed\Assembly-CSharp.dll (this message is harmless)
-Loading C:\Users\user\Documents\Garruk\garruk_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
-Platform assembly: C:\Users\user\Documents\Garruk\garruk_Data\Managed\UnityEngine.UI.dll (this message is harmless)
-Loading C:\Users\user\Documents\Garruk\garruk_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
-Platform assembly: C:\Users\user\Documents\Garruk\garruk_Data\Managed\Photon3Unity3D.dll (this message is harmless)
-Loading C:\Users\user\Documents\Garruk\garruk_Data\Managed\Photon3Unity3D.dll into Unity Child Domain
-- Completed reload, in  0.035 seconds
-desktop: 1600x900 60Hz; virtual: 1600x900 at 0,0
->>>>>>> 05f90ef4a914d1d5992e1cb08a4b115205ca17ba
 <RI> Initializing input.
 <RI> Input initialized.
+Platform assembly: D:\Documents\Garruk\garruk_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: D:\Documents\Garruk\garruk_Data\Managed\System.dll (this message is harmless)
+UnloadTime: 5.703400 ms
+Unloading 4 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
+
+Unloading 4 unused Assets to reduce memory usage. Loaded Objects now: 354.
+Total: 1.082794 ms (FindLiveObjects: 0.023092 ms CreateObjectMapping: 0.017447 ms MarkObjects: 0.315087 ms  DeleteObjects: 0.017961 ms)
+
+UnloadTime: 1.041740 ms
+Unloading 2 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
+
+Unloading 3 unused Assets to reduce memory usage. Loaded Objects now: 281.
+Total: 1.035582 ms (FindLiveObjects: 0.028737 ms CreateObjectMapping: 0.014882 ms MarkObjects: 0.278652 ms  DeleteObjects: 0.022579 ms)
+
+3\deck ggu\1
+4\dek ggu 2\0
+
+ 
+(Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1769)
+
+WARNING: Shader Unsupported: 'Garruk/Outlined' - Pass 'OUTLINE' shader state not supported
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1769)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1769)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1769)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1769)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1769)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1769)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1769)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1769)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1769)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1769)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1769)
+
+UnloadTime: 4.626764 ms
+PhotonView register is ignored, because viewID is 0. No id assigned yet to: View (0)0 on Card 6 (scene)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
+
+PhotonView register is ignored, because viewID is 0. No id assigned yet to: View (0)0 on Card 3 (scene)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
+
+PhotonView register is ignored, because viewID is 0. No id assigned yet to: View (0)0 on Card 5 (scene)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
+
+PhotonView register is ignored, because viewID is 0. No id assigned yet to: View (0)0 on Card 2 (scene)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
+
+PhotonView register is ignored, because viewID is 0. No id assigned yet to: View (0)0 on Card 7 (scene)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
+
+PhotonView register is ignored, because viewID is 0. No id assigned yet to: View (0)0 on Card 4 (scene)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
+
+PhotonView register is ignored, because viewID is 0. No id assigned yet to: View (0)0 on Hoverd Card (scene)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
+
+PhotonView register is ignored, because viewID is 0. No id assigned yet to: View (0)0 on Card 8 (scene)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
+
+PhotonView register is ignored, because viewID is 0. No id assigned yet to: View (0)0 on Card 1 (scene)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
+
+PhotonView register is ignored, because viewID is 0. No id assigned yet to: View (0)0 on Card 9 (scene)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
+
+Unloading 5 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
+
+Unloading 1 unused Assets to reduce memory usage. Loaded Objects now: 2707.
+Total: 1.791998 ms (FindLiveObjects: 0.207321 ms CreateObjectMapping: 0.047725 ms MarkObjects: 0.762574 ms  DeleteObjects: 0.016934 ms)
+
