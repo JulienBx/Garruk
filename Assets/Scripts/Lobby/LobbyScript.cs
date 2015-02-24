@@ -7,18 +7,17 @@ public class LobbyScript : Photon.MonoBehaviour {
 
 	public GUIStyle style;
 	public List<Deck> decks = new List<Deck>();
-	private string URLGetDecks = ApplicationModel.dev + "get_decks_by_user.php";
+	private string URLGetDecks = ApplicationModel.host + "get_full_decks_by_user.php";
 	private string URLSelectedDeck = ApplicationModel.host + "set_selected_deck.php";
 	public Dictionary<int, string> playersName = new Dictionary<int, string>();
 
 	private bool attemptToPlay = false;
 	private const string roomName = "GarrukLobby";
 	private RoomInfo[] roomsList;
-	public int selectedDeck;
+	public int selectedDeck = 0;
 
 	void Start()
 	{
-		ApplicationModel.username = "julien";
 		StartCoroutine(RetrieveDecks());
 		style.normal.textColor = Color.red;
 		PhotonNetwork.ConnectUsingSettings(ApplicationModel.photonSettings);
@@ -46,12 +45,18 @@ public class LobbyScript : Photon.MonoBehaviour {
 				}
 			}
 		}
-		if (GUI.Button(new Rect(500, 0, 200, 50), "rejoindre un match"))
-	    {
-			attemptToPlay = true;
-			PhotonNetwork.Disconnect();
+		if (selectedDeck != 0)
+		{
+			if (GUI.Button(new Rect(500, 0, 200, 50), "rejoindre un match"))
+			{
+				attemptToPlay = true;
+				PhotonNetwork.Disconnect();
+			}
+		} 
+		else
+		{
+			GUI.Label(new Rect(500, 0, 200, 50), "Vous n'avez pas de deck complet");
 		}
-		
 		for( int j = 0 ; j < decks.Count ; j++)
 		{
 			if (selectedDeck == decks[j].Id)

@@ -23,7 +23,6 @@ uniform float _Outline;
 uniform float4 _OutlineColor;
  
 v2f vert(appdata v) {
-	// just make a copy of incoming vertex data but scaled according to normal direction
 	v2f o;
 	o.pos = mul(UNITY_MATRIX_MVP, v.vertex);
  
@@ -37,7 +36,6 @@ v2f vert(appdata v) {
 ENDCG
  
 	SubShader {
-		//Tags {"Queue" = "Geometry+100" }
 CGPROGRAM
 #pragma surface surf Lambert
  
@@ -54,8 +52,6 @@ void surf (Input IN, inout SurfaceOutput o) {
 	o.Alpha = c.a;
 }
 ENDCG
- 
-		// note that a vertex shader is specified here but its using the one above
 		Pass {
 			Name "OUTLINE"
 			Tags { "LightMode" = "Always" }
