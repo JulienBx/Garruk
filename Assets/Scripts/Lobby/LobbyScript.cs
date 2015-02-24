@@ -7,8 +7,8 @@ public class LobbyScript : Photon.MonoBehaviour {
 
 	public GUIStyle style;
 	public List<Deck> decks = new List<Deck>();
-	public string URLGetDecks = "http://54.77.118.214/GarrukServer/get_decks_by_user.php";
-	public string URLSelectedDeck = "http://54.77.118.214/GarrukServer/set_selected_deck.php";
+	private string URLGetDecks = ApplicationModel.dev + "get_decks_by_user.php";
+	private string URLSelectedDeck = ApplicationModel.host + "set_selected_deck.php";
 	public Dictionary<int, string> playersName = new Dictionary<int, string>();
 
 	private bool attemptToPlay = false;
@@ -18,6 +18,7 @@ public class LobbyScript : Photon.MonoBehaviour {
 
 	void Start()
 	{
+		ApplicationModel.username = "julien";
 		StartCoroutine(RetrieveDecks());
 		style.normal.textColor = Color.red;
 		PhotonNetwork.ConnectUsingSettings(ApplicationModel.photonSettings);
@@ -55,7 +56,7 @@ public class LobbyScript : Photon.MonoBehaviour {
 		{
 			if (selectedDeck == decks[j].Id)
 			{
-				if (GUI.Button(new Rect(400, j * 20, 100, j * 20 + 20), decks[j].Name, style))
+				if (GUI.Button(new Rect(400, j * 20, 100, 20), decks[j].Name, style))
 				{
 					selectedDeck = decks[j].Id;
 					StartCoroutine(SetSelectedDeck(selectedDeck));
@@ -63,7 +64,7 @@ public class LobbyScript : Photon.MonoBehaviour {
 			}
 			else
 			{
-				if(GUI.Button(new Rect(400, j * 20, 100, j * 20 + 20), decks[j].Name))
+				if(GUI.Button(new Rect(400, j * 20, 100, 20), decks[j].Name))
 				{
 					selectedDeck = decks[j].Id;
 					StartCoroutine(SetSelectedDeck(selectedDeck));

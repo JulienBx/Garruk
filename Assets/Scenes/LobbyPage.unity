@@ -321,8 +321,6 @@ MonoBehaviour:
     m_FixedHeight: 0
     m_StretchWidth: 1
     m_StretchHeight: 0
-  URLGetDecks: http://54.77.118.214/GarrukServer/get_decks_by_user.php
-  URLSelectedDeck: http://54.77.118.214/GarrukServer/set_selected_deck.php
   selectedDeck: 0
 --- !u!148 &2003945753
 NetworkView:

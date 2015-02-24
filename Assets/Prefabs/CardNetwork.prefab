@@ -2804,7 +2804,7 @@ MonoBehaviour:
     m_FixedHeight: 0
     m_StretchWidth: 1
     m_StretchHeight: 0
-  AttackAnim: {fileID: 0}
+  AttackAnim: {fileID: 145750, guid: cd7ff7c5c68a9b645935252080c8b9a4, type: 2}
   Outline: {fileID: 2100000, guid: acc7a47f3e4c6c541b9199e08060fd0e, type: 2}
   Default: {fileID: 2100000, guid: f1179e4fdf2334e7d989ddb2c05f7ce7, type: 2}
   neighbors: []

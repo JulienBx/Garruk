@@ -29,6 +29,7 @@ public class GameScript : Photon.MonoBehaviour {
 
 	void Awake()
 	{
+		ApplicationModel.username = "julien";
 		MasterServer.ClearHostList();
 		instance = this;
 	}
@@ -62,8 +63,7 @@ public class GameScript : Photon.MonoBehaviour {
 		}
 		if (GUI.Button(new Rect(220, 20, 150, 35), "Quitter le match"))
 		{
-			Network.Disconnect();
-			MasterServer.UnregisterHost();
+			PhotonNetwork.Disconnect();
 		}
 
 	}
@@ -166,5 +166,11 @@ public class GameScript : Photon.MonoBehaviour {
 	{
 		labelInfo = "l'utilisateur a quitté le match, en attente d'autres utilisateurs";
 		RemovePlayerFromList(player.ID);
+	}
+
+	void OnDisconnectedFromPhoton()
+	{
+		Application.LoadLevel("LobbyPage");
+
 	}
 }
