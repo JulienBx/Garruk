@@ -1202,10 +1202,9 @@ GameObject:
   - 4: {fileID: 75510999}
   - 114: {fileID: 75511002}
   - 65: {fileID: 75511001}
-  - 114: {fileID: 75511000}
   m_Layer: 0
   m_Name: Card 6
-  m_TagString: Untagged
+  m_TagString: NoPlayableCard
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1225,32 +1224,6 @@ Transform:
   - {fileID: 966742589}
   m_Father: {fileID: 288092502}
   m_RootOrder: 5
---- !u!114 &75511000
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 11436374, guid: 41e7592d34820a2439ba5cd78e942c28,
-    type: 2}
-  m_PrefabInternal: {fileID: 1133550581}
-  m_GameObject: {fileID: 75510998}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ownerId: 0
-  group: 0
-  prefixBackup: -1
-  observed: {fileID: 0}
-  synchronization: 1
-  onSerializeTransformOption: 3
-  onSerializeRigidBodyOption: 2
-  ownershipTransfer: 0
-  ObservedComponents:
-  - {fileID: 75510999}
-  ObservedComponentsFoldoutOpen: 1
-  viewIdField: 0
-  instantiationId: -1
-  isRuntimeInstantiated: 0
 --- !u!65 &75511001
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4116,7 +4089,6 @@ GameObject:
   - 33: {fileID: 228839292}
   - 23: {fileID: 228839291}
   - 111: {fileID: 228839289}
-  - 114: {fileID: 228839293}
   m_Layer: 0
   m_Name: texturedGameCard
   m_TagString: Untagged
@@ -4197,18 +4169,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 2146634931}
   m_GameObject: {fileID: 228839287}
   m_Mesh: {fileID: 4300000, guid: a11a65670a24b431b993911582ffe281, type: 3}
---- !u!114 &228839293
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 11442510, guid: 41e7592d34820a2439ba5cd78e942c28,
-    type: 2}
-  m_PrefabInternal: {fileID: 2146634931}
-  m_GameObject: {fileID: 228839287}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b37f7548754c57349a207fc1824293f7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &230510073
 GameObject:
   m_ObjectHideFlags: 0
@@ -5001,7 +4961,12 @@ Prefab:
       propertyPath: m_Name
       value: Card 8
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 158266, guid: 41e7592d34820a2439ba5cd78e942c28, type: 2}
+      propertyPath: m_TagString
+      value: NoPlayableCard
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 11436374, guid: 41e7592d34820a2439ba5cd78e942c28, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 41e7592d34820a2439ba5cd78e942c28, type: 2}
   m_RootGameObject: {fileID: 918521389}
   m_IsPrefabParent: 0
@@ -5272,10 +5237,9 @@ GameObject:
   - 4: {fileID: 286878501}
   - 114: {fileID: 286878504}
   - 65: {fileID: 286878503}
-  - 114: {fileID: 286878502}
   m_Layer: 0
   m_Name: Card 3
-  m_TagString: Untagged
+  m_TagString: NoPlayableCard
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5295,32 +5259,6 @@ Transform:
   - {fileID: 1671541508}
   m_Father: {fileID: 288092502}
   m_RootOrder: 2
---- !u!114 &286878502
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 11436374, guid: 41e7592d34820a2439ba5cd78e942c28,
-    type: 2}
-  m_PrefabInternal: {fileID: 652553307}
-  m_GameObject: {fileID: 286878500}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ownerId: 0
-  group: 0
-  prefixBackup: -1
-  observed: {fileID: 0}
-  synchronization: 1
-  onSerializeTransformOption: 3
-  onSerializeRigidBodyOption: 2
-  ownershipTransfer: 0
-  ObservedComponents:
-  - {fileID: 286878501}
-  ObservedComponentsFoldoutOpen: 1
-  viewIdField: 0
-  instantiationId: -1
-  isRuntimeInstantiated: 0
 --- !u!65 &286878503
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7181,10 +7119,9 @@ GameObject:
   - 4: {fileID: 398297546}
   - 114: {fileID: 398297549}
   - 65: {fileID: 398297548}
-  - 114: {fileID: 398297547}
   m_Layer: 0
   m_Name: Card 5
-  m_TagString: Untagged
+  m_TagString: NoPlayableCard
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7204,32 +7141,6 @@ Transform:
   - {fileID: 1610062313}
   m_Father: {fileID: 288092502}
   m_RootOrder: 4
---- !u!114 &398297547
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 11436374, guid: 41e7592d34820a2439ba5cd78e942c28,
-    type: 2}
-  m_PrefabInternal: {fileID: 542247642}
-  m_GameObject: {fileID: 398297545}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ownerId: 0
-  group: 0
-  prefixBackup: -1
-  observed: {fileID: 0}
-  synchronization: 1
-  onSerializeTransformOption: 3
-  onSerializeRigidBodyOption: 2
-  ownershipTransfer: 0
-  ObservedComponents:
-  - {fileID: 398297546}
-  ObservedComponentsFoldoutOpen: 1
-  viewIdField: 0
-  instantiationId: -1
-  isRuntimeInstantiated: 0
 --- !u!65 &398297548
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7624,10 +7535,9 @@ GameObject:
   - 4: {fileID: 399319171}
   - 114: {fileID: 399319174}
   - 65: {fileID: 399319173}
-  - 114: {fileID: 399319172}
   m_Layer: 0
   m_Name: Card 2
-  m_TagString: Untagged
+  m_TagString: NoPlayableCard
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7647,32 +7557,6 @@ Transform:
   - {fileID: 104250437}
   m_Father: {fileID: 288092502}
   m_RootOrder: 1
---- !u!114 &399319172
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 11436374, guid: 41e7592d34820a2439ba5cd78e942c28,
-    type: 2}
-  m_PrefabInternal: {fileID: 1642943553}
-  m_GameObject: {fileID: 399319170}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ownerId: 0
-  group: 0
-  prefixBackup: -1
-  observed: {fileID: 0}
-  synchronization: 1
-  onSerializeTransformOption: 3
-  onSerializeRigidBodyOption: 2
-  ownershipTransfer: 0
-  ObservedComponents:
-  - {fileID: 399319171}
-  ObservedComponentsFoldoutOpen: 1
-  viewIdField: 0
-  instantiationId: -1
-  isRuntimeInstantiated: 0
 --- !u!65 &399319173
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8757,10 +8641,9 @@ GameObject:
   - 4: {fileID: 459315141}
   - 114: {fileID: 459315144}
   - 65: {fileID: 459315143}
-  - 114: {fileID: 459315142}
   m_Layer: 0
   m_Name: Card 7
-  m_TagString: Untagged
+  m_TagString: NoPlayableCard
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8780,32 +8663,6 @@ Transform:
   - {fileID: 1850885699}
   m_Father: {fileID: 288092502}
   m_RootOrder: 6
---- !u!114 &459315142
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 11436374, guid: 41e7592d34820a2439ba5cd78e942c28,
-    type: 2}
-  m_PrefabInternal: {fileID: 1070387318}
-  m_GameObject: {fileID: 459315140}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ownerId: 0
-  group: 0
-  prefixBackup: -1
-  observed: {fileID: 0}
-  synchronization: 1
-  onSerializeTransformOption: 3
-  onSerializeRigidBodyOption: 2
-  ownershipTransfer: 0
-  ObservedComponents:
-  - {fileID: 459315141}
-  ObservedComponentsFoldoutOpen: 1
-  viewIdField: 0
-  instantiationId: -1
-  isRuntimeInstantiated: 0
 --- !u!65 &459315143
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10746,7 +10603,12 @@ Prefab:
       propertyPath: m_Name
       value: Card 5
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 158266, guid: 41e7592d34820a2439ba5cd78e942c28, type: 2}
+      propertyPath: m_TagString
+      value: NoPlayableCard
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 11436374, guid: 41e7592d34820a2439ba5cd78e942c28, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 41e7592d34820a2439ba5cd78e942c28, type: 2}
   m_RootGameObject: {fileID: 398297545}
   m_IsPrefabParent: 0
@@ -12107,7 +11969,12 @@ Prefab:
       propertyPath: m_Name
       value: Card 3
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 158266, guid: 41e7592d34820a2439ba5cd78e942c28, type: 2}
+      propertyPath: m_TagString
+      value: NoPlayableCard
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 11436374, guid: 41e7592d34820a2439ba5cd78e942c28, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 41e7592d34820a2439ba5cd78e942c28, type: 2}
   m_RootGameObject: {fileID: 286878500}
   m_IsPrefabParent: 0
@@ -13028,10 +12895,9 @@ GameObject:
   - 4: {fileID: 724637668}
   - 114: {fileID: 724637671}
   - 65: {fileID: 724637670}
-  - 114: {fileID: 724637669}
   m_Layer: 0
   m_Name: Card 4
-  m_TagString: Untagged
+  m_TagString: NoPlayableCard
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -13051,32 +12917,6 @@ Transform:
   - {fileID: 281821553}
   m_Father: {fileID: 288092502}
   m_RootOrder: 3
---- !u!114 &724637669
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 11436374, guid: 41e7592d34820a2439ba5cd78e942c28,
-    type: 2}
-  m_PrefabInternal: {fileID: 2146634931}
-  m_GameObject: {fileID: 724637667}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ownerId: 0
-  group: 0
-  prefixBackup: -1
-  observed: {fileID: 0}
-  synchronization: 1
-  onSerializeTransformOption: 3
-  onSerializeRigidBodyOption: 2
-  ownershipTransfer: 0
-  ObservedComponents:
-  - {fileID: 724637668}
-  ObservedComponentsFoldoutOpen: 1
-  viewIdField: 0
-  instantiationId: -1
-  isRuntimeInstantiated: 0
 --- !u!65 &724637670
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -14624,7 +14464,6 @@ GameObject:
   - 4: {fileID: 800250400}
   - 114: {fileID: 800250403}
   - 65: {fileID: 800250402}
-  - 114: {fileID: 800250401}
   - 114: {fileID: 800250404}
   m_Layer: 0
   m_Name: Hoverd Card
@@ -14650,32 +14489,6 @@ Transform:
   - {fileID: 865591101}
   m_Father: {fileID: 0}
   m_RootOrder: 6
---- !u!114 &800250401
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 11436374, guid: 41e7592d34820a2439ba5cd78e942c28,
-    type: 2}
-  m_PrefabInternal: {fileID: 1771112995}
-  m_GameObject: {fileID: 800250399}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ownerId: 0
-  group: 0
-  prefixBackup: -1
-  observed: {fileID: 0}
-  synchronization: 1
-  onSerializeTransformOption: 3
-  onSerializeRigidBodyOption: 2
-  ownershipTransfer: 0
-  ObservedComponents:
-  - {fileID: 800250400}
-  ObservedComponentsFoldoutOpen: 1
-  viewIdField: 0
-  instantiationId: -1
-  isRuntimeInstantiated: 0
 --- !u!65 &800250402
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -16107,7 +15920,6 @@ GameObject:
   - 33: {fileID: 865662530}
   - 23: {fileID: 865662529}
   - 111: {fileID: 865662527}
-  - 114: {fileID: 865662531}
   m_Layer: 0
   m_Name: texturedGameCard
   m_TagString: Untagged
@@ -16188,18 +16000,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 865662525}
   m_Mesh: {fileID: 4300000, guid: a11a65670a24b431b993911582ffe281, type: 3}
---- !u!114 &865662531
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 11442510, guid: 41e7592d34820a2439ba5cd78e942c28,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 865662525}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b37f7548754c57349a207fc1824293f7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &878229504
 GameObject:
   m_ObjectHideFlags: 0
@@ -16355,7 +16155,6 @@ GameObject:
   - 33: {fileID: 882227394}
   - 23: {fileID: 882227393}
   - 111: {fileID: 882227391}
-  - 114: {fileID: 882227395}
   m_Layer: 0
   m_Name: texturedGameCard
   m_TagString: Untagged
@@ -16436,18 +16235,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 1394999541}
   m_GameObject: {fileID: 882227389}
   m_Mesh: {fileID: 4300000, guid: a11a65670a24b431b993911582ffe281, type: 3}
---- !u!114 &882227395
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 11442510, guid: 41e7592d34820a2439ba5cd78e942c28,
-    type: 2}
-  m_PrefabInternal: {fileID: 1394999541}
-  m_GameObject: {fileID: 882227389}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b37f7548754c57349a207fc1824293f7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &889814521
 GameObject:
   m_ObjectHideFlags: 0
@@ -17064,10 +16851,9 @@ GameObject:
   - 4: {fileID: 918521390}
   - 114: {fileID: 918521393}
   - 65: {fileID: 918521392}
-  - 114: {fileID: 918521391}
   m_Layer: 0
   m_Name: Card 8
-  m_TagString: Untagged
+  m_TagString: NoPlayableCard
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -17087,32 +16873,6 @@ Transform:
   - {fileID: 437769169}
   m_Father: {fileID: 288092502}
   m_RootOrder: 7
---- !u!114 &918521391
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 11436374, guid: 41e7592d34820a2439ba5cd78e942c28,
-    type: 2}
-  m_PrefabInternal: {fileID: 265946271}
-  m_GameObject: {fileID: 918521389}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ownerId: 0
-  group: 0
-  prefixBackup: -1
-  observed: {fileID: 0}
-  synchronization: 1
-  onSerializeTransformOption: 3
-  onSerializeRigidBodyOption: 2
-  ownershipTransfer: 0
-  ObservedComponents:
-  - {fileID: 918521390}
-  ObservedComponentsFoldoutOpen: 1
-  viewIdField: 0
-  instantiationId: -1
-  isRuntimeInstantiated: 0
 --- !u!65 &918521392
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -17853,7 +17613,6 @@ GameObject:
   - 33: {fileID: 955530161}
   - 23: {fileID: 955530160}
   - 111: {fileID: 955530158}
-  - 114: {fileID: 955530162}
   m_Layer: 0
   m_Name: texturedGameCard
   m_TagString: Untagged
@@ -17934,18 +17693,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 1642943553}
   m_GameObject: {fileID: 955530156}
   m_Mesh: {fileID: 4300000, guid: a11a65670a24b431b993911582ffe281, type: 3}
---- !u!114 &955530162
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 11442510, guid: 41e7592d34820a2439ba5cd78e942c28,
-    type: 2}
-  m_PrefabInternal: {fileID: 1642943553}
-  m_GameObject: {fileID: 955530156}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b37f7548754c57349a207fc1824293f7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &963703997
 GameObject:
   m_ObjectHideFlags: 0
@@ -19246,7 +18993,12 @@ Prefab:
       propertyPath: m_Name
       value: Card 7
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 158266, guid: 41e7592d34820a2439ba5cd78e942c28, type: 2}
+      propertyPath: m_TagString
+      value: NoPlayableCard
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 11436374, guid: 41e7592d34820a2439ba5cd78e942c28, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 41e7592d34820a2439ba5cd78e942c28, type: 2}
   m_RootGameObject: {fileID: 459315140}
   m_IsPrefabParent: 0
@@ -19714,7 +19466,6 @@ GameObject:
   - 33: {fileID: 1123187139}
   - 23: {fileID: 1123187138}
   - 111: {fileID: 1123187136}
-  - 114: {fileID: 1123187140}
   m_Layer: 0
   m_Name: texturedGameCard
   m_TagString: Untagged
@@ -19795,18 +19546,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 265946271}
   m_GameObject: {fileID: 1123187134}
   m_Mesh: {fileID: 4300000, guid: a11a65670a24b431b993911582ffe281, type: 3}
---- !u!114 &1123187140
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 11442510, guid: 41e7592d34820a2439ba5cd78e942c28,
-    type: 2}
-  m_PrefabInternal: {fileID: 265946271}
-  m_GameObject: {fileID: 1123187134}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b37f7548754c57349a207fc1824293f7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1133550581
 Prefab:
   m_ObjectHideFlags: 0
@@ -19858,7 +19597,12 @@ Prefab:
       propertyPath: m_Name
       value: Card 6
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 158266, guid: 41e7592d34820a2439ba5cd78e942c28, type: 2}
+      propertyPath: m_TagString
+      value: NoPlayableCard
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 11436374, guid: 41e7592d34820a2439ba5cd78e942c28, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 41e7592d34820a2439ba5cd78e942c28, type: 2}
   m_RootGameObject: {fileID: 75510998}
   m_IsPrefabParent: 0
@@ -21236,7 +20980,6 @@ GameObject:
   - 33: {fileID: 1230974156}
   - 23: {fileID: 1230974155}
   - 111: {fileID: 1230974153}
-  - 114: {fileID: 1230974157}
   m_Layer: 0
   m_Name: texturedGameCard
   m_TagString: Untagged
@@ -21317,18 +21060,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 652553307}
   m_GameObject: {fileID: 1230974151}
   m_Mesh: {fileID: 4300000, guid: a11a65670a24b431b993911582ffe281, type: 3}
---- !u!114 &1230974157
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 11442510, guid: 41e7592d34820a2439ba5cd78e942c28,
-    type: 2}
-  m_PrefabInternal: {fileID: 652553307}
-  m_GameObject: {fileID: 1230974151}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b37f7548754c57349a207fc1824293f7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1233822343
 GameObject:
   m_ObjectHideFlags: 0
@@ -22892,10 +22623,9 @@ GameObject:
   - 4: {fileID: 1305333659}
   - 114: {fileID: 1305333662}
   - 65: {fileID: 1305333661}
-  - 114: {fileID: 1305333660}
   m_Layer: 0
   m_Name: Card 1
-  m_TagString: Untagged
+  m_TagString: NoPlayableCard
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -22915,32 +22645,6 @@ Transform:
   - {fileID: 1459150726}
   m_Father: {fileID: 288092502}
   m_RootOrder: 0
---- !u!114 &1305333660
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 11436374, guid: 41e7592d34820a2439ba5cd78e942c28,
-    type: 2}
-  m_PrefabInternal: {fileID: 1573824440}
-  m_GameObject: {fileID: 1305333658}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ownerId: 0
-  group: 0
-  prefixBackup: -1
-  observed: {fileID: 0}
-  synchronization: 1
-  onSerializeTransformOption: 3
-  onSerializeRigidBodyOption: 2
-  ownershipTransfer: 0
-  ObservedComponents:
-  - {fileID: 1305333659}
-  ObservedComponentsFoldoutOpen: 1
-  viewIdField: 0
-  instantiationId: -1
-  isRuntimeInstantiated: 0
 --- !u!65 &1305333661
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -24422,7 +24126,6 @@ GameObject:
   - 33: {fileID: 1383125589}
   - 23: {fileID: 1383125588}
   - 111: {fileID: 1383125586}
-  - 114: {fileID: 1383125590}
   m_Layer: 0
   m_Name: texturedGameCard
   m_TagString: Untagged
@@ -24503,18 +24206,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 542247642}
   m_GameObject: {fileID: 1383125584}
   m_Mesh: {fileID: 4300000, guid: a11a65670a24b431b993911582ffe281, type: 3}
---- !u!114 &1383125590
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 11442510, guid: 41e7592d34820a2439ba5cd78e942c28,
-    type: 2}
-  m_PrefabInternal: {fileID: 542247642}
-  m_GameObject: {fileID: 1383125584}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b37f7548754c57349a207fc1824293f7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1384918664
 GameObject:
   m_ObjectHideFlags: 0
@@ -24747,7 +24438,12 @@ Prefab:
       propertyPath: m_Name
       value: Card 9
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 158266, guid: 41e7592d34820a2439ba5cd78e942c28, type: 2}
+      propertyPath: m_TagString
+      value: NoPlayableCard
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 11436374, guid: 41e7592d34820a2439ba5cd78e942c28, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 41e7592d34820a2439ba5cd78e942c28, type: 2}
   m_RootGameObject: {fileID: 1827287989}
   m_IsPrefabParent: 0
@@ -27536,7 +27232,12 @@ Prefab:
       propertyPath: m_LocalScale.x
       value: 10
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 158266, guid: 41e7592d34820a2439ba5cd78e942c28, type: 2}
+      propertyPath: m_TagString
+      value: NoPlayableCard
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 11436374, guid: 41e7592d34820a2439ba5cd78e942c28, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 41e7592d34820a2439ba5cd78e942c28, type: 2}
   m_RootGameObject: {fileID: 1305333658}
   m_IsPrefabParent: 0
@@ -28670,7 +28371,12 @@ Prefab:
       propertyPath: m_Name
       value: Card 2
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 158266, guid: 41e7592d34820a2439ba5cd78e942c28, type: 2}
+      propertyPath: m_TagString
+      value: NoPlayableCard
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 11436374, guid: 41e7592d34820a2439ba5cd78e942c28, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 41e7592d34820a2439ba5cd78e942c28, type: 2}
   m_RootGameObject: {fileID: 399319170}
   m_IsPrefabParent: 0
@@ -30574,7 +30280,8 @@ Prefab:
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 11436374, guid: 41e7592d34820a2439ba5cd78e942c28, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 41e7592d34820a2439ba5cd78e942c28, type: 2}
   m_RootGameObject: {fileID: 800250399}
   m_IsPrefabParent: 0
@@ -31416,10 +31123,9 @@ GameObject:
   - 4: {fileID: 1827287990}
   - 114: {fileID: 1827287993}
   - 65: {fileID: 1827287992}
-  - 114: {fileID: 1827287991}
   m_Layer: 0
   m_Name: Card 9
-  m_TagString: Untagged
+  m_TagString: NoPlayableCard
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -31439,32 +31145,6 @@ Transform:
   - {fileID: 1432810114}
   m_Father: {fileID: 288092502}
   m_RootOrder: 8
---- !u!114 &1827287991
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 11436374, guid: 41e7592d34820a2439ba5cd78e942c28,
-    type: 2}
-  m_PrefabInternal: {fileID: 1394999541}
-  m_GameObject: {fileID: 1827287989}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ownerId: 0
-  group: 0
-  prefixBackup: -1
-  observed: {fileID: 0}
-  synchronization: 1
-  onSerializeTransformOption: 3
-  onSerializeRigidBodyOption: 2
-  ownershipTransfer: 0
-  ObservedComponents:
-  - {fileID: 1827287990}
-  ObservedComponentsFoldoutOpen: 1
-  viewIdField: 0
-  instantiationId: -1
-  isRuntimeInstantiated: 0
 --- !u!65 &1827287992
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -31918,7 +31598,6 @@ GameObject:
   - 33: {fileID: 1845307102}
   - 23: {fileID: 1845307101}
   - 111: {fileID: 1845307099}
-  - 114: {fileID: 1845307103}
   m_Layer: 0
   m_Name: texturedGameCard
   m_TagString: Untagged
@@ -31999,18 +31678,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 1133550581}
   m_GameObject: {fileID: 1845307097}
   m_Mesh: {fileID: 4300000, guid: a11a65670a24b431b993911582ffe281, type: 3}
---- !u!114 &1845307103
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 11442510, guid: 41e7592d34820a2439ba5cd78e942c28,
-    type: 2}
-  m_PrefabInternal: {fileID: 1133550581}
-  m_GameObject: {fileID: 1845307097}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b37f7548754c57349a207fc1824293f7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1846796678
 GameObject:
   m_ObjectHideFlags: 0
@@ -35227,7 +34894,6 @@ GameObject:
   - 33: {fileID: 2052199030}
   - 23: {fileID: 2052199029}
   - 111: {fileID: 2052199027}
-  - 114: {fileID: 2052199031}
   m_Layer: 0
   m_Name: texturedGameCard
   m_TagString: Untagged
@@ -35308,18 +34974,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 1573824440}
   m_GameObject: {fileID: 2052199025}
   m_Mesh: {fileID: 4300000, guid: a11a65670a24b431b993911582ffe281, type: 3}
---- !u!114 &2052199031
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 11442510, guid: 41e7592d34820a2439ba5cd78e942c28,
-    type: 2}
-  m_PrefabInternal: {fileID: 1573824440}
-  m_GameObject: {fileID: 2052199025}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b37f7548754c57349a207fc1824293f7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2054551853
 GameObject:
   m_ObjectHideFlags: 0
@@ -35331,7 +34985,6 @@ GameObject:
   - 33: {fileID: 2054551858}
   - 23: {fileID: 2054551857}
   - 111: {fileID: 2054551855}
-  - 114: {fileID: 2054551859}
   m_Layer: 0
   m_Name: texturedGameCard
   m_TagString: Untagged
@@ -35412,18 +35065,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 1771112995}
   m_GameObject: {fileID: 2054551853}
   m_Mesh: {fileID: 4300000, guid: a11a65670a24b431b993911582ffe281, type: 3}
---- !u!114 &2054551859
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 11442510, guid: 41e7592d34820a2439ba5cd78e942c28,
-    type: 2}
-  m_PrefabInternal: {fileID: 1771112995}
-  m_GameObject: {fileID: 2054551853}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b37f7548754c57349a207fc1824293f7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2062598873
 GameObject:
   m_ObjectHideFlags: 0
@@ -35836,7 +35477,6 @@ GameObject:
   - 33: {fileID: 2096443709}
   - 23: {fileID: 2096443708}
   - 111: {fileID: 2096443706}
-  - 114: {fileID: 2096443710}
   m_Layer: 0
   m_Name: texturedGameCard
   m_TagString: Untagged
@@ -35917,18 +35557,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 1070387318}
   m_GameObject: {fileID: 2096443704}
   m_Mesh: {fileID: 4300000, guid: a11a65670a24b431b993911582ffe281, type: 3}
---- !u!114 &2096443710
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 11442510, guid: 41e7592d34820a2439ba5cd78e942c28,
-    type: 2}
-  m_PrefabInternal: {fileID: 1070387318}
-  m_GameObject: {fileID: 2096443704}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b37f7548754c57349a207fc1824293f7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2105191306
 GameObject:
   m_ObjectHideFlags: 0
@@ -36818,7 +36446,12 @@ Prefab:
       propertyPath: m_Name
       value: Card 4
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 158266, guid: 41e7592d34820a2439ba5cd78e942c28, type: 2}
+      propertyPath: m_TagString
+      value: NoPlayableCard
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 11436374, guid: 41e7592d34820a2439ba5cd78e942c28, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 41e7592d34820a2439ba5cd78e942c28, type: 2}
   m_RootGameObject: {fileID: 724637667}
   m_IsPrefabParent: 0

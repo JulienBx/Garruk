@@ -111,6 +111,7 @@ public class GameBoard : Photon.MonoBehaviour
 		clone.tag = "PlayableCard";
 		GameTimeLine.instance.GameCards.Add(gCard);
 		GameTimeLine.instance.SortCardsBySpeed();
+		GameTimeLine.instance.removeBarLife();
 		GameTimeLine.instance.Arrange();
 		gCard.ShowFace();
 	}

@@ -250,7 +250,6 @@ GameObject:
   - 33: {fileID: 3300552}
   - 23: {fileID: 2300562}
   - 111: {fileID: 11100534}
-  - 114: {fileID: 11442510}
   m_Layer: 0
   m_Name: texturedGameCard
   m_TagString: Untagged
@@ -2857,17 +2856,6 @@ MonoBehaviour:
   viewIdField: 0
   instantiationId: -1
   isRuntimeInstantiated: 0
---- !u!114 &11442510
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100562}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b37f7548754c57349a207fc1824293f7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!222 &22228840
 CanvasRenderer:
   m_ObjectHideFlags: 1

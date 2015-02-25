@@ -78,6 +78,18 @@ public class GameTimeLine : MonoBehaviour {
 
 	public void SortCardsBySpeed ()
 	{
-		GameCards = GameCards.OrderBy(e => e.Card.Speed).ThenBy(e => e.Card.Id).ToList();
+		GameCards = GameCards.OrderByDescending(e => e.Card.Speed).ThenBy(e => e.Card.Id).ToList();
+	}
+
+	public void removeBarLife()
+	{
+		foreach (Transform child in transform)
+		{
+			Transform go = child.Find("Life");
+			if (go != null)
+			{
+				Destroy(go.gameObject);
+			}
+		}
 	}
 }
