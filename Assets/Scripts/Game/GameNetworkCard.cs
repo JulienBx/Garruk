@@ -210,7 +210,7 @@ public class GameNetworkCard : GameCard {
 	[RPC]
 	void GetDamage(int id, int attack)
 	{
-		GameObject instance = Instantiate(AttackAnim, transform.position + new Vector3(0, 0, -2), Quaternion.identity) as GameObject;
+		Instantiate(AttackAnim, transform.position + new Vector3(0, 0, -2), Quaternion.identity);
 		GameObject go = PhotonView.Find(id).gameObject;
 		GameNetworkCard gnc = go.GetComponent<GameNetworkCard>();
 		gnc.Damage += attack;
