@@ -107,6 +107,7 @@ public class LobbyScript : Photon.MonoBehaviour {
 				if (i == 0)
 				{
 					selectedDeck = deckId;
+					StartCoroutine(SetSelectedDeck(selectedDeck));
 				}
 				decks.Add(new Deck(deckId, deckName, deckNbC));
 			}

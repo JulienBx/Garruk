@@ -177,7 +177,6 @@ GameObject:
   - 124: {fileID: 2003945748}
   - 81: {fileID: 2003945747}
   - 114: {fileID: 2003945752}
-  - 148: {fileID: 2003945753}
   - 114: {fileID: 2003945754}
   m_Layer: 0
   m_Name: Main Camera
@@ -322,18 +321,6 @@ MonoBehaviour:
     m_StretchWidth: 1
     m_StretchHeight: 0
   selectedDeck: 0
---- !u!148 &2003945753
-NetworkView:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2003945746}
-  m_Enabled: 0
-  m_StateSynchronization: 1
-  m_Observed: {fileID: 2003945751}
-  m_ViewID:
-    m_ID: 1
-    m_Type: 1
 --- !u!114 &2003945754
 MonoBehaviour:
   m_ObjectHideFlags: 0
