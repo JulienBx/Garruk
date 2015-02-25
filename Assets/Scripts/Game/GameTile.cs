@@ -19,6 +19,7 @@ public class GameTile : MonoBehaviour {
 	public float hexHeight;
 	public int gridWidthInHexes = 5;
 	public int gridHeightInHexes = 8;
+	public int pathIndex;
 
 	public bool Passable = false;
 
@@ -117,6 +118,16 @@ public class GameTile : MonoBehaviour {
 		}
 	}
 
+	public static void InitIndexPathTile()
+	{
+		foreach(Transform go in GameBoard.instance.gameObject.transform)
+		{
+			if (!go.gameObject.name.Equals("Game Board"))
+			{
+				go.GetComponent<GameTile>().pathIndex = -1;
+			}
+		}
+	}
 
 	public void SetCursorToDrag()
 	{

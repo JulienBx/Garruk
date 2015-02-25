@@ -64,6 +64,7 @@ public class GameNetworkCard : GameCard {
 			} 
 			else
 			{
+				GameTile.InitIndexPathTile();
 				if (GameTimeLine.instance.PlayingCard.Card.Equals(Card) && !GamePlayingCard.instance.hasMoved) 
 				{
 					GameBoard.instance.CardSelected = this;
@@ -262,11 +263,12 @@ public class GameNetworkCard : GameCard {
 				}
 			}
 			
-			if (!hasCard)
+			if (!hasCard && i > gTile.pathIndex)
 			{
-				colorAndMarkNeighboringTiles(tile.AllNeighbours, i, color);
+				gTile.pathIndex = i;
 				gTile.Passable = true;
 				gTile.changeColor(color);
+				colorAndMarkNeighboringTiles(tile.AllNeighbours, i, color);
 			}
 		}
 	}
