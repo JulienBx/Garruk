@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -21,6 +22,9 @@ public class Card
 	public int MoveLevel;
 	public int LifeLevel;
 	public int SpeedLevel;
+	public int Price;
+	public DateTime OnSaleDate; 
+
 
 	public Card(int id, string title, int life, int artIndex, int speed, int move)
 	{
@@ -100,6 +104,40 @@ public class Card
 		this.MoveLevel = moveLevel;
 		this.SpeedLevel = speedLevel;
 		this.AttackLevel = attackLevel;
+	}
+
+
+	public Card(int id, 
+	            string title, 
+	            int life, 
+	            int attack, 
+	            int speed, 
+	            int move, 
+	            int artIndex, 
+	            int idClass,
+	            string titleClass, 
+	            int lifeLevel, 
+	            int moveLevel, 
+	            int speedLevel, 
+	            int attackLevel,
+	            int price,
+	            DateTime onSaleDate)
+	{
+		this.Id = id;
+		this.Title = title;
+		this.Life = life;
+		this.Attack = attack;
+		this.Speed = speed;
+		this.Move = move;
+		this.ArtIndex = artIndex;
+		this.IdClass = idClass;
+		this.TitleClass = titleClass;
+		this.LifeLevel = lifeLevel;
+		this.MoveLevel = moveLevel;
+		this.SpeedLevel = speedLevel;
+		this.AttackLevel = attackLevel;
+		this.Price = price;
+		this.OnSaleDate = onSaleDate;
 	}
 	
 

@@ -13,7 +13,7 @@ public class LobbyScript : Photon.MonoBehaviour {
 
 	private bool attemptToPlay = false;
 	private const string roomName = "GarrukLobby";
-	private RoomInfo[] roomsList;
+	//private RoomInfo[] roomsList;
 	public int selectedDeck = 0;
 
 	void Start()
@@ -161,7 +161,7 @@ public class LobbyScript : Photon.MonoBehaviour {
 
 	void OnReceivedRoomListUpdate()
 	{
-		roomsList = PhotonNetwork.GetRoomList();
+		//roomsList = PhotonNetwork.GetRoomList();
 	}
 
 	void OnJoinedRoom()

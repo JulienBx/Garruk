@@ -17,6 +17,6 @@ public class DebugTile : MonoBehaviour {
 
 	void OnMouseEnter()
 	{
-		//Debug.Log(gTile.tile.ToString());
+		Debug.Log(gTile.tile.ToString());
 	}
 }

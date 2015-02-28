@@ -8,24 +8,17 @@ public class GameScript : Photon.MonoBehaviour {
 	public string gameName = ApplicationModel.username;
 	public float WaitingTimeToRefresh;
 	public GameObject card;
-
-	//private const string typeName = "oojump_garruk_game";
-//	private bool isConnecting = false;
-//	private bool connected = false;
-//	private bool attemptToConnect = false;
 	public Dictionary<int, string> playersName = new Dictionary<int, string>();
-	private HostData[] hostList;
 	public string labelText = "Placer vos héros sur le champ de bataille";
 	public string labelInfo = "En attente d'autres joueurs";
-
 	public bool gameOver = false;
-
 	public string labelMessage = "";
-	private bool hasClicked = false;
 	public static GameScript instance;
 
-	private const string roomName = "GarrukGame";
-	private RoomInfo[] roomsList;
+	bool hasClicked = false;
+	const string roomName = "GarrukGame";
+	HostData[] hostList;
+//	private RoomInfo[] roomsList;
 
 	void Awake()
 	{
@@ -134,11 +127,9 @@ public class GameScript : Photon.MonoBehaviour {
 	
 	void OnReceivedRoomListUpdate()
 	{
-		roomsList = PhotonNetwork.GetRoomList();
+		//roomsList = PhotonNetwork.GetRoomList();
 	}
-	
-	
-	
+
 	void OnJoinedRoom()
 	{
 		Debug.Log("Connected to Room");
