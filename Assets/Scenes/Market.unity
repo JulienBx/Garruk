@@ -243,8 +243,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06261a8fdd7db41d59ccf8bd390eabc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  backButton: {fileID: 2800000, guid: 270df454f8aced9459353ce23e5ea4bb, type: 3}
-  backActivatedButton: {fileID: 2800000, guid: e1eff2bad0c09fd40b92fda0be0ac729, type: 3}
+  backButton: {fileID: 2800000, guid: b62e84c9778157d4da049cad27d08b76, type: 3}
+  backActivatedButton: {fileID: 2800000, guid: 31ce0db19a95a964893ce4ed1ca75aed, type: 3}
   soldCardTexture: {fileID: 2800000, guid: 0bcbd6834cdb34de4af130bea1438c92, type: 3}
   windowRect:
     serializedVersion: 2
