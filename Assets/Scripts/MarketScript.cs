@@ -148,8 +148,11 @@ public class MarketScript : MonoBehaviour {
 
 		if (timer > 10) {
 
-			StartCoroutine(refreshMarket());
 			timer=timer-10;
+
+			if (isLoadedCards!=0)
+			StartCoroutine(refreshMarket());
+
 
 		}
 
@@ -1156,6 +1159,8 @@ public class MarketScript : MonoBehaviour {
 		if (w.error != null) 
 		{
 			print (w.error); 										// donne l'erreur eventuelle
+		}
+		else if(isLoadedCards==0){
 		}
 		else{
 			bool find = false;
