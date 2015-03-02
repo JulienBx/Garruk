@@ -16,6 +16,7 @@ public class MarketScript : MonoBehaviour {
 	int heightScreen = Screen.height ;
 	int nbCardsPerRow = 0 ;
 
+
 	GUIStyle mesDecksTitleStyle;
 	GUIStyle nbResultsStyle;
 	GUIStyle sortTitleStyle;
@@ -32,6 +33,7 @@ public class MarketScript : MonoBehaviour {
 	GUIStyle[] myDecksGuiStyle ;
 	GUIStyle[] paginatorGuiStyle;
 	GUIStyle buyButtonStyle;
+	GUIStyle sortButtonStyle;
 
 	public Rect windowRect ;
 
@@ -123,10 +125,11 @@ public class MarketScript : MonoBehaviour {
 	float speed =55f;
 	float timer;
 
-	string property="";
-	int ascending=2;
-
 	DateTime dateLimit;
+
+	int oldSelGridInt = 10;
+	int selGridInt = 10;
+	string[] selStrings = new string[] {"^", "v", "^", "v", "^", "v", "^", "v", "^", "v"};
 
 
 	// Use this for initialization
@@ -174,6 +177,12 @@ public class MarketScript : MonoBehaviour {
 			getCards();
 			createCards();
 
+		}
+
+
+		if (oldSelGridInt!=selGridInt){
+			oldSelGridInt=selGridInt;
+			sortCards();
 		}
 
 
@@ -292,135 +301,25 @@ public class MarketScript : MonoBehaviour {
 
 				GUILayout.BeginHorizontal();
 				{
-
-					GUILayout.BeginVertical();
-					{
-						GUILayout.Label ("Prix",sortTitleStyle,GUILayout.Height(20));
-						GUILayout.BeginHorizontal();
-						{
-							if (GUILayout.Button("^", GUILayout.Height(15))){
-								property="Price";
-								ascending=1;
-								sortCards();
-								chosenPage=0;
-								displayPage();
-							}
-						
-							if (GUILayout.Button("v", GUILayout.Height(15))){
-								property="Price";
-								ascending=0;
-								sortCards();
-								chosenPage=0;
-								displayPage();
-							}
-							
-						}
-						GUILayout.EndHorizontal();
-					
-
-					}
-					GUILayout.EndVertical();
-
-					GUILayout.BeginVertical();
-					{
-						GUILayout.Label ("Vie",sortTitleStyle,GUILayout.Height(20));
-						GUILayout.BeginHorizontal();
-						{
-							if (GUILayout.Button("^", GUILayout.Height(15))){
-								property="Life";
-								ascending=1;
-								sortCards();
-							}
-							
-							if (GUILayout.Button("v", GUILayout.Height(15))){
-								property="Life";
-								ascending=0;
-								sortCards();
-							}
-						}
-						GUILayout.EndHorizontal();
-						
-						
-					}
-					GUILayout.EndVertical();
-
-
-					GUILayout.BeginVertical();
-					{
-						GUILayout.Label ("Attaque",sortTitleStyle,GUILayout.Height(20));
-						GUILayout.BeginHorizontal();
-						{
-							if (GUILayout.Button("^", GUILayout.Height(15))){
-								property="Attack";
-								ascending=1;
-								sortCards();
-							}
-							
-							if (GUILayout.Button("v", GUILayout.Height(15))){
-								property="Attack";
-								ascending=0;
-								sortCards();
-							}
-						}
-						GUILayout.EndHorizontal();
-						
-						
-					}
-					GUILayout.EndVertical();
-
-
-					GUILayout.BeginVertical();
-					{
-						GUILayout.Label ("Vitesse",sortTitleStyle,GUILayout.Height(20));
-						GUILayout.BeginHorizontal();
-						{
-							if (GUILayout.Button("^", GUILayout.Height(15))){
-								property="Speed";
-								ascending=1;
-								sortCards();
-							}
-							
-							if (GUILayout.Button("v", GUILayout.Height(15))){
-								property="Speed";
-								ascending=0;
-								sortCards();
-							}
-						}
-						GUILayout.EndHorizontal();
-						
-						
-					}
-					GUILayout.EndVertical();
-
-
-					GUILayout.BeginVertical();
-					{
-						GUILayout.Label ("Mouvement",sortTitleStyle,GUILayout.Height(20));
-						GUILayout.BeginHorizontal();
-						{
-							if (GUILayout.Button("^", GUILayout.Height(15))){
-								property="Move";
-								ascending=1;
-								sortCards();
-							}
-							
-							if (GUILayout.Button("v", GUILayout.Height(15))){
-								property="Move";
-								ascending=0;
-								sortCards();
-							}
-						}
-						GUILayout.EndHorizontal();
-						
-						
-					}
-					GUILayout.EndVertical();
-
+					GUILayout.FlexibleSpace();
+					GUILayout.Label ("Prix",sortTitleStyle,GUILayout.Width(widthScreen * 0.56f/6f),GUILayout.Height(20));
+					GUILayout.FlexibleSpace();
+					GUILayout.Label ("Vie",sortTitleStyle,GUILayout.Width(widthScreen * 0.56f/6f),GUILayout.Height(20));
+					GUILayout.FlexibleSpace();
+					GUILayout.Label ("Attaque",sortTitleStyle,GUILayout.Width(widthScreen * 0.56f/6f),GUILayout.Height(20));
+					GUILayout.FlexibleSpace();
+					GUILayout.Label ("Vitesse",sortTitleStyle,GUILayout.Width(widthScreen * 0.56f/6f),GUILayout.Height(20));
+					GUILayout.FlexibleSpace();
+					GUILayout.Label ("Mouvement",sortTitleStyle,GUILayout.Width(widthScreen * 0.56f/6f),GUILayout.Height(20));
+					GUILayout.FlexibleSpace();
 
 				}
 				GUILayout.EndHorizontal();
 
-				GUILayout.Label (cardsToBeDisplayed.Count +"/" + totalNbResult + " résultats affichés",nbResultsStyle,GUILayout.Height(20));
+				selGridInt = GUILayout.SelectionGrid(selGridInt, selStrings, 10);
+
+				if (cardsToBeDisplayed.Count != totalNbResult)
+					GUILayout.Label (cardsToBeDisplayed.Count +" / " + totalNbResult + " cartes affichées",nbResultsStyle,GUILayout.Height(20));
 
 			}
 			GUILayout.EndArea();
@@ -490,6 +389,7 @@ public class MarketScript : MonoBehaviour {
 								this.matchValues = new List<string>();
 								recalculeFiltres = true ;
 								toReload = true ;
+								valueSkill="";
 							}
 						}
 					}
@@ -568,7 +468,8 @@ public class MarketScript : MonoBehaviour {
 					
 					if (GUILayout.Button("Lancer une recherche")){
 
-						ascending=2;
+						selGridInt=11;
+						oldSelGridInt=11;
 						cardsToSearch=" AND (";
 						for (int i = 0; i < togglesCurrentStates.Length; i++){
 
@@ -583,7 +484,7 @@ public class MarketScript : MonoBehaviour {
 
 						if (skillsChosen.Count >0){
 
-							cardsToSearch = cardsToSearch + " AND cs.idcard = c.id AND (";
+							cardsToSearch = cardsToSearch + " AND cs.idcard = c.id AND cs.isactivated='1' AND (";
 
 							for (int i=0;i<skillsChosen.Count;i++){
 								for (int j = 0; j < skillsList.Length-1; j++) {  
@@ -818,7 +719,6 @@ public class MarketScript : MonoBehaviour {
 		myStyle.fixedHeight = 12;
 		myStyle.alignment = TextAnchor.MiddleCenter;
 		myStyle.normal.background = this.backButton;
-
 		
 		
 		yield break;
@@ -867,11 +767,13 @@ public class MarketScript : MonoBehaviour {
 			}
 		}
 
-		if (chosenPage == nbPages-1)
+		if (chosenPage == nbPages-1){
 			finish = cardsToBeDisplayed.Count;
-		else
+		}
+		else{
 			finish = start + 3 * nbCardsPerRow;
-
+		}
+	
 
 		yield break;
 	}
@@ -936,10 +838,12 @@ public class MarketScript : MonoBehaviour {
 		widthScreen = Screen.width;
 
 		start = 3 * nbCardsPerRow * chosenPage;
-		if (nbCardsToDisplay < 3*nbCardsPerRow)
+		if (nbCardsToDisplay < 3*nbCardsPerRow){
 		finish = nbCardsToDisplay;
-		else
+		}
+		else{
 		finish = 3 * nbCardsPerRow;
+		}
 
 		//this.setFilters ();
 
@@ -1203,48 +1107,60 @@ public class MarketScript : MonoBehaviour {
 			for (int j=0;j<i;j++){
 
 
-				switch (property)
+				switch (selGridInt)
 				{
-				case "Price":
+				case 0:
 					tempA = cards[cardsToBeDisplayed[i]].Price;
 					tempB = cards[cardsToBeDisplayed[j]].Price;
 					break;
-				case "Life":
+				case 1:
+					tempB = cards[cardsToBeDisplayed[i]].Price;
+					tempA = cards[cardsToBeDisplayed[j]].Price;
+					break;
+				case 2:
 					tempA = cards[cardsToBeDisplayed[i]].Life;
 					tempB = cards[cardsToBeDisplayed[j]].Life;
 					break;
-				case "Attack":
+				case 3:
+					tempB = cards[cardsToBeDisplayed[i]].Life;
+					tempA = cards[cardsToBeDisplayed[j]].Life;
+					break;
+				case 4:
 					tempA = cards[cardsToBeDisplayed[i]].Attack;
 					tempB = cards[cardsToBeDisplayed[j]].Attack;
 					break;
-				case "Speed":
+				case 5:
+					tempB = cards[cardsToBeDisplayed[i]].Attack;
+					tempA = cards[cardsToBeDisplayed[j]].Attack;
+					break;
+				case 6:
 					tempA = cards[cardsToBeDisplayed[i]].Speed;
 					tempB = cards[cardsToBeDisplayed[j]].Speed;
 					break;
-				case "Move":
+				case 7:
+					tempB = cards[cardsToBeDisplayed[i]].Speed;
+					tempA = cards[cardsToBeDisplayed[j]].Speed;
+					break;
+				case 8:
 					tempA = cards[cardsToBeDisplayed[i]].Move;
 					tempB = cards[cardsToBeDisplayed[j]].Move;
+					break;
+				case 9:
+					tempB = cards[cardsToBeDisplayed[i]].Move;
+					tempA = cards[cardsToBeDisplayed[j]].Move;
 					break;
 				default:
 
 					break;
 				}
 
-				if (ascending==1){
 
-					if (tempA<tempB){
-						cardsToBeDisplayed.Insert (j,cardsToBeDisplayed[i]);
-						cardsToBeDisplayed.RemoveAt(i+1);
-						break;
-					}
+				if (tempA<tempB){
+					cardsToBeDisplayed.Insert (j,cardsToBeDisplayed[i]);
+					cardsToBeDisplayed.RemoveAt(i+1);
+					break;
 				}
-				else{
-					if (tempA>tempB){
-						cardsToBeDisplayed.Insert (j,cardsToBeDisplayed[i]);
-						cardsToBeDisplayed.RemoveAt(i+1);
-						break;
-					}
-				}
+				
 			}
 		}
 
