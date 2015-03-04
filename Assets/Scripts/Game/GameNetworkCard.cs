@@ -2,24 +2,23 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class GameNetworkCard : GameCard {
-
+public class GameNetworkCard : GameCard 
+{
+	public GameTile currentTile;                                    // Tile où la carte est positionnée
 	public int ownerNumber;											// joueur 1 ou joueur 2
-	public GameTile currentTile;
-	Vector3 WorldNamePos;
-	public GameObject YellowOutlines;
-	public int Damage = 0;
-
+	public int Damage = 0;                                          // point de dégat pris
+	public List<GameNetworkCard> neighbors;                         // Liste des cartes voisines
+	
+	#region unity editor
+	public GUIStyle progress_empty;
+	public GUIStyle progress_full;
 	public Texture2D bgImage; 
 	public Texture2D fgImage;
-	public GUIStyle progress_empty, progress_full;
 	public GameObject AttackAnim;
-
-	public Material Outline;
-	public Material Default;
-
-	public List<GameNetworkCard> neighbors;
-
+	public GameObject YellowOutlines;
+	#endregion
+	Vector3 WorldNamePos;                                           // position de la carte sur l'écran
+	
 	void Start()
 	{
 		UpdatePosition();
@@ -28,7 +27,7 @@ public class GameNetworkCard : GameCard {
 	{
 		UpdatePosition();
 	}
-
+	
 	void OnGUI()
 	{
 		if (Card != null)
@@ -41,7 +40,7 @@ public class GameNetworkCard : GameCard {
 			GUI.EndGroup();
 		}
 	}
-
+	
 	public Vector2 CalcGridPos()
 	{
 		float x = (transform.position.x / (GameTile.instance.hexWidth * 1.5f/2) + (GameBoard.instance.gridWidthInHexes / 2f) + 1);
@@ -100,6 +99,17 @@ public class GameNetworkCard : GameCard {
 				GamePlayingCard.instance.hasAttacked = true;
 				GameTile.instance.SetCursorToDefault();
 			}
+		}
+		if (!GameTimeLine.instance.PlayingCard.Card.Equals(Card) && GamePlayingCard.instance.attemptToCast && !GamePlayingCard.instance.hasAttacked)
+		{
+			
+			GamePlayingCard.instance.SkillCasted.Apply(GetComponent<PhotonView>().viewID);
+			Debug.Log(this.Card.GetSpeed());
+			//photonView.RPC("GetBuff", PhotonTargets.AllBuffered, GameTimeLine.instance.PlayingCardObject.GetComponent<PhotonView>().viewID
+			//               , this.GetComponent<PhotonView>().viewID, GamePlayingCard.instance.nbSkillToBeCast);
+			GamePlayingCard.instance.attemptToCast = false;
+			GamePlayingCard.instance.hasAttacked = true;
+			GameTile.instance.SetCursorToDefault();
 		}
 	}
 	
@@ -164,7 +174,7 @@ public class GameNetworkCard : GameCard {
 		else
 		{
 			GameTile.RemovePassableTile();
-
+			
 			this.FindNeighbors();
 			if (photonView.isMine)
 			{
@@ -180,33 +190,107 @@ public class GameNetworkCard : GameCard {
 			{
 				GamePlayingCard.instance.Pass();
 			}
-
+			
 		}
 	}
 	
-	void OnMouseDrag()
-	{
-		//		if (networkView.isMine)
-		//		{
-		//			if (GameTimeLine.instance.PlayingCard.Card.Equals(Card)) 
-		//			{
-		//				Vector3 curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, -1);
-		//				Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint) + offset;
-		//				curPosition.z = -1;
-		//				transform.position = curPosition;
-		//
-		//
-		//			}
-		//		}
-	}
-
 	IEnumerator ChangeMessage(string message)
 	{
 		GameScript.instance.labelMessage = message;
 		yield return new WaitForSeconds(2);
 		GameScript.instance.labelMessage = "";
 	}
-
+	
+	
+	
+	void colorAndMarkNeighboringTiles(IEnumerable allNeighbours, int i, Color color)
+	{
+		if (i-- == 0)
+		{
+			return;
+		}
+		foreach (Tile tile in allNeighbours)
+		{
+			GameTile gTile = GameObject.Find("hex " + tile.X + "-" + tile.Y).GetComponent<GameTile>();
+			
+			Vector3 pos = gTile.transform.TransformPoint(Vector3.zero) + new Vector3(0, 0, -2); // les colliders fonctionnent que d'un coté sur les planes, on va donc reculer et regarder ensuite en avant
+			
+			RaycastHit hit;
+			
+			bool hasCard = false;
+			if (Physics.Raycast(pos, Vector3.forward, out hit))
+			{
+				if (hit.transform.gameObject.tag == "PlayableCard")
+				{
+					hasCard = true;
+				}
+			}
+			
+			if (!hasCard && i > gTile.pathIndex)
+			{
+				gTile.pathIndex = i;
+				gTile.Passable = true;
+				gTile.changeColor(color);
+				colorAndMarkNeighboringTiles(tile.AllNeighbours, i, color);
+			}
+		}
+	}
+	
+	public void UpdatePosition()
+	{
+		if (!gameObject.tag.Equals("NoPlayableCard"))
+		{
+			Vector3 GameCardPosition = transform.Find("Life/Life Bar").position;
+			WorldNamePos = Camera.main.camera.WorldToScreenPoint(GameCardPosition);
+		}
+	}
+	
+	public void FindNeighbors()
+	{
+		neighbors.Clear();
+		GameTile gTile = null;
+		
+		RaycastHit hit;
+		Vector3 pos = transform.TransformPoint(Vector3.zero);
+		
+		if (Physics.Raycast(pos, Vector3.forward, out hit, Mathf.Infinity, 1 << GameBoardGenerator.instance.GridLayerMask))
+		{
+			gTile = hit.transform.gameObject.GetComponent<GameTile>();
+		}
+		
+		if (gTile != null)
+		{
+			foreach(Tile tile in gTile.tile.AllNeighbours)
+			{
+				GameTile neighborTile = GameObject.Find("hex " + tile.X + "-" + tile.Y).GetComponent<GameTile>();
+				pos = neighborTile.transform.TransformPoint(Vector3.zero) + new Vector3(0, 0, -2);
+				
+				if (Physics.Raycast(pos, Vector3.forward, out hit))
+				{
+					if (hit.transform.gameObject.tag == "PlayableCard")
+					{
+						neighbors.Add(hit.transform.gameObject.GetComponent<GameNetworkCard>());
+					}
+				}
+			}
+		}
+	}
+	public bool hasNeighbor()
+	{
+		return neighbors.Count > 0;
+	}
+	
+	public new void ShowFace() 
+	{
+		base.ShowFace();
+		Transform LifeTextPosition = transform.Find("Life");
+		if (LifeTextPosition != null)
+		{
+			LifeTextPosition.GetComponent<TextMesh>().text = (Card.Life - Damage).ToString();	// Et son nombre de point de vie
+		}
+	}
+	
+	// Messages RPC
 	[RPC]
 	void GetDamage(int id, int attack)
 	{
@@ -218,7 +302,7 @@ public class GameNetworkCard : GameCard {
 		{
 			GameTile.RemovePassableTile();
 			GameTimeLine.instance.GameCards.Remove(gnc);
-			//GameTimeLine.instance.Arrange();
+			
 			if (gnc.ownerNumber == 1)
 			{
 				if (--GameBoard.instance.nbCardsPlayer1 < 1)
@@ -239,91 +323,23 @@ public class GameNetworkCard : GameCard {
 			gnc.ShowFace();
 		}
 	}
-
-	void colorAndMarkNeighboringTiles(IEnumerable allNeighbours, int i, Color color)
+	[RPC]
+	void GetBuff(int idA, int idB, int nbSkill)
 	{
-		if (i-- == 0)
+		/*GameNetworkCard gnc = PhotonView.Find(idA).gameObject.GetComponent<GameNetworkCard>();
+		StatModifiers List<statModifiersA> = gnc.Card.Skills[nbSkill].StatModifiers;
+
+*/
+		GameObject goA = PhotonView.Find(idA).gameObject;
+		GameObject goc = goA.transform.Find("texturedGameCard/Skill" + nbSkill + "Area").gameObject;
+		List<StatModifier> buffs = goA.transform.Find("texturedGameCard/Skill" + nbSkill + "Area").gameObject.GetComponent<Reflexe>().StatModifiers;
+		//GameNetworkCard gnc = goA.GetComponent<GameNetworkCard>();
+		Debug.Log("before ");
+		/*GameSkill GoSkill = GamePlayingCard.instance.transform.Find("texturedGameCard/Skill" + nbSkill + "Area").gameObject.GetComponent<GameSkill>();
+		Debug.Log("tostring : " + GoSkill);
+		foreach(StatModifier modifier in GoSkill.StatModifiers)
 		{
-			return;
-		}
-		foreach (Tile tile in allNeighbours)
-		{
-			GameTile gTile = GameObject.Find("hex " + tile.X + "-" + tile.Y).GetComponent<GameTile>();
-
-			Vector3 pos = gTile.transform.TransformPoint(Vector3.zero) + new Vector3(0, 0, -2); // les colliders fonctionnent que d'un coté sur les planes, on va donc reculer et regarder ensuite en avant
-
-			RaycastHit hit;
-
-			bool hasCard = false;
-			if (Physics.Raycast(pos, Vector3.forward, out hit))
-			{
-				if (hit.transform.gameObject.tag == "PlayableCard")
-				{
-					hasCard = true;
-				}
-			}
-			
-			if (!hasCard && i > gTile.pathIndex)
-			{
-				gTile.pathIndex = i;
-				gTile.Passable = true;
-				gTile.changeColor(color);
-				colorAndMarkNeighboringTiles(tile.AllNeighbours, i, color);
-			}
-		}
-	}
-
-	public void UpdatePosition()
-	{
-		if (!gameObject.tag.Equals("NoPlayableCard"))
-		{
-			Vector3 GameCardPosition = transform.Find("Life/Life Bar").position;
-			WorldNamePos = Camera.main.camera.WorldToScreenPoint(GameCardPosition);
-		}
-	}
-
-	public void FindNeighbors()
-	{
-		neighbors.Clear();
-		GameTile gTile = null;
-
-		RaycastHit hit;
-		Vector3 pos = transform.TransformPoint(Vector3.zero);
-
-		if (Physics.Raycast(pos, Vector3.forward, out hit, Mathf.Infinity, 1 << GameBoardGenerator.instance.GridLayerMask))
-		{
-			gTile = hit.transform.gameObject.GetComponent<GameTile>();
-		}
-
-		if (gTile != null)
-		{
-			foreach(Tile tile in gTile.tile.AllNeighbours)
-			{
-				GameTile neighborTile = GameObject.Find("hex " + tile.X + "-" + tile.Y).GetComponent<GameTile>();
-				pos = neighborTile.transform.TransformPoint(Vector3.zero) + new Vector3(0, 0, -2);
-
-				if (Physics.Raycast(pos, Vector3.forward, out hit))
-				{
-					if (hit.transform.gameObject.tag == "PlayableCard")
-					{
-						neighbors.Add(hit.transform.gameObject.GetComponent<GameNetworkCard>());
-					}
-				}
-			}
-		}
-	}
-	public bool hasNeighbor()
-	{
-		return neighbors.Count > 0;
-	}
-
-	public new void ShowFace() 
-	{
-		base.ShowFace();
-		Transform LifeTextPosition = transform.Find("Life");
-		if (LifeTextPosition != null)
-		{
-			LifeTextPosition.GetComponent<TextMesh>().text = (Card.Life - Damage).ToString();	// Et son nombre de point de vie
-		}
+			gnc.Card.modifiers.Add(modifier);
+		}*/
 	}
 }

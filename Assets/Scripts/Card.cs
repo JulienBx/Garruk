@@ -21,7 +21,12 @@ public class Card
 	public int MoveLevel;
 	public int LifeLevel;
 	public int SpeedLevel;
-
+	public List<StatModifier> modifiers = new List<StatModifier>();
+	
+	
+	public Card() {
+	}
+	
 	public Card(int id, string title, int life, int artIndex, int speed, int move)
 	{
 		this.Id = id;
@@ -31,7 +36,7 @@ public class Card
 		this.Speed = speed;
 		this.Move = move;
 	}
-
+	
 	public Card(string title, int life, int artIndex, int idclass) 
 	{
 		this.Title = title;
@@ -39,7 +44,7 @@ public class Card
 		this.ArtIndex = artIndex;
 		this.IdClass = idclass;
 	}
-
+	
 	public Card(string title, int life, int artIndex, int speed, int move) 
 	{
 		this.Title = title;
@@ -48,7 +53,7 @@ public class Card
 		this.Speed = speed;
 		this.Move = move;
 	}
-
+	
 	public Card(int id, string title, int life, int artIndex, int speed, int move, int attack)
 	{
 		this.Id = id;
@@ -59,7 +64,7 @@ public class Card
 		this.Move = move;
 		this.Attack = attack;
 	}
-
+	
 	public Card(int id, string title, int life, int artIndex, int speed, int move, int attack, List<Skill> skills)
 	{
 		this.Id = id;
@@ -71,8 +76,8 @@ public class Card
 		this.Attack = attack;
 		this.Skills = skills;
 	}
-
-
+	
+	
 	public Card(int id, 
 	            string title, 
 	            int life, 
@@ -102,7 +107,7 @@ public class Card
 		this.AttackLevel = attackLevel;
 	}
 	
-
+	
 	public override int GetHashCode() 
 	{
 		return Id.GetHashCode();
@@ -117,7 +122,81 @@ public class Card
 	{
 		return obj != null && obj.Id == this.Id;
 	}
-
+	
+	#region Modifiers
+	public int GetAttack()
+	{
+		int attack = Attack;
+		foreach (StatModifier modifier in modifiers) {
+			attack = modifier.modifyAttack(attack);
+		}
+		return attack;
+	}
+	
+	public int GetLife()
+	{
+		int life = Life;
+		foreach (StatModifier modifier in modifiers) {
+			life = modifier.modifyAttack(life);
+		}
+		return life;
+	}
+	
+	public int GetSpeed()
+	{
+		int speed = Speed;
+		foreach (StatModifier modifier in modifiers) {
+			speed = modifier.modifyAttack(speed);
+		}
+		return speed;
+	}
+	
+	public int GetMove()
+	{
+		int move = Move;
+		foreach (StatModifier modifier in modifiers) {
+			move = modifier.modifyAttack(move);
+		}
+		return move;
+	}
+	
+	/// <summary>
+	/// Determines whether this instance has attack modifier.
+	/// </summary>
+	/// <returns><c>positive or negative value</c> if this instance has positive of negative attack modifier; otherwise, <c>0</c>.</returns>
+	public int HasAttackModifier()
+	{
+		return GetAttack() - Attack;
+	}
+	
+	/// <summary>
+	/// Determines whether this instance has life modifier.
+	/// </summary>
+	/// <returns><c>positive or negative value</c> if this instance has positive of negative life modifier; otherwise, <c>0</c>.</returns>
+	public int HasLifeModifier()
+	{
+		return GetLife() - Life;
+	}
+	
+	/// <summary>
+	/// Determines whether this instance has speed modifier.
+	/// </summary>
+	/// <returns><c>positive or negative value</c> if this instance has positive of negative speed modifier; otherwise, <c>0</c>.</returns>
+	public int HasSpeedModifier()
+	{
+		return GetSpeed() - Speed;
+	}
+	
+	/// <summary>
+	/// Determines whether this instance has move modifier.
+	/// </summary>
+	/// <returns><c>positive or negative value</c> if this instance has positive of negative move modifier; otherwise, <c>0</c>.</returns>
+	public int HasMoveModifier()
+	{
+		return GetMove() - Move;
+	}
+	#endregion
+	
 	public bool hasSkill(string s){
 		bool b = false;
 		int compteur = this.Skills.Count;
@@ -134,7 +213,7 @@ public class Card
 		}
 		return b;
 	}
-
+	
 	public bool verifyC(float minLife,float maxLife,float minAttack,float maxAttack,float minMove,float maxMove,float minQuickness,float maxQuickness){
 		if (minLife > this.Life || maxLife < this.Life){
 			return false ;
@@ -152,5 +231,5 @@ public class Card
 			return true ;
 		}
 	}
-
+	
 }
