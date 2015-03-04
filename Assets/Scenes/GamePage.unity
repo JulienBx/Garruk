@@ -1054,6 +1054,7 @@ GameObject:
   - 23: {fileID: 68244369}
   - 114: {fileID: 68244368}
   - 65: {fileID: 68244367}
+  - 114: {fileID: 68244371}
   m_Layer: 0
   m_Name: Skill4Area
   m_TagString: Untagged
@@ -1131,6 +1132,31 @@ MeshFilter:
   m_PrefabInternal: {fileID: 1642943553}
   m_GameObject: {fileID: 68244365}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &68244371
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11423450, guid: 41e7592d34820a2439ba5cd78e942c28,
+    type: 2}
+  m_PrefabInternal: {fileID: 1642943553}
+  m_GameObject: {fileID: 68244365}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownerId: 0
+  group: 0
+  prefixBackup: -1
+  observed: {fileID: 0}
+  synchronization: 0
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 0
+  ObservedComponents: []
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 0
+  instantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &70364575
 GameObject:
   m_ObjectHideFlags: 0
@@ -1143,6 +1169,7 @@ GameObject:
   - 23: {fileID: 70364579}
   - 114: {fileID: 70364578}
   - 65: {fileID: 70364577}
+  - 114: {fileID: 70364581}
   m_Layer: 0
   m_Name: Skill2Area
   m_TagString: Untagged
@@ -1220,6 +1247,31 @@ MeshFilter:
   m_PrefabInternal: {fileID: 652553307}
   m_GameObject: {fileID: 70364575}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &70364581
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11423454, guid: 41e7592d34820a2439ba5cd78e942c28,
+    type: 2}
+  m_PrefabInternal: {fileID: 652553307}
+  m_GameObject: {fileID: 70364575}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownerId: 0
+  group: 0
+  prefixBackup: -1
+  observed: {fileID: 0}
+  synchronization: 0
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 0
+  ObservedComponents: []
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 0
+  instantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &75510998
 GameObject:
   m_ObjectHideFlags: 0
@@ -1504,6 +1556,8 @@ MonoBehaviour:
   - {fileID: 2800000, guid: cad0357bbfd8645fcbc1939c73626a07, type: 3}
   - {fileID: 2800000, guid: a922c046410f34962827a60a8a6032b2, type: 3}
   - {fileID: 2800000, guid: 0bf1eb79ce2644be6b162663a94d1fd7, type: 3}
+  - {fileID: 2800000, guid: c82aa9bf7932ed540b72797ceee83c40, type: 3}
+  - {fileID: 2800000, guid: 5beea46f92ba2b4449979e50abf296a3, type: 3}
   Areas:
   - {fileID: 2800000, guid: 33f7b2538854c4a038736f0843e45369, type: 3}
   - {fileID: 2800000, guid: 5515a1eaaf17a443b868baa728148f6f, type: 3}
@@ -2657,6 +2711,7 @@ GameObject:
   - 23: {fileID: 151153736}
   - 114: {fileID: 151153735}
   - 65: {fileID: 151153734}
+  - 114: {fileID: 151153738}
   m_Layer: 0
   m_Name: Skill1Area
   m_TagString: Untagged
@@ -2734,6 +2789,31 @@ MeshFilter:
   m_PrefabInternal: {fileID: 542247642}
   m_GameObject: {fileID: 151153732}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &151153738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11423456, guid: 41e7592d34820a2439ba5cd78e942c28,
+    type: 2}
+  m_PrefabInternal: {fileID: 542247642}
+  m_GameObject: {fileID: 151153732}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownerId: 0
+  group: 0
+  prefixBackup: -1
+  observed: {fileID: 0}
+  synchronization: 0
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 0
+  ObservedComponents: []
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 0
+  instantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &155814645
 GameObject:
   m_ObjectHideFlags: 0
@@ -2876,6 +2956,7 @@ GameObject:
   - 23: {fileID: 170134992}
   - 114: {fileID: 170134991}
   - 65: {fileID: 170134990}
+  - 114: {fileID: 170134994}
   m_Layer: 0
   m_Name: Skill3Area
   m_TagString: Untagged
@@ -2953,6 +3034,31 @@ MeshFilter:
   m_PrefabInternal: {fileID: 1771112995}
   m_GameObject: {fileID: 170134988}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &170134994
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11423452, guid: 41e7592d34820a2439ba5cd78e942c28,
+    type: 2}
+  m_PrefabInternal: {fileID: 1771112995}
+  m_GameObject: {fileID: 170134988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownerId: 0
+  group: 0
+  prefixBackup: -1
+  observed: {fileID: 0}
+  synchronization: 0
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 0
+  ObservedComponents: []
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 0
+  instantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &174405363
 GameObject:
   m_ObjectHideFlags: 0
@@ -3713,6 +3819,7 @@ GameObject:
   - 23: {fileID: 202129528}
   - 114: {fileID: 202129527}
   - 65: {fileID: 202129526}
+  - 114: {fileID: 202129530}
   m_Layer: 0
   m_Name: Skill3Area
   m_TagString: Untagged
@@ -3790,6 +3897,31 @@ MeshFilter:
   m_PrefabInternal: {fileID: 1642943553}
   m_GameObject: {fileID: 202129524}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &202129530
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11423452, guid: 41e7592d34820a2439ba5cd78e942c28,
+    type: 2}
+  m_PrefabInternal: {fileID: 1642943553}
+  m_GameObject: {fileID: 202129524}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownerId: 0
+  group: 0
+  prefixBackup: -1
+  observed: {fileID: 0}
+  synchronization: 0
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 0
+  ObservedComponents: []
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 0
+  instantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &204684415
 GameObject:
   m_ObjectHideFlags: 0
@@ -4858,6 +4990,7 @@ GameObject:
   - 23: {fileID: 259135571}
   - 114: {fileID: 259135570}
   - 65: {fileID: 259135569}
+  - 114: {fileID: 259135573}
   m_Layer: 0
   m_Name: Skill1Area
   m_TagString: Untagged
@@ -4935,6 +5068,31 @@ MeshFilter:
   m_PrefabInternal: {fileID: 265946271}
   m_GameObject: {fileID: 259135567}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &259135573
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11423456, guid: 41e7592d34820a2439ba5cd78e942c28,
+    type: 2}
+  m_PrefabInternal: {fileID: 265946271}
+  m_GameObject: {fileID: 259135567}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownerId: 0
+  group: 0
+  prefixBackup: -1
+  observed: {fileID: 0}
+  synchronization: 0
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 0
+  ObservedComponents: []
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 0
+  instantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &259757799
 GameObject:
   m_ObjectHideFlags: 0
@@ -5066,6 +5224,7 @@ GameObject:
   - 23: {fileID: 268746749}
   - 114: {fileID: 268746748}
   - 65: {fileID: 268746747}
+  - 114: {fileID: 268746751}
   m_Layer: 0
   m_Name: Skill3Area
   m_TagString: Untagged
@@ -5143,6 +5302,31 @@ MeshFilter:
   m_PrefabInternal: {fileID: 1070387318}
   m_GameObject: {fileID: 268746745}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &268746751
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11423452, guid: 41e7592d34820a2439ba5cd78e942c28,
+    type: 2}
+  m_PrefabInternal: {fileID: 1070387318}
+  m_GameObject: {fileID: 268746745}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownerId: 0
+  group: 0
+  prefixBackup: -1
+  observed: {fileID: 0}
+  synchronization: 0
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 0
+  ObservedComponents: []
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 0
+  instantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &269028137
 GameObject:
   m_ObjectHideFlags: 0
@@ -5608,6 +5792,8 @@ MonoBehaviour:
   - {fileID: 2800000, guid: cad0357bbfd8645fcbc1939c73626a07, type: 3}
   - {fileID: 2800000, guid: a922c046410f34962827a60a8a6032b2, type: 3}
   - {fileID: 2800000, guid: 0bf1eb79ce2644be6b162663a94d1fd7, type: 3}
+  - {fileID: 2800000, guid: c82aa9bf7932ed540b72797ceee83c40, type: 3}
+  - {fileID: 2800000, guid: 5beea46f92ba2b4449979e50abf296a3, type: 3}
   Areas:
   - {fileID: 2800000, guid: 33f7b2538854c4a038736f0843e45369, type: 3}
   - {fileID: 2800000, guid: 5515a1eaaf17a443b868baa728148f6f, type: 3}
@@ -5875,6 +6061,7 @@ GameObject:
   - 23: {fileID: 295672713}
   - 114: {fileID: 295672712}
   - 65: {fileID: 295672711}
+  - 114: {fileID: 295672715}
   m_Layer: 0
   m_Name: Skill2Area
   m_TagString: Untagged
@@ -5952,6 +6139,31 @@ MeshFilter:
   m_PrefabInternal: {fileID: 542247642}
   m_GameObject: {fileID: 295672709}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &295672715
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11423454, guid: 41e7592d34820a2439ba5cd78e942c28,
+    type: 2}
+  m_PrefabInternal: {fileID: 542247642}
+  m_GameObject: {fileID: 295672709}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownerId: 0
+  group: 0
+  prefixBackup: -1
+  observed: {fileID: 0}
+  synchronization: 0
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 0
+  ObservedComponents: []
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 0
+  instantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &317598507
 GameObject:
   m_ObjectHideFlags: 0
@@ -6303,6 +6515,7 @@ GameObject:
   - 23: {fileID: 330096308}
   - 114: {fileID: 330096307}
   - 65: {fileID: 330096306}
+  - 114: {fileID: 330096310}
   m_Layer: 0
   m_Name: Skill4Area
   m_TagString: Untagged
@@ -6380,6 +6593,31 @@ MeshFilter:
   m_PrefabInternal: {fileID: 542247642}
   m_GameObject: {fileID: 330096304}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &330096310
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11423450, guid: 41e7592d34820a2439ba5cd78e942c28,
+    type: 2}
+  m_PrefabInternal: {fileID: 542247642}
+  m_GameObject: {fileID: 330096304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownerId: 0
+  group: 0
+  prefixBackup: -1
+  observed: {fileID: 0}
+  synchronization: 0
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 0
+  ObservedComponents: []
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 0
+  instantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &333317889
 GameObject:
   m_ObjectHideFlags: 0
@@ -6751,6 +6989,7 @@ GameObject:
   - 23: {fileID: 357574367}
   - 114: {fileID: 357574366}
   - 65: {fileID: 357574365}
+  - 114: {fileID: 357574369}
   m_Layer: 0
   m_Name: Skill1Area
   m_TagString: Untagged
@@ -6828,6 +7067,31 @@ MeshFilter:
   m_PrefabInternal: {fileID: 652553307}
   m_GameObject: {fileID: 357574363}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &357574369
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11423456, guid: 41e7592d34820a2439ba5cd78e942c28,
+    type: 2}
+  m_PrefabInternal: {fileID: 652553307}
+  m_GameObject: {fileID: 357574363}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownerId: 0
+  group: 0
+  prefixBackup: -1
+  observed: {fileID: 0}
+  synchronization: 0
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 0
+  ObservedComponents: []
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 0
+  instantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &369790316
 GameObject:
   m_ObjectHideFlags: 0
@@ -7531,6 +7795,8 @@ MonoBehaviour:
   - {fileID: 2800000, guid: cad0357bbfd8645fcbc1939c73626a07, type: 3}
   - {fileID: 2800000, guid: a922c046410f34962827a60a8a6032b2, type: 3}
   - {fileID: 2800000, guid: 0bf1eb79ce2644be6b162663a94d1fd7, type: 3}
+  - {fileID: 2800000, guid: c82aa9bf7932ed540b72797ceee83c40, type: 3}
+  - {fileID: 2800000, guid: 5beea46f92ba2b4449979e50abf296a3, type: 3}
   Areas:
   - {fileID: 2800000, guid: 33f7b2538854c4a038736f0843e45369, type: 3}
   - {fileID: 2800000, guid: 5515a1eaaf17a443b868baa728148f6f, type: 3}
@@ -7946,6 +8212,8 @@ MonoBehaviour:
   - {fileID: 2800000, guid: cad0357bbfd8645fcbc1939c73626a07, type: 3}
   - {fileID: 2800000, guid: a922c046410f34962827a60a8a6032b2, type: 3}
   - {fileID: 2800000, guid: 0bf1eb79ce2644be6b162663a94d1fd7, type: 3}
+  - {fileID: 2800000, guid: c82aa9bf7932ed540b72797ceee83c40, type: 3}
+  - {fileID: 2800000, guid: 5beea46f92ba2b4449979e50abf296a3, type: 3}
   Areas:
   - {fileID: 2800000, guid: 33f7b2538854c4a038736f0843e45369, type: 3}
   - {fileID: 2800000, guid: 5515a1eaaf17a443b868baa728148f6f, type: 3}
@@ -8089,6 +8357,7 @@ GameObject:
   - 23: {fileID: 401215924}
   - 114: {fileID: 401215923}
   - 65: {fileID: 401215922}
+  - 114: {fileID: 401215926}
   m_Layer: 0
   m_Name: Skill4Area
   m_TagString: Untagged
@@ -8166,6 +8435,31 @@ MeshFilter:
   m_PrefabInternal: {fileID: 265946271}
   m_GameObject: {fileID: 401215920}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &401215926
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11423450, guid: 41e7592d34820a2439ba5cd78e942c28,
+    type: 2}
+  m_PrefabInternal: {fileID: 265946271}
+  m_GameObject: {fileID: 401215920}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownerId: 0
+  group: 0
+  prefixBackup: -1
+  observed: {fileID: 0}
+  synchronization: 0
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 0
+  ObservedComponents: []
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 0
+  instantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &404707551
 GameObject:
   m_ObjectHideFlags: 0
@@ -8322,6 +8616,7 @@ GameObject:
   - 23: {fileID: 417280523}
   - 114: {fileID: 417280522}
   - 65: {fileID: 417280521}
+  - 114: {fileID: 417280525}
   m_Layer: 0
   m_Name: Skill1Area
   m_TagString: Untagged
@@ -8399,6 +8694,31 @@ MeshFilter:
   m_PrefabInternal: {fileID: 1771112995}
   m_GameObject: {fileID: 417280519}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &417280525
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11423456, guid: 41e7592d34820a2439ba5cd78e942c28,
+    type: 2}
+  m_PrefabInternal: {fileID: 1771112995}
+  m_GameObject: {fileID: 417280519}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownerId: 0
+  group: 0
+  prefixBackup: -1
+  observed: {fileID: 0}
+  synchronization: 0
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 0
+  ObservedComponents: []
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 0
+  instantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &419161901
 GameObject:
   m_ObjectHideFlags: 0
@@ -9079,6 +9399,8 @@ MonoBehaviour:
   - {fileID: 2800000, guid: cad0357bbfd8645fcbc1939c73626a07, type: 3}
   - {fileID: 2800000, guid: a922c046410f34962827a60a8a6032b2, type: 3}
   - {fileID: 2800000, guid: 0bf1eb79ce2644be6b162663a94d1fd7, type: 3}
+  - {fileID: 2800000, guid: c82aa9bf7932ed540b72797ceee83c40, type: 3}
+  - {fileID: 2800000, guid: 5beea46f92ba2b4449979e50abf296a3, type: 3}
   Areas:
   - {fileID: 2800000, guid: 33f7b2538854c4a038736f0843e45369, type: 3}
   - {fileID: 2800000, guid: 5515a1eaaf17a443b868baa728148f6f, type: 3}
@@ -10247,6 +10569,7 @@ GameObject:
   - 23: {fileID: 521840403}
   - 114: {fileID: 521840402}
   - 65: {fileID: 521840401}
+  - 114: {fileID: 521840405}
   m_Layer: 0
   m_Name: Skill4Area
   m_TagString: Untagged
@@ -10324,6 +10647,31 @@ MeshFilter:
   m_PrefabInternal: {fileID: 652553307}
   m_GameObject: {fileID: 521840399}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &521840405
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11423450, guid: 41e7592d34820a2439ba5cd78e942c28,
+    type: 2}
+  m_PrefabInternal: {fileID: 652553307}
+  m_GameObject: {fileID: 521840399}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownerId: 0
+  group: 0
+  prefixBackup: -1
+  observed: {fileID: 0}
+  synchronization: 0
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 0
+  ObservedComponents: []
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 0
+  instantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &529531092
 GameObject:
   m_ObjectHideFlags: 0
@@ -10408,6 +10756,7 @@ GameObject:
   - 23: {fileID: 531487060}
   - 114: {fileID: 531487059}
   - 65: {fileID: 531487058}
+  - 114: {fileID: 531487062}
   m_Layer: 0
   m_Name: Skill2Area
   m_TagString: Untagged
@@ -10485,6 +10834,31 @@ MeshFilter:
   m_PrefabInternal: {fileID: 1573824440}
   m_GameObject: {fileID: 531487056}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &531487062
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11423454, guid: 41e7592d34820a2439ba5cd78e942c28,
+    type: 2}
+  m_PrefabInternal: {fileID: 1573824440}
+  m_GameObject: {fileID: 531487056}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownerId: 0
+  group: 0
+  prefixBackup: -1
+  observed: {fileID: 0}
+  synchronization: 0
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 0
+  ObservedComponents: []
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 0
+  instantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &536840787
 GameObject:
   m_ObjectHideFlags: 0
@@ -11568,6 +11942,7 @@ GameObject:
   - 23: {fileID: 608553017}
   - 114: {fileID: 608553016}
   - 65: {fileID: 608553015}
+  - 114: {fileID: 608553019}
   m_Layer: 0
   m_Name: Skill3Area
   m_TagString: Untagged
@@ -11645,6 +12020,31 @@ MeshFilter:
   m_PrefabInternal: {fileID: 1573824440}
   m_GameObject: {fileID: 608553013}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &608553019
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11423452, guid: 41e7592d34820a2439ba5cd78e942c28,
+    type: 2}
+  m_PrefabInternal: {fileID: 1573824440}
+  m_GameObject: {fileID: 608553013}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownerId: 0
+  group: 0
+  prefixBackup: -1
+  observed: {fileID: 0}
+  synchronization: 0
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 0
+  ObservedComponents: []
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 0
+  instantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &612057004
 GameObject:
   m_ObjectHideFlags: 0
@@ -11928,6 +12328,7 @@ GameObject:
   - 23: {fileID: 629437556}
   - 114: {fileID: 629437555}
   - 65: {fileID: 629437554}
+  - 114: {fileID: 629437558}
   m_Layer: 0
   m_Name: Skill2Area
   m_TagString: Untagged
@@ -12005,6 +12406,31 @@ MeshFilter:
   m_PrefabInternal: {fileID: 1133550581}
   m_GameObject: {fileID: 629437552}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &629437558
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11423454, guid: 41e7592d34820a2439ba5cd78e942c28,
+    type: 2}
+  m_PrefabInternal: {fileID: 1133550581}
+  m_GameObject: {fileID: 629437552}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownerId: 0
+  group: 0
+  prefixBackup: -1
+  observed: {fileID: 0}
+  synchronization: 0
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 0
+  ObservedComponents: []
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 0
+  instantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &634576123
 GameObject:
   m_ObjectHideFlags: 0
@@ -13400,6 +13826,8 @@ MonoBehaviour:
   - {fileID: 2800000, guid: cad0357bbfd8645fcbc1939c73626a07, type: 3}
   - {fileID: 2800000, guid: a922c046410f34962827a60a8a6032b2, type: 3}
   - {fileID: 2800000, guid: 0bf1eb79ce2644be6b162663a94d1fd7, type: 3}
+  - {fileID: 2800000, guid: c82aa9bf7932ed540b72797ceee83c40, type: 3}
+  - {fileID: 2800000, guid: 5beea46f92ba2b4449979e50abf296a3, type: 3}
   Areas:
   - {fileID: 2800000, guid: 33f7b2538854c4a038736f0843e45369, type: 3}
   - {fileID: 2800000, guid: 5515a1eaaf17a443b868baa728148f6f, type: 3}
@@ -14167,6 +14595,7 @@ GameObject:
   - 23: {fileID: 776022985}
   - 114: {fileID: 776022984}
   - 65: {fileID: 776022983}
+  - 114: {fileID: 776022987}
   m_Layer: 0
   m_Name: Skill1Area
   m_TagString: Untagged
@@ -14244,6 +14673,31 @@ MeshFilter:
   m_PrefabInternal: {fileID: 1394999541}
   m_GameObject: {fileID: 776022981}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &776022987
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11423456, guid: 41e7592d34820a2439ba5cd78e942c28,
+    type: 2}
+  m_PrefabInternal: {fileID: 1394999541}
+  m_GameObject: {fileID: 776022981}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownerId: 0
+  group: 0
+  prefixBackup: -1
+  observed: {fileID: 0}
+  synchronization: 0
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 0
+  ObservedComponents: []
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 0
+  instantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &779404379
 GameObject:
   m_ObjectHideFlags: 0
@@ -14256,6 +14710,7 @@ GameObject:
   - 23: {fileID: 779404383}
   - 114: {fileID: 779404382}
   - 65: {fileID: 779404381}
+  - 114: {fileID: 779404385}
   m_Layer: 0
   m_Name: Skill3Area
   m_TagString: Untagged
@@ -14333,6 +14788,31 @@ MeshFilter:
   m_PrefabInternal: {fileID: 2146634931}
   m_GameObject: {fileID: 779404379}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &779404385
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11423452, guid: 41e7592d34820a2439ba5cd78e942c28,
+    type: 2}
+  m_PrefabInternal: {fileID: 2146634931}
+  m_GameObject: {fileID: 779404379}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownerId: 0
+  group: 0
+  prefixBackup: -1
+  observed: {fileID: 0}
+  synchronization: 0
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 0
+  ObservedComponents: []
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 0
+  instantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &785417755
 GameObject:
   m_ObjectHideFlags: 0
@@ -14746,7 +15226,7 @@ Transform:
   - {fileID: 1916360991}
   - {fileID: 865591101}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
 --- !u!65 &800250402
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -14999,6 +15479,8 @@ MonoBehaviour:
   - {fileID: 2800000, guid: cad0357bbfd8645fcbc1939c73626a07, type: 3}
   - {fileID: 2800000, guid: a922c046410f34962827a60a8a6032b2, type: 3}
   - {fileID: 2800000, guid: 0bf1eb79ce2644be6b162663a94d1fd7, type: 3}
+  - {fileID: 2800000, guid: c82aa9bf7932ed540b72797ceee83c40, type: 3}
+  - {fileID: 2800000, guid: 5beea46f92ba2b4449979e50abf296a3, type: 3}
   Areas:
   - {fileID: 2800000, guid: 33f7b2538854c4a038736f0843e45369, type: 3}
   - {fileID: 2800000, guid: 5515a1eaaf17a443b868baa728148f6f, type: 3}
@@ -16504,6 +16986,7 @@ GameObject:
   - 23: {fileID: 889814525}
   - 114: {fileID: 889814524}
   - 65: {fileID: 889814523}
+  - 114: {fileID: 889814527}
   m_Layer: 0
   m_Name: Skill1Area
   m_TagString: Untagged
@@ -16581,6 +17064,31 @@ MeshFilter:
   m_PrefabInternal: {fileID: 1642943553}
   m_GameObject: {fileID: 889814521}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &889814527
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11423456, guid: 41e7592d34820a2439ba5cd78e942c28,
+    type: 2}
+  m_PrefabInternal: {fileID: 1642943553}
+  m_GameObject: {fileID: 889814521}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownerId: 0
+  group: 0
+  prefixBackup: -1
+  observed: {fileID: 0}
+  synchronization: 0
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 0
+  ObservedComponents: []
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 0
+  instantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &895679202
 GameObject:
   m_ObjectHideFlags: 0
@@ -16873,6 +17381,7 @@ GameObject:
   - 23: {fileID: 901523698}
   - 114: {fileID: 901523697}
   - 65: {fileID: 901523696}
+  - 114: {fileID: 901523700}
   m_Layer: 0
   m_Name: Skill4Area
   m_TagString: Untagged
@@ -16950,6 +17459,31 @@ MeshFilter:
   m_PrefabInternal: {fileID: 1771112995}
   m_GameObject: {fileID: 901523694}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &901523700
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11423450, guid: 41e7592d34820a2439ba5cd78e942c28,
+    type: 2}
+  m_PrefabInternal: {fileID: 1771112995}
+  m_GameObject: {fileID: 901523694}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownerId: 0
+  group: 0
+  prefixBackup: -1
+  observed: {fileID: 0}
+  synchronization: 0
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 0
+  ObservedComponents: []
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 0
+  instantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &905716872
 GameObject:
   m_ObjectHideFlags: 0
@@ -17410,6 +17944,8 @@ MonoBehaviour:
   - {fileID: 2800000, guid: cad0357bbfd8645fcbc1939c73626a07, type: 3}
   - {fileID: 2800000, guid: a922c046410f34962827a60a8a6032b2, type: 3}
   - {fileID: 2800000, guid: 0bf1eb79ce2644be6b162663a94d1fd7, type: 3}
+  - {fileID: 2800000, guid: c82aa9bf7932ed540b72797ceee83c40, type: 3}
+  - {fileID: 2800000, guid: 5beea46f92ba2b4449979e50abf296a3, type: 3}
   Areas:
   - {fileID: 2800000, guid: 33f7b2538854c4a038736f0843e45369, type: 3}
   - {fileID: 2800000, guid: 5515a1eaaf17a443b868baa728148f6f, type: 3}
@@ -17693,6 +18229,7 @@ GameObject:
   - 23: {fileID: 926720323}
   - 114: {fileID: 926720322}
   - 65: {fileID: 926720321}
+  - 114: {fileID: 926720325}
   m_Layer: 0
   m_Name: Skill3Area
   m_TagString: Untagged
@@ -17770,6 +18307,31 @@ MeshFilter:
   m_PrefabInternal: {fileID: 542247642}
   m_GameObject: {fileID: 926720319}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &926720325
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11423452, guid: 41e7592d34820a2439ba5cd78e942c28,
+    type: 2}
+  m_PrefabInternal: {fileID: 542247642}
+  m_GameObject: {fileID: 926720319}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownerId: 0
+  group: 0
+  prefixBackup: -1
+  observed: {fileID: 0}
+  synchronization: 0
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 0
+  ObservedComponents: []
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 0
+  instantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &932421127
 GameObject:
   m_ObjectHideFlags: 0
@@ -18003,6 +18565,7 @@ GameObject:
   - 23: {fileID: 963704001}
   - 114: {fileID: 963704000}
   - 65: {fileID: 963703999}
+  - 114: {fileID: 963704003}
   m_Layer: 0
   m_Name: Skill1Area
   m_TagString: Untagged
@@ -18080,6 +18643,31 @@ MeshFilter:
   m_PrefabInternal: {fileID: 1133550581}
   m_GameObject: {fileID: 963703997}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &963704003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11423456, guid: 41e7592d34820a2439ba5cd78e942c28,
+    type: 2}
+  m_PrefabInternal: {fileID: 1133550581}
+  m_GameObject: {fileID: 963703997}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownerId: 0
+  group: 0
+  prefixBackup: -1
+  observed: {fileID: 0}
+  synchronization: 0
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 0
+  ObservedComponents: []
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 0
+  instantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &966742588
 GameObject:
   m_ObjectHideFlags: 0
@@ -18817,6 +19405,7 @@ GameObject:
   - 23: {fileID: 1025984052}
   - 114: {fileID: 1025984051}
   - 65: {fileID: 1025984050}
+  - 114: {fileID: 1025984054}
   m_Layer: 0
   m_Name: Skill2Area
   m_TagString: Untagged
@@ -18894,6 +19483,31 @@ MeshFilter:
   m_PrefabInternal: {fileID: 1771112995}
   m_GameObject: {fileID: 1025984048}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1025984054
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11423454, guid: 41e7592d34820a2439ba5cd78e942c28,
+    type: 2}
+  m_PrefabInternal: {fileID: 1771112995}
+  m_GameObject: {fileID: 1025984048}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownerId: 0
+  group: 0
+  prefixBackup: -1
+  observed: {fileID: 0}
+  synchronization: 0
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 0
+  ObservedComponents: []
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 0
+  instantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &1029400126
 GameObject:
   m_ObjectHideFlags: 0
@@ -20414,6 +21028,7 @@ GameObject:
   - 23: {fileID: 1156577317}
   - 114: {fileID: 1156577316}
   - 65: {fileID: 1156577315}
+  - 114: {fileID: 1156577319}
   m_Layer: 0
   m_Name: Skill4Area
   m_TagString: Untagged
@@ -20491,6 +21106,31 @@ MeshFilter:
   m_PrefabInternal: {fileID: 2146634931}
   m_GameObject: {fileID: 1156577313}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1156577319
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11423450, guid: 41e7592d34820a2439ba5cd78e942c28,
+    type: 2}
+  m_PrefabInternal: {fileID: 2146634931}
+  m_GameObject: {fileID: 1156577313}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownerId: 0
+  group: 0
+  prefixBackup: -1
+  observed: {fileID: 0}
+  synchronization: 0
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 0
+  ObservedComponents: []
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 0
+  instantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &1165019286
 GameObject:
   m_ObjectHideFlags: 0
@@ -21942,7 +22582,7 @@ Transform:
   - {fileID: 98995495}
   - {fileID: 342304199}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
 --- !u!114 &1280002720
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21989,6 +22629,7 @@ GameObject:
   - 23: {fileID: 1281749707}
   - 114: {fileID: 1281749706}
   - 65: {fileID: 1281749705}
+  - 114: {fileID: 1281749709}
   m_Layer: 0
   m_Name: Skill2Area
   m_TagString: Untagged
@@ -22066,6 +22707,31 @@ MeshFilter:
   m_PrefabInternal: {fileID: 1642943553}
   m_GameObject: {fileID: 1281749703}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1281749709
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11423454, guid: 41e7592d34820a2439ba5cd78e942c28,
+    type: 2}
+  m_PrefabInternal: {fileID: 1642943553}
+  m_GameObject: {fileID: 1281749703}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownerId: 0
+  group: 0
+  prefixBackup: -1
+  observed: {fileID: 0}
+  synchronization: 0
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 0
+  ObservedComponents: []
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 0
+  instantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &1284690686
 GameObject:
   m_ObjectHideFlags: 0
@@ -22340,7 +23006,7 @@ MonoBehaviour:
   attemptToAttack: 0
   hasAttacked: 0
   attemptToCast: 0
-  SkillCasted: {fileID: 0}
+  SkillCasted: 0
   Damage: 0
   bgImage: {fileID: 2800000, guid: bd00a143b50b5964e80272405ab41b17, type: 3}
   fgImage: {fileID: 2800000, guid: 0648d50748bd8b74884e747e292662bb, type: 3}
@@ -22701,6 +23367,8 @@ MonoBehaviour:
   - {fileID: 2800000, guid: cad0357bbfd8645fcbc1939c73626a07, type: 3}
   - {fileID: 2800000, guid: a922c046410f34962827a60a8a6032b2, type: 3}
   - {fileID: 2800000, guid: 0bf1eb79ce2644be6b162663a94d1fd7, type: 3}
+  - {fileID: 2800000, guid: c82aa9bf7932ed540b72797ceee83c40, type: 3}
+  - {fileID: 2800000, guid: 5beea46f92ba2b4449979e50abf296a3, type: 3}
   Areas:
   - {fileID: 2800000, guid: 33f7b2538854c4a038736f0843e45369, type: 3}
   - {fileID: 2800000, guid: 5515a1eaaf17a443b868baa728148f6f, type: 3}
@@ -23253,6 +23921,8 @@ MonoBehaviour:
   - {fileID: 2800000, guid: cad0357bbfd8645fcbc1939c73626a07, type: 3}
   - {fileID: 2800000, guid: a922c046410f34962827a60a8a6032b2, type: 3}
   - {fileID: 2800000, guid: 0bf1eb79ce2644be6b162663a94d1fd7, type: 3}
+  - {fileID: 2800000, guid: c82aa9bf7932ed540b72797ceee83c40, type: 3}
+  - {fileID: 2800000, guid: 5beea46f92ba2b4449979e50abf296a3, type: 3}
   Areas:
   - {fileID: 2800000, guid: 33f7b2538854c4a038736f0843e45369, type: 3}
   - {fileID: 2800000, guid: 5515a1eaaf17a443b868baa728148f6f, type: 3}
@@ -24263,6 +24933,7 @@ GameObject:
   - 23: {fileID: 1366272052}
   - 114: {fileID: 1366272051}
   - 65: {fileID: 1366272050}
+  - 114: {fileID: 1366272054}
   m_Layer: 0
   m_Name: Skill4Area
   m_TagString: Untagged
@@ -24340,6 +25011,31 @@ MeshFilter:
   m_PrefabInternal: {fileID: 1394999541}
   m_GameObject: {fileID: 1366272048}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1366272054
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11423450, guid: 41e7592d34820a2439ba5cd78e942c28,
+    type: 2}
+  m_PrefabInternal: {fileID: 1394999541}
+  m_GameObject: {fileID: 1366272048}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownerId: 0
+  group: 0
+  prefixBackup: -1
+  observed: {fileID: 0}
+  synchronization: 0
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 0
+  ObservedComponents: []
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 0
+  instantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &1366330824
 GameObject:
   m_ObjectHideFlags: 0
@@ -24973,6 +25669,7 @@ GameObject:
   - 23: {fileID: 1430548864}
   - 114: {fileID: 1430548863}
   - 65: {fileID: 1430548862}
+  - 114: {fileID: 1430548866}
   m_Layer: 0
   m_Name: Skill1Area
   m_TagString: Untagged
@@ -25050,6 +25747,31 @@ MeshFilter:
   m_PrefabInternal: {fileID: 1070387318}
   m_GameObject: {fileID: 1430548860}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1430548866
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11423456, guid: 41e7592d34820a2439ba5cd78e942c28,
+    type: 2}
+  m_PrefabInternal: {fileID: 1070387318}
+  m_GameObject: {fileID: 1430548860}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownerId: 0
+  group: 0
+  prefixBackup: -1
+  observed: {fileID: 0}
+  synchronization: 0
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 0
+  ObservedComponents: []
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 0
+  instantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &1432810113
 GameObject:
   m_ObjectHideFlags: 0
@@ -25471,6 +26193,7 @@ GameObject:
   - 23: {fileID: 1454511325}
   - 114: {fileID: 1454511324}
   - 65: {fileID: 1454511323}
+  - 114: {fileID: 1454511327}
   m_Layer: 0
   m_Name: Skill3Area
   m_TagString: Untagged
@@ -25548,6 +26271,31 @@ MeshFilter:
   m_PrefabInternal: {fileID: 265946271}
   m_GameObject: {fileID: 1454511321}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1454511327
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11423452, guid: 41e7592d34820a2439ba5cd78e942c28,
+    type: 2}
+  m_PrefabInternal: {fileID: 265946271}
+  m_GameObject: {fileID: 1454511321}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownerId: 0
+  group: 0
+  prefixBackup: -1
+  observed: {fileID: 0}
+  synchronization: 0
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 0
+  ObservedComponents: []
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 0
+  instantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &1456356873
 GameObject:
   m_ObjectHideFlags: 0
@@ -26214,6 +26962,7 @@ GameObject:
   - 23: {fileID: 1497410147}
   - 114: {fileID: 1497410146}
   - 65: {fileID: 1497410145}
+  - 114: {fileID: 1497410149}
   m_Layer: 0
   m_Name: Skill1Area
   m_TagString: Untagged
@@ -26291,6 +27040,31 @@ MeshFilter:
   m_PrefabInternal: {fileID: 1573824440}
   m_GameObject: {fileID: 1497410143}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1497410149
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11423456, guid: 41e7592d34820a2439ba5cd78e942c28,
+    type: 2}
+  m_PrefabInternal: {fileID: 1573824440}
+  m_GameObject: {fileID: 1497410143}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownerId: 0
+  group: 0
+  prefixBackup: -1
+  observed: {fileID: 0}
+  synchronization: 0
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 0
+  ObservedComponents: []
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 0
+  instantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &1499068682
 GameObject:
   m_ObjectHideFlags: 0
@@ -28083,6 +28857,7 @@ GameObject:
   - 23: {fileID: 1599217706}
   - 114: {fileID: 1599217705}
   - 65: {fileID: 1599217704}
+  - 114: {fileID: 1599217708}
   m_Layer: 0
   m_Name: Skill1Area
   m_TagString: Untagged
@@ -28160,6 +28935,31 @@ MeshFilter:
   m_PrefabInternal: {fileID: 2146634931}
   m_GameObject: {fileID: 1599217702}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1599217708
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11423456, guid: 41e7592d34820a2439ba5cd78e942c28,
+    type: 2}
+  m_PrefabInternal: {fileID: 2146634931}
+  m_GameObject: {fileID: 1599217702}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownerId: 0
+  group: 0
+  prefixBackup: -1
+  observed: {fileID: 0}
+  synchronization: 0
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 0
+  ObservedComponents: []
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 0
+  instantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &1603363055
 GameObject:
   m_ObjectHideFlags: 0
@@ -28538,6 +29338,7 @@ GameObject:
   - 23: {fileID: 1617423703}
   - 114: {fileID: 1617423702}
   - 65: {fileID: 1617423701}
+  - 114: {fileID: 1617423705}
   m_Layer: 0
   m_Name: Skill4Area
   m_TagString: Untagged
@@ -28615,6 +29416,31 @@ MeshFilter:
   m_PrefabInternal: {fileID: 1070387318}
   m_GameObject: {fileID: 1617423699}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1617423705
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11423450, guid: 41e7592d34820a2439ba5cd78e942c28,
+    type: 2}
+  m_PrefabInternal: {fileID: 1070387318}
+  m_GameObject: {fileID: 1617423699}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownerId: 0
+  group: 0
+  prefixBackup: -1
+  observed: {fileID: 0}
+  synchronization: 0
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 0
+  ObservedComponents: []
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 0
+  instantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &1634871359
 GameObject:
   m_ObjectHideFlags: 0
@@ -28954,6 +29780,7 @@ GameObject:
   - 23: {fileID: 1655308708}
   - 114: {fileID: 1655308707}
   - 65: {fileID: 1655308706}
+  - 114: {fileID: 1655308710}
   m_Layer: 0
   m_Name: Skill2Area
   m_TagString: Untagged
@@ -29031,6 +29858,31 @@ MeshFilter:
   m_PrefabInternal: {fileID: 265946271}
   m_GameObject: {fileID: 1655308704}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1655308710
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11423454, guid: 41e7592d34820a2439ba5cd78e942c28,
+    type: 2}
+  m_PrefabInternal: {fileID: 265946271}
+  m_GameObject: {fileID: 1655308704}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownerId: 0
+  group: 0
+  prefixBackup: -1
+  observed: {fileID: 0}
+  synchronization: 0
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 0
+  ObservedComponents: []
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 0
+  instantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &1657128392
 GameObject:
   m_ObjectHideFlags: 0
@@ -29788,6 +30640,7 @@ GameObject:
   - 23: {fileID: 1715806935}
   - 114: {fileID: 1715806934}
   - 65: {fileID: 1715806933}
+  - 114: {fileID: 1715806937}
   m_Layer: 0
   m_Name: Skill2Area
   m_TagString: Untagged
@@ -29865,6 +30718,31 @@ MeshFilter:
   m_PrefabInternal: {fileID: 1394999541}
   m_GameObject: {fileID: 1715806931}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1715806937
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11423454, guid: 41e7592d34820a2439ba5cd78e942c28,
+    type: 2}
+  m_PrefabInternal: {fileID: 1394999541}
+  m_GameObject: {fileID: 1715806931}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownerId: 0
+  group: 0
+  prefixBackup: -1
+  observed: {fileID: 0}
+  synchronization: 0
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 0
+  ObservedComponents: []
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 0
+  instantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &1716644791
 GameObject:
   m_ObjectHideFlags: 0
@@ -30737,7 +31615,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 458270, guid: 41e7592d34820a2439ba5cd78e942c28, type: 2}
       propertyPath: m_RootOrder
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 158266, guid: 41e7592d34820a2439ba5cd78e942c28, type: 2}
       propertyPath: m_Name
@@ -31864,6 +32742,8 @@ MonoBehaviour:
   - {fileID: 2800000, guid: cad0357bbfd8645fcbc1939c73626a07, type: 3}
   - {fileID: 2800000, guid: a922c046410f34962827a60a8a6032b2, type: 3}
   - {fileID: 2800000, guid: 0bf1eb79ce2644be6b162663a94d1fd7, type: 3}
+  - {fileID: 2800000, guid: c82aa9bf7932ed540b72797ceee83c40, type: 3}
+  - {fileID: 2800000, guid: 5beea46f92ba2b4449979e50abf296a3, type: 3}
   Areas:
   - {fileID: 2800000, guid: 33f7b2538854c4a038736f0843e45369, type: 3}
   - {fileID: 2800000, guid: 5515a1eaaf17a443b868baa728148f6f, type: 3}
@@ -32156,6 +33036,7 @@ GameObject:
   - 23: {fileID: 1846796682}
   - 114: {fileID: 1846796681}
   - 65: {fileID: 1846796680}
+  - 114: {fileID: 1846796684}
   m_Layer: 0
   m_Name: Skill4Area
   m_TagString: Untagged
@@ -32233,6 +33114,31 @@ MeshFilter:
   m_PrefabInternal: {fileID: 1133550581}
   m_GameObject: {fileID: 1846796678}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1846796684
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11423450, guid: 41e7592d34820a2439ba5cd78e942c28,
+    type: 2}
+  m_PrefabInternal: {fileID: 1133550581}
+  m_GameObject: {fileID: 1846796678}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownerId: 0
+  group: 0
+  prefixBackup: -1
+  observed: {fileID: 0}
+  synchronization: 0
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 0
+  ObservedComponents: []
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 0
+  instantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &1850885698
 GameObject:
   m_ObjectHideFlags: 0
@@ -32686,6 +33592,7 @@ GameObject:
   - 23: {fileID: 1870078226}
   - 114: {fileID: 1870078225}
   - 65: {fileID: 1870078224}
+  - 114: {fileID: 1870078228}
   m_Layer: 0
   m_Name: Skill4Area
   m_TagString: Untagged
@@ -32763,6 +33670,31 @@ MeshFilter:
   m_PrefabInternal: {fileID: 1573824440}
   m_GameObject: {fileID: 1870078222}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1870078228
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11423450, guid: 41e7592d34820a2439ba5cd78e942c28,
+    type: 2}
+  m_PrefabInternal: {fileID: 1573824440}
+  m_GameObject: {fileID: 1870078222}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownerId: 0
+  group: 0
+  prefixBackup: -1
+  observed: {fileID: 0}
+  synchronization: 0
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 0
+  ObservedComponents: []
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 0
+  instantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &1870446830
 GameObject:
   m_ObjectHideFlags: 0
@@ -33648,6 +34580,7 @@ GameObject:
   - 23: {fileID: 1925307166}
   - 114: {fileID: 1925307165}
   - 65: {fileID: 1925307164}
+  - 114: {fileID: 1925307168}
   m_Layer: 0
   m_Name: Skill3Area
   m_TagString: Untagged
@@ -33725,6 +34658,31 @@ MeshFilter:
   m_PrefabInternal: {fileID: 1394999541}
   m_GameObject: {fileID: 1925307162}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1925307168
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11423452, guid: 41e7592d34820a2439ba5cd78e942c28,
+    type: 2}
+  m_PrefabInternal: {fileID: 1394999541}
+  m_GameObject: {fileID: 1925307162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownerId: 0
+  group: 0
+  prefixBackup: -1
+  observed: {fileID: 0}
+  synchronization: 0
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 0
+  ObservedComponents: []
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 0
+  instantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &1925604777
 GameObject:
   m_ObjectHideFlags: 0
@@ -33737,6 +34695,7 @@ GameObject:
   - 23: {fileID: 1925604781}
   - 114: {fileID: 1925604780}
   - 65: {fileID: 1925604779}
+  - 114: {fileID: 1925604783}
   m_Layer: 0
   m_Name: Skill3Area
   m_TagString: Untagged
@@ -33814,6 +34773,31 @@ MeshFilter:
   m_PrefabInternal: {fileID: 652553307}
   m_GameObject: {fileID: 1925604777}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1925604783
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11423452, guid: 41e7592d34820a2439ba5cd78e942c28,
+    type: 2}
+  m_PrefabInternal: {fileID: 652553307}
+  m_GameObject: {fileID: 1925604777}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownerId: 0
+  group: 0
+  prefixBackup: -1
+  observed: {fileID: 0}
+  synchronization: 0
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 0
+  ObservedComponents: []
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 0
+  instantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &1927978736
 GameObject:
   m_ObjectHideFlags: 0
@@ -33957,6 +34941,7 @@ GameObject:
   - 23: {fileID: 1932354385}
   - 114: {fileID: 1932354384}
   - 65: {fileID: 1932354383}
+  - 114: {fileID: 1932354387}
   m_Layer: 0
   m_Name: Skill2Area
   m_TagString: Untagged
@@ -34034,6 +35019,31 @@ MeshFilter:
   m_PrefabInternal: {fileID: 2146634931}
   m_GameObject: {fileID: 1932354381}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1932354387
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11423454, guid: 41e7592d34820a2439ba5cd78e942c28,
+    type: 2}
+  m_PrefabInternal: {fileID: 2146634931}
+  m_GameObject: {fileID: 1932354381}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownerId: 0
+  group: 0
+  prefixBackup: -1
+  observed: {fileID: 0}
+  synchronization: 0
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 0
+  ObservedComponents: []
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 0
+  instantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &1934449756
 GameObject:
   m_ObjectHideFlags: 0
@@ -35356,6 +36366,7 @@ GameObject:
   - 23: {fileID: 2049964996}
   - 114: {fileID: 2049964995}
   - 65: {fileID: 2049964994}
+  - 114: {fileID: 2049964998}
   m_Layer: 0
   m_Name: Skill2Area
   m_TagString: Untagged
@@ -35433,6 +36444,31 @@ MeshFilter:
   m_PrefabInternal: {fileID: 1070387318}
   m_GameObject: {fileID: 2049964992}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &2049964998
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11423454, guid: 41e7592d34820a2439ba5cd78e942c28,
+    type: 2}
+  m_PrefabInternal: {fileID: 1070387318}
+  m_GameObject: {fileID: 2049964992}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownerId: 0
+  group: 0
+  prefixBackup: -1
+  observed: {fileID: 0}
+  synchronization: 0
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 0
+  ObservedComponents: []
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 0
+  instantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &2052199025
 GameObject:
   m_ObjectHideFlags: 0
@@ -36327,6 +37363,7 @@ GameObject:
   - 23: {fileID: 2121900160}
   - 114: {fileID: 2121900159}
   - 65: {fileID: 2121900158}
+  - 114: {fileID: 2121900162}
   m_Layer: 0
   m_Name: Skill3Area
   m_TagString: Untagged
@@ -36404,6 +37441,31 @@ MeshFilter:
   m_PrefabInternal: {fileID: 1133550581}
   m_GameObject: {fileID: 2121900156}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &2121900162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11423452, guid: 41e7592d34820a2439ba5cd78e942c28,
+    type: 2}
+  m_PrefabInternal: {fileID: 1133550581}
+  m_GameObject: {fileID: 2121900156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownerId: 0
+  group: 0
+  prefixBackup: -1
+  observed: {fileID: 0}
+  synchronization: 0
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 0
+  ObservedComponents: []
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 0
+  instantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &2124462416
 GameObject:
   m_ObjectHideFlags: 0

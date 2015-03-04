@@ -66,13 +66,13 @@ public class GameCard : Photon.MonoBehaviour
 			.GetComponent<TextMesh>().text = Card.Title;			// On lui attribut son titre
 		
 		transform.Find("texturedGameCard").FindChild("PictoMetalLife").FindChild("Life")
-			.GetComponent<TextMesh> ().text = Card.Life.ToString(); // On affecte les caractéristiques de la carte
+			.GetComponent<TextMesh> ().text = Card.GetLife().ToString(); // On affecte les caractéristiques de la carte
 		transform.Find("texturedGameCard").FindChild("MoveArea").FindChild("PictoMetalMove").FindChild("Move")
-			.GetComponent<TextMesh> ().text = Card.Move.ToString();
+			.GetComponent<TextMesh> ().text = Card.GetMove().ToString();
 		transform.Find("texturedGameCard").FindChild("AttackArea").FindChild("PictoMetalAttack").FindChild("Attack")
-			.GetComponent<TextMesh> ().text = Card.Attack.ToString();
+			.GetComponent<TextMesh> ().text = Card.GetAttack().ToString();
 		transform.Find("texturedGameCard").FindChild("SpeedArea").FindChild("PictoMetalSpeed").FindChild("Speed")
-			.GetComponent<TextMesh> ().text = Card.Speed.ToString();
+			.GetComponent<TextMesh> ().text = Card.GetSpeed().ToString();
 		transform.Find("texturedGameCard").FindChild("Class")
 			.GetComponent<TextMesh> ().text = Card.TitleClass;
 		
@@ -80,15 +80,54 @@ public class GameCard : Photon.MonoBehaviour
 		{		
 			transform.Find("texturedGameCard").FindChild("PictoMetalLife")
 				.renderer.materials[i].mainTexture = metals [Card.LifeLevel];
+			if (Card.GetAttack() > Card.Attack)
+			{
+				transform.Find("texturedGameCard").FindChild("AttackArea").FindChild("PictoMetalAttack")
+					.renderer.materials[i].mainTexture = metals [4]; // On change la couleur des matériaux
+			}
+			else if (Card.GetAttack() < Card.Attack)
+			{
+				transform.Find("texturedGameCard").FindChild("AttackArea").FindChild("PictoMetalAttack")
+					.renderer.materials[i].mainTexture = metals [5]; // On change la couleur des matériaux
+			}
+			else
+			{
+				transform.Find("texturedGameCard").FindChild("AttackArea").FindChild("PictoMetalAttack")
+					.renderer.materials[i].mainTexture = metals [Card.AttackLevel]; // On change la couleur des matériaux
+			}
+			if (Card.GetSpeed() > Card.Speed)
+			{
+				transform.Find("texturedGameCard").FindChild("SpeedArea").FindChild("PictoMetalSpeed")
+					.renderer.materials[i].mainTexture = metals [4]; // On change la couleur des matériaux
+			}
+			else if (Card.GetSpeed() < Card.Speed)
+			{
+				transform.Find("texturedGameCard").FindChild("SpeedArea").FindChild("PictoMetalSpeed")
+					.renderer.materials[i].mainTexture = metals [5]; // On change la couleur des matériaux
+			}
+			else
+			{
+				transform.Find("texturedGameCard").FindChild("SpeedArea").FindChild("PictoMetalSpeed")
+					.renderer.materials[i].mainTexture = metals [Card.SpeedLevel]; // On change la couleur des matériaux
+			}
+
+			if (Card.GetMove() > Card.Move)
+			{
+				transform.Find("texturedGameCard").FindChild("MoveArea").FindChild ("PictoMetalMove")
+					.renderer.materials[i].mainTexture = metals [Card.MoveLevel];
+			}
+			else if (Card.GetMove() < Card.Move)
+			{
+				transform.Find("texturedGameCard").FindChild("MoveArea").FindChild ("PictoMetalMove")
+					.renderer.materials[i].mainTexture = metals [Card.MoveLevel];
+			}
+			else
+			{
+				transform.Find("texturedGameCard").FindChild("MoveArea").FindChild ("PictoMetalMove")
+					.renderer.materials[i].mainTexture = metals [Card.MoveLevel];
+			}
 			
-			transform.Find("texturedGameCard").FindChild("AttackArea").FindChild("PictoMetalAttack")
-				.renderer.materials[i].mainTexture = metals [Card.AttackLevel]; // On change la couleur des matériaux
-			
-			transform.Find("texturedGameCard").FindChild("SpeedArea").FindChild("PictoMetalSpeed")
-				.renderer.materials[i].mainTexture = metals [Card.SpeedLevel];
-			
-			transform.Find("texturedGameCard").FindChild("MoveArea").FindChild ("PictoMetalMove")
-				.renderer.materials[i].mainTexture = metals [Card.MoveLevel];
+
 		}
 		
 		for (int i = 0 ; i < 4 ; i++) // boucle sur la liste de compétence 

@@ -73,7 +73,7 @@ public class GameScript : Photon.MonoBehaviour {
 	private IEnumerator returnToLobby()
 	{
 		yield return new WaitForSeconds(5);
-		Application.LoadLevel("LobbyPage");
+		PhotonNetwork.Disconnect();
 	}
 
 	void RemovePlayerFromList(int id)

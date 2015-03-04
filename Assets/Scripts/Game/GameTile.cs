@@ -9,10 +9,12 @@ public class GameTile : MonoBehaviour {
 	public Texture2D cursorDragging;
 	public Texture2D cursorExchange;
 	public Texture2D cursorAttack;
+	public Texture2D cursorTarget;
 	public static GameTile instance = null;
 	public static List<string> AvailableStartingColumns = new List<string>();
 	public Material DefaultMaterial;
 	public Material OpaqueMaterial;
+
 	
 	private Vector2 cursorHotspot = Vector2.zero;
 	public float hexWidth;
@@ -144,5 +146,9 @@ public class GameTile : MonoBehaviour {
 	public void SetCursorToAttack()
 	{
 		Cursor.SetCursor(cursorAttack, Vector2.zero, CursorMode.Auto);
+	}
+	public void SetCursorToTarget()
+	{
+		Cursor.SetCursor(cursorTarget, Vector2.zero, CursorMode.Auto);
 	}
 }

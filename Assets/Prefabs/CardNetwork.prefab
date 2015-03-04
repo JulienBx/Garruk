@@ -199,6 +199,7 @@ GameObject:
   - 23: {fileID: 2300556}
   - 114: {fileID: 11400534}
   - 65: {fileID: 6530154}
+  - 114: {fileID: 11423454}
   m_Layer: 0
   m_Name: Skill2Area
   m_TagString: Untagged
@@ -304,6 +305,7 @@ GameObject:
   - 23: {fileID: 2300568}
   - 114: {fileID: 11400536}
   - 65: {fileID: 6530156}
+  - 114: {fileID: 11423452}
   m_Layer: 0
   m_Name: Skill3Area
   m_TagString: Untagged
@@ -510,6 +512,7 @@ GameObject:
   - 23: {fileID: 2300592}
   - 114: {fileID: 11400540}
   - 65: {fileID: 6530158}
+  - 114: {fileID: 11423450}
   m_Layer: 0
   m_Name: Skill4Area
   m_TagString: Untagged
@@ -546,6 +549,7 @@ GameObject:
   - 23: {fileID: 2300596}
   - 114: {fileID: 11400542}
   - 65: {fileID: 6530152}
+  - 114: {fileID: 11423456}
   m_Layer: 0
   m_Name: Skill1Area
   m_TagString: Untagged
@@ -1141,7 +1145,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 158266}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -54.2802544, y: 39.7602921, z: 0}
+  m_LocalPosition: {x: -126.960228, y: 49.7786827, z: 0}
   m_LocalScale: {x: 10, y: 10, z: 1}
   m_Children:
   - {fileID: 400562}
@@ -2727,6 +2731,8 @@ MonoBehaviour:
   - {fileID: 2800000, guid: cad0357bbfd8645fcbc1939c73626a07, type: 3}
   - {fileID: 2800000, guid: a922c046410f34962827a60a8a6032b2, type: 3}
   - {fileID: 2800000, guid: 0bf1eb79ce2644be6b162663a94d1fd7, type: 3}
+  - {fileID: 2800000, guid: c82aa9bf7932ed540b72797ceee83c40, type: 3}
+  - {fileID: 2800000, guid: 5beea46f92ba2b4449979e50abf296a3, type: 3}
   Areas:
   - {fileID: 2800000, guid: 33f7b2538854c4a038736f0843e45369, type: 3}
   - {fileID: 2800000, guid: 5515a1eaaf17a443b868baa728148f6f, type: 3}
@@ -2882,6 +2888,102 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillNumber: 0
+--- !u!114 &11423450
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100592}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownerId: 0
+  group: 0
+  prefixBackup: -1
+  observed: {fileID: 0}
+  synchronization: 0
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 0
+  ObservedComponents: []
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 0
+  instantiationId: 0
+  isRuntimeInstantiated: 0
+--- !u!114 &11423452
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100568}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownerId: 0
+  group: 0
+  prefixBackup: -1
+  observed: {fileID: 0}
+  synchronization: 0
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 0
+  ObservedComponents: []
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 0
+  instantiationId: 0
+  isRuntimeInstantiated: 0
+--- !u!114 &11423454
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownerId: 0
+  group: 0
+  prefixBackup: -1
+  observed: {fileID: 0}
+  synchronization: 0
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 0
+  ObservedComponents: []
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 0
+  instantiationId: 0
+  isRuntimeInstantiated: 0
+--- !u!114 &11423456
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100596}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownerId: 0
+  group: 0
+  prefixBackup: -1
+  observed: {fileID: 0}
+  synchronization: 0
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 0
+  ObservedComponents: []
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 0
+  instantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!114 &11436374
 MonoBehaviour:
   m_ObjectHideFlags: 1

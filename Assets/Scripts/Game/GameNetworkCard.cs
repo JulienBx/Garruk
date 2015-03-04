@@ -90,7 +90,7 @@ public class GameNetworkCard : GameCard
 				colorAndMarkNeighboringTiles(tile.AllNeighbours, Card.Move, Color.gray);
 			}                         
 		}
-		if (!GameTimeLine.instance.PlayingCard.Card.Equals(Card) && GamePlayingCard.instance.attemptToAttack && !GamePlayingCard.instance.hasAttacked) 
+		if (!GameTimeLine.instance.PlayingCard.Equals(this) && GamePlayingCard.instance.attemptToAttack && !GamePlayingCard.instance.hasAttacked) 
 		{
 			if (GameTimeLine.instance.PlayingCard.neighbors.Find(e => e.Card.Equals(this.Card)))
 			{
@@ -100,13 +100,10 @@ public class GameNetworkCard : GameCard
 				GameTile.instance.SetCursorToDefault();
 			}
 		}
-		if (!GameTimeLine.instance.PlayingCard.Card.Equals(Card) && GamePlayingCard.instance.attemptToCast && !GamePlayingCard.instance.hasAttacked)
+		if (GamePlayingCard.instance.attemptToCast && !GamePlayingCard.instance.hasAttacked)
 		{
-			
-			GamePlayingCard.instance.SkillCasted.Apply(GetComponent<PhotonView>().viewID);
-			Debug.Log(this.Card.GetSpeed());
-			//photonView.RPC("GetBuff", PhotonTargets.AllBuffered, GameTimeLine.instance.PlayingCardObject.GetComponent<PhotonView>().viewID
-			//               , this.GetComponent<PhotonView>().viewID, GamePlayingCard.instance.nbSkillToBeCast);
+			photonView.RPC("GetBuff", PhotonTargets.AllBuffered, this.GetComponent<PhotonView>().viewID, GamePlayingCard.instance.SkillCasted);
+
 			GamePlayingCard.instance.attemptToCast = false;
 			GamePlayingCard.instance.hasAttacked = true;
 			GameTile.instance.SetCursorToDefault();
@@ -324,22 +321,10 @@ public class GameNetworkCard : GameCard
 		}
 	}
 	[RPC]
-	void GetBuff(int idA, int idB, int nbSkill)
+	void GetBuff(int target, int skillCasted)
 	{
-		/*GameNetworkCard gnc = PhotonView.Find(idA).gameObject.GetComponent<GameNetworkCard>();
-		StatModifiers List<statModifiersA> = gnc.Card.Skills[nbSkill].StatModifiers;
-
-*/
-		GameObject goA = PhotonView.Find(idA).gameObject;
-		GameObject goc = goA.transform.Find("texturedGameCard/Skill" + nbSkill + "Area").gameObject;
-		List<StatModifier> buffs = goA.transform.Find("texturedGameCard/Skill" + nbSkill + "Area").gameObject.GetComponent<Reflexe>().StatModifiers;
-		//GameNetworkCard gnc = goA.GetComponent<GameNetworkCard>();
-		Debug.Log("before ");
-		/*GameSkill GoSkill = GamePlayingCard.instance.transform.Find("texturedGameCard/Skill" + nbSkill + "Area").gameObject.GetComponent<GameSkill>();
-		Debug.Log("tostring : " + GoSkill);
-		foreach(StatModifier modifier in GoSkill.StatModifiers)
-		{
-			gnc.Card.modifiers.Add(modifier);
-		}*/
+		GameObject goCard = GameTimeLine.instance.PlayingCardObject;
+		GameSkill goSkill = goCard.transform.Find("texturedGameCard/Skill" + skillCasted + "Area").gameObject.GetComponent<GameSkill>();
+		goSkill.Apply(target);
 	}
 }

@@ -53,9 +53,7 @@ public class GameCard_skill : MonoBehaviour {
 	
 	void OnMouseDown()
 	{
-		GamePlayingCard.instance.attemptToCast = true;
-		GameNetworkCard gnc = Parent.GetComponent<GameNetworkCard>();
-		print(gnc.Card.Skills[skillNumber].ToString());
+
 	}
 	
 }

@@ -11,16 +11,16 @@ public class Reflexe : GameSkill
 	}
 	void OnMouseDown()
 	{
-		GamePlayingCard.instance.SkillCasted = this;
-		GamePlayingCard.instance.attemptToCast = true;
+		GameNetworkCard gnc = transform.parent.parent.GetComponent<GameNetworkCard>();
+		if (!GameBoard.instance.TimeOfPositionning && GameTimeLine.instance.PlayingCard.Equals(gnc) && !GamePlayingCard.instance.attemptToAttack && !GamePlayingCard.instance.hasAttacked)
+		{
+			GameTile.instance.SetCursorToTarget();
+			GamePlayingCard.instance.SkillCasted = this.SkillNumber;
+			GamePlayingCard.instance.attemptToCast = true;
+		}
+
 	}
 	public override void Apply(int target)
-	{
-		photonView.RPC("SendChanges", PhotonTargets.AllBuffered, target);
-	}
-
-	// RPC
-	public void SendChanges(int target)
 	{
 		GameObject go = PhotonView.Find(target).gameObject;
 		GameNetworkCard gnc = go.GetComponent<GameNetworkCard>();
@@ -28,6 +28,9 @@ public class Reflexe : GameSkill
 		{
 			gnc.Card.modifiers.Add(sm);
 		}
-
+		Instantiate(gnc.AttackAnim, go.transform.position + new Vector3(0, 0, -2), Quaternion.identity);
+		GamePlayingCard.instance.changeStats();
+		GameHoveredCard.instance.changeStats();
+		gnc.ShowFace();
 	}
 }

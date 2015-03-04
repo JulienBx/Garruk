@@ -12,9 +12,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MyCardsPage.unity
   - enabled: 1
-    path: Assets/Scenes/MyDecksPage.unity
-  - enabled: 1
     path: Assets/Scenes/MyDeckPage.unity
+  - enabled: 1
+    path: Assets/Scenes/MyDecksPage.unity
   - enabled: 1
     path: Assets/Scenes/BuyCards.unity
   - enabled: 1

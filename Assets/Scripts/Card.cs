@@ -137,7 +137,7 @@ public class Card
 	{
 		int life = Life;
 		foreach (StatModifier modifier in modifiers) {
-			life = modifier.modifyAttack(life);
+			life = modifier.modifyLife(life);
 		}
 		return life;
 	}
@@ -146,7 +146,7 @@ public class Card
 	{
 		int speed = Speed;
 		foreach (StatModifier modifier in modifiers) {
-			speed = modifier.modifyAttack(speed);
+			speed = modifier.modifySpeed(speed);
 		}
 		return speed;
 	}
@@ -155,7 +155,7 @@ public class Card
 	{
 		int move = Move;
 		foreach (StatModifier modifier in modifiers) {
-			move = modifier.modifyAttack(move);
+			move = modifier.modifyMove(move);
 		}
 		return move;
 	}

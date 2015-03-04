@@ -16,34 +16,169 @@ Platform assembly: D:\Documents\Garruk\garruk_Data\Managed\UnityEngine.UI.dll (t
 Loading D:\Documents\Garruk\garruk_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
 Platform assembly: D:\Documents\Garruk\garruk_Data\Managed\Photon3Unity3D.dll (this message is harmless)
 Loading D:\Documents\Garruk\garruk_Data\Managed\Photon3Unity3D.dll into Unity Child Domain
-- Completed reload, in  0.118 seconds
+- Completed reload, in  0.106 seconds
 desktop: 1920x1080 60Hz; virtual: 1920x1080 at 0,0
 <RI> Initializing input.
 <RI> Input initialized.
 Platform assembly: D:\Documents\Garruk\garruk_Data\Managed\System.Core.dll (this message is harmless)
 Platform assembly: D:\Documents\Garruk\garruk_Data\Managed\System.dll (this message is harmless)
-UnloadTime: 6.053415 ms
-Unloading 4 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
-
-Unloading 7 unused Assets to reduce memory usage. Loaded Objects now: 360.
-Total: 1.419442 ms (FindLiveObjects: 0.024632 ms CreateObjectMapping: 0.018474 ms MarkObjects: 0.553202 ms  DeleteObjects: 0.057475 ms)
-
-UnloadTime: 1.227515 ms
-Unloading 2 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
-
-Unloading 3 unused Assets to reduce memory usage. Loaded Objects now: 286.
-Total: 1.221357 ms (FindLiveObjects: 0.036435 ms CreateObjectMapping: 0.024632 ms MarkObjects: 0.357169 ms  DeleteObjects: 0.034895 ms)
-
-5\Je suis une\5
-
+PhotonView register is ignored, because viewID is 0. No id assigned yet to: View (0)0 on Skill4Area (scene)
  
 (Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
 
-
+PhotonView register is ignored, because viewID is 0. No id assigned yet to: View (0)0 on Skill2Area (scene)
  
 (Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
 
-Can't join random room!
+PhotonView register is ignored, because viewID is 0. No id assigned yet to: View (0)0 on Skill1Area (scene)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
+
+PhotonView register is ignored, because viewID is 0. No id assigned yet to: View (0)0 on Skill3Area (scene)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
+
+PhotonView register is ignored, because viewID is 0. No id assigned yet to: View (0)0 on Skill3Area (scene)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
+
+PhotonView register is ignored, because viewID is 0. No id assigned yet to: View (0)0 on Skill1Area (scene)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
+
+PhotonView register is ignored, because viewID is 0. No id assigned yet to: View (0)0 on Skill3Area (scene)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
+
+PhotonView register is ignored, because viewID is 0. No id assigned yet to: View (0)0 on Skill2Area (scene)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
+
+PhotonView register is ignored, because viewID is 0. No id assigned yet to: View (0)0 on Skill4Area (scene)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
+
+PhotonView register is ignored, because viewID is 0. No id assigned yet to: View (0)0 on Skill1Area (scene)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
+
+PhotonView register is ignored, because viewID is 0. No id assigned yet to: View (0)0 on Skill4Area (scene)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
+
+PhotonView register is ignored, because viewID is 0. No id assigned yet to: View (0)0 on Skill1Area (scene)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
+
+PhotonView register is ignored, because viewID is 0. No id assigned yet to: View (0)0 on Skill4Area (scene)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
+
+PhotonView register is ignored, because viewID is 0. No id assigned yet to: View (0)0 on Skill2Area (scene)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
+
+PhotonView register is ignored, because viewID is 0. No id assigned yet to: View (0)0 on Skill3Area (scene)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
+
+PhotonView register is ignored, because viewID is 0. No id assigned yet to: View (0)0 on Skill2Area (scene)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
+
+PhotonView register is ignored, because viewID is 0. No id assigned yet to: View (0)0 on Skill1Area (scene)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
+
+PhotonView register is ignored, because viewID is 0. No id assigned yet to: View (0)0 on Skill3Area (scene)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
+
+PhotonView register is ignored, because viewID is 0. No id assigned yet to: View (0)0 on Skill1Area (scene)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
+
+PhotonView register is ignored, because viewID is 0. No id assigned yet to: View (0)0 on Skill4Area (scene)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
+
+PhotonView register is ignored, because viewID is 0. No id assigned yet to: View (0)0 on Skill3Area (scene)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
+
+PhotonView register is ignored, because viewID is 0. No id assigned yet to: View (0)0 on Skill1Area (scene)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
+
+PhotonView register is ignored, because viewID is 0. No id assigned yet to: View (0)0 on Skill2Area (scene)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
+
+PhotonView register is ignored, because viewID is 0. No id assigned yet to: View (0)0 on Skill4Area (scene)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
+
+PhotonView register is ignored, because viewID is 0. No id assigned yet to: View (0)0 on Skill2Area (scene)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
+
+PhotonView register is ignored, because viewID is 0. No id assigned yet to: View (0)0 on Skill4Area (scene)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
+
+PhotonView register is ignored, because viewID is 0. No id assigned yet to: View (0)0 on Skill1Area (scene)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
+
+PhotonView register is ignored, because viewID is 0. No id assigned yet to: View (0)0 on Skill3Area (scene)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
+
+PhotonView register is ignored, because viewID is 0. No id assigned yet to: View (0)0 on Skill1Area (scene)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
+
+PhotonView register is ignored, because viewID is 0. No id assigned yet to: View (0)0 on Skill1Area (scene)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
+
+PhotonView register is ignored, because viewID is 0. No id assigned yet to: View (0)0 on Skill4Area (scene)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
+
+PhotonView register is ignored, because viewID is 0. No id assigned yet to: View (0)0 on Skill2Area (scene)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
+
+PhotonView register is ignored, because viewID is 0. No id assigned yet to: View (0)0 on Skill2Area (scene)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
+
+PhotonView register is ignored, because viewID is 0. No id assigned yet to: View (0)0 on Skill4Area (scene)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
+
+PhotonView register is ignored, because viewID is 0. No id assigned yet to: View (0)0 on Skill4Area (scene)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
+
+PhotonView register is ignored, because viewID is 0. No id assigned yet to: View (0)0 on Skill3Area (scene)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
+
+PhotonView register is ignored, because viewID is 0. No id assigned yet to: View (0)0 on Skill3Area (scene)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
+
+PhotonView register is ignored, because viewID is 0. No id assigned yet to: View (0)0 on Skill2Area (scene)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
+
+PhotonView register is ignored, because viewID is 0. No id assigned yet to: View (0)0 on Skill2Area (scene)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
+
+PhotonView register is ignored, because viewID is 0. No id assigned yet to: View (0)0 on Skill3Area (scene)
  
 (Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
 
@@ -51,77 +186,28 @@ Connected to Room
  
 (Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
 
-UnloadTime: 1.910038 ms
-Unloading 6 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
-
-Unloading 1 unused Assets to reduce memory usage. Loaded Objects now: 2695.
-Total: 2.052701 ms (FindLiveObjects: 0.211428 ms CreateObjectMapping: 0.052343 ms MarkObjects: 0.879582 ms  DeleteObjects: 0.020013 ms)
-
-Connected to Room
- 
-(Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
-
 PhotonView register is ignored, because viewID is 0. No id assigned yet to: View (0)0 on CardNetwork(Clone) (scene)
  
 (Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
 
-PhotonView register is ignored, because viewID is 0. No id assigned yet to: View (0)0 on CardNetwork(Clone) (scene)
+PhotonView register is ignored, because viewID is 0. No id assigned yet to: View (0)0 on Skill1Area (scene)
  
 (Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
 
-PhotonView register is ignored, because viewID is 0. No id assigned yet to: View (0)0 on CardNetwork(Clone) (scene)
+PhotonView register is ignored, because viewID is 0. No id assigned yet to: View (0)0 on Skill2Area (scene)
  
 (Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
 
-PhotonView register is ignored, because viewID is 0. No id assigned yet to: View (0)0 on CardNetwork(Clone) (scene)
+PhotonView register is ignored, because viewID is 0. No id assigned yet to: View (0)0 on Skill3Area (scene)
  
 (Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
 
-PhotonView register is ignored, because viewID is 0. No id assigned yet to: View (0)0 on CardNetwork(Clone) (scene)
+PhotonView register is ignored, because viewID is 0. No id assigned yet to: View (0)0 on Skill4Area (scene)
  
 (Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
 
-74\hajqezy\71\27\91\4\9\9\Geomancien\1\1\3\1
-41\Foret de lianes\1\1\36\1\\
-42\Sables mouvants\1\1\13\1\\
-40\Temple sacre\0\1\26\1\\
-44\Fontaine de jouvence\0\1\3\1\\
-
- 
-(Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
-
-75\ioivob\52\20\58\2\0\0\Enchanteur\1\1\2\1
-39\Bouclier miroir\1\1\12\2\\
-43\Bouclier cameleon\1\1\31\2\\
-3\Renforcement\0\1\5\3\\
-5\Lenteur\0\2\76\3\\
-
- 
-(Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
-
-76\eler\54\27\99\5\4\4\Mentaliste\1\2\1\2
-1\Reflexes\1\1\5\2\\Reflexe
-29\Divination\1\1\16\2\\
-31\Telepathie\0\1\11\3\\
-32\Mentalisme\0\1\5\1\\
-
- 
-(Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
-
-72\haxhus\44\17\62\4\4\4\Mentaliste\1\1\2\1
-29\Divination\1\2\70\1\\
-33\Ajout de mana\1\1\4\3\\
-34\Suppression de mana\0\1\29\3\\
-30\Controle d esprit\0\1\23\3\\
-
- 
-(Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
-
-73\hutco\57\17\67\3\4\4\Mentaliste\1\1\2\1
-34\Suppression de mana\1\1\17\2\\
-30\Controle d esprit\1\1\22\2\\
-32\Mentalisme\0\1\51\2\\
-31\Telepathie\0\1\8\2\\
+5\carte 5\5\30\4\2\4\4\Mentaliste\0\0\0\0
+1\Reflexes\1\1\1\1\\Reflexe
 
  
 (Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
@@ -130,82 +216,30 @@ PhotonView register is ignored, because viewID is 0. No id assigned yet to: View
  
 (Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
 
-PhotonView register is ignored, because viewID is 0. No id assigned yet to: View (0)0 on CardNetwork(Clone) (scene)
+PhotonView register is ignored, because viewID is 0. No id assigned yet to: View (0)0 on Skill1Area (scene)
  
 (Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
 
-PhotonView register is ignored, because viewID is 0. No id assigned yet to: View (0)0 on CardNetwork(Clone) (scene)
+PhotonView register is ignored, because viewID is 0. No id assigned yet to: View (0)0 on Skill2Area (scene)
  
 (Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
 
-PhotonView register is ignored, because viewID is 0. No id assigned yet to: View (0)0 on CardNetwork(Clone) (scene)
+PhotonView register is ignored, because viewID is 0. No id assigned yet to: View (0)0 on Skill3Area (scene)
  
 (Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
 
-PhotonView register is ignored, because viewID is 0. No id assigned yet to: View (0)0 on CardNetwork(Clone) (scene)
+PhotonView register is ignored, because viewID is 0. No id assigned yet to: View (0)0 on Skill4Area (scene)
  
 (Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
 
-74\hajqezy\71\27\91\4\9\9\Geomancien\1\1\3\1
-41\Foret de lianes\1\1\36\1\\
-42\Sables mouvants\1\1\13\1\\
-40\Temple sacre\0\1\26\1\\
-44\Fontaine de jouvence\0\1\3\1\\
+5\carte 5\5\30\4\2\4\4\Mentaliste\0\0\0\0
+1\Reflexes\1\1\1\1\\Reflexe
 
  
 (Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
 
-75\ioivob\52\20\58\2\0\0\Enchanteur\1\1\2\1
-39\Bouclier miroir\1\1\12\2\\
-43\Bouclier cameleon\1\1\31\2\\
-3\Renforcement\0\1\5\3\\
-5\Lenteur\0\2\76\3\\
-
+Level 'LobbyPage' (2) couldn't be loaded because it has not been added to the build settings.
+To add a level to the build settings use the menu File->Build Settings...
  
-(Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
-
-76\eler\54\27\99\5\4\4\Mentaliste\1\2\1\2
-1\Reflexes\1\1\5\2\\Reflexe
-29\Divination\1\1\16\2\\
-31\Telepathie\0\1\11\3\\
-32\Mentalisme\0\1\5\1\\
-
- 
-(Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
-
-72\haxhus\44\17\62\4\4\4\Mentaliste\1\1\2\1
-29\Divination\1\2\70\1\\
-33\Ajout de mana\1\1\4\3\\
-34\Suppression de mana\0\1\29\3\\
-30\Controle d esprit\0\1\23\3\\
-
- 
-(Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
-
-73\hutco\57\17\67\3\4\4\Mentaliste\1\1\2\1
-34\Suppression de mana\1\1\17\2\\
-30\Controle d esprit\1\1\22\2\\
-32\Mentalisme\0\1\51\2\\
-31\Telepathie\0\1\8\2\\
-
- 
-(Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
-
-UnloadTime: 10.487762 ms
-NullReferenceException
-  at (wrapper managed-to-native) UnityEngine.Component:InternalGetGameObject ()
-  at UnityEngine.Component.get_gameObject () [0x00000] in <filename unknown>:0 
-  at PhotonView.ToString () [0x00000] in <filename unknown>:0 
-  at System.String.FormatHelper (System.Text.StringBuilder result, IFormatProvider provider, System.String format, System.Object[] args) [0x00000] in <filename unknown>:0 
-  at System.String.Format (IFormatProvider provider, System.String format, System.Object[] args) [0x00000] in <filename unknown>:0 
-  at System.String.Format (System.String format, System.Object arg0, System.Object arg1, System.Object arg2) [0x00000] in <filename unknown>:0 
-  at NetworkingPeer.RegisterPhotonView (.PhotonView netView) [0x00000] in <filename unknown>:0 
-  at PhotonView.Awake () [0x00000] in <filename unknown>:0 
- 
-(Filename:  Line: -1)
-
-Unloading 1 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
-
-Unloading 963 unused Assets to reduce memory usage. Loaded Objects now: 550.
-Total: 9.037529 ms (FindLiveObjects: 0.093911 ms CreateObjectMapping: 0.211941 ms MarkObjects: 1.051496 ms  DeleteObjects: 6.999710 ms)
+(Filename:  Line: 276)
 
