@@ -1053,6 +1053,7 @@ GameObject:
   - 33: {fileID: 68244370}
   - 23: {fileID: 68244369}
   - 114: {fileID: 68244368}
+  - 65: {fileID: 68244367}
   m_Layer: 0
   m_Name: Skill4Area
   m_TagString: Untagged
@@ -1075,6 +1076,19 @@ Transform:
   - {fileID: 189184660}
   m_Father: {fileID: 955530157}
   m_RootOrder: 7
+--- !u!65 &68244367
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 6530158, guid: 41e7592d34820a2439ba5cd78e942c28,
+    type: 2}
+  m_PrefabInternal: {fileID: 1642943553}
+  m_GameObject: {fileID: 68244365}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: .899999976, y: 1, z: .0500000007}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &68244368
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1128,6 +1142,7 @@ GameObject:
   - 33: {fileID: 70364580}
   - 23: {fileID: 70364579}
   - 114: {fileID: 70364578}
+  - 65: {fileID: 70364577}
   m_Layer: 0
   m_Name: Skill2Area
   m_TagString: Untagged
@@ -1150,6 +1165,19 @@ Transform:
   - {fileID: 1650793949}
   m_Father: {fileID: 1230974152}
   m_RootOrder: 5
+--- !u!65 &70364577
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 6530154, guid: 41e7592d34820a2439ba5cd78e942c28,
+    type: 2}
+  m_PrefabInternal: {fileID: 652553307}
+  m_GameObject: {fileID: 70364575}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: .899999976, y: 1, z: .0500000007}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &70364578
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1480,12 +1508,11 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 33f7b2538854c4a038736f0843e45369, type: 3}
   - {fileID: 2800000, guid: 5515a1eaaf17a443b868baa728148f6f, type: 3}
   - {fileID: 2800000, guid: adf30741ecf4b478d92f3bd5041f727a, type: 3}
-  ownerNumber: 0
+  GameSkills: []
   currentTile: {fileID: 0}
-  YellowOutlines: {fileID: 0}
+  ownerNumber: 0
   Damage: 0
-  bgImage: {fileID: 2800000, guid: bd00a143b50b5964e80272405ab41b17, type: 3}
-  fgImage: {fileID: 2800000, guid: 0648d50748bd8b74884e747e292662bb, type: 3}
+  neighbors: []
   progress_empty:
     m_Name: 
     m_Normal:
@@ -1604,10 +1631,10 @@ MonoBehaviour:
     m_FixedHeight: 0
     m_StretchWidth: 1
     m_StretchHeight: 0
+  bgImage: {fileID: 2800000, guid: bd00a143b50b5964e80272405ab41b17, type: 3}
+  fgImage: {fileID: 2800000, guid: 0648d50748bd8b74884e747e292662bb, type: 3}
   AttackAnim: {fileID: 145750, guid: cd7ff7c5c68a9b645935252080c8b9a4, type: 2}
-  Outline: {fileID: 2100000, guid: acc7a47f3e4c6c541b9199e08060fd0e, type: 2}
-  Default: {fileID: 2100000, guid: f1179e4fdf2334e7d989ddb2c05f7ce7, type: 2}
-  neighbors: []
+  YellowOutlines: {fileID: 0}
 --- !u!1 &81251273
 GameObject:
   m_ObjectHideFlags: 0
@@ -2629,6 +2656,7 @@ GameObject:
   - 33: {fileID: 151153737}
   - 23: {fileID: 151153736}
   - 114: {fileID: 151153735}
+  - 65: {fileID: 151153734}
   m_Layer: 0
   m_Name: Skill1Area
   m_TagString: Untagged
@@ -2651,6 +2679,19 @@ Transform:
   - {fileID: 1891353675}
   m_Father: {fileID: 1383125585}
   m_RootOrder: 4
+--- !u!65 &151153734
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 6530152, guid: 41e7592d34820a2439ba5cd78e942c28,
+    type: 2}
+  m_PrefabInternal: {fileID: 542247642}
+  m_GameObject: {fileID: 151153732}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: .899999976, y: 1, z: .0500000007}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &151153735
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2834,6 +2875,7 @@ GameObject:
   - 33: {fileID: 170134993}
   - 23: {fileID: 170134992}
   - 114: {fileID: 170134991}
+  - 65: {fileID: 170134990}
   m_Layer: 0
   m_Name: Skill3Area
   m_TagString: Untagged
@@ -2856,6 +2898,19 @@ Transform:
   - {fileID: 2105191310}
   m_Father: {fileID: 2054551854}
   m_RootOrder: 6
+--- !u!65 &170134990
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 6530156, guid: 41e7592d34820a2439ba5cd78e942c28,
+    type: 2}
+  m_PrefabInternal: {fileID: 1771112995}
+  m_GameObject: {fileID: 170134988}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: .899999976, y: 1, z: .0500000007}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &170134991
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3657,6 +3712,7 @@ GameObject:
   - 33: {fileID: 202129529}
   - 23: {fileID: 202129528}
   - 114: {fileID: 202129527}
+  - 65: {fileID: 202129526}
   m_Layer: 0
   m_Name: Skill3Area
   m_TagString: Untagged
@@ -3679,6 +3735,19 @@ Transform:
   - {fileID: 713072396}
   m_Father: {fileID: 955530157}
   m_RootOrder: 6
+--- !u!65 &202129526
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 6530156, guid: 41e7592d34820a2439ba5cd78e942c28,
+    type: 2}
+  m_PrefabInternal: {fileID: 1642943553}
+  m_GameObject: {fileID: 202129524}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: .899999976, y: 1, z: .0500000007}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &202129527
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4788,6 +4857,7 @@ GameObject:
   - 33: {fileID: 259135572}
   - 23: {fileID: 259135571}
   - 114: {fileID: 259135570}
+  - 65: {fileID: 259135569}
   m_Layer: 0
   m_Name: Skill1Area
   m_TagString: Untagged
@@ -4810,6 +4880,19 @@ Transform:
   - {fileID: 209044967}
   m_Father: {fileID: 1123187135}
   m_RootOrder: 4
+--- !u!65 &259135569
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 6530152, guid: 41e7592d34820a2439ba5cd78e942c28,
+    type: 2}
+  m_PrefabInternal: {fileID: 265946271}
+  m_GameObject: {fileID: 259135567}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: .899999976, y: 1, z: .0500000007}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &259135570
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4982,6 +5065,7 @@ GameObject:
   - 33: {fileID: 268746750}
   - 23: {fileID: 268746749}
   - 114: {fileID: 268746748}
+  - 65: {fileID: 268746747}
   m_Layer: 0
   m_Name: Skill3Area
   m_TagString: Untagged
@@ -5004,6 +5088,19 @@ Transform:
   - {fileID: 103324700}
   m_Father: {fileID: 2096443705}
   m_RootOrder: 6
+--- !u!65 &268746747
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 6530156, guid: 41e7592d34820a2439ba5cd78e942c28,
+    type: 2}
+  m_PrefabInternal: {fileID: 1070387318}
+  m_GameObject: {fileID: 268746745}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: .899999976, y: 1, z: .0500000007}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &268746748
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5515,12 +5612,11 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 33f7b2538854c4a038736f0843e45369, type: 3}
   - {fileID: 2800000, guid: 5515a1eaaf17a443b868baa728148f6f, type: 3}
   - {fileID: 2800000, guid: adf30741ecf4b478d92f3bd5041f727a, type: 3}
-  ownerNumber: 0
+  GameSkills: []
   currentTile: {fileID: 0}
-  YellowOutlines: {fileID: 0}
+  ownerNumber: 0
   Damage: 0
-  bgImage: {fileID: 2800000, guid: bd00a143b50b5964e80272405ab41b17, type: 3}
-  fgImage: {fileID: 2800000, guid: 0648d50748bd8b74884e747e292662bb, type: 3}
+  neighbors: []
   progress_empty:
     m_Name: 
     m_Normal:
@@ -5639,10 +5735,10 @@ MonoBehaviour:
     m_FixedHeight: 0
     m_StretchWidth: 1
     m_StretchHeight: 0
+  bgImage: {fileID: 2800000, guid: bd00a143b50b5964e80272405ab41b17, type: 3}
+  fgImage: {fileID: 2800000, guid: 0648d50748bd8b74884e747e292662bb, type: 3}
   AttackAnim: {fileID: 145750, guid: cd7ff7c5c68a9b645935252080c8b9a4, type: 2}
-  Outline: {fileID: 2100000, guid: acc7a47f3e4c6c541b9199e08060fd0e, type: 2}
-  Default: {fileID: 2100000, guid: f1179e4fdf2334e7d989ddb2c05f7ce7, type: 2}
-  neighbors: []
+  YellowOutlines: {fileID: 0}
 --- !u!1 &288092501
 GameObject:
   m_ObjectHideFlags: 0
@@ -5778,6 +5874,7 @@ GameObject:
   - 33: {fileID: 295672714}
   - 23: {fileID: 295672713}
   - 114: {fileID: 295672712}
+  - 65: {fileID: 295672711}
   m_Layer: 0
   m_Name: Skill2Area
   m_TagString: Untagged
@@ -5800,6 +5897,19 @@ Transform:
   - {fileID: 90649626}
   m_Father: {fileID: 1383125585}
   m_RootOrder: 5
+--- !u!65 &295672711
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 6530154, guid: 41e7592d34820a2439ba5cd78e942c28,
+    type: 2}
+  m_PrefabInternal: {fileID: 542247642}
+  m_GameObject: {fileID: 295672709}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: .899999976, y: 1, z: .0500000007}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &295672712
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6192,6 +6302,7 @@ GameObject:
   - 33: {fileID: 330096309}
   - 23: {fileID: 330096308}
   - 114: {fileID: 330096307}
+  - 65: {fileID: 330096306}
   m_Layer: 0
   m_Name: Skill4Area
   m_TagString: Untagged
@@ -6214,6 +6325,19 @@ Transform:
   - {fileID: 540011100}
   m_Father: {fileID: 1383125585}
   m_RootOrder: 7
+--- !u!65 &330096306
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 6530158, guid: 41e7592d34820a2439ba5cd78e942c28,
+    type: 2}
+  m_PrefabInternal: {fileID: 542247642}
+  m_GameObject: {fileID: 330096304}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: .899999976, y: 1, z: .0500000007}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &330096307
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6626,6 +6750,7 @@ GameObject:
   - 33: {fileID: 357574368}
   - 23: {fileID: 357574367}
   - 114: {fileID: 357574366}
+  - 65: {fileID: 357574365}
   m_Layer: 0
   m_Name: Skill1Area
   m_TagString: Untagged
@@ -6648,6 +6773,19 @@ Transform:
   - {fileID: 601800641}
   m_Father: {fileID: 1230974152}
   m_RootOrder: 4
+--- !u!65 &357574365
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 6530152, guid: 41e7592d34820a2439ba5cd78e942c28,
+    type: 2}
+  m_PrefabInternal: {fileID: 652553307}
+  m_GameObject: {fileID: 357574363}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: .899999976, y: 1, z: .0500000007}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &357574366
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7397,12 +7535,11 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 33f7b2538854c4a038736f0843e45369, type: 3}
   - {fileID: 2800000, guid: 5515a1eaaf17a443b868baa728148f6f, type: 3}
   - {fileID: 2800000, guid: adf30741ecf4b478d92f3bd5041f727a, type: 3}
-  ownerNumber: 0
+  GameSkills: []
   currentTile: {fileID: 0}
-  YellowOutlines: {fileID: 0}
+  ownerNumber: 0
   Damage: 0
-  bgImage: {fileID: 2800000, guid: bd00a143b50b5964e80272405ab41b17, type: 3}
-  fgImage: {fileID: 2800000, guid: 0648d50748bd8b74884e747e292662bb, type: 3}
+  neighbors: []
   progress_empty:
     m_Name: 
     m_Normal:
@@ -7521,10 +7658,10 @@ MonoBehaviour:
     m_FixedHeight: 0
     m_StretchWidth: 1
     m_StretchHeight: 0
+  bgImage: {fileID: 2800000, guid: bd00a143b50b5964e80272405ab41b17, type: 3}
+  fgImage: {fileID: 2800000, guid: 0648d50748bd8b74884e747e292662bb, type: 3}
   AttackAnim: {fileID: 145750, guid: cd7ff7c5c68a9b645935252080c8b9a4, type: 2}
-  Outline: {fileID: 2100000, guid: acc7a47f3e4c6c541b9199e08060fd0e, type: 2}
-  Default: {fileID: 2100000, guid: f1179e4fdf2334e7d989ddb2c05f7ce7, type: 2}
-  neighbors: []
+  YellowOutlines: {fileID: 0}
 --- !u!1 &399319170
 GameObject:
   m_ObjectHideFlags: 0
@@ -7813,12 +7950,11 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 33f7b2538854c4a038736f0843e45369, type: 3}
   - {fileID: 2800000, guid: 5515a1eaaf17a443b868baa728148f6f, type: 3}
   - {fileID: 2800000, guid: adf30741ecf4b478d92f3bd5041f727a, type: 3}
-  ownerNumber: 0
+  GameSkills: []
   currentTile: {fileID: 0}
-  YellowOutlines: {fileID: 0}
+  ownerNumber: 0
   Damage: 0
-  bgImage: {fileID: 2800000, guid: bd00a143b50b5964e80272405ab41b17, type: 3}
-  fgImage: {fileID: 2800000, guid: 0648d50748bd8b74884e747e292662bb, type: 3}
+  neighbors: []
   progress_empty:
     m_Name: 
     m_Normal:
@@ -7937,10 +8073,10 @@ MonoBehaviour:
     m_FixedHeight: 0
     m_StretchWidth: 1
     m_StretchHeight: 0
+  bgImage: {fileID: 2800000, guid: bd00a143b50b5964e80272405ab41b17, type: 3}
+  fgImage: {fileID: 2800000, guid: 0648d50748bd8b74884e747e292662bb, type: 3}
   AttackAnim: {fileID: 145750, guid: cd7ff7c5c68a9b645935252080c8b9a4, type: 2}
-  Outline: {fileID: 2100000, guid: acc7a47f3e4c6c541b9199e08060fd0e, type: 2}
-  Default: {fileID: 2100000, guid: f1179e4fdf2334e7d989ddb2c05f7ce7, type: 2}
-  neighbors: []
+  YellowOutlines: {fileID: 0}
 --- !u!1 &401215920
 GameObject:
   m_ObjectHideFlags: 0
@@ -7952,6 +8088,7 @@ GameObject:
   - 33: {fileID: 401215925}
   - 23: {fileID: 401215924}
   - 114: {fileID: 401215923}
+  - 65: {fileID: 401215922}
   m_Layer: 0
   m_Name: Skill4Area
   m_TagString: Untagged
@@ -7974,6 +8111,19 @@ Transform:
   - {fileID: 241564856}
   m_Father: {fileID: 1123187135}
   m_RootOrder: 7
+--- !u!65 &401215922
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 6530158, guid: 41e7592d34820a2439ba5cd78e942c28,
+    type: 2}
+  m_PrefabInternal: {fileID: 265946271}
+  m_GameObject: {fileID: 401215920}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: .899999976, y: 1, z: .0500000007}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &401215923
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8171,6 +8321,7 @@ GameObject:
   - 33: {fileID: 417280524}
   - 23: {fileID: 417280523}
   - 114: {fileID: 417280522}
+  - 65: {fileID: 417280521}
   m_Layer: 0
   m_Name: Skill1Area
   m_TagString: Untagged
@@ -8193,6 +8344,19 @@ Transform:
   - {fileID: 1165443887}
   m_Father: {fileID: 2054551854}
   m_RootOrder: 4
+--- !u!65 &417280521
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 6530152, guid: 41e7592d34820a2439ba5cd78e942c28,
+    type: 2}
+  m_PrefabInternal: {fileID: 1771112995}
+  m_GameObject: {fileID: 417280519}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: .899999976, y: 1, z: .0500000007}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &417280522
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8919,12 +9083,11 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 33f7b2538854c4a038736f0843e45369, type: 3}
   - {fileID: 2800000, guid: 5515a1eaaf17a443b868baa728148f6f, type: 3}
   - {fileID: 2800000, guid: adf30741ecf4b478d92f3bd5041f727a, type: 3}
-  ownerNumber: 0
+  GameSkills: []
   currentTile: {fileID: 0}
-  YellowOutlines: {fileID: 0}
+  ownerNumber: 0
   Damage: 0
-  bgImage: {fileID: 2800000, guid: bd00a143b50b5964e80272405ab41b17, type: 3}
-  fgImage: {fileID: 2800000, guid: 0648d50748bd8b74884e747e292662bb, type: 3}
+  neighbors: []
   progress_empty:
     m_Name: 
     m_Normal:
@@ -9043,10 +9206,10 @@ MonoBehaviour:
     m_FixedHeight: 0
     m_StretchWidth: 1
     m_StretchHeight: 0
+  bgImage: {fileID: 2800000, guid: bd00a143b50b5964e80272405ab41b17, type: 3}
+  fgImage: {fileID: 2800000, guid: 0648d50748bd8b74884e747e292662bb, type: 3}
   AttackAnim: {fileID: 145750, guid: cd7ff7c5c68a9b645935252080c8b9a4, type: 2}
-  Outline: {fileID: 2100000, guid: acc7a47f3e4c6c541b9199e08060fd0e, type: 2}
-  Default: {fileID: 2100000, guid: f1179e4fdf2334e7d989ddb2c05f7ce7, type: 2}
-  neighbors: []
+  YellowOutlines: {fileID: 0}
 --- !u!1 &472741677
 GameObject:
   m_ObjectHideFlags: 0
@@ -10083,6 +10246,7 @@ GameObject:
   - 33: {fileID: 521840404}
   - 23: {fileID: 521840403}
   - 114: {fileID: 521840402}
+  - 65: {fileID: 521840401}
   m_Layer: 0
   m_Name: Skill4Area
   m_TagString: Untagged
@@ -10105,6 +10269,19 @@ Transform:
   - {fileID: 134022640}
   m_Father: {fileID: 1230974152}
   m_RootOrder: 7
+--- !u!65 &521840401
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 6530158, guid: 41e7592d34820a2439ba5cd78e942c28,
+    type: 2}
+  m_PrefabInternal: {fileID: 652553307}
+  m_GameObject: {fileID: 521840399}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: .899999976, y: 1, z: .0500000007}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &521840402
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10230,6 +10407,7 @@ GameObject:
   - 33: {fileID: 531487061}
   - 23: {fileID: 531487060}
   - 114: {fileID: 531487059}
+  - 65: {fileID: 531487058}
   m_Layer: 0
   m_Name: Skill2Area
   m_TagString: Untagged
@@ -10252,6 +10430,19 @@ Transform:
   - {fileID: 663297383}
   m_Father: {fileID: 2052199026}
   m_RootOrder: 5
+--- !u!65 &531487058
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 6530154, guid: 41e7592d34820a2439ba5cd78e942c28,
+    type: 2}
+  m_PrefabInternal: {fileID: 1573824440}
+  m_GameObject: {fileID: 531487056}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: .899999976, y: 1, z: .0500000007}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &531487059
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11376,6 +11567,7 @@ GameObject:
   - 33: {fileID: 608553018}
   - 23: {fileID: 608553017}
   - 114: {fileID: 608553016}
+  - 65: {fileID: 608553015}
   m_Layer: 0
   m_Name: Skill3Area
   m_TagString: Untagged
@@ -11398,6 +11590,19 @@ Transform:
   - {fileID: 818062604}
   m_Father: {fileID: 2052199026}
   m_RootOrder: 6
+--- !u!65 &608553015
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 6530156, guid: 41e7592d34820a2439ba5cd78e942c28,
+    type: 2}
+  m_PrefabInternal: {fileID: 1573824440}
+  m_GameObject: {fileID: 608553013}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: .899999976, y: 1, z: .0500000007}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &608553016
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11722,6 +11927,7 @@ GameObject:
   - 33: {fileID: 629437557}
   - 23: {fileID: 629437556}
   - 114: {fileID: 629437555}
+  - 65: {fileID: 629437554}
   m_Layer: 0
   m_Name: Skill2Area
   m_TagString: Untagged
@@ -11744,6 +11950,19 @@ Transform:
   - {fileID: 550424646}
   m_Father: {fileID: 1845307098}
   m_RootOrder: 5
+--- !u!65 &629437554
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 6530154, guid: 41e7592d34820a2439ba5cd78e942c28,
+    type: 2}
+  m_PrefabInternal: {fileID: 1133550581}
+  m_GameObject: {fileID: 629437552}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: .899999976, y: 1, z: .0500000007}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &629437555
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13185,12 +13404,11 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 33f7b2538854c4a038736f0843e45369, type: 3}
   - {fileID: 2800000, guid: 5515a1eaaf17a443b868baa728148f6f, type: 3}
   - {fileID: 2800000, guid: adf30741ecf4b478d92f3bd5041f727a, type: 3}
-  ownerNumber: 0
+  GameSkills: []
   currentTile: {fileID: 0}
-  YellowOutlines: {fileID: 0}
+  ownerNumber: 0
   Damage: 0
-  bgImage: {fileID: 2800000, guid: bd00a143b50b5964e80272405ab41b17, type: 3}
-  fgImage: {fileID: 2800000, guid: 0648d50748bd8b74884e747e292662bb, type: 3}
+  neighbors: []
   progress_empty:
     m_Name: 
     m_Normal:
@@ -13309,10 +13527,10 @@ MonoBehaviour:
     m_FixedHeight: 0
     m_StretchWidth: 1
     m_StretchHeight: 0
+  bgImage: {fileID: 2800000, guid: bd00a143b50b5964e80272405ab41b17, type: 3}
+  fgImage: {fileID: 2800000, guid: 0648d50748bd8b74884e747e292662bb, type: 3}
   AttackAnim: {fileID: 145750, guid: cd7ff7c5c68a9b645935252080c8b9a4, type: 2}
-  Outline: {fileID: 2100000, guid: acc7a47f3e4c6c541b9199e08060fd0e, type: 2}
-  Default: {fileID: 2100000, guid: f1179e4fdf2334e7d989ddb2c05f7ce7, type: 2}
-  neighbors: []
+  YellowOutlines: {fileID: 0}
 --- !u!1 &729126508
 GameObject:
   m_ObjectHideFlags: 0
@@ -13948,6 +14166,7 @@ GameObject:
   - 33: {fileID: 776022986}
   - 23: {fileID: 776022985}
   - 114: {fileID: 776022984}
+  - 65: {fileID: 776022983}
   m_Layer: 0
   m_Name: Skill1Area
   m_TagString: Untagged
@@ -13970,6 +14189,19 @@ Transform:
   - {fileID: 2136558580}
   m_Father: {fileID: 882227390}
   m_RootOrder: 4
+--- !u!65 &776022983
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 6530152, guid: 41e7592d34820a2439ba5cd78e942c28,
+    type: 2}
+  m_PrefabInternal: {fileID: 1394999541}
+  m_GameObject: {fileID: 776022981}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: .899999976, y: 1, z: .0500000007}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &776022984
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14023,6 +14255,7 @@ GameObject:
   - 33: {fileID: 779404384}
   - 23: {fileID: 779404383}
   - 114: {fileID: 779404382}
+  - 65: {fileID: 779404381}
   m_Layer: 0
   m_Name: Skill3Area
   m_TagString: Untagged
@@ -14045,6 +14278,19 @@ Transform:
   - {fileID: 290631238}
   m_Father: {fileID: 228839288}
   m_RootOrder: 6
+--- !u!65 &779404381
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 6530156, guid: 41e7592d34820a2439ba5cd78e942c28,
+    type: 2}
+  m_PrefabInternal: {fileID: 2146634931}
+  m_GameObject: {fileID: 779404379}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: .899999976, y: 1, z: .0500000007}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &779404382
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14757,12 +15003,11 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 33f7b2538854c4a038736f0843e45369, type: 3}
   - {fileID: 2800000, guid: 5515a1eaaf17a443b868baa728148f6f, type: 3}
   - {fileID: 2800000, guid: adf30741ecf4b478d92f3bd5041f727a, type: 3}
-  ownerNumber: 0
+  GameSkills: []
   currentTile: {fileID: 0}
-  YellowOutlines: {fileID: 0}
+  ownerNumber: 0
   Damage: 0
-  bgImage: {fileID: 2800000, guid: bd00a143b50b5964e80272405ab41b17, type: 3}
-  fgImage: {fileID: 2800000, guid: 0648d50748bd8b74884e747e292662bb, type: 3}
+  neighbors: []
   progress_empty:
     m_Name: 
     m_Normal:
@@ -14881,10 +15126,10 @@ MonoBehaviour:
     m_FixedHeight: 0
     m_StretchWidth: 1
     m_StretchHeight: 0
+  bgImage: {fileID: 2800000, guid: bd00a143b50b5964e80272405ab41b17, type: 3}
+  fgImage: {fileID: 2800000, guid: 0648d50748bd8b74884e747e292662bb, type: 3}
   AttackAnim: {fileID: 145750, guid: cd7ff7c5c68a9b645935252080c8b9a4, type: 2}
-  Outline: {fileID: 2100000, guid: acc7a47f3e4c6c541b9199e08060fd0e, type: 2}
-  Default: {fileID: 2100000, guid: f1179e4fdf2334e7d989ddb2c05f7ce7, type: 2}
-  neighbors: []
+  YellowOutlines: {fileID: 0}
 --- !u!114 &800250404
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16258,6 +16503,7 @@ GameObject:
   - 33: {fileID: 889814526}
   - 23: {fileID: 889814525}
   - 114: {fileID: 889814524}
+  - 65: {fileID: 889814523}
   m_Layer: 0
   m_Name: Skill1Area
   m_TagString: Untagged
@@ -16280,6 +16526,19 @@ Transform:
   - {fileID: 1952664265}
   m_Father: {fileID: 955530157}
   m_RootOrder: 4
+--- !u!65 &889814523
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 6530152, guid: 41e7592d34820a2439ba5cd78e942c28,
+    type: 2}
+  m_PrefabInternal: {fileID: 1642943553}
+  m_GameObject: {fileID: 889814521}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: .899999976, y: 1, z: .0500000007}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &889814524
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16613,6 +16872,7 @@ GameObject:
   - 33: {fileID: 901523699}
   - 23: {fileID: 901523698}
   - 114: {fileID: 901523697}
+  - 65: {fileID: 901523696}
   m_Layer: 0
   m_Name: Skill4Area
   m_TagString: Untagged
@@ -16635,6 +16895,19 @@ Transform:
   - {fileID: 700351236}
   m_Father: {fileID: 2054551854}
   m_RootOrder: 7
+--- !u!65 &901523696
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 6530158, guid: 41e7592d34820a2439ba5cd78e942c28,
+    type: 2}
+  m_PrefabInternal: {fileID: 1771112995}
+  m_GameObject: {fileID: 901523694}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: .899999976, y: 1, z: .0500000007}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &901523697
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17141,12 +17414,11 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 33f7b2538854c4a038736f0843e45369, type: 3}
   - {fileID: 2800000, guid: 5515a1eaaf17a443b868baa728148f6f, type: 3}
   - {fileID: 2800000, guid: adf30741ecf4b478d92f3bd5041f727a, type: 3}
-  ownerNumber: 0
+  GameSkills: []
   currentTile: {fileID: 0}
-  YellowOutlines: {fileID: 0}
+  ownerNumber: 0
   Damage: 0
-  bgImage: {fileID: 2800000, guid: bd00a143b50b5964e80272405ab41b17, type: 3}
-  fgImage: {fileID: 2800000, guid: 0648d50748bd8b74884e747e292662bb, type: 3}
+  neighbors: []
   progress_empty:
     m_Name: 
     m_Normal:
@@ -17265,10 +17537,10 @@ MonoBehaviour:
     m_FixedHeight: 0
     m_StretchWidth: 1
     m_StretchHeight: 0
+  bgImage: {fileID: 2800000, guid: bd00a143b50b5964e80272405ab41b17, type: 3}
+  fgImage: {fileID: 2800000, guid: 0648d50748bd8b74884e747e292662bb, type: 3}
   AttackAnim: {fileID: 145750, guid: cd7ff7c5c68a9b645935252080c8b9a4, type: 2}
-  Outline: {fileID: 2100000, guid: acc7a47f3e4c6c541b9199e08060fd0e, type: 2}
-  Default: {fileID: 2100000, guid: f1179e4fdf2334e7d989ddb2c05f7ce7, type: 2}
-  neighbors: []
+  YellowOutlines: {fileID: 0}
 --- !u!1 &920055702
 GameObject:
   m_ObjectHideFlags: 0
@@ -17420,6 +17692,7 @@ GameObject:
   - 33: {fileID: 926720324}
   - 23: {fileID: 926720323}
   - 114: {fileID: 926720322}
+  - 65: {fileID: 926720321}
   m_Layer: 0
   m_Name: Skill3Area
   m_TagString: Untagged
@@ -17442,6 +17715,19 @@ Transform:
   - {fileID: 1292645740}
   m_Father: {fileID: 1383125585}
   m_RootOrder: 6
+--- !u!65 &926720321
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 6530156, guid: 41e7592d34820a2439ba5cd78e942c28,
+    type: 2}
+  m_PrefabInternal: {fileID: 542247642}
+  m_GameObject: {fileID: 926720319}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: .899999976, y: 1, z: .0500000007}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &926720322
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17716,6 +18002,7 @@ GameObject:
   - 33: {fileID: 963704002}
   - 23: {fileID: 963704001}
   - 114: {fileID: 963704000}
+  - 65: {fileID: 963703999}
   m_Layer: 0
   m_Name: Skill1Area
   m_TagString: Untagged
@@ -17738,6 +18025,19 @@ Transform:
   - {fileID: 968666242}
   m_Father: {fileID: 1845307098}
   m_RootOrder: 4
+--- !u!65 &963703999
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 6530152, guid: 41e7592d34820a2439ba5cd78e942c28,
+    type: 2}
+  m_PrefabInternal: {fileID: 1133550581}
+  m_GameObject: {fileID: 963703997}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: .899999976, y: 1, z: .0500000007}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &963704000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18516,6 +18816,7 @@ GameObject:
   - 33: {fileID: 1025984053}
   - 23: {fileID: 1025984052}
   - 114: {fileID: 1025984051}
+  - 65: {fileID: 1025984050}
   m_Layer: 0
   m_Name: Skill2Area
   m_TagString: Untagged
@@ -18538,6 +18839,19 @@ Transform:
   - {fileID: 1690072994}
   m_Father: {fileID: 2054551854}
   m_RootOrder: 5
+--- !u!65 &1025984050
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 6530154, guid: 41e7592d34820a2439ba5cd78e942c28,
+    type: 2}
+  m_PrefabInternal: {fileID: 1771112995}
+  m_GameObject: {fileID: 1025984048}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: .899999976, y: 1, z: .0500000007}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1025984051
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20099,6 +20413,7 @@ GameObject:
   - 33: {fileID: 1156577318}
   - 23: {fileID: 1156577317}
   - 114: {fileID: 1156577316}
+  - 65: {fileID: 1156577315}
   m_Layer: 0
   m_Name: Skill4Area
   m_TagString: Untagged
@@ -20121,6 +20436,19 @@ Transform:
   - {fileID: 849277393}
   m_Father: {fileID: 228839288}
   m_RootOrder: 7
+--- !u!65 &1156577315
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 6530158, guid: 41e7592d34820a2439ba5cd78e942c28,
+    type: 2}
+  m_PrefabInternal: {fileID: 2146634931}
+  m_GameObject: {fileID: 1156577313}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: .899999976, y: 1, z: .0500000007}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1156577316
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21660,6 +21988,7 @@ GameObject:
   - 33: {fileID: 1281749708}
   - 23: {fileID: 1281749707}
   - 114: {fileID: 1281749706}
+  - 65: {fileID: 1281749705}
   m_Layer: 0
   m_Name: Skill2Area
   m_TagString: Untagged
@@ -21682,6 +22011,19 @@ Transform:
   - {fileID: 1346262303}
   m_Father: {fileID: 955530157}
   m_RootOrder: 5
+--- !u!65 &1281749705
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 6530154, guid: 41e7592d34820a2439ba5cd78e942c28,
+    type: 2}
+  m_PrefabInternal: {fileID: 1642943553}
+  m_GameObject: {fileID: 1281749703}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: .899999976, y: 1, z: .0500000007}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1281749706
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21992,10 +22334,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameCard: {fileID: 1287777128}
+  nbSkillToBeCast: 0
   attemptToMoveTo: {fileID: 0}
   hasMoved: 0
   attemptToAttack: 0
   hasAttacked: 0
+  attemptToCast: 0
+  SkillCasted: {fileID: 0}
   Damage: 0
   bgImage: {fileID: 2800000, guid: bd00a143b50b5964e80272405ab41b17, type: 3}
   fgImage: {fileID: 2800000, guid: 0648d50748bd8b74884e747e292662bb, type: 3}
@@ -22360,12 +22705,11 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 33f7b2538854c4a038736f0843e45369, type: 3}
   - {fileID: 2800000, guid: 5515a1eaaf17a443b868baa728148f6f, type: 3}
   - {fileID: 2800000, guid: adf30741ecf4b478d92f3bd5041f727a, type: 3}
-  ownerNumber: 0
+  GameSkills: []
   currentTile: {fileID: 0}
-  YellowOutlines: {fileID: 0}
+  ownerNumber: 0
   Damage: 0
-  bgImage: {fileID: 2800000, guid: bd00a143b50b5964e80272405ab41b17, type: 3}
-  fgImage: {fileID: 2800000, guid: 0648d50748bd8b74884e747e292662bb, type: 3}
+  neighbors: []
   progress_empty:
     m_Name: 
     m_Normal:
@@ -22484,10 +22828,10 @@ MonoBehaviour:
     m_FixedHeight: 0
     m_StretchWidth: 1
     m_StretchHeight: 0
+  bgImage: {fileID: 2800000, guid: bd00a143b50b5964e80272405ab41b17, type: 3}
+  fgImage: {fileID: 2800000, guid: 0648d50748bd8b74884e747e292662bb, type: 3}
   AttackAnim: {fileID: 0}
-  Outline: {fileID: 2100000, guid: acc7a47f3e4c6c541b9199e08060fd0e, type: 2}
-  Default: {fileID: 2100000, guid: f1179e4fdf2334e7d989ddb2c05f7ce7, type: 2}
-  neighbors: []
+  YellowOutlines: {fileID: 0}
 --- !u!1 &1292645739
 GameObject:
   m_ObjectHideFlags: 0
@@ -22913,12 +23257,11 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 33f7b2538854c4a038736f0843e45369, type: 3}
   - {fileID: 2800000, guid: 5515a1eaaf17a443b868baa728148f6f, type: 3}
   - {fileID: 2800000, guid: adf30741ecf4b478d92f3bd5041f727a, type: 3}
-  ownerNumber: 0
+  GameSkills: []
   currentTile: {fileID: 0}
-  YellowOutlines: {fileID: 0}
+  ownerNumber: 0
   Damage: 0
-  bgImage: {fileID: 2800000, guid: bd00a143b50b5964e80272405ab41b17, type: 3}
-  fgImage: {fileID: 2800000, guid: 0648d50748bd8b74884e747e292662bb, type: 3}
+  neighbors: []
   progress_empty:
     m_Name: 
     m_Normal:
@@ -23037,10 +23380,10 @@ MonoBehaviour:
     m_FixedHeight: 0
     m_StretchWidth: 1
     m_StretchHeight: 0
+  bgImage: {fileID: 2800000, guid: bd00a143b50b5964e80272405ab41b17, type: 3}
+  fgImage: {fileID: 2800000, guid: 0648d50748bd8b74884e747e292662bb, type: 3}
   AttackAnim: {fileID: 145750, guid: cd7ff7c5c68a9b645935252080c8b9a4, type: 2}
-  Outline: {fileID: 2100000, guid: acc7a47f3e4c6c541b9199e08060fd0e, type: 2}
-  Default: {fileID: 2100000, guid: f1179e4fdf2334e7d989ddb2c05f7ce7, type: 2}
-  neighbors: []
+  YellowOutlines: {fileID: 0}
 --- !u!1 &1307353733
 GameObject:
   m_ObjectHideFlags: 0
@@ -23919,6 +24262,7 @@ GameObject:
   - 33: {fileID: 1366272053}
   - 23: {fileID: 1366272052}
   - 114: {fileID: 1366272051}
+  - 65: {fileID: 1366272050}
   m_Layer: 0
   m_Name: Skill4Area
   m_TagString: Untagged
@@ -23941,6 +24285,19 @@ Transform:
   - {fileID: 809309629}
   m_Father: {fileID: 882227390}
   m_RootOrder: 7
+--- !u!65 &1366272050
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 6530158, guid: 41e7592d34820a2439ba5cd78e942c28,
+    type: 2}
+  m_PrefabInternal: {fileID: 1394999541}
+  m_GameObject: {fileID: 1366272048}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: .899999976, y: 1, z: .0500000007}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1366272051
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24615,6 +24972,7 @@ GameObject:
   - 33: {fileID: 1430548865}
   - 23: {fileID: 1430548864}
   - 114: {fileID: 1430548863}
+  - 65: {fileID: 1430548862}
   m_Layer: 0
   m_Name: Skill1Area
   m_TagString: Untagged
@@ -24637,6 +24995,19 @@ Transform:
   - {fileID: 843598787}
   m_Father: {fileID: 2096443705}
   m_RootOrder: 4
+--- !u!65 &1430548862
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 6530152, guid: 41e7592d34820a2439ba5cd78e942c28,
+    type: 2}
+  m_PrefabInternal: {fileID: 1070387318}
+  m_GameObject: {fileID: 1430548860}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: .899999976, y: 1, z: .0500000007}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1430548863
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25099,6 +25470,7 @@ GameObject:
   - 33: {fileID: 1454511326}
   - 23: {fileID: 1454511325}
   - 114: {fileID: 1454511324}
+  - 65: {fileID: 1454511323}
   m_Layer: 0
   m_Name: Skill3Area
   m_TagString: Untagged
@@ -25121,6 +25493,19 @@ Transform:
   - {fileID: 1233822344}
   m_Father: {fileID: 1123187135}
   m_RootOrder: 6
+--- !u!65 &1454511323
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 6530156, guid: 41e7592d34820a2439ba5cd78e942c28,
+    type: 2}
+  m_PrefabInternal: {fileID: 265946271}
+  m_GameObject: {fileID: 1454511321}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: .899999976, y: 1, z: .0500000007}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1454511324
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25828,6 +26213,7 @@ GameObject:
   - 33: {fileID: 1497410148}
   - 23: {fileID: 1497410147}
   - 114: {fileID: 1497410146}
+  - 65: {fileID: 1497410145}
   m_Layer: 0
   m_Name: Skill1Area
   m_TagString: Untagged
@@ -25850,6 +26236,19 @@ Transform:
   - {fileID: 1812787999}
   m_Father: {fileID: 2052199026}
   m_RootOrder: 4
+--- !u!65 &1497410145
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 6530152, guid: 41e7592d34820a2439ba5cd78e942c28,
+    type: 2}
+  m_PrefabInternal: {fileID: 1573824440}
+  m_GameObject: {fileID: 1497410143}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: .899999976, y: 1, z: .0500000007}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1497410146
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27683,6 +28082,7 @@ GameObject:
   - 33: {fileID: 1599217707}
   - 23: {fileID: 1599217706}
   - 114: {fileID: 1599217705}
+  - 65: {fileID: 1599217704}
   m_Layer: 0
   m_Name: Skill1Area
   m_TagString: Untagged
@@ -27705,6 +28105,19 @@ Transform:
   - {fileID: 2079668145}
   m_Father: {fileID: 228839288}
   m_RootOrder: 4
+--- !u!65 &1599217704
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 6530152, guid: 41e7592d34820a2439ba5cd78e942c28,
+    type: 2}
+  m_PrefabInternal: {fileID: 2146634931}
+  m_GameObject: {fileID: 1599217702}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: .899999976, y: 1, z: .0500000007}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1599217705
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28124,6 +28537,7 @@ GameObject:
   - 33: {fileID: 1617423704}
   - 23: {fileID: 1617423703}
   - 114: {fileID: 1617423702}
+  - 65: {fileID: 1617423701}
   m_Layer: 0
   m_Name: Skill4Area
   m_TagString: Untagged
@@ -28146,6 +28560,19 @@ Transform:
   - {fileID: 1006525984}
   m_Father: {fileID: 2096443705}
   m_RootOrder: 7
+--- !u!65 &1617423701
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 6530158, guid: 41e7592d34820a2439ba5cd78e942c28,
+    type: 2}
+  m_PrefabInternal: {fileID: 1070387318}
+  m_GameObject: {fileID: 1617423699}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: .899999976, y: 1, z: .0500000007}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1617423702
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28526,6 +28953,7 @@ GameObject:
   - 33: {fileID: 1655308709}
   - 23: {fileID: 1655308708}
   - 114: {fileID: 1655308707}
+  - 65: {fileID: 1655308706}
   m_Layer: 0
   m_Name: Skill2Area
   m_TagString: Untagged
@@ -28548,6 +28976,19 @@ Transform:
   - {fileID: 862260939}
   m_Father: {fileID: 1123187135}
   m_RootOrder: 5
+--- !u!65 &1655308706
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 6530154, guid: 41e7592d34820a2439ba5cd78e942c28,
+    type: 2}
+  m_PrefabInternal: {fileID: 265946271}
+  m_GameObject: {fileID: 1655308704}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: .899999976, y: 1, z: .0500000007}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1655308707
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29346,6 +29787,7 @@ GameObject:
   - 33: {fileID: 1715806936}
   - 23: {fileID: 1715806935}
   - 114: {fileID: 1715806934}
+  - 65: {fileID: 1715806933}
   m_Layer: 0
   m_Name: Skill2Area
   m_TagString: Untagged
@@ -29368,6 +29810,19 @@ Transform:
   - {fileID: 144459891}
   m_Father: {fileID: 882227390}
   m_RootOrder: 5
+--- !u!65 &1715806933
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 6530154, guid: 41e7592d34820a2439ba5cd78e942c28,
+    type: 2}
+  m_PrefabInternal: {fileID: 1394999541}
+  m_GameObject: {fileID: 1715806931}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: .899999976, y: 1, z: .0500000007}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1715806934
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31413,12 +31868,11 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 33f7b2538854c4a038736f0843e45369, type: 3}
   - {fileID: 2800000, guid: 5515a1eaaf17a443b868baa728148f6f, type: 3}
   - {fileID: 2800000, guid: adf30741ecf4b478d92f3bd5041f727a, type: 3}
-  ownerNumber: 0
+  GameSkills: []
   currentTile: {fileID: 0}
-  YellowOutlines: {fileID: 0}
+  ownerNumber: 0
   Damage: 0
-  bgImage: {fileID: 2800000, guid: bd00a143b50b5964e80272405ab41b17, type: 3}
-  fgImage: {fileID: 2800000, guid: 0648d50748bd8b74884e747e292662bb, type: 3}
+  neighbors: []
   progress_empty:
     m_Name: 
     m_Normal:
@@ -31537,10 +31991,10 @@ MonoBehaviour:
     m_FixedHeight: 0
     m_StretchWidth: 1
     m_StretchHeight: 0
+  bgImage: {fileID: 2800000, guid: bd00a143b50b5964e80272405ab41b17, type: 3}
+  fgImage: {fileID: 2800000, guid: 0648d50748bd8b74884e747e292662bb, type: 3}
   AttackAnim: {fileID: 145750, guid: cd7ff7c5c68a9b645935252080c8b9a4, type: 2}
-  Outline: {fileID: 2100000, guid: acc7a47f3e4c6c541b9199e08060fd0e, type: 2}
-  Default: {fileID: 2100000, guid: f1179e4fdf2334e7d989ddb2c05f7ce7, type: 2}
-  neighbors: []
+  YellowOutlines: {fileID: 0}
 --- !u!1 &1838023064
 GameObject:
   m_ObjectHideFlags: 0
@@ -31701,6 +32155,7 @@ GameObject:
   - 33: {fileID: 1846796683}
   - 23: {fileID: 1846796682}
   - 114: {fileID: 1846796681}
+  - 65: {fileID: 1846796680}
   m_Layer: 0
   m_Name: Skill4Area
   m_TagString: Untagged
@@ -31723,6 +32178,19 @@ Transform:
   - {fileID: 1042984026}
   m_Father: {fileID: 1845307098}
   m_RootOrder: 7
+--- !u!65 &1846796680
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 6530158, guid: 41e7592d34820a2439ba5cd78e942c28,
+    type: 2}
+  m_PrefabInternal: {fileID: 1133550581}
+  m_GameObject: {fileID: 1846796678}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: .899999976, y: 1, z: .0500000007}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1846796681
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32217,6 +32685,7 @@ GameObject:
   - 33: {fileID: 1870078227}
   - 23: {fileID: 1870078226}
   - 114: {fileID: 1870078225}
+  - 65: {fileID: 1870078224}
   m_Layer: 0
   m_Name: Skill4Area
   m_TagString: Untagged
@@ -32239,6 +32708,19 @@ Transform:
   - {fileID: 1673379942}
   m_Father: {fileID: 2052199026}
   m_RootOrder: 7
+--- !u!65 &1870078224
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 6530158, guid: 41e7592d34820a2439ba5cd78e942c28,
+    type: 2}
+  m_PrefabInternal: {fileID: 1573824440}
+  m_GameObject: {fileID: 1870078222}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: .899999976, y: 1, z: .0500000007}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1870078225
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33165,6 +33647,7 @@ GameObject:
   - 33: {fileID: 1925307167}
   - 23: {fileID: 1925307166}
   - 114: {fileID: 1925307165}
+  - 65: {fileID: 1925307164}
   m_Layer: 0
   m_Name: Skill3Area
   m_TagString: Untagged
@@ -33187,6 +33670,19 @@ Transform:
   - {fileID: 480894408}
   m_Father: {fileID: 882227390}
   m_RootOrder: 6
+--- !u!65 &1925307164
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 6530156, guid: 41e7592d34820a2439ba5cd78e942c28,
+    type: 2}
+  m_PrefabInternal: {fileID: 1394999541}
+  m_GameObject: {fileID: 1925307162}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: .899999976, y: 1, z: .0500000007}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1925307165
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33240,6 +33736,7 @@ GameObject:
   - 33: {fileID: 1925604782}
   - 23: {fileID: 1925604781}
   - 114: {fileID: 1925604780}
+  - 65: {fileID: 1925604779}
   m_Layer: 0
   m_Name: Skill3Area
   m_TagString: Untagged
@@ -33262,6 +33759,19 @@ Transform:
   - {fileID: 970076005}
   m_Father: {fileID: 1230974152}
   m_RootOrder: 6
+--- !u!65 &1925604779
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 6530156, guid: 41e7592d34820a2439ba5cd78e942c28,
+    type: 2}
+  m_PrefabInternal: {fileID: 652553307}
+  m_GameObject: {fileID: 1925604777}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: .899999976, y: 1, z: .0500000007}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1925604780
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33446,6 +33956,7 @@ GameObject:
   - 33: {fileID: 1932354386}
   - 23: {fileID: 1932354385}
   - 114: {fileID: 1932354384}
+  - 65: {fileID: 1932354383}
   m_Layer: 0
   m_Name: Skill2Area
   m_TagString: Untagged
@@ -33468,6 +33979,19 @@ Transform:
   - {fileID: 1284690687}
   m_Father: {fileID: 228839288}
   m_RootOrder: 5
+--- !u!65 &1932354383
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 6530154, guid: 41e7592d34820a2439ba5cd78e942c28,
+    type: 2}
+  m_PrefabInternal: {fileID: 2146634931}
+  m_GameObject: {fileID: 1932354381}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: .899999976, y: 1, z: .0500000007}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1932354384
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34831,6 +35355,7 @@ GameObject:
   - 33: {fileID: 2049964997}
   - 23: {fileID: 2049964996}
   - 114: {fileID: 2049964995}
+  - 65: {fileID: 2049964994}
   m_Layer: 0
   m_Name: Skill2Area
   m_TagString: Untagged
@@ -34853,6 +35378,19 @@ Transform:
   - {fileID: 1175632450}
   m_Father: {fileID: 2096443705}
   m_RootOrder: 5
+--- !u!65 &2049964994
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 6530154, guid: 41e7592d34820a2439ba5cd78e942c28,
+    type: 2}
+  m_PrefabInternal: {fileID: 1070387318}
+  m_GameObject: {fileID: 2049964992}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: .899999976, y: 1, z: .0500000007}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &2049964995
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35788,6 +36326,7 @@ GameObject:
   - 33: {fileID: 2121900161}
   - 23: {fileID: 2121900160}
   - 114: {fileID: 2121900159}
+  - 65: {fileID: 2121900158}
   m_Layer: 0
   m_Name: Skill3Area
   m_TagString: Untagged
@@ -35810,6 +36349,19 @@ Transform:
   - {fileID: 1148183999}
   m_Father: {fileID: 1845307098}
   m_RootOrder: 6
+--- !u!65 &2121900158
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 6530156, guid: 41e7592d34820a2439ba5cd78e942c28,
+    type: 2}
+  m_PrefabInternal: {fileID: 1133550581}
+  m_GameObject: {fileID: 2121900156}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: .899999976, y: 1, z: .0500000007}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &2121900159
 MonoBehaviour:
   m_ObjectHideFlags: 0
