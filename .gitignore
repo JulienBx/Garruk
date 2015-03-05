@@ -61,3 +61,14 @@ $RECYCLE.BIN/
 *.msi
 *.msm
 *.msp
+garruk_Data/level4
+garruk_Data/mainData
+garruk_Data/Managed/Assembly-CSharp-firstpass.dll
+garruk_Data/output_log.txt
+garruk_Data/resources.assets
+garruk_Data/sharedassets5.assets
+garruk_Data/sharedassets7.assets
+garruk_Data/sharedassets5.assets
+*.assets
+garruk_Data/sharedassets3.assets
+garruk_Data/Managed/Assembly-CSharp-firstpass.dll

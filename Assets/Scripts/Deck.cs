@@ -12,7 +12,6 @@ public class Deck
 	public string OwnerUsername;                                // Username de la personne possédant le deck
 
 	private string URLCards = ApplicationModel.host + "get_cards_by_deck_by_user.php";
-	//private string URLSelectedDeck = ApplicationModel.host + "get_selected_deck_by_username.php";
 	private string URLSelectedDeck = ApplicationModel.host + "get_selected_deck_by_username.php";
 	//private string URLCards = "http://localhost/GarrukServer/get_cards_by_deck.php";
 

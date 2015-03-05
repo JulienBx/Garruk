@@ -18,7 +18,7 @@ public class DeckBuilder : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		//StartCoroutine(RetrieveCardsFromDeck()); 							// Appel de la coroutine pour récupérer les cartes de l'utilisateur sur le serveur distant		
+		//StartCoroutine(RetrieveCardsFromDeck()); 			
 	}
 	
 	// Update is called once per frame
@@ -88,8 +88,6 @@ public class DeckBuilder : MonoBehaviour {
 			}
 		}
 	}
-
-
 
 	private void AddCard(int index, Card card)
 	{

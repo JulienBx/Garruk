@@ -1,22 +1,59 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
 public class myGameScript : MonoBehaviour {
+
+	#region variables
+
+	//URL des fichiers PHP appelés par cette classe
 	private string URLGetDecks = "http://54.77.118.214/GarrukServer/get_decks_by_user.php";
 	private string URLGetCardsByDeck = "http://54.77.118.214/GarrukServer/get_cards_by_deck.php";
-//	private string URLGetCardsFullByDeck = "http://localhost/GarrukServer/get_cards_full_by_deck.php";
 	private string URLGetMyCardsPage = "http://54.77.118.214/GarrukServer/get_mycardspage_data.php";
+	private string URLAddNewDeck = "http://54.77.118.214/GarrukServer/add_new_deck.php";
+	private string URLDeleteDeck = "http://54.77.118.214/GarrukServer/delete_deck.php";
+	private string URLEditDeck = "http://54.77.118.214/GarrukServer/update_deck_name.php";
 
-	private IList<Deck> myDecks;
-	private bool isDeckEnabled = false ;
+	//La fonction pour charger les decks est-elle terminée ?
+	private bool areDecksRetrived = false ;
+	//GUIStyle du titre de la zone de gestion des decks
+	public GUIStyle decksTitleStyle ;
+	string decksTitle ;
+	//GUIStyle du bouton d'ajout de deck
+	public GUIStyle myNewDeckButton ;
+	//Texte du bouton d'ajout de deck
+	private string myNewDeckButtonTitle ;
+	//Images du bouton en mode smartphone
+	public Texture2D backNewDeckButton ;
+	public Texture2D backHoveredNewDeckButton ;
+	//Images du bouton en mode normal
 	public Texture2D backButton ;
-	public Texture2D backCard ;
 	public Texture2D backActivatedButton ;
+	//Le style et les dimensions de la pop up qui s'affiche au centre de l'écran
+	public GUIStyle centralWindowStyle ;
+	Rect centralWindow ;
+	public GUIStyle centralWindowTitleStyle ;
+	public GUIStyle centralWindowTextFieldStyle ;
+	public GUIStyle centralWindowButtonStyle ;
+	public GUIStyle deckStyle ;
+	public GUIStyle deckChosenStyle ;
+	public GUIStyle mySuppressButtonStyle ;
+	public GUIStyle myEditButtonStyle ;
+	public GUIStyle textDeckStyle ;
+
+	//Si l'utilisateur sélectionne une action (edit ou suppress) sur un des deck, donne à cette variable l'ID du deck en question
+	int IDDeckToEdit = -1;
+
+	Rect rectDeck ;
+
+	#endregion
+
+	#region variablesAClasser
+	private IList<Deck> myDecks;
+	public Texture2D backCard ;
 	GameObject myDecksPanel ;
 	GUIStyle[] myDecksGuiStyle ;
 	GUIStyle[] paginatorGuiStyle;
-	public GUIStyle mySuppressButton ;
 	private int chosenDeck = 0 ;
 	private int chosenIdDeck ;
 	private int chosenPage ;
@@ -40,7 +77,6 @@ public class myGameScript : MonoBehaviour {
 	private string valueSkill="";
 	bool isSkillToDisplay = false ;
 	bool isSkillChosen = false ;
-	GUIStyle mesDecksTitleStyle;
 	GUIStyle smallPoliceStyle;
 	GUIStyle monLoaderStyle;
 	float minLifeVal = 0;
@@ -72,6 +108,12 @@ public class myGameScript : MonoBehaviour {
 	bool toReload = false ;
 	bool recalculeFiltres = false;
 	bool confirmSuppress ;
+	Vector2 scrollPosition = new Vector2(0,0) ;
+	bool displayCreationDeckWindow  = false ;
+	string tempText = "Nouveau deck" ;
+
+
+	int deckToEdit = -1;
 
 	GameObject[] displayedCards ;
 	GameObject[] displayedDeckCards ;
@@ -80,8 +122,17 @@ public class myGameScript : MonoBehaviour {
 	GameObject zoomedCard = null;
 	bool cardIsMoving = false;
 	Vector3 destination;
-	float speed =55f;
-	
+	Vector3 destinationScale;
+	Vector3 origin;
+	float speed = 55f;
+	RaycastHit hit;
+	Ray ray ;
+
+	int idCardHovered = -1 ;
+	int selectedCard = -1 ;
+
+	#endregion
+
 	void Update () {
 		
 		if (Screen.width != widthScreen || Screen.height != heightScreen) {
@@ -97,105 +148,272 @@ public class myGameScript : MonoBehaviour {
 			StartCoroutine(this.displayPage ());
 			toReload = false ;
 		}
-		
-		if (Input.GetMouseButtonDown(0)) {
-			
-			RaycastHit hit;
-			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+		if (idCardHovered == -1) {
+			ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 			
 			if(Physics.Raycast(ray, out hit))
 			{
 				if (hit.collider.name.StartsWith("Card") || hit.collider.name.StartsWith("DeckCard") || hit.collider.name.StartsWith("Skill")){
-					
-					if (zoomedCard != null)
-						Destroy (zoomedCard);
-					
-					
-					if (hit.collider.name.StartsWith("Skill"))
-						clickedCard = GameObject.Find(hit.collider.name).transform.parent.gameObject.transform.parent.gameObject;
-					
-					else
-						clickedCard = GameObject.Find(hit.collider.name);
-					
+					if (hit.collider.name.StartsWith("Skill")){
+						clickedCard = hit.collider.gameObject.transform.parent.gameObject.transform.parent.gameObject;
+					}
+					else{
+						clickedCard = hit.collider.gameObject;
+					}
+					idCardHovered = clickedCard.GetComponent<GameCard>().Card.Id;
 					zoomedCard = Instantiate(CardObject) as GameObject;
-					zoomedCard.transform.localScale= new Vector3(1.5f,1.5f,1.5f); 
+					zoomedCard.transform.localScale= new Vector3(1f,1f,1f); 
 					zoomedCard.GetComponent<GameCard>().Card=clickedCard.GetComponent<GameCard>().Card;
-					zoomedCard.transform.localPosition=clickedCard.transform.localPosition;
+					origin = clickedCard.transform.localPosition;
+					zoomedCard.transform.localPosition=origin;
 					zoomedCard.GetComponent<GameCard>().ShowFace();
 					zoomedCard.gameObject.name = "ZoomedCard";
 					cardIsMoving = true;
-					destination = camera.ScreenToWorldPoint(new Vector3(0.1f*widthScreen,0.35f*heightScreen,0));
-					destination = new Vector3(destination.x,destination.y,-1);
-					
 				}
-				
-				
 			}
 		}
-		
-		
-		if (cardIsMoving) {
-			
-			zoomedCard.transform.position = Vector3.MoveTowards(zoomedCard.transform.position, destination, speed * Time.deltaTime);
-			
-			if(Vector3.Distance(zoomedCard.transform.position, destination) < 0.001f)
-				cardIsMoving=false;
+		else{
+			if (Input.GetMouseButtonDown(0)) {
+				if (selectedCard!=idCardHovered) {
+					selectedCard = idCardHovered;
+				}
+				else{
+					selectedCard = -1;
+				}
+			}
+			else{
+				ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+				
+				if(Physics.Raycast(ray, out hit)){
+					if (hit.collider.name.StartsWith("Card") || hit.collider.name.StartsWith("DeckCard") || hit.collider.name.StartsWith("Skill")){
+						if (hit.collider.name.StartsWith("Skill")){
+							clickedCard = hit.collider.gameObject.transform.parent.gameObject.transform.parent.gameObject;
+						}
+						else{
+							clickedCard = hit.collider.gameObject;
+						}
+						if (clickedCard.GetComponent<GameCard>().Card.Id!=idCardHovered && selectedCard==-1){
+							zoomedCard.transform.localScale= new Vector3(1f,1f,1f); 
+							zoomedCard.GetComponent<GameCard>().Card=clickedCard.GetComponent<GameCard>().Card;
+							origin = clickedCard.transform.localPosition;
+							zoomedCard.transform.localPosition=origin;
+							zoomedCard.GetComponent<GameCard>().ShowFace();
+							zoomedCard.gameObject.name = "ZoomedCard";
+							cardIsMoving = true;
+
+							idCardHovered = clickedCard.GetComponent<GameCard>().Card.Id;
+						}
+					}
+				}
+			}
 		}
-		
-		if (zoomedCard!=null && !cardIsMoving) {
-			
-			zoomedCard.transform.position = destination;
-			zoomedCard.transform.localScale= new Vector3(3f,3f,3f); 
+
+		if (cardIsMoving) {
+			zoomedCard.transform.position = Vector3.MoveTowards(zoomedCard.transform.position, destination, speed * Time.deltaTime);
+			float percentageDistance = 1f-(Vector3.Distance(zoomedCard.transform.position, destination)/Vector3.Distance(origin, destination));
+			zoomedCard.transform.localScale = new Vector3(destinationScale.x*percentageDistance, destinationScale.y*percentageDistance,destinationScale.z*percentageDistance) ;
+			if(Vector3.Distance(zoomedCard.transform.position, destination) < 0.001f){
+				cardIsMoving=false;
+			}
 		}
 	}
 
 	void Start() {
-		StartCoroutine(RetrieveDecks()); 
 		StartCoroutine(setStyles());
-
+		StartCoroutine(RetrieveDecks()); 
+		
 		filtersCardType = new List<int> ();
 		StartCoroutine(getCards()); 
 	}
 
 	void OnGUI()
 	{
-		if (isDeckEnabled) {
-//			if (confirmSuppress){
-//				if (GUILayout.Button(myDecks[i].Name+" ("+myDecks[i].NbCards+")",myDecksGuiStyle[i])){
-//				}
-//			}
+		if (areDecksRetrived) {
+			float heightDeckElements = heightScreen/30f;
 
-			GUILayout.BeginArea(new Rect(widthScreen * 0.01f,0.12f*heightScreen,widthScreen * 0.18f,0.17f*heightScreen));
-			{
-				GUILayout.BeginVertical(); // also can put width in here
-				{
-					GUILayout.Label("Mes decks",mesDecksTitleStyle,GUILayout.Height(heightScreen/30));
-					GUILayout.Space(5);
-					for(int i = 0 ; i < myDecks.Count ; i++){	
-
+			if (IDDeckToEdit!=-1) {
+				if(Event.current.keyCode==KeyCode.Escape) {
+					IDDeckToEdit=-1;
+					tempText = "Nouveau deck";
+				}
+				else if(Event.current.keyCode==KeyCode.Return) {
+					StartCoroutine(this.deleteDeck());
+					tempText = "Nouveau deck";
+					IDDeckToEdit=-1;
+				}
+				else{
+					GUILayout.BeginArea(centralWindow);
+					{
+						GUILayout.BeginVertical(centralWindowStyle);
+						{
+							GUILayout.Label("Voulez-vous supprimer le deck ?"+tempText, decksTitleStyle, GUILayout.Width(0.40f*widthScreen), GUILayout.Height(0.04f*heightScreen));
 							GUILayout.BeginHorizontal();
 							{
-							if (GUILayout.Button(myDecks[i].Name+" ("+myDecks[i].NbCards+")",myDecksGuiStyle[i])) // also can put width here
+								GUILayout.Space(0.01f*widthScreen);
+								if (GUILayout.Button("Confirmer la suppression",myNewDeckButton, GUILayout.Width(0.18f*widthScreen), GUILayout.Height(0.03f*heightScreen))) // also can put width here
+								{
+									StartCoroutine(this.deleteDeck());
+									tempText = "Nouveau deck";
+									IDDeckToEdit=-1;
+								}
+								GUILayout.Space(0.02f*widthScreen);
+								if (GUILayout.Button("Annuler",myNewDeckButton, GUILayout.Width(0.18f*widthScreen), GUILayout.Height(0.03f*heightScreen))) // also can put width here
+								{
+									displayCreationDeckWindow = false ; 
+									IDDeckToEdit=-1;
+								}
+								GUILayout.Space(0.01f*widthScreen);
+							}
+							GUILayout.EndHorizontal();
+							GUILayout.Space(0.01f*heightScreen);
+						}
+						GUILayout.EndVertical();
+					}
+					GUILayout.EndArea();
+				}
+			}
+			if (displayCreationDeckWindow) {
+
+				if(Event.current.keyCode==KeyCode.Escape) {
+					displayCreationDeckWindow = false ;
+					tempText = "Nouveau deck";
+				}
+				else if(Event.current.keyCode==KeyCode.Return) {
+					StartCoroutine(this.addDeck());
+					tempText = "Nouveau deck";
+					displayCreationDeckWindow = false ;
+				}
+				else{
+					GUILayout.BeginArea(centralWindow);
+					{
+						GUILayout.BeginVertical(centralWindowStyle);
+						{
+							GUILayout.FlexibleSpace();
+							GUILayout.Label("Choisissez le nom de votre nouveau deck", centralWindowTitleStyle);
+							GUILayout.Space(0.02f*heightScreen);
+							GUILayout.BeginHorizontal();
+							{
+								GUILayout.Space(0.05f*widthScreen);
+								tempText = GUILayout.TextField(tempText, centralWindowTextFieldStyle);
+							}
+							GUILayout.EndHorizontal();
+							GUILayout.Space(0.02f*heightScreen);
+							GUILayout.BeginHorizontal();
+							{
+								GUILayout.Space(0.03f*widthScreen);
+								if (GUILayout.Button("Creer le deck",this.centralWindowButtonStyle)) // also can put width here
+								{
+									StartCoroutine(this.addDeck());
+									tempText = "Nouveau deck";
+									displayCreationDeckWindow = false ;
+								}
+								GUILayout.Space(0.04f*widthScreen);
+								if (GUILayout.Button("Annuler",this.centralWindowButtonStyle)) // also can put width here
+								{
+									displayCreationDeckWindow = false ; 
+									tempText = "Nouveau deck";
+								}
+								GUILayout.Space(0.03f*widthScreen);
+							}
+							GUILayout.EndHorizontal();
+							GUILayout.FlexibleSpace();
+						}
+						GUILayout.EndVertical();
+					}
+					GUILayout.EndArea();
+				}
+			}
+			if (deckToEdit!=-1) {
+				
+				if(Event.current.keyCode==KeyCode.Escape) {
+					deckToEdit=-1;
+					tempText = "Nouveau deck";
+				}
+				else if(Event.current.keyCode==KeyCode.Return) {
+					StartCoroutine(this.editDeck());
+					tempText = "Nouveau deck";
+					deckToEdit=-1;
+				}
+				else{
+					GUILayout.BeginArea(centralWindow);
+					{
+						GUILayout.BeginVertical(centralWindowStyle);
+						{
+							GUILayout.Label("Modifiez le nom de votre deck", decksTitleStyle, GUILayout.Width(0.40f*widthScreen), GUILayout.Height(0.04f*heightScreen));
+							tempText = GUILayout.TextField(tempText, GUILayout.Width(0.39f*widthScreen), GUILayout.Height(0.04f*heightScreen));
+							GUILayout.BeginHorizontal();
+							{
+								GUILayout.Space(0.01f*widthScreen);
+								if (GUILayout.Button("Modifier",myNewDeckButton, GUILayout.Width(0.18f*widthScreen), GUILayout.Height(0.03f*heightScreen))) // also can put width here
+								{
+									StartCoroutine(this.editDeck());
+									tempText = "Nouveau deck";
+									deckToEdit=-1;
+								}
+								GUILayout.Space(0.02f*widthScreen);
+								if (GUILayout.Button("Annuler",myNewDeckButton, GUILayout.Width(0.18f*widthScreen), GUILayout.Height(0.03f*heightScreen))) // also can put width here
+								{
+									deckToEdit=-1; 
+									tempText = "Nouveau deck";
+								}
+								GUILayout.Space(0.01f*widthScreen);
+							}
+							GUILayout.EndHorizontal();
+							GUILayout.Space(0.01f*heightScreen);
+						}
+						GUILayout.EndVertical();
+					}
+					GUILayout.EndArea();
+				}
+			}
+			GUILayout.BeginArea(rectDeck);
+			{
+				GUILayout.BeginVertical();
+				{
+					GUILayout.BeginHorizontal();
+					{
+						GUILayout.Label(decksTitle,decksTitleStyle);
+						GUILayout.FlexibleSpace();
+						if (GUILayout.Button(myNewDeckButtonTitle, myNewDeckButton)){
+							displayCreationDeckWindow = true ;
+						}
+					}
+					GUILayout.EndHorizontal();
+
+					GUILayout.Space(0.005f*heightScreen);
+
+					scrollPosition = GUILayout.BeginScrollView(scrollPosition);
+
+					for(int i = 0 ; i < myDecks.Count ; i++){	
+						GUILayout.BeginHorizontal(myDecksGuiStyle[i]);
+							{
+							if (GUILayout.Button("("+myDecks[i].NbCards+") "+myDecks[i].Name,textDeckStyle)) // also can put width here
 							{
 								if (chosenDeck != i){
-									myDecksGuiStyle[chosenDeck].normal.background=backButton;
-									myDecksGuiStyle[chosenDeck].normal.textColor=Color.black;
+									myDecksGuiStyle[chosenDeck]=this.deckStyle;
 									chosenDeck = i;
-									myDecksGuiStyle[i].normal.background=backActivatedButton;
-									myDecksGuiStyle[i].normal.textColor=Color.white;
+									myDecksGuiStyle[i]=this.deckChosenStyle;
 									chosenIdDeck=myDecks[i].Id;
 								}
 							}
-								GUILayout.Space(10);
-							if (GUILayout.Button("",mySuppressButton,GUILayout.Width (heightScreen/30), GUILayout.Height(heightScreen/30))) // also can put width here
+							GUILayout.Space(0.01f*widthScreen);
+							if (GUILayout.Button("",myEditButtonStyle)) // also can put width here
+							{
+								tempText = myDecks[i].Name;
+								deckToEdit = myDecks[i].Id;
+							}
+						
+							GUILayout.Space(0.01f*widthScreen);
+							if (GUILayout.Button("",mySuppressButtonStyle)) // also can put width here
 								{
-							
+								IDDeckToEdit = myDecks[i].Id;
 								}
 							}
 							GUILayout.EndHorizontal();
-						
-						GUILayout.Space(1);
-					}
+						}
+
+					GUILayout.EndScrollView();
 				}
 				GUILayout.EndVertical();
 			}
@@ -215,15 +433,8 @@ public class myGameScript : MonoBehaviour {
 		else {
 			if (isDisplayedCards){
 				isDisplayedCards=false ;
-				GUI.skin.toggle.normal.textColor = Color.gray;
-				GUI.skin.toggle.onNormal.textColor = Color.black;
-				GUI.skin.toggle.onHover.textColor = Color.blue;
-				GUI.skin.toggle.hover.textColor = Color.blue;
-				GUI.skin.toggle.fontSize = 10;
-				GUI.skin.toggle.alignment = TextAnchor.LowerLeft;
 				createCards();
 				createDeckCards();
-
 			}
 
 			for (int i = 0 ; i < nbPages ; i++){
@@ -243,7 +454,7 @@ public class myGameScript : MonoBehaviour {
 				string tempString ;
 				GUILayout.BeginVertical();
 				{
-					GUILayout.Label ("Filtrer par classe",mesDecksTitleStyle,GUILayout.Height(20));
+					GUILayout.Label ("Filtrer par classe",decksTitleStyle,GUILayout.Height(20));
 					GUILayout.Space(-5);
 					for (int i=0; i<this.cardTypeList.Length-1; i++) {		
 						toggle = GUILayout.Toggle (togglesCurrentStates [i], this.cardTypeList[i],GUILayout.Height(16));
@@ -262,7 +473,7 @@ public class myGameScript : MonoBehaviour {
 					}
 						
 					GUILayout.Space(8);
-					GUILayout.Label ("Filtrer une compétence",mesDecksTitleStyle,GUILayout.Height(20));
+					GUILayout.Label ("Filtrer une compétence",decksTitleStyle,GUILayout.Height(20));
 					GUILayout.Space(-5);
 					tempString = GUILayout.TextField (this.valueSkill, GUILayout.Height(18));
 					if (tempString != valueSkill) {
@@ -296,7 +507,7 @@ public class myGameScript : MonoBehaviour {
 						
 					GUILayout.Space(5);
 						
-					GUILayout.Label ("Filtrer par points de vie",mesDecksTitleStyle,GUILayout.Height(20));
+					GUILayout.Label ("Filtrer par points de vie",decksTitleStyle,GUILayout.Height(20));
 					GUILayout.Space(-1);
 					GUILayout.BeginHorizontal();
 					{
@@ -310,7 +521,7 @@ public class myGameScript : MonoBehaviour {
 
 					GUILayout.Space(5);
 					
-					GUILayout.Label ("Filtrer par pts d'attaque",mesDecksTitleStyle,GUILayout.Height(20));
+					GUILayout.Label ("Filtrer par pts d'attaque",decksTitleStyle,GUILayout.Height(20));
 					GUILayout.Space(-1);
 					GUILayout.BeginHorizontal();
 					{
@@ -324,7 +535,7 @@ public class myGameScript : MonoBehaviour {
 
 					GUILayout.Space(5);
 					
-					GUILayout.Label ("Filtrer par déplacement",mesDecksTitleStyle,GUILayout.Height(20));
+					GUILayout.Label ("Filtrer par déplacement",decksTitleStyle,GUILayout.Height(20));
 					GUILayout.Space(-1);
 					GUILayout.BeginHorizontal();
 					{
@@ -338,7 +549,7 @@ public class myGameScript : MonoBehaviour {
 
 					GUILayout.Space(5);
 					
-					GUILayout.Label ("Filtrer par rapidité",mesDecksTitleStyle,GUILayout.Height(20));
+					GUILayout.Label ("Filtrer par rapidité",decksTitleStyle,GUILayout.Height(20));
 					GUILayout.Space(-1);
 					GUILayout.BeginHorizontal();
 					{
@@ -403,16 +614,133 @@ public class myGameScript : MonoBehaviour {
 		}
 	}
 
+	private IEnumerator addDeck() {
+		WWWForm form = new WWWForm(); 								// Création de la connexion
+		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
+		form.AddField("myform_nick", ApplicationModel.username); 	// Pseudo de l'utilisateur connecté
+		form.AddField("myform_name", tempText);
+
+		WWW w = new WWW(URLAddNewDeck, form); 								// On envoie le formulaire à l'url sur le serveur 
+		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
+		if (w.error != null) {
+			print (w.error); 										// donne l'erreur eventuelle
+		} else {
+			print (w.text);
+			StartCoroutine(RetrieveDecks()); 
+			StartCoroutine(clearDeckCards());
+			this.createDeckCards();
+		}
+	}
+
+	private IEnumerator deleteDeck() {
+		WWWForm form = new WWWForm(); 								// Création de la connexion
+		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
+		form.AddField("myform_nick", ApplicationModel.username); 	// Pseudo de l'utilisateur connecté
+		form.AddField("myform_id", IDDeckToEdit);
+		
+		WWW w = new WWW(URLDeleteDeck, form); 								// On envoie le formulaire à l'url sur le serveur 
+		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
+		if (w.error != null) {
+			print (w.error); 										// donne l'erreur eventuelle
+		} else {
+			print (w.text);
+			StartCoroutine(RetrieveDecks()); 
+			StartCoroutine(clearDeckCards());
+			this.createDeckCards();
+		}
+	}
+
+	private IEnumerator editDeck() {
+		WWWForm form = new WWWForm(); 								// Création de la connexion
+		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
+		form.AddField("myform_nick", ApplicationModel.username); 	// Pseudo de l'utilisateur connecté
+		form.AddField("myform_id", this.deckToEdit);
+		form.AddField("myform_name", this.tempText);
+		
+		WWW w = new WWW(URLEditDeck, form); 								// On envoie le formulaire à l'url sur le serveur 
+		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
+		if (w.error != null) {
+			print (w.error); 										// donne l'erreur eventuelle
+		} else {
+			print (w.text);
+			StartCoroutine(RetrieveDecks()); 
+			StartCoroutine(clearDeckCards());
+			this.createDeckCards();
+		}
+	}
+
 	private IEnumerator setStyles() {
 
 		heightScreen = Screen.height;
 		widthScreen = Screen.width;
 
-		this.mesDecksTitleStyle = new GUIStyle ();
-		mesDecksTitleStyle.normal.textColor = Color.black;
-		mesDecksTitleStyle.fontSize = heightScreen/40;
-		mesDecksTitleStyle.alignment = TextAnchor.MiddleCenter;
-		
+		if (heightScreen < widthScreen) {
+			this.decksTitleStyle.fontSize = heightScreen*2/100;
+			this.decksTitleStyle.fixedHeight = (int)heightScreen*3/100;
+			this.decksTitleStyle.fixedWidth = (int)widthScreen*9/100;
+			this.decksTitle = "Mes decks";
+
+			this.myNewDeckButton.fontSize = heightScreen*2/100;
+			this.myNewDeckButton.fixedHeight = heightScreen*3/100;
+			this.myNewDeckButton.fixedWidth = widthScreen*9/100;
+			this.myNewDeckButton.normal.background = this.backButton ;
+			this.myNewDeckButton.hover.background = this.backActivatedButton ;
+			this.myNewDeckButtonTitle = "Nouveau";
+
+			this.centralWindow = new Rect (widthScreen * 0.25f, 0.12f * heightScreen, widthScreen * 0.50f, 0.18f * heightScreen);
+			this.centralWindowTitleStyle.fontSize = heightScreen*2/100;
+			this.centralWindowTitleStyle.fixedHeight = heightScreen*3/100;
+			this.centralWindowTitleStyle.fixedWidth = widthScreen*5/10;
+
+			this.centralWindowTextFieldStyle.fontSize = heightScreen*2/100;
+			this.centralWindowTextFieldStyle.fixedHeight = heightScreen*3/100;
+			this.centralWindowTextFieldStyle.fixedWidth = widthScreen*4/10;
+
+			this.centralWindowButtonStyle.fontSize = heightScreen*2/100;
+			this.centralWindowButtonStyle.fixedHeight = heightScreen*3/100;
+			this.centralWindowButtonStyle.fixedWidth = widthScreen*2/10;
+
+			rectDeck = new Rect (widthScreen * 0.005f, 0.105f * heightScreen, widthScreen * 0.19f, 0.21f * heightScreen);
+
+			this.deckStyle.fixedHeight = heightScreen*3/100;
+			this.deckStyle.fixedWidth = widthScreen*19/100;
+
+			this.deckChosenStyle.fixedHeight = heightScreen*3/100;
+			this.deckChosenStyle.fixedWidth = widthScreen*19/100;
+
+			this.textDeckStyle.fontSize = heightScreen*2/100;
+			this.textDeckStyle.fixedHeight = heightScreen*3/100;
+			this.textDeckStyle.fixedWidth = widthScreen*19/100;
+
+			this.myEditButtonStyle.fixedHeight = heightScreen*2/100;
+			this.myEditButtonStyle.fixedWidth = heightScreen*2/100;
+
+			this.mySuppressButtonStyle.fixedHeight = heightScreen*2/100;
+			this.mySuppressButtonStyle.fixedWidth = heightScreen*2/100;
+		}
+		else{
+			this.decksTitleStyle.fontSize = heightScreen*2/100;
+			this.decksTitleStyle.fixedHeight = heightScreen*3/100;
+			this.decksTitleStyle.fixedWidth = widthScreen*12/100;
+			this.decksTitle = "Decks";
+			
+			this.myNewDeckButton.fontSize = heightScreen*2/100;
+			this.myNewDeckButton.fixedHeight = heightScreen*3/100;
+			this.myNewDeckButton.fixedWidth = heightScreen*3/100;
+			this.myNewDeckButton.normal.background = this.backNewDeckButton ;
+			this.myNewDeckButton.hover.background = this.backHoveredNewDeckButton ;
+			this.myNewDeckButtonTitle = "";
+
+			this.centralWindow = new Rect (widthScreen * 0.10f, 0.10f * heightScreen, widthScreen * 0.80f, 0.80f * heightScreen);
+			this.centralWindowTitleStyle.fontSize = heightScreen*2/100;
+			this.centralWindowTitleStyle.fixedHeight = heightScreen*3/100;
+			this.centralWindowTitleStyle.fixedWidth = widthScreen*5/10;
+
+			this.centralWindowTextFieldStyle.fontSize = heightScreen*1/100;
+			this.centralWindowTextFieldStyle.fixedHeight = heightScreen*3/100;
+			this.centralWindowTextFieldStyle.fixedWidth = widthScreen*7/10;
+		}
+
 		this.monLoaderStyle = new GUIStyle ();
 		monLoaderStyle.normal.textColor = Color.black;
 		monLoaderStyle.alignment = TextAnchor.MiddleCenter;
@@ -429,19 +757,18 @@ public class myGameScript : MonoBehaviour {
 		myStyle.alignment = TextAnchor.MiddleCenter;
 		myStyle.normal.background = this.backButton;
 
-		if (myDecksGuiStyle != null) {
-			print ("je resize");
-			for (int i = 0; i < myDecksGuiStyle.Length; i++) {
-				this.myDecksGuiStyle [i].fontSize = heightScreen / 40;
-			}
-		}
-		
-//		mySuppressButton = new GUIStyle();
-//		mySuppressButton.margin=new RectOffset(0,0,0,0);
-//		mySuppressButton.alignment= TextAnchor.MiddleCenter;
-//		mySuppressButton.normal.background=suppressButton;
-//		 mySuppressButton.normal.background.wrapMode = TextureWrapMode.Repeat;
 
+
+		if (zoomedCard != null) {
+			print("x : "+zoomedCard.transform.localScale.x);
+			print("x : "+zoomedCard.transform);
+		}
+		//float scale = Math.min (3.5f, heigh);
+//		destinationScale = new Vector3(scale, scale, scale);
+
+//		float debutLargeur = scale/2f;
+
+//		destination = new Vector3(debutLargeur,-1f,-1);
 
 		yield break;
 	}
@@ -605,7 +932,6 @@ public class myGameScript : MonoBehaviour {
 			bool maxQuicknessBool = (maxQuicknessLimit==maxQuicknessVal);
 			bool minAttackBool = (minAttackLimit==minAttackVal);
 			bool maxAttackBool = (maxAttackLimit==maxAttackVal);
-			print ("test : "+minLifeBool);
 			minLifeLimit=10000;
 			maxLifeLimit=0;
 			minAttackLimit=10000;
@@ -808,9 +1134,6 @@ public class myGameScript : MonoBehaviour {
 			if (maxQuicknessBool || maxQuicknessVal>maxQuicknessLimit){
 				maxQuicknessVal = maxQuicknessLimit;
 			}
-			//print ("filtres recalculés");
-			//print ("minLife "+minLifeLimit);
-			//print ("maxLife "+maxLifeLimit);
 		}
 
 		nbPages = Mathf.CeilToInt(cardsToBeDisplayed.Count / (3.0f*nbCardsPerRow));
@@ -896,19 +1219,12 @@ public class myGameScript : MonoBehaviour {
 
 			for(int i = 0 ; i < decksInformation.Length - 1 ; i++) 		// On boucle sur les attributs d'un deck
 			{
-				myDecksGuiStyle[i] = new GUIStyle();
-				myDecksGuiStyle[i].margin=new RectOffset(0,0,0,0);
-				myDecksGuiStyle[i].alignment= TextAnchor.MiddleCenter;
-				myDecksGuiStyle[i].fontSize=heightScreen/40;
-
 				if (i>0){
-					myDecksGuiStyle[i].normal.background=backButton;
+					myDecksGuiStyle[i] = this.deckStyle;
 				}
 				else{
-					myDecksGuiStyle[i].normal.background=backActivatedButton;
-					myDecksGuiStyle[i].normal.textColor=Color.white;
+					myDecksGuiStyle[i] = this.deckChosenStyle;
 				}
-
 				deckInformation = decksInformation[i].Split('\\');
 				myDecks.Add(new Deck(System.Convert.ToInt32(deckInformation[0]), deckInformation[1], System.Convert.ToInt32(deckInformation[2])));
 
@@ -917,7 +1233,7 @@ public class myGameScript : MonoBehaviour {
 				}
 			}
 		}
-		isDeckEnabled = true ;
+		areDecksRetrived = true ;
 	}
 
 	private IEnumerator getCards() {
@@ -960,7 +1276,7 @@ public class myGameScript : MonoBehaviour {
 			this.cards = new List<Card>();
 			this.cardsIds = new List<int>();
 
-			for(int i = 1 ; i < cardsIDS.Length-1 ; i++){
+			for(int i = 0 ; i < cardsIDS.Length-1 ; i++){
 				cardInfo = cardsIDS[i].Split('\n');
 				for(int j = 1 ; j < cardInfo.Length-1 ; j++){
 					cardInfo2 = cardInfo[j].Split(new string[] { "\\" }, System.StringSplitOptions.None); 
@@ -978,13 +1294,13 @@ public class myGameScript : MonoBehaviour {
 						                        System.Convert.ToInt32(cardInfo2[9]), // movelevel
 						                        System.Convert.ToInt32(cardInfo2[10]), // speedlevel
 						                        System.Convert.ToInt32(cardInfo2[11]))); // attacklevel;
-						this.cards[i-1].Skills = new List<Skill>();
+						this.cards[i].Skills = new List<Skill>();
 						this.cardsIds.Add(System.Convert.ToInt32(cardInfo2[0]));
-						this.cardsToBeDisplayed.Add(i-1);
+						this.cardsToBeDisplayed.Add(i);
 					}
 					else{
 						tempInt = System.Convert.ToInt32(cardInfo2[0]);
-						this.cards[i-1].Skills.Add(new Skill (skillsList[System.Convert.ToInt32(cardInfo2[0])], 
+						this.cards[i].Skills.Add(new Skill (skillsList[System.Convert.ToInt32(cardInfo2[0])], 
 						                                      System.Convert.ToInt32(cardInfo2[0]), // idskill
 						                                      System.Convert.ToInt32(cardInfo2[1]), // isactivated
 						                                      System.Convert.ToInt32(cardInfo2[2]), // level
@@ -1088,7 +1404,7 @@ public class myGameScript : MonoBehaviour {
 		} 
 		else 
 		{
-			print(w.text); 
+			//print(w.text); 
 			int tempInt ;
 			int tempInt2 = this.cards.Count;
 			bool tempBool ;
@@ -1114,14 +1430,10 @@ public class myGameScript : MonoBehaviour {
 
 	private void createDeckCards(){
 		float tempF = 10f*widthScreen/heightScreen;
-		print (tempF);
 		float width = tempF * 0.6f;
 		float scale = Mathf.Min (1.6f, width / 6f);
-		print ("scale : "+scale);
 		float pas = (width - 5f * scale) / 6f;
-		print ("pas : "+pas);
 		float debutLargeur = -0.3f * tempF + pas + scale/2 ;
-		print ("debutLargeur : "+debutLargeur);
 
 		displayedDeckCards = new GameObject[5];
 		int nbDeckCardsToDisplay = this.deckCardsIds.Count;

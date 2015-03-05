@@ -7,12 +7,23 @@ public class buyCardsScript : MonoBehaviour {
 	public string scriptGenerateURL = null ;
 	private bool isExistingCard = false ;
 	public GameObject CardObject;
+	public Rect windowRect ;
 	GameObject instance;
 
+
+	private string URLGetMoneyByUser = "http://54.77.118.214/GarrukServer/get_money_by_user.php";
+	private string URLSellRandomCard = "http://54.77.118.214/GarrukServer/sellRandomCard.php";
+	private string URLBuyRandomCard = "http://54.77.118.214/GarrukServer/buyRandomCard.php";
+	private string URLPutOnMarket = "http://54.77.118.214/GarrukServer/putonmarket.php";
+
+
+
 	int cost;
+	string price ="";
 	float cardHeight;
 	Vector3 sellButtonPos;
 	int money;
+	bool displayPopUp=false;
 
 	// Use this for initialization
 	void Start (){
@@ -29,11 +40,12 @@ public class buyCardsScript : MonoBehaviour {
 
 		if (GUI.Button(new Rect(10, 40, 150, 20), "Me créer une carte"))
 		{
+			displayPopUp=false;
 			StartCoroutine(generateRandomCard());
 		}
 
 		if (money>0)
-		GUI.Label(new Rect(Screen.width-140-Mathf.RoundToInt(money/100), 10, 130+ Mathf.RoundToInt(money/100), 20), "Vous avez "+ money + " crédits");
+			GUI.Label(new Rect(Screen.width-(150+ money.ToString().Length*2)-20, 10, 150+ money.ToString().Length*2, 20), "Vous avez "+ money + " crédits");
 		else
 		GUI.Label(new Rect(Screen.width-150, 10, 130, 20), "Vous avez 0 crédit");
 
@@ -49,19 +61,47 @@ public class buyCardsScript : MonoBehaviour {
 
 				cardHeight=cardTopPosition.y-cardbottomPosition.y;
 
-				if (GUI.Button (new Rect(Screen.width/2-75,Screen.height/2+10+cardHeight/2, 150,20), "Vendre pour "+cost+" crédits"))
+				if (GUI.Button (new Rect(Screen.width/2-160,Screen.height/2+10+cardHeight/2, 150,20), "Vendre pour "+cost+" crédits"))
 				{
 
 					StartCoroutine(sellCard());							
-
+				
 					Destroy(GameObject.Find("Card"));
 
 				}
+
+				if (GUI.Button (new Rect(Screen.width/2+10,Screen.height/2+10+cardHeight/2, 150,20), "Vendre sur le marché"))
+					displayPopUp = true;
+
+			if (displayPopUp)
+				windowRect = GUI.Window(0, new Rect(Screen.width/2-100, Screen.height/2-50, 200, 110), DoMyWindow, "Vendre sur le marché");
 			}
 
 		}
 
 	}
+
+
+
+	void DoMyWindow(int windowID) {
+
+		GUI.Label (new Rect(10,20,180,20),"Votre prix de vente :");
+		GUI.SetNextControlName("Price");
+		price = GUI.TextField(new Rect(10,50,180,20),price, 9);
+		GUI.FocusControl("Price");
+		if (GUI.Button(new Rect(10,80,80,20), "Annuler"))
+		    displayPopUp=false;
+		if (GUI.Button(new Rect(110,80,80,20), "Confirmer")){  
+
+			StartCoroutine(putOnMarket());
+			displayPopUp = false;
+			Destroy(GameObject.Find("Card"));
+			price="";
+
+		}
+		
+	}
+
 
 	private IEnumerator getUserMoney(){
 		
@@ -69,7 +109,7 @@ public class buyCardsScript : MonoBehaviour {
 		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_nick", ApplicationModel.username);
 		
-		WWW w = new WWW("http://54.77.118.214//GarrukServer/get_money_by_user.php", form); 				// On envoie le formulaire à l'url sur le serveur 
+		WWW w = new WWW(URLGetMoneyByUser, form); 				// On envoie le formulaire à l'url sur le serveur 
 		yield return w;
 		if (w.error != null) 
 			print (w.error); 	
@@ -90,7 +130,7 @@ public class buyCardsScript : MonoBehaviour {
 		form.AddField("myform_idcard", instance.GetComponent<GameCard>().Card.Id);
 		form.AddField("myform_cost", cost);
 		
-		WWW w = new WWW("http://54.77.118.214//GarrukServer/sellRandomCard.php", form); 				// On envoie le formulaire à l'url sur le serveur 
+		WWW w = new WWW(URLSellRandomCard, form); 				// On envoie le formulaire à l'url sur le serveur 
 		yield return w;
 		if (w.error != null) 
 			print (w.error); 
@@ -103,6 +143,27 @@ public class buyCardsScript : MonoBehaviour {
 	}
 
 
+	private IEnumerator putOnMarket(){
+
+		WWWForm form = new WWWForm(); 											// Création de la connexion
+		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
+		form.AddField("myform_nick", ApplicationModel.username);
+		form.AddField("myform_idcard", instance.GetComponent<GameCard>().Card.Id);
+		form.AddField("myform_price", price);
+		form.AddField("myform_date",  System.DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss").ToString());
+		
+		WWW w = new WWW(URLPutOnMarket, form); 				// On envoie le formulaire à l'url sur le serveur 
+		yield return w;
+		if (w.error != null) 
+			print (w.error); 
+		else 
+		{
+			print(w.text); 											// donne le retour
+		}
+		
+	}
+
+	
 	private IEnumerator generateRandomCard(){
 
 		if (isExistingCard) {
@@ -116,7 +177,7 @@ public class buyCardsScript : MonoBehaviour {
 		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_nick", ApplicationModel.username);
 		
-		WWW w = new WWW("http://54.77.118.214//GarrukServer/buyRandomCard.php", form); 				// On envoie le formulaire à l'url sur le serveur 
+		WWW w = new WWW(URLBuyRandomCard, form); 				// On envoie le formulaire à l'url sur le serveur 
 		yield return w;
 		if (w.error != null) 
 		{
