@@ -30,7 +30,7 @@ public class GameHoveredCard : MonoBehaviour {
 		gameCard.Card = card.Card;
 		gameCard.ownerNumber = card.ownerNumber;
 		changeStats();
-		gameCard.ShowFace();
+
 	}
 
 	public void hide()
@@ -41,16 +41,16 @@ public class GameHoveredCard : MonoBehaviour {
 	public void changeStats()
 	{
 		Transform attackText = transform.Find("Icons/Attack/Value");
-		attackText.GetComponent<TextMesh>().text = this.gameCard.Card.Attack.ToString();
+		attackText.GetComponent<TextMesh>().text = this.gameCard.Card.GetAttack().ToString();
 
 		//Transform energyText = transform.Find("Icons/Energy/Value");
 		//energyText.GetComponent<TextMesh>().text = this.gameCard.Card.Energy.ToString();
 
 		Transform moveText = transform.Find("Icons/Move/Value");
-		moveText.GetComponent<TextMesh>().text = this.gameCard.Card.Move.ToString();
+		moveText.GetComponent<TextMesh>().text = this.gameCard.Card.GetMove().ToString();
 
 		Transform speedText = transform.Find("Icons/Speed/Value");
-		speedText.GetComponent<TextMesh>().text = this.gameCard.Card.Speed.ToString();
+		speedText.GetComponent<TextMesh>().text = this.gameCard.Card.GetSpeed().ToString();
 
 		
 
@@ -68,5 +68,6 @@ public class GameHoveredCard : MonoBehaviour {
 				skillText.GetComponent<TextMesh>().text = skill.Name;
 			}
 		}
+		gameCard.ShowFace();
 	}
 }

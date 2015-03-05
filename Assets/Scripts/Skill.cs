@@ -7,10 +7,16 @@ public class Skill
 	public int Id;
 	public int IsActivated;
 	public int Level;
+	
 	public int Power;
 	public int ManaCost;
 	public string Description;
-
+	public string ResourceName;
+	
+	public Skill(string name, int id, int isactivated, int level, int power, int manaCost, string description, string resourceName) : this(name, id, isactivated, level, power, manaCost, description)
+	{
+		this.ResourceName = resourceName;
+	}
 	public Skill(string name, int id, int isactivated, int level, int power, int manaCost, string description)
 	{
 		this.Name = name;
@@ -21,7 +27,7 @@ public class Skill
 		this.ManaCost = manaCost;
 		this.Description = description;
 	}
-
+	
 	public Skill(string name, int id, int isactivated, int level, int power, int manaCost)
 	{
 		this.Name = name;
@@ -30,13 +36,16 @@ public class Skill
 		this.Level = level;
 		this.Power = power;
 		this.ManaCost = manaCost;
-
+		
 	}
 
 	public Skill(string name)
 	{
 		this.Name = name;
 	}
+	public Skill() {
+	}
+	
 }
 
 

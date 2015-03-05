@@ -5,19 +5,23 @@ public class GamePlayingCard : Photon.MonoBehaviour {
 	
 	public static GamePlayingCard instance;
 	public GameNetworkCard gameCard;
+	public int nbSkillToBeCast;
+	
 	public GameTile attemptToMoveTo;
 	public bool hasMoved = false;
 	public bool attemptToAttack = false;
 	public bool hasAttacked = false;
-
+	public bool attemptToCast = false;
+	public int SkillCasted;
+	
 	Vector3 WorldNamePos;
-
-
+	
+	
 	public int Damage = 0;
 	public Texture2D bgImage; 
 	public Texture2D fgImage;
 	public GUIStyle progress_empty, progress_full;
-
+	
 	public void Awake()
 	{
 		instance = this;
@@ -31,7 +35,7 @@ public class GamePlayingCard : Photon.MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 	}
-
+	
 	void OnGUI()
 	{
 		if (!GameBoard.instance.TimeOfPositionning && !GameScript.instance.gameOver)
@@ -61,18 +65,19 @@ public class GamePlayingCard : Photon.MonoBehaviour {
 		if (this.gameCard.Card != null)
 		{
 			GUI.BeginGroup(new Rect(WorldNamePos.x, Screen.height - WorldNamePos.y, 16, 50));
-				GUI.Box(new Rect(0,0,16,50), bgImage, progress_empty);
-				GUI.BeginGroup(new Rect(0, 0, 16, 50));
-				GUI.Box (new Rect(0,0,8,50), fgImage, progress_full);
-				GUI.EndGroup();
+			GUI.Box(new Rect(0,0,16,50), bgImage, progress_empty);
+			GUI.BeginGroup(new Rect(0, 0, 16, 50));
+			GUI.Box (new Rect(0,0,8,50), fgImage, progress_full);
+			GUI.EndGroup();
 			GUI.EndGroup();
 		}
-
+		
 	}
-
+	
 	public void Pass()
 	{
 		GamePlayingCard.instance.attemptToAttack = false;
+		GamePlayingCard.instance.attemptToCast = false;
 		GamePlayingCard.instance.hasAttacked = true;
 		GameTile.instance.SetCursorToDefault();
 		photonView.RPC("ForwardInTime", PhotonTargets.AllBuffered);
@@ -85,23 +90,22 @@ public class GamePlayingCard : Photon.MonoBehaviour {
 		gameCard.Card = card.Card;
 		gameCard.ownerNumber = card.ownerNumber;
 		changeStats();
-		gameCard.ShowFace();
 	}
-
+	
 	public void changeStats()
 	{
 		Transform attackText = transform.Find("Icons/Attack/Value");
-		attackText.GetComponent<TextMesh>().text = this.gameCard.Card.Attack.ToString();
-
+		attackText.GetComponent<TextMesh>().text = this.gameCard.Card.GetAttack().ToString();
+		
 		//Transform energyText = transform.Find("Icons/Energy/Value");
 		//energyText.GetComponent<TextMesh>().text = this.gameCard.Card.Energy.ToString();
-
+		
 		Transform moveText = transform.Find("Icons/Move/Value");
-		moveText.GetComponent<TextMesh>().text = this.gameCard.Card.Move.ToString();
-
+		moveText.GetComponent<TextMesh>().text = this.gameCard.Card.GetMove().ToString();
+		
 		Transform speedText = transform.Find("Icons/Speed/Value");
-		speedText.GetComponent<TextMesh>().text = this.gameCard.Card.Speed.ToString();
-
+		speedText.GetComponent<TextMesh>().text = this.gameCard.Card.GetSpeed().ToString();
+		
 		int i = 1;
 		if (gameCard.Card.Skills != null)
 		{
@@ -111,8 +115,9 @@ public class GamePlayingCard : Photon.MonoBehaviour {
 				skillText.GetComponent<TextMesh>().text = skill.Name;
 			}
 		}
+		gameCard.ShowFace();
 	}
-
+	
 	[RPC]
 	private void ForwardInTime()
 	{

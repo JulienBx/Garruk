@@ -14,209 +14,199 @@ public class GameCard : Photon.MonoBehaviour
 	public Texture[] skillsPictos;
 	public Texture[] metals;
 	public Texture[] Areas;
+	public List<GameSkill> GameSkills;
 	public Card Card; 
-
+	
 	// L'instance de la carte courante 
-
+	
 	private string URLCard = ApplicationModel.host + "get_card.php";
 	//private string URLCard = "http://localhost/GarrukServer/get_card.php";
-//	private Vector3 offset;
+	//	private Vector3 offset;
 	
-
-
+	
+	
 	public GameCard() {
 	}
-
+	
 	public GameCard(Card card) 
 	{
 		this.Card = card;
 	}
 	// Use this for initialization
-
+	
 	
 	public void setCard(Card card) 
 	{
 		this.Card = card;
 	}
-
+	
 	void Start () {
-
-
+		
+		
 	}
 	
 	// Update is called once per frame
-
-
-
+	
+	
+	
 	public void ShowFace() 
 	{
-
+		
 		transform.Find("texturedGameCard").FindChild("AttackArea")
 			.renderer.material.mainTexture = Areas [0];
 		transform.Find("texturedGameCard").FindChild("SpeedArea")
 			.renderer.material.mainTexture = Areas [1];
 		transform.Find("texturedGameCard").FindChild("MoveArea")
 			.renderer.material.mainTexture = Areas [2];
-
-
-
+		
 		transform.Find("texturedGameCard")
 			.renderer.material.mainTexture = frontFaces[Card.ArtIndex]; 		// On affiche l'image correspondant à la carte
-
+		
 		transform.Find("texturedGameCard").FindChild("Title")
 			.GetComponent<TextMesh>().text = Card.Title;			// On lui attribut son titre
-
+		
 		transform.Find("texturedGameCard").FindChild("PictoMetalLife").FindChild("Life")
-			.GetComponent<TextMesh> ().text = Card.Life.ToString(); // On affecte les caractéristiques de la carte
+			.GetComponent<TextMesh> ().text = Card.GetLife().ToString(); // On affecte les caractéristiques de la carte
 		transform.Find("texturedGameCard").FindChild("MoveArea").FindChild("PictoMetalMove").FindChild("Move")
-			.GetComponent<TextMesh> ().text = Card.Move.ToString();
+			.GetComponent<TextMesh> ().text = Card.GetMove().ToString();
 		transform.Find("texturedGameCard").FindChild("AttackArea").FindChild("PictoMetalAttack").FindChild("Attack")
-			.GetComponent<TextMesh> ().text = Card.Attack.ToString();
+			.GetComponent<TextMesh> ().text = Card.GetAttack().ToString();
 		transform.Find("texturedGameCard").FindChild("SpeedArea").FindChild("PictoMetalSpeed").FindChild("Speed")
-			.GetComponent<TextMesh> ().text = Card.Speed.ToString();
+			.GetComponent<TextMesh> ().text = Card.GetSpeed().ToString();
 		transform.Find("texturedGameCard").FindChild("Class")
 			.GetComponent<TextMesh> ().text = Card.TitleClass;
-
-
-		for(int i = 0 ; i<6 ; i++){
 		
-		transform.Find("texturedGameCard").FindChild("PictoMetalLife")
-			.renderer.materials[i].mainTexture = metals [Card.LifeLevel];
-
-		transform.Find("texturedGameCard").FindChild("AttackArea").FindChild("PictoMetalAttack")
-			.renderer.materials[i].mainTexture = metals [Card.AttackLevel]; // On change la couleur des matériaux
-
-		transform.Find("texturedGameCard").FindChild("SpeedArea").FindChild("PictoMetalSpeed")
-			.renderer.materials[i].mainTexture = metals [Card.SpeedLevel];
-
-		transform.Find("texturedGameCard").FindChild("MoveArea").FindChild ("PictoMetalMove")
-			.renderer.materials[i].mainTexture = metals [Card.MoveLevel];
-		}
-
-
-		for(int i = 0 ; i < 4 ; i++) { // boucle sur la liste de compétence 
-
-			if (Card.Skills.Count > i && Card.Skills[i].IsActivated == 1 ){ // On vérifie que la compétence existe et qu'elle est active
-
-				for (int j = 0 ; j<6 ; j++){
-
-					transform.Find("texturedGameCard").FindChild("Skill"+(i+1)+"Area").FindChild ("PictoMetalSkill" + (i+1))
-						.renderer.materials[j].mainTexture = metals [Card.Skills [i].Level];
-
-				
-				}
-			
-			transform.Find("texturedGameCard").FindChild("Skill"+(i+1)+"Area").FindChild ("Skill" + (i+1))
-					.GetComponent<TextMesh> ().text = Card.Skills[i].Name; // On renseigne les caractéristique des compétences
-
-			transform.Find("texturedGameCard").FindChild("Skill"+(i+1)+"Area").FindChild ("PictoSkill" + (i+1))
-					.renderer.material.mainTexture = skillsPictos[Card.Skills [i].Id]; // On affecte une couleur pour le matériau
-			
-			transform.Find("texturedGameCard").FindChild("Skill"+(i+1)+"Area").FindChild ("PictoMetalSkill" + (i+1)).FindChild ("SkillForce" + (i+1))
-					.GetComponent<TextMesh> ().text = Card.Skills[i].Power + "/" +Card.Skills[i].ManaCost ;
-			
+		for (int i = 0 ; i < 6 ; i++)
+		{		
+			transform.Find("texturedGameCard").FindChild("PictoMetalLife")
+				.renderer.materials[i].mainTexture = metals [Card.LifeLevel];
+			if (Card.GetAttack() > Card.Attack)
+			{
+				transform.Find("texturedGameCard").FindChild("AttackArea").FindChild("PictoMetalAttack")
+					.renderer.materials[i].mainTexture = metals [4]; // On change la couleur des matériaux
+			}
+			else if (Card.GetAttack() < Card.Attack)
+			{
+				transform.Find("texturedGameCard").FindChild("AttackArea").FindChild("PictoMetalAttack")
+					.renderer.materials[i].mainTexture = metals [5]; // On change la couleur des matériaux
+			}
+			else
+			{
+				transform.Find("texturedGameCard").FindChild("AttackArea").FindChild("PictoMetalAttack")
+					.renderer.materials[i].mainTexture = metals [Card.AttackLevel]; // On change la couleur des matériaux
+			}
+			if (Card.GetSpeed() > Card.Speed)
+			{
+				transform.Find("texturedGameCard").FindChild("SpeedArea").FindChild("PictoMetalSpeed")
+					.renderer.materials[i].mainTexture = metals [4]; // On change la couleur des matériaux
+			}
+			else if (Card.GetSpeed() < Card.Speed)
+			{
+				transform.Find("texturedGameCard").FindChild("SpeedArea").FindChild("PictoMetalSpeed")
+					.renderer.materials[i].mainTexture = metals [5]; // On change la couleur des matériaux
+			}
+			else
+			{
+				transform.Find("texturedGameCard").FindChild("SpeedArea").FindChild("PictoMetalSpeed")
+					.renderer.materials[i].mainTexture = metals [Card.SpeedLevel]; // On change la couleur des matériaux
 			}
 
-			else {
+			if (Card.GetMove() > Card.Move)
+			{
+				transform.Find("texturedGameCard").FindChild("MoveArea").FindChild ("PictoMetalMove")
+					.renderer.materials[i].mainTexture = metals [Card.MoveLevel];
+			}
+			else if (Card.GetMove() < Card.Move)
+			{
+				transform.Find("texturedGameCard").FindChild("MoveArea").FindChild ("PictoMetalMove")
+					.renderer.materials[i].mainTexture = metals [Card.MoveLevel];
+			}
+			else
+			{
+				transform.Find("texturedGameCard").FindChild("MoveArea").FindChild ("PictoMetalMove")
+					.renderer.materials[i].mainTexture = metals [Card.MoveLevel];
+			}
+			
 
-				for (int j = 0 ; j<6 ; j++){
-					
+		}
+		
+		for (int i = 0 ; i < 4 ; i++) // boucle sur la liste de compétence 
+		{
+			if (Card.Skills.Count > i && Card.Skills[i].IsActivated == 1 ) // On vérifie que la compétence existe et qu'elle est active
+			{ 
+				for (int j = 0 ; j < 6 ; j++)
+				{
+					transform.Find("texturedGameCard").FindChild("Skill"+(i+1)+"Area").FindChild ("PictoMetalSkill" + (i+1))
+						.renderer.materials[j].mainTexture = metals [Card.Skills [i].Level];
+				}
+				
+				transform.Find("texturedGameCard").FindChild("Skill"+(i+1)+"Area").FindChild ("Skill" + (i+1))
+					.GetComponent<TextMesh> ().text = Card.Skills[i].Name; // On renseigne les caractéristique des compétences
+				
+				transform.Find("texturedGameCard").FindChild("Skill"+(i+1)+"Area").FindChild ("PictoSkill" + (i+1))
+					.renderer.material.mainTexture = skillsPictos[Card.Skills [i].Id]; // On affecte une couleur pour le matériau
+				
+				transform.Find("texturedGameCard").FindChild("Skill"+(i+1)+"Area").FindChild ("PictoMetalSkill" + (i+1)).FindChild ("SkillForce" + (i+1))
+					.GetComponent<TextMesh> ().text = Card.Skills[i].Power + "/" +Card.Skills[i].ManaCost ;
+			}
+			else 
+			{
+				for (int j = 0 ; j < 6 ; j++)
+				{
 					transform.Find("texturedGameCard").FindChild("Skill"+(i+1)+"Area").FindChild ("PictoMetalSkill" + (i+1))
 						.renderer.materials[j].mainTexture = metals [0];
 				}
-
-					transform.Find("texturedGameCard").FindChild("Skill"+(i+1)+"Area").FindChild ("Skill" + (i+1))
-						.GetComponent<TextMesh> ().text = ""; // On renseigne les caractéristique des compétences
-					
-					transform.Find("texturedGameCard").FindChild("Skill"+(i+1)+"Area").FindChild ("PictoSkill" + (i+1))
-						.renderer.material.mainTexture = skillsPictos[199]; // On affecte une couleur pour le matériau
-					
-					transform.Find("texturedGameCard").FindChild("Skill"+(i+1)+"Area").FindChild ("PictoMetalSkill" + (i+1)).FindChild ("SkillForce" + (i+1))
-						.GetComponent<TextMesh> ().text = "";
-
-					
-				}
-
+				
+				transform.Find("texturedGameCard").FindChild("Skill"+(i+1)+"Area").FindChild ("Skill" + (i+1))
+					.GetComponent<TextMesh> ().text = ""; // On renseigne les caractéristique des compétences
+				
+				transform.Find("texturedGameCard").FindChild("Skill"+(i+1)+"Area").FindChild ("PictoSkill" + (i+1))
+					.renderer.material.mainTexture = skillsPictos[199]; // On affecte une couleur pour le matériau
+				
+				transform.Find("texturedGameCard").FindChild("Skill"+(i+1)+"Area").FindChild ("PictoMetalSkill" + (i+1)).FindChild ("SkillForce" + (i+1))
+					.GetComponent<TextMesh> ().text = "";
 			}
 		}
-
-
-//		Transform LifeTextPosition = transform.Find("texturedGameCard").Find("Life");
-//		if (LifeTextPosition != null)
-//		{
-//			LifeTextPosition.GetComponent<TextMesh>().text = Card.Life.ToString();	// Et son nombre de point de vie
-//		}
-//
-//		Transform MoveTextPosition = transform.Find("texturedGameCard").Find("Move");
-//		if (MoveTextPosition != null)
-//		{
-//			MoveTextPosition.GetComponent<TextMesh>().text = Card.Move.ToString();	// Et son nombre de point de vie
-//		}
-//
-//		Transform AttackTextPosition = transform.Find("texturedGameCard").Find("Attack");
-//		if (AttackTextPosition != null)
-//		{
-//			AttackTextPosition.GetComponent<TextMesh>().text = Card.Attack.ToString();	// Et son nombre de point de vie
-//		}
-//
-//		Transform SpeedTextPosition = transform.Find("texturedGameCard").Find("Speed");
-//		if (SpeedTextPosition != null)
-//		{
-//			SpeedTextPosition.GetComponent<TextMesh>().text = Card.Speed.ToString();	// Et son nombre de point de vie
-//		}
-
-
+	}
 	
-
 	public void setTextResolution(float resolution)
 	{
-		 		
 		transform.Find("texturedGameCard").Find("Title")
 			.GetComponent<TextMesh>().fontSize = Mathf.RoundToInt(resolution * 15);	
 		transform.Find("texturedGameCard").Find("Title").localScale = new Vector3(0.6f/resolution,0.6f/resolution,0);
-
+		
 		transform.Find("texturedGameCard").FindChild("PictoMetalLife").FindChild("Life")
 			.GetComponent<TextMesh>().fontSize = Mathf.RoundToInt(resolution * 17);	
 		transform.Find("texturedGameCard").FindChild("PictoMetalLife").FindChild("Life").localScale = new Vector3(0.6f/resolution,0.6f/resolution,0);
-
+		
 		transform.Find("texturedGameCard").FindChild("AttackArea").FindChild("PictoMetalAttack").FindChild("Attack")
 			.GetComponent<TextMesh>().fontSize = Mathf.RoundToInt(resolution * 15);	
 		transform.Find("texturedGameCard").FindChild("AttackArea").FindChild("PictoMetalAttack").FindChild("Attack").localScale = new Vector3(0.6f/resolution,0.6f/resolution,0);
-
+		
 		transform.Find("texturedGameCard").FindChild("MoveArea").FindChild("PictoMetalMove").FindChild("Move")
 			.GetComponent<TextMesh>().fontSize = Mathf.RoundToInt(resolution * 15);	
 		transform.Find("texturedGameCard").FindChild("MoveArea").FindChild("PictoMetalMove").FindChild("Move").localScale = new Vector3(0.6f/resolution,0.6f/resolution,0);
-
+		
 		transform.Find("texturedGameCard").FindChild("SpeedArea").FindChild("PictoMetalSpeed").FindChild("Speed")
 			.GetComponent<TextMesh>().fontSize = Mathf.RoundToInt(resolution * 15);	
 		transform.Find("texturedGameCard").FindChild("SpeedArea").FindChild("PictoMetalSpeed").FindChild("Speed").localScale = new Vector3(0.6f/resolution,0.6f/resolution,0);
-
+		
 		transform.Find("texturedGameCard").Find("Class")
 			.GetComponent<TextMesh>().fontSize = Mathf.RoundToInt(resolution * 15);	
 		transform.Find("texturedGameCard").Find("Class").localScale = new Vector3(0.6f/resolution,0.6f/resolution,0);
-
-
-		for(int i = 1 ; i < 5 ; i++) { // boucle sur la liste de compétence 
-			
+		
+		for(int i = 1 ; i < 5 ; i++) // boucle sur la liste de compétence
+		{  	
 			transform.Find("texturedGameCard").FindChild("Skill"+(i)+"Area").FindChild ("Skill" + (i))
 				.GetComponent<TextMesh>().fontSize = Mathf.RoundToInt(resolution * 12);	
 			transform.Find("texturedGameCard").FindChild("Skill"+(i)+"Area").FindChild ("Skill" + (i)).localScale = new Vector3(0.6f/resolution,0.6f/resolution,0);
-
+			
 			transform.Find("texturedGameCard").FindChild("Skill"+(i)+"Area").FindChild ("PictoMetalSkill" + (i)).FindChild ("SkillForce" + (i))
 				.GetComponent<TextMesh> ().fontSize = Mathf.RoundToInt(resolution * 12);	
 			transform.Find("texturedGameCard").FindChild("Skill"+(i)+"Area").FindChild ("PictoMetalSkill" + (i)).FindChild ("SkillForce" + (i)).localScale = new Vector3(0.6f/resolution,0.6f/resolution,0);
-
-				
-			}
-	
-	
-	
-	
+		}
 	}
-
-
-
-
+	
 	public void Hide()
 	{
 		renderer.material.mainTexture = frontFaces[0]; 		// On affiche l'image correspondant à la carte
@@ -224,9 +214,8 @@ public class GameCard : Photon.MonoBehaviour
 			.GetComponent<TextMesh>().text = "Title";	// On lui attribut son titre
 		transform.Find("texturedGameCard").Find("Life")
 			.GetComponent<TextMesh>().text = "Life";	// Et son nombre de point de vie
-
 	}
-
+	
 	public IEnumerator RetrieveCard (int idCard)
 	{
 		WWWForm form = new WWWForm(); 								// Création de la connexion
@@ -252,22 +241,51 @@ public class GameCard : Photon.MonoBehaviour
 				{
 					break;
 				}
-				int cardId = System.Convert.ToInt32(cardData[0]); 	// Ici, on récupère l'id en base
-				int cardArt = System.Convert.ToInt32(cardData[1]); 	// l'indice de l'image
-				string cardTitle = cardData[2]; 					// le titre de la carte
-				int cardLife = System.Convert.ToInt32(cardData[3]);	// le nombre de point de vie
-				int speed = System.Convert.ToInt32(cardData[4]);	// la rapidité
-				int move = System.Convert.ToInt32(cardData[5]);	// le mouvement
-				int attack = System.Convert.ToInt32(cardData[6]);	// la rapidité
-				//int energy = System.Convert.ToInt32(cardData[7]);	// l'energie
-				string[] skillEntries = cardData[8].Split('&'); 	// Chaque ligne correspond à une compétence
-				List<Skill> skillList = new List<Skill>();
-				foreach(string skill in skillEntries)
+				if (i == 0)
 				{
-					skillList.Add(new Skill(skill));
+					Card = new Card(    System.Convert.ToInt32(cardData[0]), // id
+					                cardData[1], // title
+					                System.Convert.ToInt32(cardData[2]), // life
+					                System.Convert.ToInt32(cardData[3]), // attack
+					                System.Convert.ToInt32(cardData[4]), // speed
+					                System.Convert.ToInt32(cardData[5]), // move
+					                System.Convert.ToInt32(cardData[6]), // artindex
+					                System.Convert.ToInt32(cardData[7]), // idclass
+					                cardData[8], // titleclass
+					                System.Convert.ToInt32(cardData[9]), // lifelevel
+					                System.Convert.ToInt32(cardData[10]), // movelevel
+					                System.Convert.ToInt32(cardData[11]), // speedlevel
+					                System.Convert.ToInt32(cardData[12])); // attacklevel
+					Card.Skills = new List<Skill>();
 				}
-				Card card = new Card(cardId, cardTitle, cardLife, cardArt, speed, move, attack, skillList);
-				this.Card = card;
+				else
+				{
+					Skill skill = new Skill(  cardData[1],                         // name
+					                        System.Convert.ToInt32(cardData[0]), // idskill
+					                        System.Convert.ToInt32(cardData[2]), // isactivated
+					                        System.Convert.ToInt32(cardData[3]), // level
+					                        System.Convert.ToInt32(cardData[4]), // power
+					                        System.Convert.ToInt32(cardData[5]), // costmana
+					                        cardData[6],                         // description
+					                        cardData[7]);                       // Nom de la ressource
+					Card.Skills.Add(skill);
+					Transform go = transform.Find("texturedGameCard/Skill" + Card.Skills.Count + "Area");
+					
+					switch (skill.ResourceName)
+					{
+						case "Reflexe": 
+							Reflexe cp = go.gameObject.AddComponent("Reflexe") as Reflexe;
+							cp.Skill = skill;
+							cp.SkillNumber = Card.Skills.Count;
+							cp.Init();
+							break;
+						default: 
+							GameSkill skillCp = go.gameObject.AddComponent("GameSkill") as GameSkill;
+							skillCp.Skill = skill;
+							skillCp.SkillNumber = Card.Skills.Count;
+							break;
+					}
+				}
 			}
 		}
 	}
