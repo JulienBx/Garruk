@@ -33,7 +33,6 @@ public class Skill
 
 	}
 
-
 	public Skill(string name)
 	{
 		this.Name = name;

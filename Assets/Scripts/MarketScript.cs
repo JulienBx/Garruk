@@ -60,7 +60,6 @@ public class MarketScript : MonoBehaviour {
 	private bool[] togglesCurrentStates;
 	int isLoadedCards = 0 ;
 	bool isBeingDragged = false;
-	bool recalculeFiltres = false;
 	bool toReload = false ;
 	bool isSkillToDisplay = false ;
 	bool isSkillChosen = false ;
@@ -353,7 +352,6 @@ public class MarketScript : MonoBehaviour {
 							else{
 								filtersCardType.Remove(i);
 							}
-							recalculeFiltres = true ;
 							toReload = true ;
 						}
 						GUILayout.Space(-5);
@@ -375,7 +373,6 @@ public class MarketScript : MonoBehaviour {
 						}
 						if (this.isSkillChosen){
 							this.isSkillChosen=false ;
-							recalculeFiltres = true ;
 							toReload = true ;
 						}
 					}
@@ -387,7 +384,6 @@ public class MarketScript : MonoBehaviour {
 								skillsChosen.Add (valueSkill);
 								this.isSkillChosen=true ;
 								this.matchValues = new List<string>();
-								recalculeFiltres = true ;
 								toReload = true ;
 								valueSkill="";
 							}
@@ -862,8 +858,7 @@ public class MarketScript : MonoBehaviour {
 		string[] tempString = null;
 
 		this.cardsToBeDisplayed = new List<int> ();
-		int tempInt ;
-		
+
 		WWWForm form = new WWWForm(); 											// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_nick", ApplicationModel.username);
@@ -905,12 +900,9 @@ public class MarketScript : MonoBehaviour {
 	}
 
 	private IEnumerator searchForCards (){
-
-		string[] skillsIds = null;
-		string[] tempString = null;
+		
 		this.cardsSold = new List<int> ();
 		this.cardsToBeDisplayed = new List<int> ();
-		int tempInt ;
 		
 		WWWForm form = new WWWForm(); 											// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
