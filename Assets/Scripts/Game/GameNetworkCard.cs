@@ -129,7 +129,10 @@ public class GameNetworkCard : GameCard
 				}
 			}
 		}
-		GameHoveredCard.instance.ChangeCard(this);
+		if (this.Card != null)
+		{
+			GameHoveredCard.instance.ChangeCard(this);
+		}
 	}
 	void OnMouseExit()
 	{

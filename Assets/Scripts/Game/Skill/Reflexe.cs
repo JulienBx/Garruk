@@ -12,7 +12,9 @@ public class Reflexe : GameSkill
 	void OnMouseDown()
 	{
 		GameNetworkCard gnc = transform.parent.parent.GetComponent<GameNetworkCard>();
-		if (!GameBoard.instance.TimeOfPositionning && GameTimeLine.instance.PlayingCard.Equals(gnc) && !GamePlayingCard.instance.attemptToAttack && !GamePlayingCard.instance.hasAttacked)
+		if (!GameBoard.instance.TimeOfPositionning && GameTimeLine.instance.PlayingCard.Equals(gnc) 
+		    && !GamePlayingCard.instance.attemptToAttack && !GamePlayingCard.instance.hasAttacked
+		    && gnc.photonView.isMine)
 		{
 			GameTile.instance.SetCursorToTarget();
 			GamePlayingCard.instance.SkillCasted = this.SkillNumber;
