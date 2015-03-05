@@ -22,19 +22,13 @@ public class Card
 	public int MoveLevel;
 	public int LifeLevel;
 	public int SpeedLevel;
-<<<<<<< HEAD
+	public int Price;
+	public DateTime OnSaleDate;
 	public List<StatModifier> modifiers = new List<StatModifier>();
-	
 	
 	public Card() {
 	}
-	
-=======
-	public int Price;
-	public DateTime OnSaleDate; 
 
-
->>>>>>> origin/master
 	public Card(int id, string title, int life, int artIndex, int speed, int move)
 	{
 		this.Id = id;
