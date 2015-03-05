@@ -76,17 +76,16 @@ public class GamePlayingCard : Photon.MonoBehaviour {
 	
 	public void Pass()
 	{
-		GamePlayingCard.instance.attemptToAttack = false;
-		GamePlayingCard.instance.attemptToCast = false;
-		GamePlayingCard.instance.hasAttacked = true;
+		hasMoved = false;
+		attemptToAttack = false;
+		attemptToCast = false;
+		hasAttacked = false;
+		attemptToMoveTo = null;
 		GameTile.instance.SetCursorToDefault();
 		photonView.RPC("ForwardInTime", PhotonTargets.AllBuffered);
 	}
 	public void ChangeCurrentCard(GameNetworkCard card)
 	{
-		hasMoved = false;
-		hasAttacked = false;
-		attemptToMoveTo = null;
 		gameCard.Card = card.Card;
 		gameCard.ownerNumber = card.ownerNumber;
 		changeStats();
