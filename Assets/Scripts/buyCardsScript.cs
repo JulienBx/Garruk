@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -10,13 +10,10 @@ public class buyCardsScript : MonoBehaviour {
 	public Rect windowRect ;
 	GameObject instance;
 
-
 	private string URLGetMoneyByUser = "http://54.77.118.214/GarrukServer/get_money_by_user.php";
 	private string URLSellRandomCard = "http://54.77.118.214/GarrukServer/sellRandomCard.php";
 	private string URLBuyRandomCard = "http://54.77.118.214/GarrukServer/buyRandomCard.php";
 	private string URLPutOnMarket = "http://54.77.118.214/GarrukServer/putonmarket.php";
-
-
 
 	int cost;
 	string price ="";
@@ -216,7 +213,7 @@ public class buyCardsScript : MonoBehaviour {
 		                                  System.Convert.ToInt32 (cardInformation [3]), // level
 		                                  System.Convert.ToInt32 (cardInformation [4]), // power
 			                              System.Convert.ToInt32 (cardInformation [5]),
-			                              cardInformation [6])); // costmana
+			                              cardInformation [6])); 
 
 		}
 
@@ -245,7 +242,5 @@ public class buyCardsScript : MonoBehaviour {
 		Card.Skills [1].Power * (1/Card.Skills [1].ManaCost));
 
 		return cost;
-
 		}
-
 }

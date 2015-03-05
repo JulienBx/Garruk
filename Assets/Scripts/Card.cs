@@ -190,5 +190,16 @@ public class Card
 			return true ;
 		}
 	}
-
+	public int getCost(){
+		int cost = Mathf.RoundToInt (this.Speed +
+		                             this.Attack +
+		                             this.Move * 10 +
+		                             this.Life);
+		for (int i = 0; i < this.Skills.Count; i++) {
+			if (this.Skills[i].IsActivated==1){
+				cost += this.Skills[i].Power * (1/this.Skills[i].ManaCost);
+			}
+		}
+		return cost;
+	}
 }
