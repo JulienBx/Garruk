@@ -19,7 +19,7 @@ public class GameCard : Photon.MonoBehaviour
 	
 	// L'instance de la carte courante 
 	
-	private string URLCard = ApplicationModel.dev + "get_card.php";
+	private string URLCard = ApplicationModel.host + "get_card.php";
 	//private string URLCard = "http://localhost/GarrukServer/get_card.php";
 	//	private Vector3 offset;
 	
