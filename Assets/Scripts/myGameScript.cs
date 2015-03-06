@@ -146,9 +146,14 @@ public class myGameScript : MonoBehaviour {
 	int deckToEdit = -1;
 	bool destroyAll = false ;
 	bool displayDecks = false ;
+	int cardId ;
 	bool isCreatedDeckCards=false;
 	bool displayLoader;
 	bool isCreatedCards = false ;
+	bool destroySellingCardWindow = false ;
+	bool destroyFocus = false ;
+	bool isDeckCardFocused = false ;
+	bool isMarketingCardWindow = false ;
 
 	GameObject[] displayedCards ;
 	GameObject[] displayedDeckCards ;
@@ -219,8 +224,7 @@ public class myGameScript : MonoBehaviour {
 			displayLoader = false ;
 			displayFilters = true ;
 		}
-
-
+		
 		if (Input.GetMouseButtonDown(0)){
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 			if(Physics.Raycast(ray,out hit))
@@ -268,7 +272,6 @@ public class myGameScript : MonoBehaviour {
 						displayedDeckCards[i].SetActive(false);
 					}
 
-
 					cardFocused = Instantiate(CardObject) as GameObject;
 					float scale = heightScreen/120f;
 					cardFocused.transform.localScale = new Vector3(scale,scale,scale); 
@@ -277,19 +280,37 @@ public class myGameScript : MonoBehaviour {
 					cardFocused.gameObject.name = "FocusedCard";	
 
 					if (hit.collider.name.Contains("DeckCard")){
-						cardFocused.GetComponent<GameCard>().Card = cards[this.deckCardsIds[focusedCard]]; 
+						cardId = cards[deckCardsIds[focusedCard]].Id;
+						cardFocused.GetComponent<GameCard>().Card = cards[deckCardsIds[focusedCard]]; 
 						focusedCardPrice = cards[deckCardsIds[focusedCard]].getCost();
 					}
 					else{
+						cardId = cards[focusedCard].Id;
 						cardFocused.GetComponent<GameCard>().Card = cards[focusedCard]; 
 						focusedCardPrice = cards[focusedCard].getCost();
 					}
+
 
 					cardFocused.GetComponent<GameCard>().ShowFace();
 					cardFocused.SetActive (true);
 					rectFocus = new Rect(0.50f*widthScreen+(vec.x-widthScreen/2f)/2f, 0.15f*heightScreen, 0.25f*widthScreen, 0.8f*heightScreen);
 				}
 			}
+		}
+
+		if (destroySellingCardWindow){
+			isSellingCard=false;
+			destroySellingCardWindow = false ;
+		}
+
+		if (destroyFocus){
+			isSellingCard=false;
+			Destroy(cardFocused);
+			this.focusedCard=-1;
+			destroyFocus = false ;
+			isLoadedDeck = true ;
+			displayDecks=true ;
+			displayFilters=true ;
 		}
 	}
 
@@ -299,24 +320,13 @@ public class myGameScript : MonoBehaviour {
 		toReloadAll = true ;
 	}
 
-	void destroyFocus() {
-		Destroy(cardFocused);
-		this.focusedCard=-1;
-		displayDecks=true ;
-		displayDecks=true ;
-	}
-
 	void OnGUI()
 	{
 		if (this.focusedCard!=-1){
 			if(isSellingCard){
-				if(Event.current.keyCode==KeyCode.Escape) {
-					isSellingCard = false ;
-				}
-				else if(Event.current.keyCode==KeyCode.Return) {
-					this.destroyFocus();
-					StartCoroutine (this.sellCard(cards[focusedCard].Id, focusedCardPrice));
-					isSellingCard = false ;
+				if(Event.current.keyCode==KeyCode.Return) {
+					//this.destroyFocus();
+					//StartCoroutine (this.sellCard(cardId, focusedCardPrice));
 				}
 				else{
 				GUILayout.BeginArea(centralWindow);
@@ -324,21 +334,20 @@ public class myGameScript : MonoBehaviour {
 					GUILayout.BeginVertical(centralWindowStyle);
 					{
 						GUILayout.FlexibleSpace();
-						GUILayout.Label("Confirmer la vente de la carte pour la somme de "+focusedCardPrice+ "crédits", centralWindowTitleStyle);
+						GUILayout.Label("Confirmer la vente de la carte pour la somme de "+focusedCardPrice+ " crédits", centralWindowTitleStyle);
 						GUILayout.Space(0.02f*heightScreen);
 						GUILayout.BeginHorizontal();
 						{
 							GUILayout.Space(0.03f*widthScreen);
 							if (GUILayout.Button("Confirmer la vente",centralWindowButtonStyle)) // also can put width here
 							{
-								StartCoroutine (this.sellCard(cards[focusedCard].Id, focusedCardPrice));
-								isSellingCard = false ;
-								this.destroyFocus();
+								destroySellingCardWindow = true ;
+								StartCoroutine (this.sellCard(cardId, focusedCardPrice));
 							}
 							GUILayout.Space(0.04f*widthScreen);
 							if (GUILayout.Button("Annuler",centralWindowButtonStyle)) // also can put width here
 							{
-								isSellingCard = false ;
+								destroySellingCardWindow = true ;
 							}
 							GUILayout.Space(0.03f*widthScreen);
 						}
@@ -355,16 +364,14 @@ public class myGameScript : MonoBehaviour {
 			}
 			else{
 				if(Event.current.keyCode==KeyCode.Escape) {
-					this.destroyFocus();
-					this.displayPage();
-					this.displayDeckCards();
+					//this.destroyFocus();
 				}
 				else{
 				GUILayout.BeginArea(rectFocus);
 				{
 						GUILayout.BeginVertical();
 						{
-							if (GUILayout.Button("Vendre (rapporte "+focusedCardPrice+" crédits)",focusButtonStyle)){
+							if (GUILayout.Button("Vendre (+"+focusedCardPrice+" crédits)",focusButtonStyle)){
 								isSellingCard = true ; 
 							}
 							if (GUILayout.Button("Mettre sur le marché",focusButtonStyle))
@@ -682,7 +689,8 @@ public class myGameScript : MonoBehaviour {
 					}
 						
 					GUILayout.FlexibleSpace();
-					
+
+					if (this.cardsToBeDisplayed.Count>0){
 					GUILayout.Label ("Filtrer par Vie",filterTitleStyle);
 					GUILayout.Space(-8);
 					GUILayout.BeginHorizontal();
@@ -782,6 +790,7 @@ public class myGameScript : MonoBehaviour {
 //						if(isMoved){
 //							toReload = true ;
 //						}
+						}
 					}
 				}
 				GUILayout.EndVertical();	
@@ -860,6 +869,9 @@ public class myGameScript : MonoBehaviour {
 			this.myNewDeckButtonTitle = "Nouveau";
 
 			this.centralWindow = new Rect (widthScreen * 0.25f, 0.12f * heightScreen, widthScreen * 0.50f, 0.18f * heightScreen);
+
+			this.centralWindowStyle.fixedWidth = widthScreen*0.5f-5;
+
 			this.centralWindowTitleStyle.fontSize = heightScreen*2/100;
 			this.centralWindowTitleStyle.fixedHeight = heightScreen*3/100;
 			this.centralWindowTitleStyle.fixedWidth = widthScreen*5/10;
