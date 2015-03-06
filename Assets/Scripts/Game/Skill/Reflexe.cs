@@ -7,7 +7,7 @@ public class Reflexe : GameSkill
 
 	public void Init()
 	{
-		StatModifiers.Add(new StatModifier(Skill.Power, ModifierType.Type_BonusMalus, ModifierStat.Stat_Speed));
+		StatModifiers.Add(new StatModifier(Skill.Power, Skill.XMin, Skill.Ponderation, ModifierType.Type_BonusMalus, ModifierStat.Stat_Speed));
 	}
 	void OnMouseDown()
 	{

@@ -103,13 +103,12 @@ public class LobbyScript : Photon.MonoBehaviour {
 				
 				int deckId = System.Convert.ToInt32(deckInformation[0]); 	// Ici, on récupère l'id en base
 				string deckName = deckInformation[1]; 						// Le nom du deck
-				int deckNbC = System.Convert.ToInt32(deckInformation[2]);	// le nombre de cartes
 				if (i == 0)
 				{
 					selectedDeck = deckId;
 					StartCoroutine(SetSelectedDeck(selectedDeck));
 				}
-				decks.Add(new Deck(deckId, deckName, deckNbC));
+				decks.Add(new Deck(deckId, deckName, 5));
 			}
 		}
 	}

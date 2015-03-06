@@ -5341,7 +5341,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &269028138
 Transform:
   m_ObjectHideFlags: 0
@@ -11184,6 +11184,10 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: .136999995
       objectReference: {fileID: 0}
+    - target: {fileID: 128840, guid: 41e7592d34820a2439ba5cd78e942c28, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 11436374, guid: 41e7592d34820a2439ba5cd78e942c28, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 41e7592d34820a2439ba5cd78e942c28, type: 2}
@@ -16661,7 +16665,7 @@ GameObject:
   - 111: {fileID: 865662527}
   m_Layer: 0
   m_Name: texturedGameCard
-  m_TagString: Untagged
+  m_TagString: NoPlayableCard
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -29172,7 +29176,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1610062313
 Transform:
   m_ObjectHideFlags: 0

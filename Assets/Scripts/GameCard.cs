@@ -267,7 +267,10 @@ public class GameCard : Photon.MonoBehaviour
 					                        System.Convert.ToInt32(cardData[4]), // power
 					                        System.Convert.ToInt32(cardData[5]), // costmana
 					                        cardData[6],                         // description
-					                        cardData[7]);                       // Nom de la ressource
+					                        cardData[7],                         // Nom de la ressource
+					                        System.Convert.ToSingle(cardData[8]),// ponderation
+					                        System.Convert.ToInt32(cardData[9]));// xmin
+
 					Card.Skills.Add(skill);
 					Transform go = transform.Find("texturedGameCard/Skill" + Card.Skills.Count + "Area");
 					

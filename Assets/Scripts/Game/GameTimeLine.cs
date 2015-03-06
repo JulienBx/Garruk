@@ -17,7 +17,12 @@ public class GameTimeLine : MonoBehaviour {
 	{
 		get { 
 			GameNetworkCard currentCardInTimeLine = GameObjects[playingCardPosition].GetComponent<GameNetworkCard>();
-			GameNetworkCard playingCard = GameObject.Find(currentCardInTimeLine.Card.Title + "-" + currentCardInTimeLine.ownerNumber).GetComponent<GameNetworkCard>();
+			GameObject go = GameObject.Find(currentCardInTimeLine.Card.Title + "-" + currentCardInTimeLine.ownerNumber);
+			GameNetworkCard playingCard = null;
+			if (go != null)
+			{
+				playingCard = go.GetComponent<GameNetworkCard>();
+			}
 			return playingCard; }
 	}
 	
@@ -65,7 +70,13 @@ public class GameTimeLine : MonoBehaviour {
 	public void Arrange()
 	{
 		position = 0;
-		for (int i = startPosition ; i < GameObjects.Count ; i++) 
+
+		int arrangeIndex = 4;
+		if (startPosition != 0)
+		{
+			arrangeIndex = startPosition;
+		}
+		for (int i = arrangeIndex ; i < GameObjects.Count ; i++) 
 		{
 			GameNetworkCard gCard = GameObjects[i].GetComponent<GameNetworkCard>();
 			gCard.Card = GameCards[position].Card;

@@ -98,6 +98,10 @@ public class GameNetworkCard : GameCard
 				GamePlayingCard.instance.attemptToAttack = false;
 				GamePlayingCard.instance.hasAttacked = true;
 				GameTile.instance.SetCursorToDefault();
+				if (GamePlayingCard.instance.hasMoved && GamePlayingCard.instance.hasAttacked)
+				{
+					GamePlayingCard.instance.Pass();
+				}
 			}
 		}
 		if (GamePlayingCard.instance.attemptToCast && !GamePlayingCard.instance.hasAttacked)
@@ -323,10 +327,6 @@ public class GameNetworkCard : GameCard
 			gnc.ShowFace();
 		}
 		GameTimeLine.instance.Arrange();
-		if (GamePlayingCard.instance.hasMoved && GamePlayingCard.instance.hasAttacked)
-		{
-			GamePlayingCard.instance.Pass();
-		}
 	}
 	[RPC]
 	void GetBuff(int target, int skillCasted)
