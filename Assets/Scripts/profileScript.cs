@@ -78,7 +78,7 @@ public class profileScript : MonoBehaviour {
 	private string URLRemoveConnection = "http://54.77.118.214/GarrukServer/remove_connection.php";
 	private string URLCreateConnection = "http://54.77.118.214/GarrukServer/create_connection.php";
 	private string URLUpdateProfile = "http://54.77.118.214/GarrukServer/update_profile.php";
-	private string URLUpdateProfilePicture = "hhttp://54.77.118.214/GarrukServer/update_profilepicture.php";
+	private string URLUpdateProfilePicture = "http://54.77.118.214/GarrukServer/update_profilepicture.php";
 	private string URLDefaultProfilePicture = "http://54.77.118.214/GarrukServer/img/profile/defautProfilePicture.png";
 	private string URLCheckPassword = "http://54.77.118.214/GarrukServer/check_password.php";
 	private string URLEditPassword = "http://54.77.118.214/GarrukServer/edit_password.php";
@@ -239,12 +239,12 @@ public class profileScript : MonoBehaviour {
 						GUILayout.Label ("Email : " + userData.Mail,profileData);
 
 
-						if (GUILayout.Button ("Modifier mes infos",GUILayout.Width(profilePicture.width),GUILayout.Height(0.03f*heightScreen)))
+						if (GUILayout.Button ("Modifier mes infos",GUILayout.Width(200),GUILayout.Height(0.03f*heightScreen)))
 						{
 							isEditing = true;
 						}
 
-						if (GUILayout.Button ("Changer le mot de passe",GUILayout.Width(profilePicture.width),GUILayout.Height(0.03f*heightScreen)))
+						if (GUILayout.Button ("Changer le mot de passe",GUILayout.Width(200),GUILayout.Height(0.03f*heightScreen)))
 						{
 							changePassword = true;
 						}
@@ -254,11 +254,11 @@ public class profileScript : MonoBehaviour {
 					if (isEditing){
 
 				
-						firstName = GUILayout.TextField(firstName, 15, GUILayout.Width(profilePicture.width));
-						surname = GUILayout.TextField(surname, 15,GUILayout.Width(profilePicture.width));
-						mail=GUILayout.TextField(mail, 30,GUILayout.Width(profilePicture.width));
+						firstName = GUILayout.TextField(firstName, 15, GUILayout.Width(200));
+						surname = GUILayout.TextField(surname, 15,GUILayout.Width(200));
+						mail=GUILayout.TextField(mail, 30,GUILayout.Width(200));
 
-						if (GUILayout.Button ("Valider",GUILayout.Width(profilePicture.width),GUILayout.Height(0.03f*heightScreen)))
+						if (GUILayout.Button ("Valider",GUILayout.Width(200),GUILayout.Height(0.03f*heightScreen)))
 						{
 							isEditing = false;
 							isDataLoaded=false;
@@ -267,7 +267,7 @@ public class profileScript : MonoBehaviour {
 
 						}
 
-						if (GUILayout.Button ("Annuler",GUILayout.Width(profilePicture.width),GUILayout.Height(0.03f*heightScreen)))
+						if (GUILayout.Button ("Annuler",GUILayout.Width(200),GUILayout.Height(0.03f*heightScreen)))
 						{
 							isEditing = false;
 						}
