@@ -79,7 +79,7 @@ public class profileScript : MonoBehaviour {
 	private string URLCreateConnection = "http://54.77.118.214/GarrukServer/create_connection.php";
 	private string URLUpdateProfile = "http://54.77.118.214/GarrukServer/update_profile.php";
 	private string URLUpdateProfilePicture = "http://54.77.118.214/GarrukServer/update_profilepicture.php";
-	private string URLDefaultProfilePicture = "http://54.77.118.214/GarrukServer/img/profile/defautProfilePicture.png";
+	private string URLDefaultProfilePicture = "http://54.77.118.214/GarrukServer/img/profile/defautprofilepicture.png";
 	private string URLCheckPassword = "http://54.77.118.214/GarrukServer/check_password.php";
 	private string URLEditPassword = "http://54.77.118.214/GarrukServer/edit_password.php";
 
