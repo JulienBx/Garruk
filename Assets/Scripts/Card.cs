@@ -238,10 +238,8 @@ public class Card
 		int compteur = this.Skills.Count;
 		int i = 0;
 		while (!b && i<compteur) {
-			//UnityEngine.Debug.Log("Je teste le skill "+this.Skills[i].Name+" VS "+s);
 			if (Skills[i].IsActivated==1){
 				if (Skills[i].Name.ToLower ().Contains(s)){
-					//UnityEngine.Debug.Log("Match");
 					b = true ;
 				}
 			}
@@ -260,7 +258,7 @@ public class Card
 		else if (minMove > this.Move || maxMove < this.Move){
 			return false ;
 		}
-		else if (minMove > this.Move || maxMove < this.Move){
+		else if (minQuickness > this.Speed || maxQuickness < this.Speed){
 			return false ;
 		}
 		else{
