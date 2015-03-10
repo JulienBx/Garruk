@@ -152,6 +152,7 @@ public class myGameScript : MonoBehaviour {
 	bool isCreatedCards = false ;
 	bool destroySellingCardWindow = false ;
 	bool destroyFocus = false ;
+	bool destroyFocusAll = false ;
 	bool isDeckCardFocused = false ;
 	bool isMarketingCardWindow = false ;
 
@@ -182,15 +183,12 @@ public class myGameScript : MonoBehaviour {
 		if (destroyAll){
 			this.clearCards();
 			this.clearDeckCards();
-			isCreatedDeckCards = false ;
-			isCreatedCards = false ;
-			destroyAll=true;
 			toReloadAll=true;
+			destroyAll=false;
 		}
 		if (toReloadAll) {
 			displayLoader = true ;
 			displayFilters = false ;
-			toReloadAll = false ;
 
 			areDecksRetrived=false ;
 			areCreatedDeckCards = false ;
@@ -198,10 +196,11 @@ public class myGameScript : MonoBehaviour {
 			isLoadedDeck = false ;
 				
 			StartCoroutine(getCards());
-			StartCoroutine(RetrieveDecks());
+			toReloadAll = false ;
 		}
 		if (isLoadedCards){
 			this.createCards();
+			StartCoroutine(RetrieveDecks());
 			isLoadedCards=false ;
 			isCreatedCards=true;
 		}
@@ -210,6 +209,7 @@ public class myGameScript : MonoBehaviour {
 			areDecksRetrived=false ;
 		}
 		if (isLoadedDeck){
+			print ("les decks sont loadés");
 			if (isCreatedDeckCards){
 				this.displayDeckCards();
 			}
@@ -230,18 +230,20 @@ public class myGameScript : MonoBehaviour {
 			if(Physics.Raycast(ray,out hit))
 			{
 				if (hit.collider.name.StartsWith("DeckCard")){
-					myDecks[this.chosenDeck].NbCards--;
 					StartCoroutine(this.RemoveCardFromDeck(this.cards[this.deckCardsIds[System.Convert.ToInt32(hit.collider.gameObject.name.Substring(8))]].Id, this.deckCardsIds.Count-1));
-					deckCardsIds.RemoveAt (System.Convert.ToInt32(hit.collider.gameObject.name.Substring(8)));
+					int tempInt = System.Convert.ToInt32(hit.collider.gameObject.name.Substring(8));
+					deckCardsIds.RemoveAt (tempInt);
+					myDecks[chosenDeck].NbCards--;
 					this.displayDeckCards();
 					this.applyFilters ();
 					this.displayPage ();
 				}
 				else if (hit.collider.name.StartsWith("Card")){
 					if (this.deckCardsIds.Count!=5){
-						deckCardsIds.Add (System.Convert.ToInt32(hit.collider.gameObject.name.Substring(4)));
+						int tempInt = System.Convert.ToInt32(hit.collider.gameObject.name.Substring(4));
+						deckCardsIds.Add (tempInt);
+						myDecks[chosenDeck].NbCards++;
 						this.displayDeckCards();
-						myDecks[this.chosenDeck].NbCards++;
 						StartCoroutine(this.AddCardToDeck(this.cards[System.Convert.ToInt32(hit.collider.gameObject.name.Substring(4))].Id, this.deckCardsIds.Count));
 						this.applyFilters ();
 						this.displayPage ();
@@ -308,9 +310,14 @@ public class myGameScript : MonoBehaviour {
 			Destroy(cardFocused);
 			this.focusedCard=-1;
 			destroyFocus = false ;
-			isLoadedDeck = true ;
-			displayDecks=true ;
-			displayFilters=true ;
+			displayFilters= true ;
+		}
+
+		if (destroyFocusAll){
+			isSellingCard=false;
+			Destroy(cardFocused);
+			this.focusedCard=-1;
+			destroyFocusAll = false ;
 		}
 	}
 
@@ -325,8 +332,8 @@ public class myGameScript : MonoBehaviour {
 		if (this.focusedCard!=-1){
 			if(isSellingCard){
 				if(Event.current.keyCode==KeyCode.Return) {
-					//this.destroyFocus();
-					//StartCoroutine (this.sellCard(cardId, focusedCardPrice));
+					destroySellingCardWindow = true ;
+					StartCoroutine (this.sellCard(cardId, focusedCardPrice));
 				}
 				else{
 				GUILayout.BeginArea(centralWindow);
@@ -364,7 +371,7 @@ public class myGameScript : MonoBehaviour {
 			}
 			else{
 				if(Event.current.keyCode==KeyCode.Escape) {
-					//this.destroyFocus();
+					this.destroyFocus=true;
 				}
 				else{
 				GUILayout.BeginArea(rectFocus);
@@ -651,7 +658,7 @@ public class myGameScript : MonoBehaviour {
 								filtersCardType.Remove(i);
 							}
 							recalculeFiltres = true ;
-								toReload = true ;
+							toReload = true ;
 						}
 					}
 						
@@ -672,7 +679,7 @@ public class myGameScript : MonoBehaviour {
 						if (this.isSkillChosen){
 							this.isSkillChosen=false ;
 							recalculeFiltres = true ;
-								toReload = true ;
+							toReload = true ;
 						}
 					}
 					if (isSkillToDisplay){
@@ -683,7 +690,7 @@ public class myGameScript : MonoBehaviour {
 								this.isSkillChosen=true ;
 								this.matchValues = new List<string>();
 								recalculeFiltres = true ;
-									toReload = true ;
+								toReload = true ;
 							}
 						}
 					}
@@ -787,9 +794,9 @@ public class myGameScript : MonoBehaviour {
 							oldMinQuicknessVal = minQuicknessVal;
 							isMoved = true ; 
 						}
-//						if(isMoved){
-//							toReload = true ;
-//						}
+						if(isMoved){
+							toReload = true ;
+						}
 						}
 					}
 				}
@@ -1075,8 +1082,10 @@ public class myGameScript : MonoBehaviour {
 						j = 0 ;
 						while (!test && j!=nbFilters){
 							if (cards[i].IdClass==this.filtersCardType[j]){
+								print ("je passe avec "+cards[i].Title+" comp. "+cards[i].Skills[1].Name);
 								test=true ;
 								if (cards[i].hasSkill(this.valueSkill)){
+									print ("Il l'a ");
 									testDeck = false ;
 									for (int k = 0 ; k < deckCardsIds.Count ; k++){
 										if (i==deckCardsIds[k]){
@@ -1085,6 +1094,7 @@ public class myGameScript : MonoBehaviour {
 									}
 									if (!testDeck){
 										this.cardsToBeDisplayed.Add(i);
+										print (this.cardsToBeDisplayed.Count);
 									}
 								}
 							}
@@ -1408,6 +1418,7 @@ public class myGameScript : MonoBehaviour {
 				paginatorGuiStyle[i]=paginationStyle;
 			}
 		}
+		print (this.cardsToBeDisplayed.Count);
 	}
 
 	public void setFilters(){
@@ -1464,7 +1475,7 @@ public class myGameScript : MonoBehaviour {
 		} 
 		else 
 		{
-			//print(w.text); 											// donne le retour
+		//	print(w.text); 											// donne le retour
 			
 			string[] decksInformation = w.text.Split('\n'); 
 			string[] deckInformation;
@@ -1514,7 +1525,7 @@ public class myGameScript : MonoBehaviour {
 		{
 			print (w.error); 										// donne l'erreur eventuelle
 		} else {
-//			print (w.text);
+			print (w.text);
 			
 			string[] data=w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
 			cardsIDS=data[2].Split(new string[] { "#C#" }, System.StringSplitOptions.None);
@@ -1525,7 +1536,7 @@ public class myGameScript : MonoBehaviour {
 			for(int i = 0 ; i < this.cardTypeList.Length-1 ; i++){
 				togglesCurrentStates[i] = false;
 			}
-			this.skillsList = new string[skillsIds.Length];
+			this.skillsList = new string[skillsIds.Length-1];
 			for(int i = 0 ; i < skillsIds.Length-1 ; i++){
 				tempString = skillsIds[i].Split(new string[] { "\\" }, System.StringSplitOptions.None); 
 				if (i>0){
@@ -1573,7 +1584,7 @@ public class myGameScript : MonoBehaviour {
 				}
 			}
 		}
-		isLoadedCards=true;
+		isLoadedCards = true;
 		isDisplayedCards = true ;
 	}
 
@@ -1622,7 +1633,7 @@ public class myGameScript : MonoBehaviour {
 	}
 
 	private void displayPage(){
-
+		
 		int start = 3 * nbCardsPerRow * chosenPage;
 		int finish = start + 3 * nbCardsPerRow;
 		for(int i = start ; i < finish ; i++){
@@ -1736,8 +1747,7 @@ public class myGameScript : MonoBehaviour {
 		form.AddField ("myform_nick", ApplicationModel.username);
 		form.AddField ("myform_deck", this.chosenIdDeck);
 		form.AddField ("myform_idCard", idCard);
-		form.AddField ("myform_nbCards", cardsCount);
-		
+
 		WWW w = new WWW (URLAddCardToDeck, form); 								
 		yield return w; 											
 		if (w.error != null) 
@@ -1755,8 +1765,7 @@ public class myGameScript : MonoBehaviour {
 		form.AddField ("myform_nick", ApplicationModel.username); 	// Pseudo de l'utilisateur connecté
 		form.AddField ("myform_deck", this.chosenIdDeck);
 		form.AddField ("myform_idCard", idCard);
-		form.AddField ("myform_nbCards", cardsCount);				// Pseudo de l'utilisateur connecté
-		
+
 		WWW w = new WWW (URLRemoveCardFromDeck, form); 								// On envoie le formulaire à l'url sur le serveur 
 		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
 		if (w.error != null) 
@@ -1781,10 +1790,10 @@ public class myGameScript : MonoBehaviour {
 			print (w.error); 
 		else 
 		{
-			//print(w.text); 											// donne le retour
-			//money = System.Convert.ToInt32(w.text);
-			this.focusedCard=-1;
-			destroyAll=true ;
+			this.focusedCard = -1;
+			this.destroyAll = true ;
+			displayDecks= true ;
+			this.destroyFocus = true ;
 		}	
 	}
 	
