@@ -27,6 +27,7 @@ public class MenuManager : MonoBehaviour {
 	public void logOutLink() 
 	{
 		ApplicationModel.username = "";
+		ApplicationModel.toDeconnect = true;
 		Application.LoadLevel("ConnectionPage");
 	}
 

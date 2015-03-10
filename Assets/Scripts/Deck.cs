@@ -27,6 +27,14 @@ public class Deck
 		this.Cards = new List<Card>();
 	}
 
+	public Deck(int id, string name) 
+	{
+		this.Id = id;
+		this.Name = name;
+		this.NbCards = 0;
+		this.Cards = new List<Card>();
+	}
+
 	public Deck(int id, string name, int nbCards) 
 	{
 		this.Id = id;

@@ -60,7 +60,6 @@ public class MarketScript : MonoBehaviour {
 	private bool[] togglesCurrentStates;
 	int isLoadedCards = 0 ;
 	bool isBeingDragged = false;
-	bool recalculeFiltres = false;
 	bool toReload = false ;
 	bool isSkillToDisplay = false ;
 	bool isSkillChosen = false ;
@@ -353,7 +352,6 @@ public class MarketScript : MonoBehaviour {
 							else{
 								filtersCardType.Remove(i);
 							}
-							recalculeFiltres = true ;
 							toReload = true ;
 						}
 						GUILayout.Space(-5);
@@ -375,7 +373,6 @@ public class MarketScript : MonoBehaviour {
 						}
 						if (this.isSkillChosen){
 							this.isSkillChosen=false ;
-							recalculeFiltres = true ;
 							toReload = true ;
 						}
 					}
@@ -387,7 +384,6 @@ public class MarketScript : MonoBehaviour {
 								skillsChosen.Add (valueSkill);
 								this.isSkillChosen=true ;
 								this.matchValues = new List<string>();
-								recalculeFiltres = true ;
 								toReload = true ;
 								valueSkill="";
 							}
@@ -606,9 +602,20 @@ public class MarketScript : MonoBehaviour {
 
 						if (money >= cards[cardsToBeDisplayed[i]].Price && !cardsSold.Contains(cardsToBeDisplayed[i])){
 							GUILayout.Label ("Prix : "+cards[cardsToBeDisplayed[i]].Price+" $",pricePoliceStyle,GUILayout.Height(15));
-							GUILayout.Label ("Joueur : "+usersList[cardsToBeDisplayed[i]],sellerPoliceStyle,GUILayout.Height(10));
 
-					
+							GUILayout.BeginHorizontal();
+							{
+
+								GUILayout.Label ("Joueur : ",sellerPoliceStyle,GUILayout.Height(10));
+								if (GUILayout.Button(usersList[cardsToBeDisplayed[i]],deleteButtonStyle, GUILayout.Height(10)))
+								{
+									ApplicationModel.profileChosen =usersList[cardsToBeDisplayed[i]];
+									Application.LoadLevel("Profile");
+
+								}
+							}
+							GUILayout.EndHorizontal();
+
 							if (GUILayout.Button("Acheter",buyButtonStyle, GUILayout.Height(15)))
 							{
 							
@@ -620,12 +627,34 @@ public class MarketScript : MonoBehaviour {
 						}
 						else if (money < cards[cardsToBeDisplayed[i]].Price){
 							GUILayout.Label ("Prix : "+cards[cardsToBeDisplayed[i]].Price+" $",cantBuyPricePoliceStyle,GUILayout.Height(15));
-							GUILayout.Label ("Joueur : "+usersList[cardsToBeDisplayed[i]],sellerPoliceStyle,GUILayout.Height(10));
+							GUILayout.BeginHorizontal();
+							{
+								
+								GUILayout.Label ("Joueur : ",sellerPoliceStyle,GUILayout.Height(10));
+								if (GUILayout.Button(usersList[cardsToBeDisplayed[i]],deleteButtonStyle, GUILayout.Height(10)))
+								{
+									ApplicationModel.profileChosen =usersList[cardsToBeDisplayed[i]];
+									Application.LoadLevel("Profile");
+									
+								}
+							}
+							GUILayout.EndHorizontal();
 							GUILayout.Space (15);
 						}
 						else {
 							GUILayout.Label ("Prix : "+cards[cardsToBeDisplayed[i]].Price+" $",pricePoliceStyle,GUILayout.Height(15));
-							GUILayout.Label ("Joueur : "+usersList[cardsToBeDisplayed[i]],sellerPoliceStyle,GUILayout.Height(10));
+							GUILayout.BeginHorizontal();
+							{
+								
+								GUILayout.Label ("Joueur : ",sellerPoliceStyle,GUILayout.Height(10));
+								if (GUILayout.Button(usersList[cardsToBeDisplayed[i]],deleteButtonStyle, GUILayout.Height(10)))
+								{
+									ApplicationModel.profileChosen =usersList[cardsToBeDisplayed[i]];
+									Application.LoadLevel("Profile");
+									
+								}
+							}
+							GUILayout.EndHorizontal();
 							GUILayout.Space (15);
 						}
 
@@ -862,8 +891,7 @@ public class MarketScript : MonoBehaviour {
 		string[] tempString = null;
 
 		this.cardsToBeDisplayed = new List<int> ();
-		int tempInt ;
-		
+
 		WWWForm form = new WWWForm(); 											// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_nick", ApplicationModel.username);
@@ -905,12 +933,9 @@ public class MarketScript : MonoBehaviour {
 	}
 
 	private IEnumerator searchForCards (){
-
-		string[] skillsIds = null;
-		string[] tempString = null;
+		
 		this.cardsSold = new List<int> ();
 		this.cardsToBeDisplayed = new List<int> ();
-		int tempInt ;
 		
 		WWWForm form = new WWWForm(); 											// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
@@ -975,10 +1000,6 @@ public class MarketScript : MonoBehaviour {
 											
 						this.cards[i].Skills = new List<Skill>();
 						this.cardsToBeDisplayed.Add(i);
-
-						if (cardInfo2[14].Length>10)
-						this.usersList.Add (cardInfo2[14].Substring(0,10));
-						else
 						this.usersList.Add (cardInfo2[14]);
 
 					}

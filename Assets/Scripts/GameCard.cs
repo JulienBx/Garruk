@@ -243,7 +243,7 @@ public class GameCard : Photon.MonoBehaviour
 				}
 				if (i == 0)
 				{
-					Card = new Card(    System.Convert.ToInt32(cardData[0]), // id
+					Card = new Card(System.Convert.ToInt32(cardData[0]), // id
 					                cardData[1], // title
 					                System.Convert.ToInt32(cardData[2]), // life
 					                System.Convert.ToInt32(cardData[3]), // attack

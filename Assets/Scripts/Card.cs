@@ -238,10 +238,8 @@ public class Card
 		int compteur = this.Skills.Count;
 		int i = 0;
 		while (!b && i<compteur) {
-			//UnityEngine.Debug.Log("Je teste le skill "+this.Skills[i].Name+" VS "+s);
 			if (Skills[i].IsActivated==1){
 				if (Skills[i].Name.ToLower ().Contains(s)){
-					//UnityEngine.Debug.Log("Match");
 					b = true ;
 				}
 			}
@@ -260,12 +258,24 @@ public class Card
 		else if (minMove > this.Move || maxMove < this.Move){
 			return false ;
 		}
-		else if (minMove > this.Move || maxMove < this.Move){
+		else if (minQuickness > this.Speed || maxQuickness < this.Speed){
 			return false ;
 		}
 		else{
 			return true ;
 		}
 	}
-	
+
+	public int getCost(){
+		int cost = Mathf.RoundToInt (this.Speed +
+		                             this.Attack +
+		                             this.Move * 10 +
+		                             this.Life);
+		for (int i = 0; i < this.Skills.Count; i++) {
+			if (this.Skills[i].IsActivated==1){
+				cost += this.Skills[i].Power * (1/this.Skills[i].ManaCost);
+			}
+		}
+		return cost;
+	}
 }

@@ -41,8 +41,7 @@ public class Skill
 		this.ManaCost = manaCost;
 		
 	}
-	
-	
+
 	public Skill(string name)
 	{
 		this.Name = name;

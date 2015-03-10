@@ -72,3 +72,6 @@ garruk_Data/sharedassets5.assets
 *.assets
 garruk_Data/sharedassets3.assets
 garruk_Data/Managed/Assembly-CSharp-firstpass.dll
+garruk.exe
+garruk_Data/output_log.txt
+ProjectSettings/EditorBuildSettings.asset
