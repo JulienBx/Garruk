@@ -1000,7 +1000,7 @@ public class profileScript : MonoBehaviour {
 		WWW localFile = new WWW("file:///" + m_textPath);
 		yield return localFile;
 		if (localFile.error == null)
-			Debug.Log("Loaded file successfully");
+			//Debug.Log("Loaded file successfully");
 		else
 		{
 			Debug.Log("Open file error: "+localFile.error);
@@ -1021,7 +1021,7 @@ public class profileScript : MonoBehaviour {
 		else 
 		{
 			if(System.Convert.ToInt32(w.text)==1){
-				userData.Picture="http://localhost/GarrukServer/img/profile/" + ApplicationModel.username + fileExtension;
+				userData.Picture="http://54.77.118.214/GarrukServer/img/profile/" + ApplicationModel.username + fileExtension;
 			
 				//print(userData.Picture);
 
