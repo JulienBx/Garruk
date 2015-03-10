@@ -999,8 +999,9 @@ public class profileScript : MonoBehaviour {
 
 		WWW localFile = new WWW("file:///" + m_textPath);
 		yield return localFile;
-		if (localFile.error == null)
+		if (localFile.error == null){
 			//Debug.Log("Loaded file successfully");
+		}
 		else
 		{
 			Debug.Log("Open file error: "+localFile.error);
