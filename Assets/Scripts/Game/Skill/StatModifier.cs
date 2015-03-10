@@ -1,6 +1,10 @@
-﻿public class StatModifier
+﻿using UnityEngine;
+
+public class StatModifier
 {
 	public int Amount;                    // de combien ça modifie 
+	public int XMin;                      // XMin
+	public float Ponderation;             // Ponderation        
 	public int Duration;                  // -1 permanent ou bien le nombre de tour
 	public int Area;                        // Nombre de cases adjacentes
 	public ModifierType Type;           // Augmente, diminue, pourcentage, remplace ...
@@ -11,11 +15,13 @@
 
 	}
 
-	public StatModifier(int amount, ModifierType type, ModifierStat stat)
+	public StatModifier(int amount, int xmin, float ponderation, ModifierType type, ModifierStat stat)
 	{
 		this.Amount = amount;
 		this.Type = type;
 		this.Stat = stat;
+		this.XMin = xmin;
+		this.Ponderation = ponderation;
 	}
 	public int modifyAttack(int attack)
 	{
@@ -29,7 +35,8 @@
 	{
 		if (Stat == ModifierStat.Stat_Speed)
 		{
-			speed += Amount;
+			speed += Mathf.CeilToInt(XMin + (Amount * Ponderation));
+
 		}
 		return speed;
 	}

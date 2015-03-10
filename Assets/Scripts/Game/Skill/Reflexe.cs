@@ -7,12 +7,14 @@ public class Reflexe : GameSkill
 
 	public void Init()
 	{
-		StatModifiers.Add(new StatModifier(Skill.Power, ModifierType.Type_BonusMalus, ModifierStat.Stat_Speed));
+		StatModifiers.Add(new StatModifier(Skill.Power, Skill.XMin, Skill.Ponderation, ModifierType.Type_BonusMalus, ModifierStat.Stat_Speed));
 	}
-	void OnMouseDown()
+	public override void launch()
 	{
 		GameNetworkCard gnc = transform.parent.parent.GetComponent<GameNetworkCard>();
-		if (!GameBoard.instance.TimeOfPositionning && GameTimeLine.instance.PlayingCard.Equals(gnc) && !GamePlayingCard.instance.attemptToAttack && !GamePlayingCard.instance.hasAttacked)
+		if (!GameBoard.instance.TimeOfPositionning && GameTimeLine.instance.PlayingCard.Equals(gnc) 
+		    && !GamePlayingCard.instance.attemptToAttack && !GamePlayingCard.instance.hasAttacked
+		    && gnc.photonView.isMine)
 		{
 			GameTile.instance.SetCursorToTarget();
 			GamePlayingCard.instance.SkillCasted = this.SkillNumber;
@@ -29,8 +31,17 @@ public class Reflexe : GameSkill
 			gnc.Card.modifiers.Add(sm);
 		}
 		Instantiate(gnc.AttackAnim, go.transform.position + new Vector3(0, 0, -2), Quaternion.identity);
-		GamePlayingCard.instance.changeStats();
-		GameHoveredCard.instance.changeStats();
+		GameTimeLine.instance.SortCardsBySpeedAfterBuff();
+		GameTimeLine.instance.Arrange();
+		if (GamePlayingCard.instance.gameCard.Equals(gnc))
+		{
+			GamePlayingCard.instance.changeStats();
+		}
+		if (GameHoveredCard.instance.gameCard.Equals(gnc))
+		{
+			GameHoveredCard.instance.changeStats();
+		}
 		gnc.ShowFace();
+
 	}
 }

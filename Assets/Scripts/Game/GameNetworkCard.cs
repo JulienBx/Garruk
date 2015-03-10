@@ -8,6 +8,7 @@ public class GameNetworkCard : GameCard
 	public int ownerNumber;											// joueur 1 ou joueur 2
 	public int Damage = 0;                                          // point de dégat pris
 	public List<GameNetworkCard> neighbors;                         // Liste des cartes voisines
+	public int nbTurn = 1;                                              // seulement utile pour la timeline
 	
 	#region unity editor
 	public GUIStyle progress_empty;
@@ -98,6 +99,10 @@ public class GameNetworkCard : GameCard
 				GamePlayingCard.instance.attemptToAttack = false;
 				GamePlayingCard.instance.hasAttacked = true;
 				GameTile.instance.SetCursorToDefault();
+				if (GamePlayingCard.instance.hasMoved && GamePlayingCard.instance.hasAttacked)
+				{
+					GamePlayingCard.instance.Pass();
+				}
 			}
 		}
 		if (GamePlayingCard.instance.attemptToCast && !GamePlayingCard.instance.hasAttacked)
@@ -129,7 +134,10 @@ public class GameNetworkCard : GameCard
 				}
 			}
 		}
-		GameHoveredCard.instance.ChangeCard(this);
+		if (this.Card != null)
+		{
+			GameHoveredCard.instance.ChangeCard(this);
+		}
 	}
 	void OnMouseExit()
 	{
@@ -319,6 +327,7 @@ public class GameNetworkCard : GameCard
 		{
 			gnc.ShowFace();
 		}
+		GameTimeLine.instance.Arrange();
 	}
 	[RPC]
 	void GetBuff(int target, int skillCasted)

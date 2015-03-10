@@ -18,6 +18,7 @@ public class GameBoard : Photon.MonoBehaviour
 	public int MyPlayerNumber {get {return nbPlayer;}}
 	public int nbCardsPlayer1 = 0, nbCardsPlayer2 = 0;
 	public static Deck deck;
+	public int nbTurn;
 
 	private int nbPlayerReadyToFight = 0;
 	public Dictionary<Point, Tile> board = new Dictionary<Point, Tile>();
@@ -73,6 +74,7 @@ public class GameBoard : Photon.MonoBehaviour
 
 		if (nbPlayerReadyToFight == 2)
 		{  
+			nbTurn = 1;
 			TimeOfPositionning = false;
 			GameTimeLine.instance.PlayingCard.transform.Find("Yellow Outline").renderer.enabled = true;
 			if (GameTimeLine.instance.PlayingCard.ownerNumber == MyPlayerNumber)

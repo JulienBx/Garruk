@@ -1567,6 +1567,7 @@ MonoBehaviour:
   ownerNumber: 0
   Damage: 0
   neighbors: []
+  nbTurn: 1
   progress_empty:
     m_Name: 
     m_Normal:
@@ -5341,7 +5342,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &269028138
 Transform:
   m_ObjectHideFlags: 0
@@ -5803,6 +5804,7 @@ MonoBehaviour:
   ownerNumber: 0
   Damage: 0
   neighbors: []
+  nbTurn: 1
   progress_empty:
     m_Name: 
     m_Normal:
@@ -5985,6 +5987,7 @@ MonoBehaviour:
   - {fileID: 918521389}
   - {fileID: 1827287989}
   GameCards: []
+  playedCards: []
 --- !u!1 &290631237
 GameObject:
   m_ObjectHideFlags: 0
@@ -7806,6 +7809,7 @@ MonoBehaviour:
   ownerNumber: 0
   Damage: 0
   neighbors: []
+  nbTurn: 1
   progress_empty:
     m_Name: 
     m_Normal:
@@ -8223,6 +8227,7 @@ MonoBehaviour:
   ownerNumber: 0
   Damage: 0
   neighbors: []
+  nbTurn: 1
   progress_empty:
     m_Name: 
     m_Normal:
@@ -9410,6 +9415,7 @@ MonoBehaviour:
   ownerNumber: 0
   Damage: 0
   neighbors: []
+  nbTurn: 1
   progress_empty:
     m_Name: 
     m_Normal:
@@ -11183,6 +11189,10 @@ Prefab:
     - target: {fileID: 428840, guid: 41e7592d34820a2439ba5cd78e942c28, type: 2}
       propertyPath: m_LocalScale.z
       value: .136999995
+      objectReference: {fileID: 0}
+    - target: {fileID: 128840, guid: 41e7592d34820a2439ba5cd78e942c28, type: 2}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 11436374, guid: 41e7592d34820a2439ba5cd78e942c28, type: 2}
@@ -13837,6 +13847,7 @@ MonoBehaviour:
   ownerNumber: 0
   Damage: 0
   neighbors: []
+  nbTurn: 1
   progress_empty:
     m_Name: 
     m_Normal:
@@ -15490,6 +15501,7 @@ MonoBehaviour:
   ownerNumber: 0
   Damage: 0
   neighbors: []
+  nbTurn: 1
   progress_empty:
     m_Name: 
     m_Normal:
@@ -16661,7 +16673,7 @@ GameObject:
   - 111: {fileID: 865662527}
   m_Layer: 0
   m_Name: texturedGameCard
-  m_TagString: Untagged
+  m_TagString: NoPlayableCard
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -17955,6 +17967,7 @@ MonoBehaviour:
   ownerNumber: 0
   Damage: 0
   neighbors: []
+  nbTurn: 1
   progress_empty:
     m_Name: 
     m_Normal:
@@ -23378,6 +23391,7 @@ MonoBehaviour:
   ownerNumber: 0
   Damage: 0
   neighbors: []
+  nbTurn: 1
   progress_empty:
     m_Name: 
     m_Normal:
@@ -23932,6 +23946,7 @@ MonoBehaviour:
   ownerNumber: 0
   Damage: 0
   neighbors: []
+  nbTurn: 1
   progress_empty:
     m_Name: 
     m_Normal:
@@ -29172,7 +29187,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1610062313
 Transform:
   m_ObjectHideFlags: 0
@@ -31553,6 +31568,7 @@ MonoBehaviour:
   nbPlayer: 0
   nbCardsPlayer1: 0
   nbCardsPlayer2: 0
+  nbTurn: 0
 --- !u!114 &1766874479
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32753,6 +32769,7 @@ MonoBehaviour:
   ownerNumber: 0
   Damage: 0
   neighbors: []
+  nbTurn: 1
   progress_empty:
     m_Name: 
     m_Normal:

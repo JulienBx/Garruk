@@ -73,9 +73,7 @@ public class buyCardsScript : MonoBehaviour {
 			if (displayPopUp)
 				windowRect = GUI.Window(0, new Rect(Screen.width/2-100, Screen.height/2-50, 200, 110), DoMyWindow, "Vendre sur le marché");
 			}
-
 		}
-
 	}
 
 

@@ -16,6 +16,10 @@ public class GameSkill : Photon.MonoBehaviour {
 	void Update () {
 	
 	}
+	public virtual void launch()
+	{
+		Debug.Log("Skill non implémenté");
+	}
 
 	public virtual void Apply(int target)
 	{

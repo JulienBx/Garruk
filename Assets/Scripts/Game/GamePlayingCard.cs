@@ -40,11 +40,12 @@ public class GamePlayingCard : Photon.MonoBehaviour {
 	{
 		if (!GameBoard.instance.TimeOfPositionning && !GameScript.instance.gameOver)
 		{
+			Vector3 pos = transform.position;
+			pos = Camera.main.camera.WorldToScreenPoint(pos);
 			if (GameBoard.instance.MyPlayerNumber == gameCard.ownerNumber)
 			{
 				GameScript.instance.labelText = "A vous de jouer";
-				Vector3 pos = transform.position;
-				pos = Camera.main.camera.WorldToScreenPoint(pos);
+
 				if (GUI.Button(new Rect(pos.x - 35, Screen.height - pos.y - 110, 67, 25), "Passer"))
 				{
 					Pass();
@@ -61,6 +62,24 @@ public class GamePlayingCard : Photon.MonoBehaviour {
 			{
 				GameScript.instance.labelText = "Au joueur adverse de jouer";
 			}
+			int i = 0;
+
+			if (GameTimeLine.instance.PlayingCard.ownerNumber == GameBoard.instance.MyPlayerNumber
+			    && !GamePlayingCard.instance.attemptToAttack && !GamePlayingCard.instance.hasAttacked)
+			{
+				foreach (Skill skill in gameCard.Card.Skills)
+				{
+					if (skill.IsActivated == 1 && skill.ManaCost <= GameBoard.instance.nbTurn)
+					{
+						i += 1;
+						if (GUI.Button(new Rect(pos.x - 60, Screen.height - pos.y - 150 - i * 30, 120, 25), skill.Name))
+						{
+							Transform tf = GameTimeLine.instance.PlayingCardObject.transform.Find("texturedGameCard/Skill" + i + "Area");
+							tf.gameObject.GetComponent<GameSkill>().launch();
+						}
+					}
+				}
+			}
 		}
 		if (this.gameCard.Card != null)
 		{
@@ -76,17 +95,16 @@ public class GamePlayingCard : Photon.MonoBehaviour {
 	
 	public void Pass()
 	{
-		GamePlayingCard.instance.attemptToAttack = false;
-		GamePlayingCard.instance.attemptToCast = false;
-		GamePlayingCard.instance.hasAttacked = true;
+		hasMoved = false;
+		attemptToAttack = false;
+		attemptToCast = false;
+		hasAttacked = false;
+		attemptToMoveTo = null;
 		GameTile.instance.SetCursorToDefault();
 		photonView.RPC("ForwardInTime", PhotonTargets.AllBuffered);
 	}
 	public void ChangeCurrentCard(GameNetworkCard card)
 	{
-		hasMoved = false;
-		hasAttacked = false;
-		attemptToMoveTo = null;
 		gameCard.Card = card.Card;
 		gameCard.ownerNumber = card.ownerNumber;
 		changeStats();
