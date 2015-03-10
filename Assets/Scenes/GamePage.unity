@@ -1567,6 +1567,7 @@ MonoBehaviour:
   ownerNumber: 0
   Damage: 0
   neighbors: []
+  nbTurn: 1
   progress_empty:
     m_Name: 
     m_Normal:
@@ -5803,6 +5804,7 @@ MonoBehaviour:
   ownerNumber: 0
   Damage: 0
   neighbors: []
+  nbTurn: 1
   progress_empty:
     m_Name: 
     m_Normal:
@@ -5985,6 +5987,7 @@ MonoBehaviour:
   - {fileID: 918521389}
   - {fileID: 1827287989}
   GameCards: []
+  playedCards: []
 --- !u!1 &290631237
 GameObject:
   m_ObjectHideFlags: 0
@@ -7806,6 +7809,7 @@ MonoBehaviour:
   ownerNumber: 0
   Damage: 0
   neighbors: []
+  nbTurn: 1
   progress_empty:
     m_Name: 
     m_Normal:
@@ -8223,6 +8227,7 @@ MonoBehaviour:
   ownerNumber: 0
   Damage: 0
   neighbors: []
+  nbTurn: 1
   progress_empty:
     m_Name: 
     m_Normal:
@@ -9410,6 +9415,7 @@ MonoBehaviour:
   ownerNumber: 0
   Damage: 0
   neighbors: []
+  nbTurn: 1
   progress_empty:
     m_Name: 
     m_Normal:
@@ -13841,6 +13847,7 @@ MonoBehaviour:
   ownerNumber: 0
   Damage: 0
   neighbors: []
+  nbTurn: 1
   progress_empty:
     m_Name: 
     m_Normal:
@@ -15494,6 +15501,7 @@ MonoBehaviour:
   ownerNumber: 0
   Damage: 0
   neighbors: []
+  nbTurn: 1
   progress_empty:
     m_Name: 
     m_Normal:
@@ -17959,6 +17967,7 @@ MonoBehaviour:
   ownerNumber: 0
   Damage: 0
   neighbors: []
+  nbTurn: 1
   progress_empty:
     m_Name: 
     m_Normal:
@@ -23382,6 +23391,7 @@ MonoBehaviour:
   ownerNumber: 0
   Damage: 0
   neighbors: []
+  nbTurn: 1
   progress_empty:
     m_Name: 
     m_Normal:
@@ -23936,6 +23946,7 @@ MonoBehaviour:
   ownerNumber: 0
   Damage: 0
   neighbors: []
+  nbTurn: 1
   progress_empty:
     m_Name: 
     m_Normal:
@@ -31557,6 +31568,7 @@ MonoBehaviour:
   nbPlayer: 0
   nbCardsPlayer1: 0
   nbCardsPlayer2: 0
+  nbTurn: 0
 --- !u!114 &1766874479
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32757,6 +32769,7 @@ MonoBehaviour:
   ownerNumber: 0
   Damage: 0
   neighbors: []
+  nbTurn: 1
   progress_empty:
     m_Name: 
     m_Normal:

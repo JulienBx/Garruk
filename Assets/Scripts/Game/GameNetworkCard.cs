@@ -8,6 +8,7 @@ public class GameNetworkCard : GameCard
 	public int ownerNumber;											// joueur 1 ou joueur 2
 	public int Damage = 0;                                          // point de dégat pris
 	public List<GameNetworkCard> neighbors;                         // Liste des cartes voisines
+	public int nbTurn = 1;                                              // seulement utile pour la timeline
 	
 	#region unity editor
 	public GUIStyle progress_empty;
