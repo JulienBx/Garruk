@@ -602,9 +602,20 @@ public class MarketScript : MonoBehaviour {
 
 						if (money >= cards[cardsToBeDisplayed[i]].Price && !cardsSold.Contains(cardsToBeDisplayed[i])){
 							GUILayout.Label ("Prix : "+cards[cardsToBeDisplayed[i]].Price+" $",pricePoliceStyle,GUILayout.Height(15));
-							GUILayout.Label ("Joueur : "+usersList[cardsToBeDisplayed[i]],sellerPoliceStyle,GUILayout.Height(10));
 
-					
+							GUILayout.BeginHorizontal();
+							{
+
+								GUILayout.Label ("Joueur : ",sellerPoliceStyle,GUILayout.Height(10));
+								if (GUILayout.Button(usersList[cardsToBeDisplayed[i]],deleteButtonStyle, GUILayout.Height(10)))
+								{
+									ApplicationModel.profileChosen =usersList[cardsToBeDisplayed[i]];
+									Application.LoadLevel("Profile");
+
+								}
+							}
+							GUILayout.EndHorizontal();
+
 							if (GUILayout.Button("Acheter",buyButtonStyle, GUILayout.Height(15)))
 							{
 							
@@ -616,12 +627,34 @@ public class MarketScript : MonoBehaviour {
 						}
 						else if (money < cards[cardsToBeDisplayed[i]].Price){
 							GUILayout.Label ("Prix : "+cards[cardsToBeDisplayed[i]].Price+" $",cantBuyPricePoliceStyle,GUILayout.Height(15));
-							GUILayout.Label ("Joueur : "+usersList[cardsToBeDisplayed[i]],sellerPoliceStyle,GUILayout.Height(10));
+							GUILayout.BeginHorizontal();
+							{
+								
+								GUILayout.Label ("Joueur : ",sellerPoliceStyle,GUILayout.Height(10));
+								if (GUILayout.Button(usersList[cardsToBeDisplayed[i]],deleteButtonStyle, GUILayout.Height(10)))
+								{
+									ApplicationModel.profileChosen =usersList[cardsToBeDisplayed[i]];
+									Application.LoadLevel("Profile");
+									
+								}
+							}
+							GUILayout.EndHorizontal();
 							GUILayout.Space (15);
 						}
 						else {
 							GUILayout.Label ("Prix : "+cards[cardsToBeDisplayed[i]].Price+" $",pricePoliceStyle,GUILayout.Height(15));
-							GUILayout.Label ("Joueur : "+usersList[cardsToBeDisplayed[i]],sellerPoliceStyle,GUILayout.Height(10));
+							GUILayout.BeginHorizontal();
+							{
+								
+								GUILayout.Label ("Joueur : ",sellerPoliceStyle,GUILayout.Height(10));
+								if (GUILayout.Button(usersList[cardsToBeDisplayed[i]],deleteButtonStyle, GUILayout.Height(10)))
+								{
+									ApplicationModel.profileChosen =usersList[cardsToBeDisplayed[i]];
+									Application.LoadLevel("Profile");
+									
+								}
+							}
+							GUILayout.EndHorizontal();
 							GUILayout.Space (15);
 						}
 
@@ -967,10 +1000,6 @@ public class MarketScript : MonoBehaviour {
 											
 						this.cards[i].Skills = new List<Skill>();
 						this.cardsToBeDisplayed.Add(i);
-
-						if (cardInfo2[14].Length>10)
-						this.usersList.Add (cardInfo2[14].Substring(0,10));
-						else
 						this.usersList.Add (cardInfo2[14]);
 
 					}
