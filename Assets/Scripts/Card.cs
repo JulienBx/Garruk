@@ -23,6 +23,7 @@ public class Card
 	public int LifeLevel;
 	public int SpeedLevel;
 	public int Price;
+	public int Experience;
 	public DateTime OnSaleDate;
 	public List<StatModifier> modifiers = new List<StatModifier>();
 	
@@ -124,7 +125,8 @@ public class Card
 	            int speedLevel, 
 	            int attackLevel,
 	            int price,
-	            DateTime onSaleDate)
+	            DateTime onSaleDate,
+	            int experience)
 	{
 		this.Id = id;
 		this.Title = title;
@@ -141,6 +143,7 @@ public class Card
 		this.AttackLevel = attackLevel;
 		this.Price = price;
 		this.OnSaleDate = onSaleDate;
+		this.Experience = experience;
 	}
 	
 	
