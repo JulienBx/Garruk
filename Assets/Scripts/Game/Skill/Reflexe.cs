@@ -37,9 +37,12 @@ public class Reflexe : GameSkill
 		{
 			GamePlayingCard.instance.changeStats();
 		}
-		if (GameHoveredCard.instance.gameCard.Card.Equals(gnc.Card))
+		if (GameHoveredCard.instance.gameCard.Card != null)
 		{
-			GameHoveredCard.instance.changeStats();
+			if (GameHoveredCard.instance.gameCard.Card.Equals(gnc.Card))
+			{
+				GameHoveredCard.instance.changeStats();
+			}
 		}
 		gnc.ShowFace();
 
