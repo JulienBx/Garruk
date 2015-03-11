@@ -75,7 +75,14 @@ public class GameScript : Photon.MonoBehaviour {
 
 	private IEnumerator returnToLobby()
 	{
-		yield return new WaitForSeconds(5);
+		if (GameBoard.instance.MyPlayerNumber == 1)
+		{
+			yield return new WaitForSeconds(5);
+		} 
+		else
+		{
+			yield return new WaitForSeconds(7);
+		}
 		PhotonNetwork.Disconnect();
 	}
 
