@@ -4,7 +4,7 @@ using System.Collections;
 public class GamePlayingCard : Photon.MonoBehaviour {
 	
 	public static GamePlayingCard instance;
-	public GameNetworkCard gameCard;
+	public GameCard gameCard;
 	public int nbSkillToBeCast;
 	
 	public GameTile attemptToMoveTo;
@@ -21,10 +21,13 @@ public class GamePlayingCard : Photon.MonoBehaviour {
 	public Texture2D bgImage; 
 	public Texture2D fgImage;
 	public GUIStyle progress_empty, progress_full;
-	
+
+	private GameNetworkCard gnCard;
+
 	public void Awake()
 	{
 		instance = this;
+		gnCard = gameObject.GetComponent<GameNetworkCard>();
 	}
 	// Use this for initialization
 	void Start () {
@@ -42,7 +45,7 @@ public class GamePlayingCard : Photon.MonoBehaviour {
 		{
 			Vector3 pos = transform.position;
 			pos = Camera.main.camera.WorldToScreenPoint(pos);
-			if (GameBoard.instance.MyPlayerNumber == gameCard.ownerNumber)
+			if (GameBoard.instance.MyPlayerNumber == gnCard.ownerNumber)
 			{
 				GameScript.instance.labelText = "A vous de jouer";
 
@@ -69,9 +72,9 @@ public class GamePlayingCard : Photon.MonoBehaviour {
 			{
 				foreach (Skill skill in gameCard.Card.Skills)
 				{
+					i += 1;
 					if (skill.IsActivated == 1 && skill.ManaCost <= GameBoard.instance.nbTurn)
 					{
-						i += 1;
 						if (GUI.Button(new Rect(pos.x - 60, Screen.height - pos.y - 150 - i * 30, 120, 25), skill.Name))
 						{
 							Transform tf = GameTimeLine.instance.PlayingCardObject.transform.Find("texturedGameCard/Skill" + i + "Area");
@@ -81,7 +84,7 @@ public class GamePlayingCard : Photon.MonoBehaviour {
 				}
 			}
 		}
-		if (this.gameCard.Card != null)
+		if (this.gameCard != null)
 		{
 			GUI.BeginGroup(new Rect(WorldNamePos.x, Screen.height - WorldNamePos.y, 16, 50));
 			GUI.Box(new Rect(0,0,16,50), bgImage, progress_empty);
@@ -105,8 +108,8 @@ public class GamePlayingCard : Photon.MonoBehaviour {
 	}
 	public void ChangeCurrentCard(GameNetworkCard card)
 	{
-		gameCard.Card = card.Card;
-		gameCard.ownerNumber = card.ownerNumber;
+		gameCard.Card = card.gameCard.Card;
+		gnCard.ownerNumber = card.ownerNumber;
 		changeStats();
 	}
 	

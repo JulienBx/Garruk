@@ -69,7 +69,7 @@ public class Deck
 			Debug.Log(w.error); 									// donne l'erreur eventuelle
 		} else
 		{
-			Debug.Log(w.text); 									// donne l'erreur eventuelle
+			Debug.Log(w.text); 									    // donne l'erreur eventuelle
 			string[] deckEntries = w.text.Split('\n'); 				// Chaque ligne du serveur correspond à une carte
 			
 			for(int i = 0 ; i < 1 ; i++)
