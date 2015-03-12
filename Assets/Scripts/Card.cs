@@ -26,6 +26,7 @@ public class Card
 	public int Experience;
 	public DateTime OnSaleDate;
 	public List<StatModifier> modifiers = new List<StatModifier>();
+	public int onSale ;
 	
 	public Card() {
 	}
@@ -145,6 +146,41 @@ public class Card
 		this.OnSaleDate = onSaleDate;
 		this.Experience = experience;
 	}
+
+	public Card(int id, 
+	            string title, 
+	            int life, 
+	            int attack, 
+	            int speed, 
+	            int move, 
+	            int artIndex, 
+	            int idClass,
+	            string titleClass, 
+	            int lifeLevel, 
+	            int moveLevel, 
+	            int speedLevel, 
+	            int attackLevel,
+	            int price,
+	            int onSale ,
+	            int experience)
+	{
+		this.Id = id;
+		this.Title = title;
+		this.Life = life;
+		this.Attack = attack;
+		this.Speed = speed;
+		this.Move = move;
+		this.ArtIndex = artIndex;
+		this.IdClass = idClass;
+		this.TitleClass = titleClass;
+		this.LifeLevel = lifeLevel;
+		this.MoveLevel = moveLevel;
+		this.SpeedLevel = speedLevel;
+		this.AttackLevel = attackLevel;
+		this.Price = price;
+		this.onSale = onSale;
+		this.Experience = experience;
+	}
 	
 	
 	public override int GetHashCode() 
@@ -252,16 +288,16 @@ public class Card
 	}
 	
 	public bool verifyC(float minLife,float maxLife,float minAttack,float maxAttack,float minMove,float maxMove,float minQuickness,float maxQuickness){
-		if (minLife >= this.Life || maxLife <= this.Life){
+		if (minLife > this.Life || maxLife < this.Life){
 			return false ;
 		}
-		else if (minAttack >= this.Attack || maxAttack <= this.Attack){
+		else if (minAttack > this.Attack || maxAttack < this.Attack){
 			return false ;
 		}
-		else if (minMove >= this.Move || maxMove <= this.Move){
+		else if (minMove > this.Move || maxMove < this.Move){
 			return false ;
 		}
-		else if (minQuickness >= this.Speed || maxQuickness <= this.Speed){
+		else if (minQuickness > this.Speed || maxQuickness < this.Speed){
 			return false ;
 		}
 		else{

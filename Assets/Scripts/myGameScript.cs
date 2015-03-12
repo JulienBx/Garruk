@@ -17,6 +17,8 @@ public class myGameScript : MonoBehaviour {
 	private string URLRemoveCardFromDeck = "http://54.77.118.214/GarrukServer/remove_card_from_deck_by_user.php";
 	private string URLSellCard = "http://54.77.118.214/GarrukServer/sellRandomCard.php";
 	private string URLPutOnMarket = "http://54.77.118.214/GarrukServer/putonmarket.php";
+	private string URLRemoveFromMarket = "http://54.77.118.214/GarrukServer/removeFromMarket.php";
+	private string URLChangeMarketPrice = "http://54.77.118.214/GarrukServer/changeMarketPrice.php";
 
 	//La fonction pour charger les decks est-elle terminée ?
 	private bool areDecksRetrived = false ;
@@ -41,6 +43,7 @@ public class myGameScript : MonoBehaviour {
 	public GUIStyle centralWindowTitleStyle ;
 	public GUIStyle centralWindowTextFieldStyle ;
 	public GUIStyle centralWindowButtonStyle ;
+	public GUIStyle smallCentralWindowButtonStyle ;
 	public GUIStyle focusedWindowStyle ;
 	public GUIStyle focusedWindowTitleStyle ;
 	public GUIStyle focusedWindowButtonTitleStyle ;
@@ -138,7 +141,6 @@ public class myGameScript : MonoBehaviour {
 
 	bool isBeingDragged = false;
 	bool toReload = false ;
-	bool recalculeFiltres = false;
 	bool confirmSuppress ;
 	Vector2 scrollPosition = new Vector2(0,0) ;
 	bool displayCreationDeckWindow  = false ;
@@ -152,16 +154,21 @@ public class myGameScript : MonoBehaviour {
 	bool isCreatedCards = false ;
 	bool destroySellingCardWindow = false ;
 	bool destroyFocus = false ;
-	bool destroyFocusAll = false ;
-	bool isDeckCardFocused = false ;
-	bool isMarketingCardWindow = false ;
+	bool soldCard = false ;
+	string textMarket ;
+	bool isMarketed ;
+	int idFocused ;
+	bool isChangingPrice ;
+	string tempPrice ; 
+	bool isEscDown = false ;
+	bool isUpEscape;
+	bool enVente = false ;
 
 	GameObject[] displayedCards ;
 	GameObject[] displayedDeckCards ;
 
 	RaycastHit hit;
 	Ray ray ;
-	bool step1 = false ;
 
 	#endregion
 
@@ -183,6 +190,7 @@ public class myGameScript : MonoBehaviour {
 		if (destroyAll){
 			this.clearCards();
 			this.clearDeckCards();
+			isCreatedDeckCards=false;
 			toReloadAll=true;
 			destroyAll=false;
 		}
@@ -209,7 +217,6 @@ public class myGameScript : MonoBehaviour {
 			areDecksRetrived=false ;
 		}
 		if (isLoadedDeck){
-			print ("les decks sont loadés");
 			if (isCreatedDeckCards){
 				this.displayDeckCards();
 			}
@@ -282,16 +289,24 @@ public class myGameScript : MonoBehaviour {
 					cardFocused.gameObject.name = "FocusedCard";	
 
 					if (hit.collider.name.Contains("DeckCard")){
-						cardId = cards[deckCardsIds[focusedCard]].Id;
-						cardFocused.GetComponent<GameCard>().Card = cards[deckCardsIds[focusedCard]]; 
-						focusedCardPrice = cards[deckCardsIds[focusedCard]].getCost();
+						idFocused = deckCardsIds[focusedCard];
+
 					}
 					else{
-						cardId = cards[focusedCard].Id;
-						cardFocused.GetComponent<GameCard>().Card = cards[focusedCard]; 
-						focusedCardPrice = cards[focusedCard].getCost();
+						idFocused = focusedCard;
 					}
 
+					cardId = cards[idFocused].Id;
+					cardFocused.GetComponent<GameCard>().Card = cards[idFocused]; 
+					focusedCardPrice = cards[idFocused].getCost();
+					if (cards[idFocused].onSale==0){
+						textMarket = "Mettre la carte en vente sur le bazar";
+						isMarketed = false ;
+					}
+					else{
+						textMarket = "La carte est mise en vente sur le bazar pour "+cards[idFocused].Price+" crédits. Modifier ?";
+						isMarketed = true ;
+					}
 
 					cardFocused.GetComponent<GameCard>().ShowFace();
 					cardFocused.SetActive (true);
@@ -307,17 +322,27 @@ public class myGameScript : MonoBehaviour {
 
 		if (destroyFocus){
 			isSellingCard=false;
+			isMarketingCard=false;
 			Destroy(cardFocused);
 			this.focusedCard=-1;
+			displayFilters = true ;
+			displayDecks = true ;
+			this.displayPage();
+			this.displayDeckCards();
 			destroyFocus = false ;
-			displayFilters= true ;
 		}
 
-		if (destroyFocusAll){
+		if (soldCard){
 			isSellingCard=false;
 			Destroy(cardFocused);
 			this.focusedCard=-1;
-			destroyFocusAll = false ;
+			destroyAll = true ;
+			soldCard = false;
+		}
+
+		if (isUpEscape){
+			isEscDown = false ;
+			isUpEscape = false ;
 		}
 	}
 
@@ -335,42 +360,200 @@ public class myGameScript : MonoBehaviour {
 					destroySellingCardWindow = true ;
 					StartCoroutine (this.sellCard(cardId, focusedCardPrice));
 				}
-				else{
-				GUILayout.BeginArea(centralWindow);
-				{
-					GUILayout.BeginVertical(centralWindowStyle);
-					{
-						GUILayout.FlexibleSpace();
-						GUILayout.Label("Confirmer la vente de la carte pour la somme de "+focusedCardPrice+ " crédits", centralWindowTitleStyle);
-						GUILayout.Space(0.02f*heightScreen);
-						GUILayout.BeginHorizontal();
-						{
-							GUILayout.Space(0.03f*widthScreen);
-							if (GUILayout.Button("Confirmer la vente",centralWindowButtonStyle)) // also can put width here
-							{
-								destroySellingCardWindow = true ;
-								StartCoroutine (this.sellCard(cardId, focusedCardPrice));
-							}
-							GUILayout.Space(0.04f*widthScreen);
-							if (GUILayout.Button("Annuler",centralWindowButtonStyle)) // also can put width here
-							{
-								destroySellingCardWindow = true ;
-							}
-							GUILayout.Space(0.03f*widthScreen);
-						}
-						GUILayout.EndHorizontal();
-						GUILayout.FlexibleSpace();
-					}
-					GUILayout.EndVertical();
+				else if(Event.current.keyCode==KeyCode.Escape) {
+					isSellingCard = false ;
+					isEscDown = true ;
 				}
-				GUILayout.EndArea();
+				else{
+					GUILayout.BeginArea(centralWindow);
+					{
+						GUILayout.BeginVertical(centralWindowStyle);
+						{
+							GUILayout.FlexibleSpace();
+							GUILayout.Label("Confirmer la désintégration de la carte (rapporte "+focusedCardPrice+ " crédits)", centralWindowTitleStyle);
+							GUILayout.Space(0.02f*heightScreen);
+							GUILayout.BeginHorizontal();
+							{
+								GUILayout.Space(0.03f*widthScreen);
+								if (GUILayout.Button("Désintégrer",centralWindowButtonStyle)) // also can put width here
+								{
+									destroySellingCardWindow = true ;
+									StartCoroutine (this.sellCard(cardId, focusedCardPrice));
+								}
+								GUILayout.Space(0.04f*widthScreen);
+								if (GUILayout.Button("Annuler",centralWindowButtonStyle)) // also can put width here
+								{
+									destroySellingCardWindow = true ;
+								}
+								GUILayout.Space(0.03f*widthScreen);
+							}
+							GUILayout.EndHorizontal();
+							GUILayout.FlexibleSpace();
+						}
+						GUILayout.EndVertical();
+					}
+					GUILayout.EndArea();
 				}
 			}
 			else if(isMarketingCard){
-				StartCoroutine (this.putOnMarket(cards[focusedCard].Id, cards[focusedCard].getCost()));
+					if (isChangingPrice){
+						if(Event.current.keyCode==KeyCode.Return) {
+							destroyFocus = true ;
+							isChangingPrice = false ;
+							StartCoroutine (this.changeMarketPrice(cardId, focusedCardPrice));
+						}
+					else if(Event.current.keyCode==KeyCode.Escape) {
+						isMarketingCard = false ;
+						isEscDown = true ;
+					}
+					else{	
+					GUILayout.BeginArea(centralWindow);
+						{
+							GUILayout.BeginVertical(centralWindowStyle);
+							{
+								GUILayout.FlexibleSpace();
+								GUILayout.Label("Changer le prix de vente de la carte sur le bazar", centralWindowTitleStyle);
+								GUILayout.FlexibleSpace();
+
+								GUILayout.BeginHorizontal();
+								{
+									GUILayout.FlexibleSpace();
+									tempPrice = GUILayout.TextField(tempPrice, centralWindowTextFieldStyle);
+									GUILayout.FlexibleSpace();
+								}
+								GUILayout.EndHorizontal();
+
+								GUILayout.FlexibleSpace();
+								GUILayout.BeginHorizontal();
+								{
+									GUILayout.FlexibleSpace();
+									if (GUILayout.Button("Confirmer",centralWindowButtonStyle))
+									{
+										destroyFocus = true ;
+										isChangingPrice = false ;
+										StartCoroutine (this.changeMarketPrice(cardId, System.Convert.ToInt32(tempPrice)));
+									}
+									GUILayout.FlexibleSpace();
+									if (GUILayout.Button("Annuler",centralWindowButtonStyle))
+									{
+										isChangingPrice = false ;
+										isMarketingCard = false ;
+									}
+									GUILayout.FlexibleSpace();
+								}
+								GUILayout.EndHorizontal();
+								GUILayout.FlexibleSpace();
+							}
+							GUILayout.EndVertical();
+						}
+						GUILayout.EndArea();
+					}
+					}
+					else if (isMarketed){
+						if(Event.current.keyCode==KeyCode.Return) {
+							destroyFocus = true ;
+							StartCoroutine (this.removeFromMarket(cardId));
+						}
+						else if(Event.current.keyCode==KeyCode.Escape) {
+							isMarketingCard = false ;
+							isEscDown = true ;
+						}
+						else{		
+						GUILayout.BeginArea(centralWindow);
+						{
+							GUILayout.BeginVertical(centralWindowStyle);
+							{
+								GUILayout.FlexibleSpace();
+								GUILayout.Label(textMarket, centralWindowTitleStyle);
+								GUILayout.Space(0.02f*heightScreen);
+								GUILayout.BeginHorizontal();
+								{
+									GUILayout.FlexibleSpace();
+									if (GUILayout.Button("Retirer du bazar",smallCentralWindowButtonStyle))
+									{
+										destroyFocus = true ;
+										StartCoroutine (this.removeFromMarket(cardId));
+										if (enVente){
+											toReload = true ;
+										}
+									}
+									GUILayout.FlexibleSpace();
+									if (GUILayout.Button("Modifier son prix",smallCentralWindowButtonStyle))
+									{
+										isChangingPrice = true;
+										tempPrice = ""+cards[idFocused].Price;
+									}
+									GUILayout.FlexibleSpace();
+									if (GUILayout.Button("Annuler",smallCentralWindowButtonStyle))
+									{
+										isMarketingCard = false ;
+									}
+									GUILayout.FlexibleSpace();
+								}
+								GUILayout.EndHorizontal();
+								GUILayout.FlexibleSpace();
+							}
+							GUILayout.EndVertical();
+						}
+						GUILayout.EndArea();
+					}
+					}
+					else{
+					if(Event.current.keyCode==KeyCode.Return) {
+						destroyFocus = true ;
+						StartCoroutine (this.putOnMarket(cardId, focusedCardPrice));
+					}
+					else if(Event.current.keyCode==KeyCode.Escape) {
+						isMarketingCard = false ;
+						isEscDown = true ;
+					}
+					else{		
+					GUILayout.BeginArea(centralWindow);
+						{
+							GUILayout.BeginVertical(centralWindowStyle);
+							{
+								GUILayout.FlexibleSpace();
+								GUILayout.Label("Choisir le prix en vente de la carte sur le bazar", centralWindowTitleStyle);
+								GUILayout.FlexibleSpace();
+								GUILayout.BeginHorizontal();
+								{
+									GUILayout.FlexibleSpace();
+									tempPrice = GUILayout.TextField(tempPrice, centralWindowTextFieldStyle);
+									GUILayout.FlexibleSpace();
+								}
+								GUILayout.EndHorizontal();
+								GUILayout.FlexibleSpace();
+								GUILayout.BeginHorizontal();
+								{
+									GUILayout.Space(0.03f*widthScreen);
+									if (GUILayout.Button("Confirmer",centralWindowButtonStyle))
+									{
+										destroyFocus = true ;
+										StartCoroutine (this.putOnMarket(cardId, System.Convert.ToInt32(tempPrice)));
+									}
+									GUILayout.Space(0.04f*widthScreen);
+									if (GUILayout.Button("Annuler",centralWindowButtonStyle))
+									{
+										isMarketingCard = false ;
+									}
+									GUILayout.Space(0.03f*widthScreen);
+								}
+								GUILayout.EndHorizontal();
+								GUILayout.FlexibleSpace();
+							}
+							GUILayout.EndVertical();
+						}
+						GUILayout.EndArea();
+					}
+				}
 			}
 			else{
-				if(Event.current.keyCode==KeyCode.Escape) {
+				if(isEscDown) {
+					if(Input.GetKeyUp(KeyCode.Escape)) {
+						isUpEscape = true ;
+					}
+				}
+				else if(Input.GetKeyDown(KeyCode.Escape)) {
 					this.destroyFocus=true;
 				}
 				else{
@@ -378,12 +561,18 @@ public class myGameScript : MonoBehaviour {
 				{
 						GUILayout.BeginVertical();
 						{
-							if (GUILayout.Button("Vendre (+"+focusedCardPrice+" crédits)",focusButtonStyle)){
+							if (GUILayout.Button("Désintégrer (+"+focusedCardPrice+" crédits)",focusButtonStyle)){
 								isSellingCard = true ; 
 							}
-							if (GUILayout.Button("Mettre sur le marché",focusButtonStyle))
+							if (GUILayout.Button(textMarket,focusButtonStyle))
 							{
-								isMarketingCard = true ; 	
+								isMarketingCard = true ; 
+								tempPrice = ""+cards[idFocused].getCost();
+							}
+							GUILayout.FlexibleSpace();
+							if (GUILayout.Button("Revenir à mes cartes",focusButtonStyle))
+							{
+								this.destroyFocus=true;
 							}
 						}
 						GUILayout.EndVertical();
@@ -646,6 +835,15 @@ public class myGameScript : MonoBehaviour {
 				string tempString ;
 				GUILayout.BeginVertical();
 				{
+					GUILayout.FlexibleSpace(); 
+					toggle = GUILayout.Toggle (enVente, "Cartes en vente",this.toggleStyle);
+					if (toggle != enVente) {
+						enVente = toggle;
+						toReload = true ;
+					}
+
+					GUILayout.FlexibleSpace(); 
+
 					GUILayout.Label ("Filtrer par classe",filterTitleStyle);
 					for (int i=0; i<this.cardTypeList.Length-1; i++) {		
 						toggle = GUILayout.Toggle (togglesCurrentStates [i], this.cardTypeList[i],this.toggleStyle);
@@ -657,7 +855,6 @@ public class myGameScript : MonoBehaviour {
 							else{
 								filtersCardType.Remove(i);
 							}
-							recalculeFiltres = true ;
 							toReload = true ;
 						}
 					}
@@ -678,7 +875,6 @@ public class myGameScript : MonoBehaviour {
 						}
 						if (this.isSkillChosen){
 							this.isSkillChosen=false ;
-							recalculeFiltres = true ;
 							toReload = true ;
 						}
 					}
@@ -689,7 +885,6 @@ public class myGameScript : MonoBehaviour {
 								valueSkill = matchValues [j].ToLower ();
 								this.isSkillChosen=true ;
 								this.matchValues = new List<string>();
-								recalculeFiltres = true ;
 								toReload = true ;
 							}
 						}
@@ -697,7 +892,6 @@ public class myGameScript : MonoBehaviour {
 						
 					GUILayout.FlexibleSpace();
 
-					if (this.cardsToBeDisplayed.Count>0){
 					GUILayout.Label ("Filtrer par Vie",filterTitleStyle);
 					GUILayout.Space(-8);
 					GUILayout.BeginHorizontal();
@@ -755,13 +949,21 @@ public class myGameScript : MonoBehaviour {
 					if (Input.GetMouseButtonDown(0)){
 						isBeingDragged = true;
 					}
-					
 					if (Input.GetMouseButtonUp(0)){
 						isBeingDragged = false;
 					}
 
 					if (!isBeingDragged){
 						bool isMoved = false ;
+						maxLifeVal=Mathf.RoundToInt(maxLifeVal);
+						minLifeVal=Mathf.RoundToInt(minLifeVal);
+						maxAttackVal=Mathf.RoundToInt(maxAttackVal);
+						minAttackVal=Mathf.RoundToInt(minAttackVal);
+						maxMoveVal=Mathf.RoundToInt(maxMoveVal);
+						minMoveVal=Mathf.RoundToInt(minMoveVal);
+						maxQuicknessVal=Mathf.RoundToInt(maxQuicknessVal);
+						minQuicknessVal=Mathf.RoundToInt(minQuicknessVal);
+
 						if (oldMaxLifeVal != maxLifeVal){
 							oldMaxLifeVal = maxLifeVal;
 							isMoved = true ; 
@@ -779,11 +981,11 @@ public class myGameScript : MonoBehaviour {
 							isMoved = true ; 
 						}
 						if (oldMaxMoveVal != maxMoveVal){
-							oldMaxMoveVal = maxMoveVal;
+							oldMaxMoveVal = Mathf.RoundToInt(maxMoveVal);
 							isMoved = true ; 
 						}
 						if (oldMinMoveVal != minMoveVal){
-							oldMinMoveVal = minMoveVal;
+							oldMinMoveVal = Mathf.RoundToInt(minMoveVal);
 							isMoved = true ; 
 						}
 						if (oldMaxQuicknessVal != maxQuicknessVal){
@@ -796,7 +998,6 @@ public class myGameScript : MonoBehaviour {
 						}
 						if(isMoved){
 							toReload = true ;
-						}
 						}
 					}
 				}
@@ -835,7 +1036,7 @@ public class myGameScript : MonoBehaviour {
 		if (w.error != null) {
 			print (w.error); 										// donne l'erreur eventuelle
 		} else {
-			print (w.text);
+			//print (w.text);
 			StartCoroutine(RetrieveDecks()); 
 		}
 	}
@@ -852,7 +1053,7 @@ public class myGameScript : MonoBehaviour {
 		if (w.error != null) {
 			print (w.error); 										// donne l'erreur eventuelle
 		} else {
-			print (w.text);
+			//print (w.text);
 			StartCoroutine(RetrieveDecks());
 		}
 	}
@@ -890,6 +1091,10 @@ public class myGameScript : MonoBehaviour {
 			this.centralWindowButtonStyle.fontSize = heightScreen*2/100;
 			this.centralWindowButtonStyle.fixedHeight = heightScreen*3/100;
 			this.centralWindowButtonStyle.fixedWidth = widthScreen*2/10;
+
+			this.smallCentralWindowButtonStyle.fontSize = heightScreen*15/1000;
+			this.smallCentralWindowButtonStyle.fixedHeight = heightScreen*3/100;
+			this.smallCentralWindowButtonStyle.fixedWidth = widthScreen*1/10;
 
 			rectDeck = new Rect (widthScreen * 0.005f, 0.105f * heightScreen, widthScreen * 0.19f, 0.21f * heightScreen);
 			this.rectInsideScrollDeck = new Rect (widthScreen * 0.005f, 0.12f * heightScreen, widthScreen * 0.18f, 0.18f * heightScreen);
@@ -942,7 +1147,7 @@ public class myGameScript : MonoBehaviour {
 			this.smallPoliceStyle.fixedHeight = heightScreen*20/1000;
 			this.smallPoliceStyle.fixedWidth = widthScreen*5/100;
 
-			this.focusButtonStyle.fontSize = heightScreen*3/100;
+			this.focusButtonStyle.fontSize = heightScreen*2/100;
 			this.focusButtonStyle.fixedHeight = heightScreen*6/100;
 			this.focusButtonStyle.fixedWidth = widthScreen*25/100;
 		}
@@ -984,9 +1189,291 @@ public class myGameScript : MonoBehaviour {
 
 	private void applyFilters() {
 		this.cardsToBeDisplayed=new List<int>();
+		IList<int> tempCardsToBeDisplayed = new List<int>();
 		int nbFilters = this.filtersCardType.Count;
 		bool testFilters = false;
 		bool testDeck = false;
+		bool test ;
+		
+			bool minLifeBool = (minLifeLimit==minLifeVal);
+			bool maxLifeBool = (maxLifeLimit==maxLifeVal);
+			bool minMoveBool = (minMoveLimit==minMoveVal);
+			bool maxMoveBool = (maxMoveLimit==maxMoveVal);
+			bool minQuicknessBool = (minQuicknessLimit==minQuicknessVal);
+			bool maxQuicknessBool = (maxQuicknessLimit==maxQuicknessVal);
+			bool minAttackBool = (minAttackLimit==minAttackVal);
+			bool maxAttackBool = (maxAttackLimit==maxAttackVal);
+			if (this.isSkillChosen){
+				int max = this.cards.Count;
+				if (nbFilters==0){
+					max = this.cards.Count;
+					if (enVente){
+						for (int i = 0; i < max ; i++) {
+							if (cards[i].hasSkill(this.valueSkill) && cards[i].onSale==1){
+								testDeck = false ;
+								for (int j = 0 ; j < deckCardsIds.Count ; j++){
+									if (i==deckCardsIds[j]){
+										testDeck = true ; 
+									}
+								}
+								if (!testDeck){
+									tempCardsToBeDisplayed.Add(i);
+								}
+							}
+						}
+					}
+					else{
+						for (int i = 0; i < max ; i++) {
+							if (cards[i].hasSkill(this.valueSkill)){
+								testDeck = false ;
+								for (int j = 0 ; j < deckCardsIds.Count ; j++){
+									if (i==deckCardsIds[j]){
+										testDeck = true ; 
+									}
+								}
+								if (!testDeck){
+									tempCardsToBeDisplayed.Add(i);
+								}
+							}
+						}
+					}
+				}
+				else{
+					for (int i = 0; i < max ; i++) {
+						test = false ;
+						int j = 0 ;
+						if(enVente){	
+							while (!test && j!=nbFilters){
+								if (cards[i].IdClass==this.filtersCardType[j]){
+									test=true ;
+									if (cards[i].hasSkill(this.valueSkill)&& cards[i].onSale==1){
+										testDeck = false ;
+										for (int k = 0 ; k < deckCardsIds.Count ; k++){
+											if (i==deckCardsIds[k]){
+												testDeck = true ; 
+											}
+										}
+										if (!testDeck){
+											tempCardsToBeDisplayed.Add(i);
+										}
+									}
+								}
+								j++;
+							}
+						}
+						else{
+							while (!test && j!=nbFilters){
+								if (cards[i].IdClass==this.filtersCardType[j]){
+									test=true ;
+									if (cards[i].hasSkill(this.valueSkill)){
+										testDeck = false ;
+										for (int k = 0 ; k < deckCardsIds.Count ; k++){
+											if (i==deckCardsIds[k]){
+												testDeck = true ; 
+											}
+										}
+										if (!testDeck){
+											tempCardsToBeDisplayed.Add(i);
+										}
+									}
+								}
+								j++;
+							}
+						}
+					}
+				}
+			}
+			else{
+				int max = this.cards.Count;
+				if (nbFilters==0){
+					if (enVente){
+						for (int i = 0; i < max ; i++) {
+							if(cards[i].onSale==1){
+								testDeck = false ;
+								for (int j = 0 ; j < deckCardsIds.Count ; j++){
+									if (i==deckCardsIds[j]){
+										testDeck = true ; 
+									}
+								}
+								if (!testDeck){
+									tempCardsToBeDisplayed.Add(i);
+								}
+							}
+						}
+					}
+					else{
+						for (int i = 0; i < max ; i++) {
+							testDeck = false ;
+							for (int j = 0 ; j < deckCardsIds.Count ; j++){
+								if (i==deckCardsIds[j]){
+									testDeck = true ; 
+								}
+							}
+							if (!testDeck){
+								tempCardsToBeDisplayed.Add(i);
+							}
+						}
+					}
+				}
+				else{
+					if (enVente){
+						for (int i = 0; i < max ; i++) {
+							test = false ;
+							int j = 0 ;
+							while (!test && j!=nbFilters){
+								if (cards[i].IdClass==this.filtersCardType[j]){
+									if(cards[i].onSale==1){
+										test=true ;
+										testDeck = false ;
+										for (int k = 0 ; k < deckCardsIds.Count ; k++){
+											if (i==deckCardsIds[k]){
+												testDeck = true ; 
+											}
+										}
+										if (!testDeck){
+											tempCardsToBeDisplayed.Add(i);
+										}
+									}
+								}
+								j++;
+							}
+						}
+					}
+					else{
+						for (int i = 0; i < max ; i++) {
+							test = false ;
+							int j = 0 ;
+							while (!test && j!=nbFilters){
+								if (cards[i].IdClass==this.filtersCardType[j]){
+									test=true ;
+									testDeck = false ;
+									for (int k = 0 ; k < deckCardsIds.Count ; k++){
+										if (i==deckCardsIds[k]){
+											testDeck = true ; 
+										}
+									}
+									if (!testDeck){
+										tempCardsToBeDisplayed.Add(i);
+									}
+								}
+								j++;
+							}
+						}
+					}
+				}
+			}
+			if (tempCardsToBeDisplayed.Count>0){
+				minLifeLimit=10000;
+				maxLifeLimit=0;
+				minAttackLimit=10000;
+				maxAttackLimit=0;
+				minMoveLimit=10000;
+				maxMoveLimit=0;
+				minQuicknessLimit=10000;
+				maxQuicknessLimit=0;
+				for (int i = 0 ; i < tempCardsToBeDisplayed.Count ; i++){
+					if (this.cards[tempCardsToBeDisplayed[i]].Life<minLifeLimit){
+						minLifeLimit = this.cards[tempCardsToBeDisplayed[i]].Life;
+					}
+					if (this.cards[tempCardsToBeDisplayed[i]].Life>maxLifeLimit){
+						maxLifeLimit = this.cards[tempCardsToBeDisplayed[i]].Life;
+					}
+					if (this.cards[tempCardsToBeDisplayed[i]].Attack<minAttackLimit){
+						minAttackLimit = this.cards[tempCardsToBeDisplayed[i]].Attack;
+					}
+					if (this.cards[tempCardsToBeDisplayed[i]].Attack>maxAttackLimit){
+						maxAttackLimit = this.cards[tempCardsToBeDisplayed[i]].Attack;
+					}
+					if (this.cards[tempCardsToBeDisplayed[i]].Move<minMoveLimit){
+						minMoveLimit = this.cards[tempCardsToBeDisplayed[i]].Move;
+					}
+					if (this.cards[tempCardsToBeDisplayed[i]].Move>maxMoveLimit){
+						maxMoveLimit = this.cards[tempCardsToBeDisplayed[i]].Move;
+					}
+					if (this.cards[tempCardsToBeDisplayed[i]].Speed<minQuicknessLimit){
+						minQuicknessLimit = this.cards[tempCardsToBeDisplayed[i]].Speed;
+					}
+					if (this.cards[tempCardsToBeDisplayed[i]].Speed>maxQuicknessLimit){
+						maxQuicknessLimit = this.cards[tempCardsToBeDisplayed[i]].Speed;
+					}
+				}
+				if (minLifeBool && maxLifeVal>minLifeLimit){
+					minLifeVal = minLifeLimit;
+				}
+				else{
+					if (minLifeVal<minLifeLimit){
+						minLifeLimit = minLifeVal;
+					}
+				}
+				if (maxLifeBool && minLifeVal<maxLifeLimit){
+					maxLifeVal = maxLifeLimit;
+					print ("Max "+maxLifeVal);
+				}
+				else{
+					if (maxLifeVal>maxLifeLimit){
+						maxLifeLimit = maxLifeVal;
+					}
+					print ("Max2 "+maxLifeVal);
+				}
+				if (minAttackBool && maxAttackVal>minAttackLimit){
+					minAttackVal = minAttackLimit;
+				}
+				else{
+					if (minAttackVal<minAttackLimit){
+						minAttackLimit = minAttackVal;
+					}
+				}
+				if (maxAttackBool && minAttackVal<maxAttackLimit){
+					maxAttackVal = maxAttackLimit;
+				}
+				else{
+					if (maxAttackVal>maxAttackLimit){
+						maxAttackLimit = maxAttackVal;
+					}
+				}
+				if (minMoveBool && maxMoveVal>minMoveLimit){
+					minMoveVal = minMoveLimit;
+				}
+				else{
+					if (minMoveVal<minMoveLimit){
+						minMoveLimit = minMoveVal;
+					}
+				}
+				if (maxMoveBool && minMoveVal<maxMoveLimit){
+					maxMoveVal = maxMoveLimit;
+				}
+				else{
+					if (maxMoveVal>maxMoveLimit){
+						maxMoveLimit = maxMoveVal;
+					}
+				}
+				if (minQuicknessBool && maxQuicknessVal>minQuicknessLimit){
+					minQuicknessVal = minQuicknessLimit;
+				}
+				else{
+					if (minQuicknessVal<minQuicknessLimit){
+						minQuicknessLimit = minQuicknessVal;
+					}
+				}
+				if (maxQuicknessBool && minQuicknessVal<maxQuicknessLimit){
+					maxQuicknessVal = maxQuicknessLimit;
+				}
+				else{
+					if (maxQuicknessVal>maxQuicknessLimit){
+						maxQuicknessLimit = maxQuicknessVal;
+					}
+				}
+
+				oldMinLifeVal = minLifeVal ;
+				oldMaxLifeVal = maxLifeVal ;
+				oldMinQuicknessVal = minQuicknessVal ;
+				oldMaxQuicknessVal = maxQuicknessVal ;
+				oldMinMoveVal = minMoveVal ;
+				oldMaxMoveVal = maxMoveVal ;
+				oldMinAttackVal = minAttackVal ;
+				oldMaxAttackVal = maxAttackVal ;
+			}
+
 		if (this.minLifeVal!=this.minLifeLimit){
 			testFilters = true ;
 		}
@@ -1011,392 +1498,17 @@ public class myGameScript : MonoBehaviour {
 		else if (this.maxQuicknessVal!=this.maxQuicknessLimit){
 			testFilters = true ;
 		}
-		if (this.isSkillChosen){
-			int max = this.cards.Count;
-			if (nbFilters==0){
-				max = this.cards.Count;
-				if (testFilters){
-					for (int i = 0; i < max ; i++) {
-						if (cards[i].hasSkill(this.valueSkill)){
-							if (cards[i].verifyC(minLifeVal,maxLifeVal,minAttackVal,maxAttackVal,minMoveVal,maxMoveVal,minQuicknessVal,maxQuicknessVal)){
-								testDeck = false ;
-								for (int j = 0 ; j < deckCardsIds.Count ; j++){
-									if (i==deckCardsIds[j]){
-										testDeck = true ; 
-									}
-								}
-								if (!testDeck){
-									this.cardsToBeDisplayed.Add(i);
-								}
-							}
-						}
-					}
-				}
-				else{
-					for (int i = 0; i < max ; i++) {
-						if (cards[i].hasSkill(this.valueSkill)){
-							testDeck = false ;
-							for (int j = 0 ; j < deckCardsIds.Count ; j++){
-								if (i==deckCardsIds[j]){
-									testDeck = true ; 
-								}
-							}
-							if (!testDeck){
-								this.cardsToBeDisplayed.Add(i);
-							}
-						}
-					}
-				}
-			}
-			else{
-				bool test ;
-				int j;
-				if (testFilters){
-					for (int i = 0; i < max ; i++) {
-						test = false ;
-						j = 0 ;
-						while (!test && j!=nbFilters){
-							if (cards[i].IdClass==this.filtersCardType[j]){
-								test=true ;
-								if (cards[i].hasSkill(this.valueSkill)){
-									if (cards[i].verifyC(minLifeVal,maxLifeVal,minAttackVal,maxAttackVal,minMoveVal,maxMoveVal,minQuicknessVal,maxQuicknessVal)){
-										testDeck = false ;
-										for (int k = 0 ; k < deckCardsIds.Count ; k++){
-											if (i==deckCardsIds[k]){
-												testDeck = true ; 
-											}
-										}
-										if (!testDeck){
-											this.cardsToBeDisplayed.Add(i);
-										}
-									}
-								}
-							}
-							j++;
-						}
-					}
-				}
-				else{
-					for (int i = 0; i < max ; i++) {
-						test = false ;
-						j = 0 ;
-						while (!test && j!=nbFilters){
-							if (cards[i].IdClass==this.filtersCardType[j]){
-								print ("je passe avec "+cards[i].Title+" comp. "+cards[i].Skills[1].Name);
-								test=true ;
-								if (cards[i].hasSkill(this.valueSkill)){
-									print ("Il l'a ");
-									testDeck = false ;
-									for (int k = 0 ; k < deckCardsIds.Count ; k++){
-										if (i==deckCardsIds[k]){
-											testDeck = true ; 
-										}
-									}
-									if (!testDeck){
-										this.cardsToBeDisplayed.Add(i);
-										print (this.cardsToBeDisplayed.Count);
-									}
-								}
-							}
-							j++;
-						}
-					}
+
+		if (testFilters == true){
+			for (int i = 0 ; i < tempCardsToBeDisplayed.Count ; i++){
+				if (cards[tempCardsToBeDisplayed[i]].verifyC(minLifeVal,maxLifeVal,minAttackVal,maxAttackVal,minMoveVal,maxMoveVal,minQuicknessVal,maxQuicknessVal)){
+					this.cardsToBeDisplayed.Add(tempCardsToBeDisplayed[i]);
 				}
 			}
 		}
 		else{
-			if (nbFilters==0){
-				int max = this.cards.Count;
-				if (testFilters){
-					for (int i = 0; i < max ; i++) {
-						if (cards[i].verifyC(minLifeVal,maxLifeVal,minAttackVal,maxAttackVal,minMoveVal,maxMoveVal,minQuicknessVal,maxQuicknessVal)){
-							testDeck = false ;
-							for (int k = 0 ; k < deckCardsIds.Count ; k++){
-								if (i==deckCardsIds[k]){
-									testDeck = true ; 
-								}
-							}
-							if (!testDeck){
-								this.cardsToBeDisplayed.Add(i);
-							}
-						}
-					}
-				}
-				else{
-					for (int i = 0; i < max ; i++) {
-						testDeck = false ;
-						for (int j = 0 ; j < deckCardsIds.Count ; j++){
-							if (i==deckCardsIds[j]){
-								testDeck = true ; 
-							}
-						}
-						if (!testDeck){
-							this.cardsToBeDisplayed.Add(i);
-						}
-					}
-				}
-			}
-			else{
-				int max = this.cards.Count;
-				bool test ;
-				int j;
-				if (testFilters){
-					for (int i = 0; i < max ; i++) {
-						test = false ;
-						j = 0 ;
-						while (!test && j!=nbFilters){
-							if (cards[i].IdClass==this.filtersCardType[j]){
-								test=true ;
-								if (cards[i].verifyC(minLifeVal,maxLifeVal,minAttackVal,maxAttackVal,minMoveVal,maxMoveVal,minQuicknessVal,maxQuicknessVal)){
-									testDeck = false ;
-									for (int k = 0 ; k < deckCardsIds.Count ; k++){
-										if (i==deckCardsIds[k]){
-											testDeck = true ; 
-										}
-									}
-									if (!testDeck){
-										this.cardsToBeDisplayed.Add(i);
-									}
-								}
-							}
-							j++;
-						}
-					}
-				}
-				else{
-					for (int i = 0; i < max ; i++) {
-						test = false ;
-						j = 0 ;
-						while (!test && j!=nbFilters){
-							if (cards[i].IdClass==this.filtersCardType[j]){
-								test=true ;
-								testDeck = false ;
-								for (int k = 0 ; k < deckCardsIds.Count ; k++){
-									if (i==deckCardsIds[k]){
-										testDeck = true ; 
-									}
-								}
-								if (!testDeck){
-									this.cardsToBeDisplayed.Add(i);
-								}
-							}
-							j++;
-						}
-					}
-				}
-			}
-		}
-
-		if (recalculeFiltres) {
-			bool minLifeBool = (minLifeLimit==minLifeVal);
-			bool maxLifeBool = (maxLifeLimit==maxLifeVal);
-			bool minMoveBool = (minMoveLimit==minMoveVal);
-			bool maxMoveBool = (maxMoveLimit==maxMoveVal);
-			bool minQuicknessBool = (minQuicknessLimit==minQuicknessVal);
-			bool maxQuicknessBool = (maxQuicknessLimit==maxQuicknessVal);
-			bool minAttackBool = (minAttackLimit==minAttackVal);
-			bool maxAttackBool = (maxAttackLimit==maxAttackVal);
-			minLifeLimit=10000;
-			maxLifeLimit=0;
-			minAttackLimit=10000;
-			maxAttackLimit=0;
-			minMoveLimit=10000;
-			maxMoveLimit=0;
-			minQuicknessLimit=10000;
-			maxQuicknessLimit=0;
-			if (this.isSkillChosen){
-				int max = this.cards.Count;
-				if (nbFilters==0){
-					max = this.cards.Count;
-					for (int i = 0; i < max ; i++) {
-						if (cards[i].hasSkill(this.valueSkill)){
-							if (this.cards[i].Life<minLifeLimit){
-								minLifeLimit = this.cards[i].Life;
-							}
-							if (this.cards[i].Life>maxLifeLimit){
-								maxLifeLimit = this.cards[i].Life;
-							}
-							if (this.cards[i].Attack<minAttackLimit){
-								minAttackLimit = this.cards[i].Attack;
-							}
-							if (this.cards[i].Attack>maxAttackLimit){
-								maxAttackLimit = this.cards[i].Attack;
-							}
-							if (this.cards[i].Move<minMoveLimit){
-								minMoveLimit = this.cards[i].Move;
-							}
-							if (this.cards[i].Move>maxMoveLimit){
-								maxMoveLimit = this.cards[i].Move;
-							}
-							if (this.cards[i].Speed<minQuicknessLimit){
-								minQuicknessLimit = this.cards[i].Speed;
-							}
-							if (this.cards[i].Speed>maxQuicknessLimit){
-								maxQuicknessLimit = this.cards[i].Speed;
-							}
-						}
-					}
-				}
-				else{
-					bool test ;
-					int j;
-					for (int i = 0; i < max ; i++) {
-						test = false ;
-						j = 0 ;
-						while (!test && j!=nbFilters){
-							if (cards[i].IdClass==this.filtersCardType[j]){
-								test=true ;
-								if (cards[i].hasSkill(this.valueSkill)){
-									if (minLifeBool){
-										minLifeVal=minLifeLimit;
-									}
-									else if (this.cards[i].Life<minLifeLimit){
-										minLifeLimit = this.cards[i].Life;
-									}
-									if (maxLifeBool){
-										maxLifeVal=maxLifeLimit;
-									}
-									else if (this.cards[i].Life>maxLifeLimit){
-										maxLifeLimit = this.cards[i].Life;
-									}
-									if (minAttackBool){
-										minAttackVal=minAttackLimit;
-									}
-									else if (this.cards[i].Attack<minAttackLimit){
-										minAttackLimit = this.cards[i].Attack;
-									}
-									if (maxAttackBool){
-										maxAttackVal=maxAttackLimit;
-									}
-									else if (this.cards[i].Attack>maxAttackLimit){
-										maxAttackLimit = this.cards[i].Attack;
-									}
-									if (minMoveBool){
-										minMoveVal=minMoveLimit;
-									}
-									else if (this.cards[i].Move<minMoveLimit){
-										minMoveLimit = this.cards[i].Move;
-									}
-									if (maxMoveBool){
-										maxMoveVal=maxMoveLimit;
-									}
-									else if (this.cards[i].Move>maxMoveLimit){
-										maxMoveLimit = this.cards[i].Move;
-									}
-									if (minQuicknessBool){
-										minQuicknessVal=minQuicknessLimit;
-									}
-									else if (this.cards[i].Speed<minQuicknessLimit){
-										minQuicknessLimit = this.cards[i].Speed;
-									}
-									if(maxQuicknessBool){
-										maxQuicknessVal=maxQuicknessLimit;
-									}
-									else if (this.cards[i].Speed>maxQuicknessLimit){
-										maxQuicknessLimit = this.cards[i].Speed;
-									}
-								}
-							}
-							j++;
-						}
-					}
-				}
-			}
-			else{
-				if (nbFilters==0){
-					int max = this.cards.Count;
-					for (int i = 0; i < max ; i++) {
-						if (this.cards[i].Life<minLifeLimit){
-							minLifeLimit = this.cards[i].Life;
-						}
-						if (this.cards[i].Life>maxLifeLimit){
-							maxLifeLimit = this.cards[i].Life;
-						}
-						if (this.cards[i].Attack<minAttackLimit){
-							minAttackLimit = this.cards[i].Attack;
-						}
-						if (this.cards[i].Attack>maxAttackLimit){
-							maxAttackLimit = this.cards[i].Attack;
-						}
-						if (this.cards[i].Move<minMoveLimit){
-							minMoveLimit = this.cards[i].Move;
-						}
-						if (this.cards[i].Move>maxMoveLimit){
-							maxMoveLimit = this.cards[i].Move;
-						}
-						if (this.cards[i].Speed<minQuicknessLimit){
-							minQuicknessLimit = this.cards[i].Speed;
-						}
-						if (this.cards[i].Speed>maxQuicknessLimit){
-							maxQuicknessLimit = this.cards[i].Speed;
-						}
-					}
-				}
-				else{
-					int max = this.cards.Count;
-					bool test ;
-					int j;
-					for (int i = 0; i < max ; i++) {
-						test = false ;
-						j = 0 ;
-						while (!test && j!=nbFilters){
-							if (cards[i].IdClass==this.filtersCardType[j]){
-								test=true ;
-								if (this.cards[i].Life<minLifeLimit){
-									minLifeLimit = this.cards[i].Life;
-								}
-								if (this.cards[i].Life>maxLifeLimit){
-									maxLifeLimit = this.cards[i].Life;
-								}
-								if (this.cards[i].Attack<minAttackLimit){
-									minAttackLimit = this.cards[i].Attack;
-								}
-								if (this.cards[i].Attack>maxAttackLimit){
-									maxAttackLimit = this.cards[i].Attack;
-								}
-								if (this.cards[i].Move<minMoveLimit){
-									minMoveLimit = this.cards[i].Move;
-								}
-								if (this.cards[i].Move>maxMoveLimit){
-									maxMoveLimit = this.cards[i].Move;
-								}
-								if (this.cards[i].Speed<minQuicknessLimit){
-									minQuicknessLimit = this.cards[i].Speed;
-								}
-								if (this.cards[i].Speed>maxQuicknessLimit){
-									maxQuicknessLimit = this.cards[i].Speed;
-								}
-							}
-							j++;
-						}
-					}
-				}
-			}
-			recalculeFiltres=false;
-
-			if (minLifeBool || minLifeVal<minLifeLimit){
-				minLifeVal = minLifeLimit;
-			}
-			if (maxLifeBool || maxLifeVal>maxLifeLimit){
-				maxLifeVal = maxLifeLimit;
-			}
-			if (minAttackBool || minAttackVal<minAttackLimit){
-				minAttackVal = minAttackLimit;
-			}
-			if (maxAttackBool || maxAttackVal>maxAttackLimit){
-				maxAttackVal = maxAttackLimit;
-			}
-			if (minMoveBool || minMoveVal<minMoveLimit){
-				minMoveVal = minMoveLimit;
-			}
-			if (maxMoveBool || maxMoveVal>maxMoveLimit){
-				maxMoveVal = maxMoveLimit;
-			}
-			if (minQuicknessBool || minQuicknessVal<minQuicknessLimit){
-				minQuicknessVal = minQuicknessLimit;
-			}
-			if (maxQuicknessBool || maxQuicknessVal>maxQuicknessLimit){
-				maxQuicknessVal = maxQuicknessLimit;
+			for (int i = 0 ; i < tempCardsToBeDisplayed.Count ; i++){
+				this.cardsToBeDisplayed.Add(tempCardsToBeDisplayed[i]);
 			}
 		}
 
@@ -1418,7 +1530,6 @@ public class myGameScript : MonoBehaviour {
 				paginatorGuiStyle[i]=paginationStyle;
 			}
 		}
-		print (this.cardsToBeDisplayed.Count);
 	}
 
 	public void setFilters(){
@@ -1458,6 +1569,14 @@ public class myGameScript : MonoBehaviour {
 				maxQuicknessLimit = this.cards[i].Speed;
 			}
 		}
+		minLifeVal = minLifeLimit;
+		maxLifeVal = maxLifeLimit;
+		minAttackVal = minAttackLimit;
+		maxAttackVal = maxAttackLimit;
+		minMoveVal = minMoveLimit;
+		maxMoveVal = maxMoveLimit;
+		minQuicknessVal = minQuicknessLimit;
+		maxQuicknessVal = maxQuicknessLimit;
 	}
 
 	IEnumerator RetrieveDecks() {
@@ -1563,8 +1682,11 @@ public class myGameScript : MonoBehaviour {
 						                        this.cardTypeList[System.Convert.ToInt32(cardInfo2[7])], // titleclass
 						                        System.Convert.ToInt32(cardInfo2[8]), // lifelevel
 						                        System.Convert.ToInt32(cardInfo2[9]), // movelevel
-						                        System.Convert.ToInt32(cardInfo2[10]), // speedlevel
-						                        System.Convert.ToInt32(cardInfo2[11]))); // attacklevel;
+						                        System.Convert.ToInt32(cardInfo2[10]),
+						                        System.Convert.ToInt32(cardInfo2[11]),
+						                        System.Convert.ToInt32(cardInfo2[12]),
+						                        System.Convert.ToInt32(cardInfo2[13]),
+						                        System.Convert.ToInt32(cardInfo2[14]))); 
 						this.cards[i].Skills = new List<Skill>();
 						this.cardsIds.Add(System.Convert.ToInt32(cardInfo2[0]));
 						this.cardsToBeDisplayed.Add(i);
@@ -1572,13 +1694,12 @@ public class myGameScript : MonoBehaviour {
 					else{
 						tempInt = System.Convert.ToInt32(cardInfo2[0]);
 						this.cards[i].Skills.Add(new Skill (skillsList[System.Convert.ToInt32(cardInfo2[0])], 
-						                                      System.Convert.ToInt32(cardInfo2[0]), // idskill
-						                                      System.Convert.ToInt32(cardInfo2[1]), // isactivated
-						                                      System.Convert.ToInt32(cardInfo2[2]), // level
-						                                      System.Convert.ToInt32(cardInfo2[3]), // power
+						                                      System.Convert.ToInt32(cardInfo2[0]),
+						                                      System.Convert.ToInt32(cardInfo2[1]),
+						                                      System.Convert.ToInt32(cardInfo2[2]),
+						                                      System.Convert.ToInt32(cardInfo2[3]),
 						                                      System.Convert.ToInt32(cardInfo2[4]),
-						                                      cardInfo2[5])); // costmana
-					
+						                                      cardInfo2[5]));
 					}
 
 				}
@@ -1790,16 +1911,16 @@ public class myGameScript : MonoBehaviour {
 			print (w.error); 
 		else 
 		{
-			this.focusedCard = -1;
-			this.destroyAll = true ;
-			displayDecks= true ;
-			this.destroyFocus = true ;
+			this.soldCard = true ;
 		}	
 	}
 	
 	
 	private IEnumerator putOnMarket(int cardId, int price){
-		
+
+		cards[idFocused].onSale=1;
+		cards[idFocused].Price=price;
+
 		WWWForm form = new WWWForm(); 											// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_nick", ApplicationModel.username);
@@ -1813,8 +1934,46 @@ public class myGameScript : MonoBehaviour {
 			print (w.error); 
 		else 
 		{
-			print(w.text); 											// donne le retour
+			//print (w.text);											// donne le retour
 		}
+	}
+
+	private IEnumerator removeFromMarket(int cardId){
 		
+		cards[idFocused].onSale=0;
+		
+		WWWForm form = new WWWForm(); 											// Création de la connexion
+		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
+		form.AddField("myform_nick", ApplicationModel.username);
+		form.AddField("myform_idcard", cardId);
+
+		WWW w = new WWW(URLRemoveFromMarket, form); 				// On envoie le formulaire à l'url sur le serveur 
+		yield return w;
+		if (w.error != null) 
+			print (w.error); 
+		else 
+		{
+			//print (w.text);											// donne le retour
+		}
+	}
+
+	private IEnumerator changeMarketPrice(int cardId, int price){
+		
+		cards[idFocused].Price=price;
+		
+		WWWForm form = new WWWForm(); 											// Création de la connexion
+		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
+		form.AddField("myform_nick", ApplicationModel.username);
+		form.AddField("myform_idcard", cardId);
+		form.AddField("myform_price", price);
+		
+		WWW w = new WWW(URLChangeMarketPrice, form); 				// On envoie le formulaire à l'url sur le serveur 
+		yield return w;
+		if (w.error != null) 
+			print (w.error); 
+		else 
+		{
+			print (w.text);											// donne le retour
+		}
 	}
 }

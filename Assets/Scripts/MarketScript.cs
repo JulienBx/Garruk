@@ -996,7 +996,8 @@ public class MarketScript : MonoBehaviour {
 						                        System.Convert.ToInt32(cardInfo2[10]), // speedlevel
 						                        System.Convert.ToInt32(cardInfo2[11]), // attackleve
 						                        System.Convert.ToInt32(cardInfo2[12]), // price
-						                        DateTime.ParseExact(cardInfo2[13], "yyyy-MM-dd hh:mm:ss", null))); // onSaleDate
+					                       		DateTime.ParseExact(cardInfo2[13], "yyyy-MM-dd hh:mm:ss", null),
+					                        	System.Convert.ToInt32(cardInfo2[15]))); // onSaleDate
 											
 						this.cards[i].Skills = new List<Skill>();
 						this.cardsToBeDisplayed.Add(i);
