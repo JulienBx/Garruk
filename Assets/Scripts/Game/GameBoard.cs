@@ -121,7 +121,7 @@ public class GameBoard : Photon.MonoBehaviour
 		yield return StartCoroutine(gCard.RetrieveCard(cardID));
 		clone.name = gCard.Card.Title + "-" + gnCard.ownerNumber;
 		clone.tag = "PlayableCard";
-		gCard.ShowFace();
+		gnCard.ShowFace();
 		GameTimeLine.instance.GameCards.Add(gnCard);
 		GameTimeLine.instance.SortCardsBySpeed();
 		GameTimeLine.instance.removeBarLife();

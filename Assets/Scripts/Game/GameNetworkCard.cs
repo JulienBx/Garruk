@@ -247,8 +247,8 @@ public class GameNetworkCard : MonoBehaviour
 	{
 		if (!gameObject.tag.Equals("NoPlayableCard"))
 		{
-			//Vector3 GameCardPosition = transform.Find("Life/Life Bar").position;
-			//WorldNamePos = Camera.main.camera.WorldToScreenPoint(GameCardPosition);
+			Vector3 GameCardPosition = transform.Find("Life/Life Bar").position;
+			WorldNamePos = Camera.main.camera.WorldToScreenPoint(GameCardPosition);
 		}
 	}
 	
@@ -293,7 +293,7 @@ public class GameNetworkCard : MonoBehaviour
 		Transform LifeTextPosition = transform.Find("Life");
 		if (LifeTextPosition != null)
 		{
-			LifeTextPosition.GetComponent<TextMesh>().text = (gameCard.Card.Life - Damage).ToString();	// Et son nombre de point de vie
+			LifeTextPosition.GetComponent<TextMesh>().text = (gameCard.Card.GetLife() - Damage).ToString();	// Et son nombre de point de vie
 		}
 	}
 	
