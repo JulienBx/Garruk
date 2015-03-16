@@ -31,6 +31,11 @@ public class MenuManager : MonoBehaviour {
 		Application.LoadLevel("ConnectionPage");
 	}
 
+	public void profileLink() 
+	{
+		Application.LoadLevel("Profile");
+	}
+
 	public void link5()
 	{
 		Application.LoadLevel("LobbyPage");
