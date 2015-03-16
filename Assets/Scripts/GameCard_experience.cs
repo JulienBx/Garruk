@@ -180,5 +180,17 @@ public class GameCard_experience : MonoBehaviour
 
 	}
 
+	public void setTextResolution(float resolution)
+	{
+		transform.FindChild("Percentage")
+			.GetComponent<TextMesh>().fontSize = Mathf.RoundToInt(resolution * 15);	
+		transform.FindChild("Percentage").localScale = new Vector3(0.05f/resolution,0.04f/resolution,0);
+
+		transform.FindChild("Level")
+			.GetComponent<TextMesh>().fontSize = Mathf.RoundToInt(resolution * 15);	
+		transform.FindChild("Level").localScale = new Vector3(0.06f/resolution,0.046f/resolution,0);
+
+	}
+
 }
 	
