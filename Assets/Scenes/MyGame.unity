@@ -310,6 +310,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
+  - {fileID: 593791108}
   - {fileID: 1195535935}
   m_Father: {fileID: 0}
   m_RootOrder: 2
@@ -478,11 +479,11 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 593791106}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 487.045898, y: 230.610794, z: -11.7809448}
+  m_LocalPosition: {x: 200.045898, y: 1.11079407, z: -11.7809448}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_Father: {fileID: 207364646}
+  m_RootOrder: 0
 --- !u!1 &633173046
 GameObject:
   m_ObjectHideFlags: 0
@@ -561,7 +562,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 593791107}
-        m_MethodName: myDecksLink
+        m_MethodName: link3
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2337,7 +2338,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 593791107}
-        m_MethodName: magasinLink
+        m_MethodName: link4
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2416,7 +2417,7 @@ RectTransform:
   - {fileID: 1229093082}
   - {fileID: 1361431915}
   m_Father: {fileID: 207364646}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_AnchorMin: {x: 0, y: .899999976}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
@@ -2510,7 +2511,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 593791107}
-        m_MethodName: lobbyLink
+        m_MethodName: link5
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2769,7 +2770,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 593791107}
-        m_MethodName: myCardsLink
+        m_MethodName: link2
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2958,7 +2959,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 593791107}
-        m_MethodName: homeLink
+        m_MethodName: link1
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3144,7 +3145,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
 --- !u!1 &2041279155
 GameObject:
   m_ObjectHideFlags: 0
