@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 public class Card
 {
@@ -24,9 +25,14 @@ public class Card
 	public int SpeedLevel;
 	public int Price;
 	public int Experience;
+	public int ExperienceLevel;
 	public DateTime OnSaleDate;
 	public List<StatModifier> modifiers = new List<StatModifier>();
 	public int onSale ;
+	public static int[] experienceLevels = new int[] { 0, 10, 40, 100, 200,350,600,1000,1500,2200,3000,0 };
+	string URLAddXp =  "http://54.77.118.214/GarrukServer/addxp.php"; 
+
+	public static bool xpDone=false;
 	
 	public Card() {
 	}
@@ -181,7 +187,11 @@ public class Card
 		this.onSale = onSale;
 		this.Experience = experience;
 	}
-	
+
+	public Card(int experienceLevel)
+	{
+		this.ExperienceLevel= experienceLevel;
+	}
 	
 	public override int GetHashCode() 
 	{
@@ -317,4 +327,202 @@ public class Card
 		}
 		return cost;
 	}
+
+
+
+	public IEnumerator addXp (int xp, int price)
+	{
+			
+		xpDone = false;
+		int experience = this.Experience;
+		int idCard = this.Id;
+		string attributeName="";
+		int idSkill=-1;
+		int idLevel=1;
+		int newPower=0;
+		int cardType = this.IdClass;
+
+		this.Experience = this.Experience+xp;
+		getCardXpLevel ();
+		
+		if (this.ExperienceLevel!=10 && this.Experience>=experienceLevels [this.ExperienceLevel + 1]){
+			
+			int nbAttributes=4;
+			
+			for (int i = 0; i < this.Skills.Count; i++){
+				
+				if(this.Skills[i].IsActivated==1)
+					nbAttributes=nbAttributes+1;
+			}
+
+			int randomAttribute = Mathf.RoundToInt(UnityEngine.Random.Range(0,nbAttributes));
+			int randomPower = Mathf.RoundToInt (UnityEngine.Random.Range (5,10));
+			
+			switch (randomAttribute)
+			{
+			case 0:
+				newPower=this.Move+1;
+				this.Move=newPower;
+				attributeName="move";
+
+				break;
+			case 1:
+				newPower=Mathf.RoundToInt((1+randomPower*0.01f)*this.Life);
+				attributeName="life";
+				if (newPower>=100 || newPower>(100-Mathf.Sqrt(500f)))
+					idLevel=3;
+				else if (newPower>(100-Mathf.Sqrt(2000f)))
+					idLevel=2;
+				this.Life=newPower;
+				this.LifeLevel=idLevel;
+				
+				break;
+			case 2:
+				newPower=Mathf.RoundToInt((1+randomPower*0.01f)*this.Attack);
+				attributeName="attack";
+				if (newPower>=100 || newPower>(100-Mathf.Sqrt(500f)))
+					idLevel=3;
+				else if (newPower>(100-Mathf.Sqrt(2000f)))
+					idLevel=2;
+				this.Attack=newPower;
+				this.AttackLevel=idLevel;
+				
+				break;
+			case 3:
+				newPower=Mathf.RoundToInt((1+randomPower*0.01f)*this.Speed);
+				attributeName="speed";
+				if (newPower>=100 || newPower>(100-Mathf.Sqrt(500f)))
+					idLevel=3;
+				else if (newPower>(100-Mathf.Sqrt(2000f)))
+					idLevel=2;
+				this.Speed=newPower;
+				this.SpeedLevel=idLevel;
+				
+				break;
+			case 4:
+				newPower=Mathf.RoundToInt((1+randomPower*0.01f)*this.Skills[0].Power);
+				idSkill=this.Skills[0].Id;
+				if (newPower>=100 || newPower>(100-Mathf.Sqrt(500f)))
+					idLevel=3;
+				else if (newPower>(100-Mathf.Sqrt(2000f)))
+					idLevel=2;
+				this.Skills[0].Power=newPower;
+				this.Skills[0].Level=idLevel;
+				
+				break;
+			case 5:
+				newPower=Mathf.RoundToInt((1+randomPower*0.01f)*this.Skills[0].Power);
+				idSkill=this.Skills[1].Id;
+				if (newPower>=100 || newPower>(100-Mathf.Sqrt(500f)))
+					idLevel=3;
+				else if (newPower>(100-Mathf.Sqrt(2000f)))
+					idLevel=2;
+				this.Skills[1].Power=newPower;
+				this.Skills[1].Level=idLevel;
+				
+				break;
+			case 6:
+				newPower=Mathf.RoundToInt((1+randomPower*0.01f)*this.Skills[0].Power);
+				idSkill=this.Skills[2].Id;
+				if (newPower>=100 || newPower>(100-Mathf.Sqrt(500f)))
+					idLevel=3;
+				else if (newPower>(100-Mathf.Sqrt(2000f)))
+					idLevel=2;
+				this.Skills[2].Power=newPower;
+				this.Skills[2].Level=idLevel;
+				
+				break;
+			case 7:
+				newPower=Mathf.RoundToInt((1+randomPower*0.01f)*this.Skills[0].Power);
+				idSkill=this.Skills[3].Id;
+				if (newPower>=100 || newPower>(100-Mathf.Sqrt(500f)))
+					idLevel=3;
+				else if (newPower>(100-Mathf.Sqrt(2000f)))
+					idLevel=2;
+				this.Skills[3].Power=newPower;
+				this.Skills[3].Level=idLevel;
+				
+				break;
+			default:
+				break;
+			}
+			
+		}
+		
+		
+		WWWForm form = new WWWForm(); 								// Création de la connexion
+		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
+		form.AddField("myform_idcard", idCard.ToString());
+		form.AddField("myform_xp", this.Experience.ToString());
+		form.AddField("myform_newpower",newPower.ToString());
+		form.AddField("myform_attribute",attributeName);
+		form.AddField("myform_idskill",idSkill.ToString());
+		form.AddField("myform_cardtype",cardType.ToString());
+		form.AddField("myform_level",idLevel.ToString());
+		form.AddField ("myform_price", price.ToString ());
+		form.AddField ("myform_nick", ApplicationModel.username);
+		
+		WWW w = new WWW(URLAddXp, form); 								// On envoie le formulaire à l'url sur le serveur 
+		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
+		
+		if (w.error != null) 
+		{
+			MonoBehaviour.print(w.error); 										// donne l'erreur eventuelle
+		} 
+		else 
+		{
+			if  (attributeName=="move"){
+				this.MoveLevel=System.Convert.ToInt32(w.text);
+			}
+		}
+		xpDone=true;
+	}
+
+
+	public int getPriceForNextLevel(){
+		
+		int experience = this.Experience;
+		int level = 0;
+		
+		while (experience>=experienceLevels[level]&&level<11) {
+			level++;
+		}
+		level =level-1;
+		
+		int price = 0;
+		
+		if (level!=10){
+			price = experienceLevels [level + 1] - experience;
+		}
+		
+		return price;	
+	}
+
+
+	public void getCardXpLevel(){
+
+		int cardXp = this.Experience;
+		int level = 0;
+		
+		while (cardXp>=experienceLevels[level]&&level<11) {
+			level++;
+		}
+		level =level-1;
+
+		this.ExperienceLevel = level;
+	}
+
+	public int percentageToNextXpLevel(){
+
+		int percentage;
+		if (this.ExperienceLevel==10){
+			percentage = 100 ;
+		}else if (this.ExperienceLevel==0){
+			percentage = Mathf.RoundToInt((this.Experience/experienceLevels[1])*100);
+		}else {
+			percentage=100*(this.Experience-experienceLevels[this.ExperienceLevel])/(experienceLevels[this.ExperienceLevel+1]-experienceLevels[this.ExperienceLevel]); 
+		}
+		return percentage;
+	}
+
 }

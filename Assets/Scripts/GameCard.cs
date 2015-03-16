@@ -173,37 +173,37 @@ public class GameCard : Photon.MonoBehaviour
 	{
 		transform.Find("texturedGameCard").Find("Title")
 			.GetComponent<TextMesh>().fontSize = Mathf.RoundToInt(resolution * 15);	
-		transform.Find("texturedGameCard").Find("Title").localScale = new Vector3(0.6f/resolution,0.6f/resolution,0);
+		transform.Find("texturedGameCard").Find("Title").localScale = new Vector3(0.07f/resolution,0.054f/resolution,0);
 		
 		transform.Find("texturedGameCard").FindChild("PictoMetalLife").FindChild("Life")
 			.GetComponent<TextMesh>().fontSize = Mathf.RoundToInt(resolution * 17);	
-		transform.Find("texturedGameCard").FindChild("PictoMetalLife").FindChild("Life").localScale = new Vector3(0.6f/resolution,0.6f/resolution,0);
+		transform.Find("texturedGameCard").FindChild("PictoMetalLife").FindChild("Life").localScale = new Vector3(0.3f/resolution,0.6f/resolution,0);
 		
 		transform.Find("texturedGameCard").FindChild("AttackArea").FindChild("PictoMetalAttack").FindChild("Attack")
 			.GetComponent<TextMesh>().fontSize = Mathf.RoundToInt(resolution * 15);	
-		transform.Find("texturedGameCard").FindChild("AttackArea").FindChild("PictoMetalAttack").FindChild("Attack").localScale = new Vector3(0.6f/resolution,0.6f/resolution,0);
+		transform.Find("texturedGameCard").FindChild("AttackArea").FindChild("PictoMetalAttack").FindChild("Attack").localScale = new Vector3(0.5f/resolution,0.7f/resolution,0);
 		
 		transform.Find("texturedGameCard").FindChild("MoveArea").FindChild("PictoMetalMove").FindChild("Move")
 			.GetComponent<TextMesh>().fontSize = Mathf.RoundToInt(resolution * 15);	
-		transform.Find("texturedGameCard").FindChild("MoveArea").FindChild("PictoMetalMove").FindChild("Move").localScale = new Vector3(0.6f/resolution,0.6f/resolution,0);
+		transform.Find("texturedGameCard").FindChild("MoveArea").FindChild("PictoMetalMove").FindChild("Move").localScale = new Vector3(0.5f/resolution,0.7f/resolution,0);
 		
 		transform.Find("texturedGameCard").FindChild("SpeedArea").FindChild("PictoMetalSpeed").FindChild("Speed")
 			.GetComponent<TextMesh>().fontSize = Mathf.RoundToInt(resolution * 15);	
-		transform.Find("texturedGameCard").FindChild("SpeedArea").FindChild("PictoMetalSpeed").FindChild("Speed").localScale = new Vector3(0.6f/resolution,0.6f/resolution,0);
+		transform.Find("texturedGameCard").FindChild("SpeedArea").FindChild("PictoMetalSpeed").FindChild("Speed").localScale = new Vector3(0.5f/resolution,0.7f/resolution,0);
 		
 		transform.Find("texturedGameCard").Find("Class")
 			.GetComponent<TextMesh>().fontSize = Mathf.RoundToInt(resolution * 15);	
-		transform.Find("texturedGameCard").Find("Class").localScale = new Vector3(0.6f/resolution,0.6f/resolution,0);
+		transform.Find("texturedGameCard").Find("Class").localScale = new Vector3(0.06f/resolution,0.046f/resolution,0);
 		
 		for(int i = 1 ; i < 5 ; i++) // boucle sur la liste de compétence
 		{  	
 			transform.Find("texturedGameCard").FindChild("Skill"+(i)+"Area").FindChild ("Skill" + (i))
 				.GetComponent<TextMesh>().fontSize = Mathf.RoundToInt(resolution * 12);	
-			transform.Find("texturedGameCard").FindChild("Skill"+(i)+"Area").FindChild ("Skill" + (i)).localScale = new Vector3(0.6f/resolution,0.6f/resolution,0);
+			transform.Find("texturedGameCard").FindChild("Skill"+(i)+"Area").FindChild ("Skill" + (i)).localScale = new Vector3(0.06f/resolution,0.6f/resolution,0);
 			
 			transform.Find("texturedGameCard").FindChild("Skill"+(i)+"Area").FindChild ("PictoMetalSkill" + (i)).FindChild ("SkillForce" + (i))
 				.GetComponent<TextMesh> ().fontSize = Mathf.RoundToInt(resolution * 12);	
-			transform.Find("texturedGameCard").FindChild("Skill"+(i)+"Area").FindChild ("PictoMetalSkill" + (i)).FindChild ("SkillForce" + (i)).localScale = new Vector3(0.6f/resolution,0.6f/resolution,0);
+			transform.Find("texturedGameCard").FindChild("Skill"+(i)+"Area").FindChild ("PictoMetalSkill" + (i)).FindChild ("SkillForce" + (i)).localScale = new Vector3(0.3f/resolution,0.7f/resolution,0);
 		}
 	}
 	
