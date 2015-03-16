@@ -13,4 +13,5 @@ public class ApplicationModel : MonoBehaviour
 	static public string photonSettings = "0.2";                    // identifiant utilisé par Photon A mettre à jour à chaque nouvelle version
 	static public string profileChosen = "";
 	static public bool toDeconnect = false;
+	static public int credits = 0;
 }

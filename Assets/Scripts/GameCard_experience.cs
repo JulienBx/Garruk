@@ -131,12 +131,11 @@ public class GameCard_experience : MonoBehaviour
 
 
 	public void addXp(int xp, int price){
-
-
 		Parent.GetComponent<GameCard> ().Card.getCardXpLevel ();
 		startLevel = Parent.GetComponent<GameCard> ().Card.ExperienceLevel;
 		startPercentage = 0.01f*(float)Parent.GetComponent<GameCard> ().Card.percentageToNextXpLevel();
-
+		print ("Je paye "+price);
+		ApplicationModel.credits-=price;
 		StartCoroutine(Parent.GetComponent<GameCard>().Card.addXp(xp,price));
 	}
 	
