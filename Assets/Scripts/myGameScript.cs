@@ -57,12 +57,11 @@ public class myGameScript : MonoBehaviour {
 	public GUIStyle paginationActivatedStyle ;
 	public GUIStyle filterTitleStyle ;
 	public GUIStyle toggleStyle;
-	bool destroyUpgradingCardWindow = false ;
 	public GUIStyle filterTextFieldStyle;
 	public GUIStyle myStyle;
 	public GUIStyle smallPoliceStyle;
 	public GUIStyle focusButtonStyle;
-	bool isUpgradingCard = false ;
+	public GUIStyle cantBuyStyle;
 	bool areCreatedDeckCards = false;
 	float scaleDeck ;
 	GameObject cardFocused ;
@@ -138,6 +137,7 @@ public class myGameScript : MonoBehaviour {
 	int focusedCard = -1 ;
 	int focusedCardPrice ;
 	bool isSellingCard = false ; 
+	bool isUpgradingCard = false ;
 	bool isMarketingCard = false ; 
 	bool toReloadAll = false ;
 
@@ -155,6 +155,7 @@ public class myGameScript : MonoBehaviour {
 	bool displayLoader;
 	bool isCreatedCards = false ;
 	bool destroySellingCardWindow = false ;
+	bool destroyUpgradingCardWindow = false ;
 	bool destroyFocus = false ;
 	bool soldCard = false ;
 	string textMarket ;
@@ -165,7 +166,6 @@ public class myGameScript : MonoBehaviour {
 	bool isEscDown = false ;
 	bool isUpEscape;
 	bool enVente = false ;
-	bool isReturn = false ;
 
 	GameObject[] displayedCards ;
 	GameObject[] displayedDeckCards ;
@@ -176,7 +176,7 @@ public class myGameScript : MonoBehaviour {
 	#endregion
 
 	void Update () {
-
+		
 		if (Screen.width != widthScreen || Screen.height != heightScreen) {
 			this.setStyles();
 			this.applyFilters ();
@@ -312,15 +312,17 @@ public class myGameScript : MonoBehaviour {
 					}
 
 					cardFocused.GetComponent<GameCard>().ShowFace();
+					cardFocused.GetComponent<GameCard>().setTextResolution(2f);
 					cardFocused.SetActive (true);
-					rectFocus = new Rect(0.50f*widthScreen+(vec.x-widthScreen/2f)/2f, 0.15f*heightScreen, 0.25f*widthScreen, 0.8f*heightScreen);
 					cardFocused.transform.Find("texturedGameCard").FindChild("ExperienceArea").GetComponent<GameCard_experience>().setXpLevel();
+					cardFocused.transform.Find("texturedGameCard").FindChild("ExperienceArea").GetComponent<GameCard_experience>().setTextResolution(2f);
+					rectFocus = new Rect(0.50f*widthScreen+(vec.x-widthScreen/2f)/2f, 0.15f*heightScreen, 0.25f*widthScreen, 0.8f*heightScreen);
 				}
 			}
 		}
 
 		if (destroySellingCardWindow){
-			print ("Je le passe a false");
+			isSellingCard=false;
 			destroySellingCardWindow = false ;
 		}
 
@@ -354,53 +356,6 @@ public class myGameScript : MonoBehaviour {
 			isEscDown = false ;
 			isUpEscape = false ;
 		}
-
-		if(isSellingCard){
-			if(Input.GetKey(KeyCode.Return)) {
-				isSellingCard=false;
-				print ("Test "+isSellingCard);
-				destroySellingCardWindow = true ;
-				StartCoroutine (this.sellCard(cardId, focusedCardPrice));
-			}
-			else if(Input.GetKey(KeyCode.Escape)){
-				isSellingCard = false ;
-				isEscDown = true ;
-			}
-		}
-
-		else if(isMarketingCard){ 
-			if (isChangingPrice){
-				if(Input.GetKey(KeyCode.Return)) {
-					destroyFocus = true ;
-					isChangingPrice = false ;
-					StartCoroutine (this.changeMarketPrice(cardId, focusedCardPrice));
-				}
-				else if(Input.GetKey(KeyCode.Escape)) {
-					isMarketingCard = false ;
-					isEscDown = true ;
-				}
-			}
-			else if (isMarketed){
-				if(Input.GetKey(KeyCode.Return)) {
-					destroyFocus = true ;
-					StartCoroutine (this.removeFromMarket(cardId));
-				}
-				else if(Input.GetKey(KeyCode.Escape)) {
-					isMarketingCard = false ;
-					isEscDown = true ;
-				}
-			}
-			else{
-				if(Input.GetKey(KeyCode.Return)) {
-					destroyFocus = true ;
-					StartCoroutine (this.putOnMarket(cardId, focusedCardPrice));
-				}
-				else if(Input.GetKey(KeyCode.Escape)) {
-					isMarketingCard = false ;
-					isEscDown = true ;
-				}
-			}
-		}
 	}
 
 	void Start() {
@@ -413,107 +368,36 @@ public class myGameScript : MonoBehaviour {
 	{
 		if (this.focusedCard!=-1){
 			if(isSellingCard){
-				GUILayout.BeginArea(centralWindow);
-				{
-					GUILayout.BeginVertical(centralWindowStyle);
-					{
-						GUILayout.FlexibleSpace();
-						GUILayout.Label("Confirmer la désintégration de la carte (rapporte "+focusedCardPrice+ " crédits)", centralWindowTitleStyle);
-						GUILayout.Space(0.02f*heightScreen);
-						GUILayout.BeginHorizontal();
-						{
-							GUILayout.Space(0.03f*widthScreen);
-							if (GUILayout.Button("Désintégrer",centralWindowButtonStyle)) // also can put width here
-							{
-								destroySellingCardWindow = true ;
-								StartCoroutine (this.sellCard(cardId, focusedCardPrice));
-							}
-							GUILayout.Space(0.04f*widthScreen);
-							if (GUILayout.Button("Annuler",centralWindowButtonStyle)) // also can put width here
-							{
-								destroySellingCardWindow = true ;
-							}
-							GUILayout.Space(0.03f*widthScreen);
-						}
-						GUILayout.EndHorizontal();
-						GUILayout.FlexibleSpace();
-					}
-					GUILayout.EndVertical();
+				if(Event.current.keyCode==KeyCode.Return) {
+					destroySellingCardWindow = true ;
+					StartCoroutine (this.sellCard(cardId, focusedCardPrice));
 				}
-				GUILayout.EndArea();
-			}
-			else if(isMarketingCard){
-				if (isChangingPrice){
+				else if(Event.current.keyCode==KeyCode.Escape) {
+					isSellingCard = false ;
+					isEscDown = true ;
+				}
+				else{
 					GUILayout.BeginArea(centralWindow);
 					{
 						GUILayout.BeginVertical(centralWindowStyle);
 						{
 							GUILayout.FlexibleSpace();
-							GUILayout.Label("Changer le prix de vente de la carte sur le bazar", centralWindowTitleStyle);
-							GUILayout.FlexibleSpace();
-							GUILayout.BeginHorizontal();
-							{
-								GUILayout.FlexibleSpace();
-								tempPrice = GUILayout.TextField(tempPrice, centralWindowTextFieldStyle);
-								GUILayout.FlexibleSpace();
-							}
-							GUILayout.EndHorizontal();	
-							GUILayout.FlexibleSpace();
-							GUILayout.BeginHorizontal();
-							{
-								GUILayout.FlexibleSpace();
-								if (GUILayout.Button("Confirmer",centralWindowButtonStyle))
-								{
-									destroyFocus = true ;
-									isChangingPrice = false ;
-									StartCoroutine (this.changeMarketPrice(cardId, System.Convert.ToInt32(tempPrice)));
-								}
-								GUILayout.FlexibleSpace();	
-								if (GUILayout.Button("Annuler",centralWindowButtonStyle))
-								{
-									isChangingPrice = false ;
-									isMarketingCard = false ;
-								}
-								GUILayout.FlexibleSpace();
-							}
-							GUILayout.EndHorizontal();
-							GUILayout.FlexibleSpace();
-						}
-						GUILayout.EndVertical();
-					}
-					GUILayout.EndArea();
-				}
-				else if (isMarketed){
-					GUILayout.BeginArea(centralWindow);
-					{
-						GUILayout.BeginVertical(centralWindowStyle);
-						{
-							GUILayout.FlexibleSpace();
-							GUILayout.Label(textMarket, centralWindowTitleStyle);
+							GUILayout.Label("Confirmer la désintégration de la carte (rapporte "+focusedCardPrice+ " crédits)", centralWindowTitleStyle);
 							GUILayout.Space(0.02f*heightScreen);
 							GUILayout.BeginHorizontal();
 							{
-								GUILayout.FlexibleSpace();
-								if (GUILayout.Button("Retirer du bazar",smallCentralWindowButtonStyle))
+								GUILayout.Space(0.03f*widthScreen);
+								if (GUILayout.Button("Désintégrer",centralWindowButtonStyle)) // also can put width here
 								{
-									destroyFocus = true ;
-									StartCoroutine (this.removeFromMarket(cardId));
-									if (enVente){
-										toReload = true ;
-									}
+									destroySellingCardWindow = true ;
+									StartCoroutine (this.sellCard(cardId, focusedCardPrice));
 								}
-								GUILayout.FlexibleSpace();
-								if (GUILayout.Button("Modifier son prix",smallCentralWindowButtonStyle))
+								GUILayout.Space(0.04f*widthScreen);
+								if (GUILayout.Button("Annuler",centralWindowButtonStyle)) // also can put width here
 								{
-									isChangingPrice = true;
-									tempPrice = ""+cards[idFocused].Price;
+									destroySellingCardWindow = true ;
 								}
-								GUILayout.FlexibleSpace();
-								if (GUILayout.Button("Annuler",smallCentralWindowButtonStyle))
-								{
-									isMarketingCard = false ;
-								}
-								GUILayout.FlexibleSpace();
+								GUILayout.Space(0.03f*widthScreen);
 							}
 							GUILayout.EndHorizontal();
 							GUILayout.FlexibleSpace();
@@ -522,7 +406,163 @@ public class myGameScript : MonoBehaviour {
 					}
 					GUILayout.EndArea();
 				}
+			}
+			if(isUpgradingCard){
+				if(Event.current.keyCode==KeyCode.Return) {
+					destroyUpgradingCardWindow = true ;
+					cardFocused.transform
+					                .Find("texturedGameCard")
+					                .FindChild("ExperienceArea")
+					                .GetComponent<GameCard_experience>()
+									.addXp(cards[idFocused].getPriceForNextLevel(),cards[idFocused].getPriceForNextLevel());
+
+				}
+				else if(Event.current.keyCode==KeyCode.Escape) {
+					isUpgradingCard = false ;
+					isEscDown = true ;
+				}
 				else{
+					GUILayout.BeginArea(centralWindow);
+					{
+						GUILayout.BeginVertical(centralWindowStyle);
+						{
+							GUILayout.FlexibleSpace();
+							GUILayout.Label("Confirmer la montée de niveau de la carte (coûte "
+							                +cards[idFocused].getPriceForNextLevel()
+							                + " crédits)", centralWindowTitleStyle);
+							GUILayout.Space(0.02f*heightScreen);
+							GUILayout.BeginHorizontal();
+							{
+								GUILayout.Space(0.03f*widthScreen);
+								if (GUILayout.Button("Acheter",centralWindowButtonStyle)) // also can put width here
+								{
+									destroyUpgradingCardWindow = true ;
+									cardFocused.transform
+									           .Find("texturedGameCard")
+									           .FindChild("ExperienceArea")
+									           .GetComponent<GameCard_experience>()
+												.addXp(cards[idFocused].getPriceForNextLevel(),cards[idFocused].getPriceForNextLevel());
+
+								}
+								GUILayout.Space(0.04f*widthScreen);
+								if (GUILayout.Button("Annuler",centralWindowButtonStyle)) // also can put width here
+								{
+									destroyUpgradingCardWindow = true ;
+								}
+								GUILayout.Space(0.03f*widthScreen);
+							}
+							GUILayout.EndHorizontal();
+							GUILayout.FlexibleSpace();
+						}
+						GUILayout.EndVertical();
+					}
+					GUILayout.EndArea();
+				}
+			}
+			else if(isMarketingCard){
+					if (isChangingPrice){
+						if(Event.current.keyCode==KeyCode.Return) {
+							destroyFocus = true ;
+							isChangingPrice = false ;
+							StartCoroutine (this.changeMarketPrice(cardId, focusedCardPrice));
+						}
+					else if(Event.current.keyCode==KeyCode.Escape) {
+						isMarketingCard = false ;
+						isEscDown = true ;
+					}
+					else{	
+					GUILayout.BeginArea(centralWindow);
+						{
+							GUILayout.BeginVertical(centralWindowStyle);
+							{
+								GUILayout.FlexibleSpace();
+								GUILayout.Label("Changer le prix de vente de la carte sur le bazar", centralWindowTitleStyle);
+								GUILayout.FlexibleSpace();
+
+								GUILayout.BeginHorizontal();
+								{
+									GUILayout.FlexibleSpace();
+									tempPrice = GUILayout.TextField(tempPrice, centralWindowTextFieldStyle);
+									GUILayout.FlexibleSpace();
+								}
+								GUILayout.EndHorizontal();
+
+								GUILayout.FlexibleSpace();
+								GUILayout.BeginHorizontal();
+								{
+									GUILayout.FlexibleSpace();
+									if (GUILayout.Button("Confirmer",centralWindowButtonStyle))
+									{
+										destroyFocus = true ;
+										isChangingPrice = false ;
+										StartCoroutine (this.changeMarketPrice(cardId, System.Convert.ToInt32(tempPrice)));
+									}
+									GUILayout.FlexibleSpace();
+									if (GUILayout.Button("Annuler",centralWindowButtonStyle))
+									{
+										isChangingPrice = false ;
+										isMarketingCard = false ;
+									}
+									GUILayout.FlexibleSpace();
+								}
+								GUILayout.EndHorizontal();
+								GUILayout.FlexibleSpace();
+							}
+							GUILayout.EndVertical();
+						}
+						GUILayout.EndArea();
+					}
+					}
+					else if (isMarketed){
+						if(Event.current.keyCode==KeyCode.Return) {
+							destroyFocus = true ;
+							StartCoroutine (this.removeFromMarket(cardId));
+						}
+						else if(Event.current.keyCode==KeyCode.Escape) {
+							isMarketingCard = false ;
+							isEscDown = true ;
+						}
+						else{		
+						GUILayout.BeginArea(centralWindow);
+						{
+							GUILayout.BeginVertical(centralWindowStyle);
+							{
+								GUILayout.FlexibleSpace();
+								GUILayout.Label(textMarket, centralWindowTitleStyle);
+								GUILayout.Space(0.02f*heightScreen);
+								GUILayout.BeginHorizontal();
+								{
+									GUILayout.FlexibleSpace();
+									if (GUILayout.Button("Retirer du bazar",smallCentralWindowButtonStyle))
+									{
+										destroyFocus = true ;
+										StartCoroutine (this.removeFromMarket(cardId));
+										if (enVente){
+											toReload = true ;
+										}
+									}
+									GUILayout.FlexibleSpace();
+									if (GUILayout.Button("Modifier son prix",smallCentralWindowButtonStyle))
+									{
+										isChangingPrice = true;
+										tempPrice = ""+cards[idFocused].Price;
+									}
+									GUILayout.FlexibleSpace();
+									if (GUILayout.Button("Annuler",smallCentralWindowButtonStyle))
+									{
+										isMarketingCard = false ;
+									}
+									GUILayout.FlexibleSpace();
+								}
+								GUILayout.EndHorizontal();
+								GUILayout.FlexibleSpace();
+							}
+							GUILayout.EndVertical();
+						}
+						GUILayout.EndArea();
+					}
+					}
+					else{
 					if(Event.current.keyCode==KeyCode.Return) {
 						destroyFocus = true ;
 						StartCoroutine (this.putOnMarket(cardId, focusedCardPrice));
@@ -593,17 +633,22 @@ public class myGameScript : MonoBehaviour {
 								isMarketingCard = true ; 
 								tempPrice = ""+cards[idFocused].getCost();
 							}
-							if (cards[idFocused]
-							    .getPriceForNextLevel()!=0){
-								if (GUILayout.Button("Passer au niveau suivant (+"
+							if (cards[idFocused].getPriceForNextLevel()!=0 && cards[idFocused].getPriceForNextLevel() <= ApplicationModel.credits){
+								    if (GUILayout.Button("Passer au niveau suivant (+"
 								                     +cards[idFocused]
 								                     .getPriceForNextLevel()
 								                     +" crédits)",focusButtonStyle))
-								{
-									isUpgradingCard = true ;
-									//isMarketingCard = true ; 
-									//tempPrice = ""+cards[idFocused].getCost();
-								}
+										{
+											isUpgradingCard = true ;
+											//isMarketingCard = true ; 
+											//tempPrice = ""+cards[idFocused].getCost();
+										}
+							}
+							if (cards[idFocused].getPriceForNextLevel()!=0 && cards[idFocused].getPriceForNextLevel() > ApplicationModel.credits){
+								GUILayout.Label("Passer au niveau suivant (+"
+								                     +cards[idFocused]
+								                     .getPriceForNextLevel()
+								                	+" crédits)",cantBuyStyle);
 							}
 							GUILayout.FlexibleSpace();
 							if (GUILayout.Button("Revenir à mes cartes",focusButtonStyle))
@@ -616,63 +661,11 @@ public class myGameScript : MonoBehaviour {
 				GUILayout.EndArea();
 			}
 		}
-			if(isUpgradingCard){
-				if(Event.current.keyCode==KeyCode.Return) {
-					destroyUpgradingCardWindow = true ;
-					cardFocused.transform
-						.Find("texturedGameCard")
-							.FindChild("ExperienceArea")
-							.GetComponent<GameCard_experience>()
-							.addXp(cards[idFocused].getPriceForNextLevel(),cards[idFocused].getPriceForNextLevel());
-					
-				}
-				else if(Event.current.keyCode==KeyCode.Escape) {
-					isUpgradingCard = false ;
-					isEscDown = true ;
-				}
-				else{
-					GUILayout.BeginArea(centralWindow);
-					{
-						GUILayout.BeginVertical(centralWindowStyle);
-						{
-							GUILayout.FlexibleSpace();
-							GUILayout.Label("Confirmer la montée de niveau de la carte (coute "
-							                +cards[idFocused].getPriceForNextLevel()
-							                + " crédits)", centralWindowTitleStyle);
-							GUILayout.Space(0.02f*heightScreen);
-							GUILayout.BeginHorizontal();
-							{
-								GUILayout.Space(0.03f*widthScreen);
-								if (GUILayout.Button("Acheter",centralWindowButtonStyle)) // also can put width here
-								{
-									destroyUpgradingCardWindow = true ;
-									cardFocused.transform
-										.Find("texturedGameCard")
-											.FindChild("ExperienceArea")
-											.GetComponent<GameCard_experience>()
-											.addXp(cards[idFocused].getPriceForNextLevel(),cards[idFocused].getPriceForNextLevel());
-									
-								}
-								GUILayout.Space(0.04f*widthScreen);
-								if (GUILayout.Button("Annuler",centralWindowButtonStyle)) // also can put width here
-								{
-									destroyUpgradingCardWindow = true ;
-								}
-								GUILayout.Space(0.03f*widthScreen);
-							}
-							GUILayout.EndHorizontal();
-							GUILayout.FlexibleSpace();
-						}
-						GUILayout.EndVertical();
-					}
-					GUILayout.EndArea();
-				}
-			}
-								}
-								
-								if (displayDecks) {
-									if (IDDeckToEdit!=-1) {
-										if(Event.current.keyCode==KeyCode.Escape) {
+		}
+
+		if (displayDecks) {
+			if (IDDeckToEdit!=-1) {
+				if(Event.current.keyCode==KeyCode.Escape) {
 					IDDeckToEdit=-1;
 					tempText = "Nouveau deck";
 				}
@@ -1093,6 +1086,7 @@ public class myGameScript : MonoBehaviour {
 			}
 			GUILayout.EndArea();
 		}
+		
 	}
 
 	private IEnumerator addDeck() {
@@ -1237,6 +1231,10 @@ public class myGameScript : MonoBehaviour {
 			this.focusButtonStyle.fontSize = heightScreen*2/100;
 			this.focusButtonStyle.fixedHeight = heightScreen*6/100;
 			this.focusButtonStyle.fixedWidth = widthScreen*25/100;
+
+			this.cantBuyStyle.fontSize = heightScreen*2/100;
+			this.cantBuyStyle.fixedHeight = heightScreen*6/100;
+			this.cantBuyStyle.fixedWidth = widthScreen*25/100;
 		}
 		else{
 			this.decksTitleStyle.fontSize = heightScreen*2/100;
@@ -1494,11 +1492,13 @@ public class myGameScript : MonoBehaviour {
 				}
 				if (maxLifeBool && minLifeVal<maxLifeLimit){
 					maxLifeVal = maxLifeLimit;
+					print ("Max "+maxLifeVal);
 				}
 				else{
 					if (maxLifeVal>maxLifeLimit){
 						maxLifeLimit = maxLifeVal;
 					}
+					print ("Max2 "+maxLifeVal);
 				}
 				if (minAttackBool && maxAttackVal>minAttackLimit){
 					minAttackVal = minAttackLimit;
@@ -1928,7 +1928,6 @@ public class myGameScript : MonoBehaviour {
 				displayedDeckCards[i].GetComponent<GameCard>().ShowFace();
 				displayedDeckCards[i].transform.Find("texturedGameCard").FindChild("ExperienceArea").GetComponent<GameCard_experience>().setXpLevel();
 			}   
-
 			else{
 				displayedDeckCards[i].SetActive (false);
 			}
@@ -1989,11 +1988,6 @@ public class myGameScript : MonoBehaviour {
 
 	private IEnumerator sellCard(int idCard, int cost){
 		
-		//isReturnDown = true ;
-
-		print ("Cost "+cost);
-		ApplicationModel.credits += cost ;
-
 		WWWForm form = new WWWForm(); 											// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_nick", ApplicationModel.username);
@@ -2007,8 +2001,7 @@ public class myGameScript : MonoBehaviour {
 		else 
 		{
 			this.soldCard = true ;
-		}
-		//isReturnDown = false ;
+		}	
 	}
 	
 	
