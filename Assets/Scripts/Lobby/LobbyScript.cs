@@ -5,7 +5,15 @@ using System.Collections.Generic;
 
 public class LobbyScript : Photon.MonoBehaviour {
 
-	public GUIStyle style;
+	public GUIStyle playerTitle;
+	public GUIStyle playerName;
+	public GUIStyle myPlayerName;
+	public GUIStyle deckTitle;
+	public GUIStyle activatedDeck;
+	public GUIStyle deck;
+	public GUIStyle joinButton;
+	public GUIStyle cantJoin;
+	
 	public List<Deck> decks = new List<Deck>();
 	private string URLGetDecks = ApplicationModel.host + "get_full_decks_by_user.php";
 	private string URLSelectedDeck = ApplicationModel.host + "set_selected_deck.php";
@@ -13,69 +21,148 @@ public class LobbyScript : Photon.MonoBehaviour {
 
 	private bool attemptToPlay = false;
 	private const string roomName = "GarrukLobby";
-	//private RoomInfo[] roomsList;
+
 	public int selectedDeck = 0;
+	public int countPlayers = 0 ;
+
+	int widthScreen ;
+	int heightScreen ;
 
 	void Start()
 	{
+		this.setStyles();
 		StartCoroutine(RetrieveDecks());
-		style.normal.textColor = Color.red;
 		PhotonNetwork.ConnectUsingSettings(ApplicationModel.photonSettings);
 	}
 
-	void Update() {
+	void Update(){
+		if (Screen.width != widthScreen || Screen.height != heightScreen) {
+			this.setStyles();
+		}
 	}
 
 	void OnGUI()
 	{
-		if (playersName.Count > 0)
+		GUILayout.BeginArea(new Rect(0.10f*widthScreen,0.12f*heightScreen,widthScreen * 0.80f,0.86f*heightScreen));
 		{
-			int i = 0;
-			GUI.Label(new Rect(10, 0, 500, 50), "Liste des utilisateurs connectés");
-			foreach(KeyValuePair<int, string> entry in playersName)
+			GUILayout.BeginVertical();
 			{
-				i++;
-				if (entry.Value == ApplicationModel.username)
+				GUILayout.BeginHorizontal();
 				{
-					GUI.Label(new Rect(10, i * 30, 100, 50), entry.Value, style);
+					GUILayout.FlexibleSpace();
+					GUILayout.BeginVertical(GUILayout.Width(0.4f*widthScreen), GUILayout.Height(0.6f*heightScreen));
+					{
+						if (countPlayers>0){
+							if (countPlayers==1){
+								GUILayout.Label("Vous etes le seul utilisateur connecté", playerTitle);
+							}
+							else{
+								GUILayout.Label(countPlayers+" utilisateurs connectés", playerTitle);
+							}
+							
+							foreach(KeyValuePair<int, string> entry in playersName)
+							{
+								if (entry.Value == ApplicationModel.username)
+								{
+									GUILayout.Label(entry.Value, myPlayerName);
+								}
+								else
+								{
+									GUILayout.Label(entry.Value, playerName);
+								}
+							}
+						}
+					}
+					GUILayout.EndVertical();
+					GUILayout.FlexibleSpace();
+					GUILayout.BeginVertical(GUILayout.Width(0.4f*widthScreen),GUILayout.Height(0.6f*heightScreen));
+					{
+						if (selectedDeck != 0){
+							GUILayout.Label("Choisissez le deck avec lequel jouer", deckTitle);
+						}
+						else{
+							GUILayout.Label("Aucun deck complet n'est disponible", deckTitle);
+						}
+
+						for( int j = 0 ; j < decks.Count ; j++)
+						{
+							if (selectedDeck == decks[j].Id)
+							{
+								if (GUILayout.Button(decks[j].Name, activatedDeck))
+								{
+
+								}
+							}
+							else
+							{
+								if(GUILayout.Button(decks[j].Name, deck))
+								{
+									selectedDeck = decks[j].Id;
+									StartCoroutine(SetSelectedDeck(selectedDeck));
+								}
+							}
+						}
+
+					}
+					GUILayout.EndVertical();
+					GUILayout.FlexibleSpace();
 				}
-				else
+				GUILayout.EndHorizontal();
+				GUILayout.FlexibleSpace();
+				if (selectedDeck != 0)
 				{
-					GUI.Label(new Rect(10, i * 30, 100, 50), entry.Value);
+					if (GUILayout.Button("rejoindre un match", joinButton))
+					{
+						attemptToPlay = true;
+						PhotonNetwork.Disconnect();
+					}
 				}
-			}
+				else{
+					GUILayout.Label("Impossible de rejoindre un match", cantJoin);
+				}
+
+				}
+			GUILayout.EndVertical();
 		}
-		if (selectedDeck != 0)
-		{
-			if (GUI.Button(new Rect(500, 0, 200, 50), "rejoindre un match"))
-			{
-				attemptToPlay = true;
-				PhotonNetwork.Disconnect();
-			}
-		} 
-		else
-		{
-			GUI.Label(new Rect(500, 0, 200, 50), "Vous n'avez pas de deck complet");
-		}
-		for( int j = 0 ; j < decks.Count ; j++)
-		{
-			if (selectedDeck == decks[j].Id)
-			{
-				if (GUI.Button(new Rect(400, j * 20, 100, 20), decks[j].Name, style))
-				{
-					selectedDeck = decks[j].Id;
-					StartCoroutine(SetSelectedDeck(selectedDeck));
-				}
-			}
-			else
-			{
-				if(GUI.Button(new Rect(400, j * 20, 100, 20), decks[j].Name))
-				{
-					selectedDeck = decks[j].Id;
-					StartCoroutine(SetSelectedDeck(selectedDeck));
-				}
-			}
-		}
+		GUILayout.EndArea();
+
+	}
+
+	private void setStyles() {
+		this.heightScreen = Screen.height;
+		this.widthScreen = Screen.width;
+
+		this.playerTitle.fontSize = heightScreen * 2 / 100 ;
+		this.playerTitle.fixedHeight = heightScreen * 5 / 100 ;
+		this.playerTitle.fixedWidth = widthScreen * 40 / 100 ;
+
+		this.myPlayerName.fontSize = heightScreen * 2 / 100 ;
+		this.myPlayerName.fixedHeight = heightScreen * 3 / 100 ;
+		this.myPlayerName.fixedWidth = widthScreen * 40 / 100 ;
+
+		this.playerName.fontSize = heightScreen * 2 / 100 ;
+		this.playerName.fixedHeight = heightScreen * 3 / 100 ;
+		this.playerName.fixedWidth = widthScreen * 40 / 100 ;
+
+		this.deckTitle.fontSize = heightScreen * 2 / 100 ;
+		this.deckTitle.fixedHeight = heightScreen * 5 / 100 ;
+		this.deckTitle.fixedWidth = widthScreen * 40 / 100 ;
+
+		this.deck.fontSize = heightScreen * 2 / 100 ;
+		this.deck.fixedHeight = heightScreen * 3 / 100 ;
+		this.deck.fixedWidth = widthScreen * 40 / 100 ;
+
+		this.activatedDeck.fontSize = heightScreen * 2 / 100 ;
+		this.activatedDeck.fixedHeight = heightScreen * 3 / 100 ;
+		this.activatedDeck.fixedWidth = widthScreen * 40 / 100 ;
+
+		this.joinButton.fontSize = heightScreen * 4 / 100 ;
+		this.joinButton.fixedHeight = heightScreen * 10 / 100 ;
+		this.joinButton.fixedWidth = widthScreen * 80 / 100 ;
+
+		this.cantJoin.fontSize = heightScreen * 4 / 100 ;
+		this.cantJoin.fixedHeight = heightScreen * 10 / 100 ;
+		this.cantJoin.fixedWidth = widthScreen * 80 / 100 ;
 	}
 
 	IEnumerator RetrieveDecks() {
@@ -133,9 +220,9 @@ public class LobbyScript : Photon.MonoBehaviour {
 	void RemovePlayerFromList(int id)
 	{
 		playersName.Remove(id);
+		countPlayers--;
 	}
 
-	// Photon
 	void OnJoinedLobby()
 	{
 		TypedLobby sqlLobby = new TypedLobby("lobby", LobbyType.SqlLobby);    
@@ -188,5 +275,6 @@ public class LobbyScript : Photon.MonoBehaviour {
 	void AddPlayerToList(int id, string loginName)
 	{
 		playersName.Add(id, loginName);
+		countPlayers++;
 	}
 }
