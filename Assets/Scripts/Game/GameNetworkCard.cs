@@ -1,12 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System;
 
-public class GameNetworkCard : MonoBehaviour
+public class GameNetworkCard : Photon.MonoBehaviour
 {
 	public GameTile currentTile;                                    // Tile où la carte est positionnée
 	public int ownerNumber;											// joueur 1 ou joueur 2
 	public int Damage = 0;                                          // point de dégat pris
+	public DiscoveryFeature DiscoveryFeature = new DiscoveryFeature();// Les caractéristiques que l'adversaire a découvert
 	public List<GameNetworkCard> neighbors;                         // Liste des cartes voisines
 	public int nbTurn = 1;                                          // seulement utile pour la timeline
 	public GameCard gameCard;
@@ -23,7 +26,7 @@ public class GameNetworkCard : MonoBehaviour
 	
 	void Start()
 	{
-		gameCard = GetComponent<GameCard>();  
+		gameCard = GetComponent<GameCard>();
 		UpdatePosition();
 	}
 	void Update()
@@ -71,7 +74,7 @@ public class GameNetworkCard : MonoBehaviour
 				{
 					GameBoard.instance.CardSelected = this;
 					GameBoard.instance.isMoving = true;
-					//					offset = transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -1));
+
 					RaycastHit hit;
 					Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 					
@@ -97,7 +100,9 @@ public class GameNetworkCard : MonoBehaviour
 		{
 			if (GameTimeLine.instance.PlayingCard.neighbors.Find(e => e.gameCard.Card.Equals(this.gameCard.Card)))
 			{
+				DiscoveryFeature.Life = true;
 				gameCard.photonView.RPC("GetDamage", PhotonTargets.AllBuffered, this.GetComponent<PhotonView>().viewID, GameTimeLine.instance.PlayingCard.gameCard.Card.Attack);
+				GameTimeLine.instance.PlayingCard.GetComponent<GameNetworkCard>().DiscoveryFeature.Attack = true;
 				GamePlayingCard.instance.attemptToAttack = false;
 				GamePlayingCard.instance.hasAttacked = true;
 				GameTile.instance.SetCursorToDefault();
@@ -110,7 +115,6 @@ public class GameNetworkCard : MonoBehaviour
 		if (GamePlayingCard.instance.attemptToCast && !GamePlayingCard.instance.hasAttacked)
 		{
 			gameCard.photonView.RPC("GetBuff", PhotonTargets.AllBuffered, this.GetComponent<PhotonView>().viewID, GamePlayingCard.instance.SkillCasted);
-
 			GamePlayingCard.instance.attemptToCast = false;
 			GamePlayingCard.instance.hasAttacked = true;
 			GameTile.instance.SetCursorToDefault();
@@ -190,8 +194,17 @@ public class GameNetworkCard : MonoBehaviour
 			}
 			if (GamePlayingCard.instance.attemptToMoveTo != null)
 			{
+				int nbTiles = CalcNbTiles(currentTile, GamePlayingCard.instance.attemptToMoveTo);
+				if (nbTiles == gameCard.Card.GetMove())
+				{
+					DiscoveryFeature.Move = true;
+				}
+				else{
+					DiscoveryFeature.MoveMin = nbTiles;
+				}
 				GamePlayingCard.instance.attemptToMoveTo = null;
 				GamePlayingCard.instance.hasMoved = true;
+
 			}
 			if (GamePlayingCard.instance.hasMoved && GamePlayingCard.instance.hasAttacked)
 			{
@@ -289,12 +302,27 @@ public class GameNetworkCard : MonoBehaviour
 	
 	public new void ShowFace() 
 	{
-		gameCard.ShowFace();
+		gameCard.ShowFace(gameCard.photonView.isMine, DiscoveryFeature);
 		Transform LifeTextPosition = transform.Find("Life");
 		if (LifeTextPosition != null)
 		{
-			LifeTextPosition.GetComponent<TextMesh>().text = (gameCard.Card.GetLife() - Damage).ToString();	// Et son nombre de point de vie
+			string text;
+			if (gameCard.photonView.isMine || DiscoveryFeature.Life)
+			{
+				text = (gameCard.Card.GetLife() - Damage).ToString();
+			}
+			else
+			{
+				text = "?";
+			}
+			LifeTextPosition.GetComponent<TextMesh>().text = text;	// Et son nombre de point de vie
 		}
+	}
+
+	int CalcNbTiles(GameTile currentTile, GameTile attemptToMoveTo)
+	{
+		var path = PathFinder.FindPath(currentTile.tile, attemptToMoveTo.tile);
+		return (int)path.TotalCost;
 	}
 	
 	// Messages RPC
@@ -305,6 +333,7 @@ public class GameNetworkCard : MonoBehaviour
 		GameObject go = PhotonView.Find(id).gameObject;
 		GameNetworkCard gnc = go.GetComponent<GameNetworkCard>();
 		gnc.Damage += attack;
+
 		if (gnc.Damage >= gnc.gameCard.Card.Life)
 		{
 			GameTile.RemovePassableTile();
@@ -337,5 +366,35 @@ public class GameNetworkCard : MonoBehaviour
 		GameObject goCard = GameTimeLine.instance.PlayingCardObject;
 		GameSkill goSkill = goCard.transform.Find("texturedGameCard/Skill" + skillCasted + "Area").gameObject.GetComponent<GameSkill>();
 		goSkill.Apply(target);
+	}
+
+	void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+	{
+		if (stream.isWriting)
+		{
+			stream.SendNext(DiscoveryFeature.Attack);
+			stream.SendNext(DiscoveryFeature.Life);
+			stream.SendNext(DiscoveryFeature.Move);
+			stream.SendNext(DiscoveryFeature.MoveMin);
+			stream.SendNext(DiscoveryFeature.Skill1);
+			stream.SendNext(DiscoveryFeature.Skill2);
+			stream.SendNext(DiscoveryFeature.Skill3);
+			stream.SendNext(DiscoveryFeature.Skill4);
+		}
+		else
+		{
+			DiscoveryFeature.Attack = (bool)stream.ReceiveNext();
+			DiscoveryFeature.Life = (bool)stream.ReceiveNext();
+			DiscoveryFeature.Move = (bool)stream.ReceiveNext();
+			DiscoveryFeature.MoveMin = (int)stream.ReceiveNext();
+			DiscoveryFeature.Skill1 = (bool)stream.ReceiveNext();
+			DiscoveryFeature.Skill2 = (bool)stream.ReceiveNext();
+			DiscoveryFeature.Skill3 = (bool)stream.ReceiveNext();
+			DiscoveryFeature.Skill4 = (bool)stream.ReceiveNext();
+			if (gameCard != null)
+			{
+				ShowFace();
+			}
+		}
 	}
 }

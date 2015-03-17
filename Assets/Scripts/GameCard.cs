@@ -49,7 +49,7 @@ public class GameCard : Photon.MonoBehaviour
 	
 	
 	
-	public void ShowFace() 
+	public void ShowFace(bool mine = true, DiscoveryFeature discoveryFeature = null) 
 	{
 		
 		transform.Find("texturedGameCard").FindChild("AttackArea")
@@ -64,17 +64,40 @@ public class GameCard : Photon.MonoBehaviour
 		
 		transform.Find("texturedGameCard").FindChild("Title")
 			.GetComponent<TextMesh>().text = Card.Title;			// On lui attribut son titre
-		
-		transform.Find("texturedGameCard").FindChild("PictoMetalLife").FindChild("Life")
-			.GetComponent<TextMesh> ().text = Card.GetLife().ToString(); // On affecte les caractéristiques de la carte
-		transform.Find("texturedGameCard").FindChild("MoveArea").FindChild("PictoMetalMove").FindChild("Move")
-			.GetComponent<TextMesh> ().text = Card.GetMove().ToString();
-		transform.Find("texturedGameCard").FindChild("AttackArea").FindChild("PictoMetalAttack").FindChild("Attack")
-			.GetComponent<TextMesh> ().text = Card.GetAttack().ToString();
-		transform.Find("texturedGameCard").FindChild("SpeedArea").FindChild("PictoMetalSpeed").FindChild("Speed")
-			.GetComponent<TextMesh> ().text = Card.GetSpeed().ToString();
-		transform.Find("texturedGameCard").FindChild("Class")
-			.GetComponent<TextMesh> ().text = Card.TitleClass;
+
+		ShowClass(Card.TitleClass);
+		ShowSpeed(Card.GetSpeed().ToString());
+		if (discoveryFeature == null)
+		{
+			discoveryFeature = new DiscoveryFeature();
+		}
+		if (discoveryFeature.Attack || mine)
+		{
+			ShowAttack(Card.GetAttack().ToString());
+		}
+		else
+		{
+			ShowAttack("?");
+		}
+		if (discoveryFeature.Life || mine)
+		{
+			ShowLife(Card.GetLife().ToString());
+		}
+		else
+		{
+			ShowLife("?");
+		}
+		if (discoveryFeature.Move || mine)
+		{
+			ShowMove(Card.GetMove().ToString());
+		}
+		else if (discoveryFeature.MoveMin != -1)
+		{
+			ShowMinMove(discoveryFeature.MoveMin.ToString());
+		}
+		else{
+			ShowMove("?");
+		}
 		
 		for (int i = 0 ; i < 6 ; i++)
 		{		
@@ -126,8 +149,6 @@ public class GameCard : Photon.MonoBehaviour
 				transform.Find("texturedGameCard").FindChild("MoveArea").FindChild ("PictoMetalMove")
 					.renderer.materials[i].mainTexture = metals [Card.MoveLevel];
 			}
-			
-
 		}
 		
 		for (int i = 0 ; i < 4 ; i++) // boucle sur la liste de compétence 
@@ -215,7 +236,43 @@ public class GameCard : Photon.MonoBehaviour
 		transform.Find("texturedGameCard").Find("Life")
 			.GetComponent<TextMesh>().text = "Life";	// Et son nombre de point de vie
 	}
-	
+
+	private void ShowAttack(string attack)
+	{
+		transform.Find("texturedGameCard").FindChild("AttackArea").FindChild("PictoMetalAttack").FindChild("Attack")
+			.GetComponent<TextMesh> ().text = attack;
+	}
+
+	private void ShowMinMove(string minMove)
+	{
+		transform.Find("texturedGameCard").FindChild("MoveArea").FindChild("PictoMetalMove").FindChild("Move")
+			.GetComponent<TextMesh> ().text = minMove + "-?";
+	}
+
+	private void ShowMove(string move)
+	{
+		transform.Find("texturedGameCard").FindChild("MoveArea").FindChild("PictoMetalMove").FindChild("Move")
+			.GetComponent<TextMesh> ().text = move;
+	}
+
+	private void ShowLife(string life)
+	{
+		transform.Find("texturedGameCard").FindChild("PictoMetalLife").FindChild("Life")
+			.GetComponent<TextMesh> ().text = life;
+	}
+
+	private void ShowSpeed(string speed)
+	{
+		transform.Find("texturedGameCard").FindChild("SpeedArea").FindChild("PictoMetalSpeed").FindChild("Speed")
+			.GetComponent<TextMesh> ().text = speed;
+	}
+
+	private void ShowClass(string clas)
+	{
+		transform.Find("texturedGameCard").FindChild("Class")
+			.GetComponent<TextMesh>().text = clas;
+	}
+
 	public IEnumerator RetrieveCard (int idCard)
 	{
 		WWWForm form = new WWWForm(); 								// Création de la connexion

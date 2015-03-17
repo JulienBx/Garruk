@@ -1,14 +1,21 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
-
-public class Tile : GridObject 
+public class Tile : GridObject, IHasNeighbours<Tile> 
 {
+	public bool Passable;
+
 	public Tile(int x, int y) : base (x, y)
 	{
+		Passable = true;
 	}
-	public IEnumerable AllNeighbours { get; set; }
+	public IEnumerable<Tile> AllNeighbours { get; set; }
+	public IEnumerable<Tile> Neighbours
+	{
+		get { return AllNeighbours.Where(o => o.Passable); }
+	}
 	public static Point[][] NeighbourShift
 	{
 		get
