@@ -110,13 +110,16 @@ public class GamePlayingCard : Photon.MonoBehaviour {
 	{
 		gameCard.Card = card.gameCard.Card;
 		gnCard.ownerNumber = card.ownerNumber;
+		gnCard.DiscoveryFeature = card.DiscoveryFeature;
 		changeStats();
 	}
 	
 	public void changeStats()
 	{
+		gameCard.ShowFace();
 		Transform attackText = transform.Find("Icons/Attack/Value");
-		attackText.GetComponent<TextMesh>().text = this.gameCard.Card.GetAttack().ToString();
+		attackText.GetComponent<TextMesh>().text = transform.Find("texturedGameCard").FindChild("AttackArea").FindChild("PictoMetalAttack").FindChild("Attack")
+			.GetComponent<TextMesh>().text;
 		
 		//Transform energyText = transform.Find("Icons/Energy/Value");
 		//energyText.GetComponent<TextMesh>().text = this.gameCard.Card.Energy.ToString();
@@ -136,7 +139,7 @@ public class GamePlayingCard : Photon.MonoBehaviour {
 				skillText.GetComponent<TextMesh>().text = skill.Name;
 			}
 		}
-		gameCard.ShowFace();
+
 	}
 	
 	[RPC]
