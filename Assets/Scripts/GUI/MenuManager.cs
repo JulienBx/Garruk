@@ -4,24 +4,24 @@ using System.Collections;
 
 public class MenuManager : MonoBehaviour {
 	
-	public void homeLink()
+	public void link1()
 	{
 		Application.LoadLevel("HomePage");
 	}
 	
-	public void myCardsLink()
+	public void link2()
 	{
-		Application.LoadLevel("MyCardsPage");
+		Application.LoadLevel("MyGame");
 	}
 
-	public void myDecksLink()
-	{
-		Application.LoadLevel("MyDecksPage");
-	}
-	
-	public void magasinLink()
+	public void link3()
 	{
 		Application.LoadLevel("BuyCards");
+	}
+	
+	public void link4()
+	{
+		Application.LoadLevel("Market");
 	}
 
 	public void logOutLink() 
@@ -31,7 +31,12 @@ public class MenuManager : MonoBehaviour {
 		Application.LoadLevel("ConnectionPage");
 	}
 
-	public void lobbyLink()
+	public void profileLink() 
+	{
+		Application.LoadLevel("Profile");
+	}
+
+	public void link5()
 	{
 		Application.LoadLevel("LobbyPage");
 	}

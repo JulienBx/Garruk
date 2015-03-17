@@ -91,7 +91,6 @@ public class profileScript : MonoBehaviour {
 	string labelNoInvitationsReceived;
 	string labelNoInvitationsSent;
 
-
 	string m_textPath;
 	
 	FileBrowser m_fileBrowser;
@@ -105,9 +104,6 @@ public class profileScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-
-
-	
 		StartCoroutine(setStyles());
 
 		if (ApplicationModel.profileChosen != "" && ApplicationModel.profileChosen != ApplicationModel.username){
@@ -117,8 +113,6 @@ public class profileScript : MonoBehaviour {
 			myProfile=true;
 			StartCoroutine(getMyProfile());
 		}
-
-
 	}
 	
 	// Update is called once per frame
@@ -656,9 +650,6 @@ public class profileScript : MonoBehaviour {
 		}
 	}
 
-
-
-
 	private IEnumerator setProfilePicture(){
 
 		profilePicture = new Texture2D (4, 4, TextureFormat.DXT1, false);
@@ -667,19 +658,14 @@ public class profileScript : MonoBehaviour {
 			var www = new WWW(userData.Picture);
 			yield return www;
 			www.LoadImageIntoTexture(profilePicture);
-
 		}
 		else {
 			var www = new WWW(URLDefaultProfilePicture);
 			yield return www;
 			www.LoadImageIntoTexture(profilePicture);
 		}
-			
-			
-			computeConnections();
-
+		computeConnections();
 	}
-	
 	
 	public void computeConnections(){
 

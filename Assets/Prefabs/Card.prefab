@@ -465,7 +465,7 @@ GameObject:
   - 102: {fileID: 10257062}
   - 23: {fileID: 2357088}
   m_Layer: 2
-  m_Name: SkillForce2
+  m_Name: Level
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -655,7 +655,7 @@ GameObject:
   - 33: {fileID: 3357084}
   - 23: {fileID: 2357110}
   m_Layer: 0
-  m_Name: PictoMetalSkill2
+  m_Name: ExperienceGauge
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -805,7 +805,7 @@ Transform:
   m_Children:
   - {fileID: 457070}
   - {fileID: 457092}
-  - {fileID: 457112}
+  - {fileID: 433812}
   m_Father: {fileID: 457102}
   m_RootOrder: 5
 --- !u!4 &457056
@@ -1036,11 +1036,11 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 157090}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -1.10000002}
-  m_LocalScale: {x: .300000012, y: .699999988, z: 0}
+  m_LocalPosition: {x: .360000014, y: -.0223076902, z: -.600000024}
+  m_LocalScale: {x: .0599999987, y: .0461538509, z: 0}
   m_Children: []
-  m_Father: {fileID: 457112}
-  m_RootOrder: 0
+  m_Father: {fileID: 433816}
+  m_RootOrder: 2
 --- !u!4 &457092
 Transform:
   m_ObjectHideFlags: 1
@@ -1122,6 +1122,7 @@ Transform:
   - {fileID: 457062}
   - {fileID: 457048}
   - {fileID: 457064}
+  - {fileID: 433816}
   m_Father: {fileID: 457076}
   m_RootOrder: 0
 --- !u!4 &457104
@@ -1183,12 +1184,11 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 157112}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: .398999989, y: 0, z: -.00499999989}
-  m_LocalScale: {x: .200000003, y: .800000012, z: .00999999978}
-  m_Children:
-  - {fileID: 457090}
-  m_Father: {fileID: 457054}
-  m_RootOrder: 2
+  m_LocalPosition: {x: .360000014, y: .185000002, z: -.599999964}
+  m_LocalScale: {x: .200000003, y: .330000013, z: .100000001}
+  m_Children: []
+  m_Father: {fileID: 433816}
+  m_RootOrder: 0
 --- !u!4 &457114
 Transform:
   m_ObjectHideFlags: 1
@@ -2461,7 +2461,7 @@ TextMesh:
   m_Anchor: 4
   m_Alignment: 1
   m_TabSize: 4
-  m_FontSize: 12
+  m_FontSize: 15
   m_FontStyle: 0
   m_RichText: 1
   m_Font: {fileID: 12800000, guid: aa760adee9519408cb78cc0fc7798565, type: 3}
@@ -2605,6 +2605,7 @@ Animation:
   m_Animation: {fileID: 0}
   m_Animations:
   - {fileID: 7400000, guid: 7e9e7716959914d77a39c2ae8e1d87a1, type: 2}
+  - {fileID: 0}
   - {fileID: 0}
   m_WrapMode: 0
   m_PlayAutomatically: 1

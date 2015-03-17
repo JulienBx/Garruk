@@ -209,6 +209,7 @@ public class MarketScript : MonoBehaviour {
 					zoomedCard.GetComponent<GameCard>().Card=clickedCard.GetComponent<GameCard>().Card;
 					zoomedCard.transform.localPosition=clickedCard.transform.localPosition;
 					zoomedCard.GetComponent<GameCard>().ShowFace();
+					zoomedCard.transform.Find("texturedGameCard").FindChild("ExperienceArea").GetComponent<GameCard_experience>().setXpLevel();
 					zoomedCard.gameObject.name = "ZoomedCard";
 					cardIsMoving = true;
 					destination = camera.ScreenToWorldPoint(new Vector3(0.1f*widthScreen,0.5f*heightScreen,0));
@@ -785,6 +786,7 @@ public class MarketScript : MonoBehaviour {
 				displayedCards[i-start].SetActive(true);
 				displayedCards[i-start].GetComponent<GameCard>().Card = cards[this.cardsToBeDisplayed[i]];
 				displayedCards[i-start].GetComponent<GameCard>().ShowFace();
+				displayedCards[i-start].transform.Find("texturedGameCard").FindChild("ExperienceArea").GetComponent<GameCard_experience>().setXpLevel();
 				
 				if (cardsSold.Contains(cardsToBeDisplayed[i])){
 					displayedCards[i-start].transform.FindChild("texturedGameCard").renderer.material.mainTexture = soldCardTexture;
@@ -831,6 +833,8 @@ public class MarketScript : MonoBehaviour {
 
 				displayedCards[i].GetComponent<GameCard>().Card = cards[this.cardsToBeDisplayed[i]];
 				displayedCards[i].GetComponent<GameCard>().ShowFace();
+				displayedCards[i].transform.Find("texturedGameCard").FindChild("ExperienceArea").GetComponent<GameCard_experience>().setXpLevel();
+
 				
 
 				if (cardsSold.Contains(cardsToBeDisplayed[i])){
@@ -996,7 +1000,8 @@ public class MarketScript : MonoBehaviour {
 						                        System.Convert.ToInt32(cardInfo2[10]), // speedlevel
 						                        System.Convert.ToInt32(cardInfo2[11]), // attackleve
 						                        System.Convert.ToInt32(cardInfo2[12]), // price
-						                        DateTime.ParseExact(cardInfo2[13], "yyyy-MM-dd hh:mm:ss", null))); // onSaleDate
+					                       		DateTime.ParseExact(cardInfo2[13], "yyyy-MM-dd hh:mm:ss", null),
+					                        	System.Convert.ToInt32(cardInfo2[15]))); // onSaleDate
 											
 						this.cards[i].Skills = new List<Skill>();
 						this.cardsToBeDisplayed.Add(i);
