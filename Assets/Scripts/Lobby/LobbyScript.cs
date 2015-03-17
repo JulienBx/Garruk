@@ -183,8 +183,10 @@ public class LobbyScript : Photon.MonoBehaviour {
 			
 			string[] decksInformation = w.text.Split('\n'); 
 			string[] deckInformation;
-						
-			for(int i = 0 ; i < decksInformation.Length - 1 ; i++) 		// On boucle sur les attributs d'un deck
+
+			selectedDeck = System.Convert.ToInt32(decksInformation[0]);
+
+			for(int i = 1 ; i < decksInformation.Length - 1 ; i++) 		// On boucle sur les attributs d'un deck
 			{
 				deckInformation = decksInformation[i].Split('\\'); 	// On découpe les attributs du deck qu'on place dans un tableau
 				
@@ -202,6 +204,7 @@ public class LobbyScript : Photon.MonoBehaviour {
 
 	IEnumerator SetSelectedDeck(int selectedDeck)
 	{
+		print ("je selectionne"+selectedDeck);
 		WWWForm form = new WWWForm (); 								// Création de la connexion
 		form.AddField ("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField ("myform_nick", ApplicationModel.username); 	// Pseudo de l'utilisateur connecté
