@@ -180,10 +180,17 @@ public class myGameScript : MonoBehaviour {
 		if (Screen.width != widthScreen || Screen.height != heightScreen) {
 			this.setStyles();
 			this.applyFilters ();
+			if (this.focusedCard != -1){
+				Destroy (cardFocused);
+				this.focusedCard=-1;
+			}
 			this.clearCards();
 			this.clearDeckCards();
 			this.createCards();
 			this.createDeckCards();
+			this.displayFilters = true ;
+			this.displayDecks = true ;
+
 		}
 		if (toReload) {
 			this.applyFilters ();
@@ -322,7 +329,6 @@ public class myGameScript : MonoBehaviour {
 		}
 
 		if (destroySellingCardWindow){
-			isSellingCard=false;
 			destroySellingCardWindow = false ;
 		}
 
@@ -356,8 +362,49 @@ public class myGameScript : MonoBehaviour {
 			isEscDown = false ;
 			isUpEscape = false ;
 		}
-	}
 
+		if (isUpgradingCard){
+			if(Event.current.keyCode==KeyCode.Return) {
+				destroyUpgradingCardWindow = true ;
+				cardFocused.transform
+					.Find("texturedGameCard")
+						.FindChild("ExperienceArea")
+						.GetComponent<GameCard_experience>()
+						.addXp(cards[idFocused].getPriceForNextLevel(),cards[idFocused].getPriceForNextLevel());
+				
+			}
+			else if(Event.current.keyCode==KeyCode.Escape) {
+				isUpgradingCard = false ;
+				isEscDown = true ;
+			}
+		}
+		else if(isSellingCard){
+			if(Event.current.keyCode==KeyCode.Return) {
+				isSellingCard = false ;
+				destroySellingCardWindow = true ;
+				StartCoroutine (this.sellCard(cardId, focusedCardPrice));
+			}
+			else if(Event.current.keyCode==KeyCode.Escape){
+				isSellingCard = false ;
+				isEscDown = true ;
+			}
+		}
+		else if (isMarketingCard){
+			if (isChangingPrice){
+				if(Event.current.keyCode==KeyCode.Return) {
+					destroyFocus = true ;
+					isChangingPrice = false ;
+					StartCoroutine (this.changeMarketPrice(cardId, focusedCardPrice));
+				}
+				else if(Event.current.keyCode==KeyCode.Escape) {
+					isMarketingCard = false ;
+					isEscDown = true ;
+				}
+			}
+
+		}
+	}
+		
 	void Start() {
 		this.setStyles(); 
 		filtersCardType = new List<int> ();
@@ -368,15 +415,7 @@ public class myGameScript : MonoBehaviour {
 	{
 		if (this.focusedCard!=-1){
 			if(isSellingCard){
-				if(Event.current.keyCode==KeyCode.Return) {
-					destroySellingCardWindow = true ;
-					StartCoroutine (this.sellCard(cardId, focusedCardPrice));
-				}
-				else if(Event.current.keyCode==KeyCode.Escape) {
-					isSellingCard = false ;
-					isEscDown = true ;
-				}
-				else{
+
 					GUILayout.BeginArea(centralWindow);
 					{
 						GUILayout.BeginVertical(centralWindowStyle);
@@ -405,23 +444,9 @@ public class myGameScript : MonoBehaviour {
 						GUILayout.EndVertical();
 					}
 					GUILayout.EndArea();
-				}
 			}
 			if(isUpgradingCard){
-				if(Event.current.keyCode==KeyCode.Return) {
-					destroyUpgradingCardWindow = true ;
-					cardFocused.transform
-					                .Find("texturedGameCard")
-					                .FindChild("ExperienceArea")
-					                .GetComponent<GameCard_experience>()
-									.addXp(cards[idFocused].getPriceForNextLevel(),cards[idFocused].getPriceForNextLevel());
 
-				}
-				else if(Event.current.keyCode==KeyCode.Escape) {
-					isUpgradingCard = false ;
-					isEscDown = true ;
-				}
-				else{
 					GUILayout.BeginArea(centralWindow);
 					{
 						GUILayout.BeginVertical(centralWindowStyle);
@@ -457,20 +482,11 @@ public class myGameScript : MonoBehaviour {
 						GUILayout.EndVertical();
 					}
 					GUILayout.EndArea();
-				}
+				
 			}
 			else if(isMarketingCard){
 					if (isChangingPrice){
-						if(Event.current.keyCode==KeyCode.Return) {
-							destroyFocus = true ;
-							isChangingPrice = false ;
-							StartCoroutine (this.changeMarketPrice(cardId, focusedCardPrice));
-						}
-					else if(Event.current.keyCode==KeyCode.Escape) {
-						isMarketingCard = false ;
-						isEscDown = true ;
-					}
-					else{	
+						
 					GUILayout.BeginArea(centralWindow);
 						{
 							GUILayout.BeginVertical(centralWindowStyle);
@@ -511,7 +527,7 @@ public class myGameScript : MonoBehaviour {
 							GUILayout.EndVertical();
 						}
 						GUILayout.EndArea();
-					}
+					
 					}
 					else if (isMarketed){
 						if(Event.current.keyCode==KeyCode.Return) {
@@ -1988,6 +2004,7 @@ public class myGameScript : MonoBehaviour {
 
 	private IEnumerator sellCard(int idCard, int cost){
 		
+		ApplicationModel.credits += cost ;
 		WWWForm form = new WWWForm(); 											// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_nick", ApplicationModel.username);
