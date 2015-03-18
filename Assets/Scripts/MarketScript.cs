@@ -17,23 +17,25 @@ public class MarketScript : MonoBehaviour {
 	int nbCardsPerRow = 0 ;
 
 
-	GUIStyle mesDecksTitleStyle;
-	GUIStyle nbResultsStyle;
-	GUIStyle sortTitleStyle;
-	GUIStyle cantBuyPricePoliceStyle;
-	GUIStyle smallPoliceStyle;
-	GUIStyle moneyPoliceStyle;
-	GUIStyle pricePoliceStyle;
-	GUIStyle sellerPoliceStyle;
-	GUIStyle myStyle;
-	GUIStyle minmaxPriceStyle;
-	GUIStyle minmaxPriceFieldStyle;
-	GUIStyle deleteButtonStyle;
-	GUIStyle monLoaderStyle;
-	GUIStyle[] myDecksGuiStyle ;
-	GUIStyle[] paginatorGuiStyle;
-	GUIStyle buyButtonStyle;
-	GUIStyle sortButtonStyle;
+	public GUIStyle filterTitleStyle;
+	public GUIStyle nbResultsStyle;
+	public GUIStyle sortTitleStyle;
+	public GUIStyle cantBuyPricePoliceStyle;
+	public GUIStyle smallPoliceStyle;
+	public GUIStyle pricePoliceStyle;
+	public GUIStyle sellerPoliceStyle;
+	public GUIStyle usernameStyle;
+	public GUIStyle skillListStyle;
+	public GUIStyle minmaxPriceStyle;
+	public GUIStyle deleteButtonStyle;
+	public GUIStyle monLoaderStyle;
+	public GUIStyle[] paginatorGuiStyle;
+	public GUIStyle buyButtonStyle;
+	public GUIStyle[] sortButtonStyle;
+	public GUIStyle searchButtonStyle;
+	public GUIStyle toggleStyle;
+	public GUIStyle textFieldStyle;
+
 
 	public Rect windowRect ;
 
@@ -103,8 +105,7 @@ public class MarketScript : MonoBehaviour {
 	float oldMaxMoveVal = 10;
 	float oldMinQuicknessVal = 0;
 	float oldMaxQuicknessVal = 100;
-
-	int money;
+	
 	int idCardToBuy;
 	int priceCardToBuy;
 	int start;
@@ -115,20 +116,13 @@ public class MarketScript : MonoBehaviour {
 
 	string minPrice ="";
 	string maxPrice="";
-
-	RaycastHit hit;
-	GameObject clickedCard = null;
-	GameObject zoomedCard = null;
-	bool cardIsMoving = false;
-	Vector3 destination;
-	float speed =55f;
+	
 	float timer;
 
 	DateTime dateLimit;
 
-	int oldSelGridInt = 10;
-	int selGridInt = 10;
-	string[] selStrings = new string[] {"^", "v", "^", "v", "^", "v", "^", "v", "^", "v"};
+	int oldSortSelected = 10;
+	int sortSelected = 10;
 
 
 	// Use this for initialization
@@ -178,67 +172,19 @@ public class MarketScript : MonoBehaviour {
 
 		}
 
+		if (oldSortSelected!=sortSelected){
+			if(oldSortSelected!=10){
+			this.sortButtonStyle[oldSortSelected].normal.background=this.backButton;
+			this.sortButtonStyle[oldSortSelected].normal.textColor=Color.black;
+			}
 
-		if (oldSelGridInt!=selGridInt){
-			oldSelGridInt=selGridInt;
+			this.sortButtonStyle[sortSelected].normal.background=this.backActivatedButton;
+			this.sortButtonStyle[sortSelected].normal.textColor=Color.white;
+
+			oldSortSelected=sortSelected;
 			sortCards();
 		}
 
-
-		if (Input.GetMouseButtonDown(0)) {
-			
-
-			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-			
-			if(Physics.Raycast(ray, out hit))
-			{
-				if (hit.collider.name.StartsWith("Card") || hit.collider.name.StartsWith("DeckCard") || hit.collider.name.StartsWith("Skill")){
-					
-					if (zoomedCard != null)
-						Destroy (zoomedCard);
-					
-					
-					if (hit.collider.name.StartsWith("Skill"))
-						clickedCard = hit.collider.gameObject.transform.parent.gameObject.transform.parent.gameObject;
-					
-					else
-						clickedCard = hit.collider.gameObject;
-					
-					zoomedCard = Instantiate(CardObject) as GameObject;
-					zoomedCard.transform.localScale= new Vector3(1.5f,1.5f,1.5f); 
-					zoomedCard.GetComponent<GameCard>().Card=clickedCard.GetComponent<GameCard>().Card;
-					zoomedCard.transform.localPosition=clickedCard.transform.localPosition;
-					zoomedCard.GetComponent<GameCard>().ShowFace();
-					zoomedCard.transform.Find("texturedGameCard").FindChild("ExperienceArea").GetComponent<GameCard_experience>().setXpLevel();
-					zoomedCard.gameObject.name = "ZoomedCard";
-					cardIsMoving = true;
-					destination = camera.ScreenToWorldPoint(new Vector3(0.1f*widthScreen,0.5f*heightScreen,0));
-					destination = new Vector3(destination.x,destination.y,-1);
-					
-				}
-				
-				
-			}
-		}
-
-		if (cardIsMoving) {
-			
-			zoomedCard.transform.position = Vector3.MoveTowards(zoomedCard.transform.position, destination, speed * Time.deltaTime);
-			
-			if(Vector3.Distance(zoomedCard.transform.position, destination) < 0.001f)
-				cardIsMoving=false;
-		}
-		
-		if (zoomedCard!=null && !cardIsMoving) {
-			
-			zoomedCard.transform.position = destination;
-			zoomedCard.transform.localScale= new Vector3(3f,3f,3f); 
-		}
-
-
-
-	
-		
 	}
 
 
@@ -251,7 +197,7 @@ public class MarketScript : MonoBehaviour {
 		
 		if (isLoadedCards<1){
 
-			GUILayout.BeginArea(new Rect(widthScreen * 0.22f,0.26f*heightScreen,widthScreen * 0.78f,0.64f*heightScreen));
+			GUILayout.BeginArea(new Rect(0,0.20f*heightScreen,widthScreen * 0.85f,0.80f*heightScreen));
 			{
 				GUILayout.BeginVertical(); // also can put width in here
 				{
@@ -263,12 +209,6 @@ public class MarketScript : MonoBehaviour {
 		}
 		else {
 
-			if (money>0)
-				GUI.Label(new Rect(10, 10, 130+ money.ToString().Length, 20), "Vous avez "+ money + " crédits",moneyPoliceStyle);
-			else
-				GUI.Label(new Rect(10,10, 130, 20), "Vous avez 0 crédit",mesDecksTitleStyle);
-
-			
 			
 			if (isDisplayedCards){
 				isDisplayedCards=false ;
@@ -295,56 +235,47 @@ public class MarketScript : MonoBehaviour {
 			}
 
 
-			GUILayout.BeginArea(new Rect(widthScreen * 0.22f,0.02f*heightScreen,widthScreen * 0.56f,0.2f*heightScreen));
+			GUILayout.BeginArea(new Rect(0.01f*widthScreen,0.10f*heightScreen,widthScreen * 0.78f,0.04f*heightScreen));
 			{
-				GUILayout.Label ("Trier les résultats",mesDecksTitleStyle,GUILayout.Height(20));
 
-				GUILayout.BeginHorizontal();
-				{
-					GUILayout.FlexibleSpace();
-					GUILayout.Label ("Prix",sortTitleStyle,GUILayout.Width(widthScreen * 0.56f/6f),GUILayout.Height(20));
-					GUILayout.FlexibleSpace();
-					GUILayout.Label ("Vie",sortTitleStyle,GUILayout.Width(widthScreen * 0.56f/6f),GUILayout.Height(20));
-					GUILayout.FlexibleSpace();
-					GUILayout.Label ("Attaque",sortTitleStyle,GUILayout.Width(widthScreen * 0.56f/6f),GUILayout.Height(20));
-					GUILayout.FlexibleSpace();
-					GUILayout.Label ("Vitesse",sortTitleStyle,GUILayout.Width(widthScreen * 0.56f/6f),GUILayout.Height(20));
-					GUILayout.FlexibleSpace();
-					GUILayout.Label ("Mouvement",sortTitleStyle,GUILayout.Width(widthScreen * 0.56f/6f),GUILayout.Height(20));
-					GUILayout.FlexibleSpace();
-
-				}
-				GUILayout.EndHorizontal();
-
-				selGridInt = GUILayout.SelectionGrid(selGridInt, selStrings, 10);
-
+				GUILayout.FlexibleSpace();
 				if (cardsToBeDisplayed.Count != totalNbResult)
-					GUILayout.Label (cardsToBeDisplayed.Count +" / " + totalNbResult + " cartes affichées",nbResultsStyle,GUILayout.Height(20));
+					GUILayout.Label (cardsToBeDisplayed.Count +" / " + totalNbResult + " cartes affichées",nbResultsStyle);
+				GUILayout.FlexibleSpace();
 
 			}
 			GUILayout.EndArea();
 
 
 			
-			GUILayout.BeginArea(new Rect(0.82f*widthScreen,0.02f*heightScreen,widthScreen * 0.16f,0.98f*heightScreen));
+			GUILayout.BeginArea(new Rect(0.80f*widthScreen,0.10f*heightScreen,widthScreen * 0.19f,0.90f*heightScreen));
 			{
 
 				bool toggle;
 				string tempString ;
 				GUILayout.BeginVertical();
 				{
-
-					GUILayout.Label ("Filtrer par prix",mesDecksTitleStyle,GUILayout.Height(20));
+					GUILayout.BeginHorizontal();
+					{
+						GUILayout.Label ("Filtrer par Prix",filterTitleStyle);
+						GUILayout.FlexibleSpace();
+						if(GUILayout.Button ("^",sortButtonStyle[0])) {
+							sortSelected=0;
+						}
+						if(GUILayout.Button ("v",sortButtonStyle[1])) {
+							sortSelected=1;
+						}
+					}
+					GUILayout.EndHorizontal();
 					GUILayout.Label ("Prix min :",minmaxPriceStyle);
-					minPrice = GUILayout.TextField(minPrice, 9);
+					minPrice = GUILayout.TextField(minPrice, 9,textFieldStyle);
 					GUILayout.Label ("Prix max :",minmaxPriceStyle);
-					maxPrice = GUILayout.TextField(maxPrice, 9);
+					maxPrice = GUILayout.TextField(maxPrice, 9,textFieldStyle);
 
-
-					GUILayout.Label ("Filtrer par classe",mesDecksTitleStyle,GUILayout.Height(20));
-					GUILayout.Space(-5);
+					GUILayout.FlexibleSpace();
+					GUILayout.Label ("Filtrer par classe",filterTitleStyle);
 					for (int i=0; i<this.cardTypeList.Length-1; i++) {		
-						toggle = GUILayout.Toggle (togglesCurrentStates [i], this.cardTypeList[i],GUILayout.Height(16));
+						toggle = GUILayout.Toggle (togglesCurrentStates [i], this.cardTypeList[i],toggleStyle);
 						if (toggle != togglesCurrentStates [i]) {
 							togglesCurrentStates [i] = toggle;
 							if (toggle){
@@ -355,13 +286,11 @@ public class MarketScript : MonoBehaviour {
 							}
 							toReload = true ;
 						}
-						GUILayout.Space(-5);
 					}
 					
-					GUILayout.Space(8);
-					GUILayout.Label ("Filtrer une compétence",mesDecksTitleStyle,GUILayout.Height(20));
-					GUILayout.Space(-5);
-					tempString = GUILayout.TextField (this.valueSkill, GUILayout.Height(18));
+					GUILayout.FlexibleSpace();
+					GUILayout.Label ("Filtrer une compétence",filterTitleStyle);
+					tempString = GUILayout.TextField (this.valueSkill,textFieldStyle);
 					if (tempString != valueSkill) {
 						if (tempString.Length > 0) {
 							this.isSkillToDisplay=true;
@@ -380,7 +309,7 @@ public class MarketScript : MonoBehaviour {
 					if (isSkillToDisplay){
 						GUILayout.Space(-5);
 						for (int j=0; j<matchValues.Count; j++) {
-							if (GUILayout.Button (matchValues [j], myStyle,GUILayout.Width(widthScreen/7))) {
+							if (GUILayout.Button (matchValues [j], skillListStyle)) {
 								valueSkill = matchValues [j].ToLower ();
 								skillsChosen.Add (valueSkill);
 								this.isSkillChosen=true ;
@@ -395,9 +324,9 @@ public class MarketScript : MonoBehaviour {
 						for (int i=0; i<this.skillsChosen.Count; i++) {	
 							GUILayout.BeginHorizontal();
 							{
-								GUILayout.Label (skillsChosen[i],smallPoliceStyle,GUILayout.Height(20));
+								GUILayout.Label (skillsChosen[i],smallPoliceStyle);
 								GUILayout.FlexibleSpace();
-								if (GUILayout.Button("Supprimer",deleteButtonStyle, GUILayout.Height(15))){
+								if (GUILayout.Button("Supprimer",deleteButtonStyle)){
 									skillsChosen.RemoveAt(i);
 								}
 							}
@@ -405,9 +334,20 @@ public class MarketScript : MonoBehaviour {
 						}
 					}
 					
-					GUILayout.Space(5);
+					GUILayout.FlexibleSpace();
 					
-					GUILayout.Label ("Filtrer par points de vie",mesDecksTitleStyle,GUILayout.Height(20));
+					GUILayout.BeginHorizontal();
+					{
+						GUILayout.Label ("Filtrer par Vie",filterTitleStyle);
+						GUILayout.FlexibleSpace();
+						if(GUILayout.Button ("^",sortButtonStyle[2])) {
+							sortSelected=2;
+						}
+						if(GUILayout.Button ("v",sortButtonStyle[3])) {
+							sortSelected=3;
+						}
+					}
+					GUILayout.EndHorizontal();
 					GUILayout.Space(-1);
 					GUILayout.BeginHorizontal();
 					{
@@ -419,9 +359,20 @@ public class MarketScript : MonoBehaviour {
 					GUILayout.Space(-5);
 					MyGUI.MinMaxSlider (ref minLifeVal, ref maxLifeVal, minLifeLimit, maxLifeLimit);
 					
-					GUILayout.Space(5);
+					GUILayout.FlexibleSpace();
 					
-					GUILayout.Label ("Filtrer par pts d'attaque",mesDecksTitleStyle,GUILayout.Height(20));
+					GUILayout.BeginHorizontal();
+					{
+						GUILayout.Label ("Filtrer par Attaque",filterTitleStyle);
+						GUILayout.FlexibleSpace();
+						if(GUILayout.Button ("^",sortButtonStyle[4])) {
+							sortSelected=4;
+						}
+						if(GUILayout.Button ("v",sortButtonStyle[5])) {
+							sortSelected=5;
+						}
+					}
+					GUILayout.EndHorizontal();
 					GUILayout.Space(-1);
 					GUILayout.BeginHorizontal();
 					{
@@ -433,9 +384,20 @@ public class MarketScript : MonoBehaviour {
 					GUILayout.Space(-5);
 					MyGUI.MinMaxSlider (ref minAttackVal, ref maxAttackVal, minAttackLimit, maxAttackLimit);
 					
-					GUILayout.Space(5);
+					GUILayout.FlexibleSpace();
 					
-					GUILayout.Label ("Filtrer par déplacement",mesDecksTitleStyle,GUILayout.Height(20));
+					GUILayout.BeginHorizontal();
+					{
+						GUILayout.Label ("Filtrer par Mouvement",filterTitleStyle);
+						GUILayout.FlexibleSpace();
+						if(GUILayout.Button ("^",sortButtonStyle[6])) {
+							sortSelected=6;
+						}
+						if(GUILayout.Button ("v",sortButtonStyle[7])) {
+							sortSelected=7;
+						}
+					}
+					GUILayout.EndHorizontal();
 					GUILayout.Space(-1);
 					GUILayout.BeginHorizontal();
 					{
@@ -447,9 +409,20 @@ public class MarketScript : MonoBehaviour {
 					GUILayout.Space(-5);
 					MyGUI.MinMaxSlider (ref minMoveVal, ref maxMoveVal, minMoveLimit, maxMoveLimit);
 					
-					GUILayout.Space(5);
+					GUILayout.FlexibleSpace();
 					
-					GUILayout.Label ("Filtrer par rapidité",mesDecksTitleStyle,GUILayout.Height(20));
+					GUILayout.BeginHorizontal();
+					{
+						GUILayout.Label ("Filtrer par Rapidité",filterTitleStyle);
+						GUILayout.FlexibleSpace();
+						if(GUILayout.Button ("^",sortButtonStyle[8])) {
+							sortSelected=8;
+						}
+						if(GUILayout.Button ("v",sortButtonStyle[9])) {
+							sortSelected=9;
+						}
+					}
+					GUILayout.EndHorizontal();
 					GUILayout.Space(-1);
 					GUILayout.BeginHorizontal();
 					{
@@ -461,12 +434,15 @@ public class MarketScript : MonoBehaviour {
 					GUILayout.Space(-5);
 					MyGUI.MinMaxSlider (ref minQuicknessVal, ref maxQuicknessVal, minQuicknessLimit, maxQuicknessLimit);
 
-					GUILayout.Space(5);
+					GUILayout.FlexibleSpace();
 					
-					if (GUILayout.Button("Lancer une recherche")){
+					if (GUILayout.Button("Lancer une recherche",searchButtonStyle)){
 
-						selGridInt=11;
-						oldSelGridInt=11;
+						if (sortSelected != 10){
+							sortButtonStyle[sortSelected].normal.background=backButton;
+							sortButtonStyle[sortSelected].normal.textColor=Color.black;
+						}
+
 						cardsToSearch=" AND (";
 						for (int i = 0; i < togglesCurrentStates.Length; i++){
 
@@ -532,6 +508,8 @@ public class MarketScript : MonoBehaviour {
 						StartCoroutine(searchForCards());
 					}
 
+					GUILayout.FlexibleSpace();
+
 
 					if (Input.GetMouseButtonDown(0)){
 						isBeingDragged = true;
@@ -590,10 +568,10 @@ public class MarketScript : MonoBehaviour {
 			for (int i=start; i<finish;i++){
 
 				cardsDimensionX = new Vector3(camera.WorldToScreenPoint(new Vector3(displayedCards[i-start].transform.FindChild("texturedGameCard").renderer.bounds.size.x,0,0)).x-Screen.width/2,0,0);
-				cardsPosition[i-start]=camera.WorldToScreenPoint(new Vector3 (displayedCards[i-start].transform.position.x,1.65f-((i-start)-(i-start)%nbCardsPerRow)/nbCardsPerRow*2.6f,0));
+				cardsPosition[i-start]=camera.WorldToScreenPoint(new Vector3 (displayedCards[i-start].transform.position.x,1.65f-((i-start)-(i-start)%nbCardsPerRow)/nbCardsPerRow*2.75f,0));
 
 
-				GUILayout.BeginArea(new Rect(cardsPosition[i-start].x-cardsDimensionX.x/2,heightScreen - cardsPosition[i-start].y+10,cardsDimensionX.x,40));
+				GUILayout.BeginArea(new Rect(cardsPosition[i-start].x-cardsDimensionX.x/2,heightScreen - cardsPosition[i-start].y,cardsDimensionX.x,heightScreen*7/100));
 				{
 
 					GUILayout.BeginVertical(); // also can put width in here
@@ -601,14 +579,14 @@ public class MarketScript : MonoBehaviour {
 
 
 
-						if (money >= cards[cardsToBeDisplayed[i]].Price && !cardsSold.Contains(cardsToBeDisplayed[i])){
-							GUILayout.Label ("Prix : "+cards[cardsToBeDisplayed[i]].Price+" $",pricePoliceStyle,GUILayout.Height(15));
+						if (ApplicationModel.credits >= cards[cardsToBeDisplayed[i]].Price && !cardsSold.Contains(cardsToBeDisplayed[i])){
+							GUILayout.Label ("Prix : "+cards[cardsToBeDisplayed[i]].Price+" $",pricePoliceStyle);
 
 							GUILayout.BeginHorizontal();
 							{
 
-								GUILayout.Label ("Joueur : ",sellerPoliceStyle,GUILayout.Height(10));
-								if (GUILayout.Button(usersList[cardsToBeDisplayed[i]],deleteButtonStyle, GUILayout.Height(10)))
+								GUILayout.Label ("Joueur : ",sellerPoliceStyle);
+								if (GUILayout.Button(usersList[cardsToBeDisplayed[i]],usernameStyle))
 								{
 									ApplicationModel.profileChosen =usersList[cardsToBeDisplayed[i]];
 									Application.LoadLevel("Profile");
@@ -617,7 +595,7 @@ public class MarketScript : MonoBehaviour {
 							}
 							GUILayout.EndHorizontal();
 
-							if (GUILayout.Button("Acheter",buyButtonStyle, GUILayout.Height(15)))
+							if (GUILayout.Button("Acheter",buyButtonStyle))
 							{
 							
 								StartCoroutine(buyCard(cards[cardsToBeDisplayed[i]].Id.ToString(),cards[cardsToBeDisplayed[i]].Price.ToString()));
@@ -626,13 +604,13 @@ public class MarketScript : MonoBehaviour {
 
 							}
 						}
-						else if (money < cards[cardsToBeDisplayed[i]].Price){
-							GUILayout.Label ("Prix : "+cards[cardsToBeDisplayed[i]].Price+" $",cantBuyPricePoliceStyle,GUILayout.Height(15));
+						else if (ApplicationModel.credits < cards[cardsToBeDisplayed[i]].Price){
+							GUILayout.Label ("Prix : "+cards[cardsToBeDisplayed[i]].Price+" $",cantBuyPricePoliceStyle);
 							GUILayout.BeginHorizontal();
 							{
 								
-								GUILayout.Label ("Joueur : ",sellerPoliceStyle,GUILayout.Height(10));
-								if (GUILayout.Button(usersList[cardsToBeDisplayed[i]],deleteButtonStyle, GUILayout.Height(10)))
+								GUILayout.Label ("Joueur : ",sellerPoliceStyle);
+								if (GUILayout.Button(usersList[cardsToBeDisplayed[i]],usernameStyle))
 								{
 									ApplicationModel.profileChosen =usersList[cardsToBeDisplayed[i]];
 									Application.LoadLevel("Profile");
@@ -640,40 +618,28 @@ public class MarketScript : MonoBehaviour {
 								}
 							}
 							GUILayout.EndHorizontal();
-							GUILayout.Space (15);
+							//GUILayout.Space (15);
 						}
 						else {
-							GUILayout.Label ("Prix : "+cards[cardsToBeDisplayed[i]].Price+" $",pricePoliceStyle,GUILayout.Height(15));
+							GUILayout.Label ("Prix : "+cards[cardsToBeDisplayed[i]].Price+" $",pricePoliceStyle);
 							GUILayout.BeginHorizontal();
 							{
-								
-								GUILayout.Label ("Joueur : ",sellerPoliceStyle,GUILayout.Height(10));
-								if (GUILayout.Button(usersList[cardsToBeDisplayed[i]],deleteButtonStyle, GUILayout.Height(10)))
+								GUILayout.Label ("Joueur : ",sellerPoliceStyle);
+								if (GUILayout.Button(usersList[cardsToBeDisplayed[i]],usernameStyle))
 								{
 									ApplicationModel.profileChosen =usersList[cardsToBeDisplayed[i]];
 									Application.LoadLevel("Profile");
-									
-								}
+																}
 							}
 							GUILayout.EndHorizontal();
-							GUILayout.Space (15);
+							//GUILayout.Space (15);
 						}
-
 					}
 					GUILayout.EndVertical();
-
 				}
 				GUILayout.EndArea();
-
 			}
-
-
-
-		
 		}
-
-
-	
 	}
 	
 	
@@ -681,75 +647,151 @@ public class MarketScript : MonoBehaviour {
 		
 		heightScreen = Screen.height;
 		widthScreen = Screen.width;
+
+		// Style utilisé pour les titre des filtres de tri
+
+		this.sortTitleStyle.fontSize = heightScreen*15/1000;
+		this.sortTitleStyle.fixedHeight = (int)heightScreen*2/100;
+		//this.sortTitleStyle.fixedWidth = (int)widthScreen*9/100;
+
+		//sortTitleStyle.normal.textColor = Color.black;
+		//sortTitleStyle.alignment = TextAnchor.MiddleCenter;
+
+		// Style utilisé pour les bouttons de tri
+
+		for (int i =0;i<10;i++){
+
+		this.sortButtonStyle[i].fontSize = heightScreen*2/100;
+		//this.sortButtonStyle[i].normal.textColor = Color.black;
+		this.sortButtonStyle[i].fixedHeight = (int)heightScreen*3/100;
+		this.sortButtonStyle[i].fixedWidth = (int)widthScreen*12/1000;
+
+		}
+
+
+		//Style utilisé pour les titres des filtres de filtre
+
+		this.filterTitleStyle.fontSize = heightScreen*19/1000;
+		this.filterTitleStyle.fixedHeight = (int)heightScreen*25/1000;
+		this.filterTitleStyle.fixedWidth = (int)widthScreen*12/100;
+
+		//filterTitleStyle.normal.textColor = Color.black;
+		//filterTitleStyle.alignment = TextAnchor.MiddleCenter;
+
+		// Style utilisé pour le filtre prix min/max 
+
+		this.minmaxPriceStyle.fontSize = heightScreen*15/1000;
+		this.minmaxPriceStyle.fixedHeight = (int)heightScreen*2/100;
+		//this.minmaxPriceStyle.fixedWidth = (int)widthScreen*9/100;
+
+		//minmaxPriceStyle.alignment = TextAnchor.MiddleLeft;
+		//minmaxPriceStyle.normal.textColor = Color.black;
+
+		// Style utilisé pour le bouton de suppression des compétences (et le bouton profil)
+
+		this.deleteButtonStyle.fontSize = heightScreen*15/1000;
+		this.deleteButtonStyle.fixedHeight = (int)heightScreen*2/100;
+		this.deleteButtonStyle.fixedWidth = (int)widthScreen*9/100;
+
+		//deleteButtonStyle.normal.textColor = Color.black;
+		//deleteButtonStyle.alignment = TextAnchor.MiddleCenter;
+		//deleteButtonStyle.normal.background=backButton;
+
+		// Style utilisé pour le bouton d'achat des cartes
+
+		this.buyButtonStyle.fontSize = heightScreen*15/1000;
+		this.buyButtonStyle.fixedHeight = (int)heightScreen*2/100;
+		//this.buyButtonStyle.fixedWidth = (int)widthScreen*9/100;
+
+		//buyButtonStyle.normal.textColor = Color.black;
+		//buyButtonStyle.alignment = TextAnchor.MiddleCenter;
+		//buyButtonStyle.normal.background=backButton;
+
+		// Style utilisé pour le message de chargement des cartes
+
+		this.monLoaderStyle.fontSize = heightScreen*2/100;
+		this.monLoaderStyle.fixedHeight = (int)heightScreen*1/100;
+		this.monLoaderStyle.fixedWidth = (int)widthScreen*9/100;
+
+		//this.monLoaderStyle = new GUIStyle ();
+		//monLoaderStyle.normal.textColor = Color.black;
+		//monLoaderStyle.alignment = TextAnchor.MiddleCenter;
+
+		// Style utilisé pour les filtre "classes" et pour les valeurs min/max des sliders
+
+		this.smallPoliceStyle.fontSize = heightScreen*15/1000;
+		this.smallPoliceStyle.fixedHeight = (int)heightScreen*2/100;
+		//this.smallPoliceStyle.fixedWidth = (int)widthScreen*9/100;
+		//smallPoliceStyle.normal.textColor = Color.gray;
+		//smallPoliceStyle.alignment = TextAnchor.MiddleCenter;
+
+		// Style utilisé pour l'affichage du nombre de cartes
+
+		this.nbResultsStyle.fontSize = heightScreen*2/100;
+		this.nbResultsStyle.fixedHeight = (int)heightScreen*25/1000;
+		this.nbResultsStyle.fixedWidth = (int)widthScreen*9/100;
+		//nbResultsStyle.alignment = TextAnchor.MiddleLeft;
+
+		// Style utilisé pour l'affichage du prix des cartes
+
+		this.pricePoliceStyle.fontSize= heightScreen*2/100;
+		this.pricePoliceStyle.fixedHeight = (int)heightScreen*3/100;
+		//this.pricePoliceStyle.fixedWidth = (int)widthScreen*9/100;
+		//pricePoliceStyle.normal.textColor = Color.black;
+		//pricePoliceStyle.alignment = TextAnchor.MiddleCenter;
+
+		// Style utilisé pour l'affichage d'un prix trop élevé
+
+		this.cantBuyPricePoliceStyle.fontSize= heightScreen*2/100;
+		this.cantBuyPricePoliceStyle.fixedHeight = (int)heightScreen*3/100;
+		//this.cantBuyPricePoliceStyle.fixedWidth = (int)widthScreen*9/100;
+		//cantBuyPricePoliceStyle.normal.textColor = Color.red;
+		//cantBuyPricePoliceStyle.alignment = TextAnchor.MiddleCenter;
+
+		// Style utilisé pour l'affichage du libellé joueur
+
+		this.sellerPoliceStyle.fontSize=heightScreen*15/1000;
+		this.sellerPoliceStyle.fixedHeight= (int)heightScreen*2/100;
+		//this.sellerPoliceStyle.fixedWidth = (int)widthScreen*9/100;
+		//sellerPoliceStyle.normal.textColor = Color.black;
+		//sellerPoliceStyle.alignment = TextAnchor.MiddleCenter;
+
+		// Style utilisé pour l'affichage des users
 		
-		this.sortTitleStyle = new GUIStyle ();
-		sortTitleStyle.normal.textColor = Color.black;
-		sortTitleStyle.fontSize = heightScreen/60;
-		sortTitleStyle.alignment = TextAnchor.MiddleCenter;
+		this.usernameStyle.fontSize = heightScreen * 15/1000;
+		this.usernameStyle.fixedHeight = (int)heightScreen * 2/100;
 
-		this.mesDecksTitleStyle = new GUIStyle ();
-		mesDecksTitleStyle.normal.textColor = Color.black;
-		mesDecksTitleStyle.fontSize = heightScreen/40;
-		mesDecksTitleStyle.alignment = TextAnchor.MiddleCenter;
+		// Style utilisé pour les bouttons de compétence
 
-		this.minmaxPriceStyle = new GUIStyle ();
-		minmaxPriceStyle.normal.textColor = Color.black;
-		minmaxPriceStyle.fontSize = heightScreen/60;
-		minmaxPriceStyle.alignment = TextAnchor.MiddleLeft;
+		this.skillListStyle.fontSize=heightScreen*15/1000;
+		this.skillListStyle.fixedHeight=(int)heightScreen*2/100;
+		//this.skillListStyle.fixedWidth = (int)widthScreen*9/100;
+		//skillListStyle.alignment = TextAnchor.MiddleCenter;
+		//skillListStyle.normal.background = this.backButton;
+		//skillListStyle.normal.textColor = Color.black;
 
-		this.moneyPoliceStyle = new GUIStyle ();
-		moneyPoliceStyle.normal.textColor = Color.black;
-		moneyPoliceStyle.fontSize = heightScreen/40;
-		moneyPoliceStyle.alignment = TextAnchor.MiddleLeft;
-
-		this.deleteButtonStyle = new GUIStyle ();
-		deleteButtonStyle.normal.textColor = Color.black;
-		deleteButtonStyle.fontSize = heightScreen/80;
-		deleteButtonStyle.alignment = TextAnchor.MiddleCenter;
-		deleteButtonStyle.normal.background=backButton;
-
-		this.buyButtonStyle = new GUIStyle ();
-		buyButtonStyle.normal.textColor = Color.black;
-		buyButtonStyle.fontSize = heightScreen/80;
-		buyButtonStyle.alignment = TextAnchor.MiddleCenter;
-		buyButtonStyle.normal.background=backButton;
+		// Style utilisé pour les filtres sur les classes
 		
-		this.monLoaderStyle = new GUIStyle ();
-		monLoaderStyle.normal.textColor = Color.black;
-		monLoaderStyle.alignment = TextAnchor.MiddleCenter;
+		this.toggleStyle.fontSize=heightScreen*15/1000;
+		this.toggleStyle.fixedHeight=(int)heightScreen*2/100;
+		//this.toggleStyle.fixedWidth = (int)widthScreen*9/100;
+
+
+		// Style utilisé pour le bouton de recherche
+
+		this.searchButtonStyle.fontSize=heightScreen*2/100;
+		this.searchButtonStyle.fixedHeight=(int)heightScreen*3/100;
+		//this.searchButtonStyle.fixedWidth = (int)widthScreen*9/100;
+
+		// Style utilisé pour les textfields
 		
-		this.smallPoliceStyle = new GUIStyle ();
-		smallPoliceStyle.normal.textColor = Color.gray;
-		smallPoliceStyle.alignment = TextAnchor.MiddleCenter;
-		smallPoliceStyle.fontSize = 10;
+		this.textFieldStyle.fontSize=heightScreen*2/100;
+		this.textFieldStyle.fixedHeight=(int)heightScreen*25/1000;
+		//this.textFieldStyle.fixedWidth = (int)widthScreen*9/100;
 
-		this.nbResultsStyle = new GUIStyle ();
-		sortTitleStyle.normal.textColor = Color.black;
-		sortTitleStyle.fontSize = heightScreen/60;
-		nbResultsStyle.alignment = TextAnchor.MiddleLeft;
 
-		this.pricePoliceStyle = new GUIStyle ();
-		pricePoliceStyle.normal.textColor = Color.black;
-		pricePoliceStyle.alignment = TextAnchor.MiddleCenter;
-		pricePoliceStyle.fontSize = 10;
 
-		this.cantBuyPricePoliceStyle = new GUIStyle ();
-		cantBuyPricePoliceStyle.normal.textColor = Color.red;
-		cantBuyPricePoliceStyle.alignment = TextAnchor.MiddleCenter;
-		cantBuyPricePoliceStyle.fontSize = 10;
 
-		this.sellerPoliceStyle = new GUIStyle ();
-		sellerPoliceStyle.normal.textColor = Color.black;
-		sellerPoliceStyle.alignment = TextAnchor.MiddleCenter;
-		sellerPoliceStyle.fontSize = 9;
-		
-		this.myStyle = new GUIStyle ();
-		myStyle.normal.textColor = Color.black;
-		myStyle.fontSize = 10;
-		myStyle.fixedHeight = 12;
-		myStyle.alignment = TextAnchor.MiddleCenter;
-		myStyle.normal.background = this.backButton;
-		
 		
 		yield break;
 	}
@@ -813,11 +855,12 @@ public class MarketScript : MonoBehaviour {
 
 
 	private void createCards(){
-		
+
+
 		float tempF = 10f*widthScreen/heightScreen;
-		float width = tempF * 0.6f;
+		float width = tempF * 0.78f;
 		nbCardsPerRow = Mathf.FloorToInt(width/1.6f);
-		float debutLargeur = -0.3f * tempF+0.8f + (width - 1.6f * nbCardsPerRow)/2 ;
+		float debutLargeur = -0.49f * tempF+0.8f + (width - 1.6f * nbCardsPerRow)/2 ;
 		displayedCards = new GameObject[3*nbCardsPerRow];
 		cardsPosition = new Vector3[3 * nbCardsPerRow];
 		int nbCardsToDisplay = this.cardsToBeDisplayed.Count;
@@ -826,7 +869,7 @@ public class MarketScript : MonoBehaviour {
 
 			displayedCards[i] = Instantiate(CardObject) as GameObject;
 			displayedCards[i].transform.localScale = new Vector3(1.5f, 1.5f, 1.5f); 
-			displayedCards[i].transform.localPosition = new Vector3(debutLargeur + 1.6f*(i%nbCardsPerRow), 2.5f-(i-i%nbCardsPerRow)/nbCardsPerRow*2.6f, 0); 
+			displayedCards[i].transform.localPosition = new Vector3(debutLargeur + 1.6f*(i%nbCardsPerRow), 2.625f-(i-i%nbCardsPerRow)/nbCardsPerRow*2.75f, 0); 
 			displayedCards[i].gameObject.name = "Card" + i + "";	
 
 			if (i<nbCardsToDisplay){
@@ -910,7 +953,7 @@ public class MarketScript : MonoBehaviour {
 			//			print (w.text);
 			
 			string[] data=w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
-			money = System.Convert.ToInt32(data[3]);
+			ApplicationModel.credits = System.Convert.ToInt32(data[3]);
 			cardsIDS=data[2].Split(new string[] { "#C#" }, System.StringSplitOptions.None);
 			skillsIds = data[1].Split('\n');
 			totalNbResult = System.Convert.ToInt32(data[4]);
@@ -1041,7 +1084,7 @@ public class MarketScript : MonoBehaviour {
 		{
 			print(w.text); // donne le retour
 			if (w.text != "ALREADYSOLD")
-			money = System.Convert.ToInt32(w.text);
+			ApplicationModel.credits = System.Convert.ToInt32(w.text);
 			else{
 				displayPopUp = true;
 				for (int i = 0; i < 3*nbCardsPerRow; i++) {
@@ -1133,7 +1176,7 @@ public class MarketScript : MonoBehaviour {
 			for (int j=0;j<i;j++){
 
 
-				switch (selGridInt)
+				switch (sortSelected)
 				{
 				case 0:
 					tempA = cards[cardsToBeDisplayed[i]].Price;
@@ -1160,20 +1203,20 @@ public class MarketScript : MonoBehaviour {
 					tempA = cards[cardsToBeDisplayed[j]].Attack;
 					break;
 				case 6:
-					tempA = cards[cardsToBeDisplayed[i]].Speed;
-					tempB = cards[cardsToBeDisplayed[j]].Speed;
+					tempA = cards[cardsToBeDisplayed[i]].Move;
+					tempB = cards[cardsToBeDisplayed[j]].Move;
 					break;
 				case 7:
 					tempB = cards[cardsToBeDisplayed[i]].Speed;
 					tempA = cards[cardsToBeDisplayed[j]].Speed;
 					break;
 				case 8:
-					tempA = cards[cardsToBeDisplayed[i]].Move;
-					tempB = cards[cardsToBeDisplayed[j]].Move;
+					tempA = cards[cardsToBeDisplayed[i]].Speed;
+					tempB = cards[cardsToBeDisplayed[j]].Speed;
 					break;
 				case 9:
-					tempB = cards[cardsToBeDisplayed[i]].Move;
-					tempA = cards[cardsToBeDisplayed[j]].Move;
+					tempB = cards[cardsToBeDisplayed[i]].Speed;
+					tempA = cards[cardsToBeDisplayed[j]].Speed;
 					break;
 				default:
 
