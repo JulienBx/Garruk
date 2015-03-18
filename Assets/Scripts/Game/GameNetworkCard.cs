@@ -1,15 +1,19 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System;
 
-public class GameNetworkCard : GameCard 
+public class GameNetworkCard : Photon.MonoBehaviour
 {
 	public GameTile currentTile;                                    // Tile où la carte est positionnée
 	public int ownerNumber;											// joueur 1 ou joueur 2
 	public int Damage = 0;                                          // point de dégat pris
+	public DiscoveryFeature DiscoveryFeature = new DiscoveryFeature();// Les caractéristiques que l'adversaire a découvert
 	public List<GameNetworkCard> neighbors;                         // Liste des cartes voisines
-	public int nbTurn = 1;                                              // seulement utile pour la timeline
-	
+	public int nbTurn = 1;                                          // seulement utile pour la timeline
+	public GameCard gameCard;
+
 	#region unity editor
 	public GUIStyle progress_empty;
 	public GUIStyle progress_full;
@@ -22,6 +26,7 @@ public class GameNetworkCard : GameCard
 	
 	void Start()
 	{
+		gameCard = GetComponent<GameCard>();
 		UpdatePosition();
 	}
 	void Update()
@@ -31,11 +36,11 @@ public class GameNetworkCard : GameCard
 	
 	void OnGUI()
 	{
-		if (Card != null)
+		if (gameCard != null && gameCard.Card != null)
 		{
 			GUI.BeginGroup(new Rect(WorldNamePos.x, Screen.height - WorldNamePos.y, 16, 50));
 			GUI.Box(new Rect(0,0,16,50), bgImage, progress_empty);
-			GUI.BeginGroup(new Rect(0, 50 * (Damage) / Card.Life, 16, 50));
+			GUI.BeginGroup(new Rect(0, 50 * (Damage) / gameCard.Card.Life, 16, 50));
 			GUI.Box(new Rect(0,0,16,50), fgImage, progress_empty);
 			GUI.EndGroup();
 			GUI.EndGroup();
@@ -52,12 +57,12 @@ public class GameNetworkCard : GameCard
 	
 	void OnMouseDown() 
 	{
-		if (photonView.isMine)
+		if (gameCard.photonView.isMine)
 		{
 			if (GameBoard.instance.TimeOfPositionning)
 			{
 				
-				Debug.Log("card : " + Card.Id);
+				Debug.Log("card : " + gameCard.Card.Id);
 				GameBoard.instance.CardSelected = this;
 				GameBoard.instance.isDragging = true;
 				GameTile.instance.SetCursorToDrag();
@@ -65,11 +70,11 @@ public class GameNetworkCard : GameCard
 			else
 			{
 				GameTile.InitIndexPathTile();
-				if (GameTimeLine.instance.PlayingCard.Card.Equals(Card) && !GamePlayingCard.instance.hasMoved) 
+				if (GameTimeLine.instance.PlayingCard.gameCard.Card.Equals(gameCard.Card) && !GamePlayingCard.instance.hasMoved) 
 				{
 					GameBoard.instance.CardSelected = this;
 					GameBoard.instance.isMoving = true;
-					//					offset = transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -1));
+
 					RaycastHit hit;
 					Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 					
@@ -78,7 +83,7 @@ public class GameNetworkCard : GameCard
 						currentTile = hit.transform.gameObject.GetComponent<GameTile>();
 					}
 				}
-				if (GameTimeLine.instance.PlayingCard.Card.Equals(Card) && GamePlayingCard.instance.hasMoved) 
+				if (GameTimeLine.instance.PlayingCard.gameCard.Card.Equals(gameCard.Card) && GamePlayingCard.instance.hasMoved) 
 				{
 					StartCoroutine(ChangeMessage("la carte s'est déjà déplacée pendant ce tour"));
 				}
@@ -88,14 +93,16 @@ public class GameNetworkCard : GameCard
 					currentTile.Passable = true;
 				}
 				Tile tile = GameBoard.instance.board[new Point((int)gridPosition.x, (int)gridPosition.y)];
-				colorAndMarkNeighboringTiles(tile.AllNeighbours, Card.Move, Color.gray);
+				colorAndMarkNeighboringTiles(tile.AllNeighbours, gameCard.Card.Move, Color.gray);
 			}                         
 		}
 		if (!GameTimeLine.instance.PlayingCard.Equals(this) && GamePlayingCard.instance.attemptToAttack && !GamePlayingCard.instance.hasAttacked) 
 		{
-			if (GameTimeLine.instance.PlayingCard.neighbors.Find(e => e.Card.Equals(this.Card)))
+			if (GameTimeLine.instance.PlayingCard.neighbors.Find(e => e.gameCard.Card.Equals(this.gameCard.Card)))
 			{
-				photonView.RPC("GetDamage", PhotonTargets.AllBuffered, this.GetComponent<PhotonView>().viewID, GameTimeLine.instance.PlayingCard.Card.Attack);
+				DiscoveryFeature.Life = true;
+				gameCard.photonView.RPC("GetDamage", PhotonTargets.AllBuffered, this.GetComponent<PhotonView>().viewID, GameTimeLine.instance.PlayingCard.gameCard.Card.Attack);
+				GameTimeLine.instance.PlayingCard.GetComponent<GameNetworkCard>().DiscoveryFeature.Attack = true;
 				GamePlayingCard.instance.attemptToAttack = false;
 				GamePlayingCard.instance.hasAttacked = true;
 				GameTile.instance.SetCursorToDefault();
@@ -107,8 +114,7 @@ public class GameNetworkCard : GameCard
 		}
 		if (GamePlayingCard.instance.attemptToCast && !GamePlayingCard.instance.hasAttacked)
 		{
-			photonView.RPC("GetBuff", PhotonTargets.AllBuffered, this.GetComponent<PhotonView>().viewID, GamePlayingCard.instance.SkillCasted);
-
+			gameCard.photonView.RPC("GetBuff", PhotonTargets.AllBuffered, this.GetComponent<PhotonView>().viewID, GamePlayingCard.instance.SkillCasted);
 			GamePlayingCard.instance.attemptToCast = false;
 			GamePlayingCard.instance.hasAttacked = true;
 			GameTile.instance.SetCursorToDefault();
@@ -119,9 +125,9 @@ public class GameNetworkCard : GameCard
 	{
 		if (GameBoard.instance.TimeOfPositionning)
 		{
-			if (photonView.isMine)
+			if (gameCard.photonView.isMine)
 			{
-				GameBoard.instance.CardHovered = this;
+				GameBoard.instance.CardHovered = this.gameCard;
 				if (GameBoard.instance.isDragging)
 				{
 					if (!this.Equals(GameBoard.instance.CardSelected))
@@ -134,7 +140,7 @@ public class GameNetworkCard : GameCard
 				}
 			}
 		}
-		if (this.Card != null)
+		if (this.gameCard.Card != null)
 		{
 			GameHoveredCard.instance.ChangeCard(this);
 		}
@@ -143,7 +149,7 @@ public class GameNetworkCard : GameCard
 	{
 		if (GameBoard.instance.TimeOfPositionning)
 		{
-			if (photonView.isMine)
+			if (gameCard.photonView.isMine)
 			{
 				if (GameBoard.instance.isDragging)
 				{
@@ -157,7 +163,7 @@ public class GameNetworkCard : GameCard
 	{
 		if (GameBoard.instance.TimeOfPositionning)
 		{
-			if (photonView.isMine)
+			if (gameCard.photonView.isMine)
 			{
 				if (GameBoard.instance.isDragging)
 				{
@@ -181,15 +187,24 @@ public class GameNetworkCard : GameCard
 			GameTile.RemovePassableTile();
 			
 			this.FindNeighbors();
-			if (photonView.isMine)
+			if (gameCard.photonView.isMine)
 			{
 				GameBoard.instance.isMoving = false;
 				GameBoard.instance.CardSelected = null;
 			}
 			if (GamePlayingCard.instance.attemptToMoveTo != null)
 			{
+				int nbTiles = CalcNbTiles(currentTile, GamePlayingCard.instance.attemptToMoveTo);
+				if (nbTiles == gameCard.Card.GetMove())
+				{
+					DiscoveryFeature.Move = true;
+				}
+				else{
+					DiscoveryFeature.MoveMin = nbTiles;
+				}
 				GamePlayingCard.instance.attemptToMoveTo = null;
 				GamePlayingCard.instance.hasMoved = true;
+
 			}
 			if (GamePlayingCard.instance.hasMoved && GamePlayingCard.instance.hasAttacked)
 			{
@@ -287,12 +302,27 @@ public class GameNetworkCard : GameCard
 	
 	public new void ShowFace() 
 	{
-		base.ShowFace();
+		gameCard.ShowFace(gameCard.photonView.isMine, DiscoveryFeature);
 		Transform LifeTextPosition = transform.Find("Life");
 		if (LifeTextPosition != null)
 		{
-			LifeTextPosition.GetComponent<TextMesh>().text = (Card.Life - Damage).ToString();	// Et son nombre de point de vie
+			string text;
+			if (gameCard.photonView.isMine || DiscoveryFeature.Life)
+			{
+				text = (gameCard.Card.GetLife() - Damage).ToString();
+			}
+			else
+			{
+				text = "?";
+			}
+			LifeTextPosition.GetComponent<TextMesh>().text = text;	// Et son nombre de point de vie
 		}
+	}
+
+	int CalcNbTiles(GameTile currentTile, GameTile attemptToMoveTo)
+	{
+		var path = PathFinder.FindPath(currentTile.tile, attemptToMoveTo.tile);
+		return (int)path.TotalCost;
 	}
 	
 	// Messages RPC
@@ -303,7 +333,8 @@ public class GameNetworkCard : GameCard
 		GameObject go = PhotonView.Find(id).gameObject;
 		GameNetworkCard gnc = go.GetComponent<GameNetworkCard>();
 		gnc.Damage += attack;
-		if (gnc.Damage >= gnc.Card.Life)
+
+		if (gnc.Damage >= gnc.gameCard.Card.Life)
 		{
 			GameTile.RemovePassableTile();
 			GameTimeLine.instance.GameCards.Remove(gnc);
@@ -335,5 +366,35 @@ public class GameNetworkCard : GameCard
 		GameObject goCard = GameTimeLine.instance.PlayingCardObject;
 		GameSkill goSkill = goCard.transform.Find("texturedGameCard/Skill" + skillCasted + "Area").gameObject.GetComponent<GameSkill>();
 		goSkill.Apply(target);
+	}
+
+	void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+	{
+		if (stream.isWriting)
+		{
+			stream.SendNext(DiscoveryFeature.Attack);
+			stream.SendNext(DiscoveryFeature.Life);
+			stream.SendNext(DiscoveryFeature.Move);
+			stream.SendNext(DiscoveryFeature.MoveMin);
+			stream.SendNext(DiscoveryFeature.Skill1);
+			stream.SendNext(DiscoveryFeature.Skill2);
+			stream.SendNext(DiscoveryFeature.Skill3);
+			stream.SendNext(DiscoveryFeature.Skill4);
+		}
+		else
+		{
+			DiscoveryFeature.Attack = (bool)stream.ReceiveNext();
+			DiscoveryFeature.Life = (bool)stream.ReceiveNext();
+			DiscoveryFeature.Move = (bool)stream.ReceiveNext();
+			DiscoveryFeature.MoveMin = (int)stream.ReceiveNext();
+			DiscoveryFeature.Skill1 = (bool)stream.ReceiveNext();
+			DiscoveryFeature.Skill2 = (bool)stream.ReceiveNext();
+			DiscoveryFeature.Skill3 = (bool)stream.ReceiveNext();
+			DiscoveryFeature.Skill4 = (bool)stream.ReceiveNext();
+			if (gameCard != null)
+			{
+				ShowFace();
+			}
+		}
 	}
 }

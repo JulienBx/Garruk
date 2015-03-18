@@ -5,11 +5,13 @@ using System.Collections.Generic;
 public class GameHoveredCard : MonoBehaviour {
 	
 	public static GameHoveredCard instance;
-	public GameNetworkCard gameCard;
+	public GameCard gameCard;
+	private GameNetworkCard gnCard;
 
 	public void Awake()
 	{
 		instance = this;
+		gnCard = gameObject.GetComponent<GameNetworkCard>();
 	}
 	// Use this for initialization
 	void Start () {
@@ -27,8 +29,8 @@ public class GameHoveredCard : MonoBehaviour {
 	public void ChangeCard(GameNetworkCard card)
 	{
 		gameObject.SetActive(true);
-		gameCard.Card = card.Card;
-		gameCard.ownerNumber = card.ownerNumber;
+		gameCard.Card = card.gameCard.Card;
+		gnCard.ownerNumber = card.ownerNumber;
 		changeStats();
 
 	}

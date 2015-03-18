@@ -97,25 +97,35 @@ public class GameBoard : Photon.MonoBehaviour
 
 		nView = clone.GetComponent<PhotonView>();
 		nView.viewID = viewID;
-		GameNetworkCard gCard = clone.GetComponent<GameNetworkCard>();
+		GameCard gCard = clone.GetComponent<GameCard>();
+		GameNetworkCard gnCard = clone.GetComponent<GameNetworkCard>();
+		clone.transform.localScale = new Vector3(10, 10, 1);
 		if (gCard.photonView.isMine && GameBoard.instance.nbPlayer == 1 || !gCard.photonView.isMine && GameBoard.instance.nbPlayer == 2)
 		{
-			gCard.ownerNumber = 1;
+			gnCard.ownerNumber = 1;
 			nbCardsPlayer1++;
 		}
 		else
 		{
-			gCard.ownerNumber = 2;
+			gnCard.ownerNumber = 2;
 			nbCardsPlayer2++;
 		}
+		if (gCard.photonView.isMine)
+		{
+			clone.transform.Find("Green Outline").renderer.enabled = true;
+		} 
+		else
+		{
+			clone.transform.Find("Red Outline").renderer.enabled = true;
+		}
 		yield return StartCoroutine(gCard.RetrieveCard(cardID));
-		clone.name = gCard.Card.Title + "-" + gCard.ownerNumber;
+		clone.name = gCard.Card.Title + "-" + gnCard.ownerNumber;
 		clone.tag = "PlayableCard";
-		GameTimeLine.instance.GameCards.Add(gCard);
+		gnCard.ShowFace();
+		GameTimeLine.instance.GameCards.Add(gnCard);
 		GameTimeLine.instance.SortCardsBySpeed();
 		GameTimeLine.instance.removeBarLife();
 		GameTimeLine.instance.Arrange();
-		gCard.ShowFace();
 	}
 }
 

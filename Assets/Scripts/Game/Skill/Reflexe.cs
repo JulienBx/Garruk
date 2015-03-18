@@ -14,7 +14,7 @@ public class Reflexe : GameSkill
 		GameNetworkCard gnc = transform.parent.parent.GetComponent<GameNetworkCard>();
 		if (!GameBoard.instance.TimeOfPositionning && GameTimeLine.instance.PlayingCard.Equals(gnc) 
 		    && !GamePlayingCard.instance.attemptToAttack && !GamePlayingCard.instance.hasAttacked
-		    && gnc.photonView.isMine)
+		    && gnc.gameCard.photonView.isMine)
 		{
 			GameTile.instance.SetCursorToTarget();
 			GamePlayingCard.instance.SkillCasted = this.SkillNumber;
@@ -28,18 +28,18 @@ public class Reflexe : GameSkill
 		GameNetworkCard gnc = go.GetComponent<GameNetworkCard>();
 		foreach (StatModifier sm in StatModifiers)
 		{
-			gnc.Card.modifiers.Add(sm);
+			gnc.gameCard.Card.modifiers.Add(sm);
 		}
 		Instantiate(gnc.AttackAnim, go.transform.position + new Vector3(0, 0, -2), Quaternion.identity);
 		GameTimeLine.instance.SortCardsBySpeedAfterBuff();
 		GameTimeLine.instance.Arrange();
-		if (GamePlayingCard.instance.gameCard.Card.Equals(gnc.Card))
+		if (GamePlayingCard.instance.gameCard.Card.Equals(gnc.gameCard.Card))
 		{
 			GamePlayingCard.instance.changeStats();
 		}
 		if (GameHoveredCard.instance.gameCard.Card != null)
 		{
-			if (GameHoveredCard.instance.gameCard.Card.Equals(gnc.Card))
+			if (GameHoveredCard.instance.gameCard.Card.Equals(gnc.gameCard.Card))
 			{
 				GameHoveredCard.instance.changeStats();
 			}
