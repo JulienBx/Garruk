@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -179,7 +180,7 @@ public class LobbyScript : Photon.MonoBehaviour {
 		} 
 		else 
 		{
-			print(w.text); 											// donne le retour
+			//print(w.text); 											// donne le retour
 			
 			string[] decksInformation = w.text.Split('\n'); 
 			string[] deckInformation;
@@ -216,7 +217,7 @@ public class LobbyScript : Photon.MonoBehaviour {
 		{
 			print (w.error); 										// donne l'erreur eventuelle
 		} else {
-			print (w.text);
+//			print (w.text);
 		}
 	}
 
@@ -235,7 +236,6 @@ public class LobbyScript : Photon.MonoBehaviour {
 
 	void OnPhotonRandomJoinFailed()
 	{
-		Debug.Log("Can't join random room!");
 		RoomOptions newRoomOptions = new RoomOptions();
 		newRoomOptions.isOpen = true;
 		newRoomOptions.isVisible = true;
@@ -246,6 +246,7 @@ public class LobbyScript : Photon.MonoBehaviour {
 		TypedLobby sqlLobby = new TypedLobby("lobby", LobbyType.SqlLobby);
 		
 		PhotonNetwork.CreateRoom(roomName, newRoomOptions, sqlLobby);
+		Debug.Log("Creating room");
 	}
 
 	void OnReceivedRoomListUpdate()
@@ -273,10 +274,49 @@ public class LobbyScript : Photon.MonoBehaviour {
 		}
 	}
 
+	public void link1()
+	{
+		Application.LoadLevel("HomePage");
+		PhotonNetwork.Disconnect();
+	}
+	
+	public void link2()
+	{
+		Application.LoadLevel("MyGame");
+		PhotonNetwork.Disconnect();
+	}
+	
+	public void link3()
+	{
+		Application.LoadLevel("BuyCards");
+		PhotonNetwork.Disconnect();
+	}
+	
+	public void link4()
+	{
+		Application.LoadLevel("Market");
+		PhotonNetwork.Disconnect();
+	}
+	
+	public void logOutLink() 
+	{
+		ApplicationModel.username = "";
+		ApplicationModel.toDeconnect = true;
+		PhotonNetwork.Disconnect();
+		Application.LoadLevel("ConnectionPage");
+	}
+	
+	public void profileLink() 
+	{
+		Application.LoadLevel("Profile");
+		PhotonNetwork.Disconnect();
+	}
+
 	// RPC
 	[RPC]
 	void AddPlayerToList(int id, string loginName)
 	{
+		//print ("I add a player");
 		playersName.Add(id, loginName);
 		countPlayers++;
 	}

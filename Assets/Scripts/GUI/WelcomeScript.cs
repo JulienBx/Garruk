@@ -29,7 +29,7 @@ public class WelcomeScript : MonoBehaviour
 		} 
 		else 
 		{
-			//print ("crédits "+w.text);
+//			print ("crédits "+w.text);
 		}
 		ApplicationModel.credits = System.Convert.ToInt32(w.text);
 	}
