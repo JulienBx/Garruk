@@ -292,6 +292,8 @@ public class myGameScript : MonoBehaviour {
 					}
 
 					cardFocused = Instantiate(CardObject) as GameObject;
+					Destroy(cardFocused.GetComponent<GameNetworkCard>());
+					Destroy(cardFocused.GetComponent<PhotonView>());
 					float scale = heightScreen/120f;
 					cardFocused.transform.localScale = new Vector3(scale,scale,scale); 
 					Vector3 vec = Camera.main.WorldToScreenPoint(cardFocused.collider.bounds.size);
@@ -364,7 +366,7 @@ public class myGameScript : MonoBehaviour {
 		}
 
 		if (isUpgradingCard){
-			if(Event.current.keyCode==KeyCode.Return) {
+			if(Input.GetKeyDown(KeyCode.Return)) {
 				destroyUpgradingCardWindow = true ;
 				cardFocused.transform
 					.Find("texturedGameCard")
@@ -373,30 +375,30 @@ public class myGameScript : MonoBehaviour {
 						.addXp(cards[idFocused].getPriceForNextLevel(),cards[idFocused].getPriceForNextLevel());
 				
 			}
-			else if(Event.current.keyCode==KeyCode.Escape) {
+			else if(Input.GetKeyDown(KeyCode.Escape)) {
 				isUpgradingCard = false ;
 				isEscDown = true ;
-			}
+				}
 		}
 		else if(isSellingCard){
-			if(Event.current.keyCode==KeyCode.Return) {
+			if(Input.GetKeyDown(KeyCode.Return)) {
 				isSellingCard = false ;
 				destroySellingCardWindow = true ;
 				StartCoroutine (this.sellCard(cardId, focusedCardPrice));
-			}
-			else if(Event.current.keyCode==KeyCode.Escape){
+				}
+			else if(Input.GetKeyDown(KeyCode.Escape)){
 				isSellingCard = false ;
 				isEscDown = true ;
 			}
 		}
 		else if (isMarketingCard){
 			if (isChangingPrice){
-				if(Event.current.keyCode==KeyCode.Return) {
+				if(Input.GetKeyDown(KeyCode.Return)) {
 					destroyFocus = true ;
 					isChangingPrice = false ;
 					StartCoroutine (this.changeMarketPrice(cardId, focusedCardPrice));
 				}
-				else if(Event.current.keyCode==KeyCode.Escape) {
+				else if(Input.GetKeyDown(KeyCode.Escape)) {
 					isMarketingCard = false ;
 					isEscDown = true ;
 				}
@@ -1820,6 +1822,8 @@ public class myGameScript : MonoBehaviour {
 		int nbCardsToDisplay = this.cardsToBeDisplayed.Count;
 		for(int i = 0 ; i < 3*nbCardsPerRow ; i++){
 			displayedCards[i] = Instantiate(CardObject) as GameObject;
+			Destroy(displayedCards[i].GetComponent<GameNetworkCard>());
+			Destroy(displayedCards[i].GetComponent<PhotonView>());
 			displayedCards[i].transform.localScale = new Vector3(1.5f, 1.5f, 1.5f); 
 			displayedCards[i].transform.localPosition = new Vector3(debutLargeur + 1.6f*(i%nbCardsPerRow), 0.8f-(i-i%nbCardsPerRow)/nbCardsPerRow*2.2f, 0); 
 			displayedCards[i].gameObject.name = "Card" + i + "";	
@@ -1936,6 +1940,8 @@ public class myGameScript : MonoBehaviour {
 		int nbDeckCardsToDisplay = this.deckCardsIds.Count;
 		for(int i = 0 ; i < 5 ; i++){
 			displayedDeckCards[i] = Instantiate(CardObject) as GameObject;
+			Destroy(displayedDeckCards[i].GetComponent<GameNetworkCard>());
+			Destroy(displayedDeckCards[i].GetComponent<PhotonView>());
 			displayedDeckCards[i].transform.localScale = new Vector3(scaleDeck,scaleDeck,scaleDeck); 
 			displayedDeckCards[i].transform.localPosition = new Vector3(debutLargeur + (scaleDeck+pas)*i , 2.9f, 0); 
 			displayedDeckCards[i].gameObject.name = "DeckCard" + i + "";	
