@@ -331,6 +331,7 @@ public class myGameScript : MonoBehaviour {
 		}
 
 		if (destroySellingCardWindow){
+			isSellingCard=false;
 			destroySellingCardWindow = false ;
 		}
 
@@ -447,7 +448,7 @@ public class myGameScript : MonoBehaviour {
 					}
 					GUILayout.EndArea();
 			}
-			if(isUpgradingCard){
+			else if(isUpgradingCard){
 
 					GUILayout.BeginArea(centralWindow);
 					{
