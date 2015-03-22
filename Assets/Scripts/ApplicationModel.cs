@@ -14,4 +14,5 @@ public class ApplicationModel : MonoBehaviour
 	static public string profileChosen = "";
 	static public bool toDeconnect = false;
 	static public int credits = 0;
+	static public int nbNotificationsNonRead=0;
 }

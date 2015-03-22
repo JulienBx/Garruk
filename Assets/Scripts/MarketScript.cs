@@ -1249,6 +1249,7 @@ public class MarketScript : MonoBehaviour {
 		form.AddField("myform_nick", ApplicationModel.username);
 		form.AddField("myform_idcard", idcard);
 		form.AddField("myform_cost", cost);
+		form.AddField("myform_date",  System.DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss").ToString());
 		
 		WWW w = new WWW(URLBuyCard, form); 				// On envoie le formulaire à l'url sur le serveur 
 		yield return w;
