@@ -69,7 +69,11 @@ public class HomePageScript : MonoBehaviour {
 				GUILayout.BeginHorizontal();
 				{
 					GUILayout.Label("Mes actualités",notificationTitleStyle);
-					if(ApplicationModel.nbNotificationsNonRead>0){
+					if(ApplicationModel.nbNotificationsNonRead==1){
+						GUILayout.Label(" - "+ApplicationModel.nbNotificationsNonRead+" nouvelle",notificationNonReadStyle);
+						GUILayout.FlexibleSpace();
+					}
+					else if(ApplicationModel.nbNotificationsNonRead>1){
 						GUILayout.Label(" - "+ApplicationModel.nbNotificationsNonRead+" nouvelles",notificationNonReadStyle);
 						GUILayout.FlexibleSpace();
 					}
