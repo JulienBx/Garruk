@@ -84,7 +84,7 @@ public class HomePageScript : MonoBehaviour {
 					GUILayout.BeginHorizontal();
 					{
 						if(notifications[i].IsRead==false){
-							GUILayout.Label("Nouveau ! ",newNotificationStyle);
+							GUILayout.Label("Nouveau\u00A0",newNotificationStyle);
 						}
 						GUILayout.Label(notifications[i].Date.ToString(),notificationDateStyle);
 						GUILayout.FlexibleSpace();
@@ -112,7 +112,7 @@ public class HomePageScript : MonoBehaviour {
 								objectCount++;
 								break;
 							default:
-								GUILayout.Label(notifications[i].Content[j],notificationStandardStyle);
+								GUILayout.Label(notifications[i].Content[j]+"\u00A0",notificationStandardStyle);
 								break;
 							}
 						}
