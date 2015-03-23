@@ -79,6 +79,7 @@ public class GameTimeLine : MonoBehaviour {
 
 			gCard.Card = playedCards[i].gameCard.Card;
 			gnCard.ownerNumber = playedCards[i].ownerNumber;
+			gnCard.DiscoveryFeature = playedCards[i].DiscoveryFeature;
 
 			GameOutline.instance.ToArrange = true;
 			gCard.ShowFace();
@@ -87,17 +88,18 @@ public class GameTimeLine : MonoBehaviour {
 
 		for (int i = position; i < GameObjects.Count - playingCardPosition && i < GameCards.Count; i++)
 		{
-			go = GameObjects [i + playingCardPosition];
+			go = GameObjects[i + playingCardPosition];
 			GameCard gCard = go.GetComponent<GameCard>();
 			GameNetworkCard gnCard = go.GetComponent<GameNetworkCard>();
 
-			gCard.Card = GameCards [i].gameCard.Card;
-			gnCard.ownerNumber = GameCards [i].ownerNumber;
-
+			gCard.Card = GameCards[i].gameCard.Card;
+			gnCard.ownerNumber = GameCards[i].ownerNumber;
+			gnCard.DiscoveryFeature = GameCards[i].DiscoveryFeature;
 			GameOutline.instance.ToArrange = true;
 			gCard.ShowFace();
 		}
 	
+
 		GamePlayingCard.instance.ChangeCurrentCard(GameObjects [playingCardPosition].GetComponent<GameNetworkCard>());
 		go = GameObject.Find(PlayingCard.gameCard.Card.Title + "-" + WhosNext);
 		go.GetComponent<GameNetworkCard>().FindNeighbors();

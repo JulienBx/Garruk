@@ -116,7 +116,7 @@ public class GamePlayingCard : Photon.MonoBehaviour {
 	
 	public void changeStats()
 	{
-		gameCard.ShowFace();
+		gameCard.ShowFace(gnCard.ownerNumber == GameBoard.instance.MyPlayerNumber, gnCard.DiscoveryFeature);
 		Transform attackText = transform.Find("Icons/Attack/Value");
 		attackText.GetComponent<TextMesh>().text = transform.Find("texturedGameCard").FindChild("AttackArea").FindChild("PictoMetalAttack").FindChild("Attack")
 			.GetComponent<TextMesh>().text;
@@ -125,10 +125,12 @@ public class GamePlayingCard : Photon.MonoBehaviour {
 		//energyText.GetComponent<TextMesh>().text = this.gameCard.Card.Energy.ToString();
 		
 		Transform moveText = transform.Find("Icons/Move/Value");
-		moveText.GetComponent<TextMesh>().text = this.gameCard.Card.GetMove().ToString();
+		moveText.GetComponent<TextMesh>().text = transform.Find("texturedGameCard").FindChild("MoveArea").FindChild("PictoMetalMove").FindChild("Move")
+			.GetComponent<TextMesh>().text;
 		
 		Transform speedText = transform.Find("Icons/Speed/Value");
-		speedText.GetComponent<TextMesh>().text = this.gameCard.Card.GetSpeed().ToString();
+		speedText.GetComponent<TextMesh>().text = transform.Find("texturedGameCard").FindChild("SpeedArea").FindChild("PictoMetalSpeed").FindChild("Speed")
+			.GetComponent<TextMesh>().text;
 		
 		int i = 1;
 		if (gameCard.Card.Skills != null)
