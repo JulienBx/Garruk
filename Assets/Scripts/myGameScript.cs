@@ -62,6 +62,8 @@ public class myGameScript : MonoBehaviour {
 	public GUIStyle smallPoliceStyle;
 	public GUIStyle focusButtonStyle;
 	public GUIStyle cantBuyStyle;
+	public GUIStyle sortDefaultButtonStyle;
+	public GUIStyle sortActivatedButtonStyle;
 	bool areCreatedDeckCards = false;
 	float scaleDeck ;
 	GameObject cardFocused ;
@@ -82,6 +84,7 @@ public class myGameScript : MonoBehaviour {
 	GUIStyle[] myDecksGuiStyle ;
 	GUIStyle[] myDecksButtonGuiStyle ;
 	GUIStyle[] paginatorGuiStyle;
+	GUIStyle[] sortButtonStyle=new GUIStyle[10];
 	private int chosenDeck = 0 ;
 	private int chosenIdDeck = -1 ;
 	private int chosenPage ;
@@ -173,6 +176,9 @@ public class myGameScript : MonoBehaviour {
 	RaycastHit hit;
 	Ray ray ;
 
+	int oldSortSelected = 10;
+	int sortSelected = 10;
+
 	#endregion
 
 	void Update () {
@@ -194,6 +200,9 @@ public class myGameScript : MonoBehaviour {
 		}
 		if (toReload) {
 			this.applyFilters ();
+			if (sortSelected!=10){
+				this.sortCards();
+			}
 			this.displayPage();
 			toReload = false ;
 		}
@@ -406,6 +415,15 @@ public class myGameScript : MonoBehaviour {
 			}
 
 		}
+
+		if (oldSortSelected!=sortSelected){
+			if(oldSortSelected!=10){
+				this.sortButtonStyle[oldSortSelected]=this.sortDefaultButtonStyle;
+			}
+			this.sortButtonStyle[sortSelected]=this.sortActivatedButtonStyle;
+			oldSortSelected=sortSelected;
+		}
+
 	}
 		
 	void Start() {
@@ -992,8 +1010,20 @@ public class myGameScript : MonoBehaviour {
 						
 					GUILayout.FlexibleSpace();
 
-					GUILayout.Label ("Filtrer par Vie",filterTitleStyle);
-					GUILayout.Space(-8);
+					GUILayout.BeginHorizontal();
+					{
+						GUILayout.Label ("Filtrer par Vie",filterTitleStyle);
+						GUILayout.FlexibleSpace();
+						if(GUILayout.Button ("^",sortButtonStyle[0])) {
+							sortSelected=0;
+							toReload=true;
+						}
+						if(GUILayout.Button ("v",sortButtonStyle[1])) {
+							sortSelected=1;
+							toReload=true;
+						}
+					}
+					GUILayout.EndHorizontal();
 					GUILayout.BeginHorizontal();
 					{
 						GUILayout.Label ("Min:"+ Mathf.Round(minLifeVal),smallPoliceStyle);
@@ -1001,13 +1031,24 @@ public class myGameScript : MonoBehaviour {
 						GUILayout.Label ("Max:"+ Mathf.Round(maxLifeVal),smallPoliceStyle);
 					}
 					GUILayout.EndHorizontal();
-					GUILayout.Space(-5);
 					MyGUI.MinMaxSlider (ref minLifeVal, ref maxLifeVal, minLifeLimit, maxLifeLimit);
 						
 					GUILayout.FlexibleSpace();
 					
-					GUILayout.Label ("Filtrer par Attaque",filterTitleStyle);
-					GUILayout.Space(-8);
+					GUILayout.BeginHorizontal();
+					{
+						GUILayout.Label ("Filtrer par Attaque",filterTitleStyle);
+						GUILayout.FlexibleSpace();
+						if(GUILayout.Button ("^",sortButtonStyle[2])) {
+							sortSelected=2;
+							toReload=true;
+						}
+						if(GUILayout.Button ("v",sortButtonStyle[3])) {
+							sortSelected=3;
+							toReload=true;
+						}
+					}
+					GUILayout.EndHorizontal();
 					GUILayout.BeginHorizontal();
 					{
 						GUILayout.Label ("Min:"+ Mathf.Round(minAttackVal),smallPoliceStyle);
@@ -1015,13 +1056,24 @@ public class myGameScript : MonoBehaviour {
 						GUILayout.Label ("Max:"+ Mathf.Round(maxAttackVal),smallPoliceStyle);
 					}
 					GUILayout.EndHorizontal();
-					GUILayout.Space(-5);
 					MyGUI.MinMaxSlider (ref minAttackVal, ref maxAttackVal, minAttackLimit, maxAttackLimit);
 
 					GUILayout.FlexibleSpace();
 					
-					GUILayout.Label ("Filtrer par Mouvement",filterTitleStyle);
-					GUILayout.Space(-8);
+					GUILayout.BeginHorizontal();
+					{
+						GUILayout.Label ("Filtrer par Mouvement",filterTitleStyle);
+						GUILayout.FlexibleSpace();
+						if(GUILayout.Button ("^",sortButtonStyle[4])) {
+							sortSelected=4;
+							toReload=true;
+						}
+						if(GUILayout.Button ("v",sortButtonStyle[5])) {
+							sortSelected=5;
+							toReload=true;
+						}
+					}
+					GUILayout.EndHorizontal();
 					GUILayout.BeginHorizontal();
 					{
 						GUILayout.Label ("Min:"+ Mathf.Round(minMoveVal),smallPoliceStyle);
@@ -1029,13 +1081,24 @@ public class myGameScript : MonoBehaviour {
 						GUILayout.Label ("Max:"+ Mathf.Round(maxMoveVal),smallPoliceStyle);
 					}
 					GUILayout.EndHorizontal();
-					GUILayout.Space(-5);
 					MyGUI.MinMaxSlider (ref minMoveVal, ref maxMoveVal, minMoveLimit, maxMoveLimit);
 
 					GUILayout.FlexibleSpace();
 
-					GUILayout.Label ("Filtrer par Rapidité",filterTitleStyle);
-					GUILayout.Space(-8);
+					GUILayout.BeginHorizontal();
+					{
+						GUILayout.Label ("Filtrer par Rapidité",filterTitleStyle);
+						GUILayout.FlexibleSpace();
+						if(GUILayout.Button ("^",sortButtonStyle[6])) {
+							sortSelected=6;
+							toReload=true;
+						}
+						if(GUILayout.Button ("v",sortButtonStyle[7])) {
+							sortSelected=7;
+							toReload=true;
+						}
+					}
+					GUILayout.EndHorizontal();
 					GUILayout.BeginHorizontal();
 					{
 						GUILayout.Label ("Min:"+ Mathf.Round(minQuicknessVal),smallPoliceStyle);
@@ -1043,7 +1106,6 @@ public class myGameScript : MonoBehaviour {
 						GUILayout.Label ("Max:"+ Mathf.Round(maxQuicknessVal),smallPoliceStyle);
 					}
 					GUILayout.EndHorizontal();
-					GUILayout.Space(-5);
 					MyGUI.MinMaxSlider (ref minQuicknessVal, ref maxQuicknessVal, minQuicknessLimit, maxQuicknessLimit);
 
 					if (Input.GetMouseButtonDown(0)){
@@ -1227,7 +1289,7 @@ public class myGameScript : MonoBehaviour {
 			this.paginationActivatedStyle.fixedWidth = widthScreen*3/100;
 			this.paginationActivatedStyle.fixedHeight = heightScreen*3/100;
 
-			this.filterTitleStyle.fixedWidth = widthScreen*19/100;
+			//this.filterTitleStyle.fixedWidth = widthScreen*19/100;
 			this.filterTitleStyle.fixedHeight = heightScreen*3/100;
 			this.filterTitleStyle.fontSize = heightScreen*2/100;
 
@@ -1245,7 +1307,6 @@ public class myGameScript : MonoBehaviour {
 
 			this.smallPoliceStyle.fontSize = heightScreen*15/1000;
 			this.smallPoliceStyle.fixedHeight = heightScreen*20/1000;
-			this.smallPoliceStyle.fixedWidth = widthScreen*5/100;
 
 			this.focusButtonStyle.fontSize = heightScreen*2/100;
 			this.focusButtonStyle.fixedHeight = heightScreen*6/100;
@@ -1254,6 +1315,23 @@ public class myGameScript : MonoBehaviour {
 			this.cantBuyStyle.fontSize = heightScreen*2/100;
 			this.cantBuyStyle.fixedHeight = heightScreen*6/100;
 			this.cantBuyStyle.fixedWidth = widthScreen*25/100;
+
+			// Style utilisé pour les bouttons de tri
+			
+			this.sortDefaultButtonStyle.fontSize=heightScreen*2/100;
+			this.sortDefaultButtonStyle.fixedHeight = (int)heightScreen*3/100;
+			this.sortDefaultButtonStyle.fixedWidth = (int)widthScreen*12/1000;
+			
+			this.sortActivatedButtonStyle.fontSize=heightScreen*2/100;
+			this.sortActivatedButtonStyle.fixedHeight = (int)heightScreen*3/100;
+			this.sortActivatedButtonStyle.fixedWidth = (int)widthScreen*12/1000;
+			
+			for (int i =0;i<10;i++){
+				
+				if(sortSelected==10){
+					sortButtonStyle[i]=this.sortDefaultButtonStyle;
+				}
+			}
 		}
 		else{
 			this.decksTitleStyle.fontSize = heightScreen*2/100;
@@ -2088,5 +2166,68 @@ public class myGameScript : MonoBehaviour {
 		{
 			print (w.text);											// donne le retour
 		}
+	}
+
+
+	public void sortCards (){
+		
+		int tempA=new int();
+		int tempB=new int();
+		
+		
+		for (int i = 1; i<cardsToBeDisplayed.Count; i++) {
+			
+			for (int j=0;j<i;j++){
+				
+				
+				switch (sortSelected)
+				{
+				case 0:
+					tempA = cards[cardsToBeDisplayed[i]].Life;
+					tempB = cards[cardsToBeDisplayed[j]].Life;
+					break;
+				case 1:
+					tempB = cards[cardsToBeDisplayed[i]].Life;
+					tempA = cards[cardsToBeDisplayed[j]].Life;
+					break;
+				case 2:
+					tempA = cards[cardsToBeDisplayed[i]].Attack;
+					tempB = cards[cardsToBeDisplayed[j]].Attack;
+					break;
+				case 3:
+					tempB = cards[cardsToBeDisplayed[i]].Attack;
+					tempA = cards[cardsToBeDisplayed[j]].Attack;
+					break;
+				case 4:
+					tempA = cards[cardsToBeDisplayed[i]].Move;
+					tempB = cards[cardsToBeDisplayed[j]].Move;
+					break;
+				case 5:
+					tempB = cards[cardsToBeDisplayed[i]].Move;
+					tempA = cards[cardsToBeDisplayed[j]].Move;
+					break;
+				case 6:
+					tempA = cards[cardsToBeDisplayed[i]].Speed;
+					tempB = cards[cardsToBeDisplayed[j]].Speed;
+					break;
+				case 7:
+					tempB = cards[cardsToBeDisplayed[i]].Speed;
+					tempA = cards[cardsToBeDisplayed[j]].Speed;
+					break;
+				default:
+					
+					break;
+				}
+				
+				
+				if (tempA<tempB){
+					cardsToBeDisplayed.Insert (j,cardsToBeDisplayed[i]);
+					cardsToBeDisplayed.RemoveAt(i+1);
+					break;
+				}
+				
+			}
+		}
+		
 	}
 }
