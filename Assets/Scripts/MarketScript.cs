@@ -91,14 +91,14 @@ public class MarketScript : MonoBehaviour {
 	float maxMoveVal = 10;
 	float minQuicknessVal = 0;
 	float maxQuicknessVal = 100;
-	float minLifeLimit = 0;
-	float maxLifeLimit = 200;
-	float minAttackLimit = 0;
-	float maxAttackLimit = 100;
-	float minMoveLimit = 0;
-	float maxMoveLimit = 10;
-	float minQuicknessLimit = 0;
-	float maxQuicknessLimit = 100;
+	float minLifeLimit;
+	float maxLifeLimit;
+	float minAttackLimit;
+	float maxAttackLimit;
+	float minMoveLimit;
+	float maxMoveLimit;
+	float minQuicknessLimit;
+	float maxQuicknessLimit;
 	float oldMinLifeVal = 0;
 	float oldMaxLifeVal = 200;
 	float oldMinAttackVal = 0;
@@ -161,9 +161,9 @@ public class MarketScript : MonoBehaviour {
 
 		timer += Time.deltaTime;
 
-		if (timer > 100) {
+		if (timer > 10) {
 
-			timer=timer-100;
+			timer=timer-10;
 
 			if (displayCards || idFocused!=-1)
 			StartCoroutine(refreshMarket());
@@ -870,7 +870,7 @@ public class MarketScript : MonoBehaviour {
 
 		this.filterTitleStyle.fontSize = heightScreen*19/1000;
 		this.filterTitleStyle.fixedHeight = (int)heightScreen*25/1000;
-		this.filterTitleStyle.fixedWidth = (int)widthScreen*12/100;
+		//this.filterTitleStyle.fixedWidth = (int)widthScreen*12/100;
 
 		// Style utilisé pour le filtre prix min/max 
 
@@ -881,6 +881,7 @@ public class MarketScript : MonoBehaviour {
 
 		this.deleteButtonStyle.fontSize = heightScreen*15/1000;
 		this.deleteButtonStyle.fixedHeight = (int)heightScreen*2/100;
+		//this.deleteButtonStyle.fixedWidth = (int)widthScreen*6/100;
 
 		// Style utilisé pour le bouton d'achat des cartes
 
@@ -1238,6 +1239,7 @@ public class MarketScript : MonoBehaviour {
 					}
 				}
 			}
+		setFilters ();
 		createCards ();
 	}
 
@@ -1297,10 +1299,70 @@ public class MarketScript : MonoBehaviour {
 		}
 		else {
 			bool find = false;
+			string[] data = null;
 			string[] cardsIDS = null;
-			cardsIDS = w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
-			cardsIDS = cardsIDS[0].Split(new char[] { '\n' }, System.StringSplitOptions.None);
-			print(cardsIDS.Length-1);
+			string[] newFilters = null;
+			data = w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
+			cardsIDS = data[0].Split(new char[] { '\n' }, System.StringSplitOptions.None);
+			newFilters = data[1].Split(new string[] { "//" }, System.StringSplitOptions.None);
+
+			if(maxLifeLimit==maxLifeVal){
+				maxLifeLimit =System.Convert.ToInt32(newFilters[0]);
+				maxLifeVal=maxLifeLimit;
+			}
+			else{
+				maxLifeLimit =System.Convert.ToInt32(newFilters[0]);
+			}
+			if(minLifeLimit==minLifeVal){
+				minLifeLimit=System.Convert.ToInt32(newFilters[1]);
+				minLifeVal=minLifeLimit;
+			}
+			else{
+				minLifeLimit=System.Convert.ToInt32(newFilters[1]);
+			}
+			if(maxAttackLimit==maxAttackVal){
+				maxAttackLimit =System.Convert.ToInt32(newFilters[2]);
+				maxAttackVal=maxAttackLimit;
+			}
+			else{
+				maxAttackLimit =System.Convert.ToInt32(newFilters[2]);
+			}
+			if(minAttackLimit==minAttackVal){
+				minAttackLimit=System.Convert.ToInt32(newFilters[3]);
+				minAttackVal=minAttackLimit;
+			}
+			else{
+				minAttackLimit=System.Convert.ToInt32(newFilters[3]);
+			}
+			if(maxMoveLimit==maxMoveVal){
+				maxMoveLimit =System.Convert.ToInt32(newFilters[4]);
+				maxMoveVal=maxMoveLimit;
+			}
+			else{
+				maxMoveLimit =System.Convert.ToInt32(newFilters[4]);
+			}
+			if(minMoveLimit==minMoveVal){
+				minMoveLimit=System.Convert.ToInt32(newFilters[5]);
+				minMoveVal=minMoveLimit;
+			}
+			else{
+				minMoveLimit=System.Convert.ToInt32(newFilters[5]);
+			}
+			if(maxQuicknessLimit==maxQuicknessVal){
+				maxQuicknessLimit =System.Convert.ToInt32(newFilters[6]);
+				maxQuicknessVal=maxQuicknessLimit;
+			}
+			else{
+				maxQuicknessLimit =System.Convert.ToInt32(newFilters[6]);
+			}
+			if(minQuicknessLimit==minQuicknessVal){
+				minQuicknessLimit=System.Convert.ToInt32(newFilters[7]);
+				minQuicknessVal=minQuicknessLimit;
+			}
+			else{
+				minMoveLimit=System.Convert.ToInt32(newFilters[7]);
+			}
+			//print(cardsIDS.Length-1);
 			for (int i=0; i<cardsToBeDisplayed.Count;i++){
 
 
@@ -1326,14 +1388,11 @@ public class MarketScript : MonoBehaviour {
 		}
 		
 	}
-
-
-
+	
 	public void sortCards (){
 
 		int tempA=new int();
 		int tempB=new int();
-
 
 		for (int i = 1; i<cardsToBeDisplayed.Count; i++) {
 
@@ -1371,8 +1430,8 @@ public class MarketScript : MonoBehaviour {
 					tempB = cards[cardsToBeDisplayed[j]].Move;
 					break;
 				case 7:
-					tempB = cards[cardsToBeDisplayed[i]].Speed;
-					tempA = cards[cardsToBeDisplayed[j]].Speed;
+					tempB = cards[cardsToBeDisplayed[i]].Move;
+					tempA = cards[cardsToBeDisplayed[j]].Move;
 					break;
 				case 8:
 					tempA = cards[cardsToBeDisplayed[i]].Speed;
@@ -1387,7 +1446,6 @@ public class MarketScript : MonoBehaviour {
 					break;
 				}
 
-
 				if (tempA<tempB){
 					cardsToBeDisplayed.Insert (j,cardsToBeDisplayed[i]);
 					cardsToBeDisplayed.RemoveAt(i+1);
@@ -1401,5 +1459,52 @@ public class MarketScript : MonoBehaviour {
 		createCards();
 		StartCoroutine(this.displayPage ());
 		
+	}
+
+	public void setFilters(){
+		minLifeLimit=10000;
+		maxLifeLimit=0;
+		minAttackLimit=10000;
+		maxAttackLimit=0;
+		minMoveLimit=10000;
+		maxMoveLimit=0;
+		minQuicknessLimit=10000;
+		maxQuicknessLimit=0;
+		
+		int max = this.cards.Count;
+		for (int i = 0; i < max ; i++) {
+			if (this.cards[i].Life<minLifeLimit){
+				minLifeLimit = this.cards[i].Life;
+			}
+			if (this.cards[i].Life>maxLifeLimit){
+				maxLifeLimit = this.cards[i].Life;
+			}
+			if (this.cards[i].Attack<minAttackLimit){
+				minAttackLimit = this.cards[i].Attack;
+			}
+			if (this.cards[i].Attack>maxAttackLimit){
+				maxAttackLimit = this.cards[i].Attack;
+			}
+			if (this.cards[i].Move<minMoveLimit){
+				minMoveLimit = this.cards[i].Move;
+			}
+			if (this.cards[i].Move>maxMoveLimit){
+				maxMoveLimit = this.cards[i].Move;
+			}
+			if (this.cards[i].Speed<minQuicknessLimit){
+				minQuicknessLimit = this.cards[i].Speed;
+			}
+			if (this.cards[i].Speed>maxQuicknessLimit){
+				maxQuicknessLimit = this.cards[i].Speed;
+			}
+		}
+		minLifeVal = minLifeLimit;
+		maxLifeVal = maxLifeLimit;
+		minAttackVal = minAttackLimit;
+		maxAttackVal = maxAttackLimit;
+		minMoveVal = minMoveLimit;
+		maxMoveVal = maxMoveLimit;
+		minQuicknessVal = minQuicknessLimit;
+		maxQuicknessVal = maxQuicknessLimit;
 	}
 }
