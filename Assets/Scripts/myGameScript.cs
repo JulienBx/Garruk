@@ -19,6 +19,7 @@ public class myGameScript : MonoBehaviour {
 	private string URLPutOnMarket = "http://54.77.118.214/GarrukServer/putonmarket.php";
 	private string URLRemoveFromMarket = "http://54.77.118.214/GarrukServer/removeFromMarket.php";
 	private string URLChangeMarketPrice = "http://54.77.118.214/GarrukServer/changeMarketPrice.php";
+	private string URLRenameCard = "http://54.77.118.214/GarrukServer/renameCard.php";
 
 	//La fonction pour charger les decks est-elle terminée ?
 	private bool areDecksRetrived = false ;
@@ -71,6 +72,7 @@ public class myGameScript : MonoBehaviour {
 
 	//Si l'utilisateur sélectionne une action (edit ou suppress) sur un des deck, donne à cette variable l'ID du deck en question
 	int IDDeckToEdit = -1;
+	int renameCost = 200;
 
 	Rect rectDeck ;
 	Rect rectFocus ;
@@ -142,6 +144,7 @@ public class myGameScript : MonoBehaviour {
 	bool isSellingCard = false ; 
 	bool isUpgradingCard = false ;
 	bool isMarketingCard = false ; 
+	bool isRenamingCard = false;
 	bool toReloadAll = false ;
 
 	bool isBeingDragged = false;
@@ -159,6 +162,7 @@ public class myGameScript : MonoBehaviour {
 	bool isCreatedCards = false ;
 	bool destroySellingCardWindow = false ;
 	bool destroyUpgradingCardWindow = false ;
+	bool destroyRenamingCardWindow = false;
 	bool destroyFocus = false ;
 	bool soldCard = false ;
 	string textMarket ;
@@ -166,6 +170,7 @@ public class myGameScript : MonoBehaviour {
 	int idFocused ;
 	bool isChangingPrice ;
 	string tempPrice ; 
+	string newTitle;
 	bool isEscDown = false ;
 	bool isUpEscape;
 	bool enVente = false ;
@@ -349,10 +354,16 @@ public class myGameScript : MonoBehaviour {
 			destroyUpgradingCardWindow = false ;
 		}
 
+		if (destroyRenamingCardWindow){
+			isRenamingCard=false;
+			destroyRenamingCardWindow = false ;
+		}
+
 		if (destroyFocus){
 			isSellingCard=false;
 			isMarketingCard=false;
 			isUpgradingCard=false;
+			isRenamingCard = false;
 			Destroy(cardFocused);
 			this.focusedCard=-1;
 			displayFilters = true ;
@@ -389,6 +400,22 @@ public class myGameScript : MonoBehaviour {
 				isUpgradingCard = false ;
 				isEscDown = true ;
 				}
+		}
+		else if(isRenamingCard){
+			if(Input.GetKeyDown(KeyCode.Return)) {
+				isRenamingCard = false ;
+				destroyRenamingCardWindow = true ;
+				StartCoroutine (this.renameCard());
+			}
+			else if(Input.GetKeyDown(KeyCode.Escape)){
+				isRenamingCard = false ;
+				isEscDown = true ;
+			}
+			else if(newTitle.Contains("\n")){
+				isRenamingCard = false ;
+				destroyRenamingCardWindow = true ;
+				StartCoroutine (this.renameCard());
+			}
 		}
 		else if(isSellingCard){
 			if(Input.GetKeyDown(KeyCode.Return)) {
@@ -504,6 +531,47 @@ public class myGameScript : MonoBehaviour {
 					}
 					GUILayout.EndArea();
 				
+			}
+			else if(isRenamingCard){
+				
+				GUILayout.BeginArea(centralWindow);
+				{
+					GUILayout.BeginVertical(centralWindowStyle);
+					{
+						GUILayout.FlexibleSpace();
+						GUILayout.Label("Renommer la carte pour "+renameCost+" crédits", centralWindowTitleStyle);
+						GUILayout.FlexibleSpace();
+						
+						GUILayout.BeginHorizontal();
+						{
+							GUILayout.FlexibleSpace();
+							newTitle = GUILayout.TextField(newTitle,14, centralWindowTextFieldStyle);
+							GUILayout.FlexibleSpace();
+						}
+						GUILayout.EndHorizontal();
+						
+						GUILayout.FlexibleSpace();
+						GUILayout.BeginHorizontal();
+						{
+							GUILayout.FlexibleSpace();
+							if (GUILayout.Button("Confirmer",centralWindowButtonStyle))
+							{
+								destroyRenamingCardWindow = true ;
+								StartCoroutine (renameCard());
+							}
+							GUILayout.FlexibleSpace();
+							if (GUILayout.Button("Annuler",centralWindowButtonStyle))
+							{
+								destroyRenamingCardWindow = true ;
+							}
+							GUILayout.FlexibleSpace();
+						}
+						GUILayout.EndHorizontal();
+						GUILayout.FlexibleSpace();
+					}
+					GUILayout.EndVertical();
+				}
+				GUILayout.EndArea();
 			}
 			else if(isMarketingCard){
 					if (isChangingPrice){
@@ -671,7 +739,7 @@ public class myGameScript : MonoBehaviour {
 								tempPrice = ""+cards[idFocused].getCost();
 							}
 							if (cards[idFocused].getPriceForNextLevel()!=0 && cards[idFocused].getPriceForNextLevel() <= ApplicationModel.credits){
-								    if (GUILayout.Button("Passer au niveau suivant (+"
+								    if (GUILayout.Button("Passer au niveau suivant (-"
 								                     +cards[idFocused]
 								                     .getPriceForNextLevel()
 								                     +" crédits)",focusButtonStyle))
@@ -682,10 +750,24 @@ public class myGameScript : MonoBehaviour {
 										}
 							}
 							if (cards[idFocused].getPriceForNextLevel()!=0 && cards[idFocused].getPriceForNextLevel() > ApplicationModel.credits){
-								GUILayout.Label("Passer au niveau suivant (+"
+								GUILayout.Label("Passer au niveau suivant (-"
 								                     +cards[idFocused]
 								                     .getPriceForNextLevel()
 								                	+" crédits)",cantBuyStyle);
+							}
+							if (renameCost <= ApplicationModel.credits){
+								if (GUILayout.Button("Renommer la carte pour (-"
+								                     +renameCost
+								                     +" crédits)",focusButtonStyle))
+								{
+									isRenamingCard = true ;
+									newTitle=cardFocused.GetComponent<GameCard>().Card.Title;
+								}
+							}
+							if (renameCost > ApplicationModel.credits){
+								GUILayout.Label("Renommer la carte pour (-"
+								                +renameCost
+								                +" crédits)",cantBuyStyle);
 							}
 							GUILayout.FlexibleSpace();
 							if (GUILayout.Button("Revenir à mes cartes",focusButtonStyle))
@@ -2166,6 +2248,34 @@ public class myGameScript : MonoBehaviour {
 		{
 			print (w.text);											// donne le retour
 		}
+	}
+
+	private IEnumerator renameCard(){
+
+		
+		newTitle = newTitle.Replace("\n", "");
+		newTitle=System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(newTitle.ToLower());
+
+		WWWForm form = new WWWForm(); 											// Création de la connexion
+		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
+		form.AddField("myform_nick", ApplicationModel.username);
+		form.AddField("myform_idcard", cardFocused.GetComponent<GameCard>().Card.Id);
+		form.AddField("myform_title", newTitle);
+		form.AddField("myform_cost", renameCost.ToString());
+		
+		WWW w = new WWW(URLRenameCard, form); 				// On envoie le formulaire à l'url sur le serveur 
+		yield return w;
+		if (w.error != null) 
+			print (w.error); 
+		else 
+		{
+			print(w.text); 											// donne le retour
+			ApplicationModel.credits = System.Convert.ToInt32(w.text);
+			cards[idFocused].Title=newTitle;
+			cardFocused.GetComponent<GameCard>().Card.Title=newTitle;
+			cardFocused.GetComponent<GameCard>().ShowFace();
+		}
+		
 	}
 
 
