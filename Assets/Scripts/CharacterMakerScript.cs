@@ -28,6 +28,13 @@ public class CharacterMakerScript : MonoBehaviour {
 		if(Input.GetKeyUp(KeyCode.Return)){
 			characterModelScript.stopWalking();
 		}
+
+		if(Input.GetKeyDown(KeyCode.G)){
+			characterModelScript.toDance();
+		}
+		if(Input.GetKeyUp(KeyCode.G)){
+			characterModelScript.stopDancing();
+		}
 	
 	}
 }

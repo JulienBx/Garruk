@@ -138,4 +138,12 @@ public class CharacterScript : MonoBehaviour {
 	public void stopWalking(){
 		animator.SetBool("isWalking",false );
 	}
+
+	public void toDance(){
+		animator.SetBool("isDancing",true );
+	}
+	
+	public void stopDancing(){
+		animator.SetBool("isDancing",false );
+	}
 }
