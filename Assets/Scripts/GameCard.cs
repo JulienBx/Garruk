@@ -155,8 +155,6 @@ public class GameCard : Photon.MonoBehaviour
 		{
 			if (Card.Skills[i].IsActivated == 1 ) // On vérifie que la compétence existe et qu'elle est active
 			{ 
-
-				print (Card.Skills[i].Level);
 				for (int j = 0 ; j < 6 ; j++)
 				{
 					transform.Find("texturedGameCard").FindChild("Skill"+(i+1)+"Area").FindChild ("PictoMetalSkill" + (i+1))

@@ -2696,7 +2696,7 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
         if (netView.viewID == 0)
         {
             // don't register views with ID 0 (not initialized). they register when a ID is assigned later on
-            Debug.Log("PhotonView register is ignored, because viewID is 0. No id assigned yet to: " + netView);
+            //Debug.Log("PhotonView register is ignored, because viewID is 0. No id assigned yet to: " + netView);
             return;
         }
 

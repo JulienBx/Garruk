@@ -82,7 +82,7 @@ public class GameTimeLine : MonoBehaviour {
 			gnCard.DiscoveryFeature = playedCards[i].DiscoveryFeature;
 
 			GameOutline.instance.ToArrange = true;
-			gCard.ShowFace();
+			gCard.ShowFace(gnCard.ownerNumber == GameBoard.instance.MyPlayerNumber, gnCard.DiscoveryFeature);
 		}
 		int position = 0;
 
@@ -96,7 +96,7 @@ public class GameTimeLine : MonoBehaviour {
 			gnCard.ownerNumber = GameCards[i].ownerNumber;
 			gnCard.DiscoveryFeature = GameCards[i].DiscoveryFeature;
 			GameOutline.instance.ToArrange = true;
-			gCard.ShowFace();
+			gCard.ShowFace(gnCard.ownerNumber == GameBoard.instance.MyPlayerNumber, gnCard.DiscoveryFeature);
 		}
 	
 
