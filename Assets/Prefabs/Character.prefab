@@ -1901,14 +1901,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 109148}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f71541815b9794be885f153a2dc722f8, type: 3}
+  m_Script: {fileID: 11500000, guid: 29cb6f7e7da6b41018139d958a625eeb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   NamePoliceStyle:
     m_Name: 
     m_Normal:
       m_Background: {fileID: 0}
-      m_TextColor: {r: .972549021, g: .972549021, b: .972549021, a: 1}
+      m_TextColor: {r: .984313726, g: .984313726, b: .984313726, a: 1}
     m_Hover:
       m_Background: {fileID: 0}
       m_TextColor: {r: 0, g: 0, b: 0, a: 1}
@@ -1967,7 +1967,7 @@ MonoBehaviour:
     m_Name: 
     m_Normal:
       m_Background: {fileID: 0}
-      m_TextColor: {r: .988235295, g: .988235295, b: .988235295, a: 1}
+      m_TextColor: {r: .972549021, g: .972549021, b: .972549021, a: 1}
     m_Hover:
       m_Background: {fileID: 0}
       m_TextColor: {r: 0, g: 0, b: 0, a: 1}
@@ -2026,7 +2026,7 @@ MonoBehaviour:
     m_Name: 
     m_Normal:
       m_Background: {fileID: 0}
-      m_TextColor: {r: .984313726, g: .984313726, b: .984313726, a: 1}
+      m_TextColor: {r: .988235295, g: .988235295, b: .988235295, a: 1}
     m_Hover:
       m_Background: {fileID: 0}
       m_TextColor: {r: 0, g: 0, b: 0, a: 1}
@@ -2144,7 +2144,7 @@ MonoBehaviour:
     m_Name: 
     m_Normal:
       m_Background: {fileID: 0}
-      m_TextColor: {r: .984313726, g: .984313726, b: .984313726, a: 1}
+      m_TextColor: {r: 1, g: 1, b: 1, a: 1}
     m_Hover:
       m_Background: {fileID: 0}
       m_TextColor: {r: 0, g: 0, b: 0, a: 1}
@@ -2203,7 +2203,7 @@ MonoBehaviour:
     m_Name: 
     m_Normal:
       m_Background: {fileID: 0}
-      m_TextColor: {r: .996078432, g: .996078432, b: .996078432, a: 1}
+      m_TextColor: {r: .988235295, g: .988235295, b: .988235295, a: 1}
     m_Hover:
       m_Background: {fileID: 0}
       m_TextColor: {r: 0, g: 0, b: 0, a: 1}
@@ -2311,7 +2311,7 @@ MonoBehaviour:
     m_WordWrap: 0
     m_RichText: 1
     m_TextClipping: 0
-    m_ImagePosition: 2
+    m_ImagePosition: 0
     m_ContentOffset: {x: 0, y: 0}
     m_FixedWidth: 0
     m_FixedHeight: 0
