@@ -14,6 +14,12 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
+  - m_Name: isDancing
+    m_Type: 4
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 3
     m_Name: Base Layer
@@ -42,6 +48,46 @@ Transition:
     m_ConditionEvent: isWalking
     m_EventTreshold: 0
     m_ExitTime: .758064508
+  m_Atomic: 1
+  m_Solo: 0
+  m_Mute: 0
+  m_CanTransitionToSelf: 0
+--- !u!1101 &110145414
+Transition:
+  serializedVersion: 2
+  m_ObjectHideFlags: 3
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: 
+  m_SrcState: {fileID: 110259000}
+  m_DstState: {fileID: 110269114}
+  m_TransitionDuration: .0299999975
+  m_TransitionOffset: 0
+  m_Conditions:
+  - m_ConditionMode: 1
+    m_ConditionEvent: isDancing
+    m_EventTreshold: 0
+    m_ExitTime: .970000029
+  m_Atomic: 1
+  m_Solo: 0
+  m_Mute: 0
+  m_CanTransitionToSelf: 0
+--- !u!1101 &110151116
+Transition:
+  serializedVersion: 2
+  m_ObjectHideFlags: 3
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: 
+  m_SrcState: {fileID: 110269114}
+  m_DstState: {fileID: 110259000}
+  m_TransitionDuration: .0202156324
+  m_TransitionOffset: 0
+  m_Conditions:
+  - m_ConditionMode: 1
+    m_ConditionEvent: isDancing
+    m_EventTreshold: 0
+    m_ExitTime: .979784369
   m_Atomic: 1
   m_Solo: 0
   m_Mute: 0
@@ -96,6 +142,21 @@ State:
   m_IKOnFeet: 0
   m_Mirror: 0
   m_Tag: 
+--- !u!1102 &110269114
+State:
+  m_ObjectHideFlags: 3
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: gangnam_style
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Motions:
+  - {fileID: 7400000, guid: fd9cef780e8dd4e5ab441a45164ab602, type: 3}
+  m_ParentStateMachine: {fileID: 110774002}
+  m_Position: {x: 144, y: -24, z: 0}
+  m_IKOnFeet: 0
+  m_Mirror: 0
+  m_Tag: 
 --- !u!1107 &110774002
 StateMachine:
   serializedVersion: 2
@@ -107,20 +168,26 @@ StateMachine:
   m_States:
   - {fileID: 110257322}
   - {fileID: 110259000}
+  - {fileID: 110269114}
   m_ChildStateMachine: []
   m_ChildStateMachinePosition: []
   m_OrderedTransitions:
     data:
+      first: {fileID: 110269114}
+      second:
+      - {fileID: 110151116}
+    data:
+      first: {fileID: 0}
+      second: []
+    data:
       first: {fileID: 110259000}
       second:
       - {fileID: 110169924}
+      - {fileID: 110145414}
     data:
       first: {fileID: 110257322}
       second:
       - {fileID: 110138496}
-    data:
-      first: {fileID: 0}
-      second: []
   m_MotionSetCount: 1
   m_AnyStatePosition: {x: -60, y: -144, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
