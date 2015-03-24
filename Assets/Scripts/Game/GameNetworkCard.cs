@@ -391,7 +391,7 @@ public class GameNetworkCard : Photon.MonoBehaviour
 			DiscoveryFeature.Skill2 = (bool)stream.ReceiveNext();
 			DiscoveryFeature.Skill3 = (bool)stream.ReceiveNext();
 			DiscoveryFeature.Skill4 = (bool)stream.ReceiveNext();
-			if (gameCard != null)
+			if (gameCard != null && gameCard.Card != null)
 			{
 				ShowFace();
 			}

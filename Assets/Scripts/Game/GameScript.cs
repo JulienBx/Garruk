@@ -114,7 +114,7 @@ public class GameScript : Photon.MonoBehaviour {
 	{
 		GameBoard.instance.nbPlayer = 2;
 		TypedLobby sqlLobby = new TypedLobby("rankedGame", LobbyType.SqlLobby);    
-		string sqlLobbyFilter = "C0 = 1";
+		string sqlLobbyFilter = "C0 = " + ApplicationModel.gameType;
 		PhotonNetwork.JoinRandomRoom(null, 0, MatchmakingMode.FillRoom, sqlLobby, sqlLobbyFilter);
 	}
 	
@@ -125,7 +125,7 @@ public class GameScript : Photon.MonoBehaviour {
 		newRoomOptions.isOpen = true;
 		newRoomOptions.isVisible = true;
 		newRoomOptions.maxPlayers = 2;
-		newRoomOptions.customRoomProperties = new ExitGames.Client.Photon.Hashtable() { { "C0", 1 } }; // CO pour une partie simple
+		newRoomOptions.customRoomProperties = new ExitGames.Client.Photon.Hashtable() { { "C0", ApplicationModel.gameType } }; // CO pour une partie simple
 		newRoomOptions.customRoomPropertiesForLobby = new string[] { "C0" }; // C0 est récupérable dans le lobby
 		
 		
