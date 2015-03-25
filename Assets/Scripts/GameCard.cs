@@ -334,10 +334,16 @@ public class GameCard : Photon.MonoBehaviour
 					switch (skill.ResourceName)
 					{
 						case "Reflexe": 
-							Reflexe cp = go.gameObject.AddComponent("Reflexe") as Reflexe;
-							cp.Skill = skill;
-							cp.SkillNumber = Card.Skills.Count;
-							cp.Init();
+							Reflexe rx = go.gameObject.AddComponent("Reflexe") as Reflexe;
+							rx.Skill = skill;
+							rx.SkillNumber = Card.Skills.Count;
+							rx.Init();
+							break;
+						case "Apathie":
+							Apathie ap = go.gameObject.AddComponent("Apathie") as Apathie;
+							ap.Skill = skill;
+							ap.SkillNumber = Card.Skills.Count;
+							ap.Init();
 							break;
 						default: 
 							GameSkill skillCp = go.gameObject.AddComponent("GameSkill") as GameSkill;
