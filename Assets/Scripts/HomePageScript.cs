@@ -28,6 +28,8 @@ public class HomePageScript : MonoBehaviour {
 
 	string notificationsRead;
 
+	public GameObject MenuObject;
+
 	public GUIStyle notificationValueStyle;
 	public GUIStyle notificationCardStyle;
 	public GUIStyle notificationUserStyle;
@@ -44,10 +46,9 @@ public class HomePageScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-
+		MenuObject = Instantiate(MenuObject) as GameObject;
 		this.setStyles();
 		StartCoroutine (retrieveNotifications ());
-	
 	}
 	
 	// Update is called once per frame
@@ -57,7 +58,6 @@ public class HomePageScript : MonoBehaviour {
 			this.setStyles();
 			displayPage();
 		}
-	
 	}
 
 	void OnGUI () {

@@ -20,6 +20,8 @@ public class LobbyScript : Photon.MonoBehaviour {
 	private string URLSelectedDeck = ApplicationModel.host + "set_selected_deck.php";
 	public Dictionary<int, string> playersName = new Dictionary<int, string>();
 
+	public GameObject MenuObject;
+
 	private bool attemptToPlay = false;
 	private const string roomName = "GarrukLobby";
 
@@ -31,6 +33,7 @@ public class LobbyScript : Photon.MonoBehaviour {
 
 	void Start()
 	{
+		MenuObject = Instantiate(MenuObject) as GameObject;
 		this.setStyles();
 		StartCoroutine(RetrieveDecks());
 		PhotonNetwork.ConnectUsingSettings(ApplicationModel.photonSettings);

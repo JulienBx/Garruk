@@ -70,6 +70,8 @@ public class myGameScript : MonoBehaviour {
 	GameObject cardFocused ;
 	bool displayFilters = false ;
 
+	public GameObject MenuObject;
+
 	//Si l'utilisateur sélectionne une action (edit ou suppress) sur un des deck, donne à cette variable l'ID du deck en question
 	int IDDeckToEdit = -1;
 	int renameCost = 200;
@@ -455,6 +457,7 @@ public class myGameScript : MonoBehaviour {
 		
 	void Start() {
 		this.setStyles(); 
+		MenuObject = Instantiate(MenuObject) as GameObject;
 		filtersCardType = new List<int> ();
 		toReloadAll = true ;
 	}

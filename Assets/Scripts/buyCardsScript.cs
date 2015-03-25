@@ -16,6 +16,8 @@ public class buyCardsScript : MonoBehaviour {
 	private string URLPutOnMarket = "http://54.77.118.214/GarrukServer/putonmarket.php";
 	private string URLRenameCard = "http://54.77.118.214/GarrukServer/renameCard.php";
 
+	public GameObject MenuObject;
+
 	int renameCost = 200;
 	int cost;
 	string price ="";
@@ -28,18 +30,13 @@ public class buyCardsScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start (){
+		MenuObject = Instantiate(MenuObject) as GameObject;
 		StartCoroutine (getUserMoney ());
 	}
 
 	void OnGUI() {
-	
-		// Deal button
-		if (GUI.Button(new Rect(10, 10, 100, 20), "Accueil"))
-		{
-			Application.LoadLevel("HomePage");
-		}
 
-		if (GUI.Button(new Rect(10, 40, 150, 20), "Me créer une carte"))
+		if (GUI.Button(new Rect(Screen.width*0.1f, Screen.height*0.2f, 150, 20), "Me créer une carte"))
 		{
 			displaySellPopUp=false;
 			displayRenamePopUp=false;

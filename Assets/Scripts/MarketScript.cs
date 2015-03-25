@@ -36,6 +36,8 @@ public class MarketScript : MonoBehaviour {
 	public GUIStyle paginationActivatedStyle;
 	public GUIStyle paginationStyle;
 
+	public GameObject MenuObject;
+
 	GUIStyle[] paginatorGuiStyle;
 	GUIStyle[] sortButtonStyle=new GUIStyle[10];
 
@@ -150,6 +152,7 @@ public class MarketScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		MenuObject = Instantiate(MenuObject) as GameObject;
 		setStyles();
 		displayLoader = true;
 		StartCoroutine(initializeMarket());
