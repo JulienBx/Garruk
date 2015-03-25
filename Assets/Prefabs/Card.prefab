@@ -3414,6 +3414,7 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 0bf1eb79ce2644be6b162663a94d1fd7, type: 3}
   - {fileID: 2800000, guid: c82aa9bf7932ed540b72797ceee83c40, type: 3}
   - {fileID: 2800000, guid: 5beea46f92ba2b4449979e50abf296a3, type: 3}
+  - {fileID: 2800000, guid: 77d8e183e03bcd24e91c9914f6f35114, type: 3}
   Areas:
   - {fileID: 2800000, guid: 33f7b2538854c4a038736f0843e45369, type: 3}
   - {fileID: 2800000, guid: 5515a1eaaf17a443b868baa728148f6f, type: 3}

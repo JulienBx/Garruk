@@ -101,8 +101,16 @@ public class GameCard : Photon.MonoBehaviour
 		
 		for (int i = 0 ; i < 6 ; i++)
 		{		
-			transform.Find("texturedGameCard").FindChild("PictoMetalLife")
-				.renderer.materials[i].mainTexture = metals [Card.LifeLevel];
+			if (discoveryFeature.Life || mine)
+			{
+				transform.Find("texturedGameCard").FindChild("PictoMetalLife")
+					.renderer.materials[i].mainTexture = metals [Card.LifeLevel];
+			}
+			else
+			{
+				transform.Find("texturedGameCard").FindChild("PictoMetalLife")
+					.renderer.materials[i].mainTexture = metals [6];
+			}
 			if (Card.GetAttack() > Card.Attack)
 			{
 				transform.Find("texturedGameCard").FindChild("AttackArea").FindChild("PictoMetalAttack")
@@ -113,10 +121,15 @@ public class GameCard : Photon.MonoBehaviour
 				transform.Find("texturedGameCard").FindChild("AttackArea").FindChild("PictoMetalAttack")
 					.renderer.materials[i].mainTexture = metals [5]; // On change la couleur des matériaux
 			}
-			else
+			else if (discoveryFeature.Attack || mine)
 			{
 				transform.Find("texturedGameCard").FindChild("AttackArea").FindChild("PictoMetalAttack")
 					.renderer.materials[i].mainTexture = metals [Card.AttackLevel]; // On change la couleur des matériaux
+			}
+			else
+			{
+				transform.Find("texturedGameCard").FindChild("AttackArea").FindChild("PictoMetalAttack")
+					.renderer.materials[i].mainTexture = metals [6]; // On change la couleur des matériaux
 			}
 			if (Card.GetSpeed() > Card.Speed)
 			{
@@ -128,7 +141,7 @@ public class GameCard : Photon.MonoBehaviour
 				transform.Find("texturedGameCard").FindChild("SpeedArea").FindChild("PictoMetalSpeed")
 					.renderer.materials[i].mainTexture = metals [5]; // On change la couleur des matériaux
 			}
-			else
+			else 
 			{
 				transform.Find("texturedGameCard").FindChild("SpeedArea").FindChild("PictoMetalSpeed")
 					.renderer.materials[i].mainTexture = metals [Card.SpeedLevel]; // On change la couleur des matériaux
@@ -144,10 +157,15 @@ public class GameCard : Photon.MonoBehaviour
 				transform.Find("texturedGameCard").FindChild("MoveArea").FindChild ("PictoMetalMove")
 					.renderer.materials[i].mainTexture = metals [Card.MoveLevel];
 			}
-			else
+			else if (discoveryFeature.Move || mine)
 			{
 				transform.Find("texturedGameCard").FindChild("MoveArea").FindChild ("PictoMetalMove")
 					.renderer.materials[i].mainTexture = metals [Card.MoveLevel];
+			}
+			else
+			{
+				transform.Find("texturedGameCard").FindChild("MoveArea").FindChild ("PictoMetalMove")
+					.renderer.materials[i].mainTexture = metals [6];
 			}
 		}
 		
