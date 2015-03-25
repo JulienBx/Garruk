@@ -287,8 +287,6 @@ public class GameCard : Photon.MonoBehaviour
 		} 
 		else 
 		{
-			print(w.text); 											// donne le retour
-			
 			string[] cardEntries = w.text.Split('\n'); 				// Chaque ligne du serveur correspond à une carte
 			
 			for(int i = 0 ; i < cardEntries.Length - 1 ; i++) 		// On boucle sur les attributs d'une carte
@@ -350,6 +348,12 @@ public class GameCard : Photon.MonoBehaviour
 							rf.Skill = skill;
 							rf.SkillNumber = Card.Skills.Count;
 							rf.Init();
+							break;
+						case "Sape":
+							Sape sp = go.gameObject.AddComponent("Sape") as Sape;
+							sp.Skill = skill;
+							sp.SkillNumber = Card.Skills.Count;
+							sp.Init();
 							break;
 						default: 
 							GameSkill skillCp = go.gameObject.AddComponent("GameSkill") as GameSkill;
