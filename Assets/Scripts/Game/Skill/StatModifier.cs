@@ -27,7 +27,7 @@ public class StatModifier
 	{
 		if (Stat == ModifierStat.Stat_Attack)
 		{
-			attack += Amount;
+			attack += Mathf.CeilToInt(XMin + (Amount * Ponderation));
 		}
 		return attack;
 	}
@@ -44,7 +44,7 @@ public class StatModifier
 	{
 		if (Stat == ModifierStat.Stat_Move)
 		{
-			move += Amount;
+			move += Mathf.CeilToInt(XMin + (Amount * Ponderation));
 		}
 		return move;
 	}
@@ -53,7 +53,7 @@ public class StatModifier
 	{
 		if (Stat == ModifierStat.Stat_Energy)
 		{
-			energy += Amount;
+			energy += Mathf.CeilToInt(XMin + (Amount * Ponderation));
 		}
 		return energy;
 	}
@@ -62,7 +62,7 @@ public class StatModifier
 	{
 		if (Stat == ModifierStat.Stat_Energy)
 		{
-			life += Amount;
+			life += Mathf.CeilToInt(XMin + (Amount * Ponderation));
 		}
 		return life;
 	}

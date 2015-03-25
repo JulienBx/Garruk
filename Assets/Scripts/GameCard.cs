@@ -345,6 +345,12 @@ public class GameCard : Photon.MonoBehaviour
 							ap.SkillNumber = Card.Skills.Count;
 							ap.Init();
 							break;
+						case "Renforcement":
+							Renforcement rf = go.gameObject.AddComponent("Renforcement") as Renforcement;
+							rf.Skill = skill;
+							rf.SkillNumber = Card.Skills.Count;
+							rf.Init();
+							break;
 						default: 
 							GameSkill skillCp = go.gameObject.AddComponent("GameSkill") as GameSkill;
 							skillCp.Skill = skill;

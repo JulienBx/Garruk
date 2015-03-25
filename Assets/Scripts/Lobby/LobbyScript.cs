@@ -13,7 +13,6 @@ public class LobbyScript : Photon.MonoBehaviour {
 	public GUIStyle activatedDeck;
 	public GUIStyle deck;
 	public GUIStyle joinButton;
-	public GUIStyle joinOfficialButton;
 	public GUIStyle cantJoin;
 	
 	public List<Deck> decks = new List<Deck>();
@@ -119,7 +118,7 @@ public class LobbyScript : Photon.MonoBehaviour {
 						attemptToPlay = true;
 						PhotonNetwork.Disconnect();
 					}
-					if (GUILayout.Button("rejoindre un match officiel", joinOfficialButton))
+					if (GUILayout.Button("rejoindre un match officiel", joinButton))
 					{
 						ApplicationModel.gameType = 1; // 1 pour Official
 						attemptToPlay = true;
@@ -168,10 +167,6 @@ public class LobbyScript : Photon.MonoBehaviour {
 		this.joinButton.fontSize = heightScreen * 4 / 100 ;
 		this.joinButton.fixedHeight = heightScreen * 10 / 100 ;
 		this.joinButton.fixedWidth = widthScreen * 80 / 100 ;
-
-		this.joinOfficialButton.fontSize = heightScreen * 4 / 100 ;
-		this.joinOfficialButton.fixedHeight = heightScreen * 10 / 100 ;
-		this.joinOfficialButton.fixedWidth = widthScreen * 80 / 100 ;
 
 		this.cantJoin.fontSize = heightScreen * 4 / 100 ;
 		this.cantJoin.fixedHeight = heightScreen * 10 / 100 ;
