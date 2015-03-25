@@ -215,6 +215,10 @@ public class Card
 		foreach (StatModifier modifier in modifiers) {
 			attack = modifier.modifyAttack(attack);
 		}
+		if (attack < 0)
+		{
+			return 0;
+		}
 		return attack;
 	}
 	
@@ -223,6 +227,10 @@ public class Card
 		int life = Life;
 		foreach (StatModifier modifier in modifiers) {
 			life = modifier.modifyLife(life);
+		}
+		if (life < 0)
+		{
+			return 0;
 		}
 		return life;
 	}
@@ -233,6 +241,10 @@ public class Card
 		foreach (StatModifier modifier in modifiers) {
 			speed = modifier.modifySpeed(speed);
 		}
+		if (speed < 0)
+		{
+			return 0;
+		}
 		return speed;
 	}
 	
@@ -241,6 +253,10 @@ public class Card
 		int move = Move;
 		foreach (StatModifier modifier in modifiers) {
 			move = modifier.modifyMove(move);
+		}
+		if (move < 0)
+		{
+			return 0;
 		}
 		return move;
 	}
