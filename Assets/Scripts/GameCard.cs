@@ -153,7 +153,7 @@ public class GameCard : Photon.MonoBehaviour
 		
 		for (int i = 0 ; i < Card.Skills.Count ; i++) // boucle sur la liste de compétence 
 		{
-			if (Card.Skills[i].IsActivated == 1 ) // On vérifie que la compétence existe et qu'elle est active
+			if (Card.Skills[i].IsActivated == 1 && (discoveryFeature.Skills[i] || mine)) // On vérifie que la compétence existe et qu'elle est active
 			{ 
 				for (int j = 0 ; j < 6 ; j++)
 				{

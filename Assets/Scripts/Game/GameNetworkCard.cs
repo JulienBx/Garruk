@@ -376,10 +376,10 @@ public class GameNetworkCard : Photon.MonoBehaviour
 			stream.SendNext(DiscoveryFeature.Life);
 			stream.SendNext(DiscoveryFeature.Move);
 			stream.SendNext(DiscoveryFeature.MoveMin);
-			stream.SendNext(DiscoveryFeature.Skill1);
-			stream.SendNext(DiscoveryFeature.Skill2);
-			stream.SendNext(DiscoveryFeature.Skill3);
-			stream.SendNext(DiscoveryFeature.Skill4);
+			stream.SendNext(DiscoveryFeature.Skills[0]);
+			stream.SendNext(DiscoveryFeature.Skills[1]);
+			stream.SendNext(DiscoveryFeature.Skills[2]);
+			stream.SendNext(DiscoveryFeature.Skills[3]);
 		}
 		else
 		{
@@ -387,10 +387,10 @@ public class GameNetworkCard : Photon.MonoBehaviour
 			DiscoveryFeature.Life = (bool)stream.ReceiveNext();
 			DiscoveryFeature.Move = (bool)stream.ReceiveNext();
 			DiscoveryFeature.MoveMin = (int)stream.ReceiveNext();
-			DiscoveryFeature.Skill1 = (bool)stream.ReceiveNext();
-			DiscoveryFeature.Skill2 = (bool)stream.ReceiveNext();
-			DiscoveryFeature.Skill3 = (bool)stream.ReceiveNext();
-			DiscoveryFeature.Skill4 = (bool)stream.ReceiveNext();
+			DiscoveryFeature.Skills[0] = (bool)stream.ReceiveNext();
+			DiscoveryFeature.Skills[1] = (bool)stream.ReceiveNext();
+			DiscoveryFeature.Skills[2] = (bool)stream.ReceiveNext();
+			DiscoveryFeature.Skills[3] = (bool)stream.ReceiveNext();
 			if (gameCard != null && gameCard.Card != null)
 			{
 				ShowFace();

@@ -27,6 +27,7 @@ public class Buff : GameSkill
 		{
 			gnc.gameCard.Card.modifiers.Add(sm);
 		}
+		gnc.DiscoveryFeature.Skills[SkillNumber -1] = true;
 		Instantiate(gnc.AttackAnim, go.transform.position + new Vector3(0, 0, -2), Quaternion.identity);
 		GameTimeLine.instance.SortCardsBySpeedAfterBuff();
 		GameTimeLine.instance.Arrange();
