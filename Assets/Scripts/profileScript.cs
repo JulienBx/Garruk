@@ -1,12 +1,16 @@
 using UnityEngine;
 using System;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 
 
 public class profileScript : MonoBehaviour {
-	
+
+	int sizeMax = 3145728;
+	List<string> availableExtension = new List<string>(){".jpg", ".png"};
+
 	bool isDataLoaded = false;
 	bool myProfile = false;
 	bool isEditing = false;
@@ -456,7 +460,8 @@ public class profileScript : MonoBehaviour {
 					//GUILayout.Label("Text File", GUILayout.Width(100));
 					//GUILayout.FlexibleSpace();
 					//GUILayout.Label(m_textPath ?? "none selected");
-					if (GUI.Button(new Rect(0.05f*widthScreen,profilePicture.height+0.02f*heightScreen,profilePicture.width,0.03f*heightScreen),"Modifier l'image")) {
+					//if (GUI.Button(new Rect(0.05f*widthScreen,profilePicture.height+0.02f*heightScreen,profilePicture.width,0.03f*heightScreen),"Modifier l'image")) {
+					if (GUI.Button(new Rect(0,0,profilePicture.width,20),"Modifier l'image")) {
 						m_fileBrowser = new FileBrowser(
 							new Rect(100, 100, 600, 500),
 							"Sélectionnez une image",
@@ -971,15 +976,16 @@ public class profileScript : MonoBehaviour {
 		long fileSize = fileInfo.Length;
 		string fileExtension = fileInfo.Extension;
 
-		if (fileExtension != ".jpg" && fileExtension != ".png") {
+		if (!availableExtension.Contains(fileExtension, StringComparer.OrdinalIgnoreCase)) {
 			displayPopUp=true;
 			error ="Chargement annule,\n l'image doit etre au format .png ou .jpg";
 			yield break;
 		}
 
-		if (fileSize > 3145728) {
-			displayPopUp=true;
-			error ="Chargement annule,\n l'image ne doit pas depasser 3 Mo";
+		if (fileSize > sizeMax) 
+		{
+			displayPopUp = true;
+			error = "Chargement annule,\n l'image ne doit pas depasser " + (sizeMax / 1024) + "Mo";
 			yield break;
 		}
 		//limit = 3145728
@@ -1010,6 +1016,7 @@ public class profileScript : MonoBehaviour {
 			print (w.error); 
 		else 
 		{
+			print(w.text);
 			if(System.Convert.ToInt32(w.text)==1){
 				userData.Picture="http://54.77.118.214/GarrukServer/img/profile/" + ApplicationModel.username + fileExtension;
 			
