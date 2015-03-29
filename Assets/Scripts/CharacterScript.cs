@@ -20,6 +20,7 @@ public class CharacterScript : MonoBehaviour {
 
 	int widthScreen = Screen.width; 
 	int heightScreen = Screen.height;
+	Bounds bounds;
 
 	Animator animator;
 
@@ -33,7 +34,7 @@ public class CharacterScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		animator = transform.GetComponent<Animator> ();
+		animator = transform.parent.GetComponent<Animator> ();
 		setStyles();
 	}
 	
@@ -47,8 +48,14 @@ public class CharacterScript : MonoBehaviour {
 	void OnGUI ()
 	{
 		if(!toHide){
-			CharacterPositionTopLeft=Camera.main.WorldToScreenPoint(new Vector3(transform.Find("Character_renderer").renderer.bounds.min.x,transform.Find("Character_renderer").renderer.bounds.max.y,0));
-			CharacterPositionBottomRight=Camera.main.WorldToScreenPoint(new Vector3(transform.Find("Character_renderer").renderer.bounds.max.x,transform.Find("Character_renderer").renderer.bounds.min.y,0));
+
+			bounds = renderer.bounds;
+			foreach(var r in GetComponentsInChildren<Renderer>())
+			{
+				bounds.Encapsulate(r.bounds);
+			}
+			CharacterPositionTopLeft=Camera.main.WorldToScreenPoint(new Vector3(bounds.min.x,bounds.max.y,0));
+			CharacterPositionBottomRight=Camera.main.WorldToScreenPoint(new Vector3(bounds.max.x,bounds.min.y,0));
 			GUILayout.BeginArea (new Rect (CharacterPositionBottomRight.x-(CharacterPositionBottomRight.x-CharacterPositionTopLeft.x)/2-(int)widthScreen*75/1000, Screen.height-CharacterPositionTopLeft.y-(int)heightScreen*4/100, (int)widthScreen*15/100, (int)heightScreen*4/100));
 			{
 				GUILayout.BeginVertical();
@@ -137,13 +144,5 @@ public class CharacterScript : MonoBehaviour {
 
 	public void stopWalking(){
 		animator.SetBool("isWalking",false );
-	}
-
-	public void toDance(){
-		animator.SetBool("isDancing",true );
-	}
-	
-	public void stopDancing(){
-		animator.SetBool("isDancing",false );
 	}
 }

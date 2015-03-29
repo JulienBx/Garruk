@@ -9,7 +9,7 @@ public class CharacterMakerScript : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-		characterModelScript = GameObject.Find("Character").GetComponent<CharacterScript> ();
+		characterModelScript = GameObject.Find("Vampire").GetComponent<CharacterScript> ();
 
 		characterModelScript.setName("Garruk");
 		characterModelScript.setLife(100);
@@ -27,13 +27,6 @@ public class CharacterMakerScript : MonoBehaviour {
 		}
 		if(Input.GetKeyUp(KeyCode.Return)){
 			characterModelScript.stopWalking();
-		}
-
-		if(Input.GetKeyDown(KeyCode.G)){
-			characterModelScript.toDance();
-		}
-		if(Input.GetKeyUp(KeyCode.G)){
-			characterModelScript.stopDancing();
 		}
 	
 	}
