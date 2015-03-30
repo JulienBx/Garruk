@@ -564,9 +564,9 @@ public class profileScript : MonoBehaviour {
 			string[] userInformations = data[0].Split(new string[] { "\\" }, System.StringSplitOptions.None);
 			string[] usersConnections1 = data[1].Split(new char[] { '\n' }, System.StringSplitOptions.None);
 			string[] usersConnections2 = data[2].Split(new char[] { '\n' }, System.StringSplitOptions.None);
-			
+
 			this.userData = new User(ApplicationModel.profileChosen,
-			                         userInformations[0]); // picture
+			                         ApplicationModel.host + userInformations[0]); // picture
 			
 			this.userData.Connections = new List<Connection>();
 			
@@ -620,7 +620,7 @@ public class profileScript : MonoBehaviour {
 			                         System.Convert.ToInt32(userInformations[1]), // money
 			                         userInformations[2], // firstname
 			                         userInformations[3], // surname
-			                         userInformations[4]); // picture
+			                         ApplicationModel.host + userInformations[4]); // picture
 
 			this.userData.Connections = new List<Connection>();
 
@@ -1019,8 +1019,6 @@ public class profileScript : MonoBehaviour {
 			print(w.text);
 			if(System.Convert.ToInt32(w.text)==1){
 				userData.Picture = ApplicationModel.host + "img/profile/" + ApplicationModel.username + fileExtension;
-			
-				//print(userData.Picture);
 
 				var www = new WWW(userData.Picture);
 				yield return www;
