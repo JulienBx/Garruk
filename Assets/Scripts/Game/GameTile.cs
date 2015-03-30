@@ -15,6 +15,7 @@ public class GameTile : MonoBehaviour {
 	public Material DefaultMaterial;
 	public Material OpaqueMaterial;
 
+	public Texture[] backTile ;
 	
 	private Vector2 cursorHotspot = Vector2.zero;
 	public float hexWidth;
@@ -98,6 +99,11 @@ public class GameTile : MonoBehaviour {
 			}
 			
 		}
+	}
+
+	public void ShowFace() 
+	{
+		renderer.materials[1].mainTexture = backTile [this.tile.type];
 	}
 	
 	public void changeColor(Color color)
