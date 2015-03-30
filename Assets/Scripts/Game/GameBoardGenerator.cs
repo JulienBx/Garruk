@@ -71,7 +71,7 @@ public class GameBoardGenerator : MonoBehaviour
 				hex.transform.position = calcWorldCoord(gridPos);
 				hex.transform.parent = hexGridGO.transform;
 				var tb = (GameTile)hex.GetComponent("GameTile");
-				tb.tile = new Tile((int)y, (int)x, 0);
+				tb.tile = new Tile((int)y, (int)x);
 				GameBoard.instance.board.Add(tb.tile.Location, tb.tile);
 			}
 		}

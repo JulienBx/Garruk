@@ -6,14 +6,11 @@ using System.Linq;
 public class Tile : GridObject, IHasNeighbours<Tile> 
 {
 	public bool Passable;
-	public int type;
 
-	public Tile(int x, int y, int Type) : base (x, y)
+	public Tile(int x, int y) : base (x, y)
 	{
 		Passable = true;
-		this.type = Type;
 	}
-
 	public IEnumerable<Tile> AllNeighbours { get; set; }
 	public IEnumerable<Tile> Neighbours
 	{
