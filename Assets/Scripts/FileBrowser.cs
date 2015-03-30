@@ -225,6 +225,7 @@ public class FileBrowser {
 	}
 	
 	public void OnGUI() {
+		GUI.enabled = true;
 		GUILayout.BeginArea(
 			m_screenRect,
 			m_name,
