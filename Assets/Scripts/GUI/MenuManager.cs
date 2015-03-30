@@ -22,6 +22,7 @@ public class MenuManager : MonoBehaviour {
 	float ratioScreen;
 
 	float timer;
+	public int refreshInterval;
 
 	float flexibleSpaceSize;
 	float distanceToNonReadNotificationsCounter;
@@ -35,8 +36,8 @@ public class MenuManager : MonoBehaviour {
 
 		timer += Time.deltaTime;
 		
-		if (timer > 10) {
-			timer=timer-10;
+		if (timer > refreshInterval) {
+			timer=timer-refreshInterval;
 			StartCoroutine(loadUserData ());
 		}
 		if (Screen.width != widthScreen || Screen.height != heightScreen) {
