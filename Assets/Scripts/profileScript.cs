@@ -1018,7 +1018,7 @@ public class profileScript : MonoBehaviour {
 		{
 			print(w.text);
 			if(System.Convert.ToInt32(w.text)==1){
-				userData.Picture="http://54.77.118.214/GarrukServer/img/profile/" + ApplicationModel.username + fileExtension;
+				userData.Picture = ApplicationModel.host + "img/profile/" + ApplicationModel.username + fileExtension;
 			
 				//print(userData.Picture);
 
