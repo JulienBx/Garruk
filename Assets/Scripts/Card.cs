@@ -331,6 +331,27 @@ public class Card
 		}
 	}
 
+	public bool verifyC2(float minLife,float maxLife,float minAttack,float maxAttack,float minMove,float maxMove,float minQuickness,float maxQuickness, int minPrice, int maxPrice){
+		if (minLife > this.Life || maxLife < this.Life){
+			return false ;
+		}
+		else if (minAttack > this.Attack || maxAttack < this.Attack){
+			return false ;
+		}
+		else if (minMove > this.Move || maxMove < this.Move){
+			return false ;
+		}
+		else if (minQuickness > this.Speed || maxQuickness < this.Speed){
+			return false ;
+		}
+		else if (minPrice > this.Price || maxPrice < this.Price){
+			return false ;
+		}
+		else{
+			return true ;
+		}
+	}
+
 	public int getCost(){
 		int cost = Mathf.RoundToInt (this.Speed +
 		                             this.Attack +

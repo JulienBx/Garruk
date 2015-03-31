@@ -58,10 +58,11 @@ public class profileScript : MonoBehaviour {
 	public GUIStyle titleStyle;
 	public GUIStyle paginationActivatedStyle;
 	public GUIStyle paginationStyle;
-	public GUIStyle centralWindowStyle ;
-	public GUIStyle centralWindowTitleStyle ;
-	public GUIStyle centralWindowButtonStyle ;
-	public GUIStyle centralWindowTextfieldStyle ;
+	public GUIStyle centralWindowStyle;
+	public GUIStyle centralWindowTitleStyle;
+	public GUIStyle centralWindowButtonStyle;
+	public GUIStyle centralWindowTextfieldStyle;
+	public GUIStyle borderBackgroundStyle;
 
 	int widthScreen = Screen.width ; 
 	int heightScreen = Screen.height ;
@@ -309,6 +310,19 @@ public class profileScript : MonoBehaviour {
 				}
 				GUILayout.EndArea();
 
+				GUI.Box(new Rect(profilePictureStyle.fixedHeight+0.02f*widthScreen,
+				                 0.12f*heightScreen,
+				                 nbFriendsPerRow*friendLabelsAreaSizeX,
+				                 0.435f * heightScreen), "",borderBackgroundStyle);
+				GUI.Label (new Rect(profilePictureStyle.fixedHeight+0.02f*widthScreen,
+				                    0.12f*heightScreen,
+				                    nbFriendsPerRow*friendLabelsAreaSizeX,
+				                    heightScreen*0.03f), "Mes amis",titleStyle);
+				GUI.Label (new Rect(profilePictureStyle.fixedHeight+0.02f*widthScreen,
+				                    0.16f*heightScreen,
+				                    nbFriendsPerRow*friendLabelsAreaSizeX,
+				                    heightScreen*0.03f), labelNoFriends,labelNo);
+
 				for (int i = friendsStart;i<friendsFinish;i++){
 					GUILayout.BeginArea(new Rect(profilePictureStyle.fixedHeight+0.02f*widthScreen + ((i-friendsStart)%nbFriendsPerRow)*friendLabelsAreaSizeX,
 					                    0.15f*heightScreen + (Mathf.FloorToInt((i-friendsStart)/nbFriendsPerRow)*friendLabelsAreaSizeY),
@@ -341,7 +355,7 @@ public class profileScript : MonoBehaviour {
 					}
 					GUILayout.EndArea();
 				}
-				GUILayout.BeginArea(new Rect(profilePictureStyle.fixedWidth+0.02f*widthScreen,0.51f*heightScreen,0.75f * widthScreen-profilePictureStyle.fixedWidth-0.02f*widthScreen,0.03f*heightScreen));
+				GUILayout.BeginArea(new Rect(profilePictureStyle.fixedWidth+0.02f*widthScreen,0.52f*heightScreen,0.75f * widthScreen-profilePictureStyle.fixedWidth-0.02f*widthScreen,0.03f*heightScreen));
 				{
 					GUILayout.BeginHorizontal();
 					{
@@ -374,8 +388,18 @@ public class profileScript : MonoBehaviour {
 				}
 				GUILayout.EndArea();
 
-				GUI.Label (new Rect (profilePictureStyle.fixedWidth+0.02f*widthScreen,0.56f*heightScreen,widthScreen * 0.25f,heightScreen*0.03f), "Invitations recues",titleStyle);
-				GUI.Label (new Rect (profilePictureStyle.fixedWidth+0.02f*widthScreen,0.60f*heightScreen,widthScreen * 0.25f,heightScreen*0.03f), labelNoInvitationsReceived,labelNo);
+				GUI.Box(new Rect(profilePictureStyle.fixedWidth+0.02f*widthScreen,
+				                 0.56f*heightScreen,
+				                 nbInvitationsReceivedPerRow*friendLabelsAreaSizeX-0.0025f*widthScreen,
+				                 0.435f * heightScreen), "",borderBackgroundStyle);
+				GUI.Label (new Rect (profilePictureStyle.fixedWidth+0.02f*widthScreen,
+				                     0.56f*heightScreen,
+				                     nbInvitationsReceivedPerRow*friendLabelsAreaSizeX-0.0025f*widthScreen,
+				                     heightScreen*0.03f), "Invitations recues",titleStyle);
+				GUI.Label (new Rect (profilePictureStyle.fixedWidth+0.02f*widthScreen,
+				                     0.60f*heightScreen,
+				                     nbInvitationsReceivedPerRow*friendLabelsAreaSizeX-0.0025f*widthScreen,
+				                     heightScreen*0.03f), labelNoInvitationsReceived,labelNo);
 
 				for (int i = invitationsReceivedStart;i<invitationsReceivedFinish;i++){
 					GUILayout.BeginArea(new Rect(profilePictureStyle.fixedWidth+0.02f*widthScreen + ((i-invitationsReceivedStart)%nbInvitationsReceivedPerRow)*friendLabelsAreaSizeX,
@@ -453,8 +477,18 @@ public class profileScript : MonoBehaviour {
 				}
 				GUILayout.EndArea();
 
-				GUI.Label (new Rect (profilePictureStyle.fixedWidth+0.02f*widthScreen+(0.75f * widthScreen-profilePictureStyle.fixedWidth-0.02f*widthScreen)/2,0.56f*heightScreen,widthScreen * 0.25f,heightScreen*0.03f), "Invitations envoyees",titleStyle);
-				GUI.Label (new Rect (profilePictureStyle.fixedWidth+0.02f*widthScreen+(0.75f * widthScreen-profilePictureStyle.fixedWidth-0.02f*widthScreen)/2,0.60f*heightScreen,widthScreen * 0.25f,heightScreen*0.03f), labelNoInvitationsSent,labelNo);
+				GUI.Box(new Rect(profilePictureStyle.fixedWidth+0.0225f*widthScreen+nbInvitationsSentPerRow*friendLabelsAreaSizeX,
+				                 0.56f*heightScreen,
+				                 nbInvitationsSentPerRow*friendLabelsAreaSizeX-0.0025f*widthScreen,
+				                 0.435f * heightScreen), "",borderBackgroundStyle);
+				GUI.Label (new Rect (profilePictureStyle.fixedWidth+0.0225f*widthScreen+nbInvitationsSentPerRow*friendLabelsAreaSizeX,
+				                     0.56f*heightScreen,
+				                     nbInvitationsSentPerRow*friendLabelsAreaSizeX-0.0025f*widthScreen,
+				                     heightScreen*0.03f), "Invitations envoyees",titleStyle);
+				GUI.Label (new Rect (profilePictureStyle.fixedWidth+0.0225f*widthScreen+nbInvitationsSentPerRow*friendLabelsAreaSizeX,
+				                     0.60f*heightScreen,
+				                     nbInvitationsSentPerRow*friendLabelsAreaSizeX-0.0025f*widthScreen,
+				                     heightScreen*0.03f), labelNoInvitationsSent,labelNo);
 
 				for (int i = invitationsSentStart;i<invitationsSentFinish;i++){
 					GUILayout.BeginArea(new Rect(profilePictureStyle.fixedWidth+0.02f*widthScreen+(0.75f * widthScreen-profilePictureStyle.fixedWidth-0.02f*widthScreen)/2 + ((i-invitationsSentStart)%nbInvitationsSentPerRow)*friendLabelsAreaSizeX,
@@ -549,8 +583,14 @@ public class profileScript : MonoBehaviour {
 				}
 				GUILayout.EndArea();
 
-
-				GUI.Label (new Rect(profilePictureStyle.fixedWidth+0.02f*widthScreen,0.12f*heightScreen,nbFriendsPerRow,heightScreen*0.03f), "Les amis de "+userData.Username,titleStyle);
+				GUI.Box(new Rect(profilePictureStyle.fixedHeight+0.02f*widthScreen,
+				                 0.12f*heightScreen,
+				                 nbFriendsPerRow*friendLabelsAreaSizeX,
+				                 0.435f * heightScreen), "",borderBackgroundStyle);
+				GUI.Label (new Rect(profilePictureStyle.fixedHeight+0.02f*widthScreen,
+				                    0.12f*heightScreen,
+				                    nbFriendsPerRow*friendLabelsAreaSizeX,
+				                    heightScreen*0.03f), "Les amis de "+userData.Username,titleStyle);
 				for (int i = friendsStart;i<friendsFinish;i++){
 					GUILayout.BeginArea(new Rect(profilePictureStyle.fixedWidth+0.02f*widthScreen + ((i-friendsStart)%nbFriendsPerRow)*friendLabelsAreaSizeX,
 					                             0.15f*heightScreen + (Mathf.FloorToInt((i-friendsStart)/nbFriendsPerRow)*friendLabelsAreaSizeY),
@@ -575,7 +615,7 @@ public class profileScript : MonoBehaviour {
 					}
 					GUILayout.EndArea();
 				}
-				GUILayout.BeginArea(new Rect(profilePictureStyle.fixedWidth+0.02f*widthScreen,0.51f*heightScreen,0.75f * widthScreen-profilePictureStyle.fixedWidth-0.02f*widthScreen,0.03f*heightScreen));
+				GUILayout.BeginArea(new Rect(profilePictureStyle.fixedWidth+0.02f*widthScreen,0.52f*heightScreen,0.75f * widthScreen-profilePictureStyle.fixedWidth-0.02f*widthScreen,0.03f*heightScreen));
 				{
 					GUILayout.BeginHorizontal();
 					{
@@ -742,7 +782,7 @@ public class profileScript : MonoBehaviour {
 		heightScreen = Screen.height;
 		widthScreen = Screen.width;
 
-		nbFriendsPerRow = 4 + Mathf.FloorToInt(((float)widthScreen/(float)heightScreen - 1f) * 4f);
+		nbFriendsPerRow = 4 + 2*Mathf.FloorToInt(((float)widthScreen/(float)heightScreen - 1f) * 2f);
 		nbInvitationsReceivedPerRow=Mathf.FloorToInt(nbFriendsPerRow/2);
 		nbInvitationsSentPerRow=nbInvitationsReceivedPerRow;
 
