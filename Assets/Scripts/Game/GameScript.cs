@@ -15,10 +15,11 @@ public class GameScript : Photon.MonoBehaviour {
 	public string labelMessage = "";
 	public static GameScript instance;
 
+	string URLStat = ApplicationModel.dev + "updateStat.php";
 	bool hasClicked = false;
 	const string roomName = "GarrukGame";
 	HostData[] hostList;
-//	private RoomInfo[] roomsList;
+	
 
 	void Awake()
 	{
@@ -91,6 +92,28 @@ public class GameScript : Photon.MonoBehaviour {
 		playersName.Remove(id);
 	}
 
+	public void addStat(int user1, int user2)
+	{
+		StartCoroutine(sendStat(playersName[user1], playersName[user2]));
+	}
+
+	IEnumerator sendStat(string user1, string user2)
+	{
+		WWWForm form = new WWWForm(); 								// Création de la connexion
+		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
+		form.AddField("myform_nick1", user1); 	                    // Pseudo de l'utilisateur victorieux
+		form.AddField("myform_nick2", user2); 	                    // Pseudo de l'autre utilisateur
+		
+		WWW w = new WWW(URLStat, form); 							// On envoie le formulaire à l'url sur le serveur 
+		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
+		if (w.error != null)
+		{
+			print(w.error); 										// donne l'erreur eventuelle
+		} else
+		{
+			print(w.text);
+		}
+	}
 
 	// RPC
 

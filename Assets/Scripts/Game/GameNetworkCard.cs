@@ -345,6 +345,11 @@ public class GameNetworkCard : Photon.MonoBehaviour
 				if (--GameBoard.instance.nbCardsPlayer1 < 1)
 				{
 					GameScript.instance.EndOfGame(2);
+					if (GameBoard.instance.MyPlayerNumber == 1 && ApplicationModel.gameType == 1)
+					{
+					
+						GameScript.instance.addStat(2, 1);
+					}
 				}
 			}
 			else
@@ -352,6 +357,10 @@ public class GameNetworkCard : Photon.MonoBehaviour
 				if (--GameBoard.instance.nbCardsPlayer2 < 1)
 				{
 					GameScript.instance.EndOfGame(1);
+					if (GameBoard.instance.MyPlayerNumber == 2 && ApplicationModel.gameType == 1)
+					{
+						GameScript.instance.addStat(1, 2);
+					}
 				}
 			}
 			gnc.gameObject.SetActive(false);
