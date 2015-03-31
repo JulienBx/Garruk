@@ -78,7 +78,6 @@ public class MarketScript : MonoBehaviour {
 	bool toReload = false ;
 	bool isSkillToDisplay = false ;
 	bool isSkillChosen = false ;
-	//bool createNewCards = false;
 	bool displayPopUp = false;
 
 	string cardsToSearch="";
@@ -200,14 +199,9 @@ public class MarketScript : MonoBehaviour {
 			if (sortSelected!=10){
 				this.sortCards();
 			}
-			StartCoroutine(this.displayPage ());
+			this.displayPage ();
 			toReload = false ;
 		}
-
-//		if(createNewCards) {
-//			createNewCards=false;
-//			getCards();
-//		}
 
 		if (oldSortSelected!=sortSelected){
 			if(oldSortSelected!=10){
@@ -266,7 +260,7 @@ public class MarketScript : MonoBehaviour {
 			Destroy(cardFocused);
 			this.idFocused=-1;
 			displayCards = true ;
-			StartCoroutine(this.displayPage ());
+			this.displayPage ();
 			destroyFocus = false ;
 		}
 		
@@ -403,8 +397,8 @@ public class MarketScript : MonoBehaviour {
 				{
 					GUILayout.BeginVertical();
 					{
-						if (ApplicationModel.credits >= cards[cardsToBeDisplayed[idFocused]].Price && !cardsSold.Contains(cardsToBeDisplayed[idFocused])){
-							if (GUILayout.Button("Acheter (-"+cards[cardsToBeDisplayed[idFocused]].Price+" crédits)",focusButtonStyle)){
+						if (ApplicationModel.credits >= cards[idFocused].Price && !cardsSold.Contains(idFocused)){
+							if (GUILayout.Button("Acheter (-"+cards[idFocused].Price+" crédits)",focusButtonStyle)){
 								isBuyingCard = true ; 
 							}
 						}
@@ -472,7 +466,7 @@ public class MarketScript : MonoBehaviour {
 							paginatorGuiStyle[chosenPage]=this.paginationStyle;
 							chosenPage=i;
 							paginatorGuiStyle[i]=this.paginationActivatedStyle;
-							StartCoroutine(displayPage());
+							displayPage();
 						}
 						GUILayout.Space(widthScreen*0.01f);
 					}
@@ -970,7 +964,7 @@ public class MarketScript : MonoBehaviour {
 	}
 
 
-	private IEnumerator displayPage(){
+	private void displayPage(){
 		
 		start = 3 * nbCardsPerRow * chosenPage;
 		finish = start + 3 * nbCardsPerRow;
@@ -1004,12 +998,7 @@ public class MarketScript : MonoBehaviour {
 			finish = 0;
 		}
 	
-
-		yield break;
 	}
-
-
-
 
 	private void createCards(){
 
@@ -1249,72 +1238,13 @@ public class MarketScript : MonoBehaviour {
 			bool find = false;
 			string[] data = null;
 			string[] newCardsIDS = null;
-			string[] newFilters = null;
 			data = w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
 			newCardsIDS = data[0].Split(new char[] { '\n' }, System.StringSplitOptions.None);
-			newFilters = data[1].Split(new string[] { "//" }, System.StringSplitOptions.None);
-			cardsIDS=data[2].Split(new string[] { "#C#" }, System.StringSplitOptions.None);
-			newTotalNbResult=System.Convert.ToInt32(data[3]);
-			newDateLimit=DateTime.ParseExact(data[4], "yyyy-MM-dd hh:mm:ss", null);
+			cardsIDS=data[1].Split(new string[] { "#C#" }, System.StringSplitOptions.None);
+			newTotalNbResult=System.Convert.ToInt32(data[2]);
+			newDateLimit=DateTime.ParseExact(data[3], "yyyy-MM-dd hh:mm:ss", null);
 
-			if(maxLifeLimit==maxLifeVal){
-				maxLifeLimit =System.Convert.ToInt32(newFilters[0]);
-				maxLifeVal=maxLifeLimit;
-			}
-			else{
-				maxLifeLimit =System.Convert.ToInt32(newFilters[0]);
-			}
-			if(minLifeLimit==minLifeVal){
-				minLifeLimit=System.Convert.ToInt32(newFilters[1]);
-				minLifeVal=minLifeLimit;
-			}
-			else{
-				minLifeLimit=System.Convert.ToInt32(newFilters[1]);
-			}
-			if(maxAttackLimit==maxAttackVal){
-				maxAttackLimit =System.Convert.ToInt32(newFilters[2]);
-				maxAttackVal=maxAttackLimit;
-			}
-			else{
-				maxAttackLimit =System.Convert.ToInt32(newFilters[2]);
-			}
-			if(minAttackLimit==minAttackVal){
-				minAttackLimit=System.Convert.ToInt32(newFilters[3]);
-				minAttackVal=minAttackLimit;
-			}
-			else{
-				minAttackLimit=System.Convert.ToInt32(newFilters[3]);
-			}
-			if(maxMoveLimit==maxMoveVal){
-				maxMoveLimit =System.Convert.ToInt32(newFilters[4]);
-				maxMoveVal=maxMoveLimit;
-			}
-			else{
-				maxMoveLimit =System.Convert.ToInt32(newFilters[4]);
-			}
-			if(minMoveLimit==minMoveVal){
-				minMoveLimit=System.Convert.ToInt32(newFilters[5]);
-				minMoveVal=minMoveLimit;
-			}
-			else{
-				minMoveLimit=System.Convert.ToInt32(newFilters[5]);
-			}
-			if(maxQuicknessLimit==maxQuicknessVal){
-				maxQuicknessLimit =System.Convert.ToInt32(newFilters[6]);
-				maxQuicknessVal=maxQuicknessLimit;
-			}
-			else{
-				maxQuicknessLimit =System.Convert.ToInt32(newFilters[6]);
-			}
-			if(minQuicknessLimit==minQuicknessVal){
-				minQuicknessLimit=System.Convert.ToInt32(newFilters[7]);
-				minQuicknessVal=minQuicknessLimit;
-			}
-			else{
-				minMoveLimit=System.Convert.ToInt32(newFilters[7]);
-			}
 			for (int i=0; i<cardsToBeDisplayed.Count;i++){
-
 
 				find=false;
 				for (int j=0 ; j<newCardsIDS.Length-1; j++){
@@ -1408,7 +1338,7 @@ public class MarketScript : MonoBehaviour {
 
 		clearCards();
 		createCards();
-		StartCoroutine(this.displayPage ());
+		this.displayPage ();
 		
 	}
 
