@@ -104,8 +104,8 @@ public class profileScript : MonoBehaviour {
 	GUIStyle[] paginatorInvitationsReceivedGuiStyle;
 	GUIStyle[] paginatorInvitationsSentGuiStyle;
 
-	private string URLGetUserProfile = "http://54.77.118.214/GarrukServer/get_user_profile.php";
-	private string URLGetMyProfile = "http://54.77.118.214/GarrukServer/get_myprofile.php";
+	private string URLGetUserProfile = ApplicationModel.dev + "get_user_profile.php";
+	private string URLGetMyProfile = ApplicationModel.host + "get_myprofile.php";
 	private string URLConfirmConnection = "http://54.77.118.214/GarrukServer/confirm_connection.php";
 	private string URLRemoveConnection = "http://54.77.118.214/GarrukServer/remove_connection.php";
 	private string URLCreateConnection = "http://54.77.118.214/GarrukServer/create_connection.php";
@@ -121,6 +121,7 @@ public class profileScript : MonoBehaviour {
 	private IList<int> invitationsReceivedToBeDisplayed ;
 
 	string labelNoFriends;
+	string labelStatistique;
 	string labelNoInvitationsReceived;
 	string labelNoInvitationsSent;
 
@@ -268,6 +269,8 @@ public class profileScript : MonoBehaviour {
 				}
 			}
 			GUILayout.EndArea();
+			GUI.Label (new Rect (0.01f*widthScreen,0.56f*heightScreen,widthScreen * 0.25f,heightScreen*0.03f), "Statistiques des matchs",titleStyle);
+			GUI.Label (new Rect (0.01f*widthScreen,0.60f*heightScreen,widthScreen * 0.25f,heightScreen*0.03f), labelStatistique, labelNo);
 			if (myProfile){
 				GUI.DrawTexture(new Rect(0.01f*widthScreen,0.12f*heightScreen,profilePictureStyle.fixedHeight,profilePictureStyle.fixedHeight),profilePicture,ScaleMode.StretchToFill);
 				GUILayout.BeginArea(new Rect(0.01f*widthScreen,0.10f*heightScreen+profilePictureStyle.fixedHeight,profilePictureStyle.fixedWidth,0.88f*heightScreen));
@@ -305,9 +308,6 @@ public class profileScript : MonoBehaviour {
 					}
 				}
 				GUILayout.EndArea();
-
-				GUI.Label (new Rect(profilePictureStyle.fixedWidth+0.02f*widthScreen,0.12f*heightScreen,widthScreen*0.5f,heightScreen*0.03f), "Mes amis",titleStyle);
-				GUI.Label (new Rect(profilePictureStyle.fixedWidth+0.02f*widthScreen,0.16f*heightScreen,widthScreen*0.5f,heightScreen*0.03f), labelNoFriends,labelNo);
 
 				for (int i = friendsStart;i<friendsFinish;i++){
 					GUILayout.BeginArea(new Rect(profilePictureStyle.fixedHeight+0.02f*widthScreen + ((i-friendsStart)%nbFriendsPerRow)*friendLabelsAreaSizeX,
@@ -826,6 +826,8 @@ public class profileScript : MonoBehaviour {
 			string[] userInformations = data[0].Split(new string[] { "\\" }, System.StringSplitOptions.None);
 			string[] usersConnections1 = data[1].Split(new char[] { '\n' }, System.StringSplitOptions.None);
 			string[] usersConnections2 = data[2].Split(new char[] { '\n' }, System.StringSplitOptions.None);
+			string[] usersConnections3 = data[3].Split(new char[] { '\n' }, System.StringSplitOptions.None);
+			string[] usersConnections4 = data[4].Split(new char[] { '\n' }, System.StringSplitOptions.None);
 
 			this.userData = new User(profileChosen,
 			                         userInformations[0]); // picture
@@ -847,6 +849,30 @@ public class profileScript : MonoBehaviour {
 					                                               System.Convert.ToInt32(connectionInfo[2])+2));
 				}
 			}
+
+			if (usersConnections3.Length > 0)
+			{
+				for (int i = 0; i < usersConnections3.Length - 1; i++){
+					string pluriel = "";
+					if (Convert.ToInt32(usersConnections3[i]) > 1)
+					{
+						pluriel = "s";
+					}
+					labelStatistique = usersConnections3[i] + " victoire" + pluriel;
+				}
+			}
+			if (usersConnections4.Length > 0)
+			{
+				for (int i = 0; i < usersConnections4.Length - 1; i++){
+					string pluriel = "";
+					if (Convert.ToInt32(usersConnections4[i]) > 1)
+					{
+						pluriel = "s";
+					}
+					labelStatistique += ", " + usersConnections4[i] + " défaite" + pluriel;
+				}
+			}
+
 			profileInitialized=true;
 			computeConnections();
 		}
@@ -860,14 +886,18 @@ public class profileScript : MonoBehaviour {
 
 		WWW w = new WWW(URLGetMyProfile, form); 				// On envoie le formulaire à l'url sur le serveur 
 		yield return w;
-		if (w.error != null) 
-			print (w.error); 
+		if (w.error != null)
+		{
+			print(w.error); 
+		}
 		else 
 		{
 			string[] data=w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
 			string[] userInformations = data[0].Split(new string[] { "\\" }, System.StringSplitOptions.None);
 			string[] usersConnections1 = data[1].Split(new char[] { '\n' }, System.StringSplitOptions.None);
 			string[] usersConnections2 = data[2].Split(new char[] { '\n' }, System.StringSplitOptions.None);
+			string[] usersConnections3 = data[3].Split(new char[] { '\n' }, System.StringSplitOptions.None);
+			string[] usersConnections4 = data[4].Split(new char[] { '\n' }, System.StringSplitOptions.None);
 
 			this.userData = new User(ApplicationModel.username,
 			                         userInformations[0], // mail
@@ -894,6 +924,29 @@ public class profileScript : MonoBehaviour {
 
 					this.userData.Connections.Add (new Connection (System.Convert.ToInt32(connectionInfo[0]),connectionInfo[1],
 					                                               System.Convert.ToInt32(connectionInfo[2])+2));
+				}
+			}
+
+			if (usersConnections3.Length > 0)
+			{
+				for (int i = 0; i < usersConnections3.Length - 1; i++){
+					string pluriel = "";
+					if (Convert.ToInt32(usersConnections3[i]) > 1)
+					{
+						pluriel = "s";
+					}
+					labelStatistique = usersConnections3[i] + " victoire" + pluriel;
+				}
+			}
+			if (usersConnections4.Length > 0)
+			{
+				for (int i = 0; i < usersConnections4.Length - 1; i++){
+					string pluriel = "";
+					if (Convert.ToInt32(usersConnections4[i]) > 1)
+					{
+						pluriel = "s";
+					}
+					labelStatistique += ", " + usersConnections4[i] + " défaite" + pluriel;
 				}
 			}
 
@@ -987,11 +1040,11 @@ public class profileScript : MonoBehaviour {
 
 		nbInvitationsReceivedPages = Mathf.CeilToInt((nbInvitationsReceivedToDisplay-1) / (3*nbInvitationsSentPerRow)+1);
 
-		if (nbInvitationsReceivedToDisplay==0){
-			nbInvitationsReceivedPages =0;
-			labelNoInvitationsReceived="Vous n'avez pas d'invitations en attente";
+		if (nbInvitationsReceivedToDisplay == 0){
+			nbInvitationsReceivedPages = 0;
+			labelNoInvitationsReceived = "Vous n'avez pas d'invitations en attente";
 		} else {
-			labelNoInvitationsReceived="";
+			labelNoInvitationsReceived = "";
 		}
 		pageDebutFriends = 0 ;
 		if (nbFriendsPages>10){
