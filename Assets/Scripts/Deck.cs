@@ -94,6 +94,7 @@ public class Deck
 		} 
 		else 
 		{
+//			Debug.Log (w.text);
 			string[] cardEntries = w.text.Split('\n'); 				// Chaque ligne du serveur correspond à une carte
 			
 			for(int i = 0 ; i < cardEntries.Length - 1 ; i++) 		// On boucle sur les attributs d'une carte

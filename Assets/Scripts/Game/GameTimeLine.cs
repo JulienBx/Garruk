@@ -63,7 +63,7 @@ public class GameTimeLine : MonoBehaviour {
 		GameCards.Add(GameCards[0]);
 		GameCards.RemoveAt(0);
 		GameBoard.instance.nbTurn = GameCards[0].nbTurn;
-		Arrange();
+		//Arrange();
 	}
 	
 	public void Arrange()

@@ -72,11 +72,11 @@ public class GameBoardGenerator : MonoBehaviour
 				hex.transform.parent = hexGridGO.transform;
 				var tb = (GameTile)hex.GetComponent("GameTile");
 				tb.tile = new Tile((int)y, (int)x, 0);
-				GameBoard.instance.board.Add(tb.tile.Location, tb.tile);
+				//GameBoard.instance.board.Add(tb.tile.Location, tb.tile);
 			}
 		}
-		foreach(Tile tile in GameBoard.instance.board.Values)
-			tile.FindNeighbours(GameBoard.instance.board, new Vector2(gridHeightInHexes, gridWidthInHexes));
+		//foreach(Tile tile in GameBoard.instance.board.Values)
+		//	tile.FindNeighbours(GameBoard.instance.board, new Vector2(gridHeightInHexes, gridWidthInHexes));
 		hexGridGO.transform.Rotate(new Vector3(0, -90, 90));
 		hexGridGO.transform.localScale = new Vector3(1, 40, 40);
 		hexGridGO.transform.CenterOnChildred();

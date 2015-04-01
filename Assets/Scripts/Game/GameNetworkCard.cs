@@ -92,8 +92,8 @@ public class GameNetworkCard : Photon.MonoBehaviour
 				{
 					currentTile.Passable = true;
 				}
-				Tile tile = GameBoard.instance.board[new Point((int)gridPosition.x, (int)gridPosition.y)];
-				colorAndMarkNeighboringTiles(tile.AllNeighbours, gameCard.Card.Move, Color.gray);
+				//Tile tile = GameBoard.instance.board[new Point((int)gridPosition.x, (int)gridPosition.y)];
+				//colorAndMarkNeighboringTiles(tile.AllNeighbours, gameCard.Card.Move, Color.gray);
 			}                         
 		}
 		if (!GameTimeLine.instance.PlayingCard.Equals(this) && GamePlayingCard.instance.attemptToAttack && !GamePlayingCard.instance.hasAttacked) 
@@ -186,7 +186,7 @@ public class GameNetworkCard : Photon.MonoBehaviour
 		{
 			GameTile.RemovePassableTile();
 			
-			this.FindNeighbors();
+			//this.FindNeighbors();
 			if (gameCard.photonView.isMine)
 			{
 				GameBoard.instance.isMoving = false;
@@ -260,8 +260,8 @@ public class GameNetworkCard : Photon.MonoBehaviour
 	{
 		if (!gameObject.tag.Equals("NoPlayableCard"))
 		{
-			Vector3 GameCardPosition = transform.Find("Life/Life Bar").position;
-			WorldNamePos = Camera.main.camera.WorldToScreenPoint(GameCardPosition);
+			//Vector3 GameCardPosition = transform.Find("Life/Life Bar").position;
+			//WorldNamePos = Camera.main.camera.WorldToScreenPoint(GameCardPosition);
 		}
 	}
 	
@@ -302,21 +302,21 @@ public class GameNetworkCard : Photon.MonoBehaviour
 	
 	public new void ShowFace() 
 	{
-		gameCard.ShowFace(gameCard.photonView.isMine, DiscoveryFeature);
-		Transform LifeTextPosition = transform.Find("Life");
-		if (LifeTextPosition != null)
-		{
-			string text;
-			if (gameCard.photonView.isMine || DiscoveryFeature.Life)
-			{
-				text = (gameCard.Card.GetLife() - Damage).ToString();
-			}
-			else
-			{
-				text = "?";
-			}
-			LifeTextPosition.GetComponent<TextMesh>().text = text;	// Et son nombre de point de vie
-		}
+//		gameCard.ShowFace(gameCard.photonView.isMine, DiscoveryFeature);
+//		Transform LifeTextPosition = transform.Find("Life");
+//		if (LifeTextPosition != null)
+//		{
+//			string text;
+//			if (gameCard.photonView.isMine || DiscoveryFeature.Life)
+//			{
+//				text = (gameCard.Card.GetLife() - Damage).ToString();
+//			}
+//			else
+//			{
+//				text = "?";
+//			}
+//			LifeTextPosition.GetComponent<TextMesh>().text = text;	// Et son nombre de point de vie
+//		}
 	}
 
 	int CalcNbTiles(GameTile currentTile, GameTile attemptToMoveTo)

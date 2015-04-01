@@ -61,7 +61,6 @@ public class GameScript : Photon.MonoBehaviour {
 				if (type>4){
 					type = 0 ;
 				}
-				print ("J'add "+x+","+y);
 				photonView.RPC("AddTileToList",PhotonTargets.AllBuffered,x,y,type);
 			}
 		}
@@ -156,7 +155,8 @@ public class GameScript : Photon.MonoBehaviour {
 			}
 			else{
 				photonView.RPC("AddPlayerToList", PhotonTargets.AllBuffered, PhotonNetwork.player.ID, ApplicationModel.username);
-				Camera.main.transform.localRotation=Quaternion.Euler(0,0,-180);
+				Camera.main.transform.localRotation=Quaternion.Euler(30,0,180);
+				Camera.main.transform.localPosition=new Vector3(0,5.75f,-10f);
 			}
 		}
 		StartCoroutine(GameBoard.instance.AddCardToBoard());

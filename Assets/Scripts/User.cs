@@ -14,6 +14,12 @@ public class User
 	public List<Connection> Connections;
 
 
+	public User()
+	{
+		this.Username = "";
+		this.Picture = "";
+	}
+
 	public User(string username, string picture)
 	{
 		this.Username = username;

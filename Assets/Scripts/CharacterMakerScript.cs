@@ -11,11 +11,6 @@ public class CharacterMakerScript : MonoBehaviour {
 
 		characterModelScript = GameObject.Find("Vampire").GetComponent<CharacterScript> ();
 
-		characterModelScript.setName("Garruk");
-		characterModelScript.setLife(100);
-		characterModelScript.setMove(8);
-		characterModelScript.setQuickness(89);
-		characterModelScript.setAttack(78);
 		characterModelScript.showInformations();
 	}
 	

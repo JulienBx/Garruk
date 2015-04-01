@@ -8,11 +8,32 @@ public class GameBoard : Photon.MonoBehaviour
 	private string URLDefaultProfilePicture = "http://54.77.118.214/GarrukServer/img/profile/defautprofilepicture.png";
 
 	public GameObject[] locations;
+	public GameObject[] characters;
+	public GUIStyle myStatsZoneStyle;
+	public GUIStyle statsZoneStyle;
+	public GUIStyle myCharacterNameStyle;
+	public GUIStyle characterNameStyle;
+	public GUIStyle myCharacterLifeStyle;
+	public GUIStyle characterLifeStyle;
+	public GUIStyle myLifeBarStyle;
+	public GUIStyle lifeBarStyle;
+	public GUIStyle myAttackStyle;
+	public GUIStyle attackStyle;
+	public GUIStyle myQuicknessStyle;
+	public GUIStyle quicknessStyle;
+	public GUIStyle myMoveStyle;
+	public GUIStyle moveStyle;
+	public GUIStyle message1Style;
+	public GUIStyle message2Style;
+	string labelMessage1;
+	string labelMessage2;
+	public Texture2D attackIcon;
+	public Texture2D quicknessIcon;
+	public Texture2D moveIcon;
 	public GameObject Card;
 	public GameObject Hex;
 	public GUIStyle myPlayerNameStyle ;
 	public GUIStyle playerNameStyle ;
-	public GUIStyle playerName ;
 	public GUIStyle enAttenteStyle ;
 	public GUIStyle areaPlayer1Style ;
 	public GUIStyle profilePictureStyle ;
@@ -35,16 +56,16 @@ public class GameBoard : Photon.MonoBehaviour
 	private User[] users ;
 	Texture2D[] playerPictures ;
 	bool player1Loaded = false ;
-	bool player2Loaded = false ;
 	bool displayedHex = false ;
 
 	private int widthScreen;
 	private int heightScreen;
 	private float scaleTile ;
-	Vector3 offsetTile ;
 
 	private int nbPlayerReadyToFight = 0;
-	public Dictionary<Point, Tile> board = new Dictionary<Point, Tile>();
+	public IList<Tile> board = new List<Tile>();
+	public IList<GameObject> mesCartes = new List<GameObject>();
+	public IList<GameObject> sesCartes = new List<GameObject>();
 
 	void Awake()
 	{
@@ -53,7 +74,7 @@ public class GameBoard : Photon.MonoBehaviour
 	
 	void Start()
 	{
-		scaleTile = 1f * (8f/gridHeightInHexes);
+		scaleTile = 1.2f * (8f/gridHeightInHexes);
 		users = new User[2];
 		users[0]=new User();
 		users[1]=new User();
@@ -74,7 +95,7 @@ public class GameBoard : Photon.MonoBehaviour
 						GUILayout.BeginVertical();
 						{
 							GUILayout.FlexibleSpace();
-							GUILayout.Box(playerPictures[0],profilePictureStyle, GUILayout.Height(heightScreen*13/100), GUILayout.Width(widthScreen*8/100));
+							GUILayout.Box(playerPictures[0],profilePictureStyle, GUILayout.Height(heightScreen*10/100), GUILayout.Width(widthScreen*8/100));
 							GUILayout.FlexibleSpace();
 						}
 						GUILayout.EndVertical();
@@ -85,6 +106,10 @@ public class GameBoard : Photon.MonoBehaviour
 					}
 				}
 				GUILayout.EndHorizontal();
+
+				GUILayout.Label(labelMessage1, message1Style);
+
+
 			}
 			GUILayout.EndHorizontal();
 		}
@@ -101,7 +126,7 @@ public class GameBoard : Photon.MonoBehaviour
 						GUILayout.BeginVertical();
 						{
 							GUILayout.FlexibleSpace();
-							GUILayout.Box(playerPictures[1],profilePictureStyle, GUILayout.Height(heightScreen*13/100), GUILayout.Width(widthScreen*8/100));
+							GUILayout.Box(playerPictures[1],profilePictureStyle, GUILayout.Height(heightScreen*10/100), GUILayout.Width(widthScreen*8/100));
 							GUILayout.FlexibleSpace();
 						}
 						GUILayout.EndVertical();
@@ -117,12 +142,14 @@ public class GameBoard : Photon.MonoBehaviour
 					}
 				}
 				GUILayout.EndHorizontal();
+
+				GUILayout.Label(labelMessage2, message2Style);
 			}
 			GUILayout.EndHorizontal();
 		}
 		GUILayout.EndArea();
 		
-//		GUI.Label(new Rect(530, 0, 800, 50), labelMessage);
+
 //		if (playersName.Count > 1)
 //		{
 //			GUI.Label(new Rect(10, 0, 500, 50), labelText);
@@ -153,8 +180,6 @@ public class GameBoard : Photon.MonoBehaviour
 		heightScreen = Screen.height;
 		widthScreen = Screen.width;
 
-		float boardsize = Camera.main.WorldToScreenPoint(new Vector3(offsetTile.x-(scaleTile/2f),0,0)).x;
-
 		areaPlayer1 = new Rect(0,0.87f*heightScreen,this.widthScreen, heightScreen);
 		areaPlayer2 = new Rect(0,0,this.widthScreen,0.13f*heightScreen);
 
@@ -181,16 +206,16 @@ public class GameBoard : Photon.MonoBehaviour
 		//hex.layer = GridLayerMask;
 		
 		hex.transform.localScale= new Vector3(scaleTile,scaleTile,scaleTile);
-		hex.transform.position = new Vector3(x*scaleTile*0.71f, (y+(decalage/2f))*scaleTile*0.81f, 10);
+		hex.transform.position = new Vector3(x*scaleTile*0.71f, (y+(decalage/2f))*scaleTile*0.81f, 0);
 		
 		var tb = (GameTile)hex.GetComponent("GameTile");
 		tb.tile = new Tile(x, y, type);
 		tb.ShowFace();
-		this.board.Add(tb.tile.Location, tb.tile);
+		this.board.Add(tb.tile);
 
-		foreach(Tile tile in GameBoard.instance.board.Values){
+		//foreach(Tile tile in GameBoard.instance.board.Values){
 			//tile.FindNeighbours(GameBoard.instance.board, new Vector2(gridHeightInHexes, gridWidthInHexes));
-		}
+		//}
 
 		displayedHex=true ;
 	}
@@ -199,25 +224,61 @@ public class GameBoard : Photon.MonoBehaviour
 	{
 		int decalage ;
 		print ("je redimensionne");
-		
-		for (int x = 0; x < gridWidthInHexes; x++)
-		{
-			if (x%2==0){
+		CharacterScript gCard ; 
+		Vector3 pos ;
+		for (int i = 0 ; i < mesCartes.Count ; i++){
+			gCard = mesCartes[i].GetComponentInChildren<CharacterScript>();
+			if (gCard.x%2==0){
 				decalage = 0;
 			}
 			else{
 				decalage = 1;
 			}
-			for (int y = 0; y < gridHeightInHexes-decalage; y++)
-			{
-				string name = "hex " + (x) + "-" + (y) ;
-				GameObject hex = GameObject.Find(name);
-				//hex.layer = GridLayerMask;
-				
-				hex.transform.localScale= new Vector3(scaleTile,scaleTile,scaleTile);
-				hex.transform.position = new Vector3(offsetTile.x+x*scaleTile*0.71f, offsetTile.y+y*scaleTile*0.82f+scaleTile*0.43f*decalage, 10);
+			if (gCard.y>0){
+				if (GameScript.instance.isFirstPlayer){
+					pos = UnityEngine.Camera.main.WorldToScreenPoint(new Vector3(gCard.x*scaleTile*0.71f-scaleTile*0.42f, (gCard.y+(decalage/2f))*scaleTile*0.81f-scaleTile*0.4f, 0));
+				}
+				else{
+					pos = UnityEngine.Camera.main.WorldToScreenPoint(new Vector3((gCard.x+1)*scaleTile*0.71f-scaleTile*0.27f, (gCard.y+(decalage/2f))*scaleTile*0.81f-scaleTile*0.4f, 0));
+				}
 			}
+			else{
+				if (GameScript.instance.isFirstPlayer){
+					pos = UnityEngine.Camera.main.WorldToScreenPoint(new Vector3(gCard.x*scaleTile*0.71f-scaleTile*0.42f, (gCard.y-(decalage/2f))*scaleTile*0.81f+scaleTile*0.2f, 0));
+				}
+				else{
+					pos = UnityEngine.Camera.main.WorldToScreenPoint(new Vector3((gCard.x+1)*scaleTile*0.71f-scaleTile*0.27f, (gCard.y-(decalage/2f))*scaleTile*0.81f+scaleTile*0.4f, 0));
+				}
+			}
+			gCard.setRectStats(pos.x, heightScreen-pos.y, heightScreen *12/100, heightScreen*4/100);
 		}
+		for (int i = 0 ; i < sesCartes.Count ; i++){
+			gCard = sesCartes[i].GetComponentInChildren<CharacterScript>();
+			if (gCard.x%2==0){
+				decalage = 0;
+			}
+			else{
+				decalage = 1;
+			}
+			if (gCard.y>0){
+				if (GameScript.instance.isFirstPlayer){
+					pos = UnityEngine.Camera.main.WorldToScreenPoint(new Vector3(gCard.x*scaleTile*0.71f-scaleTile*0.42f, (gCard.y+(decalage/2f))*scaleTile*0.81f-scaleTile*0.4f, 0));
+				}
+				else{
+					pos = UnityEngine.Camera.main.WorldToScreenPoint(new Vector3((gCard.x+1)*scaleTile*0.71f-scaleTile*0.27f, (gCard.y+(decalage/2f))*scaleTile*0.81f-scaleTile*0.4f, 0));
+				}
+			}
+			else{
+				if (GameScript.instance.isFirstPlayer){
+					pos = UnityEngine.Camera.main.WorldToScreenPoint(new Vector3(gCard.x*scaleTile*0.71f-scaleTile*0.42f, (gCard.y-(decalage/2f))*scaleTile*0.81f+scaleTile*0.2f, 0));
+				}
+				else{
+					pos = UnityEngine.Camera.main.WorldToScreenPoint(new Vector3((gCard.x+1)*scaleTile*0.71f-scaleTile*0.27f, (gCard.y-(decalage/2f))*scaleTile*0.81f+scaleTile*0.4f, 0));
+				}
+			}
+			gCard.setRectStats(pos.x, heightScreen-pos.y, heightScreen *12/100, heightScreen*4/100);
+		}
+		//setRectStats(float x, float y, float sizeX, float sizeY);
 
 	}
 	
@@ -231,11 +292,18 @@ public class GameBoard : Photon.MonoBehaviour
 		}
 	}
 
-	void ArrangeCards()
+	void ArrangeCards(bool player1)
 	{
-		for (int i = 0 ; i < 5 ; i++){
+		int y ; 
+		if (player1){
+			y = -1*gridHeightInHexes/2;
+		}
+		else{
+			y = gridHeightInHexes/2;
+		}
+		for (int x = 0 ; x < 5 ; x++){
 			int viewID = PhotonNetwork.AllocateViewID();
-			photonView.RPC("SpawnCard", PhotonTargets.AllBuffered, 0, 0, viewID, deck.Cards[i].Id);
+			photonView.RPC("SpawnCard", PhotonTargets.AllBuffered, x-2, y, deck.Cards[x].ArtIndex, viewID, deck.Cards[x].Id);
 		}
 	}
 
@@ -245,7 +313,7 @@ public class GameBoard : Photon.MonoBehaviour
 		yield return StartCoroutine(GameBoard.deck.LoadSelectedDeck());
 		yield return StartCoroutine(deck.RetrieveCards());
 		
-		ArrangeCards();
+		ArrangeCards(GameScript.instance.isFirstPlayer);
 	}
 
 	public IEnumerator setUser(string name){
@@ -270,7 +338,6 @@ public class GameBoard : Photon.MonoBehaviour
 				else{
 					users[1] = new User(name, w.text);
 					StartCoroutine (setProfilePicture(1));
-					player2Loaded = true ;
 				}
 			}
 		}
@@ -316,43 +383,89 @@ public class GameBoard : Photon.MonoBehaviour
 	}
 
 	[RPC]
-	IEnumerator SpawnCard(int x, int y, int viewID, int cardID)
+	IEnumerator SpawnCard(int x, int y, int type, int viewID, int cardID)
 	{
-		GameObject clone;
-		clone = Instantiate(Card, new Vector3(x,y,0), Quaternion.identity) as GameObject;
-		PhotonView nView;
+		int decalage ;
+		if (x%2==0){
+			decalage = 0;
+		}
+		else{
+			decalage = 1;
+		}
 
-		nView = clone.GetComponent<PhotonView>();
-		nView.viewID = viewID;
-		GameCard gCard = clone.GetComponent<GameCard>();
+		GameObject clone;
+		Vector3 pos ;
+		CharacterScript gCard ;
+		if (y>0){
+			clone = Instantiate(characters[type], new Vector3(x*scaleTile*0.71f, (y+(decalage/2f))*scaleTile*0.81f-scaleTile*0.4f, 0), Quaternion.identity) as GameObject;
+			gCard = clone.GetComponentInChildren<CharacterScript>();
+
+			clone.transform.localRotation =  Quaternion.Euler(90,180,0);
+
+			if (!GameScript.instance.isFirstPlayer){
+				gCard.setStyles(myCharacterNameStyle, myCharacterLifeStyle, myLifeBarStyle, myAttackStyle, myMoveStyle, myQuicknessStyle, myStatsZoneStyle, attackIcon, quicknessIcon, moveIcon);
+				mesCartes.Add(clone);
+				pos = UnityEngine.Camera.main.WorldToScreenPoint(new Vector3((x+1)*scaleTile*0.71f-scaleTile*0.27f, (y+(decalage/2f))*scaleTile*0.81f-scaleTile*0.4f, 0));
+
+			}
+			else{
+				gCard.setStyles(characterNameStyle, characterLifeStyle, lifeBarStyle, attackStyle, moveStyle, quicknessStyle, statsZoneStyle, attackIcon, quicknessIcon, moveIcon);
+				sesCartes.Add(clone);
+				pos = UnityEngine.Camera.main.WorldToScreenPoint(new Vector3(x*scaleTile*0.71f-scaleTile*0.42f, (y+(decalage/2f))*scaleTile*0.81f-scaleTile*0.4f, 0));
+
+			}
+		}
+		else{
+			clone = Instantiate(characters[type], new Vector3(x*scaleTile*0.71f, (y-(decalage/2f))*scaleTile*0.81f+scaleTile*0.2f, 0), Quaternion.identity) as GameObject;
+			gCard = clone.GetComponentInChildren<CharacterScript>();
+
+			clone.transform.localRotation =  Quaternion.Euler(-90,0,0);
+
+			if (GameScript.instance.isFirstPlayer){
+				gCard.setStyles(myCharacterNameStyle, myCharacterLifeStyle, myLifeBarStyle, myAttackStyle, myMoveStyle, myQuicknessStyle, myStatsZoneStyle, attackIcon, quicknessIcon, moveIcon);
+				mesCartes.Add(clone);
+				pos = UnityEngine.Camera.main.WorldToScreenPoint(new Vector3(x*scaleTile*0.71f-scaleTile*0.42f, (y-(decalage/2f))*scaleTile*0.81f+scaleTile*0.2f, 0));
+
+			}
+			else{
+				gCard.setStyles(characterNameStyle, characterLifeStyle, lifeBarStyle, attackStyle, moveStyle, quicknessStyle, statsZoneStyle, attackIcon, quicknessIcon, moveIcon);
+				sesCartes.Add(clone);
+				pos = UnityEngine.Camera.main.WorldToScreenPoint(new Vector3((x+1)*scaleTile*0.71f-scaleTile*0.27f, (y-(decalage/2f))*scaleTile*0.81f+scaleTile*0.4f, 0));
+			}
+		}
 		GameNetworkCard gnCard = clone.GetComponent<GameNetworkCard>();
-		clone.transform.localScale = new Vector3(10, 10, 1);
+
+		PhotonView nView;
+		nView = clone.GetComponentInChildren<PhotonView>();
+		nView.viewID = viewID;
+		clone.transform.localScale = new Vector3(1, 1, 1);
+
 		if (gCard.photonView.isMine && GameBoard.instance.nbPlayer == 1 || !gCard.photonView.isMine && GameBoard.instance.nbPlayer == 2)
 		{
 			gnCard.ownerNumber = 1;
 			nbCardsPlayer1++;
+
 		}
 		else
 		{
 			gnCard.ownerNumber = 2;
 			nbCardsPlayer2++;
 		}
-		if (gCard.photonView.isMine)
-		{
-			clone.transform.Find("Green Outline").renderer.enabled = true;
-		} 
-		else
-		{
-			clone.transform.Find("Red Outline").renderer.enabled = true;
-		}
+
 		yield return StartCoroutine(gCard.RetrieveCard(cardID));
-		clone.name = gCard.Card.Title + "-" + gnCard.ownerNumber;
+
+		gCard.setRectStats(pos.x, heightScreen-pos.y, heightScreen *12/100, heightScreen*4/100);
+		gCard.x = x ;
+		gCard.y = y ;
+		gCard.showInformations();
+		clone.name = gCard.card.Title + "-" + gnCard.ownerNumber;
 		clone.tag = "PlayableCard";
 		gnCard.ShowFace();
-		GameTimeLine.instance.GameCards.Add(gnCard);
-		GameTimeLine.instance.SortCardsBySpeed();
-		GameTimeLine.instance.removeBarLife();
-		GameTimeLine.instance.Arrange();
+
+		//GameTimeLine.instance.GameCards.Add(gnCard);
+		//GameTimeLine.instance.SortCardsBySpeed();
+		//GameTimeLine.instance.removeBarLife();
+		//GameTimeLine.instance.Arrange();
 	}
 }
 
