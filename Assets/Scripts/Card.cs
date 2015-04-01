@@ -25,6 +25,8 @@ public class Card
 	public int SpeedLevel;
 	public int Price;
 	public int Experience;
+	public int nbWin;
+	public int nbLoose;
 	public int ExperienceLevel;
 	public DateTime OnSaleDate;
 	public List<StatModifier> modifiers = new List<StatModifier>();
@@ -45,34 +47,6 @@ public class Card
 		this.ArtIndex = artIndex;
 		this.Speed = speed;
 		this.Move = move;
-	}
-	
-	public Card(string title, int life, int artIndex, int idclass) 
-	{
-		this.Title = title;
-		this.Life = life;
-		this.ArtIndex = artIndex;
-		this.IdClass = idclass;
-	}
-	
-	public Card(string title, int life, int artIndex, int speed, int move) 
-	{
-		this.Title = title;
-		this.Life = life;
-		this.ArtIndex = artIndex;
-		this.Speed = speed;
-		this.Move = move;
-	}
-	
-	public Card(int id, string title, int life, int artIndex, int speed, int move, int attack)
-	{
-		this.Id = id;
-		this.Title = title;
-		this.Life = life;
-		this.ArtIndex = artIndex;
-		this.Speed = speed;
-		this.Move = move;
-		this.Attack = attack;
 	}
 	
 	public Card(int id, string title, int life, int artIndex, int speed, int move, int attack, List<Skill> skills)
@@ -117,7 +91,6 @@ public class Card
 		this.AttackLevel = attackLevel;
 	}
 
-
 	public Card(int id, 
 	            string title, 
 	            int life, 
@@ -133,7 +106,9 @@ public class Card
 	            int attackLevel,
 	            int price,
 	            DateTime onSaleDate,
-	            int experience)
+	            int experience,
+	            int nbWin,
+	            int nbLoose)
 	{
 		this.Id = id;
 		this.Title = title;
@@ -151,6 +126,8 @@ public class Card
 		this.Price = price;
 		this.OnSaleDate = onSaleDate;
 		this.Experience = experience;
+		this.nbWin = nbWin;
+		this.nbLoose = nbLoose;
 	}
 
 	public Card(int id, 
@@ -168,7 +145,9 @@ public class Card
 	            int attackLevel,
 	            int price,
 	            int onSale ,
-	            int experience)
+	            int experience,
+	            int nbWin,
+	            int nbLoose)
 	{
 		this.Id = id;
 		this.Title = title;
@@ -186,6 +165,8 @@ public class Card
 		this.Price = price;
 		this.onSale = onSale;
 		this.Experience = experience;
+		this.nbWin = nbWin;
+		this.nbLoose = nbLoose;
 	}
 
 	public Card(int experienceLevel)

@@ -9,7 +9,7 @@ public class myGameScript : MonoBehaviour {
 	//URL des fichiers PHP appelés par cette classe
 	private string URLGetDecks = "http://54.77.118.214/GarrukServer/get_decks_by_user.php";
 	private string URLGetCardsByDeck = "http://54.77.118.214/GarrukServer/get_cards_by_deck.php";
-	private string URLGetMyCardsPage = "http://54.77.118.214/GarrukServer/get_mycardspage_data.php";
+	private string URLGetMyCardsPage = ApplicationModel.host + "get_mycardspage_data.php";
 	private string URLAddNewDeck = "http://54.77.118.214/GarrukServer/add_new_deck.php";
 	private string URLDeleteDeck = "http://54.77.118.214/GarrukServer/delete_deck.php";
 	private string URLEditDeck = "http://54.77.118.214/GarrukServer/update_deck_name.php";
@@ -772,6 +772,17 @@ public class myGameScript : MonoBehaviour {
 								                +renameCost
 								                +" crédits)",cantBuyStyle);
 							}
+							string plurielWin = "";
+							string plurielLoose = "";
+							if (cards[idFocused].nbWin > 1)
+							{
+								plurielWin = "s";
+							}
+							if (cards[idFocused].nbLoose > 1)
+							{
+								plurielLoose = "s";
+							}
+							GUILayout.Label(cards[idFocused].nbWin + " victoire" + plurielWin + ", " + cards[idFocused].nbLoose + " défaite" + plurielLoose, cantBuyStyle);
 							GUILayout.FlexibleSpace();
 							if (GUILayout.Button("Revenir à mes cartes",focusButtonStyle))
 							{
@@ -1953,7 +1964,10 @@ public class myGameScript : MonoBehaviour {
 						                        System.Convert.ToInt32(cardInfo2[11]),
 						                        System.Convert.ToInt32(cardInfo2[12]),
 						                        System.Convert.ToInt32(cardInfo2[13]),
-						                        System.Convert.ToInt32(cardInfo2[14]))); 
+						                        System.Convert.ToInt32(cardInfo2[14]),
+						                        System.Convert.ToInt32(cardInfo2[15]),
+						                        System.Convert.ToInt32(cardInfo2[16])
+						                        )); 
 						this.cards[i].Skills = new List<Skill>();
 						this.cardsIds.Add(System.Convert.ToInt32(cardInfo2[0]));
 						this.cardsToBeDisplayed.Add(i);

@@ -15,7 +15,7 @@ public class GameScript : Photon.MonoBehaviour {
 	public string labelMessage = "";
 	public static GameScript instance;
 
-	string URLStat = ApplicationModel.dev + "updateStat.php";
+	string URLStat = ApplicationModel.dev + "updateResult.php";
 	bool hasClicked = false;
 	const string roomName = "GarrukGame";
 	HostData[] hostList;

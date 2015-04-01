@@ -82,7 +82,7 @@ public class MarketScript : MonoBehaviour {
 
 	string cardsToSearch="";
 
-	private string URLGetMarketData = "http://54.77.118.214/GarrukServer/get_market_data.php";
+	private string URLGetMarketData = ApplicationModel.host + "get_market_data.php";
 	private string URLGetMarketCards = "http://54.77.118.214/GarrukServer/get_market_cards.php";
 	private string URLBuyCard = "http://54.77.118.214/GarrukServer/buyCard.php";
 	private string URLRefreshMarket = "http://54.77.118.214/GarrukServer/refresh_market.php";
@@ -402,6 +402,17 @@ public class MarketScript : MonoBehaviour {
 								isBuyingCard = true ; 
 							}
 						}
+						string plurielWin = "";
+						string plurielLoose = "";
+						if (cards[idFocused].nbWin > 1)
+						{
+							plurielWin = "s";
+						}
+						if (cards[idFocused].nbLoose > 1)
+						{
+							plurielLoose = "s";
+						}
+						GUILayout.Label(cards[idFocused].nbWin + " victoire" + plurielWin + ", " + cards[idFocused].nbLoose + " défaite" + plurielLoose, minmaxPriceStyle);
 						GUILayout.FlexibleSpace();
 						if (GUILayout.Button("Revenir à mes cartes",focusButtonStyle))
 						{
@@ -1158,8 +1169,10 @@ public class MarketScript : MonoBehaviour {
 						                        System.Convert.ToInt32(cardInfo2[10]), // speedlevel
 						                        System.Convert.ToInt32(cardInfo2[11]), // attackleve
 						                        System.Convert.ToInt32(cardInfo2[12]), // price
-					                       		DateTime.ParseExact(cardInfo2[13], "yyyy-MM-dd hh:mm:ss", null),
-					                        	System.Convert.ToInt32(cardInfo2[15]))); // onSaleDate
+					                            DateTime.ParseExact(cardInfo2[13], "yyyy-MM-dd hh:mm:ss", null), // onSaleDate
+					                            System.Convert.ToInt32(cardInfo2[15]), 
+					                            System.Convert.ToInt32(cardInfo2[16]), // nbWin
+					                            System.Convert.ToInt32(cardInfo2[17]))); // nbLoose
 											
 						this.cards[i].Skills = new List<Skill>();
 						this.cardsToBeDisplayed.Add(i);
