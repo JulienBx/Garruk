@@ -105,7 +105,7 @@ public class profileScript : MonoBehaviour {
 	GUIStyle[] paginatorInvitationsReceivedGuiStyle;
 	GUIStyle[] paginatorInvitationsSentGuiStyle;
 
-	private string URLGetUserProfile = ApplicationModel.dev + "get_user_profile.php";
+	private string URLGetUserProfile = ApplicationModel.host + "get_user_profile.php";
 	private string URLGetMyProfile = ApplicationModel.host + "get_myprofile.php";
 	private string URLConfirmConnection = "http://54.77.118.214/GarrukServer/confirm_connection.php";
 	private string URLRemoveConnection = "http://54.77.118.214/GarrukServer/remove_connection.php";
