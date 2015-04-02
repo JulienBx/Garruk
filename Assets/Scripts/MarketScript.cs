@@ -3,9 +3,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Text.RegularExpressions;
 
 public class MarketScript : MonoBehaviour {
 
+	public int refreshInterval;
 
 	public Texture2D backButton ;
 	public Texture2D backActivatedButton ;
@@ -36,6 +38,10 @@ public class MarketScript : MonoBehaviour {
 	public GUIStyle paginationActivatedStyle;
 	public GUIStyle paginationStyle;
 
+	public GUIStyle newCardsStyle;
+	public GUIStyle newCardsButtonStyle;
+
+
 	public GameObject MenuObject;
 
 	GUIStyle[] paginatorGuiStyle;
@@ -46,6 +52,8 @@ public class MarketScript : MonoBehaviour {
 	int nbPages ;
 	int pageDebut ; 
 	int pageFin ;
+	int newCardsNb ;
+
 	public GameObject CardObject;
 	WWW w;
 
@@ -70,7 +78,6 @@ public class MarketScript : MonoBehaviour {
 	bool toReload = false ;
 	bool isSkillToDisplay = false ;
 	bool isSkillChosen = false ;
-	bool createNewCards = false;
 	bool displayPopUp = false;
 
 	string cardsToSearch="";
@@ -116,6 +123,7 @@ public class MarketScript : MonoBehaviour {
 	int finish;
 
 	int totalNbResult;
+	int newTotalNbResult;
 	int totalNbResultLimit = 5000;
 
 	string minPrice ="";
@@ -124,6 +132,7 @@ public class MarketScript : MonoBehaviour {
 	float timer;
 
 	DateTime dateLimit;
+	DateTime newDateLimit;
 
 	int oldSortSelected = 10;
 	int sortSelected = 10;
@@ -164,9 +173,9 @@ public class MarketScript : MonoBehaviour {
 
 		timer += Time.deltaTime;
 
-		if (timer > 10) {
+		if (timer > refreshInterval) {
 
-			timer=timer-10;
+			timer=timer-refreshInterval;
 
 			if (displayCards || idFocused!=-1)
 			StartCoroutine(refreshMarket());
@@ -186,13 +195,12 @@ public class MarketScript : MonoBehaviour {
 			chosenPage=0;
 		}
 		if (toReload) {
-			StartCoroutine(this.displayPage ());
+			this.applyFilters ();
+			if (sortSelected!=10){
+				this.sortCards();
+			}
+			this.displayPage ();
 			toReload = false ;
-		}
-
-		if(createNewCards) {
-			createNewCards=false;
-			getCards();
 		}
 
 		if (oldSortSelected!=sortSelected){
@@ -252,7 +260,7 @@ public class MarketScript : MonoBehaviour {
 			Destroy(cardFocused);
 			this.idFocused=-1;
 			displayCards = true ;
-			StartCoroutine(this.displayPage ());
+			this.displayPage ();
 			destroyFocus = false ;
 		}
 		
@@ -389,8 +397,8 @@ public class MarketScript : MonoBehaviour {
 				{
 					GUILayout.BeginVertical();
 					{
-						if (ApplicationModel.credits >= cards[cardsToBeDisplayed[idFocused]].Price && !cardsSold.Contains(cardsToBeDisplayed[idFocused])){
-							if (GUILayout.Button("Acheter (-"+cards[cardsToBeDisplayed[idFocused]].Price+" crédits)",focusButtonStyle)){
+						if (ApplicationModel.credits >= cards[idFocused].Price && !cardsSold.Contains(idFocused)){
+							if (GUILayout.Button("Acheter (-"+cards[idFocused].Price+" crédits)",focusButtonStyle)){
 								isBuyingCard = true ; 
 							}
 						}
@@ -417,6 +425,30 @@ public class MarketScript : MonoBehaviour {
 			GUILayout.EndArea();
 		}
 		else if (displayCards){
+			if (newCardsNb>0){
+				GUILayout.BeginArea(new Rect(0.01f*widthScreen,0.10f*heightScreen,widthScreen * 0.78f,0.04f*heightScreen));
+				{
+					GUILayout.BeginHorizontal();
+					{
+						GUILayout.Label(newCardsNb+" nouvelles cartes sur le marché"+"\u00A0",newCardsStyle);
+						if(GUILayout.Button("Rafraichir",newCardsButtonStyle))
+						{
+							newCardsNb=0;
+							cardsSold= new List<int> ();
+							totalNbResult=newTotalNbResult;
+							dateLimit=newDateLimit;
+							displayCards=false;
+							displayLoader=true;
+							clearCards();
+							getCards();
+							toReload=true;
+						}
+						GUILayout.FlexibleSpace();
+					}
+					GUILayout.EndHorizontal();
+				}
+				GUILayout.EndArea();
+			}
 			GUILayout.BeginArea(new Rect(widthScreen * 0.01f,0.965f*heightScreen,widthScreen * 0.78f,0.03f*heightScreen));
 			{
 				GUILayout.BeginHorizontal();
@@ -434,7 +466,7 @@ public class MarketScript : MonoBehaviour {
 							paginatorGuiStyle[chosenPage]=this.paginationStyle;
 							chosenPage=i;
 							paginatorGuiStyle[i]=this.paginationActivatedStyle;
-							StartCoroutine(displayPage());
+							displayPage();
 						}
 						GUILayout.Space(widthScreen*0.01f);
 					}
@@ -459,6 +491,8 @@ public class MarketScript : MonoBehaviour {
 			{
 				bool toggle;
 				string tempString ;
+				string tempMinPrice ;
+				string tempMaxPrice ;
 				GUILayout.BeginVertical();
 				{
 					GUILayout.BeginHorizontal();
@@ -474,10 +508,17 @@ public class MarketScript : MonoBehaviour {
 					}
 					GUILayout.EndHorizontal();
 					GUILayout.Label ("Prix min :",minmaxPriceStyle);
-					minPrice = GUILayout.TextField(minPrice, 9,textFieldStyle);
+					tempMinPrice = GUILayout.TextField(minPrice, 9,textFieldStyle);
+					if (tempMinPrice != minPrice) {
+						minPrice= Regex.Replace(tempMinPrice, "[^0-9]", "");
+						toReload=true;
+					}
 					GUILayout.Label ("Prix max :",minmaxPriceStyle);
-					maxPrice = GUILayout.TextField(maxPrice, 9,textFieldStyle);
-
+					tempMaxPrice = GUILayout.TextField(maxPrice, 9,textFieldStyle);
+					if (tempMaxPrice != maxPrice) {
+						maxPrice= Regex.Replace(tempMaxPrice, "[^0-9]", "");
+						toReload=true;
+					}
 					GUILayout.FlexibleSpace();
 					GUILayout.Label ("Filtrer par classe",filterTitleStyle);
 					for (int i=0; i<this.cardTypeList.Length-1; i++) {		
@@ -494,8 +535,8 @@ public class MarketScript : MonoBehaviour {
 						}
 					}
 					GUILayout.FlexibleSpace();
-					GUILayout.Label ("Filtrer une compétence",filterTitleStyle);
-					tempString = GUILayout.TextField (this.valueSkill,textFieldStyle);
+					GUILayout.Label ("Filtrer une capacité",filterTitleStyle);
+					tempString = GUILayout.TextField (this.valueSkill, this.textFieldStyle);
 					if (tempString != valueSkill) {
 						if (tempString.Length > 0) {
 							this.isSkillToDisplay=true;
@@ -512,29 +553,14 @@ public class MarketScript : MonoBehaviour {
 						}
 					}
 					if (isSkillToDisplay){
-						//GUILayout.Space(-5);
+						GUILayout.Space(-3);
 						for (int j=0; j<matchValues.Count; j++) {
 							if (GUILayout.Button (matchValues [j], skillListStyle)) {
 								valueSkill = matchValues [j].ToLower ();
-								skillsChosen.Add (valueSkill);
 								this.isSkillChosen=true ;
 								this.matchValues = new List<string>();
 								toReload = true ;
-								valueSkill="";
 							}
-						}
-					}
-					if (skillsChosen.Count >0){
-						for (int i=0; i<this.skillsChosen.Count; i++) {	
-							GUILayout.BeginHorizontal();
-							{
-								GUILayout.Label (skillsChosen[i],skillsChosenStyle);
-								GUILayout.FlexibleSpace();
-								if (GUILayout.Button("Supprimer",deleteButtonStyle)){
-									skillsChosen.RemoveAt(i);
-								}
-							}
-							GUILayout.EndHorizontal();
 						}
 					}
 					GUILayout.FlexibleSpace();
@@ -637,79 +663,6 @@ public class MarketScript : MonoBehaviour {
 					MyGUI.MinMaxSlider (ref minQuicknessVal, ref maxQuicknessVal, minQuicknessLimit, maxQuicknessLimit);
 
 					GUILayout.FlexibleSpace();
-					
-					if (GUILayout.Button("Lancer une recherche",searchButtonStyle)){
-
-						if (sortSelected != 10){
-							sortButtonStyle[sortSelected]=sortDefaultButtonStyle;
-						}
-
-						cardsToSearch=" AND (";
-						for (int i = 0; i < togglesCurrentStates.Length; i++){
-
-							if (togglesCurrentStates[i])
-							cardsToSearch=cardsToSearch+"c.idcardType = '"+ i + "' OR ";
-						}
-
-						if (cardsToSearch==" AND (")
-							cardsToSearch="";
-						else
-							cardsToSearch = cardsToSearch.Remove(cardsToSearch.Length - 3) + ")";
-
-						if (skillsChosen.Count >0){
-
-							cardsToSearch = cardsToSearch + " AND cs.idcard = c.id AND cs.isactivated='1' AND (";
-
-							for (int i=0;i<skillsChosen.Count;i++){
-								for (int j = 0; j < skillsList.Length-1; j++) {  
-									if (skillsList [j].ToLower ().Contains (skillsChosen[i])) {
-										cardsToSearch=cardsToSearch+" cs.idskill='"+j+"' OR";
-									}
-								}
-							}
-							cardsToSearch = cardsToSearch.Remove(cardsToSearch.Length - 2) + ")";
-						
-						}
-
-
-						if (minLifeVal!=minLifeLimit)
-							cardsToSearch= cardsToSearch + " AND (c.life >= '" + minLifeVal + "' )";
-
-						if (maxLifeVal!=maxLifeLimit)
-							cardsToSearch= cardsToSearch + " AND ('" +maxLifeVal+ "' >= c.life )";
-
-						if (minMoveVal!=minMoveLimit)
-							cardsToSearch= cardsToSearch + " AND (c.move >= '" + minMoveVal + "' )";
-						
-						if (maxMoveVal!=maxMoveLimit)
-							cardsToSearch= cardsToSearch + " AND ('" +maxMoveVal+ "' >= c.move )";
-
-						if (minQuicknessVal!=minQuicknessLimit)
-							cardsToSearch= cardsToSearch + " AND (c.speed >= '" + minQuicknessVal + "' )";
-						
-						if (maxQuicknessVal!=maxQuicknessLimit)
-							cardsToSearch= cardsToSearch + " AND ('" +maxQuicknessVal+ "' >= c.speed )";
-
-						if (minAttackVal!=minAttackLimit)
-							cardsToSearch= cardsToSearch + " AND (c.attack >= '" + minAttackVal + "' )";
-						
-						if (maxAttackVal!=maxAttackLimit)
-							cardsToSearch= cardsToSearch + " AND ('" +maxAttackVal+ "' >= c.attack )";
-
-						if (minPrice!="")
-							cardsToSearch= cardsToSearch + " AND (c.price >= '" + minPrice + "' )";
-
-						if (maxPrice!="")
-							cardsToSearch= cardsToSearch + " AND ('" +maxPrice+ "' >= c.price )";
-
-						displayCards=false;
-						displayLoader=true;
-						start=0;
-						finish=0;
-						clearCards();
-						StartCoroutine(searchForCards());
-				
-					}
 
 					GUILayout.FlexibleSpace();
 
@@ -724,6 +677,15 @@ public class MarketScript : MonoBehaviour {
 					
 					if (!isBeingDragged){
 						bool isMoved = false ;
+						maxLifeVal=Mathf.RoundToInt(maxLifeVal);
+						minLifeVal=Mathf.RoundToInt(minLifeVal);
+						maxAttackVal=Mathf.RoundToInt(maxAttackVal);
+						minAttackVal=Mathf.RoundToInt(minAttackVal);
+						maxMoveVal=Mathf.RoundToInt(maxMoveVal);
+						minMoveVal=Mathf.RoundToInt(minMoveVal);
+						maxQuicknessVal=Mathf.RoundToInt(maxQuicknessVal);
+						minQuicknessVal=Mathf.RoundToInt(minQuicknessVal);
+
 						if (oldMaxLifeVal != maxLifeVal){
 							oldMaxLifeVal = maxLifeVal;
 							isMoved = true ; 
@@ -770,14 +732,11 @@ public class MarketScript : MonoBehaviour {
 				cardsDimensionX = new Vector3(camera.WorldToScreenPoint(new Vector3(displayedCards[i-start].transform.FindChild("texturedGameCard").renderer.bounds.size.x,0,0)).x-Screen.width/2,0,0);
 				cardsPosition[i-start]=camera.WorldToScreenPoint(new Vector3 (displayedCards[i-start].transform.position.x,1.65f-((i-start)-(i-start)%nbCardsPerRow)/nbCardsPerRow*2.75f,0));
 
-
 				GUILayout.BeginArea(new Rect(cardsPosition[i-start].x-cardsDimensionX.x/2,heightScreen - cardsPosition[i-start].y,cardsDimensionX.x,heightScreen*7/100));
 				{
 
 					GUILayout.BeginVertical(); // also can put width in here
 					{	
-
-
 
 						if (ApplicationModel.credits >= cards[cardsToBeDisplayed[i]].Price && !cardsSold.Contains(cardsToBeDisplayed[i])){
 							GUILayout.Label ("Prix : "+cards[cardsToBeDisplayed[i]].Price+" $",pricePoliceStyle);
@@ -901,6 +860,17 @@ public class MarketScript : MonoBehaviour {
 		this.nbResultsStyle.fontSize = heightScreen*2/100;
 		this.nbResultsStyle.fixedHeight = (int)heightScreen*25/1000;
 
+		// Style utilisé pour l'affichage du nombre de nouvelles cartes
+		
+		this.newCardsStyle.fontSize = heightScreen*2/100;
+		this.newCardsStyle.fixedHeight = (int)heightScreen*25/1000;
+
+		// Style utilisé pour l'affichage du bouton permettant l'actualisation des cartes
+		
+		this.newCardsButtonStyle.fontSize = heightScreen*2/100;
+		this.newCardsButtonStyle.fixedHeight = (int)heightScreen*25/1000;
+		this.newCardsButtonStyle.fixedWidth = (int)widthScreen * 10 / 100;
+
 		// Style utilisé pour l'affichage du prix des cartes
 
 		this.pricePoliceStyle.fontSize= heightScreen*2/100;
@@ -994,7 +964,7 @@ public class MarketScript : MonoBehaviour {
 	}
 
 
-	private IEnumerator displayPage(){
+	private void displayPage(){
 		
 		start = 3 * nbCardsPerRow * chosenPage;
 		finish = start + 3 * nbCardsPerRow;
@@ -1024,13 +994,11 @@ public class MarketScript : MonoBehaviour {
 		else{
 			finish = start + 3 * nbCardsPerRow;
 		}
+		if (cardsToBeDisplayed.Count==0){
+			finish = 0;
+		}
 	
-
-		yield break;
 	}
-
-
-
 
 	private void createCards(){
 
@@ -1082,9 +1050,6 @@ public class MarketScript : MonoBehaviour {
 			pageFin = nbPages ;
 		}
 
-
-		//if (chosenPage > nbPages - 1 && chosenPage !=0)
-		//chosenPage = chosenPage - 1;
 
 		this.chosenPage = 0;
 
@@ -1151,42 +1116,13 @@ public class MarketScript : MonoBehaviour {
 
 
 			getCards ();
+			setFilters ();
 			
 
 
 		}
 
 	}
-
-	private IEnumerator searchForCards (){
-		
-		this.cardsSold = new List<int> ();
-		this.cardsToBeDisplayed = new List<int> ();
-		
-		WWWForm form = new WWWForm(); 											// Création de la connexion
-		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_nick", ApplicationModel.username);
-		form.AddField ("myform_cardstosearch", cardsToSearch);
-		form.AddField ("myform_totalnbresultlimit", totalNbResultLimit.ToString());
-		
-		w = new WWW(URLGetMarketCards, form); 				// On envoie le formulaire à l'url sur le serveur 
-		yield return w;
-		if (w.error != null) 
-		{
-			print (w.error); 										// donne l'erreur eventuelle
-		}
-		else{
-
-			string[] data=w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
-			cardsIDS=data[0].Split(new string[] { "#C#" }, System.StringSplitOptions.None);
-			totalNbResult = System.Convert.ToInt32(data[1]);
-			dateLimit=DateTime.ParseExact(data[2], "yyyy-MM-dd hh:mm:ss", null);
-			createNewCards = true;
-		}
-
-	}
-
-
 
 	public void getCards() {
 		
@@ -1242,7 +1178,6 @@ public class MarketScript : MonoBehaviour {
 					}
 				}
 			}
-		setFilters ();
 		createCards ();
 	}
 
@@ -1289,7 +1224,6 @@ public class MarketScript : MonoBehaviour {
 		WWWForm form = new WWWForm(); 											// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_nick", ApplicationModel.username);
-		form.AddField ("myform_cardstosearch", cardsToSearch);
 		form.AddField("myform_datelimit",  dateLimit.ToString("yyyy-MM-dd hh:mm:ss").ToString());
 		form.AddField ("myform_totalnbresultlimit", totalNbResultLimit.ToString());
 
@@ -1303,76 +1237,19 @@ public class MarketScript : MonoBehaviour {
 		else {
 			bool find = false;
 			string[] data = null;
-			string[] cardsIDS = null;
-			string[] newFilters = null;
+			string[] newCardsIDS = null;
 			data = w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
-			cardsIDS = data[0].Split(new char[] { '\n' }, System.StringSplitOptions.None);
-			newFilters = data[1].Split(new string[] { "//" }, System.StringSplitOptions.None);
+			newCardsIDS = data[0].Split(new char[] { '\n' }, System.StringSplitOptions.None);
+			cardsIDS=data[1].Split(new string[] { "#C#" }, System.StringSplitOptions.None);
+			newTotalNbResult=System.Convert.ToInt32(data[2]);
+			newDateLimit=DateTime.ParseExact(data[3], "yyyy-MM-dd hh:mm:ss", null);
 
-			if(maxLifeLimit==maxLifeVal){
-				maxLifeLimit =System.Convert.ToInt32(newFilters[0]);
-				maxLifeVal=maxLifeLimit;
-			}
-			else{
-				maxLifeLimit =System.Convert.ToInt32(newFilters[0]);
-			}
-			if(minLifeLimit==minLifeVal){
-				minLifeLimit=System.Convert.ToInt32(newFilters[1]);
-				minLifeVal=minLifeLimit;
-			}
-			else{
-				minLifeLimit=System.Convert.ToInt32(newFilters[1]);
-			}
-			if(maxAttackLimit==maxAttackVal){
-				maxAttackLimit =System.Convert.ToInt32(newFilters[2]);
-				maxAttackVal=maxAttackLimit;
-			}
-			else{
-				maxAttackLimit =System.Convert.ToInt32(newFilters[2]);
-			}
-			if(minAttackLimit==minAttackVal){
-				minAttackLimit=System.Convert.ToInt32(newFilters[3]);
-				minAttackVal=minAttackLimit;
-			}
-			else{
-				minAttackLimit=System.Convert.ToInt32(newFilters[3]);
-			}
-			if(maxMoveLimit==maxMoveVal){
-				maxMoveLimit =System.Convert.ToInt32(newFilters[4]);
-				maxMoveVal=maxMoveLimit;
-			}
-			else{
-				maxMoveLimit =System.Convert.ToInt32(newFilters[4]);
-			}
-			if(minMoveLimit==minMoveVal){
-				minMoveLimit=System.Convert.ToInt32(newFilters[5]);
-				minMoveVal=minMoveLimit;
-			}
-			else{
-				minMoveLimit=System.Convert.ToInt32(newFilters[5]);
-			}
-			if(maxQuicknessLimit==maxQuicknessVal){
-				maxQuicknessLimit =System.Convert.ToInt32(newFilters[6]);
-				maxQuicknessVal=maxQuicknessLimit;
-			}
-			else{
-				maxQuicknessLimit =System.Convert.ToInt32(newFilters[6]);
-			}
-			if(minQuicknessLimit==minQuicknessVal){
-				minQuicknessLimit=System.Convert.ToInt32(newFilters[7]);
-				minQuicknessVal=minQuicknessLimit;
-			}
-			else{
-				minMoveLimit=System.Convert.ToInt32(newFilters[7]);
-			}
-			//print(cardsIDS.Length-1);
 			for (int i=0; i<cardsToBeDisplayed.Count;i++){
 
-
 				find=false;
-				for (int j=0 ; j<cardsIDS.Length-1; j++){
+				for (int j=0 ; j<newCardsIDS.Length-1; j++){
 
-					if(System.Convert.ToInt32(cardsIDS[j])==cards[cardsToBeDisplayed[i]].Id){
+					if(System.Convert.ToInt32(newCardsIDS[j])==cards[cardsToBeDisplayed[i]].Id){
 						find=true;
 						break;
 					}
@@ -1388,6 +1265,7 @@ public class MarketScript : MonoBehaviour {
 			if (cardsSold.Contains(idFocused)){
 				cardFocused.transform.FindChild("texturedGameCard").renderer.material.mainTexture = soldCardTexture;
 			}
+			newCardsNb=newTotalNbResult-(cards.Count-cardsSold.Count);
 		}
 		
 	}
@@ -1460,7 +1338,7 @@ public class MarketScript : MonoBehaviour {
 
 		clearCards();
 		createCards();
-		StartCoroutine(this.displayPage ());
+		this.displayPage ();
 		
 	}
 
@@ -1509,5 +1387,251 @@ public class MarketScript : MonoBehaviour {
 		maxMoveVal = maxMoveLimit;
 		minQuicknessVal = minQuicknessLimit;
 		maxQuicknessVal = maxQuicknessLimit;
+	}
+
+	private void applyFilters() {
+		this.cardsToBeDisplayed=new List<int>();
+		IList<int> tempCardsToBeDisplayed = new List<int>();
+		int nbFilters = this.filtersCardType.Count;
+		int tempMinPrice=0;
+		int tempMaxPrice=999999999;
+
+		bool testFilters = false;
+		bool testDeck = false;
+		bool test ;
+		
+		bool minLifeBool = (minLifeLimit==minLifeVal);
+		bool maxLifeBool = (maxLifeLimit==maxLifeVal);
+		bool minMoveBool = (minMoveLimit==minMoveVal);
+		bool maxMoveBool = (maxMoveLimit==maxMoveVal);
+		bool minQuicknessBool = (minQuicknessLimit==minQuicknessVal);
+		bool maxQuicknessBool = (maxQuicknessLimit==maxQuicknessVal);
+		bool minAttackBool = (minAttackLimit==minAttackVal);
+		bool maxAttackBool = (maxAttackLimit==maxAttackVal);
+
+
+		if (this.isSkillChosen){
+			int max = this.cards.Count;
+			if (nbFilters==0){
+				max = this.cards.Count;
+				for (int i = 0; i < max ; i++) {
+					if (cards[i].hasSkill(this.valueSkill)){
+						tempCardsToBeDisplayed.Add(i);
+					}
+				}
+			}
+			else{
+				for (int i = 0; i < max ; i++) {
+					test = false ;
+					int j = 0 ;
+					while (!test && j!=nbFilters){
+						if (cards[i].IdClass==this.filtersCardType[j]){
+							test=true ;
+							if (cards[i].hasSkill(this.valueSkill)){
+									tempCardsToBeDisplayed.Add(i);
+							}
+						}
+						j++;
+					}
+				}
+			}
+		}
+		else{
+			int max = this.cards.Count;
+			if (nbFilters==0){
+				for (int i = 0; i < max ; i++) {
+						tempCardsToBeDisplayed.Add(i);
+				}
+			}
+			else{
+				for (int i = 0; i < max ; i++) {
+					test = false ;
+					int j = 0 ;
+					while (!test && j!=nbFilters){
+						if (cards[i].IdClass==this.filtersCardType[j]){
+							test=true ;
+								tempCardsToBeDisplayed.Add(i);
+						}
+						j++;
+					}
+				}
+			}
+		}
+		if (tempCardsToBeDisplayed.Count>0){
+			minLifeLimit=10000;
+			maxLifeLimit=0;
+			minAttackLimit=10000;
+			maxAttackLimit=0;
+			minMoveLimit=10000;
+			maxMoveLimit=0;
+			minQuicknessLimit=10000;
+			maxQuicknessLimit=0;
+			for (int i = 0 ; i < tempCardsToBeDisplayed.Count ; i++){
+				if (this.cards[tempCardsToBeDisplayed[i]].Life<minLifeLimit){
+					minLifeLimit = this.cards[tempCardsToBeDisplayed[i]].Life;
+				}
+				if (this.cards[tempCardsToBeDisplayed[i]].Life>maxLifeLimit){
+					maxLifeLimit = this.cards[tempCardsToBeDisplayed[i]].Life;
+				}
+				if (this.cards[tempCardsToBeDisplayed[i]].Attack<minAttackLimit){
+					minAttackLimit = this.cards[tempCardsToBeDisplayed[i]].Attack;
+				}
+				if (this.cards[tempCardsToBeDisplayed[i]].Attack>maxAttackLimit){
+					maxAttackLimit = this.cards[tempCardsToBeDisplayed[i]].Attack;
+				}
+				if (this.cards[tempCardsToBeDisplayed[i]].Move<minMoveLimit){
+					minMoveLimit = this.cards[tempCardsToBeDisplayed[i]].Move;
+				}
+				if (this.cards[tempCardsToBeDisplayed[i]].Move>maxMoveLimit){
+					maxMoveLimit = this.cards[tempCardsToBeDisplayed[i]].Move;
+				}
+				if (this.cards[tempCardsToBeDisplayed[i]].Speed<minQuicknessLimit){
+					minQuicknessLimit = this.cards[tempCardsToBeDisplayed[i]].Speed;
+				}
+				if (this.cards[tempCardsToBeDisplayed[i]].Speed>maxQuicknessLimit){
+					maxQuicknessLimit = this.cards[tempCardsToBeDisplayed[i]].Speed;
+				}
+			}
+			if (minLifeBool && maxLifeVal>minLifeLimit){
+				minLifeVal = minLifeLimit;
+			}
+			else{
+				if (minLifeVal<minLifeLimit){
+					minLifeLimit = minLifeVal;
+				}
+			}
+			if (maxLifeBool && minLifeVal<maxLifeLimit){
+				maxLifeVal = maxLifeLimit;
+				print ("Max "+maxLifeVal);
+			}
+			else{
+				if (maxLifeVal>maxLifeLimit){
+					maxLifeLimit = maxLifeVal;
+				}
+				print ("Max2 "+maxLifeVal);
+			}
+			if (minAttackBool && maxAttackVal>minAttackLimit){
+				minAttackVal = minAttackLimit;
+			}
+			else{
+				if (minAttackVal<minAttackLimit){
+					minAttackLimit = minAttackVal;
+				}
+			}
+			if (maxAttackBool && minAttackVal<maxAttackLimit){
+				maxAttackVal = maxAttackLimit;
+			}
+			else{
+				if (maxAttackVal>maxAttackLimit){
+					maxAttackLimit = maxAttackVal;
+				}
+			}
+			if (minMoveBool && maxMoveVal>minMoveLimit){
+				minMoveVal = minMoveLimit;
+			}
+			else{
+				if (minMoveVal<minMoveLimit){
+					minMoveLimit = minMoveVal;
+				}
+			}
+			if (maxMoveBool && minMoveVal<maxMoveLimit){
+				maxMoveVal = maxMoveLimit;
+			}
+			else{
+				if (maxMoveVal>maxMoveLimit){
+					maxMoveLimit = maxMoveVal;
+				}
+			}
+			if (minQuicknessBool && maxQuicknessVal>minQuicknessLimit){
+				minQuicknessVal = minQuicknessLimit;
+			}
+			else{
+				if (minQuicknessVal<minQuicknessLimit){
+					minQuicknessLimit = minQuicknessVal;
+				}
+			}
+			if (maxQuicknessBool && minQuicknessVal<maxQuicknessLimit){
+				maxQuicknessVal = maxQuicknessLimit;
+			}
+			else{
+				if (maxQuicknessVal>maxQuicknessLimit){
+					maxQuicknessLimit = maxQuicknessVal;
+				}
+			}
+			
+			oldMinLifeVal = minLifeVal ;
+			oldMaxLifeVal = maxLifeVal ;
+			oldMinQuicknessVal = minQuicknessVal ;
+			oldMaxQuicknessVal = maxQuicknessVal ;
+			oldMinMoveVal = minMoveVal ;
+			oldMaxMoveVal = maxMoveVal ;
+			oldMinAttackVal = minAttackVal ;
+			oldMaxAttackVal = maxAttackVal ;
+		}
+
+		if (this.minLifeVal!=this.minLifeLimit){
+			testFilters = true ;
+		}
+		else if (this.maxLifeVal!=this.maxLifeLimit){
+			testFilters = true ;
+		}
+		else if (this.minAttackVal!=this.minAttackLimit){
+			testFilters = true ;
+		}
+		else if (this.maxAttackVal!=this.maxAttackLimit){
+			testFilters = true ;
+		}
+		else if (this.minMoveVal!=this.minMoveLimit){
+			testFilters = true ;
+		}
+		else if (this.maxMoveVal!=this.maxMoveLimit){
+			testFilters = true ;
+		}
+		else if (this.minQuicknessVal!=this.minQuicknessLimit){
+			testFilters = true ;
+		}
+		else if (this.maxQuicknessVal!=this.maxQuicknessLimit){
+			testFilters = true ;
+		}
+		if(this.minPrice!=""){
+			testFilters=true;
+			tempMinPrice = System.Convert.ToInt32(minPrice);
+		}
+		if(this.maxPrice!=""){
+			testFilters=true;
+			tempMaxPrice = System.Convert.ToInt32(maxPrice);
+		}
+		
+		if (testFilters == true){
+			for (int i = 0 ; i < tempCardsToBeDisplayed.Count ; i++){
+				if (cards[tempCardsToBeDisplayed[i]].verifyC2(minLifeVal,maxLifeVal,minAttackVal,maxAttackVal,minMoveVal,maxMoveVal,minQuicknessVal,maxQuicknessVal,tempMinPrice,tempMaxPrice)){
+					this.cardsToBeDisplayed.Add(tempCardsToBeDisplayed[i]);
+				}
+			}
+		}
+		else{
+			for (int i = 0 ; i < tempCardsToBeDisplayed.Count ; i++){
+				this.cardsToBeDisplayed.Add(tempCardsToBeDisplayed[i]);
+			}
+		}
+		
+		nbPages = Mathf.CeilToInt(cardsToBeDisplayed.Count / (3.0f*nbCardsPerRow));
+		pageDebut = 0 ;
+		if (nbPages>15){
+			pageFin = 14 ;
+		}
+		else{
+			pageFin = nbPages ;
+		}
+		this.chosenPage = 0;
+		paginatorGuiStyle = new GUIStyle[nbPages];
+		for (int i = 0; i < nbPages; i++) { 
+			if (i==0){
+				paginatorGuiStyle[i]=paginationActivatedStyle;
+			}
+			else{
+				paginatorGuiStyle[i]=paginationStyle;
+			}
+		}
 	}
 }

@@ -511,6 +511,7 @@ MonoBehaviour:
     m_FixedHeight: 0
     m_StretchWidth: 0
     m_StretchHeight: 0
+  refreshInterval: 10
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

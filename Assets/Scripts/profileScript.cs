@@ -16,7 +16,10 @@ public class profileScript : MonoBehaviour {
 	bool isEditing = false;
 	bool displayPopUp = false;
 	bool changePassword = false;
-	bool correctPassword = false;
+	bool checkPassword = false;
+	bool profileInitialized =false;
+	bool displayNewPicture = false;
+	bool isPictureLoaded = false;
 
 	string firstName;
 	string surname;
@@ -25,6 +28,8 @@ public class profileScript : MonoBehaviour {
 	string oldPassword ="";
 	string newPassword1="";
 	string newPassword2="";
+
+	string profileChosen=ApplicationModel.profileChosen;
 
 	int idConnection;
 	int friendshipConnection;
@@ -39,6 +44,25 @@ public class profileScript : MonoBehaviour {
 	public Texture2D backButton ;
 	public Texture2D backActivatedButton ;
 
+	public GameObject MenuObject;
+
+	public GUIStyle profilePictureStyle;
+	public GUIStyle editProfilePictureButtonStyle;
+	public GUIStyle profileData;
+	public GUIStyle editProfileDataButtonStyle;
+	public GUIStyle friendshipStateButtonStyle;
+	public GUIStyle friendButtonStyle;
+	public GUIStyle actionButtonStyle;
+	public GUIStyle inputTextfieldStyle;
+	public GUIStyle labelNo;
+	public GUIStyle titleStyle;
+	public GUIStyle paginationActivatedStyle;
+	public GUIStyle paginationStyle;
+	public GUIStyle centralWindowStyle;
+	public GUIStyle centralWindowTitleStyle;
+	public GUIStyle centralWindowButtonStyle;
+	public GUIStyle centralWindowTextfieldStyle;
+	public GUIStyle borderBackgroundStyle;
 
 	int widthScreen = Screen.width ; 
 	int heightScreen = Screen.height ;
@@ -61,23 +85,28 @@ public class profileScript : MonoBehaviour {
 	int nbInvitationsReceivedPages;
 	
 	int chosenPageFriends=0;
+	int pageDebutFriends;
+	int pageFinFriends;
 	int chosenPageInvitationsSent=0;
+	int pageDebutInvitationsSent;
+	int pageFinInvitationsSent;
 	int chosenPageInvitationsReceived=0;
+	int pageDebutInvitationsReceived;
+	int pageFinInvitationsReceived;
 
 	int nbFriendsToDisplay;
 	int nbInvitationsSentToDisplay;
 	int nbInvitationsReceivedToDisplay;
 
-	GUIStyle profileData;
-	GUIStyle profilePictureStyle;
-	GUIStyle labelNo;
+	int friendLabelsAreaSizeX;
+	int friendLabelsAreaSizeY;
 
 	GUIStyle[] paginatorFriendsGuiStyle;
 	GUIStyle[] paginatorInvitationsReceivedGuiStyle;
 	GUIStyle[] paginatorInvitationsSentGuiStyle;
 
-	private string URLGetUserProfile = "http://54.77.118.214/GarrukServer/get_user_profile.php";
-	private string URLGetMyProfile = "http://54.77.118.214/GarrukServer/get_myprofile.php";
+	private string URLGetUserProfile = ApplicationModel.dev + "get_user_profile.php";
+	private string URLGetMyProfile = ApplicationModel.host + "get_myprofile.php";
 	private string URLConfirmConnection = "http://54.77.118.214/GarrukServer/confirm_connection.php";
 	private string URLRemoveConnection = "http://54.77.118.214/GarrukServer/remove_connection.php";
 	private string URLCreateConnection = "http://54.77.118.214/GarrukServer/create_connection.php";
@@ -86,12 +115,14 @@ public class profileScript : MonoBehaviour {
 	private string URLDefaultProfilePicture = "http://54.77.118.214/GarrukServer/img/profile/defautprofilepicture.png";
 	private string URLCheckPassword = "http://54.77.118.214/GarrukServer/check_password.php";
 	private string URLEditPassword = "http://54.77.118.214/GarrukServer/edit_password.php";
+	private string ServerDirectory = "img/profile/";
 
 	private IList<int> friendsToBeDisplayed ;
 	private IList<int> invitationsSentToBeDisplayed ;
 	private IList<int> invitationsReceivedToBeDisplayed ;
 
 	string labelNoFriends;
+	string labelStatistique;
 	string labelNoInvitationsReceived;
 	string labelNoInvitationsSent;
 
@@ -99,18 +130,21 @@ public class profileScript : MonoBehaviour {
 	
 	FileBrowser m_fileBrowser;
 
+	Rect centralWindow;
+	Rect fileBrowserWindow;
 	Rect errorWindow ;
 	Rect changePasswordWindow ;
 
 	public Texture2D m_directoryImage;
 	public Texture2D m_fileImage;
-
-
+	
 	// Use this for initialization
 	void Start () {
-		StartCoroutine(setStyles());
-
-		if (ApplicationModel.profileChosen != "" && ApplicationModel.profileChosen != ApplicationModel.username){
+		MenuObject = Instantiate(MenuObject) as GameObject;
+		displayNewPicture = true;
+		setStyles();
+		if (profileChosen != "" && profileChosen != ApplicationModel.username){
+			ApplicationModel.profileChosen="";
 			StartCoroutine(getUserProfile());
 		}
 		else {
@@ -121,439 +155,707 @@ public class profileScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if (Screen.width != widthScreen || Screen.height != heightScreen) {
+			m_fileBrowser=null;
+			this.setStyles();
+			chosenPageFriends=0;
+			chosenPageInvitationsReceived=0;
+			chosenPageInvitationsSent=0;
+			this.setDisplayParameters();
+		}
 
-	
+		if (profileInitialized && displayNewPicture){
+			displayNewPicture=false;
+			StartCoroutine(setProfilePicture());
+		}
+
+		if(displayPopUp){
+			if(Input.GetKeyDown(KeyCode.Return)) {
+				displayPopUp=false;
+			}
+			else if(Input.GetKeyDown(KeyCode.Escape)) {
+				displayPopUp=false;
+			}
+		}
+		if(m_fileBrowser!=null){
+			if(Input.GetKeyDown(KeyCode.Escape)) {
+				m_fileBrowser=null;
+			}
+		}
+		if(checkPassword){
+			if(Input.GetKeyDown(KeyCode.Escape)) {
+				checkPassword=false;
+			}
+			else if(Input.GetKeyDown(KeyCode.Return)) {
+				error="";
+				StartCoroutine(checkUserPassword());
+			}
+		}
+		if(changePassword){
+			if(Input.GetKeyDown(KeyCode.Escape)) {
+				changePassword=false;
+			}
+			else if (Input.GetKeyDown(KeyCode.Return)){
+				if(newPassword1==newPassword2 && newPassword1!="" && newPassword2!=""){
+					error="";
+					StartCoroutine(editPassword());
+				}
+				else if(newPassword1!=newPassword2 && newPassword1!="" && newPassword2!=""){
+					error="les saisies ne correspondent pas";
+				}
+			}
+		}
+		if(isEditing){
+			if(Input.GetKeyDown(KeyCode.Escape)) {
+				isEditing=false;
+			}
+			else if(Input.GetKeyDown(KeyCode.Return)) {
+				isEditing = false;
+				isDataLoaded=false;
+				StartCoroutine(updateProfile());
+			}
+		}
 	}
 
 	void OnGUI () {
 
-		if (displayPopUp)
-			errorWindow = GUI.Window(0, new Rect(Screen.width/2-100, Screen.height/2-50, 300, 110), DoErrorWindow, "Erreur");
+		if(checkPassword || changePassword || displayPopUp || m_fileBrowser!=null){
+			GUI.enabled=false;
+		}
 
-		if (changePassword)
-			changePasswordWindow = GUI.Window(0, new Rect(Screen.width/2-150, Screen.height/2-110, 300, 220), DoChangePasswordWindow, "Modification du mot de passe");
-
-
-
-		if (isDataLoaded) {
-
-
-			switch (friendshipState)
+		if (isDataLoaded && isPictureLoaded) {
+			GUILayout.BeginArea(new Rect(0.86f*widthScreen,0.13f*heightScreen,widthScreen*0.12f,heightScreen*15f));
 			{
-			case 0:
-				if (GUI.Button(new Rect(0.86f*widthScreen,
-				                        0.03f*heightScreen,
-				                        widthScreen*0.12f,
-				                        heightScreen*0.05f),
-				               "Confirmer la demande")){
-					
-					
-					isDataLoaded=false;
-					idConnection=userData.Connections[friendshipConnection].Id;
-					StartCoroutine(confirmConnection());
-					userData.Connections[friendshipConnection].State =+1;
-					computeConnections();
-				}
-				if (GUI.Button(new Rect(0.86f*widthScreen,
-				                        0.085f*heightScreen,
-				                        widthScreen*0.12f,
-				                        heightScreen*0.05f),
-				               "Rejeter la demande")){
-					
-					
-					isDataLoaded=false;
-					idConnection=userData.Connections[friendshipConnection].Id;
-					StartCoroutine(removeConnection());
-					userData.Connections.RemoveAt(friendshipConnection);
-					computeConnections();
-				}
-				break;
-			case 1:
-				if (GUI.Button(new Rect(0.86f*widthScreen,
-				                        0.03f*heightScreen,
-				                        widthScreen*0.12f,
-				                        heightScreen*0.05f),
-				               "Retirer de vos amis")){
-					
-					
-					isDataLoaded=false;
-					idConnection=userData.Connections[friendshipConnection].Id;
-					StartCoroutine(removeConnection());
-					userData.Connections.RemoveAt(friendshipConnection);
-					computeConnections();
-				}
-				break;
-			
-			case 2:
-				if (GUI.Button(new Rect(0.86f*widthScreen,
-				                        0.03f*heightScreen,
-				                        widthScreen*0.12f,
-				                        heightScreen*0.05f),
-				               "Retirer votre demande")){
-					
-					
-					isDataLoaded=false;
-					idConnection=userData.Connections[friendshipConnection].Id;
-					StartCoroutine(removeConnection());
-					userData.Connections.RemoveAt(friendshipConnection);
-					computeConnections();
-					
-				}
-				break;
-			case 4:
-				if (GUI.Button(new Rect(0.86f*widthScreen,
-				                        0.03f*heightScreen,
-				                        widthScreen*0.12f,
-				                        heightScreen*0.05f),
-				               "Envoyer une demande")){
-					
-					
-					isDataLoaded=false;
-					StartCoroutine(createConnection());
-
-					
-				}
-				break;
-			}
-
-
-			if (myProfile){
-
-
-				GUILayout.BeginArea(new Rect(0.05f*widthScreen,0.05f*heightScreen,widthScreen * 0.20f,heightScreen));
+				switch (friendshipState)
 				{
-
-	
-					GUILayout.Box(profilePicture,profilePictureStyle);
-
-					GUILayout.Space (5);
+				case 0:
+					if (GUILayout.Button("Confirmer la demande",friendshipStateButtonStyle)){
+						isDataLoaded=false;
+						idConnection=userData.Connections[friendshipConnection].Id;
+						StartCoroutine(confirmConnection());
+						userData.Connections[friendshipConnection].State =+1;
+						computeConnections();
+					}
+					if (GUILayout.Button("Rejeter la demande",friendshipStateButtonStyle)){
+						isDataLoaded=false;
+						idConnection=userData.Connections[friendshipConnection].Id;
+						StartCoroutine(removeConnection());
+						userData.Connections.RemoveAt(friendshipConnection);
+						computeConnections();
+					}
+					break;
+				case 1:
+					if (GUILayout.Button("Retirer de vos amis",friendshipStateButtonStyle)){
+						isDataLoaded=false;
+						idConnection=userData.Connections[friendshipConnection].Id;
+						StartCoroutine(removeConnection());
+						userData.Connections.RemoveAt(friendshipConnection);
+						computeConnections();
+					}
+					break;
+				case 2:
+					if (GUILayout.Button("Retirer votre demande",friendshipStateButtonStyle)){
+						isDataLoaded=false;
+						idConnection=userData.Connections[friendshipConnection].Id;
+						StartCoroutine(removeConnection());
+						userData.Connections.RemoveAt(friendshipConnection);
+						computeConnections();
+					}
+					break;
+				case 4:
+					if (GUILayout.Button("Envoyer une demande",friendshipStateButtonStyle)){
+						StartCoroutine(createConnection());
+					}
+					break;
+				}
+			}
+			GUILayout.EndArea();
+			GUI.Label (new Rect (0.01f*widthScreen,0.56f*heightScreen,widthScreen * 0.25f,heightScreen*0.03f), "Statistiques des matchs",titleStyle);
+			GUI.Label (new Rect (0.01f*widthScreen,0.60f*heightScreen,widthScreen * 0.25f,heightScreen*0.03f), labelStatistique, labelNo);
+			if (myProfile){
+				GUI.DrawTexture(new Rect(0.01f*widthScreen,0.12f*heightScreen,profilePictureStyle.fixedHeight,profilePictureStyle.fixedHeight),profilePicture,ScaleMode.StretchToFill);
+				GUILayout.BeginArea(new Rect(0.01f*widthScreen,0.10f*heightScreen+profilePictureStyle.fixedHeight,profilePictureStyle.fixedWidth,0.88f*heightScreen));
+				{
+					GUILayout.Space (editProfilePictureButtonStyle.fixedHeight);
 					GUILayout.Label ("Pseudo : " + userData.Username,profileData);
 					GUILayout.Label ("Argent : " + userData.Money + " credits",profileData);
-
 					if(!isEditing){
-
 						GUILayout.Label ("Prenom : " + userData.FirstName,profileData);
 						GUILayout.Label ("Nom : " + userData.Surname,profileData);
-						GUILayout.Label ("Email : " + userData.Mail,profileData);
-
-
-						if (GUILayout.Button ("Modifier mes infos",GUILayout.Width(200),GUILayout.Height(0.03f*heightScreen)))
+						GUILayout.Label (userData.Mail,profileData);
+						if (GUILayout.Button ("Modifier mes infos",editProfileDataButtonStyle))
 						{
 							isEditing = true;
 						}
-
-						if (GUILayout.Button ("Changer le mot de passe",GUILayout.Width(200),GUILayout.Height(0.03f*heightScreen)))
+						if (GUILayout.Button ("Changer le mot de passe",editProfileDataButtonStyle))
 						{
-							changePassword = true;
+							checkPassword = true;
 						}
-
 					}
-
 					if (isEditing){
-
-				
-						firstName = GUILayout.TextField(firstName, 15, GUILayout.Width(200));
-						surname = GUILayout.TextField(surname, 15,GUILayout.Width(200));
-						mail=GUILayout.TextField(mail, 30,GUILayout.Width(200));
-
-						if (GUILayout.Button ("Valider",GUILayout.Width(200),GUILayout.Height(0.03f*heightScreen)))
+						firstName = GUILayout.TextField(firstName, 15,inputTextfieldStyle);
+						surname = GUILayout.TextField(surname, 15,inputTextfieldStyle);
+						mail=GUILayout.TextField(mail, 30,inputTextfieldStyle);
+						if (GUILayout.Button ("Valider",editProfileDataButtonStyle))
 						{
 							isEditing = false;
 							isDataLoaded=false;
 							StartCoroutine(updateProfile());
-
-
 						}
-
-						if (GUILayout.Button ("Annuler",GUILayout.Width(200),GUILayout.Height(0.03f*heightScreen)))
+						if (GUILayout.Button ("Annuler",editProfileDataButtonStyle))
 						{
 							isEditing = false;
 						}
-
 					}
-
-						
 				}
 				GUILayout.EndArea();
 
-
-				GUI.Label (new Rect(0.25f*widthScreen,0.03f*heightScreen,nbFriendsPerRow,heightScreen*0.05f), "Mes amis",profileData);
-				GUI.Label (new Rect(0.25f*widthScreen,0.08f*heightScreen,nbFriendsPerRow,heightScreen*0.05f), labelNoFriends,labelNo);
+				GUI.Box(new Rect(profilePictureStyle.fixedHeight+0.02f*widthScreen,
+				                 0.12f*heightScreen,
+				                 nbFriendsPerRow*friendLabelsAreaSizeX,
+				                 0.435f * heightScreen), "",borderBackgroundStyle);
+				GUI.Label (new Rect(profilePictureStyle.fixedHeight+0.02f*widthScreen,
+				                    0.12f*heightScreen,
+				                    nbFriendsPerRow*friendLabelsAreaSizeX,
+				                    heightScreen*0.03f), "Mes amis",titleStyle);
+				GUI.Label (new Rect(profilePictureStyle.fixedHeight+0.02f*widthScreen,
+				                    0.16f*heightScreen,
+				                    nbFriendsPerRow*friendLabelsAreaSizeX,
+				                    heightScreen*0.03f), labelNoFriends,labelNo);
 
 				for (int i = friendsStart;i<friendsFinish;i++){
-
-					if (GUI.Button(new Rect(0.25f*widthScreen + ((i-friendsStart)%nbFriendsPerRow)*(widthScreen* 0.50f/(nbFriendsPerRow)),
-					                        0.10f*heightScreen + (Mathf.FloorToInt((i-friendsStart)/nbFriendsPerRow)*heightScreen*0.12f),
-					                        widthScreen*0.50f/(nbFriendsPerRow+1),
-					                        heightScreen*0.05f),
-					               			userData.Connections[friendsToBeDisplayed[i]].User)){
-
-
-						ApplicationModel.profileChosen=userData.Connections[friendsToBeDisplayed[i]].User;
-						Application.LoadLevel("Profile");
+					GUILayout.BeginArea(new Rect(profilePictureStyle.fixedHeight+0.02f*widthScreen + ((i-friendsStart)%nbFriendsPerRow)*friendLabelsAreaSizeX,
+					                    0.15f*heightScreen + (Mathf.FloorToInt((i-friendsStart)/nbFriendsPerRow)*friendLabelsAreaSizeY),
+					                    friendLabelsAreaSizeX,
+					                    friendLabelsAreaSizeY));
+					{
+						GUILayout.BeginHorizontal();
+						{
+							GUILayout.FlexibleSpace();
+							GUILayout.BeginVertical();
+							{
+								if(GUILayout.Button (userData.Connections[friendsToBeDisplayed[i]].User,friendButtonStyle))
+								{
+									ApplicationModel.profileChosen=userData.Connections[friendsToBeDisplayed[i]].User;
+									Application.LoadLevel("Profile");
+								}
+								if(GUILayout.Button ("Retirer",actionButtonStyle))
+								{
+									isDataLoaded=false;
+									idConnection=userData.Connections[friendsToBeDisplayed[i]].Id;
+									StartCoroutine(removeConnection());
+									userData.Connections.RemoveAt(friendsToBeDisplayed[i]);
+									computeConnections();
+								}
+							}
+							GUILayout.EndVertical();
+							GUILayout.FlexibleSpace();
+						}
+						GUILayout.EndHorizontal();
 					}
-
-
-					if (GUI.Button(new Rect(0.25f*widthScreen + ((i-friendsStart)%nbFriendsPerRow)*(widthScreen* 0.50f/(nbFriendsPerRow)),
-					                        0.15f*heightScreen + (Mathf.FloorToInt((i-friendsStart)/nbFriendsPerRow)*heightScreen*0.12f),
-					                        widthScreen*0.50f/(nbFriendsPerRow+1),
-					                        heightScreen*0.025f),
-					               			"Retirer")){
-
-
-						isDataLoaded=false;
-						idConnection=userData.Connections[friendsToBeDisplayed[i]].Id;
-						StartCoroutine(removeConnection());
-						userData.Connections.RemoveAt(friendsToBeDisplayed[i]);
-						computeConnections();
-
-					}
-
-
+					GUILayout.EndArea();
 				}
-
-
-				for (int i = 0 ; i < nbFriendsPages ; i++){
-					if (GUI.Button(new Rect(widthScreen*0.25f+i*widthScreen*0.03f,
-					                        0.45f*heightScreen,
-					                        0.02f*widthScreen,
-					                        0.03f*heightScreen),""+(i+1),paginatorFriendsGuiStyle[i])){
-
-						paginatorFriendsGuiStyle[chosenPageFriends].normal.background=backButton;
-						paginatorFriendsGuiStyle[chosenPageFriends].normal.textColor=Color.black;
-						chosenPageFriends=i;
-						paginatorFriendsGuiStyle[i].normal.background=backActivatedButton;
-						paginatorFriendsGuiStyle[i].normal.textColor=Color.white;
-						displayPageFriends ();
+				GUILayout.BeginArea(new Rect(profilePictureStyle.fixedWidth+0.02f*widthScreen,0.52f*heightScreen,0.75f * widthScreen-profilePictureStyle.fixedWidth-0.02f*widthScreen,0.03f*heightScreen));
+				{
+					GUILayout.BeginHorizontal();
+					{
+						GUILayout.FlexibleSpace();
+						if (pageDebutFriends>0){
+							if (GUILayout.Button("...",paginationStyle)){
+								pageDebutFriends = pageDebutFriends-10;
+								pageFinFriends = pageDebutFriends+10;
+							}
+						}
+						GUILayout.Space(widthScreen*0.01f);
+						for (int i = pageDebutFriends ; i < pageFinFriends ; i++){
+							if (GUILayout.Button(""+(i+1),paginatorFriendsGuiStyle[i])){
+								paginatorFriendsGuiStyle[chosenPageFriends]=this.paginationStyle;
+								chosenPageFriends=i;
+								paginatorFriendsGuiStyle[i]=this.paginationActivatedStyle;
+								displayPageFriends();
+							}
+							GUILayout.Space(widthScreen*0.01f);
+						}
+						if (nbFriendsPages>pageFinFriends){
+							if (GUILayout.Button("...",paginationStyle)){
+								pageDebutFriends = pageDebutFriends+10;
+								pageFinFriends = Mathf.Min(pageFinFriends+10, nbFriendsPages);
+							}
+						}
+						GUILayout.FlexibleSpace();
 					}
+					GUILayout.EndHorizontal();
 				}
+				GUILayout.EndArea();
 
-
-
-
-				GUI.Label (new Rect (0.25f*widthScreen,0.50f*heightScreen,widthScreen * 0.20f,heightScreen*0.05f), "Invitations recues",profileData);
-				GUI.Label (new Rect (0.25f*widthScreen,0.55f*heightScreen,widthScreen * 0.20f,heightScreen*0.05f), labelNoInvitationsReceived,labelNo);
-
+				GUI.Box(new Rect(profilePictureStyle.fixedWidth+0.02f*widthScreen,
+				                 0.56f*heightScreen,
+				                 nbInvitationsReceivedPerRow*friendLabelsAreaSizeX-0.0025f*widthScreen,
+				                 0.435f * heightScreen), "",borderBackgroundStyle);
+				GUI.Label (new Rect (profilePictureStyle.fixedWidth+0.02f*widthScreen,
+				                     0.56f*heightScreen,
+				                     nbInvitationsReceivedPerRow*friendLabelsAreaSizeX-0.0025f*widthScreen,
+				                     heightScreen*0.03f), "Invitations recues",titleStyle);
+				GUI.Label (new Rect (profilePictureStyle.fixedWidth+0.02f*widthScreen,
+				                     0.60f*heightScreen,
+				                     nbInvitationsReceivedPerRow*friendLabelsAreaSizeX-0.0025f*widthScreen,
+				                     heightScreen*0.03f), labelNoInvitationsReceived,labelNo);
 
 				for (int i = invitationsReceivedStart;i<invitationsReceivedFinish;i++){
-					
-					if (GUI.Button(new Rect(0.25f*widthScreen + ((i-invitationsReceivedStart)%nbInvitationsReceivedPerRow)*(widthScreen* 0.20f/(nbInvitationsReceivedPerRow)),
-					                        0.57f*heightScreen + (Mathf.FloorToInt((i-invitationsReceivedStart)/nbInvitationsReceivedPerRow)*heightScreen*0.12f),
-					                        widthScreen*0.50f/(nbFriendsPerRow+1),
-					                        heightScreen*0.05f),
-					               			userData.Connections[invitationsReceivedToBeDisplayed[i]].User)){
-						
-						
-						ApplicationModel.profileChosen=userData.Connections[invitationsReceivedToBeDisplayed[i]].User;
-						Application.LoadLevel("Profile");
+					GUILayout.BeginArea(new Rect(profilePictureStyle.fixedWidth+0.02f*widthScreen + ((i-invitationsReceivedStart)%nbInvitationsReceivedPerRow)*friendLabelsAreaSizeX,
+					                             0.59f*heightScreen + (Mathf.FloorToInt((i-invitationsReceivedStart)/nbInvitationsReceivedPerRow)*friendLabelsAreaSizeY),
+					                             friendLabelsAreaSizeX,
+					                             friendLabelsAreaSizeY));
+					{
+						GUILayout.BeginHorizontal();
+						{
+							GUILayout.FlexibleSpace();
+							GUILayout.BeginVertical();
+							{
+								if(GUILayout.Button (userData.Connections[invitationsReceivedToBeDisplayed[i]].User,friendButtonStyle))
+								{
+									ApplicationModel.profileChosen=userData.Connections[invitationsReceivedToBeDisplayed[i]].User;
+									Application.LoadLevel("Profile");
+								}
+								if(GUILayout.Button ("Confirmer",actionButtonStyle))
+								{
+									isDataLoaded=false;
+									idConnection=userData.Connections[invitationsReceivedToBeDisplayed[i]].Id;
+									StartCoroutine(confirmConnection());
+									userData.Connections[invitationsReceivedToBeDisplayed[i]].State =+1;
+									computeConnections();
+								}
+								if(GUILayout.Button ("Rejeter",actionButtonStyle))
+								{
+									isDataLoaded=false;
+									idConnection=userData.Connections[invitationsReceivedToBeDisplayed[i]].Id;
+									StartCoroutine(removeConnection());
+									userData.Connections.RemoveAt(invitationsReceivedToBeDisplayed[i]);
+									computeConnections();	
+								}
+							}
+							GUILayout.EndVertical();
+							GUILayout.FlexibleSpace();
+						}
+						GUILayout.EndHorizontal();
 					}
-					
-					
-					if (GUI.Button(new Rect(0.25f*widthScreen + ((i-invitationsReceivedStart)%nbInvitationsReceivedPerRow)*(widthScreen* 0.20f/(nbInvitationsReceivedPerRow)),
-					                        0.62f*heightScreen + (Mathf.FloorToInt((i-invitationsReceivedStart)/nbInvitationsReceivedPerRow)*heightScreen*0.12f),
-					                        widthScreen*0.50f/(nbFriendsPerRow+1),
-					                        heightScreen*0.025f),
-					               "Confirmer")){
-
-						isDataLoaded=false;
-						idConnection=userData.Connections[invitationsReceivedToBeDisplayed[i]].Id;
-						StartCoroutine(confirmConnection());
-						userData.Connections[invitationsReceivedToBeDisplayed[i]].State =+1;
-						computeConnections();
-
-
-					}
-
-					if (GUI.Button(new Rect(0.25f*widthScreen + ((i-invitationsReceivedStart)%nbInvitationsReceivedPerRow)*(widthScreen* 0.20f/(nbInvitationsReceivedPerRow)),
-					                        0.645f*heightScreen + (Mathf.FloorToInt((i-invitationsReceivedStart)/nbInvitationsReceivedPerRow)*heightScreen*0.12f),
-					                        widthScreen*0.50f/(nbFriendsPerRow+1),
-					                        heightScreen*0.025f),
-					               "Rejeter")){
-						
-						isDataLoaded=false;
-						idConnection=userData.Connections[invitationsReceivedToBeDisplayed[i]].Id;
-						StartCoroutine(removeConnection());
-						userData.Connections.RemoveAt(invitationsReceivedToBeDisplayed[i]);
-						computeConnections();
-						
-					}
-					
-					
+					GUILayout.EndArea();
 				}
-
-				for (int i = 0 ; i < nbInvitationsReceivedPages ; i++){
-					if (GUI.Button(new Rect(widthScreen*0.25f+i*widthScreen*0.03f,
-					                        0.92f*heightScreen,
-					                        0.02f*widthScreen,
-					                        0.03f*heightScreen),""+(i+1),paginatorInvitationsReceivedGuiStyle[i])){
-						
-						paginatorInvitationsReceivedGuiStyle[chosenPageInvitationsReceived].normal.background=backButton;
-						paginatorInvitationsReceivedGuiStyle[chosenPageInvitationsReceived].normal.textColor=Color.black;
-						chosenPageInvitationsReceived=i;
-						paginatorInvitationsReceivedGuiStyle[i].normal.background=backActivatedButton;
-						paginatorInvitationsReceivedGuiStyle[i].normal.textColor=Color.white;
-						displayPageInvitationsReceived ();
+				GUILayout.BeginArea(new Rect(profilePictureStyle.fixedWidth+0.02f*widthScreen,
+				                             0.96f*heightScreen,
+				                             nbInvitationsReceivedPerRow*friendLabelsAreaSizeX,
+				                             0.03f*heightScreen));
+				{
+					GUILayout.BeginHorizontal();
+					{
+						GUILayout.FlexibleSpace();
+						if (pageDebutInvitationsReceived>0){
+							if (GUILayout.Button("...",paginationStyle)){
+								pageDebutInvitationsReceived = pageDebutInvitationsReceived-5;
+								pageFinInvitationsReceived = pageDebutInvitationsReceived+5;
+							}
+						}
+						GUILayout.Space(widthScreen*0.01f);
+						for (int i = pageDebutInvitationsReceived ; i < pageFinInvitationsReceived ; i++){
+							if (GUILayout.Button(""+(i+1),paginatorInvitationsReceivedGuiStyle[i])){
+								paginatorInvitationsReceivedGuiStyle[chosenPageInvitationsReceived]=this.paginationStyle;
+								chosenPageInvitationsReceived=i;
+								paginatorInvitationsReceivedGuiStyle[i]=this.paginationActivatedStyle;
+								displayPageInvitationsReceived();
+							}
+							GUILayout.Space(widthScreen*0.01f);
+						}
+						if (nbInvitationsReceivedPages>pageFinInvitationsReceived){
+							if (GUILayout.Button("...",paginationStyle)){
+								pageDebutInvitationsReceived = pageDebutInvitationsReceived+5;
+								pageFinInvitationsReceived = Mathf.Min(pageFinInvitationsReceived+5, nbInvitationsReceivedPages);
+							}
+						}
+						GUILayout.FlexibleSpace();
 					}
+					GUILayout.EndHorizontal();
 				}
+				GUILayout.EndArea();
 
-
-
-
-
-				GUI.Label (new Rect (0.50f*widthScreen,0.50f*heightScreen,widthScreen * 0.20f,heightScreen*0.05f), "Invitations envoyees",profileData);
-				GUI.Label (new Rect (0.50f*widthScreen,0.55f*heightScreen,widthScreen * 0.20f,heightScreen*0.05f), labelNoInvitationsSent,labelNo);
-
+				GUI.Box(new Rect(profilePictureStyle.fixedWidth+0.0225f*widthScreen+nbInvitationsSentPerRow*friendLabelsAreaSizeX,
+				                 0.56f*heightScreen,
+				                 nbInvitationsSentPerRow*friendLabelsAreaSizeX-0.0025f*widthScreen,
+				                 0.435f * heightScreen), "",borderBackgroundStyle);
+				GUI.Label (new Rect (profilePictureStyle.fixedWidth+0.0225f*widthScreen+nbInvitationsSentPerRow*friendLabelsAreaSizeX,
+				                     0.56f*heightScreen,
+				                     nbInvitationsSentPerRow*friendLabelsAreaSizeX-0.0025f*widthScreen,
+				                     heightScreen*0.03f), "Invitations envoyees",titleStyle);
+				GUI.Label (new Rect (profilePictureStyle.fixedWidth+0.0225f*widthScreen+nbInvitationsSentPerRow*friendLabelsAreaSizeX,
+				                     0.60f*heightScreen,
+				                     nbInvitationsSentPerRow*friendLabelsAreaSizeX-0.0025f*widthScreen,
+				                     heightScreen*0.03f), labelNoInvitationsSent,labelNo);
 
 				for (int i = invitationsSentStart;i<invitationsSentFinish;i++){
-					
-					if (GUI.Button(new Rect(0.50f*widthScreen + ((i-invitationsSentStart)%nbInvitationsSentPerRow)*(widthScreen* 0.20f/(nbInvitationsSentPerRow)),
-					                        0.57f*heightScreen + (Mathf.FloorToInt((i-invitationsSentStart)/nbInvitationsSentPerRow)*heightScreen*0.12f),
-					                        widthScreen*0.50f/(nbFriendsPerRow+1),
-					                        heightScreen*0.05f),
-					               			userData.Connections[invitationsSentToBeDisplayed[i]].User)){
-						
-						
-						ApplicationModel.profileChosen=userData.Connections[invitationsSentToBeDisplayed[i]].User;
-						Application.LoadLevel("Profile");
+					GUILayout.BeginArea(new Rect(profilePictureStyle.fixedWidth+0.02f*widthScreen+(0.75f * widthScreen-profilePictureStyle.fixedWidth-0.02f*widthScreen)/2 + ((i-invitationsSentStart)%nbInvitationsSentPerRow)*friendLabelsAreaSizeX,
+					                             0.59f*heightScreen + (Mathf.FloorToInt((i-invitationsSentStart)/nbInvitationsSentPerRow)*friendLabelsAreaSizeY),
+					                             friendLabelsAreaSizeX,
+					                             friendLabelsAreaSizeY));
+					{
+						GUILayout.BeginHorizontal();
+						{
+							GUILayout.FlexibleSpace();
+							GUILayout.BeginVertical();
+							{
+								if(GUILayout.Button (userData.Connections[invitationsSentToBeDisplayed[i]].User,friendButtonStyle))
+								{
+									ApplicationModel.profileChosen=userData.Connections[invitationsSentToBeDisplayed[i]].User;
+									Application.LoadLevel("Profile");
+								}
+								if(GUILayout.Button ("Retirer",actionButtonStyle))
+								{
+									isDataLoaded=false;
+									idConnection=userData.Connections[invitationsSentToBeDisplayed[i]].Id;
+									StartCoroutine(removeConnection());
+									userData.Connections.RemoveAt(invitationsSentToBeDisplayed[i]);
+									computeConnections();
+								}
+							}
+							GUILayout.EndVertical();
+							GUILayout.FlexibleSpace();
+						}
+						GUILayout.EndHorizontal();
 					}
-					
-					
-					if (GUI.Button(new Rect(0.50f*widthScreen + ((i-invitationsSentStart)%nbInvitationsSentPerRow)*(widthScreen* 0.20f/(nbInvitationsSentPerRow)),
-					                        0.62f*heightScreen + (Mathf.FloorToInt((i-invitationsSentStart)/nbInvitationsSentPerRow)*heightScreen*0.12f),
-					                        widthScreen*0.50f/(nbFriendsPerRow+1),
-					                        heightScreen*0.025f),
-					               "Retirer")){
-
-						isDataLoaded=false;
-						idConnection=userData.Connections[invitationsSentToBeDisplayed[i]].Id;
-						StartCoroutine(removeConnection());
-						userData.Connections.RemoveAt(invitationsSentToBeDisplayed[i]);
-						computeConnections();
-
-					}
-					
-					
+					GUILayout.EndArea();
 				}
-				
-				for (int i = 0 ; i < nbInvitationsSentPages ; i++){
-					if (GUI.Button(new Rect(widthScreen*0.50f+i*widthScreen*0.03f,
-					                        0.92f*heightScreen,
-					                        0.02f*widthScreen,
-					                        0.03f*heightScreen),""+(i+1),paginatorInvitationsSentGuiStyle[i])){
-						
-						paginatorInvitationsSentGuiStyle[chosenPageInvitationsSent].normal.background=backButton;
-						paginatorInvitationsSentGuiStyle[chosenPageInvitationsSent].normal.textColor=Color.black;
-						chosenPageInvitationsSent=i;
-						paginatorInvitationsSentGuiStyle[i].normal.background=backActivatedButton;
-						paginatorInvitationsSentGuiStyle[i].normal.textColor=Color.white;
-						displayPageInvitationsSent ();
+				GUILayout.BeginArea(new Rect(profilePictureStyle.fixedWidth+0.02f*widthScreen+(0.75f * widthScreen-profilePictureStyle.fixedWidth-0.02f*widthScreen)/2,
+				                             0.96f*heightScreen,
+				                             nbInvitationsSentPerRow*friendLabelsAreaSizeX,
+				                             0.03f*heightScreen));
+				{
+					GUILayout.BeginHorizontal();
+					{
+						GUILayout.FlexibleSpace();
+						if (pageDebutInvitationsSent>0){
+							if (GUILayout.Button("...",paginationStyle)){
+								pageDebutInvitationsSent = pageDebutInvitationsSent-5;
+								pageFinInvitationsSent = pageDebutInvitationsSent+5;
+							}
+						}
+						GUILayout.Space(widthScreen*0.01f);
+						for (int i = pageDebutInvitationsSent ; i < pageFinInvitationsSent ; i++){
+							if (GUILayout.Button(""+(i+1),paginatorInvitationsSentGuiStyle[i])){
+								paginatorInvitationsSentGuiStyle[chosenPageInvitationsSent]=this.paginationStyle;
+								chosenPageInvitationsSent=i;
+								paginatorInvitationsSentGuiStyle[i]=this.paginationActivatedStyle;
+								displayPageInvitationsSent();
+							}
+							GUILayout.Space(widthScreen*0.01f);
+						}
+						if (nbInvitationsSentPages>pageFinInvitationsSent){
+							if (GUILayout.Button("...",paginationStyle)){
+								pageDebutInvitationsSent = pageDebutInvitationsSent+5;
+								pageFinInvitationsSent = Mathf.Min(pageFinInvitationsSent+5, nbInvitationsSentPages);
+							}
+						}
+						GUILayout.FlexibleSpace();
 					}
+					GUILayout.EndHorizontal();
 				}
-
-
+				GUILayout.EndArea();
 				GUI.skin = fileBrowserSkin;
-
 				if (m_fileBrowser != null) {
 					m_fileBrowser.OnGUI();
+					
 				} else {
-					//GUILayout.BeginHorizontal();
-					//GUILayout.Label("Text File", GUILayout.Width(100));
-					//GUILayout.FlexibleSpace();
-					//GUILayout.Label(m_textPath ?? "none selected");
-					//if (GUI.Button(new Rect(0.05f*widthScreen,profilePicture.height+0.02f*heightScreen,profilePicture.width,0.03f*heightScreen),"Modifier l'image")) {
-					if (GUI.Button(new Rect(0,0,profilePicture.width,20),"Modifier l'image")) {
+					if (GUI.Button(new Rect(0.01f*widthScreen, 0.10f*heightScreen + profilePictureStyle.fixedHeight,  editProfilePictureButtonStyle.fixedWidth,editProfilePictureButtonStyle.fixedHeight), "Modifier l'image",editProfilePictureButtonStyle)) {
 						m_fileBrowser = new FileBrowser(
-							new Rect(100, 100, 600, 500),
+							fileBrowserWindow,
 							"Sélectionnez une image",
 							FileSelectedCallback
 							);
-						//m_fileBrowser.SelectionPattern = "*.png";
 						m_fileBrowser.DirectoryImage = m_directoryImage;
 						m_fileBrowser.FileImage = m_fileImage;
 					}
-					//GUILayout.EndHorizontal();;
 				}
-
-
 			}
-
 			else {
 
-
-
-
-
-				GUILayout.BeginArea(new Rect(0.05f*widthScreen,0.05f*heightScreen,widthScreen * 0.20f,heightScreen));
+				GUI.DrawTexture(new Rect(0.01f*widthScreen,0.12f*heightScreen,profilePictureStyle.fixedWidth,profilePictureStyle.fixedHeight),profilePicture,ScaleMode.StretchToFill);
+				GUILayout.BeginArea(new Rect(0.01f*widthScreen,0.10f*heightScreen + profilePictureStyle.fixedHeight,profilePictureStyle.fixedWidth,0.88f*heightScreen));
 				{
-					GUILayout.BeginVertical(); // also can put width in here
-					{
-						GUILayout.Box(profilePicture,profilePictureStyle);
-						GUILayout.Space (5);
-						GUILayout.Label ("Pseudo : "+ userData.Username,profileData);
-					}
-					GUILayout.EndVertical();
+					GUILayout.Space (editProfilePictureButtonStyle.fixedHeight);
+					GUILayout.Label ("Pseudo : " + userData.Username,profileData);
 				}
 				GUILayout.EndArea();
 
-
-				GUI.Label (new Rect(0.25f*widthScreen,0.03f*heightScreen,nbFriendsPerRow,heightScreen*0.05f), "Les amis de "+userData.Username,profileData);
-				
-				
+				GUI.Box(new Rect(profilePictureStyle.fixedHeight+0.02f*widthScreen,
+				                 0.12f*heightScreen,
+				                 nbFriendsPerRow*friendLabelsAreaSizeX,
+				                 0.435f * heightScreen), "",borderBackgroundStyle);
+				GUI.Label (new Rect(profilePictureStyle.fixedHeight+0.02f*widthScreen,
+				                    0.12f*heightScreen,
+				                    nbFriendsPerRow*friendLabelsAreaSizeX,
+				                    heightScreen*0.03f), "Les amis de "+userData.Username,titleStyle);
 				for (int i = friendsStart;i<friendsFinish;i++){
-					
-					if (GUI.Button(new Rect(0.25f*widthScreen + ((i-friendsStart)%nbFriendsPerRow)*(widthScreen* 0.50f/(nbFriendsPerRow)),
-					                        0.10f*heightScreen + (Mathf.FloorToInt((i-friendsStart)/nbFriendsPerRow)*heightScreen*0.12f),
-					                        widthScreen*0.50f/(nbFriendsPerRow+1),
-					                        heightScreen*0.05f),
-					               userData.Connections[friendsToBeDisplayed[i]].User)){
-						
-						
-						ApplicationModel.profileChosen=userData.Connections[friendsToBeDisplayed[i]].User;
-						Application.LoadLevel("Profile");
+					GUILayout.BeginArea(new Rect(profilePictureStyle.fixedWidth+0.02f*widthScreen + ((i-friendsStart)%nbFriendsPerRow)*friendLabelsAreaSizeX,
+					                             0.15f*heightScreen + (Mathf.FloorToInt((i-friendsStart)/nbFriendsPerRow)*friendLabelsAreaSizeY),
+					                             friendLabelsAreaSizeX,
+					                             friendLabelsAreaSizeY));
+					{
+						GUILayout.BeginHorizontal();
+						{
+							GUILayout.FlexibleSpace();
+							GUILayout.BeginVertical();
+							{
+								if(GUILayout.Button (userData.Connections[friendsToBeDisplayed[i]].User,friendButtonStyle))
+								{
+									ApplicationModel.profileChosen=userData.Connections[friendsToBeDisplayed[i]].User;
+									Application.LoadLevel("Profile");
+								}
+							}
+							GUILayout.EndVertical();
+							GUILayout.FlexibleSpace();
+						}
+						GUILayout.EndHorizontal();
 					}
+					GUILayout.EndArea();
 				}
-
-
+				GUILayout.BeginArea(new Rect(profilePictureStyle.fixedWidth+0.02f*widthScreen,0.52f*heightScreen,0.75f * widthScreen-profilePictureStyle.fixedWidth-0.02f*widthScreen,0.03f*heightScreen));
+				{
+					GUILayout.BeginHorizontal();
+					{
+						GUILayout.FlexibleSpace();
+						if (pageDebutFriends>0){
+							if (GUILayout.Button("...",paginationStyle)){
+								pageDebutFriends = pageDebutFriends-10;
+								pageFinFriends = pageDebutFriends+10;
+							}
+						}
+						GUILayout.Space(widthScreen*0.01f);
+						for (int i = pageDebutFriends ; i < pageFinFriends ; i++){
+							if (GUILayout.Button(""+(i+1),paginatorFriendsGuiStyle[i])){
+								paginatorFriendsGuiStyle[chosenPageFriends]=this.paginationStyle;
+								chosenPageFriends=i;
+								paginatorFriendsGuiStyle[i]=this.paginationActivatedStyle;
+								displayPageFriends();
+							}
+							GUILayout.Space(widthScreen*0.01f);
+						}
+						if (nbFriendsPages>pageFinFriends){
+							if (GUILayout.Button("...",paginationStyle)){
+								pageDebutFriends = pageDebutFriends+10;
+								pageFinFriends = Mathf.Min(pageFinFriends+10, nbFriendsPages);
+							}
+						}
+						GUILayout.FlexibleSpace();
+					}
+					GUILayout.EndHorizontal();
+				}
+				GUILayout.EndArea();
 			}
-
+		}
+		if (checkPassword) {
+			GUI.enabled=true;
+			GUILayout.BeginArea(centralWindow);
+			{
+				GUILayout.BeginVertical(centralWindowStyle);
+				{
+					GUILayout.FlexibleSpace();
+					GUILayout.Label ("Saisissez votre mot de passe",centralWindowTitleStyle);
+					GUILayout.FlexibleSpace();
+					GUILayout.BeginHorizontal();
+					{
+						GUILayout.Space(widthScreen*0.05f);
+						oldPassword = GUILayout.PasswordField(oldPassword,'*',centralWindowTextfieldStyle);
+						GUILayout.Space(widthScreen*0.05f);
+					}
+					GUILayout.EndHorizontal();
+					GUILayout.FlexibleSpace();
+					GUILayout.Label (error,centralWindowTitleStyle);
+					GUILayout.FlexibleSpace();
+					GUILayout.BeginHorizontal();
+					{
+						GUILayout.FlexibleSpace();
+						if (GUILayout.Button("OK",centralWindowButtonStyle)){
+							error="";
+							StartCoroutine(checkUserPassword());
+						}
+						GUILayout.FlexibleSpace();
+						if (GUILayout.Button("Quitter",centralWindowButtonStyle)){
+							error="";
+							oldPassword="";
+							checkPassword=false;	
+						}
+						GUILayout.FlexibleSpace();
+					}
+					GUILayout.EndHorizontal();
+					GUILayout.FlexibleSpace();
+				}
+				GUILayout.EndVertical();
+			}
+		GUILayout.EndArea();
+		}
+		if (changePassword) {
+			GUI.enabled=true;
+			GUILayout.BeginArea(centralWindow);
+			{
+				GUILayout.BeginVertical(centralWindowStyle);
+				{
+					GUILayout.FlexibleSpace();
+					GUILayout.Label ("Entrez votre nouveau mot de passe",centralWindowTitleStyle);
+					GUILayout.FlexibleSpace();
+					GUILayout.BeginHorizontal();
+					{
+						GUILayout.Space (widthScreen*0.05f);
+						newPassword1 = GUILayout.PasswordField(newPassword1,'*',centralWindowTextfieldStyle);
+						GUILayout.Space (widthScreen*0.05f);
+					}
+					GUILayout.EndHorizontal();
+					GUILayout.FlexibleSpace();
+					GUILayout.Label ("Confirmer la saisie",centralWindowTitleStyle);
+					GUILayout.FlexibleSpace();
+					GUILayout.BeginHorizontal();
+					{
+						GUILayout.Space (widthScreen*0.05f);
+						newPassword2 = GUILayout.PasswordField(newPassword2,'*',centralWindowTextfieldStyle);
+						GUILayout.Space (widthScreen*0.05f);
+					}
+					GUILayout.EndHorizontal();
+					GUILayout.FlexibleSpace();
+					GUILayout.Label (error,centralWindowTitleStyle);
+					GUILayout.FlexibleSpace();
+					GUILayout.BeginHorizontal();
+					{
+						GUILayout.FlexibleSpace();
+						if (GUILayout.Button("OK",centralWindowButtonStyle)){
+							if(newPassword1==newPassword2 && newPassword1!="" && newPassword2!=""){
+								error="";
+								StartCoroutine(editPassword());
+							}
+							else if(newPassword1!=newPassword2 && newPassword1!="" && newPassword2!=""){
+								error="les saisies ne correspondent pas";
+							}
+						}
+						GUILayout.FlexibleSpace();
+						if (GUILayout.Button("Quitter",centralWindowButtonStyle)){
+							changePassword=false;
+							checkPassword=false;
+							newPassword1="";
+							newPassword2="";
+							oldPassword="";	
+							error="";
+						}
+						GUILayout.FlexibleSpace();
+					}
+					GUILayout.EndHorizontal();
+					GUILayout.FlexibleSpace();
+				}
+				GUILayout.EndVertical();
+			}
+			GUILayout.EndArea();
+		}
+		if (displayPopUp)
+		{
+			GUI.enabled=true;
+			GUILayout.BeginArea(centralWindow);
+			{
+				GUILayout.BeginVertical(centralWindowStyle);
+				{
+					GUILayout.FlexibleSpace();
+					GUILayout.Label (error,centralWindowTitleStyle);
+					GUILayout.FlexibleSpace();
+					GUILayout.BeginHorizontal();
+					{
+						GUILayout.FlexibleSpace();
+						if (GUILayout.Button("Quitter",centralWindowButtonStyle)){
+							error="";
+							displayPopUp=false;
+						}
+						GUILayout.FlexibleSpace();
+					}
+					GUILayout.EndHorizontal();
+					GUILayout.FlexibleSpace();
+				}
+				GUILayout.EndVertical();
+			}
+			GUILayout.EndArea();
 		}
 	}
 
-
-
-
-
-
-	private IEnumerator setStyles() {
+	private void setStyles() {
 		
 		heightScreen = Screen.height;
 		widthScreen = Screen.width;
-		
-		this.profileData = new GUIStyle ();
-		profileData.normal.textColor = Color.black;
-		profileData.fontSize = heightScreen/40;
-		profileData.alignment = TextAnchor.MiddleLeft;
 
-		this.labelNo = new GUIStyle ();
-		labelNo.normal.textColor = Color.black;
-		labelNo.fontSize = heightScreen/60;
-		labelNo.alignment = TextAnchor.MiddleLeft;
+		nbFriendsPerRow = 4 + 2*Mathf.FloorToInt(((float)widthScreen/(float)heightScreen - 1f) * 2f);
+		nbInvitationsReceivedPerRow=Mathf.FloorToInt(nbFriendsPerRow/2);
+		nbInvitationsSentPerRow=nbInvitationsReceivedPerRow;
+
+		this.profilePictureStyle.fixedHeight = (int)heightScreen * 27 / 100;
+		this.profilePictureStyle.fixedWidth = profilePictureStyle.fixedHeight;
+
+		this.friendLabelsAreaSizeX=Mathf.FloorToInt((0.75f * widthScreen-profilePictureStyle.fixedWidth-0.02f*widthScreen) / nbFriendsPerRow);
+		this.friendLabelsAreaSizeY = Mathf.FloorToInt(heightScreen*0.12f);
+
+		this.profileData.fontSize = heightScreen * 2 / 100;
+		this.profileData.fixedHeight = (int)heightScreen * 25 / 1000;
+		this.profileData.fixedWidth = (int)widthScreen * 20 / 100;
+
+		this.labelNo.fontSize = heightScreen * 2 / 100;
+		this.labelNo.fixedHeight = (int)heightScreen * 25 / 1000;
+
+		this.editProfilePictureButtonStyle.fontSize = heightScreen * 2 / 100;
+		this.editProfilePictureButtonStyle.fixedHeight = (int)heightScreen * 25 / 1000;
+		this.editProfilePictureButtonStyle.fixedWidth = profilePictureStyle.fixedHeight;
+
+		this.editProfileDataButtonStyle.fontSize = heightScreen * 2 / 100;
+		this.editProfileDataButtonStyle.fixedHeight = (int)heightScreen * 25 / 1000;
+		this.editProfileDataButtonStyle.fixedWidth = profilePictureStyle.fixedHeight;
+
+		this.friendshipStateButtonStyle.fontSize = heightScreen * 2 / 100;
+		this.friendshipStateButtonStyle.fixedHeight = (int)heightScreen * 5 / 100;
+		this.friendshipStateButtonStyle.fixedWidth = (int)widthScreen * 12 / 100;
+
+		this.friendButtonStyle.fixedHeight = friendLabelsAreaSizeY*0.5f;
+		this.friendButtonStyle.fixedWidth = friendLabelsAreaSizeX *0.9f;
+		this.friendButtonStyle.fontSize = (int)friendButtonStyle.fixedHeight*35/100;
+
+		this.actionButtonStyle.fixedHeight = (int)friendLabelsAreaSizeY*(18/100);
+		this.actionButtonStyle.fixedWidth = friendButtonStyle.fixedWidth;
+		this.actionButtonStyle.fontSize = friendButtonStyle.fontSize;
+
+		this.inputTextfieldStyle.fontSize = heightScreen * 2 / 100;
+		this.inputTextfieldStyle.fixedHeight = (int)heightScreen * 25 / 1000;
+		this.inputTextfieldStyle.fixedWidth = profilePictureStyle.fixedWidth;
+
+		this.titleStyle.fontSize = heightScreen * 25 / 1000;
+		this.titleStyle.fixedHeight = (int)heightScreen * 3 / 100;
+
+		this.paginationStyle.fontSize = heightScreen*2/100;
+		this.paginationStyle.fixedWidth = widthScreen*3/100;
+		this.paginationStyle.fixedHeight = heightScreen*3/100;
+		this.paginationActivatedStyle.fontSize = heightScreen*2/100;
+		this.paginationActivatedStyle.fixedWidth = widthScreen*3/100;
+		this.paginationActivatedStyle.fixedHeight = heightScreen*3/100;
+
+		this.centralWindow = new Rect (widthScreen * 0.25f, 0.12f * heightScreen, widthScreen * 0.50f, 0.25f * heightScreen);
+		this.fileBrowserWindow = new Rect (widthScreen * 0.25f, 0.125f * heightScreen, widthScreen * 0.50f, 0.75f * heightScreen);
+
+		this.centralWindowStyle.fixedWidth = widthScreen*0.5f-5;
 		
-		this.profilePictureStyle = new GUIStyle ();
-		profilePictureStyle.normal.background = white;
-		profilePictureStyle.alignment = TextAnchor.MiddleLeft;
+		this.centralWindowTitleStyle.fontSize = heightScreen*2/100;
+		this.centralWindowTitleStyle.fixedHeight = (int)heightScreen*3/100;
+		this.centralWindowTitleStyle.fixedWidth = (int)widthScreen*5/10;
 		
-		
-		yield break;
+		this.centralWindowButtonStyle.fontSize = heightScreen*2/100;
+		this.centralWindowButtonStyle.fixedHeight = (int)heightScreen*3/100;
+		this.centralWindowButtonStyle.fixedWidth = (int)widthScreen*20/100;
+
+		this.centralWindowTextfieldStyle.fontSize = heightScreen*2/100;
+		this.centralWindowTextfieldStyle.fixedHeight = (int)heightScreen*3/100;
+		this.centralWindowTextfieldStyle.fixedWidth = (int)widthScreen*4/10;
+
 	}
-
-
+	
 	private IEnumerator getUserProfile() {
-
 		WWWForm form = new WWWForm(); 											// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_nick", ApplicationModel.profileChosen);
-		
+		form.AddField("myform_nick", profileChosen);
 		WWW w = new WWW(URLGetUserProfile, form); 				// On envoie le formulaire à l'url sur le serveur 
 		yield return w;
 		if (w.error != null) 
@@ -564,8 +866,10 @@ public class profileScript : MonoBehaviour {
 			string[] userInformations = data[0].Split(new string[] { "\\" }, System.StringSplitOptions.None);
 			string[] usersConnections1 = data[1].Split(new char[] { '\n' }, System.StringSplitOptions.None);
 			string[] usersConnections2 = data[2].Split(new char[] { '\n' }, System.StringSplitOptions.None);
-			
-			this.userData = new User(ApplicationModel.profileChosen,
+			string[] usersConnections3 = data[3].Split(new char[] { '\n' }, System.StringSplitOptions.None);
+			string[] usersConnections4 = data[4].Split(new char[] { '\n' }, System.StringSplitOptions.None);
+
+			this.userData = new User(profileChosen,
 			                         userInformations[0]); // picture
 			
 			this.userData.Connections = new List<Connection>();
@@ -578,26 +882,42 @@ public class profileScript : MonoBehaviour {
 					                                               System.Convert.ToInt32(connectionInfo[2])));
 				}
 			}
-			
 			if (usersConnections2.Length>0){
-				for (int i=0; i<usersConnections2.Length-1;i++){
-					
+				for (int i=0; i<usersConnections2.Length-1;i++){		
 					string[] connectionInfo = usersConnections2[i].Split(new string[] { "\\" }, System.StringSplitOptions.None); 
 					this.userData.Connections.Add (new Connection (System.Convert.ToInt32(connectionInfo[0]),connectionInfo[1],
 					                                               System.Convert.ToInt32(connectionInfo[2])+2));
 				}
 			}
 
-			//computeConnections();
-			StartCoroutine(setProfilePicture());
+			if (usersConnections3.Length > 0)
+			{
+				for (int i = 0; i < usersConnections3.Length - 1; i++){
+					string pluriel = "";
+					if (Convert.ToInt32(usersConnections3[i]) > 1)
+					{
+						pluriel = "s";
+					}
+					labelStatistique = usersConnections3[i] + " victoire" + pluriel;
+				}
+			}
+			if (usersConnections4.Length > 0)
+			{
+				for (int i = 0; i < usersConnections4.Length - 1; i++){
+					string pluriel = "";
+					if (Convert.ToInt32(usersConnections4[i]) > 1)
+					{
+						pluriel = "s";
+					}
+					labelStatistique += ", " + usersConnections4[i] + " défaite" + pluriel;
+				}
+			}
 
-
+			profileInitialized=true;
+			computeConnections();
 		}
 	}
-
-
-
-
+	
 	private IEnumerator getMyProfile() {
 
 		WWWForm form = new WWWForm(); 											// Création de la connexion
@@ -606,14 +926,18 @@ public class profileScript : MonoBehaviour {
 
 		WWW w = new WWW(URLGetMyProfile, form); 				// On envoie le formulaire à l'url sur le serveur 
 		yield return w;
-		if (w.error != null) 
-			print (w.error); 
+		if (w.error != null)
+		{
+			print(w.error); 
+		}
 		else 
 		{
 			string[] data=w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
 			string[] userInformations = data[0].Split(new string[] { "\\" }, System.StringSplitOptions.None);
 			string[] usersConnections1 = data[1].Split(new char[] { '\n' }, System.StringSplitOptions.None);
 			string[] usersConnections2 = data[2].Split(new char[] { '\n' }, System.StringSplitOptions.None);
+			string[] usersConnections3 = data[3].Split(new char[] { '\n' }, System.StringSplitOptions.None);
+			string[] usersConnections4 = data[4].Split(new char[] { '\n' }, System.StringSplitOptions.None);
 
 			this.userData = new User(ApplicationModel.username,
 			                         userInformations[0], // mail
@@ -643,15 +967,35 @@ public class profileScript : MonoBehaviour {
 				}
 			}
 
+			if (usersConnections3.Length > 0)
+			{
+				for (int i = 0; i < usersConnections3.Length - 1; i++){
+					string pluriel = "";
+					if (Convert.ToInt32(usersConnections3[i]) > 1)
+					{
+						pluriel = "s";
+					}
+					labelStatistique = usersConnections3[i] + " victoire" + pluriel;
+				}
+			}
+			if (usersConnections4.Length > 0)
+			{
+				for (int i = 0; i < usersConnections4.Length - 1; i++){
+					string pluriel = "";
+					if (Convert.ToInt32(usersConnections4[i]) > 1)
+					{
+						pluriel = "s";
+					}
+					labelStatistique += ", " + usersConnections4[i] + " défaite" + pluriel;
+				}
+			}
 
 			firstName=userData.FirstName;
 			surname=userData.Surname;
 			mail=userData.Mail;
 
-			//computeConnections();
-			StartCoroutine(setProfilePicture());
-
-
+			profileInitialized=true;
+			computeConnections();
 		}
 	}
 
@@ -659,17 +1003,18 @@ public class profileScript : MonoBehaviour {
 
 		profilePicture = new Texture2D (4, 4, TextureFormat.DXT1, false);
 
-		if (userData.Picture.StartsWith("http")){
-			var www = new WWW(userData.Picture);
+		if (userData.Picture.StartsWith(ServerDirectory)){
+			var www = new WWW(ApplicationModel.host + userData.Picture);
 			yield return www;
 			www.LoadImageIntoTexture(profilePicture);
+			isPictureLoaded=true;
 		}
 		else {
 			var www = new WWW(URLDefaultProfilePicture);
 			yield return www;
 			www.LoadImageIntoTexture(profilePicture);
+			isPictureLoaded = true;
 		}
-		computeConnections();
 	}
 	
 	public void computeConnections(){
@@ -690,7 +1035,6 @@ public class profileScript : MonoBehaviour {
 			}
 		}
 
-
 		if(!myProfile){
 
 			friendshipState=4;
@@ -699,18 +1043,14 @@ public class profileScript : MonoBehaviour {
 
 					friendshipState = userData.Connections[i].State;
 					friendshipConnection = i;
-
+				
 					if (friendshipState==3)
 						friendshipState=1;
-
 				}
 
 			}
 		}
-
-
 		setDisplayParameters ();
-
 	}
 	
 	public void setDisplayParameters(){
@@ -719,12 +1059,6 @@ public class profileScript : MonoBehaviour {
 		nbInvitationsSentToDisplay = invitationsSentToBeDisplayed.Count;
 		nbInvitationsReceivedToDisplay = invitationsReceivedToBeDisplayed.Count;
 
-		float tempF = 10f*widthScreen/heightScreen;
-		float width = tempF * 0.6f;
-
-		nbFriendsPerRow = Mathf.FloorToInt(width/2f);
-		nbInvitationsReceivedPerRow=Mathf.FloorToInt(width/4f);
-		nbInvitationsSentPerRow=Mathf.FloorToInt(width/4f);
 
 		nbFriendsPages = Mathf.CeilToInt((nbFriendsToDisplay-1) / (3*nbFriendsPerRow))+1;
 
@@ -746,77 +1080,68 @@ public class profileScript : MonoBehaviour {
 
 		nbInvitationsReceivedPages = Mathf.CeilToInt((nbInvitationsReceivedToDisplay-1) / (3*nbInvitationsSentPerRow)+1);
 
-		if (nbInvitationsReceivedToDisplay==0){
-			nbInvitationsReceivedPages =0;
-			labelNoInvitationsReceived="Vous n'avez pas d'invitations en attente";
+		if (nbInvitationsReceivedToDisplay == 0){
+			nbInvitationsReceivedPages = 0;
+			labelNoInvitationsReceived = "Vous n'avez pas d'invitations en attente";
 		} else {
-			labelNoInvitationsReceived="";
+			labelNoInvitationsReceived = "";
 		}
-
-
-		setPaginationParameters ();
-
-	}
-
-	public void setPaginationParameters(){
-		
+		pageDebutFriends = 0 ;
+		if (nbFriendsPages>10){
+			pageFinFriends = 9 ;
+		}
+		else{
+			pageFinFriends = nbFriendsPages ;
+		}
 		paginatorFriendsGuiStyle = new GUIStyle[nbFriendsPages];
 		for (int i = 0; i < nbFriendsPages; i++) { 
-			paginatorFriendsGuiStyle [i] = new GUIStyle ();
-			paginatorFriendsGuiStyle [i].alignment = TextAnchor.MiddleCenter;
-			paginatorFriendsGuiStyle [i].fontSize = 12;
-			if (i==chosenPageFriends){
-				paginatorFriendsGuiStyle[i].normal.background=backActivatedButton;
-				paginatorFriendsGuiStyle[i].normal.textColor=Color.white;
+			if (i==0){
+				paginatorFriendsGuiStyle[i]=paginationActivatedStyle;
 			}
 			else{
-				paginatorFriendsGuiStyle[i].normal.background=backButton;
-				paginatorFriendsGuiStyle[i].normal.textColor=Color.black;
+				paginatorFriendsGuiStyle[i]=paginationStyle;
 			}
-			
 		}
 		
+		pageDebutInvitationsReceived = 0 ;
+		if (nbInvitationsReceivedPages>5){
+			pageFinInvitationsReceived = 4 ;
+		}
+		else{
+			pageFinInvitationsReceived = nbInvitationsReceivedPages ;
+		}
 		paginatorInvitationsReceivedGuiStyle = new GUIStyle[nbInvitationsReceivedPages];
 		for (int i = 0; i < nbInvitationsReceivedPages; i++) { 
-			paginatorInvitationsReceivedGuiStyle [i] = new GUIStyle ();
-			paginatorInvitationsReceivedGuiStyle [i].alignment = TextAnchor.MiddleCenter;
-			paginatorInvitationsReceivedGuiStyle [i].fontSize = 12;
-			if (i==chosenPageInvitationsReceived){
-				paginatorInvitationsReceivedGuiStyle[i].normal.background=backActivatedButton;
-				paginatorInvitationsReceivedGuiStyle[i].normal.textColor=Color.white;
+			if (i==0){
+				paginatorInvitationsReceivedGuiStyle[i]=paginationActivatedStyle;
 			}
 			else{
-				paginatorInvitationsReceivedGuiStyle[i].normal.background=backButton;
-				paginatorInvitationsReceivedGuiStyle[i].normal.textColor=Color.black;
+				paginatorInvitationsReceivedGuiStyle[i]=paginationStyle;
 			}
-			
 		}
 		
+		pageDebutInvitationsSent = 0 ;
+		if (nbInvitationsSentPages>5){
+			pageFinInvitationsSent = 4 ;
+		}
+		else{
+			pageFinInvitationsSent = nbInvitationsSentPages ;
+		}
 		paginatorInvitationsSentGuiStyle = new GUIStyle[nbInvitationsSentPages];
 		for (int i = 0; i < nbInvitationsSentPages; i++) { 
-			paginatorInvitationsSentGuiStyle [i] = new GUIStyle ();
-			paginatorInvitationsSentGuiStyle [i].alignment = TextAnchor.MiddleCenter;
-			paginatorInvitationsSentGuiStyle [i].fontSize = 12;
-			if (i==chosenPageInvitationsSent){
-				paginatorInvitationsSentGuiStyle[i].normal.background=backActivatedButton;
-				paginatorInvitationsSentGuiStyle[i].normal.textColor=Color.white;
+			if (i==0){
+				paginatorInvitationsSentGuiStyle[i]=paginationActivatedStyle;
 			}
 			else{
-				paginatorInvitationsSentGuiStyle[i].normal.background=backButton;
-				paginatorInvitationsSentGuiStyle[i].normal.textColor=Color.black;
+				paginatorInvitationsSentGuiStyle[i]=paginationStyle;
 			}
-			
 		}
 		
 		displayPageFriends ();
 		displayPageInvitationsSent ();
 		displayPageInvitationsReceived ();
-		
-		
 		isDataLoaded =true;
-		
 	}
-
 
 	public void displayPageFriends(){
 		
@@ -849,9 +1174,7 @@ public class profileScript : MonoBehaviour {
 		else{
 			invitationsReceivedFinish = (chosenPageInvitationsReceived+1)*(nbInvitationsReceivedPerRow*3);
 		}
-
 	}
-
 
 	private IEnumerator confirmConnection(){
 		
@@ -875,7 +1198,6 @@ public class profileScript : MonoBehaviour {
 					StartCoroutine(getUserProfile());
 			}
 		}
-		
 	}
 
 
@@ -898,9 +1220,7 @@ public class profileScript : MonoBehaviour {
 				else
 					StartCoroutine(getUserProfile());
 			}
-
 		}
-		
 	}
 
 
@@ -909,7 +1229,7 @@ public class profileScript : MonoBehaviour {
 		WWWForm form = new WWWForm(); 											// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_nick", ApplicationModel.username);
-		form.AddField("myform_target", ApplicationModel.profileChosen);
+		form.AddField("myform_target", profileChosen);
 		form.AddField("myform_date",  System.DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss").ToString());
 		
 		WWW w = new WWW(URLCreateConnection, form); 				// On envoie le formulaire à l'url sur le serveur 
@@ -923,39 +1243,38 @@ public class profileScript : MonoBehaviour {
 			string lastId=data[0];
 
 			if (data[1]=="1"){
+				isDataLoaded=false;
 				if (myProfile)
 					StartCoroutine(getMyProfile());
 				else
 					StartCoroutine(getUserProfile());
 			}
 			else{
+				isDataLoaded=false;
 				userData.Connections.Add (new Connection(System.Convert.ToInt32(lastId),ApplicationModel.username,2));
 				computeConnections();
 			}
-
 		}
 	}
 
-		private IEnumerator updateProfile(){
+	private IEnumerator updateProfile(){
 			
-			WWWForm form = new WWWForm(); 											// Création de la connexion
-			form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
-			form.AddField("myform_nick", ApplicationModel.username);
-			form.AddField("myform_firstname", firstName);
-			form.AddField("myform_surname", surname);
-			form.AddField("myform_mail", mail);
-			
-			WWW w = new WWW(URLUpdateProfile, form); 				// On envoie le formulaire à l'url sur le serveur 
-			yield return w;
-			if (w.error != null) 
-				print (w.error); 
-			else 
-			{
-				//print(w.text); 											// donne le retour
-				StartCoroutine(getMyProfile());
-			}
-
+		WWWForm form = new WWWForm(); 											// Création de la connexion
+		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
+		form.AddField("myform_nick", ApplicationModel.username);
+		form.AddField("myform_firstname", firstName);
+		form.AddField("myform_surname", surname);
+		form.AddField("myform_mail", mail);
 		
+		WWW w = new WWW(URLUpdateProfile, form); 				// On envoie le formulaire à l'url sur le serveur 
+		yield return w;
+		if (w.error != null) 
+			print (w.error); 
+		else 
+		{
+			//print(w.text); 											// donne le retour
+			StartCoroutine(getMyProfile());
+		}
 	}
 
 
@@ -978,14 +1297,14 @@ public class profileScript : MonoBehaviour {
 
 		if (!availableExtension.Contains(fileExtension, StringComparer.OrdinalIgnoreCase)) {
 			displayPopUp=true;
-			error ="Chargement annule,\n l'image doit etre au format .png ou .jpg";
+			error ="Chargement annule, l'image doit etre au format .png ou .jpg";
 			yield break;
 		}
 
 		if (fileSize > sizeMax) 
 		{
 			displayPopUp = true;
-			error = "Chargement annule,\n l'image ne doit pas depasser " + (sizeMax / 1024) + "Mo";
+			error = "Chargement annule, l'image ne doit pas depasser " + (sizeMax / 1024) + "Mo";
 			yield break;
 		}
 		//limit = 3145728
@@ -1001,7 +1320,7 @@ public class profileScript : MonoBehaviour {
 		{
 			Debug.Log("Open file error: "+localFile.error);
 			displayPopUp=true;
-			error ="Le chargement de l'image a echoue,\n veuilez recommencer";
+			error ="Le chargement de l'image a echoue, veuilez recommencer";
 			yield break; // stop the coroutine here
 		}
 
@@ -1018,8 +1337,7 @@ public class profileScript : MonoBehaviour {
 		{
 			print(w.text);
 			if(System.Convert.ToInt32(w.text)==1){
-				userData.Picture="http://54.77.118.214/GarrukServer/img/profile/" + ApplicationModel.username + fileExtension;
-			
+				userData.Picture=ApplicationModel.host+ServerDirectory + ApplicationModel.username + fileExtension;
 				//print(userData.Picture);
 
 				var www = new WWW(userData.Picture);
@@ -1031,17 +1349,14 @@ public class profileScript : MonoBehaviour {
 			else	
 			{
 					displayPopUp=true;
-					error ="Le chargement de l'image a echoue,\n veuilez recommencer";
+					error ="Le chargement de l'image a echoue, veuilez recommencer";
 					yield break;
 			}
-
-			
 		}
-
 	}
 
 
-	IEnumerator checkPassword()
+	IEnumerator checkUserPassword()
 	{
 
 		WWWForm form = new WWWForm(); 								// Création de la connexion
@@ -1061,7 +1376,8 @@ public class profileScript : MonoBehaviour {
 			//print(w.text);
 			if (w.text.Equals("YES")) 					// On affiche la page d'accueil si l'authentification réussie
 			{ 				
-				correctPassword=true;
+				checkPassword=false;
+				changePassword=true;
 				error="";
 				oldPassword="";
 			}
@@ -1094,80 +1410,9 @@ public class profileScript : MonoBehaviour {
 			newPassword1="";
 			newPassword2="";
 			oldPassword="";
-			correctPassword=false;
+			checkPassword=false;
 			changePassword=false;
 		}
 	}
 
-	void DoErrorWindow(int windowID) {
-		
-		GUI.Label (new Rect(10,20,280,50),error);
-		if (GUI.Button(new Rect(110,80,80,20), "Quitter")){
-			displayPopUp=false;
-
-		}
-		
-	}
-
-	void DoChangePasswordWindow(int windowID) {
-		
-		if (correctPassword) {
-
-			GUI.Label (new Rect(10,30,280,20),"Entrez votre nouveau mot de passe");
-			newPassword1 = GUI.PasswordField(new Rect(10,60,280,20), newPassword1,'*');
-			GUI.Label (new Rect(10,90,280,20),"Confirmer la saisie");
-			newPassword2 = GUI.PasswordField(new Rect(10,120,280,20), newPassword2,'*');
-			GUI.Label (new Rect(10,150,280,20),error);
-			if (GUI.Button(new Rect(210,180,80,20), "OK")){
-
-				if(newPassword1==newPassword2 && newPassword1!="" && newPassword2!=""){
-				error="";
-				StartCoroutine(editPassword());
-				}
-				else if(newPassword1!=newPassword2 && newPassword1!="" && newPassword2!=""){
-				error="les saisies ne correspondent pas";
-				}
-				
-			}
-			if (GUI.Button(new Rect(120,180,80,20), "Quitter")){
-				changePassword=false;
-				correctPassword=false;
-				newPassword1="";
-				newPassword2="";
-				oldPassword="";
-				
-			}
-		
-		}
-
-		else {
-
-			GUI.Label (new Rect(10,30,280,20),"Saisissez votre mot de passe");
-			oldPassword = GUI.PasswordField(new Rect(10,60,280,20), oldPassword,'*');
-			GUI.Label (new Rect(10,90,280,20),error);
-			if (GUI.Button(new Rect(210,180,80,20), "OK")){
-				error="";
-				StartCoroutine(checkPassword());
-				
-			}
-			if (GUI.Button(new Rect(120,180,80,20), "Quitter")){
-				error="";
-				oldPassword="";
-				changePassword=false;
-				
-			}
-		
-
-		}
-		
-	}
-
-
-		
-		
-		
-		
-		
-	
-	
 }

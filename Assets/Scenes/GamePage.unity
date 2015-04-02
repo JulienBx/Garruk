@@ -1644,7 +1644,7 @@ MonoBehaviour:
   group: 0
   prefixBackup: 0
   observed: {fileID: 120194412}
-  synchronization: 3
+  synchronization: 1
   onSerializeTransformOption: 0
   onSerializeRigidBodyOption: 2
   ownershipTransfer: 0
@@ -2979,7 +2979,7 @@ MonoBehaviour:
   group: 0
   prefixBackup: 0
   observed: {fileID: 166358735}
-  synchronization: 3
+  synchronization: 1
   onSerializeTransformOption: 0
   onSerializeRigidBodyOption: 2
   ownershipTransfer: 0
@@ -3522,7 +3522,7 @@ MonoBehaviour:
   group: 0
   prefixBackup: 0
   observed: {fileID: 180346766}
-  synchronization: 3
+  synchronization: 1
   onSerializeTransformOption: 0
   onSerializeRigidBodyOption: 2
   ownershipTransfer: 0
@@ -5015,7 +5015,7 @@ MonoBehaviour:
   group: 0
   prefixBackup: 0
   observed: {fileID: 241231739}
-  synchronization: 3
+  synchronization: 1
   onSerializeTransformOption: 0
   onSerializeRigidBodyOption: 2
   ownershipTransfer: 0
@@ -5549,7 +5549,7 @@ MonoBehaviour:
   group: 0
   prefixBackup: 0
   observed: {fileID: 247729185}
-  synchronization: 3
+  synchronization: 1
   onSerializeTransformOption: 0
   onSerializeRigidBodyOption: 2
   ownershipTransfer: 0
@@ -22532,7 +22532,7 @@ MonoBehaviour:
   group: 0
   prefixBackup: -1
   observed: {fileID: 0}
-  synchronization: 3
+  synchronization: 1
   onSerializeTransformOption: 0
   onSerializeRigidBodyOption: 2
   ownershipTransfer: 0
@@ -25352,7 +25352,7 @@ MonoBehaviour:
   group: 0
   prefixBackup: 0
   observed: {fileID: 1316966302}
-  synchronization: 3
+  synchronization: 1
   onSerializeTransformOption: 0
   onSerializeRigidBodyOption: 2
   ownershipTransfer: 0
@@ -31102,7 +31102,7 @@ MonoBehaviour:
   group: 0
   prefixBackup: 0
   observed: {fileID: 1668119025}
-  synchronization: 3
+  synchronization: 1
   onSerializeTransformOption: 0
   onSerializeRigidBodyOption: 2
   ownershipTransfer: 0
@@ -33784,7 +33784,7 @@ MonoBehaviour:
   myStatsZoneStyle:
     m_Name: 
     m_Normal:
-      m_Background: {fileID: 2800000, guid: bbe214ef68f472b4e8705a8f6af8818d, type: 3}
+      m_Background: {fileID: 2800000, guid: d053a70170a32d0498844d289c4690f2, type: 3}
       m_TextColor: {r: 0, g: 0, b: 0, a: 1}
     m_Hover:
       m_Background: {fileID: 0}
@@ -33843,7 +33843,7 @@ MonoBehaviour:
   statsZoneStyle:
     m_Name: 
     m_Normal:
-      m_Background: {fileID: 2800000, guid: a654f0562aa7ff0458f3dd5c1fcf562b, type: 3}
+      m_Background: {fileID: 2800000, guid: f4c4edfb449674c498b78131aea82868, type: 3}
       m_TextColor: {r: 0, g: 0, b: 0, a: 1}
     m_Hover:
       m_Background: {fileID: 0}
@@ -34607,6 +34607,124 @@ MonoBehaviour:
     m_FixedHeight: 0
     m_StretchWidth: 0
     m_StretchHeight: 1
+  message1Style:
+    m_Name: 
+    m_Normal:
+      m_Background: {fileID: 2800000, guid: 4fdccd947fd480a44bda119614783404, type: 3}
+      m_TextColor: {r: .29411763, g: .285467118, b: .285467118, a: .854901969}
+    m_Hover:
+      m_Background: {fileID: 0}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 1}
+    m_Active:
+      m_Background: {fileID: 0}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 1}
+    m_Focused:
+      m_Background: {fileID: 0}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 1}
+    m_OnNormal:
+      m_Background: {fileID: 0}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 1}
+    m_OnHover:
+      m_Background: {fileID: 0}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 1}
+    m_OnActive:
+      m_Background: {fileID: 0}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 1}
+    m_OnFocused:
+      m_Background: {fileID: 0}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 1}
+    m_Border:
+      m_Left: 0
+      m_Right: 0
+      m_Top: 0
+      m_Bottom: 0
+    m_Margin:
+      m_Left: 0
+      m_Right: 0
+      m_Top: 0
+      m_Bottom: 0
+    m_Padding:
+      m_Left: 0
+      m_Right: 0
+      m_Top: 0
+      m_Bottom: 0
+    m_Overflow:
+      m_Left: 0
+      m_Right: 0
+      m_Top: 0
+      m_Bottom: 0
+    m_Font: {fileID: 0}
+    m_FontSize: 0
+    m_FontStyle: 0
+    m_Alignment: 4
+    m_WordWrap: 0
+    m_RichText: 0
+    m_TextClipping: 1
+    m_ImagePosition: 0
+    m_ContentOffset: {x: 0, y: 0}
+    m_FixedWidth: 0
+    m_FixedHeight: 0
+    m_StretchWidth: 1
+    m_StretchHeight: 1
+  message2Style:
+    m_Name: 
+    m_Normal:
+      m_Background: {fileID: 2800000, guid: f4c4edfb449674c498b78131aea82868, type: 3}
+      m_TextColor: {r: .29411763, g: .285467118, b: .285467118, a: .854901969}
+    m_Hover:
+      m_Background: {fileID: 0}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 1}
+    m_Active:
+      m_Background: {fileID: 0}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 1}
+    m_Focused:
+      m_Background: {fileID: 0}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 1}
+    m_OnNormal:
+      m_Background: {fileID: 0}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 1}
+    m_OnHover:
+      m_Background: {fileID: 0}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 1}
+    m_OnActive:
+      m_Background: {fileID: 0}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 1}
+    m_OnFocused:
+      m_Background: {fileID: 0}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 1}
+    m_Border:
+      m_Left: 0
+      m_Right: 0
+      m_Top: 0
+      m_Bottom: 0
+    m_Margin:
+      m_Left: 0
+      m_Right: 0
+      m_Top: 0
+      m_Bottom: 0
+    m_Padding:
+      m_Left: 0
+      m_Right: 0
+      m_Top: 0
+      m_Bottom: 0
+    m_Overflow:
+      m_Left: 0
+      m_Right: 0
+      m_Top: 0
+      m_Bottom: 0
+    m_Font: {fileID: 0}
+    m_FontSize: 0
+    m_FontStyle: 0
+    m_Alignment: 4
+    m_WordWrap: 0
+    m_RichText: 0
+    m_TextClipping: 1
+    m_ImagePosition: 0
+    m_ContentOffset: {x: 0, y: 0}
+    m_FixedWidth: 0
+    m_FixedHeight: 0
+    m_StretchWidth: 1
+    m_StretchHeight: 1
   attackIcon: {fileID: 2800000, guid: d8edabdd0bdc57f488c8de93706db265, type: 3}
   quicknessIcon: {fileID: 2800000, guid: 6c2789ecc3cd1b543803b7f9ecd93fce, type: 3}
   moveIcon: {fileID: 2800000, guid: b4767575c62959141a8b50d4175c8f13, type: 3}
@@ -34792,7 +34910,7 @@ MonoBehaviour:
   areaPlayer1Style:
     m_Name: 
     m_Normal:
-      m_Background: {fileID: 2800000, guid: 903b8175c9bb5ad4d874761e8d946192, type: 3}
+      m_Background: {fileID: 2800000, guid: 4fdccd947fd480a44bda119614783404, type: 3}
       m_TextColor: {r: 0, g: 0, b: 0, a: 1}
     m_Hover:
       m_Background: {fileID: 0}
@@ -34910,7 +35028,7 @@ MonoBehaviour:
   areaPlayer2Style:
     m_Name: 
     m_Normal:
-      m_Background: {fileID: 2800000, guid: 57506c884619181408f8c2153fceb793, type: 3}
+      m_Background: {fileID: 2800000, guid: f4c4edfb449674c498b78131aea82868, type: 3}
       m_TextColor: {r: .764705896, g: .179930791, b: .179930791, a: 1}
     m_Hover:
       m_Background: {fileID: 0}
@@ -38825,7 +38943,7 @@ MonoBehaviour:
   group: 0
   prefixBackup: 0
   observed: {fileID: 1923867036}
-  synchronization: 3
+  synchronization: 1
   onSerializeTransformOption: 0
   onSerializeRigidBodyOption: 2
   ownershipTransfer: 0
@@ -39977,7 +40095,7 @@ MonoBehaviour:
   group: 0
   prefixBackup: 0
   observed: {fileID: 1961171589}
-  synchronization: 3
+  synchronization: 1
   onSerializeTransformOption: 0
   onSerializeRigidBodyOption: 2
   ownershipTransfer: 0

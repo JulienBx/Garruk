@@ -10,7 +10,7 @@ GameObject:
   - 4: {fileID: 482238}
   - 33: {fileID: 3382238}
   - 23: {fileID: 2382238}
-  - 114: {fileID: 11456378}
+  - 114: {fileID: 11407592}
   m_Layer: 0
   m_Name: hexagon
   m_TagString: Untagged
@@ -58,7 +58,7 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 182238}
   m_Mesh: {fileID: 4300000, guid: 2223fcf04316c407eb8907667281b06a, type: 3}
---- !u!114 &11456378
+--- !u!114 &11407592
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -76,11 +76,11 @@ MonoBehaviour:
   DefaultMaterial: {fileID: 0}
   OpaqueMaterial: {fileID: 0}
   backTile:
-  - {fileID: 2800000, guid: a654f0562aa7ff0458f3dd5c1fcf562b, type: 3}
-  - {fileID: 2800000, guid: 57506c884619181408f8c2153fceb793, type: 3}
-  - {fileID: 2800000, guid: bbe214ef68f472b4e8705a8f6af8818d, type: 3}
-  - {fileID: 2800000, guid: efb81127379f5a3469b7fafcde764fb3, type: 3}
-  - {fileID: 2800000, guid: 903b8175c9bb5ad4d874761e8d946192, type: 3}
+  - {fileID: 2800000, guid: 2f5588dcad14fa0439122077700ebf64, type: 3}
+  - {fileID: 2800000, guid: f4c4edfb449674c498b78131aea82868, type: 3}
+  - {fileID: 2800000, guid: d053a70170a32d0498844d289c4690f2, type: 3}
+  - {fileID: 2800000, guid: 4d83579c94447f04eadcb6c61f5a4cbe, type: 3}
+  - {fileID: 2800000, guid: 4fdccd947fd480a44bda119614783404, type: 3}
   hexWidth: 0
   hexHeight: 0
   gridWidthInHexes: 5

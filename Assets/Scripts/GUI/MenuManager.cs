@@ -21,11 +21,11 @@ public class MenuManager : MonoBehaviour {
 	int heightScreen = Screen.height;
 	float ratioScreen;
 
+	float timer;
+	public int refreshInterval;
+
 	float flexibleSpaceSize;
 	float distanceToNonReadNotificationsCounter;
-
-	bool isDataLoaded=false;
-	
 
 	void Start(){ 
 		StartCoroutine(loadUserData ());
@@ -33,6 +33,13 @@ public class MenuManager : MonoBehaviour {
 	}
 
 	void Update(){
+
+		timer += Time.deltaTime;
+		
+		if (timer > refreshInterval) {
+			timer=timer-refreshInterval;
+			StartCoroutine(loadUserData ());
+		}
 		if (Screen.width != widthScreen || Screen.height != heightScreen) {
 			this.setStyles();
 		}
@@ -214,7 +221,6 @@ public class MenuManager : MonoBehaviour {
 			string[] data=w.text.Split(new string[] { "//" }, System.StringSplitOptions.None);
 			ApplicationModel.credits = System.Convert.ToInt32(data[0]);
 			ApplicationModel.nbNotificationsNonRead = System.Convert.ToInt32(data[1]);
-			isDataLoaded=true;
 		}
 	}
 

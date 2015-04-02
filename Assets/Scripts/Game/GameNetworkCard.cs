@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +23,8 @@ public class GameNetworkCard : Photon.MonoBehaviour
 	public GameObject YellowOutlines;
 	#endregion
 	Vector3 WorldNamePos;                                           // position de la carte sur l'écran
-	
+	private string URLUpdateStats = ApplicationModel.dev + "update_stat.php";
+
 	void Start()
 	{
 		gameCard = GetComponent<GameCard>();
@@ -344,6 +345,11 @@ public class GameNetworkCard : Photon.MonoBehaviour
 				if (--GameBoard.instance.nbCardsPlayer1 < 1)
 				{
 					GameScript.instance.EndOfGame(2);
+					if (GameBoard.instance.MyPlayerNumber == 1 && ApplicationModel.gameType == 1)
+					{
+					
+						GameScript.instance.addStat(2, 1);
+					}
 				}
 			}
 			else
@@ -351,6 +357,10 @@ public class GameNetworkCard : Photon.MonoBehaviour
 				if (--GameBoard.instance.nbCardsPlayer2 < 1)
 				{
 					GameScript.instance.EndOfGame(1);
+					if (GameBoard.instance.MyPlayerNumber == 2 && ApplicationModel.gameType == 1)
+					{
+						GameScript.instance.addStat(1, 2);
+					}
 				}
 			}
 			gnc.gameObject.SetActive(false);
@@ -393,8 +403,34 @@ public class GameNetworkCard : Photon.MonoBehaviour
 			DiscoveryFeature.Skills[3] = (bool)stream.ReceiveNext();
 			if (gameCard != null && gameCard.Card != null)
 			{
+				StartCoroutine(updateStat());
 				ShowFace();
 			}
 		}
 	}
+
+	public IEnumerator updateStat()
+	{
+		WWWForm form = new WWWForm(); 								// Création de la connexion
+		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
+		form.AddField("myform_nick", ApplicationModel.username);	// user
+		form.AddField("myform_idcard", gameCard.Card.Id.ToString());// ID de la carte
+		form.AddField("myform_attack", DiscoveryFeature.Attack?"1":"0");	// attaque de la carte
+		form.AddField("myform_life", DiscoveryFeature.Life?"1":"0");	// attaque de la carte
+		form.AddField("myform_move", DiscoveryFeature.Move?"1":"0");	// attaque de la carte
+		form.AddField("myform_movemin", DiscoveryFeature.MoveMin.ToString());	// attaque de la carte
+		form.AddField("myform_skill1", DiscoveryFeature.Skills[0]?"1":"0");	// attaque de la carte
+		form.AddField("myform_skill2", DiscoveryFeature.Skills[1]?"1":"0");	// attaque de la carte
+		form.AddField("myform_skill3", DiscoveryFeature.Skills[2]?"1":"0");	// attaque de la carte
+		form.AddField("myform_skill4", DiscoveryFeature.Skills[3]?"1":"0");	// attaque de la carte
+
+		WWW w = new WWW(URLUpdateStats, form); 							// On envoie le formulaire à l'url sur le serveur 
+		yield return w; 	
+		if (w.error != null) 
+		{
+			print(w.error); 										// donne l'erreur eventuelle
+		} 
+		print(w.text);
+	}
 }
+
