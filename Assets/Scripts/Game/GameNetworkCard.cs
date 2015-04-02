@@ -232,7 +232,7 @@ public class GameNetworkCard : Photon.MonoBehaviour
 		RaycastHit hit;
 		Vector3 pos = transform.TransformPoint(Vector3.zero);
 		
-		if (Physics.Raycast(pos, Vector3.forward, out hit, Mathf.Infinity, 1 << GameBoardGenerator.instance.GridLayerMask))
+		if (Physics.Raycast(pos, Vector3.forward, out hit, Mathf.Infinity, 1 << GameBoard.instance.GridLayerMask))
 		{
 			gTile = hit.transform.gameObject.GetComponent<GameTile>();
 		}

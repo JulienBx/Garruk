@@ -60,6 +60,7 @@ public class GameBoard : Photon.MonoBehaviour
 	bool player2Loaded = false ;
 	bool displayedHex = false ;
 	bool isStart = false ;
+	public int GridLayerMask = 1 << 8;
 
 	private int widthScreen;
 	private int heightScreen;
