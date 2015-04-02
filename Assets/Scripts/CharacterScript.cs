@@ -14,6 +14,7 @@ public class CharacterScript : Photon.MonoBehaviour {
 	GUIStyle AttackPoliceStyle;
 	GUIStyle MovePoliceStyle;
 	GUIStyle lifebarPoliceStyle;
+	GUIStyle skillInfoStyle;
 	Texture2D attackIcon ;
 	Texture2D quicknessIcon ;
 	Texture2D moveIcon ;
@@ -131,34 +132,20 @@ public class CharacterScript : Photon.MonoBehaviour {
 				GUILayout.EndArea ();
 
 			if (isHovered){
-				GUILayout.BeginArea (new Rect(stats.x, stats.yMax, stats.width, stats.height*2));
-				{
-					GUILayout.BeginVertical();
-					{
-						int j = 0 ; 
-						for (int i = 0 ; i < 4 ; i++){
-							if (card.Skills[i].IsActivated==1){
-								GUILayout.BeginVertical();
-								{
-									GUILayout.Label (""+card.Skills[i].Name,MovePoliceStyle);
-									GUILayout.Label (""+card.Skills[i].Level,MovePoliceStyle);
-								}
-								GUILayout.EndVertical();
-								j++;
-							}
-						}
-						for (int i = j; i < 4 ; i++){
-							GUILayout.Label ("???????",MovePoliceStyle);
-						}
+				int j = 0 ;
+				GUI.depth=2;
+				for (int i = 0 ; i < 4 ; i++){
+					if (card.Skills[i].IsActivated==1){
+						GUI.Label (new Rect(stats.x, stats.yMax+j*stats.height/2, stats.width, stats.height/2), card.Skills[i].Level+"."+card.Skills[i].Name, skillInfoStyle);
+						j++ ; 
 					}
-					GUILayout.EndVertical();
 				}
-				GUILayout.EndArea ();
+				GUI.depth=0;
 			}
 		}
 	}
 
-	public void setStyles(GUIStyle name, GUIStyle life, GUIStyle lifebar, GUIStyle attack, GUIStyle move, GUIStyle quickness, GUIStyle zone, Texture2D attackI, Texture2D quicknessI, Texture2D moveI) {
+	public void setStyles(GUIStyle name, GUIStyle life, GUIStyle lifebar, GUIStyle attack, GUIStyle move, GUIStyle quickness, GUIStyle zone, Texture2D attackI, Texture2D quicknessI, Texture2D moveI, GUIStyle skillInfo) {
 		heightScreen = Screen.height;
 		widthScreen = Screen.width;
 		this.NamePoliceStyle = name;
@@ -177,6 +164,8 @@ public class CharacterScript : Photon.MonoBehaviour {
 		this.MovePoliceStyle.fontSize = heightScreen*15/1000;
 		this.LifePoliceStyle.fontSize = heightScreen*15/1000;
 		this.attackIcon = attackI;
+		this.skillInfoStyle = skillInfo;
+		this.skillInfoStyle.fontSize=heightScreen*15/1000;
 		this.moveIcon = moveI ;
 		this.quicknessIcon = quicknessI ;
 	}
@@ -192,12 +181,11 @@ public class CharacterScript : Photon.MonoBehaviour {
 		this.AttackPoliceStyle.fixedWidth = heightScreen/60;
 		this.MovePoliceStyle.fontSize = heightScreen*15/1000;
 		this.LifePoliceStyle.fontSize = heightScreen*15/1000;
-
+		this.skillInfoStyle.fontSize=heightScreen*15/1000;
 	}
 
-	void OnMouseOver()
+	void OnMouseEnter()
 	{
-		print ("Je mouse Over");
 		isHovered = true ;
 //		if (GameBoard.instance.isDragging)
 //		{
@@ -214,6 +202,26 @@ public class CharacterScript : Photon.MonoBehaviour {
 //		{
 //			GameHoveredCard.instance.ChangeCard(this);
 //		}
+	}
+
+	void OnMouseExit()
+	{
+		isHovered = false ;
+		//		if (GameBoard.instance.isDragging)
+		//		{
+		//			if (!this.Equals(GameBoard.instance.CardSelected))
+		//			{
+		//				GameTile.instance.SetCursorToExchange();
+		//			} else
+		//			{
+		//				GameTile.instance.SetCursorToDrag();
+		//			}
+		//		}
+		//		
+		//		if (this.gameCard.card != null)
+		//		{
+		//			GameHoveredCard.instance.ChangeCard(this);
+		//		}
 	}
 
 	public void hideInformations(){
