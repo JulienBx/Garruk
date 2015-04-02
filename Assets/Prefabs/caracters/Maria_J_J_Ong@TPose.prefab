@@ -10,7 +10,6 @@ GameObject:
   - 4: {fileID: 465596}
   - 95: {fileID: 9565728}
   - 114: {fileID: 11437280}
-  - 65: {fileID: 6576168}
   m_Layer: 0
   m_Name: Maria_J_J_Ong@TPose
   m_TagString: Untagged
@@ -44,6 +43,7 @@ GameObject:
   - 137: {fileID: 13765728}
   - 114: {fileID: 11465728}
   - 114: {fileID: 11471122}
+  - 65: {fileID: 6583512}
   m_Layer: 0
   m_Name: Maria_J_J_Ong
   m_TagString: Untagged
@@ -1881,12 +1881,12 @@ Transform:
   m_Children: []
   m_Father: {fileID: 465726}
   m_RootOrder: 0
---- !u!65 &6576168
+--- !u!65 &6583512
 BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 165596}
+  m_GameObject: {fileID: 165600}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
@@ -2047,6 +2047,7 @@ MonoBehaviour:
   fgImage: {fileID: 2800000, guid: 0648d50748bd8b74884e747e292662bb, type: 3}
   AttackAnim: {fileID: 145750, guid: cd7ff7c5c68a9b645935252080c8b9a4, type: 2}
   YellowOutlines: {fileID: 0}
+  isSelectable: 0
 --- !u!114 &11465728
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2060,6 +2061,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   x: 0
   y: 0
+  isHovered: 0
   widthScreen: 663
   stats:
     serializedVersion: 2
