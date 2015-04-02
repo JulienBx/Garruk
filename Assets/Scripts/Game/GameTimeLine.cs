@@ -17,21 +17,23 @@ public class GameTimeLine : MonoBehaviour {
 	public GameNetworkCard PlayingCard
 	{
 		get { 
-			GameNetworkCard currentCardInTimeLine = GameObjects[playingCardPosition].GetComponent<GameNetworkCard>();
-			GameObject go = GameObject.Find(currentCardInTimeLine.gameCard.Card.Title + "-" + currentCardInTimeLine.ownerNumber);
-			GameNetworkCard playingCard = null;
-			if (go != null)
-			{
-				playingCard = go.GetComponent<GameNetworkCard>();
-			}
-			return playingCard; }
+//			GameNetworkCard currentCardInTimeLine = GameObjects[playingCardPosition].GetComponent<GameNetworkCard>();
+//			GameObject go = GameObject.Find(currentCardInTimeLine.gameCard.card.Title + "-" + currentCardInTimeLine.ownerNumber);
+//			GameNetworkCard playingCard = null;
+//			if (go != null)
+//			{
+//				playingCard = go.GetComponent<GameNetworkCard>();
+//			}
+//			return playingCard;
+			return null;
+		}
 	}
 	
 	public GameObject PlayingCardObject
 	{
 		get { 
 			GameNetworkCard currentCardInTimeLine = GameObjects[playingCardPosition].GetComponent<GameNetworkCard>();
-			GameObject playingCard = GameObject.Find(currentCardInTimeLine.gameCard.Card.Title + "-" + currentCardInTimeLine.ownerNumber);
+			GameObject playingCard = GameObject.Find(currentCardInTimeLine.gameCard.card.Title + "-" + currentCardInTimeLine.ownerNumber);
 			return playingCard; }
 	}
 	
@@ -77,7 +79,7 @@ public class GameTimeLine : MonoBehaviour {
 			GameCard gCard = go.GetComponent<GameCard>();
 			GameNetworkCard gnCard = go.GetComponent<GameNetworkCard>();
 
-			gCard.Card = playedCards[i].gameCard.Card;
+			gCard.Card = playedCards[i].gameCard.card;
 			gnCard.ownerNumber = playedCards[i].ownerNumber;
 			gnCard.DiscoveryFeature = playedCards[i].DiscoveryFeature;
 
@@ -92,7 +94,7 @@ public class GameTimeLine : MonoBehaviour {
 			GameCard gCard = go.GetComponent<GameCard>();
 			GameNetworkCard gnCard = go.GetComponent<GameNetworkCard>();
 
-			gCard.Card = GameCards[i].gameCard.Card;
+			gCard.Card = GameCards[i].gameCard.card;
 			gnCard.ownerNumber = GameCards[i].ownerNumber;
 			gnCard.DiscoveryFeature = GameCards[i].DiscoveryFeature;
 			GameOutline.instance.ToArrange = true;
@@ -101,21 +103,21 @@ public class GameTimeLine : MonoBehaviour {
 	
 
 		GamePlayingCard.instance.ChangeCurrentCard(GameObjects [playingCardPosition].GetComponent<GameNetworkCard>());
-		go = GameObject.Find(PlayingCard.gameCard.Card.Title + "-" + WhosNext);
+		go = GameObject.Find(PlayingCard.gameCard.card.Title + "-" + WhosNext);
 		go.GetComponent<GameNetworkCard>().FindNeighbors();
 		
 	}
 	
 	public void SortCardsBySpeed ()
 	{
-		GameCards = GameCards.OrderByDescending(e => e.gameCard.Card.GetSpeed()).ThenBy(e => e.gameCard.Card.Id).ToList();
+		GameCards = GameCards.OrderByDescending(e => e.gameCard.card.GetSpeed()).ThenBy(e => e.gameCard.card.Id).ToList();
 	}
 
 	public void SortCardsBySpeedAfterBuff ()
 	{
 		GameNetworkCard temp = GameCards[0];
 		GameCards.RemoveAt(0);
-		GameCards = GameCards.OrderBy(e => e.nbTurn).ThenByDescending(e => e.gameCard.Card.GetSpeed()).ThenBy(e => e.gameCard.Card.Id).ToList();
+		GameCards = GameCards.OrderBy(e => e.nbTurn).ThenByDescending(e => e.gameCard.card.GetSpeed()).ThenBy(e => e.gameCard.card.Id).ToList();
 		GameCards.Insert(0, temp);
 	}
 	

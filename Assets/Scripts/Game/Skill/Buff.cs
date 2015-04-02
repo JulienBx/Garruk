@@ -25,19 +25,19 @@ public class Buff : GameSkill
 		GameNetworkCard gnc = go.GetComponent<GameNetworkCard>();
 		foreach (StatModifier sm in StatModifiers)
 		{
-			gnc.gameCard.Card.modifiers.Add(sm);
+			gnc.gameCard.card.modifiers.Add(sm);
 		}
 		gnc.DiscoveryFeature.Skills[SkillNumber -1] = true;
 		Instantiate(gnc.AttackAnim, go.transform.position + new Vector3(0, 0, -2), Quaternion.identity);
 		GameTimeLine.instance.SortCardsBySpeedAfterBuff();
 		GameTimeLine.instance.Arrange();
-		if (GamePlayingCard.instance.gameCard.Card.Equals(gnc.gameCard.Card))
+		if (GamePlayingCard.instance.gameCard.Card.Equals(gnc.gameCard.card))
 		{
 			GamePlayingCard.instance.changeStats();
 		}
 		if (GameHoveredCard.instance.gameCard.Card != null)
 		{
-			if (GameHoveredCard.instance.gameCard.Card.Equals(gnc.gameCard.Card))
+			if (GameHoveredCard.instance.gameCard.Card.Equals(gnc.gameCard.card))
 			{
 				GameHoveredCard.instance.changeStats();
 			}

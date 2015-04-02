@@ -21,6 +21,7 @@ public class CharacterScript : Photon.MonoBehaviour {
 	public int y ;
 
 	bool isFocused = false ;
+	public bool isHovered = false ;
 
 	float life ;
 
@@ -123,10 +124,37 @@ public class CharacterScript : Photon.MonoBehaviour {
 						GUILayout.FlexibleSpace();
 						}
 						GUILayout.EndHorizontal();
+						
 					}
 					GUILayout.EndVertical();
 				}
 				GUILayout.EndArea ();
+
+			if (isHovered){
+				GUILayout.BeginArea (new Rect(stats.x, stats.yMax, stats.width, stats.height*2));
+				{
+					GUILayout.BeginVertical();
+					{
+						int j = 0 ; 
+						for (int i = 0 ; i < 4 ; i++){
+							if (card.Skills[i].IsActivated==1){
+								GUILayout.BeginVertical();
+								{
+									GUILayout.Label (""+card.Skills[i].Name,MovePoliceStyle);
+									GUILayout.Label (""+card.Skills[i].Level,MovePoliceStyle);
+								}
+								GUILayout.EndVertical();
+								j++;
+							}
+						}
+						for (int i = j; i < 4 ; i++){
+							GUILayout.Label ("???????",MovePoliceStyle);
+						}
+					}
+					GUILayout.EndVertical();
+				}
+				GUILayout.EndArea ();
+			}
 		}
 	}
 
@@ -165,6 +193,27 @@ public class CharacterScript : Photon.MonoBehaviour {
 		this.MovePoliceStyle.fontSize = heightScreen*15/1000;
 		this.LifePoliceStyle.fontSize = heightScreen*15/1000;
 
+	}
+
+	void OnMouseOver()
+	{
+		print ("Je mouse Over");
+		isHovered = true ;
+//		if (GameBoard.instance.isDragging)
+//		{
+//			if (!this.Equals(GameBoard.instance.CardSelected))
+//			{
+//				GameTile.instance.SetCursorToExchange();
+//			} else
+//			{
+//				GameTile.instance.SetCursorToDrag();
+//			}
+//		}
+//		
+//		if (this.gameCard.card != null)
+//		{
+//			GameHoveredCard.instance.ChangeCard(this);
+//		}
 	}
 
 	public void hideInformations(){

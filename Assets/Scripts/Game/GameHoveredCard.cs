@@ -25,14 +25,15 @@ public class GameHoveredCard : MonoBehaviour {
 
 	void OnGUI()
 	{
+	
 	}
 	public void ChangeCard(GameNetworkCard card)
 	{
-		gameObject.SetActive(true);
-		gameCard.Card = card.gameCard.Card;
-		gnCard.ownerNumber = card.ownerNumber;
-		gnCard.DiscoveryFeature = card.DiscoveryFeature;
-		changeStats();
+//		gameObject.SetActive(true);
+//		gameCard.Card = card.gameCard.Card;
+//		gnCard.ownerNumber = card.ownerNumber;
+//		gnCard.DiscoveryFeature = card.DiscoveryFeature;
+//		changeStats();
 
 	}
 

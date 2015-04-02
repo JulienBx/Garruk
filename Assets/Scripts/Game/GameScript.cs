@@ -58,42 +58,6 @@ public class GameScript : Photon.MonoBehaviour {
 		}
 	}
 	
-//	void OnGUI()
-//	{
-//		if (gameOver)
-//		{
-//			StartCoroutine(returnToLobby());
-//		}
-//		GUI.Label(new Rect(530, 0, 800, 50), labelMessage);
-//		if (playersName.Count > 1)
-//		{
-//			GUI.Label(new Rect(10, 0, 500, 50), labelText);
-//			if (!hasClicked && GUI.Button(new Rect(10, 20, 200, 35), "Commencer le combat"))
-//			{
-//				hasClicked = true;
-//				labelText = "En attente d'actions de l'autre joueur";
-//				photonView.RPC("StartFight", PhotonTargets.AllBuffered);
-//			}
-//			if (!GameBoard.instance.TimeOfPositionning)
-//			{
-//				int type = Mathf.RoundToInt (UnityEngine.Random.Range (1,25));
-//				if (type>4){
-//					type = 0 ;
-//				}
-//				photonView.RPC("AddTileToList",PhotonTargets.AllBuffered,x,y,type);
-//			}
-//		}
-//		else
-//		{
-//			GUI.Label(new Rect(10, 0, 500, 50), labelInfo);
-//		}
-//		if (GUI.Button(new Rect(220, 20, 150, 35), "Quitter le match"))
-//		{
-//			PhotonNetwork.Disconnect();
-//		}
-//
-//	}
-	
 	void Update() {
 	}
 

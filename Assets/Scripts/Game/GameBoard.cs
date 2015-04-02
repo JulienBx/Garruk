@@ -422,7 +422,6 @@ public class GameBoard : Photon.MonoBehaviour
 			clone = Instantiate(characters[type], new Vector3(x*scaleTile*0.71f, (y+(decalage/2f))*scaleTile*0.81f-scaleTile*0.4f, 0), Quaternion.identity) as GameObject;
 			gCard = clone.GetComponentInChildren<CharacterScript>();
 
-
 			clone.transform.localRotation =  Quaternion.Euler(90,180,0);
 
 			if (!GameScript.instance.isFirstPlayer){
@@ -435,7 +434,6 @@ public class GameBoard : Photon.MonoBehaviour
 				gCard.setStyles(characterNameStyle, characterLifeStyle, lifeBarStyle, attackStyle, moveStyle, quicknessStyle, statsZoneStyle, attackIcon, quicknessIcon, moveIcon);
 				sesCartes.Add(clone);
 				pos = UnityEngine.Camera.main.WorldToScreenPoint(new Vector3(x*scaleTile*0.71f-scaleTile*0.42f, (y+(decalage/2f))*scaleTile*0.81f-scaleTile*0.4f, 0));
-
 			}
 		}
 		else{

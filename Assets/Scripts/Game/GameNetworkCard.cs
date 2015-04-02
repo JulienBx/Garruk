@@ -12,7 +12,7 @@ public class GameNetworkCard : Photon.MonoBehaviour
 	public DiscoveryFeature DiscoveryFeature = new DiscoveryFeature();// Les caractéristiques que l'adversaire a découvert
 	public List<GameNetworkCard> neighbors;                         // Liste des cartes voisines
 	public int nbTurn = 1;                                          // seulement utile pour la timeline
-	public GameCard gameCard;
+	public CharacterScript gameCard;
 
 	#region unity editor
 	public GUIStyle progress_empty;
@@ -21,31 +21,26 @@ public class GameNetworkCard : Photon.MonoBehaviour
 	public Texture2D fgImage;
 	public GameObject AttackAnim;
 	public GameObject YellowOutlines;
+	public bool isSelectable = false ;
 	#endregion
 	Vector3 WorldNamePos;                                           // position de la carte sur l'écran
 	private string URLUpdateStats = ApplicationModel.dev + "update_stat.php";
 
 	void Start()
 	{
-		gameCard = GetComponent<GameCard>();
-		UpdatePosition();
+		gameCard = GetComponentInChildren<CharacterScript>();
+		if (gameCard.photonView.isMine){
+			isSelectable = true ;
+		}
 	}
 	void Update()
 	{
-		UpdatePosition();
+
 	}
 	
 	void OnGUI()
 	{
-		if (gameCard != null && gameCard.Card != null)
-		{
-			GUI.BeginGroup(new Rect(WorldNamePos.x, Screen.height - WorldNamePos.y, 16, 50));
-			GUI.Box(new Rect(0,0,16,50), bgImage, progress_empty);
-			GUI.BeginGroup(new Rect(0, 50 * (Damage) / gameCard.Card.Life, 16, 50));
-			GUI.Box(new Rect(0,0,16,50), fgImage, progress_empty);
-			GUI.EndGroup();
-			GUI.EndGroup();
-		}
+
 	}
 	
 	public Vector2 CalcGridPos()
@@ -56,164 +51,136 @@ public class GameNetworkCard : Photon.MonoBehaviour
 		return new Vector2(x, y);
 	}
 	
-	void OnMouseDown() 
-	{
-		if (gameCard.photonView.isMine)
-		{
-			if (GameBoard.instance.TimeOfPositionning)
-			{
-				
-				Debug.Log("card : " + gameCard.Card.Id);
-				GameBoard.instance.CardSelected = this;
-				GameBoard.instance.isDragging = true;
-				GameTile.instance.SetCursorToDrag();
-			} 
-			else
-			{
-				GameTile.InitIndexPathTile();
-				if (GameTimeLine.instance.PlayingCard.gameCard.Card.Equals(gameCard.Card) && !GamePlayingCard.instance.hasMoved) 
-				{
-					GameBoard.instance.CardSelected = this;
-					GameBoard.instance.isMoving = true;
-
-					RaycastHit hit;
-					Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-					
-					if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << GameBoardGenerator.instance.GridLayerMask))
-					{
-						currentTile = hit.transform.gameObject.GetComponent<GameTile>();
-					}
-				}
-				if (GameTimeLine.instance.PlayingCard.gameCard.Card.Equals(gameCard.Card) && GamePlayingCard.instance.hasMoved) 
-				{
-					StartCoroutine(ChangeMessage("la carte s'est déjà déplacée pendant ce tour"));
-				}
-				Vector2 gridPosition = this.CalcGridPos();
-				if (currentTile != null)
-				{
-					currentTile.Passable = true;
-				}
-				//Tile tile = GameBoard.instance.board[new Point((int)gridPosition.x, (int)gridPosition.y)];
-				//colorAndMarkNeighboringTiles(tile.AllNeighbours, gameCard.Card.Move, Color.gray);
-			}                         
-		}
-		if (!GameTimeLine.instance.PlayingCard.Equals(this) && GamePlayingCard.instance.attemptToAttack && !GamePlayingCard.instance.hasAttacked) 
-		{
-			if (GameTimeLine.instance.PlayingCard.neighbors.Find(e => e.gameCard.Card.Equals(this.gameCard.Card)))
-			{
-				DiscoveryFeature.Life = true;
-				gameCard.photonView.RPC("GetDamage", PhotonTargets.AllBuffered, this.GetComponent<PhotonView>().viewID, GameTimeLine.instance.PlayingCard.gameCard.Card.Attack);
-				GameTimeLine.instance.PlayingCard.GetComponent<GameNetworkCard>().DiscoveryFeature.Attack = true;
-				GamePlayingCard.instance.attemptToAttack = false;
-				GamePlayingCard.instance.hasAttacked = true;
-				GameTile.instance.SetCursorToDefault();
-				if (GamePlayingCard.instance.hasMoved && GamePlayingCard.instance.hasAttacked)
-				{
-					GamePlayingCard.instance.Pass();
-				}
-			}
-		}
-		if (GamePlayingCard.instance.attemptToCast && !GamePlayingCard.instance.hasAttacked)
-		{
-			gameCard.photonView.RPC("GetBuff", PhotonTargets.AllBuffered, this.GetComponent<PhotonView>().viewID, GamePlayingCard.instance.SkillCasted);
-			GamePlayingCard.instance.attemptToCast = false;
-			GamePlayingCard.instance.hasAttacked = true;
-			GameTile.instance.SetCursorToDefault();
-		}
-	}
-	
-	void OnMouseEnter()
-	{
-		if (GameBoard.instance.TimeOfPositionning)
-		{
-			if (gameCard.photonView.isMine)
-			{
-				GameBoard.instance.CardHovered = this.gameCard;
-				if (GameBoard.instance.isDragging)
-				{
-					if (!this.Equals(GameBoard.instance.CardSelected))
-					{
-						GameTile.instance.SetCursorToExchange();
-					} else
-					{
-						GameTile.instance.SetCursorToDrag();
-					}
-				}
-			}
-		}
-		if (this.gameCard.Card != null)
-		{
-			GameHoveredCard.instance.ChangeCard(this);
-		}
-	}
-	void OnMouseExit()
-	{
-		if (GameBoard.instance.TimeOfPositionning)
-		{
-			if (gameCard.photonView.isMine)
-			{
-				if (GameBoard.instance.isDragging)
-				{
-					GameBoard.instance.CardHovered = null;
-				}
-			}
-		}
-		GameHoveredCard.instance.hide();
-	}
-	void OnMouseUp()
-	{
-		if (GameBoard.instance.TimeOfPositionning)
-		{
-			if (gameCard.photonView.isMine)
-			{
-				if (GameBoard.instance.isDragging)
-				{
-					if (!this.Equals(GameBoard.instance.CardHovered) && GameBoard.instance.CardHovered)
-					{
-						Vector3 temp = this.transform.position;
-						this.transform.position = GameBoard.instance.CardHovered.transform.position;
-						GameBoard.instance.CardHovered.transform.position = temp;
-					}
-					if (GameBoard.instance.CardHovered == null)
-					{
-						GameBoard.instance.droppedCard = true;
-					}
-					GameBoard.instance.isDragging = false;
-					GameTile.instance.SetCursorToDefault();
-				}
-			}
-		}
-		else
-		{
-			GameTile.RemovePassableTile();
-			
-			//this.FindNeighbors();
-			if (gameCard.photonView.isMine)
-			{
-				GameBoard.instance.isMoving = false;
-				GameBoard.instance.CardSelected = null;
-			}
-			if (GamePlayingCard.instance.attemptToMoveTo != null)
-			{
-				int nbTiles = CalcNbTiles(currentTile, GamePlayingCard.instance.attemptToMoveTo);
-				if (nbTiles == gameCard.Card.GetMove())
-				{
-					DiscoveryFeature.Move = true;
-				}
-				else{
-					DiscoveryFeature.MoveMin = nbTiles;
-				}
-				GamePlayingCard.instance.attemptToMoveTo = null;
-				GamePlayingCard.instance.hasMoved = true;
-
-			}
-			if (GamePlayingCard.instance.hasMoved && GamePlayingCard.instance.hasAttacked)
-			{
-				GamePlayingCard.instance.Pass();
-			}
-			
-		}
-	}
+//	void OnMouseDown() 
+//	{
+//		if (gameCard.photonView.isMine)
+//		{
+//			GameBoard.instance.CardSelected = this;
+//			GameBoard.instance.isDragging = true;
+//			GameTile.instance.SetCursorToDrag();
+//		} 
+//			else
+//			{
+//				GameTile.InitIndexPathTile();
+//				if (GameTimeLine.instance.PlayingCard.gameCard.card.Equals(gameCard.card) && !GamePlayingCard.instance.hasMoved) 
+//				{
+//					GameBoard.instance.CardSelected = this;
+//					GameBoard.instance.isMoving = true;
+//
+//					RaycastHit hit;
+//					Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+//					
+//					if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << GameBoardGenerator.instance.GridLayerMask))
+//					{
+//						currentTile = hit.transform.gameObject.GetComponent<GameTile>();
+//					}
+//				}
+//				if (GameTimeLine.instance.PlayingCard.gameCard.card.Equals(gameCard.card) && GamePlayingCard.instance.hasMoved) 
+//				{
+//					StartCoroutine(ChangeMessage("la carte s'est déjà déplacée pendant ce tour"));
+//				}
+//				Vector2 gridPosition = this.CalcGridPos();
+//				if (currentTile != null)
+//				{
+//					currentTile.Passable = true;
+//				}
+//				//Tile tile = GameBoard.instance.board[new Point((int)gridPosition.x, (int)gridPosition.y)];
+//				//colorAndMarkNeighboringTiles(tile.AllNeighbours, gameCard.Card.Move, Color.gray);
+//			}                         
+//
+//		if (!GameTimeLine.instance.PlayingCard.Equals(this) && GamePlayingCard.instance.attemptToAttack && !GamePlayingCard.instance.hasAttacked) 
+//		{
+//			if (GameTimeLine.instance.PlayingCard.neighbors.Find(e => e.gameCard.card.Equals(this.gameCard.card)))
+//			{
+//				DiscoveryFeature.Life = true;
+//				gameCard.photonView.RPC("GetDamage", PhotonTargets.AllBuffered, this.GetComponent<PhotonView>().viewID, GameTimeLine.instance.PlayingCard.gameCard.card.Attack);
+//				GameTimeLine.instance.PlayingCard.GetComponent<GameNetworkCard>().DiscoveryFeature.Attack = true;
+//				GamePlayingCard.instance.attemptToAttack = false;
+//				GamePlayingCard.instance.hasAttacked = true;
+//				GameTile.instance.SetCursorToDefault();
+//				if (GamePlayingCard.instance.hasMoved && GamePlayingCard.instance.hasAttacked)
+//				{
+//					GamePlayingCard.instance.Pass();
+//				}
+//			}
+//		}
+//		if (GamePlayingCard.instance.attemptToCast && !GamePlayingCard.instance.hasAttacked)
+//		{
+//			gameCard.photonView.RPC("GetBuff", PhotonTargets.AllBuffered, this.GetComponent<PhotonView>().viewID, GamePlayingCard.instance.SkillCasted);
+//			GamePlayingCard.instance.attemptToCast = false;
+//			GamePlayingCard.instance.hasAttacked = true;
+//			GameTile.instance.SetCursorToDefault();
+//		}
+//	}
+//
+//	void OnMouseExit()
+//	{
+//		if (GameBoard.instance.TimeOfPositionning)
+//		{
+//			if (gameCard.photonView.isMine)
+//			{
+//				if (GameBoard.instance.isDragging)
+//				{
+//					GameBoard.instance.CardHovered = null;
+//				}
+//			}
+//		}
+//		GameHoveredCard.instance.hide();
+//	}
+//	void OnMouseUp()
+//	{
+//		if (GameBoard.instance.TimeOfPositionning)
+//		{
+//			if (gameCard.photonView.isMine)
+//			{
+//				if (GameBoard.instance.isDragging)
+//				{
+//					if (!this.Equals(GameBoard.instance.CardHovered) && GameBoard.instance.CardHovered)
+//					{
+//						Vector3 temp = this.transform.position;
+//						this.transform.position = GameBoard.instance.CardHovered.transform.position;
+//						GameBoard.instance.CardHovered.transform.position = temp;
+//					}
+//					if (GameBoard.instance.CardHovered == null)
+//					{
+//						GameBoard.instance.droppedCard = true;
+//					}
+//					GameBoard.instance.isDragging = false;
+//					GameTile.instance.SetCursorToDefault();
+//				}
+//			}
+//		}
+//		else
+//		{
+//			GameTile.RemovePassableTile();
+//			
+//			//this.FindNeighbors();
+//			if (gameCard.photonView.isMine)
+//			{
+//				GameBoard.instance.isMoving = false;
+//				GameBoard.instance.CardSelected = null;
+//			}
+//			if (GamePlayingCard.instance.attemptToMoveTo != null)
+//			{
+//				int nbTiles = CalcNbTiles(currentTile, GamePlayingCard.instance.attemptToMoveTo);
+//				if (nbTiles == gameCard.card.GetMove())
+//				{
+//					DiscoveryFeature.Move = true;
+//				}
+//				else{
+//					DiscoveryFeature.MoveMin = nbTiles;
+//				}
+//				GamePlayingCard.instance.attemptToMoveTo = null;
+//				GamePlayingCard.instance.hasMoved = true;
+//
+//			}
+//			if (GamePlayingCard.instance.hasMoved && GamePlayingCard.instance.hasAttacked)
+//			{
+//				GamePlayingCard.instance.Pass();
+//			}
+//			
+//		}
+//	}
 	
 	IEnumerator ChangeMessage(string message)
 	{
@@ -254,15 +221,6 @@ public class GameNetworkCard : Photon.MonoBehaviour
 				gTile.changeColor(color);
 				colorAndMarkNeighboringTiles(tile.AllNeighbours, i, color);
 			}
-		}
-	}
-	
-	public void UpdatePosition()
-	{
-		if (!gameObject.tag.Equals("NoPlayableCard"))
-		{
-			//Vector3 GameCardPosition = transform.Find("Life/Life Bar").position;
-			//WorldNamePos = Camera.main.camera.WorldToScreenPoint(GameCardPosition);
 		}
 	}
 	
@@ -335,7 +293,7 @@ public class GameNetworkCard : Photon.MonoBehaviour
 		GameNetworkCard gnc = go.GetComponent<GameNetworkCard>();
 		gnc.Damage += attack;
 
-		if (gnc.Damage >= gnc.gameCard.Card.Life)
+		if (gnc.Damage >= gnc.gameCard.card.Life)
 		{
 			GameTile.RemovePassableTile();
 			GameTimeLine.instance.GameCards.Remove(gnc);
@@ -401,7 +359,7 @@ public class GameNetworkCard : Photon.MonoBehaviour
 			DiscoveryFeature.Skills[1] = (bool)stream.ReceiveNext();
 			DiscoveryFeature.Skills[2] = (bool)stream.ReceiveNext();
 			DiscoveryFeature.Skills[3] = (bool)stream.ReceiveNext();
-			if (gameCard != null && gameCard.Card != null)
+			if (gameCard != null && gameCard.card != null)
 			{
 				StartCoroutine(updateStat());
 				ShowFace();
@@ -414,7 +372,7 @@ public class GameNetworkCard : Photon.MonoBehaviour
 		WWWForm form = new WWWForm(); 								// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_nick", ApplicationModel.username);	// user
-		form.AddField("myform_idcard", gameCard.Card.Id.ToString());// ID de la carte
+		form.AddField("myform_idcard", gameCard.card.Id.ToString());// ID de la carte
 		form.AddField("myform_attack", DiscoveryFeature.Attack?"1":"0");	// attaque de la carte
 		form.AddField("myform_life", DiscoveryFeature.Life?"1":"0");	// attaque de la carte
 		form.AddField("myform_move", DiscoveryFeature.Move?"1":"0");	// attaque de la carte

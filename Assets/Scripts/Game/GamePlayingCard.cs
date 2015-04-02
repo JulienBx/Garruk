@@ -108,7 +108,7 @@ public class GamePlayingCard : Photon.MonoBehaviour {
 	}
 	public void ChangeCurrentCard(GameNetworkCard card)
 	{
-		gameCard.Card = card.gameCard.Card;
+		gameCard.Card = card.gameCard.card;
 		gnCard.ownerNumber = card.ownerNumber;
 		gnCard.DiscoveryFeature = card.DiscoveryFeature;
 		changeStats();
