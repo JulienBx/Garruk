@@ -1181,7 +1181,7 @@ public class profileScript : MonoBehaviour {
 		WWWForm form = new WWWForm(); 											// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_idconnection", idConnection.ToString());
-		form.AddField("myform_date",  System.DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss").ToString());
+		form.AddField("myform_date",  System.DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss").ToString());
 		form.AddField("myform_nick", ApplicationModel.username);
 		
 		WWW w = new WWW(URLConfirmConnection, form); 				// On envoie le formulaire à l'url sur le serveur 
@@ -1230,7 +1230,7 @@ public class profileScript : MonoBehaviour {
 		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_nick", ApplicationModel.username);
 		form.AddField("myform_target", profileChosen);
-		form.AddField("myform_date",  System.DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss").ToString());
+		form.AddField("myform_date",  System.DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss").ToString());
 		
 		WWW w = new WWW(URLCreateConnection, form); 				// On envoie le formulaire à l'url sur le serveur 
 		yield return w;

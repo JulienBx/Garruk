@@ -1112,7 +1112,7 @@ public class MarketScript : MonoBehaviour {
 			cardsIDS=data[2].Split(new string[] { "#C#" }, System.StringSplitOptions.None);
 			skillsIds = data[1].Split('\n');
 			totalNbResult = System.Convert.ToInt32(data[4]);
-			dateLimit=DateTime.ParseExact(data[5], "yyyy-MM-dd hh:mm:ss", null);
+			dateLimit=DateTime.ParseExact(data[5], "yyyy-MM-dd HH:mm:ss", null);
 			
 			this.cardTypeList = data[0].Split('\n');
 			togglesCurrentStates = new bool[this.cardTypeList.Length];
@@ -1169,7 +1169,7 @@ public class MarketScript : MonoBehaviour {
 						                        System.Convert.ToInt32(cardInfo2[10]), // speedlevel
 						                        System.Convert.ToInt32(cardInfo2[11]), // attackleve
 						                        System.Convert.ToInt32(cardInfo2[12]), // price
-					                            DateTime.ParseExact(cardInfo2[13], "yyyy-MM-dd hh:mm:ss", null), // onSaleDate
+					                            DateTime.ParseExact(cardInfo2[13], "yyyy-MM-dd HH:mm:ss", null), // onSaleDate
 					                            System.Convert.ToInt32(cardInfo2[15]), 
 					                            System.Convert.ToInt32(cardInfo2[16]), // nbWin
 					                            System.Convert.ToInt32(cardInfo2[17]))); // nbLoose
@@ -1202,7 +1202,7 @@ public class MarketScript : MonoBehaviour {
 		form.AddField("myform_nick", ApplicationModel.username);
 		form.AddField("myform_idcard", idcard);
 		form.AddField("myform_cost", cost);
-		form.AddField("myform_date",  System.DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss").ToString());
+		form.AddField("myform_date",  System.DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss").ToString());
 		
 		WWW w = new WWW(URLBuyCard, form); 				// On envoie le formulaire à l'url sur le serveur 
 		yield return w;
@@ -1237,7 +1237,7 @@ public class MarketScript : MonoBehaviour {
 		WWWForm form = new WWWForm(); 											// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_nick", ApplicationModel.username);
-		form.AddField("myform_datelimit",  dateLimit.ToString("yyyy-MM-dd hh:mm:ss").ToString());
+		form.AddField("myform_datelimit",  dateLimit.ToString("yyyy-MM-dd HH:mm:ss").ToString());
 		form.AddField ("myform_totalnbresultlimit", totalNbResultLimit.ToString());
 
 		
@@ -1255,7 +1255,7 @@ public class MarketScript : MonoBehaviour {
 			newCardsIDS = data[0].Split(new char[] { '\n' }, System.StringSplitOptions.None);
 			cardsIDS=data[1].Split(new string[] { "#C#" }, System.StringSplitOptions.None);
 			newTotalNbResult=System.Convert.ToInt32(data[2]);
-			newDateLimit=DateTime.ParseExact(data[3], "yyyy-MM-dd hh:mm:ss", null);
+			newDateLimit=DateTime.ParseExact(data[3], "yyyy-MM-dd HH:mm:ss", null);
 
 			for (int i=0; i<cardsToBeDisplayed.Count;i++){
 

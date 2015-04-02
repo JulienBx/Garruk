@@ -273,7 +273,7 @@ public class HomePageScript : MonoBehaviour {
 
 				this.notifications.Add(new Notification(System.Convert.ToInt32(notificationData[0]),
 														notificationData[1].Split(new string[] { "#" }, System.StringSplitOptions.None), // content
-				                                        DateTime.ParseExact(notificationData[2], "yyyy-MM-dd hh:mm:ss", null), // date
+				                                        DateTime.ParseExact(notificationData[2], "yyyy-MM-dd HH:mm:ss", null), // date
 				                                        isRead,
 				                                        System.Convert.ToInt32(notificationData[4]))); // isRead
 
