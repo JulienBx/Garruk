@@ -42,7 +42,7 @@ MonoBehaviour:
   menuBackgroundStyle:
     m_Name: 
     m_Normal:
-      m_Background: {fileID: 2800000, guid: a07107b6b928649359fdd0d4a0be4568, type: 3}
+      m_Background: {fileID: 2800000, guid: 484c51a008c354dc7927c75091142657, type: 3}
       m_TextColor: {r: 0, g: 0, b: 0, a: 1}
     m_Hover:
       m_Background: {fileID: 0}
