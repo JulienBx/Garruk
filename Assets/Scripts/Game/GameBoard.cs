@@ -4,10 +4,15 @@ using System.Collections.Generic;
 
 public class GameBoard : Photon.MonoBehaviour 
 {
-	private string URLGetUserGameProfile = "http://54.77.118.214/GarrukServer/get_user_game_profile.php";
-	private string URLDefaultProfilePicture = "http://54.77.118.214/GarrukServer/img/profile/defautprofilepicture.png";
 
 	public GameObject[] characters;
+
+	public Texture2D bottomUserPicture;
+	public Texture2D topUserPicture;
+	public string bottomUserName;
+	public string topUserName;
+	public bool isBottomPlayerLoaded = false ;
+	public bool isTopPlayerLoaded = false ;
 
 	public GUIStyle[] statsZoneStyles;
 	public GUIStyle[] characterNameStyles;
@@ -54,8 +59,7 @@ public class GameBoard : Photon.MonoBehaviour
 	public int nbTurn;
 	private User[] users ;
 	Texture2D[] playerPictures ;
-	bool player1Loaded = false ;
-	bool player2Loaded = false ;
+
 	bool displayedHex = false ;
 	bool isStart = false ;
 	public int GridLayerMask = 1 << 8;
@@ -95,23 +99,20 @@ public class GameBoard : Photon.MonoBehaviour
 		{
 			GUILayout.BeginHorizontal();
 			{
-				if (player1Loaded){
+				if (isBottomPlayerLoaded){
 					GUILayout.BeginHorizontal(areaPlayer1Style,GUILayout.Width(widthScreen*20/100), GUILayout.Height(heightScreen*13/100));
 					{
-
+						GUILayout.FlexibleSpace();
+						GUILayout.BeginVertical();
+						{
 							GUILayout.FlexibleSpace();
-							GUILayout.BeginVertical();
-							{
-								GUILayout.FlexibleSpace();
-								GUILayout.Box(playerPictures[0],profilePictureStyle, GUILayout.Height(heightScreen*10/100), GUILayout.Width(widthScreen*8/100));
-								GUILayout.FlexibleSpace();
-							}
-							GUILayout.EndVertical();
+							GUILayout.Box(bottomUserPicture,profilePictureStyle, GUILayout.Height(heightScreen*10/100), GUILayout.Width(widthScreen*8/100));
 							GUILayout.FlexibleSpace();
-							GUILayout.Label(users[0].Username, myPlayerNameStyle);
-							
-							GUILayout.FlexibleSpace();
-						
+						}
+						GUILayout.EndVertical();
+						GUILayout.FlexibleSpace();
+						GUILayout.Label(users[0].Username, myPlayerNameStyle);
+						GUILayout.FlexibleSpace();		
 					}
 					GUILayout.EndHorizontal();
 				}
@@ -139,7 +140,7 @@ public class GameBoard : Photon.MonoBehaviour
 			{
 				GUILayout.BeginHorizontal(areaPlayer2Style,GUILayout.Width(widthScreen*20/100), GUILayout.Height(heightScreen*13/100));
 				{
-					if (player2Loaded){
+					if (isTopPlayerLoaded){
 						GUILayout.FlexibleSpace();
 						GUILayout.BeginVertical();
 						{
@@ -333,53 +334,6 @@ public class GameBoard : Photon.MonoBehaviour
 		yield return StartCoroutine(deck.RetrieveCards());
 	
 		ArrangeCards(GameScript.instance.isFirstPlayer);
-	}
-
-	public IEnumerator setUser(string name){
-
-		if (users[0].Username!=name || users[1].Username!=name){
-			WWWForm form = new WWWForm(); 											// Création de la connexion
-			form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
-			form.AddField("myform_nick", name);
-			
-			WWW w = new WWW(URLGetUserGameProfile, form); 				// On envoie le formulaire à l'url sur le serveur 
-			yield return w;
-			if (w.error != null) 
-				print (w.error); 
-			else 
-			{
-				//print(w.text); 											// donne le retour
-				if (ApplicationModel.username==name){
-					users[0] = new User(name, w.text);
-					StartCoroutine (setProfilePicture(0));
-					player1Loaded = true ;
-				}
-				else{
-					users[1] = new User(name, w.text);
-					StartCoroutine (setProfilePicture(1));
-					player2Loaded = true ;
-				}
-			}
-		}
-		else{
-			print ("Utilisateur déjà ajouté");
-		}
-	}
-
-	private IEnumerator setProfilePicture(int id){
-		
-		playerPictures[id] = new Texture2D (4, 4, TextureFormat.DXT1, false);
-		
-		if (users[id].Picture.StartsWith("http")){
-			var www = new WWW(users[id].Picture);
-			yield return www;
-			www.LoadImageIntoTexture(playerPictures[id]);
-		}
-		else {
-			var www = new WWW(URLDefaultProfilePicture);
-			yield return www;
-			www.LoadImageIntoTexture(playerPictures[id]);
-		}
 	}
 
 	public void StartFight()

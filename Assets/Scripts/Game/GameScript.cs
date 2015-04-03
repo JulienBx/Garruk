@@ -12,6 +12,7 @@ public class GameScript : Photon.MonoBehaviour {
 	public bool isGameOver = false ;
 	public bool isReconnecting ;
 	const string roomNamePrefix = "GarrukGame";
+	GameBoard gb ; 
 	int nbPlayers = 0 ;
 
 	//string URLStat = ApplicationModel.dev + "updateResult.php";
@@ -24,7 +25,9 @@ public class GameScript : Photon.MonoBehaviour {
 
 	void Start()
 	{	
+		users = new User[2];
 		PhotonNetwork.ConnectUsingSettings(ApplicationModel.photonSettings);
+		PhotonNetwork.autoCleanUpPlayerObjects = false ;
 	}
 
 	private void initGrid(){
@@ -75,11 +78,6 @@ public class GameScript : Photon.MonoBehaviour {
 		PhotonNetwork.Disconnect();
 	}
 
-	void RemovePlayerFromList(int id)
-	{
-		//playersName.Remove(id);
-	}
-
 	public void addStat(int user1, int user2)
 	{
 		//StartCoroutine(sendStat(playersName[user1], playersName[user2]));
@@ -107,13 +105,37 @@ public class GameScript : Photon.MonoBehaviour {
 	// RPC
 
 	[RPC]
-	void AddPlayerToList(int id, string loginName)
+	IEnumerator AddPlayerToList(int id, string loginName)
 	{
 		print ("J'ajoute "+loginName);
-		StartCoroutine(GameBoard.instance.setUser(loginName));
-		nbPlayers++;
-	}
+		if (ApplicationModel.username==loginName){
+			if (nbPlayers==0){
+				this.isFirstPlayer=true;
+				if (!isReconnecting){
+					this.initGrid();
+				}
+			}
+			else{
+				this.isFirstPlayer=false;
+				Camera.main.transform.localRotation=Quaternion.Euler(30,0,180);
+				Camera.main.transform.localPosition=new Vector3(0,5.75f,-10f);
+			}
+			this.gb = GameObject.Find("Game Board").GetComponent<GameBoard> () as GameBoard;
+			StartCoroutine(gb.AddCardToBoard());
+		}
 
+		users[nbPlayers]=new User(loginName);
+		yield return StartCoroutine(users[nbPlayers].retrievePicture());
+		nbPlayers++;
+		if (ApplicationModel.username==loginName){
+			gb.bottomUserPicture = users[nbPlayers].texture;
+			gb.bottomUserName = users[nbPlayers].Username;
+		}
+		else{
+			gb.topUserPicture = users[nbPlayers].texture;
+			gb.topUserName = users[nbPlayers].Username;
+		}
+	}
 
 	[RPC]
 	void StartFight()
@@ -151,7 +173,6 @@ public class GameScript : Photon.MonoBehaviour {
 		TypedLobby sqlLobby = new TypedLobby("rankedGame", LobbyType.SqlLobby);
 		PhotonNetwork.CreateRoom(roomNamePrefix + Guid.NewGuid().ToString("N"), newRoomOptions, sqlLobby);
 		GameBoard.instance.nbPlayer = 1;
-		isFirstPlayer = true ;
 	}
 
 	void OnJoinedRoom()
@@ -159,18 +180,7 @@ public class GameScript : Photon.MonoBehaviour {
 		Debug.Log("Connected to a room");
 
 		if (!isReconnecting){
-			if (isFirstPlayer){
-				photonView.RPC("AddPlayerToList", PhotonTargets.AllBuffered, PhotonNetwork.player.ID, ApplicationModel.username);
-				initGrid();
-			}
-			else{
-				photonView.RPC("AddPlayerToList", PhotonTargets.AllBuffered, PhotonNetwork.player.ID, ApplicationModel.username);
-				Camera.main.transform.localRotation=Quaternion.Euler(30,0,180);
-				Camera.main.transform.localPosition=new Vector3(0,5.75f,-10f);
-			}
-			
-			GameBoard gb = GameObject.Find("Game Board").GetComponent<GameBoard> () as GameBoard;
-			StartCoroutine(gb.AddCardToBoard());
+			photonView.RPC("AddPlayerToList", PhotonTargets.AllBuffered, PhotonNetwork.player.ID, ApplicationModel.username);
 		}
 		else{
 			Debug.Log("Reconnecting...");
@@ -180,7 +190,7 @@ public class GameScript : Photon.MonoBehaviour {
 	
 	void OnPhotonPlayerDisconnected(PhotonPlayer player)
 	{
-		RemovePlayerFromList(player.ID);
+		//RemovePlayerFromList(player.ID);
 	}
 
 	void OnDisconnectedFromPhoton()
