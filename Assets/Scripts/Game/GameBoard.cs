@@ -7,29 +7,25 @@ public class GameBoard : Photon.MonoBehaviour
 	private string URLGetUserGameProfile = "http://54.77.118.214/GarrukServer/get_user_game_profile.php";
 	private string URLDefaultProfilePicture = "http://54.77.118.214/GarrukServer/img/profile/defautprofilepicture.png";
 
-	public GameObject[] locations;
 	public GameObject[] characters;
-	public GUIStyle myStatsZoneStyle;
-	public GUIStyle statsZoneStyle;
-	public GUIStyle myCharacterNameStyle;
-	public GUIStyle characterNameStyle;
-	public GUIStyle myCharacterLifeStyle;
-	public GUIStyle characterLifeStyle;
-	public GUIStyle myLifeBarStyle;
-	public GUIStyle lifeBarStyle;
-	public GUIStyle myAttackStyle;
-	public GUIStyle attackStyle;
-	public GUIStyle myQuicknessStyle;
-	public GUIStyle quicknessStyle;
-	public GUIStyle myMoveStyle;
-	public GUIStyle moveStyle;
+
+	public GUIStyle[] statsZoneStyles;
+	public GUIStyle[] characterNameStyles;
+	public GUIStyle[] characterLifeStyle;
+	public GUIStyle[] lifeBarStyle;
+	public GUIStyle[] attackStyle;
+	public GUIStyle[] quicknessStyle;
+	public GUIStyle[] moveStyle;
+
 	public GUIStyle message1Style;
 	public GUIStyle message2Style;
 	public GUIStyle buttonStyle;
 	public GUIStyle skillInfoStyle;
 	public GUIStyle mySkillInfoStyle;
+
 	string labelMessage1;
 	string labelMessage2;
+
 	public Texture2D attackIcon;
 	public Texture2D quicknessIcon;
 	public Texture2D moveIcon;
@@ -437,14 +433,14 @@ public class GameBoard : Photon.MonoBehaviour
 			clone.transform.localRotation =  Quaternion.Euler(90,180,0);
 			//clone.name = gnCard.card.Title + "-2";
 			if (!GameScript.instance.isFirstPlayer){
-				gCard.setStyles(myCharacterNameStyle, myCharacterLifeStyle, myLifeBarStyle, myAttackStyle, myMoveStyle, myQuicknessStyle, myStatsZoneStyle, attackIcon, quicknessIcon, moveIcon, mySkillInfoStyle);
+				//gCard.setStyles(myCharacterNameStyle, myCharacterLifeStyle, myLifeBarStyle, myAttackStyle, myMoveStyle, myQuicknessStyle, myStatsZoneStyle, attackIcon, quicknessIcon, moveIcon, mySkillInfoStyle);
 				mesCartes.Add(clone);
 				pos = UnityEngine.Camera.main.WorldToScreenPoint(new Vector3((x+1)*scaleTile*0.71f-scaleTile*0.27f, (y+(decalage/2f))*scaleTile*0.81f-scaleTile*0.4f, 0));
 				gnCard.isMine = true;
 
 			}
 			else{
-				gCard.setStyles(characterNameStyle, characterLifeStyle, lifeBarStyle, attackStyle, moveStyle, quicknessStyle, statsZoneStyle, attackIcon, quicknessIcon, moveIcon, skillInfoStyle);
+				//gCard.setStyles(characterNameStyle, characterLifeStyle, lifeBarStyle, attackStyle, moveStyle, quicknessStyle, statsZoneStyle, attackIcon, quicknessIcon, moveIcon, skillInfoStyle);
 				sesCartes.Add(clone);
 				pos = UnityEngine.Camera.main.WorldToScreenPoint(new Vector3(x*scaleTile*0.71f-scaleTile*0.42f, (y+(decalage/2f))*scaleTile*0.81f-scaleTile*0.4f, 0));
 				gnCard.isMine = false;
@@ -454,13 +450,13 @@ public class GameBoard : Photon.MonoBehaviour
 			clone.transform.localRotation =  Quaternion.Euler(-90,0,0);
 			//clone.name = gnCard.card.Title + "-1";
 			if (GameScript.instance.isFirstPlayer){
-				gCard.setStyles(myCharacterNameStyle, myCharacterLifeStyle, myLifeBarStyle, myAttackStyle, myMoveStyle, myQuicknessStyle, myStatsZoneStyle, attackIcon, quicknessIcon, moveIcon, mySkillInfoStyle);
+				//gCard.setStyles(myCharacterNameStyle, myCharacterLifeStyle, myLifeBarStyle, myAttackStyle, myMoveStyle, myQuicknessStyle, myStatsZoneStyle, attackIcon, quicknessIcon, moveIcon, mySkillInfoStyle);
 				mesCartes.Add(clone);
 				pos = UnityEngine.Camera.main.WorldToScreenPoint(new Vector3(x*scaleTile*0.71f-scaleTile*0.42f, (y-(decalage/2f))*scaleTile*0.81f+scaleTile*0.2f, 0));
 				gnCard.isMine = true;
 			}
 			else{
-				gCard.setStyles(characterNameStyle, characterLifeStyle, lifeBarStyle, attackStyle, moveStyle, quicknessStyle, statsZoneStyle, attackIcon, quicknessIcon, moveIcon, skillInfoStyle);
+				//gCard.setStyles(characterNameStyle, characterLifeStyle, lifeBarStyle, attackStyle, moveStyle, quicknessStyle, statsZoneStyle, attackIcon, quicknessIcon, moveIcon, skillInfoStyle);
 				sesCartes.Add(clone);
 				pos = UnityEngine.Camera.main.WorldToScreenPoint(new Vector3((x+1)*scaleTile*0.71f-scaleTile*0.27f, (y-(decalage/2f))*scaleTile*0.81f+scaleTile*0.4f, 0));
 				gnCard.isMine = false;

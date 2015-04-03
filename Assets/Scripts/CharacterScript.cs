@@ -15,6 +15,7 @@ public class CharacterScript : Photon.MonoBehaviour {
 	GUIStyle MovePoliceStyle = new GUIStyle();
 	GUIStyle lifebarPoliceStyle = new GUIStyle();
 	GUIStyle skillInfoStyle = new GUIStyle();
+
 	Texture2D attackIcon ;
 	Texture2D quicknessIcon ;
 	Texture2D moveIcon ;
@@ -57,7 +58,6 @@ public class CharacterScript : Photon.MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (Screen.width != widthScreen || Screen.height != heightScreen) {
-			print ("resize "+Screen.width+","+Screen.height);
 			this.setStyles();
 		}
 	}

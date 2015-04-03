@@ -192,9 +192,10 @@ public class GameNetworkCard : Photon.MonoBehaviour
 	
 	IEnumerator ChangeMessage(string message)
 	{
-		GameScript.instance.labelMessage = message;
-		yield return new WaitForSeconds(2);
-		GameScript.instance.labelMessage = "";
+//		GameScript.instance.labelMessage = message;
+//		yield return new WaitForSeconds(2);
+//		GameScript.instance.labelMessage = "";
+		yield break ;
 	}
 	
 	
