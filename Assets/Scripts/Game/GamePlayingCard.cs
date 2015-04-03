@@ -41,58 +41,58 @@ public class GamePlayingCard : Photon.MonoBehaviour {
 	
 	void OnGUI()
 	{
-		if (!GameBoard.instance.TimeOfPositionning && !GameScript.instance.gameOver)
-		{
-			Vector3 pos = transform.position;
-			pos = Camera.main.camera.WorldToScreenPoint(pos);
-			if (GameBoard.instance.MyPlayerNumber == gnCard.ownerNumber)
-			{
-				GameScript.instance.labelText = "A vous de jouer";
-
-				if (GUI.Button(new Rect(pos.x - 35, Screen.height - pos.y - 110, 67, 25), "Passer"))
-				{
-					Pass();
-				}
-				if (GameTimeLine.instance.PlayingCard.hasNeighbor() && !hasAttacked && !attemptToAttack)
-				{
-					if (GUI.Button(new Rect(pos.x - 35, Screen.height - pos.y - 150, 67, 25), "Attaquer!"))
-					{
-						GameTile.instance.SetCursorToAttack();
-						attemptToAttack = true;
-					}
-				}
-			} else
-			{
-				GameScript.instance.labelText = "Au joueur adverse de jouer";
-			}
-			int i = 0;
-
-			if (GameTimeLine.instance.PlayingCard.ownerNumber == GameBoard.instance.MyPlayerNumber
-			    && !GamePlayingCard.instance.attemptToAttack && !GamePlayingCard.instance.hasAttacked)
-			{
-				foreach (Skill skill in gameCard.Card.Skills)
-				{
-					i += 1;
-					if (skill.IsActivated == 1 && skill.ManaCost <= GameBoard.instance.nbTurn)
-					{
-						if (GUI.Button(new Rect(pos.x - 60, Screen.height - pos.y - 150 - i * 30, 120, 25), skill.Name))
-						{
-							Transform tf = GameTimeLine.instance.PlayingCardObject.transform.Find("texturedGameCard/Skill" + i + "Area");
-							tf.gameObject.GetComponent<GameSkill>().launch();
-						}
-					}
-				}
-			}
-		}
-		if (this.gameCard != null)
-		{
-			GUI.BeginGroup(new Rect(WorldNamePos.x, Screen.height - WorldNamePos.y, 16, 50));
-			GUI.Box(new Rect(0,0,16,50), bgImage, progress_empty);
-			GUI.BeginGroup(new Rect(0, 0, 16, 50));
-			GUI.Box (new Rect(0,0,8,50), fgImage, progress_full);
-			GUI.EndGroup();
-			GUI.EndGroup();
-		}
+//		if (!GameBoard.instance.TimeOfPositionning && !GameScript.instance.gameOver)
+//		{
+//			Vector3 pos = transform.position;
+//			pos = Camera.main.camera.WorldToScreenPoint(pos);
+//			if (GameBoard.instance.MyPlayerNumber == gnCard.ownerNumber)
+//			{
+//				GameScript.instance.labelText = "A vous de jouer";
+//
+//				if (GUI.Button(new Rect(pos.x - 35, Screen.height - pos.y - 110, 67, 25), "Passer"))
+//				{
+//					Pass();
+//				}
+//				if (GameTimeLine.instance.PlayingCard.hasNeighbor() && !hasAttacked && !attemptToAttack)
+//				{
+//					if (GUI.Button(new Rect(pos.x - 35, Screen.height - pos.y - 150, 67, 25), "Attaquer!"))
+//					{
+//						GameTile.instance.SetCursorToAttack();
+//						attemptToAttack = true;
+//					}
+//				}
+//			} else
+//			{
+//				GameScript.instance.labelText = "Au joueur adverse de jouer";
+//			}
+//			int i = 0;
+//
+//			if (GameTimeLine.instance.PlayingCard.ownerNumber == GameBoard.instance.MyPlayerNumber
+//			    && !GamePlayingCard.instance.attemptToAttack && !GamePlayingCard.instance.hasAttacked)
+//			{
+//				foreach (Skill skill in gameCard.Card.Skills)
+//				{
+//					i += 1;
+//					if (skill.IsActivated == 1 && skill.ManaCost <= GameBoard.instance.nbTurn)
+//					{
+//						if (GUI.Button(new Rect(pos.x - 60, Screen.height - pos.y - 150 - i * 30, 120, 25), skill.Name))
+//						{
+//							Transform tf = GameTimeLine.instance.PlayingCardObject.transform.Find("texturedGameCard/Skill" + i + "Area");
+//							tf.gameObject.GetComponent<GameSkill>().launch();
+//						}
+//					}
+//				}
+//			}
+//		}
+//		if (this.gameCard != null)
+//		{
+//			GUI.BeginGroup(new Rect(WorldNamePos.x, Screen.height - WorldNamePos.y, 16, 50));
+//			GUI.Box(new Rect(0,0,16,50), bgImage, progress_empty);
+//			GUI.BeginGroup(new Rect(0, 0, 16, 50));
+//			GUI.Box (new Rect(0,0,8,50), fgImage, progress_full);
+//			GUI.EndGroup();
+//			GUI.EndGroup();
+//		}
 		
 	}
 	
@@ -108,15 +108,15 @@ public class GamePlayingCard : Photon.MonoBehaviour {
 	}
 	public void ChangeCurrentCard(GameNetworkCard card)
 	{
-		gameCard.Card = card.gameCard.card;
-		gnCard.ownerNumber = card.ownerNumber;
-		gnCard.DiscoveryFeature = card.DiscoveryFeature;
-		changeStats();
+//		gameCard.Card = card.gameCard.card;
+//		gnCard.ownerNumber = card.ownerNumber;
+//		gnCard.DiscoveryFeature = card.DiscoveryFeature;
+//		changeStats();
 	}
 	
 	public void changeStats()
 	{
-		gameCard.ShowFace(gnCard.ownerNumber == GameBoard.instance.MyPlayerNumber, gnCard.DiscoveryFeature);
+		//gameCard.ShowFace(gnCard.ownerNumber == GameBoard.instance.MyPlayerNumber, gnCard.DiscoveryFeature);
 		Transform attackText = transform.Find("Icons/Attack/Value");
 		attackText.GetComponent<TextMesh>().text = transform.Find("texturedGameCard").FindChild("AttackArea").FindChild("PictoMetalAttack").FindChild("Attack")
 			.GetComponent<TextMesh>().text;

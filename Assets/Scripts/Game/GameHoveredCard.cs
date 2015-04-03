@@ -44,7 +44,7 @@ public class GameHoveredCard : MonoBehaviour {
 
 	public void changeStats()
 	{
-		gameCard.ShowFace(gnCard.ownerNumber == GameBoard.instance.MyPlayerNumber, gnCard.DiscoveryFeature);
+		gameCard.ShowFace(gnCard.isMine, gnCard.DiscoveryFeature);
 		Transform attackText = transform.Find("Icons/Attack/Value");
 		attackText.GetComponent<TextMesh>().text = transform.Find("texturedGameCard").FindChild("AttackArea").FindChild("PictoMetalAttack").FindChild("Attack")
 			.GetComponent<TextMesh>().text;;

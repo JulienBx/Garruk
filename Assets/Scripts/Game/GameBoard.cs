@@ -390,99 +390,107 @@ public class GameBoard : Photon.MonoBehaviour
 	{
 		nbPlayerReadyToFight++;
 
-		if (nbPlayerReadyToFight == 2)
-		{  
-			nbTurn = 1;
-			TimeOfPositionning = false;
-			GameTimeLine.instance.PlayingCard.transform.Find("Yellow Outline").renderer.enabled = true;
-			if (GameTimeLine.instance.PlayingCard.ownerNumber == MyPlayerNumber)
-			{
-				GameScript.instance.labelText = "A vous de jouer";
-			}
-			else
-			{
-				GameScript.instance.labelText = "Au joueur adverse de jouer";
-			}
-		}
+//		if (nbPlayerReadyToFight == 2)
+//		{  
+//			nbTurn = 1;
+//			TimeOfPositionning = false;
+//			GameTimeLine.instance.PlayingCard.transform.Find("Yellow Outline").renderer.enabled = true;
+//			if (GameTimeLine.instance.PlayingCard.ownerNumber == MyPlayerNumber)
+//			{
+//				GameScript.instance.labelText = "A vous de jouer";
+//			}
+//			else
+//			{
+//				GameScript.instance.labelText = "Au joueur adverse de jouer";
+//			}
+//		}
 	}
 
 	[RPC]
 	IEnumerator SpawnCard(int x, int y, int type, int viewID, int cardID)
 	{
 		int decalage ;
+		GameObject clone;
+		Vector3 pos ;
+		CharacterScript gCard ;
+		BoxCollider bCard ;
+
 		if (x%2==0){
 			decalage = 0;
 		}
 		else{
 			decalage = 1;
 		}
-
-		GameObject clone;
-
-		Vector3 pos ;
-		CharacterScript gCard ;
+		
 		if (y>0){
 			clone = Instantiate(characters[type], new Vector3(x*scaleTile*0.71f, (y+(decalage/2f))*scaleTile*0.81f-scaleTile*0.4f, 0), Quaternion.identity) as GameObject;
-			gCard = clone.GetComponentInChildren<CharacterScript>();
-
+		}
+		else{
+			clone = Instantiate(characters[type], new Vector3(x*scaleTile*0.71f, (y-(decalage/2f))*scaleTile*0.81f+scaleTile*0.2f, 0), Quaternion.identity) as GameObject;
+		}
+		gCard = clone.GetComponentInChildren<CharacterScript>();
+		bCard = clone.GetComponentInChildren<BoxCollider>();
+		GameNetworkCard gnCard = clone.GetComponent<GameNetworkCard>();
+		gCard.setGnCard(gnCard);
+		
+		if (y>0){
 			clone.transform.localRotation =  Quaternion.Euler(90,180,0);
-
+			//clone.name = gnCard.card.Title + "-2";
 			if (!GameScript.instance.isFirstPlayer){
 				gCard.setStyles(myCharacterNameStyle, myCharacterLifeStyle, myLifeBarStyle, myAttackStyle, myMoveStyle, myQuicknessStyle, myStatsZoneStyle, attackIcon, quicknessIcon, moveIcon, mySkillInfoStyle);
 				mesCartes.Add(clone);
 				pos = UnityEngine.Camera.main.WorldToScreenPoint(new Vector3((x+1)*scaleTile*0.71f-scaleTile*0.27f, (y+(decalage/2f))*scaleTile*0.81f-scaleTile*0.4f, 0));
+				gnCard.isMine = true;
 
 			}
 			else{
 				gCard.setStyles(characterNameStyle, characterLifeStyle, lifeBarStyle, attackStyle, moveStyle, quicknessStyle, statsZoneStyle, attackIcon, quicknessIcon, moveIcon, skillInfoStyle);
 				sesCartes.Add(clone);
 				pos = UnityEngine.Camera.main.WorldToScreenPoint(new Vector3(x*scaleTile*0.71f-scaleTile*0.42f, (y+(decalage/2f))*scaleTile*0.81f-scaleTile*0.4f, 0));
+				gnCard.isMine = false;
 			}
 		}
 		else{
-			clone = Instantiate(characters[type], new Vector3(x*scaleTile*0.71f, (y-(decalage/2f))*scaleTile*0.81f+scaleTile*0.2f, 0), Quaternion.identity) as GameObject;
-			gCard = clone.GetComponentInChildren<CharacterScript>();
-
 			clone.transform.localRotation =  Quaternion.Euler(-90,0,0);
-
+			//clone.name = gnCard.card.Title + "-1";
 			if (GameScript.instance.isFirstPlayer){
 				gCard.setStyles(myCharacterNameStyle, myCharacterLifeStyle, myLifeBarStyle, myAttackStyle, myMoveStyle, myQuicknessStyle, myStatsZoneStyle, attackIcon, quicknessIcon, moveIcon, mySkillInfoStyle);
 				mesCartes.Add(clone);
 				pos = UnityEngine.Camera.main.WorldToScreenPoint(new Vector3(x*scaleTile*0.71f-scaleTile*0.42f, (y-(decalage/2f))*scaleTile*0.81f+scaleTile*0.2f, 0));
-
+				gnCard.isMine = true;
 			}
 			else{
 				gCard.setStyles(characterNameStyle, characterLifeStyle, lifeBarStyle, attackStyle, moveStyle, quicknessStyle, statsZoneStyle, attackIcon, quicknessIcon, moveIcon, skillInfoStyle);
 				sesCartes.Add(clone);
 				pos = UnityEngine.Camera.main.WorldToScreenPoint(new Vector3((x+1)*scaleTile*0.71f-scaleTile*0.27f, (y-(decalage/2f))*scaleTile*0.81f+scaleTile*0.4f, 0));
+				gnCard.isMine = false;
 			}
 		}
-		GameNetworkCard gnCard = clone.GetComponent<GameNetworkCard>();
+
+		yield return StartCoroutine(gnCard.RetrieveCard(cardID));
 
 		PhotonView nView;
 		nView = clone.GetComponentInChildren<PhotonView>();
 		nView.viewID = viewID;
 		clone.transform.localScale = new Vector3(1, 1, 1);
 
-		if (gCard.photonView.isMine && GameBoard.instance.nbPlayer == 1 || !gCard.photonView.isMine && GameBoard.instance.nbPlayer == 2)
-		{
-			gnCard.ownerNumber = 1;
-			nbCardsPlayer1++;
-
-		}
-		else
-		{
-			gnCard.ownerNumber = 2;
-			nbCardsPlayer2++;
-		}
+//		if (gCard.photonView.isMine && GameBoard.instance.nbPlayer == 1 || !gCard.photonView.isMine && GameBoard.instance.nbPlayer == 2)
+//		{
+//			gnCard.ownerNumber = 1;
+//			nbCardsPlayer1++;
+//
+//		}
+//		else
+//		{
+//			gnCard.ownerNumber = 2;
+//			nbCardsPlayer2++;
+//		}
 		
-		yield return StartCoroutine(gCard.RetrieveCard(cardID));
 
 		gCard.setRectStats(pos.x, heightScreen-pos.y, heightScreen *12/100, heightScreen*4/100);
 		gCard.x = x ;
 		gCard.y = y ;
 		gCard.showInformations();
-		clone.name = gCard.card.Title + "-" + gnCard.ownerNumber;
 		clone.tag = "PlayableCard";
 		gnCard.ShowFace();
 

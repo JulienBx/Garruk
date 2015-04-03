@@ -6,32 +6,40 @@ using System;
 
 public class GameNetworkCard : Photon.MonoBehaviour
 {
-	public GameTile currentTile;                                    // Tile où la carte est positionnée
-	public int ownerNumber;											// joueur 1 ou joueur 2
-	public int Damage = 0;                                          // point de dégat pris
-	public DiscoveryFeature DiscoveryFeature = new DiscoveryFeature();// Les caractéristiques que l'adversaire a découvert
-	public List<GameNetworkCard> neighbors;                         // Liste des cartes voisines
-	public int nbTurn = 1;                                          // seulement utile pour la timeline
-	public CharacterScript gameCard;
+	private string URLCard = ApplicationModel.host + "get_card.php";
 
-	#region unity editor
-	public GUIStyle progress_empty;
-	public GUIStyle progress_full;
-	public Texture2D bgImage; 
-	public Texture2D fgImage;
-	public GameObject AttackAnim;
-	public GameObject YellowOutlines;
-	public bool isSelectable = false ;
-	#endregion
-	Vector3 WorldNamePos;                                           // position de la carte sur l'écran
+	public GameTile currentTile;                                    	// Tile où la carte est positionnée
+	public DiscoveryFeature DiscoveryFeature = new DiscoveryFeature();  // Les caractéristiques que l'adversaire a découvert
+	public Card card ;
+
+	public int currentLife ;
+	public int currentAttack ;
+	public int currentSpeed ;
+	public int currentMove ;
+	public List<Skill> currentSkills ;
+
+	public bool isMine;
+	public bool isLoaded;
+	public bool hasPlayed = false ;                                          	// seulement utile pour la timeline
+
+//	#region unity editor
+//	public GUIStyle progress_empty;
+//	public GUIStyle progress_full;
+//	public Texture2D bgImage; 
+//	public Texture2D fgImage;
+//	public GameObject AttackAnim;
+//	public GameObject YellowOutlines;
+//	public bool isSelectable = false ;
+//	#endregion
+
 	private string URLUpdateStats = ApplicationModel.dev + "update_stat.php";
 
 	void Start()
 	{
-		gameCard = GetComponentInChildren<CharacterScript>();
-		if (gameCard.photonView.isMine){
-			isSelectable = true ;
-		}
+//		gameCard = GetComponentInChildren<CharacterScript>();
+//		if (gameCard.photonView.isMine){
+//			isSelectable = true ;
+//		}
 	}
 	void Update()
 	{
@@ -224,40 +232,40 @@ public class GameNetworkCard : Photon.MonoBehaviour
 		}
 	}
 	
-	public void FindNeighbors()
-	{
-		neighbors.Clear();
-		GameTile gTile = null;
-		
-		RaycastHit hit;
-		Vector3 pos = transform.TransformPoint(Vector3.zero);
-		
-		if (Physics.Raycast(pos, Vector3.forward, out hit, Mathf.Infinity, 1 << GameBoard.instance.GridLayerMask))
-		{
-			gTile = hit.transform.gameObject.GetComponent<GameTile>();
-		}
-		
-		if (gTile != null)
-		{
-			foreach(Tile tile in gTile.tile.AllNeighbours)
-			{
-				GameTile neighborTile = GameObject.Find("hex " + tile.X + "-" + tile.Y).GetComponent<GameTile>();
-				pos = neighborTile.transform.TransformPoint(Vector3.zero) + new Vector3(0, 0, -2);
-				
-				if (Physics.Raycast(pos, Vector3.forward, out hit))
-				{
-					if (hit.transform.gameObject.tag == "PlayableCard")
-					{
-						neighbors.Add(hit.transform.gameObject.GetComponent<GameNetworkCard>());
-					}
-				}
-			}
-		}
-	}
-	public bool hasNeighbor()
-	{
-		return neighbors.Count > 0;
-	}
+//	public void FindNeighbors()
+//	{
+//		neighbors.Clear();
+//		GameTile gTile = null;
+//		
+//		RaycastHit hit;
+//		Vector3 pos = transform.TransformPoint(Vector3.zero);
+//		
+//		if (Physics.Raycast(pos, Vector3.forward, out hit, Mathf.Infinity, 1 << GameBoard.instance.GridLayerMask))
+//		{
+//			gTile = hit.transform.gameObject.GetComponent<GameTile>();
+//		}
+//		
+//		if (gTile != null)
+//		{
+//			foreach(Tile tile in gTile.tile.AllNeighbours)
+//			{
+//				GameTile neighborTile = GameObject.Find("hex " + tile.X + "-" + tile.Y).GetComponent<GameTile>();
+//				pos = neighborTile.transform.TransformPoint(Vector3.zero) + new Vector3(0, 0, -2);
+//				
+//				if (Physics.Raycast(pos, Vector3.forward, out hit))
+//				{
+//					if (hit.transform.gameObject.tag == "PlayableCard")
+//					{
+//						neighbors.Add(hit.transform.gameObject.GetComponent<GameNetworkCard>());
+//					}
+//				}
+//			}
+//		}
+//	}
+//	public bool hasNeighbor()
+//	{
+//		return neighbors.Count > 0;
+//	}
 	
 	public new void ShowFace() 
 	{
@@ -288,44 +296,44 @@ public class GameNetworkCard : Photon.MonoBehaviour
 	[RPC]
 	void GetDamage(int id, int attack)
 	{
-		Instantiate(AttackAnim, transform.position + new Vector3(0, 0, -2), Quaternion.identity);
+		//Instantiate(AttackAnim, transform.position + new Vector3(0, 0, -2), Quaternion.identity);
 		GameObject go = PhotonView.Find(id).gameObject;
 		GameNetworkCard gnc = go.GetComponent<GameNetworkCard>();
-		gnc.Damage += attack;
+		int damage = attack;
 
-		if (gnc.Damage >= gnc.gameCard.card.Life)
-		{
-			GameTile.RemovePassableTile();
-			GameTimeLine.instance.GameCards.Remove(gnc);
-			
-			if (gnc.ownerNumber == 1)
-			{
-				if (--GameBoard.instance.nbCardsPlayer1 < 1)
-				{
-					GameScript.instance.EndOfGame(2);
-					if (GameBoard.instance.MyPlayerNumber == 1 && ApplicationModel.gameType == 1)
-					{
-					
-						GameScript.instance.addStat(2, 1);
-					}
-				}
-			}
-			else
-			{
-				if (--GameBoard.instance.nbCardsPlayer2 < 1)
-				{
-					GameScript.instance.EndOfGame(1);
-					if (GameBoard.instance.MyPlayerNumber == 2 && ApplicationModel.gameType == 1)
-					{
-						GameScript.instance.addStat(1, 2);
-					}
-				}
-			}
-			gnc.gameObject.SetActive(false);
-		} else
-		{
-			gnc.ShowFace();
-		}
+//		if (damage >= gnc.gameCard.card.Life)
+//		{
+//			GameTile.RemovePassableTile();
+//			GameTimeLine.instance.GameCards.Remove(gnc);
+//			
+//			if (gnc.ownerNumber == 1)
+//			{
+//				if (--GameBoard.instance.nbCardsPlayer1 < 1)
+//				{
+//					GameScript.instance.EndOfGame(2);
+//					if (GameBoard.instance.MyPlayerNumber == 1 && ApplicationModel.gameType == 1)
+//					{
+//					
+//						GameScript.instance.addStat(2, 1);
+//					}
+//				}
+//			}
+//			else
+//			{
+//				if (--GameBoard.instance.nbCardsPlayer2 < 1)
+//				{
+//					GameScript.instance.EndOfGame(1);
+//					if (GameBoard.instance.MyPlayerNumber == 2 && ApplicationModel.gameType == 1)
+//					{
+//						GameScript.instance.addStat(1, 2);
+//					}
+//				}
+//			}
+//			gnc.gameObject.SetActive(false);
+//		} else
+//		{
+//			gnc.ShowFace();
+//		}
 		GameTimeLine.instance.Arrange();
 	}
 	[RPC]
@@ -359,11 +367,11 @@ public class GameNetworkCard : Photon.MonoBehaviour
 			DiscoveryFeature.Skills[1] = (bool)stream.ReceiveNext();
 			DiscoveryFeature.Skills[2] = (bool)stream.ReceiveNext();
 			DiscoveryFeature.Skills[3] = (bool)stream.ReceiveNext();
-			if (gameCard != null && gameCard.card != null)
-			{
-				StartCoroutine(updateStat());
-				ShowFace();
-			}
+//			if (gameCard != null && gameCard.card != null)
+//			{
+//				StartCoroutine(updateStat());
+//				ShowFace();
+//			}
 		}
 	}
 
@@ -372,7 +380,7 @@ public class GameNetworkCard : Photon.MonoBehaviour
 		WWWForm form = new WWWForm(); 								// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_nick", ApplicationModel.username);	// user
-		form.AddField("myform_idcard", gameCard.card.Id.ToString());// ID de la carte
+		//form.AddField("myform_idcard", gameCard.card.Id.ToString());// ID de la carte
 		form.AddField("myform_attack", DiscoveryFeature.Attack?"1":"0");	// attaque de la carte
 		form.AddField("myform_life", DiscoveryFeature.Life?"1":"0");	// attaque de la carte
 		form.AddField("myform_move", DiscoveryFeature.Move?"1":"0");	// attaque de la carte
@@ -389,6 +397,108 @@ public class GameNetworkCard : Photon.MonoBehaviour
 			print(w.error); 										// donne l'erreur eventuelle
 		} 
 		print(w.text);
+	}
+
+	public IEnumerator RetrieveCard (int idCard)
+	{
+		WWWForm form = new WWWForm(); 								// Création de la connexion
+		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
+		form.AddField("myform_idcard", idCard);						// ID de la carte
+		
+		WWW w = new WWW(URLCard, form); 								// On envoie le formulaire à l'url sur le serveur 
+		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
+		if (w.error != null) 
+		{
+			print(w.error); 										// donne l'erreur eventuelle
+		} 
+		else 
+		{
+			string[] cardEntries = w.text.Split('\n'); 				// Chaque ligne du serveur correspond à une carte
+			
+			for(int i = 0 ; i < cardEntries.Length - 1 ; i++) 		// On boucle sur les attributs d'une carte
+			{
+				string[] cardData = cardEntries[i].Split('\\'); 	// On découpe les attributs de la carte qu'on place dans un tableau
+				if (cardData.Length < 2) 
+				{
+					break;
+				}
+				if (i == 0)
+				{
+					this.card = new Card(System.Convert.ToInt32(cardData[0]), // id
+					                     cardData[1], // title
+					                     System.Convert.ToInt32(cardData[2]), // life
+					                     System.Convert.ToInt32(cardData[3]), // attack
+					                     System.Convert.ToInt32(cardData[4]), // speed
+					                     System.Convert.ToInt32(cardData[5]), // move
+					                     System.Convert.ToInt32(cardData[6]), // artindex
+					                     System.Convert.ToInt32(cardData[7]), // idclass
+					                     cardData[8], // titleclass
+					                     System.Convert.ToInt32(cardData[9]), // lifelevel
+					                     System.Convert.ToInt32(cardData[10]), // movelevel
+					                     System.Convert.ToInt32(cardData[11]), // speedlevel
+					                     System.Convert.ToInt32(cardData[12])); // attacklevel
+					this.card.Skills = new List<Skill>();
+				}
+				else
+				{
+					Skill skill = new Skill(  cardData[1],                         // name
+					                        System.Convert.ToInt32(cardData[0]), // idskill
+					                        System.Convert.ToInt32(cardData[2]), // isactivated
+					                        System.Convert.ToInt32(cardData[3]), // level
+					                        System.Convert.ToInt32(cardData[4]), // power
+					                        System.Convert.ToInt32(cardData[5]), // costmana
+					                        cardData[6],                         // description
+					                        cardData[7],                         // Nom de la ressource
+					                        System.Convert.ToSingle(cardData[8]),// ponderation
+					                        System.Convert.ToInt32(cardData[9]));// xmin
+					
+					this.card.Skills.Add(skill);
+					
+					//					Transform go = transform.Find("texturedGameCard/Skill" + Card.Skills.Count + "Area");
+					//					
+					//					switch (skill.ResourceName)
+					//					{
+					//					case "Reflexe": 
+					//						Reflexe rx = go.gameObject.AddComponent("Reflexe") as Reflexe;
+					//						rx.Skill = skill;
+					//						rx.SkillNumber = Card.Skills.Count;
+					//						rx.Init();
+					//						break;
+					//					case "Apathie":
+					//						Apathie ap = go.gameObject.AddComponent("Apathie") as Apathie;
+					//						ap.Skill = skill;
+					//						ap.SkillNumber = Card.Skills.Count;
+					//						ap.Init();
+					//						break;
+					//					case "Renforcement":
+					//						Renforcement rf = go.gameObject.AddComponent("Renforcement") as Renforcement;
+					//						rf.Skill = skill;
+					//						rf.SkillNumber = Card.Skills.Count;
+					//						rf.Init();
+					//						break;
+					//					case "Sape":
+					//						Sape sp = go.gameObject.AddComponent("Sape") as Sape;
+					//						sp.Skill = skill;
+					//						sp.SkillNumber = Card.Skills.Count;
+					//						sp.Init();
+					//						break;
+					//					default: 
+					//						GameSkill skillCp = go.gameObject.AddComponent("GameSkill") as GameSkill;
+					//						skillCp.Skill = skill;
+					//						skillCp.SkillNumber = Card.Skills.Count;
+					//						break;
+					//					}
+				}
+				
+			}
+		}
+		this.currentLife = this.card.Life;
+		this.currentAttack = this.card.Attack;
+		this.currentSpeed = this.card.Speed;
+		this.currentMove = this.card.Move;
+		this.currentSkills = this.card.Skills;
+
+		isLoaded = true ;
 	}
 }
 

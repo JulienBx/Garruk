@@ -30,16 +30,16 @@ public class GameOutline : MonoBehaviour {
 				if (i != 4)
 				{
 					GameNetworkCard gc = go.GetComponent<GameNetworkCard>();
-					if (gc.ownerNumber == 1 && GameBoard.instance.nbPlayer == 1 || gc.ownerNumber == 2 && GameBoard.instance.nbPlayer == 2)
-					{
-						RedOutlines[i].renderer.enabled = false;
-						GreenOutlines[i].renderer.enabled = true;
-					}
-					else
-					{
-						RedOutlines[i].renderer.enabled = true;
-						GreenOutlines[i].renderer.enabled = false;
-					}
+//					if (gc.ownerNumber == 1 && GameBoard.instance.nbPlayer == 1 || gc.ownerNumber == 2 && GameBoard.instance.nbPlayer == 2)
+//					{
+//						RedOutlines[i].renderer.enabled = false;
+//						GreenOutlines[i].renderer.enabled = true;
+//					}
+//					else
+//					{
+//						RedOutlines[i].renderer.enabled = true;
+//						GreenOutlines[i].renderer.enabled = false;
+//					}
 				}
 				i++;
 			}
