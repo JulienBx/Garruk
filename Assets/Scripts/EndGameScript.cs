@@ -11,6 +11,7 @@ public class EndGameScript : MonoBehaviour {
 	public int gameType;
 	public GameObject MenuObject;
 	public int nbLimitFriendlyGameToDisplay;
+	public Texture2D[] gaugeBackgrounds;
 
 	public GUIStyle blockBorderStyle;
 	public GUIStyle rankingLabelStyle;
@@ -39,6 +40,14 @@ public class EndGameScript : MonoBehaviour {
 	public GUIStyle relegationBarStyle;
 	public GUIStyle promotionBarStyle;
 	public GUIStyle titleBarStyle;
+	public GUIStyle relegationLabelStyle;
+	public GUIStyle promotionLabelStyle;
+	public GUIStyle titleLabelStyle;
+	public GUIStyle relegationValueLabelStyle;
+	public GUIStyle promotionValueLabelStyle;
+	public GUIStyle titleValueLabelStyle;
+	public GUIStyle titlePrizeLabelStyle;
+	public GUIStyle promotionPrizeLabelStyle;
 
 	private IList<GUIStyle> profilePictureButtonStyle=new List<GUIStyle>();
 	private GUIStyle lastOpponentProfilePictureButtonStyle=new GUIStyle();
@@ -173,21 +182,111 @@ public class EndGameScript : MonoBehaviour {
 					break;
 				case 1:
 					GUILayout.Label("Division "+currentUser.Division.Id.ToString(),divisionLabelStyle);
-					GUILayout.Label("Série : "+nbWinsDivision+" V, "+nbLoosesDivision+" D",divisionStrikeLabelStyle);
-					GUILayout.Label("Matchs restants : "+remainingGames.ToString(),remainingGamesStyle);
-					GUILayout.BeginHorizontal(gaugeBackgroundStyle);
+					GUILayout.FlexibleSpace();
+					GUILayout.BeginHorizontal();
 					{
-						GUILayout.Label (nbWinsDivision+"V",startActiveGaugeBackgroundStyle);
-						GUILayout.Label ("",activeGaugeBackgroundStyle);
-						GUILayout.Space (gaugeSpace1Width);
-						GUILayout.Label ("",relegationBarStyle);
-						GUILayout.Space (gaugeSpace2Width);
-						GUILayout.Label ("",promotionBarStyle);
-						GUILayout.Space (gaugeSpace3Width);
-						GUILayout.Label ("",titleBarStyle);
-						GUILayout.Space (gaugeSpace4Width);
+						GUILayout.Space (blockTopLeftWidth*5/100);
+						GUILayout.Label("Série : "+nbWinsDivision+" V, "+nbLoosesDivision+" D",divisionStrikeLabelStyle);
+						GUILayout.FlexibleSpace();
+						GUILayout.Label("Matchs restants : "+remainingGames.ToString(),remainingGamesStyle);
+						GUILayout.Space (blockTopLeftWidth*5/100);
 					}
 					GUILayout.EndHorizontal();
+					GUILayout.FlexibleSpace();
+					GUILayout.BeginHorizontal();
+					{
+						GUILayout.FlexibleSpace();
+						GUILayout.BeginVertical();
+						{
+							GUILayout.BeginHorizontal(GUILayout.Height(5f / 100f * blockTopLeftHeight));
+							{
+								GUILayout.Space (startActiveGaugeBackgroundStyle.fixedWidth);
+								GUILayout.Space (activeGaugeBackgroundStyle.fixedWidth);
+								GUILayout.Space (gaugeSpace1Width);
+								if(relegationBarWidth!=0){
+									GUILayout.Space (relegationBarStyle.fixedWidth/2f);
+									GUILayout.Space (-relegationLabelStyle.fixedWidth/2f);
+									GUILayout.Label ("Relégation",relegationLabelStyle);
+									GUILayout.Space (-relegationLabelStyle.fixedWidth/2f);
+									GUILayout.Space (relegationBarStyle.fixedWidth/2f);
+								}
+								GUILayout.Space (gaugeSpace2Width);
+								if(promotionBarWidth!=0){
+									GUILayout.Space (promotionBarStyle.fixedWidth/2f);
+									GUILayout.Space (-promotionLabelStyle.fixedWidth/2f);
+									GUILayout.Label ("Promotion",promotionLabelStyle);
+									GUILayout.Space (-promotionLabelStyle.fixedWidth/2f);
+									GUILayout.Space (promotionBarStyle.fixedWidth/2f);
+								}
+								GUILayout.Space (gaugeSpace3Width);
+								if(titleBarWidth!=0){
+									GUILayout.Space (titleBarStyle.fixedWidth/2f);
+									GUILayout.Space (-titleLabelStyle.fixedWidth/2f);
+									GUILayout.Label ("Titre",titleLabelStyle);
+									GUILayout.Space (-titleLabelStyle.fixedWidth/2f);
+									GUILayout.Space (titleBarStyle.fixedWidth/2f);
+								}
+							}
+							GUILayout.EndHorizontal();
+							GUILayout.BeginHorizontal(gaugeBackgroundStyle);
+							{
+								GUILayout.Label (nbWinsDivision+"V",startActiveGaugeBackgroundStyle);
+								GUILayout.Label ("",activeGaugeBackgroundStyle);
+								GUILayout.Space (gaugeSpace1Width);
+								GUILayout.Label ("",relegationBarStyle);
+								GUILayout.Space (gaugeSpace2Width);
+								GUILayout.Label ("",promotionBarStyle);
+								GUILayout.Space (gaugeSpace3Width);
+								GUILayout.Label ("",titleBarStyle);
+								GUILayout.Space (gaugeSpace4Width);
+							}
+							GUILayout.EndHorizontal();
+							GUILayout.BeginHorizontal(GUILayout.Height(5f / 100f * blockTopLeftHeight));
+							{
+								GUILayout.Space (startActiveGaugeBackgroundStyle.fixedWidth);
+								GUILayout.Space (activeGaugeBackgroundStyle.fixedWidth);
+								GUILayout.Space (gaugeSpace1Width);
+								if(relegationBarWidth!=0){
+									GUILayout.Space (relegationBarStyle.fixedWidth/2f);
+									GUILayout.Space (-relegationValueLabelStyle.fixedWidth/2f);
+									GUILayout.Label (currentUser.Division.NbWinsForRelegation.ToString()+" V",relegationValueLabelStyle);
+									GUILayout.Space (-relegationValueLabelStyle.fixedWidth/2f);
+									GUILayout.Space (relegationBarStyle.fixedWidth/2f);
+								}
+								GUILayout.Space (gaugeSpace2Width);
+								if(promotionBarWidth!=0){
+									GUILayout.Space (promotionBarStyle.fixedWidth/2f);
+									GUILayout.Space (-promotionValueLabelStyle.fixedWidth/2f);
+									GUILayout.Label (currentUser.Division.NbWinsForPromotion.ToString()+" V",promotionValueLabelStyle);
+									GUILayout.Space (-promotionValueLabelStyle.fixedWidth/2f);
+									GUILayout.Space (promotionBarStyle.fixedWidth/2f);
+								}
+								GUILayout.Space (gaugeSpace3Width);
+								if(titleBarWidth!=0){
+									GUILayout.Space (titleBarStyle.fixedWidth/2f);
+									GUILayout.Space (-titleValueLabelStyle.fixedWidth/2f);
+									GUILayout.Label (currentUser.Division.NbWinsForTitle.ToString()+" V",titleValueLabelStyle);
+									GUILayout.Space (-titleValueLabelStyle.fixedWidth/2f);
+									GUILayout.Space (titleBarStyle.fixedWidth/2f);
+								}
+							}
+							GUILayout.EndHorizontal();
+						}
+						GUILayout.EndVertical();
+						GUILayout.FlexibleSpace();
+					}
+					GUILayout.EndHorizontal();
+					GUILayout.FlexibleSpace();
+					GUILayout.BeginHorizontal();
+					{
+						GUILayout.Space (blockTopLeftWidth*5/100);
+						GUILayout.Label("Prime de promotion : "+currentUser.Division.PromotionPrize.ToString()+" crédits",promotionPrizeLabelStyle);
+						GUILayout.FlexibleSpace();
+						GUILayout.Label("Prime de titre : "+currentUser.Division.TitlePrize.ToString()+" crédits",titlePrizeLabelStyle);
+						GUILayout.Space (blockTopLeftWidth*5/100);
+					}
+					GUILayout.EndHorizontal();
+					GUILayout.FlexibleSpace();
 					break;
 				case 2:
 					break;
@@ -407,19 +506,26 @@ public class EndGameScript : MonoBehaviour {
 		this.subMainLabelStyle.fixedHeight = (int)blockTopLeftHeight * 15 / 100;
 
 		if(gameType==1){
-			this.divisionLabelStyle.fontSize= (int)blockTopLeftHeight * 4 / 100;
-			this.divisionLabelStyle.fixedHeight = (int)blockTopLeftHeight * 5 / 100;
+
+			this.divisionLabelStyle.fontSize = heightScreen * 2 / 100;
+			this.divisionLabelStyle.fixedHeight = (int)heightScreen * 35 / 1000;
 			
 			this.divisionStrikeLabelStyle.fontSize= (int)blockTopLeftHeight * 4 / 100;
 			this.divisionStrikeLabelStyle.fixedHeight = (int)blockTopLeftHeight * 5 / 100;
 			
 			this.remainingGamesStyle.fontSize= (int)blockTopLeftHeight * 4 / 100;
 			this.remainingGamesStyle.fixedHeight = (int)blockTopLeftHeight * 5 / 100;
+
+			this.promotionPrizeLabelStyle.fontSize= (int)blockTopLeftHeight * 4 / 100;
+			this.promotionPrizeLabelStyle.fixedHeight = (int)blockTopLeftHeight * 5 / 100;
+
+			this.titlePrizeLabelStyle.fontSize= (int)blockTopLeftHeight * 4 / 100;
+			this.titlePrizeLabelStyle.fixedHeight = (int)blockTopLeftHeight * 5 / 100;
 			drawGauge ();
 		}
 	}
 	private void drawGauge(){
-		gaugeWidth = blockTopLeftWidth;
+		gaugeWidth = blockTopLeftWidth*0.9f;
 		gaugeHeight = blockTopLeftHeight * 0.3f;
 
 		this.gaugeBackgroundStyle.fixedWidth = gaugeWidth;
@@ -427,6 +533,7 @@ public class EndGameScript : MonoBehaviour {
 		
 		this.startActiveGaugeBackgroundStyle.fixedWidth = startActiveGaugeWidth*gaugeWidth;
 		this.startActiveGaugeBackgroundStyle.fixedHeight = gaugeHeight;
+		this.startActiveGaugeBackgroundStyle.fontSize = (int)gaugeHeight * 50 / 100;
 		
 		this.activeGaugeBackgroundStyle.fixedWidth = activeGaugeWidth*gaugeWidth;
 		this.activeGaugeBackgroundStyle.fixedHeight = gaugeHeight;
@@ -444,11 +551,38 @@ public class EndGameScript : MonoBehaviour {
 		this.gaugeSpace2Width=gaugeSpace2*gaugeWidth;
 		this.gaugeSpace3Width=gaugeSpace3*gaugeWidth;
 		this.gaugeSpace4Width=gaugeSpace4*gaugeWidth;
+
+		this.relegationLabelStyle.fixedWidth = 5f / 100f * gaugeWidth;
+		this.relegationLabelStyle.fontSize = 4 / 100 * (int)blockTopLeftHeight;
+		this.relegationLabelStyle.fixedHeight = 5f / 100f * blockTopLeftHeight;
+
+		this.promotionLabelStyle.fixedWidth = 5f / 100f * gaugeWidth;
+		this.promotionLabelStyle.fontSize = 4 / 100 * (int)blockTopLeftHeight;
+		this.promotionLabelStyle.fixedHeight = 5f / 100f * blockTopLeftHeight;
+
+		this.titleLabelStyle.fixedWidth = 5f / 100f * gaugeWidth;
+		this.titleLabelStyle.fontSize = 4 / 100 * (int)blockTopLeftHeight;
+		this.titleLabelStyle.fixedHeight = 5f / 100f * blockTopLeftHeight;
+
+		this.relegationValueLabelStyle.fixedWidth = 5f / 100f * gaugeWidth;
+		this.relegationValueLabelStyle.fontSize = 4 / 100 * (int)blockTopLeftHeight;
+		this.relegationValueLabelStyle.fixedHeight = 5f / 100f * blockTopLeftHeight;
+		
+		this.promotionValueLabelStyle.fixedWidth = 5f / 100f * gaugeWidth;
+		this.promotionValueLabelStyle.fontSize = 4 / 100 * (int)blockTopLeftHeight;
+		this.promotionValueLabelStyle.fixedHeight = 5f / 100f * blockTopLeftHeight;
+		
+		this.titleValueLabelStyle.fixedWidth = 5f / 100f * gaugeWidth;
+		this.titleValueLabelStyle.fontSize = 4 / 100 * (int)blockTopLeftHeight;
+		this.titleValueLabelStyle.fixedHeight = 5f / 100f * blockTopLeftHeight;
+
 	}
 	private void initializeGauge(){
 
-		if(nbWinsDivision-hasWon>=currentUser.Division.NbWinsForPromotion)
+		if(nbWinsDivision-hasWon>=currentUser.Division.NbWinsForPromotion || 
+		   (currentUser.Division.NbWinsForPromotion==-1 && nbWinsDivision-hasWon>=currentUser.Division.NbWinsForRelegation))
 		{
+			activeGaugeBackgroundStyle.normal.background=gaugeBackgrounds[2];
 			if(nbWinsDivision==currentUser.Division.NbWinsForTitle)
 			{
 				titleBarFinish=0f;
@@ -462,8 +596,9 @@ public class EndGameScript : MonoBehaviour {
 			gaugeSpace3=gaugeSpace3Start;
 			gaugeSpace3Finish=(1f-((float)nbWinsDivision)/(float)currentUser.Division.NbWinsForTitle)*tempFloat;
 		}
-		else if(nbWinsDivision-hasWon>=currentUser.Division.NbWinsForRelegation)
+		else if(nbWinsDivision-hasWon>=currentUser.Division.NbWinsForRelegation && currentUser.Division.NbWinsForPromotion!=-1)
 		{
+			activeGaugeBackgroundStyle.normal.background=gaugeBackgrounds[1];
 			promotionBarWidth=0.005f;
 			gaugeSpace3=(1f-(gaugeSpace4+startActiveGaugeWidth+promotionBarWidth+titleBarWidth))*((float)currentUser.Division.NbWinsForTitle-(float)currentUser.Division.NbWinsForPromotion)/(float)currentUser.Division.NbWinsForTitle;
 			if(nbWinsDivision==currentUser.Division.NbWinsForPromotion)
@@ -485,11 +620,16 @@ public class EndGameScript : MonoBehaviour {
 		}
 		else
 		{
-			promotionBarWidth=0.005f;
-			promotionBarFinish=promotionBarWidth;
+			activeGaugeBackgroundStyle.normal.background=gaugeBackgrounds[0];
+			if(currentUser.Division.NbWinsForPromotion!=-1){
+				promotionBarWidth=0.005f;
+				promotionBarFinish=promotionBarWidth;
+			}
 			relegationBarWidth=0.005f;
 			gaugeSpace3=(1f-(gaugeSpace4+startActiveGaugeWidth+promotionBarWidth+titleBarWidth))*((float)currentUser.Division.NbWinsForTitle-(float)currentUser.Division.NbWinsForPromotion)/(float)currentUser.Division.NbWinsForTitle;
-			gaugeSpace2=(1f-(gaugeSpace4+gaugeSpace3+startActiveGaugeWidth+promotionBarWidth+titleBarWidth))*((float)currentUser.Division.NbWinsForPromotion-(float)currentUser.Division.NbWinsForRelegation)/(float)currentUser.Division.NbWinsForPromotion;
+			if(currentUser.Division.NbWinsForPromotion!=-1){
+				gaugeSpace2=(1f-(gaugeSpace4+gaugeSpace3+startActiveGaugeWidth+promotionBarWidth+titleBarWidth))*((float)currentUser.Division.NbWinsForPromotion-(float)currentUser.Division.NbWinsForRelegation)/(float)currentUser.Division.NbWinsForPromotion;
+			}
 			if(nbWinsDivision==currentUser.Division.NbWinsForRelegation)
 			{
 				relegationBarFinish=0f;
@@ -534,16 +674,19 @@ public class EndGameScript : MonoBehaviour {
 		if(relegationBarWidth!=relegationBarFinish && transformRatio==1f)
 		{
 			activeGaugeWidth=activeGaugeWidth+relegationBarWidth;
+			activeGaugeBackgroundStyle.normal.background=gaugeBackgrounds[1];
 			relegationBarWidth=relegationBarFinish;
 		}
 		if(promotionBarWidth!=promotionBarFinish && transformRatio==1f)
 		{
 			activeGaugeWidth=activeGaugeWidth+promotionBarWidth;
+			activeGaugeBackgroundStyle.normal.background=gaugeBackgrounds[2];
 			promotionBarWidth=promotionBarFinish;
 		}
 		if(titleBarWidth!=titleBarFinish && transformRatio==1f)
 		{
 			activeGaugeWidth=activeGaugeWidth+titleBarWidth;
+			activeGaugeBackgroundStyle.normal.background=gaugeBackgrounds[3];
 			titleBarWidth=titleBarFinish;
 		}
 		drawGauge ();
