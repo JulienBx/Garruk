@@ -48,7 +48,10 @@ public class EndGameScript : MonoBehaviour {
 	public GUIStyle titleValueLabelStyle;
 	public GUIStyle titlePrizeLabelStyle;
 	public GUIStyle promotionPrizeLabelStyle;
-
+	public GUIStyle centralWindowStyle;
+	public GUIStyle centralWindowTitleStyle;
+	public GUIStyle centralWindowButtonStyle;
+	
 	private IList<GUIStyle> profilePictureButtonStyle=new List<GUIStyle>();
 	private GUIStyle lastOpponentProfilePictureButtonStyle=new GUIStyle();
 	private GUIStyle[] paginatorGuiStyle;
@@ -61,6 +64,10 @@ public class EndGameScript : MonoBehaviour {
 	private User currentUser;
 	private bool isDataLoaded=false;
 	private bool toUpdateGauge=false;
+	private bool promotion=false;
+	private bool relegation=false;
+	private bool title=false;
+	private bool endSeason = false;
 	private int widthScreen; 
 	private int heightScreen;
 	private int start;
@@ -123,6 +130,8 @@ public class EndGameScript : MonoBehaviour {
 	private float titleBarFinish=0.005f;
 	private float transformRatio=0f;
 	private float transformSpeed=0.5f;
+
+	Rect centralWindow;
 	
 	// Use this for initialization
 	void Start () {
@@ -154,6 +163,14 @@ public class EndGameScript : MonoBehaviour {
 		if (toUpdateGauge){
 			transformRatio = transformRatio + transformSpeed * Time.deltaTime;
 			computeGauge();
+		}
+		if(title){
+			if(Input.GetKeyDown(KeyCode.Escape)) {
+				title=false;
+			}
+			else if(Input.GetKeyDown(KeyCode.Return)) {
+				title = false;
+			}
 		}
 	
 	}
@@ -425,6 +442,38 @@ public class EndGameScript : MonoBehaviour {
 			}
 			GUILayout.EndArea();
 		}
+		if (title) {
+			GUILayout.BeginArea(centralWindow);
+			{
+				GUILayout.BeginVertical(centralWindowStyle);
+				{
+					GUILayout.FlexibleSpace();
+					GUILayout.Label ("BRAVO !",centralWindowTitleStyle);
+					GUILayout.FlexibleSpace();
+					GUILayout.Label ("Vous avez remporté le titre de la division "+ currentUser.Division.Id.ToString()+" !",centralWindowTitleStyle);
+					GUILayout.FlexibleSpace();
+					GUILayout.Label (currentUser.Division.TitlePrize.ToString()+ " crédits sont ajoutés à votre portefeuille",centralWindowTitleStyle);
+					GUILayout.FlexibleSpace();
+					if(currentUser.Division.NbWinsForPromotion!=-1)
+					{
+						GUILayout.Label ("Vous accédez à la division "+ (currentUser.Division.Id-1).ToString()+" !",centralWindowTitleStyle);
+						GUILayout.FlexibleSpace();
+					}
+					GUILayout.BeginHorizontal();
+					{
+						GUILayout.FlexibleSpace();
+						if (GUILayout.Button("OK",centralWindowButtonStyle)){
+							title=false;	
+						}
+						GUILayout.FlexibleSpace();
+					}
+					GUILayout.EndHorizontal();
+					GUILayout.FlexibleSpace();
+				}
+				GUILayout.EndVertical();
+			}
+			GUILayout.EndArea();
+		}
 	}
 	private void setStyles() {
 		
@@ -504,6 +553,18 @@ public class EndGameScript : MonoBehaviour {
 
 		this.subMainLabelStyle.fontSize = (int)blockTopLeftHeight * 7 / 100;
 		this.subMainLabelStyle.fixedHeight = (int)blockTopLeftHeight * 15 / 100;
+
+		this.centralWindow = new Rect (widthScreen * 0.25f, 0.12f * heightScreen, widthScreen * 0.50f, 0.25f * heightScreen);
+
+		this.centralWindowStyle.fixedWidth = widthScreen*0.5f-5;
+		
+		this.centralWindowTitleStyle.fontSize = heightScreen*2/100;
+		this.centralWindowTitleStyle.fixedHeight = (int)heightScreen*3/100;
+		this.centralWindowTitleStyle.fixedWidth = (int)widthScreen*5/10;
+		
+		this.centralWindowButtonStyle.fontSize = heightScreen*2/100;
+		this.centralWindowButtonStyle.fixedHeight = (int)heightScreen*3/100;
+		this.centralWindowButtonStyle.fixedWidth = (int)widthScreen*20/100;
 
 		if(gameType==1){
 
@@ -688,6 +749,7 @@ public class EndGameScript : MonoBehaviour {
 			activeGaugeWidth=activeGaugeWidth+titleBarWidth;
 			activeGaugeBackgroundStyle.normal.background=gaugeBackgrounds[3];
 			titleBarWidth=titleBarFinish;
+			title=true;
 		}
 		drawGauge ();
 	}
