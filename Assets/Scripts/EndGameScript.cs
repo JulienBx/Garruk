@@ -5,13 +5,12 @@ using System.Collections.Generic;
 using System.Reflection;
 
 public class EndGameScript : MonoBehaviour {
-
-
-
-	public int gameType;
+	
 	public GameObject MenuObject;
 	public int nbLimitFriendlyGameToDisplay;
 	public Texture2D[] gaugeBackgrounds;
+	public string[] roundsName;
+	public int displayPopUpDelay;
 
 	public GUIStyle blockBorderStyle;
 	public GUIStyle rankingLabelStyle;
@@ -51,23 +50,41 @@ public class EndGameScript : MonoBehaviour {
 	public GUIStyle centralWindowStyle;
 	public GUIStyle centralWindowTitleStyle;
 	public GUIStyle centralWindowButtonStyle;
+	public GUIStyle winRoundStyle;
+	public GUIStyle looseRoundStyle;
+	public GUIStyle notPlayedRoundStyle;
+	public GUIStyle cupLabelStyle;
+	public GUIStyle cupPrizeLabelStyle;
 	
 	private IList<GUIStyle> profilePictureButtonStyle=new List<GUIStyle>();
+	private IList<GUIStyle> roundsStyle=new List<GUIStyle>();
 	private GUIStyle lastOpponentProfilePictureButtonStyle=new GUIStyle();
 	private GUIStyle[] paginatorGuiStyle;
 	
-	private string URLGetUDivisionEndGameData="http://54.77.118.214/GarrukServer/get_division_end_game_data.php";
-	private string URLGetCupEndGameData="http://54.77.118.214/GarrukServer/get_cup_end_game_data.php";
-	private string URLGetFriendlyEndGameData="http://54.77.118.214/GarrukServer/get_friendly_end_game_data.php";
+	private string URLGetEndGameData="http://54.77.118.214/GarrukServer/end_game_script.php";
 	private string ServerDirectory = "img/profile/";
 	private string URLDefaultProfilePicture = "http://54.77.118.214/GarrukServer/img/profile/defautprofilepicture.png";
 	private User currentUser;
+	private int gameType;
 	private bool isDataLoaded=false;
+	private bool arePicturesInitialized = false;
+	private bool toStartTimer =false;
+	private bool canDisplay = false;
+	private bool toLoadPicture = false;
 	private bool toUpdateGauge=false;
 	private bool promotion=false;
 	private bool relegation=false;
 	private bool title=false;
 	private bool endSeason = false;
+	private bool promotionPopUp=false;
+	private bool relegationPopUp=false;
+	private bool titlePopUp=false;
+	private bool endSeasonPopUp = false;
+	private bool endCup = false;
+	private bool winCup = false;
+	private bool stillInCup = false;
+	private bool endCupPopUp = false;
+	private bool winCupPopUp = false;
 	private int widthScreen; 
 	private int heightScreen;
 	private int start;
@@ -131,58 +148,135 @@ public class EndGameScript : MonoBehaviour {
 	private float transformRatio=0f;
 	private float transformSpeed=0.5f;
 
+	private float timer;
+
 	Rect centralWindow;
 	
 	// Use this for initialization
 	void Start () {
 		
 		MenuObject = Instantiate(MenuObject) as GameObject;
-		switch(gameType)
-		{
-		case 0:
-			StartCoroutine (getFriendlyEndGameData ());
-			lastResultsLabel="Vos derniers résultats";
-			break;
-		case 1:
-			StartCoroutine (getDivisionEndGameData ());
-			lastResultsLabel="Vos résultats de division";
-			break;
-		case 2:
-			StartCoroutine (getCupEndGameData ());
-			lastResultsLabel="Vos résultats de coupe";
-			break;
-		}
+		StartCoroutine (getEndGameData ());
 	}
 	// Update is called once per frame
 	void Update () {
 
-		if (Screen.width != widthScreen || Screen.height != heightScreen) {
-			this.setStyles();
+		if ((Screen.width != widthScreen || Screen.height != heightScreen)&&canDisplay) {
+			setStyles();
+			if(gameType==1)
+			{
+				drawGauge();
+			}
 		}
-
+		if (isDataLoaded){
+			isDataLoaded=false;
+			switch(gameType)
+			{
+			case 0:
+				lastResultsLabel="Vos derniers résultats";
+				break;
+			case 1:
+				lastResultsLabel="Vos résultats de division";
+				initializeGauge();
+				drawGauge();
+				break;
+			case 2:
+				lastResultsLabel="Vos résultats de coupe";
+				initializeRounds();
+				break;
+			}
+			setStyles();
+			picturesInitialization();
+		}
+		if (arePicturesInitialized){
+			arePicturesInitialized=false;
+			setProfilePictures ();
+			displayPage ();
+			canDisplay=true;
+			toUpdateGauge = true;
+			if(winCup || endCup)
+			{
+				toStartTimer = true;
+			}
+		}
 		if (toUpdateGauge){
 			transformRatio = transformRatio + transformSpeed * Time.deltaTime;
 			computeGauge();
+			drawGauge ();
 		}
-		if(title){
+		if (toStartTimer)
+		{
+			timer += Time.deltaTime;
+			if (timer > displayPopUpDelay) {
+				toStartTimer=false;
+				if(winCup)
+				{
+					winCupPopUp=true;
+				}
+				else if(endCup)
+				{
+					endCupPopUp=true;
+				}
+			}
+		}
+		if(titlePopUp){
 			if(Input.GetKeyDown(KeyCode.Escape)) {
-				title=false;
+				titlePopUp=false;
 			}
 			else if(Input.GetKeyDown(KeyCode.Return)) {
-				title = false;
+				titlePopUp = false;
 			}
 		}
-	
+		if(promotionPopUp){
+			if(Input.GetKeyDown(KeyCode.Escape)) {
+				promotionPopUp=false;
+			}
+			else if(Input.GetKeyDown(KeyCode.Return)) {
+				promotionPopUp = false;
+			}
+		}
+		if(relegationPopUp){
+			if(Input.GetKeyDown(KeyCode.Escape)) {
+				relegationPopUp=false;
+			}
+			else if(Input.GetKeyDown(KeyCode.Return)) {
+				relegationPopUp = false;
+			}
+		}
+		if(endSeasonPopUp){
+			if(Input.GetKeyDown(KeyCode.Escape)) {
+				endSeasonPopUp=false;
+			}
+			else if(Input.GetKeyDown(KeyCode.Return)) {
+				endSeasonPopUp = false;
+			}
+		}
+		if(endCupPopUp){
+			if(Input.GetKeyDown(KeyCode.Escape)) {
+				endCupPopUp=false;
+			}
+			else if(Input.GetKeyDown(KeyCode.Return)) {
+				endCupPopUp = false;
+			}
+		}
+		if(winCupPopUp){
+			if(Input.GetKeyDown(KeyCode.Escape)) {
+				winCupPopUp=false;
+			}
+			else if(Input.GetKeyDown(KeyCode.Return)) {
+				winCupPopUp = false;
+			}
+		}
 	}
 	void OnGUI () {
-		if(isDataLoaded){
+		if(canDisplay){
 			// block SUP GAUCHE
 			GUILayout.BeginArea(blockTopLeft,blockBorderStyle);
 			{
 				switch(gameType)
 				{
 				case 0:
-					if(currentUser.ResultsHistory[0].HasWon)
+					if(hasWon==1)
 					{
 						GUILayout.FlexibleSpace();
 						GUILayout.Label ("BRAVO !",mainLabelStyle);
@@ -306,6 +400,26 @@ public class EndGameScript : MonoBehaviour {
 					GUILayout.FlexibleSpace();
 					break;
 				case 2:
+					GUILayout.Label(currentUser.Cup.Name,cupLabelStyle);
+					GUILayout.FlexibleSpace();
+					GUILayout.BeginHorizontal();
+					{
+						GUILayout.Space (0.2f*blockTopLeftWidth);
+						GUILayout.BeginVertical();
+						{
+							for (int i=0;i<currentUser.Cup.NbRounds;i++)
+							{
+								GUILayout.Label(roundsName[i],roundsStyle[currentUser.Cup.NbRounds-1-i]);
+								GUILayout.Space ((blockTopLeftHeight*0.5f*0.2f)/currentUser.Cup.NbRounds);
+							}
+						}
+						GUILayout.EndVertical();
+						GUILayout.Space (0.2f*blockTopLeftWidth);
+					}
+					GUILayout.EndHorizontal();
+					GUILayout.FlexibleSpace();
+					GUILayout.Label("Récompense : "+currentUser.Cup.CupPrize.ToString()+" crédits",cupPrizeLabelStyle);
+					GUILayout.FlexibleSpace();
 					break;
 				}
 			}
@@ -442,7 +556,7 @@ public class EndGameScript : MonoBehaviour {
 			}
 			GUILayout.EndArea();
 		}
-		if (title) {
+		if (titlePopUp) {
 			GUILayout.BeginArea(centralWindow);
 			{
 				GUILayout.BeginVertical(centralWindowStyle);
@@ -463,7 +577,136 @@ public class EndGameScript : MonoBehaviour {
 					{
 						GUILayout.FlexibleSpace();
 						if (GUILayout.Button("OK",centralWindowButtonStyle)){
-							title=false;	
+							titlePopUp=false;	
+						}
+						GUILayout.FlexibleSpace();
+					}
+					GUILayout.EndHorizontal();
+					GUILayout.FlexibleSpace();
+				}
+				GUILayout.EndVertical();
+			}
+			GUILayout.EndArea();
+		}
+		if (promotionPopUp) {
+			GUILayout.BeginArea(centralWindow);
+			{
+				GUILayout.BeginVertical(centralWindowStyle);
+				{
+					GUILayout.FlexibleSpace();
+					GUILayout.Label ("BRAVO !",centralWindowTitleStyle);
+					GUILayout.FlexibleSpace();
+					GUILayout.Label ("Vous avez été promu en division "+ (currentUser.Division.Id-1).ToString()+" !",centralWindowTitleStyle);
+					GUILayout.FlexibleSpace();
+					GUILayout.Label (currentUser.Division.PromotionPrize.ToString()+ " crédits sont ajoutés à votre portefeuille",centralWindowTitleStyle);
+					GUILayout.FlexibleSpace();
+					GUILayout.BeginHorizontal();
+					{
+						GUILayout.FlexibleSpace();
+						if (GUILayout.Button("OK",centralWindowButtonStyle)){
+							promotionPopUp=false;	
+						}
+						GUILayout.FlexibleSpace();
+					}
+					GUILayout.EndHorizontal();
+					GUILayout.FlexibleSpace();
+				}
+				GUILayout.EndVertical();
+			}
+			GUILayout.EndArea();
+		}
+		if (relegationPopUp) {
+			GUILayout.BeginArea(centralWindow);
+			{
+				GUILayout.BeginVertical(centralWindowStyle);
+				{
+					GUILayout.FlexibleSpace();
+					GUILayout.Label ("OUPS !",centralWindowTitleStyle);
+					GUILayout.FlexibleSpace();
+					GUILayout.Label ("Vous descendez en division "+ (currentUser.Division.Id+1).ToString()+" !",centralWindowTitleStyle);
+					GUILayout.FlexibleSpace();
+					GUILayout.BeginHorizontal();
+					{
+						GUILayout.FlexibleSpace();
+						if (GUILayout.Button("OK",centralWindowButtonStyle)){
+							relegationPopUp=false;	
+						}
+						GUILayout.FlexibleSpace();
+					}
+					GUILayout.EndHorizontal();
+					GUILayout.FlexibleSpace();
+				}
+				GUILayout.EndVertical();
+			}
+			GUILayout.EndArea();
+		}
+		if (endSeasonPopUp) {
+			GUILayout.BeginArea(centralWindow);
+			{
+				GUILayout.BeginVertical(centralWindowStyle);
+				{
+					GUILayout.FlexibleSpace();
+					GUILayout.Label ("BIEN JOUE !",centralWindowTitleStyle);
+					GUILayout.FlexibleSpace();
+					GUILayout.Label ("Vous conservez votre place en division "+ (currentUser.Division.Id).ToString()+" !",centralWindowTitleStyle);
+					GUILayout.FlexibleSpace();
+					GUILayout.BeginHorizontal();
+					{
+						GUILayout.FlexibleSpace();
+						if (GUILayout.Button("OK",centralWindowButtonStyle)){
+							endSeasonPopUp=false;	
+						}
+						GUILayout.FlexibleSpace();
+					}
+					GUILayout.EndHorizontal();
+					GUILayout.FlexibleSpace();
+				}
+				GUILayout.EndVertical();
+			}
+			GUILayout.EndArea();
+		}
+		if (winCupPopUp) {
+			GUILayout.BeginArea(centralWindow);
+			{
+				GUILayout.BeginVertical(centralWindowStyle);
+				{
+					GUILayout.FlexibleSpace();
+					GUILayout.Label ("BRAVO !",centralWindowTitleStyle);
+					GUILayout.FlexibleSpace();
+					GUILayout.Label ("Vous avez remporté la "+ (currentUser.Cup.Name).ToString()+" !",centralWindowTitleStyle);
+					GUILayout.FlexibleSpace();
+					GUILayout.Label (currentUser.Cup.CupPrize.ToString()+ " crédits sont ajoutés à votre portefeuille",centralWindowTitleStyle);
+					GUILayout.FlexibleSpace();
+					GUILayout.BeginHorizontal();
+					{
+						GUILayout.FlexibleSpace();
+						if (GUILayout.Button("OK",centralWindowButtonStyle)){
+							winCupPopUp=false;	
+						}
+						GUILayout.FlexibleSpace();
+					}
+					GUILayout.EndHorizontal();
+					GUILayout.FlexibleSpace();
+				}
+				GUILayout.EndVertical();
+			}
+			GUILayout.EndArea();
+		}
+		if (endCupPopUp) {
+			GUILayout.BeginArea(centralWindow);
+			{
+				GUILayout.BeginVertical(centralWindowStyle);
+				{
+					GUILayout.FlexibleSpace();
+					GUILayout.Label ("OUPS !",centralWindowTitleStyle);
+					GUILayout.FlexibleSpace();
+					GUILayout.Label ("Vous êtes malheureusement éliminé de la "+ (currentUser.Cup.Name).ToString()+" !",centralWindowTitleStyle);
+					GUILayout.FlexibleSpace();
+					GUILayout.BeginHorizontal();
+					{
+						GUILayout.FlexibleSpace();
+						if (GUILayout.Button("OK",centralWindowButtonStyle)){
+							endCupPopUp=false;	
 						}
 						GUILayout.FlexibleSpace();
 					}
@@ -548,12 +791,6 @@ public class EndGameScript : MonoBehaviour {
 		this.paginationActivatedStyle.fixedWidth = (int)blockBottomRightWidth*10/100;
 		this.paginationActivatedStyle.fixedHeight = (int)blockBottomRightHeight*4/100;
 
-		this.mainLabelStyle.fontSize = (int)blockTopLeftHeight * 10 / 100;
-		this.mainLabelStyle.fixedHeight = (int)blockTopLeftHeight * 15 / 100;
-
-		this.subMainLabelStyle.fontSize = (int)blockTopLeftHeight * 7 / 100;
-		this.subMainLabelStyle.fixedHeight = (int)blockTopLeftHeight * 15 / 100;
-
 		this.centralWindow = new Rect (widthScreen * 0.25f, 0.12f * heightScreen, widthScreen * 0.50f, 0.25f * heightScreen);
 
 		this.centralWindowStyle.fixedWidth = widthScreen*0.5f-5;
@@ -566,8 +803,16 @@ public class EndGameScript : MonoBehaviour {
 		this.centralWindowButtonStyle.fixedHeight = (int)heightScreen*3/100;
 		this.centralWindowButtonStyle.fixedWidth = (int)widthScreen*20/100;
 
-		if(gameType==1){
-
+		switch(gameType)
+		{
+		case 0:
+			this.mainLabelStyle.fontSize = (int)blockTopLeftHeight * 10 / 100;
+			this.mainLabelStyle.fixedHeight = (int)blockTopLeftHeight * 15 / 100;
+			
+			this.subMainLabelStyle.fontSize = (int)blockTopLeftHeight * 7 / 100;
+			this.subMainLabelStyle.fixedHeight = (int)blockTopLeftHeight * 15 / 100;
+			break;
+		case 1:
 			this.divisionLabelStyle.fontSize = heightScreen * 2 / 100;
 			this.divisionLabelStyle.fixedHeight = (int)heightScreen * 35 / 1000;
 			
@@ -576,13 +821,20 @@ public class EndGameScript : MonoBehaviour {
 			
 			this.remainingGamesStyle.fontSize= (int)blockTopLeftHeight * 4 / 100;
 			this.remainingGamesStyle.fixedHeight = (int)blockTopLeftHeight * 5 / 100;
-
+			
 			this.promotionPrizeLabelStyle.fontSize= (int)blockTopLeftHeight * 4 / 100;
 			this.promotionPrizeLabelStyle.fixedHeight = (int)blockTopLeftHeight * 5 / 100;
-
+			
 			this.titlePrizeLabelStyle.fontSize= (int)blockTopLeftHeight * 4 / 100;
 			this.titlePrizeLabelStyle.fixedHeight = (int)blockTopLeftHeight * 5 / 100;
-			drawGauge ();
+			break;
+		case 2:
+			for(int i=0;i<roundsStyle.Count;i++)
+			{
+				this.roundsStyle[i].fixedHeight=(int)blockTopLeftHeight*50/(100*roundsStyle.Count);
+				this.roundsStyle[i].fontSize=(int)this.roundsStyle[i].fixedHeight*60/100;
+			}
+			break;
 		}
 	}
 	private void drawGauge(){
@@ -715,6 +967,22 @@ public class EndGameScript : MonoBehaviour {
 		{
 			transformRatio=1f;
 			toUpdateGauge=false;
+			if(title)
+			{
+				titlePopUp=true;
+			}
+			else if(promotion)
+			{
+				promotionPopUp=true;
+			}
+			else if(endSeason)
+			{
+				endSeasonPopUp=true;
+			}
+			else if(relegation)
+			{
+				relegationPopUp=true;
+			}
 		}
 		if(activeGaugeWidthStart!=activeGaugeWidthFinish)
 		{
@@ -749,16 +1017,40 @@ public class EndGameScript : MonoBehaviour {
 			activeGaugeWidth=activeGaugeWidth+titleBarWidth;
 			activeGaugeBackgroundStyle.normal.background=gaugeBackgrounds[3];
 			titleBarWidth=titleBarFinish;
-			title=true;
 		}
-		drawGauge ();
 	}
-	private IEnumerator getDivisionEndGameData(){
+	private void initializeRounds(){
+		for (int i=0; i<currentUser.Cup.NbRounds;i++)
+		{
+			roundsStyle.Add (new GUIStyle());
+			if(i<currentUser.ResultsHistory.Count-1)
+			{
+				roundsStyle[i]=winRoundStyle;
+			}
+			else if(i==currentUser.ResultsHistory.Count-1)
+			{
+				if(hasWon==1)
+				{
+					roundsStyle[i]=winRoundStyle;
+				}
+				else
+				{
+					roundsStyle[i]=looseRoundStyle;
+				}
+			}
+			else
+			{
+				roundsStyle[i]=notPlayedRoundStyle;
+			}
+		}
+	}
+	private IEnumerator getEndGameData(){
 		WWWForm form = new WWWForm(); 								// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_nick", ApplicationModel.username); 	// Pseudo de l'utilisateur connecté
+		form.AddField("myform_nick", ApplicationModel.username); 
+		form.AddField("myform_limit", nbLimitFriendlyGameToDisplay); // Pseudo de l'utilisateur connecté
 		
-		WWW w = new WWW(URLGetUDivisionEndGameData, form); 								// On envoie le formulaire à l'url sur le serveur 
+		WWW w = new WWW(URLGetEndGameData, form); 								// On envoie le formulaire à l'url sur le serveur 
 		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
 		if (w.error != null) 
 		{
@@ -768,9 +1060,11 @@ public class EndGameScript : MonoBehaviour {
 		{
 			IList<Result> resultsHistory=new List<Result>();
 			string[] data=w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
-			string[] userData=data[0].Split(new string[] { "//" }, System.StringSplitOptions.None);
-			string[] divisionData=data[1].Split(new string[] { "//" }, System.StringSplitOptions.None);
-			string[] resultsData=data[2].Split(new string[] { "RESULT" }, System.StringSplitOptions.None);
+			gameType = System.Convert.ToInt32(data[0]);
+			hasWon = System.Convert.ToInt32(data[1]);
+			string[] userData=data[2].Split(new string[] { "//" }, System.StringSplitOptions.None);
+			string[] gameTypeData=data[3].Split(new string[] { "//" }, System.StringSplitOptions.None);
+			string[] resultsData=data[4].Split(new string[] { "RESULT" }, System.StringSplitOptions.None);
 
 			for (int i =0;i<resultsData.Length-1;i++)
 			{
@@ -784,117 +1078,74 @@ public class EndGameScript : MonoBehaviour {
 				                                        System.Convert.ToInt32(resultData[8])),
 				                               System.Convert.ToBoolean(System.Convert.ToInt32(resultData[0])),
 				                               DateTime.ParseExact(resultData[1], "yyyy-MM-dd HH:mm:ss", null)));
-				if (resultsHistory[i].HasWon)
+			}
+			if(gameType==0)
+			{
+				currentUser = new User(resultsHistory,
+				                       System.Convert.ToInt32(userData[0]),
+				                       System.Convert.ToInt32(userData[1]),
+				                       System.Convert.ToInt32(userData[2]),
+				                       System.Convert.ToInt32(userData[3]));
+			}
+			else if(gameType==1)
+			{
+				currentUser = new User(new Division(System.Convert.ToInt32(gameTypeData[0]),
+				                                    System.Convert.ToInt32(gameTypeData[1]),
+				                                    System.Convert.ToInt32(gameTypeData[2]),
+				                                    System.Convert.ToInt32(gameTypeData[3]),
+				                                    System.Convert.ToInt32(gameTypeData[4]),
+				                                    System.Convert.ToInt32(gameTypeData[5]),
+				                                    System.Convert.ToInt32(gameTypeData[6])),
+				                       resultsHistory,
+				                       System.Convert.ToInt32(userData[0]),
+				                       System.Convert.ToInt32(userData[1]),
+				                       System.Convert.ToInt32(userData[2]),
+				                       System.Convert.ToInt32(userData[3]));
+				nbWinsDivision = System.Convert.ToInt32(data[5]);
+				nbLoosesDivision =currentUser.ResultsHistory.Count-nbWinsDivision;
+				remainingGames=currentUser.Division.NbGames-nbWinsDivision-nbLoosesDivision;
+				if(data[6]=="3")
 				{
-					nbWinsDivision++;
+					title=true;
+				}
+				else if (data[6]=="2")
+				{
+					promotion=true;
+				}
+				else if (data[6]=="1")
+				{
+					endSeason=true;
+				}
+				else if (data[6]=="0")
+				{
+					relegation=true;
+				}
+			}
+			else if(gameType==2)
+			{
+				currentUser = new User(new Cup(System.Convert.ToInt32(gameTypeData[0]),
+				                              System.Convert.ToInt32(gameTypeData[1]),
+				                              System.Convert.ToInt32(gameTypeData[2]),
+				                               gameTypeData[3]),
+				                      resultsHistory,
+				                      System.Convert.ToInt32(userData[0]),
+				                      System.Convert.ToInt32(userData[1]),
+				                      System.Convert.ToInt32(userData[2]),
+				                      System.Convert.ToInt32(userData[3]));
+				if(data[5]=="2")
+				{
+					winCup=true;
+				}
+				else if (data[5]=="1")
+				{
+					stillInCup=true;
 				}
 				else
 				{
-					nbLoosesDivision++;
+					endCup=true;
 				}
 			}
-			currentUser = new User(new Division(System.Convert.ToInt32(divisionData[0]),
-												System.Convert.ToInt32(divisionData[1]),
-			                                    System.Convert.ToInt32(divisionData[2]),
-			                                    System.Convert.ToInt32(divisionData[3]),
-			                                    System.Convert.ToInt32(divisionData[4]),
-			                                    System.Convert.ToInt32(divisionData[5]),
-			                                    System.Convert.ToInt32(divisionData[6])),
-			                       resultsHistory,
-			                       System.Convert.ToInt32(userData[0]),
-			                       System.Convert.ToInt32(userData[1]),
-			                       System.Convert.ToInt32(userData[2]),
-			                       System.Convert.ToInt32(userData[3]));
-			remainingGames=currentUser.Division.NbGames-nbWinsDivision-nbLoosesDivision;
-			hasWon = System.Convert.ToInt32(currentUser.ResultsHistory[0].HasWon);
-			initializeGauge();
-			setStyles();
-			picturesInitialization();
-		}
-	}
-	private IEnumerator getCupEndGameData(){
-		WWWForm form = new WWWForm(); 								// Création de la connexion
-		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_nick", ApplicationModel.username); 	// Pseudo de l'utilisateur connecté
-		
-		WWW w = new WWW(URLGetCupEndGameData, form); 								// On envoie le formulaire à l'url sur le serveur 
-		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
-		if (w.error != null) 
-		{
-			print(w.error); 										// donne l'erreur eventuelle
-		} 
-		else 
-		{
-			IList<Result> resultsHistory=new List<Result>();
-			string[] data=w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
-			string[] userData=data[0].Split(new string[] { "//" }, System.StringSplitOptions.None);
-			string[] cupData=data[1].Split(new string[] { "//" }, System.StringSplitOptions.None);
-			string[] resultsData=data[2].Split(new string[] { "RESULT" }, System.StringSplitOptions.None);
-			
-			for (int i =0;i<resultsData.Length-1;i++)
-			{
-				string[] resultData=resultsData[i].Split (new string[] {"//"}, System.StringSplitOptions.None);
-				resultsHistory.Add (new Result(new User(resultData[2],
-				                                        resultData[3],
-				                                        new Division(System.Convert.ToInt32(resultData[4])),
-				                                        System.Convert.ToInt32(resultData[5]),
-				                                        System.Convert.ToInt32(resultData[6]),
-				                                        System.Convert.ToInt32(resultData[7]),
-				                                        System.Convert.ToInt32(resultData[8])),
-				                               System.Convert.ToBoolean(System.Convert.ToInt32(resultData[0])),
-				                               DateTime.ParseExact(resultData[1], "yyyy-MM-dd HH:mm:ss", null)));
-			}
-			currentUser = new User(new Cup(System.Convert.ToInt32(cupData[0]),
-			                               System.Convert.ToInt32(cupData[1]),
-			                               System.Convert.ToInt32(cupData[2])),
-			                       resultsHistory,
-			                       System.Convert.ToInt32(userData[0]),
-			                       System.Convert.ToInt32(userData[1]),
-			                       System.Convert.ToInt32(userData[2]),
-			                       System.Convert.ToInt32(userData[3]));
-			setStyles();
-			picturesInitialization();
-		}
-	}
-	private IEnumerator getFriendlyEndGameData(){
-		WWWForm form = new WWWForm(); 								// Création de la connexion
-		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_nick", ApplicationModel.username); 	// Pseudo de l'utilisateur connecté
-		form.AddField ("myform_limit", nbLimitFriendlyGameToDisplay);
-		
-		WWW w = new WWW(URLGetFriendlyEndGameData, form); 								// On envoie le formulaire à l'url sur le serveur 
-		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
-		if (w.error != null) 
-		{
-			print(w.error); 										// donne l'erreur eventuelle
-		} 
-		else 
-		{
-			IList<Result> resultsHistory=new List<Result>();
-			string[] data=w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
-			string[] userData=data[0].Split(new string[] { "//" }, System.StringSplitOptions.None);
-			string[] resultsData=data[1].Split(new string[] { "RESULT" }, System.StringSplitOptions.None);
-			
-			for (int i =0;i<resultsData.Length-1;i++)
-			{
-				string[] resultData=resultsData[i].Split (new string[] {"//"}, System.StringSplitOptions.None);
-				resultsHistory.Add (new Result(new User(resultData[2],
-				                                        resultData[3],
-				                                        new Division(System.Convert.ToInt32(resultData[4])),
-				                                        System.Convert.ToInt32(resultData[5]),
-				                                        System.Convert.ToInt32(resultData[6]),
-				                                        System.Convert.ToInt32(resultData[7]),
-				                                        System.Convert.ToInt32(resultData[8])),
-				                               System.Convert.ToBoolean(System.Convert.ToInt32(resultData[0])),
-				                               DateTime.ParseExact(resultData[1], "yyyy-MM-dd HH:mm:ss", null)));
-			}
-			currentUser = new User(resultsHistory,
-			                       System.Convert.ToInt32(userData[0]),
-			                       System.Convert.ToInt32(userData[1]),
-			                       System.Convert.ToInt32(userData[2]),
-			                       System.Convert.ToInt32(userData[3]));
-			setStyles();
-			picturesInitialization();
+			isDataLoaded=true;
 		}
 	}
 	private void picturesInitialization(){
@@ -925,10 +1176,7 @@ public class EndGameScript : MonoBehaviour {
 				paginatorGuiStyle[i]=paginationStyle;
 			}
 		}
-		displayPage ();
-		isDataLoaded=true;
-		toUpdateGauge = true;
-		setProfilePictures ();
+		arePicturesInitialized = true;
 	}
 	private void displayPage(){
 		start = chosenPage*5;
