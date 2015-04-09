@@ -4,18 +4,12 @@ using System.Collections;
 
 public class AuthenticationController : MonoBehaviour {
 
-	string URLCheckAuthentification =  "http://54.77.118.214/GarrukServer/check_authentication.php"; 												// L'url d'authentification du serveur
-	string URLCheckPermanentConnexion = "http://54.77.118.214/GarrukServer/check_permanent_connexion.php";
-	string formNick = ""; 									// Le champ où l'utilisateur entre son pseudo
-	string formPassword = ""; 
-	string error ="";
-
-	bool isinitialized=false;
-	bool memorizeLogins = false;
-	string userMacAdress;
+	private string URLCheckAuthentification =  "http://54.77.118.214/GarrukServer/check_authentication.php"; 												// L'url d'authentification du serveur
+	private string URLCheckPermanentConnexion = "http://54.77.118.214/GarrukServer/check_permanent_connexion.php";
+	
+	private string userMacAdress;
 	AuthenticationView view ;
-
-	Rect windowRect ;
+	
 
 	void Start (){
 		userMacAdress = SystemInfo.deviceUniqueIdentifier;
@@ -44,8 +38,8 @@ public class AuthenticationController : MonoBehaviour {
 				else{
 					ApplicationModel.toDeconnect=false;
 					view.toDisplayWindow();
-					formNick = w.text;
-					memorizeLogins=true;
+					view.setNick(w.text);
+					view.toMemorizeLogins();
 				}
 			}
 			else{
@@ -54,7 +48,7 @@ public class AuthenticationController : MonoBehaviour {
 		}
 	}
 
-	IEnumerator Login(string formNick, string formPassword) 
+	public IEnumerator Login(string formNick, string formPassword, bool memorizeLogins) 
 	{
 		if (formNick == "" || formPassword == "")
 			yield break;
@@ -87,11 +81,9 @@ public class AuthenticationController : MonoBehaviour {
 			}
 			else 
 			{
-				view.resize = Screen.height/10;
-				error = "informations incorrectes, " +			// on affiche les données transmises du serveur
-					"veuillez réessayer: " + w.text;
-			}
-			//w.Dispose(); 											// on supprime la connexion
+				view.setError("informations incorrectes, " +			// on affiche les données transmises du serveur
+					"veuillez réessayer: " + w.text);
+			}											// on supprime la connexion
 		}
 		formPassword = ""; 											// On efface les variables
 	}

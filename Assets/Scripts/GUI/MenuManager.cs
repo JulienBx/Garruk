@@ -260,7 +260,7 @@ public class MenuManager : MonoBehaviour {
 		if(Application.loadedLevelName=="LobbyPage"){
 			PhotonNetwork.Disconnect();
 		}
-		Application.LoadLevel("ConnectionPage");
+		Application.LoadLevel("Authentication");
 	}
 	public void profileLink() 
 	{
