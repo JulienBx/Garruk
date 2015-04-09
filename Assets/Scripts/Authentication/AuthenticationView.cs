@@ -2,71 +2,81 @@
 using UnityEngine.UI;
 using System.Collections;
 
-public class AuthenticationView : MonoBehaviour {
-
-	public GUIStyle centralWindowStyle;
-	public GUIStyle centralWindowTitleStyle;
-	public GUIStyle centralWindowButtonStyle;
-	public GUIStyle centralWindowTextFieldStyle;
-	public GUIStyle centralWindowPasswordFieldStyle;
-	public GUIStyle centralWindowToggleStyle;
+public class AuthenticationView : MonoBehaviour
+{
+	private GUIStyle centralWindowStyle;
+	private GUIStyle centralWindowTitleStyle;
+	private GUIStyle centralWindowButtonStyle;
+	private GUIStyle centralWindowTextFieldStyle;
+	private GUIStyle centralWindowPasswordFieldStyle;
+	private GUIStyle centralWindowToggleStyle;
 
 	private Rect centralWindow;
 	private int heightScreen;
 	private int widthScreen;
-	private string formNick="";
-	private string formPassword="";
-	private bool memorizeLogins;
-	private bool isinitialized=false;
-	private bool toDisplay ;
+	private bool isinitialized = false;
 
-	private string error="";
+	public bool toDisplay = false;
 
-	AuthenticationController controller ;
-	
-	void Start (){
-		controller = GetComponent<AuthenticationController>();
-		setStyles ();
+	public AuthenticationViewModel authenticationViewModel;
+
+	void Start ()
+	{
+
 	}
-	void Update(){
+
+	void Update()
+	{
 		if (Screen.width != widthScreen || Screen.height != heightScreen) {
 			setStyles();
 		}
 	}
-	void OnGUI () 
+
+	public void initStyles(GUIStyle centralWindowStyle, GUIStyle centralWindowTitleStyle, GUIStyle centralWindowButtonStyle, GUIStyle centralWindowTextFieldStyle, GUIStyle centralWindowPasswordFieldStyle, GUIStyle centralWindowToggleStyle) {
+		this.centralWindowStyle = centralWindowStyle;
+		this.centralWindowTitleStyle = centralWindowTitleStyle;
+		this.centralWindowButtonStyle = centralWindowButtonStyle;
+		this.centralWindowTextFieldStyle = centralWindowTextFieldStyle;
+		this.centralWindowPasswordFieldStyle = centralWindowPasswordFieldStyle;
+		this.centralWindowToggleStyle = centralWindowToggleStyle;
+		setStyles ();
+	}
+
+	public void OnGUI() 
 	{
-		if (toDisplay){
+		if (toDisplay)
+		{
 			Event e = Event.current;
 			if (e.keyCode == KeyCode.Return)
 			{
-				StartCoroutine(controller.Login(formNick, formPassword,memorizeLogins));
+				StartCoroutine(AuthenticationController.instance.Login());
 			}
 			GUILayout.BeginArea(centralWindow,centralWindowStyle);
 			{
 				GUILayout.FlexibleSpace();
 				GUILayout.Label ("Identifiant",centralWindowTitleStyle);
 				GUI.SetNextControlName("formNick");
-				formNick = GUILayout.TextField(formNick,centralWindowTextFieldStyle);
+				authenticationViewModel.userName = GUILayout.TextField(authenticationViewModel.userName,centralWindowTextFieldStyle);
 				GUILayout.FlexibleSpace();
 				GUILayout.Label ("Mot de passe",centralWindowTitleStyle);
 				GUI.SetNextControlName("formPassword");
-				formPassword = GUILayout.PasswordField(formPassword,"*"[0],centralWindowPasswordFieldStyle);
+				authenticationViewModel.password = GUILayout.PasswordField(authenticationViewModel.password,"*"[0],centralWindowPasswordFieldStyle);
 				GUILayout.FlexibleSpace();
-				memorizeLogins = GUILayout.Toggle(memorizeLogins, "Mémoriser ma session",centralWindowToggleStyle);
+				authenticationViewModel.isMemorizingLogin = GUILayout.Toggle(authenticationViewModel.isMemorizingLogin, "Mémoriser ma session",centralWindowToggleStyle);
 				GUILayout.FlexibleSpace();
 				GUILayout.BeginHorizontal();
 				{
 					GUILayout.FlexibleSpace();
 					GUI.SetNextControlName("Confirmer");
 					if (GUILayout.Button("Confirmer",centralWindowButtonStyle)){
-						StartCoroutine(controller.Login(formNick, formPassword,memorizeLogins));
+						StartCoroutine(AuthenticationController.instance.Login());
 					}
 					GUILayout.FlexibleSpace();
 				}
 				GUILayout.EndHorizontal();
-				if(error!=""){
+				if(authenticationViewModel.connexionError != ""){
 					GUILayout.FlexibleSpace();
-					GUILayout.Label (error,centralWindowTitleStyle);
+					GUILayout.Label (authenticationViewModel.connexionError, centralWindowTitleStyle);
 				}
 				GUILayout.FlexibleSpace();
 				if (!isinitialized){
@@ -100,17 +110,5 @@ public class AuthenticationView : MonoBehaviour {
 		this.centralWindowToggleStyle.fontSize = heightScreen*2/100;
 		this.centralWindowToggleStyle.fixedHeight = (int)heightScreen*3/100;
 
-	}
-	public void toDisplayWindow(){
-		this.toDisplay = true ;
-	}
-	public void setError(string text){
-		this.error=text ;
-	}
-	public void toMemorizeLogins(){
-		this.memorizeLogins=true ;
-	}
-	public void setNick(string nick){
-		this.formNick = nick;
 	}
 }
