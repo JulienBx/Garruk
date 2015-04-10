@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class User : MonoBehaviour
+public class User
 {
 	private string URLGetUserGameProfile = "http://54.77.118.214/GarrukServer/get_user_game_profile.php";
 	private string URLDefaultProfilePicture = "http://54.77.118.214/GarrukServer/img/profile/defautprofilepicture.png";
@@ -11,6 +11,7 @@ public class User : MonoBehaviour
 	public string Mail;
 	public string FirstName;
 	public string Surname;
+
 	public string Picture;
 	public int Money;
 	public List<Connection> Connections;
@@ -33,10 +34,6 @@ public class User : MonoBehaviour
 	public User(string username)
 	{
 		this.Username = username;
-	}
-
-	public IEnumerator setPicture(){
-		yield return StartCoroutine(retrievePicture());
 	}
 
 	public User(string username, string picture)
@@ -112,12 +109,12 @@ public class User : MonoBehaviour
 			Debug.Log (w.error); 
 		}
 		else{
-			//print(w.text); 											// donne le retour
+			//Debug.Log(w.text); 											// donne le retour
 			this.Picture=w.text;
-		}		
+		}
 	}
 
-	private IEnumerator setProfilePicture(){
+	public IEnumerator setProfilePicture(){
 		
 		this.texture = new Texture2D (4, 4, TextureFormat.DXT1, false);
 		
