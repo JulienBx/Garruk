@@ -32,4 +32,7 @@ public class LastOpponentViewModel {
 		this.Picture = lastopponent.Picture;
 		
 	}
+	public LastOpponentViewModel (){
+
+	}
 }

@@ -7,14 +7,14 @@ using System.Reflection;
 
 public class EndGameView : MonoBehaviour
 {
-	public LastResultsViewModel lastResultsViewModel;
-	public LastOpponentViewModel lastOpponentViewModel;
-	public DivisionBoardViewModel divisionBoardViewModel;
-	public CupBoardViewModel cupBoardViewModel;
-	public EndGameScreenViewModel endGameScreenViewModel;
-	public CurrentUserViewModel currentUserViewModel;
-	public FriendlyBoardViewModel friendlyBoardViewModel;
-	public EndGameViewModel endGameViewModel;
+	public LastResultsViewModel lastResultsVM;
+	public LastOpponentViewModel lastOpponentVM;
+	public DivisionBoardViewModel divisionBoardVM;
+	public CupBoardViewModel cupBoardVM;
+	public EndGameScreenViewModel endGameScreenVM;
+	public CurrentUserViewModel currentUserVM;
+	public FriendlyBoardViewModel friendlyBoardVM;
+	public EndGameViewModel endGameVM;
 
 	private bool canDisplay=false;
 	private bool titlePopUp=false;
@@ -27,20 +27,20 @@ public class EndGameView : MonoBehaviour
 	
 	void Start ()
 	{
-		this.lastResultsViewModel=new LastResultsViewModel();
-		this.lastOpponentViewModel=new LastOpponentViewModel();
-		this.cupBoardViewModel=new CupBoardViewModel();
-		this.divisionBoardViewModel=new DivisionBoardViewModel();
-		this.endGameScreenViewModel=new EndGameScreenViewModel();
-		this.friendlyBoardViewModel=new FriendlyBoardViewModel();
-		this.endGameViewModel=new EndGameViewModel();
+		this.lastResultsVM=new LastResultsViewModel();
+		this.lastOpponentVM=new LastOpponentViewModel();
+		this.cupBoardVM=new CupBoardViewModel();
+		this.divisionBoardVM=new DivisionBoardViewModel();
+		this.endGameScreenVM=new EndGameScreenViewModel();
+		this.friendlyBoardVM=new FriendlyBoardViewModel();
+		this.endGameVM=new EndGameViewModel();
 	}
 
 	void Update()
 	{
 		if (this.canDisplay)
 		{
-			if (Screen.width != endGameScreenViewModel.widthScreen || Screen.height != endGameScreenViewModel.heightScreen) {
+			if (Screen.width != endGameScreenVM.widthScreen || Screen.height != endGameScreenVM.heightScreen) {
 				EndGameController.instance.resizeScreen();
 			}
 			if(this.titlePopUp){
@@ -97,27 +97,27 @@ public class EndGameView : MonoBehaviour
 	public void OnGUI() 
 	{
 		if(this.canDisplay){
-			// endGameScreenViewModel.block SUP GAUCHE
-			GUILayout.BeginArea(endGameScreenViewModel.blockTopLeft,endGameScreenViewModel.blockBorderStyle);
+			// endGameScreenVM.block SUP GAUCHE
+			GUILayout.BeginArea(endGameScreenVM.blockTopLeft,endGameScreenVM.blockBorderStyle);
 			{
-				switch(endGameViewModel.gameType)
+				switch(endGameVM.gameType)
 				{
 				case 0:
 					GUILayout.FlexibleSpace();
-					GUILayout.Label (friendlyBoardViewModel.mainLabelText,friendlyBoardViewModel.mainLabelStyle);
-					GUILayout.Label (friendlyBoardViewModel.subMainLabelText,friendlyBoardViewModel.subMainLabelStyle);
+					GUILayout.Label (friendlyBoardVM.mainLabelText,friendlyBoardVM.mainLabelStyle);
+					GUILayout.Label (friendlyBoardVM.subMainLabelText,friendlyBoardVM.subMainLabelStyle);
 					GUILayout.FlexibleSpace();
 					break;
 				case 1:
-					GUILayout.Label("Division "+divisionBoardViewModel.division.Id.ToString(),divisionBoardViewModel.divisionLabelStyle);
+					GUILayout.Label("Division "+divisionBoardVM.division.Id.ToString(),divisionBoardVM.divisionLabelStyle);
 					GUILayout.FlexibleSpace();
 					GUILayout.BeginHorizontal();
 					{
-						GUILayout.Space (endGameScreenViewModel.blockTopLeftWidth*5/100);
-						GUILayout.Label("Série : "+divisionBoardViewModel.nbWinsDivision+" V, "+divisionBoardViewModel.nbLoosesDivision+" D",divisionBoardViewModel.divisionStrikeLabelStyle);
+						GUILayout.Space (endGameScreenVM.blockTopLeftWidth*5/100);
+						GUILayout.Label("Série : "+divisionBoardVM.nbWinsDivision+" V, "+divisionBoardVM.nbLoosesDivision+" D",divisionBoardVM.divisionStrikeLabelStyle);
 						GUILayout.FlexibleSpace();
-						GUILayout.Label("Matchs restants : "+divisionBoardViewModel.remainingGames.ToString(),divisionBoardViewModel.remainingGamesStyle);
-						GUILayout.Space (endGameScreenViewModel.blockTopLeftWidth*5/100);
+						GUILayout.Label("Matchs restants : "+divisionBoardVM.remainingGames.ToString(),divisionBoardVM.remainingGamesStyle);
+						GUILayout.Space (endGameScreenVM.blockTopLeftWidth*5/100);
 					}
 					GUILayout.EndHorizontal();
 					GUILayout.FlexibleSpace();
@@ -126,76 +126,76 @@ public class EndGameView : MonoBehaviour
 						GUILayout.FlexibleSpace();
 						GUILayout.BeginVertical();
 						{
-							GUILayout.BeginHorizontal(GUILayout.Height(5f / 100f * endGameScreenViewModel.blockTopLeftHeight));
+							GUILayout.BeginHorizontal(GUILayout.Height(5f / 100f * endGameScreenVM.blockTopLeftHeight));
 							{
-								GUILayout.Space (divisionBoardViewModel.startActiveGaugeBackgroundStyle.fixedWidth);
-								GUILayout.Space (divisionBoardViewModel.activeGaugeBackgroundStyle.fixedWidth);
-								GUILayout.Space (divisionBoardViewModel.gaugeSpace1Width);
-								if(divisionBoardViewModel.relegationBarWidth!=0){
-									GUILayout.Space (divisionBoardViewModel.relegationBarStyle.fixedWidth/2f);
-									GUILayout.Space (-divisionBoardViewModel.relegationLabelStyle.fixedWidth/2f);
-									GUILayout.Label ("Relégation",divisionBoardViewModel.relegationLabelStyle);
-									GUILayout.Space (-divisionBoardViewModel.relegationLabelStyle.fixedWidth/2f);
-									GUILayout.Space (divisionBoardViewModel.relegationBarStyle.fixedWidth/2f);
+								GUILayout.Space (divisionBoardVM.startActiveGaugeBackgroundStyle.fixedWidth);
+								GUILayout.Space (divisionBoardVM.activeGaugeBackgroundStyle.fixedWidth);
+								GUILayout.Space (divisionBoardVM.gaugeSpace1Width);
+								if(divisionBoardVM.relegationBarWidth!=0){
+									GUILayout.Space (divisionBoardVM.relegationBarStyle.fixedWidth/2f);
+									GUILayout.Space (-divisionBoardVM.relegationLabelStyle.fixedWidth/2f);
+									GUILayout.Label ("Relégation",divisionBoardVM.relegationLabelStyle);
+									GUILayout.Space (-divisionBoardVM.relegationLabelStyle.fixedWidth/2f);
+									GUILayout.Space (divisionBoardVM.relegationBarStyle.fixedWidth/2f);
 								}
-								GUILayout.Space (divisionBoardViewModel.gaugeSpace2Width);
-								if(divisionBoardViewModel.promotionBarWidth!=0){
-									GUILayout.Space (divisionBoardViewModel.promotionBarStyle.fixedWidth/2f);
-									GUILayout.Space (-divisionBoardViewModel.promotionLabelStyle.fixedWidth/2f);
-									GUILayout.Label ("Promotion",divisionBoardViewModel.promotionLabelStyle);
-									GUILayout.Space (-divisionBoardViewModel.promotionLabelStyle.fixedWidth/2f);
-									GUILayout.Space (divisionBoardViewModel.promotionBarStyle.fixedWidth/2f);
+								GUILayout.Space (divisionBoardVM.gaugeSpace2Width);
+								if(divisionBoardVM.promotionBarWidth!=0){
+									GUILayout.Space (divisionBoardVM.promotionBarStyle.fixedWidth/2f);
+									GUILayout.Space (-divisionBoardVM.promotionLabelStyle.fixedWidth/2f);
+									GUILayout.Label ("Promotion",divisionBoardVM.promotionLabelStyle);
+									GUILayout.Space (-divisionBoardVM.promotionLabelStyle.fixedWidth/2f);
+									GUILayout.Space (divisionBoardVM.promotionBarStyle.fixedWidth/2f);
 								}
-								GUILayout.Space (divisionBoardViewModel.gaugeSpace3Width);
-								if(divisionBoardViewModel.titleBarWidth!=0){
-									GUILayout.Space (divisionBoardViewModel.titleBarStyle.fixedWidth/2f);
-									GUILayout.Space (-divisionBoardViewModel.titleLabelStyle.fixedWidth/2f);
-									GUILayout.Label ("Titre",divisionBoardViewModel.titleLabelStyle);
-									GUILayout.Space (-divisionBoardViewModel.titleLabelStyle.fixedWidth/2f);
-									GUILayout.Space (divisionBoardViewModel.titleBarStyle.fixedWidth/2f);
+								GUILayout.Space (divisionBoardVM.gaugeSpace3Width);
+								if(divisionBoardVM.titleBarWidth!=0){
+									GUILayout.Space (divisionBoardVM.titleBarStyle.fixedWidth/2f);
+									GUILayout.Space (-divisionBoardVM.titleLabelStyle.fixedWidth/2f);
+									GUILayout.Label ("Titre",divisionBoardVM.titleLabelStyle);
+									GUILayout.Space (-divisionBoardVM.titleLabelStyle.fixedWidth/2f);
+									GUILayout.Space (divisionBoardVM.titleBarStyle.fixedWidth/2f);
 								}
 							}
 							GUILayout.EndHorizontal();
-							GUILayout.BeginHorizontal(divisionBoardViewModel.gaugeBackgroundStyle);
+							GUILayout.BeginHorizontal(divisionBoardVM.gaugeBackgroundStyle);
 							{
-								GUILayout.Label (divisionBoardViewModel.nbWinsDivision+"V",divisionBoardViewModel.startActiveGaugeBackgroundStyle);
-								GUILayout.Label ("",divisionBoardViewModel.activeGaugeBackgroundStyle);
-								GUILayout.Space (divisionBoardViewModel.gaugeSpace1Width);
-								GUILayout.Label ("",divisionBoardViewModel.relegationBarStyle);
-								GUILayout.Space (divisionBoardViewModel.gaugeSpace2Width);
-								GUILayout.Label ("",divisionBoardViewModel.promotionBarStyle);
-								GUILayout.Space (divisionBoardViewModel.gaugeSpace3Width);
-								GUILayout.Label ("",divisionBoardViewModel.titleBarStyle);
-								GUILayout.Space (divisionBoardViewModel.gaugeSpace4Width);
+								GUILayout.Label (divisionBoardVM.nbWinsDivision+"V",divisionBoardVM.startActiveGaugeBackgroundStyle);
+								GUILayout.Label ("",divisionBoardVM.activeGaugeBackgroundStyle);
+								GUILayout.Space (divisionBoardVM.gaugeSpace1Width);
+								GUILayout.Label ("",divisionBoardVM.relegationBarStyle);
+								GUILayout.Space (divisionBoardVM.gaugeSpace2Width);
+								GUILayout.Label ("",divisionBoardVM.promotionBarStyle);
+								GUILayout.Space (divisionBoardVM.gaugeSpace3Width);
+								GUILayout.Label ("",divisionBoardVM.titleBarStyle);
+								GUILayout.Space (divisionBoardVM.gaugeSpace4Width);
 							}
 							GUILayout.EndHorizontal();
-							GUILayout.BeginHorizontal(GUILayout.Height(5f / 100f * endGameScreenViewModel.blockTopLeftHeight));
+							GUILayout.BeginHorizontal(GUILayout.Height(5f / 100f * endGameScreenVM.blockTopLeftHeight));
 							{
-								GUILayout.Space (divisionBoardViewModel.startActiveGaugeBackgroundStyle.fixedWidth);
-								GUILayout.Space (divisionBoardViewModel.activeGaugeBackgroundStyle.fixedWidth);
-								GUILayout.Space (divisionBoardViewModel.gaugeSpace1Width);
-								if(divisionBoardViewModel.relegationBarWidth!=0){
-									GUILayout.Space (divisionBoardViewModel.relegationBarStyle.fixedWidth/2f);
-									GUILayout.Space (-divisionBoardViewModel.relegationValueLabelStyle.fixedWidth/2f);
-									GUILayout.Label (divisionBoardViewModel.division.NbWinsForRelegation.ToString()+" V",divisionBoardViewModel.relegationValueLabelStyle);
-									GUILayout.Space (-divisionBoardViewModel.relegationValueLabelStyle.fixedWidth/2f);
-									GUILayout.Space (divisionBoardViewModel.relegationBarStyle.fixedWidth/2f);
+								GUILayout.Space (divisionBoardVM.startActiveGaugeBackgroundStyle.fixedWidth);
+								GUILayout.Space (divisionBoardVM.activeGaugeBackgroundStyle.fixedWidth);
+								GUILayout.Space (divisionBoardVM.gaugeSpace1Width);
+								if(divisionBoardVM.relegationBarWidth!=0){
+									GUILayout.Space (divisionBoardVM.relegationBarStyle.fixedWidth/2f);
+									GUILayout.Space (-divisionBoardVM.relegationValueLabelStyle.fixedWidth/2f);
+									GUILayout.Label (divisionBoardVM.division.NbWinsForRelegation.ToString()+" V",divisionBoardVM.relegationValueLabelStyle);
+									GUILayout.Space (-divisionBoardVM.relegationValueLabelStyle.fixedWidth/2f);
+									GUILayout.Space (divisionBoardVM.relegationBarStyle.fixedWidth/2f);
 								}
-								GUILayout.Space (divisionBoardViewModel.gaugeSpace2Width);
-								if(divisionBoardViewModel.promotionBarWidth!=0){
-									GUILayout.Space (divisionBoardViewModel.promotionBarStyle.fixedWidth/2f);
-									GUILayout.Space (-divisionBoardViewModel.promotionValueLabelStyle.fixedWidth/2f);
-									GUILayout.Label (divisionBoardViewModel.division.NbWinsForPromotion.ToString()+" V",divisionBoardViewModel.promotionValueLabelStyle);
-									GUILayout.Space (-divisionBoardViewModel.promotionValueLabelStyle.fixedWidth/2f);
-									GUILayout.Space (divisionBoardViewModel.promotionBarStyle.fixedWidth/2f);
+								GUILayout.Space (divisionBoardVM.gaugeSpace2Width);
+								if(divisionBoardVM.promotionBarWidth!=0){
+									GUILayout.Space (divisionBoardVM.promotionBarStyle.fixedWidth/2f);
+									GUILayout.Space (-divisionBoardVM.promotionValueLabelStyle.fixedWidth/2f);
+									GUILayout.Label (divisionBoardVM.division.NbWinsForPromotion.ToString()+" V",divisionBoardVM.promotionValueLabelStyle);
+									GUILayout.Space (-divisionBoardVM.promotionValueLabelStyle.fixedWidth/2f);
+									GUILayout.Space (divisionBoardVM.promotionBarStyle.fixedWidth/2f);
 								}
-								GUILayout.Space (divisionBoardViewModel.gaugeSpace3Width);
-								if(divisionBoardViewModel.titleBarWidth!=0){
-									GUILayout.Space (divisionBoardViewModel.titleBarStyle.fixedWidth/2f);
-									GUILayout.Space (-divisionBoardViewModel.titleValueLabelStyle.fixedWidth/2f);
-									GUILayout.Label (divisionBoardViewModel.division.NbWinsForTitle.ToString()+" V",divisionBoardViewModel.titleValueLabelStyle);
-									GUILayout.Space (-divisionBoardViewModel.titleValueLabelStyle.fixedWidth/2f);
-									GUILayout.Space (divisionBoardViewModel.titleBarStyle.fixedWidth/2f);
+								GUILayout.Space (divisionBoardVM.gaugeSpace3Width);
+								if(divisionBoardVM.titleBarWidth!=0){
+									GUILayout.Space (divisionBoardVM.titleBarStyle.fixedWidth/2f);
+									GUILayout.Space (-divisionBoardVM.titleValueLabelStyle.fixedWidth/2f);
+									GUILayout.Label (divisionBoardVM.division.NbWinsForTitle.ToString()+" V",divisionBoardVM.titleValueLabelStyle);
+									GUILayout.Space (-divisionBoardVM.titleValueLabelStyle.fixedWidth/2f);
+									GUILayout.Space (divisionBoardVM.titleBarStyle.fixedWidth/2f);
 								}
 							}
 							GUILayout.EndHorizontal();
@@ -207,69 +207,69 @@ public class EndGameView : MonoBehaviour
 					GUILayout.FlexibleSpace();
 					GUILayout.BeginHorizontal();
 					{
-						GUILayout.Space (endGameScreenViewModel.blockTopLeftWidth*5/100);
-						GUILayout.Label("Prime de promotion : "+divisionBoardViewModel.division.PromotionPrize.ToString()+" crédits",divisionBoardViewModel.promotionPrizeLabelStyle);
+						GUILayout.Space (endGameScreenVM.blockTopLeftWidth*5/100);
+						GUILayout.Label("Prime de promotion : "+divisionBoardVM.division.PromotionPrize.ToString()+" crédits",divisionBoardVM.promotionPrizeLabelStyle);
 						GUILayout.FlexibleSpace();
-						GUILayout.Label("Prime de titre : "+divisionBoardViewModel.division.TitlePrize.ToString()+" crédits",divisionBoardViewModel.titlePrizeLabelStyle);
-						GUILayout.Space (endGameScreenViewModel.blockTopLeftWidth*5/100);
+						GUILayout.Label("Prime de titre : "+divisionBoardVM.division.TitlePrize.ToString()+" crédits",divisionBoardVM.titlePrizeLabelStyle);
+						GUILayout.Space (endGameScreenVM.blockTopLeftWidth*5/100);
 					}
 					GUILayout.EndHorizontal();
 					GUILayout.FlexibleSpace();
 					break;
 				case 2:
-					GUILayout.Label(cupBoardViewModel.cup.Name,cupBoardViewModel.cupLabelStyle);
+					GUILayout.Label(cupBoardVM.cup.Name,cupBoardVM.cupLabelStyle);
 					GUILayout.FlexibleSpace();
 					GUILayout.BeginHorizontal();
 					{
-						GUILayout.Space (0.2f*endGameScreenViewModel.blockTopLeftWidth);
+						GUILayout.Space (0.2f*endGameScreenVM.blockTopLeftWidth);
 						GUILayout.BeginVertical();
 						{
-							for (int i=0;i<cupBoardViewModel.cup.NbRounds;i++)
+							for (int i=0;i<cupBoardVM.cup.NbRounds;i++)
 							{
-								GUILayout.Label(cupBoardViewModel.roundsName[i],cupBoardViewModel.roundsStyle[cupBoardViewModel.cup.NbRounds-1-i]);
-								GUILayout.Space ((endGameScreenViewModel.blockTopLeftHeight*0.5f*0.2f)/cupBoardViewModel.cup.NbRounds);
+								GUILayout.Label(cupBoardVM.roundsName[i],cupBoardVM.roundsStyle[cupBoardVM.cup.NbRounds-1-i]);
+								GUILayout.Space ((endGameScreenVM.blockTopLeftHeight*0.5f*0.2f)/cupBoardVM.cup.NbRounds);
 							}
 						}
 						GUILayout.EndVertical();
-						GUILayout.Space (0.2f*endGameScreenViewModel.blockTopLeftWidth);
+						GUILayout.Space (0.2f*endGameScreenVM.blockTopLeftWidth);
 					}
 					GUILayout.EndHorizontal();
 					GUILayout.FlexibleSpace();
-					GUILayout.Label("Récompense : "+cupBoardViewModel.cup.CupPrize.ToString()+" crédits",cupBoardViewModel.cupPrizeLabelStyle);
+					GUILayout.Label("Récompense : "+cupBoardVM.cup.CupPrize.ToString()+" crédits",cupBoardVM.cupPrizeLabelStyle);
 					GUILayout.FlexibleSpace();
 					break;
 				}
 			}
 			GUILayout.EndArea();
 			
-			// endGameScreenViewModel.block INF GAUCHE
-			GUILayout.BeginArea(endGameScreenViewModel.blockBottomLeft,endGameScreenViewModel.blockBorderStyle);
+			// endGameScreenVM.block INF GAUCHE
+			GUILayout.BeginArea(endGameScreenVM.blockBottomLeft,endGameScreenVM.blockBorderStyle);
 			{
-				GUILayout.Label ("Votre dernier adversaire",lastOpponentViewModel.lastOpponentLabelStyle);
-				GUILayout.BeginHorizontal(lastOpponentViewModel.lastOpponentBackgroundStyle);
+				GUILayout.Label ("Votre dernier adversaire",lastOpponentVM.lastOpponentLabelStyle);
+				GUILayout.BeginHorizontal(lastOpponentVM.lastOpponentBackgroundStyle);
 				{
-					GUILayout.Space(endGameScreenViewModel.blockBottomLeftWidth*5/100);
-					if(GUILayout.Button("",lastOpponentViewModel.lastOpponentProfilePictureButtonStyle))
+					GUILayout.Space(endGameScreenVM.blockBottomLeftWidth*5/100);
+					if(GUILayout.Button("",lastOpponentVM.lastOpponentProfilePictureButtonStyle))
 					{
-						ApplicationModel.profileChosen=lastOpponentViewModel.Username;
+						ApplicationModel.profileChosen=lastOpponentVM.Username;
 						Application.LoadLevel("profile");
 					}
-					GUILayout.Space(endGameScreenViewModel.blockBottomLeftWidth*5/100);
+					GUILayout.Space(endGameScreenVM.blockBottomLeftWidth*5/100);
 					GUILayout.BeginVertical();
 					{
-						GUILayout.Label (lastOpponentViewModel.Username
-						                 ,lastOpponentViewModel.lastOponnentUsernameLabelStyle);
-						GUILayout.Space(lastOpponentViewModel.profilePictureSize*10/100);
-						GUILayout.Label ("Victoires : "+lastOpponentViewModel.TotalNbWins
-						                 ,lastOpponentViewModel.lastOponnentInformationsLabelStyle);
-						GUILayout.Label ("Défaites : "+lastOpponentViewModel.TotalNbLooses
-						                 ,lastOpponentViewModel.lastOponnentInformationsLabelStyle);
-						GUILayout.Label ("Ranking : "+lastOpponentViewModel.Ranking
-						                 ,lastOpponentViewModel.lastOponnentInformationsLabelStyle);
-						GUILayout.Label ("Ranking Points : "+lastOpponentViewModel.RankingPoints
-						                 ,lastOpponentViewModel.lastOponnentInformationsLabelStyle);
-						GUILayout.Label ("Division : "+lastOpponentViewModel.Division
-						                 ,lastOpponentViewModel.lastOponnentInformationsLabelStyle);
+						GUILayout.Label (lastOpponentVM.Username
+						                 ,lastOpponentVM.lastOponnentUsernameLabelStyle);
+						GUILayout.Space(lastOpponentVM.profilePictureSize*10/100);
+						GUILayout.Label ("Victoires : "+lastOpponentVM.TotalNbWins
+						                 ,lastOpponentVM.lastOponnentInformationsLabelStyle);
+						GUILayout.Label ("Défaites : "+lastOpponentVM.TotalNbLooses
+						                 ,lastOpponentVM.lastOponnentInformationsLabelStyle);
+						GUILayout.Label ("Ranking : "+lastOpponentVM.Ranking
+						                 ,lastOpponentVM.lastOponnentInformationsLabelStyle);
+						GUILayout.Label ("Ranking Points : "+lastOpponentVM.RankingPoints
+						                 ,lastOpponentVM.lastOponnentInformationsLabelStyle);
+						GUILayout.Label ("Division : "+lastOpponentVM.Division
+						                 ,lastOpponentVM.lastOponnentInformationsLabelStyle);
 					}
 					GUILayout.EndVertical();
 				}
@@ -278,117 +278,117 @@ public class EndGameView : MonoBehaviour
 			}
 			GUILayout.EndArea();
 			
-			// endGameScreenViewModel.block SUP DROIT
-			GUILayout.BeginArea(endGameScreenViewModel.blockTopRight,endGameScreenViewModel.blockBorderStyle);
+			// endGameScreenVM.block SUP DROIT
+			GUILayout.BeginArea(endGameScreenVM.blockTopRight,endGameScreenVM.blockBorderStyle);
 			{
-				GUILayout.Label ("Vos statistiques",currentUserViewModel.rankingLabelStyle);
+				GUILayout.Label ("Vos statistiques",currentUserVM.rankingLabelStyle);
 				GUILayout.FlexibleSpace();
-				GUILayout.Label ("Victoires : "+currentUserViewModel.TotalNbWins,currentUserViewModel.yourRankingStyle);
-				GUILayout.Label ("Défaites : "+currentUserViewModel.TotalNbLooses,currentUserViewModel.yourRankingStyle);
-				GUILayout.Label ("Ranking : "+currentUserViewModel.Ranking,currentUserViewModel.yourRankingStyle);
-				GUILayout.Label ("("+currentUserViewModel.Ranking+" pts)",currentUserViewModel.yourRankingPointsStyle);
+				GUILayout.Label ("Victoires : "+currentUserVM.TotalNbWins,currentUserVM.yourRankingStyle);
+				GUILayout.Label ("Défaites : "+currentUserVM.TotalNbLooses,currentUserVM.yourRankingStyle);
+				GUILayout.Label ("Ranking : "+currentUserVM.Ranking,currentUserVM.yourRankingStyle);
+				GUILayout.Label ("("+currentUserVM.Ranking+" pts)",currentUserVM.yourRankingPointsStyle);
 				GUILayout.FlexibleSpace();
 			}
 			GUILayout.EndArea();
 			
-			// endGameScreenViewModel.block INF DROIT
-			GUILayout.BeginArea(endGameScreenViewModel.blockBottomRight,endGameScreenViewModel.blockBorderStyle);
+			// endGameScreenVM.block INF DROIT
+			GUILayout.BeginArea(endGameScreenVM.blockBottomRight,endGameScreenVM.blockBorderStyle);
 			{
-				GUILayout.Label (lastResultsViewModel.lastResultsLabel,lastResultsViewModel.lastResultsLabelStyle);
-				for (int i=lastResultsViewModel.start;i<lastResultsViewModel.finish;i++){
-					if(lastResultsViewModel.lastResults[i].HasWon)
+				GUILayout.Label (lastResultsVM.lastResultsLabel,lastResultsVM.lastResultsLabelStyle);
+				for (int i=lastResultsVM.start;i<lastResultsVM.finish;i++){
+					if(lastResultsVM.lastResults[i].HasWon)
 					{
-						GUILayout.BeginHorizontal(lastResultsViewModel.winBackgroundResultsListStyle);
+						GUILayout.BeginHorizontal(lastResultsVM.winBackgroundResultsListStyle);
 					}
 					else
 					{
-						GUILayout.BeginHorizontal(lastResultsViewModel.defeatBackgroundResultsListStyle);
+						GUILayout.BeginHorizontal(lastResultsVM.defeatBackgroundResultsListStyle);
 					}
 					{
 						
-						GUILayout.Space(endGameScreenViewModel.blockBottomRightWidth*5/100);
-						if(GUILayout.Button("",lastResultsViewModel.profilePictureButtonStyle[i]))
+						GUILayout.Space(endGameScreenVM.blockBottomRightWidth*5/100);
+						if(GUILayout.Button("",lastResultsVM.profilePictureButtonStyle[i]))
 						{
-							ApplicationModel.profileChosen=lastResultsViewModel.lastResults[i].Opponent.Username;
+							ApplicationModel.profileChosen=lastResultsVM.lastResults[i].Opponent.Username;
 							Application.LoadLevel("profile");
 						}
-						GUILayout.Space(endGameScreenViewModel.blockBottomRightWidth*5/100);
+						GUILayout.Space(endGameScreenVM.blockBottomRightWidth*5/100);
 						GUILayout.BeginVertical();
 						{
-							GUILayout.Space(lastResultsViewModel.profilePicturesSize*5/100);
-							if(lastResultsViewModel.lastResults[i].HasWon)
+							GUILayout.Space(lastResultsVM.profilePicturesSize*5/100);
+							if(lastResultsVM.lastResults[i].HasWon)
 							{
-								GUILayout.Label ("Victoire",lastResultsViewModel.winLabelResultsListStyle);
+								GUILayout.Label ("Victoire",lastResultsVM.winLabelResultsListStyle);
 							}
 							else
 							{
-								GUILayout.Label ("Défaite",lastResultsViewModel.defeatLabelResultsListStyle);
+								GUILayout.Label ("Défaite",lastResultsVM.defeatLabelResultsListStyle);
 							}
-							GUILayout.Space(lastResultsViewModel.profilePicturesSize*5/100);
-							GUILayout.Label (lastResultsViewModel.lastResults[i].Opponent.Username
-							                 ,lastResultsViewModel.opponentsInformationsStyle);
-							GUILayout.Label ("V : "+lastResultsViewModel.lastResults[i].Opponent.TotalNbWins
-							                 +" D : " +lastResultsViewModel.lastResults[i].Opponent.TotalNbLooses
-							                 ,lastResultsViewModel.opponentsInformationsStyle);
-							GUILayout.Label ("Ranking : "+lastResultsViewModel.lastResults[i].Opponent.Ranking
-							                 ,lastResultsViewModel.opponentsInformationsStyle);
-							GUILayout.Label ("Division : "+lastResultsViewModel.lastResults[i].Opponent.Division
-							                 ,lastResultsViewModel.opponentsInformationsStyle);
+							GUILayout.Space(lastResultsVM.profilePicturesSize*5/100);
+							GUILayout.Label (lastResultsVM.lastResults[i].Opponent.Username
+							                 ,lastResultsVM.opponentsInformationsStyle);
+							GUILayout.Label ("V : "+lastResultsVM.lastResults[i].Opponent.TotalNbWins
+							                 +" D : " +lastResultsVM.lastResults[i].Opponent.TotalNbLooses
+							                 ,lastResultsVM.opponentsInformationsStyle);
+							GUILayout.Label ("Ranking : "+lastResultsVM.lastResults[i].Opponent.Ranking
+							                 ,lastResultsVM.opponentsInformationsStyle);
+							GUILayout.Label ("Division : "+lastResultsVM.lastResults[i].Opponent.Division
+							                 ,lastResultsVM.opponentsInformationsStyle);
 						}
 						GUILayout.EndVertical();
 					}
 					GUILayout.EndHorizontal();
-					GUILayout.Space(endGameScreenViewModel.blockBottomRightHeight*10/1000);
+					GUILayout.Space(endGameScreenVM.blockBottomRightHeight*10/1000);
 				}
 				GUILayout.FlexibleSpace();
 				GUILayout.BeginHorizontal();
 				{
 					GUILayout.FlexibleSpace();
-					if (lastResultsViewModel.pageDebut>0){
-						if (GUILayout.Button("...",lastResultsViewModel.paginationStyle)){
+					if (lastResultsVM.pageDebut>0){
+						if (GUILayout.Button("...",lastResultsVM.paginationStyle)){
 							EndGameController.instance.paginationBehaviour(0);
 						}
 					}
-					GUILayout.Space(endGameScreenViewModel.widthScreen*0.01f);
-					for (int i = lastResultsViewModel.pageDebut ; i < lastResultsViewModel.pageFin ; i++){
-						if (GUILayout.Button(""+(i+1),lastResultsViewModel.paginatorGuiStyle[i])){
+					GUILayout.Space(endGameScreenVM.widthScreen*0.01f);
+					for (int i = lastResultsVM.pageDebut ; i < lastResultsVM.pageFin ; i++){
+						if (GUILayout.Button(""+(i+1),lastResultsVM.paginatorGuiStyle[i])){
 							EndGameController.instance.paginationBehaviour(1,i);
 						}
-						GUILayout.Space(endGameScreenViewModel.widthScreen*0.01f);
+						GUILayout.Space(endGameScreenVM.widthScreen*0.01f);
 					}
-					if (lastResultsViewModel.nbPages>lastResultsViewModel.pageFin){
-						if (GUILayout.Button("...",lastResultsViewModel.paginationStyle)){
+					if (lastResultsVM.nbPages>lastResultsVM.pageFin){
+						if (GUILayout.Button("...",lastResultsVM.paginationStyle)){
 							EndGameController.instance.paginationBehaviour(2);
 						}
 					}
 					GUILayout.FlexibleSpace();
 				}
 				GUILayout.EndHorizontal();
-				GUILayout.Space(endGameScreenViewModel.blockBottomRightHeight*10/1000);
+				GUILayout.Space(endGameScreenVM.blockBottomRightHeight*10/1000);
 			}
 			GUILayout.EndArea();
 		}
 		if (titlePopUp) {
-			GUILayout.BeginArea(endGameScreenViewModel.centralWindow);
+			GUILayout.BeginArea(endGameScreenVM.centralWindow);
 			{
-				GUILayout.BeginVertical(endGameScreenViewModel.centralWindowStyle);
+				GUILayout.BeginVertical(endGameScreenVM.centralWindowStyle);
 				{
 					GUILayout.FlexibleSpace();
-					GUILayout.Label ("BRAVO !",endGameScreenViewModel.centralWindowTitleStyle);
+					GUILayout.Label ("BRAVO !",endGameScreenVM.centralWindowTitleStyle);
 					GUILayout.FlexibleSpace();
-					GUILayout.Label ("Vous avez remporté le titre de la division "+ divisionBoardViewModel.division.Id.ToString()+" !",endGameScreenViewModel.centralWindowTitleStyle);
+					GUILayout.Label ("Vous avez remporté le titre de la division "+ divisionBoardVM.division.Id.ToString()+" !",endGameScreenVM.centralWindowTitleStyle);
 					GUILayout.FlexibleSpace();
-					GUILayout.Label (divisionBoardViewModel.division.TitlePrize.ToString()+ " crédits sont ajoutés à votre portefeuille",endGameScreenViewModel.centralWindowTitleStyle);
+					GUILayout.Label (divisionBoardVM.division.TitlePrize.ToString()+ " crédits sont ajoutés à votre portefeuille",endGameScreenVM.centralWindowTitleStyle);
 					GUILayout.FlexibleSpace();
-					if(divisionBoardViewModel.division.NbWinsForPromotion!=-1)
+					if(divisionBoardVM.division.NbWinsForPromotion!=-1)
 					{
-						GUILayout.Label ("Vous accédez à la division "+ (divisionBoardViewModel.division.Id-1).ToString()+" !",endGameScreenViewModel.centralWindowTitleStyle);
+						GUILayout.Label ("Vous accédez à la division "+ (divisionBoardVM.division.Id-1).ToString()+" !",endGameScreenVM.centralWindowTitleStyle);
 						GUILayout.FlexibleSpace();
 					}
 					GUILayout.BeginHorizontal();
 					{
 						GUILayout.FlexibleSpace();
-						if (GUILayout.Button("OK",endGameScreenViewModel.centralWindowButtonStyle)){
+						if (GUILayout.Button("OK",endGameScreenVM.centralWindowButtonStyle)){
 							this.titlePopUp=false;	
 						}
 						GUILayout.FlexibleSpace();
@@ -401,21 +401,21 @@ public class EndGameView : MonoBehaviour
 			GUILayout.EndArea();
 		}
 		if (promotionPopUp) {
-			GUILayout.BeginArea(endGameScreenViewModel.centralWindow);
+			GUILayout.BeginArea(endGameScreenVM.centralWindow);
 			{
-				GUILayout.BeginVertical(endGameScreenViewModel.centralWindowStyle);
+				GUILayout.BeginVertical(endGameScreenVM.centralWindowStyle);
 				{
 					GUILayout.FlexibleSpace();
-					GUILayout.Label ("BRAVO !",endGameScreenViewModel.centralWindowTitleStyle);
+					GUILayout.Label ("BRAVO !",endGameScreenVM.centralWindowTitleStyle);
 					GUILayout.FlexibleSpace();
-					GUILayout.Label ("Vous avez été promu en division "+ (divisionBoardViewModel.division.Id-1).ToString()+" !",endGameScreenViewModel.centralWindowTitleStyle);
+					GUILayout.Label ("Vous avez été promu en division "+ (divisionBoardVM.division.Id-1).ToString()+" !",endGameScreenVM.centralWindowTitleStyle);
 					GUILayout.FlexibleSpace();
-					GUILayout.Label (divisionBoardViewModel.division.PromotionPrize.ToString()+ " crédits sont ajoutés à votre portefeuille",endGameScreenViewModel.centralWindowTitleStyle);
+					GUILayout.Label (divisionBoardVM.division.PromotionPrize.ToString()+ " crédits sont ajoutés à votre portefeuille",endGameScreenVM.centralWindowTitleStyle);
 					GUILayout.FlexibleSpace();
 					GUILayout.BeginHorizontal();
 					{
 						GUILayout.FlexibleSpace();
-						if (GUILayout.Button("OK",endGameScreenViewModel.centralWindowButtonStyle)){
+						if (GUILayout.Button("OK",endGameScreenVM.centralWindowButtonStyle)){
 							this.promotionPopUp=false;	
 						}
 						GUILayout.FlexibleSpace();
@@ -428,19 +428,19 @@ public class EndGameView : MonoBehaviour
 			GUILayout.EndArea();
 		}
 		if (relegationPopUp) {
-			GUILayout.BeginArea(endGameScreenViewModel.centralWindow);
+			GUILayout.BeginArea(endGameScreenVM.centralWindow);
 			{
-				GUILayout.BeginVertical(endGameScreenViewModel.centralWindowStyle);
+				GUILayout.BeginVertical(endGameScreenVM.centralWindowStyle);
 				{
 					GUILayout.FlexibleSpace();
-					GUILayout.Label ("OUPS !",endGameScreenViewModel.centralWindowTitleStyle);
+					GUILayout.Label ("OUPS !",endGameScreenVM.centralWindowTitleStyle);
 					GUILayout.FlexibleSpace();
-					GUILayout.Label ("Vous descendez en division "+ (divisionBoardViewModel.division.Id+1).ToString()+" !",endGameScreenViewModel.centralWindowTitleStyle);
+					GUILayout.Label ("Vous descendez en division "+ (divisionBoardVM.division.Id+1).ToString()+" !",endGameScreenVM.centralWindowTitleStyle);
 					GUILayout.FlexibleSpace();
 					GUILayout.BeginHorizontal();
 					{
 						GUILayout.FlexibleSpace();
-						if (GUILayout.Button("OK",endGameScreenViewModel.centralWindowButtonStyle)){
+						if (GUILayout.Button("OK",endGameScreenVM.centralWindowButtonStyle)){
 							this.relegationPopUp=false;	
 						}
 						GUILayout.FlexibleSpace();
@@ -453,19 +453,19 @@ public class EndGameView : MonoBehaviour
 			GUILayout.EndArea();
 		}
 		if (endSeasonPopUp) {
-			GUILayout.BeginArea(endGameScreenViewModel.centralWindow);
+			GUILayout.BeginArea(endGameScreenVM.centralWindow);
 			{
-				GUILayout.BeginVertical(endGameScreenViewModel.centralWindowStyle);
+				GUILayout.BeginVertical(endGameScreenVM.centralWindowStyle);
 				{
 					GUILayout.FlexibleSpace();
-					GUILayout.Label ("BIEN JOUE !",endGameScreenViewModel.centralWindowTitleStyle);
+					GUILayout.Label ("BIEN JOUE !",endGameScreenVM.centralWindowTitleStyle);
 					GUILayout.FlexibleSpace();
-					GUILayout.Label ("Vous conservez votre place en division "+ (divisionBoardViewModel.division.Id).ToString()+" !",endGameScreenViewModel.centralWindowTitleStyle);
+					GUILayout.Label ("Vous conservez votre place en division "+ (divisionBoardVM.division.Id).ToString()+" !",endGameScreenVM.centralWindowTitleStyle);
 					GUILayout.FlexibleSpace();
 					GUILayout.BeginHorizontal();
 					{
 						GUILayout.FlexibleSpace();
-						if (GUILayout.Button("OK",endGameScreenViewModel.centralWindowButtonStyle)){
+						if (GUILayout.Button("OK",endGameScreenVM.centralWindowButtonStyle)){
 							this.endSeasonPopUp=false;	
 						}
 						GUILayout.FlexibleSpace();
@@ -478,21 +478,21 @@ public class EndGameView : MonoBehaviour
 			GUILayout.EndArea();
 		}
 		if (winCupPopUp) {
-			GUILayout.BeginArea(endGameScreenViewModel.centralWindow);
+			GUILayout.BeginArea(endGameScreenVM.centralWindow);
 			{
-				GUILayout.BeginVertical(endGameScreenViewModel.centralWindowStyle);
+				GUILayout.BeginVertical(endGameScreenVM.centralWindowStyle);
 				{
 					GUILayout.FlexibleSpace();
-					GUILayout.Label ("BRAVO !",endGameScreenViewModel.centralWindowTitleStyle);
+					GUILayout.Label ("BRAVO !",endGameScreenVM.centralWindowTitleStyle);
 					GUILayout.FlexibleSpace();
-					GUILayout.Label ("Vous avez remporté la "+ (cupBoardViewModel.cup.Name).ToString()+" !",endGameScreenViewModel.centralWindowTitleStyle);
+					GUILayout.Label ("Vous avez remporté la "+ (cupBoardVM.cup.Name).ToString()+" !",endGameScreenVM.centralWindowTitleStyle);
 					GUILayout.FlexibleSpace();
-					GUILayout.Label (cupBoardViewModel.cup.CupPrize.ToString()+ " crédits sont ajoutés à votre portefeuille",endGameScreenViewModel.centralWindowTitleStyle);
+					GUILayout.Label (cupBoardVM.cup.CupPrize.ToString()+ " crédits sont ajoutés à votre portefeuille",endGameScreenVM.centralWindowTitleStyle);
 					GUILayout.FlexibleSpace();
 					GUILayout.BeginHorizontal();
 					{
 						GUILayout.FlexibleSpace();
-						if (GUILayout.Button("OK",endGameScreenViewModel.centralWindowButtonStyle)){
+						if (GUILayout.Button("OK",endGameScreenVM.centralWindowButtonStyle)){
 							winCupPopUp=false;	
 						}
 						GUILayout.FlexibleSpace();
@@ -505,19 +505,19 @@ public class EndGameView : MonoBehaviour
 			GUILayout.EndArea();
 		}
 		if (endCupPopUp) {
-			GUILayout.BeginArea(endGameScreenViewModel.centralWindow);
+			GUILayout.BeginArea(endGameScreenVM.centralWindow);
 			{
-				GUILayout.BeginVertical(endGameScreenViewModel.centralWindowStyle);
+				GUILayout.BeginVertical(endGameScreenVM.centralWindowStyle);
 				{
 					GUILayout.FlexibleSpace();
-					GUILayout.Label ("OUPS !",endGameScreenViewModel.centralWindowTitleStyle);
+					GUILayout.Label ("OUPS !",endGameScreenVM.centralWindowTitleStyle);
 					GUILayout.FlexibleSpace();
-					GUILayout.Label ("Vous êtes malheureusement éliminé de la "+ (cupBoardViewModel.cup.Name).ToString()+" !",endGameScreenViewModel.centralWindowTitleStyle);
+					GUILayout.Label ("Vous êtes malheureusement éliminé de la "+ (cupBoardVM.cup.Name).ToString()+" !",endGameScreenVM.centralWindowTitleStyle);
 					GUILayout.FlexibleSpace();
 					GUILayout.BeginHorizontal();
 					{
 						GUILayout.FlexibleSpace();
-						if (GUILayout.Button("OK",endGameScreenViewModel.centralWindowButtonStyle)){
+						if (GUILayout.Button("OK",endGameScreenVM.centralWindowButtonStyle)){
 							endCupPopUp=false;	
 						}
 						GUILayout.FlexibleSpace();

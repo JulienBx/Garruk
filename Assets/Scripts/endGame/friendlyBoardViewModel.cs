@@ -15,4 +15,7 @@ public class FriendlyBoardViewModel {
 		this.mainLabelText = mainlabeltext;
 		this.subMainLabelText = submainlabeltext;
 	}
+	public FriendlyBoardViewModel (){
+	
+	}
 }

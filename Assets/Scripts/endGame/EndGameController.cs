@@ -90,12 +90,12 @@ public class EndGameController : MonoBehaviour {
 			this.timer += Time.deltaTime;
 			if (this.timer > this.displayPopUpDelay) {
 				this.toStartTimer=false;
-				if(view.cupBoardViewModel.winCup)
+				if(view.cupBoardVM.winCup)
 				{
 					view.setWinCupPopUp(true);
 
 				}
-				else if(view.cupBoardViewModel.endCup)
+				else if(view.cupBoardVM.endCup)
 				{
 					view.setEndCupPopUp(true);
 				}
@@ -104,12 +104,12 @@ public class EndGameController : MonoBehaviour {
 		if (this.toUpdateGauge){
 			this.transformRatio = this.transformRatio + this.transformSpeed * Time.deltaTime;
 			this.computeGauge();
-			view.divisionBoardViewModel.drawGauge ();
+			view.divisionBoardVM.drawGauge ();
 		}
 	}
 	private IEnumerator initialization(){
 		yield return StartCoroutine (model.getEndGameData ());
-		this.initViewModels ();
+		this.initVMs ();
 		if(toUpdateUserResults)
 		{
 			StartCoroutine(model.updateUserResults());
@@ -118,19 +118,19 @@ public class EndGameController : MonoBehaviour {
 		this.setStyles ();
 		this.picturesInitialization ();
 		this.setProfilePictures ();
-		view.lastResultsViewModel.displayPage ();
+		view.lastResultsVM.displayPage ();
 		switch(model.lastResults[0].GameType)
 		{
 		case 0:
 			break;
 		case 1:
-			view.divisionBoardViewModel.initializeGauge();
-			view.divisionBoardViewModel.drawGauge();
+			view.divisionBoardVM.initializeGauge();
+			view.divisionBoardVM.drawGauge();
 			this.toUpdateGauge = true;
 			break;
 		case 2:
 			this.initializeRounds();
-			if(view.cupBoardViewModel.winCup || view.cupBoardViewModel.endCup)
+			if(view.cupBoardVM.winCup || view.cupBoardVM.endCup)
 			{
 				this.toStartTimer = true;
 			}
@@ -138,48 +138,48 @@ public class EndGameController : MonoBehaviour {
 		}
 		view.setCanDisplay (true);
 		}
-	private void initViewModels()
+	private void initVMs()
 	{
 
-		view.lastResultsViewModel = new LastResultsViewModel(model.lastResults);
-		view.currentUserViewModel = new CurrentUserViewModel (model.currentUser);
-		view.lastOpponentViewModel = new LastOpponentViewModel(model.lastResults[0].Opponent);
-		view.endGameViewModel = new EndGameViewModel (model.lastResults [0].GameType);
-		view.endGameScreenViewModel = new EndGameScreenViewModel();
-		switch(view.endGameViewModel.gameType)
+		view.lastResultsVM = new LastResultsViewModel(model.lastResults);
+		view.currentUserVM = new CurrentUserViewModel (model.currentUser);
+		view.lastOpponentVM = new LastOpponentViewModel(model.lastResults[0].Opponent);
+		view.endGameVM = new EndGameViewModel (model.lastResults [0].GameType);
+		view.endGameScreenVM = new EndGameScreenViewModel();
+		switch(view.endGameVM.gameType)
 		{
 		case 0:
-			view.lastResultsViewModel.lastResultsLabel="Vos derniers résultats";
+			view.lastResultsVM.lastResultsLabel="Vos derniers résultats";
 			if(model.lastResults[0].HasWon)
 			{
-				view.friendlyBoardViewModel=new FriendlyBoardViewModel("BRAVO !","Venez en match officiel vous mesurer aux meilleurs joueurs !");
+				view.friendlyBoardVM=new FriendlyBoardViewModel("BRAVO !","Venez en match officiel vous mesurer aux meilleurs joueurs !");
 			}
 			else
 			{
-				view.friendlyBoardViewModel=new FriendlyBoardViewModel("DOMMAGE !","C'est en s'entrainant qu'on progresse ! Courage !");
+				view.friendlyBoardVM=new FriendlyBoardViewModel("DOMMAGE !","C'est en s'entrainant qu'on progresse ! Courage !");
 			}
 			break;
 		case 1:
-			view.lastResultsViewModel.lastResultsLabel="Vos résultats de division";
-			view.divisionBoardViewModel = new DivisionBoardViewModel(model.currentDivision,this.gaugeBackgrounds);
+			view.lastResultsVM.lastResultsLabel="Vos résultats de division";
+			view.divisionBoardVM = new DivisionBoardViewModel(model.currentDivision,this.gaugeBackgrounds);
 
 			for(int i=0;i<model.lastResults.Count;i++)
 			{
 				if(model.lastResults[i].HasWon)
 				{
-					view.divisionBoardViewModel.nbWinsDivision++;
+					view.divisionBoardVM.nbWinsDivision++;
 				}
 				else
 				{
-					view.divisionBoardViewModel.nbLoosesDivision++;
+					view.divisionBoardVM.nbLoosesDivision++;
 				}
 			}
-			view.divisionBoardViewModel.remainingGames=model.currentDivision.NbGames-model.lastResults.Count;
-			view.divisionBoardViewModel.hasWon=System.Convert.ToInt32(model.lastResults[0].HasWon);
-			if(view.divisionBoardViewModel.nbWinsDivision>=model.currentDivision.NbWinsForTitle)
+			view.divisionBoardVM.remainingGames=model.currentDivision.NbGames-model.lastResults.Count;
+			view.divisionBoardVM.hasWon=System.Convert.ToInt32(model.lastResults[0].HasWon);
+			if(view.divisionBoardVM.nbWinsDivision>=model.currentDivision.NbWinsForTitle)
 			{
-				view.divisionBoardViewModel.title=true;
-				if(view.divisionBoardViewModel.nbWinsDivision!=-1)
+				view.divisionBoardVM.title=true;
+				if(view.divisionBoardVM.nbWinsDivision!=-1)
 				{
 					model.currentUser.Division--;
 				}
@@ -188,34 +188,34 @@ public class EndGameController : MonoBehaviour {
 				this.toUpdateUserResults=true;
 				model.trophyWon=new Trophy(model.currentUser.Id, model.lastResults[0].GameType,model.currentDivision.Id);
 			}
-			else if(model.lastResults.Count>=view.divisionBoardViewModel.division.NbGames)
+			else if(model.lastResults.Count>=view.divisionBoardVM.division.NbGames)
 			{
-				if(view.divisionBoardViewModel.nbWinsDivision>=model.currentDivision.NbWinsForPromotion)
+				if(view.divisionBoardVM.nbWinsDivision>=model.currentDivision.NbWinsForPromotion)
 				{
-					view.divisionBoardViewModel.promotion=true;
+					view.divisionBoardVM.promotion=true;
 					model.currentUser.Division--;
 					model.currentUser.Money=model.currentUser.Money+model.currentDivision.PromotionPrize;
 					model.currentUser.NbGamesDivision=0;
 					this.toUpdateUserResults=true;
 				}
-				else if(view.divisionBoardViewModel.nbWinsDivision>=model.currentDivision.NbWinsForRelegation)
+				else if(view.divisionBoardVM.nbWinsDivision>=model.currentDivision.NbWinsForRelegation)
 				{
-					view.divisionBoardViewModel.endSeason=true;
+					view.divisionBoardVM.endSeason=true;
 					model.currentUser.NbGamesDivision=0;
 					this.toUpdateUserResults=true;
 				}
-				else if(view.divisionBoardViewModel.nbWinsDivision<model.currentDivision.NbWinsForRelegation)
+				else if(view.divisionBoardVM.nbWinsDivision<model.currentDivision.NbWinsForRelegation)
 				{
-					view.divisionBoardViewModel.relegation=true;
+					view.divisionBoardVM.relegation=true;
 					model.currentUser.Division++;
 					model.currentUser.NbGamesDivision=0;
 					this.toUpdateUserResults=true;
 				}
 			}
 			else if((model.currentDivision.NbGames-model.lastResults.Count)<
-			        (model.currentDivision.NbWinsForRelegation-view.divisionBoardViewModel.nbWinsDivision))
+			        (model.currentDivision.NbWinsForRelegation-view.divisionBoardVM.nbWinsDivision))
 			{
-				view.divisionBoardViewModel.relegation=true;
+				view.divisionBoardVM.relegation=true;
 				model.currentUser.Division++;
 				model.currentUser.NbGamesDivision=0;
 				this.toUpdateUserResults=true;
@@ -223,11 +223,11 @@ public class EndGameController : MonoBehaviour {
 
 			break;
 		case 2:
-			view.lastResultsViewModel.lastResultsLabel="Vos résultats de coupe";
-			view.cupBoardViewModel = new CupBoardViewModel(model.currentCup,this.roundsName);
-			if(view.lastResultsViewModel.lastResults.Count>=model.currentCup.NbRounds && model.lastResults[0].HasWon)
+			view.lastResultsVM.lastResultsLabel="Vos résultats de coupe";
+			view.cupBoardVM = new CupBoardViewModel(model.currentCup,this.roundsName);
+			if(view.lastResultsVM.lastResults.Count>=model.currentCup.NbRounds && model.lastResults[0].HasWon)
 			{
-				view.cupBoardViewModel.winCup=true;
+				view.cupBoardVM.winCup=true;
 				model.currentUser.Money=model.currentUser.Money+model.currentCup.CupPrize;
 				model.currentUser.NbGamesCup=0;
 				this.toUpdateUserResults=true;
@@ -235,7 +235,7 @@ public class EndGameController : MonoBehaviour {
 			}
 			else if(!model.lastResults[0].HasWon)
 			{
-				view.cupBoardViewModel.endCup=true;
+				view.cupBoardVM.endCup=true;
 				model.currentUser.NbGamesCup=0;
 				this.toUpdateUserResults=true;
 			}
@@ -246,141 +246,141 @@ public class EndGameController : MonoBehaviour {
 		this.setStyles();
 			if(model.lastResults[0].GameType==1)
 			{
-				view.divisionBoardViewModel.drawGauge();
+				view.divisionBoardVM.drawGauge();
 			}
 		}
 	private void setStyles() {
 		
-		view.endGameScreenViewModel.heightScreen = Screen.height;
-		view.endGameScreenViewModel.widthScreen = Screen.width;
+		view.endGameScreenVM.heightScreen = Screen.height;
+		view.endGameScreenVM.widthScreen = Screen.width;
 
-		view.endGameScreenViewModel.computeScreenDisplay ();
+		view.endGameScreenVM.computeScreenDisplay ();
 
-		view.lastResultsViewModel.profilePicturesSize=(int)view.endGameScreenViewModel.blockBottomRightHeight* 17 / 100;
-		view.lastOpponentViewModel.profilePictureSize = (int)view.endGameScreenViewModel.blockBottomLeftHeight * 85 / 100;
+		view.lastResultsVM.profilePicturesSize=(int)view.endGameScreenVM.blockBottomRightHeight* 17 / 100;
+		view.lastOpponentVM.profilePictureSize = (int)view.endGameScreenVM.blockBottomLeftHeight * 85 / 100;
 		
-		view.lastResultsViewModel.lastResultsLabelStyle.fontSize = view.endGameScreenViewModel.heightScreen * 2 / 100;
-		view.lastResultsViewModel.lastResultsLabelStyle.fixedHeight = (int)view.endGameScreenViewModel.heightScreen * 35 / 1000;
+		view.lastResultsVM.lastResultsLabelStyle.fontSize = view.endGameScreenVM.heightScreen * 2 / 100;
+		view.lastResultsVM.lastResultsLabelStyle.fixedHeight = (int)view.endGameScreenVM.heightScreen * 35 / 1000;
 		
-		view.lastOpponentViewModel.lastOpponentLabelStyle.fontSize = view.endGameScreenViewModel.heightScreen * 2 / 100;
-		view.lastOpponentViewModel.lastOpponentLabelStyle.fixedHeight = (int)view.endGameScreenViewModel.heightScreen * 35 / 1000;
+		view.lastOpponentVM.lastOpponentLabelStyle.fontSize = view.endGameScreenVM.heightScreen * 2 / 100;
+		view.lastOpponentVM.lastOpponentLabelStyle.fixedHeight = (int)view.endGameScreenVM.heightScreen * 35 / 1000;
 
-		view.currentUserViewModel.rankingLabelStyle.fontSize = view.endGameScreenViewModel.heightScreen * 2 / 100;
-		view.currentUserViewModel.rankingLabelStyle.fixedHeight = (int)view.endGameScreenViewModel.heightScreen * 35 / 1000;
+		view.currentUserVM.rankingLabelStyle.fontSize = view.endGameScreenVM.heightScreen * 2 / 100;
+		view.currentUserVM.rankingLabelStyle.fixedHeight = (int)view.endGameScreenVM.heightScreen * 35 / 1000;
 		
-		view.currentUserViewModel.yourRankingStyle.fontSize = view.endGameScreenViewModel.heightScreen * 3 / 100;
-		view.currentUserViewModel.yourRankingStyle.fixedHeight = (int)view.endGameScreenViewModel.heightScreen * 4 / 100;
+		view.currentUserVM.yourRankingStyle.fontSize = view.endGameScreenVM.heightScreen * 3 / 100;
+		view.currentUserVM.yourRankingStyle.fixedHeight = (int)view.endGameScreenVM.heightScreen * 4 / 100;
 		
-		view.currentUserViewModel.yourRankingPointsStyle.fontSize = view.endGameScreenViewModel.heightScreen * 25 / 1000;
-		view.currentUserViewModel.yourRankingPointsStyle.fixedHeight = (int)view.endGameScreenViewModel.heightScreen * 35 / 1000;
+		view.currentUserVM.yourRankingPointsStyle.fontSize = view.endGameScreenVM.heightScreen * 25 / 1000;
+		view.currentUserVM.yourRankingPointsStyle.fixedHeight = (int)view.endGameScreenVM.heightScreen * 35 / 1000;
 		
-		view.lastResultsViewModel.winLabelResultsListStyle.fontSize = (int)view.lastResultsViewModel.profilePicturesSize * 18 / 100;
-		view.lastResultsViewModel.winLabelResultsListStyle.fixedHeight = (int)view.lastResultsViewModel.profilePicturesSize*20/100;
-		view.lastResultsViewModel.winLabelResultsListStyle.fixedWidth = 2*(int)view.lastResultsViewModel.profilePicturesSize;
+		view.lastResultsVM.winLabelResultsListStyle.fontSize = (int)view.lastResultsVM.profilePicturesSize * 18 / 100;
+		view.lastResultsVM.winLabelResultsListStyle.fixedHeight = (int)view.lastResultsVM.profilePicturesSize*20/100;
+		view.lastResultsVM.winLabelResultsListStyle.fixedWidth = 2*(int)view.lastResultsVM.profilePicturesSize;
 		
-		view.lastResultsViewModel.defeatLabelResultsListStyle.fontSize = (int)view.lastResultsViewModel.profilePicturesSize * 18 / 100;
-		view.lastResultsViewModel.defeatLabelResultsListStyle.fixedHeight = (int)view.lastResultsViewModel.profilePicturesSize*20/100;
-		view.lastResultsViewModel.defeatLabelResultsListStyle.fixedWidth = 2*(int)view.lastResultsViewModel.profilePicturesSize;
+		view.lastResultsVM.defeatLabelResultsListStyle.fontSize = (int)view.lastResultsVM.profilePicturesSize * 18 / 100;
+		view.lastResultsVM.defeatLabelResultsListStyle.fixedHeight = (int)view.lastResultsVM.profilePicturesSize*20/100;
+		view.lastResultsVM.defeatLabelResultsListStyle.fixedWidth = 2*(int)view.lastResultsVM.profilePicturesSize;
 		
-		view.lastResultsViewModel.opponentsInformationsStyle.fontSize = (int)view.lastResultsViewModel.profilePicturesSize * 15 / 100;
-		view.lastResultsViewModel.opponentsInformationsStyle.fixedHeight = (int)view.lastResultsViewModel.profilePicturesSize * 17 / 100;
-		view.lastResultsViewModel.opponentsInformationsStyle.fixedWidth = 2*(int)view.lastResultsViewModel.profilePicturesSize;
+		view.lastResultsVM.opponentsInformationsStyle.fontSize = (int)view.lastResultsVM.profilePicturesSize * 15 / 100;
+		view.lastResultsVM.opponentsInformationsStyle.fixedHeight = (int)view.lastResultsVM.profilePicturesSize * 17 / 100;
+		view.lastResultsVM.opponentsInformationsStyle.fixedWidth = 2*(int)view.lastResultsVM.profilePicturesSize;
 		
-		for(int i=0;i<view.lastResultsViewModel.profilePictureButtonStyle.Count;i++){
-			view.lastResultsViewModel.profilePictureButtonStyle[i].fixedWidth = view.lastResultsViewModel.profilePicturesSize;
-			view.lastResultsViewModel.profilePictureButtonStyle[i].fixedHeight = view.lastResultsViewModel.profilePicturesSize;
+		for(int i=0;i<view.lastResultsVM.profilePictureButtonStyle.Count;i++){
+			view.lastResultsVM.profilePictureButtonStyle[i].fixedWidth = view.lastResultsVM.profilePicturesSize;
+			view.lastResultsVM.profilePictureButtonStyle[i].fixedHeight = view.lastResultsVM.profilePicturesSize;
 		}
 
-		view.lastOpponentViewModel.lastOponnentInformationsLabelStyle.fontSize = (int)view.lastOpponentViewModel.profilePictureSize * 8 / 100;
-		view.lastOpponentViewModel.lastOponnentInformationsLabelStyle.fixedHeight = (int)view.lastOpponentViewModel.profilePictureSize*15/100;
-		view.lastOpponentViewModel.lastOponnentInformationsLabelStyle.fixedWidth = (int)view.lastOpponentViewModel.profilePictureSize*1.5f;
+		view.lastOpponentVM.lastOponnentInformationsLabelStyle.fontSize = (int)view.lastOpponentVM.profilePictureSize * 8 / 100;
+		view.lastOpponentVM.lastOponnentInformationsLabelStyle.fixedHeight = (int)view.lastOpponentVM.profilePictureSize*15/100;
+		view.lastOpponentVM.lastOponnentInformationsLabelStyle.fixedWidth = (int)view.lastOpponentVM.profilePictureSize*1.5f;
 
-		view.lastOpponentViewModel.lastOponnentUsernameLabelStyle.fontSize = (int)view.lastOpponentViewModel.profilePictureSize * 10 / 100;
-		view.lastOpponentViewModel.lastOponnentUsernameLabelStyle.fixedHeight = (int)view.lastOpponentViewModel.profilePictureSize*15/100;
-		view.lastOpponentViewModel.lastOponnentUsernameLabelStyle.fixedWidth = (int)view.lastOpponentViewModel.profilePictureSize*1.5f;
+		view.lastOpponentVM.lastOponnentUsernameLabelStyle.fontSize = (int)view.lastOpponentVM.profilePictureSize * 10 / 100;
+		view.lastOpponentVM.lastOponnentUsernameLabelStyle.fixedHeight = (int)view.lastOpponentVM.profilePictureSize*15/100;
+		view.lastOpponentVM.lastOponnentUsernameLabelStyle.fixedWidth = (int)view.lastOpponentVM.profilePictureSize*1.5f;
 
-		view.lastOpponentViewModel.lastOpponentProfilePictureButtonStyle.fixedWidth = (int)view.lastOpponentViewModel.profilePictureSize;
-		view.lastOpponentViewModel.lastOpponentProfilePictureButtonStyle.fixedHeight = (int)view.lastOpponentViewModel.profilePictureSize;
+		view.lastOpponentVM.lastOpponentProfilePictureButtonStyle.fixedWidth = (int)view.lastOpponentVM.profilePictureSize;
+		view.lastOpponentVM.lastOpponentProfilePictureButtonStyle.fixedHeight = (int)view.lastOpponentVM.profilePictureSize;
 		
-		view.lastResultsViewModel.paginationStyle.fontSize = (int)view.endGameScreenViewModel.blockBottomRightHeight*3/100;
-		view.lastResultsViewModel.paginationStyle.fixedWidth = (int)view.endGameScreenViewModel.blockBottomRightWidth*10/100;
-		view.lastResultsViewModel.paginationStyle.fixedHeight = (int)view.endGameScreenViewModel.blockBottomRightHeight*4/100;
-		view.lastResultsViewModel.paginationActivatedStyle.fontSize = (int)view.endGameScreenViewModel.blockBottomRightHeight*3/100;
-		view.lastResultsViewModel.paginationActivatedStyle.fixedWidth = (int)view.endGameScreenViewModel.blockBottomRightWidth*10/100;
-		view.lastResultsViewModel.paginationActivatedStyle.fixedHeight = (int)view.endGameScreenViewModel.blockBottomRightHeight*4/100;
+		view.lastResultsVM.paginationStyle.fontSize = (int)view.endGameScreenVM.blockBottomRightHeight*3/100;
+		view.lastResultsVM.paginationStyle.fixedWidth = (int)view.endGameScreenVM.blockBottomRightWidth*10/100;
+		view.lastResultsVM.paginationStyle.fixedHeight = (int)view.endGameScreenVM.blockBottomRightHeight*4/100;
+		view.lastResultsVM.paginationActivatedStyle.fontSize = (int)view.endGameScreenVM.blockBottomRightHeight*3/100;
+		view.lastResultsVM.paginationActivatedStyle.fixedWidth = (int)view.endGameScreenVM.blockBottomRightWidth*10/100;
+		view.lastResultsVM.paginationActivatedStyle.fixedHeight = (int)view.endGameScreenVM.blockBottomRightHeight*4/100;
 
 		switch(model.lastResults[0].GameType)
 		{
 		case 0:
-			view.friendlyBoardViewModel.mainLabelStyle.fontSize = (int)view.endGameScreenViewModel.blockTopLeftHeight * 10 / 100;
-			view.friendlyBoardViewModel.mainLabelStyle.fixedHeight = (int)view.endGameScreenViewModel.blockTopLeftHeight * 15 / 100;
+			view.friendlyBoardVM.mainLabelStyle.fontSize = (int)view.endGameScreenVM.blockTopLeftHeight * 10 / 100;
+			view.friendlyBoardVM.mainLabelStyle.fixedHeight = (int)view.endGameScreenVM.blockTopLeftHeight * 15 / 100;
 			
-			view.friendlyBoardViewModel.subMainLabelStyle.fontSize = (int)view.endGameScreenViewModel.blockTopLeftHeight * 7 / 100;
-			view.friendlyBoardViewModel.subMainLabelStyle.fixedHeight = (int)view.endGameScreenViewModel.blockTopLeftHeight * 15 / 100;
+			view.friendlyBoardVM.subMainLabelStyle.fontSize = (int)view.endGameScreenVM.blockTopLeftHeight * 7 / 100;
+			view.friendlyBoardVM.subMainLabelStyle.fixedHeight = (int)view.endGameScreenVM.blockTopLeftHeight * 15 / 100;
 			break;
 		case 1:
-			view.divisionBoardViewModel.divisionLabelStyle.fontSize = view.endGameScreenViewModel.heightScreen * 2 / 100;
-			view.divisionBoardViewModel.divisionLabelStyle.fixedHeight = (int)view.endGameScreenViewModel.heightScreen * 35 / 1000;
+			view.divisionBoardVM.divisionLabelStyle.fontSize = view.endGameScreenVM.heightScreen * 2 / 100;
+			view.divisionBoardVM.divisionLabelStyle.fixedHeight = (int)view.endGameScreenVM.heightScreen * 35 / 1000;
 			
-			view.divisionBoardViewModel.divisionStrikeLabelStyle.fontSize= (int)view.endGameScreenViewModel.blockTopLeftHeight * 4 / 100;
-			view.divisionBoardViewModel.divisionStrikeLabelStyle.fixedHeight = (int)view.endGameScreenViewModel.blockTopLeftHeight * 5 / 100;
+			view.divisionBoardVM.divisionStrikeLabelStyle.fontSize= (int)view.endGameScreenVM.blockTopLeftHeight * 4 / 100;
+			view.divisionBoardVM.divisionStrikeLabelStyle.fixedHeight = (int)view.endGameScreenVM.blockTopLeftHeight * 5 / 100;
 			
-			view.divisionBoardViewModel.remainingGamesStyle.fontSize= (int)view.endGameScreenViewModel.blockTopLeftHeight * 4 / 100;
-			view.divisionBoardViewModel.remainingGamesStyle.fixedHeight = (int)view.endGameScreenViewModel.blockTopLeftHeight * 5 / 100;
+			view.divisionBoardVM.remainingGamesStyle.fontSize= (int)view.endGameScreenVM.blockTopLeftHeight * 4 / 100;
+			view.divisionBoardVM.remainingGamesStyle.fixedHeight = (int)view.endGameScreenVM.blockTopLeftHeight * 5 / 100;
 			
-			view.divisionBoardViewModel.promotionPrizeLabelStyle.fontSize= (int)view.endGameScreenViewModel.blockTopLeftHeight * 4 / 100;
-			view.divisionBoardViewModel.promotionPrizeLabelStyle.fixedHeight = (int)view.endGameScreenViewModel.blockTopLeftHeight * 5 / 100;
+			view.divisionBoardVM.promotionPrizeLabelStyle.fontSize= (int)view.endGameScreenVM.blockTopLeftHeight * 4 / 100;
+			view.divisionBoardVM.promotionPrizeLabelStyle.fixedHeight = (int)view.endGameScreenVM.blockTopLeftHeight * 5 / 100;
 			
-			view.divisionBoardViewModel.titlePrizeLabelStyle.fontSize= (int)view.endGameScreenViewModel.blockTopLeftHeight * 4 / 100;
-			view.divisionBoardViewModel.titlePrizeLabelStyle.fixedHeight = (int)view.endGameScreenViewModel.blockTopLeftHeight * 5 / 100;
+			view.divisionBoardVM.titlePrizeLabelStyle.fontSize= (int)view.endGameScreenVM.blockTopLeftHeight * 4 / 100;
+			view.divisionBoardVM.titlePrizeLabelStyle.fixedHeight = (int)view.endGameScreenVM.blockTopLeftHeight * 5 / 100;
 
-			view.divisionBoardViewModel.gaugeWidth = view.endGameScreenViewModel.blockTopLeftWidth*0.9f;
-			view.divisionBoardViewModel.gaugeHeight = view.endGameScreenViewModel.blockTopLeftHeight * 0.3f;
+			view.divisionBoardVM.gaugeWidth = view.endGameScreenVM.blockTopLeftWidth*0.9f;
+			view.divisionBoardVM.gaugeHeight = view.endGameScreenVM.blockTopLeftHeight * 0.3f;
 
-			view.divisionBoardViewModel.gaugeBackgroundStyle.fixedWidth = view.divisionBoardViewModel.gaugeWidth;
-			view.divisionBoardViewModel.gaugeBackgroundStyle.fixedHeight = view.divisionBoardViewModel.gaugeHeight;
+			view.divisionBoardVM.gaugeBackgroundStyle.fixedWidth = view.divisionBoardVM.gaugeWidth;
+			view.divisionBoardVM.gaugeBackgroundStyle.fixedHeight = view.divisionBoardVM.gaugeHeight;
 
-			view.divisionBoardViewModel.relegationLabelStyle.fixedWidth = 5f / 100f * view.divisionBoardViewModel.gaugeWidth;
-			view.divisionBoardViewModel.relegationLabelStyle.fontSize = 4 / 100 * (int)view.endGameScreenViewModel.blockTopLeftHeight;
-			view.divisionBoardViewModel.relegationLabelStyle.fixedHeight = 5f / 100f * view.endGameScreenViewModel.blockTopLeftHeight;
+			view.divisionBoardVM.relegationLabelStyle.fixedWidth = 5f / 100f * view.divisionBoardVM.gaugeWidth;
+			view.divisionBoardVM.relegationLabelStyle.fontSize = 4 / 100 * (int)view.endGameScreenVM.blockTopLeftHeight;
+			view.divisionBoardVM.relegationLabelStyle.fixedHeight = 5f / 100f * view.endGameScreenVM.blockTopLeftHeight;
 			
-			view.divisionBoardViewModel.promotionLabelStyle.fixedWidth = 5f / 100f * view.divisionBoardViewModel.gaugeWidth;
-			view.divisionBoardViewModel.promotionLabelStyle.fontSize = 4 / 100 * (int)view.endGameScreenViewModel.blockTopLeftHeight;
-			view.divisionBoardViewModel.promotionLabelStyle.fixedHeight = 5f / 100f * view.endGameScreenViewModel.blockTopLeftHeight;
+			view.divisionBoardVM.promotionLabelStyle.fixedWidth = 5f / 100f * view.divisionBoardVM.gaugeWidth;
+			view.divisionBoardVM.promotionLabelStyle.fontSize = 4 / 100 * (int)view.endGameScreenVM.blockTopLeftHeight;
+			view.divisionBoardVM.promotionLabelStyle.fixedHeight = 5f / 100f * view.endGameScreenVM.blockTopLeftHeight;
 			
-			view.divisionBoardViewModel.titleLabelStyle.fixedWidth = 5f / 100f * view.divisionBoardViewModel.gaugeWidth;
-			view.divisionBoardViewModel.titleLabelStyle.fontSize = 4 / 100 * (int)view.endGameScreenViewModel.blockTopLeftHeight;
-			view.divisionBoardViewModel.titleLabelStyle.fixedHeight = 5f / 100f * view.endGameScreenViewModel.blockTopLeftHeight;
+			view.divisionBoardVM.titleLabelStyle.fixedWidth = 5f / 100f * view.divisionBoardVM.gaugeWidth;
+			view.divisionBoardVM.titleLabelStyle.fontSize = 4 / 100 * (int)view.endGameScreenVM.blockTopLeftHeight;
+			view.divisionBoardVM.titleLabelStyle.fixedHeight = 5f / 100f * view.endGameScreenVM.blockTopLeftHeight;
 			
-			view.divisionBoardViewModel.relegationValueLabelStyle.fixedWidth = 5f / 100f * view.divisionBoardViewModel.gaugeWidth;
-			view.divisionBoardViewModel.relegationValueLabelStyle.fontSize = 4 / 100 * (int)view.endGameScreenViewModel.blockTopLeftHeight;
-			view.divisionBoardViewModel.relegationValueLabelStyle.fixedHeight = 5f / 100f * view.endGameScreenViewModel.blockTopLeftHeight;
+			view.divisionBoardVM.relegationValueLabelStyle.fixedWidth = 5f / 100f * view.divisionBoardVM.gaugeWidth;
+			view.divisionBoardVM.relegationValueLabelStyle.fontSize = 4 / 100 * (int)view.endGameScreenVM.blockTopLeftHeight;
+			view.divisionBoardVM.relegationValueLabelStyle.fixedHeight = 5f / 100f * view.endGameScreenVM.blockTopLeftHeight;
 			
-			view.divisionBoardViewModel.promotionValueLabelStyle.fixedWidth = 5f / 100f * view.divisionBoardViewModel.gaugeWidth;
-			view.divisionBoardViewModel.promotionValueLabelStyle.fontSize = 4 / 100 * (int)view.endGameScreenViewModel.blockTopLeftHeight;
-			view.divisionBoardViewModel.promotionValueLabelStyle.fixedHeight = 5f / 100f * view.endGameScreenViewModel.blockTopLeftHeight;
+			view.divisionBoardVM.promotionValueLabelStyle.fixedWidth = 5f / 100f * view.divisionBoardVM.gaugeWidth;
+			view.divisionBoardVM.promotionValueLabelStyle.fontSize = 4 / 100 * (int)view.endGameScreenVM.blockTopLeftHeight;
+			view.divisionBoardVM.promotionValueLabelStyle.fixedHeight = 5f / 100f * view.endGameScreenVM.blockTopLeftHeight;
 			
-			view.divisionBoardViewModel.titleValueLabelStyle.fixedWidth = 5f / 100f * view.divisionBoardViewModel.gaugeWidth;
-			view.divisionBoardViewModel.titleValueLabelStyle.fontSize = 4 / 100 * (int)view.endGameScreenViewModel.blockTopLeftHeight;
-			view.divisionBoardViewModel.titleValueLabelStyle.fixedHeight = 5f / 100f * view.endGameScreenViewModel.blockTopLeftHeight;
+			view.divisionBoardVM.titleValueLabelStyle.fixedWidth = 5f / 100f * view.divisionBoardVM.gaugeWidth;
+			view.divisionBoardVM.titleValueLabelStyle.fontSize = 4 / 100 * (int)view.endGameScreenVM.blockTopLeftHeight;
+			view.divisionBoardVM.titleValueLabelStyle.fixedHeight = 5f / 100f * view.endGameScreenVM.blockTopLeftHeight;
 
-			view.divisionBoardViewModel.startActiveGaugeBackgroundStyle.fixedHeight = view.divisionBoardViewModel.gaugeHeight;
-			view.divisionBoardViewModel.startActiveGaugeBackgroundStyle.fontSize = (int)view.divisionBoardViewModel.gaugeHeight * 50 / 100;
+			view.divisionBoardVM.startActiveGaugeBackgroundStyle.fixedHeight = view.divisionBoardVM.gaugeHeight;
+			view.divisionBoardVM.startActiveGaugeBackgroundStyle.fontSize = (int)view.divisionBoardVM.gaugeHeight * 50 / 100;
 
-			view.divisionBoardViewModel.activeGaugeBackgroundStyle.fixedHeight = view.divisionBoardViewModel.gaugeHeight;
+			view.divisionBoardVM.activeGaugeBackgroundStyle.fixedHeight = view.divisionBoardVM.gaugeHeight;
 
-			view.divisionBoardViewModel.relegationBarStyle.fixedHeight = view.divisionBoardViewModel.gaugeHeight;
+			view.divisionBoardVM.relegationBarStyle.fixedHeight = view.divisionBoardVM.gaugeHeight;
 
-			view.divisionBoardViewModel.promotionBarStyle.fixedHeight = view.divisionBoardViewModel.gaugeHeight;
+			view.divisionBoardVM.promotionBarStyle.fixedHeight = view.divisionBoardVM.gaugeHeight;
 
-			view.divisionBoardViewModel.titleBarStyle.fixedHeight = view.divisionBoardViewModel.gaugeHeight;
+			view.divisionBoardVM.titleBarStyle.fixedHeight = view.divisionBoardVM.gaugeHeight;
 
 			break;
 		case 2:
-			for(int i=0;i<view.cupBoardViewModel.roundsStyle.Count;i++)
+			for(int i=0;i<view.cupBoardVM.roundsStyle.Count;i++)
 			{
-				view.cupBoardViewModel.roundsStyle[i].fixedHeight=(int)view.endGameScreenViewModel.blockTopLeftHeight*50/(100*view.cupBoardViewModel.roundsStyle.Count);
-				view.cupBoardViewModel.roundsStyle[i].fontSize=(int)view.cupBoardViewModel.roundsStyle[i].fixedHeight*60/100;
+				view.cupBoardVM.roundsStyle[i].fixedHeight=(int)view.endGameScreenVM.blockTopLeftHeight*50/(100*view.cupBoardVM.roundsStyle.Count);
+				view.cupBoardVM.roundsStyle[i].fontSize=(int)view.cupBoardVM.roundsStyle[i].fixedHeight*60/100;
 			}
 			break;
 		}
@@ -391,139 +391,139 @@ public class EndGameController : MonoBehaviour {
 		{
 			this.transformRatio=1f;
 			this.toUpdateGauge=false;
-			if(view.divisionBoardViewModel.title)
+			if(view.divisionBoardVM.title)
 			{
 				view.setTitlePopUp(true);
 			}
-			else if(view.divisionBoardViewModel.promotion)
+			else if(view.divisionBoardVM.promotion)
 			{
 				view.setPromotionPopUp(true);
 			}
-			else if(view.divisionBoardViewModel.endSeason)
+			else if(view.divisionBoardVM.endSeason)
 			{
 				view.setEndSeasonPopUp(true);
 			}
-			else if(view.divisionBoardViewModel.relegation)
+			else if(view.divisionBoardVM.relegation)
 			{
 				view.setRelegationPopUp(true);
 			}
 		}
-		if(view.divisionBoardViewModel.activeGaugeWidthStart!=view.divisionBoardViewModel.activeGaugeWidthFinish)
+		if(view.divisionBoardVM.activeGaugeWidthStart!=view.divisionBoardVM.activeGaugeWidthFinish)
 		{
-			view.divisionBoardViewModel.activeGaugeWidth=
-				view.divisionBoardViewModel.activeGaugeWidthStart
-					+this.transformRatio*(view.divisionBoardViewModel.activeGaugeWidthFinish-view.divisionBoardViewModel.activeGaugeWidthStart);
+			view.divisionBoardVM.activeGaugeWidth=
+				view.divisionBoardVM.activeGaugeWidthStart
+					+this.transformRatio*(view.divisionBoardVM.activeGaugeWidthFinish-view.divisionBoardVM.activeGaugeWidthStart);
 		}
-		if(view.divisionBoardViewModel.gaugeSpace1Start!=view.divisionBoardViewModel.gaugeSpace1Finish)
+		if(view.divisionBoardVM.gaugeSpace1Start!=view.divisionBoardVM.gaugeSpace1Finish)
 		{
-			view.divisionBoardViewModel.gaugeSpace1=
-				view.divisionBoardViewModel.gaugeSpace1Start+
-					this.transformRatio*(view.divisionBoardViewModel.gaugeSpace1Finish-view.divisionBoardViewModel.gaugeSpace1Start);
+			view.divisionBoardVM.gaugeSpace1=
+				view.divisionBoardVM.gaugeSpace1Start+
+					this.transformRatio*(view.divisionBoardVM.gaugeSpace1Finish-view.divisionBoardVM.gaugeSpace1Start);
 		}
-		if(view.divisionBoardViewModel.gaugeSpace2Start!=view.divisionBoardViewModel.gaugeSpace2Finish)
+		if(view.divisionBoardVM.gaugeSpace2Start!=view.divisionBoardVM.gaugeSpace2Finish)
 		{
-			view.divisionBoardViewModel.gaugeSpace2=
-				view.divisionBoardViewModel.gaugeSpace2Start+
-					this.transformRatio*(view.divisionBoardViewModel.gaugeSpace2Finish-view.divisionBoardViewModel.gaugeSpace2Start);
+			view.divisionBoardVM.gaugeSpace2=
+				view.divisionBoardVM.gaugeSpace2Start+
+					this.transformRatio*(view.divisionBoardVM.gaugeSpace2Finish-view.divisionBoardVM.gaugeSpace2Start);
 		}
-		if(view.divisionBoardViewModel.gaugeSpace3Start!=view.divisionBoardViewModel.gaugeSpace3Finish)
+		if(view.divisionBoardVM.gaugeSpace3Start!=view.divisionBoardVM.gaugeSpace3Finish)
 		{
-			view.divisionBoardViewModel.gaugeSpace3=
-				view.divisionBoardViewModel.gaugeSpace3Start+
-					transformRatio*(view.divisionBoardViewModel.gaugeSpace3Finish-view.divisionBoardViewModel.gaugeSpace3Start);
+			view.divisionBoardVM.gaugeSpace3=
+				view.divisionBoardVM.gaugeSpace3Start+
+					transformRatio*(view.divisionBoardVM.gaugeSpace3Finish-view.divisionBoardVM.gaugeSpace3Start);
 		}
-		if(view.divisionBoardViewModel.relegationBarWidth!=view.divisionBoardViewModel.relegationBarFinish && this.transformRatio==1f)
+		if(view.divisionBoardVM.relegationBarWidth!=view.divisionBoardVM.relegationBarFinish && this.transformRatio==1f)
 		{
-			view.divisionBoardViewModel.activeGaugeWidth=view.divisionBoardViewModel.activeGaugeWidth+view.divisionBoardViewModel.relegationBarWidth;
-			view.divisionBoardViewModel.activeGaugeBackgroundStyle.normal.background=view.divisionBoardViewModel.gaugeBackgrounds[1];
-			view.divisionBoardViewModel.relegationBarWidth=view.divisionBoardViewModel.relegationBarFinish;
+			view.divisionBoardVM.activeGaugeWidth=view.divisionBoardVM.activeGaugeWidth+view.divisionBoardVM.relegationBarWidth;
+			view.divisionBoardVM.activeGaugeBackgroundStyle.normal.background=view.divisionBoardVM.gaugeBackgrounds[1];
+			view.divisionBoardVM.relegationBarWidth=view.divisionBoardVM.relegationBarFinish;
 		}
-		if(view.divisionBoardViewModel.promotionBarWidth!=view.divisionBoardViewModel.promotionBarFinish && this.transformRatio==1f)
+		if(view.divisionBoardVM.promotionBarWidth!=view.divisionBoardVM.promotionBarFinish && this.transformRatio==1f)
 		{
-			view.divisionBoardViewModel.activeGaugeWidth=view.divisionBoardViewModel.activeGaugeWidth+view.divisionBoardViewModel.promotionBarWidth;
-			view.divisionBoardViewModel.activeGaugeBackgroundStyle.normal.background=view.divisionBoardViewModel.gaugeBackgrounds[2];
-			view.divisionBoardViewModel.promotionBarWidth=view.divisionBoardViewModel.promotionBarFinish;
+			view.divisionBoardVM.activeGaugeWidth=view.divisionBoardVM.activeGaugeWidth+view.divisionBoardVM.promotionBarWidth;
+			view.divisionBoardVM.activeGaugeBackgroundStyle.normal.background=view.divisionBoardVM.gaugeBackgrounds[2];
+			view.divisionBoardVM.promotionBarWidth=view.divisionBoardVM.promotionBarFinish;
 		}
-		if(view.divisionBoardViewModel.titleBarWidth!=view.divisionBoardViewModel.titleBarFinish && this.transformRatio==1f)
+		if(view.divisionBoardVM.titleBarWidth!=view.divisionBoardVM.titleBarFinish && this.transformRatio==1f)
 		{
-			view.divisionBoardViewModel.activeGaugeWidth=view.divisionBoardViewModel.activeGaugeWidth+view.divisionBoardViewModel.titleBarWidth;
-			view.divisionBoardViewModel.activeGaugeBackgroundStyle.normal.background=view.divisionBoardViewModel.gaugeBackgrounds[3];
-			view.divisionBoardViewModel.titleBarWidth=view.divisionBoardViewModel.titleBarFinish;
+			view.divisionBoardVM.activeGaugeWidth=view.divisionBoardVM.activeGaugeWidth+view.divisionBoardVM.titleBarWidth;
+			view.divisionBoardVM.activeGaugeBackgroundStyle.normal.background=view.divisionBoardVM.gaugeBackgrounds[3];
+			view.divisionBoardVM.titleBarWidth=view.divisionBoardVM.titleBarFinish;
 		}
 	}
 	private void picturesInitialization(){
 
-		view.lastResultsViewModel.profilePictures =new Texture2D[view.lastResultsViewModel.lastResults.Count];
+		view.lastResultsVM.profilePictures =new Texture2D[view.lastResultsVM.lastResults.Count];
 
-		for(int i =0;i<view.lastResultsViewModel.lastResults.Count;i++)
+		for(int i =0;i<view.lastResultsVM.lastResults.Count;i++)
 		{
-			view.lastResultsViewModel.profilePictures[i]=new Texture2D(view.lastResultsViewModel.profilePicturesSize,
-			                                                           view.lastResultsViewModel.profilePicturesSize, 
+			view.lastResultsVM.profilePictures[i]=new Texture2D(view.lastResultsVM.profilePicturesSize,
+			                                                           view.lastResultsVM.profilePicturesSize, 
 			                                                      TextureFormat.ARGB32, 
 			                                                      false);
-			view.lastResultsViewModel.profilePictureButtonStyle.Add(new GUIStyle());
-			view.lastResultsViewModel.profilePictureButtonStyle[i].normal.background=view.lastResultsViewModel.profilePictures[i];
-			view.lastResultsViewModel.profilePictureButtonStyle[i].fixedWidth = view.lastResultsViewModel.profilePicturesSize;
-			view.lastResultsViewModel.profilePictureButtonStyle[i].fixedHeight = view.lastResultsViewModel.profilePicturesSize;
+			view.lastResultsVM.profilePictureButtonStyle.Add(new GUIStyle());
+			view.lastResultsVM.profilePictureButtonStyle[i].normal.background=view.lastResultsVM.profilePictures[i];
+			view.lastResultsVM.profilePictureButtonStyle[i].fixedWidth = view.lastResultsVM.profilePicturesSize;
+			view.lastResultsVM.profilePictureButtonStyle[i].fixedHeight = view.lastResultsVM.profilePicturesSize;
 		}
 
-		view.lastOpponentViewModel.lastOpponentProfilePictureButtonStyle.normal.background = view.lastResultsViewModel.profilePictures[0];
-		view.lastResultsViewModel.nbPages=Mathf.CeilToInt(view.lastResultsViewModel.lastResults.Count/5f);
-		view.lastResultsViewModel.pageDebut=0;
+		view.lastOpponentVM.lastOpponentProfilePictureButtonStyle.normal.background = view.lastResultsVM.profilePictures[0];
+		view.lastResultsVM.nbPages=Mathf.CeilToInt(view.lastResultsVM.lastResults.Count/5f);
+		view.lastResultsVM.pageDebut=0;
 
-		if (view.lastResultsViewModel.nbPages>5){
-			view.lastResultsViewModel.pageFin = 4 ;
+		if (view.lastResultsVM.nbPages>5){
+			view.lastResultsVM.pageFin = 4 ;
 		}
 		else{
-			view.lastResultsViewModel.pageFin = view.lastResultsViewModel.nbPages ;
+			view.lastResultsVM.pageFin = view.lastResultsVM.nbPages ;
 		}
 
-		view.lastResultsViewModel.paginatorGuiStyle = new GUIStyle[view.lastResultsViewModel.nbPages];
-		for (int i = 0; i < view.lastResultsViewModel.nbPages; i++) 
+		view.lastResultsVM.paginatorGuiStyle = new GUIStyle[view.lastResultsVM.nbPages];
+		for (int i = 0; i < view.lastResultsVM.nbPages; i++) 
 		{ 
 			if (i==0){
-				view.lastResultsViewModel.paginatorGuiStyle[i]=this.paginationActivatedStyle;
+				view.lastResultsVM.paginatorGuiStyle[i]=this.paginationActivatedStyle;
 			}
 			else{
-				view.lastResultsViewModel.paginatorGuiStyle[i]=this.paginationStyle;
+				view.lastResultsVM.paginatorGuiStyle[i]=this.paginationStyle;
 			}
 		}
 	}
 	public void paginationBehaviour(int value, int page=0){
-		view.lastResultsViewModel.paginationBehaviour (value,page);
+		view.lastResultsVM.paginationBehaviour (value,page);
 		}
 	private void initializeRounds(){
 		for (int i=0; i<model.currentCup.NbRounds;i++)
 		{
-			view.cupBoardViewModel.roundsStyle.Add(new GUIStyle());
-			if(i<view.lastResultsViewModel.lastResults.Count-1)
+			view.cupBoardVM.roundsStyle.Add(new GUIStyle());
+			if(i<view.lastResultsVM.lastResults.Count-1)
 			{
-				view.cupBoardViewModel.roundsStyle[i]=winRoundStyle;
+				view.cupBoardVM.roundsStyle[i]=winRoundStyle;
 			}
-			else if(i==view.lastResultsViewModel.lastResults.Count-1)
+			else if(i==view.lastResultsVM.lastResults.Count-1)
 			{
 				if(model.lastResults[0].HasWon)
 				{
-					view.cupBoardViewModel.roundsStyle[i]=winRoundStyle;
+					view.cupBoardVM.roundsStyle[i]=winRoundStyle;
 				}
 				else
 				{
-					view.cupBoardViewModel.roundsStyle[i]=looseRoundStyle;
+					view.cupBoardVM.roundsStyle[i]=looseRoundStyle;
 				}
 			}
 			else
 			{
-				view.cupBoardViewModel.roundsStyle[i]=notPlayedRoundStyle;
+				view.cupBoardVM.roundsStyle[i]=notPlayedRoundStyle;
 			}
-			view.cupBoardViewModel.roundsStyle[i].fixedHeight=(int)view.endGameScreenViewModel.blockTopLeftHeight*50/(100*model.currentCup.NbRounds);
-			view.cupBoardViewModel.roundsStyle[i].fontSize=(int)view.cupBoardViewModel.roundsStyle[i].fixedHeight*60/100;
+			view.cupBoardVM.roundsStyle[i].fixedHeight=(int)view.endGameScreenVM.blockTopLeftHeight*50/(100*model.currentCup.NbRounds);
+			view.cupBoardVM.roundsStyle[i].fontSize=(int)view.cupBoardVM.roundsStyle[i].fixedHeight*60/100;
 		}
 	}
 	private void setProfilePictures(){
 
-		for(int i =0;i<view.lastResultsViewModel.lastResults.Count;i++)
+		for(int i =0;i<view.lastResultsVM.lastResults.Count;i++)
 		{
-			if (view.lastResultsViewModel.lastResults[i].Opponent.Picture.StartsWith(ServerDirectory))
+			if (view.lastResultsVM.lastResults[i].Opponent.Picture.StartsWith(ServerDirectory))
 			{
 				StartCoroutine(loadProfilePicture(i));
 			}
@@ -535,70 +535,70 @@ public class EndGameController : MonoBehaviour {
 	}
 	private IEnumerator loadProfilePicture(int i){
 
-		var www = new WWW(ApplicationModel.host + view.lastResultsViewModel.lastResults[i].Opponent.Picture);
+		var www = new WWW(ApplicationModel.host + view.lastResultsVM.lastResults[i].Opponent.Picture);
 		yield return www;
-		www.LoadImageIntoTexture(view.lastResultsViewModel.profilePictures[i]);
+		www.LoadImageIntoTexture(view.lastResultsVM.profilePictures[i]);
 	}
 	private IEnumerator loadDefaultProfilePicture(int i){
 
 		var www = new WWW(URLDefaultProfilePicture);
 		yield return www;
-		www.LoadImageIntoTexture(view.lastResultsViewModel.profilePictures[i]);
+		www.LoadImageIntoTexture(view.lastResultsVM.profilePictures[i]);
 	}
 	private void initStyles(){
 
-		view.endGameScreenViewModel.centralWindowStyle=this.centralWindowStyle;
-		view.endGameScreenViewModel.centralWindowTitleStyle=this.centralWindowTitleStyle;
-		view.endGameScreenViewModel.centralWindowButtonStyle=this.centralWindowButtonStyle;
-		view.endGameScreenViewModel.blockBorderStyle=this.blockBorderStyle;
+		view.endGameScreenVM.centralWindowStyle=this.centralWindowStyle;
+		view.endGameScreenVM.centralWindowTitleStyle=this.centralWindowTitleStyle;
+		view.endGameScreenVM.centralWindowButtonStyle=this.centralWindowButtonStyle;
+		view.endGameScreenVM.blockBorderStyle=this.blockBorderStyle;
 
-		view.lastResultsViewModel.lastResultsLabelStyle=this.lastResultsLabelStyle;
-		view.lastResultsViewModel.winLabelResultsListStyle=this.winLabelResultsListStyle;
-		view.lastResultsViewModel.defeatLabelResultsListStyle=this.defeatLabelResultsListStyle;
-		view.lastResultsViewModel.opponentsInformationsStyle=this.opponentsInformationsStyle;
-		view.lastResultsViewModel.paginationStyle=this.paginationStyle;
-		view.lastResultsViewModel.paginationActivatedStyle=this.paginationActivatedStyle;
-		view.lastResultsViewModel.winBackgroundResultsListStyle=this.winBackgroundResultsListStyle;
-		view.lastResultsViewModel.defeatBackgroundResultsListStyle=this.defeatBackgroundResultsListStyle;
+		view.lastResultsVM.lastResultsLabelStyle=this.lastResultsLabelStyle;
+		view.lastResultsVM.winLabelResultsListStyle=this.winLabelResultsListStyle;
+		view.lastResultsVM.defeatLabelResultsListStyle=this.defeatLabelResultsListStyle;
+		view.lastResultsVM.opponentsInformationsStyle=this.opponentsInformationsStyle;
+		view.lastResultsVM.paginationStyle=this.paginationStyle;
+		view.lastResultsVM.paginationActivatedStyle=this.paginationActivatedStyle;
+		view.lastResultsVM.winBackgroundResultsListStyle=this.winBackgroundResultsListStyle;
+		view.lastResultsVM.defeatBackgroundResultsListStyle=this.defeatBackgroundResultsListStyle;
 
-		view.lastOpponentViewModel.lastOpponentProfilePictureButtonStyle=this.lastOpponentProfilePictureButtonStyle;
-		view.lastOpponentViewModel.lastOpponentLabelStyle=this.lastOpponentLabelStyle;
-		view.lastOpponentViewModel.lastOponnentInformationsLabelStyle=this.lastOponnentInformationsLabelStyle;
-		view.lastOpponentViewModel.lastOponnentUsernameLabelStyle=this.lastOponnentUsernameLabelStyle;
-		view.lastOpponentViewModel.lastOpponentBackgroundStyle=this.lastOpponentBackgroundStyle;
+		view.lastOpponentVM.lastOpponentProfilePictureButtonStyle=this.lastOpponentProfilePictureButtonStyle;
+		view.lastOpponentVM.lastOpponentLabelStyle=this.lastOpponentLabelStyle;
+		view.lastOpponentVM.lastOponnentInformationsLabelStyle=this.lastOponnentInformationsLabelStyle;
+		view.lastOpponentVM.lastOponnentUsernameLabelStyle=this.lastOponnentUsernameLabelStyle;
+		view.lastOpponentVM.lastOpponentBackgroundStyle=this.lastOpponentBackgroundStyle;
 
-		view.currentUserViewModel.rankingLabelStyle=this.rankingLabelStyle;
-		view.currentUserViewModel.yourRankingStyle=this.yourRankingStyle;
-		view.currentUserViewModel.yourRankingPointsStyle=this.yourRankingPointsStyle;
+		view.currentUserVM.rankingLabelStyle=this.rankingLabelStyle;
+		view.currentUserVM.yourRankingStyle=this.yourRankingStyle;
+		view.currentUserVM.yourRankingPointsStyle=this.yourRankingPointsStyle;
 
 		switch(model.lastResults[0].GameType)
 		{
 		case 0:
-			view.friendlyBoardViewModel.mainLabelStyle=this.mainLabelStyle;
-			view.friendlyBoardViewModel.subMainLabelStyle=this.subMainLabelStyle;
+			view.friendlyBoardVM.mainLabelStyle=this.mainLabelStyle;
+			view.friendlyBoardVM.subMainLabelStyle=this.subMainLabelStyle;
 			break;
 		case 1:
-			view.divisionBoardViewModel.activeGaugeBackgroundStyle=this.activeGaugeBackgroundStyle;
-			view.divisionBoardViewModel.gaugeBackgroundStyle=this.gaugeBackgroundStyle;
-			view.divisionBoardViewModel.startActiveGaugeBackgroundStyle=this.startActiveGaugeBackgroundStyle;
-			view.divisionBoardViewModel.relegationBarStyle=this.relegationBarStyle;
-			view.divisionBoardViewModel.promotionBarStyle=this.promotionBarStyle;
-			view.divisionBoardViewModel.titleBarStyle=this.titleBarStyle;
-			view.divisionBoardViewModel.divisionLabelStyle=this.divisionLabelStyle;
-			view.divisionBoardViewModel.divisionStrikeLabelStyle=this.divisionStrikeLabelStyle;
-			view.divisionBoardViewModel.remainingGamesStyle=this.remainingGamesStyle;
-			view.divisionBoardViewModel.promotionPrizeLabelStyle=this.promotionPrizeLabelStyle;
-			view.divisionBoardViewModel.titlePrizeLabelStyle=this.titlePrizeLabelStyle;
-			view.divisionBoardViewModel.relegationLabelStyle=this.relegationLabelStyle;
-			view.divisionBoardViewModel.promotionLabelStyle=this.promotionLabelStyle;
-			view.divisionBoardViewModel.titleLabelStyle=this.titleLabelStyle;
-			view.divisionBoardViewModel.relegationValueLabelStyle=this.relegationValueLabelStyle;
-			view.divisionBoardViewModel.promotionValueLabelStyle=this.promotionValueLabelStyle;
-			view.divisionBoardViewModel.titleValueLabelStyle=this.titleValueLabelStyle;
+			view.divisionBoardVM.activeGaugeBackgroundStyle=this.activeGaugeBackgroundStyle;
+			view.divisionBoardVM.gaugeBackgroundStyle=this.gaugeBackgroundStyle;
+			view.divisionBoardVM.startActiveGaugeBackgroundStyle=this.startActiveGaugeBackgroundStyle;
+			view.divisionBoardVM.relegationBarStyle=this.relegationBarStyle;
+			view.divisionBoardVM.promotionBarStyle=this.promotionBarStyle;
+			view.divisionBoardVM.titleBarStyle=this.titleBarStyle;
+			view.divisionBoardVM.divisionLabelStyle=this.divisionLabelStyle;
+			view.divisionBoardVM.divisionStrikeLabelStyle=this.divisionStrikeLabelStyle;
+			view.divisionBoardVM.remainingGamesStyle=this.remainingGamesStyle;
+			view.divisionBoardVM.promotionPrizeLabelStyle=this.promotionPrizeLabelStyle;
+			view.divisionBoardVM.titlePrizeLabelStyle=this.titlePrizeLabelStyle;
+			view.divisionBoardVM.relegationLabelStyle=this.relegationLabelStyle;
+			view.divisionBoardVM.promotionLabelStyle=this.promotionLabelStyle;
+			view.divisionBoardVM.titleLabelStyle=this.titleLabelStyle;
+			view.divisionBoardVM.relegationValueLabelStyle=this.relegationValueLabelStyle;
+			view.divisionBoardVM.promotionValueLabelStyle=this.promotionValueLabelStyle;
+			view.divisionBoardVM.titleValueLabelStyle=this.titleValueLabelStyle;
 			break;
 		case 2:
-			view.cupBoardViewModel.cupLabelStyle=this.cupLabelStyle;
-			view.cupBoardViewModel.cupPrizeLabelStyle=this.cupPrizeLabelStyle;
+			view.cupBoardVM.cupLabelStyle=this.cupLabelStyle;
+			view.cupBoardVM.cupPrizeLabelStyle=this.cupPrizeLabelStyle;
 			break;
 		}
 	}
