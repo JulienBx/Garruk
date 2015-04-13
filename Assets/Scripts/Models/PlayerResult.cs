@@ -4,17 +4,17 @@ using System.Collections;
 using System.Collections;
 using System.Collections.Generic;
 
-public class Result 
+public class PlayerResult 
 {
-	public int IdWinner;
-	public int IdLooser;
+	public User Opponent;
+	public bool HasWon;
 	public DateTime Date;
 	public int GameType;
 	
-	public Result(int idwinner, int idlooser, DateTime date, int gametype)
+	public PlayerResult(bool haswon, DateTime date,int gametype,User opponent)
 	{
-		this.IdWinner = idwinner;
-		this.IdLooser = idlooser;
+		this.Opponent = opponent;
+		this.HasWon = haswon;
 		this.Date = date;
 		this.GameType = gametype;
 	}
