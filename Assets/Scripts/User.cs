@@ -15,15 +15,16 @@ public class User
 	public string Picture;
 	public int Money;
 	public List<Connection> Connections;
-	public Division Division;
-	public Cup Cup;
+	public int Division;
+	public int Cup;
+	public int Id;
 	public int NbGamesCup;
 	public int Ranking;
 	public int RankingPoints;
 	public int TotalNbWins;
 	public int TotalNbLooses;
-	public IList<Result> ResultsHistory;
-	public Texture2D texture ; 
+	public Texture2D texture ;
+	public int NbGamesDivision;
 
 	public User()
 	{
@@ -56,37 +57,20 @@ public class User
 	{
 		this.Connections = connections;
 	}
-
-	public User(Division division, IList<Result> resultshistory,  int rankingpoints,int ranking, int totalnbwins, int totalnblooses)
+	public User(int id, int money, int division, int nbgamesdivision, int cup, int nbgamescup, int rankingpoints,int ranking,  int totalnbwins, int totalnblooses)
 	{
+		this.Id = id;
+		this.Money = money;
 		this.Division = division;
-		this.ResultsHistory = resultshistory;
-		this.RankingPoints = rankingpoints;
-		this.Ranking = ranking;
-		this.TotalNbWins = totalnbwins;
-		this.TotalNbLooses = totalnblooses;
-	}
-
-	public User(Cup cup, IList<Result> resultshistory,  int rankingpoints,int ranking, int totalnbwins, int totalnblooses)
-	{
+		this.NbGamesDivision = nbgamesdivision;
 		this.Cup = cup;
-		this.ResultsHistory = resultshistory;
+		this.NbGamesCup = nbgamescup;
 		this.RankingPoints = rankingpoints;
 		this.Ranking = ranking;
 		this.TotalNbWins = totalnbwins;
 		this.TotalNbLooses = totalnblooses;
 	}
-
-	public User(IList<Result> resultshistory,  int rankingpoints,int ranking, int totalnbwins, int totalnblooses)
-	{
-		this.ResultsHistory = resultshistory;
-		this.RankingPoints = rankingpoints;
-		this.Ranking = ranking;
-		this.TotalNbWins = totalnbwins;
-		this.TotalNbLooses = totalnblooses;
-	}
-
-	public User(string username, string picture, Division division, int rankingpoints,int ranking,  int totalnbwins, int totalnblooses)
+	public User(string username, string picture, int division, int rankingpoints,int ranking,  int totalnbwins, int totalnblooses)
 	{
 		this.Username = username;
 		this.Picture = picture;
