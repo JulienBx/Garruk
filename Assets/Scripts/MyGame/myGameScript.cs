@@ -206,7 +206,7 @@ public class myGameScript : MonoBehaviour
 		if (Screen.width != widthScreen || Screen.height != heightScreen)
 		{
 			myGameView.setStyles();
-			this.applyFilters ();
+			// ligne a supprimer this.applyFilters ();
 			if (this.focusedCard != -1)
 			{
 				Destroy (cardFocused);
@@ -221,7 +221,7 @@ public class myGameScript : MonoBehaviour
 
 		}
 		if (toReload) {
-			this.applyFilters ();
+			// ligne a supprimer this.applyFilters ();
 			if (sortSelected!=10){
 				this.sortCards();
 			}
@@ -265,7 +265,7 @@ public class myGameScript : MonoBehaviour
 				this.createDeckCards();
 				isCreatedDeckCards=true;
 			}
-			this.applyFilters ();
+			// ligne a supprimer this.applyFilters ();
 			this.displayPage();
 			displayDecks = true ;
 			isLoadedDeck = false ;
@@ -283,7 +283,7 @@ public class myGameScript : MonoBehaviour
 					deckCardsIds.RemoveAt (tempInt);
 					myDecks[chosenDeck].NbCards--;
 					this.displayDeckCards();
-					this.applyFilters ();
+					// ligne a supprimer this.applyFilters ();
 					this.displayPage ();
 				}
 				else if (hit.collider.name.StartsWith("Card")){
@@ -293,7 +293,7 @@ public class myGameScript : MonoBehaviour
 						myDecks[chosenDeck].NbCards++;
 						this.displayDeckCards();
 						StartCoroutine(this.AddCardToDeck(myGameView.cards[System.Convert.ToInt32(hit.collider.gameObject.name.Substring(4))].Id, this.deckCardsIds.Count));
-						this.applyFilters ();
+						// ligne a supprimer this.applyFilters ();
 						this.displayPage ();
 					}
 				}
@@ -533,417 +533,438 @@ public class myGameScript : MonoBehaviour
 		}
 	}
 
-	private void applyFilters() {
-		this.cardsToBeDisplayed=new List<int>();
-		IList<int> tempCardsToBeDisplayed = new List<int>();
-		int nbFilters = this.filtersCardType.Count;
-		bool testFilters = false;
-		bool testDeck = false;
-		bool test ;
-		
-			bool minLifeBool = (minLifeLimit==minLifeVal);
-			bool maxLifeBool = (maxLifeLimit==maxLifeVal);
-			bool minMoveBool = (minMoveLimit==minMoveVal);
-			bool maxMoveBool = (maxMoveLimit==maxMoveVal);
-			bool minQuicknessBool = (minQuicknessLimit==minQuicknessVal);
-			bool maxQuicknessBool = (maxQuicknessLimit==maxQuicknessVal);
-			bool minAttackBool = (minAttackLimit==minAttackVal);
-			bool maxAttackBool = (maxAttackLimit==maxAttackVal);
-			if (this.isSkillChosen){
-				int max = myGameView.cards.Count;
-				if (nbFilters==0){
-				max = myGameView.cards.Count;
-					if (enVente){
-						for (int i = 0; i < max ; i++) {
-							if (myGameView.cards[i].hasSkill(this.valueSkill) && myGameView.cards[i].onSale==1){
-								testDeck = false ;
-								for (int j = 0 ; j < deckCardsIds.Count ; j++){
-									if (i==deckCardsIds[j]){
-										testDeck = true ; 
-									}
-								}
-								if (!testDeck){
-									tempCardsToBeDisplayed.Add(i);
-								}
-							}
-						}
-					}
-					else{
-						for (int i = 0; i < max ; i++) {
-							if (myGameView.cards[i].hasSkill(this.valueSkill)){
-								testDeck = false ;
-								for (int j = 0 ; j < deckCardsIds.Count ; j++){
-									if (i==deckCardsIds[j]){
-										testDeck = true ; 
-									}
-								}
-								if (!testDeck){
-									tempCardsToBeDisplayed.Add(i);
-								}
-							}
-						}
-					}
-				}
-				else{
-					for (int i = 0; i < max ; i++) {
-						test = false ;
-						int j = 0 ;
-						if(enVente){	
-							while (!test && j!=nbFilters){
-								if (myGameView.cards[i].IdClass==this.filtersCardType[j])
-								{
-									test=true ;
-									if (myGameView.cards[i].hasSkill(this.valueSkill) && myGameView.cards[i].onSale == 1)
-									{
-										testDeck = false ;
-										for (int k = 0 ; k < deckCardsIds.Count ; k++){
-											if (i==deckCardsIds[k]){
-												testDeck = true ; 
-											}
-										}
-										if (!testDeck){
-											tempCardsToBeDisplayed.Add(i);
-										}
-									}
-								}
-								j++;
-							}
-						}
-						else
-						{
-							while (!test && j!=nbFilters)
-							{
-								if (myGameView.cards[i].IdClass==this.filtersCardType[j])
-								{
-									test=true ;
-									if (myGameView.cards[i].hasSkill(this.valueSkill))
-									{
-										testDeck = false ;
-										for (int k = 0 ; k < deckCardsIds.Count ; k++)
-										{
-											if (i==deckCardsIds[k])
-											{
-												testDeck = true ; 
-											}
-										}
-										if (!testDeck){
-											tempCardsToBeDisplayed.Add(i);
-										}
-									}
-								}
-								j++;
-							}
-						}
-					}
-				}
-			}
-			else
-			{
-				int max = myGameView.cards.Count;
-				if (nbFilters==0)
-				{
-					if (enVente)
-					{
-						for (int i = 0; i < max ; i++) 
-						{
-							if(myGameView.cards[i].onSale == 1)
-							{
-								testDeck = false;
-								for (int j = 0 ; j < deckCardsIds.Count ; j++)
-								{
-									if (i == deckCardsIds[j])
-									{
-										testDeck = true ; 
-									}
-								}
-								if (!testDeck){
-									tempCardsToBeDisplayed.Add(i);
-								}
-							}
-						}
-					}
-					else
-					{
-						for (int i = 0; i < max ; i++) 
-						{
-							testDeck = false;
-							for (int j = 0 ; j < deckCardsIds.Count ; j++){
-								if (i==deckCardsIds[j]){
-									testDeck = true ; 
-								}
-							}
-							if (!testDeck){
-								tempCardsToBeDisplayed.Add(i);
-							}
-						}
-					}
-				}
-				else{
-					if (enVente){
-						for (int i = 0; i < max ; i++) {
-							test = false ;
-							int j = 0 ;
-							while (!test && j!=nbFilters){
-								if (myGameView.cards[i].IdClass==this.filtersCardType[j]){
-									if(myGameView.cards[i].onSale == 1)
-									{
-										test=true ;
-										testDeck = false ;
-										for (int k = 0 ; k < deckCardsIds.Count ; k++)
-										{
-											if (i == deckCardsIds[k])
-											{
-												testDeck = true ; 
-											}
-										}
-										if (!testDeck){
-											tempCardsToBeDisplayed.Add(i);
-										}
-									}
-								}
-								j++;
-							}
-						}
-					}
-					else{
-						for (int i = 0; i < max ; i++) {
-							test = false ;
-							int j = 0 ;
-							while (!test && j!=nbFilters){
-								if (myGameView.cards[i].IdClass==this.filtersCardType[j]){
-									test=true ;
-									testDeck = false ;
-									for (int k = 0 ; k < deckCardsIds.Count ; k++){
-										if (i==deckCardsIds[k]){
-											testDeck = true ; 
-										}
-									}
-									if (!testDeck){
-										tempCardsToBeDisplayed.Add(i);
-									}
-								}
-								j++;
-							}
-						}
-					}
-				}
-			}
-			if (tempCardsToBeDisplayed.Count>0){
-				minLifeLimit=10000;
-				maxLifeLimit=0;
-				minAttackLimit=10000;
-				maxAttackLimit=0;
-				minMoveLimit=10000;
-				maxMoveLimit=0;
-				minQuicknessLimit=10000;
-				maxQuicknessLimit=0;
-				for (int i = 0 ; i < tempCardsToBeDisplayed.Count ; i++){
-					if (myGameView.cards[tempCardsToBeDisplayed[i]].Life<minLifeLimit){
-						minLifeLimit = myGameView.cards[tempCardsToBeDisplayed[i]].Life;
-					}
-					if (myGameView.cards[tempCardsToBeDisplayed[i]].Life>maxLifeLimit){
-						maxLifeLimit = myGameView.cards[tempCardsToBeDisplayed[i]].Life;
-					}
-					if (myGameView.cards[tempCardsToBeDisplayed[i]].Attack<minAttackLimit){
-						minAttackLimit = myGameView.cards[tempCardsToBeDisplayed[i]].Attack;
-					}
-					if (myGameView.cards[tempCardsToBeDisplayed[i]].Attack>maxAttackLimit){
-						maxAttackLimit = myGameView.cards[tempCardsToBeDisplayed[i]].Attack;
-					}
-					if (myGameView.cards[tempCardsToBeDisplayed[i]].Move<minMoveLimit){
-						minMoveLimit = myGameView.cards[tempCardsToBeDisplayed[i]].Move;
-					}
-					if (myGameView.cards[tempCardsToBeDisplayed[i]].Move>maxMoveLimit){
-						maxMoveLimit = myGameView.cards[tempCardsToBeDisplayed[i]].Move;
-					}
-					if (myGameView.cards[tempCardsToBeDisplayed[i]].Speed<minQuicknessLimit){
-						minQuicknessLimit = myGameView.cards[tempCardsToBeDisplayed[i]].Speed;
-					}
-					if (myGameView.cards[tempCardsToBeDisplayed[i]].Speed>maxQuicknessLimit){
-						maxQuicknessLimit = myGameView.cards[tempCardsToBeDisplayed[i]].Speed;
-					}
-				}
-				if (minLifeBool && maxLifeVal>minLifeLimit){
-					minLifeVal = minLifeLimit;
-				}
-				else{
-					if (minLifeVal<minLifeLimit){
-						minLifeLimit = minLifeVal;
-					}
-				}
-				if (maxLifeBool && minLifeVal<maxLifeLimit){
-					maxLifeVal = maxLifeLimit;
-					print ("Max "+maxLifeVal);
-				}
-				else{
-					if (maxLifeVal>maxLifeLimit){
-						maxLifeLimit = maxLifeVal;
-					}
-					print ("Max2 "+maxLifeVal);
-				}
-				if (minAttackBool && maxAttackVal>minAttackLimit){
-					minAttackVal = minAttackLimit;
-				}
-				else{
-					if (minAttackVal<minAttackLimit){
-						minAttackLimit = minAttackVal;
-					}
-				}
-				if (maxAttackBool && minAttackVal<maxAttackLimit){
-					maxAttackVal = maxAttackLimit;
-				}
-				else{
-					if (maxAttackVal>maxAttackLimit){
-						maxAttackLimit = maxAttackVal;
-					}
-				}
-				if (minMoveBool && maxMoveVal>minMoveLimit){
-					minMoveVal = minMoveLimit;
-				}
-				else{
-					if (minMoveVal<minMoveLimit){
-						minMoveLimit = minMoveVal;
-					}
-				}
-				if (maxMoveBool && minMoveVal<maxMoveLimit){
-					maxMoveVal = maxMoveLimit;
-				}
-				else{
-					if (maxMoveVal>maxMoveLimit){
-						maxMoveLimit = maxMoveVal;
-					}
-				}
-				if (minQuicknessBool && maxQuicknessVal>minQuicknessLimit){
-					minQuicknessVal = minQuicknessLimit;
-				}
-				else{
-					if (minQuicknessVal<minQuicknessLimit){
-						minQuicknessLimit = minQuicknessVal;
-					}
-				}
-				if (maxQuicknessBool && minQuicknessVal<maxQuicknessLimit){
-					maxQuicknessVal = maxQuicknessLimit;
-				}
-				else{
-					if (maxQuicknessVal>maxQuicknessLimit){
-						maxQuicknessLimit = maxQuicknessVal;
-					}
-				}
+//	private void applyFilters() 
+//	{
+//		this.cardsToBeDisplayed = new List<int>();
+//		IList<int> tempCardsToBeDisplayed = new List<int>();
+//		int nbFilters = this.filtersCardType.Count;
+//		bool testFilters = false;
+//		bool testDeck = false;
+//		bool test;
+//		bool minLifeBool = (minLifeLimit == minLifeVal);
+//		bool maxLifeBool = (maxLifeLimit == maxLifeVal);
+//		bool minMoveBool = (minMoveLimit == minMoveVal);
+//		bool maxMoveBool = (maxMoveLimit == maxMoveVal);
+//		bool minQuicknessBool = (minQuicknessLimit == minQuicknessVal);
+//		bool maxQuicknessBool = (maxQuicknessLimit == maxQuicknessVal);
+//		bool minAttackBool = (minAttackLimit == minAttackVal);
+//		bool maxAttackBool = (maxAttackLimit == maxAttackVal);
+//
+//		if (this.isSkillChosen)
+//		{
+//			int max = myGameView.cards.Count;
+//			if (nbFilters == 0)
+//			{
+//				max = myGameView.cards.Count;
+//				if (enVente)
+//				{
+//					for (int i = 0 ; i < max ; i++) 
+//					{
+//						if (myGameView.cards[i].hasSkill(this.valueSkill) && myGameView.cards[i].onSale == 1)
+//						{
+//							testDeck = false;
+//							for (int j = 0 ; j < deckCardsIds.Count ; j++)
+//							{
+//								if (i == deckCardsIds[j])
+//								{
+//									testDeck = true;
+//								}
+//							}
+//							if (!testDeck)
+//							{
+//								tempCardsToBeDisplayed.Add(i);
+//							}
+//						}
+//					}
+//				}
+//				else
+//				{
+//					for (int i = 0; i < max ; i++) 
+//					{
+//						if (myGameView.cards[i].hasSkill(this.valueSkill))
+//						{
+//							testDeck = false;
+//							for (int j = 0 ; j < deckCardsIds.Count ; j++)
+//							{
+//								if (i == deckCardsIds[j])
+//								{
+//									testDeck = true;
+//								}
+//							}
+//							if (!testDeck)
+//							{
+//								tempCardsToBeDisplayed.Add(i);
+//							}
+//						}
+//					}
+//				}
+//			}
+//			else
+//			{
+//				for (int i = 0; i < max ; i++) 
+//				{
+//					test = false;
+//					int j = 0;
+//					if(enVente)
+//					{	
+//						while (!test && j!=nbFilters){
+//							if (myGameView.cards[i].IdClass==this.filtersCardType[j])
+//							{
+//								test=true ;
+//								if (myGameView.cards[i].hasSkill(this.valueSkill) && myGameView.cards[i].onSale == 1)
+//								{
+//									testDeck = false ;
+//									for (int k = 0 ; k < deckCardsIds.Count ; k++)
+//									{
+//										if (i == deckCardsIds[k])
+//										{
+//											testDeck = true ; 
+//										}
+//									}
+//									if (!testDeck){
+//										tempCardsToBeDisplayed.Add(i);
+//									}
+//								}
+//							}
+//							j++;
+//						}
+//					}
+//					else
+//					{
+//						while (!test && j != nbFilters)
+//						{
+//							if (myGameView.cards[i].IdClass==this.filtersCardType[j])
+//							{
+//								test = true;
+//								if (myGameView.cards[i].hasSkill(this.valueSkill))
+//								{
+//									testDeck = false ;
+//									for (int k = 0 ; k < deckCardsIds.Count ; k++)
+//									{
+//										if (i == deckCardsIds[k])
+//										{
+//											testDeck = true ; 
+//										}
+//									}
+//									if (!testDeck)
+//									{
+//										tempCardsToBeDisplayed.Add(i);
+//									}
+//								}
+//							}
+//							j++;
+//						}
+//					}
+//				}
+//			}
+//		}
+//		else
+//		{
+//			int max = myGameView.cards.Count;
+//			if (nbFilters==0)
+//			{
+//				if (enVente)
+//				{
+//					for (int i = 0; i < max ; i++) 
+//					{
+//						if(myGameView.cards[i].onSale == 1)
+//						{
+//							testDeck = false;
+//							for (int j = 0 ; j < deckCardsIds.Count ; j++)
+//							{
+//								if (i == deckCardsIds[j])
+//								{
+//									testDeck = true ; 
+//								}
+//							}
+//							if (!testDeck){
+//								tempCardsToBeDisplayed.Add(i);
+//							}
+//						}
+//					}
+//				}
+//				else
+//				{
+//					for (int i = 0; i < max ; i++) 
+//					{
+//						testDeck = false;
+//						for (int j = 0 ; j < deckCardsIds.Count ; j++){
+//							if (i==deckCardsIds[j]){
+//								testDeck = true ; 
+//							}
+//						}
+//						if (!testDeck){
+//							tempCardsToBeDisplayed.Add(i);
+//						}
+//					}
+//				}
+//			}
+//			else{
+//				if (enVente){
+//					for (int i = 0; i < max ; i++) {
+//						test = false ;
+//						int j = 0 ;
+//						while (!test && j!=nbFilters){
+//							if (myGameView.cards[i].IdClass==this.filtersCardType[j]){
+//								if(myGameView.cards[i].onSale == 1)
+//								{
+//									test=true ;
+//									testDeck = false ;
+//									for (int k = 0 ; k < deckCardsIds.Count ; k++)
+//									{
+//										if (i == deckCardsIds[k])
+//										{
+//											testDeck = true ; 
+//										}
+//									}
+//									if (!testDeck){
+//										tempCardsToBeDisplayed.Add(i);
+//									}
+//								}
+//							}
+//							j++;
+//						}
+//					}
+//				}
+//				else{
+//					for (int i = 0; i < max ; i++) {
+//						test = false ;
+//						int j = 0 ;
+//						while (!test && j!=nbFilters){
+//							if (myGameView.cards[i].IdClass==this.filtersCardType[j]){
+//								test=true ;
+//								testDeck = false ;
+//								for (int k = 0 ; k < deckCardsIds.Count ; k++){
+//									if (i==deckCardsIds[k]){
+//										testDeck = true ; 
+//									}
+//								}
+//								if (!testDeck){
+//									tempCardsToBeDisplayed.Add(i);
+//								}
+//							}
+//							j++;
+//						}
+//					}
+//				}
+//			}
+//		}
+//		if (tempCardsToBeDisplayed.Count>0){
+//			minLifeLimit=10000;
+//			maxLifeLimit=0;
+//			minAttackLimit=10000;
+//			maxAttackLimit=0;
+//			minMoveLimit=10000;
+//			maxMoveLimit=0;
+//			minQuicknessLimit=10000;
+//			maxQuicknessLimit=0;
+//			for (int i = 0 ; i < tempCardsToBeDisplayed.Count ; i++){
+//				if (myGameView.cards[tempCardsToBeDisplayed[i]].Life<minLifeLimit){
+//					minLifeLimit = myGameView.cards[tempCardsToBeDisplayed[i]].Life;
+//				}
+//				if (myGameView.cards[tempCardsToBeDisplayed[i]].Life>maxLifeLimit){
+//					maxLifeLimit = myGameView.cards[tempCardsToBeDisplayed[i]].Life;
+//				}
+//				if (myGameView.cards[tempCardsToBeDisplayed[i]].Attack<minAttackLimit){
+//					minAttackLimit = myGameView.cards[tempCardsToBeDisplayed[i]].Attack;
+//				}
+//				if (myGameView.cards[tempCardsToBeDisplayed[i]].Attack>maxAttackLimit){
+//					maxAttackLimit = myGameView.cards[tempCardsToBeDisplayed[i]].Attack;
+//				}
+//				if (myGameView.cards[tempCardsToBeDisplayed[i]].Move<minMoveLimit){
+//					minMoveLimit = myGameView.cards[tempCardsToBeDisplayed[i]].Move;
+//				}
+//				if (myGameView.cards[tempCardsToBeDisplayed[i]].Move>maxMoveLimit){
+//					maxMoveLimit = myGameView.cards[tempCardsToBeDisplayed[i]].Move;
+//				}
+//				if (myGameView.cards[tempCardsToBeDisplayed[i]].Speed<minQuicknessLimit){
+//					minQuicknessLimit = myGameView.cards[tempCardsToBeDisplayed[i]].Speed;
+//				}
+//				if (myGameView.cards[tempCardsToBeDisplayed[i]].Speed>maxQuicknessLimit){
+//					maxQuicknessLimit = myGameView.cards[tempCardsToBeDisplayed[i]].Speed;
+//				}
+//			}
+//			if (minLifeBool && maxLifeVal>minLifeLimit){
+//				minLifeVal = minLifeLimit;
+//			}
+//			else{
+//				if (minLifeVal<minLifeLimit){
+//					minLifeLimit = minLifeVal;
+//				}
+//			}
+//			if (maxLifeBool && minLifeVal<maxLifeLimit){
+//				maxLifeVal = maxLifeLimit;
+//				print ("Max "+maxLifeVal);
+//			}
+//			else{
+//				if (maxLifeVal>maxLifeLimit){
+//					maxLifeLimit = maxLifeVal;
+//				}
+//				print ("Max2 "+maxLifeVal);
+//			}
+//			if (minAttackBool && maxAttackVal>minAttackLimit){
+//				minAttackVal = minAttackLimit;
+//			}
+//			else{
+//				if (minAttackVal<minAttackLimit){
+//					minAttackLimit = minAttackVal;
+//				}
+//			}
+//			if (maxAttackBool && minAttackVal<maxAttackLimit){
+//				maxAttackVal = maxAttackLimit;
+//			}
+//			else{
+//				if (maxAttackVal>maxAttackLimit){
+//					maxAttackLimit = maxAttackVal;
+//				}
+//			}
+//			if (minMoveBool && maxMoveVal>minMoveLimit){
+//				minMoveVal = minMoveLimit;
+//			}
+//			else{
+//				if (minMoveVal<minMoveLimit){
+//					minMoveLimit = minMoveVal;
+//				}
+//			}
+//			if (maxMoveBool && minMoveVal<maxMoveLimit){
+//				maxMoveVal = maxMoveLimit;
+//			}
+//			else{
+//				if (maxMoveVal>maxMoveLimit){
+//					maxMoveLimit = maxMoveVal;
+//				}
+//			}
+//			if (minQuicknessBool && maxQuicknessVal>minQuicknessLimit){
+//				minQuicknessVal = minQuicknessLimit;
+//			}
+//			else{
+//				if (minQuicknessVal<minQuicknessLimit){
+//					minQuicknessLimit = minQuicknessVal;
+//				}
+//			}
+//			if (maxQuicknessBool && minQuicknessVal<maxQuicknessLimit){
+//				maxQuicknessVal = maxQuicknessLimit;
+//			}
+//			else{
+//				if (maxQuicknessVal>maxQuicknessLimit){
+//					maxQuicknessLimit = maxQuicknessVal;
+//				}
+//			}
+//
+//			oldMinLifeVal = minLifeVal ;
+//			oldMaxLifeVal = maxLifeVal ;
+//			oldMinQuicknessVal = minQuicknessVal ;
+//			oldMaxQuicknessVal = maxQuicknessVal ;
+//			oldMinMoveVal = minMoveVal ;
+//			oldMaxMoveVal = maxMoveVal ;
+//			oldMinAttackVal = minAttackVal ;
+//			oldMaxAttackVal = maxAttackVal ;
+//		}
+//
+//		if (this.minLifeVal!=this.minLifeLimit){
+//			testFilters = true ;
+//		}
+//		else if (this.maxLifeVal!=this.maxLifeLimit){
+//			testFilters = true ;
+//		}
+//		else if (this.minAttackVal!=this.minAttackLimit){
+//			testFilters = true ;
+//		}
+//		else if (this.maxAttackVal!=this.maxAttackLimit){
+//			testFilters = true ;
+//		}
+//		else if (this.minMoveVal!=this.minMoveLimit){
+//			testFilters = true ;
+//		}
+//		else if (this.maxMoveVal!=this.maxMoveLimit){
+//			testFilters = true ;
+//		}
+//		else if (this.minQuicknessVal!=this.minQuicknessLimit){
+//			testFilters = true ;
+//		}
+//		else if (this.maxQuicknessVal!=this.maxQuicknessLimit){
+//			testFilters = true ;
+//		}
+//
+//		if (testFilters == true){
+//			for (int i = 0 ; i < tempCardsToBeDisplayed.Count ; i++){
+//				if (myGameView.cards[tempCardsToBeDisplayed[i]].verifyC(minLifeVal,maxLifeVal,minAttackVal,maxAttackVal,minMoveVal,maxMoveVal,minQuicknessVal,maxQuicknessVal)){
+//					this.cardsToBeDisplayed.Add(tempCardsToBeDisplayed[i]);
+//				}
+//			}
+//		}
+//		else{
+//			for (int i = 0 ; i < tempCardsToBeDisplayed.Count ; i++){
+//				this.cardsToBeDisplayed.Add(tempCardsToBeDisplayed[i]);
+//			}
+//		}
+//
+//		nbPages = Mathf.CeilToInt(cardsToBeDisplayed.Count / (3.0f*nbCardsPerRow));
+//		pageDebut = 0 ;
+//		if (nbPages>15){
+//			pageFin = 14 ;
+//		}
+//		else{
+//			pageFin = nbPages ;
+//		}
+//		this.chosenPage = 0;
+//		paginatorGuiStyle = new GUIStyle[nbPages];
+//		for (int i = 0; i < nbPages; i++) { 
+//			if (i==0){
+//				paginatorGuiStyle[i]=paginationActivatedStyle;
+//			}
+//			else{
+//				paginatorGuiStyle[i]=paginationStyle;
+//			}
+//		}
+//	}
 
-				oldMinLifeVal = minLifeVal ;
-				oldMaxLifeVal = maxLifeVal ;
-				oldMinQuicknessVal = minQuicknessVal ;
-				oldMaxQuicknessVal = maxQuicknessVal ;
-				oldMinMoveVal = minMoveVal ;
-				oldMaxMoveVal = maxMoveVal ;
-				oldMinAttackVal = minAttackVal ;
-				oldMaxAttackVal = maxAttackVal ;
-			}
-
-		if (this.minLifeVal!=this.minLifeLimit){
-			testFilters = true ;
-		}
-		else if (this.maxLifeVal!=this.maxLifeLimit){
-			testFilters = true ;
-		}
-		else if (this.minAttackVal!=this.minAttackLimit){
-			testFilters = true ;
-		}
-		else if (this.maxAttackVal!=this.maxAttackLimit){
-			testFilters = true ;
-		}
-		else if (this.minMoveVal!=this.minMoveLimit){
-			testFilters = true ;
-		}
-		else if (this.maxMoveVal!=this.maxMoveLimit){
-			testFilters = true ;
-		}
-		else if (this.minQuicknessVal!=this.minQuicknessLimit){
-			testFilters = true ;
-		}
-		else if (this.maxQuicknessVal!=this.maxQuicknessLimit){
-			testFilters = true ;
-		}
-
-		if (testFilters == true){
-			for (int i = 0 ; i < tempCardsToBeDisplayed.Count ; i++){
-				if (myGameView.cards[tempCardsToBeDisplayed[i]].verifyC(minLifeVal,maxLifeVal,minAttackVal,maxAttackVal,minMoveVal,maxMoveVal,minQuicknessVal,maxQuicknessVal)){
-					this.cardsToBeDisplayed.Add(tempCardsToBeDisplayed[i]);
-				}
-			}
-		}
-		else{
-			for (int i = 0 ; i < tempCardsToBeDisplayed.Count ; i++){
-				this.cardsToBeDisplayed.Add(tempCardsToBeDisplayed[i]);
-			}
-		}
-
-		nbPages = Mathf.CeilToInt(cardsToBeDisplayed.Count / (3.0f*nbCardsPerRow));
-		pageDebut = 0 ;
-		if (nbPages>15){
-			pageFin = 14 ;
-		}
-		else{
-			pageFin = nbPages ;
-		}
-		this.chosenPage = 0;
-		paginatorGuiStyle = new GUIStyle[nbPages];
-		for (int i = 0; i < nbPages; i++) { 
-			if (i==0){
-				paginatorGuiStyle[i]=paginationActivatedStyle;
-			}
-			else{
-				paginatorGuiStyle[i]=paginationStyle;
-			}
-		}
-	}
-
-	public void setFilters(){
-		minLifeLimit=10000;
-		maxLifeLimit=0;
-		minAttackLimit=10000;
-		maxAttackLimit=0;
-		minMoveLimit=10000;
-		maxMoveLimit=0;
-		minQuicknessLimit=10000;
-		maxQuicknessLimit=0;
-						
-		int max = myGameView.cards.Count;
-		for (int i = 0; i < max ; i++) {
-			if (myGameView.cards[i].Life<minLifeLimit){
-				minLifeLimit = myGameView.cards[i].Life;
-			}
-			if (myGameView.cards[i].Life>maxLifeLimit){
-				maxLifeLimit = myGameView.cards[i].Life;
-			}
-			if (myGameView.cards[i].Attack<minAttackLimit){
-				minAttackLimit = myGameView.cards[i].Attack;
-			}
-			if (myGameView.cards[i].Attack>maxAttackLimit){
-				maxAttackLimit = myGameView.cards[i].Attack;
-			}
-			if (myGameView.cards[i].Move<minMoveLimit){
-				minMoveLimit = myGameView.cards[i].Move;
-			}
-			if (myGameView.cards[i].Move>maxMoveLimit){
-				maxMoveLimit = myGameView.cards[i].Move;
-			}
-			if (myGameView.cards[i].Speed<minQuicknessLimit){
-				minQuicknessLimit = myGameView.cards[i].Speed;
-			}
-			if (myGameView.cards[i].Speed>maxQuicknessLimit){
-				maxQuicknessLimit = myGameView.cards[i].Speed;
-			}
-		}
-		minLifeVal = minLifeLimit;
-		maxLifeVal = maxLifeLimit;
-		minAttackVal = minAttackLimit;
-		maxAttackVal = maxAttackLimit;
-		minMoveVal = minMoveLimit;
-		maxMoveVal = maxMoveLimit;
-		minQuicknessVal = minQuicknessLimit;
-		maxQuicknessVal = maxQuicknessLimit;
-	}
+//	public void setFilters(){
+//		minLifeLimit=10000;
+//		maxLifeLimit=0;
+//		minAttackLimit=10000;
+//		maxAttackLimit=0;
+//		minMoveLimit=10000;
+//		maxMoveLimit=0;
+//		minQuicknessLimit=10000;
+//		maxQuicknessLimit=0;
+//						
+//		int max = myGameView.cards.Count;
+//		for (int i = 0; i < max ; i++) {
+//			if (myGameView.cards[i].Life<minLifeLimit){
+//				minLifeLimit = myGameView.cards[i].Life;
+//			}
+//			if (myGameView.cards[i].Life>maxLifeLimit){
+//				maxLifeLimit = myGameView.cards[i].Life;
+//			}
+//			if (myGameView.cards[i].Attack<minAttackLimit){
+//				minAttackLimit = myGameView.cards[i].Attack;
+//			}
+//			if (myGameView.cards[i].Attack>maxAttackLimit){
+//				maxAttackLimit = myGameView.cards[i].Attack;
+//			}
+//			if (myGameView.cards[i].Move<minMoveLimit){
+//				minMoveLimit = myGameView.cards[i].Move;
+//			}
+//			if (myGameView.cards[i].Move>maxMoveLimit){
+//				maxMoveLimit = myGameView.cards[i].Move;
+//			}
+//			if (myGameView.cards[i].Speed<minQuicknessLimit){
+//				minQuicknessLimit = myGameView.cards[i].Speed;
+//			}
+//			if (myGameView.cards[i].Speed>maxQuicknessLimit){
+//				maxQuicknessLimit = myGameView.cards[i].Speed;
+//			}
+//		}
+//		minLifeVal = minLifeLimit;
+//		maxLifeVal = maxLifeLimit;
+//		minAttackVal = minAttackLimit;
+//		maxAttackVal = maxAttackLimit;
+//		minMoveVal = minMoveLimit;
+//		maxMoveVal = maxMoveLimit;
+//		minQuicknessVal = minQuicknessLimit;
+//		maxQuicknessVal = maxQuicknessLimit;
+//	}
 
 	public IEnumerator RetrieveDecks() {
 		myDecks = new List<Deck> ();
@@ -1122,7 +1143,7 @@ public class myGameScript : MonoBehaviour
 		}
 		heightScreen = Screen.height;
 		widthScreen = Screen.width;
-		this.setFilters ();
+		// ligne a supprimer this.setFilters ();
 	}
 
 	private void displayPage(){
