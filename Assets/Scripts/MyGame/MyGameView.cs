@@ -81,7 +81,7 @@ public class MyGameView : MonoBehaviour
 	string[] skillsList;
 	string[] cardTypeList;
 	private IList<string> matchValues;
-	private IList<Card> cards ;
+	public IList<Card> cards ;
 	private IList<int> cardsIds ;
 	private IList<int> deckCardsIds ;
 	private IList<int> cardsToBeDisplayed ;
@@ -162,7 +162,7 @@ public class MyGameView : MonoBehaviour
 	bool isUpEscape;
 	bool enVente = false ;
 	
-	GameObject[] displayedCards ;
+	public GameObject[] displayedCards ;
 	GameObject[] displayedDeckCards ;
 	
 	RaycastHit hit;
@@ -1294,7 +1294,7 @@ public class MyGameView : MonoBehaviour
 		
 	}
 
-	private void setStyles() 
+	public void setStyles() 
 	{	
 		heightScreen = Screen.height;
 		widthScreen = Screen.width;
