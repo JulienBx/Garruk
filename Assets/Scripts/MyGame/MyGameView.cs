@@ -4,10 +4,55 @@ using System.Collections.Generic;
 
 public class MyGameView : MonoBehaviour 
 {
+	#region flag
+	//La fonction pour charger les decks est-elle terminée ?
+	public bool areDecksRetrived        = false;
+	public bool isLoadedCards           = false;
+	public bool isLoadedDeck            = false;
+	public bool soldCard                = false;
+	public bool toReloadAll             = false;
+	bool displayFilters                 = false;
+	bool areCreatedDeckCards            = false;
+	bool isSellingCard                  = false; 
+	bool isUpgradingCard                = false;
+	bool isMarketingCard                = false; 
+	bool isRenamingCard                 = false;
+	bool toReload                       = false;
+	bool destroyAll                     = false;
+	bool displayDecks                   = false;
+	bool isCreatedDeckCards             = false;
+	bool isCreatedCards                 = false;
+	bool destroySellingCardWindow       = false;
+	bool destroyUpgradingCardWindow     = false;
+	bool destroyRenamingCardWindow      = false;
+	bool destroyFocus                   = false;
+	bool isEscDown                      = false;
+	bool isChangingPrice;
+	bool displayLoader;
+	bool isUpEscape;
+	public bool[] togglesCurrentStates;
+	#endregion
+
+	public GameObject cardFocused;
+	//int focusedCard                   = -1;
+	//int focusedCardPrice;
+	public string newTitle;
+	//int oldSortSelected               = 10;
+	int sortSelected                    = 10;
+	public int renameCost               = 200;
+	public bool isDisplayedCards        = true;
+
+	public IList<Card> cards;
+	public IList<int> cardsToBeDisplayed;
+	public IList<int> cardsIds;
+	public IList<int> deckCardsIds;
+	public IList<Deck> myDecks;
+	public string[] skillsList;
+	public string[] cardTypeList;
+
+	public GUIStyle[] myDecksGuiStyle;
 	#region variables
 
-	//La fonction pour charger les decks est-elle terminée ?
-	private bool areDecksRetrived = false ;
 	//GUIStyle du titre de la zone de gestion des decks
 	public GUIStyle decksTitleStyle ;
 	string decksTitle ;
@@ -50,16 +95,15 @@ public class MyGameView : MonoBehaviour
 	public GUIStyle cantBuyStyle;
 	public GUIStyle sortDefaultButtonStyle;
 	public GUIStyle sortActivatedButtonStyle;
-	bool areCreatedDeckCards = false;
 	float scaleDeck ;
-	GameObject cardFocused ;
-	bool displayFilters = false ;
+	//GameObject cardFocused ;
+
 	
 	public GameObject MenuObject;
 	
 	//Si l'utilisateur sélectionne une action (edit ou suppress) sur un des deck, donne à cette variable l'ID du deck en question
 	int IDDeckToEdit = -1;
-	int renameCost = 200;
+	//int renameCost = 200;
 	
 	Rect rectDeck ;
 	Rect rectFocus ;
@@ -69,34 +113,27 @@ public class MyGameView : MonoBehaviour
 	#endregion
 	
 	#region variablesAClasser
-	private IList<Deck> myDecks;
-	GUIStyle[] myDecksGuiStyle ;
-	GUIStyle[] myDecksButtonGuiStyle ;
+
+	public GUIStyle[] myDecksButtonGuiStyle;
 	GUIStyle[] paginatorGuiStyle;
 	GUIStyle[] sortButtonStyle=new GUIStyle[10];
-	private int chosenDeck = 0 ;
-	private int chosenIdDeck = -1 ;
+	public int chosenDeck = 0 ;
+	public int chosenIdDeck = -1 ;
 	private int chosenPage ;
 	
-	string[] skillsList;
-	string[] cardTypeList;
+
+
 	private IList<string> matchValues;
-	public IList<Card> cards ;
-	private IList<int> cardsIds ;
-	private IList<int> deckCardsIds ;
-	private IList<int> cardsToBeDisplayed ;
+
 	private IList<int> filtersCardType ;
 	public GameObject CardObject;	
-	bool isLoadedCards = false ;
-	bool isLoadedDeck = false ;
-	bool isDisplayedCards = true ;
+
 	int nbCardsPerRow = 0 ;
 	int widthScreen = Screen.width ; 
 	int heightScreen = Screen.height ;
 	int nbPages ;
 	int pageDebut ; 
 	int pageFin ;
-	private bool[] togglesCurrentStates;
 	private string valueSkill="";
 	bool isSkillToDisplay = false ;
 	bool isSkillChosen = false ;
@@ -128,38 +165,19 @@ public class MyGameView : MonoBehaviour
 	float oldMaxQuicknessVal = 100;
 	int focusedCard = -1 ;
 	int focusedCardPrice ;
-	bool isSellingCard = false ; 
-	bool isUpgradingCard = false ;
-	bool isMarketingCard = false ; 
-	bool isRenamingCard = false;
-	bool toReloadAll = false ;
 	
 	bool isBeingDragged = false;
-	bool toReload = false ;
 	bool confirmSuppress ;
 	Vector2 scrollPosition = new Vector2(0,0) ;
 	bool displayCreationDeckWindow  = false ;
 	string tempText = "Nouveau deck" ;
 	int deckToEdit = -1;
-	bool destroyAll = false ;
-	bool displayDecks = false ;
 	int cardId ;
-	bool isCreatedDeckCards=false;
-	bool displayLoader;
-	bool isCreatedCards = false ;
-	bool destroySellingCardWindow = false ;
-	bool destroyUpgradingCardWindow = false ;
-	bool destroyRenamingCardWindow = false;
-	bool destroyFocus = false ;
-	bool soldCard = false ;
+
 	string textMarket ;
 	bool isMarketed ;
 	int idFocused ;
-	bool isChangingPrice ;
 	string tempPrice ; 
-	string newTitle;
-	bool isEscDown = false ;
-	bool isUpEscape;
 	bool enVente = false ;
 	
 	public GameObject[] displayedCards ;
@@ -169,13 +187,13 @@ public class MyGameView : MonoBehaviour
 	Ray ray ;
 	
 	int oldSortSelected = 10;
-	int sortSelected = 10;
 	
 	#endregion
 	
 	void Update () {
 		
-		if (Screen.width != widthScreen || Screen.height != heightScreen) {
+		if (Screen.width != widthScreen || Screen.height != heightScreen) 
+		{
 			this.setStyles();
 			this.applyFilters ();
 			if (this.focusedCard != -1){
