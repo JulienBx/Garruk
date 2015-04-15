@@ -39,6 +39,11 @@ public class Card
 	public Card() {
 	}
 
+	public Card(int id)
+	{
+		this.Id = id;
+	}
+
 	public Card(int id, string title, int life, int artIndex, int speed, int move)
 	{
 		this.Id = id;
@@ -167,11 +172,6 @@ public class Card
 		this.Experience = experience;
 		this.nbWin = nbWin;
 		this.nbLoose = nbLoose;
-	}
-
-	public Card(int experienceLevel)
-	{
-		this.ExperienceLevel= experienceLevel;
 	}
 	
 	public override int GetHashCode() 

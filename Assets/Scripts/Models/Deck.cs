@@ -6,6 +6,7 @@ public class Deck
 {
 	//Interconnexion BDD
 	private string URLCards = ApplicationModel.host + "get_cards_by_deck_by_user.php";
+	private string URLCards = ApplicationModel.host + "get_cardsIDs_by_deck.php";
 	private string URLSelectedDeck = ApplicationModel.host + "get_selected_deck_by_username.php";
 
 	public int Id; 												// Id unique de la carte
@@ -111,6 +112,32 @@ public class Deck
 				//int energy = System.Convert.ToInt32(cardData[7]);	// l'attaque
 				
 				Card card = new Card(cardId, cardTitle, cardLife, cardArt, speed, move, attack, new List<Skill>());
+				AddCard(card);
+				NbCards = i + 1;
+			}
+		}
+	}
+
+	public IEnumerator RetrieveCardIDs() {
+		WWWForm form = new WWWForm(); 								// Création de la connexion
+		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
+		form.AddField("myform_deck", this.Id);							// Id du	 deck
+		
+		WWW w = new WWW(URLCards, form); 							// On envoie le formulaire à l'url sur le serveur 
+		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
+		if (w.error != null) 
+		{
+			Debug.Log(w.error); 									// donne l'erreur eventuelle
+		} 
+		else 
+		{
+			string[] cardEntries = w.text.Split('\n'); 				// Chaque ligne du serveur correspond à une carte
+			
+			for(int i = 0 ; i < cardEntries.Length - 1 ; i++)
+			{
+				cardId = System.Convert.ToInt32(cardData[0]); 	// Ici, on récupère l'id en base
+
+				Card card = new Card(, new List<Skill>());
 				AddCard(card);
 				NbCards = i + 1;
 			}
