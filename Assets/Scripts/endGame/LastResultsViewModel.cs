@@ -36,6 +36,9 @@ public class LastResultsViewModel {
 		this.profilePictureButtonStyle=new List<GUIStyle>();
 	
 	}
+	public LastResultsViewModel (){
+
+	}
 	public void displayPage(){
 		this.start=this.chosenPage*5;
 		if (this.lastResults.Count < (5*(this.chosenPage+1)))

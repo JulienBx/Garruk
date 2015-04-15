@@ -21,4 +21,7 @@ public class CupBoardViewModel {
 		this.cup = cup;
 		this.roundsName = roundsname;
 	}
+
+	public CupBoardViewModel (){
+	}
 }

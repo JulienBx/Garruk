@@ -72,6 +72,10 @@ public class DivisionBoardViewModel {
 		this.gaugeBackgrounds = gaugebackground;
 	}
 
+	public DivisionBoardViewModel (){
+
+	}
+
 	public void initializeGauge(){
 		
 		if(this.nbWinsDivision-this.hasWon>=this.division.NbWinsForPromotion || 

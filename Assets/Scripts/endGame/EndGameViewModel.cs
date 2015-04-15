@@ -12,4 +12,8 @@ public class EndGameViewModel {
 		this.gameType = gametype;
 		
 	}
+
+	public EndGameViewModel (){
+		
+	}
 }

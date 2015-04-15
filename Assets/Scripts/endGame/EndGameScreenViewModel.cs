@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 
-public class ScreenConfigurationViewModel {
+public class EndGameScreenViewModel {
 
 	public int heightScreen=Screen.height;
 	public int widthScreen=Screen.width;
@@ -29,7 +29,7 @@ public class ScreenConfigurationViewModel {
 	public GUIStyle centralWindowButtonStyle;
 	public GUIStyle blockBorderStyle;
 	
-	public ScreenConfigurationViewModel (){
+	public EndGameScreenViewModel (){
 	}
 
 	public void computeScreenDisplay(){
