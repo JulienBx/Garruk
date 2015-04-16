@@ -4,9 +4,11 @@ using System.Collections.Generic;
 
 public class MyGameView : MonoBehaviour 
 {
+	public MyCardsViewModel myCardsViewModel;
+
 	#region flag
 	//La fonction pour charger les decks est-elle terminée ?
-	public bool areDecksRetrived        = false;
+	public bool areDecksRetrieved        = false;
 	public bool isLoadedCards           = false;
 	public bool isLoadedDeck            = false;
 	public bool soldCard                = false;
@@ -170,7 +172,7 @@ public class MyGameView : MonoBehaviour
 	bool confirmSuppress ;
 	Vector2 scrollPosition = new Vector2(0,0) ;
 	bool displayCreationDeckWindow  = false ;
-	string tempText = "Nouveau deck" ;
+	public string tempText = "Nouveau deck" ;
 	int deckToEdit = -1;
 	int cardId ;
 
@@ -227,23 +229,23 @@ public class MyGameView : MonoBehaviour
 			displayLoader = true ;
 			displayFilters = false ;
 			
-			areDecksRetrived=false ;
+			areDecksRetrieved=false ;
 			areCreatedDeckCards = false ;
 			isLoadedCards = false ;
 			isLoadedDeck = false ;
 			
-			StartCoroutine(myGameScript.instance.getCards());
+			myGameScript.instance.getCards();
 			toReloadAll = false ;
 		}
 		if (isLoadedCards){
 			this.createCards();
-			StartCoroutine(myGameScript.instance.RetrieveDecks());
-			isLoadedCards=false ;
+			StartCoroutine(myGameScript.instance.retrieveDecks());
+			isLoadedCards=false;
 			isCreatedCards=true;
 		}
-		if (areDecksRetrived && isCreatedCards){
+		if (areDecksRetrieved && isCreatedCards){
 			StartCoroutine(myGameScript.instance.RetrieveCardsFromDeck ());
-			areDecksRetrived=false ;
+			areDecksRetrieved=false ;
 		}
 		if (isLoadedDeck){
 			if (isCreatedDeckCards){
@@ -268,7 +270,7 @@ public class MyGameView : MonoBehaviour
 			{
 				if (hit.collider.name.StartsWith("DeckCard"))
 				{
-					StartCoroutine(myGameScript.instance.RemoveCardFromDeck(this.cards[this.deckCardsIds[System.Convert.ToInt32(hit.collider.gameObject.name.Substring(8))]].Id, this.deckCardsIds.Count-1));
+					myGameScript.instance.RemoveCardFromDeck(chosenIdDeck, this.cards[this.deckCardsIds[System.Convert.ToInt32(hit.collider.gameObject.name.Substring(8))]].Id);
 					int tempInt = System.Convert.ToInt32(hit.collider.gameObject.name.Substring(8));
 					deckCardsIds.RemoveAt (tempInt);
 					myDecks[chosenDeck].NbCards--;
@@ -283,7 +285,7 @@ public class MyGameView : MonoBehaviour
 						deckCardsIds.Add (tempInt);
 						myDecks[chosenDeck].NbCards++;
 						this.displayDeckCards();
-						StartCoroutine(myGameScript.instance.AddCardToDeck(this.cards[System.Convert.ToInt32(hit.collider.gameObject.name.Substring(4))].Id, this.deckCardsIds.Count));
+						myGameScript.instance.AddCardToDeck(chosenIdDeck, this.cards[System.Convert.ToInt32(hit.collider.gameObject.name.Substring(4))].Id);
 						this.applyFilters ();
 						this.displayPage ();
 					}
@@ -416,7 +418,7 @@ public class MyGameView : MonoBehaviour
 			{
 				isRenamingCard = false;
 				destroyRenamingCardWindow = true;
-				StartCoroutine (myGameScript.instance.renameCard());
+				myGameScript.instance.renameCard(cardFocused.GetComponent<GameCard>().Card.Id, newTitle, renameCost);
 			}
 			else if(Input.GetKeyDown(KeyCode.Escape))
 			{
@@ -427,7 +429,7 @@ public class MyGameView : MonoBehaviour
 			{
 				isRenamingCard = false;
 				destroyRenamingCardWindow = true;
-				StartCoroutine (myGameScript.instance.renameCard());
+				myGameScript.instance.renameCard(cardFocused.GetComponent<GameCard>().Card.Id, newTitle, renameCost);
 			}
 		}
 		else if(isSellingCard)
@@ -452,7 +454,7 @@ public class MyGameView : MonoBehaviour
 				{
 					destroyFocus = true;
 					isChangingPrice = false;
-					StartCoroutine(myGameScript.instance.changeMarketPrice(cardId, focusedCardPrice));
+					myGameScript.instance.changeMarketPrice(cardId, focusedCardPrice);
 				}
 				else if(Input.GetKeyDown(KeyCode.Escape))
 				{
@@ -582,7 +584,7 @@ public class MyGameView : MonoBehaviour
 							if (GUILayout.Button("Confirmer",centralWindowButtonStyle))
 							{
 								destroyRenamingCardWindow = true ;
-								StartCoroutine(myGameScript.instance.renameCard());
+								myGameScript.instance.renameCard(cardFocused.GetComponent<GameCard>().Card.Id, newTitle, renameCost);
 							}
 							GUILayout.FlexibleSpace();
 							if (GUILayout.Button("Annuler",centralWindowButtonStyle))
@@ -625,7 +627,7 @@ public class MyGameView : MonoBehaviour
 								{
 									destroyFocus = true;
 									isChangingPrice = false;
-									StartCoroutine(myGameScript.instance.changeMarketPrice(cardId, System.Convert.ToInt32(tempPrice)));
+									myGameScript.instance.changeMarketPrice(cardId, System.Convert.ToInt32(tempPrice));
 								}
 								GUILayout.FlexibleSpace();
 								if (GUILayout.Button("Annuler",centralWindowButtonStyle))
@@ -647,7 +649,7 @@ public class MyGameView : MonoBehaviour
 					if(Event.current.keyCode == KeyCode.Return)
 					{
 						destroyFocus = true;
-						StartCoroutine(myGameScript.instance.removeFromMarket(cardId));
+						myGameScript.instance.removeFromMarket(cardId);
 					}
 					else if(Event.current.keyCode==KeyCode.Escape) {
 						isMarketingCard = false ;
@@ -667,7 +669,7 @@ public class MyGameView : MonoBehaviour
 									if (GUILayout.Button("Retirer du bazar",smallCentralWindowButtonStyle))
 									{
 										destroyFocus = true ;
-										StartCoroutine (myGameScript.instance.removeFromMarket(cardId));
+										myGameScript.instance.removeFromMarket(cardId);
 										if (enVente){
 											toReload = true ;
 										}
@@ -698,7 +700,7 @@ public class MyGameView : MonoBehaviour
 					if(Event.current.keyCode == KeyCode.Return)
 					{
 						destroyFocus = true;
-						StartCoroutine(myGameScript.instance.putOnMarket(cardId, focusedCardPrice));
+						myGameScript.instance.putOnMarket(cardId, focusedCardPrice);
 					}
 					else if(Event.current.keyCode==KeyCode.Escape) {
 						isMarketingCard = false ;
@@ -726,7 +728,7 @@ public class MyGameView : MonoBehaviour
 									if (GUILayout.Button("Confirmer",centralWindowButtonStyle))
 									{
 										destroyFocus = true ;
-										StartCoroutine (myGameScript.instance.putOnMarket(cardId, System.Convert.ToInt32(tempPrice)));
+										myGameScript.instance.putOnMarket(cardId, System.Convert.ToInt32(tempPrice));
 									}
 									GUILayout.Space(0.04f*widthScreen);
 									if (GUILayout.Button("Annuler",centralWindowButtonStyle))
@@ -832,7 +834,7 @@ public class MyGameView : MonoBehaviour
 				}
 				else if(Event.current.keyCode==KeyCode.Return)
 				{
-					StartCoroutine(myGameScript.instance.deleteDeck());
+					StartCoroutine(myGameScript.instance.deleteDeck(IDDeckToEdit));
 					tempText = "Nouveau deck";
 					IDDeckToEdit=-1;
 				}
@@ -850,7 +852,7 @@ public class MyGameView : MonoBehaviour
 								GUILayout.Space(0.03f * widthScreen);
 								if (GUILayout.Button("Confirmer la suppression",centralWindowButtonStyle)) // also can put width here
 								{
-									StartCoroutine(myGameScript.instance.deleteDeck());
+									StartCoroutine(myGameScript.instance.deleteDeck(IDDeckToEdit));
 									tempText = "Nouveau deck";
 									IDDeckToEdit = -1;
 								}
@@ -879,7 +881,7 @@ public class MyGameView : MonoBehaviour
 				}
 				else if (Event.current.keyCode == KeyCode.Return)
 				{
-					StartCoroutine(myGameScript.instance.addDeck());
+					StartCoroutine(myGameScript.instance.addDeck(tempText));
 					tempText = "Nouveau deck";
 					displayCreationDeckWindow = false;
 				}
@@ -904,7 +906,7 @@ public class MyGameView : MonoBehaviour
 								GUILayout.Space(0.03f * widthScreen);
 								if (GUILayout.Button("Créer le deck",this.centralWindowButtonStyle)) // also can put width here
 								{
-									StartCoroutine(myGameScript.instance.addDeck());
+									StartCoroutine(myGameScript.instance.addDeck(tempText));
 									tempText = "Nouveau deck";
 									displayCreationDeckWindow = false ;
 								}
@@ -933,7 +935,7 @@ public class MyGameView : MonoBehaviour
 				}
 				else if(Event.current.keyCode == KeyCode.Return)
 				{
-					StartCoroutine(myGameScript.instance.editDeck());
+					StartCoroutine(myGameScript.instance.editDeck(deckToEdit, tempText));
 					tempText = "Nouveau deck";
 					deckToEdit = -1;
 				}
@@ -957,7 +959,7 @@ public class MyGameView : MonoBehaviour
 								GUILayout.Space(0.03f * widthScreen);
 								if (GUILayout.Button("Modifier", centralWindowButtonStyle)) // also can put width here
 								{
-									StartCoroutine(myGameScript.instance.editDeck());
+									StartCoroutine(myGameScript.instance.editDeck(deckToEdit, tempText));
 									tempText = "Nouveau deck";
 									deckToEdit = -1;
 								}

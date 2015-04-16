@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -7,22 +8,13 @@ public class myGameScript : MonoBehaviour
 	public static myGameScript instance;
 	public MyGameView myGameView;
 
+	private Deck deckModel;
+	private User userModel;
+
 	#region variables
 
 	//URL des fichiers PHP appelés par cette classe
-	private string URLGetDecks = "http://54.77.118.214/GarrukServer/get_decks_by_user.php";
 	private string URLGetCardsByDeck = "http://54.77.118.214/GarrukServer/get_cards_by_deck.php";
-	private string URLGetMyCardsPage = ApplicationModel.host + "get_mycardspage_data.php";
-	private string URLAddNewDeck = "http://54.77.118.214/GarrukServer/add_new_deck.php";
-	private string URLDeleteDeck = "http://54.77.118.214/GarrukServer/delete_deck.php";
-	private string URLEditDeck = "http://54.77.118.214/GarrukServer/update_deck_name.php";
-	private string URLAddCardToDeck = "http://54.77.118.214/GarrukServer/add_card_to_deck_by_user.php";
-	private string URLRemoveCardFromDeck = "http://54.77.118.214/GarrukServer/remove_card_from_deck_by_user.php";
-	private string URLSellCard = "http://54.77.118.214/GarrukServer/sellRandomCard.php";
-	private string URLPutOnMarket = "http://54.77.118.214/GarrukServer/putonmarket.php";
-	private string URLRemoveFromMarket = "http://54.77.118.214/GarrukServer/removeFromMarket.php";
-	private string URLChangeMarketPrice = "http://54.77.118.214/GarrukServer/changeMarketPrice.php";
-	private string URLRenameCard = "http://54.77.118.214/GarrukServer/renameCard.php";
 
 	//La fonction pour charger les decks est-elle terminée ?
 
@@ -76,7 +68,7 @@ public class myGameScript : MonoBehaviour
 	public GameObject MenuObject;
 
 	//Si l'utilisateur sélectionne une action (edit ou suppress) sur un des deck, donne à cette variable l'ID du deck en question
-	int IDDeckToEdit = -1;
+	//int IDDeckToEdit = -1;
 
 	Rect rectDeck ;
 	Rect rectFocus ;
@@ -144,7 +136,7 @@ public class myGameScript : MonoBehaviour
 	bool confirmSuppress ;
 	Vector2 scrollPosition = new Vector2(0,0) ;
 	bool displayCreationDeckWindow  = false ;
-	string tempText = "Nouveau deck" ;
+
 	int deckToEdit = -1;
 
 	int cardId ;
@@ -164,12 +156,12 @@ public class myGameScript : MonoBehaviour
 	RaycastHit hit;
 	Ray ray ;
 
-
-
 	#endregion
 
 	void Start() 
 	{
+		userModel = new User(ApplicationModel.username);
+		deckModel = new Deck(1);
 		instance = this;
 		myGameView = Camera.main.gameObject.GetComponent<MyGameView>();
 		myGameView.setStyles(); 
@@ -178,205 +170,147 @@ public class myGameScript : MonoBehaviour
 		myGameView.toReloadAll = true;
 	}
 		
-	public IEnumerator addDeck() 
+	public IEnumerator addDeck(string decksName) 
 	{
-		WWWForm form = new WWWForm(); 								// Création de la connexion
-		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_nick", ApplicationModel.username); 	// Pseudo de l'utilisateur connecté
-		form.AddField("myform_name", tempText);
-		WWW w = new WWW(URLAddNewDeck, form);						// On envoie le formulaire à l'url sur le serveur 
-		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
-
-		if (w.error != null) 
-		{
-			print (w.error); 										// donne l'erreur eventuelle
-		}
-		else 
-		{
-			StartCoroutine(RetrieveDecks()); 
-		}
+		yield return StartCoroutine(Deck.create(decksName));
+		StartCoroutine(retrieveDecks());
 	}
 
-	public IEnumerator deleteDeck() 
+	public IEnumerator deleteDeck(int deckId) 
 	{
-		myGameView.areDecksRetrived = false;
-
-		WWWForm form = new WWWForm(); 								// Création de la connexion
-		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_nick", ApplicationModel.username); 	// Pseudo de l'utilisateur connecté
-		form.AddField("myform_id", IDDeckToEdit);
-		WWW w = new WWW(URLDeleteDeck, form);						// On envoie le formulaire à l'url sur le serveur 
-		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
-
-		if (w.error != null) 
-		{
-			print (w.error); 										// donne l'erreur eventuelle
-		} 
-		else 
-		{
-			StartCoroutine(RetrieveDecks()); 
-		}
+		myGameView.areDecksRetrieved = false;
+		yield return StartCoroutine(deckModel.delete(deckId));
+		StartCoroutine(retrieveDecks()); 
 	}
 
-	public IEnumerator editDeck()
+	public IEnumerator editDeck(int deckToEdit, string decksName)
 	{
-		WWWForm form = new WWWForm(); 								// Création de la connexion
-		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_nick", ApplicationModel.username); 	// Pseudo de l'utilisateur connecté
-		form.AddField("myform_id", this.deckToEdit);
-		form.AddField("myform_name", this.tempText);
-		WWW w = new WWW(URLEditDeck, form); 						// On envoie le formulaire à l'url sur le serveur 
-		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
-
-		if (w.error != null) 
-		{
-			print (w.error); 										// donne l'erreur eventuelle
-		} 
-		else 
-		{
-			StartCoroutine(RetrieveDecks());
-		}
+		yield return StartCoroutine(deckModel.edit(deckToEdit, decksName));
+		StartCoroutine(retrieveDecks()); 
 	}
 
-	public IEnumerator RetrieveDecks() 
+	public IEnumerator retrieveDecks() 
 	{
 		myGameView.myDecks = new List<Deck>();
+		yield return StartCoroutine(userModel.getDecks(parseDecks));
 
-		WWWForm form = new WWWForm(); 								// Création de la connexion
-		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_nick", ApplicationModel.username); 	// Pseudo de l'utilisateur connecté	
-		WWW w = new WWW(URLGetDecks, form); 						// On envoie le formulaire à l'url sur le serveur 
-		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
+		myGameView.areDecksRetrieved = true;
+	}
 
-		if (w.error != null) 
+	public void getCards()
+	{
+		myGameView.cardsToBeDisplayed = new List<int>();
+		
+		StartCoroutine(userModel.getCards(parseCards));
+	}
+
+	public void parseDecks(string text)
+	{
+		string[] decksInformation = text.Split('\n'); 
+		string[] deckInformation;
+		
+		myGameView.myDecksGuiStyle = new GUIStyle[decksInformation.Length - 1];
+		myGameView.myDecksButtonGuiStyle = new GUIStyle[decksInformation.Length - 1];
+		
+		for (int i = 0 ; i < decksInformation.Length - 1 ; i++) 		// On boucle sur les attributs d'un deck
 		{
-			print(w.error); 										// donne l'erreur eventuelle
-		} 
-		else 
-		{
-			string[] decksInformation = w.text.Split('\n'); 
-			string[] deckInformation;
-
-			myGameView.myDecksGuiStyle = new GUIStyle[decksInformation.Length - 1];
-			myGameView.myDecksButtonGuiStyle = new GUIStyle[decksInformation.Length - 1];
-
-			for (int i = 0 ; i < decksInformation.Length - 1 ; i++) 		// On boucle sur les attributs d'un deck
+			if (i > 0)
 			{
-				if (i > 0)
+				myGameView.myDecksGuiStyle[i] = myGameView.deckStyle;
+				myGameView.myDecksButtonGuiStyle[i] = myGameView.deckButtonStyle;
+			}
+			else
+			{
+				myGameView.myDecksGuiStyle[i] = myGameView.deckChosenStyle;
+				myGameView.myDecksButtonGuiStyle[i] = myGameView.deckButtonChosenStyle;
+			}
+			deckInformation = decksInformation[i].Split('\\');
+			myGameView.myDecks.Add(new Deck(System.Convert.ToInt32(deckInformation[0]), deckInformation[1], System.Convert.ToInt32(deckInformation[2])));
+			
+			if (i == 0)
+			{
+				myGameView.chosenIdDeck = System.Convert.ToInt32(deckInformation[0]);
+				myGameView.chosenDeck = 0 ;
+			}
+		}
+	}
+
+	public void parseCards(string text)
+	{
+		string[] data = text.Split(new string[] { "END" }, System.StringSplitOptions.None);
+		string[] cardsIDS = data[2].Split(new string[] { "#C#" }, System.StringSplitOptions.None);
+		string[] skillsIds = data[1].Split('\n');
+		
+		myGameView.cardTypeList = data[0].Split('\n');
+		myGameView.togglesCurrentStates = new bool[myGameView.cardTypeList.Length];
+		
+		for(int i = 0 ; i < myGameView.cardTypeList.Length - 1 ; i++)
+		{
+			myGameView.togglesCurrentStates[i] = false;
+		}
+		myGameView.skillsList = new string[skillsIds.Length-1];
+		
+		string[] tempString;
+		for(int i = 0 ; i < skillsIds.Length - 1 ; i++)
+		{
+			tempString = skillsIds[i].Split(new string[] { "\\" }, System.StringSplitOptions.None); 
+			if (i > 0)
+			{
+				myGameView.skillsList[i - 1] = tempString[0];
+			}
+		}
+		
+		myGameView.cards = new List<Card>();
+		myGameView.cardsIds = new List<int>();
+		
+		string[] cardInfo;
+		string[] cardInfo2;
+		for (int i = 0 ; i < cardsIDS.Length - 1 ; i++)
+		{
+			cardInfo = cardsIDS[i].Split('\n');
+			for (int j = 1 ; j < cardInfo.Length - 1 ; j++)
+			{
+				cardInfo2 = cardInfo[j].Split(new string[] { "\\" }, System.StringSplitOptions.None); 
+				if (j == 1)
 				{
-					myGameView.myDecksGuiStyle[i] = myGameView.deckStyle;
-					myGameView.myDecksButtonGuiStyle[i] = myGameView.deckButtonStyle;
+					myGameView.cards.Add(
+						new Card(System.Convert.ToInt32(cardInfo2[0]), // id
+					         cardInfo2[1], // title
+					         System.Convert.ToInt32(cardInfo2[2]), // life
+					         System.Convert.ToInt32(cardInfo2[3]), // attack
+					         System.Convert.ToInt32(cardInfo2[4]), // speed
+					         System.Convert.ToInt32(cardInfo2[5]), // move
+					         System.Convert.ToInt32(cardInfo2[6]), // artindex
+					         System.Convert.ToInt32(cardInfo2[7]), // idclass
+					         myGameView.cardTypeList[System.Convert.ToInt32(cardInfo2[7])], // titleclass
+					         System.Convert.ToInt32(cardInfo2[8]), // lifelevel
+					         System.Convert.ToInt32(cardInfo2[9]), // movelevel
+					         System.Convert.ToInt32(cardInfo2[10]),
+					         System.Convert.ToInt32(cardInfo2[11]),
+					         System.Convert.ToInt32(cardInfo2[12]),
+					         System.Convert.ToInt32(cardInfo2[13]),
+					         System.Convert.ToInt32(cardInfo2[14]),
+					         System.Convert.ToInt32(cardInfo2[15]),
+					         System.Convert.ToInt32(cardInfo2[16]))); 
+					
+					myGameView.cards[i].Skills = new List<Skill>();
+					myGameView.cardsIds.Add(System.Convert.ToInt32(cardInfo2[0]));
+					myGameView.cardsToBeDisplayed.Add(i);
 				}
 				else
 				{
-					myGameView.myDecksGuiStyle[i] = myGameView.deckChosenStyle;
-					myGameView.myDecksButtonGuiStyle[i] = myGameView.deckButtonChosenStyle;
-				}
-				deckInformation = decksInformation[i].Split('\\');
-				myGameView.myDecks.Add(new Deck(System.Convert.ToInt32(deckInformation[0]), deckInformation[1], System.Convert.ToInt32(deckInformation[2])));
-
-				if (i == 0)
-				{
-					myGameView.chosenIdDeck = System.Convert.ToInt32(deckInformation[0]);
-					myGameView.chosenDeck = 0 ;
+					myGameView.cards[i].Skills.Add(
+						new Skill (myGameView.skillsList[System.Convert.ToInt32(cardInfo2[0])], 
+					           System.Convert.ToInt32(cardInfo2[0]),
+					           System.Convert.ToInt32(cardInfo2[1]),
+					           System.Convert.ToInt32(cardInfo2[2]),
+					           System.Convert.ToInt32(cardInfo2[3]),
+					           System.Convert.ToInt32(cardInfo2[4]),
+					           cardInfo2[5]));
 				}
 			}
 		}
-		myGameView.areDecksRetrived = true;
-	}
-
-	public IEnumerator getCards()
-	{
-		myGameView.cardsToBeDisplayed = new List<int>();
-			
-		WWWForm form = new WWWForm(); 											// Création de la connexion
-		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_nick", ApplicationModel.username);		
-		WWW w = new WWW(URLGetMyCardsPage, form); 				// On envoie le formulaire à l'url sur le serveur 
-		yield return w;
-
-		if (w.error != null) 
-		{
-			print (w.error); 										// donne l'erreur eventuelle
-		} 
-		else 
-		{
-			print (w.text);
-			
-			string[] data = w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
-			string[] cardsIDS = data[2].Split(new string[] { "#C#" }, System.StringSplitOptions.None);
-			string[] skillsIds = data[1].Split('\n');
-
-			myGameView.cardTypeList = data[0].Split('\n');
-			myGameView.togglesCurrentStates = new bool[myGameView.cardTypeList.Length];
-
-			for(int i = 0 ; i < myGameView.cardTypeList.Length - 1 ; i++)
-			{
-				myGameView.togglesCurrentStates[i] = false;
-			}
-			myGameView.skillsList = new string[skillsIds.Length-1];
-
-			string[] tempString;
-			for(int i = 0 ; i < skillsIds.Length - 1 ; i++)
-			{
-				tempString = skillsIds[i].Split(new string[] { "\\" }, System.StringSplitOptions.None); 
-				if (i > 0)
-				{
-					myGameView.skillsList[i - 1] = tempString[0];
-				}
-			}
 	
-			myGameView.cards = new List<Card>();
-			myGameView.cardsIds = new List<int>();
-
-			string[] cardInfo;
-			string[] cardInfo2;
-			for (int i = 0 ; i < cardsIDS.Length - 1 ; i++)
-			{
-				cardInfo = cardsIDS[i].Split('\n');
-				for (int j = 1 ; j < cardInfo.Length - 1 ; j++)
-				{
-					cardInfo2 = cardInfo[j].Split(new string[] { "\\" }, System.StringSplitOptions.None); 
-					if (j == 1)
-					{
-						myGameView.cards.Add(
-							new Card(System.Convert.ToInt32(cardInfo2[0]), // id
-		                        cardInfo2[1], // title
-		                        System.Convert.ToInt32(cardInfo2[2]), // life
-		                        System.Convert.ToInt32(cardInfo2[3]), // attack
-		                        System.Convert.ToInt32(cardInfo2[4]), // speed
-		                        System.Convert.ToInt32(cardInfo2[5]), // move
-		                        System.Convert.ToInt32(cardInfo2[6]), // artindex
-		                        System.Convert.ToInt32(cardInfo2[7]), // idclass
-		                        myGameView.cardTypeList[System.Convert.ToInt32(cardInfo2[7])], // titleclass
-		                        System.Convert.ToInt32(cardInfo2[8]), // lifelevel
-		                        System.Convert.ToInt32(cardInfo2[9]), // movelevel
-		                        System.Convert.ToInt32(cardInfo2[10]),
-		                        System.Convert.ToInt32(cardInfo2[11]),
-		                        System.Convert.ToInt32(cardInfo2[12]),
-		                        System.Convert.ToInt32(cardInfo2[13]),
-		                        System.Convert.ToInt32(cardInfo2[14]),
-		                        System.Convert.ToInt32(cardInfo2[15]),
-		                        System.Convert.ToInt32(cardInfo2[16]))); 
-
-						myGameView.cards[i].Skills = new List<Skill>();
-						myGameView.cardsIds.Add(System.Convert.ToInt32(cardInfo2[0]));
-						myGameView.cardsToBeDisplayed.Add(i);
-					}
-					else
-					{
-						myGameView.cards[i].Skills.Add(
-							new Skill (myGameView.skillsList[System.Convert.ToInt32(cardInfo2[0])], 
-                                      System.Convert.ToInt32(cardInfo2[0]),
-                                      System.Convert.ToInt32(cardInfo2[1]),
-                                      System.Convert.ToInt32(cardInfo2[2]),
-                                      System.Convert.ToInt32(cardInfo2[3]),
-                                      System.Convert.ToInt32(cardInfo2[4]),
-                                      cardInfo2[5]));
-					}
-				}
-			}
-		}
 		myGameView.isLoadedCards = true;
 		myGameView.isDisplayedCards = true;
 	}
@@ -423,150 +357,53 @@ public class myGameScript : MonoBehaviour
 		myGameView.isLoadedDeck = true;
 	}
 
-	public IEnumerator AddCardToDeck(int idCard, int cardsCount)
+	public void AddCardToDeck(int idDeck, int idCard)
 	{		
-		WWWForm form = new WWWForm (); 						
-		form.AddField ("myform_hash", ApplicationModel.hash);
-		form.AddField ("myform_nick", ApplicationModel.username);
-		form.AddField ("myform_deck", myGameView.chosenIdDeck);
-		form.AddField ("myform_idCard", idCard);
-		WWW w = new WWW (URLAddCardToDeck, form); 								
-		yield return w; 						
-
-		if (w.error != null) 
-		{
-			print (w.error); 										
-		} 
-		else 
-		{
-			//print ("deck : "+this.chosenIdDeck+ " idcard : "+idCard+" compteurCartes : "+cardsCount+w.text);
-		}
+		StartCoroutine(deckModel.addCard(idDeck, idCard));
 	}
 
-	public IEnumerator RemoveCardFromDeck(int idCard, int cardsCount)
+	public void RemoveCardFromDeck(int idDeck, int idCard)
 	{		
-		WWWForm form = new WWWForm (); 								// Création de la connexion
-		form.AddField ("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField ("myform_nick", ApplicationModel.username); 	// Pseudo de l'utilisateur connecté
-		form.AddField ("myform_deck", myGameView.chosenIdDeck);
-		form.AddField ("myform_idCard", idCard);
-		WWW w = new WWW (URLRemoveCardFromDeck, form); 								// On envoie le formulaire à l'url sur le serveur 
-		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
-
-		if (w.error != null) 
-		{
-			print (w.error); 										// donne l'erreur eventuelle
-		} else {
-			// print ("REUSSI : "+w.text);
-		}
+		StartCoroutine(deckModel.removeCard(idDeck, idCard));
 	}
 
-	public IEnumerator sellCard(int idCard, int cost){
-		
+	public IEnumerator sellCard(int idCard, int cost)
+	{	
 		ApplicationModel.credits += cost ;
-		WWWForm form = new WWWForm(); 											// Création de la connexion
-		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_nick", ApplicationModel.username);
-		form.AddField("myform_idcard", idCard);
-		form.AddField("myform_cost", cost);
-		
-		WWW w = new WWW(URLSellCard, form); 				// On envoie le formulaire à l'url sur le serveur 
-		yield return w;
-		if (w.error != null)
-		{
-			print(w.error); 
-		}
-		else 
-		{
-			myGameView.soldCard = true ;
-		}	
-	}
-	
-	
-	public IEnumerator putOnMarket(int cardId, int price){
+		yield return StartCoroutine(userModel.sellCard(idCard, cost));
 
+		myGameView.soldCard = true ;
+	}
+
+	public void putOnMarket(int cardId, int price)
+	{
 		myGameView.cards[idFocused].onSale=1;
 		myGameView.cards[idFocused].Price=price;
 
-		WWWForm form = new WWWForm(); 											// Création de la connexion
-		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_nick", ApplicationModel.username);
-		form.AddField("myform_idcard", cardId);
-		form.AddField("myform_price", price);
-		form.AddField("myform_date",  System.DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss").ToString());
-		
-		WWW w = new WWW(URLPutOnMarket, form); 				// On envoie le formulaire à l'url sur le serveur 
-		yield return w;
-		if (w.error != null) 
-			print (w.error); 
-		else 
-		{
-			//print (w.text);											// donne le retour
-		}
+		StartCoroutine(userModel.toSell(cardId, price));
 	}
 
-	public IEnumerator removeFromMarket(int cardId){
-		
+	public void removeFromMarket(int cardId)
+	{	
 		myGameView.cards[idFocused].onSale = 0;
-		
-		WWWForm form = new WWWForm(); 											// Création de la connexion
-		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_nick", ApplicationModel.username);
-		form.AddField("myform_idcard", cardId);
-
-		WWW w = new WWW(URLRemoveFromMarket, form); 				// On envoie le formulaire à l'url sur le serveur 
-		yield return w;
-		if (w.error != null) 
-			print (w.error); 
-		else 
-		{
-			//print (w.text);											// donne le retour
-		}
+		StartCoroutine(userModel.notToSell(cardId));
 	}
 
-	public IEnumerator changeMarketPrice(int cardId, int price){
-		
-		myGameView.cards[idFocused].Price=price;
-		
-		WWWForm form = new WWWForm(); 											// Création de la connexion
-		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_nick", ApplicationModel.username);
-		form.AddField("myform_idcard", cardId);
-		form.AddField("myform_price", price);
-		
-		WWW w = new WWW(URLChangeMarketPrice, form); 				// On envoie le formulaire à l'url sur le serveur 
-		yield return w;
-		if (w.error != null) 
-			print (w.error); 
-		else 
-		{
-			print (w.text);											// donne le retour
-		}
+	public void changeMarketPrice(int cardId, int price)
+	{	
+		myGameView.cards[idFocused].Price = price;
+		StartCoroutine(userModel.changePriceCard(cardId, price));
 	}
 
-	public IEnumerator renameCard()
+	public void renameCard(int cardId, string newTitle, int renameCost)
 	{
 		myGameView.newTitle = myGameView.newTitle.Replace("\n", "");
 		myGameView.newTitle = System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(myGameView.newTitle.ToLower());
+		StartCoroutine(userModel.renameCard(cardId, newTitle, renameCost));
 
-		WWWForm form = new WWWForm(); 											// Création de la connexion
-		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_nick", ApplicationModel.username);
-		form.AddField("myform_idcard", myGameView.cardFocused.GetComponent<GameCard>().Card.Id);
-		form.AddField("myform_title", myGameView.newTitle);
-		form.AddField("myform_cost", myGameView.renameCost.ToString());
-		
-		WWW w = new WWW(URLRenameCard, form); 				// On envoie le formulaire à l'url sur le serveur 
-		yield return w;
-		if (w.error != null) 
-			print (w.error); 
-		else 
-		{
-			print(w.text); 											// donne le retour
-			ApplicationModel.credits = System.Convert.ToInt32(w.text);
-			myGameView.cards[idFocused].Title = myGameView.newTitle;
-			myGameView.cardFocused.GetComponent<GameCard>().Card.Title = myGameView.newTitle;
-			myGameView.cardFocused.GetComponent<GameCard>().ShowFace();
-		}	
+		ApplicationModel.credits -= renameCost;
+		myGameView.cards[idFocused].Title = myGameView.newTitle;
+		myGameView.cardFocused.GetComponent<GameCard>().Card.Title = myGameView.newTitle;
+		myGameView.cardFocused.GetComponent<GameCard>().ShowFace();
 	}
 }
