@@ -4,8 +4,9 @@ using System.Collections.Generic;
 
 public class User
 {
-	private string URLGetUserGameProfile = "http://54.77.118.214/GarrukServer/get_user_game_profile.php";
-	private string URLDefaultProfilePicture = "http://54.77.118.214/GarrukServer/img/profile/defautprofilepicture.png";
+	private string URLGetUserGameProfile = ApplicationModel.host+"get_user_game_profile.php";
+	private string ServerDirectory = "img/profile/";
+	private string URLDefaultProfilePicture = ApplicationModel.host+"img/profile/defautprofilepicture.png";
 
 	public string Username;
 	public string Mail;
@@ -23,24 +24,31 @@ public class User
 	public int RankingPoints;
 	public int TotalNbWins;
 	public int TotalNbLooses;
-	public Texture2D texture ;
+	public Texture2D texture;
 	public int NbGamesDivision;
 
 	public User()
 	{
 		this.Username = "";
 		this.Picture = "";
+		this.texture = new Texture2D (1, 1, TextureFormat.ARGB32, false);
 	}
-
+	public User(int id)
+	{
+		this.Id = id;
+		this.texture = new Texture2D (1, 1, TextureFormat.ARGB32, false);
+	}
 	public User(string username)
 	{
 		this.Username = username;
+		this.texture = new Texture2D (1, 1, TextureFormat.ARGB32, false);
 	}
 
 	public User(string username, string picture)
 	{
 		this.Username = username;
 		this.Picture = picture;
+		this.texture = new Texture2D (1, 1, TextureFormat.ARGB32, false);
 	}
 
 	public User(string username, string mail, int money, string firstname, string surname, string picture)
@@ -51,11 +59,58 @@ public class User
 		this.FirstName = firstname;
 		this.Surname = surname;
 		this.Picture = picture;
+		this.texture = new Texture2D (1, 1, TextureFormat.ARGB32, false);
 	}
 
 	public User(List<Connection> connections)
 	{
 		this.Connections = connections;
+	}
+	public User(int id, 
+	            string username, 
+	            string mail, 
+	            int money, 
+	            string firstname, 
+	            string surname, 
+	            string picture, 
+	            int division, 
+	            int rankingpoints, 
+	            int ranking,  
+	            int totalnbwins, 
+	            int totalnblooses)
+	{
+		this.Id = id;
+		this.Username = username;
+		this.Mail = mail;
+		this.Money = money;
+		this.FirstName = firstname;
+		this.Surname = surname;
+		this.Picture = picture;
+		this.Division = division;
+		this.RankingPoints = rankingpoints;
+		this.Ranking = ranking;
+		this.TotalNbWins = totalnbwins;
+		this.TotalNbLooses = totalnblooses;
+		this.texture = new Texture2D (1, 1, TextureFormat.ARGB32, false);
+	}
+	public User(int id, 
+	            string username, 
+	            string picture, 
+	            int division, 
+	            int rankingpoints, 
+	            int ranking,  
+	            int totalnbwins, 
+	            int totalnblooses)
+	{
+		this.Id = id;
+		this.Username = username;
+		this.Picture = picture;
+		this.Division = division;
+		this.RankingPoints = rankingpoints;
+		this.Ranking = ranking;
+		this.TotalNbWins = totalnbwins;
+		this.TotalNbLooses = totalnblooses;
+		this.texture = new Texture2D (1, 1, TextureFormat.ARGB32, false);
 	}
 	public User(int id, int money, int division, int nbgamesdivision, int cup, int nbgamescup, int rankingpoints,int ranking,  int totalnbwins, int totalnblooses)
 	{
@@ -69,6 +124,7 @@ public class User
 		this.Ranking = ranking;
 		this.TotalNbWins = totalnbwins;
 		this.TotalNbLooses = totalnblooses;
+		this.texture = new Texture2D (1, 1, TextureFormat.ARGB32, false);
 	}
 	public User(string username, string picture, int division, int rankingpoints,int ranking,  int totalnbwins, int totalnblooses)
 	{
@@ -79,6 +135,7 @@ public class User
 		this.Ranking = ranking;
 		this.TotalNbWins = totalnbwins;
 		this.TotalNbLooses = totalnblooses;
+		this.texture = new Texture2D (1, 1, TextureFormat.ARGB32, false);
 	}
 
 	public IEnumerator retrievePicture(){
@@ -97,13 +154,10 @@ public class User
 			this.Picture=w.text;
 		}
 	}
-
 	public IEnumerator setProfilePicture(){
 		
-		this.texture = new Texture2D (4, 4, TextureFormat.DXT1, false);
-		
-		if (this.Picture.StartsWith("http")){
-			var www = new WWW(this.Picture);
+		if (this.Picture.StartsWith(ServerDirectory)){
+			var www = new WWW(ApplicationModel.host+this.Picture);
 			yield return www;
 			www.LoadImageIntoTexture(this.texture);
 		}
