@@ -1,12 +1,14 @@
 using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
 public class User
 {
-	private string URLGetUserGameProfile = ApplicationModel.host+"get_user_game_profile.php";
-	private string ServerDirectory = "img/profile/";
+	private string URLGetUserGameProfile    = ApplicationModel.host+"get_user_game_profile.php";
+	private string ServerDirectory          = "img/profile/";
 	private string URLDefaultProfilePicture = ApplicationModel.host+"img/profile/defautprofilepicture.png";
+	private string URLGetDecks              = ApplicationModel.host + "get_decks_by_user.php";
 
 	public string Username;
 	public string Mail;
@@ -154,6 +156,7 @@ public class User
 			this.Picture=w.text;
 		}
 	}
+
 	public IEnumerator setProfilePicture(){
 		
 		if (this.Picture.StartsWith(ServerDirectory)){
@@ -165,6 +168,23 @@ public class User
 			var www = new WWW(URLDefaultProfilePicture);
 			yield return www;
 			www.LoadImageIntoTexture(this.texture);
+		}
+	}
+
+	public IEnumerator getDecks(Action<string> callback)
+	{	
+		WWWForm form = new WWWForm(); 								// Création de la connexion
+		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
+		form.AddField("myform_nick", Username); 	// Pseudo de l'utilisateur connecté	
+		WWW w = new WWW(URLGetDecks, form); 						// On envoie le formulaire à l'url sur le serveur 
+		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
+
+		if (w.error != null)
+		{
+			Debug.Log("erreur getDeck : " + w.error);
+		}
+		else{
+			callback(w.text);
 		}
 	}
 }
