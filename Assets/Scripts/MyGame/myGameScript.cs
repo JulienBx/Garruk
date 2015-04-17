@@ -8,165 +8,16 @@ public class myGameScript : MonoBehaviour
 	public static myGameScript instance;
 	public MyGameView myGameView;
 
-	private Deck deckModel;
 	private User userModel;
-
-	#region variables
-
-	//URL des fichiers PHP appelés par cette classe
-	private string URLGetCardsByDeck = "http://54.77.118.214/GarrukServer/get_cards_by_deck.php";
-
-	//La fonction pour charger les decks est-elle terminée ?
-
-	//GUIStyle du titre de la zone de gestion des decks
-	public GUIStyle decksTitleStyle ;
-	string decksTitle ;
-	//GUIStyle du bouton d'ajout de deck
-	public GUIStyle myNewDeckButton ;
-	//Texte du bouton d'ajout de deck
-	private string myNewDeckButtonTitle ;
-	//Images du bouton en mode smartphone
-	public Texture2D backNewDeckButton ;
-	public Texture2D backHoveredNewDeckButton ;
-	//Images du bouton en mode normal
-	public Texture2D backButton ;
-	public Texture2D backActivatedButton ;
-	//Le style et les dimensions de la pop up qui s'affiche au centre de l'écran
-	public GUIStyle centralWindowStyle ;
-	Rect centralWindow ;
-	Rect centralFocus ;
-	
-	public GUIStyle centralWindowTitleStyle ;
-	public GUIStyle centralWindowTextFieldStyle ;
-	public GUIStyle centralWindowButtonStyle ;
-	public GUIStyle smallCentralWindowButtonStyle ;
-	public GUIStyle focusedWindowStyle ;
-	public GUIStyle focusedWindowTitleStyle ;
-	public GUIStyle focusedWindowButtonTitleStyle ;
-	//public GUIStyle deckStyle ;
-	//public GUIStyle deckChosenStyle ;
-	//public GUIStyle deckButtonStyle ;
-	//public GUIStyle deckButtonChosenStyle ;
-	public GUIStyle mySuppressButtonStyle ;
-	public GUIStyle myEditButtonStyle ;
-	public GUIStyle paginationStyle ;
-	public GUIStyle paginationActivatedStyle ;
-	public GUIStyle filterTitleStyle ;
-	public GUIStyle toggleStyle;
-	public GUIStyle filterTextFieldStyle;
-	public GUIStyle myStyle;
-	public GUIStyle smallPoliceStyle;
-	public GUIStyle focusButtonStyle;
-	public GUIStyle cantBuyStyle;
-	public GUIStyle sortDefaultButtonStyle;
-	public GUIStyle sortActivatedButtonStyle;
-
-	float scaleDeck ;
-
-
-
 	public GameObject MenuObject;
-
-	//Si l'utilisateur sélectionne une action (edit ou suppress) sur un des deck, donne à cette variable l'ID du deck en question
-	//int IDDeckToEdit = -1;
-
-	Rect rectDeck ;
-	Rect rectFocus ;
-	Rect rectInsideScrollDeck ;
-	Rect rectOutsideScrollDeck ;
-
-	#endregion
-
-	#region variablesAClasser
-
-	GUIStyle[] paginatorGuiStyle;
-	GUIStyle[] sortButtonStyle=new GUIStyle[10];
-	//private int chosenDeck = 0 ;
-	//private int chosenIdDeck = -1 ;
-	private int chosenPage ;
-
-	string[] cardTypeList;
-	private IList<string> matchValues;
-
-
-
-	private IList<int> filtersCardType ;
-	public GameObject CardObject;	
-
-	int nbCardsPerRow = 0 ;
-	int widthScreen = Screen.width ; 
-	int heightScreen = Screen.height ;
-	int nbPages ;
-	int pageDebut ; 
-	int pageFin ;
-	private string valueSkill="";
-	bool isSkillToDisplay = false ;
-	bool isSkillChosen = false ;
-
-	GUIStyle monLoaderStyle;
-	float minLifeVal = 0;
-	float maxLifeVal = 200;
-	float minAttackVal = 0;
-	float maxAttackVal = 100;
-	float minMoveVal = 0;
-	float maxMoveVal = 10;
-	float minQuicknessVal = 0;
-	float maxQuicknessVal = 100;
-	float minLifeLimit = 0;
-	float maxLifeLimit = 200;
-	float minAttackLimit = 0;
-	float maxAttackLimit = 100;
-	float minMoveLimit = 0;
-	float maxMoveLimit = 10;
-	float minQuicknessLimit = 0;
-	float maxQuicknessLimit = 100;
-	float oldMinLifeVal = 0;
-	float oldMaxLifeVal = 200;
-	float oldMinAttackVal = 0;
-	float oldMaxAttackVal = 100;
-	float oldMinMoveVal = 0;
-	float oldMaxMoveVal = 10;
-	float oldMinQuicknessVal = 0;
-	float oldMaxQuicknessVal = 100;
-
-
-
-	bool isBeingDragged = false;
-
-	bool confirmSuppress ;
-	Vector2 scrollPosition = new Vector2(0,0) ;
-	bool displayCreationDeckWindow  = false ;
-
-	int deckToEdit = -1;
-
-	int cardId ;
-
-	string textMarket ;
-	bool isMarketed ;
-	int idFocused ;
-
-	string tempPrice ; 
-
-
-	bool enVente = false ;
-
-	// jbu a mettre dans gameview GameObject[] displayedCards ;
-	GameObject[] displayedDeckCards ;
-
-	RaycastHit hit;
-	Ray ray ;
-
-	#endregion
 
 	void Start() 
 	{
 		userModel = new User(ApplicationModel.username);
-		deckModel = new Deck(1);
 		instance = this;
 		myGameView = Camera.main.gameObject.GetComponent<MyGameView>();
 		myGameView.setStyles(); 
 		MenuObject = Instantiate(MenuObject) as GameObject;
-		filtersCardType = new List<int>();
 		myGameView.toReloadAll = true;
 	}
 		
@@ -179,13 +30,17 @@ public class myGameScript : MonoBehaviour
 	public IEnumerator deleteDeck(int deckId) 
 	{
 		myGameView.areDecksRetrieved = false;
-		yield return StartCoroutine(deckModel.delete(deckId));
+		Deck deck = new Deck(deckId);
+
+		yield return StartCoroutine(deck.delete());
 		StartCoroutine(retrieveDecks()); 
 	}
 
 	public IEnumerator editDeck(int deckToEdit, string decksName)
 	{
-		yield return StartCoroutine(deckModel.edit(deckToEdit, decksName));
+		Deck deck = new Deck(deckToEdit);
+
+		yield return StartCoroutine(deck.edit(decksName));
 		StartCoroutine(retrieveDecks()); 
 	}
 
@@ -202,6 +57,76 @@ public class myGameScript : MonoBehaviour
 		myGameView.cardsToBeDisplayed = new List<int>();
 		
 		StartCoroutine(userModel.getCards(parseCards));
+	}
+
+	public IEnumerator retrieveCardsFromDeck(int idDeck)
+	{
+		Deck deck = new Deck(idDeck);
+
+		yield return StartCoroutine(deck.retrieveCards(parseCardsFromDeck));
+		
+		myGameView.isLoadedDeck = true;
+	}
+	
+	public void AddCardToDeck(int idDeck, int idCard)
+	{		
+		Deck deck = new Deck(idDeck);
+
+		StartCoroutine(deck.addCard(idCard));
+	}
+	
+	public void RemoveCardFromDeck(int idDeck, int idCard)
+	{		
+		Deck deck = new Deck(idDeck);
+		StartCoroutine(deck.removeCard(idCard));
+	}
+	
+	public IEnumerator sellCard(int idCard, int cost)
+	{	
+		ApplicationModel.credits += cost;
+		Card card = new Card(idCard);
+		yield return StartCoroutine(card.sellCard(cost));
+		
+		myGameView.soldCard = true ;
+	}
+	
+	public void putOnMarket(int idCard, int price)
+	{
+		myGameView.cards[myGameView.idFocused].onSale = 1;
+		myGameView.cards[myGameView.idFocused].Price = price;
+		Card card = new Card(idCard);
+		
+		StartCoroutine(card.toSell(price));
+	}
+	
+	public void removeFromMarket(int idCard)
+	{	
+		myGameView.cards[myGameView.idFocused].onSale = 0;
+		Card card = new Card(idCard);
+
+		StartCoroutine(card.notToSell());
+	}
+	
+	public void changeMarketPrice(int idCard, int price)
+	{	
+		myGameView.cards[myGameView.idFocused].Price = price;
+		Card card = new Card(idCard);
+
+		StartCoroutine(card.changePriceCard(price));
+	}
+	
+	public void renameCard(int idCard, string newTitle, int renameCost)
+	{
+		myGameView.newTitle = myGameView.newTitle.Replace("\n", "");
+		myGameView.newTitle = System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(myGameView.newTitle.ToLower());
+		Card card = new Card(idCard);
+
+		StartCoroutine(card.renameCard(newTitle, renameCost));
+		
+		ApplicationModel.credits -= renameCost;
+		myGameView.cards[myGameView.idFocused].Title = myGameView.newTitle;
+		myGameView.cardFocused.GetComponent<GameCard>().Card.Title = myGameView.newTitle;
+		myGameView.cardFocused.GetComponent<GameCard>().ShowFace();
 	}
 
 	public void parseDecks(string text)
@@ -315,95 +240,29 @@ public class myGameScript : MonoBehaviour
 		myGameView.isDisplayedCards = true;
 	}
 
-	public IEnumerator RetrieveCardsFromDeck()
+	public void parseCardsFromDeck(string text)
 	{
-		WWWForm form = new WWWForm(); 								// Création de la connexion
-		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_nick", ApplicationModel.username); 	// Pseudo de l'utilisateur connecté
-		form.AddField("myform_deck", myGameView.chosenIdDeck);      // id du deck courant
-		WWW w = new WWW(URLGetCardsByDeck, form); 					// On envoie le formulaire à l'url sur le serveur 
-		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
-
-		if (w.error != null) 
+		int tempInt;
+		int tempInt2 = myGameView.cards.Count;
+		bool tempBool;
+		int j = 0;
+		string[] cardDeckEntries =  text.Split('\n'); 				// Chaque ligne du serveur correspond à une carte
+		myGameView.deckCardsIds = new List<int>();
+		for(int i = 0 ; i < cardDeckEntries.Length - 1 ; i++)
 		{
-			print(w.error); 										// donne l'erreur eventuelle
-		} 
-		else 
-		{
-			//print(w.text); 
-			int tempInt;
-			int tempInt2 = myGameView.cards.Count;
-			bool tempBool;
-			int j = 0;
-			string[] cardDeckEntries = w.text.Split('\n'); 				// Chaque ligne du serveur correspond à une carte
-			myGameView.deckCardsIds = new List<int>();
-			for(int i = 0 ; i < cardDeckEntries.Length - 1 ; i++)
+			tempInt = System.Convert.ToInt32(cardDeckEntries[i]);
+			tempBool = true; 
+			j = 0 ;
+			while (tempBool && j < tempInt2)
 			{
-				tempInt = System.Convert.ToInt32(cardDeckEntries[i]);
-				tempBool = true; 
-				j = 0 ;
-				while (tempBool && j < tempInt2)
+				if (myGameView.cards[j].Id == tempInt)
 				{
-					if (myGameView.cards[j].Id == tempInt)
-					{
-						tempBool = false;
-					}
-					j++;		
+					tempBool = false;
 				}
-				j--;
-				myGameView.deckCardsIds.Add(j);
+				j++;
 			}
+			j--;
+			myGameView.deckCardsIds.Add(j);
 		}
-		myGameView.isLoadedDeck = true;
-	}
-
-	public void AddCardToDeck(int idDeck, int idCard)
-	{		
-		StartCoroutine(deckModel.addCard(idDeck, idCard));
-	}
-
-	public void RemoveCardFromDeck(int idDeck, int idCard)
-	{		
-		StartCoroutine(deckModel.removeCard(idDeck, idCard));
-	}
-
-	public IEnumerator sellCard(int idCard, int cost)
-	{	
-		ApplicationModel.credits += cost ;
-		yield return StartCoroutine(userModel.sellCard(idCard, cost));
-
-		myGameView.soldCard = true ;
-	}
-
-	public void putOnMarket(int cardId, int price)
-	{
-		myGameView.cards[idFocused].onSale=1;
-		myGameView.cards[idFocused].Price=price;
-
-		StartCoroutine(userModel.toSell(cardId, price));
-	}
-
-	public void removeFromMarket(int cardId)
-	{	
-		myGameView.cards[idFocused].onSale = 0;
-		StartCoroutine(userModel.notToSell(cardId));
-	}
-
-	public void changeMarketPrice(int cardId, int price)
-	{	
-		myGameView.cards[idFocused].Price = price;
-		StartCoroutine(userModel.changePriceCard(cardId, price));
-	}
-
-	public void renameCard(int cardId, string newTitle, int renameCost)
-	{
-		myGameView.newTitle = myGameView.newTitle.Replace("\n", "");
-		myGameView.newTitle = System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(myGameView.newTitle.ToLower());
-		StartCoroutine(userModel.renameCard(cardId, newTitle, renameCost));
-
-		ApplicationModel.credits -= renameCost;
-		myGameView.cards[idFocused].Title = myGameView.newTitle;
-		myGameView.cardFocused.GetComponent<GameCard>().Card.Title = myGameView.newTitle;
-		myGameView.cardFocused.GetComponent<GameCard>().ShowFace();
 	}
 }

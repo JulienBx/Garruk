@@ -10,11 +10,6 @@ public class User
 	private string URLDefaultProfilePicture = ApplicationModel.host + "img/profile/defautprofilepicture.png";
 	private string URLGetDecks              = ApplicationModel.host + "get_decks_by_user.php";
 	private string URLGetMyCardsPage        = ApplicationModel.host + "get_mycardspage_data.php";
-	private string URLSellCard              = ApplicationModel.host + "sellRandomCard.php";
-	private string URLPutOnMarket           = ApplicationModel.host + "putonmarket.php";
-	private string URLRemoveFromMarket      = ApplicationModel.host + "removeFromMarket.php";
-	private string URLChangeMarketPrice     = ApplicationModel.host + "changeMarketPrice.php";
-	private string URLRenameCard            = ApplicationModel.host + "renameCard.php";
 	private string URLUpdateUserInformations= ApplicationModel.host + "update_user_informations.php";
 	private string URLUpdateProfilePicture  = ApplicationModel.host + "update_profilepicture.php";
 
@@ -253,88 +248,6 @@ public class User
 		else
 		{
 			callback(w.text);
-		}
-	}
-
-	public IEnumerator sellCard(int idCard, int cost)
-	{
-		WWWForm form = new WWWForm(); 											// Création de la connexion
-		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_nick", Username);
-		form.AddField("myform_idcard", idCard);
-		form.AddField("myform_cost", cost);		
-		WWW w = new WWW(URLSellCard, form); 				// On envoie le formulaire à l'url sur le serveur 
-		yield return w;
-
-		if (w.error != null)
-		{
-			Debug.Log("erreur sellCard : " + w.error);
-		}
-	}
-
-	public IEnumerator toSell(int cardId, int price)
-	{
-		WWWForm form = new WWWForm(); 											// Création de la connexion
-		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_nick", Username);
-		form.AddField("myform_idcard", cardId);
-		form.AddField("myform_price", price);
-		form.AddField("myform_date",  System.DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss").ToString());	
-		WWW w = new WWW(URLPutOnMarket, form); 				// On envoie le formulaire à l'url sur le serveur 
-		yield return w;
-
-		if (w.error != null)
-		{
-			Debug.Log("erreur toSell : " + w.error);
-		}
-	}
-
-	public IEnumerator notToSell(int cardId)
-	{
-		WWWForm form = new WWWForm(); 											// Création de la connexion
-		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_nick", Username);
-		form.AddField("myform_idcard", cardId);
-		WWW w = new WWW(URLRemoveFromMarket, form);             				// On envoie le formulaire à l'url sur le serveur 
-		yield return w;
-
-		if (w.error != null)
-		{
-			Debug.Log("erreur notTosell : " + w.error);
-		}
-	}
-
-	public IEnumerator changePriceCard(int cardId, int price)
-	{
-		WWWForm form = new WWWForm(); 											// Création de la connexion
-		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_nick", Username);
-		form.AddField("myform_idcard", cardId);
-		form.AddField("myform_price", price);
-		WWW w = new WWW(URLChangeMarketPrice, form); 				            // On envoie le formulaire à l'url sur le serveur 
-		yield return w;
-
-		if (w.error != null)
-		{
-			Debug.Log("erreur changePriceCard : " + w.error);
-		}
-	}
-
-	public IEnumerator renameCard(int idCard, string newName, int renameCost)
-	{
-		WWWForm form = new WWWForm(); 											// Création de la connexion
-		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_nick", Username);
-		form.AddField("myform_idcard", idCard);
-		form.AddField("myform_title", newName);
-		form.AddField("myform_cost", renameCost);
-		
-		WWW w = new WWW(URLRenameCard, form); 				// On envoie le formulaire à l'url sur le serveur 
-		yield return w;
-
-		if (w.error != null)
-		{
-			Debug.Log("erreur renameCard : " + w.error);
 		}
 	}
 }

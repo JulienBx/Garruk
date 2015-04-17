@@ -178,7 +178,7 @@ public class MyGameView : MonoBehaviour
 
 	string textMarket ;
 	bool isMarketed ;
-	int idFocused ;
+	public int idFocused ;
 	string tempPrice ; 
 	bool enVente = false ;
 	
@@ -244,7 +244,7 @@ public class MyGameView : MonoBehaviour
 			isCreatedCards=true;
 		}
 		if (areDecksRetrieved && isCreatedCards){
-			StartCoroutine(myGameScript.instance.RetrieveCardsFromDeck ());
+			StartCoroutine(myGameScript.instance.retrieveCardsFromDeck(chosenIdDeck));
 			areDecksRetrieved=false ;
 		}
 		if (isLoadedDeck){
@@ -1012,7 +1012,7 @@ public class MyGameView : MonoBehaviour
 									myDecksGuiStyle[i] = this.deckChosenStyle;
 									myDecksButtonGuiStyle[i] = this.deckButtonChosenStyle;
 									chosenIdDeck = myDecks[i].Id;
-									StartCoroutine(myGameScript.instance.RetrieveCardsFromDeck());
+									StartCoroutine(myGameScript.instance.retrieveCardsFromDeck(chosenIdDeck));
 								}
 							}
 							GUILayout.FlexibleSpace();

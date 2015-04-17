@@ -13,6 +13,7 @@ public class Deck
 	private static string URLDeleteDeck        = ApplicationModel.host + "delete_deck.php";
 	private static string URLAddCardToDeck     = ApplicationModel.host + "add_card_to_deck_by_user.php";
 	private static string URLRemoveCardFromDeck= ApplicationModel.host + "remove_card_from_deck_by_user.php";
+	private static string URLGetCardsByDeck    = ApplicationModel.host + "get_cards_by_deck.php";
 
 	public int Id; 												// Id unique de la carte
 	public string Name; 										// Nom du deck
@@ -55,12 +56,12 @@ public class Deck
 		this.Cards = cards;
 	}
 
-	public IEnumerator addCard(int idDeck, int idCard)
+	public IEnumerator addCard(int idCard)
 	{
 		WWWForm form = new WWWForm (); 						
 		form.AddField ("myform_hash", ApplicationModel.hash);
 		form.AddField ("myform_nick", ApplicationModel.username);
-		form.AddField ("myform_deck", idDeck);
+		form.AddField ("myform_deck", Id);
 		form.AddField ("myform_idCard", idCard);
 		WWW w = new WWW (URLAddCardToDeck, form); 								
 		yield return w; 						
@@ -71,12 +72,12 @@ public class Deck
 		} 
 	}
 
-	public IEnumerator removeCard(int idDeck, int idCard)
+	public IEnumerator removeCard(int idCard)
 	{
 		WWWForm form = new WWWForm (); 								// Création de la connexion
 		form.AddField ("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField ("myform_nick", ApplicationModel.username); 	// Pseudo de l'utilisateur connecté
-		form.AddField ("myform_deck", idDeck);
+		form.AddField ("myform_deck", Id);
 		form.AddField ("myform_idCard", idCard);
 		WWW w = new WWW (URLRemoveCardFromDeck, form); 				// On envoie le formulaire à l'url sur le serveur 
 		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
@@ -95,18 +96,19 @@ public class Deck
 		form.AddField("myform_name", decksName);
 		WWW w = new WWW(URLCreateDeck, form);						// On envoie le formulaire à l'url sur le serveur 
 		yield return w;
+
 		if (w.error != null)
 		{
 			Debug.Log(w.error);
 		}
 	}
 
-	public IEnumerator delete(int IDDeckToDelete)
+	public IEnumerator delete()
 	{
 		WWWForm form = new WWWForm(); 								// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_nick", ApplicationModel.username); 	// Pseudo de l'utilisateur connecté
-		form.AddField("myform_id", IDDeckToDelete);
+		form.AddField("myform_id", Id);
 		WWW w = new WWW(URLDeleteDeck, form);						// On envoie le formulaire à l'url sur le serveur 
 		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
 		if (w.error != null)
@@ -115,12 +117,12 @@ public class Deck
 		}
 	}
 
-	public IEnumerator edit(int deckToEdit, string newName)
+	public IEnumerator edit(string newName)
 	{
 		WWWForm form = new WWWForm(); 								// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_nick", ApplicationModel.username); 	// Pseudo de l'utilisateur connecté
-		form.AddField("myform_id", deckToEdit);
+		form.AddField("myform_id", Id);
 		form.AddField("myform_name", newName);
 		WWW w = new WWW(URLEditDeck, form); 						// On envoie le formulaire à l'url sur le serveur 
 		yield return w; 
@@ -154,7 +156,26 @@ public class Deck
 			}	
 		}
 	}
-	
+
+	public IEnumerator retrieveCards(Action<string> callback)
+	{
+		WWWForm form = new WWWForm(); 								// Création de la connexion
+		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
+		form.AddField("myform_nick", ApplicationModel.username); 	// Pseudo de l'utilisateur connecté
+		form.AddField("myform_deck", Id);                       // id du deck courant
+		WWW w = new WWW(URLGetCardsByDeck, form); 					// On envoie le formulaire à l'url sur le serveur 
+		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
+
+		if (w.error != null) 
+		{
+			Debug.Log(w.error); 									// donne l'erreur eventuelle
+		}
+		else
+		{
+			callback(w.text);
+		}
+	}
+
 	public IEnumerator RetrieveCards() {
 		WWWForm form = new WWWForm(); 								// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
