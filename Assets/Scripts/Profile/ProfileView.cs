@@ -147,7 +147,7 @@ public class ProfileView : MonoBehaviour
 			//if (profileVM.isMyProfile){
 			GUILayout.BeginArea(profileScreenVM.blockLeft,profileScreenVM.blockBorderStyle);
 			{
-				GUILayout.Label ("Mes informations",profileVM.titleStyle,GUILayout.Height(profileScreenVM.blockLeftHeight*0.05f));
+				GUILayout.Label (userProfileVM.title,profileVM.titleStyle,GUILayout.Height(profileScreenVM.blockLeftHeight*0.05f));
 				GUILayout.Space (userProfileVM.profilePictureHeight+
 				                 userProfileVM.updateProfilePictureButtonHeight); //editProfilePictureButtonStyle.fixedHeight
 				GUILayout.BeginHorizontal();

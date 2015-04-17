@@ -12,6 +12,7 @@ public class UserProfileViewModel {
 	public int profilePictureHeight;
 	public int updateProfilePictureButtonHeight;
 	public int updateProfilePictureButtonWidth;
+	public string title="Mes informations";
 
 	public GUIStyle[] styles;
 	public GUIStyle profilePictureStyle;

@@ -49,6 +49,7 @@ public class ProfileController : MonoBehaviour {
 			view.profileVM.isMyProfile=false;
 			view.profileScreenVM.displayTopRightBlock=true;
 			view.myFriendsVM.title="Les amis de "+model.Profile.Username;
+			view.userProfileVM.title="Ses informations";
 		}
 		this.initStyles ();
 		this.loadData ();
@@ -314,18 +315,10 @@ public class ProfileController : MonoBehaviour {
 		view.userProfileVM.profilePictureWidth = (int)view.profileScreenVM.blockLeftWidth-2*(int)view.profileScreenVM.gapBetweenblocks;
 		view.userProfileVM.profilePictureHeight = view.userProfileVM.profilePictureWidth;
 
-		view.userProfileVM.updateProfilePictureButtonHeight = view.userProfileVM.profilePictureHeight*10/100;
-		view.userProfileVM.updateProfilePictureButtonWidth = view.userProfileVM.profilePictureWidth;
-
 		view.userProfileVM.profilePictureRect = new Rect (view.profileScreenVM.blockLeft.xMin + (view.profileScreenVM.blockLeftWidth-view.userProfileVM.profilePictureWidth)/2,
 		                                                  view.profileScreenVM.blockLeft.yMin + 0.05f*view.profileScreenVM.blockLeftHeight,
 		                                                  view.userProfileVM.profilePictureWidth,
 		                                                  view.userProfileVM.profilePictureHeight);
-
-		view.userProfileVM.updateProfilePictureButtonRect = new Rect (view.userProfileVM.profilePictureRect.xMin,
-		                                                              view.userProfileVM.profilePictureRect.yMax,
-		                                                              view.userProfileVM.updateProfilePictureButtonWidth,
-		                                                              view.userProfileVM.updateProfilePictureButtonHeight);
 
 		view.myFriendsVM.elementPerRow = 4 + 2*Mathf.FloorToInt(((float)view.profileScreenVM.blockTopCenterWidth/(float)view.profileScreenVM.blockTopCenterHeight - 1.5f));
 		view.invitationsReceivedVM.elementPerRow=Mathf.FloorToInt(view.myFriendsVM.elementPerRow/2f);
@@ -356,6 +349,14 @@ public class ProfileController : MonoBehaviour {
 
 		if(model.Profile.Username==ApplicationModel.username)
 		{
+			view.userProfileVM.updateProfilePictureButtonHeight = view.userProfileVM.profilePictureHeight*10/100;
+			view.userProfileVM.updateProfilePictureButtonWidth = view.userProfileVM.profilePictureWidth;
+
+			view.userProfileVM.updateProfilePictureButtonRect = new Rect (view.userProfileVM.profilePictureRect.xMin,
+			                                                              view.userProfileVM.profilePictureRect.yMax,
+			                                                              view.userProfileVM.updateProfilePictureButtonWidth,
+			                                                              view.userProfileVM.updateProfilePictureButtonHeight);
+
 			view.invitationsSentVM.blocksWidth = view.profileScreenVM.blockBottomCenterLeftWidth / view.invitationsSentVM.elementPerRow;
 			view.invitationsSentVM.blocksHeight = 0.8f*(view.profileScreenVM.blockBottomCenterLeftHeight / 3);
 			view.invitationsSentVM.blocks=new Rect[3*view.invitationsSentVM.elementPerRow];
