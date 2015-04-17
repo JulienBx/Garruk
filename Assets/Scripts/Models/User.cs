@@ -2,6 +2,7 @@ using UnityEngine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 public class User
 {
@@ -14,8 +15,12 @@ public class User
 	private string URLRemoveFromMarket      = ApplicationModel.host + "removeFromMarket.php";
 	private string URLChangeMarketPrice     = ApplicationModel.host + "changeMarketPrice.php";
 	private string URLRenameCard            = ApplicationModel.host + "renameCard.php";
+	private string URLUpdateUserInformations= ApplicationModel.dev + "update_user_informations.php";
+	private string URLUpdateProfilePicture  = ApplicationModel.dev + "update_profilepicture.php";
 
 	private string ServerDirectory          = "img/profile/";
+	
+	public string Error = "";
 
 	public string Username;
 	public string Mail;
@@ -147,9 +152,47 @@ public class User
 		this.texture = new Texture2D (1, 1, TextureFormat.ARGB32, false);
 	}
 
+	public IEnumerator updateInformations(){
+
+		WWWForm form = new WWWForm(); 											// Création de la connexion
+		form.AddField("myform_hash", ApplicationModel.hash); 	
+		form.AddField("myform_id",this.Id);
+		form.AddField("myform_firstname", this.FirstName); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
+		form.AddField("myform_surname", this.Surname);
+		form.AddField("myform_mail", this.Mail);
+		
+		WWW w = new WWW(URLUpdateUserInformations, form); 				// On envoie le formulaire à l'url sur le serveur 
+		yield return w;
+		if (w.error != null){ 
+			Debug.Log (w.error); 
+		}
+	}
+	public IEnumerator updateProfilePicture(File file)
+	{
+		WWWForm form = new WWWForm(); 											// Création de la connexion
+		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
+		form.AddField("myform_nick", ApplicationModel.username);
+		form.AddBinaryData("myform_file",file.LocalFile.bytes, ApplicationModel.username+file.FileExtension);
+		
+		WWW w = new WWW(URLUpdateProfilePicture, form); 				 // On envoie le formulaire à l'url sur le serveur 
+		yield return w;
+		if (w.error != null) 
+			Debug.Log (w.error); 
+		else 
+		{
+			if(w.text==""){
+				this.Picture=this.ServerDirectory + this.Username + file.FileExtension;
+			}
+			else	
+			{
+				this.Error =w.text;
+				yield break;
+			}
+		}
+	}
 	public IEnumerator retrievePicture(){
 		
-		WWWForm form = new WWWForm(); 											// Création de la connexion
+		WWWForm form = new WWWForm(); 											 //Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_nick", this.Username);
 			
@@ -163,7 +206,6 @@ public class User
 			this.Picture=w.text;
 		}
 	}
-
 	public IEnumerator setProfilePicture(){
 		
 		if (this.Picture.StartsWith(ServerDirectory)){
