@@ -19,7 +19,7 @@ public class DisplayedTrophy
 	}
 	public IEnumerator setPicture()
 	{
-		var www = new WWW(ApplicationModel.dev+this.Picture);
+		var www = new WWW(ApplicationModel.host+this.Picture);
 		yield return www;
 		www.LoadImageIntoTexture(this.texture);
 	}

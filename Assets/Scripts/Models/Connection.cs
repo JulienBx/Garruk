@@ -4,14 +4,15 @@ using System.Collections.Generic;
 
 public class Connection 
 {
-	private string URLConfirmConnection = ApplicationModel.dev + "confirm_connection.php";
-	private string URLAddConnection= ApplicationModel.dev + "add_connection.php";
-	private string URLRemoveConnection= ApplicationModel.dev + "remove_connection.php";
+	private string URLConfirmConnection = ApplicationModel.host + "confirm_connection.php";
+	private string URLAddConnection= ApplicationModel.host + "add_connection.php";
+	private string URLRemoveConnection= ApplicationModel.host + "remove_connection.php";
 
 	public int Id;
 	public int IdUser1;
 	public int IdUser2;
 	public bool IsAccepted;
+	public string Error="";
 
 
 	public Connection(int id, int iduser1, int iduser2, bool isaccepted)
@@ -29,7 +30,8 @@ public class Connection
 	}
 	public IEnumerator remove()
 	{
-		WWWForm form = new WWWForm(); 											// Création de la connexion
+		WWWForm form = new WWWForm();
+		form.AddField("myform_hash", ApplicationModel.hash); 	
 		form.AddField("myform_id", this.Id.ToString()); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
 
 		WWW w = new WWW(URLRemoveConnection, form); 				// On envoie le formulaire à l'url sur le serveur 
@@ -41,22 +43,9 @@ public class Connection
 	}
 	public IEnumerator confirm()
 	{
-		WWWForm form = new WWWForm(); 											// Création de la connexion
+		WWWForm form = new WWWForm(); 
+		form.AddField("myform_hash", ApplicationModel.hash); 	
 		form.AddField("myform_id", this.Id.ToString()); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
-
-		WWW w = new WWW(URLConfirmConnection, form); 				// On envoie le formulaire à l'url sur le serveur 
-		yield return w;
-		if (w.error != null)
-		{
-			Debug.Log (w.error); 
-		}
-	}
-	public IEnumerator add()
-	{
-		WWWForm form = new WWWForm(); 											// Création de la connexion
-		form.AddField("myform_iduser1", this.IdUser1.ToString()); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_iduser2", this.IdUser2.ToString()); 			
-		form.AddField("myform_isaccepted", (System.Convert.ToInt32(this.IsAccepted)).ToString()); 	
 
 		WWW w = new WWW(URLConfirmConnection, form); 				// On envoie le formulaire à l'url sur le serveur 
 		yield return w;
@@ -66,7 +55,31 @@ public class Connection
 		}
 		else
 		{
-			this.Id=System.Convert.ToInt32(w.text);
+			this.Error=w.text;
+		}
+	}
+	public IEnumerator add()
+	{
+		WWWForm form = new WWWForm(); 
+		form.AddField("myform_hash", ApplicationModel.hash); 	
+		form.AddField("myform_iduser1", this.IdUser1.ToString()); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
+		form.AddField("myform_iduser2", this.IdUser2.ToString()); 			
+		form.AddField("myform_isaccepted", (System.Convert.ToInt32(this.IsAccepted)).ToString()); 	
+
+		WWW w = new WWW(URLAddConnection, form); 				// On envoie le formulaire à l'url sur le serveur 
+		yield return w;
+		if (w.error != null)
+		{
+			Debug.Log (w.error); 
+		}
+		else
+		{
+			string[] data=w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
+			this.Error=data[0];
+			if(this.Error=="")
+			{
+				this.Id=System.Convert.ToInt32(data[1]);
+			}
 		}
 	}
 }

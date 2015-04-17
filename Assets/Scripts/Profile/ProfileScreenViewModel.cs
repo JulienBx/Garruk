@@ -43,8 +43,18 @@ public class ProfileScreenViewModel {
 	public GUIStyle centralWindowButtonStyle;
 	public GUIStyle blockBorderStyle;
 	public GUIStyle centralWindowTextfieldStyle;
+
+	public Texture2D m_directoryImage;
+	public Texture2D m_fileImage;
+
+	public GUISkin fileBrowserSkin;
 	
 	public ProfileScreenViewModel (){
+	}
+	public ProfileScreenViewModel (Texture2D m_directoryimage, Texture2D m_fileimage, GUISkin filebrowserskin){
+		this.m_directoryImage = m_directoryimage;
+		this.m_fileImage = m_fileimage;
+		this.fileBrowserSkin = filebrowserskin;
 	}
 	public void initStyles(){
 		this.centralWindowStyle = this.styles [0];
@@ -124,8 +134,8 @@ public class ProfileScreenViewModel {
 		                                  this.blockBottomRightHeight);
 
 		this.centralWindow = new Rect (this.widthScreen * 0.25f, 0.12f * this.heightScreen, this.widthScreen * 0.50f, 0.25f * this.heightScreen);
-		this.fileBrowserWindow = new Rect (widthScreen * 0.25f, 0.125f * heightScreen, widthScreen * 0.50f, 0.75f * heightScreen);
-		
+		this.fileBrowserWindow = new Rect (this.widthScreen * 0.25f, 0.125f * this.heightScreen, this.widthScreen * 0.50f, 0.75f * this.heightScreen);
+
 		this.centralWindowStyle.fixedWidth = this.widthScreen*0.5f-5;
 		this.centralWindowTitleStyle.fontSize = this.heightScreen*2/100;
 		this.centralWindowButtonStyle.fontSize = this.heightScreen*2/100;

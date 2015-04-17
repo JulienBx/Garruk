@@ -21,11 +21,19 @@ public class ProfileView : MonoBehaviour
 	private bool canDisplay=false;
 	private bool isEditing=false;
 	private bool checkPassword = false;
+	private bool error=false;
+	private bool changePassword =false;
 
+	private string passwordsCheck = "";
 	private string tempOldPassword="";
+	private string tempNewPassword = "";
+	private string tempNewPassword2="";
 	private string tempFirstName;
 	private string tempSurname;
 	private string tempMail;
+
+	public FileBrowser m_fileBrowser;
+	private string m_textPath;
 	
 	void Start()
 	{
@@ -48,18 +56,89 @@ public class ProfileView : MonoBehaviour
 	{
 		this.isEditing= value;
 	}
+	public void setError(bool value)
+	{
+		this.error= value;
+	}
+	public void setChangePassword(bool value)
+	{
+		this.changePassword= value;
+	}
+	public void setCheckPassword(bool value)
+	{
+		this.checkPassword= value;
+	}
+	private void FileSelectedCallback(string path) {
+		this.m_fileBrowser = null;
+		this.m_textPath = path;
+		if (m_textPath!=null)
+		{
+			StartCoroutine(ProfileController.instance.updateProfilePicture(m_textPath));
+		}
+	}
 	void Update()
 	{
 		if (this.canDisplay)
 		{
 			if (Screen.width != profileScreenVM.widthScreen || Screen.height != profileScreenVM.heightScreen) {
+				this.m_fileBrowser=null;
 				ProfileController.instance.resize();
+			}
+		}
+		if(this.error)
+		{
+			if(Input.GetKeyDown(KeyCode.Return)) {
+				this.error=false;
+			}
+			else if(Input.GetKeyDown(KeyCode.Escape)) {
+				this.error=false;
+			}
+		}
+		if(this.m_fileBrowser!=null){
+			if(Input.GetKeyDown(KeyCode.Escape)) {
+				this.m_fileBrowser=null;
+			}
+		}
+		if(this.checkPassword){
+			if(Input.GetKeyDown(KeyCode.Escape)) {
+				this.checkPassword=false;
+				this.tempOldPassword="";
+			}
+			else if(Input.GetKeyDown(KeyCode.Return)) {
+				StartCoroutine(ProfileController.instance.checkPassword(this.tempOldPassword));
+				this.tempOldPassword="";
+			}
+		}
+		if(this.changePassword){
+			if(Input.GetKeyDown(KeyCode.Escape)) {
+				this.changePassword=false;
+				this.tempNewPassword="";
+				this.tempNewPassword2="";
+			}
+			else if (Input.GetKeyDown(KeyCode.Return)){
+				if(this.tempNewPassword==tempNewPassword2 && this.tempNewPassword!="" && this.tempNewPassword2!=""){
+					ProfileController.instance.editPassword(this.tempNewPassword);
+					this.tempNewPassword="";
+					this.tempNewPassword2="";
+				}
+				else if(this.tempNewPassword!=this.tempNewPassword2 && this.tempNewPassword!="" && this.tempNewPassword2!=""){
+					this.passwordsCheck="les saisies ne correspondent pas";
+				}
+			}
+		}
+		if(isEditing){
+			if(Input.GetKeyDown(KeyCode.Escape)) {
+				isEditing=false;
+			}
+			else if(Input.GetKeyDown(KeyCode.Return)) {
+				this.isEditing = false;
+				ProfileController.instance.updateUserInformations(tempFirstName,tempSurname,tempMail);
 			}
 		}
 	}
 	void OnGUI()
 	{
-		if(checkPassword)
+		if(this.checkPassword||this.error||this.changePassword||m_fileBrowser!=null)
 		{
 			GUI.enabled=false;
 		}
@@ -69,7 +148,8 @@ public class ProfileView : MonoBehaviour
 			GUILayout.BeginArea(profileScreenVM.blockLeft,profileScreenVM.blockBorderStyle);
 			{
 				GUILayout.Label ("Mes informations",profileVM.titleStyle,GUILayout.Height(profileScreenVM.blockLeftHeight*0.05f));
-				GUILayout.Space (userProfileVM.profilePictureHeight); //editProfilePictureButtonStyle.fixedHeight
+				GUILayout.Space (userProfileVM.profilePictureHeight+
+				                 userProfileVM.updateProfilePictureButtonHeight); //editProfilePictureButtonStyle.fixedHeight
 				GUILayout.BeginHorizontal();
 				{
 					GUILayout.Space ((profileScreenVM.blockLeft.width-userProfileVM.profilePictureWidth)/2);
@@ -100,12 +180,11 @@ public class ProfileView : MonoBehaviour
 							if (GUILayout.Button ("Valider",userProfileVM.editProfileDataButtonStyle))
 							{
 								this.isEditing = false;
-								//isDataLoaded=false;
-								//StartCoroutine(updateProfile());
+								ProfileController.instance.updateUserInformations(tempFirstName,tempSurname,tempMail);
 							}
 							if (GUILayout.Button ("Annuler",userProfileVM.editProfileDataButtonStyle))
 							{
-								isEditing = false;
+								this.isEditing = false;
 							}
 						}
 					}
@@ -116,19 +195,6 @@ public class ProfileView : MonoBehaviour
 			}
 			GUILayout.EndArea();
 			GUI.DrawTexture(new Rect(userProfileVM.profilePictureRect),userProfileVM.Profile.texture,ScaleMode.StretchToFill);
-				
-				//GUI.Box(new Rect(profilePictureStyle.fixedHeight+0.02f*widthScreen,
-				                 //0.12f*heightScreen,
-				                 //nbFriendsPerRow*friendLabelsAreaSizeX,
-				                 //0.435f * heightScreen), "",borderBackgroundStyle);
-				//GUI.Label (new Rect(profilePictureStyle.fixedHeight+0.02f*widthScreen,
-				                    //0.12f*heightScreen,
-				                    //nbFriendsPerRow*friendLabelsAreaSizeX,
-				                    //heightScreen*0.03f), "Mes amis",titleStyle);
-				//GUI.Label (new Rect(profilePictureStyle.fixedHeight+0.02f*widthScreen,
-				                    //0.16f*heightScreen,
-				                    //nbFriendsPerRow*friendLabelsAreaSizeX,
-				                    //heightScreen*0.03f), labelNoFriends,labelNo);
 				
 			// BLOC HAUT CENTRE
 
@@ -145,8 +211,7 @@ public class ProfileView : MonoBehaviour
 					                     GUILayout.Height(profileScreenVM.heightScreen*3/100),
 					                     GUILayout.Width (profileScreenVM.widthScreen*2/100)))
 						{
-							myFriendsVM.pageDebut = myFriendsVM.pageDebut-10;
-							myFriendsVM.pageFin = myFriendsVM.pageDebut+10;
+							ProfileController.instance.pagination(0,0);
 						}
 					}
 					GUILayout.Space(profileScreenVM.widthScreen*0.01f);
@@ -156,10 +221,7 @@ public class ProfileView : MonoBehaviour
 					                     GUILayout.Height(profileScreenVM.heightScreen*3/100),
 					                     GUILayout.Width (profileScreenVM.widthScreen*2/100)))
 						{
-							myFriendsVM.paginatorGuiStyle[myFriendsVM.chosenPage]=profileVM.paginationStyle;
-							myFriendsVM.chosenPage=i;
-							myFriendsVM.paginatorGuiStyle[i]=profileVM.paginationActivatedStyle;
-							myFriendsVM.displayPage();
+							ProfileController.instance.pagination(0,1,i);
 						}
 							GUILayout.Space(profileScreenVM.widthScreen*0.01f);
 					}
@@ -169,8 +231,7 @@ public class ProfileView : MonoBehaviour
 					                     GUILayout.Height(profileScreenVM.heightScreen*3/100),
 					                     GUILayout.Width (profileScreenVM.widthScreen*2/100)))
 						{
-								myFriendsVM.pageDebut = myFriendsVM.pageDebut+10;
-								myFriendsVM.pageFin= Mathf.Min(myFriendsVM.pageFin+10, myFriendsVM.nbPages);
+							ProfileController.instance.pagination(0,2);
 						}
 					}
 					GUILayout.FlexibleSpace();
@@ -192,7 +253,7 @@ public class ProfileView : MonoBehaviour
 							GUILayout.Space (myFriendsVM.blocksHeight*0.05f);
 							GUILayout.BeginHorizontal(profileVM.contactsBackgroundStyle,GUILayout.Height(myFriendsVM.blocksHeight*0.65f));
 							{
-								if(GUILayout.Button ("",profileVM.contactsPicturesButtonStyle[myFriendsVM.profilePictures[i]],
+								if(GUILayout.Button ("",profileVM.contactsPicturesButtonStyle[myFriendsVM.contactsDisplayed[i]],
 							                     GUILayout.Height (myFriendsVM.blocksHeight*0.65f),
 							                     GUILayout.Width (myFriendsVM.blocksHeight*0.65f)))
 								{
@@ -204,7 +265,6 @@ public class ProfileView : MonoBehaviour
 								{
 									GUILayout.Label (myFriendsVM.contacts[i].Username
 									                 ,profileVM.contactsUsernameStyle);
-									//GUILayout.Space (myFriendsVM.blocksHeight*0.02f);
 									GUILayout.Label (myFriendsVM.contacts[i].TotalNbWins+" V "
 								                 +myFriendsVM.contacts[i].TotalNbLooses+" D",
 								                 profileVM.contactsInformationStyle);
@@ -217,14 +277,13 @@ public class ProfileView : MonoBehaviour
 
 							}
 							GUILayout.EndHorizontal();
-							GUILayout.Space (myFriendsVM.blocksHeight*0.05f);
-							if(GUILayout.Button ("Retirer",profileVM.actionButtonStyle,GUILayout.Height(myFriendsVM.blocksHeight*0.2f)));
+							if(profileVM.isMyProfile)
 							{
-//									isDataLoaded=false;
-//									idConnection=userData.Connections[friendsToBeDisplayed[i]].Id;
-//									StartCoroutine(removeConnection());
-//									userData.Connections.RemoveAt(friendsToBeDisplayed[i]);
-//									computeConnections();
+								GUILayout.Space (myFriendsVM.blocksHeight*0.05f);
+								if(GUILayout.Button ("Retirer",profileVM.actionButtonStyle,GUILayout.Height(myFriendsVM.blocksHeight*0.2f)))
+								{
+									ProfileController.instance.removeConnection(myFriendsVM.contactsDisplayed[i]);
+								}
 							}
 							GUILayout.Space (myFriendsVM.blocksHeight*0.05f);
 						}
@@ -251,8 +310,7 @@ public class ProfileView : MonoBehaviour
 						                     GUILayout.Height(profileScreenVM.heightScreen*3/100),
 						                     GUILayout.Width (profileScreenVM.widthScreen*2/100)))
 							{
-								invitationsSentVM.pageDebut = invitationsSentVM.pageDebut-10;
-								invitationsSentVM.pageFin = invitationsSentVM.pageDebut+10;
+								ProfileController.instance.pagination(1,0);
 							}
 						}
 						GUILayout.Space(profileScreenVM.widthScreen*0.01f);
@@ -262,10 +320,7 @@ public class ProfileView : MonoBehaviour
 						                     GUILayout.Height(profileScreenVM.heightScreen*3/100),
 						                     GUILayout.Width (profileScreenVM.widthScreen*2/100)))
 							{
-								invitationsSentVM.paginatorGuiStyle[invitationsSentVM.chosenPage]=profileVM.paginationStyle;
-								invitationsSentVM.chosenPage=i;
-								invitationsSentVM.paginatorGuiStyle[i]=profileVM.paginationActivatedStyle;
-								invitationsSentVM.displayPage();
+								ProfileController.instance.pagination(1,1,i);
 							}
 								GUILayout.Space(profileScreenVM.widthScreen*0.01f);
 						}
@@ -275,8 +330,7 @@ public class ProfileView : MonoBehaviour
 						                     GUILayout.Height(profileScreenVM.heightScreen*3/100),
 						                     GUILayout.Width (profileScreenVM.widthScreen*2/100)))
 							{
-									invitationsSentVM.pageDebut = invitationsSentVM.pageDebut+10;
-									invitationsSentVM.pageFin= Mathf.Min(invitationsSentVM.pageFin+10, invitationsSentVM.nbPages);
+								ProfileController.instance.pagination(1,2);
 							}
 						}
 						GUILayout.FlexibleSpace();
@@ -298,25 +352,24 @@ public class ProfileView : MonoBehaviour
 								GUILayout.Space (invitationsSentVM.blocksHeight*0.05f);
 								GUILayout.BeginHorizontal(profileVM.contactsBackgroundStyle,GUILayout.Height(invitationsSentVM.blocksHeight*0.65f));
 								{
-									if(GUILayout.Button ("",profileVM.contactsPicturesButtonStyle[invitationsSentVM.profilePictures[i]],
+									if(GUILayout.Button ("",profileVM.contactsPicturesButtonStyle[invitationsSentVM.contactsDisplayed[i]],
 								                     GUILayout.Height (invitationsSentVM.blocksHeight*0.65f),
 								                     GUILayout.Width (invitationsSentVM.blocksHeight*0.65f)))
 									{
-										ApplicationModel.profileChosen=invitationsSentVM.Contacts[i].Username;
+										ApplicationModel.profileChosen=invitationsSentVM.contacts[i].Username;
 										Application.LoadLevel("Profile");
 									}
 									GUILayout.Space (invitationsSentVM.blocksWidth*0.05f);
 									GUILayout.BeginVertical();
 									{
-										GUILayout.Label (invitationsSentVM.Contacts[i].Username
+										GUILayout.Label (invitationsSentVM.contacts[i].Username
 										                 ,profileVM.contactsUsernameStyle);
-										//GUILayout.Space (invitationsSentVM.blocksHeight*0.02f);
-										GUILayout.Label (invitationsSentVM.Contacts[i].TotalNbWins+" V "
-									                 +invitationsSentVM.Contacts[i].TotalNbLooses+" D",
+										GUILayout.Label (invitationsSentVM.contacts[i].TotalNbWins+" V "
+									                 +invitationsSentVM.contacts[i].TotalNbLooses+" D",
 									                 profileVM.contactsInformationStyle);
-										GUILayout.Label ("R : "+invitationsSentVM.Contacts[i].Ranking
+										GUILayout.Label ("R : "+invitationsSentVM.contacts[i].Ranking
 										                 ,profileVM.contactsInformationStyle);
-										GUILayout.Label ("Div : "+invitationsSentVM.Contacts[i].Division
+										GUILayout.Label ("Div : "+invitationsSentVM.contacts[i].Division
 										                 ,profileVM.contactsInformationStyle);
 									}
 									GUILayout.EndVertical();
@@ -324,13 +377,9 @@ public class ProfileView : MonoBehaviour
 								}
 								GUILayout.EndHorizontal();
 								GUILayout.Space (invitationsSentVM.blocksHeight*0.05f);
-								if(GUILayout.Button ("Retirer",profileVM.actionButtonStyle,GUILayout.Height(invitationsSentVM.blocksHeight*0.2f)));
+								if(GUILayout.Button ("Retirer",profileVM.actionButtonStyle,GUILayout.Height(invitationsSentVM.blocksHeight*0.2f)))
 								{
-	//									isDataLoaded=false;
-	//									idConnection=userData.Connections[friendsToBeDisplayed[i]].Id;
-	//									StartCoroutine(removeConnection());
-	//									userData.Connections.RemoveAt(friendsToBeDisplayed[i]);
-	//									computeConnections();
+									ProfileController.instance.removeConnection(invitationsSentVM.contactsDisplayed[i]);
 								}
 								GUILayout.Space (myFriendsVM.blocksHeight*0.05f);
 							}
@@ -352,13 +401,13 @@ public class ProfileView : MonoBehaviour
 					GUILayout.BeginHorizontal();
 					{
 						GUILayout.FlexibleSpace();
-						if (invitationsReceivedVM.pageDebut>0){
+						if (invitationsReceivedVM.pageDebut>0)
+						{
 							if (GUILayout.Button("...",profileVM.paginationStyle,
 							                     GUILayout.Height(profileScreenVM.heightScreen*3/100),
 							                     GUILayout.Width (profileScreenVM.widthScreen*2/100)))
 							{
-								invitationsReceivedVM.pageDebut = invitationsReceivedVM.pageDebut-10;
-								invitationsReceivedVM.pageFin = invitationsReceivedVM.pageDebut+10;
+								ProfileController.instance.pagination(2,0);
 							}
 						}
 						GUILayout.Space(profileScreenVM.widthScreen*0.01f);
@@ -368,10 +417,7 @@ public class ProfileView : MonoBehaviour
 							                     GUILayout.Height(profileScreenVM.heightScreen*3/100),
 							                     GUILayout.Width (profileScreenVM.widthScreen*2/100)))
 							{
-								invitationsReceivedVM.paginatorGuiStyle[invitationsReceivedVM.chosenPage]=profileVM.paginationStyle;
-								invitationsReceivedVM.chosenPage=i;
-								invitationsReceivedVM.paginatorGuiStyle[i]=profileVM.paginationActivatedStyle;
-								invitationsReceivedVM.displayPage();
+								ProfileController.instance.pagination(2,1,i);
 							}
 							GUILayout.Space(profileScreenVM.widthScreen*0.01f);
 						}
@@ -381,8 +427,7 @@ public class ProfileView : MonoBehaviour
 							                     GUILayout.Height(profileScreenVM.heightScreen*3/100),
 							                     GUILayout.Width (profileScreenVM.widthScreen*2/100)))
 							{
-								invitationsReceivedVM.pageDebut = invitationsReceivedVM.pageDebut+10;
-								invitationsReceivedVM.pageFin= Mathf.Min(invitationsReceivedVM.pageFin+10, invitationsReceivedVM.nbPages);
+								ProfileController.instance.pagination(2,2);
 							}
 						}
 						GUILayout.FlexibleSpace();
@@ -404,25 +449,24 @@ public class ProfileView : MonoBehaviour
 								GUILayout.Space (invitationsReceivedVM.blocksHeight*0.05f);
 								GUILayout.BeginHorizontal(profileVM.contactsBackgroundStyle,GUILayout.Height(invitationsReceivedVM.blocksHeight*0.65f));
 								{
-									if(GUILayout.Button ("",profileVM.contactsPicturesButtonStyle[invitationsReceivedVM.profilePictures[i]],
+									if(GUILayout.Button ("",profileVM.contactsPicturesButtonStyle[invitationsReceivedVM.contactsDisplayed[i]],
 									                     GUILayout.Height (invitationsReceivedVM.blocksHeight*0.65f),
 									                     GUILayout.Width (invitationsReceivedVM.blocksHeight*0.65f)))
 									{
-										ApplicationModel.profileChosen=invitationsReceivedVM.Contacts[i].Username;
+										ApplicationModel.profileChosen=invitationsReceivedVM.contacts[i].Username;
 										Application.LoadLevel("Profile");
 									}
 									GUILayout.Space (invitationsReceivedVM.blocksWidth*0.05f);
 									GUILayout.BeginVertical();
 									{
-										GUILayout.Label (invitationsReceivedVM.Contacts[i].Username
+										GUILayout.Label (invitationsReceivedVM.contacts[i].Username
 										                 ,profileVM.contactsUsernameStyle);
-										//GUILayout.Space (invitationsReceivedVM.blocksHeight*0.02f);
-										GUILayout.Label (invitationsReceivedVM.Contacts[i].TotalNbWins+" V "
-										                 +invitationsReceivedVM.Contacts[i].TotalNbLooses+" D",
+										GUILayout.Label (invitationsReceivedVM.contacts[i].TotalNbWins+" V "
+										                 +invitationsReceivedVM.contacts[i].TotalNbLooses+" D",
 										                 profileVM.contactsInformationStyle);
-										GUILayout.Label ("R : "+invitationsReceivedVM.Contacts[i].Ranking
+										GUILayout.Label ("R : "+invitationsReceivedVM.contacts[i].Ranking
 										                 ,profileVM.contactsInformationStyle);
-										GUILayout.Label ("Div : "+invitationsReceivedVM.Contacts[i].Division
+										GUILayout.Label ("Div : "+invitationsReceivedVM.contacts[i].Division
 										                 ,profileVM.contactsInformationStyle);
 									}
 									GUILayout.EndVertical();
@@ -433,22 +477,14 @@ public class ProfileView : MonoBehaviour
 								GUILayout.BeginHorizontal();
 								{
 
-									if(GUILayout.Button ("Ajouter",profileVM.actionButtonStyle,GUILayout.Height(invitationsReceivedVM.blocksHeight*0.2f)));
+									if(GUILayout.Button ("Ajouter",profileVM.actionButtonStyle,GUILayout.Height(invitationsReceivedVM.blocksHeight*0.2f)))
 									{
-										//									isDataLoaded=false;
-										//									idConnection=userData.Connections[friendsToBeDisplayed[i]].Id;
-										//									StartCoroutine(removeConnection());
-										//									userData.Connections.RemoveAt(friendsToBeDisplayed[i]);
-										//									computeConnections();
+										StartCoroutine(ProfileController.instance.confirmConnection(invitationsReceivedVM.contactsDisplayed[i]));
 									}
 									GUILayout.Space (invitationsReceivedVM.blocksWidth*0.05f);
-									if(GUILayout.Button ("Retirer",profileVM.actionButtonStyle,GUILayout.Height(invitationsReceivedVM.blocksHeight*0.2f)));
+									if(GUILayout.Button ("Retirer",profileVM.actionButtonStyle,GUILayout.Height(invitationsReceivedVM.blocksHeight*0.2f)))
 									{
-										//									isDataLoaded=false;
-										//									idConnection=userData.Connections[friendsToBeDisplayed[i]].Id;
-										//									StartCoroutine(removeConnection());
-										//									userData.Connections.RemoveAt(friendsToBeDisplayed[i]);
-										//									computeConnections();
+										ProfileController.instance.removeConnection(invitationsReceivedVM.contactsDisplayed[i]);
 									}
 								}
 								GUILayout.EndHorizontal();
@@ -477,19 +513,11 @@ public class ProfileView : MonoBehaviour
 						{
 							if (GUILayout.Button("Accepter",friendshipStatusVM.buttonStyle,GUILayout.Height(0.4f*profileScreenVM.blockTopRightHeight)))
 							{
-								//isDataLoaded=false;
-								//idConnection=userData.Connections[friendshipConnection].Id;
-								//StartCoroutine(confirmConnection());
-								//userData.Connections[friendshipConnection].State =+1;
-								//computeConnections();
+								StartCoroutine(ProfileController.instance.confirmConnection(friendshipStatusVM.indexConnection));
 							}
 							if (GUILayout.Button("Ignorer",friendshipStatusVM.buttonStyle,GUILayout.Height(0.4f*profileScreenVM.blockTopRightHeight)))
 							{
-								//isDataLoaded=false;
-								//idConnection=userData.Connections[friendshipConnection].Id;
-								//StartCoroutine(removeConnection());
-								//userData.Connections.RemoveAt(friendshipConnection);
-								//computeConnections();
+								ProfileController.instance.removeConnection(friendshipStatusVM.indexConnection);
 							}
 						}
 						GUILayout.EndHorizontal();
@@ -503,7 +531,7 @@ public class ProfileView : MonoBehaviour
 						}
 						break;
 					case 2:
-						GUILayout.Label("vous souhaitez ajouter "+friendshipStatusVM.username+" à vos amis",
+						GUILayout.Label("vous avez invité "+friendshipStatusVM.username+" à faire partie de vos amis",
 						                friendshipStatusVM.situationStyle,GUILayout.Height(0.5f*profileScreenVM.blockTopRightHeight));
 						if (GUILayout.Button("Retirer",friendshipStatusVM.buttonStyle,GUILayout.Height(0.4f*profileScreenVM.blockTopRightHeight)))
 						{
@@ -515,7 +543,7 @@ public class ProfileView : MonoBehaviour
 						                friendshipStatusVM.situationStyle,GUILayout.Height(0.5f*profileScreenVM.blockTopRightHeight));
 						if (GUILayout.Button("Ajouter",friendshipStatusVM.buttonStyle,GUILayout.Height(0.4f*profileScreenVM.blockTopRightHeight)))
 						{
-							ProfileController.instance.addConnection();
+							StartCoroutine(ProfileController.instance.addConnection());
 						}
 						break;
 					}
@@ -552,8 +580,7 @@ public class ProfileView : MonoBehaviour
 						                     GUILayout.Height(profileScreenVM.heightScreen*3/100),
 						                     GUILayout.Width (profileScreenVM.widthScreen*2/100)))
 						{
-							myTrophiesVM.pageDebut = myTrophiesVM.pageDebut-10;
-							myTrophiesVM.pageFin = myTrophiesVM.pageDebut+10;
+							ProfileController.instance.pagination (3,0);
 						}
 					}
 					GUILayout.Space(profileScreenVM.widthScreen*0.01f);
@@ -563,10 +590,7 @@ public class ProfileView : MonoBehaviour
 						                     GUILayout.Height(profileScreenVM.heightScreen*3/100),
 						                     GUILayout.Width (profileScreenVM.widthScreen*2/100)))
 						{
-							myTrophiesVM.paginatorGuiStyle[myTrophiesVM.chosenPage]=profileVM.paginationStyle;
-							myTrophiesVM.chosenPage=i;
-							myTrophiesVM.paginatorGuiStyle[i]=profileVM.paginationActivatedStyle;
-							myTrophiesVM.displayPage();
+							ProfileController.instance.pagination (3,1,i);
 						}
 						GUILayout.Space(profileScreenVM.widthScreen*0.01f);
 					}
@@ -576,8 +600,7 @@ public class ProfileView : MonoBehaviour
 						                     GUILayout.Height(profileScreenVM.heightScreen*3/100),
 						                     GUILayout.Width (profileScreenVM.widthScreen*2/100)))
 						{
-							myTrophiesVM.pageDebut = myTrophiesVM.pageDebut+10;
-							myTrophiesVM.pageFin= Mathf.Min(myTrophiesVM.pageFin+10, myTrophiesVM.nbPages);
+							ProfileController.instance.pagination (3,2);
 						}
 					}
 					GUILayout.FlexibleSpace();
@@ -624,8 +647,28 @@ public class ProfileView : MonoBehaviour
 				}
 				GUILayout.EndArea(); 
 			}
+			if(profileVM.isMyProfile)
+			{
+				GUI.skin = profileScreenVM.fileBrowserSkin;
+				if (m_fileBrowser != null)
+				{
+					this.m_fileBrowser.OnGUI();
+				} 
+				else 
+				{
+					if (GUI.Button (userProfileVM.updateProfilePictureButtonRect,"Modifier ma photo",userProfileVM.editProfileDataButtonStyle))
+					{
+						this.m_fileBrowser = new FileBrowser(profileScreenVM.fileBrowserWindow,
+						                                     "Sélectionnez une image",
+						                                     this.FileSelectedCallback);
+						this.m_fileBrowser.DirectoryImage = profileScreenVM.m_directoryImage;
+						this.m_fileBrowser.FileImage = profileScreenVM.m_fileImage;
+					}
+				}
+			}
 		}
-		if (checkPassword) {
+		if (checkPassword) 
+		{
 			GUI.enabled=true;
 			GUILayout.BeginArea(profileScreenVM.centralWindow);
 			{
@@ -641,24 +684,27 @@ public class ProfileView : MonoBehaviour
 						GUILayout.Space(profileScreenVM.widthScreen*0.05f);
 					}
 					GUILayout.EndHorizontal();
-					GUILayout.FlexibleSpace();
-					if(userProfileVM.error!="")
+					if(profileVM.error!="")
 					{
-						GUILayout.Label (userProfileVM.error,profileScreenVM.centralWindowTitleStyle);
 						GUILayout.FlexibleSpace();
+						GUILayout.Label (profileVM.error,profileScreenVM.centralWindowTitleStyle);
 					}
+					GUILayout.FlexibleSpace();
 					GUILayout.BeginHorizontal();
 					{
 						GUILayout.FlexibleSpace();
-						if (GUILayout.Button("OK",profileScreenVM.centralWindowButtonStyle,GUILayout.Width (profileScreenVM.centralWindow.width*0.3f))){
-							//error="";
-							//StartCoroutine(checkUserPassword());
+						if (GUILayout.Button("OK",profileScreenVM.centralWindowButtonStyle,GUILayout.Width (profileScreenVM.centralWindow.width*0.3f)))
+						{
+							StartCoroutine(ProfileController.instance.checkPassword(this.tempOldPassword));
+							this.tempOldPassword="";
+
 						}
 						GUILayout.FlexibleSpace();
-						if (GUILayout.Button("Quitter",profileScreenVM.centralWindowButtonStyle,GUILayout.Width (profileScreenVM.centralWindow.width*0.3f))){
-							//error="";
-							//oldPassword="";
-							checkPassword=false;	
+						if (GUILayout.Button("Quitter",profileScreenVM.centralWindowButtonStyle,GUILayout.Width (profileScreenVM.centralWindow.width*0.3f)))
+						{
+							this.checkPassword=false;
+							this.tempOldPassword="";
+							ProfileController.instance.initializeError();
 						}
 						GUILayout.FlexibleSpace();
 					}
@@ -667,9 +713,97 @@ public class ProfileView : MonoBehaviour
 				}
 				GUILayout.EndVertical();
 			}
-		GUILayout.EndArea();
+			GUILayout.EndArea();
 		}
-	}
-
+		if (changePassword) 
+		{
+			GUI.enabled=true;
+			GUILayout.BeginArea(profileScreenVM.centralWindow);
+			{
+				GUILayout.BeginVertical(profileScreenVM.centralWindowStyle);
+				{
+					GUILayout.FlexibleSpace();
+					GUILayout.Label ("Entrez votre nouveau mot de passe",profileScreenVM.centralWindowTitleStyle);
+					GUILayout.FlexibleSpace();
+					GUILayout.BeginHorizontal();
+					{
+						GUILayout.Space (profileScreenVM.widthScreen*0.05f);
+						this.tempNewPassword = GUILayout.PasswordField(this.tempNewPassword,'*',profileScreenVM.centralWindowTextfieldStyle);
+						GUILayout.Space (profileScreenVM.widthScreen*0.05f);
+					}
+					GUILayout.EndHorizontal();
+					GUILayout.FlexibleSpace();
+					GUILayout.Label ("Confirmer la saisie",profileScreenVM.centralWindowTitleStyle);
+					GUILayout.FlexibleSpace();
+					GUILayout.BeginHorizontal();
+					{
+						GUILayout.Space (profileScreenVM.widthScreen*0.05f);
+						this.tempNewPassword2 = GUILayout.PasswordField(this.tempNewPassword2,'*',profileScreenVM.centralWindowTextfieldStyle);
+						GUILayout.Space (profileScreenVM.widthScreen*0.05f);
+					}
+					GUILayout.EndHorizontal();
+					if(this.passwordsCheck!="")
+					{
+						GUILayout.FlexibleSpace();
+						GUILayout.Label (this.passwordsCheck,profileScreenVM.centralWindowTitleStyle);
+					}
+					GUILayout.FlexibleSpace();
+					GUILayout.BeginHorizontal();
+					{
+						GUILayout.FlexibleSpace();
+						if (GUILayout.Button("OK",profileScreenVM.centralWindowButtonStyle,GUILayout.Width (profileScreenVM.centralWindow.width*0.3f))){
+							if(this.tempNewPassword==this.tempNewPassword2 && this.tempNewPassword!="" && this.tempNewPassword2!=""){
+								this.passwordsCheck="";
+								ProfileController.instance.editPassword(this.tempNewPassword);
+								this.tempNewPassword="";
+								this.tempNewPassword2="";
+							}
+							else if(this.tempNewPassword!=this.tempNewPassword2 && this.tempNewPassword!="" && this.tempNewPassword2!=""){
+								this.passwordsCheck="les saisies ne correspondent pas";
+							}
+						}
+						GUILayout.FlexibleSpace();
+						if (GUILayout.Button("Quitter",profileScreenVM.centralWindowButtonStyle,GUILayout.Width (profileScreenVM.centralWindow.width*0.3f))){
+							changePassword=false;
+							this.passwordsCheck="";
+							this.tempNewPassword="";
+							this.tempNewPassword2="";
+						}
+						GUILayout.FlexibleSpace();
+					}
+					GUILayout.EndHorizontal();
+					GUILayout.FlexibleSpace();
+				}
+				GUILayout.EndVertical();
+			}
+			GUILayout.EndArea();
+		}
+		if (error) 
+		{
+			GUI.enabled=true;
+			GUILayout.BeginArea(profileScreenVM.centralWindow);
+			{
+				GUILayout.BeginVertical(profileScreenVM.centralWindowStyle);
+				{
+					GUILayout.FlexibleSpace();
+					GUILayout.Label (profileVM.error,profileScreenVM.centralWindowTitleStyle);
+					GUILayout.FlexibleSpace();
+					GUILayout.BeginHorizontal();
+					{
+						GUILayout.FlexibleSpace();
+						if (GUILayout.Button("OK",profileScreenVM.centralWindowButtonStyle,GUILayout.Width (profileScreenVM.centralWindow.width*0.3f)))
+						{
+							ProfileController.instance.reloadPage();
+						}
+						GUILayout.FlexibleSpace();
+					}
+					GUILayout.EndHorizontal();
+					GUILayout.FlexibleSpace();
+				}
+				GUILayout.EndVertical();
+			}
+			GUILayout.EndArea();
+		}
+	}	
 }
 

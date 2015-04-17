@@ -7,7 +7,7 @@ using System.Reflection;
 public class MyFriendsViewModel {
 
 	public IList<User> contacts;
-	public IList<int> profilePictures;
+	public List<int> contactsDisplayed;
 	public int nbPages;
 	public int pageDebut;
 	public int pageFin;

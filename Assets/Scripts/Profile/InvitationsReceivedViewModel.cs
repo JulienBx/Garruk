@@ -6,8 +6,8 @@ using System.Reflection;
 
 public class InvitationsReceivedViewModel {
 
-	public IList<User> Contacts;
-	public IList<int> profilePictures;
+	public IList<User> contacts;
+	public IList<int> contactsDisplayed;
 	public int nbPages;
 	public int pageDebut;
 	public int pageFin;
@@ -37,11 +37,11 @@ public class InvitationsReceivedViewModel {
 	}
 	public void displayPage()
 	{
-		
+
 		this.start = this.chosenPage*(this.elementPerRow*3);
-		if (this.Contacts.Count < (3*this.elementPerRow*(this.chosenPage+1)))
+		if (this.contacts.Count < (3*this.elementPerRow*(this.chosenPage+1)))
 		{
-			this.finish = this.Contacts.Count;
+			this.finish = this.contacts.Count;
 		}
 		else{
 			this.finish = (this.chosenPage+1)*(3 * this.elementPerRow);

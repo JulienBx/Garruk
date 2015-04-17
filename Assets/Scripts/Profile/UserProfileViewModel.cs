@@ -10,9 +10,8 @@ public class UserProfileViewModel {
 	public User Profile;
 	public int profilePictureWidth;
 	public int profilePictureHeight;
-	
-	public string oldPassword;
-	public string error;
+	public int updateProfilePictureButtonHeight;
+	public int updateProfilePictureButtonWidth;
 
 	public GUIStyle[] styles;
 	public GUIStyle profilePictureStyle;
@@ -21,6 +20,7 @@ public class UserProfileViewModel {
 	public GUIStyle editProfileDataButtonStyle;
 	public GUIStyle inputTextfieldStyle;
 	public Rect profilePictureRect;
+	public Rect updateProfilePictureButtonRect;
 	
 	public UserProfileViewModel (){
 	}

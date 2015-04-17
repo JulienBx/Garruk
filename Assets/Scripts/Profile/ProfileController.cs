@@ -12,16 +12,15 @@ public class ProfileController : MonoBehaviour {
 	private ProfileView view;
 	public static ProfileController instance;
 	private ProfileModel model;
-
-	//public GUIStyle[] myFriendsVMStyle;
-	//public GUIStyle[] invitationsSentVMStyle;
-	//public GUIStyle[] invitationsReceivedVMStyle;
+	private string m_textPath;
 	public GUIStyle[] friendshipStatusVMStyle;
 	public GUIStyle[] statsVMStyle;
 	public GUIStyle[] userProfileVMStyle;
 	public GUIStyle[] profileScreenVMStyle;
 	public GUIStyle[] profileVMStyle;
 	public GUIStyle[] myTrophiesVMStyle;
+	public Texture2D[] filePickerTextures;
+	public GUISkin fileBrowserSkin;
 	
 	void Start () {
 		
@@ -35,6 +34,9 @@ public class ProfileController : MonoBehaviour {
 		yield return StartCoroutine (model.getProfile ());
 		ApplicationModel.profileChosen = "";
 		this.picturesInitialization ();
+		view.profileScreenVM = new ProfileScreenViewModel (this.filePickerTextures [0],
+		                                                   this.filePickerTextures [1],
+		                                                   this.fileBrowserSkin);
 		view.myTrophiesVM.trophies = model.Trophies;
 		view.userProfileVM.Profile = model.Profile;
 		view.statsVM = new StatsViewModel (model.Profile.TotalNbWins,
@@ -66,30 +68,30 @@ public class ProfileController : MonoBehaviour {
 	private void computeConnections(){
 
 		view.myFriendsVM.contacts = new List<User> ();
-		view.myFriendsVM.profilePictures = new List<int> ();
-		view.invitationsReceivedVM.Contacts = new List<User> ();
-		view.invitationsReceivedVM.profilePictures = new List<int> ();
-		view.invitationsSentVM.Contacts = new List<User> ();
-		view.invitationsSentVM.profilePictures = new List<int> ();
+		view.myFriendsVM.contactsDisplayed = new List<int> ();
+		view.invitationsReceivedVM.contacts = new List<User> ();
+		view.invitationsReceivedVM.contactsDisplayed = new List<int> ();
+		view.invitationsSentVM.contacts = new List<User> ();
+		view.invitationsSentVM.contactsDisplayed = new List<int> ();
 
 		for (int i =0; i<model.Connections.Count;i++)
 		{
 			if (model.Connections[i].IsAccepted)
 			{
 				view.myFriendsVM.contacts.Add (model.Contacts[i]);
-				view.myFriendsVM.profilePictures.Add (i);
+				view.myFriendsVM.contactsDisplayed.Add (i);
 			}
 			else if(model.Profile.Username==ApplicationModel.username)
 			{
 				if(model.Connections[i].IdUser1==model.Player.Id)
 				{
-					view.invitationsSentVM.Contacts.Add (model.Contacts[i]);
-					view.invitationsSentVM.profilePictures.Add (i);
+					view.invitationsSentVM.contacts.Add (model.Contacts[i]);
+					view.invitationsSentVM.contactsDisplayed.Add (i);
 				}
 				else if(model.Connections[i].IdUser2==model.Player.Id) 
 				{
-					view.invitationsReceivedVM.Contacts.Add (model.Contacts[i]);
-					view.invitationsReceivedVM.profilePictures.Add (i);
+					view.invitationsReceivedVM.contacts.Add (model.Contacts[i]);
+					view.invitationsReceivedVM.contactsDisplayed.Add (i);
 				}
 			}
 		}
@@ -106,7 +108,7 @@ public class ProfileController : MonoBehaviour {
 		}
 		if(model.Profile.Username==ApplicationModel.username)
 		{
-			if(view.invitationsReceivedVM.Contacts.Count==0)
+			if(view.invitationsReceivedVM.contacts.Count==0)
 			{
 				view.invitationsReceivedVM.labelNo="Vous n'avez pas d'invitations en attente";
 			}
@@ -114,7 +116,7 @@ public class ProfileController : MonoBehaviour {
 			{
 				view.invitationsReceivedVM.labelNo="";
 			}
-			if(view.invitationsSentVM.Contacts.Count==0)
+			if(view.invitationsSentVM.contacts.Count==0)
 			{
 				view.invitationsSentVM.labelNo="Vous n'avez pas envoye d'invitations";
 			}
@@ -191,7 +193,7 @@ public class ProfileController : MonoBehaviour {
 		}
 		if(model.Profile.Username==ApplicationModel.username)
 		{
-			view.invitationsReceivedVM.nbPages = Mathf.CeilToInt((view.invitationsReceivedVM.Contacts.Count-1) / (3*view.invitationsReceivedVM.elementPerRow))+1;
+			view.invitationsReceivedVM.nbPages = Mathf.CeilToInt((view.invitationsReceivedVM.contacts.Count-1) / (3*view.invitationsReceivedVM.elementPerRow))+1;
 			view.invitationsReceivedVM.pageDebut = 0 ;
 			if (view.invitationsReceivedVM.nbPages>10){
 				view.invitationsReceivedVM.pageFin = 9 ;
@@ -208,7 +210,7 @@ public class ProfileController : MonoBehaviour {
 					view.invitationsReceivedVM.paginatorGuiStyle[i]=view.profileVM.paginationStyle;
 				}
 			}
-			view.invitationsSentVM.nbPages = Mathf.CeilToInt((view.invitationsSentVM.Contacts.Count-1) / (3*view.invitationsSentVM.elementPerRow))+1;
+			view.invitationsSentVM.nbPages = Mathf.CeilToInt((view.invitationsSentVM.contacts.Count-1) / (3*view.invitationsSentVM.elementPerRow))+1;
 			view.invitationsSentVM.pageDebut = 0 ;
 			if (view.invitationsSentVM.nbPages>10){
 				view.invitationsSentVM.pageFin = 9 ;
@@ -230,52 +232,37 @@ public class ProfileController : MonoBehaviour {
 	private void computeFriendshipStatus()
 	{
 		view.friendshipStatusVM.username = model.Profile.Username;
+		view.friendshipStatusVM.status=3;
 		for(int i=0;i<model.Connections.Count;i++)
 		{
 			if(model.Connections[i].IdUser1==model.Player.Id && model.Connections[i].IsAccepted)
 			{
 				view.friendshipStatusVM.status=1;
-				view.friendshipStatusVM.indexConnection=model.Connections[i].Id;
+				view.friendshipStatusVM.indexConnection=i;
 				break;
 			}
 			else if(model.Connections[i].IdUser1==model.Player.Id && !model.Connections[i].IsAccepted)
 			{
 				view.friendshipStatusVM.status=2;
-				view.friendshipStatusVM.indexConnection=model.Connections[i].Id;
+				view.friendshipStatusVM.indexConnection=i;
 				break;
 			}
 			else if(model.Connections[i].IdUser2==model.Player.Id && model.Connections[i].IsAccepted)
 			{
 				view.friendshipStatusVM.status=1;
-				view.friendshipStatusVM.indexConnection=model.Connections[i].Id;
+				view.friendshipStatusVM.indexConnection=i;
 				break;
 			}
 			else if(model.Connections[i].IdUser2==model.Player.Id && !model.Connections[i].IsAccepted)
 			{
 				view.friendshipStatusVM.status=0;
-				view.friendshipStatusVM.indexConnection=model.Connections[i].Id;
+				view.friendshipStatusVM.indexConnection=i;
 				break;
-			}
-			if (i==model.Connections.Count-1)
-			{
-				view.friendshipStatusVM.status=3;
 			}
 		}
 	}
 	private void initStyles()
 	{
-		//for(int i=0;i<this.myFriendsVMStyle.Length-1;i++)
-		//{
-		//view.myFriendsVM.styles[i]=this.myFriendsVMStyle[i];
-		//}
-		//for(int i=0;i<this.invitationsSentVMStyle.Length-1;i++)
-		//{
-		//	view.invitationsSentVM.styles[i]=this.invitationsSentVMStyle[i];
-		//}
-		//for(int i=0;i<this.invitationsReceivedVMStyle.Length-1;i++)
-		//{
-		//	view.invitationsReceivedVM.styles[i]=this.invitationsReceivedVMStyle[i];
-		//}
 		view.profileScreenVM.styles=new GUIStyle[this.profileScreenVMStyle.Length];
 		for(int i=0;i<this.profileScreenVMStyle.Length;i++)
 		{
@@ -327,10 +314,18 @@ public class ProfileController : MonoBehaviour {
 		view.userProfileVM.profilePictureWidth = (int)view.profileScreenVM.blockLeftWidth-2*(int)view.profileScreenVM.gapBetweenblocks;
 		view.userProfileVM.profilePictureHeight = view.userProfileVM.profilePictureWidth;
 
+		view.userProfileVM.updateProfilePictureButtonHeight = view.userProfileVM.profilePictureHeight*10/100;
+		view.userProfileVM.updateProfilePictureButtonWidth = view.userProfileVM.profilePictureWidth;
+
 		view.userProfileVM.profilePictureRect = new Rect (view.profileScreenVM.blockLeft.xMin + (view.profileScreenVM.blockLeftWidth-view.userProfileVM.profilePictureWidth)/2,
 		                                                  view.profileScreenVM.blockLeft.yMin + 0.05f*view.profileScreenVM.blockLeftHeight,
 		                                                  view.userProfileVM.profilePictureWidth,
 		                                                  view.userProfileVM.profilePictureHeight);
+
+		view.userProfileVM.updateProfilePictureButtonRect = new Rect (view.userProfileVM.profilePictureRect.xMin,
+		                                                              view.userProfileVM.profilePictureRect.yMax,
+		                                                              view.userProfileVM.updateProfilePictureButtonWidth,
+		                                                              view.userProfileVM.updateProfilePictureButtonHeight);
 
 		view.myFriendsVM.elementPerRow = 4 + 2*Mathf.FloorToInt(((float)view.profileScreenVM.blockTopCenterWidth/(float)view.profileScreenVM.blockTopCenterHeight - 1.5f));
 		view.invitationsReceivedVM.elementPerRow=Mathf.FloorToInt(view.myFriendsVM.elementPerRow/2f);
@@ -398,15 +393,189 @@ public class ProfileController : MonoBehaviour {
 	}
 	public IEnumerator addConnection()
 	{
-		model.Connections.Add (new Connection (model.Player.Id, model.Profile.Id, false));
+		model.Connections.Add (new Connection (model.Player.Id, model.Profile.Id,false));
+		model.Contacts.Add (model.Player);
+		view.profileVM.contactsPicturesButtonStyle.Add(new GUIStyle());
+		view.profileVM.contactsPicturesButtonStyle[view.profileVM.contactsPicturesButtonStyle.Count-1].normal.background=model.Contacts[model.Contacts.Count-1].texture;
+		StartCoroutine(model.Player.setProfilePicture());
 		yield return StartCoroutine(model.Connections [model.Connections.Count - 1].add ());
-		this.loadData ();
+		if(model.Connections [model.Connections.Count - 1].Error=="")
+		{
+			this.loadData ();
+		}
+		else
+		{
+			view.profileVM.error=model.Connections[model.Connections.Count - 1].Error;
+			view.setError(true);
+		}
 	}
 	public void removeConnection(int indexConnection)
 	{
 		StartCoroutine(model.Connections [indexConnection].remove ());
 		model.Connections.RemoveAt (indexConnection);
+		model.Contacts.RemoveAt (indexConnection);
+		view.profileVM.contactsPicturesButtonStyle.RemoveAt (indexConnection);
 		this.loadData ();
+	}
+	public IEnumerator confirmConnection(int indexConnection)
+	{
+		model.Connections[indexConnection].IsAccepted=true;
+		yield return StartCoroutine(model.Connections [indexConnection].confirm ());
+		if(model.Connections[indexConnection].Error=="")
+		{
+			this.loadData ();
+		}
+		else
+		{
+			view.profileVM.error=model.Connections[indexConnection].Error;
+			view.setError(true);
+		}
+	}
+	public void reloadPage()
+	{
+		if(model.Profile.Username!=ApplicationModel.username)
+		{
+			ApplicationModel.profileChosen=model.Profile.Username;
+		}
+		Application.LoadLevel("Profile");
+	}
+	public IEnumerator checkPassword(string password)
+	{
+		yield return StartCoroutine(ApplicationModel.checkPassword(password));
+		if(ApplicationModel.error=="")
+		{
+			view.setCheckPassword (false);
+			view.setChangePassword(true);
+			view.profileVM.error="";
+		}
+		else
+		{
+			view.profileVM.error=ApplicationModel.error;
+			ApplicationModel.error="";
+		}
+	}
+	public void editPassword(string password)
+	{
+		StartCoroutine(ApplicationModel.editPassword(password));
+		view.setChangePassword(false);
+	}
+	public void initializeError()
+	{
+		view.profileVM.error="";
+	}
+	public void updateUserInformations(string firstname, string surname, string mail)
+	{
+		model.Profile.FirstName = firstname;
+		model.Profile.Surname = surname;
+		model.Profile.Mail = mail;
+		StartCoroutine (model.Profile.updateInformations ());
+	}
+	public IEnumerator updateProfilePicture(string path)
+	{
+		File tempFile = new File ();
+		yield return StartCoroutine (tempFile.createProfilePicture (path));
+		if(tempFile.Error!="")
+		{
+			view.profileVM.error=tempFile.Error;
+			tempFile.Error="";
+			view.setError(true);
+		}
+		else
+		{
+			yield return StartCoroutine(model.Profile.updateProfilePicture(tempFile));
+			if(model.Profile.Error!="")
+			{
+				view.profileVM.error=model.Profile.Error;
+				model.Profile.Error="";
+				view.setError(true);
+			}
+			else
+			{
+				StartCoroutine (model.Profile.setProfilePicture());
+			}
+		}
+	}
+	public void pagination(int section, int scenario, int chosenPage=0)
+	{
+		switch(section)
+		{
+		case 0:
+			switch(scenario)
+			{
+			case 0:
+				view.myFriendsVM.pageDebut = view.myFriendsVM.pageDebut-10;
+				view.myFriendsVM.pageFin = view.myFriendsVM.pageDebut+10;
+				break;
+			case 1:
+				view.myFriendsVM.paginatorGuiStyle[view.myFriendsVM.chosenPage]=view.profileVM.paginationStyle;
+				view.myFriendsVM.chosenPage=chosenPage;
+				view.myFriendsVM.paginatorGuiStyle[chosenPage]=view.profileVM.paginationActivatedStyle;
+				view.myFriendsVM.displayPage();
+				break;
+			case 2:
+				view.myFriendsVM.pageDebut = view.myFriendsVM.pageDebut+10;
+				view.myFriendsVM.pageFin= Mathf.Min(view.myFriendsVM.pageFin+10, view.myFriendsVM.nbPages);
+				break;
+			}
+			break;
+		case 1:
+			switch(scenario)
+			{
+			case 0:
+				view.invitationsSentVM.pageDebut = view.invitationsSentVM.pageDebut-10;
+				view.invitationsSentVM.pageFin = view.invitationsSentVM.pageDebut+10;
+				break;
+			case 1:
+				view.invitationsSentVM.paginatorGuiStyle[view.invitationsSentVM.chosenPage]=view.profileVM.paginationStyle;
+				view.invitationsSentVM.chosenPage=chosenPage;
+				view.invitationsSentVM.paginatorGuiStyle[chosenPage]=view.profileVM.paginationActivatedStyle;
+				view.invitationsSentVM.displayPage();
+				break;
+			case 2:
+				view.invitationsSentVM.pageDebut = view.invitationsSentVM.pageDebut+10;
+				view.invitationsSentVM.pageFin= Mathf.Min(view.invitationsSentVM.pageFin+10, view.invitationsSentVM.nbPages);
+				break;
+			}
+			break;
+		case 2:
+			switch(scenario)
+			{
+			case 0:
+				view.invitationsReceivedVM.pageDebut = view.invitationsReceivedVM.pageDebut-10;
+				view.invitationsReceivedVM.pageFin = view.invitationsReceivedVM.pageDebut+10;
+				break;
+			case 1:
+				view.invitationsReceivedVM.paginatorGuiStyle[view.invitationsReceivedVM.chosenPage]=view.profileVM.paginationStyle;
+				view.invitationsReceivedVM.chosenPage=chosenPage;
+				view.invitationsReceivedVM.paginatorGuiStyle[chosenPage]=view.profileVM.paginationActivatedStyle;
+				view.invitationsReceivedVM.displayPage();
+				break;
+			case 2:
+				view.invitationsReceivedVM.pageDebut = view.invitationsReceivedVM.pageDebut+10;
+				view.invitationsReceivedVM.pageFin= Mathf.Min(view.invitationsReceivedVM.pageFin+10, view.invitationsSentVM.nbPages);
+				break;
+			}
+			break;
+		case 3:
+			switch(scenario)
+			{
+			case 0:
+				view.myTrophiesVM.pageDebut = view.myTrophiesVM.pageDebut-10;
+				view.myTrophiesVM.pageFin = view.myTrophiesVM.pageDebut+10;
+				break;
+			case 1:
+				view.myTrophiesVM.paginatorGuiStyle[view.myTrophiesVM.chosenPage]=view.profileVM.paginationStyle;
+				view.myTrophiesVM.chosenPage=chosenPage;
+				view.myTrophiesVM.paginatorGuiStyle[chosenPage]=view.profileVM.paginationActivatedStyle;
+				view.myTrophiesVM.displayPage();
+				break;
+			case 2:
+				view.myTrophiesVM.pageDebut = view.myTrophiesVM.pageDebut+10;
+				view.myTrophiesVM.pageFin= Mathf.Min(view.myTrophiesVM.pageFin+10, view.myTrophiesVM.nbPages);
+				break;
+			}
+			break;
+		}
 	}
 }
 

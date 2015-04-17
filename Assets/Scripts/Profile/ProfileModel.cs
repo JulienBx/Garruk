@@ -7,7 +7,7 @@ using System.Reflection;
 
 public class ProfileModel
 {
-	private string URLGetUserProfile = ApplicationModel.dev + "get_profile.php";
+	private string URLGetUserProfile = ApplicationModel.host + "get_profile.php";
 
 	public User Profile;
 	public User Player;
@@ -59,7 +59,14 @@ public class ProfileModel
 			}
 			else
 			{
-				Player=new User(System.Convert.ToInt32(playerInformations[0]));
+				Player=new User(System.Convert.ToInt32(playerInformations[0]),
+				                playerInformations[1],
+				                playerInformations[2],
+				                System.Convert.ToInt32(playerInformations[3]),
+				                System.Convert.ToInt32(playerInformations[4]),
+				                System.Convert.ToInt32(playerInformations[5]),
+				                System.Convert.ToInt32(playerInformations[6]),
+				                System.Convert.ToInt32(playerInformations[7]));
 				string[] userInformations = data[1].Split(new string[] { "\\" }, System.StringSplitOptions.None);
 				Profile=new User(System.Convert.ToInt32(userInformations[0]),
 				                userInformations[1],

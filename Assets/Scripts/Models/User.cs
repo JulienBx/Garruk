@@ -15,8 +15,8 @@ public class User
 	private string URLRemoveFromMarket      = ApplicationModel.host + "removeFromMarket.php";
 	private string URLChangeMarketPrice     = ApplicationModel.host + "changeMarketPrice.php";
 	private string URLRenameCard            = ApplicationModel.host + "renameCard.php";
-	private string URLUpdateUserInformations= ApplicationModel.dev + "update_user_informations.php";
-	private string URLUpdateProfilePicture  = ApplicationModel.dev + "update_profilepicture.php";
+	private string URLUpdateUserInformations= ApplicationModel.host + "update_user_informations.php";
+	private string URLUpdateProfilePicture  = ApplicationModel.host + "update_profilepicture.php";
 
 	private string ServerDirectory          = "img/profile/";
 	

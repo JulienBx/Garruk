@@ -17,6 +17,7 @@ public class ProfileViewModel {
 	public GUIStyle contactsInformationStyle;
 	public GUIStyle contactsBackgroundStyle;
 	public bool isMyProfile=true;
+	public string error;
 
 	public ProfileViewModel (){
 	}
