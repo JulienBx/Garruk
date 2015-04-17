@@ -201,7 +201,8 @@ public class ProfileView : MonoBehaviour
 			GUILayout.BeginArea(profileScreenVM.blockTopCenter,profileScreenVM.blockBorderStyle);
 			{
 				GUILayout.Label(myFriendsVM.title,profileVM.titleStyle,GUILayout.Height(profileScreenVM.blockTopCenterHeight*0.1f));
-				GUILayout.Space(profileScreenVM.blockTopCenterHeight*0.8f);
+				GUILayout.Label(myFriendsVM.labelNo,profileVM.labelNoStyle,GUILayout.Height(profileScreenVM.blockTopCenterHeight*0.1f));
+				GUILayout.Space(profileScreenVM.blockTopCenterHeight*0.7f);
 				GUILayout.FlexibleSpace();
 				GUILayout.BeginHorizontal();
 				{
@@ -300,7 +301,8 @@ public class ProfileView : MonoBehaviour
 				GUILayout.BeginArea(profileScreenVM.blockBottomCenterLeft,profileScreenVM.blockBorderStyle);
 				{
 					GUILayout.Label("Invitations envoyées",profileVM.titleStyle,GUILayout.Height(profileScreenVM.blockBottomCenterLeftHeight*0.1f));
-					GUILayout.Space(profileScreenVM.blockBottomCenterLeftHeight*0.8f);
+					GUILayout.Label(invitationsSentVM.labelNo,profileVM.labelNoStyle,GUILayout.Height(profileScreenVM.blockBottomCenterLeftHeight*0.1f));
+					GUILayout.Space(profileScreenVM.blockBottomCenterLeftHeight*0.7f);
 					GUILayout.FlexibleSpace();
 					GUILayout.BeginHorizontal();
 					{
@@ -396,7 +398,8 @@ public class ProfileView : MonoBehaviour
 				GUILayout.BeginArea(profileScreenVM.blockBottomCenterRight,profileScreenVM.blockBorderStyle);
 				{
 					GUILayout.Label("Invitations reçues",profileVM.titleStyle,GUILayout.Height(profileScreenVM.blockBottomCenterRightHeight*0.1f));
-					GUILayout.Space(profileScreenVM.blockBottomCenterRightHeight*0.8f);
+					GUILayout.Label(invitationsReceivedVM.labelNo,profileVM.labelNoStyle,GUILayout.Height(profileScreenVM.blockBottomCenterRightHeight*0.1f));
+					GUILayout.Space(profileScreenVM.blockBottomCenterRightHeight*0.7f);
 					GUILayout.FlexibleSpace();
 					GUILayout.BeginHorizontal();
 					{
@@ -570,7 +573,8 @@ public class ProfileView : MonoBehaviour
 			GUILayout.BeginArea(profileScreenVM.blockBottomRight,profileScreenVM.blockBorderStyle);
 			{
 				GUILayout.Label("Trophées",profileVM.titleStyle,GUILayout.Height(profileScreenVM.blockBottomRightHeight*0.1f));
-				GUILayout.Space(profileScreenVM.blockBottomRightHeight*0.8f);
+				GUILayout.Label(myTrophiesVM.labelNo,profileVM.labelNoStyle,GUILayout.Height(profileScreenVM.blockBottomRightHeight*0.1f));
+				GUILayout.Space(profileScreenVM.blockBottomRightHeight*0.7f);
 				GUILayout.FlexibleSpace();
 				GUILayout.BeginHorizontal();
 				{

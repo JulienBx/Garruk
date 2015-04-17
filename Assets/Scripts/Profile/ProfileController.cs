@@ -99,16 +99,16 @@ public class ProfileController : MonoBehaviour {
 	}
 	private void computeLabelsNo ()
 	{
-		if(view.myFriendsVM.contacts.Count==0)
-		{
-			view.myFriendsVM.labelNo="Vous n'avez pas encore d'amis";
-		}
-		else
-		{
-			view.myFriendsVM.labelNo="";
-		}
 		if(model.Profile.Username==ApplicationModel.username)
 		{
+			if(view.myFriendsVM.contacts.Count==0)
+			{
+				view.myFriendsVM.labelNo="Vous n'avez pas encore d'amis";
+			}
+			else
+			{
+				view.myFriendsVM.labelNo="";
+			}
 			if(view.invitationsReceivedVM.contacts.Count==0)
 			{
 				view.invitationsReceivedVM.labelNo="Vous n'avez pas d'invitations en attente";
@@ -124,6 +124,33 @@ public class ProfileController : MonoBehaviour {
 			else
 			{
 				view.invitationsSentVM.labelNo="";
+			}
+			if(view.myTrophiesVM.trophies.Count==0)
+			{
+				view.myTrophiesVM.labelNo="Vous n'avez pas encore remporté de trophée";
+			}
+			else
+			{
+				view.myTrophiesVM.labelNo="";
+			}
+		}
+		else
+		{
+			if(view.myFriendsVM.contacts.Count==0)
+			{
+				view.myFriendsVM.labelNo=model.Profile.Username+" n'a pas encore d'amis";
+			}
+			else
+			{
+				view.myFriendsVM.labelNo="";
+			}
+			if(view.myTrophiesVM.trophies.Count==0)
+			{
+				view.myTrophiesVM.labelNo=model.Profile.Username+" n'a pas encore de trophée";
+			}
+			else
+			{
+				view.myTrophiesVM.labelNo="";
 			}
 		}
 	}
