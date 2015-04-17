@@ -34,7 +34,7 @@ public class ProfileViewModel {
 	}
 	public void resize(int heightScreen)
 	{
-		this.labelNoStyle.fontSize = heightScreen*25/1000;
+		this.labelNoStyle.fontSize = heightScreen*2/100;
 		this.actionButtonStyle.fontSize = heightScreen*2/100;
 		this.titleStyle.fontSize = heightScreen * 25 / 1000;
 		this.contactsUsernameStyle.fontSize = heightScreen * 2 / 100;
