@@ -45,6 +45,10 @@ public class Card
 	public Card() {
 	}
 
+	public Card(string title)
+	{
+		this.Title = title;
+	}
 	public Card(int id)
 	{
 		this.Id = id;
