@@ -35,6 +35,7 @@ public class User
 	public int TotalNbLooses;
 	public Texture2D texture;
 	public int NbGamesDivision;
+	public bool readnotificationsystem;
 
 	public User()
 	{
