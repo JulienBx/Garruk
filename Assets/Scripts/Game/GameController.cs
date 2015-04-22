@@ -29,6 +29,8 @@ public class GameController : Photon.MonoBehaviour
 	GameView gameView;
 
 	int characterDragged = -1;
+	int playingCharacter = 2;
+	public bool onGoingAttack = false;
 	int mouseX, mouseY ;
 	int nbPlayersReadyToFight ;
 
@@ -73,22 +75,50 @@ public class GameController : Photon.MonoBehaviour
 		this.characterDragged = -1 ;
 	}
 
+	public void setStateOfAttack(bool state)
+	{
+		onGoingAttack = state;
+	}
+
+	public PlayingCardController getPlayingCharacter(bool myCharacter = true)
+	{
+		if (myCharacter)
+		{
+			return myCharacters[playingCharacter].GetComponentInChildren<PlayingCardController>();
+		}
+		else
+		{
+			return hisCharacters[playingCharacter].GetComponentInChildren<PlayingCardController>();
+		}
+	}
+
 	public void moveCharacter(int x, int y){
 		if (this.characterDragged!=-1){
 			photonView.RPC("moveCharacterRPC", PhotonTargets.AllBuffered, x, y, this.characterDragged, this.isFirstPlayer);
 		}
 	}
 
-	[RPC]
-	public void moveCharacterRPC(int x, int y, int c, bool isFirstPlayer){
-		if (this.isFirstPlayer==isFirstPlayer){
-			this.myCharacters[c].GetComponentInChildren<PlayingCardController>().changeTile(tiles[x,y]);
-		}
-		else{
-			this.hisCharacters[c].GetComponentInChildren<PlayingCardController>().changeTile(tiles[x,y]);
-		}
+	public void inflictDamage(int targetCharacter)
+	{
+		photonView.RPC("inflictDamageRPC", PhotonTargets.AllBuffered, targetCharacter, isFirstPlayer);
 	}
 
+	[RPC]
+	public void moveCharacterRPC(int x, int y, int c, bool isFirstPlayer){
+		if (this.isFirstPlayer==isFirstPlayer)
+		{
+			myCharacters[c].GetComponentInChildren<PlayingCardController>().changeTile(tiles[x,y]);
+		}
+		else{
+			hisCharacters[c].GetComponentInChildren<PlayingCardController>().changeTile(tiles[x,y]);
+		}
+	}
+	[RPC]
+	public void inflictDamageRPC(int targetCharacter, bool isFirstPlayer)
+	{
+		int damage = GameController.instance.getPlayingCharacter(this.isFirstPlayer == isFirstPlayer).card.GetAttack();
+		this.myCharacters[targetCharacter].GetComponentInChildren<PlayingCardController>().damage += damage;
+	}
 	public void EndOfGame(int player)
 	{
 		isGameOver = true;
@@ -290,7 +320,7 @@ public class GameController : Photon.MonoBehaviour
 
 	public void StartFight()
 	{
-		photonView.RPC("StartFightRPC", PhotonTargets.AllBuffered, PhotonNetwork.player.ID);
+		photonView.RPC("StartFightRPC", PhotonTargets.AllBuffered);//, PhotonNetwork.player.ID);
 	}
 	
 	// Photon

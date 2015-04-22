@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -131,7 +131,11 @@ public class GameView : MonoBehaviour
 							GameController.instance.StartFight();
 						}
 					}
+					if (GUILayout.Button("Attaquer", bottomZoneVM.buttonTextStyle))
+					{
+						GameController.instance.setStateOfAttack(true);
 
+					}
 					if (GUILayout.Button("Quitter le match", bottomZoneVM.buttonTextStyle))
 					{
 						PhotonNetwork.Disconnect();

@@ -55,7 +55,15 @@ public class PlayingCardView : MonoBehaviour
 	}
 
 	void OnMouseUp(){
-		gameObject.GetComponentInChildren<PlayingCardController>().release();
+		PlayingCardController pcc = gameObject.GetComponentInChildren<PlayingCardController>();
+
+		pcc.release();
+		if (GameController.instance.onGoingAttack)
+		{
+			pcc.getDamage();
+			GameController.instance.setStateOfAttack(false);
+			Debug.Log("total damage : " + pcc.damage);
+		}
 	}
 
 //				GUILayout.BeginHorizontal(statsZoneStyle, GUILayout.Width(stats.width));

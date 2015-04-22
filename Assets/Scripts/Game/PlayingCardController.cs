@@ -8,9 +8,10 @@ public class PlayingCardController : MonoBehaviour
 	public Texture2D[] icons ;
 	private float scale ;
 	public GameObject tile ;
-	private Card card ;
+	public Card card ;
 	public int ID = -1 ;
-	public bool isMovable ;
+	public bool isMovable;
+	public int damage = 0;
 
 //	Texture2D attackIcon ;
 //	Texture2D quicknessIcon ;
@@ -137,6 +138,11 @@ public class PlayingCardController : MonoBehaviour
 		if (this.isMovable){
 			GameController.instance.dropCharacter();
 		}
+	}
+
+	public void getDamage()
+	{
+		GameController.instance.inflictDamage(ID);
 	}
 
 //	void Start () {
