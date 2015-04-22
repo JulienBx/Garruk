@@ -51,13 +51,13 @@ public class GameNetworkCard : Photon.MonoBehaviour
 
 	}
 	
-	public Vector2 CalcGridPos()
-	{
-		float x = (transform.position.x / (GameTile.instance.hexWidth * 1.5f/2) + (GameBoard.instance.gridWidthInHexes / 2f) + 1);
-		float y = Mathf.Floor(-(transform.position.y / (GameTile.instance.hexHeight) - (GameBoard.instance.gridHeightInHexes / 2f) + 1.5f));
-		
-		return new Vector2(x, y);
-	}
+//	public Vector2 CalcGridPos()
+//	{
+//		float x = (transform.position.x / (GameTile.instance.hexWidth * 1.5f/2) + (GameView.instance.gridWidthInHexes / 2f) + 1);
+//		float y = Mathf.Floor(-(transform.position.y / (GameTile.instance.hexHeight) - (GameView.instance.gridHeightInHexes / 2f) + 1.5f));
+//		
+//		return new Vector2(x, y);
+//	}
 	
 //	void OnMouseDown() 
 //	{
@@ -202,35 +202,35 @@ public class GameNetworkCard : Photon.MonoBehaviour
 	
 	void colorAndMarkNeighboringTiles(IEnumerable allNeighbours, int i, Color color)
 	{
-		if (i-- == 0)
-		{
-			return;
-		}
-		foreach (Tile tile in allNeighbours)
-		{
-			GameTile gTile = GameObject.Find("hex " + tile.X + "-" + tile.Y).GetComponent<GameTile>();
-			
-			Vector3 pos = gTile.transform.TransformPoint(Vector3.zero) + new Vector3(0, 0, -2); // les colliders fonctionnent que d'un coté sur les planes, on va donc reculer et regarder ensuite en avant
-			
-			RaycastHit hit;
-			
-			bool hasCard = false;
-			if (Physics.Raycast(pos, Vector3.forward, out hit))
-			{
-				if (hit.transform.gameObject.tag == "PlayableCard")
-				{
-					hasCard = true;
-				}
-			}
-			
-			if (!hasCard && i > gTile.pathIndex)
-			{
-				gTile.pathIndex = i;
-				gTile.Passable = true;
-				gTile.changeColor(color);
-				colorAndMarkNeighboringTiles(tile.AllNeighbours, i, color);
-			}
-		}
+//		if (i-- == 0)
+//		{
+//			return;
+//		}
+//		foreach (Tile tile in allNeighbours)
+//		{
+//			GameTile gTile = GameObject.Find("hex " + tile.X + "-" + tile.Y).GetComponent<GameTile>();
+//			
+//			Vector3 pos = gTile.transform.TransformPoint(Vector3.zero) + new Vector3(0, 0, -2); // les colliders fonctionnent que d'un coté sur les planes, on va donc reculer et regarder ensuite en avant
+//			
+//			RaycastHit hit;
+//			
+//			bool hasCard = false;
+//			if (Physics.Raycast(pos, Vector3.forward, out hit))
+//			{
+//				if (hit.transform.gameObject.tag == "PlayableCard")
+//				{
+//					hasCard = true;
+//				}
+//			}
+//			
+//			if (!hasCard && i > gTile.pathIndex)
+//			{
+//				gTile.pathIndex = i;
+//				gTile.Passable = true;
+//				gTile.changeColor(color);
+//				colorAndMarkNeighboringTiles(tile.AllNeighbours, i, color);
+//			}
+//		}
 	}
 	
 //	public void FindNeighbors()
@@ -289,8 +289,9 @@ public class GameNetworkCard : Photon.MonoBehaviour
 
 	int CalcNbTiles(GameTile currentTile, GameTile attemptToMoveTo)
 	{
-		var path = PathFinder.FindPath(currentTile.tile, attemptToMoveTo.tile);
-		return (int)path.TotalCost;
+		//var path = PathFinder.FindPath(currentTile.tile, attemptToMoveTo.tile);
+		//return (int)path.TotalCost;
+		return 0;
 	}
 	
 	// Messages RPC

@@ -849,7 +849,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 473086}
   - 148: {fileID: 14813072}
-  - 114: {fileID: 11464630}
   m_Layer: 0
   m_Name: Game Board
   m_TagString: Untagged
@@ -3482,7 +3481,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cursorDragging: {fileID: 2800000, guid: a160021e648165a4a96d4743fe4bd2c4, type: 3}
   cursorExchange: {fileID: 2800000, guid: 026af695b0b88b04eb51244dad137870, type: 3}
-  TimeOfPositionning: 1
+  cursorAttack: {fileID: 0}
+  cursorTarget: {fileID: 0}
+  DefaultMaterial: {fileID: 0}
+  OpaqueMaterial: {fileID: 0}
+  backTile: []
+  hexWidth: 0
+  hexHeight: 0
+  gridWidthInHexes: 5
+  gridHeightInHexes: 8
+  pathIndex: 0
+  Passable: 0
 --- !u!114 &11449842
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3496,7 +3505,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cursorDragging: {fileID: 2800000, guid: a160021e648165a4a96d4743fe4bd2c4, type: 3}
   cursorExchange: {fileID: 2800000, guid: 026af695b0b88b04eb51244dad137870, type: 3}
-  TimeOfPositionning: 1
+  cursorAttack: {fileID: 0}
+  cursorTarget: {fileID: 0}
+  DefaultMaterial: {fileID: 0}
+  OpaqueMaterial: {fileID: 0}
+  backTile: []
+  hexWidth: 0
+  hexHeight: 0
+  gridWidthInHexes: 5
+  gridHeightInHexes: 8
+  pathIndex: 0
+  Passable: 0
 --- !u!114 &11449844
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3510,7 +3529,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cursorDragging: {fileID: 2800000, guid: a160021e648165a4a96d4743fe4bd2c4, type: 3}
   cursorExchange: {fileID: 2800000, guid: 026af695b0b88b04eb51244dad137870, type: 3}
-  TimeOfPositionning: 1
+  cursorAttack: {fileID: 0}
+  cursorTarget: {fileID: 0}
+  DefaultMaterial: {fileID: 0}
+  OpaqueMaterial: {fileID: 0}
+  backTile: []
+  hexWidth: 0
+  hexHeight: 0
+  gridWidthInHexes: 5
+  gridHeightInHexes: 8
+  pathIndex: 0
+  Passable: 0
 --- !u!114 &11449846
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3524,7 +3553,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cursorDragging: {fileID: 2800000, guid: a160021e648165a4a96d4743fe4bd2c4, type: 3}
   cursorExchange: {fileID: 2800000, guid: 026af695b0b88b04eb51244dad137870, type: 3}
-  TimeOfPositionning: 1
+  cursorAttack: {fileID: 0}
+  cursorTarget: {fileID: 0}
+  DefaultMaterial: {fileID: 0}
+  OpaqueMaterial: {fileID: 0}
+  backTile: []
+  hexWidth: 0
+  hexHeight: 0
+  gridWidthInHexes: 5
+  gridHeightInHexes: 8
+  pathIndex: 0
+  Passable: 0
 --- !u!114 &11449848
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3538,24 +3577,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cursorDragging: {fileID: 2800000, guid: a160021e648165a4a96d4743fe4bd2c4, type: 3}
   cursorExchange: {fileID: 2800000, guid: 026af695b0b88b04eb51244dad137870, type: 3}
-  TimeOfPositionning: 1
---- !u!114 &11464630
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 173086}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9adb4ee8d6e7c0b469016017a36ce6aa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  locations: []
-  Card: {fileID: 158266, guid: 41e7592d34820a2439ba5cd78e942c28, type: 2}
-  isDragging: 0
-  droppedCard: 0
-  CardSelected: {fileID: 0}
-  CardHovered: {fileID: 0}
+  cursorAttack: {fileID: 0}
+  cursorTarget: {fileID: 0}
+  DefaultMaterial: {fileID: 0}
+  OpaqueMaterial: {fileID: 0}
+  backTile: []
+  hexWidth: 0
+  hexHeight: 0
+  gridWidthInHexes: 5
+  gridHeightInHexes: 8
+  pathIndex: 0
+  Passable: 0
 --- !u!114 &11470304
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3635,7 +3667,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cursorDragging: {fileID: 2800000, guid: a160021e648165a4a96d4743fe4bd2c4, type: 3}
   cursorExchange: {fileID: 2800000, guid: 026af695b0b88b04eb51244dad137870, type: 3}
-  TimeOfPositionning: 1
+  cursorAttack: {fileID: 0}
+  cursorTarget: {fileID: 0}
+  DefaultMaterial: {fileID: 0}
+  OpaqueMaterial: {fileID: 0}
+  backTile: []
+  hexWidth: 0
+  hexHeight: 0
+  gridWidthInHexes: 5
+  gridHeightInHexes: 8
+  pathIndex: 0
+  Passable: 0
 --- !u!114 &11470318
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3660,7 +3702,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cursorDragging: {fileID: 2800000, guid: a160021e648165a4a96d4743fe4bd2c4, type: 3}
   cursorExchange: {fileID: 2800000, guid: 026af695b0b88b04eb51244dad137870, type: 3}
-  TimeOfPositionning: 1
+  cursorAttack: {fileID: 0}
+  cursorTarget: {fileID: 0}
+  DefaultMaterial: {fileID: 0}
+  OpaqueMaterial: {fileID: 0}
+  backTile: []
+  hexWidth: 0
+  hexHeight: 0
+  gridWidthInHexes: 5
+  gridHeightInHexes: 8
+  pathIndex: 0
+  Passable: 0
 --- !u!114 &11470322
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3685,7 +3737,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cursorDragging: {fileID: 2800000, guid: a160021e648165a4a96d4743fe4bd2c4, type: 3}
   cursorExchange: {fileID: 2800000, guid: 026af695b0b88b04eb51244dad137870, type: 3}
-  TimeOfPositionning: 1
+  cursorAttack: {fileID: 0}
+  cursorTarget: {fileID: 0}
+  DefaultMaterial: {fileID: 0}
+  OpaqueMaterial: {fileID: 0}
+  backTile: []
+  hexWidth: 0
+  hexHeight: 0
+  gridWidthInHexes: 5
+  gridHeightInHexes: 8
+  pathIndex: 0
+  Passable: 0
 --- !u!114 &11470326
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3710,7 +3772,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cursorDragging: {fileID: 2800000, guid: a160021e648165a4a96d4743fe4bd2c4, type: 3}
   cursorExchange: {fileID: 2800000, guid: 026af695b0b88b04eb51244dad137870, type: 3}
-  TimeOfPositionning: 1
+  cursorAttack: {fileID: 0}
+  cursorTarget: {fileID: 0}
+  DefaultMaterial: {fileID: 0}
+  OpaqueMaterial: {fileID: 0}
+  backTile: []
+  hexWidth: 0
+  hexHeight: 0
+  gridWidthInHexes: 5
+  gridHeightInHexes: 8
+  pathIndex: 0
+  Passable: 0
 --- !u!114 &11470330
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3735,7 +3807,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cursorDragging: {fileID: 2800000, guid: a160021e648165a4a96d4743fe4bd2c4, type: 3}
   cursorExchange: {fileID: 2800000, guid: 026af695b0b88b04eb51244dad137870, type: 3}
-  TimeOfPositionning: 1
+  cursorAttack: {fileID: 0}
+  cursorTarget: {fileID: 0}
+  DefaultMaterial: {fileID: 0}
+  OpaqueMaterial: {fileID: 0}
+  backTile: []
+  hexWidth: 0
+  hexHeight: 0
+  gridWidthInHexes: 5
+  gridHeightInHexes: 8
+  pathIndex: 0
+  Passable: 0
 --- !u!114 &11470334
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3760,7 +3842,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cursorDragging: {fileID: 2800000, guid: a160021e648165a4a96d4743fe4bd2c4, type: 3}
   cursorExchange: {fileID: 2800000, guid: 026af695b0b88b04eb51244dad137870, type: 3}
-  TimeOfPositionning: 1
+  cursorAttack: {fileID: 0}
+  cursorTarget: {fileID: 0}
+  DefaultMaterial: {fileID: 0}
+  OpaqueMaterial: {fileID: 0}
+  backTile: []
+  hexWidth: 0
+  hexHeight: 0
+  gridWidthInHexes: 5
+  gridHeightInHexes: 8
+  pathIndex: 0
+  Passable: 0
 --- !u!114 &11470338
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3785,7 +3877,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cursorDragging: {fileID: 2800000, guid: a160021e648165a4a96d4743fe4bd2c4, type: 3}
   cursorExchange: {fileID: 2800000, guid: 026af695b0b88b04eb51244dad137870, type: 3}
-  TimeOfPositionning: 1
+  cursorAttack: {fileID: 0}
+  cursorTarget: {fileID: 0}
+  DefaultMaterial: {fileID: 0}
+  OpaqueMaterial: {fileID: 0}
+  backTile: []
+  hexWidth: 0
+  hexHeight: 0
+  gridWidthInHexes: 5
+  gridHeightInHexes: 8
+  pathIndex: 0
+  Passable: 0
 --- !u!114 &11470342
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3810,7 +3912,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cursorDragging: {fileID: 2800000, guid: a160021e648165a4a96d4743fe4bd2c4, type: 3}
   cursorExchange: {fileID: 2800000, guid: 026af695b0b88b04eb51244dad137870, type: 3}
-  TimeOfPositionning: 1
+  cursorAttack: {fileID: 0}
+  cursorTarget: {fileID: 0}
+  DefaultMaterial: {fileID: 0}
+  OpaqueMaterial: {fileID: 0}
+  backTile: []
+  hexWidth: 0
+  hexHeight: 0
+  gridWidthInHexes: 5
+  gridHeightInHexes: 8
+  pathIndex: 0
+  Passable: 0
 --- !u!114 &11470346
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3835,7 +3947,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cursorDragging: {fileID: 2800000, guid: a160021e648165a4a96d4743fe4bd2c4, type: 3}
   cursorExchange: {fileID: 2800000, guid: 026af695b0b88b04eb51244dad137870, type: 3}
-  TimeOfPositionning: 1
+  cursorAttack: {fileID: 0}
+  cursorTarget: {fileID: 0}
+  DefaultMaterial: {fileID: 0}
+  OpaqueMaterial: {fileID: 0}
+  backTile: []
+  hexWidth: 0
+  hexHeight: 0
+  gridWidthInHexes: 5
+  gridHeightInHexes: 8
+  pathIndex: 0
+  Passable: 0
 --- !u!114 &11470350
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3860,7 +3982,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cursorDragging: {fileID: 2800000, guid: a160021e648165a4a96d4743fe4bd2c4, type: 3}
   cursorExchange: {fileID: 2800000, guid: 026af695b0b88b04eb51244dad137870, type: 3}
-  TimeOfPositionning: 1
+  cursorAttack: {fileID: 0}
+  cursorTarget: {fileID: 0}
+  DefaultMaterial: {fileID: 0}
+  OpaqueMaterial: {fileID: 0}
+  backTile: []
+  hexWidth: 0
+  hexHeight: 0
+  gridWidthInHexes: 5
+  gridHeightInHexes: 8
+  pathIndex: 0
+  Passable: 0
 --- !u!114 &11470354
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3885,7 +4017,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cursorDragging: {fileID: 2800000, guid: a160021e648165a4a96d4743fe4bd2c4, type: 3}
   cursorExchange: {fileID: 2800000, guid: 026af695b0b88b04eb51244dad137870, type: 3}
-  TimeOfPositionning: 1
+  cursorAttack: {fileID: 0}
+  cursorTarget: {fileID: 0}
+  DefaultMaterial: {fileID: 0}
+  OpaqueMaterial: {fileID: 0}
+  backTile: []
+  hexWidth: 0
+  hexHeight: 0
+  gridWidthInHexes: 5
+  gridHeightInHexes: 8
+  pathIndex: 0
+  Passable: 0
 --- !u!114 &11470358
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3910,7 +4052,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cursorDragging: {fileID: 2800000, guid: a160021e648165a4a96d4743fe4bd2c4, type: 3}
   cursorExchange: {fileID: 2800000, guid: 026af695b0b88b04eb51244dad137870, type: 3}
-  TimeOfPositionning: 1
+  cursorAttack: {fileID: 0}
+  cursorTarget: {fileID: 0}
+  DefaultMaterial: {fileID: 0}
+  OpaqueMaterial: {fileID: 0}
+  backTile: []
+  hexWidth: 0
+  hexHeight: 0
+  gridWidthInHexes: 5
+  gridHeightInHexes: 8
+  pathIndex: 0
+  Passable: 0
 --- !u!114 &11470362
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3935,7 +4087,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cursorDragging: {fileID: 2800000, guid: a160021e648165a4a96d4743fe4bd2c4, type: 3}
   cursorExchange: {fileID: 2800000, guid: 026af695b0b88b04eb51244dad137870, type: 3}
-  TimeOfPositionning: 1
+  cursorAttack: {fileID: 0}
+  cursorTarget: {fileID: 0}
+  DefaultMaterial: {fileID: 0}
+  OpaqueMaterial: {fileID: 0}
+  backTile: []
+  hexWidth: 0
+  hexHeight: 0
+  gridWidthInHexes: 5
+  gridHeightInHexes: 8
+  pathIndex: 0
+  Passable: 0
 --- !u!114 &11470366
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3960,7 +4122,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cursorDragging: {fileID: 2800000, guid: a160021e648165a4a96d4743fe4bd2c4, type: 3}
   cursorExchange: {fileID: 2800000, guid: 026af695b0b88b04eb51244dad137870, type: 3}
-  TimeOfPositionning: 1
+  cursorAttack: {fileID: 0}
+  cursorTarget: {fileID: 0}
+  DefaultMaterial: {fileID: 0}
+  OpaqueMaterial: {fileID: 0}
+  backTile: []
+  hexWidth: 0
+  hexHeight: 0
+  gridWidthInHexes: 5
+  gridHeightInHexes: 8
+  pathIndex: 0
+  Passable: 0
 --- !u!114 &11470370
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3985,7 +4157,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cursorDragging: {fileID: 2800000, guid: a160021e648165a4a96d4743fe4bd2c4, type: 3}
   cursorExchange: {fileID: 2800000, guid: 026af695b0b88b04eb51244dad137870, type: 3}
-  TimeOfPositionning: 1
+  cursorAttack: {fileID: 0}
+  cursorTarget: {fileID: 0}
+  DefaultMaterial: {fileID: 0}
+  OpaqueMaterial: {fileID: 0}
+  backTile: []
+  hexWidth: 0
+  hexHeight: 0
+  gridWidthInHexes: 5
+  gridHeightInHexes: 8
+  pathIndex: 0
+  Passable: 0
 --- !u!114 &11470374
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4010,7 +4192,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cursorDragging: {fileID: 2800000, guid: a160021e648165a4a96d4743fe4bd2c4, type: 3}
   cursorExchange: {fileID: 2800000, guid: 026af695b0b88b04eb51244dad137870, type: 3}
-  TimeOfPositionning: 1
+  cursorAttack: {fileID: 0}
+  cursorTarget: {fileID: 0}
+  DefaultMaterial: {fileID: 0}
+  OpaqueMaterial: {fileID: 0}
+  backTile: []
+  hexWidth: 0
+  hexHeight: 0
+  gridWidthInHexes: 5
+  gridHeightInHexes: 8
+  pathIndex: 0
+  Passable: 0
 --- !u!114 &11470378
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4035,7 +4227,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cursorDragging: {fileID: 2800000, guid: a160021e648165a4a96d4743fe4bd2c4, type: 3}
   cursorExchange: {fileID: 2800000, guid: 026af695b0b88b04eb51244dad137870, type: 3}
-  TimeOfPositionning: 1
+  cursorAttack: {fileID: 0}
+  cursorTarget: {fileID: 0}
+  DefaultMaterial: {fileID: 0}
+  OpaqueMaterial: {fileID: 0}
+  backTile: []
+  hexWidth: 0
+  hexHeight: 0
+  gridWidthInHexes: 5
+  gridHeightInHexes: 8
+  pathIndex: 0
+  Passable: 0
 --- !u!114 &11470382
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4060,7 +4262,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cursorDragging: {fileID: 2800000, guid: a160021e648165a4a96d4743fe4bd2c4, type: 3}
   cursorExchange: {fileID: 2800000, guid: 026af695b0b88b04eb51244dad137870, type: 3}
-  TimeOfPositionning: 1
+  cursorAttack: {fileID: 0}
+  cursorTarget: {fileID: 0}
+  DefaultMaterial: {fileID: 0}
+  OpaqueMaterial: {fileID: 0}
+  backTile: []
+  hexWidth: 0
+  hexHeight: 0
+  gridWidthInHexes: 5
+  gridHeightInHexes: 8
+  pathIndex: 0
+  Passable: 0
 --- !u!114 &11470386
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4085,7 +4297,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cursorDragging: {fileID: 2800000, guid: a160021e648165a4a96d4743fe4bd2c4, type: 3}
   cursorExchange: {fileID: 2800000, guid: 026af695b0b88b04eb51244dad137870, type: 3}
-  TimeOfPositionning: 1
+  cursorAttack: {fileID: 0}
+  cursorTarget: {fileID: 0}
+  DefaultMaterial: {fileID: 0}
+  OpaqueMaterial: {fileID: 0}
+  backTile: []
+  hexWidth: 0
+  hexHeight: 0
+  gridWidthInHexes: 5
+  gridHeightInHexes: 8
+  pathIndex: 0
+  Passable: 0
 --- !u!114 &11470390
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4110,7 +4332,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cursorDragging: {fileID: 2800000, guid: a160021e648165a4a96d4743fe4bd2c4, type: 3}
   cursorExchange: {fileID: 2800000, guid: 026af695b0b88b04eb51244dad137870, type: 3}
-  TimeOfPositionning: 1
+  cursorAttack: {fileID: 0}
+  cursorTarget: {fileID: 0}
+  DefaultMaterial: {fileID: 0}
+  OpaqueMaterial: {fileID: 0}
+  backTile: []
+  hexWidth: 0
+  hexHeight: 0
+  gridWidthInHexes: 5
+  gridHeightInHexes: 8
+  pathIndex: 0
+  Passable: 0
 --- !u!114 &11470394
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4135,7 +4367,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cursorDragging: {fileID: 2800000, guid: a160021e648165a4a96d4743fe4bd2c4, type: 3}
   cursorExchange: {fileID: 2800000, guid: 026af695b0b88b04eb51244dad137870, type: 3}
-  TimeOfPositionning: 1
+  cursorAttack: {fileID: 0}
+  cursorTarget: {fileID: 0}
+  DefaultMaterial: {fileID: 0}
+  OpaqueMaterial: {fileID: 0}
+  backTile: []
+  hexWidth: 0
+  hexHeight: 0
+  gridWidthInHexes: 5
+  gridHeightInHexes: 8
+  pathIndex: 0
+  Passable: 0
 --- !u!114 &11470398
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4160,7 +4402,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cursorDragging: {fileID: 2800000, guid: a160021e648165a4a96d4743fe4bd2c4, type: 3}
   cursorExchange: {fileID: 2800000, guid: 026af695b0b88b04eb51244dad137870, type: 3}
-  TimeOfPositionning: 1
+  cursorAttack: {fileID: 0}
+  cursorTarget: {fileID: 0}
+  DefaultMaterial: {fileID: 0}
+  OpaqueMaterial: {fileID: 0}
+  backTile: []
+  hexWidth: 0
+  hexHeight: 0
+  gridWidthInHexes: 5
+  gridHeightInHexes: 8
+  pathIndex: 0
+  Passable: 0
 --- !u!114 &11470402
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4185,7 +4437,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cursorDragging: {fileID: 2800000, guid: a160021e648165a4a96d4743fe4bd2c4, type: 3}
   cursorExchange: {fileID: 2800000, guid: 026af695b0b88b04eb51244dad137870, type: 3}
-  TimeOfPositionning: 1
+  cursorAttack: {fileID: 0}
+  cursorTarget: {fileID: 0}
+  DefaultMaterial: {fileID: 0}
+  OpaqueMaterial: {fileID: 0}
+  backTile: []
+  hexWidth: 0
+  hexHeight: 0
+  gridWidthInHexes: 5
+  gridHeightInHexes: 8
+  pathIndex: 0
+  Passable: 0
 --- !u!114 &11470406
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4210,7 +4472,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cursorDragging: {fileID: 2800000, guid: a160021e648165a4a96d4743fe4bd2c4, type: 3}
   cursorExchange: {fileID: 2800000, guid: 026af695b0b88b04eb51244dad137870, type: 3}
-  TimeOfPositionning: 1
+  cursorAttack: {fileID: 0}
+  cursorTarget: {fileID: 0}
+  DefaultMaterial: {fileID: 0}
+  OpaqueMaterial: {fileID: 0}
+  backTile: []
+  hexWidth: 0
+  hexHeight: 0
+  gridWidthInHexes: 5
+  gridHeightInHexes: 8
+  pathIndex: 0
+  Passable: 0
 --- !u!114 &11470410
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4235,7 +4507,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cursorDragging: {fileID: 2800000, guid: a160021e648165a4a96d4743fe4bd2c4, type: 3}
   cursorExchange: {fileID: 2800000, guid: 026af695b0b88b04eb51244dad137870, type: 3}
-  TimeOfPositionning: 1
+  cursorAttack: {fileID: 0}
+  cursorTarget: {fileID: 0}
+  DefaultMaterial: {fileID: 0}
+  OpaqueMaterial: {fileID: 0}
+  backTile: []
+  hexWidth: 0
+  hexHeight: 0
+  gridWidthInHexes: 5
+  gridHeightInHexes: 8
+  pathIndex: 0
+  Passable: 0
 --- !u!114 &11470414
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4260,7 +4542,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cursorDragging: {fileID: 2800000, guid: a160021e648165a4a96d4743fe4bd2c4, type: 3}
   cursorExchange: {fileID: 2800000, guid: 026af695b0b88b04eb51244dad137870, type: 3}
-  TimeOfPositionning: 1
+  cursorAttack: {fileID: 0}
+  cursorTarget: {fileID: 0}
+  DefaultMaterial: {fileID: 0}
+  OpaqueMaterial: {fileID: 0}
+  backTile: []
+  hexWidth: 0
+  hexHeight: 0
+  gridWidthInHexes: 5
+  gridHeightInHexes: 8
+  pathIndex: 0
+  Passable: 0
 --- !u!114 &11470418
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4285,7 +4577,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cursorDragging: {fileID: 2800000, guid: a160021e648165a4a96d4743fe4bd2c4, type: 3}
   cursorExchange: {fileID: 2800000, guid: 026af695b0b88b04eb51244dad137870, type: 3}
-  TimeOfPositionning: 1
+  cursorAttack: {fileID: 0}
+  cursorTarget: {fileID: 0}
+  DefaultMaterial: {fileID: 0}
+  OpaqueMaterial: {fileID: 0}
+  backTile: []
+  hexWidth: 0
+  hexHeight: 0
+  gridWidthInHexes: 5
+  gridHeightInHexes: 8
+  pathIndex: 0
+  Passable: 0
 --- !u!114 &11470422
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4310,7 +4612,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cursorDragging: {fileID: 2800000, guid: a160021e648165a4a96d4743fe4bd2c4, type: 3}
   cursorExchange: {fileID: 2800000, guid: 026af695b0b88b04eb51244dad137870, type: 3}
-  TimeOfPositionning: 1
+  cursorAttack: {fileID: 0}
+  cursorTarget: {fileID: 0}
+  DefaultMaterial: {fileID: 0}
+  OpaqueMaterial: {fileID: 0}
+  backTile: []
+  hexWidth: 0
+  hexHeight: 0
+  gridWidthInHexes: 5
+  gridHeightInHexes: 8
+  pathIndex: 0
+  Passable: 0
 --- !u!114 &11470426
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4335,7 +4647,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cursorDragging: {fileID: 2800000, guid: a160021e648165a4a96d4743fe4bd2c4, type: 3}
   cursorExchange: {fileID: 2800000, guid: 026af695b0b88b04eb51244dad137870, type: 3}
-  TimeOfPositionning: 1
+  cursorAttack: {fileID: 0}
+  cursorTarget: {fileID: 0}
+  DefaultMaterial: {fileID: 0}
+  OpaqueMaterial: {fileID: 0}
+  backTile: []
+  hexWidth: 0
+  hexHeight: 0
+  gridWidthInHexes: 5
+  gridHeightInHexes: 8
+  pathIndex: 0
+  Passable: 0
 --- !u!114 &11470430
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4360,7 +4682,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cursorDragging: {fileID: 2800000, guid: a160021e648165a4a96d4743fe4bd2c4, type: 3}
   cursorExchange: {fileID: 2800000, guid: 026af695b0b88b04eb51244dad137870, type: 3}
-  TimeOfPositionning: 1
+  cursorAttack: {fileID: 0}
+  cursorTarget: {fileID: 0}
+  DefaultMaterial: {fileID: 0}
+  OpaqueMaterial: {fileID: 0}
+  backTile: []
+  hexWidth: 0
+  hexHeight: 0
+  gridWidthInHexes: 5
+  gridHeightInHexes: 8
+  pathIndex: 0
+  Passable: 0
 --- !u!114 &11470434
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4385,7 +4717,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cursorDragging: {fileID: 2800000, guid: a160021e648165a4a96d4743fe4bd2c4, type: 3}
   cursorExchange: {fileID: 2800000, guid: 026af695b0b88b04eb51244dad137870, type: 3}
-  TimeOfPositionning: 1
+  cursorAttack: {fileID: 0}
+  cursorTarget: {fileID: 0}
+  DefaultMaterial: {fileID: 0}
+  OpaqueMaterial: {fileID: 0}
+  backTile: []
+  hexWidth: 0
+  hexHeight: 0
+  gridWidthInHexes: 5
+  gridHeightInHexes: 8
+  pathIndex: 0
+  Passable: 0
 --- !u!114 &11470438
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4410,7 +4752,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cursorDragging: {fileID: 2800000, guid: a160021e648165a4a96d4743fe4bd2c4, type: 3}
   cursorExchange: {fileID: 2800000, guid: 026af695b0b88b04eb51244dad137870, type: 3}
-  TimeOfPositionning: 1
+  cursorAttack: {fileID: 0}
+  cursorTarget: {fileID: 0}
+  DefaultMaterial: {fileID: 0}
+  OpaqueMaterial: {fileID: 0}
+  backTile: []
+  hexWidth: 0
+  hexHeight: 0
+  gridWidthInHexes: 5
+  gridHeightInHexes: 8
+  pathIndex: 0
+  Passable: 0
 --- !u!114 &11470442
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4435,7 +4787,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cursorDragging: {fileID: 2800000, guid: a160021e648165a4a96d4743fe4bd2c4, type: 3}
   cursorExchange: {fileID: 2800000, guid: 026af695b0b88b04eb51244dad137870, type: 3}
-  TimeOfPositionning: 1
+  cursorAttack: {fileID: 0}
+  cursorTarget: {fileID: 0}
+  DefaultMaterial: {fileID: 0}
+  OpaqueMaterial: {fileID: 0}
+  backTile: []
+  hexWidth: 0
+  hexHeight: 0
+  gridWidthInHexes: 5
+  gridHeightInHexes: 8
+  pathIndex: 0
+  Passable: 0
 --- !u!114 &11470446
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4460,7 +4822,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cursorDragging: {fileID: 2800000, guid: a160021e648165a4a96d4743fe4bd2c4, type: 3}
   cursorExchange: {fileID: 2800000, guid: 026af695b0b88b04eb51244dad137870, type: 3}
-  TimeOfPositionning: 1
+  cursorAttack: {fileID: 0}
+  cursorTarget: {fileID: 0}
+  DefaultMaterial: {fileID: 0}
+  OpaqueMaterial: {fileID: 0}
+  backTile: []
+  hexWidth: 0
+  hexHeight: 0
+  gridWidthInHexes: 5
+  gridHeightInHexes: 8
+  pathIndex: 0
+  Passable: 0
 --- !u!114 &11470450
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4485,7 +4857,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cursorDragging: {fileID: 2800000, guid: a160021e648165a4a96d4743fe4bd2c4, type: 3}
   cursorExchange: {fileID: 2800000, guid: 026af695b0b88b04eb51244dad137870, type: 3}
-  TimeOfPositionning: 1
+  cursorAttack: {fileID: 0}
+  cursorTarget: {fileID: 0}
+  DefaultMaterial: {fileID: 0}
+  OpaqueMaterial: {fileID: 0}
+  backTile: []
+  hexWidth: 0
+  hexHeight: 0
+  gridWidthInHexes: 5
+  gridHeightInHexes: 8
+  pathIndex: 0
+  Passable: 0
 --- !u!148 &14813072
 NetworkView:
   m_ObjectHideFlags: 1

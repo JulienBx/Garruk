@@ -40,11 +40,7 @@ public class GameCard : Photon.MonoBehaviour
 		
 		
 	}
-	
-	// Update is called once per frame
-	
-	
-	
+
 	public void ShowFace(bool mine = true, DiscoveryFeature discoveryFeature = null) 
 	{
 		

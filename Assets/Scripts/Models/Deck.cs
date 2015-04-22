@@ -6,7 +6,7 @@ public class Deck
 {
 	//Interconnexion BDD
 	private string URLCards = ApplicationModel.host + "get_cards_by_deck_by_user.php";
-	private string URLCards = ApplicationModel.host + "get_cardsIDs_by_deck.php";
+	private string URLGetCardIDS = ApplicationModel.host + "get_cardsIDs_by_deck.php";
 	private string URLSelectedDeck = ApplicationModel.host + "get_selected_deck_by_username.php";
 
 	public int Id; 												// Id unique de la carte
@@ -92,16 +92,12 @@ public class Deck
 		} 
 		else 
 		{
-			//			Debug.Log (w.text);
+			//Debug.Log (w.text);
 			string[] cardEntries = w.text.Split('\n'); 				// Chaque ligne du serveur correspond à une carte
 			
 			for(int i = 0 ; i < cardEntries.Length - 1 ; i++) 		// On boucle sur les attributs d'une carte
 			{
 				string[] cardData = cardEntries[i].Split('\\'); 	// On découpe les attributs de la carte qu'on place dans un tableau
-				if (cardData.Length < 2) 
-				{
-					break;
-				}
 				int cardId = System.Convert.ToInt32(cardData[0]); 	// Ici, on récupère l'id en base
 				int cardArt = System.Convert.ToInt32(cardData[1]); 	// l'indice de l'image
 				string cardTitle = cardData[2]; 					// le titre de la carte
@@ -123,7 +119,7 @@ public class Deck
 		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_deck", this.Id);							// Id du	 deck
 		
-		WWW w = new WWW(URLCards, form); 							// On envoie le formulaire à l'url sur le serveur 
+		WWW w = new WWW(URLGetCardIDS, form); 							// On envoie le formulaire à l'url sur le serveur 
 		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
 		if (w.error != null) 
 		{
@@ -135,11 +131,8 @@ public class Deck
 			
 			for(int i = 0 ; i < cardEntries.Length - 1 ; i++)
 			{
-				cardId = System.Convert.ToInt32(cardData[0]); 	// Ici, on récupère l'id en base
-
-				Card card = new Card(, new List<Skill>());
-				AddCard(card);
-				NbCards = i + 1;
+				this.AddCard(new Card(System.Convert.ToInt32(cardEntries[i])));
+				this.NbCards = i + 1;
 			}
 		}
 	}

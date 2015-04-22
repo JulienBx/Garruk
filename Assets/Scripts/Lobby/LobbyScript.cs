@@ -280,7 +280,7 @@ public class LobbyScript : Photon.MonoBehaviour {
 		if (attemptToPlay)
 		{
 			StartCoroutine(SetSelectedDeck(selectedDeck));
-			Application.LoadLevel("GamePage");
+			Application.LoadLevel("Game");
 		}
 	}
 
