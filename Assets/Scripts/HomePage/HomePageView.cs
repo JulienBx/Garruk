@@ -98,7 +98,7 @@ public class HomePageView : MonoBehaviour
 							}
 							GUILayout.EndHorizontal();
 							GUILayout.BeginVertical(homepageVM.profileBackgroundStyle, 
-							                        GUILayout.Width (3/2*notificationsVM.blocksHeight*0.90f),
+							                        GUILayout.Width (2*notificationsVM.blocksHeight*0.90f),
 							                        GUILayout.Height(notificationsVM.blocksHeight*0.90f));
 							{
 								GUILayout.Label (notificationsVM.notifications[i].SendingUser.Username
@@ -211,7 +211,7 @@ public class HomePageView : MonoBehaviour
 							}
 							GUILayout.EndHorizontal();
 							GUILayout.BeginVertical(homepageVM.profileBackgroundStyle, 
-							                        GUILayout.Width (3/2*newsVM.blocksHeight*0.90f),
+							                        GUILayout.Width (2*newsVM.blocksHeight*0.90f),
 							                        GUILayout.Height(newsVM.blocksHeight*0.90f));
 							{
 								GUILayout.Label (newsVM.news[i].User.Username
