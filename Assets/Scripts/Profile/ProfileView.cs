@@ -71,9 +71,9 @@ public class ProfileView : MonoBehaviour
 	private void FileSelectedCallback(string path) {
 		this.m_fileBrowser = null;
 		this.m_textPath = path;
-		if (m_textPath!=null)
+		if (this.m_textPath!=null)
 		{
-			StartCoroutine(ProfileController.instance.updateProfilePicture(m_textPath));
+			StartCoroutine(ProfileController.instance.updateProfilePicture(this.m_textPath));
 		}
 	}
 	void Update()

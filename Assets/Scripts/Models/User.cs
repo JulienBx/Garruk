@@ -12,6 +12,8 @@ public class User
 	private string URLGetMyCardsPage        = ApplicationModel.host + "get_mycardspage_data.php";
 	private string URLUpdateUserInformations= ApplicationModel.host + "update_user_informations.php";
 	private string URLUpdateProfilePicture  = ApplicationModel.host + "update_profilepicture.php";
+	private string URLGetNonReadNotifications = ApplicationModel.host +"get_non_read_notifications_by_user.php";
+	private string URLGetMoney = ApplicationModel.host + "get_money_by_user";
 
 	private string ServerDirectory          = "img/profile/";
 	
@@ -36,6 +38,7 @@ public class User
 	public Texture2D texture;
 	public int NbGamesDivision;
 	public bool readnotificationsystem;
+	public int nonReadNotifications;
 
 	public User()
 	{
@@ -249,6 +252,41 @@ public class User
 		else
 		{
 			callback(w.text);
+		}
+	}
+	public IEnumerator countNonReadsNotifications(int totalNbResultLimit)
+	{
+		WWWForm form = new WWWForm(); 											// Création de la connexion
+		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
+		form.AddField("myform_nick", ApplicationModel.username);
+		form.AddField ("myform_totalnbresultlimit", totalNbResultLimit.ToString());
+		
+		WWW w = new WWW(URLGetNonReadNotifications, form); 				
+		yield return w;
+		if (w.error != null) 
+		{
+			Debug.Log (w.error); 
+		}
+		else
+		{
+			this.nonReadNotifications=System.Convert.ToInt32(w.text);
+		}
+	}
+	public IEnumerator getMoney()
+	{
+		WWWForm form = new WWWForm(); 											// Création de la connexion
+		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
+		form.AddField("myform_nick", ApplicationModel.username);
+		
+		WWW w = new WWW(URLGetMoney, form); 				
+		yield return w;
+		if (w.error != null) 
+		{
+			Debug.Log (w.error); 
+		}
+		else
+		{
+			this.Money=System.Convert.ToInt32(w.text);
 		}
 	}
 }

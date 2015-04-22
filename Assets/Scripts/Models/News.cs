@@ -4,14 +4,16 @@ using System.Collections;
 using System.Collections;
 using System.Collections.Generic;
 
-
-public class NotificationObject
+public class News 
 {
-	public string Param1;
-
-	public NotificationObject(string param1)
+	
+	public DateTime Date;
+	
+	public News(DateTime date)
 	{
-		this.Param1 = param1;
+		this.Date = date;
 	}
 }
+
+
 
