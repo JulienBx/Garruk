@@ -36,7 +36,9 @@ public class HomePageModel
 		{
 			bool firstSystemNotification=false;
 			string[] data=w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
-			this.player.readnotificationsystem=System.Convert.ToBoolean(System.Convert.ToInt32(data[0]));
+			string[] playerData = data[0].Split(new string[] { "//" }, System.StringSplitOptions.None);
+			this.player.readnotificationsystem=System.Convert.ToBoolean(System.Convert.ToInt32(playerData[0]));
+			this.player.Id= System.Convert.ToInt32(playerData[1]);
 			string[] notificationsData=data[1].Split(new string[] { "#N#" }, System.StringSplitOptions.None);
 			string[] allNewsData=data[2].Split(new string[] { "#N#" }, System.StringSplitOptions.None);
 			int nbNonRead =0;
@@ -91,18 +93,19 @@ public class HomePageModel
 			{
 				string[] newsData =allNewsData[i].Split(new string[] { "//" }, System.StringSplitOptions.None);
 				
-				this.news.Add(new DisplayedNews(new News(DateTime.ParseExact(newsData[1], "yyyy-MM-dd HH:mm:ss", null)),
-				                                new User(System.Convert.ToInt32(newsData[2]),
-				         newsData[3],
+				this.news.Add(new DisplayedNews(new News(System.Convert.ToInt32(newsData[1]),
+				                                         DateTime.ParseExact(newsData[2], "yyyy-MM-dd HH:mm:ss", null)),
+				                                new User(System.Convert.ToInt32(newsData[3]),
 				         newsData[4],
-				         System.Convert.ToInt32(newsData[5]),
+				         newsData[5],
 				         System.Convert.ToInt32(newsData[6]),
 				         System.Convert.ToInt32(newsData[7]),
 				         System.Convert.ToInt32(newsData[8]),
-				         System.Convert.ToInt32(newsData[9])))); 
+				         System.Convert.ToInt32(newsData[9]),
+				         System.Convert.ToInt32(newsData[10])))); 
 				
 				string tempContent=newsData[0];
-				for(int j=10;j<newsData.Length-1;j++)
+				for(int j=11;j<newsData.Length-1;j++)
 				{
 					string[] newsObjectData = newsData[j].Split (new char[] {':'},System.StringSplitOptions.None);
 					switch (newsObjectData[0])

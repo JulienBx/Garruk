@@ -53,7 +53,7 @@ public class HomePageController : MonoBehaviour {
 	{
 		yield return StartCoroutine (model.getData (this.totalNbResultLimit));
 		view.notificationsVM.notifications=model.notifications;
-		view.newsVM.news = model.news;
+		view.newsVM.news = this.filterNews (model.news,model.player.Id);
 		this.initLabelsNo ();
 		this.picturesInitialization ();
 		this.initStyles ();
@@ -86,6 +86,39 @@ public class HomePageController : MonoBehaviour {
 			view.newsVM.profilePicturesButtonStyle[i].normal.background=model.news[i].User.texture;
 			StartCoroutine(model.news[i].User.setProfilePicture());
 		}
+	}
+	private IList<DisplayedNews> filterNews(IList<DisplayedNews> newsToFilter, int playerId)
+	{
+		IList<DisplayedNews> filterednews = new List<DisplayedNews>();
+		bool toAdd = true;
+		for (int i=0;i<newsToFilter.Count;i++)
+		{
+			if(newsToFilter[i].News.IdNewsType==1)
+			{
+				if(newsToFilter[i].Users[0].Id!=playerId)
+				{
+					toAdd=true;
+					for(int j=0;j<filterednews.Count;j++)
+					{
+						if (filterednews[j].Users[0].Id==newsToFilter[i].User.Id
+						    && filterednews[j].User.Id==newsToFilter[i].Users[0].Id)
+						{
+							toAdd=false;
+							break;
+						}
+					}
+					if(toAdd)
+					{
+						filterednews.Add (newsToFilter[i]);
+					}
+				}
+			}
+			else if(newsToFilter[i].News.IdNewsType!=1)
+			{
+				filterednews.Add (model.news[i]);
+			}
+		}
+		return filterednews;
 	}
 	private void computeNonReadsNotifications()
 	{
@@ -120,7 +153,7 @@ public class HomePageController : MonoBehaviour {
 		{
 			view.notificationsVM.labelNo="Vous n'avez pas de notification";
 		}
-		if(model.news.Count==0)
+		if(view.newsVM.news.Count==0)
 		{
 			view.newsVM.labelNo="Il n'y a pas d'actualités à afficher";
 		}

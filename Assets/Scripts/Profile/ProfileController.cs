@@ -430,6 +430,8 @@ public class ProfileController : MonoBehaviour {
 		if(model.Connections [model.Connections.Count - 1].Error=="")
 		{
 			this.loadData ();
+			Notification tempNotification = new Notification(model.Profile.Id,model.Player.Id,false,4);
+			StartCoroutine(tempNotification.add ());
 		}
 		else
 		{
@@ -439,6 +441,22 @@ public class ProfileController : MonoBehaviour {
 	}
 	public void removeConnection(int indexConnection)
 	{
+		Notification tempNotification = new Notification ();
+		News tempNews1 = new News ();
+		News tempNews2 = new News ();
+		if(model.Connections[indexConnection].IsAccepted)
+		{
+			tempNotification = new Notification(model.Connections[indexConnection].IdUser1,model.Connections[indexConnection].IdUser2,false,3);
+			tempNews1=new News(model.Connections[indexConnection].IdUser1,1,model.Connections[indexConnection].IdUser2.ToString());
+			tempNews2=new News(model.Connections[indexConnection].IdUser2,1,model.Connections[indexConnection].IdUser1.ToString());
+			StartCoroutine(tempNews1.remove ());
+			StartCoroutine(tempNews2.remove ());
+		}
+		else
+		{
+			tempNotification = new Notification(model.Connections[indexConnection].IdUser2,model.Connections[indexConnection].IdUser1,false,4);
+		}
+		StartCoroutine(tempNotification.remove ());
 		StartCoroutine(model.Connections [indexConnection].remove ());
 		model.Connections.RemoveAt (indexConnection);
 		model.Contacts.RemoveAt (indexConnection);
@@ -452,6 +470,14 @@ public class ProfileController : MonoBehaviour {
 		if(model.Connections[indexConnection].Error=="")
 		{
 			this.loadData ();
+			Notification tempNotification1 = new Notification(model.Connections[indexConnection].IdUser1,model.Connections[indexConnection].IdUser2,false,3);
+			StartCoroutine(tempNotification1.add ());
+			Notification tempNotification2 = new Notification(model.Connections[indexConnection].IdUser2,model.Connections[indexConnection].IdUser1,false,4);
+			StartCoroutine(tempNotification2.remove ());
+			News tempNews1=new News(model.Connections[indexConnection].IdUser1, 1,model.Connections[indexConnection].IdUser2.ToString());
+			StartCoroutine(tempNews1.add ());
+			News tempNews2=new News(model.Connections[indexConnection].IdUser2, 1,model.Connections[indexConnection].IdUser1.ToString());
+			StartCoroutine(tempNews2.add ());
 		}
 		else
 		{
