@@ -4,512 +4,378 @@ using System.Collections.Generic;
 
 public class MyGameView : MonoBehaviour 
 {
-	public MyCardsViewModel myCardsViewModel;
-
-	#region flag
-	//La fonction pour charger les decks est-elle terminée ?
-	public bool areDecksRetrieved        = false;
-	public bool isLoadedCards           = false;
-	public bool isLoadedDeck            = false;
-	public bool soldCard                = false;
-	public bool toReloadAll             = false;
-	bool displayFilters                 = false;
-	bool areCreatedDeckCards            = false;
-	bool isSellingCard                  = false; 
-	bool isUpgradingCard                = false;
-	bool isMarketingCard                = false; 
-	bool isRenamingCard                 = false;
-	bool toReload                       = false;
-	bool destroyAll                     = false;
-	bool displayDecks                   = false;
-	bool isCreatedDeckCards             = false;
-	bool isCreatedCards                 = false;
-	bool destroySellingCardWindow       = false;
-	bool destroyUpgradingCardWindow     = false;
-	bool destroyRenamingCardWindow      = false;
-	bool destroyFocus                   = false;
-	bool isEscDown                      = false;
-	bool isChangingPrice;
-	bool displayLoader;
-	bool isUpEscape;
-	public bool[] togglesCurrentStates;
-	#endregion
-
-	public GameObject cardFocused;
-	//int focusedCard                   = -1;
-	//int focusedCardPrice;
-	public string newTitle;
-	//int oldSortSelected               = 10;
-	int sortSelected                    = 10;
-	public int renameCost               = 200;
-	public bool isDisplayedCards        = true;
-
-	public IList<Card> cards;
-	public IList<int> cardsToBeDisplayed;
-	public IList<int> cardsIds;
-	public IList<int> deckCardsIds;
-	public IList<Deck> myDecks;
-	public string[] skillsList;
-	public string[] cardTypeList;
-
-	public GUIStyle[] myDecksGuiStyle;
-	#region variables
-
-	//GUIStyle du titre de la zone de gestion des decks
-	public GUIStyle decksTitleStyle ;
-	string decksTitle ;
-	//GUIStyle du bouton d'ajout de deck
-	public GUIStyle myNewDeckButton ;
-	//Texte du bouton d'ajout de deck
-	private string myNewDeckButtonTitle ;
-	//Images du bouton en mode smartphone
-	public Texture2D backNewDeckButton ;
-	public Texture2D backHoveredNewDeckButton ;
-	//Images du bouton en mode normal
-	public Texture2D backButton ;
-	public Texture2D backActivatedButton ;
-	//Le style et les dimensions de la pop up qui s'affiche au centre de l'écran
-	public GUIStyle centralWindowStyle ;
-	Rect centralWindow ;
-	Rect centralFocus ;
-	
-	public GUIStyle centralWindowTitleStyle ;
-	public GUIStyle centralWindowTextFieldStyle ;
-	public GUIStyle centralWindowButtonStyle ;
-	public GUIStyle smallCentralWindowButtonStyle ;
-	public GUIStyle focusedWindowStyle ;
-	public GUIStyle focusedWindowTitleStyle ;
-	public GUIStyle focusedWindowButtonTitleStyle ;
-	public GUIStyle deckStyle ;
-	public GUIStyle deckChosenStyle ;
-	public GUIStyle deckButtonStyle ;
-	public GUIStyle deckButtonChosenStyle ;
-	public GUIStyle mySuppressButtonStyle ;
-	public GUIStyle myEditButtonStyle ;
-	public GUIStyle paginationStyle ;
-	public GUIStyle paginationActivatedStyle ;
-	public GUIStyle filterTitleStyle ;
-	public GUIStyle toggleStyle;
-	public GUIStyle filterTextFieldStyle;
-	public GUIStyle myStyle;
-	public GUIStyle smallPoliceStyle;
-	public GUIStyle focusButtonStyle;
-	public GUIStyle cantBuyStyle;
-	public GUIStyle sortDefaultButtonStyle;
-	public GUIStyle sortActivatedButtonStyle;
-	float scaleDeck ;
-	//GameObject cardFocused ;
-
-	
-	public GameObject MenuObject;
-	
-	//Si l'utilisateur sélectionne une action (edit ou suppress) sur un des deck, donne à cette variable l'ID du deck en question
-	int IDDeckToEdit = -1;
-	//int renameCost = 200;
-	
-	Rect rectDeck ;
-	Rect rectFocus ;
-	Rect rectInsideScrollDeck ;
-	Rect rectOutsideScrollDeck ;
-	
-	#endregion
-	
-	#region variablesAClasser
-
-	public GUIStyle[] myDecksButtonGuiStyle;
-	GUIStyle[] paginatorGuiStyle;
-	GUIStyle[] sortButtonStyle=new GUIStyle[10];
-	public int chosenDeck = 0 ;
-	public int chosenIdDeck = -1 ;
-	private int chosenPage ;
-	
+	public FilterViewModel filterVM;
+	public MyGamePopUpViewModel popupVM;
+	public MyDecksViewModel myDecksVM;
+	public SortViewModel sortVM;
+	public FocusViewModel focusVM;
+	public PaginationViewModel paginationVM;
+	public MyGameViewModel myGameVM;
 
 
-	private IList<string> matchValues;
-
-	private IList<int> filtersCardType ;
-	public GameObject CardObject;	
-
-	int nbCardsPerRow = 0 ;
-	int widthScreen = Screen.width ; 
-	int heightScreen = Screen.height ;
-	int nbPages ;
-	int pageDebut ; 
-	int pageFin ;
-	private string valueSkill="";
-	bool isSkillToDisplay = false ;
-	bool isSkillChosen = false ;
-	
-	GUIStyle monLoaderStyle;
-	float minLifeVal = 0;
-	float maxLifeVal = 200;
-	float minAttackVal = 0;
-	float maxAttackVal = 100;
-	float minMoveVal = 0;
-	float maxMoveVal = 10;
-	float minQuicknessVal = 0;
-	float maxQuicknessVal = 100;
-	float minLifeLimit = 0;
-	float maxLifeLimit = 200;
-	float minAttackLimit = 0;
-	float maxAttackLimit = 100;
-	float minMoveLimit = 0;
-	float maxMoveLimit = 10;
-	float minQuicknessLimit = 0;
-	float maxQuicknessLimit = 100;
-	float oldMinLifeVal = 0;
-	float oldMaxLifeVal = 200;
-	float oldMinAttackVal = 0;
-	float oldMaxAttackVal = 100;
-	float oldMinMoveVal = 0;
-	float oldMaxMoveVal = 10;
-	float oldMinQuicknessVal = 0;
-	float oldMaxQuicknessVal = 100;
-	int focusedCard = -1 ;
-	int focusedCardPrice ;
-	
-	bool isBeingDragged = false;
-	bool confirmSuppress ;
-	Vector2 scrollPosition = new Vector2(0,0) ;
-	bool displayCreationDeckWindow  = false ;
-	public string tempText = "Nouveau deck" ;
-	int deckToEdit = -1;
-	int cardId ;
-
-	string textMarket ;
-	bool isMarketed ;
-	public int idFocused ;
-	string tempPrice ; 
-	bool enVente = false ;
-	
-	public GameObject[] displayedCards ;
-	GameObject[] displayedDeckCards ;
+	int widthScreen = Screen.width; 
+	int heightScreen = Screen.height;
 	
 	RaycastHit hit;
-	Ray ray ;
+	Ray ray;
+
+	void Start() 
+	{	 
+		setStyles();
+		myGameScript.instance.MenuObject    = Instantiate(myGameScript.instance.MenuObject) as GameObject;
+		filterVM.filtersCardType            = new List<int>();
+		myGameVM.toReloadAll                = true;
+	}
 	
-	int oldSortSelected = 10;
-	
-	#endregion
-	
-	void Update () {
-		
+	void Update () 
+	{
 		if (Screen.width != widthScreen || Screen.height != heightScreen) 
 		{
 			this.setStyles();
-			this.applyFilters ();
-			if (this.focusedCard != -1){
-				Destroy (cardFocused);
-				this.focusedCard=-1;
+			this.applyFilters();
+			if (focusVM.focusedCard != -1)
+			{
+				Destroy(myGameVM.cardFocused);
+				focusVM.focusedCard = -1;
 			}
 			this.clearCards();
 			this.clearDeckCards();
 			this.createCards();
 			this.createDeckCards();
-			this.displayFilters = true ;
-			this.displayDecks = true ;
+			filterVM.displayFilters = true;
+			myGameVM.displayDecks = true;
 			
 		}
-		if (toReload) {
-			this.applyFilters ();
-			if (sortSelected!=10){
+		if (myGameVM.toReload) 
+		{
+			this.applyFilters();
+			if (sortVM.sortSelected != 10)
+			{
 				this.sortCards();
 			}
 			this.displayPage();
-			toReload = false ;
+			myGameVM.toReload = false;
 		}
-		if (destroyAll){
+		if (myGameVM.destroyAll)
+		{
 			this.clearCards();
 			this.clearDeckCards();
-			isCreatedDeckCards=false;
-			toReloadAll=true;
-			destroyAll=false;
+			myGameVM.isCreatedDeckCards = false;
+			myGameVM.toReloadAll = true;
+			myGameVM.destroyAll = false;
 		}
-		if (toReloadAll) {
-			displayLoader = true ;
-			displayFilters = false ;
+		if (myGameVM.toReloadAll) 
+		{
+			myGameVM.displayLoader = true;
+			filterVM.displayFilters = false;
 			
-			areDecksRetrieved=false ;
-			areCreatedDeckCards = false ;
-			isLoadedCards = false ;
-			isLoadedDeck = false ;
+			myGameVM.areDecksRetrieved = false;
+			myGameVM.areCreatedDeckCards = false;
+			myGameVM.isLoadedCards = false;
+			myGameVM.isLoadedDeck = false;
 			
 			myGameScript.instance.getCards();
-			toReloadAll = false ;
+			myGameVM.toReloadAll = false;
 		}
-		if (isLoadedCards){
+		if (myGameVM.isLoadedCards)
+		{
 			this.createCards();
 			StartCoroutine(myGameScript.instance.retrieveDecks());
-			isLoadedCards=false;
-			isCreatedCards=true;
+			myGameVM.isLoadedCards = false;
+			myGameVM.isCreatedCards = true;
 		}
-		if (areDecksRetrieved && isCreatedCards){
-			StartCoroutine(myGameScript.instance.retrieveCardsFromDeck(chosenIdDeck));
-			areDecksRetrieved=false ;
+		if (myGameVM.areDecksRetrieved && myGameVM.isCreatedCards)
+		{
+			StartCoroutine(myGameScript.instance.retrieveCardsFromDeck(myDecksVM.chosenIdDeck));
+			myGameVM.areDecksRetrieved = false;
 		}
-		if (isLoadedDeck){
-			if (isCreatedDeckCards){
+		if (myGameVM.isLoadedDeck)
+		{
+			if (myGameVM.isCreatedDeckCards)
+			{
 				this.displayDeckCards();
 			}
-			else{
+			else
+			{
 				this.createDeckCards();
-				isCreatedDeckCards=true;
+				myGameVM.isCreatedDeckCards = true;
 			}
-			this.applyFilters ();
+			this.applyFilters();
 			this.displayPage();
-			displayDecks = true ;
-			isLoadedDeck = false ;
-			displayLoader = false ;
-			displayFilters = true ;
+			myGameVM.displayDecks = true;
+			myGameVM.isLoadedDeck = false;
+			myGameVM.displayLoader = false;
+			filterVM.displayFilters = true;
 		}
 		
 		if (Input.GetMouseButtonDown(0))
 		{
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-			if(Physics.Raycast(ray,out hit))
+			if (Physics.Raycast(ray,out hit))
 			{
 				if (hit.collider.name.StartsWith("DeckCard"))
 				{
-					myGameScript.instance.RemoveCardFromDeck(chosenIdDeck, this.cards[this.deckCardsIds[System.Convert.ToInt32(hit.collider.gameObject.name.Substring(8))]].Id);
+					myGameScript.instance.RemoveCardFromDeck(myDecksVM.chosenIdDeck, 
+					                                         myGameVM.cards[myGameVM.deckCardsIds[System.Convert.ToInt32(hit.collider.gameObject.name.Substring(8))]].Id);
 					int tempInt = System.Convert.ToInt32(hit.collider.gameObject.name.Substring(8));
-					deckCardsIds.RemoveAt (tempInt);
-					myDecks[chosenDeck].NbCards--;
+					myGameVM.deckCardsIds.RemoveAt(tempInt);
+					myGameVM.myDecks[myDecksVM.chosenDeck].NbCards--;
 					this.displayDeckCards();
-					this.applyFilters ();
-					this.displayPage ();
+					this.applyFilters();
+					this.displayPage();
 				}
 				else if (hit.collider.name.StartsWith("Card"))
 				{
-					if (this.deckCardsIds.Count!=5){
+					if (myGameVM.deckCardsIds.Count != 5)
+					{
 						int tempInt = System.Convert.ToInt32(hit.collider.gameObject.name.Substring(4));
-						deckCardsIds.Add (tempInt);
-						myDecks[chosenDeck].NbCards++;
+						myGameVM.deckCardsIds.Add(tempInt);
+						myGameVM.myDecks[myDecksVM.chosenDeck].NbCards++;
 						this.displayDeckCards();
-						myGameScript.instance.AddCardToDeck(chosenIdDeck, this.cards[System.Convert.ToInt32(hit.collider.gameObject.name.Substring(4))].Id);
-						this.applyFilters ();
-						this.displayPage ();
+						myGameScript.instance.AddCardToDeck(myDecksVM.chosenIdDeck, 
+						                                    myGameVM.cards[System.Convert.ToInt32(hit.collider.gameObject.name.Substring(4))].Id);
+						this.applyFilters();
+						this.displayPage();
 					}
 				}
 			}
 		}
 		
-		if (Input.GetMouseButtonDown(1)){
+		if (Input.GetMouseButtonDown(1))
+		{
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-			if(Physics.Raycast(ray,out hit))
+			if (Physics.Raycast(ray,out hit))
 			{
-				if (hit.collider.name.Contains("DeckCard") || hit.collider.name.StartsWith("Card")){
-					displayDecks=false ;
-					displayFilters=false ;
-					if (hit.collider.name.Contains("DeckCard")){
-						focusedCard = System.Convert.ToInt32(hit.collider.gameObject.name.Substring(8));
+				if (hit.collider.name.Contains("DeckCard") || hit.collider.name.StartsWith("Card"))
+				{
+					myGameVM.displayDecks = false ;
+					filterVM.displayFilters = false ;
+					if (hit.collider.name.Contains("DeckCard"))
+					{
+						focusVM.focusedCard = System.Convert.ToInt32(hit.collider.gameObject.name.Substring(8));
 					}
-					else{
-						focusedCard = System.Convert.ToInt32(hit.collider.gameObject.name.Substring(4));
-					}
-					
-					int finish = 3 * nbCardsPerRow;
-					for(int i = 0 ; i < finish ; i++){
-						displayedCards[i].SetActive(false);
-					}
-					for(int i = 0 ; i < displayedDeckCards.Length ; i++){
-						displayedDeckCards[i].SetActive(false);
+					else
+					{
+						focusVM.focusedCard = System.Convert.ToInt32(hit.collider.gameObject.name.Substring(4));
 					}
 					
-					cardFocused = Instantiate(CardObject) as GameObject;
-					Destroy(cardFocused.GetComponent<GameNetworkCard>());
-					Destroy(cardFocused.GetComponent<PhotonView>());
-					float scale = heightScreen/120f;
-					cardFocused.transform.localScale = new Vector3(scale,scale,scale); 
-					Vector3 vec = Camera.main.WorldToScreenPoint(cardFocused.collider.bounds.size);
-					cardFocused.transform.localPosition = Camera.main.ScreenToWorldPoint(new Vector3(0.50f*widthScreen ,0.45f*heightScreen-1 , 10)); 
-					cardFocused.gameObject.name = "FocusedCard";	
+					int finish = 3 * myGameVM.nbCardsPerRow;
+					for(int i = 0 ; i < finish ; i++)
+					{
+						myGameVM.displayedCards[i].SetActive(false);
+					}
+					for(int i = 0 ; i < myGameVM.displayedDeckCards.Length ; i++)
+					{
+						myGameVM.displayedDeckCards[i].SetActive(false);
+					}
 					
-					if (hit.collider.name.Contains("DeckCard")){
-						idFocused = deckCardsIds[focusedCard];
+					myGameVM.cardFocused = Instantiate(myGameScript.instance.CardObject) as GameObject;
+					Destroy(myGameVM.cardFocused.GetComponent<GameNetworkCard>());
+					Destroy(myGameVM.cardFocused.GetComponent<PhotonView>());
+					float scale = heightScreen / 120f;
+					myGameVM.cardFocused.transform.localScale = new Vector3(scale,scale,scale); 
+					Vector3 vec = Camera.main.WorldToScreenPoint(myGameVM.cardFocused.collider.bounds.size);
+					myGameVM.cardFocused.transform.localPosition = Camera.main.ScreenToWorldPoint(new Vector3(0.50f * widthScreen, 
+					                                                                                          0.45f * heightScreen - 1 , 
+					                                                                                          10)); 
+					myGameVM.cardFocused.gameObject.name = "FocusedCard";	
+					
+					if (hit.collider.name.Contains("DeckCard"))
+					{
+						myGameVM.idFocused = myGameVM.deckCardsIds[focusVM.focusedCard];
 						
 					}
 					else{
-						idFocused = focusedCard;
+						myGameVM.idFocused = focusVM.focusedCard;
 					}
 					
-					cardId = cards[idFocused].Id;
-					cardFocused.GetComponent<GameCard>().Card = cards[idFocused]; 
-					focusedCardPrice = cards[idFocused].getCost();
-					if (cards[idFocused].onSale==0){
-						textMarket = "Mettre la carte en vente sur le bazar";
-						isMarketed = false ;
+					myGameVM.cardId = myGameVM.cards[myGameVM.idFocused].Id;
+					myGameVM.cardFocused.GetComponent<GameCard>().Card = myGameVM.cards[myGameVM.idFocused]; 
+					focusVM.focusedCardPrice = myGameVM.cards[myGameVM.idFocused].getCost();
+					if (myGameVM.cards[myGameVM.idFocused].onSale == 0)
+					{
+						myGameVM.textMarket = "Mettre la carte en vente sur le bazar";
+						myGameVM.isMarketed = false;
 					}
-					else{
-						textMarket = "La carte est mise en vente sur le bazar pour "+cards[idFocused].Price+" crédits. Modifier ?";
-						isMarketed = true ;
+					else
+					{
+						myGameVM.textMarket = "La carte est mise en vente sur le bazar pour " + myGameVM.cards[myGameVM.idFocused].Price + " crédits. Modifier ?";
+						myGameVM.isMarketed = true;
 					}
 					
-					cardFocused.GetComponent<GameCard>().ShowFace();
-					cardFocused.GetComponent<GameCard>().setTextResolution(2f);
-					cardFocused.SetActive (true);
-					cardFocused.transform.Find("texturedGameCard").FindChild("ExperienceArea").GetComponent<GameCard_experience>().setXpLevel();
-					cardFocused.transform.Find("texturedGameCard").FindChild("ExperienceArea").GetComponent<GameCard_experience>().setTextResolution(2f);
-					rectFocus = new Rect(0.50f*widthScreen+(vec.x-widthScreen/2f)/2f, 0.15f*heightScreen, 0.25f*widthScreen, 0.8f*heightScreen);
+					myGameVM.cardFocused.GetComponent<GameCard>().ShowFace();
+					myGameVM.cardFocused.GetComponent<GameCard>().setTextResolution(2f);
+					myGameVM.cardFocused.SetActive(true);
+					myGameVM.cardFocused.transform.Find("texturedGameCard")
+						.FindChild("ExperienceArea").GetComponent<GameCard_experience>().setXpLevel();
+
+					myGameVM.cardFocused.transform.Find("texturedGameCard")
+						.FindChild("ExperienceArea").GetComponent<GameCard_experience>().setTextResolution(2f);
+
+					myDecksVM.rectFocus = new Rect(0.50f * widthScreen + (vec.x - widthScreen / 2f) / 2f, 0.15f * heightScreen, 
+					                               0.25f * widthScreen, 0.8f * heightScreen);
 				}
 			}
 		}
 		
-		if (destroySellingCardWindow){
-			isSellingCard=false;
-			destroySellingCardWindow = false ;
+		if (myGameVM.destroySellingCardWindow)
+		{
+			myGameVM.isSellingCard              = false;
+			myGameVM.destroySellingCardWindow   = false;
 		}
 		
-		if (destroyUpgradingCardWindow){
-			isUpgradingCard=false;
-			destroyUpgradingCardWindow = false ;
+		if (myGameVM.destroyUpgradingCardWindow)
+		{
+			myGameVM.isUpgradingCard            = false;
+			myGameVM.destroyUpgradingCardWindow = false;
 		}
 		
-		if (destroyRenamingCardWindow){
-			isRenamingCard=false;
-			destroyRenamingCardWindow = false ;
+		if (myGameVM.destroyRenamingCardWindow)
+		{
+			myGameVM.isRenamingCard             = false;
+			myGameVM.destroyRenamingCardWindow  = false;
 		}
 		
-		if (destroyFocus){
-			isSellingCard=false;
-			isMarketingCard=false;
-			isUpgradingCard=false;
-			isRenamingCard = false;
-			Destroy(cardFocused);
-			this.focusedCard=-1;
-			displayFilters = true ;
-			displayDecks = true ;
+		if (myGameVM.destroyFocus)
+		{
+			myGameVM.isSellingCard              = false;
+			myGameVM.isMarketingCard            = false;
+			myGameVM.isUpgradingCard            = false;
+			myGameVM.isRenamingCard             = false;
+			Destroy(myGameVM.cardFocused);
+			focusVM.focusedCard                 = -1;
+			filterVM.displayFilters             = true;
+			myGameVM.displayDecks               = true;
 			this.displayPage();
 			this.displayDeckCards();
-			destroyFocus = false ;
+			myGameVM.destroyFocus               = false;
 		}
 		
-		if (soldCard){
-			isSellingCard=false;
-			Destroy(cardFocused);
-			this.focusedCard=-1;
-			destroyAll = true ;
-			soldCard = false;
+		if (myGameVM.soldCard)
+		{
+			myGameVM.isSellingCard = false;
+			Destroy(myGameVM.cardFocused);
+			focusVM.focusedCard = -1;
+			myGameVM.destroyAll = true ;
+			myGameVM.soldCard = false;
 		}
 		
-		if (isUpEscape){
-			isEscDown = false ;
-			isUpEscape = false ;
+		if (myGameVM.isUpEscape)
+		{
+			myGameVM.isEscDown = false;
+			myGameVM.isUpEscape = false;
 		}
 		
-		if (isUpgradingCard){
-			if(Input.GetKeyDown(KeyCode.Return)) {
-				destroyUpgradingCardWindow = true ;
-				cardFocused.transform
+		if (myGameVM.isUpgradingCard)
+		{
+			if (Input.GetKeyDown(KeyCode.Return)) 
+			{
+				myGameVM.destroyUpgradingCardWindow = true;
+				myGameVM.cardFocused.transform
 					.Find("texturedGameCard")
 						.FindChild("ExperienceArea")
 						.GetComponent<GameCard_experience>()
-						.addXp(cards[idFocused].getPriceForNextLevel(),cards[idFocused].getPriceForNextLevel());
+						.addXp(myGameVM.cards[myGameVM.idFocused].getPriceForNextLevel(), myGameVM.cards[myGameVM.idFocused].getPriceForNextLevel());
 				
 			}
-			else if(Input.GetKeyDown(KeyCode.Escape)) 
+			else if (Input.GetKeyDown(KeyCode.Escape)) 
 			{
-				isUpgradingCard = false;
-				isEscDown = true;
+				myGameVM.isUpgradingCard = false;
+				myGameVM.isEscDown = true;
 			}
 		}
-		else if(isRenamingCard)
+		else if (myGameVM.isRenamingCard)
 		{
-			if(Input.GetKeyDown(KeyCode.Return))
+			if (Input.GetKeyDown(KeyCode.Return))
 			{
-				isRenamingCard = false;
-				destroyRenamingCardWindow = true;
-				myGameScript.instance.renameCard(cardFocused.GetComponent<GameCard>().Card.Id, newTitle, renameCost);
+				myGameVM.isRenamingCard = false;
+				myGameVM.destroyRenamingCardWindow = true;
+				myGameScript.instance.renameCard(myGameVM.cardFocused.GetComponent<GameCard>().Card.Id, myDecksVM.newTitle, popupVM.renameCost);
 			}
-			else if(Input.GetKeyDown(KeyCode.Escape))
+			else if (Input.GetKeyDown(KeyCode.Escape))
 			{
-				isRenamingCard = false;
-				isEscDown = true;
+				myGameVM.isRenamingCard = false;
+				myGameVM.isEscDown = true;
 			}
-			else if(newTitle.Contains("\n"))
+			else if (myDecksVM.newTitle.Contains("\n"))
 			{
-				isRenamingCard = false;
-				destroyRenamingCardWindow = true;
-				myGameScript.instance.renameCard(cardFocused.GetComponent<GameCard>().Card.Id, newTitle, renameCost);
+				myGameVM.isRenamingCard = false;
+				myGameVM.destroyRenamingCardWindow = true;
+				myGameScript.instance.renameCard(myGameVM.cardFocused.GetComponent<GameCard>().Card.Id, myDecksVM.newTitle, popupVM.renameCost);
 			}
 		}
-		else if(isSellingCard)
+		else if (myGameVM.isSellingCard)
 		{
-			if(Input.GetKeyDown(KeyCode.Return)) 
+			if (Input.GetKeyDown(KeyCode.Return)) 
 			{
-				isSellingCard = false;
-				destroySellingCardWindow = true;
-				StartCoroutine (myGameScript.instance.sellCard(cardId, focusedCardPrice));
+				myGameVM.isSellingCard = false;
+				myGameVM.destroySellingCardWindow = true;
+				StartCoroutine (myGameScript.instance.sellCard(myGameVM.cardId, focusVM.focusedCardPrice));
 			}
-			else if(Input.GetKeyDown(KeyCode.Escape))
+			else if (Input.GetKeyDown(KeyCode.Escape))
 			{
-				isSellingCard = false;
-				isEscDown = true;
+				myGameVM.isSellingCard = false;
+				myGameVM.isEscDown = true;
 			}
 		}
-		else if (isMarketingCard)
+		else if (myGameVM.isMarketingCard)
 		{
-			if (isChangingPrice)
+			if (myGameVM.isChangingPrice)
 			{
-				if(Input.GetKeyDown(KeyCode.Return)) 
+				if (Input.GetKeyDown(KeyCode.Return)) 
 				{
-					destroyFocus = true;
-					isChangingPrice = false;
-					myGameScript.instance.changeMarketPrice(cardId, focusedCardPrice);
+					myGameVM.destroyFocus = true;
+					myGameVM.isChangingPrice = false;
+					myGameScript.instance.changeMarketPrice(myGameVM.cardId, focusVM.focusedCardPrice);
 				}
-				else if(Input.GetKeyDown(KeyCode.Escape))
+				else if (Input.GetKeyDown(KeyCode.Escape))
 				{
-					isMarketingCard = false;
-					isEscDown = true;
+					myGameVM.isMarketingCard = false;
+					myGameVM.isEscDown = true;
 				}
 			}
 			
 		}
 		
-		if (oldSortSelected!=sortSelected)
+		if (sortVM.oldSortSelected != sortVM.sortSelected)
 		{
-			if(oldSortSelected != 10)
+			if (sortVM.oldSortSelected != 10)
 			{
-				this.sortButtonStyle[oldSortSelected]=this.sortDefaultButtonStyle;
+				sortVM.sortButtonStyle[sortVM.oldSortSelected] = sortVM.sortDefaultButtonStyle;
 			}
-			this.sortButtonStyle[sortSelected]=this.sortActivatedButtonStyle;
-			oldSortSelected=sortSelected;
+			sortVM.sortButtonStyle[sortVM.sortSelected] = sortVM.sortActivatedButtonStyle;
+			sortVM.oldSortSelected = sortVM.sortSelected;
 		}
 		
 	}
 	
-	void Start() {
-		this.setStyles(); 
-		MenuObject = Instantiate(MenuObject) as GameObject;
-		filtersCardType = new List<int> ();
-		toReloadAll = true ;
-	}
-	
 	void OnGUI()
 	{
-		if (this.focusedCard != -1)
+		if (focusVM.focusedCard != -1)
 		{
-			if(isSellingCard)
+			if (myGameVM.isSellingCard)
 			{
-				
-				GUILayout.BeginArea(centralWindow);
+				GUILayout.BeginArea(popupVM.centralWindow);
 				{
-					GUILayout.BeginVertical(centralWindowStyle);
+					GUILayout.BeginVertical(popupVM.centralWindowStyle);
 					{
 						GUILayout.FlexibleSpace();
-						GUILayout.Label("Confirmer la désintégration de la carte (rapporte "+focusedCardPrice+ " crédits)", centralWindowTitleStyle);
-						GUILayout.Space(0.02f*heightScreen);
+						GUILayout.Label("Confirmer la désintégration de la carte (rapporte " + focusVM.focusedCardPrice + " crédits)", 
+						                popupVM.centralWindowTitleStyle);
+
+						GUILayout.Space(0.02f * heightScreen);
 						GUILayout.BeginHorizontal();
 						{
-							GUILayout.Space(0.03f*widthScreen);
-							if (GUILayout.Button("Désintégrer",centralWindowButtonStyle)) // also can put width here
+							GUILayout.Space(0.03f * widthScreen);
+							if (GUILayout.Button("Désintégrer", popupVM.centralWindowButtonStyle))
 							{
-								destroySellingCardWindow = true;
-								StartCoroutine(myGameScript.instance.sellCard(cardId, focusedCardPrice));
+								myGameVM.destroySellingCardWindow = true;
+								StartCoroutine(myGameScript.instance.sellCard(myGameVM.cardId, focusVM.focusedCardPrice));
 							}
 							GUILayout.Space(0.04f * widthScreen);
-							if (GUILayout.Button("Annuler", centralWindowButtonStyle)) // also can put width here
+							if (GUILayout.Button("Annuler", popupVM.centralWindowButtonStyle))
 							{
-								destroySellingCardWindow = true;
+								myGameVM.destroySellingCardWindow = true;
 							}
 							GUILayout.Space(0.03f * widthScreen);
 						}
@@ -520,36 +386,36 @@ public class MyGameView : MonoBehaviour
 				}
 				GUILayout.EndArea();
 			}
-			else if(isUpgradingCard){
-				
-				GUILayout.BeginArea(centralWindow);
+			else if (myGameVM.isUpgradingCard)
+			{
+				GUILayout.BeginArea(popupVM.centralWindow);
 				{
-					GUILayout.BeginVertical(centralWindowStyle);
+					GUILayout.BeginVertical(popupVM.centralWindowStyle);
 					{
 						GUILayout.FlexibleSpace();
-						GUILayout.Label("Confirmer la montée de niveau de la carte (coûte "
-						                +cards[idFocused].getPriceForNextLevel()
-						                + " crédits)", centralWindowTitleStyle);
-						GUILayout.Space(0.02f*heightScreen);
+						GUILayout.Label("Confirmer la montée de niveau de la carte (coûte " + 
+						                myGameVM.cards[myGameVM.idFocused].getPriceForNextLevel() + " crédits)", 
+						                popupVM.centralWindowTitleStyle);
+						GUILayout.Space(0.02f * heightScreen);
 						GUILayout.BeginHorizontal();
 						{
-							GUILayout.Space(0.03f*widthScreen);
-							if (GUILayout.Button("Acheter",centralWindowButtonStyle)) // also can put width here
+							GUILayout.Space(0.03f * widthScreen);
+							if (GUILayout.Button("Acheter", popupVM.centralWindowButtonStyle))
 							{
-								destroyUpgradingCardWindow = true ;
-								cardFocused.transform
-									.Find("texturedGameCard")
+								myGameVM.destroyUpgradingCardWindow = true ;
+								myGameVM.cardFocused.transform
+										.Find("texturedGameCard")
 										.FindChild("ExperienceArea")
 										.GetComponent<GameCard_experience>()
-										.addXp(cards[idFocused].getPriceForNextLevel(),cards[idFocused].getPriceForNextLevel());
+										.addXp(myGameVM.cards[myGameVM.idFocused].getPriceForNextLevel(), myGameVM.cards[myGameVM.idFocused].getPriceForNextLevel());
 								
 							}
-							GUILayout.Space(0.04f*widthScreen);
-							if (GUILayout.Button("Annuler",centralWindowButtonStyle)) // also can put width here
+							GUILayout.Space(0.04f * widthScreen);
+							if (GUILayout.Button("Annuler", popupVM.centralWindowButtonStyle))
 							{
-								destroyUpgradingCardWindow = true ;
+								myGameVM.destroyUpgradingCardWindow = true;
 							}
-							GUILayout.Space(0.03f*widthScreen);
+							GUILayout.Space(0.03f * widthScreen);
 						}
 						GUILayout.EndHorizontal();
 						GUILayout.FlexibleSpace();
@@ -557,22 +423,21 @@ public class MyGameView : MonoBehaviour
 					GUILayout.EndVertical();
 				}
 				GUILayout.EndArea();
-				
 			}
-			else if(isRenamingCard){
-				
-				GUILayout.BeginArea(centralWindow);
+			else if (myGameVM.isRenamingCard)
+			{
+				GUILayout.BeginArea(popupVM.centralWindow);
 				{
-					GUILayout.BeginVertical(centralWindowStyle);
+					GUILayout.BeginVertical(popupVM.centralWindowStyle);
 					{
 						GUILayout.FlexibleSpace();
-						GUILayout.Label("Renommer la carte pour "+renameCost+" crédits", centralWindowTitleStyle);
+						GUILayout.Label("Renommer la carte pour " + popupVM.renameCost + " crédits", popupVM.centralWindowTitleStyle);
 						GUILayout.FlexibleSpace();
 						
 						GUILayout.BeginHorizontal();
 						{
 							GUILayout.FlexibleSpace();
-							newTitle = GUILayout.TextField(newTitle,14, centralWindowTextFieldStyle);
+							myDecksVM.newTitle = GUILayout.TextField(myDecksVM.newTitle, 14, popupVM.centralWindowTextFieldStyle);
 							GUILayout.FlexibleSpace();
 						}
 						GUILayout.EndHorizontal();
@@ -581,15 +446,16 @@ public class MyGameView : MonoBehaviour
 						GUILayout.BeginHorizontal();
 						{
 							GUILayout.FlexibleSpace();
-							if (GUILayout.Button("Confirmer",centralWindowButtonStyle))
+							if (GUILayout.Button("Confirmer", popupVM.centralWindowButtonStyle))
 							{
-								destroyRenamingCardWindow = true ;
-								myGameScript.instance.renameCard(cardFocused.GetComponent<GameCard>().Card.Id, newTitle, renameCost);
+								myGameVM.destroyRenamingCardWindow = true ;
+								myGameScript.instance.renameCard(myGameVM.cardFocused.GetComponent<GameCard>().Card.Id, myDecksVM.newTitle, 
+								                                 popupVM.renameCost);
 							}
 							GUILayout.FlexibleSpace();
-							if (GUILayout.Button("Annuler",centralWindowButtonStyle))
+							if (GUILayout.Button("Annuler", popupVM.centralWindowButtonStyle))
 							{
-								destroyRenamingCardWindow = true ;
+								myGameVM.destroyRenamingCardWindow = true;
 							}
 							GUILayout.FlexibleSpace();
 						}
@@ -600,21 +466,22 @@ public class MyGameView : MonoBehaviour
 				}
 				GUILayout.EndArea();
 			}
-			else if(isMarketingCard){
-				if (isChangingPrice){
-					
-					GUILayout.BeginArea(centralWindow);
+			else if (myGameVM.isMarketingCard)
+			{
+				if (myGameVM.isChangingPrice)
+				{	
+					GUILayout.BeginArea(popupVM.centralWindow);
 					{
-						GUILayout.BeginVertical(centralWindowStyle);
+						GUILayout.BeginVertical(popupVM.centralWindowStyle);
 						{
 							GUILayout.FlexibleSpace();
-							GUILayout.Label("Changer le prix de vente de la carte sur le bazar", centralWindowTitleStyle);
+							GUILayout.Label("Changer le prix de vente de la carte sur le bazar", popupVM.centralWindowTitleStyle);
 							GUILayout.FlexibleSpace();
 							
 							GUILayout.BeginHorizontal();
 							{
 								GUILayout.FlexibleSpace();
-								tempPrice = GUILayout.TextField(tempPrice, centralWindowTextFieldStyle);
+								myGameVM.tempPrice = GUILayout.TextField(myGameVM.tempPrice, popupVM.centralWindowTextFieldStyle);
 								GUILayout.FlexibleSpace();
 							}
 							GUILayout.EndHorizontal();
@@ -623,17 +490,17 @@ public class MyGameView : MonoBehaviour
 							GUILayout.BeginHorizontal();
 							{
 								GUILayout.FlexibleSpace();
-								if (GUILayout.Button("Confirmer",centralWindowButtonStyle))
+								if (GUILayout.Button("Confirmer", popupVM.centralWindowButtonStyle))
 								{
-									destroyFocus = true;
-									isChangingPrice = false;
-									myGameScript.instance.changeMarketPrice(cardId, System.Convert.ToInt32(tempPrice));
+									myGameVM.destroyFocus = true;
+									myGameVM.isChangingPrice = false;
+									myGameScript.instance.changeMarketPrice(myGameVM.cardId, System.Convert.ToInt32(myGameVM.tempPrice));
 								}
 								GUILayout.FlexibleSpace();
-								if (GUILayout.Button("Annuler",centralWindowButtonStyle))
+								if (GUILayout.Button("Annuler", popupVM.centralWindowButtonStyle))
 								{
-									isChangingPrice = false;
-									isMarketingCard = false;
+									myGameVM.isChangingPrice = false;
+									myGameVM.isMarketingCard = false;
 								}
 								GUILayout.FlexibleSpace();
 							}
@@ -644,46 +511,48 @@ public class MyGameView : MonoBehaviour
 					}
 					GUILayout.EndArea();
 				}
-				else if (isMarketed)
+				else if (myGameVM.isMarketed)
 				{
-					if(Event.current.keyCode == KeyCode.Return)
+					if (Event.current.keyCode == KeyCode.Return)
 					{
-						destroyFocus = true;
-						myGameScript.instance.removeFromMarket(cardId);
+						myGameVM.destroyFocus = true;
+						myGameScript.instance.removeFromMarket(myGameVM.cardId);
 					}
-					else if(Event.current.keyCode==KeyCode.Escape) {
-						isMarketingCard = false ;
-						isEscDown = true ;
+					else if (Event.current.keyCode == KeyCode.Escape) 
+					{
+						myGameVM.isMarketingCard = false ;
+						myGameVM.isEscDown = true ;
 					}
 					else{		
-						GUILayout.BeginArea(centralWindow);
+						GUILayout.BeginArea(popupVM.centralWindow);
 						{
-							GUILayout.BeginVertical(centralWindowStyle);
+							GUILayout.BeginVertical(popupVM.centralWindowStyle);
 							{
 								GUILayout.FlexibleSpace();
-								GUILayout.Label(textMarket, centralWindowTitleStyle);
-								GUILayout.Space(0.02f*heightScreen);
+								GUILayout.Label(myGameVM.textMarket, popupVM.centralWindowTitleStyle);
+								GUILayout.Space(0.02f * heightScreen);
 								GUILayout.BeginHorizontal();
 								{
 									GUILayout.FlexibleSpace();
-									if (GUILayout.Button("Retirer du bazar",smallCentralWindowButtonStyle))
+									if (GUILayout.Button("Retirer du bazar", popupVM.smallCentralWindowButtonStyle))
 									{
-										destroyFocus = true ;
-										myGameScript.instance.removeFromMarket(cardId);
-										if (enVente){
-											toReload = true ;
+										myGameVM.destroyFocus = true ;
+										myGameScript.instance.removeFromMarket(myGameVM.cardId);
+										if (myGameVM.enVente)
+										{
+											myGameVM.toReload = true ;
 										}
 									}
 									GUILayout.FlexibleSpace();
-									if (GUILayout.Button("Modifier son prix",smallCentralWindowButtonStyle))
+									if (GUILayout.Button("Modifier son prix", popupVM.smallCentralWindowButtonStyle))
 									{
-										isChangingPrice = true;
-										tempPrice = ""+cards[idFocused].Price;
+										myGameVM.isChangingPrice = true;
+										myGameVM.tempPrice = "" + myGameVM.cards[myGameVM.idFocused].Price;
 									}
 									GUILayout.FlexibleSpace();
-									if (GUILayout.Button("Annuler",smallCentralWindowButtonStyle))
+									if (GUILayout.Button("Annuler", popupVM.smallCentralWindowButtonStyle))
 									{
-										isMarketingCard = false ;
+										myGameVM.isMarketingCard = false;
 									}
 									GUILayout.FlexibleSpace();
 								}
@@ -697,45 +566,47 @@ public class MyGameView : MonoBehaviour
 				}
 				else
 				{
-					if(Event.current.keyCode == KeyCode.Return)
+					if (Event.current.keyCode == KeyCode.Return)
 					{
-						destroyFocus = true;
-						myGameScript.instance.putOnMarket(cardId, focusedCardPrice);
+						myGameVM.destroyFocus = true;
+						myGameScript.instance.putOnMarket(myGameVM.cardId, focusVM.focusedCardPrice);
 					}
-					else if(Event.current.keyCode==KeyCode.Escape) {
-						isMarketingCard = false ;
-						isEscDown = true ;
+					else if (Event.current.keyCode == KeyCode.Escape) 
+					{
+						myGameVM.isMarketingCard = false;
+						myGameVM.isEscDown = true;
 					}
-					else{		
-						GUILayout.BeginArea(centralWindow);
+					else
+					{		
+						GUILayout.BeginArea(popupVM.centralWindow);
 						{
-							GUILayout.BeginVertical(centralWindowStyle);
+							GUILayout.BeginVertical(popupVM.centralWindowStyle);
 							{
 								GUILayout.FlexibleSpace();
-								GUILayout.Label("Choisir le prix en vente de la carte sur le bazar", centralWindowTitleStyle);
+								GUILayout.Label("Choisir le prix en vente de la carte sur le bazar", popupVM.centralWindowTitleStyle);
 								GUILayout.FlexibleSpace();
 								GUILayout.BeginHorizontal();
 								{
 									GUILayout.FlexibleSpace();
-									tempPrice = GUILayout.TextField(tempPrice, centralWindowTextFieldStyle);
+									myGameVM.tempPrice = GUILayout.TextField(myGameVM.tempPrice, popupVM.centralWindowTextFieldStyle);
 									GUILayout.FlexibleSpace();
 								}
 								GUILayout.EndHorizontal();
 								GUILayout.FlexibleSpace();
 								GUILayout.BeginHorizontal();
 								{
-									GUILayout.Space(0.03f*widthScreen);
-									if (GUILayout.Button("Confirmer",centralWindowButtonStyle))
+									GUILayout.Space(0.03f * widthScreen);
+									if (GUILayout.Button("Confirmer", popupVM.centralWindowButtonStyle))
 									{
-										destroyFocus = true ;
-										myGameScript.instance.putOnMarket(cardId, System.Convert.ToInt32(tempPrice));
+										myGameVM.destroyFocus = true;
+										myGameScript.instance.putOnMarket(myGameVM.cardId, System.Convert.ToInt32(myGameVM.tempPrice));
 									}
-									GUILayout.Space(0.04f*widthScreen);
-									if (GUILayout.Button("Annuler",centralWindowButtonStyle))
+									GUILayout.Space(0.04f * widthScreen);
+									if (GUILayout.Button("Annuler", popupVM.centralWindowButtonStyle))
 									{
-										isMarketingCard = false ;
+										myGameVM.isMarketingCard = false;
 									}
-									GUILayout.Space(0.03f*widthScreen);
+									GUILayout.Space(0.03f * widthScreen);
 								}
 								GUILayout.EndHorizontal();
 								GUILayout.FlexibleSpace();
@@ -746,74 +617,80 @@ public class MyGameView : MonoBehaviour
 					}
 				}
 			}
-			else{
-				if(isEscDown) {
-					if(Input.GetKeyUp(KeyCode.Escape)) {
-						isUpEscape = true ;
+			else
+			{
+				if (myGameVM.isEscDown) 
+				{
+					if (Input.GetKeyUp(KeyCode.Escape)) 
+					{
+						myGameVM.isUpEscape = true;
 					}
 				}
-				else if(Input.GetKeyDown(KeyCode.Escape)) {
-					this.destroyFocus=true;
+				else if (Input.GetKeyDown(KeyCode.Escape))
+				{
+					myGameVM.destroyFocus = true;
 				}
-				else{
-					GUILayout.BeginArea(rectFocus);
+				else
+				{
+					GUILayout.BeginArea(myDecksVM.rectFocus);
 					{
 						GUILayout.BeginVertical();
 						{
-							if (GUILayout.Button("Désintégrer (+"+focusedCardPrice+" crédits)",focusButtonStyle)){
-								isSellingCard = true ; 
-							}
-							if (GUILayout.Button(textMarket,focusButtonStyle))
+							if (GUILayout.Button("Désintégrer (+" + focusVM.focusedCardPrice + " crédits)", focusVM.focusButtonStyle))
 							{
-								isMarketingCard = true ; 
-								tempPrice = ""+cards[idFocused].getCost();
+								myGameVM.isSellingCard = true; 
 							}
-							if (cards[idFocused].getPriceForNextLevel()!=0 && cards[idFocused].getPriceForNextLevel() <= ApplicationModel.credits){
-								if (GUILayout.Button("Passer au niveau suivant (-"
-								                     +cards[idFocused]
-								                     .getPriceForNextLevel()
-								                     +" crédits)",focusButtonStyle))
+							if (GUILayout.Button(myGameVM.textMarket, focusVM.focusButtonStyle))
+							{
+								myGameVM.isMarketingCard = true ; 
+								myGameVM.tempPrice = "" + myGameVM.cards[myGameVM.idFocused].getCost();
+							}
+							if (myGameVM.cards[myGameVM.idFocused].getPriceForNextLevel() != 0 
+							    && myGameVM.cards[myGameVM.idFocused].getPriceForNextLevel() <= ApplicationModel.credits)
+							{
+								if (GUILayout.Button("Passer au niveau suivant (-" + myGameVM.cards[myGameVM.idFocused].getPriceForNextLevel() + " crédits)",
+								                     focusVM.focusButtonStyle))
 								{
-									isUpgradingCard = true ;
-									//isMarketingCard = true ; 
-									//tempPrice = ""+cards[idFocused].getCost();
+									myGameVM.isUpgradingCard = true;
+									myGameVM.isMarketingCard = true; 
+									myGameVM.tempPrice = "" + myGameVM.cards[myGameVM.idFocused].getCost();
 								}
 							}
-							if (cards[idFocused].getPriceForNextLevel()!=0 && cards[idFocused].getPriceForNextLevel() > ApplicationModel.credits){
-								GUILayout.Label("Passer au niveau suivant (-"
-								                +cards[idFocused]
-								                .getPriceForNextLevel()
-								                +" crédits)",cantBuyStyle);
+							if (myGameVM.cards[myGameVM.idFocused].getPriceForNextLevel() != 0 && 
+							    myGameVM.cards[myGameVM.idFocused].getPriceForNextLevel() > ApplicationModel.credits)
+							{
+								GUILayout.Label("Passer au niveau suivant (-" + myGameVM.cards[myGameVM.idFocused].getPriceForNextLevel() + " crédits)", 
+								                focusVM.cantBuyStyle);
 							}
-							if (renameCost <= ApplicationModel.credits){
-								if (GUILayout.Button("Renommer la carte pour (-"
-								                     +renameCost
-								                     +" crédits)",focusButtonStyle))
+							if (popupVM.renameCost <= ApplicationModel.credits)
+							{
+								if (GUILayout.Button("Renommer la carte pour (-" + popupVM.renameCost + " crédits)", focusVM.focusButtonStyle))
 								{
-									isRenamingCard = true ;
-									newTitle=cardFocused.GetComponent<GameCard>().Card.Title;
+									myGameVM.isRenamingCard = true ;
+									myDecksVM.newTitle = myGameVM.cardFocused.GetComponent<GameCard>().Card.Title;
 								}
 							}
-							if (renameCost > ApplicationModel.credits){
-								GUILayout.Label("Renommer la carte pour (-"
-								                +renameCost
-								                +" crédits)",cantBuyStyle);
+							if (popupVM.renameCost > ApplicationModel.credits)
+							{
+								GUILayout.Label("Renommer la carte pour (-" + popupVM.renameCost + " crédits)", focusVM.cantBuyStyle);
 							}
 							string plurielWin = "";
 							string plurielLoose = "";
-							if (cards[idFocused].nbWin > 1)
+							if (myGameVM.cards[myGameVM.idFocused].nbWin > 1)
 							{
 								plurielWin = "s";
 							}
-							if (cards[idFocused].nbLoose > 1)
+							if (myGameVM.cards[myGameVM.idFocused].nbLoose > 1)
 							{
 								plurielLoose = "s";
 							}
-							GUILayout.Label(cards[idFocused].nbWin + " victoire" + plurielWin + ", " + cards[idFocused].nbLoose + " défaite" + plurielLoose, cantBuyStyle);
+							GUILayout.Label(myGameVM.cards[myGameVM.idFocused].nbWin + " victoire" + plurielWin + ", " +
+							                myGameVM.cards[myGameVM.idFocused].nbLoose + " défaite" + plurielLoose, 
+							                focusVM.cantBuyStyle);
 							GUILayout.FlexibleSpace();
-							if (GUILayout.Button("Revenir à mes cartes",focusButtonStyle))
+							if (GUILayout.Button("Revenir à mes cartes", focusVM.focusButtonStyle))
 							{
-								this.destroyFocus=true;
+								myGameVM.destroyFocus = true;
 							}
 						}
 						GUILayout.EndVertical();
@@ -823,98 +700,44 @@ public class MyGameView : MonoBehaviour
 			}
 		}
 		
-		if (displayDecks)
+		if (myGameVM.displayDecks)
 		{
-			if (IDDeckToEdit != -1)
+			if (myDecksVM.IDDeckToEdit != -1)
 			{
-				if(Event.current.keyCode == KeyCode.Escape)
-				{
-					IDDeckToEdit = -1;
-					tempText = "Nouveau deck";
-				}
-				else if(Event.current.keyCode==KeyCode.Return)
-				{
-					StartCoroutine(myGameScript.instance.deleteDeck(IDDeckToEdit));
-					tempText = "Nouveau deck";
-					IDDeckToEdit=-1;
-				}
-				else
-				{
-					GUILayout.BeginArea(centralWindow);
-					{
-						GUILayout.BeginVertical(centralWindowStyle);
-						{
-							GUILayout.FlexibleSpace();
-							GUILayout.Label("Voulez-vous supprimer le deck ?", centralWindowTitleStyle);
-							GUILayout.Space(0.02f * heightScreen);
-							GUILayout.BeginHorizontal();
-							{
-								GUILayout.Space(0.03f * widthScreen);
-								if (GUILayout.Button("Confirmer la suppression",centralWindowButtonStyle)) // also can put width here
-								{
-									StartCoroutine(myGameScript.instance.deleteDeck(IDDeckToEdit));
-									tempText = "Nouveau deck";
-									IDDeckToEdit = -1;
-								}
-								GUILayout.Space(0.04f * widthScreen);
-								if (GUILayout.Button("Annuler", centralWindowButtonStyle)) // also can put width here
-								{
-									displayCreationDeckWindow = false ; 
-									IDDeckToEdit = -1;
-								}
-								GUILayout.Space(0.03f * widthScreen);
-							}
-							GUILayout.EndHorizontal();
-							GUILayout.FlexibleSpace();
-						}
-						GUILayout.EndVertical();
-					}
-					GUILayout.EndArea();
-				}
-			}
-			if (displayCreationDeckWindow)
-			{	
 				if (Event.current.keyCode == KeyCode.Escape)
 				{
-					displayCreationDeckWindow = false;
-					tempText = "Nouveau deck";
+					myDecksVM.IDDeckToEdit = -1;
+					myDecksVM.tempText = "Nouveau deck";
 				}
 				else if (Event.current.keyCode == KeyCode.Return)
 				{
-					StartCoroutine(myGameScript.instance.addDeck(tempText));
-					tempText = "Nouveau deck";
-					displayCreationDeckWindow = false;
+					StartCoroutine(myGameScript.instance.deleteDeck(myDecksVM.IDDeckToEdit));
+					myDecksVM.tempText = "Nouveau deck";
+					myDecksVM.IDDeckToEdit = -1;
 				}
 				else
 				{
-					GUILayout.BeginArea(centralWindow);
+					GUILayout.BeginArea(popupVM.centralWindow);
 					{
-						GUILayout.BeginVertical(centralWindowStyle);
+						GUILayout.BeginVertical(popupVM.centralWindowStyle);
 						{
 							GUILayout.FlexibleSpace();
-							GUILayout.Label("Choisissez le nom de votre nouveau deck", centralWindowTitleStyle);
-							GUILayout.Space(0.02f * heightScreen);
-							GUILayout.BeginHorizontal();
-							{
-								GUILayout.Space(0.05f * widthScreen);
-								tempText = GUILayout.TextField(tempText, centralWindowTextFieldStyle);
-							}
-							GUILayout.EndHorizontal();
+							GUILayout.Label("Voulez-vous supprimer le deck ?", popupVM.centralWindowTitleStyle);
 							GUILayout.Space(0.02f * heightScreen);
 							GUILayout.BeginHorizontal();
 							{
 								GUILayout.Space(0.03f * widthScreen);
-								if (GUILayout.Button("Créer le deck",this.centralWindowButtonStyle)) // also can put width here
+								if (GUILayout.Button("Confirmer la suppression", popupVM.centralWindowButtonStyle))
 								{
-									StartCoroutine(myGameScript.instance.addDeck(tempText));
-									tempText = "Nouveau deck";
-									displayCreationDeckWindow = false ;
+									StartCoroutine(myGameScript.instance.deleteDeck(myDecksVM.IDDeckToEdit));
+									myDecksVM.tempText = "Nouveau deck";
+									myDecksVM.IDDeckToEdit = -1;
 								}
 								GUILayout.Space(0.04f * widthScreen);
-								if (GUILayout.Button("Annuler", this.centralWindowButtonStyle)) // also can put width here
+								if (GUILayout.Button("Annuler", popupVM.centralWindowButtonStyle))
 								{
-									displayCreationDeckWindow = false ; 
-									tempText = "Nouveau deck";
+									myGameVM.displayCreationDeckWindow = false; 
+									myDecksVM.IDDeckToEdit = -1;
 								}
 								GUILayout.Space(0.03f * widthScreen);
 							}
@@ -926,48 +749,49 @@ public class MyGameView : MonoBehaviour
 					GUILayout.EndArea();
 				}
 			}
-			if (deckToEdit != -1)
+			if (myGameVM.displayCreationDeckWindow)
 			{	
-				if(Event.current.keyCode == KeyCode.Escape)
+				if (Event.current.keyCode == KeyCode.Escape)
 				{
-					deckToEdit = -1;
-					tempText = "Nouveau deck";
+					myGameVM.displayCreationDeckWindow = false;
+					myDecksVM.tempText = "Nouveau deck";
 				}
-				else if(Event.current.keyCode == KeyCode.Return)
+				else if (Event.current.keyCode == KeyCode.Return)
 				{
-					StartCoroutine(myGameScript.instance.editDeck(deckToEdit, tempText));
-					tempText = "Nouveau deck";
-					deckToEdit = -1;
+					StartCoroutine(myGameScript.instance.addDeck(myDecksVM.tempText));
+					myDecksVM.tempText = "Nouveau deck";
+					myGameVM.displayCreationDeckWindow = false;
 				}
-				else{
-					GUILayout.BeginArea(centralWindow);
+				else
+				{
+					GUILayout.BeginArea(popupVM.centralWindow);
 					{
-						GUILayout.BeginVertical(centralWindowStyle);
+						GUILayout.BeginVertical(popupVM.centralWindowStyle);
 						{
 							GUILayout.FlexibleSpace();
-							GUILayout.Label("Modifiez le nom de votre deck", centralWindowTitleStyle);
+							GUILayout.Label("Choisissez le nom de votre nouveau deck", popupVM.centralWindowTitleStyle);
 							GUILayout.Space(0.02f * heightScreen);
 							GUILayout.BeginHorizontal();
 							{
 								GUILayout.Space(0.05f * widthScreen);
-								tempText = GUILayout.TextField(tempText, centralWindowTextFieldStyle);
+								myDecksVM.tempText = GUILayout.TextField(myDecksVM.tempText, popupVM.centralWindowTextFieldStyle);
 							}
 							GUILayout.EndHorizontal();
 							GUILayout.Space(0.02f * heightScreen);
 							GUILayout.BeginHorizontal();
 							{
 								GUILayout.Space(0.03f * widthScreen);
-								if (GUILayout.Button("Modifier", centralWindowButtonStyle)) // also can put width here
+								if (GUILayout.Button("Créer le deck",popupVM.centralWindowButtonStyle))
 								{
-									StartCoroutine(myGameScript.instance.editDeck(deckToEdit, tempText));
-									tempText = "Nouveau deck";
-									deckToEdit = -1;
+									StartCoroutine(myGameScript.instance.addDeck(myDecksVM.tempText));
+									myDecksVM.tempText = "Nouveau deck";
+									myGameVM.displayCreationDeckWindow = false ;
 								}
 								GUILayout.Space(0.04f * widthScreen);
-								if (GUILayout.Button("Annuler", centralWindowButtonStyle)) // also can put width here
+								if (GUILayout.Button("Annuler", popupVM.centralWindowButtonStyle))
 								{
-									deckToEdit = -1; 
-									tempText = "Nouveau deck";
+									myGameVM.displayCreationDeckWindow = false ; 
+									myDecksVM.tempText = "Nouveau deck";
 								}
 								GUILayout.Space(0.03f * widthScreen);
 							}
@@ -979,52 +803,107 @@ public class MyGameView : MonoBehaviour
 					GUILayout.EndArea();
 				}
 			}
-			GUILayout.BeginArea(rectDeck);
+			if (myDecksVM.deckToEdit != -1)
+			{	
+				if (Event.current.keyCode == KeyCode.Escape)
+				{
+					myDecksVM.deckToEdit = -1;
+					myDecksVM.tempText = "Nouveau deck";
+				}
+				else if (Event.current.keyCode == KeyCode.Return)
+				{
+					StartCoroutine(myGameScript.instance.editDeck(myDecksVM.deckToEdit, myDecksVM.tempText));
+					myDecksVM.tempText = "Nouveau deck";
+					myDecksVM.deckToEdit = -1;
+				}
+				else
+				{
+					GUILayout.BeginArea(popupVM.centralWindow);
+					{
+						GUILayout.BeginVertical(popupVM.centralWindowStyle);
+						{
+							GUILayout.FlexibleSpace();
+							GUILayout.Label("Modifiez le nom de votre deck", popupVM.centralWindowTitleStyle);
+							GUILayout.Space(0.02f * heightScreen);
+							GUILayout.BeginHorizontal();
+							{
+								GUILayout.Space(0.05f * widthScreen);
+								myDecksVM.tempText = GUILayout.TextField(myDecksVM.tempText, popupVM.centralWindowTextFieldStyle);
+							}
+							GUILayout.EndHorizontal();
+							GUILayout.Space(0.02f * heightScreen);
+							GUILayout.BeginHorizontal();
+							{
+								GUILayout.Space(0.03f * widthScreen);
+								if (GUILayout.Button("Modifier", popupVM.centralWindowButtonStyle))
+								{
+									StartCoroutine(myGameScript.instance.editDeck(myDecksVM.deckToEdit, myDecksVM.tempText));
+									myDecksVM.tempText = "Nouveau deck";
+									myDecksVM.deckToEdit = -1;
+								}
+								GUILayout.Space(0.04f * widthScreen);
+								if (GUILayout.Button("Annuler", popupVM.centralWindowButtonStyle))
+								{
+									myDecksVM.deckToEdit = -1; 
+									myDecksVM.tempText = "Nouveau deck";
+								}
+								GUILayout.Space(0.03f * widthScreen);
+							}
+							GUILayout.EndHorizontal();
+							GUILayout.FlexibleSpace();
+						}
+						GUILayout.EndVertical();
+					}
+					GUILayout.EndArea();
+				}
+			}
+			GUILayout.BeginArea(myDecksVM.rectDeck);
 			{
 				GUILayout.BeginVertical();
 				{
 					GUILayout.BeginHorizontal();
 					{
-						GUILayout.Label(decksTitle, decksTitleStyle);
+						GUILayout.Label(myDecksVM.decksTitle, myDecksVM.decksTitleStyle);
 						GUILayout.FlexibleSpace();
-						if (GUILayout.Button(myNewDeckButtonTitle, myNewDeckButton))
+						if (GUILayout.Button(myDecksVM.myNewDeckButtonTitle, myDecksVM.myNewDeckButton))
 						{
-							displayCreationDeckWindow = true;
+							myGameVM.displayCreationDeckWindow = true;
 						}
 					}
 					GUILayout.EndHorizontal();
 					
 					GUILayout.Space(0.005f * heightScreen);
 					
-					scrollPosition = GUILayout.BeginScrollView(scrollPosition, GUILayout.Width(0.19f * widthScreen), GUILayout.Height(0.17f * heightScreen));
+					myGameVM.scrollPosition = GUILayout.BeginScrollView(myGameVM.scrollPosition, GUILayout.Width(0.19f * widthScreen), 
+					                                           GUILayout.Height(0.17f * heightScreen));
 					
-					for(int i = 0 ; i < myDecks.Count ; i++)
+					for(int i = 0 ; i < myGameVM.myDecks.Count ; i++)
 					{	
-						GUILayout.BeginHorizontal(myDecksGuiStyle[i]);
+						GUILayout.BeginHorizontal(myDecksVM.myDecksGuiStyle[i]);
 						{
-							if (GUILayout.Button("(" + myDecks[i].NbCards + ") " + myDecks[i].Name, myDecksButtonGuiStyle[i]))
+							if (GUILayout.Button("(" + myGameVM.myDecks[i].NbCards + ") " + myGameVM.myDecks[i].Name, myDecksVM.myDecksButtonGuiStyle[i]))
 							{
-								if (chosenDeck != i)
+								if (myDecksVM.chosenDeck != i)
 								{
-									myDecksGuiStyle[chosenDeck] = this.deckStyle;
-									myDecksButtonGuiStyle[chosenDeck] = this.deckButtonStyle;
-									chosenDeck = i;
-									myDecksGuiStyle[i] = this.deckChosenStyle;
-									myDecksButtonGuiStyle[i] = this.deckButtonChosenStyle;
-									chosenIdDeck = myDecks[i].Id;
-									StartCoroutine(myGameScript.instance.retrieveCardsFromDeck(chosenIdDeck));
+									myDecksVM.myDecksGuiStyle[myDecksVM.chosenDeck] = myDecksVM.deckStyle;
+									myDecksVM.myDecksButtonGuiStyle[myDecksVM.chosenDeck] = myDecksVM.deckButtonStyle;
+									myDecksVM.chosenDeck = i;
+									myDecksVM.myDecksGuiStyle[i] = myDecksVM.deckChosenStyle;
+									myDecksVM.myDecksButtonGuiStyle[i] = myDecksVM.deckButtonChosenStyle;
+									myDecksVM.chosenIdDeck = myGameVM.myDecks[i].Id;
+									StartCoroutine(myGameScript.instance.retrieveCardsFromDeck(myDecksVM.chosenIdDeck));
 								}
 							}
 							GUILayout.FlexibleSpace();
-							if (GUILayout.Button("", myEditButtonStyle))
+							if (GUILayout.Button("", myDecksVM.myEditButtonStyle))
 							{
-								tempText = myDecks[i].Name;
-								deckToEdit = myDecks[i].Id;
+								myDecksVM.tempText = myGameVM.myDecks[i].Name;
+								myDecksVM.deckToEdit = myGameVM.myDecks[i].Id;
 							}
 							
-							if (GUILayout.Button("", mySuppressButtonStyle))
+							if (GUILayout.Button("", myDecksVM.mySuppressButtonStyle))
 							{
-								IDDeckToEdit = myDecks[i].Id;
+								myDecksVM.IDDeckToEdit = myGameVM.myDecks[i].Id;
 							}
 						}
 						GUILayout.EndHorizontal();
@@ -1036,52 +915,51 @@ public class MyGameView : MonoBehaviour
 			GUILayout.EndArea();
 		}
 		
-		if (displayLoader)
+		if (myGameVM.displayLoader)
 		{
-			GUILayout.BeginArea(new Rect(widthScreen * 0.22f, 0.26f * heightScreen,widthScreen * 0.78f,0.64f * heightScreen));
+			GUILayout.BeginArea(new Rect(widthScreen * 0.22f, 0.26f * heightScreen,widthScreen * 0.78f, 0.64f * heightScreen));
 			{
-				GUILayout.BeginVertical(); // also can put width in here
+				GUILayout.BeginVertical(); 
 				{
-					/*GUILayout.Label("Cartes en cours de chargement...   " 
-					                + cardsToBeDisplayed.Count + " carte(s) chargee(s)");*/
-					GUILayout.Label("Cartes en cours de chargement...   " 
-					                + "commentaire a enlever" + " carte(s) chargee(s)");
+					GUILayout.Label("Cartes en cours de chargement...   " + myGameVM.cardsToBeDisplayed.Count + " carte(s) chargee(s)");
 				}
 				GUILayout.EndVertical();
 			}
 			GUILayout.EndArea();
 		}
-		if (displayFilters)
+		if (filterVM.displayFilters)
 		{
 			GUILayout.BeginArea(new Rect(widthScreen * 0.01f, 0.965f * heightScreen, widthScreen * 0.78f, 0.03f * heightScreen));
 			{
 				GUILayout.BeginHorizontal();
 				{
 					GUILayout.FlexibleSpace();
-					if (pageDebut > 0)
+					if (paginationVM.pageDebut > 0)
 					{
-						if (GUILayout.Button("...",paginationStyle))
+						if (GUILayout.Button("...", paginationVM.paginationStyle))
 						{
-							pageDebut = pageDebut - 15;
-							pageFin = pageDebut + 15;
+							paginationVM.pageDebut = paginationVM.pageDebut - 15;
+							paginationVM.pageFin = paginationVM.pageDebut + 15;
 						}
 					}
 					GUILayout.Space(widthScreen * 0.01f);
-					for (int i = pageDebut ; i < pageFin ; i++)
+					for (int i = paginationVM.pageDebut ; i < paginationVM.pageFin ; i++)
 					{
-						if (GUILayout.Button("" + (i + 1), paginatorGuiStyle[i]))
+						if (GUILayout.Button("" + (i + 1), paginationVM.paginatorGuiStyle[i]))
 						{
-							paginatorGuiStyle[chosenPage] = this.paginationStyle;
-							chosenPage = i;
-							paginatorGuiStyle[i] = this.paginationActivatedStyle;
+							paginationVM.paginatorGuiStyle[paginationVM.chosenPage] = paginationVM.paginationStyle;
+							paginationVM.chosenPage = i;
+							paginationVM.paginatorGuiStyle[i] = paginationVM.paginationActivatedStyle;
 							displayPage();
 						}
 						GUILayout.Space(widthScreen * 0.01f);
 					}
-					if (nbPages>pageFin){
-						if (GUILayout.Button("...",paginationStyle)){
-							pageDebut = pageDebut+15;
-							pageFin = Mathf.Min(pageFin+15, nbPages);
+					if (paginationVM.nbPages > paginationVM.pageFin)
+					{
+						if (GUILayout.Button("...", paginationVM.paginationStyle))
+						{
+							paginationVM.pageDebut = paginationVM.pageDebut + 15;
+							paginationVM.pageFin = Mathf.Min(paginationVM.pageFin + 15, paginationVM.nbPages);
 						}
 					}
 					GUILayout.FlexibleSpace();
@@ -1091,219 +969,249 @@ public class MyGameView : MonoBehaviour
 			}
 			GUILayout.EndArea();
 			
-			GUILayout.BeginArea(new Rect(0.80f*widthScreen,0.11f*heightScreen,widthScreen * 0.19f,0.85f*heightScreen));
+			GUILayout.BeginArea(new Rect(0.80f * widthScreen,0.11f*heightScreen,widthScreen * 0.19f,0.85f * heightScreen));
 			{
 				bool toggle;
-				string tempString ;
+				string tempString;
 				GUILayout.BeginVertical();
 				{
 					GUILayout.FlexibleSpace(); 
-					toggle = GUILayout.Toggle (enVente, "Cartes en vente",this.toggleStyle);
-					if (toggle != enVente) {
-						enVente = toggle;
-						toReload = true ;
+					toggle = GUILayout.Toggle (myGameVM.enVente, "Cartes en vente",filterVM.toggleStyle);
+					if (toggle != myGameVM.enVente) 
+					{
+						myGameVM.enVente = toggle;
+						myGameVM.toReload = true;
 					}
 					
 					GUILayout.FlexibleSpace(); 
 					
-					GUILayout.Label ("Filtrer par classe",filterTitleStyle);
-					for (int i=0; i<this.cardTypeList.Length-1; i++) {		
-						toggle = GUILayout.Toggle (togglesCurrentStates [i], this.cardTypeList[i],this.toggleStyle);
-						if (toggle != togglesCurrentStates [i]) {
-							togglesCurrentStates [i] = toggle;
-							if (toggle){
-								filtersCardType.Add(i);
+					GUILayout.Label("Filtrer par classe", filterVM.filterTitleStyle);
+					for (int i = 0 ; i < myGameVM.cardTypeList.Length - 1 ; i++) 
+					{		
+						toggle = GUILayout.Toggle (myGameVM.togglesCurrentStates [i], myGameVM.cardTypeList[i], filterVM.toggleStyle);
+						if (toggle != myGameVM.togglesCurrentStates [i]) 
+						{
+							myGameVM.togglesCurrentStates[i] = toggle;
+							if (toggle)
+							{
+								filterVM.filtersCardType.Add(i);
 							}
-							else{
-								filtersCardType.Remove(i);
+							else
+							{
+								filterVM.filtersCardType.Remove(i);
 							}
-							toReload = true ;
+							myGameVM.toReload = true;
 						}
 					}
 					
 					GUILayout.FlexibleSpace();
-					
-					GUILayout.Label ("Filtrer une capacité",filterTitleStyle);
-					tempString = GUILayout.TextField (this.valueSkill, this.filterTextFieldStyle);
-					if (tempString != valueSkill) {
-						if (tempString.Length > 0) {
-							this.isSkillToDisplay=true;
-							valueSkill = tempString.ToLower ();
-							displaySkills ();
+					GUILayout.Label("Filtrer une capacité", filterVM.filterTitleStyle);
+					tempString = GUILayout.TextField(myGameVM.valueSkill, filterVM.filterTextFieldStyle);
+					if (tempString != myGameVM.valueSkill) 
+					{
+						if (tempString.Length > 0) 
+						{
+							myGameVM.isSkillToDisplay = true;
+							myGameVM.valueSkill = tempString.ToLower();
+							displaySkills();
 						} 
-						else {
-							this.isSkillToDisplay=false;
-							valueSkill = "";
+						else 
+						{
+							myGameVM.isSkillToDisplay = false;
+							myGameVM.valueSkill = "";
 						}
-						if (this.isSkillChosen){
-							this.isSkillChosen=false ;
-							toReload = true ;
+						if (myGameVM.isSkillChosen)
+						{
+							myGameVM.isSkillChosen=false ;
+							myGameVM.toReload = true ;
 						}
 					}
-					if (isSkillToDisplay){
+					if (myGameVM.isSkillToDisplay)
+					{
 						GUILayout.Space(-3);
-						for (int j=0; j<matchValues.Count; j++) {
-							if (GUILayout.Button (matchValues [j], myStyle)) {
-								valueSkill = matchValues [j].ToLower ();
-								this.isSkillChosen=true ;
-								this.matchValues = new List<string>();
-								toReload = true ;
+						for (int j = 0 ; j < filterVM.matchValues.Count ; j++) 
+						{
+							if (GUILayout.Button(filterVM.matchValues[j], filterVM.myStyle)) 
+							{
+								myGameVM.valueSkill = filterVM.matchValues[j].ToLower();
+								myGameVM.isSkillChosen = true;
+								filterVM.matchValues = new List<string>();
+								myGameVM.toReload = true;
 							}
 						}
 					}
 					
-					GUILayout.FlexibleSpace();
-					
+					GUILayout.FlexibleSpace();			
 					GUILayout.BeginHorizontal();
 					{
-						GUILayout.Label ("Filtrer par Vie",filterTitleStyle);
+						GUILayout.Label ("Filtrer par Vie", filterVM.filterTitleStyle);
 						GUILayout.FlexibleSpace();
-						if(GUILayout.Button ("^",sortButtonStyle[0])) {
-							sortSelected=0;
-							toReload=true;
+						if (GUILayout.Button ("^", sortVM.sortButtonStyle[0])) 
+						{
+							sortVM.sortSelected = 0;
+							myGameVM.toReload = true;
 						}
-						if(GUILayout.Button ("v",sortButtonStyle[1])) {
-							sortSelected=1;
-							toReload=true;
-						}
-					}
-					GUILayout.EndHorizontal();
-					GUILayout.BeginHorizontal();
-					{
-						GUILayout.Label ("Min:"+ Mathf.Round(minLifeVal),smallPoliceStyle);
-						GUILayout.FlexibleSpace();
-						GUILayout.Label ("Max:"+ Mathf.Round(maxLifeVal),smallPoliceStyle);
-					}
-					GUILayout.EndHorizontal();
-					MyGUI.MinMaxSlider (ref minLifeVal, ref maxLifeVal, minLifeLimit, maxLifeLimit);
-					
-					GUILayout.FlexibleSpace();
-					
-					GUILayout.BeginHorizontal();
-					{
-						GUILayout.Label ("Filtrer par Attaque",filterTitleStyle);
-						GUILayout.FlexibleSpace();
-						if(GUILayout.Button ("^",sortButtonStyle[2])) {
-							sortSelected=2;
-							toReload=true;
-						}
-						if(GUILayout.Button ("v",sortButtonStyle[3])) {
-							sortSelected=3;
-							toReload=true;
+						if (GUILayout.Button ("v", sortVM.sortButtonStyle[1])) 
+						{
+							sortVM.sortSelected = 1;
+							myGameVM.toReload = true;
 						}
 					}
 					GUILayout.EndHorizontal();
 					GUILayout.BeginHorizontal();
 					{
-						GUILayout.Label ("Min:"+ Mathf.Round(minAttackVal),smallPoliceStyle);
+						GUILayout.Label("Min:" + Mathf.Round(filterVM.minLifeVal), filterVM.smallPoliceStyle);
 						GUILayout.FlexibleSpace();
-						GUILayout.Label ("Max:"+ Mathf.Round(maxAttackVal),smallPoliceStyle);
+						GUILayout.Label("Max:" + Mathf.Round(filterVM.maxLifeVal), filterVM.smallPoliceStyle);
 					}
 					GUILayout.EndHorizontal();
-					MyGUI.MinMaxSlider (ref minAttackVal, ref maxAttackVal, minAttackLimit, maxAttackLimit);
+					MyGUI.MinMaxSlider(ref filterVM.minLifeVal, ref filterVM.maxLifeVal, filterVM.minLifeLimit, filterVM.maxLifeLimit);
 					
 					GUILayout.FlexibleSpace();
 					
 					GUILayout.BeginHorizontal();
 					{
-						GUILayout.Label ("Filtrer par Mouvement",filterTitleStyle);
+						GUILayout.Label ("Filtrer par Attaque", filterVM.filterTitleStyle);
 						GUILayout.FlexibleSpace();
-						if(GUILayout.Button ("^",sortButtonStyle[4])) {
-							sortSelected=4;
-							toReload=true;
+						if (GUILayout.Button("^", sortVM.sortButtonStyle[2])) 
+						{
+							sortVM.sortSelected = 2;
+							myGameVM.toReload = true;
 						}
-						if(GUILayout.Button ("v",sortButtonStyle[5])) {
-							sortSelected=5;
-							toReload=true;
+						if (GUILayout.Button("v", sortVM.sortButtonStyle[3])) 
+						{
+							sortVM.sortSelected = 3;
+							myGameVM.toReload = true;
 						}
 					}
 					GUILayout.EndHorizontal();
 					GUILayout.BeginHorizontal();
 					{
-						GUILayout.Label ("Min:"+ Mathf.Round(minMoveVal),smallPoliceStyle);
+						GUILayout.Label ("Min:" + Mathf.Round(filterVM.minAttackVal), filterVM.smallPoliceStyle);
 						GUILayout.FlexibleSpace();
-						GUILayout.Label ("Max:"+ Mathf.Round(maxMoveVal),smallPoliceStyle);
+						GUILayout.Label ("Max:" + Mathf.Round(filterVM.maxAttackVal), filterVM.smallPoliceStyle);
 					}
 					GUILayout.EndHorizontal();
-					MyGUI.MinMaxSlider (ref minMoveVal, ref maxMoveVal, minMoveLimit, maxMoveLimit);
+					MyGUI.MinMaxSlider(ref filterVM.minAttackVal, ref filterVM.maxAttackVal, filterVM.minAttackLimit, filterVM.maxAttackLimit);
 					
 					GUILayout.FlexibleSpace();
 					
 					GUILayout.BeginHorizontal();
 					{
-						GUILayout.Label ("Filtrer par Rapidité",filterTitleStyle);
+						GUILayout.Label("Filtrer par Mouvement", filterVM.filterTitleStyle);
 						GUILayout.FlexibleSpace();
-						if(GUILayout.Button ("^",sortButtonStyle[6])) {
-							sortSelected=6;
-							toReload=true;
+						if (GUILayout.Button("^", sortVM.sortButtonStyle[4])) 
+						{
+							sortVM.sortSelected = 4;
+							myGameVM.toReload = true;
 						}
-						if(GUILayout.Button ("v",sortButtonStyle[7])) {
-							sortSelected=7;
-							toReload=true;
+						if (GUILayout.Button("v", sortVM.sortButtonStyle[5])) 
+						{
+							sortVM.sortSelected = 5;
+							myGameVM.toReload = true;
 						}
 					}
 					GUILayout.EndHorizontal();
 					GUILayout.BeginHorizontal();
 					{
-						GUILayout.Label ("Min:"+ Mathf.Round(minQuicknessVal),smallPoliceStyle);
+						GUILayout.Label("Min:" + Mathf.Round(filterVM.minMoveVal), filterVM.smallPoliceStyle);
 						GUILayout.FlexibleSpace();
-						GUILayout.Label ("Max:"+ Mathf.Round(maxQuicknessVal),smallPoliceStyle);
+						GUILayout.Label("Max:" + Mathf.Round(filterVM.maxMoveVal), filterVM.smallPoliceStyle);
 					}
 					GUILayout.EndHorizontal();
-					MyGUI.MinMaxSlider (ref minQuicknessVal, ref maxQuicknessVal, minQuicknessLimit, maxQuicknessLimit);
+					MyGUI.MinMaxSlider(ref filterVM.minMoveVal, ref filterVM.maxMoveVal, filterVM.minMoveLimit, filterVM.maxMoveLimit);
 					
-					if (Input.GetMouseButtonDown(0)){
-						isBeingDragged = true;
+					GUILayout.FlexibleSpace();
+					
+					GUILayout.BeginHorizontal();
+					{
+						GUILayout.Label ("Filtrer par Rapidité", filterVM.filterTitleStyle);
+						GUILayout.FlexibleSpace();
+						if (GUILayout.Button ("^", sortVM.sortButtonStyle[6])) 
+						{
+							sortVM.sortSelected = 6;
+							myGameVM.toReload = true;
+						}
+						if (GUILayout.Button ("v", sortVM.sortButtonStyle[7])) 
+						{
+							sortVM.sortSelected = 7;
+							myGameVM.toReload = true;
+						}
 					}
-					if (Input.GetMouseButtonUp(0)){
-						isBeingDragged = false;
+					GUILayout.EndHorizontal();
+					GUILayout.BeginHorizontal();
+					{
+						GUILayout.Label ("Min:" + Mathf.Round(filterVM.minQuicknessVal), filterVM.smallPoliceStyle);
+						GUILayout.FlexibleSpace();
+						GUILayout.Label ("Max:" + Mathf.Round(filterVM.maxQuicknessVal), filterVM.smallPoliceStyle);
+					}
+					GUILayout.EndHorizontal();
+					MyGUI.MinMaxSlider(ref filterVM.minQuicknessVal, ref filterVM.maxQuicknessVal, filterVM.minQuicknessLimit, filterVM.maxQuicknessLimit);
+					
+					if (Input.GetMouseButtonDown(0))
+					{
+						myGameVM.isBeingDragged = true;
+					}
+					if (Input.GetMouseButtonUp(0))
+					{
+						myGameVM.isBeingDragged = false;
 					}
 					
-					if (!isBeingDragged){
-						bool isMoved = false ;
-						maxLifeVal=Mathf.RoundToInt(maxLifeVal);
-						minLifeVal=Mathf.RoundToInt(minLifeVal);
-						maxAttackVal=Mathf.RoundToInt(maxAttackVal);
-						minAttackVal=Mathf.RoundToInt(minAttackVal);
-						maxMoveVal=Mathf.RoundToInt(maxMoveVal);
-						minMoveVal=Mathf.RoundToInt(minMoveVal);
-						maxQuicknessVal=Mathf.RoundToInt(maxQuicknessVal);
-						minQuicknessVal=Mathf.RoundToInt(minQuicknessVal);
+					if (!myGameVM.isBeingDragged)
+					{
+						bool isMoved                = false;
+						filterVM.maxLifeVal         = Mathf.RoundToInt(filterVM.maxLifeVal);
+						filterVM.minLifeVal         = Mathf.RoundToInt(filterVM.minLifeVal);
+						filterVM.maxAttackVal       = Mathf.RoundToInt(filterVM.maxAttackVal);
+						filterVM.minAttackVal       = Mathf.RoundToInt(filterVM.minAttackVal);
+						filterVM.maxMoveVal         = Mathf.RoundToInt(filterVM.maxMoveVal);
+						filterVM.minMoveVal         = Mathf.RoundToInt(filterVM.minMoveVal);
+						filterVM.maxQuicknessVal    = Mathf.RoundToInt(filterVM.maxQuicknessVal);
+						filterVM.minQuicknessVal    = Mathf.RoundToInt(filterVM.minQuicknessVal);
 						
-						if (oldMaxLifeVal != maxLifeVal){
-							oldMaxLifeVal = maxLifeVal;
-							isMoved = true ; 
+						if (filterVM.oldMaxLifeVal != filterVM.maxLifeVal)
+						{
+							filterVM.oldMaxLifeVal = filterVM.maxLifeVal;
+							isMoved = true; 
 						}
-						if (oldMinLifeVal != minLifeVal){
-							oldMinLifeVal = minLifeVal;
-							isMoved = true ; 
+						if (filterVM.oldMinLifeVal != filterVM.minLifeVal)
+						{
+							filterVM.oldMinLifeVal = filterVM.minLifeVal;
+							isMoved = true; 
 						}
-						if (oldMaxAttackVal != maxAttackVal){
-							oldMaxAttackVal = maxAttackVal;
-							isMoved = true ; 
+						if (filterVM.oldMaxAttackVal != filterVM.maxAttackVal)
+						{
+							filterVM.oldMaxAttackVal = filterVM.maxAttackVal;
+							isMoved = true; 
 						}
-						if (oldMinAttackVal != minAttackVal){
-							oldMinAttackVal = minAttackVal;
-							isMoved = true ; 
+						if (filterVM.oldMinAttackVal != filterVM.minAttackVal)
+						{
+							filterVM.oldMinAttackVal = filterVM.minAttackVal;
+							isMoved = true; 
 						}
-						if (oldMaxMoveVal != maxMoveVal){
-							oldMaxMoveVal = Mathf.RoundToInt(maxMoveVal);
-							isMoved = true ; 
+						if (filterVM.oldMaxMoveVal != filterVM.maxMoveVal)
+						{
+							filterVM.oldMaxMoveVal = Mathf.RoundToInt(filterVM.maxMoveVal);
+							isMoved = true; 
 						}
-						if (oldMinMoveVal != minMoveVal){
-							oldMinMoveVal = Mathf.RoundToInt(minMoveVal);
-							isMoved = true ; 
+						if (filterVM.oldMinMoveVal != filterVM.minMoveVal)
+						{
+							filterVM.oldMinMoveVal = Mathf.RoundToInt(filterVM.minMoveVal);
+							isMoved = true; 
 						}
-						if (oldMaxQuicknessVal != maxQuicknessVal){
-							oldMaxQuicknessVal = maxQuicknessVal;
-							isMoved = true ; 
+						if (filterVM.oldMaxQuicknessVal != filterVM.maxQuicknessVal)
+						{
+							filterVM.oldMaxQuicknessVal = filterVM.maxQuicknessVal;
+							isMoved = true; 
 						}
-						if (oldMinQuicknessVal != minQuicknessVal){
-							oldMinQuicknessVal = minQuicknessVal;
-							isMoved = true ; 
+						if (filterVM.oldMinQuicknessVal != filterVM.minQuicknessVal)
+						{
+							filterVM.oldMinQuicknessVal = filterVM.minQuicknessVal;
+							isMoved = true; 
 						}
-						if(isMoved){
-							toReload = true ;
+						if (isMoved)
+						{
+							myGameVM.toReload = true;
 						}
 					}
 				}
@@ -1319,146 +1227,152 @@ public class MyGameView : MonoBehaviour
 		heightScreen = Screen.height;
 		widthScreen = Screen.width;
 		
-		if (heightScreen < widthScreen) {
-			this.decksTitleStyle.fontSize = heightScreen*2/100;
-			this.decksTitleStyle.fixedHeight = (int)heightScreen*3/100;
-			this.decksTitleStyle.fixedWidth = (int)widthScreen*9/100;
-			this.decksTitle = "Mes decks";
+		if (heightScreen < widthScreen) 
+		{
+			myDecksVM.decksTitleStyle.fontSize                           = heightScreen * 2 / 100;
+			myDecksVM.decksTitleStyle.fixedHeight                        = (int) heightScreen * 3 / 100;
+			myDecksVM.decksTitleStyle.fixedWidth                         = (int) widthScreen * 9 / 100;
+			myDecksVM.decksTitle                                         = "Mes decks";
 			
-			this.myNewDeckButton.fontSize = heightScreen*2/100;
-			this.myNewDeckButton.fixedHeight = heightScreen*3/100;
-			this.myNewDeckButton.fixedWidth = widthScreen*9/100;
-			this.myNewDeckButton.normal.background = this.backButton ;
-			this.myNewDeckButton.hover.background = this.backActivatedButton ;
-			this.myNewDeckButtonTitle = "Nouveau";
+			myDecksVM.myNewDeckButton.fontSize                           = heightScreen * 2 / 100;
+			myDecksVM.myNewDeckButton.fixedHeight                        = heightScreen * 3 / 100;
+			myDecksVM.myNewDeckButton.fixedWidth                         = widthScreen * 9 / 100;
+			myDecksVM.myNewDeckButton.normal.background                  = myGameVM.backButton;
+			myDecksVM.myNewDeckButton.hover.background                   = myGameVM.backActivatedButton;
+			myDecksVM.myNewDeckButtonTitle                               = "Nouveau";
 			
-			this.centralWindow = new Rect (widthScreen * 0.25f, 0.12f * heightScreen, widthScreen * 0.50f, 0.18f * heightScreen);
+			popupVM.centralWindow = new Rect(widthScreen * 0.25f, 0.12f * heightScreen, widthScreen * 0.50f, 0.18f * heightScreen);
 			
-			this.centralWindowStyle.fixedWidth = widthScreen*0.5f-5;
+			popupVM.centralWindowStyle.fixedWidth                        = widthScreen * 0.5f-5;
 			
-			this.centralWindowTitleStyle.fontSize = heightScreen*2/100;
-			this.centralWindowTitleStyle.fixedHeight = heightScreen*3/100;
-			this.centralWindowTitleStyle.fixedWidth = widthScreen*5/10;
+			popupVM.centralWindowTitleStyle.fontSize                     = heightScreen * 2 / 100;
+			popupVM.centralWindowTitleStyle.fixedHeight                  = heightScreen * 3 / 100;
+			popupVM.centralWindowTitleStyle.fixedWidth                   = widthScreen * 5 / 10;
 			
-			this.centralWindowTextFieldStyle.fontSize = heightScreen*2/100;
-			this.centralWindowTextFieldStyle.fixedHeight = heightScreen*3/100;
-			this.centralWindowTextFieldStyle.fixedWidth = widthScreen*4/10;
+			popupVM.centralWindowTextFieldStyle.fontSize                 = heightScreen * 2 / 100;
+			popupVM.centralWindowTextFieldStyle.fixedHeight              = heightScreen * 3 / 100;
+			popupVM.centralWindowTextFieldStyle.fixedWidth               = widthScreen * 4 / 10;
 			
-			this.centralWindowButtonStyle.fontSize = heightScreen*2/100;
-			this.centralWindowButtonStyle.fixedHeight = heightScreen*3/100;
-			this.centralWindowButtonStyle.fixedWidth = widthScreen*2/10;
+			popupVM.centralWindowButtonStyle.fontSize                    = heightScreen * 2 / 100;
+			popupVM.centralWindowButtonStyle.fixedHeight                 = heightScreen * 3 / 100;
+			popupVM.centralWindowButtonStyle.fixedWidth                  = widthScreen * 2 / 10;
 			
-			this.smallCentralWindowButtonStyle.fontSize = heightScreen*15/1000;
-			this.smallCentralWindowButtonStyle.fixedHeight = heightScreen*3/100;
-			this.smallCentralWindowButtonStyle.fixedWidth = widthScreen*1/10;
+			popupVM.smallCentralWindowButtonStyle.fontSize               = heightScreen * 15 / 1000;
+			popupVM.smallCentralWindowButtonStyle.fixedHeight            = heightScreen * 3 / 100;
+			popupVM.smallCentralWindowButtonStyle.fixedWidth             = widthScreen * 1 / 10;
 			
-			rectDeck = new Rect (widthScreen * 0.005f, 0.105f * heightScreen, widthScreen * 0.19f, 0.21f * heightScreen);
-			this.rectInsideScrollDeck = new Rect (widthScreen * 0.005f, 0.12f * heightScreen, widthScreen * 0.18f, 0.18f * heightScreen);
-			this.rectOutsideScrollDeck = new Rect (widthScreen * 0.005f, 0.12f * heightScreen, widthScreen * 0.19f, 0.18f * heightScreen);
+			myDecksVM.rectDeck              = new Rect(widthScreen * 0.005f, 0.105f * heightScreen, widthScreen * 0.19f, 0.21f * heightScreen);
+			myDecksVM.rectInsideScrollDeck  = new Rect(widthScreen * 0.005f, 0.12f * heightScreen, widthScreen * 0.18f, 0.18f * heightScreen);
+			myDecksVM.rectOutsideScrollDeck = new Rect(widthScreen * 0.005f, 0.12f * heightScreen, widthScreen * 0.19f, 0.18f * heightScreen);
 			
-			this.deckStyle.fixedHeight = heightScreen*3/100;
-			this.deckStyle.fixedWidth = widthScreen*17/100;
+			myDecksVM.deckStyle.fixedHeight                              = heightScreen * 3 / 100;
+			myDecksVM.deckStyle.fixedWidth                               = widthScreen * 17 / 100;
 			
-			this.deckChosenStyle.fixedHeight = heightScreen*3/100;
-			this.deckChosenStyle.fixedWidth = widthScreen*17/100;
+			myDecksVM.deckChosenStyle.fixedHeight                        = heightScreen * 3 / 100;
+			myDecksVM.deckChosenStyle.fixedWidth                         = widthScreen * 17 / 100;
 			
-			this.deckButtonStyle.fontSize = heightScreen*2/100;
-			this.deckButtonStyle.fixedHeight = heightScreen*3/100;
-			this.deckButtonStyle.fixedWidth = widthScreen*12/100;
+			myDecksVM.deckButtonStyle.fontSize                           = heightScreen * 2 / 100;
+			myDecksVM.deckButtonStyle.fixedHeight                        = heightScreen * 3 / 100;
+			myDecksVM.deckButtonStyle.fixedWidth                         = widthScreen * 12 / 100;
 			
-			this.deckButtonChosenStyle.fontSize = heightScreen*2/100;
-			this.deckButtonChosenStyle.fixedHeight = heightScreen*3/100;
-			this.deckButtonChosenStyle.fixedWidth = widthScreen*12/100;
+			myDecksVM.deckButtonChosenStyle.fontSize                     = heightScreen * 2 / 100;
+			myDecksVM.deckButtonChosenStyle.fixedHeight                  = heightScreen * 3 / 100;
+			myDecksVM.deckButtonChosenStyle.fixedWidth                   = widthScreen * 12 / 100;
 			
-			this.myEditButtonStyle.fixedHeight = heightScreen*3/100;
-			this.myEditButtonStyle.fixedWidth = heightScreen*3/100;
+			myDecksVM.myEditButtonStyle.fixedHeight                      = heightScreen * 3 / 100;
+			myDecksVM.myEditButtonStyle.fixedWidth                       = heightScreen * 3 / 100;
 			
-			this.mySuppressButtonStyle.fixedHeight = heightScreen*3/100;
-			this.mySuppressButtonStyle.fixedWidth = heightScreen*3/100;
+			myDecksVM.mySuppressButtonStyle.fixedHeight                  = heightScreen * 3 / 100;
+			myDecksVM.mySuppressButtonStyle.fixedWidth                   = heightScreen * 3 / 100;
 			
-			this.paginationStyle.fontSize = heightScreen*2/100;
-			this.paginationStyle.fixedWidth = widthScreen*3/100;
-			this.paginationStyle.fixedHeight = heightScreen*3/100;
-			this.paginationActivatedStyle.fontSize = heightScreen*2/100;
-			this.paginationActivatedStyle.fixedWidth = widthScreen*3/100;
-			this.paginationActivatedStyle.fixedHeight = heightScreen*3/100;
+			paginationVM.paginationStyle.fontSize                        = heightScreen * 2 / 100;
+			paginationVM.paginationStyle.fixedWidth                      = widthScreen * 3 / 100;
+			paginationVM.paginationStyle.fixedHeight                     = heightScreen * 3 / 100;
+			paginationVM.paginationActivatedStyle.fontSize               = heightScreen * 2 / 100;
+			paginationVM.paginationActivatedStyle.fixedWidth             = widthScreen * 3 / 100;
+			paginationVM.paginationActivatedStyle.fixedHeight            = heightScreen * 3 / 100;
 			
-			//this.filterTitleStyle.fixedWidth = widthScreen*19/100;
-			this.filterTitleStyle.fixedHeight = heightScreen*3/100;
-			this.filterTitleStyle.fontSize = heightScreen*2/100;
+			filterVM.filterTitleStyle.fixedWidth                         = widthScreen  *19 / 100;
+			filterVM.filterTitleStyle.fixedHeight                        = heightScreen * 3 / 100;
+			filterVM.filterTitleStyle.fontSize                           = heightScreen * 2 / 100;
 			
-			this.toggleStyle.fixedWidth = widthScreen*19/100;
-			this.toggleStyle.fixedHeight = heightScreen*20/1000;
-			this.toggleStyle.fontSize = heightScreen*15/1000;
+			filterVM.toggleStyle.fixedWidth                              = widthScreen * 19 / 100;
+			filterVM.toggleStyle.fixedHeight                             = heightScreen * 20 / 1000;
+			filterVM.toggleStyle.fontSize                                = heightScreen * 15 / 1000;
 			
-			this.filterTextFieldStyle.fontSize = heightScreen*2/100;
-			this.filterTextFieldStyle.fixedHeight = heightScreen*3/100;
-			this.filterTextFieldStyle.fixedWidth = widthScreen*19/100;
+			filterVM.filterTextFieldStyle.fontSize                       = heightScreen * 2 / 100;
+			filterVM.filterTextFieldStyle.fixedHeight                    = heightScreen * 3 / 100;
+			filterVM.filterTextFieldStyle.fixedWidth                     = widthScreen * 19 / 100;
 			
-			this.myStyle.fontSize = heightScreen*15/1000;
-			this.myStyle.fixedHeight = heightScreen*20/1000;
-			this.myStyle.fixedWidth = widthScreen*19/100;
+			filterVM.myStyle.fontSize                                    = heightScreen * 15 / 1000;
+			filterVM.myStyle.fixedHeight                                 = heightScreen * 20 / 1000;
+			filterVM.myStyle.fixedWidth                                  = widthScreen * 19 / 100;
 			
-			this.smallPoliceStyle.fontSize = heightScreen*15/1000;
-			this.smallPoliceStyle.fixedHeight = heightScreen*20/1000;
+			filterVM.smallPoliceStyle.fontSize                           = heightScreen * 15 / 1000;
+			filterVM.smallPoliceStyle.fixedHeight                        = heightScreen * 20 / 1000;
 			
-			this.focusButtonStyle.fontSize = heightScreen*2/100;
-			this.focusButtonStyle.fixedHeight = heightScreen*6/100;
-			this.focusButtonStyle.fixedWidth = widthScreen*25/100;
+			focusVM.focusButtonStyle.fontSize                            = heightScreen * 2 / 100;
+			focusVM.focusButtonStyle.fixedHeight                         = heightScreen * 6 / 100;
+			focusVM.focusButtonStyle.fixedWidth                          = widthScreen * 25 / 100;
 			
-			this.cantBuyStyle.fontSize = heightScreen*2/100;
-			this.cantBuyStyle.fixedHeight = heightScreen*6/100;
-			this.cantBuyStyle.fixedWidth = widthScreen*25/100;
+			focusVM.cantBuyStyle.fontSize                                = heightScreen * 2 / 100;
+			focusVM.cantBuyStyle.fixedHeight                             = heightScreen * 6 / 100;
+			focusVM.cantBuyStyle.fixedWidth                              = widthScreen * 25 / 100;
 			
 			// Style utilisé pour les bouttons de tri
 			
-			this.sortDefaultButtonStyle.fontSize=heightScreen*2/100;
-			this.sortDefaultButtonStyle.fixedHeight = (int)heightScreen*3/100;
-			this.sortDefaultButtonStyle.fixedWidth = (int)widthScreen*12/1000;
+			sortVM.sortDefaultButtonStyle.fontSize                       = heightScreen * 2 / 100;
+			sortVM.sortDefaultButtonStyle.fixedHeight                    = (int) heightScreen * 3 / 100;
+			sortVM.sortDefaultButtonStyle.fixedWidth                     = (int) widthScreen * 12 / 1000;
 			
-			this.sortActivatedButtonStyle.fontSize=heightScreen*2/100;
-			this.sortActivatedButtonStyle.fixedHeight = (int)heightScreen*3/100;
-			this.sortActivatedButtonStyle.fixedWidth = (int)widthScreen*12/1000;
+			sortVM.sortActivatedButtonStyle.fontSize                     = heightScreen * 2 / 100;
+			sortVM.sortActivatedButtonStyle.fixedHeight                  = (int) heightScreen * 3 / 100;
+			sortVM.sortActivatedButtonStyle.fixedWidth                   = (int) widthScreen * 12 / 1000;
 			
-			for (int i =0;i<10;i++){
-				
-				if(sortSelected==10){
-					sortButtonStyle[i]=this.sortDefaultButtonStyle;
+			for (int i = 0 ; i < 10 ; i++)
+			{
+				if (sortVM.sortSelected == 10)
+				{
+					sortVM.sortButtonStyle[i] = sortVM.sortDefaultButtonStyle;
 				}
 			}
 		}
-		else{
-			this.decksTitleStyle.fontSize = heightScreen*2/100;
-			this.decksTitleStyle.fixedHeight = heightScreen*3/100;
-			this.decksTitleStyle.fixedWidth = widthScreen*12/100;
-			this.decksTitle = "Decks";
+		else
+		{
+			myDecksVM.decksTitleStyle.fontSize                           = heightScreen * 2 / 100;
+			myDecksVM.decksTitleStyle.fixedHeight                        = heightScreen * 3 / 100;
+			myDecksVM.decksTitleStyle.fixedWidth                         = widthScreen * 12 / 100;
+			myDecksVM.decksTitle                                         = "Decks";
 			
-			this.myNewDeckButton.fontSize = heightScreen*2/100;
-			this.myNewDeckButton.fixedHeight = heightScreen*3/100;
-			this.myNewDeckButton.fixedWidth = heightScreen*3/100;
-			this.myNewDeckButton.normal.background = this.backNewDeckButton ;
-			this.myNewDeckButton.hover.background = this.backHoveredNewDeckButton ;
-			this.myNewDeckButtonTitle = "";
+			myDecksVM.myNewDeckButton.fontSize                           = heightScreen * 2 / 100;
+			myDecksVM.myNewDeckButton.fixedHeight                        = heightScreen * 3 / 100;
+			myDecksVM.myNewDeckButton.fixedWidth                         = heightScreen * 3 / 100;
+			myDecksVM.myNewDeckButton.normal.background                  = myDecksVM.backNewDeckButton ;
+			myDecksVM.myNewDeckButton.hover.background                   = myDecksVM.backHoveredNewDeckButton ;
+			myDecksVM.myNewDeckButtonTitle                               = "";
 			
-			this.centralWindow = new Rect (widthScreen * 0.10f, 0.10f * heightScreen, widthScreen * 0.80f, 0.80f * heightScreen);
-			this.centralWindowTitleStyle.fontSize = heightScreen*2/100;
-			this.centralWindowTitleStyle.fixedHeight = heightScreen*3/100;
-			this.centralWindowTitleStyle.fixedWidth = widthScreen*5/10;
+			popupVM.centralWindow = new Rect (widthScreen * 0.10f, 0.10f * heightScreen, widthScreen * 0.80f, 0.80f * heightScreen);
+			popupVM.centralWindowTitleStyle.fontSize                     = heightScreen * 2 / 100;
+			popupVM.centralWindowTitleStyle.fixedHeight                  = heightScreen * 3 / 100;
+			popupVM.centralWindowTitleStyle.fixedWidth                   = widthScreen * 5 / 10;
 			
-			this.centralWindowTextFieldStyle.fontSize = heightScreen*1/100;
-			this.centralWindowTextFieldStyle.fixedHeight = heightScreen*3/100;
-			this.centralWindowTextFieldStyle.fixedWidth = widthScreen*7/10;
+			popupVM.centralWindowTextFieldStyle.fontSize                 = heightScreen * 1 / 100;
+			popupVM.centralWindowTextFieldStyle.fixedHeight              = heightScreen * 3 / 100;
+			popupVM.centralWindowTextFieldStyle.fixedWidth               = widthScreen * 7 / 10;
 		}
 	}
 	
 	private void displaySkills()
 	{
-		this.matchValues = new List<string> ();	
-		if (this.valueSkill != "") {
-			this.matchValues = new List<string> ();
-			for (int i = 0; i < skillsList.Length-1; i++) {  
-				if (skillsList [i].ToLower ().Contains (valueSkill)) {
-					matchValues.Add (skillsList [i]);
+		filterVM.matchValues = new List<string>();	
+		if (myGameVM.valueSkill != "") 
+		{
+			filterVM.matchValues = new List<string> ();
+			for (int i = 0 ; i < myGameVM.skillsList.Length - 1 ; i++) 
+			{  
+				if (myGameVM.skillsList[i].ToLower().Contains(myGameVM.valueSkill)) 
+				{
+					filterVM.matchValues.Add(myGameVM.skillsList[i]);
 				}
 			}
 		}
@@ -1466,37 +1380,37 @@ public class MyGameView : MonoBehaviour
 	
 	private void applyFilters() 
 	{
-		this.cardsToBeDisplayed             = new List<int>();
+		myGameVM.cardsToBeDisplayed         = new List<int>();
 		IList<int> tempCardsToBeDisplayed   = new List<int>();
-		int nbFilters                       = this.filtersCardType.Count;
+		int nbFilters                       = filterVM.filtersCardType.Count;
 		bool testFilters                    = false;
 		bool testDeck                       = false;
 		bool test;		
-		bool minLifeBool                    = (minLifeLimit == minLifeVal);
-		bool maxLifeBool                    = (maxLifeLimit == maxLifeVal);
-		bool minMoveBool                    = (minMoveLimit == minMoveVal);
-		bool maxMoveBool                    = (maxMoveLimit == maxMoveVal);
-		bool minQuicknessBool               = (minQuicknessLimit == minQuicknessVal);
-		bool maxQuicknessBool               = (maxQuicknessLimit == maxQuicknessVal);
-		bool minAttackBool                  = (minAttackLimit == minAttackVal);
-		bool maxAttackBool                  = (maxAttackLimit == maxAttackVal);
+		bool minLifeBool                    = (filterVM.minLifeLimit == filterVM.minLifeVal);
+		bool maxLifeBool                    = (filterVM.maxLifeLimit == filterVM.maxLifeVal);
+		bool minMoveBool                    = (filterVM.minMoveLimit == filterVM.minMoveVal);
+		bool maxMoveBool                    = (filterVM.maxMoveLimit == filterVM.maxMoveVal);
+		bool minQuicknessBool               = (filterVM.minQuicknessLimit == filterVM.minQuicknessVal);
+		bool maxQuicknessBool               = (filterVM.maxQuicknessLimit == filterVM.maxQuicknessVal);
+		bool minAttackBool                  = (filterVM.minAttackLimit == filterVM.minAttackVal);
+		bool maxAttackBool                  = (filterVM.maxAttackLimit == filterVM.maxAttackVal);
 
-		if (this.isSkillChosen)
+		if (myGameVM.isSkillChosen)
 		{
-			int max = this.cards.Count;
+			int max = myGameVM.cards.Count;
 			if (nbFilters == 0)
 			{
-				max = this.cards.Count;
-				if (enVente)
+				max = myGameVM.cards.Count;
+				if (myGameVM.enVente)
 				{
 					for (int i = 0 ; i < max ; i++) 
 					{
-						if (cards[i].hasSkill(this.valueSkill) && cards[i].onSale == 1)
+						if (myGameVM.cards[i].hasSkill(myGameVM.valueSkill) && myGameVM.cards[i].onSale == 1)
 						{
 							testDeck = false;
-							for (int j = 0 ; j < deckCardsIds.Count ; j++)
+							for (int j = 0 ; j < myGameVM.deckCardsIds.Count ; j++)
 							{
-								if (i == deckCardsIds[j])
+								if (i == myGameVM.deckCardsIds[j])
 								{
 									testDeck = true;
 								}
@@ -1512,12 +1426,12 @@ public class MyGameView : MonoBehaviour
 				{
 					for (int i = 0 ; i < max ; i++)
 					{
-						if (cards[i].hasSkill(this.valueSkill))
+						if (myGameVM.cards[i].hasSkill(myGameVM.valueSkill))
 						{
 							testDeck = false;
-							for (int j = 0 ; j < deckCardsIds.Count ; j++)
+							for (int j = 0 ; j < myGameVM.deckCardsIds.Count ; j++)
 							{
-								if (i == deckCardsIds[j])
+								if (i == myGameVM.deckCardsIds[j])
 								{
 									testDeck = true;
 								}
@@ -1536,21 +1450,21 @@ public class MyGameView : MonoBehaviour
 				{
 					test = false;
 					int j = 0;
-					if (enVente)
+					if (myGameVM.enVente)
 					{
 						while (!test && j != nbFilters)
 						{
-							if (cards[i].IdClass == this.filtersCardType[j])
+							if (myGameVM.cards[i].IdClass == filterVM.filtersCardType[j])
 							{
 								test = true;
-								if (cards[i].hasSkill(this.valueSkill) && cards[i].onSale == 1)
+								if (myGameVM.cards[i].hasSkill(myGameVM.valueSkill) && myGameVM.cards[i].onSale == 1)
 								{
 									testDeck = false;
-									for (int k = 0 ; k < deckCardsIds.Count ; k++)
+									for (int k = 0 ; k < myGameVM.deckCardsIds.Count ; k++)
 									{
-										if (i == deckCardsIds[k])
+										if (i == myGameVM.deckCardsIds[k])
 										{
-											testDeck = true ; 
+											testDeck = true; 
 										}
 									}
 									if (!testDeck)
@@ -1566,17 +1480,17 @@ public class MyGameView : MonoBehaviour
 					{
 						while (!test && j != nbFilters)
 						{
-							if (cards[i].IdClass ==  this.filtersCardType[j])
+							if (myGameVM.cards[i].IdClass == filterVM.filtersCardType[j])
 							{
 								test = true;
-								if (cards[i].hasSkill(this.valueSkill))
+								if (myGameVM.cards[i].hasSkill(myGameVM.valueSkill))
 								{
 									testDeck = false;
-									for (int k = 0 ; k < deckCardsIds.Count ; k++)
+									for (int k = 0 ; k < myGameVM.deckCardsIds.Count ; k++)
 									{
-										if (i == deckCardsIds[k])
+										if (i == myGameVM.deckCardsIds[k])
 										{
-											testDeck = true ; 
+											testDeck = true; 
 										}
 									}
 									if (!testDeck)
@@ -1593,19 +1507,19 @@ public class MyGameView : MonoBehaviour
 		}
 		else
 		{
-			int max = this.cards.Count;
+			int max = myGameVM.cards.Count;
 			if (nbFilters == 0)
 			{
-				if (enVente)
+				if (myGameVM.enVente)
 				{
 					for (int i = 0 ; i < max ; i++)
 					{
-						if(cards[i].onSale == 1)
+						if (myGameVM.cards[i].onSale == 1)
 						{
 							testDeck = false;
-							for (int j = 0 ; j < deckCardsIds.Count ; j++)
+							for (int j = 0 ; j < myGameVM.deckCardsIds.Count ; j++)
 							{
-								if (i == deckCardsIds[j])
+								if (i == myGameVM.deckCardsIds[j])
 								{
 									testDeck = true;
 								}
@@ -1622,9 +1536,9 @@ public class MyGameView : MonoBehaviour
 					for (int i = 0 ; i < max ; i++)
 					{
 						testDeck = false;
-						for (int j = 0 ; j < deckCardsIds.Count ; j++)
+						for (int j = 0 ; j < myGameVM.deckCardsIds.Count ; j++)
 						{
-							if (i == deckCardsIds[j])
+							if (i == myGameVM.deckCardsIds[j])
 							{
 								testDeck = true;
 							}
@@ -1638,7 +1552,7 @@ public class MyGameView : MonoBehaviour
 			}
 			else
 			{
-				if (enVente)
+				if (myGameVM.enVente)
 				{
 					for (int i = 0 ; i < max ; i++)
 					{
@@ -1646,15 +1560,15 @@ public class MyGameView : MonoBehaviour
 						int j = 0;
 						while (!test && j != nbFilters)
 						{
-							if (cards[i].IdClass == this.filtersCardType[j])
+							if (myGameVM.cards[i].IdClass == filterVM.filtersCardType[j])
 							{
-								if(cards[i].onSale == 1)
+								if (myGameVM.cards[i].onSale == 1)
 								{
 									test = true;
 									testDeck = false;
-									for (int k = 0 ; k < deckCardsIds.Count ; k++)
+									for (int k = 0 ; k < myGameVM.deckCardsIds.Count ; k++)
 									{
-										if (i == deckCardsIds[k])
+										if (i == myGameVM.deckCardsIds[k])
 										{
 											testDeck = true; 
 										}
@@ -1677,13 +1591,13 @@ public class MyGameView : MonoBehaviour
 						int j = 0;
 						while (!test && j != nbFilters)
 						{
-							if (cards[i].IdClass == this.filtersCardType[j])
+							if (myGameVM.cards[i].IdClass == filterVM.filtersCardType[j])
 							{
 								test = true;
 								testDeck = false;
-								for (int k = 0 ; k < deckCardsIds.Count ; k++)
+								for (int k = 0 ; k < myGameVM.deckCardsIds.Count ; k++)
 								{
-									if (i == deckCardsIds[k])
+									if (i == myGameVM.deckCardsIds[k])
 									{
 										testDeck = true;
 									}
@@ -1701,179 +1615,179 @@ public class MyGameView : MonoBehaviour
 		}
 		if (tempCardsToBeDisplayed.Count > 0)
 		{
-			minLifeLimit                = 10000;
-			maxLifeLimit                = 0;
-			minAttackLimit              = 10000;
-			maxAttackLimit              = 0;
-			minMoveLimit                = 10000;
-			maxMoveLimit                = 0;
-			minQuicknessLimit           = 10000;
-			maxQuicknessLimit           = 0;
+			filterVM.minLifeLimit                = 10000;
+			filterVM.maxLifeLimit                = 0;
+			filterVM.minAttackLimit              = 10000;
+			filterVM.maxAttackLimit              = 0;
+			filterVM.minMoveLimit                = 10000;
+			filterVM.maxMoveLimit                = 0;
+			filterVM.minQuicknessLimit           = 10000;
+			filterVM.maxQuicknessLimit           = 0;
 
 			for (int i = 0 ; i < tempCardsToBeDisplayed.Count ; i++)
 			{
-				if (this.cards[tempCardsToBeDisplayed[i]].Life < minLifeLimit)
+				if (myGameVM.cards[tempCardsToBeDisplayed[i]].Life < filterVM.minLifeLimit)
 				{
-					minLifeLimit = this.cards[tempCardsToBeDisplayed[i]].Life;
+					filterVM.minLifeLimit = myGameVM.cards[tempCardsToBeDisplayed[i]].Life;
 				}
-				if (this.cards[tempCardsToBeDisplayed[i]].Life > maxLifeLimit)
+				if (myGameVM.cards[tempCardsToBeDisplayed[i]].Life > filterVM.maxLifeLimit)
 				{
-					maxLifeLimit = this.cards[tempCardsToBeDisplayed[i]].Life;
+					filterVM.maxLifeLimit = myGameVM.cards[tempCardsToBeDisplayed[i]].Life;
 				}
-				if (this.cards[tempCardsToBeDisplayed[i]].Attack < minAttackLimit)
+				if (myGameVM.cards[tempCardsToBeDisplayed[i]].Attack < filterVM.minAttackLimit)
 				{
-					minAttackLimit = this.cards[tempCardsToBeDisplayed[i]].Attack;
+					filterVM.minAttackLimit = myGameVM.cards[tempCardsToBeDisplayed[i]].Attack;
 				}
-				if (this.cards[tempCardsToBeDisplayed[i]].Attack > maxAttackLimit)
+				if (myGameVM.cards[tempCardsToBeDisplayed[i]].Attack > filterVM.maxAttackLimit)
 				{
-					maxAttackLimit = this.cards[tempCardsToBeDisplayed[i]].Attack;
+					filterVM.maxAttackLimit = myGameVM.cards[tempCardsToBeDisplayed[i]].Attack;
 				}
-				if (this.cards[tempCardsToBeDisplayed[i]].Move < minMoveLimit)
+				if (myGameVM.cards[tempCardsToBeDisplayed[i]].Move < filterVM.minMoveLimit)
 				{
-					minMoveLimit = this.cards[tempCardsToBeDisplayed[i]].Move;
+					filterVM.minMoveLimit = myGameVM.cards[tempCardsToBeDisplayed[i]].Move;
 				}
-				if (this.cards[tempCardsToBeDisplayed[i]].Move > maxMoveLimit)
+				if (myGameVM.cards[tempCardsToBeDisplayed[i]].Move > filterVM.maxMoveLimit)
 				{
-					maxMoveLimit = this.cards[tempCardsToBeDisplayed[i]].Move;
+					filterVM.maxMoveLimit = myGameVM.cards[tempCardsToBeDisplayed[i]].Move;
 				}
-				if (this.cards[tempCardsToBeDisplayed[i]].Speed < minQuicknessLimit)
+				if (myGameVM.cards[tempCardsToBeDisplayed[i]].Speed < filterVM.minQuicknessLimit)
 				{
-					minQuicknessLimit = this.cards[tempCardsToBeDisplayed[i]].Speed;
+					filterVM.minQuicknessLimit = myGameVM.cards[tempCardsToBeDisplayed[i]].Speed;
 				}
-				if (this.cards[tempCardsToBeDisplayed[i]].Speed > maxQuicknessLimit)
+				if (myGameVM.cards[tempCardsToBeDisplayed[i]].Speed > filterVM.maxQuicknessLimit)
 				{
-					maxQuicknessLimit = this.cards[tempCardsToBeDisplayed[i]].Speed;
+					filterVM.maxQuicknessLimit = myGameVM.cards[tempCardsToBeDisplayed[i]].Speed;
 				}
 			}
-			if (minLifeBool && maxLifeVal > minLifeLimit)
+			if (minLifeBool && filterVM.maxLifeVal > filterVM.minLifeLimit)
 			{
-				minLifeVal = minLifeLimit;
+				filterVM.minLifeVal = filterVM.minLifeLimit;
 			}
 			else
 			{
-				if (minLifeVal < minLifeLimit)
+				if (filterVM.minLifeVal < filterVM.minLifeLimit)
 				{
-					minLifeLimit = minLifeVal;
+					filterVM.minLifeLimit = filterVM.minLifeVal;
 				}
 			}
-			if (maxLifeBool && minLifeVal < maxLifeLimit)
+			if (maxLifeBool && filterVM.minLifeVal < filterVM.maxLifeLimit)
 			{
-				maxLifeVal = maxLifeLimit;
-				print("Max " + maxLifeVal);
+				filterVM.maxLifeVal = filterVM.maxLifeLimit;
+				print("Max " + filterVM.maxLifeVal);
 			}
 			else
 			{
-				if (maxLifeVal > maxLifeLimit)
+				if (filterVM.maxLifeVal > filterVM.maxLifeLimit)
 				{
-					maxLifeLimit = maxLifeVal;
+					filterVM.maxLifeLimit = filterVM.maxLifeVal;
 				}
-				print("Max2 " + maxLifeVal);
+				print("Max2 " + filterVM.maxLifeVal);
 			}
-			if (minAttackBool && maxAttackVal > minAttackLimit)
+			if (minAttackBool && filterVM.maxAttackVal > filterVM.minAttackLimit)
 			{
-				minAttackVal = minAttackLimit;
+				filterVM.minAttackVal = filterVM.minAttackLimit;
 			}
 			else
 			{
-				if (minAttackVal < minAttackLimit)
+				if (filterVM.minAttackVal < filterVM.minAttackLimit)
 				{
-					minAttackLimit = minAttackVal;
+					filterVM.minAttackLimit = filterVM.minAttackVal;
 				}
 			}
-			if (maxAttackBool && minAttackVal < maxAttackLimit)
+			if (maxAttackBool && filterVM.minAttackVal < filterVM.maxAttackLimit)
 			{
-				maxAttackVal = maxAttackLimit;
+				filterVM.maxAttackVal = filterVM.maxAttackLimit;
 			}
 			else
 			{
-				if (maxAttackVal > maxAttackLimit)
+				if (filterVM.maxAttackVal > filterVM.maxAttackLimit)
 				{
-					maxAttackLimit = maxAttackVal;
+					filterVM.maxAttackLimit = filterVM.maxAttackVal;
 				}
 			}
-			if (minMoveBool && maxMoveVal > minMoveLimit)
+			if (minMoveBool && filterVM.maxMoveVal > filterVM.minMoveLimit)
 			{
-				minMoveVal = minMoveLimit;
+				filterVM.minMoveVal = filterVM.minMoveLimit;
 			}
 			else
 			{
-				if (minMoveVal < minMoveLimit)
+				if (filterVM.minMoveVal < filterVM.minMoveLimit)
 				{
-					minMoveLimit = minMoveVal;
+					filterVM.minMoveLimit = filterVM.minMoveVal;
 				}
 			}
-			if (maxMoveBool && minMoveVal < maxMoveLimit)
+			if (maxMoveBool && filterVM.minMoveVal < filterVM.maxMoveLimit)
 			{
-				maxMoveVal = maxMoveLimit;
+				filterVM.maxMoveVal = filterVM.maxMoveLimit;
 			}
 			else
 			{
-				if (maxMoveVal > maxMoveLimit)
+				if (filterVM.maxMoveVal > filterVM.maxMoveLimit)
 				{
-					maxMoveLimit = maxMoveVal;
+					filterVM.maxMoveLimit = filterVM.maxMoveVal;
 				}
 			}
-			if (minQuicknessBool && maxQuicknessVal > minQuicknessLimit)
+			if (minQuicknessBool && filterVM.maxQuicknessVal > filterVM.minQuicknessLimit)
 			{
-				minQuicknessVal = minQuicknessLimit;
+				filterVM.minQuicknessVal = filterVM.minQuicknessLimit;
 			}
 			else
 			{
-				if (minQuicknessVal < minQuicknessLimit)
+				if (filterVM.minQuicknessVal < filterVM.minQuicknessLimit)
 				{
-					minQuicknessLimit = minQuicknessVal;
+					filterVM.minQuicknessLimit = filterVM.minQuicknessVal;
 				}
 			}
-			if (maxQuicknessBool && minQuicknessVal < maxQuicknessLimit)
+			if (maxQuicknessBool && filterVM.minQuicknessVal < filterVM.maxQuicknessLimit)
 			{
-				maxQuicknessVal = maxQuicknessLimit;
+				filterVM.maxQuicknessVal = filterVM.maxQuicknessLimit;
 			}
 			else
 			{
-				if (maxQuicknessVal > maxQuicknessLimit)
+				if (filterVM.maxQuicknessVal > filterVM.maxQuicknessLimit)
 				{
-					maxQuicknessLimit = maxQuicknessVal;
+					filterVM.maxQuicknessLimit = filterVM.maxQuicknessVal;
 				}
 			}
-			oldMinLifeVal               = minLifeVal;
-			oldMaxLifeVal               = maxLifeVal;
-			oldMinQuicknessVal          = minQuicknessVal;
-			oldMaxQuicknessVal          = maxQuicknessVal ;
-			oldMinMoveVal               = minMoveVal;
-			oldMaxMoveVal               = maxMoveVal;
-			oldMinAttackVal             = minAttackVal;
-			oldMaxAttackVal             = maxAttackVal;
+			filterVM.oldMinLifeVal               = filterVM.minLifeVal;
+			filterVM.oldMaxLifeVal               = filterVM.maxLifeVal;
+			filterVM.oldMinQuicknessVal          = filterVM.minQuicknessVal;
+			filterVM.oldMaxQuicknessVal          = filterVM.maxQuicknessVal ;
+			filterVM.oldMinMoveVal               = filterVM.minMoveVal;
+			filterVM.oldMaxMoveVal               = filterVM.maxMoveVal;
+			filterVM.oldMinAttackVal             = filterVM.minAttackVal;
+			filterVM.oldMaxAttackVal             = filterVM.maxAttackVal;
 		}
 		
-		if (this.minLifeVal != this.minLifeLimit)
+		if (filterVM.minLifeVal != filterVM.minLifeLimit)
 		{
 			testFilters = true;
 		}
-		else if (this.maxLifeVal != this.maxLifeLimit)
+		else if (filterVM.maxLifeVal != filterVM.maxLifeLimit)
 		{
 			testFilters = true;
 		}
-		else if (this.minAttackVal != this.minAttackLimit)
+		else if (filterVM.minAttackVal != filterVM.minAttackLimit)
 		{
 			testFilters = true;
 		}
-		else if (this.maxAttackVal != this.maxAttackLimit)
+		else if (filterVM.maxAttackVal != filterVM.maxAttackLimit)
 		{
 			testFilters = true;
 		}
-		else if (this.minMoveVal != this.minMoveLimit)
+		else if (filterVM.minMoveVal != filterVM.minMoveLimit)
 		{
 			testFilters = true;
 		}
-		else if (this.maxMoveVal != this.maxMoveLimit)
+		else if (filterVM.maxMoveVal != filterVM.maxMoveLimit)
 		{
 			testFilters = true;
 		}
-		else if (this.minQuicknessVal != this.minQuicknessLimit)
+		else if (filterVM.minQuicknessVal != filterVM.minQuicknessLimit)
 		{
 			testFilters = true;
 		}
-		else if (this.maxQuicknessVal != this.maxQuicknessLimit)
+		else if (filterVM.maxQuicknessVal != filterVM.maxQuicknessLimit)
 		{
 			testFilters = true;
 		}
@@ -1882,9 +1796,16 @@ public class MyGameView : MonoBehaviour
 		{
 			for (int i = 0 ; i < tempCardsToBeDisplayed.Count ; i++)
 			{
-				if (cards[tempCardsToBeDisplayed[i]].verifyC(minLifeVal, maxLifeVal, minAttackVal, maxAttackVal, minMoveVal, maxMoveVal, minQuicknessVal, maxQuicknessVal))
+				if (myGameVM.cards[tempCardsToBeDisplayed[i]].verifyC(filterVM.minLifeVal, 
+							                                             filterVM.maxLifeVal, 
+							                                             filterVM.minAttackVal, 
+							                                             filterVM.maxAttackVal, 
+							                                             filterVM.minMoveVal, 
+							                                             filterVM.maxMoveVal, 
+							                                             filterVM.minQuicknessVal, 
+							                                             filterVM.maxQuicknessVal))
 				{
-					this.cardsToBeDisplayed.Add(tempCardsToBeDisplayed[i]);
+					myGameVM.cardsToBeDisplayed.Add(tempCardsToBeDisplayed[i]);
 				}
 			}
 		}
@@ -1892,81 +1813,90 @@ public class MyGameView : MonoBehaviour
 		{
 			for (int i = 0 ; i < tempCardsToBeDisplayed.Count ; i++)
 			{
-				this.cardsToBeDisplayed.Add(tempCardsToBeDisplayed[i]);
+				myGameVM.cardsToBeDisplayed.Add(tempCardsToBeDisplayed[i]);
 			}
 		}
 		
-		nbPages = Mathf.CeilToInt(cardsToBeDisplayed.Count / (3.0f * nbCardsPerRow));
-		pageDebut = 0;
-		if (nbPages > 15)
+		paginationVM.nbPages = Mathf.CeilToInt(myGameVM.cardsToBeDisplayed.Count / (3.0f * myGameVM.nbCardsPerRow));
+		paginationVM.pageDebut = 0;
+		if (paginationVM.nbPages > 15)
 		{
-			pageFin = 14;
+			paginationVM.pageFin = 14;
 		}
 		else
 		{
-			pageFin = nbPages;
+			paginationVM.pageFin = paginationVM.nbPages;
 		}
-		this.chosenPage = 0;
-		paginatorGuiStyle = new GUIStyle[nbPages];
-		for (int i = 0 ; i < nbPages; i++) 
+		paginationVM.chosenPage = 0;
+		paginationVM.paginatorGuiStyle = new GUIStyle[paginationVM.nbPages];
+		for (int i = 0 ; i < paginationVM.nbPages ; i++) 
 		{ 
 			if (i == 0)
 			{
-				paginatorGuiStyle[i] = paginationActivatedStyle;
+				paginationVM.paginatorGuiStyle[i] = paginationVM.paginationActivatedStyle;
 			}
 			else
 			{
-				paginatorGuiStyle[i] = paginationStyle;
+				paginationVM.paginatorGuiStyle[i] = paginationVM.paginationStyle;
 			}
 		}
 	}
 	
 	public void setFilters()
 	{
-		minLifeLimit                = 10000;
-		maxLifeLimit                = 0;
-		minAttackLimit              = 10000;
-		maxAttackLimit              = 0;
-		minMoveLimit                = 10000;
-		maxMoveLimit                = 0;
-		minQuicknessLimit           = 10000;
-		maxQuicknessLimit           = 0;
+		filterVM.minLifeLimit        = 10000;
+		filterVM.maxLifeLimit        = 0;
+		filterVM.minAttackLimit      = 10000;
+		filterVM.maxAttackLimit      = 0;
+		filterVM.minMoveLimit        = 10000;
+		filterVM.maxMoveLimit        = 0;
+		filterVM.minQuicknessLimit   = 10000;
+		filterVM.maxQuicknessLimit   = 0;
 		
-		int max = this.cards.Count;
-		for (int i = 0; i < max ; i++) {
-			if (this.cards[i].Life<minLifeLimit){
-				minLifeLimit = this.cards[i].Life;
+		int max = myGameVM.cards.Count;
+		for (int i = 0 ; i < max ; i++) 
+		{
+			if (myGameVM.cards[i].Life < filterVM.minLifeLimit)
+			{
+				filterVM.minLifeLimit = myGameVM.cards[i].Life;
 			}
-			if (this.cards[i].Life>maxLifeLimit){
-				maxLifeLimit = this.cards[i].Life;
+			if (myGameVM.cards[i].Life > filterVM.maxLifeLimit)
+			{
+				filterVM.maxLifeLimit = myGameVM.cards[i].Life;
 			}
-			if (this.cards[i].Attack<minAttackLimit){
-				minAttackLimit = this.cards[i].Attack;
+			if (myGameVM.cards[i].Attack < filterVM.minAttackLimit)
+			{
+				filterVM.minAttackLimit = myGameVM.cards[i].Attack;
 			}
-			if (this.cards[i].Attack>maxAttackLimit){
-				maxAttackLimit = this.cards[i].Attack;
+			if (myGameVM.cards[i].Attack > filterVM.maxAttackLimit)
+			{
+				filterVM.maxAttackLimit = myGameVM.cards[i].Attack;
 			}
-			if (this.cards[i].Move<minMoveLimit){
-				minMoveLimit = this.cards[i].Move;
+			if (myGameVM.cards[i].Move < filterVM.minMoveLimit)
+			{
+				filterVM.minMoveLimit = myGameVM.cards[i].Move;
 			}
-			if (this.cards[i].Move>maxMoveLimit){
-				maxMoveLimit = this.cards[i].Move;
+			if (myGameVM.cards[i].Move > filterVM.maxMoveLimit)
+			{
+				filterVM.maxMoveLimit = myGameVM.cards[i].Move;
 			}
-			if (this.cards[i].Speed<minQuicknessLimit){
-				minQuicknessLimit = this.cards[i].Speed;
+			if (myGameVM.cards[i].Speed < filterVM.minQuicknessLimit)
+			{
+				filterVM.minQuicknessLimit = myGameVM.cards[i].Speed;
 			}
-			if (this.cards[i].Speed>maxQuicknessLimit){
-				maxQuicknessLimit = this.cards[i].Speed;
+			if (myGameVM.cards[i].Speed > filterVM.maxQuicknessLimit)
+			{
+				filterVM.maxQuicknessLimit = myGameVM.cards[i].Speed;
 			}
 		}
-		minLifeVal = minLifeLimit;
-		maxLifeVal = maxLifeLimit;
-		minAttackVal = minAttackLimit;
-		maxAttackVal = maxAttackLimit;
-		minMoveVal = minMoveLimit;
-		maxMoveVal = maxMoveLimit;
-		minQuicknessVal = minQuicknessLimit;
-		maxQuicknessVal = maxQuicknessLimit;
+		filterVM.minLifeVal         = filterVM.minLifeLimit;
+		filterVM.maxLifeVal         = filterVM.maxLifeLimit;
+		filterVM.minAttackVal       = filterVM.minAttackLimit;
+		filterVM.maxAttackVal       = filterVM.maxAttackLimit;
+		filterVM.minMoveVal         = filterVM.minMoveLimit;
+		filterVM.maxMoveVal         = filterVM.maxMoveLimit;
+		filterVM.minQuicknessVal    = filterVM.minQuicknessLimit;
+		filterVM.maxQuicknessVal    = filterVM.maxQuicknessLimit;
 	}
 
 	    
@@ -1974,46 +1904,53 @@ public class MyGameView : MonoBehaviour
 	{	
 		float tempF = 10f * widthScreen / heightScreen;
 		float width = tempF * 0.78f;
-		nbCardsPerRow = Mathf.FloorToInt(width / 1.6f);
-		float debutLargeur = -0.49f * tempF + 0.8f + (width - 1.6f * nbCardsPerRow) / 2 ;
-		displayedCards = new GameObject[3*nbCardsPerRow];
-		int nbCardsToDisplay = this.cardsToBeDisplayed.Count;
-		for(int i = 0 ; i < 3 * nbCardsPerRow ; i++)
+		myGameVM.nbCardsPerRow = Mathf.FloorToInt(width / 1.6f);
+		float debutLargeur = -0.49f * tempF + 0.8f + (width - 1.6f * myGameVM.nbCardsPerRow) / 2 ;
+		myGameVM.displayedCards = new GameObject[3 * myGameVM.nbCardsPerRow];
+		int nbCardsToDisplay = myGameVM.cardsToBeDisplayed.Count;
+		for(int i = 0 ; i < 3 * myGameVM.nbCardsPerRow ; i++)
 		{
-			displayedCards[i] = Instantiate(CardObject) as GameObject;
-			Destroy(displayedCards[i].GetComponent<GameNetworkCard>());
-			Destroy(displayedCards[i].GetComponent<PhotonView>());
-			displayedCards[i].transform.localScale = new Vector3(1.5f, 1.5f, 1.5f); 
-			displayedCards[i].transform.localPosition = new Vector3(debutLargeur + 1.6f*(i%nbCardsPerRow), 0.8f-(i-i%nbCardsPerRow)/nbCardsPerRow*2.2f, 0); 
-			displayedCards[i].gameObject.name = "Card" + i + "";	
-			if (i<nbCardsToDisplay){
-				displayedCards[i].GetComponent<GameCard>().Card = cards[this.cardsToBeDisplayed[i]]; 
-				displayedCards[i].GetComponent<GameCard>().ShowFace();
-				displayedCards[i].transform.Find("texturedGameCard").FindChild("ExperienceArea").GetComponent<GameCard_experience>().setXpLevel();
+			myGameVM.displayedCards[i] = Instantiate(myGameScript.instance.CardObject) as GameObject;
+			Destroy(myGameVM.displayedCards[i].GetComponent<GameNetworkCard>());
+			Destroy(myGameVM.displayedCards[i].GetComponent<PhotonView>());
+			myGameVM.displayedCards[i].transform.localScale = new Vector3(1.5f, 1.5f, 1.5f); 
+			myGameVM.displayedCards[i].transform.localPosition = new Vector3(debutLargeur + 1.6f * (i % myGameVM.nbCardsPerRow), 
+			                                                                    0.8f - (i - i % myGameVM.nbCardsPerRow) / myGameVM.nbCardsPerRow * 2.2f,
+			                                                                    0); 
+			myGameVM.displayedCards[i].gameObject.name = "Card" + i + "";	
+			if (i < nbCardsToDisplay)
+			{
+				myGameVM.displayedCards[i].GetComponent<GameCard>().Card = myGameVM.cards[myGameVM.cardsToBeDisplayed[i]]; 
+				myGameVM.displayedCards[i].GetComponent<GameCard>().ShowFace();
+				myGameVM.displayedCards[i].transform.Find("texturedGameCard")
+					.FindChild("ExperienceArea").GetComponent<GameCard_experience>().setXpLevel();
 			}   
 			else{
-				displayedCards[i].SetActive (false);
+				myGameVM.displayedCards[i].SetActive(false);
 			}
 		}
-		nbPages = Mathf.CeilToInt(cardsToBeDisplayed.Count / (3.0f*nbCardsPerRow));
-		pageDebut = 0 ;
-		if (nbPages>15){
-			pageFin = 14 ;
+		paginationVM.nbPages = Mathf.CeilToInt(myGameVM.cardsToBeDisplayed.Count / (3.0f * myGameVM.nbCardsPerRow));
+		paginationVM.pageDebut = 0;
+		if (paginationVM.nbPages > 15)
+		{
+			paginationVM.pageFin = 14 ;
 		}
-		else{
-			pageFin = nbPages ;
+		else
+		{
+			paginationVM.pageFin = paginationVM.nbPages;
 		}
-		this.chosenPage = 0;
-		paginatorGuiStyle = new GUIStyle[nbPages];
-		for (int i = 0; i < nbPages; i++) 
+		paginationVM.chosenPage = 0;
+		paginationVM.paginatorGuiStyle = new GUIStyle[paginationVM.nbPages];
+
+		for (int i = 0; i < paginationVM.nbPages; i++) 
 		{ 
 			if (i == 0)
 			{
-				paginatorGuiStyle[i] = paginationActivatedStyle;
+				paginationVM.paginatorGuiStyle[i] = paginationVM.paginationActivatedStyle;
 			}
 			else
 			{
-				paginatorGuiStyle[i] = paginationStyle;
+				paginationVM.paginatorGuiStyle[i] = paginationVM.paginationStyle;
 			}
 		}
 		heightScreen = Screen.height;
@@ -2023,32 +1960,33 @@ public class MyGameView : MonoBehaviour
 	
 	private void displayPage()
 	{	
-		int start = 3 * nbCardsPerRow * chosenPage;
-		int finish = start + 3 * nbCardsPerRow;
+		int start = 3 * myGameVM.nbCardsPerRow * paginationVM.chosenPage;
+		int finish = start + 3 * myGameVM.nbCardsPerRow;
 		for (int i = start ; i < finish ; i++)
 		{
-			//displayedCards[i].GetComponent<GameCard>().setTextResolution (1f);
-			int nbCardsToDisplay = this.cardsToBeDisplayed.Count;
+			//myGameVM.displayedCards[i].GetComponent<GameCard>().setTextResolution(1f);
+			int nbCardsToDisplay = myGameVM.cardsToBeDisplayed.Count;
 			if (i < nbCardsToDisplay)
 			{
-				displayedCards[i - start].gameObject.name = "Card" + this.cardsToBeDisplayed[i] + "";
-				displayedCards[i - start].SetActive(true);
-				displayedCards[i - start].GetComponent<GameCard>().Card = cards[this.cardsToBeDisplayed[i]]; 
-				displayedCards[i - start].GetComponent<GameCard>().ShowFace();
-				displayedCards[i - start].transform.Find("texturedGameCard").FindChild("ExperienceArea").GetComponent<GameCard_experience>().setXpLevel();
+				myGameVM.displayedCards[i - start].gameObject.name = "Card" + myGameVM.cardsToBeDisplayed[i] + "";
+				myGameVM.displayedCards[i - start].SetActive(true);
+				myGameVM.displayedCards[i - start].GetComponent<GameCard>().Card = myGameVM.cards[myGameVM.cardsToBeDisplayed[i]]; 
+				myGameVM.displayedCards[i - start].GetComponent<GameCard>().ShowFace();
+				myGameVM.displayedCards[i - start].transform.Find("texturedGameCard")
+					.FindChild("ExperienceArea").GetComponent<GameCard_experience>().setXpLevel();
 			}
 			else
 			{
-				displayedCards[i - start].SetActive(false);
+				myGameVM.displayedCards[i - start].SetActive(false);
 			}
 		}
 	}
 	
 	private void clearCards()
 	{
-		for (int i = 0 ; i < 3 * nbCardsPerRow; i++) 
+		for (int i = 0 ; i < 3 * myGameVM.nbCardsPerRow; i++) 
 		{
-			Destroy(displayedCards[i]);
+			Destroy(myGameVM.displayedCards[i]);
 		}
 	}
 	
@@ -2056,57 +1994,60 @@ public class MyGameView : MonoBehaviour
 	{
 		for (int i = 0; i < 5; i++)
 		{
-			Destroy(displayedDeckCards[i]);
+			Destroy(myGameVM.displayedDeckCards[i]);
 		}
 	}
 	
 	private void createDeckCards()
 	{
-		float tempF = 10f * widthScreen / heightScreen;
-		float width = tempF * 0.6f;
-		scaleDeck = Mathf.Min(1.6f, width / 6f);
-		float pas = (width - 5f * scaleDeck) / 6f;
-		float debutLargeur = -0.3f * tempF + pas + scaleDeck / 2 ;
-		
-		displayedDeckCards = new GameObject[5];
-		int nbDeckCardsToDisplay = this.deckCardsIds.Count;
-		for(int i = 0 ; i < 5 ; i++)
+		float tempF                                                 = 10f * widthScreen / heightScreen;
+		float width                                                 = tempF * 0.6f;
+		myDecksVM.scaleDeck                                         = Mathf.Min(1.6f, width / 6f);
+		float pas                                                   = (width - 5f * myDecksVM.scaleDeck) / 6f;
+		float debutLargeur                                          = -0.3f * tempF + pas + myDecksVM.scaleDeck / 2;
+		myGameVM.displayedDeckCards                                 = new GameObject[5];
+		int nbDeckCardsToDisplay                                    = myGameVM.deckCardsIds.Count;
+
+		for (int i = 0 ; i < 5 ; i++)
 		{
-			displayedDeckCards[i] = Instantiate(CardObject) as GameObject;
-			Destroy(displayedDeckCards[i].GetComponent<GameNetworkCard>());
-			Destroy(displayedDeckCards[i].GetComponent<PhotonView>());
-			displayedDeckCards[i].transform.localScale = new Vector3(scaleDeck,scaleDeck,scaleDeck); 
-			displayedDeckCards[i].transform.localPosition = new Vector3(debutLargeur + (scaleDeck + pas) * i, 2.9f, 0); 
-			displayedDeckCards[i].gameObject.name = "DeckCard" + i + "";	
+			myGameVM.displayedDeckCards[i] = Instantiate(myGameScript.instance.CardObject) as GameObject;
+			Destroy(myGameVM.displayedDeckCards[i].GetComponent<GameNetworkCard>());
+			Destroy(myGameVM.displayedDeckCards[i].GetComponent<PhotonView>());
+			myGameVM.displayedDeckCards[i].transform.localScale     = new Vector3(myDecksVM.scaleDeck, myDecksVM.scaleDeck, myDecksVM.scaleDeck); 
+			myGameVM.displayedDeckCards[i].transform.localPosition  = new Vector3(debutLargeur + (myDecksVM.scaleDeck + pas) * i, 2.9f, 0); 
+			myGameVM.displayedDeckCards[i].gameObject.name          = "DeckCard" + i + "";	
 			if (i < nbDeckCardsToDisplay)
 			{
-				displayedDeckCards[i].GetComponent<GameCard>().Card = cards[this.deckCardsIds[i]]; 
-				displayedDeckCards[i].GetComponent<GameCard>().ShowFace();
-				displayedDeckCards[i].transform.Find("texturedGameCard").FindChild("ExperienceArea").GetComponent<GameCard_experience>().setXpLevel();
+				myGameVM.displayedDeckCards[i].GetComponent<GameCard>().Card = myGameVM.cards[myGameVM.deckCardsIds[i]]; 
+				myGameVM.displayedDeckCards[i].GetComponent<GameCard>().ShowFace();
+				myGameVM.displayedDeckCards[i].transform.Find("texturedGameCard")
+					.FindChild("ExperienceArea").GetComponent<GameCard_experience>().setXpLevel();
 			}   
 			else
 			{
-				displayedDeckCards[i].SetActive (false);
+				myGameVM.displayedDeckCards[i].SetActive(false);
 			}
 		}
-		areCreatedDeckCards = true; 
+		myGameVM.areCreatedDeckCards = true; 
 	}
 	
 	private void displayDeckCards()
 	{
-		int nbDeckCardsToDisplay = this.deckCardsIds.Count;
-		for(int i = 0 ; i < 5 ; i++)
+		int nbDeckCardsToDisplay = myGameVM.deckCardsIds.Count;
+
+		for (int i = 0 ; i < 5 ; i++)
 		{
 			if (i < nbDeckCardsToDisplay)
 			{
-				displayedDeckCards[i].SetActive (true);
-				displayedDeckCards[i].GetComponent<GameCard>().Card = cards[this.deckCardsIds[i]]; 
-				displayedDeckCards[i].GetComponent<GameCard>().ShowFace();
-				displayedDeckCards[i].transform.Find("texturedGameCard").FindChild("ExperienceArea").GetComponent<GameCard_experience>().setXpLevel();
+				myGameVM.displayedDeckCards[i].SetActive (true);
+				myGameVM.displayedDeckCards[i].GetComponent<GameCard>().Card = myGameVM.cards[myGameVM.deckCardsIds[i]]; 
+				myGameVM.displayedDeckCards[i].GetComponent<GameCard>().ShowFace();
+				myGameVM.displayedDeckCards[i].transform.Find("texturedGameCard")
+					.FindChild("ExperienceArea").GetComponent<GameCard_experience>().setXpLevel();
 			}   
 			else
 			{
-				displayedDeckCards[i].SetActive(false);
+				myGameVM.displayedDeckCards[i].SetActive(false);
 			}
 		}
 	}
@@ -2116,43 +2057,43 @@ public class MyGameView : MonoBehaviour
 		int tempA = new int();
 		int tempB = new int();
 		
-		for (int i = 1; i < cardsToBeDisplayed.Count; i++) 
+		for (int i = 1 ; i < myGameVM.cardsToBeDisplayed.Count; i++) 
 		{	
 			for (int j = 0 ; j < i ; j++)
 			{				
-				switch (sortSelected)
+				switch (sortVM.sortSelected)
 				{
 					case 0:
-						tempA = cards[cardsToBeDisplayed[i]].Life;
-						tempB = cards[cardsToBeDisplayed[j]].Life;
+						tempA = myGameVM.cards[myGameVM.cardsToBeDisplayed[i]].Life;
+						tempB = myGameVM.cards[myGameVM.cardsToBeDisplayed[j]].Life;
 						break;
 					case 1:
-						tempB = cards[cardsToBeDisplayed[i]].Life;
-						tempA = cards[cardsToBeDisplayed[j]].Life;
+						tempB = myGameVM.cards[myGameVM.cardsToBeDisplayed[i]].Life;
+						tempA = myGameVM.cards[myGameVM.cardsToBeDisplayed[j]].Life;
 						break;
 					case 2:
-						tempA = cards[cardsToBeDisplayed[i]].Attack;
-						tempB = cards[cardsToBeDisplayed[j]].Attack;
+						tempA = myGameVM.cards[myGameVM.cardsToBeDisplayed[i]].Attack;
+						tempB = myGameVM.cards[myGameVM.cardsToBeDisplayed[j]].Attack;
 						break;
 					case 3:
-						tempB = cards[cardsToBeDisplayed[i]].Attack;
-						tempA = cards[cardsToBeDisplayed[j]].Attack;
+						tempB = myGameVM.cards[myGameVM.cardsToBeDisplayed[i]].Attack;
+						tempA = myGameVM.cards[myGameVM.cardsToBeDisplayed[j]].Attack;
 						break;
 					case 4:
-						tempA = cards[cardsToBeDisplayed[i]].Move;
-						tempB = cards[cardsToBeDisplayed[j]].Move;
+						tempA = myGameVM.cards[myGameVM.cardsToBeDisplayed[i]].Move;
+						tempB = myGameVM.cards[myGameVM.cardsToBeDisplayed[j]].Move;
 						break;
 					case 5:
-						tempB = cards[cardsToBeDisplayed[i]].Move;
-						tempA = cards[cardsToBeDisplayed[j]].Move;
+						tempB = myGameVM.cards[myGameVM.cardsToBeDisplayed[i]].Move;
+						tempA = myGameVM.cards[myGameVM.cardsToBeDisplayed[j]].Move;
 						break;
 					case 6:
-						tempA = cards[cardsToBeDisplayed[i]].Speed;
-						tempB = cards[cardsToBeDisplayed[j]].Speed;
+						tempA = myGameVM.cards[myGameVM.cardsToBeDisplayed[i]].Speed;
+						tempB = myGameVM.cards[myGameVM.cardsToBeDisplayed[j]].Speed;
 						break;
 					case 7:
-						tempB = cards[cardsToBeDisplayed[i]].Speed;
-						tempA = cards[cardsToBeDisplayed[j]].Speed;
+						tempB = myGameVM.cards[myGameVM.cardsToBeDisplayed[i]].Speed;
+						tempA = myGameVM.cards[myGameVM.cardsToBeDisplayed[j]].Speed;
 						break;
 					default:
 						break;
@@ -2160,8 +2101,8 @@ public class MyGameView : MonoBehaviour
 
 				if (tempA < tempB)
 				{
-					cardsToBeDisplayed.Insert(j,cardsToBeDisplayed[i]);
-					cardsToBeDisplayed.RemoveAt(i+1);
+					myGameVM.cardsToBeDisplayed.Insert(j, myGameVM.cardsToBeDisplayed[i]);
+					myGameVM.cardsToBeDisplayed.RemoveAt(i + 1);
 					break;
 				}		
 			}
