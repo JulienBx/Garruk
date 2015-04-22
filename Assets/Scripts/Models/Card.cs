@@ -6,6 +6,13 @@ using System.Linq;
 
 public class Card
 {
+	private string URLAddXp                 = ApplicationModel.host + "addxp.php"; 
+	private string URLSellCard              = ApplicationModel.host + "sellRandomCard.php";
+	private string URLPutOnMarket           = ApplicationModel.host + "putonmarket.php";
+	private string URLRemoveFromMarket      = ApplicationModel.host + "removeFromMarket.php";
+	private string URLChangeMarketPrice     = ApplicationModel.host + "changeMarketPrice.php";
+	private string URLRenameCard            = ApplicationModel.host + "renameCard.php";
+
 	public int Id; 												// Id unique de la carte
 	public string Art; 									    	// Nom du dessin à appliquer à la carte
 	public string Title; 										// Titre unique de la carte
@@ -32,13 +39,16 @@ public class Card
 	public List<StatModifier> modifiers = new List<StatModifier>();
 	public int onSale ;
 	public static int[] experienceLevels = new int[] { 0, 10, 40, 100, 200,350,600,1000,1500,2200,3000,0 };
-	string URLAddXp =  "http://54.77.118.214/GarrukServer/addxp.php"; 
 
 	public static bool xpDone=false;
 	
 	public Card() {
 	}
 
+	public Card(string title)
+	{
+		this.Title = title;
+	}
 	public Card(int id)
 	{
 		this.Id = id;
@@ -466,8 +476,7 @@ public class Card
 			}
 			
 		}
-		
-		
+
 		WWWForm form = new WWWForm(); 								// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_idcard", idCard.ToString());
@@ -494,6 +503,88 @@ public class Card
 			}
 		}
 		xpDone=true;
+	}
+
+	public IEnumerator sellCard(int cost)
+	{
+		WWWForm form = new WWWForm(); 											// Création de la connexion
+		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
+		form.AddField("myform_nick", ApplicationModel.username);
+		form.AddField("myform_idcard", Id);
+		form.AddField("myform_cost", cost);		
+		WWW w = new WWW(URLSellCard, form); 				// On envoie le formulaire à l'url sur le serveur 
+		yield return w;
+		
+		if (w.error != null)
+		{
+			Debug.Log("erreur sellCard : " + w.error);
+		}
+	}
+	
+	public IEnumerator toSell(int price)
+	{
+		WWWForm form = new WWWForm(); 											// Création de la connexion
+		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
+		form.AddField("myform_nick", ApplicationModel.username);
+		form.AddField("myform_idcard", Id);
+		form.AddField("myform_price", price);
+		form.AddField("myform_date",  System.DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss").ToString());	
+		WWW w = new WWW(URLPutOnMarket, form); 				// On envoie le formulaire à l'url sur le serveur 
+		yield return w;
+		
+		if (w.error != null)
+		{
+			Debug.Log("erreur toSell : " + w.error);
+		}
+	}
+	
+	public IEnumerator notToSell()
+	{
+		WWWForm form = new WWWForm(); 											// Création de la connexion
+		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
+		form.AddField("myform_nick", ApplicationModel.username);
+		form.AddField("myform_idcard", Id);
+		WWW w = new WWW(URLRemoveFromMarket, form);             				// On envoie le formulaire à l'url sur le serveur 
+		yield return w;
+		
+		if (w.error != null)
+		{
+			Debug.Log("erreur notTosell : " + w.error);
+		}
+	}
+	
+	public IEnumerator changePriceCard(int price)
+	{
+		WWWForm form = new WWWForm(); 											// Création de la connexion
+		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
+		form.AddField("myform_nick", ApplicationModel.username);
+		form.AddField("myform_idcard", Id);
+		form.AddField("myform_price", price);
+		WWW w = new WWW(URLChangeMarketPrice, form); 				            // On envoie le formulaire à l'url sur le serveur 
+		yield return w;
+		
+		if (w.error != null)
+		{
+			Debug.Log("erreur changePriceCard : " + w.error);
+		}
+	}
+	
+	public IEnumerator renameCard(string newName, int renameCost)
+	{
+		WWWForm form = new WWWForm(); 											// Création de la connexion
+		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
+		form.AddField("myform_nick", ApplicationModel.username);
+		form.AddField("myform_idcard", Id);
+		form.AddField("myform_title", newName);
+		form.AddField("myform_cost", renameCost);
+		
+		WWW w = new WWW(URLRenameCard, form); 				// On envoie le formulaire à l'url sur le serveur 
+		yield return w;
+		
+		if (w.error != null)
+		{
+			Debug.Log("erreur renameCard : " + w.error);
+		}
 	}
 
 

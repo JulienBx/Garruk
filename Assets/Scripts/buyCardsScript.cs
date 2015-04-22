@@ -131,7 +131,7 @@ public class buyCardsScript : MonoBehaviour {
 			print (w.error); 	
 		else 
 		{
-			print(w.text); 											// donne le retour
+			//print(w.text); 											// donne le retour
 			ApplicationModel.credits = System.Convert.ToInt32(w.text);
 		}
 	}

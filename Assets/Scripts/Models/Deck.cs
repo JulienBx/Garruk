@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -8,6 +9,12 @@ public class Deck
 	private string URLCards = ApplicationModel.host + "get_cards_by_deck_by_user.php";
 	private string URLGetCardIDS = ApplicationModel.host + "get_cardsIDs_by_deck.php";
 	private string URLSelectedDeck = ApplicationModel.host + "get_selected_deck_by_username.php";
+	private static string URLEditDeck          = ApplicationModel.host + "update_deck_name.php";
+	private static string URLCreateDeck        = ApplicationModel.host + "add_new_deck.php";
+	private static string URLDeleteDeck        = ApplicationModel.host + "delete_deck.php";
+	private static string URLAddCardToDeck     = ApplicationModel.host + "add_card_to_deck_by_user.php";
+	private static string URLRemoveCardFromDeck= ApplicationModel.host + "remove_card_from_deck_by_user.php";
+	private static string URLGetCardsByDeck    = ApplicationModel.host + "get_cards_by_deck.php";
 
 	public int Id; 												// Id unique de la carte
 	public string Name; 										// Nom du deck
@@ -50,9 +57,86 @@ public class Deck
 		this.Cards = cards;
 	}
 
-	public void AddCard(Card card)
+	public IEnumerator addCard(int idCard)
 	{
-		Cards.Add(card);
+		WWWForm form = new WWWForm (); 						
+		form.AddField ("myform_hash", ApplicationModel.hash);
+		form.AddField ("myform_nick", ApplicationModel.username);
+		form.AddField ("myform_deck", Id);
+		form.AddField ("myform_idCard", idCard);
+		WWW w = new WWW (URLAddCardToDeck, form); 								
+		yield return w; 						
+		
+		if (w.error != null) 
+		{
+			Debug.Log(w.error);								
+		} 
+	}
+
+	public void addCard(Card c)
+	{
+		this.Cards.Add (c);
+	}
+
+	public IEnumerator removeCard(int idCard)
+	{
+		WWWForm form = new WWWForm (); 								// Création de la connexion
+		form.AddField ("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
+		form.AddField ("myform_nick", ApplicationModel.username); 	// Pseudo de l'utilisateur connecté
+		form.AddField ("myform_deck", Id);
+		form.AddField ("myform_idCard", idCard);
+		WWW w = new WWW (URLRemoveCardFromDeck, form); 				// On envoie le formulaire à l'url sur le serveur 
+		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
+
+		if (w.error != null) 
+		{
+			Debug.Log(w.error); 									// donne l'erreur eventuelle
+		}
+	}
+
+	public static IEnumerator create(string decksName)
+	{
+		WWWForm form = new WWWForm(); 								// Création de la connexion
+		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
+		form.AddField("myform_nick", ApplicationModel.username); 	// Pseudo de l'utilisateur connecté
+		form.AddField("myform_name", decksName);
+		WWW w = new WWW(URLCreateDeck, form);						// On envoie le formulaire à l'url sur le serveur 
+		yield return w;
+
+		if (w.error != null)
+		{
+			Debug.Log(w.error);
+		}
+	}
+
+	public IEnumerator delete()
+	{
+		WWWForm form = new WWWForm(); 								// Création de la connexion
+		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
+		form.AddField("myform_nick", ApplicationModel.username); 	// Pseudo de l'utilisateur connecté
+		form.AddField("myform_id", Id);
+		WWW w = new WWW(URLDeleteDeck, form);						// On envoie le formulaire à l'url sur le serveur 
+		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
+		if (w.error != null)
+		{
+			Debug.Log(w.error);
+		}
+	}
+
+	public IEnumerator edit(string newName)
+	{
+		WWWForm form = new WWWForm(); 								// Création de la connexion
+		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
+		form.AddField("myform_nick", ApplicationModel.username); 	// Pseudo de l'utilisateur connecté
+		form.AddField("myform_id", Id);
+		form.AddField("myform_name", newName);
+		WWW w = new WWW(URLEditDeck, form); 						// On envoie le formulaire à l'url sur le serveur 
+		yield return w; 
+
+		if (w.error != null)
+		{
+			Debug.Log(w.error);
+		}
 	}
 
 	public IEnumerator LoadDeck()
@@ -78,7 +162,26 @@ public class Deck
 			}	
 		}
 	}
-	
+
+	public IEnumerator retrieveCards(Action<string> callback)
+	{
+		WWWForm form = new WWWForm(); 								// Création de la connexion
+		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
+		form.AddField("myform_nick", ApplicationModel.username); 	// Pseudo de l'utilisateur connecté
+		form.AddField("myform_deck", Id);                       // id du deck courant
+		WWW w = new WWW(URLGetCardsByDeck, form); 					// On envoie le formulaire à l'url sur le serveur 
+		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
+
+		if (w.error != null) 
+		{
+			Debug.Log(w.error); 									// donne l'erreur eventuelle
+		}
+		else
+		{
+			callback(w.text);
+		}
+	}
+
 	public IEnumerator RetrieveCards() {
 		WWWForm form = new WWWForm(); 								// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
@@ -108,7 +211,8 @@ public class Deck
 				//int energy = System.Convert.ToInt32(cardData[7]);	// l'attaque
 				
 				Card card = new Card(cardId, cardTitle, cardLife, cardArt, speed, move, attack, new List<Skill>());
-				AddCard(card);
+
+				this.addCard(card);
 				NbCards = i + 1;
 			}
 		}
@@ -131,8 +235,10 @@ public class Deck
 			
 			for(int i = 0 ; i < cardEntries.Length - 1 ; i++)
 			{
-				this.AddCard(new Card(System.Convert.ToInt32(cardEntries[i])));
+				this.addCard(new Card(System.Convert.ToInt32(cardEntries[i])));
 				this.NbCards = i + 1;
+
+				NbCards = i + 1;
 			}
 		}
 	}
