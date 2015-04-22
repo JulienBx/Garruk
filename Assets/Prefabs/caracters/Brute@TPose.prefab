@@ -10,7 +10,6 @@ GameObject:
   - 4: {fileID: 437186}
   - 95: {fileID: 9537340}
   - 65: {fileID: 6526724}
-  - 114: {fileID: 11400688}
   m_Layer: 0
   m_Name: Brute@TPose
   m_TagString: Untagged
@@ -2246,31 +2245,6 @@ Animator:
   m_ApplyRootMotion: 1
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &11400688
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 137186}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ownerId: 0
-  group: 0
-  prefixBackup: 0
-  observed: {fileID: 437186}
-  synchronization: 1
-  onSerializeTransformOption: 3
-  onSerializeRigidBodyOption: 2
-  ownershipTransfer: 0
-  ObservedComponents:
-  - {fileID: 457076, guid: 5aec1731b1da74118aaca3ee17b3c4e1, type: 2}
-  ObservedComponentsFoldoutOpen: 1
-  viewIdField: 0
-  instantiationId: -1
-  isRuntimeInstantiated: 1
 --- !u!114 &11437340
 MonoBehaviour:
   m_ObjectHideFlags: 0

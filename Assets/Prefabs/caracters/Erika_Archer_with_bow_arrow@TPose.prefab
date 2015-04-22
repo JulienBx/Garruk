@@ -1111,7 +1111,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 443778}
   - 23: {fileID: 2343632}
-  - 114: {fileID: 11459606}
   - 114: {fileID: 11449648}
   m_Layer: 0
   m_Name: Erika_Archer_Meshes
@@ -1129,7 +1128,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 443780}
   - 95: {fileID: 9543632}
-  - 114: {fileID: 11482406}
   - 65: {fileID: 6568150}
   m_Layer: 0
   m_Name: Erika_Archer_with_bow_arrow@TPose
@@ -3134,50 +3132,6 @@ MonoBehaviour:
   tile: {fileID: 0}
   ID: -1
   isMovable: 0
---- !u!114 &11459606
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 143778}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ownerId: 0
-  group: 0
-  prefixBackup: 0
-  observed: {fileID: 11404248, guid: 5aec1731b1da74118aaca3ee17b3c4e1, type: 2}
-  synchronization: 3
-  onSerializeTransformOption: 3
-  onSerializeRigidBodyOption: 2
-  ownershipTransfer: 0
-  ObservedComponents:
-  - {fileID: 457076, guid: 5aec1731b1da74118aaca3ee17b3c4e1, type: 2}
-  ObservedComponentsFoldoutOpen: 1
-  viewIdField: 0
-  instantiationId: -1
-  isRuntimeInstantiated: 1
---- !u!114 &11482406
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 143780}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b93f5e114d82fb5448bc7605c103f5eb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentTile: {fileID: 0}
-  currentLife: 0
-  currentAttack: 0
-  currentSpeed: 0
-  currentMove: 0
-  isMine: 0
-  isLoaded: 0
-  hasPlayed: 0
 --- !u!137 &13743632
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

@@ -75,18 +75,17 @@ public class GameController : Photon.MonoBehaviour
 
 	public void moveCharacter(int x, int y){
 		if (this.characterDragged!=-1){
-			this.myCharacters[characterDragged].GetComponentInChildren<PlayingCardController>().changeTile(tiles[x,y]);
-			photonView.RPC("moveCharacterRPC", PhotonTargets.AllBuffered, x, y, this.isFirstPlayer);
+			photonView.RPC("moveCharacterRPC", PhotonTargets.AllBuffered, x, y, this.characterDragged, this.isFirstPlayer);
 		}
 	}
 
 	[RPC]
-	public void moveCharacterRPC(int x, int y, bool isFirstPlayer){
+	public void moveCharacterRPC(int x, int y, int c, bool isFirstPlayer){
 		if (this.isFirstPlayer==isFirstPlayer){
-			this.myCharacters[characterDragged].GetComponentInChildren<PlayingCardController>().changeTile(tiles[x,y]);
+			this.myCharacters[c].GetComponentInChildren<PlayingCardController>().changeTile(tiles[x,y]);
 		}
 		else{
-			this.hisCharacters[characterDragged].GetComponentInChildren<PlayingCardController>().changeTile(tiles[x,y]);
+			this.hisCharacters[c].GetComponentInChildren<PlayingCardController>().changeTile(tiles[x,y]);
 		}
 	}
 
@@ -161,12 +160,8 @@ public class GameController : Photon.MonoBehaviour
 	{
 		this.myDeck = new Deck(ApplicationModel.username);
 		yield return StartCoroutine(this.myDeck.LoadDeck());
-		int viewID1 = PhotonNetwork.AllocateViewID();
-		int viewID2 = PhotonNetwork.AllocateViewID();
-		int viewID3 = PhotonNetwork.AllocateViewID();
-		int viewID4 = PhotonNetwork.AllocateViewID();
-		int viewID5 = PhotonNetwork.AllocateViewID();
-		photonView.RPC("SpawnCharacter", PhotonTargets.AllBuffered, PhotonNetwork.player.ID, myDeck.Id, viewID1, viewID2, viewID3, viewID4, viewID5);
+
+		photonView.RPC("SpawnCharacter", PhotonTargets.AllBuffered, PhotonNetwork.player.ID, myDeck.Id);
 	}
 	
 	// RPC
@@ -220,7 +215,7 @@ public class GameController : Photon.MonoBehaviour
 	}
 
 	[RPC]
-	IEnumerator SpawnCharacter(int idPlayer, int idDeck, int v1, int v2, int v3, int v4, int v5)
+	IEnumerator SpawnCharacter(int idPlayer, int idDeck)
 	{
 		int decalage = 0;
 		print ("Je spawne le deck "+idDeck);
@@ -245,11 +240,6 @@ public class GameController : Photon.MonoBehaviour
 				tiles[this.boardWidth/2-2+i,(idPlayer-1)*(this.boardHeight-1)-decalage].GetComponent<TileController>().setOccupationType(0);
 				myCharacters[i].GetComponentInChildren<PlayingCardController>().resize(this.gameView.gameScreenVM.heightScreen);
 			}
-			myCharacters[0].GetComponentInChildren<PhotonView>().viewID = v1;
-			myCharacters[1].GetComponentInChildren<PhotonView>().viewID = v2;
-			myCharacters[2].GetComponentInChildren<PhotonView>().viewID = v3;
-			myCharacters[3].GetComponentInChildren<PhotonView>().viewID = v4;
-			myCharacters[4].GetComponentInChildren<PhotonView>().viewID = v5;
 
 			for (int i = 0 ; i < this.boardWidth ; i++){
 				if (i%2==1){
@@ -262,6 +252,9 @@ public class GameController : Photon.MonoBehaviour
 					if (this.isFirstPlayer){
 						print ("je set en destination "+i+","+j);
 						this.tiles[i,j].GetComponent<TileController>().setDestination();
+					}
+					else{
+						this.tiles[i,this.boardHeight-1-decalage-j].GetComponent<TileController>().setDestination();
 					}
 				}
 			}
@@ -285,11 +278,6 @@ public class GameController : Photon.MonoBehaviour
 				tiles[this.boardWidth/2-2+i,(idPlayer-1)*(this.boardHeight-1)-decalage].GetComponent<TileController>().setOccupationType(1);
 				hisCharacters[i].GetComponentInChildren<PlayingCardController>().resize(this.gameView.gameScreenVM.heightScreen);
 			}
-			hisCharacters[0].GetComponentInChildren<PhotonView>().viewID = v1;
-			hisCharacters[1].GetComponentInChildren<PhotonView>().viewID = v2;
-			hisCharacters[2].GetComponentInChildren<PhotonView>().viewID = v3;
-			hisCharacters[3].GetComponentInChildren<PhotonView>().viewID = v4;
-			hisCharacters[4].GetComponentInChildren<PhotonView>().viewID = v5;
 		}
 		yield break ;
 	}
