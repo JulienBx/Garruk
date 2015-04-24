@@ -620,16 +620,28 @@ public class Card
 
 		this.ExperienceLevel = level;
 	}
-
+	public int getXpLevel(){
+		
+		int cardXp = this.Experience;
+		int level = 0;
+		
+		while (cardXp>=experienceLevels[level]&&level<11) {
+			level++;
+		}
+		level =level-1;
+		
+		return level;
+	}	
 	public int percentageToNextXpLevel(){
 
+		int experienceLevel = this.getXpLevel ();
 		int percentage;
-		if (this.ExperienceLevel==10){
+		if (experienceLevel==10){
 			percentage = 100 ;
-		}else if (this.ExperienceLevel==0){
+		}else if (experienceLevel==0){
 			percentage = Mathf.RoundToInt((this.Experience/experienceLevels[1])*100);
 		}else {
-			percentage=100*(this.Experience-experienceLevels[this.ExperienceLevel])/(experienceLevels[this.ExperienceLevel+1]-experienceLevels[this.ExperienceLevel]); 
+			percentage=100*(this.Experience-experienceLevels[experienceLevel])/(experienceLevels[experienceLevel+1]-experienceLevels[experienceLevel]); 
 		}
 		return percentage;
 	}
