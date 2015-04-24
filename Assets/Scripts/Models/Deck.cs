@@ -18,7 +18,7 @@ public class Deck
 
 	public int Id; 												// Id unique de la carte
 	public string Name; 										// Nom du deck
-	public int NbCards; 										// Nombre de cartes présentes dans le deck
+	public int NbCards = 0; 										// Nombre de cartes présentes dans le deck
 	public List<Card> Cards;									// Liste de carte du deck
 	public string OwnerUsername;                                // Username de la personne possédant le deck
 
@@ -183,6 +183,8 @@ public class Deck
 	}
 
 	public IEnumerator RetrieveCards() {
+		Card c ;
+		string[] cardData ;
 		WWWForm form = new WWWForm(); 								// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_deck", this.Id);							// Id du	 deck
@@ -195,25 +197,31 @@ public class Deck
 		} 
 		else 
 		{
-			//Debug.Log (w.text);
+			Debug.Log (w.text);
 			string[] cardEntries = w.text.Split('\n'); 				// Chaque ligne du serveur correspond à une carte
 			
 			for(int i = 0 ; i < cardEntries.Length - 1 ; i++) 		// On boucle sur les attributs d'une carte
 			{
-				string[] cardData = cardEntries[i].Split('\\'); 	// On découpe les attributs de la carte qu'on place dans un tableau
-				int cardId = System.Convert.ToInt32(cardData[0]); 	// Ici, on récupère l'id en base
-				int cardArt = System.Convert.ToInt32(cardData[1]); 	// l'indice de l'image
-				string cardTitle = cardData[2]; 					// le titre de la carte
-				int cardLife = System.Convert.ToInt32(cardData[3]);	// le nombre de point de vie
-				int speed = System.Convert.ToInt32(cardData[4]);	// la rapidité
-				int move = System.Convert.ToInt32(cardData[5]);	    // le mouvement
-				int attack = System.Convert.ToInt32(cardData[6]);	// l'attaque
-				//int energy = System.Convert.ToInt32(cardData[7]);	// l'attaque
-				
-				Card card = new Card(cardId, cardTitle, cardLife, cardArt, speed, move, attack, new List<Skill>());
-
-				this.addCard(card);
-				NbCards = i + 1;
+				Debug.Log (cardEntries[i]);
+				cardData = cardEntries[i].Split('\\');
+				if (!cardEntries[i].StartsWith("skill")){
+					 	// On découpe les attributs de la carte qu'on place dans un tableau
+					int cardId = System.Convert.ToInt32(cardData[0]); 	// Ici, on récupère l'id en base
+					int cardArt = System.Convert.ToInt32(cardData[1]); 	// l'indice de l'image
+					string cardTitle = cardData[2]; 					// le titre de la carte
+					int cardLife = System.Convert.ToInt32(cardData[3]);	// le nombre de point de vie
+					int speed = System.Convert.ToInt32(cardData[4]);	// la rapidité
+					int move = System.Convert.ToInt32(cardData[5]);	    // le mouvement
+					int attack = System.Convert.ToInt32(cardData[6]);	// l'attaque
+					//int energy = System.Convert.ToInt32(cardData[7]);	// l'attaque
+					
+					c = new Card(cardId, cardTitle, cardLife, cardArt, speed, move, attack, new List<Skill>());
+					this.addCard(c);
+					NbCards ++;
+				}
+				else{
+					this.Cards[NbCards-1].Skills.Add(new Skill(cardData[1], System.Convert.ToInt32(cardData[2]), System.Convert.ToInt32(cardData[3]), System.Convert.ToInt32(cardData[4]), System.Convert.ToInt32(cardData[5]), System.Convert.ToInt32(cardData[6]), cardData[7]));
+				}
 			}
 		}
 	}
