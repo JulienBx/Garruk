@@ -58,9 +58,27 @@ public class SkillController : MonoBehaviour {
 	}
 	public void defineSkillPopUpPositions()
 	{
-			Vector3 screenPos = new Vector3(gameObject.transform.position.x,gameObject.renderer.bounds.min.y,0);
-			screenPos = Camera.main.camera.WorldToScreenPoint(screenPos);
-			view.skillVM.popUpPosition = new Rect(screenPos.x-125, Screen.height-screenPos.y, 250, 250);
+			Vector2 position = this.getScreenPosition(gameObject);
+			Vector2 size = this.getScreenSize (gameObject);
+			view.skillVM.popUpPosition = new Rect(position.x-125, Screen.height-position.y+size.y/2, 250, 250);
+	}
+	private Vector2 getScreenPosition(GameObject gameObject)
+	{
+		Vector2 position = new Vector2 (gameObject.transform.position.x,gameObject.transform.position.y);
+		float worldHeight = 2f*Camera.main.camera.orthographicSize;
+		float worldWidth = ((float)Screen.width/(float)Screen.height) * worldHeight;
+		position.x = (worldWidth / 2f + position.x) * (float)Screen.width / worldWidth;
+		position.y = (worldHeight / 2f + position.y) * (float)Screen.height / worldHeight;
+		return position;
+	}
+	private Vector2 getScreenSize(GameObject gameObject)
+	{
+		Vector2 size = new Vector2 (gameObject.GetComponent<Renderer> ().bounds.size.x,gameObject.GetComponent<Renderer> ().bounds.size.y);
+		float worldHeight = 2f*Camera.main.camera.orthographicSize;
+		float worldWidth = ((float)Screen.width/(float)Screen.height) * worldHeight;
+		size.x = (size.x / worldWidth) * (float)Screen.width;
+		size.y = (size.y / worldHeight) * (float)Screen.height;
+		return size;
 	}
 }
 

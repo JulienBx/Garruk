@@ -43,4 +43,12 @@ public class CardView : MonoBehaviour
 		transform.Find("texturedGameCard").Find("Class").GetComponent<TextMesh>().fontSize = Mathf.RoundToInt(resolution * 15);	
 		transform.Find("texturedGameCard").Find("Class").localScale = new Vector3(0.06f/resolution,0.046f/resolution,0);
 	}
+	public void applySoldTexture()
+	{
+		transform.Find("texturedGameCard").renderer.materials[0].mainTexture = cardVM.soldCardTexture;
+	}
+	public void updateName()
+	{
+		transform.Find("texturedGameCard").FindChild("Title").GetComponent<TextMesh>().text = cardVM.title;
+	}
 }

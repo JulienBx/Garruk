@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class CardViewModel
 {
@@ -6,6 +7,7 @@ public class CardViewModel
 	public Texture attackArea;
 	public Texture speedArea;
 	public Texture moveArea;
+	public Texture soldCardTexture;
 	public Texture[] lifeLevel;
 	public Texture[] attackLevel;
 	public Texture[] speedLevel;
@@ -16,6 +18,7 @@ public class CardViewModel
 	public int move;
 	public int speed;
 	public string titleClass;
+	public Rect centralWindowsRect;
 
 	public CardViewModel ()
 	{
@@ -27,6 +30,8 @@ public class CardViewModel
 		this.attackLevel = new Texture[6];
 		this.speedLevel = new Texture[6];
 		this.moveLevel = new Texture[6];
+		this.centralWindowsRect = new Rect ();
+
 	}
 }
 

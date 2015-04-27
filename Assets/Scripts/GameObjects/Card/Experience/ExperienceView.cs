@@ -33,7 +33,7 @@ public class ExperienceView : MonoBehaviour
 		{
 			transform.FindChild ("ExperienceGauge").renderer.materials[i].mainTexture = experienceVM.xpLevelTexture;
 		}
-		transform.FindChild("Level").GetComponent<TextMesh> ().text = "Lvl"+experienceVM.startLevel ;
+		transform.FindChild("Level").GetComponent<TextMesh> ().text = "Lvl"+experienceVM.currentLevel ;
 	}
 	public void show()
 	{

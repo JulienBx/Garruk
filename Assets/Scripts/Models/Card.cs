@@ -26,6 +26,7 @@ public class Card
 	public int IdClass;
 	public string TitleClass;
 	public int IdOWner;
+	public string UsernameOwner;
 	public int AttackLevel;
 	public int MoveLevel;
 	public int LifeLevel;
@@ -39,6 +40,8 @@ public class Card
 	public List<StatModifier> modifiers = new List<StatModifier>();
 	public int onSale ;
 	public static int[] experienceLevels = new int[] { 0, 10, 40, 100, 200,350,600,1000,1500,2200,3000,0 };
+	public int RenameCost = 200;
+	public string Error;
 
 	public static bool xpDone=false;
 	
@@ -586,8 +589,21 @@ public class Card
 			Debug.Log("erreur renameCard : " + w.error);
 		}
 	}
-
-
+	public IEnumerator buyCard()
+	{
+		WWWForm form = new WWWForm(); 											// Création de la connexion
+		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
+		form.AddField("myform_nick", ApplicationModel.username);
+		form.AddField("myform_idcard", Id);
+		
+		WWW w = new WWW(URLRenameCard, form); 				// On envoie le formulaire à l'url sur le serveur 
+		yield return w;
+		
+		if (w.error != null)
+		{
+			Debug.Log("erreur renameCard : " + w.error);
+		}
+	}
 	public int getPriceForNextLevel(){
 		
 		int experience = this.Experience;

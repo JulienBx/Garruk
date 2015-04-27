@@ -11,10 +11,13 @@ public class CardMakerScript : MonoBehaviour {
 
 	private GameObject myCard;
 	private Card c;
-	private float screenHeight=Screen.height;
-	private float screenWidth=Screen.width;
+	private float heightScreen=Screen.height;
+	private float widthScreen=Screen.width;
 	private string xpString;
 	private int xp;
+	private Rect centralWindow;
+
+	public static CardMakerScript instance;
 
 
 
@@ -29,15 +32,27 @@ public class CardMakerScript : MonoBehaviour {
 			this.myCard.GetComponent<CardController> ().animateExperience ();
 
 		}
-
 	}
+
+	public void clickedCard(int id)
+	{
+		print ("La carte " + id + " a été cliqué");
+	}
+
 	void Start () {
 
+		ApplicationModel.credits = 10000;
+
+		instance = this;
+		this.resize ();
 		this.xpString = "";
 		this.myCard = Instantiate(cardObject) as GameObject;
 		this.myCard.name = "myCard";
-		this.myCard.transform.localScale = new Vector3(4f, 4f, 4f); 
-		this.myCard.transform.localPosition = new Vector3(0, 0, 0);
+
+		this.myCard.transform.localScale = new Vector3(Screen.height/120f,Screen.height/120f,Screen.height/120f);
+		this.myCard.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(0.385f*Screen.width ,0.45f*Screen.height-1 , 10));
+	
+
 
 		this.c = new Card ();
 
@@ -52,7 +67,14 @@ public class CardMakerScript : MonoBehaviour {
 		this.c.MoveLevel = 2;
 		this.c.Speed = 99;
 		this.c.SpeedLevel = 1;
-		this.c.Experience = 0;
+		this.c.Experience = 13;
+		this.c.IdOWner = 3;
+		this.c.UsernameOwner = "yoann";
+		this.c.Price = 2000;
+		this.c.nbWin = 10;
+		this.c.nbLoose = 15;
+		this.c.onSale = 1;
+		this.c.Price = 1000;
 
 		Skill tempSkill1 = new Skill ();
 		tempSkill1.Id = 1;
@@ -76,23 +98,36 @@ public class CardMakerScript : MonoBehaviour {
 		this.c.Skills.Add (tempSkill1);
 		this.c.Skills.Add (tempSkill2);
 
+		//this.myCard.AddComponent<CardMarketController> ();
+		this.myCard.AddComponent<CardMyGameController> ();
 		this.myCard.GetComponent<CardController> ().setCard (c);
 		this.myCard.GetComponent<CardController> ().setSkills();
 		this.myCard.GetComponent<CardController> ().setExperience();
 		this.myCard.GetComponent<CardController> ().show ();
-
+		//this.myCard.GetComponent<CardMarketController> ().setMarketFeatures ();
+		this.myCard.GetComponent<CardController> ().setCentralWindowRect (centralWindow);
+		this.myCard.GetComponent<CardMyGameController> ().setFocusMyGameFeatures ();
+		//this.myCard.GetComponent<CardMarketController> ().setFocusMarketFeatures ();
 
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
-		if(screenHeight!=Screen.height || screenWidth!=Screen.width)
+		if(heightScreen!=Screen.height || widthScreen!=Screen.width)
 		{
-			screenHeight=Screen.height;
-			screenWidth=screenWidth;
+			heightScreen=Screen.height;
+			widthScreen=Screen.width;
+			this.resize();
+			this.myCard.GetComponent<CardController> ().setCentralWindowRect (centralWindow);
 			this.myCard.GetComponent<CardController> ().resize();
 
 		}
+	}
+	private Void resize()
+	{
+		this.widthScreen = Screen.width;
+		this.heightScreen = Screen.height;
+		this.centralWindow = new Rect (this.widthScreen * 0.25f, 0.12f * this.heightScreen, this.widthScreen * 0.50f, 0.25f * this.heightScreen);
 	}
 }
