@@ -9,7 +9,7 @@ public class ErrorCardPopUpView : MonoBehaviour
 	public ErrorCardPopUpView ()
 	{
 		this.popUpVM = new CardPopUpViewModel ();
-		this.errorPopUpVM = new EditSellCardPopUpViewModel ();
+		this.errorPopUpVM = new ErrorCardPopUpViewModel ();
 	}
 	
 	void OnGUI()

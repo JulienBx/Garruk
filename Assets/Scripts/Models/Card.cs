@@ -7,7 +7,7 @@ using System.Linq;
 public class Card
 {
 	private string URLAddXp                 = ApplicationModel.host + "addxp.php"; 
-	private string URLSellCard              = ApplicationModel.host + "sellRandomCard.php";
+	private string URLDeleteCard              = ApplicationModel.host + "deleteCard.php";
 	private string URLPutOnMarket           = ApplicationModel.host + "putonmarket.php";
 	private string URLRemoveFromMarket      = ApplicationModel.host + "removeFromMarket.php";
 	private string URLChangeMarketPrice     = ApplicationModel.host + "changeMarketPrice.php";
@@ -508,22 +508,29 @@ public class Card
 		xpDone=true;
 	}
 
-	public IEnumerator sellCard(int cost)
+	public IEnumerator deleteCard()
 	{
 		WWWForm form = new WWWForm(); 											// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_nick", ApplicationModel.username);
-		form.AddField("myform_idcard", Id);
-		form.AddField("myform_cost", cost);		
-		WWW w = new WWW(URLSellCard, form); 				// On envoie le formulaire à l'url sur le serveur 
+		form.AddField("myform_idcard", this.Id);
+		form.AddField("myform_cost", this.getCost());		
+		WWW w = new WWW(URLDeleteCard, form); 				// On envoie le formulaire à l'url sur le serveur 
 		yield return w;
 		
-		if (w.error != null)
+		if (w.error != null) 
 		{
-			Debug.Log("erreur sellCard : " + w.error);
+			this.Error=w.error; 
+		}
+		else 
+		{
+			if(w.text!="")
+			{
+				this.Error =w.text;
+				yield break;
+			}
 		}
 	}
-	
 	public IEnumerator toSell(int price)
 	{
 		WWWForm form = new WWWForm(); 											// Création de la connexion
@@ -622,8 +629,7 @@ public class Card
 		
 		return price;	
 	}
-
-
+	
 	public void getCardXpLevel(){
 
 		int cardXp = this.Experience;

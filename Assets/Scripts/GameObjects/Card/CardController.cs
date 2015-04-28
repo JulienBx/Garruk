@@ -153,14 +153,24 @@ public class CardController : GameObjectController {
 		this.setGUI (true);
 		this.popUpDisplayed (false);
 	}
-	public void deleteCard()
+	public IEnumerator deleteCard()
 	{
 		if(this.deletePopUpView!=null)
 		{
 			this.hideDeleteCardPopUp();
 		}
-		//this.card.delete ();
-		this.hideCard ();
+		yield return StartCoroutine(this.card.deleteCard());
+		print ("1");
+		if(this.card.Error!="")
+		{
+			print ("1");
+			this.hideCard ();
+		}
+		else
+		{
+			print ("1");
+			this.displayErrorCardPopUp();
+		}
 	}
 	public void deleteCardPopUpResize()
 	{
