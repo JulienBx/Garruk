@@ -97,5 +97,35 @@ public class CardMyGameController : CardController {
 		}
 		//MyGameController.instance.hideCard (gameObject.name);	Fonction pour indiquer à la scène qu'une carte doit disparaitre (par exemple si elle a été désintégrée)
 	}
+	public override IEnumerator sellCard()
+	{
+		StartCoroutine(base.sellCard ());
+		yield break;
+	}
+	public override IEnumerator buyXpCard()
+	{
+		StartCoroutine(base.buyXpCard ());
+		yield break;
+	}
+	public override IEnumerator renameCard()
+	{
+		StartCoroutine(base.renameCard ());
+		yield break;
+	}
+	public override IEnumerator putOnMarketCard()
+	{
+		StartCoroutine(base.putOnMarketCard ());
+		yield break;
+	}
+	public override IEnumerator editSellPriceCard()
+	{
+		StartCoroutine(base.editSellPriceCard ());
+		yield break;
+	}
+	public override IEnumerator unsellCard()
+	{
+		StartCoroutine(base.unsellCard ());
+		yield break;
+	}
 }
 

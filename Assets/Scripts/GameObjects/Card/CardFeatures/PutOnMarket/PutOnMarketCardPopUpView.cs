@@ -1,15 +1,15 @@
 using UnityEngine;
 
-public class EditSellPriceCardPopUpView : MonoBehaviour
+public class PutOnMarketCardPopUpView : MonoBehaviour
 {
 	
 	public CardPopUpViewModel popUpVM;
-	public EditSellPriceCardPopUpViewModel editSellPricePopUpVM;
+	public PutOnMarketCardPopUpViewModel putOnMarketPopUpVM;
 	
-	public EditSellPriceCardPopUpView ()
+	public PutOnMarketCardPopUpView ()
 	{
 		this.popUpVM = new CardPopUpViewModel ();
-		this.editSellPricePopUpVM = new EditSellPriceCardPopUpViewModel ();
+		this.putOnMarketPopUpVM = new PutOnMarketCardPopUpViewModel ();
 	}
 	
 	void OnGUI()
@@ -20,29 +20,27 @@ public class EditSellPriceCardPopUpView : MonoBehaviour
 			GUILayout.BeginVertical(popUpVM.centralWindowStyle);
 			{
 				GUILayout.FlexibleSpace();
-				GUILayout.Label("Changer le prix de vente de la carte sur le bazar", popUpVM.centralWindowTitleStyle);
+				GUILayout.Label("Choisir le prix en vente de la carte sur le bazar", popUpVM.centralWindowTitleStyle);
 				GUILayout.FlexibleSpace();
-				
 				GUILayout.BeginHorizontal();
 				{
 					GUILayout.Space(0.03f * popUpVM.centralWindow.width);
-					editSellPricePopUpVM.price = GUILayout.TextField(editSellPricePopUpVM.price, popUpVM.centralWindowTextfieldStyle);
+					putOnMarketPopUpVM.price = GUILayout.TextField(putOnMarketPopUpVM.price, popUpVM.centralWindowTextfieldStyle);
 					GUILayout.Space(0.03f * popUpVM.centralWindow.width);
 				}
 				GUILayout.EndHorizontal();
-				
 				GUILayout.FlexibleSpace();
 				GUILayout.BeginHorizontal();
 				{
 					GUILayout.Space(0.03f * popUpVM.centralWindow.width);
 					if (GUILayout.Button("Confirmer", popUpVM.centralWindowButtonStyle))
 					{
-						gameObject.GetComponent<CardController>().editSellPriceCard();
+						gameObject.GetComponent<CardController>().sellCard();
 					}
 					GUILayout.Space(0.04f * popUpVM.centralWindow.width);
 					if (GUILayout.Button("Annuler", popUpVM.centralWindowButtonStyle))
 					{
-						gameObject.GetComponent<CardController>().hideEditSellPriceCardPopUp();
+						gameObject.GetComponent<CardController>().hideSellCardPopUp();
 					}
 					GUILayout.Space(0.03f * popUpVM.centralWindow.width);
 				}

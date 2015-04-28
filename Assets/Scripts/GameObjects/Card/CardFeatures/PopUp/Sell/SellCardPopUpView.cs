@@ -20,22 +20,16 @@ public class SellCardPopUpView : MonoBehaviour
 			GUILayout.BeginVertical(popUpVM.centralWindowStyle);
 			{
 				GUILayout.FlexibleSpace();
-				GUILayout.Label("Choisir le prix en vente de la carte sur le bazar", popUpVM.centralWindowTitleStyle);
-				GUILayout.FlexibleSpace();
+				GUILayout.Label("Confirmer la désintégration de la carte (rapporte " + sellPopUpVM.price + " crédits)", 
+				                popUpVM.centralWindowTitleStyle);
+				
+				GUILayout.Space(0.02f * popUpVM.centralWindow.height);
 				GUILayout.BeginHorizontal();
 				{
 					GUILayout.Space(0.03f * popUpVM.centralWindow.width);
-					sellPopUpVM.price = GUILayout.TextField(sellPopUpVM.price, popUpVM.centralWindowTextfieldStyle);
-					GUILayout.Space(0.03f * popUpVM.centralWindow.width);
-				}
-				GUILayout.EndHorizontal();
-				GUILayout.FlexibleSpace();
-				GUILayout.BeginHorizontal();
-				{
-					GUILayout.Space(0.03f * popUpVM.centralWindow.width);
-					if (GUILayout.Button("Confirmer", popUpVM.centralWindowButtonStyle))
+					if (GUILayout.Button("Désintégrer", popUpVM.centralWindowButtonStyle))
 					{
-						gameObject.GetComponent<CardController>().sellCard();
+						StartCoroutine(gameObject.GetComponent<CardController>().sellCard());
 					}
 					GUILayout.Space(0.04f * popUpVM.centralWindow.width);
 					if (GUILayout.Button("Annuler", popUpVM.centralWindowButtonStyle))

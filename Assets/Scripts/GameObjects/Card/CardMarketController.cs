@@ -107,6 +107,10 @@ public class CardMarketController : CardController {
 		//MarketController.instance.popUpdisplayed (value, gameObject.name);
 
 	}
-	
+	public override IEnumerator buyCard()
+	{
+		StartCoroutine(base.buyCard ());
+		yield break;
+	}
 }
 

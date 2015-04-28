@@ -21,7 +21,7 @@ public class FocusMyGameFeaturesView : MonoBehaviour
 				GUILayout.Space (focusMyGameFeaturesVM.cardFeaturesFocusRects[0].width*1/20);
 				if(GUILayout.Button("Désintégrer (+"+ focusMyGameFeaturesVM.cardCost+" crédits)", cardFeaturesFocusVM.buttonStyle))
 				{
-					gameObject.GetComponent<CardController>().displayDeleteCardPopUp();
+					gameObject.GetComponent<CardController>().displaySellCardPopUp();
 				}
 			}
 			GUILayout.EndHorizontal();
@@ -95,7 +95,7 @@ public class FocusMyGameFeaturesView : MonoBehaviour
 					{
 						if(GUILayout.Button("Mettre la carte en vente sur le bazar", cardFeaturesFocusVM.buttonStyle))
 						{
-							gameObject.GetComponent<CardController>().displaySellCardPopUp();
+							gameObject.GetComponent<CardController>().displayputOnMarketCardPopUp();
 						}
 					}
 				}

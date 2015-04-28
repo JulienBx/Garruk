@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class SellCardPopUpViewModel
 {	
-	public string price;
+	public int price;
 	
 	public SellCardPopUpViewModel ()
 	{
