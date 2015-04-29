@@ -38,7 +38,7 @@ public class MarketFeaturesView : MonoBehaviour
 			}
 			GUILayout.EndHorizontal();
 			GUILayout.Space(marketFeaturesVM.rect.height*1/20);
-			if(marketFeaturesVM.price>=ApplicationModel.credits)
+			if(marketFeaturesVM.price<=ApplicationModel.credits)
 			{
 				if(GUILayout.Button ("Acheter",marketFeaturesVM.buyButtonStyle,GUILayout.Height(marketFeaturesVM.rect.height*3/10)))
 				{

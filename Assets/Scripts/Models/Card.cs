@@ -12,6 +12,7 @@ public class Card
 	private string URLRemoveFromMarket      = ApplicationModel.host + "removeFromMarket.php";
 	private string URLChangeMarketPrice     = ApplicationModel.host + "changeMarketPrice.php";
 	private string URLRenameCard            = ApplicationModel.host + "renameCard.php";
+	private string URLBuyCard 				= ApplicationModel.host + "buyCard.php";
 
 	public int Id; 												// Id unique de la carte
 	public string Art; 									    	// Nom du dessin à appliquer à la carte
@@ -363,18 +364,12 @@ public class Card
 
 	public IEnumerator addXp (int xp, int price)
 	{
-			
-		xpDone = false;
-		int experience = this.Experience;
-		int idCard = this.Id;
 		string attributeName="";
 		int idSkill=-1;
 		int idLevel=1;
 		int newPower=0;
-		int cardType = this.IdClass;
-
-		this.Experience = this.Experience+xp;
-		getCardXpLevel ();
+		int experience = this.Experience + xp;
+		int randomAttribute=0;
 		
 		if (this.ExperienceLevel!=10 && this.Experience>=experienceLevels [this.ExperienceLevel + 1]){
 			
@@ -386,16 +381,14 @@ public class Card
 					nbAttributes=nbAttributes+1;
 			}
 
-			int randomAttribute = Mathf.RoundToInt(UnityEngine.Random.Range(0,nbAttributes));
+			randomAttribute = Mathf.RoundToInt(UnityEngine.Random.Range(0,nbAttributes));
 			int randomPower = Mathf.RoundToInt (UnityEngine.Random.Range (5,10));
 			
 			switch (randomAttribute)
 			{
 			case 0:
 				newPower=this.Move+1;
-				this.Move=newPower;
 				attributeName="move";
-
 				break;
 			case 1:
 				newPower=Mathf.RoundToInt((1+randomPower*0.01f)*this.Life);
@@ -404,9 +397,6 @@ public class Card
 					idLevel=3;
 				else if (newPower>(100-Mathf.Sqrt(2000f)))
 					idLevel=2;
-				this.Life=newPower;
-				this.LifeLevel=idLevel;
-				
 				break;
 			case 2:
 				newPower=Mathf.RoundToInt((1+randomPower*0.01f)*this.Attack);
@@ -415,9 +405,6 @@ public class Card
 					idLevel=3;
 				else if (newPower>(100-Mathf.Sqrt(2000f)))
 					idLevel=2;
-				this.Attack=newPower;
-				this.AttackLevel=idLevel;
-				
 				break;
 			case 3:
 				newPower=Mathf.RoundToInt((1+randomPower*0.01f)*this.Speed);
@@ -426,9 +413,6 @@ public class Card
 					idLevel=3;
 				else if (newPower>(100-Mathf.Sqrt(2000f)))
 					idLevel=2;
-				this.Speed=newPower;
-				this.SpeedLevel=idLevel;
-				
 				break;
 			case 4:
 				newPower=Mathf.RoundToInt((1+randomPower*0.01f)*this.Skills[0].Power);
@@ -437,9 +421,6 @@ public class Card
 					idLevel=3;
 				else if (newPower>(100-Mathf.Sqrt(2000f)))
 					idLevel=2;
-				this.Skills[0].Power=newPower;
-				this.Skills[0].Level=idLevel;
-				
 				break;
 			case 5:
 				newPower=Mathf.RoundToInt((1+randomPower*0.01f)*this.Skills[0].Power);
@@ -448,9 +429,6 @@ public class Card
 					idLevel=3;
 				else if (newPower>(100-Mathf.Sqrt(2000f)))
 					idLevel=2;
-				this.Skills[1].Power=newPower;
-				this.Skills[1].Level=idLevel;
-				
 				break;
 			case 6:
 				newPower=Mathf.RoundToInt((1+randomPower*0.01f)*this.Skills[0].Power);
@@ -459,9 +437,6 @@ public class Card
 					idLevel=3;
 				else if (newPower>(100-Mathf.Sqrt(2000f)))
 					idLevel=2;
-				this.Skills[2].Power=newPower;
-				this.Skills[2].Level=idLevel;
-				
 				break;
 			case 7:
 				newPower=Mathf.RoundToInt((1+randomPower*0.01f)*this.Skills[0].Power);
@@ -470,24 +445,19 @@ public class Card
 					idLevel=3;
 				else if (newPower>(100-Mathf.Sqrt(2000f)))
 					idLevel=2;
-				this.Skills[3].Power=newPower;
-				this.Skills[3].Level=idLevel;
-				
 				break;
 			default:
 				break;
 			}
-			
 		}
-
 		WWWForm form = new WWWForm(); 								// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_idcard", idCard.ToString());
+		form.AddField("myform_idcard", this.Id.ToString());
 		form.AddField("myform_xp", this.Experience.ToString());
 		form.AddField("myform_newpower",newPower.ToString());
 		form.AddField("myform_attribute",attributeName);
 		form.AddField("myform_idskill",idSkill.ToString());
-		form.AddField("myform_cardtype",cardType.ToString());
+		form.AddField("myform_cardtype",this.IdClass.ToString());
 		form.AddField("myform_level",idLevel.ToString());
 		form.AddField ("myform_price", price.ToString ());
 		form.AddField ("myform_nick", ApplicationModel.username);
@@ -497,15 +467,58 @@ public class Card
 		
 		if (w.error != null) 
 		{
-			MonoBehaviour.print(w.error); 										// donne l'erreur eventuelle
+			this.Error=w.error; 										// donne l'erreur eventuelle
 		} 
 		else 
 		{
-			if  (attributeName=="move"){
-				this.MoveLevel=System.Convert.ToInt32(w.text);
+			string[] data=w.text.Split(new string[] { "//" }, System.StringSplitOptions.None);
+			this.Error=data[1];
+
+			if (this.Error=="")
+			{
+				this.Experience=experience;
+				if  (attributeName=="move")
+				{
+					this.MoveLevel=System.Convert.ToInt32(data[0]);
+				}
+				switch (randomAttribute)
+				{
+				case 0:
+					this.Move=newPower;
+					break;
+				case 1:
+					this.Life=newPower;
+					this.LifeLevel=idLevel;
+					break;
+				case 2:
+					this.Attack=newPower;
+					this.AttackLevel=idLevel;
+					break;
+				case 3:
+					this.Speed=newPower;
+					this.SpeedLevel=idLevel;
+					break;
+				case 4:
+					this.Skills[0].Power=newPower;
+					this.Skills[0].Level=idLevel;
+					break;
+				case 5:
+					this.Skills[1].Power=newPower;
+					this.Skills[1].Level=idLevel;
+					break;
+				case 6:
+					this.Skills[2].Power=newPower;
+					this.Skills[2].Level=idLevel;
+					break;
+				case 7:
+					this.Skills[3].Power=newPower;
+					this.Skills[3].Level=idLevel;
+					break;
+				default:
+					break;
+				}
 			}
 		}
-		xpDone=true;
 	}
 
 	public IEnumerator sellCard()
@@ -519,7 +532,7 @@ public class Card
 		yield return w;
 		if (w.error != null)
 		{
-			Debug.Log (w.error); 
+			this.Error=w.error;
 		}
 		else
 		{
@@ -532,17 +545,24 @@ public class Card
 		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_nick", ApplicationModel.username);
 		form.AddField("myform_idcard", Id);
-		form.AddField("myform_price", price);
-		form.AddField("myform_date",  System.DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss").ToString());	
+		form.AddField("myform_price", price);	
 		WWW w = new WWW(URLPutOnMarket, form); 				// On envoie le formulaire à l'url sur le serveur 
 		yield return w;
 		
 		if (w.error != null)
 		{
-			Debug.Log("erreur toSell : " + w.error);
+			this.Error=w.error;
+		}
+		else
+		{
+			this.Error=w.text;
+			if(this.Error=="")
+			{
+				this.onSale=1;
+				this.Price=price;
+			}
 		}
 	}
-	
 	public IEnumerator notToSell()
 	{
 		WWWForm form = new WWWForm(); 											// Création de la connexion
@@ -554,7 +574,15 @@ public class Card
 		
 		if (w.error != null)
 		{
-			Debug.Log("erreur notTosell : " + w.error);
+			this.Error=w.error;
+		}
+		else
+		{
+			this.Error=w.text;
+			if(this.Error=="")
+			{
+				this.onSale=0;
+			}
 		}
 	}
 	
@@ -570,7 +598,15 @@ public class Card
 		
 		if (w.error != null)
 		{
-			Debug.Log("erreur changePriceCard : " + w.error);
+			this.Error=w.error;
+		}
+		else
+		{
+			this.Error=w.text;
+			if(this.Error=="")
+			{
+				this.Price=price;
+			}
 		}
 	}
 	
@@ -588,7 +624,15 @@ public class Card
 		
 		if (w.error != null)
 		{
-			Debug.Log("erreur renameCard : " + w.error);
+			this.Error=w.error;
+		}
+		else
+		{
+			this.Error=w.text;
+			if(this.Error=="")
+			{
+				this.Title=newName;
+			}
 		}
 	}
 	public IEnumerator buyCard()
@@ -596,14 +640,27 @@ public class Card
 		WWWForm form = new WWWForm(); 											// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_nick", ApplicationModel.username);
-		form.AddField("myform_idcard", Id);
+		form.AddField("myform_idcard", this.Id);
 		
-		WWW w = new WWW(URLRenameCard, form); 				// On envoie le formulaire à l'url sur le serveur 
+		WWW w = new WWW(URLBuyCard, form); 				// On envoie le formulaire à l'url sur le serveur 
 		yield return w;
 		
 		if (w.error != null)
 		{
-			Debug.Log("erreur renameCard : " + w.error);
+			this.Error=w.error;
+		}
+		else
+		{
+			string[] data=w.text.Split(new string[] { "//" }, System.StringSplitOptions.None);
+			this.Error=data[1];
+			if(this.Error=="" )
+			{
+				this.onSale=0;
+			}
+			else
+			{
+				this.onSale=System.Convert.ToInt32(data[0]);
+			}
 		}
 	}
 	public int getPriceForNextLevel(){
@@ -611,14 +668,16 @@ public class Card
 		int experience = this.Experience;
 		int level = 0;
 		
-		while (experience>=experienceLevels[level]&&level<11) {
+		while (experience>=experienceLevels[level]&&level<11) 
+		{
 			level++;
 		}
 		level =level-1;
 		
 		int price = 0;
 		
-		if (level!=10){
+		if (level!=10)
+		{
 			price = experienceLevels [level + 1] - experience;
 		}
 		

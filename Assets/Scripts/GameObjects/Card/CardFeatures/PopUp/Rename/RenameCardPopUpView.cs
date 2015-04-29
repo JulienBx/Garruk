@@ -29,13 +29,18 @@ public class RenameCardPopUpView : MonoBehaviour
 					GUILayout.Space(0.03f * popUpVM.centralWindow.width);
 				}
 				GUILayout.EndHorizontal();
+				if(renamePopUpVM.error!="")
+				{
+					GUILayout.FlexibleSpace();
+					GUILayout.Label (renamePopUpVM.error,popUpVM.centralWindowErrorStyle);
+				}
 				GUILayout.FlexibleSpace();
 				GUILayout.BeginHorizontal();
 				{
 					GUILayout.Space(0.03f * popUpVM.centralWindow.width);
 					if (GUILayout.Button("Confirmer", popUpVM.centralWindowButtonStyle))
 					{
-						gameObject.GetComponent<CardController>().renameCard();
+						StartCoroutine(gameObject.GetComponent<CardController>().renameCard());
 					}
 					GUILayout.Space(0.04f * popUpVM.centralWindow.width);
 					if (GUILayout.Button("Annuler", popUpVM.centralWindowButtonStyle))

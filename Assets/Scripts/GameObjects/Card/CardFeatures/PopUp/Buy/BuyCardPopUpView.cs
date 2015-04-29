@@ -27,7 +27,7 @@ public class BuyCardPopUpView : MonoBehaviour
 					GUILayout.Space(0.03f*popUpVM.centralWindow.width);
 					if (GUILayout.Button("Acheter",popUpVM.centralWindowButtonStyle)) // also can put width here
 					{
-						gameObject.GetComponent<CardController>().buyCard();
+						StartCoroutine(gameObject.GetComponent<CardController>().buyCard());
 					}
 					GUILayout.Space(0.04f*popUpVM.centralWindow.width);
 					if (GUILayout.Button("Annuler",popUpVM.centralWindowButtonStyle)) // also can put width here

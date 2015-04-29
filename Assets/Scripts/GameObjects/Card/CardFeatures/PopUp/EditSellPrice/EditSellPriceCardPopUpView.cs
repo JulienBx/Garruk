@@ -26,18 +26,22 @@ public class EditSellPriceCardPopUpView : MonoBehaviour
 				GUILayout.BeginHorizontal();
 				{
 					GUILayout.Space(0.03f * popUpVM.centralWindow.width);
-					editSellPricePopUpVM.price = GUILayout.TextField(editSellPricePopUpVM.price, popUpVM.centralWindowTextfieldStyle);
+					editSellPricePopUpVM.price = GUILayout.TextField(editSellPricePopUpVM.price, 9,popUpVM.centralWindowTextfieldStyle);
 					GUILayout.Space(0.03f * popUpVM.centralWindow.width);
 				}
 				GUILayout.EndHorizontal();
-				
+				if(editSellPricePopUpVM.error!="")
+				{
+					GUILayout.FlexibleSpace();
+					GUILayout.Label(editSellPricePopUpVM.error,popUpVM.centralWindowErrorStyle);
+				}
 				GUILayout.FlexibleSpace();
 				GUILayout.BeginHorizontal();
 				{
 					GUILayout.Space(0.03f * popUpVM.centralWindow.width);
 					if (GUILayout.Button("Confirmer", popUpVM.centralWindowButtonStyle))
 					{
-						gameObject.GetComponent<CardController>().editSellPriceCard();
+						StartCoroutine(gameObject.GetComponent<CardController>().editSellPriceCard());
 					}
 					GUILayout.Space(0.04f * popUpVM.centralWindow.width);
 					if (GUILayout.Button("Annuler", popUpVM.centralWindowButtonStyle))

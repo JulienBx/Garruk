@@ -27,7 +27,7 @@ public class EditSellCardPopUpView : MonoBehaviour
 					GUILayout.Space(0.03f * popUpVM.centralWindow.width);
 					if (GUILayout.Button("Retirer du bazar", popUpVM.centralWindowButtonStyle))
 					{
-						gameObject.GetComponent<CardController>().unsellCard();
+						StartCoroutine(gameObject.GetComponent<CardController>().unsellCard());
 					}
 					GUILayout.Space(0.04f * popUpVM.centralWindow.width);
 					if (GUILayout.Button("Modifier son prix", popUpVM.centralWindowButtonStyle))
