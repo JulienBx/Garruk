@@ -89,6 +89,10 @@ public class CardMyGameController : CardController {
 		//MyGameController.instance.popUpdisplayed (value, gameObject.name); Fonction pour indiquer à la scène qu'une popup est affichée / ou masquée
 		
 	}
+	public override void refreshCredits()
+	{
+		//MyGameController.instance.refreshCredits(); Fonction pour demander à la scène de mettre à jour les crédits de l'utilisateur
+	}
 	public override void hideCard()
 	{
 		if(focusMyGameFeaturesView!=null)

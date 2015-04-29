@@ -102,10 +102,13 @@ public class CardMarketController : CardController {
 			marketFeaturesView.marketFeaturesVM.guiEnabled=value;
 		}
 	}
+	public override void refreshCredits()
+	{
+		//MarketController.instance.refreshCredits(); Fonction pour demander à la scène de mettre à jour les crédits de l'utilisateur
+	}
 	public override void popUpDisplayed(bool value)
 	{
 		//MarketController.instance.popUpdisplayed (value, gameObject.name);
-
 	}
 	public override IEnumerator buyCard()
 	{

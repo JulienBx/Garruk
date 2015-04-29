@@ -151,6 +151,7 @@ public class CardController : GameObjectController {
 		{
 			this.setGUI (true);
 			this.popUpDisplayed (false);
+			this.refreshCredits();
 		}
 		else
 		{
@@ -198,6 +199,7 @@ public class CardController : GameObjectController {
 		{
 			this.setGUI (true);
 			this.popUpDisplayed (false);
+			this.refreshCredits();
 			this.hideCard ();
 		}
 		else
@@ -242,6 +244,7 @@ public class CardController : GameObjectController {
 		{
 			this.setGUI (true);
 			this.popUpDisplayed (false);
+			this.refreshCredits();
 			gameObject.GetComponent<CardController> ().animateExperience ();
 			this.updateCardVM();
 			this.show ();
@@ -292,6 +295,7 @@ public class CardController : GameObjectController {
 			{
 				this.setGUI (true);
 				this.popUpDisplayed (false);
+				this.refreshCredits();
 				view.cardVM.title = this.card.Title;
 				view.updateName ();
 			}
@@ -499,6 +503,9 @@ public class CardController : GameObjectController {
 	{
 	}
 	public virtual void hideCard()
+	{
+	}
+	public virtual void refreshCredits()
 	{
 	}
 	public void confirmPopUp()
