@@ -10,7 +10,8 @@ public class CardMarketController : CardController {
 	
 	private MarketFeaturesView marketFeaturesView;
 	private FocusMarketFeaturesView focusMarketFeaturesView;
-	
+
+	public int index;
 	
 	void OnMouseOver()
 	{
@@ -149,11 +150,11 @@ public class CardMarketController : CardController {
 	public override IEnumerator buyCard()
 	{
 		StartCoroutine(base.buyCard ());
-		if(base.card.onSale==0)
-		{
-			MarketController.instance.setCardAsSold(base.card.Id);
-		}
 		yield break;
+	}
+	public override void updateSceneModel()
+	{
+		MarketController.instance.updateModel(gameObject);
 	}
 }
 

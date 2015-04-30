@@ -158,6 +158,7 @@ public class CardController : GameObjectController {
 		{
 			this.applySoldTexture ();
 			this.updateVM();
+			this.updateSceneModel();
 		}
 		if(this.card.Error=="")
 		{
@@ -261,6 +262,7 @@ public class CardController : GameObjectController {
 			this.updateCardVM();
 			this.show ();
 			this.updateVM ();
+			this.updateSceneModel();
 		}
 		else
 		{
@@ -310,6 +312,7 @@ public class CardController : GameObjectController {
 				this.refreshCredits();
 				view.cardVM.title = this.card.Title;
 				view.updateName ();
+				this.updateSceneModel();
 			}
 			else
 			{
@@ -363,6 +366,7 @@ public class CardController : GameObjectController {
 				this.setGUI (true);
 				this.popUpDisplayed (false);
 				this.updateVM ();
+				this.updateSceneModel();
 			}
 			else
 			{
@@ -450,6 +454,7 @@ public class CardController : GameObjectController {
 				this.setGUI (true);
 				this.popUpDisplayed (false);
 				this.updateVM ();
+				this.updateSceneModel();
 			}
 			else
 			{
@@ -473,6 +478,7 @@ public class CardController : GameObjectController {
 			this.setGUI (true);
 			this.popUpDisplayed (false);
 			this.updateVM ();
+			this.updateSceneModel();
 		}
 		else
 		{
@@ -524,6 +530,9 @@ public class CardController : GameObjectController {
 	{
 	}
 	public virtual void refreshCredits()
+	{
+	}
+	public virtual void updateSceneModel()
 	{
 	}
 	public void confirmPopUp()
