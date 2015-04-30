@@ -15,12 +15,11 @@ public class PaginationViewModel
 
 	public PaginationViewModel()
 	{
-
 	}
 
 	public void initStyles()
 	{
-		paginationStyle                     = styles[0];
-		paginationActivatedStyle            = styles[1];
+		paginationStyle = styles [0];
+		paginationActivatedStyle = styles [1];
 	}
 }

@@ -11,13 +11,10 @@ public class MyDecksViewModel
 	public Rect rectOutsideScrollDeck;
 	public string decksTitle;
 	public string myNewDeckButtonTitle;
-	public string tempText;
 	public string newTitle;
 	public float scaleDeck;
-	public int IDDeckToEdit;
 	public int chosenDeck;
 	public int chosenIdDeck;
-	public int deckToEdit;
 
 	public GUIStyle[] styles;
 	public GUIStyle decksTitleStyle;
@@ -35,28 +32,25 @@ public class MyDecksViewModel
 
 	public MyDecksViewModel()
 	{
-		IDDeckToEdit                = -1;
-		deckToEdit                  = -1;
-		tempText                    = "Nouveau deck";
-		chosenDeck                  = 0;
-		chosenIdDeck                = -1;
+		chosenDeck = 0;
+		chosenIdDeck = -1;
 	}
 
 	public void initStyles()
 	{
-		decksTitleStyle             = styles[0];
-		deckStyle                   = styles[1];
-		deckChosenStyle             = styles[2];
-		deckButtonStyle             = styles[3];
-		deckButtonChosenStyle       = styles[4];
-		mySuppressButtonStyle       = styles[5];
-		myEditButtonStyle           = styles[6];
-		myNewDeckButton             = styles[7];
+		decksTitleStyle = styles [0];
+		deckStyle = styles [1];
+		deckChosenStyle = styles [2];
+		deckButtonStyle = styles [3];
+		deckButtonChosenStyle = styles [4];
+		mySuppressButtonStyle = styles [5];
+		myEditButtonStyle = styles [6];
+		myNewDeckButton = styles [7];
 	}
 
 	public void initTextures()
 	{
-		backNewDeckButton           = textures[0];
-		backHoveredNewDeckButton    = textures[1];
+		backNewDeckButton = textures [0];
+		backHoveredNewDeckButton = textures [1];
 	}
 }
