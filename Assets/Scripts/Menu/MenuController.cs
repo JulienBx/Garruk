@@ -45,7 +45,7 @@ public class MenuController : MonoBehaviour {
 		view.notificationsReminderVM.nbNotificationsNonRead = value;
 		ApplicationModel.nbNotificationsNonRead = value;
 	}
-	private IEnumerator getUserData()
+	public IEnumerator getUserData()
 	{
 		yield return StartCoroutine (model.loadUserData (this.totalNbResultLimit));
 		if(Application.loadedLevelName!="HomePage")
