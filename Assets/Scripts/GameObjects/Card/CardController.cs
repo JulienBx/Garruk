@@ -530,7 +530,27 @@ public class CardController : GameObjectController {
 	{
 		if(this.buyPopUpView!=null)
 		{
-			this.buyCard();
+			StartCoroutine(this.buyCard());
+		}
+		if(this.renamePopUpView!=null)
+		{
+			StartCoroutine(this.renameCard());
+		}
+		if(this.sellPopUpView!=null)
+		{
+			StartCoroutine(this.sellCard());
+		}
+		if(this.editSellPricePopUpView!=null)
+		{
+			StartCoroutine(this.editSellPriceCard());
+		}
+		if(this.buyXpPopUpView!=null)
+		{
+			StartCoroutine(this.buyXpCard());
+		}
+		if(this.putOnMarketPopUpView!=null)
+		{
+			StartCoroutine(this.putOnMarketCard());
 		}
 	}
 	public void exitPopUp()
@@ -538,6 +558,30 @@ public class CardController : GameObjectController {
 		if(this.buyPopUpView!=null)
 		{
 			this.hideBuyCardPopUp();
+		}
+		if(this.renamePopUpView!=null)
+		{
+			this.hideRenameCardPopUp();
+		}
+		if(this.sellPopUpView!=null)
+		{
+			this.hideSellCardPopUp();
+		}
+		if(this.editSellPopUpView!=null)
+		{
+			this.hideEditSellCardPopUp();
+		}
+		if(this.editSellPricePopUpView!=null)
+		{
+			this.hideEditSellPriceCardPopUp();
+		}
+		if(this.buyXpPopUpView!=null)
+		{
+			this.hideBuyXpCardPopUp();
+		}
+		if(this.putOnMarketPopUpView!=null)
+		{
+			this.hideputOnMarketCardPopUp();
 		}
 	}
 	public void show()

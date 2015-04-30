@@ -133,7 +133,7 @@ public class CardMarketController : CardController {
 	}
 	public override void popUpDisplayed(bool value)
 	{
-		//MarketController.instance.popUpdisplayed (value, gameObject.name);
+		MarketController.instance.popUpDisplayed (value, gameObject);
 	}
 	public override void updateVM()
 	{
