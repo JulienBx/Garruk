@@ -508,6 +508,9 @@ public class CardController : GameObjectController {
 	public virtual void setGUI(bool value)
 	{
 	}
+	public virtual void setMyGUI(bool value)
+	{
+	}
 	public virtual void popUpDisplayed(bool value)
 	{
 	}

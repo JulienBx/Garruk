@@ -114,6 +114,10 @@ public class CardMarketController : CardController {
 	}
 	public override void setGUI(bool value)
 	{
+		MarketController.instance.setGUI (value);
+	}
+	public override void setMyGUI(bool value)
+	{
 		if(this.focusMarketFeaturesView!=null)
 		{
 			focusMarketFeaturesView.cardFeaturesFocusVM.guiEnabled=value;
@@ -122,7 +126,6 @@ public class CardMarketController : CardController {
 		{                                                            
 			marketFeaturesView.marketFeaturesVM.guiEnabled=value;
 		}
-		MarketController.instance.setGUI (value);
 	}
 	public override void refreshCredits()
 	{
