@@ -88,7 +88,7 @@ public class CardController : GameObjectController {
 			if (card.Skills[i].IsActivated == 1) 
 			{
 				this.skills.Add (Instantiate(ressources.skillAreaObject) as GameObject);
-				this.skills[skills.Count-1].name="Skill"+(i+1);
+				this.skills[skills.Count-1].name="Skill"+(skills.Count);
 				this.skills[skills.Count-1].transform.parent=gameObject.transform.Find("texturedGameCard");
 				this.skills[skills.Count-1].transform.localPosition=new Vector3(0,-0.12f-0.08f*(skills.Count-1),-0.5f);
 				this.skills[skills.Count-1].transform.localScale=new Vector3(0.9f, 0.07f, 20f);
@@ -96,6 +96,18 @@ public class CardController : GameObjectController {
 				this.skills[skills.Count-1].GetComponent<SkillController>().setSkillLevelMetals(ressources.metals[card.Skills[i].Level]);
 				this.skills[skills.Count-1].GetComponent<SkillController>().setSkillPicto(ressources.skillsPictos[card.Skills[i].Id]);
 			}
+		}
+	}
+	public virtual void resetCard()
+	{
+		this.card = new Card ();
+		for(int i=0;i<this.skills.Count;i++)
+		{
+			Destroy (this.skills[i]);
+		}
+		if(experience!=null)
+		{
+			Destroy (this.experience);
 		}
 	}
 	public void setExperience()
@@ -145,7 +157,7 @@ public class CardController : GameObjectController {
 		if(this.card.onSale==0)
 		{
 			this.applySoldTexture ();
-			this.hideFeatures ();
+			this.updateVM();
 		}
 		if(this.card.Error=="")
 		{
@@ -479,7 +491,7 @@ public class CardController : GameObjectController {
 		errorPopUpView.popUpVM.initStyles();
 		this.errorCardPopUpResize ();
 	}
-	public void hideErrorPriceCardPopUp()
+	public virtual void hideErrorCardPopUp()
 	{
 		Destroy (this.errorPopUpView);
 		this.setGUI (true);
@@ -503,6 +515,9 @@ public class CardController : GameObjectController {
 	{
 	}
 	public virtual void hideCard()
+	{
+	}
+	public virtual void exitFocus()
 	{
 	}
 	public virtual void refreshCredits()

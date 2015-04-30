@@ -11,6 +11,7 @@ public class SkillViewModel
 	public string description;
 	public int power;
 	public int manaCost;
+	public int guiDepth;
 	public Texture picto;
 	public Rect popUpPosition;
 	public GUIStyle[] styles;
@@ -31,5 +32,9 @@ public class SkillViewModel
 		this.centralWindowStyle = this.styles [0];
 		this.descriptionStyle = this.styles [1];
 		this.titleStyle = this.styles [2];
+	}
+	public void resize()
+	{
+		this.descriptionStyle.fontSize =Screen.height * 2 / 100;
 	}
 }

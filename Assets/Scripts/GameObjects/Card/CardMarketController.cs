@@ -16,7 +16,7 @@ public class CardMarketController : CardController {
 	{
 		if (Input.GetMouseButton(1)) 
 		{
-			//MarketController.instance.clickedCard (gameObject.name);
+			MarketController.instance.clickedCard (gameObject);
 		}
 	}
 	public void setMarketFeatures()
@@ -24,6 +24,7 @@ public class CardMarketController : CardController {
 		this.marketFeaturesView = gameObject.AddComponent <MarketFeaturesView>();
 		marketFeaturesView.marketFeaturesVM.price = base.card.Price;
 		marketFeaturesView.marketFeaturesVM.usernameOwner = base.card.UsernameOwner;
+		marketFeaturesView.marketFeaturesVM.onSale = System.Convert.ToBoolean (base.card.onSale);
 		marketFeaturesView.marketFeaturesVM.styles=new GUIStyle[ressources.marketFeaturesStyles.Length];
 		for(int i=0;i<ressources.marketFeaturesStyles.Length;i++)
 		{
@@ -31,6 +32,22 @@ public class CardMarketController : CardController {
 		}
 		marketFeaturesView.marketFeaturesVM.initStyles();
 		this.marketFeaturesResize ();
+		if(!marketFeaturesView.marketFeaturesVM.onSale)
+		{
+			base.applySoldTexture();
+		}
+	}
+	public override void resetCard()
+	{
+		base.resetCard ();
+		if(focusMarketFeaturesView!=null)
+		{
+			Destroy (this.focusMarketFeaturesView);
+		}
+		if(marketFeaturesView!=null)
+		{
+			Destroy (this.marketFeaturesView);
+		}
 	}
 	public void marketFeaturesResize()
 	{
@@ -44,6 +61,7 @@ public class CardMarketController : CardController {
 		this.focusMarketFeaturesView.focusMarketFeaturesVM.price = base.card.Price;
 		this.focusMarketFeaturesView.focusMarketFeaturesVM.nbWin = base.card.nbWin;
 		this.focusMarketFeaturesView.focusMarketFeaturesVM.nbLoose = base.card.nbLoose;
+		this.focusMarketFeaturesView.focusMarketFeaturesVM.onSale = System.Convert.ToBoolean (base.card.onSale);
 		focusMarketFeaturesView.cardFeaturesFocusVM.styles=new GUIStyle[ressources.cardFeaturesFocusStyles.Length];
 		for(int i=0;i<ressources.cardFeaturesFocusStyles.Length;i++)
 		{
@@ -51,6 +69,10 @@ public class CardMarketController : CardController {
 		}
 		focusMarketFeaturesView.cardFeaturesFocusVM.initStyles();
 		this.focusMarketFeaturesResize ();
+		if(!focusMarketFeaturesView.focusMarketFeaturesVM.onSale)
+		{
+			base.applySoldTexture();
+		}
 	}
 	public void focusMarketFeaturesResize()
 	{
@@ -82,14 +104,13 @@ public class CardMarketController : CardController {
 			Destroy (this.marketFeaturesView);
 		}
 	}
-	public void exitFocus()
+	public override void exitFocus()
 	{
 		if(focusMarketFeaturesView!=null)
 		{
 			Destroy (this.focusMarketFeaturesView);
 		}
-		Destroy (this.focusMarketFeaturesView);
-		//MarketController.instance.exitCard (gameObject.name);
+		MarketController.instance.exitCard ();
 	}
 	public override void setGUI(bool value)
 	{
@@ -101,6 +122,7 @@ public class CardMarketController : CardController {
 		{                                                            
 			marketFeaturesView.marketFeaturesVM.guiEnabled=value;
 		}
+		MarketController.instance.setGUI (value);
 	}
 	public override void refreshCredits()
 	{
@@ -110,9 +132,24 @@ public class CardMarketController : CardController {
 	{
 		//MarketController.instance.popUpdisplayed (value, gameObject.name);
 	}
+	public override void updateVM()
+	{
+		if(this.marketFeaturesView!=null)
+		{
+			marketFeaturesView.marketFeaturesVM.onSale=System.Convert.ToBoolean(base.card.onSale);
+		}
+		if(this.focusMarketFeaturesView!=null)
+		{
+			focusMarketFeaturesView.focusMarketFeaturesVM.onSale=System.Convert.ToBoolean(base.card.onSale);
+		}
+	}
 	public override IEnumerator buyCard()
 	{
 		StartCoroutine(base.buyCard ());
+		if(base.card.onSale==0)
+		{
+			MarketController.instance.setCardAsSold(base.card.Id);
+		}
 		yield break;
 	}
 }

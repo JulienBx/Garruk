@@ -6,6 +6,7 @@ public class MarketFeaturesViewModel
 	public string usernameOwner;
 	public int price;
 	public int idOwner;
+	public bool onSale;
 	public GUIStyle[] styles;
 	public GUIStyle cantBuyPriceStyle;
 	public GUIStyle canBuyPriceStyle;

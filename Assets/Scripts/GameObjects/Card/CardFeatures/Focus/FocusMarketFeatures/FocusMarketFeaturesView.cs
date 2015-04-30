@@ -18,7 +18,7 @@ public class FocusMarketFeaturesView : MonoBehaviour
 		{
 			GUILayout.BeginHorizontal();
 			{
-				if(ApplicationModel.credits<focusMarketFeaturesVM.price)
+				if(ApplicationModel.credits<focusMarketFeaturesVM.price || !focusMarketFeaturesVM.onSale)
 				{
 					GUI.enabled=false;
 				}

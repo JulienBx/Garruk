@@ -27,7 +27,7 @@ public class ErrorCardPopUpView : MonoBehaviour
 					GUILayout.FlexibleSpace();
 					if (GUILayout.Button("OK",popUpVM.centralWindowButtonStyle,GUILayout.Width (popUpVM.centralWindow.width*0.3f)))
 					{
-						gameObject.GetComponent<CardController>().hideErrorPriceCardPopUp();
+						gameObject.GetComponent<CardController>().hideErrorCardPopUp();
 					}
 					GUILayout.FlexibleSpace();
 				}

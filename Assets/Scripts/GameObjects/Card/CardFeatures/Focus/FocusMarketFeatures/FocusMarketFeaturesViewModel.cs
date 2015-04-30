@@ -9,6 +9,7 @@ public class FocusMarketFeaturesViewModel
 	public int idOwner;
 	public int nbWin;
 	public int nbLoose;
+	public bool onSale;
 
 	
 	public FocusMarketFeaturesViewModel ()

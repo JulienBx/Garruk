@@ -19,6 +19,8 @@ public class SkillView : MonoBehaviour
 	}
 	void OnGUI () {
 		if (isHovered){
+
+			GUI.depth = skillVM.guiDepth;
 			GUILayout.BeginArea(skillVM.popUpPosition);
 			{
 				GUILayout.BeginVertical(skillVM.centralWindowStyle);

@@ -5,7 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 
-public class SkillController : MonoBehaviour {
+public class SkillController : GameObjectController {
 
 	public GUIStyle[] skillVMStyle;
 	private SkillView view;
@@ -17,6 +17,7 @@ public class SkillController : MonoBehaviour {
 	public void resize()
 	{
 		this.defineSkillPopUpPositions ();
+		view.skillVM.resize ();
 	}
 	public void setSkill(Skill skill)
 	{
@@ -25,6 +26,7 @@ public class SkillController : MonoBehaviour {
 		view.skillVM.description = skill.Description;
 		view.skillVM.power = skill.Power;
 		view.skillVM.manaCost = skill.ManaCost;
+		view.skillVM.guiDepth = -1;
 	}
 	public void setSkillLevelMetals(Texture metal)
 	{
@@ -58,27 +60,17 @@ public class SkillController : MonoBehaviour {
 	}
 	public void defineSkillPopUpPositions()
 	{
-			Vector2 position = this.getScreenPosition(gameObject);
-			Vector2 size = this.getScreenSize (gameObject);
-			view.skillVM.popUpPosition = new Rect(position.x-125, Screen.height-position.y+size.y/2, 250, 250);
-	}
-	private Vector2 getScreenPosition(GameObject gameObject)
-	{
-		Vector2 position = new Vector2 (gameObject.transform.position.x,gameObject.transform.position.y);
-		float worldHeight = 2f*Camera.main.camera.orthographicSize;
-		float worldWidth = ((float)Screen.width/(float)Screen.height) * worldHeight;
-		position.x = (worldWidth / 2f + position.x) * (float)Screen.width / worldWidth;
-		position.y = (worldHeight / 2f + position.y) * (float)Screen.height / worldHeight;
-		return position;
-	}
-	private Vector2 getScreenSize(GameObject gameObject)
-	{
-		Vector2 size = new Vector2 (gameObject.GetComponent<Renderer> ().bounds.size.x,gameObject.GetComponent<Renderer> ().bounds.size.y);
-		float worldHeight = 2f*Camera.main.camera.orthographicSize;
-		float worldWidth = ((float)Screen.width/(float)Screen.height) * worldHeight;
-		size.x = (size.x / worldWidth) * (float)Screen.width;
-		size.y = (size.y / worldHeight) * (float)Screen.height;
-		return size;
+		base.getGOCoordinates (gameObject);
+		float tempX=base.GOPosition.x-125;
+		if(base.GOPosition.x-125<0)
+		{
+			tempX=0;
+		}
+		else if(base.GOPosition.x+250>Screen.width)
+		{
+			tempX=Screen.width-250;
+		}
+		view.skillVM.popUpPosition = new Rect(tempX, Screen.height-base.GOPosition.y+base.GOSize.y/2, 250, 400);
 	}
 }
 
