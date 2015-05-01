@@ -153,12 +153,10 @@ public class CardController : GameObjectController {
 		{
 			Destroy (buyPopUpView);
 		}
-		yield return StartCoroutine(this.card.buyCard ());
 		if(this.card.onSale==0)
 		{
 			this.applySoldTexture ();
 			this.updateVM();
-			this.updateSceneModel();
 		}
 		if(this.card.Error=="")
 		{
@@ -170,6 +168,7 @@ public class CardController : GameObjectController {
 		{
 			this.displayErrorCardPopUp();
 		}
+		yield break;
 	}
 	public void applySoldTexture()
 	{

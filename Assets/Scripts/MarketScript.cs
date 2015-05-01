@@ -535,14 +535,7 @@ public class MarketScript : MonoBehaviour {
 					for (int i=0; i<this.cardTypeList.Length-1; i++) {		
 						toggle = GUILayout.Toggle (togglesCurrentStates [i], this.cardTypeList[i],toggleStyle);
 						if (toggle != togglesCurrentStates [i]) {
-							togglesCurrentStates [i] = toggle;
-							if (toggle){
-								filtersCardType.Add(i);
-							}
-							else{
-								filtersCardType.Remove(i);
-							}
-							toReload = true ;
+
 						}
 					}
 					GUILayout.FlexibleSpace();
