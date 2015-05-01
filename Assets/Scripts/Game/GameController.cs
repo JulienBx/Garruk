@@ -11,8 +11,10 @@ public class GameController : Photon.MonoBehaviour
 	public int boardWidth ;
 	public int boardHeight ;
 	public GameObject[] characters;
+	public GameObject playingCard;
 	public GUIStyle[] bottomZoneStyles ;
 	public GUIStyle[] topZoneStyles ;
+	public Texture2D[] cursors ;
 
 	//Variables du controlleur
 	public static GameController instance;
@@ -23,6 +25,15 @@ public class GameController : Photon.MonoBehaviour
 	GameObject[,] tiles ;
 	List<GameObject> myCharacters ;
 	List<GameObject> hisCharacters ;
+	List<GameObject> myPlayingCards ;
+	List<GameObject> hisPlayingCards ;
+
+	int currentHoveredTileX = -1 ;
+	int currentHoveredTileY = -1 ;
+
+	int currentClickedTileX = -1 ;
+	int currentClickedTileY = -1 ;
+	
 	const string roomNamePrefix = "GarrukGame";
 	private int nbPlayers = 0 ;
 	User[] users;
@@ -34,6 +45,10 @@ public class GameController : Photon.MonoBehaviour
 	int mouseX, mouseY ;
 	int nbPlayersReadyToFight ;
 
+	private List<int> hasPlayed ;
+	int currentPlayer;
+
+	int speed ;
 	//string URLStat = ApplicationModel.dev + "updateResult.php";
 	
 	void Awake()
@@ -43,7 +58,11 @@ public class GameController : Photon.MonoBehaviour
 		tiles = new GameObject[boardWidth,boardHeight];
 		myCharacters = new List<GameObject>();
 		hisCharacters = new List<GameObject>();
+		myPlayingCards = new List<GameObject>();
+		hisPlayingCards = new List<GameObject>();
 		this.nbPlayersReadyToFight = 0 ;
+		this.currentPlayer = -1 ;
+		this.speed = 100 ;
 	}
 	
 	void Start()
@@ -64,23 +83,173 @@ public class GameController : Photon.MonoBehaviour
 			this.gameView.topZoneVM.resize(h);
 		}
 	}	
+
+	public void hoverTile(int x, int y, int idCharacter, bool isDestination){
+		if (currentClickedTileX!=x || currentClickedTileY!=y){
+			if (currentHoveredTileX!=x || currentHoveredTileY!=y){
+				if (currentHoveredTileX!=-1){
+					this.tiles[currentHoveredTileX,currentHoveredTileY].GetComponent<TileController>().hideHover();
+				}
+				this.tiles[x,y].GetComponent<TileController>().displayHover();
+				this.currentHoveredTileX = x ;
+				this.currentHoveredTileY = y ;
+				if (this.characterDragged!=-1){
+					if (isDestination){
+						if (idCharacter == -1){
+							this.gameView.gameScreenVM.cursor = this.cursors[0];
+						}
+						else{
+							this.gameView.gameScreenVM.cursor = this.cursors[1];
+						}
+					}
+					else{
+						this.gameView.gameScreenVM.cursor = this.cursors[2];
+					}
+					this.gameView.changeCursor();
+				}
+			}
+		}
+		else{
+			if (currentHoveredTileX!=-1){
+				this.tiles[currentHoveredTileX,currentHoveredTileY].GetComponent<TileController>().hideHover();
+			}
+			this.currentHoveredTileX = -1 ;
+			this.currentHoveredTileY = -1 ;
+		}
+
+	}
+
+	public void clickTile(int x, int y, int idCharacter){
+		if (idCharacter!=-1){
+			if (currentClickedTileX!=x || currentClickedTileY!=y){
+				if (this.characterDragged==-1){
+					if (idCharacter<5){
+						if (this.myCharacters[idCharacter].GetComponentInChildren<PlayingCharacterController>().isMovable){
+							this.characterDragged = idCharacter ;
+						}
+					}
+					if (currentClickedTileX!=-1){
+						this.tiles[currentClickedTileX,currentClickedTileY].GetComponent<TileController>().hideSelected();
+					}
+					this.currentHoveredTileX = -1 ;
+					this.currentHoveredTileY = -1 ;
+					this.currentClickedTileX = x ;
+					this.currentClickedTileY = y ;
+					this.tiles[x,y].GetComponent<TileController>().displaySelected();
+				}
+			}
+			else{
+				this.tiles[currentClickedTileX,currentClickedTileY].GetComponent<TileController>().hideSelected();
+				this.currentClickedTileX = -1 ;
+				this.currentClickedTileY = -1 ;
+				this.characterDragged = -1;
+			}
+		}
+	}
+
+	public void releaseClick(){
+		if (this.characterDragged!=-1 && currentHoveredTileX!=-1){
+			if (this.tiles[currentHoveredTileX,currentHoveredTileY].GetComponent<TileController>().isDestination){
+				if (this.tiles[currentHoveredTileX,currentHoveredTileY].GetComponent<TileController>().characterID!=-1){
+					photonView.RPC("moveCharacterRPC", PhotonTargets.AllBuffered, currentClickedTileX, currentClickedTileY, this.tiles[currentHoveredTileX,currentHoveredTileY].GetComponent<TileController>().characterID, this.isFirstPlayer, false);
+					photonView.RPC("moveCharacterRPC", PhotonTargets.AllBuffered, currentHoveredTileX, currentHoveredTileY, this.characterDragged, this.isFirstPlayer, false);
+				}
+				else{
+					photonView.RPC("moveCharacterRPC", PhotonTargets.AllBuffered, currentHoveredTileX, currentHoveredTileY, this.characterDragged, this.isFirstPlayer, true);
+				}
+				this.tiles[currentHoveredTileX,currentHoveredTileY].GetComponent<TileController>().hideHover();
+				this.currentHoveredTileX = -1 ;
+				this.currentHoveredTileY = -1 ;
+				this.tiles[currentClickedTileX,currentClickedTileY].GetComponent<TileController>().hideSelected();
+				this.currentClickedTileX = -1 ;
+				this.currentClickedTileY = -1 ;
+				this.characterDragged=-1;
+				this.gameView.SetCursorToDefault();
+			}
+		}
+	}
+
+	public void initTurns(){
+		this.gameView.bottomZoneVM.nbTurns = 1 ;
+		this.hasPlayed = new List<int>();
+		this.findNextPlayer();
+	}
+
+	public void findNextPlayer(){
+		bool newTurn = false ;
+		int quickness = -10000 ;
+		int tempQuickness ;
+		int nextPlayer = -1 ;
+
+		if (this.hasPlayed.Count==10){
+			newTurn = true ; 
+			hasPlayed = new List<int>();
+			for (int i = 0 ; i < 10 ; i++){
+				if (myCharacters[i].GetComponentInChildren<PlayingCardController>().isDead){
+					this.hasPlayed.Add (i);
+				}
+			}
+		}
+
+		for (int i = 0 ; i < 10 ; i++){
+			if (!hasPlayed.Contains(i)){
+				if (i < 5){
+					tempQuickness = myCharacters[i].GetComponentInChildren<PlayingCardController>().card.Speed ;
+				}
+				else{
+					tempQuickness = hisCharacters[i-5].GetComponentInChildren<PlayingCardController>().card.Speed ;
+				}
+				if (tempQuickness >= quickness){
+					quickness = tempQuickness ;
+					nextPlayer = i ;
+				}
+			}
+		}
+		this.currentPlayer = nextPlayer ;
+		this.initNextPlayer(newTurn);
+	}
+
+	public void initNextPlayer(bool newTurn){
+		photonView.RPC("initPlayer", PhotonTargets.AllBuffered, this.currentPlayer, newTurn);
+	}
+
+	[RPC]
+	public void initPlayer(int id, bool newTurn){
+		print ("au personnage "+id+" de jouer... "+newTurn);
+		if (newTurn){
+			this.gameView.bottomZoneVM.nbTurns++;
+		}
+		if (this.isFirstPlayer==(id<5)){
+			this.gameView.bottomZoneVM.message = "A votre tour de jouer";
+			if (id<5){
+				this.gameView.bottomZoneVM.setCharacter(this.myCharacters[id].GetComponentInChildren<PlayingCardController>().card);
+			}
+			else{
+				this.gameView.bottomZoneVM.setCharacter(this.myCharacters[id-5].GetComponentInChildren<PlayingCardController>().card);
+			}
+
+		}
+		else{
+			this.gameView.bottomZoneVM.message = "Au tour du joueur adverse";
+		}
+	}
 	
 	public void setCharacterDragged(int c){
 		this.characterDragged = c ;
-		this.myCharacters[characterDragged].GetComponentInChildren<PlayingCardController>().tile.GetComponentInChildren<TileController>().setOccupationType(-1);
+		this.myCharacters[characterDragged].GetComponentInChildren<PlayingCharacterController>().tile.GetComponentInChildren<TileController>().setCharacterID(characterDragged);
 	}
 
 	public void dropCharacter(){
-		this.myCharacters[characterDragged].GetComponentInChildren<PlayingCardController>().tile.GetComponentInChildren<TileController>().setOccupationType(0);
+		this.myCharacters[characterDragged].GetComponentInChildren<PlayingCharacterController>().tile.GetComponentInChildren<TileController>().setCharacterID(-1);
 		this.characterDragged = -1 ;
 	}
 
 	public void setStateOfAttack(bool state)
 	{
-		onGoingAttack = state;
+		this.onGoingAttack = state;
 	}
 
-	public PlayingCardController getPlayingCharacter(bool myCharacter = true)
+	public PlayingCardController getPlayingCharacter(bool myCharacter=true)
 	{
 		if (myCharacter)
 		{
@@ -92,33 +261,11 @@ public class GameController : Photon.MonoBehaviour
 		}
 	}
 
-	public void moveCharacter(int x, int y){
-		if (this.characterDragged!=-1){
-			photonView.RPC("moveCharacterRPC", PhotonTargets.AllBuffered, x, y, this.characterDragged, this.isFirstPlayer);
-		}
-	}
-
 	public void inflictDamage(int targetCharacter)
 	{
 		photonView.RPC("inflictDamageRPC", PhotonTargets.AllBuffered, targetCharacter, isFirstPlayer);
 	}
 
-	[RPC]
-	public void moveCharacterRPC(int x, int y, int c, bool isFirstPlayer){
-		if (this.isFirstPlayer==isFirstPlayer)
-		{
-			myCharacters[c].GetComponentInChildren<PlayingCardController>().changeTile(tiles[x,y]);
-		}
-		else{
-			hisCharacters[c].GetComponentInChildren<PlayingCardController>().changeTile(tiles[x,y]);
-		}
-	}
-	[RPC]
-	public void inflictDamageRPC(int targetCharacter, bool isFirstPlayer)
-	{
-		int damage = GameController.instance.getPlayingCharacter(this.isFirstPlayer == isFirstPlayer).card.GetAttack();
-		this.myCharacters[targetCharacter].GetComponentInChildren<PlayingCardController>().damage += damage;
-	}
 	public void EndOfGame(int player)
 	{
 		isGameOver = true;
@@ -160,6 +307,28 @@ public class GameController : Photon.MonoBehaviour
 		//			print(w.text);
 		//		}
 		yield break ;
+	}
+
+	private void sortMyCards(){
+		int[] ranks = new int[5];
+		float[] quicknesses = new float[5];
+		for (int i = 0 ; i < 5 ; i++){
+			quicknesses[i] = myPlayingCards[i].GetComponentInChildren<PlayingCardController>().card.Speed ;
+		}
+
+		for (int i = 0 ; i < 5 ; i++){
+			ranks[i]=1;
+			for (int j = 0 ; j < 5 ; j++){
+				if (i!=j){
+					if (quicknesses[i]<=quicknesses[j]){
+						ranks[i]++;
+						quicknesses[j]+=0.1f;
+					}
+				}
+			}
+			myPlayingCards[i].GetComponentInChildren<PlayingCardController>().setSortID(ranks[i], 100-(this.speed-(int)quicknesses[i]));
+			myPlayingCards[i].GetComponentInChildren<PlayingCardController>().resize(this.gameView.gameScreenVM.heightScreen);
+		}
 	}
 
 	private void initGrid(){
@@ -239,7 +408,7 @@ public class GameController : Photon.MonoBehaviour
 	void AddTileToBoard(int x, int y, int type)
 	{
 		tiles[x,y] = (GameObject)Instantiate(hex);
-		hex.name = "Tile " + (x) + "-" + (y) ;
+		tiles[x,y].name = "Tile " + (x) + "-" + (y) ;
 
 		tiles[x,y].GetComponent<TileController>().setTile(x, y , this.boardWidth, this.boardHeight, type, 1.2f * (8f/boardHeight));
 	}
@@ -262,13 +431,20 @@ public class GameController : Photon.MonoBehaviour
 						decalage = 0;
 					}
 				}
+				myPlayingCards.Add((GameObject)Instantiate(this.playingCard));
+				myPlayingCards[i].GetComponentInChildren<PlayingCardController>().setCard(myDeck.Cards[i]);
+				myPlayingCards[i].GetComponentInChildren<PlayingCardController>().setSkills();
+				myPlayingCards[i].GetComponentInChildren<PlayingCardController>().setIDCharacter(i);
+				myPlayingCards[i].GetComponentInChildren<PlayingCardController>().setStyles(true);
+
+				print (myDeck.Cards[i].ArtIndex);
 				myCharacters.Add((GameObject)Instantiate(this.characters[myDeck.Cards[i].ArtIndex]));
-				myCharacters[i].GetComponentInChildren<PlayingCardController>().setCard(myDeck.Cards[i]);
-				myCharacters[i].GetComponentInChildren<PlayingCardController>().setID(i);
-				myCharacters[i].GetComponentInChildren<PlayingCardController>().setStyles(true);
-				myCharacters[i].GetComponentInChildren<PlayingCardController>().setTile(tiles[this.boardWidth/2-2+i,(idPlayer-1)*(this.boardHeight-1)-decalage], (idPlayer==2), this.isFirstPlayer);
-				tiles[this.boardWidth/2-2+i,(idPlayer-1)*(this.boardHeight-1)-decalage].GetComponent<TileController>().setOccupationType(0);
-				myCharacters[i].GetComponentInChildren<PlayingCardController>().resize(this.gameView.gameScreenVM.heightScreen);
+				myCharacters[i].GetComponentInChildren<PlayingCharacterController>().setID(i);
+				myCharacters[i].GetComponentInChildren<PlayingCharacterController>().setName(myDeck.Cards[i].Title);
+				myCharacters[i].GetComponentInChildren<PlayingCharacterController>().setStyles(true);
+				myCharacters[i].GetComponentInChildren<PlayingCharacterController>().setTile(tiles[this.boardWidth/2-2+i,(idPlayer-1)*(this.boardHeight-1)-decalage], (idPlayer==2), this.isFirstPlayer);
+				tiles[this.boardWidth/2-2+i,(idPlayer-1)*(this.boardHeight-1)-decalage].GetComponent<TileController>().setCharacterID(i);
+				myCharacters[i].GetComponentInChildren<PlayingCharacterController>().resize(this.gameView.gameScreenVM.heightScreen);
 			}
 
 			for (int i = 0 ; i < this.boardWidth ; i++){
@@ -280,7 +456,6 @@ public class GameController : Photon.MonoBehaviour
 				}
 				for (int j = 0 ; j < 2 - decalage ; j++){
 					if (this.isFirstPlayer){
-						print ("je set en destination "+i+","+j);
 						this.tiles[i,j].GetComponent<TileController>().setDestination();
 					}
 					else{
@@ -288,6 +463,7 @@ public class GameController : Photon.MonoBehaviour
 					}
 				}
 			}
+			this.sortMyCards();
 		}
 		else{
 			this.hisDeck = new Deck(idDeck);
@@ -301,26 +477,91 @@ public class GameController : Photon.MonoBehaviour
 						decalage = 0;
 					}
 				}
+				hisPlayingCards.Add((GameObject)Instantiate(this.playingCard));
+				hisPlayingCards[i].GetComponentInChildren<PlayingCardController>().setCard(hisDeck.Cards[i]);
+				hisPlayingCards[i].GetComponentInChildren<PlayingCardController>().setSkills();
+				hisPlayingCards[i].GetComponentInChildren<PlayingCardController>().setIDCharacter(i+5);
+				hisPlayingCards[i].GetComponentInChildren<PlayingCardController>().setStyles(false);
+				hisPlayingCards[i].GetComponentInChildren<PlayingCardController>().resize(this.gameView.gameScreenVM.heightScreen);
+
 				hisCharacters.Add((GameObject)Instantiate(this.characters[hisDeck.Cards[i].ArtIndex]));
-				hisCharacters[i].GetComponentInChildren<PlayingCardController>().setCard(hisDeck.Cards[i]);
-				hisCharacters[i].GetComponentInChildren<PlayingCardController>().setStyles(false);
-				hisCharacters[i].GetComponentInChildren<PlayingCardController>().setTile(tiles[this.boardWidth/2-2+i,(idPlayer-1)*(this.boardHeight-1)-decalage], (idPlayer==2), this.isFirstPlayer);
-				tiles[this.boardWidth/2-2+i,(idPlayer-1)*(this.boardHeight-1)-decalage].GetComponent<TileController>().setOccupationType(1);
-				hisCharacters[i].GetComponentInChildren<PlayingCardController>().resize(this.gameView.gameScreenVM.heightScreen);
+				hisCharacters[i].GetComponentInChildren<PlayingCharacterController>().setName(myDeck.Cards[i].Title);
+				hisCharacters[i].GetComponentInChildren<PlayingCharacterController>().setStyles(false);
+				hisCharacters[i].GetComponentInChildren<PlayingCharacterController>().setTile(tiles[this.boardWidth/2-2+i,(idPlayer-1)*(this.boardHeight-1)-decalage], (idPlayer==2), this.isFirstPlayer);
+				hisCharacters[i].GetComponentInChildren<PlayingCharacterController>().setID(i+5);
+
+				tiles[this.boardWidth/2-2+i,(idPlayer-1)*(this.boardHeight-1)-decalage].GetComponent<TileController>().setCharacterID(i+5);
+				hisCharacters[i].GetComponentInChildren<PlayingCharacterController>().resize(this.gameView.gameScreenVM.heightScreen);
 			}
 		}
 		yield break ;
 	}
 
 	[RPC]
-	public void StartFightRPC()
+	public void StartFightRPC(bool isFirst)
 	{
 		this.nbPlayersReadyToFight++;
+
+		if (this.nbPlayersReadyToFight == 2){
+			if (this.isFirstPlayer){
+				this.initTurns();
+			}
+		}
+		else{
+			if (isFirst == this.isFirstPlayer){
+				this.gameView.bottomZoneVM.message = "En attente du joueur adverse pour démarrer la partie";
+				this.gameView.bottomZoneVM.displayStartButton = false ;
+			}
+			else{
+				this.gameView.topZoneVM.message = "A terminé de positionner ses héros";
+				this.gameView.topZoneVM.status = "Pret a jouer";
+				this.gameView.topZoneVM.toDisplayGreenStatus = true ;
+				this.gameView.topZoneVM.toDisplayRedStatus = false ;
+			}
+		}
+
+		if (isFirst == this.isFirstPlayer){
+			int decalage ;
+			for (int i = 0 ; i < this.boardWidth ; i++){
+				if (i%2==1){
+					decalage = 1;
+				}
+				else{
+					decalage = 0;
+				}
+				for (int j = 0 ; j < 2 - decalage ; j++){
+					if (this.isFirstPlayer){
+						print ("je set en destination "+i+","+j);
+						this.tiles[i,j].GetComponent<TileController>().setStandard();
+					}
+					else{
+						this.tiles[i,this.boardHeight-1-decalage-j].GetComponent<TileController>().setStandard();
+					}
+				}
+			}
+		}
 	}
 
+	[RPC]
+	public void moveCharacterRPC(int x, int y, int c, bool isFirstPlayer, bool isEmpty){
+		if (this.isFirstPlayer==isFirstPlayer)
+		{
+			myCharacters[c].GetComponentInChildren<PlayingCharacterController>().changeTile(tiles[x,y], isEmpty);
+		}
+		else{
+			hisCharacters[c].GetComponentInChildren<PlayingCharacterController>().changeTile(tiles[x,y], isEmpty);
+		}
+	}
+	[RPC]
+	public void inflictDamageRPC(int targetCharacter, bool isFirstPlayer)
+	{
+		//int damage = GameController.instance.getPlayingCharacter(this.isFirstPlayer == isFirstPlayer).card.GetAttack();
+		//this.myCharacters[targetCharacter].GetComponentInChildren<PlayingCardController>().damage += damage;
+	}
+	
 	public void StartFight()
 	{
-		photonView.RPC("StartFightRPC", PhotonTargets.AllBuffered);//, PhotonNetwork.player.ID);
+		photonView.RPC("StartFightRPC", PhotonTargets.AllBuffered, this.isFirstPlayer);
 	}
 	
 	// Photon

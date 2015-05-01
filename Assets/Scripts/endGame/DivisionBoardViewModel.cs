@@ -4,7 +4,7 @@ using System.Collections;
 
 public class DivisionBoardViewModel {
 
-	public Division division;
+	public DivisionSkill division;
 	public int hasWon;
 	public int nbWinsDivision;
 	public int nbLoosesDivision;
@@ -65,7 +65,7 @@ public class DivisionBoardViewModel {
 
 
 	
-	public DivisionBoardViewModel (Division division,
+	public DivisionBoardViewModel (DivisionSkill division,
 	                               Texture2D[] gaugebackground){
 
 		this.division = division;

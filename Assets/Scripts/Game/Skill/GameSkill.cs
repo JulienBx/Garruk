@@ -1,11 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class GameSkill : Photon.MonoBehaviour {
+public class GameSkill {
 
 	public Skill Skill;
 	public int SkillNumber;
-	public List<StatModifier> StatModifiers;
 
 	// Use this for initialization
 	void Start () {
@@ -16,6 +15,7 @@ public class GameSkill : Photon.MonoBehaviour {
 	void Update () {
 	
 	}
+
 	public virtual void launch()
 	{
 		Debug.Log("Skill non implémenté");
@@ -24,5 +24,8 @@ public class GameSkill : Photon.MonoBehaviour {
 	public virtual void Apply(int target)
 	{
 		Debug.Log("GameSkill");
+	}
+
+	public void Target(){
 	}
 }

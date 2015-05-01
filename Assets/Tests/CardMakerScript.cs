@@ -128,7 +128,7 @@ public class CardMakerScript : MonoBehaviour {
 
 		}
 	}
-	private Void resize()
+	private void resize()
 	{
 		this.widthScreen = Screen.width;
 		this.heightScreen = Screen.height;

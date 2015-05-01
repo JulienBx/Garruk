@@ -342,8 +342,8 @@ public class GameNetworkCard : Photon.MonoBehaviour
 	void GetBuff(int target, int skillCasted)
 	{
 		GameObject goCard = GameTimeLine.instance.PlayingCardObject;
-		GameSkill goSkill = goCard.transform.Find("texturedGameCard/Skill" + skillCasted + "Area").gameObject.GetComponent<GameSkill>();
-		goSkill.Apply(target);
+		//GameSkill goSkill = goCard.transform.Find("texturedGameCard/Skill" + skillCasted + "Area").gameObject.GetComponent<GameSkill>();
+		//goSkill.Apply(target);
 	}
 
 	void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)

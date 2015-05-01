@@ -109,39 +109,90 @@ public class GameView : MonoBehaviour
 	{
 		GUILayout.BeginArea(gameScreenVM.bottomZoneRect);
 		{
-			GUILayout.BeginHorizontal(bottomZoneVM.backgroundStyle,GUILayout.Width(gameScreenVM.widthScreen), GUILayout.Height(gameScreenVM.bottomZoneRect.height));
+			GUILayout.BeginHorizontal(bottomZoneVM.backgroundStyle,GUILayout.Width(gameScreenVM.bottomZoneRect.width), GUILayout.Height(gameScreenVM.bottomZoneRect.height));
 			{
 				GUILayout.FlexibleSpace();
 				GUILayout.BeginVertical();
 				{
 					GUILayout.FlexibleSpace();
-					GUILayout.Box(bottomZoneVM.userPicture, bottomZoneVM.imageStyle, GUILayout.Width(gameScreenVM.widthScreen*7/100), GUILayout.Height(gameScreenVM.bottomZoneRect.height*80/100));
+					GUILayout.Box(bottomZoneVM.userPicture, bottomZoneVM.imageStyle, GUILayout.Width(gameScreenVM.bottomZoneRect.width*35/100), GUILayout.Height(gameScreenVM.bottomZoneRect.height*80/100));
 					GUILayout.FlexibleSpace();
 				}
 				GUILayout.EndVertical();
 				GUILayout.FlexibleSpace();
-				GUILayout.Label(bottomZoneVM.userName, bottomZoneVM.nameTextStyle, GUILayout.Width(gameScreenVM.bottomZoneRect.width*12/100));
+				GUILayout.Label(bottomZoneVM.userName, bottomZoneVM.nameTextStyle, GUILayout.Width(gameScreenVM.bottomZoneRect.width*55/100));
 				GUILayout.FlexibleSpace();	
-				GUILayout.Label(bottomZoneVM.message, bottomZoneVM.messageTextStyle, GUILayout.Width(gameScreenVM.bottomZoneRect.width*58/100));
-				GUILayout.FlexibleSpace();
-				GUILayout.BeginVertical(GUILayout.Width(gameScreenVM.bottomZoneRect.width*18/100));
-				{
-					if (bottomZoneVM.displayStartButton){
-						if (GUILayout.Button("Commencer le match", bottomZoneVM.buttonTextStyle)){
-							GameController.instance.StartFight();
-						}
-					}
-					if (GUILayout.Button("Attaquer", bottomZoneVM.buttonTextStyle))
-					{
-						GameController.instance.setStateOfAttack(true);
-
-					}
-					if (GUILayout.Button("Quitter le match", bottomZoneVM.buttonTextStyle))
-					{
-						PhotonNetwork.Disconnect();
-					}
-				}
-				GUILayout.EndVertical();
+//				GUILayout.BeginVertical();
+//				{
+//					GUILayout.Label(bottomZoneVM.message, bottomZoneVM.messageTextStyle, GUILayout.Width(gameScreenVM.bottomZoneRect.width*58/100));
+//					if (this.bottomZoneVM.toDisplayCharacter){
+//					GUILayout.BeginHorizontal(GUILayout.Width(gameScreenVM.bottomZoneRect.width*58/100));
+//					{
+//						GUILayout.Label(bottomZoneVM.namePlayingCharacter, bottomZoneVM.characterNameTextStyle, GUILayout.Width(gameScreenVM.bottomZoneRect.width*8/100));
+//						GUILayout.FlexibleSpace();
+//						GUILayout.Button("Attaque", bottomZoneVM.characterButtonTextStyle, GUILayout.Width(gameScreenVM.bottomZoneRect.width*8/100));
+//						GUILayout.FlexibleSpace();
+//						if (this.bottomZoneVM.nameSkill1!=""){
+//							if (this.bottomZoneVM.isActivableSkill1){
+//								GUILayout.Button(this.bottomZoneVM.nameSkill1, bottomZoneVM.characterButtonTextStyle, GUILayout.Width(gameScreenVM.bottomZoneRect.width*8/100));
+//							}
+//							else{
+//								GUILayout.Button(this.bottomZoneVM.nameSkill1, bottomZoneVM.characterLabelTextStyle, GUILayout.Width(gameScreenVM.bottomZoneRect.width*8/100));
+//							}
+//						}
+//						GUILayout.FlexibleSpace();
+//						if (this.bottomZoneVM.nameSkill2!=""){
+//							if (this.bottomZoneVM.isActivableSkill2){
+//								GUILayout.Button(this.bottomZoneVM.nameSkill2, bottomZoneVM.characterButtonTextStyle, GUILayout.Width(gameScreenVM.bottomZoneRect.width*8/100));
+//							}
+//							else{
+//								GUILayout.Button(this.bottomZoneVM.nameSkill2, bottomZoneVM.characterLabelTextStyle, GUILayout.Width(gameScreenVM.bottomZoneRect.width*8/100));
+//							}
+//						}
+//						GUILayout.FlexibleSpace();
+//						if (this.bottomZoneVM.nameSkill3!=""){
+//							if (this.bottomZoneVM.isActivableSkill3){
+//								GUILayout.Button(this.bottomZoneVM.nameSkill3, bottomZoneVM.characterButtonTextStyle, GUILayout.Width(gameScreenVM.bottomZoneRect.width*8/100));
+//							}
+//							else{
+//								GUILayout.Button(this.bottomZoneVM.nameSkill3, bottomZoneVM.characterLabelTextStyle, GUILayout.Width(gameScreenVM.bottomZoneRect.width*8/100));
+//							}
+//						}
+//						GUILayout.FlexibleSpace();
+//						if (this.bottomZoneVM.nameSkill4!=""){
+//							if (this.bottomZoneVM.isActivableSkill4){
+//								GUILayout.Button(this.bottomZoneVM.nameSkill4, bottomZoneVM.characterButtonTextStyle, GUILayout.Width(gameScreenVM.bottomZoneRect.width*8/100));
+//							}
+//							else{
+//								GUILayout.Button(this.bottomZoneVM.nameSkill4, bottomZoneVM.characterLabelTextStyle, GUILayout.Width(gameScreenVM.bottomZoneRect.width*8/100));
+//							}
+//						}
+//						GUILayout.FlexibleSpace();
+//						GUILayout.Button("Passer", bottomZoneVM.characterButtonTextStyle, GUILayout.Width(gameScreenVM.bottomZoneRect.width*8/100));
+//						GUILayout.FlexibleSpace();
+//
+//					}
+//					GUILayout.EndHorizontal();
+//					}
+//				}
+//				GUILayout.EndVertical();
+//				GUILayout.FlexibleSpace();
+//				GUILayout.BeginVertical(GUILayout.Width(gameScreenVM.bottomZoneRect.width*18/100));
+//				{
+//					if (bottomZoneVM.nbTurns!=-1){
+//						GUILayout.Label("Tour : "+bottomZoneVM.nbTurns, this.bottomZoneVM.turnsTextStyle);
+//					}
+//					if (bottomZoneVM.displayStartButton){
+//						if (GUILayout.Button("Commencer le match", bottomZoneVM.buttonTextStyle)){
+//							GameController.instance.StartFight();
+//						}
+//					}
+//					if (GUILayout.Button("Quitter le match", bottomZoneVM.buttonTextStyle))
+//					{
+//						PhotonNetwork.Disconnect();
+//					}
+//				}
+//				GUILayout.EndVertical();
 			}
 			GUILayout.EndHorizontal();
 		}
@@ -178,30 +229,16 @@ public class GameView : MonoBehaviour
 			GUILayout.EndHorizontal();
 		}
 		GUILayout.EndArea();
-		
-		//		if (playersName.Count > 1)
-		//		{
-		//			GUI.Label(new Rect(10, 0, 500, 50), labelText);
-		//			if (!hasClicked && GUI.Button(new Rect(10, 20, 200, 35), "Commencer le combat"))
-		//			{
-		//				hasClicked = true;
-		//				labelText = "En attente d'actions de l'autre joueur";
-		//				photonView.RPC("StartFight", PhotonTargets.AllBuffered);
-		//			}
-		//			if (!GameBoard.instance.TimeOfPositionning)
-		//			{
-		//				GUI.Label(new Rect(220, 0, 500, 50), "tour " + GameBoard.instance.nbTurn);
-		//			}
-		//		}
-		//		else
-		//		{
-		//			GUI.Label(new Rect(10, 0, 500, 50), labelInfo);
-		//		}
-		//		if (GUI.Button(new Rect(220, 20, 150, 35), "Quitter le match"))
-		//		{
-		//			PhotonNetwork.Disconnect();
-		//		}
-		
+	}
+
+	public void changeCursor()
+	{
+		Cursor.SetCursor(this.gameScreenVM.cursor, new Vector2(0,0), CursorMode.Auto);
+	}
+
+	public void SetCursorToDefault()
+	{
+		Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
 	}
 	
 	void setSizes()

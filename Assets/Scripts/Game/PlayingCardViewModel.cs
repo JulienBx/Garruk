@@ -1,5 +1,6 @@
 using UnityEngine;
 
+
 public class PlayingCardViewModel
 {
 	public Vector3 position ;
@@ -11,6 +12,7 @@ public class PlayingCardViewModel
 	public Texture2D attackIcon ;
 	public Texture2D moveIcon ;
 	public Texture2D quicknessIcon ;
+	public Texture2D picture ;
 
 	public GUIStyle backgroundStyle;
 	public GUIStyle nameTextStyle;
@@ -19,11 +21,12 @@ public class PlayingCardViewModel
 	public GUIStyle quicknessZoneTextStyle;
 	public GUIStyle imageStyle;
 	public GUIStyle lifeTextStyle;
+	public GUIStyle backgroundLifeBar;
 
 	public string name ;
 	public string attack ;
 	public string move ;
-	public string quickness ;
+	public int quickness ;
 	public int life ;
 	public int maxLife ;
 
@@ -38,7 +41,7 @@ public class PlayingCardViewModel
 	 	this.name = "";
 		this.attack = "";
 		this.move = "";
-		this.quickness = "";
+		this.quickness = 0;
 		this.life = 0;
 		this.maxLife = 0;
 
@@ -49,6 +52,7 @@ public class PlayingCardViewModel
 		this.quicknessZoneTextStyle = new GUIStyle();
 		this.imageStyle = new GUIStyle();
 		this.lifeTextStyle = new GUIStyle();
+		this.backgroundLifeBar = new GUIStyle();
 
 		this.attackIcon = null ;
 		this.moveIcon = null ;

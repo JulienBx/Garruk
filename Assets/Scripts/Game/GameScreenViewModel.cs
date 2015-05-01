@@ -11,6 +11,8 @@ public class GameScreenViewModel
 	public Rect bottomZoneRect ;
 	public Rect topZoneRect ;
 
+	public Texture2D cursor ;
+
 	public GameScreenViewModel ()
 	{
 
@@ -20,8 +22,8 @@ public class GameScreenViewModel
 	{
 		this.heightScreen = Screen.height;
 		this.widthScreen = Screen.width;
-		this.bottomZoneRect = new Rect(0, this.heightScreen*0.9f, this.widthScreen, this.heightScreen*0.1f) ;
-		this.topZoneRect = new Rect(0, 0, this.widthScreen, this.heightScreen*0.1f);
+		this.bottomZoneRect = new Rect(0, this.heightScreen*0.86f, this.widthScreen*0.2f, this.heightScreen*0.14f) ;
+		this.topZoneRect = new Rect(0, 0, this.widthScreen, this.heightScreen*0.14f);
 	}
 }
 
