@@ -49,6 +49,7 @@ public class MarketController : MonoBehaviour {
 	private IEnumerator initialization()
 	{
 		yield return StartCoroutine (model.initializeMarket (this.totalNbResultLimit));
+		view.marketCardsVM.nbCards=model.cards.Count;
 		this.initVM ();
 		this.initStyles ();
 		this.resize ();
@@ -89,11 +90,7 @@ public class MarketController : MonoBehaviour {
 		{
 			if(model.cardsSold.Contains(this.cardFocused.GetComponent<CardController>().card.Id))
 			{
-				this.cardFocused.GetComponent<CardController>().resetCard();
-				this.cardFocused.GetComponent<CardController>().setCard(model.cards[this.cardFocused.GetComponent<CardMarketController>().index+view.marketCardsVM.start]);
-				this.cardFocused.GetComponent<CardController>().setSkills();
-				this.cardFocused.GetComponent<CardController>().setExperience();
-				this.cardFocused.GetComponent<CardController>().show();
+				this.resetGameObject(this.cardFocused,model.cards[this.cardFocused.GetComponent<CardMarketController>().index+view.marketCardsVM.start]);
 				this.cardFocused.GetComponent<CardMarketController>().setFocusMarketFeatures();
 			}
 		}
@@ -106,11 +103,7 @@ public class MarketController : MonoBehaviour {
 		{
 			if(model.cardsSold.Contains(this.displayedCards[i].GetComponent<CardController>().card.Id))
 			{
-				this.displayedCards[i].GetComponent<CardController>().resetCard();
-				this.displayedCards[i].GetComponent<CardController>().setCard(model.cards[i+view.marketCardsVM.start]);
-				this.displayedCards[i].GetComponent<CardController>().setSkills();
-				this.displayedCards[i].GetComponent<CardController>().setExperience();
-				this.displayedCards[i].GetComponent<CardController>().show();
+				this.resetGameObject(this.displayedCards[i],model.cards[i+view.marketCardsVM.start]);
 				this.displayedCards[i].GetComponent<CardMarketController>().setMarketFeatures();
 			}
 		}
@@ -119,18 +112,47 @@ public class MarketController : MonoBehaviour {
 			view.marketCardsVM.newCardsToDisplay=true;
 			if(model.newCards.Count==1)
 			{
-				view.marketCardsVM.newCardsLabel="1 nouvelle carte est disponible sur le bazar\u00A0";
+				view.marketCardsVM.newCardsLabel="1 nouvelle carte - Actualiser";
 			}
 			else
 			{
-				view.marketCardsVM.newCardsLabel=model.newCards.Count+" nouvelles cartes sont disponibles sur le bazar\u00A0";
+				view.marketCardsVM.newCardsLabel=model.newCards.Count+" nouvelles cartes Actualiser";
 			}
 		}
 	}
 	public IEnumerator buyCard(GameObject gameObject)
 	{
+		int idOwner = model.cards [gameObject.GetComponent<CardMarketController> ().index + view.marketCardsVM.start].IdOWner;
+		int idCard = model.cards [gameObject.GetComponent<CardMarketController> ().index + view.marketCardsVM.start].Id;
+		int price = model.cards [gameObject.GetComponent<CardMarketController> ().index + view.marketCardsVM.start].Price;
 		yield return StartCoroutine(model.cards[gameObject.GetComponent<CardMarketController>().index+view.marketCardsVM.start].buyCard());
-		displayedCards [gameObject.GetComponent<CardMarketController> ().index].GetComponent<CardMarketController> ().setCard (model.cards [gameObject.GetComponent<CardMarketController> ().index + view.marketCardsVM.start]);
+		resetGameObject (this.displayedCards [gameObject.GetComponent<CardMarketController> ().index], model.cards [gameObject.GetComponent<CardMarketController> ().index + view.marketCardsVM.start]);
+		this.displayedCards [gameObject.GetComponent<CardMarketController> ().index].GetComponent<CardMarketController> ().setMarketFeatures ();
+		if(cardFocused!=null)
+		{
+			resetGameObject (this.cardFocused, model.cards [gameObject.GetComponent<CardMarketController> ().index + view.marketCardsVM.start]);
+			this.cardFocused.GetComponent<CardMarketController> ().setFocusMarketFeatures();
+		}
+		if(model.cards [gameObject.GetComponent<CardMarketController> ().index + view.marketCardsVM.start].Error=="")
+		{
+			this.setGUI (true);
+			this.popUpDisplayed (false, gameObject);
+			this.refreshCredits();
+			Notification tempNotification = new Notification(idOwner,model.playerId,false,2,idCard.ToString(),price.ToString());
+			StartCoroutine(tempNotification.add ());
+		}
+		else
+		{
+			if(cardFocused!=null)
+			{
+				this.cardFocused.GetComponent<CardController>().displayErrorCardPopUp();
+			}
+			else
+			{
+				this.displayedCards [gameObject.GetComponent<CardMarketController> ().index].GetComponent<CardController>().displayErrorCardPopUp();
+			}
+			model.cards [gameObject.GetComponent<CardMarketController> ().index + view.marketCardsVM.start].Error="";
+		}
 	}
 	public void displayNewCards()
 	{
@@ -139,6 +161,7 @@ public class MarketController : MonoBehaviour {
 		{
 			model.cards.Insert(i,model.newCards[i]);
 		}
+		view.marketCardsVM.nbCards=model.cards.Count;
 		model.newCards = new List<Card> ();
 		this.eraseSoldCards ();
 		this.initVM ();
@@ -192,12 +215,8 @@ public class MarketController : MonoBehaviour {
 		this.cardFocused.transform.localPosition = Camera.main.ScreenToWorldPoint(new Vector3(0.4f*view.marketScreenVM.widthScreen ,0.45f*view.marketScreenVM.heightScreen-1 , 10));  
 		this.cardFocused.gameObject.name = "FocusedCard";	
 
-		this.cardFocused.AddComponent<CardMarketController>();
-		this.cardFocused.GetComponent<CardController>().setCard(gameObject.GetComponent<CardController>().card);
+		this.initializeGameObject (this.cardFocused, gameObject.GetComponent<CardController> ().card);
 		this.cardFocused.GetComponent<CardMarketController> ().index = gameObject.GetComponent<CardMarketController> ().index;
-		this.cardFocused.GetComponent<CardController>().setSkills();
-		this.cardFocused.GetComponent<CardController>().setExperience();
-		this.cardFocused.GetComponent<CardController>().show();
 		this.cardFocused.GetComponent<CardMarketController>().setFocusMarketFeatures();
 		this.cardFocused.GetComponent<CardController> ().setCentralWindowRect (view.marketScreenVM.centralWindow);
 	}
@@ -249,12 +268,8 @@ public class MarketController : MonoBehaviour {
 			
 			if (i<nbCardsToDisplay)
 			{
-				this.displayedCards[i].AddComponent<CardMarketController>();
-				this.displayedCards[i].GetComponent<CardController>().setCard(model.cards[view.marketCardsVM.cardsToBeDisplayed[i]]);
+				this.initializeGameObject(this.displayedCards[i],model.cards[view.marketCardsVM.cardsToBeDisplayed[i]]);
 				this.displayedCards[i].GetComponent<CardMarketController>().index=i;
-				this.displayedCards[i].GetComponent<CardController>().setSkills();
-				this.displayedCards[i].GetComponent<CardController>().setExperience();
-				this.displayedCards[i].GetComponent<CardController>().show();
 				this.displayedCards[i].GetComponent<CardMarketController>().setMarketFeatures();
 				this.displayedCards[i].GetComponent<CardController> ().setCentralWindowRect (view.marketScreenVM.centralWindow);
 			}   
@@ -297,12 +312,8 @@ public class MarketController : MonoBehaviour {
 			if (i<nbCardsToDisplay)
 			{
 				this.displayedCards[i-view.marketCardsVM.start].SetActive(true);
-				this.displayedCards[i-view.marketCardsVM.start].GetComponent<CardController>().resetCard();
-				this.displayedCards[i-view.marketCardsVM.start].GetComponent<CardController>().setCard(model.cards[view.marketCardsVM.cardsToBeDisplayed[i]]);
+				this.resetGameObject(this.displayedCards[i-view.marketCardsVM.start],model.cards[view.marketCardsVM.cardsToBeDisplayed[i]]);
 				this.displayedCards[i-view.marketCardsVM.start].GetComponent<CardMarketController>().index=i-view.marketCardsVM.start;
-				this.displayedCards[i-view.marketCardsVM.start].GetComponent<CardController>().setSkills();
-				this.displayedCards[i-view.marketCardsVM.start].GetComponent<CardController>().setExperience();
-				this.displayedCards[i-view.marketCardsVM.start].GetComponent<CardController>().show();
 				this.displayedCards[i-view.marketCardsVM.start].GetComponent<CardMarketController>().setMarketFeatures();
 			}
 			else
@@ -310,6 +321,23 @@ public class MarketController : MonoBehaviour {
 				displayedCards[i-view.marketCardsVM.start].SetActive(false);
 			}
 		}
+	}
+	private void initializeGameObject(GameObject gameObject, Card card)
+	{
+		gameObject.AddComponent<CardMarketController>();
+		this.setCardToGameObject (gameObject, card);
+	}
+	private void setCardToGameObject(GameObject gameObject, Card card)
+	{
+		gameObject.GetComponent<CardController>().setCard(card);
+		gameObject.GetComponent<CardController>().setSkills();
+		gameObject.GetComponent<CardController>().setExperience();
+		gameObject.GetComponent<CardController>().show();
+	}
+	private void resetGameObject (GameObject gameObject, Card card)
+	{
+		gameObject.GetComponent<CardController>().resetCard();
+		this.setCardToGameObject (gameObject, card);
 	}
 	private void initStyles()
 	{
@@ -419,12 +447,20 @@ public class MarketController : MonoBehaviour {
 		}
 		view.marketFiltersVM.minLifeVal = view.marketFiltersVM.minLifeLimit;
 		view.marketFiltersVM.maxLifeVal = view.marketFiltersVM.maxLifeLimit;
+		view.marketFiltersVM.oldMinLifeVal = view.marketFiltersVM.minLifeLimit;
+		view.marketFiltersVM.oldMaxLifeVal = view.marketFiltersVM.maxLifeLimit;
 		view.marketFiltersVM.minAttackVal = view.marketFiltersVM.minAttackLimit;
 		view.marketFiltersVM.maxAttackVal = view.marketFiltersVM.maxAttackLimit;
+		view.marketFiltersVM.oldMinAttackVal = view.marketFiltersVM.minAttackLimit;
+		view.marketFiltersVM.oldMaxAttackVal = view.marketFiltersVM.maxAttackLimit;
 		view.marketFiltersVM.minMoveVal = view.marketFiltersVM.minMoveLimit;
 		view.marketFiltersVM.maxMoveVal = view.marketFiltersVM.maxMoveLimit;
+		view.marketFiltersVM.oldMinMoveVal = view.marketFiltersVM.minMoveLimit;
+		view.marketFiltersVM.oldMaxMoveVal = view.marketFiltersVM.maxMoveLimit;
 		view.marketFiltersVM.minQuicknessVal = view.marketFiltersVM.minQuicknessLimit;
 		view.marketFiltersVM.maxQuicknessVal = view.marketFiltersVM.maxQuicknessLimit;
+		view.marketFiltersVM.oldMinQuicknessVal = view.marketFiltersVM.minQuicknessLimit;
+		view.marketFiltersVM.oldMaxQuicknessVal = view.marketFiltersVM.maxQuicknessLimit;
 	}
 	public void paginationBack()
 	{

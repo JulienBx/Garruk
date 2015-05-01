@@ -136,10 +136,10 @@ public class CardMarketController : CardController {
 	{
 		MarketController.instance.popUpDisplayed (value, gameObject);
 	}
-	public override IEnumerator buyCard()
+	public override void buyCard()
 	{
-		yield return StartCoroutine(MarketController.instance.buyCard(gameObject));
-		StartCoroutine(base.buyCard ());
+		StartCoroutine(MarketController.instance.buyCard(gameObject));
+		base.buyCard ();
 	}
 }
 

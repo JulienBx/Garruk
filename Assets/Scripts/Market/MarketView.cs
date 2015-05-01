@@ -33,9 +33,6 @@ public class MarketView : MonoBehaviour
 		{
 			MarketController.instance.escapePressed();
 		}
-	}
-	void LateUpdate()
-	{
 		if(Input.GetMouseButtonDown(0))
 		{
 			MarketController.instance.isBeingDragged ();
@@ -50,6 +47,78 @@ public class MarketView : MonoBehaviour
 		GUI.enabled = marketVM.guiEnabled;
 		if(marketVM.displayView)
 		{
+			GUILayout.BeginArea(new Rect(marketScreenVM.blockLeft.min.x,
+			                             marketScreenVM.blockLeft.min.y,
+			                             marketScreenVM.blockLeftWidth,
+			                             marketScreenVM.blockLeftHeight));
+			{
+				GUILayout.BeginHorizontal();
+				{
+					if(marketCardsVM.newCardsToDisplay)
+					{	
+						if(GUILayout.Button(marketCardsVM.newCardsLabel,marketCardsVM.newCardsButtonStyle))
+						{
+							MarketController.instance.displayNewCards();
+						}
+					}
+				}
+				GUILayout.BeginHorizontal();
+			}
+			GUILayout.EndArea();
+			GUILayout.BeginArea(new Rect(marketScreenVM.blockLeft.min.x,
+			                              marketScreenVM.blockLeft.min.y,
+			                              marketScreenVM.blockLeftWidth,
+			                              marketScreenVM.blockLeftHeight*0.03f));
+			{
+				if(marketCardsVM.nbCards>marketCardsVM.cardsToBeDisplayed.Count)
+				{	
+					GUILayout.Label(marketCardsVM.cardsToBeDisplayed.Count + " résultat(s) affichée(s) / "+marketCardsVM.nbCards,marketCardsVM.nbCardsLabelStyle);
+				}
+			}
+			GUILayout.EndArea();
+			GUILayout.BeginArea(new Rect(marketScreenVM.blockLeft.min.x,
+			                             marketScreenVM.blockLeft.min.y+marketScreenVM.blockLeftHeight*0.965f,
+			                             marketScreenVM.blockLeftWidth,
+			                             marketScreenVM.blockLeftHeight*0.0325f));
+			{
+				GUILayout.BeginHorizontal();
+				{
+					GUILayout.FlexibleSpace();
+					if (marketCardsVM.pageDebut>0)
+					{
+						if (GUILayout.Button("...",marketVM.paginationStyle
+						                     ,GUILayout.Height(marketScreenVM.heightScreen*3/100)
+						                     ,GUILayout.Width(marketScreenVM.widthScreen*2/100)))
+						{
+							MarketController.instance.paginationBack();
+						}
+					}
+					GUILayout.Space(marketScreenVM.widthScreen*0.01f);
+					for (int i = marketCardsVM.pageDebut ; i < marketCardsVM.pageFin ; i++)
+					{
+						if (GUILayout.Button(""+(i+1),marketCardsVM.paginatorGuiStyle[i]
+						                     ,GUILayout.Height(marketScreenVM.heightScreen*3/100)
+						                     ,GUILayout.Width(marketScreenVM.widthScreen*2/100)))
+						{
+							MarketController.instance.paginationSelect(i);
+						}
+						GUILayout.Space(marketScreenVM.widthScreen*0.01f);
+					}
+					if (marketCardsVM.nbPages>marketCardsVM.pageFin)
+					{
+						if (GUILayout.Button("...",marketVM.paginationStyle
+						                     ,GUILayout.Height(marketScreenVM.heightScreen*3/100)
+						                     ,GUILayout.Width(marketScreenVM.widthScreen*2/100)))
+						{
+							MarketController.instance.paginationNext();
+						}
+					}
+					GUILayout.FlexibleSpace();
+				}
+				GUILayout.EndHorizontal();
+				GUILayout.FlexibleSpace();
+			}
+			GUILayout.EndArea();
 			GUILayout.BeginArea(marketScreenVM.blockRight);
 			{
 				bool toggle;
@@ -140,10 +209,7 @@ public class MarketView : MonoBehaviour
 					GUILayout.EndHorizontal();
 					GUILayout.Space(-5);
 					MyGUI.MinMaxSlider (ref marketFiltersVM.minLifeVal, ref marketFiltersVM.maxLifeVal, marketFiltersVM.minLifeLimit, marketFiltersVM.maxLifeLimit);
-//					if (!Input.GetMouseButtonDown(0) && (marketFiltersVM.oldMinLifeVal != marketFiltersVM.minLifeVal || marketFiltersVM.oldMaxLifeVal != marketFiltersVM.maxLifeVal)) 
-//					{
-//						MarketController.instance.refreshMinMaxFilters();
-//					}
+
 					GUILayout.FlexibleSpace();
 					
 					GUILayout.BeginHorizontal();
@@ -231,74 +297,6 @@ public class MarketView : MonoBehaviour
 					GUILayout.FlexibleSpace();
 				}
 				GUILayout.EndVertical();
-
-//				if (Input.GetMouseButtonDown(0))
-//				{
-//					MarketController.instance.isBeingDragged();
-//				}
-//				if (Input.GetMouseButtonUp(0))
-//				{
-//					MarketController.instance.isNotBeingDragged();
-//				}
-			}
-			GUILayout.EndArea();
-			GUILayout.BeginArea(marketScreenVM.blockLeft);
-			{
-				if(marketCardsVM.newCardsToDisplay)
-				{
-					GUILayout.BeginHorizontal(GUILayout.Height(marketScreenVM.blockLeftHeight*0.10f));
-					{
-						GUILayout.Label(marketCardsVM.newCardsLabel,marketCardsVM.newCardsLabelStyle);
-						if(GUILayout.Button("Afficher",marketCardsVM.newCardsButtonStyle))
-						{
-							MarketController.instance.displayNewCards();
-						}
-						GUILayout.FlexibleSpace();
-					}
-					GUILayout.EndHorizontal();
-				}
-				else
-				{
-					GUILayout.Space (marketScreenVM.blockLeftHeight*0.10f);
-				}
-				GUILayout.FlexibleSpace();
-				GUILayout.Space (marketScreenVM.blockLeftHeight*0.86f);
-				GUILayout.BeginHorizontal();
-				{
-					GUILayout.FlexibleSpace();
-					if (marketCardsVM.pageDebut>0)
-					{
-						if (GUILayout.Button("...",marketVM.paginationStyle
-						                     ,GUILayout.Height(marketScreenVM.heightScreen*3/100)
-						                     ,GUILayout.Width(marketScreenVM.widthScreen*2/100)))
-						{
-							MarketController.instance.paginationBack();
-						}
-					}
-					GUILayout.Space(marketScreenVM.widthScreen*0.01f);
-					for (int i = marketCardsVM.pageDebut ; i < marketCardsVM.pageFin ; i++)
-					{
-						if (GUILayout.Button(""+(i+1),marketCardsVM.paginatorGuiStyle[i]
-						                     ,GUILayout.Height(marketScreenVM.heightScreen*3/100)
-						                     ,GUILayout.Width(marketScreenVM.widthScreen*2/100)))
-						{
-							MarketController.instance.paginationSelect(i);
-						}
-						GUILayout.Space(marketScreenVM.widthScreen*0.01f);
-					}
-					if (marketCardsVM.nbPages>marketCardsVM.pageFin)
-					{
-						if (GUILayout.Button("...",marketVM.paginationStyle
-						                     ,GUILayout.Height(marketScreenVM.heightScreen*3/100)
-						                     ,GUILayout.Width(marketScreenVM.widthScreen*2/100)))
-						{
-							MarketController.instance.paginationNext();
-						}
-					}
-					GUILayout.FlexibleSpace();
-				}
-				GUILayout.EndHorizontal();
-				GUILayout.FlexibleSpace();
 			}
 			GUILayout.EndArea();
 		}

@@ -15,11 +15,13 @@ public class MarketCardsViewModel {
 	public int chosenPage;
 	public int start;
 	public int finish;
+	public int nbCards;
 	public GUIStyle[] paginatorGuiStyle;
 	public bool newCardsToDisplay;
 	public string newCardsLabel;
 	public GUIStyle newCardsButtonStyle;
 	public GUIStyle newCardsLabelStyle;
+	public GUIStyle nbCardsLabelStyle;
 	
 	public MarketCardsViewModel ()
 	{
@@ -30,11 +32,11 @@ public class MarketCardsViewModel {
 	public void initStyles()
 	{
 		this.newCardsButtonStyle = this.styles [0];
-		this.newCardsLabelStyle = this.styles [1];
+		this.nbCardsLabelStyle = this.styles [1];
 	}
 	public void resize(int heightScreen)
 	{
-		this.newCardsButtonStyle.fontSize = heightScreen * 2 / 100;
-		this.newCardsLabelStyle.fontSize = heightScreen * 2 / 100;
+		this.newCardsButtonStyle.fontSize = heightScreen * 2 / 100;;
+		this.nbCardsLabelStyle.fontSize = heightScreen * 15 / 1000;
 	}
 }

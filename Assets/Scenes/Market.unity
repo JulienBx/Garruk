@@ -879,7 +879,7 @@ MonoBehaviour:
     m_Font: {fileID: 0}
     m_FontSize: 0
     m_FontStyle: 0
-    m_Alignment: 4
+    m_Alignment: 3
     m_WordWrap: 1
     m_RichText: 0
     m_TextClipping: 0
@@ -888,11 +888,11 @@ MonoBehaviour:
     m_FixedWidth: 0
     m_FixedHeight: 0
     m_StretchWidth: 1
-    m_StretchHeight: 0
-  - m_Name: New Cards Label Style
+    m_StretchHeight: 1
+  - m_Name: Nb Cards Label Style
     m_Normal:
       m_Background: {fileID: 0}
-      m_TextColor: {r: .850980401, g: 0, b: 0, a: 1}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 1}
     m_Hover:
       m_Background: {fileID: 0}
       m_TextColor: {r: 0, g: 0, b: 0, a: 0}
@@ -937,7 +937,7 @@ MonoBehaviour:
     m_Font: {fileID: 0}
     m_FontSize: 0
     m_FontStyle: 0
-    m_Alignment: 3
+    m_Alignment: 4
     m_WordWrap: 1
     m_RichText: 0
     m_TextClipping: 0
@@ -946,7 +946,7 @@ MonoBehaviour:
     m_FixedWidth: 0
     m_FixedHeight: 0
     m_StretchWidth: 1
-    m_StretchHeight: 0
+    m_StretchHeight: 1
 --- !u!1 &1674836020
 GameObject:
   m_ObjectHideFlags: 0

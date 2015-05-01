@@ -147,28 +147,12 @@ public class CardController : GameObjectController {
 		this.setGUI (true);
 		this.popUpDisplayed (false);
 	}
-	public virtual IEnumerator buyCard()
+	public virtual void buyCard()
 	{
 		if(this.buyPopUpView!=null)
 		{
 			Destroy (buyPopUpView);
 		}
-		if(this.card.onSale==0)
-		{
-			this.applySoldTexture ();
-			this.updateVM();
-		}
-		if(this.card.Error=="")
-		{
-			this.setGUI (true);
-			this.popUpDisplayed (false);
-			this.refreshCredits();
-		}
-		else
-		{
-			this.displayErrorCardPopUp();
-		}
-		yield break;
 	}
 	public void applySoldTexture()
 	{
@@ -538,7 +522,7 @@ public class CardController : GameObjectController {
 	{
 		if(this.buyPopUpView!=null)
 		{
-			StartCoroutine(this.buyCard());
+			this.buyCard();
 		}
 		if(this.renamePopUpView!=null)
 		{

@@ -14,6 +14,7 @@ public class MarketModel
 	public IList<int> cardsSold;
 	public IList<Card> cards;
 	public IList<Card> newCards;
+	public int playerId;
 	private string URLGetMarketData = ApplicationModel.host + "get_market_data.php";
 	private string URLRefreshMarket = ApplicationModel.host + "refresh_market.php";
 	private DateTime newCardsTimeLimit;
@@ -46,6 +47,7 @@ public class MarketModel
 			this.cardTypeList = data[0].Split(new string[] { "\\" }, System.StringSplitOptions.None);
 			this.skillsList=parseSkills(data[1].Split(new string[] { "#SK#" }, System.StringSplitOptions.None));
 			this.cards=parseCards(data[2].Split(new string[] { "#C#" }, System.StringSplitOptions.None));
+			this.playerId=System.Convert.ToInt32(data[3]);
 			this.newCardsTimeLimit = cards[0].OnSaleDate;
 			this.oldCardsTimeLimit = cards[cards.Count-1].OnSaleDate;
 		}
@@ -140,10 +142,11 @@ public class MarketModel
 					cards[i].AttackLevel=System.Convert.ToInt32(cardInfo[11]);
 					cards[i].Price=System.Convert.ToInt32(cardInfo[12]);
 					cards[i].OnSaleDate=DateTime.ParseExact(cardInfo[13], "yyyy-MM-dd HH:mm:ss", null);
-					cards[i].UsernameOwner=cardInfo[14];
-					cards[i].Experience=System.Convert.ToInt32(cardInfo[15]);
-					cards[i].nbWin=System.Convert.ToInt32(cardInfo[16]);
-					cards[i].nbLoose=System.Convert.ToInt32(cardInfo[17]);
+					cards[i].IdOWner=System.Convert.ToInt32(cardInfo[14]);
+					cards[i].UsernameOwner=cardInfo[15];
+					cards[i].Experience=System.Convert.ToInt32(cardInfo[16]);
+					cards[i].nbWin=System.Convert.ToInt32(cardInfo[17]);
+					cards[i].nbLoose=System.Convert.ToInt32(cardInfo[18]);
 					cards[i].onSale=1;
                
 					cards[i].Skills = new List<Skill>();
