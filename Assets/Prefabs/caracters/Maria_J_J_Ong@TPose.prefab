@@ -9,6 +9,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 465596}
   - 95: {fileID: 9565728}
+  - 65: {fileID: 6575218}
   m_Layer: 0
   m_Name: Maria_J_J_Ong@TPose
   m_TagString: Untagged
@@ -40,7 +41,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 465600}
   - 137: {fileID: 13765728}
-  - 65: {fileID: 6501370}
   - 114: {fileID: 11406766}
   m_Layer: 0
   m_Name: Maria_J_J_Ong
@@ -1879,18 +1879,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 465726}
   m_RootOrder: 0
---- !u!65 &6501370
+--- !u!65 &6575218
 BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 165600}
+  m_GameObject: {fileID: 165596}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: .200000003, y: .5, z: .200000003}
-  m_Center: {x: 0, y: .25, z: 0}
+  m_Size: {x: .5, y: 1.79999995, z: .5}
+  m_Center: {x: 0, y: .899999976, z: 0}
 --- !u!95 &9565728
 Animator:
   serializedVersion: 3

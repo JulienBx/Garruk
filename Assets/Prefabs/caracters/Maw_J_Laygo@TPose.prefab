@@ -9,6 +9,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 483792}
   - 95: {fileID: 9583908}
+  - 65: {fileID: 6528302}
   m_Layer: 0
   m_Name: Maw_J_Laygo@TPose
   m_TagString: Untagged
@@ -40,7 +41,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 483796}
   - 137: {fileID: 13783908}
-  - 65: {fileID: 6509866}
   - 114: {fileID: 11499586}
   m_Layer: 0
   m_Name: MAW
@@ -1655,12 +1655,12 @@ Transform:
   m_Children: []
   m_Father: {fileID: 483906}
   m_RootOrder: 0
---- !u!65 &6509866
+--- !u!65 &6528302
 BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 183796}
+  m_GameObject: {fileID: 183792}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1

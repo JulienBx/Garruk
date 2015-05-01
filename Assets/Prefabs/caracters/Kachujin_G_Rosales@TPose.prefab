@@ -9,6 +9,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 478128}
   - 95: {fileID: 9578260}
+  - 65: {fileID: 6542064}
   m_Layer: 0
   m_Name: Kachujin_G_Rosales@TPose
   m_TagString: Untagged
@@ -40,7 +41,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 478132}
   - 137: {fileID: 13778260}
-  - 65: {fileID: 6588336}
   - 114: {fileID: 11457074}
   m_Layer: 0
   m_Name: Kachujin
@@ -1879,12 +1879,12 @@ Transform:
   m_Children: []
   m_Father: {fileID: 478258}
   m_RootOrder: 0
---- !u!65 &6588336
+--- !u!65 &6542064
 BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 178132}
+  m_GameObject: {fileID: 178128}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
