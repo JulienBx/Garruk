@@ -143,6 +143,7 @@ public class GameController : Photon.MonoBehaviour
 				this.currentClickedTileX = -1 ;
 				this.currentClickedTileY = -1 ;
 				this.characterDragged = -1;
+				this.gameView.SetCursorToDefault();
 			}
 		}
 	}
