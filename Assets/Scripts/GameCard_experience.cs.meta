@@ -1,9 +1,0 @@
-fileFormatVersion: 2
-guid: 39d551bbfa29c47f9b099c6ddc8d43f1
-MonoImporter:
-  serializedVersion: 2
-  defaultReferences:
-  - addXpGO: {fileID: 169354, guid: f6c4d650971d741b58d31de8f19b1e5f, type: 2}
-  executionOrder: 0
-  icon: {instanceID: 0}
-  userData: 

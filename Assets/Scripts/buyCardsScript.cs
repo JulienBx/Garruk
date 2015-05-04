@@ -68,7 +68,7 @@ public class buyCardsScript : MonoBehaviour {
 				}
 				if (GUI.Button (new Rect(Screen.width/2+115,Screen.height/2+10+cardHeight/2, 210,20), "Changer le nom pour "+renameCost+" crédits"))
 				{
-					newTitle=instance.GetComponent<GameCard>().Card.Title;
+					//newTitle=instance.GetComponent<GameCard>().Card.Title;
 					displayRenamePopUp = true;
 				}
 			
@@ -143,7 +143,7 @@ public class buyCardsScript : MonoBehaviour {
 		WWWForm form = new WWWForm(); 											// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_nick", ApplicationModel.username);
-		form.AddField("myform_idcard", instance.GetComponent<GameCard>().Card.Id);
+		//form.AddField("myform_idcard", instance.GetComponent<GameCard>().Card.Id);
 		form.AddField("myform_cost", cost);
 		
 		WWW w = new WWW(URLSellRandomCard, form); 				// On envoie le formulaire à l'url sur le serveur 
@@ -166,7 +166,7 @@ public class buyCardsScript : MonoBehaviour {
 		WWWForm form = new WWWForm(); 											// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_nick", ApplicationModel.username);
-		form.AddField("myform_idcard", instance.GetComponent<GameCard>().Card.Id);
+		//form.AddField("myform_idcard", instance.GetComponent<GameCard>().Card.Id);
 		form.AddField("myform_title", newTitle);
 		form.AddField("myform_cost", renameCost.ToString());
 		
@@ -178,8 +178,8 @@ public class buyCardsScript : MonoBehaviour {
 		{
 			print(w.text); 											// donne le retour
 			ApplicationModel.credits = System.Convert.ToInt32(w.text);
-			instance.GetComponent<GameCard>().Card.Title=newTitle;
-			instance.GetComponent<GameCard>().ShowFace();
+			//instance.GetComponent<GameCard>().Card.Title=newTitle;
+			//instance.GetComponent<GameCard>().ShowFace();
 
 		}
 		
@@ -191,7 +191,7 @@ public class buyCardsScript : MonoBehaviour {
 		WWWForm form = new WWWForm(); 											// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_nick", ApplicationModel.username);
-		form.AddField("myform_idcard", instance.GetComponent<GameCard>().Card.Id);
+		//form.AddField("myform_idcard", instance.GetComponent<GameCard>().Card.Id);
 		form.AddField("myform_price", price);
 		form.AddField("myform_date",  System.DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss").ToString());
 		
@@ -268,8 +268,8 @@ public class buyCardsScript : MonoBehaviour {
 		Destroy(instance.GetComponent<PhotonView>());
 		instance.transform.localScale = new Vector3(1f, 1f, 1f);               					 // On change ses attributs d'échelle ...                                                                    
 		instance.transform.localPosition = new Vector3(0,0,0);                					// ..., de positionnement ...
-		instance.GetComponent<GameCard>().Card = myCard;        					// ... et la carte qu'elle représente
-		instance.GetComponent<GameCard>().ShowFace();        					// On affiche la carte
+		//instance.GetComponent<GameCard>().Card = myCard;        					// ... et la carte qu'elle représente
+		//instance.GetComponent<GameCard>().ShowFace();        					// On affiche la carte
 		instance.transform.FindChild("texturedGameCard").animation.Play ("flipCard");
 		instance.gameObject.name = "Card";
 		cost = cardCost (myCard);

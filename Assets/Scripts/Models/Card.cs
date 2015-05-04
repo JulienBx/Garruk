@@ -208,7 +208,7 @@ public class Card
 	{
 		int attack = Attack;
 		foreach (StatModifier modifier in modifiers) {
-			attack = modifier.modifyAttack(attack);
+			//attack = modifier.modifyAttack(attack);
 		}
 		if (attack < 0)
 		{
@@ -221,7 +221,7 @@ public class Card
 	{
 		int life = Life;
 		foreach (StatModifier modifier in modifiers) {
-			life = modifier.modifyLife(life);
+			//life = modifier.modifyLife(life);
 		}
 		if (life < 0)
 		{
@@ -234,7 +234,7 @@ public class Card
 	{
 		int speed = Speed;
 		foreach (StatModifier modifier in modifiers) {
-			speed = modifier.modifySpeed(speed);
+			//speed = modifier.modifySpeed(speed);
 		}
 		if (speed < 0)
 		{
@@ -247,7 +247,7 @@ public class Card
 	{
 		int move = Move;
 		foreach (StatModifier modifier in modifiers) {
-			move = modifier.modifyMove(move);
+			//move = modifier.modifyMove(move);
 		}
 		if (move < 0)
 		{

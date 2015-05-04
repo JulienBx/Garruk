@@ -15,6 +15,13 @@ public class TopZoneViewModel
 	public GUIStyle redStatusTextStyle ;
 	public GUIStyle greenStatusTextStyle ;
 
+	public string namePlayingCharacter ;
+	public string nameSkill1 ;
+	public string nameSkill2 ;
+	public string nameSkill3 ;
+	public string nameSkill4 ;
+	public bool toDisplayCharacter ;
+
 	public TopZoneViewModel ()
 	{
 		this.userName = "";
@@ -29,6 +36,13 @@ public class TopZoneViewModel
 		this.messageTextStyle = new GUIStyle();
 		this.redStatusTextStyle = new GUIStyle();
 		this.greenStatusTextStyle = new GUIStyle();
+
+		this.namePlayingCharacter = "" ;
+		this.nameSkill1 = "" ;
+		this.nameSkill2 = "" ;
+		this.nameSkill3 = "" ;
+		this.nameSkill4 = "" ; 
+		this.toDisplayCharacter = false ;
 	}
 
 	public void setValues (User u, GUIStyle[] styles, int h)
@@ -55,6 +69,24 @@ public class TopZoneViewModel
 		this.messageTextStyle.fontSize = h * 20/1000;
 		this.redStatusTextStyle.fontSize = h * 25/1000;
 		this.greenStatusTextStyle.fontSize = h * 25/1000;
+	}
+
+	public void emptyCharacter(){
+		this.toDisplayCharacter = false ;
+		this.namePlayingCharacter = "" ;
+		this.nameSkill1 = "" ;
+		this.nameSkill2 = "" ;
+		this.nameSkill3 = "" ;
+		this.nameSkill4 = "" ;
+	}
+	
+	public void setCharacter(Card c){
+		this.toDisplayCharacter = true ;
+		this.namePlayingCharacter = c.Title ;
+		this.nameSkill1 = c.Skills[0].Name ;
+		this.nameSkill2 = c.Skills[1].Name ;
+		this.nameSkill3 = c.Skills[2].Name ;
+		this.nameSkill4 = c.Skills[3].Name ;
 	}
 }
 

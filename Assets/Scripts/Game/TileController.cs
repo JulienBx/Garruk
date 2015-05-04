@@ -7,22 +7,24 @@ public class TileController : MonoBehaviour
 //	public Texture2D cursorAttack;
 //	public Texture2D cursorTarget;
 
-	private int x ;
-	private int y ;
+	public int x ;
+	public int y ;
 	private int type ;
 	private float scaleTile ;
 	public Texture2D[] backTile ;
+	public Texture2D[] borderTile ;
 	public TileView tileView ;
 
 	public bool isDestination ;
 	//-1 : case vide ; 0 : case occupée par un personnage allié ; 1 : case occupée par un personnage ennemi
-	public int occupationType ;
+	public int characterID ; //-1 si personne
+
 
 	void Awake()
 	{
 		this.tileView = gameObject.AddComponent <TileView>();
 		this.isDestination = false ;
-		this.occupationType = -1 ;
+		this.characterID = -1 ;
 	}
 
 	void Start () 
@@ -45,12 +47,13 @@ public class TileController : MonoBehaviour
 		this.tileView.tileVM.scale = new Vector3(scaleTile,scaleTile,scaleTile);
 		this.tileView.tileVM.position = new Vector3((x-boardWidth/2)*scaleTile*0.71f, (y-boardHeight/2+decalage/2f)*scaleTile*0.81f, 0);
 		this.tileView.tileVM.background = backTile[type];
+		this.tileView.tileVM.border = borderTile[0];
 		this.tileView.resize();
 		this.tileView.ShowFace();
 	}
 
-	public void setOccupationType(int i){
-		this.occupationType = i ;
+	public void setCharacterID(int i){
+		this.characterID = i ;
 	}
 	
 	// Update is called once per frame
@@ -58,122 +61,79 @@ public class TileController : MonoBehaviour
 		
 	}
 
-	public void mouseEnter () {
-		if (this.isDestination == true && this.occupationType==-1){
-			GameController.instance.moveCharacter(this.x, this.y);
-		}
-	}
+//	public void mouseEnter () {
+//		if (this.isDestination == true && this.characterID==-1){
+//			GameController.instance.moveCharacter(this.x, this.y);
+//		}
+//	}
 
 	public void setDestination () {
 		this.isDestination = true ;
 		this.tileView.tileVM.background = this.backTile[5+this.type];
 		this.tileView.ShowFace();
 	}
-	
-	//	void OnMouseEnter()
-	//	{
-	//		if (GameView.instance.TimeOfPositionning)
-	//		{
-	//			if (GameView.instance.isDragging && AvailableStartingColumns.Any(e => e.Contains(this.tag)))
-	//			{
-	//				SetCursorToDrag();
-	//			} else
-	//			{
-	//				SetCursorToDefault();
-	//			}
-	//		} else
-	//		{
-	//			if (GameView.instance.isMoving && this.Passable)
-	//			{
-	//				Vector3 newPosition = this.transform.position;
-	//				newPosition.z = -1;
-	////				GameView.instance.CardSelected.transform.position = newPosition;
-	////				if (GameView.instance.CardSelected.currentTile.Equals(this))
-	////				{
-	////					GamePlayingCard.instance.attemptToMoveTo = null;
-	////				}
-	////				else
-	////				{
-	////					GamePlayingCard.instance.attemptToMoveTo = this;
-	////				}
-	//			}
-	//			else
-	//			{
-	//				GamePlayingCard.instance.attemptToMoveTo = null;
-	//			}
-	//		}
-	//	}
-	
-	//	void OnMouseOver()
-	//	{
-	//		if (GameView.instance.droppedCard && AvailableStartingColumns.Any(e => e.Contains(this.tag)))
-	//		{
-	//			Vector3 pos = transform.TransformPoint(Vector3.zero) + new Vector3(0, 0, -2);
-	//			RaycastHit hit;
-	//			
-	//			if (Physics.Raycast(pos, Vector3.forward, out hit))
-	//			{
-	//				if (hit.transform.gameObject.tag != "PlayableCard")
-	//				{
-	//					//GameView.instance.CardSelected.transform.position = this.transform.position + new Vector3(0, 0, -1);
-	//					GameView.instance.droppedCard = false;
-	//					GameView.instance.isDragging = false;
-	//				}
-	//			}
-	//			
-	//		}
-	//	}
 
-	public void changeColor(Color color)
-	{
-		if (color.a == 1)
-			color.a = 130f / 255f;
-		//renderer.material = OpaqueMaterial;
-		renderer.material.color = color;
+	public void setBorderTile () {
+		
+	}
+
+	public void hoverTile(){
+		GameController.instance.hoverTile(this.x, this.y, this.characterID, this.isDestination);
+	}
+
+	public void clickTile(){
+		if(this.characterID!=-1){
+			GameController.instance.clickTile(this.x, this.y, this.characterID);
+		}
+	}
+
+	public void releaseClickTile(){
+		GameController.instance.releaseClick();
+	}
+
+	public void displayHover(){
+		this.tileView.tileVM.border = this.borderTile[1];
+		this.tileView.tileVM.raiseTile();
+		this.tileView.resize();
+		this.tileView.ShowFace();
+	}
+
+	public void hideHover(){
+		this.tileView.tileVM.border = this.borderTile[0];
+		this.tileView.tileVM.lowerTile();
+		this.tileView.resize();
+		this.tileView.ShowFace();
+	}
+
+	public void displaySelected(){
+		this.tileView.tileVM.border = this.borderTile[2];
+		this.tileView.resize();
+		this.tileView.ShowFace();
 	}
 	
-	public static void RemovePassableTile()
-	{
-		//		foreach(Transform go in GameView.instance.gameObject.transform)
-		//		{
-		//			if (!go.gameObject.name.Equals("Game Board"))
-		//			{
-		//				go.renderer.material = GameTile.instance.DefaultMaterial;
-		//				go.GetComponent<GameTile>().Passable = false;
-		//			}
-		//		}
+	public void hideSelected(){
+		this.tileView.tileVM.border = this.borderTile[0];
+		this.tileView.tileVM.lowerTile();
+		this.tileView.resize();
+		this.tileView.ShowFace();
 	}
-	
-	public static void InitIndexPathTile()
-	{
-		//		foreach(Transform go in GameView.instance.gameObject.transform)
-		//		{
-		//			if (!go.gameObject.name.Equals("Game Board"))
-		//			{
-		//				go.GetComponent<GameTile>().pathIndex = -1;
-		//			}
-		//		}
-	}
-	
-	public void SetCursorToDrag()
-	{
-		//Cursor.SetCursor(cursorDragging, cursorHotspot, CursorMode.Auto);
-	}
-	public void SetCursorToExchange()
-	{
-		//Cursor.SetCursor(cursorExchange, cursorHotspot, CursorMode.Auto);
-	}
-	public void SetCursorToDefault()
-	{
-		//Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
-	}
-	public void SetCursorToAttack()
-	{
-		//Cursor.SetCursor(cursorAttack, Vector2.zero, CursorMode.Auto);
-	}
-	public void SetCursorToTarget()
-	{
-		//Cursor.SetCursor(cursorTarget, Vector2.zero, CursorMode.Auto);
+
+//	public void drag(){
+//		if (this.isMovable){
+//			GameController.instance.setCharacterDragged(this.characterID);
+//		}
+//	}
+//	
+//	public void release(){
+//		if (this.isMovable){
+//			GameController.instance.dropCharacter();
+//		}
+//	}
+
+	public void setStandard () {
+		this.isDestination = false ;
+		this.tileView.tileVM.background = this.backTile[this.type];
+		this.tileView.ShowFace();
 	}
 }
 

@@ -130,31 +130,16 @@ public class CardMarketController : CardController {
 	}
 	public override void refreshCredits()
 	{
-		//MarketController.instance.refreshCredits(); Fonction pour demander à la scène de mettre à jour les crédits de l'utilisateur
+		MarketController.instance.refreshCredits();
 	}
 	public override void popUpDisplayed(bool value)
 	{
 		MarketController.instance.popUpDisplayed (value, gameObject);
 	}
-	public override void updateVM()
+	public override void buyCard()
 	{
-		if(this.marketFeaturesView!=null)
-		{
-			marketFeaturesView.marketFeaturesVM.onSale=System.Convert.ToBoolean(base.card.onSale);
-		}
-		if(this.focusMarketFeaturesView!=null)
-		{
-			focusMarketFeaturesView.focusMarketFeaturesVM.onSale=System.Convert.ToBoolean(base.card.onSale);
-		}
-	}
-	public override IEnumerator buyCard()
-	{
-		StartCoroutine(base.buyCard ());
-		yield break;
-	}
-	public override void updateSceneModel()
-	{
-		MarketController.instance.updateModel(gameObject);
+		StartCoroutine(MarketController.instance.buyCard(gameObject));
+		base.buyCard ();
 	}
 }
 

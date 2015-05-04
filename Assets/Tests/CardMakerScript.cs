@@ -49,11 +49,11 @@ public class CardMakerScript : MonoBehaviour {
 		this.myCard = Instantiate(cardObject) as GameObject;
 		this.myCard.name = "myCard";
 
-		//this.myCard.transform.localScale = new Vector3(Screen.height/120f,Screen.height/120f,Screen.height/120f);
-		//this.myCard.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(0.385f*Screen.width ,0.45f*Screen.height-1 , 10));
+		this.myCard.transform.localScale = new Vector3(Screen.height/120f,Screen.height/120f,Screen.height/120f);
+		this.myCard.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(0.385f*Screen.width ,0.45f*Screen.height-1 , 10));
 	
-		this.myCard.transform.localScale = new Vector3(2,2,2);
-		this.myCard.transform.position = new Vector3(0,0,0);
+		//this.myCard.transform.localScale = new Vector3(2,2,2);
+		//this.myCard.transform.position = new Vector3(0,0,0);
 		
 
 
@@ -102,16 +102,16 @@ public class CardMakerScript : MonoBehaviour {
 		this.c.Skills.Add (tempSkill1);
 		this.c.Skills.Add (tempSkill2);
 
-		this.myCard.AddComponent<CardMarketController> ();
-		//this.myCard.AddComponent<CardMyGameController> ();
+		//this.myCard.AddComponent<CardMarketController> ();
+		this.myCard.AddComponent<CardMyGameController> ();
 		this.myCard.GetComponent<CardController> ().setCard (c);
 		this.myCard.GetComponent<CardController> ().setSkills();
 		this.myCard.GetComponent<CardController> ().setExperience();
 		this.myCard.GetComponent<CardController> ().show ();
-		this.myCard.GetComponent<CardMarketController> ().setMarketFeatures ();
+		//this.myCard.GetComponent<CardMarketController> ().setMarketFeatures ();
 		this.myCard.GetComponent<CardController> ().setCentralWindowRect (centralWindow);
-		//this.myCard.GetComponent<CardMyGameController> ().setFocusMyGameFeatures ();
-		this.myCard.GetComponent<CardMarketController> ().setFocusMarketFeatures ();
+		this.myCard.GetComponent<CardMyGameController> ().setFocusMyGameFeatures ();
+		//this.myCard.GetComponent<CardMarketController> ().setFocusMarketFeatures ();
 
 	}
 	
@@ -128,7 +128,7 @@ public class CardMakerScript : MonoBehaviour {
 
 		}
 	}
-	private Void resize()
+	private void resize()
 	{
 		this.widthScreen = Screen.width;
 		this.heightScreen = Screen.height;

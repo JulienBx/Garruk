@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class Reflexe : Buff, ISkill
+public class Reflexe : GameSkill
 {
-	public void Init()
+	public override void launch()
 	{
-		StatModifiers.Add(new StatModifier(Skill.Power, Skill.XMin, Skill.Ponderation, ModifierType.Type_BonusMalus, ModifierStat.Stat_Speed));
+		Debug.Log ("Je lance réflexe");
+		//StatModifiers.Add(new StatModifier(Skill.Power, Skill.XMin, Skill.Ponderation, ModifierType.Type_BonusMalus, ModifierStat.Stat_Speed));
 	}
 }
