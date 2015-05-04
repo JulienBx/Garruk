@@ -17,8 +17,8 @@ public class PlayingCardController : MonoBehaviour
 	public int damage = 0;
 	public bool isDead ;
 	public Texture2D[] pictures;
-	bool isSelected ;
-	bool isMoved ;
+	public bool isSelected ;
+	public bool isMoved ;
 
 	public List<StatModifier> statModifiers ;
 
@@ -267,6 +267,7 @@ public class PlayingCardController : MonoBehaviour
 
 	public void displayClick(){
 		this.playingCardView.playingCardVM.backgroundStyle = guiStylesMyCharacter[4];
+
 	}
 
 	public void hideHover(){

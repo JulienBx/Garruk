@@ -161,8 +161,12 @@ public class GameController : Photon.MonoBehaviour
 					}
 					if (currentClickedTileX!=-1){
 						this.tiles[currentClickedTileX,currentClickedTileY].GetComponent<TileController>().hideSelected();
-						if (this.hoveredCharacter>=0 && this.hoveredCharacter<5){
-							this.myPlayingCards[this.hoveredCharacter].GetComponentInChildren<PlayingCardController>().hideHover();
+						if (this.characterDragged>=0 && this.characterDragged<5){
+							this.myPlayingCards[this.characterDragged].GetComponentInChildren<PlayingCardController>().hideHover();
+							this.myPlayingCards[this.characterDragged].GetComponentInChildren<PlayingCardController>().isSelected=false;
+							for (int i = this.characterDragged + 1 ; i < 5 ; i++){
+								this.myPlayingCards[i].GetComponentInChildren<PlayingCardController>().isMoved=false;
+							}
 						}
 						else{
 							
@@ -176,6 +180,10 @@ public class GameController : Photon.MonoBehaviour
 					this.tiles[x,y].GetComponent<TileController>().displaySelected();
 					if (idCharacter<5){
 						this.myPlayingCards[idCharacter].GetComponentInChildren<PlayingCardController>().displayClick();
+						this.myPlayingCards[idCharacter].GetComponentInChildren<PlayingCardController>().isSelected=true;
+						for (int i = idCharacter + 1 ; i < 5 ; i++){
+							this.myPlayingCards[i].GetComponentInChildren<PlayingCardController>().isMoved=true;
+						}
 					}
 					else{
 						
@@ -184,6 +192,13 @@ public class GameController : Photon.MonoBehaviour
 			}
 			else{
 				this.tiles[currentClickedTileX,currentClickedTileY].GetComponent<TileController>().hideSelected();
+				if (this.characterDragged>=0 && this.characterDragged<5){
+					this.myPlayingCards[this.characterDragged].GetComponentInChildren<PlayingCardController>().hideHover();
+					this.myPlayingCards[this.characterDragged].GetComponentInChildren<PlayingCardController>().isSelected=false;
+					for (int i = this.characterDragged + 1 ; i < 5 ; i++){
+						this.myPlayingCards[i].GetComponentInChildren<PlayingCardController>().isMoved=false;
+					}
+				}
 				this.currentHoveredTileX = currentClickedTileX ;
 				this.currentHoveredTileY = currentClickedTileY ;
 				this.tiles[currentClickedTileX,currentClickedTileY].GetComponent<TileController>().displayHover();
@@ -213,8 +228,12 @@ public class GameController : Photon.MonoBehaviour
 				}
 				this.tiles[currentHoveredTileX,currentHoveredTileY].GetComponent<TileController>().hideHover();
 
-				if (this.hoveredCharacter>=0 && this.hoveredCharacter<5){
-					this.myPlayingCards[this.hoveredCharacter].GetComponentInChildren<PlayingCardController>().hideHover();
+				if (this.characterDragged>=0 && this.characterDragged<5){
+					this.myPlayingCards[this.characterDragged].GetComponentInChildren<PlayingCardController>().hideHover();
+					this.myPlayingCards[this.characterDragged].GetComponentInChildren<PlayingCardController>().isSelected=false;
+					for (int i = this.characterDragged + 1 ; i < 5 ; i++){
+						this.myPlayingCards[i].GetComponentInChildren<PlayingCardController>().isMoved=false;
+					}
 				}
 				else{
 					
