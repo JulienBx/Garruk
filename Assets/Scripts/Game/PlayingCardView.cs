@@ -16,6 +16,10 @@ public class PlayingCardView : MonoBehaviour
 		gameObject.transform.localScale = playingCardVM.scale;
 	}
 
+	void Update ()
+	{
+	}
+
 	void OnGUI ()
 	{
 		GUILayout.BeginArea (this.playingCardVM.infoRect);
@@ -59,7 +63,7 @@ public class PlayingCardView : MonoBehaviour
 					GUILayout.FlexibleSpace();
 					GUILayout.Box(this.playingCardVM.moveIcon, this.playingCardVM.imageStyle, GUILayout.Height(this.playingCardVM.infoRect.height*15/100));
 					GUILayout.Space(this.playingCardVM.infoRect.width*5f/100f);
-					GUILayout.Label(this.playingCardVM.move, this.playingCardVM.moveZoneTextStyle);
+					GUILayout.Label(this.playingCardVM.move, this.playingCardVM.attackZoneTextStyle);
 					GUILayout.FlexibleSpace();
 				}
 				GUILayout.EndHorizontal();
@@ -68,9 +72,22 @@ public class PlayingCardView : MonoBehaviour
 			GUILayout.EndVertical();
 		}
 		GUILayout.EndArea ();
+
+		GUILayout.BeginArea (this.playingCardVM.infoRect);
+		{
+			if (GUILayout.Button("", this.playingCardVM.emptyButtonStyle)){
+				gameObject.GetComponentInChildren<PlayingCardController>().clickPlayingCard();
+			}
+		}
+		GUILayout.EndArea ();
+		
+		if(Input.mousePosition.x > this.playingCardVM.infoRect.xMin && (Screen.height-Input.mousePosition.y) > this.playingCardVM.infoRect.yMin && Input.mousePosition.x < this.playingCardVM.infoRect.xMax && (Screen.height-Input.mousePosition.y) < this.playingCardVM.infoRect.yMax){
+			gameObject.GetComponentInChildren<PlayingCardController>().hoverPlayingCard();
+		}
 	}
 
 	void OnMouseEnter(){
+		print ("HoverPlayingCard");
 		//gameObject.GetComponentInChildren<PlayingCardController>().HoverTile();
 	}
 

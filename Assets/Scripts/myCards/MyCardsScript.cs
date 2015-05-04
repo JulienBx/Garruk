@@ -452,8 +452,8 @@ public class MyCardsScript : MonoBehaviour
 				GameObject instance = Instantiate(CardObject) as GameObject;            					// On charge une instance du prefab Card
 				instance.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);               					 // On change ses attributs d'échelle ...                                                                    
 				instance.transform.localPosition = new Vector3(-5 + (2 * x), y, 0);                					// ..., de positionnement ...
-				instance.GetComponent<GameCard>().Card = cards[cardsToBeFiltered[i]];        					// ... et la carte qu'elle représente
-				instance.GetComponent<GameCard>().ShowFace();        					// On affiche la carte
+				//instance.GetComponent<GameCard>().Card = cards[cardsToBeFiltered[i]];        					// ... et la carte qu'elle représente
+				//instance.GetComponent<GameCard>().ShowFace();        					// On affiche la carte
 				instance.gameObject.name = "Card" + k + "";	
 				k++;
 			}
