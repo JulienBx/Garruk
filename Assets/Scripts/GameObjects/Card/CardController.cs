@@ -59,28 +59,6 @@ public class CardController : GameObjectController {
 		}
 		this.skills = new List<GameObject> ();
 	}
-	public void updateCardVM()
-	{
-		view.cardVM.attack = this.card.Attack;
-		view.cardVM.life = this.card.Life;
-		view.cardVM.move = this.card.Move;
-		view.cardVM.speed = this.card.Speed;
-		for (int i = 0 ; i < 6 ; i++)
-		{		
-			view.cardVM.lifeLevel[i]=ressources.metals[this.card.LifeLevel];
-			view.cardVM.attackLevel[i]=ressources.metals[this.card.AttackLevel];
-			view.cardVM.speedLevel[i]=ressources.metals[this.card.SpeedLevel];
-			view.cardVM.moveLevel[i]=ressources.metals[this.card.MoveLevel];
-		}
-		for (int i = 0 ; i < this.card.Skills.Count ; i++) 
-		{
-			if (card.Skills[i].IsActivated == 1) 
-			{
-				this.skills[skills.Count-1].GetComponent<SkillController>().setSkill(card.Skills[i]);
-				this.skills[skills.Count-1].GetComponent<SkillController>().setSkillLevelMetals(ressources.metals[card.Skills[i].Level]);
-			}
-		}
-	}
 	public void setSkills()
 	{
 		for (int i = 0 ; i < this.card.Skills.Count ; i++) 
@@ -98,7 +76,42 @@ public class CardController : GameObjectController {
 			}
 		}
 	}
-	public virtual void resetCard()
+	public void setExperience()
+	{
+		this.experience=Instantiate(ressources.experienceAreaObject) as GameObject;
+		this.experience.name = "experienceArea";
+		this.experience.transform.parent=gameObject.transform.Find("texturedGameCard");
+		this.experience.transform.localPosition=new Vector3(0f,0f,0f);
+		this.experience.transform.localScale=new Vector3(1f, 1f, 1f);
+		this.experience.GetComponent<ExperienceController> ().setXp (this.card.getXpLevel(),this.card.percentageToNextXpLevel());
+	}
+	public virtual void updateExperience()
+	{
+		if(this.experience!=null)
+		{
+			Destroy (this.experience);
+		}
+		for(int i=0;i<this.skills.Count;i++)
+		{
+			Destroy (this.skills[i]);
+		}
+		this.setCard (this.card);
+		this.setExperience ();
+		this.setSkills ();
+		this.show ();
+		this.setMyGUI (true);
+	}
+	public void animateExperience(Card c)
+	{
+		this.card = new Card();
+		this.card = c;
+		if(this.experience!=null)
+		{
+			this.experience.GetComponent<ExperienceController> ().animateXp (this.card.getXpLevel(),this.card.percentageToNextXpLevel());
+		}
+		this.setMyGUI (false);
+	}
+	public virtual void eraseCard()
 	{
 		this.card = new Card ();
 		for(int i=0;i<this.skills.Count;i++)
@@ -110,22 +123,13 @@ public class CardController : GameObjectController {
 			Destroy (this.experience);
 		}
 	}
-	public void setExperience()
+	public void applySoldTexture()
 	{
-		this.experience=Instantiate(ressources.experienceAreaObject) as GameObject;
-		this.experience.name = "experienceArea";
-		this.experience.transform.parent=gameObject.transform.Find("texturedGameCard");
-		this.experience.transform.localPosition=new Vector3(0f,0f,0f);
-		this.experience.transform.localScale=new Vector3(1f, 1f, 1f);
-		this.updateExperience ();
+		view.cardVM.cardFaces[0] = ressources.soldCardTexture;
 	}
-	public void updateExperience()
+	public void setError()
 	{
-		this.experience.GetComponent<ExperienceController> ().setXp (this.card.getXpLevel(),this.card.percentageToNextXpLevel());
-	}
-	public void animateExperience()
-	{
-		this.experience.GetComponent<ExperienceController> ().animateXp (this.card.getXpLevel(),this.card.percentageToNextXpLevel());
+		this.displayErrorCardPopUp ();
 	}
 	public void displayBuyCardPopUp()
 	{
@@ -141,29 +145,6 @@ public class CardController : GameObjectController {
 		this.setGUI (false);
 		this.popUpDisplayed (true);
 	}
-	public void hideBuyCardPopUp()
-	{
-		Destroy (this.buyPopUpView);
-		this.setGUI (true);
-		this.popUpDisplayed (false);
-	}
-	public virtual void buyCard()
-	{
-		if(this.buyPopUpView!=null)
-		{
-			Destroy (buyPopUpView);
-		}
-	}
-	public void applySoldTexture()
-	{
-		view.cardVM.soldCardTexture = ressources.soldCardTexture;
-		view.applySoldTexture ();
-	}
-	public void buyCardPopUpResize()
-	{
-		buyPopUpView.popUpVM.centralWindow = this.getCentralWindowsRect ();
-		buyPopUpView.popUpVM.resize ();
-	}
 	public void displaySellCardPopUp()
 	{
 		this.sellPopUpView = gameObject.AddComponent<SellCardPopUpView> ();
@@ -178,37 +159,6 @@ public class CardController : GameObjectController {
 		this.setGUI (false);
 		this.popUpDisplayed (true);
 	}
-	public void hideSellCardPopUp()
-	{
-		Destroy (this.sellPopUpView);
-		this.setGUI (true);
-		this.popUpDisplayed (false);
-	}
-	public virtual IEnumerator sellCard()
-	{
-		if(this.sellPopUpView!=null)
-		{
-			Destroy (this.sellPopUpView);
-		}
-		yield return StartCoroutine (this.card.sellCard ());
-		if(this.card.Error=="")
-		{
-			this.setGUI (true);
-			this.popUpDisplayed (false);
-			this.refreshCredits();
-			this.hideCard ();
-		}
-		else
-		{
-			this.displayErrorCardPopUp();
-		}
-		yield break;
-	}
-	public void sellCardPopUpResize()
-	{
-		sellPopUpView.popUpVM.centralWindow = this.getCentralWindowsRect ();
-		sellPopUpView.popUpVM.resize ();
-	}
 	public void displayBuyXpCardPopUp()
 	{
 		this.buyXpPopUpView = gameObject.AddComponent<BuyXpCardPopUpView> ();
@@ -222,40 +172,6 @@ public class CardController : GameObjectController {
 		this.buyXpCardPopUpResize ();
 		this.setGUI (false);
 		this.popUpDisplayed (true);
-	}
-	public void hideBuyXpCardPopUp()
-	{
-		Destroy (this.buyXpPopUpView);
-		this.setGUI (true);
-		this.popUpDisplayed (false);
-	}
-	public virtual IEnumerator buyXpCard()
-	{
-		if(this.buyXpPopUpView!=null)
-		{
-			Destroy (this.buyXpPopUpView);
-		}
-		yield return StartCoroutine(this.card.addXp(this.card.getPriceForNextLevel(),this.card.getPriceForNextLevel()));
-		if(this.card.Error=="")
-		{
-			this.setGUI (true);
-			this.popUpDisplayed (false);
-			this.refreshCredits();
-			gameObject.GetComponent<CardController> ().animateExperience ();
-			this.updateCardVM();
-			this.show ();
-			this.updateVM ();
-			this.updateSceneModel();
-		}
-		else
-		{
-			this.displayErrorCardPopUp();
-		}
-	}
-	public void buyXpCardPopUpResize()
-	{
-		buyXpPopUpView.popUpVM.centralWindow = this.getCentralWindowsRect ();
-		buyXpPopUpView.popUpVM.resize ();
 	}
 	public void displayRenameCardPopUp()
 	{
@@ -272,46 +188,6 @@ public class CardController : GameObjectController {
 		this.setGUI (false);
 		this.popUpDisplayed (true);
 	}
-	public void hideRenameCardPopUp()
-	{
-		Destroy (this.renamePopUpView);
-		this.setGUI (true);
-		this.popUpDisplayed (false);
-	}
-	public virtual IEnumerator renameCard()
-	{
-		string tempString = renamePopUpView.renamePopUpVM.newTitle;
-		if(tempString!="")
-		{
-			if(this.renamePopUpView!=null)
-			{
-				Destroy (this.renamePopUpView);
-			}
-			yield return (StartCoroutine(this.card.renameCard (tempString,this.card.RenameCost)));
-			if(this.card.Error=="")
-			{
-				this.setGUI (true);
-				this.popUpDisplayed (false);
-				this.refreshCredits();
-				view.cardVM.title = this.card.Title;
-				view.updateName ();
-				this.updateSceneModel();
-			}
-			else
-			{
-				this.displayErrorCardPopUp();
-			}
-		}
-		else
-		{
-			renamePopUpView.renamePopUpVM.error="Merci de bien vouloir saisir un nom";
-		}
-	}
-	public void renameCardPopUpResize()
-	{
-		renamePopUpView.popUpVM.centralWindow = this.getCentralWindowsRect ();
-		renamePopUpView.popUpVM.resize ();
-	}
 	public void displayputOnMarketCardPopUp()
 	{
 		this.putOnMarketPopUpView = gameObject.AddComponent<PutOnMarketCardPopUpView> ();
@@ -326,45 +202,18 @@ public class CardController : GameObjectController {
 		this.setGUI (false);
 		this.popUpDisplayed (true);
 	}
-	public void hideputOnMarketCardPopUp()
+	public void displayErrorCardPopUp()
 	{
-		Destroy (this.putOnMarketPopUpView);
-		this.setGUI (true);
-		this.popUpDisplayed (false);
-	}
-	public virtual IEnumerator putOnMarketCard()
-	{
-		int n;
-		bool isNumeric = int.TryParse(putOnMarketPopUpView.putOnMarketPopUpVM.price, out n);
-		if(putOnMarketPopUpView.putOnMarketPopUpVM.price!="" && isNumeric)
+		this.errorPopUpView = gameObject.AddComponent<ErrorCardPopUpView> ();
+		errorPopUpView.errorPopUpVM.error = this.card.Error;
+		this.card.Error = "";
+		errorPopUpView.popUpVM.styles=new GUIStyle[ressources.popUpStyles.Length];
+		for(int i=0;i<ressources.popUpStyles.Length;i++)
 		{
-			int tempInt = System.Convert.ToInt32 (putOnMarketPopUpView.putOnMarketPopUpVM.price);
-			if(this.putOnMarketPopUpView!=null)
-			{
-				Destroy (putOnMarketPopUpView);
-			}
-			yield return(StartCoroutine (this.card.toSell(tempInt)));
-			if(this.card.Error=="")
-			{
-				this.setGUI (true);
-				this.popUpDisplayed (false);
-				this.updateVM ();
-				this.updateSceneModel();
-			}
-			else
-			{
-				this.displayErrorCardPopUp();
-			}
+			errorPopUpView.popUpVM.styles[i]=ressources.popUpStyles[i];
 		}
-		else
-		{
-			putOnMarketPopUpView.putOnMarketPopUpVM.error="Merci de bien vouloir saisir un prix";
-		}
-	}
-	public void putOnMarketCardPopUpResize()
-	{
-		putOnMarketPopUpView.popUpVM.centralWindow = this.getCentralWindowsRect ();
-		putOnMarketPopUpView.popUpVM.resize ();
+		errorPopUpView.popUpVM.initStyles();
+		this.errorCardPopUpResize ();
 	}
 	public void displayEditSellCardPopUp()
 	{
@@ -379,17 +228,6 @@ public class CardController : GameObjectController {
 		this.editSellCardPopUpResize ();
 		this.setGUI (false);
 		this.popUpDisplayed (true);
-	}
-	public void hideEditSellCardPopUp()
-	{
-		Destroy (this.editSellPopUpView);
-		this.setGUI (true);
-		this.popUpDisplayed (false);
-	}
-	public void editSellCardPopUpResize()
-	{
-		editSellPopUpView.popUpVM.centralWindow = this.getCentralWindowsRect ();
-		editSellPopUpView.popUpVM.resize ();
 	}
 	public void displayEditSellPriceCardPopUp()
 	{
@@ -409,90 +247,184 @@ public class CardController : GameObjectController {
 		this.setGUI (false);
 		this.popUpDisplayed (true);
 	}
+	public virtual void buyCard()
+	{
+		if(this.buyPopUpView!=null)
+		{
+			Destroy (buyPopUpView);
+		}
+	}
+	public virtual void sellCard()
+	{
+		if(this.sellPopUpView!=null)
+		{
+			Destroy (this.sellPopUpView);
+		}
+	}
+	public virtual void buyXpCard()
+	{
+		if(this.buyXpPopUpView!=null)
+		{
+			Destroy (this.buyXpPopUpView);
+		}
+	}
+	public virtual void renameCard()
+	{
+		if(this.renamePopUpView!=null)
+		{
+			Destroy (this.renamePopUpView);
+		}
+	}
+	public virtual void putOnMarketCard()
+	{
+		if(this.putOnMarketPopUpView!=null)
+		{
+			Destroy (putOnMarketPopUpView);
+		}
+	}
+	public virtual void editSellPriceCard()
+	{
+		if(this.editSellPricePopUpView!=null)
+		{
+			Destroy (this.editSellPricePopUpView);
+		}
+	}
+	public virtual void unsellCard()
+	{
+		if(this.editSellPopUpView!=null)
+		{
+			Destroy(this.editSellPopUpView);
+		}
+	}
+	public void hideBuyCardPopUp()
+	{
+		Destroy (this.buyPopUpView);
+		this.setGUI (true);
+		this.popUpDisplayed (false);
+	}
+	public void hideSellCardPopUp()
+	{
+		Destroy (this.sellPopUpView);
+		this.setGUI (true);
+		this.popUpDisplayed (false);
+	}
+	public void hideBuyXpCardPopUp()
+	{
+		Destroy (this.buyXpPopUpView);
+		this.setGUI (true);
+		this.popUpDisplayed (false);
+	}
+	public void hideRenameCardPopUp()
+	{
+		Destroy (this.renamePopUpView);
+		this.setGUI (true);
+		this.popUpDisplayed (false);
+	}
+	public void hideputOnMarketCardPopUp()
+	{
+		Destroy (this.putOnMarketPopUpView);
+		this.setGUI (true);
+		this.popUpDisplayed (false);
+	}
+	public void hideEditSellCardPopUp()
+	{
+		Destroy (this.editSellPopUpView);
+		this.setGUI (true);
+		this.popUpDisplayed (false);
+	}
 	public void hideEditSellPriceCardPopUp()
 	{
 		Destroy (this.editSellPricePopUpView);
 		this.setGUI (true);
 		this.popUpDisplayed (false);
 	}
-	public void editSellPriceCardPopUpResize()
-	{
-		editSellPricePopUpView.popUpVM.centralWindow = this.getCentralWindowsRect ();
-		editSellPricePopUpView.popUpVM.resize ();
-	}
-	public virtual IEnumerator editSellPriceCard()
-	{
-		int n;
-		bool isNumeric = int.TryParse(editSellPricePopUpView.editSellPricePopUpVM.price, out n);
-		if(editSellPricePopUpView.editSellPricePopUpVM.price!="" && isNumeric)
-		{
-			int tempInt = System.Convert.ToInt32 (editSellPricePopUpView.editSellPricePopUpVM.price);
-			if(this.editSellPricePopUpView!=null)
-			{
-				Destroy (this.editSellPricePopUpView);
-			}
-			yield return StartCoroutine (this.card.changePriceCard (tempInt));
-			if(this.card.Error=="")
-			{
-				this.setGUI (true);
-				this.popUpDisplayed (false);
-				this.updateVM ();
-				this.updateSceneModel();
-			}
-			else
-			{
-				this.displayErrorCardPopUp();
-			}
-		}
-		else
-		{
-			editSellPricePopUpView.editSellPricePopUpVM.error="Merci de bien vouloir saisir un prix";
-		}
-	}
-	public virtual IEnumerator unsellCard()
-	{
-		if(this.editSellPopUpView!=null)
-		{
-			Destroy(this.editSellPopUpView);
-		}
-		yield return StartCoroutine(this.card.notToSell ());
-		if(this.card.Error=="")
-		{
-			this.setGUI (true);
-			this.popUpDisplayed (false);
-			this.updateVM ();
-			this.updateSceneModel();
-		}
-		else
-		{
-			this.displayErrorCardPopUp();
-		}
-	}
-	public void displayErrorCardPopUp()
-	{
-		this.errorPopUpView = gameObject.AddComponent<ErrorCardPopUpView> ();
-		errorPopUpView.errorPopUpVM.error = this.card.Error;
-		errorPopUpView.popUpVM.styles=new GUIStyle[ressources.popUpStyles.Length];
-		for(int i=0;i<ressources.popUpStyles.Length;i++)
-		{
-			errorPopUpView.popUpVM.styles[i]=ressources.popUpStyles[i];
-		}
-		errorPopUpView.popUpVM.initStyles();
-		this.errorCardPopUpResize ();
-	}
-	public virtual void hideErrorCardPopUp()
+	public void hideErrorCardPopUp()
 	{
 		Destroy (this.errorPopUpView);
 		this.setGUI (true);
 		this.popUpDisplayed (false);
 	}
-	public void errorCardPopUpResize()
+	private void buyCardPopUpResize()
+	{
+		buyPopUpView.popUpVM.centralWindow = this.getCentralWindowsRect ();
+		buyPopUpView.popUpVM.resize ();
+	}
+	private void sellCardPopUpResize()
+	{
+		sellPopUpView.popUpVM.centralWindow = this.getCentralWindowsRect ();
+		sellPopUpView.popUpVM.resize ();
+	}
+	private void buyXpCardPopUpResize()
+	{
+		buyXpPopUpView.popUpVM.centralWindow = this.getCentralWindowsRect ();
+		buyXpPopUpView.popUpVM.resize ();
+	}
+	private void putOnMarketCardPopUpResize()
+	{
+		putOnMarketPopUpView.popUpVM.centralWindow = this.getCentralWindowsRect ();
+		putOnMarketPopUpView.popUpVM.resize ();
+	}
+	private void renameCardPopUpResize()
+	{
+		renamePopUpView.popUpVM.centralWindow = this.getCentralWindowsRect ();
+		renamePopUpView.popUpVM.resize ();
+	}
+	private void editSellCardPopUpResize()
+	{
+		editSellPopUpView.popUpVM.centralWindow = this.getCentralWindowsRect ();
+		editSellPopUpView.popUpVM.resize ();
+	}
+	private void errorCardPopUpResize()
 	{
 		errorPopUpView.popUpVM.centralWindow = this.getCentralWindowsRect ();
 		errorPopUpView.popUpVM.resize ();
 	}
-	public virtual void updateVM()
+	private void editSellPriceCardPopUpResize()
 	{
+		editSellPricePopUpView.popUpVM.centralWindow = this.getCentralWindowsRect ();
+		editSellPricePopUpView.popUpVM.resize ();
+	}
+	public int editSellPriceSyntaxCheck()
+	{
+		int n;
+		bool isNumeric = int.TryParse(editSellPricePopUpView.editSellPricePopUpVM.price, out n);
+		if(editSellPricePopUpView.editSellPricePopUpVM.price!="" && isNumeric)
+		{
+			if(System.Convert.ToInt32(editSellPricePopUpView.editSellPricePopUpVM.price)>0)
+			{
+				return System.Convert.ToInt32(editSellPricePopUpView.editSellPricePopUpVM.price);
+			}
+		}
+		editSellPricePopUpView.editSellPricePopUpVM.error="Merci de bien vouloir saisir un prix";
+		return -1;
+	}
+	public string renameCardSyntaxCheck()
+	{
+		string tempString = renamePopUpView.renamePopUpVM.newTitle;
+		if(tempString=="")
+		{
+			renamePopUpView.renamePopUpVM.error="Merci de bien vouloir saisir un nom";
+		}
+		else if(tempString==this.card.Title)
+		{
+			renamePopUpView.renamePopUpVM.error="Le nom saisi est identique à l'ancien";
+			tempString="";
+		}
+		return tempString;
+	}
+	public int putOnMarketSyntaxCheck()
+	{
+		int n;
+		bool isNumeric = int.TryParse(putOnMarketPopUpView.putOnMarketPopUpVM.price, out n);
+		if(putOnMarketPopUpView.putOnMarketPopUpVM.price!="" && isNumeric)
+		{
+			if(System.Convert.ToInt32(putOnMarketPopUpView.putOnMarketPopUpVM.price)>0)
+			{ 
+				return System.Convert.ToInt32(putOnMarketPopUpView.putOnMarketPopUpVM.price);
+			}
+		}
+		putOnMarketPopUpView.putOnMarketPopUpVM.error="Merci de bien vouloir saisir un prix";
+		return -1;
 	}
 	public virtual void setGUI(bool value)
 	{
@@ -526,23 +458,23 @@ public class CardController : GameObjectController {
 		}
 		if(this.renamePopUpView!=null)
 		{
-			StartCoroutine(this.renameCard());
+			this.renameCard();
 		}
 		if(this.sellPopUpView!=null)
 		{
-			StartCoroutine(this.sellCard());
+			this.sellCard();
 		}
 		if(this.editSellPricePopUpView!=null)
 		{
-			StartCoroutine(this.editSellPriceCard());
+			this.editSellPriceCard();
 		}
 		if(this.buyXpPopUpView!=null)
 		{
-			StartCoroutine(this.buyXpCard());
+			this.buyXpCard();
 		}
 		if(this.putOnMarketPopUpView!=null)
 		{
-			StartCoroutine(this.putOnMarketCard());
+			this.putOnMarketCard();
 		}
 	}
 	public void exitPopUp()
@@ -638,6 +570,10 @@ public class CardController : GameObjectController {
 		if(this.putOnMarketPopUpView!=null)
 		{
 			this.putOnMarketCardPopUpResize();
+		}
+		if(this.errorPopUpView!=null)
+		{
+			this.errorCardPopUpResize();
 		}
 	}
 	public void setCentralWindowRect(Rect centralWindowRect)

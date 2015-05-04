@@ -1,10 +1,14 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Reflection;
 
-public class MyDecksViewModel
+public class MyGameDecksViewModel
 {
 	public GUIStyle[] myDecksGuiStyle;
 	public GUIStyle[] myDecksButtonGuiStyle;
+	public List<int> deckCardsToBeDisplayed;
 	public Rect rectDeck;
 	public Rect rectFocus;
 	public Rect rectInsideScrollDeck;
@@ -25,15 +29,13 @@ public class MyDecksViewModel
 	public GUIStyle mySuppressButtonStyle;
 	public GUIStyle myEditButtonStyle;
 	public GUIStyle myNewDeckButton;
+	
 
-	public Texture2D[] textures;
-	public Texture2D backNewDeckButton;
-	public Texture2D backHoveredNewDeckButton;
-
-	public MyDecksViewModel()
+	public MyGameDecksViewModel()
 	{
 		chosenDeck = 0;
 		chosenIdDeck = -1;
+		this.deckCardsToBeDisplayed = new List<int> ();
 	}
 
 	public void initStyles()
@@ -47,10 +49,8 @@ public class MyDecksViewModel
 		myEditButtonStyle = styles [6];
 		myNewDeckButton = styles [7];
 	}
-
-	public void initTextures()
+	public void resize(int heightScreen)
 	{
-		backNewDeckButton = textures [0];
-		backHoveredNewDeckButton = textures [1];
+
 	}
 }

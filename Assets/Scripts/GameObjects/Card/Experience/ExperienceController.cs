@@ -69,7 +69,6 @@ public class ExperienceController : MonoBehaviour {
 				Destroy (animation);
 				this.toMove=false;
 				gameObject.transform.parent.transform.parent.transform.GetComponent<CardController>().updateExperience ();
-				gameObject.transform.parent.transform.parent.transform.GetComponent<CardController>().show ();
 			}
 		}
 	}
@@ -89,7 +88,6 @@ public class ExperienceController : MonoBehaviour {
 	}
 	public void animateXp(int level, int percentage)
 	{
-		this.animation = new GameObject ();
 		view.experienceVM.currentLevel=view.experienceVM.level;
 		view.experienceVM.currentPercentage=0.01f*(float)view.experienceVM.percentage;
 		view.experienceVM.startLevel = view.experienceVM.level;

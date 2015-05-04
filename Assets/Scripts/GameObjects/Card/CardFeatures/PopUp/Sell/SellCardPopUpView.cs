@@ -29,7 +29,7 @@ public class SellCardPopUpView : MonoBehaviour
 					GUILayout.Space(0.03f * popUpVM.centralWindow.width);
 					if (GUILayout.Button("Désintégrer", popUpVM.centralWindowButtonStyle))
 					{
-						StartCoroutine(gameObject.GetComponent<CardController>().sellCard());
+						gameObject.GetComponent<CardController>().sellCard();
 					}
 					GUILayout.Space(0.04f * popUpVM.centralWindow.width);
 					if (GUILayout.Button("Annuler", popUpVM.centralWindowButtonStyle))
