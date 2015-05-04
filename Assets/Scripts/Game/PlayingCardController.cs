@@ -83,21 +83,19 @@ public class PlayingCardController : MonoBehaviour
 			this.playingCardView.playingCardVM.backgroundStyle = guiStylesMyCharacter[0];
 			this.playingCardView.playingCardVM.nameTextStyle = guiStylesMyCharacter[1];
 			this.playingCardView.playingCardVM.attackZoneTextStyle = guiStylesMyCharacter[2];
-			this.playingCardView.playingCardVM.moveZoneTextStyle = guiStylesMyCharacter[2];
-			this.playingCardView.playingCardVM.quicknessZoneTextStyle = guiStylesMyCharacter[2];
 			this.playingCardView.playingCardVM.imageStyle = guiStylesMyCharacter[5];
 			this.playingCardView.playingCardVM.lifeTextStyle = guiStylesMyCharacter[6];
 			this.playingCardView.playingCardVM.backgroundLifeBar = guiStylesMyCharacter[7];
+			this.playingCardView.playingCardVM.emptyButtonStyle = guiStylesMyCharacter[8];
 		}
 		else{
 			this.playingCardView.playingCardVM.backgroundStyle = guiStylesHisCharacter[0];
 			this.playingCardView.playingCardVM.nameTextStyle = guiStylesHisCharacter[1];
 			this.playingCardView.playingCardVM.attackZoneTextStyle = guiStylesHisCharacter[2];
-			this.playingCardView.playingCardVM.moveZoneTextStyle = guiStylesHisCharacter[2];
-			this.playingCardView.playingCardVM.quicknessZoneTextStyle = guiStylesHisCharacter[2];
 			this.playingCardView.playingCardVM.imageStyle = guiStylesHisCharacter[5];
 			this.playingCardView.playingCardVM.lifeTextStyle = guiStylesHisCharacter[6];
-			this.playingCardView.playingCardVM.lifeTextStyle = guiStylesHisCharacter[7];
+			this.playingCardView.playingCardVM.backgroundLifeBar = guiStylesHisCharacter[7];
+			this.playingCardView.playingCardVM.emptyButtonStyle = guiStylesHisCharacter[8];
 		}
 	}
 
@@ -153,30 +151,30 @@ public class PlayingCardController : MonoBehaviour
 	}
 
 	public void resize(int h){
-		this.scale = h*0.1f/1000f ;
+		this.scale = h*1.4f/1000f ;
 		this.playingCardView.playingCardVM.scale = new Vector3(this.scale, this.scale, this.scale);
 		if (this.isSelected){
-			this.playingCardView.playingCardVM.ScreenPosition = new Vector3(Screen.width*((this.sortID-1)*0.13f+0.12f+0.21f),0.86f*Screen.height,0);
+			this.playingCardView.playingCardVM.ScreenPosition = new Vector3(Screen.width*((this.sortID-1)*0.13f+0.12f+0.21f),0.93f*Screen.height,0);
 		}
 		else if (this.isMoved){
-			this.playingCardView.playingCardVM.ScreenPosition = new Vector3(Screen.width*((this.sortID-1)*0.13f+0.18f+0.21f),0.86f*Screen.height,0);
+			this.playingCardView.playingCardVM.ScreenPosition = new Vector3(Screen.width*((this.sortID-1)*0.13f+0.18f+0.21f),0.93f*Screen.height,0);
 		}
 		else{
-			this.playingCardView.playingCardVM.ScreenPosition = new Vector3(Screen.width*((this.sortID-1)*0.13f+0.06f+0.21f),0.86f*Screen.height,0);
+			this.playingCardView.playingCardVM.ScreenPosition = new Vector3(Screen.width*((this.sortID-1)*0.13f+0.06f+0.21f),0.93f*Screen.height,0);
 		}
 
 		this.playingCardView.playingCardVM.position = Camera.main.ScreenToWorldPoint(this.playingCardView.playingCardVM.ScreenPosition);
+		this.playingCardView.playingCardVM.position.y = -5f ;
+		this.playingCardView.playingCardVM.position.z = 0f ;
 		this.playingCardView.playingCardVM.nameTextStyle.fontSize = h * 18 / 1000 ;
 		this.playingCardView.playingCardVM.attackZoneTextStyle.fontSize = h * 15 / 1000 ;
-		this.playingCardView.playingCardVM.moveZoneTextStyle.fontSize = h * 15 / 1000 ;
-		this.playingCardView.playingCardVM.quicknessZoneTextStyle.fontSize = h * 15 / 1000 ;
 		this.playingCardView.playingCardVM.lifeTextStyle.fontSize = h * 15 / 1000 ;
 		this.playingCardView.playingCardVM.backgroundLifeBar.fontSize = h * 15 / 1000 ;
 		if (this.isSelected){
-			this.playingCardView.playingCardVM.infoRect = new Rect(this.playingCardView.playingCardVM.ScreenPosition.x-0.12f*Screen.width, this.playingCardView.playingCardVM.ScreenPosition.y, 0.24f*Screen.width, 0.14f*Screen.height);
+			this.playingCardView.playingCardVM.infoRect = new Rect(this.playingCardView.playingCardVM.ScreenPosition.x-0.12f*Screen.width, this.playingCardView.playingCardVM.ScreenPosition.y-0.07f*Screen.height, 0.24f*Screen.width, 0.14f*Screen.height);
 		}
 		else{
-			this.playingCardView.playingCardVM.infoRect = new Rect(this.playingCardView.playingCardVM.ScreenPosition.x-0.06f*Screen.width, this.playingCardView.playingCardVM.ScreenPosition.y, 0.12f*Screen.width, 0.14f*Screen.height);
+			this.playingCardView.playingCardVM.infoRect = new Rect(this.playingCardView.playingCardVM.ScreenPosition.x-0.06f*Screen.width, this.playingCardView.playingCardVM.ScreenPosition.y-0.07f*Screen.height, 0.12f*Screen.width, 0.14f*Screen.height);
 		}
 		this.playingCardView.replace();
 	}
@@ -205,13 +203,13 @@ public class PlayingCardController : MonoBehaviour
 		}
 		this.playingCardView.playingCardVM.attack += attack+bonus ;
 		if (bonus>0){
-			this.playingCardView.playingCardVM.attackZoneTextStyle = guiStylesMyCharacter[3];
+			//this.playingCardView.playingCardVM.attackZoneTextStyle = guiStylesMyCharacter[3];
 		}
 		else if (bonus>0){
-			this.playingCardView.playingCardVM.attackZoneTextStyle = guiStylesMyCharacter[4];
+			//this.playingCardView.playingCardVM.attackZoneTextStyle = guiStylesMyCharacter[4];
 		}
 		else{
-			this.playingCardView.playingCardVM.moveZoneTextStyle = guiStylesMyCharacter[2];
+			this.playingCardView.playingCardVM.attackZoneTextStyle = guiStylesMyCharacter[2];
 		}
 	}
 
@@ -225,13 +223,13 @@ public class PlayingCardController : MonoBehaviour
 		}
 		this.playingCardView.playingCardVM.move += move+bonus ;
 		if (bonus>0){
-			this.playingCardView.playingCardVM.moveZoneTextStyle = guiStylesMyCharacter[3];
+			//this.playingCardView.playingCardVM.moveZoneTextStyle = guiStylesMyCharacter[3];
 		}
 		else if (bonus>0){
-			this.playingCardView.playingCardVM.moveZoneTextStyle = guiStylesMyCharacter[4];
+			//this.playingCardView.playingCardVM.moveZoneTextStyle = guiStylesMyCharacter[4];
 		}
 		else{
-			this.playingCardView.playingCardVM.moveZoneTextStyle = guiStylesMyCharacter[2];
+			this.playingCardView.playingCardVM.attackZoneTextStyle = guiStylesMyCharacter[2];
 		}
 	}
 
@@ -245,15 +243,36 @@ public class PlayingCardController : MonoBehaviour
 		}
 		this.playingCardView.playingCardVM.quickness += speed+bonus ;
 		if (bonus>0){
-			this.playingCardView.playingCardVM.quicknessZoneTextStyle = guiStylesMyCharacter[3];
+			//this.playingCardView.playingCardVM.quicknessZoneTextStyle = guiStylesMyCharacter[3];
 		}
 		else if (bonus>0){
-			this.playingCardView.playingCardVM.quicknessZoneTextStyle = guiStylesMyCharacter[4];
+			//this.playingCardView.playingCardVM.quicknessZoneTextStyle = guiStylesMyCharacter[4];
 		}
 		else{
-			this.playingCardView.playingCardVM.moveZoneTextStyle = guiStylesMyCharacter[2];
+			this.playingCardView.playingCardVM.attackZoneTextStyle = guiStylesMyCharacter[2];
 		}
 	}
+
+	public void hoverPlayingCard(){
+		GameController.instance.hoverPlayingCard(this.IDCharacter);
+	}
+
+	public void clickPlayingCard(){
+		GameController.instance.clickPlayingCard(this.IDCharacter);
+	}
+
+	public void displayHover(){
+		this.playingCardView.playingCardVM.backgroundStyle = guiStylesMyCharacter[3];
+	}
+
+	public void displayClick(){
+		this.playingCardView.playingCardVM.backgroundStyle = guiStylesMyCharacter[4];
+	}
+
+	public void hideHover(){
+		this.playingCardView.playingCardVM.backgroundStyle = guiStylesMyCharacter[0];
+	}
+
 
 //	void Start () {
 //		animator = transform.parent.GetComponent<Animator> ();

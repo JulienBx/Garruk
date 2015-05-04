@@ -33,6 +33,8 @@ public class GameController : Photon.MonoBehaviour
 
 	int currentClickedTileX = -1 ;
 	int currentClickedTileY = -1 ;
+
+	int hoveredCharacter = -1;
 	
 	const string roomNamePrefix = "GarrukGame";
 	private int nbPlayers = 0 ;
@@ -89,8 +91,22 @@ public class GameController : Photon.MonoBehaviour
 			if (currentHoveredTileX!=x || currentHoveredTileY!=y){
 				if (currentHoveredTileX!=-1){
 					this.tiles[currentHoveredTileX,currentHoveredTileY].GetComponent<TileController>().hideHover();
+					if (this.hoveredCharacter>=0 && this.hoveredCharacter<5){
+						this.myPlayingCards[this.hoveredCharacter].GetComponentInChildren<PlayingCardController>().hideHover();
+					}
+					else{
+						
+					}
 				}
+
+				this.hoveredCharacter = idCharacter ;
 				this.tiles[x,y].GetComponent<TileController>().displayHover();
+				if (idCharacter>=0 && idCharacter<5){
+					this.myPlayingCards[idCharacter].GetComponentInChildren<PlayingCardController>().displayHover();
+				}
+				else{
+				
+				}
 				this.currentHoveredTileX = x ;
 				this.currentHoveredTileY = y ;
 				if (this.characterDragged!=-1){
@@ -116,7 +132,22 @@ public class GameController : Photon.MonoBehaviour
 			this.currentHoveredTileX = -1 ;
 			this.currentHoveredTileY = -1 ;
 		}
+	}
 
+	public void hoverPlayingCard(int idCharacter){
+		if (idCharacter<5){
+			this.hoverTile(myCharacters[idCharacter].GetComponentInChildren<PlayingCharacterController>().tile.GetComponent<TileController>().x, myCharacters[idCharacter].GetComponentInChildren<PlayingCharacterController>().tile.GetComponent<TileController>().y, idCharacter, myCharacters[idCharacter].GetComponentInChildren<PlayingCharacterController>().tile.GetComponent<TileController>().isDestination);
+		}
+		else{
+			//this.hoverTile(myCharacters[idCharacter].GetComponentInChildren<PlayingCharacterController>().tile.GetComponent<TileController>().x, myCharacters[idCharacter].GetComponentInChildren<PlayingCharacterController>().tile.GetComponent<TileController>().y, idCharacter, myCharacters[idCharacter].GetComponentInChildren<PlayingCharacterController>().tile.GetComponent<TileController>().isDestination);
+		}
+	}
+
+	public void clickPlayingCard(int idCharacter){
+		if (idCharacter<5){
+			this.clickTile(myCharacters[idCharacter].GetComponentInChildren<PlayingCharacterController>().tile.GetComponent<TileController>().x, myCharacters[idCharacter].GetComponentInChildren<PlayingCharacterController>().tile.GetComponent<TileController>().y, idCharacter);
+			this.releaseClick();
+		}
 	}
 
 	public void clickTile(int x, int y, int idCharacter){
@@ -130,16 +161,38 @@ public class GameController : Photon.MonoBehaviour
 					}
 					if (currentClickedTileX!=-1){
 						this.tiles[currentClickedTileX,currentClickedTileY].GetComponent<TileController>().hideSelected();
+						if (this.hoveredCharacter>=0 && this.hoveredCharacter<5){
+							this.myPlayingCards[this.hoveredCharacter].GetComponentInChildren<PlayingCardController>().hideHover();
+						}
+						else{
+							
+						}
 					}
+					this.hoveredCharacter = -1 ;
 					this.currentHoveredTileX = -1 ;
 					this.currentHoveredTileY = -1 ;
 					this.currentClickedTileX = x ;
 					this.currentClickedTileY = y ;
 					this.tiles[x,y].GetComponent<TileController>().displaySelected();
+					if (idCharacter<5){
+						this.myPlayingCards[idCharacter].GetComponentInChildren<PlayingCardController>().displayClick();
+					}
+					else{
+						
+					}
 				}
 			}
 			else{
 				this.tiles[currentClickedTileX,currentClickedTileY].GetComponent<TileController>().hideSelected();
+				this.currentHoveredTileX = currentClickedTileX ;
+				this.currentHoveredTileY = currentClickedTileY ;
+				this.tiles[currentClickedTileX,currentClickedTileY].GetComponent<TileController>().displayHover();
+				if (idCharacter<5){
+					this.myPlayingCards[idCharacter].GetComponentInChildren<PlayingCardController>().displayHover();
+				}
+				else{
+					
+				}
 				this.currentClickedTileX = -1 ;
 				this.currentClickedTileY = -1 ;
 				this.characterDragged = -1;
@@ -159,11 +212,25 @@ public class GameController : Photon.MonoBehaviour
 					photonView.RPC("moveCharacterRPC", PhotonTargets.AllBuffered, currentHoveredTileX, currentHoveredTileY, this.characterDragged, this.isFirstPlayer, true);
 				}
 				this.tiles[currentHoveredTileX,currentHoveredTileY].GetComponent<TileController>().hideHover();
+
+				if (this.hoveredCharacter>=0 && this.hoveredCharacter<5){
+					this.myPlayingCards[this.hoveredCharacter].GetComponentInChildren<PlayingCardController>().hideHover();
+				}
+				else{
+					
+				}
+				this.hoveredCharacter = -1 ;
 				this.currentHoveredTileX = -1 ;
 				this.currentHoveredTileY = -1 ;
 				this.tiles[currentClickedTileX,currentClickedTileY].GetComponent<TileController>().hideSelected();
 				this.currentClickedTileX = -1 ;
 				this.currentClickedTileY = -1 ;
+				if (this.characterDragged<5){
+					this.myPlayingCards[this.characterDragged].GetComponentInChildren<PlayingCardController>().hideHover();
+				}
+				else{
+				
+				}
 				this.characterDragged=-1;
 				this.gameView.SetCursorToDefault();
 			}
