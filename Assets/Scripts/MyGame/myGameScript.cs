@@ -711,7 +711,6 @@ public class myGameScript : MonoBehaviour
 			if (i < nbDeckCardsToDisplay)
 			{
 				initCard(card, i);
-				//card.GetComponent<CardMyGameController>().setFocusMyGameFeatures();
 			} else
 			{
 				card.AddComponent<CardMyGameController>();
@@ -781,57 +780,7 @@ public class myGameScript : MonoBehaviour
 		Deck deck = new Deck(idDeck);
 		StartCoroutine(deck.removeCard(idCard));
 	}
-	
-	public IEnumerator sellCard(int idCard, int cost)
-	{	
-		ApplicationModel.credits += cost;
-		Card card = new Card(idCard);
-		//yield return StartCoroutine(card.sellCard(cost));
-		yield return null;
-		myGameView.myGameVM.soldCard = true;
-	}
-	
-	public void putOnMarket(int idCard, int price)
-	{
-		myGameView.myGameVM.cards [myGameView.myGameVM.idFocused].onSale = 1;
-		myGameView.myGameVM.cards [myGameView.myGameVM.idFocused].Price = price;
-		Card card = new Card(idCard);
-		
-		StartCoroutine(card.toSell(price));
-	}
-	
-	public void removeFromMarket(int idCard)
-	{	
-		myGameView.myGameVM.cards [myGameView.myGameVM.idFocused].onSale = 0;
-		Card card = new Card(idCard);
 
-		StartCoroutine(card.notToSell());
-	}
-	
-	public void changeMarketPrice(int idCard, int price)
-	{	
-		myGameView.myGameVM.cards [myGameView.myGameVM.idFocused].Price = price;
-		Card card = new Card(idCard);
-
-		StartCoroutine(card.changePriceCard(price));
-	}
-	
-	public void renameCard(int idCard, string newTitle, int renameCost)
-	{
-
-		myGameView.myDecksVM.newTitle = myGameView.myDecksVM.newTitle.Replace("\n", "");
-		myGameView.myDecksVM.newTitle = System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo
-			.ToTitleCase(myGameView.myDecksVM.newTitle.ToLower());
-		Card card = new Card(idCard);
-
-		StartCoroutine(card.renameCard(newTitle, renameCost));
-		
-		ApplicationModel.credits -= renameCost;
-
-		myGameView.myGameVM.cards [myGameView.myGameVM.idFocused].Title = myGameView.myDecksVM.newTitle;
-		myGameView.GetComponent<GameCard>().Card.Title = myGameView.myDecksVM.newTitle;
-		myGameView.myGameVM.cardFocused.GetComponent<GameCard>().ShowFace();
-	}
 	#endregion call models
 
 	public void parseDecks(string text)
