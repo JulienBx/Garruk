@@ -4,70 +4,37 @@ using System.Collections.Generic;
 
 public class MyGameViewModel
 {
-	public GUIStyle monLoaderStyle;
-
-	public IList<Deck> myDecks;
-	public IList<Card> cards;
-	public IList<int> cardsToBeDisplayed;
-	public IList<int> cardsIds;
-	public IList<int> deckCardsIds;
-
-	public GameObject[] displayedCards;
-	public GameObject[] displayedDeckCards;
-	public string[] skillsList;
-	public string[] cardTypeList;
-	public bool[] togglesCurrentStates;
-
-	public GameObject cardFocused;
-	public bool areDecksRetrieved;
-	public bool isLoadedCards;
-	public bool isLoadedDeck;
-	public bool soldCard;
-	public bool toReloadAll;
-	public bool areCreatedDeckCards;
-	public bool toReload;
-	public bool destroyAll;
-	public bool displayDecks;
-	public bool isCreatedDeckCards;
-	public bool isCreatedCards;
-	public bool displayLoader;
-	public bool isUpEscape;
-	public bool isDisplayedCards;
+	public GUIStyle paginationStyle;
+	public GUIStyle paginationActivatedStyle;
+	public GUIStyle sortDefaultButtonStyle;
+	public GUIStyle sortActivatedButtonStyle;
 	public bool isBeingDragged;
-	public bool confirmSuppress;
-	public bool isMarketed;
-	public int idFocused;
-	public int nbCardsPerRow;
-	public int cardId;
-	public string textMarket;
-	public string tempPrice; 
+	public bool displayView;
+	public bool guiEnabled;
+	public bool isPopUpDisplayed;
 
-	public Texture2D[] textures;
-	public Texture2D backButton;
-	public Texture2D backActivatedButton;
+	public GUIStyle[] styles;
 
 	public MyGameViewModel()
 	{
-		cards = new List<Card>();
-		areDecksRetrieved = false;
-		isLoadedCards = false;
-		isLoadedDeck = false;
-		soldCard = false;
-		toReloadAll = false;
-		areCreatedDeckCards = false; 
-		toReload = false;
-		destroyAll = false;
-		displayDecks = false;
-		isCreatedDeckCards = false;
-		isCreatedCards = false;
-		isDisplayedCards = true;
-		isBeingDragged = false;
-		nbCardsPerRow = 1;
+		this.styles=new GUIStyle[0];
+		this.displayView = true;
+		this.guiEnabled = true;
+		this.isPopUpDisplayed = false;
+		this.isBeingDragged = false;
 	}
-
-	public void initTextures()
+	public void initStyles()
 	{
-		backButton = textures [0];
-		backActivatedButton = textures [1];
+		this.paginationStyle = styles [0];
+		this.paginationActivatedStyle = styles [1];
+		this.sortDefaultButtonStyle = styles [2];
+		this.sortActivatedButtonStyle = styles [3];
+	}
+	public void resize(int heightScreen)
+	{
+		this.paginationStyle.fontSize =heightScreen * 2 / 100;
+		this.paginationActivatedStyle.fontSize = heightScreen * 2 / 100;
+		this.sortDefaultButtonStyle.fontSize = heightScreen * 2 / 100;
+		this.sortActivatedButtonStyle.fontSize = heightScreen * 2 / 100;
 	}
 }

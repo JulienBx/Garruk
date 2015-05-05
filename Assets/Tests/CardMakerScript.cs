@@ -29,7 +29,7 @@ public class CardMakerScript : MonoBehaviour {
 		{
 			xp=System.Convert.ToInt32(xpString);
 			c.Experience=c.Experience+xp;
-			this.myCard.GetComponent<CardController> ().animateExperience ();
+			this.myCard.GetComponent<CardController> ().animateExperience (this.c);
 
 		}
 	}
@@ -110,7 +110,7 @@ public class CardMakerScript : MonoBehaviour {
 		this.myCard.GetComponent<CardController> ().show ();
 		//this.myCard.GetComponent<CardMarketController> ().setMarketFeatures ();
 		this.myCard.GetComponent<CardController> ().setCentralWindowRect (centralWindow);
-		this.myCard.GetComponent<CardMyGameController> ().setFocusMyGameFeatures ();
+		this.myCard.GetComponent<CardMyGameController> ().setFocusMyGameFeatures (true);
 		//this.myCard.GetComponent<CardMarketController> ().setFocusMarketFeatures ();
 
 	}

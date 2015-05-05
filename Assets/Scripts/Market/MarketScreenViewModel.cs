@@ -7,8 +7,8 @@ using System.Reflection;
 public class MarketScreenViewModel {
 	
 	public GUIStyle[] styles;
-	public int heightScreen=Screen.height;
-	public int widthScreen=Screen.width;
+	public int heightScreen;
+	public int widthScreen;
 	public float gapBetweenblocks;
 	public float blockLeftWidth;
 	public float blockLeftHeight;
@@ -21,6 +21,8 @@ public class MarketScreenViewModel {
 	public MarketScreenViewModel ()
 	{
 		this.styles=new GUIStyle[0];
+		this.heightScreen=Screen.height;
+		this.widthScreen=Screen.width;
 	}
 	public void initStyles()
 	{
@@ -33,9 +35,9 @@ public class MarketScreenViewModel {
 		this.gapBetweenblocks = 5;
 		
 		this.blockLeftHeight=1f*(0.9f*this.heightScreen-2*this.gapBetweenblocks);
-		this.blockLeftWidth=0.80f*this.widthScreen - (3*this.gapBetweenblocks);
+		this.blockLeftWidth=0.80f*(this.widthScreen - 3*this.gapBetweenblocks);
 		this.blockRightHeight=1f*(0.9f*this.heightScreen-2*this.gapBetweenblocks);
-		this.blockRightWidth=0.20f*this.widthScreen - (3*this.gapBetweenblocks);
+		this.blockRightWidth=0.20f*(this.widthScreen - 3*this.gapBetweenblocks);
 		
 		this.blockLeft = new Rect (this.gapBetweenblocks, 
 		                           0.1f * this.heightScreen + this.gapBetweenblocks, 

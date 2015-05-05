@@ -1,496 +1,256 @@
 using UnityEngine;
+using UnityEngine.UI;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 
 public class MyGameView : MonoBehaviour
 {
-	public FilterViewModel filterVM;
-	public MyGamePopUpViewModel popupVM;
-	public MyDecksViewModel myDecksVM;
-	public SortViewModel sortVM;
-	public FocusViewModel focusVM;
-	public PaginationViewModel paginationVM;
+	public MyGameScreenViewModel myGameScreenVM;
 	public MyGameViewModel myGameVM;
-
-	public bool enVente = false;
-	public bool isSkillChosen = false;
-	public string valueSkill = "";
-
-	RaycastHit hit;
-	Ray ray;
-	Vector2 scrollPosition = new Vector2(0, 0);
-	int IDDeckToEdit = -1;
-	int deckToEdit = -1;
-	string tempText = "Nouveau deck";
-	bool displayCreationDeckWindow = false;
-	bool isSkillToDisplay = false;
-	bool isUpgradingCard = false;
-	bool isEscDown = false;
-	bool isRenamingCard = false;
-	bool isSellingCard = false;
-	bool isMarketingCard = false;
-	bool destroyRenamingCardWindow = false;
-	bool destroyFocus = false;
-	bool isChangingPrice;
-	bool destroyUpgradingCardWindow = false;
-
-
-	void Start()
-	{	 
-		myGameScript.instance.initViewModels();
-		myGameScript.instance.initStyles();
-		myGameScript.instance.setStyles();
-		myGameScript.instance.MenuObject = Instantiate(myGameScript.instance.MenuObject) as GameObject;
-		filterVM.filtersCardType = new List<int>();
-		//myGameScript.instance.toReload();
-	}
+	public MyGameFiltersViewModel myGameFiltersVM;
+	public MyGameCardsViewModel myGameCardsVM;
+	public MyGameDecksViewModel myGameDecksVM;
 	
+	void Start()
+	{
+		this.myGameScreenVM= new MyGameScreenViewModel();
+		this.myGameVM=new MyGameViewModel ();
+		this.myGameFiltersVM = new MyGameFiltersViewModel();
+		this.myGameCardsVM =  new MyGameCardsViewModel();
+		this.myGameDecksVM = new MyGameDecksViewModel();
+	}
 	void Update()
 	{
-		/*if (Input.GetMouseButtonDown(0))
-		{
-			myGameScript.instance.onLeftClick();
+		if (Screen.width != myGameScreenVM.widthScreen || Screen.height != myGameScreenVM.heightScreen) {
+			MyGameController.instance.loadData();
 		}
-		if (Input.GetMouseButtonUp(0))
+		if(Input.GetKeyDown(KeyCode.Return)) 
 		{
-			myGameScript.instance.onRightClick();
-		}*/
+			MyGameController.instance.returnPressed();
+		}
+		if(Input.GetKeyDown(KeyCode.Escape)) 
+		{
+			MyGameController.instance.escapePressed();
+		}
+		if(Input.GetMouseButtonDown(0))
+		{
+			MyGameController.instance.isBeingDragged ();
+		}
+		if(Input.GetMouseButtonUp(0))
+		{
+			MyGameController.instance.isNotBeingDragged ();
+		}
 	}
-	
 	void OnGUI()
 	{
-		if (myGameVM.displayDecks)
+		GUI.enabled = myGameVM.guiEnabled;
+		if(myGameVM.displayView)
 		{
-			if (IDDeckToEdit != -1)
-			{
-				if (Event.current.keyCode == KeyCode.Escape)
-				{ 
-					IDDeckToEdit = -1;
-					tempText = "Nouveau deck";
-				} else if (Event.current.keyCode == KeyCode.Return)
-				{
-					StartCoroutine(myGameScript.instance.deleteDeck(IDDeckToEdit));
-					tempText = "Nouveau deck";
-					IDDeckToEdit = -1;
-				} else
-				{
-					GUILayout.BeginArea(popupVM.centralWindow);
-					{
-						GUILayout.BeginVertical(popupVM.centralWindowStyle);
-						{
-							GUILayout.FlexibleSpace();
-							GUILayout.Label("Voulez-vous supprimer le deck ?", popupVM.centralWindowTitleStyle);
-							GUILayout.Space(0.02f * myGameScript.instance.heightScreen);
-							GUILayout.BeginHorizontal();
-							{
-								GUILayout.Space(0.03f * myGameScript.instance.widthScreen);
-								if (GUILayout.Button("Confirmer la suppression", popupVM.centralWindowButtonStyle))
-								{
-									StartCoroutine(myGameScript.instance.deleteDeck(IDDeckToEdit));
-									tempText = "Nouveau deck";
-									IDDeckToEdit = -1;
-								}
-								GUILayout.Space(0.04f * myGameScript.instance.widthScreen);
-								if (GUILayout.Button("Annuler", popupVM.centralWindowButtonStyle))
-								{
-									displayCreationDeckWindow = false; 
-									IDDeckToEdit = -1;
-								}
-								GUILayout.Space(0.03f * myGameScript.instance.widthScreen);
-							}
-							GUILayout.EndHorizontal();
-							GUILayout.FlexibleSpace();
-						}
-						GUILayout.EndVertical();
-					}
-					GUILayout.EndArea();
-				}
-			}
-			if (displayCreationDeckWindow)
-			{	
-				if (Event.current.keyCode == KeyCode.Escape)
-				{
-					displayCreationDeckWindow = false;
-					tempText = "Nouveau deck";
-				} else if (Event.current.keyCode == KeyCode.Return)
-				{
-					StartCoroutine(myGameScript.instance.addDeck(tempText));
-					tempText = "Nouveau deck";
-					displayCreationDeckWindow = false;
-				} else
-				{
-					GUILayout.BeginArea(popupVM.centralWindow);
-					{
-						GUILayout.BeginVertical(popupVM.centralWindowStyle);
-						{
-							GUILayout.FlexibleSpace();
-							GUILayout.Label("Choisissez le nom de votre nouveau deck", popupVM.centralWindowTitleStyle);
-							GUILayout.Space(0.02f * myGameScript.instance.heightScreen);
-							GUILayout.BeginHorizontal();
-							{
-								GUILayout.Space(0.05f * myGameScript.instance.widthScreen);
-								tempText = GUILayout.TextField(tempText, popupVM.centralWindowTextFieldStyle);
-							}
-							GUILayout.EndHorizontal();
-							GUILayout.Space(0.02f * myGameScript.instance.heightScreen);
-							GUILayout.BeginHorizontal();
-							{
-								GUILayout.Space(0.03f * myGameScript.instance.widthScreen);
-								if (GUILayout.Button("Créer le deck", popupVM.centralWindowButtonStyle))
-								{
-									StartCoroutine(myGameScript.instance.addDeck(tempText));
-									tempText = "Nouveau deck";
-									displayCreationDeckWindow = false;
-								}
-								GUILayout.Space(0.04f * myGameScript.instance.widthScreen);
-								if (GUILayout.Button("Annuler", popupVM.centralWindowButtonStyle))
-								{
-									displayCreationDeckWindow = false; 
-									tempText = "Nouveau deck";
-								}
-								GUILayout.Space(0.03f * myGameScript.instance.widthScreen);
-							}
-							GUILayout.EndHorizontal();
-							GUILayout.FlexibleSpace();
-						}
-						GUILayout.EndVertical();
-					}
-					GUILayout.EndArea();
-				}
-			}
-			if (deckToEdit != -1)
-			{	
-				if (Event.current.keyCode == KeyCode.Escape)
-				{
-					deckToEdit = -1;
-					tempText = "Nouveau deck";
-				} else if (Event.current.keyCode == KeyCode.Return)
-				{
-					StartCoroutine(myGameScript.instance.editDeck(deckToEdit, tempText));
-					tempText = "Nouveau deck";
-					deckToEdit = -1;
-				} else
-				{
-					GUILayout.BeginArea(popupVM.centralWindow);
-					{
-						GUILayout.BeginVertical(popupVM.centralWindowStyle);
-						{
-							GUILayout.FlexibleSpace();
-							GUILayout.Label("Modifiez le nom de votre deck", popupVM.centralWindowTitleStyle);
-							GUILayout.Space(0.02f * myGameScript.instance.heightScreen);
-							GUILayout.BeginHorizontal();
-							{
-								GUILayout.Space(0.05f * myGameScript.instance.widthScreen);
-								tempText = GUILayout.TextField(tempText, popupVM.centralWindowTextFieldStyle);
-							}
-							GUILayout.EndHorizontal();
-							GUILayout.Space(0.02f * myGameScript.instance.heightScreen);
-							GUILayout.BeginHorizontal();
-							{
-								GUILayout.Space(0.03f * myGameScript.instance.widthScreen);
-								if (GUILayout.Button("Modifier", popupVM.centralWindowButtonStyle))
-								{
-									StartCoroutine(myGameScript.instance.editDeck(deckToEdit, tempText));
-									tempText = "Nouveau deck";
-									deckToEdit = -1;
-								}
-								GUILayout.Space(0.04f * myGameScript.instance.widthScreen);
-								if (GUILayout.Button("Annuler", popupVM.centralWindowButtonStyle))
-								{
-									deckToEdit = -1; 
-									tempText = "Nouveau deck";
-								}
-								GUILayout.Space(0.03f * myGameScript.instance.widthScreen);
-							}
-							GUILayout.EndHorizontal();
-							GUILayout.FlexibleSpace();
-						}
-						GUILayout.EndVertical();
-					}
-					GUILayout.EndArea();
-				}
-			}
-			GUILayout.BeginArea(myDecksVM.rectDeck);
-			{
-				GUILayout.BeginVertical();
-				{
-					GUILayout.BeginHorizontal();
-					{
-						GUILayout.Label(myDecksVM.decksTitle, myDecksVM.decksTitleStyle);
-						GUILayout.FlexibleSpace();
-						if (GUILayout.Button(myDecksVM.myNewDeckButtonTitle, myDecksVM.myNewDeckButton))
-						{
-							displayCreationDeckWindow = true;
-						}
-					}
-					GUILayout.EndHorizontal();
-					
-					GUILayout.Space(0.005f * myGameScript.instance.heightScreen);
-					
-					scrollPosition = GUILayout.BeginScrollView(scrollPosition, GUILayout.Width(0.19f * myGameScript.instance.widthScreen), 
-					                                                    GUILayout.Height(0.17f * myGameScript.instance.heightScreen));
-					
-					for (int i = 0; i < myGameVM.myDecks.Count; i++)
-					{	
-						GUILayout.BeginHorizontal(myDecksVM.myDecksGuiStyle [i]);
-						{
-							if (GUILayout.Button("(" + myGameVM.myDecks [i].NbCards + ") " + myGameVM.myDecks [i].Name, myDecksVM.myDecksButtonGuiStyle [i]))
-							{
-								if (myDecksVM.chosenDeck != i)
-								{
-									myGameScript.instance.changeDeck(i);
-								}
-							}
-							GUILayout.FlexibleSpace();
-							if (GUILayout.Button("", myDecksVM.myEditButtonStyle))
-							{
-								tempText = myGameVM.myDecks [i].Name;
-								deckToEdit = myGameVM.myDecks [i].Id;
-							}
-							
-							if (GUILayout.Button("", myDecksVM.mySuppressButtonStyle))
-							{
-								IDDeckToEdit = myGameVM.myDecks [i].Id;
-							}
-						}
-						GUILayout.EndHorizontal();
-					}
-					GUILayout.EndScrollView();
-				}
-				GUILayout.EndVertical();
-			}
-			GUILayout.EndArea();
-		}
-		if (myGameVM.displayLoader)
-		{
-			GUILayout.BeginArea(new Rect(myGameScript.instance.widthScreen * 0.22f, 
-			                             0.26f * myGameScript.instance.heightScreen, 
-			                             myGameScript.instance.widthScreen * 0.78f, 
-			                             0.64f * myGameScript.instance.heightScreen));
-			{
-				GUILayout.BeginVertical(); 
-				{
-					GUILayout.Label("Cartes en cours de chargement...   " + myGameVM.cardsToBeDisplayed.Count + " carte(s) chargee(s)");
-				}
-				GUILayout.EndVertical();
-			}
-			GUILayout.EndArea();
-		}
-		if (filterVM.displayFilters)
-		{
-			GUILayout.BeginArea(new Rect(myGameScript.instance.widthScreen * 0.01f, 
-			                             0.965f * myGameScript.instance.heightScreen, 
-			                             myGameScript.instance.widthScreen * 0.78f, 
-			                             0.03f * myGameScript.instance.heightScreen));
+			GUILayout.BeginArea(new Rect(myGameScreenVM.blockCards.min.x,
+			                             myGameScreenVM.blockCards.min.y+myGameScreenVM.blockCardsHeight*0.965f,
+			                             myGameScreenVM.blockCardsWidth,
+			                             myGameScreenVM.blockCardsHeight*0.0325f));
 			{
 				GUILayout.BeginHorizontal();
 				{
 					GUILayout.FlexibleSpace();
-					if (paginationVM.pageDebut > 0)
+					if (myGameCardsVM.pageDebut>0)
 					{
-						if (GUILayout.Button("...", paginationVM.paginationStyle))
+						if (GUILayout.Button("...",myGameVM.paginationStyle
+						                     ,GUILayout.Height(myGameScreenVM.heightScreen*3/100)
+						                     ,GUILayout.Width(myGameScreenVM.widthScreen*2/100)))
 						{
-							myGameScript.instance.changeSetPages(true);
+							MyGameController.instance.paginationBack();
 						}
 					}
-					GUILayout.Space(myGameScript.instance.widthScreen * 0.01f);
-					for (int i = paginationVM.pageDebut; i < paginationVM.pageFin; i++)
+					GUILayout.Space(myGameScreenVM.widthScreen*0.01f);
+					for (int i = myGameCardsVM.pageDebut ; i < myGameCardsVM.pageFin ; i++)
 					{
-						if (GUILayout.Button("" + (i + 1), paginationVM.paginatorGuiStyle [i]))
+						if (GUILayout.Button(""+(i+1),myGameCardsVM.paginatorGuiStyle[i]
+						                     ,GUILayout.Height(myGameScreenVM.heightScreen*3/100)
+						                     ,GUILayout.Width(myGameScreenVM.widthScreen*2/100)))
 						{
-							myGameScript.instance.changePage(i);
+							MyGameController.instance.paginationSelect(i);
 						}
-						GUILayout.Space(myGameScript.instance.widthScreen * 0.01f);
+						GUILayout.Space(myGameScreenVM.widthScreen*0.01f);
 					}
-					if (paginationVM.nbPages > paginationVM.pageFin)
+					if (myGameCardsVM.nbPages>myGameCardsVM.pageFin)
 					{
-						if (GUILayout.Button("...", paginationVM.paginationStyle))
+						if (GUILayout.Button("...",myGameVM.paginationStyle
+						                     ,GUILayout.Height(myGameScreenVM.heightScreen*3/100)
+						                     ,GUILayout.Width(myGameScreenVM.widthScreen*2/100)))
 						{
-							myGameScript.instance.changeSetPages(false);
+							MyGameController.instance.paginationNext();
 						}
 					}
 					GUILayout.FlexibleSpace();
 				}
-				
 				GUILayout.EndHorizontal();
+				GUILayout.FlexibleSpace();
 			}
 			GUILayout.EndArea();
-			
-			GUILayout.BeginArea(new Rect(0.80f * myGameScript.instance.widthScreen, 
-			                             0.11f * myGameScript.instance.heightScreen, 
-			                             myGameScript.instance.widthScreen * 0.19f, 
-			                             0.85f * myGameScript.instance.heightScreen));
+			GUILayout.BeginArea(myGameScreenVM.blockFilters);
 			{
 				bool toggle;
-				string tempString;
+				string tempString ;
+				string tempMinPrice ;
+				string tempMaxPrice ;
 				GUILayout.BeginVertical();
 				{
 					GUILayout.FlexibleSpace(); 
-					toggle = GUILayout.Toggle(enVente, "Cartes en vente", filterVM.toggleStyle);
-					if (toggle != enVente)
+					toggle = GUILayout.Toggle(myGameFiltersVM.onSale, "Cartes en vente", myGameFiltersVM.toggleStyle);
+					if (toggle != myGameFiltersVM.onSale)
 					{
-						enVente = toggle;
-						myGameScript.instance.toReload();
+						MyGameController.instance.selectOnSale(toggle);
 					}
-					
-					GUILayout.FlexibleSpace(); 
-					
-					GUILayout.Label("Filtrer par classe", filterVM.filterTitleStyle);
-					for (int i = 0; i < myGameVM.cardTypeList.Length - 1; i++)
-					{		
-						toggle = GUILayout.Toggle(myGameVM.togglesCurrentStates [i], myGameVM.cardTypeList [i], filterVM.toggleStyle);
-						if (toggle != myGameVM.togglesCurrentStates [i])
-						{
-							myGameScript.instance.changeToggleStates(i, toggle);
-							if (toggle)
-							{
-								filterVM.filtersCardType.Add(i);
-							} else
-							{
-								filterVM.filtersCardType.Remove(i);
-							}
-							myGameScript.instance.toReload();
-						}
-					}
-					
 					GUILayout.FlexibleSpace();
-					GUILayout.Label("Filtrer une capacité", filterVM.filterTitleStyle);
-					tempString = GUILayout.TextField(valueSkill, filterVM.filterTextFieldStyle);
-					if (tempString != valueSkill)
-					{
-						if (tempString.Length > 0)
+					GUILayout.Label ("Filtrer par classe",myGameFiltersVM.filterTitleStyle);
+					for (int i=0; i<myGameFiltersVM.cardTypeList.Length-1; i++) 
+					{		
+						toggle = GUILayout.Toggle (myGameFiltersVM.togglesCurrentStates [i],myGameFiltersVM.cardTypeList[i],myGameFiltersVM.toggleStyle);
+						if (toggle != myGameFiltersVM.togglesCurrentStates [i]) 
 						{
-							isSkillToDisplay = true;
-							valueSkill = tempString.ToLower();
-							myGameScript.instance.displaySkills();
-						} else
-						{
-							isSkillToDisplay = false;
-							valueSkill = "";
-						}
-						if (isSkillChosen)
-						{
-							isSkillChosen = false;
-							myGameScript.instance.toReload();
+							MyGameController.instance.selectCardType(toggle,i);
 						}
 					}
-					if (isSkillToDisplay)
+					GUILayout.FlexibleSpace();
+					GUILayout.Label ("Filtrer une capacité",myGameFiltersVM.filterTitleStyle);
+					tempString = GUILayout.TextField (myGameFiltersVM.valueSkill, myGameFiltersVM.textFieldStyle);
+					
+					if (tempString != myGameFiltersVM.valueSkill) 
+					{
+						MyGameController.instance.selectSkills(tempString);
+					}
+					if (myGameFiltersVM.isSkillToDisplay)
 					{
 						GUILayout.Space(-3);
-						for (int j = 0; j < filterVM.matchValues.Count; j++)
+						for (int j=0; j<myGameFiltersVM.matchValues.Count; j++) 
 						{
-							if (GUILayout.Button(filterVM.matchValues [j], filterVM.myStyle))
+							if (GUILayout.Button (myGameFiltersVM.matchValues [j], myGameFiltersVM.skillListStyle)) 
 							{
-								valueSkill = filterVM.matchValues [j].ToLower();
-								isSkillChosen = true;
-								myGameScript.instance.matchValuesInit();
-								myGameScript.instance.toReload();
+								MyGameController.instance.filterASkill(myGameFiltersVM.matchValues [j]);
 							}
 						}
 					}
 					
-					GUILayout.FlexibleSpace();			
+					GUILayout.FlexibleSpace();
 					GUILayout.BeginHorizontal();
 					{
-						GUILayout.Label("Filtrer par Vie", filterVM.filterTitleStyle);
+						GUILayout.Label ("Filtrer par Vie",myGameFiltersVM.filterTitleStyle);
 						GUILayout.FlexibleSpace();
-						if (GUILayout.Button("^", sortVM.sortButtonStyle [0]))
+						if(GUILayout.Button ("^",myGameFiltersVM.sortButtonStyle[0],GUILayout.Width(myGameScreenVM.blockFiltersWidth*7/100))) 
 						{
-							myGameScript.instance.changeSort(0);
+							MyGameController.instance.sortCards(0);
 						}
-						if (GUILayout.Button("v", sortVM.sortButtonStyle [1]))
+						GUILayout.Space (myGameScreenVM.blockFiltersWidth*2/100);
+						if(GUILayout.Button ("v",myGameFiltersVM.sortButtonStyle[1],GUILayout.Width(myGameScreenVM.blockFiltersWidth*7/100))) 
 						{
-							myGameScript.instance.changeSort(1);
+							MyGameController.instance.sortCards(1);
 						}
 					}
 					GUILayout.EndHorizontal();
+					GUILayout.Space(-1);
 					GUILayout.BeginHorizontal();
 					{
-						GUILayout.Label("Min:" + Mathf.Round(filterVM.minLifeVal), filterVM.smallPoliceStyle);
+						GUILayout.Label ("Min:"+ Mathf.Round(myGameFiltersVM.minLifeVal),myGameFiltersVM.smallPoliceStyle);
 						GUILayout.FlexibleSpace();
-						GUILayout.Label("Max:" + Mathf.Round(filterVM.maxLifeVal), filterVM.smallPoliceStyle);
+						GUILayout.Label ("Max:"+ Mathf.Round(myGameFiltersVM.maxLifeVal),myGameFiltersVM.smallPoliceStyle);
 					}
 					GUILayout.EndHorizontal();
-					MyGUI.MinMaxSlider(ref filterVM.minLifeVal, ref filterVM.maxLifeVal, filterVM.minLifeLimit, filterVM.maxLifeLimit);
+					GUILayout.Space(-5);
+					MyGUI.MinMaxSlider (ref myGameFiltersVM.minLifeVal, ref myGameFiltersVM.maxLifeVal, myGameFiltersVM.minLifeLimit, myGameFiltersVM.maxLifeLimit);
 					
 					GUILayout.FlexibleSpace();
 					
 					GUILayout.BeginHorizontal();
 					{
-						GUILayout.Label("Filtrer par Attaque", filterVM.filterTitleStyle);
+						GUILayout.Label ("Filtrer par Attaque",myGameFiltersVM.filterTitleStyle);
 						GUILayout.FlexibleSpace();
-						if (GUILayout.Button("^", sortVM.sortButtonStyle [2]))
+						if(GUILayout.Button ("^",myGameFiltersVM.sortButtonStyle[2],GUILayout.Width(myGameScreenVM.blockFiltersWidth*7/100))) 
 						{
-							myGameScript.instance.changeSort(2);
+							MyGameController.instance.sortCards(2);
 						}
-						if (GUILayout.Button("v", sortVM.sortButtonStyle [3]))
+						GUILayout.Space (myGameScreenVM.blockFiltersWidth*2/100);
+						if(GUILayout.Button ("v",myGameFiltersVM.sortButtonStyle[3],GUILayout.Width(myGameScreenVM.blockFiltersWidth*7/100))) 
 						{
-							myGameScript.instance.changeSort(3);
+							MyGameController.instance.sortCards(3);
 						}
 					}
 					GUILayout.EndHorizontal();
+					GUILayout.Space(-1);
 					GUILayout.BeginHorizontal();
 					{
-						GUILayout.Label("Min:" + Mathf.Round(filterVM.minAttackVal), filterVM.smallPoliceStyle);
+						GUILayout.Label ("Min:"+ Mathf.Round(myGameFiltersVM.minAttackVal),myGameFiltersVM.smallPoliceStyle);
 						GUILayout.FlexibleSpace();
-						GUILayout.Label("Max:" + Mathf.Round(filterVM.maxAttackVal), filterVM.smallPoliceStyle);
+						GUILayout.Label ("Max:"+ Mathf.Round(myGameFiltersVM.maxAttackVal),myGameFiltersVM.smallPoliceStyle);
 					}
 					GUILayout.EndHorizontal();
-					MyGUI.MinMaxSlider(ref filterVM.minAttackVal, ref filterVM.maxAttackVal, filterVM.minAttackLimit, filterVM.maxAttackLimit);
+					GUILayout.Space(-5);
+					MyGUI.MinMaxSlider (ref myGameFiltersVM.minAttackVal, ref myGameFiltersVM.maxAttackVal, myGameFiltersVM.minAttackLimit, myGameFiltersVM.maxAttackLimit);
 					
 					GUILayout.FlexibleSpace();
 					
 					GUILayout.BeginHorizontal();
 					{
-						GUILayout.Label("Filtrer par Mouvement", filterVM.filterTitleStyle);
+						GUILayout.Label ("Filtrer par Mouvement",myGameFiltersVM.filterTitleStyle);
 						GUILayout.FlexibleSpace();
-						if (GUILayout.Button("^", sortVM.sortButtonStyle [4]))
+						if(GUILayout.Button ("^",myGameFiltersVM.sortButtonStyle[4],GUILayout.Width(myGameScreenVM.blockFiltersWidth*7/100))) 
 						{
-							myGameScript.instance.changeSort(4);
+							MyGameController.instance.sortCards(4);
 						}
-						if (GUILayout.Button("v", sortVM.sortButtonStyle [5]))
+						GUILayout.Space (myGameScreenVM.blockFiltersWidth*2/100);
+						if(GUILayout.Button ("v",myGameFiltersVM.sortButtonStyle[5],GUILayout.Width(myGameScreenVM.blockFiltersWidth*7/100))) 
 						{
-							myGameScript.instance.changeSort(5);
+							MyGameController.instance.sortCards(5);
 						}
 					}
 					GUILayout.EndHorizontal();
+					GUILayout.Space(-1);
 					GUILayout.BeginHorizontal();
 					{
-						GUILayout.Label("Min:" + Mathf.Round(filterVM.minMoveVal), filterVM.smallPoliceStyle);
+						GUILayout.Label ("Min:"+ Mathf.Round(myGameFiltersVM.minMoveVal),myGameFiltersVM.smallPoliceStyle);
 						GUILayout.FlexibleSpace();
-						GUILayout.Label("Max:" + Mathf.Round(filterVM.maxMoveVal), filterVM.smallPoliceStyle);
+						GUILayout.Label ("Max:"+ Mathf.Round(myGameFiltersVM.maxMoveVal),myGameFiltersVM.smallPoliceStyle);
 					}
 					GUILayout.EndHorizontal();
-					MyGUI.MinMaxSlider(ref filterVM.minMoveVal, ref filterVM.maxMoveVal, filterVM.minMoveLimit, filterVM.maxMoveLimit);
+					GUILayout.Space(-5);
+					MyGUI.MinMaxSlider (ref myGameFiltersVM.minMoveVal, ref myGameFiltersVM.maxMoveVal, myGameFiltersVM.minMoveLimit, myGameFiltersVM.maxMoveLimit);
 					
 					GUILayout.FlexibleSpace();
 					
 					GUILayout.BeginHorizontal();
 					{
-						GUILayout.Label("Filtrer par Rapidité", filterVM.filterTitleStyle);
+						GUILayout.Label ("Filtrer par Rapidité",myGameFiltersVM.filterTitleStyle);
 						GUILayout.FlexibleSpace();
-						if (GUILayout.Button("^", sortVM.sortButtonStyle [6]))
+						if(GUILayout.Button ("^",myGameFiltersVM.sortButtonStyle[6],GUILayout.Width(myGameScreenVM.blockFiltersWidth*7/100))) 
 						{
-							myGameScript.instance.changeSort(6);
+							MyGameController.instance.sortCards(6);
 						}
-						if (GUILayout.Button("v", sortVM.sortButtonStyle [7]))
+						GUILayout.Space (myGameScreenVM.blockFiltersWidth*2/100);
+						if(GUILayout.Button ("v",myGameFiltersVM.sortButtonStyle[7],GUILayout.Width(myGameScreenVM.blockFiltersWidth*7/100))) 
 						{
-							myGameScript.instance.changeSort(7);
+							MyGameController.instance.sortCards(7);
 						}
 					}
 					GUILayout.EndHorizontal();
+					GUILayout.Space(-1);
 					GUILayout.BeginHorizontal();
 					{
-						GUILayout.Label("Min:" + Mathf.Round(filterVM.minQuicknessVal), filterVM.smallPoliceStyle);
+						GUILayout.Label ("Min:"+ Mathf.Round(myGameFiltersVM.minQuicknessVal),myGameFiltersVM.smallPoliceStyle);
 						GUILayout.FlexibleSpace();
-						GUILayout.Label("Max:" + Mathf.Round(filterVM.maxQuicknessVal), filterVM.smallPoliceStyle);
+						GUILayout.Label ("Max:"+ Mathf.Round(myGameFiltersVM.maxQuicknessVal),myGameFiltersVM.smallPoliceStyle);
 					}
 					GUILayout.EndHorizontal();
-					MyGUI.MinMaxSlider(ref filterVM.minQuicknessVal, ref filterVM.maxQuicknessVal, filterVM.minQuicknessLimit, filterVM.maxQuicknessLimit);
+					GUILayout.Space(-5);
+					MyGUI.MinMaxSlider (ref myGameFiltersVM.minQuicknessVal, ref myGameFiltersVM.maxQuicknessVal, myGameFiltersVM.minQuicknessLimit, myGameFiltersVM.maxQuicknessLimit);
+					
+					GUILayout.FlexibleSpace();
 				}
-				GUILayout.EndVertical();	
+				GUILayout.EndVertical();
 			}
 			GUILayout.EndArea();
-		}	
+		}
 	}
 }

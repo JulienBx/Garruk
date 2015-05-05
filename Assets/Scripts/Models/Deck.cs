@@ -22,6 +22,9 @@ public class Deck
 	public List<Card> Cards;									// Liste de carte du deck
 	public string OwnerUsername;                                // Username de la personne possédant le deck
 
+	public Deck()
+	{
+	}
 	public Deck(int id) 
 	{
 		this.Id = id;

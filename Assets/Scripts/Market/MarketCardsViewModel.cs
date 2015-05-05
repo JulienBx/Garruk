@@ -9,6 +9,7 @@ public class MarketCardsViewModel {
 	public GUIStyle[] styles;
 	public List<int> cardsToBeDisplayed;
 	public int nbCardsPerRow;
+	public int nbCardsToDisplay;
 	public int nbPages;
 	public int pageDebut;
 	public int pageFin;

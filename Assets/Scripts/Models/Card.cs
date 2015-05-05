@@ -13,6 +13,7 @@ public class Card
 	private string URLChangeMarketPrice     = ApplicationModel.host + "changeMarketPrice.php";
 	private string URLRenameCard            = ApplicationModel.host + "renameCard.php";
 	private string URLBuyCard 				= ApplicationModel.host + "buyCard.php";
+	private string URLBuyRandomCard 		= ApplicationModel.host + "buyRandomCard.php";
 
 	public int Id; 												// Id unique de la carte
 	public string Art; 									    	// Nom du dessin à appliquer à la carte
@@ -42,13 +43,14 @@ public class Card
 	public int onSale ;
 	public static int[] experienceLevels = new int[] { 0, 10, 40, 100, 200,350,600,1000,1500,2200,3000,0 };
 	public int RenameCost = 200;
+	public int buyRandomCardCost = 500;
 	public string Error;
 
 	public static bool xpDone=false;
 	
-	public Card() {
+	public Card() 
+	{
 	}
-
 	public Card(string title)
 	{
 		this.Title = title;
@@ -360,10 +362,63 @@ public class Card
 		return cost;
 	}
 
-
-
+	public IEnumerator buyRandomCard()
+	{
+		WWWForm form = new WWWForm(); 											// Création de la connexion
+		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
+		form.AddField("myform_nick", ApplicationModel.username);
+		form.AddField("myform_cost", this.buyRandomCardCost);		
+		WWW w = new WWW(URLBuyRandomCard, form); 				// On envoie le formulaire à l'url sur le serveur 
+		yield return w;
+		if (w.error != null)
+		{
+			this.Error=w.error;
+		}
+		else
+		{
+			string[] data=w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
+			this.Error=data[1];
+			if(this.Error=="")
+			{
+				string[] cardData = data[0].Split(new string[] { "\n" }, System.StringSplitOptions.None);
+				string[] cardInformation = cardData[0].Split(new string[] { "//" }, System.StringSplitOptions.None);
+				this.Id=System.Convert.ToInt32(cardInformation[0]);
+				this.Title=cardInformation[1];
+				this.Life=System.Convert.ToInt32(cardInformation[2]);
+				this.Attack=System.Convert.ToInt32(cardInformation[3]);
+				this.Speed=System.Convert.ToInt32(cardInformation[4]);
+				this.Move=System.Convert.ToInt32(cardInformation[5]);
+				this.ArtIndex=System.Convert.ToInt32(cardInformation[6]);
+				this.IdClass=System.Convert.ToInt32(cardInformation[7]);
+				this.TitleClass=cardInformation[8];
+				this.LifeLevel=System.Convert.ToInt32(cardInformation[9]);
+				this.MoveLevel=System.Convert.ToInt32(cardInformation[10]);
+				this.SpeedLevel=System.Convert.ToInt32(cardInformation[11]);
+				this.AttackLevel=System.Convert.ToInt32(cardInformation[12]);
+				this.onSale=0;
+				this.Experience=0;
+				
+				
+				this.Skills = new List<Skill>();
+				
+				for (int i = 1; i < 5; i++) 
+				{         
+					cardInformation = cardData[i].Split(new string[] { "//" }, System.StringSplitOptions.None);
+					this.Skills.Add (new Skill (cardInformation [0], //skillName
+					                            System.Convert.ToInt32 (cardInformation [1]), // idskill
+					                            System.Convert.ToInt32 (cardInformation [2]), // isactivated
+					                            System.Convert.ToInt32 (cardInformation [3]), // level
+					                            System.Convert.ToInt32 (cardInformation [4]), // power
+					                            System.Convert.ToInt32 (cardInformation [5]), // manaCost
+					                            cardInformation [6])); // description
+				}
+			}
+		}
+	}
 	public IEnumerator addXp (int xp, int price)
 	{
+		this.ExperienceLevel = this.getXpLevel ();
+
 		string attributeName="";
 		int idSkill=-1;
 		int idLevel=1;
@@ -371,7 +426,7 @@ public class Card
 		int experience = this.Experience + xp;
 		int randomAttribute=0;
 		
-		if (this.ExperienceLevel!=10 && this.Experience>=experienceLevels [this.ExperienceLevel + 1]){
+		if (this.ExperienceLevel!=10 && this.Experience>=experienceLevels [this.ExperienceLevel]){
 			
 			int nbAttributes=4;
 			
@@ -453,7 +508,7 @@ public class Card
 		WWWForm form = new WWWForm(); 								// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_idcard", this.Id.ToString());
-		form.AddField("myform_xp", this.Experience.ToString());
+		form.AddField("myform_xp", experience.ToString());
 		form.AddField("myform_newpower",newPower.ToString());
 		form.AddField("myform_attribute",attributeName);
 		form.AddField("myform_idskill",idSkill.ToString());
@@ -518,6 +573,7 @@ public class Card
 					break;
 				}
 			}
+			this.ExperienceLevel = this.getXpLevel ();
 		}
 	}
 

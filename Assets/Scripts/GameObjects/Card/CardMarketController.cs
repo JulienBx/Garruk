@@ -10,8 +10,6 @@ public class CardMarketController : CardController {
 	
 	private MarketFeaturesView marketFeaturesView;
 	private FocusMarketFeaturesView focusMarketFeaturesView;
-
-	public int index;
 	
 	void OnMouseOver()
 	{
@@ -19,6 +17,40 @@ public class CardMarketController : CardController {
 		{
 			MarketController.instance.clickedCard (gameObject);
 		}
+	}
+	public void setMarketCard(Card c)
+	{
+		base.setCard (c);
+		if(c.onSale==0)
+		{
+			base.applySoldTexture();
+		}
+		base.setExperience ();
+		base.setSkills ();
+		base.show ();
+		this.setMarketFeatures ();
+	}
+	public void resetMarketCard(Card c)
+	{
+		this.eraseCard ();
+		this.setMarketCard (c);
+	}
+	public void setFocusedMarketCard(Card c)
+	{
+		base.setCard (c);
+		if(c.onSale==0)
+		{
+			base.applySoldTexture();
+		}
+		base.setExperience ();
+		base.setSkills ();
+		base.show ();
+		this.setFocusMarketFeatures ();
+	}
+	public void resetFocusedMarketCard(Card c)
+	{
+		this.eraseCard ();
+		this.setFocusedMarketCard (c);
 	}
 	public void setMarketFeatures()
 	{
@@ -33,14 +65,10 @@ public class CardMarketController : CardController {
 		}
 		marketFeaturesView.marketFeaturesVM.initStyles();
 		this.marketFeaturesResize ();
-		if(!marketFeaturesView.marketFeaturesVM.onSale)
-		{
-			base.applySoldTexture();
-		}
 	}
-	public override void resetCard()
+	public override void eraseCard()
 	{
-		base.resetCard ();
+		base.eraseCard ();
 		if(focusMarketFeaturesView!=null)
 		{
 			Destroy (this.focusMarketFeaturesView);
@@ -70,10 +98,6 @@ public class CardMarketController : CardController {
 		}
 		focusMarketFeaturesView.cardFeaturesFocusVM.initStyles();
 		this.focusMarketFeaturesResize ();
-		if(!focusMarketFeaturesView.focusMarketFeaturesVM.onSale)
-		{
-			base.applySoldTexture();
-		}
 	}
 	public void focusMarketFeaturesResize()
 	{
@@ -94,23 +118,8 @@ public class CardMarketController : CardController {
 			this.focusMarketFeaturesResize();
 		}
 	}
-	public override void hideFeatures()
-	{
-		if(focusMarketFeaturesView!=null)
-		{
-			Destroy (this.focusMarketFeaturesView);
-		}
-		if(this.marketFeaturesView!=null)
-		{                                                            
-			Destroy (this.marketFeaturesView);
-		}
-	}
 	public override void exitFocus()
 	{
-		if(focusMarketFeaturesView!=null)
-		{
-			Destroy (this.focusMarketFeaturesView);
-		}
 		MarketController.instance.exitCard ();
 	}
 	public override void setGUI(bool value)
@@ -128,18 +137,14 @@ public class CardMarketController : CardController {
 			marketFeaturesView.marketFeaturesVM.guiEnabled=value;
 		}
 	}
-	public override void refreshCredits()
-	{
-		MarketController.instance.refreshCredits();
-	}
 	public override void popUpDisplayed(bool value)
 	{
 		MarketController.instance.popUpDisplayed (value, gameObject);
 	}
 	public override void buyCard()
 	{
-		StartCoroutine(MarketController.instance.buyCard(gameObject));
 		base.buyCard ();
+		StartCoroutine(MarketController.instance.buyCard(gameObject));
 	}
 }
 

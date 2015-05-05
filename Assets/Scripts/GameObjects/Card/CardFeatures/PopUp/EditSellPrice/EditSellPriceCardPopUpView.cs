@@ -41,7 +41,7 @@ public class EditSellPriceCardPopUpView : MonoBehaviour
 					GUILayout.Space(0.03f * popUpVM.centralWindow.width);
 					if (GUILayout.Button("Confirmer", popUpVM.centralWindowButtonStyle))
 					{
-						StartCoroutine(gameObject.GetComponent<CardController>().editSellPriceCard());
+						gameObject.GetComponent<CardController>().editSellPriceCard();
 					}
 					GUILayout.Space(0.04f * popUpVM.centralWindow.width);
 					if (GUILayout.Button("Annuler", popUpVM.centralWindowButtonStyle))
