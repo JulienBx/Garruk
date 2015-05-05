@@ -130,7 +130,7 @@ MonoBehaviour:
     m_Font: {fileID: 0}
     m_FontSize: 0
     m_FontStyle: 0
-    m_Alignment: 0
+    m_Alignment: 4
     m_WordWrap: 0
     m_RichText: 0
     m_TextClipping: 1
@@ -1090,6 +1090,10 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 1999ef426f28b784aa4f92928f9ebeaa, type: 3}
   - {fileID: 2800000, guid: 81da1bf7acd1fdc4abb21be9d0d5a25c, type: 3}
   - {fileID: 2800000, guid: 834e3cea36232ed4b96e9b57caa57295, type: 3}
+  isSelected: 0
+  isMoved: 0
+  titlesSkill: []
+  descriptionsSkill: []
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

@@ -19,6 +19,8 @@ public class PlayingCardController : MonoBehaviour
 	public Texture2D[] pictures;
 	public bool isSelected ;
 	public bool isMoved ;
+	public List<string> titlesSkill ;
+	public List<string> descriptionsSkill ;
 
 	public List<StatModifier> statModifiers ;
 
@@ -107,6 +109,8 @@ public class PlayingCardController : MonoBehaviour
 		this.playingCardView.playingCardVM.maxLife = c.Life ;
 		this.playingCardView.playingCardVM.life = c.Life ;
 		this.playingCardView.playingCardVM.picture = this.pictures[c.ArtIndex];
+
+
 	}
 
 	public void setSkills(){
@@ -151,7 +155,7 @@ public class PlayingCardController : MonoBehaviour
 	}
 
 	public void resize(int h){
-		this.scale = h*1.4f/1000f ;
+		this.scale = h*1f/1000f ;
 		this.playingCardView.playingCardVM.scale = new Vector3(this.scale, this.scale, this.scale);
 		if (this.isSelected){
 			this.playingCardView.playingCardVM.ScreenPosition = new Vector3(Screen.width*((this.sortID-1)*0.13f+0.12f+0.21f),0.93f*Screen.height,0);
@@ -170,8 +174,36 @@ public class PlayingCardController : MonoBehaviour
 		this.playingCardView.playingCardVM.attackZoneTextStyle.fontSize = h * 15 / 1000 ;
 		this.playingCardView.playingCardVM.lifeTextStyle.fontSize = h * 15 / 1000 ;
 		this.playingCardView.playingCardVM.backgroundLifeBar.fontSize = h * 15 / 1000 ;
+		this.playingCardView.playingCardVM.skillInfoRectWidth = 0.12f*Screen.width;
+
 		if (this.isSelected){
 			this.playingCardView.playingCardVM.infoRect = new Rect(this.playingCardView.playingCardVM.ScreenPosition.x-0.12f*Screen.width, this.playingCardView.playingCardVM.ScreenPosition.y-0.07f*Screen.height, 0.24f*Screen.width, 0.14f*Screen.height);
+			this.playingCardView.playingCardVM.isSelected = true ;
+		}
+		else{
+			this.playingCardView.playingCardVM.infoRect = new Rect(this.playingCardView.playingCardVM.ScreenPosition.x-0.06f*Screen.width, this.playingCardView.playingCardVM.ScreenPosition.y-0.07f*Screen.height, 0.12f*Screen.width, 0.14f*Screen.height);
+		}
+		this.playingCardView.replace();
+	}
+
+	public void resizeInfoRect(){
+		if (this.isSelected){
+			this.playingCardView.playingCardVM.ScreenPosition.x = Screen.width*((this.sortID-1)*0.13f+0.12f+0.21f);
+		}
+		else if (this.isMoved){
+			this.playingCardView.playingCardVM.ScreenPosition.x = Screen.width*((this.sortID-1)*0.13f+0.18f+0.21f);
+		}
+		else{
+			this.playingCardView.playingCardVM.ScreenPosition.x = Screen.width*((this.sortID-1)*0.13f+0.06f+0.21f);
+		}
+		this.playingCardView.playingCardVM.position = Camera.main.ScreenToWorldPoint(this.playingCardView.playingCardVM.ScreenPosition);
+		this.playingCardView.playingCardVM.position.y = -5f ;
+		this.playingCardView.playingCardVM.position.z = 0f ;
+
+		if (this.isSelected){
+			this.playingCardView.playingCardVM.infoRect = new Rect(this.playingCardView.playingCardVM.ScreenPosition.x-0.12f*Screen.width, this.playingCardView.playingCardVM.ScreenPosition.y-0.07f*Screen.height, 0.24f*Screen.width, 0.14f*Screen.height);
+
+			this.playingCardView.playingCardVM.isSelected = true ;
 		}
 		else{
 			this.playingCardView.playingCardVM.infoRect = new Rect(this.playingCardView.playingCardVM.ScreenPosition.x-0.06f*Screen.width, this.playingCardView.playingCardVM.ScreenPosition.y-0.07f*Screen.height, 0.12f*Screen.width, 0.14f*Screen.height);

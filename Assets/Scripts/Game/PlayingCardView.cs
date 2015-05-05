@@ -24,52 +24,64 @@ public class PlayingCardView : MonoBehaviour
 	{
 		GUILayout.BeginArea (this.playingCardVM.infoRect);
 		{
-			GUILayout.BeginVertical(this.playingCardVM.backgroundStyle);
+			GUILayout.BeginHorizontal(this.playingCardVM.backgroundStyle);
 			{
-				GUILayout.Label(this.playingCardVM.name, this.playingCardVM.nameTextStyle, GUILayout.Height(this.playingCardVM.infoRect.height*12/100));
-				GUILayout.FlexibleSpace();
-				GUILayout.Box(this.playingCardVM.picture, this.playingCardVM.imageStyle, GUILayout.Height(this.playingCardVM.infoRect.height*4/10));
-				GUILayout.FlexibleSpace();
-				GUILayout.BeginHorizontal(GUILayout.Height(this.playingCardVM.infoRect.height*1/10));
+				GUILayout.BeginVertical();
 				{
-					GUILayout.Label("Life", this.playingCardVM.attackZoneTextStyle, GUILayout.Width(this.playingCardVM.infoRect.width*3/10));
-					GUILayout.BeginHorizontal(this.playingCardVM.backgroundLifeBar, GUILayout.Width(this.playingCardVM.infoRect.width*65/100));
+					GUILayout.Label(this.playingCardVM.name, this.playingCardVM.nameTextStyle, GUILayout.Width(this.playingCardVM.skillInfoRectWidth), GUILayout.Height(this.playingCardVM.infoRect.height*12/100));
+					GUILayout.FlexibleSpace();
+					GUILayout.Box(this.playingCardVM.picture, this.playingCardVM.imageStyle, GUILayout.Width(this.playingCardVM.skillInfoRectWidth), GUILayout.Height(this.playingCardVM.infoRect.height*4/10));
+					GUILayout.FlexibleSpace();
+					GUILayout.BeginHorizontal(GUILayout.Height(this.playingCardVM.infoRect.height*1/10));
 					{
-						GUILayout.Label(""+this.playingCardVM.life, this.playingCardVM.lifeTextStyle, GUILayout.Width(0.65f*this.playingCardVM.life*this.playingCardVM.infoRect.width/this.playingCardVM.maxLife));
+						GUILayout.Label("Life", this.playingCardVM.attackZoneTextStyle, GUILayout.Width(this.playingCardVM.skillInfoRectWidth*3/10));
+						GUILayout.BeginHorizontal(this.playingCardVM.backgroundLifeBar, GUILayout.Width(this.playingCardVM.skillInfoRectWidth*65/100));
+						{
+							GUILayout.Label(""+this.playingCardVM.life, this.playingCardVM.lifeTextStyle, GUILayout.Width(0.65f*this.playingCardVM.life*this.playingCardVM.skillInfoRectWidth/this.playingCardVM.maxLife));
+							GUILayout.FlexibleSpace();
+						}
+						GUILayout.EndHorizontal();
+					}
+					GUILayout.EndHorizontal();
+					GUILayout.FlexibleSpace();
+					GUILayout.BeginHorizontal(GUILayout.Height(this.playingCardVM.infoRect.height*1/10), GUILayout.Width(this.playingCardVM.skillInfoRectWidth));
+					{
+						GUILayout.Label("Speed", this.playingCardVM.attackZoneTextStyle, GUILayout.Width(this.playingCardVM.skillInfoRectWidth*3/10));
+						GUILayout.BeginHorizontal(this.playingCardVM.backgroundLifeBar, GUILayout.Width(this.playingCardVM.skillInfoRectWidth*65/100));
+						{
+							GUILayout.Label(""+this.playingCardVM.quickness, this.playingCardVM.lifeTextStyle, GUILayout.Width(0.65f*this.playingCardVM.quickness*this.playingCardVM.skillInfoRectWidth/100));
+							GUILayout.FlexibleSpace();
+						}
+						GUILayout.EndHorizontal();
+					}
+					GUILayout.EndHorizontal();
+					GUILayout.FlexibleSpace();
+					GUILayout.BeginHorizontal(GUILayout.Height(this.playingCardVM.infoRect.height*15/100), GUILayout.Width(this.playingCardVM.skillInfoRectWidth));
+					{
+						GUILayout.FlexibleSpace();
+						GUILayout.Box(this.playingCardVM.attackIcon, this.playingCardVM.imageStyle, GUILayout.Height(this.playingCardVM.infoRect.height*15/100));
+						GUILayout.Space(this.playingCardVM.skillInfoRectWidth*5f/100f);
+						GUILayout.Label(this.playingCardVM.attack, this.playingCardVM.attackZoneTextStyle);
+						GUILayout.FlexibleSpace();
+						GUILayout.Box(this.playingCardVM.moveIcon, this.playingCardVM.imageStyle, GUILayout.Height(this.playingCardVM.infoRect.height*15/100));
+						GUILayout.Space(this.playingCardVM.skillInfoRectWidth*5f/100f);
+						GUILayout.Label(this.playingCardVM.move, this.playingCardVM.attackZoneTextStyle);
 						GUILayout.FlexibleSpace();
 					}
 					GUILayout.EndHorizontal();
+					GUILayout.FlexibleSpace();
 				}
-				GUILayout.EndHorizontal();
-				GUILayout.FlexibleSpace();
-				GUILayout.BeginHorizontal(GUILayout.Height(this.playingCardVM.infoRect.height*1/10));
-				{
-					GUILayout.Label("Speed", this.playingCardVM.attackZoneTextStyle, GUILayout.Width(this.playingCardVM.infoRect.width*3/10));
-					GUILayout.BeginHorizontal(this.playingCardVM.backgroundLifeBar, GUILayout.Width(this.playingCardVM.infoRect.width*65/100));
+				GUILayout.EndVertical();
+
+				if (this.playingCardVM.isSelected){
+					GUILayout.BeginVertical(GUILayout.Width(this.playingCardVM.skillInfoRectWidth));
 					{
-						GUILayout.Label(""+this.playingCardVM.quickness, this.playingCardVM.lifeTextStyle, GUILayout.Width(0.65f*this.playingCardVM.quickness*this.playingCardVM.infoRect.width/100));
-						GUILayout.FlexibleSpace();
+						GUILayout.Label("NAME", this.playingCardVM.nameTextStyle, GUILayout.Width(this.playingCardVM.skillInfoRectWidth), GUILayout.Height(this.playingCardVM.infoRect.height*12/100));
 					}
-					GUILayout.EndHorizontal();
+					GUILayout.EndVertical();
 				}
-				GUILayout.EndHorizontal();
-				GUILayout.FlexibleSpace();
-				GUILayout.BeginHorizontal(GUILayout.Height(this.playingCardVM.infoRect.height*15/100));
-				{
-					GUILayout.FlexibleSpace();
-					GUILayout.Box(this.playingCardVM.attackIcon, this.playingCardVM.imageStyle, GUILayout.Height(this.playingCardVM.infoRect.height*15/100));
-					GUILayout.Space(this.playingCardVM.infoRect.width*5f/100f);
-					GUILayout.Label(this.playingCardVM.attack, this.playingCardVM.attackZoneTextStyle);
-					GUILayout.FlexibleSpace();
-					GUILayout.Box(this.playingCardVM.moveIcon, this.playingCardVM.imageStyle, GUILayout.Height(this.playingCardVM.infoRect.height*15/100));
-					GUILayout.Space(this.playingCardVM.infoRect.width*5f/100f);
-					GUILayout.Label(this.playingCardVM.move, this.playingCardVM.attackZoneTextStyle);
-					GUILayout.FlexibleSpace();
-				}
-				GUILayout.EndHorizontal();
-				GUILayout.FlexibleSpace();
 			}
-			GUILayout.EndVertical();
+			GUILayout.EndHorizontal();
 		}
 		GUILayout.EndArea ();
 
@@ -87,7 +99,7 @@ public class PlayingCardView : MonoBehaviour
 	}
 
 	void OnMouseEnter(){
-		print ("HoverPlayingCard");
+		//print ("HoverPlayingCard");
 		//gameObject.GetComponentInChildren<PlayingCardController>().HoverTile();
 	}
 
