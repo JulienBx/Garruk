@@ -778,11 +778,13 @@ public class GameController : Photon.MonoBehaviour
 
 	public void testTimeline()
 	{
-		Card card = new Card("test");
+		Card card = new Card("gentil");
 		GameEventType ge = new PassType();
 		addGameEvent(card, ge);
-		addGameEvent(card, ge);
-		addGameEvent(card, ge);
+		Card card2 = new Card("paladin");
+		addGameEvent(card2, ge);
+		Card card3 = new Card("sorcier");
+		addGameEvent(card3, ge);
 	}
 	
 	public void addGameEvent(Card card, GameEventType type)
@@ -793,11 +795,9 @@ public class GameController : Photon.MonoBehaviour
 			go = (GameObject)Instantiate(gameEvent);
 			gameEvents.Add(go);
 			go.GetComponent<GameEventController>().setScreenPosition(gameEvents.Count);
-		} else
-		{
-			changeGameEvents();
-			go = gameEvents [0];
-		}
+		} 
+		changeGameEvents();
+		go = gameEvents [0];
 		go.GetComponent<GameEventController>().setCharacterName(card.Title);
 		go.GetComponent<GameEventController>().setAction(type.toString());
 		//go.GetComponent<GameEventController>().setArt(card.);
@@ -805,7 +805,7 @@ public class GameController : Photon.MonoBehaviour
 
 	void changeGameEvents()
 	{
-		for (int i = eventMax - 1; i > 0; i--)
+		for (int i = gameEvents.Count - 1; i > 0; i--)
 		{
 			string title = gameEvents [i - 1].GetComponent<GameEventController>().getCharacterName();
 			string action = gameEvents [i - 1].GetComponent<GameEventController>().getAction();
