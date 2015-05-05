@@ -12,6 +12,7 @@ public class MyGameView : MonoBehaviour
 	public MyGameFiltersViewModel myGameFiltersVM;
 	public MyGameCardsViewModel myGameCardsVM;
 	public MyGameDecksViewModel myGameDecksVM;
+	public MyGameDeckCardsViewModel myGameDeckCardsVM;
 	
 	void Start()
 	{
@@ -20,6 +21,7 @@ public class MyGameView : MonoBehaviour
 		this.myGameFiltersVM = new MyGameFiltersViewModel();
 		this.myGameCardsVM =  new MyGameCardsViewModel();
 		this.myGameDecksVM = new MyGameDecksViewModel();
+		this.myGameDeckCardsVM = new MyGameDeckCardsViewModel ();
 	}
 	void Update()
 	{
@@ -247,6 +249,56 @@ public class MyGameView : MonoBehaviour
 					MyGUI.MinMaxSlider (ref myGameFiltersVM.minQuicknessVal, ref myGameFiltersVM.maxQuicknessVal, myGameFiltersVM.minQuicknessLimit, myGameFiltersVM.maxQuicknessLimit);
 					
 					GUILayout.FlexibleSpace();
+				}
+				GUILayout.EndVertical();
+			}
+			GUILayout.EndArea();
+			GUILayout.BeginArea(myGameScreenVM.blockDecks);
+			{
+				GUILayout.BeginVertical();
+				{
+					GUILayout.BeginHorizontal();
+					{
+						GUILayout.Label(myGameDecksVM.decksTitle, myGameDecksVM.decksTitleStyle,GUILayout.Height(0.17f * myGameScreenVM.blockDecksHeight));
+						if (GUILayout.Button(myGameDecksVM.myNewDeckButtonTitle, myGameDecksVM.myNewDeckButtonStyle,GUILayout.Height(0.17f * myGameScreenVM.blockDecksHeight)))
+						{
+
+						}
+					}
+					GUILayout.EndHorizontal();
+
+					GUILayout.Space(0.015f * myGameScreenVM.blockDecksHeight);
+					
+					myGameDecksVM.scrollPosition = GUILayout.BeginScrollView(myGameDecksVM.scrollPosition,GUILayout.Height(4*0.17f * myGameScreenVM.blockDecksHeight));
+					
+					for (int i = 0; i < myGameDecksVM.myDecks.Count; i++)
+					{	
+						GUILayout.BeginHorizontal(myGameDecksVM.myDecksGuiStyle [i]);
+						{
+							if (GUILayout.Button("(" + myGameDecksVM.myDecks [i].NbCards + ") " + myGameDecksVM.myDecks [i].Name, myGameDecksVM.myDecksButtonGuiStyle [i],GUILayout.Height(0.17f * myGameScreenVM.blockDecksHeight)))
+							{
+								if (myGameDecksVM.chosenDeck != i)
+								{
+
+								}
+							}
+							GUILayout.Space(-myGameScreenVM.blockDecksHeight*2/6);
+							if (GUILayout.Button("", myGameDecksVM.myEditButtonStyle,
+							                     GUILayout.Width(0.17f * myGameScreenVM.blockDecksHeight),
+							                     GUILayout.Height(0.17f * myGameScreenVM.blockDecksHeight)))
+							{
+
+							}
+							if (GUILayout.Button("", myGameDecksVM.mySuppressButtonStyle,
+							                     GUILayout.Width(0.17f * myGameScreenVM.blockDecksHeight),
+							                     GUILayout.Height(0.17f * myGameScreenVM.blockDecksHeight)))
+							{
+
+							}
+						}
+						GUILayout.EndHorizontal();
+					}
+					GUILayout.EndScrollView();
 				}
 				GUILayout.EndVertical();
 			}

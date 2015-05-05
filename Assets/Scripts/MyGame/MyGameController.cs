@@ -30,8 +30,9 @@ public class MyGameController : MonoBehaviour
 	public IEnumerator initialization()
 	{
 		yield return StartCoroutine (model.initializeMyGame ());
-		this.initVM ();
 		this.initStyles ();
+		this.initMyGameCardsVM ();
+		this.initMyGameDecksVM ();
 		this.resize ();
 		this.createCards ();
 		this.setPagination ();
@@ -49,7 +50,7 @@ public class MyGameController : MonoBehaviour
 	}
 	public void resetAll()
 	{
-		this.initVM ();
+		this.initMyGameCardsVM ();
 		this.clearCards ();
 		this.createCards ();
 		this.setPagination ();
@@ -180,7 +181,7 @@ public class MyGameController : MonoBehaviour
 			this.displayedCards[i].GetComponent<CardController>().setMyGUI(value);
 		}
 	}
-	private void initVM()
+	private void initMyGameCardsVM()
 	{
 		view.myGameCardsVM.nbCards=model.cards.Count;
 		view.myGameCardsVM.cardsToBeDisplayed = new List<int> ();
@@ -188,6 +189,27 @@ public class MyGameController : MonoBehaviour
 		{
 			view.myGameCardsVM.cardsToBeDisplayed.Add (i);
 		}
+	}
+	private void initMyGameDecksVM()
+	{
+		view.myGameDecksVM.myDecks = new List<Deck> ();
+		view.myGameDecksVM.myDecksGuiStyle=new GUIStyle[model.decks.Count];
+		view.myGameDecksVM.myDecksButtonGuiStyle=new GUIStyle[model.decks.Count];
+		for (int i=0;i<model.decks.Count;i++)
+		{
+			if(model.decks[i].Id==model.idSelectedDeck)
+			{
+				view.myGameDecksVM.myDecks.Insert(0,model.decks[i]);
+			}
+			else
+			{
+				view.myGameDecksVM.myDecks.Add (model.decks[i]);
+			}
+			view.myGameDecksVM.myDecksGuiStyle[i]=view.myGameDecksVM.deckStyle;
+			view.myGameDecksVM.myDecksButtonGuiStyle[i]=view.myGameDecksVM.deckButtonStyle;
+		}
+		view.myGameDecksVM.myDecksGuiStyle[view.myGameDecksVM.chosenDeck]=view.myGameDecksVM.deckChosenStyle;
+		view.myGameDecksVM.myDecksButtonGuiStyle[view.myGameDecksVM.chosenDeck]=view.myGameDecksVM.deckButtonChosenStyle;
 	}
 	private void initStyles()
 	{
@@ -460,9 +482,9 @@ public class MyGameController : MonoBehaviour
 						if (model.cards [i].hasSkill(view.myGameFiltersVM.valueSkill) && model.cards [i].onSale == 1)
 						{
 							testDeck = false;
-							for (int j = 0; j < view.myGameDecksVM.deckCardsToBeDisplayed.Count; j++)
+							for (int j = 0; j < view.myGameDeckCardsVM.deckCardsToBeDisplayed.Count; j++)
 							{
-								if (i == view.myGameDecksVM.deckCardsToBeDisplayed [j])
+								if (i == view.myGameDeckCardsVM.deckCardsToBeDisplayed [j])
 								{
 									testDeck = true;
 								}
@@ -480,9 +502,9 @@ public class MyGameController : MonoBehaviour
 						if (model.cards [i].hasSkill(view.myGameFiltersVM.valueSkill))
 						{
 							testDeck = false;
-							for (int j = 0; j < view.myGameDecksVM.deckCardsToBeDisplayed.Count; j++)
+							for (int j = 0; j < view.myGameDeckCardsVM.deckCardsToBeDisplayed.Count; j++)
 							{
-								if (i == view.myGameDecksVM.deckCardsToBeDisplayed [j])
+								if (i == view.myGameDeckCardsVM.deckCardsToBeDisplayed [j])
 								{
 									testDeck = true;
 								}
@@ -510,9 +532,9 @@ public class MyGameController : MonoBehaviour
 								if (model.cards [i].hasSkill(view.myGameFiltersVM.valueSkill) && model.cards [i].onSale == 1)
 								{
 									testDeck = false;
-									for (int k = 0; k < view.myGameDecksVM.deckCardsToBeDisplayed.Count; k++)
+									for (int k = 0; k < view.myGameDeckCardsVM.deckCardsToBeDisplayed.Count; k++)
 									{
-										if (i == view.myGameDecksVM.deckCardsToBeDisplayed [k])
+										if (i == view.myGameDeckCardsVM.deckCardsToBeDisplayed [k])
 										{
 											testDeck = true; 
 										}
@@ -535,9 +557,9 @@ public class MyGameController : MonoBehaviour
 								if (model.cards [i].hasSkill(view.myGameFiltersVM.valueSkill))
 								{
 									testDeck = false;
-									for (int k = 0; k < view.myGameDecksVM.deckCardsToBeDisplayed.Count; k++)
+									for (int k = 0; k < view.myGameDeckCardsVM.deckCardsToBeDisplayed.Count; k++)
 									{
-										if (i == view.myGameDecksVM.deckCardsToBeDisplayed [k])
+										if (i == view.myGameDeckCardsVM.deckCardsToBeDisplayed [k])
 										{
 											testDeck = true; 
 										}
@@ -566,9 +588,9 @@ public class MyGameController : MonoBehaviour
 						if (model.cards [i].onSale == 1)
 						{
 							testDeck = false;
-							for (int j = 0; j < view.myGameDecksVM.deckCardsToBeDisplayed.Count; j++)
+							for (int j = 0; j < view.myGameDeckCardsVM.deckCardsToBeDisplayed.Count; j++)
 							{
-								if (i == view.myGameDecksVM.deckCardsToBeDisplayed [j])
+								if (i == view.myGameDeckCardsVM.deckCardsToBeDisplayed [j])
 								{
 									testDeck = true;
 								}
@@ -585,9 +607,9 @@ public class MyGameController : MonoBehaviour
 					for (int i = 0; i < max; i++)
 					{
 						testDeck = false;
-						for (int j = 0; j < view.myGameDecksVM.deckCardsToBeDisplayed.Count; j++)
+						for (int j = 0; j < view.myGameDeckCardsVM.deckCardsToBeDisplayed.Count; j++)
 						{
-							if (i == view.myGameDecksVM.deckCardsToBeDisplayed [j])
+							if (i == view.myGameDeckCardsVM.deckCardsToBeDisplayed [j])
 							{
 								testDeck = true;
 							}
@@ -615,9 +637,9 @@ public class MyGameController : MonoBehaviour
 								{
 									test = true;
 									testDeck = false;
-									for (int k = 0; k < view.myGameDecksVM.deckCardsToBeDisplayed.Count; k++)
+									for (int k = 0; k < view.myGameDeckCardsVM.deckCardsToBeDisplayed.Count; k++)
 									{
-										if (i == view.myGameDecksVM.deckCardsToBeDisplayed [k])
+										if (i == view.myGameDeckCardsVM.deckCardsToBeDisplayed [k])
 										{
 											testDeck = true; 
 										}
@@ -643,9 +665,9 @@ public class MyGameController : MonoBehaviour
 							{
 								test = true;
 								testDeck = false;
-								for (int k = 0; k < view.myGameDecksVM.deckCardsToBeDisplayed.Count; k++)
+								for (int k = 0; k < view.myGameDeckCardsVM.deckCardsToBeDisplayed.Count; k++)
 								{
-									if (i == view.myGameDecksVM.deckCardsToBeDisplayed [k])
+									if (i == view.myGameDeckCardsVM.deckCardsToBeDisplayed [k])
 									{
 										testDeck = true;
 									}

@@ -120,12 +120,11 @@ public class MyGameModel
 					cards[i].AttackLevel=System.Convert.ToInt32(cardInfo[11]);
 					cards[i].onSale=System.Convert.ToInt32(cardInfo[12]);
 					cards[i].Price=System.Convert.ToInt32(cardInfo[13]);
-					cards[i].OnSaleDate=DateTime.ParseExact(cardInfo[14], "yyyy-MM-dd HH:mm:ss", null);
-					cards[i].IdOWner=System.Convert.ToInt32(cardInfo[15]);
-					cards[i].UsernameOwner=cardInfo[16];
-					cards[i].Experience=System.Convert.ToInt32(cardInfo[17]);
-					cards[i].nbWin=System.Convert.ToInt32(cardInfo[18]);
-					cards[i].nbLoose=System.Convert.ToInt32(cardInfo[19]);
+					cards[i].IdOWner=System.Convert.ToInt32(cardInfo[14]);
+					cards[i].UsernameOwner=cardInfo[15];
+					cards[i].Experience=System.Convert.ToInt32(cardInfo[16]);
+					cards[i].nbWin=System.Convert.ToInt32(cardInfo[17]);
+					cards[i].nbLoose=System.Convert.ToInt32(cardInfo[18]);
 
 					
 					cards[i].Skills = new List<Skill>();
