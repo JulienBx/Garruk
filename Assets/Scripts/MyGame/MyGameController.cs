@@ -47,6 +47,139 @@ public class MyGameController : MonoBehaviour
 		this.setPagination ();
 		view.myGameVM.displayView = true;
 	}
+	public void resetAll()
+	{
+		this.initVM ();
+		this.clearCards ();
+		this.createCards ();
+		this.setPagination ();
+		this.initializeSortButtons ();
+		this.initializeToggles ();
+		this.setFilters ();
+		view.myGameVM.displayView = true;
+		this.setGUI (true);
+	}
+	public void clickedCard(GameObject gameObject)
+	{
+		view.myGameVM.displayView=false ;
+		
+		int finish = 3 * view.myGameCardsVM.nbCardsPerRow;
+		for(int i = 0 ; i < finish ; i++)
+		{
+			this.displayedCards[i].SetActive(false);
+		}
+		float scale = view.myGameScreenVM.heightScreen / 120f;
+		this.cardFocused = Instantiate(CardObject) as GameObject;
+		this.cardFocused.transform.localScale = new Vector3(scale, scale, scale); 
+		this.cardFocused.transform.localPosition = Camera.main.ScreenToWorldPoint(new Vector3(0.4f*view.myGameScreenVM.widthScreen ,0.45f*view.myGameScreenVM.heightScreen-1 , 10));  
+		this.cardFocused.gameObject.name = "Fcus"+gameObject.name.Substring(4);	
+		this.cardFocused.AddComponent<CardMyGameController> ();
+		this.cardFocused.GetComponent<CardMyGameController> ().setFocusedMyGameCard (gameObject.GetComponent<CardController> ().card);
+		this.cardFocused.GetComponent<CardController> ().setCentralWindowRect (view.myGameScreenVM.centralWindow);
+	}
+	public void exitCard()
+	{
+		Destroy (this.cardFocused);
+		int finish = view.myGameCardsVM.nbCardsToDisplay;
+		for(int i = 0 ; i < finish ; i++)
+		{
+			this.displayedCards[i].SetActive(true);
+		}
+		view.myGameVM.displayView=true ;
+	}
+	public IEnumerator sellCard(GameObject gameobject)
+	{
+		int tempInt = System.Convert.ToInt32(gameobject.name.Substring(4))+view.myGameCardsVM.start;
+		yield return StartCoroutine (model.cards[view.myGameCardsVM.cardsToBeDisplayed[tempInt]].sellCard());
+		this.refreshCredits();
+		if(model.cards[view.myGameCardsVM.cardsToBeDisplayed[tempInt]].Error=="")
+		{
+			model.cards.RemoveAt(view.myGameCardsVM.cardsToBeDisplayed[tempInt]);
+			this.resetAll();
+		}
+		else
+		{
+			this.cardFocused.GetComponent<CardMyGameController>().resetFocusedMyGameCard(model.cards[view.myGameCardsVM.cardsToBeDisplayed[tempInt]]);
+			this.cardFocused.GetComponent<CardController>().setError();
+			model.cards[view.myGameCardsVM.cardsToBeDisplayed[tempInt]].Error="";
+		}
+	}
+	public IEnumerator buyXpCard(GameObject gameobject)
+	{
+		int tempInt = System.Convert.ToInt32(gameobject.name.Substring(4))+view.myGameCardsVM.start;
+		int tempPrice = model.cards [view.myGameCardsVM.cardsToBeDisplayed [tempInt]].getPriceForNextLevel();
+		yield return StartCoroutine(model.cards[view.myGameCardsVM.cardsToBeDisplayed[tempInt]].addXp(tempPrice,tempPrice));
+		this.refreshCredits();
+		if(model.cards[view.myGameCardsVM.cardsToBeDisplayed[tempInt]].Error=="")
+		{
+			this.setGUI (true);
+			this.cardFocused.GetComponent<CardController>().animateExperience (model.cards[view.myGameCardsVM.cardsToBeDisplayed[tempInt]]);
+		}
+		else
+		{
+			this.cardFocused.GetComponent<CardMyGameController>().resetFocusedMyGameCard(model.cards[view.myGameCardsVM.cardsToBeDisplayed[tempInt]]);
+			this.cardFocused.GetComponent<CardController>().setError();
+			model.cards[view.myGameCardsVM.cardsToBeDisplayed[tempInt]].Error="";
+		}
+		this.displayedCards [tempInt - view.myGameCardsVM.start].GetComponent<CardMyGameController> ().resetMyGameCard (model.cards [view.myGameCardsVM.cardsToBeDisplayed [tempInt]]);
+	}
+	public IEnumerator renameCard(string value, GameObject gameobject)
+	{
+		int tempInt = System.Convert.ToInt32(gameobject.name.Substring(4))+view.myGameCardsVM.start;
+		int tempPrice = model.cards [view.myGameCardsVM.cardsToBeDisplayed [tempInt]].RenameCost;
+		yield return StartCoroutine(model.cards [view.myGameCardsVM.cardsToBeDisplayed [tempInt]].renameCard(value,tempPrice));
+		this.updateScene (tempInt);
+	}
+	public IEnumerator putOnMarketCard(int price, GameObject gameobject)
+	{
+		int tempInt = System.Convert.ToInt32(gameobject.name.Substring(4))+view.myGameCardsVM.start;
+		yield return StartCoroutine (model.cards [view.myGameCardsVM.cardsToBeDisplayed [tempInt]].toSell (price));
+		this.updateScene (tempInt);
+	}
+	public IEnumerator editSellPriceCard(int price, GameObject gameobject)
+	{
+		int tempInt = System.Convert.ToInt32(gameobject.name.Substring(4))+view.myGameCardsVM.start;
+		yield return StartCoroutine (model.cards [view.myGameCardsVM.cardsToBeDisplayed [tempInt]].changePriceCard (price));
+		this.updateScene (tempInt);
+	}
+	public IEnumerator unsellCard(GameObject gameobject)
+	{
+		int tempInt = System.Convert.ToInt32(gameobject.name.Substring(4))+view.myGameCardsVM.start;
+		yield return StartCoroutine (model.cards [view.myGameCardsVM.cardsToBeDisplayed [tempInt]].notToSell ());
+		this.updateScene (tempInt);
+	}
+	public void updateScene(int tempInt)
+	{
+		this.displayedCards [tempInt - view.myGameCardsVM.start].GetComponent<CardMyGameController> ().resetMyGameCard (model.cards [view.myGameCardsVM.cardsToBeDisplayed [tempInt]]);
+		this.cardFocused.GetComponent<CardMyGameController> ().resetFocusedMyGameCard (model.cards [view.myGameCardsVM.cardsToBeDisplayed [tempInt]]);
+		this.refreshCredits();
+		if(model.cards [view.myGameCardsVM.cardsToBeDisplayed [tempInt]].Error=="")
+		{
+			this.setGUI (true);
+		}
+		else
+		{
+			this.cardFocused.GetComponent<CardController>().setError();
+			model.cards [view.myGameCardsVM.cardsToBeDisplayed [tempInt]].Error="";
+		}
+	}
+	public void refreshCredits()
+	{
+		StartCoroutine(this.MenuObject.GetComponent<MenuController> ().getUserData ());
+	}
+	public void setGUI(bool value)
+	{
+		view.myGameVM.guiEnabled = value;
+		if(this.cardFocused!=null)
+		{
+			this.cardFocused.GetComponent<CardController>().setMyGUI(value);
+		}
+		int finish = view.myGameCardsVM.nbCardsToDisplay;
+		for(int i = 0 ; i < finish ; i++)
+		{
+			this.displayedCards[i].GetComponent<CardController>().setMyGUI(value);
+		}
+	}
 	private void initVM()
 	{
 		view.myGameCardsVM.nbCards=model.cards.Count;
@@ -175,12 +308,9 @@ public class MyGameController : MonoBehaviour
 		{
 			Destroy (this.cardFocused);
 		}
-		else
+		for (int i = 0; i < 3*view.myGameCardsVM.nbCardsPerRow; i++) 
 		{
-			for (int i = 0; i < 3*view.myGameCardsVM.nbCardsPerRow; i++) 
-			{
-				Destroy(this.displayedCards[i]);
-			}
+			Destroy(this.displayedCards[i]);
 		}
 	}
 	private void displayPage()
@@ -837,9 +967,8 @@ public class MyGameController : MonoBehaviour
 	}
 	public void sortCards(int id)
 	{
-		applySorts (id);
-		clearCards();
-		createCards();
+		this.applySorts (id);
+		this.loadData ();
 	}
 	public void applySorts(int id)
 	{

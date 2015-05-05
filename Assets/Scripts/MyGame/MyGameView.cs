@@ -49,9 +49,9 @@ public class MyGameView : MonoBehaviour
 		if(myGameVM.displayView)
 		{
 			GUILayout.BeginArea(new Rect(myGameScreenVM.blockCards.min.x,
-			                             myGameScreenVM.blockCards.min.y+myGameScreenVM.blockCardsHeight*0.965f,
+			                             myGameScreenVM.blockDeckCards.min.y+ (myGameScreenVM.blockCardsHeight+myGameScreenVM.blockDeckCardsHeight+myGameScreenVM.gapBetweenblocks)*0.97f,
 			                             myGameScreenVM.blockCardsWidth,
-			                             myGameScreenVM.blockCardsHeight*0.0325f));
+			                             (myGameScreenVM.blockCardsHeight+myGameScreenVM.blockDeckCardsHeight+myGameScreenVM.gapBetweenblocks)*0.03f));
 			{
 				GUILayout.BeginHorizontal();
 				{

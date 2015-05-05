@@ -107,9 +107,9 @@ public class ExperienceController : MonoBehaviour {
 		this.animation = Instantiate(this.addXpGO) as GameObject;
 		this.animation.transform.parent = gameObject.transform.parent.transform.parent.transform;
 		this.animation.transform.localScale=new Vector3(0f,0f,1f);
-		this.animation.transform.position = new Vector3(transform.parent.transform.parent.transform.position.x,
-		                                           transform.parent.transform.parent.transform.position.y,
-		                                           transform.parent.transform.parent.transform.position.z-0.3f);
+		this.animation.transform.position = new Vector3(transform.parent.transform.position.x,
+		                                           transform.parent.transform.position.y,
+		                                           transform.parent.transform.position.z-0.3f);
 		this.scaleSpeed = 0.5f;
 		this.toMove=true;
 	}

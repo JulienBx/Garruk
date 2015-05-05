@@ -192,6 +192,7 @@ public class StoreController : MonoBehaviour
 		{
 			randomCard.GetComponent<CardStoreController>().resetStoreCard(this.card);
 			randomCard.GetComponent<CardController>().setError();
+			this.card.Error="";
 		}
 	}
 	public IEnumerator renameCard(string value)

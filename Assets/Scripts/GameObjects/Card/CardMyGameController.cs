@@ -11,9 +11,9 @@ public class CardMyGameController : CardController
 	
 	void OnMouseOver()
 	{
-		if (Input.GetMouseButton(1))
+		if (Input.GetMouseButton(1)) 
 		{
-			//myGameController.instance.rightClickedCard(gameObject);
+			MyGameController.instance.clickedCard (gameObject);
 		}
 	}
 	void OnMouseUpAsButton()
@@ -110,11 +110,11 @@ public class CardMyGameController : CardController
 	}
 	public void exitFocus()
 	{
-		//myGameController.instance.exitCard();
+		MyGameController.instance.exitCard();
 	}
 	public override void setGUI(bool value)
 	{
-		//MarketController.instance.setGUI (value);
+		MyGameController.instance.setGUI (value);
 	}
 	public override void setMyGUI(bool value)
 	{
@@ -134,12 +134,12 @@ public class CardMyGameController : CardController
 	public override void sellCard()
 	{
 		base.sellCard ();
-		//StartCoroutine(myGameController.instance.sellCard());
+		StartCoroutine(MyGameController.instance.sellCard(gameObject));
 	}
 	public override void buyXpCard()
 	{
 		base.buyXpCard ();
-		//StartCoroutine(myGameController.instance.buyXpCard());
+		StartCoroutine(MyGameController.instance.buyXpCard(gameObject));
 	}
 	public override void renameCard()
 	{
@@ -147,7 +147,7 @@ public class CardMyGameController : CardController
 		if(tempString!="")
 		{
 			base.renameCard ();
-			//StartCoroutine(myGameController.instance.renameCard(tempString));
+			StartCoroutine(MyGameController.instance.renameCard(tempString,gameObject));
 		}
 	}
 	public override void putOnMarketCard()
@@ -156,7 +156,7 @@ public class CardMyGameController : CardController
 		if(tempInt!=-1)
 		{
 			base.putOnMarketCard();
-			//StartCoroutine(myGameController.instance.putOnMarketCard(tempInt));
+			StartCoroutine(MyGameController.instance.putOnMarketCard(tempInt,gameObject));
 		}
 	}
 	public override void editSellPriceCard()
@@ -165,13 +165,13 @@ public class CardMyGameController : CardController
 		if(tempInt!=-1)
 		{
 			base.editSellPriceCard();
-			//StartCoroutine(myGameController.instance.editSellPriceCard(tempInt));
+			StartCoroutine(MyGameController.instance.editSellPriceCard(tempInt,gameObject));
 		}
 	}
 	public override void unsellCard()
 	{
 		base.unsellCard();
-		//StartCoroutine(myGameController.instance.unsellCard());
+		StartCoroutine(MyGameController.instance.unsellCard(gameObject));
 	}
 }
 
