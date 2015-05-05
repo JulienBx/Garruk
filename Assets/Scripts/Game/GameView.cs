@@ -4,73 +4,6 @@ using System.Collections.Generic;
 
 public class GameView : MonoBehaviour
 {
-//	public GameObject[] characters;
-
-//	// Profiles des joueurs
-//	public Texture2D bottomUserPicture;
-//	public Texture2D topUserPicture;
-//	public string bottomUserName;
-//	public string topUserName;
-//	public bool isBottomPlayerLoaded = false ;
-//	public bool isTopPlayerLoaded = false ;
-//	
-//	public GUIStyle[] statsZoneStyles;
-//	public GUIStyle[] characterNameStyles;
-//	public GUIStyle[] characterLifeStyle;
-//	public GUIStyle[] lifeBarStyle;
-//	public GUIStyle[] attackStyle;
-//	public GUIStyle[] quicknessStyle;
-//	public GUIStyle[] moveStyle;
-//	
-//	public GUIStyle message1Style;
-//	public GUIStyle message2Style;
-//	public GUIStyle buttonStyle;
-//	public GUIStyle skillInfoStyle;
-//	public GUIStyle mySkillInfoStyle;
-//	public GUIStyle myPlayerNameStyle ;
-//	public GUIStyle playerNameStyle ;
-//	public GUIStyle enAttenteStyle ;
-//	public GUIStyle areaPlayer1Style ;
-//	public GUIStyle profilePictureStyle ;
-//
-//	string labelMessage1;
-//	string labelMessage2;
-//	
-//	public Texture2D attackIcon;
-//	public Texture2D quicknessIcon;
-//	public Texture2D moveIcon;
-//	public GameObject Card;
-//	public GameObject Hex;
-//
-//	private Rect areaPlayer1;
-//	public GUIStyle areaPlayer2Style;
-//	private Rect areaPlayer2;
-//
-//	public bool isDragging = false;         // Pendant la phase de positionnement
-//	public bool isMoving = false;           // Pendant la phase de combat
-//	public bool droppedCard = false;        
-//	public bool TimeOfPositionning;         // false : phase de positionnement, true : phase de combat
-//	public GameNetworkCard CardSelected;           // Carte sélectionnée dans la phase de positionnement et la phase de combat 
-//	public GameCard CardHovered;
-//	public static GameView instance = null;
-//	public int gridWidthInHexes = 5, gridHeightInHexes = 0;
-//	public int nbPlayer = 0;
-//	public int MyPlayerNumber {get {return nbPlayer;}}
-//	public int nbCardsPlayer1 = 0, nbCardsPlayer2 = 0;
-//	public int nbTurn;
-//	private User[] users ;
-//	Texture2D[] playerPictures ;
-//	
-//	bool displayedHex = false ;
-//	bool isStart = false ;
-//	public int GridLayerMask = 1 << 8;
-//	
-//	private int widthScreen;
-//	private int heightScreen;
-//	private float scaleTile ;
-//	public IList<Tile> board = new List<Tile>();
-//	public IList<GameObject> myCards = new List<GameObject>();
-//	public IList<GameObject> opponentCards = new List<GameObject>();
 	public BottomZoneViewModel bottomZoneVM;
 	public TopZoneViewModel topZoneVM ;
 	public GameScreenViewModel gameScreenVM ;
@@ -85,12 +18,7 @@ public class GameView : MonoBehaviour
 	
 	void Start()
 	{	
-		//scaleTile = 1.2f * (8f / gridHeightInHexes);
-		//users = new User[2];
-		//users[0] = new User();
-		//users[1] = new User();
-		//playerPictures = new Texture2D[2];
-		//setSizes();
+	
 	}
 
 	void Update() 
