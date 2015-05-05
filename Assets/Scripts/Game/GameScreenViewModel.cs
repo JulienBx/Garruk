@@ -23,7 +23,7 @@ public class GameScreenViewModel
 		this.heightScreen = Screen.height;
 		this.widthScreen = Screen.width;
 		this.bottomZoneRect = new Rect(0, this.heightScreen*0.86f, this.widthScreen*0.2f, this.heightScreen*0.14f) ;
-		this.topZoneRect = new Rect(0, 0, this.widthScreen, this.heightScreen*0.14f);
+		this.topZoneRect = new Rect(this.widthScreen*0.8f, 0, this.widthScreen, this.heightScreen*0.14f);
 	}
 }
 

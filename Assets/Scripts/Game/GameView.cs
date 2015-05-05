@@ -115,84 +115,41 @@ public class GameView : MonoBehaviour
 				GUILayout.BeginVertical();
 				{
 					GUILayout.FlexibleSpace();
-					GUILayout.Box(bottomZoneVM.userPicture, bottomZoneVM.imageStyle, GUILayout.Width(gameScreenVM.bottomZoneRect.width*35/100), GUILayout.Height(gameScreenVM.bottomZoneRect.height*80/100));
+					GUILayout.Box(bottomZoneVM.userPicture, bottomZoneVM.imageStyle, GUILayout.Width(gameScreenVM.bottomZoneRect.width*32/100), GUILayout.Height(gameScreenVM.bottomZoneRect.height*80/100));
 					GUILayout.FlexibleSpace();
 				}
 				GUILayout.EndVertical();
 				GUILayout.FlexibleSpace();
-				GUILayout.Label(bottomZoneVM.userName, bottomZoneVM.nameTextStyle, GUILayout.Width(gameScreenVM.bottomZoneRect.width*55/100));
-				GUILayout.FlexibleSpace();	
-//				GUILayout.BeginVertical();
-//				{
-//					GUILayout.Label(bottomZoneVM.message, bottomZoneVM.messageTextStyle, GUILayout.Width(gameScreenVM.bottomZoneRect.width*58/100));
-//					if (this.bottomZoneVM.toDisplayCharacter){
-//					GUILayout.BeginHorizontal(GUILayout.Width(gameScreenVM.bottomZoneRect.width*58/100));
-//					{
-//						GUILayout.Label(bottomZoneVM.namePlayingCharacter, bottomZoneVM.characterNameTextStyle, GUILayout.Width(gameScreenVM.bottomZoneRect.width*8/100));
-//						GUILayout.FlexibleSpace();
-//						GUILayout.Button("Attaque", bottomZoneVM.characterButtonTextStyle, GUILayout.Width(gameScreenVM.bottomZoneRect.width*8/100));
-//						GUILayout.FlexibleSpace();
-//						if (this.bottomZoneVM.nameSkill1!=""){
-//							if (this.bottomZoneVM.isActivableSkill1){
-//								GUILayout.Button(this.bottomZoneVM.nameSkill1, bottomZoneVM.characterButtonTextStyle, GUILayout.Width(gameScreenVM.bottomZoneRect.width*8/100));
-//							}
-//							else{
-//								GUILayout.Button(this.bottomZoneVM.nameSkill1, bottomZoneVM.characterLabelTextStyle, GUILayout.Width(gameScreenVM.bottomZoneRect.width*8/100));
-//							}
-//						}
-//						GUILayout.FlexibleSpace();
-//						if (this.bottomZoneVM.nameSkill2!=""){
-//							if (this.bottomZoneVM.isActivableSkill2){
-//								GUILayout.Button(this.bottomZoneVM.nameSkill2, bottomZoneVM.characterButtonTextStyle, GUILayout.Width(gameScreenVM.bottomZoneRect.width*8/100));
-//							}
-//							else{
-//								GUILayout.Button(this.bottomZoneVM.nameSkill2, bottomZoneVM.characterLabelTextStyle, GUILayout.Width(gameScreenVM.bottomZoneRect.width*8/100));
-//							}
-//						}
-//						GUILayout.FlexibleSpace();
-//						if (this.bottomZoneVM.nameSkill3!=""){
-//							if (this.bottomZoneVM.isActivableSkill3){
-//								GUILayout.Button(this.bottomZoneVM.nameSkill3, bottomZoneVM.characterButtonTextStyle, GUILayout.Width(gameScreenVM.bottomZoneRect.width*8/100));
-//							}
-//							else{
-//								GUILayout.Button(this.bottomZoneVM.nameSkill3, bottomZoneVM.characterLabelTextStyle, GUILayout.Width(gameScreenVM.bottomZoneRect.width*8/100));
-//							}
-//						}
-//						GUILayout.FlexibleSpace();
-//						if (this.bottomZoneVM.nameSkill4!=""){
-//							if (this.bottomZoneVM.isActivableSkill4){
-//								GUILayout.Button(this.bottomZoneVM.nameSkill4, bottomZoneVM.characterButtonTextStyle, GUILayout.Width(gameScreenVM.bottomZoneRect.width*8/100));
-//							}
-//							else{
-//								GUILayout.Button(this.bottomZoneVM.nameSkill4, bottomZoneVM.characterLabelTextStyle, GUILayout.Width(gameScreenVM.bottomZoneRect.width*8/100));
-//							}
-//						}
-//						GUILayout.FlexibleSpace();
-//						GUILayout.Button("Passer", bottomZoneVM.characterButtonTextStyle, GUILayout.Width(gameScreenVM.bottomZoneRect.width*8/100));
-//						GUILayout.FlexibleSpace();
-//
-//					}
-//					GUILayout.EndHorizontal();
-//					}
-//				}
-//				GUILayout.EndVertical();
-//				GUILayout.FlexibleSpace();
-//				GUILayout.BeginVertical(GUILayout.Width(gameScreenVM.bottomZoneRect.width*18/100));
-//				{
-//					if (bottomZoneVM.nbTurns!=-1){
-//						GUILayout.Label("Tour : "+bottomZoneVM.nbTurns, this.bottomZoneVM.turnsTextStyle);
-//					}
-//					if (bottomZoneVM.displayStartButton){
-//						if (GUILayout.Button("Commencer le match", bottomZoneVM.buttonTextStyle)){
-//							GameController.instance.StartFight();
-//						}
-//					}
-//					if (GUILayout.Button("Quitter le match", bottomZoneVM.buttonTextStyle))
-//					{
-//						PhotonNetwork.Disconnect();
-//					}
-//				}
-//				GUILayout.EndVertical();
+				GUILayout.BeginVertical();
+				{
+					GUILayout.Label(bottomZoneVM.userName, bottomZoneVM.nameTextStyle, GUILayout.Width(gameScreenVM.bottomZoneRect.width*62/100), GUILayout.Height(gameScreenVM.bottomZoneRect.height*50/100));
+					if (bottomZoneVM.nbTurns!=-1){
+						GUILayout.Label("Tour : "+bottomZoneVM.nbTurns, this.bottomZoneVM.turnsTextStyle, GUILayout.Width(gameScreenVM.bottomZoneRect.width*62/100), GUILayout.Height(gameScreenVM.bottomZoneRect.height*20/100));
+					}
+					else{
+						GUILayout.Label(bottomZoneVM.message, bottomZoneVM.messageTextStyle, GUILayout.Width(gameScreenVM.bottomZoneRect.width*62/100), GUILayout.Height(gameScreenVM.bottomZoneRect.height*20/100));
+					}
+					GUILayout.Space(gameScreenVM.bottomZoneRect.height*5/100);
+
+					GUILayout.BeginHorizontal();
+					{
+						GUILayout.FlexibleSpace();
+						if (bottomZoneVM.displayStartButton){
+							if (GUILayout.Button("Start", bottomZoneVM.buttonTextStyle, GUILayout.Width(gameScreenVM.bottomZoneRect.width*42/100), GUILayout.Height(gameScreenVM.bottomZoneRect.height*20/100))){
+								GameController.instance.StartFight();
+							}
+							GUILayout.Space(gameScreenVM.bottomZoneRect.width*2/100);
+						}
+						if (GUILayout.Button("Quit", bottomZoneVM.buttonTextStyle, GUILayout.Width(gameScreenVM.bottomZoneRect.width*17/100), GUILayout.Height(gameScreenVM.bottomZoneRect.height*20/100))){
+							PhotonNetwork.Disconnect();
+						}
+						GUILayout.FlexibleSpace();
+					}
+					GUILayout.EndHorizontal();
+					GUILayout.Space(gameScreenVM.bottomZoneRect.height*5/100);
+				}
+				GUILayout.EndVertical();
+				GUILayout.FlexibleSpace();
 			}
 			GUILayout.EndHorizontal();
 		}
@@ -206,23 +163,23 @@ public class GameView : MonoBehaviour
 				GUILayout.BeginVertical();
 				{
 					GUILayout.FlexibleSpace();
-					GUILayout.Box(topZoneVM.userPicture, topZoneVM.imageStyle, GUILayout.Width(gameScreenVM.widthScreen*7/100), GUILayout.Height(gameScreenVM.topZoneRect.height*80/100));
+					GUILayout.Box(topZoneVM.userPicture, topZoneVM.imageStyle, GUILayout.Width(gameScreenVM.topZoneRect.width*32/100), GUILayout.Height(gameScreenVM.topZoneRect.height*80/100));
 					GUILayout.FlexibleSpace();
 				}
 				GUILayout.EndVertical();
 				GUILayout.FlexibleSpace();
-				GUILayout.Label(topZoneVM.userName, topZoneVM.nameTextStyle, GUILayout.Width(gameScreenVM.topZoneRect.width*12/100));
-				GUILayout.FlexibleSpace();	
-				GUILayout.Label(topZoneVM.message, topZoneVM.messageTextStyle, GUILayout.Width(gameScreenVM.topZoneRect.width*58/100));
-				GUILayout.FlexibleSpace();
-				GUILayout.BeginVertical(GUILayout.Width(gameScreenVM.topZoneRect.width*18/100));
+				GUILayout.BeginVertical();
 				{
+					GUILayout.Label(topZoneVM.userName, topZoneVM.nameTextStyle, GUILayout.Width(gameScreenVM.topZoneRect.width*62/100), GUILayout.Height(gameScreenVM.topZoneRect.height*50/100));
+					GUILayout.Space(gameScreenVM.bottomZoneRect.height*5/100);
+
 					if (topZoneVM.toDisplayRedStatus){
-						GUILayout.Label(topZoneVM.status, topZoneVM.redStatusTextStyle);
+						GUILayout.Label(topZoneVM.status, topZoneVM.redStatusTextStyle, GUILayout.Width(gameScreenVM.topZoneRect.width*62/100), GUILayout.Height(gameScreenVM.topZoneRect.height*40/100));
 					}
 					else if (topZoneVM.toDisplayGreenStatus){
-						GUILayout.Label(topZoneVM.status, topZoneVM.greenStatusTextStyle);
+						GUILayout.Label(topZoneVM.status, topZoneVM.greenStatusTextStyle, GUILayout.Width(gameScreenVM.topZoneRect.width*62/100), GUILayout.Height(gameScreenVM.topZoneRect.height*40/100));
 					}
+					GUILayout.Space(gameScreenVM.bottomZoneRect.height*5/100);
 				}
 				GUILayout.EndVertical();
 			}

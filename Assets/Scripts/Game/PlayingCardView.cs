@@ -1,8 +1,11 @@
 using UnityEngine ;
+using System.Collections;
+using System.Collections.Generic;
 
 public class PlayingCardView : MonoBehaviour
 {
 	public PlayingCardViewModel playingCardVM;
+	int displaySkillDescription=-1;
 
 	public PlayingCardView ()
 	{
@@ -12,12 +15,12 @@ public class PlayingCardView : MonoBehaviour
 	public void replace ()
 	{
 		gameObject.transform.localPosition = playingCardVM.position;
-		gameObject.transform.localRotation = playingCardVM.rotation;
 		gameObject.transform.localScale = playingCardVM.scale;
 	}
 
 	void Update ()
 	{
+
 	}
 
 	void OnGUI ()
@@ -35,9 +38,9 @@ public class PlayingCardView : MonoBehaviour
 					GUILayout.BeginHorizontal(GUILayout.Height(this.playingCardVM.infoRect.height*1/10));
 					{
 						GUILayout.Label("Life", this.playingCardVM.attackZoneTextStyle, GUILayout.Width(this.playingCardVM.skillInfoRectWidth*3/10));
-						GUILayout.BeginHorizontal(this.playingCardVM.backgroundLifeBar, GUILayout.Width(this.playingCardVM.skillInfoRectWidth*65/100));
+						GUILayout.BeginHorizontal(this.playingCardVM.backgroundBarStyle, GUILayout.Width(this.playingCardVM.skillInfoRectWidth*65/100));
 						{
-							GUILayout.Label(""+this.playingCardVM.life, this.playingCardVM.lifeTextStyle, GUILayout.Width(0.65f*this.playingCardVM.life*this.playingCardVM.skillInfoRectWidth/this.playingCardVM.maxLife));
+							GUILayout.Label(""+this.playingCardVM.life, this.playingCardVM.lifeBarStyle, GUILayout.Width(0.65f*this.playingCardVM.life*this.playingCardVM.skillInfoRectWidth/this.playingCardVM.maxLife));
 							GUILayout.FlexibleSpace();
 						}
 						GUILayout.EndHorizontal();
@@ -47,9 +50,9 @@ public class PlayingCardView : MonoBehaviour
 					GUILayout.BeginHorizontal(GUILayout.Height(this.playingCardVM.infoRect.height*1/10), GUILayout.Width(this.playingCardVM.skillInfoRectWidth));
 					{
 						GUILayout.Label("Speed", this.playingCardVM.attackZoneTextStyle, GUILayout.Width(this.playingCardVM.skillInfoRectWidth*3/10));
-						GUILayout.BeginHorizontal(this.playingCardVM.backgroundLifeBar, GUILayout.Width(this.playingCardVM.skillInfoRectWidth*65/100));
+						GUILayout.BeginHorizontal(this.playingCardVM.backgroundBarStyle, GUILayout.Width(this.playingCardVM.skillInfoRectWidth*65/100));
 						{
-							GUILayout.Label(""+this.playingCardVM.quickness, this.playingCardVM.lifeTextStyle, GUILayout.Width(0.65f*this.playingCardVM.quickness*this.playingCardVM.skillInfoRectWidth/100));
+							GUILayout.Label(""+this.playingCardVM.quickness, this.playingCardVM.QuicknessBarStyle, GUILayout.Width(0.65f*this.playingCardVM.quickness*this.playingCardVM.skillInfoRectWidth/100));
 							GUILayout.FlexibleSpace();
 						}
 						GUILayout.EndHorizontal();
@@ -74,9 +77,22 @@ public class PlayingCardView : MonoBehaviour
 				GUILayout.EndVertical();
 
 				if (this.playingCardVM.isSelected){
+					this.displaySkillDescription = -1 ;
+					for(int i = 0 ; i < this.playingCardVM.skillTitles.Count;i++){
+						if(Input.mousePosition.x > (this.playingCardVM.infoRect.xMin+this.playingCardVM.infoRect.xMax)/2 && (Screen.height-Input.mousePosition.y) > (this.playingCardVM.infoRect.yMin+(i)*(this.playingCardVM.infoRect.height)/4) && Input.mousePosition.x < this.playingCardVM.infoRect.xMax && (Screen.height-Input.mousePosition.y) < (this.playingCardVM.infoRect.yMin+(i+1)*(this.playingCardVM.infoRect.height)/4)){
+							this.displaySkillDescription = i ;
+						}
+					}
 					GUILayout.BeginVertical(GUILayout.Width(this.playingCardVM.skillInfoRectWidth));
 					{
-						GUILayout.Label("NAME", this.playingCardVM.nameTextStyle, GUILayout.Width(this.playingCardVM.skillInfoRectWidth), GUILayout.Height(this.playingCardVM.infoRect.height*12/100));
+						for(int i = 0 ; i < this.playingCardVM.skillTitles.Count;i++){
+							if (this.displaySkillDescription==i){
+								GUILayout.Button(this.playingCardVM.skillDescriptions[i], this.playingCardVM.skillDescriptionTextStyle, GUILayout.Height(this.playingCardVM.infoRect.height*25/100));
+							}
+							else{
+								GUILayout.Button(this.playingCardVM.skillTitles[i], this.playingCardVM.skillTitleTextStyle, GUILayout.Height(this.playingCardVM.infoRect.height*25/100));
+							}
+						}
 					}
 					GUILayout.EndVertical();
 				}

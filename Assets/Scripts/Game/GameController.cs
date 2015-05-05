@@ -176,6 +176,7 @@ public class GameController : Photon.MonoBehaviour
 		this.currentClickedTileX = -1;
 		this.currentClickedTileY = -1;
 		this.characterDragged = -1;
+		this.gameView.SetCursorToDefault();
 	}
 
 	public void hoverTileHandler(int x, int y, int idCharacter, bool isDestination)
@@ -282,7 +283,6 @@ public class GameController : Photon.MonoBehaviour
 				}
 				this.hideHoveredTile();
 				this.hideClickedTile();
-				this.gameView.SetCursorToDefault();
 			}
 		}
 	}
@@ -354,10 +354,10 @@ public class GameController : Photon.MonoBehaviour
 			this.gameView.bottomZoneVM.message = "A votre tour de jouer";
 			if (id < 5)
 			{
-				this.gameView.bottomZoneVM.setCharacter(this.myCharacters [id].GetComponentInChildren<PlayingCardController>().card);
+				//this.gameView.bottomZoneVM.setCharacter(this.myCharacters [id].GetComponentInChildren<PlayingCardController>().card);
 			} else
 			{
-				this.gameView.bottomZoneVM.setCharacter(this.myCharacters [id - 5].GetComponentInChildren<PlayingCardController>().card);
+				//this.gameView.bottomZoneVM.setCharacter(this.myCharacters [id - 5].GetComponentInChildren<PlayingCardController>().card);
 			}
 
 		} else
@@ -642,7 +642,7 @@ public class GameController : Photon.MonoBehaviour
 				hisPlayingCards [i].GetComponentInChildren<PlayingCardController>().resize(this.gameView.gameScreenVM.heightScreen);
 
 				hisCharacters.Add((GameObject)Instantiate(this.characters [hisDeck.Cards [i].ArtIndex]));
-				hisCharacters [i].GetComponentInChildren<PlayingCharacterController>().setName(myDeck.Cards [i].Title);
+				hisCharacters [i].GetComponentInChildren<PlayingCharacterController>().setName(hisDeck.Cards [i].Title);
 				hisCharacters [i].GetComponentInChildren<PlayingCharacterController>().setStyles(false);
 				hisCharacters [i].GetComponentInChildren<PlayingCharacterController>().setTile(tiles [this.boardWidth / 2 - 2 + i, (idPlayer - 1) * (this.boardHeight - 1) - decalage], (idPlayer == 2), this.isFirstPlayer);
 				hisCharacters [i].GetComponentInChildren<PlayingCharacterController>().setID(i + 5);
