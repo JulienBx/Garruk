@@ -47,14 +47,15 @@ public class GameController : Photon.MonoBehaviour
 	int characterDragged = -1;
 	int playingCharacter = 2;
 	public bool onGoingAttack = false;
-	int mouseX, mouseY ;
-	int nbPlayersReadyToFight ;
+	int mouseX, mouseY;
+	int nbPlayersReadyToFight;
 
-	private List<int> hasPlayed ;
+	private List<int> hasPlayed;
 	int currentPlayer;
 
 	int speed ;
 	int eventMax = 10;
+	int nbActionPlayed = 0;
 	//string URLStat = ApplicationModel.dev + "updateResult.php";
 	
 	void Awake()
@@ -97,13 +98,14 @@ public class GameController : Photon.MonoBehaviour
 		if (currentHoveredTileX != -1)
 		{
 			this.tiles [currentHoveredTileX, currentHoveredTileY].GetComponent<TileController>().hideHover();
-			if (this.hoveredCharacter != -1){
+			if (this.hoveredCharacter != -1)
+			{
 				if (this.hoveredCharacter < 5)
 				{
 					this.myPlayingCards [this.hoveredCharacter].GetComponentInChildren<PlayingCardController>().hideHover();
 				} else
 				{
-					this.hisPlayingCards [this.hoveredCharacter-5].GetComponentInChildren<PlayingCardController>().hideHover();
+					this.hisPlayingCards [this.hoveredCharacter - 5].GetComponentInChildren<PlayingCardController>().hideHover();
 				}
 			}
 			this.currentHoveredTileX = -1;
@@ -116,13 +118,14 @@ public class GameController : Photon.MonoBehaviour
 	{
 		this.hoveredCharacter = idCharacter;
 		this.tiles [x, y].GetComponent<TileController>().displayHover();
-		if (idCharacter != -1){
+		if (idCharacter != -1)
+		{
 			if (idCharacter < 5)
 			{
 				this.myPlayingCards [idCharacter].GetComponentInChildren<PlayingCardController>().displayHover();
 			} else
 			{
-				this.hisPlayingCards [idCharacter-5].GetComponentInChildren<PlayingCardController>().displayHover();
+				this.hisPlayingCards [idCharacter - 5].GetComponentInChildren<PlayingCardController>().displayHover();
 			}
 		}
 		this.currentHoveredTileX = x;
@@ -157,14 +160,14 @@ public class GameController : Photon.MonoBehaviour
 			}
 		} else
 		{
-			this.hisPlayingCards [idCharacter-5].GetComponentInChildren<PlayingCardController>().displayClick();
-			this.hisPlayingCards [idCharacter-5].GetComponentInChildren<PlayingCardController>().isSelected = true;
-			this.hisPlayingCards [idCharacter-5].GetComponentInChildren<PlayingCardController>().resizeInfoRect();
-			int r = this.hisPlayingCards [idCharacter-5].GetComponentInChildren<PlayingCardController>().sortID;
+			this.hisPlayingCards [idCharacter - 5].GetComponentInChildren<PlayingCardController>().displayClick();
+			this.hisPlayingCards [idCharacter - 5].GetComponentInChildren<PlayingCardController>().isSelected = true;
+			this.hisPlayingCards [idCharacter - 5].GetComponentInChildren<PlayingCardController>().resizeInfoRect();
+			int r = this.hisPlayingCards [idCharacter - 5].GetComponentInChildren<PlayingCardController>().sortID;
 			
 			for (int i = 0; i < 5; i++)
 			{
-				if (i != (idCharacter-5))
+				if (i != (idCharacter - 5))
 				{
 					if (r > this.hisPlayingCards [i].GetComponentInChildren<PlayingCardController>().sortID)
 					{
@@ -179,7 +182,8 @@ public class GameController : Photon.MonoBehaviour
 	public void hideClickedTile()
 	{
 		this.tiles [currentClickedTileX, currentClickedTileY].GetComponent<TileController>().hideSelected();
-		if (this.clickedCharacter != -1){
+		if (this.clickedCharacter != -1)
+		{
 			if (this.clickedCharacter < 5)
 			{
 				this.myPlayingCards [this.clickedCharacter].GetComponentInChildren<PlayingCardController>().hideHover();
@@ -192,9 +196,9 @@ public class GameController : Photon.MonoBehaviour
 				}
 			} else
 			{
-				this.hisPlayingCards [this.clickedCharacter-5].GetComponentInChildren<PlayingCardController>().hideHover();
-				this.hisPlayingCards [this.clickedCharacter-5].GetComponentInChildren<PlayingCardController>().isSelected = false;
-				this.hisPlayingCards [this.clickedCharacter-5].GetComponentInChildren<PlayingCardController>().resizeInfoRect();
+				this.hisPlayingCards [this.clickedCharacter - 5].GetComponentInChildren<PlayingCardController>().hideHover();
+				this.hisPlayingCards [this.clickedCharacter - 5].GetComponentInChildren<PlayingCardController>().isSelected = false;
+				this.hisPlayingCards [this.clickedCharacter - 5].GetComponentInChildren<PlayingCardController>().resizeInfoRect();
 				for (int i = 0; i < 5; i++)
 				{
 					this.hisPlayingCards [i].GetComponentInChildren<PlayingCardController>().isMoved = false;
@@ -247,10 +251,9 @@ public class GameController : Photon.MonoBehaviour
 		if (idCharacter < 5)
 		{
 			this.hoverTileHandler(myCharacters [idCharacter].GetComponentInChildren<PlayingCharacterController>().tile.GetComponent<TileController>().x, myCharacters [idCharacter].GetComponentInChildren<PlayingCharacterController>().tile.GetComponent<TileController>().y, idCharacter, myCharacters [idCharacter].GetComponentInChildren<PlayingCharacterController>().tile.GetComponent<TileController>().isDestination);
-		} 
-		else
+		} else
 		{
-			this.hoverTileHandler(hisCharacters [idCharacter-5].GetComponentInChildren<PlayingCharacterController>().tile.GetComponent<TileController>().x, hisCharacters [idCharacter-5].GetComponentInChildren<PlayingCharacterController>().tile.GetComponent<TileController>().y, idCharacter, hisCharacters [idCharacter-5].GetComponentInChildren<PlayingCharacterController>().tile.GetComponent<TileController>().isDestination);
+			this.hoverTileHandler(hisCharacters [idCharacter - 5].GetComponentInChildren<PlayingCharacterController>().tile.GetComponent<TileController>().x, hisCharacters [idCharacter - 5].GetComponentInChildren<PlayingCharacterController>().tile.GetComponent<TileController>().y, idCharacter, hisCharacters [idCharacter - 5].GetComponentInChildren<PlayingCharacterController>().tile.GetComponent<TileController>().isDestination);
 		}
 	}
 
@@ -260,9 +263,9 @@ public class GameController : Photon.MonoBehaviour
 		{
 			this.clickTileHandler(myCharacters [idCharacter].GetComponentInChildren<PlayingCharacterController>().tile.GetComponent<TileController>().x, myCharacters [idCharacter].GetComponentInChildren<PlayingCharacterController>().tile.GetComponent<TileController>().y, idCharacter);
 			this.releaseClick();
-		}
-		else{
-			this.clickTileHandler(hisCharacters [idCharacter-5].GetComponentInChildren<PlayingCharacterController>().tile.GetComponent<TileController>().x, hisCharacters [idCharacter-5].GetComponentInChildren<PlayingCharacterController>().tile.GetComponent<TileController>().y, idCharacter);
+		} else
+		{
+			this.clickTileHandler(hisCharacters [idCharacter - 5].GetComponentInChildren<PlayingCharacterController>().tile.GetComponent<TileController>().x, hisCharacters [idCharacter - 5].GetComponentInChildren<PlayingCharacterController>().tile.GetComponent<TileController>().y, idCharacter);
 			this.releaseClick();
 		}
 	}
@@ -435,6 +438,10 @@ public class GameController : Photon.MonoBehaviour
 	public void EndOfGame(int player)
 	{
 		isGameOver = true;
+	}
+	public void pass()
+	{
+		nbActionPlayed = 0;
 	}
 	
 	private IEnumerator returnToLobby()
@@ -840,27 +847,37 @@ public class GameController : Photon.MonoBehaviour
 	public void testTimeline()
 	{
 		Card card = new Card("gentil");
-		GameEventType ge = new PassType();
+		GameEventType ge = new SkillType("a crié");
 		addGameEvent(card, ge);
-		Card card2 = new Card("paladin");
-		addGameEvent(card2, ge);
+
+		GameEventType ge2 = new PassType();
+		addGameEvent(card, ge2);
+		pass();
 		Card card3 = new Card("sorcier");
 		addGameEvent(card3, ge);
 	}
 	
 	public void addGameEvent(Card card, GameEventType type)
 	{
-		GameObject go;
-		if (gameEvents.Count < eventMax)
+		if (nbActionPlayed == 0)
 		{
-			go = (GameObject)Instantiate(gameEvent);
-			gameEvents.Add(go);
-			go.GetComponent<GameEventController>().setScreenPosition(gameEvents.Count);
-		} 
-		changeGameEvents();
-		go = gameEvents [0];
-		go.GetComponent<GameEventController>().setCharacterName(card.Title);
-		go.GetComponent<GameEventController>().setAction(type.toString());
+			GameObject go;
+			if (gameEvents.Count < eventMax)
+			{
+				go = (GameObject)Instantiate(gameEvent);
+				gameEvents.Add(go);
+				go.GetComponent<GameEventController>().setScreenPosition(gameEvents.Count);
+			} 
+			changeGameEvents();
+			go = gameEvents [0];
+			go.GetComponent<GameEventController>().setCharacterName(card.Title);
+			go.GetComponent<GameEventController>().setAction(type.toString());
+			nbActionPlayed++;
+		} else
+		{
+			GameObject go = gameEvents [0];
+			go.GetComponent<GameEventController>().addAction(type.toString());
+		}
 		//go.GetComponent<GameEventController>().setArt(card.);
 	}
 

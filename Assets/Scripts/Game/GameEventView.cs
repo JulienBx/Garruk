@@ -32,12 +32,12 @@ public class GameEventView : MonoBehaviour
 			{
 				GUILayout.BeginVertical(this.gameEventVM.backgroundStyle);
 				{
-					GUILayout.Label(this.gameEventVM.characterName, this.gameEventVM.nameTextStyle, GUILayout.Height(this.gameEventVM.infoRect.height));
+					GUILayout.Label(this.gameEventVM.characterName + " " + this.gameEventVM.action, this.gameEventVM.nameTextStyle, GUILayout.Height(this.gameEventVM.infoRect.height));
 				}
 				GUILayout.EndVertical();
 			}
 			GUILayout.EndArea();
-			Debug.Log(gameEventVM.characterName);
+		
 		}
 	}
 

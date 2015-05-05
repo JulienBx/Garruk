@@ -1,4 +1,3 @@
-
 public class PassType : GameEventType
 {
 	public PassType()
