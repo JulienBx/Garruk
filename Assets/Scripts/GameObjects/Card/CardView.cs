@@ -15,7 +15,7 @@ public class CardView : MonoBehaviour
 		transform.Find("texturedGameCard").FindChild("MoveArea").renderer.material.mainTexture = cardVM.moveArea;
 		for (int i=0;i<6;i++)
 		{
-			transform.Find("texturedGameCard").renderer.materials[i].mainTexture = cardVM.cardFaces[0]; 
+			transform.Find("texturedGameCard").renderer.materials[i].mainTexture = cardVM.cardFaces[i]; 
 			transform.Find("texturedGameCard").FindChild("PictoMetalLife").renderer.materials[i].mainTexture = cardVM.lifeLevel[i];
 			transform.Find("texturedGameCard").FindChild("AttackArea").FindChild("PictoMetalAttack").renderer.materials[i].mainTexture = cardVM.attackLevel[i];
 			transform.Find("texturedGameCard").FindChild("MoveArea").FindChild ("PictoMetalMove").renderer.materials[i].mainTexture = cardVM.moveLevel[i];
@@ -42,13 +42,5 @@ public class CardView : MonoBehaviour
 		transform.Find("texturedGameCard").FindChild("SpeedArea").FindChild("PictoMetalSpeed").FindChild("Speed").localScale = new Vector3(0.5f/resolution,0.7f/resolution,0);
 		transform.Find("texturedGameCard").Find("Class").GetComponent<TextMesh>().fontSize = Mathf.RoundToInt(resolution * 15);	
 		transform.Find("texturedGameCard").Find("Class").localScale = new Vector3(0.06f/resolution,0.046f/resolution,0);
-	}
-	public void applySoldTexture()
-	{
-		transform.Find("texturedGameCard").renderer.materials[0].mainTexture = cardVM.soldCardTexture;
-	}
-	public void updateName()
-	{
-		transform.Find("texturedGameCard").FindChild("Title").GetComponent<TextMesh>().text = cardVM.title;
 	}
 }

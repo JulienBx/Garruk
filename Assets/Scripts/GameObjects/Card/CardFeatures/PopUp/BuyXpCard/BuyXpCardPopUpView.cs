@@ -27,7 +27,7 @@ public class BuyXpCardPopUpView : MonoBehaviour
 					GUILayout.Space(0.03f * popUpVM.centralWindow.width);
 					if (GUILayout.Button("Acheter", popUpVM.centralWindowButtonStyle))
 					{
-						StartCoroutine(gameObject.GetComponent<CardController>().buyXpCard());
+						gameObject.GetComponent<CardController>().buyXpCard();
 					}
 					GUILayout.Space(0.04f * popUpVM.centralWindow.width);
 					if (GUILayout.Button("Annuler", popUpVM.centralWindowButtonStyle))

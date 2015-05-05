@@ -8,6 +8,7 @@ public class PlayingCardViewModel
 	public Quaternion rotation ;
 	public Vector3 scale ;
 	public Rect infoRect ;
+	public float skillInfoRectWidth ;
 
 	public Texture2D attackIcon ;
 	public Texture2D moveIcon ;
@@ -30,6 +31,8 @@ public class PlayingCardViewModel
 	public int life ;
 	public int maxLife ;
 
+	public bool isSelected ; 
+
 	public PlayingCardViewModel ()
 	{
 		this.position = new Vector3(0,0,0);
@@ -37,6 +40,7 @@ public class PlayingCardViewModel
 		this.rotation = Quaternion.Euler(0,0,0);
 		this.scale = new Vector3(0,0,0);
 		this.infoRect = new Rect(0,0,0,0);
+		this.skillInfoRectWidth = 0;
 
 	 	this.name = "";
 		this.attack = "";

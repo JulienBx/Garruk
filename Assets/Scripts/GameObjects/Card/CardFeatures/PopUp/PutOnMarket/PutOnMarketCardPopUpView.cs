@@ -40,7 +40,7 @@ public class PutOnMarketCardPopUpView : MonoBehaviour
 					GUILayout.Space(0.03f * popUpVM.centralWindow.width);
 					if (GUILayout.Button("Confirmer", popUpVM.centralWindowButtonStyle))
 					{
-						StartCoroutine(gameObject.GetComponent<CardController>().putOnMarketCard());
+						gameObject.GetComponent<CardController>().putOnMarketCard();
 					}
 					GUILayout.Space(0.04f * popUpVM.centralWindow.width);
 					if (GUILayout.Button("Annuler", popUpVM.centralWindowButtonStyle))

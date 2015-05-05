@@ -78,12 +78,12 @@ public class TileController : MonoBehaviour
 	}
 
 	public void hoverTile(){
-		GameController.instance.hoverTile(this.x, this.y, this.characterID, this.isDestination);
+		GameController.instance.hoverTileHandler(this.x, this.y, this.characterID, this.isDestination);
 	}
 
 	public void clickTile(){
 		if(this.characterID!=-1){
-			GameController.instance.clickTile(this.x, this.y, this.characterID);
+			GameController.instance.clickTileHandler(this.x, this.y, this.characterID);
 		}
 	}
 

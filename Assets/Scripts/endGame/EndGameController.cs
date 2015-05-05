@@ -64,7 +64,7 @@ public class EndGameController : MonoBehaviour {
 	public GUIStyle cupLabelStyle;
 	public GUIStyle cupPrizeLabelStyle;
 
-	private EndGameModel model=new EndGameModel();
+	private EndGameModel model;
 
 	private bool toUpdateGauge=false;
 	private bool toStartTimer = false;
@@ -79,6 +79,7 @@ public class EndGameController : MonoBehaviour {
 	void Start () {
 
 		instance = this;
+		this.model = new EndGameModel ();
 		this.view = Camera.main.gameObject.AddComponent <EndGameView>();
 		this.MenuObject = Instantiate(this.MenuObject) as GameObject;
 		StartCoroutine (this.initialization ());

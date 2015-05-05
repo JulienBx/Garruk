@@ -94,11 +94,11 @@ public class PlayingCharacterController : MonoBehaviour
 	}
 
 	public void hoverCharacter(){
-		GameController.instance.hoverTile(this.tile.GetComponent<TileController>().x, this.tile.GetComponent<TileController>().y, this.ID, this.tile.GetComponent<TileController>().isDestination);
+		GameController.instance.hoverTileHandler(this.tile.GetComponent<TileController>().x, this.tile.GetComponent<TileController>().y, this.ID, this.tile.GetComponent<TileController>().isDestination);
 	}
 
 	public void clickCharacter(){
-		GameController.instance.clickTile(this.tile.GetComponent<TileController>().x, this.tile.GetComponent<TileController>().y, this.ID);
+		GameController.instance.clickTileHandler(this.tile.GetComponent<TileController>().x, this.tile.GetComponent<TileController>().y, this.ID);
 	}
 
 	public void releaseClickCharacter(){
