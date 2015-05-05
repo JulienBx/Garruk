@@ -157,7 +157,7 @@ public class GameView : MonoBehaviour
 
 		GUILayout.BeginArea(gameScreenVM.topZoneRect);
 		{
-			GUILayout.BeginHorizontal(topZoneVM.backgroundStyle,GUILayout.Width(gameScreenVM.widthScreen), GUILayout.Height(gameScreenVM.topZoneRect.height));
+			GUILayout.BeginHorizontal(topZoneVM.backgroundStyle,GUILayout.Width(gameScreenVM.topZoneRect.width), GUILayout.Height(gameScreenVM.topZoneRect.height));
 			{
 				GUILayout.FlexibleSpace();
 				GUILayout.BeginVertical();
@@ -171,7 +171,7 @@ public class GameView : MonoBehaviour
 				GUILayout.BeginVertical();
 				{
 					GUILayout.Label(topZoneVM.userName, topZoneVM.nameTextStyle, GUILayout.Width(gameScreenVM.topZoneRect.width*62/100), GUILayout.Height(gameScreenVM.topZoneRect.height*50/100));
-					GUILayout.Space(gameScreenVM.bottomZoneRect.height*5/100);
+					GUILayout.Space(gameScreenVM.topZoneRect.height*5/100);
 
 					if (topZoneVM.toDisplayRedStatus){
 						GUILayout.Label(topZoneVM.status, topZoneVM.redStatusTextStyle, GUILayout.Width(gameScreenVM.topZoneRect.width*62/100), GUILayout.Height(gameScreenVM.topZoneRect.height*40/100));
@@ -179,9 +179,10 @@ public class GameView : MonoBehaviour
 					else if (topZoneVM.toDisplayGreenStatus){
 						GUILayout.Label(topZoneVM.status, topZoneVM.greenStatusTextStyle, GUILayout.Width(gameScreenVM.topZoneRect.width*62/100), GUILayout.Height(gameScreenVM.topZoneRect.height*40/100));
 					}
-					GUILayout.Space(gameScreenVM.bottomZoneRect.height*5/100);
+					GUILayout.Space(gameScreenVM.topZoneRect.height*5/100);
 				}
 				GUILayout.EndVertical();
+				GUILayout.FlexibleSpace();
 			}
 			GUILayout.EndHorizontal();
 		}

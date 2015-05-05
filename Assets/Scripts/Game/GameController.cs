@@ -217,9 +217,10 @@ public class GameController : Photon.MonoBehaviour
 		if (idCharacter < 5)
 		{
 			this.hoverTileHandler(myCharacters [idCharacter].GetComponentInChildren<PlayingCharacterController>().tile.GetComponent<TileController>().x, myCharacters [idCharacter].GetComponentInChildren<PlayingCharacterController>().tile.GetComponent<TileController>().y, idCharacter, myCharacters [idCharacter].GetComponentInChildren<PlayingCharacterController>().tile.GetComponent<TileController>().isDestination);
-		} else
+		} 
+		else
 		{
-			//this.hoverTile(myCharacters[idCharacter].GetComponentInChildren<PlayingCharacterController>().tile.GetComponent<TileController>().x, myCharacters[idCharacter].GetComponentInChildren<PlayingCharacterController>().tile.GetComponent<TileController>().y, idCharacter, myCharacters[idCharacter].GetComponentInChildren<PlayingCharacterController>().tile.GetComponent<TileController>().isDestination);
+			this.hoverTileHandler(hisCharacters [idCharacter-5].GetComponentInChildren<PlayingCharacterController>().tile.GetComponent<TileController>().x, hisCharacters [idCharacter-5].GetComponentInChildren<PlayingCharacterController>().tile.GetComponent<TileController>().y, idCharacter, hisCharacters [idCharacter-5].GetComponentInChildren<PlayingCharacterController>().tile.GetComponent<TileController>().isDestination);
 		}
 	}
 
@@ -228,6 +229,10 @@ public class GameController : Photon.MonoBehaviour
 		if (idCharacter < 5)
 		{
 			this.clickTileHandler(myCharacters [idCharacter].GetComponentInChildren<PlayingCharacterController>().tile.GetComponent<TileController>().x, myCharacters [idCharacter].GetComponentInChildren<PlayingCharacterController>().tile.GetComponent<TileController>().y, idCharacter);
+			this.releaseClick();
+		}
+		else{
+			this.clickTileHandler(hisCharacters [idCharacter-5].GetComponentInChildren<PlayingCharacterController>().tile.GetComponent<TileController>().x, hisCharacters [idCharacter-5].GetComponentInChildren<PlayingCharacterController>().tile.GetComponent<TileController>().y, idCharacter);
 			this.releaseClick();
 		}
 	}
@@ -470,9 +475,36 @@ public class GameController : Photon.MonoBehaviour
 		}
 	}
 
+	private void sortHisCards()
+	{
+		int[] ranks = new int[5];
+		float[] quicknesses = new float[5];
+		for (int i = 0; i < 5; i++)
+		{
+			quicknesses [i] = hisPlayingCards [i].GetComponentInChildren<PlayingCardController>().card.Speed;
+		}
+		
+		for (int i = 0; i < 5; i++)
+		{
+			ranks [i] = 1;
+			for (int j = 0; j < 5; j++)
+			{
+				if (i != j)
+				{
+					if (quicknesses [i] <= quicknesses [j])
+					{
+						ranks [i]++;
+						quicknesses [j] += 0.1f;
+					}
+				}
+			}
+			hisPlayingCards [i].GetComponentInChildren<PlayingCardController>().setSortID(ranks [i], 100 - (this.speed - (int)quicknesses [i]));
+			hisPlayingCards [i].GetComponentInChildren<PlayingCardController>().resize(this.gameView.gameScreenVM.heightScreen);
+		}
+	}
+
 	private void initGrid()
 	{
-		
 		print("J'initialise le terrain de jeu");
 		int decalage;
 		
@@ -650,6 +682,7 @@ public class GameController : Photon.MonoBehaviour
 				tiles [this.boardWidth / 2 - 2 + i, (idPlayer - 1) * (this.boardHeight - 1) - decalage].GetComponent<TileController>().setCharacterID(i + 5);
 				hisCharacters [i].GetComponentInChildren<PlayingCharacterController>().resize(this.gameView.gameScreenVM.heightScreen);
 			}
+			this.sortHisCards();
 		}
 		yield break;
 	}
