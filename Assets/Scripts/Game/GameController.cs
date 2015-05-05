@@ -53,6 +53,7 @@ public class GameController : Photon.MonoBehaviour
 	int currentPlayer;
 
 	int speed ;
+	int eventMax = 10;
 	//string URLStat = ApplicationModel.dev + "updateResult.php";
 	
 	void Awake()
@@ -789,14 +790,36 @@ public class GameController : Photon.MonoBehaviour
 		Card card = new Card("test");
 		GameEventType ge = new PassType();
 		addGameEvent(card, ge);
+		addGameEvent(card, ge);
+		addGameEvent(card, ge);
 	}
 	
 	public void addGameEvent(Card card, GameEventType type)
 	{
-		GameObject go = (GameObject)Instantiate(gameEvent);
-		gameEvents.Add(go);
+		GameObject go;
+		if (gameEvents.Count < eventMax)
+		{
+			go = (GameObject)Instantiate(gameEvent);
+			gameEvents.Add(go);
+		} else
+		{
+			changeGameEvents();
+			go = gameEvents [0];
+		}
 		go.GetComponent<GameEventController>().setCharacterName(card.Title);
 		go.GetComponent<GameEventController>().setAction(type.toString());
 		//go.GetComponent<GameEventController>().setArt(card.);
 	}
+
+	void changeGameEvents()
+	{
+		for (int i = eventMax - 1; i > 0; i--)
+		{
+			string title = gameEvents [i - 1].GetComponent<GameEventController>().getCharacterName();
+			string action = gameEvents [i - 1].GetComponent<GameEventController>().getAction();
+			gameEvents [i].GetComponent<GameEventController>().setCharacterName(title);
+			gameEvents [i].GetComponent<GameEventController>().setAction(action);
+		}
+	}
 }
+
