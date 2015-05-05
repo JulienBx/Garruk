@@ -2,11 +2,10 @@
 
 public class GameEventViewModel
 {
-	public Vector3 position ;
-	public Vector3 ScreenPosition ;
-	public Quaternion rotation ;
-	public Vector3 scale ;
-	public Rect infoRect ;
+	public Vector3 scale;
+	public Rect infoRect;
+	public int width;
+	public int height;
 	
 	public GUIStyle backgroundStyle;
 	public GUIStyle nameTextStyle;
@@ -18,10 +17,8 @@ public class GameEventViewModel
 
 	public GameEventViewModel()
 	{
-		this.position = new Vector3(0, 0, 0);
-		this.ScreenPosition = new Vector3(0, 0, 0);
-		this.rotation = Quaternion.Euler(0, 0, 0);
-		this.scale = new Vector3(0, 0, 0);
+		float scaleCoef = Screen.height * 1.4f / 1000f;
+		this.scale = new Vector3(scaleCoef, scaleCoef, scaleCoef);
 		this.infoRect = new Rect(0, 0, 0, 0);
 		
 		this.characterName = "";

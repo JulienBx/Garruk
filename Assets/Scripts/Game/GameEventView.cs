@@ -4,7 +4,7 @@ using System.Collections;
 public class GameEventView : MonoBehaviour
 {
 	public GameEventViewModel gameEventVM;
-	private bool isHovered = false;
+	bool isHovered = false;
 
 	// Use this for initialization
 	void Awake()
@@ -28,15 +28,16 @@ public class GameEventView : MonoBehaviour
 //		}
 		if (isHovered)
 		{
-			GUILayout.BeginArea(new Rect(0, 0, 200, 200));
+			GUILayout.BeginArea(this.gameEventVM.infoRect);
 			{
 				GUILayout.BeginVertical(this.gameEventVM.backgroundStyle);
 				{
-					GUILayout.Label(this.gameEventVM.characterName, this.gameEventVM.nameTextStyle, GUILayout.Height(new Rect(0, 0, 200, 200).height));
+					GUILayout.Label(this.gameEventVM.characterName, this.gameEventVM.nameTextStyle, GUILayout.Height(this.gameEventVM.infoRect.height));
 				}
 				GUILayout.EndVertical();
 			}
 			GUILayout.EndArea();
+			Debug.Log(gameEventVM.characterName);
 		}
 	}
 
