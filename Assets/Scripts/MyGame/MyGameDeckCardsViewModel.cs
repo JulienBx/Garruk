@@ -8,6 +8,7 @@ public class MyGameDeckCardsViewModel
 {
 
 	public List<int> deckCardsToBeDisplayed;
+	public int nbCardsToDisplay;
 
 	public MyGameDeckCardsViewModel ()
 	{

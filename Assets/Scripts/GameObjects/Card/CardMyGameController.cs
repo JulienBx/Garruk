@@ -13,12 +13,12 @@ public class CardMyGameController : CardController
 	{
 		if (Input.GetMouseButton(1)) 
 		{
-			MyGameController.instance.clickedCard (gameObject);
+			MyGameController.instance.rightClickedCard (gameObject);
 		}
 	}
-	void OnMouseUpAsButton()
+	void OnMouseDown()
 	{
-		//myGameController.instance.clickedCard(gameObject); 
+		MyGameController.instance.leftClickedCard(gameObject);
 	}
 	public void setMyGameCard(Card c)
 	{
@@ -38,22 +38,9 @@ public class CardMyGameController : CardController
 		base.setExperience ();
 		base.setSkills ();
 		base.show ();
-		this.setFocusMyGameFeatures (true);
+		this.setFocusMyGameFeatures ();
 	}
 	public void resetFocusedMyGameCard(Card c)
-	{
-		this.eraseCard ();
-		this.setFocusedMyGameCard (c);
-	}
-	public void setFocusedMyGameDeckCard(Card c)
-	{
-		base.setCard (c);
-		base.setExperience ();
-		base.setSkills ();
-		base.show ();
-		this.setFocusMyGameFeatures (false);
-	}
-	public void resetFocusedMyGameDeckCard(Card c)
 	{
 		this.eraseCard ();
 		this.setFocusedMyGameCard (c);
@@ -72,10 +59,17 @@ public class CardMyGameController : CardController
 		focusMyGameFeaturesView.focusMyGameFeaturesVM.cardLevel = base.card.getXpLevel();
 		focusMyGameFeaturesView.focusMyGameFeaturesVM.nextLevelCost = base.card.getPriceForNextLevel();
 	}
-	public void setFocusMyGameFeatures(bool canBeSold)
+	public void setFocusMyGameFeatures()
 	{
 		this.focusMyGameFeaturesView = gameObject.AddComponent<FocusMyGameFeaturesView>();
-		focusMyGameFeaturesView.focusMyGameFeaturesVM.canBeSold = canBeSold;
+		if(base.card.Decks.Count>0)
+		{
+			focusMyGameFeaturesView.focusMyGameFeaturesVM.canBeSold=false;
+		}
+		else
+		{
+			focusMyGameFeaturesView.focusMyGameFeaturesVM.canBeSold=true;
+		}
 		focusMyGameFeaturesView.focusMyGameFeaturesVM.renameCost = base.card.RenameCost;
 		focusMyGameFeaturesView.focusMyGameFeaturesVM.nbWin = base.card.nbWin;
 		focusMyGameFeaturesView.focusMyGameFeaturesVM.nbLoose = base.card.nbLoose;

@@ -44,6 +44,23 @@ public class MyGameModel
 			this.cards=parseCards(data[2].Split(new string[] { "#C#" }, System.StringSplitOptions.None));
 			this.decks=parseDecks(data[3].Split(new string[] { "#D#" }, System.StringSplitOptions.None));
 			this.idSelectedDeck=System.Convert.ToInt32(data[4]);
+			this.retrieveCardsDeck();
+		}
+	}
+	private void retrieveCardsDeck()
+	{
+		for (int i=0;i<this.decks.Count;i++)
+		{
+			for(int j=0;j<this.decks[i].Cards.Count;j++)
+			{
+				for(int k=0;k<this.cards.Count;k++)
+				{
+					if(this.cards[k].Id==decks[i].Cards[j].Id)
+					{
+						this.cards[k].Decks.Add (decks[i].Id);
+					}
+				}
+			}
 		}
 	}
 	private List<string> parseSkills(string[] skillsIds)
@@ -125,9 +142,8 @@ public class MyGameModel
 					cards[i].Experience=System.Convert.ToInt32(cardInfo[16]);
 					cards[i].nbWin=System.Convert.ToInt32(cardInfo[17]);
 					cards[i].nbLoose=System.Convert.ToInt32(cardInfo[18]);
-
-					
 					cards[i].Skills = new List<Skill>();
+					cards[i].Decks = new List<int>();
 				}
 				else
 				{

@@ -45,6 +45,7 @@ public class Card
 	public int RenameCost = 200;
 	public int buyRandomCardCost = 500;
 	public string Error;
+	public List<int> Decks;
 
 	public static bool xpDone=false;
 	

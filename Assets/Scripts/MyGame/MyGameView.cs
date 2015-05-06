@@ -26,7 +26,7 @@ public class MyGameView : MonoBehaviour
 	void Update()
 	{
 		if (Screen.width != myGameScreenVM.widthScreen || Screen.height != myGameScreenVM.heightScreen) {
-			MyGameController.instance.loadData();
+			MyGameController.instance.loadAll();
 		}
 		if(Input.GetKeyDown(KeyCode.Return)) 
 		{
@@ -271,15 +271,15 @@ public class MyGameView : MonoBehaviour
 					
 					myGameDecksVM.scrollPosition = GUILayout.BeginScrollView(myGameDecksVM.scrollPosition,GUILayout.Height(4*0.17f * myGameScreenVM.blockDecksHeight));
 					
-					for (int i = 0; i < myGameDecksVM.myDecks.Count; i++)
+					for (int i = 0; i < myGameDecksVM.decksToBeDisplayed.Count; i++)
 					{	
 						GUILayout.BeginHorizontal(myGameDecksVM.myDecksGuiStyle [i]);
 						{
-							if (GUILayout.Button("(" + myGameDecksVM.myDecks [i].NbCards + ") " + myGameDecksVM.myDecks [i].Name, myGameDecksVM.myDecksButtonGuiStyle [i],GUILayout.Height(0.17f * myGameScreenVM.blockDecksHeight)))
+							if (GUILayout.Button("(" + myGameDecksVM.decksNbCards [i] + ") " + myGameDecksVM.decksName [i], myGameDecksVM.myDecksButtonGuiStyle [i],GUILayout.Height(0.17f * myGameScreenVM.blockDecksHeight)))
 							{
 								if (myGameDecksVM.chosenDeck != i)
 								{
-
+									MyGameController.instance.displayDeck(i);
 								}
 							}
 							GUILayout.Space(-myGameScreenVM.blockDecksHeight*2/6);

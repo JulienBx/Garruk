@@ -110,7 +110,7 @@ public class CardMakerScript : MonoBehaviour {
 		this.myCard.GetComponent<CardController> ().show ();
 		//this.myCard.GetComponent<CardMarketController> ().setMarketFeatures ();
 		this.myCard.GetComponent<CardController> ().setCentralWindowRect (centralWindow);
-		this.myCard.GetComponent<CardMyGameController> ().setFocusMyGameFeatures (true);
+		this.myCard.GetComponent<CardMyGameController> ().setFocusMyGameFeatures ();
 		//this.myCard.GetComponent<CardMarketController> ().setFocusMarketFeatures ();
 
 	}

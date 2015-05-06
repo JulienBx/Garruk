@@ -8,7 +8,9 @@ public class MyGameDecksViewModel
 {
 	public GUIStyle[] myDecksGuiStyle;
 	public GUIStyle[] myDecksButtonGuiStyle;
-	public IList<Deck> myDecks;
+	public IList<int> decksToBeDisplayed;
+	public IList<string> decksName;
+	public IList<int> decksNbCards;
 	public Rect rectDeck;
 	public Rect rectFocus;
 	public Rect rectInsideScrollDeck;
@@ -36,7 +38,9 @@ public class MyGameDecksViewModel
 	{
 		this.chosenDeck = 0;
 		this.chosenIdDeck = -1;
-		this.myDecks = new List<Deck> ();
+		this.decksToBeDisplayed = new List<int>();
+		this.decksName=new List<string>();
+		this.decksNbCards = new List<int>();
 		this.scrollPosition= new Vector2(0, 0);
 		this.decksTitle = "Mes decks";
 		this.myNewDeckButtonTitle = "Nouveau";

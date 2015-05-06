@@ -31,6 +31,7 @@ public class CardController : GameObjectController {
 	{	
 		this.view = gameObject.AddComponent <CardView>();
 		this.ressources = gameObject.GetComponent<CardRessources> ();
+		this.skills=new List<GameObject>();
 	}
 	public void setCard(Card c)
 	{

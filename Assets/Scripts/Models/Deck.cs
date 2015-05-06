@@ -73,7 +73,12 @@ public class Deck
 		if (w.error != null) 
 		{
 			Debug.Log(w.error);								
-		} 
+		}
+		else
+		{
+			this.NbCards++;
+			this.Cards.Add (new Card(idCard));
+		}
 	}
 
 	public void addCard(Card c)
@@ -94,6 +99,18 @@ public class Deck
 		if (w.error != null) 
 		{
 			Debug.Log(w.error); 									// donne l'erreur eventuelle
+		}
+		else
+		{
+			this.NbCards--;
+			for (int i=0;i<this.Cards.Count;i++)
+			{
+				if(this.Cards[i].Id==idCard)
+				{
+					this.Cards.RemoveAt(i);
+					break;
+				}
+			}
 		}
 	}
 
