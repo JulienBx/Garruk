@@ -91,6 +91,7 @@ public class StoreController : MonoBehaviour
 	}
 	public void displayErrorPopUp()
 	{
+		this.setGUI (false);
 		this.errorPopUpView = Camera.main.gameObject.AddComponent <StoreErrorPopUpView>();
 		errorPopUpView.errorPopUpVM.error = this.card.Error;
 		errorPopUpView.popUpVM.styles=new GUIStyle[this.popUpVMStyle.Length];

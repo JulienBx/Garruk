@@ -1,30 +1,43 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-public class MyGamePopUpViewModel 
+public class MyGamePopUpViewModel
 {
+	public int guiDepth;
+	public Rect centralWindow;
 	public GUIStyle[] styles;
 	public GUIStyle centralWindowStyle;
 	public GUIStyle centralWindowTitleStyle;
-	public GUIStyle centralWindowTextFieldStyle;
 	public GUIStyle centralWindowButtonStyle;
-	public GUIStyle smallCentralWindowButtonStyle;
-
-	public Rect centralWindow;
-	public Rect centralFocus;
-	public int renameCost;
-
-	public MyGamePopUpViewModel()
+	public GUIStyle centralWindowTextfieldStyle;
+	public GUIStyle centralWindowErrorStyle;
+	
+	
+	public MyGamePopUpViewModel ()
 	{
-		renameCost                      = 200;
+		this.guiDepth = -1;
+		this.centralWindow = new Rect ();
+		this.styles=new GUIStyle[0];
+		this.centralWindowStyle = new GUIStyle ();
+		this.centralWindowTitleStyle = new GUIStyle ();
+		this.centralWindowButtonStyle = new GUIStyle ();
+		this.centralWindowTextfieldStyle = new GUIStyle ();
+		this.centralWindowErrorStyle = new GUIStyle ();
 	}
-
 	public void initStyles()
 	{
-		centralWindowStyle              = styles[0];
-		centralWindowTitleStyle         = styles[1];
-		centralWindowTextFieldStyle     = styles[2];
-		centralWindowButtonStyle        = styles[3];
-		smallCentralWindowButtonStyle   = styles[4];
+		this.centralWindowStyle = this.styles [0];
+		this.centralWindowTitleStyle = this.styles [1];
+		this.centralWindowButtonStyle = this.styles [2];
+		this.centralWindowTextfieldStyle = this.styles [3];
+		this.centralWindowErrorStyle = this.styles [4];
+	}
+	public void resize()
+	{
+		this.centralWindowTitleStyle.fontSize = Screen.height * 2 / 100;
+		this.centralWindowTextfieldStyle.fontSize= Screen.height * 2 / 100;
+		this.centralWindowButtonStyle.fontSize = Screen.height * 2 / 100;
+		this.centralWindowErrorStyle.fontSize = Screen.height * 2 / 100;
 	}
 }
+
+

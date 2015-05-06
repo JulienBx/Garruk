@@ -696,6 +696,7 @@ public class MarketController : MonoBehaviour {
 			view.marketCardsVM.pageFin = view.marketCardsVM.nbPages ;
 		}
 		view.marketCardsVM.chosenPage = 0;
+		view.marketCardsVM.start = 0;
 		view.marketCardsVM.paginatorGuiStyle = new GUIStyle[view.marketCardsVM.nbPages];
 		for (int i = 0; i < view.marketCardsVM.nbPages; i++) { 
 			if (i==0){

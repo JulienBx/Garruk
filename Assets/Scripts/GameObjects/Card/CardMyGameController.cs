@@ -119,11 +119,7 @@ public class CardMyGameController : CardController
 	}
 	public override void popUpDisplayed(bool value)
 	{
-		//MyGameController.instance.popUpdisplayed (value, gameObject.name); Fonction pour indiquer à la scène qu'une popup est affichée / ou masquée
-	}
-	public override void hideCard()
-	{
-		//MyGameController.instance.hideCard (gameObject.name);	Fonction pour indiquer à la scène qu'une carte doit disparaitre (par exemple si elle a été désintégrée)
+		MyGameController.instance.popUpDisplayed (value, gameObject);
 	}
 	public override void sellCard()
 	{

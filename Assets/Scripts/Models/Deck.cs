@@ -114,7 +114,7 @@ public class Deck
 		}
 	}
 
-	public static IEnumerator create(string decksName)
+	public IEnumerator create(string decksName)
 	{
 		WWWForm form = new WWWForm(); 								// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
@@ -127,8 +127,14 @@ public class Deck
 		{
 			Debug.Log(w.error);
 		}
+		else
+		{
+			this.Id=System.Convert.ToInt32(w.text);
+			this.Name=decksName;
+			this.NbCards=0;
+			this.Cards=new List<Card>();
+		}
 	}
-
 	public IEnumerator delete()
 	{
 		WWWForm form = new WWWForm(); 								// Création de la connexion
@@ -156,6 +162,10 @@ public class Deck
 		if (w.error != null)
 		{
 			Debug.Log(w.error);
+		}
+		else
+		{
+			this.Name=newName;
 		}
 	}
 
