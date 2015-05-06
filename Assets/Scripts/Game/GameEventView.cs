@@ -5,6 +5,7 @@ public class GameEventView : MonoBehaviour
 {
 	public GameEventViewModel gameEventVM;
 	bool isHovered = false;
+	bool isMvt = false;
 
 	// Use this for initialization
 	void Awake()
@@ -37,14 +38,21 @@ public class GameEventView : MonoBehaviour
 				GUILayout.EndVertical();
 			}
 			GUILayout.EndArea();
-		
+
 		}
 	}
 
-	void OnMouseOver()
+	void OnMouseEnter()
 	{
 		isHovered = true;
+		isMvt = gameObject.GetComponent<GameEventController>().hasMouvementType();
+		if (isMvt)
+		{
+			gameEventVM.origin.GetComponentInChildren<TileController>().hoverTile();
+			gameEventVM.destination.GetComponentInChildren<TileController>().hoverTile();
+		}
 	}
+
 	void OnMouseExit()
 	{
 		isHovered = false;

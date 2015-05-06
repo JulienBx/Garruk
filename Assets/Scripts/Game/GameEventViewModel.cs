@@ -10,6 +10,9 @@ public class GameEventViewModel
 	public GUIStyle backgroundStyle;
 	public GUIStyle nameTextStyle;
 
+	public GameObject origin;
+	public GameObject destination;
+
 	public string characterName;
 	public string action;
 

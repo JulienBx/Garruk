@@ -17,22 +17,19 @@ public class GameEventController : MonoBehaviour
 		gameEventView.gameEventVM.characterName = title;
 	}
 
-
 	public void setScreenPosition(int count)
 	{
 		Camera camera = Camera.main;
+		Vector3 v3 = new Vector3(Screen.width * 0.05f, Screen.height, 0);
+		Ray ray = camera.ScreenPointToRay(v3);
+		Vector3 newPosition = ray.GetPoint(Vector3.Distance(Vector3.zero, camera.transform.position));
+
 		transform.LookAt(camera.transform);
-		Vector3 v3 = new Vector3(Screen.width * 0.05f, Screen.height * 3 / 2, 0);
-
-		transform.position = camera.ScreenToWorldPoint(v3);
-
-		transform.position = new Vector3(transform.position.x, transform.position.y, 0);
+		transform.position = newPosition;
 		transform.Translate((-transform.up + -transform.up * 0.1f) * count, Space.World);
 
 		Vector3 reverse = camera.WorldToScreenPoint(new Vector3(transform.position.x, transform.position.y, transform.position.z));
-
 		Rect r = new Rect(reverse.x + v3.x, Screen.height - reverse.y, 100, 20);
-		Debug.Log("julien" + r.y);
 		setInfoRect(r);
 	}
 
@@ -56,9 +53,20 @@ public class GameEventController : MonoBehaviour
 		gameEventView.gameEventVM.art = art;
 	}
 
+	public void setMovement(GameObject origin, GameObject destination)
+	{
+		gameEventView.gameEventVM.origin = origin;
+		gameEventView.gameEventVM.destination = destination;
+	}
+
 	public void setInfoRect(Rect r)
 	{
 		gameEventView.gameEventVM.infoRect = r;
+	}
+
+	public bool hasMouvementType()
+	{
+		return gameEventView.gameEventVM.origin != null;
 	}
 
 	public float getWidth()
@@ -69,6 +77,21 @@ public class GameEventController : MonoBehaviour
 	public float getHeight()
 	{
 		return gameEventView.gameEventVM.height * gameEventView.gameEventVM.scale.y;
+	}
+
+	public GameObject getOrigin()
+	{
+		return gameEventView.gameEventVM.origin;
+	}
+
+	public GameObject getDestination()
+	{
+		return gameEventView.gameEventVM.destination;
+	}
+
+	public GameObject[] getMovement()
+	{
+		return new GameObject[]{getOrigin(), getDestination()};
 	}
 
 	void Awake()

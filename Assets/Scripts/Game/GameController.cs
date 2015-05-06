@@ -74,8 +74,8 @@ public class GameController : Photon.MonoBehaviour
 		this.nbPlayersReadyToFight = 0;
 		this.currentPlayer = -1;
 		this.speed = 100;
-		this.myNextPlayer = -1 ;
-		this.hisNextPlayer = -1 ;
+		this.myNextPlayer = -1;
+		this.hisNextPlayer = -1;
 	}
 	
 	void Start()
@@ -338,7 +338,7 @@ public class GameController : Photon.MonoBehaviour
 	public void findNextPlayer()
 	{
 		bool newTurn = false;
-		int nextCharacter ;
+		int nextCharacter;
 
 		if (this.hasPlayed.Count == 10)
 		{
@@ -351,26 +351,28 @@ public class GameController : Photon.MonoBehaviour
 					this.hasPlayed.Add(i);
 				}
 			}
-			this.speed = 100 ;
+			this.speed = 100;
 		}
 
-		int whoseTurnIsIt ;
+		int whoseTurnIsIt;
 
-		if (this.hasPlayed.Contains(this.myNextPlayer) || myPlayingCards [this.myNextPlayer].GetComponentInChildren<PlayingCardController>().card.Speed < hisPlayingCards [this.hisNextPlayer].GetComponentInChildren<PlayingCardController>().card.Speed){
-			whoseTurnIsIt = 2 ;
-		}
-		else if (this.hasPlayed.Contains(this.myNextPlayer+5) || myPlayingCards [this.myNextPlayer].GetComponentInChildren<PlayingCardController>().card.Speed > hisPlayingCards [this.hisNextPlayer].GetComponentInChildren<PlayingCardController>().card.Speed){
-			whoseTurnIsIt = 1 ;
-		}
-		else{
-			whoseTurnIsIt = UnityEngine.Random.Range(1,2);
+		if (this.hasPlayed.Contains(this.myNextPlayer) || myPlayingCards [this.myNextPlayer].GetComponentInChildren<PlayingCardController>().card.Speed < hisPlayingCards [this.hisNextPlayer].GetComponentInChildren<PlayingCardController>().card.Speed)
+		{
+			whoseTurnIsIt = 2;
+		} else if (this.hasPlayed.Contains(this.myNextPlayer + 5) || myPlayingCards [this.myNextPlayer].GetComponentInChildren<PlayingCardController>().card.Speed > hisPlayingCards [this.hisNextPlayer].GetComponentInChildren<PlayingCardController>().card.Speed)
+		{
+			whoseTurnIsIt = 1;
+		} else
+		{
+			whoseTurnIsIt = UnityEngine.Random.Range(1, 2);
 		}
 
-		if (whoseTurnIsIt==1){
+		if (whoseTurnIsIt == 1)
+		{
 			nextCharacter = this.myNextPlayer;
-		}
-		else{
-			nextCharacter = this.hisNextPlayer+5;
+		} else
+		{
+			nextCharacter = this.hisNextPlayer + 5;
 		}
 		
 		this.initNextPlayer(nextCharacter, newTurn);
@@ -385,7 +387,7 @@ public class GameController : Photon.MonoBehaviour
 	public void initPlayer(int id, bool newTurn)
 	{
 		print("au personnage " + id + " de jouer... " + newTurn);
-		this.currentPlayer = id ;
+		this.currentPlayer = id;
 		if (newTurn)
 		{
 			this.gameView.bottomZoneVM.nbTurns++;
@@ -489,7 +491,7 @@ public class GameController : Photon.MonoBehaviour
 
 	private void sortMyCards()
 	{
-		int rank ;
+		int rank;
 		float[] quicknesses = new float[5];
 		for (int i = 0; i < 5; i++)
 		{
@@ -512,15 +514,16 @@ public class GameController : Photon.MonoBehaviour
 			}
 			myPlayingCards [i].GetComponentInChildren<PlayingCardController>().setSortID(rank, 100 - (this.speed - (int)quicknesses [i]));
 			myPlayingCards [i].GetComponentInChildren<PlayingCardController>().resize(this.gameView.gameScreenVM.heightScreen);
-			if (rank==1){
-				this.myNextPlayer = i ;
+			if (rank == 1)
+			{
+				this.myNextPlayer = i;
 			}
 		}
 	}
 
 	private void sortHisCards()
 	{
-		int rank ;
+		int rank;
 		float[] quicknesses = new float[5];
 		for (int i = 0; i < 5; i++)
 		{
@@ -543,8 +546,9 @@ public class GameController : Photon.MonoBehaviour
 			}
 			hisPlayingCards [i].GetComponentInChildren<PlayingCardController>().setSortID(rank, 100 - (this.speed - (int)quicknesses [i]));
 			hisPlayingCards [i].GetComponentInChildren<PlayingCardController>().resize(this.gameView.gameScreenVM.heightScreen);
-			if (rank==1){
-				this.hisNextPlayer = i ;
+			if (rank == 1)
+			{
+				this.hisNextPlayer = i;
 			}
 		}
 	}
@@ -620,6 +624,7 @@ public class GameController : Photon.MonoBehaviour
 			if (this.isFirstPlayer && nbPlayers == 1)
 			{
 				this.initGrid();
+				//testTimeline();
 				StartCoroutine(this.loadMyDeck());
 			} else if (!this.isFirstPlayer && nbPlayers == 2)
 			{
@@ -858,21 +863,34 @@ public class GameController : Photon.MonoBehaviour
 	public void testTimeline()
 	{
 		Card card = new Card("gentil");
-		GameEventType ge = new SkillType("a crié");
-		addGameEvent(card, ge);
+		addMovementEvent(card, tiles [4, 3], tiles [4, 4]);
 
 		GameEventType ge2 = new PassType();
 		addGameEvent(card, ge2);
 		pass();
+		GameEventType ge3 = new PassType();
 		Card card3 = new Card("sorcier");
-		addGameEvent(card3, ge);
+		addGameEvent(card3, ge3);
 	}
 	
 	public void addGameEvent(Card card, GameEventType type)
 	{
+		setGameEvent(card, type);
+		//go.GetComponent<GameEventController>().setArt(card.);
+	}
+
+	public void addMovementEvent(Card card, GameObject origin, GameObject destination)
+	{
+		GameObject go = setGameEvent(card, new MovementType());
+
+		go.GetComponent<GameEventController>().setMovement(origin, destination);
+	}
+
+	GameObject setGameEvent(Card card, GameEventType type)
+	{
+		GameObject go;
 		if (nbActionPlayed == 0)
 		{
-			GameObject go;
 			if (gameEvents.Count < eventMax)
 			{
 				go = (GameObject)Instantiate(gameEvent);
@@ -886,20 +904,23 @@ public class GameController : Photon.MonoBehaviour
 			nbActionPlayed++;
 		} else
 		{
-			GameObject go = gameEvents [0];
+			go = gameEvents [0];
 			go.GetComponent<GameEventController>().addAction(type.toString());
 		}
-		//go.GetComponent<GameEventController>().setArt(card.);
+		return go;
 	}
-
+			                
 	void changeGameEvents()
 	{
 		for (int i = gameEvents.Count - 1; i > 0; i--)
 		{
 			string title = gameEvents [i - 1].GetComponent<GameEventController>().getCharacterName();
 			string action = gameEvents [i - 1].GetComponent<GameEventController>().getAction();
+			GameObject[] movement = gameEvents [i - 1].GetComponent<GameEventController>().getMovement();
 			gameEvents [i].GetComponent<GameEventController>().setCharacterName(title);
 			gameEvents [i].GetComponent<GameEventController>().setAction(action);
+			gameEvents [i].GetComponent<GameEventController>().setMovement(movement [0], movement [1]);
+			gameEvents [i - 1].GetComponent<GameEventController>().setMovement(null, null);
 		}
 	}
 }
