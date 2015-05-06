@@ -56,6 +56,9 @@ public class GameController : Photon.MonoBehaviour
 	int speed ;
 	int eventMax = 10;
 	int nbActionPlayed = 0;
+
+	int myNextPlayer ;
+	int hisNextPlayer ;
 	//string URLStat = ApplicationModel.dev + "updateResult.php";
 	
 	void Awake()
@@ -71,6 +74,8 @@ public class GameController : Photon.MonoBehaviour
 		this.nbPlayersReadyToFight = 0;
 		this.currentPlayer = -1;
 		this.speed = 100;
+		this.myNextPlayer = -1 ;
+		this.hisNextPlayer = -1 ;
 	}
 	
 	void Start()
@@ -333,9 +338,7 @@ public class GameController : Photon.MonoBehaviour
 	public void findNextPlayer()
 	{
 		bool newTurn = false;
-		int quickness = -10000;
-		int tempQuickness;
-		int nextPlayer = -1;
+		int nextCharacter ;
 
 		if (this.hasPlayed.Count == 10)
 		{
@@ -343,44 +346,46 @@ public class GameController : Photon.MonoBehaviour
 			hasPlayed = new List<int>();
 			for (int i = 0; i < 10; i++)
 			{
-				if (myCharacters [i].GetComponentInChildren<PlayingCardController>().isDead)
+				if (this.myPlayingCards [i].GetComponentInChildren<PlayingCardController>().isDead)
 				{
 					this.hasPlayed.Add(i);
 				}
 			}
+			this.speed = 100 ;
 		}
 
-		for (int i = 0; i < 10; i++)
-		{
-			if (!hasPlayed.Contains(i))
-			{
-				if (i < 5)
-				{
-					tempQuickness = myCharacters [i].GetComponentInChildren<PlayingCardController>().card.Speed;
-				} else
-				{
-					tempQuickness = hisCharacters [i - 5].GetComponentInChildren<PlayingCardController>().card.Speed;
-				}
-				if (tempQuickness >= quickness)
-				{
-					quickness = tempQuickness;
-					nextPlayer = i;
-				}
-			}
+		int whoseTurnIsIt ;
+
+		if (this.hasPlayed.Contains(this.myNextPlayer) || myPlayingCards [this.myNextPlayer].GetComponentInChildren<PlayingCardController>().card.Speed < hisPlayingCards [this.hisNextPlayer].GetComponentInChildren<PlayingCardController>().card.Speed){
+			whoseTurnIsIt = 2 ;
 		}
-		this.currentPlayer = nextPlayer;
-		this.initNextPlayer(newTurn);
+		else if (this.hasPlayed.Contains(this.myNextPlayer+5) || myPlayingCards [this.myNextPlayer].GetComponentInChildren<PlayingCardController>().card.Speed > hisPlayingCards [this.hisNextPlayer].GetComponentInChildren<PlayingCardController>().card.Speed){
+			whoseTurnIsIt = 1 ;
+		}
+		else{
+			whoseTurnIsIt = UnityEngine.Random.Range(1,2);
+		}
+
+		if (whoseTurnIsIt==1){
+			nextCharacter = this.myNextPlayer;
+		}
+		else{
+			nextCharacter = this.hisNextPlayer+5;
+		}
+		
+		this.initNextPlayer(nextCharacter, newTurn);
 	}
 
-	public void initNextPlayer(bool newTurn)
+	public void initNextPlayer(int nextCharacter, bool newTurn)
 	{
-		photonView.RPC("initPlayer", PhotonTargets.AllBuffered, this.currentPlayer, newTurn);
+		photonView.RPC("initPlayer", PhotonTargets.AllBuffered, nextCharacter, newTurn);
 	}
 
 	[RPC]
 	public void initPlayer(int id, bool newTurn)
 	{
 		print("au personnage " + id + " de jouer... " + newTurn);
+		this.currentPlayer = id ;
 		if (newTurn)
 		{
 			this.gameView.bottomZoneVM.nbTurns++;
@@ -484,7 +489,7 @@ public class GameController : Photon.MonoBehaviour
 
 	private void sortMyCards()
 	{
-		int[] ranks = new int[5];
+		int rank ;
 		float[] quicknesses = new float[5];
 		for (int i = 0; i < 5; i++)
 		{
@@ -493,26 +498,29 @@ public class GameController : Photon.MonoBehaviour
 
 		for (int i = 0; i < 5; i++)
 		{
-			ranks [i] = 1;
+			rank = 1;
 			for (int j = 0; j < 5; j++)
 			{
 				if (i != j)
 				{
 					if (quicknesses [i] <= quicknesses [j])
 					{
-						ranks [i]++;
+						rank ++;
 						quicknesses [j] += 0.1f;
 					}
 				}
 			}
-			myPlayingCards [i].GetComponentInChildren<PlayingCardController>().setSortID(ranks [i], 100 - (this.speed - (int)quicknesses [i]));
+			myPlayingCards [i].GetComponentInChildren<PlayingCardController>().setSortID(rank, 100 - (this.speed - (int)quicknesses [i]));
 			myPlayingCards [i].GetComponentInChildren<PlayingCardController>().resize(this.gameView.gameScreenVM.heightScreen);
+			if (rank==1){
+				this.myNextPlayer = i ;
+			}
 		}
 	}
 
 	private void sortHisCards()
 	{
-		int[] ranks = new int[5];
+		int rank ;
 		float[] quicknesses = new float[5];
 		for (int i = 0; i < 5; i++)
 		{
@@ -521,20 +529,23 @@ public class GameController : Photon.MonoBehaviour
 		
 		for (int i = 0; i < 5; i++)
 		{
-			ranks [i] = 1;
+			rank = 1;
 			for (int j = 0; j < 5; j++)
 			{
 				if (i != j)
 				{
 					if (quicknesses [i] <= quicknesses [j])
 					{
-						ranks [i]++;
+						rank ++;
 						quicknesses [j] += 0.1f;
 					}
 				}
 			}
-			hisPlayingCards [i].GetComponentInChildren<PlayingCardController>().setSortID(ranks [i], 100 - (this.speed - (int)quicknesses [i]));
+			hisPlayingCards [i].GetComponentInChildren<PlayingCardController>().setSortID(rank, 100 - (this.speed - (int)quicknesses [i]));
 			hisPlayingCards [i].GetComponentInChildren<PlayingCardController>().resize(this.gameView.gameScreenVM.heightScreen);
+			if (rank==1){
+				this.hisNextPlayer = i ;
+			}
 		}
 	}
 
