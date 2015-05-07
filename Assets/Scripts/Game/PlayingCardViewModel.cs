@@ -26,6 +26,7 @@ public class PlayingCardViewModel
 	public GUIStyle emptyButtonStyle;
 	public GUIStyle skillTitleTextStyle;
 	public GUIStyle skillDescriptionTextStyle;
+	public GUIStyle buttonTextStyle;
 
 	public string name ;
 	public string attack ;
@@ -37,7 +38,8 @@ public class PlayingCardViewModel
 	public List<string> skillTitles ;
 	public List<string> skillDescriptions ;
 
-	public bool isSelected ; 
+	public bool isSelected ;
+	public bool isPlaying ; 
 
 	public PlayingCardViewModel ()
 	{
@@ -67,8 +69,12 @@ public class PlayingCardViewModel
 		this.skillTitleTextStyle = new GUIStyle();
 		this.skillDescriptionTextStyle = new GUIStyle();
 
+		this.buttonTextStyle = new GUIStyle();
+
 		this.attackIcon = null ;
 		this.moveIcon = null ;
+
+		this.isPlaying = false ;
 
 		skillTitles = new List<string>();
 		skillDescriptions = new List<string>();

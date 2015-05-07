@@ -51,6 +51,7 @@ public class PlayingCardController : MonoBehaviour
 			this.playingCardView.playingCardVM.skillTitleTextStyle = guiStylesMyCharacter[9];
 			this.playingCardView.playingCardVM.skillDescriptionTextStyle = guiStylesMyCharacter[10];
 			this.playingCardView.playingCardVM.QuicknessBarStyle = guiStylesMyCharacter[11];
+			this.playingCardView.playingCardVM.buttonTextStyle = guiStylesMyCharacter[13];
 		}
 		else{
 			this.playingCardView.playingCardVM.backgroundStyle = guiStylesHisCharacter[0];
@@ -123,7 +124,7 @@ public class PlayingCardController : MonoBehaviour
 	}
 
 	public void resize(int h){
-		this.scale = h*1f/1000f ;
+		this.scale = h*0.001f/1000f ;
 		this.playingCardView.playingCardVM.scale = new Vector3(this.scale, this.scale, this.scale);
 		if(this.isMine){
 			if (this.isSelected){
@@ -139,8 +140,15 @@ public class PlayingCardController : MonoBehaviour
 				this.playingCardView.playingCardVM.ScreenPosition = new Vector3(Screen.width*((this.sortID-1)*0.13f+0.06f+0.21f),0.93f*h,0);
 				this.playingCardView.playingCardVM.infoRect = new Rect(this.playingCardView.playingCardVM.ScreenPosition.x-0.06f*Screen.width, this.playingCardView.playingCardVM.ScreenPosition.y-0.07f*Screen.height, 0.12f*Screen.width, 0.14f*Screen.height);
 			}
-			this.playingCardView.playingCardVM.position = Camera.main.ScreenToWorldPoint(this.playingCardView.playingCardVM.ScreenPosition);
-			this.playingCardView.playingCardVM.position.y = -5f ;
+			if (GameController.instance.isFirstPlayer){
+				this.playingCardView.playingCardVM.position = Camera.main.ScreenToWorldPoint(this.playingCardView.playingCardVM.ScreenPosition);
+				this.playingCardView.playingCardVM.position.y = -5f ;
+			}
+			else{
+				this.playingCardView.playingCardVM.position = Camera.main.ScreenToWorldPoint(this.playingCardView.playingCardVM.ScreenPosition);
+				this.playingCardView.playingCardVM.position.y = 5-this.playingCardView.playingCardVM.position.y;
+				this.playingCardView.playingCardVM.position.y = 5f ;
+			}
 		}
 		else{
 			if (this.isSelected){
@@ -156,8 +164,15 @@ public class PlayingCardController : MonoBehaviour
 				this.playingCardView.playingCardVM.ScreenPosition = new Vector3(Screen.width*((this.sortID-1)*0.13f+0.06f+0.15f),0.07f*h,0);
 				this.playingCardView.playingCardVM.infoRect = new Rect(this.playingCardView.playingCardVM.ScreenPosition.x-0.06f*Screen.width, this.playingCardView.playingCardVM.ScreenPosition.y-0.07f*Screen.height, 0.12f*Screen.width, 0.14f*Screen.height);
 			}
-			this.playingCardView.playingCardVM.position = Camera.main.ScreenToWorldPoint(this.playingCardView.playingCardVM.ScreenPosition);
-			this.playingCardView.playingCardVM.position.y = 5f ;
+			if (GameController.instance.isFirstPlayer){
+				this.playingCardView.playingCardVM.position = Camera.main.ScreenToWorldPoint(this.playingCardView.playingCardVM.ScreenPosition);
+				this.playingCardView.playingCardVM.position.y = 5f ;
+			}
+			else{
+				this.playingCardView.playingCardVM.position = Camera.main.ScreenToWorldPoint(this.playingCardView.playingCardVM.ScreenPosition);
+				this.playingCardView.playingCardVM.position.y = 5-this.playingCardView.playingCardVM.position.y;
+				this.playingCardView.playingCardVM.position.y = -5f ;
+			}
 		}
 
 		this.playingCardView.playingCardVM.nameTextStyle.fontSize = h * 18 / 1000 ;
@@ -317,6 +332,16 @@ public class PlayingCardController : MonoBehaviour
 		}
 	}
 
+	public void displayPlaying(){
+		if(this.isMine){
+			this.playingCardView.playingCardVM.backgroundStyle = guiStylesMyCharacter[12];
+			this.isSelected = true ;
+		}
+		else{
+			this.playingCardView.playingCardVM.backgroundStyle = guiStylesHisCharacter[12];
+		}
+	}
+
 	public void hideHover(){
 		if(this.isMine){
 			this.playingCardView.playingCardVM.backgroundStyle = guiStylesMyCharacter[0];
@@ -324,6 +349,10 @@ public class PlayingCardController : MonoBehaviour
 		else{
 			this.playingCardView.playingCardVM.backgroundStyle = guiStylesHisCharacter[0];
 		}
+	}
+
+	public void pass(){
+		GameController.instance.passHandler();
 	}
 
 

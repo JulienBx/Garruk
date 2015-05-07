@@ -118,6 +118,19 @@ public class TileController : MonoBehaviour
 		this.tileView.ShowFace();
 	}
 
+	public void displayPlaying(){
+		this.tileView.tileVM.border = this.borderTile[3];
+		this.tileView.resize();
+		this.tileView.ShowFace();
+	}
+	
+	public void hidePlaying(){
+		this.tileView.tileVM.border = this.borderTile[0];
+		this.tileView.tileVM.lowerTile();
+		this.tileView.resize();
+		this.tileView.ShowFace();
+	}
+
 //	public void drag(){
 //		if (this.isMovable){
 //			GameController.instance.setCharacterDragged(this.characterID);
