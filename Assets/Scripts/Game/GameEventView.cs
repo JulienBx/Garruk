@@ -48,14 +48,19 @@ public class GameEventView : MonoBehaviour
 		isMvt = gameObject.GetComponent<GameEventController>().hasMouvementType();
 		if (isMvt)
 		{
-			gameEventVM.origin.GetComponentInChildren<TileController>().hoverTile();
-			gameEventVM.destination.GetComponentInChildren<TileController>().hoverTile();
+			gameEventVM.origin.GetComponentInChildren<TileController>().displayHover();
+			gameEventVM.destination.GetComponentInChildren<TileController>().displayHover();
 		}
 	}
 
 	void OnMouseExit()
 	{
 		isHovered = false;
+		if (isMvt)
+		{
+			gameEventVM.origin.GetComponentInChildren<TileController>().hideHover();
+			gameEventVM.destination.GetComponentInChildren<TileController>().hideHover();
+		}
 	}
 
 }

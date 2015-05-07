@@ -6,24 +6,26 @@ using System.Collections.Generic;
 public class MyGameController : MonoBehaviour
 {
 	public static MyGameController instance;
-	private MyGameView view;
-	private MyGameErrorPopUpView errorPopUpView;
-	private MyGameNewDeckPopUpView newDeckPopUpView;
-	private MyGameEditDeckPopUpView editDeckPopUpView;
-	private MyGameDeleteDeckPopUpView deleteDeckPopUpView;
 	private MyGameModel model;
 	public GameObject MenuObject;
 	public GameObject CardObject;
-	private GameObject[] displayedCards;
-	private GameObject[] displayedDeckCards;
-	private GameObject cardFocused;
-	private GameObject cardPopUpBelongTo;
+	public int refreshInterval;
 	public GUIStyle[] myGameScreenVMStyle;
 	public GUIStyle[] myGameVMStyle;
 	public GUIStyle[] myGameFiltersVMStyle;
 	public GUIStyle[] myGameCardsVMStyle;
 	public GUIStyle[] myGameDecksVMStyle;
 	public GUIStyle[] popUpVMStyle;
+	private MyGameView view;
+	private MyGameErrorPopUpView errorPopUpView;
+	private MyGameNewDeckPopUpView newDeckPopUpView;
+	private MyGameEditDeckPopUpView editDeckPopUpView;
+	private MyGameDeleteDeckPopUpView deleteDeckPopUpView;
+	private GameObject[] displayedCards;
+	private GameObject[] displayedDeckCards;
+	private GameObject cardFocused;
+	private GameObject cardPopUpBelongTo;
+	private float timer;
 
 	void Start()
 	{
@@ -32,6 +34,16 @@ public class MyGameController : MonoBehaviour
 		this.model = new MyGameModel ();
 		this.MenuObject = Instantiate(this.MenuObject) as GameObject;
 		StartCoroutine (this.initialization ());
+	}
+	void Update()
+	{
+		this.timer += Time.deltaTime;
+		
+		if (this.timer > this.refreshInterval) 
+		{	
+			this.timer=this.timer-this.refreshInterval;
+			StartCoroutine(this.refreshMyGame());
+		}
 	}
 	public IEnumerator initialization()
 	{
@@ -82,12 +94,34 @@ public class MyGameController : MonoBehaviour
 		this.setGUI (true);
 		view.myGameVM.displayView = true;
 	}
+	private IEnumerator refreshMyGame()
+	{
+		yield return StartCoroutine(model.refreshMyGame ());
+		int index;
+		if(cardFocused!=null)
+		{
+			if(model.cardsSold.Contains(this.cardFocused.GetComponent<CardController>().card.Id))
+			{
+				index = retrieveCardIndex (this.cardFocused.name);
+				this.cardFocused.GetComponent<CardMyGameController>().resetFocusedMyGameCard(model.cards[index]);
+			}
+		}
+		int finish = view.myGameCardsVM.nbCardsToDisplay;
+		for(int i = 0 ; i < finish ; i++)
+		{
+			if(model.cardsSold.Contains(this.displayedCards[i].GetComponent<CardController>().card.Id))
+			{
+				index = retrieveCardIndex (this.displayedCards[i].name);
+				this.displayedCards[i].GetComponent<CardMyGameController>().resetMyGameCard(model.cards[index]);
+			}
+		}
+	}
 	public void leftClickedCard(GameObject gameobject)
 	{
 		if(gameobject.name.StartsWith("Card")&&view.myGameDeckCardsVM.nbCardsToDisplay<5)
 		{
 			int cardIndex = retrieveCardIndex (gameobject.name);
-			if(model.cards[cardIndex].onSale==0)
+			if(model.cards[cardIndex].onSale==0 && model.cards[cardIndex].IdOWner!=-1)
 			{
 				int deckIndex = view.myGameDecksVM.decksToBeDisplayed[view.myGameDecksVM.chosenDeck];
 				this.displayedDeckCards[view.myGameDeckCardsVM.nbCardsToDisplay].SetActive(true);
@@ -100,9 +134,13 @@ public class MyGameController : MonoBehaviour
 				this.setFilters();
 				this.filterCards();
 			}
-			else
+			else if(model.cards[cardIndex].onSale==1)
 			{
-				this.displayErrorPopUp();
+				this.displayErrorPopUp("Vous ne pouvez pas ajouter à votre deck une carte qui est en vente");
+			}
+			else if(model.cards[cardIndex].IdOWner==-1)
+			{
+				this.displayErrorPopUp("Cette carte a été vendue, vous ne pouvez plus l'ajouter");
 			}
 		}
 		else if(gameobject.name.StartsWith("DCrd"))
@@ -132,27 +170,28 @@ public class MyGameController : MonoBehaviour
 		{
 			this.displayedDeckCards[i].SetActive(false);
 		}
-		float scale = view.myGameScreenVM.heightScreen / 120f;
-		this.cardFocused = Instantiate(CardObject) as GameObject;
-		this.cardFocused.transform.localScale = new Vector3(scale, scale, scale); 
-		this.cardFocused.transform.localPosition = Camera.main.ScreenToWorldPoint(new Vector3(0.4f*view.myGameScreenVM.widthScreen ,0.45f*view.myGameScreenVM.heightScreen-1 , 10));  
+		string name;
 		if(gameObject.name.StartsWith("Card"))
 		{
-			this.cardFocused.gameObject.name = "Fcrd"+gameObject.name.Substring(4);
+			name = "Fcrd"+gameObject.name.Substring(4);
 		}
 		else
 		{
-			this.cardFocused.gameObject.name = "Fdcd"+gameObject.name.Substring(4);
+			name = "Fdcd"+gameObject.name.Substring(4);
 		}
+		Vector3 scale = new Vector3(view.myGameScreenVM.heightScreen / 120f,view.myGameScreenVM.heightScreen / 120f,view.myGameScreenVM.heightScreen / 120f);
+		Vector3 position = Camera.main.ScreenToWorldPoint (new Vector3 (0.4f * view.myGameScreenVM.widthScreen, 0.45f * view.myGameScreenVM.heightScreen - 1, 10));
+		this.cardFocused = Instantiate(CardObject) as GameObject;
 		this.cardFocused.AddComponent<CardMyGameController> ();
+		this.cardFocused.GetComponent<CardController> ().setGameObject (name, scale, position);
 		this.cardFocused.GetComponent<CardMyGameController> ().setFocusedMyGameCard (gameObject.GetComponent<CardController> ().card);
 		this.cardFocused.GetComponent<CardController> ().setCentralWindowRect (view.myGameScreenVM.centralWindow);
 	}
-	public void displayErrorPopUp()
+	public void displayErrorPopUp(string error)
 	{
 		this.setGUI (false);
 		this.errorPopUpView = Camera.main.gameObject.AddComponent <MyGameErrorPopUpView>();
-		errorPopUpView.errorPopUpVM.error = "Vous ne pouvez pas ajouter à votre deck une carte qui est en vente";
+		errorPopUpView.errorPopUpVM.error = error;
 		errorPopUpView.popUpVM.styles=new GUIStyle[this.popUpVMStyle.Length];
 		for(int i=0;i<this.popUpVMStyle.Length;i++)
 		{
@@ -293,6 +332,10 @@ public class MyGameController : MonoBehaviour
 				view.myGameDecksVM.decksName[editDeckPopUpView.editDeckPopUpVM.chosenDeck]=editDeckPopUpView.editDeckPopUpVM.newName;
 				this.hideEditDeckPopUp();
 			}
+		}
+		else
+		{
+			this.hideEditDeckPopUp();
 		}
 	}
 	public IEnumerator deleteDeck()
@@ -613,15 +656,15 @@ public class MyGameController : MonoBehaviour
 		}
 		else if(this.newDeckPopUpView!=null)
 		{
-			this.hideNewDeckPopUp();
+			StartCoroutine(this.createNewDeck());
 		}
 		else if(this.editDeckPopUpView!=null)
 		{
-			this.hideEditDeckPopUp();
+			StartCoroutine(this.editDeck());
 		}
 		else if(this.deleteDeckPopUpView!=null)
 		{
-			this.hideDeleteDeckPopUp();
+			StartCoroutine(this.deleteDeck());
 		}
 	}
 	public void escapePressed()
@@ -653,6 +696,9 @@ public class MyGameController : MonoBehaviour
 	}
 	private void createCards()
 	{
+		string name;
+		Vector3 scale;
+		Vector3 position;
 		float tempF = 10f*view.myGameScreenVM.widthScreen/view.myGameScreenVM.heightScreen;
 		float width = 10f*0.85f*view.myGameScreenVM.blockCardsWidth/(view.myGameScreenVM.blockCardsHeight+view.myGameScreenVM.blockDecksHeight+view.myGameScreenVM.gapBetweenblocks);
 		view.myGameCardsVM.nbCardsPerRow = Mathf.FloorToInt(width/1.6f);
@@ -662,11 +708,12 @@ public class MyGameController : MonoBehaviour
 		
 		for(int i = 0 ; i < 3*view.myGameCardsVM.nbCardsPerRow ; i++)
 		{
+			name = "Card" + i;
+			scale = new Vector3(1.5f, 1.5f, 1.5f);
+			position=new Vector3(debutLargeur + 1.6f * (i % view.myGameCardsVM.nbCardsPerRow), 0.8f - (i - i % view.myGameCardsVM.nbCardsPerRow) / view.myGameCardsVM.nbCardsPerRow * 2.2f,0);
 			this.displayedCards[i] = Instantiate(CardObject) as GameObject;
-			this.displayedCards[i].transform.localScale = new Vector3(1.5f, 1.5f, 1.5f); 
-			this.displayedCards[i].transform.localPosition = new Vector3(debutLargeur + 1.6f * (i % view.myGameCardsVM.nbCardsPerRow), 0.8f - (i - i % view.myGameCardsVM.nbCardsPerRow) / view.myGameCardsVM.nbCardsPerRow * 2.2f,0);
-			this.displayedCards[i].gameObject.name = "Card" + i + "";
 			this.displayedCards[i].AddComponent<CardMyGameController>();
+			this.displayedCards[i].GetComponent<CardController>().setGameObject(name,scale,position);
 			
 			if (i<view.myGameCardsVM.cardsToBeDisplayed.Count)
 			{
@@ -681,6 +728,9 @@ public class MyGameController : MonoBehaviour
 	}
 	public void createDeckCards()
 	{
+		string name;
+		Vector3 scale;
+		Vector3 position;
 		float tempF = 10f*view.myGameScreenVM.widthScreen/view.myGameScreenVM.heightScreen;
 		float width = 10f*0.85f*view.myGameScreenVM.blockDeckCardsWidth/(view.myGameScreenVM.blockCardsHeight+view.myGameScreenVM.blockDecksHeight+view.myGameScreenVM.gapBetweenblocks);
 		float scaleDeck = Mathf.Min(1.6f, width / 6f);
@@ -691,11 +741,13 @@ public class MyGameController : MonoBehaviour
 		
 		for (int i = 0; i < 5; i++)
 		{
+			name="DCrd" + i;
+			scale = new Vector3(scaleDeck,scaleDeck,scaleDeck);
+			position = new Vector3(debutLargeur + (scaleDeck + pas) * i, 2.9f, 0); 
 			this.displayedDeckCards [i] = Instantiate(this.CardObject) as GameObject;
-			this.displayedDeckCards [i].transform.localScale = new Vector3(scaleDeck,scaleDeck,scaleDeck); 
-			this.displayedDeckCards [i].transform.localPosition = new Vector3(debutLargeur + (scaleDeck + pas) * i, 2.9f, 0); 
-			this.displayedDeckCards [i].gameObject.name = "DCrd" + i + "";	
-			this.displayedDeckCards[i].AddComponent<CardMyGameController>();
+			this.displayedDeckCards [i].AddComponent<CardMyGameController>();
+			this.displayedDeckCards [i].GetComponent<CardController>().setGameObject(name,scale,position);
+
 			if (i < view.myGameDeckCardsVM.deckCardsToBeDisplayed.Count)
 			{
 				this.displayedDeckCards[i].GetComponent<CardMyGameController>().setMyGameCard(model.cards[view.myGameDeckCardsVM.deckCardsToBeDisplayed[i]]);

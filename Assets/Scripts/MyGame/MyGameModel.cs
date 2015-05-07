@@ -13,9 +13,11 @@ public class MyGameModel
 	public IList<Deck> decks;
 	public string[] cardTypeList;
 	public IList<string> skillsList;
+	public IList<int> cardsSold;
 	public int idSelectedDeck;
 
 	private string URLGetMyGameData = ApplicationModel.host + "get_mygame_data.php"; 
+	private string URLRefreshMyGame = ApplicationModel.host + "refresh_mygame.php";
 
 	public MyGameModel()
 	{
@@ -45,6 +47,46 @@ public class MyGameModel
 			this.decks=parseDecks(data[3].Split(new string[] { "#D#" }, System.StringSplitOptions.None));
 			this.idSelectedDeck=System.Convert.ToInt32(data[4]);
 			this.retrieveCardsDeck();
+		}
+	}
+	public IEnumerator refreshMyGame()
+	{
+		this.cardsSold = new List<int> ();
+		
+		WWWForm form = new WWWForm(); 											// Création de la connexion
+		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
+		form.AddField("myform_nick", ApplicationModel.username);
+		
+		WWW w = new WWW(URLRefreshMyGame, form); 				// On envoie le formulaire à l'url sur le serveur 
+		yield return w;
+		if (w.error != null) 
+		{
+			Debug.Log (w.error); 										// donne l'erreur eventuelle
+		} 
+		else 
+		{
+			int id;
+			bool stillExists;
+			string[] data=w.text.Split(new string[] { "#ID#" }, System.StringSplitOptions.None);
+			for(int i=0;i<this.cards.Count;i++)
+			{
+				id = this.cards[i].Id;
+				stillExists=false;
+				for(int j =0;j<data.Length-1;j++)
+				{
+					if(id==System.Convert.ToInt32(data[j]))
+					{
+						stillExists=true;
+						break;
+					}
+				}
+				if(!stillExists)
+				{
+					this.cardsSold.Add (id);
+					this.cards[i].IdOWner=-1;
+					this.cards[i].onSale=-0;
+				}
+			}
 		}
 	}
 	private void retrieveCardsDeck()
