@@ -26,7 +26,7 @@ public class GameEventController : MonoBehaviour
 
 		transform.LookAt(camera.transform);
 		transform.position = newPosition;
-		transform.Translate((-transform.up + -transform.up * 0.1f) * count, Space.World);
+		transform.Translate((-transform.up * transform.localScale.y + -transform.up * 0.1f) * count, Space.World);
 
 		Vector3 reverse = camera.WorldToScreenPoint(new Vector3(transform.position.x, transform.position.y, transform.position.z));
 		Rect r = new Rect(reverse.x + v3.x, Screen.height - reverse.y, 200, 50);
