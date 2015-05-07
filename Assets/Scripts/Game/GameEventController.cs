@@ -6,6 +6,7 @@ public class GameEventController : MonoBehaviour
 	public GameEventView gameEventView;
 	public GUIStyle textStyle;
 	public GUIStyle backgroundStyle;
+	public Quaternion initRotation;
 
 	public string getCharacterName()
 	{
@@ -24,7 +25,14 @@ public class GameEventController : MonoBehaviour
 		Ray ray = camera.ScreenPointToRay(v3);
 		Vector3 newPosition = ray.GetPoint(Vector3.Distance(Vector3.zero, camera.transform.position));
 
-		transform.LookAt(camera.transform);
+		if (initRotation.eulerAngles == Vector3.zero)
+		{
+			transform.LookAt(camera.transform);
+			initRotation = transform.rotation;
+		} else
+		{
+			transform.rotation = initRotation;
+		}
 		transform.position = newPosition;
 		transform.Translate((-transform.up * transform.localScale.y + -transform.up * 0.1f) * count, Space.World);
 

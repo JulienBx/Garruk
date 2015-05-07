@@ -95,6 +95,7 @@ public class GameController : Photon.MonoBehaviour
 			int h = this.gameView.gameScreenVM.heightScreen;
 			this.gameView.bottomZoneVM.resize(h);
 			this.gameView.topZoneVM.resize(h);
+			this.recalculateGameEvents();
 		}
 	}	
 
@@ -862,7 +863,7 @@ public class GameController : Photon.MonoBehaviour
 
 	public void testTimeline()
 	{
-		Card card = new Card("gentil");
+		Card card = new Card("gentil dauphin rose");
 		addMovementEvent(card, tiles [4, 3], tiles [4, 4]);
 
 		GameEventType ge2 = new PassType();
@@ -921,6 +922,16 @@ public class GameController : Photon.MonoBehaviour
 			gameEvents [i].GetComponent<GameEventController>().setAction(action);
 			gameEvents [i].GetComponent<GameEventController>().setMovement(movement [0], movement [1]);
 			gameEvents [i - 1].GetComponent<GameEventController>().setMovement(null, null);
+		}
+	}
+
+	void recalculateGameEvents()
+	{
+		int i = 1;
+
+		foreach (GameObject go in gameEvents)
+		{
+			go.GetComponent<GameEventController>().setScreenPosition(i++);
 		}
 	}
 }
