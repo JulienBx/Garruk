@@ -361,7 +361,7 @@ public class PlayingCardController : MonoBehaviour
 		}
 		this.isSelected = false ;
 		this.resizeInfoRect();
-		print ("Je hide");
+		print ("Je hide dans playingCarsd");
 	}
 
 	public void pass(){
