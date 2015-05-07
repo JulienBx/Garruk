@@ -66,11 +66,12 @@ public class StoreController : MonoBehaviour
 		yield return StartCoroutine(this.card.buyRandomCard ());
 		if(this.card.Error=="")
 		{
+			string name = "RandomCard";
+			Vector3 scale = new Vector3(1f, 1f, 1f);
+			Vector3 position = new Vector3(0f, 0f, 0f);
 			this.randomCard = Instantiate(CardObject) as GameObject;
 			this.randomCard.AddComponent<CardStoreController>();
-			this.randomCard.transform.localScale = new Vector3(1f, 1f, 1f);                
-			this.randomCard.transform.localPosition = new Vector3(0f, 0f, 0f);  
-			this.randomCard.gameObject.name = "RandomCard";
+			this.randomCard.GetComponent<CardController>().setGameObject(name,scale,position);
 			this.randomCard.GetComponent<CardStoreController>().setStoreCard(this.card);
 			this.randomCard.GetComponent<CardController>().setCentralWindowRect(view.storeScreenVM.centralWindow);
 			StartCoroutine(animation());
@@ -91,6 +92,7 @@ public class StoreController : MonoBehaviour
 	}
 	public void displayErrorPopUp()
 	{
+		this.setGUI (false);
 		this.errorPopUpView = Camera.main.gameObject.AddComponent <StoreErrorPopUpView>();
 		errorPopUpView.errorPopUpVM.error = this.card.Error;
 		errorPopUpView.popUpVM.styles=new GUIStyle[this.popUpVMStyle.Length];

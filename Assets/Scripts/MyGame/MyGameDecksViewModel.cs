@@ -6,8 +6,8 @@ using System.Reflection;
 
 public class MyGameDecksViewModel
 {
-	public GUIStyle[] myDecksGuiStyle;
-	public GUIStyle[] myDecksButtonGuiStyle;
+	public IList<GUIStyle> myDecksGuiStyle;
+	public IList<GUIStyle> myDecksButtonGuiStyle;
 	public IList<int> decksToBeDisplayed;
 	public IList<string> decksName;
 	public IList<int> decksNbCards;
@@ -52,6 +52,8 @@ public class MyGameDecksViewModel
 		this.mySuppressButtonStyle=new GUIStyle();
 		this.myEditButtonStyle=new GUIStyle();
 		this.myNewDeckButtonStyle=new GUIStyle();
+		this.myDecksButtonGuiStyle = new List<GUIStyle> ();
+		this.myDecksGuiStyle = new List<GUIStyle> ();
 	}
 
 	public void initStyles()

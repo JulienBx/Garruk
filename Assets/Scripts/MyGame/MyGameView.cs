@@ -262,7 +262,7 @@ public class MyGameView : MonoBehaviour
 						GUILayout.Label(myGameDecksVM.decksTitle, myGameDecksVM.decksTitleStyle,GUILayout.Height(0.17f * myGameScreenVM.blockDecksHeight));
 						if (GUILayout.Button(myGameDecksVM.myNewDeckButtonTitle, myGameDecksVM.myNewDeckButtonStyle,GUILayout.Height(0.17f * myGameScreenVM.blockDecksHeight)))
 						{
-
+							MyGameController.instance.displayNewDeckPopUp();
 						}
 					}
 					GUILayout.EndHorizontal();
@@ -273,7 +273,7 @@ public class MyGameView : MonoBehaviour
 					
 					for (int i = 0; i < myGameDecksVM.decksToBeDisplayed.Count; i++)
 					{	
-						GUILayout.BeginHorizontal(myGameDecksVM.myDecksGuiStyle [i]);
+						GUILayout.BeginHorizontal();
 						{
 							if (GUILayout.Button("(" + myGameDecksVM.decksNbCards [i] + ") " + myGameDecksVM.decksName [i], myGameDecksVM.myDecksButtonGuiStyle [i],GUILayout.Height(0.17f * myGameScreenVM.blockDecksHeight)))
 							{
@@ -282,18 +282,18 @@ public class MyGameView : MonoBehaviour
 									MyGameController.instance.displayDeck(i);
 								}
 							}
-							GUILayout.Space(-myGameScreenVM.blockDecksHeight*2/6);
+							//GUILayout.Space(-myGameScreenVM.blockDecksHeight*2/6);
 							if (GUILayout.Button("", myGameDecksVM.myEditButtonStyle,
 							                     GUILayout.Width(0.17f * myGameScreenVM.blockDecksHeight),
 							                     GUILayout.Height(0.17f * myGameScreenVM.blockDecksHeight)))
 							{
-
+								MyGameController.instance.displayEditDeckPopUp(i);
 							}
 							if (GUILayout.Button("", myGameDecksVM.mySuppressButtonStyle,
 							                     GUILayout.Width(0.17f * myGameScreenVM.blockDecksHeight),
 							                     GUILayout.Height(0.17f * myGameScreenVM.blockDecksHeight)))
 							{
-
+								MyGameController.instance.displayDeleteDeckPopUp(i);
 							}
 						}
 						GUILayout.EndHorizontal();
