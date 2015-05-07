@@ -89,7 +89,7 @@ public class PlayingCardController : MonoBehaviour
 				switch(this.card.Skills[i].Id)
 				{
 				case 0:
-					this.skills.Add(new Division());
+					this.skills.Add(new DivisionSkill());
 					break ;
 				case 1:
 					this.skills.Add(new Reflexe());

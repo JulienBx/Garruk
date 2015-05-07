@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections;
 using System.Collections.Generic;
 
-public class DivisionSkill 
+public class Division 
 {
 	public int NbGames;
 	public int NbWinsForRelegation;
@@ -12,8 +12,11 @@ public class DivisionSkill
 	public int TitlePrize;
 	public int PromotionPrize;
 	public int Id;
-	
-	public DivisionSkill(int id, int nbgames, int nbwinsforrelegation, int nbwinsforpromotion, int nbwinsfortitle, int titleprize, int promotionprize)
+
+	public Division()
+	{
+	}
+	public Division(int id, int nbgames, int nbwinsforrelegation, int nbwinsforpromotion, int nbwinsfortitle, int titleprize, int promotionprize)
 	{
 		this.Id = id;
 		this.NbGames = nbgames;
@@ -23,7 +26,7 @@ public class DivisionSkill
 		this.TitlePrize = titleprize;
 		this.PromotionPrize = promotionprize;
 	}
-	public DivisionSkill(int id)
+	public Division(int id)
 	{
 		this.Id = id;
 	}

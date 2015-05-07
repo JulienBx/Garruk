@@ -10,6 +10,9 @@ public class Cup
 	public int Id;
 	public string Name;
 	
+	public Cup()
+	{
+	}
 	public Cup(int id, int nbrounds, int cupprize, string name)
 	{
 		this.Id = id;

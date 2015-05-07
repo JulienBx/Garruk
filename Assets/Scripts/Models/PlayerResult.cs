@@ -11,6 +11,9 @@ public class PlayerResult
 	public DateTime Date;
 	public int GameType;
 	
+	public PlayerResult()
+	{
+	}
 	public PlayerResult(bool haswon, DateTime date,int gametype,User opponent)
 	{
 		this.Opponent = opponent;

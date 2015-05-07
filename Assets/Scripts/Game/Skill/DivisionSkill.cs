@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class Division : GameSkill
+public class DivisionSkill : GameSkill
 {
 	public override void launch()
 	{
