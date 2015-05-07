@@ -78,8 +78,8 @@ public class PlayingCardView : MonoBehaviour
 
 				if (this.playingCardVM.isSelected){
 					this.displaySkillDescription = -1 ;
-					for(int i = 0 ; i < this.playingCardVM.skillTitles.Count;i++){
-						if(Input.mousePosition.x > (this.playingCardVM.infoRect.xMin+this.playingCardVM.infoRect.xMax)/2 && (Screen.height-Input.mousePosition.y) > (this.playingCardVM.infoRect.yMin+(i)*(this.playingCardVM.infoRect.height)/4) && Input.mousePosition.x < this.playingCardVM.infoRect.xMax && (Screen.height-Input.mousePosition.y) < (this.playingCardVM.infoRect.yMin+(i+1)*(this.playingCardVM.infoRect.height)/4)){
+					for(int i = 1 ; i < this.playingCardVM.skillTitles.Count+1;i++){
+						if(Input.mousePosition.x > (this.playingCardVM.infoRect.xMin+this.playingCardVM.infoRect.xMax)/2 && (Screen.height-Input.mousePosition.y) > (this.playingCardVM.infoRect.yMin+(i)*(this.playingCardVM.infoRect.height)/5) && Input.mousePosition.x < this.playingCardVM.infoRect.xMax && (Screen.height-Input.mousePosition.y) < (this.playingCardVM.infoRect.yMin+(i+1)*(this.playingCardVM.infoRect.height)/5)){
 							this.displaySkillDescription = i ;
 						}
 					}
@@ -87,10 +87,16 @@ public class PlayingCardView : MonoBehaviour
 					{
 						for(int i = 0 ; i < this.playingCardVM.skillTitles.Count;i++){
 							if (this.displaySkillDescription==i){
-								GUILayout.Button(this.playingCardVM.skillDescriptions[i], this.playingCardVM.skillDescriptionTextStyle, GUILayout.Height(this.playingCardVM.infoRect.height*25/100));
+								GUILayout.Button(this.playingCardVM.skillDescriptions[i], this.playingCardVM.skillDescriptionTextStyle, GUILayout.Height(this.playingCardVM.infoRect.height*20/100));
 							}
 							else{
-								GUILayout.Button(this.playingCardVM.skillTitles[i], this.playingCardVM.skillTitleTextStyle, GUILayout.Height(this.playingCardVM.infoRect.height*25/100));
+								GUILayout.Button(this.playingCardVM.skillTitles[i], this.playingCardVM.skillTitleTextStyle, GUILayout.Height(this.playingCardVM.infoRect.height*20/100));
+							}
+						}
+						GUILayout.FlexibleSpace();
+						if (this.playingCardVM.isPlaying){
+							if (GUILayout.Button("Passer", this.playingCardVM.buttonTextStyle, GUILayout.Height(this.playingCardVM.infoRect.height*20/100))){
+								gameObject.GetComponentInChildren<PlayingCardController>().pass();
 							}
 						}
 					}
