@@ -33,6 +33,12 @@ public class CardController : GameObjectController {
 		this.ressources = gameObject.GetComponent<CardRessources> ();
 		this.skills=new List<GameObject>();
 	}
+	public void setGameObject(string name, Vector3 scale, Vector3 position)
+	{
+		gameObject.name = name;
+		gameObject.transform.localScale = scale;
+		gameObject.transform.position = position;
+	}
 	public void setCard(Card c)
 	{
 		this.card = c;

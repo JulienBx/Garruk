@@ -172,6 +172,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MenuObject: {fileID: 187360, guid: e65524dc5104a4d1f88b72539f53fd82, type: 2}
   CardObject: {fileID: 157076, guid: 5aec1731b1da74118aaca3ee17b3c4e1, type: 2}
+  refreshInterval: 5
   myGameScreenVMStyle: []
   myGameVMStyle:
   - m_Name: Pagination Style

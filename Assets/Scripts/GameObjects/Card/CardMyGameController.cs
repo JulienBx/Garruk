@@ -23,6 +23,10 @@ public class CardMyGameController : CardController
 	public void setMyGameCard(Card c)
 	{
 		base.setCard (c);
+		if(c.onSale==0 && c.IdOWner==-1)
+		{
+			base.applySoldTexture();
+		}
 		base.setExperience ();
 		base.setSkills ();
 		base.show ();
@@ -35,6 +39,10 @@ public class CardMyGameController : CardController
 	public void setFocusedMyGameCard(Card c)
 	{
 		base.setCard (c);
+		if(c.onSale==0 && c.IdOWner==-1)
+		{
+			base.applySoldTexture();
+		}
 		base.setExperience ();
 		base.setSkills ();
 		base.show ();
@@ -74,6 +82,7 @@ public class CardMyGameController : CardController
 		focusMyGameFeaturesView.focusMyGameFeaturesVM.nbWin = base.card.nbWin;
 		focusMyGameFeaturesView.focusMyGameFeaturesVM.nbLoose = base.card.nbLoose;
 		focusMyGameFeaturesView.focusMyGameFeaturesVM.isOnSale = System.Convert.ToBoolean(base.card.onSale);
+		focusMyGameFeaturesView.focusMyGameFeaturesVM.idOwner = base.card.IdOWner;
 		focusMyGameFeaturesView.focusMyGameFeaturesVM.price = base.card.Price;
 		focusMyGameFeaturesView.focusMyGameFeaturesVM.cardCost = base.card.getCost();
 		focusMyGameFeaturesView.focusMyGameFeaturesVM.cardLevel = base.card.getXpLevel();

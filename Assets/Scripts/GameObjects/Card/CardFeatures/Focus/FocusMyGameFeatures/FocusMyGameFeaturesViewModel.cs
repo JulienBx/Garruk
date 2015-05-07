@@ -14,6 +14,7 @@ public class FocusMyGameFeaturesViewModel
 	public int price;
 	public int nbWin;
 	public int nbLoose;
+	public int idOwner;
 
 	public FocusMyGameFeaturesViewModel ()
 	{

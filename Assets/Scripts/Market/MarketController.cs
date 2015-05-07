@@ -205,12 +205,12 @@ public class MarketController : MonoBehaviour {
 		{
 			this.displayedCards[i].SetActive(false);
 		}
-		float scale = view.marketScreenVM.heightScreen / 120f;
+		String name = "Fcus" + gameObject.name.Substring (4);
+		Vector3 scale = new Vector3(view.marketScreenVM.heightScreen / 120f,view.marketScreenVM.heightScreen / 120f,view.marketScreenVM.heightScreen / 120f);
+		Vector3 position = Camera.main.ScreenToWorldPoint (new Vector3 (0.4f * view.marketScreenVM.widthScreen, 0.45f * view.marketScreenVM.heightScreen - 1, 10));
 		this.cardFocused = Instantiate(CardObject) as GameObject;
-		this.cardFocused.transform.localScale = new Vector3(scale, scale, scale); 
-		this.cardFocused.transform.localPosition = Camera.main.ScreenToWorldPoint(new Vector3(0.4f*view.marketScreenVM.widthScreen ,0.45f*view.marketScreenVM.heightScreen-1 , 10));  
-		this.cardFocused.gameObject.name = "Fcus"+gameObject.name.Substring(4);	
 		this.cardFocused.AddComponent<CardMarketController> ();
+		this.cardFocused.GetComponent<CardController> ().setGameObject (name, scale, position);
 		this.cardFocused.GetComponent<CardMarketController> ().setFocusedMarketCard (gameObject.GetComponent<CardController> ().card);
 		this.cardFocused.GetComponent<CardController> ().setCentralWindowRect (view.marketScreenVM.centralWindow);
 	}
@@ -242,6 +242,9 @@ public class MarketController : MonoBehaviour {
 	}
 	private void createCards()
 	{
+		string name;
+		Vector3 scale;
+		Vector3 position;
 		float tempF = 10f*view.marketScreenVM.widthScreen/view.marketScreenVM.heightScreen;
 		float width = 10f*0.85f*view.marketScreenVM.blockLeftWidth/view.marketScreenVM.blockLeftHeight;
 		view.marketCardsVM.nbCardsPerRow = Mathf.FloorToInt(width/1.6f);
@@ -251,14 +254,15 @@ public class MarketController : MonoBehaviour {
 		
 		for(int i = 0 ; i < 3*view.marketCardsVM.nbCardsPerRow ; i++)
 		{
+			name = "Card" + i;
+			scale = new Vector3(1.5f, 1.5f, 1.5f);
+			position = new Vector3(debutLargeur + 1.6f*(i%view.marketCardsVM.nbCardsPerRow), 2.625f-(i-i%view.marketCardsVM.nbCardsPerRow)/view.marketCardsVM.nbCardsPerRow*2.75f, 0); 
 			this.displayedCards[i] = Instantiate(CardObject) as GameObject;
-			this.displayedCards[i].transform.localScale = new Vector3(1.5f, 1.5f, 1.5f); 
-			this.displayedCards[i].transform.localPosition = new Vector3(debutLargeur + 1.6f*(i%view.marketCardsVM.nbCardsPerRow), 2.625f-(i-i%view.marketCardsVM.nbCardsPerRow)/view.marketCardsVM.nbCardsPerRow*2.75f, 0); 
-			this.displayedCards[i].gameObject.name = "Card" + i + "";
+			this.displayedCards[i].AddComponent<CardMarketController>();
+			this.displayedCards[i].GetComponent<CardController>().setGameObject(name, scale,position);
 			
 			if (i<view.marketCardsVM.cardsToBeDisplayed.Count)
 			{
-				this.displayedCards[i].AddComponent<CardMarketController>();
 				this.displayedCards[i].GetComponent<CardMarketController>().setMarketCard(model.cards[view.marketCardsVM.cardsToBeDisplayed[i]]);
 				this.displayedCards[i].GetComponent<CardController> ().setCentralWindowRect (view.marketScreenVM.centralWindow);
 				view.marketCardsVM.nbCardsToDisplay++;
