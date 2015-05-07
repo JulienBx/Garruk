@@ -85,7 +85,7 @@ MonoBehaviour:
   textStyle:
     m_Name: 
     m_Normal:
-      m_Background: {fileID: 0}
+      m_Background: {fileID: 2800000, guid: 5a7c3dcf67b6f48418de3257a3e0b526, type: 3}
       m_TextColor: {r: 0, g: 0, b: 0, a: 1}
     m_Hover:
       m_Background: {fileID: 0}
@@ -119,10 +119,10 @@ MonoBehaviour:
       m_Top: 0
       m_Bottom: 0
     m_Padding:
-      m_Left: 0
-      m_Right: 0
-      m_Top: 0
-      m_Bottom: 0
+      m_Left: 10
+      m_Right: 10
+      m_Top: 5
+      m_Bottom: 5
     m_Overflow:
       m_Left: 0
       m_Right: 0
@@ -132,7 +132,7 @@ MonoBehaviour:
     m_FontSize: 0
     m_FontStyle: 0
     m_Alignment: 0
-    m_WordWrap: 0
+    m_WordWrap: 1
     m_RichText: 1
     m_TextClipping: 0
     m_ImagePosition: 0
@@ -144,7 +144,7 @@ MonoBehaviour:
   backgroundStyle:
     m_Name: 
     m_Normal:
-      m_Background: {fileID: 2800000, guid: 025ea89bd0a95dc4c8c2456a1d5e6bda, type: 3}
+      m_Background: {fileID: 0}
       m_TextColor: {r: 0, g: 0, b: 0, a: 1}
     m_Hover:
       m_Background: {fileID: 0}
