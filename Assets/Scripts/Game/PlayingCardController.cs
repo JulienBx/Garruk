@@ -335,7 +335,7 @@ public class PlayingCardController : MonoBehaviour
 	public void displayPlaying(){
 		if(this.isMine){
 			this.playingCardView.playingCardVM.backgroundStyle = guiStylesMyCharacter[12];
-			this.isSelected = true ;
+			this.playingCardView.playingCardVM.isPlaying = true ;
 		}
 		else{
 			this.playingCardView.playingCardVM.backgroundStyle = guiStylesHisCharacter[12];
@@ -349,6 +349,19 @@ public class PlayingCardController : MonoBehaviour
 		else{
 			this.playingCardView.playingCardVM.backgroundStyle = guiStylesHisCharacter[0];
 		}
+	}
+
+	public void hidePlaying(){
+		if(this.isMine){
+			this.playingCardView.playingCardVM.backgroundStyle = guiStylesMyCharacter[0];
+			this.playingCardView.playingCardVM.isPlaying = false ;
+		}
+		else{
+			this.playingCardView.playingCardVM.backgroundStyle = guiStylesHisCharacter[0];
+		}
+		this.isSelected = false ;
+		this.resizeInfoRect();
+		print ("Je hide");
 	}
 
 	public void pass(){
