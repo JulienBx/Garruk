@@ -12,6 +12,8 @@ public class Division
 	public int TitlePrize;
 	public int PromotionPrize;
 	public int Id;
+	public string Name;
+	public string Picture;
 
 	public Division()
 	{

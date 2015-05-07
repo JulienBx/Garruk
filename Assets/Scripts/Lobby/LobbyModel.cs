@@ -27,7 +27,6 @@ public class LobbyModel
 		this.currentCup = new Cup ();
 		this.player = new User ();
 	}
-
 	public IEnumerator getLobbyData(int totalNbResultLimit)
 	{
 		WWWForm form = new WWWForm(); 											// Création de la connexion
@@ -138,17 +137,24 @@ public class LobbyModel
 	private Division parseDivision(string[] divisionData)
 	{
 		Division division = new Division ();
-
+		division.Name = divisionData [0];
+		division.Picture = divisionData [1];
+		division.TitlePrize = System.Convert.ToInt32 (divisionData [2]);
 		return division;
 	}
 	private Cup parseCup(string[] cupData)
 	{
 		Cup cup=new Cup();
+		cup.Name = cupData [0];
+		cup.Picture = cupData [1];
+		cup.CupPrize = System.Convert.ToInt32 (cupData [2]);
 		return cup;
 	}
 	private User parsePlayer(string[] userData)
 	{
 		User user = new User ();
+		user.NbGamesDivision = System.Convert.ToInt32 (userData [0]);
+		user.NbGamesCup = System.Convert.ToInt32 (userData [1]);
 		return user;
 	}
 }

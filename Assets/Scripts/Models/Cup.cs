@@ -9,6 +9,7 @@ public class Cup
 	public int CupPrize;
 	public int Id;
 	public string Name;
+	public string Picture;
 	
 	public Cup()
 	{
