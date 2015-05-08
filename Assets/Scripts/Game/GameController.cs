@@ -215,9 +215,8 @@ public class GameController : Photon.MonoBehaviour
 			{
 				if (i != idCharacter)
 				{
-						print ("je move "+i);
-						this.myPlayingCards [i].GetComponentInChildren<PlayingCardController>().isMoved = true;
-						this.myPlayingCards [i].GetComponentInChildren<PlayingCardController>().resizeInfoRect();
+					this.myPlayingCards [i].GetComponentInChildren<PlayingCardController>().isMoved = true;
+					this.myPlayingCards [i].GetComponentInChildren<PlayingCardController>().resizeInfoRect();
 				}
 			}
 		}
@@ -233,8 +232,8 @@ public class GameController : Photon.MonoBehaviour
 			{
 				if (i != (idCharacter - 5))
 				{
-
-						this.hisPlayingCards [i].GetComponentInChildren<PlayingCardController>().isMoved = true;
+					print ("Je move "+(i+5));
+						this.hisPlayingCards [i].GetComponentInChildren<PlayingCardController>().isMoved = false;
 						this.hisPlayingCards [i].GetComponentInChildren<PlayingCardController>().resizeInfoRect();
 
 				}
@@ -285,7 +284,6 @@ public class GameController : Photon.MonoBehaviour
 
 	public void hidePlayingTile()
 	{
-		print ("Je hide dans controler "+this.currentPlayer);
 		if (this.currentPlayer != -1)
 		{
 			if (this.currentPlayer < 5)
@@ -639,8 +637,6 @@ public class GameController : Photon.MonoBehaviour
 
 	private void sortMyCards()
 	{
-		print ("je sort myCards "+this.speed);
-
 		int rank;
 		float[] quicknesses = new float[5];
 		for (int i = 0; i < 5; i++)
@@ -648,6 +644,9 @@ public class GameController : Photon.MonoBehaviour
 			quicknesses [i] = myPlayingCards [i].GetComponentInChildren<PlayingCardController>().card.Speed;
 			if (this.hasPlayed.Contains(i)){
 				quicknesses[i] = quicknesses[i]-this.speed;
+			}
+			else{
+				quicknesses[i] = quicknesses[i]+100-this.speed;
 			}
 		}
 
@@ -665,21 +664,19 @@ public class GameController : Photon.MonoBehaviour
 					}
 				}
 			}
-			myPlayingCards [i].GetComponentInChildren<PlayingCardController>().setSortID(rank, 100 - (this.speed - (int)quicknesses [i]));
+			myPlayingCards [i].GetComponentInChildren<PlayingCardController>().setSortID(rank, (int)quicknesses [i]);
 			myPlayingCards [i].GetComponentInChildren<PlayingCardController>().resize(this.gameView.gameScreenVM.heightScreen);
 	
 			if (this.currentPlayer < 5 && this.currentPlayer!=-1){
 				if (rank == 2)
 				{
 					this.myNextPlayer = i;
-					print ("next MP : "+i+","+quicknesses[i]);
 				}
 			}
 			else{
 				if (rank == 1)
 				{
 					this.myNextPlayer = i;
-					print ("next MP : "+i+","+quicknesses[i]);
 				}
 			}
 		}
@@ -695,6 +692,9 @@ public class GameController : Photon.MonoBehaviour
 			quicknesses [i] = hisPlayingCards [i].GetComponentInChildren<PlayingCardController>().card.Speed;
 			if (this.hasPlayed.Contains(i+5)){
 				quicknesses[i] = quicknesses[i]-this.speed;
+			}
+			else{
+				quicknesses[i] = quicknesses[i]+100-this.speed;
 			}
 		}
 		
@@ -712,22 +712,21 @@ public class GameController : Photon.MonoBehaviour
 					}
 				}
 			}
-			hisPlayingCards [i].GetComponentInChildren<PlayingCardController>().setSortID(rank, 100 - (this.speed - (int)quicknesses [i]));
+			hisPlayingCards [i].GetComponentInChildren<PlayingCardController>().setSortID(rank, (int)quicknesses [i]);
 			hisPlayingCards [i].GetComponentInChildren<PlayingCardController>().resize(this.gameView.gameScreenVM.heightScreen);
 			if (this.currentPlayer > 4){
 				if (rank == 2)
 				{
 					this.hisNextPlayer = i;
-					print ("next HP : "+i+","+quicknesses[i]);
 				}
 			}
 			else{
 				if (rank == 1)
 				{
 					this.hisNextPlayer = i;
-					print ("next HP : "+i+","+quicknesses[i]);
 				}
 			}
+			print (i+" : "+rank);
 		}
 	}
 
