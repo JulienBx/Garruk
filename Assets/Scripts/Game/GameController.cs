@@ -871,7 +871,7 @@ public class GameController : Photon.MonoBehaviour
 				tiles [this.boardWidth / 2 - 2 + i, (idPlayer - 1) * (this.boardHeight - 1) - decalage].GetComponent<TileController>().setCharacterID(i);
 				myCharacters [i].GetComponentInChildren<PlayingCharacterController>().resize(this.gameView.gameScreenVM.heightScreen);
 			}
-			testTimeline();
+			//testTimeline();
 
 			for (int i = 0; i < this.boardWidth; i++)
 			{
@@ -1080,7 +1080,7 @@ public class GameController : Photon.MonoBehaviour
 		pass();
 		currentPlayer = 1;
 		pass();
-		currentPlayer = 2;
+		currentPlayer = 4;
 		pass();
 	}
 	
