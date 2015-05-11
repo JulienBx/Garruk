@@ -14,9 +14,11 @@ public class Division
 	public int Id;
 	public string Name;
 	public string Picture;
+	public Texture2D texture;
 
 	public Division()
 	{
+		this.texture = new Texture2D (1, 1, TextureFormat.ARGB32, false);
 	}
 	public Division(int id, int nbgames, int nbwinsforrelegation, int nbwinsforpromotion, int nbwinsfortitle, int titleprize, int promotionprize)
 	{
@@ -31,6 +33,12 @@ public class Division
 	public Division(int id)
 	{
 		this.Id = id;
+	}
+	public IEnumerator setPicture()
+	{
+		var www = new WWW(ApplicationModel.host+this.Picture);
+		yield return www;
+		www.LoadImageIntoTexture(this.texture);
 	}
 }
 

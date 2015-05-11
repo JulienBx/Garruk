@@ -14,6 +14,7 @@ public class User
 	private string URLUpdateProfilePicture  = ApplicationModel.host + "update_profilepicture.php";
 	private string URLGetNonReadNotifications = ApplicationModel.host +"get_non_read_notifications_by_user.php";
 	private string URLGetMoney = ApplicationModel.host + "get_money_by_user";
+	private string URLSelectedDeck = ApplicationModel.host + "set_selected_deck.php";
 
 	private string ServerDirectory          = "img/profile/";
 	
@@ -39,6 +40,7 @@ public class User
 	public int NbGamesDivision;
 	public bool readnotificationsystem;
 	public int nonReadNotifications;
+	public int SelectedDeckId;
 
 	public User()
 	{
@@ -287,6 +289,22 @@ public class User
 		else
 		{
 			this.Money=System.Convert.ToInt32(w.text);
+		}
+	}
+	public IEnumerator SetSelectedDeck(int selectedDeckId)
+	{
+		WWWForm form = new WWWForm (); 								// Création de la connexion
+		form.AddField ("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
+		form.AddField ("myform_nick", ApplicationModel.username); 	// Pseudo de l'utilisateur connecté
+		form.AddField("myform_deck", selectedDeckId.ToString());                 // Deck sélectionné
+		
+		WWW w = new WWW (URLSelectedDeck, form); 								// On envoie le formulaire à l'url sur le serveur 
+		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
+		if (w.error != null) 
+		{
+			Debug.Log (w.error); 										// donne l'erreur eventuelle
+		} 
+		else {
 		}
 	}
 }

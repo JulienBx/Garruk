@@ -43,25 +43,35 @@ public class LobbyModel
 		else 
 		{
 			string[] data=w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
-			this.cardTypeList = data[0].Split(new string[] { "//" }, System.StringSplitOptions.None);
-			this.skillsList = data[1].Split(new string[] { "//" }, System.StringSplitOptions.None);
-			this.decks = this.parseDecks(data[2].Split(new string[] { "#DECK#" }, System.StringSplitOptions.None));
-			this.results = this.parseResults(data[3].Split(new string[] { "#RESULT#" }, System.StringSplitOptions.None));
-			this.currentDivision = this.parseDivision(data[4].Split(new string[] { "//" }, System.StringSplitOptions.None));
-			this.currentCup = this.parseCup(data[5].Split(new string[] { "//" }, System.StringSplitOptions.None));
-			this.player = this.parsePlayer(data[6].Split(new string[] { "//" }, System.StringSplitOptions.None));
+
+			this.player = this.parsePlayer(data[0].Split(new string[] { "//" }, System.StringSplitOptions.None));
+			this.cardTypeList = data[1].Split(new string[] { "//" }, System.StringSplitOptions.None);
+			this.skillsList = data[2].Split(new string[] { "//" }, System.StringSplitOptions.None);
+			this.decks = this.parseDecks(data[3].Split(new string[] { "#DECK#" }, System.StringSplitOptions.None));
+			this.results = this.parseResults(data[4].Split(new string[] { "#RESULT#" }, System.StringSplitOptions.None));
+			this.currentDivision = this.parseDivision(data[5].Split(new string[] { "//" }, System.StringSplitOptions.None));
+			this.currentCup = this.parseCup(data[6].Split(new string[] { "//" }, System.StringSplitOptions.None));
 		}
+	}
+	private User parsePlayer(string[] userData)
+	{
+		User user = new User ();
+		user.NbGamesDivision = System.Convert.ToInt32 (userData [0]);
+		user.NbGamesCup = System.Convert.ToInt32 (userData [1]);
+		user.SelectedDeckId = System.Convert.ToInt32 (userData [2]);
+		return user;
 	}
 	private List<Deck> parseDecks(string[] decksData)
 	{
 		List<Deck> decks = new List<Deck> ();
 		for(int i=0;i<decksData.Length-1;i++)
 		{
-			string[] deckInformation = decksData[i].Split(new string[] { "##" }, System.StringSplitOptions.None);
+			string[] deckInformation = decksData[i].Split(new string[] { "#DECKINFO#" }, System.StringSplitOptions.None);
 			decks.Add (new Deck());
-			decks[i].Name=deckInformation[0];
+			decks[i].Id=System.Convert.ToInt32(deckInformation[0]);
+			decks[i].Name=deckInformation[1];
 			decks[i].Cards=new List<Card>();
-			decks[i].Cards=this.parseCards(deckInformation[1].Split(new string[] { "#CARD#" }, System.StringSplitOptions.None));
+			decks[i].Cards=this.parseCards(deckInformation[2].Split(new string[] { "#CARD#" }, System.StringSplitOptions.None));
 		}
 		return decks;
 	}
@@ -73,7 +83,7 @@ public class LobbyModel
 
 		for(int i=0;i<cardsData.Length-1;i++)
 		{
-			cardData = cardsData[i].Split(new string[] { "#S#" }, System.StringSplitOptions.None);
+			cardData = cardsData[i].Split(new string[] { "#SKILL#" }, System.StringSplitOptions.None);
 			for(int j = 0 ; j < cardData.Length-1 ; j++)
 			{
 				cardInfo = cardData[j].Split(new string[] { "//" }, System.StringSplitOptions.None); 
@@ -126,11 +136,11 @@ public class LobbyModel
 			results[i].Opponent=new User();
 			results[i].Opponent.Username=resultInformation[3];
 			results[i].Opponent.Picture=resultInformation[4];
-			results[i].Opponent.Division=System.Convert.ToInt32(resultInformation[4]);
-			results[i].Opponent.RankingPoints=System.Convert.ToInt32(resultInformation[4]);
-			results[i].Opponent.Ranking=System.Convert.ToInt32(resultInformation[4]);
-			results[i].Opponent.TotalNbWins=System.Convert.ToInt32(resultInformation[4]);
-			results[i].Opponent.TotalNbLooses=System.Convert.ToInt32(resultInformation[4]);
+			results[i].Opponent.Division=System.Convert.ToInt32(resultInformation[5]);
+			results[i].Opponent.RankingPoints=System.Convert.ToInt32(resultInformation[6]);
+			results[i].Opponent.Ranking=System.Convert.ToInt32(resultInformation[7]);
+			results[i].Opponent.TotalNbWins=System.Convert.ToInt32(resultInformation[8]);
+			results[i].Opponent.TotalNbLooses=System.Convert.ToInt32(resultInformation[9]);
 		}
 		return results;
 	}
@@ -140,6 +150,7 @@ public class LobbyModel
 		division.Name = divisionData [0];
 		division.Picture = divisionData [1];
 		division.TitlePrize = System.Convert.ToInt32 (divisionData [2]);
+		division.NbGames = System.Convert.ToInt32 (divisionData [3]);
 		return division;
 	}
 	private Cup parseCup(string[] cupData)
@@ -148,14 +159,8 @@ public class LobbyModel
 		cup.Name = cupData [0];
 		cup.Picture = cupData [1];
 		cup.CupPrize = System.Convert.ToInt32 (cupData [2]);
+		cup.NbRounds = System.Convert.ToInt32 (cupData [3]);
 		return cup;
-	}
-	private User parsePlayer(string[] userData)
-	{
-		User user = new User ();
-		user.NbGamesDivision = System.Convert.ToInt32 (userData [0]);
-		user.NbGamesCup = System.Convert.ToInt32 (userData [1]);
-		return user;
 	}
 }
 

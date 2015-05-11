@@ -101,28 +101,28 @@ public class MenuController : MonoBehaviour {
 	}
 	public void homePageLink()
 	{
-		if(Application.loadedLevelName=="LobbyPage"){
+		if(Application.loadedLevelName=="Lobby"){
 			PhotonNetwork.Disconnect();
 		}
 		Application.LoadLevel("HomePage");
 	}
 	public void myGameLink()
 	{
-		if(Application.loadedLevelName=="LobbyPage"){
+		if(Application.loadedLevelName=="Lobby"){
 			PhotonNetwork.Disconnect();
 		}
 		Application.LoadLevel("MyGame");
 	}
 	public void shopLink()
 	{
-		if(Application.loadedLevelName=="LobbyPage"){
+		if(Application.loadedLevelName=="Lobby"){
 			PhotonNetwork.Disconnect();
 		}
 		Application.LoadLevel("BuyCards");
 	}
 	public void marketLink()
 	{
-		if(Application.loadedLevelName=="LobbyPage"){
+		if(Application.loadedLevelName=="Lobby"){
 			PhotonNetwork.Disconnect();
 		}
 		Application.LoadLevel("Market");
@@ -132,24 +132,24 @@ public class MenuController : MonoBehaviour {
 	{
 		ApplicationModel.username = "";
 		ApplicationModel.toDeconnect = true;
-		if(Application.loadedLevelName=="LobbyPage"){
+		if(Application.loadedLevelName=="Lobby"){
 			PhotonNetwork.Disconnect();
 		}
 		Application.LoadLevel("Authentication");
 	}
 	public void profileLink() 
 	{
-		if(Application.loadedLevelName=="LobbyPage"){
+		if(Application.loadedLevelName=="Lobby"){
 			PhotonNetwork.Disconnect();
 		}
 		Application.LoadLevel("Profile");
 	}
 	public void lobbyLink()
 	{
-		if(Application.loadedLevelName=="LobbyPage"){
+		if(Application.loadedLevelName=="Lobby"){
 			PhotonNetwork.Disconnect();
 		}
-		Application.LoadLevel("LobbyPage");
+		Application.LoadLevel("Lobby");
 	}
 				
 }
