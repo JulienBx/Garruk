@@ -604,7 +604,7 @@ public class GameController : Photon.MonoBehaviour
 	public void pass()
 	{
 		GameEventType ge = new PassType();
-		addGameEvent(myCharacters [currentPlayer].GetComponentInChildren<PlayingCharacterController>().getName(), ge);
+		addGameEvent(myCharacters [currentPlayer].GetComponentInChildren<PlayingCharacterController>().getName(), ge, "");
 		nbActionPlayed = 0;
 	}
 	
@@ -871,7 +871,7 @@ public class GameController : Photon.MonoBehaviour
 				tiles [this.boardWidth / 2 - 2 + i, (idPlayer - 1) * (this.boardHeight - 1) - decalage].GetComponent<TileController>().setCharacterID(i);
 				myCharacters [i].GetComponentInChildren<PlayingCharacterController>().resize(this.gameView.gameScreenVM.heightScreen);
 			}
-			//testTimeline();
+			testTimeline();
 
 			for (int i = 0; i < this.boardWidth; i++)
 			{
@@ -1051,22 +1051,46 @@ public class GameController : Photon.MonoBehaviour
 
 	public void testTimeline()
 	{
-		currentPlayer = 3;
+		currentPlayer = 1;
 		addMovementEvent(myCharacters [currentPlayer].GetComponentInChildren<PlayingCharacterController>().getName(), tiles [4, 3], tiles [4, 4]);
-
+		string targetName = "coincoin";
 		List<GameSkill> temp = myPlayingCards [currentPlayer].GetComponentInChildren<PlayingCardController>().skills;
 		if (temp.Count > 0)
 		{
-			//addGameEvent("", new SkillType(temp [0].Skill.Action));
+			//addGameEvent("", new SkillType(temp [0].Skill.Action), targetName);
 		}
+		pass();
+		currentPlayer = 2;
+		pass();
+		currentPlayer = 1;
+		pass();
+		currentPlayer = 2;
+		pass();
+		currentPlayer = 1;
+		pass();
+		currentPlayer = 2;
+		pass();
+		currentPlayer = 1;
+		pass();
+		currentPlayer = 2;
+		pass();
+		currentPlayer = 1;
+		pass();
+		currentPlayer = 2;
+		pass();
+		currentPlayer = 1;
 		pass();
 		currentPlayer = 2;
 		pass();
 	}
 	
-	public void addGameEvent(string name, GameEventType type)
+	public void addGameEvent(string name, GameEventType type, string targetName)
 	{
 		setGameEvent(name, type);
+		if (targetName != "")
+		{
+			gameEvents [0].GetComponent<GameEventController>().addAction(" sur " + targetName);
+		}
 	}
 
 	public void addMovementEvent(string name, GameObject origin, GameObject destination)
