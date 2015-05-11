@@ -5,51 +5,80 @@ using System.Collections;
 
 public class AuthenticationController : MonoBehaviour {
 	
-	private AuthenticationView authenticationView;
 	public static AuthenticationController instance;
-	public AuthenticationManager instanceManager;
-	public AuthenticationViewModel authenticationViewModel; 
+	private AuthenticationView view;
+	private AuthenticationWindowPopUpView authenticationWindowView;
+	
+	public GUIStyle[] popUpVMStyle;
 
-
-	//styles
-	public GUIStyle centralWindowStyle;
-	public GUIStyle centralWindowTitleStyle;
-	public GUIStyle centralWindowButtonStyle;
-	public GUIStyle centralWindowTextFieldStyle;
-	public GUIStyle centralWindowPasswordFieldStyle;
-	public GUIStyle centralWindowToggleStyle;
-
-	void Start (){
-		instance = this;
-		this.authenticationView = GetComponent<AuthenticationView>();
-		this.authenticationView.initStyles(centralWindowStyle,centralWindowTitleStyle,centralWindowButtonStyle,centralWindowTextFieldStyle,centralWindowPasswordFieldStyle,centralWindowToggleStyle);
-		this.instanceManager = GetComponent<AuthenticationManager>();
-		 
-		this.authenticationViewModel = instanceManager.createAuthenticationViewModel();
-		this.authenticationView.authenticationViewModel = this.authenticationViewModel;
-		StartCoroutine(this.checkPermanentConnexion());
-	}
-
-	private IEnumerator checkPermanentConnexion(){
-
-		yield return StartCoroutine(instanceManager.permanentConnexion(this.authenticationViewModel));
-		
-		if (!this.authenticationViewModel.isRemembered){
-			if(ApplicationModel.toDeconnect==false){
-				Application.LoadLevel("HomePage");
-			}
-			else{
-				ApplicationModel.toDeconnect=false;
-				authenticationView.toDisplay = true;
-			}
-		}
-		else{
-			authenticationView.toDisplay = true;
-		}
-	}
-
-	public IEnumerator Login() 
+	void Start ()
 	{
-		yield return StartCoroutine (AuthenticationManager.instance.Login(this.authenticationViewModel));
+		instance = this;
+		this.view = Camera.main.gameObject.AddComponent <AuthenticationView>();
+		this.resize ();
+		StartCoroutine (this.initialization ());
+	}
+	private IEnumerator initialization()
+	{
+		yield return StartCoroutine(ApplicationModel.permanentConnexion ());
+		if(ApplicationModel.username!=""&& !ApplicationModel.toDeconnect)
+		{
+			Application.LoadLevel("Homepage");
+		}
+		else
+		{
+			displayAuthenticationWindow();
+		}
+	}
+	public IEnumerator login()
+	{
+		if(authenticationWindowView.authenticationWindowPopUpVM.username!="" || authenticationWindowView.authenticationWindowPopUpVM.password!="")
+		{
+			yield return StartCoroutine(ApplicationModel.Login(authenticationWindowView.authenticationWindowPopUpVM.username,
+			                                    authenticationWindowView.authenticationWindowPopUpVM.password,
+			                                    authenticationWindowView.authenticationWindowPopUpVM.toMemorize));
+			if(ApplicationModel.username!=""&& !ApplicationModel.toDeconnect)
+			{
+				Application.LoadLevel("Homepage");
+			}
+			else
+			{
+				authenticationWindowView.authenticationWindowPopUpVM.error=ApplicationModel.error;
+				ApplicationModel.error="";
+			}
+		}
+		else
+		{
+			authenticationWindowView.authenticationWindowPopUpVM.error ="Veuillez saisir vos identifiants";
+		}
+	}
+	public void displayAuthenticationWindow()
+	{
+		this.authenticationWindowView = Camera.main.gameObject.AddComponent <AuthenticationWindowPopUpView>();
+
+		authenticationWindowView.popUpVM.styles=new GUIStyle[this.popUpVMStyle.Length];
+		for(int i=0;i<this.popUpVMStyle.Length;i++)
+		{
+			authenticationWindowView.popUpVM.styles[i]=this.popUpVMStyle[i];
+		}
+		authenticationWindowView.popUpVM.initStyles();
+		this.authenticationWindowPopUpResize ();
+	}
+	public void hideAuthenticationWindowPopUp()
+	{
+		Destroy (this.authenticationWindowView);
+	}
+	public void authenticationWindowPopUpResize()
+	{
+		authenticationWindowView.popUpVM.centralWindow = view.authenticationScreenVM.centralWindow;
+		authenticationWindowView.popUpVM.resize ();
+	}
+	public void resize()
+	{
+		view.authenticationScreenVM.resize ();
+		if(this.authenticationWindowView!=null)
+		{
+			this.authenticationWindowPopUpResize();
+		}
 	}
 }

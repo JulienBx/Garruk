@@ -96,7 +96,7 @@ public class PlayingCardController : MonoBehaviour
 				switch (this.card.Skills [i].Id)
 				{
 					case 0:
-						this.skills.Add(new Division());
+						this.skills.Add(new DivisionSkill());
 						break;
 					case 1:
 						this.skills.Add(new Reflexe());
@@ -379,7 +379,7 @@ public class PlayingCardController : MonoBehaviour
 		if (this.isMine)
 		{
 			this.playingCardView.playingCardVM.backgroundStyle = guiStylesMyCharacter [12];
-			this.isSelected = true;
+			this.playingCardView.playingCardVM.isPlaying = true;
 		} else
 		{
 			this.playingCardView.playingCardVM.backgroundStyle = guiStylesHisCharacter [12];
@@ -395,6 +395,20 @@ public class PlayingCardController : MonoBehaviour
 		{
 			this.playingCardView.playingCardVM.backgroundStyle = guiStylesHisCharacter [0];
 		}
+	}
+
+	public void hidePlaying()
+	{
+		if (this.isMine)
+		{
+			this.playingCardView.playingCardVM.backgroundStyle = guiStylesMyCharacter [0];
+			this.playingCardView.playingCardVM.isPlaying = false;
+		} else
+		{
+			this.playingCardView.playingCardVM.backgroundStyle = guiStylesHisCharacter [0];
+		}
+		this.isSelected = false;
+		this.resizeInfoRect();
 	}
 
 	public void pass()

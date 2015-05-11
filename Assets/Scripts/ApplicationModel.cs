@@ -24,6 +24,8 @@ public class ApplicationModel : MonoBehaviour
 
 	static private string URLCheckPassword = host+"check_password.php";
 	static private string URLEditPassword = host+"edit_password.php";
+	static private string URLCheckAuthentification =  host + "check_authentication.php"; 
+	static private string URLCheckPermanentConnexion = host + "check_permanent_connexion.php";
 
 	static public IEnumerator checkPassword(string password)
 	{
@@ -62,5 +64,61 @@ public class ApplicationModel : MonoBehaviour
 		{
 			print(w.error); 										// donne l'erreur eventuelle
 		} 
+	}
+	static public IEnumerator permanentConnexion()
+	{
+		WWWForm form = new WWWForm(); 
+		form.AddField("myform_hash", ApplicationModel.hash); 	
+		form.AddField("myform_macadress", SystemInfo.deviceUniqueIdentifier); 	
+		
+		WWW w = new WWW(URLCheckPermanentConnexion, form);
+		yield return w;
+		
+		if (w.error != null)
+		{
+			error=w.error;
+		} 
+		else
+		{
+			username = w.text;
+		}
+	}
+	static public IEnumerator Login(string nick, string password, bool toMemorize)
+	{	
+		string toMemorizeString;
+		if (toMemorize)
+		{
+			toMemorizeString="1";
+		}
+		else
+		{
+			toMemorizeString="0";
+		}
+		WWWForm form = new WWWForm();
+		form.AddField("myform_hash", ApplicationModel.hash);
+		form.AddField("myform_nick", nick);
+		form.AddField("myform_pass", password);
+		form.AddField ("myform_memorize", toMemorizeString);
+		form.AddField ("myform_macadress", SystemInfo.deviceUniqueIdentifier);
+		
+		WWW w = new WWW(URLCheckAuthentification, form);
+		yield return w;
+		
+		if (w.error != null) 
+		{
+			error=w.error;
+		} 
+		else 
+		{
+			if (w.text=="") 		
+			{	 				
+				username = nick;
+				toDeconnect=false;
+			}
+			else 
+			{
+				error=w.text;
+			}											
+		}
 	}
 }

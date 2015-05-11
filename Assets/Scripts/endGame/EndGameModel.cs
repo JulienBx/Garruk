@@ -8,7 +8,7 @@ public class EndGameModel
 {
 	public IList<PlayerResult> lastResults;
 	public User currentUser=new User();
-	public DivisionSkill currentDivision;
+	public Division currentDivision;
 	public Cup currentCup;
 	public Trophy trophyWon=new Trophy(0,0,0);
 	
@@ -65,7 +65,7 @@ public class EndGameModel
 			}
 			if(this.lastResults[0].GameType==1)
 			{
-				this.currentDivision=new DivisionSkill(System.Convert.ToInt32(gameTypeData[0]),
+				this.currentDivision=new Division(System.Convert.ToInt32(gameTypeData[0]),
 				                             System.Convert.ToInt32(gameTypeData[1]),
 				                             System.Convert.ToInt32(gameTypeData[2]),
 				                             System.Convert.ToInt32(gameTypeData[3]),
