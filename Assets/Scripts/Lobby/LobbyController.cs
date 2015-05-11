@@ -162,11 +162,13 @@ public class LobbyController : Photon.MonoBehaviour
 		if(model.decks.Count>0)
 		{
 			view.decksVM.myDecksButtonGuiStyle[view.decksVM.chosenDeck]=view.decksVM.deckButtonChosenStyle;
+			view.lobbyVM.gameButtonsEnabled=true;
 		}
 		else
 		{
 			view.decksCardVM.noDeckLabel="Vous n'avez pas encore constitué de deck, rendez-vous sur la page mon jeu pour créer votre deck";
 			view.decksVM.decksTitle="";
+			view.lobbyVM.gameButtonsEnabled=false;
 		}
 		if(model.player.NbGamesCup==0)
 		{
@@ -484,7 +486,7 @@ public class LobbyController : Photon.MonoBehaviour
 		TypedLobby sqlLobby = new TypedLobby("lobby", LobbyType.SqlLobby);
 		
 		PhotonNetwork.CreateRoom(roomName, newRoomOptions, sqlLobby);
-		Debug.Log("Creating room");
+		//Debug.Log("Creating room");
 	}
 	
 	void OnReceivedRoomListUpdate()
@@ -494,7 +496,7 @@ public class LobbyController : Photon.MonoBehaviour
 	
 	void OnJoinedRoom()
 	{
-		Debug.Log("Connected to Room");
+		//Debug.Log("Connected to Room");
 		photonView.RPC("AddPlayerToList", PhotonTargets.AllBuffered, PhotonNetwork.player.ID, ApplicationModel.username);
 	}
 	

@@ -103,6 +103,7 @@ public class LobbyView : MonoBehaviour
 				GUILayout.FlexibleSpace();
 			}
 			GUILayout.EndArea();
+			GUI.enabled=lobbyVM.gameButtonsEnabled;
 			GUILayout.BeginArea(screenVM.blockMiddleLeft);
 			{
 				GUILayout.FlexibleSpace();
@@ -154,6 +155,7 @@ public class LobbyView : MonoBehaviour
 				GUILayout.FlexibleSpace();
 			}
 			GUILayout.EndArea();
+			GUI.enabled=lobbyVM.guiEnabled;
 			GUILayout.BeginArea(screenVM.blockBottom);
 			{
 				GUILayout.Label(resultsVM.resultsTitle, resultsVM.resultsTitleStyle,GUILayout.Height(0.2f * screenVM.blockBottomHeight));
