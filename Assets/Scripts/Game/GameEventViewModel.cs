@@ -16,7 +16,7 @@ public class GameEventViewModel
 	public string characterName;
 	public string action;
 
-	public Texture art;
+	public Texture2D art;
 
 	public GameEventViewModel()
 	{

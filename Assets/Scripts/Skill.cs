@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Skill 
+public class Skill
 {
 	public string Name;
 	public int Id;
@@ -13,13 +13,16 @@ public class Skill
 	public string ResourceName;
 	public float Ponderation;
 	public int XMin;
+	public string Action;
 	
-	public Skill(string name, int id, int isactivated, int level, int power, int manaCost, string description, string resourceName, float ponderation, int xmin) : this(name, id, isactivated, level, power, manaCost, description)
+	public Skill(string name, int id, int isactivated, int level, int power, int manaCost, string description, string resourceName, float ponderation, int xmin, string action) : this(name, id, isactivated, level, power, manaCost, description)
 	{
 		this.ResourceName = resourceName;
 		this.Ponderation = ponderation;
 		this.XMin = xmin;
+		this.Action = action;
 	}
+
 	public Skill(string name, int id, int isactivated, int level, int power, int manaCost, string description)
 	{
 		this.Name = name;
@@ -46,7 +49,8 @@ public class Skill
 	{
 		this.Name = name;
 	}
-	public Skill() {
+	public Skill()
+	{
 	}
 	
 }

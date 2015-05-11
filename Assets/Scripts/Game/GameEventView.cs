@@ -42,6 +42,11 @@ public class GameEventView : MonoBehaviour
 		}
 	}
 
+	public void show()
+	{
+		transform.renderer.material.mainTexture = gameEventVM.art;
+	}
+
 	void OnMouseEnter()
 	{
 		isHovered = true;

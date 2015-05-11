@@ -195,7 +195,7 @@ public class GameNetworkCard : Photon.MonoBehaviour
 //		GameScript.instance.labelMessage = message;
 //		yield return new WaitForSeconds(2);
 //		GameScript.instance.labelMessage = "";
-		yield break ;
+		yield break;
 	}
 	
 	
@@ -268,7 +268,7 @@ public class GameNetworkCard : Photon.MonoBehaviour
 //		return neighbors.Count > 0;
 //	}
 	
-	public new void ShowFace() 
+	public new void ShowFace()
 	{
 //		gameCard.ShowFace(gameCard.photonView.isMine, DiscoveryFeature);
 //		Transform LifeTextPosition = transform.Find("Life");
@@ -354,21 +354,20 @@ public class GameNetworkCard : Photon.MonoBehaviour
 			stream.SendNext(DiscoveryFeature.Life);
 			stream.SendNext(DiscoveryFeature.Move);
 			stream.SendNext(DiscoveryFeature.MoveMin);
-			stream.SendNext(DiscoveryFeature.Skills[0]);
-			stream.SendNext(DiscoveryFeature.Skills[1]);
-			stream.SendNext(DiscoveryFeature.Skills[2]);
-			stream.SendNext(DiscoveryFeature.Skills[3]);
-		}
-		else
+			stream.SendNext(DiscoveryFeature.Skills [0]);
+			stream.SendNext(DiscoveryFeature.Skills [1]);
+			stream.SendNext(DiscoveryFeature.Skills [2]);
+			stream.SendNext(DiscoveryFeature.Skills [3]);
+		} else
 		{
 			DiscoveryFeature.Attack = (bool)stream.ReceiveNext();
 			DiscoveryFeature.Life = (bool)stream.ReceiveNext();
 			DiscoveryFeature.Move = (bool)stream.ReceiveNext();
 			DiscoveryFeature.MoveMin = (int)stream.ReceiveNext();
-			DiscoveryFeature.Skills[0] = (bool)stream.ReceiveNext();
-			DiscoveryFeature.Skills[1] = (bool)stream.ReceiveNext();
-			DiscoveryFeature.Skills[2] = (bool)stream.ReceiveNext();
-			DiscoveryFeature.Skills[3] = (bool)stream.ReceiveNext();
+			DiscoveryFeature.Skills [0] = (bool)stream.ReceiveNext();
+			DiscoveryFeature.Skills [1] = (bool)stream.ReceiveNext();
+			DiscoveryFeature.Skills [2] = (bool)stream.ReceiveNext();
+			DiscoveryFeature.Skills [3] = (bool)stream.ReceiveNext();
 //			if (gameCard != null && gameCard.card != null)
 //			{
 //				StartCoroutine(updateStat());
@@ -383,25 +382,25 @@ public class GameNetworkCard : Photon.MonoBehaviour
 		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_nick", ApplicationModel.username);	// user
 		//form.AddField("myform_idcard", gameCard.card.Id.ToString());// ID de la carte
-		form.AddField("myform_attack", DiscoveryFeature.Attack?"1":"0");	// attaque de la carte
-		form.AddField("myform_life", DiscoveryFeature.Life?"1":"0");	// attaque de la carte
-		form.AddField("myform_move", DiscoveryFeature.Move?"1":"0");	// attaque de la carte
+		form.AddField("myform_attack", DiscoveryFeature.Attack ? "1" : "0");	// attaque de la carte
+		form.AddField("myform_life", DiscoveryFeature.Life ? "1" : "0");	// attaque de la carte
+		form.AddField("myform_move", DiscoveryFeature.Move ? "1" : "0");	// attaque de la carte
 		form.AddField("myform_movemin", DiscoveryFeature.MoveMin.ToString());	// attaque de la carte
-		form.AddField("myform_skill1", DiscoveryFeature.Skills[0]?"1":"0");	// attaque de la carte
-		form.AddField("myform_skill2", DiscoveryFeature.Skills[1]?"1":"0");	// attaque de la carte
-		form.AddField("myform_skill3", DiscoveryFeature.Skills[2]?"1":"0");	// attaque de la carte
-		form.AddField("myform_skill4", DiscoveryFeature.Skills[3]?"1":"0");	// attaque de la carte
+		form.AddField("myform_skill1", DiscoveryFeature.Skills [0] ? "1" : "0");	// attaque de la carte
+		form.AddField("myform_skill2", DiscoveryFeature.Skills [1] ? "1" : "0");	// attaque de la carte
+		form.AddField("myform_skill3", DiscoveryFeature.Skills [2] ? "1" : "0");	// attaque de la carte
+		form.AddField("myform_skill4", DiscoveryFeature.Skills [3] ? "1" : "0");	// attaque de la carte
 
 		WWW w = new WWW(URLUpdateStats, form); 							// On envoie le formulaire à l'url sur le serveur 
 		yield return w; 	
-		if (w.error != null) 
+		if (w.error != null)
 		{
 			print(w.error); 										// donne l'erreur eventuelle
 		} 
 		print(w.text);
 	}
 
-	public IEnumerator RetrieveCard (int idCard)
+	public IEnumerator RetrieveCard(int idCard)
 	{
 		WWWForm form = new WWWForm(); 								// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
@@ -409,51 +408,49 @@ public class GameNetworkCard : Photon.MonoBehaviour
 		
 		WWW w = new WWW(URLCard, form); 								// On envoie le formulaire à l'url sur le serveur 
 		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
-		if (w.error != null) 
+		if (w.error != null)
 		{
 			print(w.error); 										// donne l'erreur eventuelle
-		} 
-		else 
+		} else
 		{
 			string[] cardEntries = w.text.Split('\n'); 				// Chaque ligne du serveur correspond à une carte
 			
-			for(int i = 0 ; i < cardEntries.Length - 1 ; i++) 		// On boucle sur les attributs d'une carte
+			for (int i = 0; i < cardEntries.Length - 1; i++) 		// On boucle sur les attributs d'une carte
 			{
-				string[] cardData = cardEntries[i].Split('\\'); 	// On découpe les attributs de la carte qu'on place dans un tableau
-				if (cardData.Length < 2) 
+				string[] cardData = cardEntries [i].Split('\\'); 	// On découpe les attributs de la carte qu'on place dans un tableau
+				if (cardData.Length < 2)
 				{
 					break;
 				}
 				if (i == 0)
 				{
-					this.card = new Card(System.Convert.ToInt32(cardData[0]), // id
-					                     cardData[1], // title
-					                     System.Convert.ToInt32(cardData[2]), // life
-					                     System.Convert.ToInt32(cardData[3]), // attack
-					                     System.Convert.ToInt32(cardData[4]), // speed
-					                     System.Convert.ToInt32(cardData[5]), // move
-					                     System.Convert.ToInt32(cardData[6]), // artindex
-					                     System.Convert.ToInt32(cardData[7]), // idclass
-					                     cardData[8], // titleclass
-					                     System.Convert.ToInt32(cardData[9]), // lifelevel
-					                     System.Convert.ToInt32(cardData[10]), // movelevel
-					                     System.Convert.ToInt32(cardData[11]), // speedlevel
-					                     System.Convert.ToInt32(cardData[12])); // attacklevel
+					this.card = new Card(System.Convert.ToInt32(cardData [0]), // id
+					                     cardData [1], // title
+					                     System.Convert.ToInt32(cardData [2]), // life
+					                     System.Convert.ToInt32(cardData [3]), // attack
+					                     System.Convert.ToInt32(cardData [4]), // speed
+					                     System.Convert.ToInt32(cardData [5]), // move
+					                     System.Convert.ToInt32(cardData [6]), // artindex
+					                     System.Convert.ToInt32(cardData [7]), // idclass
+					                     cardData [8], // titleclass
+					                     System.Convert.ToInt32(cardData [9]), // lifelevel
+					                     System.Convert.ToInt32(cardData [10]), // movelevel
+					                     System.Convert.ToInt32(cardData [11]), // speedlevel
+					                     System.Convert.ToInt32(cardData [12])); // attacklevel
 					this.card.Skills = new List<Skill>();
-				}
-				else
+				} else
 				{
-					Skill skill = new Skill(  cardData[1],                         // name
-					                        System.Convert.ToInt32(cardData[0]), // idskill
-					                        System.Convert.ToInt32(cardData[2]), // isactivated
-					                        System.Convert.ToInt32(cardData[3]), // level
-					                        System.Convert.ToInt32(cardData[4]), // power
-					                        System.Convert.ToInt32(cardData[5]), // costmana
-					                        cardData[6],                         // description
-					                        cardData[7],                         // Nom de la ressource
-					                        System.Convert.ToSingle(cardData[8]),// ponderation
-					                        System.Convert.ToInt32(cardData[9]));// xmin
-					
+					Skill skill = new Skill(cardData [1],                         // name
+					                        System.Convert.ToInt32(cardData [0]), // idskill
+					                        System.Convert.ToInt32(cardData [2]), // isactivated
+					                        System.Convert.ToInt32(cardData [3]), // level
+					                        System.Convert.ToInt32(cardData [4]), // power
+					                        System.Convert.ToInt32(cardData [5]), // costmana
+					                        cardData [6],                         // description
+					                        cardData [7],                         // Nom de la ressource
+					                        System.Convert.ToSingle(cardData [8]),// ponderation
+					                        System.Convert.ToInt32(cardData [9]),// xmin
+					                        cardData [10]);
 					this.card.Skills.Add(skill);
 					
 					//					Transform go = transform.Find("texturedGameCard/Skill" + Card.Skills.Count + "Area");
@@ -500,7 +497,7 @@ public class GameNetworkCard : Photon.MonoBehaviour
 		this.currentMove = this.card.Move;
 		this.currentSkills = this.card.Skills;
 
-		isLoaded = true ;
+		isLoaded = true;
 	}
 }
 

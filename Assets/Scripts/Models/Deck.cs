@@ -3,18 +3,18 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-public class Deck 
+public class Deck
 {
 	//Interconnexion BDD
-	private string URLCards = ApplicationModel.host + "get_cards_by_deck_by_user.php";
+	private string URLCards = ApplicationModel.dev + "get_cards_by_deck_by_user.php";
 	private string URLGetCardIDS = ApplicationModel.host + "get_cardsIDs_by_deck.php";
 	private string URLSelectedDeck = ApplicationModel.host + "get_selected_deck_by_username.php";
-	private static string URLEditDeck          = ApplicationModel.host + "update_deck_name.php";
-	private static string URLCreateDeck        = ApplicationModel.host + "add_new_deck.php";
-	private static string URLDeleteDeck        = ApplicationModel.host + "delete_deck.php";
-	private static string URLAddCardToDeck     = ApplicationModel.host + "add_card_to_deck_by_user.php";
-	private static string URLRemoveCardFromDeck= ApplicationModel.host + "remove_card_from_deck_by_user.php";
-	private static string URLGetCardsByDeck    = ApplicationModel.host + "get_cards_by_deck.php";
+	private static string URLEditDeck = ApplicationModel.host + "update_deck_name.php";
+	private static string URLCreateDeck = ApplicationModel.host + "add_new_deck.php";
+	private static string URLDeleteDeck = ApplicationModel.host + "delete_deck.php";
+	private static string URLAddCardToDeck = ApplicationModel.host + "add_card_to_deck_by_user.php";
+	private static string URLRemoveCardFromDeck = ApplicationModel.host + "remove_card_from_deck_by_user.php";
+	private static string URLGetCardsByDeck = ApplicationModel.host + "get_cards_by_deck.php";
 
 	public int Id; 												// Id unique de la carte
 	public string Name; 										// Nom du deck
@@ -25,7 +25,7 @@ public class Deck
 	public Deck()
 	{
 	}
-	public Deck(int id) 
+	public Deck(int id)
 	{
 		this.Id = id;
 		this.Cards = new List<Card>();
@@ -37,7 +37,7 @@ public class Deck
 		this.Cards = new List<Card>();
 	}
 
-	public Deck(int id, string name) 
+	public Deck(int id, string name)
 	{
 		this.Id = id;
 		this.Name = name;
@@ -45,7 +45,7 @@ public class Deck
 		this.Cards = new List<Card>();
 	}
 
-	public Deck(int id, string name, int nbCards) 
+	public Deck(int id, string name, int nbCards)
 	{
 		this.Id = id;
 		this.Name = name;
@@ -53,7 +53,7 @@ public class Deck
 		this.Cards = new List<Card>();
 	}
 
-	public Deck(int id, string name, int nbCards, List<Card> cards) 
+	public Deck(int id, string name, int nbCards, List<Card> cards)
 	{
 		this.Name = name;
 		this.NbCards = nbCards;
@@ -62,50 +62,48 @@ public class Deck
 
 	public IEnumerator addCard(int idCard)
 	{
-		WWWForm form = new WWWForm (); 						
-		form.AddField ("myform_hash", ApplicationModel.hash);
-		form.AddField ("myform_nick", ApplicationModel.username);
-		form.AddField ("myform_deck", Id);
-		form.AddField ("myform_idCard", idCard);
-		WWW w = new WWW (URLAddCardToDeck, form); 								
+		WWWForm form = new WWWForm(); 						
+		form.AddField("myform_hash", ApplicationModel.hash);
+		form.AddField("myform_nick", ApplicationModel.username);
+		form.AddField("myform_deck", Id);
+		form.AddField("myform_idCard", idCard);
+		WWW w = new WWW(URLAddCardToDeck, form); 								
 		yield return w; 						
 		
-		if (w.error != null) 
+		if (w.error != null)
 		{
 			Debug.Log(w.error);								
-		}
-		else
+		} else
 		{
 			this.NbCards++;
-			this.Cards.Add (new Card(idCard));
+			this.Cards.Add(new Card(idCard));
 		}
 	}
 
 	public void addCard(Card c)
 	{
-		this.Cards.Add (c);
+		this.Cards.Add(c);
 	}
 
 	public IEnumerator removeCard(int idCard)
 	{
-		WWWForm form = new WWWForm (); 								// Création de la connexion
-		form.AddField ("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField ("myform_nick", ApplicationModel.username); 	// Pseudo de l'utilisateur connecté
-		form.AddField ("myform_deck", Id);
-		form.AddField ("myform_idCard", idCard);
-		WWW w = new WWW (URLRemoveCardFromDeck, form); 				// On envoie le formulaire à l'url sur le serveur 
+		WWWForm form = new WWWForm(); 								// Création de la connexion
+		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
+		form.AddField("myform_nick", ApplicationModel.username); 	// Pseudo de l'utilisateur connecté
+		form.AddField("myform_deck", Id);
+		form.AddField("myform_idCard", idCard);
+		WWW w = new WWW(URLRemoveCardFromDeck, form); 				// On envoie le formulaire à l'url sur le serveur 
 		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
 
-		if (w.error != null) 
+		if (w.error != null)
 		{
 			Debug.Log(w.error); 									// donne l'erreur eventuelle
-		}
-		else
+		} else
 		{
 			this.NbCards--;
-			for (int i=0;i<this.Cards.Count;i++)
+			for (int i=0; i<this.Cards.Count; i++)
 			{
-				if(this.Cards[i].Id==idCard)
+				if (this.Cards [i].Id == idCard)
 				{
 					this.Cards.RemoveAt(i);
 					break;
@@ -126,13 +124,12 @@ public class Deck
 		if (w.error != null)
 		{
 			Debug.Log(w.error);
-		}
-		else
+		} else
 		{
-			this.Id=System.Convert.ToInt32(w.text);
-			this.Name=decksName;
-			this.NbCards=0;
-			this.Cards=new List<Card>();
+			this.Id = System.Convert.ToInt32(w.text);
+			this.Name = decksName;
+			this.NbCards = 0;
+			this.Cards = new List<Card>();
 		}
 	}
 	public IEnumerator delete()
@@ -162,10 +159,9 @@ public class Deck
 		if (w.error != null)
 		{
 			Debug.Log(w.error);
-		}
-		else
+		} else
 		{
-			this.Name=newName;
+			this.Name = newName;
 		}
 	}
 
@@ -184,10 +180,10 @@ public class Deck
 		{
 			string[] deckEntries = w.text.Split('\n'); 				// Chaque ligne du serveur correspond à une carte
 			
-			for(int i = 0 ; i < 1 ; i++)
+			for (int i = 0; i < 1; i++)
 			{
-				string[] deckData = deckEntries[i].Split('\\'); 	// On découpe les attributs de la carte qu'on place dans un tableau
-				int idDeck = System.Convert.ToInt32(deckData[0]);
+				string[] deckData = deckEntries [i].Split('\\'); 	// On découpe les attributs de la carte qu'on place dans un tableau
+				int idDeck = System.Convert.ToInt32(deckData [0]);
 				this.Id = idDeck;
 			}	
 		}
@@ -202,78 +198,78 @@ public class Deck
 		WWW w = new WWW(URLGetCardsByDeck, form); 					// On envoie le formulaire à l'url sur le serveur 
 		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
 
-		if (w.error != null) 
+		if (w.error != null)
 		{
 			Debug.Log(w.error); 									// donne l'erreur eventuelle
-		}
-		else
+		} else
 		{
 			callback(w.text);
 		}
 	}
 
-	public IEnumerator RetrieveCards() {
-		Card c ;
-		string[] cardData ;
+	public IEnumerator RetrieveCards()
+	{
+		Card c;
+		string[] cardData;
 		WWWForm form = new WWWForm(); 								// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_deck", this.Id);							// Id du	 deck
 		
 		WWW w = new WWW(URLCards, form); 							// On envoie le formulaire à l'url sur le serveur 
 		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
-		if (w.error != null) 
+		if (w.error != null)
 		{
 			Debug.Log(w.error); 									// donne l'erreur eventuelle
-		} 
-		else 
+		} else
 		{
-			Debug.Log (w.text);
+			Debug.Log(w.text);
 			string[] cardEntries = w.text.Split('\n'); 				// Chaque ligne du serveur correspond à une carte
 			
-			for(int i = 0 ; i < cardEntries.Length - 1 ; i++) 		// On boucle sur les attributs d'une carte
+			for (int i = 0; i < cardEntries.Length - 1; i++) 		// On boucle sur les attributs d'une carte
 			{
-				Debug.Log (cardEntries[i]);
-				cardData = cardEntries[i].Split('\\');
-				if (!cardEntries[i].StartsWith("skill")){
-					 	// On découpe les attributs de la carte qu'on place dans un tableau
-					int cardId = System.Convert.ToInt32(cardData[0]); 	// Ici, on récupère l'id en base
-					int cardArt = System.Convert.ToInt32(cardData[1]); 	// l'indice de l'image
-					string cardTitle = cardData[2]; 					// le titre de la carte
-					int cardLife = System.Convert.ToInt32(cardData[3]);	// le nombre de point de vie
-					int speed = System.Convert.ToInt32(cardData[4]);	// la rapidité
-					int move = System.Convert.ToInt32(cardData[5]);	    // le mouvement
-					int attack = System.Convert.ToInt32(cardData[6]);	// l'attaque
+				Debug.Log(cardEntries [i]);
+				cardData = cardEntries [i].Split('\\');
+				if (!cardEntries [i].StartsWith("skill"))
+				{
+					// On découpe les attributs de la carte qu'on place dans un tableau
+					int cardId = System.Convert.ToInt32(cardData [0]); 	// Ici, on récupère l'id en base
+					int cardArt = System.Convert.ToInt32(cardData [1]); 	// l'indice de l'image
+					string cardTitle = cardData [2]; 					// le titre de la carte
+					int cardLife = System.Convert.ToInt32(cardData [3]);	// le nombre de point de vie
+					int speed = System.Convert.ToInt32(cardData [4]);	// la rapidité
+					int move = System.Convert.ToInt32(cardData [5]);	    // le mouvement
+					int attack = System.Convert.ToInt32(cardData [6]);	// l'attaque
 					//int energy = System.Convert.ToInt32(cardData[7]);	// l'attaque
 					
 					c = new Card(cardId, cardTitle, cardLife, cardArt, speed, move, attack, new List<Skill>());
 					this.addCard(c);
 					NbCards ++;
-				}
-				else{
-					this.Cards[NbCards-1].Skills.Add(new Skill(cardData[1], System.Convert.ToInt32(cardData[2]), System.Convert.ToInt32(cardData[3]), System.Convert.ToInt32(cardData[4]), System.Convert.ToInt32(cardData[5]), System.Convert.ToInt32(cardData[6]), cardData[7]));
+				} else
+				{
+					this.Cards [NbCards - 1].Skills.Add(new Skill(cardData [1], System.Convert.ToInt32(cardData [2]), System.Convert.ToInt32(cardData [3]), System.Convert.ToInt32(cardData [4]), System.Convert.ToInt32(cardData [5]), System.Convert.ToInt32(cardData [6]), cardData [7]));
 				}
 			}
 		}
 	}
 
-	public IEnumerator RetrieveCardIDs() {
+	public IEnumerator RetrieveCardIDs()
+	{
 		WWWForm form = new WWWForm(); 								// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_deck", this.Id);							// Id du	 deck
 		
 		WWW w = new WWW(URLGetCardIDS, form); 							// On envoie le formulaire à l'url sur le serveur 
 		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
-		if (w.error != null) 
+		if (w.error != null)
 		{
 			Debug.Log(w.error); 									// donne l'erreur eventuelle
-		} 
-		else 
+		} else
 		{
 			string[] cardEntries = w.text.Split('\n'); 				// Chaque ligne du serveur correspond à une carte
 			
-			for(int i = 0 ; i < cardEntries.Length - 1 ; i++)
+			for (int i = 0; i < cardEntries.Length - 1; i++)
 			{
-				this.addCard(new Card(System.Convert.ToInt32(cardEntries[i])));
+				this.addCard(new Card(System.Convert.ToInt32(cardEntries [i])));
 				this.NbCards = i + 1;
 
 				NbCards = i + 1;

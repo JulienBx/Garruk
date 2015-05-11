@@ -46,6 +46,11 @@ public class GameEventController : MonoBehaviour
 		return gameEventView.gameEventVM.action;
 	}
 
+	public Texture2D getArt()
+	{
+		return gameEventView.gameEventVM.art;
+	}
+
 	public void setAction(string action)
 	{
 		gameEventView.gameEventVM.action = action;
@@ -56,7 +61,7 @@ public class GameEventController : MonoBehaviour
 		gameEventView.gameEventVM.action += " puis " + action;
 	}
 
-	public void setArt(Texture art)
+	public void setArt(Texture2D art)
 	{
 		gameEventView.gameEventVM.art = art;
 	}
