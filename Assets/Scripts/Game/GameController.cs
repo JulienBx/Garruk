@@ -20,7 +20,7 @@ public class GameController : Photon.MonoBehaviour
 	//Variables du controlleur
 	public static GameController instance;
 	public bool isFirstPlayer = false;
-	private bool isGameOver = false;
+	public bool isGameOver = false;
 	private Deck myDeck ;
 	private Deck hisDeck ;
 	GameObject[,] tiles ;
@@ -52,7 +52,7 @@ public class GameController : Photon.MonoBehaviour
 
 	private List<int> hasPlayed;
 	int currentPlayer;
-
+	public string winText;
 	int speed ;
 	int eventMax = 10;
 	int nbActionPlayed = 0;
@@ -585,10 +585,10 @@ public class GameController : Photon.MonoBehaviour
 	{
 		if (myCharacter)
 		{
-			return myCharacters [playingCharacter].GetComponentInChildren<PlayingCardController>();
+			return myPlayingCards [playingCharacter].GetComponentInChildren<PlayingCardController>();
 		} else
 		{
-			return hisCharacters [playingCharacter].GetComponentInChildren<PlayingCardController>();
+			return hisPlayingCards [playingCharacter].GetComponentInChildren<PlayingCardController>();
 		}
 	}
 
@@ -597,9 +597,16 @@ public class GameController : Photon.MonoBehaviour
 		photonView.RPC("inflictDamageRPC", PhotonTargets.AllBuffered, targetCharacter, isFirstPlayer);
 	}
 
-	public void EndOfGame(int player)
+	public void EndOfGame(bool isFirstPlayerWin)
 	{
 		isGameOver = true;
+		if (isFirstPlayerWin == this.isFirstPlayer)
+		{
+			winText = "gagné";
+		} else
+		{
+			winText = "perdu";
+		}
 	}
 	public void pass()
 	{
@@ -992,10 +999,37 @@ public class GameController : Photon.MonoBehaviour
 		}
 	}
 	[RPC]
-	public void inflictDamageRPC(int targetCharacter, bool isFirstPlayer)
+	public void inflictDamageRPC(int targetCharacter, bool isFisrtPlayerCharacter)
 	{
-		//int damage = GameController.instance.getPlayingCharacter(this.isFirstPlayer == isFirstPlayer).card.GetAttack();
-		//this.myCharacters[targetCharacter].GetComponentInChildren<PlayingCardController>().damage += damage;
+		PlayingCardController temp = GameController.instance.getPlayingCharacter(this.isFirstPlayer == isFisrtPlayerCharacter);
+		int damage = temp.card.GetAttack();
+		this.myPlayingCards [targetCharacter].GetComponentInChildren<PlayingCardController>().damage += damage * 10;
+		List<GameObject> tempList;
+		if (isFisrtPlayerCharacter == isFirstPlayer)
+		{
+			tempList = myPlayingCards;
+		} else
+		{
+			tempList = hisPlayingCards;
+		}
+		PlayingCardController pcc = tempList [targetCharacter].GetComponent<PlayingCardController>();
+		int tempCounter = 0;
+		if (pcc.damage >= pcc.card.GetLife())
+		{
+			pcc.isDead = true;
+
+			for (int i = 0; i < 5; i++)
+			{
+				if (tempList [i].GetComponentInChildren<PlayingCardController>().isDead)
+				{
+					tempCounter++;
+				}
+			}
+		}
+		if (tempCounter > 4)
+		{
+			EndOfGame(isFirstPlayer);
+		}
 	}
 	
 	public void StartFight()
@@ -1082,6 +1116,12 @@ public class GameController : Photon.MonoBehaviour
 		pass();
 		currentPlayer = 4;
 		pass();
+
+		inflictDamage(0);
+		inflictDamage(1);
+		inflictDamage(2);
+		inflictDamage(3);
+		inflictDamage(4);
 	}
 	
 	public void addGameEvent(string name, GameEventType type, string targetName)

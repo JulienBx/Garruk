@@ -21,7 +21,7 @@ public class GameView : MonoBehaviour
 	
 	}
 
-	void Update() 
+	void Update()
 	{
 //		if (Screen.width != widthScreen || Screen.height != heightScreen) 
 //		{
@@ -37,44 +37,48 @@ public class GameView : MonoBehaviour
 	{
 		GUILayout.BeginArea(gameScreenVM.bottomZoneRect);
 		{
-			GUILayout.BeginHorizontal(bottomZoneVM.backgroundStyle,GUILayout.Width(gameScreenVM.bottomZoneRect.width), GUILayout.Height(gameScreenVM.bottomZoneRect.height));
+			GUILayout.BeginHorizontal(bottomZoneVM.backgroundStyle, GUILayout.Width(gameScreenVM.bottomZoneRect.width), GUILayout.Height(gameScreenVM.bottomZoneRect.height));
 			{
 				GUILayout.FlexibleSpace();
 				GUILayout.BeginVertical();
 				{
 					GUILayout.FlexibleSpace();
-					GUILayout.Box(bottomZoneVM.userPicture, bottomZoneVM.imageStyle, GUILayout.Width(gameScreenVM.bottomZoneRect.width*32/100), GUILayout.Height(gameScreenVM.bottomZoneRect.height*80/100));
+					GUILayout.Box(bottomZoneVM.userPicture, bottomZoneVM.imageStyle, GUILayout.Width(gameScreenVM.bottomZoneRect.width * 32 / 100), GUILayout.Height(gameScreenVM.bottomZoneRect.height * 80 / 100));
 					GUILayout.FlexibleSpace();
 				}
 				GUILayout.EndVertical();
 				GUILayout.FlexibleSpace();
 				GUILayout.BeginVertical();
 				{
-					GUILayout.Label(bottomZoneVM.userName, bottomZoneVM.nameTextStyle, GUILayout.Width(gameScreenVM.bottomZoneRect.width*62/100), GUILayout.Height(gameScreenVM.bottomZoneRect.height*50/100));
-					if (bottomZoneVM.nbTurns!=-1){
-						GUILayout.Label("Tour : "+bottomZoneVM.nbTurns, this.bottomZoneVM.turnsTextStyle, GUILayout.Width(gameScreenVM.bottomZoneRect.width*62/100), GUILayout.Height(gameScreenVM.bottomZoneRect.height*20/100));
+					GUILayout.Label(bottomZoneVM.userName, bottomZoneVM.nameTextStyle, GUILayout.Width(gameScreenVM.bottomZoneRect.width * 62 / 100), GUILayout.Height(gameScreenVM.bottomZoneRect.height * 50 / 100));
+					if (bottomZoneVM.nbTurns != -1)
+					{
+						GUILayout.Label("Tour : " + bottomZoneVM.nbTurns, this.bottomZoneVM.turnsTextStyle, GUILayout.Width(gameScreenVM.bottomZoneRect.width * 62 / 100), GUILayout.Height(gameScreenVM.bottomZoneRect.height * 20 / 100));
+					} else
+					{
+						GUILayout.Label(bottomZoneVM.message, bottomZoneVM.messageTextStyle, GUILayout.Width(gameScreenVM.bottomZoneRect.width * 62 / 100), GUILayout.Height(gameScreenVM.bottomZoneRect.height * 20 / 100));
 					}
-					else{
-						GUILayout.Label(bottomZoneVM.message, bottomZoneVM.messageTextStyle, GUILayout.Width(gameScreenVM.bottomZoneRect.width*62/100), GUILayout.Height(gameScreenVM.bottomZoneRect.height*20/100));
-					}
-					GUILayout.Space(gameScreenVM.bottomZoneRect.height*5/100);
+					GUILayout.Space(gameScreenVM.bottomZoneRect.height * 5 / 100);
 
 					GUILayout.BeginHorizontal();
 					{
 						GUILayout.FlexibleSpace();
-						if (bottomZoneVM.displayStartButton){
-							if (GUILayout.Button("Start", bottomZoneVM.buttonTextStyle, GUILayout.Width(gameScreenVM.bottomZoneRect.width*42/100), GUILayout.Height(gameScreenVM.bottomZoneRect.height*20/100))){
+						if (bottomZoneVM.displayStartButton)
+						{
+							if (GUILayout.Button("Start", bottomZoneVM.buttonTextStyle, GUILayout.Width(gameScreenVM.bottomZoneRect.width * 42 / 100), GUILayout.Height(gameScreenVM.bottomZoneRect.height * 20 / 100)))
+							{
 								GameController.instance.StartFight();
 							}
-							GUILayout.Space(gameScreenVM.bottomZoneRect.width*2/100);
+							GUILayout.Space(gameScreenVM.bottomZoneRect.width * 2 / 100);
 						}
-						if (GUILayout.Button("Quit", bottomZoneVM.buttonTextStyle, GUILayout.Width(gameScreenVM.bottomZoneRect.width*17/100), GUILayout.Height(gameScreenVM.bottomZoneRect.height*20/100))){
+						if (GUILayout.Button("Quit", bottomZoneVM.buttonTextStyle, GUILayout.Width(gameScreenVM.bottomZoneRect.width * 17 / 100), GUILayout.Height(gameScreenVM.bottomZoneRect.height * 20 / 100)))
+						{
 							PhotonNetwork.Disconnect();
 						}
 						GUILayout.FlexibleSpace();
 					}
 					GUILayout.EndHorizontal();
-					GUILayout.Space(gameScreenVM.bottomZoneRect.height*5/100);
+					GUILayout.Space(gameScreenVM.bottomZoneRect.height * 5 / 100);
 				}
 				GUILayout.EndVertical();
 				GUILayout.FlexibleSpace();
@@ -85,29 +89,30 @@ public class GameView : MonoBehaviour
 
 		GUILayout.BeginArea(gameScreenVM.topZoneRect);
 		{
-			GUILayout.BeginHorizontal(topZoneVM.backgroundStyle,GUILayout.Width(gameScreenVM.topZoneRect.width), GUILayout.Height(gameScreenVM.topZoneRect.height));
+			GUILayout.BeginHorizontal(topZoneVM.backgroundStyle, GUILayout.Width(gameScreenVM.topZoneRect.width), GUILayout.Height(gameScreenVM.topZoneRect.height));
 			{
 				GUILayout.FlexibleSpace();
 				GUILayout.BeginVertical();
 				{
 					GUILayout.FlexibleSpace();
-					GUILayout.Box(topZoneVM.userPicture, topZoneVM.imageStyle, GUILayout.Width(gameScreenVM.topZoneRect.width*32/100), GUILayout.Height(gameScreenVM.topZoneRect.height*80/100));
+					GUILayout.Box(topZoneVM.userPicture, topZoneVM.imageStyle, GUILayout.Width(gameScreenVM.topZoneRect.width * 32 / 100), GUILayout.Height(gameScreenVM.topZoneRect.height * 80 / 100));
 					GUILayout.FlexibleSpace();
 				}
 				GUILayout.EndVertical();
 				GUILayout.FlexibleSpace();
 				GUILayout.BeginVertical();
 				{
-					GUILayout.Label(topZoneVM.userName, topZoneVM.nameTextStyle, GUILayout.Width(gameScreenVM.topZoneRect.width*62/100), GUILayout.Height(gameScreenVM.topZoneRect.height*50/100));
-					GUILayout.Space(gameScreenVM.topZoneRect.height*5/100);
+					GUILayout.Label(topZoneVM.userName, topZoneVM.nameTextStyle, GUILayout.Width(gameScreenVM.topZoneRect.width * 62 / 100), GUILayout.Height(gameScreenVM.topZoneRect.height * 50 / 100));
+					GUILayout.Space(gameScreenVM.topZoneRect.height * 5 / 100);
 
-					if (topZoneVM.toDisplayRedStatus){
-						GUILayout.Label(topZoneVM.status, topZoneVM.redStatusTextStyle, GUILayout.Width(gameScreenVM.topZoneRect.width*62/100), GUILayout.Height(gameScreenVM.topZoneRect.height*40/100));
+					if (topZoneVM.toDisplayRedStatus)
+					{
+						GUILayout.Label(topZoneVM.status, topZoneVM.redStatusTextStyle, GUILayout.Width(gameScreenVM.topZoneRect.width * 62 / 100), GUILayout.Height(gameScreenVM.topZoneRect.height * 40 / 100));
+					} else if (topZoneVM.toDisplayGreenStatus)
+					{
+						GUILayout.Label(topZoneVM.status, topZoneVM.greenStatusTextStyle, GUILayout.Width(gameScreenVM.topZoneRect.width * 62 / 100), GUILayout.Height(gameScreenVM.topZoneRect.height * 40 / 100));
 					}
-					else if (topZoneVM.toDisplayGreenStatus){
-						GUILayout.Label(topZoneVM.status, topZoneVM.greenStatusTextStyle, GUILayout.Width(gameScreenVM.topZoneRect.width*62/100), GUILayout.Height(gameScreenVM.topZoneRect.height*40/100));
-					}
-					GUILayout.Space(gameScreenVM.topZoneRect.height*5/100);
+					GUILayout.Space(gameScreenVM.topZoneRect.height * 5 / 100);
 				}
 				GUILayout.EndVertical();
 				GUILayout.FlexibleSpace();
@@ -115,11 +120,23 @@ public class GameView : MonoBehaviour
 			GUILayout.EndHorizontal();
 		}
 		GUILayout.EndArea();
+		if (GameController.instance.isGameOver)
+		{
+			GUILayout.BeginArea(new Rect(Screen.width / 2 - 30, Screen.height / 2, 100, 35));
+			{
+				GUILayout.BeginHorizontal(bottomZoneVM.backgroundStyle);
+				{
+					GUILayout.Label(GameController.instance.winText, bottomZoneVM.nameTextStyle);
+				}
+				GUILayout.EndHorizontal();
+			}
+			GUILayout.EndArea();
+		}
 	}
 
 	public void changeCursor()
 	{
-		Cursor.SetCursor(this.gameScreenVM.cursor, new Vector2(0,0), CursorMode.Auto);
+		Cursor.SetCursor(this.gameScreenVM.cursor, new Vector2(0, 0), CursorMode.Auto);
 	}
 
 	public void SetCursorToDefault()
