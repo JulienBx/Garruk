@@ -20,7 +20,6 @@ public class GameController : Photon.MonoBehaviour
 	//Variables du controlleur
 	public static GameController instance;
 	public bool isFirstPlayer = false;
-	public bool isGameOver = false;
 	private Deck myDeck ;
 	private Deck hisDeck ;
 	GameObject[,] tiles ;
@@ -52,7 +51,6 @@ public class GameController : Photon.MonoBehaviour
 
 	private List<int> hasPlayed;
 	int currentPlayer;
-	public string winText;
 	int speed ;
 	int eventMax = 10;
 	int nbActionPlayed = 0;
@@ -599,13 +597,13 @@ public class GameController : Photon.MonoBehaviour
 
 	public void EndOfGame(bool isFirstPlayerWin)
 	{
-		isGameOver = true;
+		gameView.gameScreenVM.hasAMessage = true;
 		if (isFirstPlayerWin == this.isFirstPlayer)
 		{
-			winText = "gagné";
+			gameView.gameScreenVM.messageToDisplay = "gagné";
 		} else
 		{
-			winText = "perdu";
+			gameView.gameScreenVM.messageToDisplay = "perdu";
 		}
 	}
 	public void pass()

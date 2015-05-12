@@ -120,13 +120,13 @@ public class GameView : MonoBehaviour
 			GUILayout.EndHorizontal();
 		}
 		GUILayout.EndArea();
-		if (GameController.instance.isGameOver)
+		if (gameScreenVM.hasAMessage)
 		{
 			GUILayout.BeginArea(new Rect(Screen.width / 2 - 30, Screen.height / 2, 100, 35));
 			{
 				GUILayout.BeginHorizontal(bottomZoneVM.backgroundStyle);
 				{
-					GUILayout.Label(GameController.instance.winText, bottomZoneVM.nameTextStyle);
+					GUILayout.Label(gameScreenVM.messageToDisplay, bottomZoneVM.nameTextStyle);
 				}
 				GUILayout.EndHorizontal();
 			}
