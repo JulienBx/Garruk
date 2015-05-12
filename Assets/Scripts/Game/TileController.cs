@@ -14,6 +14,7 @@ public class TileController : MonoBehaviour
 	public Texture2D[] backTile ;
 	public Texture2D[] borderTile ;
 	public TileView tileView ;
+	public NeighbourTiles neighbours ;
 
 	public bool isDestination ;
 	//-1 : case vide ; 0 : case occupée par un personnage allié ; 1 : case occupée par un personnage ennemi
@@ -147,6 +148,11 @@ public class TileController : MonoBehaviour
 		this.isDestination = false ;
 		this.tileView.tileVM.background = this.backTile[this.type];
 		this.tileView.ShowFace();
+	}
+
+	public void setNeighbours(int[,] characterTiles, int distance){
+
+		this.neighbours = new NeighbourTiles(this.x, this.y, characterTiles, distance);
 	}
 }
 

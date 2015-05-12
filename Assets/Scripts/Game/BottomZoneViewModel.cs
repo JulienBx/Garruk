@@ -32,7 +32,7 @@ public class BottomZoneViewModel
 		this.characterNameTextStyle = new GUIStyle();
 		this.characterButtonTextStyle = new GUIStyle();
 		this.characterLabelTextStyle = new GUIStyle();
-		this.nbTurns = -1 ;
+		this.nbTurns = 0 ;
 	}
 
 	public void setValues (User u, GUIStyle[] styles, int h)
