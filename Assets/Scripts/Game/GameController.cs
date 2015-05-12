@@ -821,7 +821,7 @@ public class GameController : Photon.MonoBehaviour
 					this.hisNextPlayer = i;
 				}
 			}
-			print(i + " : " + rank);
+			//print(i + " : " + rank);
 		}
 	}
 
@@ -917,8 +917,6 @@ public class GameController : Photon.MonoBehaviour
 	IEnumerator SpawnCharacter(int idPlayer, int idDeck)
 	{
 		int decalage = 0;
-		print("Je spawne le deck " + idDeck);
-
 		if ((idPlayer == 1 && this.isFirstPlayer) || (idPlayer == 2 && !this.isFirstPlayer))
 		{
 			this.myDeck = new Deck(idDeck);
@@ -1015,6 +1013,31 @@ public class GameController : Photon.MonoBehaviour
 	{
 		this.nbPlayersReadyToFight++;
 
+		if (isFirst == this.isFirstPlayer)
+		{
+			int decalage;
+			for (int i = 0; i < this.boardWidth; i++)
+			{
+				if (i % 2 == 1)
+				{
+					decalage = 1;
+				} else
+				{
+					decalage = 0;
+				}
+				for (int j = 0; j < 2 - decalage; j++)
+				{
+					if (this.isFirstPlayer)
+					{
+						this.tiles [i, j].GetComponent<TileController>().setStandard();
+					} else
+					{
+						this.tiles [i, this.boardHeight - 1 - decalage - j].GetComponent<TileController>().setStandard();
+					}
+				}
+			}
+		}
+
 		if (this.nbPlayersReadyToFight == 2)
 		{
 			this.initTurns();
@@ -1032,8 +1055,6 @@ public class GameController : Photon.MonoBehaviour
 				this.gameView.topZoneVM.toDisplayRedStatus = false;
 			}
 		}
-
-
 	}
 
 	[RPC]

@@ -227,7 +227,7 @@ public class Deck
 			
 			for (int i = 0; i < cardEntries.Length - 1; i++) 		// On boucle sur les attributs d'une carte
 			{
-				Debug.Log(cardEntries [i]);
+				//Debug.Log(cardEntries [i]);
 				cardData = cardEntries [i].Split('\\');
 				if (!cardEntries [i].StartsWith("skill"))
 				{
