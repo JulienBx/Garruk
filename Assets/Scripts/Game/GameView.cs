@@ -50,13 +50,13 @@ public class GameView : MonoBehaviour
 				GUILayout.FlexibleSpace();
 				GUILayout.BeginVertical();
 				{
-					GUILayout.Label(bottomZoneVM.userName, bottomZoneVM.nameTextStyle, GUILayout.Width(gameScreenVM.bottomZoneRect.width * 62 / 100), GUILayout.Height(gameScreenVM.bottomZoneRect.height * 50 / 100));
+					GUILayout.Label(bottomZoneVM.userName, bottomZoneVM.nameTextStyle, GUILayout.Width(gameScreenVM.bottomZoneRect.width * 62 / 100), GUILayout.Height(gameScreenVM.bottomZoneRect.height * 45 / 100));
 					if (bottomZoneVM.nbTurns != -1)
 					{
-						GUILayout.Label("Tour : " + bottomZoneVM.nbTurns, this.bottomZoneVM.turnsTextStyle, GUILayout.Width(gameScreenVM.bottomZoneRect.width * 62 / 100), GUILayout.Height(gameScreenVM.bottomZoneRect.height * 20 / 100));
+						GUILayout.Label("Tour : " + bottomZoneVM.nbTurns, this.bottomZoneVM.turnsTextStyle, GUILayout.Width(gameScreenVM.bottomZoneRect.width * 62 / 100), GUILayout.Height(gameScreenVM.bottomZoneRect.height * 30 / 100));
 					} else
 					{
-						GUILayout.Label(bottomZoneVM.message, bottomZoneVM.messageTextStyle, GUILayout.Width(gameScreenVM.bottomZoneRect.width * 62 / 100), GUILayout.Height(gameScreenVM.bottomZoneRect.height * 20 / 100));
+						GUILayout.Label(bottomZoneVM.message, bottomZoneVM.messageTextStyle, GUILayout.Width(gameScreenVM.bottomZoneRect.width * 62 / 100), GUILayout.Height(gameScreenVM.bottomZoneRect.height * 30 / 100));
 					}
 					GUILayout.Space(gameScreenVM.bottomZoneRect.height * 5 / 100);
 

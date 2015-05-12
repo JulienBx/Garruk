@@ -1001,7 +1001,7 @@ public class GameController : Photon.MonoBehaviour
 	{
 		PlayingCardController temp = GameController.instance.getPlayingCharacter(this.isFirstPlayer == isFisrtPlayerCharacter);
 		int damage = temp.card.GetAttack();
-		this.myPlayingCards [targetCharacter].GetComponentInChildren<PlayingCardController>().damage += damage * 10;
+		this.myPlayingCards [targetCharacter].GetComponentInChildren<PlayingCardController>().damage += damage;
 		List<GameObject> tempList;
 		if (isFisrtPlayerCharacter == isFirstPlayer)
 		{
@@ -1065,8 +1065,7 @@ public class GameController : Photon.MonoBehaviour
 		{
 			if (!this.isFirstPlayer)
 			{
-				Camera.main.transform.localRotation = Quaternion.Euler(30, 0, 180);
-				Camera.main.transform.localPosition = new Vector3(0, 5.75f, -10f);
+				Camera.main.transform.localRotation = Quaternion.Euler(0, 0, 180);
 			}
 			photonView.RPC("AddPlayerToList", PhotonTargets.AllBuffered, PhotonNetwork.player.ID, ApplicationModel.username);
 
@@ -1092,27 +1091,7 @@ public class GameController : Photon.MonoBehaviour
 			//addGameEvent("", new SkillType(temp [0].Skill.Action), targetName);
 		}
 		pass();
-		currentPlayer = 2;
-		pass();
-		currentPlayer = 1;
-		pass();
-		currentPlayer = 2;
-		pass();
-		currentPlayer = 1;
-		pass();
-		currentPlayer = 2;
-		pass();
-		currentPlayer = 1;
-		pass();
-		currentPlayer = 2;
-		pass();
-		currentPlayer = 1;
-		pass();
-		currentPlayer = 2;
-		pass();
-		currentPlayer = 1;
-		pass();
-		currentPlayer = 4;
+		currentPlayer = 0;
 		pass();
 
 		inflictDamage(0);
