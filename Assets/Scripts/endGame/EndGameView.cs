@@ -400,7 +400,8 @@ public class EndGameView : MonoBehaviour
 			}
 			GUILayout.EndArea();
 		}
-		if (promotionPopUp) {
+		if (promotionPopUp) 
+		{
 			GUILayout.BeginArea(endGameScreenVM.centralWindow);
 			{
 				GUILayout.BeginVertical(endGameScreenVM.centralWindowStyle);

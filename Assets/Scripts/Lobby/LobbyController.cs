@@ -448,9 +448,9 @@ public class LobbyController : Photon.MonoBehaviour
 		attemptToPlay = true;
 		PhotonNetwork.Disconnect();
 	}
-	public void joinDivisionGame()
+	public void joinDivisionLobby()
 	{
-		ApplicationModel.gameType = 1; // 1 pour Official
+		ApplicationModel.gameType = 1;
 		attemptToPlay = true;
 		PhotonNetwork.Disconnect();
 	}
@@ -510,7 +510,14 @@ public class LobbyController : Photon.MonoBehaviour
 		if (attemptToPlay)
 		{
 			StartCoroutine(model.player.SetSelectedDeck(model.decks[view.decksVM.decksToBeDisplayed[view.decksVM.chosenDeck]].Id));
-			Application.LoadLevel("Game");
+			if(ApplicationModel.gameType==1)
+			{
+				Application.LoadLevel("DivisionLobby");
+			}
+			else
+			{
+				Application.LoadLevel("Game");
+			}
 		}
 	}
 
