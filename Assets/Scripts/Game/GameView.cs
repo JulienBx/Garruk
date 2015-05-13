@@ -146,15 +146,7 @@ public class GameView : MonoBehaviour
 		}
 	}
 
-	public void changeCursor()
-	{
-		Cursor.SetCursor(this.gameScreenVM.cursor, new Vector2(0, 0), CursorMode.Auto);
-	}
 
-	public void SetCursorToDefault()
-	{
-		Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
-	}
 	
 	void setSizes()
 	{

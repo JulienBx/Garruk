@@ -26,10 +26,6 @@ public class TileView : MonoBehaviour
 		gameObject.GetComponentInChildren<TileController>().hoverTile();
 	}
 	
-	void OnMouseDown(){
-		gameObject.GetComponentInChildren<TileController>().clickTile();
-	}
-	
 	void OnMouseUp(){
 		gameObject.GetComponentInChildren<TileController>().releaseClickTile();
 		//gameObject.GetComponentInChildren<TileController>().release();

@@ -9,7 +9,6 @@ public class PlayingCardController : MonoBehaviour
 	public GUIStyle[] guiStylesHisCharacter ;
 	public Texture2D[] icons ;
 	private float scale ;
-	public GameObject tile ;
 	public Card card ;
 	public int IDCharacter = -1 ;
 	public int sortID = -1 ;
@@ -19,9 +18,12 @@ public class PlayingCardController : MonoBehaviour
 	public Texture2D[] pictures;
 	public bool isSelected ;
 	public bool isMoved ;
+	public bool hasPlayed ;
 	public List<string> titlesSkill ;
 	public List<string> descriptionsSkill ;
 	public bool isMine;
+
+	public Tile tile ;
 
 	public List<StatModifier> statModifiers ;
 
@@ -69,6 +71,11 @@ public class PlayingCardController : MonoBehaviour
 		}
 	}
 
+	public void setTile(Tile t)
+	{
+		this.tile = t ;
+	}
+
 	public void setCard(Card c)
 	{
 		this.card = c;
@@ -84,6 +91,43 @@ public class PlayingCardController : MonoBehaviour
 			this.playingCardView.playingCardVM.skillTitles.Add(c.Skills [i].Name);
 			this.playingCardView.playingCardVM.skillDescriptions.Add(c.Skills [i].Description);
 		}
+		this.setSkills();
+	}
+
+	public void setTile(Tile t, bool toRotate)
+	{
+		this.tile = t;
+//		this.playingCharacterView.playingCharacterVM.position = this.tile.GetComponent<TileController>().tileView.tileVM.position;
+//		if (!toRotate)
+//		{
+//			this.playingCharacterView.playingCharacterVM.rotation = Quaternion.Euler(-90, 0, 0);
+//		} else
+//		{
+//			this.playingCharacterView.playingCharacterVM.rotation = Quaternion.Euler(90, 180, 0);
+//			
+//			//this.playingCardView.playingCardVM.ScreenPosition.y = Screen.height-this.playingCardView.playingCardVM.ScreenPosition.y;
+//		}
+//		this.playingCharacterView.playingCharacterVM.ScreenPosition = Camera.main.WorldToScreenPoint(this.playingCharacterView.playingCharacterVM.position);
+//		this.playingCharacterView.playingCharacterVM.scale = new Vector3(this.scale, this.scale, this.scale);
+//		this.playingCharacterView.replace();
+	}
+
+	public void changeTile(Tile t, bool isEmpty)
+	{
+//		if (isEmpty)
+//		{
+//			this.tile.GetComponent<TileController>().characterID = -1; 
+//		}
+//		this.tile = t;
+//		this.tile.GetComponent<TileController>().characterID = this.ID; 
+//		
+//		this.playingCharacterView.playingCharacterVM.position = this.tile.GetComponent<TileController>().tileView.tileVM.position;
+//		this.playingCharacterView.playingCharacterVM.ScreenPosition = Camera.main.WorldToScreenPoint(this.playingCharacterView.playingCharacterVM.position);
+//		
+//		this.playingCharacterView.playingCharacterVM.ScreenPosition = Camera.main.WorldToScreenPoint(this.playingCharacterView.playingCharacterVM.position);
+//		this.playingCharacterView.playingCharacterVM.ScreenPosition.y = Screen.height - this.playingCharacterView.playingCharacterVM.ScreenPosition.y;
+//		this.playingCharacterView.playingCharacterVM.infoRect = new Rect(this.playingCharacterView.playingCharacterVM.ScreenPosition.x - scale * 55f, this.playingCharacterView.playingCharacterVM.ScreenPosition.y + scale * 20, scale * 110, scale * 20);
+//		this.playingCharacterView.replace();
 	}
 
 	public void setSkills()
@@ -363,7 +407,7 @@ public class PlayingCardController : MonoBehaviour
 		}
 	}
 
-	public void displayClick()
+	public void displaySelected()
 	{
 		if (this.isMine)
 		{
@@ -387,6 +431,17 @@ public class PlayingCardController : MonoBehaviour
 	}
 
 	public void hideHover()
+	{
+		if (this.isMine)
+		{
+			this.playingCardView.playingCardVM.backgroundStyle = guiStylesMyCharacter [0];
+		} else
+		{
+			this.playingCardView.playingCardVM.backgroundStyle = guiStylesHisCharacter [0];
+		}
+	}
+
+	public void hideSelected()
 	{
 		if (this.isMine)
 		{

@@ -129,7 +129,7 @@ public class LobbyView : MonoBehaviour
 					GUILayout.FlexibleSpace();
 					if(GUILayout.Button(divisionGameVM.divisionInformationsLabel,divisionGameVM.buttonStyle,GUILayout.Width(9f/10f*screenVM.blockMiddleCenterHeight),GUILayout.Height(9f/10f*screenVM.blockMiddleCenterHeight)))
 					{
-						LobbyController.instance.joinDivisionGame();
+						LobbyController.instance.joinDivisionLobby();
 					}
 					GUILayout.FlexibleSpace();
 				}

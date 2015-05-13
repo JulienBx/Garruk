@@ -17,6 +17,7 @@ public class GameScreenViewModel
 	public GUIStyle rightMessageTextStyle;
 
 	public Texture2D cursor ;
+	int cursorID = -1 ; 
 	public bool hasAMessage;
 	public string messageToDisplay;
 
@@ -45,6 +46,24 @@ public class GameScreenViewModel
 		this.topZoneRect = new Rect(this.widthScreen * 0.8f, 0, this.widthScreen * 0.2f, this.heightScreen * 0.14f);
 		this.centerMessageRect = new Rect(Screen.width / 2 - 30, Screen.height / 2, 100, 35);
 		this.rightMessageRect = new Rect(Screen.width * 0.9f, Screen.height * 0.5f, 30, 30);
+	}
+
+	public void setCursor(Texture2D c, int i){
+		if (i!=this.cursorID){
+			this.cursorID = i ;
+			this.cursor = c ;
+		}
+		this.changeCursor();
+	}
+
+	public void changeCursor()
+	{
+		Cursor.SetCursor(this.cursor, new Vector2(0, 0), CursorMode.Auto);
+	}
+	
+	public void SetCursorToDefault()
+	{
+		Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
 	}
 }
 
