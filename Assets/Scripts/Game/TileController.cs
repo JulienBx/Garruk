@@ -38,9 +38,11 @@ public class TileController : MonoBehaviour
 		this.tileView.tileVM.scale = new Vector3(scaleTile,scaleTile,scaleTile);
 		this.tileView.tileVM.position = new Vector3((x-boardWidth/2)*scaleTile*0.71f, (y-boardHeight/2)*scaleTile*0.81f, 0);
 		this.tileView.tileVM.background = backTile[type];
+		this.tileView.changeBackground();
 		this.tileView.tileVM.border = borderTile[0];
+		this.tileView.changeBorder();
+
 		this.tileView.resize();
-		this.tileView.ShowFace();
 	}
 
 	public void resize(int heightScreen){
@@ -61,7 +63,7 @@ public class TileController : MonoBehaviour
 	public void setDestination () {
 		this.isDestination = true ;
 		this.tileView.tileVM.background = this.backTile[5+this.type];
-		this.tileView.ShowFace();
+		this.tileView.changeBackground();
 	}
 
 	public void setBorderTile () {
@@ -79,37 +81,37 @@ public class TileController : MonoBehaviour
 	public void displayHover(){
 		this.tileView.tileVM.border = this.borderTile[1];
 		this.tileView.resize();
-		this.tileView.ShowFace();
+		this.tileView.changeBorder();
 	}
 
 	public void hideHover(){
 		this.tileView.tileVM.border = this.borderTile[0];
 		this.tileView.resize();
-		this.tileView.ShowFace();
+		this.tileView.changeBorder();
 	}
 
 	public void displaySelected(){
 		this.tileView.tileVM.border = this.borderTile[2];
 		this.tileView.resize();
-		this.tileView.ShowFace();
+		this.tileView.changeBorder();
 	}
 	
 	public void hideSelected(){
 		this.tileView.tileVM.border = this.borderTile[0];
 		this.tileView.resize();
-		this.tileView.ShowFace();
+		this.tileView.changeBorder();
 	}
 
 	public void displayPlaying(){
 		this.tileView.tileVM.border = this.borderTile[3];
 		this.tileView.resize();
-		this.tileView.ShowFace();
+		this.tileView.changeBorder();
 	}
 	
 	public void hidePlaying(){
 		this.tileView.tileVM.border = this.borderTile[0];
 		this.tileView.resize();
-		this.tileView.ShowFace();
+		this.tileView.changeBorder();
 	}
 
 //	public void drag(){
@@ -127,7 +129,7 @@ public class TileController : MonoBehaviour
 	public void setStandard () {
 		this.isDestination = false ;
 		this.tileView.tileVM.background = this.backTile[this.type];
-		this.tileView.ShowFace();
+		this.tileView.changeBackground();
 	}
 }
 

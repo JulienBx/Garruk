@@ -15,12 +15,15 @@ public class TileView : MonoBehaviour
 		gameObject.transform.localScale = tileVM.scale;
 	}
 
-	public void ShowFace() 
+	public void changeBorder() 
 	{
 		renderer.materials[0].mainTexture = this.tileVM.border;
-		renderer.materials[1].mainTexture = this.tileVM.background;
 	}
 
+	public void changeBackground() 
+	{
+		renderer.materials[1].mainTexture = this.tileVM.background;
+	}
 
 	void OnMouseEnter(){
 		gameObject.GetComponentInChildren<TileController>().hoverTile();
