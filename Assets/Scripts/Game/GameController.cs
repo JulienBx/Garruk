@@ -7,56 +7,45 @@ public class GameController : Photon.MonoBehaviour
 {	
 	//Variables UNITY
 	public bool isReconnecting;
-	public GameObject hex ;
+	public GameObject tile ;
 	public int boardWidth ;
 	public int boardHeight ;
 	public GameObject[] characters;
 	public GameObject playingCard;
-	public GUIStyle[] bottomZoneStyles ;
-	public GUIStyle[] topZoneStyles ;
+
 	public Texture2D[] cursors ;
 	public GameObject gameEvent;
 
 	//Variables du controlleur
 	public static GameController instance;
 	public bool isFirstPlayer = false;
-	private Deck myDeck ;
-	private Deck hisDeck ;
 	GameObject[,] tiles ;
-	List<GameObject> myCharacters ;
-	List<GameObject> hisCharacters ;
-	List<GameObject> myPlayingCards ;
-	List<GameObject> hisPlayingCards ;
+	GameObject[] playingCards ;
 	List<GameObject> gameEvents;
 
-	int currentHoveredTileX = -1 ;
-	int currentHoveredTileY = -1 ;
+	Tile currentHoveredTile ;
+	Tile currentClickedTile ;
 
-	int currentClickedTileX = -1 ;
-	int currentClickedTileY = -1 ;
-
-	int hoveredCharacter = -1;
-	int clickedCharacter = -1;
+	int hoveredPlayingCard = -1;
+	int clickedPlayingCard = -1;
+	bool isHovering = false ;
 	
 	const string roomNamePrefix = "GarrukGame";
 	private int nbPlayers = 0 ;
 	User[] users;
 	GameView gameView;
 
-	int characterDragged = -1;
-	int playingCharacter = 2;
-	public bool onGoingAttack = false;
-	int mouseX, mouseY;
+	bool isDragging = false;
+	bool isLookingForTarget = false;
 	int nbPlayersReadyToFight;
 
-	private List<int> hasPlayed;
-	int currentPlayer;
-	int speed ;
-	int eventMax = 10;
+	int currentPlayingCard;
+	public int eventMax = 10;
 	int nbActionPlayed = 0;
+	int nbTurns = 0 ;
 
-	int myNextPlayer ;
-	int hisNextPlayer ;
+	List<int> rankedPlayingCardsID; 
+
 	//string URLStat = ApplicationModel.dev + "updateResult.php";
 	
 	void Awake()
@@ -64,17 +53,11 @@ public class GameController : Photon.MonoBehaviour
 		instance = this;
 		this.gameView = Camera.main.gameObject.AddComponent <GameView>();
 		tiles = new GameObject[boardWidth, boardHeight];
-		myCharacters = new List<GameObject>();
-		hisCharacters = new List<GameObject>();
-		myPlayingCards = new List<GameObject>();
-		hisPlayingCards = new List<GameObject>();
+		playingCards = new GameObject[10];
 		gameEvents = new List<GameObject>();
+
 		this.nbPlayersReadyToFight = 0;
-		this.currentPlayer = -1;
-		this.speed = 100;
-		this.myNextPlayer = -1;
-		this.hisNextPlayer = -1;
-		this.hasPlayed = new List<int>();
+		this.currentPlayingCard = -1;
 	}
 	
 	void Start()
@@ -100,301 +83,97 @@ public class GameController : Photon.MonoBehaviour
 
 	public void hideHoveredTile()
 	{
-		if (currentHoveredTileX != -1)
-		{
-			this.tiles [currentHoveredTileX, currentHoveredTileY].GetComponent<TileController>().hideHover();
-			if (this.hoveredCharacter != -1)
-			{
-				if (this.hoveredCharacter < 5)
-				{
-					this.myPlayingCards [this.hoveredCharacter].GetComponentInChildren<PlayingCardController>().hideHover();
-				} else
-				{
-					this.hisPlayingCards [this.hoveredCharacter - 5].GetComponentInChildren<PlayingCardController>().hideHover();
-				}
-			}
-			this.currentHoveredTileX = -1;
-			this.currentHoveredTileY = -1;
-			this.hoveredCharacter = -1;
-		}
+		this.tiles [currentHoveredTile.x, currentHoveredTile.y].GetComponent<TileController>().hideHover();
+		this.isHovering = false;
 	}
 
-	public void hoverTile(int idCharacter, int x, int y)
-	{
-		this.hoveredCharacter = idCharacter;
-		this.tiles [x, y].GetComponent<TileController>().displayHover();
-		if (idCharacter != -1)
-		{
-			if (idCharacter < 5)
-			{
-				this.myPlayingCards [idCharacter].GetComponentInChildren<PlayingCardController>().displayHover();
-			} else
-			{
-				this.hisPlayingCards [idCharacter - 5].GetComponentInChildren<PlayingCardController>().displayHover();
-			}
-		}
-		this.currentHoveredTileX = x;
-		this.currentHoveredTileY = y;
+	public void hideHoveredPlayingCard(){
+		this.playingCards[this.hoveredPlayingCard].GetComponent<PlayingCardController>().hideHover();
+		this.isHovering = false ;
+		this.hoveredPlayingCard = -1 ;
 	}
 
-	public void clickTile(int idCharacter, int x, int y)
+	public void hoverTile(Tile t)
 	{
-		this.hoveredCharacter = -1;
-		this.currentHoveredTileX = -1;
-		this.currentHoveredTileY = -1;
-		this.currentClickedTileX = x;
-		this.currentClickedTileY = y;
-
-		if (this.currentPlayer != idCharacter)
-		{
-			this.tiles [x, y].GetComponent<TileController>().displaySelected();
-		}
-		if (idCharacter < 5)
-		{
-			if (this.currentPlayer != idCharacter)
-			{
-				this.myPlayingCards [idCharacter].GetComponentInChildren<PlayingCardController>().displayClick();
-			}
-			this.myPlayingCards [idCharacter].GetComponentInChildren<PlayingCardController>().isSelected = true;
-			this.myPlayingCards [idCharacter].GetComponentInChildren<PlayingCardController>().resizeInfoRect();
-			int r = this.myPlayingCards [idCharacter].GetComponentInChildren<PlayingCardController>().sortID;
-			
-			for (int i = 0; i < 5; i++)
-			{
-				if (i != idCharacter)
-				{
-					if (r < this.myPlayingCards [i].GetComponentInChildren<PlayingCardController>().sortID)
-					{
-						this.myPlayingCards [i].GetComponentInChildren<PlayingCardController>().isMoved = true;
-						this.myPlayingCards [i].GetComponentInChildren<PlayingCardController>().resizeInfoRect();
-					}
-				}
-			}
-		} else
-		{
-			if (this.currentPlayer != idCharacter)
-			{
-				this.hisPlayingCards [idCharacter - 5].GetComponentInChildren<PlayingCardController>().displayClick();
-			}
-			this.hisPlayingCards [idCharacter - 5].GetComponentInChildren<PlayingCardController>().isSelected = true;
-			this.hisPlayingCards [idCharacter - 5].GetComponentInChildren<PlayingCardController>().resizeInfoRect();
-			int r = this.hisPlayingCards [idCharacter - 5].GetComponentInChildren<PlayingCardController>().sortID;
-			
-			for (int i = 0; i < 5; i++)
-			{
-				if (i != (idCharacter - 5))
-				{
-					if (r > this.hisPlayingCards [i].GetComponentInChildren<PlayingCardController>().sortID)
-					{
-						this.hisPlayingCards [i].GetComponentInChildren<PlayingCardController>().isMoved = true;
-						this.hisPlayingCards [i].GetComponentInChildren<PlayingCardController>().resizeInfoRect();
-					}
-				}
-			}
-		}
+		this.tiles [t.x, t.y].GetComponent<TileController>().displayHover();
+		this.currentHoveredTile = t;
 	}
 
-	public void playTile(int idCharacter, int x, int y)
+	public void hoverPlayingCard(int idPlayingCard){
+		this.hoveredPlayingCard = idPlayingCard;
+		this.playingCards[idPlayingCard].GetComponent<PlayingCardController>().displayHover();
+	}
+
+	public void clickTile(Tile t)
 	{
-		this.hoveredCharacter = -1;
-		this.currentHoveredTileX = -1;
-		this.currentHoveredTileY = -1;
-		this.currentClickedTileX = x;
-		this.currentClickedTileY = y;
-		this.clickedCharacter = idCharacter;
-		this.characterDragged = idCharacter;
-		this.tiles [x, y].GetComponent<TileController>().displayPlaying();
-		if (idCharacter < 5)
-		{
-			this.speed = this.myPlayingCards [idCharacter].GetComponentInChildren<PlayingCardController>().card.Speed;
-			this.myPlayingCards [idCharacter].GetComponentInChildren<PlayingCardController>().displayPlaying();
 
-			this.myPlayingCards [idCharacter].GetComponentInChildren<PlayingCardController>().isMovable = true;
-			this.myPlayingCards [idCharacter].GetComponentInChildren<PlayingCardController>().isSelected = true;
-			this.myPlayingCards [idCharacter].GetComponentInChildren<PlayingCardController>().resizeInfoRect();
-			int r = this.myPlayingCards [idCharacter].GetComponentInChildren<PlayingCardController>().sortID;
-			
-			for (int i = 0; i < 5; i++)
-			{
-				if (i != idCharacter)
-				{
-					this.myPlayingCards [i].GetComponentInChildren<PlayingCardController>().isMoved = true;
-					this.myPlayingCards [i].GetComponentInChildren<PlayingCardController>().resizeInfoRect();
-				}
-			}
-		} else
-		{
-			this.speed = this.hisPlayingCards [idCharacter - 5].GetComponentInChildren<PlayingCardController>().card.Speed;
-			this.hisPlayingCards [idCharacter - 5].GetComponentInChildren<PlayingCardController>().displayPlaying();
+	}
 
-			this.hisPlayingCards [idCharacter - 5].GetComponentInChildren<PlayingCardController>().isSelected = true;
-			this.hisPlayingCards [idCharacter - 5].GetComponentInChildren<PlayingCardController>().resizeInfoRect();
-			int r = this.hisPlayingCards [idCharacter - 5].GetComponentInChildren<PlayingCardController>().sortID;
-			
-			for (int i = 0; i < 5; i++)
-			{
-				if (i != (idCharacter - 5))
-				{
-					this.hisPlayingCards [i].GetComponentInChildren<PlayingCardController>().isMoved = false;
-					this.hisPlayingCards [i].GetComponentInChildren<PlayingCardController>().resizeInfoRect();
-				}
-			}
+	public void clickPlayingCard(int idPlayingCard){
+		this.playingCards[idPlayingCard].GetComponent<PlayingCardController>().displaySelected();
+		this.clickedPlayingCard = idPlayingCard ;
+	}
 
-		}
+	public void activatePlayingCard()
+	{
+		this.playingCards[this.currentPlayingCard].GetComponent<PlayingCardController>().displayPlaying();
 	}
 
 	public void moveCharacter(){
-		this.myCharacters[characterDragged].GetComponentInChildren<PlayingCharacterController>().isMovable = false ;
-		this.characterDragged = -1;
-		this.tiles [currentHoveredTileX, currentHoveredTileY].GetComponent<TileController>().displayPlaying();
-		this.currentClickedTileX = currentHoveredTileX;
-		this.currentClickedTileY = currentHoveredTileY;
 		this.hideHoveredTile();
-
-
-		int decalage;
-		for (int i = 0; i < this.boardWidth; i++)
-		{
-			if (i % 2 == 1)
-			{
-				decalage = 1;
-			} else
-			{
-				decalage = 0;
-			}
-			for (int j = 0; j < 2 - decalage; j++)
-			{
-				if (this.isFirstPlayer)
-				{
-					this.tiles [i, j].GetComponent<TileController>().setStandard();
-				} else
-				{
-					this.tiles [i, this.boardHeight - 1 - decalage - j].GetComponent<TileController>().setStandard();
-				}
-			}
+		if (this.nbTurns==0){
+			this.playingCards[this.currentPlayingCard].GetComponent<PlayingCardController>().hideSelected();
 		}
+		this.playingCards[this.currentPlayingCard].GetComponent<PlayingCardController>().setTile(this.currentHoveredTile);
+		this.hideHoveredTile();
 	}
 
 	public void hideClickedTile()
 	{
-		this.tiles [currentClickedTileX, currentClickedTileY].GetComponent<TileController>().hideSelected();
-		if (this.clickedCharacter != -1)
-		{
-			if (this.clickedCharacter < 5)
-			{
-				if (this.clickedCharacter != this.currentPlayer)
-				{
-					this.myPlayingCards [this.clickedCharacter].GetComponentInChildren<PlayingCardController>().hideHover();
-				}
-				this.myPlayingCards [this.clickedCharacter].GetComponentInChildren<PlayingCardController>().isSelected = false;
-				this.myPlayingCards [this.clickedCharacter].GetComponentInChildren<PlayingCardController>().resizeInfoRect();
-				for (int i = 0; i < 5; i++)
-				{
-					this.myPlayingCards [i].GetComponentInChildren<PlayingCardController>().isMoved = false;
-					this.myPlayingCards [i].GetComponentInChildren<PlayingCardController>().resizeInfoRect();
-				}
-			} else
-			{
-				if (this.clickedCharacter != this.currentPlayer)
-				{
-					this.hisPlayingCards [this.clickedCharacter - 5].GetComponentInChildren<PlayingCardController>().hideHover();
-				}
-				this.hisPlayingCards [this.clickedCharacter - 5].GetComponentInChildren<PlayingCardController>().isSelected = false;
-				this.hisPlayingCards [this.clickedCharacter - 5].GetComponentInChildren<PlayingCardController>().resizeInfoRect();
-				for (int i = 0; i < 5; i++)
-				{
-					this.hisPlayingCards [i].GetComponentInChildren<PlayingCardController>().isMoved = false;
-					this.hisPlayingCards [i].GetComponentInChildren<PlayingCardController>().resizeInfoRect();
-				}
-			}
-		}
-		if (this.clickedCharacter != this.currentPlayer)
-		{
-			this.currentClickedTileX = -1;
-			this.currentClickedTileY = -1;
-			this.characterDragged = -1;
-			this.clickedCharacter = -1;
-			
-			this.gameView.SetCursorToDefault();
-		}
+		this.tiles [currentClickedTile.x, currentClickedTile.y].GetComponent<TileController>().hideSelected();
 	}
 
-	public void hidePlayingTile()
+	public void hideClickedPlayingCard()
 	{
-		if (this.currentPlayer != -1)
-		{
-			if (this.currentPlayer < 5)
-			{
-				this.tiles [myCharacters [this.currentPlayer].GetComponentInChildren<PlayingCharacterController>().tile.GetComponent<TileController>().x, myCharacters [this.currentPlayer].GetComponentInChildren<PlayingCharacterController>().tile.GetComponent<TileController>().y].GetComponent<TileController>().hidePlaying();
-				this.myPlayingCards [this.currentPlayer].GetComponentInChildren<PlayingCardController>().hidePlaying();
-
-				this.myPlayingCards [this.currentPlayer].GetComponentInChildren<PlayingCardController>().resizeInfoRect();
-				for (int i = 0; i < 5; i++)
-				{
-					this.myPlayingCards [i].GetComponentInChildren<PlayingCardController>().isMoved = false;
-					this.myPlayingCards [i].GetComponentInChildren<PlayingCardController>().resizeInfoRect();
-				}
-			} else
-			{
-				this.tiles [hisCharacters [this.currentPlayer - 5].GetComponentInChildren<PlayingCharacterController>().tile.GetComponent<TileController>().x, hisCharacters [this.currentPlayer - 5].GetComponentInChildren<PlayingCharacterController>().tile.GetComponent<TileController>().y].GetComponent<TileController>().hidePlaying();
-				this.hisPlayingCards [this.currentPlayer - 5].GetComponentInChildren<PlayingCardController>().hidePlaying();
-
-				this.hisPlayingCards [this.currentPlayer - 5].GetComponentInChildren<PlayingCardController>().resizeInfoRect();
-				for (int i = 0; i < 5; i++)
-				{
-					this.hisPlayingCards [i].GetComponentInChildren<PlayingCardController>().isMoved = false;
-					this.hisPlayingCards [i].GetComponentInChildren<PlayingCardController>().resizeInfoRect();
-				}
-			}
-		}
-
-		this.currentClickedTileX = -1;
-		this.currentClickedTileY = -1;
-		this.characterDragged = -1;
-		this.clickedCharacter = -1;
-			
-		this.gameView.SetCursorToDefault();
+		this.playingCards[this.clickedPlayingCard].GetComponent<PlayingCardController>().hideSelected();
+		this.clickedPlayingCard = -1 ;
 	}
 
-	public void hoverTileHandler(int x, int y, int idCharacter, bool isDestination)
+	public void hideActivatedPlayingCard()
 	{
-		if (this.currentPlayer != idCharacter)
-		{
-			if (currentClickedTileX != x || currentClickedTileY != y)
-			{
-				if (currentHoveredTileX != x || currentHoveredTileY != y)
-				{
-					this.hideHoveredTile();
-					this.hoverTile(idCharacter, x, y);
+		this.playingCards[this.currentPlayingCard].GetComponent<PlayingCardController>().hidePlaying();
+		this.currentPlayingCard = -1 ;
+	}
 
-					if (this.characterDragged != -1)
-					{
-						if (isDestination)
-						{
-							if (idCharacter == -1)
-							{
-								this.gameView.gameScreenVM.cursor = this.cursors [0];
-							} else if (this.gameView.bottomZoneVM.nbTurns == 0)
-							{
-								this.gameView.gameScreenVM.cursor = this.cursors [1];
-							}
-							else{
-								this.gameView.gameScreenVM.cursor = this.cursors [2];
-							}
-						} else
-						{
-							this.gameView.gameScreenVM.cursor = this.cursors [2];
-						}
-						this.gameView.changeCursor();
-					}
-				}
-			} else
-			{
+	public void hoverPlayingCardHandler(int idPlayingCard)
+	{
+
+	}
+
+	public void hoverTileHandler(Tile t)
+	{
+		if (t.x==this.currentClickedTile.x && t.y==this.currentClickedTile.y){
+
+		}
+		else if (t.x==this.currentHoveredTile.x && t.y==this.currentHoveredTile.y){
+			
+		}
+		else{
+			if (this.isHovering){
 				this.hideHoveredTile();
 			}
-		} else
-		{
-			this.hideHoveredTile();
+			this.hoverTile(t);
+			if (this.currentPlayingCard!=-1 && this.isDragging){
+				if (tiles[t.x, t.y].GetComponent<TileController>().isDestination){
+					this.gameView.gameScreenVM.setCursor(this.cursors [0],0);
+				}
+				else{
+					this.gameView.gameScreenVM.setCursor(this.cursors [2],2);
+				}
+			}
+			else{
+				this.gameView.gameScreenVM.SetCursorToDefault();
+			}
 		}
 	}
 
@@ -403,213 +182,100 @@ public class GameController : Photon.MonoBehaviour
 		this.findNextPlayer();
 	}
 
-	public void hoverPlayingCard(int idCharacter)
+	public void clickPlayingCardHandler(int idPlayingCard)
 	{
-		if (idCharacter < 5)
-		{
-			this.hoverTileHandler(myCharacters [idCharacter].GetComponentInChildren<PlayingCharacterController>().tile.GetComponent<TileController>().x, myCharacters [idCharacter].GetComponentInChildren<PlayingCharacterController>().tile.GetComponent<TileController>().y, idCharacter, myCharacters [idCharacter].GetComponentInChildren<PlayingCharacterController>().tile.GetComponent<TileController>().isDestination);
-		} else
-		{
-			this.hoverTileHandler(hisCharacters [idCharacter - 5].GetComponentInChildren<PlayingCharacterController>().tile.GetComponent<TileController>().x, hisCharacters [idCharacter - 5].GetComponentInChildren<PlayingCharacterController>().tile.GetComponent<TileController>().y, idCharacter, hisCharacters [idCharacter - 5].GetComponentInChildren<PlayingCharacterController>().tile.GetComponent<TileController>().isDestination);
-		}
-	}
+		if (this.clickedPlayingCard!=idPlayingCard){
+			if (this.clickedPlayingCard!=-1){
+				this.hideClickedPlayingCard();
+			}
+			this.clickPlayingCard(idPlayingCard);
+			this.clickedPlayingCard = idPlayingCard;
 
-	public void clickPlayingCard(int idCharacter)
-	{
-		if (idCharacter < 5)
-		{
-			this.clickTileHandler(myCharacters [idCharacter].GetComponentInChildren<PlayingCharacterController>().tile.GetComponent<TileController>().x, myCharacters [idCharacter].GetComponentInChildren<PlayingCharacterController>().tile.GetComponent<TileController>().y, idCharacter);
-			this.releaseClick();
-		} else
-		{
-			this.clickTileHandler(hisCharacters [idCharacter - 5].GetComponentInChildren<PlayingCharacterController>().tile.GetComponent<TileController>().x, hisCharacters [idCharacter - 5].GetComponentInChildren<PlayingCharacterController>().tile.GetComponent<TileController>().y, idCharacter);
-			this.releaseClick();
-		}
-	}
-
-	public void clickTileHandler(int x, int y, int idCharacter)
-	{
-		if (idCharacter != -1)
-		{
-			if (currentClickedTileX != x || currentClickedTileY != y)
-			{
-				if (this.clickedCharacter != -1)
-				{
-					this.hideClickedTile();
-				}
-					
-				this.clickedCharacter = idCharacter;
-					
-				if (idCharacter < 5 && this.currentPlayer != idCharacter)
-				{
-					if (this.myCharacters [idCharacter].GetComponentInChildren<PlayingCharacterController>().isMovable)
-					{
-						this.characterDragged = idCharacter;
-					}
-				}
-				this.clickTile(idCharacter, x, y);
-			} else
-			{
-				if (this.characterDragged == -1)
-				{
-					this.gameView.SetCursorToDefault();
-				}
-				if (this.currentPlayer != idCharacter)
-				{
-					this.hideClickedTile();
-				}
+			if(nbTurns==0){
+				this.currentPlayingCard = idPlayingCard ;
 			}
 		}
+		else{
+			this.hideClickedPlayingCard();
+		}
 	}
 
-	public void releaseClick()
+	public void releaseClickPlayingCardHandler(int idPlayingCard)
 	{
-		if (this.characterDragged != -1 && currentHoveredTileX != -1)
-		{
-			if (this.tiles [currentHoveredTileX, currentHoveredTileY].GetComponent<TileController>().isDestination)
-			{
-				if (this.gameView.bottomZoneVM.nbTurns == 0 && this.tiles [currentHoveredTileX, currentHoveredTileY].GetComponent<TileController>().characterID != -1)
-				{
-					photonView.RPC("moveCharacterRPC", PhotonTargets.AllBuffered, currentClickedTileX, currentClickedTileY, this.tiles [currentHoveredTileX, currentHoveredTileY].GetComponent<TileController>().characterID, this.isFirstPlayer, false);
-					photonView.RPC("moveCharacterRPC", PhotonTargets.AllBuffered, currentHoveredTileX, currentHoveredTileY, this.characterDragged, this.isFirstPlayer, false);
-				} else
-				{
-					photonView.RPC("moveCharacterRPC", PhotonTargets.AllBuffered, currentHoveredTileX, currentHoveredTileY, this.characterDragged, this.isFirstPlayer, true);
-				}
-				if (this.gameView.bottomZoneVM.nbTurns==0){
-					this.hideHoveredTile();
-					this.hideClickedTile();
-				}
-				else{
-					this.hidePlayingTile();
-					this.moveCharacter();
-					this.hideHoveredTile();
-				}
+		if (this.currentPlayingCard != -1 && this.isHovering){
+			photonView.RPC("moveCharacterRPC", PhotonTargets.AllBuffered, currentClickedTile.x, currentClickedTile.y, idPlayingCard, this.isFirstPlayer, false);
+			photonView.RPC("moveCharacterRPC", PhotonTargets.AllBuffered, currentHoveredTile.x, currentHoveredTile.y, this.currentPlayingCard, this.isFirstPlayer, false);
+		}
+	}
+
+	public void releaseClickTileHandler()
+	{
+		if (this.currentPlayingCard != -1 && this.isHovering){
+			this.hideHoveredTile();
+			if (this.gameView.bottomZoneVM.nbTurns==0){
+				this.hideClickedTile();
 			}
-		}
-	}
-
-	public void initTurns()
-	{
-		this.gameView.bottomZoneVM.nbTurns = 1;
-		this.hasPlayed = new List<int>();
-		for (int i = 0; i < 5; i++)
-		{
-			this.myCharacters [i].GetComponentInChildren<PlayingCharacterController>().isMovable = false;
-		}
-		if (this.isFirstPlayer)
-		{
-			this.findNextPlayer();
+			if (this.tiles [currentHoveredTile.x, currentHoveredTile.y].GetComponent<TileController>().isDestination){
+				photonView.RPC("moveCharacterRPC", PhotonTargets.AllBuffered, currentHoveredTile.x, currentHoveredTile.y, this.currentPlayingCard, this.isFirstPlayer, true);
+			}
 		}
 	}
 
 	public void findNextPlayer()
 	{
-		bool newTurn = false;
-		int nextCharacter;
+		bool newTurn = true;
+		int nextPlayingCard = -1;
+		int i = 0 ;
 
-		if (this.hasPlayed.Count == 10)
+		while (i < this.rankedPlayingCardsID.Count && newTurn == true){
+			if (!this.playingCards[rankedPlayingCardsID[i]].GetComponentInChildren<PlayingCardController>().hasPlayed){
+				nextPlayingCard = rankedPlayingCardsID[i];
+				newTurn = false ;
+			}
+			i++;
+		}
+
+		if (newTurn)
 		{
-			newTurn = true; 
-			hasPlayed = new List<int>();
-			for (int i = 0; i < 10; i++)
-			{
-				if (this.myPlayingCards [i].GetComponentInChildren<PlayingCardController>().isDead)
-				{
-					this.hasPlayed.Add(i);
+			this.nbTurns++;
+			for (i = 0 ; i < 10 ; i++){
+				if (!this.playingCards[i].GetComponentInChildren<PlayingCardController>().isDead){
+					this.playingCards[i].GetComponentInChildren<PlayingCardController>().hasPlayed = false ;
 				}
 			}
-			this.speed = 100;
-		}
-
-		int whoseTurnIsIt;
-
-		if (myPlayingCards [this.myNextPlayer].GetComponentInChildren<PlayingCardController>().card.Speed < hisPlayingCards [this.hisNextPlayer].GetComponentInChildren<PlayingCardController>().card.Speed)
-		{
-			whoseTurnIsIt = 2;
-
-		} else if (myPlayingCards [this.myNextPlayer].GetComponentInChildren<PlayingCardController>().card.Speed > hisPlayingCards [this.hisNextPlayer].GetComponentInChildren<PlayingCardController>().card.Speed)
-		{
-			whoseTurnIsIt = 1;
-		} else
-		{
-			whoseTurnIsIt = UnityEngine.Random.Range(1, 2);
-		}
-
-		if (whoseTurnIsIt == 1)
-		{
-			nextCharacter = this.myNextPlayer;
-		} else
-		{
-			nextCharacter = this.hisNextPlayer + 5;
+			nextPlayingCard = 0 ;
 		}
 		
-		this.initNextPlayer(nextCharacter, newTurn);
+		photonView.RPC("initPlayer", PhotonTargets.AllBuffered, nextPlayingCard, newTurn, this.isFirstPlayer);
 	}
 
-	public void initNextPlayer(int nextCharacter, bool newTurn)
-	{
-		photonView.RPC("initPlayer", PhotonTargets.AllBuffered, nextCharacter, newTurn, this.isFirstPlayer);
-	}
+
 
 	[RPC]
 	public void initPlayer(int id, bool newTurn, bool isFirstP)
 	{
-		if (this.currentPlayer != -1)
+		if (this.currentPlayingCard != -1)
 		{
-			this.hasPlayed.Add(this.currentPlayer);
-			this.hidePlayingTile();
+			this.hideActivatedPlayingCard();
 		}
-		print("au personnage " + id + " de jouer... " + newTurn);
 
 		if (newTurn)
 		{
-			this.gameView.bottomZoneVM.nbTurns++;
+			this.nbTurns++;
 		}
-		if (isFirstP == this.isFirstPlayer)
+		if (isFirstP != this.isFirstPlayer)
 		{
-			this.currentPlayer = id;
-			if (id < 5)
-			{
-				this.playTile(id, this.myCharacters [id].GetComponentInChildren<PlayingCharacterController>().tile.GetComponentInChildren<TileController>().x, this.myCharacters [id].GetComponentInChildren<PlayingCharacterController>().tile.GetComponentInChildren<TileController>().y);
-				this.gameView.bottomZoneVM.message = "A votre tour de jouer";
-				this.myCharacters [id].GetComponentInChildren<PlayingCharacterController>().tile.GetComponentInChildren<TileController>().setNeighbours(this.getCharacterTilesArray(), this.myPlayingCards [id].GetComponentInChildren<PlayingCardController>().card.Move);
-				this.setDestinations(id);
-				this.characterDragged = id;
-				this.clickedCharacter = id; 
-			} else
-			{
-				this.playTile(id, this.hisCharacters [id - 5].GetComponentInChildren<PlayingCharacterController>().tile.GetComponentInChildren<TileController>().x, this.hisCharacters [id - 5].GetComponentInChildren<PlayingCharacterController>().tile.GetComponentInChildren<TileController>().y);
-				this.gameView.bottomZoneVM.message = "Au tour du joueur adverse";
-			}
-
-		} else
-		{
-			if (id < 5)
-			{
-				this.currentPlayer = id + 5;
-			} else
-			{
-				this.currentPlayer = id - 5;
-			}
-
-			if (id < 5)
-			{
-
-				this.playTile(id + 5, this.hisCharacters [id].GetComponentInChildren<PlayingCharacterController>().tile.GetComponentInChildren<TileController>().x, this.hisCharacters [id].GetComponentInChildren<PlayingCharacterController>().tile.GetComponentInChildren<TileController>().y);
-				this.gameView.bottomZoneVM.message = "Au tour du joueur adverse";
-			} else
-			{
-				this.playTile(id - 5, this.myCharacters [id - 5].GetComponentInChildren<PlayingCharacterController>().tile.GetComponentInChildren<TileController>().x, this.myCharacters [id - 5].GetComponentInChildren<PlayingCharacterController>().tile.GetComponentInChildren<TileController>().y);
-				this.gameView.bottomZoneVM.message = "A votre tour de jouer";
-				this.myCharacters [id - 5].GetComponentInChildren<PlayingCharacterController>().tile.GetComponentInChildren<TileController>().setNeighbours(this.getCharacterTilesArray(), this.myPlayingCards [id - 5].GetComponentInChildren<PlayingCardController>().card.Move);
-				this.setDestinations(id-5);
-				this.clickedCharacter = id-5;
-				this.characterDragged = id-5;
-			}
+			id = 9 - id ;
 		}
-		this.sortHisCards();
-		this.sortMyCards();
+
+		this.currentPlayingCard = id;
+
+		this.activatePlayingCard();
+		this.playingCards [currentPlayingCard].GetComponentInChildren<PlayingCardController>().tile.setNeighbours(this.getCharacterTilesArray(), this.playingCards [id].GetComponentInChildren<PlayingCardController>().card.Move);
+		this.setDestinations(currentPlayingCard);
+		this.isDragging = true;
+			
+		print("Je passe la main au personnage " + currentPlayingCard);
 	}
 
 	public int[,] getCharacterTilesArray(){
@@ -621,48 +287,32 @@ public class GameController : Photon.MonoBehaviour
 				characterTiles[i,j] = -1;
 			}
 		}
-		characterTiles[this.hisCharacters[0].GetComponentInChildren<PlayingCharacterController>().tile.GetComponentInChildren<TileController>().x, this.hisCharacters[0].GetComponentInChildren<PlayingCharacterController>().tile.GetComponentInChildren<TileController>().y]=8;
-		characterTiles[this.hisCharacters[1].GetComponentInChildren<PlayingCharacterController>().tile.GetComponentInChildren<TileController>().x, this.hisCharacters[1].GetComponentInChildren<PlayingCharacterController>().tile.GetComponentInChildren<TileController>().y]=8;
-		characterTiles[this.hisCharacters[2].GetComponentInChildren<PlayingCharacterController>().tile.GetComponentInChildren<TileController>().x, this.hisCharacters[2].GetComponentInChildren<PlayingCharacterController>().tile.GetComponentInChildren<TileController>().y]=8;
-		characterTiles[this.hisCharacters[3].GetComponentInChildren<PlayingCharacterController>().tile.GetComponentInChildren<TileController>().x, this.hisCharacters[3].GetComponentInChildren<PlayingCharacterController>().tile.GetComponentInChildren<TileController>().y]=8;
-		characterTiles[this.hisCharacters[4].GetComponentInChildren<PlayingCharacterController>().tile.GetComponentInChildren<TileController>().x, this.hisCharacters[4].GetComponentInChildren<PlayingCharacterController>().tile.GetComponentInChildren<TileController>().y]=8;
+		int debut ;
+		if (this.isFirstPlayer){
+			debut = 0 ;
+		}
+		else{
+			debut = 5 ;
+		}
+		characterTiles[this.playingCards[debut].GetComponentInChildren<PlayingCardController>().tile.x, this.playingCards[debut].GetComponentInChildren<PlayingCardController>().tile.y]=8;
+		characterTiles[this.playingCards[debut+1].GetComponentInChildren<PlayingCardController>().tile.x, this.playingCards[debut+1].GetComponentInChildren<PlayingCardController>().tile.y]=8;
+		characterTiles[this.playingCards[debut+2].GetComponentInChildren<PlayingCardController>().tile.x, this.playingCards[debut+2].GetComponentInChildren<PlayingCardController>().tile.y]=8;
+		characterTiles[this.playingCards[debut+3].GetComponentInChildren<PlayingCardController>().tile.x, this.playingCards[debut+3].GetComponentInChildren<PlayingCardController>().tile.y]=8;
+		characterTiles[this.playingCards[debut+4].GetComponentInChildren<PlayingCardController>().tile.x, this.playingCards[debut+4].GetComponentInChildren<PlayingCardController>().tile.y]=8;
 		return characterTiles ;
 	}
 
 	public void setDestinations(int idPlayer){
-		List<Tile> nt = this.myCharacters[idPlayer].GetComponentInChildren<PlayingCharacterController>().tile.GetComponentInChildren<TileController>().neighbours.tiles;
+		List<Tile> nt = this.playingCards[idPlayer].GetComponentInChildren<PlayingCardController>().tile.neighbours.tiles;
 		foreach (Tile t in nt){
 			this.tiles[t.x,t.y].GetComponentInChildren<TileController>().setDestination();
 		}
 	}
-	
-	public void setCharacterDragged(int c)
-	{
-		this.characterDragged = c;
-		this.myCharacters [characterDragged].GetComponentInChildren<PlayingCharacterController>().tile.GetComponentInChildren<TileController>().setCharacterID(characterDragged);
-	}
 
-	public void dropCharacter()
-	{
-		this.myCharacters [characterDragged].GetComponentInChildren<PlayingCharacterController>().tile.GetComponentInChildren<TileController>().setCharacterID(-1);
-		this.characterDragged = -1;
-	}
-
-	public void setStateOfAttack(bool state)
-	{
-		this.onGoingAttack = state;
-	}
-
-	public PlayingCardController getPlayingCharacter(bool myCharacter=true)
-	{
-		if (myCharacter)
-		{
-			return myPlayingCards [playingCharacter].GetComponentInChildren<PlayingCardController>();
-		} else
-		{
-			return hisPlayingCards [playingCharacter].GetComponentInChildren<PlayingCardController>();
-		}
-	}
+//	public void setStateOfAttack(bool state)
+//	{
+//		this.onGoingAttack = state;
+//	}
 
 	public void inflictDamage(int targetCharacter)
 	{
@@ -683,7 +333,7 @@ public class GameController : Photon.MonoBehaviour
 	public void pass()
 	{
 		GameEventType ge = new PassType();
-		addGameEvent(myCharacters [currentPlayer].GetComponentInChildren<PlayingCharacterController>().getName(), ge, "");
+		addGameEvent(this.playingCards [this.currentPlayingCard].GetComponentInChildren<PlayingCardController>().card.Title, ge, "");
 		nbActionPlayed = 0;
 	}
 	
@@ -725,103 +375,22 @@ public class GameController : Photon.MonoBehaviour
 		yield break;
 	}
 
-	private void sortMyCards()
+	private void sortPlayingCard(int idPlayingCard)
 	{
-		int rank;
-		float[] quicknesses = new float[5];
-		for (int i = 0; i < 5; i++)
-		{
-			quicknesses [i] = myPlayingCards [i].GetComponentInChildren<PlayingCardController>().card.Speed;
-			if (this.hasPlayed.Contains(i))
-			{
-				quicknesses [i] = quicknesses [i] - this.speed;
-			} else
-			{
-				quicknesses [i] = quicknesses [i] + 100 - this.speed;
-			}
-		}
+		int speed = this.playingCards[idPlayingCard].GetComponentInChildren<PlayingCardController>().card.Speed;
+		this.rankedPlayingCardsID.Remove(idPlayingCard);
+		int i = 0 ;
+		bool isInserted = false ;
 
-		for (int i = 0; i < 5; i++)
-		{
-			rank = 1;
-			for (int j = 0; j < 5; j++)
-			{
-				if (i != j)
-				{
-					if (quicknesses [i] <= quicknesses [j])
-					{
-						rank ++;
-						quicknesses [j] += 0.1f;
-					}
-				}
+		while(!isInserted && i<this.rankedPlayingCardsID.Count){
+			if (speed>=this.playingCards[this.rankedPlayingCardsID[i]].GetComponentInChildren<PlayingCardController>().card.Speed){
+				this.rankedPlayingCardsID.Insert(i, idPlayingCard);
+				isInserted = true ;
 			}
-			myPlayingCards [i].GetComponentInChildren<PlayingCardController>().setSortID(rank, (int)quicknesses [i]);
-			myPlayingCards [i].GetComponentInChildren<PlayingCardController>().resize(this.gameView.gameScreenVM.heightScreen);
-	
-			if (this.currentPlayer < 5 && this.currentPlayer != -1)
-			{
-				if (rank == 2)
-				{
-					this.myNextPlayer = i;
-				}
-			} else
-			{
-				if (rank == 1)
-				{
-					this.myNextPlayer = i;
-				}
-			}
+			i++;
 		}
-	}
-
-	private void sortHisCards()
-	{
-		print("je sort hisCards " + this.speed);
-		int rank;
-		float[] quicknesses = new float[5];
-		for (int i = 0; i < 5; i++)
-		{
-			quicknesses [i] = hisPlayingCards [i].GetComponentInChildren<PlayingCardController>().card.Speed;
-			if (this.hasPlayed.Contains(i + 5))
-			{
-				quicknesses [i] = quicknesses [i] - this.speed;
-			} else
-			{
-				quicknesses [i] = quicknesses [i] + 100 - this.speed;
-			}
-		}
-		
-		for (int i = 0; i < 5; i++)
-		{
-			rank = 1;
-			for (int j = 0; j < 5; j++)
-			{
-				if (i != j)
-				{
-					if (quicknesses [i] <= quicknesses [j])
-					{
-						rank ++;
-						quicknesses [j] += 0.1f;
-					}
-				}
-			}
-			hisPlayingCards [i].GetComponentInChildren<PlayingCardController>().setSortID(rank, (int)quicknesses [i]);
-			hisPlayingCards [i].GetComponentInChildren<PlayingCardController>().resize(this.gameView.gameScreenVM.heightScreen);
-
-			if (this.currentPlayer > 4)
-			{
-				if (rank == 2)
-				{
-					this.hisNextPlayer = i;
-				}
-			} else
-			{
-				if (rank == 1)
-				{
-					this.hisNextPlayer = i;
-				}
-			}
-			//print(i + " : " + rank);
+		if (!isInserted){
+			this.rankedPlayingCardsID.Add(idPlayingCard);
 		}
 	}
 
@@ -832,14 +401,7 @@ public class GameController : Photon.MonoBehaviour
 		
 		for (int x = 0; x < boardWidth; x++)
 		{
-			if ((boardWidth - x) % 2 == 0)
-			{
-				decalage = 1;
-			} else
-			{
-				decalage = 0;
-			}
-			for (int y = 0; y < boardHeight-decalage; y++)
+			for (int y = 0; y < boardHeight; y++)
 			{
 				int type = Mathf.RoundToInt(UnityEngine.Random.Range(1, 25));
 				if (type > 4)
@@ -853,10 +415,10 @@ public class GameController : Photon.MonoBehaviour
 
 	public IEnumerator loadMyDeck()
 	{
-		this.myDeck = new Deck(ApplicationModel.username);
-		yield return StartCoroutine(this.myDeck.LoadDeck());
+		Deck myDeck = new Deck(ApplicationModel.username);
+		yield return StartCoroutine(myDeck.LoadDeck());
 
-		photonView.RPC("SpawnCharacter", PhotonTargets.AllBuffered, PhotonNetwork.player.ID, myDeck.Id);
+		photonView.RPC("SpawnCharacter", PhotonTargets.AllBuffered, this.isFirstPlayer, myDeck.Id);
 	}
 	
 	// RPC
@@ -869,13 +431,13 @@ public class GameController : Photon.MonoBehaviour
 		yield return StartCoroutine(users [id - 1].retrievePicture());
 		yield return StartCoroutine(users [id - 1].setProfilePicture());
 		
-		if (ApplicationModel.username == loginName)
-		{
-			this.gameView.bottomZoneVM.setValues(users [id - 1], bottomZoneStyles, this.gameView.gameScreenVM.heightScreen);
-		} else
-		{
-			this.gameView.topZoneVM.setValues(users [id - 1], topZoneStyles, this.gameView.gameScreenVM.heightScreen);
-		}
+//		if (ApplicationModel.username == loginName)
+//		{
+//			this.gameView.bottomZoneVM.setValues(users [id - 1], bottomZoneStyles, this.gameView.gameScreenVM.heightScreen);
+//		} else
+//		{
+//			this.gameView.topZoneVM.setValues(users [id - 1], topZoneStyles, this.gameView.gameScreenVM.heightScreen);
+//		}
 		nbPlayers++;
 
 		if (this.isReconnecting)
@@ -907,104 +469,38 @@ public class GameController : Photon.MonoBehaviour
 	[RPC]
 	void AddTileToBoard(int x, int y, int type)
 	{
-		tiles [x, y] = (GameObject)Instantiate(hex);
+		tiles [x, y] = (GameObject)Instantiate(this.tile);
 		tiles [x, y].name = "Tile " + (x) + "-" + (y);
 
 		tiles [x, y].GetComponent<TileController>().setTile(x, y, this.boardWidth, this.boardHeight, type, 1.2f * (8f / boardHeight));
 	}
 
 	[RPC]
-	IEnumerator SpawnCharacter(int idPlayer, int idDeck)
+	IEnumerator SpawnCharacter(bool isFirstP, int idDeck)
 	{
-		int decalage = 0;
-		if ((idPlayer == 1 && this.isFirstPlayer) || (idPlayer == 2 && !this.isFirstPlayer))
+		Deck deck ;
+		deck = new Deck(idDeck);
+		yield return StartCoroutine(deck.RetrieveCards());
+		int debut ;
+
+		if (isFirstP)
 		{
-			this.myDeck = new Deck(idDeck);
-			yield return StartCoroutine(this.myDeck.RetrieveCards());
-			for (int i = 0; i < 5; i++)
-			{
-				if (idPlayer == 2)
-				{
-					if (i % 2 == 0)
-					{
-						decalage = 1;
-					} else
-					{
-						decalage = 0;
-					}
-				}
-				myPlayingCards.Add((GameObject)Instantiate(this.playingCard));
-				myPlayingCards [i].GetComponentInChildren<PlayingCardController>().setCard(myDeck.Cards [i]);
-				myPlayingCards [i].GetComponentInChildren<PlayingCardController>().setSkills();
-				myPlayingCards [i].GetComponentInChildren<PlayingCardController>().setIDCharacter(i);
-				myPlayingCards [i].GetComponentInChildren<PlayingCardController>().setStyles(true);
-
-				print(myDeck.Cards [i].ArtIndex);
-				myCharacters.Add((GameObject)Instantiate(this.characters [myDeck.Cards [i].ArtIndex]));
-				myCharacters [i].GetComponentInChildren<PlayingCharacterController>().setID(i);
-				myCharacters [i].GetComponentInChildren<PlayingCharacterController>().setName(myDeck.Cards [i].Title);
-				myCharacters [i].GetComponentInChildren<PlayingCharacterController>().setStyles(true);
-				myCharacters [i].GetComponentInChildren<PlayingCharacterController>().setTile(tiles [this.boardWidth / 2 - 2 + i, (idPlayer - 1) * (this.boardHeight - 1) - decalage], (idPlayer == 2), this.isFirstPlayer);
-				tiles [this.boardWidth / 2 - 2 + i, (idPlayer - 1) * (this.boardHeight - 1) - decalage].GetComponent<TileController>().setCharacterID(i);
-				myCharacters [i].GetComponentInChildren<PlayingCharacterController>().resize(this.gameView.gameScreenVM.heightScreen);
-			}
-			//testTimeline();
-
-			for (int i = 0; i < this.boardWidth; i++)
-			{
-				if (i % 2 == 1)
-				{
-					decalage = 1;
-				} else
-				{
-					decalage = 0;
-				}
-				for (int j = 0; j < 2 - decalage; j++)
-				{
-					if (this.isFirstPlayer)
-					{
-						this.tiles [i, j].GetComponent<TileController>().setDestination();
-					} else
-					{
-						this.tiles [i, this.boardHeight - 1 - decalage - j].GetComponent<TileController>().setDestination();
-					}
-				}
-			}
-			this.sortMyCards();
-		} else
-		{
-			this.hisDeck = new Deck(idDeck);
-			yield return StartCoroutine(this.hisDeck.RetrieveCards());
-			for (int i = 0; i < 5; i++)
-			{
-				if (idPlayer == 2)
-				{
-					if (i % 2 == 0)
-					{
-						decalage = 1;
-					} else
-					{
-						decalage = 0;
-					}
-				}
-				hisPlayingCards.Add((GameObject)Instantiate(this.playingCard));
-				hisPlayingCards [i].GetComponentInChildren<PlayingCardController>().setCard(hisDeck.Cards [i]);
-				hisPlayingCards [i].GetComponentInChildren<PlayingCardController>().setSkills();
-				hisPlayingCards [i].GetComponentInChildren<PlayingCardController>().setIDCharacter(i + 5);
-				hisPlayingCards [i].GetComponentInChildren<PlayingCardController>().setStyles(false);
-				hisPlayingCards [i].GetComponentInChildren<PlayingCardController>().resize(this.gameView.gameScreenVM.heightScreen);
-
-				hisCharacters.Add((GameObject)Instantiate(this.characters [hisDeck.Cards [i].ArtIndex]));
-				hisCharacters [i].GetComponentInChildren<PlayingCharacterController>().setName(hisDeck.Cards [i].Title);
-				hisCharacters [i].GetComponentInChildren<PlayingCharacterController>().setStyles(false);
-				hisCharacters [i].GetComponentInChildren<PlayingCharacterController>().setTile(tiles [this.boardWidth / 2 - 2 + i, (idPlayer - 1) * (this.boardHeight - 1) - decalage], (idPlayer == 2), this.isFirstPlayer);
-				hisCharacters [i].GetComponentInChildren<PlayingCharacterController>().setID(i + 5);
-
-				tiles [this.boardWidth / 2 - 2 + i, (idPlayer - 1) * (this.boardHeight - 1) - decalage].GetComponent<TileController>().setCharacterID(i + 5);
-				hisCharacters [i].GetComponentInChildren<PlayingCharacterController>().resize(this.gameView.gameScreenVM.heightScreen);
-			}
-			this.sortHisCards();
+			debut = 0 ;
 		}
+		else{
+			debut = 5 ;
+		}
+
+		for (int i = 0; i < 5; i++)
+		{
+			this.playingCards[debut+i] = (GameObject)Instantiate(this.playingCard);
+			this.playingCards[debut+i].GetComponentInChildren<PlayingCardController>().setCard(deck.Cards[i]);
+			this.playingCards[debut+i].GetComponentInChildren<PlayingCardController>().setIDCharacter(debut+i);
+			this.playingCards[debut+i].GetComponentInChildren<PlayingCardController>().setStyles((isFirstP==this.isFirstPlayer));
+			this.playingCards[debut+i].GetComponentInChildren<PlayingCardController>().setTile(new Tile(i, 0), !isFirstP);
+			this.playingCards[debut+i].GetComponentInChildren<PlayingCardController>().resize(this.gameView.gameScreenVM.heightScreen);
+		}
+		
 		yield break;
 	}
 
@@ -1013,93 +509,66 @@ public class GameController : Photon.MonoBehaviour
 	{
 		this.nbPlayersReadyToFight++;
 
-		if (isFirst == this.isFirstPlayer)
-		{
-			int decalage;
-			for (int i = 0; i < this.boardWidth; i++)
-			{
-				if (i % 2 == 1)
-				{
-					decalage = 1;
-				} else
-				{
-					decalage = 0;
-				}
-				for (int j = 0; j < 2 - decalage; j++)
-				{
-					if (this.isFirstPlayer)
-					{
-						this.tiles [i, j].GetComponent<TileController>().setStandard();
-					} else
-					{
-						this.tiles [i, this.boardHeight - 1 - decalage - j].GetComponent<TileController>().setStandard();
-					}
-				}
-			}
-		}
-
 		if (this.nbPlayersReadyToFight == 2)
 		{
-			this.initTurns();
-		} else
-		{
-			if (isFirst == this.isFirstPlayer)
-			{
-				this.gameView.bottomZoneVM.message = "En attente du joueur adverse pour démarrer la partie";
-				this.gameView.bottomZoneVM.displayStartButton = false;
-			} else
-			{
-				this.gameView.topZoneVM.message = "A terminé de positionner ses héros";
-				this.gameView.topZoneVM.status = "Pret a jouer";
-				this.gameView.topZoneVM.toDisplayGreenStatus = true;
-				this.gameView.topZoneVM.toDisplayRedStatus = false;
+			for (int i = 0; i < this.boardWidth; i++){
+				for (int j = 0; j < this.boardHeight; j++){
+					this.tiles [i, j].GetComponent<TileController>().setStandard();
+				}
 			}
-		}
+			this.nbTurns = 1;
+
+			if (this.isFirstPlayer)
+			{
+				this.sortAllCards();
+				this.findNextPlayer();
+			}
+		} 
+	}
+
+	private void sortAllCards()
+	{
+
 	}
 
 	[RPC]
 	public void moveCharacterRPC(int x, int y, int c, bool isFirstPlayer, bool isEmpty)
 	{
-		if (this.isFirstPlayer == isFirstPlayer)
-		{
-			myCharacters [c].GetComponentInChildren<PlayingCharacterController>().changeTile(tiles [x, y], isEmpty);
-		} else
-		{
-			hisCharacters [c].GetComponentInChildren<PlayingCharacterController>().changeTile(tiles [x, y], isEmpty);
-		}
+		this.playingCards [c].GetComponentInChildren<PlayingCardController>().changeTile(new Tile(x, y), isEmpty);
 	}
+
 	[RPC]
 	public void inflictDamageRPC(int targetCharacter, bool isFisrtPlayerCharacter)
 	{
-		PlayingCardController temp = GameController.instance.getPlayingCharacter(this.isFirstPlayer == isFisrtPlayerCharacter);
-		int damage = temp.card.GetAttack();
-		this.myPlayingCards [targetCharacter].GetComponentInChildren<PlayingCardController>().damage += damage;
-		List<GameObject> tempList;
-		if (isFisrtPlayerCharacter == isFirstPlayer)
-		{
-			tempList = myPlayingCards;
-		} else
-		{
-			tempList = hisPlayingCards;
-		}
-		PlayingCardController pcc = tempList [targetCharacter].GetComponent<PlayingCardController>();
-		int tempCounter = 0;
-		if (pcc.damage >= pcc.card.GetLife())
-		{
-			pcc.isDead = true;
-
-			for (int i = 0; i < 5; i++)
-			{
-				if (tempList [i].GetComponentInChildren<PlayingCardController>().isDead)
-				{
-					tempCounter++;
-				}
-			}
-		}
-		if (tempCounter > 4)
-		{
-			EndOfGame(isFirstPlayer);
-		}
+//		PlayingCardController temp = GameController.instance.getPlayingCharacter(this.isFirstPlayer == isFisrtPlayerCharacter);
+//		int damage = temp.card.GetAttack();
+//		this.myPlayingCards [targetCharacter].GetComponentInChildren<PlayingCardController>().damage += damage;
+//		List<GameObject> tempList;
+//		if (isFisrtPlayerCharacter == isFirstPlayer)
+//		{
+//			tempList = myPlayingCards;
+//		} else
+//		{
+//			tempList = hisPlayingCards;
+//		}
+//		PlayingCardController pcc = tempList [targetCharacter].GetComponent<PlayingCardController>();
+//		int tempCounter = 0;
+//		if (pcc.damage >= pcc.card.GetLife())
+//		{
+//			pcc.isDead = true;
+//
+//			for (int i = 0; i < 5; i++)
+//			{
+//				if (tempList [i].GetComponentInChildren<PlayingCardController>().isDead)
+//				{
+//					tempCounter++;
+//				}
+//			}
+//		}
+//		if (tempCounter > 4)
+//		{
+//			EndOfGame(isFirstPlayer);
+//		}
 	}
 	
 	public void StartFight()
@@ -1154,16 +623,16 @@ public class GameController : Photon.MonoBehaviour
 
 	public void testTimeline()
 	{
-		currentPlayer = 1;
-		addMovementEvent(myCharacters [currentPlayer].GetComponentInChildren<PlayingCharacterController>().getName(), tiles [4, 3], tiles [4, 4]);
+		this.currentPlayingCard = 1;
+		addMovementEvent(this.playingCards [currentPlayingCard].GetComponentInChildren<PlayingCardController>().card.Title, tiles [4, 3], tiles [4, 4]);
 		string targetName = "coincoin";
-		List<GameSkill> temp = myPlayingCards [currentPlayer].GetComponentInChildren<PlayingCardController>().skills;
+		List<GameSkill> temp = this.playingCards [currentPlayingCard].GetComponentInChildren<PlayingCardController>().skills;
 		if (temp.Count > 0)
 		{
 			//addGameEvent("", new SkillType(temp [0].Skill.Action), targetName);
 		}
 		pass();
-		currentPlayer = 0;
+		this.currentPlayingCard = 0;
 		pass();
 
 		inflictDamage(0);
@@ -1204,7 +673,7 @@ public class GameController : Photon.MonoBehaviour
 			go = gameEvents [0];
 			go.GetComponent<GameEventController>().setCharacterName(name);
 			go.GetComponent<GameEventController>().setAction(type.toString());
-			Texture2D t2 = myPlayingCards [currentPlayer].GetComponent<PlayingCardController>().getPicture();
+			Texture2D t2 = this.playingCards [currentPlayingCard].GetComponent<PlayingCardController>().getPicture();
 			Texture2D temp = getImageResized(t2);
 
 			go.GetComponent<GameEventController>().setArt(temp);

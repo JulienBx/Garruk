@@ -8,6 +8,7 @@ public class Tile {
 	public int x;
 	public int y;
 	public int distance;
+	public NeighbourTiles neighbours ;
 
 	public Tile(int x, int y, int distance){
 		this.x = x ;
@@ -18,5 +19,9 @@ public class Tile {
 	public Tile(int x, int y){
 		this.x = x ;
 		this.y = y ;
+	}
+
+	public void setNeighbours(int[,] characterTiles, int distance){
+		this.neighbours = new NeighbourTiles(this.x, this.y, characterTiles, distance);
 	}
 }

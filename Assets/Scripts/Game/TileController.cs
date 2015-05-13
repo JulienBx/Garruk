@@ -10,22 +10,19 @@ public class TileController : MonoBehaviour
 	public int x ;
 	public int y ;
 	private int type ;
-	private float scaleTile ;
 	public Texture2D[] backTile ;
 	public Texture2D[] borderTile ;
 	public TileView tileView ;
-	public NeighbourTiles neighbours ;
+	private float scaleTile ;
 
 	public bool isDestination ;
 	//-1 : case vide ; 0 : case occupée par un personnage allié ; 1 : case occupée par un personnage ennemi
-	public int characterID ; //-1 si personne
 
 
 	void Awake()
 	{
 		this.tileView = gameObject.AddComponent <TileView>();
 		this.isDestination = false ;
-		this.characterID = -1 ;
 	}
 
 	void Start () 
@@ -37,24 +34,17 @@ public class TileController : MonoBehaviour
 		this.x = x ;
 		this.y = y ;
 		this.type = type ;
-		int decalage ;
-		if ((boardWidth-x)%2==0){
-			decalage = 1;
-		}
-		else{
-			decalage = 0;
-		}
-
+		
 		this.tileView.tileVM.scale = new Vector3(scaleTile,scaleTile,scaleTile);
-		this.tileView.tileVM.position = new Vector3((x-boardWidth/2)*scaleTile*0.71f, (y-boardHeight/2+decalage/2f)*scaleTile*0.81f, 0);
+		this.tileView.tileVM.position = new Vector3((x-boardWidth/2)*scaleTile*0.71f, (y-boardHeight/2)*scaleTile*0.81f, 0);
 		this.tileView.tileVM.background = backTile[type];
 		this.tileView.tileVM.border = borderTile[0];
 		this.tileView.resize();
 		this.tileView.ShowFace();
 	}
 
-	public void setCharacterID(int i){
-		this.characterID = i ;
+	public void resize(int heightScreen){
+	//
 	}
 	
 	// Update is called once per frame
@@ -79,29 +69,21 @@ public class TileController : MonoBehaviour
 	}
 
 	public void hoverTile(){
-		GameController.instance.hoverTileHandler(this.x, this.y, this.characterID, this.isDestination);
-	}
-
-	public void clickTile(){
-		if(this.characterID!=-1){
-			GameController.instance.clickTileHandler(this.x, this.y, this.characterID);
-		}
+		GameController.instance.hoverTileHandler(new Tile(this.x, this.y));
 	}
 
 	public void releaseClickTile(){
-		GameController.instance.releaseClick();
+		GameController.instance.releaseClickTileHandler();
 	}
 
 	public void displayHover(){
 		this.tileView.tileVM.border = this.borderTile[1];
-		this.tileView.tileVM.raiseTile();
 		this.tileView.resize();
 		this.tileView.ShowFace();
 	}
 
 	public void hideHover(){
 		this.tileView.tileVM.border = this.borderTile[0];
-		this.tileView.tileVM.lowerTile();
 		this.tileView.resize();
 		this.tileView.ShowFace();
 	}
@@ -114,7 +96,6 @@ public class TileController : MonoBehaviour
 	
 	public void hideSelected(){
 		this.tileView.tileVM.border = this.borderTile[0];
-		this.tileView.tileVM.lowerTile();
 		this.tileView.resize();
 		this.tileView.ShowFace();
 	}
@@ -127,7 +108,6 @@ public class TileController : MonoBehaviour
 	
 	public void hidePlaying(){
 		this.tileView.tileVM.border = this.borderTile[0];
-		this.tileView.tileVM.lowerTile();
 		this.tileView.resize();
 		this.tileView.ShowFace();
 	}
@@ -148,11 +128,6 @@ public class TileController : MonoBehaviour
 		this.isDestination = false ;
 		this.tileView.tileVM.background = this.backTile[this.type];
 		this.tileView.ShowFace();
-	}
-
-	public void setNeighbours(int[,] characterTiles, int distance){
-
-		this.neighbours = new NeighbourTiles(this.x, this.y, characterTiles, distance);
 	}
 }
 
