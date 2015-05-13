@@ -72,7 +72,7 @@ MonoBehaviour:
   x: 0
   y: 0
   backTile:
-  - {fileID: 2800000, guid: a6c39d2a27ca8424987d3a312a679624, type: 3}
+  - {fileID: 2800000, guid: d737094809e5f4667830b815e14a6c69, type: 3}
   - {fileID: 2800000, guid: f4c4edfb449674c498b78131aea82868, type: 3}
   - {fileID: 2800000, guid: d053a70170a32d0498844d289c4690f2, type: 3}
   - {fileID: 2800000, guid: 4d83579c94447f04eadcb6c61f5a4cbe, type: 3}
@@ -83,7 +83,7 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 30997c436ec0e184696215454624c0c5, type: 3}
   - {fileID: 2800000, guid: f944f838d8193784395264922722d304, type: 3}
   borderTile:
-  - {fileID: 2800000, guid: 31ce0db19a95a964893ce4ed1ca75aed, type: 3}
+  - {fileID: 2800000, guid: d737094809e5f4667830b815e14a6c69, type: 3}
   - {fileID: 2800000, guid: 2ad7d05192f7d4ccda82c85a8a44d159, type: 3}
   - {fileID: 2800000, guid: 32081ed88f9d54cc985cb1ae38879982, type: 3}
   - {fileID: 2800000, guid: a3d111f0fbed6774fbcf127850bb2f52, type: 3}
