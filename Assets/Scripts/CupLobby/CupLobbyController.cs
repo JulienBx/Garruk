@@ -98,12 +98,13 @@ public class CupLobbyController : MonoBehaviour
 		view.resultsVM.focusButtonStyles[view.resultsVM.chosenResult]=view.resultsVM.focusButtonStyle;
 		view.resultsVM.chosenResult = chosenOpponent;
 	}
-	private void initializeRounds(){
+	private void initializeRounds()
+	{
 		for (int i=0; i<model.currentCup.NbRounds;i++)
 		{
 			view.boardVM.roundsStyle.Add(new GUIStyle());
 			view.boardVM.roundsName.Add (this.roundsName[i]);
-			if(i<model.results.Count)
+			if(i>=model.results.Count)
 			{
 				view.boardVM.roundsStyle[i]=view.boardVM.winRoundStyle;
 			}
