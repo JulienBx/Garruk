@@ -177,71 +177,74 @@ public class DivisionLobbyView : MonoBehaviour
 			GUILayout.FlexibleSpace();
 		}
 		GUILayout.EndArea ();
-		GUILayout.BeginArea(screenVM.blockBottom,screenVM.blockBackgroundStyle);
+		if(resultsVM.resultsLabel.Count>0)
 		{
-			GUILayout.Label(resultsVM.resultsTitle, resultsVM.titleStyle,GUILayout.Height(0.15f * screenVM.blockBottomHeight));
-			GUILayout.BeginHorizontal();
+			GUILayout.BeginArea(screenVM.blockBottom,screenVM.blockBackgroundStyle);
 			{
-				GUILayout.BeginVertical(GUILayout.Width(screenVM.blockBottomWidth*0.30f));
+				GUILayout.Label(resultsVM.resultsTitle, resultsVM.titleStyle,GUILayout.Height(0.15f * screenVM.blockBottomHeight));
+				GUILayout.BeginHorizontal();
 				{
-					resultsVM.scrollPosition = GUILayout.BeginScrollView(resultsVM.scrollPosition,GUILayout.Height(4*0.2f * screenVM.blockBottomHeight));
-					
-					for (int i = 0; i < resultsVM.resultsLabel.Count; i++)
-					{	
-						GUILayout.BeginHorizontal();
-						{
-							if (GUILayout.Button(resultsVM.resultsLabel[i], resultsVM.resultsStyles[i],GUILayout.Height(0.2f * screenVM.blockBottomHeight)))
+					GUILayout.BeginVertical(GUILayout.Width(screenVM.blockBottomWidth*0.30f));
+					{
+						resultsVM.scrollPosition = GUILayout.BeginScrollView(resultsVM.scrollPosition,GUILayout.Height(4*0.2f * screenVM.blockBottomHeight));
+						
+						for (int i = 0; i < resultsVM.resultsLabel.Count; i++)
+						{	
+							GUILayout.BeginHorizontal();
 							{
-							}
-							if (GUILayout.Button(">", resultsVM.focusButtonStyles[i],GUILayout.Height(0.2f * screenVM.blockBottomHeight),GUILayout.Width(0.2f * screenVM.blockBottomHeight)))
-							{
-								if (resultsVM.chosenResult != i)
+								if (GUILayout.Button(resultsVM.resultsLabel[i], resultsVM.resultsStyles[i],GUILayout.Height(0.2f * screenVM.blockBottomHeight)))
 								{
-									DivisionLobbyController.instance.displayOpponent(i);
+								}
+								if (GUILayout.Button(">", resultsVM.focusButtonStyles[i],GUILayout.Height(0.2f * screenVM.blockBottomHeight),GUILayout.Width(0.2f * screenVM.blockBottomHeight)))
+								{
+									if (resultsVM.chosenResult != i)
+									{
+										DivisionLobbyController.instance.displayOpponent(i);
+									}
 								}
 							}
+							GUILayout.EndHorizontal();
+						}
+						GUILayout.EndScrollView();
+					}
+					GUILayout.EndVertical();
+					GUILayout.BeginVertical();
+					{
+						GUILayout.BeginHorizontal(opponentVM.backgroundStyle);
+						{
+							GUILayout.Space(screenVM.blockBottomWidth*5/100);
+							if(GUILayout.Button("",opponentVM.profilePictureStyle,GUILayout.Height(4*0.2f * screenVM.blockBottomHeight),GUILayout.Width(4*0.2f * screenVM.blockBottomHeight)))
+							{
+								ApplicationModel.profileChosen=opponentVM.username;
+								Application.LoadLevel("profile");
+							}
+							GUILayout.Space(screenVM.blockBottomWidth*5/100);
+							GUILayout.BeginVertical();
+							{
+								GUILayout.FlexibleSpace();
+								GUILayout.Label (opponentVM.username,opponentVM.usernameStyle);
+								GUILayout.FlexibleSpace();
+								GUILayout.FlexibleSpace();
+								GUILayout.Label ("Victoires : "+opponentVM.totalNbWins,opponentVM.informationsStyle);
+								GUILayout.FlexibleSpace();
+								GUILayout.Label ("Défaites : "+opponentVM.totalNbLooses,opponentVM.informationsStyle);
+								GUILayout.FlexibleSpace();
+								GUILayout.Label ("Ranking : "+opponentVM.ranking,opponentVM.informationsStyle);
+								GUILayout.FlexibleSpace();
+								GUILayout.Label ("Ranking Points : "+opponentVM.rankingPoints,opponentVM.informationsStyle);
+								GUILayout.FlexibleSpace();
+								GUILayout.Label ("Division : "+opponentVM.division,opponentVM.informationsStyle);
+								GUILayout.FlexibleSpace();
+							}
+							GUILayout.EndVertical();
 						}
 						GUILayout.EndHorizontal();
-					}
-					GUILayout.EndScrollView();
-				}
-				GUILayout.EndVertical();
-				GUILayout.BeginVertical();
-				{
-					GUILayout.BeginHorizontal(opponentVM.backgroundStyle);
-					{
-						GUILayout.Space(screenVM.blockBottomWidth*5/100);
-						if(GUILayout.Button("",opponentVM.profilePictureStyle,GUILayout.Height(4*0.2f * screenVM.blockBottomHeight),GUILayout.Width(4*0.2f * screenVM.blockBottomHeight)))
-						{
-							ApplicationModel.profileChosen=opponentVM.username;
-							Application.LoadLevel("profile");
-						}
-						GUILayout.Space(screenVM.blockBottomWidth*5/100);
-						GUILayout.BeginVertical();
-						{
-							GUILayout.FlexibleSpace();
-							GUILayout.Label (opponentVM.username,opponentVM.usernameStyle);
-							GUILayout.FlexibleSpace();
-							GUILayout.FlexibleSpace();
-							GUILayout.Label ("Victoires : "+opponentVM.totalNbWins,opponentVM.informationsStyle);
-							GUILayout.FlexibleSpace();
-							GUILayout.Label ("Défaites : "+opponentVM.totalNbLooses,opponentVM.informationsStyle);
-							GUILayout.FlexibleSpace();
-							GUILayout.Label ("Ranking : "+opponentVM.ranking,opponentVM.informationsStyle);
-							GUILayout.FlexibleSpace();
-							GUILayout.Label ("Ranking Points : "+opponentVM.rankingPoints,opponentVM.informationsStyle);
-							GUILayout.FlexibleSpace();
-							GUILayout.Label ("Division : "+opponentVM.division,opponentVM.informationsStyle);
-							GUILayout.FlexibleSpace();
-						}
-						GUILayout.EndVertical();
 					}
 					GUILayout.EndHorizontal();
 				}
 				GUILayout.EndHorizontal();
 			}
-			GUILayout.EndHorizontal();
+			GUILayout.EndArea();
 		}
-		GUILayout.EndArea();
 	}
 }
