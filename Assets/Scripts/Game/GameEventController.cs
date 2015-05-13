@@ -23,17 +23,9 @@ public class GameEventController : MonoBehaviour
 		Camera camera = Camera.main;
 		Vector3 v3 = new Vector3(Screen.width * 0.05f, Screen.height, 10);
 		Vector3 newPosition = camera.ScreenToWorldPoint(v3);
-
-		if (initRotation.eulerAngles == Vector3.zero)
-		{
-			//transform.LookAt(camera.transform);
-			//initRotation = transform.rotation;
-		} else
-		{
-			//transform.rotation = initRotation;
-		}
+		
 		transform.position = newPosition;
-		transform.Translate((transform.up * transform.localScale.y + transform.up * 0.1f) * count, Space.World);
+		transform.Translate((transform.up * transform.localScale.y + transform.up * 0.1f) * (count + 2), Space.World);
 
 		Vector3 reverse = camera.WorldToScreenPoint(new Vector3(transform.position.x, transform.position.y, transform.position.z));
 		Rect r = new Rect(reverse.x + v3.x, Screen.height - reverse.y, 200, 50);

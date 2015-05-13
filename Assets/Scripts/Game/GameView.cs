@@ -50,13 +50,13 @@ public class GameView : MonoBehaviour
 				GUILayout.FlexibleSpace();
 				GUILayout.BeginVertical();
 				{
-					GUILayout.Label(bottomZoneVM.userName, bottomZoneVM.nameTextStyle, GUILayout.Width(gameScreenVM.bottomZoneRect.width * 62 / 100), GUILayout.Height(gameScreenVM.bottomZoneRect.height * 45 / 100));
+					GUILayout.Label(bottomZoneVM.userName, bottomZoneVM.nameTextStyle, GUILayout.Width(gameScreenVM.bottomZoneRect.width * 62 / 100), GUILayout.Height(gameScreenVM.bottomZoneRect.height * 50 / 100));
 					if (bottomZoneVM.nbTurns != -1)
 					{
-						GUILayout.Label("Tour : " + bottomZoneVM.nbTurns, this.bottomZoneVM.turnsTextStyle, GUILayout.Width(gameScreenVM.bottomZoneRect.width * 62 / 100), GUILayout.Height(gameScreenVM.bottomZoneRect.height * 30 / 100));
+						GUILayout.Label("Tour : " + bottomZoneVM.nbTurns, this.bottomZoneVM.turnsTextStyle, GUILayout.Width(gameScreenVM.bottomZoneRect.width * 62 / 100), GUILayout.Height(gameScreenVM.bottomZoneRect.height * 20 / 100));
 					} else
 					{
-						GUILayout.Label(bottomZoneVM.message, bottomZoneVM.messageTextStyle, GUILayout.Width(gameScreenVM.bottomZoneRect.width * 62 / 100), GUILayout.Height(gameScreenVM.bottomZoneRect.height * 30 / 100));
+						GUILayout.Label(bottomZoneVM.message, bottomZoneVM.messageTextStyle, GUILayout.Width(gameScreenVM.bottomZoneRect.width * 62 / 100), GUILayout.Height(gameScreenVM.bottomZoneRect.height * 20 / 100));
 					}
 					GUILayout.Space(gameScreenVM.bottomZoneRect.height * 5 / 100);
 
@@ -122,11 +122,23 @@ public class GameView : MonoBehaviour
 		GUILayout.EndArea();
 		if (gameScreenVM.hasAMessage)
 		{
-			GUILayout.BeginArea(new Rect(Screen.width / 2 - 30, Screen.height / 2, 100, 35));
+			GUILayout.BeginArea(gameScreenVM.centerMessageRect);
 			{
-				GUILayout.BeginHorizontal(bottomZoneVM.backgroundStyle);
+				GUILayout.BeginHorizontal(gameScreenVM.centerMessageTextStyle);
 				{
-					GUILayout.Label(gameScreenVM.messageToDisplay, bottomZoneVM.nameTextStyle);
+					GUILayout.Label(gameScreenVM.messageToDisplay, gameScreenVM.centerMessageTextStyle);
+				}
+				GUILayout.EndHorizontal();
+			}
+			GUILayout.EndArea();
+		}
+		if (gameScreenVM.timer > 0)
+		{
+			GUILayout.BeginArea(gameScreenVM.rightMessageRect);
+			{
+				GUILayout.BeginHorizontal(gameScreenVM.rightMessageTextStyle);
+				{
+					GUILayout.Label(Mathf.Ceil(gameScreenVM.timer).ToString(), gameScreenVM.rightMessageTextStyle);
 				}
 				GUILayout.EndHorizontal();
 			}
