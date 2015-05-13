@@ -210,7 +210,7 @@ public class DivisionLobbyView : MonoBehaviour
 					GUILayout.EndVertical();
 					GUILayout.BeginVertical();
 					{
-						GUILayout.BeginHorizontal(opponentVM.backgroundStyle);
+						GUILayout.BeginHorizontal(opponentVM.backgroundStyle,GUILayout.Height(4*0.2f * screenVM.blockBottomHeight));
 						{
 							GUILayout.Space(screenVM.blockBottomWidth*5/100);
 							if(GUILayout.Button("",opponentVM.profilePictureStyle,GUILayout.Height(4*0.2f * screenVM.blockBottomHeight),GUILayout.Width(4*0.2f * screenVM.blockBottomHeight)))
