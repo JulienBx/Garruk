@@ -48,9 +48,8 @@ public class LobbyModel
 			this.cardTypeList = data[1].Split(new string[] { "//" }, System.StringSplitOptions.None);
 			this.skillsList = data[2].Split(new string[] { "//" }, System.StringSplitOptions.None);
 			this.decks = this.parseDecks(data[3].Split(new string[] { "#DECK#" }, System.StringSplitOptions.None));
-			this.results = this.parseResults(data[4].Split(new string[] { "#RESULT#" }, System.StringSplitOptions.None));
-			this.currentDivision = this.parseDivision(data[5].Split(new string[] { "//" }, System.StringSplitOptions.None));
-			this.currentCup = this.parseCup(data[6].Split(new string[] { "//" }, System.StringSplitOptions.None));
+			this.currentDivision = this.parseDivision(data[4].Split(new string[] { "//" }, System.StringSplitOptions.None));
+			this.currentCup = this.parseCup(data[5].Split(new string[] { "//" }, System.StringSplitOptions.None));
 		}
 	}
 	private User parsePlayer(string[] userData)
@@ -122,27 +121,6 @@ public class LobbyModel
 			}
 		}
 		return cards;
-	}
-	private List<PlayerResult> parseResults(string[] resultsData)
-	{
-		List<PlayerResult> results = new List<PlayerResult> ();
-		for(int i=0;i<resultsData.Length-1;i++)
-		{
-			string[] resultInformation = resultsData[i].Split(new string[] { "//" }, System.StringSplitOptions.None);
-			results.Add (new PlayerResult());
-			results[i].HasWon=System.Convert.ToBoolean(System.Convert.ToInt32(resultInformation[0]));
-			results[i].Date=System.DateTime.ParseExact(resultInformation[1], "yyyy-MM-dd HH:mm:ss", null);
-			results[i].GameType=System.Convert.ToInt32(resultInformation[2]);
-			results[i].Opponent=new User();
-			results[i].Opponent.Username=resultInformation[3];
-			results[i].Opponent.Picture=resultInformation[4];
-			results[i].Opponent.Division=System.Convert.ToInt32(resultInformation[5]);
-			results[i].Opponent.RankingPoints=System.Convert.ToInt32(resultInformation[6]);
-			results[i].Opponent.Ranking=System.Convert.ToInt32(resultInformation[7]);
-			results[i].Opponent.TotalNbWins=System.Convert.ToInt32(resultInformation[8]);
-			results[i].Opponent.TotalNbLooses=System.Convert.ToInt32(resultInformation[9]);
-		}
-		return results;
 	}
 	private Division parseDivision(string[] divisionData)
 	{

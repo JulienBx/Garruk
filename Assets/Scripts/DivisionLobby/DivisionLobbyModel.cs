@@ -60,12 +60,13 @@ public class DivisionLobbyModel
 	{
 		Division division = new Division ();
 		division.Name = divisionData [0];
-		division.NbGames = System.Convert.ToInt32 (divisionData [1]);
-		division.NbWinsForRelegation = System.Convert.ToInt32 (divisionData [2]);
-		division.NbWinsForPromotion = System.Convert.ToInt32 (divisionData [3]);
-		division.NbWinsForTitle = System.Convert.ToInt32 (divisionData [4]);
-		division.TitlePrize = System.Convert.ToInt32 (divisionData [5]);
-		division.PromotionPrize = System.Convert.ToInt32 (divisionData [6]);
+		division.Picture = divisionData [1];
+		division.NbGames = System.Convert.ToInt32 (divisionData [2]);
+		division.NbWinsForRelegation = System.Convert.ToInt32 (divisionData [3]);
+		division.NbWinsForPromotion = System.Convert.ToInt32 (divisionData [4]);
+		division.NbWinsForTitle = System.Convert.ToInt32 (divisionData [5]);
+		division.TitlePrize = System.Convert.ToInt32 (divisionData [6]);
+		division.PromotionPrize = System.Convert.ToInt32 (divisionData [7]);
 		return division;
 	}
 }

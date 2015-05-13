@@ -16,17 +16,14 @@ public class DivisionLobbyScreenViewModel
 	public float blockTopLeftHeight;
 	public float blockTopRightWidth;
 	public float blockTopRightHeight;
-	public float blockBottomLeftWidth;
-	public float blockBottomLeftHeight;
 	public float blockMiddleRightWidth;
 	public float blockMiddleRightHeight;
-	public float blockBottomRightWidth;
-	public float blockBottomRightHeight;
+	public float blockBottomWidth;
+	public float blockBottomHeight;
 	public Rect blockTopLeft;
 	public Rect blockTopRight;
-	public Rect blockBottomLeft;
 	public Rect blockMiddleRight;
-	public Rect blockBottomRight;
+	public Rect blockBottom;
 	public int heightScreen;
 	public int widthScreen;
 	
@@ -46,20 +43,18 @@ public class DivisionLobbyScreenViewModel
 		this.heightScreen = Screen.height;
 		this.widthScreen = Screen.width;
 		this.gapBetweenBlocks = 5;
+		this.blockBottomWidth = 1f * (this.widthScreen - 2 * this.gapBetweenBlocks);
+		this.blockBottomHeight = 0.34f * (0.9f*this.heightScreen - 3 * this.gapBetweenBlocks);
 		this.blockTopLeftWidth = 0.75f * (this.widthScreen - 3 * this.gapBetweenBlocks);
 		this.blockTopLeftHeight = 0.66f * (0.9f*this.heightScreen - 3 * this.gapBetweenBlocks);
-		this.blockTopRightWidth = 0.25f * (this.widthScreen - 3 * this.gapBetweenBlocks);
-		this.blockTopRightHeight = 0.15f * (0.9f*this.heightScreen - 4 * this.gapBetweenBlocks);
-		this.blockBottomLeftWidth = this.blockTopLeftWidth;
-		this.blockBottomLeftHeight = 0.34f * (0.9f * this.heightScreen - 3 * this.gapBetweenBlocks);
+		this.blockTopRightWidth = 0.25f * (this.widthScreen - 4 * this.gapBetweenBlocks);
+		this.blockTopRightHeight = 0.25f * (0.9f*this.heightScreen - 4 * this.gapBetweenBlocks-this.blockBottomHeight);
 		this.blockMiddleRightWidth = this.blockTopRightWidth;
-		this.blockMiddleRightHeight=0.70f * (0.9f * this.heightScreen - 4 * this.gapBetweenBlocks);
-		this.blockBottomRightWidth = this.blockTopRightWidth;
-		this.blockBottomRightHeight = this.blockTopRightHeight;
+		this.blockMiddleRightHeight=0.75f * (0.9f * this.heightScreen - 4 * this.gapBetweenBlocks-this.blockBottomHeight);
 
 		this.blockTopLeft = new Rect (this.gapBetweenBlocks, 
 		                              0.1f * this.heightScreen + this.gapBetweenBlocks, 
-		                              this.blockBottomLeftWidth, 
+		                              this.blockTopLeftWidth, 
 		                              this.blockTopLeftHeight);
 
 		this.blockTopRight = new Rect (this.blockTopLeftWidth + 2 * this.gapBetweenBlocks,
@@ -67,19 +62,14 @@ public class DivisionLobbyScreenViewModel
 		                               this.blockTopRightWidth,
 		                               this.blockTopRightHeight);
 
-		this.blockBottomLeft = new Rect (this.gapBetweenBlocks,
-		                                 0.1f * this.heightScreen + this.blockTopLeftHeight + 2 * this.gapBetweenBlocks,
-		                                 this.blockBottomLeftWidth,
-		                                 this.blockBottomLeftHeight);
-
-		this.blockMiddleRight = new Rect (this.blockBottomLeftWidth + 2 * this.gapBetweenBlocks,
+		this.blockMiddleRight = new Rect (this.blockTopLeftWidth + 2 * this.gapBetweenBlocks,
 		                                0.1f * this.heightScreen + 2 * this.gapBetweenBlocks + this.blockTopRightHeight,
 		                                this.blockMiddleRightWidth,
 		                                this.blockMiddleRightHeight);
 		                            
-		this.blockBottomRight = new Rect (this.blockBottomLeftWidth + 2 * this.gapBetweenBlocks,
-		                                  0.1f * this.heightScreen + 3 * this.gapBetweenBlocks + this.blockTopRightHeight+this.blockMiddleRightHeight,
-		                                  this.blockBottomRightWidth,
-		                                  this.blockBottomRightHeight);
+		this.blockBottom = new Rect (this.gapBetweenBlocks,
+		                             0.1f * this.heightScreen + 2 * this.gapBetweenBlocks + this.blockTopLeftHeight,
+		                             this.blockBottomWidth,
+		                             this.blockBottomHeight);
 	}
 }

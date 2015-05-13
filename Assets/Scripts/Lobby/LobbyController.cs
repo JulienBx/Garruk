@@ -206,51 +206,6 @@ public class LobbyController : Photon.MonoBehaviour
 		{
 			view.divisionGameVM.divisionInformationsLabel=view.divisionGameVM.divisionInformationsLabel+"\n Promotion : "+model.currentDivision.PromotionPrize+" crédit";
 		}
-		for(int i=0;i<model.results.Count;i++)
-		{
-			view.resultsVM.resultsStyles.Add (new GUIStyle());
-			view.resultsVM.resultsGameTypeStyles.Add (new GUIStyle());
-			view.resultsVM.focusButtonStyles.Add(new GUIStyle());
-			view.resultsVM.resultsLabel.Add (model.results[i].Date.ToString("dd/MM/yyyy"));
-			if(i==0)
-			{
-				view.resultsVM.focusButtonStyles[i]=view.resultsVM.selectedFocusButtonStyle;
-			}
-			else
-			{
-				view.resultsVM.focusButtonStyles[i]=view.resultsVM.focusButtonStyle;
-			}
-			if(model.results[i].HasWon)
-			{
-				view.resultsVM.resultsStyles[i]=view.resultsVM.wonResultStyle;
-				view.resultsVM.resultsLabel[i]=view.resultsVM.resultsLabel[i]+" Victoire";
-			}
-			else
-			{
-				view.resultsVM.resultsStyles[i]=view.resultsVM.lostResultStyle;
-				view.resultsVM.resultsLabel[i]=view.resultsVM.resultsLabel[i]+" Défaite";
-			}
-			switch(model.results[i].GameType)
-			{
-			case 0:
-				view.resultsVM.resultsGameTypeStyles[i]=view.resultsVM.friendlyGameStyle;
-				break;
-			case 1:
-				view.resultsVM.resultsGameTypeStyles[i]=view.resultsVM.divisionGameStyle;
-				break;
-			case 2:
-				view.resultsVM.resultsGameTypeStyles[i]=view.resultsVM.cupGameStyle;
-				break;
-			}
-		}
-		view.opponentVM.username = model.results [0].Opponent.Username;
-		view.opponentVM.totalNbWins = model.results [0].Opponent.TotalNbWins;
-		view.opponentVM.totalNbLooses = model.results [0].Opponent.TotalNbLooses;
-		view.opponentVM.ranking = model.results [0].Opponent.Ranking;
-		view.opponentVM.rankingPoints = model.results [0].Opponent.RankingPoints;
-		view.opponentVM.currentDivision = model.results [0].Opponent.Division;
-		view.opponentVM.profilePictureButtonStyle.normal.background = model.results [0].Opponent.texture;
-		StartCoroutine (model.results [0].Opponent.setProfilePicture ());
 		this.updateNbPlayersLabel ();
 	}
 	private void updateNbPlayersLabel()
@@ -349,18 +304,6 @@ public class LobbyController : Photon.MonoBehaviour
 			view.friendlyGameVM.styles[i]=this.friendlyGameVMStyle[i];
 		}
 		view.friendlyGameVM.initStyles();
-		view.resultsVM.styles=new GUIStyle[this.resultsVMStyle.Length];
-		for(int i=0;i<this.resultsVMStyle.Length;i++)
-		{
-			view.resultsVM.styles[i]=this.resultsVMStyle[i];
-		}
-		view.resultsVM.initStyles();
-		view.opponentVM.styles=new GUIStyle[this.opponentVMStyle.Length];
-		for(int i=0;i<this.opponentVMStyle.Length;i++)
-		{
-			view.opponentVM.styles[i]=this.opponentVMStyle[i];
-		}
-		view.opponentVM.initStyles();
 		view.lobbyVM.styles=new GUIStyle[this.lobbyVMStyle.Length];
 		for(int i=0;i<this.lobbyVMStyle.Length;i++)
 		{
@@ -387,8 +330,6 @@ public class LobbyController : Photon.MonoBehaviour
 		view.divisionGameVM.resize (view.screenVM.heightScreen);
 		view.cupGameVM.resize (view.screenVM.heightScreen);
 		view.friendlyGameVM.resize (view.screenVM.heightScreen);
-		view.resultsVM.resize (view.screenVM.heightScreen);
-		view.opponentVM.resize (view.screenVM.heightScreen);
 		view.lobbyVM.resize (view.screenVM.heightScreen);
 		view.decksCardVM.resize (view.screenVM.heightScreen);
 		view.playersVM.resize (view.screenVM.heightScreen);
@@ -427,20 +368,6 @@ public class LobbyController : Photon.MonoBehaviour
 		{
 			this.cardPopUpBelongTo.GetComponent<CardController> ().exitPopUp ();
 		}
-	}
-	public void displayOpponent(int chosenOpponent)
-	{
-		view.opponentVM.username = model.results [chosenOpponent].Opponent.Username;
-		view.opponentVM.totalNbWins = model.results [chosenOpponent].Opponent.TotalNbWins;
-		view.opponentVM.totalNbLooses = model.results [chosenOpponent].Opponent.TotalNbLooses;
-		view.opponentVM.ranking = model.results [chosenOpponent].Opponent.Ranking;
-		view.opponentVM.rankingPoints = model.results [chosenOpponent].Opponent.RankingPoints;
-		view.opponentVM.currentDivision = model.results [chosenOpponent].Opponent.Division;
-		view.opponentVM.profilePictureButtonStyle.normal.background = model.results [chosenOpponent].Opponent.texture;
-		StartCoroutine (model.results [chosenOpponent].Opponent.setProfilePicture ());
-		view.resultsVM.focusButtonStyles[chosenOpponent]=view.resultsVM.selectedFocusButtonStyle;
-		view.resultsVM.focusButtonStyles[view.resultsVM.chosenResult]=view.resultsVM.focusButtonStyle;
-		view.resultsVM.chosenResult = chosenOpponent;
 	}
 	public void joinFriendlyGame()
 	{

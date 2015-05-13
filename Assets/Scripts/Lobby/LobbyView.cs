@@ -12,8 +12,6 @@ public class LobbyView : MonoBehaviour
 	public LobbyScreenViewModel screenVM;
 	public LobbyDecksViewModel decksVM;
 	public LobbyDeckCardsViewModel decksCardVM;
-	public LobbyOpponentViewModel opponentVM;
-	public LobbyResultsViewModel resultsVM;
 	public LobbyViewModel lobbyVM;
 	public LobbyDivisionGameViewModel divisionGameVM;
 	public LobbyFriendlyGameViewModel friendlyGameVM;
@@ -25,8 +23,6 @@ public class LobbyView : MonoBehaviour
 		this.screenVM = new LobbyScreenViewModel ();
 		this.decksVM = new LobbyDecksViewModel ();
 		this.decksCardVM = new LobbyDeckCardsViewModel ();
-		this.opponentVM = new LobbyOpponentViewModel ();
-		this.resultsVM = new LobbyResultsViewModel ();
 		this.lobbyVM = new LobbyViewModel ();
 		this.divisionGameVM = new LobbyDivisionGameViewModel ();
 		this.friendlyGameVM = new LobbyFriendlyGameViewModel ();
@@ -96,7 +92,7 @@ public class LobbyView : MonoBehaviour
 				}
 			}
 			GUILayout.EndArea();
-			GUILayout.BeginArea(screenVM.blockMiddleTop);
+			GUILayout.BeginArea(screenVM.blockBottom);
 			{
 				GUILayout.FlexibleSpace();
 				GUILayout.Label(playersVM.label,playersVM.labelStyle);
@@ -110,7 +106,7 @@ public class LobbyView : MonoBehaviour
 				GUILayout.BeginHorizontal();
 				{
 					GUILayout.FlexibleSpace();
-					if(GUILayout.Button("",friendlyGameVM.buttonStyle,GUILayout.Width(9f/10f*screenVM.blockMiddleLeftHeight),GUILayout.Height(9f/10f*screenVM.blockMiddleLeftHeight)))
+					if(GUILayout.Button("",friendlyGameVM.buttonStyle,GUILayout.Width(5f/10f*screenVM.blockMiddleLeftHeight),GUILayout.Height(5f/10f*screenVM.blockMiddleLeftHeight)))
 					{
 						LobbyController.instance.joinFriendlyGame();
 					}
@@ -127,7 +123,7 @@ public class LobbyView : MonoBehaviour
 				GUILayout.BeginHorizontal();
 				{
 					GUILayout.FlexibleSpace();
-					if(GUILayout.Button(divisionGameVM.divisionInformationsLabel,divisionGameVM.buttonStyle,GUILayout.Width(9f/10f*screenVM.blockMiddleCenterHeight),GUILayout.Height(9f/10f*screenVM.blockMiddleCenterHeight)))
+					if(GUILayout.Button(divisionGameVM.divisionInformationsLabel,divisionGameVM.buttonStyle,GUILayout.Width(5f/10f*screenVM.blockMiddleCenterHeight),GUILayout.Height(5f/10f*screenVM.blockMiddleCenterHeight)))
 					{
 						LobbyController.instance.joinDivisionLobby();
 					}
@@ -144,7 +140,7 @@ public class LobbyView : MonoBehaviour
 				GUILayout.BeginHorizontal();
 				{
 					GUILayout.FlexibleSpace();
-					if(GUILayout.Button(cupGameVM.cupInformationsLabel,cupGameVM.buttonStyle,GUILayout.Width(9f/10f*screenVM.blockMiddleRightHeight),GUILayout.Height(9f/10f*screenVM.blockMiddleRightHeight)))
+					if(GUILayout.Button(cupGameVM.cupInformationsLabel,cupGameVM.buttonStyle,GUILayout.Width(5f/10f*screenVM.blockMiddleRightHeight),GUILayout.Height(5f/10f*screenVM.blockMiddleRightHeight)))
 					{
 						LobbyController.instance.joinCupGame();
 					}
@@ -153,76 +149,6 @@ public class LobbyView : MonoBehaviour
 				GUILayout.EndHorizontal();
 				GUILayout.Label("Match de coupe",cupGameVM.labelStyle,GUILayout.Height(1f/10f*screenVM.blockMiddleRightHeight));
 				GUILayout.FlexibleSpace();
-			}
-			GUILayout.EndArea();
-			GUI.enabled=lobbyVM.guiEnabled;
-			GUILayout.BeginArea(screenVM.blockBottom);
-			{
-				GUILayout.Label(resultsVM.resultsTitle, resultsVM.resultsTitleStyle,GUILayout.Height(0.2f * screenVM.blockBottomHeight));
-				GUILayout.BeginHorizontal();
-				{
-					GUILayout.BeginVertical(GUILayout.Width(screenVM.blockBottomWidth*0.30f));
-					{
-						resultsVM.scrollPosition = GUILayout.BeginScrollView(resultsVM.scrollPosition,GUILayout.Height(4*0.2f * screenVM.blockBottomHeight));
-						
-						for (int i = 0; i < resultsVM.resultsLabel.Count; i++)
-						{	
-							GUILayout.BeginHorizontal();
-							{
-								if (GUILayout.Button("", resultsVM.resultsGameTypeStyles [i],GUILayout.Height(0.2f * screenVM.blockBottomHeight),GUILayout.Width(0.2f * screenVM.blockBottomHeight)))
-								{
-								}
-								if (GUILayout.Button(resultsVM.resultsLabel[i], resultsVM.resultsStyles[i],GUILayout.Height(0.2f * screenVM.blockBottomHeight)))
-								{
-								}
-								if (GUILayout.Button(">", resultsVM.focusButtonStyles[i],GUILayout.Height(0.2f * screenVM.blockBottomHeight),GUILayout.Width(0.2f * screenVM.blockBottomHeight)))
-								{
-									if (resultsVM.chosenResult != i)
-									{
-										LobbyController.instance.displayOpponent(i);
-									}
-								}
-							}
-							GUILayout.EndHorizontal();
-						}
-						GUILayout.EndScrollView();
-					}
-					GUILayout.EndVertical();
-					GUILayout.BeginVertical();
-					{
-						GUILayout.BeginHorizontal(opponentVM.backgroundStyle);
-						{
-							GUILayout.Space(screenVM.blockBottomWidth*5/100);
-							if(GUILayout.Button("",opponentVM.profilePictureButtonStyle,GUILayout.Height(4*0.2f * screenVM.blockBottomHeight),GUILayout.Width(4*0.2f * screenVM.blockBottomHeight)))
-							{
-								ApplicationModel.profileChosen=opponentVM.username;
-								Application.LoadLevel("profile");
-							}
-							GUILayout.Space(screenVM.blockBottomWidth*5/100);
-							GUILayout.BeginVertical();
-							{
-								GUILayout.FlexibleSpace();
-								GUILayout.Label (opponentVM.username,opponentVM.usernameStyle);
-								GUILayout.FlexibleSpace();
-								GUILayout.FlexibleSpace();
-								GUILayout.Label ("Victoires : "+opponentVM.totalNbWins,opponentVM.informationsStyle);
-								GUILayout.FlexibleSpace();
-								GUILayout.Label ("Défaites : "+opponentVM.totalNbLooses,opponentVM.informationsStyle);
-								GUILayout.FlexibleSpace();
-								GUILayout.Label ("Ranking : "+opponentVM.ranking,opponentVM.informationsStyle);
-								GUILayout.FlexibleSpace();
-								GUILayout.Label ("Ranking Points : "+opponentVM.rankingPoints,opponentVM.informationsStyle);
-								GUILayout.FlexibleSpace();
-								GUILayout.Label ("Division : "+opponentVM.currentDivision,opponentVM.informationsStyle);
-								GUILayout.FlexibleSpace();
-							}
-							GUILayout.EndVertical();
-						}
-						GUILayout.EndHorizontal();
-					}
-					GUILayout.EndHorizontal();
-				}
-				GUILayout.EndHorizontal();
 			}
 			GUILayout.EndArea();
 		}

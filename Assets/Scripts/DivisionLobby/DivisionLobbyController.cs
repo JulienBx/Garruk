@@ -18,7 +18,8 @@ public class DivisionLobbyController : MonoBehaviour
 	public GUIStyle[] boardVMStyle;
 	public GUIStyle[] resultsVMStyle;
 	public GUIStyle[] divisionLobbyVMStyle;
-	public GUIStyle[] lastOpponnentVMStyle;
+	public GUIStyle[] opponnentVMStyle;
+	public GUIStyle[] competInfosVMStyle;
 	
 	public GameObject MenuObject;
 	
@@ -35,15 +36,7 @@ public class DivisionLobbyController : MonoBehaviour
 		yield return StartCoroutine(model.getDivisionLobbyData());
 		this.initStyles ();
 		this.initVM ();
-		this.setPagination ();
-		this.displayResults ();
 		this.initializeGauge ();
-		this.resize ();
-	}
-	public void loadData()
-	{
-		this.setPagination ();
-		this.displayResults ();
 		this.resize ();
 	}
 	private void initVM()
@@ -66,106 +59,57 @@ public class DivisionLobbyController : MonoBehaviour
 		view.boardVM.titlePrize = model.currentDivision.TitlePrize;
 		view.boardVM.promotionPrize = model.currentDivision.PromotionPrize;
 		view.boardVM.divisionName = model.currentDivision.Name;
-		if(model.results.Count>0)
+		for(int i=0;i<model.results.Count;i++)
 		{
-			view.lastOpponentVM.username=model.results[0].Opponent.Username;
-			view.lastOpponentVM.totalNbWins=model.results[0].Opponent.TotalNbWins;
-			view.lastOpponentVM.totalNbLooses=model.results[0].Opponent.TotalNbLooses;
-			view.lastOpponentVM.ranking=model.results[0].Opponent.Ranking;
-			view.lastOpponentVM.rankingPoints=model.results[0].Opponent.RankingPoints;
-			view.lastOpponentVM.division=model.results[0].Opponent.Division;
-			view.lastOpponentVM.profilePictureStyle.normal.background=model.results[0].Opponent.texture;
-		}
-	}
-	public void displayResults()
-	{
-		view.resultsVM.start = view.resultsVM.chosenPage * 5;
-		if((view.resultsVM.chosenPage+1)*5>model.results.Count)
-		{
-			view.resultsVM.finish=model.results.Count;
-		}
-		else
-		{
-			view.resultsVM.finish=(view.resultsVM.chosenPage+1) * 5;
-		}
-		view.resultsVM.profilePictureButtonStyles = new List<GUIStyle> ();
-		view.resultsVM.labelStyles = new List<GUIStyle> ();
-		view.resultsVM.backgroundStyles = new List<GUIStyle> ();
-		view.resultsVM.label = new List<string> ();
-		view.resultsVM.totalNbWins = new List<int> ();
-		view.resultsVM.totalNbLooses = new List<int> ();
-		view.resultsVM.ranking = new List<int> ();
-		view.resultsVM.division = new List<int> ();
-		view.resultsVM.username = new List<string> ();
-		for(int i =view.resultsVM.start;i<view.resultsVM.finish;i++)
-		{
-			view.resultsVM.username.Add(model.results[i].Opponent.Username);
-			view.resultsVM.totalNbWins.Add(model.results[i].Opponent.TotalNbWins);
-			view.resultsVM.totalNbLooses.Add(model.results[i].Opponent.TotalNbLooses);
-			view.resultsVM.ranking.Add(model.results[i].Opponent.Ranking);
-			view.resultsVM.division.Add (model.results[i].Opponent.Division);
-			view.resultsVM.profilePictureButtonStyles.Add (new GUIStyle());
-			view.resultsVM.profilePictureButtonStyles[view.resultsVM.profilePictureButtonStyles.Count-1].normal.background=model.results[i].Opponent.texture;
-			view.resultsVM.profilePictureButtonStyles[view.resultsVM.profilePictureButtonStyles.Count-1].stretchHeight=true;
-			view.resultsVM.profilePictureButtonStyles[view.resultsVM.profilePictureButtonStyles.Count-1].stretchWidth=true;
-			StartCoroutine(model.results[i].Opponent.setProfilePicture());
-			if(model.results[i].HasWon)
+			view.resultsVM.resultsStyles.Add (new GUIStyle());
+			view.resultsVM.focusButtonStyles.Add(new GUIStyle());
+			view.resultsVM.resultsLabel.Add (model.results[i].Date.ToString("dd/MM/yyyy"));
+			if(i==0)
 			{
-				view.resultsVM.backgroundStyles.Add (view.resultsVM.wonBackgroundStyle);
-				view.resultsVM.labelStyles.Add (view.resultsVM.wonLabelStyle);
-				view.resultsVM.label.Add ("Victoire");
+				view.resultsVM.focusButtonStyles[i]=view.resultsVM.selectedFocusButtonStyle;
 			}
 			else
 			{
-				view.resultsVM.backgroundStyles.Add (view.resultsVM.defeatBackgroundStyle);
-				view.resultsVM.labelStyles.Add (view.resultsVM.defeatLabelStyle);
-				view.resultsVM.label.Add ("Défaite");
+				view.resultsVM.focusButtonStyles[i]=view.resultsVM.focusButtonStyle;
 			}
-		}
-	}
-	private void setPagination()
-	{
-		view.resultsVM.chosenPage = 0;
-		view.resultsVM.nbPages=Mathf.CeilToInt(model.results.Count/5f);
-		view.resultsVM.pageDebut=0;
-		
-		if (view.resultsVM.nbPages>5)
-		{
-			view.resultsVM.pageFin = 4 ;
-		}
-		else
-		{
-			view.resultsVM.pageFin = view.resultsVM.nbPages ;
-		}
-		
-		view.resultsVM.paginatorGuiStyle = new GUIStyle[view.resultsVM.nbPages];
-		for (int i = 0; i < view.resultsVM.nbPages; i++) 
-		{ 
-			if (i==0)
+			if(model.results[i].HasWon)
 			{
-				view.resultsVM.paginatorGuiStyle[0]=view.divisionLobbyVM.paginationActivatedStyle;
+				view.resultsVM.resultsStyles[i]=view.resultsVM.wonLabelStyle;
+				view.resultsVM.resultsLabel[i]=view.resultsVM.resultsLabel[i]+" Victoire";
 			}
-			else{
-				view.resultsVM.paginatorGuiStyle[i]=view.divisionLobbyVM.paginationStyle;
+			else
+			{
+				view.resultsVM.resultsStyles[i]=view.resultsVM.defeatLabelStyle;
+				view.resultsVM.resultsLabel[i]=view.resultsVM.resultsLabel[i]+" Défaite";
 			}
 		}
+		view.opponentVM.username = model.results [0].Opponent.Username;
+		view.opponentVM.totalNbWins = model.results [0].Opponent.TotalNbWins;
+		view.opponentVM.totalNbLooses = model.results [0].Opponent.TotalNbLooses;
+		view.opponentVM.ranking = model.results [0].Opponent.Ranking;
+		view.opponentVM.rankingPoints = model.results [0].Opponent.RankingPoints;
+		view.opponentVM.division = model.results [0].Opponent.Division;
+		view.opponentVM.profilePictureStyle.normal.background = model.results [0].Opponent.texture;
+		StartCoroutine (model.results [0].Opponent.setProfilePicture ());
+		view.competInfosVM.nbGames = model.currentDivision.NbGames;
+		view.competInfosVM.titlePrize = model.currentDivision.TitlePrize;
+		view.competInfosVM.promotionPrize = model.currentDivision.PromotionPrize;
+		view.competInfosVM.competitionPictureStyle.normal.background = model.currentDivision.texture;
+		StartCoroutine (model.currentDivision.setPicture ());
 	}
-	public void paginationBack()
+	public void displayOpponent(int chosenOpponent)
 	{
-		view.resultsVM.pageDebut = view.resultsVM.pageDebut-15;
-		view.resultsVM.pageFin = view.resultsVM.pageDebut+15;
-	}
-	public void paginationSelect(int chosenPage)
-	{
-		view.resultsVM.paginatorGuiStyle[view.resultsVM.chosenPage]=view.divisionLobbyVM.paginationStyle;
-		view.resultsVM.chosenPage=chosenPage;
-		view.resultsVM.paginatorGuiStyle[chosenPage]=this.view.divisionLobbyVM.paginationActivatedStyle;
-		this.displayResults();
-	}
-	public void paginationNext()
-	{
-		view.resultsVM.pageDebut = view.resultsVM.pageDebut+15;
-		view.resultsVM.pageFin = Mathf.Min(view.resultsVM.pageFin+15, view.resultsVM.nbPages);
+		view.opponentVM.username = model.results [chosenOpponent].Opponent.Username;
+		view.opponentVM.totalNbWins = model.results [chosenOpponent].Opponent.TotalNbWins;
+		view.opponentVM.totalNbLooses = model.results [chosenOpponent].Opponent.TotalNbLooses;
+		view.opponentVM.ranking = model.results [chosenOpponent].Opponent.Ranking;
+		view.opponentVM.rankingPoints = model.results [chosenOpponent].Opponent.RankingPoints;
+		view.opponentVM.division = model.results [chosenOpponent].Opponent.Division;
+		view.opponentVM.profilePictureStyle.normal.background = model.results [chosenOpponent].Opponent.texture;
+		StartCoroutine (model.results [chosenOpponent].Opponent.setProfilePicture ());
+		view.resultsVM.focusButtonStyles[chosenOpponent]=view.resultsVM.selectedFocusButtonStyle;
+		view.resultsVM.focusButtonStyles[view.resultsVM.chosenResult]=view.resultsVM.focusButtonStyle;
+		view.resultsVM.chosenResult = chosenOpponent;
 	}
 	private void initializeGauge()
 	{	
@@ -224,27 +168,34 @@ public class DivisionLobbyController : MonoBehaviour
 			view.resultsVM.styles[i]=this.resultsVMStyle[i];
 		}
 		view.resultsVM.initStyles();
-		view.lastOpponentVM.styles=new GUIStyle[this.lastOpponnentVMStyle.Length];
-		for(int i=0;i<this.lastOpponnentVMStyle.Length;i++)
+		view.opponentVM.styles=new GUIStyle[this.opponnentVMStyle.Length];
+		for(int i=0;i<this.opponnentVMStyle.Length;i++)
 		{
-			view.lastOpponentVM.styles[i]=this.lastOpponnentVMStyle[i];
+			view.opponentVM.styles[i]=this.opponnentVMStyle[i];
 		}
-		view.lastOpponentVM.initStyles();
+		view.opponentVM.initStyles();
 		view.boardVM.styles=new GUIStyle[this.boardVMStyle.Length];
 		for(int i=0;i<this.boardVMStyle.Length;i++)
 		{
 			view.boardVM.styles[i]=this.boardVMStyle[i];
 		}
 		view.boardVM.initStyles();
+		view.competInfosVM.styles=new GUIStyle[this.competInfosVMStyle.Length];
+		for(int i=0;i<this.competInfosVMStyle.Length;i++)
+		{
+			view.competInfosVM.styles[i]=this.competInfosVMStyle[i];
+		}
+		view.competInfosVM.initStyles();
 	}
 	public void resize()
 	{
 		view.screenVM.resize ();
 		view.divisionLobbyVM.resize (view.screenVM.heightScreen);
 		view.resultsVM.resize (view.screenVM.heightScreen);
-		view.lastOpponentVM.resize (view.screenVM.heightScreen);
+		view.opponentVM.resize (view.screenVM.heightScreen);
 		view.resultsVM.resize (view.screenVM.heightScreen);
 		view.boardVM.resize (view.screenVM.heightScreen);
+		view.competInfosVM.resize (view.screenVM.heightScreen);
 		this.resizeGauge ();
 	}
 	private void resizeGauge()
