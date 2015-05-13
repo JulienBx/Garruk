@@ -16,9 +16,6 @@ public class PlayingCardViewModel
 	public Texture2D moveIcon ;
 	public Texture2D picture ;
 
-	public Texture2D border ;
-	public Texture2D background ;
-
 	public GUIStyle backgroundStyle;
 	public GUIStyle nameTextStyle;
 	public GUIStyle imageStyle;
