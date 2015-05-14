@@ -45,29 +45,10 @@ public class PlayingCardController : MonoBehaviour
 		isMine = isMyCharacter;
 		if (isMyCharacter)
 		{
-			this.playingCardView.playingCardVM.backgroundStyle = guiStylesMyCharacter [0];
-			this.playingCardView.playingCardVM.nameTextStyle = guiStylesMyCharacter [1];
-			this.playingCardView.playingCardVM.attackZoneTextStyle = guiStylesMyCharacter [2];
-			this.playingCardView.playingCardVM.imageStyle = guiStylesMyCharacter [5];
-			this.playingCardView.playingCardVM.lifeBarStyle = guiStylesMyCharacter [6];
-			this.playingCardView.playingCardVM.backgroundBarStyle = guiStylesMyCharacter [7];
-			this.playingCardView.playingCardVM.emptyButtonStyle = guiStylesMyCharacter [8];
-			this.playingCardView.playingCardVM.skillTitleTextStyle = guiStylesMyCharacter [9];
-			this.playingCardView.playingCardVM.skillDescriptionTextStyle = guiStylesMyCharacter [10];
-			this.playingCardView.playingCardVM.QuicknessBarStyle = guiStylesMyCharacter [11];
-			this.playingCardView.playingCardVM.buttonTextStyle = guiStylesMyCharacter [13];
+
 		} else
 		{
-			this.playingCardView.playingCardVM.backgroundStyle = guiStylesHisCharacter [0];
-			this.playingCardView.playingCardVM.nameTextStyle = guiStylesHisCharacter [1];
-			this.playingCardView.playingCardVM.attackZoneTextStyle = guiStylesHisCharacter [2];
-			this.playingCardView.playingCardVM.imageStyle = guiStylesHisCharacter [5];
-			this.playingCardView.playingCardVM.lifeBarStyle = guiStylesHisCharacter [6];
-			this.playingCardView.playingCardVM.backgroundBarStyle = guiStylesHisCharacter [7];
-			this.playingCardView.playingCardVM.emptyButtonStyle = guiStylesHisCharacter [8];
-			this.playingCardView.playingCardVM.skillTitleTextStyle = guiStylesHisCharacter [9];
-			this.playingCardView.playingCardVM.skillDescriptionTextStyle = guiStylesHisCharacter [10];
-			this.playingCardView.playingCardVM.QuicknessBarStyle = guiStylesHisCharacter [11];
+
 		}
 	}
 
@@ -84,7 +65,8 @@ public class PlayingCardController : MonoBehaviour
 		this.playingCardView.playingCardVM.move = "" + c.Move;
 		this.playingCardView.playingCardVM.maxLife = c.Life;
 		this.playingCardView.playingCardVM.life = c.Life;
-		this.playingCardView.playingCardVM.picture = this.pictures [c.ArtIndex];
+		this.playingCardView.playingCardVM.background = this.pictures [c.ArtIndex];
+		this.playingCardView.changeBackground();
 
 		for (int i = 0; i < c.Skills.Count; i++)
 		{
@@ -94,10 +76,10 @@ public class PlayingCardController : MonoBehaviour
 		this.setSkills();
 	}
 
-	public void setTile(Tile t, bool toRotate)
+	public void setTile(Tile t, Vector3 position, bool toRotate)
 	{
 		this.tile = t;
-//		this.playingCharacterView.playingCharacterVM.position = this.tile.GetComponent<TileController>().tileView.tileVM.position;
+		this.playingCardView.playingCardVM.position = position;
 //		if (!toRotate)
 //		{
 //			this.playingCharacterView.playingCharacterVM.rotation = Quaternion.Euler(-90, 0, 0);
@@ -311,7 +293,7 @@ public class PlayingCardController : MonoBehaviour
 
 	public Texture2D getPicture()
 	{
-		return this.playingCardView.playingCardVM.picture;
+		return this.playingCardView.playingCardVM.background;
 	}
 
 	public void updateAttack()
