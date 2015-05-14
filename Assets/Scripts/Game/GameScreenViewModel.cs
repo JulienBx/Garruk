@@ -48,7 +48,7 @@ public class GameScreenViewModel
 		this.widthScreen = Screen.width;
 		this.bottomZoneRect = new Rect(0, this.heightScreen * 0.86f, this.widthScreen * 0.2f, this.heightScreen * 0.14f);
 		this.topZoneRect = new Rect(this.widthScreen * 0.8f, 0, this.widthScreen * 0.2f, this.heightScreen * 0.14f);
-		this.centerMessageRect = new Rect(Screen.width / 2 - 50, Screen.height * 0.95f, 100, 35);
+		this.centerMessageRect = new Rect(Screen.width / 2 - 100, Screen.height * 0.95f, 200, 35);
 		this.rightMessageRect = new Rect(Screen.width * 0.9f, Screen.height * 0.5f, 30, 30);
 	}
 

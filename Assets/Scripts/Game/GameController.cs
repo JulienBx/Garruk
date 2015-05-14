@@ -115,12 +115,8 @@ public class GameController : Photon.MonoBehaviour
 			{
 				timeElapsed = false;
 				gameView.gameScreenVM.timer -= 1;
-				gameView.gameScreenVM.hasAMessage = true;
-				gameView.gameScreenVM.centerMessageRect.width = 100;
-				gameView.gameScreenVM.centerMessageRect.x = (Screen.width / 2 - 53);
-				gameView.gameScreenVM.messageToDisplay = "temps ecoule";
-				currentPlayingCard = 1;
-				pass();
+				displayPopUpMessage("Temps ecoulé", 5f, 0);
+				currentPlayingCard = 1; // provisoire
 			}
 			if (gameView.gameScreenVM.timer < 0 && gameView.gameScreenVM.timer > -1)
 			{
@@ -128,7 +124,7 @@ public class GameController : Photon.MonoBehaviour
 			}
 			if (gameView.gameScreenVM.timer < -5)
 			{
-				gameView.gameScreenVM.hasAMessage = false;
+				pass();
 				gameView.gameScreenVM.timer = 10f;
 			}
 		}
@@ -136,11 +132,11 @@ public class GameController : Photon.MonoBehaviour
 
 	public void displayPopUpMessage(string message, float time, int position)
 	{
+		gameView.gameScreenVM.centerMessageRect.y = popupPosition [position] * Screen.height;
 		gameView.gameScreenVM.hasAMessage = true;
 		gameView.gameScreenVM.messageToDisplay = message;
 		popUpDisplay = true;
 		gameView.gameScreenVM.timerPopUp = time;
-		gameView.gameScreenVM.centerMessageRect.y = popupPosition [position] * Screen.height;
 	}
 	public void createBorders()
 	{
@@ -387,7 +383,7 @@ public class GameController : Photon.MonoBehaviour
 		this.setDestinations(currentPlayingCard);
 		this.isDragging = true;
 
-		if (isFirstP)
+		if (isFirstP != this.isFirstPlayer) // a changer plus tard
 		{
 			displayPopUpMessage("Je passe la main au personnage " + currentPlayingCard, 5f, 0);
 		} else
@@ -557,7 +553,7 @@ public class GameController : Photon.MonoBehaviour
 	{
 		if (photonView.isMine)
 		{
-			displayPopUpMessage("Bienvenu " + loginName + " ,ID = " + id, 2, 0);
+			displayPopUpMessage("Bienvenu " + loginName + " ,ID = " + id, 5, 0);
 		}
 
 		users [id - 1] = new User(loginName);	
@@ -635,10 +631,10 @@ public class GameController : Photon.MonoBehaviour
 			this.playingCards [debut + i].GetComponentInChildren<PlayingCardController>().setCard(deck.Cards [i]);
 			this.playingCards [debut + i].GetComponentInChildren<PlayingCardController>().setIDCharacter(debut + i);
 			this.playingCards [debut + i].GetComponentInChildren<PlayingCardController>().setStyles((isFirstP == this.isFirstPlayer));
-			this.playingCards [debut + i].GetComponentInChildren<PlayingCardController>().setTile(new Tile(debut+i, hauteur), tiles[debut+i, hauteur].GetComponent<TileController>().tileView.tileVM.position, !isFirstP);
+			this.playingCards [debut + i].GetComponentInChildren<PlayingCardController>().setTile(new Tile(debut + i, hauteur), tiles [debut + i, hauteur].GetComponent<TileController>().tileView.tileVM.position, !isFirstP);
 			this.playingCards [debut + i].GetComponentInChildren<PlayingCardController>().resize(this.gameView.gameScreenVM.heightScreen);
 		}
-		testTimeline();
+		//testTimeline();
 		yield break;
 
 	}
@@ -686,6 +682,10 @@ public class GameController : Photon.MonoBehaviour
 	[RPC]
 	public void inflictDamageRPC(int targetCharacter, bool isFisrtPlayerCharacter)
 	{
+		if (!photonView.isMine)
+		{
+			displayPopUpMessage(this.playingCards [targetCharacter].GetComponentInChildren<PlayingCardController>().card.Title + " attaque", 2f, 1);
+		}
 //		PlayingCardController temp = GameController.instance.getPlayingCharacter(this.isFirstPlayer == isFisrtPlayerCharacter);
 //		int damage = temp.card.GetAttack();
 //		this.myPlayingCards [targetCharacter].GetComponentInChildren<PlayingCardController>().damage += damage;
@@ -715,10 +715,7 @@ public class GameController : Photon.MonoBehaviour
 //		{
 //			EndOfGame(isFirstPlayer);
 //		}
-		if (!photonView.isMine)
-		{
-			displayPopUpMessage(this.playingCards [targetCharacter].GetComponentInChildren<PlayingCardController>().card.Title + " attaque", 2f, 1);
-		}
+
 	}
 	
 	public void StartFight()
