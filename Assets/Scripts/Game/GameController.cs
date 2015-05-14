@@ -622,7 +622,7 @@ public class GameController : Photon.MonoBehaviour
 			this.playingCards [debut + i].GetComponentInChildren<PlayingCardController>().setCard(deck.Cards [i]);
 			this.playingCards [debut + i].GetComponentInChildren<PlayingCardController>().setIDCharacter(debut + i);
 			this.playingCards [debut + i].GetComponentInChildren<PlayingCardController>().setStyles((isFirstP == this.isFirstPlayer));
-			this.playingCards [debut + i].GetComponentInChildren<PlayingCardController>().setTile(new Tile(debut + i, hauteur), !isFirstP);
+			this.playingCards [debut + i].GetComponentInChildren<PlayingCardController>().setTile(new Tile(debut+i, hauteur), tiles[debut+i, hauteur].GetComponent<TileController>().tileView.tileVM.position, !isFirstP);
 			this.playingCards [debut + i].GetComponentInChildren<PlayingCardController>().resize(this.gameView.gameScreenVM.heightScreen);
 		}
 		testTimeline();
