@@ -22,6 +22,9 @@ public class GameScreenViewModel
 	public string messageToDisplay;
 
 	public float timer;
+	public float timerPopUp;
+
+	public bool popUpDisplay;
 
 	public GameScreenViewModel()
 	{
@@ -30,6 +33,7 @@ public class GameScreenViewModel
 		messageToDisplay = "";
 		hasAMessage = false;
 		timer = 10f;
+		timerPopUp = 5f;
 	}
 
 	public void setValues(GUIStyle[] gameScreenStyles)
@@ -44,14 +48,16 @@ public class GameScreenViewModel
 		this.widthScreen = Screen.width;
 		this.bottomZoneRect = new Rect(0, this.heightScreen * 0.86f, this.widthScreen * 0.2f, this.heightScreen * 0.14f);
 		this.topZoneRect = new Rect(this.widthScreen * 0.8f, 0, this.widthScreen * 0.2f, this.heightScreen * 0.14f);
-		this.centerMessageRect = new Rect(Screen.width / 2 - 30, Screen.height / 2, 100, 35);
+		this.centerMessageRect = new Rect(Screen.width / 2 - 50, Screen.height * 0.95f, 100, 35);
 		this.rightMessageRect = new Rect(Screen.width * 0.9f, Screen.height * 0.5f, 30, 30);
 	}
 
-	public void setCursor(Texture2D c, int i){
-		if (i!=this.cursorID){
-			this.cursorID = i ;
-			this.cursor = c ;
+	public void setCursor(Texture2D c, int i)
+	{
+		if (i != this.cursorID)
+		{
+			this.cursorID = i;
+			this.cursor = c;
 		}
 		this.changeCursor();
 	}

@@ -48,12 +48,13 @@ public class GameController : Photon.MonoBehaviour
 
 	List<int> rankedPlayingCardsID; 
 
-
 	int myNextPlayer ;
 	int hisNextPlayer ;
 
 	bool gameStarted = false;
 	bool timeElapsed = false;
+	bool timeElapsedPopUp = true;
+	bool popUpDisplay = false;
 
 	//string URLStat = ApplicationModel.dev + "updateResult.php";
 	
@@ -74,7 +75,6 @@ public class GameController : Photon.MonoBehaviour
 		users = new User[2];
 		PhotonNetwork.ConnectUsingSettings(ApplicationModel.photonSettings);
 		PhotonNetwork.autoCleanUpPlayerObjects = false;
-		//testTimeline();
 		//scaleTile = 1.2f * (8f/gridHeightInHexes);
 	}	
 
@@ -91,6 +91,18 @@ public class GameController : Photon.MonoBehaviour
 		if (gameStarted)
 		{
 			gameView.gameScreenVM.timer -= Time.deltaTime;
+			if (popUpDisplay)
+			{
+				gameView.gameScreenVM.timerPopUp -= Time.deltaTime;
+			}
+
+			if (gameView.gameScreenVM.timerPopUp < 0)
+			{
+				popUpDisplay = false;
+				gameView.gameScreenVM.hasAMessage = false;
+				gameView.gameScreenVM.timerPopUp = 5f;
+			}
+
 
 			if (timeElapsed)
 			{
@@ -113,7 +125,14 @@ public class GameController : Photon.MonoBehaviour
 				gameView.gameScreenVM.timer = 10f;
 			}
 		}
-	}	
+	}
+
+	public void displayPopUpMessage(string message)
+	{
+		gameView.gameScreenVM.hasAMessage = true;
+		gameView.gameScreenVM.messageToDisplay = message;
+		popUpDisplay = true;
+	}
 
 	public void hideHoveredTile()
 	{
@@ -568,8 +587,9 @@ public class GameController : Photon.MonoBehaviour
 			this.playingCards [debut + i].GetComponentInChildren<PlayingCardController>().setTile(new Tile(i, 0), !isFirstP);
 			this.playingCards [debut + i].GetComponentInChildren<PlayingCardController>().resize(this.gameView.gameScreenVM.heightScreen);
 		}
-		
+		testTimeline();
 		yield break;
+
 	}
 
 	[RPC]
@@ -704,7 +724,7 @@ public class GameController : Photon.MonoBehaviour
 		pass();
 		this.currentPlayingCard = 0;
 		pass();
-
+		displayPopUpMessage("test");
 		inflictDamage(0);
 		inflictDamage(1);
 		inflictDamage(2);
