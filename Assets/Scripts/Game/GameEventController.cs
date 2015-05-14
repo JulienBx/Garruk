@@ -18,18 +18,34 @@ public class GameEventController : MonoBehaviour
 		gameEventView.gameEventVM.characterName = title;
 	}
 
-	public void setScreenPosition(int count)
+	public void setScreenPosition(int count, int boardWidth, int boardHeight, float scaleTile)
 	{
 		Camera camera = Camera.main;
-		Vector3 v3 = new Vector3(Screen.width * 0.05f, Screen.height, 10);
-		Vector3 newPosition = camera.ScreenToWorldPoint(v3);
+		Vector3 v3 = new Vector3((0.02f + scaleTile) * (- boardWidth / 2 - 0.5f), (boardHeight - 1 - boardHeight / 2) * scaleTile * 1.02f, 0f);
+		//Vector3 newPosition = camera.ScreenToWorldPoint(v3);
 		
-		transform.position = newPosition;
-		transform.Translate((transform.up * transform.localScale.y + transform.up * 0.1f) * (count + 2), Space.World);
+		transform.position = v3;
+		transform.Translate((transform.up * transform.localScale.y + transform.up * 0.1f) * (count - 1), Space.World);
 
-		Vector3 reverse = camera.WorldToScreenPoint(new Vector3(transform.position.x, transform.position.y, transform.position.z));
-		Rect r = new Rect(reverse.x + v3.x, Screen.height - reverse.y, 200, 50);
+		Vector3 reverse = getGOScreenPosition(new Vector3(transform.position.x + 0.54f, transform.position.y + 0.45f, transform.position.z));
+		Rect r = new Rect(reverse.x, Screen.height - reverse.y, 200, 50);
 		setInfoRect(r);
+	}
+
+	public Vector3 getGOScreenPosition(Vector3 pos)
+	{
+		float worldHeight;
+		if (Camera.main.camera.isOrthoGraphic)
+		{
+			worldHeight = 2f * Camera.main.camera.orthographicSize;
+		} else
+		{
+			float distance = Mathf.Abs(Camera.main.camera.transform.position.z);
+			float radians = (Camera.main.camera.fieldOfView / 2f) * (Mathf.PI / 180f);
+			worldHeight = 2f * (distance * Mathf.Tan(radians));
+		}
+		float worldWidth = ((float)Screen.width / (float)Screen.height) * worldHeight;
+		return new Vector3((worldWidth / 2f + pos.x) * (float)Screen.width / worldWidth, (worldHeight / 2f + pos.y) * (float)Screen.height / worldHeight, 0);
 	}
 
 	public string getAction()

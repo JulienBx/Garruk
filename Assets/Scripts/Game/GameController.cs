@@ -90,7 +90,7 @@ public class GameController : Photon.MonoBehaviour
 
 	void Update()
 	{	
-		if (gameView.gameScreenVM.widthScreen != Screen.width || gameView.gameScreenVM.widthScreen != Screen.width)
+		if (gameView.gameScreenVM.widthScreen != Screen.width || gameView.gameScreenVM.heightScreen != Screen.height)
 		{
 			this.gameView.gameScreenVM.recalculate();
 			this.resizeBorders();
@@ -121,10 +121,10 @@ public class GameController : Photon.MonoBehaviour
 			if (gameView.gameScreenVM.timer < 0 && gameView.gameScreenVM.timer > -1)
 			{
 				timeElapsed = true;
+				pass();
 			}
 			if (gameView.gameScreenVM.timer < -5)
 			{
-				pass();
 				gameView.gameScreenVM.timer = 10f;
 			}
 		}
@@ -633,7 +633,7 @@ public class GameController : Photon.MonoBehaviour
 			this.playingCards [debut + i].GetComponentInChildren<PlayingCardController>().setTile(new Tile(debut + i, hauteur), tiles [debut + i, hauteur].GetComponent<TileController>().tileView.tileVM.position, !isFirstP);
 			this.playingCards [debut + i].GetComponentInChildren<PlayingCardController>().resize(this.gameView.gameScreenVM.heightScreen);
 		}
-		//testTimeline();
+		testTimeline();
 		yield break;
 
 	}
@@ -780,6 +780,22 @@ public class GameController : Photon.MonoBehaviour
 		pass();
 		this.currentPlayingCard = 0;
 		pass();
+		this.currentPlayingCard = 1;
+		pass();
+		this.currentPlayingCard = 2;
+		pass();
+		this.currentPlayingCard = 3;
+		pass();
+		this.currentPlayingCard = 4;
+		pass();
+		this.currentPlayingCard = 1;
+		pass();
+		this.currentPlayingCard = 2;
+		pass();
+		this.currentPlayingCard = 3;
+		pass();
+		this.currentPlayingCard = 4;
+		pass();
 		displayPopUpMessage("test", 1f, 0);
 		inflictDamage(0);
 		inflictDamage(1);
@@ -813,7 +829,7 @@ public class GameController : Photon.MonoBehaviour
 			{
 				go = (GameObject)Instantiate(gameEvent);
 				gameEvents.Add(go);
-				go.GetComponent<GameEventController>().setScreenPosition(gameEvents.Count);
+				go.GetComponent<GameEventController>().setScreenPosition(gameEvents.Count, boardWidth, boardHeight, 0.98f * (10f / boardHeight));
 			} 
 			changeGameEvents();
 			go = gameEvents [0];
@@ -883,7 +899,7 @@ public class GameController : Photon.MonoBehaviour
 
 		foreach (GameObject go in gameEvents)
 		{
-			go.GetComponent<GameEventController>().setScreenPosition(i++);
+			go.GetComponent<GameEventController>().setScreenPosition(i++, boardWidth, boardHeight, 0.98f * (10f / boardHeight));
 		}
 	}
 }
