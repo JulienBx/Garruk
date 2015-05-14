@@ -383,14 +383,13 @@ public class GameController : Photon.MonoBehaviour
 		this.setDestinations(currentPlayingCard);
 		this.isDragging = true;
 
-		if (isFirstP != this.isFirstPlayer) // a changer plus tard
+		if ((currentPlayingCard < 5 && this.isFirstPlayer) || (currentPlayingCard >= 5 && !this.isFirstPlayer))
 		{
-			displayPopUpMessage("Je passe la main au personnage " + currentPlayingCard, 5f, 0);
+			displayPopUpMessage("Mon tour avec" + currentPlayingCard, 5f, 0);
 		} else
 		{
-			displayPopUpMessage("Je passe la main au personnage " + currentPlayingCard, 5f, 1);
+			displayPopUpMessage("Son tour avec " + currentPlayingCard, 5f, 1);
 		}
-		
 	}
 
 	public int[,] getCharacterTilesArray()
