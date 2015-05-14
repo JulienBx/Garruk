@@ -293,7 +293,7 @@ public class PlayingCardController : MonoBehaviour
 
 	public Texture2D getPicture()
 	{
-		return this.playingCardView.playingCardVM.picture;
+		return this.playingCardView.playingCardVM.background;
 	}
 
 	public void updateAttack()
