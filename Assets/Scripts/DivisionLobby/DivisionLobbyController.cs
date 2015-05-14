@@ -56,8 +56,6 @@ public class DivisionLobbyController : MonoBehaviour
 		view.boardVM.nbWinsForPromotion = model.currentDivision.NbWinsForPromotion;
 		view.boardVM.nbWinsForTitle = model.currentDivision.NbWinsForTitle;
 		view.boardVM.nbWinsForRelegation = model.currentDivision.NbWinsForRelegation;
-		view.boardVM.titlePrize = model.currentDivision.TitlePrize;
-		view.boardVM.promotionPrize = model.currentDivision.PromotionPrize;
 		view.boardVM.divisionName = model.currentDivision.Name;
 		for(int i=0;i<model.results.Count;i++)
 		{

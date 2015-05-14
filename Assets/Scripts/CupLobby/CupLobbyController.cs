@@ -104,7 +104,7 @@ public class CupLobbyController : MonoBehaviour
 		{
 			view.boardVM.roundsStyle.Add(new GUIStyle());
 			view.boardVM.roundsName.Add (this.roundsName[i]);
-			if(i>=model.results.Count)
+			if(i>=model.currentCup.NbRounds-model.results.Count)
 			{
 				view.boardVM.roundsStyle[i]=view.boardVM.winRoundStyle;
 			}

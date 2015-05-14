@@ -1,23 +1,29 @@
 using UnityEngine;
 using UnityEngine.UI;
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Linq;
 
-public class DivisionLobbyBoardViewModel
+public class EndGameDivisionBoardViewModel 
 {
+
+	public int nbWinsForPromotion;
+	public int nbWinsForRelegation;
+	public int nbWinsForTitle;
+	public int titlePrize;
+	public int promotionPrize;
+	public int id;
+	public string divisionName;
+
+	public int hasWon;
 	public int nbWinsDivision;
 	public int nbLoosesDivision;
 	public int remainingGames;
-
-	public int nbWinsForPromotion;
-	public int nbWinsForTitle;
-	public int nbWinsForRelegation;
-	public string divisionName;
+	public bool title;
+	public bool promotion;
+	public bool endSeason;
+	public bool relegation;
 
 	public GUIStyle[] styles;
+
 	public GUIStyle activeGaugeBackgroundStyle;
 	public GUIStyle gaugeBackgroundStyle;
 	public GUIStyle startActiveGaugeBackgroundStyle;
@@ -36,60 +42,59 @@ public class DivisionLobbyBoardViewModel
 	public GUIStyle promotionValueLabelStyle;
 	public GUIStyle titleValueLabelStyle;
 
-	public Texture2D[] gaugeBackgrounds;
-
-	public float gaugeSpace1;
-	public float gaugeSpace2;
-	public float gaugeSpace3;
-	public float gaugeSpace4;
+	public float gaugeSpace1=0f;
+	public float gaugeSpace1Start=0f;
+	public float gaugeSpace1Finish=0f;
+	public float gaugeSpace2=0f;
+	public float gaugeSpace2Start=0f;
+	public float gaugeSpace2Finish=0f;
+	public float gaugeSpace3=0f;
+	public float gaugeSpace3Start=0f;
+	public float gaugeSpace3Finish=0f;
+	public float gaugeSpace4=0.1f;
 	public float gaugeSpace1Width;
 	public float gaugeSpace2Width;
 	public float gaugeSpace3Width;
 	public float gaugeSpace4Width;
 	public float gaugeWidth;
 	public float gaugeHeight;
-	public float startActiveGaugeWidth;
-	public float activeGaugeWidth;
-	public float relegationBarWidth;
-	public float promotionBarWidth;
-	public float titleBarWidth;
+	public float startActiveGaugeWidth=0.2f;
+	public float activeGaugeWidth=0f;
+	public float activeGaugeWidthStart=0f;
+	public float activeGaugeWidthFinish=0f;
+	public float relegationBarWidth=0f;
+	public float relegationBarFinish=0f;
+	public float promotionBarWidth=0f;
+	public float promotionBarFinish=0f;
+	public float titleBarWidth=0.005f; 
+	public float titleBarFinish=0.005f;
+	public float transformRatio=0f;
+	public float transformSpeed=0.5f;
 	
-	public DivisionLobbyBoardViewModel ()
+	public EndGameDivisionBoardViewModel ()
 	{
-		this.styles=new GUIStyle[0];
-		this.activeGaugeBackgroundStyle=new GUIStyle();
-		this.gaugeBackgroundStyle=new GUIStyle();
-		this.startActiveGaugeBackgroundStyle=new GUIStyle();
-		this.relegationBarStyle=new GUIStyle();
-		this.promotionBarStyle=new GUIStyle();
-		this.titleBarStyle=new GUIStyle();
-		this.divisionLabelStyle=new GUIStyle();
-		this.divisionStrikeLabelStyle=new GUIStyle();
-		this.remainingGamesStyle=new GUIStyle();
-		this.promotionPrizeLabelStyle=new GUIStyle();
-		this.titlePrizeLabelStyle=new GUIStyle();
-		this.relegationLabelStyle=new GUIStyle();
-		this.promotionLabelStyle=new GUIStyle();
-		this.titleLabelStyle=new GUIStyle();
-		this.relegationValueLabelStyle=new GUIStyle();
-		this.promotionValueLabelStyle=new GUIStyle();
-		this.titleValueLabelStyle=new GUIStyle();
-		this.gaugeBackgrounds=new Texture2D[0];
 		this.gaugeSpace1=0f;
+		this.gaugeSpace1Start=0f;
+		this.gaugeSpace1Finish=0f;
 		this.gaugeSpace2=0f;
+		this.gaugeSpace2Start=0f;
+		this.gaugeSpace2Finish=0f;
 		this.gaugeSpace3=0f;
+		this.gaugeSpace3Start=0f;
+		this.gaugeSpace3Finish=0f;
 		this.gaugeSpace4=0.1f;
-		this.gaugeSpace1Width=0;
-		this.gaugeSpace2Width=0;
-		this.gaugeSpace3Width=0;
-		this.gaugeSpace4Width=0;
-		this.gaugeWidth=0;
-		this.gaugeHeight=0;
 		this.startActiveGaugeWidth=0.2f;
 		this.activeGaugeWidth=0f;
+		this.activeGaugeWidthStart=0f;
+		this.activeGaugeWidthFinish=0f;
 		this.relegationBarWidth=0f;
+		this.relegationBarFinish=0f;
 		this.promotionBarWidth=0f;
-		this.titleBarWidth=0.005f;
+		this.promotionBarFinish=0f;
+		this.titleBarWidth=0.005f; 
+		this.titleBarFinish=0.005f;
+		this.transformRatio=0f;
+		this.transformSpeed=0.5f;
 	}
 	public void initStyles()
 	{
