@@ -12,6 +12,8 @@ public class GameController : Photon.MonoBehaviour
 	public int boardHeight ;
 	public GameObject[] characters;
 	public GameObject playingCard;
+	public GameObject verticalBorder;
+	public GameObject horizontalBorder;
 
 	public GUIStyle[] gameScreenStyles;
 
@@ -23,6 +25,8 @@ public class GameController : Photon.MonoBehaviour
 	public bool isFirstPlayer = false;
 	GameObject[,] tiles ;
 	GameObject[] playingCards ;
+	GameObject[] verticalBorders ;
+	GameObject[] horizontalBorders ;
 	List<GameObject> gameEvents;
 
 	Tile currentHoveredTile ;
@@ -68,6 +72,10 @@ public class GameController : Photon.MonoBehaviour
 
 		this.nbPlayersReadyToFight = 0;
 		this.currentPlayingCard = -1;
+		this.verticalBorders = new GameObject[this.boardWidth + 1];
+		this.horizontalBorders = new GameObject[this.boardHeight + 1];
+		this.createBorders();
+		this.resizeBorders();
 	}
 	
 	void Start()
@@ -83,9 +91,8 @@ public class GameController : Photon.MonoBehaviour
 		if (gameView.gameScreenVM.widthScreen != Screen.width || gameView.gameScreenVM.widthScreen != Screen.width)
 		{
 			this.gameView.gameScreenVM.recalculate();
+			this.resizeBorders();
 			int h = this.gameView.gameScreenVM.heightScreen;
-			this.gameView.bottomZoneVM.resize(h);
-			this.gameView.topZoneVM.resize(h);
 			this.recalculateGameEvents();
 		}
 		if (gameStarted)
@@ -132,6 +139,35 @@ public class GameController : Photon.MonoBehaviour
 		gameView.gameScreenVM.hasAMessage = true;
 		gameView.gameScreenVM.messageToDisplay = message;
 		popUpDisplay = true;
+	}
+	public void createBorders()
+	{
+		for (int i = 0; i < this.verticalBorders.Length; i++)
+		{
+			this.verticalBorders [i] = (GameObject)Instantiate(this.verticalBorder);
+		}
+		for (int i = 0; i < this.horizontalBorders.Length; i++)
+		{
+			this.horizontalBorders [i] = (GameObject)Instantiate(this.horizontalBorder);
+		}
+	}
+
+	public void resizeBorders()
+	{
+		Vector3 position;
+		for (int i = 0; i < this.horizontalBorders.Length; i++)
+		{
+			position = new Vector3(0, 0.01f + (9.98f / this.boardHeight) * i - 5, -1);
+			this.horizontalBorders [i].transform.localPosition = position;
+			this.horizontalBorders [i].transform.localScale = new Vector3(10f * 6f / 9f, this.horizontalBorders [i].transform.localScale.y, this.horizontalBorders [i].transform.localScale.z);
+		}
+
+		for (int i = 0; i < this.verticalBorders.Length; i++)
+		{
+			position = new Vector3((i - (boardWidth / 2)) * (10f / this.boardHeight), 0f, -1f);
+			this.verticalBorders [i].transform.localPosition = position;
+			this.verticalBorders [i].transform.localScale = new Vector3(this.verticalBorders [i].transform.localScale.x, 10f, this.verticalBorders [i].transform.localScale.z);
+		}
 	}
 
 	public void hideHoveredTile()
@@ -558,7 +594,7 @@ public class GameController : Photon.MonoBehaviour
 		tiles [x, y] = (GameObject)Instantiate(this.tile);
 		tiles [x, y].name = "Tile " + (x) + "-" + (y);
 
-		tiles [x, y].GetComponent<TileController>().setTile(x, y, this.boardWidth, this.boardHeight, type, 1.1f * (8f / boardHeight));
+		tiles [x, y].GetComponent<TileController>().setTile(x, y, this.boardWidth, this.boardHeight, type, 0.98f * (10f / boardHeight));
 	}
 
 	[RPC]
@@ -568,14 +604,16 @@ public class GameController : Photon.MonoBehaviour
 		deck = new Deck(idDeck);
 		yield return StartCoroutine(deck.RetrieveCards());
 		int debut;
+		int hauteur;
 
 		if (isFirstP)
 		{
-
 			debut = 0;
+			hauteur = 0;
 		} else
 		{
-			debut = 5;
+			debut = 1;
+			hauteur = 8;
 		}
 
 		for (int i = 0; i < 5; i++)
@@ -584,7 +622,7 @@ public class GameController : Photon.MonoBehaviour
 			this.playingCards [debut + i].GetComponentInChildren<PlayingCardController>().setCard(deck.Cards [i]);
 			this.playingCards [debut + i].GetComponentInChildren<PlayingCardController>().setIDCharacter(debut + i);
 			this.playingCards [debut + i].GetComponentInChildren<PlayingCardController>().setStyles((isFirstP == this.isFirstPlayer));
-			this.playingCards [debut + i].GetComponentInChildren<PlayingCardController>().setTile(new Tile(i, 0), !isFirstP);
+			this.playingCards [debut + i].GetComponentInChildren<PlayingCardController>().setTile(new Tile(debut + i, hauteur), !isFirstP);
 			this.playingCards [debut + i].GetComponentInChildren<PlayingCardController>().resize(this.gameView.gameScreenVM.heightScreen);
 		}
 		testTimeline();

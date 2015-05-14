@@ -441,6 +441,10 @@ public class LobbyController : Photon.MonoBehaviour
 			{
 				Application.LoadLevel("DivisionLobby");
 			}
+			else if(ApplicationModel.gameType==2)
+			{
+				Application.LoadLevel("CupLobby");
+			}
 			else
 			{
 				Application.LoadLevel("Game");

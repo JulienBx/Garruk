@@ -83,14 +83,17 @@ public class DivisionLobbyController : MonoBehaviour
 				view.resultsVM.resultsLabel[i]=view.resultsVM.resultsLabel[i]+" Défaite";
 			}
 		}
-		view.opponentVM.username = model.results [0].Opponent.Username;
-		view.opponentVM.totalNbWins = model.results [0].Opponent.TotalNbWins;
-		view.opponentVM.totalNbLooses = model.results [0].Opponent.TotalNbLooses;
-		view.opponentVM.ranking = model.results [0].Opponent.Ranking;
-		view.opponentVM.rankingPoints = model.results [0].Opponent.RankingPoints;
-		view.opponentVM.division = model.results [0].Opponent.Division;
-		view.opponentVM.profilePictureStyle.normal.background = model.results [0].Opponent.texture;
-		StartCoroutine (model.results [0].Opponent.setProfilePicture ());
+		if(model.results.Count>0)
+		{
+			view.opponentVM.username = model.results [0].Opponent.Username;
+			view.opponentVM.totalNbWins = model.results [0].Opponent.TotalNbWins;
+			view.opponentVM.totalNbLooses = model.results [0].Opponent.TotalNbLooses;
+			view.opponentVM.ranking = model.results [0].Opponent.Ranking;
+			view.opponentVM.rankingPoints = model.results [0].Opponent.RankingPoints;
+			view.opponentVM.division = model.results [0].Opponent.Division;
+			view.opponentVM.profilePictureStyle.normal.background = model.results [0].Opponent.texture;
+			StartCoroutine (model.results [0].Opponent.setProfilePicture ());
+		}
 		view.competInfosVM.nbGames = model.currentDivision.NbGames;
 		view.competInfosVM.titlePrize = model.currentDivision.TitlePrize;
 		view.competInfosVM.promotionPrize = model.currentDivision.PromotionPrize;

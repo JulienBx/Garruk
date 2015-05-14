@@ -23,6 +23,16 @@ public class PlayingCardView : MonoBehaviour
 
 	}
 
+	public void changeBorder() 
+	{
+		renderer.materials[0].mainTexture = this.playingCardVM.border;
+	}
+	
+	public void changeBackground() 
+	{
+		renderer.materials[1].mainTexture = this.playingCardVM.background;
+	}
+
 	void OnGUI ()
 	{
 		GUILayout.BeginArea (this.playingCardVM.infoRect);
