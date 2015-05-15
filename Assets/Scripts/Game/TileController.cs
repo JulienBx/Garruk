@@ -34,7 +34,7 @@ public class TileController : MonoBehaviour
 		this.type = type ;
 		Vector3 position ;
 		this.tileView.tileVM.scale = new Vector3(scaleTile,scaleTile,scaleTile);
-		position = new Vector3((scaleTile)*((x+0.5f)-(boardWidth/2)), (y-boardHeight/2)*scaleTile*1.00f, -1f);
+		position = new Vector3((scaleTile)*((x+0.5f)-(boardWidth/2)), (y-(boardHeight+1)/2)*scaleTile*1.00f, -1f);
 		this.tileView.tileVM.position = position;
 		this.tileView.tileVM.background = backTile[type];
 		this.tileView.changeBackground();

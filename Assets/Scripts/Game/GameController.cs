@@ -35,6 +35,12 @@ public class GameController : Photon.MonoBehaviour
 	int hoveredPlayingCard = -1;
 	int clickedPlayingCard = -1;
 	bool isHovering = false ;
+
+	public float borderSize ;
+
+	int widthScreen ; 
+	int heightScreen ;
+	float tileScale ; 
 	
 	const string roomNamePrefix = "GarrukGame";
 	private int nbPlayers = 0 ;
@@ -77,7 +83,7 @@ public class GameController : Photon.MonoBehaviour
 		this.verticalBorders = new GameObject[this.boardWidth + 1];
 		this.horizontalBorders = new GameObject[this.boardHeight + 1];
 		this.createBorders();
-		this.resizeBorders();
+		this.resize ();
 	}
 	
 	void Start()
@@ -90,12 +96,9 @@ public class GameController : Photon.MonoBehaviour
 
 	void Update()
 	{	
-		if (gameView.gameScreenVM.widthScreen != Screen.width || gameView.gameScreenVM.heightScreen != Screen.height)
+		if (this.widthScreen != Screen.width || this.heightScreen != Screen.height)
 		{
-			this.gameView.gameScreenVM.recalculate();
-			this.resizeBorders();
-			int h = this.gameView.gameScreenVM.heightScreen;
-			this.recalculateGameEvents();
+			this.resize();
 		}
 		if (gameStarted)
 		{
@@ -130,6 +133,23 @@ public class GameController : Photon.MonoBehaviour
 		}
 	}
 
+	public void resize(){
+		this.widthScreen = Screen.width ;
+		this.heightScreen = Screen.height ;
+		
+		if (this.widthScreen*10f/6f > this.heightScreen){
+			this.tileScale = 1f ;
+		}
+		else{
+			this.tileScale = 1f * (1.0f*widthScreen/heightScreen) * 10f / 6f;
+		}
+
+		this.gameView.gameScreenVM.recalculate();
+		this.resizeBorders();
+		int h = this.gameView.gameScreenVM.heightScreen;
+		this.recalculateGameEvents();
+	}
+
 	public void displayPopUpMessage(string message, float time, int position)
 	{
 		gameView.gameScreenVM.centerMessageRect.y = popupPosition [position] * Screen.height;
@@ -138,6 +158,7 @@ public class GameController : Photon.MonoBehaviour
 		popUpDisplay = true;
 		gameView.gameScreenVM.timerPopUp = time;
 	}
+
 	public void createBorders()
 	{
 		for (int i = 0; i < this.verticalBorders.Length; i++)
@@ -155,16 +176,16 @@ public class GameController : Photon.MonoBehaviour
 		Vector3 position;
 		for (int i = 0; i < this.horizontalBorders.Length; i++)
 		{
-			position = new Vector3(0, 0.01f + (9.98f / this.boardHeight) * i - 5, -1);
+			position = new Vector3(0, (5f-4f*this.tileScale) + tileScale*i - 5f, -1);
 			this.horizontalBorders [i].transform.localPosition = position;
-			this.horizontalBorders [i].transform.localScale = new Vector3(10f * 6f / 9f, this.horizontalBorders [i].transform.localScale.y, this.horizontalBorders [i].transform.localScale.z);
+			this.horizontalBorders [i].transform.localScale = new Vector3(this.tileScale*6f, this.borderSize, this.borderSize);
 		}
 
 		for (int i = 0; i < this.verticalBorders.Length; i++)
 		{
-			position = new Vector3((i - (boardWidth / 2)) * (10f / this.boardHeight), 0f, -1f);
+			position = new Vector3((-3*this.tileScale)+i*this.tileScale, 0f, -1f);
 			this.verticalBorders [i].transform.localPosition = position;
-			this.verticalBorders [i].transform.localScale = new Vector3(this.verticalBorders [i].transform.localScale.x, 10f, this.verticalBorders [i].transform.localScale.z);
+			this.verticalBorders [i].transform.localScale = new Vector3(this.verticalBorders [i].transform.localScale.x, 8f*tileScale, this.verticalBorders [i].transform.localScale.z);
 		}
 	}
 
@@ -176,7 +197,6 @@ public class GameController : Photon.MonoBehaviour
 
 	public void hideHoveredPlayingCard()
 	{
-		print ("HideHovering "+this.hoveredPlayingCard);
 		this.playingCards [this.hoveredPlayingCard].GetComponent<PlayingCardController>().hideHover();
 		this.isHovering = false;
 		this.hoveredPlayingCard = -1;
@@ -320,7 +340,7 @@ public class GameController : Photon.MonoBehaviour
 		}
 		if (toHide)
 		{
-			if (this.currentPlayingCard==-1){
+			if (this.hoveredPlayingCard==-1){
 				this.hideHoveredTile();
 			}
 			else{
@@ -736,7 +756,7 @@ public class GameController : Photon.MonoBehaviour
 		tiles [x, y] = (GameObject)Instantiate(this.tile);
 		tiles [x, y].name = "Tile " + (x) + "-" + (y);
 
-		tiles [x, y].GetComponent<TileController>().setTile(x, y, this.boardWidth, this.boardHeight, type, 1f * (10f / boardHeight));
+		tiles [x, y].GetComponent<TileController>().setTile(x, y, this.boardWidth, this.boardHeight, type, this.tileScale);
 	}
 
 	[RPC]
