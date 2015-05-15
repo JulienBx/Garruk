@@ -56,7 +56,7 @@ public class GameController : Photon.MonoBehaviour
 	int nbPlayersReadyToFight;
 
 	int currentPlayingCard = -1;
-	int eventMax = 11;
+	public int eventMax;
 	int nbActionPlayed = 0;
 	int nbTurns = 0 ;
 
@@ -84,10 +84,12 @@ public class GameController : Photon.MonoBehaviour
 
 		this.nbPlayersReadyToFight = 0;
 		this.currentPlayingCard = -1;
+		this.eventMax = 11;
 		this.verticalBorders = new GameObject[this.boardWidth + 1];
 		this.horizontalBorders = new GameObject[this.boardHeight + 1];
 		this.createBackground();
 		this.resize();
+		this.initGameEvents();
 	}
 	
 	void Start()
@@ -166,10 +168,11 @@ public class GameController : Photon.MonoBehaviour
 
 	public void createBackground()
 	{
-		if (this.widthScreen>this.heightScreen){
+		if (this.widthScreen > this.heightScreen)
+		{
 			this.background = (GameObject)Instantiate(this.backGO);
-		}
-		else{
+		} else
+		{
 			this.background = (GameObject)Instantiate(this.backGO);
 		}
 
@@ -185,24 +188,27 @@ public class GameController : Photon.MonoBehaviour
 
 	public void resizeBackground()
 	{
-		if (this.widthScreen>this.heightScreen && this.backgroundType!=1){
-			this.background.renderer.materials[0].mainTexture=this.backgroundGO[1];
-			this.backgroundType=1;
-		}
-		else if (this.widthScreen<=this.heightScreen && this.backgroundType!=0){
-			this.background.renderer.materials[0].mainTexture=this.backgroundGO[0];
-			this.backgroundType=0;
+		if (this.widthScreen > this.heightScreen && this.backgroundType != 1)
+		{
+			this.background.renderer.materials [0].mainTexture = this.backgroundGO [1];
+			this.backgroundType = 1;
+		} else if (this.widthScreen <= this.heightScreen && this.backgroundType != 0)
+		{
+			this.background.renderer.materials [0].mainTexture = this.backgroundGO [0];
+			this.backgroundType = 0;
 		}
 		
-		if (this.widthScreen>this.heightScreen){
-			this.background.transform.localScale = new Vector3(20f, 10f,0.5f);
-		}
-		else{
-			if(this.tileScale==1f){
-				this.background.transform.localScale = new Vector3(10f*tileScale*(1.0f*widthScreen/heightScreen), 10*tileScale,0.5f);
-			}
-			else{
-				this.background.transform.localScale = new Vector3(6*tileScale, 12*tileScale,0.5f);
+		if (this.widthScreen > this.heightScreen)
+		{
+			this.background.transform.localScale = new Vector3(20f, 10f, 0.5f);
+		} else
+		{
+			if (this.tileScale == 1f)
+			{
+				this.background.transform.localScale = new Vector3(10f * tileScale * (1.0f * widthScreen / heightScreen), 10 * tileScale, 0.5f);
+			} else
+			{
+				this.background.transform.localScale = new Vector3(6 * tileScale, 12 * tileScale, 0.5f);
 			}
 		}
 		
@@ -655,8 +661,9 @@ public class GameController : Photon.MonoBehaviour
 	public void pass()
 	{
 		GameEventType ge = new PassType();
-		addGameEvent(this.playingCards [this.currentPlayingCard].GetComponentInChildren<PlayingCardController>().card.Title, ge, "");
+		addGameEvent(ge, "");
 		nbActionPlayed = 0;
+		changeGameEvents();
 	}
 	
 	private IEnumerator returnToLobby()
@@ -969,7 +976,7 @@ public class GameController : Photon.MonoBehaviour
 
 	public void testTimeline()
 	{
-		this.currentPlayingCard = 1;
+		/*this.currentPlayingCard = 1;
 		//addMovementEvent(this.playingCards [currentPlayingCard].GetComponentInChildren<PlayingCardController>().card.Title, tiles [4, 3], tiles [4, 4]);
 		string targetName = "coincoin";
 		List<GameSkill> temp = this.playingCards [currentPlayingCard].GetComponentInChildren<PlayingCardController>().skills;
@@ -1002,49 +1009,43 @@ public class GameController : Photon.MonoBehaviour
 		inflictDamage(2);
 		inflictDamage(3);
 		inflictDamage(4);
+		*/
+
+		for (int i = 0; i < 6; i++)
+		{
+			addCardEvent(i % 5, i);
+		}
+		addGameEvent(new SkillType("lance test"), "vilan");
 	}
 	
-	public void addGameEvent(string name, GameEventType type, string targetName)
+	public void addGameEvent(GameEventType type, string targetName)
 	{
-		setGameEvent(name, type);
-		if (targetName != "")
+		setGameEvent(type);
+		/*if (targetName != "")
 		{
 			gameEvents [0].GetComponent<GameEventController>().addAction(" sur " + targetName);
-		}
+		}*/
 	}
 
-	public void addMovementEvent(string name, GameObject origin, GameObject destination)
+	public void addMovementEvent(GameObject origin, GameObject destination)
 	{
-		GameObject go = setGameEvent(name, new MovementType());
+		GameObject go = setGameEvent(new MovementType());
 
 		go.GetComponent<GameEventController>().setMovement(origin, destination);
 	}
 
-	GameObject setGameEvent(string name, GameEventType type)
+	GameObject setGameEvent(GameEventType type)
 	{
+		int midTimeline = (int)Math.Floor((double)eventMax / 2);
 		GameObject go;
 		if (nbActionPlayed == 0)
-		{
-			if (gameEvents.Count < eventMax)
-			{
-				go = (GameObject)Instantiate(gameEvent);
-				gameEvents.Add(go);
-				go.GetComponent<GameEventController>().setScreenPosition(gameEvents.Count, boardWidth, boardHeight, 0.98f * (10f / boardHeight));
-			} 
-			changeGameEvents();
-			go = gameEvents [0];
-			go.GetComponent<GameEventController>().setCharacterName(name);
+		{ 
+			go = gameEvents [midTimeline];
 			go.GetComponent<GameEventController>().setAction(type.toString());
-			Texture2D t2 = this.playingCards [currentPlayingCard].GetComponent<PlayingCardController>().getPicture();
-			Texture2D temp = getImageResized(t2);
-
-			go.GetComponent<GameEventController>().setArt(temp);
-			go.GetComponent<GameEventController>().setBorder(1);
-			go.GetComponent<GameEventController>().gameEventView.show();
 			nbActionPlayed++;
 		} else if (nbActionPlayed < 2)
 		{
-			go = gameEvents [0];
+			go = gameEvents [midTimeline];
 			go.GetComponent<GameEventController>().addAction(type.toString());
 			nbActionPlayed++;
 		} else
@@ -1054,7 +1055,35 @@ public class GameController : Photon.MonoBehaviour
 
 		return go;
 	}
-			           
+
+	void addCardEvent(int idCharacter, int position)
+	{
+		if (position == 0)
+		{
+			changeGameEvents();
+		}
+		GameObject go = gameEvents [position];
+		PlayingCardController pcc = playingCards [idCharacter].GetComponent<PlayingCardController>();
+		go.GetComponent<GameEventController>().setCharacterName(pcc.card.Title);
+		Texture2D t2 = playingCards [idCharacter].GetComponent<PlayingCardController>().getPicture();
+		Texture2D temp = getImageResized(t2);
+		go.GetComponent<GameEventController>().setAction("");
+		go.GetComponent<GameEventController>().setArt(temp);
+		go.GetComponent<GameEventController>().setBorder(position);
+		go.GetComponent<GameEventController>().gameEventView.show();
+	}
+
+	void initGameEvents()
+	{
+		GameObject go;
+		while (gameEvents.Count < eventMax)
+		{
+			go = (GameObject)Instantiate(gameEvent);
+			gameEvents.Add(go);
+			go.GetComponent<GameEventController>().setScreenPosition(gameEvents.Count, boardWidth, boardHeight, tileScale);
+		}
+	}
+
 	Texture2D getImageResized(Texture2D t)
 	{
 		int size;
@@ -1091,7 +1120,6 @@ public class GameController : Photon.MonoBehaviour
 			gameEvents [i].GetComponent<GameEventController>().setBorder(i);
 			gameEvents [i].GetComponent<GameEventController>().gameEventView.show();
 			gameEvents [i - 1].GetComponent<GameEventController>().setMovement(null, null);
-
 		}
 	}
 
@@ -1101,7 +1129,7 @@ public class GameController : Photon.MonoBehaviour
 
 		foreach (GameObject go in gameEvents)
 		{
-			go.GetComponent<GameEventController>().setScreenPosition(i++, boardWidth, boardHeight, 0.98f * (10f / boardHeight));
+			go.GetComponent<GameEventController>().setScreenPosition(i++, boardWidth, boardHeight, tileScale);
 		}
 	}
 }

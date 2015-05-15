@@ -21,7 +21,8 @@ public class GameEventController : MonoBehaviour
 	public void setScreenPosition(int count, int boardWidth, int boardHeight, float scaleTile)
 	{
 		Camera camera = Camera.main;
-		Vector3 v3 = new Vector3((0.02f + scaleTile) * (- boardWidth / 2 - 0.5f), (boardHeight - 1 - boardHeight / 2) * scaleTile * 1.02f, 0f);
+		Vector3 currentScale = renderer.bounds.size;
+		Vector3 v3 = new Vector3((0.02f + scaleTile) * (- boardWidth / 2 - 0.5f), currentScale.y * GameController.instance.eventMax / 2 + 0.1f, -1f);
 		//Vector3 newPosition = camera.ScreenToWorldPoint(v3);
 		
 		transform.position = v3;
@@ -77,14 +78,13 @@ public class GameEventController : MonoBehaviour
 	{
 		if (i < 5)
 		{
-			gameEventView.gameEventVM.border = borders [1];
-		} else
-			if (i == 5)
+			gameEventView.gameEventVM.border = borders [0];
+		} else if (i == 5)
 		{
 			gameEventView.gameEventVM.border = borders [2];
 		} else
 		{
-			gameEventView.gameEventVM.border = borders [0];
+			gameEventView.gameEventVM.border = borders [1];
 		}
 	}
 
