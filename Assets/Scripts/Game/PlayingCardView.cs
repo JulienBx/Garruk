@@ -131,8 +131,8 @@ public class PlayingCardView : MonoBehaviour
 	}
 
 	void OnMouseEnter(){
-		//print ("HoverPlayingCard");
-		//gameObject.GetComponentInChildren<PlayingCardController>().HoverTile();
+		print ("HoverPlayingCard");
+		gameObject.GetComponentInChildren<PlayingCardController>().hoverPlayingCard();
 	}
 
 	void OnMouseDown(){

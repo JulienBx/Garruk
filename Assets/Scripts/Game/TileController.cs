@@ -7,8 +7,7 @@ public class TileController : MonoBehaviour
 //	public Texture2D cursorAttack;
 //	public Texture2D cursorTarget;
 
-	public int x ;
-	public int y ;
+	Tile tile ;
 	private int type ;
 	public Texture2D[] backTile ;
 	public Texture2D[] borderTile ;
@@ -31,12 +30,11 @@ public class TileController : MonoBehaviour
 	}
 
 	public void setTile(int x, int y, int boardWidth, int boardHeight, int type, float scaleTile){
-		this.x = x ;
-		this.y = y ;
+		this.tile = new Tile(x,y) ;
 		this.type = type ;
 		Vector3 position ;
 		this.tileView.tileVM.scale = new Vector3(scaleTile,scaleTile,scaleTile);
-		position = new Vector3((0.02f+scaleTile)*((x+0.5f)-(boardWidth/2)), (y-boardHeight/2)*scaleTile*1.02f, 0f);
+		position = new Vector3((scaleTile)*((x+0.5f)-(boardWidth/2)), (y-boardHeight/2)*scaleTile*1.00f, -1f);
 		this.tileView.tileVM.position = position;
 		this.tileView.tileVM.background = backTile[type];
 		this.tileView.changeBackground();
@@ -72,7 +70,7 @@ public class TileController : MonoBehaviour
 	}
 
 	public void hoverTile(){
-		GameController.instance.hoverTileHandler(new Tile(this.x, this.y));
+		GameController.instance.hoverTileHandler(this.tile);
 	}
 
 	public void releaseClickTile(){
