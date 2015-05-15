@@ -176,7 +176,13 @@ public class GameController : Photon.MonoBehaviour
 
 	public void resizeBackground()
 	{
-		this.background.transform.localScale = new Vector3(6*tileScale, 12*tileScale,0.5f);
+		if(this.tileScale==1f){
+			this.background.transform.localScale = new Vector3(10f*tileScale*(1.0f*widthScreen/heightScreen), 10*tileScale,0.5f);
+		}
+		else{
+			this.background.transform.localScale = new Vector3(6*tileScale, 12*tileScale,0.5f);
+		}
+
 		Vector3 position;
 		for (int i = 0; i < this.horizontalBorders.Length; i++)
 		{
