@@ -6,7 +6,7 @@ public class GameEventView : MonoBehaviour
 	public GameEventViewModel gameEventVM;
 	bool isHovered = false;
 	bool isMvt = false;
-
+	LineRenderer lineRenderer;
 	// Use this for initialization
 	void Awake()
 	{
@@ -16,7 +16,6 @@ public class GameEventView : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-
 	}
 	void OnGUI()
 	{
@@ -44,7 +43,12 @@ public class GameEventView : MonoBehaviour
 
 	public void show()
 	{
-		transform.renderer.material.mainTexture = gameEventVM.art;
+		transform.renderer.materials [0].mainTexture = gameEventVM.border;
+		transform.renderer.materials [1].mainTexture = gameEventVM.art;
+	}
+
+	public void changeBorder()
+	{
 	}
 
 	void OnMouseEnter()

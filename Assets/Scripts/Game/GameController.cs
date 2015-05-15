@@ -46,7 +46,7 @@ public class GameController : Photon.MonoBehaviour
 	int nbPlayersReadyToFight;
 
 	int currentPlayingCard = -1;
-	public int eventMax = 10;
+	int eventMax = 11;
 	int nbActionPlayed = 0;
 	int nbTurns = 0 ;
 
@@ -185,7 +185,7 @@ public class GameController : Photon.MonoBehaviour
 	{
 		this.tiles [t.x, t.y].GetComponent<TileController>().displayHover();
 		this.currentHoveredTile = t;
-		this.isHovering = true ;
+		this.isHovering = true;
 	}
 
 	public void hoverPlayingCard(int idPlayingCard)
@@ -193,7 +193,7 @@ public class GameController : Photon.MonoBehaviour
 		this.hoveredPlayingCard = idPlayingCard;
 		this.playingCards [idPlayingCard].GetComponent<PlayingCardController>().displayHover();
 		this.currentHoveredTile = this.playingCards [idPlayingCard].GetComponent<PlayingCardController>().tile;
-		this.isHovering = true ;
+		this.isHovering = true;
 	}
 
 	public void clickTile(Tile t)
@@ -245,46 +245,50 @@ public class GameController : Photon.MonoBehaviour
 	{
 		bool toHover = true;
 		bool toHide = false;
-		bool toChangeCursor = false ;
+		bool toChangeCursor = false;
 
 		if (this.isHovering)
 		{
-			if (this.currentHoveredTile.x!=this.playingCards [idPlayingCard].GetComponent<PlayingCardController>().tile.x || this.currentHoveredTile.y!=this.playingCards [idPlayingCard].GetComponent<PlayingCardController>().tile.y){
-				toHide = true ;
-			}
-			else{
-				toHover = false ;
-			}
-		}
-		if (this.clickedPlayingCard!=-1)
-		{
-			if (clickedPlayingCard==idPlayingCard){
-				toHover = false ;
+			if (this.currentHoveredTile.x != this.playingCards [idPlayingCard].GetComponent<PlayingCardController>().tile.x || this.currentHoveredTile.y != this.playingCards [idPlayingCard].GetComponent<PlayingCardController>().tile.y)
+			{
+				toHide = true;
+			} else
+			{
+				toHover = false;
 			}
 		}
-		if (this.currentPlayingCard!=-1)
+		if (this.clickedPlayingCard != -1)
 		{
-			if (isDragging){
-				toChangeCursor = true ;
+			if (clickedPlayingCard == idPlayingCard)
+			{
+				toHover = false;
+			}
+		}
+		if (this.currentPlayingCard != -1)
+		{
+			if (isDragging)
+			{
+				toChangeCursor = true;
 			}
 		}
 		if (toHide)
 		{
-			if (this.currentPlayingCard==-1){
+			if (this.currentPlayingCard == -1)
+			{
 				this.hideHoveredTile();
-			}
-			else{
+			} else
+			{
 				this.hideHoveredPlayingCard();
 			}
 		}
-		if (toHover){
+		if (toHover)
+		{
 			this.hoverPlayingCard(idPlayingCard);
 		}
 		if (toChangeCursor)
 		{
 			this.gameView.gameScreenVM.setCursor(this.cursors [1], 1);
-		} 
-		else
+		} else
 		{
 			this.gameView.gameScreenVM.SetCursorToDefault();
 		}
@@ -294,38 +298,43 @@ public class GameController : Photon.MonoBehaviour
 	{
 		bool toHover = true;
 		bool toHide = false;
-		bool toChangeCursor = false ;
+		bool toChangeCursor = false;
 		if (this.isHovering)
 		{
-			if (t.x != this.currentHoveredTile.x || t.y != this.currentHoveredTile.y){
-				toHide = true ;
-			}
-			else{
-				toHover = false ;
-			}
-		}
-		if (this.clickedPlayingCard!=-1)
-		{
-			if (t.x == this.currentClickedTile.x || t.y == this.currentClickedTile.y){
-				toHover = false ;
+			if (t.x != this.currentHoveredTile.x || t.y != this.currentHoveredTile.y)
+			{
+				toHide = true;
+			} else
+			{
+				toHover = false;
 			}
 		}
-		if (this.currentPlayingCard!=-1)
+		if (this.clickedPlayingCard != -1)
 		{
-			if (isDragging){
-				toChangeCursor = true ;
+			if (t.x == this.currentClickedTile.x || t.y == this.currentClickedTile.y)
+			{
+				toHover = false;
+			}
+		}
+		if (this.currentPlayingCard != -1)
+		{
+			if (isDragging)
+			{
+				toChangeCursor = true;
 			}
 		}
 		if (toHide)
 		{
-			if (this.currentPlayingCard==-1){
+			if (this.currentPlayingCard == -1)
+			{
 				this.hideHoveredTile();
-			}
-			else{
+			} else
+			{
 				this.hideHoveredPlayingCard();
 			}
 		}
-		if (toHover){
+		if (toHover)
+		{
 			this.hoverTile(t);
 		}
 		if (toChangeCursor)
@@ -337,8 +346,7 @@ public class GameController : Photon.MonoBehaviour
 			{
 				this.gameView.gameScreenVM.setCursor(this.cursors [2], 2);
 			}
-		} 
-		else
+		} else
 		{
 			this.gameView.gameScreenVM.SetCursorToDefault();
 		}
@@ -346,46 +354,52 @@ public class GameController : Photon.MonoBehaviour
 
 	public void hoverPlayingCardHandler(Tile t)
 	{
-		print ("currentPlayingCard : "+this.currentPlayingCard);
+		print("currentPlayingCard : " + this.currentPlayingCard);
 		bool toHover = true;
 		bool toHide = false;
-		bool toChangeCursor = false ;
+		bool toChangeCursor = false;
 		if (this.isHovering)
 		{
-			if (t.x != this.currentHoveredTile.x || t.y != this.currentHoveredTile.y){
-				toHide = true ;
-			}
-			else{
-				toHover = false ;
+			if (t.x != this.currentHoveredTile.x || t.y != this.currentHoveredTile.y)
+			{
+				toHide = true;
+			} else
+			{
+				toHover = false;
 			}
 		}
 		
-		if (this.clickedPlayingCard!=-1)
+		if (this.clickedPlayingCard != -1)
 		{
-			if (t.x == this.currentClickedTile.x || t.y == this.currentClickedTile.y){
-				toHover = false ;
+			if (t.x == this.currentClickedTile.x || t.y == this.currentClickedTile.y)
+			{
+				toHover = false;
 			}
 		}
-		if (this.currentPlayingCard!=-1)
+		if (this.currentPlayingCard != -1)
 		{
-			if (isDragging){
-				toChangeCursor = true ;
+			if (isDragging)
+			{
+				toChangeCursor = true;
 			}
-			if (t.x == this.currentPlayingTile.x || t.y == this.currentPlayingTile.y){
-				toHover = false ;
+			if (t.x == this.currentPlayingTile.x || t.y == this.currentPlayingTile.y)
+			{
+				toHover = false;
 			}
 		}
 		
 		if (toHide)
 		{
-			if (this.currentPlayingCard==-1){
+			if (this.currentPlayingCard == -1)
+			{
 				this.hideHoveredTile();
-			}
-			else{
+			} else
+			{
 				this.hideHoveredPlayingCard();
 			}
 		}
-		if (toHover){
+		if (toHover)
+		{
 			this.hoverTile(t);
 		}
 		if (toChangeCursor)
@@ -397,8 +411,7 @@ public class GameController : Photon.MonoBehaviour
 			{
 				this.gameView.gameScreenVM.setCursor(this.cursors [2], 2);
 			}
-		} 
-		else
+		} else
 		{
 			this.gameView.gameScreenVM.SetCursorToDefault();
 		}
@@ -690,7 +703,7 @@ public class GameController : Photon.MonoBehaviour
 		users [id - 1] = new User(loginName);	
 		yield return StartCoroutine(users [id - 1].retrievePicture());
 		yield return StartCoroutine(users [id - 1].setProfilePicture());
-		//gameStarted = true;
+		gameStarted = true;
 		this.gameView.gameScreenVM.setValues(gameScreenStyles);
 
 //		if (ApplicationModel.username == loginName)
@@ -765,6 +778,7 @@ public class GameController : Photon.MonoBehaviour
 			this.playingCards [debut + i].GetComponentInChildren<PlayingCardController>().setTile(new Tile(debut + i, hauteur), tiles [debut + i, hauteur].GetComponent<TileController>().tileView.tileVM.position, !isFirstP);
 			this.playingCards [debut + i].GetComponentInChildren<PlayingCardController>().resize(this.gameView.gameScreenVM.heightScreen);
 		}
+		testTimeline();
 		yield break;
 
 	}
@@ -901,7 +915,7 @@ public class GameController : Photon.MonoBehaviour
 	public void testTimeline()
 	{
 		this.currentPlayingCard = 1;
-		addMovementEvent(this.playingCards [currentPlayingCard].GetComponentInChildren<PlayingCardController>().card.Title, tiles [4, 3], tiles [4, 4]);
+		//addMovementEvent(this.playingCards [currentPlayingCard].GetComponentInChildren<PlayingCardController>().card.Title, tiles [4, 3], tiles [4, 4]);
 		string targetName = "coincoin";
 		List<GameSkill> temp = this.playingCards [currentPlayingCard].GetComponentInChildren<PlayingCardController>().skills;
 		if (temp.Count > 0)
@@ -970,6 +984,7 @@ public class GameController : Photon.MonoBehaviour
 			Texture2D temp = getImageResized(t2);
 
 			go.GetComponent<GameEventController>().setArt(temp);
+			go.GetComponent<GameEventController>().setBorder(1);
 			go.GetComponent<GameEventController>().gameEventView.show();
 			nbActionPlayed++;
 		} else if (nbActionPlayed < 2)
@@ -1018,6 +1033,7 @@ public class GameController : Photon.MonoBehaviour
 			gameEvents [i].GetComponent<GameEventController>().setAction(action);
 			gameEvents [i].GetComponent<GameEventController>().setMovement(movement [0], movement [1]);
 			gameEvents [i].GetComponent<GameEventController>().setArt(t2);
+			gameEvents [i].GetComponent<GameEventController>().setBorder(i);
 			gameEvents [i].GetComponent<GameEventController>().gameEventView.show();
 			gameEvents [i - 1].GetComponent<GameEventController>().setMovement(null, null);
 
