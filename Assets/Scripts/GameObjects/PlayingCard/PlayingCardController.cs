@@ -2,13 +2,11 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class PlayingCardController : MonoBehaviour
+public class PlayingCardController : GameObjectController
 {
 	private PlayingCardView playingCardView;
-	public GUIStyle[] guiStylesMyCharacter ;
-	public GUIStyle[] guiStylesHisCharacter ;
 	public Texture2D[] borderPC ;
-	public Texture2D[] icons ;
+	public Texture[] faces; 
 	private float scale ;
 	public Card card ;
 	public int IDCharacter = -1 ;
@@ -16,12 +14,9 @@ public class PlayingCardController : MonoBehaviour
 	public bool isMovable;
 	public int damage = 0;
 	public bool isDead ;
-	public Texture2D[] pictures;
 	public bool isSelected ;
 	public bool isMoved ;
 	public bool hasPlayed ;
-	public List<string> titlesSkill ;
-	public List<string> descriptionsSkill ;
 	public bool isMine;
 
 	public Tile tile ;
@@ -33,8 +28,6 @@ public class PlayingCardController : MonoBehaviour
 	void Awake()
 	{
 		this.playingCardView = gameObject.AddComponent <PlayingCardView>();
-		this.playingCardView.playingCardVM.attackIcon = icons [0];
-		this.playingCardView.playingCardVM.moveIcon = icons [1];
 		this.isMovable = true;
 		this.isDead = false;
 		this.isSelected = false;
@@ -61,24 +54,23 @@ public class PlayingCardController : MonoBehaviour
 	public void setCard(Card c)
 	{
 		this.card = c;
-		this.playingCardView.playingCardVM.name = c.Title;
-		this.playingCardView.playingCardVM.attack = "" + c.Attack;
-		this.playingCardView.playingCardVM.move = "" + c.Move;
-		this.playingCardView.playingCardVM.maxLife = c.Life;
-		this.playingCardView.playingCardVM.life = c.Life;
-		this.playingCardView.playingCardVM.background = this.pictures [c.ArtIndex];
-		this.playingCardView.changeBackground();
-		this.playingCardView.playingCardVM.border = this.borderPC [0];
-		this.playingCardView.changeBorder();
-
-		for (int i = 0; i < c.Skills.Count; i++)
-		{
-			this.playingCardView.playingCardVM.skillTitles.Add(c.Skills [i].Name);
-			this.playingCardView.playingCardVM.skillDescriptions.Add(c.Skills [i].Description);
-		}
+		playingCardView.playingCardVM.face = this.faces [c.ArtIndex];
+		playingCardView.playingCardVM.attack = c.Attack.ToString ();
+		playingCardView.playingCardVM.move = c.Move.ToString ();
 		this.setSkills();
 	}
-
+	public void show()
+	{
+		base.getGOCoordinates (gameObject);
+		this.setTextResolution ();
+		playingCardView.show ();
+		this.updateLife ();
+	}
+	public void setTextResolution()
+	{
+		float resolution = base.GOSize.y / 150f;
+		playingCardView.setTextResolution (resolution);
+	}
 	public void setTile(Tile t, Vector3 p, bool toRotate)
 	{
 		this.tile = t;
@@ -228,76 +220,25 @@ public class PlayingCardController : MonoBehaviour
 //		
 //		this.playingCardView.replace();
 	}
-
-	public void resizeInfoRect()
-	{
-		if (this.isMine)
-		{
-			if (this.isSelected)
-			{
-				this.playingCardView.playingCardVM.ScreenPosition.x = Screen.width * ((this.sortID - 1) * 0.13f + 0.12f + 0.21f);
-				this.playingCardView.playingCardVM.infoRect.x = this.playingCardView.playingCardVM.ScreenPosition.x - 0.12f * Screen.width;
-				this.playingCardView.playingCardVM.infoRect.width = 0.24f * Screen.width;
-				
-				this.playingCardView.playingCardVM.isSelected = true;
-			} else if (this.isMoved)
-			{
-				this.playingCardView.playingCardVM.ScreenPosition.x = Screen.width * ((this.sortID - 1) * 0.13f + 0.18f + 0.21f);
-				this.playingCardView.playingCardVM.infoRect.x = this.playingCardView.playingCardVM.ScreenPosition.x - 0.06f * Screen.width;
-				this.playingCardView.playingCardVM.infoRect.width = 0.12f * Screen.width;
-			} else
-			{
-				this.playingCardView.playingCardVM.ScreenPosition.x = Screen.width * ((this.sortID - 1) * 0.13f + 0.06f + 0.21f);
-				this.playingCardView.playingCardVM.infoRect.x = this.playingCardView.playingCardVM.ScreenPosition.x - 0.06f * Screen.width;
-				this.playingCardView.playingCardVM.infoRect.width = 0.12f * Screen.width;
-			}
-			this.playingCardView.playingCardVM.position = Camera.main.ScreenToWorldPoint(this.playingCardView.playingCardVM.ScreenPosition);
-			this.playingCardView.playingCardVM.position.y = -5f;
-		} else
-		{
-			if (this.isSelected)
-			{
-				this.playingCardView.playingCardVM.ScreenPosition.x = Screen.width * ((this.sortID - 1) * 0.13f + 0.15f);
-				this.playingCardView.playingCardVM.infoRect.x = this.playingCardView.playingCardVM.ScreenPosition.x - 0.12f * Screen.width;
-				this.playingCardView.playingCardVM.infoRect.width = 0.24f * Screen.width;
-			} else if (this.isMoved)
-			{
-				this.playingCardView.playingCardVM.ScreenPosition.x = Screen.width * ((this.sortID - 1) * 0.13f + 0.09f);
-				this.playingCardView.playingCardVM.infoRect.x = this.playingCardView.playingCardVM.ScreenPosition.x - 0.06f * Screen.width;
-				this.playingCardView.playingCardVM.infoRect.width = 0.12f * Screen.width;
-			} else
-			{
-				this.playingCardView.playingCardVM.ScreenPosition.x = Screen.width * ((this.sortID - 1) * 0.13f + 0.21f);
-				this.playingCardView.playingCardVM.infoRect.x = this.playingCardView.playingCardVM.ScreenPosition.x - 0.06f * Screen.width;
-				this.playingCardView.playingCardVM.infoRect.width = 0.12f * Screen.width;
-			}
-			this.playingCardView.playingCardVM.position = Camera.main.ScreenToWorldPoint(this.playingCardView.playingCardVM.ScreenPosition);
-			this.playingCardView.playingCardVM.position.y = 5f;
-		}
-
-		this.playingCardView.playingCardVM.position.z = 0f;
-		this.playingCardView.replace();
-	}
-
+	
 	public void setIDCharacter(int i)
 	{
 		this.IDCharacter = i;
 	}
 
-	public void setSortID(int i, int speed)
-	{
-		this.sortID = i;
-		this.playingCardView.playingCardVM.quickness = speed;
-	}
 
 	public void getDamage()
 	{
 		//GameController.instance.inflictDamage(ID);
 	}
+	
 
-	public Texture2D getPicture()
+	public void updateLife()
 	{
-		return this.playingCardView.playingCardVM.background;
+		int life = this.card.GetLife ();
+		int maxLife = this.card.Life;
+		float percentage = 1.0f * life / maxLife;
+		playingCardView.drawLifeGauge (percentage);
 	}
 
 	public void updateAttack()
@@ -312,16 +253,6 @@ public class PlayingCardController : MonoBehaviour
 			}
 		}
 		this.playingCardView.playingCardVM.attack += attack + bonus;
-		if (bonus > 0)
-		{
-			//this.playingCardView.playingCardVM.attackZoneTextStyle = guiStylesMyCharacter[3];
-		} else if (bonus > 0)
-		{
-			//this.playingCardView.playingCardVM.attackZoneTextStyle = guiStylesMyCharacter[4];
-		} else
-		{
-			this.playingCardView.playingCardVM.attackZoneTextStyle = guiStylesMyCharacter [2];
-		}
 	}
 
 	public void updateMove()
@@ -336,16 +267,6 @@ public class PlayingCardController : MonoBehaviour
 			}
 		}
 		this.playingCardView.playingCardVM.move += move + bonus;
-		if (bonus > 0)
-		{
-			//this.playingCardView.playingCardVM.moveZoneTextStyle = guiStylesMyCharacter[3];
-		} else if (bonus > 0)
-		{
-			//this.playingCardView.playingCardVM.moveZoneTextStyle = guiStylesMyCharacter[4];
-		} else
-		{
-			this.playingCardView.playingCardVM.attackZoneTextStyle = guiStylesMyCharacter [2];
-		}
 	}
 
 	public void updateQuickness()
@@ -358,17 +279,6 @@ public class PlayingCardController : MonoBehaviour
 			{
 				bonus += statModifiers [i].Amount;
 			}
-		}
-		this.playingCardView.playingCardVM.quickness += speed + bonus;
-		if (bonus > 0)
-		{
-			//this.playingCardView.playingCardVM.quicknessZoneTextStyle = guiStylesMyCharacter[3];
-		} else if (bonus > 0)
-		{
-			//this.playingCardView.playingCardVM.quicknessZoneTextStyle = guiStylesMyCharacter[4];
-		} else
-		{
-			this.playingCardView.playingCardVM.attackZoneTextStyle = guiStylesMyCharacter [2];
 		}
 	}
 
@@ -406,30 +316,18 @@ public class PlayingCardController : MonoBehaviour
 		this.playingCardView.playingCardVM.border = this.borderPC[0];
 		this.playingCardView.changeBorder();
 	}
-
 	public void hideSelected()
 	{
-		if (this.isMine)
-		{
-			this.playingCardView.playingCardVM.backgroundStyle = guiStylesMyCharacter [0];
-		} else
-		{
-			this.playingCardView.playingCardVM.backgroundStyle = guiStylesHisCharacter [0];
-		}
-	}
 
+	}
+	public Texture2D getPicture()
+	{
+		Texture2D toto=new Texture2D (1, 1, TextureFormat.ARGB32, false);
+		return toto;
+	}
 	public void hidePlaying()
 	{
-		if (this.isMine)
-		{
-			this.playingCardView.playingCardVM.backgroundStyle = guiStylesMyCharacter [0];
-			this.playingCardView.playingCardVM.isPlaying = false;
-		} else
-		{
-			this.playingCardView.playingCardVM.backgroundStyle = guiStylesHisCharacter [0];
-		}
-		this.isSelected = false;
-		this.resizeInfoRect();
+
 	}
 
 	public void pass()
