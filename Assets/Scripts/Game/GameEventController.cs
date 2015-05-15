@@ -6,7 +6,7 @@ public class GameEventController : MonoBehaviour
 	public GameEventView gameEventView;
 	public GUIStyle textStyle;
 	public GUIStyle backgroundStyle;
-	public Quaternion initRotation;
+	public Texture2D[] borders;
 
 	public string getCharacterName()
 	{
@@ -71,6 +71,21 @@ public class GameEventController : MonoBehaviour
 	public void setArt(Texture2D art)
 	{
 		gameEventView.gameEventVM.art = art;
+	}
+
+	public void setBorder(int i)
+	{
+		if (i < 5)
+		{
+			gameEventView.gameEventVM.border = borders [1];
+		} else
+			if (i == 5)
+		{
+			gameEventView.gameEventVM.border = borders [2];
+		} else
+		{
+			gameEventView.gameEventVM.border = borders [0];
+		}
 	}
 
 	public void setMovement(GameObject origin, GameObject destination)

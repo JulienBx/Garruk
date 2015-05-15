@@ -17,6 +17,7 @@ public class GameEventViewModel
 	public string action;
 
 	public Texture2D art;
+	public Texture2D border;
 
 	public GameEventViewModel()
 	{
