@@ -14,7 +14,8 @@ public class GameController : Photon.MonoBehaviour
 	public GameObject playingCard;
 	public GameObject verticalBorder;
 	public GameObject horizontalBorder;
-	public GameObject backgroundGO ;
+	public GameObject backGO ;
+	public Texture2D[] backgroundGO ;
 
 	public GUIStyle[] gameScreenStyles;
 
@@ -43,6 +44,7 @@ public class GameController : Photon.MonoBehaviour
 	int widthScreen ; 
 	int heightScreen ;
 	float tileScale ; 
+	int backgroundType = -1 ;
 	
 	const string roomNamePrefix = "GarrukGame";
 	private int nbPlayers = 0 ;
@@ -139,7 +141,6 @@ public class GameController : Photon.MonoBehaviour
 	{
 		this.widthScreen = Screen.width;
 		this.heightScreen = Screen.height;
-		
 		if (this.widthScreen * 10f / 6f > this.heightScreen)
 		{
 			this.tileScale = 1f;
@@ -165,7 +166,13 @@ public class GameController : Photon.MonoBehaviour
 
 	public void createBackground()
 	{
-		this.background = (GameObject)Instantiate(this.backgroundGO);
+		if (this.widthScreen>this.heightScreen){
+			this.background = (GameObject)Instantiate(this.backGO);
+		}
+		else{
+			this.background = (GameObject)Instantiate(this.backGO);
+		}
+
 		for (int i = 0; i < this.verticalBorders.Length; i++)
 		{
 			this.verticalBorders [i] = (GameObject)Instantiate(this.verticalBorder);
@@ -178,11 +185,25 @@ public class GameController : Photon.MonoBehaviour
 
 	public void resizeBackground()
 	{
-		if(this.tileScale==1f){
-			this.background.transform.localScale = new Vector3(10f*tileScale*(1.0f*widthScreen/heightScreen), 10*tileScale,0.5f);
+		if (this.widthScreen>this.heightScreen && this.backgroundType!=1){
+			this.background.renderer.materials[0].mainTexture=this.backgroundGO[1];
+			this.backgroundType=1;
+		}
+		else if (this.widthScreen<=this.heightScreen && this.backgroundType!=0){
+			this.background.renderer.materials[0].mainTexture=this.backgroundGO[0];
+			this.backgroundType=0;
+		}
+		
+		if (this.widthScreen>this.heightScreen){
+			this.background.transform.localScale = new Vector3(20f, 10f,0.5f);
 		}
 		else{
-			this.background.transform.localScale = new Vector3(6*tileScale, 12*tileScale,0.5f);
+			if(this.tileScale==1f){
+				this.background.transform.localScale = new Vector3(10f*tileScale*(1.0f*widthScreen/heightScreen), 10*tileScale,0.5f);
+			}
+			else{
+				this.background.transform.localScale = new Vector3(6*tileScale, 12*tileScale,0.5f);
+			}
 		}
 		
 		Vector3 position;

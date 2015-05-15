@@ -32,20 +32,22 @@ public class TileController : MonoBehaviour
 	public void setTile(int x, int y, int boardWidth, int boardHeight, int type, float scaleTile){
 		this.tile = new Tile(x,y) ;
 		this.type = type ;
-		Vector3 position ;
-		this.tileView.tileVM.scale = new Vector3(scaleTile,scaleTile,scaleTile);
-		position = new Vector3((scaleTile)*((x+0.5f)-(boardWidth/2)), (y-(boardHeight+1)/2)*scaleTile*1.00f, -1f);
-		this.tileView.tileVM.position = position;
+
 		this.tileView.tileVM.background = backTile[type];
 		this.tileView.changeBackground();
 		this.tileView.tileVM.border = borderTile[0];
 		this.tileView.changeBorder();
 
-		this.tileView.resize();
+		this.resize();
 	}
 
-	public void resize(int heightScreen){
-	//
+	public void resize(){
+		Vector3 position ;
+		this.tileView.tileVM.scale = new Vector3(scaleTile,scaleTile,scaleTile);
+		position = new Vector3(0,0,0);
+		this.tileView.tileVM.position = position;
+
+		this.tileView.resize();
 	}
 	
 	// Update is called once per frame
