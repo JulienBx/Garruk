@@ -14,6 +14,7 @@ public class GameController : Photon.MonoBehaviour
 	public GameObject playingCard;
 	public GameObject verticalBorder;
 	public GameObject horizontalBorder;
+	public GameObject backgroundGO ;
 
 	public GUIStyle[] gameScreenStyles;
 
@@ -27,6 +28,7 @@ public class GameController : Photon.MonoBehaviour
 	GameObject[] playingCards ;
 	GameObject[] verticalBorders ;
 	GameObject[] horizontalBorders ;
+	GameObject background ;
 	List<GameObject> gameEvents;
 
 	Tile currentHoveredTile ;
@@ -82,7 +84,7 @@ public class GameController : Photon.MonoBehaviour
 		this.currentPlayingCard = -1;
 		this.verticalBorders = new GameObject[this.boardWidth + 1];
 		this.horizontalBorders = new GameObject[this.boardHeight + 1];
-		this.createBorders();
+		this.createBackground();
 		this.resize ();
 	}
 	
@@ -145,7 +147,7 @@ public class GameController : Photon.MonoBehaviour
 		}
 
 		this.gameView.gameScreenVM.recalculate();
-		this.resizeBorders();
+		this.resizeBackground();
 		int h = this.gameView.gameScreenVM.heightScreen;
 		this.recalculateGameEvents();
 	}
@@ -159,8 +161,9 @@ public class GameController : Photon.MonoBehaviour
 		gameView.gameScreenVM.timerPopUp = time;
 	}
 
-	public void createBorders()
+	public void createBackground()
 	{
+		this.background = (GameObject)Instantiate(this.backgroundGO);
 		for (int i = 0; i < this.verticalBorders.Length; i++)
 		{
 			this.verticalBorders [i] = (GameObject)Instantiate(this.verticalBorder);
@@ -171,8 +174,9 @@ public class GameController : Photon.MonoBehaviour
 		}
 	}
 
-	public void resizeBorders()
+	public void resizeBackground()
 	{
+		this.background.transform.localScale = new Vector3(6*tileScale, 12*tileScale,0.5f);
 		Vector3 position;
 		for (int i = 0; i < this.horizontalBorders.Length; i++)
 		{
