@@ -249,7 +249,7 @@ public class GameController : Photon.MonoBehaviour
 
 		if (this.isHovering)
 		{
-			if (this.currentHoveredTile.x!=this.playingCards [idPlayingCard].GetComponent<PlayingCardController>()){
+			if (this.currentHoveredTile.x!=this.playingCards [idPlayingCard].GetComponent<PlayingCardController>().tile.x || this.currentHoveredTile.y!=this.playingCards [idPlayingCard].GetComponent<PlayingCardController>().tile.y){
 				toHide = true ;
 			}
 			else{
@@ -258,7 +258,7 @@ public class GameController : Photon.MonoBehaviour
 		}
 		if (this.clickedPlayingCard!=-1)
 		{
-			if (t.x == this.currentClickedTile.x || t.y == this.currentClickedTile.y){
+			if (clickedPlayingCard==idPlayingCard){
 				toHover = false ;
 			}
 		}
@@ -278,17 +278,11 @@ public class GameController : Photon.MonoBehaviour
 			}
 		}
 		if (toHover){
-			this.hoverTile(t);
+			this.hoverPlayingCard(idPlayingCard);
 		}
 		if (toChangeCursor)
 		{
-			if (tiles [t.x, t.y].GetComponent<TileController>().isDestination)
-			{
-				this.gameView.gameScreenVM.setCursor(this.cursors [0], 0);
-			} else
-			{
-				this.gameView.gameScreenVM.setCursor(this.cursors [2], 2);
-			}
+			this.gameView.gameScreenVM.setCursor(this.cursors [1], 1);
 		} 
 		else
 		{
