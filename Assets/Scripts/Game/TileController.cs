@@ -38,28 +38,17 @@ public class TileController : MonoBehaviour
 		this.tileView.tileVM.border = borderTile[0];
 		this.tileView.changeBorder();
 
-		this.resize();
+		this.resize(1f, 3, 4);
 	}
 
-	public void resize(){
+	public void resize(float scaleTile, float offsetX, float offsetY){
 		Vector3 position ;
 		this.tileView.tileVM.scale = new Vector3(scaleTile,scaleTile,scaleTile);
-		position = new Vector3(0,0,0);
+		position = new Vector3(scaleTile * (-offsetX+0.5f+this.tile.x),scaleTile * (-offsetY+0.5f+this.tile.y), -1);
 		this.tileView.tileVM.position = position;
 
 		this.tileView.resize();
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
-//	public void mouseEnter () {
-//		if (this.isDestination == true && this.characterID==-1){
-//			GameController.instance.moveCharacter(this.x, this.y);
-//		}
-//	}
 
 	public void setDestination () {
 		this.isDestination = true ;

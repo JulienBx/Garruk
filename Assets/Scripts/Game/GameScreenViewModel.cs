@@ -19,6 +19,19 @@ public class GameScreenViewModel
 	public Texture2D cursor ;
 	int cursorID = -1 ; 
 	public bool hasAMessage;
+
+
+	public bool toDisplayStartWindows = true ;
+	public string messageStartWindow = "Positionnez vos héros sur le champ de bataille";
+	public string messageStartWindowButton = "Je suis pret !" ;
+	public Rect startButtonRect ;
+	public GUIStyle startWindowStyle ;
+
+	public string messageOpponentStartWindow = "L'adversaire positionne ses héros";
+	public Rect opponentStartButtonRect ;
+	public GUIStyle opponentStartWindowStyle ;
+
+
 	public string messageToDisplay;
 
 	public float timer;
@@ -44,12 +57,19 @@ public class GameScreenViewModel
 
 	public void recalculate()
 	{
-		this.heightScreen = Screen.height;
-		this.widthScreen = Screen.width;
-		this.bottomZoneRect = new Rect(0, this.heightScreen * 0.86f, this.widthScreen * 0.2f, this.heightScreen * 0.14f);
-		this.topZoneRect = new Rect(this.widthScreen * 0.8f, 0, this.widthScreen * 0.2f, this.heightScreen * 0.14f);
+
 		this.centerMessageRect = new Rect(Screen.width / 2 - 100, Screen.height * 0.95f, 200, 35);
 		this.rightMessageRect = new Rect(Screen.width * 0.9f, Screen.height * 0.5f, 30, 30);
+		this.startButtonRect = new Rect((Screen.width/2f)-Screen.height * 1f / 4f , (Screen.height/2f)+Screen.height * 5f / 100f, Screen.height * 5 / 10, Screen.height * 1 / 10);
+		this.opponentStartButtonRect = new Rect((Screen.width/2f)-Screen.height * 1f / 4f , (Screen.height/2f)-Screen.height * 15f / 100f, Screen.height * 5 / 10, Screen.height * 1 / 10);
+	}
+
+	public void recalculate(int w, int h)
+	{
+		
+		this.centerMessageRect = new Rect(w / 2 - 100, h * 0.95f, 200, 35);
+		this.rightMessageRect = new Rect(w * 0.9f, w * 0.5f, 30, 30);
+		this.startButtonRect = new Rect((Screen.width/2f)-Screen.height * 6 / 10 , (Screen.height/2f)-Screen.height * 3 / 10, Screen.height * 6 / 10, Screen.height * 3 / 10);
 	}
 
 	public void setCursor(Texture2D c, int i)
