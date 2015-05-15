@@ -65,20 +65,25 @@ public class EndGameModel
 			}
 			if(this.lastResults[0].GameType==1)
 			{
-				this.currentDivision=new Division(System.Convert.ToInt32(gameTypeData[0]),
-				                             System.Convert.ToInt32(gameTypeData[1]),
-				                             System.Convert.ToInt32(gameTypeData[2]),
-				                             System.Convert.ToInt32(gameTypeData[3]),
-				                             System.Convert.ToInt32(gameTypeData[4]),
-				                             System.Convert.ToInt32(gameTypeData[5]),
-				                             System.Convert.ToInt32(gameTypeData[6]));
+				this.currentDivision=new Division();
+				this.currentDivision.Id=System.Convert.ToInt32(gameTypeData[0]);
+				this.currentDivision.NbGames=System.Convert.ToInt32(gameTypeData[1]);
+				this.currentDivision.NbWinsForRelegation=System.Convert.ToInt32(gameTypeData[2]);
+				this.currentDivision.NbWinsForPromotion=System.Convert.ToInt32(gameTypeData[3]);
+				this.currentDivision.NbWinsForTitle=System.Convert.ToInt32(gameTypeData[4]);
+				this.currentDivision.TitlePrize=System.Convert.ToInt32(gameTypeData[5]);
+				this.currentDivision.PromotionPrize=System.Convert.ToInt32(gameTypeData[6]);
+				this.currentDivision.Name=gameTypeData[7];
+				this.currentDivision.Picture=gameTypeData[8];
 			}
 			else if(this.lastResults[0].GameType==2)
 			{
-				this.currentCup = new Cup(System.Convert.ToInt32(gameTypeData[0]),
-				                     System.Convert.ToInt32(gameTypeData[1]),
-				                     System.Convert.ToInt32(gameTypeData[2]),
-				                     gameTypeData[3]);
+				this.currentCup = new Cup();
+				this.currentCup.Id=System.Convert.ToInt32(gameTypeData[0]);
+				this.currentCup.NbRounds=System.Convert.ToInt32(gameTypeData[1]);
+				this.currentCup.CupPrize=System.Convert.ToInt32(gameTypeData[2]);
+				this.currentCup.Name=gameTypeData[3];
+				this.currentCup.Picture=gameTypeData[4];
 			}
 		}
 	}
