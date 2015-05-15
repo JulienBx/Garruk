@@ -27,14 +27,23 @@ public class GameView : MonoBehaviour
 	void OnGUI()
 	{
 		if (gameScreenVM.toDisplayStartWindows){
-			GUILayout.BeginArea(gameScreenVM.startButtonRect);
+			GUILayout.BeginArea(gameScreenVM.startButtonRect, this.gameScreenVM.startWindowStyle);
 			{
 				GUILayout.BeginVertical();
 				{
-					GUILayout.Label(gameScreenVM.messageStartWindow, gameScreenVM.centerMessageTextStyle);
-					if (GUILayout.Button(gameScreenVM.messageStartWindowButton, gameScreenVM.centerMessageTextStyle)){
-						GameController.instance.StartFight();
+					GUILayout.FlexibleSpace();
+					GUILayout.Label(gameScreenVM.messageStartWindow, gameScreenVM.whiteSmallTextStyle);
+					GUILayout.FlexibleSpace();
+					GUILayout.BeginHorizontal();
+					{
+						GUILayout.FlexibleSpace();
+						if (GUILayout.Button(gameScreenVM.messageStartWindowButton, gameScreenVM.buttonTextStyle, GUILayout.Width(gameScreenVM.startButtonRect.width/2f))){
+							GameController.instance.StartFight();
+						}
+						GUILayout.FlexibleSpace();
 					}
+					GUILayout.EndHorizontal();
+					GUILayout.FlexibleSpace();
 				}
 				GUILayout.EndVertical();
 			}

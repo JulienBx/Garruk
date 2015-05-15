@@ -766,7 +766,7 @@ public class GameController : Photon.MonoBehaviour
 		yield return StartCoroutine(users [id - 1].retrievePicture());
 		yield return StartCoroutine(users [id - 1].setProfilePicture());
 		gameStarted = true;
-		this.gameView.gameScreenVM.setValues(gameScreenStyles);
+		this.gameView.gameScreenVM.setStyles(gameScreenStyles);
 
 //		if (ApplicationModel.username == loginName)
 //		{
@@ -833,7 +833,7 @@ public class GameController : Photon.MonoBehaviour
 
 		for (int i = 0; i < 5; i++)
 		{
-			this.playingCards [debut + i] = (GameObject)Instantiate(this.playingCard);
+ 			this.playingCards [debut + i] = (GameObject)Instantiate(this.playingCard);
 			this.playingCards [debut + i].GetComponentInChildren<PlayingCardController>().setCard(deck.Cards [i]);
 			this.playingCards [debut + i].GetComponentInChildren<PlayingCardController>().setIDCharacter(debut + i);
 			this.playingCards [debut + i].GetComponentInChildren<PlayingCardController>().setStyles((isFirstP == this.isFirstPlayer));

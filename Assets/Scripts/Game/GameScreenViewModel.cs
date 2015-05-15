@@ -4,7 +4,7 @@ public class GameScreenViewModel
 {
 	//styles
 
-	//informations Ã  afficher
+	//informations à afficher
 	public int heightScreen;
 	public int widthScreen;
 
@@ -22,15 +22,17 @@ public class GameScreenViewModel
 
 
 	public bool toDisplayStartWindows = true ;
-	public string messageStartWindow = "Positionnez vos hÃ©ros sur le champ de bataille";
+	public string messageStartWindow = "Positionnez vos héros sur le champ de bataille";
 	public string messageStartWindowButton = "Je suis pret !" ;
 	public Rect startButtonRect ;
 	public GUIStyle startWindowStyle ;
 
-	public string messageOpponentStartWindow = "L'adversaire positionne ses hÃ©ros";
+	public string messageOpponentStartWindow = "L'adversaire positionne ses héros";
 	public Rect opponentStartButtonRect ;
 	public GUIStyle opponentStartWindowStyle ;
 
+	public GUIStyle whiteSmallTextStyle ;
+	public GUIStyle buttonTextStyle ;
 
 	public string messageToDisplay;
 
@@ -41,18 +43,27 @@ public class GameScreenViewModel
 
 	public GameScreenViewModel()
 	{
-		centerMessageTextStyle = new GUIStyle();
-		rightMessageTextStyle = new GUIStyle();
+		this.centerMessageTextStyle = new GUIStyle();
+		this.rightMessageTextStyle = new GUIStyle();
+		this.startWindowStyle = new GUIStyle();
+		this.opponentStartWindowStyle = new GUIStyle();
+		this.whiteSmallTextStyle = new GUIStyle();
+		this.buttonTextStyle = new GUIStyle();
 		messageToDisplay = "";
 		hasAMessage = false;
 		timer = 10f;
 		timerPopUp = 5f;
+
 	}
 
-	public void setValues(GUIStyle[] gameScreenStyles)
+	public void setStyles(GUIStyle[] gameScreenStyles)
 	{
-		centerMessageTextStyle = gameScreenStyles [0];
-		rightMessageTextStyle = gameScreenStyles [1];
+		this.centerMessageTextStyle = gameScreenStyles [0];
+		this.rightMessageTextStyle = gameScreenStyles [1];
+		this.startWindowStyle = gameScreenStyles [2];
+		this.opponentStartWindowStyle = gameScreenStyles [3];
+		this.whiteSmallTextStyle = gameScreenStyles [4];
+		this.buttonTextStyle = gameScreenStyles [5];
 	}
 
 	public void recalculate()

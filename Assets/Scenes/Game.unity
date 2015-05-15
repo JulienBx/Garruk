@@ -186,7 +186,7 @@ MonoBehaviour:
   - {fileID: 183196, guid: 26b3cf9fa24e6402db7c1fbfd6350467, type: 2}
   - {fileID: 183792, guid: c311fa50248084fe58e83265aac5c773, type: 2}
   - {fileID: 178128, guid: de2b54bd0a4c042808d05e068eb4a330, type: 2}
-  playingCard: {fileID: 101252, guid: 4a4c22058a11d4cd1a9ae196e68679ce, type: 2}
+  playingCard: {fileID: 106812, guid: fa6df3111907aea4599e6dfc033e4a8c, type: 2}
   verticalBorder: {fileID: 192440, guid: 5d75fc6fbd642be499d9432c0837496f, type: 2}
   horizontalBorder: {fileID: 104434, guid: 55c2036365b50e047ae68c02b551a671, type: 2}
   backGO: {fileID: 114096, guid: 6d9c1c2a88d0d384e9de4ed6ebc85595, type: 2}
@@ -194,7 +194,7 @@ MonoBehaviour:
   - {fileID: 2800000, guid: bea74f77b8e95824b96c3809e6bf69b3, type: 3}
   - {fileID: 2800000, guid: 1dc3e7f1331c10842be5adbaa4f199e7, type: 3}
   gameScreenStyles:
-  - m_Name: 
+  - m_Name: CenterMessageTextStyle
     m_Normal:
       m_Background: {fileID: 2800000, guid: 761ff1491b1f86c4d924261c553ac9cc, type: 3}
       m_TextColor: {r: 1, g: 1, b: 1, a: .482352942}
@@ -252,7 +252,7 @@ MonoBehaviour:
     m_FixedHeight: 0
     m_StretchWidth: 1
     m_StretchHeight: 0
-  - m_Name: 
+  - m_Name: rightMessageTextStyle
     m_Normal:
       m_Background: {fileID: 2800000, guid: ab6d288fac925ae48bbeb5e02d83dce3, type: 3}
       m_TextColor: {r: .879310369, g: .879310369, b: .879310369, a: 1}
@@ -310,6 +310,238 @@ MonoBehaviour:
     m_FixedHeight: 0
     m_StretchWidth: 1
     m_StretchHeight: 0
+  - m_Name: startWindowStyle
+    m_Normal:
+      m_Background: {fileID: 2800000, guid: 9befb9d60aa67d2408ce2be212820773, type: 3}
+      m_TextColor: {r: .879310369, g: .879310369, b: .879310369, a: 1}
+    m_Hover:
+      m_Background: {fileID: 0}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 0}
+    m_Active:
+      m_Background: {fileID: 0}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 0}
+    m_Focused:
+      m_Background: {fileID: 0}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 0}
+    m_OnNormal:
+      m_Background: {fileID: 0}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 0}
+    m_OnHover:
+      m_Background: {fileID: 0}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 0}
+    m_OnActive:
+      m_Background: {fileID: 0}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 0}
+    m_OnFocused:
+      m_Background: {fileID: 0}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 0}
+    m_Border:
+      m_Left: 1
+      m_Right: 1
+      m_Top: 1
+      m_Bottom: 1
+    m_Margin:
+      m_Left: 0
+      m_Right: 0
+      m_Top: 0
+      m_Bottom: 0
+    m_Padding:
+      m_Left: 0
+      m_Right: 0
+      m_Top: 0
+      m_Bottom: 0
+    m_Overflow:
+      m_Left: 0
+      m_Right: 0
+      m_Top: 0
+      m_Bottom: 0
+    m_Font: {fileID: 0}
+    m_FontSize: 0
+    m_FontStyle: 0
+    m_Alignment: 4
+    m_WordWrap: 0
+    m_RichText: 0
+    m_TextClipping: 1
+    m_ImagePosition: 0
+    m_ContentOffset: {x: 0, y: 0}
+    m_FixedWidth: 0
+    m_FixedHeight: 0
+    m_StretchWidth: 1
+    m_StretchHeight: 1
+  - m_Name: opponentStartWindowStyle
+    m_Normal:
+      m_Background: {fileID: 2800000, guid: 9befb9d60aa67d2408ce2be212820773, type: 3}
+      m_TextColor: {r: .879310369, g: .879310369, b: .879310369, a: 1}
+    m_Hover:
+      m_Background: {fileID: 0}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 0}
+    m_Active:
+      m_Background: {fileID: 0}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 0}
+    m_Focused:
+      m_Background: {fileID: 0}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 0}
+    m_OnNormal:
+      m_Background: {fileID: 0}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 0}
+    m_OnHover:
+      m_Background: {fileID: 0}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 0}
+    m_OnActive:
+      m_Background: {fileID: 0}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 0}
+    m_OnFocused:
+      m_Background: {fileID: 0}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 0}
+    m_Border:
+      m_Left: 0
+      m_Right: 0
+      m_Top: 0
+      m_Bottom: 0
+    m_Margin:
+      m_Left: 0
+      m_Right: 0
+      m_Top: 0
+      m_Bottom: 0
+    m_Padding:
+      m_Left: 0
+      m_Right: 0
+      m_Top: 0
+      m_Bottom: 0
+    m_Overflow:
+      m_Left: 0
+      m_Right: 0
+      m_Top: 0
+      m_Bottom: 0
+    m_Font: {fileID: 0}
+    m_FontSize: 0
+    m_FontStyle: 0
+    m_Alignment: 4
+    m_WordWrap: 0
+    m_RichText: 0
+    m_TextClipping: 1
+    m_ImagePosition: 0
+    m_ContentOffset: {x: 0, y: 0}
+    m_FixedWidth: 0
+    m_FixedHeight: 0
+    m_StretchWidth: 1
+    m_StretchHeight: 1
+  - m_Name: whiteSmallTextStyle
+    m_Normal:
+      m_Background: {fileID: 0}
+      m_TextColor: {r: .980392158, g: .980392158, b: .980392158, a: 1}
+    m_Hover:
+      m_Background: {fileID: 0}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 0}
+    m_Active:
+      m_Background: {fileID: 0}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 0}
+    m_Focused:
+      m_Background: {fileID: 0}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 0}
+    m_OnNormal:
+      m_Background: {fileID: 0}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 0}
+    m_OnHover:
+      m_Background: {fileID: 0}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 0}
+    m_OnActive:
+      m_Background: {fileID: 0}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 0}
+    m_OnFocused:
+      m_Background: {fileID: 0}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 0}
+    m_Border:
+      m_Left: 0
+      m_Right: 0
+      m_Top: 0
+      m_Bottom: 0
+    m_Margin:
+      m_Left: 0
+      m_Right: 0
+      m_Top: 0
+      m_Bottom: 0
+    m_Padding:
+      m_Left: 0
+      m_Right: 0
+      m_Top: 0
+      m_Bottom: 0
+    m_Overflow:
+      m_Left: 0
+      m_Right: 0
+      m_Top: 0
+      m_Bottom: 0
+    m_Font: {fileID: 0}
+    m_FontSize: 0
+    m_FontStyle: 0
+    m_Alignment: 4
+    m_WordWrap: 0
+    m_RichText: 0
+    m_TextClipping: 1
+    m_ImagePosition: 0
+    m_ContentOffset: {x: 0, y: 0}
+    m_FixedWidth: 0
+    m_FixedHeight: 0
+    m_StretchWidth: 1
+    m_StretchHeight: 1
+  - m_Name: buttonTextStyle
+    m_Normal:
+      m_Background: {fileID: 2800000, guid: b62e84c9778157d4da049cad27d08b76, type: 3}
+      m_TextColor: {r: .29411763, g: .285467118, b: .285467118, a: 1}
+    m_Hover:
+      m_Background: {fileID: 2800000, guid: 31ce0db19a95a964893ce4ed1ca75aed, type: 3}
+      m_TextColor: {r: .980392158, g: .980392158, b: .980392158, a: 1}
+    m_Active:
+      m_Background: {fileID: 0}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 0}
+    m_Focused:
+      m_Background: {fileID: 0}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 0}
+    m_OnNormal:
+      m_Background: {fileID: 0}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 0}
+    m_OnHover:
+      m_Background: {fileID: 0}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 0}
+    m_OnActive:
+      m_Background: {fileID: 0}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 0}
+    m_OnFocused:
+      m_Background: {fileID: 0}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 0}
+    m_Border:
+      m_Left: 0
+      m_Right: 0
+      m_Top: 0
+      m_Bottom: 0
+    m_Margin:
+      m_Left: 0
+      m_Right: 0
+      m_Top: 0
+      m_Bottom: 0
+    m_Padding:
+      m_Left: 0
+      m_Right: 0
+      m_Top: 0
+      m_Bottom: 0
+    m_Overflow:
+      m_Left: 0
+      m_Right: 0
+      m_Top: 0
+      m_Bottom: 0
+    m_Font: {fileID: 0}
+    m_FontSize: 0
+    m_FontStyle: 0
+    m_Alignment: 4
+    m_WordWrap: 0
+    m_RichText: 0
+    m_TextClipping: 1
+    m_ImagePosition: 0
+    m_ContentOffset: {x: 0, y: 0}
+    m_FixedWidth: 0
+    m_FixedHeight: 0
+    m_StretchWidth: 1
+    m_StretchHeight: 0
   cursors:
   - {fileID: 2800000, guid: 05f7b57bb98c1ff4186a4ca33765c84c, type: 3}
   - {fileID: 2800000, guid: 3b3fa878b49cfa3449bdab54bdee3f87, type: 3}
@@ -317,6 +549,7 @@ MonoBehaviour:
   gameEvent: {fileID: 137652, guid: 70824da3ea964a142a6e26626c5e0b1b, type: 2}
   isFirstPlayer: 0
   borderSize: .0199999996
+  eventMax: 11
 --- !u!114 &481987443
 MonoBehaviour:
   m_ObjectHideFlags: 0
