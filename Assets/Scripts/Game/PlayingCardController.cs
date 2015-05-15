@@ -403,13 +403,8 @@ public class PlayingCardController : MonoBehaviour
 
 	public void hideHover()
 	{
-		if (this.isMine)
-		{
-			this.playingCardView.playingCardVM.backgroundStyle = guiStylesMyCharacter [0];
-		} else
-		{
-			this.playingCardView.playingCardVM.backgroundStyle = guiStylesHisCharacter [0];
-		}
+		this.playingCardView.playingCardVM.border = this.borderPC[0];
+		this.playingCardView.changeBorder();
 	}
 
 	public void hideSelected()

@@ -176,6 +176,7 @@ public class GameController : Photon.MonoBehaviour
 
 	public void hideHoveredPlayingCard()
 	{
+		print ("HideHovering "+this.hoveredPlayingCard);
 		this.playingCards [this.hoveredPlayingCard].GetComponent<PlayingCardController>().hideHover();
 		this.isHovering = false;
 		this.hoveredPlayingCard = -1;
@@ -186,6 +187,7 @@ public class GameController : Photon.MonoBehaviour
 		this.tiles [t.x, t.y].GetComponent<TileController>().displayHover();
 		this.currentHoveredTile = t;
 		this.isHovering = true ;
+		this.hoveredPlayingCard=-1;
 	}
 
 	public void hoverPlayingCard(int idPlayingCard)
@@ -270,7 +272,7 @@ public class GameController : Photon.MonoBehaviour
 		}
 		if (toHide)
 		{
-			if (this.currentPlayingCard==-1){
+			if (this.hoveredPlayingCard==-1){
 				this.hideHoveredTile();
 			}
 			else{

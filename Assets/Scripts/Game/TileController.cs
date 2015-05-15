@@ -85,7 +85,6 @@ public class TileController : MonoBehaviour
 
 	public void hideHover(){
 		this.tileView.tileVM.border = this.borderTile[0];
-		this.tileView.resize();
 		this.tileView.changeBorder();
 	}
 
