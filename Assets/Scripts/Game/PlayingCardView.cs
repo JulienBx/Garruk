@@ -136,7 +136,7 @@ public class PlayingCardView : MonoBehaviour
 	}
 
 	void OnMouseDown(){
-		//gameObject.GetComponentInChildren<PlayingCardController>().drag();
+		gameObject.GetComponentInChildren<PlayingCardController>().clickPlayingCard();
 	}
 
 	void OnMouseUp(){
