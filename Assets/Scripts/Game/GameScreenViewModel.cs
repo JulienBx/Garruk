@@ -22,17 +22,22 @@ public class GameScreenViewModel
 
 
 	public bool toDisplayStartWindows = true ;
-	public string messageStartWindow = "Positionnez vos héros sur le champ de bataille";
+	public bool iHaveStarted = false;
+	public bool heHasStarted = false ;
+	public string messageStartWindow = "Préparation du champ de bataille";
 	public string messageStartWindowButton = "Je suis pret !" ;
 	public Rect startButtonRect ;
 	public GUIStyle startWindowStyle ;
+	public GUIStyle quitButtonStyle ;
 
-	public string messageOpponentStartWindow = "L'adversaire positionne ses héros";
+	public string messageOpponentStartWindow = "En attente du second joueur" ;
+	public string messageOpponentStartWindowButton = "Pret à jouer !" ;
 	public Rect opponentStartButtonRect ;
 	public GUIStyle opponentStartWindowStyle ;
 
 	public GUIStyle whiteSmallTextStyle ;
 	public GUIStyle buttonTextStyle ;
+	public GUIStyle greenInformationTextStyle ;
 
 	public string messageToDisplay;
 
@@ -40,6 +45,12 @@ public class GameScreenViewModel
 	public float timerPopUp;
 
 	public bool popUpDisplay;
+	public bool toDisplayGameScreen = false;
+
+	public string myPlayerName ;
+	public string hisPlayerName ;
+	public string quitButtonText = "Quitter la partie" ;
+	public Rect quitButtonRect ;
 
 	public GameScreenViewModel()
 	{
@@ -49,11 +60,11 @@ public class GameScreenViewModel
 		this.opponentStartWindowStyle = new GUIStyle();
 		this.whiteSmallTextStyle = new GUIStyle();
 		this.buttonTextStyle = new GUIStyle();
+		this.greenInformationTextStyle = new GUIStyle();
 		messageToDisplay = "";
 		hasAMessage = false;
 		timer = 10f;
 		timerPopUp = 5f;
-
 	}
 
 	public void setStyles(GUIStyle[] gameScreenStyles)
@@ -64,23 +75,39 @@ public class GameScreenViewModel
 		this.opponentStartWindowStyle = gameScreenStyles [3];
 		this.whiteSmallTextStyle = gameScreenStyles [4];
 		this.buttonTextStyle = gameScreenStyles [5];
+		this.greenInformationTextStyle = gameScreenStyles [6];
+		this.quitButtonStyle = gameScreenStyles [5] ;
 	}
 
-	public void recalculate()
-	{
+	public void startMyPlayer(){
+		this.iHaveStarted = true ;
+		this.messageStartWindowButton = "Pret à jouer !" ;
+	}
 
-		this.centerMessageRect = new Rect(Screen.width / 2 - 100, Screen.height * 0.95f, 200, 35);
-		this.rightMessageRect = new Rect(Screen.width * 0.9f, Screen.height * 0.5f, 30, 30);
-		this.startButtonRect = new Rect((Screen.width/2f)-Screen.height * 1f / 4f , (Screen.height/2f)+Screen.height * 5f / 100f, Screen.height * 5 / 10, Screen.height * 1 / 10);
-		this.opponentStartButtonRect = new Rect((Screen.width/2f)-Screen.height * 1f / 4f , (Screen.height/2f)-Screen.height * 15f / 100f, Screen.height * 5 / 10, Screen.height * 1 / 10);
+	public void startOtherPlayer(){
+		this.heHasStarted = true ;
+	}
+
+	public void connectOtherPlayer(){
+		this.messageOpponentStartWindow = this.hisPlayerName+" prépare ses héros";
 	}
 
 	public void recalculate(int w, int h)
 	{
-		
 		this.centerMessageRect = new Rect(w / 2 - 100, h * 0.95f, 200, 35);
-		this.rightMessageRect = new Rect(w * 0.9f, w * 0.5f, 30, 30);
-		this.startButtonRect = new Rect((Screen.width/2f)-Screen.height * 6 / 10 , (Screen.height/2f)-Screen.height * 3 / 10, Screen.height * 6 / 10, Screen.height * 3 / 10);
+		this.rightMessageRect = new Rect(w * 0.9f, h * 0.5f, 30, 30);
+		this.startButtonRect = new Rect((w/2f)-h * 1f / 4f , (h/2f)+h * 5f / 100f, h * 5 / 10, h * 1 / 10);
+		this.opponentStartButtonRect = new Rect((w/2f)-h * 1f / 4f , (h/2f)- h * 15f / 100f, h * 5 / 10, h * 1 / 10);
+		this.quitButtonRect = new Rect(w/2f, h*25f/1000f, w/8f, h*5f/100f  );
+		
+		this.centerMessageTextStyle.fontSize = h* 20 / 1000 ;
+		this.rightMessageTextStyle.fontSize = h* 20 / 1000;
+		this.whiteSmallTextStyle.fontSize = h* 22 / 1000;
+		this.buttonTextStyle.fontSize = h* 22 / 1000;
+		this.greenInformationTextStyle.fontSize = h* 22 / 1000;
+		this.quitButtonStyle.fontSize = h* 22 / 1000 ;
+		
+		toDisplayGameScreen = true ;
 	}
 
 	public void setCursor(Texture2D c, int i)

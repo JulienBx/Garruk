@@ -11,6 +11,7 @@ GameObject:
   - 33: {fileID: 3306812}
   - 23: {fileID: 2306812}
   - 114: {fileID: 11440622}
+  - 65: {fileID: 6551788}
   m_Layer: 0
   m_Name: PlayingCard
   m_TagString: Untagged
@@ -442,6 +443,18 @@ MeshCollider:
   m_SmoothSphereCollisions: 0
   m_Convex: 0
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!65 &6551788
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 106812}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 0}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!102 &10240622
 TextMesh:
   serializedVersion: 3
@@ -497,7 +510,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GOPosition: {x: 0, y: 0}
   GOSize: {x: 0, y: 0}
-  borderPC: []
+  borderPC:
+  - {fileID: 2800000, guid: d737094809e5f4667830b815e14a6c69, type: 3}
+  - {fileID: 2800000, guid: 4d83579c94447f04eadcb6c61f5a4cbe, type: 3}
+  - {fileID: 2800000, guid: f4c4edfb449674c498b78131aea82868, type: 3}
+  - {fileID: 2800000, guid: 4fdccd947fd480a44bda119614783404, type: 3}
   faces:
   - {fileID: 2800000, guid: bb17f275d6f1c423eab5dd97374d7912, type: 3}
   - {fileID: 2800000, guid: fbfa3ebd530e94f7b8cdf1f38142b699, type: 3}

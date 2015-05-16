@@ -54,7 +54,6 @@ public class PlayingCardView : MonoBehaviour
 	
 	void OnMouseEnter()
 	{
-		print ("HoverPlayingCard");
 		gameObject.GetComponentInChildren<PlayingCardController>().hoverPlayingCard();
 	}
 

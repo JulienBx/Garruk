@@ -86,7 +86,7 @@ public class PlayingCardController : GameObjectController
 //			//this.playingCardView.playingCardVM.ScreenPosition.y = Screen.height-this.playingCardView.playingCardVM.ScreenPosition.y;
 //		}
 //		this.playingCharacterView.playingCharacterVM.ScreenPosition = Camera.main.WorldToScreenPoint(this.playingCharacterView.playingCharacterVM.position);
-		this.playingCardView.playingCardVM.scale = new Vector3(1.12f, 1.12f, 1.12f);
+		this.playingCardView.playingCardVM.scale = new Vector3(1.10f, 1.10f, 1.10f);
 		this.playingCardView.replace();
 	}
 
@@ -316,10 +316,13 @@ public class PlayingCardController : GameObjectController
 		this.playingCardView.playingCardVM.border = this.borderPC[0];
 		this.playingCardView.changeBorder();
 	}
+
 	public void hideSelected()
 	{
-
+		this.playingCardView.playingCardVM.border = this.borderPC[0];
+		this.playingCardView.changeBorder();
 	}
+
 	public Texture2D getPicture()
 	{
 		Texture2D toto=new Texture2D (1, 1, TextureFormat.ARGB32, false);

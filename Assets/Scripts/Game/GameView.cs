@@ -11,7 +11,6 @@ public class GameView : MonoBehaviour
 	void Awake()
 	{
 		gameScreenVM = new GameScreenViewModel();
-		gameScreenVM.recalculate();
 	}
 	
 	void Start()
@@ -26,62 +25,96 @@ public class GameView : MonoBehaviour
 
 	void OnGUI()
 	{
-		if (gameScreenVM.toDisplayStartWindows){
-			GUILayout.BeginArea(gameScreenVM.startButtonRect, this.gameScreenVM.startWindowStyle);
-			{
-				GUILayout.BeginVertical();
+		if (this.gameScreenVM.toDisplayGameScreen){
+			if (GUI.Button(gameScreenVM.quitButtonRect, gameScreenVM.quitButtonText, gameScreenVM.quitButtonStyle)){
+				GameController.instance.quitGame();
+			}
+		
+			if (gameScreenVM.toDisplayStartWindows){
+				GUILayout.BeginArea(gameScreenVM.startButtonRect, this.gameScreenVM.startWindowStyle);
 				{
-					GUILayout.FlexibleSpace();
-					GUILayout.Label(gameScreenVM.messageStartWindow, gameScreenVM.whiteSmallTextStyle);
-					GUILayout.FlexibleSpace();
-					GUILayout.BeginHorizontal();
+					GUILayout.BeginVertical();
 					{
 						GUILayout.FlexibleSpace();
-						if (GUILayout.Button(gameScreenVM.messageStartWindowButton, gameScreenVM.buttonTextStyle, GUILayout.Width(gameScreenVM.startButtonRect.width/2f))){
-							GameController.instance.StartFight();
+						if (this.gameScreenVM.iHaveStarted){
+							GUILayout.Label(gameScreenVM.messageStartWindow, gameScreenVM.whiteSmallTextStyle);
+							GUILayout.FlexibleSpace();
+							GUILayout.BeginHorizontal();
+							{
+								GUILayout.FlexibleSpace();
+								GUILayout.Label(gameScreenVM.messageStartWindowButton, gameScreenVM.greenInformationTextStyle, GUILayout.Width(gameScreenVM.startButtonRect.width/3f));
+								GUILayout.FlexibleSpace();
+							}
+							GUILayout.EndHorizontal();
+						}
+						else{
+							GUILayout.Label(gameScreenVM.messageStartWindow, gameScreenVM.whiteSmallTextStyle);
+							GUILayout.FlexibleSpace();
+							GUILayout.BeginHorizontal();
+							{
+								GUILayout.FlexibleSpace();
+								if (GUILayout.Button(gameScreenVM.messageStartWindowButton, gameScreenVM.buttonTextStyle, GUILayout.Width(gameScreenVM.startButtonRect.width/2f))){
+									GameController.instance.StartFight();
+								}
+								GUILayout.FlexibleSpace();
+							}
+							GUILayout.EndHorizontal();
 						}
 						GUILayout.FlexibleSpace();
 					}
-					GUILayout.EndHorizontal();
-					GUILayout.FlexibleSpace();
+					GUILayout.EndVertical();
 				}
-				GUILayout.EndVertical();
-			}
-			GUILayout.EndArea();
-			GUILayout.BeginArea(gameScreenVM.opponentStartButtonRect);
-			{
-				GUILayout.BeginVertical();
+				GUILayout.EndArea();
+				GUILayout.BeginArea(gameScreenVM.opponentStartButtonRect, this.gameScreenVM.startWindowStyle);
 				{
-					GUILayout.Label(gameScreenVM.messageOpponentStartWindow, gameScreenVM.centerMessageTextStyle);
+					GUILayout.BeginVertical();
+					{
+						GUILayout.FlexibleSpace();
+						if (this.gameScreenVM.heHasStarted){
+							GUILayout.Label(gameScreenVM.messageOpponentStartWindow, gameScreenVM.whiteSmallTextStyle);
+							GUILayout.FlexibleSpace();
+							GUILayout.BeginHorizontal();
+							{
+								GUILayout.FlexibleSpace();
+								GUILayout.Label(gameScreenVM.messageStartWindowButton, gameScreenVM.greenInformationTextStyle, GUILayout.Width(gameScreenVM.startButtonRect.width/4f));
+								GUILayout.FlexibleSpace();
+							}
+							GUILayout.EndHorizontal();
+						}
+						else{
+							GUILayout.Label(gameScreenVM.messageOpponentStartWindow, gameScreenVM.whiteSmallTextStyle);
+						}
+						GUILayout.FlexibleSpace();
+					}
+					GUILayout.EndVertical();
 				}
-				GUILayout.EndVertical();
+				GUILayout.EndArea();
 			}
-			GUILayout.EndArea();
-		}
 
-		if (gameScreenVM.hasAMessage)
-		{
-			GUILayout.BeginArea(gameScreenVM.centerMessageRect);
+			if (gameScreenVM.hasAMessage)
 			{
-				GUILayout.BeginHorizontal(gameScreenVM.centerMessageTextStyle);
+				GUILayout.BeginArea(gameScreenVM.centerMessageRect);
 				{
-					GUILayout.Label(gameScreenVM.messageToDisplay, gameScreenVM.centerMessageTextStyle);
+					GUILayout.BeginHorizontal(gameScreenVM.centerMessageTextStyle);
+					{
+						GUILayout.Label(gameScreenVM.messageToDisplay, gameScreenVM.centerMessageTextStyle);
+					}
+					GUILayout.EndHorizontal();
 				}
-				GUILayout.EndHorizontal();
+				GUILayout.EndArea();
 			}
-			GUILayout.EndArea();
-		}
-		if (gameScreenVM.timer > 0)
-		{
-			GUILayout.BeginArea(gameScreenVM.rightMessageRect);
+			if (gameScreenVM.timer > 0)
 			{
-				GUILayout.BeginHorizontal(gameScreenVM.rightMessageTextStyle);
+				GUILayout.BeginArea(gameScreenVM.rightMessageRect);
 				{
-					GUILayout.Label(Mathf.Ceil(gameScreenVM.timer).ToString(), gameScreenVM.rightMessageTextStyle);
+					GUILayout.BeginHorizontal(gameScreenVM.rightMessageTextStyle);
+					{
+						GUILayout.Label(Mathf.Ceil(gameScreenVM.timer).ToString(), gameScreenVM.rightMessageTextStyle);
+					}
+					GUILayout.EndHorizontal();
 				}
-				GUILayout.EndHorizontal();
+				GUILayout.EndArea();
 			}
-			GUILayout.EndArea();
 		}
 	}
 }
