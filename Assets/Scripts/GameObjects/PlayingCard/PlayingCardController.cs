@@ -304,6 +304,12 @@ public class PlayingCardController : GameObjectController
 		this.playingCardView.changeBorder();
 	}
 
+	public void displayOpponentSelected()
+	{
+		this.playingCardView.playingCardVM.border = this.borderPC[4];
+		this.playingCardView.changeBorder();
+	}
+
 	public void displayPlaying()
 	{
 		this.playingCardView.playingCardVM.border = this.borderPC[3];
@@ -328,9 +334,11 @@ public class PlayingCardController : GameObjectController
 		Texture2D toto=new Texture2D (1, 1, TextureFormat.ARGB32, false);
 		return toto;
 	}
+
 	public void hidePlaying()
 	{
-
+		this.playingCardView.playingCardVM.border = this.borderPC[0];
+		this.playingCardView.changeBorder();
 	}
 
 	public void pass()

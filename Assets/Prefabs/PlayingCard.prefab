@@ -515,6 +515,7 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 4d83579c94447f04eadcb6c61f5a4cbe, type: 3}
   - {fileID: 2800000, guid: f4c4edfb449674c498b78131aea82868, type: 3}
   - {fileID: 2800000, guid: 4fdccd947fd480a44bda119614783404, type: 3}
+  - {fileID: 2800000, guid: d053a70170a32d0498844d289c4690f2, type: 3}
   faces:
   - {fileID: 2800000, guid: bb17f275d6f1c423eab5dd97374d7912, type: 3}
   - {fileID: 2800000, guid: fbfa3ebd530e94f7b8cdf1f38142b699, type: 3}
