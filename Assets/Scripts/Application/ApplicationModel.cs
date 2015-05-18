@@ -26,6 +26,7 @@ public class ApplicationModel : MonoBehaviour
 	static private string URLEditPassword = host+"edit_password.php";
 	static private string URLCheckAuthentification =  host + "check_authentication.php"; 
 	static private string URLCheckPermanentConnexion = host + "check_permanent_connexion.php";
+	static private string URLCreateAccount = host + "create_account.php";
 
 	static public IEnumerator checkPassword(string password)
 	{
@@ -119,6 +120,35 @@ public class ApplicationModel : MonoBehaviour
 			{
 				error=w.text;
 			}											
+		}
+	}
+	static public IEnumerator createAccount(string nick, string email,string password)
+	{	
+		WWWForm form = new WWWForm();
+		form.AddField("myform_hash", ApplicationModel.hash);
+		form.AddField("myform_nick", nick);
+		form.AddField("myform_email", email);
+		form.AddField("myform_pass", password);
+		form.AddField ("myform_macadress", SystemInfo.deviceUniqueIdentifier);
+		
+		WWW w = new WWW(URLCreateAccount, form);
+		yield return w;
+		
+		if (w.error != null) 
+		{
+			error=w.error;
+		} 
+		else 
+		{
+			if (w.text=="") 		
+			{	 				
+				username = nick;
+				toDeconnect=false;
+			}
+			else 
+			{
+				error=w.text;
+			}										
 		}
 	}
 }

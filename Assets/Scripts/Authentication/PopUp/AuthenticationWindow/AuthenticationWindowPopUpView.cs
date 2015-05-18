@@ -57,12 +57,17 @@ public class AuthenticationWindowPopUpView : MonoBehaviour
 				GUILayout.FlexibleSpace();
 				GUILayout.BeginHorizontal();
 				{
-					GUILayout.Space(0.3f * popUpVM.centralWindow.width);
+					GUILayout.Space(0.1f * popUpVM.centralWindow.width);
 					if (GUILayout.Button("Valider", popUpVM.centralWindowButtonStyle))
 					{
 						StartCoroutine(AuthenticationController.instance.login());
 					}
-					GUILayout.Space(0.3f * popUpVM.centralWindow.width);
+					GUILayout.Space(0.1f * popUpVM.centralWindow.width);
+					if (GUILayout.Button("Annuler", popUpVM.centralWindowButtonStyle))
+					{
+						AuthenticationController.instance.hideAuthenticationWindowPopUp();
+					}
+					GUILayout.Space(0.1f * popUpVM.centralWindow.width);
 				}
 				GUILayout.EndHorizontal();
 				GUILayout.FlexibleSpace();
