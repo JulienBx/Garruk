@@ -321,11 +321,6 @@ public class GameController : Photon.MonoBehaviour
 				toChangeCursor = true;
 			}
 		}
-		print("idPlayingCard "+idPlayingCard);
-		print("clickedCard "+this.clickedPlayingCard);
-		print("PlayingCard "+this.currentPlayingCard);
-		print("toHover "+toHover);
-		print("toHide "+toHide);
 
 		if (toHide)
 		{
@@ -798,8 +793,8 @@ public class GameController : Photon.MonoBehaviour
 					this.isFirstPlayer = true;
 				} else
 				{
-					Camera.main.transform.localRotation = Quaternion.Euler(30, 0, 180);
-					Camera.main.transform.localPosition = new Vector3(0, 5.75f, -10f);
+					//Camera.main.transform.localRotation = Quaternion.Euler(30, 0, 180);
+					//Camera.main.transform.localPosition = new Vector3(0, 5.75f, -10f);
 				}
 			}
 		} else
@@ -979,10 +974,6 @@ public class GameController : Photon.MonoBehaviour
 		Debug.Log("Connected to a room");
 		if (!isReconnecting)
 		{
-			if (!this.isFirstPlayer)
-			{
-				Camera.main.transform.localRotation = Quaternion.Euler(0, 0, 180);
-			}
 			photonView.RPC("AddPlayerToList", PhotonTargets.AllBuffered, PhotonNetwork.player.ID, ApplicationModel.username);
 
 		} else

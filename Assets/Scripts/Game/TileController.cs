@@ -44,7 +44,12 @@ public class TileController : MonoBehaviour
 	public void resize(float scaleTile, float offsetX, float offsetY){
 		Vector3 position ;
 		this.tileView.tileVM.scale = new Vector3(scaleTile,scaleTile,scaleTile);
-		position = new Vector3(scaleTile * (-offsetX+0.5f+this.tile.x),scaleTile * (-offsetY+0.5f+this.tile.y), -1);
+		if (GameController.instance.isFirstPlayer){
+			position = new Vector3(scaleTile * (-offsetX+0.5f+this.tile.x),scaleTile * (-offsetY+0.5f+this.tile.y), -1);
+		}
+		else{
+			position = new Vector3(scaleTile * (offsetX-0.5f-this.tile.x),scaleTile * (offsetY-0.5f-this.tile.y), -1);
+		}
 		this.tileView.tileVM.position = position;
 
 		this.tileView.resize();
