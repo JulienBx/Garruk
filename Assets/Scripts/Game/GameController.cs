@@ -1050,17 +1050,18 @@ public class GameController : Photon.MonoBehaviour
 		{
 			addCardEvent(i % 5, i);
 		}
-		addGameEvent(new SkillType("lance test"), "vilan");
+		addGameEvent(new SkillType("a lancé test"), "vilain");
 		gameStarted = true;
 	}
 	
 	public void addGameEvent(GameEventType type, string targetName)
 	{
 		setGameEvent(type);
-		/*if (targetName != "")
+		if (targetName != "")
 		{
-			gameEvents [0].GetComponent<GameEventController>().addAction(" sur " + targetName);
-		}*/
+			int midTimeline = (int)Math.Floor((double)eventMax / 2);
+			gameEvents [midTimeline].GetComponent<GameEventController>().setTarget(targetName);
+		}
 	}
 
 	public void addMovementEvent(GameObject origin, GameObject destination)
@@ -1094,10 +1095,6 @@ public class GameController : Photon.MonoBehaviour
 
 	void addCardEvent(int idCharacter, int position)
 	{
-		if (position == 0)
-		{
-			changeGameEvents();
-		}
 		GameObject go = gameEvents [position];
 		PlayingCardController pcc = playingCards [idCharacter].GetComponent<PlayingCardController>();
 		go.GetComponent<GameEventController>().setCharacterName(pcc.card.Title);
