@@ -48,33 +48,33 @@ public class PlayingCardController : GameObjectController
 
 	public void setTile(Tile t)
 	{
-		this.tile = t ;
+		this.tile = t;
 	}
 
 	public void setCard(Card c)
 	{
 		this.card = c;
 		playingCardView.playingCardVM.face = this.faces [c.ArtIndex];
-		playingCardView.playingCardVM.attack = c.Attack.ToString ();
-		playingCardView.playingCardVM.move = c.Move.ToString ();
+		playingCardView.playingCardVM.attack = c.Attack.ToString();
+		playingCardView.playingCardVM.move = c.Move.ToString();
 		this.setSkills();
 	}
 	public void show()
 	{
-		base.getGOCoordinates (gameObject);
-		this.setTextResolution ();
-		playingCardView.show ();
-		this.updateLife ();
+		base.getGOCoordinates(gameObject);
+		this.setTextResolution();
+		playingCardView.show();
+		this.updateLife();
 	}
 	public void setTextResolution()
 	{
 		float resolution = base.GOSize.y / 150f;
-		playingCardView.setTextResolution (resolution);
+		playingCardView.setTextResolution(resolution);
 	}
 	public void setTile(Tile t, Vector3 p, bool toRotate)
 	{
 		this.tile = t;
-		p.z = -2 ;
+		p.z = -2;
 		this.playingCardView.playingCardVM.position = p;
 //		if (!toRotate)
 //		{
@@ -235,10 +235,10 @@ public class PlayingCardController : GameObjectController
 
 	public void updateLife()
 	{
-		int life = this.card.GetLife ();
+		int life = this.card.GetLife();
 		int maxLife = this.card.Life;
 		float percentage = 1.0f * life / maxLife;
-		playingCardView.drawLifeGauge (percentage);
+		playingCardView.drawLifeGauge(percentage);
 	}
 
 	public void updateAttack()
@@ -294,50 +294,49 @@ public class PlayingCardController : GameObjectController
 
 	public void displayHover()
 	{
-		this.playingCardView.playingCardVM.border = this.borderPC[1];
+		this.playingCardView.playingCardVM.border = this.borderPC [1];
 		this.playingCardView.changeBorder();
 	}
 
 	public void displaySelected()
 	{
-		this.playingCardView.playingCardVM.border = this.borderPC[2];
+		this.playingCardView.playingCardVM.border = this.borderPC [2];
 		this.playingCardView.changeBorder();
 	}
 
 	public void displayOpponentSelected()
 	{
-		this.playingCardView.playingCardVM.border = this.borderPC[4];
+		this.playingCardView.playingCardVM.border = this.borderPC [4];
 		this.playingCardView.changeBorder();
 	}
 
 	public void displayPlaying()
 	{
-		this.playingCardView.playingCardVM.border = this.borderPC[3];
-		this.playingCardView.playingCardVM.isPlaying = true ;
+		this.playingCardView.playingCardVM.border = this.borderPC [3];
+		this.playingCardView.playingCardVM.isPlaying = true;
 		this.playingCardView.changeBorder();
 	}
 
 	public void hideHover()
 	{
-		this.playingCardView.playingCardVM.border = this.borderPC[0];
+		this.playingCardView.playingCardVM.border = this.borderPC [0];
 		this.playingCardView.changeBorder();
 	}
 
 	public void hideSelected()
 	{
-		this.playingCardView.playingCardVM.border = this.borderPC[0];
+		this.playingCardView.playingCardVM.border = this.borderPC [0];
 		this.playingCardView.changeBorder();
 	}
 
-	public Texture2D getPicture()
+	public Texture getPicture()
 	{
-		Texture2D toto=new Texture2D (1, 1, TextureFormat.ARGB32, false);
-		return toto;
+		return playingCardView.playingCardVM.face;
 	}
 
 	public void hidePlaying()
 	{
-		this.playingCardView.playingCardVM.border = this.borderPC[0];
+		this.playingCardView.playingCardVM.border = this.borderPC [0];
 		this.playingCardView.changeBorder();
 	}
 

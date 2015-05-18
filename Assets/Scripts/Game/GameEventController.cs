@@ -26,9 +26,9 @@ public class GameEventController : MonoBehaviour
 		//Vector3 newPosition = camera.ScreenToWorldPoint(v3);
 		
 		transform.position = v3;
-		transform.Translate((transform.up * transform.localScale.y + transform.up * 0.1f) * (count - 1), Space.World);
+		transform.Translate((-transform.up * transform.localScale.y - transform.up * 0.1f) * (count - 1), Space.World);
 
-		Vector3 reverse = getGOScreenPosition(new Vector3(transform.position.x + 0.54f, transform.position.y + 0.45f, transform.position.z));
+		Vector3 reverse = getGOScreenPosition(new Vector3(transform.position.x + 0.54f, transform.position.y + 0.35f, transform.position.z));
 		Rect r = new Rect(reverse.x, Screen.height - reverse.y, 200, 50);
 		setInfoRect(r);
 	}
