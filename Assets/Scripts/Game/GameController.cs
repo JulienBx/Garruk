@@ -1237,16 +1237,16 @@ public class GameController : Photon.MonoBehaviour
 		//Application.LoadLevel("Lobby");
 	}
 
-	public void quitGame()
+	public IEnumerator quitGame()
 	{
 		if (this.isFirstPlayer){
-			this.sendStat(this.users[0].Username, this.users[1].Username);
+			yield return (StartCoroutine(this.sendStat(this.users[0].Username, this.users[1].Username)));
 		}
 		else{
-			this.sendStat(this.users[1].Username, this.users[0].Username);
+			yield return (StartCoroutine(this.sendStat(this.users[1].Username, this.users[0].Username)));
 		}
 		PhotonNetwork.Disconnect();
-		Application.LoadLevel("EndGame");
+		//Application.LoadLevel("EndGame");
 	}
 
 	public void testTimeline()
