@@ -26,8 +26,9 @@ public class GameController : Photon.MonoBehaviour
 	//Variables du controlleur
 	public static GameController instance;
 	public bool isFirstPlayer = false;
+	public Deck myDeck;
 	GameObject[,] tiles ;
-	public GameObject[] playingCards ;
+	GameObject[] playingCards ;
 	GameObject[] verticalBorders ;
 	GameObject[] horizontalBorders ;
 	GameObject background ;
@@ -965,6 +966,10 @@ public class GameController : Photon.MonoBehaviour
 		{
 			debut = 5;
 			hauteur = 7;
+		}
+		if(isFirstP=this.isFirstPlayer)
+		{
+			this.myDeck=deck;
 		}
 
 		for (int i = 0; i < 5; i++)
