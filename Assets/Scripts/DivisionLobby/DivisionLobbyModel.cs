@@ -34,6 +34,7 @@ public class DivisionLobbyModel
 			string[] data=w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
 			this.results = this.parseResults(data[0].Split(new string[] { "#RESULT#" }, System.StringSplitOptions.None));
 			this.currentDivision = this.parseDivision(data[1].Split(new string[] { "//" }, System.StringSplitOptions.None));
+			ApplicationModel.currentDivision=this.currentDivision;
 		}
 	}
 	private List<PlayerResult> parseResults(string[] resultsData)
@@ -67,6 +68,10 @@ public class DivisionLobbyModel
 		division.NbWinsForTitle = System.Convert.ToInt32 (divisionData [5]);
 		division.TitlePrize = System.Convert.ToInt32 (divisionData [6]);
 		division.PromotionPrize = System.Convert.ToInt32 (divisionData [7]);
+		division.EarnXp_W= System.Convert.ToInt32 (divisionData [8]);
+		division.EarnXp_L= System.Convert.ToInt32 (divisionData [9]);
+		division.EarnCredits_W= System.Convert.ToInt32 (divisionData [10]);
+		division.EarnCredits_L= System.Convert.ToInt32 (divisionData [11]);
 		return division;
 	}
 }

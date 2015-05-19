@@ -34,6 +34,7 @@ public class CupLobbyModel
 			string[] data=w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
 			this.results = this.parseResults(data[0].Split(new string[] { "#RESULT#" }, System.StringSplitOptions.None));
 			this.currentCup = this.parseCup(data[1].Split(new string[] { "//" }, System.StringSplitOptions.None));
+			ApplicationModel.currentCup=this.currentCup;
 		}
 	}
 	private List<PlayerResult> parseResults(string[] resultsData)
@@ -63,6 +64,10 @@ public class CupLobbyModel
 		cup.Picture = cupData [1];
 		cup.NbRounds = System.Convert.ToInt32 (cupData [2]);
 		cup.CupPrize = System.Convert.ToInt32 (cupData [3]);
+		cup.EarnXp_W= System.Convert.ToInt32 (cupData [4]);
+		cup.EarnXp_L= System.Convert.ToInt32 (cupData [5]);
+		cup.EarnCredits_W= System.Convert.ToInt32 (cupData [6]);
+		cup.EarnCredits_L= System.Convert.ToInt32 (cupData [7]);
 		return cup;
 	}
 }
