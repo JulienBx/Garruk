@@ -1296,14 +1296,14 @@ public class GameController : Photon.MonoBehaviour
 		{
 			yield return (StartCoroutine(this.sendStat(this.users [0].Username, this.users [1].Username)));
 			print("J'ai perdu comme un gros con");
+			EndSceneController.instance.displayEndScene (false);
 		} else
 		{
 			yield return (StartCoroutine(this.sendStat(this.users [1].Username, this.users [0].Username)));
 			print("Mon adversaire a lachement abandonné comme une merde");
+			EndSceneController.instance.displayEndScene (true);
 		}
 		PhotonNetwork.Disconnect();
-
-		//EndSceneController.instance.displayEndScene (false);
 	}
 
 	public void testTimeline()
