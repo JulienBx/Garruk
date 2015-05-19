@@ -15,8 +15,7 @@ public class TileController : MonoBehaviour
 	private float scaleTile ;
 
 	public bool isDestination ;
-	//-1 : case vide ; 0 : case occupée par un personnage allié ; 1 : case occupée par un personnage ennemi
-
+	public int characterID = -1 ;
 
 	void Awake()
 	{
@@ -59,6 +58,20 @@ public class TileController : MonoBehaviour
 		this.isDestination = true ;
 		this.tileView.tileVM.background = this.backTile[5+this.type];
 		this.tileView.changeBackground();
+		this.tileView.tileVM.border = this.borderTile[4];
+		this.tileView.changeBorder();
+	}
+
+	public void setStandard () {
+		this.isDestination = false ;
+		this.tileView.tileVM.background = this.backTile[this.type];
+		this.tileView.changeBackground();
+		this.tileView.tileVM.border = this.borderTile[0];
+		this.tileView.changeBorder();
+	}
+
+	public Vector3 getPosition () {
+		return this.tileView.tileVM.position;
 	}
 
 	public void setBorderTile () {
@@ -70,42 +83,55 @@ public class TileController : MonoBehaviour
 	}
 
 	public void releaseClickTile(){
-		GameController.instance.releaseClickTileHandler();
+		GameController.instance.releaseClickTileHandler(this.tile);
 	}
 
 	public void displayHover(){
 		this.tileView.tileVM.border = this.borderTile[1];
-		this.tileView.resize();
 		this.tileView.changeBorder();
 	}
 
 	public void hideHover(){
-		this.tileView.tileVM.border = this.borderTile[0];
-		this.tileView.changeBorder();
+		if (this.isDestination){
+			this.tileView.tileVM.border = this.borderTile[4];
+			this.tileView.changeBorder();
+		}
+		else{
+			this.tileView.tileVM.border = this.borderTile[0];
+			this.tileView.changeBorder();
+		}
 	}
 
 	public void displaySelected(){
 		this.tileView.tileVM.border = this.borderTile[2];
-		this.tileView.resize();
 		this.tileView.changeBorder();
 	}
 	
 	public void hideSelected(){
-		this.tileView.tileVM.border = this.borderTile[0];
-		this.tileView.resize();
-		this.tileView.changeBorder();
+		if (this.isDestination){
+			this.tileView.tileVM.border = this.borderTile[4];
+			this.tileView.changeBorder();
+		}
+		else{
+			this.tileView.tileVM.border = this.borderTile[0];
+			this.tileView.changeBorder();
+		}
 	}
 
 	public void displayPlaying(){
 		this.tileView.tileVM.border = this.borderTile[3];
-		this.tileView.resize();
 		this.tileView.changeBorder();
 	}
 	
 	public void hidePlaying(){
-		this.tileView.tileVM.border = this.borderTile[0];
-		this.tileView.resize();
-		this.tileView.changeBorder();
+		if (this.isDestination){
+			this.tileView.tileVM.border = this.borderTile[4];
+			this.tileView.changeBorder();
+		}
+		else{
+			this.tileView.tileVM.border = this.borderTile[0];
+			this.tileView.changeBorder();
+		}
 	}
 
 //	public void drag(){
@@ -120,10 +146,5 @@ public class TileController : MonoBehaviour
 //		}
 //	}
 
-	public void setStandard () {
-		this.isDestination = false ;
-		this.tileView.tileVM.background = this.backTile[this.type];
-		this.tileView.changeBackground();
-	}
 }
 

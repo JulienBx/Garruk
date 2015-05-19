@@ -6,7 +6,8 @@ public class PlayingCardController : GameObjectController
 {
 	private PlayingCardView playingCardView;
 	public Texture2D[] borderPC ;
-	public Texture[] faces; 
+	public Texture[] faces;
+	public Texture[] lifeGauges;
 	private float scale ;
 	public Card card ;
 	public int IDCharacter = -1 ;
@@ -51,6 +52,14 @@ public class PlayingCardController : GameObjectController
 		this.tile = t;
 	}
 
+	public void setActive(bool b){
+		gameObject.SetActive(b);
+	}
+
+	public void setControlActive(bool b){
+		this.playingCardView.playingCardVM.isActive=b;
+	}
+
 	public void setCard(Card c)
 	{
 		this.card = c;
@@ -61,6 +70,14 @@ public class PlayingCardController : GameObjectController
 	}
 	public void show()
 	{
+		if(isMine)
+		{
+			playingCardView.playingCardVM.lifeGauge=this.lifeGauges[0];
+		}
+		else
+		{
+			playingCardView.playingCardVM.lifeGauge=this.lifeGauges[1];
+		}
 		base.getGOCoordinates(gameObject);
 		this.setTextResolution();
 		playingCardView.show();
@@ -71,6 +88,13 @@ public class PlayingCardController : GameObjectController
 		float resolution = base.GOSize.y / 150f;
 		playingCardView.setTextResolution(resolution);
 	}
+
+	public void setPosition(Vector3 p, Vector3 s){
+		this.playingCardView.playingCardVM.position = p ;
+		this.playingCardView.playingCardVM.scale = s ;
+		this.playingCardView.replace();
+	}
+
 	public void setTile(Tile t, Vector3 p, bool toRotate)
 	{
 		this.tile = t;
@@ -90,22 +114,12 @@ public class PlayingCardController : GameObjectController
 		this.playingCardView.replace();
 	}
 
-	public void changeTile(Tile t, bool isEmpty)
+	public void changeTile(Tile t, Vector3 position)
 	{
-//		if (isEmpty)
-//		{
-//			this.tile.GetComponent<TileController>().characterID = -1; 
-//		}
-//		this.tile = t;
-//		this.tile.GetComponent<TileController>().characterID = this.ID; 
-//		
-//		this.playingCharacterView.playingCharacterVM.position = this.tile.GetComponent<TileController>().tileView.tileVM.position;
-//		this.playingCharacterView.playingCharacterVM.ScreenPosition = Camera.main.WorldToScreenPoint(this.playingCharacterView.playingCharacterVM.position);
-//		
-//		this.playingCharacterView.playingCharacterVM.ScreenPosition = Camera.main.WorldToScreenPoint(this.playingCharacterView.playingCharacterVM.position);
-//		this.playingCharacterView.playingCharacterVM.ScreenPosition.y = Screen.height - this.playingCharacterView.playingCharacterVM.ScreenPosition.y;
-//		this.playingCharacterView.playingCharacterVM.infoRect = new Rect(this.playingCharacterView.playingCharacterVM.ScreenPosition.x - scale * 55f, this.playingCharacterView.playingCharacterVM.ScreenPosition.y + scale * 20, scale * 110, scale * 20);
-//		this.playingCharacterView.replace();
+		this.tile = t;
+		position.z = -5;
+		this.playingCardView.playingCardVM.position = position ;
+		this.playingCardView.replace();
 	}
 
 	public void setSkills()
@@ -292,26 +306,39 @@ public class PlayingCardController : GameObjectController
 		GameController.instance.clickPlayingCardHandler(this.IDCharacter);
 	}
 
+	public void releaseClickPlayingCard()
+	{
+		GameController.instance.releaseClickPlayingCardHandler(this.IDCharacter);
+	}
+
 	public void displayHover()
 	{
+		this.playingCardView.playingCardVM.position.z = -3 ;
+		this.playingCardView.replace();
 		this.playingCardView.playingCardVM.border = this.borderPC [1];
 		this.playingCardView.changeBorder();
 	}
 
 	public void displaySelected()
 	{
-		this.playingCardView.playingCardVM.border = this.borderPC [2];
+		this.playingCardView.playingCardVM.position.z = -4 ;
+		this.playingCardView.replace();
+		this.playingCardView.playingCardVM.border = this.borderPC [4];
 		this.playingCardView.changeBorder();
 	}
 
 	public void displayOpponentSelected()
 	{
-		this.playingCardView.playingCardVM.border = this.borderPC [4];
+		this.playingCardView.playingCardVM.position.z = -4 ;
+		this.playingCardView.replace();
+		this.playingCardView.playingCardVM.border = this.borderPC [2];
 		this.playingCardView.changeBorder();
 	}
 
 	public void displayPlaying()
 	{
+		this.playingCardView.playingCardVM.position.z = -5 ;
+		this.playingCardView.replace();
 		this.playingCardView.playingCardVM.border = this.borderPC [3];
 		this.playingCardView.playingCardVM.isPlaying = true;
 		this.playingCardView.changeBorder();
@@ -319,12 +346,16 @@ public class PlayingCardController : GameObjectController
 
 	public void hideHover()
 	{
+		this.playingCardView.playingCardVM.position.z = -2 ;
+		this.playingCardView.replace();
 		this.playingCardView.playingCardVM.border = this.borderPC [0];
 		this.playingCardView.changeBorder();
 	}
 
 	public void hideSelected()
 	{
+		this.playingCardView.playingCardVM.position.z = -2 ;
+		this.playingCardView.replace();
 		this.playingCardView.playingCardVM.border = this.borderPC [0];
 		this.playingCardView.changeBorder();
 	}
@@ -336,6 +367,8 @@ public class PlayingCardController : GameObjectController
 
 	public void hidePlaying()
 	{
+		this.playingCardView.playingCardVM.position.z = -2 ;
+		this.playingCardView.replace();
 		this.playingCardView.playingCardVM.border = this.borderPC [0];
 		this.playingCardView.changeBorder();
 	}

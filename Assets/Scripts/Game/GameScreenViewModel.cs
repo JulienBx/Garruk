@@ -11,7 +11,6 @@ public class GameScreenViewModel
 	public Rect bottomZoneRect ;
 	public Rect topZoneRect ;
 
-	public Rect centerMessageRect;
 	public Rect rightMessageRect;
 	public GUIStyle centerMessageTextStyle;
 	public GUIStyle rightMessageTextStyle;
@@ -46,11 +45,14 @@ public class GameScreenViewModel
 
 	public bool popUpDisplay;
 	public bool toDisplayGameScreen = false;
+	public bool toDisplayQuitButton = false; 
 
 	public string myPlayerName ;
 	public string hisPlayerName ;
 	public string quitButtonText = "Quitter la partie" ;
 	public Rect quitButtonRect ;
+
+	public Rect centerMessageRect;
 
 	public GameScreenViewModel()
 	{
@@ -93,15 +95,16 @@ public class GameScreenViewModel
 	public void connectOtherPlayer()
 	{
 		this.messageOpponentStartWindow = this.hisPlayerName + " prépare ses héros";
+		this.toDisplayQuitButton = true;
 	}
 
 	public void recalculate(int w, int h)
 	{
-		this.centerMessageRect = new Rect(w / 2 - 100, h * 0.95f, 200, 35);
+		this.centerMessageRect = new Rect((w / 2f) - h * 1f / 4f, h * 0.45f, h * 5 / 10, h * 1 / 10);
 		this.rightMessageRect = new Rect(w * 0.9f, h * 0.5f, 30, 30);
 		this.startButtonRect = new Rect((w / 2f) - h * 1f / 4f, (h / 2f) + h * 5f / 100f, h * 5 / 10, h * 1 / 10);
 		this.opponentStartButtonRect = new Rect((w / 2f) - h * 1f / 4f, (h / 2f) - h * 15f / 100f, h * 5 / 10, h * 1 / 10);
-		this.quitButtonRect = new Rect(w / 2f, h * 25f / 1000f, w / 8f, h * 5f / 100f);
+		this.quitButtonRect = new Rect(3 * w / 4f, h * 25f / 1000f, w / 8f, h * 5f / 100f);
 		
 		this.centerMessageTextStyle.fontSize = h * 20 / 1000;
 		this.rightMessageTextStyle.fontSize = h * 20 / 1000;
@@ -130,7 +133,11 @@ public class GameScreenViewModel
 	
 	public void SetCursorToDefault()
 	{
-		Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
+		if (this.cursorID != -1)
+		{
+			Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
+			this.cursorID = -1;
+		}
 	}
 }
 

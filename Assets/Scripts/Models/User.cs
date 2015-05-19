@@ -274,6 +274,10 @@ public class User
 			this.nonReadNotifications=System.Convert.ToInt32(w.text);
 		}
 	}
+	public IEnumerator addMoney(int money)
+	{
+		yield break ;
+	}
 	public IEnumerator getMoney()
 	{
 		WWWForm form = new WWWForm(); 											// Création de la connexion
