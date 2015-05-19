@@ -1009,7 +1009,6 @@ public class GameController : Photon.MonoBehaviour
 			} else if (!this.isFirstPlayer && nbPlayers == 2)
 			{
 				StartCoroutine(this.loadMyDeck());
-				//photonView.RPC("timeRunsOut", PhotonTargets.AllBuffered, (timerTurn));
 			}
 		}
 
@@ -1080,8 +1079,6 @@ public class GameController : Photon.MonoBehaviour
 			this.tiles [i, hauteur].GetComponent<TileController>().characterID = debut + i;
 			this.playingCards [debut + i].GetComponentInChildren<PlayingCardController>().show();
 		}
-		initGameEvents();
-		//gatestTimeline();
 		yield break;
 	}
 
@@ -1108,6 +1105,8 @@ public class GameController : Photon.MonoBehaviour
 				this.sortAllCards();
 				this.findNextPlayer();
 			}
+			initGameEvents();
+			testTimeline();
 		} else
 		{
 			if (isFirst == this.isFirstPlayer)
@@ -1342,10 +1341,10 @@ public class GameController : Photon.MonoBehaviour
 		inflictDamage(4);
 		*/
 
-		for (int i = 0; i < 6; i++)
+		/*for (int i = 0; i < 6; i++)
 		{
 			addCardEvent(i % 5, i);
-		}
+		}*/
 		addGameEvent(new SkillType("a lancé test"), "vilain");
 	}
 	
@@ -1414,7 +1413,7 @@ public class GameController : Photon.MonoBehaviour
 		}
 		for (int i = 0; i < 6; i++)
 		{
-//			addCardEvent(rankedPlayingCardsID [i], i);
+			addCardEvent(rankedPlayingCardsID [5 - i], i);
 		}
 	}
 
