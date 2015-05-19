@@ -53,7 +53,7 @@ public class PlayingCardController : GameObjectController
 	}
 
 	public void setActive(bool b){
-		this.playingCardView.playingCardVM.isActive = b ;
+		gameObject.SetActive(b);
 	}
 
 	public void setCard(Card c)
@@ -84,6 +84,13 @@ public class PlayingCardController : GameObjectController
 		float resolution = base.GOSize.y / 150f;
 		playingCardView.setTextResolution(resolution);
 	}
+
+	public void setPosition(Vector3 p, Vector3 s){
+		this.playingCardView.playingCardVM.position = p ;
+		this.playingCardView.playingCardVM.scale = s ;
+		this.playingCardView.replace();
+	}
+
 	public void setTile(Tile t, Vector3 p, bool toRotate)
 	{
 		this.tile = t;

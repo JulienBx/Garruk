@@ -72,17 +72,17 @@ MonoBehaviour:
   GOPosition: {x: 0, y: 0}
   GOSize: {x: 0, y: 0}
   skillPictos:
-  - {fileID: 2800000, guid: b04e65163889147359ca561835f5e02f, type: 3}
-  - {fileID: 2800000, guid: b04e65163889147359ca561835f5e02f, type: 3}
-  - {fileID: 2800000, guid: b04e65163889147359ca561835f5e02f, type: 3}
-  - {fileID: 2800000, guid: b04e65163889147359ca561835f5e02f, type: 3}
-  - {fileID: 2800000, guid: b04e65163889147359ca561835f5e02f, type: 3}
-  - {fileID: 2800000, guid: b04e65163889147359ca561835f5e02f, type: 3}
-  - {fileID: 2800000, guid: b04e65163889147359ca561835f5e02f, type: 3}
-  - {fileID: 2800000, guid: b04e65163889147359ca561835f5e02f, type: 3}
-  - {fileID: 2800000, guid: b04e65163889147359ca561835f5e02f, type: 3}
-  - {fileID: 2800000, guid: b04e65163889147359ca561835f5e02f, type: 3}
-  - {fileID: 2800000, guid: b04e65163889147359ca561835f5e02f, type: 3}
+  - {fileID: 2800000, guid: e0ffd966d0ab27b48bfb09faaff3e79e, type: 3}
+  - {fileID: 2800000, guid: a1edf9120e12df344bde3f9dce7b30d3, type: 3}
+  - {fileID: 2800000, guid: a0c6b169c3f011d4fa108fb1b959f2e4, type: 3}
+  - {fileID: 2800000, guid: 3496faa8ca6580d489412efa5766528e, type: 3}
+  - {fileID: 2800000, guid: 694fa68e40bd71c449ff0b63530fd277, type: 3}
+  - {fileID: 2800000, guid: bb11f531e49927042af9e47869ea01e7, type: 3}
+  - {fileID: 2800000, guid: 6c03e8b6ca8164b41922c4320148c81f, type: 3}
+  - {fileID: 2800000, guid: 580ba13df6ec7094c93141262958346d, type: 3}
+  - {fileID: 2800000, guid: 1c1492a632af8c442a37901f5f41ab11, type: 3}
+  - {fileID: 2800000, guid: 4f9e23d0a9de73944bfa98b5885e7512, type: 3}
+  - {fileID: 2800000, guid: 68e58380d58f77148a6f8dd04124afc3, type: 3}
   - {fileID: 2800000, guid: b04e65163889147359ca561835f5e02f, type: 3}
   - {fileID: 2800000, guid: b04e65163889147359ca561835f5e02f, type: 3}
   - {fileID: 2800000, guid: b04e65163889147359ca561835f5e02f, type: 3}

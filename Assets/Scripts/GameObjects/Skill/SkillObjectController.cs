@@ -23,9 +23,19 @@ public class SkillObjectController : GameObjectController
 		this.view.skillVM.face = this.skillPictos [0];
 	}
 
+	public void setActive(bool b)
+	{
+		gameObject.SetActive(b);
+	}
+
 	public void setAttack()
 	{
 		this.view.skillVM.face = this.attackPicto;
+	}
+
+	public void setPass()
+	{
+		this.view.skillVM.face = this.passPicto;
 	}
 
 	public void show()

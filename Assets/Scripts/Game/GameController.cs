@@ -58,7 +58,7 @@ public class GameController : Photon.MonoBehaviour
 	
 	const string roomNamePrefix = "GarrukGame";
 	private int nbPlayers = 0 ;
-	User[] users;
+	public User[] users;
 	GameView gameView;
 
 	bool isDragging = false;
@@ -268,14 +268,32 @@ public class GameController : Photon.MonoBehaviour
 			this.verticalBorders [i].transform.localScale = new Vector3(this.verticalBorders [i].transform.localScale.x, 8f * tileScale, this.verticalBorders [i].transform.localScale.z);
 		}
 
+		position = new Vector3((-2.6f * this.tileScale), -4.5f * this.tileScale, -1f);
+		scale = new Vector3(0.8f, 0.8f, 0.8f);
+		this.selectedPlayingCard.GetComponent<PlayingCardController>().setPosition(position, scale);
+		this.selectedPlayingCard.GetComponent<PlayingCardController>().setActive(false);
+
+		position = new Vector3((-2.6f * this.tileScale), 4.5f * this.tileScale, -1f);
+		scale = new Vector3(0.8f, 0.8f, 0.8f);
+		this.selectedOpponentCard.GetComponent<PlayingCardController>().setPosition(position, scale);
+		this.selectedOpponentCard.GetComponent<PlayingCardController>().setActive(false);
+
 		for (int i = 0; i < this.skillsScripts.Length; i++)
 		{
-			position = new Vector3((-2.5f * this.tileScale) + i * this.tileScale*0.8f, -4.5f * this.tileScale, -1f);
+			position = new Vector3((-1.5f * this.tileScale) + i * this.tileScale*0.8f, -4.5f * this.tileScale, -1f);
 			scale = new Vector3(0.8f, 0.8f, 0.8f);
 			this.skillsScripts [i].GetComponent<SkillObjectController>().setPosition(position, scale);
-			//this.skillsScripts [i].GetComponent<SkillObjectController>().show();
 			this.skillsScripts [i].GetComponent<SkillObjectController>().show();
+			this.skillsScripts [i].GetComponent<SkillObjectController>().setActive(false);
+		}
 
+		for (int i = 0; i < this.skillsScripts.Length; i++)
+		{
+			position = new Vector3((-1.5f * this.tileScale) + i * this.tileScale*0.8f, 4.5f * this.tileScale, -1f);
+			scale = new Vector3(0.8f, 0.8f, 0.8f);
+			this.opponentSkillsScripts [i].GetComponent<SkillObjectController>().setPosition(position, scale);
+			this.opponentSkillsScripts [i].GetComponent<SkillObjectController>().show();
+			this.opponentSkillsScripts [i].GetComponent<SkillObjectController>().setActive(false);
 		}
 	}
 
@@ -319,6 +337,32 @@ public class GameController : Photon.MonoBehaviour
 		this.playingCards [this.currentPlayingCard].GetComponent<PlayingCardController>().displayPlaying();
 		this.currentPlayingTile = this.playingCards [this.currentPlayingCard].GetComponent<PlayingCardController>().tile;
 		this.currentClickedTile = this.playingCards [this.currentPlayingCard].GetComponent<PlayingCardController>().tile;
+
+		List<Skill> skills = this.playingCards[this.currentPlayingCard].GetComponent<PlayingCardController>().card.Skills;
+		for (int i = 0 ; i < 4 ; i++){
+			if (i < skills.Count){
+				this.skillsScripts[i].GetComponent<SkillObjectController>().setSkill(skills[i]);
+				this.skillsScripts[i].SetActive(true);
+			}
+			else{
+				this.skillsScripts[i].SetActive(false);
+			}
+		}
+		if (this.nbTurns!=0){
+			this.skillsScripts[4].GetComponent<SkillObjectController>().setAttack();
+			this.skillsScripts[4].SetActive(true);
+		}
+		else{
+			this.skillsScripts[4].SetActive(true);
+		}
+
+		if (this.nbTurns!=0){
+			this.skillsScripts[5].GetComponent<SkillObjectController>().setPass();
+			this.skillsScripts[5].SetActive(true);
+		}
+		else{
+			this.skillsScripts[5].SetActive(true);
+		}
 	}
 
 	public void moveCharacter()
@@ -630,8 +674,8 @@ public class GameController : Photon.MonoBehaviour
 					}
 				}
 			}
-			else{
-				if (this.tiles[currentHoveredTile.x, currentHoveredTile.y].GetComponentInChildren<TileController>().characterID!=-1){
+			else {
+				if (this.tiles[currentHoveredTile.x, currentHoveredTile.y].GetComponentInChildren<TileController>().characterID!=-1 && this.tiles[currentHoveredTile.x, currentHoveredTile.y].GetComponentInChildren<TileController>().characterID!=this.currentPlayingCard){
 					int x = currentHoveredTile.x ;
 					int y = currentHoveredTile.y ;
 					Tile t = this.playingCards [this.currentPlayingCard].GetComponent<PlayingCardController>().tile;
