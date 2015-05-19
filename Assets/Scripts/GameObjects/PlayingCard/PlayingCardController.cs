@@ -325,11 +325,6 @@ public class PlayingCardController : GameObjectController
 		this.playingCardView.playingCardVM.border = this.borderPC [0];
 		this.playingCardView.changeBorder();
 	}
-
-	public void pass()
-	{
-		GameController.instance.passHandler();
-	}
 }
 
 

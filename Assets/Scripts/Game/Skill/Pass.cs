@@ -5,6 +5,6 @@ public class Pass
 	public void launch()
 	{
 		Debug.Log ("Je passe");
-		GameController.instance.passHandler();
+		GameController.instance.findNextPlayer();
 	}
 }

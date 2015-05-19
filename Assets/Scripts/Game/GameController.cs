@@ -529,11 +529,6 @@ public class GameController : Photon.MonoBehaviour
 			this.hoverTile(t);
 		}
 	}
-	
-	public void passHandler()
-	{
-		//this.findNextPlayer();
-	}
 
 	public void hideClickedPlayingCard()
 	{
