@@ -76,38 +76,41 @@ public class GameScreenViewModel
 		this.whiteSmallTextStyle = gameScreenStyles [4];
 		this.buttonTextStyle = gameScreenStyles [5];
 		this.greenInformationTextStyle = gameScreenStyles [6];
-		this.quitButtonStyle = gameScreenStyles [5] ;
+		this.quitButtonStyle = gameScreenStyles [5];
 	}
 
-	public void startMyPlayer(){
-		this.iHaveStarted = true ;
-		this.messageStartWindowButton = "Pret à jouer !" ;
+	public void startMyPlayer()
+	{
+		this.iHaveStarted = true;
+		this.messageStartWindowButton = "Pret à jouer !";
 	}
 
-	public void startOtherPlayer(){
-		this.heHasStarted = true ;
+	public void startOtherPlayer()
+	{
+		this.heHasStarted = true;
 	}
 
-	public void connectOtherPlayer(){
-		this.messageOpponentStartWindow = this.hisPlayerName+" prépare ses héros";
+	public void connectOtherPlayer()
+	{
+		this.messageOpponentStartWindow = this.hisPlayerName + " prépare ses héros";
 	}
 
 	public void recalculate(int w, int h)
 	{
 		this.centerMessageRect = new Rect(w / 2 - 100, h * 0.95f, 200, 35);
 		this.rightMessageRect = new Rect(w * 0.9f, h * 0.5f, 30, 30);
-		this.startButtonRect = new Rect((w/2f)-h * 1f / 4f , (h/2f)+h * 5f / 100f, h * 5 / 10, h * 1 / 10);
-		this.opponentStartButtonRect = new Rect((w/2f)-h * 1f / 4f , (h/2f)- h * 15f / 100f, h * 5 / 10, h * 1 / 10);
-		this.quitButtonRect = new Rect(w/2f, h*25f/1000f, w/8f, h*5f/100f  );
+		this.startButtonRect = new Rect((w / 2f) - h * 1f / 4f, (h / 2f) + h * 5f / 100f, h * 5 / 10, h * 1 / 10);
+		this.opponentStartButtonRect = new Rect((w / 2f) - h * 1f / 4f, (h / 2f) - h * 15f / 100f, h * 5 / 10, h * 1 / 10);
+		this.quitButtonRect = new Rect(w / 2f, h * 25f / 1000f, w / 8f, h * 5f / 100f);
 		
-		this.centerMessageTextStyle.fontSize = h* 20 / 1000 ;
-		this.rightMessageTextStyle.fontSize = h* 20 / 1000;
-		this.whiteSmallTextStyle.fontSize = h* 22 / 1000;
-		this.buttonTextStyle.fontSize = h* 22 / 1000;
-		this.greenInformationTextStyle.fontSize = h* 22 / 1000;
-		this.quitButtonStyle.fontSize = h* 22 / 1000 ;
+		this.centerMessageTextStyle.fontSize = h * 20 / 1000;
+		this.rightMessageTextStyle.fontSize = h * 20 / 1000;
+		this.whiteSmallTextStyle.fontSize = h * 22 / 1000;
+		this.buttonTextStyle.fontSize = h * 22 / 1000;
+		this.greenInformationTextStyle.fontSize = h * 22 / 1000;
+		this.quitButtonStyle.fontSize = h * 22 / 1000;
 		
-		toDisplayGameScreen = true ;
+		toDisplayGameScreen = true;
 	}
 
 	public void setCursor(Texture2D c, int i)

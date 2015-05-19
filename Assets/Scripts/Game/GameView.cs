@@ -25,35 +25,40 @@ public class GameView : MonoBehaviour
 
 	void OnGUI()
 	{
-		if (this.gameScreenVM.toDisplayGameScreen){
-			if (GUI.Button(gameScreenVM.quitButtonRect, gameScreenVM.quitButtonText, gameScreenVM.quitButtonStyle)){
+		if (this.gameScreenVM.toDisplayGameScreen)
+		{
+			if (GUI.Button(gameScreenVM.quitButtonRect, gameScreenVM.quitButtonText, gameScreenVM.quitButtonStyle))
+			{
 				GameController.instance.quitGame();
 			}
 		
-			if (gameScreenVM.toDisplayStartWindows){
+			if (gameScreenVM.toDisplayStartWindows)
+			{
 				GUILayout.BeginArea(gameScreenVM.startButtonRect, this.gameScreenVM.startWindowStyle);
 				{
 					GUILayout.BeginVertical();
 					{
 						GUILayout.FlexibleSpace();
-						if (this.gameScreenVM.iHaveStarted){
+						if (this.gameScreenVM.iHaveStarted)
+						{
 							GUILayout.Label(gameScreenVM.messageStartWindow, gameScreenVM.whiteSmallTextStyle);
 							GUILayout.FlexibleSpace();
 							GUILayout.BeginHorizontal();
 							{
 								GUILayout.FlexibleSpace();
-								GUILayout.Label(gameScreenVM.messageStartWindowButton, gameScreenVM.greenInformationTextStyle, GUILayout.Width(gameScreenVM.startButtonRect.width/3f));
+								GUILayout.Label(gameScreenVM.messageStartWindowButton, gameScreenVM.greenInformationTextStyle, GUILayout.Width(gameScreenVM.startButtonRect.width / 3f));
 								GUILayout.FlexibleSpace();
 							}
 							GUILayout.EndHorizontal();
-						}
-						else{
+						} else
+						{
 							GUILayout.Label(gameScreenVM.messageStartWindow, gameScreenVM.whiteSmallTextStyle);
 							GUILayout.FlexibleSpace();
 							GUILayout.BeginHorizontal();
 							{
 								GUILayout.FlexibleSpace();
-								if (GUILayout.Button(gameScreenVM.messageStartWindowButton, gameScreenVM.buttonTextStyle, GUILayout.Width(gameScreenVM.startButtonRect.width/2f))){
+								if (GUILayout.Button(gameScreenVM.messageStartWindowButton, gameScreenVM.buttonTextStyle, GUILayout.Width(gameScreenVM.startButtonRect.width / 2f)))
+								{
 									GameController.instance.StartFight();
 								}
 								GUILayout.FlexibleSpace();
@@ -70,18 +75,19 @@ public class GameView : MonoBehaviour
 					GUILayout.BeginVertical();
 					{
 						GUILayout.FlexibleSpace();
-						if (this.gameScreenVM.heHasStarted){
+						if (this.gameScreenVM.heHasStarted)
+						{
 							GUILayout.Label(gameScreenVM.messageOpponentStartWindow, gameScreenVM.whiteSmallTextStyle);
 							GUILayout.FlexibleSpace();
 							GUILayout.BeginHorizontal();
 							{
 								GUILayout.FlexibleSpace();
-								GUILayout.Label(gameScreenVM.messageStartWindowButton, gameScreenVM.greenInformationTextStyle, GUILayout.Width(gameScreenVM.startButtonRect.width/4f));
+								GUILayout.Label(gameScreenVM.messageStartWindowButton, gameScreenVM.greenInformationTextStyle, GUILayout.Width(gameScreenVM.startButtonRect.width / 4f));
 								GUILayout.FlexibleSpace();
 							}
 							GUILayout.EndHorizontal();
-						}
-						else{
+						} else
+						{
 							GUILayout.Label(gameScreenVM.messageOpponentStartWindow, gameScreenVM.whiteSmallTextStyle);
 						}
 						GUILayout.FlexibleSpace();

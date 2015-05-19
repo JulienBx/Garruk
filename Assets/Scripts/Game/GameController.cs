@@ -67,7 +67,9 @@ public class GameController : Photon.MonoBehaviour
 	int myNextPlayer ;
 	int hisNextPlayer ;
 
+	float timerTurn = 10;
 	bool gameStarted = false;
+	bool startTurn = false;
 	bool timeElapsed = false;
 	bool timeElapsedPopUp = true;
 	bool popUpDisplay = false;
@@ -93,7 +95,6 @@ public class GameController : Photon.MonoBehaviour
 		this.horizontalBorders = new GameObject[this.boardHeight + 1];
 		this.createBackground();
 		this.resize();
-		this.initGameEvents();
 	}
 	
 	void Start()
@@ -124,21 +125,27 @@ public class GameController : Photon.MonoBehaviour
 				gameView.gameScreenVM.hasAMessage = false;
 			}
 
-			if (timeElapsed)
+			if (startTurn)
 			{
-				timeElapsed = false;
-				gameView.gameScreenVM.timer -= 1;
-				displayPopUpMessage("Temps ecoulé", 5f, 0);
-				//currentPlayingCard = 1; // provisoire
-			}
-			if (gameView.gameScreenVM.timer < 0 && gameView.gameScreenVM.timer > -1)
-			{
-				timeElapsed = true;
-				pass();
-			}
-			if (gameView.gameScreenVM.timer < -5)
-			{
-				gameView.gameScreenVM.timer = 10f;
+				if (timeElapsed)
+				{
+					timeElapsed = false;
+					gameView.gameScreenVM.timer -= 1;
+					displayPopUpMessage("Temps ecoulé", 5f, 0);
+					//currentPlayingCard = 1; // provisoire
+				}
+				if (gameView.gameScreenVM.timer < 0 && gameView.gameScreenVM.timer > -1)
+				{
+					timeElapsed = true;
+					pass();
+				}
+				if (gameView.gameScreenVM.timer < -5)
+				{
+					if (photonView.isMine)
+					{
+						photonView.RPC("timeRunsOut", PhotonTargets.AllBuffered, (timerTurn));
+					}
+				}
 			}
 		}
 	}
@@ -169,6 +176,8 @@ public class GameController : Photon.MonoBehaviour
 		popUpDisplay = true;
 		gameView.gameScreenVM.timerPopUp = time;
 	}
+
+
 
 	public void createBackground()
 	{
@@ -821,9 +830,11 @@ public class GameController : Photon.MonoBehaviour
 			{
 				this.initGrid();
 				StartCoroutine(this.loadMyDeck());
+
 			} else if (!this.isFirstPlayer && nbPlayers == 2)
 			{
 				StartCoroutine(this.loadMyDeck());
+				//photonView.RPC("timeRunsOut", PhotonTargets.AllBuffered, (timerTurn));
 			}
 		}
 	}
@@ -866,7 +877,8 @@ public class GameController : Photon.MonoBehaviour
 			this.playingCards [debut + i].GetComponentInChildren<PlayingCardController>().resize(this.gameView.gameScreenVM.heightScreen);
 			this.playingCards [debut + i].GetComponentInChildren<PlayingCardController>().show();
 		}
-		//testTimeline();
+		initGameEvents();
+		//gatestTimeline();
 		yield break;
 	}
 
@@ -957,7 +969,14 @@ public class GameController : Photon.MonoBehaviour
 //		}
 
 	}
-	
+
+	[RPC]
+	public void timeRunsOut(float time)
+	{
+		startTurn = true;
+		gameView.gameScreenVM.timer = time;
+	}
+
 	public void StartFight()
 	{
 		photonView.RPC("StartFightRPC", PhotonTargets.AllBuffered, this.isFirstPlayer);
@@ -1116,6 +1135,10 @@ public class GameController : Photon.MonoBehaviour
 			gameEvents.Add(go);
 			go.GetComponent<GameEventController>().setScreenPosition(gameEvents.Count, boardWidth, boardHeight, tileScale);
 			go.renderer.enabled = false;
+		}
+		for (int i = 0; i < 6; i++)
+		{
+//			addCardEvent(rankedPlayingCardsID [i], i);
 		}
 	}
 
