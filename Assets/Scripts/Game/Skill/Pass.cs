@@ -8,4 +8,3 @@ public class Pass
 		GameController.instance.passHandler();
 	}
 }
-
