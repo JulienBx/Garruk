@@ -15,6 +15,7 @@ public class Deck
 	private static string URLAddCardToDeck = ApplicationModel.host + "add_card_to_deck_by_user.php";
 	private static string URLRemoveCardFromDeck = ApplicationModel.host + "remove_card_from_deck_by_user.php";
 	private static string URLGetCardsByDeck = ApplicationModel.host + "get_cards_by_deck.php";
+	private static string URLUpdateXpCards = ApplicationModel.host + "update_xp_cards.php";
 
 	public int Id; 												// Id unique de la carte
 	public string Name; 										// Nom du deck
@@ -276,8 +277,48 @@ public class Deck
 			}
 		}
 	}
-	public IEnumerator updateXpCards(IList<int> xpCards)
+	public IEnumerator updateXpCards(int earnXp)
 	{
-		yield break ;
+		int[] xpToAdd = new int[5];
+		for (int i=0;i<5;i++)
+		{
+			if (this.Cards[i].Experience+earnXp>=Card.experienceLevels[10])
+			{
+				xpToAdd[i]=Card.experienceLevels[10]-this.Cards[i].Experience;
+			}
+			else
+			{
+				xpToAdd[i]=earnXp;
+			}
+		}
+
+		WWWForm form = new WWWForm(); 								// Création de la connexion
+		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
+		form.AddField("myform_idCard0", this.Cards[0].Id.ToString());							// Id du	 deck
+		form.AddField("myform_idCard1", this.Cards[1].Id.ToString());	
+		form.AddField("myform_idCard2", this.Cards[2].Id.ToString());	
+		form.AddField("myform_idCard3", this.Cards[3].Id.ToString());	
+		form.AddField("myform_idCard4", this.Cards[4].Id.ToString());	
+		form.AddField ("myform_xpCard0", xpToAdd [0].ToString());
+		form.AddField ("myform_xpCard1", xpToAdd [1].ToString());
+		form.AddField ("myform_xpCard2", xpToAdd [2].ToString());
+		form.AddField ("myform_xpCard3", xpToAdd [3].ToString());
+		form.AddField ("myform_xpCard4", xpToAdd [4].ToString());
+		
+		WWW w = new WWW(URLUpdateXpCards, form); 							// On envoie le formulaire à l'url sur le serveur 
+		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
+		if (w.error != null)
+		{
+			Debug.Log(w.error); 									// donne l'erreur eventuelle
+		} 
+		else
+		{
+			string[] cardsExperience = w.text.Split(new string[] { "//" }, System.StringSplitOptions.None); 
+			this.Cards[0].Experience=System.Convert.ToInt32(cardsExperience[0]);
+			this.Cards[1].Experience=System.Convert.ToInt32(cardsExperience[1]);
+			this.Cards[2].Experience=System.Convert.ToInt32(cardsExperience[2]);
+			this.Cards[3].Experience=System.Convert.ToInt32(cardsExperience[3]);
+			this.Cards[4].Experience=System.Convert.ToInt32(cardsExperience[4]);
+		}
 	}
 }

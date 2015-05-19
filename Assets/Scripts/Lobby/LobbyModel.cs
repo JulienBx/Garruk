@@ -16,6 +16,7 @@ public class LobbyModel
 	public Division currentDivision;
 	public Cup currentCup;
 	public User player;
+	public FriendlyGame currentFriendlyGame;
 
 	private string URLGetLobbyData = ApplicationModel.host + "get_lobby_data.php";
 
@@ -50,6 +51,8 @@ public class LobbyModel
 			this.decks = this.parseDecks(data[3].Split(new string[] { "#DECK#" }, System.StringSplitOptions.None));
 			this.currentDivision = this.parseDivision(data[4].Split(new string[] { "//" }, System.StringSplitOptions.None));
 			this.currentCup = this.parseCup(data[5].Split(new string[] { "//" }, System.StringSplitOptions.None));
+			this.currentFriendlyGame = this.parseFriendlyGame(data[6].Split(new string[] { "//" }, System.StringSplitOptions.None));
+			ApplicationModel.currentFriendlyGame=this.currentFriendlyGame;
 		}
 	}
 	private User parsePlayer(string[] userData)
@@ -139,6 +142,15 @@ public class LobbyModel
 		cup.CupPrize = System.Convert.ToInt32 (cupData [2]);
 		cup.NbRounds = System.Convert.ToInt32 (cupData [3]);
 		return cup;
+	}
+	private FriendlyGame parseFriendlyGame(string[] friendlyGameData)
+	{
+		FriendlyGame friendlyGame =new FriendlyGame();
+		friendlyGame.EarnXp_W = System.Convert.ToInt32 (friendlyGameData [0]);
+		friendlyGame.EarnXp_L = System.Convert.ToInt32 (friendlyGameData [1]);
+		friendlyGame.EarnCredits_W = System.Convert.ToInt32 (friendlyGameData [2]);
+		friendlyGame.EarnCredits_L = System.Convert.ToInt32 (friendlyGameData [3]);
+		return friendlyGame;
 	}
 }
 
