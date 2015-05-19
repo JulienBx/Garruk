@@ -256,14 +256,14 @@ public class GameController : Photon.MonoBehaviour
 		Vector3 scale;
 		for (int i = 0; i < this.horizontalBorders.Length; i++)
 		{
-			position = new Vector3(0, (5f - 4f * this.tileScale) + tileScale * i - 5f, -1);
+			position = new Vector3(0, (5f - 4f * this.tileScale) + tileScale * i - 5f, -1.2f);
 			this.horizontalBorders [i].transform.localPosition = position;
 			this.horizontalBorders [i].transform.localScale = new Vector3(this.tileScale * 6f, this.borderSize, this.borderSize);
 		}
 
 		for (int i = 0; i < this.verticalBorders.Length; i++)
 		{
-			position = new Vector3((-3 * this.tileScale) + i * this.tileScale, 0f, -1f);
+			position = new Vector3((-3 * this.tileScale) + i * this.tileScale, 0f, -1.2f);
 			this.verticalBorders [i].transform.localPosition = position;
 			this.verticalBorders [i].transform.localScale = new Vector3(this.verticalBorders [i].transform.localScale.x, 8f * tileScale, this.verticalBorders [i].transform.localScale.z);
 		}
