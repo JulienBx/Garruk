@@ -18,6 +18,8 @@ public class PlayingCardViewModel
 	public bool isSelected ;
 	public bool isPlaying ; 
 
+	public bool isActive = true ;
+
 	public PlayingCardViewModel ()
 	{
 

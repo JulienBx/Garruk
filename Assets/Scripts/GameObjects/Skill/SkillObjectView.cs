@@ -15,4 +15,15 @@ public class SkillObjectView : MonoBehaviour
 	{
 		transform.renderer.materials[1].mainTexture = skillVM.face; 
 	}
+
+	public void changeBorder()
+	{
+		transform.renderer.materials[0].mainTexture = skillVM.border; 
+	}
+
+	public void replace ()
+	{
+		gameObject.transform.localPosition = skillVM.position;
+		gameObject.transform.localScale = skillVM.scale;
+	}
 }

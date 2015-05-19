@@ -52,6 +52,10 @@ public class PlayingCardController : GameObjectController
 		this.tile = t;
 	}
 
+	public void setActive(bool b){
+		this.playingCardView.playingCardVM.isActive = b ;
+	}
+
 	public void setCard(Card c)
 	{
 		this.card = c;

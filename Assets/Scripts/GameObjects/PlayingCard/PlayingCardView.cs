@@ -43,6 +43,7 @@ public class PlayingCardView : MonoBehaviour
 		gameObject.transform.Find ("LifeArea").FindChild ("Life").localScale=scale;
 		gameObject.transform.Find ("LifeArea").FindChild ("Life").localPosition=position;
 	}
+
 	public void changeBorder() 
 	{
 		renderer.materials[0].mainTexture = this.playingCardVM.border;
@@ -55,16 +56,22 @@ public class PlayingCardView : MonoBehaviour
 	
 	void OnMouseEnter()
 	{
-		gameObject.GetComponentInChildren<PlayingCardController>().hoverPlayingCard();
+		if (this.playingCardVM.isActive){
+			gameObject.GetComponentInChildren<PlayingCardController>().hoverPlayingCard();
+		}
 	}
 
 	void OnMouseDown()
 	{
-		gameObject.GetComponentInChildren<PlayingCardController>().clickPlayingCard();
+		if (this.playingCardVM.isActive){
+			gameObject.GetComponentInChildren<PlayingCardController>().clickPlayingCard();
+		}
 	}
 
 	void OnMouseUp(){
-		gameObject.GetComponentInChildren<PlayingCardController>().releaseClickPlayingCard();
+		if (this.playingCardVM.isActive){
+			gameObject.GetComponentInChildren<PlayingCardController>().releaseClickPlayingCard();
+		}
 		//		PlayingCardController pcc = gameObject.GetComponentInChildren<PlayingCardController>();
 //
 //		pcc.release();
