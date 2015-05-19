@@ -15,6 +15,10 @@ public class Division
 	public string Name;
 	public string Picture;
 	public Texture2D texture;
+	public int EarnXp_W;
+	public int EarnXp_L;
+	public int EarnCredits_W;
+	public int EarnCredits_L;
 
 	public Division()
 	{

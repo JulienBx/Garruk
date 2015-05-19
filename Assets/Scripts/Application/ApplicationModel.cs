@@ -20,6 +20,9 @@ public class ApplicationModel : MonoBehaviour
 	static public int credits = 0;
 	static public int nbNotificationsNonRead = 0;
 	static public int gameType;
+	static public FriendlyGame currentFriendlyGame;
+	static public Cup currentCup;
+	static public Division currentDivision;
 	static public string error="";
 
 	static private string URLCheckPassword = host+"check_password.php";
