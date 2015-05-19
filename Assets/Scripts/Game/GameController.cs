@@ -118,7 +118,6 @@ public class GameController : Photon.MonoBehaviour
 		{
 			this.resize();
 		}
-		gameView.gameScreenVM.timer -= Time.deltaTime;
 		if (popUpDisplay)
 		{
 			gameView.gameScreenVM.timerPopUp -= Time.deltaTime;
@@ -129,9 +128,9 @@ public class GameController : Photon.MonoBehaviour
 			popUpDisplay = false;
 			gameView.gameScreenVM.hasAMessage = false;
 		}
-
 		if (startTurn)
 		{
+			gameView.gameScreenVM.timer -= Time.deltaTime;
 			if (timeElapsed)
 			{
 				timeElapsed = false;
