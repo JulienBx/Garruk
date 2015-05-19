@@ -340,16 +340,17 @@ public class GameController : Photon.MonoBehaviour
 		else{
 			this.clickedOpponentPlayingCard = idPlayingCard;
 		}
-
-		this.playingCards [this.currentPlayingCard].GetComponent<PlayingCardController>().displayPlaying();
-		this.currentPlayingTile = this.playingCards [this.currentPlayingCard].GetComponent<PlayingCardController>().tile;
-		this.currentClickedTile = this.playingCards [this.currentPlayingCard].GetComponent<PlayingCardController>().tile;
-
-		this.selectedPlayingCard.GetComponent<PlayingCardController>().setCard(this.playingCards[this.clickedPlayingCard].GetComponent<PlayingCardController>().card);
-		this.selectedPlayingCard.GetComponent<PlayingCardController>().show();
-		this.selectedPlayingCard.GetComponent<PlayingCardController>().setActive(true);
-
+		
 		if (this.isFirstPlayer==(idPlayingCard<5)){
+			this.playingCards [this.currentPlayingCard].GetComponent<PlayingCardController>().displayPlaying();
+			this.currentPlayingTile = this.playingCards [this.currentPlayingCard].GetComponent<PlayingCardController>().tile;
+			this.currentClickedTile = this.playingCards [this.currentPlayingCard].GetComponent<PlayingCardController>().tile;
+			
+			this.selectedPlayingCard.GetComponent<PlayingCardController>().setCard(this.playingCards[this.clickedPlayingCard].GetComponent<PlayingCardController>().card);
+			this.selectedPlayingCard.GetComponent<PlayingCardController>().show();
+			this.selectedPlayingCard.GetComponent<PlayingCardController>().setActive(true);
+
+
 			List<Skill> skills = this.playingCards[this.clickedPlayingCard].GetComponent<PlayingCardController>().card.Skills;
 			for (int i = 0 ; i < 4 ; i++){
 				if (i < skills.Count){
