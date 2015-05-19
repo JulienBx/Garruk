@@ -119,20 +119,19 @@ public class GameController : Photon.MonoBehaviour
 		{
 			this.resize();
 		}
+		gameView.gameScreenVM.timer -= Time.deltaTime;
+		if (popUpDisplay)
+		{
+			gameView.gameScreenVM.timerPopUp -= Time.deltaTime;
+		}
+		
+		if (gameView.gameScreenVM.timerPopUp < 0)
+		{
+			popUpDisplay = false;
+			gameView.gameScreenVM.hasAMessage = false;
+		}
 		if (gameStarted)
 		{
-			gameView.gameScreenVM.timer -= Time.deltaTime;
-			if (popUpDisplay)
-			{
-				gameView.gameScreenVM.timerPopUp -= Time.deltaTime;
-			}
-
-			if (gameView.gameScreenVM.timerPopUp < 0)
-			{
-				popUpDisplay = false;
-				gameView.gameScreenVM.hasAMessage = false;
-			}
-
 			if (startTurn)
 			{
 				if (timeElapsed)
