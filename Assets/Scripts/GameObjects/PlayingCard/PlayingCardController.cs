@@ -24,8 +24,6 @@ public class PlayingCardController : GameObjectController
 
 	public List<StatModifier> statModifiers ;
 
-	public List<GameSkill> skills ;
-
 	void Awake()
 	{
 		this.playingCardView = gameObject.AddComponent <PlayingCardView>();
@@ -66,7 +64,6 @@ public class PlayingCardController : GameObjectController
 		playingCardView.playingCardVM.face = this.faces [c.ArtIndex];
 		playingCardView.playingCardVM.attack = c.Attack.ToString();
 		playingCardView.playingCardVM.move = c.Move.ToString();
-		this.setSkills();
 	}
 	public void show()
 	{
@@ -120,50 +117,6 @@ public class PlayingCardController : GameObjectController
 		position.z = -5;
 		this.playingCardView.playingCardVM.position = position ;
 		this.playingCardView.replace();
-	}
-
-	public void setSkills()
-	{
-		this.skills = new List<GameSkill>();
-		for (int i = 0; i < 4; i++)
-		{
-			if (this.card.Skills.Count > i)
-			{
-				switch (this.card.Skills [i].Id)
-				{
-					case 0:
-						this.skills.Add(new DivisionSkill());
-						break;
-					case 1:
-						this.skills.Add(new Reflexe());
-						break;
-					case 8:
-						this.skills.Add(new TirALarc());
-						break;
-					case 9:
-						this.skills.Add(new Furtivite());
-						break;
-					case 10:
-						this.skills.Add(new Assassinat());
-						break;
-					case 11:
-						this.skills.Add(new AttaquePrecise());
-						break;
-					case 12:
-						this.skills.Add(new AttaqueRapide());
-						break;
-					case 13:
-						this.skills.Add(new PiegeALoups());
-						break;
-					case 15:
-						this.skills.Add(new Espionnage());
-						break;
-					default:
-						print("Je ne connais pas le skill " + this.card.Skills [i].Id);
-						break;
-				}
-			}
-		}
 	}
 
 	public void resize(int h)

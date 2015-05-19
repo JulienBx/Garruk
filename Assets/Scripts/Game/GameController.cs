@@ -35,10 +35,10 @@ public class GameController : Photon.MonoBehaviour
 	List<GameObject> gameEvents;
 
 	GameObject selectedPlayingCard ;
-	GameObject[] skillsScripts ;
+	GameObject[] skillsObjects ;
 
 	GameObject selectedOpponentCard ;
-	GameObject[] opponentSkillsScripts ;
+	GameObject[] opponentSkillsObjects ;
 
 	Tile currentHoveredTile ;
 	Tile currentClickedTile ;
@@ -81,6 +81,8 @@ public class GameController : Photon.MonoBehaviour
 	bool timeElapsedPopUp = true;
 	bool popUpDisplay = false;
 
+	public ScriptableObject skills ;
+
 	float[] popupPosition = {0.95f, 0.05f};
 
 	string URLStat = ApplicationModel.host + "updateResult.php";
@@ -109,7 +111,6 @@ public class GameController : Photon.MonoBehaviour
 		users = new User[2];
 		PhotonNetwork.ConnectUsingSettings(ApplicationModel.photonSettings);
 		PhotonNetwork.autoCleanUpPlayerObjects = false;
-		//scaleTile = 1.2f * (8f/gridHeightInHexes);
 	}	
 
 	void Update()
@@ -196,8 +197,6 @@ public class GameController : Photon.MonoBehaviour
 		gameView.gameScreenVM.timerPopUp = time;
 	}
 
-
-
 	public void createBackground()
 	{
 		if (this.widthScreen > this.heightScreen)
@@ -222,12 +221,12 @@ public class GameController : Photon.MonoBehaviour
 		this.selectedOpponentCard = (GameObject)Instantiate(this.playingCard);
 		this.selectedOpponentCard.GetComponent<PlayingCardController>().setControlActive(false);
 
-		this.skillsScripts = new GameObject[6];
-		this.opponentSkillsScripts = new GameObject[6];
+		this.skillsObjects = new GameObject[6];
+		this.opponentSkillsObjects = new GameObject[6];
 		for (int i = 0; i < 6; i++)
 		{
-			this.skillsScripts [i] = (GameObject)Instantiate(this.skillObject);
-			this.opponentSkillsScripts [i] = (GameObject)Instantiate(this.skillObject);
+			this.skillsObjects [i] = (GameObject)Instantiate(this.skillObject);
+			this.opponentSkillsObjects [i] = (GameObject)Instantiate(this.skillObject);
 		}
 	}
 
@@ -283,22 +282,22 @@ public class GameController : Photon.MonoBehaviour
 		this.selectedOpponentCard.GetComponent<PlayingCardController>().setPosition(position, scale);
 		this.selectedOpponentCard.GetComponent<PlayingCardController>().setActive(false);
 
-		for (int i = 0; i < this.skillsScripts.Length; i++)
+		for (int i = 0; i < this.skillsObjects.Length; i++)
 		{
 			position = new Vector3((-1.5f * this.tileScale) + i * this.tileScale * 0.8f, -4.5f * this.tileScale, -1f);
 			scale = new Vector3(0.8f, 0.8f, 0.8f);
-			this.skillsScripts [i].GetComponent<SkillObjectController>().setPosition(position, scale);
-			this.skillsScripts [i].GetComponent<SkillObjectController>().show();
-			this.skillsScripts [i].GetComponent<SkillObjectController>().setActive(false);
+			this.skillsObjects [i].GetComponent<SkillObjectController>().setPosition(position, scale);
+			this.skillsObjects [i].GetComponent<SkillObjectController>().show();
+			this.skillsObjects [i].GetComponent<SkillObjectController>().setActive(false);
 		}
 
-		for (int i = 0; i < this.skillsScripts.Length; i++)
+		for (int i = 0; i < this.opponentSkillsObjects.Length; i++)
 		{
 			position = new Vector3((-1.5f * this.tileScale) + i * this.tileScale * 0.8f, 4.5f * this.tileScale, -1f);
 			scale = new Vector3(0.8f, 0.8f, 0.8f);
-			this.opponentSkillsScripts [i].GetComponent<SkillObjectController>().setPosition(position, scale);
-			this.opponentSkillsScripts [i].GetComponent<SkillObjectController>().show();
-			this.opponentSkillsScripts [i].GetComponent<SkillObjectController>().setActive(false);
+			this.opponentSkillsObjects [i].GetComponent<SkillObjectController>().setPosition(position, scale);
+			this.opponentSkillsObjects [i].GetComponent<SkillObjectController>().show();
+			this.opponentSkillsObjects [i].GetComponent<SkillObjectController>().setActive(false);
 		}
 	}
 
@@ -364,32 +363,32 @@ public class GameController : Photon.MonoBehaviour
 			{
 				if (i < skills.Count)
 				{
-					this.skillsScripts [i].GetComponent<SkillObjectController>().setSkill(skills [i]);
-					this.skillsScripts [i].GetComponent<SkillObjectController>().show();
-					this.skillsScripts [i].SetActive(true);
+					this.skillsObjects [i].GetComponent<SkillObjectController>().setSkill(skills [i]);
+					this.skillsObjects [i].GetComponent<SkillObjectController>().show();
+					this.skillsObjects [i].SetActive(true);
 				} else
 				{
-					this.skillsScripts [i].SetActive(false);
+					this.skillsObjects [i].SetActive(false);
 				}
 			}
 			if (this.nbTurns != 0)
 			{
-				this.skillsScripts [4].GetComponent<SkillObjectController>().setAttack();
-				this.skillsScripts [4].GetComponent<SkillObjectController>().show();
-				this.skillsScripts [4].SetActive(true);
+				this.skillsObjects [4].GetComponent<SkillObjectController>().setAttack();
+				this.skillsObjects [4].GetComponent<SkillObjectController>().show();
+				this.skillsObjects [4].SetActive(true);
 			} else
 			{
-				this.skillsScripts [4].SetActive(false);
+				this.skillsObjects [4].SetActive(false);
 			}
 
 			if (this.nbTurns != 0)
 			{
-				this.skillsScripts [5].GetComponent<SkillObjectController>().setPass();
-				this.skillsScripts [5].GetComponent<SkillObjectController>().show();
-				this.skillsScripts [5].SetActive(true);
+				this.skillsObjects [5].GetComponent<SkillObjectController>().setPass();
+				this.skillsObjects [5].GetComponent<SkillObjectController>().show();
+				this.skillsObjects [5].SetActive(true);
 			} else
 			{
-				this.skillsScripts [5].SetActive(false);
+				this.skillsObjects [5].SetActive(false);
 			}
 		} else
 		{
@@ -398,32 +397,32 @@ public class GameController : Photon.MonoBehaviour
 			{
 				if (i < skills.Count)
 				{
-					this.opponentSkillsScripts [i].GetComponent<SkillObjectController>().setSkill(skills [i]);
-					this.opponentSkillsScripts [i].GetComponent<SkillObjectController>().show();
-					this.opponentSkillsScripts [i].SetActive(true);
+					this.opponentSkillsObjects [i].GetComponent<SkillObjectController>().setSkill(skills [i]);
+					this.opponentSkillsObjects [i].GetComponent<SkillObjectController>().show();
+					this.opponentSkillsObjects [i].SetActive(true);
 				} else
 				{
-					this.opponentSkillsScripts [i].SetActive(false);
+					this.opponentSkillsObjects [i].SetActive(false);
 				}
 			}
 			if (this.nbTurns != 0)
 			{
-				this.opponentSkillsScripts [4].GetComponent<SkillObjectController>().setAttack();
-				this.opponentSkillsScripts [4].GetComponent<SkillObjectController>().show();
-				this.opponentSkillsScripts [4].SetActive(true);
+				this.opponentSkillsObjects [4].GetComponent<SkillObjectController>().setAttack();
+				this.opponentSkillsObjects [4].GetComponent<SkillObjectController>().show();
+				this.opponentSkillsObjects [4].SetActive(true);
 			} else
 			{
-				this.opponentSkillsScripts [4].SetActive(false);
+				this.opponentSkillsObjects [4].SetActive(false);
 			}
 			
 			if (this.nbTurns != 0)
 			{
-				this.opponentSkillsScripts [5].GetComponent<SkillObjectController>().setPass();
-				this.opponentSkillsScripts [5].GetComponent<SkillObjectController>().show();
-				this.opponentSkillsScripts [5].SetActive(true);
+				this.opponentSkillsObjects [5].GetComponent<SkillObjectController>().setPass();
+				this.opponentSkillsObjects [5].GetComponent<SkillObjectController>().show();
+				this.opponentSkillsObjects [5].SetActive(true);
 			} else
 			{
-				this.opponentSkillsScripts [5].SetActive(false);
+				this.opponentSkillsObjects [5].SetActive(false);
 			}
 		}
 	}
@@ -1135,8 +1134,11 @@ public class GameController : Photon.MonoBehaviour
 		for (int i = 0; i < 10; i++)
 		{
 			indexToRank = this.FindMaxQuicknessIndex(quicknessesToRank);
+			print ("j'add "+cardsToRank[indexToRank]+" au rang "+i+" avec la vitesse "+quicknessesToRank[indexToRank]);
+
 			quicknessesToRank.RemoveAt(indexToRank);
-			photonView.RPC("addRankedCharacter", PhotonTargets.AllBuffered, cardsToRank [indexToRank], i, (i == 0));
+			photonView.RPC("addRankedCharacter", PhotonTargets.AllBuffered, cardsToRank[indexToRank], i, (i == 0));
+			cardsToRank.RemoveAt(indexToRank);
 		}
 	}
 

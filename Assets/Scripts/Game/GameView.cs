@@ -27,6 +27,12 @@ public class GameView : MonoBehaviour
 	{
 		if (this.gameScreenVM.toDisplayGameScreen)
 		{
+			if (this.gameScreenVM.toDisplayPlayingCard){
+				GUI.Label(gameScreenVM.namePlayingCardRect, gameScreenVM.myPlayingCardName, gameScreenVM.namePlayingCardTextStyle );
+			}
+			if (this.gameScreenVM.toDisplayOpponentPlayingCard){
+				GUI.Label(gameScreenVM.nameOpponentPlayingCardRect, gameScreenVM.hisPlayingCardName, gameScreenVM.nameOpponentPlayingCardTextStyle );
+			}
 			if (this.gameScreenVM.toDisplayQuitButton)
 			{
 				if (GUI.Button(gameScreenVM.quitButtonRect, gameScreenVM.quitButtonText, gameScreenVM.quitButtonStyle))

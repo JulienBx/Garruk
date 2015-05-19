@@ -53,6 +53,18 @@ public class GameScreenViewModel
 	public Rect quitButtonRect ;
 
 	public Rect centerMessageRect;
+	public Rect namePlayingCardRect;
+	public Rect nameOpponentPlayingCardRect;
+
+	public bool toDisplayPlayingCard;
+	public bool toDisplayOpponentPlayingCard;
+
+	public GUIStyle namePlayingCardTextStyle ;
+	public GUIStyle nameOpponentPlayingCardTextStyle ;
+
+	public string myPlayingCardName ; 
+	public string hisPlayingCardName ;
+
 
 	public GameScreenViewModel()
 	{
@@ -63,6 +75,8 @@ public class GameScreenViewModel
 		this.whiteSmallTextStyle = new GUIStyle();
 		this.buttonTextStyle = new GUIStyle();
 		this.greenInformationTextStyle = new GUIStyle();
+		this.namePlayingCardTextStyle = new GUIStyle();
+		this.nameOpponentPlayingCardTextStyle = new GUIStyle();
 		messageToDisplay = "";
 		hasAMessage = false;
 		timer = 10f;
@@ -79,6 +93,8 @@ public class GameScreenViewModel
 		this.buttonTextStyle = gameScreenStyles [5];
 		this.greenInformationTextStyle = gameScreenStyles [6];
 		this.quitButtonStyle = gameScreenStyles [5];
+		this.namePlayingCardTextStyle = gameScreenStyles [7];
+		this.nameOpponentPlayingCardTextStyle = gameScreenStyles [8];
 	}
 
 	public void startMyPlayer()
@@ -104,6 +120,8 @@ public class GameScreenViewModel
 		this.rightMessageRect = new Rect(w * 0.9f, h * 0.5f, 30, 30);
 		this.startButtonRect = new Rect((w / 2f) - h * 1f / 4f, (h / 2f) + h * 5f / 100f, h * 5 / 10, h * 1 / 10);
 		this.opponentStartButtonRect = new Rect((w / 2f) - h * 1f / 4f, (h / 2f) - h * 15f / 100f, h * 5 / 10, h * 1 / 10);
+		this.namePlayingCardRect = new Rect(-3, 4.8f, 1, 0.2f);
+		this.nameOpponentPlayingCardRect = new Rect(-3, -5f, 1, 0.2f);
 		this.quitButtonRect = new Rect(3 * w / 4f, h * 25f / 1000f, w / 8f, h * 5f / 100f);
 		
 		this.centerMessageTextStyle.fontSize = h * 20 / 1000;
@@ -112,6 +130,8 @@ public class GameScreenViewModel
 		this.buttonTextStyle.fontSize = h * 22 / 1000;
 		this.greenInformationTextStyle.fontSize = h * 22 / 1000;
 		this.quitButtonStyle.fontSize = h * 22 / 1000;
+		this.namePlayingCardTextStyle.fontSize = h * 22/100 ;
+		this.nameOpponentPlayingCardTextStyle.fontSize = h * 22/100 ;
 		
 		toDisplayGameScreen = true;
 	}
