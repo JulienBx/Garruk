@@ -99,7 +99,7 @@ public class GameScreenViewModel
 		this.rightMessageRect = new Rect(w * 0.9f, h * 0.5f, 30, 30);
 		this.startButtonRect = new Rect((w/2f)-h * 1f / 4f , (h/2f)+h * 5f / 100f, h * 5 / 10, h * 1 / 10);
 		this.opponentStartButtonRect = new Rect((w/2f)-h * 1f / 4f , (h/2f)- h * 15f / 100f, h * 5 / 10, h * 1 / 10);
-		this.quitButtonRect = new Rect(w/2f, h*25f/1000f, w/8f, h*5f/100f  );
+		this.quitButtonRect = new Rect(3*w/4f, h*25f/1000f, w/8f, h*5f/100f);
 		
 		this.centerMessageTextStyle.fontSize = h* 20 / 1000 ;
 		this.rightMessageTextStyle.fontSize = h* 20 / 1000;

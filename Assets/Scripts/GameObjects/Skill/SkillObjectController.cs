@@ -20,7 +20,7 @@ public class SkillObjectController : GameObjectController
 	public void setSkill(Skill s)
 	{
 		this.skill = s;
-		this.view.skillVM.face = this.skillPictos [0];
+		this.view.skillVM.face = this.skillPictos [s.Id];
 	}
 
 	public void setActive(bool b)
