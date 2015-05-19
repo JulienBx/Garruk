@@ -25,3 +25,5 @@ EditorBuildSettings:
     path: Assets/Scenes/DivisionLobby.unity
   - enabled: 1
     path: Assets/Scenes/CupLobby.unity
+  - enabled: 1
+    path: Assets/Scenes/EndGame.unity
