@@ -1244,15 +1244,17 @@ public class GameController : Photon.MonoBehaviour
 
 	public IEnumerator quitGame()
 	{
-		if (this.isFirstPlayer){
+		if (this.isFirstPlayer)
+		{
 			yield return (StartCoroutine(this.sendStat(this.users[0].Username, this.users[1].Username)));
 		}
-		else{
+		else
+		{
 			yield return (StartCoroutine(this.sendStat(this.users[1].Username, this.users[0].Username)));
 		}
 		PhotonNetwork.Disconnect();
 		print ("PERDU, SALE BATARD");
-		//Application.LoadLevel("EndGame");
+		EndSceneController.instance.displayEndScene (false);
 	}
 
 	public void testTimeline()
