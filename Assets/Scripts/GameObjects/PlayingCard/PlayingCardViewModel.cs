@@ -9,7 +9,8 @@ public class PlayingCardViewModel
 	public Vector3 scale ;
 	
 	public Texture face;
-	public Texture2D border ;
+	public Texture lifeGauge;
+	public Texture2D border;
 	public Texture2D background ;
 	
 	public string attack ;

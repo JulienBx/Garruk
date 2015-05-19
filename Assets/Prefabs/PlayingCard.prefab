@@ -528,6 +528,9 @@ MonoBehaviour:
   - {fileID: 2800000, guid: af7dc7ad183e847d3b2817fb2d077a30, type: 3}
   - {fileID: 2800000, guid: eb41a4261b05d4605b0f8e731c8da2b0, type: 3}
   - {fileID: 2800000, guid: a3d5cb991434242548e4298b5318e5b7, type: 3}
+  lifeGauges:
+  - {fileID: 2800000, guid: 2184072605b3f41919d3aac70c137905, type: 3}
+  - {fileID: 2800000, guid: 262b29e06acd04a038ac26bd7ca9d68f, type: 3}
   IDCharacter: -1
   sortID: -1
   isMovable: 0

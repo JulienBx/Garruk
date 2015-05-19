@@ -25,6 +25,7 @@ public class PlayingCardView : MonoBehaviour
 	public void show()
 	{
 		transform.renderer.materials[1].mainTexture = playingCardVM.face; 
+		transform.Find ("LifeArea").FindChild ("Life").renderer.materials [0].mainTexture = playingCardVM.lifeGauge;
 		transform.Find ("MoveArea").FindChild ("Move").GetComponent<TextMesh> ().text = playingCardVM.move;
 		transform.Find ("AttackArea").FindChild ("Attack").GetComponent<TextMesh> ().text = playingCardVM.attack;
 	}

@@ -91,6 +91,7 @@ public class PlayingCardMakerScript : MonoBehaviour {
 		this.c.Skills.Add (tempSkill1);
 		this.c.Skills.Add (tempSkill2);
 	
+		this.myCard.GetComponent<PlayingCardController> ().isMine = false;
 		this.myCard.GetComponent<PlayingCardController> ().setCard (c);
 		this.myCard.GetComponent<PlayingCardController> ().show ();
 		

@@ -6,7 +6,8 @@ public class PlayingCardController : GameObjectController
 {
 	private PlayingCardView playingCardView;
 	public Texture2D[] borderPC ;
-	public Texture[] faces; 
+	public Texture[] faces;
+	public Texture[] lifeGauges;
 	private float scale ;
 	public Card card ;
 	public int IDCharacter = -1 ;
@@ -61,6 +62,14 @@ public class PlayingCardController : GameObjectController
 	}
 	public void show()
 	{
+		if(isMine)
+		{
+			playingCardView.playingCardVM.lifeGauge=this.lifeGauges[0];
+		}
+		else
+		{
+			playingCardView.playingCardVM.lifeGauge=this.lifeGauges[1];
+		}
 		base.getGOCoordinates(gameObject);
 		this.setTextResolution();
 		playingCardView.show();
