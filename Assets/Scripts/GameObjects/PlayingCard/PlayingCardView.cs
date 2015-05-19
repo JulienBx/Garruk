@@ -63,7 +63,8 @@ public class PlayingCardView : MonoBehaviour
 	}
 
 	void OnMouseUp(){
-//		PlayingCardController pcc = gameObject.GetComponentInChildren<PlayingCardController>();
+		gameObject.GetComponentInChildren<PlayingCardController>().releaseClickPlayingCard();
+		//		PlayingCardController pcc = gameObject.GetComponentInChildren<PlayingCardController>();
 //
 //		pcc.release();
 //		if (GameController.instance.onGoingAttack)
