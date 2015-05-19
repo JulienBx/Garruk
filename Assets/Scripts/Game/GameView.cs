@@ -26,8 +26,10 @@ public class GameView : MonoBehaviour
 	void OnGUI()
 	{
 		if (this.gameScreenVM.toDisplayGameScreen){
-			if (GUI.Button(gameScreenVM.quitButtonRect, gameScreenVM.quitButtonText, gameScreenVM.quitButtonStyle)){
-				GameController.instance.quitGame();
+			if (this.gameScreenVM.toDisplayQuitButton){
+				if (GUI.Button(gameScreenVM.quitButtonRect, gameScreenVM.quitButtonText, gameScreenVM.quitButtonStyle)){
+					GameController.instance.quitGameHandler();
+				}
 			}
 		
 			if (gameScreenVM.toDisplayStartWindows){

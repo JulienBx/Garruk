@@ -1237,6 +1237,11 @@ public class GameController : Photon.MonoBehaviour
 		//Application.LoadLevel("Lobby");
 	}
 
+	public void quitGameHandler()
+	{
+		StartCoroutine (quitGame());
+	}
+
 	public IEnumerator quitGame()
 	{
 		if (this.isFirstPlayer){
@@ -1246,6 +1251,7 @@ public class GameController : Photon.MonoBehaviour
 			yield return (StartCoroutine(this.sendStat(this.users[1].Username, this.users[0].Username)));
 		}
 		PhotonNetwork.Disconnect();
+		print ("PERDU, SALE BATARD");
 		//Application.LoadLevel("EndGame");
 	}
 

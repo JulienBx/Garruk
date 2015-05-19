@@ -45,6 +45,7 @@ public class GameScreenViewModel
 
 	public bool popUpDisplay;
 	public bool toDisplayGameScreen = false;
+	public bool toDisplayQuitButton = false; 
 
 	public string myPlayerName ;
 	public string hisPlayerName ;
@@ -91,6 +92,7 @@ public class GameScreenViewModel
 
 	public void connectOtherPlayer(){
 		this.messageOpponentStartWindow = this.hisPlayerName+" prépare ses héros";
+		this.toDisplayQuitButton = true ;
 	}
 
 	public void recalculate(int w, int h)
