@@ -76,7 +76,6 @@ public class GameController : Photon.MonoBehaviour
 	int hisNextPlayer ;
 
 	float timerTurn = 10;
-	bool gameStarted = false;
 	bool startTurn = false;
 	bool timeElapsed = false;
 	bool timeElapsedPopUp = true;
@@ -130,28 +129,26 @@ public class GameController : Photon.MonoBehaviour
 			popUpDisplay = false;
 			gameView.gameScreenVM.hasAMessage = false;
 		}
-		if (gameStarted)
+
+		if (startTurn)
 		{
-			if (startTurn)
+			if (timeElapsed)
 			{
-				if (timeElapsed)
+				timeElapsed = false;
+				gameView.gameScreenVM.timer -= 1;
+				displayPopUpMessage("Temps ecoulé", 5f);
+				//currentPlayingCard = 1; // provisoire
+			}
+			if (gameView.gameScreenVM.timer < 0 && gameView.gameScreenVM.timer > -1)
+			{
+				timeElapsed = true;
+				pass();
+			}
+			if (gameView.gameScreenVM.timer < -5)
+			{
+				if (photonView.isMine)
 				{
-					timeElapsed = false;
-					gameView.gameScreenVM.timer -= 1;
-					displayPopUpMessage("Temps ecoulé", 5f);
-					//currentPlayingCard = 1; // provisoire
-				}
-				if (gameView.gameScreenVM.timer < 0 && gameView.gameScreenVM.timer > -1)
-				{
-					timeElapsed = true;
-					pass();
-				}
-				if (gameView.gameScreenVM.timer < -5)
-				{
-					if (photonView.isMine)
-					{
-						photonView.RPC("timeRunsOut", PhotonTargets.AllBuffered, (timerTurn));
-					}
+					photonView.RPC("timeRunsOut", PhotonTargets.AllBuffered, (timerTurn));
 				}
 			}
 		}
@@ -1351,7 +1348,6 @@ public class GameController : Photon.MonoBehaviour
 			addCardEvent(i % 5, i);
 		}
 		addGameEvent(new SkillType("a lancé test"), "vilain");
-		gameStarted = true;
 	}
 	
 	public void addGameEvent(GameEventType type, string targetName)
