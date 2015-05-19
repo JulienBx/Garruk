@@ -1239,22 +1239,29 @@ public class GameController : Photon.MonoBehaviour
 
 	public void quitGameHandler()
 	{
-		StartCoroutine (quitGame());
+		photonView.RPC("quitGameRPC", PhotonTargets.AllBuffered, this.isFirstPlayer);
 	}
 
-	public IEnumerator quitGame()
+	[RPC]
+	public void quitGameRPC(bool isFirstP){
+		StartCoroutine (quitGame(isFirstP));
+	}
+
+	public IEnumerator quitGame(bool isFirstP)
 	{
-		if (this.isFirstPlayer)
+		if (isFirstP==this.isFirstPlayer)
 		{
 			yield return (StartCoroutine(this.sendStat(this.users[0].Username, this.users[1].Username)));
+			print ("J'ai perdu comme un gros con");
 		}
 		else
 		{
 			yield return (StartCoroutine(this.sendStat(this.users[1].Username, this.users[0].Username)));
+			print ("Mon adversaire a lachement abandonné comme une merde");
 		}
 		PhotonNetwork.Disconnect();
-		print ("PERDU, SALE BATARD");
-		EndSceneController.instance.displayEndScene (false);
+
+		//EndSceneController.instance.displayEndScene (false);
 	}
 
 	public void testTimeline()

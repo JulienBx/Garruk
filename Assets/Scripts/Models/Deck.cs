@@ -278,6 +278,6 @@ public class Deck
 	}
 	public IEnumerator updateXpCards(IList<int> xpCards)
 	{
-
+		yield break ;
 	}
 }

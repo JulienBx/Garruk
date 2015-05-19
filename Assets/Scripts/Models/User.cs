@@ -276,7 +276,7 @@ public class User
 	}
 	public IEnumerator addMoney(int money)
 	{
-
+		yield break ;
 	}
 	public IEnumerator getMoney()
 	{
