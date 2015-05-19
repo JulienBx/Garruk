@@ -610,6 +610,7 @@ MonoBehaviour:
   isFirstPlayer: 0
   borderSize: .0199999996
   eventMax: 11
+  skills: {fileID: 0}
 --- !u!114 &481987443
 MonoBehaviour:
   m_ObjectHideFlags: 0
