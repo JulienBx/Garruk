@@ -27,6 +27,7 @@ public class CardGameController : CardController
 	public override void updateExperience()
 	{
 		base.updateExperience ();
+		EndSceneController.instance.drawNextCard ();
 	}
 	public override void resize()
 	{

@@ -18,13 +18,17 @@ public class EndSceneController : MonoBehaviour
 	private bool toUpdateCredits;
 	private float updateSpeed;
 	private float updateRatio;
+
+	private int earnXp;
+	private int earnCredits;
+	private int cardToDraw;
 	
 	private GameObject darkBackground;
 	
-	void Start()
+	void Awake()
 	{
 		instance = this;
-		this.updateSpeed = 0.5f;
+		this.updateSpeed = 0.7f;
 		this.updateRatio = 0;
 		this.toUpdateCredits = false;
 	}
@@ -35,8 +39,7 @@ public class EndSceneController : MonoBehaviour
 			this.updateRatio = this.updateRatio + this.updateSpeed * Time.deltaTime;
 			if(this.updateRatio>=1)
 			{
-				view.endSceneVM.credits=view.endSceneVM.endCredits;
-				this.toUpdateCredits=false;
+				this.endUpdateCredits();
 			}
 			else
 			{
@@ -44,17 +47,34 @@ public class EndSceneController : MonoBehaviour
 			}
 		}
 	}
+	public void endUpdateCredits()
+	{
+		view.endSceneVM.credits=view.endSceneVM.endCredits;
+		this.toUpdateCredits=false;
+		StartCoroutine(this.drawExperience());
+	}
 	public void displayEndScene(bool hasWon)
 	{
 		this.view = Camera.main.gameObject.AddComponent <EndSceneView>();
 		this.darkBackground = Instantiate(darkBackgroundObject) as GameObject;
 		this.darkBackground.name = "darkBackground";
-		this.resize ();
 		this.initStyles ();
+		this.resize ();
+		this.initLabels (hasWon);
 		this.createCards ();
-		StartCoroutine(this.updateModels (hasWon));
-		this.animateExperience ();
-		this.animateCredits ();
+		this.retrieveBonus (hasWon);
+		StartCoroutine (drawCredits ());
+	}
+	public void initLabels(bool hasWon)
+	{
+		if(hasWon)
+		{
+			view.endSceneVM.title="BRAVO !";
+		}
+		else
+		{
+			view.endSceneVM.title="DOMMAGE !";
+		}
 	}
 	public void createCards()
 	{
@@ -76,84 +96,78 @@ public class EndSceneController : MonoBehaviour
 			this.cards [i].GetComponent<CardGameController>().setGameCard(GameController.instance.myDeck.Cards[i]);
 		} 
 	}
-	private IEnumerator updateModels(bool hasWon)
+	private void retrieveBonus(bool hasWon)
 	{
-		int earnXp=0;
-		int earnCredits=0;
 		switch(ApplicationModel.gameType)
 		{
 		case 0:
 			if(hasWon)
 			{
-				earnXp=ApplicationModel.currentFriendlyGame.EarnXp_W;
-				earnCredits=ApplicationModel.currentFriendlyGame.EarnCredits_W;
+				this.earnXp=ApplicationModel.currentFriendlyGame.EarnXp_W;
+				this.earnCredits=ApplicationModel.currentFriendlyGame.EarnCredits_W;
 			}
 			else
 			{
-				earnXp=ApplicationModel.currentFriendlyGame.EarnXp_L;
-				earnCredits=ApplicationModel.currentFriendlyGame.EarnCredits_L;
+				this.earnXp=ApplicationModel.currentFriendlyGame.EarnXp_L;
+				this.earnCredits=ApplicationModel.currentFriendlyGame.EarnCredits_L;
 			}
 			break;
 		case 1:
 			if(hasWon)
 			{
-				earnXp=ApplicationModel.currentDivision.EarnXp_W;
-				earnCredits=ApplicationModel.currentDivision.EarnCredits_W;
+				this.earnXp=ApplicationModel.currentDivision.EarnXp_W;
+				this.earnCredits=ApplicationModel.currentDivision.EarnCredits_W;
 			}
 			else
 			{
-				earnXp=ApplicationModel.currentDivision.EarnXp_L;
-				earnCredits=ApplicationModel.currentDivision.EarnCredits_L;
+				this.earnXp=ApplicationModel.currentDivision.EarnXp_L;
+				this.earnCredits=ApplicationModel.currentDivision.EarnCredits_L;
 			}
 			break;
 		case 2:
 			if(hasWon)
 			{
-				earnXp=ApplicationModel.currentCup.EarnXp_W;
-				earnCredits=ApplicationModel.currentCup.EarnCredits_W;
+				this.earnXp=ApplicationModel.currentCup.EarnXp_W;
+				this.earnCredits=ApplicationModel.currentCup.EarnCredits_W;
 			}
 			else
 			{
-				earnXp=ApplicationModel.currentCup.EarnXp_L;
-				earnCredits=ApplicationModel.currentCup.EarnCredits_L;
+				this.earnXp=ApplicationModel.currentCup.EarnXp_L;
+				this.earnCredits=ApplicationModel.currentCup.EarnCredits_L;
 			}
 			break;
 		}
+	}
+	public IEnumerator drawCredits()
+	{
 		view.endSceneVM.creditsToAdd = earnCredits;
-		StartCoroutine (updateDeck (earnXp));
-		StartCoroutine (updateUser (earnCredits));
-		yield break;
-	}
-	public IEnumerator updateDeck(int earnXp)
-	{
-		yield return StartCoroutine(GameController.instance.myDeck.updateXpCards (earnXp));
-	}
-	public IEnumerator updateUser(int earnCredits)
-	{
 		int playerIndex = 0;
 		if(!GameController.instance.isFirstPlayer)
 		{
 			playerIndex=1;
 		}
 		yield return StartCoroutine(GameController.instance.users[playerIndex].addMoney(earnCredits));
-	}
-	public void animateExperience()
-	{
-		for (int i=0;i<5;i++)
-		{
-			this.cards [i].GetComponent<CardController>().animateExperience (GameController.instance.myDeck.Cards[i]);
-		}
-	}
-	public void animateCredits()
-	{
-		int playerIndex = 0;
-		if(!GameController.instance.isFirstPlayer)
-		{
-			playerIndex=1;
-		}
-		view.endSceneVM.endCredits = GameController.instance.users [playerIndex].Money;
-		view.endSceneVM.startCredits = view.endSceneVM.endCredits - view.endSceneVM.creditsToAdd;
+		view.endSceneVM.endCredits = GameController.instance.users[playerIndex].Money;
+		view.endSceneVM.startCredits = view.endSceneVM.endCredits-view.endSceneVM.creditsToAdd;
 		this.toUpdateCredits = true;
+	}
+	public IEnumerator drawExperience()
+	{
+		yield return StartCoroutine(GameController.instance.myDeck.updateXpCards (earnXp));
+		this.cardToDraw = 0;
+		this.drawNextCard ();
+	}
+	public void drawNextCard()
+	{
+		if(this.cardToDraw<5)
+		{
+			this.cards [cardToDraw].GetComponent<CardController>().animateExperience (GameController.instance.myDeck.Cards[cardToDraw]);
+			cardToDraw++;
+		}
+		else
+		{
+			view.endSceneVM.guiEnabled=true;
+		}
 	}
 	public void initStyles()
 	{
@@ -164,11 +178,24 @@ public class EndSceneController : MonoBehaviour
 		}
 		view.endSceneVM.initStyles();
 	}
+	public void clearCards()
+	{
+		for (int i = 0; i < 5; i++) 
+		{
+			Destroy(this.cards[i]);
+		}
+	}
 	public void resize()
 	{
-		view.screenVM.resize ();
-		view.endSceneVM.resize (view.screenVM.heightScreen);
-		this.darkBackground.GetComponent<DarkBackgroundController> ().resize();
+		if(this.view!=null)
+		{
+			view.screenVM.resize ();
+			view.endSceneVM.resize (view.screenVM.heightScreen);
+		}
+		if(this.darkBackground!=null)
+		{
+			this.darkBackground.GetComponent<DarkBackgroundController> ().resize();
+		}
 	}
 	public void quitEndScene()
 	{

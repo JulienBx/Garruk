@@ -171,6 +171,10 @@ public class GameController : Photon.MonoBehaviour
 		this.resizeBackground();
 		int h = this.gameView.gameScreenVM.heightScreen;
 		this.recalculateGameEvents();
+		if(EndSceneController.instance!=null)
+		{
+			EndSceneController.instance.resize ();
+		}
 	}
 
 	public void displayPopUpMessage(string message, float time)

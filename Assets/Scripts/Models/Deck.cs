@@ -232,17 +232,16 @@ public class Deck
 				cardData = cardEntries [i].Split('\\');
 				if (!cardEntries [i].StartsWith("skill"))
 				{
-					// On découpe les attributs de la carte qu'on place dans un tableau
-					int cardId = System.Convert.ToInt32(cardData [0]); 	// Ici, on récupère l'id en base
-					int cardArt = System.Convert.ToInt32(cardData [1]); 	// l'indice de l'image
-					string cardTitle = cardData [2]; 					// le titre de la carte
-					int cardLife = System.Convert.ToInt32(cardData [3]);	// le nombre de point de vie
-					int speed = System.Convert.ToInt32(cardData [4]);	// la rapidité
-					int move = System.Convert.ToInt32(cardData [5]);	    // le mouvement
-					int attack = System.Convert.ToInt32(cardData [6]);	// l'attaque
-					//int energy = System.Convert.ToInt32(cardData[7]);	// l'attaque
-					
-					c = new Card(cardId, cardTitle, cardLife, cardArt, speed, move, attack, new List<Skill>());
+					c=new Card();
+					c.Id = System.Convert.ToInt32(cardData [0]); 	// Ici, on récupère l'id en base
+					c.ArtIndex = System.Convert.ToInt32(cardData [1]); 	// l'indice de l'image
+					c.Title  = cardData [2]; 					// le titre de la carte
+					c.Life = System.Convert.ToInt32(cardData [3]);	// le nombre de point de vie
+					c.Speed = System.Convert.ToInt32(cardData [4]);	// la rapidité
+					c.Move = System.Convert.ToInt32(cardData [5]);	    // le mouvement
+					c.Attack = System.Convert.ToInt32(cardData [6]);	// l'attaque
+					c.Experience = System.Convert.ToInt32(cardData[7]);	// l'attaque
+					c.Skills=new List<Skill>();
 					this.addCard(c);
 					NbCards ++;
 				} else
