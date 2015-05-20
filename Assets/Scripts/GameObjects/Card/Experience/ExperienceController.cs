@@ -110,7 +110,7 @@ public class ExperienceController : MonoBehaviour {
 		this.animation.transform.position = new Vector3(transform.parent.transform.position.x,
 		                                           transform.parent.transform.position.y,
 		                                           transform.parent.transform.position.z-0.3f);
-		this.scaleSpeed = 0.5f;
+		this.scaleSpeed = 0.5f*nbIteration;
 		this.toMove=true;
 	}
 }
