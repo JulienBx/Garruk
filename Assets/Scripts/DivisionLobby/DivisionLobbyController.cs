@@ -133,7 +133,7 @@ public class DivisionLobbyController : MonoBehaviour
 		}
 		else
 		{
-			view.boardVM.activeGaugeBackgroundStyle.normal.background=view.boardVM.gaugeBackgrounds[0];
+			view.boardVM.activeGaugeBackgroundStyle.normal.background=this.gaugeBackgrounds[0];
 			if(view.boardVM.nbWinsForPromotion!=-1)
 			{
 				view.boardVM.promotionBarWidth=0.005f;
