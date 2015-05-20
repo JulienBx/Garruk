@@ -1059,7 +1059,7 @@ public class GameController : Photon.MonoBehaviour
 			debut = 5;
 			hauteur = 7;
 		}
-		if (isFirstP = this.isFirstPlayer)
+		if (isFirstP == this.isFirstPlayer)
 		{
 			this.myDeck = deck;
 		}
@@ -1286,6 +1286,7 @@ public class GameController : Photon.MonoBehaviour
 
 	public IEnumerator quitGame(bool isFirstP)
 	{
+		gameView.gameScreenVM.toDisplayGameScreen = false;
 		if (isFirstP == this.isFirstPlayer)
 		{
 			yield return (StartCoroutine(this.sendStat(this.users [0].Username, this.users [1].Username)));
