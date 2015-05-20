@@ -6,6 +6,8 @@ public class EndSceneViewModel
 	public int startCredits;
 	public int endCredits;
 	public int creditsToAdd;
+	public string title;
+	public bool guiEnabled;
 	public GUIStyle[] styles;
 	public GUIStyle titleStyle;
 	public GUIStyle creditStyle;
@@ -18,6 +20,8 @@ public class EndSceneViewModel
 		this.creditStyle = new GUIStyle ();
 		this.labelStyle = new GUIStyle ();
 		this.buttonStyle = new GUIStyle ();
+		this.guiEnabled = false;
+		this.title = "";
 	}
 	public void initStyles()
 	{
@@ -28,9 +32,9 @@ public class EndSceneViewModel
 	}
 	public void resize(int heightScreen)
 	{
-		this.titleStyle.fontSize = heightScreen * 3 / 100;
-		this.creditStyle.fontSize = heightScreen * 2 / 100;
-		this.labelStyle.fontSize = heightScreen * 2 / 100;
-		this.buttonStyle.fontSize = heightScreen * 2 / 100;
+		this.titleStyle.fontSize = heightScreen * 4 / 100;
+		this.creditStyle.fontSize = heightScreen * 3 / 100;
+		this.labelStyle.fontSize = heightScreen * 3 / 100;
+		this.buttonStyle.fontSize = heightScreen * 3 / 100;
 	}
 }

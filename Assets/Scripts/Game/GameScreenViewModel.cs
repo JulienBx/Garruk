@@ -81,6 +81,7 @@ public class GameScreenViewModel
 		hasAMessage = false;
 		timer = 10f;
 		timerPopUp = 5f;
+		toDisplayGameScreen = true;
 	}
 
 	public void setStyles(GUIStyle[] gameScreenStyles)
@@ -132,8 +133,6 @@ public class GameScreenViewModel
 		this.quitButtonStyle.fontSize = h * 22 / 1000;
 		this.namePlayingCardTextStyle.fontSize = h * 22/100 ;
 		this.nameOpponentPlayingCardTextStyle.fontSize = h * 22/100 ;
-		
-		toDisplayGameScreen = true;
 	}
 
 	public void setCursor(Texture2D c, int i)
