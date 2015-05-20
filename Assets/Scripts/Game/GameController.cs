@@ -907,7 +907,8 @@ public class GameController : Photon.MonoBehaviour
 		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_nick1", user1); 	                    // Pseudo de l'utilisateur victorieux
 		form.AddField("myform_nick2", user2); 	                    // Pseudo de l'autre utilisateur
-				
+		form.AddField ("myform_gametype", ApplicationModel.gameType);		
+
 		WWW w = new WWW(URLStat, form); 							// On envoie le formulaire à l'url sur le serveur 
 		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
 		if (w.error != null)
@@ -1289,7 +1290,6 @@ public class GameController : Photon.MonoBehaviour
 		gameView.gameScreenVM.toDisplayGameScreen = false;
 		if (isFirstP == this.isFirstPlayer)
 		{
-			yield return (StartCoroutine(this.sendStat(this.users [0].Username, this.users [1].Username)));
 			print("J'ai perdu comme un gros con");
 			EndSceneController.instance.displayEndScene(false);
 		} else
