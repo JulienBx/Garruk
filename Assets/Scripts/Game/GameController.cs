@@ -81,6 +81,8 @@ public class GameController : Photon.MonoBehaviour
 	bool timeElapsedPopUp = true;
 	bool popUpDisplay = false;
 
+	int nextCharacterPositionTimeline;
+
 	public ScriptableObject skills ;
 
 	float[] popupPosition = {0.95f, 0.05f};
@@ -137,7 +139,6 @@ public class GameController : Photon.MonoBehaviour
 				timeElapsed = false;
 				gameView.gameScreenVM.timer -= 1;
 				displayPopUpMessage("Temps ecoulé", 5f);
-				//currentPlayingCard = 1; // provisoire
 			}
 			if (gameView.gameScreenVM.timer < 0 && gameView.gameScreenVM.timer > -1)
 			{
@@ -148,7 +149,7 @@ public class GameController : Photon.MonoBehaviour
 			{
 				if (photonView.isMine)
 				{
-					photonView.RPC("timeRunsOut", PhotonTargets.AllBuffered, (timerTurn));
+					photonView.RPC("timeRunsOut", PhotonTargets.AllBuffered, timerTurn);
 				}
 			}
 		}
@@ -878,6 +879,7 @@ public class GameController : Photon.MonoBehaviour
 		addGameEvent(ge, "");
 		nbActionPlayed = 0;
 		changeGameEvents();
+		fillTimeline();
 	}
 	
 	private IEnumerator returnToLobby()
@@ -1093,14 +1095,11 @@ public class GameController : Photon.MonoBehaviour
 				}
 			}
 			this.nbTurns = 1;
-
-			if (this.isFirstPlayer)
-			{
-				this.sortAllCards();
-				this.findNextPlayer();
-			}
+			this.sortAllCards();
+			this.findNextPlayer();
 			initGameEvents();
 			testTimeline();
+			photonView.RPC("timeRunsOut", PhotonTargets.AllBuffered, timerTurn);
 		} else
 		{
 			if (isFirst == this.isFirstPlayer)
@@ -1127,10 +1126,10 @@ public class GameController : Photon.MonoBehaviour
 		for (int i = 0; i < 10; i++)
 		{
 			indexToRank = this.FindMaxQuicknessIndex(quicknessesToRank);
-			print ("j'add "+cardsToRank[indexToRank]+" au rang "+i+" avec la vitesse "+quicknessesToRank[indexToRank]);
+			print("j'add " + cardsToRank [indexToRank] + " au rang " + i + " avec la vitesse " + quicknessesToRank [indexToRank]);
 
 			quicknessesToRank.RemoveAt(indexToRank);
-			photonView.RPC("addRankedCharacter", PhotonTargets.AllBuffered, cardsToRank[indexToRank], i, (i == 0));
+			photonView.RPC("addRankedCharacter", PhotonTargets.AllBuffered, cardsToRank [indexToRank], i, (i == 0));
 			cardsToRank.RemoveAt(indexToRank);
 		}
 	}
@@ -1291,12 +1290,12 @@ public class GameController : Photon.MonoBehaviour
 		{
 			yield return (StartCoroutine(this.sendStat(this.users [0].Username, this.users [1].Username)));
 			print("J'ai perdu comme un gros con");
-			EndSceneController.instance.displayEndScene (false);
+			EndSceneController.instance.displayEndScene(false);
 		} else
 		{
 			yield return (StartCoroutine(this.sendStat(this.users [1].Username, this.users [0].Username)));
 			print("Mon adversaire a lachement abandonné comme une merde");
-			EndSceneController.instance.displayEndScene (true);
+			EndSceneController.instance.displayEndScene(true);
 		}
 		PhotonNetwork.Disconnect();
 	}
@@ -1343,6 +1342,7 @@ public class GameController : Photon.MonoBehaviour
 			addCardEvent(i % 5, i);
 		}*/
 		addGameEvent(new SkillType("a lancé test"), "vilain");
+		//	
 	}
 	
 	public void addGameEvent(GameEventType type, string targetName)
@@ -1384,6 +1384,22 @@ public class GameController : Photon.MonoBehaviour
 		return go;
 	}
 
+	void fillTimeline()
+	{
+		addCardEvent(rankedPlayingCardsID [nextCharacterPositionTimeline], 0);
+		bool nextChara = true;
+		while (nextChara)
+		{
+			if (++nextCharacterPositionTimeline > 9)
+			{
+				nextCharacterPositionTimeline = 0;
+			}
+			if (!this.playingCards [nextCharacterPositionTimeline].GetComponentInChildren<PlayingCardController>().hasPlayed)
+			{
+				nextChara = false;
+			}
+		}
+	}
 	void addCardEvent(int idCharacter, int position)
 	{
 		GameObject go = gameEvents [position];
@@ -1412,6 +1428,7 @@ public class GameController : Photon.MonoBehaviour
 		{
 			addCardEvent(rankedPlayingCardsID [5 - i], i);
 		}
+		nextCharacterPositionTimeline = 6;
 	}
 
 	Texture2D getImageResized(Texture2D t)
