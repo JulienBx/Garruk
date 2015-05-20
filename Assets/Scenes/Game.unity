@@ -740,11 +740,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cardObject: {fileID: 157076, guid: 5aec1731b1da74118aaca3ee17b3c4e1, type: 2}
+  darkBackgroundObject: {fileID: 105148, guid: ee41bfdffa67548d097fa36d56d5439b, type: 2}
   endSceneVMStyles:
   - m_Name: Title Style
     m_Normal:
       m_Background: {fileID: 0}
-      m_TextColor: {r: 0, g: 0, b: 0, a: 1}
+      m_TextColor: {r: 1, g: 1, b: 1, a: 1}
     m_Hover:
       m_Background: {fileID: 0}
       m_TextColor: {r: 0, g: 0, b: 0, a: 0}
@@ -802,7 +803,7 @@ MonoBehaviour:
   - m_Name: Credit Style
     m_Normal:
       m_Background: {fileID: 0}
-      m_TextColor: {r: 0, g: 0, b: 0, a: 1}
+      m_TextColor: {r: 1, g: 1, b: 1, a: 1}
     m_Hover:
       m_Background: {fileID: 0}
       m_TextColor: {r: 0, g: 0, b: 0, a: 0}
@@ -860,7 +861,7 @@ MonoBehaviour:
   - m_Name: Label Style
     m_Normal:
       m_Background: {fileID: 0}
-      m_TextColor: {r: 0, g: 0, b: 0, a: 1}
+      m_TextColor: {r: 1, g: 1, b: 1, a: 1}
     m_Hover:
       m_Background: {fileID: 0}
       m_TextColor: {r: 0, g: 0, b: 0, a: 0}

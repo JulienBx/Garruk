@@ -10,6 +10,7 @@ public class EndSceneController : MonoBehaviour
 
 	public static EndSceneController instance;
 	public GameObject cardObject;
+	public GameObject darkBackgroundObject;
 	public GUIStyle[] endSceneVMStyles;
 	private GameObject[] cards;
 	private EndSceneView view;
@@ -17,6 +18,8 @@ public class EndSceneController : MonoBehaviour
 	private bool toUpdateCredits;
 	private float updateSpeed;
 	private float updateRatio;
+	
+	private GameObject darkBackground;
 	
 	void Start()
 	{
@@ -44,6 +47,8 @@ public class EndSceneController : MonoBehaviour
 	public void displayEndScene(bool hasWon)
 	{
 		this.view = Camera.main.gameObject.AddComponent <EndSceneView>();
+		this.darkBackground = Instantiate(darkBackgroundObject) as GameObject;
+		this.darkBackground.name = "darkBackground";
 		this.resize ();
 		this.initStyles ();
 		this.createCards ();
@@ -56,21 +61,19 @@ public class EndSceneController : MonoBehaviour
 		string name;
 		Vector3 scale;
 		Vector3 position;
-		float tempF = 10f*view.screenVM.widthScreen/view.screenVM.heightScreen;
-		float width = 10f*0.68f*(view.screenVM.mainBlock.width)/(view.screenVM.mainBlock.height);
-		float scaleCard = Mathf.Min(1.6f, width / 6f);
-		float pas = (width - 5f * scaleCard) / 6f;
-		float debutLargeur = -0.28f * tempF + pas + scaleCard / 2;
+		float tempF = 2*Camera.main.camera.orthographicSize*view.screenVM.widthScreen/view.screenVM.heightScreen;
+		float width = 0.5f * tempF;
+		float scaleCard = width/6f;
 		this.cards=new GameObject[5];
 		for (int i = 0; i < 5; i++)
 		{
 			name="Card" + i;
 			scale = new Vector3(scaleCard,scaleCard,scaleCard);
-			position = new Vector3(debutLargeur + (scaleCard + pas) * i, 2.65f, 0); 
+			position = new Vector3(-width/2+(scaleCard/2)+i*(scaleCard+1f/4f*scaleCard), 0f, -9f); 
 			this.cards [i] = Instantiate(this.cardObject) as GameObject;
 			this.cards [i].AddComponent<CardGameController>();
 			this.cards [i].GetComponent<CardController>().setGameObject(name,scale,position);
-			this.cards [i].GetComponent<CardGameController>().setGameCard(GameController.instance.myDeck.Cards[0]);
+			this.cards [i].GetComponent<CardGameController>().setGameCard(GameController.instance.myDeck.Cards[i]);
 		} 
 	}
 	private IEnumerator updateModels(bool hasWon)
@@ -138,7 +141,7 @@ public class EndSceneController : MonoBehaviour
 	{
 		for (int i=0;i<5;i++)
 		{
-			this.cards [i].GetComponent<CardController>().animateExperience (GameController.instance.myDeck.Cards[0]);
+			this.cards [i].GetComponent<CardController>().animateExperience (GameController.instance.myDeck.Cards[i]);
 		}
 	}
 	public void animateCredits()
@@ -165,9 +168,11 @@ public class EndSceneController : MonoBehaviour
 	{
 		view.screenVM.resize ();
 		view.endSceneVM.resize (view.screenVM.heightScreen);
+		this.darkBackground.GetComponent<DarkBackgroundController> ().resize();
 	}
 	public void quitEndScene()
 	{
+		GameController.instance.disconnect ();
 		Application.LoadLevel("EndGame");
 	}
 }

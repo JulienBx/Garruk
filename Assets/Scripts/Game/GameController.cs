@@ -1276,31 +1276,36 @@ public class GameController : Photon.MonoBehaviour
 
 	public void quitGameHandler()
 	{
+		StartCoroutine (this.quitGame ());
+	}
+
+	public IEnumerator quitGame()
+	{
+		if (isFirstPlayer) 
+		{
+			yield return (StartCoroutine(this.sendStat(this.users [1].Username, this.users [0].Username)));
+		}
+		else
+		{
+			yield return (StartCoroutine(this.sendStat(this.users [0].Username, this.users [1].Username)));
+		}
 		photonView.RPC("quitGameRPC", PhotonTargets.AllBuffered, this.isFirstPlayer);
 	}
-
 	[RPC]
 	public void quitGameRPC(bool isFirstP)
-	{
-		StartCoroutine(quitGame(isFirstP));
-	}
-
-	public IEnumerator quitGame(bool isFirstP)
 	{
 		gameView.gameScreenVM.toDisplayGameScreen = false;
 		if (isFirstP == this.isFirstPlayer)
 		{
-			print("J'ai perdu comme un gros con");
+			//print("J'ai perdu comme un gros con");
 			EndSceneController.instance.displayEndScene(false);
-		} else
+		} 
+		else
 		{
-			yield return (StartCoroutine(this.sendStat(this.users [1].Username, this.users [0].Username)));
-			print("Mon adversaire a lachement abandonné comme une merde");
+			//print("Mon adversaire a lachement abandonné comme une merde");
 			EndSceneController.instance.displayEndScene(true);
 		}
-		PhotonNetwork.Disconnect();
 	}
-
 	public void testTimeline()
 	{
 		/*this.currentPlayingCard = 1;
@@ -1483,6 +1488,11 @@ public class GameController : Photon.MonoBehaviour
 		{
 			go.GetComponent<GameEventController>().setScreenPosition(i++, boardWidth, boardHeight, tileScale);
 		}
+	}
+
+	public void disconnect()
+	{
+		PhotonNetwork.Disconnect();
 	}
 }
 
