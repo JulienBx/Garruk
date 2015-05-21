@@ -86,8 +86,6 @@ public class GameController : Photon.MonoBehaviour
 
 	int nextCharacterPositionTimeline;
 
-	public ScriptableObject skills ;
-
 	float[] popupPosition = {0.95f, 0.05f};
 
 	string URLStat = ApplicationModel.host + "updateResult.php";
@@ -174,6 +172,10 @@ public class GameController : Photon.MonoBehaviour
 		this.resizeBackground();
 		int h = this.gameView.gameScreenVM.heightScreen;
 		this.recalculateGameEvents();
+		if (EndSceneController.instance != null)
+		{
+			EndSceneController.instance.resize();
+		}
 	}
 
 	public void displayPopUpMessage(string message, float time)
@@ -536,30 +538,80 @@ public class GameController : Photon.MonoBehaviour
 
 	public void hideClickedPlayingCard()
 	{
+		this.hideMySkills();
+
 		this.playingCards [this.clickedPlayingCard].GetComponent<PlayingCardController>().hideSelected();
 		this.clickedPlayingCard = -1;
 	}
 
 	public void hideOpponentClickedPlayingCard()
 	{
+		this.hideOpponentSkills();
+
 		this.playingCards [this.clickedOpponentPlayingCard].GetComponent<PlayingCardController>().hideSelected();
 		this.clickedOpponentPlayingCard = -1;
 	}
 
 	public void clickPlayingCard(int idPlayingCard)
 	{
-		this.hideHoveredPlayingCard();
+		if (this.hoveredPlayingCard != -1)
+		{
+			this.hideHoveredPlayingCard();
+		}
 		this.playingCards [idPlayingCard].GetComponent<PlayingCardController>().displaySelected();
 		this.clickedPlayingCard = idPlayingCard;
 		this.currentClickedTile = this.playingCards [idPlayingCard].GetComponent<PlayingCardController>().tile;
+	
+		this.selectedPlayingCard.GetComponent<PlayingCardController>().setCard(this.playingCards [this.clickedPlayingCard].GetComponent<PlayingCardController>().card);
+		this.selectedPlayingCard.GetComponent<PlayingCardController>().show();
+		this.selectedPlayingCard.GetComponent<PlayingCardController>().setActive(true);
+		
+		List<Skill> skills = this.playingCards [this.clickedPlayingCard].GetComponent<PlayingCardController>().card.Skills;
+		for (int i = 0; i < 4; i++)
+		{
+			if (i < skills.Count)
+			{
+				this.skillsObjects [i].GetComponent<SkillObjectController>().setSkill(skills [i]);
+				this.skillsObjects [i].GetComponent<SkillObjectController>().show();
+				this.skillsObjects [i].SetActive(true);
+			} else
+			{
+				this.skillsObjects [i].SetActive(false);
+			}
+		}
+		this.opponentSkillsObjects [4].SetActive(false);
+		this.opponentSkillsObjects [5].SetActive(false);
 	}
 
 	public void clickOpponentPlayingCard(int idPlayingCard)
 	{
-		this.hideHoveredPlayingCard();
+		if (this.hoveredPlayingCard != -1)
+		{
+			this.hideHoveredPlayingCard();
+		}
 		this.playingCards [idPlayingCard].GetComponent<PlayingCardController>().displayOpponentSelected();
 		this.clickedOpponentPlayingCard = idPlayingCard;
 		this.currentClickedTile = this.playingCards [idPlayingCard].GetComponent<PlayingCardController>().tile;
+		
+		this.selectedOpponentCard.GetComponent<PlayingCardController>().setCard(this.playingCards [this.clickedOpponentPlayingCard].GetComponent<PlayingCardController>().card);
+		this.selectedOpponentCard.GetComponent<PlayingCardController>().show();
+		this.selectedOpponentCard.GetComponent<PlayingCardController>().setActive(true);
+
+		List<Skill> skills = this.playingCards [this.clickedOpponentPlayingCard].GetComponent<PlayingCardController>().card.Skills;
+		for (int i = 0; i < 4; i++)
+		{
+			if (i < skills.Count)
+			{
+				this.opponentSkillsObjects [i].GetComponent<SkillObjectController>().setSkill(skills [i]);
+				this.opponentSkillsObjects [i].GetComponent<SkillObjectController>().show();
+				this.opponentSkillsObjects [i].SetActive(true);
+			} else
+			{
+				this.opponentSkillsObjects [i].SetActive(false);
+			}
+		}
+		this.opponentSkillsObjects [4].SetActive(false);
+		this.opponentSkillsObjects [5].SetActive(false);
 	}
 
 	public void lookForTarget(GameSkill skill)
@@ -576,10 +628,39 @@ public class GameController : Photon.MonoBehaviour
 
 	public void hideActivatedPlayingCard()
 	{
+		if (this.isFirstPlayer == (this.currentPlayingCard < 5))
+		{
+			this.hideMySkills();
+		} else
+		{
+			this.hideOpponentSkills();
+		}
+
 		this.playingCards [this.currentPlayingCard].GetComponent<PlayingCardController>().hidePlaying();
+		if (this.currentPlayingCard == this.clickedPlayingCard)
+		{
+			this.clickedPlayingCard = -1;
+		}
 		this.currentPlayingCard = -1;
 		this.isDragging = false;
-		this.gameView.gameScreenVM.SetCursorToDefault();
+	}
+
+	public void hideMySkills()
+	{
+		for (int i = 0; i < 6; i++)
+		{
+			this.selectedPlayingCard.SetActive(false);
+			this.skillsObjects [i].SetActive(false);
+		}
+	}
+
+	public void hideOpponentSkills()
+	{
+		for (int i = 0; i < 6; i++)
+		{
+			this.selectedOpponentCard.SetActive(false);
+			this.opponentSkillsObjects [i].SetActive(false);
+		}
 	}
 
 	public void clickPlayingCardHandler(int idPlayingCard)
@@ -593,7 +674,7 @@ public class GameController : Photon.MonoBehaviour
 
 		if (!isLookingForTarget)
 		{
-			if ((idPlayingCard < 5) == (this.isFirstPlayer))
+			if (idPlayingCard == this.clickedPlayingCard)
 			{
 
 				if (idPlayingCard == this.clickedPlayingCard)
@@ -639,6 +720,12 @@ public class GameController : Photon.MonoBehaviour
 						}
 					}
 				}
+			} else if (nbTurns != 0 && this.currentPlayingCard == idPlayingCard)
+			{
+				
+			} else if (nbTurns == 0 && this.isDragging)
+			{
+				
 			} else
 			{
 				if (idPlayingCard == this.clickedOpponentPlayingCard)
@@ -1189,7 +1276,6 @@ public class GameController : Photon.MonoBehaviour
 	[RPC]
 	public void moveCharacterRPC(int x, int y, int c, bool isFirstPlayer, bool isSwap)
 	{
-		print("Je move " + c + " vers " + x + "," + y);
 		if (!isSwap)
 		{
 			this.tiles [this.playingCards [c].GetComponentInChildren<PlayingCardController>().tile.x, this.playingCards [c].GetComponentInChildren<PlayingCardController>().tile.y].GetComponent<TileController>().characterID = -1;

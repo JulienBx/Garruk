@@ -452,11 +452,10 @@ public class Card
 		int idLevel = 1;
 		int newPower = 0;
 		int experience = this.Experience + xp;
-		int randomAttribute = 0;
+		int randomAttribute = -1;
 		
-		if (this.ExperienceLevel != 10 && this.Experience >= experienceLevels [this.ExperienceLevel])
+		if (this.ExperienceLevel != 10 && experience >= experienceLevels [this.ExperienceLevel + 1])
 		{
-			
 			int nbAttributes = 4;
 			
 			for (int i = 0; i < this.Skills.Count; i++)

@@ -20,7 +20,7 @@ public class NeighbourTiles {
 		List<Tile> tempTiles = new List<Tile>();
 		List<Tile> tempNewTiles = new List<Tile>();
 		int width = GameController.instance.boardWidth;
-		Debug.Log("Tile "+x+","+y);
+
 		UID.Add(y*width+x);
 
 		while (areNewTiles == true && compteurDistance<=distance){

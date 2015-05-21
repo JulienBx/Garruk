@@ -17,12 +17,21 @@ public class EndSceneView : MonoBehaviour
 	{
 		GUILayout.BeginArea(screenVM.mainBlock);
 		{
-			GUILayout.Label ("Gains de combats",endSceneVM.titleStyle);
-			GUILayout.Label ("Crédits :"+endSceneVM.credits,endSceneVM.creditStyle);
-			if(GUILayout.Button("Quitter",endSceneVM.buttonStyle))
+			GUILayout.Label (endSceneVM.title,endSceneVM.titleStyle);
+			GUILayout.Space(screenVM.mainBlock.height*1/10);
+			GUILayout.Label ("Vous gagnez : "+endSceneVM.creditsToAdd+" crédits ("+endSceneVM.credits+" credits)",endSceneVM.creditStyle);
+			GUILayout.Space(screenVM.mainBlock.height*5/10);
+			GUI.enabled = endSceneVM.guiEnabled;
+			GUILayout.BeginHorizontal();
 			{
-				EndSceneController.instance.quitEndScene();
+				GUILayout.Space(screenVM.mainBlock.width*3/10);
+				if(GUILayout.Button("Quitter",endSceneVM.buttonStyle,GUILayout.Height(screenVM.mainBlock.height*10/100)))
+				{
+					EndSceneController.instance.quitEndScene();
+				}
+				GUILayout.Space(screenVM.mainBlock.width*3/10);
 			}
+			GUILayout.EndHorizontal();
 		}
 		GUILayout.EndArea ();
 	}

@@ -102,16 +102,16 @@ public class CardMakerScript : MonoBehaviour {
 		this.c.Skills.Add (tempSkill1);
 		this.c.Skills.Add (tempSkill2);
 
-		//this.myCard.AddComponent<CardMarketController> ();
-		this.myCard.AddComponent<CardMyGameController> ();
+		this.myCard.AddComponent<CardMarketController> ();
+		//this.myCard.AddComponent<CardMyGameController> ();
 		this.myCard.GetComponent<CardController> ().setCard (c);
 		this.myCard.GetComponent<CardController> ().setSkills();
 		this.myCard.GetComponent<CardController> ().setExperience();
 		this.myCard.GetComponent<CardController> ().show ();
-		//this.myCard.GetComponent<CardMarketController> ().setMarketFeatures ();
+		this.myCard.GetComponent<CardMarketController> ().setMarketFeatures ();
 		this.myCard.GetComponent<CardController> ().setCentralWindowRect (centralWindow);
-		this.myCard.GetComponent<CardMyGameController> ().setFocusMyGameFeatures ();
-		//this.myCard.GetComponent<CardMarketController> ().setFocusMarketFeatures ();
+		//this.myCard.GetComponent<CardMyGameController> ().setFocusMyGameFeatures ();
+		this.myCard.GetComponent<CardMarketController> ().setFocusMarketFeatures ();
 
 	}
 	
