@@ -63,6 +63,9 @@ public class GameController : Photon.MonoBehaviour
 
 	bool isDragging = false;
 	bool isLookingForTarget = false;
+
+	GameSkill skillToBeCast;
+
 	int nbPlayersReadyToFight;
 
 	int currentPlayingCard = -1;
@@ -559,6 +562,18 @@ public class GameController : Photon.MonoBehaviour
 		this.currentClickedTile = this.playingCards [idPlayingCard].GetComponent<PlayingCardController>().tile;
 	}
 
+	public void lookForTarget(GameSkill skill)
+	{
+		isLookingForTarget = true;
+		skillToBeCast = skill;
+	}
+
+	public void castSkillOnTarget(int idPlayingCard)
+	{
+		PlayingCardController pcc = this.playingCards [idPlayingCard].GetComponent<PlayingCardController>();
+		skillToBeCast.setTarget(pcc);
+	}
+
 	public void hideActivatedPlayingCard()
 	{
 		this.playingCards [this.currentPlayingCard].GetComponent<PlayingCardController>().hidePlaying();
@@ -576,99 +591,106 @@ public class GameController : Photon.MonoBehaviour
 		bool toHidePlay = false;
 		bool toPlay = false;
 
-		if ((idPlayingCard < 5) == (this.isFirstPlayer))
+		if (!isLookingForTarget)
 		{
+			if ((idPlayingCard < 5) == (this.isFirstPlayer))
+			{
 
-			if (idPlayingCard == this.clickedPlayingCard)
-			{
-				if (idPlayingCard != this.currentPlayingCard || nbTurns == 0)
+				if (idPlayingCard == this.clickedPlayingCard)
 				{
-					if (nbTurns == 0)
+					if (idPlayingCard != this.currentPlayingCard || nbTurns == 0)
 					{
-						toHidePlay = true;
-						this.clickedPlayingCard = -1;
-					} else
-					{
-						toHideClick = true;
-					}
-				}
-			} else if (nbTurns == 0 && this.isDragging)
-			{
-				
-			} else
-			{
-				if (nbTurns == 0)
-				{
-					if (idPlayingCard != this.currentPlayingCard)
-					{
-						if (this.currentPlayingCard != -1)
+						if (nbTurns == 0)
 						{
 							toHidePlay = true;
-						}
-						toPlay = true;
-					}
-				} else
-				{
-					if (clickedPlayingCard != -1)
-					{
-						if (clickedPlayingCard != this.currentPlayingCard)
+							this.clickedPlayingCard = -1;
+						} else
 						{
 							toHideClick = true;
 						}
 					}
-					if (this.clickedPlayingCard != idPlayingCard)
-					{
-						toClick = true;
-					}
-				}
-			}
-		} else
-		{
-			if (idPlayingCard == this.clickedOpponentPlayingCard)
-			{
-				if (idPlayingCard != this.currentPlayingCard)
+				} else if (nbTurns == 0 && this.isDragging)
 				{
-					toHideOpponentClick = true;
+				
+				} else
+				{
+					if (nbTurns == 0)
+					{
+						if (idPlayingCard != this.currentPlayingCard)
+						{
+							if (this.currentPlayingCard != -1)
+							{
+								toHidePlay = true;
+							}
+							toPlay = true;
+						}
+					} else
+					{
+						if (clickedPlayingCard != -1)
+						{
+							if (clickedPlayingCard != this.currentPlayingCard)
+							{
+								toHideClick = true;
+							}
+						}
+						if (this.clickedPlayingCard != idPlayingCard)
+						{
+							toClick = true;
+						}
+					}
 				}
 			} else
 			{
-				if (clickedOpponentPlayingCard != -1)
+				if (idPlayingCard == this.clickedOpponentPlayingCard)
 				{
-					if (clickedOpponentPlayingCard != this.currentPlayingCard)
+					if (idPlayingCard != this.currentPlayingCard)
 					{
 						toHideOpponentClick = true;
 					}
-				}
-				if (this.clickedOpponentPlayingCard != idPlayingCard)
+				} else
 				{
-					toClickOpponent = true;
+					if (clickedOpponentPlayingCard != -1)
+					{
+						if (clickedOpponentPlayingCard != this.currentPlayingCard)
+						{
+							toHideOpponentClick = true;
+						}
+					}
+					if (this.clickedOpponentPlayingCard != idPlayingCard)
+					{
+						toClickOpponent = true;
+					}
 				}
 			}
-		}
 
-		if (toHideClick)
-		{
-			this.hideClickedPlayingCard();
+			if (toHideClick)
+			{
+				this.hideClickedPlayingCard();
+			}
+			if (toHideOpponentClick)
+			{
+				this.hideOpponentClickedPlayingCard();
+			}
+			if (toHidePlay)
+			{
+				this.hideActivatedPlayingCard();
+			}
+			if (toClick)
+			{
+				this.clickPlayingCard(idPlayingCard);
+			}
+			if (toClickOpponent)
+			{
+				this.clickOpponentPlayingCard(idPlayingCard);
+			}
+			if (toPlay)
+			{
+				this.activatePlayingCard(idPlayingCard);
+			}
 		}
-		if (toHideOpponentClick)
+		if (isLookingForTarget)
 		{
-			this.hideOpponentClickedPlayingCard();
-		}
-		if (toHidePlay)
-		{
-			this.hideActivatedPlayingCard();
-		}
-		if (toClick)
-		{
-			this.clickPlayingCard(idPlayingCard);
-		}
-		if (toClickOpponent)
-		{
-			this.clickOpponentPlayingCard(idPlayingCard);
-		}
-		if (toPlay)
-		{
-			this.activatePlayingCard(idPlayingCard);
+			castSkillOnTarget(idPlayingCard);
 		}
 	}
 
@@ -907,7 +929,7 @@ public class GameController : Photon.MonoBehaviour
 		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_nick1", user1); 	                    // Pseudo de l'utilisateur victorieux
 		form.AddField("myform_nick2", user2); 	                    // Pseudo de l'autre utilisateur
-		form.AddField ("myform_gametype", ApplicationModel.gameType);		
+		form.AddField("myform_gametype", ApplicationModel.gameType);		
 
 		WWW w = new WWW(URLStat, form); 							// On envoie le formulaire à l'url sur le serveur 
 		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
@@ -1276,16 +1298,15 @@ public class GameController : Photon.MonoBehaviour
 
 	public void quitGameHandler()
 	{
-		StartCoroutine (this.quitGame ());
+		StartCoroutine(this.quitGame());
 	}
 
 	public IEnumerator quitGame()
 	{
-		if (isFirstPlayer) 
+		if (isFirstPlayer)
 		{
 			yield return (StartCoroutine(this.sendStat(this.users [1].Username, this.users [0].Username)));
-		}
-		else
+		} else
 		{
 			yield return (StartCoroutine(this.sendStat(this.users [0].Username, this.users [1].Username)));
 		}
@@ -1299,8 +1320,7 @@ public class GameController : Photon.MonoBehaviour
 		{
 			//print("J'ai perdu comme un gros con");
 			EndSceneController.instance.displayEndScene(false);
-		} 
-		else
+		} else
 		{
 			//print("Mon adversaire a lachement abandonné comme une merde");
 			EndSceneController.instance.displayEndScene(true);

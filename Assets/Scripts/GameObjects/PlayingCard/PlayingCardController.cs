@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class PlayingCardController : GameObjectController
 {
 	private PlayingCardView playingCardView;
+	public ScriptableObject[] skills;
 	public Texture2D[] borderPC ;
 	public Texture[] faces;
 	public Texture[] lifeGauges;
@@ -50,12 +51,14 @@ public class PlayingCardController : GameObjectController
 		this.tile = t;
 	}
 
-	public void setActive(bool b){
+	public void setActive(bool b)
+	{
 		gameObject.SetActive(b);
 	}
 
-	public void setControlActive(bool b){
-		this.playingCardView.playingCardVM.isActive=b;
+	public void setControlActive(bool b)
+	{
+		this.playingCardView.playingCardVM.isActive = b;
 	}
 
 	public void setCard(Card c)
@@ -67,13 +70,12 @@ public class PlayingCardController : GameObjectController
 	}
 	public void show()
 	{
-		if(isMine)
+		if (isMine)
 		{
-			playingCardView.playingCardVM.lifeGauge=this.lifeGauges[0];
-		}
-		else
+			playingCardView.playingCardVM.lifeGauge = this.lifeGauges [0];
+		} else
 		{
-			playingCardView.playingCardVM.lifeGauge=this.lifeGauges[1];
+			playingCardView.playingCardVM.lifeGauge = this.lifeGauges [1];
 		}
 		base.getGOCoordinates(gameObject);
 		this.setTextResolution();
@@ -86,9 +88,10 @@ public class PlayingCardController : GameObjectController
 		playingCardView.setTextResolution(resolution);
 	}
 
-	public void setPosition(Vector3 p, Vector3 s){
-		this.playingCardView.playingCardVM.position = p ;
-		this.playingCardView.playingCardVM.scale = s ;
+	public void setPosition(Vector3 p, Vector3 s)
+	{
+		this.playingCardView.playingCardVM.position = p;
+		this.playingCardView.playingCardVM.scale = s;
 		this.playingCardView.replace();
 	}
 
@@ -115,7 +118,7 @@ public class PlayingCardController : GameObjectController
 	{
 		this.tile = t;
 		position.z = -5;
-		this.playingCardView.playingCardVM.position = position ;
+		this.playingCardView.playingCardVM.position = position;
 		this.playingCardView.replace();
 	}
 
@@ -214,7 +217,7 @@ public class PlayingCardController : GameObjectController
 		int bonus = 0;
 		for (int i = 0; i < this.statModifiers.Count; i++)
 		{
-			if (statModifiers [i].Stat == 0 && statModifiers [i].Type == 0)
+			if (statModifiers [i].Stat == ModifierStat.Stat_Attack && statModifiers [i].Type == ModifierType.Type_BonusMalus)
 			{
 				bonus += statModifiers [i].Amount;
 			}
@@ -228,7 +231,7 @@ public class PlayingCardController : GameObjectController
 		int bonus = 0;
 		for (int i = 0; i < this.statModifiers.Count; i++)
 		{
-			if (statModifiers [i].Stat == 1 && statModifiers [i].Type == 0)
+			if (statModifiers [i].Stat == ModifierStat.Stat_Move && statModifiers [i].Type == ModifierType.Type_BonusMalus)
 			{
 				bonus += statModifiers [i].Amount;
 			}
@@ -242,7 +245,7 @@ public class PlayingCardController : GameObjectController
 		int bonus = 0;
 		for (int i = 0; i < this.statModifiers.Count; i++)
 		{
-			if (statModifiers [i].Stat == 2 && statModifiers [i].Type == 0)
+			if (statModifiers [i].Stat == ModifierStat.Stat_Speed && statModifiers [i].Type == ModifierType.Type_BonusMalus)
 			{
 				bonus += statModifiers [i].Amount;
 			}
@@ -266,7 +269,7 @@ public class PlayingCardController : GameObjectController
 
 	public void displayHover()
 	{
-		this.playingCardView.playingCardVM.position.z = -3 ;
+		this.playingCardView.playingCardVM.position.z = -3;
 		this.playingCardView.replace();
 		this.playingCardView.playingCardVM.border = this.borderPC [1];
 		this.playingCardView.changeBorder();
@@ -274,7 +277,7 @@ public class PlayingCardController : GameObjectController
 
 	public void displaySelected()
 	{
-		this.playingCardView.playingCardVM.position.z = -4 ;
+		this.playingCardView.playingCardVM.position.z = -4;
 		this.playingCardView.replace();
 		this.playingCardView.playingCardVM.border = this.borderPC [4];
 		this.playingCardView.changeBorder();
@@ -282,7 +285,7 @@ public class PlayingCardController : GameObjectController
 
 	public void displayOpponentSelected()
 	{
-		this.playingCardView.playingCardVM.position.z = -4 ;
+		this.playingCardView.playingCardVM.position.z = -4;
 		this.playingCardView.replace();
 		this.playingCardView.playingCardVM.border = this.borderPC [2];
 		this.playingCardView.changeBorder();
@@ -290,7 +293,7 @@ public class PlayingCardController : GameObjectController
 
 	public void displayPlaying()
 	{
-		this.playingCardView.playingCardVM.position.z = -5 ;
+		this.playingCardView.playingCardVM.position.z = -5;
 		this.playingCardView.replace();
 		this.playingCardView.playingCardVM.border = this.borderPC [3];
 		this.playingCardView.playingCardVM.isPlaying = true;
@@ -299,7 +302,7 @@ public class PlayingCardController : GameObjectController
 
 	public void hideHover()
 	{
-		this.playingCardView.playingCardVM.position.z = -2 ;
+		this.playingCardView.playingCardVM.position.z = -2;
 		this.playingCardView.replace();
 		this.playingCardView.playingCardVM.border = this.borderPC [0];
 		this.playingCardView.changeBorder();
@@ -307,7 +310,7 @@ public class PlayingCardController : GameObjectController
 
 	public void hideSelected()
 	{
-		this.playingCardView.playingCardVM.position.z = -2 ;
+		this.playingCardView.playingCardVM.position.z = -2;
 		this.playingCardView.replace();
 		this.playingCardView.playingCardVM.border = this.borderPC [0];
 		this.playingCardView.changeBorder();
@@ -320,7 +323,7 @@ public class PlayingCardController : GameObjectController
 
 	public void hidePlaying()
 	{
-		this.playingCardView.playingCardVM.position.z = -2 ;
+		this.playingCardView.playingCardVM.position.z = -2;
 		this.playingCardView.replace();
 		this.playingCardView.playingCardVM.border = this.borderPC [0];
 		this.playingCardView.changeBorder();

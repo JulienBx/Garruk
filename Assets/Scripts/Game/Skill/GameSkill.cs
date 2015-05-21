@@ -1,31 +1,30 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class GameSkill {
-
-	public Skill Skill;
-	public int SkillNumber;
+public class GameSkill
+{
+	public Skill skill;
+	//public int SkillNumber;
 
 	// Use this for initialization
-	void Start () {
+	void Start()
+	{
 	
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update()
+	{
 	
 	}
 
-	public virtual void launch()
+	public virtual void cast()
 	{
 		Debug.Log("Skill non implémenté");
 	}
 
-	public virtual void Apply(int target)
+	public virtual void setTarget(PlayingCardController pcc)
 	{
-		Debug.Log("GameSkill");
-	}
-
-	public void Target(){
+		Debug.Log("Skill non implémenté");
 	}
 }

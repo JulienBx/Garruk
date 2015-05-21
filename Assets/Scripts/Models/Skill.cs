@@ -23,6 +23,11 @@ public class Skill
 		this.Action = action;
 	}
 
+	public Skill(string name, int id, int isactivated, int level, int power, int manaCost, string description, string resourceName) : this(name, id, isactivated, level, power, manaCost, description)
+	{
+		this.ResourceName = resourceName;
+	}
+
 	public Skill(string name, int id, int isactivated, int level, int power, int manaCost, string description)
 	{
 		this.Name = name;

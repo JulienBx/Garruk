@@ -1,14 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class Attack
+public class Attack : GameSkill
 {
-	public void launch()
+	public void cast()
 	{
-		//GameController.instance.lookForTarget();
+		GameController.instance.lookForTarget(this);
 	}
 
-	public void giveTarget(int idTarget){
+	public void giveTarget(int idTarget)
+	{
 	
 	}
 }

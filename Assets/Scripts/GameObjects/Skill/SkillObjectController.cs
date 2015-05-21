@@ -4,22 +4,23 @@ using System.Collections.Generic;
 
 public class SkillObjectController : GameObjectController
 {
-
 	private SkillObjectView view;
 	public Texture2D[] skillPictos ;
 	public Texture2D attackPicto;
 	public Texture2D passPicto;
 	public Texture2D noSkillPicto;
-	public Skill skill;
+	public GameSkill gameSkill;
 
 	void Awake()
 	{
 		this.view = gameObject.AddComponent <SkillObjectView>();
+		gameSkill = new GameSkill();
 	}
 
 	public void setSkill(Skill s)
 	{
-		this.skill = s;
+		retrieveSkillByName(s);
+		this.gameSkill.skill = s;
 		this.view.skillVM.face = this.skillPictos [s.Id];
 	}
 
@@ -40,18 +41,42 @@ public class SkillObjectController : GameObjectController
 
 	public void show()
 	{
-		view.show ();
+		view.show();
 	}
 
-	public void setPosition(Vector3 p){
-		this.view.skillVM.position = p ;
+	public void setPosition(Vector3 p)
+	{
+		this.view.skillVM.position = p;
 		this.view.replace();
 	}
 
-	public void setPosition(Vector3 p, Vector3 s){
-		this.view.skillVM.position = p ;
-		this.view.skillVM.scale = s ;
+	public void setPosition(Vector3 p, Vector3 s)
+	{
+		this.view.skillVM.position = p;
+		this.view.skillVM.scale = s;
 		this.view.replace();
+	}
+
+	public void cast()
+	{
+		this.gameSkill.cast();
+		Debug.Log(gameSkill.GetType());
+	}
+
+	void retrieveSkillByName(Skill s)
+	{
+		switch (s.ResourceName)
+		{
+			case "Reflexe":
+				gameSkill = new Reflexe();
+				break;
+			case "test":
+				gameSkill = new Reflexe();
+				break;
+			default :
+				gameSkill = new GameSkill();
+				break;
+		}
 	}
 }
 
