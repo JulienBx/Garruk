@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
 
-public class Pass
+public class Pass : GameSkill
 {
-	public void launch()
+	public override void launch()
 	{
 		Debug.Log ("Je passe");
+
+		GameController.instance.addPassEvent();
 		GameController.instance.findNextPlayer();
 	}
 }

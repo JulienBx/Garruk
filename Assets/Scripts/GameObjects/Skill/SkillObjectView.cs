@@ -26,4 +26,11 @@ public class SkillObjectView : MonoBehaviour
 		gameObject.transform.localPosition = skillVM.position;
 		gameObject.transform.localScale = skillVM.scale;
 	}
+
+	void OnMouseDown()
+	{
+		if (this.skillVM.isActive){
+			gameObject.GetComponentInChildren<SkillObjectController>().clickSkill();
+		}
+	}
 }

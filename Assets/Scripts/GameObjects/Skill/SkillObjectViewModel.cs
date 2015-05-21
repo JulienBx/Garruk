@@ -10,9 +10,11 @@ public class SkillObjectViewModel
 	public Vector3 scale;
 	public Texture2D border ;
 
+	public bool isActive ;
+
 	public SkillObjectViewModel ()
 	{
-	
+		this.isActive = false ;
 	}
 }
 

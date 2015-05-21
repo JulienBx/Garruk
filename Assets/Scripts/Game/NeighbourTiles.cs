@@ -52,50 +52,18 @@ public class NeighbourTiles {
 		List<Tile> tempTiles = new List<Tile>();
 		int width = GameController.instance.boardWidth;
 		int height = GameController.instance.boardHeight;
-		int decalage ;
-		if ((width - x) % 2 == 0)
-		{
-			decalage = 1;
-		} else
-		{
-			decalage = 0;
-		}
 
 		if (x > 0){
-			if (decalage==0 && y > 0){
-				tempTiles.Add(new Tile(x-1, y-1));
-			}
-			if (decalage==1){
-				tempTiles.Add(new Tile(x-1, y));
-			}
-			
-			if (decalage==0 && y < height-2){
-				tempTiles.Add(new Tile(x-1, y));
-			}
-			else if(decalage==1 && y < height-1){
-				tempTiles.Add(new Tile(x-1, y+1));
-			}
+			tempTiles.Add(new Tile(x-1, y));
 		}
-		if (y < height-1){
-			tempTiles.Add(new Tile(x, y+1));
+		if (x < width-1){
+			tempTiles.Add(new Tile(x+1, y));
 		}
 		if (y > 0){
 			tempTiles.Add(new Tile(x, y-1));
 		}
-		if (x < width-1){
-			if (decalage==0 && y >0){
-				tempTiles.Add(new Tile(x+1, y-1));
-			}
-			if (decalage==1){
-				tempTiles.Add(new Tile(x+1, y));
-			}
-
-			if (decalage==0 && y < height-2){
-				tempTiles.Add(new Tile(x+1, y));
-			}
-			else if(decalage==1 && y < height-1){
-				tempTiles.Add(new Tile(x+1, y+1));
-			}
+		if (y < height-1){
+			tempTiles.Add(new Tile(x, y+1));
 		}
 		
 		return tempTiles;

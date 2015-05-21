@@ -54,11 +54,17 @@ public class TileController : MonoBehaviour
 		this.tileView.resize();
 	}
 
-	public void setDestination () {
-		this.isDestination = true ;
-		this.tileView.tileVM.background = this.backTile[5+this.type];
+	public void setDestination (bool b) {
+		this.isDestination = b ;
+		int facteur = 0 ;
+		int borderIndex = 0 ;
+		if (b){
+			facteur = 5 ;
+			borderIndex = 4 ;
+		}
+		this.tileView.tileVM.background = this.backTile[facteur+this.type];
 		this.tileView.changeBackground();
-		this.tileView.tileVM.border = this.borderTile[4];
+		this.tileView.tileVM.border = this.borderTile[borderIndex];
 		this.tileView.changeBorder();
 	}
 
