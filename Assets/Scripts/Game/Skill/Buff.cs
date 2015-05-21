@@ -2,11 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class Buff : GameSkill 
+public class Buff : GameSkill
 {
 	public new List<StatModifier> StatModifiers = new List<StatModifier>();
 
-	public override void launch()
+	/*public override void launch()
 	{
 //		GameNetworkCard gnc = transform.parent.parent.GetComponent<GameNetworkCard>();
 //		if (!GameBoard.instance.TimeOfPositionning && GameTimeLine.instance.PlayingCard.Equals(gnc) 
@@ -44,4 +44,5 @@ public class Buff : GameSkill
 //		}
 //		gnc.ShowFace();
 	}
+	*/
 }

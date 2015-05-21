@@ -63,6 +63,9 @@ public class GameController : Photon.MonoBehaviour
 
 	bool isDragging = false;
 	bool isLookingForTarget = false;
+
+	GameSkill skillToBeCast;
+
 	int nbPlayersReadyToFight;
 
 	int currentPlayingCard = -1;
@@ -177,9 +180,9 @@ public class GameController : Photon.MonoBehaviour
 		this.resizeBackground();
 		int h = this.gameView.gameScreenVM.heightScreen;
 		this.recalculateGameEvents();
-		if(EndSceneController.instance!=null)
+		if (EndSceneController.instance != null)
 		{
-			EndSceneController.instance.resize ();
+			EndSceneController.instance.resize();
 		}
 	}
 
@@ -353,7 +356,8 @@ public class GameController : Photon.MonoBehaviour
 		{
 			this.isDragging = true;
 			this.clickedPlayingCard = idPlayingCard;
-		} else
+		}
+		else
 		{
 			this.clickedOpponentPlayingCard = idPlayingCard;
 		}
@@ -364,42 +368,7 @@ public class GameController : Photon.MonoBehaviour
 			this.currentPlayingTile = this.playingCards [this.currentPlayingCard].GetComponent<PlayingCardController>().tile;
 			this.currentClickedTile = this.playingCards [this.currentPlayingCard].GetComponent<PlayingCardController>().tile;
 			
-			this.selectedPlayingCard.GetComponent<PlayingCardController>().setCard(this.playingCards [this.clickedPlayingCard].GetComponent<PlayingCardController>().card);
-			this.selectedPlayingCard.GetComponent<PlayingCardController>().show();
-			this.selectedPlayingCard.GetComponent<PlayingCardController>().setActive(true);
-
-			List<Skill> skills = this.playingCards [this.clickedPlayingCard].GetComponent<PlayingCardController>().card.Skills;
-			for (int i = 0; i < 4; i++)
-			{
-				if (i < skills.Count)
-				{
-					this.skillsObjects [i].GetComponent<SkillObjectController>().setSkill(skills [i]);
-					this.skillsObjects [i].GetComponent<SkillObjectController>().show();
-					this.skillsObjects [i].SetActive(true);
-				} else
-				{
-					this.skillsObjects [i].SetActive(false);
-				}
-			}
-			if (this.nbTurns != 0)
-			{
-				this.skillsObjects [4].GetComponent<SkillObjectController>().setAttack();
-				this.skillsObjects [4].GetComponent<SkillObjectController>().show();
-				this.skillsObjects [4].SetActive(true);
-			} else
-			{
-				this.skillsObjects [4].SetActive(false);
-			}
-
-			if (this.nbTurns != 0)
-			{
-				this.skillsObjects [5].GetComponent<SkillObjectController>().setPass();
-				this.skillsObjects [5].GetComponent<SkillObjectController>().show();
-				this.skillsObjects [5].SetActive(true);
-			} else
-			{
-				this.skillsObjects [5].SetActive(false);
-			}
+			this.showMyPlayingSkills(true);
 		} else
 		{
 			List<Skill> skills = this.playingCards [this.clickedOpponentPlayingCard].GetComponent<PlayingCardController>().card.Skills;
@@ -567,25 +536,7 @@ public class GameController : Photon.MonoBehaviour
 		this.clickedPlayingCard = idPlayingCard;
 		this.currentClickedTile = this.playingCards [idPlayingCard].GetComponent<PlayingCardController>().tile;
 	
-		this.selectedPlayingCard.GetComponent<PlayingCardController>().setCard(this.playingCards [this.clickedPlayingCard].GetComponent<PlayingCardController>().card);
-		this.selectedPlayingCard.GetComponent<PlayingCardController>().show();
-		this.selectedPlayingCard.GetComponent<PlayingCardController>().setActive(true);
-		
-		List<Skill> skills = this.playingCards [this.clickedPlayingCard].GetComponent<PlayingCardController>().card.Skills;
-		for (int i = 0; i < 4; i++)
-		{
-			if (i < skills.Count)
-			{
-				this.skillsObjects [i].GetComponent<SkillObjectController>().setSkill(skills [i]);
-				this.skillsObjects [i].GetComponent<SkillObjectController>().show();
-				this.skillsObjects [i].SetActive(true);
-			} else
-			{
-				this.skillsObjects [i].SetActive(false);
-			}
-		}
-		this.opponentSkillsObjects [4].SetActive(false);
-		this.opponentSkillsObjects [5].SetActive(false);
+		this.showMyPlayingSkills(idPlayingCard!=this.currentPlayingCard);
 	}
 
 	public void clickOpponentPlayingCard(int idPlayingCard)
@@ -619,24 +570,38 @@ public class GameController : Photon.MonoBehaviour
 		this.opponentSkillsObjects [5].SetActive(false);
 	}
 
+	public void lookForTarget(GameSkill skill)
+	{
+		isLookingForTarget = true;
+		skillToBeCast = skill;
+	}
+
+	public void castSkillOnTarget(int idPlayingCard)
+	{
+		PlayingCardController pcc = this.playingCards [idPlayingCard].GetComponent<PlayingCardController>();
+		skillToBeCast.setTarget(pcc);
+	}
+
 	public void hideActivatedPlayingCard()
 	{
-		if (this.isFirstPlayer == (this.currentPlayingCard < 5)){
+		if (this.isFirstPlayer == (this.currentPlayingCard < 5))
+		{
 			this.hideMySkills();
-		}
-		else{
+		} else
+		{
 			this.hideOpponentSkills();
 		}
 
 		this.playingCards [this.currentPlayingCard].GetComponent<PlayingCardController>().hidePlaying();
-		if (this.currentPlayingCard==this.clickedPlayingCard){
-			this.clickedPlayingCard = -1 ;
+		if (this.currentPlayingCard == this.clickedPlayingCard)
+		{
+			this.clickedPlayingCard = -1;
 		}
 		this.currentPlayingCard = -1;
 		this.isDragging = false;
 	}
 
-	public void showMyPlayingSkills(){
+	public void showMyPlayingSkills(bool s){
 		this.selectedPlayingCard.GetComponent<PlayingCardController>().setCard(this.playingCards [this.currentPlayingCard].GetComponent<PlayingCardController>().card);
 		this.selectedPlayingCard.GetComponent<PlayingCardController>().show();
 		this.selectedPlayingCard.GetComponent<PlayingCardController>().setActive(true);
@@ -648,6 +613,8 @@ public class GameController : Photon.MonoBehaviour
 			{
 				this.skillsObjects [i].GetComponent<SkillObjectController>().setSkill(skills [i]);
 				this.skillsObjects [i].GetComponent<SkillObjectController>().show();
+				this.skillsObjects [i].GetComponent<SkillObjectController>().setControlsActive(s);
+				this.skillsObjects [i].GetComponent<SkillObjectController>().setID(skills[i].Id);
 				this.skillsObjects [i].SetActive(true);
 			} else
 			{
@@ -658,6 +625,8 @@ public class GameController : Photon.MonoBehaviour
 		{
 			this.skillsObjects [4].GetComponent<SkillObjectController>().setAttack();
 			this.skillsObjects [4].GetComponent<SkillObjectController>().show();
+			this.skillsObjects [4].GetComponent<SkillObjectController>().setControlsActive(s);
+			this.skillsObjects [4].GetComponent<SkillObjectController>().setID(0);
 			this.skillsObjects [4].SetActive(true);
 		} else
 		{
@@ -668,6 +637,8 @@ public class GameController : Photon.MonoBehaviour
 		{
 			this.skillsObjects [5].GetComponent<SkillObjectController>().setPass();
 			this.skillsObjects [5].GetComponent<SkillObjectController>().show();
+			this.skillsObjects [5].GetComponent<SkillObjectController>().setControlsActive(s);
+			this.skillsObjects [4].GetComponent<SkillObjectController>().setID(1);
 			this.skillsObjects [5].SetActive(true);
 		} else
 		{
@@ -679,7 +650,8 @@ public class GameController : Photon.MonoBehaviour
 
 	}
 
-	public void hideMySkills(){
+	public void hideMySkills()
+	{
 		for (int i = 0; i < 6; i++)
 		{
 			this.selectedPlayingCard.SetActive(false);
@@ -687,7 +659,8 @@ public class GameController : Photon.MonoBehaviour
 		}
 	}
 
-	public void hideOpponentSkills(){
+	public void hideOpponentSkills()
+	{
 		for (int i = 0; i < 6; i++)
 		{
 			this.selectedOpponentCard.SetActive(false);
@@ -704,104 +677,113 @@ public class GameController : Photon.MonoBehaviour
 		bool toHidePlay = false;
 		bool toPlay = false;
 
-		if ((idPlayingCard < 5) == (this.isFirstPlayer))
+		if (!isLookingForTarget)
 		{
 			if (idPlayingCard == this.clickedPlayingCard)
 			{
-				if (idPlayingCard != this.currentPlayingCard || nbTurns == 0)
+
+				if (idPlayingCard == this.clickedPlayingCard)
 				{
-					if (nbTurns == 0)
+					if (idPlayingCard != this.currentPlayingCard || nbTurns == 0)
 					{
-						toHidePlay = true;
-						this.clickedPlayingCard = -1;
-					} else
-					{
-						toHideClick = true;
-					}
-				}
-			} 
-			else if (nbTurns != 0 && this.currentPlayingCard==idPlayingCard)
-			{
-				this.showMyPlayingSkills();
-			}
-			else if (nbTurns == 0 && this.isDragging)
-			{
-				
-			}
-			else
-			{
-				if (nbTurns == 0)
-				{
-					if (idPlayingCard != this.currentPlayingCard)
-					{
-						if (this.currentPlayingCard != -1)
+						if (nbTurns == 0)
 						{
 							toHidePlay = true;
-						}
-						toPlay = true;
-					}
-				} else
-				{
-					if (clickedPlayingCard != -1)
-					{
-						if (clickedPlayingCard != this.currentPlayingCard)
+							this.clickedPlayingCard = -1;
+						} else
 						{
 							toHideClick = true;
 						}
 					}
-					if (this.clickedPlayingCard != idPlayingCard)
+				} else if (nbTurns == 0 && this.isDragging)
+				{
+				
+				} else
+				{
+					if (nbTurns == 0)
 					{
-						toClick = true;
+						if (idPlayingCard != this.currentPlayingCard)
+						{
+							if (this.currentPlayingCard != -1)
+							{
+								toHidePlay = true;
+							}
+							toPlay = true;
+						}
+					} else
+					{
+						if (clickedPlayingCard != -1)
+						{
+							if (clickedPlayingCard != this.currentPlayingCard)
+							{
+								toHideClick = true;
+							}
+						}
+						if (this.clickedPlayingCard != idPlayingCard)
+						{
+							toClick = true;
+						}
 					}
 				}
-			}
-		} else
-		{
-			if (idPlayingCard == this.clickedOpponentPlayingCard)
+			} else if (nbTurns != 0 && this.currentPlayingCard == idPlayingCard)
 			{
-				if (idPlayingCard != this.currentPlayingCard)
-				{
-					toHideOpponentClick = true;
-				}
+				this.showMyPlayingSkills(true);
+			}
+			else if (nbTurns == 0 && this.isDragging)
+			{
+				
 			} else
 			{
-				if (clickedOpponentPlayingCard != -1)
+				if (idPlayingCard == this.clickedOpponentPlayingCard)
 				{
-					if (clickedOpponentPlayingCard != this.currentPlayingCard)
+					if (idPlayingCard != this.currentPlayingCard)
 					{
 						toHideOpponentClick = true;
 					}
-				}
-				if (this.clickedOpponentPlayingCard != idPlayingCard)
+				} else
 				{
-					toClickOpponent = true;
+					if (clickedOpponentPlayingCard != -1)
+					{
+						if (clickedOpponentPlayingCard != this.currentPlayingCard)
+						{
+							toHideOpponentClick = true;
+						}
+					}
+					if (this.clickedOpponentPlayingCard != idPlayingCard)
+					{
+						toClickOpponent = true;
+					}
 				}
 			}
-		}
 
-		if (toHideClick)
-		{
-			this.hideClickedPlayingCard();
+			if (toHideClick)
+			{
+				this.hideClickedPlayingCard();
+			}
+			if (toHideOpponentClick)
+			{
+				this.hideOpponentClickedPlayingCard();
+			}
+			if (toHidePlay)
+			{
+				this.hideActivatedPlayingCard();
+			}
+			if (toClick)
+			{
+				this.clickPlayingCard(idPlayingCard);
+			}
+			if (toClickOpponent)
+			{
+				this.clickOpponentPlayingCard(idPlayingCard);
+			}
+			if (toPlay)
+			{
+				this.activatePlayingCard(idPlayingCard);
+			}
 		}
-		if (toHideOpponentClick)
+		if (isLookingForTarget)
 		{
-			this.hideOpponentClickedPlayingCard();
-		}
-		if (toHidePlay)
-		{
-			this.hideActivatedPlayingCard();
-		}
-		if (toClick)
-		{
-			this.clickPlayingCard(idPlayingCard);
-		}
-		if (toClickOpponent)
-		{
-			this.clickOpponentPlayingCard(idPlayingCard);
-		}
-		if (toPlay)
-		{
-			this.activatePlayingCard(idPlayingCard);
+			castSkillOnTarget(idPlayingCard);
 		}
 	}
 
@@ -1064,7 +1046,7 @@ public class GameController : Photon.MonoBehaviour
 		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_nick1", user1); 	                    // Pseudo de l'utilisateur victorieux
 		form.AddField("myform_nick2", user2); 	                    // Pseudo de l'autre utilisateur
-		form.AddField ("myform_gametype", ApplicationModel.gameType);		
+		form.AddField("myform_gametype", ApplicationModel.gameType);		
 
 		WWW w = new WWW(URLStat, form); 							// On envoie le formulaire à l'url sur le serveur 
 		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
@@ -1447,16 +1429,15 @@ public class GameController : Photon.MonoBehaviour
 
 	public void quitGameHandler()
 	{
-		StartCoroutine (this.quitGame ());
+		StartCoroutine(this.quitGame());
 	}
 
 	public IEnumerator quitGame()
 	{
-		if (isFirstPlayer) 
+		if (isFirstPlayer)
 		{
 			yield return (StartCoroutine(this.sendStat(this.users [1].Username, this.users [0].Username)));
-		}
-		else
+		} else
 		{
 			yield return (StartCoroutine(this.sendStat(this.users [0].Username, this.users [1].Username)));
 		}
@@ -1470,8 +1451,7 @@ public class GameController : Photon.MonoBehaviour
 		{
 			//print("J'ai perdu comme un gros con");
 			EndSceneController.instance.displayEndScene(false);
-		} 
-		else
+		} else
 		{
 			//print("Mon adversaire a lachement abandonné comme une merde");
 			EndSceneController.instance.displayEndScene(true);
