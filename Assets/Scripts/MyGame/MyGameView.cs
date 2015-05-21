@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using System;
 using System.Collections;
@@ -118,7 +118,7 @@ public class MyGameView : MonoBehaviour
 						}
 					}
 					GUILayout.FlexibleSpace();
-					GUILayout.Label ("Filtrer une capacité",myGameFiltersVM.filterTitleStyle);
+					GUILayout.Label ("Filtrer par capacité",myGameFiltersVM.filterTitleStyle);
 					tempString = GUILayout.TextField (myGameFiltersVM.valueSkill, myGameFiltersVM.textFieldStyle);
 					
 					if (tempString != myGameFiltersVM.valueSkill) 
