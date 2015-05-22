@@ -235,7 +235,7 @@ public class Deck
 					NbCards ++;
 				} else
 				{
-					this.Cards [NbCards - 1].Skills.Add(new Skill(cardData [1], System.Convert.ToInt32(cardData [2]), System.Convert.ToInt32(cardData [3]), System.Convert.ToInt32(cardData [4]), System.Convert.ToInt32(cardData [5]), System.Convert.ToInt32(cardData [6]), cardData [7]));
+					this.Cards [NbCards - 1].Skills.Add(new Skill(cardData [1], (System.Convert.ToInt32(cardData [2]) + 2), System.Convert.ToInt32(cardData [3]), System.Convert.ToInt32(cardData [4]), System.Convert.ToInt32(cardData [5]), System.Convert.ToInt32(cardData [6]), cardData [7]));
 				}
 			}
 		}
