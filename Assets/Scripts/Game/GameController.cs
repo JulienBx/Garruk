@@ -546,7 +546,6 @@ public class GameController : Photon.MonoBehaviour
 		List<Skill> skills = this.playingCards [idc].GetComponent<PlayingCardController>().card.Skills;
 		for (int i = 0; i < 4; i++)
 		{
-			print(i);
 			if (i < skills.Count)
 			{
 				this.skillsObjects [i].GetComponent<SkillObjectController>().setSkill(skills [i]);
@@ -694,7 +693,7 @@ public class GameController : Photon.MonoBehaviour
 						toClick = true;
 					} else
 					{
-						if (clickedOpponentPlayingCard != -1)
+						if (clickedOpponentPlayingCard != -1 && this.clickedOpponentPlayingCard != this.currentPlayingCard)
 						{
 							toHideOpponentClick = true;
 						}
@@ -817,7 +816,16 @@ public class GameController : Photon.MonoBehaviour
 					this.playingCards [i].GetComponentInChildren<PlayingCardController>().hasPlayed = false;
 				}
 			}
-			nextPlayingCard = 0;
+			int j = 0;
+			while (j < 10)
+			{
+				if (!this.playingCards [rankedPlayingCardsID [j]].GetComponentInChildren<PlayingCardController>().hasPlayed)
+				{
+					nextPlayingCard = rankedPlayingCardsID [j];
+					j = 11;
+				}
+				j++;
+			}
 		}
 		
 		photonView.RPC("initPlayer", PhotonTargets.AllBuffered, nextPlayingCard, newTurn, this.isFirstPlayer);
@@ -827,6 +835,21 @@ public class GameController : Photon.MonoBehaviour
 	public void initPlayer(int id, bool newTurn, bool isFirstP)
 	{
 		print("Au tour de " + id);
+		if (newTurn)
+		{
+			for (int i = 0; i < 10; i++)
+			{
+				if (!this.playingCards [i].GetComponentInChildren<PlayingCardController>().isDead)
+				{
+					this.playingCards [i].GetComponentInChildren<PlayingCardController>().hasPlayed = false;
+				}
+			}
+		}
+		if (this.currentPlayingCard != -1)
+		{
+			this.playingCards [this.currentPlayingCard].GetComponentInChildren<PlayingCardController>().hasPlayed = true;
+		}
+
 		if (this.currentPlayingCard != -1)
 		{
 			this.hideActivatedPlayingCard();
@@ -848,7 +871,7 @@ public class GameController : Photon.MonoBehaviour
 		
 		this.activatePlayingCard(id);
 
-		if (this.isFirstPlayer == isFirstP)
+		if (this.isFirstPlayer == (id < 5))
 		{
 			this.playingCards [currentPlayingCard].GetComponentInChildren<PlayingCardController>().tile.setNeighbours(this.getCharacterTilesArray(), this.playingCards [id].GetComponentInChildren<PlayingCardController>().card.Move);
 			this.setDestinations(currentPlayingCard);
