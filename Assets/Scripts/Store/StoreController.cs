@@ -15,23 +15,74 @@ public class StoreController : MonoBehaviour
 	public GUIStyle[] popUpVMStyle;
 
 	private StoreView view;
+	private StoreModel model;
 	private StoreErrorPopUpView errorPopUpView;
+	private StoreAddCreditsPopUpView addCreditsPopUpView;
+	private StoreSelectCardTypePopUpView selectCardTypePopUpView;
 	private Card card;
 	private GameObject randomCard;
+	private GameObject[] randomCards;
 	private Animation anim;
-
+	private bool[] toRotate;
+	private bool startRotation;
+	private float speed;
+	private float angle;
+	private Quaternion target;
+	
 	public StoreController ()
 	{
 	}
 	void Start()
 	{
 		instance = this;
+		this.speed = 300.0f;
+		this.model = new StoreModel ();
 		this.card = new Card ();
 		this.view = Camera.main.gameObject.AddComponent <StoreView>();
-		view.storeVM.creationCost = this.card.buyRandomCardCost;
 		this.MenuObject = Instantiate(this.MenuObject) as GameObject;
+		StartCoroutine (this.initialization ());
+
+	}
+	private IEnumerator initialization()
+	{
+		yield return(StartCoroutine(this.model.initializeStore()));
+		view.storeVM.canAddCredits = model.player.IsAdmin;
 		this.initStyles ();
 		this.resize ();
+	}
+	void Update () 
+	{
+		if (this.startRotation)
+		{
+			for(int i=0;i<5;i++)
+			{
+				if(toRotate[i])
+				{
+					if(this.angle==360)
+					{
+						this.angle=180;
+					}
+
+					this.angle = this.angle + this.speed * Time.deltaTime;
+					if(this.angle>=360)
+					{
+						this.angle=360;
+						this.toRotate[i]=false;
+						if(i<4)
+						{
+							this.toRotate[i+1]=true;
+						}
+						else
+						{
+							view.storeVM.are5CardsDisplayed = true;
+							view.storeVM.guiEnabled=true;
+						}
+					}
+					this.target = Quaternion.Euler(0, this.angle, 0);
+					this.randomCards[i].transform.rotation = target;
+				}
+			}
+		}
 	}
 	private void initStyles()
 	{
@@ -50,19 +101,51 @@ public class StoreController : MonoBehaviour
 		{
 			this.errorPopUpResize();
 		}
+		if(this.addCreditsPopUpView!=null)
+		{
+			this.addCreditsPopUpResize();
+		}
 		if(this.randomCard!=null)
 		{
 			this.randomCard.GetComponent<CardController>().resize();
 		}
 	}
+	public IEnumerator create5RandomCard()
+	{
+		view.storeVM.guiEnabled = false;
+		view.storeVM.hideGUI = true;
+
+		this.toRotate= new bool[] { false, false,false,false,false };
+
+		string name;
+		Vector3 scale;
+		Vector3 position;
+		Quaternion rotation;
+		float tempF = 2*Camera.main.camera.orthographicSize*view.storeScreenVM.widthScreen/view.storeScreenVM.heightScreen;
+		float width = 0.75f * tempF;
+		float scaleCard = width/6f;
+		this.randomCards = new GameObject[5];
+		for (int i = 0; i < 5; i++)
+		{
+			name="Card" + i;
+			scale = new Vector3(scaleCard,scaleCard,scaleCard);
+			position = new Vector3(-width/2+(scaleCard/2)+i*(scaleCard+1f/4f*scaleCard), 0f, 0f); 
+			rotation = Quaternion.Euler(0, 180, 0);
+			this.randomCards [i] = Instantiate(this.CardObject) as GameObject;
+			this.randomCards [i].AddComponent<CardStoreController>();
+			this.randomCards [i].GetComponent<CardController>().setGameObjectWithRotation(name,scale,position,rotation);
+			//this.randomCards [i].GetComponent<CardGameController>().setGameCard(GameController.instance.myDeck.Cards[i]);
+		}
+		this.startRotation = true;
+		this.toRotate [0] = true;
+		this.angle = 180;
+
+		yield break;
+	}
 	public IEnumerator createRandomCard()
 	{
 		view.storeVM.guiEnabled = false;
-		if (this.randomCard!=null) 
-		{
-			Destroy(this.randomCard);
-			Destroy (this.anim);
-		}
+		view.storeVM.hideGUI = true;
 		yield return StartCoroutine(this.card.buyRandomCard ());
 		if(this.card.Error=="")
 		{
@@ -88,7 +171,6 @@ public class StoreController : MonoBehaviour
 		yield return new WaitForSeconds(this.anim["flipCard"].length);
 		randomCard.GetComponent<CardController> ().resize ();
 		randomCard.GetComponent<CardStoreController>().setFocusStoreFeatures();
-		view.storeVM.guiEnabled = true;
 	}
 	public void displayErrorPopUp()
 	{
@@ -113,21 +195,85 @@ public class StoreController : MonoBehaviour
 		this.setGUI (true);
 		Destroy (this.errorPopUpView);
 	}
-	public void clickedCard()
+	public void displaySelectCardPopUp(bool are5CardsCreated)
 	{
-		view.storeVM.isCardZoomed=true ;
-		float scale = view.storeScreenVM.heightScreen / 120f;
-		this.randomCard.transform.localScale = new Vector3(scale, scale, scale); 
+		this.setGUI (false);
+		this.selectCardTypePopUpView = Camera.main.gameObject.AddComponent <StoreSelectCardTypePopUpView>();
+		if(are5CardsCreated)
+		{
+			selectCardTypePopUpView.selectCardTypePopUpVM.are5CardsCreated=true;
+		}
+		selectCardTypePopUpView.selectCardTypePopUpVM.guiEnabled = true;
+		selectCardTypePopUpView.popUpVM.styles=new GUIStyle[this.popUpVMStyle.Length];
+		for(int i=0;i<this.popUpVMStyle.Length;i++)
+		{
+			selectCardTypePopUpView.popUpVM.styles[i]=this.popUpVMStyle[i];
+		}
+		selectCardTypePopUpView.selectCardTypePopUpVM.cardTypes=new string[model.player.CardTypesAllowed.Count];
+		for(int i =0;i<model.player.CardTypesAllowed.Count;i++)
+		{
+			selectCardTypePopUpView.selectCardTypePopUpVM.cardTypes[i]=model.cardTypeList[model.player.CardTypesAllowed[i]];
+		}
+		selectCardTypePopUpView.popUpVM.initStyles();
+		this.selectCardTypePopUpResize ();
+	}
+	public void selectCardTypePopUpResize()
+	{
+		selectCardTypePopUpView.popUpVM.centralWindow = view.storeScreenVM.centralWindow;
+		selectCardTypePopUpView.popUpVM.resize ();
+	}
+	public void hideSelectCardTypePopUp()
+	{
+		this.setGUI (true);
+		Destroy (this.selectCardTypePopUpView);
+	}
+	public void displayAddCreditsPopUp()
+	{
+		this.setGUI (false);
+		this.addCreditsPopUpView = Camera.main.gameObject.AddComponent <StoreAddCreditsPopUpView>();
+		addCreditsPopUpView.popUpVM.styles=new GUIStyle[this.popUpVMStyle.Length];
+		for(int i=0;i<this.popUpVMStyle.Length;i++)
+		{
+			addCreditsPopUpView.popUpVM.styles[i]=this.popUpVMStyle[i];
+		}
+		addCreditsPopUpView.popUpVM.initStyles();
+		this.addCreditsPopUpResize ();
+	}
+	public void addCreditsPopUpResize()
+	{
+		addCreditsPopUpView.popUpVM.centralWindow = view.storeScreenVM.centralWindow;
+		addCreditsPopUpView.popUpVM.resize ();
+	}
+	public void hideAddCreditsPopUp()
+	{
+		this.setGUI (true);
+		Destroy (this.addCreditsPopUpView);
+	}
+	public void addCreditsHandler()
+	{
+		StartCoroutine (addCredits ());
+	}
+	public IEnumerator addCredits()
+	{
+		addCreditsPopUpView.addCreditsPopUpVM.guiEnabled = false;
+		yield return StartCoroutine (this.model.player.addMoney (System.Convert.ToInt32(addCreditsPopUpView.addCreditsPopUpVM.credits)));
+		this.hideAddCreditsPopUp ();
+		this.refreshCredits ();
 	}
 	public void exitCard()
 	{
 		Destroy(this.randomCard);
 		Destroy (this.anim);
+		view.storeVM.guiEnabled = true;
+		view.storeVM.hideGUI = false;
 	}
 	public void setGUI(bool value)
 	{
 		view.storeVM.guiEnabled = value;
-		this.randomCard.GetComponent<CardController>().setMyGUI(value);
+		if(this.randomCard!=null)
+		{
+			this.randomCard.GetComponent<CardController>().setMyGUI(value);
+		}
 	}
 	public void popUpDisplayed(bool value)
 	{
@@ -150,7 +296,8 @@ public class StoreController : MonoBehaviour
 		{
 			this.randomCard.GetComponent<CardController> ().exitPopUp ();
 		}
-		else if(view.storeVM.isCardZoomed)
+		else if(view.storeVM.hideGUI && view.storeVM.guiEnabled)
+			// Avoid any reload.
 		{
 			this.exitCard();
 		}

@@ -42,6 +42,8 @@ public class User
 	public bool readnotificationsystem;
 	public int nonReadNotifications;
 	public int SelectedDeckId;
+	public List<int> CardTypesAllowed;
+	public bool IsAdmin;
 
 	public User()
 	{
