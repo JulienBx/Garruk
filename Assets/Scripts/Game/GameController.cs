@@ -1452,19 +1452,22 @@ public class GameController : Photon.MonoBehaviour
 
 	void fillTimeline()
 	{
-		addCardEvent(rankedPlayingCardsID [nextCharacterPositionTimeline], 0);
+		int rankedPlayingCardID = 0;
 		bool nextChara = true;
+
 		while (nextChara)
 		{
+			rankedPlayingCardID = rankedPlayingCardsID [nextCharacterPositionTimeline];
+			if (!this.playingCards [rankedPlayingCardID] .GetComponentInChildren<PlayingCardController>().isDead)
+			{
+				nextChara = false;
+			}
 			if (++nextCharacterPositionTimeline > 9)
 			{
 				nextCharacterPositionTimeline = 0;
 			}
-			if (!this.playingCards [nextCharacterPositionTimeline].GetComponentInChildren<PlayingCardController>().hasPlayed)
-			{
-				nextChara = false;
-			}
 		}
+		addCardEvent(rankedPlayingCardID, 0);
 	}
 	void addCardEvent(int idCharacter, int position)
 	{
