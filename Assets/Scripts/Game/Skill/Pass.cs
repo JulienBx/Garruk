@@ -2,9 +2,9 @@
 
 public class Pass : GameSkill
 {
-	public override void launch()
+	public override void launch(Skill skill)
 	{
-		Debug.Log ("Je passe");
+		Debug.Log("Je passe");
 
 		GameController.instance.addPassEvent();
 		GameController.instance.findNextPlayer();

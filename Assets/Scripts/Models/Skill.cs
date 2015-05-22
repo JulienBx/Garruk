@@ -14,18 +14,10 @@ public class Skill
 	public float Ponderation;
 	public int XMin;
 	public string Action;
-	
-	public Skill(string name, int id, int isactivated, int level, int power, int manaCost, string description, string resourceName, float ponderation, int xmin, string action) : this(name, id, isactivated, level, power, manaCost, description)
-	{
-		this.ResourceName = resourceName;
-		this.Ponderation = ponderation;
-		this.XMin = xmin;
-		this.Action = action;
-	}
 
-	public Skill(string name, int id, int isactivated, int level, int power, int manaCost, string description, string resourceName) : this(name, id, isactivated, level, power, manaCost, description)
+	public Skill(string name, int id, int isactivated, int level, int power, int manaCost, string description, string action) : this(name, id, isactivated, level, power, manaCost, description)
 	{
-		this.ResourceName = resourceName;
+		this.Action = action;
 	}
 
 	public Skill(string name, int id, int isactivated, int level, int power, int manaCost, string description)
@@ -57,7 +49,7 @@ public class Skill
 	public Skill()
 	{
 	}
-	
+
 }
 
 

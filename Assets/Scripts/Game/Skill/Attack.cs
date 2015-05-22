@@ -3,13 +3,19 @@ using System.Collections.Generic;
 
 public class Attack : GameSkill
 {
-	public void cast()
+	public Attack()
 	{
+	}
+	
+	public override void launch(Skill skill)
+	{
+		Debug.Log("Je lance attack");
+		this.skill = skill;
 		GameController.instance.lookForTarget(this);
 	}
-
-	public void giveTarget(int idTarget)
-	{
 	
+	public override void setTarget(PlayingCardController pcc)
+	{
+		pcc.card.modifiers.Add(new StatModifier(skill.Power, ModifierType.Type_BonusMalus, ModifierStat.Stat_Speed));
 	}
 }

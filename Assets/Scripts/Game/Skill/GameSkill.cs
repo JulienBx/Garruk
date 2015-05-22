@@ -4,21 +4,8 @@ using System.Collections.Generic;
 public class GameSkill
 {
 	public Skill skill;
-	//public int SkillNumber;
 
-	// Use this for initialization
-	void Start()
-	{
-	
-	}
-	
-	// Update is called once per frame
-	void Update()
-	{
-	
-	}
-
-	public virtual void launch()
+	public virtual void launch(Skill skill)
 	{
 		Debug.Log("Skill non implémenté");
 	}
