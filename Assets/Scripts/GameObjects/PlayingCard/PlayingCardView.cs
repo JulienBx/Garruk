@@ -60,7 +60,7 @@ public class PlayingCardView : MonoBehaviour
 		{
 			gameObject.GetComponentInChildren<PlayingCardController>().hoverPlayingCard();
 		}
-		Debug.Log("nombre de buff : " + gameObject.GetComponentInChildren<PlayingCardController>().card.modifiers.Count);
+		//Debug.Log("nombre de buff : " + gameObject.GetComponentInChildren<PlayingCardController>().card.modifiers.Count);
 	}
 
 	void OnMouseDown()

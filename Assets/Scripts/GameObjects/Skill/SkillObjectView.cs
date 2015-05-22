@@ -38,6 +38,9 @@ public class SkillObjectView : MonoBehaviour
 		if (this.skillVM.isActive){
 			gameObject.GetComponentInChildren<SkillObjectController>().clickSkill();
 		}
+		else{
+			print ("Bouton inactif");
+		}
 	}
 
 	void OnMouseEnter()
