@@ -10,6 +10,7 @@ public class StorePopUpViewModel
 	public GUIStyle centralWindowButtonStyle;
 	public GUIStyle centralWindowTextfieldStyle;
 	public GUIStyle centralWindowErrorStyle;
+	public GUIStyle centralWindowSelGridStyle;
 	
 	
 	public StorePopUpViewModel ()
@@ -22,6 +23,7 @@ public class StorePopUpViewModel
 		this.centralWindowButtonStyle = new GUIStyle ();
 		this.centralWindowTextfieldStyle = new GUIStyle ();
 		this.centralWindowErrorStyle = new GUIStyle ();
+		this.centralWindowSelGridStyle = new GUIStyle ();
 	}
 	public void initStyles()
 	{
@@ -30,6 +32,7 @@ public class StorePopUpViewModel
 		this.centralWindowButtonStyle = this.styles [2];
 		this.centralWindowTextfieldStyle = this.styles [3];
 		this.centralWindowErrorStyle = this.styles [4];
+		this.centralWindowSelGridStyle = this.styles [5];
 	}
 	public void resize()
 	{
@@ -37,6 +40,7 @@ public class StorePopUpViewModel
 		this.centralWindowTextfieldStyle.fontSize= Screen.height * 2 / 100;
 		this.centralWindowButtonStyle.fontSize = Screen.height * 2 / 100;
 		this.centralWindowErrorStyle.fontSize = Screen.height * 2 / 100;
+		this.centralWindowSelGridStyle.fontSize = Screen.height * 2 / 100;
 	}
 }
 
