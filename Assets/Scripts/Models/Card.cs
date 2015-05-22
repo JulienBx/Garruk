@@ -57,7 +57,6 @@ public class Card
 		0
 	};
 	public int RenameCost = 200;
-	public int buyRandomCardCost = 500;
 	public string Error;
 	public List<int> Decks;
 
@@ -391,12 +390,13 @@ public class Card
 		return cost;
 	}
 
-	public IEnumerator buyRandomCard()
+	public IEnumerator buyRandomCard(int cost, int cardType=-1)
 	{
 		WWWForm form = new WWWForm(); 											// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_nick", ApplicationModel.username);
-		form.AddField("myform_cost", this.buyRandomCardCost);		
+		form.AddField("myform_cost", cost);
+		form.AddField ("myform_cardtype", cardType.ToString ());
 		WWW w = new WWW(URLBuyRandomCard, form); 				// On envoie le formulaire à l'url sur le serveur 
 		yield return w;
 		if (w.error != null)
@@ -405,10 +405,10 @@ public class Card
 		} else
 		{
 			string[] data = w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
-			this.Error = data [1];
+			this.Error = data [0];
 			if (this.Error == "")
 			{
-				string[] cardData = data [0].Split(new string[] { "\n" }, System.StringSplitOptions.None);
+				string[] cardData = data [1].Split(new string[] { "\n" }, System.StringSplitOptions.None);
 				string[] cardInformation = cardData [0].Split(new string[] { "//" }, System.StringSplitOptions.None);
 				this.Id = System.Convert.ToInt32(cardInformation [0]);
 				this.Title = cardInformation [1];
@@ -425,20 +425,20 @@ public class Card
 				this.AttackLevel = System.Convert.ToInt32(cardInformation [12]);
 				this.onSale = 0;
 				this.Experience = 0;
-				
-				
+
 				this.Skills = new List<Skill>();
 				
 				for (int i = 1; i < 5; i++)
 				{         
 					cardInformation = cardData [i].Split(new string[] { "//" }, System.StringSplitOptions.None);
-					this.Skills.Add(new Skill(cardInformation [0], //skillName
-					                            System.Convert.ToInt32(cardInformation [1]), // idskill
-					                            System.Convert.ToInt32(cardInformation [2]), // isactivated
-					                            System.Convert.ToInt32(cardInformation [3]), // level
-					                            System.Convert.ToInt32(cardInformation [4]), // power
-					                            System.Convert.ToInt32(cardInformation [5]), // manaCost
-					                            cardInformation [6])); // description
+					this.Skills.Add (new Skill());
+					this.Skills[this.Skills.Count-1].Name=cardInformation [0];
+					this.Skills[this.Skills.Count-1].Id=System.Convert.ToInt32(cardInformation [1]);
+					this.Skills[this.Skills.Count-1].IsActivated=System.Convert.ToInt32(cardInformation [2]);
+					this.Skills[this.Skills.Count-1].Level=System.Convert.ToInt32(cardInformation [3]);
+					this.Skills[this.Skills.Count-1].Power=System.Convert.ToInt32(cardInformation [4]);
+					this.Skills[this.Skills.Count-1].ManaCost=System.Convert.ToInt32(cardInformation [5]);
+					this.Skills[this.Skills.Count-1].Description=cardInformation [6];
 				}
 			}
 		}
