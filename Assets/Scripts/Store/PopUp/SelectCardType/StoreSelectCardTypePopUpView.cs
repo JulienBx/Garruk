@@ -31,13 +31,18 @@ public class StoreSelectCardTypePopUpView : MonoBehaviour
 				
 				}
 				GUILayout.EndHorizontal();
+				if(selectCardTypePopUpVM.error!="")
+				{
+					GUILayout.FlexibleSpace();
+					GUILayout.Label(selectCardTypePopUpVM.error,popUpVM.centralWindowErrorStyle);
+				}
 				GUILayout.FlexibleSpace();
 				GUILayout.BeginHorizontal();
 				{
 					GUILayout.FlexibleSpace();
 					if (GUILayout.Button("OK",popUpVM.centralWindowButtonStyle,GUILayout.Width (popUpVM.centralWindow.width*0.3f)))
 					{
-						//StoreController.instance.addCreditsHandler();
+						StoreController.instance.getCardsWithCardTypeHandler();
 					}
 					GUILayout.FlexibleSpace();
 					if (GUILayout.Button("Annuler",popUpVM.centralWindowButtonStyle,GUILayout.Width (popUpVM.centralWindow.width*0.3f)))

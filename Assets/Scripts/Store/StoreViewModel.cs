@@ -22,6 +22,7 @@ public class StoreViewModel
 	public int cardWithCardTypeCreationCost;
 	public int fiveCardsWidthCardTypeCreationCost;
 	public string title;
+	public string noCardTypes;
 
 	public StoreViewModel ()
 	{

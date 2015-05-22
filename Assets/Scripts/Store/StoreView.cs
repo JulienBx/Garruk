@@ -57,7 +57,7 @@ public class StoreView : MonoBehaviour
 					                     GUILayout.Width(storeScreenVM.blockMainHeight*1/4),
 					                     GUILayout.Height(storeScreenVM.blockMainHeight*1/2)))
 					{
-						StartCoroutine(StoreController.instance.createRandomCard());
+						StoreController.instance.getRandomCardHandler();
 					}
 					GUILayout.FlexibleSpace();
 					if (ApplicationModel.credits>=storeVM.fiveCardsCreationCost)
@@ -72,7 +72,7 @@ public class StoreView : MonoBehaviour
 					                     GUILayout.Width(storeScreenVM.blockMainHeight*1/4),
 					                     GUILayout.Height(storeScreenVM.blockMainHeight*1/2)))
 					{
-						StartCoroutine(StoreController.instance.create5RandomCard());
+						StoreController.instance.get5RandomCardsHandler();
 					}
 					GUILayout.FlexibleSpace();
 					if (ApplicationModel.credits>=storeVM.cardWithCardTypeCreationCost)
@@ -134,7 +134,7 @@ public class StoreView : MonoBehaviour
 					GUILayout.FlexibleSpace();
 					if(GUILayout.Button("Quitter",storeVM.buttonAddCreditsStyle,GUILayout.Width(storeScreenVM.blockMainWidth*1/8f),GUILayout.Height(storeScreenVM.blockMainHeight*1f/8f)))
 					{
-
+						StoreController.instance.displayMainGUI();
 					}
 					GUILayout.FlexibleSpace();
 				}

@@ -991,3 +991,7 @@ MonoBehaviour:
     m_FixedHeight: 0
     m_StretchWidth: 1
     m_StretchHeight: 0
+  cardCreationCost: 500
+  fiveCardsCreationCost: 2000
+  cardWithCardTypeCreationCost: 1500
+  fiveCardsWidthCardTypeCreationCost: 6000

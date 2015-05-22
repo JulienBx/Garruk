@@ -39,11 +39,8 @@ public class CardController : GameObjectController {
 		gameObject.transform.localScale = scale;
 		gameObject.transform.position = position;
 	}
-	public void setGameObjectWithRotation(string name, Vector3 scale, Vector3 position, Quaternion rotation)
+	public void setGameObjectRotation(Quaternion rotation)
 	{
-		gameObject.name = name;
-		gameObject.transform.localScale = scale;
-		gameObject.transform.position = position;
 		gameObject.transform.rotation = rotation;
 	}
 	public void setCard(Card c)
