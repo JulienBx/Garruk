@@ -516,6 +516,7 @@ public class GameController : Photon.MonoBehaviour
 		PlayingCardController pcc = this.playingCards [idPlayingCard].GetComponent<PlayingCardController>();
 		skillToBeCast.setTarget(pcc);
 		this.addGameEvent(new SkillType(skillToBeCast.skill.Action), pcc.card.Title);
+		this.playingCards [idPlayingCard].GetComponent<PlayingCardController>().show();
 	}
 
 	public void hideActivatedPlayingCard()
