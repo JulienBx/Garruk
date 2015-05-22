@@ -43,8 +43,32 @@ public class SkillObjectView : MonoBehaviour
 		}
 	}
 
+	void OnGUI()
+	{
+		if (this.skillVM.toDisplayInfo){
+			GUILayout.BeginArea(this.skillVM.skillRect, this.skillVM.skillRectStyle);
+			{
+				GUILayout.BeginVertical();
+				{
+					GUILayout.FlexibleSpace();
+					GUILayout.Label(this.skillVM.skillTitle, this.skillVM.skillTitleTextStyle);
+					GUILayout.FlexibleSpace();
+					GUILayout.Label(this.skillVM.skillDescription, this.skillVM.skillDescriptionTextStyle);
+					GUILayout.FlexibleSpace();
+				}
+				GUILayout.EndVertical();
+			}
+			GUILayout.EndArea();
+		}
+	}
+
 	void OnMouseEnter()
 	{
+		this.skillVM.toDisplayInfo = true ;
+	}
 
+	void OnMouseExit()
+	{
+		this.skillVM.toDisplayInfo = false ;
 	}
 }

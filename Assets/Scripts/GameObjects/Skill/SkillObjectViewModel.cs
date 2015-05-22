@@ -11,9 +11,25 @@ public class SkillObjectViewModel
 
 	public bool isActive ;
 
+	public string skillTitle ;
+	public string skillDescription ;
+	public Rect skillRect ;
+	public bool toDisplayInfo ;
+
+	public GUIStyle skillRectStyle ;
+	public GUIStyle skillTitleTextStyle ;
+	public GUIStyle skillDescriptionTextStyle ;
+
 	public SkillObjectViewModel()
 	{
 		this.isActive = false ;
+		this.skillRectStyle = new GUIStyle();
+		this.skillDescriptionTextStyle = new GUIStyle();
+		this.skillTitleTextStyle = new GUIStyle();
+	}
+
+	public void resize(int i){
+		 
 	}
 }
 
