@@ -6,7 +6,7 @@ using System.Collections.Generic;
 public class Deck
 {
 	//Interconnexion BDD
-	private string URLCards = ApplicationModel.dev + "get_cards_by_deck_by_user.php";
+	private string URLCards = ApplicationModel.host + "get_cards_by_deck_by_user.php";
 	private string URLGetCardIDS = ApplicationModel.host + "get_cardsIDs_by_deck.php";
 	private string URLSelectedDeck = ApplicationModel.host + "get_selected_deck_by_username.php";
 	private static string URLEditDeck = ApplicationModel.host + "update_deck_name.php";
