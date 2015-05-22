@@ -239,7 +239,7 @@ public class Card
 		int life = Life;
 		foreach (StatModifier modifier in modifiers)
 		{
-			//life = modifier.modifyLife(life);
+			life = modifier.modifyLife(life);
 		}
 		if (life < 0)
 		{
