@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class BottomZoneViewModel
 {
@@ -40,7 +40,7 @@ public class BottomZoneViewModel
 		this.userName = u.Username ;
 		this.userPicture = u.texture ;
 		this.displayStartButton = true ;
-		this.message = "Positionnez vos h�ros sur le champ de bataille" ;
+		this.message = "Positionnez vos héros sur le champ de bataille" ;
 		this.backgroundStyle = styles[0];
 		this.nameTextStyle = styles[1];
 		this.imageStyle = styles[2];

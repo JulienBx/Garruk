@@ -1,4 +1,4 @@
-public class PassType : GameEventType
+﻿public class PassType : GameEventType
 {
 	public PassType()
 	{

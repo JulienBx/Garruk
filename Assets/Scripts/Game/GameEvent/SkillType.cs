@@ -1,4 +1,4 @@
-public class SkillType : GameEventType
+﻿public class SkillType : GameEventType
 {
 	public SkillType(string action)
 	{

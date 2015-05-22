@@ -1,10 +1,10 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 public class GameScreenViewModel
 {
 	//styles
 
-	//informations à afficher
+	//informations Ã  afficher
 	public int heightScreen;
 	public int widthScreen;
 
@@ -23,14 +23,14 @@ public class GameScreenViewModel
 	public bool toDisplayStartWindows = true ;
 	public bool iHaveStarted = false;
 	public bool heHasStarted = false ;
-	public string messageStartWindow = "Préparation du champ de bataille";
+	public string messageStartWindow = "PrÃ©paration du champ de bataille";
 	public string messageStartWindowButton = "Je suis pret !" ;
 	public Rect startButtonRect ;
 	public GUIStyle startWindowStyle ;
 	public GUIStyle quitButtonStyle ;
 
 	public string messageOpponentStartWindow = "En attente du second joueur" ;
-	public string messageOpponentStartWindowButton = "Pret à jouer !" ;
+	public string messageOpponentStartWindowButton = "Pret Ã  jouer !" ;
 	public Rect opponentStartButtonRect ;
 	public GUIStyle opponentStartWindowStyle ;
 
@@ -101,7 +101,7 @@ public class GameScreenViewModel
 	public void startMyPlayer()
 	{
 		this.iHaveStarted = true;
-		this.messageStartWindowButton = "Pret à jouer !";
+		this.messageStartWindowButton = "Pret Ã  jouer !";
 	}
 
 	public void startOtherPlayer()
@@ -111,7 +111,7 @@ public class GameScreenViewModel
 
 	public void connectOtherPlayer()
 	{
-		this.messageOpponentStartWindow = this.hisPlayerName + " prépare ses héros";
+		this.messageOpponentStartWindow = this.hisPlayerName + " prÃ©pare ses hÃ©ros";
 		this.toDisplayQuitButton = true;
 	}
 

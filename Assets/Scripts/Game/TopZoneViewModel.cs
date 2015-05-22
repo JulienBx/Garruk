@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class TopZoneViewModel
 {
@@ -49,7 +49,7 @@ public class TopZoneViewModel
 	{
 		this.userName = u.Username ;
 		this.userPicture = u.texture ;
-		this.message = "Positionne ses h�ros sur le champ de bataille..." ;
+		this.message = "Positionne ses héros sur le champ de bataille..." ;
 		this.toDisplayGreenStatus = false ;
 		this.toDisplayRedStatus = true ;
 		this.status = "En cours...";
