@@ -10,6 +10,7 @@ public class StoreScreenViewModel
 	public float blockMainHeight;
 	public Rect blockMain;
 	public Rect centralWindow;
+	public Rect centralWindowSelectCardType;
 
 
 	public StoreScreenViewModel ()
@@ -27,7 +28,9 @@ public class StoreScreenViewModel
 		this.blockMainWidth = 1f*this.widthScreen - (2*this.gapBetweenBlocks);
 		this.blockMainHeight=1f*(0.9f*this.heightScreen-2*this.gapBetweenBlocks);
 		this.blockMain = new Rect (this.gapBetweenBlocks, 0.1f * this.heightScreen + this.gapBetweenBlocks, this.blockMainWidth, this.blockMainHeight);
-		this.centralWindow = new Rect (this.widthScreen * 0.25f, 0.12f * this.heightScreen, this.widthScreen * 0.50f, 0.45f * this.heightScreen);
+		this.centralWindow = new Rect (this.widthScreen * 0.25f, 0.12f * this.heightScreen, this.widthScreen * 0.50f, 0.25f * this.heightScreen);
+		this.centralWindowSelectCardType = new Rect (this.widthScreen * 0.25f, 0.12f * this.heightScreen, this.widthScreen * 0.50f, 0.45f * this.heightScreen);
+
 
 	}
 }

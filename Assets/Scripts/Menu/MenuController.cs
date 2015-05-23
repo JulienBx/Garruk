@@ -118,7 +118,7 @@ public class MenuController : MonoBehaviour {
 		if(Application.loadedLevelName=="Lobby"){
 			PhotonNetwork.Disconnect();
 		}
-		Application.LoadLevel("BuyCards");
+		Application.LoadLevel("Store");
 	}
 	public void marketLink()
 	{
