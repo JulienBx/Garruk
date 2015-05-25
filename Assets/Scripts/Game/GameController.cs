@@ -505,18 +505,13 @@ public class GameController : Photon.MonoBehaviour
 		this.showOpponentSkills(this.clickedOpponentPlayingCard);
 	}
 
-	[RPC]
-	public void launchRPC()
-	{
-		throw new System.NotImplementedException();
-	}
-
 	public void lookForTarget(GameSkill skill)
 	{
 		isLookingForTarget = true;
 		skillToBeCast = skill;
 	}
 
+	[RPC]
 	public void castSkillOnTarget(int idPlayingCard)
 	{
 		PlayingCardController pcc = this.playingCards [idPlayingCard].GetComponent<PlayingCardController>();
@@ -735,7 +730,7 @@ public class GameController : Photon.MonoBehaviour
 			}
 		} else
 		{
-			castSkillOnTarget(idPlayingCard);
+			photonView.RPC("castSkillOnTarget", PhotonTargets.AllBuffered, idPlayingCard);
 		}
 	}
 
@@ -768,7 +763,8 @@ public class GameController : Photon.MonoBehaviour
 		}
 	}
 
-	public void clickSkillHandler(int ids)
+	[RPC]
+	public void launchRPC(int ids)
 	{
 		PlayingCardController pcc = this.playingCards [currentPlayingCard].GetComponentInChildren<PlayingCardController>();
 		if (ids > 1)
@@ -782,6 +778,12 @@ public class GameController : Photon.MonoBehaviour
 		{
 			this.gameskills [1].launch(null);
 		}
+	}
+
+	public void clickSkillHandler(int ids)
+	{
+		photonView.RPC("launchRPC", PhotonTargets.AllBuffered, ids);
+
 		this.desactivateSkills();
 		this.skillsObjects [5].GetComponent<SkillObjectController>().setControlsActive(true);
 	}
