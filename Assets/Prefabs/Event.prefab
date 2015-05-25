@@ -82,7 +82,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d45217310ad986645a167c066da9350c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  darkImage: {fileID: 105148, guid: ee41bfdffa67548d097fa36d56d5439b, type: 2}
+  darkImage: {fileID: 110546, guid: b991b01c7130375439b325d4612f3cd8, type: 2}
   gameEventView: {fileID: 0}
   textStyle:
     m_Name: 
