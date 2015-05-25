@@ -24,6 +24,7 @@ public class GameController : Photon.MonoBehaviour
 	public GameObject skillObject;
 
 	//Variables du controlleur
+	public bool isTriggeringSkill = false;
 	public static GameController instance;
 	public bool isFirstPlayer = false;
 	public Deck myDeck;
@@ -156,13 +157,6 @@ public class GameController : Photon.MonoBehaviour
 				timeElapsed = true;
 				this.gameskills [1].launch(null);
 				//this.desactivateSkills();
-			}
-			if (gameView.gameScreenVM.timer < -5)
-			{
-				if (photonView.isMine)
-				{
-					photonView.RPC("timeRunsOut", PhotonTargets.AllBuffered, timerTurn);
-				}
 			}
 		}
 	}
@@ -514,6 +508,10 @@ public class GameController : Photon.MonoBehaviour
 
 	public void lookForTarget(GameSkill skill)
 	{
+		if (isTriggeringSkill)
+		{
+			displayPopUpMessage("Choisir une cible", 2f);
+		}
 		isLookingForTarget = true;
 		skillToBeCast = skill;
 	}
@@ -739,6 +737,7 @@ public class GameController : Photon.MonoBehaviour
 			}
 		} else
 		{
+			isTriggeringSkill = false;
 			photonView.RPC("castSkillOnTarget", PhotonTargets.AllBuffered, idPlayingCard);
 		}
 	}
@@ -791,8 +790,11 @@ public class GameController : Photon.MonoBehaviour
 
 	public void clickSkillHandler(int ids)
 	{
+		if (ids != 1)
+		{
+			isTriggeringSkill = true;
+		}
 		photonView.RPC("launchRPC", PhotonTargets.AllBuffered, ids);
-
 		this.desactivateSkills();
 		this.skillsObjects [5].GetComponent<SkillObjectController>().setControlsActive(true);
 	}
@@ -964,6 +966,7 @@ public class GameController : Photon.MonoBehaviour
 	}
 	public void addPassEvent()
 	{
+		photonView.RPC("timeRunsOut", PhotonTargets.AllBuffered, timerTurn);
 		GameEventType ge = new PassType();
 		addGameEvent(ge, "");
 		nbActionPlayed = 0;
