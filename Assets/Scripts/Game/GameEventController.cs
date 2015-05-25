@@ -3,10 +3,12 @@ using System.Collections;
 
 public class GameEventController : MonoBehaviour
 {
+	public GameObject darkImage;
 	public GameEventView gameEventView;
 	public GUIStyle textStyle;
 	public GUIStyle backgroundStyle;
 	public Texture2D[] borders;
+	public int IDCharacter;
 
 	public string getCharacterName()
 	{
@@ -79,17 +81,14 @@ public class GameEventController : MonoBehaviour
 		gameEventView.gameEventVM.art = art;
 	}
 
-	public void setBorder(int i)
+	public void setBorder(bool isMine)
 	{
-		if (i < 5)
-		{
-			gameEventView.gameEventVM.border = borders [0];
-		} else if (i == 5)
-		{
-			gameEventView.gameEventVM.border = borders [2];
-		} else
+		if (isMine)
 		{
 			gameEventView.gameEventVM.border = borders [1];
+		} else
+		{
+			gameEventView.gameEventVM.border = borders [2];
 		}
 	}
 

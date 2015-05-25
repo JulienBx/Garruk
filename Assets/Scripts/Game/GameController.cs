@@ -1487,9 +1487,10 @@ public class GameController : Photon.MonoBehaviour
 		go.GetComponent<GameEventController>().setCharacterName(pcc.card.Title);
 		Texture t2 = playingCards [idCharacter].GetComponent<PlayingCardController>().getPicture();
 		Texture2D temp = getImageResized(t2 as Texture2D);
+		go.GetComponent<GameEventController>().IDCharacter = idCharacter;
 		go.GetComponent<GameEventController>().setAction("");
 		go.GetComponent<GameEventController>().setArt(temp);
-		go.GetComponent<GameEventController>().setBorder(position);
+		go.GetComponent<GameEventController>().setBorder(isThisCharacterMine(idCharacter));
 		go.GetComponent<GameEventController>().gameEventView.show();
 		go.renderer.enabled = true;
 	}
@@ -1497,14 +1498,26 @@ public class GameController : Photon.MonoBehaviour
 	void initGameEvents()
 	{
 		GameObject go;
+		int i = 1;
 		while (gameEvents.Count < eventMax)
 		{
 			go = (GameObject)Instantiate(gameEvent);
 			gameEvents.Add(go);
 			go.GetComponent<GameEventController>().setScreenPosition(gameEvents.Count, boardWidth, boardHeight, tileScale);
+
+			if (i > 6)
+			{
+				GameObject child = (GameObject)Instantiate(go.GetComponent<GameEventController>().darkImage);
+				child.name = "DarkBackGround";
+				child.transform.parent = go.transform;
+				child.transform.localPosition = new Vector3(0f, 0f, -5f);
+				child.transform.localScale = new Vector3(0.9f, 0.9f, 10f);
+				child.renderer.enabled = false;
+			}
 			go.renderer.enabled = false;
+			i++;
 		}
-		for (int i = 0; i < 6; i++)
+		for (i = 0; i < 6; i++)
 		{
 			addCardEvent(rankedPlayingCardsID [5 - i], i);
 		}
@@ -1535,20 +1548,23 @@ public class GameController : Photon.MonoBehaviour
 	{
 		for (int i = gameEvents.Count - 1; i > 0; i--)
 		{
+			int id = gameEvents [i - 1].GetComponent<GameEventController>().IDCharacter;
 			string title = gameEvents [i - 1].GetComponent<GameEventController>().getCharacterName();
 			string action = gameEvents [i - 1].GetComponent<GameEventController>().getAction();
 			GameObject[] movement = gameEvents [i - 1].GetComponent<GameEventController>().getMovement();
 			Texture2D t2 = gameEvents [i - 1].GetComponent<GameEventController>().getArt();
-			if (title != "")
+			if (title != "" && i > 5)
 			{
 				gameEvents [i].renderer.enabled = true;
+				gameEvents [i].transform.Find("DarkBackGround").renderer.enabled = true;
 			}
 
+			gameEvents [i].GetComponent<GameEventController>().IDCharacter = id;
 			gameEvents [i].GetComponent<GameEventController>().setCharacterName(title);
 			gameEvents [i].GetComponent<GameEventController>().setAction(action);
 			gameEvents [i].GetComponent<GameEventController>().setMovement(movement [0], movement [1]);
 			gameEvents [i].GetComponent<GameEventController>().setArt(t2);
-			gameEvents [i].GetComponent<GameEventController>().setBorder(i);
+			gameEvents [i].GetComponent<GameEventController>().setBorder(isThisCharacterMine(id));
 			gameEvents [i].GetComponent<GameEventController>().gameEventView.show();
 			gameEvents [i - 1].GetComponent<GameEventController>().setMovement(null, null);
 		}
@@ -1567,6 +1583,11 @@ public class GameController : Photon.MonoBehaviour
 	public void disconnect()
 	{
 		PhotonNetwork.Disconnect();
+	}
+
+	bool isThisCharacterMine(int id)
+	{
+		return (id < 5 && isFirstPlayer || id >= 5 && !isFirstPlayer);
 	}
 
 	void initSkills()

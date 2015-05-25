@@ -82,6 +82,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d45217310ad986645a167c066da9350c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  darkImage: {fileID: 105148, guid: ee41bfdffa67548d097fa36d56d5439b, type: 2}
   gameEventView: {fileID: 0}
   textStyle:
     m_Name: 
@@ -203,8 +204,9 @@ MonoBehaviour:
     m_StretchHeight: 0
   borders:
   - {fileID: 2800000, guid: d737094809e5f4667830b815e14a6c69, type: 3}
-  - {fileID: 2800000, guid: f55832acbe41b0d4da673ae2bff81412, type: 3}
-  - {fileID: 2800000, guid: 4d83579c94447f04eadcb6c61f5a4cbe, type: 3}
+  - {fileID: 2800000, guid: 9634aa6a4fc287f43bc212c96bbb8efc, type: 3}
+  - {fileID: 2800000, guid: 3ce22ba7c8f32ec49bd39df878f8201d, type: 3}
+  IDCharacter: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
