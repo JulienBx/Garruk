@@ -154,7 +154,7 @@ public class GameController : Photon.MonoBehaviour
 			if (gameView.gameScreenVM.timer < 0 && gameView.gameScreenVM.timer > -1)
 			{
 				timeElapsed = true;
-				this.gameskills [0].launch(null);
+				this.gameskills [1].launch(null);
 				//this.desactivateSkills();
 			}
 			if (gameView.gameScreenVM.timer < -5)
@@ -524,6 +524,8 @@ public class GameController : Photon.MonoBehaviour
 		PlayingCardController pcc = this.playingCards [idPlayingCard].GetComponent<PlayingCardController>();
 		skillToBeCast.setTarget(pcc);
 		this.addGameEvent(new SkillType(skillToBeCast.skill.Action), pcc.card.Title);
+		this.displayPopUpMessage(this.playingCards [currentPlayingCard].GetComponent<PlayingCardController>().card.Title +
+			" " + skillToBeCast.skill.Action + " sur " + pcc.card.Title, 2f);
 		this.playingCards [idPlayingCard].GetComponent<PlayingCardController>().show();
 	}
 
@@ -962,12 +964,6 @@ public class GameController : Photon.MonoBehaviour
 	}
 	public void addPassEvent()
 	{
-		photonView.RPC("passRPC", PhotonTargets.AllBuffered);
-	}
-
-	[RPC]
-	public void passRPC()
-	{
 		GameEventType ge = new PassType();
 		addGameEvent(ge, "");
 		nbActionPlayed = 0;
@@ -1222,10 +1218,10 @@ public class GameController : Photon.MonoBehaviour
 		{
 			this.hideActivatedPlayingCard();
 		}
+		this.sortAllCards();
+		this.findNextPlayer();
 		if (this.isFirstPlayer)
 		{
-			this.sortAllCards();
-			this.findNextPlayer();
 			photonView.RPC("timeRunsOut", PhotonTargets.AllBuffered, timerTurn);
 		}
 	}
