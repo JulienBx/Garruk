@@ -1597,11 +1597,11 @@ public class GameController : Photon.MonoBehaviour
 		this.gameskills [1] = new Pass();
 		this.gameskills [2] = new GameSkill();
 		this.gameskills [3] = new Reflexe("Reflexes");
-		this.gameskills [4] = new GameSkill();
-		this.gameskills [5] = new GameSkill();
-		this.gameskills [6] = new GameSkill();
-		this.gameskills [7] = new GameSkill();
-		this.gameskills [8] = new GameSkill();
+		this.gameskills [4] = new Apathie("Apathie");
+		this.gameskills [5] = new Renforcement("Renforcement");
+		this.gameskills [6] = new Sape("Sape");
+		this.gameskills [7] = new Lenteur("Lenteur");
+		this.gameskills [8] = new Rapidite("Rapidite");
 		this.gameskills [9] = new GameSkill();
 		this.gameskills [10] = new GameSkill();
 		this.gameskills [11] = new GameSkill();
