@@ -505,6 +505,12 @@ public class GameController : Photon.MonoBehaviour
 		this.showOpponentSkills(this.clickedOpponentPlayingCard);
 	}
 
+	[RPC]
+	public void launchRPC()
+	{
+		throw new System.NotImplementedException();
+	}
+
 	public void lookForTarget(GameSkill skill)
 	{
 		isLookingForTarget = true;
@@ -767,8 +773,8 @@ public class GameController : Photon.MonoBehaviour
 		PlayingCardController pcc = this.playingCards [currentPlayingCard].GetComponentInChildren<PlayingCardController>();
 		if (ids > 1)
 		{
-			Skill sk = pcc.card.Skills.Find(e => e.Name == gameskills [ids + 2].skill.Name);
-			this.gameskills [ids + 2].launch(sk);
+			Skill sk = pcc.card.Skills.Find(e => e.Name == gameskills [ids].skill.Name);
+			this.gameskills [ids].launch(sk);
 		} else if (ids == 0)
 		{
 			this.gameskills [0].launch(new Skill("attack", 1, 1, 1, pcc.card.Attack, 1, "attaque un personnage adjacent", "lance une attaque"));
