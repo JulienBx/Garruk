@@ -27,11 +27,13 @@ public class GameView : MonoBehaviour
 	{
 		if (this.gameScreenVM.toDisplayGameScreen)
 		{
-			if (this.gameScreenVM.toDisplayPlayingCard){
-				GUI.Label(gameScreenVM.namePlayingCardRect, gameScreenVM.myPlayingCardName, gameScreenVM.namePlayingCardTextStyle );
+			if (this.gameScreenVM.toDisplayPlayingCard)
+			{
+				GUI.Label(gameScreenVM.namePlayingCardRect, gameScreenVM.myPlayingCardName, gameScreenVM.namePlayingCardTextStyle);
 			}
-			if (this.gameScreenVM.toDisplayOpponentPlayingCard){
-				GUI.Label(gameScreenVM.nameOpponentPlayingCardRect, gameScreenVM.hisPlayingCardName, gameScreenVM.nameOpponentPlayingCardTextStyle );
+			if (this.gameScreenVM.toDisplayOpponentPlayingCard)
+			{
+				GUI.Label(gameScreenVM.nameOpponentPlayingCardRect, gameScreenVM.hisPlayingCardName, gameScreenVM.nameOpponentPlayingCardTextStyle);
 			}
 			if (this.gameScreenVM.toDisplayQuitButton)
 			{
@@ -68,7 +70,7 @@ public class GameView : MonoBehaviour
 								GUILayout.FlexibleSpace();
 								if (GUILayout.Button(gameScreenVM.messageStartWindowButton, gameScreenVM.buttonTextStyle, GUILayout.Width(gameScreenVM.startButtonRect.width / 2f)))
 								{
-									GameController.instance.StartFight();
+									GameController.instance.playerReady();
 								}
 								GUILayout.FlexibleSpace();
 							}

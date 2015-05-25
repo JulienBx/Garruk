@@ -85,7 +85,8 @@ public class GameController : Photon.MonoBehaviour
 	bool timeElapsedPopUp = true;
 	bool popUpDisplay = false;
 
-	public bool hasStarted = false ;
+	bool isDecksLoaded = false;
+	bool fightIsStarted = false;
 
 	int nextCharacterPositionTimeline;
 
@@ -128,6 +129,12 @@ public class GameController : Photon.MonoBehaviour
 		if (popUpDisplay)
 		{
 			gameView.gameScreenVM.timerPopUp -= Time.deltaTime;
+		}
+
+		if (isDecksLoaded && nbPlayersReadyToFight == 2 && !fightIsStarted)
+		{
+			fightIsStarted = true;
+			StartFight();
 		}
 		
 		if (gameView.gameScreenVM.timerPopUp < 0)
@@ -865,10 +872,6 @@ public class GameController : Photon.MonoBehaviour
 		}
 		this.resetDestinations();
 
-		if (!hasStarted)
-		{
-			this.hasStarted = true;
-		}
 
 		if (newTurn)
 		{
@@ -1181,41 +1184,49 @@ public class GameController : Photon.MonoBehaviour
 			this.tiles [i, hauteur].GetComponent<TileController>().characterID = debut + i;
 			this.playingCards [debut + i].GetComponentInChildren<PlayingCardController>().show();
 		}
+		if (this.playingCards [0] != null && this.playingCards [5] != null)
+		{
+			this.isDecksLoaded = true;
+		}
 		yield break;
 	}
 
-	[RPC]
-	public void StartFightRPC(bool isFirst)
+	public void playerReady()
 	{
-		this.nbPlayersReadyToFight++;
+		photonView.RPC("playerReadyRPC", PhotonTargets.AllBuffered, this.isFirstPlayer);
+	}
 
-		if (this.nbPlayersReadyToFight == 2)
+	[RPC]
+	public void playerReadyRPC(bool isFirst)
+	{
+		if (isFirst == this.isFirstPlayer)
 		{
-			this.gameView.gameScreenVM.toDisplayStartWindows = false;
-			this.displayPopUpMessage("Le combat commence", 2);
-
-			this.resetDestinations();
-
-			this.nbTurns = 1;
-			if (this.currentPlayingCard != -1)
-			{
-				this.hideActivatedPlayingCard();
-			}
-			if (this.isFirstPlayer)
-			{
-				this.sortAllCards();
-				this.findNextPlayer();
-				photonView.RPC("timeRunsOut", PhotonTargets.AllBuffered, timerTurn);
-			}
+			this.gameView.gameScreenVM.startMyPlayer();
 		} else
 		{
-			if (isFirst == this.isFirstPlayer)
-			{
-				this.gameView.gameScreenVM.startMyPlayer();
-			} else
-			{
-				this.gameView.gameScreenVM.startOtherPlayer();
-			}
+			this.gameView.gameScreenVM.startOtherPlayer();
+		}
+
+		nbPlayersReadyToFight++;
+	}
+
+	public void StartFight()
+	{
+		this.gameView.gameScreenVM.toDisplayStartWindows = false;
+		this.displayPopUpMessage("Le combat commence", 2);
+
+		this.resetDestinations();
+
+		this.nbTurns = 1;
+		if (this.currentPlayingCard != -1)
+		{
+			this.hideActivatedPlayingCard();
+		}
+		if (this.isFirstPlayer)
+		{
+			this.sortAllCards();
+			this.findNextPlayer();
+			photonView.RPC("timeRunsOut", PhotonTargets.AllBuffered, timerTurn);
 		}
 	}
 
@@ -1341,11 +1352,6 @@ public class GameController : Photon.MonoBehaviour
 	{
 		startTurn = true;
 		gameView.gameScreenVM.timer = time;
-	}
-
-	public void StartFight()
-	{
-		photonView.RPC("StartFightRPC", PhotonTargets.AllBuffered, this.isFirstPlayer);
 	}
 	
 	// Photon
