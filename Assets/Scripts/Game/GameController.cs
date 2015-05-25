@@ -1507,11 +1507,18 @@ public class GameController : Photon.MonoBehaviour
 			go = (GameObject)Instantiate(gameEvent);
 			gameEvents.Add(go);
 			go.GetComponent<GameEventController>().setScreenPosition(gameEvents.Count, boardWidth, boardHeight, tileScale);
-
+			if (i < 7)
+			{
+				GameObject child = (GameObject)Instantiate(go.GetComponent<GameEventController>().transparentImage);
+				child.name = "TransparentEvent";
+				child.transform.parent = go.transform;
+				child.transform.localPosition = new Vector3(0f, 0f, -5f);
+				child.transform.localScale = new Vector3(0.9f, 0.9f, 10f);
+			}
 			if (i > 6)
 			{
 				GameObject child = (GameObject)Instantiate(go.GetComponent<GameEventController>().darkImage);
-				child.name = "DarkBackGround";
+				child.name = "DarkEvent";
 				child.transform.parent = go.transform;
 				child.transform.localPosition = new Vector3(0f, 0f, -5f);
 				child.transform.localScale = new Vector3(0.9f, 0.9f, 10f);
@@ -1559,7 +1566,7 @@ public class GameController : Photon.MonoBehaviour
 			if (title != "" && i > 5)
 			{
 				gameEvents [i].renderer.enabled = true;
-				gameEvents [i].transform.Find("DarkBackGround").renderer.enabled = true;
+				gameEvents [i].transform.Find("DarkEvent").renderer.enabled = true;
 			}
 
 			gameEvents [i].GetComponent<GameEventController>().IDCharacter = id;

@@ -4,6 +4,7 @@ using System.Collections;
 public class GameEventController : MonoBehaviour
 {
 	public GameObject darkImage;
+	public GameObject transparentImage;
 	public GameEventView gameEventView;
 	public GUIStyle textStyle;
 	public GUIStyle backgroundStyle;
