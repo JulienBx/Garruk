@@ -727,6 +727,7 @@ MonoBehaviour:
   isFirstPlayer: 0
   borderSize: .0199999996
   eventMax: 11
+  hasStarted: 0
 --- !u!114 &481987440
 MonoBehaviour:
   m_ObjectHideFlags: 0

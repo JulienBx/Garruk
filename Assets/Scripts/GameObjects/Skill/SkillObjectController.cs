@@ -10,11 +10,25 @@ public class SkillObjectController : GameObjectController
 	public Texture2D passPicto;
 	public Texture2D noSkillPicto;
 
+	public GUIStyle[] styles;
+
 	public int id ;
 
 	void Awake()
 	{
 		this.view = gameObject.AddComponent <SkillObjectView>();
+		this.view.skillVM.skillRectStyle = styles[0];
+		this.view.skillVM.skillTitleTextStyle = styles[1];
+		this.view.skillVM.skillDescriptionTextStyle = styles[2];
+	}
+
+	public void setOwner(bool b){
+		this.view.skillVM.isMine = b ;
+	}
+
+	public void resize(int i)
+	{
+		this.view.skillVM.resize(i);
 	}
 
 	public void setID(int i)
@@ -24,7 +38,9 @@ public class SkillObjectController : GameObjectController
 
 	public void setSkill(Skill s)
 	{
-		this.view.skillVM.face = this.skillPictos [s.Id];
+		this.view.skillVM.face = this.skillPictos [s.Id-2];
+		this.view.skillVM.skillTitle = s.Name;
+		this.view.skillVM.skillDescription = s.Description;
 	}
 
 	public void setActive(bool b)
@@ -64,7 +80,6 @@ public class SkillObjectController : GameObjectController
 		this.view.skillVM.scale = s;
 		this.view.replace();
 	}
-
 
 	public void clickSkill(){
 		GameController.instance.clickSkillHandler(this.id);
