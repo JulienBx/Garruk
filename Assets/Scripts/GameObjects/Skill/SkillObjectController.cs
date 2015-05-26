@@ -27,9 +27,9 @@ public class SkillObjectController : GameObjectController
 		this.view.skillVM.isMine = b ;
 	}
 
-	public void resize(int i)
+	public void resize()
 	{
-		this.view.skillVM.resize(i);
+		this.view.skillVM.resize(this.id);
 	}
 
 	public void setID(int i)

@@ -66,10 +66,7 @@ public class GameController : Photon.MonoBehaviour
 	bool isDragging = false;
 	bool isLookingForTarget = false;
 
-	public StatModifier currentModifier;
-
 	GameSkill skillToBeCast;
-
 	int nbPlayersReadyToFight;
 
 	int currentPlayingCard = -1;
@@ -85,7 +82,6 @@ public class GameController : Photon.MonoBehaviour
 	float timerTurn = 60;
 	bool startTurn = false;
 	bool timeElapsed = false;
-	bool timeElapsedPopUp = true;
 	bool popUpDisplay = false;
 
 	bool isDecksLoaded = false;
@@ -96,6 +92,9 @@ public class GameController : Photon.MonoBehaviour
 	GameSkill[] gameskills ;
 
 	string URLStat = ApplicationModel.host + "updateResult.php";
+
+	public Skill currentSkill ;
+	int clickedSkill ;
 	
 	void Awake()
 	{
@@ -238,11 +237,13 @@ public class GameController : Photon.MonoBehaviour
 		{
 			this.skillsObjects [i] = (GameObject)Instantiate(this.skillObject);
 			this.skillsObjects [i].GetComponent<SkillObjectController>().setOwner(true);
-			this.skillsObjects [i].GetComponent<SkillObjectController>().resize(i);
+			this.skillsObjects [i].GetComponent<SkillObjectController>().setID(i);
+			this.skillsObjects [i].GetComponent<SkillObjectController>().resize();
 			this.opponentSkillsObjects [i] = (GameObject)Instantiate(this.skillObject);
 			this.opponentSkillsObjects [i].GetComponent<SkillObjectController>().setControlsActive(false, false);
 			this.opponentSkillsObjects [i].GetComponent<SkillObjectController>().setOwner(false);
-			this.opponentSkillsObjects [i].GetComponent<SkillObjectController>().resize(i);
+			this.opponentSkillsObjects [i].GetComponent<SkillObjectController>().setID(i);
+			this.opponentSkillsObjects [i].GetComponent<SkillObjectController>().resize();
 		}
 	}
 
@@ -511,30 +512,9 @@ public class GameController : Photon.MonoBehaviour
 		this.showOpponentSkills(this.clickedOpponentPlayingCard);
 	}
 
-	public void lookForTarget(GameSkill skill)
+	public void lookForTarget()
 	{
-		if (isTriggeringSkill)
-		{
-			displayPopUpMessage("Choisir une cible", 2f);
-		}
 		isLookingForTarget = true;
-		skillToBeCast = skill;
-	}
-
-	[RPC]
-	public void castSkillOnTarget(int idPlayingCard)
-	{
-		PlayingCardController pcc = this.playingCards [idPlayingCard].GetComponent<PlayingCardController>();
-		skillToBeCast.setTarget(pcc);
-		this.addGameEvent(new SkillType(skillToBeCast.skill.Action), pcc.card.Title);
-		this.displayPopUpMessage(this.playingCards [currentPlayingCard].GetComponent<PlayingCardController>().card.Title +
-			" " + skillToBeCast.skill.Action + " sur " + pcc.card.Title + " " + currentModifier.Amount + " " + convertStatToString(currentModifier.Stat), 2f);
-		this.playingCards [idPlayingCard].GetComponent<PlayingCardController>().show();
-	}
-
-	public void setCurrentModifier(StatModifier modifier)
-	{
-		currentModifier = modifier;
 	}
 
 	public void hideActivatedPlayingCard()
@@ -570,7 +550,6 @@ public class GameController : Photon.MonoBehaviour
 				this.skillsObjects [i].GetComponent<SkillObjectController>().setSkill(skills [i]);
 				this.skillsObjects [i].GetComponent<SkillObjectController>().show();
 				this.skillsObjects [i].GetComponent<SkillObjectController>().setControlsActive(s, (idc==this.currentPlayingCard));
-				this.skillsObjects [i].GetComponent<SkillObjectController>().setID(i);
 				this.skillsObjects [i].GetComponent<SkillObjectController>().setActive(true);
 			} else
 			{
@@ -582,7 +561,6 @@ public class GameController : Photon.MonoBehaviour
 			this.skillsObjects [4].GetComponent<SkillObjectController>().setAttack();
 			this.skillsObjects [4].GetComponent<SkillObjectController>().show();
 			this.skillsObjects [4].GetComponent<SkillObjectController>().setControlsActive(s, (idc==this.currentPlayingCard));
-			this.skillsObjects [4].GetComponent<SkillObjectController>().setID(0);
 			this.skillsObjects [4].GetComponent<SkillObjectController>().setActive(true);
 		}
 		else
@@ -595,7 +573,6 @@ public class GameController : Photon.MonoBehaviour
 			this.skillsObjects [5].GetComponent<SkillObjectController>().setPass();
 			this.skillsObjects [5].GetComponent<SkillObjectController>().show();
 			this.skillsObjects [5].GetComponent<SkillObjectController>().setControlsActive(s, (idc==this.currentPlayingCard));
-			this.skillsObjects [5].GetComponent<SkillObjectController>().setID(1);
 			this.skillsObjects [5].GetComponent<SkillObjectController>().setActive(true);
 		} else
 		{
@@ -751,8 +728,9 @@ public class GameController : Photon.MonoBehaviour
 			}
 		} else
 		{
-			isTriggeringSkill = false;
-			photonView.RPC("castSkillOnTarget", PhotonTargets.AllBuffered, idPlayingCard);
+			int[] args = new int[1];
+			args[0] = idPlayingCard ;
+			photonView.RPC("resolveSkill", PhotonTargets.AllBuffered, this.currentSkill.Id, args);
 		}
 	}
 
@@ -786,25 +764,37 @@ public class GameController : Photon.MonoBehaviour
 	}
 
 	[RPC]
-	public void launchRPC(int ids)
+	public void resolveSkill(int idSkill, int[] args)
 	{
-		PlayingCardController pcc = this.playingCards [currentPlayingCard].GetComponentInChildren<PlayingCardController>();
-		if (ids > 1)
-		{
-			Skill sk = pcc.card.Skills.Find(e => e.Name == gameskills [ids].skill.Name);
-			this.gameskills [ids].launch(sk);
-		} else if (ids == 0)
-		{
-			this.gameskills [0].launch(new Skill("attack", 1, 1, 1, pcc.card.Attack, 1, "attaque un personnage adjacent", "lance une attaque"));
-		} else
-		{
-			this.gameskills [1].launch(null);
-		}
+		this.gameskills[idSkill].resolve(args);
+	}
+
+	[RPC]
+	public void castSkillOnTarget(int idPlayingCard)
+	{
+		PlayingCardController pcc = this.playingCards [idPlayingCard].GetComponent<PlayingCardController>();
+		skillToBeCast.setTarget(pcc);
+		//this.addGameEvent(new SkillType(skillToBeCast.skill.Action), pcc.card.Title);
+		//this.displayPopUpMessage(this.playingCards [currentPlayingCard].GetComponent<PlayingCardController>().card.Title +
+		//	" " + skillToBeCast.skill.Action + " sur " + pcc.card.Title + " " + currentModifier.Amount + " " + convertStatToString(currentModifier.Stat), 2f);
+		this.playingCards [idPlayingCard].GetComponent<PlayingCardController>().show();
 	}
 
 	public void clickSkillHandler(int ids)
 	{
-		photonView.RPC("launchRPC", PhotonTargets.AllBuffered, ids);
+		this.clickedSkill = ids ;
+		if (ids>3){
+			if (ids==4){
+				this.gameskills[0].launch();
+			}
+			else{
+				this.gameskills[1].launch();
+			}
+		}
+		else {
+			this.currentSkill = new Skill(0);
+			this.gameskills[this.playingCards[this.currentPlayingCard].GetComponentInChildren<PlayingCardController>().card.Skills[ids].Id].launch();
+		}
 	}
 
 	public void findNextPlayer()
@@ -967,7 +957,6 @@ public class GameController : Photon.MonoBehaviour
 	public void addPassEvent()
 	{
 		photonView.RPC("timeRunsOut", PhotonTargets.AllBuffered, timerTurn);
-		currentModifier = null;
 		GameEventType ge = new PassType();
 		addGameEvent(ge, "");
 		nbActionPlayed = 0;
@@ -1230,7 +1219,7 @@ public class GameController : Photon.MonoBehaviour
 		}
 	}
 
-	private void sortAllCards()
+	public void sortAllCards()
 	{
 		List <int> cardsToRank = new List<int>();
 		List <int> quicknessesToRank = new List<int>();
@@ -1607,12 +1596,12 @@ public class GameController : Photon.MonoBehaviour
 		this.gameskills [0] = new Attack();
 		this.gameskills [1] = new Pass();
 		this.gameskills [2] = new GameSkill();
-		this.gameskills [3] = new Reflexe("Reflexes");
-		this.gameskills [4] = new Apathie("Apathie");
-		this.gameskills [5] = new Renforcement("Renforcement");
-		this.gameskills [6] = new Sape("Sape");
-		this.gameskills [7] = new Lenteur("Lenteur");
-		this.gameskills [8] = new Rapidite("Rapidite");
+		this.gameskills [3] = new Reflexe();
+		this.gameskills [4] = new Apathie();
+		this.gameskills [5] = new Renforcement();
+		this.gameskills [6] = new Sape();
+		this.gameskills [7] = new Lenteur();
+		this.gameskills [8] = new Rapidite();
 		this.gameskills [9] = new GameSkill();
 		this.gameskills [10] = new GameSkill();
 		this.gameskills [11] = new GameSkill();
@@ -1650,6 +1639,18 @@ public class GameController : Photon.MonoBehaviour
 				return "";
 				break;
 		}
+	}
+
+	public Card getCurrentCard(){
+		return this.playingCards[this.currentPlayingCard].GetComponent<PlayingCardController>().card ;
+	}
+
+	public Card getCard(int id){
+		return this.playingCards[id].GetComponent<PlayingCardController>().card ;
+	}
+
+	public Skill getCurrentSkill(){
+		return this.currentSkill;
 	}
 }
 

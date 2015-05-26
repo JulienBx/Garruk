@@ -2,7 +2,7 @@
 
 public class Pass : GameSkill
 {
-	public override void launch(Skill skill)
+	public override void launch()
 	{
 		Debug.Log("Je passe");
 

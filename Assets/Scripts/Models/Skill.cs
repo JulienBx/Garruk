@@ -55,6 +55,11 @@ public class Skill
 		this.Name = name;
 	}
 
+	public Skill(int id)
+	{
+		this.Id = id;
+	}
+
 	public Skill()
 	{
 	

@@ -20,6 +20,14 @@ public class StatModifier
 		this.Stat = stat;
 	}
 
+	public StatModifier(int amount, ModifierType type, ModifierStat stat, int duration)
+	{
+		this.Amount = amount;
+		this.Type = type;
+		this.Stat = stat;
+		this.Duration = duration;
+	}
+
 	public int modifyAttack(int attack)
 	{
 		if (Stat == ModifierStat.Stat_Attack)

@@ -3,20 +3,25 @@ using System.Collections.Generic;
 
 public class Reflexe : GameSkill
 {
-	public Reflexe(string name)
+	public Reflexe()
 	{
-		skill = new Skill(name);
+
 	}
 
-	public override void launch(Skill skill)
+	public override void launch()
 	{
 		Debug.Log("Je lance réflexe");
-		this.skill = skill;
-		GameController.instance.lookForTarget(this);
+		GameController.instance.lookForTarget();
 	}
 
-	public override void setTarget(PlayingCardController pcc)
+	public override void resolve(int[] args)
 	{
-		pcc.card.modifiers.Add(new StatModifier(skill.Power, ModifierType.Type_BonusMalus, ModifierStat.Stat_Speed));
+		if (args.Length!=1){
+			Debug.Log ("Mauvais paramètres de résolution envoyés");
+		}
+		else{
+			int targetID = args[0];
+			GameController.instance.getCard(targetID).modifiers.Add(new StatModifier(GameController.instance.getCurrentSkill().Power, ModifierType.Type_BonusMalus, ModifierStat.Stat_Speed));
+		}
 	}
 }
