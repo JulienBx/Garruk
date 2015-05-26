@@ -93,7 +93,6 @@ public class GameController : Photon.MonoBehaviour
 
 	string URLStat = ApplicationModel.host + "updateResult.php";
 
-	public Skill currentSkill ;
 	int clickedSkill ;
 	
 	void Awake()
@@ -730,7 +729,7 @@ public class GameController : Photon.MonoBehaviour
 		{
 			int[] args = new int[1];
 			args[0] = idPlayingCard ;
-			photonView.RPC("resolveSkill", PhotonTargets.AllBuffered, this.currentSkill.Id, args);
+			photonView.RPC("resolveSkill", PhotonTargets.AllBuffered, this.clickedSkill, args);
 		}
 	}
 
@@ -766,7 +765,7 @@ public class GameController : Photon.MonoBehaviour
 	[RPC]
 	public void resolveSkill(int idSkill, int[] args)
 	{
-		this.gameskills[idSkill].resolve(args);
+		this.gameskills[this.getCurrentSkillID()].resolve(args);
 	}
 
 	[RPC]
@@ -792,7 +791,6 @@ public class GameController : Photon.MonoBehaviour
 			}
 		}
 		else {
-			this.currentSkill = new Skill(0);
 			this.gameskills[this.playingCards[this.currentPlayingCard].GetComponentInChildren<PlayingCardController>().card.Skills[ids].Id].launch();
 		}
 	}
@@ -1212,10 +1210,11 @@ public class GameController : Photon.MonoBehaviour
 			this.hideActivatedPlayingCard();
 		}
 		this.sortAllCards();
-		this.findNextPlayer();
 		if (this.isFirstPlayer)
 		{
 			photonView.RPC("timeRunsOut", PhotonTargets.AllBuffered, timerTurn);
+			this.findNextPlayer();
+
 		}
 	}
 
@@ -1650,7 +1649,21 @@ public class GameController : Photon.MonoBehaviour
 	}
 
 	public Skill getCurrentSkill(){
-		return this.currentSkill;
+		return this.playingCards[this.currentPlayingCard].GetComponent<PlayingCardController>().card.Skills[this.clickedSkill];
+	}
+
+	public int getCurrentSkillID(){
+		if (this.clickedSkill==4){
+			return 0;
+		}
+		else if(this.clickedSkill==5){
+			return 1;
+		}
+		return this.playingCards[this.currentPlayingCard].GetComponent<PlayingCardController>().card.Skills[this.clickedSkill].Id;
+	}
+
+	public void reloadCard(int id){
+		this.playingCards[id].GetComponent<PlayingCardController>().show();
 	}
 }
 

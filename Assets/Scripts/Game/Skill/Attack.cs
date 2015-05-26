@@ -20,7 +20,8 @@ public class Attack : GameSkill
 		}
 		else{
 			int targetID = args[0];
-			GameController.instance.getCard(targetID).modifiers.Add(new StatModifier(GameController.instance.getCurrentSkill().Power, ModifierType.Type_BonusMalus, ModifierStat.Stat_Life));
+			GameController.instance.getCard(targetID).modifiers.Add(new StatModifier(GameController.instance.getCurrentCard().Attack*-1, ModifierType.Type_BonusMalus, ModifierStat.Stat_Life));
+			GameController.instance.reloadCard(targetID);
 		}
 	}
 }

@@ -287,6 +287,10 @@ MonoBehaviour:
   attackPicto: {fileID: 2800000, guid: 84e3ef9a3709b754eadf387f7f0616d8, type: 3}
   passPicto: {fileID: 2800000, guid: 268e4fbeab1ac7a4eb979c11c8575374, type: 3}
   noSkillPicto: {fileID: 2800000, guid: c5dcba0495af281439ad87e819279c41, type: 3}
+  borders:
+  - {fileID: 2800000, guid: 31ce0db19a95a964893ce4ed1ca75aed, type: 3}
+  - {fileID: 2800000, guid: 9634aa6a4fc287f43bc212c96bbb8efc, type: 3}
+  - {fileID: 2800000, guid: 3ce22ba7c8f32ec49bd39df878f8201d, type: 3}
   styles:
   - m_Name: SkillRectStyle
     m_Normal:
