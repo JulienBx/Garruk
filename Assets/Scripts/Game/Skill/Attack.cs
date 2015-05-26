@@ -16,6 +16,8 @@ public class Attack : GameSkill
 	
 	public override void setTarget(PlayingCardController pcc)
 	{
-		pcc.card.modifiers.Add(new StatModifier(-skill.Power, ModifierType.Type_BonusMalus, ModifierStat.Stat_Life));
+		StatModifier modifier = new StatModifier(-skill.Power, ModifierType.Type_BonusMalus, ModifierStat.Stat_Life);
+		pcc.card.modifiers.Add(modifier);
+		GameController.instance.setCurrentModifier(modifier);
 	}
 }

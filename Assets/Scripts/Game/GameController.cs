@@ -66,6 +66,8 @@ public class GameController : Photon.MonoBehaviour
 	bool isDragging = false;
 	bool isLookingForTarget = false;
 
+	public StatModifier currentModifier;
+
 	GameSkill skillToBeCast;
 
 	int nbPlayersReadyToFight;
@@ -155,8 +157,7 @@ public class GameController : Photon.MonoBehaviour
 			if (gameView.gameScreenVM.timer < 0 && gameView.gameScreenVM.timer > -1)
 			{
 				timeElapsed = true;
-				this.gameskills [1].launch(null);
-				//this.desactivateSkills();
+				clickSkillHandler(1);
 			}
 		}
 	}
@@ -527,8 +528,13 @@ public class GameController : Photon.MonoBehaviour
 		skillToBeCast.setTarget(pcc);
 		this.addGameEvent(new SkillType(skillToBeCast.skill.Action), pcc.card.Title);
 		this.displayPopUpMessage(this.playingCards [currentPlayingCard].GetComponent<PlayingCardController>().card.Title +
-			" " + skillToBeCast.skill.Action + " sur " + pcc.card.Title, 2f);
+			" " + skillToBeCast.skill.Action + " sur " + pcc.card.Title + " " + currentModifier.Amount + " " + convertStatToString(currentModifier.Stat), 2f);
 		this.playingCards [idPlayingCard].GetComponent<PlayingCardController>().show();
+	}
+
+	public void setCurrentModifier(StatModifier modifier)
+	{
+		currentModifier = modifier;
 	}
 
 	public void hideActivatedPlayingCard()
@@ -971,6 +977,7 @@ public class GameController : Photon.MonoBehaviour
 	public void addPassEvent()
 	{
 		photonView.RPC("timeRunsOut", PhotonTargets.AllBuffered, timerTurn);
+		currentModifier = null;
 		GameEventType ge = new PassType();
 		addGameEvent(ge, "");
 		nbActionPlayed = 0;
@@ -1631,6 +1638,28 @@ public class GameController : Photon.MonoBehaviour
 		this.gameskills [21] = new GameSkill();
 		this.gameskills [22] = new GameSkill();
 		this.gameskills [23] = new GameSkill();
+	}
+
+	string convertStatToString(ModifierStat stat)
+	{
+		switch (stat)
+		{
+			case ModifierStat.Stat_Attack:
+				return "en attaque";
+				break;
+			case ModifierStat.Stat_Life:
+				return "de vie";
+				break;
+			case ModifierStat.Stat_Move:
+				return "en mouvement";
+				break;
+			case ModifierStat.Stat_Speed:
+				return "en vitesse";
+				break;
+			default:
+				return "";
+				break;
+		}
 	}
 }
 
