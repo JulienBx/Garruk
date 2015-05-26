@@ -765,6 +765,7 @@ public class GameController : Photon.MonoBehaviour
 	[RPC]
 	public void resolveSkill(int idSkill, int[] args)
 	{
+		this.clickedSkill = idSkill ;
 		this.gameskills[this.getCurrentSkillID()].resolve(args);
 	}
 
