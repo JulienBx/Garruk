@@ -1567,11 +1567,11 @@ public class GameController : Photon.MonoBehaviour
 			string action = gameEvents [i - 1].GetComponent<GameEventController>().getAction();
 			GameObject[] movement = gameEvents [i - 1].GetComponent<GameEventController>().getMovement();
 			Texture2D t2 = gameEvents [i - 1].GetComponent<GameEventController>().getArt();
-			if (title != "" && i > 5)
+			/*if (title != "" && i > 5)
 			{
 				gameEvents [i].renderer.enabled = true;
 				gameEvents [i].transform.Find("DarkEvent").renderer.enabled = true;
-			}
+			}*/
 
 			gameEvents [i].GetComponent<GameEventController>().IDCharacter = id;
 			gameEvents [i].GetComponent<GameEventController>().setCharacterName(title);
