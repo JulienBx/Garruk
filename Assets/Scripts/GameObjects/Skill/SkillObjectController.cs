@@ -9,6 +9,7 @@ public class SkillObjectController : GameObjectController
 	public Texture2D attackPicto;
 	public Texture2D passPicto;
 	public Texture2D noSkillPicto;
+	public Texture2D[] borders ;
 
 	public GUIStyle[] styles;
 
@@ -48,9 +49,21 @@ public class SkillObjectController : GameObjectController
 		gameObject.SetActive(b);
 	}
 
-	public void setControlsActive(bool b)
+	public void setControlsActive(bool b, bool ispc)
 	{
 		this.view.skillVM.isActive = b;
+		if (ispc){
+			if (b){
+				this.view.skillVM.border = borders[1];
+			}
+			else{
+				this.view.skillVM.border = borders[2];
+			}
+		}
+		else{
+			this.view.skillVM.border = borders[1];
+		}
+		this.view.changeBorder();
 	}
 
 	public void setAttack()

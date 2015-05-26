@@ -14,6 +14,7 @@ public class Skill
 	public float Ponderation;
 	public int XMin;
 	public string Action;
+	public int nbLeft = 99 ;
 
 	public Skill(string name, int id, int isactivated, int level, int power, int manaCost, string description, string action) : this(name, id, isactivated, level, power, manaCost, description)
 	{
@@ -29,6 +30,10 @@ public class Skill
 		this.Power = power;
 		this.ManaCost = manaCost;
 		this.Description = description;
+
+		if (id==8){
+			nbLeft = 2 ;
+		}
 	}
 	
 	public Skill(string name, int id, int isactivated, int level, int power, int manaCost)
@@ -39,15 +44,20 @@ public class Skill
 		this.Level = level;
 		this.Power = power;
 		this.ManaCost = manaCost;
-		
+
+		if (id==8){
+			nbLeft = 2 ;
+		}
 	}
 
 	public Skill(string name)
 	{
 		this.Name = name;
 	}
+
 	public Skill()
 	{
+	
 	}
 
 }

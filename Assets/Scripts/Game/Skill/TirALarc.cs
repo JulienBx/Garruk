@@ -2,9 +2,15 @@
 
 public class TirALarc : GameSkill
 {
-	/*	public override void launch()
+	public override void launch(Skill skill)
 	{
-		Debug.Log ("Je lance tir a l'arc");
-		//StatModifiers.Add(new StatModifier(Skill.Power, Skill.XMin, Skill.Ponderation, ModifierType.Type_BonusMalus, ModifierStat.Stat_Speed));
-	}*/
+		Debug.Log("Je lance tir à l'arc");
+		this.skill = skill;
+		GameController.instance.lookForTarget(this);
+	}
+	
+	public override void setTarget(PlayingCardController pcc)
+	{
+		pcc.card.modifiers.Add(new StatModifier(-skill.Power, ModifierType.Type_BonusMalus, ModifierStat.Stat_Life));
+	}
 }

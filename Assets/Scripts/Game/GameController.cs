@@ -239,7 +239,7 @@ public class GameController : Photon.MonoBehaviour
 			this.skillsObjects [i].GetComponent<SkillObjectController>().setOwner(true);
 			this.skillsObjects [i].GetComponent<SkillObjectController>().resize(i);
 			this.opponentSkillsObjects [i] = (GameObject)Instantiate(this.skillObject);
-			this.opponentSkillsObjects [i].GetComponent<SkillObjectController>().setControlsActive(false);
+			this.opponentSkillsObjects [i].GetComponent<SkillObjectController>().setControlsActive(false, false);
 			this.opponentSkillsObjects [i].GetComponent<SkillObjectController>().setOwner(false);
 			this.opponentSkillsObjects [i].GetComponent<SkillObjectController>().resize(i);
 		}
@@ -563,8 +563,8 @@ public class GameController : Photon.MonoBehaviour
 			{
 				this.skillsObjects [i].GetComponent<SkillObjectController>().setSkill(skills [i]);
 				this.skillsObjects [i].GetComponent<SkillObjectController>().show();
-				this.skillsObjects [i].GetComponent<SkillObjectController>().setControlsActive(s);
-				this.skillsObjects [i].GetComponent<SkillObjectController>().setID(skills [i].Id);
+				this.skillsObjects [i].GetComponent<SkillObjectController>().setControlsActive(s, (idc==this.currentPlayingCard));
+				this.skillsObjects [i].GetComponent<SkillObjectController>().setID(i);
 				this.skillsObjects [i].GetComponent<SkillObjectController>().setActive(true);
 			} else
 			{
@@ -575,10 +575,11 @@ public class GameController : Photon.MonoBehaviour
 		{
 			this.skillsObjects [4].GetComponent<SkillObjectController>().setAttack();
 			this.skillsObjects [4].GetComponent<SkillObjectController>().show();
-			this.skillsObjects [4].GetComponent<SkillObjectController>().setControlsActive(s);
+			this.skillsObjects [4].GetComponent<SkillObjectController>().setControlsActive(s, (idc==this.currentPlayingCard));
 			this.skillsObjects [4].GetComponent<SkillObjectController>().setID(0);
 			this.skillsObjects [4].GetComponent<SkillObjectController>().setActive(true);
-		} else
+		}
+		else
 		{
 			this.skillsObjects [4].GetComponent<SkillObjectController>().setActive(false);
 		}
@@ -587,7 +588,7 @@ public class GameController : Photon.MonoBehaviour
 		{
 			this.skillsObjects [5].GetComponent<SkillObjectController>().setPass();
 			this.skillsObjects [5].GetComponent<SkillObjectController>().show();
-			this.skillsObjects [5].GetComponent<SkillObjectController>().setControlsActive(s);
+			this.skillsObjects [5].GetComponent<SkillObjectController>().setControlsActive(s, (idc==this.currentPlayingCard));
 			this.skillsObjects [5].GetComponent<SkillObjectController>().setID(1);
 			this.skillsObjects [5].GetComponent<SkillObjectController>().setActive(true);
 		} else
@@ -608,6 +609,7 @@ public class GameController : Photon.MonoBehaviour
 			if (i < skills.Count)
 			{
 				this.opponentSkillsObjects [i].GetComponent<SkillObjectController>().setSkill(skills [i]);
+				this.opponentSkillsObjects [i].GetComponent<SkillObjectController>().setControlsActive(false, (idc==this.currentPlayingCard));
 				this.opponentSkillsObjects [i].GetComponent<SkillObjectController>().show();
 				this.opponentSkillsObjects [i].SetActive(true);
 			} else
@@ -615,7 +617,9 @@ public class GameController : Photon.MonoBehaviour
 				this.opponentSkillsObjects [i].SetActive(false);
 			}
 		}
+		this.opponentSkillsObjects [4].GetComponent<SkillObjectController>().setControlsActive(false, (idc==this.currentPlayingCard));
 		this.opponentSkillsObjects [4].SetActive(false);
+		this.opponentSkillsObjects [5].GetComponent<SkillObjectController>().setControlsActive(false, (idc==this.currentPlayingCard));
 		this.opponentSkillsObjects [5].SetActive(false);
 	}
 
@@ -794,21 +798,7 @@ public class GameController : Photon.MonoBehaviour
 
 	public void clickSkillHandler(int ids)
 	{
-		if (ids != 1)
-		{
-			isTriggeringSkill = true;
-		}
 		photonView.RPC("launchRPC", PhotonTargets.AllBuffered, ids);
-		this.desactivateSkills();
-		this.skillsObjects [5].GetComponent<SkillObjectController>().setControlsActive(true);
-	}
-
-	public void desactivateSkills()
-	{
-		for (int i = 0; i < 6; i++)
-		{
-			this.skillsObjects [i].GetComponent<SkillObjectController>().setControlsActive(false);
-		}
 	}
 
 	public void findNextPlayer()
