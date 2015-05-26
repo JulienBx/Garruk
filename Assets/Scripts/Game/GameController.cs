@@ -236,8 +236,12 @@ public class GameController : Photon.MonoBehaviour
 		for (int i = 0; i < 6; i++)
 		{
 			this.skillsObjects [i] = (GameObject)Instantiate(this.skillObject);
+			this.skillsObjects [i].GetComponent<SkillObjectController>().setOwner(true);
+			this.skillsObjects [i].GetComponent<SkillObjectController>().resize(i);
 			this.opponentSkillsObjects [i] = (GameObject)Instantiate(this.skillObject);
 			this.opponentSkillsObjects [i].GetComponent<SkillObjectController>().setControlsActive(false);
+			this.opponentSkillsObjects [i].GetComponent<SkillObjectController>().setOwner(false);
+			this.opponentSkillsObjects [i].GetComponent<SkillObjectController>().resize(i);
 		}
 	}
 
