@@ -12,13 +12,22 @@ public class HomePageScreenViewModel {
 	public int heightScreen;
 	public int widthScreen;
 	public float gapBetweenblocks;
-	public float blockLeftHeight;
-	public float blockLeftWidth;
-	public float blockRightHeight;
-	public float blockRightWidth;
+	public float blockTopLeftHeight;
+	public float blockTopLeftWidth;
+	public float blockBottomLeftHeight;
+	public float blockBottomLeftWidth;
+	public float blockTopRightHeight;
+	public float blockTopRightWidth;
+	public float blockMiddleRightHeight;
+	public float blockMiddleRightWidth;
+	public float blockBottomRightHeight;
+	public float blockBottomRightWidth;
 
-	public Rect blockLeft;
-	public Rect blockRight;
+	public Rect blockTopLeft;
+	public Rect blockBottomLeft;
+	public Rect blockTopRight;
+	public Rect blockMiddleRight;
+	public Rect blockBottomRight;
 
 
 	public HomePageScreenViewModel ()
@@ -27,8 +36,11 @@ public class HomePageScreenViewModel {
 		this.blockBorderStyle = new GUIStyle ();
 		this.heightScreen = Screen.height;
 		this.widthScreen = Screen.width;
-		this.blockLeft = new Rect ();
-		this.blockRight = new Rect ();
+		this.blockTopLeft = new Rect ();
+		this.blockBottomLeft = new Rect ();
+		this.blockTopRight = new Rect ();
+		this.blockMiddleRight = new Rect ();
+		this.blockBottomRight = new Rect ();
 	}
 	public void initStyles()
 	{	
@@ -41,20 +53,44 @@ public class HomePageScreenViewModel {
 		
 		this.gapBetweenblocks = 5;
 
-		this.blockLeftWidth = 0.5f * (this.widthScreen - 3 * this.gapBetweenblocks);
-		this.blockLeftHeight = 1f * (0.9f * this.heightScreen - 2 * this.gapBetweenblocks);
+		this.blockTopLeftWidth = 0.66f * (this.widthScreen - 3 * this.gapBetweenblocks);
+		this.blockTopLeftHeight = 0.40f * (0.9f * this.heightScreen - 3 * this.gapBetweenblocks);
 
-		this.blockRightWidth = 0.5f * (this.widthScreen - 3 * this.gapBetweenblocks);
-		this.blockRightHeight = 1f * (0.9f * this.heightScreen - 2 * this.gapBetweenblocks);
+		this.blockBottomLeftWidth = 0.66f * (this.widthScreen - 3 * this.gapBetweenblocks);
+		this.blockBottomLeftHeight = 0.60f * (0.9f * this.heightScreen - 3 * this.gapBetweenblocks);
+
+		this.blockTopRightWidth = 0.34f * (this.widthScreen - 3 * this.gapBetweenblocks);
+		this.blockTopRightHeight = 0.33f * (0.9f * this.heightScreen - 4 * this.gapBetweenblocks);
 		
-		this.blockLeft = new Rect (this.gapBetweenblocks, 
-		                           0.1f * this.heightScreen + this.gapBetweenblocks, 
-		                           this.blockLeftWidth, 
-		                           this.blockLeftHeight);
+		this.blockMiddleRightWidth = 0.34f * (this.widthScreen - 3 * this.gapBetweenblocks);
+		this.blockMiddleRightHeight = 0.33f * (0.9f * this.heightScreen - 4 * this.gapBetweenblocks);
 
-		this.blockRight = new Rect (2*this.gapBetweenblocks+this.blockLeftWidth, 
-		                           0.1f * this.heightScreen + this.gapBetweenblocks, 
-		                           this.blockRightWidth, 
-		                           this.blockRightHeight);
+		this.blockBottomRightWidth = 0.34f * (this.widthScreen - 3 * this.gapBetweenblocks);
+		this.blockBottomRightHeight = 0.33f * (0.9f * this.heightScreen - 4 * this.gapBetweenblocks);
+
+		this.blockTopLeft = new Rect (this.gapBetweenblocks,
+		                              0.1f * this.heightScreen + this.gapBetweenblocks,
+		                              this.blockTopLeftWidth,
+		                              this.blockTopLeftHeight);
+
+		this.blockBottomLeft = new Rect (this.gapBetweenblocks,
+		                                 0.1f * this.heightScreen + 2*this.gapBetweenblocks+this.blockTopLeftHeight,
+		                                 this.blockBottomLeftWidth,
+		                                 this.blockBottomLeftHeight);
+
+		this.blockTopRight = new Rect (this.blockTopLeftHeight+2*this.gapBetweenblocks,
+		                               0.1f * this.heightScreen+ this.gapBetweenblocks,
+		                               this.blockTopRightWidth,
+		                               this.blockTopRightHeight);
+
+		this.blockMiddleRight = new Rect (this.blockTopLeftHeight+2*this.gapBetweenblocks, 
+		                                  0.1f * this.heightScreen+2*this.gapBetweenblocks+this.blockTopRightHeight,
+		                                  this.blockMiddleRightWidth, 
+		                                  this.blockMiddleRightHeight);
+
+		this.blockBottomRight = new Rect (this.blockTopLeftHeight+2*this.gapBetweenblocks, 
+		                                  0.1f * this.heightScreen+3*this.gapBetweenblocks+this.blockMiddleRightHeight+this.blockTopRightHeight, 
+		                                  this.blockBottomRightWidth, 
+		                                  this.blockBottomRightHeight);
 	}
 }

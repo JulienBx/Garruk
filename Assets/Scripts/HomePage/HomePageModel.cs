@@ -10,6 +10,7 @@ public class HomePageModel
 	public IList<DisplayedNotification> notifications;
 	public IList<DisplayedNews> news;
 	public User player;
+	public int notificationSystemIndex;
 
 	private string URLInitialize = ApplicationModel.host+"get_homepage_data.php";
 	private string URLUpdateReadNotifications = ApplicationModel.host+"update_read_notifications.php";
@@ -22,6 +23,7 @@ public class HomePageModel
 		this.notifications = new List<DisplayedNotification>();
 		this.news = new List<DisplayedNews>();
 		this.player = new User();
+		this.notificationSystemIndex = -1;
 		
 		WWWForm form = new WWWForm(); 											// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
@@ -88,6 +90,10 @@ public class HomePageModel
 					}
 				}
 				this.notifications[i].Content=tempContent;
+				if(!this.player.readnotificationsystem && this.notificationSystemIndex==-1 && this.notifications[i].Notification.IdNotificationType==1)
+				{
+					this.notificationSystemIndex=i;
+				}
 			}
 			for (int i=0;i<allNewsData.Length-1;i++)
 			{
@@ -135,7 +141,7 @@ public class HomePageModel
 			}
 		}
 	}
-	public IEnumerator updateReadNotifications (IList<int> readNotifications)
+	public IEnumerator updateReadNotifications (IList<int> readNotifications,int totalNbResultLimit)
 	{
 		string query = "";
 		bool isSystemNotification = false;
@@ -162,12 +168,17 @@ public class HomePageModel
 		form.AddField("myform_nick", ApplicationModel.username);
 		form.AddField ("myform_query", query);
 		form.AddField ("myform_issystemnotification", isSystemNotification.ToString());
+		form.AddField ("myform_totalnbresultlimit", totalNbResultLimit.ToString());
 		
 		WWW w = new WWW(URLUpdateReadNotifications, form); 				
 		yield return w;
 		if (w.error != null) 
 		{
 			Debug.Log (w.error); 
+		}
+		else
+		{
+			this.player.nonReadNotifications=System.Convert.ToInt32(w.text);
 		}
 	}
 	

@@ -49,13 +49,13 @@ public class NewsViewModel {
 	}
 	public void displayPage(){
 		
-		this.start = this.chosenPage*(this.elementPerRow*10);
+		this.start = this.chosenPage*(this.elementPerRow*6);
 		if (this.news.Count < (10*this.elementPerRow*(this.chosenPage+1)))
 		{
 			this.finish = this.news.Count;
 		}
 		else{
-			this.finish = (this.chosenPage+1)*(10 * this.elementPerRow);
+			this.finish = (this.chosenPage+1)*(6 * this.elementPerRow);
 		}
 	}
 }

@@ -29,11 +29,11 @@ public class HomePageView : MonoBehaviour
 	}
 	void OnGUI()
 	{
-		GUILayout.BeginArea(homepageScreenVM.blockLeft,homepageScreenVM.blockBorderStyle);
+		GUILayout.BeginArea(homepageScreenVM.blockTopLeft,homepageScreenVM.blockBorderStyle);
 		{
-			GUILayout.Label(notificationsVM.notificationsTitleLabel,homepageVM.titleStyle,GUILayout.Height(homepageScreenVM.blockLeftHeight*0.05f));
-			GUILayout.Label(notificationsVM.labelNo,homepageVM.labelNoStyle,GUILayout.Height(homepageScreenVM.blockLeftHeight*0.05f));
-			GUILayout.Space(homepageScreenVM.blockLeftHeight*0.85f);
+			GUILayout.Label(notificationsVM.notificationsTitleLabel,homepageVM.titleStyle,GUILayout.Height(0.5f*notificationsVM.blocksHeight));
+			GUILayout.Label(notificationsVM.labelNo,homepageVM.labelNoStyle,GUILayout.Height(0.5f*notificationsVM.blocksHeight));
+			GUILayout.Space(2.5f*notificationsVM.blocksHeight);
 			GUILayout.FlexibleSpace();
 			GUILayout.BeginHorizontal();
 			{
@@ -73,9 +73,9 @@ public class HomePageView : MonoBehaviour
 		}
 		GUILayout.EndArea();
 
-		for (int i=notificationsVM.start;i<notificationsVM.finish;i++)
+		for (int i=0;i<notificationsVM.finish-notificationsVM.start;i++)
 		{
-			GUILayout.BeginArea(notificationsVM.blocks[i-notificationsVM.start]);
+			GUILayout.BeginArea(notificationsVM.blocks[i]);
 			{
 				GUILayout.BeginHorizontal();
 				{
@@ -91,7 +91,7 @@ public class HomePageView : MonoBehaviour
 								                     GUILayout.Height (notificationsVM.blocksHeight*0.90f),
 								                     GUILayout.Width (notificationsVM.blocksHeight*0.90f)))
 								{
-									ApplicationModel.profileChosen=notificationsVM.notifications[i].SendingUser.Username;
+									ApplicationModel.profileChosen=notificationsVM.username[i];
 									Application.LoadLevel("Profile");
 								}
 								GUILayout.Space (notificationsVM.blocksWidth*0.01f);
@@ -101,21 +101,21 @@ public class HomePageView : MonoBehaviour
 							                        GUILayout.Width (2*notificationsVM.blocksHeight*0.90f),
 							                        GUILayout.Height(notificationsVM.blocksHeight*0.90f));
 							{
-								GUILayout.Label (notificationsVM.notifications[i].SendingUser.Username
+								GUILayout.Label (notificationsVM.username[i]
 								                 ,homepageVM.profileUsernameStyle);
-								GUILayout.Label (notificationsVM.notifications[i].SendingUser.TotalNbWins+" V "
-								                 +notificationsVM.notifications[i].SendingUser.TotalNbLooses+" D",
+								GUILayout.Label (notificationsVM.totalNbWins[i]+" V "
+								                 +notificationsVM.totalNbLooses[i].ToString()+" D",
 								                 homepageVM.profileInformationsStyle);
-								GUILayout.Label ("R : "+notificationsVM.notifications[i].SendingUser.Ranking
+								GUILayout.Label ("R : "+notificationsVM.ranking[i].ToString()
 								                 ,homepageVM.profileInformationsStyle);
-								GUILayout.Label ("Div : "+notificationsVM.notifications[i].SendingUser.Division
+								GUILayout.Label ("Div : "+notificationsVM.division[i].ToString()
 								                 ,homepageVM.profileInformationsStyle);
 							}
 							GUILayout.EndVertical();
 							GUILayout.Space (notificationsVM.blocksWidth*0.01f);
 							GUILayout.BeginVertical();
 							{
-								GUILayout.Label (notificationsVM.notifications[i].Content,notificationsVM.notificationContentStyle);
+								GUILayout.Label (notificationsVM.content[i],notificationsVM.notificationContentStyle);
 								GUILayout.BeginHorizontal();
 								{
 									if(notificationsVM.nonReadNotifications[i])
@@ -123,7 +123,7 @@ public class HomePageView : MonoBehaviour
 										GUILayout.Label ("Nouveau !",notificationsVM.newStyle);
 										GUILayout.Label ("\u00A0",notificationsVM.notificationDateStyle);
 									}
-									GUILayout.Label (notificationsVM.notifications[i].Notification.Date.ToString("dd/MM/yyyy HH:mm"),
+									GUILayout.Label (notificationsVM.date[i].ToString("dd/MM/yyyy HH:mm"),
 									                 notificationsVM.notificationDateStyle);
 									GUILayout.FlexibleSpace();
 								}
@@ -142,11 +142,11 @@ public class HomePageView : MonoBehaviour
 			}
 			GUILayout.EndArea();      
 		}
-		GUILayout.BeginArea(homepageScreenVM.blockRight,homepageScreenVM.blockBorderStyle);
+		GUILayout.BeginArea(homepageScreenVM.blockBottomLeft,homepageScreenVM.blockBorderStyle);
 		{
-			GUILayout.Label("Mon flux d'actualités",homepageVM.titleStyle,GUILayout.Height(homepageScreenVM.blockRightHeight*0.05f));
-			GUILayout.Label(newsVM.labelNo,homepageVM.labelNoStyle,GUILayout.Height(homepageScreenVM.blockRightHeight*0.05f));
-			GUILayout.Space(homepageScreenVM.blockRightHeight*0.85f);
+			GUILayout.Label("Mon flux d'actualités",homepageVM.titleStyle,GUILayout.Height(0.5f*newsVM.blocksHeight));
+			GUILayout.Label(newsVM.labelNo,homepageVM.labelNoStyle,GUILayout.Height(0.5f*newsVM.blocksHeight));
+			GUILayout.Space(4.5f*newsVM.blocksHeight);
 			GUILayout.FlexibleSpace();
 			GUILayout.BeginHorizontal();
 			{
