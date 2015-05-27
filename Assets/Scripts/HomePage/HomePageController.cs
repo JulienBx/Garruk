@@ -14,10 +14,13 @@ public class HomePageController : MonoBehaviour
 	public GUIStyle[] newsVMStyle;
 	public GUIStyle[] homepageScreenVMStyle;
 	public GUIStyle[] homepageVMStyle;
+	public GUIStyle[] packsVMStyle;
 
 	private float timer;
+	private float timer2;
 	private bool isDataLoaded=false;
 	public int refreshInterval;
+	public int sliderRefreshInterval;
 	public int totalNbResultLimit;
 	
 	private HomePageView view;
@@ -36,11 +39,22 @@ public class HomePageController : MonoBehaviour
 	{
 		
 		timer += Time.deltaTime;
+		timer2 += Time.deltaTime;
 		
 		if (timer > refreshInterval) 
 		{
 			StartCoroutine(this.refreshNonReadsNotifications());
 
+		}
+		if (timer2 > sliderRefreshInterval) 
+		{
+			this.timer2=this.timer2-this.sliderRefreshInterval;
+			view.packsVM.chosenPage++;
+			if(view.packsVM.chosenPage>view.packsVM.nbPages-1)
+			{
+				view.packsVM.chosenPage=0;
+			}
+			this.displayPacksPage();
 		}
 	}
 	private IEnumerator refreshNonReadsNotifications()
@@ -52,9 +66,7 @@ public class HomePageController : MonoBehaviour
 	private IEnumerator initialization()
 	{
 		yield return StartCoroutine (model.getData (this.totalNbResultLimit));
-		view.newsVM.news = this.filterNews (model.news,model.player.Id);
 		this.initLabelsNo ();
-		this.picturesInitialization ();
 		this.initStyles ();
 		this.toLoadData ();
 		MenuObject.GetComponent<MenuController>().setNbNotificationsNonRead(view.notificationsVM.nbNonReadNotifications);
@@ -69,52 +81,6 @@ public class HomePageController : MonoBehaviour
 		this.computeNonReadsNotifications ();
 		this.initLabelTitle ();
 		StartCoroutine(this.updateReadNotifications ());
-	}
-
-	private void picturesInitialization()
-	{
-
-		view.newsVM.profilePicturesButtonStyle = new List<GUIStyle> ();
-
-		for(int i =0;i<model.news.Count;i++)
-		{
-			view.newsVM.profilePicturesButtonStyle.Add(new GUIStyle());
-			view.newsVM.profilePicturesButtonStyle[i].normal.background=model.news[i].User.texture;
-			StartCoroutine(model.news[i].User.setProfilePicture());
-		}
-	}
-	private IList<DisplayedNews> filterNews(IList<DisplayedNews> newsToFilter, int playerId)
-	{
-		IList<DisplayedNews> filterednews = new List<DisplayedNews>();
-		bool toAdd = true;
-		for (int i=0;i<newsToFilter.Count;i++)
-		{
-			if(newsToFilter[i].News.IdNewsType==1)
-			{
-				if(newsToFilter[i].Users[0].Id!=playerId)
-				{
-					toAdd=true;
-					for(int j=0;j<filterednews.Count;j++)
-					{
-						if (filterednews[j].Users[0].Id==newsToFilter[i].User.Id
-						    && filterednews[j].User.Id==newsToFilter[i].Users[0].Id)
-						{
-							toAdd=false;
-							break;
-						}
-					}
-					if(toAdd)
-					{
-						filterednews.Add (newsToFilter[i]);
-					}
-				}
-			}
-			else if(newsToFilter[i].News.IdNewsType!=1)
-			{
-				filterednews.Add (model.news[i]);
-			}
-		}
-		return filterednews;
 	}
 	private void computeNonReadsNotifications()
 	{
@@ -137,9 +103,13 @@ public class HomePageController : MonoBehaviour
 		{
 			view.notificationsVM.labelNo="Vous n'avez pas de notification";
 		}
-		if(view.newsVM.news.Count==0)
+		if(model.news.Count==0)
 		{
 			view.newsVM.labelNo="Il n'y a pas d'actualités à afficher";
+		}
+		if(model.packs.Count==0)
+		{
+			view.packsVM.labelNo="Aucun pack n'est à la une";
 		}
 	}
 	private void initLabelTitle()
@@ -179,7 +149,7 @@ public class HomePageController : MonoBehaviour
 				view.notificationsVM.paginatorGuiStyle[i]=view.homepageVM.paginationStyle;
 			}
 		}
-		view.newsVM.nbPages = Mathf.CeilToInt((view.newsVM.news.Count-1) / (6*view.newsVM.elementPerRow))+1;
+		view.newsVM.nbPages = Mathf.CeilToInt(((float)model.news.Count) / (5f*(float)view.newsVM.elementPerRow));
 		view.newsVM.pageDebut = 0 ;
 		if (view.newsVM.nbPages>10){
 			view.newsVM.pageFin = 9 ;
@@ -198,6 +168,7 @@ public class HomePageController : MonoBehaviour
 				view.newsVM.paginatorGuiStyle[i]=view.homepageVM.paginationStyle;
 			}
 		}
+		view.packsVM.nbPages = Mathf.CeilToInt(((float)model.packs.Count) / (float)view.packsVM.elementPerRow);
 	}
 	private void initStyles()
 	{
@@ -225,6 +196,12 @@ public class HomePageController : MonoBehaviour
 			view.newsVM.styles[i]=this.newsVMStyle[i];
 		}
 		view.newsVM.initStyles();
+		view.packsVM.styles=new GUIStyle[this.packsVMStyle.Length];
+		for(int i=0;i<this.packsVMStyle.Length;i++)
+		{
+			view.packsVM.styles[i]=this.packsVMStyle[i];
+		}
+		view.packsVM.initStyles();
 	}
 	public void resize()
 	{
@@ -233,6 +210,7 @@ public class HomePageController : MonoBehaviour
 		view.notificationsVM.resize (view.homepageScreenVM.heightScreen);
 		view.homepageVM.resize (view.homepageScreenVM.heightScreen);
 		view.newsVM.resize (view.homepageScreenVM.heightScreen);
+		view.packsVM.resize (view.homepageScreenVM.heightScreen);
 
 		view.notificationsVM.elementPerRow = 1;
 		view.notificationsVM.blocksWidth = view.homepageScreenVM.blockTopLeftWidth / view.notificationsVM.elementPerRow;
@@ -256,11 +234,24 @@ public class HomePageController : MonoBehaviour
 			                                        view.newsVM.blocksWidth,
 			                                        view.newsVM.blocksHeight);
 		}
+		view.packsVM.elementPerRow = 2;
+		view.packsVM.blocksWidth = view.homepageScreenVM.blockBottomRightWidth / view.packsVM.elementPerRow;
+		view.packsVM.blocksHeight = view.homepageScreenVM.blockBottomRightHeight*0.75f;
+		view.packsVM.blocks=new Rect[view.packsVM.elementPerRow];
+		for(int i=0;i<view.packsVM.blocks.Length;i++)
+		{
+			view.packsVM.blocks[i]=new Rect(view.homepageScreenVM.blockBottomRight.xMin+(i%view.packsVM.elementPerRow)*view.packsVM.blocksWidth,
+			                               view.homepageScreenVM.blockBottomRight.yMin+0.125f*view.packsVM.blocksHeight+Mathf.FloorToInt(i/view.packsVM.elementPerRow)*view.packsVM.blocksHeight,
+			                               view.packsVM.blocksWidth,
+			                               view.packsVM.blocksHeight);
+		}
+		view.packsVM.chosenPage = 0;
 		view.notificationsVM.chosenPage = 0;
 		view.newsVM.chosenPage = 0;
 		this.initPagination ();
 		this.displayNotificationsPage ();
-		view.newsVM.displayPage ();
+		this.displayNewsPage ();
+		this.displayPacksPage ();
 	}
 	private IEnumerator updateReadNotifications()
 	{
@@ -326,50 +317,96 @@ public class HomePageController : MonoBehaviour
 			}
 		}
 	}
-	public void pagination(int section, int scenario, int chosenPage=0)
-	{
-		switch(section)
+	public void displayNewsPage()
+	{	
+		view.newsVM.start = view.newsVM.chosenPage*(view.newsVM.elementPerRow*5);
+		if (model.news.Count < (5*view.newsVM.elementPerRow*(view.newsVM.chosenPage+1)))
 		{
-		case 0:
-			switch(scenario)
-			{
-			case 0:
-				view.notificationsVM.pageDebut = view.notificationsVM.pageDebut-10;
-				view.notificationsVM.pageFin = view.notificationsVM.pageDebut+10;
-				break;
-			case 1:
-				view.notificationsVM.paginatorGuiStyle[view.notificationsVM.chosenPage]=view.homepageVM.paginationStyle;
-				view.notificationsVM.chosenPage=chosenPage;
-				view.notificationsVM.paginatorGuiStyle[chosenPage]=view.homepageVM.paginationActivatedStyle;
-				this.displayNotificationsPage();
-				break;
-			case 2:
-				view.notificationsVM.pageDebut = view.notificationsVM.pageDebut+10;
-				view.notificationsVM.pageFin= Mathf.Min(view.notificationsVM.pageFin+10, view.notificationsVM.nbPages);
-				break;
-			}
-			this.manageNonReadsNotifications ();
-			break;
-		case 1:
-			switch(scenario)
-			{
-			case 0:
-				view.newsVM.pageDebut = view.newsVM.pageDebut-10;
-				view.newsVM.pageFin = view.newsVM.pageDebut+10;
-				break;
-			case 1:
-				view.newsVM.paginatorGuiStyle[view.newsVM.chosenPage]=view.homepageVM.paginationStyle;
-				view.newsVM.chosenPage=chosenPage;
-				view.newsVM.paginatorGuiStyle[chosenPage]=view.homepageVM.paginationActivatedStyle;
-				view.newsVM.displayPage();
-				break;
-			case 2:
-				view.newsVM.pageDebut = view.newsVM.pageDebut+10;
-				view.newsVM.pageFin= Mathf.Min(view.newsVM.pageFin+10, view.newsVM.nbPages);
-				break;
-			}
-			break;
+			view.newsVM.finish = model.news.Count;
 		}
+		else
+		{
+			view.newsVM.finish = (view.newsVM.chosenPage+1)*(5 * view.newsVM.elementPerRow);
+		}
+		view.newsVM.username = new List<string> ();
+		view.newsVM.totalNbWins = new List<int> ();
+		view.newsVM.totalNbLooses = new List<int> ();
+		view.newsVM.ranking = new List<int> ();
+		view.newsVM.division = new List<int> ();
+		view.newsVM.content = new List<string> ();
+		view.newsVM.date = new List<DateTime> ();
+		view.newsVM.profilePicturesButtonStyle = new List<GUIStyle> ();
+		for(int i =view.newsVM.start;i<view.newsVM.finish;i++)
+		{
+			view.newsVM.username.Add (model.news[i].User.Username);
+			view.newsVM.totalNbWins.Add (model.news[i].User.TotalNbWins);
+			view.newsVM.totalNbLooses.Add (model.news[i].User.TotalNbLooses);
+			view.newsVM.ranking.Add (model.news[i].User.Ranking);
+			view.newsVM.division.Add (model.news[i].User.Division);
+			view.newsVM.content.Add (model.news[i].Content);
+			view.newsVM.date.Add (model.news[i].News.Date);
+			view.newsVM.profilePicturesButtonStyle.Add (new GUIStyle());
+			view.newsVM.profilePicturesButtonStyle[i-view.newsVM.start].normal.background=model.news[i].User.texture;
+			StartCoroutine(model.news[i].User.setProfilePicture());
+		}
+	}
+	public void displayPacksPage()
+	{	
+		view.packsVM.start = view.packsVM.chosenPage*view.packsVM.elementPerRow;
+		if (model.packs.Count < (view.packsVM.elementPerRow*(view.packsVM.chosenPage+1)))
+		{
+			view.packsVM.finish = model.packs.Count;
+		}
+		else
+		{
+			view.packsVM.finish = (view.packsVM.chosenPage+1)*view.packsVM.elementPerRow;
+		}
+		view.packsVM.packsNames = new List<string> ();
+		view.packsVM.packsNew = new List<bool> ();
+		view.packsVM.packPicturesButtonStyle = new List<GUIStyle> ();
+		for(int i =view.packsVM.start;i<view.packsVM.finish;i++)
+		{
+			view.packsVM.packsNames.Add (model.packs[i].Name);
+			view.packsVM.packsNew.Add (model.packs[i].New);
+			view.packsVM.packPicturesButtonStyle.Add (new GUIStyle());
+			view.packsVM.packPicturesButtonStyle[i-view.packsVM.start].normal.background=model.packs[i].texture;
+			StartCoroutine(model.packs[i].setPicture());
+		}
+	}
+	public void newsPaginationBack()
+	{
+		view.newsVM.pageDebut = view.newsVM.pageDebut-10;
+		view.newsVM.pageFin = view.newsVM.pageDebut+10;
+	}
+	public void newsPaginationSelect(int chosenPage)
+	{
+		view.newsVM.paginatorGuiStyle[view.newsVM.chosenPage]=view.homepageVM.paginationStyle;
+		view.newsVM.chosenPage=chosenPage;
+		view.newsVM.paginatorGuiStyle[chosenPage]=view.homepageVM.paginationActivatedStyle;
+		this.displayNewsPage();
+		this.manageNonReadsNotifications ();
+	}
+	public void newsPaginationNext()
+	{
+		view.newsVM.pageDebut = view.newsVM.pageDebut+10;
+		view.newsVM.pageFin= Mathf.Min(view.newsVM.pageFin+10, view.newsVM.nbPages);
+	}
+	public void notificationsPaginationBack()
+	{
+		view.notificationsVM.pageDebut = view.notificationsVM.pageDebut-10;
+		view.notificationsVM.pageFin = view.notificationsVM.pageDebut+10;
+	}
+	public void notificationsPaginationSelect(int chosenPage)
+	{
+		view.notificationsVM.paginatorGuiStyle[view.notificationsVM.chosenPage]=view.homepageVM.paginationStyle;
+		view.notificationsVM.chosenPage=chosenPage;
+		view.notificationsVM.paginatorGuiStyle[chosenPage]=view.homepageVM.paginationActivatedStyle;
+		this.displayNotificationsPage();
+	}
+	public void notificationsPaginationNext()
+	{
+		view.notificationsVM.pageDebut = view.notificationsVM.pageDebut+10;
+		view.notificationsVM.pageFin= Mathf.Min(view.notificationsVM.pageFin+10, view.notificationsVM.nbPages);
 	}
 }
 

@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 
-public class NewsViewModel {
+public class HomePageNewsViewModel {
 	
 	public GUIStyle[] styles;
 	public IList<GUIStyle> profilePicturesButtonStyle;
@@ -21,20 +21,25 @@ public class NewsViewModel {
 	public GUIStyle newsContentStyle;
 	public GUIStyle newsDateStyle;
 	
-	public IList<DisplayedNews> news;
+	public IList<string> username;
+	public IList<int> totalNbWins;
+	public IList<int> totalNbLooses;
+	public IList<int> ranking;
+	public IList<int> division;
+	public IList<string> content;
+	public IList<DateTime> date;
 	
 	public Rect[] blocks;
 	public float blocksWidth;
 	public float blocksHeight;
 	
-	public NewsViewModel ()
+	public HomePageNewsViewModel ()
 	{
 		this.styles=new GUIStyle[0];
 		this.profilePicturesButtonStyle = new List<GUIStyle> ();
 		this.paginatorGuiStyle=new GUIStyle[0];
 		this.newsContentStyle = new GUIStyle ();
 		this.newsDateStyle = new GUIStyle ();
-		this.news = new List<DisplayedNews> ();
 		this.blocks=new Rect[0];
 	}
 	public void initStyles()
@@ -46,16 +51,5 @@ public class NewsViewModel {
 	{	
 		this.newsContentStyle.fontSize = heightScreen * 2 / 100;
 		this.newsDateStyle.fontSize = heightScreen * 2 / 100;
-	}
-	public void displayPage(){
-		
-		this.start = this.chosenPage*(this.elementPerRow*6);
-		if (this.news.Count < (10*this.elementPerRow*(this.chosenPage+1)))
-		{
-			this.finish = this.news.Count;
-		}
-		else{
-			this.finish = (this.chosenPage+1)*(6 * this.elementPerRow);
-		}
 	}
 }

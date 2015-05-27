@@ -8,18 +8,20 @@ using System.Reflection;
 public class HomePageView : MonoBehaviour
 {
 	public HomePageViewModel homepageVM;
-	public NotificationsViewModel notificationsVM;
+	public HomePageNotificationsViewModel notificationsVM;
 	public HomePageScreenViewModel homepageScreenVM;
-	public NewsViewModel newsVM;
+	public HomePageNewsViewModel newsVM;
+	public HomePagePacksViewModel packsVM;
 
 	public bool canDisplay=false;
 
 	public HomePageView ()
 	{
 		this.homepageVM = new HomePageViewModel ();
-		this.notificationsVM = new NotificationsViewModel ();
+		this.notificationsVM = new HomePageNotificationsViewModel ();
 		this.homepageScreenVM = new HomePageScreenViewModel ();
-		this.newsVM = new NewsViewModel ();
+		this.newsVM = new HomePageNewsViewModel ();
+		this.packsVM = new HomePagePacksViewModel ();
 	}
 	void Update()
 	{
@@ -43,7 +45,7 @@ public class HomePageView : MonoBehaviour
 					                     GUILayout.Height(homepageScreenVM.heightScreen*3/100),
 					                     GUILayout.Width (homepageScreenVM.widthScreen*2/100)))
 					{
-						HomePageController.instance.pagination(0,0);
+						HomePageController.instance.notificationsPaginationBack();
 					}
 				}
 				GUILayout.Space(homepageScreenVM.widthScreen*0.01f);
@@ -53,7 +55,7 @@ public class HomePageView : MonoBehaviour
 					                     GUILayout.Height(homepageScreenVM.heightScreen*3/100),
 					                     GUILayout.Width (homepageScreenVM.widthScreen*2/100)))
 					{
-						HomePageController.instance.pagination(0,1,i);
+						HomePageController.instance.notificationsPaginationSelect(i);
 					}
 					GUILayout.Space(homepageScreenVM.widthScreen*0.01f);
 				}
@@ -63,7 +65,7 @@ public class HomePageView : MonoBehaviour
 					                     GUILayout.Height(homepageScreenVM.heightScreen*3/100),
 					                     GUILayout.Width (homepageScreenVM.widthScreen*2/100)))
 					{
-						HomePageController.instance.pagination(0,2);
+						HomePageController.instance.notificationsPaginationNext();
 					}
 				}
 				GUILayout.FlexibleSpace();
@@ -156,7 +158,7 @@ public class HomePageView : MonoBehaviour
 					                     GUILayout.Height(homepageScreenVM.heightScreen*3/100),
 					                     GUILayout.Width (homepageScreenVM.widthScreen*2/100)))
 					{
-						HomePageController.instance.pagination(1,0);
+						HomePageController.instance.newsPaginationBack();
 					}
 				}
 				GUILayout.Space(homepageScreenVM.widthScreen*0.01f);
@@ -166,7 +168,7 @@ public class HomePageView : MonoBehaviour
 					                     GUILayout.Height(homepageScreenVM.heightScreen*3/100),
 					                     GUILayout.Width (homepageScreenVM.widthScreen*2/100)))
 					{
-						HomePageController.instance.pagination(1,1,i);
+						HomePageController.instance.newsPaginationSelect(i);
 					}
 					GUILayout.Space(homepageScreenVM.widthScreen*0.01f);
 				}
@@ -176,7 +178,7 @@ public class HomePageView : MonoBehaviour
 					                     GUILayout.Height(homepageScreenVM.heightScreen*3/100),
 					                     GUILayout.Width (homepageScreenVM.widthScreen*2/100)))
 					{
-						HomePageController.instance.pagination(1,2);
+						HomePageController.instance.newsPaginationNext();
 					}
 				}
 				GUILayout.FlexibleSpace();
@@ -186,9 +188,9 @@ public class HomePageView : MonoBehaviour
 		}
 		GUILayout.EndArea();
 		
-		for (int i=newsVM.start;i<newsVM.finish;i++)
+		for (int i=0;i<newsVM.finish-newsVM.start;i++)
 		{
-			GUILayout.BeginArea(newsVM.blocks[i-newsVM.start]);
+			GUILayout.BeginArea(newsVM.blocks[i]);
 			{
 				GUILayout.BeginHorizontal();
 				{
@@ -204,7 +206,7 @@ public class HomePageView : MonoBehaviour
 								                     GUILayout.Height (newsVM.blocksHeight*0.90f),
 								                     GUILayout.Width (newsVM.blocksHeight*0.90f)))
 								{
-									ApplicationModel.profileChosen=newsVM.news[i].User.Username;
+									ApplicationModel.profileChosen=newsVM.username[i];
 									Application.LoadLevel("Profile");
 								}
 								GUILayout.Space (newsVM.blocksWidth*0.01f);
@@ -214,22 +216,22 @@ public class HomePageView : MonoBehaviour
 							                        GUILayout.Width (2*newsVM.blocksHeight*0.90f),
 							                        GUILayout.Height(newsVM.blocksHeight*0.90f));
 							{
-								GUILayout.Label (newsVM.news[i].User.Username
+								GUILayout.Label (newsVM.username[i]
 								                 ,homepageVM.profileUsernameStyle);
-								GUILayout.Label (newsVM.news[i].User.TotalNbWins+" V "
-								                 +newsVM.news[i].User.TotalNbLooses+" D",
+								GUILayout.Label (newsVM.totalNbWins[i].ToString()+" V "
+								                 +newsVM.totalNbLooses[i].ToString()+" D",
 								                 homepageVM.profileInformationsStyle);
-								GUILayout.Label ("R : "+newsVM.news[i].User.Ranking
+								GUILayout.Label ("R : "+newsVM.ranking[i].ToString()
 								                 ,homepageVM.profileInformationsStyle);
-								GUILayout.Label ("Div : "+newsVM.news[i].User.Division
+								GUILayout.Label ("Div : "+newsVM.division[i].ToString()
 								                 ,homepageVM.profileInformationsStyle);
 							}
 							GUILayout.EndVertical();
 							GUILayout.Space (newsVM.blocksWidth*0.01f);
 							GUILayout.BeginVertical();
 							{
-								GUILayout.Label (newsVM.news[i].Content,newsVM.newsContentStyle);
-								GUILayout.Label (newsVM.news[i].News.Date.ToString("dd/MM/yyyy HH:mm"),
+								GUILayout.Label (newsVM.content[i],newsVM.newsContentStyle);
+								GUILayout.Label (newsVM.date[i].ToString("dd/MM/yyyy HH:mm"),
 									                 newsVM.newsDateStyle);
 								GUILayout.FlexibleSpace();
 							}
@@ -245,8 +247,51 @@ public class HomePageView : MonoBehaviour
 			}
 			GUILayout.EndArea();      
 		}
+		GUILayout.BeginArea(homepageScreenVM.blockBottomRight,homepageScreenVM.blockBorderStyle);
+		{
+			GUILayout.Label("Disponible en boutique",homepageVM.titleStyle,GUILayout.Height(0.125f*homepageScreenVM.blockBottomRightHeight));
+			GUILayout.Label(packsVM.labelNo,packsVM.labelNoStyle,GUILayout.Height(0.125f*homepageScreenVM.blockBottomRightHeight));
+			GUILayout.Space(0.6f*homepageScreenVM.blockBottomRightHeight);
+			GUILayout.BeginHorizontal();
+			{
+				GUILayout.FlexibleSpace();
+				if(GUILayout.Button("Je commande",packsVM.buttonStyle,GUILayout.Height(0.125f*homepageScreenVM.blockBottomRightHeight),GUILayout.Width(0.5f*homepageScreenVM.blockBottomRightWidth)))
+				{
+					Application.LoadLevel("Store");
+				}
+				GUILayout.FlexibleSpace();
+			}
+			GUILayout.EndHorizontal();
+		}
+		GUILayout.EndArea();
+		for (int i=0;i<packsVM.finish-packsVM.start;i++)
+		{
+			GUILayout.BeginArea(packsVM.blocks[i]);
+			{
+			
+				GUILayout.FlexibleSpace();
+				GUILayout.Label(packsVM.packsNames[i],packsVM.packNameStyle,GUILayout.Height(packsVM.blocksHeight*15f/100f));
+				if(packsVM.packsNew[i])
+				{
+					GUILayout.Label ("Nouveau !",packsVM.newPackStyle,GUILayout.Height(packsVM.blocksHeight*1f/10f));
+				}
+				else
+				{
+					GUILayout.Label ("",packsVM.newPackStyle,GUILayout.Height(packsVM.blocksHeight*1f/10f));
+				}
+				GUILayout.BeginHorizontal();
+				{
+					GUILayout.FlexibleSpace();
+					if(GUILayout.Button("",packsVM.packPicturesButtonStyle[i],GUILayout.Height(packsVM.blocksHeight*6f/10f),GUILayout.Width(packsVM.blocksHeight*6f/10f)))
+					{
+					}
+					GUILayout.FlexibleSpace();
+				}
+				GUILayout.EndHorizontal();
+				GUILayout.FlexibleSpace();
+			}
+			GUILayout.EndArea();      
+		}
 	}
-
-
 }
 

@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 
-public class NotificationsViewModel {
+public class HomePageNotificationsViewModel {
 
 	public GUIStyle[] styles;
 	public IList<GUIStyle> profilePicturesButtonStyle;
@@ -39,7 +39,7 @@ public class NotificationsViewModel {
 	public float blocksWidth;
 	public float blocksHeight;
 
-	public NotificationsViewModel ()
+	public HomePageNotificationsViewModel ()
 	{
 		this.styles=new GUIStyle[0];
 		this.profilePicturesButtonStyle = new List<GUIStyle> ();
