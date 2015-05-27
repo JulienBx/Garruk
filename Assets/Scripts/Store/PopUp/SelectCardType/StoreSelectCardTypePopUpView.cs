@@ -42,7 +42,7 @@ public class StoreSelectCardTypePopUpView : MonoBehaviour
 					GUILayout.FlexibleSpace();
 					if (GUILayout.Button("OK",popUpVM.centralWindowButtonStyle,GUILayout.Width (popUpVM.centralWindow.width*0.3f)))
 					{
-						StoreController.instance.getCardsWithCardTypeHandler();
+						StoreController.instance.buyPackWidthCardTypeHandler();
 					}
 					GUILayout.FlexibleSpace();
 					if (GUILayout.Button("Annuler",popUpVM.centralWindowButtonStyle,GUILayout.Width (popUpVM.centralWindow.width*0.3f)))
