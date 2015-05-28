@@ -884,6 +884,7 @@ public class GameController : Photon.MonoBehaviour
 		{
 			this.skillArgs [i] = -1;
 		}
+		this.numberOfArgs = 0;
 		this.deactivateMySkills();
 	}
 
