@@ -16,15 +16,16 @@ public class Attack : GameSkill
 	
 	public override void resolve(int[] args)
 	{
-		if (args.Length != 1)
-		{
-			Debug.Log("Mauvais paramètres de résolution envoyés");
-		} else
-		{
-			int targetID = args [0];
-			GameController.instance.getCard(targetID).modifiers.Add(new StatModifier(GameController.instance.getCurrentCard().Attack, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage));
-			GameController.instance.reloadCard(targetID);
-			GameController.instance.reloadSelectedPlayingCard(targetID);
+		int targetID = args [0];
+		GameController.instance.getCard(targetID).modifiers.Add(new StatModifier(GameController.instance.getCurrentCard().Attack, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage));
+		GameController.instance.play(GameController.instance.getCurrentCard().Title + " a lancé attack");
+
+		if (GameController.instance.getCard(targetID).GetLife()<=0){
+			GameController.instance.getPCC(targetID).kill();
+			GameController.instance.reloadTimeline();
 		}
+		GameController.instance.reloadCard(targetID);
+		GameController.instance.reloadSelectedPlayingCard(targetID);
+
 	}
 }

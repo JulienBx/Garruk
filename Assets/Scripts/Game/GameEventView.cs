@@ -64,8 +64,6 @@ public class GameEventView : MonoBehaviour
 			}
 		}
 		int idch = gameObject.GetComponentInChildren<GameEventController>().IDCharacter;
-		Debug.Log("nombre de buff : " + GameController.instance.getCard(idch).modifiers.Count);
-		Debug.Log("vitesse :" + GameController.instance.getCard(idch).GetSpeed());
 		foreach (StatModifier s in GameController.instance.getCard(idch).modifiers)
 		{
 			s.ToString();

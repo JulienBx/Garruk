@@ -197,6 +197,7 @@ public class PlayingCardController : GameObjectController
 
 	public void addTarget()
 	{
+		this.playingCardView.playingCardVM.toDisplayHalo = false ;
 		GameController.instance.addTarget(this.IDCharacter);
 	}
 
@@ -274,7 +275,6 @@ public class PlayingCardController : GameObjectController
 
 	public void addIcon(Texture2D icon)
 	{
-
 		this.playingCardView.playingCardVM.toDisplayIcon = true;
 		this.playingCardView.playingCardVM.icons.Add(icon);
 		int height = Screen.height;
@@ -288,6 +288,12 @@ public class PlayingCardController : GameObjectController
 		Rect position = new Rect(positionObject.x, positionObject.y, decalage, decalage);
 		this.playingCardView.playingCardVM.iconsRect.Add(position);
 
+	}
+
+	public void kill(){
+		this.isDead = true ;
+		this.hasPlayed = true ;
+		this.setActive(false);
 	}
 
 }

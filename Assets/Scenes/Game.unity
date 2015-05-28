@@ -729,6 +729,7 @@ MonoBehaviour:
   isTriggeringSkill: 0
   isFirstPlayer: 0
   borderSize: .0199999996
+  currentPlayingCard: -1
   eventMax: 11
 --- !u!114 &481987440
 MonoBehaviour:

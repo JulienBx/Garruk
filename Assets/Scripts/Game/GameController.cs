@@ -541,11 +541,10 @@ public class GameController : Photon.MonoBehaviour
 		this.skillArgs[numberOfArgs]=id;
 		this.numberOfArgs++;
 		if (this.numberOfExpectedArgs <= this.numberOfArgs){
-			this.gameView.gameScreenVM.toDisplayValidationButton = true ;
-			this.gameView.gameScreenVM.validationRegularText = "Cible choisie !" ;
 			for (int i = 0 ; i < 10 ; i++){
 				this.playingCards[i].GetComponent<PlayingCardController>().removeTargetHalo();
 			}
+			this.validateSkill();
 		}
 	}
 
@@ -555,8 +554,6 @@ public class GameController : Photon.MonoBehaviour
 		this.gameView.gameScreenVM.toDisplayValidationButton = toDisplayButton;
 		this.gameView.gameScreenVM.validationRegularText = regularText;
 		this.gameView.gameScreenVM.validationButtonText = buttonText;
-
-		this.deactivateMySkills();
 	}
 
 	public void deactivateMySkills()
@@ -852,6 +849,7 @@ public class GameController : Photon.MonoBehaviour
 		{
 			this.skillArgs [i] = -1;
 		}
+		this.deactivateMySkills();
 	}
 
 	public void findNextPlayer()
@@ -1017,6 +1015,8 @@ public class GameController : Photon.MonoBehaviour
 
 	public void resolvePass()
 	{
+		this.playindCardHasPlayed = false ;
+		this.isRunningSkill = false ;
 		findNextPlayer();
 		photonView.RPC("timeRunsOut", PhotonTargets.AllBuffered, timerTurn);
 		photonView.RPC("addPassEvent", PhotonTargets.AllBuffered);
@@ -1793,6 +1793,11 @@ public class GameController : Photon.MonoBehaviour
 		return this.playingCards [this.currentPlayingCard].GetComponent<PlayingCardController>();
 	}
 
+	public PlayingCardController getPCC(int id)
+	{
+		return this.playingCards [id].GetComponent<PlayingCardController>();
+	}
+
 	public Card getCard(int id)
 	{
 		return this.playingCards [id].GetComponent<PlayingCardController>().card;
@@ -1832,7 +1837,12 @@ public class GameController : Photon.MonoBehaviour
 	{
 		this.isRunningSkill = false;
 		this.playindCardHasPlayed = true;
-		this.showMyPlayingSkills(this.currentPlayingCard);
+		if (this.clickedPlayingCard!=this.currentPlayingCard){
+			this.showMyPlayingSkills(this.clickedPlayingCard);
+		}
+		else{
+			this.showMyPlayingSkills(this.currentPlayingCard);
+		}
 		this.displayPopUpMessage(message, 2);
 	}
 

@@ -20,8 +20,15 @@ public class PlayingCardView : MonoBehaviour
 
 	void Update()
 	{
-
+		if (this.playingCardVM.toDisplayHalo){
+			if(Input.GetMouseButtonDown(0)){
+				if (Input.mousePosition.x>this.playingCardVM.haloRect.xMin && Input.mousePosition.x<this.playingCardVM.haloRect.xMax && Input.mousePosition.y>this.playingCardVM.haloRect.yMin && Input.mousePosition.y<this.playingCardVM.haloRect.yMax){
+					gameObject.GetComponentInChildren<PlayingCardController>().addTarget();
+				}
+			}
+		}
 	}
+
 	public void show()
 	{
 		transform.renderer.materials [1].mainTexture = playingCardVM.face; 
@@ -60,8 +67,6 @@ public class PlayingCardView : MonoBehaviour
 		{
 			gameObject.GetComponentInChildren<PlayingCardController>().hoverPlayingCard();
 		}
-		Debug.Log("nom :" + gameObject.GetComponentInChildren<PlayingCardController>().card.Title);
-		Debug.Log("move :" + gameObject.GetComponentInChildren<PlayingCardController>().card.GetMove());
 	}
 
 	void OnMouseDown()
@@ -93,6 +98,7 @@ public class PlayingCardView : MonoBehaviour
 		}
 		if (this.playingCardVM.toDisplayHalo){
 			GUI.Box (this.playingCardVM.haloRect, this.playingCardVM.halo, this.playingCardVM.iconStyle);
+
 		}
 	}
 }
