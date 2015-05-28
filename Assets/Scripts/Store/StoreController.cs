@@ -12,30 +12,23 @@ public class StoreController : MonoBehaviour
 	public GameObject MenuObject;
 	public GameObject CardObject;
 	public GUIStyle[] storeVMStyle;
+	public GUIStyle[] packsVMStyle;
 	public GUIStyle[] popUpVMStyle;
-	public int cardCreationCost;
-	public int fiveCardsCreationCost;
-	public int cardWithCardTypeCreationCost;
-	public int fiveCardsWidthCardTypeCreationCost;
 
 	private StoreView view;
 	private StoreModel model;
 	private StoreErrorPopUpView errorPopUpView;
 	private StoreAddCreditsPopUpView addCreditsPopUpView;
 	private StoreSelectCardTypePopUpView selectCardTypePopUpView;
-	private Card card;
-	private GameObject randomCard;
 	private GameObject[] randomCards;
 	private GameObject cardFocused;
-	private Animation anim;
 	private bool[] toRotate;
 	private bool startRotation;
-	private bool rotateRandomCards;
-	private bool rotateRandomCard;
 	private float speed;
 	private float angle;
 	private Quaternion target;
 	private GameObject cardPopUpBelongTo;
+	private int selectedPackIndex;
 	
 	public StoreController ()
 	{
@@ -45,7 +38,6 @@ public class StoreController : MonoBehaviour
 		instance = this;
 		this.speed = 300.0f;
 		this.model = new StoreModel ();
-		this.card = new Card ();
 		this.view = Camera.main.gameObject.AddComponent <StoreView>();
 		this.MenuObject = Instantiate(this.MenuObject) as GameObject;
 		StartCoroutine (this.initialization ());
@@ -55,51 +47,42 @@ public class StoreController : MonoBehaviour
 	{
 		if (this.startRotation)
 		{
-			if(this.rotateRandomCards)
+			for(int i=0;i<model.packList[this.selectedPackIndex].NbCards;i++)
 			{
-				for(int i=0;i<5;i++)
+				if(toRotate[i])
 				{
-					if(toRotate[i])
+					if(this.angle==360)
 					{
-						if(this.angle==360)
+						this.angle=180;
+					}
+					
+					this.angle = this.angle + this.speed * Time.deltaTime;
+					if(this.angle>=360)
+					{
+						this.angle=360;
+						this.toRotate[i]=false;
+						if(i<model.packList[this.selectedPackIndex].NbCards-1)
 						{
-							this.angle=180;
+							this.toRotate[i+1]=true;
 						}
-						
-						this.angle = this.angle + this.speed * Time.deltaTime;
-						if(this.angle>=360)
+						else
 						{
-							this.angle=360;
-							this.toRotate[i]=false;
-							if(i<4)
+							if(model.packList[this.selectedPackIndex].NbCards>1)
 							{
-								this.toRotate[i+1]=true;
+								view.storeVM.areMoreThan1CardDisplayed = true;
 							}
 							else
 							{
-								view.storeVM.are5CardsDisplayed = true;
-								view.storeVM.guiEnabled=true;
-								this.startRotation=false;
-								this.rotateRandomCards=false;
+								this.randomCards[0].GetComponent<CardStoreController>().setFocusStoreFeatures();
+								this.randomCards[0].GetComponent<CardController> ().setCentralWindowRect (view.storeScreenVM.centralWindow);
 							}
+							view.storeVM.guiEnabled=true;
+							this.startRotation=false;
 						}
-						this.target = Quaternion.Euler(0, this.angle, 0);
-						this.randomCards[i].transform.rotation = target;
 					}
+					this.target = Quaternion.Euler(0, this.angle, 0);
+					this.randomCards[i].transform.rotation = target;
 				}
-			}
-			if(this.rotateRandomCard)
-			{
-				this.angle = this.angle + this.speed * Time.deltaTime;
-				if(this.angle>=360)
-				{
-					this.angle=360;
-					this.startRotation=false;
-					this.rotateRandomCard=false;
-					this.randomCard.GetComponent<CardStoreController>().setFocusStoreFeatures();
-				}
-				this.target = Quaternion.Euler(0, this.angle, 0);
-				this.randomCard.transform.rotation = target;
 			}
 		}
 	}
@@ -108,18 +91,43 @@ public class StoreController : MonoBehaviour
 		yield return(StartCoroutine(this.model.initializeStore()));
 		this.initVM ();
 		this.initStyles ();
+		this.initializePagination ();
+		this.displayPage ();
 		this.resize ();
 	}
 	private void initVM()
 	{
 		view.storeVM.canAddCredits = model.player.IsAdmin;
-		view.storeVM.cardCreationCost = this.cardCreationCost;
-		view.storeVM.cardWithCardTypeCreationCost = this.cardWithCardTypeCreationCost;
-		view.storeVM.fiveCardsCreationCost = this.fiveCardsCreationCost;
-		view.storeVM.fiveCardsWidthCardTypeCreationCost = this.fiveCardsWidthCardTypeCreationCost;
-		if(model.player.CardTypesAllowed.Count==0)
+	}
+	private void displayPage()
+	{
+		view.packsVM.packNames = new List<string> ();
+		view.packsVM.packPrices = new List<int> ();
+		view.packsVM.isNew = new List<bool> ();
+		view.packsVM.packPictureStyles = new List<GUIStyle> ();
+		view.packsVM.guiEnabled = new List<bool> ();
+		view.packsVM.start = view.packsVM.chosenPage * view.packsVM.nbElementsToDisplay;
+		view.packsVM.finish = model.packList.Count;
+		if((view.packsVM.chosenPage+1)*view.packsVM.nbElementsToDisplay<model.packList.Count)
 		{
-			view.storeVM.guiEnabled=false;
+			view.packsVM.finish=(view.packsVM.chosenPage+1)*view.packsVM.nbElementsToDisplay;
+		}
+		for(int i=view.packsVM.start;i<view.packsVM.finish;i++)
+		{
+			view.packsVM.packPictureStyles.Add(new GUIStyle());
+			view.packsVM.packPictureStyles[i-view.packsVM.start].normal.background=model.packList[i].texture;
+			StartCoroutine(model.packList[i].setPicture());
+			view.packsVM.packNames.Add (model.packList[i].Name);
+			view.packsVM.packPrices.Add (model.packList[i].Price);
+			view.packsVM.isNew.Add(model.packList[i].New);
+			if(model.player.CardTypesAllowed.Contains(model.packList[i].CardType) || model.packList[i].CardType<0)
+			{
+				view.packsVM.guiEnabled.Add (true);
+			}
+			else
+			{
+				view.packsVM.guiEnabled.Add(false);
+			}
 		}
 	}
 	private void initStyles()
@@ -130,11 +138,18 @@ public class StoreController : MonoBehaviour
 			view.storeVM.styles[i]=this.storeVMStyle[i];
 		}
 		view.storeVM.initStyles();
+		view.packsVM.styles=new GUIStyle[this.packsVMStyle.Length];
+		for(int i=0;i<this.packsVMStyle.Length;i++)
+		{
+			view.packsVM.styles[i]=this.packsVMStyle[i];
+		}
+		view.packsVM.initStyles();
 	}
 	public void resize()
 	{
 		view.storeScreenVM.resize ();
 		view.storeVM.resize (view.storeScreenVM.heightScreen);
+		view.packsVM.resize (view.storeScreenVM.heightScreen);
 		if(this.errorPopUpView!=null)
 		{
 			this.errorPopUpResize();
@@ -143,19 +158,22 @@ public class StoreController : MonoBehaviour
 		{
 			this.addCreditsPopUpResize();
 		}
-		if(this.randomCard!=null)
-		{
-			this.randomCard.GetComponent<CardController>().resize();
-			this.randomCard.GetComponent<CardController> ().setCentralWindowRect (view.storeScreenVM.centralWindow);
-		}
 		if(this.cardFocused!=null)
 		{
-			this.cardFocused.GetComponent<CardController>().resize();
 			this.cardFocused.GetComponent<CardController> ().setCentralWindowRect (view.storeScreenVM.centralWindow);
+			this.cardFocused.GetComponent<CardController>().resize();
 		}
 		if(this.randomCards!=null)
 		{
-			this.resize5RandomCards();
+			if(this.randomCards.Length==1)
+			{
+				this.randomCards[0].GetComponent<CardController> ().setCentralWindowRect (view.storeScreenVM.centralWindow);
+				this.randomCards[0].GetComponent<CardController>().resize();
+			}
+			else
+			{
+				this.resizeRandomCards();
+			}
 		}
 		if(this.selectCardTypePopUpView!=null)
 		{
@@ -164,11 +182,11 @@ public class StoreController : MonoBehaviour
 	}
 	public void rightClickedCard(GameObject gameObject)
 	{
-		if(gameObject.name.StartsWith("Card") && !this.startRotation)
+		if(view.storeVM.areMoreThan1CardDisplayed && !this.startRotation)
 		{
-			this.hide5Cards();
+			this.hideCards();
 			string name = "Fcrd"+gameObject.name.Substring(4);
-			Vector3 scale = new Vector3(view.storeScreenVM.heightScreen / 120f,view.storeScreenVM.heightScreen / 120f,view.storeScreenVM.heightScreen / 120f);
+			Vector3 scale = new Vector3(view.storeScreenVM.heightScreen / 140f,view.storeScreenVM.heightScreen / 140f,view.storeScreenVM.heightScreen / 140f);
 			Vector3 position = Camera.main.ScreenToWorldPoint (new Vector3 (0.4f * view.storeScreenVM.widthScreen, 0.45f * view.storeScreenVM.heightScreen - 1, 10));
 			this.cardFocused = Instantiate(CardObject) as GameObject;
 			this.cardFocused.AddComponent<CardStoreController> ();
@@ -178,123 +196,80 @@ public class StoreController : MonoBehaviour
 			this.cardFocused.GetComponent<CardController> ().setCentralWindowRect (view.storeScreenVM.centralWindow);
 		}
 	}
-	public void getCardsWithCardTypeHandler()
+	public void buyPackHandler(int chosenPack)
+	{
+		this.selectedPackIndex = view.packsVM.start + chosenPack;
+		if(model.packList[selectedPackIndex].CardType==-2)
+		{
+			this.displaySelectCardPopUp();
+		}
+		else
+		{
+			StartCoroutine(this.getCards());
+		}
+	}
+	public void buyPackWidthCardTypeHandler()
 	{
 		if(isCardTypeSelected())
 		{
-			if(selectCardTypePopUpView.selectCardTypePopUpVM.are5CardsCreated)
-			{
-				this.disableMainGui ();
-				StartCoroutine(this.get5RandomCardsWithCardType());	
-			}
-			else
-			{
-				this.disableMainGui ();
-				StartCoroutine(this.getRandomCardWithCardType());	
-			}
+			selectCardTypePopUpView.selectCardTypePopUpVM.guiEnabled=false;
+			StartCoroutine(this.getCards(model.player.CardTypesAllowed[selectCardTypePopUpView.selectCardTypePopUpVM.cardTypeSelected]));	
 		}
 	}
-	public void getRandomCardHandler()
+	private IEnumerator getCards(int cardType=-1)
 	{
-		this.disableMainGui ();
-		StartCoroutine (this.getRandomCard ());
+		yield return StartCoroutine (model.packList [selectedPackIndex].buyPack (cardType));
+		if(selectCardTypePopUpView!=null)
+		{
+			this.hideSelectCardTypePopUp();
+		}
+		this.createRandomCards ();
 	}
-	public void get5RandomCardsHandler()
-	{
-		this.disableMainGui ();
-		StartCoroutine (this.get5RandomCards ());
-	}
-	private IEnumerator getRandomCardWithCardType()
-	{
-		this.hideSelectCardTypePopUp ();
-		yield return StartCoroutine(this.card.buyRandomCard (this.cardWithCardTypeCreationCost,model.player.CardTypesAllowed[selectCardTypePopUpView.selectCardTypePopUpVM.cardTypeSelected]));
-		this.createRandomCard();
-	}
-	private IEnumerator get5RandomCardsWithCardType()
-	{
-		this.hideSelectCardTypePopUp ();
-		yield return StartCoroutine(model.create5RandomCards(this.fiveCardsWidthCardTypeCreationCost,model.player.CardTypesAllowed[selectCardTypePopUpView.selectCardTypePopUpVM.cardTypeSelected]));
-		this.create5RandomCards();
-	}
-	private IEnumerator getRandomCard()
-	{
-		yield return StartCoroutine(this.card.buyRandomCard (this.cardCreationCost));
-		this.createRandomCard();
-	}
-	private IEnumerator get5RandomCards()
-	{
-		yield return StartCoroutine(model.create5RandomCards(this.fiveCardsCreationCost));
-		this.create5RandomCards();
-	}
-	private void create5RandomCards()
+	private void createRandomCards()
 	{
 		this.refreshCredits();
-		if(model.error=="")
+		if(model.packList[this.selectedPackIndex].Error=="")
 		{
 			this.hideMainGUI();
 
-			this.toRotate= new bool[] { false, false,false,false,false };
-
 			string name;
 			Vector3 scale;
-			Vector3 position;
+			Vector3 position=new Vector3(0,0,0);
 			Quaternion rotation;
 			float tempF = 2*Camera.main.camera.orthographicSize*view.storeScreenVM.widthScreen/view.storeScreenVM.heightScreen;
 			float width = 0.75f * tempF;
-			float scaleCard = width/6f;
-			this.randomCards = new GameObject[5];
-			for (int i = 0; i < 5; i++)
+			float scaleCard = width/(model.packList[this.selectedPackIndex].NbCards+1);
+			if(scaleCard>view.storeScreenVM.heightScreen / 140f)
+			{
+				scaleCard=view.storeScreenVM.heightScreen / 140f;
+			}
+			this.randomCards = new GameObject[model.packList[this.selectedPackIndex].NbCards];
+			this.toRotate= new bool[model.packList[this.selectedPackIndex].NbCards];
+			for (int i = 0; i < model.packList[this.selectedPackIndex].NbCards; i++)
 			{
 				name="Card" + i;
 				scale = new Vector3(scaleCard,scaleCard,scaleCard);
-				position = new Vector3(-width/2+(scaleCard/2)+i*(scaleCard+1f/4f*scaleCard), 0f, 0f); 
+				if(model.packList[this.selectedPackIndex].NbCards>1)
+				{
+					position = new Vector3(-width/2+(scaleCard/2)+i*(scaleCard+1f/(model.packList[this.selectedPackIndex].NbCards-1)*scaleCard), 0f, 0f); 
+				}
 				rotation = Quaternion.Euler(0, 180, 0);
+				this.toRotate[i]=false;
 				this.randomCards [i] = Instantiate(this.CardObject) as GameObject;
 				this.randomCards [i].AddComponent<CardStoreController>();
 				this.randomCards [i].GetComponent<CardController>().setGameObject(name,scale,position);
-				this.randomCards [i].GetComponent<CardStoreController>().setStoreCard(model.randomCards[i]);
+				this.randomCards [i].GetComponent<CardStoreController>().setStoreCard(model.packList[this.selectedPackIndex].Cards[i]);
 				this.randomCards [i].GetComponent<CardController>().setGameObjectRotation(rotation);
 			}
 			this.startRotation = true;
-			this.rotateRandomCards=true;
 			this.toRotate [0] = true;
 			this.angle = 180;
 		}
 		else
 		{
 			this.displayErrorPopUp();
-			errorPopUpView.errorPopUpVM.error=model.error;
-			model.error="";
-		}
-	}
-	private void createRandomCard()
-	{
-		this.refreshCredits();
-		if(this.card.Error=="")
-		{
-			this.hideMainGUI();
-
-			string name;
-			Vector3 scale = new Vector3(view.storeScreenVM.heightScreen / 120f,view.storeScreenVM.heightScreen / 120f,view.storeScreenVM.heightScreen / 120f);
-			Vector3 position = Camera.main.ScreenToWorldPoint (new Vector3 (0.4f * view.storeScreenVM.widthScreen, 0.45f * view.storeScreenVM.heightScreen - 1, 10));
-			Quaternion rotation;
-			name="RandomCard";
-			rotation = Quaternion.Euler(0, 180, 0);
-			this.randomCard = Instantiate(this.CardObject) as GameObject;
-			this.randomCard.AddComponent<CardStoreController>();
-			this.randomCard.GetComponent<CardController>().setGameObject(name,scale,position);
-			this.randomCard.GetComponent<CardStoreController>().setStoreCard(this.card);
-			this.randomCard.GetComponent<CardController>().setGameObjectRotation(rotation);
-			this.randomCard.GetComponent<CardController> ().setCentralWindowRect (view.storeScreenVM.centralWindow);
-			this.startRotation = true;
-			this.rotateRandomCard=true;
-			this.angle = 180;
-		}
-		else
-		{
-			this.displayErrorPopUp();
-			errorPopUpView.errorPopUpVM.error=this.card.Error;
-			this.card.Error="";
+			errorPopUpView.errorPopUpVM.error=model.packList[this.selectedPackIndex].Error;
+			model.packList[this.selectedPackIndex].Error="";
 		}
 	}
 	private bool isCardTypeSelected()
@@ -331,14 +306,10 @@ public class StoreController : MonoBehaviour
 		this.enableMainGui ();
 		Destroy (this.errorPopUpView);
 	}
-	public void displaySelectCardPopUp(bool are5CardsCreated)
+	public void displaySelectCardPopUp()
 	{
 		this.disableMainGui ();
 		this.selectCardTypePopUpView = Camera.main.gameObject.AddComponent <StoreSelectCardTypePopUpView>();
-		if(are5CardsCreated)
-		{
-			selectCardTypePopUpView.selectCardTypePopUpVM.are5CardsCreated=true;
-		}
 		selectCardTypePopUpView.selectCardTypePopUpVM.guiEnabled = true;
 		selectCardTypePopUpView.popUpVM.styles=new GUIStyle[this.popUpVMStyle.Length];
 		for(int i=0;i<this.popUpVMStyle.Length;i++)
@@ -398,22 +369,25 @@ public class StoreController : MonoBehaviour
 	}
 	public void exitCard()
 	{
-		if(this.randomCard!=null)
+		if(this.randomCards!=null && this.randomCards.Length==1)
 		{
 			this.displayMainGUI ();
 		}
 		else if(this.cardFocused!=null)
 		{
-			this.display5Cards();
+			this.displayCards();
 		}
 	}
 	public void setGUI(bool value)
 	{
-		if(this.randomCard!=null)
+		if(this.randomCards!=null)
 		{
-			this.randomCard.GetComponent<CardController>().setMyGUI(value);
+			if(this.randomCards.Length==1)
+			{
+				this.randomCards[0].GetComponent<CardController>().setMyGUI(value);
+			}
 		}
-		if(this.cardFocused!=null)
+		else if(this.cardFocused!=null)
 		{
 			this.cardFocused.GetComponent<CardController>().setMyGUI(value);
 		}
@@ -435,7 +409,7 @@ public class StoreController : MonoBehaviour
 		}
 		else if(selectCardTypePopUpView!=null)
 		{
-			this.getCardsWithCardTypeHandler();
+			this.buyPackWidthCardTypeHandler();
 		}
 		else if(addCreditsPopUpView!=null)
 		{
@@ -444,7 +418,7 @@ public class StoreController : MonoBehaviour
 	}
 	public void escapePressed()
 	{
-		if(view.storeVM.isPopUpDisplayed)
+		if(view.storeVM.isPopUpDisplayed && this.cardPopUpBelongTo!=null)
 		{
 			this.cardPopUpBelongTo.GetComponent<CardController> ().exitPopUp ();
 		}
@@ -452,11 +426,11 @@ public class StoreController : MonoBehaviour
 		{
 			this.exitCard();
 		}
-		else if(this.randomCard!=null)
+		else if(this.randomCards.Length==1&& !this.startRotation)
 		{
 			this.exitCard();
 		}
-		else if(view.storeVM.are5CardsDisplayed)
+		else if(this.randomCards.Length>1 && !this.startRotation)
 		{
 			this.displayMainGUI();
 		}
@@ -479,150 +453,122 @@ public class StoreController : MonoBehaviour
 	}
 	public IEnumerator sellCard(GameObject gameobject)
 	{
-		if(gameobject.name.StartsWith("Random"))
+		yield return StartCoroutine (model.packList[this.selectedPackIndex].Cards[System.Convert.ToInt32 (gameobject.name.Substring (4))].sellCard ());
+		if(model.packList[this.selectedPackIndex].Cards[System.Convert.ToInt32 (gameobject.name.Substring (4))].Error=="")
 		{
-			yield return StartCoroutine (this.card.sellCard ());
-			if(this.card.Error=="")
+			if(model.packList[this.selectedPackIndex].Cards.Count==1)
 			{
 				this.displayMainGUI();
 			}
 			else
 			{
-				randomCard.GetComponent<CardController>().setError();
-				this.card.Error="";
+				this.displayCards ();
+				Destroy (this.randomCards[System.Convert.ToInt32(gameobject.name.Substring(4))]);
+				Destroy (this.cardPopUpBelongTo);
+				view.storeVM.isPopUpDisplayed = false;
 			}
 		}
 		else
 		{
-			yield return StartCoroutine (this.model.randomCards[System.Convert.ToInt32(gameobject.name.Substring(4))].sellCard ());
-			if(this.model.randomCards[System.Convert.ToInt32(gameobject.name.Substring(4))].Error=="")
+			if(model.packList[this.selectedPackIndex].Cards.Count==1)
 			{
-				this.display5Cards();
-				Destroy (this.randomCards[System.Convert.ToInt32(gameobject.name.Substring(4))]);
+				this.randomCards[0].GetComponent<CardController>().setError();
 			}
 			else
 			{
 				this.cardFocused.GetComponent<CardController>().setError();
-				this.model.randomCards[System.Convert.ToInt32(gameobject.name.Substring(4))].Error="";
 			}
+			model.packList[this.selectedPackIndex].Cards[System.Convert.ToInt32 (gameobject.name.Substring (4))].Error="";
 		}
 		this.refreshCredits ();
 	}
 	public IEnumerator buyXpCard(GameObject gameobject)
 	{
-		if(gameobject.name.StartsWith("Random"))
+		int xpPrice = model.packList [this.selectedPackIndex].Cards [System.Convert.ToInt32 (gameobject.name.Substring (4))].getPriceForNextLevel ();
+		yield return StartCoroutine (model.packList [this.selectedPackIndex].Cards [System.Convert.ToInt32 (gameobject.name.Substring (4))].addXp (xpPrice,xpPrice));
+
+
+		if(model.packList[this.selectedPackIndex].Cards[System.Convert.ToInt32 (gameobject.name.Substring (4))].Error=="")
 		{
-			yield return StartCoroutine(this.card.addXp(this.card.getPriceForNextLevel(),this.card.getPriceForNextLevel()));
-			if(this.card.Error=="")
+			this.setGUI (true);
+			if(model.packList[this.selectedPackIndex].Cards.Count==1)
 			{
-				this.setGUI (true);
-				randomCard.GetComponent<CardController>().animateExperience (this.card);
+				this.randomCards[0].GetComponent<CardController>().animateExperience(model.packList [this.selectedPackIndex].Cards [System.Convert.ToInt32 (gameobject.name.Substring (4))]);
 			}
 			else
 			{
-				randomCard.GetComponent<CardStoreController>().resetFocusedStoreCard(this.card);
-				randomCard.GetComponent<CardController>().setError(); 
-				this.card.Error="";
+				this.cardFocused.GetComponent<CardController>().animateExperience(model.packList [this.selectedPackIndex].Cards [System.Convert.ToInt32 (gameobject.name.Substring (4))]);
 			}
 		}
 		else
 		{
-			yield return StartCoroutine(this.model.randomCards[System.Convert.ToInt32(gameobject.name.Substring(4))].addXp(
-				this.model.randomCards[System.Convert.ToInt32(gameobject.name.Substring(4))].getPriceForNextLevel(),
-				this.model.randomCards[System.Convert.ToInt32(gameobject.name.Substring(4))].getPriceForNextLevel()));
-			if(this.model.randomCards[System.Convert.ToInt32(gameobject.name.Substring(4))].Error=="")
+			if(model.packList[this.selectedPackIndex].Cards.Count==1)
 			{
-				this.setGUI (true);
-				this.cardFocused.GetComponent<CardController>().animateExperience (this.model.randomCards[System.Convert.ToInt32(gameobject.name.Substring(4))]);
+				this.randomCards[0].GetComponent<CardStoreController>().resetFocusedStoreCard(model.packList [this.selectedPackIndex].Cards [System.Convert.ToInt32 (gameobject.name.Substring (4))]);
+				this.randomCards[0].GetComponent<CardStoreController>().setError();
 			}
 			else
 			{
-				this.cardFocused.GetComponent<CardStoreController>().resetFocusedStoreCard(this.model.randomCards[System.Convert.ToInt32(gameobject.name.Substring(4))]);
-				this.randomCards[System.Convert.ToInt32(name.Substring(4))].GetComponent<CardStoreController>().resetStoreCard(this.model.randomCards[System.Convert.ToInt32(name.Substring(4))]);
-				this.cardFocused.GetComponent<CardController>().setError(); 
-				this.model.randomCards[System.Convert.ToInt32(gameobject.name.Substring(4))].Error="";
+				this.cardFocused.GetComponent<CardStoreController>().resetFocusedStoreCard(model.packList [this.selectedPackIndex].Cards [System.Convert.ToInt32 (gameobject.name.Substring (4))]);
+				this.randomCards[System.Convert.ToInt32(name.Substring(4))].GetComponent<CardStoreController>().resetFocusedStoreCard(model.packList [this.selectedPackIndex].Cards [System.Convert.ToInt32 (gameobject.name.Substring (4))]);
+				this.cardFocused.GetComponent<CardController>().setError();
 			}
+			model.packList [this.selectedPackIndex].Cards [System.Convert.ToInt32 (gameobject.name.Substring (4))].Error="";
 		}
 		this.refreshCredits ();
 	}
 	public IEnumerator renameCard(string value,GameObject gameobject)
 	{
-		if(gameobject.name.StartsWith("Random"))
-		{
-			yield return StartCoroutine(this.card.renameCard(value,this.card.RenameCost));
-			this.updateRandomCard ();
-		}
-		else
-		{
-			yield return StartCoroutine (this.model.randomCards[System.Convert.ToInt32(gameobject.name.Substring(4))].renameCard(value,this.card.RenameCost));
-			this.updateCardFocused (gameobject.name);
-		}
+		int renameCost = model.packList [this.selectedPackIndex].Cards [System.Convert.ToInt32 (gameobject.name.Substring (4))].RenameCost;
+		yield return StartCoroutine (model.packList [this.selectedPackIndex].Cards [System.Convert.ToInt32 (gameobject.name.Substring (4))].renameCard(value,renameCost));
+		this.updateCard (gameobject.name);
 		this.refreshCredits ();
 	}
 	public IEnumerator putOnMarketCard(int price,GameObject gameobject)
 	{
-		if(gameobject.name.StartsWith("Random"))
-		{
-			yield return StartCoroutine (this.card.toSell (price));
-			this.updateRandomCard ();
-		}
-		else
-		{
-			yield return StartCoroutine (this.model.randomCards[System.Convert.ToInt32(gameobject.name.Substring(4))].toSell(price));
-			this.updateCardFocused (gameobject.name);
-		}
+		yield return StartCoroutine (model.packList [this.selectedPackIndex].Cards [System.Convert.ToInt32 (gameobject.name.Substring (4))].toSell(price));
+		this.updateCard (gameobject.name);
+		this.refreshCredits ();
 	}
 	public IEnumerator editSellPriceCard(int price,GameObject gameobject)
 	{
-		if(gameobject.name.StartsWith("Random"))
-		{
-			yield return StartCoroutine (this.card.changePriceCard (price));
-			this.updateRandomCard ();
-		}
-		else
-		{
-			yield return StartCoroutine (this.model.randomCards[System.Convert.ToInt32(gameobject.name.Substring(4))].changePriceCard(price));
-			this.updateCardFocused (gameobject.name);
-		}
+		yield return StartCoroutine (model.packList [this.selectedPackIndex].Cards [System.Convert.ToInt32 (gameobject.name.Substring (4))].changePriceCard(price));
+		this.updateCard (gameobject.name);
+		this.refreshCredits ();
 	}
 	public IEnumerator unsellCard(GameObject gameobject)
 	{
-		if(gameobject.name.StartsWith("Random"))
-		{
-			yield return StartCoroutine (this.card.notToSell ());
-			this.updateRandomCard ();
-		}
-		else
-		{
-			yield return StartCoroutine (this.model.randomCards[System.Convert.ToInt32(gameobject.name.Substring(4))].notToSell());
-			this.updateCardFocused (gameobject.name);
-		}
+		yield return StartCoroutine (model.packList [this.selectedPackIndex].Cards [System.Convert.ToInt32 (gameobject.name.Substring (4))].notToSell());
+		this.updateCard (gameobject.name);
+		this.refreshCredits ();
 	}
-	private void updateRandomCard()
+	private void updateCard(string name)
 	{
-		randomCard.GetComponent<CardStoreController>().resetFocusedStoreCard(this.card);
-		if(this.card.Error=="")
+		if(model.packList[this.selectedPackIndex].Cards[System.Convert.ToInt32 (name.Substring (4))].Error=="")
 		{
 			this.setGUI (true);
+			if(model.packList[this.selectedPackIndex].Cards.Count==1)
+			{
+				this.randomCards[0].GetComponent<CardStoreController>().resetFocusedStoreCard(model.packList [this.selectedPackIndex].Cards [System.Convert.ToInt32 (name.Substring (4))]);
+			}
+			else
+			{
+				this.cardFocused.GetComponent<CardStoreController>().resetFocusedStoreCard(model.packList [this.selectedPackIndex].Cards [System.Convert.ToInt32 (name.Substring (4))]);
+				this.randomCards[System.Convert.ToInt32(name.Substring(4))].GetComponent<CardStoreController>().resetFocusedStoreCard(model.packList [this.selectedPackIndex].Cards [System.Convert.ToInt32 (name.Substring (4))]);
+			}
+
 		}
 		else
 		{
-			randomCard.GetComponent<CardController>().setError();
-			this.card.Error="";
-		}
-	}
-	private void updateCardFocused(string name)
-	{
-		cardFocused.GetComponent<CardStoreController>().resetFocusedStoreCard(this.model.randomCards[System.Convert.ToInt32(name.Substring(4))]);
-		randomCards[System.Convert.ToInt32(name.Substring(4))].GetComponent<CardStoreController>().resetStoreCard(this.model.randomCards[System.Convert.ToInt32(name.Substring(4))]);
-		if(this.model.randomCards[System.Convert.ToInt32(name.Substring(4))].Error=="")
-		{
-			this.setGUI (true);
-		}
-		else
-		{
-			this.cardFocused.GetComponent<CardController>().setError();
-			this.model.randomCards[System.Convert.ToInt32(name.Substring(4))].Error="";
+			if(model.packList[this.selectedPackIndex].Cards.Count==1)
+			{
+				this.randomCards[0].GetComponent<CardStoreController>().setError();
+			}
+			else
+			{
+				this.cardFocused.GetComponent<CardController>().setError();
+			}
+			model.packList [this.selectedPackIndex].Cards [System.Convert.ToInt32 (name.Substring (4))].Error="";
 		}
 	}
 	public void enableMainGui()
@@ -637,7 +583,7 @@ public class StoreController : MonoBehaviour
 	{
 		if(this.randomCards!=null)
 		{
-			for(int i=0;i<5;i++)
+			for(int i=0;i<this.randomCards.Length;i++)
 			{
 				if(this.randomCards[i]!=null)
 				{
@@ -645,27 +591,23 @@ public class StoreController : MonoBehaviour
 				}
 			}
 		}
-		if(this.randomCard!=null)
-		{
-			Destroy(this.randomCard);
-			Destroy(this.anim);
-		}
+		this.randomCards=null;
 		view.storeVM.hideGUI = false;
-		view.storeVM.are5CardsDisplayed = false;
+		view.storeVM.areMoreThan1CardDisplayed = false;
 		this.enableMainGui ();
 	}
 	public void hideMainGUI()
 	{
 		view.storeVM.hideGUI = true;
 	}
-	public void display5Cards()
+	public void displayCards()
 	{
-		view.storeVM.are5CardsDisplayed=true ;
+		view.storeVM.areMoreThan1CardDisplayed=true ;
 		if(this.cardFocused!=null)
 		{
 			Destroy(this.cardFocused);
 		}
-		for(int i = 0 ; i < 5 ; i++)
+		for(int i = 0 ; i < randomCards.Length ; i++)
 		{
 			if(this.randomCards[i]!=null)
 			{
@@ -673,11 +615,11 @@ public class StoreController : MonoBehaviour
 			}
 		}
 	}
-	public void hide5Cards()
+	public void hideCards()
 	{
-		view.storeVM.are5CardsDisplayed=false ;
+		view.storeVM.areMoreThan1CardDisplayed=false ;
 		
-		for(int i = 0 ; i < 5 ; i++)
+		for(int i = 0 ; i < randomCards.Length ; i++)
 		{
 			if(this.randomCards[i]!=null)
 			{
@@ -685,15 +627,14 @@ public class StoreController : MonoBehaviour
 			}
 		}
 	}
-	private void resize5RandomCards()
+	private void resizeRandomCards()
 	{
 		if(this.cardFocused==null)
 		{
-			view.storeVM.are5CardsDisplayed = true;
+			view.storeVM.areMoreThan1CardDisplayed = true;
 		}
 		view.storeVM.guiEnabled=true;
 		this.startRotation=false;
-		this.rotateRandomCards=false;
 		string name;
 		Vector3 scale;
 		Vector3 position;
@@ -701,7 +642,7 @@ public class StoreController : MonoBehaviour
 		float tempF = 2*Camera.main.camera.orthographicSize*view.storeScreenVM.widthScreen/view.storeScreenVM.heightScreen;
 		float width = 0.75f * tempF;
 		float scaleCard = width/6f;
-		for (int i = 0; i < 5; i++)
+		for (int i = 0; i < randomCards.Length; i++)
 		{
 			if(this.randomCards[i]!=null)
 			{
@@ -712,5 +653,47 @@ public class StoreController : MonoBehaviour
 				this.randomCards [i].GetComponent<CardController>().setGameObjectRotation(rotation);
 			}
 		}
+	}
+	private void initializePagination()
+	{
+		view.packsVM.nbPages = Mathf.CeilToInt(((float)model.packList.Count) / ((float)view.packsVM.nbElementsToDisplay));
+		view.packsVM.pageDebut = 0 ;
+		if (view.packsVM.nbPages>10)
+		{
+			view.packsVM.pageFin = 9 ;
+		}
+		else
+		{
+			view.packsVM.pageFin = view.packsVM.nbPages;
+		}
+		view.packsVM.paginatorGuiStyle = new GUIStyle[view.packsVM.nbPages];
+		for (int i = 0; i < view.packsVM.nbPages; i++) 
+		{ 
+			if (i==0)
+			{
+				view.packsVM.paginatorGuiStyle[i]=view.storeVM.paginationActivatedStyle;
+			}
+			else
+			{
+				view.packsVM.paginatorGuiStyle[i]=view.storeVM.paginationStyle;
+			}
+		}
+	}
+	public void paginationBack()
+	{
+		view.packsVM.pageDebut = view.packsVM.pageDebut-10;
+		view.packsVM.pageFin = view.packsVM.pageDebut+10;
+	}
+	public void paginationSelect(int chosenPage)
+	{
+		view.packsVM.paginatorGuiStyle[view.packsVM.chosenPage]=view.storeVM.paginationStyle;
+		view.packsVM.chosenPage=chosenPage;
+		view.packsVM.paginatorGuiStyle[chosenPage]=this.view.storeVM.paginationActivatedStyle;
+		this.displayPage();
+	}
+	public void paginationNext()
+	{
+		view.packsVM.pageDebut = view.packsVM.pageDebut+10;
+		view.packsVM.pageFin = Mathf.Min(view.packsVM.pageFin+10, view.packsVM.nbPages);
 	}
 }

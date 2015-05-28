@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 
-public class NotificationsViewModel {
+public class HomePageNotificationsViewModel {
 
 	public GUIStyle[] styles;
 	public IList<GUIStyle> profilePicturesButtonStyle;
@@ -23,9 +23,15 @@ public class NotificationsViewModel {
 	public GUIStyle notificationContentStyle;
 	public GUIStyle notificationDateStyle;
 
-	public IList<DisplayedNotification> notifications;
-	
 	public IList<bool> nonReadNotifications;
+	public IList<string> username;
+	public IList<int> totalNbWins;
+	public IList<int> totalNbLooses;
+	public IList<int> ranking;
+	public IList<int> division;
+	public IList<string> content;
+	public IList<DateTime> date;
+
 	public int nbNonReadNotifications;
 	public int displayedNonReadNotifications;
 
@@ -33,14 +39,13 @@ public class NotificationsViewModel {
 	public float blocksWidth;
 	public float blocksHeight;
 
-	public NotificationsViewModel ()
+	public HomePageNotificationsViewModel ()
 	{
 		this.styles=new GUIStyle[0];
 		this.profilePicturesButtonStyle = new List<GUIStyle> ();
 		this.paginatorGuiStyle=new GUIStyle[0];
 		this.notificationContentStyle = new GUIStyle ();
 		this.notificationDateStyle = new GUIStyle ();
-		this.notifications = new List<DisplayedNotification> ();
 		this.nonReadNotifications = new List<bool> ();
 		this.blocks=new Rect[0];
 	}
@@ -55,16 +60,5 @@ public class NotificationsViewModel {
 		this.notificationContentStyle.fontSize = heightScreen * 2 / 100;
 		this.notificationDateStyle.fontSize = heightScreen * 2 / 100;
 		this.newStyle.fontSize = heightScreen * 2 / 100;
-	}
-	public void displayPage(){
-		
-		this.start = this.chosenPage*(this.elementPerRow*10);
-		if (this.notifications.Count < (10*this.elementPerRow*(this.chosenPage+1)))
-		{
-			this.finish = this.notifications.Count;
-		}
-		else{
-			this.finish = (this.chosenPage+1)*(10 * this.elementPerRow);
-		}
 	}
 }
