@@ -19,11 +19,16 @@ public class PlayingCardViewModel
 	public bool isPlaying ; 
 	public bool isActive = true ;
 
-	public bool toDisplayIcon ;
+	public bool toDisplayIcon = false ;
 	public List<Texture2D> icons ;
 	public List<Rect> iconsRect ;
 
 	public GUIStyle iconStyle ;
+
+	public Texture2D halo ;
+	public Rect haloRect ;
+	public bool toDisplayHalo = false; 
+
 
 	public PlayingCardViewModel ()
 	{

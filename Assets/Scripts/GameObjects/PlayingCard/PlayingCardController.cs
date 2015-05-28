@@ -23,6 +23,7 @@ public class PlayingCardController : GameObjectController
 	public bool cannotBeTargeted;
 
 	public Texture2D[] icons ;
+	public Texture2D[] halos ;
 
 	public Tile tile ;
 
@@ -47,6 +48,31 @@ public class PlayingCardController : GameObjectController
 		}
 		this.cannotBeTargeted = cbt;
 
+	}
+
+	public void activateTargetHalo()
+	{
+		this.playingCardView.playingCardVM.toDisplayHalo = true ;
+		this.playingCardView.playingCardVM.halo = this.halos[0] ;
+	}
+
+	public void resizeHalo(){
+		int height = Screen.height;
+		int width = Screen.width;
+
+		int decalage = height/15 ;
+		
+		Vector3 positionObject = new Vector3(0,0,0) ;
+		positionObject.x = (this.playingCardView.playingCardVM.position.x)*(height/10f)-(decalage/2)+(width/2f);
+		positionObject.y = height-((this.playingCardView.playingCardVM.position.y+this.playingCardView.playingCardVM.scale.y/2f)*(height/10f)-(decalage/2)+(height/2f));
+		
+		Rect position = new Rect(positionObject.x, positionObject.y, decalage, decalage);
+		this.playingCardView.playingCardVM.haloRect = position;
+	}
+
+	public void removeTargetHalo()
+	{
+		this.playingCardView.playingCardVM.toDisplayHalo = false ;
 	}
 
 	public void setStyles(bool isMyCharacter)
@@ -129,20 +155,13 @@ public class PlayingCardController : GameObjectController
 
 	public void resize(int h)
 	{
-		
+		this.resizeHalo();
 	}
 	
 	public void setIDCharacter(int i)
 	{
 		this.IDCharacter = i;
 	}
-
-
-	public void getDamage()
-	{
-		//GameController.instance.inflictDamage(ID);
-	}
-	
 
 	public void updateLife()
 	{
@@ -201,6 +220,11 @@ public class PlayingCardController : GameObjectController
 	public void clickPlayingCard()
 	{
 		GameController.instance.clickPlayingCardHandler(this.IDCharacter);
+	}
+
+	public void addTarget()
+	{
+		GameController.instance.addTarget(this.IDCharacter);
 	}
 
 	public void releaseClickPlayingCard()
@@ -286,7 +310,6 @@ public class PlayingCardController : GameObjectController
 		positionObject.x = (this.playingCardView.playingCardVM.position.x+this.playingCardView.playingCardVM.scale.x/2f)*(height/10f)-decalage*(this.playingCardView.playingCardVM.icons.Count)+(width/2f);
 		positionObject.y = height-((this.playingCardView.playingCardVM.position.y+this.playingCardView.playingCardVM.scale.y/2f)*(height/10f)-decalage*(this.playingCardView.playingCardVM.icons.Count)+(height/2f));
 
-		print (positionObject.x+","+positionObject.y);
 		Rect position = new Rect(positionObject.x, positionObject.y, decalage, decalage);
 		this.playingCardView.playingCardVM.iconsRect.Add(position);
 

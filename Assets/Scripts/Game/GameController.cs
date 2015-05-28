@@ -20,6 +20,9 @@ public class GameController : Photon.MonoBehaviour
 	public GUIStyle[] gameScreenStyles;
 	bool isRunningSkill = false ;
 
+	int numberOfExpectedArgs ;
+	int numberOfArgs ;
+
 	public int[] skillArgs ;
 
 	public Texture2D[] cursors ;
@@ -69,10 +72,9 @@ public class GameController : Photon.MonoBehaviour
 	GameView gameView;
 
 	bool isDragging = false;
-	bool isLookingForTarget = false;
 
 	GameSkill skillToBeCast;
-	int nbPlayersReadyToFight;
+	int nbPlayersReadyToFight; 
 
 	int currentPlayingCard = -1;
 	public int eventMax;
@@ -521,12 +523,30 @@ public class GameController : Photon.MonoBehaviour
 
 	public void lookForTarget(string regularText, string buttonText)
 	{
-		isLookingForTarget = true;
+		this.numberOfExpectedArgs = 1 ;
 
 		this.gameView.gameScreenVM.toDisplayValidationWindows = true ;
 		this.gameView.gameScreenVM.toDisplayValidationButton = false ;
 		this.gameView.gameScreenVM.validationRegularText = regularText ;
 		this.gameView.gameScreenVM.validationButtonText = buttonText ;
+
+		for (int i = 0 ; i < 10 ; i++){
+			if (!this.playingCards[i].GetComponent<PlayingCardController>().isDead && !this.playingCards[i].GetComponent<PlayingCardController>().cannotBeTargeted){
+				this.playingCards[i].GetComponent<PlayingCardController>().activateTargetHalo();
+			}
+		}
+	}
+
+	public void addTarget(int id){
+		this.skillArgs[numberOfArgs]=id;
+		this.numberOfArgs++;
+		if (this.numberOfExpectedArgs <= this.numberOfArgs){
+			this.gameView.gameScreenVM.toDisplayValidationButton = true ;
+			this.gameView.gameScreenVM.validationRegularText = "Cible choisie !" ;
+			for (int i = 0 ; i < 10 ; i++){
+				this.playingCards[i].GetComponent<PlayingCardController>().removeTargetHalo();
+			}
+		}
 	}
 
 	public void lookForValidation(bool toDisplayButton, string regularText, string buttonText)
@@ -563,7 +583,8 @@ public class GameController : Photon.MonoBehaviour
 		if (this.isFirstPlayer == (this.currentPlayingCard < 5))
 		{
 			this.hideMySkills();
-		} else
+		} 
+		else
 		{
 			this.hideOpponentSkills();
 		}
@@ -668,105 +689,99 @@ public class GameController : Photon.MonoBehaviour
 		bool toHidePlay = false;
 		bool toPlay = false;
 
-		if (!isLookingForTarget)
+
+		if (idPlayingCard == this.currentPlayingCard)
 		{
-			if (idPlayingCard == this.currentPlayingCard)
+			if (this.nbTurns == 0)
 			{
-				if (this.nbTurns == 0)
+				toHidePlay = true;
+			} else if (this.isFirstPlayer == (idPlayingCard < 5))
+			{
+				if (this.clickedPlayingCard != idPlayingCard)
 				{
-					toHidePlay = true;
-				} else if (this.isFirstPlayer == (idPlayingCard < 5))
-				{
-					if (this.clickedPlayingCard != idPlayingCard)
-					{
-						this.hideClickedPlayingCard();
-						this.clickedPlayingCard = idPlayingCard;
-						this.showMyPlayingSkills(idPlayingCard);
-					}
-				} else
-				{
-					if (this.clickedOpponentPlayingCard != idPlayingCard)
-					{
-						this.hideOpponentClickedPlayingCard();
-						this.clickedOpponentPlayingCard = idPlayingCard;
-						this.showOpponentSkills(idPlayingCard);
-					}
+					this.hideClickedPlayingCard();
+					this.clickedPlayingCard = idPlayingCard;
+					this.showMyPlayingSkills(idPlayingCard);
 				}
-			} else if (idPlayingCard == this.clickedPlayingCard)
-			{
-				toHideClick = true;
-			} else if (idPlayingCard == this.clickedOpponentPlayingCard)
-			{
-				toHideOpponentClick = true;
 			} else
 			{
-				if (this.nbTurns == 0)
+				if (this.clickedOpponentPlayingCard != idPlayingCard)
 				{
-					if (this.isFirstPlayer == (idPlayingCard < 5))
-					{
-						if (this.currentPlayingCard != -1)
-						{
-							toHidePlay = true;
-						}
-						toPlay = true;
-					} else
-					{
-						if (clickedOpponentPlayingCard != -1)
-						{
-							toHideOpponentClick = true;
-						}
-						toClickOpponent = true;
-					}
-				} else
-				{
-					if (this.isFirstPlayer == (idPlayingCard < 5))
-					{
-						if (this.clickedPlayingCard != -1 && this.clickedPlayingCard != this.currentPlayingCard)
-						{
-							toHideClick = true;
-						}
-						toClick = true;
-					} else
-					{
-						if (clickedOpponentPlayingCard != -1 && this.clickedOpponentPlayingCard != this.currentPlayingCard)
-						{
-							toHideOpponentClick = true;
-						}
-						toClickOpponent = true;
-					}
+					this.hideOpponentClickedPlayingCard();
+					this.clickedOpponentPlayingCard = idPlayingCard;
+					this.showOpponentSkills(idPlayingCard);
 				}
 			}
-		
-			if (toHideClick)
-			{
-				this.hideClickedPlayingCard();
-			}
-			if (toHideOpponentClick)
-			{
-				this.hideOpponentClickedPlayingCard();
-			}
-			if (toHidePlay)
-			{
-				this.hideActivatedPlayingCard();
-			}
-			if (toClick)
-			{
-				this.clickPlayingCard(idPlayingCard);
-			}
-			if (toClickOpponent)
-			{
-				this.clickOpponentPlayingCard(idPlayingCard);
-			}
-			if (toPlay)
-			{
-				this.activatePlayingCard(idPlayingCard);
-			}
+		} else if (idPlayingCard == this.clickedPlayingCard)
+		{
+			toHideClick = true;
+		} else if (idPlayingCard == this.clickedOpponentPlayingCard)
+		{
+			toHideOpponentClick = true;
 		} else
 		{
-			int[] args = new int[1];
-			args[0] = idPlayingCard ;
-			photonView.RPC("resolveSkill", PhotonTargets.AllBuffered, this.clickedSkill, args);
+			if (this.nbTurns == 0)
+			{
+				if (this.isFirstPlayer == (idPlayingCard < 5))
+				{
+					if (this.currentPlayingCard != -1)
+					{
+						toHidePlay = true;
+					}
+					toPlay = true;
+				} else
+				{
+					if (clickedOpponentPlayingCard != -1)
+					{
+						toHideOpponentClick = true;
+					}
+					toClickOpponent = true;
+				}
+			} else
+			{
+				if (this.isFirstPlayer == (idPlayingCard < 5))
+				{
+					if (this.clickedPlayingCard != -1 && this.clickedPlayingCard != this.currentPlayingCard)
+					{
+						toHideClick = true;
+					}
+					toClick = true;
+				} else
+				{
+					if (clickedOpponentPlayingCard != -1 && this.clickedOpponentPlayingCard != this.currentPlayingCard)
+					{
+						toHideOpponentClick = true;
+					}
+					toClickOpponent = true;
+				}
+			}
 		}
+	
+		if (toHideClick)
+		{
+			this.hideClickedPlayingCard();
+		}
+		if (toHideOpponentClick)
+		{
+			this.hideOpponentClickedPlayingCard();
+		}
+		if (toHidePlay)
+		{
+			this.hideActivatedPlayingCard();
+		}
+		if (toClick)
+		{
+			this.clickPlayingCard(idPlayingCard);
+		}
+		if (toClickOpponent)
+		{
+			this.clickOpponentPlayingCard(idPlayingCard);
+		}
+		if (toPlay)
+		{
+			this.activatePlayingCard(idPlayingCard);
+		}
+
 	}
 
 	public void releaseClickPlayingCardHandler(int idPlayingCard)

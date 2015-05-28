@@ -67,7 +67,12 @@ public class PlayingCardView : MonoBehaviour
 	{
 		if (this.playingCardVM.isActive)
 		{
-			gameObject.GetComponentInChildren<PlayingCardController>().clickPlayingCard();
+			if(this.playingCardVM.toDisplayHalo){
+				gameObject.GetComponentInChildren<PlayingCardController>().addTarget();
+			}
+			else{
+				gameObject.GetComponentInChildren<PlayingCardController>().clickPlayingCard();
+			}
 		}
 	}
 
@@ -85,8 +90,10 @@ public class PlayingCardView : MonoBehaviour
 				GUI.Box (this.playingCardVM.iconsRect[i], this.playingCardVM.icons[i], this.playingCardVM.iconStyle);
 			}
 		}
+		if (this.playingCardVM.toDisplayHalo){
+			GUI.Box (this.playingCardVM.haloRect, this.playingCardVM.halo, this.playingCardVM.iconStyle);
+		}
 	}
-
 }
 
 
