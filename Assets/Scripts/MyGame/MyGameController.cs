@@ -179,13 +179,18 @@ public class MyGameController : MonoBehaviour
 		{
 			name = "Fdcd"+gameObject.name.Substring(4);
 		}
-		Vector3 scale = new Vector3(view.myGameScreenVM.heightScreen / 120f,view.myGameScreenVM.heightScreen / 120f,view.myGameScreenVM.heightScreen / 120f);
-		Vector3 position = Camera.main.ScreenToWorldPoint (new Vector3 (0.4f * view.myGameScreenVM.widthScreen, 0.45f * view.myGameScreenVM.heightScreen - 1, 10));
-		this.cardFocused = Instantiate(CardObject) as GameObject;
-		this.cardFocused.AddComponent<CardMyGameController> ();
-		this.cardFocused.GetComponent<CardController> ().setGameObject (name, scale, position);
-		this.cardFocused.GetComponent<CardMyGameController> ().setFocusedMyGameCard (gameObject.GetComponent<CardController> ().card);
-		this.cardFocused.GetComponent<CardController> ().setCentralWindowRect (view.myGameScreenVM.centralWindow);
+		if(this.cardFocused==null)
+		{
+			Vector3 scale = new Vector3(view.myGameScreenVM.heightScreen / 120f,view.myGameScreenVM.heightScreen / 120f,view.myGameScreenVM.heightScreen / 120f);
+			Vector3 position = Camera.main.ScreenToWorldPoint (new Vector3 (0.4f * view.myGameScreenVM.widthScreen, 0.45f * view.myGameScreenVM.heightScreen - 1, 10));
+			this.cardFocused = Instantiate(CardObject) as GameObject;
+			this.cardFocused.AddComponent<CardMyGameController> ();
+			this.cardFocused.GetComponent<CardController> ().setGameObjectScaleAndPosition(scale,position);
+			this.cardFocused.GetComponent<CardController> ().setCentralWindowRect (view.myGameScreenVM.centralWindow);
+		}
+		this.cardFocused.GetComponent<CardController> ().setGameObjectName (name);
+		this.cardFocused.GetComponent<CardMyGameController> ().resetFocusedMyGameCard (gameObject.GetComponent<CardController> ().card);
+		this.cardFocused.SetActive (true);
 	}
 	public void displayErrorPopUp(string error)
 	{
@@ -796,7 +801,7 @@ public class MyGameController : MonoBehaviour
 	{
 		if(this.cardFocused!=null)
 		{
-			Destroy (this.cardFocused);
+			this.cardFocused.SetActive (false);
 		}
 	}
 	private void clearDeckCards()
