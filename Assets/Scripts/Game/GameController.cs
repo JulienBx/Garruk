@@ -966,6 +966,7 @@ public class GameController : Photon.MonoBehaviour
 
 		this.currentPlayingCard = id;
 		this.playindCardHasPlayed = false;
+
 		this.currentPlayingTile = this.playingCards [currentPlayingCard].GetComponentInChildren<PlayingCardController>().tile;
 		
 		this.activatePlayingCard(id);
@@ -980,9 +981,11 @@ public class GameController : Photon.MonoBehaviour
 		if ((currentPlayingCard < 5 && this.isFirstPlayer) || (currentPlayingCard >= 5 && !this.isFirstPlayer))
 		{
 			displayPopUpMessage("A votre tour de jouer", 2f);
+			this.showMyPlayingSkills(this.currentPlayingCard);
 		} else
 		{
 			displayPopUpMessage("Tour du joueur adverse", 2f);
+			this.showOpponentSkills(this.currentPlayingCard);
 		}
 	}
 
@@ -1050,7 +1053,6 @@ public class GameController : Photon.MonoBehaviour
 
 	public void resolvePass()
 	{
-		this.playindCardHasPlayed = false ;
 		this.isRunningSkill = false ;
 		findNextPlayer();
 		photonView.RPC("timeRunsOut", PhotonTargets.AllBuffered, timerTurn);
