@@ -268,13 +268,39 @@ public class Card
 		{
 			move = modifier.modifyMove(move);
 		}
-		if (move < 0)
+		if (move < 1)
 		{
-			return 0;
+			return 1;
 		}
 		return move;
 	}
-	
+
+	public void clearBuffs()
+	{
+		List<StatModifier> temp = new List<StatModifier>();
+		for (int i = 0; i < modifiers.Count; i++)
+		{
+			if (modifiers [i].Stat == ModifierStat.Stat_Dommage)
+			{
+				temp.Add(modifiers [i]);
+			}
+		}
+		modifiers = temp;
+	}
+
+	public void dissipateModifiers()
+	{
+		List<StatModifier> temp = new List<StatModifier>();
+		foreach (StatModifier modifier in modifiers)
+		{
+			if (--modifier.Duration != 0)
+			{
+				temp.Add(modifier);
+			}
+		}
+		modifiers = temp;
+	}
+
 	/// <summary>
 	/// Determines whether this instance has attack modifier.
 	/// </summary>

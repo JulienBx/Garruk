@@ -6,7 +6,6 @@ public class Pass : GameSkill
 	{
 		Debug.Log("Je passe");
 
-		GameController.instance.addPassEvent();
-		GameController.instance.findNextPlayer();
+		GameController.instance.resolvePass();
 	}
 }

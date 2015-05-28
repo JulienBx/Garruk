@@ -32,6 +32,7 @@ public class PlayingCardController : GameObjectController
 		this.isDead = false;
 		this.isSelected = false;
 		this.isMoved = false;
+		statModifiers = new List<StatModifier>();
 	}
 
 	public void setStyles(bool isMyCharacter)
@@ -79,6 +80,8 @@ public class PlayingCardController : GameObjectController
 		}
 		base.getGOCoordinates(gameObject);
 		this.setTextResolution();
+		updateAttack();
+		updateMove();
 		playingCardView.show();
 		this.updateLife();
 	}
@@ -213,43 +216,12 @@ public class PlayingCardController : GameObjectController
 
 	public void updateAttack()
 	{
-		int attack = this.card.Attack;
-		int bonus = 0;
-		for (int i = 0; i < this.statModifiers.Count; i++)
-		{
-			if (statModifiers [i].Stat == ModifierStat.Stat_Attack && statModifiers [i].Type == ModifierType.Type_BonusMalus)
-			{
-				bonus += statModifiers [i].Amount;
-			}
-		}
-		this.playingCardView.playingCardVM.attack += attack + bonus;
+		this.playingCardView.playingCardVM.attack = this.card.GetAttack().ToString();
 	}
 
 	public void updateMove()
 	{
-		int move = this.card.Move;
-		int bonus = 0;
-		for (int i = 0; i < this.statModifiers.Count; i++)
-		{
-			if (statModifiers [i].Stat == ModifierStat.Stat_Move && statModifiers [i].Type == ModifierType.Type_BonusMalus)
-			{
-				bonus += statModifiers [i].Amount;
-			}
-		}
-		this.playingCardView.playingCardVM.move += move + bonus;
-	}
-
-	public void updateQuickness()
-	{
-		int speed = this.card.Speed;
-		int bonus = 0;
-		for (int i = 0; i < this.statModifiers.Count; i++)
-		{
-			if (statModifiers [i].Stat == ModifierStat.Stat_Speed && statModifiers [i].Type == ModifierType.Type_BonusMalus)
-			{
-				bonus += statModifiers [i].Amount;
-			}
-		}
+		this.playingCardView.playingCardVM.move = this.card.GetMove().ToString();
 	}
 
 	public void hoverPlayingCard()
