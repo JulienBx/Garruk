@@ -43,6 +43,43 @@ public class GameView : MonoBehaviour
 				}
 			}
 		
+			if (gameScreenVM.toDisplayValidationWindows)
+			{
+				GUILayout.BeginArea(gameScreenVM.centerMessageRect, this.gameScreenVM.startWindowStyle);
+				{
+					GUILayout.BeginHorizontal();
+					{
+						GUILayout.FlexibleSpace();
+						GUILayout.BeginVertical(GUILayout.Width(gameScreenVM.centerMessageRect.width*8/10));
+						{
+							GUILayout.FlexibleSpace();
+							GUILayout.Label (this.gameScreenVM.validationRegularText, this.gameScreenVM.whiteSmallTextStyle);
+							GUILayout.FlexibleSpace();
+							GUILayout.BeginHorizontal();
+							{
+								GUILayout.FlexibleSpace();
+								if(this.gameScreenVM.toDisplayValidationButton){
+									if(GUILayout.Button (this.gameScreenVM.validationButtonText, this.gameScreenVM.buttonTextStyle, GUILayout.Width(gameScreenVM.centerMessageRect.width*3/10))){
+										GameController.instance.validateSkill();
+									}
+									GUILayout.FlexibleSpace();
+								}
+								if (GUILayout.Button ("Annuler", this.gameScreenVM.buttonTextStyle, GUILayout.Width(gameScreenVM.centerMessageRect.width*3/10))){
+									GameController.instance.cancelSkill();
+								}
+								GUILayout.FlexibleSpace();
+							}
+							GUILayout.EndHorizontal();
+							GUILayout.FlexibleSpace();
+						}
+						GUILayout.EndVertical();
+						GUILayout.FlexibleSpace();
+					}
+					GUILayout.EndHorizontal();
+				}
+				GUILayout.EndArea();
+			}
+
 			if (gameScreenVM.toDisplayStartWindows)
 			{
 				GUILayout.BeginArea(gameScreenVM.startButtonRect, this.gameScreenVM.startWindowStyle);

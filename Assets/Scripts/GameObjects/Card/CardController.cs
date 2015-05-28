@@ -44,6 +44,10 @@ public class CardController : GameObjectController {
 		gameObject.transform.localScale = scale;
 		gameObject.transform.position = position;
 	}
+	public void setGameObjectName(string name)
+	{
+		gameObject.name = name;
+	}
 	public void setGameObjectRotation(Quaternion rotation)
 	{
 		gameObject.transform.rotation = rotation;

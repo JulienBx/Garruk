@@ -20,10 +20,14 @@ public class PlayingCardController : GameObjectController
 	public bool isMoved ;
 	public bool hasPlayed ;
 	public bool isMine;
+	public bool cannotBeTargeted;
+
+	public Texture2D[] icons ;
 
 	public Tile tile ;
 
 	public List<StatModifier> statModifiers ;
+	public GUIStyle[] styles ;
 
 	void Awake()
 	{
@@ -33,6 +37,18 @@ public class PlayingCardController : GameObjectController
 		this.isSelected = false;
 		this.isMoved = false;
 		statModifiers = new List<StatModifier>();
+		this.cannotBeTargeted = false;
+		this.playingCardView.playingCardVM.iconStyle = styles [0];
+	}
+
+	public void setCannotBeTargeted(bool cbt)
+	{
+		if (cbt == true && this.cannotBeTargeted == false)
+		{
+			this.addIntouchable();
+		}
+		this.cannotBeTargeted = cbt;
+
 	}
 
 	public void setStyles(bool isMyCharacter)
@@ -103,16 +119,6 @@ public class PlayingCardController : GameObjectController
 		this.tile = t;
 		p.z = -2;
 		this.playingCardView.playingCardVM.position = p;
-//		if (!toRotate)
-//		{
-//			this.playingCharacterView.playingCharacterVM.rotation = Quaternion.Euler(-90, 0, 0);
-//		} else
-//		{
-//			this.playingCharacterView.playingCharacterVM.rotation = Quaternion.Euler(90, 180, 0);
-//			
-//			//this.playingCardView.playingCardVM.ScreenPosition.y = Screen.height-this.playingCardView.playingCardVM.ScreenPosition.y;
-//		}
-//		this.playingCharacterView.playingCharacterVM.ScreenPosition = Camera.main.WorldToScreenPoint(this.playingCharacterView.playingCharacterVM.position);
 		this.playingCardView.playingCardVM.scale = new Vector3(1.10f, 1.10f, 1.10f);
 		this.playingCardView.replace();
 	}
@@ -127,71 +133,7 @@ public class PlayingCardController : GameObjectController
 
 	public void resize(int h)
 	{
-//		this.scale = h * 0.001f / 1000f;
-//		this.playingCardView.playingCardVM.scale = new Vector3(this.scale, this.scale, this.scale);
-//		if (this.isMine)
-//		{
-//			if (this.isSelected)
-//			{
-//				this.playingCardView.playingCardVM.ScreenPosition = new Vector3(Screen.width * ((this.sortID - 1) * 0.13f + 0.12f + 0.21f), 0.93f * h, 0);
-//				this.playingCardView.playingCardVM.infoRect = new Rect(this.playingCardView.playingCardVM.ScreenPosition.x - 0.12f * Screen.width, this.playingCardView.playingCardVM.ScreenPosition.y - 0.07f * h, 0.24f * Screen.width, 0.14f * h);
-//				this.playingCardView.playingCardVM.isSelected = true;
-//			} else if (this.isMoved)
-//			{
-//				this.playingCardView.playingCardVM.ScreenPosition = new Vector3(Screen.width * ((this.sortID - 1) * 0.13f + 0.18f + 0.21f), 0.93f * h, 0);
-//				this.playingCardView.playingCardVM.infoRect = new Rect(this.playingCardView.playingCardVM.ScreenPosition.x - 0.06f * Screen.width, this.playingCardView.playingCardVM.ScreenPosition.y - 0.07f * Screen.height, 0.12f * Screen.width, 0.14f * Screen.height);
-//			} else
-//			{
-//				this.playingCardView.playingCardVM.ScreenPosition = new Vector3(Screen.width * ((this.sortID - 1) * 0.13f + 0.06f + 0.21f), 0.93f * h, 0);
-//				this.playingCardView.playingCardVM.infoRect = new Rect(this.playingCardView.playingCardVM.ScreenPosition.x - 0.06f * Screen.width, this.playingCardView.playingCardVM.ScreenPosition.y - 0.07f * Screen.height, 0.12f * Screen.width, 0.14f * Screen.height);
-//			}
-//			if (GameController.instance.isFirstPlayer)
-//			{
-//				this.playingCardView.playingCardVM.position = Camera.main.ScreenToWorldPoint(this.playingCardView.playingCardVM.ScreenPosition);
-//				this.playingCardView.playingCardVM.position.y = -5f;
-//			} else
-//			{
-//				this.playingCardView.playingCardVM.position = Camera.main.ScreenToWorldPoint(this.playingCardView.playingCardVM.ScreenPosition);
-//				this.playingCardView.playingCardVM.position.y = 5 - this.playingCardView.playingCardVM.position.y;
-//				this.playingCardView.playingCardVM.position.y = 5f;
-//			}
-//		} else
-//		{
-//			if (this.isSelected)
-//			{
-//				this.playingCardView.playingCardVM.ScreenPosition = new Vector3(Screen.width * ((this.sortID - 1) * 0.13f + 0.15f), 0.07f * h, 0);
-//				this.playingCardView.playingCardVM.infoRect = new Rect(this.playingCardView.playingCardVM.ScreenPosition.x - 0.12f * Screen.width, this.playingCardView.playingCardVM.ScreenPosition.y - 0.07f * h, 0.24f * Screen.width, 0.14f * h);
-//				this.playingCardView.playingCardVM.isSelected = true;
-//			} else if (this.isMoved)
-//			{
-//				this.playingCardView.playingCardVM.ScreenPosition = new Vector3(Screen.width * ((this.sortID - 1) * 0.10f), 0.07f * h, 0);
-//				this.playingCardView.playingCardVM.infoRect = new Rect(this.playingCardView.playingCardVM.ScreenPosition.x - 0.06f * Screen.width, this.playingCardView.playingCardVM.ScreenPosition.y - 0.07f * Screen.height, 0.12f * Screen.width, 0.14f * Screen.height);
-//			} else
-//			{
-//				this.playingCardView.playingCardVM.ScreenPosition = new Vector3(Screen.width * ((this.sortID - 1) * 0.13f + 0.06f + 0.15f), 0.07f * h, 0);
-//				this.playingCardView.playingCardVM.infoRect = new Rect(this.playingCardView.playingCardVM.ScreenPosition.x - 0.06f * Screen.width, this.playingCardView.playingCardVM.ScreenPosition.y - 0.07f * Screen.height, 0.12f * Screen.width, 0.14f * Screen.height);
-//			}
-//			if (GameController.instance.isFirstPlayer)
-//			{
-//				this.playingCardView.playingCardVM.position = Camera.main.ScreenToWorldPoint(this.playingCardView.playingCardVM.ScreenPosition);
-//				this.playingCardView.playingCardVM.position.y = 5f;
-//			} else
-//			{
-//				this.playingCardView.playingCardVM.position = Camera.main.ScreenToWorldPoint(this.playingCardView.playingCardVM.ScreenPosition);
-//				this.playingCardView.playingCardVM.position.y = 5 - this.playingCardView.playingCardVM.position.y;
-//				this.playingCardView.playingCardVM.position.y = -5f;
-//			}
-//		}
-//
-//		this.playingCardView.playingCardVM.nameTextStyle.fontSize = h * 18 / 1000;
-//		this.playingCardView.playingCardVM.attackZoneTextStyle.fontSize = h * 15 / 1000;
-//		this.playingCardView.playingCardVM.lifeBarStyle.fontSize = h * 15 / 1000;
-//		this.playingCardView.playingCardVM.QuicknessBarStyle.fontSize = h * 15 / 1000;
-//		this.playingCardView.playingCardVM.skillTitleTextStyle.fontSize = h * 16 / 1000;
-//		this.playingCardView.playingCardVM.skillDescriptionTextStyle.fontSize = h * 12 / 1000;
-//		this.playingCardView.playingCardVM.skillInfoRectWidth = 0.12f * Screen.width;
-//		
-//		this.playingCardView.replace();
+		
 	}
 	
 	public void setIDCharacter(int i)
@@ -300,6 +242,31 @@ public class PlayingCardController : GameObjectController
 		this.playingCardView.playingCardVM.border = this.borderPC [0];
 		this.playingCardView.changeBorder();
 	}
+
+	public void addIntouchable()
+	{
+		this.addIcon(this.icons [0]);
+	}
+
+	public void addIcon(Texture2D icon)
+	{
+
+		this.playingCardView.playingCardVM.toDisplayIcon = true;
+		this.playingCardView.playingCardVM.icons.Add(icon);
+		int height = Screen.height;
+		int width = Screen.width;
+		int decalage = height / 30;
+
+		Vector3 positionObject = new Vector3(0, 0, 0);
+		positionObject.x = (this.playingCardView.playingCardVM.position.x + this.playingCardView.playingCardVM.scale.x / 2f) * (height / 10f) - decalage * (this.playingCardView.playingCardVM.icons.Count) + (width / 2f);
+		positionObject.y = height - ((this.playingCardView.playingCardVM.position.y + this.playingCardView.playingCardVM.scale.y / 2f) * (height / 10f) - decalage * (this.playingCardView.playingCardVM.icons.Count) + (height / 2f));
+
+		print(positionObject.x + "," + positionObject.y);
+		Rect position = new Rect(positionObject.x, positionObject.y, decalage, decalage);
+		this.playingCardView.playingCardVM.iconsRect.Add(position);
+
+	}
+
 }
 
 

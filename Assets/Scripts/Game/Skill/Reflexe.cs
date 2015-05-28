@@ -11,7 +11,7 @@ public class Reflexe : GameSkill
 	public override void launch()
 	{
 		Debug.Log("Je lance réflexe");
-		GameController.instance.lookForTarget();
+		GameController.instance.lookForTarget("Choisir une cible pour Reflexe", "Lancer Reflexe");
 	}
 
 	public override void resolve(int[] args)

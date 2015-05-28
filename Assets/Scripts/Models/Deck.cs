@@ -205,14 +205,11 @@ public class Deck
 			Debug.Log(w.error); 									// donne l'erreur eventuelle
 		} else
 		{
-			Debug.Log(w.text);
 			//Debug.Log(w.text);
 			string[] cardEntries = w.text.Split('\n'); 				// Chaque ligne du serveur correspond à une carte
 			
 			for (int i = 0; i < cardEntries.Length - 1; i++) 		// On boucle sur les attributs d'une carte
 			{
-				Debug.Log(cardEntries [i]);
-
 				cardData = cardEntries [i].Split('\\');
 				if (!cardEntries [i].StartsWith("skill"))
 				{

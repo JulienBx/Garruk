@@ -13,7 +13,8 @@ public class SkillObjectView : MonoBehaviour
 
 	public void show()
 	{
-		transform.renderer.materials [1].mainTexture = skillVM.face; 
+		transform.renderer.materials [1].mainTexture = skillVM.face;
+		transform.renderer.materials [0].mainTexture = skillVM.border; 
 	}
 
 	public void changeBorder()
@@ -35,7 +36,7 @@ public class SkillObjectView : MonoBehaviour
 
 	void OnMouseUp()
 	{
-		if (this.skillVM.isActive){
+		if (this.skillVM.isControlActive){
 			gameObject.GetComponentInChildren<SkillObjectController>().clickSkill();
 		}
 		else{
@@ -50,25 +51,35 @@ public class SkillObjectView : MonoBehaviour
 			{
 				GUILayout.BeginVertical();
 				{
-					GUILayout.FlexibleSpace();
-					GUILayout.Label(this.skillVM.skillTitle, this.skillVM.skillTitleTextStyle);
-					GUILayout.FlexibleSpace();
 					GUILayout.Label(this.skillVM.skillDescription, this.skillVM.skillDescriptionTextStyle);
-					GUILayout.FlexibleSpace();
 				}
 				GUILayout.EndVertical();
 			}
 			GUILayout.EndArea();
 		}
+
+		GUILayout.BeginArea(this.skillVM.habillageRect);
+		{
+			GUILayout.BeginVertical();
+			{
+				GUILayout.Label(" ", this.skillVM.powerStyle, GUILayout.Width(this.skillVM.habillageRect.width*this.skillVM.power/100), GUILayout.Height(this.skillVM.habillageRect.height));
+				GUILayout.Space(-this.skillVM.habillageRect.height);
+				GUILayout.Label(this.skillVM.skillName, this.skillVM.cadreStyle, GUILayout.Height(this.skillVM.habillageRect.height));
+			}
+			GUILayout.EndVertical();
+		}
+		GUILayout.EndArea();
 	}
 
 	void OnMouseEnter()
 	{
 		this.skillVM.toDisplayInfo = true ;
+		gameObject.GetComponentInChildren<SkillObjectController>().hoverSkill();
 	}
 
 	void OnMouseExit()
 	{
 		this.skillVM.toDisplayInfo = false ;
+		gameObject.GetComponentInChildren<SkillObjectController>().endHoverSkill();
 	}
 }

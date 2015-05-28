@@ -17,13 +17,19 @@ public class PlayingCardViewModel
 	public string move ;
 	public bool isSelected ;
 	public bool isPlaying ; 
-
 	public bool isActive = true ;
+
+	public bool toDisplayIcon ;
+	public List<Texture2D> icons ;
+	public List<Rect> iconsRect ;
+
+	public GUIStyle iconStyle ;
 
 	public PlayingCardViewModel ()
 	{
-
-		
+		this.icons = new List<Texture2D>();
+		this.iconsRect = new List<Rect>();
+		this.iconStyle = new GUIStyle();
 	}
 }
 

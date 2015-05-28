@@ -47,7 +47,7 @@ public class SkillMakerScript : MonoBehaviour {
 		s.Power = 2;
 
 		
-		this.mySkill.GetComponent<SkillObjectController> ().setSkill (s);
+		//this.mySkill.GetComponent<SkillObjectController> ().setSkill (s);
 		//this.mySkill.GetComponent<SkillObjectController> ().setAttack();
 		this.mySkill.GetComponent<SkillObjectController> ().show ();
 

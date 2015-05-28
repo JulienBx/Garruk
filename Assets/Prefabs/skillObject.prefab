@@ -84,57 +84,57 @@ MonoBehaviour:
   GOPosition: {x: 0, y: 0}
   GOSize: {x: 0, y: 0}
   skillPictos:
-  - {fileID: 2800000, guid: e0ffd966d0ab27b48bfb09faaff3e79e, type: 3}
-  - {fileID: 2800000, guid: a1edf9120e12df344bde3f9dce7b30d3, type: 3}
-  - {fileID: 2800000, guid: a0c6b169c3f011d4fa108fb1b959f2e4, type: 3}
-  - {fileID: 2800000, guid: 3496faa8ca6580d489412efa5766528e, type: 3}
-  - {fileID: 2800000, guid: 694fa68e40bd71c449ff0b63530fd277, type: 3}
-  - {fileID: 2800000, guid: bb11f531e49927042af9e47869ea01e7, type: 3}
-  - {fileID: 2800000, guid: 6c03e8b6ca8164b41922c4320148c81f, type: 3}
-  - {fileID: 2800000, guid: 580ba13df6ec7094c93141262958346d, type: 3}
-  - {fileID: 2800000, guid: 1c1492a632af8c442a37901f5f41ab11, type: 3}
-  - {fileID: 2800000, guid: 4f9e23d0a9de73944bfa98b5885e7512, type: 3}
-  - {fileID: 2800000, guid: 68e58380d58f77148a6f8dd04124afc3, type: 3}
-  - {fileID: 2800000, guid: b04e65163889147359ca561835f5e02f, type: 3}
-  - {fileID: 2800000, guid: b04e65163889147359ca561835f5e02f, type: 3}
-  - {fileID: 2800000, guid: b04e65163889147359ca561835f5e02f, type: 3}
-  - {fileID: 2800000, guid: b04e65163889147359ca561835f5e02f, type: 3}
-  - {fileID: 2800000, guid: b04e65163889147359ca561835f5e02f, type: 3}
-  - {fileID: 2800000, guid: b04e65163889147359ca561835f5e02f, type: 3}
-  - {fileID: 2800000, guid: b04e65163889147359ca561835f5e02f, type: 3}
-  - {fileID: 2800000, guid: b04e65163889147359ca561835f5e02f, type: 3}
-  - {fileID: 2800000, guid: b04e65163889147359ca561835f5e02f, type: 3}
-  - {fileID: 2800000, guid: b04e65163889147359ca561835f5e02f, type: 3}
-  - {fileID: 2800000, guid: b04e65163889147359ca561835f5e02f, type: 3}
-  - {fileID: 2800000, guid: b04e65163889147359ca561835f5e02f, type: 3}
-  - {fileID: 2800000, guid: b04e65163889147359ca561835f5e02f, type: 3}
-  - {fileID: 2800000, guid: b04e65163889147359ca561835f5e02f, type: 3}
-  - {fileID: 2800000, guid: b04e65163889147359ca561835f5e02f, type: 3}
-  - {fileID: 2800000, guid: b04e65163889147359ca561835f5e02f, type: 3}
-  - {fileID: 2800000, guid: b04e65163889147359ca561835f5e02f, type: 3}
-  - {fileID: 2800000, guid: b04e65163889147359ca561835f5e02f, type: 3}
-  - {fileID: 2800000, guid: b04e65163889147359ca561835f5e02f, type: 3}
-  - {fileID: 2800000, guid: b04e65163889147359ca561835f5e02f, type: 3}
-  - {fileID: 2800000, guid: b04e65163889147359ca561835f5e02f, type: 3}
-  - {fileID: 2800000, guid: b04e65163889147359ca561835f5e02f, type: 3}
-  - {fileID: 2800000, guid: b04e65163889147359ca561835f5e02f, type: 3}
-  - {fileID: 2800000, guid: b04e65163889147359ca561835f5e02f, type: 3}
-  - {fileID: 2800000, guid: b04e65163889147359ca561835f5e02f, type: 3}
-  - {fileID: 2800000, guid: b04e65163889147359ca561835f5e02f, type: 3}
-  - {fileID: 2800000, guid: b04e65163889147359ca561835f5e02f, type: 3}
-  - {fileID: 2800000, guid: b04e65163889147359ca561835f5e02f, type: 3}
-  - {fileID: 2800000, guid: b04e65163889147359ca561835f5e02f, type: 3}
-  - {fileID: 2800000, guid: b04e65163889147359ca561835f5e02f, type: 3}
-  - {fileID: 2800000, guid: b04e65163889147359ca561835f5e02f, type: 3}
-  - {fileID: 2800000, guid: b04e65163889147359ca561835f5e02f, type: 3}
-  - {fileID: 2800000, guid: b04e65163889147359ca561835f5e02f, type: 3}
-  - {fileID: 2800000, guid: b04e65163889147359ca561835f5e02f, type: 3}
-  - {fileID: 2800000, guid: b04e65163889147359ca561835f5e02f, type: 3}
-  - {fileID: 2800000, guid: b04e65163889147359ca561835f5e02f, type: 3}
-  - {fileID: 2800000, guid: b04e65163889147359ca561835f5e02f, type: 3}
-  - {fileID: 2800000, guid: b04e65163889147359ca561835f5e02f, type: 3}
-  - {fileID: 2800000, guid: b04e65163889147359ca561835f5e02f, type: 3}
-  - {fileID: 2800000, guid: b04e65163889147359ca561835f5e02f, type: 3}
+  - {fileID: 2800000, guid: 2f5588dcad14fa0439122077700ebf64, type: 3}
+  - {fileID: 2800000, guid: 2f5588dcad14fa0439122077700ebf64, type: 3}
+  - {fileID: 2800000, guid: 2f5588dcad14fa0439122077700ebf64, type: 3}
+  - {fileID: 2800000, guid: d737094809e5f4667830b815e14a6c69, type: 3}
+  - {fileID: 2800000, guid: d737094809e5f4667830b815e14a6c69, type: 3}
+  - {fileID: 2800000, guid: d737094809e5f4667830b815e14a6c69, type: 3}
+  - {fileID: 2800000, guid: d737094809e5f4667830b815e14a6c69, type: 3}
+  - {fileID: 2800000, guid: d737094809e5f4667830b815e14a6c69, type: 3}
+  - {fileID: 2800000, guid: d737094809e5f4667830b815e14a6c69, type: 3}
+  - {fileID: 2800000, guid: d737094809e5f4667830b815e14a6c69, type: 3}
+  - {fileID: 2800000, guid: d737094809e5f4667830b815e14a6c69, type: 3}
+  - {fileID: 2800000, guid: d737094809e5f4667830b815e14a6c69, type: 3}
+  - {fileID: 2800000, guid: d737094809e5f4667830b815e14a6c69, type: 3}
+  - {fileID: 2800000, guid: d737094809e5f4667830b815e14a6c69, type: 3}
+  - {fileID: 2800000, guid: d737094809e5f4667830b815e14a6c69, type: 3}
+  - {fileID: 2800000, guid: d737094809e5f4667830b815e14a6c69, type: 3}
+  - {fileID: 2800000, guid: d737094809e5f4667830b815e14a6c69, type: 3}
+  - {fileID: 2800000, guid: d737094809e5f4667830b815e14a6c69, type: 3}
+  - {fileID: 2800000, guid: d737094809e5f4667830b815e14a6c69, type: 3}
+  - {fileID: 2800000, guid: d737094809e5f4667830b815e14a6c69, type: 3}
+  - {fileID: 2800000, guid: d737094809e5f4667830b815e14a6c69, type: 3}
+  - {fileID: 2800000, guid: d737094809e5f4667830b815e14a6c69, type: 3}
+  - {fileID: 2800000, guid: d737094809e5f4667830b815e14a6c69, type: 3}
+  - {fileID: 2800000, guid: d737094809e5f4667830b815e14a6c69, type: 3}
+  - {fileID: 2800000, guid: d737094809e5f4667830b815e14a6c69, type: 3}
+  - {fileID: 2800000, guid: d737094809e5f4667830b815e14a6c69, type: 3}
+  - {fileID: 2800000, guid: d737094809e5f4667830b815e14a6c69, type: 3}
+  - {fileID: 2800000, guid: d737094809e5f4667830b815e14a6c69, type: 3}
+  - {fileID: 2800000, guid: d737094809e5f4667830b815e14a6c69, type: 3}
+  - {fileID: 2800000, guid: d737094809e5f4667830b815e14a6c69, type: 3}
+  - {fileID: 2800000, guid: d737094809e5f4667830b815e14a6c69, type: 3}
+  - {fileID: 2800000, guid: d737094809e5f4667830b815e14a6c69, type: 3}
+  - {fileID: 2800000, guid: d737094809e5f4667830b815e14a6c69, type: 3}
+  - {fileID: 2800000, guid: d737094809e5f4667830b815e14a6c69, type: 3}
+  - {fileID: 2800000, guid: d737094809e5f4667830b815e14a6c69, type: 3}
+  - {fileID: 2800000, guid: d737094809e5f4667830b815e14a6c69, type: 3}
+  - {fileID: 2800000, guid: d737094809e5f4667830b815e14a6c69, type: 3}
+  - {fileID: 2800000, guid: d737094809e5f4667830b815e14a6c69, type: 3}
+  - {fileID: 2800000, guid: d737094809e5f4667830b815e14a6c69, type: 3}
+  - {fileID: 2800000, guid: d737094809e5f4667830b815e14a6c69, type: 3}
+  - {fileID: 2800000, guid: d737094809e5f4667830b815e14a6c69, type: 3}
+  - {fileID: 2800000, guid: d737094809e5f4667830b815e14a6c69, type: 3}
+  - {fileID: 2800000, guid: d737094809e5f4667830b815e14a6c69, type: 3}
+  - {fileID: 2800000, guid: d737094809e5f4667830b815e14a6c69, type: 3}
+  - {fileID: 2800000, guid: d737094809e5f4667830b815e14a6c69, type: 3}
+  - {fileID: 2800000, guid: d737094809e5f4667830b815e14a6c69, type: 3}
+  - {fileID: 2800000, guid: d737094809e5f4667830b815e14a6c69, type: 3}
+  - {fileID: 2800000, guid: d737094809e5f4667830b815e14a6c69, type: 3}
+  - {fileID: 2800000, guid: d737094809e5f4667830b815e14a6c69, type: 3}
+  - {fileID: 2800000, guid: d737094809e5f4667830b815e14a6c69, type: 3}
+  - {fileID: 2800000, guid: d737094809e5f4667830b815e14a6c69, type: 3}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -291,6 +291,11 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 31ce0db19a95a964893ce4ed1ca75aed, type: 3}
   - {fileID: 2800000, guid: 9634aa6a4fc287f43bc212c96bbb8efc, type: 3}
   - {fileID: 2800000, guid: 3ce22ba7c8f32ec49bd39df878f8201d, type: 3}
+  - {fileID: 2800000, guid: a3d111f0fbed6774fbcf127850bb2f52, type: 3}
+  - {fileID: 2800000, guid: d737094809e5f4667830b815e14a6c69, type: 3}
+  faces:
+  - {fileID: 2800000, guid: f4c4edfb449674c498b78131aea82868, type: 3}
+  - {fileID: 2800000, guid: d053a70170a32d0498844d289c4690f2, type: 3}
   styles:
   - m_Name: SkillRectStyle
     m_Normal:
@@ -328,10 +333,10 @@ MonoBehaviour:
       m_Top: 0
       m_Bottom: 0
     m_Padding:
-      m_Left: 10
-      m_Right: 10
-      m_Top: 10
-      m_Bottom: 10
+      m_Left: 5
+      m_Right: 5
+      m_Top: 0
+      m_Bottom: 0
     m_Overflow:
       m_Left: 0
       m_Right: 0
@@ -466,7 +471,240 @@ MonoBehaviour:
     m_FixedHeight: 0
     m_StretchWidth: 1
     m_StretchHeight: 1
+  - m_Name: GreenBorderStyle
+    m_Normal:
+      m_Background: {fileID: 2800000, guid: 5b706c36819877b42b6b381e3b183b7e, type: 3}
+      m_TextColor: {r: 0, g: 0, b: 0, a: .941176474}
+    m_Hover:
+      m_Background: {fileID: 0}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 0}
+    m_Active:
+      m_Background: {fileID: 0}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 0}
+    m_Focused:
+      m_Background: {fileID: 0}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 0}
+    m_OnNormal:
+      m_Background: {fileID: 0}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 0}
+    m_OnHover:
+      m_Background: {fileID: 0}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 0}
+    m_OnActive:
+      m_Background: {fileID: 0}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 0}
+    m_OnFocused:
+      m_Background: {fileID: 0}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 0}
+    m_Border:
+      m_Left: 0
+      m_Right: 0
+      m_Top: 0
+      m_Bottom: 0
+    m_Margin:
+      m_Left: 0
+      m_Right: 0
+      m_Top: 0
+      m_Bottom: 0
+    m_Padding:
+      m_Left: 0
+      m_Right: 0
+      m_Top: 0
+      m_Bottom: 0
+    m_Overflow:
+      m_Left: 0
+      m_Right: 0
+      m_Top: 0
+      m_Bottom: 0
+    m_Font: {fileID: 0}
+    m_FontSize: 0
+    m_FontStyle: 0
+    m_Alignment: 4
+    m_WordWrap: 0
+    m_RichText: 0
+    m_TextClipping: 1
+    m_ImagePosition: 0
+    m_ContentOffset: {x: 0, y: 0}
+    m_FixedWidth: 0
+    m_FixedHeight: 0
+    m_StretchWidth: 1
+    m_StretchHeight: 1
+  - m_Name: RedBorderStyle
+    m_Normal:
+      m_Background: {fileID: 2800000, guid: 88d904c6ba0f39b4fab556015e3690ab, type: 3}
+      m_TextColor: {r: 0, g: 0, b: 0, a: .941176474}
+    m_Hover:
+      m_Background: {fileID: 0}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 0}
+    m_Active:
+      m_Background: {fileID: 0}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 0}
+    m_Focused:
+      m_Background: {fileID: 0}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 0}
+    m_OnNormal:
+      m_Background: {fileID: 0}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 0}
+    m_OnHover:
+      m_Background: {fileID: 0}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 0}
+    m_OnActive:
+      m_Background: {fileID: 0}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 0}
+    m_OnFocused:
+      m_Background: {fileID: 0}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 0}
+    m_Border:
+      m_Left: 0
+      m_Right: 0
+      m_Top: 0
+      m_Bottom: 0
+    m_Margin:
+      m_Left: 0
+      m_Right: 0
+      m_Top: 0
+      m_Bottom: 0
+    m_Padding:
+      m_Left: 0
+      m_Right: 0
+      m_Top: 0
+      m_Bottom: 0
+    m_Overflow:
+      m_Left: 0
+      m_Right: 0
+      m_Top: 0
+      m_Bottom: 0
+    m_Font: {fileID: 0}
+    m_FontSize: 0
+    m_FontStyle: 0
+    m_Alignment: 4
+    m_WordWrap: 0
+    m_RichText: 0
+    m_TextClipping: 1
+    m_ImagePosition: 0
+    m_ContentOffset: {x: 0, y: 0}
+    m_FixedWidth: 0
+    m_FixedHeight: 0
+    m_StretchWidth: 1
+    m_StretchHeight: 1
+  - m_Name: PowerFillStyle
+    m_Normal:
+      m_Background: {fileID: 2800000, guid: a28a69f503e29564f96160d13fd34d1b, type: 3}
+      m_TextColor: {r: .29411763, g: .285467118, b: .285467118, a: 1}
+    m_Hover:
+      m_Background: {fileID: 0}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 0}
+    m_Active:
+      m_Background: {fileID: 0}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 0}
+    m_Focused:
+      m_Background: {fileID: 0}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 0}
+    m_OnNormal:
+      m_Background: {fileID: 0}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 0}
+    m_OnHover:
+      m_Background: {fileID: 0}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 0}
+    m_OnActive:
+      m_Background: {fileID: 0}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 0}
+    m_OnFocused:
+      m_Background: {fileID: 0}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 0}
+    m_Border:
+      m_Left: 0
+      m_Right: 0
+      m_Top: 0
+      m_Bottom: 0
+    m_Margin:
+      m_Left: 0
+      m_Right: 0
+      m_Top: 0
+      m_Bottom: 0
+    m_Padding:
+      m_Left: 0
+      m_Right: 0
+      m_Top: 0
+      m_Bottom: 0
+    m_Overflow:
+      m_Left: 0
+      m_Right: 0
+      m_Top: 0
+      m_Bottom: 0
+    m_Font: {fileID: 0}
+    m_FontSize: 0
+    m_FontStyle: 0
+    m_Alignment: 4
+    m_WordWrap: 0
+    m_RichText: 0
+    m_TextClipping: 1
+    m_ImagePosition: 0
+    m_ContentOffset: {x: 0, y: 0}
+    m_FixedWidth: 0
+    m_FixedHeight: 0
+    m_StretchWidth: 1
+    m_StretchHeight: 1
+  - m_Name: PowerFillRedStyle
+    m_Normal:
+      m_Background: {fileID: 2800000, guid: 6e0536f5e9cd26a4da432f716f08f36b, type: 3}
+      m_TextColor: {r: .29411763, g: .285467118, b: .285467118, a: 1}
+    m_Hover:
+      m_Background: {fileID: 0}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 0}
+    m_Active:
+      m_Background: {fileID: 0}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 0}
+    m_Focused:
+      m_Background: {fileID: 0}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 0}
+    m_OnNormal:
+      m_Background: {fileID: 0}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 0}
+    m_OnHover:
+      m_Background: {fileID: 0}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 0}
+    m_OnActive:
+      m_Background: {fileID: 0}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 0}
+    m_OnFocused:
+      m_Background: {fileID: 0}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 0}
+    m_Border:
+      m_Left: 0
+      m_Right: 0
+      m_Top: 0
+      m_Bottom: 0
+    m_Margin:
+      m_Left: 0
+      m_Right: 0
+      m_Top: 0
+      m_Bottom: 0
+    m_Padding:
+      m_Left: 0
+      m_Right: 0
+      m_Top: 0
+      m_Bottom: 0
+    m_Overflow:
+      m_Left: 0
+      m_Right: 0
+      m_Top: 0
+      m_Bottom: 0
+    m_Font: {fileID: 0}
+    m_FontSize: 0
+    m_FontStyle: 0
+    m_Alignment: 4
+    m_WordWrap: 0
+    m_RichText: 0
+    m_TextClipping: 1
+    m_ImagePosition: 0
+    m_ContentOffset: {x: 0, y: 0}
+    m_FixedWidth: 0
+    m_FixedHeight: 0
+    m_StretchWidth: 1
+    m_StretchHeight: 1
   id: 0
+  isActive: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

@@ -718,12 +718,14 @@ MonoBehaviour:
     m_FixedHeight: 0
     m_StretchWidth: 1
     m_StretchHeight: 1
+  skillArgs: 
   cursors:
   - {fileID: 2800000, guid: 05f7b57bb98c1ff4186a4ca33765c84c, type: 3}
   - {fileID: 2800000, guid: 3b3fa878b49cfa3449bdab54bdee3f87, type: 3}
   - {fileID: 2800000, guid: 2cb8a4040647a1a459be184bbd5652b7, type: 3}
   gameEvent: {fileID: 137652, guid: 70824da3ea964a142a6e26626c5e0b1b, type: 2}
   skillObject: {fileID: 198630, guid: 18b1d379435a24aa4b8019c1b456338e, type: 2}
+  playindCardHasPlayed: 0
   isTriggeringSkill: 0
   isFirstPlayer: 0
   borderSize: .0199999996
