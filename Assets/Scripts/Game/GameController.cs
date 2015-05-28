@@ -588,9 +588,6 @@ public class GameController : Photon.MonoBehaviour
 	{
 		setValidationTexts(regularText, buttonText);
 		this.gameView.gameScreenVM.toDisplayValidationButton = toDisplayButton;
-
-		this.gameView.gameScreenVM.validationRegularText = regularText;
-		this.gameView.gameScreenVM.validationButtonText = buttonText;
 		
 		this.deactivateMySkills();
 	}
