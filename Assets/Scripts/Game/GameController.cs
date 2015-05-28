@@ -521,40 +521,71 @@ public class GameController : Photon.MonoBehaviour
 		this.showOpponentSkills(this.clickedOpponentPlayingCard);
 	}
 
+	void setValidationTexts(string regularText, string buttonText)
+	{
+		this.gameView.gameScreenVM.toDisplayValidationWindows = true;
+		this.gameView.gameScreenVM.toDisplayValidationButton = false;
+		this.gameView.gameScreenVM.validationRegularText = regularText;
+		this.gameView.gameScreenVM.validationButtonText = buttonText;
+	}
+
 	public void lookForTarget(string regularText, string buttonText)
 	{
-		this.numberOfExpectedArgs = 1 ;
-		
-		this.gameView.gameScreenVM.toDisplayValidationWindows = true ;
-		this.gameView.gameScreenVM.toDisplayValidationButton = false ;
-		this.gameView.gameScreenVM.validationRegularText = regularText ;
-		this.gameView.gameScreenVM.validationButtonText = buttonText ;
+		this.numberOfExpectedArgs = 1;
+		setValidationTexts(regularText, buttonText);
 
-		for (int i = 0 ; i < 10 ; i++){
-			if (!this.playingCards[i].GetComponent<PlayingCardController>().isDead && !this.playingCards[i].GetComponent<PlayingCardController>().cannotBeTargeted){
-				this.playingCards[i].GetComponent<PlayingCardController>().activateTargetHalo();
+		for (int i = 0; i < 10; i++)
+		{
+			if (!this.playingCards [i].GetComponent<PlayingCardController>().isDead && !this.playingCards [i].GetComponent<PlayingCardController>().cannotBeTargeted)
+			{
+				this.playingCards [i].GetComponent<PlayingCardController>().activateTargetHalo();
 			}
 		}
 	}
 
-	public void addTarget(int id){
-		this.skillArgs[numberOfArgs]=id;
+	public void lookForAdjacentTarget(string regularText, string buttonText)
+	{
+		this.numberOfExpectedArgs = 1;
+		
+		setValidationTexts(regularText, buttonText);
+
+		List<TileController> tempTiles;
+		tempTiles = new List<TileController>();
+		foreach (Tile t in this.getCurrentPCC().tile.getImmediateNeighbouringTiles())
+		{
+			if (this.tiles [t.x, t.y].GetComponent<TileController>().characterID != -1)
+			{
+				tempTiles.Add(this.tiles [t.x, t.y].GetComponent<TileController>());
+			}
+		}
+		foreach (TileController tc in tempTiles)
+		{
+			if (!this.playingCards [tc.characterID].GetComponent<PlayingCardController>().isDead && !this.playingCards [tc.characterID].GetComponent<PlayingCardController>().cannotBeTargeted)
+			{
+				this.playingCards [tc.characterID].GetComponent<PlayingCardController>().activateTargetHalo();
+			}
+		}
+	}
+
+	public void addTarget(int id)
+	{
+		this.skillArgs [numberOfArgs] = id;
 		this.numberOfArgs++;
-		if (this.numberOfExpectedArgs <= this.numberOfArgs){
-			this.gameView.gameScreenVM.toDisplayValidationButton = true ;
-			this.gameView.gameScreenVM.validationRegularText = "Cible choisie !" ;
-			for (int i = 0 ; i < 10 ; i++){
-				this.playingCards[i].GetComponent<PlayingCardController>().removeTargetHalo();
+		if (this.numberOfExpectedArgs <= this.numberOfArgs)
+		{
+			this.gameView.gameScreenVM.toDisplayValidationButton = true;
+			this.gameView.gameScreenVM.validationRegularText = "Cible choisie !";
+			for (int i = 0; i < 10; i++)
+			{
+				this.playingCards [i].GetComponent<PlayingCardController>().removeTargetHalo();
 			}
 		}
 	}
 
 	public void lookForValidation(bool toDisplayButton, string regularText, string buttonText)
 	{
-		this.gameView.gameScreenVM.toDisplayValidationWindows = true;
+		setValidationTexts(regularText, buttonText);
 		this.gameView.gameScreenVM.toDisplayValidationButton = toDisplayButton;
-		this.gameView.gameScreenVM.validationRegularText = regularText;
-		this.gameView.gameScreenVM.validationButtonText = buttonText;
 
 		this.deactivateMySkills();
 	}
@@ -584,8 +615,7 @@ public class GameController : Photon.MonoBehaviour
 		if (this.isFirstPlayer == (this.currentPlayingCard < 5))
 		{
 			this.hideMySkills();
-		} 
-		else
+		} else
 		{
 			this.hideOpponentSkills();
 		}

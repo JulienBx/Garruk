@@ -11,7 +11,7 @@ public class Attack : GameSkill
 	public override void launch()
 	{
 		Debug.Log("Je lance attack");
-		GameController.instance.lookForTarget("Choisir une cible à attaquer", "Lancer attaque");
+		GameController.instance.lookForAdjacentTarget("Choisir une cible à attaquer", "Lancer attaque");
 	}
 	
 	public override void resolve(int[] args)

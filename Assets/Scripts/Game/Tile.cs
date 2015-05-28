@@ -10,7 +10,6 @@ public class Tile
 	public int y;
 	public int distance;
 	public NeighbourTiles neighbours ;
-	public NeighbourTiles adjacentNeighboringTiles;
 
 	public Tile(int x, int y, int distance)
 	{
@@ -23,11 +22,19 @@ public class Tile
 	{
 		this.x = x;
 		this.y = y;
-		//adjacentNeighboringTiles = new NeighbourTiles(this.x, this.y, new int[,](), 1);
 	}
 
 	public void setNeighbours(int[,] characterTiles, int distance)
 	{
 		this.neighbours = new NeighbourTiles(this.x, this.y, characterTiles, distance);
+	}
+
+	public List<Tile> getImmediateNeighbouringTiles()
+	{
+		if (neighbours == null)
+		{
+			return new List<Tile>();
+		}
+		return neighbours.getImmediateNeighbours(this.x, this.y);
 	}
 }
