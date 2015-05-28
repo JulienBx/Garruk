@@ -18,6 +18,7 @@ public class StatModifier
 		this.Amount = amount;
 		this.Type = type;
 		this.Stat = stat;
+		this.Duration = -1;
 	}
 
 	public StatModifier(int amount, ModifierType type, ModifierStat stat, int duration)
@@ -59,6 +60,10 @@ public class StatModifier
 		if (Stat == ModifierStat.Stat_Life)
 		{
 			life += Amount;
+		}
+		if (Stat == ModifierStat.Stat_Dommage)
+		{
+			life -= Amount;
 		}
 		return life;
 	}

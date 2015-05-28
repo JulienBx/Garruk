@@ -40,6 +40,7 @@ public class AuthenticationView : MonoBehaviour
 			GUILayout.Label("ou inscrivez-vous",authenticationVM.titleStyle,GUILayout.Height(authenticationScreenVM.mainBlock.height*7/100));
 			GUILayout.Label("Pseudo",authenticationVM.labelStyle,GUILayout.Height(authenticationScreenVM.mainBlock.height*5/100));
 			authenticationVM.username=GUILayout.TextField(authenticationVM.username,14,authenticationVM.textFieldStyle,GUILayout.Height(authenticationScreenVM.mainBlock.height*5/100));
+			GUILayout.Label ("le pseudo doit comporter doit comprendre au moins 3 caractères",authenticationVM.instructionsStyle);
 			if(authenticationVM.usernameError!="")
 			{
 				GUILayout.Label(authenticationVM.usernameError,authenticationVM.errorStyle,GUILayout.Height(authenticationScreenVM.mainBlock.height*5/100));
@@ -52,6 +53,7 @@ public class AuthenticationView : MonoBehaviour
 			}
 			GUILayout.Label("Mot de passe", authenticationVM.labelStyle,GUILayout.Height(authenticationScreenVM.mainBlock.height*5/100));
 			authenticationVM.password1 = GUILayout.PasswordField(authenticationVM.password1, "*"[0],authenticationVM.passwordFieldStyle,GUILayout.Height(authenticationScreenVM.mainBlock.height*5/100));
+			GUILayout.Label ("le mot de passe doit comprendre au moins 6 caractères",authenticationVM.instructionsStyle);
 			GUILayout.Label("Confirmez votre mot de passe", authenticationVM.labelStyle,GUILayout.Height(authenticationScreenVM.mainBlock.height*5/100));
 			authenticationVM.password2 = GUILayout.PasswordField(authenticationVM.password2, "*"[0],authenticationVM.passwordFieldStyle,GUILayout.Height(authenticationScreenVM.mainBlock.height*5/100));
 			if(authenticationVM.passwordError!="")

@@ -107,6 +107,11 @@ public class MyGameView : MonoBehaviour
 					{
 						MyGameController.instance.selectOnSale(toggle);
 					}
+					toggle = GUILayout.Toggle(myGameFiltersVM.notOnSale, "Cartes non mises en vente", myGameFiltersVM.toggleStyle);
+					if (toggle != myGameFiltersVM.notOnSale)
+					{
+						MyGameController.instance.selectNotOnSale(toggle);
+					}
 					GUILayout.FlexibleSpace();
 					GUILayout.Label ("Filtrer par classe",myGameFiltersVM.filterTitleStyle);
 					for (int i=0; i<myGameFiltersVM.cardTypeList.Length-1; i++) 

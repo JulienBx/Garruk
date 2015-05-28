@@ -37,13 +37,15 @@ public class PlayingCardController : GameObjectController
 		this.isDead = false;
 		this.isSelected = false;
 		this.isMoved = false;
+		statModifiers = new List<StatModifier>();
 		this.cannotBeTargeted = false;
-		this.playingCardView.playingCardVM.iconStyle = styles[0];
+		this.playingCardView.playingCardVM.iconStyle = styles [0];
 	}
 
 	public void setCannotBeTargeted(bool cbt)
 	{
-		if (cbt==true && this.cannotBeTargeted==false){
+		if (cbt == true && this.cannotBeTargeted == false)
+		{
 			this.addIntouchable();
 		}
 		this.cannotBeTargeted = cbt;
@@ -120,6 +122,8 @@ public class PlayingCardController : GameObjectController
 		}
 		base.getGOCoordinates(gameObject);
 		this.setTextResolution();
+		updateAttack();
+		updateMove();
 		playingCardView.show();
 		this.updateLife();
 	}
@@ -173,43 +177,12 @@ public class PlayingCardController : GameObjectController
 
 	public void updateAttack()
 	{
-		int attack = this.card.Attack;
-		int bonus = 0;
-		for (int i = 0; i < this.statModifiers.Count; i++)
-		{
-			if (statModifiers [i].Stat == ModifierStat.Stat_Attack && statModifiers [i].Type == ModifierType.Type_BonusMalus)
-			{
-				bonus += statModifiers [i].Amount;
-			}
-		}
-		this.playingCardView.playingCardVM.attack += attack + bonus;
+		this.playingCardView.playingCardVM.attack = this.card.GetAttack().ToString();
 	}
 
 	public void updateMove()
 	{
-		int move = this.card.Move;
-		int bonus = 0;
-		for (int i = 0; i < this.statModifiers.Count; i++)
-		{
-			if (statModifiers [i].Stat == ModifierStat.Stat_Move && statModifiers [i].Type == ModifierType.Type_BonusMalus)
-			{
-				bonus += statModifiers [i].Amount;
-			}
-		}
-		this.playingCardView.playingCardVM.move += move + bonus;
-	}
-
-	public void updateQuickness()
-	{
-		int speed = this.card.Speed;
-		int bonus = 0;
-		for (int i = 0; i < this.statModifiers.Count; i++)
-		{
-			if (statModifiers [i].Stat == ModifierStat.Stat_Speed && statModifiers [i].Type == ModifierType.Type_BonusMalus)
-			{
-				bonus += statModifiers [i].Amount;
-			}
-		}
+		this.playingCardView.playingCardVM.move = this.card.GetMove().ToString();
 	}
 
 	public void hoverPlayingCard()
@@ -294,22 +267,24 @@ public class PlayingCardController : GameObjectController
 		this.playingCardView.changeBorder();
 	}
 
-	public void addIntouchable(){
-		this.addIcon(this.icons[0]);
+	public void addIntouchable()
+	{
+		this.addIcon(this.icons [0]);
 	}
 
-	public void addIcon(Texture2D icon){
+	public void addIcon(Texture2D icon)
+	{
 
-		this.playingCardView.playingCardVM.toDisplayIcon = true ;
+		this.playingCardView.playingCardVM.toDisplayIcon = true;
 		this.playingCardView.playingCardVM.icons.Add(icon);
 		int height = Screen.height;
 		int width = Screen.width;
-		int decalage = height/30 ;
+		int decalage = height / 30;
 
-		Vector3 positionObject = new Vector3(0,0,0) ;
-		positionObject.x = (this.playingCardView.playingCardVM.position.x+this.playingCardView.playingCardVM.scale.x/2f)*(height/10f)-decalage*(this.playingCardView.playingCardVM.icons.Count)+(width/2f);
-		positionObject.y = height-((this.playingCardView.playingCardVM.position.y+this.playingCardView.playingCardVM.scale.y/2f)*(height/10f)-decalage*(this.playingCardView.playingCardVM.icons.Count)+(height/2f));
-
+		Vector3 positionObject = new Vector3(0, 0, 0);
+		positionObject.x = (this.playingCardView.playingCardVM.position.x + this.playingCardView.playingCardVM.scale.x / 2f) * (height / 10f) - decalage * (this.playingCardView.playingCardVM.icons.Count) + (width / 2f);
+		positionObject.y = height - ((this.playingCardView.playingCardVM.position.y + this.playingCardView.playingCardVM.scale.y / 2f) * (height / 10f) - decalage * (this.playingCardView.playingCardVM.icons.Count) + (height / 2f));
+		
 		Rect position = new Rect(positionObject.x, positionObject.y, decalage, decalage);
 		this.playingCardView.playingCardVM.iconsRect.Add(position);
 

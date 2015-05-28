@@ -131,7 +131,6 @@ public class MyGameController : MonoBehaviour
 				view.myGameDeckCardsVM.nbCardsToDisplay++;
 				model.cards[cardIndex].Decks.Add (model.decks[deckIndex].Id);
 				StartCoroutine(model.decks[deckIndex].addCard(model.cards[cardIndex].Id));
-				this.setFilters();
 				this.filterCards();
 			}
 			else if(model.cards[cardIndex].onSale==1)
@@ -153,7 +152,6 @@ public class MyGameController : MonoBehaviour
 			view.myGameDeckCardsVM.nbCardsToDisplay--;
 			view.myGameDeckCardsVM.deckCardsToBeDisplayed.RemoveAt(System.Convert.ToInt32(gameobject.name.Substring(4)));
 			this.loadDeckCards();
-			this.setFilters();
 			this.filterCards();
 		}
 	}
@@ -997,7 +995,29 @@ public class MyGameController : MonoBehaviour
 							}
 						}
 					}
-				} else
+				}
+				else if (view.myGameFiltersVM.notOnSale)
+				{
+					for (int i = 0; i < max; i++)
+					{
+						if (model.cards [i].hasSkill(view.myGameFiltersVM.valueSkill) && model.cards [i].onSale == 0)
+						{
+							testDeck = false;
+							for (int j = 0; j < view.myGameDeckCardsVM.deckCardsToBeDisplayed.Count; j++)
+							{
+								if (i == view.myGameDeckCardsVM.deckCardsToBeDisplayed [j])
+								{
+									testDeck = true;
+								}
+							}
+							if (!testDeck)
+							{
+								tempCardsToBeDisplayed.Add(i);
+							}
+						}
+					}
+				}
+				else
 				{
 					for (int i = 0; i < max; i++)
 					{
@@ -1049,7 +1069,34 @@ public class MyGameController : MonoBehaviour
 							}
 							j++;
 						}
-					} else
+					} 
+					else if (view.myGameFiltersVM.notOnSale)
+					{
+						while (!test && j != nbFilters)
+						{
+							if (model.cards [i].IdClass == view.myGameFiltersVM.filtersCardType [j])
+							{
+								test = true;
+								if (model.cards [i].hasSkill(view.myGameFiltersVM.valueSkill) && model.cards [i].onSale == 0)
+								{
+									testDeck = false;
+									for (int k = 0; k < view.myGameDeckCardsVM.deckCardsToBeDisplayed.Count; k++)
+									{
+										if (i == view.myGameDeckCardsVM.deckCardsToBeDisplayed [k])
+										{
+											testDeck = true; 
+										}
+									}
+									if (!testDeck)
+									{
+										tempCardsToBeDisplayed.Add(i);
+									}
+								}
+							}
+							j++;
+						}
+					}
+					else
 					{
 						while (!test && j != nbFilters)
 						{
@@ -1103,7 +1150,28 @@ public class MyGameController : MonoBehaviour
 							}
 						}
 					}
-				} 
+				}
+				else if(view.myGameFiltersVM.notOnSale)
+				{
+					for (int i = 0; i < max; i++)
+					{
+						if (model.cards [i].onSale == 0)
+						{
+							testDeck = false;
+							for (int j = 0; j < view.myGameDeckCardsVM.deckCardsToBeDisplayed.Count; j++)
+							{
+								if (i == view.myGameDeckCardsVM.deckCardsToBeDisplayed [j])
+								{
+									testDeck = true;
+								}
+							}
+							if (!testDeck)
+							{
+								tempCardsToBeDisplayed.Add(i);
+							}
+						}
+					}
+				}
 				else
 				{
 					for (int i = 0; i < max; i++)
@@ -1155,7 +1223,39 @@ public class MyGameController : MonoBehaviour
 							j++;
 						}
 					}
-				} else
+				}
+				else if(view.myGameFiltersVM.notOnSale)
+				{
+					for (int i = 0; i < max; i++)
+					{
+						test = false;
+						int j = 0;
+						while (!test && j != nbFilters)
+						{
+							if (model.cards [i].IdClass == view.myGameFiltersVM.filtersCardType [j])
+							{
+								if (model.cards [i].onSale == 0)
+								{
+									test = true;
+									testDeck = false;
+									for (int k = 0; k < view.myGameDeckCardsVM.deckCardsToBeDisplayed.Count; k++)
+									{
+										if (i == view.myGameDeckCardsVM.deckCardsToBeDisplayed [k])
+										{
+											testDeck = true; 
+										}
+									}
+									if (!testDeck)
+									{
+										tempCardsToBeDisplayed.Add(i);
+									}
+								}
+							}
+							j++;
+						}
+					}
+				}
+				else
 				{
 					for (int i = 0; i < max; i++)
 					{
@@ -1450,7 +1550,20 @@ public class MyGameController : MonoBehaviour
 	}
 	public void selectOnSale(bool value)
 	{
+		if(value && view.myGameFiltersVM.notOnSale)
+		{
+			view.myGameFiltersVM.notOnSale=false;
+		}
 		view.myGameFiltersVM.onSale = value;
+		this.filterCards ();
+	}
+	public void selectNotOnSale(bool value)
+	{
+		if(value && view.myGameFiltersVM.onSale)
+		{
+			view.myGameFiltersVM.onSale=false;
+		}
+		view.myGameFiltersVM.notOnSale = value;
 		this.filterCards ();
 	}
 	public void selectSkills(string value)

@@ -11,17 +11,20 @@ public class Renforcement : GameSkill
 	public override void launch()
 	{
 		Debug.Log("Je lance renforcement");
-		GameController.instance.lookForTarget("", "");
+		GameController.instance.lookForTarget("Choisir une cible pour Renforcement", "Lancer Renforcement");
 	}
 	
 	public override void resolve(int[] args)
 	{
-		if (args.Length!=1){
-			Debug.Log ("Mauvais paramètres de résolution envoyés");
-		}
-		else{
-			int targetID = args[0];
+		if (args.Length != 1)
+		{
+			Debug.Log("Mauvais paramètres de résolution envoyés");
+		} else
+		{
+			int targetID = args [0];
 			GameController.instance.getCard(targetID).modifiers.Add(new StatModifier(GameController.instance.getCurrentSkill().Power, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, 1));
+			GameController.instance.reloadCard(targetID);
+			GameController.instance.reloadSelectedPlayingCard(targetID);
 		}
 	}
 }

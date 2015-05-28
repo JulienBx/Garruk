@@ -11,12 +11,15 @@ public class Sape : GameSkill
 	public override void launch()
 	{
 		Debug.Log("Je lance sape");
-		GameController.instance.lookForTarget("Choisissez une cible", "Lancer Sape");
+
+		GameController.instance.lookForTarget("Choisir une cible pour Sape", "Lancer Sape");
 	}
 	
 	public override void resolve(int[] args)
 	{
-		int targetID = args[0];
-		GameController.instance.getCard(targetID).modifiers.Add(new StatModifier(GameController.instance.getCurrentSkill().Power*-1, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack));
+		int targetID = args [0];
+		GameController.instance.getCard(targetID).modifiers.Add(new StatModifier(GameController.instance.getCurrentSkill().Power * -1, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, 1));
+		GameController.instance.reloadCard(targetID);
+		GameController.instance.reloadSelectedPlayingCard(targetID);
 	}
 }

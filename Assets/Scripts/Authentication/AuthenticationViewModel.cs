@@ -10,6 +10,7 @@ public class AuthenticationViewModel
 	public GUIStyle passwordFieldStyle;
 	public GUIStyle labelStyle;
 	public GUIStyle errorStyle;
+	public GUIStyle instructionsStyle;
 	public string username;
 	public string email;
 	public string password1;
@@ -28,6 +29,7 @@ public class AuthenticationViewModel
 		this.passwordFieldStyle = new GUIStyle ();
 		this.labelStyle = new GUIStyle ();
 		this.errorStyle = new GUIStyle ();
+		this.instructionsStyle = new GUIStyle ();
 		this.username = "";
 		this.email = "";
 		this.password1 = "";
@@ -45,6 +47,7 @@ public class AuthenticationViewModel
 		this.passwordFieldStyle = this.styles [3];
 		this.labelStyle = this.styles [4];
 		this.errorStyle = this.styles [5];
+		this.instructionsStyle = this.styles [6];
 	}
 	public void resize(int heightScreen)
 	{
@@ -54,6 +57,7 @@ public class AuthenticationViewModel
 		this.passwordFieldStyle.fontSize = heightScreen * 2 / 100;
 		this.labelStyle.fontSize = heightScreen * 2 / 100;
 		this.errorStyle.fontSize = heightScreen * 2 / 100;
+		this.instructionsStyle.fontSize = heightScreen * 15 / 1000;
 	}
 }
 
