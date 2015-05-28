@@ -15,6 +15,8 @@ public class HomePageController : MonoBehaviour
 	public GUIStyle[] homepageScreenVMStyle;
 	public GUIStyle[] homepageVMStyle;
 	public GUIStyle[] packsVMStyle;
+	public GUIStyle[] ranksVMStyle;
+	public GUIStyle[] competsVMStyle;
 
 	private float timer;
 	private float timer2;
@@ -68,6 +70,7 @@ public class HomePageController : MonoBehaviour
 		yield return StartCoroutine (model.getData (this.totalNbResultLimit));
 		this.initLabelsNo ();
 		this.initStyles ();
+		this.initVM ();
 		this.toLoadData ();
 		MenuObject.GetComponent<MenuController>().setNbNotificationsNonRead(view.notificationsVM.nbNonReadNotifications);
 		this.isDataLoaded = true;
@@ -111,6 +114,10 @@ public class HomePageController : MonoBehaviour
 		{
 			view.packsVM.labelNo="Aucun pack n'est à la une";
 		}
+		if(model.player.NbGamesCup==0&& model.player.NbGamesDivision==0)
+		{
+			view.competsVM.labelNo="Aucune compétition en cours";
+		}
 	}
 	private void initLabelTitle()
 	{
@@ -125,6 +132,34 @@ public class HomePageController : MonoBehaviour
 		else if(view.notificationsVM.nbNonReadNotifications==0)
 		{
 			view.notificationsVM.notificationsTitleLabel="Mes notifications";
+		}
+	}
+	private void initVM()
+	{
+		view.ranksVM.totalNbWins = model.player.TotalNbWins;
+		view.ranksVM.totalNbLooses = model.player.TotalNbLooses;
+		view.ranksVM.division = model.player.Division;
+		view.ranksVM.rankingPoints = model.player.RankingPoints;
+		if(model.player.NbGamesDivision>0)
+		{
+			view.competsVM.competsNames.Add (model.currentDivision.Name);
+			view.competsVM.competsButtonsStyle.Add (new GUIStyle());
+			view.competsVM.competsButtonsStyle[view.competsVM.competsButtonsStyle.Count-1].normal.background=model.currentDivision.texture;
+			StartCoroutine(model.currentDivision.setPicture());
+		}
+		if(model.player.NbGamesCup>0)
+		{
+			view.competsVM.competsNames.Add (model.currentCup.Name);
+			view.competsVM.competsButtonsStyle.Add (new GUIStyle());
+			view.competsVM.competsButtonsStyle[view.competsVM.competsButtonsStyle.Count-1].normal.background=model.currentCup.texture;
+			StartCoroutine(model.currentCup.setPicture());
+		}
+		for (int i=0;i<view.competsVM.competsButtonsStyle.Count;i++)
+		{
+			view.competsVM.competsButtonsStyle[i].border.top=3;
+			view.competsVM.competsButtonsStyle[i].border.bottom=3;
+			view.competsVM.competsButtonsStyle[i].border.left=3;
+			view.competsVM.competsButtonsStyle[i].border.right=3;
 		}
 	}
 	private void initPagination()
@@ -202,6 +237,18 @@ public class HomePageController : MonoBehaviour
 			view.packsVM.styles[i]=this.packsVMStyle[i];
 		}
 		view.packsVM.initStyles();
+		view.ranksVM.styles=new GUIStyle[this.ranksVMStyle.Length];
+		for(int i=0;i<this.ranksVMStyle.Length;i++)
+		{
+			view.ranksVM.styles[i]=this.ranksVMStyle[i];
+		}
+		view.ranksVM.initStyles();
+		view.competsVM.styles=new GUIStyle[this.competsVMStyle.Length];
+		for(int i=0;i<this.competsVMStyle.Length;i++)
+		{
+			view.competsVM.styles[i]=this.competsVMStyle[i];
+		}
+		view.competsVM.initStyles();
 	}
 	public void resize()
 	{
@@ -211,6 +258,8 @@ public class HomePageController : MonoBehaviour
 		view.homepageVM.resize (view.homepageScreenVM.heightScreen);
 		view.newsVM.resize (view.homepageScreenVM.heightScreen);
 		view.packsVM.resize (view.homepageScreenVM.heightScreen);
+		view.ranksVM.resize (view.homepageScreenVM.heightScreen);
+		view.competsVM.resize (view.homepageScreenVM.heightScreen);
 
 		view.notificationsVM.elementPerRow = 1;
 		view.notificationsVM.blocksWidth = view.homepageScreenVM.blockTopLeftWidth / view.notificationsVM.elementPerRow;

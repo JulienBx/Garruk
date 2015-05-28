@@ -60,10 +60,10 @@ public class HomePageScreenViewModel {
 		this.blockBottomLeftHeight = 0.60f * (0.9f * this.heightScreen - 3 * this.gapBetweenblocks);
 
 		this.blockTopRightWidth = 0.34f * (this.widthScreen - 3 * this.gapBetweenblocks);
-		this.blockTopRightHeight = 0.30f * (0.9f * this.heightScreen - 4 * this.gapBetweenblocks);
+		this.blockTopRightHeight = 0.35f * (0.9f * this.heightScreen - 4 * this.gapBetweenblocks);
 		
 		this.blockMiddleRightWidth = 0.34f * (this.widthScreen - 3 * this.gapBetweenblocks);
-		this.blockMiddleRightHeight = 0.30f * (0.9f * this.heightScreen - 4 * this.gapBetweenblocks);
+		this.blockMiddleRightHeight = 0.25f * (0.9f * this.heightScreen - 4 * this.gapBetweenblocks);
 
 		this.blockBottomRightWidth = 0.34f * (this.widthScreen - 3 * this.gapBetweenblocks);
 		this.blockBottomRightHeight = 0.40f * (0.9f * this.heightScreen - 4 * this.gapBetweenblocks);

@@ -12,6 +12,8 @@ public class HomePageView : MonoBehaviour
 	public HomePageScreenViewModel homepageScreenVM;
 	public HomePageNewsViewModel newsVM;
 	public HomePagePacksViewModel packsVM;
+	public HomePageRankingsViewModel ranksVM;
+	public HomePageCompetsViewModel competsVM;
 
 	public bool canDisplay=false;
 
@@ -22,6 +24,8 @@ public class HomePageView : MonoBehaviour
 		this.homepageScreenVM = new HomePageScreenViewModel ();
 		this.newsVM = new HomePageNewsViewModel ();
 		this.packsVM = new HomePagePacksViewModel ();
+		this.ranksVM = new HomePageRankingsViewModel ();
+		this.competsVM = new HomePageCompetsViewModel ();
 	}
 	void Update()
 	{
@@ -251,7 +255,7 @@ public class HomePageView : MonoBehaviour
 		{
 			GUILayout.Label("Disponible en boutique",homepageVM.titleStyle,GUILayout.Height(0.125f*homepageScreenVM.blockBottomRightHeight));
 			GUILayout.Label(packsVM.labelNo,packsVM.labelNoStyle,GUILayout.Height(0.125f*homepageScreenVM.blockBottomRightHeight));
-			GUILayout.Space(0.6f*homepageScreenVM.blockBottomRightHeight);
+			GUILayout.FlexibleSpace();
 			GUILayout.BeginHorizontal();
 			{
 				GUILayout.FlexibleSpace();
@@ -262,6 +266,7 @@ public class HomePageView : MonoBehaviour
 				GUILayout.FlexibleSpace();
 			}
 			GUILayout.EndHorizontal();
+			GUILayout.Space(0.05f*homepageScreenVM.blockBottomRightHeight);
 		}
 		GUILayout.EndArea();
 		for (int i=0;i<packsVM.finish-packsVM.start;i++)
@@ -284,6 +289,7 @@ public class HomePageView : MonoBehaviour
 					GUILayout.FlexibleSpace();
 					if(GUILayout.Button("",packsVM.packPicturesButtonStyle[i],GUILayout.Height(packsVM.blocksHeight*6f/10f),GUILayout.Width(packsVM.blocksHeight*6f/10f)))
 					{
+						Application.LoadLevel("Store");
 					}
 					GUILayout.FlexibleSpace();
 				}
@@ -292,6 +298,72 @@ public class HomePageView : MonoBehaviour
 			}
 			GUILayout.EndArea();      
 		}
+		GUILayout.BeginArea(homepageScreenVM.blockMiddleRight,homepageScreenVM.blockBorderStyle);
+		{
+			GUILayout.Label("Mes statistiques",homepageVM.titleStyle,GUILayout.Height(homepageScreenVM.blockBottomRightHeight*0.1f));
+			GUILayout.FlexibleSpace();
+			GUILayout.FlexibleSpace();
+			GUILayout.Label("Victoires : " + ranksVM.totalNbWins,ranksVM.informationsStyle,GUILayout.Height(homepageScreenVM.blockMiddleRightHeight*0.1f));
+			GUILayout.Label("Défaites : " + ranksVM.totalNbLooses,ranksVM.informationsStyle,GUILayout.Height(homepageScreenVM.blockMiddleRightHeight*0.1f));
+			GUILayout.Label("Ranking : " + ranksVM.ranking,ranksVM.informationsStyle,GUILayout.Height(homepageScreenVM.blockMiddleRightHeight*0.1f));
+			GUILayout.Label("Ranking points : " + ranksVM.rankingPoints,ranksVM.informationsStyle,GUILayout.Height(homepageScreenVM.blockMiddleRightHeight*0.1f));
+			GUILayout.FlexibleSpace();
+			GUILayout.FlexibleSpace();
+			GUILayout.BeginHorizontal();
+			{
+				GUILayout.FlexibleSpace();
+				if(GUILayout.Button("Mon profil",ranksVM.buttonStyle,GUILayout.Height(0.125f*homepageScreenVM.blockBottomRightHeight),GUILayout.Width(0.5f*homepageScreenVM.blockMiddleRightWidth)))
+				{
+					Application.LoadLevel("Profile");
+				}
+				GUILayout.FlexibleSpace();
+			}
+			GUILayout.EndHorizontal();
+			GUILayout.Space(0.05f*homepageScreenVM.blockBottomRightHeight);
+		}
+		GUILayout.EndArea();
+		GUILayout.BeginArea(homepageScreenVM.blockTopRight,homepageScreenVM.blockBorderStyle);
+		{
+			GUILayout.Label("Mes compétitions",homepageVM.titleStyle,GUILayout.Height(homepageScreenVM.blockBottomRightHeight*0.1f));
+			GUILayout.FlexibleSpace();
+			if(competsVM.competsNames.Count>0)
+			{
+				GUILayout.BeginHorizontal(GUILayout.Height(0.7f*homepageScreenVM.blockTopRightHeight));
+				{
+					for(int i=0;i<competsVM.competsNames.Count;i++)
+					{
+						GUILayout.FlexibleSpace();
+						GUILayout.BeginVertical();
+						{
+							GUILayout.Label(competsVM.competsNames[i],competsVM.nameStyle,GUILayout.Height(0.1f*homepageScreenVM.blockTopRightHeight));
+							if(GUILayout.Button("",competsVM.competsButtonsStyle[i],GUILayout.Height(0.6f*homepageScreenVM.blockTopRightHeight),GUILayout.Width(0.6f*homepageScreenVM.blockTopRightHeight)))
+							{
+							}
+						}
+						GUILayout.EndVertical();
+						GUILayout.FlexibleSpace();
+					}
+				}
+				GUILayout.EndHorizontal();
+			}
+			else
+			{
+				GUILayout.Label(competsVM.labelNo,competsVM.labelNoStyle);
+				GUILayout.FlexibleSpace();
+			}
+			GUILayout.BeginHorizontal();
+			{
+				GUILayout.FlexibleSpace();
+				if(GUILayout.Button("Rejoindre",ranksVM.buttonStyle,GUILayout.Height(0.125f*homepageScreenVM.blockBottomRightHeight),GUILayout.Width(0.5f*homepageScreenVM.blockMiddleRightWidth)))
+				{
+					Application.LoadLevel("Lobby");
+				}
+				GUILayout.FlexibleSpace();
+			}
+			GUILayout.EndHorizontal();
+			GUILayout.Space(0.05f*homepageScreenVM.blockBottomRightHeight);
+		}
+		GUILayout.EndArea();
 	}
 }
 
