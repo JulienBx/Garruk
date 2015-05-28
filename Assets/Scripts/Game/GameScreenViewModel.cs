@@ -21,6 +21,12 @@ public class GameScreenViewModel
 
 
 	public bool toDisplayStartWindows = true ;
+	public bool toDisplayValidationWindows = false ;
+	public bool toDisplayValidationButton = false ;
+
+	public string validationButtonText ;
+	public string validationRegularText ;
+
 	public bool iHaveStarted = false;
 	public bool heHasStarted = false ;
 	public string messageStartWindow = "Préparation du champ de bataille";
@@ -131,8 +137,8 @@ public class GameScreenViewModel
 		this.buttonTextStyle.fontSize = h * 22 / 1000;
 		this.greenInformationTextStyle.fontSize = h * 22 / 1000;
 		this.quitButtonStyle.fontSize = h * 22 / 1000;
-		this.namePlayingCardTextStyle.fontSize = h * 22/100 ;
-		this.nameOpponentPlayingCardTextStyle.fontSize = h * 22/100 ;
+		this.namePlayingCardTextStyle.fontSize = h * 20/1000 ;
+		this.nameOpponentPlayingCardTextStyle.fontSize = h * 22/1000 ;
 	}
 
 	public void setCursor(Texture2D c, int i)

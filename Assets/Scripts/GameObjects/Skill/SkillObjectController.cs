@@ -10,10 +10,12 @@ public class SkillObjectController : GameObjectController
 	public Texture2D passPicto;
 	public Texture2D noSkillPicto;
 	public Texture2D[] borders ;
+	public Texture2D[] faces ;
 
 	public GUIStyle[] styles;
 
 	public int id ;
+	public bool isActive ;
 
 	void Awake()
 	{
@@ -21,6 +23,8 @@ public class SkillObjectController : GameObjectController
 		this.view.skillVM.skillRectStyle = styles[0];
 		this.view.skillVM.skillTitleTextStyle = styles[1];
 		this.view.skillVM.skillDescriptionTextStyle = styles[2];
+		this.view.skillVM.cadreStyle = styles[3];
+		this.view.skillVM.powerStyle = styles[5];
 	}
 
 	public void setOwner(bool b){
@@ -37,23 +41,24 @@ public class SkillObjectController : GameObjectController
 		this.id = i;
 	}
 
-	public void setSkill(Skill s)
+	public void setSkill(Skill s, bool isactive, bool isControlActive)
 	{
-		this.view.skillVM.face = this.skillPictos [s.Id-2];
-		this.view.skillVM.skillTitle = s.Name;
 		this.view.skillVM.skillDescription = s.Description;
-	}
+		this.view.skillVM.isControlActive = isControlActive;
+	
+		if (s.Name.Length>6){
+			this.view.skillVM.skillName = s.Name.Substring(0,6)+".";
+		}
+		else{
+			this.view.skillVM.skillName = s.Name ;
+		}
+		this.view.skillVM.power = s.Power ;
+		this.view.skillVM.face = this.skillPictos[s.Id-2];
 
-	public void setActive(bool b)
-	{
-		gameObject.SetActive(b);
-	}
+		this.isActive = isactive ;
 
-	public void setControlsActive(bool b, bool ispc)
-	{
-		this.view.skillVM.isActive = b;
-		if (ispc){
-			if (b){
+		if (isactive){
+			if (isControlActive){
 				this.view.skillVM.border = borders[1];
 			}
 			else{
@@ -61,19 +66,76 @@ public class SkillObjectController : GameObjectController
 			}
 		}
 		else{
-			this.view.skillVM.border = borders[1];
+			this.view.skillVM.border = borders[0];
+		}
+	}
+
+	public void hoverSkill(){
+		this.view.skillVM.border = borders[3];
+		this.view.changeBorder();
+	}
+
+	public void setControlActive(bool b){
+		this.view.skillVM.isControlActive = b;
+		this.endHoverSkill();
+	}
+
+	public void endHoverSkill(){
+		if (this.isActive){
+			if (this.view.skillVM.isControlActive){
+				this.view.skillVM.border = borders[1];
+			}
+			else{
+				this.view.skillVM.border = borders[2];
+			}
+		}
+		else{
+			this.view.skillVM.border = borders[0];
 		}
 		this.view.changeBorder();
 	}
 
-	public void setAttack()
+	public void setActive(bool b)
 	{
-		this.view.skillVM.face = this.attackPicto;
+		gameObject.SetActive(b);
 	}
 
-	public void setPass()
+	public void setAttack(bool isactivable)
 	{
+		this.isActive = true ;
+		this.view.skillVM.isControlActive =  isactivable ;
+		this.view.skillVM.face = this.attackPicto;
+
+		if (this.isActive){
+			if (isactivable){
+				this.view.skillVM.border = borders[1];
+			}
+			else{
+				this.view.skillVM.border = borders[2];
+			}
+		}
+		else{
+			this.view.skillVM.border = borders[0];
+		}
+	}
+
+	public void setPass(bool isactivable)
+	{
+		this.isActive = true ;
+		this.view.skillVM.isControlActive =  isactivable ;
 		this.view.skillVM.face = this.passPicto;
+
+		if (this.isActive){
+			if (isactivable){
+				this.view.skillVM.border = borders[1];
+			}
+			else{
+				this.view.skillVM.border = borders[2];
+			}
+		}
+		else{
+			this.view.skillVM.border = borders[0];
+		}
 	}
 
 	public void show()

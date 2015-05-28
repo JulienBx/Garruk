@@ -5,6 +5,7 @@ public class Attack : GameSkill
 {
 	public Attack()
 	{
+	
 	}
 	
 	public override void launch()

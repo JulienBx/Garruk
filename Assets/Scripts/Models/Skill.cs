@@ -16,6 +16,7 @@ public class Skill
 	public string Action;
 	public int nbLeft = 99 ;
 
+
 	public Skill(string name, int id, int isactivated, int level, int power, int manaCost, string description, string action) : this(name, id, isactivated, level, power, manaCost, description)
 	{
 		this.Action = action;
