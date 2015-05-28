@@ -27,7 +27,6 @@ public class Dissipation : GameSkill
 				GameController.instance.reloadSortedList();
 				GameController.instance.reloadDestinationTiles();
 				GameController.instance.reloadCard(targetID);
-				GameController.instance.reloadSelectedPlayingCard(targetID);
 			}
 		}
 	}

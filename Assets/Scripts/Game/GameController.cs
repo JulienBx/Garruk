@@ -1050,8 +1050,8 @@ public class GameController : Photon.MonoBehaviour
 
 	public void resolvePass()
 	{
-		this.playindCardHasPlayed = false ;
-		this.isRunningSkill = false ;
+		this.playindCardHasPlayed = false;
+		this.isRunningSkill = false;
 		findNextPlayer();
 		photonView.RPC("timeRunsOut", PhotonTargets.AllBuffered, timerTurn);
 		photonView.RPC("addPassEvent", PhotonTargets.AllBuffered);
@@ -1860,22 +1860,15 @@ public class GameController : Photon.MonoBehaviour
 		this.playingCards [id].GetComponent<PlayingCardController>().show();
 	}
 
-	public void reloadSelectedPlayingCard(int targetID)
-	{
-		if (targetID == currentPlayingCard)
-		{
-			selectedPlayingCard.GetComponent<PlayingCardController>().show();
-		}
-	}
-
 	public void play(string message)
 	{
 		this.isRunningSkill = false;
 		this.playindCardHasPlayed = true;
-		if (this.clickedPlayingCard!=this.currentPlayingCard){
+		if (this.clickedPlayingCard != this.currentPlayingCard && this.clickedPlayingCard != -1)
+		{
 			this.showMyPlayingSkills(this.clickedPlayingCard);
-		}
-		else{
+		} else
+		{
 			this.showMyPlayingSkills(this.currentPlayingCard);
 		}
 		this.displayPopUpMessage(message, 2);
