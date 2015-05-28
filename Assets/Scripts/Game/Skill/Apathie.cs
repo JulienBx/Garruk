@@ -11,7 +11,7 @@ public class Apathie : GameSkill
 	public override void launch()
 	{
 		Debug.Log("Je lance apathie");
-		GameController.instance.lookForTarget("", "");
+		GameController.instance.lookForTarget("Choisir une cible pour Apathie", "Lancer Apathie");
 	}
 	 
 	public override void resolve(int[] args)

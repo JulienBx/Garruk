@@ -10,7 +10,7 @@ public class Dissipation : GameSkill
 	public override void launch()
 	{
 		Debug.Log("Je lance dissipation");
-		GameController.instance.lookForTarget();
+		GameController.instance.lookForTarget("Choisir une cible pour Dissipation", "Lancer Dissipation");
 	}
 
 	public override void resolve(int[] args)

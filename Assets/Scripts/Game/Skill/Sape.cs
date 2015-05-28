@@ -11,7 +11,7 @@ public class Sape : GameSkill
 	public override void launch()
 	{
 		Debug.Log("Je lance sape");
-		GameController.instance.lookForTarget("", "");
+		GameController.instance.lookForTarget("Choisir une cible pour Sape", "Lancer Sape");
 	}
 	
 	public override void resolve(int[] args)

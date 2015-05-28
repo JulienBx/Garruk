@@ -11,7 +11,7 @@ public class Renforcement : GameSkill
 	public override void launch()
 	{
 		Debug.Log("Je lance renforcement");
-		GameController.instance.lookForTarget("", "");
+		GameController.instance.lookForTarget("Choisir une cible pour Renforcement", "Lancer Renforcement");
 	}
 	
 	public override void resolve(int[] args)

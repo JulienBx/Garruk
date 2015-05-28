@@ -11,7 +11,7 @@ public class Rapidite : GameSkill
 	public override void launch()
 	{
 		Debug.Log("Je lance rapidite");
-		GameController.instance.lookForTarget("", "");
+		GameController.instance.lookForTarget("Choisir une cible pour Rapidite", "Lancer Rapidite");
 	}
 	
 	public override void resolve(int[] args)

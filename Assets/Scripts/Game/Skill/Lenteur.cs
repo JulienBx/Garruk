@@ -11,7 +11,7 @@ public class Lenteur : GameSkill
 	public override void launch()
 	{
 		Debug.Log("Je lance Lenteur");
-		GameController.instance.lookForTarget("", "");
+		GameController.instance.lookForTarget("Choisir une cible pour Lenteur", "Lancer Lenteur");
 	}
 	
 	public override void resolve(int[] args)
