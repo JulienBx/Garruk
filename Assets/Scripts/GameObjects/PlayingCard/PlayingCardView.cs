@@ -22,7 +22,8 @@ public class PlayingCardView : MonoBehaviour
 	{
 		if (this.playingCardVM.toDisplayHalo){
 			if(Input.GetMouseButtonDown(0)){
-				if (Input.mousePosition.x>this.playingCardVM.haloRect.xMin && Input.mousePosition.x<this.playingCardVM.haloRect.xMax && Input.mousePosition.y>this.playingCardVM.haloRect.yMin && Input.mousePosition.y<this.playingCardVM.haloRect.yMax){
+				int height = Screen.height;
+				if (Input.mousePosition.x>this.playingCardVM.haloRect.xMin && Input.mousePosition.x<this.playingCardVM.haloRect.xMax && (height-Input.mousePosition.y)>this.playingCardVM.haloRect.yMin && (height-Input.mousePosition.y)<this.playingCardVM.haloRect.yMax){
 					gameObject.GetComponentInChildren<PlayingCardController>().addTarget();
 				}
 			}
