@@ -9,6 +9,7 @@ public class MyGameFiltersViewModel
 	public bool[] togglesCurrentStates;
 	public bool isSkillChosen;
 	public bool onSale;
+	public bool notOnSale;
 	public bool isSkillToDisplay;
 	public int sortSelected;
 	public int oldSortSelected;
