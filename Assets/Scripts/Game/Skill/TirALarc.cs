@@ -5,7 +5,7 @@ public class TirALarc : GameSkill
 	public override void launch()
 	{
 		Debug.Log("Je lance tir à l'arc");
-		GameController.instance.lookForTarget();
+		GameController.instance.lookForTarget("", "");
 	}
 	
 	public override void setTarget(PlayingCardController pcc)

@@ -519,11 +519,14 @@ public class GameController : Photon.MonoBehaviour
 		this.showOpponentSkills(this.clickedOpponentPlayingCard);
 	}
 
-	public void lookForTarget()
+	public void lookForTarget(string regularText, string buttonText)
 	{
 		isLookingForTarget = true;
 
-
+		this.gameView.gameScreenVM.toDisplayValidationWindows = true ;
+		this.gameView.gameScreenVM.toDisplayValidationButton = false ;
+		this.gameView.gameScreenVM.validationRegularText = regularText ;
+		this.gameView.gameScreenVM.validationButtonText = buttonText ;
 	}
 
 	public void lookForValidation(bool toDisplayButton, string regularText, string buttonText)
