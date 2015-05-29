@@ -1772,7 +1772,7 @@ public class GameController : Photon.MonoBehaviour
 		this.gameskills [6] = new Sape();
 		this.gameskills [7] = new Lenteur();
 		this.gameskills [8] = new Rapidite();
-		this.gameskills [9] = new GameSkill();
+		this.gameskills [9] = new Dissipation();
 		this.gameskills [10] = new GameSkill();
 		this.gameskills [11] = new Furtivite();
 		this.gameskills [12] = new GameSkill();

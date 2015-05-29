@@ -15,9 +15,6 @@ public class Dissipation : GameSkill
 
 	public override void resolve(int[] args)
 	{
-		GameController.instance.play(GameController.instance.getCurrentCard().Title + 
-			" a lancé dissipation \n ");
-
 		if (Random.Range(0, 100) < GameController.instance.getCurrentSkill().Power)
 		{
 			int targetID = args [0];
@@ -25,7 +22,13 @@ public class Dissipation : GameSkill
 			GameController.instance.reloadSortedList();
 			GameController.instance.reloadDestinationTiles();
 			GameController.instance.reloadCard(targetID);
+			GameController.instance.play(GameController.instance.getCurrentCard().Title + 
+				" a lancé dissipation ");
+		} else
+		{
+			GameController.instance.play(GameController.instance.getCurrentCard().Title + 
+				" a tenté de lancer dissipation \n " 
+				+ "mais a échoué");
 		}
-
 	}
 }
