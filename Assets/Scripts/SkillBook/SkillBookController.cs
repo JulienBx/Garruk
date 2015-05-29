@@ -173,8 +173,8 @@ public class SkillBookController : Photon.MonoBehaviour
 			view.statsVM.stars[4].normal.background=this.starsPictos[0];
 			view.statsVM.stars[3].normal.background=this.starsPictos[0];
 			view.statsVM.stars[2].normal.background=this.starsPictos[0];
-			view.statsVM.stars[1].normal.background=this.starsPictos[4];
-			view.statsVM.stars[0].normal.background=this.starsPictos[4];
+			view.statsVM.stars[1].normal.background=this.starsPictos[2];
+			view.statsVM.stars[0].normal.background=this.starsPictos[2];
 		}
 		else if(this.globalPercentage>20)
 		{
