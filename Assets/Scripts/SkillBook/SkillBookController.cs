@@ -65,14 +65,19 @@ public class SkillBookController : Photon.MonoBehaviour
 		this.cardTypesNbSkills=new int[model.cardTypesList.Count];
 		this.cardTypesNbCards=new int[model.cardTypesList.Count];
 		int globalSum=new int();
+		IList<int> idCards = new List<int> ();
 		for(int i=0;i<model.skillsList.Count;i++)
 		{
 			for(int j=0;j<model.ownSkillsList.Count;j++)
 			{
 				if(model.skillsList[i].Id==model.ownSkillsList[j].Id)
 				{
+					if(!idCards.Contains(model.cardIdsList[j]))
+					{
+						this.cardTypesNbCards[model.skillsList[i].CardType]++;
+						idCards.Add (model.cardIdsList[j]);
+					}
 					this.skillsNbCards[i]++;
-					this.cardTypesNbCards[model.skillsList[i].CardType]++;
 					if(this.skillsPercentages[i]<model.ownSkillsList[j].Power)
 					{
 						this.skillsPercentages[i]=model.ownSkillsList[j].Power;

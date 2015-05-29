@@ -12,6 +12,7 @@ public class SkillBookModel
 	public IList<Skill> skillsList;
 	public IList<Skill> ownSkillsList;
 	public IList<string> cardTypesList;
+	public IList<int> cardIdsList;
 	private string URLGetSkillBookData = ApplicationModel.host + "get_skillbook_data.php";
 	
 	public SkillBookModel ()
@@ -35,7 +36,7 @@ public class SkillBookModel
 			this.cardTypesList = data[0].Split(new string[] { "//" }, System.StringSplitOptions.None);
 			this.skillsList = parseSkills(data[1].Split(new string[] { "#SKILL#" }, System.StringSplitOptions.None));
 			this.ownSkillsList = parseOwnSkills(data[2].Split(new string[] { "#SKILL#" }, System.StringSplitOptions.None));
-
+			this.cardIdsList = parseCards(data[3].Split(new string[] { "//" }, System.StringSplitOptions.None));
 		}
 	}
 	private IList<Skill> parseSkills(string[] array)
@@ -64,6 +65,15 @@ public class SkillBookModel
 			skills[i].Power=System.Convert.ToInt32(skillInformation[1]);
 		}
 		return skills;
+	}
+	private IList<int> parseCards(string[] array)
+	{
+		IList<int> cards = new List<int> ();
+		for(int i=0;i<array.Length-1;i++)
+		{
+			cards.Add (System.Convert.ToInt32(array[i]));
+		}
+		return cards;
 	}
 }
 
