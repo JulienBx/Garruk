@@ -1657,20 +1657,19 @@ public class GameController : Photon.MonoBehaviour
 			go = (GameObject)Instantiate(gameEvent);
 			gameEvents.Add(go);
 			go.GetComponent<GameEventController>().setScreenPosition(gameEvents.Count, boardWidth, boardHeight, tileScale);
+			go.GetComponent<GameEventController>().setBorder(0);
 			if (i < 7)
 			{
 				GameObject child = (GameObject)Instantiate(go.GetComponent<GameEventController>().transparentImage);
 				child.name = "TransparentEvent";
 				child.transform.parent = go.transform;
 				child.transform.localPosition = new Vector3(0f, 0f, -5f);
-				if (i == 6)
-				{
-					child.transform.localScale = new Vector3(1f, 1f, 10f);
-				} else
-				{
-					child.transform.localScale = new Vector3(0.9f, 0.9f, 10f);
-				}
+				child.transform.localScale = new Vector3(0.9f, 0.9f, 10f);
 			}
+			if (i == 6)
+			{
+				go.transform.localScale = new Vector3(0.95f, 0.95f, 10f);
+			} 
 
 			if (i > 6)
 			{
@@ -1731,7 +1730,11 @@ public class GameController : Photon.MonoBehaviour
 			gameEvents [i].GetComponent<GameEventController>().setAction(action);
 			gameEvents [i].GetComponent<GameEventController>().setMovement(movement [0], movement [1]);
 			gameEvents [i].GetComponent<GameEventController>().setArt(t2);
-			gameEvents [i].GetComponent<GameEventController>().setBorder(isThisCharacterMine(id));
+			if (i < 6)
+			{
+				gameEvents [i].GetComponent<GameEventController>().setBorder(isThisCharacterMine(id));
+			}
+
 			gameEvents [i].GetComponent<GameEventController>().gameEventView.show();
 			gameEvents [i - 1].GetComponent<GameEventController>().setMovement(null, null);
 		}
@@ -1752,9 +1755,9 @@ public class GameController : Photon.MonoBehaviour
 		PhotonNetwork.Disconnect();
 	}
 
-	bool isThisCharacterMine(int id)
+	int isThisCharacterMine(int id)
 	{
-		return (id < 5 && isFirstPlayer || id >= 5 && !isFirstPlayer);
+		return (isFirstPlayer == (id < 5)) ? 1 : -1;
 	}
 
 	void initSkills()

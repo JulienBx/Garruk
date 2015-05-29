@@ -82,14 +82,17 @@ public class GameEventController : MonoBehaviour
 		gameEventView.gameEventVM.art = art;
 	}
 
-	public void setBorder(bool isMine)
+	public void setBorder(int isMine)
 	{
-		if (isMine)
+		if (isMine == 1)
 		{
 			gameEventView.gameEventVM.border = borders [1];
-		} else
+		} else if (isMine == - 1)
 		{
 			gameEventView.gameEventVM.border = borders [2];
+		} else
+		{
+			gameEventView.gameEventVM.border = borders [0];
 		}
 	}
 
