@@ -190,12 +190,14 @@ public class GameController : Photon.MonoBehaviour
 		{
 			EndSceneController.instance.resize();
 		}
-		if (!isFirstResize){
-			for(int i = 0 ; i < 10 ; i++){
+		if (!isFirstResize)
+		{
+			for (int i = 0; i < 10; i++)
+			{
 				this.playingCards [i].GetComponentInChildren<PlayingCardController>().resize();
 			}
 		}
-		isFirstResize = false ;
+		isFirstResize = false;
 
 	}
 
@@ -1400,8 +1402,9 @@ public class GameController : Photon.MonoBehaviour
 		{
 			this.isDragging = false;
 			this.resetDestinations();
-			if (this.playindCardHasPlayed){
-				this.gameskills[1].launch();
+			if (this.playindCardHasPlayed)
+			{
+				this.gameskills [1].launch();
 			}
 		}
 
@@ -1657,8 +1660,15 @@ public class GameController : Photon.MonoBehaviour
 				child.name = "TransparentEvent";
 				child.transform.parent = go.transform;
 				child.transform.localPosition = new Vector3(0f, 0f, -5f);
-				child.transform.localScale = new Vector3(0.9f, 0.9f, 10f);
+				if (i == 6)
+				{
+					child.transform.localScale = new Vector3(1f, 1f, 10f);
+				} else
+				{
+					child.transform.localScale = new Vector3(0.9f, 0.9f, 10f);
+				}
 			}
+
 			if (i > 6)
 			{
 				GameObject child = (GameObject)Instantiate(go.GetComponent<GameEventController>().darkImage);
@@ -1866,8 +1876,9 @@ public class GameController : Photon.MonoBehaviour
 			this.showMyPlayingSkills(this.currentPlayingCard);
 		}
 		this.displayPopUpMessage(message, 2);
-		if (!this.isDragging){
-			this.gameskills[1].launch();
+		if (!this.isDragging)
+		{
+			this.gameskills [1].launch();
 		}
 	}
 
