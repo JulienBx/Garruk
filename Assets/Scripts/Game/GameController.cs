@@ -19,6 +19,7 @@ public class GameController : Photon.MonoBehaviour
 	public int nbFreeStartRows ;
 	public GUIStyle[] gameScreenStyles;
 	bool isRunningSkill = false ;
+	bool playingCardHasMoved = false ;
 
 	int numberOfExpectedArgs ;
 	int numberOfArgs ;
@@ -947,6 +948,7 @@ public class GameController : Photon.MonoBehaviour
 	public void initPlayer(int id, bool newTurn, bool isFirstP)
 	{
 		print("Au tour de " + id);
+		playingCardHasMoved = false;
 		if (newTurn)
 		{
 			for (int i = 0; i < 10; i++)
@@ -1415,6 +1417,7 @@ public class GameController : Photon.MonoBehaviour
 		{
 			displayPopUpMessage(this.playingCards [c].GetComponentInChildren<PlayingCardController>().card.Title + " s'est déplacé", 2f);
 		}
+		playingCardHasMoved = true;
 	}
 
 	[RPC]
@@ -1876,7 +1879,7 @@ public class GameController : Photon.MonoBehaviour
 			this.showMyPlayingSkills(this.currentPlayingCard);
 		}
 		this.displayPopUpMessage(message, 2);
-		if (!this.isDragging)
+		if (this.playingCardHasMoved)
 		{
 			this.gameskills [1].launch();
 		}
