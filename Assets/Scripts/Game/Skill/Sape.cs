@@ -18,8 +18,8 @@ public class Sape : GameSkill
 	public override void resolve(int[] args)
 	{
 		int targetID = args [0];
-		GameController.instance.play(GameController.instance.getCurrentCard().Title + " a lancé furtivité");
-		GameController.instance.getCard(targetID).modifiers.Add(new StatModifier(GameController.instance.getCurrentSkill().Power * -1, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, 1));
+		GameController.instance.play(GameController.instance.getCurrentCard().Title + " a lancé sape");
+		GameController.instance.getCard(targetID).modifiers.Add(new StatModifier(GameController.instance.getCurrentSkill().Power * -1, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, 1, false));
 		GameController.instance.reloadCard(targetID);
 	}
 }

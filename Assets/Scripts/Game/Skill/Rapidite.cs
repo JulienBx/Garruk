@@ -22,7 +22,7 @@ public class Rapidite : GameSkill
 		} else
 		{
 			int targetID = args [0];
-			GameController.instance.getCard(targetID).modifiers.Add(new StatModifier(GameController.instance.getCurrentSkill().Power, ModifierType.Type_BonusMalus, ModifierStat.Stat_Move, 1));
+			GameController.instance.getCard(targetID).modifiers.Add(new StatModifier(GameController.instance.getCurrentSkill().Power, ModifierType.Type_BonusMalus, ModifierStat.Stat_Move, 1, false));
 			GameController.instance.reloadDestinationTiles();
 			GameController.instance.reloadCard(targetID);
 		}
