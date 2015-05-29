@@ -15,19 +15,17 @@ public class Dissipation : GameSkill
 
 	public override void resolve(int[] args)
 	{
-		if (args.Length != 1)
+		GameController.instance.play(GameController.instance.getCurrentCard().Title + 
+			" a lancé dissipation \n ");
+
+		if (Random.Range(0, 100) < GameController.instance.getCurrentSkill().Power)
 		{
-			Debug.Log("Mauvais paramètres de résolution envoyés");
-		} else
-		{
-			if (Random.Range(0, 100) < GameController.instance.getCurrentSkill().Power)
-			{
-				int targetID = args [0];
-				GameController.instance.getCard(targetID).clearBuffs();
-				GameController.instance.reloadSortedList();
-				GameController.instance.reloadDestinationTiles();
-				GameController.instance.reloadCard(targetID);
-			}
+			int targetID = args [0];
+			GameController.instance.getCard(targetID).clearBuffs();
+			GameController.instance.reloadSortedList();
+			GameController.instance.reloadDestinationTiles();
+			GameController.instance.reloadCard(targetID);
 		}
+
 	}
 }

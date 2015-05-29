@@ -1805,28 +1805,6 @@ public class GameController : Photon.MonoBehaviour
 		this.gameskills [39] = new GameSkill();
 	}
 
-	string convertStatToString(ModifierStat stat)
-	{
-		switch (stat)
-		{
-			case ModifierStat.Stat_Attack:
-				return "en attaque";
-				break;
-			case ModifierStat.Stat_Life:
-				return "de vie";
-				break;
-			case ModifierStat.Stat_Move:
-				return "en mouvement";
-				break;
-			case ModifierStat.Stat_Speed:
-				return "en vitesse";
-				break;
-			default:
-				return "";
-				break;
-		}
-	}
-
 	public Card getCurrentCard()
 	{
 		return this.playingCards [this.currentPlayingCard].GetComponent<PlayingCardController>().card;
@@ -1881,7 +1859,7 @@ public class GameController : Photon.MonoBehaviour
 		{
 			this.showMyPlayingSkills(this.currentPlayingCard);
 		}
-		this.displayPopUpMessage(message, 2);
+		this.displayPopUpMessage(message, 4);
 		if (this.playingCardHasMoved)
 		{
 			this.gameskills [1].launch();

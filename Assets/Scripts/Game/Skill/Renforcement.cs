@@ -16,14 +16,17 @@ public class Renforcement : GameSkill
 	
 	public override void resolve(int[] args)
 	{
-		if (args.Length != 1)
-		{
-			Debug.Log("Mauvais paramètres de résolution envoyés");
-		} else
-		{
-			int targetID = args [0];
-			GameController.instance.getCard(targetID).modifiers.Add(new StatModifier(GameController.instance.getCurrentSkill().Power, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, 1, false));
-			GameController.instance.reloadCard(targetID);
-		}
+		int amount = GameController.instance.getCurrentSkill().Power;
+		GameController.instance.play(GameController.instance.getCurrentCard().Title + 
+			" a lancé renforcement \n +" 
+			+ amount 
+			+ " " 
+			+ convertStatToString(ModifierStat.Stat_Attack)
+			+ " au prochain tour");
+
+		int targetID = args [0];
+		GameController.instance.getCard(targetID).modifiers.Add(new StatModifier(amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, 1, false));
+		GameController.instance.reloadCard(targetID);
+
 	}
 }

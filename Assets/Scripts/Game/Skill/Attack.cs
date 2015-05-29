@@ -17,8 +17,14 @@ public class Attack : GameSkill
 	public override void resolve(int[] args)
 	{
 		int targetID = args [0];
-		GameController.instance.getCard(targetID).modifiers.Add(new StatModifier(GameController.instance.getCurrentCard().Attack, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage));
-		GameController.instance.play(GameController.instance.getCurrentCard().Title + " a lancé attack");
+		int amount = GameController.instance.getCurrentCard().Attack;
+		GameController.instance.play(GameController.instance.getCurrentCard().Title + 
+			" a lancé une attaque \n " 
+			+ amount 
+			+ " " 
+			+ convertStatToString(ModifierStat.Stat_Dommage));
+
+		GameController.instance.getCard(targetID).modifiers.Add(new StatModifier(amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage));
 
 		if (GameController.instance.getCard(targetID).GetLife() <= 0)
 		{

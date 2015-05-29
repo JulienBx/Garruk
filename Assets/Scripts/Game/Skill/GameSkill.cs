@@ -17,4 +17,29 @@ public class GameSkill
 	{
 		Debug.Log("Skill non implémenté");
 	}
+
+	public string convertStatToString(ModifierStat stat)
+	{
+		switch (stat)
+		{
+			case ModifierStat.Stat_Attack:
+				return "en attaque";
+				break;
+			case ModifierStat.Stat_Life:
+				return "de vie";
+				break;
+			case ModifierStat.Stat_Move:
+				return "en mouvement";
+				break;
+			case ModifierStat.Stat_Speed:
+				return "en vitesse";
+				break;
+			case ModifierStat.Stat_Dommage:
+				return "de dommage";
+				break;
+			default:
+				return "";
+				break;
+		}
+	}
 }
