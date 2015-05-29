@@ -154,12 +154,14 @@ public class PlayingCardController : GameObjectController
 		this.tile = t;
 		position.z = -5;
 		this.playingCardView.playingCardVM.position = position;
+		this.resize();
 		this.playingCardView.replace();
 	}
 
-	public void resize(int h)
+	public void resize()
 	{
 		this.resizeHalo();
+		this.resizeIcons ();
 	}
 	
 	public void setIDCharacter(int i)
@@ -288,6 +290,21 @@ public class PlayingCardController : GameObjectController
 		Rect position = new Rect(positionObject.x, positionObject.y, decalage, decalage);
 		this.playingCardView.playingCardVM.iconsRect.Add(position);
 
+	}
+
+	public void resizeIcons(){
+		int height = Screen.height;
+		int width = Screen.width;
+		int decalage = height / 30;
+		this.playingCardView.playingCardVM.iconsRect = new List<Rect>();
+		for (int i = 1 ; i <= this.playingCardView.playingCardVM.icons.Count ; i++){
+			Vector3 positionObject = new Vector3(0, 0, 0);
+			positionObject.x = (this.playingCardView.playingCardVM.position.x + this.playingCardView.playingCardVM.scale.x / 2f) * (height / 10f) - decalage * i + (width / 2f);
+			positionObject.y = height - ((this.playingCardView.playingCardVM.position.y + this.playingCardView.playingCardVM.scale.y / 2f) * (height / 10f) - decalage * i + (height / 2f));
+			
+			Rect position = new Rect(positionObject.x, positionObject.y, decalage, decalage);
+			this.playingCardView.playingCardVM.iconsRect.Add(position);
+		}
 	}
 
 	public void kill(){

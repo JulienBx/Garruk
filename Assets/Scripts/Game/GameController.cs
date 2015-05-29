@@ -94,6 +94,8 @@ public class GameController : Photon.MonoBehaviour
 	bool isDecksLoaded = false;
 	bool fightIsStarted = false;
 
+	bool isFirstResize = true ;
+
 	int nextCharacterPositionTimeline;
 
 	GameSkill[] gameskills ;
@@ -188,6 +190,13 @@ public class GameController : Photon.MonoBehaviour
 		{
 			EndSceneController.instance.resize();
 		}
+		if (!isFirstResize){
+			for(int i = 0 ; i < 10 ; i++){
+				this.playingCards [i].GetComponentInChildren<PlayingCardController>().resize();
+			}
+		}
+		isFirstResize = false ;
+
 	}
 
 	public void displayPopUpMessage(string message, float time)
@@ -1111,33 +1120,10 @@ public class GameController : Photon.MonoBehaviour
 		yield break;
 	}
 
-	private void sortPlayingCard(int idPlayingCard)
-	{
-//		int speed = this.playingCards [idPlayingCard].GetComponentInChildren<PlayingCardController>().card.Speed;
-//		this.rankedPlayingCardsID.Remove(idPlayingCard);
-//		int i = 0;
-//		bool isInserted = false;
-//
-//		while (!isInserted && i<this.rankedPlayingCardsID.Count)
-//		{
-//			if (speed >= this.playingCards [this.rankedPlayingCardsID [i]].GetComponentInChildren<PlayingCardController>().card.Speed)
-//			{
-//				this.rankedPlayingCardsID.Insert(i, idPlayingCard);
-//				isInserted = true;
-//			}
-//			i++;
-//		}
-//		if (!isInserted)
-//		{
-//			this.rankedPlayingCardsID.Add(idPlayingCard);
-//		}
-	}
-
 	private void initGrid()
 	{
 		print("J'initialise le terrain de jeu");
-		int decalage;
-		
+
 		for (int x = 0; x < boardWidth; x++)
 		{
 			for (int y = 0; y < boardHeight; y++)
@@ -1277,7 +1263,7 @@ public class GameController : Photon.MonoBehaviour
 			this.playingCards [debut + i].GetComponentInChildren<PlayingCardController>().setCard(deck.Cards [i]);
 			this.playingCards [debut + i].GetComponentInChildren<PlayingCardController>().setIDCharacter(debut + i);
 			this.playingCards [debut + i].GetComponentInChildren<PlayingCardController>().setTile(new Tile(i, hauteur), tiles [i, hauteur].GetComponent<TileController>().tileView.tileVM.position, !isFirstP);
-			this.playingCards [debut + i].GetComponentInChildren<PlayingCardController>().resize(this.gameView.gameScreenVM.heightScreen);
+			this.playingCards [debut + i].GetComponentInChildren<PlayingCardController>().resize();
 			this.tiles [i, hauteur].GetComponent<TileController>().characterID = debut + i;
 			this.playingCards [debut + i].GetComponentInChildren<PlayingCardController>().show();
 		}
@@ -1414,6 +1400,9 @@ public class GameController : Photon.MonoBehaviour
 		{
 			this.isDragging = false;
 			this.resetDestinations();
+			if (this.playindCardHasPlayed){
+				this.gameskills[1].launch();
+			}
 		}
 
 		this.tiles [x, y].GetComponent<TileController>().characterID = c;
@@ -1877,6 +1866,9 @@ public class GameController : Photon.MonoBehaviour
 			this.showMyPlayingSkills(this.currentPlayingCard);
 		}
 		this.displayPopUpMessage(message, 2);
+		if (!this.isDragging){
+			this.gameskills[1].launch();
+		}
 	}
 
 	public void updateTimeline()
