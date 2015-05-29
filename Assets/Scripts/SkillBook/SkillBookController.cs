@@ -305,6 +305,7 @@ public class SkillBookController : Photon.MonoBehaviour
 		view.skillsVM.gaugesWidth = new List<float> ();
 		view.skillsVM.gaugesBackgroundWidth = new List<float> ();
 		view.skillsVM.gauges = new List<GUIStyle> ();
+		view.skillsVM.nbCards = new List<int> ();
 		for (int i=view.skillsVM.start;i<view.skillsVM.finish;i++)
 		{
 			view.skillsVM.names.Add (model.skillsList[view.skillsVM.skillsToBeDisplayed[i]].Name);
