@@ -24,7 +24,6 @@ public class Renforcement : GameSkill
 			int targetID = args [0];
 			GameController.instance.getCard(targetID).modifiers.Add(new StatModifier(GameController.instance.getCurrentSkill().Power, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, 1));
 			GameController.instance.reloadCard(targetID);
-			GameController.instance.reloadSelectedPlayingCard(targetID);
 		}
 	}
 }

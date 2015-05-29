@@ -21,6 +21,5 @@ public class Sape : GameSkill
 		GameController.instance.play(GameController.instance.getCurrentCard().Title + " a lancé furtivité");
 		GameController.instance.getCard(targetID).modifiers.Add(new StatModifier(GameController.instance.getCurrentSkill().Power * -1, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, 1));
 		GameController.instance.reloadCard(targetID);
-		GameController.instance.reloadSelectedPlayingCard(targetID);
 	}
 }
