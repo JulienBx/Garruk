@@ -62,7 +62,7 @@ public class Skill
 	}
 	public Skill()
 	{
-	
+		this.texture = new Texture2D (1, 1, TextureFormat.ARGB32, false);
 	}
 	public IEnumerator setPicture()
 	{
