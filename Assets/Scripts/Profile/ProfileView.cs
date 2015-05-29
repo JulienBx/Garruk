@@ -565,6 +565,16 @@ public class ProfileView : MonoBehaviour
 				GUILayout.Label("Ranking : " + statsVM.ranking,statsVM.informationsStyle,GUILayout.Height(profileScreenVM.blockMiddleRightHeight*0.1f));
 				GUILayout.Label("Ranking points : " + statsVM.rankingPoints,statsVM.informationsStyle,GUILayout.Height(profileScreenVM.blockMiddleRightHeight*0.1f));
 				GUILayout.FlexibleSpace();
+				GUILayout.BeginHorizontal();
+				{
+					GUILayout.FlexibleSpace();
+					if(GUILayout.Button("Ma collection",statsVM.buttonStyle,GUILayout.Height(profileScreenVM.blockMiddleRightHeight*0.1f),GUILayout.Width(profileScreenVM.blockMiddleRightWidth*0.8f)))
+					{
+						Application.LoadLevel("SkillBook");
+					}
+					GUILayout.FlexibleSpace();
+				}
+				GUILayout.EndHorizontal();
 				GUILayout.FlexibleSpace();
 			}
 			GUILayout.EndArea();
