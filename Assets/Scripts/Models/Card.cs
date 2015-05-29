@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -288,14 +288,20 @@ public class Card
 		modifiers = temp;
 	}
 
-	public void dissipateModifiers()
+	public void changeModifiers()
 	{
 		List<StatModifier> temp = new List<StatModifier>();
 		foreach (StatModifier modifier in modifiers)
 		{
-			if (--modifier.Duration != 0)
+			if (!modifier.Active)
+			{
+				modifier.Active = true;
+				modifier.Duration--;
+				temp.Add(modifier);
+			} else if (modifier.Duration != 0)
 			{
 				temp.Add(modifier);
+				modifier.Duration--;
 			}
 		}
 		modifiers = temp;

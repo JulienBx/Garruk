@@ -954,7 +954,6 @@ public class GameController : Photon.MonoBehaviour
 				if (!this.playingCards [i].GetComponentInChildren<PlayingCardController>().isDead)
 				{
 					this.playingCards [i].GetComponentInChildren<PlayingCardController>().hasPlayed = false;
-					this.playingCards [i].GetComponentInChildren<PlayingCardController>().card.dissipateModifiers();
 					this.reloadCard(i);
 				}
 			}
@@ -989,6 +988,9 @@ public class GameController : Photon.MonoBehaviour
 			this.setDestinations(currentPlayingCard);
 			this.isDragging = true;
 		}
+
+		this.playingCards [currentPlayingCard].GetComponentInChildren<PlayingCardController>().card.changeModifiers();
+		this.playingCards [currentPlayingCard].GetComponentInChildren<PlayingCardController>().show();
 
 		if ((currentPlayingCard < 5 && this.isFirstPlayer) || (currentPlayingCard >= 5 && !this.isFirstPlayer))
 		{
