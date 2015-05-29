@@ -473,7 +473,7 @@ MonoBehaviour:
     m_StretchHeight: 1
   - m_Name: GreenBorderStyle
     m_Normal:
-      m_Background: {fileID: 2800000, guid: 5b706c36819877b42b6b381e3b183b7e, type: 3}
+      m_Background: {fileID: 2800000, guid: 4fc8d8db6a53c384faf8abd8f4e7824a, type: 3}
       m_TextColor: {r: 0, g: 0, b: 0, a: .941176474}
     m_Hover:
       m_Background: {fileID: 0}
@@ -531,7 +531,7 @@ MonoBehaviour:
     m_StretchHeight: 1
   - m_Name: RedBorderStyle
     m_Normal:
-      m_Background: {fileID: 2800000, guid: 88d904c6ba0f39b4fab556015e3690ab, type: 3}
+      m_Background: {fileID: 2800000, guid: dfc3f21107402604f95a7e86f588a141, type: 3}
       m_TextColor: {r: 0, g: 0, b: 0, a: .941176474}
     m_Hover:
       m_Background: {fileID: 0}
