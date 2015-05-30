@@ -17,7 +17,8 @@ public class SkillBookCTypeSelectedViewModel
 	public GUIStyle gaugeStyle;
 	public GUIStyle gaugeBackgroundStyle;
 	public int ctypeSelected;
-	public int nbCards;
+	public bool displayButton;
+	public string nbCards;
 	public string name;
 	public string percentage;
 	public float gaugeWidth;
@@ -28,6 +29,7 @@ public class SkillBookCTypeSelectedViewModel
 		this.ctypeSelected = 0;
 		this.name = "";
 		this.percentage = "";
+		this.nbCards = "";
 		this.nameStyle = new GUIStyle ();
 		this.pictureStyle = new GUIStyle ();
 		this.percentageStyle = new GUIStyle ();

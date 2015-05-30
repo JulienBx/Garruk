@@ -253,8 +253,30 @@ public class SkillBookController : Photon.MonoBehaviour
 		}
 		view.cTypeSelectedVM.name = model.cardTypesList [view.cTypeSelectedVM.ctypeSelected];
 		view.cTypeSelectedVM.pictureStyle.normal.background = this.cardTypePictos [view.cTypeSelectedVM.ctypeSelected];
-		view.cTypeSelectedVM.nbCards = this.cardTypesNbCards [view.cTypeSelectedVM.ctypeSelected];
-		view.cTypeSelectedVM.percentage = this.cardTypesNbSkillsOwn [view.cTypeSelectedVM.ctypeSelected].ToString() + "/" + this.cardTypesNbSkills [view.cTypeSelectedVM.ctypeSelected].ToString() + " competences acquises";
+		if(this.cardTypesNbCards [view.cTypeSelectedVM.ctypeSelected]>1)
+		{
+			view.cTypeSelectedVM.nbCards = this.cardTypesNbCards [view.cTypeSelectedVM.ctypeSelected].ToString()+" cartes";
+		}
+		else
+		{
+			view.cTypeSelectedVM.nbCards = this.cardTypesNbCards [view.cTypeSelectedVM.ctypeSelected].ToString()+" carte";
+		}
+		if(this.cardTypesNbCards [view.cTypeSelectedVM.ctypeSelected]>0)
+		{
+			view.cTypeSelectedVM.displayButton=true;
+		}
+		else
+		{
+			view.cTypeSelectedVM.displayButton=false;
+		}
+		if(this.cardTypesNbSkillsOwn [view.cTypeSelectedVM.ctypeSelected]>1)
+		{
+			view.cTypeSelectedVM.percentage = this.cardTypesNbSkillsOwn [view.cTypeSelectedVM.ctypeSelected].ToString() + "/" + this.cardTypesNbSkills [view.cTypeSelectedVM.ctypeSelected].ToString() + " competences acquises";
+		}
+		else
+		{
+			view.cTypeSelectedVM.percentage = this.cardTypesNbSkillsOwn [view.cTypeSelectedVM.ctypeSelected].ToString() + "/" + this.cardTypesNbSkills [view.cTypeSelectedVM.ctypeSelected].ToString() + " competence acquise";
+		}
 		if(this.cardTypesNbSkills [view.cTypeSelectedVM.ctypeSelected]>0)
 		{
 			view.cTypeSelectedVM.gaugeWidth=(float)this.cardTypesNbSkillsOwn [view.cTypeSelectedVM.ctypeSelected]/(float)this.cardTypesNbSkills [view.cTypeSelectedVM.ctypeSelected];
@@ -310,7 +332,8 @@ public class SkillBookController : Photon.MonoBehaviour
 		view.skillsVM.gaugesWidth = new List<float> ();
 		view.skillsVM.gaugesBackgroundWidth = new List<float> ();
 		view.skillsVM.gauges = new List<GUIStyle> ();
-		view.skillsVM.nbCards = new List<int> ();
+		view.skillsVM.nbCards = new List<string> ();
+		view.skillsVM.displayButtons = new List<bool> ();
 		for (int i=view.skillsVM.start;i<view.skillsVM.finish;i++)
 		{
 			view.skillsVM.names.Add (model.skillsList[view.skillsVM.skillsToBeDisplayed[i]].Name);
@@ -318,7 +341,22 @@ public class SkillBookController : Photon.MonoBehaviour
 			view.skillsVM.pictures.Add (new GUIStyle());
 			view.skillsVM.pictures[i-view.skillsVM.start].normal.background=model.skillsList[view.skillsVM.skillsToBeDisplayed[i]].texture;
 			StartCoroutine(model.skillsList[view.skillsVM.skillsToBeDisplayed[i]].setPicture());
-			view.skillsVM.nbCards.Add (this.skillsNbCards [view.skillsVM.skillsToBeDisplayed[i]]);
+			if(this.skillsNbCards [view.skillsVM.skillsToBeDisplayed[i]]>1)
+			{
+				view.skillsVM.nbCards.Add (this.skillsNbCards [view.skillsVM.skillsToBeDisplayed[i]].ToString()+" cartes");
+			}
+			else
+			{
+				view.skillsVM.nbCards.Add (this.skillsNbCards [view.skillsVM.skillsToBeDisplayed[i]].ToString()+" carte");
+			}
+			if( this.skillsNbCards [view.skillsVM.skillsToBeDisplayed[i]]>0)
+			{
+				view.skillsVM.displayButtons.Add (true);
+			}
+			else
+			{
+				view.skillsVM.displayButtons.Add (false);
+			}
 			view.skillsVM.percentages.Add (this.skillsPercentages[view.skillsVM.skillsToBeDisplayed[i]]);
 			if((float)this.skillsPercentages[view.skillsVM.skillsToBeDisplayed[i]]/100f<1)
 			{

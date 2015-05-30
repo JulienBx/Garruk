@@ -61,17 +61,20 @@ public class SkillBookView : MonoBehaviour
 				GUILayout.FlexibleSpace();
 				GUILayout.BeginVertical(GUILayout.Width(screenVM.blockCTypeSelectedWidth*0.35f));
 				{
-					GUILayout.Label(cTypeSelectedVM.nbCards+" Cartes",cTypeSelectedVM.nbCardsStyle);
-					GUILayout.BeginHorizontal();
+					GUILayout.Label(cTypeSelectedVM.nbCards,cTypeSelectedVM.nbCardsStyle);
+					if(cTypeSelectedVM.displayButton)
 					{
-						GUILayout.FlexibleSpace();
-						if (GUILayout.Button("\u00A0Afficher\u00A0",cTypeSelectedVM.buttonStyle))
+						GUILayout.BeginHorizontal();
 						{
-							SkillBookController.instance.displayCardsWidhCardType();
+							GUILayout.FlexibleSpace();
+							if (GUILayout.Button("\u00A0Afficher\u00A0",cTypeSelectedVM.buttonStyle))
+							{
+								SkillBookController.instance.displayCardsWidhCardType();
+							}
+							GUILayout.FlexibleSpace();
 						}
-						GUILayout.FlexibleSpace();
+						GUILayout.EndHorizontal();
 					}
-					GUILayout.EndHorizontal();
 					GUILayout.FlexibleSpace();
 				}
 				GUILayout.EndVertical();
@@ -102,17 +105,20 @@ public class SkillBookView : MonoBehaviour
 					GUILayout.FlexibleSpace();
 					GUILayout.BeginVertical(GUILayout.Width(skillsVM.blocksWidth*0.35f));
 					{
-						GUILayout.Label(skillsVM.nbCards[i]+" Cartes",skillsVM.nbCardsStyle);
-						GUILayout.BeginHorizontal();
+						GUILayout.Label(skillsVM.nbCards[i],skillsVM.nbCardsStyle);
+						if(skillsVM.displayButtons[i])
 						{
-							GUILayout.FlexibleSpace();
-							if (GUILayout.Button("\u00A0Afficher\u00A0",skillsVM.buttonStyle))
+							GUILayout.BeginHorizontal();
 							{
-								SkillBookController.instance.displayCardsWidhSkill(i);
+								GUILayout.FlexibleSpace();
+								if (GUILayout.Button("\u00A0Afficher\u00A0",skillsVM.buttonStyle))
+								{
+									SkillBookController.instance.displayCardsWidhSkill(i);
+								}
+								GUILayout.FlexibleSpace();
 							}
-							GUILayout.FlexibleSpace();
+							GUILayout.EndHorizontal();
 						}
-						GUILayout.EndHorizontal();
 						GUILayout.FlexibleSpace();
 					}
 					GUILayout.EndVertical();

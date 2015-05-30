@@ -12,12 +12,13 @@ public class SkillBookSkillsViewModel
 	public IList<int> skillsToBeDisplayed;
 	public IList<string> names;
 	public IList<string> descriptions;
-	public IList<int> nbCards;
+	public IList<string> nbCards;
 	public IList<int> percentages;
 	public IList<GUIStyle> pictures;
 	public IList<GUIStyle> gauges;
 	public IList<float> gaugesWidth;
 	public IList<float> gaugesBackgroundWidth;
+	public IList<bool> displayButtons;
 	public GUIStyle nameStyle;
 	public GUIStyle descriptionStyle;
 	public GUIStyle percentageStyle;
@@ -45,8 +46,9 @@ public class SkillBookSkillsViewModel
 		this.gaugeBackgroundStyle = new GUIStyle ();
 		this.names = new List<string> ();
 		this.descriptions = new List<string> ();
-		this.nbCards = new List<int> ();
+		this.nbCards = new List<string> ();
 		this.percentages = new List<int> ();
+		this.displayButtons = new List<bool> ();
 		this.pictures = new List<GUIStyle> ();
 		this.gauges = new List<GUIStyle> ();
 		this.buttonStyle = new  GUIStyle ();
