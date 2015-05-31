@@ -312,10 +312,20 @@ public class HomePageView : MonoBehaviour
 			GUILayout.BeginHorizontal();
 			{
 				GUILayout.FlexibleSpace();
-				if(GUILayout.Button("Mon profil",ranksVM.buttonStyle,GUILayout.Height(0.125f*homepageScreenVM.blockBottomRightHeight),GUILayout.Width(0.5f*homepageScreenVM.blockMiddleRightWidth)))
+				GUILayout.BeginHorizontal();
 				{
-					Application.LoadLevel("Profile");
+					if(GUILayout.Button("Mon profil",ranksVM.buttonStyle,GUILayout.Height(0.125f*homepageScreenVM.blockBottomRightHeight),GUILayout.Width(0.4f*homepageScreenVM.blockMiddleRightWidth)))
+					{
+						Application.LoadLevel("Profile");
+					}
+					GUILayout.Space (0.1f*homepageScreenVM.blockMiddleRightWidth);
+					if(GUILayout.Button("Ma collection",ranksVM.buttonStyle,GUILayout.Height(0.125f*homepageScreenVM.blockBottomRightHeight),GUILayout.Width(0.4f*homepageScreenVM.blockMiddleRightWidth)))
+					{
+						Application.LoadLevel("SkillBook");
+					}
+
 				}
+				GUILayout.EndHorizontal();
 				GUILayout.FlexibleSpace();
 			}
 			GUILayout.EndHorizontal();
@@ -336,7 +346,7 @@ public class HomePageView : MonoBehaviour
 						GUILayout.BeginVertical();
 						{
 							GUILayout.Label(competsVM.competsNames[i],competsVM.nameStyle,GUILayout.Height(0.1f*homepageScreenVM.blockTopRightHeight));
-							if(GUILayout.Button("",competsVM.competsButtonsStyle[i],GUILayout.Height(0.6f*homepageScreenVM.blockTopRightHeight),GUILayout.Width(0.6f*homepageScreenVM.blockTopRightHeight)))
+							if(GUILayout.Button("",competsVM.competsButtonsStyle[i],GUILayout.Height(0.55f*homepageScreenVM.blockTopRightHeight),GUILayout.Width(0.55f*homepageScreenVM.blockTopRightHeight)))
 							{
 							}
 						}

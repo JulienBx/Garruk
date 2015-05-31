@@ -59,7 +59,20 @@ public class MyGameController : MonoBehaviour
 		this.initializeSortButtons ();
 		this.initializeToggles ();
 		this.setFilters ();
-		this.filterCards ();
+		if(ApplicationModel.skillChosen!="")
+		{
+			this.filterASkill(ApplicationModel.skillChosen);
+			ApplicationModel.skillChosen="";
+		}
+		else if(ApplicationModel.cardTypeChosen!=-1)
+		{
+			this.selectCardType(true,ApplicationModel.cardTypeChosen);
+			ApplicationModel.cardTypeChosen=-1;
+		}
+		else
+		{
+			this.filterCards ();
+		}
 	}
 	public void loadAll()
 	{

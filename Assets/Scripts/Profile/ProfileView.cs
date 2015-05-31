@@ -161,16 +161,19 @@ public class ProfileView : MonoBehaviour
 							GUILayout.Label ("Prenom : " + userProfileVM.Profile.FirstName,userProfileVM.profileDataStyle);
 							GUILayout.Label ("Nom : " + userProfileVM.Profile.Surname,userProfileVM.profileDataStyle);
 							GUILayout.Label (userProfileVM.Profile.Mail,userProfileVM.profileDataStyle);
-							if (GUILayout.Button ("Modifier mes infos",userProfileVM.editProfileDataButtonStyle))
+							if(profileVM.isMyProfile)
 							{
-								this.tempFirstName=userProfileVM.Profile.FirstName;
-								this.tempSurname=userProfileVM.Profile.Surname;
-								this.tempMail=userProfileVM.Profile.Mail;
-								this.isEditing = true;
-							}
-							if (GUILayout.Button ("Changer le mot de passe",userProfileVM.editProfileDataButtonStyle))
-							{
-								this.checkPassword = true;
+								if (GUILayout.Button ("Modifier mes infos",userProfileVM.editProfileDataButtonStyle))
+								{
+									this.tempFirstName=userProfileVM.Profile.FirstName;
+									this.tempSurname=userProfileVM.Profile.Surname;
+									this.tempMail=userProfileVM.Profile.Mail;
+									this.isEditing = true;
+								}
+								if (GUILayout.Button ("Changer le mot de passe",userProfileVM.editProfileDataButtonStyle))
+								{
+									this.checkPassword = true;
+								}
 							}
 						}
 						if (isEditing){
@@ -565,6 +568,19 @@ public class ProfileView : MonoBehaviour
 				GUILayout.Label("Ranking : " + statsVM.ranking,statsVM.informationsStyle,GUILayout.Height(profileScreenVM.blockMiddleRightHeight*0.1f));
 				GUILayout.Label("Ranking points : " + statsVM.rankingPoints,statsVM.informationsStyle,GUILayout.Height(profileScreenVM.blockMiddleRightHeight*0.1f));
 				GUILayout.FlexibleSpace();
+				if(profileVM.isMyProfile)
+				{
+					GUILayout.BeginHorizontal();
+					{
+						GUILayout.FlexibleSpace();
+						if(GUILayout.Button("Ma collection",statsVM.buttonStyle,GUILayout.Height(profileScreenVM.blockMiddleRightHeight*0.1f),GUILayout.Width(profileScreenVM.blockMiddleRightWidth*0.8f)))
+						{
+							Application.LoadLevel("SkillBook");
+						}
+						GUILayout.FlexibleSpace();
+					}
+					GUILayout.EndHorizontal();
+				}
 				GUILayout.FlexibleSpace();
 			}
 			GUILayout.EndArea();

@@ -13,6 +13,7 @@ public class StatsViewModel {
 	public int rankingPoints;
 	public GUIStyle[] styles;
 	public GUIStyle informationsStyle;
+	public GUIStyle buttonStyle;
 
 	//public GUIStyle[] styles;
 	
@@ -28,6 +29,7 @@ public class StatsViewModel {
 	public void initStyles()
 	{
 		this.informationsStyle = this.styles [0];
+		this.buttonStyle = this.styles [1];
 	}
 	public void resize(int heightScreen)
 	{

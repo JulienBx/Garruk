@@ -586,7 +586,7 @@ public class GameController : Photon.MonoBehaviour
 				for (int i = 0; i < 4; i++) {
 						if (i < skills.Count) {
 								this.skillsObjects [i].GetComponent<SkillObjectController> ().setSkill (skills [i]);
-								this.skillsObjects [i].GetComponent<SkillObjectController> ().setActiveStatus ((idc == this.currentPlayingCard && nbTurns != 0), !playindCardHasPlayed && !this.isRunningSkill);
+								this.skillsObjects [i].GetComponent<SkillObjectController> ().setActiveStatus (true);
 								this.skillsObjects [i].GetComponent<SkillObjectController> ().show ();
 								this.skillsObjects [i].GetComponent<SkillObjectController> ().setActive (true);
 						} else {
@@ -625,8 +625,7 @@ public class GameController : Photon.MonoBehaviour
 				List<Skill> skills = this.playingCards [idc].GetComponent<PlayingCardController> ().card.Skills;
 				for (int i = 0; i < 4; i++) {
 						if (i < skills.Count) {
-								this.opponentSkillsObjects [i].GetComponent<SkillObjectController> ().setSkill (skills [i], (idc == this.currentPlayingCard && nbTurns != 0), !playindCardHasPlayed);
-								this.opponentSkillsObjects [i].GetComponent<SkillObjectController> ().show ();
+								this.opponentSkillsObjects [i].GetComponent<SkillObjectController> ().setSkill (skills [i]);
 								this.opponentSkillsObjects [i].SetActive (true);
 						} else {
 								this.opponentSkillsObjects [i].SetActive (false);
@@ -1646,24 +1645,25 @@ public class GameController : Photon.MonoBehaviour
 				this.playingCards [id].GetComponent<PlayingCardController> ().show ();
 		}
 
-		public void play (string message)
-		{
-				this.isRunningSkill = false;
-				this.playindCardHasPlayed = true;
-				if (this.clickedPlayingCard != this.currentPlayingCard && this.clickedPlayingCard != -1) {
-						this.showMyPlayingSkills (this.clickedPlayingCard);
-				} else {
-						this.showMyPlayingSkills (this.currentPlayingCard);
-				}
-				this.displayPopUpMessage (message, 4);
-				if (this.playingCardHasMoved) {
-						this.gameskills [1].launch ();
-				}
-		}
 
-		public void updateTimeline ()
-		{
-				this.sortAllCards ();
+	public void play (string message)
+	{
+		this.isRunningSkill = false;
+		this.playindCardHasPlayed = true;
+		if (this.clickedPlayingCard != this.currentPlayingCard && this.clickedPlayingCard != -1) {
+			this.showMyPlayingSkills (this.clickedPlayingCard);
+		} else {
+			this.showMyPlayingSkills (this.currentPlayingCard);
 		}
+		this.displayPopUpMessage (message, 4);
+		if (this.playingCardHasMoved) {
+			this.gameskills [1].launch ();
+		}
+	}
+	
+	public void updateTimeline ()
+	{
+		this.sortAllCards ();
+	}
 }
 

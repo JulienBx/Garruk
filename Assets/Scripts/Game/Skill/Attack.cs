@@ -35,7 +35,7 @@ public class Attack : GameSkill
 	}
 
 	public override bool isLaunchable(Skill s){
-		List<TileController> tempTiles;
+		List<Tile> tempTiles;
 		tempTiles = GameController.instance.getCurrentPCC().tile.getImmediateNeighbouringTiles();
 		bool isLaunchable = false ;
 		int i = 0 ;
