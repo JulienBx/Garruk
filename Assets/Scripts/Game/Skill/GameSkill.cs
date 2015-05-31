@@ -18,9 +18,9 @@ public class GameSkill
 				Debug.Log ("Skill non implémenté");
 		}
 
-		public virtual bool isLaunchable (int[] args)
+		public virtual bool isLaunchable (Skill s)
 		{
-				return false;
+				return true;
 		}
 
 		public string convertStatToString (ModifierStat stat)

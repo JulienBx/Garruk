@@ -33,4 +33,21 @@ public class Attack : GameSkill
 		}
 		GameController.instance.reloadCard(targetID);
 	}
+
+	public override bool isLaunchable(Skill s){
+		List<TileController> tempTiles;
+		tempTiles = GameController.instance.getCurrentPCC().tile.getImmediateNeighbouringTiles();
+		bool isLaunchable = false ;
+		int i = 0 ;
+		Tile t ;
+
+		while (!isLaunchable && i<tempTiles.Count){
+			t = tempTiles[i];
+			if (GameController.instance.getTile(t.x, t.y).characterID!=1)
+			{
+				isLaunchable = true ;
+			}
+		}
+		return isLaunchable ;
+	}
 }
