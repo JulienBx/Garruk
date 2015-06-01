@@ -44,16 +44,16 @@ public class SkillObjectController : GameObjectController
 
 	public void setSkill (Skill s)
 	{
-			this.view.skillVM.skillDescription = s.Description;
-			
-			if (s.Name.Length > 5) {
-				this.view.skillVM.skillName = s.Name.Substring (0, 5) + ".";
-			}
-			else {
-				this.view.skillVM.skillName = s.Name;
-			}
-			this.view.skillVM.power = s.Power;
-			this.view.skillVM.face = this.skillPictos [s.Id - 2];
+		this.view.skillVM.skillDescription = s.Description;
+		
+		if (s.Name.Length > 5) {
+			this.view.skillVM.skillName = s.Name.Substring (0, 5) + ".";
+		}
+		else {
+			this.view.skillVM.skillName = s.Name;
+		}
+		this.view.skillVM.power = s.Power;
+		this.view.skillVM.face = this.skillPictos [s.Id - 2];
 	}
 
 	public void setActiveStatus (bool isactive)
@@ -107,43 +107,19 @@ public class SkillObjectController : GameObjectController
 			gameObject.SetActive (b);
 	}
 
-	public void setAttack (bool isactivable)
-	{
-			this.isActive = true;
-			this.view.skillVM.isControlActive = isactivable;
-			this.view.skillVM.face = this.attackPicto;
-
-			if (this.isActive) {
-					if (isactivable) {
-							this.view.skillVM.border = borders [1];
-					} else {
-							this.view.skillVM.border = borders [2];
-					}
-			} else {
-					this.view.skillVM.border = borders [0];
-			}
+	public void setAttack ()
+	{	
+		this.view.skillVM.face = this.attackPicto;
 	}
 
-	public void setPass (bool isactivable)
+	public void setPass ()
 	{
-			this.isActive = true;
-			this.view.skillVM.isControlActive = isactivable;
-			this.view.skillVM.face = this.passPicto;
-
-			if (this.isActive) {
-					if (isactivable) {
-							this.view.skillVM.border = borders [1];
-					} else {
-							this.view.skillVM.border = borders [2];
-					}
-			} else {
-					this.view.skillVM.border = borders [0];
-			}
+		this.view.skillVM.face = this.passPicto;
 	}
 
 	public void show ()
 	{
-			view.show ();
+		view.show ();
 	}
 
 	public void setPosition (Vector3 p)

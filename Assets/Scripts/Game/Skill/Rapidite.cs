@@ -30,4 +30,8 @@ public class Rapidite : GameSkill
 		GameController.instance.reloadCard(targetID);
 	
 	}
+	
+	public override bool isLaunchable(Skill s){
+		return true ;
+	}
 }

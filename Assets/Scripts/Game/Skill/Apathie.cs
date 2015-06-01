@@ -28,4 +28,8 @@ public class Apathie : GameSkill
 		GameController.instance.reloadSortedList();
 
 	}
+	
+	public override bool isLaunchable(Skill s){
+		return true ;
+	}
 }

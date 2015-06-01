@@ -31,4 +31,8 @@ public class Dissipation : GameSkill
 				+ "mais a échoué");
 		}
 	}
+	
+	public override bool isLaunchable(Skill s){
+		return true ;
+	}
 }

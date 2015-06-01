@@ -12,4 +12,8 @@ public class TirALarc : GameSkill
 	{
 		//pcc.card.modifiers.Add(new StatModifier(-skill.Power, ModifierType.Type_BonusMalus, ModifierStat.Stat_Life));
 	}
+	
+	public override bool isLaunchable(Skill s){
+		return (s.nbLeft > 0) ;
+	}
 }

@@ -8,4 +8,8 @@ public class Pass : GameSkill
 
 		GameController.instance.resolvePass();
 	}
+	
+	public override bool isLaunchable(Skill s){
+		return true ;
+	}
 }

@@ -30,4 +30,8 @@ public class Lenteur : GameSkill
 		GameController.instance.reloadCard(targetID);
 
 	}
+	
+	public override bool isLaunchable(Skill s){
+		return true ;
+	}
 }

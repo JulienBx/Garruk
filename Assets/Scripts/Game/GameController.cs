@@ -214,43 +214,46 @@ public class GameController : Photon.MonoBehaviour
 				gameView.gameScreenVM.timerPopUp = time;
 		}
 
-		public void createBackground ()
-		{
-				if (this.widthScreen > this.heightScreen) {
-						this.background = (GameObject)Instantiate (this.backGO);
-				} else {
-						this.background = (GameObject)Instantiate (this.backGO);
-				}
+	public void createBackground ()
+	{
+			if (this.widthScreen > this.heightScreen) {
+					this.background = (GameObject)Instantiate (this.backGO);
+			} else {
+					this.background = (GameObject)Instantiate (this.backGO);
+			}
 
-				for (int i = 0; i < this.verticalBorders.Length; i++) {
-						this.verticalBorders [i] = (GameObject)Instantiate (this.verticalBorder);
-				}
-				for (int i = 0; i < this.horizontalBorders.Length; i++) {
-						this.horizontalBorders [i] = (GameObject)Instantiate (this.horizontalBorder);
-				}
+			for (int i = 0; i < this.verticalBorders.Length; i++) {
+					this.verticalBorders [i] = (GameObject)Instantiate (this.verticalBorder);
+			}
+			for (int i = 0; i < this.horizontalBorders.Length; i++) {
+					this.horizontalBorders [i] = (GameObject)Instantiate (this.horizontalBorder);
+			}
 
-				this.selectedPlayingCard = (GameObject)Instantiate (this.playingCard);
-				this.selectedPlayingCard.GetComponent<PlayingCardController> ().isMine = true;
-				this.selectedPlayingCard.GetComponent<PlayingCardController> ().setControlActive (false);
-				this.selectedPlayingCard.GetComponent<PlayingCardController> ().setActive (false);
+			this.selectedPlayingCard = (GameObject)Instantiate (this.playingCard);
+			this.selectedPlayingCard.GetComponent<PlayingCardController> ().isMine = true;
+			this.selectedPlayingCard.GetComponent<PlayingCardController> ().setControlActive (false);
+			this.selectedPlayingCard.GetComponent<PlayingCardController> ().setActive (false);
 
-				this.selectedOpponentCard = (GameObject)Instantiate (this.playingCard);
-				this.selectedOpponentCard.GetComponent<PlayingCardController> ().setControlActive (false);
-				this.selectedOpponentCard.GetComponent<PlayingCardController> ().setActive (false);
+			this.selectedOpponentCard = (GameObject)Instantiate (this.playingCard);
+			this.selectedOpponentCard.GetComponent<PlayingCardController> ().setControlActive (false);
+			this.selectedOpponentCard.GetComponent<PlayingCardController> ().setActive (false);
 
-				this.skillsObjects = new GameObject[6];
-				this.opponentSkillsObjects = new GameObject[6];
-				for (int i = 0; i < 6; i++) {
-						this.skillsObjects [i] = (GameObject)Instantiate (this.skillObject);
-						this.skillsObjects [i].GetComponent<SkillObjectController> ().setOwner (true);
-						this.skillsObjects [i].GetComponent<SkillObjectController> ().setID (i);
-						this.skillsObjects [i].GetComponent<SkillObjectController> ().setActive (false);
-						this.opponentSkillsObjects [i] = (GameObject)Instantiate (this.skillObject);
-						this.opponentSkillsObjects [i].GetComponent<SkillObjectController> ().setOwner (false);
-						this.opponentSkillsObjects [i].GetComponent<SkillObjectController> ().setID (i);
-						this.opponentSkillsObjects [i].GetComponent<SkillObjectController> ().setActive (false);
-				}
-		}
+			this.skillsObjects = new GameObject[6];
+			this.opponentSkillsObjects = new GameObject[6];
+			for (int i = 0; i < 6; i++) {
+					this.skillsObjects [i] = (GameObject)Instantiate (this.skillObject);
+					this.skillsObjects [i].GetComponent<SkillObjectController> ().setOwner (true);
+					this.skillsObjects [i].GetComponent<SkillObjectController> ().setID (i);
+					this.skillsObjects [i].GetComponent<SkillObjectController> ().setActive (false);
+					this.opponentSkillsObjects [i] = (GameObject)Instantiate (this.skillObject);
+					this.opponentSkillsObjects [i].GetComponent<SkillObjectController> ().setOwner (false);
+					this.opponentSkillsObjects [i].GetComponent<SkillObjectController> ().setID (i);
+					this.opponentSkillsObjects [i].GetComponent<SkillObjectController> ().setActive (false);
+			}
+		this.skillsObjects [4].GetComponent<SkillObjectController> ().setAttack ();
+		this.skillsObjects [5].GetComponent<SkillObjectController> ().setPass ();
+		
+	}
 
 		public void resizeBackground ()
 		{
@@ -576,45 +579,38 @@ public class GameController : Photon.MonoBehaviour
 				this.isDragging = false;
 		}
 
-		public void showMyPlayingSkills (int idc)
-		{
-				this.selectedPlayingCard.GetComponent<PlayingCardController> ().setCard (this.playingCards [idc].GetComponent<PlayingCardController> ().card);
-				this.selectedPlayingCard.GetComponent<PlayingCardController> ().show ();
-				this.selectedPlayingCard.GetComponent<PlayingCardController> ().setActive (true);
-		
-				List<Skill> skills = this.playingCards [idc].GetComponent<PlayingCardController> ().card.Skills;
-				for (int i = 0; i < 4; i++) {
-						if (i < skills.Count) {
-								this.skillsObjects [i].GetComponent<SkillObjectController> ().setSkill (skills [i]);
-								this.skillsObjects [i].GetComponent<SkillObjectController> ().setActiveStatus (true);
-								this.skillsObjects [i].GetComponent<SkillObjectController> ().show ();
-								this.skillsObjects [i].GetComponent<SkillObjectController> ().setActive (true);
-						} else {
-								this.skillsObjects [i].GetComponent<SkillObjectController> ().setActive (false);
-						}
-				}
-				if (this.nbTurns != 0 && this.currentPlayingCard == idc) {
-						this.skillsObjects [4].GetComponent<SkillObjectController> ().setAttack (!playindCardHasPlayed && !this.isRunningSkill);
-						this.skillsObjects [4].GetComponent<SkillObjectController> ().show ();
-						this.skillsObjects [4].GetComponent<SkillObjectController> ().setActive (true);
-				} else {
-						this.skillsObjects [4].GetComponent<SkillObjectController> ().setActive (false);
-				}
-		
-				if (this.nbTurns != 0 && this.currentPlayingCard == idc) {
-						this.skillsObjects [5].GetComponent<SkillObjectController> ().setPass (!this.isRunningSkill);
-						this.skillsObjects [5].GetComponent<SkillObjectController> ().show ();
-						this.skillsObjects [5].GetComponent<SkillObjectController> ().setActive (true);
-				} else {
-						this.skillsObjects [5].GetComponent<SkillObjectController> ().setActive (false);
-				}
-		}
-		
-		public void updateStatusMySkills(){
-			for (int i = 0; i < 4; i++) {
-			
+	public void showMyPlayingSkills (int idc)
+	{
+		this.selectedPlayingCard.GetComponent<PlayingCardController> ().setCard (this.playingCards [idc].GetComponent<PlayingCardController> ().card);
+		this.selectedPlayingCard.GetComponent<PlayingCardController> ().show ();
+		this.selectedPlayingCard.GetComponent<PlayingCardController> ().setActive (true);
+
+		List<Skill> skills = this.playingCards [idc].GetComponent<PlayingCardController> ().card.Skills;
+		for (int i = 0; i < 4; i++) {
+			if (i < skills.Count) {
+				this.skillsObjects [i].GetComponent<SkillObjectController> ().setSkill (skills [i]);
+				this.skillsObjects [i].GetComponent<SkillObjectController> ().setActive (true);
+			} else {
+				this.skillsObjects [i].GetComponent<SkillObjectController> ().setActive (false);
 			}
 		}
+		
+		this.updateStatusMySkills(idc);
+	}
+		
+	public void updateStatusMySkills(int idc){
+		bool isActive = !(nbTurns==0) && !this.playindCardHasPlayed && (idc==this.currentPlayingCard);
+		List<Skill> skills = this.playingCards [idc].GetComponent<PlayingCardController> ().card.Skills;
+		for (int i = 0; i < 4; i++) {
+			this.skillsObjects [i].GetComponent<SkillObjectController> ().setActiveStatus (isActive);
+			this.skillsObjects [i].GetComponent<SkillObjectController> ().setControlStatus(this.gameskills[skills[i].Id].isLaunchable(skills[i]));
+			this.skillsObjects [i].GetComponent<SkillObjectController> ().show ();
+		}
+		this.skillsObjects [4].GetComponent<SkillObjectController> ().setActiveStatus (isActive);
+		this.skillsObjects [4].GetComponent<SkillObjectController> ().setControlStatus(this.gameskills[0].isLaunchable(skills[i]));
+		this.skillsObjects [5].GetComponent<SkillObjectController> ().setActiveStatus (isActive);
+		this.skillsObjects [5].GetComponent<SkillObjectController> ().setControlStatus(this.gameskills[1].isLaunchable(skills[i]));
+	}
 
 		public void showOpponentSkills (int idc)
 		{
@@ -1651,9 +1647,9 @@ public class GameController : Photon.MonoBehaviour
 		this.isRunningSkill = false;
 		this.playindCardHasPlayed = true;
 		if (this.clickedPlayingCard != this.currentPlayingCard && this.clickedPlayingCard != -1) {
-			this.showMyPlayingSkills (this.clickedPlayingCard);
+			this.updateStatusMySkills (this.clickedPlayingCard);
 		} else {
-			this.showMyPlayingSkills (this.currentPlayingCard);
+			this.updateStatusMySkills (this.currentPlayingCard);
 		}
 		this.displayPopUpMessage (message, 4);
 		if (this.playingCardHasMoved) {

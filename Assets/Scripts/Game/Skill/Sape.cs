@@ -28,4 +28,8 @@ public class Sape : GameSkill
 		GameController.instance.getCard(targetID).modifiers.Add(new StatModifier(amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, 1, false));
 		GameController.instance.reloadCard(targetID);
 	}
+	
+	public override bool isLaunchable(Skill s){
+		return true ;
+	}
 }
