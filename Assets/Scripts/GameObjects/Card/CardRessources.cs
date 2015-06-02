@@ -18,7 +18,8 @@ public class CardRessources : MonoBehaviour
 	public GameObject experienceAreaObject;
 	public GUIStyle[] marketFeaturesStyles;
 	public GUIStyle[] cardFeaturesFocusStyles;
-	public GUIStyle[] popUpStyles;		
+	public GUIStyle[] popUpStyles;
+	public GUIStyle[] gameEndSceneStyles;
 
 	public CardRessources ()
 	{

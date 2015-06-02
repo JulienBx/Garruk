@@ -415,8 +415,7 @@ public class MyGameController : MonoBehaviour
 	public IEnumerator buyXpCard(GameObject gameobject)
 	{
 		int index = retrieveCardIndex (gameobject.name);
-		int tempPrice = model.cards [index].getPriceForNextLevel();
-		yield return StartCoroutine(model.cards[index].addXp(tempPrice,tempPrice));
+		yield return StartCoroutine(model.cards[index].addXpLevel());
 		this.refreshCredits();
 		if(model.cards[index].Error=="")
 		{

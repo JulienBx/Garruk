@@ -484,8 +484,7 @@ public class StoreController : MonoBehaviour
 	}
 	public IEnumerator buyXpCard(GameObject gameobject)
 	{
-		int xpPrice = model.packList [this.selectedPackIndex].Cards [System.Convert.ToInt32 (gameobject.name.Substring (4))].getPriceForNextLevel ();
-		yield return StartCoroutine (model.packList [this.selectedPackIndex].Cards [System.Convert.ToInt32 (gameobject.name.Substring (4))].addXp (xpPrice,xpPrice));
+		yield return StartCoroutine (model.packList [this.selectedPackIndex].Cards [System.Convert.ToInt32 (gameobject.name.Substring (4))].addXpLevel ());
 
 
 		if(model.packList[this.selectedPackIndex].Cards[System.Convert.ToInt32 (gameobject.name.Substring (4))].Error=="")

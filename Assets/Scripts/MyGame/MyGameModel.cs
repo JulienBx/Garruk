@@ -184,6 +184,9 @@ public class MyGameModel
 					cards[i].Experience=System.Convert.ToInt32(cardInfo[16]);
 					cards[i].nbWin=System.Convert.ToInt32(cardInfo[17]);
 					cards[i].nbLoose=System.Convert.ToInt32(cardInfo[18]);
+					cards[i].ExperienceLevel=System.Convert.ToInt32(cardInfo[19]);
+					cards[i].PercentageToNextLevel=System.Convert.ToInt32(cardInfo[20]);
+					cards[i].NextLevelPrice=System.Convert.ToInt16(cardInfo[21]);
 					cards[i].Skills = new List<Skill>();
 					cards[i].Decks = new List<int>();
 				}

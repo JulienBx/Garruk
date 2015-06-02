@@ -52,8 +52,8 @@ public class CardLobbyController : CardController
 	public override void updateExperience()
 	{
 		base.updateExperience ();
-		focusLobbyFeaturesView.focusLobbyFeaturesVM.cardLevel = base.card.getXpLevel();
-		focusLobbyFeaturesView.focusLobbyFeaturesVM.nextLevelCost = base.card.getPriceForNextLevel();
+		focusLobbyFeaturesView.focusLobbyFeaturesVM.cardLevel = base.card.ExperienceLevel;
+		focusLobbyFeaturesView.focusLobbyFeaturesVM.nextLevelCost = base.card.NextLevelPrice;
 	}
 	public void setFocusLobbyFeatures()
 	{
@@ -61,8 +61,8 @@ public class CardLobbyController : CardController
 		focusLobbyFeaturesView.focusLobbyFeaturesVM.renameCost = base.card.RenameCost;
 		focusLobbyFeaturesView.focusLobbyFeaturesVM.nbWin = base.card.nbWin;
 		focusLobbyFeaturesView.focusLobbyFeaturesVM.nbLoose = base.card.nbLoose;
-		focusLobbyFeaturesView.focusLobbyFeaturesVM.cardLevel = base.card.getXpLevel();
-		focusLobbyFeaturesView.focusLobbyFeaturesVM.nextLevelCost = base.card.getPriceForNextLevel();
+		focusLobbyFeaturesView.focusLobbyFeaturesVM.cardLevel = base.card.ExperienceLevel;
+		focusLobbyFeaturesView.focusLobbyFeaturesVM.nextLevelCost = base.card.NextLevelPrice;
 		focusLobbyFeaturesView.cardFeaturesFocusVM.styles = new GUIStyle[ressources.cardFeaturesFocusStyles.Length];
 		for (int i=0; i<ressources.cardFeaturesFocusStyles.Length; i++)
 		{

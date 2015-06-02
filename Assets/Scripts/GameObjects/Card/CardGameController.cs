@@ -8,6 +8,8 @@ using System.Reflection;
 public class CardGameController : CardController
 {
 
+	public CardGameView cardGameView;
+
 	public void setGameCard(Card c)
 	{
 		base.setCard (c);
@@ -27,11 +29,29 @@ public class CardGameController : CardController
 	public override void updateExperience()
 	{
 		base.updateExperience ();
-		EndSceneController.instance.drawNextCard ();
+		EndSceneController.instance.incrementXpDrawn ();
+	}
+	public override void updateCardXpLevel()
+	{
+		this.cardGameView = gameObject.AddComponent <CardGameView>();
+		cardGameView.cardGameVM.styles=new GUIStyle[ressources.gameEndSceneStyles.Length];
+		for(int i=0;i<ressources.gameEndSceneStyles.Length;i++)
+		{
+			cardGameView.cardGameVM.styles[i]=ressources.gameEndSceneStyles[i];
+		}
+		cardGameView.cardGameVM.initStyles();
+		cardGameView.cardGameVM.nextLevelRect = new Rect(base.GOPosition.x-base.GOSize.x/2f,
+		                                                 (Screen.height-base.GOPosition.y)+base.GOSize.y/2f,
+		                                                 base.GOSize.x,
+		                                                 base.GOSize.y/3f);
 	}
 	public override void resize()
 	{
 		base.resize();
+		if(cardGameView!=null)
+		{
+			this.cardGameView.cardGameVM.resize(base.GOSize.y);
+		}
 	}
 }
 

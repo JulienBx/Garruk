@@ -6,7 +6,7 @@ using System.Linq;
 
 public class Card
 {
-	private string URLAddXp = ApplicationModel.host + "addxp.php"; 
+	private string URLAddXpLevel = ApplicationModel.host + "add_xplevel_to_card.php"; 
 	private string URLSellCard = ApplicationModel.host + "sellCard.php";
 	private string URLPutOnMarket = ApplicationModel.host + "putonmarket.php";
 	private string URLRemoveFromMarket = ApplicationModel.host + "removeFromMarket.php";
@@ -38,24 +38,11 @@ public class Card
 	public int nbWin;
 	public int nbLoose;
 	public int ExperienceLevel;
+	public int NextLevelPrice;
+	public int PercentageToNextLevel;
 	public DateTime OnSaleDate;
 	public List<StatModifier> modifiers = new List<StatModifier>();
 	public int onSale ;
-	public static int[] experienceLevels = new int[]
-	{
-		0,
-		10,
-		40,
-		100,
-		200,
-		350,
-		600,
-		1000,
-		1500,
-		2200,
-		3000,
-		0
-	};
 	public int RenameCost = 200;
 	public string Error;
 	public List<int> Decks;
@@ -475,165 +462,59 @@ public class Card
 			}
 		}
 	}
-	public IEnumerator addXp(int xp, int price)
+	public IEnumerator addXpLevel()
 	{
-		this.ExperienceLevel = this.getXpLevel();
 
-		string attributeName = "";
-		int idSkill = -1;
-		int idLevel = 1;
-		int newPower = 0;
-		int experience = this.Experience + xp;
-		int randomAttribute = -1;
-		
-		if (this.ExperienceLevel != 10 && experience >= experienceLevels [this.ExperienceLevel + 1])
-		{
-			int nbAttributes = 4;
-			
-			for (int i = 0; i < this.Skills.Count; i++)
-			{
-				
-				if (this.Skills [i].IsActivated == 1)
-					nbAttributes = nbAttributes + 1;
-			}
-
-			randomAttribute = Mathf.RoundToInt(UnityEngine.Random.Range(0, nbAttributes));
-			int randomPower = Mathf.RoundToInt(UnityEngine.Random.Range(5, 10));
-			
-			switch (randomAttribute)
-			{
-				case 0:
-					newPower = this.Move + 1;
-					attributeName = "move";
-					break;
-				case 1:
-					newPower = Mathf.RoundToInt((1 + randomPower * 0.01f) * this.Life);
-					attributeName = "life";
-					if (newPower >= 100 || newPower > (100 - Mathf.Sqrt(500f)))
-						idLevel = 3;
-					else if (newPower > (100 - Mathf.Sqrt(2000f)))
-						idLevel = 2;
-					break;
-				case 2:
-					newPower = Mathf.RoundToInt((1 + randomPower * 0.01f) * this.Attack);
-					attributeName = "attack";
-					if (newPower >= 100 || newPower > (100 - Mathf.Sqrt(500f)))
-						idLevel = 3;
-					else if (newPower > (100 - Mathf.Sqrt(2000f)))
-						idLevel = 2;
-					break;
-				case 3:
-					newPower = Mathf.RoundToInt((1 + randomPower * 0.01f) * this.Speed);
-					attributeName = "speed";
-					if (newPower >= 100 || newPower > (100 - Mathf.Sqrt(500f)))
-						idLevel = 3;
-					else if (newPower > (100 - Mathf.Sqrt(2000f)))
-						idLevel = 2;
-					break;
-				case 4:
-					newPower = Mathf.RoundToInt((1 + randomPower * 0.01f) * this.Skills [0].Power);
-					idSkill = this.Skills [0].Id;
-					if (newPower >= 100 || newPower > (100 - Mathf.Sqrt(500f)))
-						idLevel = 3;
-					else if (newPower > (100 - Mathf.Sqrt(2000f)))
-						idLevel = 2;
-					break;
-				case 5:
-					newPower = Mathf.RoundToInt((1 + randomPower * 0.01f) * this.Skills [0].Power);
-					idSkill = this.Skills [1].Id;
-					if (newPower >= 100 || newPower > (100 - Mathf.Sqrt(500f)))
-						idLevel = 3;
-					else if (newPower > (100 - Mathf.Sqrt(2000f)))
-						idLevel = 2;
-					break;
-				case 6:
-					newPower = Mathf.RoundToInt((1 + randomPower * 0.01f) * this.Skills [0].Power);
-					idSkill = this.Skills [2].Id;
-					if (newPower >= 100 || newPower > (100 - Mathf.Sqrt(500f)))
-						idLevel = 3;
-					else if (newPower > (100 - Mathf.Sqrt(2000f)))
-						idLevel = 2;
-					break;
-				case 7:
-					newPower = Mathf.RoundToInt((1 + randomPower * 0.01f) * this.Skills [0].Power);
-					idSkill = this.Skills [3].Id;
-					if (newPower >= 100 || newPower > (100 - Mathf.Sqrt(500f)))
-						idLevel = 3;
-					else if (newPower > (100 - Mathf.Sqrt(2000f)))
-						idLevel = 2;
-					break;
-				default:
-					break;
-			}
-		}
 		WWWForm form = new WWWForm(); 								// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_idcard", this.Id.ToString());
-		form.AddField("myform_xp", experience.ToString());
-		form.AddField("myform_newpower", newPower.ToString());
-		form.AddField("myform_attribute", attributeName);
-		form.AddField("myform_idskill", idSkill.ToString());
-		form.AddField("myform_cardtype", this.IdClass.ToString());
-		form.AddField("myform_level", idLevel.ToString());
-		form.AddField("myform_price", price.ToString());
 		form.AddField("myform_nick", ApplicationModel.username);
 		
-		WWW w = new WWW(URLAddXp, form); 								// On envoie le formulaire à l'url sur le serveur 
+		WWW w = new WWW(URLAddXpLevel, form); 								// On envoie le formulaire à l'url sur le serveur 
 		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
 		
 		if (w.error != null)
 		{
 			this.Error = w.error; 										// donne l'erreur eventuelle
-		} else
+		} 
+		else
 		{
-			string[] data = w.text.Split(new string[] { "//" }, System.StringSplitOptions.None);
-			this.Error = data [1];
-
-			if (this.Error == "")
+			if(w.text.Contains("#ERROR#"))
 			{
-				this.Experience = experience;
-				if (attributeName == "move")
+				string[] errors = w.text.Split(new string[] { "#ERROR#" }, System.StringSplitOptions.None);
+				this.Error=errors[1];
+			}
+			else
+			{
+				this.Error="";
+				string [] cardData =  w.text.Split(new string[] { "#S#" }, System.StringSplitOptions.None);
+				for(int j = 0 ; j < cardData.Length-1 ; j++)
 				{
-					this.MoveLevel = System.Convert.ToInt32(data [0]);
-				}
-				switch (randomAttribute)
-				{
-					case 0:
-						this.Move = newPower;
-						break;
-					case 1:
-						this.Life = newPower;
-						this.LifeLevel = idLevel;
-						break;
-					case 2:
-						this.Attack = newPower;
-						this.AttackLevel = idLevel;
-						break;
-					case 3:
-						this.Speed = newPower;
-						this.SpeedLevel = idLevel;
-						break;
-					case 4:
-						this.Skills [0].Power = newPower;
-						this.Skills [0].Level = idLevel;
-						break;
-					case 5:
-						this.Skills [1].Power = newPower;
-						this.Skills [1].Level = idLevel;
-						break;
-					case 6:
-						this.Skills [2].Power = newPower;
-						this.Skills [2].Level = idLevel;
-						break;
-					case 7:
-						this.Skills [3].Power = newPower;
-						this.Skills [3].Level = idLevel;
-						break;
-					default:
-						break;
+					string[] cardInfo = cardData[j].Split(new string[] { "\\" }, System.StringSplitOptions.None); 
+					if (j==0)
+					{
+
+						this.Life=System.Convert.ToInt32(cardInfo[0]);
+						this.Attack=System.Convert.ToInt32(cardInfo[1]);
+						this.Speed=System.Convert.ToInt32(cardInfo[2]);
+						this.Move=System.Convert.ToInt32(cardInfo[3]);
+						this.LifeLevel=System.Convert.ToInt32(cardInfo[4]);
+						this.MoveLevel=System.Convert.ToInt32(cardInfo[5]);
+						this.SpeedLevel=System.Convert.ToInt32(cardInfo[6]);
+						this.AttackLevel=System.Convert.ToInt32(cardInfo[7]);
+						this.Experience=System.Convert.ToInt32(cardInfo[8]);
+						this.ExperienceLevel=System.Convert.ToInt32(cardInfo[9]);
+						this.NextLevelPrice=System.Convert.ToInt16(cardInfo[10]);
+						this.PercentageToNextLevel=System.Convert.ToInt16(cardInfo[11]);
+					}
+					else
+					{
+						this.Skills[j-1].Level=System.Convert.ToInt32(cardInfo[0]);
+						this.Skills[j-1].Power=System.Convert.ToInt32(cardInfo[1]);
+						this.Skills[j-1].Description=cardInfo[2];
+					}
 				}
 			}
-			this.ExperienceLevel = this.getXpLevel();
 		}
 	}
 
@@ -772,72 +653,4 @@ public class Card
 			}
 		}
 	}
-	public int getPriceForNextLevel()
-	{
-		
-		int experience = this.Experience;
-		int level = 0;
-		
-		while (experience>=experienceLevels[level]&&level<11)
-		{
-			level++;
-		}
-		level = level - 1;
-		
-		int price = 0;
-		
-		if (level != 10)
-		{
-			price = experienceLevels [level + 1] - experience;
-		}
-		
-		return price;	
-	}
-	
-	public void getCardXpLevel()
-	{
-
-		int cardXp = this.Experience;
-		int level = 0;
-		
-		while (cardXp>=experienceLevels[level]&&level<11)
-		{
-			level++;
-		}
-		level = level - 1;
-
-		this.ExperienceLevel = level;
-	}
-	public int getXpLevel()
-	{
-		
-		int cardXp = this.Experience;
-		int level = 0;
-		
-		while (cardXp>=experienceLevels[level]&&level<11)
-		{
-			level++;
-		}
-		level = level - 1;
-		
-		return level;
-	}	
-	public int percentageToNextXpLevel()
-	{
-
-		int experienceLevel = this.getXpLevel();
-		int percentage;
-		if (experienceLevel == 10)
-		{
-			percentage = 100;
-		} else if (experienceLevel == 0)
-		{
-			percentage = Mathf.RoundToInt((this.Experience / experienceLevels [1]) * 100);
-		} else
-		{
-			percentage = 100 * (this.Experience - experienceLevels [experienceLevel]) / (experienceLevels [experienceLevel + 1] - experienceLevels [experienceLevel]); 
-		}
-		return percentage;
-	}
-
 }

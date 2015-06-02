@@ -21,7 +21,7 @@ public class EndSceneController : MonoBehaviour
 
 	private int earnXp;
 	private int earnCredits;
-	private int cardToDraw;
+	private int xpDrawn;
 	
 	private GameObject darkBackground;
 	
@@ -153,18 +153,17 @@ public class EndSceneController : MonoBehaviour
 	}
 	public IEnumerator drawExperience()
 	{
-		yield return StartCoroutine(GameController.instance.myDeck.updateXpCards (earnXp));
-		this.cardToDraw = 0;
-		this.drawNextCard ();
-	}
-	public void drawNextCard()
-	{
-		if(this.cardToDraw<5)
+		yield return StartCoroutine(GameController.instance.myDeck.addXpToDeck (earnXp));
+		this.xpDrawn = 0;
+		for(int i=0;i<this.cards.Length;i++)
 		{
-			this.cards [cardToDraw].GetComponent<CardController>().animateExperience (GameController.instance.myDeck.Cards[cardToDraw]);
-			cardToDraw++;
+			this.cards [i].GetComponent<CardController>().animateExperience (GameController.instance.myDeck.Cards[i]);
 		}
-		else
+	}
+	public void incrementXpDrawn()
+	{
+		this.xpDrawn++;
+		if(xpDrawn==this.cards.Length)
 		{
 			view.endSceneVM.guiEnabled=true;
 		}
@@ -195,6 +194,13 @@ public class EndSceneController : MonoBehaviour
 		if(this.darkBackground!=null)
 		{
 			this.darkBackground.GetComponent<DarkBackgroundController> ().resize();
+		}
+		if(this.cards!=null)
+		{
+			for (int i=0;i<this.cards.Length;i++)
+			{
+				this.cards[i].GetComponent<CardController>().resize();
+			}
 		}
 	}
 	public void quitEndScene()
