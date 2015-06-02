@@ -5,22 +5,22 @@ public class GameSkill
 {
 	public virtual void launch ()
 	{
-			Debug.Log ("Skill non implémenté");
+		Debug.Log ("Skill non implémenté");
 	}
 
 	public virtual void setTarget (PlayingCardController pcc)
 	{
-			Debug.Log ("Skill non implémenté");
+		Debug.Log ("Skill non implémenté");
 	}
 
 	public virtual void resolve (int[] args)
 	{
-			Debug.Log ("Skill non implémenté");
+		Debug.Log ("Skill non implémenté");
 	}
 
 	public virtual bool isLaunchable (Skill s)
 	{
-			return true;
+		return true;
 	}
 
 	public string convertStatToString (ModifierStat stat)

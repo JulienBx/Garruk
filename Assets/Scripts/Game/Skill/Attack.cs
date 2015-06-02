@@ -47,6 +47,7 @@ public class Attack : GameSkill
 			{
 				isLaunchable = true ;
 			}
+			i++;
 		}
 		return isLaunchable ;
 	}

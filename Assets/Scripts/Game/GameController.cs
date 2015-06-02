@@ -599,17 +599,23 @@ public class GameController : Photon.MonoBehaviour
 	}
 		
 	public void updateStatusMySkills(int idc){
+		bool controlActive ;
 		bool isActive = !(nbTurns==0) && !this.playindCardHasPlayed && (idc==this.currentPlayingCard);
 		List<Skill> skills = this.playingCards [idc].GetComponent<PlayingCardController> ().card.Skills;
 		for (int i = 0; i < 4; i++) {
 			this.skillsObjects [i].GetComponent<SkillObjectController> ().setActiveStatus (isActive);
+			controlActive = this.gameskills[skills[i].Id].isLaunchable(skills[i]) && !this.playindCardHasPlayed ;
 			this.skillsObjects [i].GetComponent<SkillObjectController> ().setControlStatus(this.gameskills[skills[i].Id].isLaunchable(skills[i]));
 			this.skillsObjects [i].GetComponent<SkillObjectController> ().show ();
 		}
+		this.skillsObjects [4].GetComponent<SkillObjectController> ().setActive(isActive);
 		this.skillsObjects [4].GetComponent<SkillObjectController> ().setActiveStatus (isActive);
-		this.skillsObjects [4].GetComponent<SkillObjectController> ().setControlStatus(this.gameskills[0].isLaunchable(skills[i]));
+		this.skillsObjects [4].GetComponent<SkillObjectController> ().setControlStatus(this.gameskills[0].isLaunchable(new Skill()));
+		this.skillsObjects [4].GetComponent<SkillObjectController> ().show ();
+		this.skillsObjects [5].GetComponent<SkillObjectController> ().setActive(isActive);
 		this.skillsObjects [5].GetComponent<SkillObjectController> ().setActiveStatus (isActive);
-		this.skillsObjects [5].GetComponent<SkillObjectController> ().setControlStatus(this.gameskills[1].isLaunchable(skills[i]));
+		this.skillsObjects [5].GetComponent<SkillObjectController> ().setControlStatus(this.gameskills[1].isLaunchable(new Skill()));
+		this.skillsObjects [5].GetComponent<SkillObjectController> ().show ();
 	}
 
 		public void showOpponentSkills (int idc)
@@ -1014,6 +1020,7 @@ public class GameController : Photon.MonoBehaviour
 		[RPC]
 		IEnumerator AddPlayerToList (int id, string loginName)
 		{
+				print ("J'add "+loginName);
 				users [id - 1] = new User (loginName);	
 				yield return StartCoroutine (users [id - 1].retrievePicture ());
 				yield return StartCoroutine (users [id - 1].setProfilePicture ());
@@ -1216,29 +1223,35 @@ public class GameController : Photon.MonoBehaviour
 				}
 		}
 
-		[RPC]
-		public void moveCharacterRPC (int x, int y, int c, bool isFirstP, bool isSwap)
-		{
-				if (!isSwap) {
-						this.tiles [this.playingCards [c].GetComponentInChildren<PlayingCardController> ().tile.x, this.playingCards [c].GetComponentInChildren<PlayingCardController> ().tile.y].GetComponent<TileController> ().characterID = -1;
-				}
-
-				if (this.isFirstPlayer == isFirstP && nbTurns != 0) {
-						this.isDragging = false;
-						this.resetDestinations ();
-						if (this.playindCardHasPlayed) {
-								this.gameskills [1].launch ();
-						}
-				}
-
-				this.tiles [x, y].GetComponent<TileController> ().characterID = c;
-				this.playingCards [c].GetComponentInChildren<PlayingCardController> ().changeTile (new Tile (x, y), this.tiles [x, y].GetComponent<TileController> ().getPosition ());
-
-				if (!photonView.isMine) {
-						displayPopUpMessage (this.playingCards [c].GetComponentInChildren<PlayingCardController> ().card.Title + " s'est déplacé", 2f);
-				}
-				playingCardHasMoved = true;
+	[RPC]
+	public void moveCharacterRPC (int x, int y, int c, bool isFirstP, bool isSwap)
+	{
+		if (!isSwap) {
+			this.tiles [this.playingCards [c].GetComponentInChildren<PlayingCardController> ().tile.x, this.playingCards [c].GetComponentInChildren<PlayingCardController> ().tile.y].GetComponent<TileController> ().characterID = -1;
 		}
+
+		this.tiles [x, y].GetComponent<TileController> ().characterID = c;
+		this.playingCards [c].GetComponentInChildren<PlayingCardController> ().changeTile (new Tile (x, y), this.tiles [x, y].GetComponent<TileController> ().getPosition ());
+
+		if (this.isFirstPlayer == isFirstP && nbTurns != 0) {
+			this.isDragging = false;
+			this.resetDestinations ();
+			if (this.clickedPlayingCard!=this.currentPlayingCard){
+				this.showMyPlayingSkills(this.currentPlayingCard);
+			}
+			else{
+				this.updateStatusMySkills(this.currentPlayingCard);
+			}
+			if (this.playindCardHasPlayed) {
+				this.gameskills [1].launch ();
+			}
+		}
+		
+		if (!photonView.isMine) {
+			displayPopUpMessage (this.playingCards [c].GetComponentInChildren<PlayingCardController> ().card.Title + " s'est déplacé", 2f);
+		}
+		playingCardHasMoved = true;
+	}
 
 		[RPC]
 		public void inflictDamageRPC (int targetCharacter, bool isFisrtPlayerCharacter)
@@ -1562,13 +1575,13 @@ public class GameController : Photon.MonoBehaviour
 				this.gameskills [6] = new Sape ();
 				this.gameskills [7] = new Lenteur ();
 				this.gameskills [8] = new Rapidite ();
-				this.gameskills [9] = new GameSkill ();
-				this.gameskills [10] = new GameSkill ();
+				this.gameskills [9] = new Dissipation ();
+				this.gameskills [10] = new TirALarc ();
 				this.gameskills [11] = new Furtivite ();
-				this.gameskills [12] = new GameSkill ();
-				this.gameskills [13] = new GameSkill ();
-				this.gameskills [14] = new GameSkill ();
-				this.gameskills [15] = new GameSkill ();
+				this.gameskills [12] = new AttaquePrecise ();
+				this.gameskills [13] = new AttaqueRapide ();
+				this.gameskills [14] = new PiegeALoups ();
+				this.gameskills [15] = new Agilite ();
 				this.gameskills [16] = new GameSkill ();
 				this.gameskills [17] = new GameSkill ();
 				this.gameskills [18] = new GameSkill ();
@@ -1647,7 +1660,7 @@ public class GameController : Photon.MonoBehaviour
 		this.isRunningSkill = false;
 		this.playindCardHasPlayed = true;
 		if (this.clickedPlayingCard != this.currentPlayingCard && this.clickedPlayingCard != -1) {
-			this.updateStatusMySkills (this.clickedPlayingCard);
+			this.showMyPlayingSkills (this.currentPlayingCard);
 		} else {
 			this.updateStatusMySkills (this.currentPlayingCard);
 		}
