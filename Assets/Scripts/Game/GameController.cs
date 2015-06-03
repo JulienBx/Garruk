@@ -573,6 +573,7 @@ public class GameController : Photon.MonoBehaviour
 
 	public void showMyPlayingSkills (int idc)
 	{
+		print ("Je show my skills");
 		this.selectedPlayingCard.GetComponent<PlayingCardController> ().setCard (this.playingCards [idc].GetComponent<PlayingCardController> ().card);
 		this.selectedPlayingCard.GetComponent<PlayingCardController> ().show ();
 		this.selectedPlayingCard.GetComponent<PlayingCardController> ().setActive (true);
@@ -591,6 +592,7 @@ public class GameController : Photon.MonoBehaviour
 	}
 		
 	public void updateStatusMySkills(int idc){
+		print ("J'update mes skills");
 		bool controlActive ;
 		bool isActive = !(nbTurns==0) && (idc==this.currentPlayingCard);
 		List<Skill> skills = this.playingCards [idc].GetComponent<PlayingCardController> ().card.Skills;
@@ -632,21 +634,22 @@ public class GameController : Photon.MonoBehaviour
 				this.opponentSkillsObjects [5].SetActive (false);
 		}
 
-		public void hideMySkills ()
-		{
-				for (int i = 0; i < 6; i++) {
-						this.selectedPlayingCard.SetActive (false);
-						this.skillsObjects [i].SetActive (false);
-				}
+	public void hideMySkills ()
+	{
+		print ("Je hide my skills");
+		for (int i = 0; i < 6; i++) {
+			this.selectedPlayingCard.SetActive (false);
+			this.skillsObjects [i].SetActive (false);
 		}
+	}
 
-		public void hideOpponentSkills ()
-		{
-				for (int i = 0; i < 6; i++) {
-						this.selectedOpponentCard.SetActive (false);
-						this.opponentSkillsObjects [i].SetActive (false);
-				}
+	public void hideOpponentSkills ()
+	{
+		for (int i = 0; i < 6; i++) {
+			this.selectedOpponentCard.SetActive (false);
+			this.opponentSkillsObjects [i].SetActive (false);
 		}
+	}
 
 		public void clickPlayingCardHandler (int idPlayingCard)
 		{
@@ -770,27 +773,28 @@ public class GameController : Photon.MonoBehaviour
 				this.playingCards [idPlayingCard].GetComponent<PlayingCardController> ().show ();
 		}
 
-		public void clickSkillHandler (int ids)
-		{
-				this.clickedSkill = ids;
-				if (ids > 3) {
-						if (ids == 4) {
-								this.gameskills [0].launch ();
-						} else {
-								this.gameskills [1].launch ();
-						}
-				} else {
-						this.gameskills [this.playingCards [this.currentPlayingCard].GetComponentInChildren<PlayingCardController> ().card.Skills [ids].Id].launch ();
-				}
-				this.skillArgs = new int[10];
-				for (int i = 0; i < 10; i++) {
-						this.skillArgs [i] = -1;
-				}
-				this.numberOfArgs = 0;
-				this.isRunningSkill = true ;
-				this.updateStatusMySkills(this.currentPlayingCard);
-			
+	public void clickSkillHandler (int ids)
+	{
+		this.updateStatusMySkills(this.currentPlayingCard);
+		this.clickedSkill = ids;
+		if (ids > 3) {
+			if (ids == 4) {
+				this.gameskills [0].launch ();
+			} else {
+				this.gameskills [1].launch ();
+			}
+		} else {
+			this.gameskills [this.playingCards [this.currentPlayingCard].GetComponentInChildren<PlayingCardController> ().card.Skills [ids].Id].launch ();
 		}
+		this.skillArgs = new int[10];
+		for (int i = 0; i < 10; i++) {
+			this.skillArgs [i] = -1;
+		}
+		this.numberOfArgs = 0;
+		this.isRunningSkill = true ;
+			
+		
+	}
 
 	public void findNextPlayer ()
 	{

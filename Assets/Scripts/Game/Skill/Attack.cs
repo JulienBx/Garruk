@@ -44,7 +44,6 @@ public class Attack : GameSkill
 
 		while (!isLaunchable && i<tempTiles.Count){
 			t = tempTiles[i];
-			Debug.Log(t.x+","+t.y+" / "+GameController.instance.getTile(t.x, t.y).characterID);
 			if (GameController.instance.getTile(t.x, t.y).characterID!=-1)
 			{
 			 	
