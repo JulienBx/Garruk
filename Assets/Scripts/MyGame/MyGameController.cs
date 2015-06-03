@@ -131,77 +131,83 @@ public class MyGameController : MonoBehaviour
 	}
 	public void leftClickedCard(GameObject gameobject)
 	{
-		if(gameobject.name.StartsWith("Card")&&view.myGameDeckCardsVM.nbCardsToDisplay<5)
+		if(!view.myGameVM.isPopUpDisplayed && this.errorPopUpView==null && this.newDeckPopUpView==null && this.deleteDeckPopUpView==null && this.editDeckPopUpView==null)
 		{
-			int cardIndex = retrieveCardIndex (gameobject.name);
-			if(model.cards[cardIndex].onSale==0 && model.cards[cardIndex].IdOWner!=-1)
+			if(gameobject.name.StartsWith("Card")&&view.myGameDeckCardsVM.nbCardsToDisplay<5)
 			{
+				int cardIndex = retrieveCardIndex (gameobject.name);
+				if(model.cards[cardIndex].onSale==0 && model.cards[cardIndex].IdOWner!=-1)
+				{
+					int deckIndex = view.myGameDecksVM.decksToBeDisplayed[view.myGameDecksVM.chosenDeck];
+					this.displayedDeckCards[view.myGameDeckCardsVM.nbCardsToDisplay].SetActive(true);
+					this.displayedDeckCards[view.myGameDeckCardsVM.nbCardsToDisplay].GetComponent<CardMyGameController>().resetMyGameCard(model.cards[cardIndex]);
+					view.myGameDeckCardsVM.deckCardsToBeDisplayed.Add (cardIndex);
+					view.myGameDecksVM.decksNbCards[view.myGameDecksVM.chosenDeck]++;
+					view.myGameDeckCardsVM.nbCardsToDisplay++;
+					model.cards[cardIndex].Decks.Add (model.decks[deckIndex].Id);
+					StartCoroutine(model.decks[deckIndex].addCard(model.cards[cardIndex].Id));
+					this.filterCards();
+				}
+				else if(model.cards[cardIndex].onSale==1)
+				{
+					this.displayErrorPopUp("Vous ne pouvez pas ajouter à votre deck une carte qui est en vente");
+				}
+				else if(model.cards[cardIndex].IdOWner==-1)
+				{
+					this.displayErrorPopUp("Cette carte a été vendue, vous ne pouvez plus l'ajouter");
+				}
+			}
+			else if(gameobject.name.StartsWith("DCrd"))
+			{
+				int cardIndex = retrieveCardIndex (gameobject.name);
 				int deckIndex = view.myGameDecksVM.decksToBeDisplayed[view.myGameDecksVM.chosenDeck];
-				this.displayedDeckCards[view.myGameDeckCardsVM.nbCardsToDisplay].SetActive(true);
-				this.displayedDeckCards[view.myGameDeckCardsVM.nbCardsToDisplay].GetComponent<CardMyGameController>().resetMyGameCard(model.cards[cardIndex]);
-				view.myGameDeckCardsVM.deckCardsToBeDisplayed.Add (cardIndex);
-				view.myGameDecksVM.decksNbCards[view.myGameDecksVM.chosenDeck]++;
-				view.myGameDeckCardsVM.nbCardsToDisplay++;
-				model.cards[cardIndex].Decks.Add (model.decks[deckIndex].Id);
-				StartCoroutine(model.decks[deckIndex].addCard(model.cards[cardIndex].Id));
+				StartCoroutine(model.decks[deckIndex].removeCard(model.cards[cardIndex].Id));
+				model.cards[cardIndex].Decks.Remove(model.decks[deckIndex].Id);
+				view.myGameDecksVM.decksNbCards[view.myGameDecksVM.chosenDeck]--;
+				view.myGameDeckCardsVM.nbCardsToDisplay--;
+				view.myGameDeckCardsVM.deckCardsToBeDisplayed.RemoveAt(System.Convert.ToInt32(gameobject.name.Substring(4)));
+				this.loadDeckCards();
 				this.filterCards();
 			}
-			else if(model.cards[cardIndex].onSale==1)
-			{
-				this.displayErrorPopUp("Vous ne pouvez pas ajouter à votre deck une carte qui est en vente");
-			}
-			else if(model.cards[cardIndex].IdOWner==-1)
-			{
-				this.displayErrorPopUp("Cette carte a été vendue, vous ne pouvez plus l'ajouter");
-			}
-		}
-		else if(gameobject.name.StartsWith("DCrd"))
-		{
-			int cardIndex = retrieveCardIndex (gameobject.name);
-			int deckIndex = view.myGameDecksVM.decksToBeDisplayed[view.myGameDecksVM.chosenDeck];
-			StartCoroutine(model.decks[deckIndex].removeCard(model.cards[cardIndex].Id));
-			model.cards[cardIndex].Decks.Remove(model.decks[deckIndex].Id);
-			view.myGameDecksVM.decksNbCards[view.myGameDecksVM.chosenDeck]--;
-			view.myGameDeckCardsVM.nbCardsToDisplay--;
-			view.myGameDeckCardsVM.deckCardsToBeDisplayed.RemoveAt(System.Convert.ToInt32(gameobject.name.Substring(4)));
-			this.loadDeckCards();
-			this.filterCards();
 		}
 	}
 	public void rightClickedCard(GameObject gameObject)
 	{
-		view.myGameVM.displayView=false ;
-		
-		int finish = 3 * view.myGameCardsVM.nbCardsPerRow;
-		for(int i = 0 ; i < finish ; i++)
+		if(!view.myGameVM.isPopUpDisplayed && this.errorPopUpView==null && this.newDeckPopUpView==null && this.deleteDeckPopUpView==null && this.editDeckPopUpView==null)
 		{
-			this.displayedCards[i].SetActive(false);
+			view.myGameVM.displayView=false ;
+			
+			int finish = 3 * view.myGameCardsVM.nbCardsPerRow;
+			for(int i = 0 ; i < finish ; i++)
+			{
+				this.displayedCards[i].SetActive(false);
+			}
+			for(int i = 0 ; i < 5 ; i++)
+			{
+				this.displayedDeckCards[i].SetActive(false);
+			}
+			string name;
+			if(gameObject.name.StartsWith("Card"))
+			{
+				name = "Fcrd"+gameObject.name.Substring(4);
+			}
+			else
+			{
+				name = "Fdcd"+gameObject.name.Substring(4);
+			}
+			if(this.cardFocused==null)
+			{
+				Vector3 scale = new Vector3(view.myGameScreenVM.heightScreen / 120f,view.myGameScreenVM.heightScreen / 120f,view.myGameScreenVM.heightScreen / 120f);
+				Vector3 position = Camera.main.ScreenToWorldPoint (new Vector3 (0.4f * view.myGameScreenVM.widthScreen, 0.45f * view.myGameScreenVM.heightScreen - 1, 10));
+				this.cardFocused = Instantiate(CardObject) as GameObject;
+				this.cardFocused.AddComponent<CardMyGameController> ();
+				this.cardFocused.GetComponent<CardController> ().setGameObjectScaleAndPosition(scale,position);
+				this.cardFocused.GetComponent<CardController> ().setCentralWindowRect (view.myGameScreenVM.centralWindow);
+			}
+			this.cardFocused.GetComponent<CardController> ().setGameObjectName (name);
+			this.cardFocused.GetComponent<CardMyGameController> ().resetFocusedMyGameCard (gameObject.GetComponent<CardController> ().card);
+			this.cardFocused.SetActive (true);
 		}
-		for(int i = 0 ; i < 5 ; i++)
-		{
-			this.displayedDeckCards[i].SetActive(false);
-		}
-		string name;
-		if(gameObject.name.StartsWith("Card"))
-		{
-			name = "Fcrd"+gameObject.name.Substring(4);
-		}
-		else
-		{
-			name = "Fdcd"+gameObject.name.Substring(4);
-		}
-		if(this.cardFocused==null)
-		{
-			Vector3 scale = new Vector3(view.myGameScreenVM.heightScreen / 120f,view.myGameScreenVM.heightScreen / 120f,view.myGameScreenVM.heightScreen / 120f);
-			Vector3 position = Camera.main.ScreenToWorldPoint (new Vector3 (0.4f * view.myGameScreenVM.widthScreen, 0.45f * view.myGameScreenVM.heightScreen - 1, 10));
-			this.cardFocused = Instantiate(CardObject) as GameObject;
-			this.cardFocused.AddComponent<CardMyGameController> ();
-			this.cardFocused.GetComponent<CardController> ().setGameObjectScaleAndPosition(scale,position);
-			this.cardFocused.GetComponent<CardController> ().setCentralWindowRect (view.myGameScreenVM.centralWindow);
-		}
-		this.cardFocused.GetComponent<CardController> ().setGameObjectName (name);
-		this.cardFocused.GetComponent<CardMyGameController> ().resetFocusedMyGameCard (gameObject.GetComponent<CardController> ().card);
-		this.cardFocused.SetActive (true);
 	}
 	public void displayErrorPopUp(string error)
 	{
