@@ -77,8 +77,11 @@ public class Pack
 		card.MoveLevel = System.Convert.ToInt32(cardInformation [10]);
 		card.SpeedLevel = System.Convert.ToInt32(cardInformation [11]);
 		card.AttackLevel = System.Convert.ToInt32(cardInformation [12]);
+		card.NextLevelPrice = System.Convert.ToInt32(cardInformation [13]);
 		card.onSale = 0;
 		card.Experience = 0;
+		card.PercentageToNextLevel = 0;
+		card.ExperienceLevel = 0;
 		
 		card.Skills = new List<Skill>();
 		for (int i = 1; i < 5; i++)

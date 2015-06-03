@@ -50,8 +50,8 @@ public class CardStoreController : CardController
 	public override void updateExperience()
 	{
 		base.updateExperience ();
-		focusStoreFeaturesView.focusStoreFeaturesVM.cardLevel = base.card.getXpLevel();
-		focusStoreFeaturesView.focusStoreFeaturesVM.nextLevelCost = base.card.getPriceForNextLevel();
+		focusStoreFeaturesView.focusStoreFeaturesVM.cardLevel = base.card.ExperienceLevel;
+		focusStoreFeaturesView.focusStoreFeaturesVM.nextLevelCost = base.card.NextLevelPrice;
 	}
 	public void setFocusStoreFeatures()
 	{
@@ -60,8 +60,8 @@ public class CardStoreController : CardController
 		focusStoreFeaturesView.focusStoreFeaturesVM.isOnSale = System.Convert.ToBoolean (base.card.onSale);
 		focusStoreFeaturesView.focusStoreFeaturesVM.price = base.card.Price;
 		focusStoreFeaturesView.focusStoreFeaturesVM.cardCost = base.card.getCost ();
-		focusStoreFeaturesView.focusStoreFeaturesVM.cardLevel = base.card.getXpLevel();
-		focusStoreFeaturesView.focusStoreFeaturesVM.nextLevelCost = base.card.getPriceForNextLevel();
+		focusStoreFeaturesView.focusStoreFeaturesVM.cardLevel = base.card.ExperienceLevel;
+		focusStoreFeaturesView.focusStoreFeaturesVM.nextLevelCost = base.card.NextLevelPrice;
 		focusStoreFeaturesView.cardFeaturesFocusVM.styles=new GUIStyle[ressources.cardFeaturesFocusStyles.Length];
 		for(int i=0;i<ressources.cardFeaturesFocusStyles.Length;i++)
 		{
