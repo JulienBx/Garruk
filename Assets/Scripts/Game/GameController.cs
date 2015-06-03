@@ -104,7 +104,7 @@ public class GameController : Photon.MonoBehaviour
 		string URLStat = ApplicationModel.host + "updateResult.php";
 
 		int clickedSkill ;
-	
+		
 		void Awake ()
 		{
 				instance = this;
@@ -536,26 +536,18 @@ public class GameController : Photon.MonoBehaviour
 				}
 		}
 
-		public void lookForValidation (bool toDisplayButton, string regularText, string buttonText)
-		{
-				setValidationTexts (regularText, buttonText);
-				this.gameView.gameScreenVM.toDisplayValidationButton = toDisplayButton;
-		
-				this.deactivateMySkills ();
-		}
+	public void lookForValidation (bool toDisplayButton, string regularText, string buttonText)
+	{
+		setValidationTexts (regularText, buttonText);
+		this.gameView.gameScreenVM.toDisplayValidationButton = toDisplayButton;
+	}
 
-		public void deactivateMySkills ()
-		{
-				for (int i = 0; i < 6; i++) {
-						this.skillsObjects [i].GetComponent<SkillObjectController> ().setControlActive (false);
-				}
-		}
-
-		public void cancelSkill ()
-		{
-				this.showMyPlayingSkills (this.currentPlayingCard);
-				this.gameView.gameScreenVM.toDisplayValidationWindows = false;
-		}
+	public void cancelSkill ()
+	{
+		this.showMyPlayingSkills (this.currentPlayingCard);
+		this.gameView.gameScreenVM.toDisplayValidationWindows = false;
+		this.isRunningSkill = false ;
+	}
 
 		public void validateSkill ()
 		{
@@ -600,21 +592,24 @@ public class GameController : Photon.MonoBehaviour
 		
 	public void updateStatusMySkills(int idc){
 		bool controlActive ;
-		bool isActive = !(nbTurns==0) && !this.playindCardHasPlayed && (idc==this.currentPlayingCard);
+		bool isActive = !(nbTurns==0) && (idc==this.currentPlayingCard);
 		List<Skill> skills = this.playingCards [idc].GetComponent<PlayingCardController> ().card.Skills;
 		for (int i = 0; i < 4; i++) {
-			this.skillsObjects [i].GetComponent<SkillObjectController> ().setActiveStatus (isActive);
-			controlActive = this.gameskills[skills[i].Id].isLaunchable(skills[i]) && !this.playindCardHasPlayed ;
-			this.skillsObjects [i].GetComponent<SkillObjectController> ().setControlStatus(this.gameskills[skills[i].Id].isLaunchable(skills[i]));
-			this.skillsObjects [i].GetComponent<SkillObjectController> ().show ();
+			if (i < skills.Count) {
+				this.skillsObjects [i].GetComponent<SkillObjectController> ().setActiveStatus (isActive);
+				controlActive = this.gameskills[skills[i].Id].isLaunchable(skills[i]) && !this.playindCardHasPlayed  && !this.isRunningSkill ;
+				this.skillsObjects [i].GetComponent<SkillObjectController> ().setControlStatus(controlActive);
+				this.skillsObjects [i].GetComponent<SkillObjectController> ().show ();
+			}
 		}
 		this.skillsObjects [4].GetComponent<SkillObjectController> ().setActive(isActive);
 		this.skillsObjects [4].GetComponent<SkillObjectController> ().setActiveStatus (isActive);
-		this.skillsObjects [4].GetComponent<SkillObjectController> ().setControlStatus(this.gameskills[0].isLaunchable(new Skill()));
+		controlActive = this.gameskills[0].isLaunchable(new Skill()) && !this.playindCardHasPlayed && !this.isRunningSkill ;
+		this.skillsObjects [4].GetComponent<SkillObjectController> ().setControlStatus(controlActive);
 		this.skillsObjects [4].GetComponent<SkillObjectController> ().show ();
 		this.skillsObjects [5].GetComponent<SkillObjectController> ().setActive(isActive);
 		this.skillsObjects [5].GetComponent<SkillObjectController> ().setActiveStatus (isActive);
-		this.skillsObjects [5].GetComponent<SkillObjectController> ().setControlStatus(this.gameskills[1].isLaunchable(new Skill()));
+		this.skillsObjects [5].GetComponent<SkillObjectController> ().setControlStatus(true);
 		this.skillsObjects [5].GetComponent<SkillObjectController> ().show ();
 	}
 
@@ -792,120 +787,123 @@ public class GameController : Photon.MonoBehaviour
 						this.skillArgs [i] = -1;
 				}
 				this.numberOfArgs = 0;
-				this.deactivateMySkills ();
+				this.isRunningSkill = true ;
+				this.updateStatusMySkills(this.currentPlayingCard);
+			
 		}
 
-		public void findNextPlayer ()
-		{
-				if (this.currentPlayingCard != -1) {
-						this.playingCards [this.currentPlayingCard].GetComponentInChildren<PlayingCardController> ().hasPlayed = true;
-				}
-				bool newTurn = true;
-				int nextPlayingCard = -1;
-				int i = 0;
+	public void findNextPlayer ()
+	{
+		if (this.currentPlayingCard != -1) {
+			this.playingCards [this.currentPlayingCard].GetComponentInChildren<PlayingCardController> ().hasPlayed = true;
+		}
+		bool newTurn = true;
+		int nextPlayingCard = -1;
+		int i = 0;
 
-				while (i < 10 && newTurn == true) {
-						if (!this.playingCards [rankedPlayingCardsID [i]].GetComponentInChildren<PlayingCardController> ().hasPlayed) {
-								nextPlayingCard = rankedPlayingCardsID [i];
-								newTurn = false;
-						}
-						i++;
-				}
-
-				if (newTurn) {
-						for (i = 0; i < 10; i++) {
-								if (!this.playingCards [i].GetComponentInChildren<PlayingCardController> ().isDead) {
-										this.playingCards [i].GetComponentInChildren<PlayingCardController> ().hasPlayed = false;
-								}
-						}
-						int j = 0;
-						while (j < 10) {
-								if (!this.playingCards [rankedPlayingCardsID [j]].GetComponentInChildren<PlayingCardController> ().hasPlayed) {
-										nextPlayingCard = rankedPlayingCardsID [j];
-										j = 11;
-								}
-								j++;
-						}
-				}
-		
-				photonView.RPC ("initPlayer", PhotonTargets.AllBuffered, nextPlayingCard, newTurn, this.isFirstPlayer);
+		while (i < 10 && newTurn == true) {
+			if (!this.playingCards [rankedPlayingCardsID [i]].GetComponentInChildren<PlayingCardController> ().hasPlayed) {
+				nextPlayingCard = rankedPlayingCardsID [i];
+				newTurn = false;
+			}
+			i++;
 		}
 
-		[RPC]
-		public void initPlayer (int id, bool newTurn, bool isFirstP)
-		{
-				print ("Au tour de " + id);
-				playingCardHasMoved = false;
-				if (newTurn) {
-						for (int i = 0; i < 10; i++) {
-								if (!this.playingCards [i].GetComponentInChildren<PlayingCardController> ().isDead) {
-										this.playingCards [i].GetComponentInChildren<PlayingCardController> ().hasPlayed = false;
-										this.reloadCard (i);
-								}
-						}
+		if (newTurn) {
+			for (i = 0; i < 10; i++) {
+					if (!this.playingCards [i].GetComponentInChildren<PlayingCardController> ().isDead) {
+							this.playingCards [i].GetComponentInChildren<PlayingCardController> ().hasPlayed = false;
+					}
+			}
+			int j = 0;
+			while (j < 10) {
+				if (!this.playingCards [rankedPlayingCardsID [j]].GetComponentInChildren<PlayingCardController> ().hasPlayed) {
+					nextPlayingCard = rankedPlayingCardsID [j];
+					j = 11;
 				}
-				if (this.currentPlayingCard != -1) {
-						this.playingCards [this.currentPlayingCard].GetComponentInChildren<PlayingCardController> ().hasPlayed = true;
-				}
-
-				if (this.currentPlayingCard != -1) {
-						this.hideActivatedPlayingCard ();
-				}
-				this.resetDestinations ();
-
-
-				if (newTurn) {
-						this.nbTurns++;
-				}
-
-				this.currentPlayingCard = id;
-				this.playindCardHasPlayed = false;
-
-				this.currentPlayingTile = this.playingCards [currentPlayingCard].GetComponentInChildren<PlayingCardController> ().tile;
-		
-				this.activatePlayingCard (id);
-
-				if (this.isFirstPlayer == (id < 5)) {
-						this.playingCards [currentPlayingCard].GetComponentInChildren<PlayingCardController> ().tile.setNeighbours (this.getCharacterTilesArray (), this.playingCards [id].GetComponentInChildren<PlayingCardController> ().card.GetMove ());
-						this.setDestinations (currentPlayingCard);
-						this.isDragging = true;
-				}
-
-				this.playingCards [currentPlayingCard].GetComponentInChildren<PlayingCardController> ().card.changeModifiers ();
-				this.playingCards [currentPlayingCard].GetComponentInChildren<PlayingCardController> ().show ();
-
-				if ((currentPlayingCard < 5 && this.isFirstPlayer) || (currentPlayingCard >= 5 && !this.isFirstPlayer)) {
-						displayPopUpMessage ("A votre tour de jouer", 2f);
-						this.showMyPlayingSkills (this.currentPlayingCard);
-				} else {
-						displayPopUpMessage ("Tour du joueur adverse", 2f);
-						this.showOpponentSkills (this.currentPlayingCard);
-				}
+				j++;
+			}
 		}
 
-		public int[,] getCharacterTilesArray ()
-		{
-				int width = GameController.instance.boardWidth;
-				int height = GameController.instance.boardHeight;
-				int[,] characterTiles = new int[width, height]; 
-				for (int i = 0; i < width; i ++) {
-						for (int j = 0; j < height; j ++) {
-								characterTiles [i, j] = -1;
-						}
+		photonView.RPC ("initPlayer", PhotonTargets.AllBuffered, nextPlayingCard, newTurn, this.isFirstPlayer);
+	}
+
+	[RPC]
+	public void initPlayer (int id, bool newTurn, bool isFirstP)
+	{
+		print ("Au tour de " + id);
+		playingCardHasMoved = false;
+		if (newTurn) {
+			for (int i = 0; i < 10; i++) {
+				if (!this.playingCards [i].GetComponentInChildren<PlayingCardController> ().isDead) {
+					this.playingCards [i].GetComponentInChildren<PlayingCardController> ().hasPlayed = false;
+					this.reloadCard (i);
 				}
-				int debut;
-				if (this.isFirstPlayer) {
-						debut = 5;
-				} else {
-						debut = 0;
-				}
-				characterTiles [this.playingCards [debut].GetComponentInChildren<PlayingCardController> ().tile.x, this.playingCards [debut].GetComponentInChildren<PlayingCardController> ().tile.y] = 8;
-				characterTiles [this.playingCards [debut + 1].GetComponentInChildren<PlayingCardController> ().tile.x, this.playingCards [debut + 1].GetComponentInChildren<PlayingCardController> ().tile.y] = 8;
-				characterTiles [this.playingCards [debut + 2].GetComponentInChildren<PlayingCardController> ().tile.x, this.playingCards [debut + 2].GetComponentInChildren<PlayingCardController> ().tile.y] = 8;
-				characterTiles [this.playingCards [debut + 3].GetComponentInChildren<PlayingCardController> ().tile.x, this.playingCards [debut + 3].GetComponentInChildren<PlayingCardController> ().tile.y] = 8;
-				characterTiles [this.playingCards [debut + 4].GetComponentInChildren<PlayingCardController> ().tile.x, this.playingCards [debut + 4].GetComponentInChildren<PlayingCardController> ().tile.y] = 8;
-				return characterTiles;
+			}
 		}
+		if (this.currentPlayingCard != -1) {
+			this.playingCards [this.currentPlayingCard].GetComponentInChildren<PlayingCardController> ().hasPlayed = true;
+		}
+
+		if (this.currentPlayingCard != -1) {
+			this.hideActivatedPlayingCard ();
+		}
+		this.resetDestinations ();
+
+		if (newTurn) {
+			this.nbTurns++;
+		}
+
+		this.currentPlayingCard = id;
+		this.playindCardHasPlayed = false ;
+		this.isRunningSkill = false ;
+		this.playingCardHasMoved = false ;
+
+		this.currentPlayingTile = this.playingCards [currentPlayingCard].GetComponentInChildren<PlayingCardController> ().tile;
+
+		this.activatePlayingCard (id);
+
+		if (this.isFirstPlayer == (id < 5)) {
+			this.playingCards [currentPlayingCard].GetComponentInChildren<PlayingCardController> ().tile.setNeighbours (this.getCharacterTilesArray (), this.playingCards [id].GetComponentInChildren<PlayingCardController> ().card.GetMove ());
+			this.setDestinations (currentPlayingCard);
+			this.isDragging = true;
+		}
+
+		this.playingCards [currentPlayingCard].GetComponentInChildren<PlayingCardController> ().card.changeModifiers ();
+		this.playingCards [currentPlayingCard].GetComponentInChildren<PlayingCardController> ().show ();
+
+		if ((currentPlayingCard < 5 && this.isFirstPlayer) || (currentPlayingCard >= 5 && !this.isFirstPlayer)) {
+			displayPopUpMessage ("A votre tour de jouer", 2f);
+			this.showMyPlayingSkills (this.currentPlayingCard);
+		} else {
+			displayPopUpMessage ("Tour du joueur adverse", 2f);
+			this.showOpponentSkills (this.currentPlayingCard);
+		}
+	}
+
+	public int[,] getCharacterTilesArray ()
+	{
+			int width = GameController.instance.boardWidth;
+			int height = GameController.instance.boardHeight;
+			int[,] characterTiles = new int[width, height]; 
+			for (int i = 0; i < width; i ++) {
+					for (int j = 0; j < height; j ++) {
+							characterTiles [i, j] = -1;
+					}
+			}
+			int debut;
+			if (this.isFirstPlayer) {
+					debut = 5;
+			} else {
+					debut = 0;
+			}
+			characterTiles [this.playingCards [debut].GetComponentInChildren<PlayingCardController> ().tile.x, this.playingCards [debut].GetComponentInChildren<PlayingCardController> ().tile.y] = 8;
+			characterTiles [this.playingCards [debut + 1].GetComponentInChildren<PlayingCardController> ().tile.x, this.playingCards [debut + 1].GetComponentInChildren<PlayingCardController> ().tile.y] = 8;
+			characterTiles [this.playingCards [debut + 2].GetComponentInChildren<PlayingCardController> ().tile.x, this.playingCards [debut + 2].GetComponentInChildren<PlayingCardController> ().tile.y] = 8;
+			characterTiles [this.playingCards [debut + 3].GetComponentInChildren<PlayingCardController> ().tile.x, this.playingCards [debut + 3].GetComponentInChildren<PlayingCardController> ().tile.y] = 8;
+			characterTiles [this.playingCards [debut + 4].GetComponentInChildren<PlayingCardController> ().tile.x, this.playingCards [debut + 4].GetComponentInChildren<PlayingCardController> ().tile.y] = 8;
+			return characterTiles;
+	}
 
 		public void setDestinations (int idPlayer)
 		{
@@ -938,13 +936,13 @@ public class GameController : Photon.MonoBehaviour
 				}
 		}
 
-		public void resolvePass ()
-		{
-				this.isRunningSkill = false;
-				findNextPlayer ();
-				photonView.RPC ("timeRunsOut", PhotonTargets.AllBuffered, timerTurn);
-				photonView.RPC ("addPassEvent", PhotonTargets.AllBuffered);
-		}
+	public void resolvePass ()
+	{
+		this.isRunningSkill = false;
+		findNextPlayer ();
+		photonView.RPC ("timeRunsOut", PhotonTargets.AllBuffered, timerTurn);
+		photonView.RPC ("addPassEvent", PhotonTargets.AllBuffered);
+	}
 
 		[RPC]
 		public void addPassEvent ()
@@ -1234,6 +1232,7 @@ public class GameController : Photon.MonoBehaviour
 		this.playingCards [c].GetComponentInChildren<PlayingCardController> ().changeTile (new Tile (x, y), this.tiles [x, y].GetComponent<TileController> ().getPosition ());
 
 		if (this.isFirstPlayer == isFirstP && nbTurns != 0) {
+			this.playingCards [currentPlayingCard].GetComponentInChildren<PlayingCardController> ().tile.setNeighbours (this.getCharacterTilesArray (), this.playingCards [this.currentPlayingCard].GetComponentInChildren<PlayingCardController> ().card.GetMove ());
 			this.isDragging = false;
 			this.resetDestinations ();
 			if (this.clickedPlayingCard!=this.currentPlayingCard){
