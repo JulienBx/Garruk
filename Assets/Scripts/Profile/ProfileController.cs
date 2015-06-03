@@ -188,7 +188,7 @@ public class ProfileController : MonoBehaviour {
 		view.myFriendsVM.nbPages = Mathf.CeilToInt((view.myFriendsVM.contacts.Count-1) / (3*view.myFriendsVM.elementPerRow))+1;
 		view.myFriendsVM.pageDebut = 0 ;
 		if (view.myFriendsVM.nbPages>10){
-			view.myFriendsVM.pageFin = 9 ;
+			view.myFriendsVM.pageFin = 10 ;
 		}
 		else{
 			view.myFriendsVM.pageFin = view.myFriendsVM.nbPages;
@@ -204,8 +204,8 @@ public class ProfileController : MonoBehaviour {
 		}
 		view.myTrophiesVM.nbPages = Mathf.CeilToInt((view.myTrophiesVM.trophies.Count-1) / (3*view.myTrophiesVM.elementPerRow))+1;
 		view.myTrophiesVM.pageDebut = 0 ;
-		if (view.myTrophiesVM.nbPages>10){
-			view.myTrophiesVM.pageFin = 9 ;
+		if (view.myTrophiesVM.nbPages>3){
+			view.myTrophiesVM.pageFin = 3 ;
 		}
 		else{
 			view.myTrophiesVM.pageFin = view.myTrophiesVM.nbPages;
@@ -224,7 +224,7 @@ public class ProfileController : MonoBehaviour {
 			view.invitationsReceivedVM.nbPages = Mathf.CeilToInt((view.invitationsReceivedVM.contacts.Count-1) / (3*view.invitationsReceivedVM.elementPerRow))+1;
 			view.invitationsReceivedVM.pageDebut = 0 ;
 			if (view.invitationsReceivedVM.nbPages>10){
-				view.invitationsReceivedVM.pageFin = 9 ;
+				view.invitationsReceivedVM.pageFin = 10 ;
 			}
 			else{
 				view.invitationsReceivedVM.pageFin = view.invitationsReceivedVM.nbPages;
@@ -241,7 +241,7 @@ public class ProfileController : MonoBehaviour {
 			view.invitationsSentVM.nbPages = Mathf.CeilToInt((view.invitationsSentVM.contacts.Count-1) / (3*view.invitationsSentVM.elementPerRow))+1;
 			view.invitationsSentVM.pageDebut = 0 ;
 			if (view.invitationsSentVM.nbPages>10){
-				view.invitationsSentVM.pageFin = 9 ;
+				view.invitationsSentVM.pageFin = 10 ;
 			}
 			else{
 				view.invitationsSentVM.pageFin = view.invitationsSentVM.nbPages;
@@ -614,8 +614,8 @@ public class ProfileController : MonoBehaviour {
 			switch(scenario)
 			{
 			case 0:
-				view.myTrophiesVM.pageDebut = view.myTrophiesVM.pageDebut-10;
-				view.myTrophiesVM.pageFin = view.myTrophiesVM.pageDebut+10;
+				view.myTrophiesVM.pageDebut = view.myTrophiesVM.pageDebut-3;
+				view.myTrophiesVM.pageFin = view.myTrophiesVM.pageDebut+3;
 				break;
 			case 1:
 				view.myTrophiesVM.paginatorGuiStyle[view.myTrophiesVM.chosenPage]=view.profileVM.paginationStyle;
@@ -624,8 +624,8 @@ public class ProfileController : MonoBehaviour {
 				view.myTrophiesVM.displayPage();
 				break;
 			case 2:
-				view.myTrophiesVM.pageDebut = view.myTrophiesVM.pageDebut+10;
-				view.myTrophiesVM.pageFin= Mathf.Min(view.myTrophiesVM.pageFin+10, view.myTrophiesVM.nbPages);
+				view.myTrophiesVM.pageDebut = view.myTrophiesVM.pageDebut+3;
+				view.myTrophiesVM.pageFin= Mathf.Min(view.myTrophiesVM.pageFin+3, view.myTrophiesVM.nbPages);
 				break;
 			}
 			break;

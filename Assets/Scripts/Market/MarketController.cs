@@ -281,7 +281,7 @@ public class MarketController : MonoBehaviour
 		view.marketCardsVM.pageDebut = 0 ;
 		if (view.marketCardsVM.nbPages>15)
 		{
-			view.marketCardsVM.pageFin = 14 ;
+			view.marketCardsVM.pageFin = 15 ;
 		}
 		else
 		{
@@ -696,7 +696,7 @@ public class MarketController : MonoBehaviour
 		view.marketCardsVM.nbPages = Mathf.CeilToInt(view.marketCardsVM.cardsToBeDisplayed.Count / (3.0f*view.marketCardsVM.nbCardsPerRow));
 		view.marketCardsVM.pageDebut = 0 ;
 		if (view.marketCardsVM.nbPages>15){
-			view.marketCardsVM.pageFin = 14 ;
+			view.marketCardsVM.pageFin = 15 ;
 		}
 		else
 		{

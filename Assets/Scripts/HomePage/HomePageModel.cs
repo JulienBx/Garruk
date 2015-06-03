@@ -115,8 +115,9 @@ public class HomePageModel
 					toAdd=true;
 					for(int j=0;j<filterednews.Count;j++)
 					{
-						if (filterednews[j].Users[0].Id==newsToFilter[i].User.Id
-						    && filterednews[j].User.Id==newsToFilter[i].Users[0].Id)
+						if (filterednews[j].News.IdNewsType==1 &&
+						    filterednews[j].Users[0].Id==newsToFilter[i].User.Id &&
+						    filterednews[j].User.Id==newsToFilter[i].Users[0].Id)
 						{
 							toAdd=false;
 							break;
@@ -181,6 +182,10 @@ public class HomePageModel
 					notifications[i].Values.Add (notificationObjectData[1]);
 					tempContent=ReplaceFirst(tempContent,"#*value*#",notificationObjectData[1]);
 					break;
+				case "trophy":
+					notifications[i].Values.Add (notificationObjectData[1]);
+					tempContent=ReplaceFirst(tempContent,"#*trophy*#",notificationObjectData[1]);
+					break;
 				}
 			}
 			notifications[i].Content=tempContent;
@@ -230,6 +235,10 @@ public class HomePageModel
 				case "value":
 					news[i].Values.Add (newsObjectData[1]);
 					tempContent=ReplaceFirst(tempContent,"#*value*#",newsObjectData[1]);
+					break;
+				case "trophy":
+					news[i].Values.Add (newsObjectData[1]);
+					tempContent=ReplaceFirst(tempContent,"#*trophy*#",newsObjectData[1]);
 					break;
 				}
 			}

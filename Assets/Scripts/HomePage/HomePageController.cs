@@ -167,7 +167,7 @@ public class HomePageController : MonoBehaviour
 		view.notificationsVM.nbPages = Mathf.CeilToInt(((float)model.notifications.Count) / (3f*(float)view.notificationsVM.elementPerRow));
 		view.notificationsVM.pageDebut = 0 ;
 		if (view.notificationsVM.nbPages>10){
-			view.notificationsVM.pageFin = 9 ;
+			view.notificationsVM.pageFin = 10 ;
 		}
 		else
 		{
@@ -187,7 +187,7 @@ public class HomePageController : MonoBehaviour
 		view.newsVM.nbPages = Mathf.CeilToInt(((float)model.news.Count) / (5f*(float)view.newsVM.elementPerRow));
 		view.newsVM.pageDebut = 0 ;
 		if (view.newsVM.nbPages>10){
-			view.newsVM.pageFin = 9 ;
+			view.newsVM.pageFin = 10 ;
 		}
 		else
 		{

@@ -786,7 +786,7 @@ public class MyGameController : MonoBehaviour
 		view.myGameCardsVM.pageDebut = 0 ;
 		if (view.myGameCardsVM.nbPages>15)
 		{
-			view.myGameCardsVM.pageFin = 14 ;
+			view.myGameCardsVM.pageFin = 15 ;
 		}
 		else
 		{
@@ -1464,7 +1464,7 @@ public class MyGameController : MonoBehaviour
 		view.myGameCardsVM.nbPages = Mathf.CeilToInt(view.myGameCardsVM.cardsToBeDisplayed.Count / (3.0f*view.myGameCardsVM.nbCardsPerRow));
 		view.myGameCardsVM.pageDebut = 0 ;
 		if (view.myGameCardsVM.nbPages>15){
-			view.myGameCardsVM.pageFin = 14 ;
+			view.myGameCardsVM.pageFin = 15 ;
 		}
 		else
 		{

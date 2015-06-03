@@ -10,12 +10,13 @@ public class EndGameModel
 	public User currentUser=new User();
 	public Division currentDivision;
 	public Cup currentCup;
-	public Trophy trophyWon=new Trophy(0,0,0);
+	public Trophy trophyWon=new Trophy(-1,-1,-1);
+	public News trophyWonNews = new News (-1, -1);
 	
 	private string URLGetEndGameData="http://54.77.118.214/GarrukServer/get_end_game_data.php";
 	private string URLUpdateUserResults="http://54.77.118.214/GarrukServer/update_user_results.php";
 	private int nbLimitFriendlyGameToDisplay=30;
-
+	
 	public IEnumerator getEndGameData()
 	{
 		WWWForm form = new WWWForm(); 								// Création de la connexion
@@ -91,14 +92,15 @@ public class EndGameModel
 	{
 		WWWForm form = new WWWForm(); 								// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_userid", this.currentUser.Id); 
-		form.AddField("myform_money", this.currentUser.Money);
-		form.AddField("myform_currentdivision", this.currentUser.Division);
-		form.AddField("myform_currentcup", this.currentUser.Cup);
-		form.AddField("myform_nbgamesdivision", this.currentUser.NbGamesDivision);
-		form.AddField("myform_nbgamescup", this.currentUser.NbGamesCup);
-		form.AddField("myform_trophytype", this.trophyWon.TrophyType);
-		form.AddField("myform_trophynumber", this.trophyWon.TrophyNumber);
+		form.AddField("myform_userid", this.currentUser.Id.ToString()); 
+		form.AddField("myform_money", this.currentUser.Money.ToString());
+		form.AddField("myform_currentdivision", this.currentUser.Division.ToString());
+		form.AddField("myform_currentcup", this.currentUser.Cup.ToString());
+		form.AddField("myform_nbgamesdivision", this.currentUser.NbGamesDivision.ToString());
+		form.AddField("myform_nbgamescup", this.currentUser.NbGamesCup.ToString());
+		form.AddField("myform_trophytype", this.trophyWon.TrophyType.ToString());
+		form.AddField("myform_trophynumber", this.trophyWon.TrophyNumber.ToString());
+		form.AddField("myform_newsidnewstype", this.trophyWonNews.IdNewsType.ToString());
 		
 		
 		WWW w = new WWW(URLUpdateUserResults, form); 								// On envoie le formulaire à l'url sur le serveur 

@@ -156,6 +156,7 @@ public class EndGameController : MonoBehaviour
 				model.currentUser.NbGamesDivision=0;
 				this.toUpdateUserResults=true;
 				model.trophyWon=new Trophy(model.currentUser.Id, model.lastResults[0].GameType,model.currentDivision.Id);
+				model.trophyWonNews=new News(model.currentUser.Id, 2);
 			}
 			else if(model.lastResults.Count>=model.currentDivision.NbGames)
 			{
@@ -207,6 +208,7 @@ public class EndGameController : MonoBehaviour
 				model.currentUser.NbGamesCup=0;
 				this.toUpdateUserResults=true;
 				model.trophyWon=new Trophy(model.currentUser.Id, model.lastResults[0].GameType,model.currentCup.Id);
+				model.trophyWonNews=new News(model.currentUser.Id, 3);
 			}
 			else if(!model.lastResults[0].HasWon)
 			{

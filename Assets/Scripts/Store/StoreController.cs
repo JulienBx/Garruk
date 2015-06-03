@@ -658,7 +658,7 @@ public class StoreController : MonoBehaviour
 		view.packsVM.pageDebut = 0 ;
 		if (view.packsVM.nbPages>10)
 		{
-			view.packsVM.pageFin = 9 ;
+			view.packsVM.pageFin = 10 ;
 		}
 		else
 		{
