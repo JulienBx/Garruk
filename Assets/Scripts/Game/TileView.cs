@@ -4,32 +4,52 @@ public class TileView : MonoBehaviour
 {
 	public TileViewModel tileVM;
 
-	public TileView ()
+	public TileView()
 	{
 		this.tileVM = new TileViewModel();
 	}
 
-	public void resize() 
+	public void Update()
+	{
+		
+		if (this.tileVM.isPotentialTarget)
+		{
+			if (Input.GetMouseButton(0))
+			{
+				int height = Screen.height;
+				Vector3 scrPos = Utils.getGOScreenPosition(tileVM.position);
+				Vector3 scrScale = Utils.getGOScreenPosition(tileVM.scale);
+				if (Input.mousePosition.x > (scrPos.x - scrScale.x / 2f) && Input.mousePosition.x < (scrPos.x + scrScale.x / 2f) && (height - Input.mousePosition.y) > (scrPos.y - scrScale.y / 2f) && (height - Input.mousePosition.y) < scrPos.y + scrScale.y / 2f)
+				{
+					gameObject.GetComponentInChildren<TileController>().addTileTarget();
+				}
+			}
+		}
+	}
+
+	public void resize()
 	{
 		gameObject.transform.localPosition = tileVM.position;
 		gameObject.transform.localScale = tileVM.scale;
 	}
 
-	public void changeBorder() 
+	public void changeBorder()
 	{
-		renderer.materials[0].mainTexture = this.tileVM.border;
+		renderer.materials [0].mainTexture = this.tileVM.border;
 	}
 
-	public void changeBackground() 
+	public void changeBackground()
 	{
-		renderer.materials[1].mainTexture = this.tileVM.background;
+		renderer.materials [1].mainTexture = this.tileVM.background;
 	}
 
-	void OnMouseEnter(){
+	void OnMouseEnter()
+	{
 		gameObject.GetComponentInChildren<TileController>().hoverTile();
 	}
 	
-	void OnMouseUp(){
+	void OnMouseUp()
+	{
 		gameObject.GetComponentInChildren<TileController>().releaseClickTile();
 		//gameObject.GetComponentInChildren<TileController>().release();
 		//		PlayingCharacterController pcc = gameObject.GetComponentInChildren<PlayingCharacterController>();
