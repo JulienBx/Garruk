@@ -31,25 +31,9 @@ public class GameEventController : MonoBehaviour
 		transform.position = v3;
 		transform.Translate((-transform.up * transform.localScale.y - transform.up * 0.1f) * (count - 1), Space.World);
 
-		Vector3 reverse = getGOScreenPosition(new Vector3(transform.position.x + 0.54f, transform.position.y + 0.35f, transform.position.z));
+		Vector3 reverse = Utils.getGOScreenPosition(new Vector3(transform.position.x + 0.54f, transform.position.y + 0.35f, transform.position.z));
 		Rect r = new Rect(reverse.x, Screen.height - reverse.y, 200, 50);
 		setInfoRect(r);
-	}
-
-	public Vector3 getGOScreenPosition(Vector3 pos)
-	{
-		float worldHeight;
-		if (Camera.main.camera.isOrthoGraphic)
-		{
-			worldHeight = 2f * Camera.main.camera.orthographicSize;
-		} else
-		{
-			float distance = Mathf.Abs(Camera.main.camera.transform.position.z);
-			float radians = (Camera.main.camera.fieldOfView / 2f) * (Mathf.PI / 180f);
-			worldHeight = 2f * (distance * Mathf.Tan(radians));
-		}
-		float worldWidth = ((float)Screen.width / (float)Screen.height) * worldHeight;
-		return new Vector3((worldWidth / 2f + pos.x) * (float)Screen.width / worldWidth, (worldHeight / 2f + pos.y) * (float)Screen.height / worldHeight, 0);
 	}
 
 	public string getAction()
