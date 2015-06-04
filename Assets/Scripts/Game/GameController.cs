@@ -5,125 +5,125 @@ using System.Collections.Generic;
 
 public class GameController : Photon.MonoBehaviour
 {	
-		//Variables UNITY
-		public bool isReconnecting;
-		public GameObject tile ;
-		public int boardWidth ;
-		public int boardHeight ;
-		public GameObject[] characters;
-		public GameObject playingCard;
-		public GameObject verticalBorder;
-		public GameObject horizontalBorder;
-		public GameObject backGO;
-		public Texture2D[] backgroundGO ;
-		public int nbFreeStartRows ;
-		public GUIStyle[] gameScreenStyles;
-		bool isRunningSkill = false ;
-		bool playingCardHasMoved = false ;
+	//Variables UNITY
+	public bool isReconnecting;
+	public GameObject tile ;
+	public int boardWidth ;
+	public int boardHeight ;
+	public GameObject[] characters;
+	public GameObject playingCard;
+	public GameObject verticalBorder;
+	public GameObject horizontalBorder;
+	public GameObject backGO;
+	public Texture2D[] backgroundGO ;
+	public int nbFreeStartRows ;
+	public GUIStyle[] gameScreenStyles;
+	bool isRunningSkill = false ;
+	bool playingCardHasMoved = false ;
 
-		int numberOfExpectedArgs ;
-		int numberOfArgs ;
+	int numberOfExpectedArgs ;
+	int numberOfArgs ;
 
-		public int[] skillArgs ;
+	public int[] skillArgs ;
 
-		public Texture2D[] cursors ;
-		public GameObject gameEvent;
-		public GameObject skillObject;
+	public Texture2D[] cursors ;
+	public GameObject gameEvent;
+	public GameObject skillObject;
 
-		public bool playindCardHasPlayed = false ;
+	public bool playindCardHasPlayed = false ;
 
-		//Variables du controlleur
-		public bool isTriggeringSkill = false;
-		public static GameController instance;
-		public bool isFirstPlayer = false;
-		public Deck myDeck;
-		GameObject[,] tiles ;
-		GameObject[] playingCards ;
-		GameObject[] verticalBorders ;
-		GameObject[] horizontalBorders ;
-		GameObject background ;
-		List<GameObject> gameEvents;
+	//Variables du controlleur
+	public bool isTriggeringSkill = false;
+	public static GameController instance;
+	public bool isFirstPlayer = false;
+	public Deck myDeck;
+	GameObject[,] tiles ;
+	GameObject[] playingCards ;
+	GameObject[] verticalBorders ;
+	GameObject[] horizontalBorders ;
+	GameObject background ;
+	List<GameObject> gameEvents;
 
-		GameObject selectedPlayingCard ;
-		GameObject[] skillsObjects ;
+	GameObject selectedPlayingCard ;
+	GameObject[] skillsObjects ;
 
-		GameObject selectedOpponentCard ;
-		GameObject[] opponentSkillsObjects ;
+	GameObject selectedOpponentCard ;
+	GameObject[] opponentSkillsObjects ;
 
-		Tile currentHoveredTile ;
-		Tile currentClickedTile ;
-		Tile currentOpponentClickedTile ;
-		Tile currentPlayingTile ;
-		int hoveredPlayingCard = -1;
-		int clickedPlayingCard = -1;
-		int clickedOpponentPlayingCard = -1;
-		bool isHovering = false ;
-		bool isDestinationDrawn = true ;
+	Tile currentHoveredTile ;
+	Tile currentClickedTile ;
+	Tile currentOpponentClickedTile ;
+	Tile currentPlayingTile ;
+	int hoveredPlayingCard = -1;
+	int clickedPlayingCard = -1;
+	int clickedOpponentPlayingCard = -1;
+	bool isHovering = false ;
+	bool isDestinationDrawn = true ;
 
-		public float borderSize ;
+	public float borderSize ;
 
-		int widthScreen ; 
-		int heightScreen ;
-		float tileScale ; 
-		int backgroundType = -1 ;
-	
-		const string roomNamePrefix = "GarrukGame";
-		private int nbPlayers = 0 ;
-		public User[] users;
-		GameView gameView;
+	int widthScreen ; 
+	int heightScreen ;
+	float tileScale ; 
+	int backgroundType = -1 ;
 
-		bool isDragging = false;
+	const string roomNamePrefix = "GarrukGame";
+	private int nbPlayers = 0 ;
+	public User[] users;
+	GameView gameView;
 
-		GameSkill skillToBeCast;
-		int nbPlayersReadyToFight; 
+	bool isDragging = false;
 
-		public int currentPlayingCard = -1;
-		public int eventMax;
-		int nbActionPlayed = 0;
-		int nbTurns = 0 ;
+	GameSkill skillToBeCast;
+	int nbPlayersReadyToFight; 
 
-		int[] rankedPlayingCardsID; 
+	public int currentPlayingCard = -1;
+	public int eventMax;
+	int nbActionPlayed = 0;
+	int nbTurns = 0 ;
 
-		int myNextPlayer ;
-		int hisNextPlayer ;
+	int[] rankedPlayingCardsID; 
 
-		float timerTurn = 600;
-		bool startTurn = false;
-		bool timeElapsed = false;
-		bool popUpDisplay = false;
+	int myNextPlayer ;
+	int hisNextPlayer ;
 
-		bool isDecksLoaded = false;
-		bool fightIsStarted = false;
+	float timerTurn = 600;
+	bool startTurn = false;
+	bool timeElapsed = false;
+	bool popUpDisplay = false;
 
-		bool isFirstResize = true ;
+	bool isDecksLoaded = false;
+	bool fightIsStarted = false;
 
-		int nextCharacterPositionTimeline;
+	bool isFirstResize = true ;
 
-		GameSkill[] gameskills ;
+	int nextCharacterPositionTimeline;
 
-		string URLStat = ApplicationModel.host + "updateResult.php";
+	GameSkill[] gameskills ;
 
-		int clickedSkill ;
+	string URLStat = ApplicationModel.host + "updateResult.php";
+
+	int clickedSkill ;
 		
-		void Awake ()
-		{
-				instance = this;
-				this.gameView = Camera.main.gameObject.AddComponent <GameView> ();
-				this.gameView.gameScreenVM.setStyles (gameScreenStyles);
-				tiles = new GameObject[boardWidth, boardHeight];
-				playingCards = new GameObject[10];
-				gameEvents = new List<GameObject> ();
-				this.skillArgs = new int[10];
+	void Awake ()
+	{
+		instance = this;
+		this.gameView = Camera.main.gameObject.AddComponent <GameView> ();
+		this.gameView.gameScreenVM.setStyles (gameScreenStyles);
+		tiles = new GameObject[boardWidth, boardHeight];
+		playingCards = new GameObject[10];
+		gameEvents = new List<GameObject> ();
+		this.skillArgs = new int[10];
 
-				this.nbPlayersReadyToFight = 0;
-				this.currentPlayingCard = -1;
-				this.eventMax = 11;
-				this.verticalBorders = new GameObject[this.boardWidth + 1];
-				this.horizontalBorders = new GameObject[this.boardHeight + 1];
-				this.createBackground ();
-				this.resize ();
-				this.initSkills ();
-		}
+		this.nbPlayersReadyToFight = 0;
+		this.currentPlayingCard = -1;
+		this.eventMax = 11;
+		this.verticalBorders = new GameObject[this.boardWidth + 1];
+		this.horizontalBorders = new GameObject[this.boardHeight + 1];
+		this.createBackground ();
+		this.resize ();
+		this.initSkills ();
+	}
 	
 		void Start ()
 		{	
@@ -139,11 +139,6 @@ public class GameController : Photon.MonoBehaviour
 				}
 				if (popUpDisplay) {
 						gameView.gameScreenVM.timerPopUp -= Time.deltaTime;
-				}
-
-				if (isDecksLoaded && nbPlayersReadyToFight == 2 && !fightIsStarted) {
-						fightIsStarted = true;
-						StartFight ();
 				}
 		
 				if (gameView.gameScreenVM.timerPopUp < 0) {
@@ -1091,82 +1086,86 @@ public class GameController : Photon.MonoBehaviour
 		[RPC]
 		IEnumerator SpawnCharacter (bool isFirstP, int idDeck)
 		{
-				Deck deck;
-				deck = new Deck (idDeck);
-				yield return StartCoroutine (deck.RetrieveCards ());
-				int debut;
-				int hauteur;
+			Deck deck;
+			deck = new Deck (idDeck);
+			yield return StartCoroutine (deck.RetrieveCards ());
+			int debut;
+			int hauteur;
 
-				if (isFirstP) {
-						debut = 0;
-						hauteur = 0;
-				} else {
-						debut = 5;
-						hauteur = 7;
-				}
-				if (isFirstP == this.isFirstPlayer) {
-						this.myDeck = deck;
-				}
+			if (isFirstP) {
+					debut = 0;
+					hauteur = 0;
+			} else {
+					debut = 5;
+					hauteur = 7;
+			}
+			if (isFirstP == this.isFirstPlayer) {
+					this.myDeck = deck;
+			}
 
-				for (int i = 0; i < 5; i++) {
-						this.playingCards [debut + i] = (GameObject)Instantiate (this.playingCard);
-						this.playingCards [debut + i].GetComponentInChildren<PlayingCardController> ().setStyles ((isFirstP == this.isFirstPlayer));
-						this.playingCards [debut + i].GetComponentInChildren<PlayingCardController> ().setCard (deck.Cards [i]);
-						this.playingCards [debut + i].GetComponentInChildren<PlayingCardController> ().setIDCharacter (debut + i);
-						this.playingCards [debut + i].GetComponentInChildren<PlayingCardController> ().setTile (new Tile (i, hauteur), tiles [i, hauteur].GetComponent<TileController> ().tileView.tileVM.position, !isFirstP);
-						this.playingCards [debut + i].GetComponentInChildren<PlayingCardController> ().resize ();
-						this.tiles [i, hauteur].GetComponent<TileController> ().characterID = debut + i;
-						this.playingCards [debut + i].GetComponentInChildren<PlayingCardController> ().show ();
-				}
-				if (this.playingCards [0] != null && this.playingCards [5] != null) {
-						this.isDecksLoaded = true;
-				}
-				yield break;
+			for (int i = 0; i < 5; i++) {
+				this.playingCards [debut + i] = (GameObject)Instantiate (this.playingCard);
+				this.playingCards [debut + i].GetComponentInChildren<PlayingCardController> ().setStyles ((isFirstP == this.isFirstPlayer));
+				this.playingCards [debut + i].GetComponentInChildren<PlayingCardController> ().setCard (deck.Cards [i]);
+				this.playingCards [debut + i].GetComponentInChildren<PlayingCardController> ().setIDCharacter (debut + i);
+				this.playingCards [debut + i].GetComponentInChildren<PlayingCardController> ().setTile (new Tile (i, hauteur), tiles [i, hauteur].GetComponent<TileController> ().tileView.tileVM.position, !isFirstP);					this.playingCards [debut + i].GetComponentInChildren<PlayingCardController> ().resize ();
+				this.tiles [i, hauteur].GetComponent<TileController> ().characterID = debut + i;
+				this.playingCards [debut + i].GetComponentInChildren<PlayingCardController> ().show ();
+			}
+			if (this.playingCards [0] != null && this.playingCards [5] != null) {
+				this.isDecksLoaded = true;
+			}
+			yield break;
 		}
 
-		public void playerReady ()
-		{
-				photonView.RPC ("playerReadyRPC", PhotonTargets.AllBuffered, this.isFirstPlayer);
+	public void playerReady ()
+	{
+		photonView.RPC ("playerReadyRPC", PhotonTargets.AllBuffered, this.isFirstPlayer);
+	}
+
+	[RPC]
+	public void playerReadyRPC (bool isFirst)
+	{
+		if (isFirst == this.isFirstPlayer) {
+				this.gameView.gameScreenVM.startMyPlayer ();
+		} else {
+				this.gameView.gameScreenVM.startOtherPlayer ();
 		}
 
-		[RPC]
-		public void playerReadyRPC (bool isFirst)
-		{
-				if (isFirst == this.isFirstPlayer) {
-						this.gameView.gameScreenVM.startMyPlayer ();
-				} else {
-						this.gameView.gameScreenVM.startOtherPlayer ();
-				}
-
-				nbPlayersReadyToFight++;
+		nbPlayersReadyToFight++;
+		if (nbPlayersReadyToFight==2 && this.isFirstPlayer){
+			this.gameView.gameScreenVM.toDisplayStartWindows = false;
+			this.displayPopUpMessage ("Le combat commence", 2);
+			this.resetDestinations ();	
+			this.nbTurns = 1;
+			
+			if (this.currentPlayingCard != -1) {
+				this.hideActivatedPlayingCard ();
+			}
+			
+			if (this.isFirstPlayer){
+				this.StartFight();
+			}
 		}
+	}
 
-		public void StartFight ()
-		{
-				this.gameView.gameScreenVM.toDisplayStartWindows = false;
-				this.displayPopUpMessage ("Le combat commence", 2);
-
-				this.resetDestinations ();
-
-				this.nbTurns = 1;
-				if (this.currentPlayingCard != -1) {
-						this.hideActivatedPlayingCard ();
-				}
-
-				if (this.isFirstPlayer) {
-						this.sortAllCards ();
-						photonView.RPC ("timeRunsOut", PhotonTargets.AllBuffered, timerTurn);
-						this.findNextPlayer ();
-				}
+	public void StartFight ()
+	{
+		if (this.isFirstPlayer) {
+			this.sortAllCards ();
+			photonView.RPC ("timeRunsOut", PhotonTargets.AllBuffered, timerTurn);
+			this.findNextPlayer ();
 		}
-		public void reloadDestinationTiles ()
-		{
-				if (this.isFirstPlayer == (currentPlayingCard < 5)) {
-						resetDestinations ();
-						this.playingCards [currentPlayingCard].GetComponentInChildren<PlayingCardController> ().tile.setNeighbours (this.getCharacterTilesArray (), this.playingCards [currentPlayingCard].GetComponentInChildren<PlayingCardController> ().card.GetMove ());
-						this.setDestinations (currentPlayingCard);
-				}
+	}
+	
+	public void reloadDestinationTiles ()
+	{
+		if (this.isFirstPlayer == (currentPlayingCard < 5)) {
+			resetDestinations ();
+			this.playingCards [currentPlayingCard].GetComponentInChildren<PlayingCardController> ().tile.setNeighbours (this.getCharacterTilesArray (), this.playingCards [currentPlayingCard].GetComponentInChildren<PlayingCardController> ().card.GetMove ());
+			this.setDestinations (currentPlayingCard);
 		}
+	}
 
 		public void reloadSortedList ()
 		{
@@ -1568,7 +1567,7 @@ public class GameController : Photon.MonoBehaviour
 
 		void initSkills ()
 		{
-				this.gameskills = new GameSkill[40];
+				this.gameskills = new GameSkill[49];
 				this.gameskills [0] = new Attack ();
 				this.gameskills [1] = new Pass ();
 				this.gameskills [2] = new GameSkill ();
@@ -1609,9 +1608,18 @@ public class GameController : Photon.MonoBehaviour
 				this.gameskills [37] = new GameSkill ();
 				this.gameskills [38] = new GameSkill ();
 				this.gameskills [39] = new GameSkill ();
-		}
-
-		public Card getCurrentCard ()
+		this.gameskills [40] = new GameSkill ();
+		this.gameskills [41] = new GameSkill ();
+		this.gameskills [42] = new GameSkill ();
+		this.gameskills [43] = new GameSkill ();
+		this.gameskills [44] = new GameSkill ();
+		this.gameskills [45] = new GameSkill ();
+		this.gameskills [46] = new GameSkill ();
+		this.gameskills [47] = new GameSkill ();
+		this.gameskills [48] = new GameSkill ();
+	}
+	
+	public Card getCurrentCard ()
 		{
 				return this.playingCards [this.currentPlayingCard].GetComponent<PlayingCardController> ().card;
 		}
