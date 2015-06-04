@@ -64,8 +64,8 @@ public class CardMyGameController : CardController
 	public override void updateExperience()
 	{
 		base.updateExperience ();
-		focusMyGameFeaturesView.focusMyGameFeaturesVM.cardLevel = base.card.getXpLevel();
-		focusMyGameFeaturesView.focusMyGameFeaturesVM.nextLevelCost = base.card.getPriceForNextLevel();
+		focusMyGameFeaturesView.focusMyGameFeaturesVM.cardLevel = base.card.ExperienceLevel;
+		focusMyGameFeaturesView.focusMyGameFeaturesVM.nextLevelCost = base.card.NextLevelPrice;
 	}
 	public void setFocusMyGameFeatures()
 	{
@@ -85,8 +85,8 @@ public class CardMyGameController : CardController
 		focusMyGameFeaturesView.focusMyGameFeaturesVM.idOwner = base.card.IdOWner;
 		focusMyGameFeaturesView.focusMyGameFeaturesVM.price = base.card.Price;
 		focusMyGameFeaturesView.focusMyGameFeaturesVM.cardCost = base.card.getCost();
-		focusMyGameFeaturesView.focusMyGameFeaturesVM.cardLevel = base.card.getXpLevel();
-		focusMyGameFeaturesView.focusMyGameFeaturesVM.nextLevelCost = base.card.getPriceForNextLevel();
+		focusMyGameFeaturesView.focusMyGameFeaturesVM.cardLevel = base.card.ExperienceLevel;
+		focusMyGameFeaturesView.focusMyGameFeaturesVM.nextLevelCost = base.card.NextLevelPrice;
 		focusMyGameFeaturesView.cardFeaturesFocusVM.styles = new GUIStyle[ressources.cardFeaturesFocusStyles.Length];
 		for (int i=0; i<ressources.cardFeaturesFocusStyles.Length; i++)
 		{

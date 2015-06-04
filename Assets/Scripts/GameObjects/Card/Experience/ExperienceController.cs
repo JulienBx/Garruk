@@ -13,6 +13,7 @@ public class ExperienceController : MonoBehaviour {
 	public GameObject addXpGO;
 
 	private bool toMove;
+	private bool hasLevelChanged;
 	private GameObject animation;
 	private Vector3 destination;
 	private float scaleSpeed;
@@ -33,13 +34,13 @@ public class ExperienceController : MonoBehaviour {
 			{
 				if(view.experienceVM.currentPercentage==1f)
 				{
-					view.experienceVM.currentLevel=view.experienceVM.currentLevel+1;
-					if (view.experienceVM.currentLevel!=10)
+					if (view.experienceVM.currentLevel!=9)
 					{
 						view.experienceVM.currentPercentage=0;
+						view.initializeGauge();
 					}
+					view.experienceVM.currentLevel=view.experienceVM.currentLevel+1;
 					view.experienceVM.xpLevelTexture=this.xplevels[view.experienceVM.currentLevel];
-					view.initializeGauge();
 				}
 				else
 				{
@@ -64,11 +65,15 @@ public class ExperienceController : MonoBehaviour {
 				}
 				this.animation.transform.localScale = new Vector3(this.animationRatio,this.animationRatio,this.animation.transform.localScale.z);
 			}
-			else
+			else 
 			{	
 				Destroy (animation);
 				this.toMove=false;
 				gameObject.transform.parent.transform.parent.transform.GetComponent<CardController>().updateExperience ();
+				if(hasLevelChanged)
+				{
+					gameObject.transform.parent.transform.parent.transform.GetComponent<CardController>().updateCardXpLevel ();
+				}
 			}
 		}
 	}
@@ -94,6 +99,10 @@ public class ExperienceController : MonoBehaviour {
 		view.experienceVM.startPercentage = 0.01f*(float)view.experienceVM.percentage;
 		view.experienceVM.endLevel = level;
 		view.experienceVM.endPercentage = 0.01f*(float)percentage;
+		if(view.experienceVM.endLevel!=view.experienceVM.startLevel)
+		{
+			this.hasLevelChanged=true;
+		}
 		
 		if(level!=10)
 		{

@@ -387,7 +387,7 @@ public class StoreController : MonoBehaviour
 				this.randomCards[0].GetComponent<CardController>().setMyGUI(value);
 			}
 		}
-		else if(this.cardFocused!=null)
+		if(this.cardFocused!=null)
 		{
 			this.cardFocused.GetComponent<CardController>().setMyGUI(value);
 		}
@@ -484,9 +484,7 @@ public class StoreController : MonoBehaviour
 	}
 	public IEnumerator buyXpCard(GameObject gameobject)
 	{
-		int xpPrice = model.packList [this.selectedPackIndex].Cards [System.Convert.ToInt32 (gameobject.name.Substring (4))].getPriceForNextLevel ();
-		yield return StartCoroutine (model.packList [this.selectedPackIndex].Cards [System.Convert.ToInt32 (gameobject.name.Substring (4))].addXp (xpPrice,xpPrice));
-
+		yield return StartCoroutine (model.packList [this.selectedPackIndex].Cards [System.Convert.ToInt32 (gameobject.name.Substring (4))].addXpLevel ());
 
 		if(model.packList[this.selectedPackIndex].Cards[System.Convert.ToInt32 (gameobject.name.Substring (4))].Error=="")
 		{
@@ -498,6 +496,7 @@ public class StoreController : MonoBehaviour
 			else
 			{
 				this.cardFocused.GetComponent<CardController>().animateExperience(model.packList [this.selectedPackIndex].Cards [System.Convert.ToInt32 (gameobject.name.Substring (4))]);
+				this.randomCards[System.Convert.ToInt32(gameobject.name.Substring(4))].GetComponent<CardStoreController>().resetStoreCard(model.packList [this.selectedPackIndex].Cards [System.Convert.ToInt32 (gameobject.name.Substring (4))]);
 			}
 		}
 		else
@@ -510,7 +509,7 @@ public class StoreController : MonoBehaviour
 			else
 			{
 				this.cardFocused.GetComponent<CardStoreController>().resetFocusedStoreCard(model.packList [this.selectedPackIndex].Cards [System.Convert.ToInt32 (gameobject.name.Substring (4))]);
-				this.randomCards[System.Convert.ToInt32(name.Substring(4))].GetComponent<CardStoreController>().resetFocusedStoreCard(model.packList [this.selectedPackIndex].Cards [System.Convert.ToInt32 (gameobject.name.Substring (4))]);
+				this.randomCards[System.Convert.ToInt32(gameobject.name.Substring(4))].GetComponent<CardStoreController>().resetStoreCard(model.packList [this.selectedPackIndex].Cards [System.Convert.ToInt32 (gameobject.name.Substring (4))]);
 				this.cardFocused.GetComponent<CardController>().setError();
 			}
 			model.packList [this.selectedPackIndex].Cards [System.Convert.ToInt32 (gameobject.name.Substring (4))].Error="";
@@ -554,9 +553,8 @@ public class StoreController : MonoBehaviour
 			else
 			{
 				this.cardFocused.GetComponent<CardStoreController>().resetFocusedStoreCard(model.packList [this.selectedPackIndex].Cards [System.Convert.ToInt32 (name.Substring (4))]);
-				this.randomCards[System.Convert.ToInt32(name.Substring(4))].GetComponent<CardStoreController>().resetFocusedStoreCard(model.packList [this.selectedPackIndex].Cards [System.Convert.ToInt32 (name.Substring (4))]);
+				this.randomCards[System.Convert.ToInt32(name.Substring(4))].GetComponent<CardStoreController>().resetStoreCard(model.packList [this.selectedPackIndex].Cards [System.Convert.ToInt32 (name.Substring (4))]);
 			}
-
 		}
 		else
 		{
@@ -660,7 +658,7 @@ public class StoreController : MonoBehaviour
 		view.packsVM.pageDebut = 0 ;
 		if (view.packsVM.nbPages>10)
 		{
-			view.packsVM.pageFin = 9 ;
+			view.packsVM.pageFin = 10 ;
 		}
 		else
 		{

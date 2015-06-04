@@ -6,8 +6,8 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text.RegularExpressions;
 
-public class MarketController : MonoBehaviour {
-	
+public class MarketController : MonoBehaviour 
+{
 	public GameObject MenuObject;
 	public GameObject CardObject;
 	public int totalNbResultLimit;
@@ -198,21 +198,24 @@ public class MarketController : MonoBehaviour {
 	}
 	public void clickedCard(GameObject gameObject)
 	{
-		view.marketVM.displayView=false ;
-		
-		int finish = 3 * view.marketCardsVM.nbCardsPerRow;
-		for(int i = 0 ; i < finish ; i++)
+		if(!view.marketVM.isPopUpDisplayed)
 		{
-			this.displayedCards[i].SetActive(false);
+			view.marketVM.displayView=false ;
+			
+			int finish = 3 * view.marketCardsVM.nbCardsPerRow;
+			for(int i = 0 ; i < finish ; i++)
+			{
+				this.displayedCards[i].SetActive(false);
+			}
+			String name = "Fcus" + gameObject.name.Substring (4);
+			Vector3 scale = new Vector3(view.marketScreenVM.heightScreen / 120f,view.marketScreenVM.heightScreen / 120f,view.marketScreenVM.heightScreen / 120f);
+			Vector3 position = Camera.main.ScreenToWorldPoint (new Vector3 (0.4f * view.marketScreenVM.widthScreen, 0.45f * view.marketScreenVM.heightScreen - 1, 10));
+			this.cardFocused = Instantiate(CardObject) as GameObject;
+			this.cardFocused.AddComponent<CardMarketController> ();
+			this.cardFocused.GetComponent<CardController> ().setGameObject (name, scale, position);
+			this.cardFocused.GetComponent<CardMarketController> ().setFocusedMarketCard (gameObject.GetComponent<CardController> ().card);
+			this.cardFocused.GetComponent<CardController> ().setCentralWindowRect (view.marketScreenVM.centralWindow);
 		}
-		String name = "Fcus" + gameObject.name.Substring (4);
-		Vector3 scale = new Vector3(view.marketScreenVM.heightScreen / 120f,view.marketScreenVM.heightScreen / 120f,view.marketScreenVM.heightScreen / 120f);
-		Vector3 position = Camera.main.ScreenToWorldPoint (new Vector3 (0.4f * view.marketScreenVM.widthScreen, 0.45f * view.marketScreenVM.heightScreen - 1, 10));
-		this.cardFocused = Instantiate(CardObject) as GameObject;
-		this.cardFocused.AddComponent<CardMarketController> ();
-		this.cardFocused.GetComponent<CardController> ().setGameObject (name, scale, position);
-		this.cardFocused.GetComponent<CardMarketController> ().setFocusedMarketCard (gameObject.GetComponent<CardController> ().card);
-		this.cardFocused.GetComponent<CardController> ().setCentralWindowRect (view.marketScreenVM.centralWindow);
 	}
 	public void exitCard()
 	{
@@ -278,7 +281,7 @@ public class MarketController : MonoBehaviour {
 		view.marketCardsVM.pageDebut = 0 ;
 		if (view.marketCardsVM.nbPages>15)
 		{
-			view.marketCardsVM.pageFin = 14 ;
+			view.marketCardsVM.pageFin = 15 ;
 		}
 		else
 		{
@@ -693,7 +696,7 @@ public class MarketController : MonoBehaviour {
 		view.marketCardsVM.nbPages = Mathf.CeilToInt(view.marketCardsVM.cardsToBeDisplayed.Count / (3.0f*view.marketCardsVM.nbCardsPerRow));
 		view.marketCardsVM.pageDebut = 0 ;
 		if (view.marketCardsVM.nbPages>15){
-			view.marketCardsVM.pageFin = 14 ;
+			view.marketCardsVM.pageFin = 15 ;
 		}
 		else
 		{

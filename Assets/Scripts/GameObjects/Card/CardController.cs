@@ -103,7 +103,7 @@ public class CardController : GameObjectController {
 		this.experience.transform.parent=gameObject.transform.Find("texturedGameCard");
 		this.experience.transform.localPosition=new Vector3(0f,0f,0f);
 		this.experience.transform.localScale=new Vector3(1f, 1f, 1f);
-		this.experience.GetComponent<ExperienceController> ().setXp (this.card.getXpLevel(),this.card.percentageToNextXpLevel());
+		this.experience.GetComponent<ExperienceController> ().setXp (this.card.ExperienceLevel,this.card.PercentageToNextLevel);
 	}
 	public virtual void updateExperience()
 	{
@@ -121,13 +121,16 @@ public class CardController : GameObjectController {
 		this.show ();
 		this.setMyGUI (true);
 	}
+	public virtual void updateCardXpLevel()
+	{
+	}
 	public void animateExperience(Card c)
 	{
 		this.card = new Card();
 		this.card = c;
 		if(this.experience!=null)
 		{
-			this.experience.GetComponent<ExperienceController> ().animateXp (this.card.getXpLevel(),this.card.percentageToNextXpLevel());
+			this.experience.GetComponent<ExperienceController> ().animateXp (this.card.ExperienceLevel,this.card.PercentageToNextLevel);
 		}
 		this.setMyGUI (false);
 	}
@@ -182,7 +185,7 @@ public class CardController : GameObjectController {
 	public void displayBuyXpCardPopUp()
 	{
 		this.buyXpPopUpView = gameObject.AddComponent<BuyXpCardPopUpView> ();
-		buyXpPopUpView.buyXpPopUpVM.price = this.card.getPriceForNextLevel();
+		buyXpPopUpView.buyXpPopUpVM.price = this.card.NextLevelPrice;
 		buyXpPopUpView.popUpVM.styles=new GUIStyle[ressources.popUpStyles.Length];
 		for(int i=0;i<ressources.popUpStyles.Length;i++)
 		{

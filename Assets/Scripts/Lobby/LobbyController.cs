@@ -100,8 +100,7 @@ public class LobbyController : Photon.MonoBehaviour
 	{
 		int cardIndex = System.Convert.ToInt32(gameobject.name.Substring(4));
 		int deckIndex = view.decksVM.decksToBeDisplayed [view.decksVM.chosenDeck];
-		int tempPrice = model.decks [deckIndex].Cards[cardIndex].getPriceForNextLevel();
-		yield return StartCoroutine(model.decks [deckIndex].Cards[cardIndex].addXp(tempPrice,tempPrice));
+		yield return StartCoroutine(model.decks [deckIndex].Cards[cardIndex].addXpLevel());
 		this.refreshCredits();
 		if(model.decks [deckIndex].Cards[cardIndex].Error=="")
 		{

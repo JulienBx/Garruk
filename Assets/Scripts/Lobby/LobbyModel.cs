@@ -108,6 +108,9 @@ public class LobbyModel
 					cards[i].Experience=System.Convert.ToInt32(cardInfo[12]);
 					cards[i].nbWin=System.Convert.ToInt32(cardInfo[13]);
 					cards[i].nbLoose=System.Convert.ToInt32(cardInfo[14]);
+					cards[i].ExperienceLevel=System.Convert.ToInt32(cardInfo[15]);
+					cards[i].PercentageToNextLevel=System.Convert.ToInt32(cardInfo[16]);
+					cards[i].NextLevelPrice=System.Convert.ToInt32(cardInfo[17]);
 					cards[i].Skills = new List<Skill>();
 				}
 				else

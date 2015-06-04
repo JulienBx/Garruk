@@ -15,7 +15,7 @@ public class Deck
 	private static string URLAddCardToDeck = ApplicationModel.host + "add_card_to_deck_by_user.php";
 	private static string URLRemoveCardFromDeck = ApplicationModel.host + "remove_card_from_deck_by_user.php";
 	private static string URLGetCardsByDeck = ApplicationModel.host + "get_cards_by_deck.php";
-	private static string URLUpdateXpCards = ApplicationModel.host + "update_xp_cards.php";
+	private static string URLAddXpToDeck = ApplicationModel.host + "add_xp_to_deck.php";
 
 	public int Id; 												// Id unique de la carte
 	public string Name; 										// Nom du deck
@@ -226,6 +226,8 @@ public class Deck
 					c.AttackLevel = System.Convert.ToInt32(cardData [9]);
 					c.MoveLevel = System.Convert.ToInt32(cardData [10]);
 					c.SpeedLevel = System.Convert.ToInt32(cardData [11]);
+					c.ExperienceLevel = System.Convert.ToInt32(cardData [12]);
+					c.PercentageToNextLevel = System.Convert.ToInt32(cardData [13]);
 
 					c.Skills = new List<Skill>();
 					this.addCard(c);
@@ -262,189 +264,60 @@ public class Deck
 			}
 		}
 	}
-	public IEnumerator updateXpCards(int earnXp)
+	public IEnumerator addXpToDeck(int earnXp)
 	{
 
 		string idCards = "";
-		string experienceCards = "";
-		string newPowerCards = "";
-		string attributeNameCards = "";
-		string idSkillCards = "";
-		string idClassCards = "";
-		string idLevelCards = "";
-
-		string[] attributeName = new string[5];
-		int[] idSkill = new int[5];
-		int[] idLevel = new int[5];
-		int[] newPower = new int[5];
-		int[] experience = new int[5];
-		int[] randomAttribute = new int[5];
 
 		for (int i=0; i<5; i++)
 		{
-			this.Cards [i].ExperienceLevel = this.Cards [i].getXpLevel();
-			
-			attributeName [i] = "-1";
-			idSkill [i] = -1;
-			idLevel [i] = 1;
-			newPower [i] = 0;
-			experience [i] = this.Cards [i].Experience + earnXp;
-			randomAttribute [i] = -1;
-			
-			if (this.Cards [i].ExperienceLevel != 10 && experience [i] >= Card.experienceLevels [this.Cards [i].ExperienceLevel + 1])
-			{
-				
-				int nbAttributes = 4;
-				
-				for (int j = 0; j < this.Cards[i].Skills.Count; j++)
-				{
-					
-					if (this.Cards [i].Skills [j].IsActivated == 1)
-						nbAttributes = nbAttributes + 1;
-				}
-				
-				randomAttribute [i] = Mathf.RoundToInt(UnityEngine.Random.Range(0, nbAttributes));
-				int randomPower = Mathf.RoundToInt(UnityEngine.Random.Range(5, 10));
-				
-				switch (randomAttribute [i])
-				{
-					case 0:
-						newPower [i] = this.Cards [i].Move + 1;
-						attributeName [i] = "move";
-						break;
-					case 1:
-						newPower [i] = Mathf.RoundToInt((1 + randomPower * 0.01f) * this.Cards [i].Life);
-						attributeName [i] = "life";
-						if (newPower [i] >= 100 || newPower [i] > (100 - Mathf.Sqrt(500f)))
-							idLevel [i] = 3;
-						else if (newPower [i] > (100 - Mathf.Sqrt(2000f)))
-							idLevel [i] = 2;
-						break;
-					case 2:
-						newPower [i] = Mathf.RoundToInt((1 + randomPower * 0.01f) * this.Cards [i].Attack);
-						attributeName [i] = "attack";
-						if (newPower [i] >= 100 || newPower [i] > (100 - Mathf.Sqrt(500f)))
-							idLevel [i] = 3;
-						else if (newPower [i] > (100 - Mathf.Sqrt(2000f)))
-							idLevel [i] = 2;
-						break;
-					case 3:
-						newPower [i] = Mathf.RoundToInt((1 + randomPower * 0.01f) * this.Cards [i].Speed);
-						attributeName [i] = "speed";
-						if (newPower [i] >= 100 || newPower [i] > (100 - Mathf.Sqrt(500f)))
-							idLevel [i] = 3;
-						else if (newPower [i] > (100 - Mathf.Sqrt(2000f)))
-							idLevel [i] = 2;
-						break;
-					case 4:
-						newPower [i] = Mathf.RoundToInt((1 + randomPower * 0.01f) * this.Cards [i].Skills [0].Power);
-						idSkill [i] = this.Cards [i].Skills [0].Id;
-						if (newPower [i] >= 100 || newPower [i] > (100 - Mathf.Sqrt(500f)))
-							idLevel [i] = 3;
-						else if (newPower [i] > (100 - Mathf.Sqrt(2000f)))
-							idLevel [i] = 2;
-						break;
-					case 5:
-						newPower [i] = Mathf.RoundToInt((1 + randomPower * 0.01f) * this.Cards [i].Skills [0].Power);
-						idSkill [i] = this.Cards [i].Skills [1].Id;
-						if (newPower [i] >= 100 || newPower [i] > (100 - Mathf.Sqrt(500f)))
-							idLevel [i] = 3;
-						else if (newPower [i] > (100 - Mathf.Sqrt(2000f)))
-							idLevel [i] = 2;
-						break;
-					case 6:
-						newPower [i] = Mathf.RoundToInt((1 + randomPower * 0.01f) * this.Cards [i].Skills [0].Power);
-						idSkill [i] = this.Cards [i].Skills [2].Id;
-						if (newPower [i] >= 100 || newPower [i] > (100 - Mathf.Sqrt(500f)))
-							idLevel [i] = 3;
-						else if (newPower [i] > (100 - Mathf.Sqrt(2000f)))
-							idLevel [i] = 2;
-						break;
-					case 7:
-						newPower [i] = Mathf.RoundToInt((1 + randomPower * 0.01f) * this.Cards [i].Skills [0].Power);
-						idSkill [i] = this.Cards [i].Skills [3].Id;
-						if (newPower [i] >= 100 || newPower [i] > (100 - Mathf.Sqrt(500f)))
-							idLevel [i] = 3;
-						else if (newPower [i] > (100 - Mathf.Sqrt(2000f)))
-							idLevel [i] = 2;
-						break;
-					default:
-						break;
-				}
-			}
 			idCards = idCards + this.Cards [i].Id.ToString() + "SEPARATOR";
-			experienceCards = experienceCards + experience [i].ToString() + "SEPARATOR";
-			newPowerCards = newPowerCards + newPower [i].ToString() + "SEPARATOR";
-			attributeNameCards = attributeNameCards + attributeName [i] + "SEPARATOR";
-			idSkillCards = idSkillCards + idSkill [i].ToString() + "SEPARATOR";
-			idClassCards = idClassCards + this.Cards [i].IdClass.ToString() + "SEPARATOR";
-			idLevelCards = idLevelCards + idLevel [i].ToString() + "SEPARATOR";
 		}
 
 		WWWForm form = new WWWForm(); 								// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_idcard", idCards);
-		form.AddField("myform_xp", experienceCards);
-		form.AddField("myform_newpower", newPowerCards);
-		form.AddField("myform_attribute", attributeNameCards);
-		form.AddField("myform_idskill", idSkillCards);
-		form.AddField("myform_cardtype", idClassCards);
-		form.AddField("myform_level", idLevelCards);
+		form.AddField("myform_xp", earnXp);
 		
-		WWW w = new WWW(URLUpdateXpCards, form); 								// On envoie le formulaire à l'url sur le serveur 
+		WWW w = new WWW(URLAddXpToDeck, form); 								// On envoie le formulaire à l'url sur le serveur 
 		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
 		
 		if (w.error != null)
 		{
 			Debug.Log(w.error); 											// donne l'erreur eventuelle
-		} else
+		}
+		else
 		{
-			string[] data = w.text.Split(new string[] { "//" }, System.StringSplitOptions.None);
-			
-			for (int i=0; i<5; i++)
+			string [] cardsData = w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
+			for(int i=0;i<5;i++)
 			{
-				this.Cards [i].Experience = experience [i];
-				if (attributeName [i] == "move")
+				string [] cardData =  cardsData[i].Split(new string[] { "#S#" }, System.StringSplitOptions.None);
+				for(int j = 0 ; j < cardData.Length-1 ; j++)
 				{
-					this.Cards [i].MoveLevel = System.Convert.ToInt32(data [i]);
+					string[] cardInfo = cardData[j].Split(new string[] { "\\" }, System.StringSplitOptions.None); 
+					if (j==0)
+					{
+						
+						this.Cards[i].Life=System.Convert.ToInt32(cardInfo[0]);
+						this.Cards[i].Attack=System.Convert.ToInt32(cardInfo[1]);
+						this.Cards[i].Speed=System.Convert.ToInt32(cardInfo[2]);
+						this.Cards[i].Move=System.Convert.ToInt32(cardInfo[3]);
+						this.Cards[i].LifeLevel=System.Convert.ToInt32(cardInfo[4]);
+						this.Cards[i].MoveLevel=System.Convert.ToInt32(cardInfo[5]);
+						this.Cards[i].SpeedLevel=System.Convert.ToInt32(cardInfo[6]);
+						this.Cards[i].AttackLevel=System.Convert.ToInt32(cardInfo[7]);
+						this.Cards[i].Experience=System.Convert.ToInt32(cardInfo[8]);
+						this.Cards[i].ExperienceLevel=System.Convert.ToInt32(cardInfo[9]);
+						this.Cards[i].NextLevelPrice=System.Convert.ToInt16(cardInfo[10]);
+						this.Cards[i].PercentageToNextLevel=System.Convert.ToInt16(cardInfo[11]);
+					}
+					else
+					{
+						this.Cards[i].Skills[j-1].Level=System.Convert.ToInt32(cardInfo[0]);
+						this.Cards[i].Skills[j-1].Power=System.Convert.ToInt32(cardInfo[1]);
+						this.Cards[i].Skills[j-1].Description=cardInfo[2];
+					}
 				}
-				switch (randomAttribute [i])
-				{
-					case 0:
-						this.Cards [i].Move = newPower [i];
-						break;
-					case 1:
-						this.Cards [i].Life = newPower [i];
-						this.Cards [i].LifeLevel = idLevel [i];
-						break;
-					case 2:
-						this.Cards [i].Attack = newPower [i];
-						this.Cards [i].AttackLevel = idLevel [i];
-						break;
-					case 3:
-						this.Cards [i].Speed = newPower [i];
-						this.Cards [i].SpeedLevel = idLevel [i];
-						break;
-					case 4:
-						this.Cards [i].Skills [0].Power = newPower [i];
-						this.Cards [i].Skills [0].Level = idLevel [i];
-						break;
-					case 5:
-						this.Cards [i].Skills [1].Power = newPower [i];
-						this.Cards [i].Skills [1].Level = idLevel [i];
-						break;
-					case 6:
-						this.Cards [i].Skills [2].Power = newPower [i];
-						this.Cards [i].Skills [2].Level = idLevel [i];
-						break;
-					case 7:
-						this.Cards [i].Skills [3].Power = newPower [i];
-						this.Cards [i].Skills [3].Level = idLevel [i];
-						break;
-					default:
-						break;
-				}
-				this.Cards [i].ExperienceLevel = this.Cards [i].getXpLevel();
 			}
 		}
 	}
