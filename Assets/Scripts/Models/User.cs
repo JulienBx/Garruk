@@ -352,8 +352,9 @@ public class User
 			}
 			else
 			{
-				this.CollectionPoints=0;
-				this.CollectionRanking=0;
+				string[] data = w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
+				this.CollectionPoints=System.Convert.ToInt32(data[1]);
+				this.CollectionRanking=System.Convert.ToInt32(data[2]);
 			}
 		}
 	}

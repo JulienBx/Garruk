@@ -481,7 +481,14 @@ public class HomePageController : MonoBehaviour
 		view.homepageVM.guiEnabled = false;
 		yield return StartCoroutine (model.player.cleanCards ());
 		view.homepageVM.guiEnabled = true;
-		view.ranksVM.collectionRanking = "";
+		if(model.player.CollectionRanking!=0)
+		{
+			view.ranksVM.collectionRanking="Class collection : " + model.player.CollectionRanking.ToString()+ " ("+ model.player.CollectionPoints.ToString() + " pts)";
+		}
+		else
+		{
+			view.ranksVM.collectionRanking="";
+		}
 	}
 }
 
