@@ -19,6 +19,7 @@ public class CardViewModel
 	public int speed;
 	public string titleClass;
 	public Rect centralWindowsRect;
+	public Rect collectionPointsWindowsRect;
 
 	public CardViewModel ()
 	{
@@ -31,6 +32,7 @@ public class CardViewModel
 		this.speedLevel = new Texture[6];
 		this.moveLevel = new Texture[6];
 		this.centralWindowsRect = new Rect ();
+		this.collectionPointsWindowsRect = new Rect ();
 
 	}
 }

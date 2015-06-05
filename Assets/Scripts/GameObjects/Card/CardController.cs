@@ -22,6 +22,7 @@ public class CardController : GameObjectController {
 	private EditSellCardPopUpView editSellPopUpView;
 	private EditSellPriceCardPopUpView editSellPricePopUpView;
 	private ErrorCardPopUpView errorPopUpView;
+	private CardCollectionPointsPopUpView cardCollectionPointsPopUpView;
 
 	private IList<GameObject> skills;
 	private GameObject experience;
@@ -133,6 +134,10 @@ public class CardController : GameObjectController {
 			this.experience.GetComponent<ExperienceController> ().animateXp (this.card.ExperienceLevel,this.card.PercentageToNextLevel);
 		}
 		this.setMyGUI (false);
+		if(this.card.CollectionPoints>0)
+		{
+			StartCoroutine (this.displayCollectionPointsPopUp ());
+		}
 	}
 	public virtual void eraseCard()
 	{
@@ -270,6 +275,25 @@ public class CardController : GameObjectController {
 		this.setGUI (false);
 		this.popUpDisplayed (true);
 	}
+	public IEnumerator displayCollectionPointsPopUp()
+	{
+		if(this.cardCollectionPointsPopUpView!=null)
+		{
+			this.hideCollectionPointsPopUp();
+		}
+		cardCollectionPointsPopUpView = gameObject.AddComponent<CardCollectionPointsPopUpView>();
+		cardCollectionPointsPopUpView.cardCollectionPointsPopUpVM.centralWindow = this.getCollectionPointsWindowsRect ();
+		cardCollectionPointsPopUpView.cardCollectionPointsPopUpVM.collectionPoints = this.card.CollectionPoints;
+		cardCollectionPointsPopUpView.cardCollectionPointsPopUpVM.styles=new GUIStyle[ressources.collectionPopUpStyles.Length];
+		for(int i=0;i<ressources.collectionPopUpStyles.Length;i++)
+		{
+			cardCollectionPointsPopUpView.cardCollectionPointsPopUpVM.styles[i]=ressources.collectionPopUpStyles[i];
+		}
+		cardCollectionPointsPopUpView.cardCollectionPointsPopUpVM.initStyles();
+		this.collectionPointsPopUpResize ();
+		yield return new WaitForSeconds (5);
+		this.hideCollectionPointsPopUp ();
+	}
 	public virtual void buyCard()
 	{
 		if(this.buyPopUpView!=null)
@@ -367,6 +391,10 @@ public class CardController : GameObjectController {
 		this.setGUI (true);
 		this.popUpDisplayed (false);
 	}
+	public void hideCollectionPointsPopUp()
+	{
+		Destroy (this.cardCollectionPointsPopUpView);
+	}
 	private void buyCardPopUpResize()
 	{
 		buyPopUpView.popUpVM.centralWindow = this.getCentralWindowsRect ();
@@ -406,6 +434,11 @@ public class CardController : GameObjectController {
 	{
 		editSellPricePopUpView.popUpVM.centralWindow = this.getCentralWindowsRect ();
 		editSellPricePopUpView.popUpVM.resize ();
+	}
+	private void collectionPointsPopUpResize()
+	{
+		cardCollectionPointsPopUpView.cardCollectionPointsPopUpVM.centralWindow = this.getCollectionPointsWindowsRect ();
+		cardCollectionPointsPopUpView.cardCollectionPointsPopUpVM.resize ();
 	}
 	public int editSellPriceSyntaxCheck()
 	{
@@ -598,14 +631,26 @@ public class CardController : GameObjectController {
 		{
 			this.errorCardPopUpResize();
 		}
+		if(this.cardCollectionPointsPopUpView!=null)
+		{
+			this.collectionPointsPopUpResize();
+		}
 	}
 	public void setCentralWindowRect(Rect centralWindowRect)
 	{
 		view.cardVM.centralWindowsRect = centralWindowRect;
 	}
+	public void setCollectionPointsWindowRect(Rect collectionPointsWindowRect)
+	{
+		view.cardVM.collectionPointsWindowsRect = collectionPointsWindowRect;
+	}
 	public Rect getCentralWindowsRect()
 	{
 		return view.cardVM.centralWindowsRect;
+	}
+	public Rect getCollectionPointsWindowsRect()
+	{
+		return view.cardVM.collectionPointsWindowsRect;
 	}
 	public Rect getCardFeaturesFocusRect(int position)
 	{

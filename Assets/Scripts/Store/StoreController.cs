@@ -27,14 +27,11 @@ public class StoreController : MonoBehaviour
 	private GameObject cardFocused;
 	private bool[] toRotate;
 	private bool startRotation;
-	private bool waitForPopUp;
 	private float speed;
 	private float angle;
 	private Quaternion target;
 	private GameObject cardPopUpBelongTo;
 	private int selectedPackIndex;
-	private float timer;
-	public int popUpDelay;
 	
 	public StoreController ()
 	{
@@ -51,24 +48,6 @@ public class StoreController : MonoBehaviour
 	}
 	void Update () 
 	{
-		if(this.waitForPopUp)
-		{
-			this.timer += Time.deltaTime;
-			
-			if (this.timer > this.popUpDelay) 
-			{	
-				this.timer=this.timer-this.popUpDelay;
-				if(this.collectionPointsPopUpView!=null)
-				{
-					this.hideCollectionPointsPopUp();
-					if(this.newSkillsPopUpView!=null)
-					{
-						this.hideNewSkillsPointsPopUp();
-					}
-					this.waitForPopUp=false;
-				}
-			}
-		}
 		if (this.startRotation)
 		{
 			for(int i=0;i<model.packList[this.selectedPackIndex].NbCards;i++)
@@ -99,6 +78,7 @@ public class StoreController : MonoBehaviour
 							{
 								this.randomCards[0].GetComponent<CardStoreController>().setFocusStoreFeatures();
 								this.randomCards[0].GetComponent<CardController> ().setCentralWindowRect (view.storeScreenVM.centralWindow);
+								this.randomCards[0].GetComponent<CardController> ().setCollectionPointsWindowRect (view.storeScreenVM.collectionPointsWindow);
 							}
 							view.storeVM.guiEnabled=true;
 							this.startRotation=false;
@@ -185,6 +165,7 @@ public class StoreController : MonoBehaviour
 		if(this.cardFocused!=null)
 		{
 			this.cardFocused.GetComponent<CardController> ().setCentralWindowRect (view.storeScreenVM.centralWindow);
+			this.cardFocused.GetComponent<CardController> ().setCollectionPointsWindowRect (view.storeScreenVM.collectionPointsWindow);
 			this.cardFocused.GetComponent<CardController>().resize();
 		}
 		if(this.randomCards!=null)
@@ -192,6 +173,7 @@ public class StoreController : MonoBehaviour
 			if(this.randomCards.Length==1)
 			{
 				this.randomCards[0].GetComponent<CardController> ().setCentralWindowRect (view.storeScreenVM.centralWindow);
+				this.randomCards[0].GetComponent<CardController> ().setCollectionPointsWindowRect (view.storeScreenVM.collectionPointsWindow);
 				this.randomCards[0].GetComponent<CardController>().resize();
 			}
 			else
@@ -202,6 +184,14 @@ public class StoreController : MonoBehaviour
 		if(this.selectCardTypePopUpView!=null)
 		{
 			this.selectCardTypePopUpResize();
+		}
+		if(this.collectionPointsPopUpView!=null)
+		{
+			this.collectionPointsPopUpResize();
+		}
+		if(this.newSkillsPopUpView!=null)
+		{
+			this.newSkillsPopUpResize();
 		}
 	}
 	public void rightClickedCard(GameObject gameObject)
@@ -218,6 +208,7 @@ public class StoreController : MonoBehaviour
 			this.cardFocused.GetComponent<CardStoreController>().setStoreCard(gameObject.GetComponent<CardController> ().card);
 			this.cardFocused.GetComponent<CardStoreController> ().setFocusStoreFeatures ();
 			this.cardFocused.GetComponent<CardController> ().setCentralWindowRect (view.storeScreenVM.centralWindow);
+			this.cardFocused.GetComponent<CardController> ().setCollectionPointsWindowRect (view.storeScreenVM.collectionPointsWindow);
 		}
 	}
 	public void buyPackHandler(int chosenPack)
@@ -257,13 +248,11 @@ public class StoreController : MonoBehaviour
 			this.hideMainGUI();
 			if(model.packList[this.selectedPackIndex].CollectionPoints>0)
 			{
-				this.displayCollectionPointsPopUp();
+				StartCoroutine(this.displayCollectionPointsPopUp());
 				if(model.packList[this.selectedPackIndex].NewSkills.Count>0)
 				{
-					this.displayNewSkillsPopUp();
+					StartCoroutine(this.displayNewSkillsPopUp());
 				}
-				this.waitForPopUp=true;
-				this.timer=0;
 			}
 
 			string name;
@@ -390,7 +379,7 @@ public class StoreController : MonoBehaviour
 		Destroy (this.addCreditsPopUpView);
 		this.enableMainGui ();
 	}
-	public void displayCollectionPointsPopUp()
+	public IEnumerator displayCollectionPointsPopUp()
 	{
 		if(this.collectionPointsPopUpView!=null)
 		{
@@ -398,25 +387,27 @@ public class StoreController : MonoBehaviour
 		}
 		this.collectionPointsPopUpView = Camera.main.gameObject.AddComponent <StoreCollectionPointsPopUpView>();
 		collectionPointsPopUpView.storeCollectionPointsPopUpVM.collectionPoints = model.packList [this.selectedPackIndex].CollectionPoints;
-		collectionPointsPopUpView.popUpVM.styles=new GUIStyle[this.popUpCollectionVMStyle.Length];
+		collectionPointsPopUpView.storeCollectionPointsPopUpVM.styles=new GUIStyle[this.popUpCollectionVMStyle.Length];
 		for(int i=0;i<this.popUpCollectionVMStyle.Length;i++)
 		{
-			collectionPointsPopUpView.popUpVM.styles[i]=this.popUpCollectionVMStyle[i];
+			collectionPointsPopUpView.storeCollectionPointsPopUpVM.styles[i]=this.popUpCollectionVMStyle[i];
 		}
-		collectionPointsPopUpView.popUpVM.initStyles();
+		collectionPointsPopUpView.storeCollectionPointsPopUpVM.initStyles();
 		this.collectionPointsPopUpResize ();
+		yield return new WaitForSeconds (5);
+		this.hideCollectionPointsPopUp ();
 	}
 	public void collectionPointsPopUpResize()
 	{
-		collectionPointsPopUpView.popUpVM.centralWindow = view.storeScreenVM.collectionPointsWindow;
-		collectionPointsPopUpView.popUpVM.resize ();
+		collectionPointsPopUpView.storeCollectionPointsPopUpVM.centralWindow = view.storeScreenVM.collectionPointsWindow;
+		collectionPointsPopUpView.storeCollectionPointsPopUpVM.resize ();
 	}
 	public void hideCollectionPointsPopUp()
 	{
 		Destroy (this.collectionPointsPopUpView);
 		this.enableMainGui ();
 	}
-	public void displayNewSkillsPopUp()
+	public IEnumerator displayNewSkillsPopUp()
 	{
 		if(this.newSkillsPopUpView!=null)
 		{
@@ -435,18 +426,20 @@ public class StoreController : MonoBehaviour
 		{
 			newSkillsPopUpView.storeNewSkillsPopUpVM.title="Nouvelle compétence :";
 		}
-		newSkillsPopUpView.popUpVM.styles=new GUIStyle[this.popUpCollectionVMStyle.Length];
+		newSkillsPopUpView.storeNewSkillsPopUpVM.styles=new GUIStyle[this.popUpCollectionVMStyle.Length];
 		for(int i=0;i<this.popUpCollectionVMStyle.Length;i++)
 		{
-			newSkillsPopUpView.popUpVM.styles[i]=this.popUpCollectionVMStyle[i];
+			newSkillsPopUpView.storeNewSkillsPopUpVM.styles[i]=this.popUpCollectionVMStyle[i];
 		}
-		newSkillsPopUpView.popUpVM.initStyles();
+		newSkillsPopUpView.storeNewSkillsPopUpVM.initStyles();
 		this.newSkillsPopUpResize ();
+		yield return new WaitForSeconds (5);
+		this.hideNewSkillsPointsPopUp ();
 	}
 	public void newSkillsPopUpResize()
 	{
-		newSkillsPopUpView.popUpVM.centralWindow = view.storeScreenVM.newSkillsWindow;
-		newSkillsPopUpView.popUpVM.resize ();
+		newSkillsPopUpView.storeNewSkillsPopUpVM.centralWindow = view.storeScreenVM.newSkillsWindow;
+		newSkillsPopUpView.storeNewSkillsPopUpVM.resize ();
 	}
 	public void hideNewSkillsPointsPopUp()
 	{

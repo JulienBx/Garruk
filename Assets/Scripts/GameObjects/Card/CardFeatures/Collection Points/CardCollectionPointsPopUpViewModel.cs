@@ -1,17 +1,19 @@
 using UnityEngine;
 
-public class StoreCollectionPopUpViewModel
-{
+public class CardCollectionPointsPopUpViewModel
+{	
+	
+	public int collectionPoints;
 	public int guiDepth;
 	public Rect centralWindow;
 	public GUIStyle[] styles;
 	public GUIStyle centralWindowStyle;
 	public GUIStyle centralWindowTitleStyle;
 	
-	public StoreCollectionPopUpViewModel ()
+	public CardCollectionPointsPopUpViewModel ()
 	{
 		this.guiDepth = -1;
-		this.centralWindow = new Rect ();
+		this.centralWindow = new Rect();
 		this.styles=new GUIStyle[0];
 		this.centralWindowStyle = new GUIStyle ();
 		this.centralWindowTitleStyle = new GUIStyle ();
