@@ -563,10 +563,18 @@ public class ProfileView : MonoBehaviour
 			{
 				GUILayout.Label("Statistiques",profileVM.titleStyle,GUILayout.Height(profileScreenVM.blockMiddleRightHeight*0.1f));
 				GUILayout.FlexibleSpace();
-				GUILayout.Label("Victoires : " + statsVM.totalNbWins,statsVM.informationsStyle,GUILayout.Height(profileScreenVM.blockMiddleRightHeight*0.1f));
-				GUILayout.Label("Défaites : " + statsVM.totalNbLooses,statsVM.informationsStyle,GUILayout.Height(profileScreenVM.blockMiddleRightHeight*0.1f));
-				GUILayout.Label("Ranking : " + statsVM.ranking,statsVM.informationsStyle,GUILayout.Height(profileScreenVM.blockMiddleRightHeight*0.1f));
-				GUILayout.Label("Ranking points : " + statsVM.rankingPoints,statsVM.informationsStyle,GUILayout.Height(profileScreenVM.blockMiddleRightHeight*0.1f));
+				GUILayout.Label("Victoires : " + statsVM.totalNbWins,statsVM.informationsStyle);
+				GUILayout.Label("Défaites : " + statsVM.totalNbLooses,statsVM.informationsStyle);
+				if(statsVM.ranking!="")
+				{
+					GUILayout.Label(statsVM.ranking,statsVM.informationsStyle);
+					GUILayout.Label(statsVM.rankingPoints,statsVM.subInformationsStyle);
+				}
+				if(statsVM.collectionRanking!="")
+				{
+					GUILayout.Label(statsVM.collectionRanking,statsVM.informationsStyle);
+					GUILayout.Label(statsVM.collectionPoints,statsVM.subInformationsStyle);
+				}
 				GUILayout.FlexibleSpace();
 				if(profileVM.isMyProfile)
 				{

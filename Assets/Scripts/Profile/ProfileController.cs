@@ -43,7 +43,9 @@ public class ProfileController : MonoBehaviour {
 		                                   model.Profile.TotalNbLooses,
 		                                   model.Profile.Division,
 		                                   model.Profile.Ranking,
-		                                   model.Profile.RankingPoints);
+		                                   model.Profile.RankingPoints,
+		                                   model.Profile.CollectionPoints,
+		                                   model.Profile.CollectionRanking);
 		if(model.Profile.Username!=ApplicationModel.username)
 		{
 			view.profileVM.isMyProfile=false;

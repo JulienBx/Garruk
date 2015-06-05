@@ -37,10 +37,10 @@ public class ExperienceController : MonoBehaviour {
 					if (view.experienceVM.currentLevel!=9)
 					{
 						view.experienceVM.currentPercentage=0;
-						view.initializeGauge();
 					}
 					view.experienceVM.currentLevel=view.experienceVM.currentLevel+1;
 					view.experienceVM.xpLevelTexture=this.xplevels[view.experienceVM.currentLevel];
+					view.initializeGauge();
 				}
 				else
 				{

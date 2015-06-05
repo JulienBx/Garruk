@@ -139,7 +139,22 @@ public class HomePageController : MonoBehaviour
 		view.ranksVM.totalNbWins = model.player.TotalNbWins;
 		view.ranksVM.totalNbLooses = model.player.TotalNbLooses;
 		view.ranksVM.division = model.player.Division;
-		view.ranksVM.rankingPoints = model.player.RankingPoints;
+		if(model.player.Ranking!=0)
+		{
+			view.ranksVM.ranking="Classement : " + model.player.Ranking.ToString()+" ("+ model.player.RankingPoints.ToString() + " pts)";
+		}
+		else
+		{
+			view.ranksVM.ranking="";
+		}
+		if(model.player.CollectionRanking!=0)
+		{
+			view.ranksVM.collectionRanking="Class collection : " + model.player.CollectionRanking.ToString()+ " ("+ model.player.CollectionPoints.ToString() + " pts)";
+		}
+		else
+		{
+			view.ranksVM.collectionRanking="";
+		}
 		if(model.player.NbGamesDivision>0)
 		{
 			view.competsVM.competsNames.Add (model.currentDivision.Name);

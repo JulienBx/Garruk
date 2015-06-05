@@ -44,6 +44,8 @@ public class User
 	public int SelectedDeckId;
 	public List<int> CardTypesAllowed;
 	public bool IsAdmin;
+	public int CollectionPoints;
+	public int CollectionRanking;
 
 	public User()
 	{

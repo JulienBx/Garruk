@@ -154,6 +154,7 @@ public class EndSceneController : MonoBehaviour
 	public IEnumerator drawExperience()
 	{
 		yield return StartCoroutine(GameController.instance.myDeck.addXpToDeck (earnXp));
+		view.endSceneVM.collectionPoints = GameController.instance.myDeck.CollectionPoints;
 		this.xpDrawn = 0;
 		for(int i=0;i<this.cards.Length;i++)
 		{

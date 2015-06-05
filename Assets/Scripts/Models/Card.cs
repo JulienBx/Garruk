@@ -46,6 +46,7 @@ public class Card
 	public int RenameCost = 200;
 	public string Error;
 	public List<int> Decks;
+	public IList<Skill> NewSkills;
 	public int CollectionPoints;
 
 	public static bool xpDone = false;
@@ -644,6 +645,7 @@ public class Card
 	}
 	public IEnumerator buyCard()
 	{
+		this.NewSkills=new List<Skill>();
 		WWWForm form = new WWWForm(); 											// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_nick", ApplicationModel.username);
@@ -655,16 +657,30 @@ public class Card
 		if (w.error != null)
 		{
 			this.Error = w.error;
-		} else
+		} 
+		else
 		{
-			string[] data = w.text.Split(new string[] { "//" }, System.StringSplitOptions.None);
-			this.Error = data [1];
-			if (this.Error == "")
+			if(w.text.Contains("#ERROR#"))
 			{
-				this.onSale = 0;
-			} else
+				string[] errors = w.text.Split(new string[] { "#ERROR#" }, System.StringSplitOptions.None);
+				this.Error=errors[1];
+				if(w.text.Contains("#SOLD#"))
+				{
+					this.onSale = 0;
+				}
+			}
+			else
 			{
-				this.onSale = System.Convert.ToInt32(data [0]);
+				this.Error="";
+				this.onSale=0;
+				string[] data = w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
+				this.CollectionPoints=System.Convert.ToInt32(data[0]);
+				string[] newSkills = data[1].Split(new string[] { "//" }, System.StringSplitOptions.None);
+				for(int i=0;i<newSkills.Length-1;i++)
+				{
+					this.NewSkills.Add (new Skill());
+					this.NewSkills[i].Name=newSkills[i];
+				}
 			}
 		}
 	}

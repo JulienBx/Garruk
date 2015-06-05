@@ -305,8 +305,14 @@ public class HomePageView : MonoBehaviour
 			GUILayout.FlexibleSpace();
 			GUILayout.Label("Victoires : " + ranksVM.totalNbWins,ranksVM.informationsStyle,GUILayout.Height(homepageScreenVM.blockMiddleRightHeight*0.1f));
 			GUILayout.Label("Défaites : " + ranksVM.totalNbLooses,ranksVM.informationsStyle,GUILayout.Height(homepageScreenVM.blockMiddleRightHeight*0.1f));
-			GUILayout.Label("Ranking : " + ranksVM.ranking,ranksVM.informationsStyle,GUILayout.Height(homepageScreenVM.blockMiddleRightHeight*0.1f));
-			GUILayout.Label("Ranking points : " + ranksVM.rankingPoints,ranksVM.informationsStyle,GUILayout.Height(homepageScreenVM.blockMiddleRightHeight*0.1f));
+			if(ranksVM.ranking!="")
+			{
+				GUILayout.Label(ranksVM.ranking,ranksVM.informationsStyle,GUILayout.Height(homepageScreenVM.blockMiddleRightHeight*0.1f));
+			}
+			if(ranksVM.collectionRanking!="")
+			{
+				GUILayout.Label(ranksVM.collectionRanking,ranksVM.informationsStyle,GUILayout.Height(homepageScreenVM.blockMiddleRightHeight*0.1f));
+			}
 			GUILayout.FlexibleSpace();
 			GUILayout.FlexibleSpace();
 			GUILayout.BeginHorizontal();

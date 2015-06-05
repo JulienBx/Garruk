@@ -25,6 +25,7 @@ public class LobbyScreenViewModel
 	public Rect blockMiddleRight;
 	public Rect blockBottom;
 	public Rect centralWindow;
+	public Rect collectionPointsWindow;
 	
 	public LobbyScreenViewModel ()
 	{
@@ -82,6 +83,10 @@ public class LobbyScreenViewModel
 		                             this.blockBottomHeight);
 		
 		this.centralWindow = new Rect (this.widthScreen * 0.25f, 0.12f * this.heightScreen, this.widthScreen * 0.50f, 0.25f * this.heightScreen);
+		this.collectionPointsWindow = new Rect (this.widthScreen - this.widthScreen * 0.15f-this.gapBetweenblocks, 
+		                                        0.1f * this.heightScreen+this.gapBetweenblocks, 
+		                                        this.widthScreen * 0.15f, 
+		                                        this.heightScreen * 0.1f);
 	}
 }
 

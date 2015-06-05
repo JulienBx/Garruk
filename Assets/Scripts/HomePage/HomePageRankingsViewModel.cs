@@ -10,8 +10,8 @@ public class HomePageRankingsViewModel
 	public int totalNbWins;
 	public int totalNbLooses;
 	public int division;
-	public int ranking;
-	public int rankingPoints;
+	public string ranking;
+	public string collectionRanking;
 	public GUIStyle[] styles;
 	public GUIStyle informationsStyle;
 	public GUIStyle buttonStyle;

@@ -16,6 +16,7 @@ public class MyGameController : MonoBehaviour
 	public GUIStyle[] myGameCardsVMStyle;
 	public GUIStyle[] myGameDecksVMStyle;
 	public GUIStyle[] popUpVMStyle;
+	public GUIStyle[] myGameDeckCardsVMStyle;
 	private MyGameView view;
 	private MyGameErrorPopUpView errorPopUpView;
 	private MyGameNewDeckPopUpView newDeckPopUpView;
@@ -104,6 +105,7 @@ public class MyGameController : MonoBehaviour
 		this.initializeSortButtons ();
 		this.initializeToggles ();
 		this.setFilters ();
+		this.filterCards ();
 		this.setGUI (true);
 		view.myGameVM.displayView = true;
 	}
@@ -133,7 +135,11 @@ public class MyGameController : MonoBehaviour
 	{
 		if(!view.myGameVM.isPopUpDisplayed && this.errorPopUpView==null && this.newDeckPopUpView==null && this.deleteDeckPopUpView==null && this.editDeckPopUpView==null)
 		{
-			if(gameobject.name.StartsWith("Card")&&view.myGameDeckCardsVM.nbCardsToDisplay<5)
+			if(model.decks.Count<1)
+			{
+				this.displayErrorPopUp("Vous devez créer un deck avant de sélectionner une carte");
+			}
+			else if(gameobject.name.StartsWith("Card")&&view.myGameDeckCardsVM.nbCardsToDisplay<5)
 			{
 				int cardIndex = retrieveCardIndex (gameobject.name);
 				if(model.cards[cardIndex].onSale==0 && model.cards[cardIndex].IdOWner!=-1)
@@ -176,7 +182,6 @@ public class MyGameController : MonoBehaviour
 		if(!view.myGameVM.isPopUpDisplayed && this.errorPopUpView==null && this.newDeckPopUpView==null && this.deleteDeckPopUpView==null && this.editDeckPopUpView==null)
 		{
 			view.myGameVM.displayView=false ;
-			
 			int finish = 3 * view.myGameCardsVM.nbCardsPerRow;
 			for(int i = 0 ; i < finish ; i++)
 			{
@@ -203,6 +208,7 @@ public class MyGameController : MonoBehaviour
 				this.cardFocused.AddComponent<CardMyGameController> ();
 				this.cardFocused.GetComponent<CardController> ().setGameObjectScaleAndPosition(scale,position);
 				this.cardFocused.GetComponent<CardController> ().setCentralWindowRect (view.myGameScreenVM.centralWindow);
+				this.cardFocused.GetComponent<CardController>().setCollectionPointsWindowRect(view.myGameScreenVM.collectionPointsWindow);
 			}
 			this.cardFocused.GetComponent<CardController> ().setGameObjectName (name);
 			this.cardFocused.GetComponent<CardMyGameController> ().resetFocusedMyGameCard (gameObject.GetComponent<CardController> ().card);
@@ -374,6 +380,7 @@ public class MyGameController : MonoBehaviour
 		this.initMyGameDeckCardsVM ();
 		this.loadDeckCards ();
 		this.hideDeleteDeckPopUp();
+		view.myGameDeckCardsVM.labelNoDecks=computeLabelNoDeck();
 	}
 	public void exitCard()
 	{
@@ -427,6 +434,10 @@ public class MyGameController : MonoBehaviour
 		{
 			this.setGUI (true);
 			this.cardFocused.GetComponent<CardController>().animateExperience (model.cards[index]);
+			if(model.cards[index].CollectionPoints>0)
+			{
+				StartCoroutine(this.cardFocused.GetComponent<CardController>().displayCollectionPointsPopUp());
+			}
 		}
 		else
 		{
@@ -587,6 +598,7 @@ public class MyGameController : MonoBehaviour
 	}
 	private void initMyGameDeckCardsVM()
 	{
+		view.myGameDeckCardsVM.labelNoDecks=computeLabelNoDeck();
 		view.myGameDeckCardsVM.deckCardsToBeDisplayed = new List<int> ();
 		if(model.decks.Count>0)
 		{
@@ -602,6 +614,15 @@ public class MyGameController : MonoBehaviour
 				}
 			}
 		}
+	}
+	private string computeLabelNoDeck()
+	{
+		string text = "";
+		if(model.decks.Count<1)
+		{
+			text="Aucun deck disponible, cliquez sur 'Nouveau' pour ajouter un deck";
+		}
+		return text;
 	}
 	private void initStyles()
 	{
@@ -635,6 +656,12 @@ public class MyGameController : MonoBehaviour
 			view.myGameDecksVM.styles[i]=this.myGameDecksVMStyle[i];
 		}
 		view.myGameDecksVM.initStyles();
+		view.myGameDeckCardsVM.styles=new GUIStyle[this.myGameDeckCardsVMStyle.Length];
+		for(int i=0;i<this.myGameDeckCardsVMStyle.Length;i++)
+		{
+			view.myGameDeckCardsVM.styles[i]=this.myGameDeckCardsVMStyle[i];
+		}
+		view.myGameDeckCardsVM.initStyles();
 	}
 	private void resize()
 	{
@@ -643,6 +670,7 @@ public class MyGameController : MonoBehaviour
 		view.myGameVM.resize (view.myGameScreenVM.heightScreen);
 		view.myGameCardsVM.resize (view.myGameScreenVM.heightScreen);
 		view.myGameDecksVM.resize(view.myGameScreenVM.heightScreen);
+		view.myGameDeckCardsVM.resize (view.myGameScreenVM.heightScreen);
 		if(this.errorPopUpView!=null)
 		{
 			this.errorPopUpResize();

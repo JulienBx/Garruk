@@ -93,6 +93,15 @@ public class MyGameView : MonoBehaviour
 				GUILayout.FlexibleSpace();
 			}
 			GUILayout.EndArea();
+			GUILayout.BeginArea(new Rect(myGameScreenVM.blockDecks.x,
+			                             myGameScreenVM.blockDecks.y,
+			                             myGameScreenVM.blockDeckCardsWidth+myGameScreenVM.blockDecksWidth,
+			                             myGameScreenVM.blockDecksHeight));
+			{
+				GUILayout.Label(myGameDeckCardsVM.labelNoDecks,myGameDeckCardsVM.labelNoStyle);
+			}
+			GUILayout.EndArea();
+			                     
 			GUILayout.BeginArea(myGameScreenVM.blockFilters);
 			{
 				bool toggle;

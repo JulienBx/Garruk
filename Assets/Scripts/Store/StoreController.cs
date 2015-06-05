@@ -575,18 +575,25 @@ public class StoreController : MonoBehaviour
 	public IEnumerator buyXpCard(GameObject gameobject)
 	{
 		yield return StartCoroutine (model.packList [this.selectedPackIndex].Cards [System.Convert.ToInt32 (gameobject.name.Substring (4))].addXpLevel ());
-
 		if(model.packList[this.selectedPackIndex].Cards[System.Convert.ToInt32 (gameobject.name.Substring (4))].Error=="")
 		{
 			this.setGUI (true);
 			if(model.packList[this.selectedPackIndex].Cards.Count==1)
 			{
 				this.randomCards[0].GetComponent<CardController>().animateExperience(model.packList [this.selectedPackIndex].Cards [System.Convert.ToInt32 (gameobject.name.Substring (4))]);
+				if(model.packList [this.selectedPackIndex].Cards [System.Convert.ToInt32 (gameobject.name.Substring (4))].CollectionPoints>0)
+				{
+					StartCoroutine(this.randomCards[0].GetComponent<CardController>().displayCollectionPointsPopUp());
+				}
 			}
 			else
 			{
 				this.cardFocused.GetComponent<CardController>().animateExperience(model.packList [this.selectedPackIndex].Cards [System.Convert.ToInt32 (gameobject.name.Substring (4))]);
 				this.randomCards[System.Convert.ToInt32(gameobject.name.Substring(4))].GetComponent<CardStoreController>().resetStoreCard(model.packList [this.selectedPackIndex].Cards [System.Convert.ToInt32 (gameobject.name.Substring (4))]);
+				if(model.packList [this.selectedPackIndex].Cards [System.Convert.ToInt32 (gameobject.name.Substring (4))].CollectionPoints>0)
+				{
+					StartCoroutine(this.cardFocused.GetComponent<CardController>().displayCollectionPointsPopUp());
+				}
 			}
 		}
 		else
