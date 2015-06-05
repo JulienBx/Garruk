@@ -472,5 +472,16 @@ public class HomePageController : MonoBehaviour
 		view.notificationsVM.pageDebut = view.notificationsVM.pageDebut+10;
 		view.notificationsVM.pageFin= Mathf.Min(view.notificationsVM.pageFin+10, view.notificationsVM.nbPages);
 	}
+	public void cleanCardsHandler()
+	{
+		StartCoroutine (this.cleanCards ());
+	}
+	private IEnumerator cleanCards()
+	{
+		view.homepageVM.guiEnabled = false;
+		yield return StartCoroutine (model.player.cleanCards ());
+		view.homepageVM.guiEnabled = true;
+		view.ranksVM.collectionRanking = "";
+	}
 }
 

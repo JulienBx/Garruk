@@ -16,6 +16,7 @@ public class User
 	private string URLGetMoney = ApplicationModel.host + "get_money_by_user.php";
 	private string URLAddMoney = ApplicationModel.host + "add_money.php";
 	private string URLSelectedDeck = ApplicationModel.host + "set_selected_deck.php";
+	private string URLCleanCards = ApplicationModel.host + "clean_cards.php";
 
 	private string ServerDirectory          = "img/profile/";
 	
@@ -328,6 +329,32 @@ public class User
 			Debug.Log (w.error); 										// donne l'erreur eventuelle
 		} 
 		else {
+		}
+	}
+	public IEnumerator cleanCards()
+	{
+		WWWForm form = new WWWForm (); 								// Création de la connexion
+		form.AddField ("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
+		form.AddField ("myform_nick", ApplicationModel.username); 	// Pseudo de l'utilisateur connecté          
+		
+		WWW w = new WWW (URLCleanCards, form); 								// On envoie le formulaire à l'url sur le serveur 
+		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
+		if (w.error != null) 
+		{
+			Debug.Log (w.error); 										// donne l'erreur eventuelle
+		} 
+		else 
+		{
+			if(w.text.Contains("#ERROR#"))
+			{
+				string[] errors = w.text.Split(new string[] { "#ERROR#" }, System.StringSplitOptions.None);
+				Debug.Log (errors[1]);
+			}
+			else
+			{
+				this.CollectionPoints=0;
+				this.CollectionRanking=0;
+			}
 		}
 	}
 }

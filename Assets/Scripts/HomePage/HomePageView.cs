@@ -35,6 +35,7 @@ public class HomePageView : MonoBehaviour
 	}
 	void OnGUI()
 	{
+		GUI.enabled = homepageVM.guiEnabled;
 		GUILayout.BeginArea(homepageScreenVM.blockTopLeft,homepageScreenVM.blockBorderStyle);
 		{
 			GUILayout.Label(notificationsVM.notificationsTitleLabel,homepageVM.titleStyle,GUILayout.Height(0.5f*notificationsVM.blocksHeight));
@@ -259,10 +260,19 @@ public class HomePageView : MonoBehaviour
 			GUILayout.BeginHorizontal();
 			{
 				GUILayout.FlexibleSpace();
-				if(GUILayout.Button("Je commande",packsVM.buttonStyle,GUILayout.Height(0.125f*homepageScreenVM.blockBottomRightHeight),GUILayout.Width(0.5f*homepageScreenVM.blockBottomRightWidth)))
+				GUILayout.BeginHorizontal();
 				{
-					Application.LoadLevel("Store");
+					if(GUILayout.Button("Acheter des cartes",packsVM.buttonStyle,GUILayout.Height(0.125f*homepageScreenVM.blockBottomRightHeight),GUILayout.Width(0.4f*homepageScreenVM.blockBottomRightWidth)))
+					{
+						Application.LoadLevel("Store");
+					}
+					GUILayout.Space (0.1f*homepageScreenVM.blockBottomRightWidth);
+					if(GUILayout.Button("Vider mes cartes",packsVM.buttonStyle,GUILayout.Height(0.125f*homepageScreenVM.blockBottomRightHeight),GUILayout.Width(0.4f*homepageScreenVM.blockBottomRightWidth)))
+					{
+						HomePageController.instance.cleanCardsHandler();
+					}
 				}
+				GUILayout.EndHorizontal();
 				GUILayout.FlexibleSpace();
 			}
 			GUILayout.EndHorizontal();
