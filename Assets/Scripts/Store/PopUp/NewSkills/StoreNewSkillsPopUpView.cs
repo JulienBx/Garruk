@@ -2,27 +2,25 @@ using UnityEngine;
 
 public class StoreNewSkillsPopUpView : MonoBehaviour
 {
-	
-	public StoreCollectionPopUpViewModel popUpVM;
+
 	public StoreNewSkillsPopUpViewModel storeNewSkillsPopUpVM;
 	
 	public StoreNewSkillsPopUpView ()
 	{
-		this.popUpVM = new StoreCollectionPopUpViewModel ();
 		this.storeNewSkillsPopUpVM = new StoreNewSkillsPopUpViewModel ();
 	}
 	void OnGUI()
 	{
-		GUI.depth = popUpVM.guiDepth;
-		GUILayout.BeginArea(popUpVM.centralWindow);
+		GUI.depth = storeNewSkillsPopUpVM.guiDepth;
+		GUILayout.BeginArea(storeNewSkillsPopUpVM.centralWindow);
 		{
-			GUILayout.BeginVertical(popUpVM.centralWindowStyle);
+			GUILayout.BeginVertical(storeNewSkillsPopUpVM.centralWindowStyle);
 			{
 				GUILayout.Space(30);
-				GUILayout.Label (storeNewSkillsPopUpVM.title,popUpVM.centralWindowTitleStyle);
+				GUILayout.Label (storeNewSkillsPopUpVM.title,storeNewSkillsPopUpVM.centralWindowTitleStyle);
 				for(int i=0;i<storeNewSkillsPopUpVM.skills.Count;i++)
 				{
-					GUILayout.Label (storeNewSkillsPopUpVM.skills[i],popUpVM.centralWindowTitleStyle);
+					GUILayout.Label (storeNewSkillsPopUpVM.skills[i],storeNewSkillsPopUpVM.centralWindowTitleStyle);
 				}
 				GUILayout.Space(30);
 			}

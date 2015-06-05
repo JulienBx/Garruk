@@ -46,6 +46,7 @@ public class Card
 	public int RenameCost = 200;
 	public string Error;
 	public List<int> Decks;
+	public int CollectionPoints;
 
 	public static bool xpDone = false;
 	
@@ -477,7 +478,6 @@ public class Card
 	}
 	public IEnumerator addXpLevel()
 	{
-
 		WWWForm form = new WWWForm(); 								// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_idcard", this.Id.ToString());
@@ -500,10 +500,12 @@ public class Card
 			else
 			{
 				this.Error="";
-				string [] cardData =  w.text.Split(new string[] { "#S#" }, System.StringSplitOptions.None);
-				for(int j = 0 ; j < cardData.Length-1 ; j++)
+				string [] cardData =  w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
+				string [] cardInformations =  cardData[0].Split(new string[] { "#S#" }, System.StringSplitOptions.None);
+				this.CollectionPoints=System.Convert.ToInt32(cardData[1]);
+				for(int j = 0 ; j < cardInformations.Length-1 ; j++)
 				{
-					string[] cardInfo = cardData[j].Split(new string[] { "\\" }, System.StringSplitOptions.None); 
+					string[] cardInfo = cardInformations[j].Split(new string[] { "\\" }, System.StringSplitOptions.None); 
 					if (j==0)
 					{
 

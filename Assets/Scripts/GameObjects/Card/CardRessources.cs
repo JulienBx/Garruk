@@ -20,6 +20,7 @@ public class CardRessources : MonoBehaviour
 	public GUIStyle[] cardFeaturesFocusStyles;
 	public GUIStyle[] popUpStyles;
 	public GUIStyle[] gameEndSceneStyles;
+	public GUIStyle[] collectionPopUpStyles;
 
 	public CardRessources ()
 	{
