@@ -206,6 +206,19 @@ public class Card
 	}
 	
 	#region Modifiers
+	public int GetEsquive()
+	{
+		int esquive = 0;
+		foreach (StatModifier modifier in modifiers)
+		{
+			if (modifier.Type==ModifierType.Type_EsquivePercentage){
+				esquive = modifier.Amount;
+			}
+		}
+		
+		return esquive;
+	}
+	
 	public int GetAttack()
 	{
 		int attack = Attack;

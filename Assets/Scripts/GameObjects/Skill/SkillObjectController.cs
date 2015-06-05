@@ -19,12 +19,12 @@ public class SkillObjectController : GameObjectController
 
 	void Awake ()
 	{
-			this.view = gameObject.AddComponent <SkillObjectView> ();
-			this.view.skillVM.skillRectStyle = styles [0];
-			this.view.skillVM.skillTitleTextStyle = styles [1];
-			this.view.skillVM.skillDescriptionTextStyle = styles [2];
-			this.view.skillVM.cadreStyle = styles [3];
-			this.view.skillVM.powerStyle = styles [5];
+		this.view = gameObject.AddComponent <SkillObjectView> ();
+		this.view.skillVM.skillRectStyle = styles [0];
+		this.view.skillVM.skillTitleTextStyle = styles [1];
+		this.view.skillVM.skillDescriptionTextStyle = styles [2];
+		this.view.skillVM.cadreStyle = styles [3];
+		this.view.skillVM.powerStyle = styles [5];
 	}
 
 	public void setOwner (bool b)
@@ -78,43 +78,48 @@ public class SkillObjectController : GameObjectController
 
 	public void hoverSkill ()
 	{
-			this.view.skillVM.border = borders [3];
-			this.view.changeBorder ();
+		this.view.skillVM.border = borders [3];
+		this.view.changeBorder ();
 	}
 
 	public void setControlActive (bool b)
 	{
-			this.view.skillVM.isControlActive = b;
-			this.endHoverSkill ();
+		this.view.skillVM.isControlActive = b;
+		this.endHoverSkill ();
 	}
 
 	public void endHoverSkill ()
 	{
-			if (this.isActive) {
-					if (this.view.skillVM.isControlActive) {
-							this.view.skillVM.border = borders [1];
-					} else {
-							this.view.skillVM.border = borders [2];
-					}
+		if (this.isActive) {
+			if (this.view.skillVM.isControlActive) {
+					this.view.skillVM.border = borders [1];
 			} else {
-					this.view.skillVM.border = borders [0];
+					this.view.skillVM.border = borders [2];
 			}
-			this.view.changeBorder ();
+		} else {
+			this.view.skillVM.border = borders [0];
+		}
+		this.view.changeBorder ();
 	}
 
 	public void setActive (bool b)
 	{
-			gameObject.SetActive (b);
+		gameObject.SetActive (b);
 	}
 
 	public void setAttack ()
 	{	
 		this.view.skillVM.face = this.attackPicto;
 	}
+	
+	public void setAttackValue(int value){
+		this.view.skillVM.skillDescription = "Inglige "+value+" dégats à un personnage adjacent";
+	}
 
 	public void setPass ()
 	{
 		this.view.skillVM.face = this.passPicto;
+		this.view.skillVM.skillDescription = "Passe son tour";
 	}
 
 	public void show ()
@@ -124,20 +129,20 @@ public class SkillObjectController : GameObjectController
 
 	public void setPosition (Vector3 p)
 	{
-			this.view.skillVM.position = p;
-			this.view.replace ();
+		this.view.skillVM.position = p;
+		this.view.replace ();
 	}
 
 	public void setPosition (Vector3 p, Vector3 s)
 	{
-			this.view.skillVM.position = p;
-			this.view.skillVM.scale = s;
-			this.view.replace ();
+		this.view.skillVM.position = p;
+		this.view.skillVM.scale = s;
+		this.view.replace ();
 	}
 
 	public void clickSkill ()
 	{
-			GameController.instance.clickSkillHandler (this.id);
+		GameController.instance.clickSkillHandler (this.id);
 	}
 }
 

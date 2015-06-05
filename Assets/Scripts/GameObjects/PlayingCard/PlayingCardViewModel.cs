@@ -22,6 +22,8 @@ public class PlayingCardViewModel
 	public bool toDisplayIcon = false ;
 	public List<Texture2D> icons ;
 	public List<Rect> iconsRect ;
+	public List<string> titlesIcon ;
+	public List<string> descriptionIcon ;
 
 	public GUIStyle iconStyle ;
 
@@ -34,6 +36,8 @@ public class PlayingCardViewModel
 	{
 		this.icons = new List<Texture2D>();
 		this.iconsRect = new List<Rect>();
+		this.titlesIcon = new List<string>();
+		this.descriptionIcon = new List<string>();
 		this.iconStyle = new GUIStyle();
 	}
 }

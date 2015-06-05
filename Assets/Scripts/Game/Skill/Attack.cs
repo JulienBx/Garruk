@@ -17,7 +17,13 @@ public class Attack : GameSkill
 	public override void resolve(int[] args)
 	{
 		int targetID = args [0];
+		
 		int amount = GameController.instance.getCurrentCard().Attack;
+		if (Random.Range(0, 100) > GameController.instance.getCurrentSkill().Power)
+		{
+		
+		}
+		
 		GameController.instance.play(GameController.instance.getCurrentCard().Title + 
 			" a lancé une attaque \n " 
 			+ amount 
@@ -41,13 +47,17 @@ public class Attack : GameSkill
 		tempTiles = t.getImmediateNeighbouringTiles();
 		bool isLaunchable = false ;
 		int i = 0 ;
+		int tempInt ; 
 
 		while (!isLaunchable && i<tempTiles.Count){
 			t = tempTiles[i];
-			if (GameController.instance.getTile(t.x, t.y).characterID!=-1)
+			tempInt = GameController.instance.getTile(t.x, t.y).characterID;
+			if (tempInt!=-1)
 			{
-			 	
-				isLaunchable = true ;
+				if (!GameController.instance.getPCC(tempInt).cannotBeTargeted)
+				{
+					isLaunchable = true ;
+				}
 			}
 			i++;
 		}
