@@ -3,7 +3,8 @@ using UnityEngine.UI;
 using System.Collections;
 
 
-public class AuthenticationController : MonoBehaviour {
+public class AuthenticationController : MonoBehaviour 
+{
 	
 	public static AuthenticationController instance;
 	private AuthenticationView view;
@@ -29,7 +30,7 @@ public class AuthenticationController : MonoBehaviour {
 		yield return StartCoroutine(ApplicationModel.permanentConnexion ());
 		if(ApplicationModel.username!=""&& !ApplicationModel.toDeconnect)
 		{
-			Application.LoadLevel("Homepage");
+			this.loadLevels();
 		}
 		else
 		{
@@ -40,17 +41,19 @@ public class AuthenticationController : MonoBehaviour {
 	{
 		if(authenticationWindowView.authenticationWindowPopUpVM.username!="" || authenticationWindowView.authenticationWindowPopUpVM.password!="")
 		{
+			authenticationWindowView.authenticationWindowPopUpVM.guiEnabled=false;
 			yield return StartCoroutine(ApplicationModel.Login(authenticationWindowView.authenticationWindowPopUpVM.username,
 			                                    authenticationWindowView.authenticationWindowPopUpVM.password,
 			                                    authenticationWindowView.authenticationWindowPopUpVM.toMemorize));
 			if(ApplicationModel.username!=""&& !ApplicationModel.toDeconnect)
 			{
-				Application.LoadLevel("Homepage");
+				this.loadLevels();
 			}
 			else
 			{
 				authenticationWindowView.authenticationWindowPopUpVM.error=ApplicationModel.error;
 				ApplicationModel.error="";
+				authenticationWindowView.authenticationWindowPopUpVM.guiEnabled=true;
 			}
 		}
 		else
@@ -257,6 +260,21 @@ public class AuthenticationController : MonoBehaviour {
 		if(this.accountCreatedView!=null)
 		{
 			this.hideAccountCreatedPopUp();
+		}
+	}
+	private void loadLevels()
+	{
+		switch(ApplicationModel.tutorialStep)
+		{
+		case 0:
+			Application.LoadLevel("Tutorial");	
+			break;
+		case 1:
+				Application.LoadLevel("Homepage");
+			break;
+		default:
+			Application.LoadLevel("HomePage");	
+			break;
 		}
 	}
 }

@@ -55,6 +55,7 @@ public class AuthenticationWindowPopUpView : MonoBehaviour
 					GUILayout.Label(authenticationWindowPopUpVM.error,popUpVM.centralWindowErrorStyle);
 				}
 				GUILayout.FlexibleSpace();
+				GUI.enabled = authenticationWindowPopUpVM.guiEnabled;
 				GUILayout.BeginHorizontal();
 				{
 					GUILayout.Space(0.1f * popUpVM.centralWindow.width);
