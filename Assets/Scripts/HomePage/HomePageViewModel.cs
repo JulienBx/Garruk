@@ -15,6 +15,7 @@ public class HomePageViewModel {
 	public GUIStyle profileUsernameStyle;
 	public GUIStyle profileInformationsStyle;
 	public bool guiEnabled;
+	public bool buttonsEnabled; 
 
 	
 	public HomePageViewModel ()
@@ -28,6 +29,7 @@ public class HomePageViewModel {
 		this.profileUsernameStyle = new GUIStyle ();
 		this.profileInformationsStyle = new GUIStyle ();
 		this.guiEnabled = true;
+		this.buttonsEnabled = true;
 	}
 	public void initStyles()
 	{	

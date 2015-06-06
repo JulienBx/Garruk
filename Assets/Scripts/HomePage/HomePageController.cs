@@ -9,6 +9,7 @@ public class HomePageController : MonoBehaviour
 {
 
 	public GameObject MenuObject;
+	public GameObject TutorialObject;
 
 	public GUIStyle[] notificationsVMStyle;
 	public GUIStyle[] newsVMStyle;
@@ -17,6 +18,7 @@ public class HomePageController : MonoBehaviour
 	public GUIStyle[] packsVMStyle;
 	public GUIStyle[] ranksVMStyle;
 	public GUIStyle[] competsVMStyle;
+	public GUISkin tutorialStyles;
 
 	private float timer;
 	private float timer2;
@@ -74,6 +76,11 @@ public class HomePageController : MonoBehaviour
 		this.toLoadData ();
 		MenuObject.GetComponent<MenuController>().setNbNotificationsNonRead(view.notificationsVM.nbNonReadNotifications);
 		this.isDataLoaded = true;
+		if(model.player.TutorialStep==1)
+		{
+			this.TutorialObject = Instantiate(this.TutorialObject) as GameObject;
+			this.TutorialObject.GetComponent<TutorialObjectController>().launchSequence(0);
+		}
 	}
 	private void toLoadData()
 	{
@@ -316,6 +323,10 @@ public class HomePageController : MonoBehaviour
 		this.displayNotificationsPage ();
 		this.displayNewsPage ();
 		this.displayPacksPage ();
+		if(this.TutorialObject!=null)
+		{
+			this.TutorialObject.GetComponent<TutorialObjectController>().resize();
+		}
 	}
 	private IEnumerator updateReadNotifications()
 	{
@@ -489,6 +500,16 @@ public class HomePageController : MonoBehaviour
 		{
 			view.ranksVM.collectionRanking="";
 		}
+	}
+	public void setButtonsGui(bool value)
+	{
+		view.homepageVM.buttonsEnabled=value;
+	}
+	public IEnumerator endTutorial()
+	{
+		MenuController.instance.setButtonsGui (false);
+		yield return StartCoroutine (model.player.setTutorialStep (2));
+		Application.LoadLevel ("MyGame");
 	}
 }
 
