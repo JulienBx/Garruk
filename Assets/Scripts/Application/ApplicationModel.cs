@@ -26,6 +26,7 @@ public class ApplicationModel : MonoBehaviour
 	static public string error="";
 	static public string skillChosen="";
 	static public int cardTypeChosen = -1;
+	static public int tutorialStep;
 
 	static private string URLCheckPassword = host+"check_password.php";
 	static private string URLEditPassword = host+"edit_password.php";
@@ -86,7 +87,18 @@ public class ApplicationModel : MonoBehaviour
 		} 
 		else
 		{
-			username = w.text;
+			if(w.text.Contains("#ERROR#"))
+			{
+				string[] errors = w.text.Split(new string[] { "#ERROR#" }, System.StringSplitOptions.None);
+				error=errors[1];
+			}
+			else
+			{
+				error="";
+				string[] data = w.text.Split(new string[] { "//" }, System.StringSplitOptions.None);
+				username = data[0];
+				tutorialStep=System.Convert.ToInt32(data[1]);
+			}		
 		}
 	}
 	static public IEnumerator Login(string nick, string password, bool toMemorize)
@@ -116,14 +128,17 @@ public class ApplicationModel : MonoBehaviour
 		} 
 		else 
 		{
-			if (w.text=="") 		
-			{	 				
+			if(w.text.Contains("#ERROR#"))
+			{
+				string[] errors = w.text.Split(new string[] { "#ERROR#" }, System.StringSplitOptions.None);
+				error=errors[1];
+			}
+			else
+			{
+				error="";
 				username = nick;
 				toDeconnect=false;
-			}
-			else 
-			{
-				error=w.text;
+				tutorialStep=System.Convert.ToInt32(w.text);
 			}											
 		}
 	}
