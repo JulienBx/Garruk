@@ -31,9 +31,9 @@ public class TutorialView : MonoBehaviour
 			GUILayout.BeginHorizontal();
 			{
 				GUILayout.FlexibleSpace();
-				GUILayout.BeginVertical(GUILayout.Width(screenVM.mainBlock.height*1.2f));
+				GUILayout.BeginVertical(GUILayout.Width(screenVM.pictureWidth));
 				{
-					GUILayout.Label("",tutorialVM.mainPictureStyle,GUILayout.Height(screenVM.mainBlock.height*0.6f));
+					GUILayout.Label("",tutorialVM.mainPictureStyle,GUILayout.Height(screenVM.pictureHeight));
 					GUILayout.FlexibleSpace();
 					GUILayout.Label(tutorialVM.description,tutorialVM.descriptionStyle);
 					GUILayout.FlexibleSpace();
