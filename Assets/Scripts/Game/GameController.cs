@@ -634,10 +634,10 @@ public class GameController : Photon.MonoBehaviour
 
 	public void cancelSkill()
 	{
-		this.showMyPlayingSkills(this.currentPlayingCard);
 		this.gameView.gameScreenVM.toDisplayValidationWindows = false;
 		this.isRunningSkill = false ;
 		this.playindCardHasPlayed = false ;
+		this.showMyPlayingSkills(this.currentPlayingCard);
 	}
 
 	public void validateSkill()
@@ -912,7 +912,6 @@ public class GameController : Photon.MonoBehaviour
 
 	public void clickSkillHandler(int ids)
 	{
-		this.updateStatusMySkills(this.currentPlayingCard);
 		this.clickedSkill = ids;
 		if (ids > 3)
 		{
@@ -934,6 +933,7 @@ public class GameController : Photon.MonoBehaviour
 		}
 		this.numberOfArgs = 0;
 		this.isRunningSkill = true;
+		this.updateStatusMySkills(this.currentPlayingCard);
 	}
 
 	public void findNextPlayer()
@@ -1646,7 +1646,12 @@ public class GameController : Photon.MonoBehaviour
 			while (nextChara)
 			{
 				rankedPlayingCardID = rankedPlayingCardsID [nextCharacterPositionTimeline];
+				print ("rankedPlaying "+rankedPlayingCardID);
 				PlayingCardController pcc = this.playingCards [rankedPlayingCardID] .GetComponentInChildren<PlayingCardController>();
+				print ("PCCisDead "+!pcc.isDead);
+				print ("PCChasPlayed "+!pcc.hasPlayed);
+				print ("PCCfindCharacters "+!findCharactersHaveNoAlreadyPlayed);
+				
 				if (!pcc.isDead && (!pcc.hasPlayed && !findCharactersHaveNoAlreadyPlayed || findCharactersHaveNoAlreadyPlayed))
 				{
 					nextChara = false;
@@ -1913,6 +1918,33 @@ public class GameController : Photon.MonoBehaviour
 	public void updateTimeline()
 	{
 		this.sortAllCards();
+	}
+	
+	public void emptyTile(int x, int y)
+	{
+		this.tiles[x,y].GetComponent<TileController>().characterID=-1;
+		this.areMyHeroesDead();
+	}
+	
+	public void areMyHeroesDead(){
+		bool areTheyAllDead = true ;
+		int debut ;
+		int i = 0;
+		if (this.isFirstPlayer){
+			debut = 0 ;
+		}
+		else{
+			debut = 5;
+		}
+		while (areTheyAllDead && i<5){
+			if (!this.getPCC(debut+i).isDead){
+				areTheyAllDead = false ;
+			}
+			i++;
+		}
+		if (areTheyAllDead){
+			StartCoroutine(this.quitGame());
+		}
 	}
 }
 

@@ -24,8 +24,12 @@ public class PlayingCardViewModel
 	public List<Rect> iconsRect ;
 	public List<string> titlesIcon ;
 	public List<string> descriptionIcon ;
+	public List<bool> toDisplayDescriptionIcon ;
 
 	public GUIStyle iconStyle ;
+	public GUIStyle titleStyle ;
+	public GUIStyle descriptionStyle ;
+	public GUIStyle descriptionRectStyle ;
 
 	public Texture2D halo ;
 	public Rect haloRect ;
@@ -38,7 +42,11 @@ public class PlayingCardViewModel
 		this.iconsRect = new List<Rect>();
 		this.titlesIcon = new List<string>();
 		this.descriptionIcon = new List<string>();
+		this.toDisplayDescriptionIcon = new List<bool>();
 		this.iconStyle = new GUIStyle();
+		this.titleStyle = new GUIStyle();
+		this.descriptionStyle = new GUIStyle();
+		this.descriptionRectStyle = new GUIStyle();
 	}
 }
 

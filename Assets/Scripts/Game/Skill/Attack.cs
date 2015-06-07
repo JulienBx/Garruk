@@ -19,25 +19,31 @@ public class Attack : GameSkill
 		int targetID = args [0];
 		
 		int amount = GameController.instance.getCurrentCard().Attack;
-		if (Random.Range(0, 100) > GameController.instance.getCurrentSkill().Power)
+		if (Random.Range(1, 100) > GameController.instance.getCard(targetID).GetEsquive())
 		{
-		
+			GameController.instance.play(GameController.instance.getCurrentCard().Title + 
+			                             " inflige " 
+			                             + amount 
+			                             + " " 
+			                             + convertStatToString(ModifierStat.Stat_Dommage));
+			
+			GameController.instance.getCard(targetID).modifiers.Add(new StatModifier(amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage));
+			
+			if (GameController.instance.getCard(targetID).GetLife() <= 0)
+			{
+				GameController.instance.getPCC(targetID).kill();
+				GameController.instance.reloadTimeline();
+			}
+			GameController.instance.reloadCard(targetID);
+		}
+		else{
+			GameController.instance.play(GameController.instance.getCard(targetID).Title + 
+			                             " a esquivé l'attaque de " 
+			                             + GameController.instance.getCurrentCard().Title
+			                             );
 		}
 		
-		GameController.instance.play(GameController.instance.getCurrentCard().Title + 
-			" a lancé une attaque \n " 
-			+ amount 
-			+ " " 
-			+ convertStatToString(ModifierStat.Stat_Dommage));
-
-		GameController.instance.getCard(targetID).modifiers.Add(new StatModifier(amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage));
-
-		if (GameController.instance.getCard(targetID).GetLife() <= 0)
-		{
-			GameController.instance.getPCC(targetID).kill();
-			GameController.instance.reloadTimeline();
-		}
-		GameController.instance.reloadCard(targetID);
+		
 	}
 
 	public override bool isLaunchable(Skill s){

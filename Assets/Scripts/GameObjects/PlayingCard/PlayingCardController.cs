@@ -40,6 +40,9 @@ public class PlayingCardController : GameObjectController
 		statModifiers = new List<StatModifier> ();
 		this.cannotBeTargeted = false;
 		this.playingCardView.playingCardVM.iconStyle = styles [0];
+		this.playingCardView.playingCardVM.titleStyle = styles [1];
+		this.playingCardView.playingCardVM.descriptionStyle = styles [2];
+		this.playingCardView.playingCardVM.descriptionRectStyle = styles [3];
 	}
 
 	public void setCannotBeTargeted (bool cbt, string title, string description)
@@ -52,130 +55,130 @@ public class PlayingCardController : GameObjectController
 
 	public void activateTargetHalo ()
 	{
-			this.playingCardView.playingCardVM.toDisplayHalo = true;
-			this.playingCardView.playingCardVM.halo = this.halos [0];
+		this.playingCardView.playingCardVM.toDisplayHalo = true;
+		this.playingCardView.playingCardVM.halo = this.halos [0];
 	}
 
 	public void resizeHalo ()
 	{
-			int height = Screen.height;
-			int width = Screen.width;
+		int height = Screen.height;
+		int width = Screen.width;
 
-			int decalage = height / 15;
-	
-			Vector3 positionObject = new Vector3 (0, 0, 0);
-			positionObject.x = (this.playingCardView.playingCardVM.position.x) * (height / 10f) - (decalage / 2) + (width / 2f);
-			positionObject.y = height - ((this.playingCardView.playingCardVM.position.y + this.playingCardView.playingCardVM.scale.y / 2f) * (height / 10f) - (decalage / 2) + (height / 2f));
-	
-			Rect position = new Rect (positionObject.x, positionObject.y, decalage, decalage);
-			this.playingCardView.playingCardVM.haloRect = position;
+		int decalage = height / 15;
+
+		Vector3 positionObject = new Vector3 (0, 0, 0);
+		positionObject.x = (this.playingCardView.playingCardVM.position.x) * (height / 10f) - (decalage / 2) + (width / 2f);
+		positionObject.y = height - ((this.playingCardView.playingCardVM.position.y + this.playingCardView.playingCardVM.scale.y / 2f) * (height / 10f) - (decalage / 2) + (height / 2f));
+
+		Rect position = new Rect (positionObject.x, positionObject.y, decalage, decalage);
+		this.playingCardView.playingCardVM.haloRect = position;
 	}
 
 	public void removeTargetHalo ()
 	{
-			this.playingCardView.playingCardVM.toDisplayHalo = false;
+		this.playingCardView.playingCardVM.toDisplayHalo = false;
 	}
 
 	public void setStyles (bool isMyCharacter)
 	{
-			isMine = isMyCharacter;
-			if (isMyCharacter) {
+		isMine = isMyCharacter;
+		if (isMyCharacter) {
 
-			} else {
+		} else {
 
-			}
+		}
 	}
 
 	public void setTile (Tile t)
 	{
-			this.tile = t;
+		this.tile = t;
 	}
 
 	public void setActive (bool b)
 	{
-			gameObject.SetActive (b);
+		gameObject.SetActive (b);
 	}
 
 	public void setControlActive (bool b)
 	{
-			this.playingCardView.playingCardVM.isActive = b;
+		this.playingCardView.playingCardVM.isActive = b;
 	}
 
 	public void setCard (Card c)
 	{
-			this.card = c;
-			playingCardView.playingCardVM.face = this.faces [c.ArtIndex];
-			playingCardView.playingCardVM.attack = c.Attack.ToString ();
-			playingCardView.playingCardVM.move = c.Move.ToString ();
+		this.card = c;
+		playingCardView.playingCardVM.face = this.faces [c.ArtIndex];
+		playingCardView.playingCardVM.attack = c.Attack.ToString ();
+		playingCardView.playingCardVM.move = c.Move.ToString ();
 	}
 	public void show ()
 	{
-			if (isMine) {
-					playingCardView.playingCardVM.lifeGauge = this.lifeGauges [0];
-			} else {
-					playingCardView.playingCardVM.lifeGauge = this.lifeGauges [1];
-			}
-			base.getGOCoordinates (gameObject);
-			this.setTextResolution ();
-			updateAttack ();
-			updateMove ();
-			playingCardView.show ();
-			this.updateLife ();
+		if (isMine) {
+				playingCardView.playingCardVM.lifeGauge = this.lifeGauges [0];
+		} else {
+				playingCardView.playingCardVM.lifeGauge = this.lifeGauges [1];
+		}
+		base.getGOCoordinates (gameObject);
+		this.setTextResolution ();
+		updateAttack ();
+		updateMove ();
+		playingCardView.show ();
+		this.updateLife ();
 	}
 
 	public void setTextResolution ()
 	{
-			float resolution = base.GOSize.y / 150f;
-			playingCardView.setTextResolution (resolution);
+		float resolution = base.GOSize.y / 150f;
+		playingCardView.setTextResolution (resolution);
 	}
 
 	public void setPosition (Vector3 p, Vector3 s)
 	{
-			this.playingCardView.playingCardVM.position = p;
-			this.playingCardView.playingCardVM.scale = s;
-			this.playingCardView.replace ();
+		this.playingCardView.playingCardVM.position = p;
+		this.playingCardView.playingCardVM.scale = s;
+		this.playingCardView.replace ();
 	}
 
 	public void setTile (Tile t, Vector3 p, bool toRotate)
 	{
-			this.tile = t;
-			p.z = -2;
-			this.playingCardView.playingCardVM.position = p;
-			this.playingCardView.playingCardVM.scale = new Vector3 (1.10f, 1.10f, 1.10f);
-			this.playingCardView.replace ();
+		this.tile = t;
+		p.z = -2;
+		this.playingCardView.playingCardVM.position = p;
+		this.playingCardView.playingCardVM.scale = new Vector3 (1.10f, 1.10f, 1.10f);
+		this.playingCardView.replace ();
 	}
 
 	public void changeTile (Tile t, Vector3 position)
 	{
-			this.tile = t;
-			position.z = -5;
-			this.playingCardView.playingCardVM.position = position;
-			this.resize ();
-			this.playingCardView.replace ();
+		this.tile = t;
+		position.z = -5;
+		this.playingCardView.playingCardVM.position = position;
+		this.resize ();
+		this.playingCardView.replace ();
 	}
 
 	public void resize ()
 	{
-			this.resizeHalo ();
-			this.resizeIcons ();
+		this.resizeHalo ();
+		this.resizeIcons ();
 	}
 
 	public void setIDCharacter (int i)
 	{
-			this.IDCharacter = i;
+		this.IDCharacter = i;
 	}
 
 	public void updateLife ()
 	{
-			int life = this.card.GetLife ();
-			int maxLife = this.card.Life;
-			float percentage = 1.0f * life / maxLife;
-			playingCardView.drawLifeGauge (percentage);
+		int life = this.card.GetLife ();
+		int maxLife = this.card.Life;
+		float percentage = 1.0f * life / maxLife;
+		playingCardView.drawLifeGauge (percentage);
 	}
 
 	public void updateAttack ()
 	{
-			this.playingCardView.playingCardVM.attack = this.card.GetAttack ().ToString ();
+		this.playingCardView.playingCardVM.attack = this.card.GetAttack ().ToString ();
 	}
 
 	public void updateMove ()
@@ -280,6 +283,9 @@ public class PlayingCardController : GameObjectController
 	{
 		this.playingCardView.playingCardVM.toDisplayIcon = true;
 		this.playingCardView.playingCardVM.icons.Add (icon);
+		this.playingCardView.playingCardVM.toDisplayDescriptionIcon.Add (false);
+		this.playingCardView.playingCardVM.descriptionIcon.Add (description);
+		this.playingCardView.playingCardVM.titlesIcon.Add (title);
 		int height = Screen.height;
 		int width = Screen.width;
 		int decalage = height / 30;
@@ -306,13 +312,21 @@ public class PlayingCardController : GameObjectController
 			Rect position = new Rect (positionObject.x, positionObject.y, decalage, decalage);
 			this.playingCardView.playingCardVM.iconsRect.Add (position);
 		}
+		this.playingCardView.playingCardVM.descriptionStyle.fontSize = height*15/1000;
+		this.playingCardView.playingCardVM.titleStyle.fontSize = height*20/1000;
 	}
 
 	public void kill ()
 	{
+		print (this.IDCharacter+" est mort");
 		this.isDead = true;
 		this.hasPlayed = true;
-		this.setActive (false);
+		gameObject.renderer.enabled = false ;
+		Renderer[] renderers = GetComponentsInChildren<Renderer>();
+		for (int i = 0 ; i < renderers.Length ; i++) {
+			renderers[i].renderer.enabled = false ;
+		}
+		GameController.instance.emptyTile(this.tile.x, this.tile.y);
 	}
 }
 

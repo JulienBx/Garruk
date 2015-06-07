@@ -5,8 +5,7 @@ using System.Collections.Generic;
 public class PlayingCardView : MonoBehaviour
 {
 	public PlayingCardViewModel playingCardVM;
-	int displaySkillDescription = -1;
-
+	
 	public PlayingCardView()
 	{
 		this.playingCardVM = new PlayingCardViewModel();
@@ -20,19 +19,38 @@ public class PlayingCardView : MonoBehaviour
 
 	void Update()
 	{
+		int height = Screen.height;
 		if (this.playingCardVM.toDisplayHalo)
-		{
+		{		
 			if (Input.GetMouseButtonDown(0))
 			{
-				int height = Screen.height;
 				if (Input.mousePosition.x > this.playingCardVM.haloRect.xMin && Input.mousePosition.x < this.playingCardVM.haloRect.xMax && (height - Input.mousePosition.y) > this.playingCardVM.haloRect.yMin && (height - Input.mousePosition.y) < this.playingCardVM.haloRect.yMax)
 				{
 					gameObject.GetComponentInChildren<PlayingCardController>().addTarget();
 				}
 			}
+			
+		}
+		else{
+			for (int i = 0; i < this.playingCardVM.icons.Count; i++){
+				if (Input.mousePosition.x > this.playingCardVM.iconsRect [i].xMin && Input.mousePosition.x < this.playingCardVM.iconsRect [i].xMax && (height - Input.mousePosition.y) > this.playingCardVM.iconsRect [i].yMin && (height - Input.mousePosition.y) < this.playingCardVM.iconsRect [i].yMax)
+				{
+					if (!this.playingCardVM.toDisplayDescriptionIcon[i]){
+						this.playingCardVM.toDisplayDescriptionIcon[i]=true;
+						print("J'affiche");
+					}
+					
+				}
+				else{
+					if (this.playingCardVM.toDisplayDescriptionIcon[i]){
+						this.playingCardVM.toDisplayDescriptionIcon[i]=false;
+						print("Je cache");
+					}
+				}
+			}
 		}
 	}
-
+	
 	public void show()
 	{
 		transform.renderer.materials [1].mainTexture = playingCardVM.face; 
@@ -108,12 +126,27 @@ public class PlayingCardView : MonoBehaviour
 			for (int i = 0; i < this.playingCardVM.icons.Count; i++)
 			{
 				GUI.Box(this.playingCardVM.iconsRect [i], this.playingCardVM.icons [i], this.playingCardVM.iconStyle);
+				if (this.playingCardVM.toDisplayDescriptionIcon[i]){
+					Rect newRect = new Rect(this.playingCardVM.iconsRect [i].x, this.playingCardVM.iconsRect [i].y-this.playingCardVM.iconsRect [i].height*3,this.playingCardVM.iconsRect [i].width*8,this.playingCardVM.iconsRect [i].height*3);
+					
+					GUILayout.BeginArea(newRect, this.playingCardVM.descriptionRectStyle);
+					{
+						GUILayout.BeginVertical();
+						{
+							GUILayout.Label(this.playingCardVM.titlesIcon [i], this.playingCardVM.titleStyle);
+							GUILayout.FlexibleSpace();
+							GUILayout.Label(this.playingCardVM.descriptionIcon [i], this.playingCardVM.descriptionStyle);
+							GUILayout.FlexibleSpace();
+						}
+						GUILayout.EndVertical();
+					}
+					GUILayout.EndArea();
+				}
 			}
 		}
 		if (this.playingCardVM.toDisplayHalo)
 		{
 			GUI.Box(this.playingCardVM.haloRect, this.playingCardVM.halo, this.playingCardVM.iconStyle);
-
 		}
 	}
 }

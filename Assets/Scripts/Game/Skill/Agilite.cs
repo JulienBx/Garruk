@@ -23,7 +23,7 @@ public class Agilite : GameSkill
 		GameController.instance.play(GameController.instance.getCurrentCard().Title + 
 		                             " possède désormais " 
 		                             + amount 
-		                             + " % de chances de prendre des dégats" 
+		                             + " % de chances de d'esquiver les dégats" 
 		                             );
 	}
 	
