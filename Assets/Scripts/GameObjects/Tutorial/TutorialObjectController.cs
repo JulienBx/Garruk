@@ -106,6 +106,9 @@ public class TutorialObjectController : MonoBehaviour
 		case 1:
 			tempRect = new Rect (0.2f*Screen.width,0.2f*Screen.height,0.3f*Screen.width,0.5f*Screen.height);
 			break;
+		case 2:
+			tempRect= new Rect (0.35f*Screen.width,0.35f*Screen.height,0.3f*Screen.width,0.5f*Screen.height);
+			break;
 		}
 		return tempRect;
 	}

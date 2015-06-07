@@ -9,6 +9,7 @@ public class MyGameController : MonoBehaviour
 	private MyGameModel model;
 	public GameObject MenuObject;
 	public GameObject CardObject;
+	public GameObject TutorialObject;
 	public int refreshInterval;
 	public GUIStyle[] myGameScreenVMStyle;
 	public GUIStyle[] myGameVMStyle;
@@ -73,6 +74,11 @@ public class MyGameController : MonoBehaviour
 		else
 		{
 			this.filterCards ();
+		}
+		if(model.player.TutorialStep==2)
+		{
+			this.TutorialObject = Instantiate(this.TutorialObject) as GameObject;
+			this.TutorialObject.GetComponent<TutorialObjectController>().launchSequence(2);
 		}
 	}
 	public void loadAll()
@@ -573,7 +579,7 @@ public class MyGameController : MonoBehaviour
 		view.myGameDecksVM.myDecksButtonGuiStyle=new List<GUIStyle>();
 		for (int i=0;i<model.decks.Count;i++)
 		{
-			if(model.decks[i].Id==model.idSelectedDeck)
+			if(model.decks[i].Id==model.player.SelectedDeckId)
 			{
 				view.myGameDecksVM.decksToBeDisplayed.Insert(0,i);
 				view.myGameDecksVM.decksName.Insert(0,model.decks[i].Name);

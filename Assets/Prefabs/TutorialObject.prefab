@@ -43,11 +43,13 @@ MonoBehaviour:
   titles:
   - Bienvenue
   - Vite des cartes !
+  - Vos cartes
   descriptions:
   - "Vous \xEAtes ici sur la page d'accueil. Derni\xE8res cartes vendues, actualit\xE9s
     des amis, comp\xE9titions en cours ou bien cartes en vente \xE0 la boutique, vous
     avez tout ici en un clin d'oeil !"
   - "Nous allons commencer par d\xE9couvrir vos cartes. "
+  - "Cet \xE9cran montre toute vos cartes et va vous permettre de composer vos jeux."
   arrowTextures:
   - {fileID: 2800000, guid: 7f899140a207640aba075bb2b482956e, type: 3}
 --- !u!1001 &100100000
