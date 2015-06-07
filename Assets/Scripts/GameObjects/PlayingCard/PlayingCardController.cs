@@ -20,7 +20,7 @@ public class PlayingCardController : GameObjectController
 	public bool isMoved ;
 	public bool hasPlayed ;
 	public bool isMine;
-	public bool cannotBeTargeted;
+	public int cannotBeTargeted;
 
 	public Texture2D[] icons ;
 	public Texture2D[] halos ;
@@ -38,7 +38,7 @@ public class PlayingCardController : GameObjectController
 		this.isSelected = false;
 		this.isMoved = false;
 		statModifiers = new List<StatModifier> ();
-		this.cannotBeTargeted = false;
+		this.cannotBeTargeted = -1;
 		this.playingCardView.playingCardVM.iconStyle = styles [0];
 		this.playingCardView.playingCardVM.titleStyle = styles [1];
 		this.playingCardView.playingCardVM.descriptionStyle = styles [2];
@@ -47,10 +47,9 @@ public class PlayingCardController : GameObjectController
 
 	public void setCannotBeTargeted (bool cbt, string title, string description)
 	{
-		if (cbt == true && this.cannotBeTargeted == false) {
+		if (cbt == true && this.cannotBeTargeted == -1) {
 			this.addIntouchable (title, description);
 		}
-		this.cannotBeTargeted = cbt;
 	}
 
 	public void activateTargetHalo ()
@@ -271,6 +270,7 @@ public class PlayingCardController : GameObjectController
 
 	public void addIntouchable (string title, string description)
 	{
+		this.cannotBeTargeted=this.playingCardView.playingCardVM.icons.Count;
 		this.addIcon (this.icons [0], title, description);
 	}
 	
@@ -327,6 +327,15 @@ public class PlayingCardController : GameObjectController
 			renderers[i].renderer.enabled = false ;
 		}
 		GameController.instance.emptyTile(this.tile.x, this.tile.y);
+	}
+	
+	public void removeFurtivity(){
+		this.playingCardView.playingCardVM.icons.RemoveAt (this.cannotBeTargeted);
+		this.playingCardView.playingCardVM.toDisplayDescriptionIcon.RemoveAt (this.cannotBeTargeted);
+		this.playingCardView.playingCardVM.descriptionIcon.RemoveAt (this.cannotBeTargeted);
+		this.playingCardView.playingCardVM.titlesIcon.RemoveAt (this.cannotBeTargeted);
+		this.playingCardView.playingCardVM.iconsRect.RemoveAt (this.cannotBeTargeted);
+		this.cannotBeTargeted = -1 ;
 	}
 }
 

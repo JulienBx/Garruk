@@ -60,7 +60,7 @@ public class Attack : GameSkill
 			tempInt = GameController.instance.getTile(t.x, t.y).characterID;
 			if (tempInt!=-1)
 			{
-				if (!GameController.instance.getPCC(tempInt).cannotBeTargeted)
+				if (GameController.instance.getPCC(tempInt).cannotBeTargeted==-1)
 				{
 					isLaunchable = true ;
 				}

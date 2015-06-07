@@ -91,11 +91,6 @@ public class GameController : Photon.MonoBehaviour
 	bool timeElapsed = false;
 	bool popUpDisplay = false;
 
-	bool isDecksLoaded = false;
-	bool fightIsStarted = false;
-
-	bool isFirstResize = true ;
-
 	int nextCharacterPositionTimeline;
 
 	GameSkill[] gameskills ;
@@ -180,14 +175,6 @@ public class GameController : Photon.MonoBehaviour
 		{
 			EndSceneController.instance.resize();
 		}
-		if (!isFirstResize)
-		{
-			for (int i = 0; i < 10; i++)
-			{
-				this.playingCards [i].GetComponentInChildren<PlayingCardController>().resize();
-			}
-		}
-		isFirstResize = false;
 	}
 
 	public void displayPopUpMessage(string message, float time)
@@ -538,7 +525,7 @@ public class GameController : Photon.MonoBehaviour
 
 		for (int i = 0; i < 10; i++)
 		{
-			if (!this.playingCards [i].GetComponent<PlayingCardController>().isDead && !this.playingCards [i].GetComponent<PlayingCardController>().cannotBeTargeted)
+			if (!this.playingCards [i].GetComponent<PlayingCardController>().isDead && this.playingCards [i].GetComponent<PlayingCardController>().cannotBeTargeted==-1)
 			{
 				this.playingCards [i].GetComponent<PlayingCardController>().activateTargetHalo();
 			}
@@ -562,7 +549,7 @@ public class GameController : Photon.MonoBehaviour
 		}
 		foreach (TileController tc in tempTiles)
 		{
-			if (!this.playingCards [tc.characterID].GetComponent<PlayingCardController>().isDead && !this.playingCards [tc.characterID].GetComponent<PlayingCardController>().cannotBeTargeted)
+			if (!this.playingCards [tc.characterID].GetComponent<PlayingCardController>().isDead && this.playingCards [tc.characterID].GetComponent<PlayingCardController>().cannotBeTargeted==-1)
 			{
 				this.playingCards [tc.characterID].GetComponent<PlayingCardController>().activateTargetHalo();
 			}
@@ -686,11 +673,15 @@ public class GameController : Photon.MonoBehaviour
 		}
 		
 		this.updateStatusMySkills(idc);
+		
+		bool isActive = !(nbTurns == 0) && (idc == this.currentPlayingCard);
+		this.skillsObjects [4].GetComponent<SkillObjectController>().setActive(isActive);
+		this.skillsObjects [5].GetComponent<SkillObjectController>().setActive(isActive);
+		
 	}
 		
 	public void updateStatusMySkills(int idc)
 	{
-		print("J'update mes skills");
 		bool controlActive;
 		bool isActive = !(nbTurns == 0) && (idc == this.currentPlayingCard);
 		List<Skill> skills = this.playingCards [idc].GetComponent<PlayingCardController>().card.Skills;
@@ -742,10 +733,9 @@ public class GameController : Photon.MonoBehaviour
 
 	public void hideMySkills()
 	{
-		print("Je hide my skills");
+		this.selectedPlayingCard.SetActive(false);
 		for (int i = 0; i < 6; i++)
 		{
-			this.selectedPlayingCard.SetActive(false);
 			this.skillsObjects [i].SetActive(false);
 		}
 	}
@@ -912,6 +902,8 @@ public class GameController : Photon.MonoBehaviour
 
 	public void clickSkillHandler(int ids)
 	{
+		this.isRunningSkill = true;
+		this.updateStatusMySkills(this.currentPlayingCard);
 		this.clickedSkill = ids;
 		if (ids > 3)
 		{
@@ -932,8 +924,6 @@ public class GameController : Photon.MonoBehaviour
 			this.skillArgs [i] = -1;
 		}
 		this.numberOfArgs = 0;
-		this.isRunningSkill = true;
-		this.updateStatusMySkills(this.currentPlayingCard);
 	}
 
 	public void findNextPlayer()
@@ -1298,10 +1288,6 @@ public class GameController : Photon.MonoBehaviour
 			this.playingCards [debut + i].GetComponentInChildren<PlayingCardController>().resize();
 			this.tiles [i, hauteur].GetComponent<TileController>().characterID = debut + i;
 			this.playingCards [debut + i].GetComponentInChildren<PlayingCardController>().show();
-		}
-		if (this.playingCards [0] != null && this.playingCards [5] != null)
-		{
-			this.isDecksLoaded = true;
 		}
 		yield break;
 	}
@@ -1899,6 +1885,9 @@ public class GameController : Photon.MonoBehaviour
 
 	public void play(string message)
 	{
+		if (this.getCurrentPCC().cannotBeTargeted!=-1){
+			this.getCurrentPCC().removeFurtivity();
+		}
 		this.isRunningSkill = false;
 		this.playindCardHasPlayed = true;
 		if (this.clickedPlayingCard != this.currentPlayingCard && this.clickedPlayingCard != -1)
@@ -1908,7 +1897,7 @@ public class GameController : Photon.MonoBehaviour
 		{
 			this.updateStatusMySkills(this.currentPlayingCard);
 		}
-		this.displayPopUpMessage(message, 4);
+		this.displayPopUpMessage(message, 2);
 		if (this.playingCardHasMoved)
 		{
 			this.gameskills [1].launch();

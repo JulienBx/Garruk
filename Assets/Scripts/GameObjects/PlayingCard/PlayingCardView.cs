@@ -37,14 +37,12 @@ public class PlayingCardView : MonoBehaviour
 				{
 					if (!this.playingCardVM.toDisplayDescriptionIcon[i]){
 						this.playingCardVM.toDisplayDescriptionIcon[i]=true;
-						print("J'affiche");
 					}
 					
 				}
 				else{
 					if (this.playingCardVM.toDisplayDescriptionIcon[i]){
 						this.playingCardVM.toDisplayDescriptionIcon[i]=false;
-						print("Je cache");
 					}
 				}
 			}
