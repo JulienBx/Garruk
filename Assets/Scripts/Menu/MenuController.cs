@@ -12,6 +12,7 @@ public class MenuController : MonoBehaviour {
 	public GUIStyle[] menuVMStyle;
 	public int totalNbResultLimit;
 	public int refreshInterval;
+	public bool isTutorialLaunched;
 
 	private MenuView view;
 	public static MenuController instance;
@@ -113,7 +114,7 @@ public class MenuController : MonoBehaviour {
 		{
 			PhotonNetwork.Disconnect();
 		}
-		if(TutorialObjectController.instance!=null)
+		if(this.isTutorialLaunched)
 		{
 			TutorialObjectController.instance.actionIsDone();
 		}
@@ -170,6 +171,10 @@ public class MenuController : MonoBehaviour {
 	public void setButtonGui(int index, bool value)
 	{
 		view.menuVM.buttonsEnabled[index]=value;
+	}
+	public void setTutorialLaunched(bool value)
+	{
+		this.isTutorialLaunched = value;
 	}
 }
 

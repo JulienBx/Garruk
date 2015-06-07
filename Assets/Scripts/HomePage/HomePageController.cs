@@ -26,6 +26,7 @@ public class HomePageController : MonoBehaviour
 	public int refreshInterval;
 	public int sliderRefreshInterval;
 	public int totalNbResultLimit;
+	private GameObject tutorial;
 	
 	private HomePageView view;
 	public static HomePageController instance;
@@ -78,8 +79,9 @@ public class HomePageController : MonoBehaviour
 		this.isDataLoaded = true;
 		if(model.player.TutorialStep==1)
 		{
-			this.TutorialObject = Instantiate(this.TutorialObject) as GameObject;
-			this.TutorialObject.GetComponent<TutorialObjectController>().launchSequence(0);
+			this.tutorial = Instantiate(this.TutorialObject) as GameObject;
+			this.tutorial.GetComponent<TutorialObjectController>().launchSequence(0);
+			MenuObject.GetComponent<MenuController>().setTutorialLaunched(true);
 		}
 	}
 	private void toLoadData()
@@ -323,9 +325,9 @@ public class HomePageController : MonoBehaviour
 		this.displayNotificationsPage ();
 		this.displayNewsPage ();
 		this.displayPacksPage ();
-		if(this.TutorialObject!=null)
+		if(this.tutorial!=null)
 		{
-			this.TutorialObject.GetComponent<TutorialObjectController>().resize();
+			this.tutorial.GetComponent<TutorialObjectController>().resize();
 		}
 	}
 	private IEnumerator updateReadNotifications()
@@ -489,9 +491,9 @@ public class HomePageController : MonoBehaviour
 	}
 	private IEnumerator cleanCards()
 	{
-		view.homepageVM.guiEnabled = false;
+		this.setGui (false);
 		yield return StartCoroutine (model.player.cleanCards ());
-		view.homepageVM.guiEnabled = true;
+		this.setGui (true);
 		if(model.player.CollectionRanking!=0)
 		{
 			view.ranksVM.collectionRanking="Class collection : " + model.player.CollectionRanking.ToString()+ " ("+ model.player.CollectionPoints.ToString() + " pts)";
@@ -500,6 +502,11 @@ public class HomePageController : MonoBehaviour
 		{
 			view.ranksVM.collectionRanking="";
 		}
+	}
+	public void setGui(bool value)
+	{
+		view.homepageVM.guiEnabled = value;
+		this.setButtonsGui (value);
 	}
 	public void setButtonsGui(bool value)
 	{

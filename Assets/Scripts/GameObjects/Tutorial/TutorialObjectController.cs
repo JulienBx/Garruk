@@ -81,6 +81,9 @@ public class TutorialObjectController : MonoBehaviour
 		case 1:
 			tempBool=true;
 			break;
+		case 3:
+			tempBool=true;
+			break;
 		}
 		return tempBool;
 	}
@@ -90,6 +93,12 @@ public class TutorialObjectController : MonoBehaviour
 		switch(this.sequenceID)
 		{
 		case 1:
+			tempBool=false;
+			break;
+		case 3:
+			tempBool=false;
+			break;
+		case 4:
 			tempBool=false;
 			break;
 		}
@@ -109,6 +118,12 @@ public class TutorialObjectController : MonoBehaviour
 		case 2:
 			tempRect= new Rect (0.35f*Screen.width,0.35f*Screen.height,0.3f*Screen.width,0.5f*Screen.height);
 			break;
+		case 3:
+			tempRect= new Rect (0.35f*Screen.width,0.35f*Screen.height,0.3f*Screen.width,0.5f*Screen.height);
+			break;
+		case 4:
+			tempRect= new Rect (0.03f*Screen.width,0.25f*Screen.height,0.2f*Screen.width,0.6f*Screen.height);
+			break;
 		}
 		return tempRect;
 	}
@@ -120,6 +135,9 @@ public class TutorialObjectController : MonoBehaviour
 		case 1:
 			tempRect= new Rect (0.325f*Screen.width,0.08f*Screen.height,0.05f*Screen.width,0.1f*Screen.height);
 			break;
+		case 3:
+			tempRect= new Rect (0.044f*Screen.width,0.51f*Screen.height,0.05f*Screen.width,0.1f*Screen.height);
+			break;
 		}
 		return tempRect;
 	}
@@ -129,6 +147,9 @@ public class TutorialObjectController : MonoBehaviour
 		switch(this.sequenceID)
 		{
 		case 1:
+			tempTexture = this.arrowTextures[0];
+			break;
+		case 3:
 			tempTexture = this.arrowTextures[0];
 			break;
 		}
@@ -147,6 +168,13 @@ public class TutorialObjectController : MonoBehaviour
 			MenuController.instance.setButtonGui(2,true);
 			HomePageController.instance.setButtonsGui(false);
 			break;
+		case 2:
+			MenuController.instance.setButtonsGui(false);
+			MyGameController.instance.setButtonsGui(false);
+			break;
+		case 4:
+			MyGameController.instance.setGUI(false);
+			break;
 		}
 	}
 	public void actionIsDone()
@@ -156,7 +184,14 @@ public class TutorialObjectController : MonoBehaviour
 		case 1:
 			StartCoroutine(HomePageController.instance.endTutorial());
 			break;
+		case 3:
+			this.launchSequence(this.sequenceID+1);
+			break;
 		}
+	}
+	public int getSequenceID()
+	{
+		return this.sequenceID;
 	}
 }
 

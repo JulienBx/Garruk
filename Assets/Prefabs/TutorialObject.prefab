@@ -44,12 +44,18 @@ MonoBehaviour:
   - Bienvenue
   - Vite des cartes !
   - Vos cartes
+  - Zoom sur une carte
+  - Comprendre le visuel d'une carte
   descriptions:
   - "Vous \xEAtes ici sur la page d'accueil. Derni\xE8res cartes vendues, actualit\xE9s
     des amis, comp\xE9titions en cours ou bien cartes en vente \xE0 la boutique, vous
     avez tout ici en un clin d'oeil !"
   - "Nous allons commencer par d\xE9couvrir vos cartes. "
-  - "Cet \xE9cran montre toute vos cartes et va vous permettre de composer vos jeux."
+  - "Dans cet espaces vous allez pouvoir g\xE9rer vos cartes et cr\xE9er vos desck
+    que vous utiliserez en cours de match."
+  - Pour examiner une carte, cliquez avec le bouton droit de la souris sur son visuel.
+  - "Un certain nombre d'informations sont affich\xE9es sur la carte et des actions
+    sont disponibles"
   arrowTextures:
   - {fileID: 2800000, guid: 7f899140a207640aba075bb2b482956e, type: 3}
 --- !u!1001 &100100000
