@@ -14,8 +14,14 @@ public class TutorialObjectController : MonoBehaviour
 	public static TutorialObjectController instance;
 	private TutorialObjectView view;
 	private int sequenceID;
-	private bool flashingArrow;
-	private float timer;
+	private float translation;
+	private float startTranslation;
+	private float currentTranslation;
+	private float translationRatio;
+	private float speed;
+	private bool moveForward;
+	private bool moveBack;
+	private bool moveHorizontal;
 
 	void Awake () 
 	{
@@ -23,17 +29,36 @@ public class TutorialObjectController : MonoBehaviour
 		this.view = gameObject.AddComponent <TutorialObjectView>();
 		this.sequenceID = -1;
 		this.initStyles ();
+		this.speed = 50f;
 	}
 	void Update()
 	{
-		if(this.flashingArrow)
+		if(this.moveForward)
 		{
-			this.timer += Time.deltaTime;
-			if (this.timer > 0.5f) 
-			{	
-				this.timer=0;
-				view.VM.displayArrow= !view.VM.displayArrow;
+			this.currentTranslation=this.currentTranslation+Time.deltaTime*this.speed;
+			this.translationRatio=this.currentTranslation/this.translation;
+			if(this.translationRatio>1)
+			{
+				this.currentTranslation=this.translation;
+				this.moveForward=false;
+				this.moveBack=true;
+				this.translationRatio=0;
 			}
+			view.VM.arrowRect.y=this.startTranslation-this.currentTranslation;
+
+		}
+		else if(this.moveBack)
+		{
+			this.currentTranslation=this.currentTranslation-Time.deltaTime*this.speed;
+			this.translationRatio=1-(this.currentTranslation/this.translation);
+			if(this.translationRatio>1)
+			{
+				this.currentTranslation=0;
+				this.moveForward=true;
+				this.moveBack=false;
+				this.translationRatio=0;
+			}
+			view.VM.arrowRect.y=this.startTranslation-this.currentTranslation;
 		}
 	}
 	public void initStyles()
@@ -54,10 +79,15 @@ public class TutorialObjectController : MonoBehaviour
 		view.VM.title = this.titles [sequenceID];
 		view.VM.description = this.descriptions [sequenceID];
 		view.VM.displayNextButton = this.displayNextButton ();
-		if(this.displayArrow ())
+		view.VM.displayArrow = this.displayArrow ();
+		if(view.VM.displayArrow)
 		{
 			view.VM.arrowStyle.normal.background=this.getArrowTexture();
-			this.flashingArrow=true;
+		}
+		else
+		{
+			this.moveBack=false;
+			this.moveForward=false;
 		}
 		this.resize ();
 	}
@@ -66,9 +96,12 @@ public class TutorialObjectController : MonoBehaviour
 		if(this.view!=null && this.sequenceID!=-1)
 		{
 			view.VM.popUpRect = getPopUpRect ();
-			if(this.flashingArrow)
+			if(view.VM.displayArrow)
 			{
 				view.VM.arrowRect=getArrowRect();
+				this.currentTranslation=0;
+				this.getTranslation();
+				this.moveForward=true;
 			}
 			view.VM.resize ();
 		}
@@ -104,6 +137,22 @@ public class TutorialObjectController : MonoBehaviour
 		}
 		return tempBool;
 	}
+	private void getTranslation()
+	{
+		switch(this.sequenceID)
+		{
+		case 1:
+			this.translation=0.02f*Screen.height;
+			this.moveHorizontal=false;
+			this.startTranslation=view.VM.arrowRect.y;
+			break;
+		case 3:
+			this.translation=0.02f*Screen.height;
+			this.moveHorizontal=false;
+			this.startTranslation=view.VM.arrowRect.y;
+			break;
+		}
+	}
 	private Rect getPopUpRect()
 	{
 		Rect tempRect = new Rect ();
@@ -133,10 +182,10 @@ public class TutorialObjectController : MonoBehaviour
 		switch(this.sequenceID)
 		{
 		case 1:
-			tempRect= new Rect (0.325f*Screen.width,0.08f*Screen.height,0.05f*Screen.width,0.1f*Screen.height);
+			tempRect= new Rect (0.325f*Screen.width,0.10f*Screen.height,0.05f*Screen.width,0.1f*Screen.height);
 			break;
 		case 3:
-			tempRect= new Rect (0.044f*Screen.width,0.51f*Screen.height,0.05f*Screen.width,0.1f*Screen.height);
+			tempRect= new Rect (0.044f*Screen.width,0.53f*Screen.height,0.05f*Screen.width,0.1f*Screen.height);
 			break;
 		}
 		return tempRect;

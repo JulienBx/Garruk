@@ -214,7 +214,6 @@ public class MyGameController : MonoBehaviour
 		}
 		else if(isTutorialLaunched && name.Substring(4)=="0" && this.tutorial.GetComponent<TutorialObjectController>().getSequenceID()==3)
 		{
-			print (name);
 			this.focus (name);
 			this.tutorial.GetComponent<TutorialObjectController>().actionIsDone();
 		}
