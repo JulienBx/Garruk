@@ -994,7 +994,6 @@ public class GameController : Photon.MonoBehaviour
 		}
 
 		this.currentPlayingCard = id;
-		this.getCurrentPCC().checkModyfiers();
 		if (this.getCurrentCard().isParalyzed())
 		{
 			this.playindCardHasPlayed = true;
@@ -1082,6 +1081,9 @@ public class GameController : Photon.MonoBehaviour
 	public void resolvePass()
 	{
 		this.isRunningSkill = false;
+		
+		this.getCurrentPCC().checkModyfiers();
+		
 		findNextPlayer();
 		photonView.RPC("timeRunsOut", PhotonTargets.AllBuffered, timerTurn);
 		photonView.RPC("addPassEvent", PhotonTargets.AllBuffered);

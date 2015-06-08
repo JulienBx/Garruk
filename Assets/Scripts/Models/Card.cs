@@ -288,6 +288,7 @@ public class Card
 			{
 				isParalyzed = true;
 			}
+			i++;
 		}
 		return isParalyzed;
 	}
