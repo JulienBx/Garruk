@@ -46,6 +46,16 @@ MonoBehaviour:
   - Vos cartes
   - Zoom sur une carte
   - Comprendre le visuel d'une carte
+  - Comprendre le visuel d'une carte
+  - Comprendre le visuel d'une carte
+  - Comprendre le visuel d'une carte
+  - Comprendre le visuel d'une carte
+  - Comprendre le visuel d'une carte
+  - Comprendre le visuel d'une carte
+  - Comprendre le visuel d'une carte
+  - Comprendre le visuel d'une carte
+  - Comprendre le visuel d'une carte
+  - Comprendre le visuel d'une carte
   descriptions:
   - "Vous \xEAtes ici sur la page d'accueil. Derni\xE8res cartes vendues, actualit\xE9s
     des amis, comp\xE9titions en cours ou bien cartes en vente \xE0 la boutique, vous
@@ -54,10 +64,25 @@ MonoBehaviour:
   - "Dans cet espaces vous allez pouvoir g\xE9rer vos cartes et cr\xE9er vos desck
     que vous utiliserez en cours de match."
   - Pour examiner une carte, cliquez avec le bouton droit de la souris sur son visuel.
-  - "Un certain nombre d'informations sont affich\xE9es sur la carte et des actions
-    sont disponibles"
+  - "Une carte comprend un certain nombre d'\xE9l\xE9ments que nous allons d\xE9tailler
+    maintenant."
+  - "La zone sup\xE9rieure droite de la carte donne son nombre de points de vie. Ces
+    points varient au cours du combat en fonction des d\xE9g\xE2ts qui sont afflig\xE9s
+    \xE0 la cr\xE9ature. Lorsque ces points atteignent 0, la cr\xE9ature meurt."
+  - "a compl\xE9ter"
+  - "a compl\xE9ter"
+  - "a compl\xE9ter"
+  - "a compl\xE9ter"
+  - "a compl\xE9ter"
+  - "a compl\xE9ter"
+  - "a compl\xE9ter"
+  - "a compl\xE9ter"
+  - "a compl\xE9ter"
   arrowTextures:
   - {fileID: 2800000, guid: 7f899140a207640aba075bb2b482956e, type: 3}
+  - {fileID: 2800000, guid: 9af7566703ce741369dc24c9a3c9baa3, type: 3}
+  - {fileID: 2800000, guid: d0810d9013ca14f608a80d4c78536737, type: 3}
+  - {fileID: 2800000, guid: 906b4184b60cb4046ada38f8b215bdac, type: 3}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

@@ -80,7 +80,7 @@ public class HomePageController : MonoBehaviour
 		if(model.player.TutorialStep==1)
 		{
 			this.tutorial = Instantiate(this.TutorialObject) as GameObject;
-			this.tutorial.GetComponent<TutorialObjectController>().launchSequence(0);
+			this.tutorial.GetComponent<TutorialObjectController>().launchSequence(100);
 			MenuObject.GetComponent<MenuController>().setTutorialLaunched(true);
 		}
 	}

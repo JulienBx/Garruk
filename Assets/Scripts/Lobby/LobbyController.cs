@@ -16,6 +16,7 @@ public class LobbyController : Photon.MonoBehaviour
 	public int totalNbResultLimit;
 	public GameObject MenuObject;
 	public GameObject CardObject;
+	public GameObject TutorialObject;
 	public GUIStyle[] screenVMStyle;
 	public GUIStyle[] decksVMStyle;
 	public GUIStyle[] divisionGameVMStyle;
@@ -37,7 +38,8 @@ public class LobbyController : Photon.MonoBehaviour
 	private int selectedDeck = 0;
 	public int countPlayers = 0 ;
 	public Dictionary<int, string> playersName = new Dictionary<int, string>();
-
+	private GameObject tutorial;
+	private bool isTutorialLaunched;
 
 	void Start()
 	{
@@ -57,6 +59,13 @@ public class LobbyController : Photon.MonoBehaviour
 		if(model.decks.Count>0)
 		{
 			this.createDeckCards ();
+		}
+		if(model.player.TutorialStep==3)
+		{
+			this.tutorial = Instantiate(this.TutorialObject) as GameObject;
+			MenuObject.GetComponent<MenuController>().setTutorialLaunched(true);
+			this.tutorial.GetComponent<TutorialObjectController>().launchSequence(300);
+			this.isTutorialLaunched=true;
 		}
 	}
 	public void loadAll()
@@ -166,13 +175,17 @@ public class LobbyController : Photon.MonoBehaviour
 		if(model.decks.Count>0)
 		{
 			view.decksVM.myDecksButtonGuiStyle[view.decksVM.chosenDeck]=view.decksVM.deckButtonChosenStyle;
-			view.lobbyVM.gameButtonsEnabled=true;
+			view.lobbyVM.buttonsEnabled[1]=true;
+			view.lobbyVM.buttonsEnabled[2]=true;
+			view.lobbyVM.buttonsEnabled[3]=true;
 		}
 		else
 		{
 			view.decksCardVM.noDeckLabel="Vous n'avez pas encore constitué de deck, rendez-vous sur la page mon jeu pour créer votre deck";
 			view.decksVM.decksTitle="";
-			view.lobbyVM.gameButtonsEnabled=false;
+			view.lobbyVM.buttonsEnabled[1]=false;
+			view.lobbyVM.buttonsEnabled[2]=false;
+			view.lobbyVM.buttonsEnabled[3]=false;
 		}
 		if(model.player.NbGamesCup==0)
 		{
@@ -337,6 +350,10 @@ public class LobbyController : Photon.MonoBehaviour
 		view.lobbyVM.resize (view.screenVM.heightScreen);
 		view.decksCardVM.resize (view.screenVM.heightScreen);
 		view.playersVM.resize (view.screenVM.heightScreen);
+		if(this.isTutorialLaunched)
+		{
+			this.tutorial.GetComponent<TutorialObjectController>().resize();
+		}
 	}
 	public void setGUI(bool value)
 	{
@@ -376,7 +393,14 @@ public class LobbyController : Photon.MonoBehaviour
 	public void joinFriendlyGame()
 	{
 		ApplicationModel.gameType = 0; // 0 pour training
-		StartCoroutine (this.setSelectedDeck ());
+		if(this.isTutorialLaunched)
+		{
+			StartCoroutine(this.endTutorial());
+		}
+		else
+		{
+			StartCoroutine (this.setSelectedDeck ());
+		}
 	}
 	public void joinDivisionLobby()
 	{
@@ -457,7 +481,22 @@ public class LobbyController : Photon.MonoBehaviour
 			}
 		}
 	}
-
+	public void setButtonsGui(bool value)
+	{
+		for(int i=0;i<view.lobbyVM.buttonsEnabled.Length;i++)
+		{
+			view.lobbyVM.buttonsEnabled[i]=value;
+		}
+	}
+	public IEnumerator endTutorial()
+	{
+		yield return StartCoroutine (model.player.setTutorialStep (4));
+		StartCoroutine (this.setSelectedDeck ());
+	}
+	public void setButtonGui(int index, bool value)
+	{
+		view.lobbyVM.buttonsEnabled[index]=value;
+	}
 	[RPC]
 	void AddPlayerToList(int id, string loginName)
 	{
