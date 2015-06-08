@@ -30,6 +30,7 @@ public class MyGameController : MonoBehaviour
 	private GameObject tutorial;
 	private float timer;
 	private bool isTutorialLaunched;
+	private bool isFocus;
 
 	void Start()
 	{
@@ -80,17 +81,24 @@ public class MyGameController : MonoBehaviour
 		if(model.player.TutorialStep==2)
 		{
 			this.tutorial = Instantiate(this.TutorialObject) as GameObject;
-			this.tutorial.GetComponent<TutorialObjectController>().launchSequence(2);
+			MenuObject.GetComponent<MenuController>().setTutorialLaunched(true);
+			this.tutorial.GetComponent<TutorialObjectController>().launchSequence(213);
 			this.isTutorialLaunched=true;
 		}
 	}
 	public void loadAll()
 	{
-		this.clearFocus ();
 		this.resize ();
 		this.loadCards ();
 		this.loadDeckCards ();
-		view.myGameVM.displayView = true;
+		if(this.cardFocused!=null)
+		{
+			this.resizeFocus();
+		}
+		if(isTutorialLaunched)
+		{
+			tutorial.GetComponent<TutorialObjectController>().resize();
+		}
 	}
 	public void loadDeckCards()
 	{
@@ -149,7 +157,7 @@ public class MyGameController : MonoBehaviour
 		   this.newDeckPopUpView==null && 
 		   this.deleteDeckPopUpView==null && 
 		   this.editDeckPopUpView==null &&
-		   !isTutorialLaunched)
+		   !this.isTutorialLaunched)
 		{
 			if(model.decks.Count<1)
 			{
@@ -157,11 +165,18 @@ public class MyGameController : MonoBehaviour
 			}
 			else
 			{
-				this.moveCards(name);
+				StartCoroutine(this.moveCards(name));
+			}
+		}
+		else if(isTutorialLaunched)
+		{
+			if(this.tutorial.GetComponent<TutorialObjectController>().getSequenceID()==212)
+			{
+				StartCoroutine(this.moveCards(name));
 			}
 		}
 	}
-	public void moveCards(string name)
+	public IEnumerator moveCards(string name)
 	{
 		if(name.StartsWith("Card")&&view.myGameDeckCardsVM.nbCardsToDisplay<5)
 		{
@@ -175,30 +190,47 @@ public class MyGameController : MonoBehaviour
 				view.myGameDecksVM.decksNbCards[view.myGameDecksVM.chosenDeck]++;
 				view.myGameDeckCardsVM.nbCardsToDisplay++;
 				model.cards[cardIndex].Decks.Add (model.decks[deckIndex].Id);
-				StartCoroutine(model.decks[deckIndex].addCard(model.cards[cardIndex].Id));
 				this.filterCards();
+				yield return StartCoroutine(model.decks[deckIndex].addCard(model.cards[cardIndex].Id));
+				if(this.isTutorialLaunched)
+				{
+					if(view.myGameDeckCardsVM.deckCardsToBeDisplayed.Count==5)
+					{
+						this.tutorial.GetComponent<TutorialObjectController>().setNextButtonDisplaying(true);
+					}
+				}
 			}
 			else if(model.cards[cardIndex].onSale==1)
 			{
 				this.displayErrorPopUp("Vous ne pouvez pas ajouter à votre deck une carte qui est en vente");
+				yield break;
 			}
 			else if(model.cards[cardIndex].IdOWner==-1)
 			{
 				this.displayErrorPopUp("Cette carte a été vendue, vous ne pouvez plus l'ajouter");
+				yield break;
 			}
 		}
 		else if(name.StartsWith("DCrd"))
 		{
 			int cardIndex = retrieveCardIndex (name);
 			int deckIndex = view.myGameDecksVM.decksToBeDisplayed[view.myGameDecksVM.chosenDeck];
-			StartCoroutine(model.decks[deckIndex].removeCard(model.cards[cardIndex].Id));
 			model.cards[cardIndex].Decks.Remove(model.decks[deckIndex].Id);
 			view.myGameDecksVM.decksNbCards[view.myGameDecksVM.chosenDeck]--;
 			view.myGameDeckCardsVM.nbCardsToDisplay--;
 			view.myGameDeckCardsVM.deckCardsToBeDisplayed.RemoveAt(System.Convert.ToInt32(name.Substring(4)));
 			this.loadDeckCards();
 			this.filterCards();
+			yield return StartCoroutine(model.decks[deckIndex].removeCard(model.cards[cardIndex].Id));
+			if(this.isTutorialLaunched)
+			{
+				if(view.myGameDeckCardsVM.deckCardsToBeDisplayed.Count<5)
+				{
+					this.tutorial.GetComponent<TutorialObjectController>().setNextButtonDisplaying(false);
+				}
+			}
 		}
+		yield break;
 	}
 	public void rightClickedCard(GameObject gameobject)
 	{
@@ -212,14 +244,19 @@ public class MyGameController : MonoBehaviour
 		{
 			this.focus (name);
 		}
-		else if(isTutorialLaunched && name.Substring(4)=="0" && this.tutorial.GetComponent<TutorialObjectController>().getSequenceID()==3)
+		else if(isTutorialLaunched)
 		{
-			this.focus (name);
-			this.tutorial.GetComponent<TutorialObjectController>().actionIsDone();
+			if(name.Substring(4)=="3" && this.tutorial.GetComponent<TutorialObjectController>().getSequenceID()==201)
+			{
+				this.focus (name);
+				this.cardFocused.GetComponent<CardMyGameController>().setIsTutorialLaunched(true);
+				this.tutorial.GetComponent<TutorialObjectController>().actionIsDone();
+			}
 		}
 	}
 	public void focus(string name)
 	{
+		this.isFocus = true;
 		Card tempCard = new Card ();
 		int index = System.Convert.ToInt32 (name.Substring (4));
 		if(name.StartsWith("Card"))
@@ -255,6 +292,13 @@ public class MyGameController : MonoBehaviour
 		this.cardFocused.GetComponent<CardController> ().setGameObjectName (name);
 		this.cardFocused.GetComponent<CardMyGameController> ().resetFocusedMyGameCard (tempCard);
 		this.cardFocused.SetActive (true);
+	}
+	public void resizeFocus()
+	{
+		Vector3 scale = new Vector3(view.myGameScreenVM.heightScreen / 120f,view.myGameScreenVM.heightScreen / 120f,view.myGameScreenVM.heightScreen / 120f);
+		Vector3 position = Camera.main.ScreenToWorldPoint (new Vector3 (0.4f * view.myGameScreenVM.widthScreen, 0.45f * view.myGameScreenVM.heightScreen - 1, 10));
+		this.cardFocused.GetComponent<CardController> ().setGameObjectScaleAndPosition(scale,position);
+		this.cardFocused.GetComponent<CardController> ().resize ();
 	}
 	public void displayErrorPopUp(string error)
 	{
@@ -376,6 +420,10 @@ public class MyGameController : MonoBehaviour
 			view.myGameDecksVM.myDecksGuiStyle.Add(new GUIStyle());
 			this.displayDeck(model.decks.Count-1);
 			this.hideNewDeckPopUp();
+			if(this.isTutorialLaunched)
+			{
+				this.tutorial.GetComponent<TutorialObjectController>().actionIsDone();
+			}
 		}
 	}
 	public IEnumerator editDeck()
@@ -581,21 +629,38 @@ public class MyGameController : MonoBehaviour
 	}
 	public void setGUI(bool value)
 	{
-		view.myGameVM.guiEnabled = value;
-		if(this.cardFocused!=null)
+		if(this.isTutorialLaunched)
 		{
-			this.cardFocused.GetComponent<CardController>().setMyGUI(value);
+			if(this.tutorial.GetComponent<TutorialObjectController>().getSequenceID()!=209 
+			   && this.tutorial.GetComponent<TutorialObjectController>().getSequenceID()!=211)
+			{
+				view.myGameVM.guiEnabled = value;
+				if(this.cardFocused!=null)
+				{
+					this.cardFocused.GetComponent<CardController>().setMyGUI(value);
+				}
+				int finish = view.myGameCardsVM.nbCardsToDisplay;
+				this.setButtonsGui (value);
+			}
 		}
-		int finish = view.myGameCardsVM.nbCardsToDisplay;
-		for(int i = 0 ; i < finish ; i++)
+		else
 		{
-			this.displayedCards[i].GetComponent<CardController>().setMyGUI(value);
+			view.myGameVM.guiEnabled = value;
+			if(this.cardFocused!=null)
+			{
+				this.cardFocused.GetComponent<CardController>().setMyGUI(value);
+			}
+			int finish = view.myGameCardsVM.nbCardsToDisplay;
+//			for(int i = 0 ; i < finish ; i++)
+//			{
+//				this.displayedCards[i].GetComponent<CardController>().setMyGUI(value);
+//			}
+//			for(int i = 0 ; i < 5 ; i++)
+//			{
+//				this.displayedDeckCards[i].GetComponent<CardController>().setMyGUI(value);
+//			}
+			this.setButtonsGui (value);
 		}
-		for(int i = 0 ; i < 5 ; i++)
-		{
-			this.displayedDeckCards[i].GetComponent<CardController>().setMyGUI(value);
-		}
-		this.setButtonsGui (value);
 	}
 	private void initMyGameCardsVM()
 	{
@@ -764,7 +829,7 @@ public class MyGameController : MonoBehaviour
 		{
 			this.cardPopUpBelongTo.GetComponent<CardController> ().exitPopUp ();
 		}
-		else if(this.cardFocused!=null)
+		else if(this.cardFocused!=null && !this.isTutorialLaunched)
 		{
 			this.exitCard();
 		}
@@ -811,6 +876,10 @@ public class MyGameController : MonoBehaviour
 				this.displayedCards[i].GetComponent<CardMyGameController>().setMyGameCard(model.cards[view.myGameCardsVM.cardsToBeDisplayed[i]]);
 				this.displayedCards[i].GetComponent<CardController> ().setCentralWindowRect (view.myGameScreenVM.centralWindow);
 				view.myGameCardsVM.nbCardsToDisplay++;
+				if(this.isFocus)
+				{
+					this.displayedCards[i].SetActive (false);
+				}
 			}   
 			else{
 				this.displayedCards[i].SetActive (false);
@@ -844,6 +913,10 @@ public class MyGameController : MonoBehaviour
 				this.displayedDeckCards[i].GetComponent<CardMyGameController>().setMyGameCard(model.cards[view.myGameDeckCardsVM.deckCardsToBeDisplayed[i]]);
 				this.displayedDeckCards[i].GetComponent<CardController> ().setCentralWindowRect (view.myGameScreenVM.centralWindow);
 				view.myGameDeckCardsVM.nbCardsToDisplay++;
+				if(this.isFocus)
+				{
+					this.displayedDeckCards[i].SetActive (false);
+				}
 			} else
 			{
 				this.displayedDeckCards[i].SetActive (false);
@@ -885,10 +958,11 @@ public class MyGameController : MonoBehaviour
 	}
 	private void clearFocus()
 	{
-		if(this.cardFocused!=null)
+		if(this.isFocus)
 		{
 			this.cardFocused.SetActive (false);
 		}
+		this.isFocus = false;
 	}
 	private void clearDeckCards()
 	{
@@ -1766,5 +1840,44 @@ public class MyGameController : MonoBehaviour
 		{
 			view.myGameVM.buttonsEnabled[i]=value;
 		}
+	}
+	public void setButtonGui(int index, bool value)
+	{
+		view.myGameVM.buttonsEnabled[index]=value;
+	}
+	public Vector2 getCardsPosition(int index)
+	{
+		return this.displayedCards[index].GetComponent<CardController>().GOPosition;
+	}
+	public Vector2 getCardsSize(int index)
+	{
+		return this.displayedCards[index].GetComponent<CardController>().GOSize;
+	}
+	public Vector2 getFocusCardsPosition()
+	{
+		return this.cardFocused.GetComponent<CardController>().GOPosition;
+	}
+	public Vector2 getFocusCardsSize()
+	{
+		return this.cardFocused.GetComponent<CardController>().GOSize;
+	}
+	public void setButtonGuiOnFocusedCard(int index, bool value)
+	{
+		this.cardFocused.GetComponent<CardMyGameController> ().setButtonGui (index, value);
+	}
+	public void tutorialCardUpgrated()
+	{
+		this.tutorial.GetComponent<TutorialObjectController> ().actionIsDone ();
+	}
+	public void tutorialCardLeaved()
+	{
+		this.cardFocused.GetComponent<CardMyGameController>().setIsTutorialLaunched(false);
+		this.tutorial.GetComponent<TutorialObjectController> ().actionIsDone ();
+	}
+	public IEnumerator endTutorial()
+	{
+		MenuController.instance.setButtonsGui (false);
+		yield return StartCoroutine (model.player.setTutorialStep (3));
+		Application.LoadLevel ("Lobby");
 	}
 }

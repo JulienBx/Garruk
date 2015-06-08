@@ -27,7 +27,7 @@ public class CardController : GameObjectController {
 
 	private IList<GameObject> skills;
 	private GameObject experience;
-
+	
 
 	void Awake () 
 	{	

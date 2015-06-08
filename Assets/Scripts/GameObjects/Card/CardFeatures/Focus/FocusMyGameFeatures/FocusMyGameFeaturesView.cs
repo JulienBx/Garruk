@@ -35,6 +35,7 @@ public class FocusMyGameFeaturesView : MonoBehaviour
 				GUILayout.BeginHorizontal();
 				{
 					GUILayout.Space (focusMyGameFeaturesVM.cardFeaturesFocusRects[1].width*1/20);
+					GUI.enabled=focusMyGameFeaturesVM.buttonsEnabled[0];
 					if(focusMyGameFeaturesVM.cardLevel<10)
 					{
 						if(ApplicationModel.credits<focusMyGameFeaturesVM.nextLevelCost)
@@ -139,10 +140,12 @@ public class FocusMyGameFeaturesView : MonoBehaviour
 			GUILayout.BeginHorizontal();
 			{
 				GUILayout.Space (focusMyGameFeaturesVM.cardFeaturesFocusRects[5].width*1/20);
+				GUI.enabled=focusMyGameFeaturesVM.buttonsEnabled[1];
 				if(GUILayout.Button("Retour", cardFeaturesFocusVM.buttonStyle))
 				{
 					gameObject.GetComponent<CardMyGameController>().exitFocus();
 				}
+				GUI.enabled = cardFeaturesFocusVM.guiEnabled;
 			}
 			GUILayout.EndHorizontal();
 		}
