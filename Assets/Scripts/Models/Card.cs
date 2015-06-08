@@ -276,6 +276,17 @@ public class Card
 		}
 		return move;
 	}
+	
+	public bool isParalyzed(){
+		bool isParalyzed = false ;
+		int i = 0 ;
+		while (i < this.modifiers.Count && !isParalyzed){
+			if (this.modifiers[i].Type == ModifierType.Type_Paralized){
+				isParalyzed = true ;
+			}
+		}
+		return isParalyzed ;
+	}
 
 	public void clearBuffs()
 	{

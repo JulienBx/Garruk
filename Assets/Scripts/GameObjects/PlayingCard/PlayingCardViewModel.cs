@@ -19,7 +19,6 @@ public class PlayingCardViewModel
 	public bool isPlaying ; 
 	public bool isActive = true ;
 
-	public bool toDisplayIcon = false ;
 	public List<Texture2D> icons ;
 	public List<Rect> iconsRect ;
 	public List<string> titlesIcon ;

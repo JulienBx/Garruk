@@ -17,16 +17,12 @@ public class Attack : GameSkill
 	public override void resolve(int[] args)
 	{
 		int targetID = args [0];
+		string message = GameController.instance.getCurrentCard().Title+" attaque "+GameController.instance.getCard(targetID).Title+"\n";
 		
 		int amount = GameController.instance.getCurrentCard().Attack;
 		if (Random.Range(1, 100) > GameController.instance.getCard(targetID).GetEsquive())
 		{
-			GameController.instance.play(GameController.instance.getCurrentCard().Title + 
-			                             " inflige " 
-			                             + amount 
-			                             + " " 
-			                             + convertStatToString(ModifierStat.Stat_Dommage));
-			
+			                             
 			GameController.instance.getCard(targetID).modifiers.Add(new StatModifier(amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage));
 			
 			if (GameController.instance.getCard(targetID).GetLife() <= 0)
@@ -35,15 +31,14 @@ public class Attack : GameSkill
 				GameController.instance.reloadTimeline();
 			}
 			GameController.instance.reloadCard(targetID);
+			
+			message+="L'attaque touche la cible et inflige "+amount+" degats"+"\n";
 		}
 		else{
-			GameController.instance.play(GameController.instance.getCard(targetID).Title + 
-			                             " a esquivé l'attaque de " 
-			                             + GameController.instance.getCurrentCard().Title
-			                             );
+			message+=GameController.instance.getCard(targetID).Title+" esquive l'attaque"+"\n";
 		}
 		
-		
+		GameController.instance.play(message);
 	}
 
 	public override bool isLaunchable(Skill s){

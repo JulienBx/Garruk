@@ -14,7 +14,7 @@ public class Furtivite : GameSkill
 		int targetID = args [0];
 		GameController.instance.getCurrentPCC ().setCannotBeTargeted (true, "Invisible", "Le héros ne peut pas etre ciblé tant qu'il n'a pas activé une de ses compétences");
 		GameController.instance.play (GameController.instance.getCurrentCard ().Title + " a lancé furtivité");
-		GameController.instance.getCurrentCard ().modifiers.Add (new StatModifier (GameController.instance.getCurrentSkill ().Power, ModifierType.Type_BonusMalus, ModifierStat.Stat_Speed));
+		GameController.instance.getCurrentCard ().modifiers.Add (new StatModifier (GameController.instance.getCurrentSkill ().ManaCost, ModifierType.Type_BonusMalus, ModifierStat.Stat_Speed));
 		GameController.instance.reloadTimeline ();
 	}
 

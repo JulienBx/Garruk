@@ -133,14 +133,17 @@ public class GameController : Photon.MonoBehaviour
 		if (this.widthScreen != Screen.width || this.heightScreen != Screen.height) {
 			this.resize ();
 		}
-		if (popUpDisplay) {
-			gameView.gameScreenVM.timerPopUp -= Time.deltaTime;
+		for (int i = 0 ; i < gameView.gameScreenVM.messagesToDisplay.Count ; i++) {
+			gameView.gameScreenVM.timersPopUp[i] -= Time.deltaTime;
+			if (gameView.gameScreenVM.timersPopUp[i] < 0) {
+				gameView.gameScreenVM.messagesToDisplay.RemoveAt(i);
+				gameView.gameScreenVM.timersPopUp.RemoveAt(i);
+				gameView.gameScreenVM.centerMessageRects.RemoveAt(i);
+				gameView.gameScreenVM.resizePopUps();
+			}
 		}
 
-		if (gameView.gameScreenVM.timerPopUp < 0) {
-			popUpDisplay = false;
-			gameView.gameScreenVM.hasAMessage = false;
-		}
+		
 		if (startTurn) {
 			gameView.gameScreenVM.timer -= Time.deltaTime;
 			if (timeElapsed) {
@@ -179,26 +182,10 @@ public class GameController : Photon.MonoBehaviour
 
 	public void displayPopUpMessage(string message, float time)
 	{
-		gameView.gameScreenVM.hasAMessage = true;
-		gameView.gameScreenVM.messageToDisplay = message;
-		popUpDisplay = true;
-		gameView.gameScreenVM.timerPopUp = time;
-	}
-
-	public void displayPopUpMessageMyPlayer(string message, float time)
-	{
-		gameView.gameScreenVM.hasAMessage = true;
-		gameView.gameScreenVM.messageToDisplay = message;
-		popUpDisplay = true;
-		gameView.gameScreenVM.timerPopUp = time;
-	}
-
-	public void displayPopUpMessageOpponent(string message, float time)
-	{
-		gameView.gameScreenVM.hasAMessage = true;
-		gameView.gameScreenVM.messageToDisplay = message;
-		popUpDisplay = true;
-		gameView.gameScreenVM.timerPopUp = time;
+		gameView.gameScreenVM.messagesToDisplay.Add(message);
+		gameView.gameScreenVM.timersPopUp.Add(time);
+		gameView.gameScreenVM.centerMessageRects.Add(new Rect());
+		gameView.gameScreenVM.resizePopUps();
 	}
 
 	public void createBackground()
@@ -630,7 +617,7 @@ public class GameController : Photon.MonoBehaviour
 	public void validateSkill()
 	{
 		this.gameView.gameScreenVM.toDisplayValidationWindows = false;
-		photonView.RPC("resolveSkill", PhotonTargets.AllBuffered, this.clickedSkill, this.skillArgs);
+		this.gameskills [this.getCurrentSkillID()].resolve(this.skillArgs);
 	}
 
 	public void hideActivatedPlayingCard()
@@ -654,7 +641,6 @@ public class GameController : Photon.MonoBehaviour
 
 	public void showMyPlayingSkills(int idc)
 	{
-		print("Je show my skills");
 		this.selectedPlayingCard.GetComponent<PlayingCardController>().setCard(this.playingCards [idc].GetComponent<PlayingCardController>().card);
 		this.selectedPlayingCard.GetComponent<PlayingCardController>().show();
 		this.selectedPlayingCard.GetComponent<PlayingCardController>().setActive(true);
@@ -974,7 +960,6 @@ public class GameController : Photon.MonoBehaviour
 	public void initPlayer(int id, bool newTurn, bool isFirstP)
 	{
 		print("Au tour de " + id);
-		playingCardHasMoved = false;
 		if (newTurn)
 		{
 			for (int i = 0; i < 10; i++)
@@ -1003,8 +988,16 @@ public class GameController : Photon.MonoBehaviour
 		}
 
 		this.currentPlayingCard = id;
-		this.playindCardHasPlayed = false;
+		this.getCurrentPCC().checkModyfiers();
+		if (this.getCurrentCard().isParalyzed()){
+			this.playindCardHasPlayed = true;
+			this.displayPopUpMessage(this.getCurrentCard().Title+" est paralysé", 3f);
+		}
+		else{
+			this.playindCardHasPlayed = false;
+		}
 		this.isRunningSkill = false;
+		
 		this.playingCardHasMoved = false;
 
 		this.currentPlayingTile = this.playingCards [currentPlayingCard].GetComponentInChildren<PlayingCardController>().tile;
@@ -1022,11 +1015,11 @@ public class GameController : Photon.MonoBehaviour
 
 		if ((currentPlayingCard < 5 && this.isFirstPlayer) || (currentPlayingCard >= 5 && !this.isFirstPlayer))
 		{
-			displayPopUpMessage("A votre tour de jouer", 2f);
+			displayPopUpMessage("A votre tour de jouer", 3f);
 			this.showMyPlayingSkills(this.currentPlayingCard);
 		} else
 		{
-			displayPopUpMessage("Tour du joueur adverse", 2f);
+			displayPopUpMessage("Tour du joueur adverse", 3f);
 			this.showOpponentSkills(this.currentPlayingCard);
 		}
 	}
@@ -1077,20 +1070,6 @@ public class GameController : Photon.MonoBehaviour
 	public void inflictDamage(int targetCharacter)
 	{
 		photonView.RPC("inflictDamageRPC", PhotonTargets.AllBuffered, targetCharacter, isFirstPlayer);
-	}
-
-	public void EndOfGame(bool isFirstPlayerWin)
-	{
-		gameView.gameScreenVM.hasAMessage = true;
-		gameView.gameScreenVM.centerMessageRect.width = 100;
-		gameView.gameScreenVM.centerMessageRect.x = (Screen.width / 2 - 30);
-		if (isFirstPlayerWin == this.isFirstPlayer)
-		{
-			gameView.gameScreenVM.messageToDisplay = "gagné";
-		} else
-		{
-			gameView.gameScreenVM.messageToDisplay = "perdu";
-		}
 	}
 
 	public void resolvePass()
@@ -1632,11 +1611,7 @@ public class GameController : Photon.MonoBehaviour
 			while (nextChara)
 			{
 				rankedPlayingCardID = rankedPlayingCardsID [nextCharacterPositionTimeline];
-				print ("rankedPlaying "+rankedPlayingCardID);
 				PlayingCardController pcc = this.playingCards [rankedPlayingCardID] .GetComponentInChildren<PlayingCardController>();
-				print ("PCCisDead "+!pcc.isDead);
-				print ("PCChasPlayed "+!pcc.hasPlayed);
-				print ("PCCfindCharacters "+!findCharactersHaveNoAlreadyPlayed);
 				
 				if (!pcc.isDead && (!pcc.hasPlayed && !findCharactersHaveNoAlreadyPlayed || findCharactersHaveNoAlreadyPlayed))
 				{
@@ -1885,11 +1860,12 @@ public class GameController : Photon.MonoBehaviour
 
 	public void play(string message)
 	{
-		if (this.getCurrentPCC().cannotBeTargeted!=-1){
-			this.getCurrentPCC().removeFurtivity();
+		if (this.getCurrentPCC().cannotBeTargeted!=-1 && this.getCurrentSkillID()!=11){
+			photonView.RPC("removeFurtivityRPC", PhotonTargets.AllBuffered, this.currentPlayingCard);
 		}
 		this.isRunningSkill = false;
 		this.playindCardHasPlayed = true;
+		
 		if (this.clickedPlayingCard != this.currentPlayingCard && this.clickedPlayingCard != -1)
 		{
 			this.showMyPlayingSkills(this.currentPlayingCard);
@@ -1897,11 +1873,25 @@ public class GameController : Photon.MonoBehaviour
 		{
 			this.updateStatusMySkills(this.currentPlayingCard);
 		}
-		this.displayPopUpMessage(message, 2);
+		
+		photonView.RPC("playRPC", PhotonTargets.AllBuffered, message);
+		
 		if (this.playingCardHasMoved)
 		{
 			this.gameskills [1].launch();
 		}
+	}
+	
+	[RPC]
+	public void playRPC(string message)
+	{
+		this.displayPopUpMessage(message, 3);
+	}
+	
+	[RPC]
+	public void removeFurtivityRPC(int id)
+	{
+		this.getPCC(id).removeFurtivity();
 	}
 	
 	public void updateTimeline()
@@ -1934,6 +1924,47 @@ public class GameController : Photon.MonoBehaviour
 		if (areTheyAllDead){
 			StartCoroutine(this.quitGame());
 		}
+	}
+	
+	public void addModifier(int target, int type){ 
+		photonView.RPC("addModifierRPC", PhotonTargets.AllBuffered, target, 0, type, 0, -1);
+	}
+	
+	public void addModifier(int target, int amount, int type, int stat){ 
+		photonView.RPC("addModifierRPC", PhotonTargets.AllBuffered, target, amount, type, stat, -1);
+	}
+	
+	public void addModifier(int target, int amount, int type, int stat, int duration){ 
+		photonView.RPC("addModifierRPC", PhotonTargets.AllBuffered, target, amount, type, stat, duration);
+	}
+	
+	[RPC]
+	public void addModifierRPC(int target, int amount, int type, int stat, int duration)
+	{
+		this.getCard(target).modifiers.Add(new StatModifier(amount, (ModifierType)type, (ModifierStat)stat, duration));
+		if (stat == (int)ModifierStat.Stat_Dommage){
+			
+			if (this.getCard(target).GetLife() <= 0)
+			{
+				this.getPCC(target).kill();
+				this.reloadTimeline();
+			}
+			this.reloadCard(target);
+		}
+		else if (stat == (int)ModifierStat.Stat_Move){
+			this.reloadCard(target);
+		}
+	}
+	
+	public void setParalyzed(int target, int duration){
+		photonView.RPC("setParalyzedRPC", PhotonTargets.AllBuffered, target, duration);
+	}
+	
+	[RPC]
+	public void setParalyzedRPC(int target, int duration)
+	{
+		this.addModifier(target, 0, (int)ModifierType.Type_Paralized, 0, duration);
+		this.getPCC(target).setParalyzed(duration);
 	}
 }
 

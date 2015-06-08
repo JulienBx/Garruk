@@ -119,7 +119,7 @@ public class PlayingCardView : MonoBehaviour
 
 	void OnGUI()
 	{
-		if (this.playingCardVM.toDisplayIcon)
+		if (this.playingCardVM.icons.Count>0)
 		{
 			for (int i = 0; i < this.playingCardVM.icons.Count; i++)
 			{

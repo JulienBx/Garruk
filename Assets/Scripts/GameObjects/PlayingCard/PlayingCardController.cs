@@ -21,6 +21,7 @@ public class PlayingCardController : GameObjectController
 	public bool hasPlayed ;
 	public bool isMine;
 	public int cannotBeTargeted;
+	public int paralyzed;
 
 	public Texture2D[] icons ;
 	public Texture2D[] halos ;
@@ -39,6 +40,7 @@ public class PlayingCardController : GameObjectController
 		this.isMoved = false;
 		statModifiers = new List<StatModifier> ();
 		this.cannotBeTargeted = -1;
+		this.paralyzed = -1;
 		this.playingCardView.playingCardVM.iconStyle = styles [0];
 		this.playingCardView.playingCardVM.titleStyle = styles [1];
 		this.playingCardView.playingCardVM.descriptionStyle = styles [2];
@@ -270,8 +272,14 @@ public class PlayingCardController : GameObjectController
 
 	public void addIntouchable (string title, string description)
 	{
-		this.cannotBeTargeted=this.playingCardView.playingCardVM.icons.Count;
 		this.addIcon (this.icons [0], title, description);
+		this.cannotBeTargeted=this.playingCardView.playingCardVM.icons.Count-1;
+	}
+	
+	public void setParalyzed (int duration)
+	{
+		this.addIcon (this.icons [2], "Paralysé", "Le personnage ne peut pas attaquer ou se servir de ses compétences pendant "+duration+" tour(s)");
+		this.paralyzed=this.playingCardView.playingCardVM.icons.Count-1;
 	}
 	
 	public void changeEsquive (string title, string description)
@@ -281,7 +289,6 @@ public class PlayingCardController : GameObjectController
 
 	public void addIcon (Texture2D icon, string title, string description)
 	{
-		this.playingCardView.playingCardVM.toDisplayIcon = true;
 		this.playingCardView.playingCardVM.icons.Add (icon);
 		this.playingCardView.playingCardVM.toDisplayDescriptionIcon.Add (false);
 		this.playingCardView.playingCardVM.descriptionIcon.Add (description);
@@ -315,10 +322,10 @@ public class PlayingCardController : GameObjectController
 		this.playingCardView.playingCardVM.descriptionStyle.fontSize = height*15/1000;
 		this.playingCardView.playingCardVM.titleStyle.fontSize = height*20/1000;
 	}
-
+	
 	public void kill ()
 	{
-		print (this.IDCharacter+" est mort");
+		GameController.instance.displayPopUpMessage (GameController.instance.getCard(this.IDCharacter).Title+" est mort",3);
 		this.isDead = true;
 		this.hasPlayed = true;
 		gameObject.renderer.enabled = false ;
@@ -327,6 +334,7 @@ public class PlayingCardController : GameObjectController
 			renderers[i].renderer.enabled = false ;
 		}
 		GameController.instance.emptyTile(this.tile.x, this.tile.y);
+		this.setPosition (new Vector3(-20,-20,-20), new Vector3(0,0,0));
 	}
 	
 	public void removeFurtivity(){
@@ -336,6 +344,29 @@ public class PlayingCardController : GameObjectController
 		this.playingCardView.playingCardVM.titlesIcon.RemoveAt (this.cannotBeTargeted);
 		this.playingCardView.playingCardVM.iconsRect.RemoveAt (this.cannotBeTargeted);
 		this.cannotBeTargeted = -1 ;
+	}
+	
+	public void removeParalyzed(){
+		this.playingCardView.playingCardVM.icons.RemoveAt (this.paralyzed);
+		this.playingCardView.playingCardVM.toDisplayDescriptionIcon.RemoveAt (this.paralyzed);
+		this.playingCardView.playingCardVM.descriptionIcon.RemoveAt (this.paralyzed);
+		this.playingCardView.playingCardVM.titlesIcon.RemoveAt (this.paralyzed);
+		this.playingCardView.playingCardVM.iconsRect.RemoveAt (this.paralyzed);
+		this.paralyzed = -1 ;
+	}
+	
+	public void checkModyfiers(){
+		List<int> modifiersToSuppress = new List<int>();
+		for(int i = 0 ; i < this.card.modifiers.Count ; i++){
+			this.card.modifiers[i].Duration--;
+			
+			if (this.card.modifiers[i].Duration==0){
+				if (this.card.modifiers[i].Type==ModifierType.Type_Paralized){
+					modifiersToSuppress.Add(i);
+					this.removeParalyzed();
+				}
+			}
+		}
 	}
 }
 
