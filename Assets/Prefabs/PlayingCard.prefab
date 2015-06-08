@@ -543,10 +543,11 @@ MonoBehaviour:
   hasPlayed: 0
   isMine: 0
   cannotBeTargeted: 0
+  paralyzed: 0
   icons:
   - {fileID: 2800000, guid: 87be30c4f44f10e41981728cbb53baf8, type: 3}
   - {fileID: 2800000, guid: 17b258390aaefe3459f842ecf0fe118e, type: 3}
-  - {fileID: 2800000, guid: 99675990c96b1c940afa0fc5b67d3bc4, type: 3}
+  - {fileID: 2800000, guid: b199aa3bdcc43954792b27726997205a, type: 3}
   halos:
   - {fileID: 2800000, guid: bfacf2bca793a9c4288f4b69bbf3094a, type: 3}
   styles:

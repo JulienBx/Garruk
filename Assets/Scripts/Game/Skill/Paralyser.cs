@@ -24,11 +24,11 @@ public class Paralyser : GameSkill
 		string message = GameController.instance.getCurrentCard().Title+" attaque "+GameController.instance.getCard(targetID).Title+"\n";
 		
 		if (Random.Range(1, 100) > GameController.instance.getCard(targetID).GetEsquive()){
-			message += GameController.instance.getCurrentCard().Title+" inflige "+attack+"dégats"+"\n";
-			GameController.instance.addModifier(targetID, amount, (int)ModifierType.Type_BonusMalus, (int)ModifierStat.Stat_Dommage);
+			message += GameController.instance.getCurrentCard().Title+" inflige "+attack+" dégats"+"\n";
+			GameController.instance.addModifier(targetID, attack, (int)ModifierType.Type_BonusMalus, (int)ModifierStat.Stat_Dommage);
 			
 			if (Random.Range(1, 100) <= amount){
-				message += GameController.instance.getCard(targetID).Title+"est paralysé"+"\n";
+				message += GameController.instance.getCard(targetID).Title+" est paralysé"+"\n";
 				GameController.instance.setParalyzed(targetID, 1);
 			}
 			else{

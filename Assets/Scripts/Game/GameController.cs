@@ -1778,7 +1778,7 @@ public class GameController : Photon.MonoBehaviour
 		this.gameskills [14] = new AttaqueRapide();
 		this.gameskills [15] = new PiegeALoups();
 		this.gameskills [16] = new Agilite();
-		this.gameskills [17] = new GameSkill();
+		this.gameskills [17] = new Paralyser();
 		this.gameskills [18] = new GameSkill();
 		this.gameskills [19] = new GameSkill();
 		this.gameskills [20] = new GameSkill();
