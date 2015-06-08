@@ -34,6 +34,10 @@ public class ForetDeLianes : GameSkill
 			TileController tc = GameController.instance.getTile(til.x, til.y);
 			tc.addForetIcon();
 			tc.tile.StatModifier = new StatModifier(-amount, ModifierType.Type_Multiplier, ModifierStat.Stat_Move);
+			if (GameController.instance.getTile(til.x, til.y).characterID != -1)
+			{
+				GameController.instance.getPCC(GameController.instance.getTile(til.x, til.y).characterID).card.TileModifier = tc.tile.StatModifier;
+			}
 		}
 
 	}

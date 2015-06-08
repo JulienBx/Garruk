@@ -42,6 +42,7 @@ public class Card
 	public int PercentageToNextLevel;
 	public DateTime OnSaleDate;
 	public List<StatModifier> modifiers = new List<StatModifier>();
+	public StatModifier TileModifier = null;
 	public int onSale ;
 	public int RenameCost = 200;
 	public string Error;
@@ -270,6 +271,10 @@ public class Card
 		foreach (StatModifier modifier in modifiers)
 		{
 			move = modifier.modifyMove(move);
+		}
+		if (TileModifier != null)
+		{
+			move = TileModifier.modifyMove(move);
 		}
 		if (move < 0)
 		{

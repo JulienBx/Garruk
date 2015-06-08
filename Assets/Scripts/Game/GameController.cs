@@ -1440,7 +1440,12 @@ public class GameController : Photon.MonoBehaviour
 
 		this.tiles [x, y].GetComponent<TileController>().characterID = c;
 		this.playingCards [c].GetComponentInChildren<PlayingCardController>().changeTile(new Tile(x, y), this.tiles [x, y].GetComponent<TileController>().getPosition());
-
+		TileController newTile = getTile(x, y);
+		this.playingCards [c].GetComponentInChildren<PlayingCardController>().card.TileModifier = null;
+		if (newTile.tile.StatModifier != null)
+		{
+			this.playingCards [c].GetComponentInChildren<PlayingCardController>().card.TileModifier = newTile.tile.StatModifier;
+		}
 		if (this.isFirstPlayer == isFirstP && nbTurns != 0)
 		{
 			this.playingCards [currentPlayingCard].GetComponentInChildren<PlayingCardController>().tile.setNeighbours(this.getCharacterTilesArray(), this.playingCards [this.currentPlayingCard].GetComponentInChildren<PlayingCardController>().card.GetMove());
