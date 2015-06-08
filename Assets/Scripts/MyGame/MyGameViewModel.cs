@@ -12,6 +12,7 @@ public class MyGameViewModel
 	public bool displayView;
 	public bool guiEnabled;
 	public bool isPopUpDisplayed;
+	public bool[] buttonsEnabled;
 
 	public GUIStyle[] styles;
 
@@ -22,6 +23,11 @@ public class MyGameViewModel
 		this.guiEnabled = true;
 		this.isPopUpDisplayed = false;
 		this.isBeingDragged = false;
+		this.buttonsEnabled = new bool[7];
+		for(int i=0;i<this.buttonsEnabled.Length;i++)
+		{
+			this.buttonsEnabled[i]=true;
+		}
 	}
 	public void initStyles()
 	{

@@ -12,6 +12,7 @@ public class MenuController : MonoBehaviour {
 	public GUIStyle[] menuVMStyle;
 	public int totalNbResultLimit;
 	public int refreshInterval;
+	public bool isTutorialLaunched;
 
 	private MenuView view;
 	public static MenuController instance;
@@ -101,17 +102,26 @@ public class MenuController : MonoBehaviour {
 	}
 	public void homePageLink()
 	{
-		if(Application.loadedLevelName=="Lobby"){
+		if(Application.loadedLevelName=="Lobby")
+		{
 			PhotonNetwork.Disconnect();
 		}
 		Application.LoadLevel("HomePage");
 	}
 	public void myGameLink()
 	{
-		if(Application.loadedLevelName=="Lobby"){
+		if(Application.loadedLevelName=="Lobby")
+		{
 			PhotonNetwork.Disconnect();
 		}
-		Application.LoadLevel("MyGame");
+		if(this.isTutorialLaunched)
+		{
+			TutorialObjectController.instance.actionIsDone();
+		}
+		else
+		{
+			Application.LoadLevel("MyGame");
+		}
 	}
 	public void shopLink()
 	{
@@ -151,6 +161,20 @@ public class MenuController : MonoBehaviour {
 		}
 		Application.LoadLevel("Lobby");
 	}
-				
+	public void setButtonsGui(bool value)
+	{
+		for(int i=0;i<view.menuVM.buttonsEnabled.Length;i++)
+		{
+			view.menuVM.buttonsEnabled[i]=value;
+		}
+	}
+	public void setButtonGui(int index, bool value)
+	{
+		view.menuVM.buttonsEnabled[index]=value;
+	}
+	public void setTutorialLaunched(bool value)
+	{
+		this.isTutorialLaunched = value;
+	}
 }
 

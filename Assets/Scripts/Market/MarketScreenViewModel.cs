@@ -17,6 +17,8 @@ public class MarketScreenViewModel {
 	public Rect blockLeft;
 	public Rect blockRight;
 	public Rect centralWindow;
+	public Rect collectionPointsWindow;
+	public Rect newSkillsWindow;
 	
 	public MarketScreenViewModel ()
 	{
@@ -49,6 +51,14 @@ public class MarketScreenViewModel {
 		                                this.blockRightWidth, 
 		                                this.blockRightHeight);
 		this.centralWindow = new Rect (this.widthScreen * 0.25f, 0.12f * this.heightScreen, this.widthScreen * 0.50f, 0.25f * this.heightScreen);
+		this.collectionPointsWindow = new Rect (this.widthScreen - this.widthScreen * 0.15f-this.gapBetweenblocks, 
+		                                        0.1f * this.heightScreen+this.gapBetweenblocks, 
+		                                        this.widthScreen * 0.15f, 
+		                                        this.heightScreen * 0.1f);
+		this.newSkillsWindow = new Rect (this.collectionPointsWindow.xMin,
+		                                 this.collectionPointsWindow.yMax + this.gapBetweenblocks,
+		                                 this.collectionPointsWindow.width,
+		                                 this.heightScreen - 0.1f * this.heightScreen - 2 * this.gapBetweenblocks - this.collectionPointsWindow.height);
 
 	}
 }

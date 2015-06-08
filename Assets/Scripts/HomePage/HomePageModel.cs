@@ -89,6 +89,9 @@ public class HomePageModel
 		player.RankingPoints = System.Convert.ToInt32 (array [7]);
 		player.TotalNbWins = System.Convert.ToInt32 (array [8]);
 		player.TotalNbLooses = System.Convert.ToInt32 (array [9]);
+		player.CollectionPoints = System.Convert.ToInt32 (array [10]);
+		player.CollectionRanking = System.Convert.ToInt32 (array [11]);
+		player.TutorialStep = System.Convert.ToInt32 (array [12]);
 		return player;
 	}
 	private void lookForNonReadSystemNotification ()

@@ -14,6 +14,14 @@ public class StatModifier
 
 	}
 
+	public StatModifier(int amount, ModifierType type)
+	{
+		this.Amount = amount;
+		this.Type = type;
+		this.Duration = -1;
+		this.Active = true;
+	}
+	
 	public StatModifier(int amount, ModifierType type, ModifierStat stat)
 	{
 		this.Amount = amount;

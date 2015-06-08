@@ -126,6 +126,14 @@ public class MarketController : MonoBehaviour
 		{
 			this.cardFocused.GetComponent<CardMarketController>().resetFocusedMarketCard(model.cards[view.marketCardsVM.cardsToBeDisplayed[tempInt]]);
 		}
+		if(model.cards[view.marketCardsVM.cardsToBeDisplayed[tempInt]].CollectionPoints>0)
+		{
+			StartCoroutine(this.displayedCards [tempInt-view.marketCardsVM.start].GetComponent<CardController> ().displayCollectionPointsPopUp());
+		}
+		if(model.cards[view.marketCardsVM.cardsToBeDisplayed[tempInt]].NewSkills.Count>0)
+		{
+			StartCoroutine(this.displayedCards [tempInt-view.marketCardsVM.start].GetComponent<CardController> ().displayNewSkillsPopUp());
+		}
 		if(model.cards[view.marketCardsVM.cardsToBeDisplayed[tempInt]].Error=="")
 		{
 			this.setGUI (true);
@@ -268,6 +276,8 @@ public class MarketController : MonoBehaviour
 			{
 				this.displayedCards[i].GetComponent<CardMarketController>().setMarketCard(model.cards[view.marketCardsVM.cardsToBeDisplayed[i]]);
 				this.displayedCards[i].GetComponent<CardController> ().setCentralWindowRect (view.marketScreenVM.centralWindow);
+				this.displayedCards[i].GetComponent<CardController>().setCollectionPointsWindowRect(view.marketScreenVM.collectionPointsWindow);
+				this.displayedCards[i].GetComponent<CardController>().setNewSkillsWindowRect(view.marketScreenVM.newSkillsWindow);
 				view.marketCardsVM.nbCardsToDisplay++;
 			}   
 			else{

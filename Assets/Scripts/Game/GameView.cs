@@ -45,12 +45,12 @@ public class GameView : MonoBehaviour
 		
 			if (gameScreenVM.toDisplayValidationWindows)
 			{
-				GUILayout.BeginArea(gameScreenVM.centerMessageRect, this.gameScreenVM.startWindowStyle);
+				GUILayout.BeginArea(gameScreenVM.validationWindowRect, this.gameScreenVM.startWindowStyle);
 				{
 					GUILayout.BeginHorizontal();
 					{
 						GUILayout.FlexibleSpace();
-						GUILayout.BeginVertical(GUILayout.Width(gameScreenVM.centerMessageRect.width*8/10));
+						GUILayout.BeginVertical(GUILayout.Width(gameScreenVM.validationWindowRect.width*8/10));
 						{
 							GUILayout.FlexibleSpace();
 							GUILayout.Label (this.gameScreenVM.validationRegularText, this.gameScreenVM.whiteSmallTextStyle);
@@ -59,12 +59,12 @@ public class GameView : MonoBehaviour
 							{
 								GUILayout.FlexibleSpace();
 								if(this.gameScreenVM.toDisplayValidationButton){
-									if(GUILayout.Button (this.gameScreenVM.validationButtonText, this.gameScreenVM.buttonTextStyle, GUILayout.Width(gameScreenVM.centerMessageRect.width*3/10))){
+									if(GUILayout.Button (this.gameScreenVM.validationButtonText, this.gameScreenVM.buttonTextStyle, GUILayout.Width(gameScreenVM.validationWindowRect.width*3/10))){
 										GameController.instance.validateSkill();
 									}
 									GUILayout.FlexibleSpace();
 								}
-								if (GUILayout.Button ("Annuler", this.gameScreenVM.buttonTextStyle, GUILayout.Width(gameScreenVM.centerMessageRect.width*3/10))){
+								if (GUILayout.Button ("Annuler", this.gameScreenVM.buttonTextStyle, GUILayout.Width(gameScreenVM.validationWindowRect.width*3/10))){
 									GameController.instance.cancelSkill();
 								}
 								GUILayout.FlexibleSpace();
@@ -145,18 +145,20 @@ public class GameView : MonoBehaviour
 				GUILayout.EndArea();
 			}
 
-			if (gameScreenVM.hasAMessage)
-			{
-				GUILayout.BeginArea(gameScreenVM.centerMessageRect);
+			for (int i = 0 ; i < this.gameScreenVM.messagesToDisplay.Count ; i++){
+				GUILayout.BeginArea(gameScreenVM.centerMessageRects[i], this.gameScreenVM.startWindowStyle);
 				{
-					GUILayout.BeginHorizontal(gameScreenVM.centerMessageTextStyle);
+					GUILayout.FlexibleSpace();
+					GUILayout.BeginVertical(gameScreenVM.centerMessageTextStyle);
 					{
-						GUILayout.Label(gameScreenVM.messageToDisplay, gameScreenVM.centerMessageTextStyle);
+						GUILayout.Label(gameScreenVM.messagesToDisplay[i], gameScreenVM.centerMessageTextStyle);
 					}
 					GUILayout.EndHorizontal();
+					GUILayout.FlexibleSpace();
 				}
 				GUILayout.EndArea();
 			}
+			
 			if (gameScreenVM.timer > 0)
 			{
 				GUILayout.BeginArea(gameScreenVM.rightMessageRect);

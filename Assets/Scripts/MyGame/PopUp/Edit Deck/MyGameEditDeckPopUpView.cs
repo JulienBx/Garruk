@@ -12,6 +12,7 @@ public class MyGameEditDeckPopUpView : MonoBehaviour
 	}
 	void OnGUI()
 	{
+		GUI.depth = popUpVM.guiDepth;
 		GUILayout.BeginArea(popUpVM.centralWindow);
 		{
 			GUILayout.BeginVertical(popUpVM.centralWindowStyle);

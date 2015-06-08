@@ -16,6 +16,8 @@ public class Pack
 	public string Name;
 	public IList<Card> Cards;
 	public string Error;
+	public IList<Skill> NewSkills;
+	public int CollectionPoints;
 
 	private string URLBuyPack = ApplicationModel.host + "buyPack.php";
 
@@ -47,55 +49,83 @@ public class Pack
 		} 
 		else
 		{
-			string[] data = w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
-			this.Error = data [0];
-			if (this.Error == "")
+			if(w.text.Contains("#ERROR#"))
 			{
-				for(int i=1;i<data.Length-1;i++)
+				string[] errors = w.text.Split(new string[] { "#ERROR#" }, System.StringSplitOptions.None);
+				this.Error=errors[1];
+			}
+			else
+			{
+				this.Error="";
+				string[] data = w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
+				this.Cards=parseCard(data[0].Split(new string[] { "CARD" }, System.StringSplitOptions.None));
+				this.CollectionPoints=System.Convert.ToInt32(data[1]);
+
+				this.NewSkills=new List<Skill>();
+				for(int i=0;i<this.Cards.Count;i++)
 				{
-					this.Cards.Add(new Card());
-					this.Cards[i-1]=parseCard(data [i].Split(new string[] { "\n" }, System.StringSplitOptions.None));
+					for(int j=0;j<this.Cards[i].Skills.Count;j++)
+					{
+						if(this.Cards[i].Skills[j].IsNew)
+						{
+							this.NewSkills.Add (this.Cards[i].Skills[j]);
+						}
+					}
 				}
 			}
 		}
 	}
-	private Card parseCard(string[] array)
+	private IList<Card> parseCard(string[] array)
 	{
-		Card card = new Card ();
-		
-		string[] cardInformation = array[0].Split(new string[] { "//" }, System.StringSplitOptions.None);
-		card.Id = System.Convert.ToInt32(cardInformation [0]);
-		card.Title = cardInformation [1];
-		card.Life = System.Convert.ToInt32(cardInformation [2]);
-		card.Attack = System.Convert.ToInt32(cardInformation [3]);
-		card.Speed = System.Convert.ToInt32(cardInformation [4]);
-		card.Move = System.Convert.ToInt32(cardInformation [5]);
-		card.ArtIndex = System.Convert.ToInt32(cardInformation [6]);
-		card.IdClass = System.Convert.ToInt32(cardInformation [7]);
-		card.TitleClass = cardInformation [8];
-		card.LifeLevel = System.Convert.ToInt32(cardInformation [9]);
-		card.MoveLevel = System.Convert.ToInt32(cardInformation [10]);
-		card.SpeedLevel = System.Convert.ToInt32(cardInformation [11]);
-		card.AttackLevel = System.Convert.ToInt32(cardInformation [12]);
-		card.NextLevelPrice = System.Convert.ToInt32(cardInformation [13]);
-		card.onSale = 0;
-		card.Experience = 0;
-		card.PercentageToNextLevel = 0;
-		card.ExperienceLevel = 0;
-		
-		card.Skills = new List<Skill>();
-		for (int i = 1; i < 5; i++)
-		{         
-			cardInformation = array [i].Split(new string[] { "//" }, System.StringSplitOptions.None);
-			card.Skills.Add(new Skill(cardInformation [0], //skillName
-			                          System.Convert.ToInt32(cardInformation [1]), // idskill
-			                          System.Convert.ToInt32(cardInformation [2]), // isactivated
-			                          System.Convert.ToInt32(cardInformation [3]), // level
-			                          System.Convert.ToInt32(cardInformation [4]), // power
-			                          System.Convert.ToInt32(cardInformation [5]), // manaCost
-			                          cardInformation [6])); // description
+		string[] cardData = null;
+		string[] cardInformation = null;
+		IList<Card> cards = new List<Card> ();
+
+		for(int i=0;i<array.Length-1;i++)
+		{
+			cardData = array[i].Split(new string[] { "#S#" }, System.StringSplitOptions.None);
+			for(int j = 0 ; j < cardData.Length-1 ; j++)
+			{
+				cardInformation = cardData[j].Split(new string[] { "//" }, System.StringSplitOptions.None); 
+				if (j==0)
+				{
+					cards.Add(new Card ());
+					cards[i].Id = System.Convert.ToInt32(cardInformation [0]);
+					cards[i].Title = cardInformation [1];
+					cards[i].Life = System.Convert.ToInt32(cardInformation [2]);
+					cards[i].Attack = System.Convert.ToInt32(cardInformation [3]);
+					cards[i].Speed = System.Convert.ToInt32(cardInformation [4]);
+					cards[i].Move = System.Convert.ToInt32(cardInformation [5]);
+					cards[i].ArtIndex = System.Convert.ToInt32(cardInformation [6]);
+					cards[i].IdClass = System.Convert.ToInt32(cardInformation [7]);
+					cards[i].TitleClass = cardInformation [8];
+					cards[i].LifeLevel = System.Convert.ToInt32(cardInformation [9]);
+					cards[i].MoveLevel = System.Convert.ToInt32(cardInformation [10]);
+					cards[i].SpeedLevel = System.Convert.ToInt32(cardInformation [11]);
+					cards[i].AttackLevel = System.Convert.ToInt32(cardInformation [12]);
+					cards[i].NextLevelPrice = System.Convert.ToInt32(cardInformation [13]);
+					cards[i].onSale = 0;
+					cards[i].Experience = 0;
+					cards[i].PercentageToNextLevel = 0;
+					cards[i].ExperienceLevel = 0;
+					cards[i].Skills = new List<Skill>();
+				}
+				else
+				{       
+					cards[i].Skills.Add(new Skill());
+					cards[i].Skills[j-1].Name=cardInformation[0];
+					cards[i].Skills[j-1].Id=System.Convert.ToInt32(cardInformation [1]);
+					cards[i].Skills[j-1].IsActivated=System.Convert.ToInt32(cardInformation [2]);
+					cards[i].Skills[j-1].Level=System.Convert.ToInt32(cardInformation [3]);
+					cards[i].Skills[j-1].Power=System.Convert.ToInt32(cardInformation [4]);
+					cards[i].Skills[j-1].ManaCost=System.Convert.ToInt32(cardInformation [5]);
+					cards[i].Skills[j-1].Description=cardInformation [6];
+					cards[i].Skills[j-1].IsNew=System.Convert.ToBoolean(System.Convert.ToInt32(cardInformation [7]));
+				}
+			}
 		}
-		return card;
+		return cards;
+		
 	}
 }
 

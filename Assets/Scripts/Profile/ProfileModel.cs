@@ -42,40 +42,49 @@ public class ProfileModel
 
 			if(ApplicationModel.profileChosen=="" || ApplicationModel.profileChosen==ApplicationModel.username)
 			{
-				Player=new User(System.Convert.ToInt32(playerInformations[0]),
-				                playerInformations[1],
-				                playerInformations[2],
-				                System.Convert.ToInt32(playerInformations[3]),
-				                playerInformations[4],
-				                playerInformations[5],
-				                playerInformations[6],
-				                System.Convert.ToInt32(playerInformations[7]),
-				                System.Convert.ToInt32(playerInformations[8]),
-				                System.Convert.ToInt32(playerInformations[9]),
-				                System.Convert.ToInt32(playerInformations[10]),
-				                System.Convert.ToInt32(playerInformations[11]));
+
+				Player=new User();
+				this.Player.Id=System.Convert.ToInt32(playerInformations[0]);
+				this.Player.Username=playerInformations[1];
+				this.Player.Mail=playerInformations[2];
+				this.Player.Money=System.Convert.ToInt32(playerInformations[3]);
+				this.Player.FirstName=playerInformations[4];
+				this.Player.Surname=playerInformations[5];
+				this.Player.Picture=playerInformations[6];
+				this.Player.Division=System.Convert.ToInt32(playerInformations[7]);
+				this.Player.RankingPoints=System.Convert.ToInt32(playerInformations[8]);
+				this.Player.Ranking=System.Convert.ToInt32(playerInformations[9]);
+				this.Player.TotalNbWins=System.Convert.ToInt32(playerInformations[10]);
+				this.Player.TotalNbLooses=System.Convert.ToInt32(playerInformations[11]);
+				this.Player.CollectionPoints=System.Convert.ToInt32(playerInformations[12]);
+				this.Player.CollectionRanking=System.Convert.ToInt32(playerInformations[13]);
 				Profile=new User();
 				Profile=Player;
 			}
 			else
 			{
-				Player=new User(System.Convert.ToInt32(playerInformations[0]),
-				                playerInformations[1],
-				                playerInformations[2],
-				                System.Convert.ToInt32(playerInformations[3]),
-				                System.Convert.ToInt32(playerInformations[4]),
-				                System.Convert.ToInt32(playerInformations[5]),
-				                System.Convert.ToInt32(playerInformations[6]),
-				                System.Convert.ToInt32(playerInformations[7]));
+				Player=new User();
+				this.Player.Id=System.Convert.ToInt32(playerInformations[0]);
+				this.Player.Username=playerInformations[1];
+				this.Player.Picture=playerInformations[2];
+				this.Player.Division=System.Convert.ToInt32(playerInformations[3]);
+				this.Player.RankingPoints=System.Convert.ToInt32(playerInformations[4]);
+				this.Player.Ranking=System.Convert.ToInt32(playerInformations[5]);
+				this.Player.TotalNbWins=System.Convert.ToInt32(playerInformations[6]);
+				this.Player.TotalNbLooses=System.Convert.ToInt32(playerInformations[7]);
+
 				string[] userInformations = data[1].Split(new string[] { "\\" }, System.StringSplitOptions.None);
-				Profile=new User(System.Convert.ToInt32(userInformations[0]),
-				                userInformations[1],
-				                userInformations[2],
-				                System.Convert.ToInt32(userInformations[3]),
-				                System.Convert.ToInt32(userInformations[4]),
-				                System.Convert.ToInt32(userInformations[5]),
-				                System.Convert.ToInt32(userInformations[6]),
-				                System.Convert.ToInt32(userInformations[7]));
+				Profile=new User();
+				this.Player.Id=System.Convert.ToInt32(userInformations[0]);
+				this.Player.Username=userInformations[1];
+				this.Player.Picture=userInformations[2];
+				this.Player.Division=System.Convert.ToInt32(userInformations[3]);
+				this.Player.RankingPoints=System.Convert.ToInt32(userInformations[4]);
+				this.Player.Ranking=System.Convert.ToInt32(userInformations[5]);
+				this.Player.TotalNbWins=System.Convert.ToInt32(userInformations[6]);
+				this.Player.TotalNbLooses=System.Convert.ToInt32(userInformations[7]);
+				this.Player.CollectionPoints=System.Convert.ToInt32(userInformations[8]);
+				this.Player.CollectionRanking=System.Convert.ToInt32(userInformations[9]);
 			}
 			for(int i=0;i<playerConnections.Length-1;i++)
 			{

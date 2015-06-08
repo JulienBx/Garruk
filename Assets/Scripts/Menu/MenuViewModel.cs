@@ -11,6 +11,7 @@ public class MenuViewModel {
 	public GUIStyle titleStyle;
 	public GUIStyle buttonStyle;
 	public GUIStyle logOutButtonStyle;
+	public bool[] buttonsEnabled;
 	
 	public MenuViewModel ()
 	{
@@ -19,6 +20,11 @@ public class MenuViewModel {
 		this.titleStyle = new GUIStyle ();
 		this.buttonStyle = new GUIStyle ();
 		this.logOutButtonStyle = new GUIStyle ();
+		this.buttonsEnabled = new bool[7];
+		for(int i=0;i<this.buttonsEnabled.Length;i++)
+		{
+			this.buttonsEnabled[i]=true;
+		}
 	}
 	public void initStyles()
 	{	

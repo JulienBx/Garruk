@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 public class GameScreenViewModel
 {
@@ -17,9 +18,7 @@ public class GameScreenViewModel
 
 	public Texture2D cursor ;
 	int cursorID = -1 ; 
-	public bool hasAMessage;
-
-
+	
 	public bool toDisplayStartWindows = true ;
 	public bool toDisplayValidationWindows = false ;
 	public bool toDisplayValidationButton = false ;
@@ -44,12 +43,11 @@ public class GameScreenViewModel
 	public GUIStyle buttonTextStyle ;
 	public GUIStyle greenInformationTextStyle ;
 
-	public string messageToDisplay;
+	public List<string> messagesToDisplay;
 
 	public float timer;
-	public float timerPopUp;
+	public List<float> timersPopUp;
 
-	public bool popUpDisplay;
 	public bool toDisplayGameScreen = false;
 	public bool toDisplayQuitButton = false; 
 
@@ -58,7 +56,7 @@ public class GameScreenViewModel
 	public string quitButtonText = "Quitter la partie" ;
 	public Rect quitButtonRect ;
 
-	public Rect centerMessageRect;
+	public List<Rect> centerMessageRects;
 	public Rect namePlayingCardRect;
 	public Rect nameOpponentPlayingCardRect;
 
@@ -70,6 +68,8 @@ public class GameScreenViewModel
 
 	public string myPlayingCardName ; 
 	public string hisPlayingCardName ;
+	
+	public Rect validationWindowRect;
 
 
 	public GameScreenViewModel()
@@ -83,10 +83,10 @@ public class GameScreenViewModel
 		this.greenInformationTextStyle = new GUIStyle();
 		this.namePlayingCardTextStyle = new GUIStyle();
 		this.nameOpponentPlayingCardTextStyle = new GUIStyle();
-		messageToDisplay = "";
-		hasAMessage = false;
+		this.messagesToDisplay = new List<string>();
 		timer = 10f;
-		timerPopUp = 5f;
+		this.timersPopUp = new List<float>();
+		this.centerMessageRects = new List<Rect>();
 		toDisplayGameScreen = true;
 	}
 
@@ -123,15 +123,15 @@ public class GameScreenViewModel
 
 	public void recalculate(int w, int h)
 	{
-		this.centerMessageRect = new Rect((w / 2f) - h * 1f / 4f, h * 0.45f, h * 5 / 10, h * 1 / 10);
 		this.rightMessageRect = new Rect(w * 0.9f, h * 0.5f, 30, 30);
 		this.startButtonRect = new Rect((w / 2f) - h * 1f / 4f, (h / 2f) + h * 5f / 100f, h * 5 / 10, h * 1 / 10);
 		this.opponentStartButtonRect = new Rect((w / 2f) - h * 1f / 4f, (h / 2f) - h * 15f / 100f, h * 5 / 10, h * 1 / 10);
 		this.namePlayingCardRect = new Rect(-3, 4.8f, 1, 0.2f);
 		this.nameOpponentPlayingCardRect = new Rect(-3, -5f, 1, 0.2f);
 		this.quitButtonRect = new Rect(3 * w / 4f, h * 25f / 1000f, w / 8f, h * 5f / 100f);
+		this.validationWindowRect = new Rect((w / 2f) - h * 1f / 4f, 0.91f*h, h * 5 / 10, h * 8 / 100);
 		
-		this.centerMessageTextStyle.fontSize = h * 20 / 1000;
+		this.centerMessageTextStyle.fontSize = h * 18 / 1000;
 		this.rightMessageTextStyle.fontSize = h * 20 / 1000;
 		this.whiteSmallTextStyle.fontSize = h * 22 / 1000;
 		this.buttonTextStyle.fontSize = h * 22 / 1000;
@@ -162,6 +162,16 @@ public class GameScreenViewModel
 		{
 			Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
 			this.cursorID = -1;
+		}
+	}
+	
+	public void resizePopUps()
+	{
+		int h = Screen.height ;
+		int w = Screen.width ;
+		
+		for (int i = 0 ; i < this.messagesToDisplay.Count ; i++){
+			this.centerMessageRects[i] = new Rect((w / 2f) - h * 1f / 4f, h * (0.51f - 0.05f*(this.messagesToDisplay.Count) + 0.1f*i), h * 5 / 10, h * 8 / 100);
 		}
 	}
 }

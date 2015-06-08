@@ -42,9 +42,11 @@ public class MenuView : MonoBehaviour {
 				GUILayout.BeginVertical();
 				{
 					GUILayout.FlexibleSpace();
+					GUI.enabled=menuVM.buttonsEnabled[0];
 					if(GUILayout.Button ("Accueil",menuVM.buttonStyle)){
 						MenuController.instance.homePageLink();
 					}
+					GUI.enabled=true;
 					GUILayout.FlexibleSpace();
 				}
 				GUILayout.EndVertical();
@@ -53,9 +55,11 @@ public class MenuView : MonoBehaviour {
 					GUILayout.BeginVertical();
 					{
 						GUILayout.FlexibleSpace();
+						GUI.enabled=menuVM.buttonsEnabled[1];
 						if(GUILayout.Button ("",notificationsReminderVM.nonReadNotificationsButtonStyle)){
 							MenuController.instance.homePageLink();
 						}
+						GUI.enabled=true;
 						GUILayout.FlexibleSpace();
 					}
 					GUILayout.EndVertical();
@@ -64,9 +68,11 @@ public class MenuView : MonoBehaviour {
 				GUILayout.BeginVertical();
 				{
 					GUILayout.FlexibleSpace();
+					GUI.enabled=menuVM.buttonsEnabled[2];
 					if(GUILayout.Button ("Mes cartes",menuVM.buttonStyle)){
 						MenuController.instance.myGameLink();
 					}
+					GUI.enabled=true;
 					GUILayout.FlexibleSpace();
 				}
 				GUILayout.EndVertical();
@@ -74,9 +80,11 @@ public class MenuView : MonoBehaviour {
 				GUILayout.BeginVertical();
 				{
 					GUILayout.FlexibleSpace();
+					GUI.enabled=menuVM.buttonsEnabled[3];
 					if(GUILayout.Button ("La boutique",menuVM.buttonStyle)){
 						MenuController.instance.shopLink();
 					}
+					GUI.enabled=true;
 					GUILayout.FlexibleSpace();
 				}
 				GUILayout.EndVertical();
@@ -84,9 +92,11 @@ public class MenuView : MonoBehaviour {
 				GUILayout.BeginVertical();
 				{
 					GUILayout.FlexibleSpace();
+					GUI.enabled=menuVM.buttonsEnabled[4];
 					if(GUILayout.Button ("Le bazar",menuVM.buttonStyle)){
 						MenuController.instance.marketLink();
 					}
+					GUI.enabled=true;
 					GUILayout.FlexibleSpace();
 				}
 				GUILayout.EndVertical();
@@ -94,9 +104,11 @@ public class MenuView : MonoBehaviour {
 				GUILayout.BeginVertical();
 				{
 					GUILayout.FlexibleSpace();
+					GUI.enabled=menuVM.buttonsEnabled[5];
 					if(GUILayout.Button ("Jouer",menuVM.buttonStyle)){
 						MenuController.instance.lobbyLink();
 					}
+					GUI.enabled=true;
 					GUILayout.FlexibleSpace();
 				}
 				GUILayout.EndVertical();
@@ -116,9 +128,11 @@ public class MenuView : MonoBehaviour {
 					GUILayout.BeginHorizontal();
 					{
 						GUILayout.FlexibleSpace();
+						GUI.enabled=menuVM.buttonsEnabled[6];
 						if(GUILayout.Button (userDataVM.username,userDataVM.welcomeStyle)){
 							MenuController.instance.profileLink();
 						}
+						GUI.enabled=true;
 						GUILayout.FlexibleSpace();
 					}
 					GUILayout.EndHorizontal();

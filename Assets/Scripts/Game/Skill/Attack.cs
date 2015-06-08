@@ -17,21 +17,28 @@ public class Attack : GameSkill
 	public override void resolve(int[] args)
 	{
 		int targetID = args [0];
+		string message = GameController.instance.getCurrentCard().Title+" attaque "+GameController.instance.getCard(targetID).Title+"\n";
+		
 		int amount = GameController.instance.getCurrentCard().Attack;
-		GameController.instance.play(GameController.instance.getCurrentCard().Title + 
-			" a lancé une attaque \n " 
-			+ amount 
-			+ " " 
-			+ convertStatToString(ModifierStat.Stat_Dommage));
-
-		GameController.instance.getCard(targetID).modifiers.Add(new StatModifier(amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage));
-
-		if (GameController.instance.getCard(targetID).GetLife() <= 0)
+		if (Random.Range(1, 100) > GameController.instance.getCard(targetID).GetEsquive())
 		{
-			GameController.instance.getPCC(targetID).kill();
-			GameController.instance.reloadTimeline();
+			                             
+			GameController.instance.getCard(targetID).modifiers.Add(new StatModifier(amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage));
+			
+			if (GameController.instance.getCard(targetID).GetLife() <= 0)
+			{
+				GameController.instance.getPCC(targetID).kill();
+				GameController.instance.reloadTimeline();
+			}
+			GameController.instance.reloadCard(targetID);
+			
+			message+="L'attaque touche la cible et inflige "+amount+" degats"+"\n";
 		}
-		GameController.instance.reloadCard(targetID);
+		else{
+			message+=GameController.instance.getCard(targetID).Title+" esquive l'attaque"+"\n";
+		}
+		
+		GameController.instance.play(message);
 	}
 
 	public override bool isLaunchable(Skill s){
@@ -41,13 +48,17 @@ public class Attack : GameSkill
 		tempTiles = t.getImmediateNeighbouringTiles();
 		bool isLaunchable = false ;
 		int i = 0 ;
+		int tempInt ; 
 
 		while (!isLaunchable && i<tempTiles.Count){
 			t = tempTiles[i];
-			if (GameController.instance.getTile(t.x, t.y).characterID!=-1)
+			tempInt = GameController.instance.getTile(t.x, t.y).characterID;
+			if (tempInt!=-1)
 			{
-			 	
-				isLaunchable = true ;
+				if (GameController.instance.getPCC(tempInt).cannotBeTargeted==-1)
+				{
+					isLaunchable = true ;
+				}
 			}
 			i++;
 		}

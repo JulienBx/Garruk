@@ -48,17 +48,6 @@ public class TileView : MonoBehaviour
 	void OnMouseEnter()
 	{
 		gameObject.GetComponentInChildren<TileController>().hoverTile();
-		GameController.instance.testX = tileVM.position.x;
-		GameController.instance.testY = tileVM.position.y;
-
-		GameController.instance.test2X = Input.mousePosition.x;
-		GameController.instance.test2Y = Input.mousePosition.y;
-
-		Vector3 min = Utils.getGOScreenPosition(gameObject.renderer.bounds.min);
-		Vector3 max = Utils.getGOScreenPosition(gameObject.renderer.bounds.max);
-
-		GameController.instance.test3X = min.x;
-		GameController.instance.test3Y = min.y;
 	}
 	
 	void OnMouseUp()

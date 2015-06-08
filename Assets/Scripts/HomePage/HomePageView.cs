@@ -35,6 +35,7 @@ public class HomePageView : MonoBehaviour
 	}
 	void OnGUI()
 	{
+		GUI.enabled = homepageVM.guiEnabled;
 		GUILayout.BeginArea(homepageScreenVM.blockTopLeft,homepageScreenVM.blockBorderStyle);
 		{
 			GUILayout.Label(notificationsVM.notificationsTitleLabel,homepageVM.titleStyle,GUILayout.Height(0.5f*notificationsVM.blocksHeight));
@@ -44,6 +45,7 @@ public class HomePageView : MonoBehaviour
 			GUILayout.BeginHorizontal();
 			{
 				GUILayout.FlexibleSpace();
+				GUI.enabled=homepageVM.buttonsEnabled;
 				if (notificationsVM.pageDebut>0){
 					if (GUILayout.Button("...",homepageVM.paginationStyle,
 					                     GUILayout.Height(homepageScreenVM.heightScreen*3/100),
@@ -72,6 +74,7 @@ public class HomePageView : MonoBehaviour
 						HomePageController.instance.notificationsPaginationNext();
 					}
 				}
+				GUI.enabled = homepageVM.guiEnabled;
 				GUILayout.FlexibleSpace();
 			}
 			GUILayout.EndHorizontal();
@@ -93,6 +96,7 @@ public class HomePageView : MonoBehaviour
 						{
 							GUILayout.BeginHorizontal(homepageVM.profileBackgroundStyle);
 							{
+								GUI.enabled=homepageVM.buttonsEnabled;
 								if(GUILayout.Button ("",notificationsVM.profilePicturesButtonStyle[i],
 								                     GUILayout.Height (notificationsVM.blocksHeight*0.90f),
 								                     GUILayout.Width (notificationsVM.blocksHeight*0.90f)))
@@ -100,6 +104,7 @@ public class HomePageView : MonoBehaviour
 									ApplicationModel.profileChosen=notificationsVM.username[i];
 									Application.LoadLevel("Profile");
 								}
+								GUI.enabled = homepageVM.guiEnabled;
 								GUILayout.Space (notificationsVM.blocksWidth*0.01f);
 							}
 							GUILayout.EndHorizontal();
@@ -157,6 +162,7 @@ public class HomePageView : MonoBehaviour
 			GUILayout.BeginHorizontal();
 			{
 				GUILayout.FlexibleSpace();
+				GUI.enabled=homepageVM.buttonsEnabled;
 				if (newsVM.pageDebut>0){
 					if (GUILayout.Button("...",homepageVM.paginationStyle,
 					                     GUILayout.Height(homepageScreenVM.heightScreen*3/100),
@@ -185,6 +191,7 @@ public class HomePageView : MonoBehaviour
 						HomePageController.instance.newsPaginationNext();
 					}
 				}
+				GUI.enabled = homepageVM.guiEnabled;
 				GUILayout.FlexibleSpace();
 			}
 			GUILayout.EndHorizontal();
@@ -206,6 +213,7 @@ public class HomePageView : MonoBehaviour
 						{
 							GUILayout.BeginHorizontal(homepageVM.profileBackgroundStyle);
 							{
+								GUI.enabled=homepageVM.buttonsEnabled;
 								if(GUILayout.Button ("",newsVM.profilePicturesButtonStyle[i],
 								                     GUILayout.Height (newsVM.blocksHeight*0.90f),
 								                     GUILayout.Width (newsVM.blocksHeight*0.90f)))
@@ -213,6 +221,7 @@ public class HomePageView : MonoBehaviour
 									ApplicationModel.profileChosen=newsVM.username[i];
 									Application.LoadLevel("Profile");
 								}
+								GUI.enabled = homepageVM.guiEnabled;
 								GUILayout.Space (newsVM.blocksWidth*0.01f);
 							}
 							GUILayout.EndHorizontal();
@@ -259,10 +268,23 @@ public class HomePageView : MonoBehaviour
 			GUILayout.BeginHorizontal();
 			{
 				GUILayout.FlexibleSpace();
-				if(GUILayout.Button("Je commande",packsVM.buttonStyle,GUILayout.Height(0.125f*homepageScreenVM.blockBottomRightHeight),GUILayout.Width(0.5f*homepageScreenVM.blockBottomRightWidth)))
+				GUILayout.BeginHorizontal();
 				{
-					Application.LoadLevel("Store");
+					GUI.enabled=homepageVM.buttonsEnabled;
+					if(GUILayout.Button("Acheter des cartes",packsVM.buttonStyle,GUILayout.Height(0.125f*homepageScreenVM.blockBottomRightHeight),GUILayout.Width(0.4f*homepageScreenVM.blockBottomRightWidth)))
+					{
+						Application.LoadLevel("Store");
+					}
+					GUI.enabled = homepageVM.guiEnabled;
+					GUILayout.Space (0.1f*homepageScreenVM.blockBottomRightWidth);
+					GUI.enabled=homepageVM.buttonsEnabled;
+					if(GUILayout.Button("Vider mes cartes",packsVM.buttonStyle,GUILayout.Height(0.125f*homepageScreenVM.blockBottomRightHeight),GUILayout.Width(0.4f*homepageScreenVM.blockBottomRightWidth)))
+					{
+						HomePageController.instance.cleanCardsHandler();
+					}
+					GUI.enabled = homepageVM.guiEnabled;
 				}
+				GUILayout.EndHorizontal();
 				GUILayout.FlexibleSpace();
 			}
 			GUILayout.EndHorizontal();
@@ -289,7 +311,6 @@ public class HomePageView : MonoBehaviour
 					GUILayout.FlexibleSpace();
 					if(GUILayout.Button("",packsVM.packPicturesButtonStyle[i],GUILayout.Height(packsVM.blocksHeight*6f/10f),GUILayout.Width(packsVM.blocksHeight*6f/10f)))
 					{
-						Application.LoadLevel("Store");
 					}
 					GUILayout.FlexibleSpace();
 				}
@@ -305,8 +326,14 @@ public class HomePageView : MonoBehaviour
 			GUILayout.FlexibleSpace();
 			GUILayout.Label("Victoires : " + ranksVM.totalNbWins,ranksVM.informationsStyle,GUILayout.Height(homepageScreenVM.blockMiddleRightHeight*0.1f));
 			GUILayout.Label("Défaites : " + ranksVM.totalNbLooses,ranksVM.informationsStyle,GUILayout.Height(homepageScreenVM.blockMiddleRightHeight*0.1f));
-			GUILayout.Label("Ranking : " + ranksVM.ranking,ranksVM.informationsStyle,GUILayout.Height(homepageScreenVM.blockMiddleRightHeight*0.1f));
-			GUILayout.Label("Ranking points : " + ranksVM.rankingPoints,ranksVM.informationsStyle,GUILayout.Height(homepageScreenVM.blockMiddleRightHeight*0.1f));
+			if(ranksVM.ranking!="")
+			{
+				GUILayout.Label(ranksVM.ranking,ranksVM.informationsStyle,GUILayout.Height(homepageScreenVM.blockMiddleRightHeight*0.1f));
+			}
+			if(ranksVM.collectionRanking!="")
+			{
+				GUILayout.Label(ranksVM.collectionRanking,ranksVM.informationsStyle,GUILayout.Height(homepageScreenVM.blockMiddleRightHeight*0.1f));
+			}
 			GUILayout.FlexibleSpace();
 			GUILayout.FlexibleSpace();
 			GUILayout.BeginHorizontal();
@@ -314,16 +341,19 @@ public class HomePageView : MonoBehaviour
 				GUILayout.FlexibleSpace();
 				GUILayout.BeginHorizontal();
 				{
+					GUI.enabled=homepageVM.buttonsEnabled;
 					if(GUILayout.Button("Mon profil",ranksVM.buttonStyle,GUILayout.Height(0.125f*homepageScreenVM.blockBottomRightHeight),GUILayout.Width(0.4f*homepageScreenVM.blockMiddleRightWidth)))
 					{
 						Application.LoadLevel("Profile");
 					}
+					GUI.enabled = homepageVM.guiEnabled;
 					GUILayout.Space (0.1f*homepageScreenVM.blockMiddleRightWidth);
+					GUI.enabled=homepageVM.buttonsEnabled;
 					if(GUILayout.Button("Ma collection",ranksVM.buttonStyle,GUILayout.Height(0.125f*homepageScreenVM.blockBottomRightHeight),GUILayout.Width(0.4f*homepageScreenVM.blockMiddleRightWidth)))
 					{
 						Application.LoadLevel("SkillBook");
 					}
-
+					GUI.enabled = homepageVM.guiEnabled;
 				}
 				GUILayout.EndHorizontal();
 				GUILayout.FlexibleSpace();
@@ -364,10 +394,12 @@ public class HomePageView : MonoBehaviour
 			GUILayout.BeginHorizontal();
 			{
 				GUILayout.FlexibleSpace();
+				GUI.enabled=homepageVM.buttonsEnabled;
 				if(GUILayout.Button("Rejoindre",ranksVM.buttonStyle,GUILayout.Height(0.125f*homepageScreenVM.blockBottomRightHeight),GUILayout.Width(0.5f*homepageScreenVM.blockMiddleRightWidth)))
 				{
 					Application.LoadLevel("Lobby");
 				}
+				GUI.enabled = homepageVM.guiEnabled;
 				GUILayout.FlexibleSpace();
 			}
 			GUILayout.EndHorizontal();

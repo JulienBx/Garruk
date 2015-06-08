@@ -18,6 +18,7 @@ public class Skill
 	public int CardType;
 	public Texture2D texture;
 	public string Picture;
+	public bool IsNew;
 
 
 	public Skill(string name, int id, int isactivated, int level, int power, int manaCost, string description, string action) : this(name, id, isactivated, level, power, manaCost, description)

@@ -6,6 +6,7 @@ public class EndSceneViewModel
 	public int startCredits;
 	public int endCredits;
 	public int creditsToAdd;
+	public int collectionPoints;
 	public string title;
 	public bool guiEnabled;
 	public GUIStyle[] styles;

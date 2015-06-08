@@ -14,7 +14,7 @@ public class MyGameModel
 	public string[] cardTypeList;
 	public IList<string> skillsList;
 	public IList<int> cardsSold;
-	public int idSelectedDeck;
+	public User player;
 
 	private string URLGetMyGameData = ApplicationModel.host + "get_mygame_data.php"; 
 	private string URLRefreshMyGame = ApplicationModel.host + "refresh_mygame.php";
@@ -45,7 +45,7 @@ public class MyGameModel
 			this.skillsList=parseSkills(data[1].Split(new string[] { "#SK#" }, System.StringSplitOptions.None));
 			this.cards=parseCards(data[2].Split(new string[] { "#C#" }, System.StringSplitOptions.None));
 			this.decks=parseDecks(data[3].Split(new string[] { "#D#" }, System.StringSplitOptions.None));
-			this.idSelectedDeck=System.Convert.ToInt32(data[4]);
+			this.player=parseUser(data[4].Split(new string[] { "\\" }, System.StringSplitOptions.None));
 			this.retrieveCardsDeck();
 		}
 	}
@@ -114,6 +114,13 @@ public class MyGameModel
 			skillsList.Add (tempString[0]);
 		}
 		return skillsList;
+	}
+	private User parseUser(string[] array)
+	{
+		User user = new User ();
+		user.SelectedDeckId = System.Convert.ToInt32 (array [0]);
+		user.TutorialStep = System.Convert.ToInt32 (array [1]);
+		return user;
 	}
 	public List<Deck> parseDecks(string[] decksIds)
 	{

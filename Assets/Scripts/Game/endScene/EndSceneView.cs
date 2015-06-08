@@ -20,6 +20,10 @@ public class EndSceneView : MonoBehaviour
 			GUILayout.Label (endSceneVM.title,endSceneVM.titleStyle);
 			GUILayout.Space(screenVM.mainBlock.height*1/10);
 			GUILayout.Label ("Vous gagnez : "+endSceneVM.creditsToAdd+" crédits ("+endSceneVM.credits+" credits)",endSceneVM.creditStyle);
+			if(endSceneVM.collectionPoints>0)
+			{
+				GUILayout.Label("et "+endSceneVM.collectionPoints+" points de collection",endSceneVM.creditStyle);
+			}
 			GUILayout.Space(screenVM.mainBlock.height*5/10);
 			GUI.enabled = endSceneVM.guiEnabled;
 			GUILayout.BeginHorizontal();

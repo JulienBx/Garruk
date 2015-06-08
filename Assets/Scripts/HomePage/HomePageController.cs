@@ -9,6 +9,7 @@ public class HomePageController : MonoBehaviour
 {
 
 	public GameObject MenuObject;
+	public GameObject TutorialObject;
 
 	public GUIStyle[] notificationsVMStyle;
 	public GUIStyle[] newsVMStyle;
@@ -17,6 +18,7 @@ public class HomePageController : MonoBehaviour
 	public GUIStyle[] packsVMStyle;
 	public GUIStyle[] ranksVMStyle;
 	public GUIStyle[] competsVMStyle;
+	public GUISkin tutorialStyles;
 
 	private float timer;
 	private float timer2;
@@ -24,6 +26,7 @@ public class HomePageController : MonoBehaviour
 	public int refreshInterval;
 	public int sliderRefreshInterval;
 	public int totalNbResultLimit;
+	private GameObject tutorial;
 	
 	private HomePageView view;
 	public static HomePageController instance;
@@ -74,6 +77,12 @@ public class HomePageController : MonoBehaviour
 		this.toLoadData ();
 		MenuObject.GetComponent<MenuController>().setNbNotificationsNonRead(view.notificationsVM.nbNonReadNotifications);
 		this.isDataLoaded = true;
+		if(model.player.TutorialStep==1)
+		{
+			this.tutorial = Instantiate(this.TutorialObject) as GameObject;
+			this.tutorial.GetComponent<TutorialObjectController>().launchSequence(0);
+			MenuObject.GetComponent<MenuController>().setTutorialLaunched(true);
+		}
 	}
 	private void toLoadData()
 	{
@@ -139,7 +148,22 @@ public class HomePageController : MonoBehaviour
 		view.ranksVM.totalNbWins = model.player.TotalNbWins;
 		view.ranksVM.totalNbLooses = model.player.TotalNbLooses;
 		view.ranksVM.division = model.player.Division;
-		view.ranksVM.rankingPoints = model.player.RankingPoints;
+		if(model.player.Ranking!=0)
+		{
+			view.ranksVM.ranking="Classement : " + model.player.Ranking.ToString()+" ("+ model.player.RankingPoints.ToString() + " pts)";
+		}
+		else
+		{
+			view.ranksVM.ranking="";
+		}
+		if(model.player.CollectionRanking!=0)
+		{
+			view.ranksVM.collectionRanking="Class collection : " + model.player.CollectionRanking.ToString()+ " ("+ model.player.CollectionPoints.ToString() + " pts)";
+		}
+		else
+		{
+			view.ranksVM.collectionRanking="";
+		}
 		if(model.player.NbGamesDivision>0)
 		{
 			view.competsVM.competsNames.Add (model.currentDivision.Name);
@@ -301,6 +325,10 @@ public class HomePageController : MonoBehaviour
 		this.displayNotificationsPage ();
 		this.displayNewsPage ();
 		this.displayPacksPage ();
+		if(this.tutorial!=null)
+		{
+			this.tutorial.GetComponent<TutorialObjectController>().resize();
+		}
 	}
 	private IEnumerator updateReadNotifications()
 	{
@@ -456,6 +484,39 @@ public class HomePageController : MonoBehaviour
 	{
 		view.notificationsVM.pageDebut = view.notificationsVM.pageDebut+10;
 		view.notificationsVM.pageFin= Mathf.Min(view.notificationsVM.pageFin+10, view.notificationsVM.nbPages);
+	}
+	public void cleanCardsHandler()
+	{
+		StartCoroutine (this.cleanCards ());
+	}
+	private IEnumerator cleanCards()
+	{
+		this.setGui (false);
+		yield return StartCoroutine (model.player.cleanCards ());
+		this.setGui (true);
+		if(model.player.CollectionRanking!=0)
+		{
+			view.ranksVM.collectionRanking="Class collection : " + model.player.CollectionRanking.ToString()+ " ("+ model.player.CollectionPoints.ToString() + " pts)";
+		}
+		else
+		{
+			view.ranksVM.collectionRanking="";
+		}
+	}
+	public void setGui(bool value)
+	{
+		view.homepageVM.guiEnabled = value;
+		this.setButtonsGui (value);
+	}
+	public void setButtonsGui(bool value)
+	{
+		view.homepageVM.buttonsEnabled=value;
+	}
+	public IEnumerator endTutorial()
+	{
+		MenuController.instance.setButtonsGui (false);
+		yield return StartCoroutine (model.player.setTutorialStep (2));
+		Application.LoadLevel ("MyGame");
 	}
 }
 

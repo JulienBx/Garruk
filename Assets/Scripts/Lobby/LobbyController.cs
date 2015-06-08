@@ -86,6 +86,7 @@ public class LobbyController : Photon.MonoBehaviour
 		this.cardFocused.GetComponent<CardController> ().setGameObject (name, scale, position);
 		this.cardFocused.GetComponent<CardLobbyController> ().setFocusedLobbyCard (gameObject.GetComponent<CardController> ().card);
 		this.cardFocused.GetComponent<CardController> ().setCentralWindowRect (view.screenVM.centralWindow);
+		this.cardFocused.GetComponent<CardController> ().setCollectionPointsWindowRect (view.screenVM.collectionPointsWindow);
 	}
 	public void exitCard()
 	{
@@ -106,6 +107,10 @@ public class LobbyController : Photon.MonoBehaviour
 		{
 			this.setGUI (true);
 			this.cardFocused.GetComponent<CardController>().animateExperience (model.decks [deckIndex].Cards[cardIndex]);
+			if(model.decks[deckIndex].Cards[cardIndex].CollectionPoints>0)
+			{
+				StartCoroutine(this.cardFocused.GetComponent<CardController>().displayCollectionPointsPopUp());
+			}
 		}
 		else
 		{
@@ -371,18 +376,21 @@ public class LobbyController : Photon.MonoBehaviour
 	public void joinFriendlyGame()
 	{
 		ApplicationModel.gameType = 0; // 0 pour training
-		attemptToPlay = true;
-		PhotonNetwork.Disconnect();
+		StartCoroutine (this.setSelectedDeck ());
 	}
 	public void joinDivisionLobby()
 	{
 		ApplicationModel.gameType = 1;
-		attemptToPlay = true;
-		PhotonNetwork.Disconnect();
+		StartCoroutine (this.setSelectedDeck ());
 	}
 	public void joinCupGame()
 	{
 		ApplicationModel.gameType = 2; // 1 pour Official
+		StartCoroutine (this.setSelectedDeck ());
+	}
+	private IEnumerator setSelectedDeck()
+	{
+		yield return StartCoroutine(model.player.SetSelectedDeck(model.decks[view.decksVM.decksToBeDisplayed[view.decksVM.chosenDeck]].Id));
 		attemptToPlay = true;
 		PhotonNetwork.Disconnect();
 	}
@@ -435,7 +443,6 @@ public class LobbyController : Photon.MonoBehaviour
 	{
 		if (attemptToPlay)
 		{
-			StartCoroutine(model.player.SetSelectedDeck(model.decks[view.decksVM.decksToBeDisplayed[view.decksVM.chosenDeck]].Id));
 			if(ApplicationModel.gameType==1)
 			{
 				Application.LoadLevel("DivisionLobby");

@@ -1,0 +1,72 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &180340
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 480340}
+  - 114: {fileID: 11480340}
+  m_Layer: 0
+  m_Name: TutorialObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &480340
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 180340}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+--- !u!114 &11480340
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 180340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13a2a688bd6014e19bec55a65bde1ad8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  styles: {fileID: 11400000, guid: dc8983bf5aa2d48ee937d0aaaa292488, type: 2}
+  titles:
+  - Bienvenue
+  - Vite des cartes !
+  - Vos cartes
+  - Zoom sur une carte
+  - Comprendre le visuel d'une carte
+  descriptions:
+  - "Vous \xEAtes ici sur la page d'accueil. Derni\xE8res cartes vendues, actualit\xE9s
+    des amis, comp\xE9titions en cours ou bien cartes en vente \xE0 la boutique, vous
+    avez tout ici en un clin d'oeil !"
+  - "Nous allons commencer par d\xE9couvrir vos cartes. "
+  - "Dans cet espaces vous allez pouvoir g\xE9rer vos cartes et cr\xE9er vos desck
+    que vous utiliserez en cours de match."
+  - Pour examiner une carte, cliquez avec le bouton droit de la souris sur son visuel.
+  - "Un certain nombre d'informations sont affich\xE9es sur la carte et des actions
+    sont disponibles"
+  arrowTextures:
+  - {fileID: 2800000, guid: 7f899140a207640aba075bb2b482956e, type: 3}
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 180340}
+  m_IsPrefabParent: 1
+  m_IsExploded: 1

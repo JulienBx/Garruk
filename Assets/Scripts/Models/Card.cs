@@ -46,6 +46,8 @@ public class Card
 	public int RenameCost = 200;
 	public string Error;
 	public List<int> Decks;
+	public IList<Skill> NewSkills;
+	public int CollectionPoints;
 
 	public static bool xpDone = false;
 	
@@ -206,6 +208,20 @@ public class Card
 	}
 	
 	#region Modifiers
+	public int GetEsquive()
+	{
+		int esquive = 0;
+		foreach (StatModifier modifier in modifiers)
+		{
+			if (modifier.Type == ModifierType.Type_EsquivePercentage)
+			{
+				esquive = modifier.Amount;
+			}
+		}
+		
+		return esquive;
+	}
+	
 	public int GetAttack()
 	{
 		int attack = Attack;
@@ -260,6 +276,20 @@ public class Card
 			return 0;
 		}
 		return move;
+	}
+	
+	public bool isParalyzed()
+	{
+		bool isParalyzed = false;
+		int i = 0;
+		while (i < this.modifiers.Count && !isParalyzed)
+		{
+			if (this.modifiers [i].Type == ModifierType.Type_Paralized)
+			{
+				isParalyzed = true;
+			}
+		}
+		return isParalyzed;
 	}
 
 	public void clearBuffs()
@@ -464,7 +494,6 @@ public class Card
 	}
 	public IEnumerator addXpLevel()
 	{
-
 		WWWForm form = new WWWForm(); 								// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_idcard", this.Id.ToString());
@@ -485,10 +514,12 @@ public class Card
 			} else
 			{
 				this.Error = "";
-				string [] cardData = w.text.Split(new string[] { "#S#" }, System.StringSplitOptions.None);
-				for (int j = 0; j < cardData.Length-1; j++)
+				string [] cardData = w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
+				string [] cardInformations = cardData [0].Split(new string[] { "#S#" }, System.StringSplitOptions.None);
+				this.CollectionPoints = System.Convert.ToInt32(cardData [1]);
+				for (int j = 0; j < cardInformations.Length-1; j++)
 				{
-					string[] cardInfo = cardData [j].Split(new string[] { "\\" }, System.StringSplitOptions.None); 
+					string[] cardInfo = cardInformations [j].Split(new string[] { "\\" }, System.StringSplitOptions.None); 
 					if (j == 0)
 					{
 
@@ -626,6 +657,7 @@ public class Card
 	}
 	public IEnumerator buyCard()
 	{
+		this.NewSkills = new List<Skill>();
 		WWWForm form = new WWWForm(); 											// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_nick", ApplicationModel.username);
@@ -639,14 +671,26 @@ public class Card
 			this.Error = w.error;
 		} else
 		{
-			string[] data = w.text.Split(new string[] { "//" }, System.StringSplitOptions.None);
-			this.Error = data [1];
-			if (this.Error == "")
+			if (w.text.Contains("#ERROR#"))
 			{
-				this.onSale = 0;
+				string[] errors = w.text.Split(new string[] { "#ERROR#" }, System.StringSplitOptions.None);
+				this.Error = errors [1];
+				if (w.text.Contains("#SOLD#"))
+				{
+					this.onSale = 0;
+				}
 			} else
 			{
-				this.onSale = System.Convert.ToInt32(data [0]);
+				this.Error = "";
+				this.onSale = 0;
+				string[] data = w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
+				this.CollectionPoints = System.Convert.ToInt32(data [0]);
+				string[] newSkills = data [1].Split(new string[] { "//" }, System.StringSplitOptions.None);
+				for (int i=0; i<newSkills.Length-1; i++)
+				{
+					this.NewSkills.Add(new Skill());
+					this.NewSkills [i].Name = newSkills [i];
+				}
 			}
 		}
 	}

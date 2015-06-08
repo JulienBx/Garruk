@@ -22,6 +22,7 @@ public class Deck
 	public int NbCards = 0; 										// Nombre de cartes présentes dans le deck
 	public List<Card> Cards;									// Liste de carte du deck
 	public string OwnerUsername;                                // Username de la personne possédant le deck
+	public int CollectionPoints;
 
 	public Deck()
 	{
@@ -205,7 +206,6 @@ public class Deck
 			Debug.Log(w.error); 									// donne l'erreur eventuelle
 		} else
 		{
-			//Debug.Log(w.text);
 			string[] cardEntries = w.text.Split('\n'); 				// Chaque ligne du serveur correspond à une carte
 			
 			for (int i = 0; i < cardEntries.Length - 1; i++) 		// On boucle sur les attributs d'une carte
@@ -278,6 +278,7 @@ public class Deck
 		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_idcard", idCards);
 		form.AddField("myform_xp", earnXp);
+		form.AddField("myform_nick", ApplicationModel.username); 
 		
 		WWW w = new WWW(URLAddXpToDeck, form); 								// On envoie le formulaire à l'url sur le serveur 
 		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
@@ -289,6 +290,7 @@ public class Deck
 		else
 		{
 			string [] cardsData = w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
+			this.CollectionPoints=System.Convert.ToInt32(cardsData[5]);
 			for(int i=0;i<5;i++)
 			{
 				string [] cardData =  cardsData[i].Split(new string[] { "#S#" }, System.StringSplitOptions.None);

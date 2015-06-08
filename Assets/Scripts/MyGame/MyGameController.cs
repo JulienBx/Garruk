@@ -9,6 +9,7 @@ public class MyGameController : MonoBehaviour
 	private MyGameModel model;
 	public GameObject MenuObject;
 	public GameObject CardObject;
+	public GameObject TutorialObject;
 	public int refreshInterval;
 	public GUIStyle[] myGameScreenVMStyle;
 	public GUIStyle[] myGameVMStyle;
@@ -16,6 +17,7 @@ public class MyGameController : MonoBehaviour
 	public GUIStyle[] myGameCardsVMStyle;
 	public GUIStyle[] myGameDecksVMStyle;
 	public GUIStyle[] popUpVMStyle;
+	public GUIStyle[] myGameDeckCardsVMStyle;
 	private MyGameView view;
 	private MyGameErrorPopUpView errorPopUpView;
 	private MyGameNewDeckPopUpView newDeckPopUpView;
@@ -25,7 +27,9 @@ public class MyGameController : MonoBehaviour
 	private GameObject[] displayedDeckCards;
 	private GameObject cardFocused;
 	private GameObject cardPopUpBelongTo;
+	private GameObject tutorial;
 	private float timer;
+	private bool isTutorialLaunched;
 
 	void Start()
 	{
@@ -73,6 +77,12 @@ public class MyGameController : MonoBehaviour
 		{
 			this.filterCards ();
 		}
+		if(model.player.TutorialStep==2)
+		{
+			this.tutorial = Instantiate(this.TutorialObject) as GameObject;
+			this.tutorial.GetComponent<TutorialObjectController>().launchSequence(2);
+			this.isTutorialLaunched=true;
+		}
 	}
 	public void loadAll()
 	{
@@ -104,6 +114,7 @@ public class MyGameController : MonoBehaviour
 		this.initializeSortButtons ();
 		this.initializeToggles ();
 		this.setFilters ();
+		this.filterCards ();
 		this.setGUI (true);
 		view.myGameVM.displayView = true;
 	}
@@ -131,83 +142,119 @@ public class MyGameController : MonoBehaviour
 	}
 	public void leftClickedCard(GameObject gameobject)
 	{
-		if(!view.myGameVM.isPopUpDisplayed && this.errorPopUpView==null && this.newDeckPopUpView==null && this.deleteDeckPopUpView==null && this.editDeckPopUpView==null)
+		string name = gameobject.name;
+
+		if(!view.myGameVM.isPopUpDisplayed && 
+		   this.errorPopUpView==null && 
+		   this.newDeckPopUpView==null && 
+		   this.deleteDeckPopUpView==null && 
+		   this.editDeckPopUpView==null &&
+		   !isTutorialLaunched)
 		{
-			if(gameobject.name.StartsWith("Card")&&view.myGameDeckCardsVM.nbCardsToDisplay<5)
+			if(model.decks.Count<1)
 			{
-				int cardIndex = retrieveCardIndex (gameobject.name);
-				if(model.cards[cardIndex].onSale==0 && model.cards[cardIndex].IdOWner!=-1)
-				{
-					int deckIndex = view.myGameDecksVM.decksToBeDisplayed[view.myGameDecksVM.chosenDeck];
-					this.displayedDeckCards[view.myGameDeckCardsVM.nbCardsToDisplay].SetActive(true);
-					this.displayedDeckCards[view.myGameDeckCardsVM.nbCardsToDisplay].GetComponent<CardMyGameController>().resetMyGameCard(model.cards[cardIndex]);
-					view.myGameDeckCardsVM.deckCardsToBeDisplayed.Add (cardIndex);
-					view.myGameDecksVM.decksNbCards[view.myGameDecksVM.chosenDeck]++;
-					view.myGameDeckCardsVM.nbCardsToDisplay++;
-					model.cards[cardIndex].Decks.Add (model.decks[deckIndex].Id);
-					StartCoroutine(model.decks[deckIndex].addCard(model.cards[cardIndex].Id));
-					this.filterCards();
-				}
-				else if(model.cards[cardIndex].onSale==1)
-				{
-					this.displayErrorPopUp("Vous ne pouvez pas ajouter à votre deck une carte qui est en vente");
-				}
-				else if(model.cards[cardIndex].IdOWner==-1)
-				{
-					this.displayErrorPopUp("Cette carte a été vendue, vous ne pouvez plus l'ajouter");
-				}
-			}
-			else if(gameobject.name.StartsWith("DCrd"))
-			{
-				int cardIndex = retrieveCardIndex (gameobject.name);
-				int deckIndex = view.myGameDecksVM.decksToBeDisplayed[view.myGameDecksVM.chosenDeck];
-				StartCoroutine(model.decks[deckIndex].removeCard(model.cards[cardIndex].Id));
-				model.cards[cardIndex].Decks.Remove(model.decks[deckIndex].Id);
-				view.myGameDecksVM.decksNbCards[view.myGameDecksVM.chosenDeck]--;
-				view.myGameDeckCardsVM.nbCardsToDisplay--;
-				view.myGameDeckCardsVM.deckCardsToBeDisplayed.RemoveAt(System.Convert.ToInt32(gameobject.name.Substring(4)));
-				this.loadDeckCards();
-				this.filterCards();
-			}
-		}
-	}
-	public void rightClickedCard(GameObject gameObject)
-	{
-		if(!view.myGameVM.isPopUpDisplayed && this.errorPopUpView==null && this.newDeckPopUpView==null && this.deleteDeckPopUpView==null && this.editDeckPopUpView==null)
-		{
-			view.myGameVM.displayView=false ;
-			
-			int finish = 3 * view.myGameCardsVM.nbCardsPerRow;
-			for(int i = 0 ; i < finish ; i++)
-			{
-				this.displayedCards[i].SetActive(false);
-			}
-			for(int i = 0 ; i < 5 ; i++)
-			{
-				this.displayedDeckCards[i].SetActive(false);
-			}
-			string name;
-			if(gameObject.name.StartsWith("Card"))
-			{
-				name = "Fcrd"+gameObject.name.Substring(4);
+				this.displayErrorPopUp("Vous devez créer un deck avant de sélectionner une carte");
 			}
 			else
 			{
-				name = "Fdcd"+gameObject.name.Substring(4);
+				this.moveCards(name);
 			}
-			if(this.cardFocused==null)
-			{
-				Vector3 scale = new Vector3(view.myGameScreenVM.heightScreen / 120f,view.myGameScreenVM.heightScreen / 120f,view.myGameScreenVM.heightScreen / 120f);
-				Vector3 position = Camera.main.ScreenToWorldPoint (new Vector3 (0.4f * view.myGameScreenVM.widthScreen, 0.45f * view.myGameScreenVM.heightScreen - 1, 10));
-				this.cardFocused = Instantiate(CardObject) as GameObject;
-				this.cardFocused.AddComponent<CardMyGameController> ();
-				this.cardFocused.GetComponent<CardController> ().setGameObjectScaleAndPosition(scale,position);
-				this.cardFocused.GetComponent<CardController> ().setCentralWindowRect (view.myGameScreenVM.centralWindow);
-			}
-			this.cardFocused.GetComponent<CardController> ().setGameObjectName (name);
-			this.cardFocused.GetComponent<CardMyGameController> ().resetFocusedMyGameCard (gameObject.GetComponent<CardController> ().card);
-			this.cardFocused.SetActive (true);
 		}
+	}
+	public void moveCards(string name)
+	{
+		if(name.StartsWith("Card")&&view.myGameDeckCardsVM.nbCardsToDisplay<5)
+		{
+			int cardIndex = retrieveCardIndex (name);
+			if(model.cards[cardIndex].onSale==0 && model.cards[cardIndex].IdOWner!=-1)
+			{
+				int deckIndex = view.myGameDecksVM.decksToBeDisplayed[view.myGameDecksVM.chosenDeck];
+				this.displayedDeckCards[view.myGameDeckCardsVM.nbCardsToDisplay].SetActive(true);
+				this.displayedDeckCards[view.myGameDeckCardsVM.nbCardsToDisplay].GetComponent<CardMyGameController>().resetMyGameCard(model.cards[cardIndex]);
+				view.myGameDeckCardsVM.deckCardsToBeDisplayed.Add (cardIndex);
+				view.myGameDecksVM.decksNbCards[view.myGameDecksVM.chosenDeck]++;
+				view.myGameDeckCardsVM.nbCardsToDisplay++;
+				model.cards[cardIndex].Decks.Add (model.decks[deckIndex].Id);
+				StartCoroutine(model.decks[deckIndex].addCard(model.cards[cardIndex].Id));
+				this.filterCards();
+			}
+			else if(model.cards[cardIndex].onSale==1)
+			{
+				this.displayErrorPopUp("Vous ne pouvez pas ajouter à votre deck une carte qui est en vente");
+			}
+			else if(model.cards[cardIndex].IdOWner==-1)
+			{
+				this.displayErrorPopUp("Cette carte a été vendue, vous ne pouvez plus l'ajouter");
+			}
+		}
+		else if(name.StartsWith("DCrd"))
+		{
+			int cardIndex = retrieveCardIndex (name);
+			int deckIndex = view.myGameDecksVM.decksToBeDisplayed[view.myGameDecksVM.chosenDeck];
+			StartCoroutine(model.decks[deckIndex].removeCard(model.cards[cardIndex].Id));
+			model.cards[cardIndex].Decks.Remove(model.decks[deckIndex].Id);
+			view.myGameDecksVM.decksNbCards[view.myGameDecksVM.chosenDeck]--;
+			view.myGameDeckCardsVM.nbCardsToDisplay--;
+			view.myGameDeckCardsVM.deckCardsToBeDisplayed.RemoveAt(System.Convert.ToInt32(name.Substring(4)));
+			this.loadDeckCards();
+			this.filterCards();
+		}
+	}
+	public void rightClickedCard(GameObject gameobject)
+	{
+		string name = gameobject.name;
+		if(!view.myGameVM.isPopUpDisplayed && 
+		   this.errorPopUpView==null && 
+		   this.newDeckPopUpView==null && 
+		   this.deleteDeckPopUpView==null && 
+		   this.editDeckPopUpView==null && 
+		   !isTutorialLaunched)
+		{
+			this.focus (name);
+		}
+		else if(isTutorialLaunched && name.Substring(4)=="0" && this.tutorial.GetComponent<TutorialObjectController>().getSequenceID()==3)
+		{
+			this.focus (name);
+			this.tutorial.GetComponent<TutorialObjectController>().actionIsDone();
+		}
+	}
+	public void focus(string name)
+	{
+		Card tempCard = new Card ();
+		int index = System.Convert.ToInt32 (name.Substring (4));
+		if(name.StartsWith("Card"))
+		{
+			tempCard=this.displayedCards[index].GetComponent<CardController> ().card;
+			name = "Fcrd"+index.ToString();
+		}
+		else
+		{
+			tempCard=this.displayedDeckCards[index].GetComponent<CardController> ().card;
+			name = "Fdcd"+index.ToString();
+		}
+		view.myGameVM.displayView=false ;
+		int finish = 3 * view.myGameCardsVM.nbCardsPerRow;
+		for(int i = 0 ; i < finish ; i++)
+		{
+			this.displayedCards[i].SetActive(false);
+		}
+		for(int i = 0 ; i < 5 ; i++)
+		{
+			this.displayedDeckCards[i].SetActive(false);
+		}
+		if(this.cardFocused==null)
+		{
+			Vector3 scale = new Vector3(view.myGameScreenVM.heightScreen / 120f,view.myGameScreenVM.heightScreen / 120f,view.myGameScreenVM.heightScreen / 120f);
+			Vector3 position = Camera.main.ScreenToWorldPoint (new Vector3 (0.4f * view.myGameScreenVM.widthScreen, 0.45f * view.myGameScreenVM.heightScreen - 1, 10));
+			this.cardFocused = Instantiate(CardObject) as GameObject;
+			this.cardFocused.AddComponent<CardMyGameController> ();
+			this.cardFocused.GetComponent<CardController> ().setGameObjectScaleAndPosition(scale,position);
+			this.cardFocused.GetComponent<CardController> ().setCentralWindowRect (view.myGameScreenVM.centralWindow);
+			this.cardFocused.GetComponent<CardController>().setCollectionPointsWindowRect(view.myGameScreenVM.collectionPointsWindow);
+		}
+		this.cardFocused.GetComponent<CardController> ().setGameObjectName (name);
+		this.cardFocused.GetComponent<CardMyGameController> ().resetFocusedMyGameCard (tempCard);
+		this.cardFocused.SetActive (true);
 	}
 	public void displayErrorPopUp(string error)
 	{
@@ -374,6 +421,7 @@ public class MyGameController : MonoBehaviour
 		this.initMyGameDeckCardsVM ();
 		this.loadDeckCards ();
 		this.hideDeleteDeckPopUp();
+		view.myGameDeckCardsVM.labelNoDecks=computeLabelNoDeck();
 	}
 	public void exitCard()
 	{
@@ -427,6 +475,10 @@ public class MyGameController : MonoBehaviour
 		{
 			this.setGUI (true);
 			this.cardFocused.GetComponent<CardController>().animateExperience (model.cards[index]);
+			if(model.cards[index].CollectionPoints>0)
+			{
+				StartCoroutine(this.cardFocused.GetComponent<CardController>().displayCollectionPointsPopUp());
+			}
 		}
 		else
 		{
@@ -543,6 +595,7 @@ public class MyGameController : MonoBehaviour
 		{
 			this.displayedDeckCards[i].GetComponent<CardController>().setMyGUI(value);
 		}
+		this.setButtonsGui (value);
 	}
 	private void initMyGameCardsVM()
 	{
@@ -562,7 +615,7 @@ public class MyGameController : MonoBehaviour
 		view.myGameDecksVM.myDecksButtonGuiStyle=new List<GUIStyle>();
 		for (int i=0;i<model.decks.Count;i++)
 		{
-			if(model.decks[i].Id==model.idSelectedDeck)
+			if(model.decks[i].Id==model.player.SelectedDeckId)
 			{
 				view.myGameDecksVM.decksToBeDisplayed.Insert(0,i);
 				view.myGameDecksVM.decksName.Insert(0,model.decks[i].Name);
@@ -587,6 +640,7 @@ public class MyGameController : MonoBehaviour
 	}
 	private void initMyGameDeckCardsVM()
 	{
+		view.myGameDeckCardsVM.labelNoDecks=computeLabelNoDeck();
 		view.myGameDeckCardsVM.deckCardsToBeDisplayed = new List<int> ();
 		if(model.decks.Count>0)
 		{
@@ -602,6 +656,15 @@ public class MyGameController : MonoBehaviour
 				}
 			}
 		}
+	}
+	private string computeLabelNoDeck()
+	{
+		string text = "";
+		if(model.decks.Count<1)
+		{
+			text="Aucun deck disponible, cliquez sur 'Nouveau' pour ajouter un deck";
+		}
+		return text;
 	}
 	private void initStyles()
 	{
@@ -635,6 +698,12 @@ public class MyGameController : MonoBehaviour
 			view.myGameDecksVM.styles[i]=this.myGameDecksVMStyle[i];
 		}
 		view.myGameDecksVM.initStyles();
+		view.myGameDeckCardsVM.styles=new GUIStyle[this.myGameDeckCardsVMStyle.Length];
+		for(int i=0;i<this.myGameDeckCardsVMStyle.Length;i++)
+		{
+			view.myGameDeckCardsVM.styles[i]=this.myGameDeckCardsVMStyle[i];
+		}
+		view.myGameDeckCardsVM.initStyles();
 	}
 	private void resize()
 	{
@@ -643,6 +712,7 @@ public class MyGameController : MonoBehaviour
 		view.myGameVM.resize (view.myGameScreenVM.heightScreen);
 		view.myGameCardsVM.resize (view.myGameScreenVM.heightScreen);
 		view.myGameDecksVM.resize(view.myGameScreenVM.heightScreen);
+		view.myGameDeckCardsVM.resize (view.myGameScreenVM.heightScreen);
 		if(this.errorPopUpView!=null)
 		{
 			this.errorPopUpResize();
@@ -1688,6 +1758,13 @@ public class MyGameController : MonoBehaviour
 				}
 				
 			}
+		}
+	}
+	public void setButtonsGui(bool value)
+	{
+		for(int i=0;i<view.myGameVM.buttonsEnabled.Length;i++)
+		{
+			view.myGameVM.buttonsEnabled[i]=value;
 		}
 	}
 }
