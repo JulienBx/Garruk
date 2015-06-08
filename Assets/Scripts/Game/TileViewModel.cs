@@ -8,6 +8,13 @@ public class TileViewModel
 	public Texture2D border;
 	public bool isPotentialTarget = false;
 
+	public bool toDisplayIcon = false;
+
+	public GUIStyle iconStyle;
+	public Rect iconRect;
+
+	public Texture2D icon;
+
 	public TileViewModel()
 	{
 		this.background = null;

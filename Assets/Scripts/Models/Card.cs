@@ -255,9 +255,9 @@ public class Card
 		{
 			move = modifier.modifyMove(move);
 		}
-		if (move < 1)
+		if (move < 0)
 		{
-			return 1;
+			return 0;
 		}
 		return move;
 	}
@@ -476,42 +476,39 @@ public class Card
 		if (w.error != null)
 		{
 			this.Error = w.error; 										// donne l'erreur eventuelle
-		} 
-		else
+		} else
 		{
-			if(w.text.Contains("#ERROR#"))
+			if (w.text.Contains("#ERROR#"))
 			{
 				string[] errors = w.text.Split(new string[] { "#ERROR#" }, System.StringSplitOptions.None);
-				this.Error=errors[1];
-			}
-			else
+				this.Error = errors [1];
+			} else
 			{
-				this.Error="";
-				string [] cardData =  w.text.Split(new string[] { "#S#" }, System.StringSplitOptions.None);
-				for(int j = 0 ; j < cardData.Length-1 ; j++)
+				this.Error = "";
+				string [] cardData = w.text.Split(new string[] { "#S#" }, System.StringSplitOptions.None);
+				for (int j = 0; j < cardData.Length-1; j++)
 				{
-					string[] cardInfo = cardData[j].Split(new string[] { "\\" }, System.StringSplitOptions.None); 
-					if (j==0)
+					string[] cardInfo = cardData [j].Split(new string[] { "\\" }, System.StringSplitOptions.None); 
+					if (j == 0)
 					{
 
-						this.Life=System.Convert.ToInt32(cardInfo[0]);
-						this.Attack=System.Convert.ToInt32(cardInfo[1]);
-						this.Speed=System.Convert.ToInt32(cardInfo[2]);
-						this.Move=System.Convert.ToInt32(cardInfo[3]);
-						this.LifeLevel=System.Convert.ToInt32(cardInfo[4]);
-						this.MoveLevel=System.Convert.ToInt32(cardInfo[5]);
-						this.SpeedLevel=System.Convert.ToInt32(cardInfo[6]);
-						this.AttackLevel=System.Convert.ToInt32(cardInfo[7]);
-						this.Experience=System.Convert.ToInt32(cardInfo[8]);
-						this.ExperienceLevel=System.Convert.ToInt32(cardInfo[9]);
-						this.NextLevelPrice=System.Convert.ToInt16(cardInfo[10]);
-						this.PercentageToNextLevel=System.Convert.ToInt16(cardInfo[11]);
-					}
-					else
+						this.Life = System.Convert.ToInt32(cardInfo [0]);
+						this.Attack = System.Convert.ToInt32(cardInfo [1]);
+						this.Speed = System.Convert.ToInt32(cardInfo [2]);
+						this.Move = System.Convert.ToInt32(cardInfo [3]);
+						this.LifeLevel = System.Convert.ToInt32(cardInfo [4]);
+						this.MoveLevel = System.Convert.ToInt32(cardInfo [5]);
+						this.SpeedLevel = System.Convert.ToInt32(cardInfo [6]);
+						this.AttackLevel = System.Convert.ToInt32(cardInfo [7]);
+						this.Experience = System.Convert.ToInt32(cardInfo [8]);
+						this.ExperienceLevel = System.Convert.ToInt32(cardInfo [9]);
+						this.NextLevelPrice = System.Convert.ToInt16(cardInfo [10]);
+						this.PercentageToNextLevel = System.Convert.ToInt16(cardInfo [11]);
+					} else
 					{
-						this.Skills[j-1].Level=System.Convert.ToInt32(cardInfo[0]);
-						this.Skills[j-1].Power=System.Convert.ToInt32(cardInfo[1]);
-						this.Skills[j-1].Description=cardInfo[2];
+						this.Skills [j - 1].Level = System.Convert.ToInt32(cardInfo [0]);
+						this.Skills [j - 1].Power = System.Convert.ToInt32(cardInfo [1]);
+						this.Skills [j - 1].Description = cardInfo [2];
 					}
 				}
 			}

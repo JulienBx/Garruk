@@ -18,8 +18,10 @@ public class TileView : MonoBehaviour
 			{
 				int height = Screen.height;
 				Vector3 scrPos = Utils.getGOScreenPosition(tileVM.position);
-				Vector3 scrScale = Utils.getGOScreenPosition(tileVM.scale);
-				if (Input.mousePosition.x > (scrPos.x - scrScale.x / 2f) && Input.mousePosition.x < (scrPos.x + scrScale.x / 2f) && (height - Input.mousePosition.y) > (scrPos.y - scrScale.y / 2f) && (height - Input.mousePosition.y) < scrPos.y + scrScale.y / 2f)
+				Vector3 min = Utils.getGOScreenPosition(gameObject.renderer.bounds.min);
+				Vector3 max = Utils.getGOScreenPosition(gameObject.renderer.bounds.max);
+
+				if (Input.mousePosition.x > min.x && Input.mousePosition.x < max.x && Input.mousePosition.y > min.y && Input.mousePosition.y < max.y)
 				{
 					gameObject.GetComponentInChildren<TileController>().addTileTarget();
 				}
@@ -46,6 +48,17 @@ public class TileView : MonoBehaviour
 	void OnMouseEnter()
 	{
 		gameObject.GetComponentInChildren<TileController>().hoverTile();
+		GameController.instance.testX = tileVM.position.x;
+		GameController.instance.testY = tileVM.position.y;
+
+		GameController.instance.test2X = Input.mousePosition.x;
+		GameController.instance.test2Y = Input.mousePosition.y;
+
+		Vector3 min = Utils.getGOScreenPosition(gameObject.renderer.bounds.min);
+		Vector3 max = Utils.getGOScreenPosition(gameObject.renderer.bounds.max);
+
+		GameController.instance.test3X = min.x;
+		GameController.instance.test3Y = min.y;
 	}
 	
 	void OnMouseUp()
@@ -61,6 +74,14 @@ public class TileView : MonoBehaviour
 //			GameController.instance.setStateOfAttack(false);
 //			//Debug.Log("total damage : " + pcc.damage);
 //		}
+	}
+
+	void OnGUI()
+	{
+		if (this.tileVM.toDisplayIcon)
+		{
+			GUI.Box(this.tileVM.iconRect, this.tileVM.icon, this.tileVM.iconStyle);
+		}
 	}
 }
 

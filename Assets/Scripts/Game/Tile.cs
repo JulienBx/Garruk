@@ -9,7 +9,8 @@ public class Tile
 	public int x;
 	public int y;
 	public int distance;
-	public NeighbourTiles neighbours ;
+	public StatModifier StatModifier;
+	public NeighbourTiles neighbours;
 
 	public Tile(int x, int y, int distance)
 	{
@@ -33,7 +34,7 @@ public class Tile
 	{
 		if (neighbours == null)
 		{
-			return new List<Tile>();
+			this.neighbours = new NeighbourTiles(this.x, this.y, GameController.instance.getCharacterTilesArray(), distance);
 		}
 		return neighbours.getImmediateNeighbours(this.x, this.y);
 	}

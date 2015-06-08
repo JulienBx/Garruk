@@ -105,6 +105,13 @@ public class GameController : Photon.MonoBehaviour
 
 	int clickedSkill ;
 		
+	public float testX, testY, test2X, test2Y, test3X, test3Y;
+	
+	public void OnGUI()
+	{
+		//test
+		GUI.TextArea(new Rect(0, 0, 100, 100), testX + " " + testY + "\n" + test2X + " " + test2Y + "\n" + test3X + " " + test3Y);
+	}
 	void Awake()
 	{
 		instance = this;
@@ -1859,10 +1866,10 @@ public class GameController : Photon.MonoBehaviour
 		this.gameskills [40] = new GameSkill();
 		this.gameskills [41] = new GameSkill();
 		this.gameskills [42] = new TempleSacre();
-		this.gameskills [43] = new GameSkill();
-		this.gameskills [44] = new GameSkill();
+		this.gameskills [43] = new ForetDeLianes();
+		this.gameskills [44] = new SablesMouvants();
 		this.gameskills [45] = new GameSkill();
-		this.gameskills [46] = new GameSkill();
+		this.gameskills [46] = new FontaineDeJouvence();
 		this.gameskills [47] = new GameSkill();
 		this.gameskills [48] = new GameSkill();
 		this.gameskills [49] = new GameSkill();
