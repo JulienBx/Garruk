@@ -152,7 +152,7 @@ public class TutorialObjectController : MonoBehaviour
 		bool tempBool = false;
 		switch(this.sequenceID)
 		{
-		case 101:case 201: case 203: case 204: case 205: case 206: case 207:case 208: case 209: case 210: case 211: case 213: case 214:
+		case 101:case 201: case 203: case 204: case 205: case 206: case 207:case 208: case 209: case 210: case 211: case 213: case 214: case 301:
 			tempBool=true;
 			break;
 		}
@@ -163,7 +163,7 @@ public class TutorialObjectController : MonoBehaviour
 		bool tempBool = true;
 		switch(this.sequenceID)
 		{
-		case 101: case 201: case 209: case 210: case 211: case 212: case 214:
+		case 101: case 201: case 209: case 210: case 211: case 212: case 214: case 301:
 			tempBool=false;
 			break;
 		}
@@ -173,7 +173,7 @@ public class TutorialObjectController : MonoBehaviour
 	{
 		switch(this.sequenceID)
 		{
-		case 101: case 201: case 209: case 211: case 214:
+		case 101: case 201: case 209: case 211: case 214: case 301:
 			this.translation=0.02f*Screen.height;
 			this.moveHorizontal=false;
 			this.startTranslation=view.VM.arrowRect.y;
@@ -210,7 +210,7 @@ public class TutorialObjectController : MonoBehaviour
 		case 101:
 			tempRect = new Rect (0.2f*Screen.width,0.2f*Screen.height,0.3f*Screen.width,0.5f*Screen.height);
 			break;
-		case 200: case 211: case 212: case 213: case 214:
+		case 200: case 211: case 212: case 213: case 214: case 300: case 301:
 			tempRect= new Rect (0.35f*Screen.width,0.35f*Screen.height,0.3f*Screen.width,0.5f*Screen.height);
 			break;
 		case 201:
@@ -346,6 +346,13 @@ public class TutorialObjectController : MonoBehaviour
 			y=0.08f*Screen.height;
 			tempRect= new Rect (x,y,width,height);
 			break;
+		case 301:
+			height=0.1f*Screen.height;
+			width=(2f/3f)*height;
+			x=1f/6f *(Screen.width - 20f)+5-width/2f;
+			y=0.85f*Screen.height;
+			tempRect= new Rect (x,y,width,height);
+			break;
 		}
 		return tempRect;
 	}
@@ -354,7 +361,7 @@ public class TutorialObjectController : MonoBehaviour
 		Texture2D tempTexture = new Texture2D (1, 1, TextureFormat.ARGB32, false);
 		switch(this.sequenceID)
 		{
-		case 101: case 201: case 209: case 211: case 214: 
+		case 101: case 201: case 209: case 211: case 214: case 301: 
 			tempTexture = this.arrowTextures[0];
 			break;
 		case 203: case 207: case 208: 
@@ -409,6 +416,13 @@ public class TutorialObjectController : MonoBehaviour
 		case 214:
 			MenuController.instance.setButtonGui(5,true);
 			MyGameController.instance.setButtonsGui(false);
+			break;
+		case 300:
+			MenuController.instance.setButtonsGui(false);
+			LobbyController.instance.setButtonsGui(false);
+			break;
+		case 301:
+			LobbyController.instance.setButtonGui(1,true);
 			break;
 		}
 	}
@@ -469,6 +483,12 @@ public class TutorialObjectController : MonoBehaviour
 		case 214:
 			title="Comprendre le visuel d'une carte";
 			break;
+		case 300:
+			title="Comprendre le visuel d'une carte";
+			break;
+		case 301:
+			title="Comprendre le visuel d'une carte";
+			break;
 		}
 		return title;
 	}
@@ -495,7 +515,7 @@ public class TutorialObjectController : MonoBehaviour
 		case 203:
 			description="La zone supérieure droite de la carte donne son nombre de points de vie. Ces points varient au cours du combat en fonction des dégâts qui sont affligés à la créature. Lorsque ces points atteignent 0, la créature meurt.";
 			break;
-		case 204: case 205: case 206: case 207: case 208: case 209: case 210: case 211: case 212: case 213: case 214:
+		case 204: case 205: case 206: case 207: case 208: case 209: case 210: case 211: case 212: case 213: case 214: case 300: case 301:
 			description="A compléter";
 			break;
 		}

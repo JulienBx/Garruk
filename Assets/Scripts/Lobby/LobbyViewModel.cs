@@ -6,15 +6,19 @@ public class LobbyViewModel
 	public bool displayView;
 	public bool guiEnabled;
 	public bool isPopUpDisplayed;
-	public bool gameButtonsEnabled;
+	public bool[] buttonsEnabled;
 	
 	public LobbyViewModel ()
 	{
 		this.styles=new GUIStyle[0];
 		this.displayView = true;
 		this.guiEnabled = true;
-		this.gameButtonsEnabled = true;
 		this.isPopUpDisplayed = false;
+		this.buttonsEnabled = new bool[4];
+		for(int i=0;i<this.buttonsEnabled.Length;i++)
+		{
+			this.buttonsEnabled[i]=true;
+		}
 	}
 	public void initStyles()
 	{

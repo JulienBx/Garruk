@@ -82,7 +82,7 @@ public class MyGameController : MonoBehaviour
 		{
 			this.tutorial = Instantiate(this.TutorialObject) as GameObject;
 			MenuObject.GetComponent<MenuController>().setTutorialLaunched(true);
-			this.tutorial.GetComponent<TutorialObjectController>().launchSequence(213);
+			this.tutorial.GetComponent<TutorialObjectController>().launchSequence(200);
 			this.isTutorialLaunched=true;
 		}
 	}
