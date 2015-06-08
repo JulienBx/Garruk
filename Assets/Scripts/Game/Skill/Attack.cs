@@ -17,25 +17,16 @@ public class Attack : GameSkill
 	public override void resolve(int[] args)
 	{
 		int targetID = args [0];
-		string message = GameController.instance.getCurrentCard().Title+" attaque "+GameController.instance.getCard(targetID).Title+"\n";
+		string message = GameController.instance.getCurrentCard().Title+" attaque "+GameController.instance.getCard(targetID).Title;
 		
 		int amount = GameController.instance.getCurrentCard().Attack;
 		if (Random.Range(1, 100) > GameController.instance.getCard(targetID).GetEsquive())
-		{
-			                             
-			GameController.instance.getCard(targetID).modifiers.Add(new StatModifier(amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage));
-			
-			if (GameController.instance.getCard(targetID).GetLife() <= 0)
-			{
-				GameController.instance.getPCC(targetID).kill();
-				GameController.instance.reloadTimeline();
-			}
-			GameController.instance.reloadCard(targetID);
-			
-			message+="L'attaque touche la cible et inflige "+amount+" degats"+"\n";
+		{                             
+			GameController.instance.addModifier(targetID, amount, (int)ModifierType.Type_BonusMalus, (int)ModifierStat.Stat_Dommage);
+			message+="\n"+"L'attaque touche la cible et inflige "+amount+" degats";
 		}
 		else{
-			message+=GameController.instance.getCard(targetID).Title+" esquive l'attaque"+"\n";
+			message+="\n"+GameController.instance.getCard(targetID).Title+" esquive l'attaque";
 		}
 		
 		GameController.instance.play(message);

@@ -284,6 +284,7 @@ public class Card
 			if (this.modifiers[i].Type == ModifierType.Type_Paralized){
 				isParalyzed = true ;
 			}
+			i++;
 		}
 		return isParalyzed ;
 	}
