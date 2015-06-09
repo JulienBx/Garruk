@@ -2056,6 +2056,29 @@ public class GameController : Photon.MonoBehaviour
 		this.getPCC(target).setParalyzed(duration);
 	}
 	
+	public void setCannotBeTargeted()
+	{
+		photonView.RPC("setCannotBeTargetedRPC", PhotonTargets.AllBuffered, this.currentPlayingCard);
+	}
+	
+	[RPC]
+	public void setCannotBeTargetedRPC(int target)
+	{
+		this.getPCC(target).setCannotBeTargeted("Invisible", "Le héros ne peut pas etre ciblé tant qu'il n'a pas activé une de ses compétences");
+	}
+	
+	public void setEsquive(int amount)
+	{
+		photonView.RPC("setEsquiveRPC", PhotonTargets.AllBuffered, this.currentPlayingCard, amount);
+	}
+	
+	[RPC]
+	public void setEsquiveRPC(int target, int amount)
+	{
+		this.getPCC(target).changeEsquive("Esquive", "Le héros possède "+amount+" % de chances d'esquiver les dégats");
+		this.addModifier(target, amount, (int)ModifierType.Type_EsquivePercentage, -1);
+	}
+	
 	public void removeTrap(Tile t){
 		photonView.RPC("removeTrapRPC", PhotonTargets.AllBuffered, t.x, t.y);
 	}

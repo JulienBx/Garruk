@@ -12,10 +12,9 @@ public class Furtivite : GameSkill
 	{
 		Debug.Log ("Je résous Furtivité");
 		int targetID = args [0];
-		GameController.instance.getCurrentPCC ().setCannotBeTargeted (true, "Invisible", "Le héros ne peut pas etre ciblé tant qu'il n'a pas activé une de ses compétences");
+		GameController.instance.setCannotBeTargeted ();
 		GameController.instance.play (GameController.instance.getCurrentCard ().Title + " a lancé furtivité");
-		GameController.instance.getCurrentCard ().modifiers.Add (new StatModifier (GameController.instance.getCurrentSkill ().ManaCost, ModifierType.Type_BonusMalus, ModifierStat.Stat_Speed));
-		GameController.instance.reloadTimeline ();
+		GameController.instance.addModifier (GameController.instance.currentPlayingCard, GameController.instance.getCurrentSkill ().ManaCost, (int)ModifierType.Type_BonusMalus, (int)ModifierStat.Stat_Attack, 1);
 	}
 
 	public override bool isLaunchable (Skill s)

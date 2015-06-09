@@ -47,9 +47,9 @@ public class PlayingCardController : GameObjectController
 		this.playingCardView.playingCardVM.descriptionRectStyle = styles [3];
 	}
 
-	public void setCannotBeTargeted (bool cbt, string title, string description)
+	public void setCannotBeTargeted (string title, string description)
 	{
-		if (cbt == true && this.cannotBeTargeted == -1) {
+		if (this.cannotBeTargeted == -1) {
 			this.addIntouchable (title, description);
 		}
 	}

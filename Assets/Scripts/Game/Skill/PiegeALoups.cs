@@ -38,12 +38,9 @@ public class PiegeALoups : GameSkill
 		while (!isLaunchable && i<tempTiles.Count){
 			t = tempTiles[i];
 			tempInt = GameController.instance.getTile(t.x, t.y).characterID;
-			if (tempInt!=-1)
+			if (tempInt==-1)
 			{
-				if (GameController.instance.getPCC(tempInt).cannotBeTargeted==-1)
-				{
-					isLaunchable = true ;
-				}
+				isLaunchable = true ;
 			}
 			i++;
 		}

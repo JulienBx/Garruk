@@ -15,13 +15,13 @@ public class Agilite : GameSkill
 
 	public override void resolve(int[] args)
 	{
-		int amount = GameController.instance.getCurrentSkill().Power ;
+		int amount = GameController.instance.getCurrentSkill().ManaCost ;
 		
-		GameController.instance.getCurrentPCC ().changeEsquive ("Esquive", "Le héros possède "+amount+" % de chances d'esquiver les dégats");
+		GameController.instance.setEsquive (amount);
 		
-		GameController.instance.getCurrentCard().modifiers.Add(new StatModifier(amount, ModifierType.Type_EsquivePercentage));
+		
 		GameController.instance.play(GameController.instance.getCurrentCard().Title + 
-		                             " possède désormais " 
+		                             " acquiert " 
 		                             + amount 
 		                             + " % de chances de d'esquiver les dégats" 
 		                             );
