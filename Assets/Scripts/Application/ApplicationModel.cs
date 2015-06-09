@@ -11,7 +11,7 @@ public class ApplicationModel : MonoBehaviour
 {
 	static public string host = "http://54.77.118.214/GarrukServer/";	// Adresse du serveur
 	static public string dev = "http://localhost/GarrukServer/";		// Adresse du serveur
-	static public string username = ""; 							// Pseudo de l'utilisateur connecté
+	static public string username = "yoann"; 							// Pseudo de l'utilisateur connecté
 	static public string hash = "J8xy9Uz4"; 						// Clé secrète
 	static public Deck selectedDeck;								// Deck à afficher
 	static public string photonSettings = "0.2";                    // identifiant utilisé par Photon A mettre à jour à chaque nouvelle version
@@ -19,18 +19,18 @@ public class ApplicationModel : MonoBehaviour
 	static public bool toDeconnect = false;
 	static public int credits = 0;
 	static public int nbNotificationsNonRead = 0;
-	static public int gameType;
+	static public int gameType = 1;
 	static public FriendlyGame currentFriendlyGame;
 	static public Cup currentCup;
 	static public Division currentDivision;
-	static public string error="";
-	static public string skillChosen="";
+	static public string error = "";
+	static public string skillChosen = "";
 	static public int cardTypeChosen = -1;
 	static public int tutorialStep;
 
-	static private string URLCheckPassword = host+"check_password.php";
-	static private string URLEditPassword = host+"edit_password.php";
-	static private string URLCheckAuthentification =  host + "check_authentication.php"; 
+	static private string URLCheckPassword = host + "check_password.php";
+	static private string URLEditPassword = host + "edit_password.php";
+	static private string URLCheckAuthentification = host + "check_authentication.php"; 
 	static private string URLCheckPermanentConnexion = host + "check_permanent_connexion.php";
 	static private string URLCreateAccount = host + "create_account.php";
 
@@ -45,15 +45,14 @@ public class ApplicationModel : MonoBehaviour
 		WWW w = new WWW(URLCheckPassword, form); 								// On envoie le formulaire à l'url sur le serveur 
 		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
 		
-		if (w.error != null) 
+		if (w.error != null)
 		{
 			print(w.error); 										// donne l'erreur eventuelle
-		} 
-		else 
+		} else
 		{
-			if (w.text!="") 					// On affiche la page d'accueil si l'authentification réussie
+			if (w.text != "") 					// On affiche la page d'accueil si l'authentification réussie
 			{ 				
-				error=w.text;
+				error = w.text;
 			}
 		}
 	}
@@ -67,7 +66,7 @@ public class ApplicationModel : MonoBehaviour
 		WWW w = new WWW(URLEditPassword, form); 								// On envoie le formulaire à l'url sur le serveur 
 		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
 		
-		if (w.error != null) 
+		if (w.error != null)
 		{
 			print(w.error); 										// donne l'erreur eventuelle
 		} 
@@ -83,21 +82,19 @@ public class ApplicationModel : MonoBehaviour
 		
 		if (w.error != null)
 		{
-			error=w.error;
-		} 
-		else
+			error = w.error;
+		} else
 		{
-			if(w.text.Contains("#ERROR#"))
+			if (w.text.Contains("#ERROR#"))
 			{
 				string[] errors = w.text.Split(new string[] { "#ERROR#" }, System.StringSplitOptions.None);
-				error=errors[1];
-			}
-			else
+				error = errors [1];
+			} else
 			{
-				error="";
+				error = "";
 				string[] data = w.text.Split(new string[] { "//" }, System.StringSplitOptions.None);
-				username = data[0];
-				tutorialStep=System.Convert.ToInt32(data[1]);
+				username = data [0];
+				tutorialStep = System.Convert.ToInt32(data [1]);
 			}		
 		}
 	}
@@ -106,68 +103,63 @@ public class ApplicationModel : MonoBehaviour
 		string toMemorizeString;
 		if (toMemorize)
 		{
-			toMemorizeString="1";
-		}
-		else
+			toMemorizeString = "1";
+		} else
 		{
-			toMemorizeString="0";
+			toMemorizeString = "0";
 		}
 		WWWForm form = new WWWForm();
 		form.AddField("myform_hash", ApplicationModel.hash);
 		form.AddField("myform_nick", nick);
 		form.AddField("myform_pass", password);
-		form.AddField ("myform_memorize", toMemorizeString);
-		form.AddField ("myform_macadress", SystemInfo.deviceUniqueIdentifier);
+		form.AddField("myform_memorize", toMemorizeString);
+		form.AddField("myform_macadress", SystemInfo.deviceUniqueIdentifier);
 		
 		WWW w = new WWW(URLCheckAuthentification, form);
 		yield return w;
 		
-		if (w.error != null) 
+		if (w.error != null)
 		{
-			error=w.error;
-		} 
-		else 
+			error = w.error;
+		} else
 		{
-			if(w.text.Contains("#ERROR#"))
+			if (w.text.Contains("#ERROR#"))
 			{
 				string[] errors = w.text.Split(new string[] { "#ERROR#" }, System.StringSplitOptions.None);
-				error=errors[1];
-			}
-			else
+				error = errors [1];
+			} else
 			{
-				error="";
+				error = "";
 				username = nick;
-				toDeconnect=false;
-				tutorialStep=System.Convert.ToInt32(w.text);
+				toDeconnect = false;
+				tutorialStep = System.Convert.ToInt32(w.text);
 			}											
 		}
 	}
-	static public IEnumerator createAccount(string nick, string email,string password)
+	static public IEnumerator createAccount(string nick, string email, string password)
 	{	
 		WWWForm form = new WWWForm();
 		form.AddField("myform_hash", ApplicationModel.hash);
 		form.AddField("myform_nick", nick);
 		form.AddField("myform_email", email);
 		form.AddField("myform_pass", password);
-		form.AddField ("myform_macadress", SystemInfo.deviceUniqueIdentifier);
+		form.AddField("myform_macadress", SystemInfo.deviceUniqueIdentifier);
 		
 		WWW w = new WWW(URLCreateAccount, form);
 		yield return w;
 		
-		if (w.error != null) 
+		if (w.error != null)
 		{
-			error=w.error;
-		} 
-		else 
+			error = w.error;
+		} else
 		{
-			if (w.text=="") 		
+			if (w.text == "")
 			{	 				
 				username = nick;
-				toDeconnect=false;
-			}
-			else 
+				toDeconnect = false;
+			} else
 			{
-				error=w.text;
+				error = w.text;
 			}										
 		}
 	}

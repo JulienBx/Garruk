@@ -15,10 +15,16 @@ public class FocusMyGameFeaturesViewModel
 	public int nbWin;
 	public int nbLoose;
 	public int idOwner;
+	public bool[] buttonsEnabled;
 
 	public FocusMyGameFeaturesViewModel ()
 	{
 		this.cardFeaturesFocusRects=new Rect[6];
+		this.buttonsEnabled=new bool[2];
+		for(int i=0;i<this.buttonsEnabled.Length;i++)
+		{
+			this.buttonsEnabled[i]=true;
+		}
 	}
 }
 

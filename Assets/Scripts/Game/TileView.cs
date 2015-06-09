@@ -17,8 +17,10 @@ public class TileView : MonoBehaviour
 			{
 				int height = Screen.height;
 				Vector3 scrPos = Utils.getGOScreenPosition(tileVM.position);
-				Vector3 scrScale = Utils.getGOScreenPosition(tileVM.scale);
-				if (Input.mousePosition.x > (scrPos.x - scrScale.x / 2f) && Input.mousePosition.x < (scrPos.x + scrScale.x / 2f) && (height - Input.mousePosition.y) > (scrPos.y - scrScale.y / 2f) && (height - Input.mousePosition.y) < scrPos.y + scrScale.y / 2f)
+				Vector3 min = Utils.getGOScreenPosition(gameObject.renderer.bounds.min);
+				Vector3 max = Utils.getGOScreenPosition(gameObject.renderer.bounds.max);
+
+				if (Input.mousePosition.x > min.x && Input.mousePosition.x < max.x && Input.mousePosition.y > min.y && Input.mousePosition.y < max.y)
 				{
 					gameObject.GetComponentInChildren<TileController>().addTileTarget();
 				}
@@ -45,6 +47,11 @@ public class TileView : MonoBehaviour
 	}
 	
 	public void OnGUI(){
+		if (this.tileVM.toDisplayIcon)
+		{
+			GUI.Box(this.tileVM.iconRect, this.tileVM.icon, this.tileVM.iconStyle);
+		}
+		
 		if (this.tileVM.toDisplayHalo)
 		{
 			GUI.Box(this.tileVM.haloRect, this.tileVM.halo, this.tileVM.haloStyle);
@@ -53,6 +60,7 @@ public class TileView : MonoBehaviour
 		{
 			GUI.Box(this.tileVM.haloRect, this.tileVM.trap, this.tileVM.trapStyle);
 		}
+		
 	}
 
 	public void changeBorder()

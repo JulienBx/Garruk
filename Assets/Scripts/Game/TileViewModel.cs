@@ -15,6 +15,13 @@ public class TileViewModel
 	public bool toDisplayTrap = false ;
 	public Texture2D trap ;
 
+	public bool toDisplayIcon = false;
+
+	public GUIStyle iconStyle;
+	public Rect iconRect;
+
+	public Texture2D icon;
+
 	public TileViewModel()
 	{
 		this.background = null;

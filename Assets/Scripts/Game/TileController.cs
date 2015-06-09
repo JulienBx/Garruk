@@ -7,12 +7,14 @@ public class TileController : MonoBehaviour
 //	public Texture2D cursorAttack;
 //	public Texture2D cursorTarget;
 
-	Tile tile ;
+	public Tile tile ;
 	private int type ;
+
 	public Texture2D[] backTile ;
 	public Texture2D[] borderTile ;
 	public Texture2D[] halos ;
 	public TileView tileView ;
+
 	private float scaleTile ;
 	public GUIStyle[] styles ;
 	public Trap trap;
@@ -21,12 +23,21 @@ public class TileController : MonoBehaviour
 
 	public bool isDestination ;
 	public int characterID = -1 ;
+	public TileModification tileModification;
+	public StatModifier statModifier;
+
+	public Texture2D[] icons;
 
 	void Awake()
 	{
 		this.tileView = gameObject.AddComponent <TileView>();
 		this.isDestination = false;
+
 		this.tileView.tileVM.haloStyle = this.styles[0];
+
+		this.tileView.tileVM.iconStyle = styles [0];
+		this.tileModification = TileModification.Void;
+
 	}
 
 	void Start()
@@ -111,8 +122,57 @@ public class TileController : MonoBehaviour
 		this.tileView.tileVM.haloRect = haloRect ;
 		
 		this.tileView.resize();
+		this.resizeIcons();
+	}
+	public void addTemple(int power)
+	{
+		this.tileView.tileVM.toDisplayIcon = true;
+		this.tileModification = TileModification.Temple_Sacre;
+		this.tileView.tileVM.icon = this.icons [0];
+		tile.StatModifier = new StatModifier(power, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack);
 	}
 
+	public void addForetIcon()
+	{
+		this.tileView.tileVM.toDisplayIcon = true;
+		this.tileModification = TileModification.Foret_de_Lianes;
+		this.tileView.tileVM.icon = this.icons [1];
+	}
+
+	public void addSable()
+	{
+		this.tileView.tileVM.toDisplayIcon = true;
+		this.tileModification = TileModification.Sables_Mouvants;
+		this.tileView.tileVM.icon = this.icons [2];
+		tile.StatModifier = new StatModifier(-999, ModifierType.Type_BonusMalus, ModifierStat.Stat_Move, 3);
+	}
+
+	public void addFontaine(int power)
+	{
+		this.tileView.tileVM.toDisplayIcon = true;
+		this.tileModification = TileModification.Fontaine_de_Jouvence;
+		this.tileView.tileVM.icon = this.icons [3];
+		tile.StatModifier = new StatModifier(-power, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage);
+	}
+
+	public void removeIcon()
+	{
+		this.tileView.tileVM.toDisplayIcon = false;
+	}
+	public void resizeIcons()
+	{
+		int height = Screen.height;
+		int width = Screen.width;
+		
+		int decalage = height / 15;
+		
+		Vector3 positionObject = new Vector3(0, 0, 0);
+		positionObject.x = (this.tileView.tileVM.position.x) * (height / 10f) - (decalage / 2) + (width / 2f);
+		positionObject.y = height - ((this.tileView.tileVM.position.y + this.tileView.tileVM.scale.y / 2f) * (height / 10f) - (decalage / 2) + (height / 2f));
+		
+		Rect position = new Rect(positionObject.x, positionObject.y, decalage, decalage);
+		this.tileView.tileVM.iconRect = position;
+	}
 	public void setDestination(bool b)
 	{
 		this.isDestination = b;

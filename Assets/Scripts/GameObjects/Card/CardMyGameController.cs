@@ -8,6 +8,7 @@ using System.Reflection;
 public class CardMyGameController : CardController
 {
 	private FocusMyGameFeaturesView focusMyGameFeaturesView;
+	private bool isTutorialLaunched;
 	
 	void OnMouseOver()
 	{
@@ -66,6 +67,10 @@ public class CardMyGameController : CardController
 		base.updateExperience ();
 		focusMyGameFeaturesView.focusMyGameFeaturesVM.cardLevel = base.card.ExperienceLevel;
 		focusMyGameFeaturesView.focusMyGameFeaturesVM.nextLevelCost = base.card.NextLevelPrice;
+		if(isTutorialLaunched)
+		{
+			MyGameController.instance.tutorialCardUpgrated();
+		}
 	}
 	public void setFocusMyGameFeatures()
 	{
@@ -114,6 +119,10 @@ public class CardMyGameController : CardController
 	public void exitFocus()
 	{
 		MyGameController.instance.exitCard();
+		if(isTutorialLaunched)
+		{
+			MyGameController.instance.tutorialCardLeaved();
+		}
 	}
 	public override void setGUI(bool value)
 	{
@@ -124,6 +133,7 @@ public class CardMyGameController : CardController
 		if (this.focusMyGameFeaturesView != null)
 		{
 			this.focusMyGameFeaturesView.cardFeaturesFocusVM.guiEnabled = value;
+			this.setButtonsGui(value);
 		}
 	}
 	public override void popUpDisplayed(bool value)
@@ -171,6 +181,21 @@ public class CardMyGameController : CardController
 	{
 		base.unsellCard();
 		StartCoroutine(MyGameController.instance.unsellCard(gameObject));
+	}
+	public void setButtonGui(int index,bool value)
+	{
+		focusMyGameFeaturesView.focusMyGameFeaturesVM.buttonsEnabled[index] = value;
+	}
+	public void setButtonsGui(bool value)
+	{
+		for(int i=0;i<focusMyGameFeaturesView.focusMyGameFeaturesVM.buttonsEnabled.Length;i++)
+		{
+			focusMyGameFeaturesView.focusMyGameFeaturesVM.buttonsEnabled[i] = value;
+		}
+	}
+	public void setIsTutorialLaunched(bool value)
+	{
+		this.isTutorialLaunched = value;
 	}
 }
 

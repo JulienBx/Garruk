@@ -61,6 +61,7 @@ public class LobbyModel
 		user.NbGamesDivision = System.Convert.ToInt32 (userData [0]);
 		user.NbGamesCup = System.Convert.ToInt32 (userData [1]);
 		user.SelectedDeckId = System.Convert.ToInt32 (userData [2]);
+		user.TutorialStep = System.Convert.ToInt32 (userData [3]);
 		return user;
 	}
 	private List<Deck> parseDecks(string[] decksData)

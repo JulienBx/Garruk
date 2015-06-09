@@ -42,6 +42,7 @@ public class Card
 	public int PercentageToNextLevel;
 	public DateTime OnSaleDate;
 	public List<StatModifier> modifiers = new List<StatModifier>();
+	public StatModifier TileModifier = null;
 	public int onSale ;
 	public int RenameCost = 200;
 	public string Error;
@@ -213,7 +214,8 @@ public class Card
 		int esquive = 0;
 		foreach (StatModifier modifier in modifiers)
 		{
-			if (modifier.Type==ModifierType.Type_EsquivePercentage){
+			if (modifier.Type == ModifierType.Type_EsquivePercentage)
+			{
 				esquive = modifier.Amount;
 			}
 		}
@@ -270,23 +272,30 @@ public class Card
 		{
 			move = modifier.modifyMove(move);
 		}
-		if (move < 1)
+		if (TileModifier != null)
 		{
-			return 1;
+			move = TileModifier.modifyMove(move);
+		}
+		if (move < 0)
+		{
+			return 0;
 		}
 		return move;
 	}
 	
-	public bool isParalyzed(){
-		bool isParalyzed = false ;
-		int i = 0 ;
-		while (i < this.modifiers.Count && !isParalyzed){
-			if (this.modifiers[i].Type == ModifierType.Type_Paralized){
-				isParalyzed = true ;
+	public bool isParalyzed()
+	{
+		bool isParalyzed = false;
+		int i = 0;
+		while (i < this.modifiers.Count && !isParalyzed)
+		{
+			if (this.modifiers [i].Type == ModifierType.Type_Paralized)
+			{
+				isParalyzed = true;
 			}
 			i++;
 		}
-		return isParalyzed ;
+		return isParalyzed;
 	}
 
 	public void clearBuffs()
@@ -502,44 +511,41 @@ public class Card
 		if (w.error != null)
 		{
 			this.Error = w.error; 										// donne l'erreur eventuelle
-		} 
-		else
+		} else
 		{
-			if(w.text.Contains("#ERROR#"))
+			if (w.text.Contains("#ERROR#"))
 			{
 				string[] errors = w.text.Split(new string[] { "#ERROR#" }, System.StringSplitOptions.None);
-				this.Error=errors[1];
-			}
-			else
+				this.Error = errors [1];
+			} else
 			{
-				this.Error="";
-				string [] cardData =  w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
-				string [] cardInformations =  cardData[0].Split(new string[] { "#S#" }, System.StringSplitOptions.None);
-				this.CollectionPoints=System.Convert.ToInt32(cardData[1]);
-				for(int j = 0 ; j < cardInformations.Length-1 ; j++)
+				this.Error = "";
+				string [] cardData = w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
+				string [] cardInformations = cardData [0].Split(new string[] { "#S#" }, System.StringSplitOptions.None);
+				this.CollectionPoints = System.Convert.ToInt32(cardData [1]);
+				for (int j = 0; j < cardInformations.Length-1; j++)
 				{
-					string[] cardInfo = cardInformations[j].Split(new string[] { "\\" }, System.StringSplitOptions.None); 
-					if (j==0)
+					string[] cardInfo = cardInformations [j].Split(new string[] { "\\" }, System.StringSplitOptions.None); 
+					if (j == 0)
 					{
 
-						this.Life=System.Convert.ToInt32(cardInfo[0]);
-						this.Attack=System.Convert.ToInt32(cardInfo[1]);
-						this.Speed=System.Convert.ToInt32(cardInfo[2]);
-						this.Move=System.Convert.ToInt32(cardInfo[3]);
-						this.LifeLevel=System.Convert.ToInt32(cardInfo[4]);
-						this.MoveLevel=System.Convert.ToInt32(cardInfo[5]);
-						this.SpeedLevel=System.Convert.ToInt32(cardInfo[6]);
-						this.AttackLevel=System.Convert.ToInt32(cardInfo[7]);
-						this.Experience=System.Convert.ToInt32(cardInfo[8]);
-						this.ExperienceLevel=System.Convert.ToInt32(cardInfo[9]);
-						this.NextLevelPrice=System.Convert.ToInt16(cardInfo[10]);
-						this.PercentageToNextLevel=System.Convert.ToInt16(cardInfo[11]);
-					}
-					else
+						this.Life = System.Convert.ToInt32(cardInfo [0]);
+						this.Attack = System.Convert.ToInt32(cardInfo [1]);
+						this.Speed = System.Convert.ToInt32(cardInfo [2]);
+						this.Move = System.Convert.ToInt32(cardInfo [3]);
+						this.LifeLevel = System.Convert.ToInt32(cardInfo [4]);
+						this.MoveLevel = System.Convert.ToInt32(cardInfo [5]);
+						this.SpeedLevel = System.Convert.ToInt32(cardInfo [6]);
+						this.AttackLevel = System.Convert.ToInt32(cardInfo [7]);
+						this.Experience = System.Convert.ToInt32(cardInfo [8]);
+						this.ExperienceLevel = System.Convert.ToInt32(cardInfo [9]);
+						this.NextLevelPrice = System.Convert.ToInt16(cardInfo [10]);
+						this.PercentageToNextLevel = System.Convert.ToInt16(cardInfo [11]);
+					} else
 					{
-						this.Skills[j-1].Level=System.Convert.ToInt32(cardInfo[0]);
-						this.Skills[j-1].Power=System.Convert.ToInt32(cardInfo[1]);
-						this.Skills[j-1].Description=cardInfo[2];
+						this.Skills [j - 1].Level = System.Convert.ToInt32(cardInfo [0]);
+						this.Skills [j - 1].Power = System.Convert.ToInt32(cardInfo [1]);
+						this.Skills [j - 1].Description = cardInfo [2];
 					}
 				}
 			}
@@ -657,7 +663,7 @@ public class Card
 	}
 	public IEnumerator buyCard()
 	{
-		this.NewSkills=new List<Skill>();
+		this.NewSkills = new List<Skill>();
 		WWWForm form = new WWWForm(); 											// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_nick", ApplicationModel.username);
@@ -669,29 +675,27 @@ public class Card
 		if (w.error != null)
 		{
 			this.Error = w.error;
-		} 
-		else
+		} else
 		{
-			if(w.text.Contains("#ERROR#"))
+			if (w.text.Contains("#ERROR#"))
 			{
 				string[] errors = w.text.Split(new string[] { "#ERROR#" }, System.StringSplitOptions.None);
-				this.Error=errors[1];
-				if(w.text.Contains("#SOLD#"))
+				this.Error = errors [1];
+				if (w.text.Contains("#SOLD#"))
 				{
 					this.onSale = 0;
 				}
-			}
-			else
+			} else
 			{
-				this.Error="";
-				this.onSale=0;
+				this.Error = "";
+				this.onSale = 0;
 				string[] data = w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
-				this.CollectionPoints=System.Convert.ToInt32(data[0]);
-				string[] newSkills = data[1].Split(new string[] { "//" }, System.StringSplitOptions.None);
-				for(int i=0;i<newSkills.Length-1;i++)
+				this.CollectionPoints = System.Convert.ToInt32(data [0]);
+				string[] newSkills = data [1].Split(new string[] { "//" }, System.StringSplitOptions.None);
+				for (int i=0; i<newSkills.Length-1; i++)
 				{
-					this.NewSkills.Add (new Skill());
-					this.NewSkills[i].Name=newSkills[i];
+					this.NewSkills.Add(new Skill());
+					this.NewSkills [i].Name = newSkills [i];
 				}
 			}
 		}

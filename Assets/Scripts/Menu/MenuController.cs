@@ -159,7 +159,14 @@ public class MenuController : MonoBehaviour {
 		if(Application.loadedLevelName=="Lobby"){
 			PhotonNetwork.Disconnect();
 		}
-		Application.LoadLevel("Lobby");
+		if(this.isTutorialLaunched)
+		{
+			TutorialObjectController.instance.actionIsDone();
+		}
+		else
+		{
+			Application.LoadLevel("Lobby");
+		}
 	}
 	public void setButtonsGui(bool value)
 	{

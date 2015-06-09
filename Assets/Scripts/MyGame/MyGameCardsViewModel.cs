@@ -20,8 +20,6 @@ public class MyGameCardsViewModel
 	public int nbCards;
 	public GUIStyle[] paginatorGuiStyle;
 
-
-	public IList<Card> CardStoreController;
 	
 	public MyGameCardsViewModel ()
 	{
