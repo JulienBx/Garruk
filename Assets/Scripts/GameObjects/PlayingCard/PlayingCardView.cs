@@ -29,7 +29,6 @@ public class PlayingCardView : MonoBehaviour
 					gameObject.GetComponentInChildren<PlayingCardController>().addTarget();
 				}
 			}
-			
 		}
 		else{
 			for (int i = 0; i < this.playingCardVM.icons.Count; i++){

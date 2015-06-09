@@ -11,7 +11,6 @@ public class TileView : MonoBehaviour
 
 	public void Update()
 	{
-		
 		if (this.tileVM.isPotentialTarget)
 		{
 			if (Input.GetMouseButton(0))
@@ -25,12 +24,35 @@ public class TileView : MonoBehaviour
 				}
 			}
 		}
+		
+		if (this.tileVM.toDisplayHalo)
+		{		
+			if (Input.GetMouseButtonDown(0))
+			{
+				int height = Screen.height;
+				if (Input.mousePosition.x > this.tileVM.haloRect.xMin && Input.mousePosition.x < this.tileVM.haloRect.xMax && (height - Input.mousePosition.y) > this.tileVM.haloRect.yMin && (height - Input.mousePosition.y) < this.tileVM.haloRect.yMax)
+				{
+					gameObject.GetComponentInChildren<TileController>().clickTarget();
+				}
+			}
+		}
 	}
 
 	public void resize()
 	{
 		gameObject.transform.localPosition = tileVM.position;
 		gameObject.transform.localScale = tileVM.scale;
+	}
+	
+	public void OnGUI(){
+		if (this.tileVM.toDisplayHalo)
+		{
+			GUI.Box(this.tileVM.haloRect, this.tileVM.halo, this.tileVM.haloStyle);
+		}
+		else if (this.tileVM.toDisplayTrap)
+		{
+			GUI.Box(this.tileVM.haloRect, this.tileVM.trap, this.tileVM.trapStyle);
+		}
 	}
 
 	public void changeBorder()
@@ -51,16 +73,6 @@ public class TileView : MonoBehaviour
 	void OnMouseUp()
 	{
 		gameObject.GetComponentInChildren<TileController>().releaseClickTile();
-		//gameObject.GetComponentInChildren<TileController>().release();
-		//		PlayingCharacterController pcc = gameObject.GetComponentInChildren<PlayingCharacterController>();
-//		
-//		pcc.release();
-//		if (GameController.instance.onGoingAttack)
-//		{
-//			pcc.getDamage();
-//			GameController.instance.setStateOfAttack(false);
-//			//Debug.Log("total damage : " + pcc.damage);
-//		}
 	}
 }
 

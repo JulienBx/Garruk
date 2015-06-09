@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class PiegeALoups : GameSkill
+public class Assassinat : GameSkill
 {
 	/*	public override void launch()
 	{

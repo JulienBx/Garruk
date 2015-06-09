@@ -542,6 +542,21 @@ public class GameController : Photon.MonoBehaviour
 			}
 		}
 	}
+	
+	public void lookForEmptyAdjacentTile(string regularText, string buttonText)
+	{
+		this.numberOfExpectedArgs = 2;
+		
+		setValidationTexts(regularText, buttonText);
+		
+		foreach (Tile t in this.getCurrentPCC().tile.getImmediateNeighbouringTiles())
+		{
+			if (this.tiles [t.x, t.y].GetComponent<TileController>().characterID == -1)
+			{
+				this.tiles [t.x, t.y].GetComponent<TileController>().activateWolfTrapTarget();
+			}
+		}
+	}
 
 	public void lookForTileTarget(string regularText, string buttonText)
 	{
@@ -587,6 +602,28 @@ public class GameController : Photon.MonoBehaviour
 				for (int j = 0; j < this.boardHeight; j++)
 				{
 					this.tiles [i, j].GetComponent<TileController>().removePotentielTarget();
+				}
+			}
+			this.validateSkill();
+		}
+	}
+	
+	public void addTileTarget(Tile t)
+	{
+		this.skillArgs [numberOfArgs] = t.x;
+		this.numberOfArgs++;
+		this.skillArgs [numberOfArgs] = t.y;
+		this.numberOfArgs++;
+		
+		if (this.numberOfExpectedArgs <= this.numberOfArgs)
+		{
+			this.gameView.gameScreenVM.toDisplayValidationButton = true;
+			this.gameView.gameScreenVM.validationRegularText = "Cible choisie !";
+			for (int i = 0; i < this.boardWidth; i++)
+			{
+				for (int j = 0; j < this.boardHeight; j++)
+				{
+					this.tiles [i, j].GetComponent<TileController>().removeHalo();
 				}
 			}
 			this.validateSkill();
@@ -849,6 +886,7 @@ public class GameController : Photon.MonoBehaviour
 				int y = currentHoveredTile.y;
 				this.hideHoveredTile();
 				photonView.RPC("moveCharacterRPC", PhotonTargets.AllBuffered, x, y, this.currentPlayingCard, this.isFirstPlayer, false);
+				
 			}
 		}
 	}
@@ -862,7 +900,6 @@ public class GameController : Photon.MonoBehaviour
 				int x = currentHoveredTile.x;
 				int y = currentHoveredTile.y;
 				this.hideHoveredTile();
-
 				photonView.RPC("moveCharacterRPC", PhotonTargets.AllBuffered, x, y, this.currentPlayingCard, this.isFirstPlayer, false);
 			}
 		}
@@ -1433,6 +1470,7 @@ public class GameController : Photon.MonoBehaviour
 			{
 				this.updateStatusMySkills(this.currentPlayingCard);
 			}
+			this.tiles[x,y].GetComponentInChildren<TileController>().checkTrap(this.currentPlayingCard);
 			if (this.playindCardHasPlayed)
 			{
 				this.gameskills [1].launch();
@@ -1958,6 +1996,16 @@ public class GameController : Photon.MonoBehaviour
 		}
 	}
 	
+	public void addTrap(int tileX, int tileY, int type, int amount){ 
+		photonView.RPC("addTrapRPC", PhotonTargets.AllBuffered, tileX, tileY, type, amount, this.isFirstPlayer);
+	}
+	
+	[RPC]
+	public void addTrapRPC(int tileX, int tileY, int type, int amount, bool isFirstP)
+	{
+		this.tiles[tileX, tileY].GetComponent<TileController>().setTrap(new Trap(amount, type,(this.isFirstPlayer==isFirstP)));
+	}
+	
 	public void setParalyzed(int target, int duration){
 		photonView.RPC("setParalyzedRPC", PhotonTargets.AllBuffered, target, duration);
 	}
@@ -1967,6 +2015,16 @@ public class GameController : Photon.MonoBehaviour
 	{
 		this.addModifier(target, 0, (int)ModifierType.Type_Paralized, 0, duration);
 		this.getPCC(target).setParalyzed(duration);
+	}
+	
+	public void removeTrap(Tile t){
+		photonView.RPC("removeTrapRPC", PhotonTargets.AllBuffered, t.x, t.y);
+	}
+	
+	[RPC]
+	public void removeTrapRPC(int x, int y)
+	{
+		this.tiles[x,y].GetComponent<TileController>().removeTrap();
 	}
 }
 

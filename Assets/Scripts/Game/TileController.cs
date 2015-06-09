@@ -11,8 +11,13 @@ public class TileController : MonoBehaviour
 	private int type ;
 	public Texture2D[] backTile ;
 	public Texture2D[] borderTile ;
+	public Texture2D[] halos ;
 	public TileView tileView ;
 	private float scaleTile ;
+	public GUIStyle[] styles ;
+	public Trap trap;
+	public Texture2D[] traps ;
+	public bool isTrap ;
 
 	public bool isDestination ;
 	public int characterID = -1 ;
@@ -21,11 +26,33 @@ public class TileController : MonoBehaviour
 	{
 		this.tileView = gameObject.AddComponent <TileView>();
 		this.isDestination = false;
+		this.tileView.tileVM.haloStyle = this.styles[0];
 	}
 
 	void Start()
 	{
 
+	}
+	
+	public void setTrap(Trap t){
+		this.trap = t ;
+		this.tileView.tileVM.trap = traps[t.type];
+		this.tileView.tileVM.toDisplayTrap=t.isVisible;
+		if (this.isTrap==false){
+			this.isTrap = true ;
+		}
+	}
+	
+	public void checkTrap(int target){
+		if (this.isTrap==true){
+			this.trap.activate(target) ;
+			GameController.instance.removeTrap(this.tile);
+		}
+	}
+	
+	public void removeTrap(){
+		this.isTrap=false;
+		this.tileView.tileVM.toDisplayTrap=false;
 	}
 
 	public int getID()
@@ -37,6 +64,12 @@ public class TileController : MonoBehaviour
 	{
 		this.tileView.tileVM.isPotentialTarget = false;
 		GameController.instance.addTileTarget(getID());
+	}
+	
+	public void clickTarget()
+	{
+		this.tileView.tileVM.toDisplayHalo = false;
+		GameController.instance.addTileTarget(this.tile);
 	}
 
 	public void setTile(int x, int y, int boardWidth, int boardHeight, int type, float scaleTile)
@@ -54,6 +87,9 @@ public class TileController : MonoBehaviour
 
 	public void resize(float scaleTile, float offsetX, float offsetY)
 	{
+		int height = Screen.height;
+		int width = Screen.width;
+		
 		Vector3 position;
 		this.tileView.tileVM.scale = new Vector3(scaleTile, scaleTile, scaleTile);
 		if (GameController.instance.isFirstPlayer)
@@ -64,7 +100,16 @@ public class TileController : MonoBehaviour
 			position = new Vector3(scaleTile * (offsetX - 0.5f - this.tile.x), scaleTile * (offsetY - 0.5f - this.tile.y), -1);
 		}
 		this.tileView.tileVM.position = position;
-
+		
+		int decalage = height / 15;
+		
+		Vector3 positionObject = new Vector3 (0, 0, 0);
+		positionObject.x = (this.tileView.tileVM.position.x) * (height / 10f) - (decalage / 2) + (width / 2f);
+		positionObject.y = height - ((this.tileView.tileVM.position.y + this.tileView.tileVM.scale.y / 2f) * (height / 10f) - (decalage / 2) + (height / 2f));
+		
+		Rect haloRect = new Rect (positionObject.x, positionObject.y, decalage, decalage);
+		this.tileView.tileVM.haloRect = haloRect ;
+		
 		this.tileView.resize();
 	}
 
@@ -190,6 +235,16 @@ public class TileController : MonoBehaviour
 	public void removePotentielTarget()
 	{
 		this.tileView.tileVM.isPotentialTarget = false;
+	}
+	
+	public void removeHalo()
+	{
+		this.tileView.tileVM.toDisplayHalo = false;
+	}
+	
+	public void activateWolfTrapTarget(){
+		this.tileView.tileVM.toDisplayHalo = true;
+		this.tileView.tileVM.halo = this.halos[0];
 	}
 }
 
