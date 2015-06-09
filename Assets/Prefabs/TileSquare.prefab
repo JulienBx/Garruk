@@ -166,7 +166,6 @@ MonoBehaviour:
   - {fileID: 2800000, guid: f4c4edfb449674c498b78131aea82868, type: 3}
   - {fileID: 2800000, guid: 4fdccd947fd480a44bda119614783404, type: 3}
   - {fileID: 2800000, guid: 2f5588dcad14fa0439122077700ebf64, type: 3}
-<<<<<<< HEAD
   halos:
   - {fileID: 2800000, guid: 2231d338aafdb48408837d3028a35c71, type: 3}
   tileView: {fileID: 0}
@@ -233,9 +232,6 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 62c4c6cbdd1e8024bbdcb8364bc97371, type: 3}
   isDestination: 0
   characterID: -1
-=======
->>>>>>> origin/master
---- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
   serializedVersion: 2
