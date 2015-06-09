@@ -2065,5 +2065,15 @@ public class GameController : Photon.MonoBehaviour
 	{
 		this.tiles[x,y].GetComponent<TileController>().removeTrap();
 	}
+	
+	public void useSkill(){
+		photonView.RPC("useSkillRPC", PhotonTargets.AllBuffered, this.currentPlayingCard, this.clickedSkill);
+	}
+	
+	[RPC]
+	public void useSkillRPC(int target, int nbSkill)
+	{
+		this.getCard(target).Skills[nbSkill].lowerNbLeft();
+	}
 }
 

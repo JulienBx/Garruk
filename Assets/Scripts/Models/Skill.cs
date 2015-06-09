@@ -14,7 +14,7 @@ public class Skill
 	public float Ponderation;
 	public int XMin;
 	public string Action;
-	public int nbLeft = 99 ;
+	public int nbLeft = -1 ;
 	public int CardType;
 	public Texture2D texture;
 	public string Picture;
@@ -37,6 +37,7 @@ public class Skill
 
 		if (id==8){
 			nbLeft = 2 ;
+			this.Description+=nbLeft+" restant(s)";
 		}
 	}
 	public Skill(string name, int id, int isactivated, int level, int power, int manaCost)
@@ -50,6 +51,7 @@ public class Skill
 
 		if (id==8){
 			nbLeft = 2 ;
+			this.Description+=nbLeft+" restant(s)";
 		}
 	}
 	public Skill(string name)
@@ -70,6 +72,10 @@ public class Skill
 		var www = new WWW(ApplicationModel.host+this.Picture);
 		yield return www;
 		www.LoadImageIntoTexture(this.texture);
+	}
+	public void lowerNbLeft(){
+		nbLeft--;
+		this.Description = this.Description.Substring(0,this.Description.Length-12)+nbLeft+" restant(s)";
 	}
 
 }
