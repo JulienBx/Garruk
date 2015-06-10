@@ -58,6 +58,7 @@ public class ProfileModel
 				this.Player.TotalNbLooses=System.Convert.ToInt32(playerInformations[11]);
 				this.Player.CollectionPoints=System.Convert.ToInt32(playerInformations[12]);
 				this.Player.CollectionRanking=System.Convert.ToInt32(playerInformations[13]);
+				this.Player.myProfileTutorial=System.Convert.ToBoolean(System.Convert.ToInt32(playerInformations[14]));
 				Profile=new User();
 				Profile=Player;
 			}
@@ -72,19 +73,20 @@ public class ProfileModel
 				this.Player.Ranking=System.Convert.ToInt32(playerInformations[5]);
 				this.Player.TotalNbWins=System.Convert.ToInt32(playerInformations[6]);
 				this.Player.TotalNbLooses=System.Convert.ToInt32(playerInformations[7]);
+				this.Player.profileTutorial=System.Convert.ToBoolean(System.Convert.ToInt32(playerInformations[8]));
 
 				string[] userInformations = data[1].Split(new string[] { "\\" }, System.StringSplitOptions.None);
 				Profile=new User();
-				this.Player.Id=System.Convert.ToInt32(userInformations[0]);
-				this.Player.Username=userInformations[1];
-				this.Player.Picture=userInformations[2];
-				this.Player.Division=System.Convert.ToInt32(userInformations[3]);
-				this.Player.RankingPoints=System.Convert.ToInt32(userInformations[4]);
-				this.Player.Ranking=System.Convert.ToInt32(userInformations[5]);
-				this.Player.TotalNbWins=System.Convert.ToInt32(userInformations[6]);
-				this.Player.TotalNbLooses=System.Convert.ToInt32(userInformations[7]);
-				this.Player.CollectionPoints=System.Convert.ToInt32(userInformations[8]);
-				this.Player.CollectionRanking=System.Convert.ToInt32(userInformations[9]);
+				this.Profile.Id=System.Convert.ToInt32(userInformations[0]);
+				this.Profile.Username=userInformations[1];
+				this.Profile.Picture=userInformations[2];
+				this.Profile.Division=System.Convert.ToInt32(userInformations[3]);
+				this.Profile.RankingPoints=System.Convert.ToInt32(userInformations[4]);
+				this.Profile.Ranking=System.Convert.ToInt32(userInformations[5]);
+				this.Profile.TotalNbWins=System.Convert.ToInt32(userInformations[6]);
+				this.Profile.TotalNbLooses=System.Convert.ToInt32(userInformations[7]);
+				this.Profile.CollectionPoints=System.Convert.ToInt32(userInformations[8]);
+				this.Profile.CollectionRanking=System.Convert.ToInt32(userInformations[9]);
 			}
 			for(int i=0;i<playerConnections.Length-1;i++)
 			{

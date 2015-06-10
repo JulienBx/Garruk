@@ -18,6 +18,7 @@ public class User
 	private string URLSelectedDeck = ApplicationModel.host + "set_selected_deck.php";
 	private string URLCleanCards = ApplicationModel.host + "clean_cards.php";
 	private string URLSetTutorialStep = ApplicationModel.host + "set_tutorialstep.php";
+	private string URLSetMarketTutorial = ApplicationModel.host + "set_marketTutorial.php";
 
 	private string ServerDirectory          = "img/profile/";
 	
@@ -49,6 +50,9 @@ public class User
 	public int CollectionPoints;
 	public int CollectionRanking;
 	public int TutorialStep;
+	public bool MarketTutorial;
+	public bool myProfileTutorial;
+	public bool profileTutorial;
 
 	public User()
 	{
@@ -376,6 +380,33 @@ public class User
 		else 
 		{
 			this.TutorialStep=step;
+		}
+	}
+	public IEnumerator setMarketTutorial(bool step)
+	{
+		string tempString;
+		if(step)
+		{
+			tempString="1";
+		}
+		else
+		{
+			tempString="0";
+		}
+		WWWForm form = new WWWForm (); 								// Création de la connexion
+		form.AddField ("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
+		form.AddField ("myform_nick", ApplicationModel.username); 	// Pseudo de l'utilisateur connecté
+		form.AddField("myform_step", tempString);                 // Deck sélectionné
+		
+		WWW w = new WWW (URLSetMarketTutorial, form); 								// On envoie le formulaire à l'url sur le serveur 
+		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
+		if (w.error != null) 
+		{
+			Debug.Log (w.error); 										// donne l'erreur eventuelle
+		} 
+		else 
+		{
+			this.MarketTutorial=step;
 		}
 	}
 }

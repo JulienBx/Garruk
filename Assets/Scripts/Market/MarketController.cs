@@ -10,6 +10,7 @@ public class MarketController : MonoBehaviour
 {
 	public GameObject MenuObject;
 	public GameObject CardObject;
+	public GameObject TutorialObject;
 	public int totalNbResultLimit;
 	public int refreshInterval;
 	public GUIStyle[] marketScreenVMStyle;
@@ -24,8 +25,10 @@ public class MarketController : MonoBehaviour
 	private GameObject[] displayedCards ;
 	private GameObject cardFocused;
 	private GameObject cardPopUpBelongTo;
+	private GameObject tutorial;
 
 	private float timer;
+	private bool isTutorialLaunched;
 
 	
 	void Start () 
@@ -43,7 +46,10 @@ public class MarketController : MonoBehaviour
 		if (this.timer > this.refreshInterval) 
 		{	
 			this.timer=this.timer-this.refreshInterval;
-			StartCoroutine(this.refreshMarket());
+			if(!isTutorialLaunched)
+			{
+				StartCoroutine(this.refreshMarket());
+			}
 		}
 	}
 	private IEnumerator initialization()
@@ -57,6 +63,13 @@ public class MarketController : MonoBehaviour
 		this.initializeToggles ();
 		this.initializeSortButtons ();
 		this.setFilters ();
+		if(!model.player.MarketTutorial)
+		{
+			this.tutorial = Instantiate(this.TutorialObject) as GameObject;
+			MenuObject.GetComponent<MenuController>().setTutorialLaunched(true);
+			this.tutorial.GetComponent<TutorialObjectController>().launchSequence(500);
+			this.isTutorialLaunched=true;
+		}
 	}
 	public void loadData()
 	{
@@ -65,6 +78,10 @@ public class MarketController : MonoBehaviour
 		this.createCards ();
 		this.setPagination ();
 		view.marketVM.displayView = true;
+		if(isTutorialLaunched)
+		{
+			tutorial.GetComponent<TutorialObjectController>().resize();
+		}
 	}
 	private void initVM()
 	{
@@ -168,14 +185,7 @@ public class MarketController : MonoBehaviour
 		view.marketCardsVM.nbCards=model.cards.Count;
 		model.newCards = new List<Card> ();
 		this.eraseSoldCards ();
-		this.initVM ();
-		this.clearCards ();
-		this.createCards ();
-		this.setPagination ();
-		view.marketFiltersVM.setFilters ();
-		this.initializeToggles ();
-		this.initializeSortButtons ();
-		this.setFilters ();
+		this.initializeFilters ();
 	}
 	public void refreshCredits()
 	{
@@ -206,7 +216,7 @@ public class MarketController : MonoBehaviour
 	}
 	public void clickedCard(GameObject gameObject)
 	{
-		if(!view.marketVM.isPopUpDisplayed)
+		if(!view.marketVM.isPopUpDisplayed && !isTutorialLaunched)
 		{
 			view.marketVM.displayView=false ;
 			
@@ -250,6 +260,10 @@ public class MarketController : MonoBehaviour
 		{
 			this.cardFocused.GetComponent<CardController>().setMyGUI(value);
 		}
+	}
+	public void setButtonGUI(bool value)
+	{
+		view.marketVM.guiEnabled = value;
 	}
 	private void createCards()
 	{
@@ -932,5 +946,45 @@ public class MarketController : MonoBehaviour
 				
 			}
 		}
+	}
+	public int getNbCardsDisplayed()
+	{
+		return view.marketCardsVM.cardsToBeDisplayed.Count;
+	}
+	public Vector2 getCardsPosition(int index)
+	{
+		return this.displayedCards[index].GetComponent<CardController>().GOPosition;
+	}
+	public Vector2 getCardsSize(int index)
+	{
+		return this.displayedCards[index].GetComponent<CardController>().GOSize;
+	}
+	public void initializeFilters()
+	{
+		this.initVM ();
+		this.clearCards ();
+		this.createCards ();
+		this.setPagination ();
+		view.marketFiltersVM.setFilters ();
+		this.initializeToggles ();
+		this.initializeSortButtons ();
+		this.setFilters ();
+	}
+	public IEnumerator endTutorial(bool toUpdate)
+	{
+		if(toUpdate)
+		{
+			yield return StartCoroutine (model.player.setMarketTutorial(true));
+		}
+		else
+		{
+			yield break;
+		}
+		MenuController.instance.setButtonsGui (true);
+		Destroy (this.tutorial);
+		this.isTutorialLaunched = false;
+		MenuController.instance.setButtonsGui (true);
+		MenuController.instance.isTutorialLaunched = false;
+		this.setGUI (true);
 	}
 }
