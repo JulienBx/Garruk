@@ -1213,7 +1213,8 @@ public class GameController : Photon.MonoBehaviour
 		if (ApplicationModel.username == loginName)
 		{
 			this.gameView.gameScreenVM.myPlayerName = loginName;
-		} else
+		} 
+		else
 		{
 			this.gameView.gameScreenVM.hisPlayerName = loginName;
 			this.gameView.gameScreenVM.connectOtherPlayer();
@@ -1850,7 +1851,7 @@ public class GameController : Photon.MonoBehaviour
 		this.gameskills [19] = new AttaqueCirculaire();
 		this.gameskills [20] = new Frenesie();
 		this.gameskills [21] = new Rugissement();
-		this.gameskills [22] = new GameSkill();
+		this.gameskills [22] = new Terreur();
 		this.gameskills [23] = new GameSkill();
 		this.gameskills [24] = new GameSkill();
 		this.gameskills [25] = new GameSkill();

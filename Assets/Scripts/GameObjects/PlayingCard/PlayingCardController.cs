@@ -139,6 +139,12 @@ public class PlayingCardController : GameObjectController
 		this.playingCardView.playingCardVM.scale = s;
 		this.playingCardView.replace ();
 	}
+	
+	public void setPosition (Vector3 p)
+	{
+		this.playingCardView.playingCardVM.position = p;
+		this.playingCardView.replace ();
+	}
 
 	public void setTile (Tile t, Vector3 p, bool toRotate)
 	{
@@ -334,7 +340,7 @@ public class PlayingCardController : GameObjectController
 			renderers[i].renderer.enabled = false ;
 		}
 		GameController.instance.emptyTile(this.tile.x, this.tile.y);
-		this.setPosition (new Vector3(-20,-20,-20), new Vector3(0,0,0));
+		this.setPosition (new Vector3(-20,-20,-20));
 	}
 	
 	public void removeFurtivity(){
