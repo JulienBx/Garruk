@@ -2085,7 +2085,7 @@ public class GameController : Photon.MonoBehaviour
 				if (tileController.tileModification == TileModification.Sables_Mouvants)
 				{
 					tileController.tileView.tileVM.toDisplayIcon = true;
-					play(this.getPCC(tileController.characterID).card.Title + " est pris dans un sable mouvant");
+					playRPC(this.getPCC(tileController.characterID).card.Title + " est pris dans un sable mouvant");
 				}
 				if (tileController.tileModification != TileModification.Fontaine_de_Jouvence)
 				{

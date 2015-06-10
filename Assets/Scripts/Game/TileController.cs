@@ -164,7 +164,7 @@ public class TileController : MonoBehaviour
 		statModifierActive = true;
 		statModifierEachTurn = false;
 		this.tile.StatModifier.Clear();
-		this.tile.StatModifier.Add(new StatModifier(-999, ModifierType.Type_BonusMalus, ModifierStat.Stat_Move, 2));
+		this.tile.StatModifier.Add(new StatModifier(-999, ModifierType.Type_BonusMalus, ModifierStat.Stat_Move, 3));
 	}
 
 	public void addFontaine(int power)

@@ -24,9 +24,7 @@ public class FontaineDeJouvence : GameSkill
 			" point" + pluriel + " de vie par tour");
 		int targetX = args [0];
 		int targetY = args [1];
-		GameController.instance.addTileModifier(1, amount, targetX, targetY);
-
-		//	GameController.instance.getTile(decade, targetID - decade * 10).addFontaine(amount);
+		GameController.instance.addTileModifier(3, amount, targetX, targetY);
 	}
 	
 	public override bool isLaunchable(Skill s)

@@ -244,14 +244,28 @@ public class Card
 	public int GetLife()
 	{
 		int life = Life;
+		int dommage = 0;
 		foreach (StatModifier modifier in modifiers)
 		{
 			life = modifier.modifyLife(life);
+//			if (modifier.Stat == ModifierStat.Stat_Dommage)
+//			{
+//				if (Type == ModifierType.Type_BonusMalus)
+//				{
+//					dommage -= modifier.Amount;
+//					if (dommage < 0)
+//					{
+//						dommage = 0;
+//					}
+//				}
+//			}
+
 		}
 		foreach (StatModifier modifier in TileModifiers)
 		{
 			life = modifier.modifyLife(life);
 		}
+
 
 		if (life < 0)
 		{
