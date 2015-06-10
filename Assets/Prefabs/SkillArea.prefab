@@ -303,7 +303,7 @@ TextMesh:
   m_Anchor: 4
   m_Alignment: 1
   m_TabSize: 4
-  m_FontSize: 14
+  m_FontSize: 16
   m_FontStyle: 0
   m_RichText: 1
   m_Font: {fileID: 12800000, guid: aa760adee9519408cb78cc0fc7798565, type: 3}
