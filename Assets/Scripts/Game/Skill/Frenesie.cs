@@ -10,8 +10,8 @@ public class Frenesie : GameSkill
 	
 	public override void launch()
 	{
-		Debug.Log("Je lance attaque frontale");
-		GameController.instance.lookForAdjacentTarget("Choisir une cible à attaquer", "Lancer att. fro.");
+		Debug.Log("Je lance frénésie");
+		GameController.instance.lookForAdjacentTarget("Choisir une cible à attaquer", "Lancer frénésie");
 	}
 	
 	public override void resolve(int[] args)
