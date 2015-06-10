@@ -89,7 +89,6 @@ public class PlayingCardView : MonoBehaviour
 		{
 			gameObject.GetComponentInChildren<PlayingCardController>().hoverPlayingCard();
 		}
-		Debug.Log("attaque : " + gameObject.GetComponentInChildren<PlayingCardController>().card.GetAttack());
 	}
 
 	void OnMouseDown()
