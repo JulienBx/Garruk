@@ -13,6 +13,7 @@ public class SkillBookModel
 	public IList<Skill> ownSkillsList;
 	public IList<string> cardTypesList;
 	public IList<int> cardIdsList;
+	public User player;
 	private string URLGetSkillBookData = ApplicationModel.host + "get_skillbook_data.php";
 	
 	public SkillBookModel ()
@@ -20,6 +21,8 @@ public class SkillBookModel
 	}
 	public IEnumerator getSkillBookData()
 	{
+		this.player = new User ();
+
 		WWWForm form = new WWWForm(); 											// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_nick", ApplicationModel.username);
@@ -37,6 +40,7 @@ public class SkillBookModel
 			this.skillsList = parseSkills(data[1].Split(new string[] { "#SKILL#" }, System.StringSplitOptions.None));
 			this.ownSkillsList = parseOwnSkills(data[2].Split(new string[] { "#SKILL#" }, System.StringSplitOptions.None));
 			this.cardIdsList = parseCards(data[3].Split(new string[] { "//" }, System.StringSplitOptions.None));
+			this.player.SkillBookTutorial=System.Convert.ToBoolean(System.Convert.ToInt32(data[4]));
 		}
 	}
 	private IList<Skill> parseSkills(string[] array)

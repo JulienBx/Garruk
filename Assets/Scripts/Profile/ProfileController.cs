@@ -827,7 +827,6 @@ public class ProfileController : MonoBehaviour {
 		MenuController.instance.setButtonsGui (true);
 		Destroy (this.tutorial);
 		this.isTutorialLaunched = false;
-		MenuController.instance.setButtonsGui (true);
 		MenuController.instance.isTutorialLaunched = false;
 		this.setGUI (true);
 	}

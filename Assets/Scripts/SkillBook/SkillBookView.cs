@@ -67,10 +67,12 @@ public class SkillBookView : MonoBehaviour
 						GUILayout.BeginHorizontal();
 						{
 							GUILayout.FlexibleSpace();
+							GUI.enabled=bookVM.buttonsEnabled;
 							if (GUILayout.Button("\u00A0Afficher\u00A0",cTypeSelectedVM.buttonStyle))
 							{
 								SkillBookController.instance.displayCardsWidhCardType();
 							}
+							GUI.enabled=true;
 							GUILayout.FlexibleSpace();
 						}
 						GUILayout.EndHorizontal();
@@ -111,10 +113,12 @@ public class SkillBookView : MonoBehaviour
 							GUILayout.BeginHorizontal();
 							{
 								GUILayout.FlexibleSpace();
+								GUI.enabled=bookVM.buttonsEnabled;
 								if (GUILayout.Button("\u00A0Afficher\u00A0",skillsVM.buttonStyle))
 								{
 									SkillBookController.instance.displayCardsWidhSkill(i);
 								}
+								GUI.enabled=true;
 								GUILayout.FlexibleSpace();
 							}
 							GUILayout.EndHorizontal();
@@ -134,10 +138,12 @@ public class SkillBookView : MonoBehaviour
 		{
 			for(int i =0;i<cTypesVM.tabButtonsStyles.Count;i++)
 			{
+				GUI.enabled=bookVM.buttonsEnabled;
 				if(GUILayout.Button("",cTypesVM.tabButtonsStyles[i],GUILayout.Height(screenVM.blockCTypesHeight/10f),GUILayout.Width(screenVM.blockCTypesHeight/10f)))
 				{
 					SkillBookController.instance.selectCardType(i);
 				}
+				GUI.enabled=true;
 			}
 			GUILayout.FlexibleSpace();
 		}
@@ -146,10 +152,12 @@ public class SkillBookView : MonoBehaviour
 		{
 			GUILayout.BeginArea (screenVM.blockBackButton);
 			{
+				GUI.enabled=bookVM.buttonsEnabled;
 				if(GUILayout.Button("<",bookVM.backButtonStyle))
 				{
 					SkillBookController.instance.selectBackPage();
 				}
+				GUI.enabled=true;
 			}
 			GUILayout.EndArea ();
 		}
@@ -157,10 +165,12 @@ public class SkillBookView : MonoBehaviour
 		{
 			GUILayout.BeginArea (screenVM.blockNextButton);
 			{
+				GUI.enabled=bookVM.buttonsEnabled;
 				if(GUILayout.Button(">",bookVM.nextButtonStyle))
 				{
 					SkillBookController.instance.selectNextPage();
 				}
+				GUI.enabled=true;
 			}
 			GUILayout.EndArea ();
 		}
