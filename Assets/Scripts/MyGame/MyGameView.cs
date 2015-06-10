@@ -50,6 +50,7 @@ public class MyGameView : MonoBehaviour
 		GUI.enabled = myGameVM.guiEnabled;
 		if(myGameVM.displayView)
 		{
+			GUI.enabled=myGameVM.buttonsEnabled[0];
 			GUILayout.BeginArea(new Rect(myGameScreenVM.blockCards.min.x,
 			                             myGameScreenVM.blockDeckCards.min.y+ (myGameScreenVM.blockCardsHeight+myGameScreenVM.blockDeckCardsHeight+myGameScreenVM.gapBetweenblocks)*0.97f,
 			                             myGameScreenVM.blockCardsWidth,
@@ -58,7 +59,6 @@ public class MyGameView : MonoBehaviour
 				GUILayout.BeginHorizontal();
 				{
 					GUILayout.FlexibleSpace();
-					GUI.enabled=myGameVM.buttonsEnabled[0];
 					if (myGameCardsVM.pageDebut>0)
 					{
 						if (GUILayout.Button("...",myGameVM.paginationStyle
@@ -88,7 +88,6 @@ public class MyGameView : MonoBehaviour
 							MyGameController.instance.paginationNext();
 						}
 					}
-					GUI.enabled = myGameVM.guiEnabled;
 					GUILayout.FlexibleSpace();
 				}
 				GUILayout.EndHorizontal();
@@ -113,7 +112,6 @@ public class MyGameView : MonoBehaviour
 				GUILayout.BeginVertical();
 				{
 					GUILayout.FlexibleSpace();
-					GUI.enabled=myGameVM.buttonsEnabled[0];
 					toggle = GUILayout.Toggle(myGameFiltersVM.onSale, "Cartes en vente", myGameFiltersVM.toggleStyle);
 					if (toggle != myGameFiltersVM.onSale)
 					{
@@ -124,10 +122,8 @@ public class MyGameView : MonoBehaviour
 					{
 						MyGameController.instance.selectNotOnSale(toggle);
 					}
-					GUI.enabled = myGameVM.guiEnabled;
 					GUILayout.FlexibleSpace();
 					GUILayout.Label ("Filtrer par classe",myGameFiltersVM.filterTitleStyle);
-					GUI.enabled=myGameVM.buttonsEnabled[0];
 					for (int i=0; i<myGameFiltersVM.cardTypeList.Length-1; i++) 
 					{		
 						toggle = GUILayout.Toggle (myGameFiltersVM.togglesCurrentStates [i],myGameFiltersVM.cardTypeList[i],myGameFiltersVM.toggleStyle);
@@ -136,12 +132,9 @@ public class MyGameView : MonoBehaviour
 							MyGameController.instance.selectCardType(toggle,i);
 						}
 					}
-					GUI.enabled = myGameVM.guiEnabled;
 					GUILayout.FlexibleSpace();
 					GUILayout.Label ("Filtrer une capacité",myGameFiltersVM.filterTitleStyle);
-					GUI.enabled=myGameVM.buttonsEnabled[0];
 					tempString = GUILayout.TextField (myGameFiltersVM.valueSkill, myGameFiltersVM.textFieldStyle);
-					GUI.enabled = myGameVM.guiEnabled;
 					if (tempString != myGameFiltersVM.valueSkill) 
 					{
 						MyGameController.instance.selectSkills(tempString);
@@ -163,7 +156,6 @@ public class MyGameView : MonoBehaviour
 					{
 						GUILayout.Label ("Filtrer par Vie",myGameFiltersVM.filterTitleStyle);
 						GUILayout.FlexibleSpace();
-						GUI.enabled=myGameVM.buttonsEnabled[0];
 						if(GUILayout.Button ("^",myGameFiltersVM.sortButtonStyle[0],GUILayout.Width(myGameScreenVM.blockFiltersWidth*7/100))) 
 						{
 							MyGameController.instance.sortCards(0);
@@ -173,7 +165,6 @@ public class MyGameView : MonoBehaviour
 						{
 							MyGameController.instance.sortCards(1);
 						}
-						GUI.enabled = myGameVM.guiEnabled;
 					}
 					GUILayout.EndHorizontal();
 					GUILayout.Space(-1);
@@ -185,16 +176,13 @@ public class MyGameView : MonoBehaviour
 					}
 					GUILayout.EndHorizontal();
 					GUILayout.Space(-5);
-					GUI.enabled=myGameVM.buttonsEnabled[0];
 					MyGUI.MinMaxSlider (ref myGameFiltersVM.minLifeVal, ref myGameFiltersVM.maxLifeVal, myGameFiltersVM.minLifeLimit, myGameFiltersVM.maxLifeLimit);
-					GUI.enabled = myGameVM.guiEnabled;
 					GUILayout.FlexibleSpace();
 					
 					GUILayout.BeginHorizontal();
 					{
 						GUILayout.Label ("Filtrer par Attaque",myGameFiltersVM.filterTitleStyle);
 						GUILayout.FlexibleSpace();
-						GUI.enabled=myGameVM.buttonsEnabled[0];
 						if(GUILayout.Button ("^",myGameFiltersVM.sortButtonStyle[2],GUILayout.Width(myGameScreenVM.blockFiltersWidth*7/100))) 
 						{
 							MyGameController.instance.sortCards(2);
@@ -204,7 +192,6 @@ public class MyGameView : MonoBehaviour
 						{
 							MyGameController.instance.sortCards(3);
 						}
-						GUI.enabled = myGameVM.guiEnabled;
 					}
 					GUILayout.EndHorizontal();
 					GUILayout.Space(-1);
@@ -216,16 +203,13 @@ public class MyGameView : MonoBehaviour
 					}
 					GUILayout.EndHorizontal();
 					GUILayout.Space(-5);
-					GUI.enabled=myGameVM.buttonsEnabled[0];
 					MyGUI.MinMaxSlider (ref myGameFiltersVM.minAttackVal, ref myGameFiltersVM.maxAttackVal, myGameFiltersVM.minAttackLimit, myGameFiltersVM.maxAttackLimit);
-					GUI.enabled = myGameVM.guiEnabled;
 					GUILayout.FlexibleSpace();
 					
 					GUILayout.BeginHorizontal();
 					{
 						GUILayout.Label ("Filtrer par Mouvement",myGameFiltersVM.filterTitleStyle);
 						GUILayout.FlexibleSpace();
-						GUI.enabled=myGameVM.buttonsEnabled[0];
 						if(GUILayout.Button ("^",myGameFiltersVM.sortButtonStyle[4],GUILayout.Width(myGameScreenVM.blockFiltersWidth*7/100))) 
 						{
 							MyGameController.instance.sortCards(4);
@@ -235,7 +219,6 @@ public class MyGameView : MonoBehaviour
 						{
 							MyGameController.instance.sortCards(5);
 						}
-						GUI.enabled = myGameVM.guiEnabled;
 					}
 					GUILayout.EndHorizontal();
 					GUILayout.Space(-1);
@@ -247,16 +230,13 @@ public class MyGameView : MonoBehaviour
 					}
 					GUILayout.EndHorizontal();
 					GUILayout.Space(-5);
-					GUI.enabled=myGameVM.buttonsEnabled[0];
 					MyGUI.MinMaxSlider (ref myGameFiltersVM.minMoveVal, ref myGameFiltersVM.maxMoveVal, myGameFiltersVM.minMoveLimit, myGameFiltersVM.maxMoveLimit);
-					GUI.enabled = myGameVM.guiEnabled;
 					GUILayout.FlexibleSpace();
 					
 					GUILayout.BeginHorizontal();
 					{
 						GUILayout.Label ("Filtrer par Rapidité",myGameFiltersVM.filterTitleStyle);
 						GUILayout.FlexibleSpace();
-						GUI.enabled=myGameVM.buttonsEnabled[0];
 						if(GUILayout.Button ("^",myGameFiltersVM.sortButtonStyle[6],GUILayout.Width(myGameScreenVM.blockFiltersWidth*7/100))) 
 						{
 							MyGameController.instance.sortCards(6);
@@ -266,7 +246,6 @@ public class MyGameView : MonoBehaviour
 						{
 							MyGameController.instance.sortCards(7);
 						}
-						GUI.enabled = myGameVM.guiEnabled;
 					}
 					GUILayout.EndHorizontal();
 					GUILayout.Space(-1);
@@ -278,14 +257,13 @@ public class MyGameView : MonoBehaviour
 					}
 					GUILayout.EndHorizontal();
 					GUILayout.Space(-5);
-					GUI.enabled=myGameVM.buttonsEnabled[0];
 					MyGUI.MinMaxSlider (ref myGameFiltersVM.minQuicknessVal, ref myGameFiltersVM.maxQuicknessVal, myGameFiltersVM.minQuicknessLimit, myGameFiltersVM.maxQuicknessLimit);
-					GUI.enabled = myGameVM.guiEnabled;
 					GUILayout.FlexibleSpace();
 				}
 				GUILayout.EndVertical();
 			}
 			GUILayout.EndArea();
+			GUI.enabled = myGameVM.guiEnabled;
 			GUILayout.BeginArea(myGameScreenVM.blockDecks);
 			{
 				GUILayout.BeginVertical();

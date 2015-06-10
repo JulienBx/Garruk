@@ -14,6 +14,7 @@ public class MarketModel
 	public IList<int> cardsSold;
 	public IList<Card> cards;
 	public IList<Card> newCards;
+	public User player;
 	public int playerId;
 	private string URLGetMarketData = ApplicationModel.host + "get_market_data.php";
 	private string URLRefreshMarket = ApplicationModel.host + "refresh_market.php";
@@ -47,10 +48,17 @@ public class MarketModel
 			this.cardTypeList = data[0].Split(new string[] { "\\" }, System.StringSplitOptions.None);
 			this.skillsList=parseSkills(data[1].Split(new string[] { "#SK#" }, System.StringSplitOptions.None));
 			this.cards=parseCards(data[2].Split(new string[] { "#C#" }, System.StringSplitOptions.None));
-			this.playerId=System.Convert.ToInt32(data[3]);
+			this.player=parsePlayer(data[3].Split(new string[] { "\\" }, System.StringSplitOptions.None));
 			this.newCardsTimeLimit = cards[0].OnSaleDate;
 			this.oldCardsTimeLimit = cards[cards.Count-1].OnSaleDate;
 		}
+	}
+	public User parsePlayer(string[] array)
+	{
+		User player = new User ();
+		player.Id = System.Convert.ToInt32 (array [0]);
+		player.MarketTutorial = System.Convert.ToBoolean (System.Convert.ToInt32 (array [1]));
+		return player;
 	}
 	public IEnumerator refreshMarket (int totalNbResultLimit)
 	{	

@@ -245,6 +245,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MenuObject: {fileID: 187360, guid: e65524dc5104a4d1f88b72539f53fd82, type: 2}
   CardObject: {fileID: 157076, guid: 5aec1731b1da74118aaca3ee17b3c4e1, type: 2}
+  TutorialObject: {fileID: 180340, guid: 1474ad9f863d24afcaf1180c03ae5275, type: 2}
   totalNbResultLimit: 1000
   refreshInterval: 5
   marketScreenVMStyle: []

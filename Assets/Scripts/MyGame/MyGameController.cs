@@ -631,8 +631,7 @@ public class MyGameController : MonoBehaviour
 	{
 		if(this.isTutorialLaunched)
 		{
-			if(this.tutorial.GetComponent<TutorialObjectController>().getSequenceID()!=209 
-			   && this.tutorial.GetComponent<TutorialObjectController>().getSequenceID()!=211)
+			if(this.tutorial.GetComponent<TutorialObjectController>().getSequenceID()!=209)
 			{
 				view.myGameVM.guiEnabled = value;
 				if(this.cardFocused!=null)
