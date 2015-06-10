@@ -8,6 +8,7 @@ public class TutorialObjectViewModel {
 
 	public Rect popUpRect;
 	public Rect arrowRect;
+	public string nextButtonLabel;
 	public string title;
 	public string description;
 	public bool displayArrow;
@@ -22,6 +23,7 @@ public class TutorialObjectViewModel {
 	{
 		this.popUpRect = new Rect ();
 		this.arrowRect = new Rect ();
+		this.nextButtonLabel = "Continuer";
 		this.title = "";
 		this.description = "";
 		this.buttonStyle = new GUIStyle ();
@@ -36,6 +38,7 @@ public class TutorialObjectViewModel {
 	public void resize()
 	{	
 		this.buttonStyle.fontSize = Screen.height * 2 / 100;
+		this.buttonStyle.fixedHeight = Screen.height * 3 / 100;
 		this.labelStyle.fontSize = Screen.height * 2 / 100;
 		this.titleStyle.fontSize = Screen.height * 3 / 100;
 	}

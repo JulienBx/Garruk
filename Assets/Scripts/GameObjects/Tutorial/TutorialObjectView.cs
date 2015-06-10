@@ -16,29 +16,25 @@ public class TutorialObjectView : MonoBehaviour
 	void OnGUI()
 	{
 		GUI.depth = -1;
-		GUILayout.BeginArea (VM.popUpRect);
+		GUILayout.BeginArea (VM.popUpRect,VM.windowStyle);
 		{
-			GUILayout.BeginVertical(VM.windowStyle);
+			GUILayout.FlexibleSpace();
+			GUILayout.Label(VM.title,VM.titleStyle);
+			GUILayout.Label(VM.description,VM.labelStyle);
+			if(VM.displayNextButton)
 			{
-				GUILayout.Label(VM.title,VM.titleStyle);
-				GUILayout.Label(VM.description,VM.labelStyle);
-				if(VM.displayNextButton)
+				GUILayout.FlexibleSpace();
+				GUILayout.BeginHorizontal();
 				{
-					GUILayout.Space(VM.popUpRect.height*0.05f);
-					GUILayout.BeginHorizontal();
+					GUILayout.FlexibleSpace();
+					if(GUILayout.Button(VM.nextButtonLabel,VM.buttonStyle,GUILayout.Width(VM.popUpRect.width*0.4f)))
 					{
-						GUILayout.FlexibleSpace();
-						if(GUILayout.Button("Continuer",VM.buttonStyle,GUILayout.Width(VM.popUpRect.width*0.4f)))
-						{
-							TutorialObjectController.instance.nextStepHandler();
-						}
-						GUILayout.FlexibleSpace();
+						TutorialObjectController.instance.nextStepHandler();
 					}
-					GUILayout.EndHorizontal();
+					GUILayout.FlexibleSpace();
 				}
-				GUILayout.Space(VM.popUpRect.height*0.05f);
+				GUILayout.EndHorizontal();
 			}
-			GUILayout.EndVertical();
 			GUILayout.FlexibleSpace();
 		}
 		GUILayout.EndArea ();

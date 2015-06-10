@@ -81,21 +81,24 @@ public class LobbyController : Photon.MonoBehaviour
 	}
 	public void rightClickedCard(GameObject gameObject)
 	{
-		view.lobbyVM.displayView=false ;
-
-		for(int i = 0 ; i < 5 ; i++)
+		if(!isTutorialLaunched)
 		{
-			this.displayedDeckCards[i].SetActive(false);
+			view.lobbyVM.displayView=false ;
+
+			for(int i = 0 ; i < 5 ; i++)
+			{
+				this.displayedDeckCards[i].SetActive(false);
+			}
+			string name = "Fcrd"+gameObject.name.Substring(4);
+			Vector3 scale = new Vector3(view.screenVM.heightScreen / 120f,view.screenVM.heightScreen / 120f,view.screenVM.heightScreen / 120f);
+			Vector3 position = Camera.main.ScreenToWorldPoint (new Vector3 (0.4f * view.screenVM.widthScreen, 0.45f * view.screenVM.heightScreen - 1, 10));
+			this.cardFocused = Instantiate(CardObject) as GameObject;
+			this.cardFocused.AddComponent<CardLobbyController> ();
+			this.cardFocused.GetComponent<CardController> ().setGameObject (name, scale, position);
+			this.cardFocused.GetComponent<CardLobbyController> ().setFocusedLobbyCard (gameObject.GetComponent<CardController> ().card);
+			this.cardFocused.GetComponent<CardController> ().setCentralWindowRect (view.screenVM.centralWindow);
+			this.cardFocused.GetComponent<CardController> ().setCollectionPointsWindowRect (view.screenVM.collectionPointsWindow);
 		}
-		string name = "Fcrd"+gameObject.name.Substring(4);
-		Vector3 scale = new Vector3(view.screenVM.heightScreen / 120f,view.screenVM.heightScreen / 120f,view.screenVM.heightScreen / 120f);
-		Vector3 position = Camera.main.ScreenToWorldPoint (new Vector3 (0.4f * view.screenVM.widthScreen, 0.45f * view.screenVM.heightScreen - 1, 10));
-		this.cardFocused = Instantiate(CardObject) as GameObject;
-		this.cardFocused.AddComponent<CardLobbyController> ();
-		this.cardFocused.GetComponent<CardController> ().setGameObject (name, scale, position);
-		this.cardFocused.GetComponent<CardLobbyController> ().setFocusedLobbyCard (gameObject.GetComponent<CardController> ().card);
-		this.cardFocused.GetComponent<CardController> ().setCentralWindowRect (view.screenVM.centralWindow);
-		this.cardFocused.GetComponent<CardController> ().setCollectionPointsWindowRect (view.screenVM.collectionPointsWindow);
 	}
 	public void exitCard()
 	{
