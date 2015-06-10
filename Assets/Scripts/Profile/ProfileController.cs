@@ -63,14 +63,14 @@ public class ProfileController : MonoBehaviour {
 		this.loadData ();
 		this.pictures ();
 		view.setCanDisplay (true);
-		if(!model.Player.myProfileTutorial && view.profileVM.isMyProfile)
+		if(!model.Player.MyProfileTutorial && view.profileVM.isMyProfile)
 		{
 			this.tutorial = Instantiate(this.TutorialObject) as GameObject;
 			MenuObject.GetComponent<MenuController>().setTutorialLaunched(true);
 			this.tutorial.GetComponent<TutorialObjectController>().launchSequence(600);
 			this.isTutorialLaunched=true;
 		}
-		else if(!model.Player.profileTutorial && !view.profileVM.isMyProfile)
+		else if(!model.Player.ProfileTutorial && !view.profileVM.isMyProfile)
 		{
 			this.tutorial = Instantiate(this.TutorialObject) as GameObject;
 			MenuObject.GetComponent<MenuController>().setTutorialLaunched(true);
@@ -569,6 +569,10 @@ public class ProfileController : MonoBehaviour {
 		{
 			this.resizeCheckPasswordPopUp();
 		}
+		if(isTutorialLaunched)
+		{
+			this.tutorial.GetComponent<TutorialObjectController>().resize();
+		}
 	}
 	public IEnumerator addConnection()
 	{
@@ -809,6 +813,23 @@ public class ProfileController : MonoBehaviour {
 				this.setGUI(true);
 			}
 		}
+	}
+	public IEnumerator endTutorial()
+	{
+		if(view.profileVM.isMyProfile)
+		{
+			yield return StartCoroutine (model.Player.setMyProfileTutorial(true));
+		}
+		else
+		{
+			yield return StartCoroutine (model.Player.setProfileTutorial(true));
+		}
+		MenuController.instance.setButtonsGui (true);
+		Destroy (this.tutorial);
+		this.isTutorialLaunched = false;
+		MenuController.instance.setButtonsGui (true);
+		MenuController.instance.isTutorialLaunched = false;
+		this.setGUI (true);
 	}
 }
 
