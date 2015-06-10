@@ -37,33 +37,28 @@ public class ProfileScreenViewModel {
 	public Rect fileBrowserWindow;
 
 	public GUIStyle[] styles;
-
-	public GUIStyle centralWindowStyle;
-	public GUIStyle centralWindowTitleStyle;
-	public GUIStyle centralWindowButtonStyle;
+	
 	public GUIStyle blockBorderStyle;
-	public GUIStyle centralWindowTextfieldStyle;
 
 	public Texture2D m_directoryImage;
 	public Texture2D m_fileImage;
 
 	public GUISkin fileBrowserSkin;
 	
-	public ProfileScreenViewModel (){
+	public ProfileScreenViewModel ()
+	{
 	}
 	public ProfileScreenViewModel (Texture2D m_directoryimage, Texture2D m_fileimage, GUISkin filebrowserskin){
 		this.m_directoryImage = m_directoryimage;
 		this.m_fileImage = m_fileimage;
 		this.fileBrowserSkin = filebrowserskin;
 	}
-	public void initStyles(){
-		this.centralWindowStyle = this.styles [0];
-		this.centralWindowTitleStyle = this.styles [1];
-		this.centralWindowButtonStyle = this.styles [2];
-		this.blockBorderStyle = this.styles [3];
-		this.centralWindowTextfieldStyle=this.styles[4];
+	public void initStyles()
+	{
+		this.blockBorderStyle = this.styles [0];
 	}
-	public void resize(){
+	public void resize()
+	{
 		this.heightScreen = Screen.height;
 		this.widthScreen = Screen.width;
 
@@ -136,9 +131,5 @@ public class ProfileScreenViewModel {
 		this.centralWindow = new Rect (this.widthScreen * 0.25f, 0.12f * this.heightScreen, this.widthScreen * 0.50f, 0.25f * this.heightScreen);
 		this.fileBrowserWindow = new Rect (this.widthScreen * 0.25f, 0.125f * this.heightScreen, this.widthScreen * 0.50f, 0.75f * this.heightScreen);
 
-		this.centralWindowStyle.fixedWidth = this.widthScreen*0.5f-5;
-		this.centralWindowTitleStyle.fontSize = this.heightScreen*2/100;
-		this.centralWindowButtonStyle.fontSize = this.heightScreen*2/100;
-		this.centralWindowTextfieldStyle.fontSize = this.heightScreen*2/100;
 	}
 }
