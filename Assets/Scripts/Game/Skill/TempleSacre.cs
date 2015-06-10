@@ -24,11 +24,9 @@ public class TempleSacre : GameSkill
 			+ amount 
 			+ " point" + pluriel + " d'attaque sur la case");
 		
-		int targetID = args [0];
-
-		int decade = targetID / 10;
-		GameController.instance.getTile(decade, targetID - decade * 10).addTemple(amount);
-
+		int targetX = args [0];
+		int targetY = args [1];
+		GameController.instance.addTileModifier(0, amount, targetX, targetY);
 	}
 	
 	public override bool isLaunchable(Skill s)

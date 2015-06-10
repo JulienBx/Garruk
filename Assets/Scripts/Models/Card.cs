@@ -42,7 +42,7 @@ public class Card
 	public int PercentageToNextLevel;
 	public DateTime OnSaleDate;
 	public List<StatModifier> modifiers = new List<StatModifier>();
-	public StatModifier TileModifier = null;
+	public List<StatModifier> TileModifier = new List<StatModifier>();
 	public int onSale ;
 	public int RenameCost = 200;
 	public string Error;
@@ -230,6 +230,10 @@ public class Card
 		{
 			attack = modifier.modifyAttack(attack);
 		}
+		foreach (StatModifier modifier in TileModifier)
+		{
+			attack = modifier.modifyAttack(attack);
+		}
 		if (attack < 0)
 		{
 			return 0;
@@ -244,6 +248,11 @@ public class Card
 		{
 			life = modifier.modifyLife(life);
 		}
+		foreach (StatModifier modifier in TileModifier)
+		{
+			life = modifier.modifyLife(life);
+		}
+
 		if (life < 0)
 		{
 			return 0;
@@ -258,6 +267,11 @@ public class Card
 		{
 			speed = modifier.modifySpeed(speed);
 		}
+		foreach (StatModifier modifier in TileModifier)
+		{
+			speed = modifier.modifySpeed(speed);
+		}
+
 		if (speed < 0)
 		{
 			return 0;
@@ -272,9 +286,9 @@ public class Card
 		{
 			move = modifier.modifyMove(move);
 		}
-		if (TileModifier != null)
+		foreach (StatModifier modifier in TileModifier)
 		{
-			move = TileModifier.modifyMove(move);
+			move = modifier.modifyMove(move);
 		}
 		if (move < 0)
 		{

@@ -29,19 +29,22 @@ public class PlayingCardView : MonoBehaviour
 					gameObject.GetComponentInChildren<PlayingCardController>().addTarget();
 				}
 			}
-		}
-		else{
-			for (int i = 0; i < this.playingCardVM.icons.Count; i++){
+		} else
+		{
+			for (int i = 0; i < this.playingCardVM.icons.Count; i++)
+			{
 				if (Input.mousePosition.x > this.playingCardVM.iconsRect [i].xMin && Input.mousePosition.x < this.playingCardVM.iconsRect [i].xMax && (height - Input.mousePosition.y) > this.playingCardVM.iconsRect [i].yMin && (height - Input.mousePosition.y) < this.playingCardVM.iconsRect [i].yMax)
 				{
-					if (!this.playingCardVM.toDisplayDescriptionIcon[i]){
-						this.playingCardVM.toDisplayDescriptionIcon[i]=true;
+					if (!this.playingCardVM.toDisplayDescriptionIcon [i])
+					{
+						this.playingCardVM.toDisplayDescriptionIcon [i] = true;
 					}
 					
-				}
-				else{
-					if (this.playingCardVM.toDisplayDescriptionIcon[i]){
-						this.playingCardVM.toDisplayDescriptionIcon[i]=false;
+				} else
+				{
+					if (this.playingCardVM.toDisplayDescriptionIcon [i])
+					{
+						this.playingCardVM.toDisplayDescriptionIcon [i] = false;
 					}
 				}
 			}
@@ -86,6 +89,7 @@ public class PlayingCardView : MonoBehaviour
 		{
 			gameObject.GetComponentInChildren<PlayingCardController>().hoverPlayingCard();
 		}
+		Debug.Log("attaque : " + gameObject.GetComponentInChildren<PlayingCardController>().card.GetAttack());
 	}
 
 	void OnMouseDown()
@@ -118,13 +122,14 @@ public class PlayingCardView : MonoBehaviour
 
 	void OnGUI()
 	{
-		if (this.playingCardVM.icons.Count>0)
+		if (this.playingCardVM.icons.Count > 0)
 		{
 			for (int i = 0; i < this.playingCardVM.icons.Count; i++)
 			{
 				GUI.Box(this.playingCardVM.iconsRect [i], this.playingCardVM.icons [i], this.playingCardVM.iconStyle);
-				if (this.playingCardVM.toDisplayDescriptionIcon[i]){
-					Rect newRect = new Rect(this.playingCardVM.iconsRect [i].x, this.playingCardVM.iconsRect [i].y-this.playingCardVM.iconsRect [i].height*3,this.playingCardVM.iconsRect [i].width*8,this.playingCardVM.iconsRect [i].height*3);
+				if (this.playingCardVM.toDisplayDescriptionIcon [i])
+				{
+					Rect newRect = new Rect(this.playingCardVM.iconsRect [i].x, this.playingCardVM.iconsRect [i].y - this.playingCardVM.iconsRect [i].height * 3, this.playingCardVM.iconsRect [i].width * 8, this.playingCardVM.iconsRect [i].height * 3);
 					
 					GUILayout.BeginArea(newRect, this.playingCardVM.descriptionRectStyle);
 					{

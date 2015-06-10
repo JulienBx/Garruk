@@ -33,7 +33,7 @@ public class TileController : MonoBehaviour
 		this.tileView = gameObject.AddComponent <TileView>();
 		this.isDestination = false;
 
-		this.tileView.tileVM.haloStyle = this.styles[0];
+		this.tileView.tileVM.haloStyle = this.styles [0];
 
 		this.tileView.tileVM.iconStyle = styles [0];
 		this.tileModification = TileModification.Void;
@@ -45,25 +45,30 @@ public class TileController : MonoBehaviour
 
 	}
 	
-	public void setTrap(Trap t){
-		this.trap = t ;
-		this.tileView.tileVM.trap = traps[t.type];
-		this.tileView.tileVM.toDisplayTrap=t.isVisible;
-		if (this.isTrap==false){
-			this.isTrap = true ;
+	public void setTrap(Trap t)
+	{
+		this.trap = t;
+		this.tileView.tileVM.trap = traps [t.type];
+		this.tileView.tileVM.toDisplayTrap = t.isVisible;
+		if (this.isTrap == false)
+		{
+			this.isTrap = true;
 		}
 	}
 	
-	public void checkTrap(int target){
-		if (this.isTrap==true){
-			this.trap.activate(target) ;
+	public void checkTrap(int target)
+	{
+		if (this.isTrap == true)
+		{
+			this.trap.activate(target);
 			GameController.instance.removeTrap(this.tile);
 		}
 	}
 	
-	public void removeTrap(){
-		this.isTrap=false;
-		this.tileView.tileVM.toDisplayTrap=false;
+	public void removeTrap()
+	{
+		this.isTrap = false;
+		this.tileView.tileVM.toDisplayTrap = false;
 	}
 
 	public int getID()
@@ -73,8 +78,9 @@ public class TileController : MonoBehaviour
 
 	public void addTileTarget()
 	{
+		this.tileView.tileVM.toDisplayHalo = false;
 		this.tileView.tileVM.isPotentialTarget = false;
-		GameController.instance.addTileTarget(getID());
+		GameController.instance.addTileTarget(this.tile);
 	}
 	
 	public void clickTarget()
@@ -114,22 +120,23 @@ public class TileController : MonoBehaviour
 		
 		int decalage = height / 15;
 		
-		Vector3 positionObject = new Vector3 (0, 0, 0);
+		Vector3 positionObject = new Vector3(0, 0, 0);
 		positionObject.x = (this.tileView.tileVM.position.x) * (height / 10f) - (decalage / 2) + (width / 2f);
 		positionObject.y = height - ((this.tileView.tileVM.position.y + this.tileView.tileVM.scale.y / 2f) * (height / 10f) - (decalage / 2) + (height / 2f));
 		
-		Rect haloRect = new Rect (positionObject.x, positionObject.y, decalage, decalage);
-		this.tileView.tileVM.haloRect = haloRect ;
+		Rect haloRect = new Rect(positionObject.x, positionObject.y, decalage, decalage);
+		this.tileView.tileVM.haloRect = haloRect;
 		
 		this.tileView.resize();
 		this.resizeIcons();
 	}
-	public void addTemple(int power)
+	public void addTemple(int amount)
 	{
 		this.tileView.tileVM.toDisplayIcon = true;
 		this.tileModification = TileModification.Temple_Sacre;
 		this.tileView.tileVM.icon = this.icons [0];
-		tile.StatModifier = new StatModifier(power, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack);
+		this.tile.StatModifier.Clear();
+		this.tile.StatModifier.Add(new StatModifier(-amount, ModifierType.Type_Multiplier, ModifierStat.Stat_Move));
 	}
 
 	public void addForetIcon()
@@ -144,7 +151,8 @@ public class TileController : MonoBehaviour
 		this.tileView.tileVM.toDisplayIcon = true;
 		this.tileModification = TileModification.Sables_Mouvants;
 		this.tileView.tileVM.icon = this.icons [2];
-		tile.StatModifier = new StatModifier(-999, ModifierType.Type_BonusMalus, ModifierStat.Stat_Move, 3);
+		this.tile.StatModifier.Clear();
+		this.tile.StatModifier.Add(new StatModifier(-999, ModifierType.Type_BonusMalus, ModifierStat.Stat_Move, 3));
 	}
 
 	public void addFontaine(int power)
@@ -152,7 +160,8 @@ public class TileController : MonoBehaviour
 		this.tileView.tileVM.toDisplayIcon = true;
 		this.tileModification = TileModification.Fontaine_de_Jouvence;
 		this.tileView.tileVM.icon = this.icons [3];
-		tile.StatModifier = new StatModifier(-power, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage);
+		this.tile.StatModifier.Clear();
+		this.tile.StatModifier.Add(new StatModifier(-power, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage));
 	}
 
 	public void removeIcon()
@@ -290,6 +299,7 @@ public class TileController : MonoBehaviour
 	public void activatePotentielTarget()
 	{
 		this.tileView.tileVM.isPotentialTarget = true;
+		this.tileView.tileVM.toDisplayHalo = true;
 	}
 
 	public void removePotentielTarget()
@@ -302,9 +312,10 @@ public class TileController : MonoBehaviour
 		this.tileView.tileVM.toDisplayHalo = false;
 	}
 	
-	public void activateWolfTrapTarget(){
+	public void activateWolfTrapTarget()
+	{
 		this.tileView.tileVM.toDisplayHalo = true;
-		this.tileView.tileVM.halo = this.halos[0];
+		this.tileView.tileVM.halo = this.halos [0];
 	}
 }
 
