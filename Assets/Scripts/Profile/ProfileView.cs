@@ -19,18 +19,6 @@ public class ProfileView : MonoBehaviour
 	public MyTrophiesViewModel myTrophiesVM;
 
 	private bool canDisplay=false;
-	private bool isEditing=false;
-	private bool checkPassword = false;
-	private bool error=false;
-	private bool changePassword =false;
-
-	private string passwordsCheck = "";
-	private string tempOldPassword="";
-	private string tempNewPassword = "";
-	private string tempNewPassword2="";
-	private string tempFirstName;
-	private string tempSurname;
-	private string tempMail;
 
 	public FileBrowser m_fileBrowser;
 	private string m_textPath;
@@ -52,28 +40,12 @@ public class ProfileView : MonoBehaviour
 	{
 		this.canDisplay = value;
 	}
-	public void setIsEditing(bool value)
-	{
-		this.isEditing= value;
-	}
-	public void setError(bool value)
-	{
-		this.error= value;
-	}
-	public void setChangePassword(bool value)
-	{
-		this.changePassword= value;
-	}
-	public void setCheckPassword(bool value)
-	{
-		this.checkPassword= value;
-	}
 	private void FileSelectedCallback(string path) {
 		this.m_fileBrowser = null;
 		this.m_textPath = path;
 		if (this.m_textPath!=null)
 		{
-			StartCoroutine(ProfileController.instance.updateProfilePicture(this.m_textPath));
+			ProfileController.instance.updateProfilePictureHandler(this.m_textPath);
 		}
 	}
 	void Update()
@@ -84,67 +56,21 @@ public class ProfileView : MonoBehaviour
 				this.m_fileBrowser=null;
 				ProfileController.instance.resize();
 			}
-		}
-		if(this.error)
-		{
-			if(Input.GetKeyDown(KeyCode.Return)) {
-				this.error=false;
+			if(Input.GetKeyDown(KeyCode.Return)) 
+			{
+				ProfileController.instance.returnPressed();
 			}
-			else if(Input.GetKeyDown(KeyCode.Escape)) {
-				this.error=false;
-			}
-		}
-		if(this.m_fileBrowser!=null){
-			if(Input.GetKeyDown(KeyCode.Escape)) {
-				this.m_fileBrowser=null;
-			}
-		}
-		if(this.checkPassword){
-			if(Input.GetKeyDown(KeyCode.Escape)) {
-				this.checkPassword=false;
-				this.tempOldPassword="";
-			}
-			else if(Input.GetKeyDown(KeyCode.Return)) {
-				StartCoroutine(ProfileController.instance.checkPassword(this.tempOldPassword));
-				this.tempOldPassword="";
-			}
-		}
-		if(this.changePassword){
-			if(Input.GetKeyDown(KeyCode.Escape)) {
-				this.changePassword=false;
-				this.tempNewPassword="";
-				this.tempNewPassword2="";
-			}
-			else if (Input.GetKeyDown(KeyCode.Return)){
-				if(this.tempNewPassword==tempNewPassword2 && this.tempNewPassword!="" && this.tempNewPassword2!=""){
-					ProfileController.instance.editPassword(this.tempNewPassword);
-					this.tempNewPassword="";
-					this.tempNewPassword2="";
-				}
-				else if(this.tempNewPassword!=this.tempNewPassword2 && this.tempNewPassword!="" && this.tempNewPassword2!=""){
-					this.passwordsCheck="les saisies ne correspondent pas";
-				}
-			}
-		}
-		if(isEditing){
-			if(Input.GetKeyDown(KeyCode.Escape)) {
-				isEditing=false;
-			}
-			else if(Input.GetKeyDown(KeyCode.Return)) {
-				this.isEditing = false;
-				ProfileController.instance.updateUserInformations(tempFirstName,tempSurname,tempMail);
+			if(Input.GetKeyDown(KeyCode.Escape)) 
+			{
+				ProfileController.instance.escapePressed();
 			}
 		}
 	}
 	void OnGUI()
 	{
-		if(this.checkPassword||this.error||this.changePassword||m_fileBrowser!=null)
-		{
-			GUI.enabled=false;
-		}
+		GUI.enabled = profileVM.guiEnabled;
 		if (canDisplay) 
 		{
-			//if (profileVM.isMyProfile){
 			GUILayout.BeginArea(profileScreenVM.blockLeft,profileScreenVM.blockBorderStyle);
 			{
 				GUILayout.Label (userProfileVM.title,profileVM.titleStyle,GUILayout.Height(profileScreenVM.blockLeftHeight*0.05f));
@@ -156,38 +82,40 @@ public class ProfileView : MonoBehaviour
 					GUILayout.BeginVertical();
 					{
 						GUILayout.Label ("Pseudo : " + userProfileVM.Profile.Username,userProfileVM.profileDataStyle);
-						GUILayout.Label ("Argent : " + userProfileVM.Profile.Money + " credits",userProfileVM.profileDataStyle);
-						if(!isEditing){
+						if(profileVM.isMyProfile)
+						{
+							GUILayout.Label ("Argent : " + userProfileVM.Profile.Money + " credits",userProfileVM.profileDataStyle);
+						}
+						if(!profileVM.isEditing){
 							GUILayout.Label ("Prenom : " + userProfileVM.Profile.FirstName,userProfileVM.profileDataStyle);
 							GUILayout.Label ("Nom : " + userProfileVM.Profile.Surname,userProfileVM.profileDataStyle);
 							GUILayout.Label (userProfileVM.Profile.Mail,userProfileVM.profileDataStyle);
 							if(profileVM.isMyProfile)
 							{
+								GUI.enabled=profileVM.buttonsEnabled;
 								if (GUILayout.Button ("Modifier mes infos",userProfileVM.editProfileDataButtonStyle))
 								{
-									this.tempFirstName=userProfileVM.Profile.FirstName;
-									this.tempSurname=userProfileVM.Profile.Surname;
-									this.tempMail=userProfileVM.Profile.Mail;
-									this.isEditing = true;
+									ProfileController.instance.editProfileInformations(true);
 								}
 								if (GUILayout.Button ("Changer le mot de passe",userProfileVM.editProfileDataButtonStyle))
 								{
-									this.checkPassword = true;
+									ProfileController.instance.displayCheckPasswordPopUp();
 								}
+								GUI.enabled = profileVM.guiEnabled;
 							}
 						}
-						if (isEditing){
-							this.tempFirstName = GUILayout.TextField(this.tempFirstName, 15,userProfileVM.inputTextfieldStyle);
-							this.tempSurname = GUILayout.TextField(this.tempSurname, 15,userProfileVM.inputTextfieldStyle);
-							this.tempMail=GUILayout.TextField(this.tempMail, 30,userProfileVM.inputTextfieldStyle);
+						if (profileVM.isEditing)
+						{
+							profileVM.tempFirstName = GUILayout.TextField(profileVM.tempFirstName, 15,userProfileVM.inputTextfieldStyle);
+							profileVM.tempSurname = GUILayout.TextField(profileVM.tempSurname, 15,userProfileVM.inputTextfieldStyle);
+							profileVM.tempMail=GUILayout.TextField(profileVM.tempMail, 30,userProfileVM.inputTextfieldStyle);
 							if (GUILayout.Button ("Valider",userProfileVM.editProfileDataButtonStyle))
 							{
-								this.isEditing = false;
-								ProfileController.instance.updateUserInformations(tempFirstName,tempSurname,tempMail);
+								ProfileController.instance.updateUserInformationsHandler();
 							}
 							if (GUILayout.Button ("Annuler",userProfileVM.editProfileDataButtonStyle))
 							{
-								this.isEditing = false;
+								ProfileController.instance.editProfileInformations(false);
 							}
 						}
 					}
@@ -207,6 +135,7 @@ public class ProfileView : MonoBehaviour
 				GUILayout.Label(myFriendsVM.labelNo,profileVM.labelNoStyle,GUILayout.Height(profileScreenVM.blockTopCenterHeight*0.1f));
 				GUILayout.Space(profileScreenVM.blockTopCenterHeight*0.7f);
 				GUILayout.FlexibleSpace();
+				GUI.enabled=profileVM.buttonsEnabled;
 				GUILayout.BeginHorizontal();
 				{
 					GUILayout.FlexibleSpace();
@@ -241,6 +170,7 @@ public class ProfileView : MonoBehaviour
 					GUILayout.FlexibleSpace();
 				}
 				GUILayout.EndHorizontal();
+				GUI.enabled = profileVM.guiEnabled;
 				GUILayout.FlexibleSpace();
 			}
 			GUILayout.EndArea();
@@ -257,6 +187,7 @@ public class ProfileView : MonoBehaviour
 							GUILayout.Space (myFriendsVM.blocksHeight*0.05f);
 							GUILayout.BeginHorizontal(profileVM.contactsBackgroundStyle,GUILayout.Height(myFriendsVM.blocksHeight*0.65f));
 							{
+								GUI.enabled=profileVM.buttonsEnabled;
 								if(GUILayout.Button ("",profileVM.contactsPicturesButtonStyle[myFriendsVM.contactsDisplayed[i]],
 							                     GUILayout.Height (myFriendsVM.blocksHeight*0.65f),
 							                     GUILayout.Width (myFriendsVM.blocksHeight*0.65f)))
@@ -264,6 +195,7 @@ public class ProfileView : MonoBehaviour
 									ApplicationModel.profileChosen=myFriendsVM.contacts[i].Username;
 									Application.LoadLevel("Profile");
 								}
+								GUI.enabled = profileVM.guiEnabled;
 								GUILayout.Space (myFriendsVM.blocksWidth*0.05f);
 								GUILayout.BeginVertical();
 								{
@@ -284,10 +216,12 @@ public class ProfileView : MonoBehaviour
 							if(profileVM.isMyProfile)
 							{
 								GUILayout.Space (myFriendsVM.blocksHeight*0.05f);
+								GUI.enabled=profileVM.buttonsEnabled;
 								if(GUILayout.Button ("Retirer",profileVM.actionButtonStyle,GUILayout.Height(myFriendsVM.blocksHeight*0.2f)))
 								{
 									ProfileController.instance.removeConnection(myFriendsVM.contactsDisplayed[i]);
 								}
+								GUI.enabled = profileVM.guiEnabled;
 							}
 							GUILayout.Space (myFriendsVM.blocksHeight*0.05f);
 						}
@@ -307,6 +241,7 @@ public class ProfileView : MonoBehaviour
 					GUILayout.Label(invitationsSentVM.labelNo,profileVM.labelNoStyle,GUILayout.Height(profileScreenVM.blockBottomCenterLeftHeight*0.1f));
 					GUILayout.Space(profileScreenVM.blockBottomCenterLeftHeight*0.7f);
 					GUILayout.FlexibleSpace();
+					GUI.enabled=profileVM.buttonsEnabled;
 					GUILayout.BeginHorizontal();
 					{
 						GUILayout.FlexibleSpace();
@@ -341,6 +276,7 @@ public class ProfileView : MonoBehaviour
 						GUILayout.FlexibleSpace();
 					}
 					GUILayout.EndHorizontal();
+					GUI.enabled = profileVM.guiEnabled;
 					GUILayout.FlexibleSpace();
 				}
 				GUILayout.EndArea();
@@ -357,6 +293,7 @@ public class ProfileView : MonoBehaviour
 								GUILayout.Space (invitationsSentVM.blocksHeight*0.05f);
 								GUILayout.BeginHorizontal(profileVM.contactsBackgroundStyle,GUILayout.Height(invitationsSentVM.blocksHeight*0.65f));
 								{
+									GUI.enabled=profileVM.buttonsEnabled;
 									if(GUILayout.Button ("",profileVM.contactsPicturesButtonStyle[invitationsSentVM.contactsDisplayed[i]],
 								                     GUILayout.Height (invitationsSentVM.blocksHeight*0.65f),
 								                     GUILayout.Width (invitationsSentVM.blocksHeight*0.65f)))
@@ -364,6 +301,7 @@ public class ProfileView : MonoBehaviour
 										ApplicationModel.profileChosen=invitationsSentVM.contacts[i].Username;
 										Application.LoadLevel("Profile");
 									}
+									GUI.enabled = profileVM.guiEnabled;
 									GUILayout.Space (invitationsSentVM.blocksWidth*0.05f);
 									GUILayout.BeginVertical();
 									{
@@ -382,10 +320,12 @@ public class ProfileView : MonoBehaviour
 								}
 								GUILayout.EndHorizontal();
 								GUILayout.Space (invitationsSentVM.blocksHeight*0.05f);
+								GUI.enabled=profileVM.buttonsEnabled;
 								if(GUILayout.Button ("Retirer",profileVM.actionButtonStyle,GUILayout.Height(invitationsSentVM.blocksHeight*0.2f)))
 								{
 									ProfileController.instance.removeConnection(invitationsSentVM.contactsDisplayed[i]);
 								}
+								GUI.enabled = profileVM.guiEnabled;
 								GUILayout.Space (myFriendsVM.blocksHeight*0.05f);
 							}
 							GUILayout.EndVertical();
@@ -404,6 +344,7 @@ public class ProfileView : MonoBehaviour
 					GUILayout.Label(invitationsReceivedVM.labelNo,profileVM.labelNoStyle,GUILayout.Height(profileScreenVM.blockBottomCenterRightHeight*0.1f));
 					GUILayout.Space(profileScreenVM.blockBottomCenterRightHeight*0.7f);
 					GUILayout.FlexibleSpace();
+					GUI.enabled=profileVM.buttonsEnabled;
 					GUILayout.BeginHorizontal();
 					{
 						GUILayout.FlexibleSpace();
@@ -439,6 +380,7 @@ public class ProfileView : MonoBehaviour
 						GUILayout.FlexibleSpace();
 					}
 					GUILayout.EndHorizontal();
+					GUI.enabled = profileVM.guiEnabled;
 					GUILayout.FlexibleSpace();
 				}
 				GUILayout.EndArea();
@@ -455,6 +397,7 @@ public class ProfileView : MonoBehaviour
 								GUILayout.Space (invitationsReceivedVM.blocksHeight*0.05f);
 								GUILayout.BeginHorizontal(profileVM.contactsBackgroundStyle,GUILayout.Height(invitationsReceivedVM.blocksHeight*0.65f));
 								{
+									GUI.enabled=profileVM.buttonsEnabled;
 									if(GUILayout.Button ("",profileVM.contactsPicturesButtonStyle[invitationsReceivedVM.contactsDisplayed[i]],
 									                     GUILayout.Height (invitationsReceivedVM.blocksHeight*0.65f),
 									                     GUILayout.Width (invitationsReceivedVM.blocksHeight*0.65f)))
@@ -462,6 +405,7 @@ public class ProfileView : MonoBehaviour
 										ApplicationModel.profileChosen=invitationsReceivedVM.contacts[i].Username;
 										Application.LoadLevel("Profile");
 									}
+									GUI.enabled = profileVM.guiEnabled;
 									GUILayout.Space (invitationsReceivedVM.blocksWidth*0.05f);
 									GUILayout.BeginVertical();
 									{
@@ -483,6 +427,7 @@ public class ProfileView : MonoBehaviour
 								GUILayout.BeginHorizontal();
 								{
 
+									GUI.enabled=profileVM.buttonsEnabled;
 									if(GUILayout.Button ("Ajouter",profileVM.actionButtonStyle,GUILayout.Height(invitationsReceivedVM.blocksHeight*0.2f)))
 									{
 										StartCoroutine(ProfileController.instance.confirmConnection(invitationsReceivedVM.contactsDisplayed[i]));
@@ -492,6 +437,7 @@ public class ProfileView : MonoBehaviour
 									{
 										ProfileController.instance.removeConnection(invitationsReceivedVM.contactsDisplayed[i]);
 									}
+									GUI.enabled = profileVM.guiEnabled;
 								}
 								GUILayout.EndHorizontal();
 								GUILayout.Space (myFriendsVM.blocksHeight*0.05f);
@@ -515,6 +461,7 @@ public class ProfileView : MonoBehaviour
 					case 0:
 						GUILayout.Label(friendshipStatusVM.username+" souhaite faire partie de vos amis",
 						                friendshipStatusVM.situationStyle,GUILayout.Height(0.5f*profileScreenVM.blockTopRightHeight));
+						GUI.enabled=profileVM.buttonsEnabled;
 						GUILayout.BeginHorizontal();
 						{
 							if (GUILayout.Button("Accepter",friendshipStatusVM.buttonStyle,GUILayout.Height(0.4f*profileScreenVM.blockTopRightHeight)))
@@ -527,30 +474,37 @@ public class ProfileView : MonoBehaviour
 							}
 						}
 						GUILayout.EndHorizontal();
+						GUI.enabled = profileVM.guiEnabled;
 						break;
 					case 1:
 						GUILayout.Label(friendshipStatusVM.username+" fait partie de vos amis",
 						                friendshipStatusVM.situationStyle,GUILayout.Height(0.5f*profileScreenVM.blockTopRightHeight));
+						GUI.enabled=profileVM.buttonsEnabled;
 						if (GUILayout.Button("Retirer",friendshipStatusVM.buttonStyle,GUILayout.Height(0.4f*profileScreenVM.blockTopRightHeight)))
 						{
 							ProfileController.instance.removeConnection(friendshipStatusVM.indexConnection);
 						}
+						GUI.enabled = profileVM.guiEnabled;
 						break;
 					case 2:
 						GUILayout.Label("vous avez invité "+friendshipStatusVM.username+" à faire partie de vos amis",
 						                friendshipStatusVM.situationStyle,GUILayout.Height(0.5f*profileScreenVM.blockTopRightHeight));
+						GUI.enabled=profileVM.buttonsEnabled;
 						if (GUILayout.Button("Retirer",friendshipStatusVM.buttonStyle,GUILayout.Height(0.4f*profileScreenVM.blockTopRightHeight)))
 						{
 							ProfileController.instance.removeConnection(friendshipStatusVM.indexConnection);
 						}
+						GUI.enabled = profileVM.guiEnabled;
 						break;
 					case 3:
 						GUILayout.Label(friendshipStatusVM.username+" ne fait pas partie de vos amis",
 						                friendshipStatusVM.situationStyle,GUILayout.Height(0.5f*profileScreenVM.blockTopRightHeight));
+						GUI.enabled=profileVM.buttonsEnabled;
 						if (GUILayout.Button("Ajouter",friendshipStatusVM.buttonStyle,GUILayout.Height(0.4f*profileScreenVM.blockTopRightHeight)))
 						{
 							StartCoroutine(ProfileController.instance.addConnection());
 						}
+						GUI.enabled = profileVM.guiEnabled;
 						break;
 					}
 					GUILayout.FlexibleSpace();
@@ -581,10 +535,12 @@ public class ProfileView : MonoBehaviour
 					GUILayout.BeginHorizontal();
 					{
 						GUILayout.FlexibleSpace();
+						GUI.enabled=profileVM.buttonsEnabled;
 						if(GUILayout.Button("Ma collection",statsVM.buttonStyle,GUILayout.Height(profileScreenVM.blockMiddleRightHeight*0.1f),GUILayout.Width(profileScreenVM.blockMiddleRightWidth*0.8f)))
 						{
 							Application.LoadLevel("SkillBook");
 						}
+						GUI.enabled = profileVM.guiEnabled;
 						GUILayout.FlexibleSpace();
 					}
 					GUILayout.EndHorizontal();
@@ -602,6 +558,7 @@ public class ProfileView : MonoBehaviour
 				GUILayout.FlexibleSpace();
 				GUILayout.BeginHorizontal();
 				{
+					GUI.enabled=profileVM.buttonsEnabled;
 					GUILayout.FlexibleSpace();
 					if (myTrophiesVM.pageDebut>0){
 						if (GUILayout.Button("...",profileVM.paginationStyle,
@@ -634,6 +591,7 @@ public class ProfileView : MonoBehaviour
 					GUILayout.FlexibleSpace();
 				}
 				GUILayout.EndHorizontal();
+				GUI.enabled = profileVM.guiEnabled;
 				GUILayout.FlexibleSpace();
 			}
 			GUILayout.EndArea();
@@ -684,6 +642,7 @@ public class ProfileView : MonoBehaviour
 				} 
 				else 
 				{
+					GUI.enabled=profileVM.buttonsEnabled;
 					if (GUI.Button (userProfileVM.updateProfilePictureButtonRect,"Modifier ma photo",userProfileVM.editProfileDataButtonStyle))
 					{
 						this.m_fileBrowser = new FileBrowser(profileScreenVM.fileBrowserWindow,
@@ -692,145 +651,9 @@ public class ProfileView : MonoBehaviour
 						this.m_fileBrowser.DirectoryImage = profileScreenVM.m_directoryImage;
 						this.m_fileBrowser.FileImage = profileScreenVM.m_fileImage;
 					}
+					GUI.enabled = profileVM.guiEnabled;
 				}
 			}
-		}
-		if (checkPassword) 
-		{
-			GUI.enabled=true;
-			GUILayout.BeginArea(profileScreenVM.centralWindow);
-			{
-				GUILayout.BeginVertical(profileScreenVM.centralWindowStyle);
-				{
-					GUILayout.FlexibleSpace();
-					GUILayout.Label ("Saisissez votre mot de passe",profileScreenVM.centralWindowTitleStyle);
-					GUILayout.FlexibleSpace();
-					GUILayout.BeginHorizontal();
-					{
-						GUILayout.Space(profileScreenVM.widthScreen*0.05f);
-						this.tempOldPassword = GUILayout.PasswordField(this.tempOldPassword,'*',profileScreenVM.centralWindowTextfieldStyle);
-						GUILayout.Space(profileScreenVM.widthScreen*0.05f);
-					}
-					GUILayout.EndHorizontal();
-					if(profileVM.error!="")
-					{
-						GUILayout.FlexibleSpace();
-						GUILayout.Label (profileVM.error,profileScreenVM.centralWindowTitleStyle);
-					}
-					GUILayout.FlexibleSpace();
-					GUILayout.BeginHorizontal();
-					{
-						GUILayout.FlexibleSpace();
-						if (GUILayout.Button("OK",profileScreenVM.centralWindowButtonStyle,GUILayout.Width (profileScreenVM.centralWindow.width*0.3f)))
-						{
-							StartCoroutine(ProfileController.instance.checkPassword(this.tempOldPassword));
-							this.tempOldPassword="";
-
-						}
-						GUILayout.FlexibleSpace();
-						if (GUILayout.Button("Quitter",profileScreenVM.centralWindowButtonStyle,GUILayout.Width (profileScreenVM.centralWindow.width*0.3f)))
-						{
-							this.checkPassword=false;
-							this.tempOldPassword="";
-							ProfileController.instance.initializeError();
-						}
-						GUILayout.FlexibleSpace();
-					}
-					GUILayout.EndHorizontal();
-					GUILayout.FlexibleSpace();
-				}
-				GUILayout.EndVertical();
-			}
-			GUILayout.EndArea();
-		}
-		if (changePassword) 
-		{
-			GUI.enabled=true;
-			GUILayout.BeginArea(profileScreenVM.centralWindow);
-			{
-				GUILayout.BeginVertical(profileScreenVM.centralWindowStyle);
-				{
-					GUILayout.FlexibleSpace();
-					GUILayout.Label ("Entrez votre nouveau mot de passe",profileScreenVM.centralWindowTitleStyle);
-					GUILayout.FlexibleSpace();
-					GUILayout.BeginHorizontal();
-					{
-						GUILayout.Space (profileScreenVM.widthScreen*0.05f);
-						this.tempNewPassword = GUILayout.PasswordField(this.tempNewPassword,'*',profileScreenVM.centralWindowTextfieldStyle);
-						GUILayout.Space (profileScreenVM.widthScreen*0.05f);
-					}
-					GUILayout.EndHorizontal();
-					GUILayout.FlexibleSpace();
-					GUILayout.Label ("Confirmer la saisie",profileScreenVM.centralWindowTitleStyle);
-					GUILayout.FlexibleSpace();
-					GUILayout.BeginHorizontal();
-					{
-						GUILayout.Space (profileScreenVM.widthScreen*0.05f);
-						this.tempNewPassword2 = GUILayout.PasswordField(this.tempNewPassword2,'*',profileScreenVM.centralWindowTextfieldStyle);
-						GUILayout.Space (profileScreenVM.widthScreen*0.05f);
-					}
-					GUILayout.EndHorizontal();
-					if(this.passwordsCheck!="")
-					{
-						GUILayout.FlexibleSpace();
-						GUILayout.Label (this.passwordsCheck,profileScreenVM.centralWindowTitleStyle);
-					}
-					GUILayout.FlexibleSpace();
-					GUILayout.BeginHorizontal();
-					{
-						GUILayout.FlexibleSpace();
-						if (GUILayout.Button("OK",profileScreenVM.centralWindowButtonStyle,GUILayout.Width (profileScreenVM.centralWindow.width*0.3f))){
-							if(this.tempNewPassword==this.tempNewPassword2 && this.tempNewPassword!="" && this.tempNewPassword2!=""){
-								this.passwordsCheck="";
-								ProfileController.instance.editPassword(this.tempNewPassword);
-								this.tempNewPassword="";
-								this.tempNewPassword2="";
-							}
-							else if(this.tempNewPassword!=this.tempNewPassword2 && this.tempNewPassword!="" && this.tempNewPassword2!=""){
-								this.passwordsCheck="les saisies ne correspondent pas";
-							}
-						}
-						GUILayout.FlexibleSpace();
-						if (GUILayout.Button("Quitter",profileScreenVM.centralWindowButtonStyle,GUILayout.Width (profileScreenVM.centralWindow.width*0.3f))){
-							changePassword=false;
-							this.passwordsCheck="";
-							this.tempNewPassword="";
-							this.tempNewPassword2="";
-						}
-						GUILayout.FlexibleSpace();
-					}
-					GUILayout.EndHorizontal();
-					GUILayout.FlexibleSpace();
-				}
-				GUILayout.EndVertical();
-			}
-			GUILayout.EndArea();
-		}
-		if (error) 
-		{
-			GUI.enabled=true;
-			GUILayout.BeginArea(profileScreenVM.centralWindow);
-			{
-				GUILayout.BeginVertical(profileScreenVM.centralWindowStyle);
-				{
-					GUILayout.FlexibleSpace();
-					GUILayout.Label (profileVM.error,profileScreenVM.centralWindowTitleStyle);
-					GUILayout.FlexibleSpace();
-					GUILayout.BeginHorizontal();
-					{
-						GUILayout.FlexibleSpace();
-						if (GUILayout.Button("OK",profileScreenVM.centralWindowButtonStyle,GUILayout.Width (profileScreenVM.centralWindow.width*0.3f)))
-						{
-							ProfileController.instance.reloadPage();
-						}
-						GUILayout.FlexibleSpace();
-					}
-					GUILayout.EndHorizontal();
-					GUILayout.FlexibleSpace();
-				}
-				GUILayout.EndVertical();
-			}
-			GUILayout.EndArea();
 		}
 	}	
 }

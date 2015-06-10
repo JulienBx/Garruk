@@ -16,10 +16,22 @@ public class ProfileViewModel {
 	public GUIStyle contactsUsernameStyle;
 	public GUIStyle contactsInformationStyle;
 	public GUIStyle contactsBackgroundStyle;
-	public bool isMyProfile=true;
-	public string error;
+	public bool isMyProfile;
+	public bool buttonsEnabled; 
+	public bool guiEnabled;
+	public bool isEditing;
+	public string tempSurname;
+	public string tempFirstName;
+	public string tempMail;
 
-	public ProfileViewModel (){
+	public ProfileViewModel ()
+	{
+		this.isMyProfile = true;
+		this.buttonsEnabled = true;
+		this.guiEnabled = true;
+		this.tempSurname = "";
+		this.tempFirstName = "";
+		this.tempMail = "";
 	}
 	public void initStyles()
 	{
