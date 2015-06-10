@@ -548,6 +548,38 @@ public class GameController : Photon.MonoBehaviour
 		}
 	}
 	
+	public void lookForAdjacentAllyTarget(string regularText, string buttonText)
+	{
+		this.numberOfExpectedArgs = 1;
+		
+		setValidationTexts(regularText, buttonText);
+		
+		List<TileController> tempTiles;
+		tempTiles = new List<TileController>();
+		foreach (Tile t in this.getCurrentPCC().tile.getImmediateNeighbouringTiles())
+		{
+			if (this.currentPlayingCard<5){
+				if (this.tiles [t.x, t.y].GetComponent<TileController>().characterID != -1 && this.tiles [t.x, t.y].GetComponent<TileController>().characterID<5)
+				{
+					tempTiles.Add(this.tiles [t.x, t.y].GetComponent<TileController>());
+				}
+			}
+			else{
+				if (this.tiles [t.x, t.y].GetComponent<TileController>().characterID != -1 && this.tiles [t.x, t.y].GetComponent<TileController>().characterID>4)
+				{
+					tempTiles.Add(this.tiles [t.x, t.y].GetComponent<TileController>());
+				}
+			}
+		}
+		foreach (TileController tc in tempTiles)
+		{
+			if (!this.playingCards [tc.characterID].GetComponent<PlayingCardController>().isDead && this.playingCards [tc.characterID].GetComponent<PlayingCardController>().cannotBeTargeted == -1)
+			{
+				this.playingCards [tc.characterID].GetComponent<PlayingCardController>().activateTargetHalo();
+			}
+		}
+	}
+	
 	public void lookForEmptyAdjacentTile(string regularText, string buttonText)
 	{
 		this.numberOfExpectedArgs = 2;

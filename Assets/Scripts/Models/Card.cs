@@ -244,11 +244,18 @@ public class Card
 		{
 			life = modifier.modifyLife(life);
 		}
+		
 		if (life < 0)
 		{
 			return 0;
 		}
-		return life;
+		
+		if (life>this.Life){
+			return Life ;
+		}
+		else{
+			return life;
+		}
 	}
 	
 	public int GetSpeed()
