@@ -8,7 +8,7 @@ using System.Reflection;
 public class ProfileController : MonoBehaviour {
 
 	public GameObject MenuObject;
-
+	public GameObject TutorialObject;
 	private ProfileView view;
 	public static ProfileController instance;
 	private ProfileModel model;
@@ -21,6 +21,8 @@ public class ProfileController : MonoBehaviour {
 	public GUIStyle[] myTrophiesVMStyle;
 	public Texture2D[] filePickerTextures;
 	public GUISkin fileBrowserSkin;
+	private bool isTutorialLaunched;
+	private GameObject tutorial;
 	
 	void Start () {
 		
@@ -57,6 +59,20 @@ public class ProfileController : MonoBehaviour {
 		this.loadData ();
 		this.pictures ();
 		view.setCanDisplay (true);
+		if(!model.Player.myProfileTutorial && view.profileVM.isMyProfile)
+		{
+			this.tutorial = Instantiate(this.TutorialObject) as GameObject;
+			MenuObject.GetComponent<MenuController>().setTutorialLaunched(true);
+			this.tutorial.GetComponent<TutorialObjectController>().launchSequence(600);
+			this.isTutorialLaunched=true;
+		}
+		else if(!model.Player.profileTutorial && !view.profileVM.isMyProfile)
+		{
+			this.tutorial = Instantiate(this.TutorialObject) as GameObject;
+			MenuObject.GetComponent<MenuController>().setTutorialLaunched(true);
+			this.tutorial.GetComponent<TutorialObjectController>().launchSequence(700);
+			this.isTutorialLaunched=true;
+		}
 	}
 	private void loadData()
 	{

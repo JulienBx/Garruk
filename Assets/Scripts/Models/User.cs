@@ -51,6 +51,8 @@ public class User
 	public int CollectionRanking;
 	public int TutorialStep;
 	public bool MarketTutorial;
+	public bool myProfileTutorial;
+	public bool profileTutorial;
 
 	public User()
 	{
