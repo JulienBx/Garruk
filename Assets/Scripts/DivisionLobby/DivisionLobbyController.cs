@@ -20,8 +20,11 @@ public class DivisionLobbyController : MonoBehaviour
 	public GUIStyle[] divisionLobbyVMStyle;
 	public GUIStyle[] opponnentVMStyle;
 	public GUIStyle[] competInfosVMStyle;
+	private bool isTutorialLaunched;
+	private GameObject tutorial;
 	
 	public GameObject MenuObject;
+	public GameObject TutorialObject;
 	
 	void Start()
 	{
@@ -38,6 +41,13 @@ public class DivisionLobbyController : MonoBehaviour
 		this.initVM ();
 		this.initializeGauge ();
 		this.resize ();
+		if(!model.player.DivisionLobbyTutorial)
+		{
+			this.tutorial = Instantiate(this.TutorialObject) as GameObject;
+			MenuObject.GetComponent<MenuController>().setTutorialLaunched(true);
+			this.tutorial.GetComponent<TutorialObjectController>().launchSequence(1100);
+			this.isTutorialLaunched=true;
+		}
 	}
 	private void initVM()
 	{
@@ -198,6 +208,10 @@ public class DivisionLobbyController : MonoBehaviour
 		view.boardVM.resize (view.screenVM.heightScreen);
 		view.competInfosVM.resize (view.screenVM.heightScreen);
 		this.resizeGauge ();
+		if(this.isTutorialLaunched)
+		{
+			this.tutorial.GetComponent<TutorialObjectController>().resize();
+		}
 	}
 	private void resizeGauge()
 	{
@@ -245,5 +259,18 @@ public class DivisionLobbyController : MonoBehaviour
 	public void quitDivisionLobby()
 	{
 		Application.LoadLevel("Lobby");
+	}
+	public void setButtonsGui(bool value)
+	{
+		view.divisionLobbyVM.buttonsEnabled =value;
+	}
+	public IEnumerator endTutorial()
+	{
+		yield return StartCoroutine (model.player.setDivisionLobbyTutorial(true));
+		MenuController.instance.setButtonsGui (true);
+		Destroy (this.tutorial);
+		this.isTutorialLaunched = false;
+		MenuController.instance.isTutorialLaunched = false;
+		this.setButtonsGui (true);
 	}
 }

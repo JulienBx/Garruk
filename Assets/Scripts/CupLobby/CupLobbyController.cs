@@ -20,8 +20,11 @@ public class CupLobbyController : MonoBehaviour
 	public GUIStyle[] cupLobbyVMStyle;
 	public GUIStyle[] opponnentVMStyle;
 	public GUIStyle[] competInfosVMStyle;
+	private bool isTutorialLaunched;
+	private GameObject tutorial;
 	
 	public GameObject MenuObject;
+	public GameObject TutorialObject;
 	
 	void Start()
 	{
@@ -38,6 +41,13 @@ public class CupLobbyController : MonoBehaviour
 		this.initVM ();
 		this.initializeRounds ();
 		this.resize ();
+		if(!model.player.CupLobbyTutorial)
+		{
+			this.tutorial = Instantiate(this.TutorialObject) as GameObject;
+			MenuObject.GetComponent<MenuController>().setTutorialLaunched(true);
+			this.tutorial.GetComponent<TutorialObjectController>().launchSequence(1200);
+			this.isTutorialLaunched=true;
+		}
 	}
 	private void initVM()
 	{
@@ -163,6 +173,10 @@ public class CupLobbyController : MonoBehaviour
 		view.boardVM.resize (view.screenVM.heightScreen);
 		view.competInfosVM.resize (view.screenVM.heightScreen);
 		this.resizeRounds ();
+		if(this.isTutorialLaunched)
+		{
+			this.tutorial.GetComponent<TutorialObjectController>().resize();
+		}
 	}
 	private void resizeRounds()
 	{
@@ -180,5 +194,18 @@ public class CupLobbyController : MonoBehaviour
 	public void quitCupLobby()
 	{
 		Application.LoadLevel("Lobby");
+	}
+	public void setButtonsGui(bool value)
+	{
+		view.cupLobbyVM.buttonsEnabled =value;
+	}
+	public IEnumerator endTutorial()
+	{
+		yield return StartCoroutine (model.player.setCupLobbyTutorial(true));
+		MenuController.instance.setButtonsGui (true);
+		Destroy (this.tutorial);
+		this.isTutorialLaunched = false;
+		MenuController.instance.isTutorialLaunched = false;
+		this.setButtonsGui (true);
 	}
 }

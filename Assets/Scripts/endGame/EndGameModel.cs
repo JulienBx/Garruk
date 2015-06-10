@@ -38,17 +38,19 @@ public class EndGameModel
 			string[] userData=data[0].Split(new string[] { "//" }, System.StringSplitOptions.None);
 			string[] gameTypeData=data[1].Split(new string[] { "//" }, System.StringSplitOptions.None);
 			string[] resultsData=data[2].Split(new string[] { "RESULT" }, System.StringSplitOptions.None);
-			
-			currentUser = new User(System.Convert.ToInt32(userData[0]), //id
-			                       System.Convert.ToInt32(userData[1]), //money
-			                       System.Convert.ToInt32(userData[2]), //current division
-			                       System.Convert.ToInt32(userData[3]), //nbgames division
-			                       System.Convert.ToInt32(userData[4]), //current cup
-			                       System.Convert.ToInt32(userData[5]), //nbgames cup
-			                       System.Convert.ToInt32(userData[6]), //ranking Points
-			                       System.Convert.ToInt32(userData[7]), //ranking
-			                       System.Convert.ToInt32(userData[8]),  //totalNbWins
-			                       System.Convert.ToInt32(userData[9])); //totalNbLooses
+
+			currentUser=new User();
+			this.currentUser.Id=System.Convert.ToInt32(userData[0]);
+			this.currentUser.Money=System.Convert.ToInt32(userData[1]);
+			this.currentUser.Division=System.Convert.ToInt32(userData[2]);
+			this.currentUser.NbGamesDivision=System.Convert.ToInt32(userData[3]);
+			this.currentUser.Cup=System.Convert.ToInt32(userData[4]);
+			this.currentUser.NbGamesCup=System.Convert.ToInt32(userData[5]);
+			this.currentUser.RankingPoints=System.Convert.ToInt32(userData[6]);
+			this.currentUser.Ranking=System.Convert.ToInt32(userData[7]);
+			this.currentUser.TotalNbWins=System.Convert.ToInt32(userData[8]);
+			this.currentUser.TotalNbLooses=System.Convert.ToInt32(userData[9]);
+			this.currentUser.TutorialStep=System.Convert.ToInt32(userData[10]);
 			
 			for (int i =0;i<resultsData.Length-1;i++)
 			{

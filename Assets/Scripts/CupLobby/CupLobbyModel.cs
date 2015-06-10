@@ -11,11 +11,13 @@ public class CupLobbyModel
 	
 	public IList<PlayerResult> results;
 	public Cup currentCup;
+	public User player;
 
 	public CupLobbyModel ()
 	{
 		this.results = new List<PlayerResult> ();
 		this.currentCup = new Cup ();
+		this.player = new User ();
 	}
 	public IEnumerator getCupLobbyData()
 	{
@@ -34,6 +36,7 @@ public class CupLobbyModel
 			string[] data=w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
 			this.results = this.parseResults(data[0].Split(new string[] { "#RESULT#" }, System.StringSplitOptions.None));
 			this.currentCup = this.parseCup(data[1].Split(new string[] { "//" }, System.StringSplitOptions.None));
+			this.player.DivisionLobbyTutorial=System.Convert.ToBoolean(System.Convert.ToInt32(data[2]));
 			ApplicationModel.currentCup=this.currentCup;
 		}
 	}

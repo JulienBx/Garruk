@@ -11,6 +11,7 @@ public class StoreViewModel
 	public GUIStyle titleStyle;
 	public GUIStyle buttonStyle;
 	public bool guiEnabled;
+	public bool[] buttonsEnabled;
 	public bool isPopUpDisplayed;
 	public bool hideGUI;
 	public bool areMoreThan1CardDisplayed;
@@ -28,6 +29,11 @@ public class StoreViewModel
 		this.buttonAddCreditsStyle = new GUIStyle ();
 		this.buttonStyle = new GUIStyle ();
 		this.titleStyle = new GUIStyle ();
+		this.buttonsEnabled = new bool[2];
+		for(int i=0;i<this.buttonsEnabled.Length;i++)
+		{
+			this.buttonsEnabled[i]=true;
+		}
 	}
 	public void initStyles()
 	{

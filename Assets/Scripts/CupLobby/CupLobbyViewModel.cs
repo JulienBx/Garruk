@@ -13,12 +13,14 @@ public class CupLobbyViewModel
 	public GUIStyle paginationStyle;
 	public GUIStyle paginationActivatedStyle;
 	public GUIStyle buttonStyle;
+	public bool buttonsEnabled;
 	
 	public CupLobbyViewModel ()
 	{
 		this.styles=new GUIStyle[0];
 		this.paginationStyle = new GUIStyle ();
 		this.buttonStyle = new GUIStyle ();
+		this.buttonsEnabled = true;
 	}
 	public void initStyles()
 	{

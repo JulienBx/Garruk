@@ -916,6 +916,200 @@ public class TutorialObjectController : MonoBehaviour
 		case 801:
 			StartCoroutine(SkillBookController.instance.endTutorial());
 			break;
+		case 900:
+			if(!isResizing)
+			{
+				MenuController.instance.setButtonsGui(false);
+				StoreController.instance.setButtonsGui(false);
+				view.VM.displayArrow=false;
+				view.VM.displayNextButton=true;
+				view.VM.title="Bienvenue dans le magasin";
+				view.VM.description="Le magasin est l'unique lieu ou il vous est possible d'acquérir de nouvelles cartes. Ces cartes pourront être achété grâce à la monnaie virtuelle du jeu, vous pouvez gagner des crédits en les achetant ou bien en remportant des combats.";
+			}
+			popUpWidth=0.3f*Screen.width;
+			popUpHeight=this.computePopUpHeight();
+			popUpX=0.35f*Screen.width;
+			popUpY=0.35f*Screen.height;
+			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			break;
+		case 901:
+			if(!isResizing)
+			{
+				StoreController.instance.setButtonGui(0,true);
+				view.VM.displayArrow=true;
+				view.VM.displayNextButton=false;
+				view.VM.title="Votre premier pack";
+				view.VM.description="Grâce aux gains obtenus lors de votre premier match, vous allez pouvoir acheter votre première carte. Cliquez sur le bouton 'Acheter'";
+				this.setLeftArrow();
+			}
+			arrowHeight=(2f/3f)*0.1f*Screen.height;
+			arrowWidth=(3f/2f)*arrowHeight;
+			arrowX=(Screen.width-Screen.height)/5f+Screen.height/4f;
+			arrowY=0.69f*Screen.height;
+			view.VM.arrowRect= new Rect (arrowX,arrowY,arrowWidth,arrowHeight);
+			this.drawLeftArrow();
+			popUpWidth=0.35f*Screen.width;
+			popUpHeight=this.computePopUpHeight();
+			popUpX=arrowX+arrowWidth+0.01f*Screen.width;
+			popUpY=arrowY+arrowHeight/2f-popUpHeight/2f;
+			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			break;
+		case 902:
+			if(!isResizing)
+			{
+				view.VM.displayArrow=false;
+				view.VM.displayRect=false;
+			}
+			break;
+		case 903:
+			if(!isResizing)
+			{
+				StoreController.instance.setGUI(false);
+				StoreController.instance.setExitButtonGui(true);
+				view.VM.displayRect=true;
+				view.VM.displayArrow=true;
+				view.VM.displayNextButton=false;
+				view.VM.title="Bravo !";
+				view.VM.description="Vous venez d'acheter votre première carte ! Retournons à la boutique.";
+				this.setDownArrow();
+			}
+			cardPosition = StoreController.instance.getCardsPosition();
+			cardSize = StoreController.instance.getCardsSize();
+			arrowHeight=0.1f*Screen.height;
+			arrowWidth=(2f/3f)*arrowHeight;
+			arrowX=cardPosition.x+1*(cardSize.x/2f)-(arrowWidth/2f)+cardSize.x/4f;
+			arrowY=Screen.height-cardPosition.y+0.70f*(cardSize.y/2f)-arrowHeight;
+			view.VM.arrowRect= new Rect (arrowX,arrowY,arrowWidth,arrowHeight);
+			this.drawDownArrow();
+			popUpWidth=0.35f*Screen.width;
+			popUpHeight=this.computePopUpHeight();
+			popUpX=arrowX+arrowWidth/2f-popUpWidth/2f;
+			popUpY=arrowY-popUpHeight-0.02f*Screen.height;
+			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			break;
+		case 904:
+			if(!isResizing)
+			{
+				StoreController.instance.setGUI(true);
+				StoreController.instance.setButtonsGui(false);
+				view.VM.displayRect=true;
+				view.VM.displayArrow=true;
+				view.VM.displayNextButton=true;
+				view.VM.title="Des crédits supplémentaires";
+				view.VM.description="Même si les gains en match vous permettront d'acquérir n'importe quelle carte, n'oubliez pas que vous avez toujours la possibilité d'alimenter votre portefeuille";
+				this.setDownArrow();
+			}
+			arrowHeight=0.1f*Screen.height;
+			arrowWidth=(2f/3f)*arrowHeight;
+			arrowX=Screen.width/2f-arrowWidth/2f;
+			arrowY=0.8f*Screen.height;
+			view.VM.arrowRect= new Rect (arrowX,arrowY,arrowWidth,arrowHeight);
+			this.drawDownArrow();
+			popUpWidth=0.35f*Screen.width;
+			popUpHeight=this.computePopUpHeight();
+			popUpX=arrowX+arrowWidth/2f-popUpWidth/2f;
+			popUpY=arrowY-popUpHeight-0.02f*Screen.height;
+			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			break;
+		case 905:
+			if(!isResizing)
+			{
+				MenuController.instance.setButtonsGui(false);
+				MenuController.instance.setButtonGui(2,true);
+				view.VM.displayArrow=true;
+				view.VM.displayNextButton=false;
+				view.VM.title="Félicitations";
+				view.VM.description="Vous avez terminé ce premier tutoriel. Vous pouvez désormais retourner à l'écran de gestion de vos cartes pour améliorer votre deck existant";
+				this.setUpArrow();
+			}
+			arrowHeight=0.1f*Screen.height;
+			arrowWidth=(2f/3f)*arrowHeight;
+			arrowX=0.35f*Screen.width-(arrowWidth/2f);
+			arrowY=0.08f*Screen.height;
+			view.VM.arrowRect= new Rect (arrowX,arrowY,arrowWidth,arrowHeight);
+			this.drawUpArrow();
+			popUpWidth=0.3f*Screen.width;
+			popUpHeight=this.computePopUpHeight();
+			popUpX=arrowX+arrowWidth/2f-popUpWidth/2f;
+			popUpY=arrowY+arrowHeight+0.02f*Screen.height;
+			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			break;
+		case 1000:
+			if(!isResizing)
+			{
+				MenuController.instance.setButtonsGui(false);
+				EndGameController.instance.setButtonsGui(false);
+				view.VM.displayArrow=false;
+				view.VM.displayNextButton=true;
+				view.VM.title="Après match";
+				view.VM.description="Voici l'écran d'après match, vous trouverez des statisques sur votre adversaire, et plus tard, lorsque vous disputerez des compétitions, des informations sur votre évolution";
+			}
+			popUpWidth=0.3f*Screen.width;
+			popUpHeight=this.computePopUpHeight();
+			popUpX=0.35f*Screen.width;
+			popUpY=0.35f*Screen.height;
+			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			break;
+		case 1001:
+			if(!isResizing)
+			{
+				MenuController.instance.setButtonGui(3,true);
+				view.VM.displayArrow=true;
+				view.VM.displayNextButton=false;
+				view.VM.title="Rendez vous à la boutique";
+				view.VM.description="Grâce à votre première victoire, les crédits remportés vont vous permettre d'améliorer votre jeu. Rendez vous à la boutique!";
+				this.setUpArrow();
+			}
+			arrowHeight=0.1f*Screen.height;
+			arrowWidth=(2f/3f)*arrowHeight;
+			arrowX=0.475f*Screen.width-(arrowWidth/2f);
+			arrowY=0.08f*Screen.height;
+			view.VM.arrowRect= new Rect (arrowX,arrowY,arrowWidth,arrowHeight);
+			this.drawUpArrow();
+			popUpWidth=0.3f*Screen.width;
+			popUpHeight=this.computePopUpHeight();
+			popUpX=arrowX+arrowWidth/2f-popUpWidth/2f;
+			popUpY=arrowY+arrowHeight+0.02f*Screen.height;
+			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			break;
+		case 1100:
+			if(!isResizing)
+			{
+				MenuController.instance.setButtonsGui(false);
+				DivisionLobbyController.instance.setButtonsGui(false);
+				view.VM.displayArrow=false;
+				view.VM.displayNextButton=true;
+				view.VM.title="L'écran de division";
+				view.VM.description="Cet écran montre votre évolution au sein de la division. Vous y verrez votre progression pour atteindre les divisions supérieures ainsi que vos derniers résultats";
+			}
+			popUpWidth=0.3f*Screen.width;
+			popUpHeight=this.computePopUpHeight();
+			popUpX=0.35f*Screen.width;
+			popUpY=0.35f*Screen.height;
+			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			break;
+		case 1101:
+			StartCoroutine(DivisionLobbyController.instance.endTutorial());
+			break;
+		case 1200:
+			if(!isResizing)
+			{
+				MenuController.instance.setButtonsGui(false);
+				CupLobbyController.instance.setButtonsGui(false);
+				view.VM.displayArrow=false;
+				view.VM.displayNextButton=true;
+				view.VM.title="L'écran de coupe";
+				view.VM.description="Cet écran montre votre évolution au sein de la coupe. Vous y verrez votre progression au travers des différents tours ainsi que vos derniers résultats";
+			}
+			popUpWidth=0.3f*Screen.width;
+			popUpHeight=this.computePopUpHeight();
+			popUpX=0.35f*Screen.width;
+			popUpY=0.35f*Screen.height;
+			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			break;
+		case 1201:
+			StartCoroutine(CupLobbyController.instance.endTutorial());
+			break;
 		}
 	}
 	public void resize()
@@ -992,11 +1186,17 @@ public class TutorialObjectController : MonoBehaviour
 		case 101:
 			StartCoroutine(HomePageController.instance.endTutorial());
 			break;
-		case 201: case 209: case 210: case 211: 
+		case 201: case 209: case 210: case 211: case 901: case 902: case 903:
 			this.launchSequence(this.sequenceID+1);
 			break;
 		case 214:
 			StartCoroutine(MyGameController.instance.endTutorial());
+			break;
+		case 905:
+			StartCoroutine(StoreController.instance.endTutorial());
+			break;
+		case 1001:
+			StartCoroutine(EndGameController.instance.endTutorial());
 			break;
 		}
 	}

@@ -9,6 +9,7 @@ public class EndGameController : MonoBehaviour
 {
 
 	public GameObject MenuObject;
+	public GameObject TutorialObject;
 	private EndGameView view;
 	public static EndGameController instance;
 
@@ -36,6 +37,8 @@ public class EndGameController : MonoBehaviour
 	private float transformSpeed=0.5f;
 
 	private float timer;
+	private bool isTutorialLaunched;
+	private GameObject tutorial;
 
 	// Use this for initialization
 	void Start () 
@@ -85,6 +88,13 @@ public class EndGameController : MonoBehaviour
 		{
 		case 0:
 			this.resize();
+			if(model.currentUser.TutorialStep==5)
+			{
+				this.tutorial = Instantiate(this.TutorialObject) as GameObject;
+				MenuObject.GetComponent<MenuController>().setTutorialLaunched(true);
+				this.tutorial.GetComponent<TutorialObjectController>().launchSequence(1000);
+				this.isTutorialLaunched=true;
+			}
 			break;
 		case 1:
 			this.initializeGauge();
@@ -283,6 +293,10 @@ public class EndGameController : MonoBehaviour
 		{
 		case 0:
 			view.friendlyBoardVM.resize (view.endGameScreenVM.heightScreen);
+			if(isTutorialLaunched)
+			{
+				this.tutorial.GetComponent<TutorialObjectController>().resize();
+			}
 			break;
 		case 1:
 			view.divisionBoardVM.resize (view.endGameScreenVM.heightScreen);
@@ -586,5 +600,15 @@ public class EndGameController : MonoBehaviour
 	public void quitEndGame()
 	{
 		Application.LoadLevel("HomePage");
+	}
+	public void setButtonsGui(bool value)
+	{
+		view.endGameVM.exitButtonEnabled = value;
+	}
+	public IEnumerator endTutorial()
+	{
+		MenuController.instance.setButtonsGui (false);
+		yield return StartCoroutine (model.currentUser.setTutorialStep (6));
+		Application.LoadLevel ("Store");
 	}
 }
