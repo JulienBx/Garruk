@@ -27,13 +27,13 @@ public class ForetDeLianes : GameSkill
 		int decade = targetID / 10;
 
 		TileController tileController = GameController.instance.getTile(decade, targetID - decade * 10);
-		tileController.tile.StatModifier = new StatModifier(-amount, ModifierType.Type_Multiplier, ModifierStat.Stat_Move);
+		//tileController.tile.StatModifier = new StatModifier(-amount, ModifierType.Type_Multiplier, ModifierStat.Stat_Move);
 		tileController.addForetIcon();
 		foreach (Tile til in tileController.tile.getImmediateNeighbouringTiles())
 		{
 			TileController tc = GameController.instance.getTile(til.x, til.y);
 			tc.addForetIcon();
-			tc.tile.StatModifier = new StatModifier(-amount, ModifierType.Type_Multiplier, ModifierStat.Stat_Move);
+			//tc.tile.StatModifier = new StatModifier(-amount, ModifierType.Type_Multiplier, ModifierStat.Stat_Move);
 			if (GameController.instance.getTile(til.x, til.y).characterID != -1)
 			{
 				GameController.instance.getPCC(GameController.instance.getTile(til.x, til.y).characterID).card.TileModifier = tc.tile.StatModifier;

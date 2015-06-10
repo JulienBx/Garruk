@@ -9,7 +9,7 @@ public class Tile
 	public int x;
 	public int y;
 	public int distance;
-	public StatModifier StatModifier;
+	public List<StatModifier> StatModifier = new List<StatModifier>();
 	public NeighbourTiles neighbours;
 
 	public Tile(int x, int y, int distance)

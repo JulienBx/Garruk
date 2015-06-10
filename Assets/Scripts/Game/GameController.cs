@@ -625,9 +625,11 @@ public class GameController : Photon.MonoBehaviour
 		}
 	}
 
-	public void addTileTarget(int id)
+	public void addBuffTileTarget(Tile t)
 	{
-		this.skillArgs [numberOfArgs] = id;
+		this.skillArgs [numberOfArgs] = t.x;
+		this.numberOfArgs++;
+		this.skillArgs [numberOfArgs] = t.y;
 		this.numberOfArgs++;
 
 		if (this.numberOfExpectedArgs <= this.numberOfArgs)
@@ -1510,11 +1512,12 @@ public class GameController : Photon.MonoBehaviour
 
 		this.tiles [x, y].GetComponent<TileController>().characterID = c;
 		this.playingCards [c].GetComponentInChildren<PlayingCardController>().changeTile(new Tile(x, y), this.tiles [x, y].GetComponent<TileController>().getPosition());
+
 		TileController newTile = getTile(x, y);
-		this.playingCards [c].GetComponentInChildren<PlayingCardController>().card.TileModifier = null;
-		if (newTile.tile.StatModifier != null)
+		this.playingCards [c].GetComponentInChildren<PlayingCardController>().card.TileModifier.Clear();
+		foreach (StatModifier sm in newTile.tile.StatModifier)
 		{
-			this.playingCards [c].GetComponentInChildren<PlayingCardController>().card.TileModifier = newTile.tile.StatModifier;
+			this.playingCards [c].GetComponentInChildren<PlayingCardController>().card.TileModifier.Add(sm);
 		}
 		if (this.isFirstPlayer == isFirstP && nbTurns != 0)
 		{
@@ -1528,7 +1531,7 @@ public class GameController : Photon.MonoBehaviour
 			{
 				this.updateStatusMySkills(this.currentPlayingCard);
 			}
-			this.tiles[x,y].GetComponentInChildren<TileController>().checkTrap(this.currentPlayingCard);
+			this.tiles [x, y].GetComponentInChildren<TileController>().checkTrap(this.currentPlayingCard);
 			if (this.playindCardHasPlayed)
 			{
 				this.gameskills [1].launch();
@@ -2065,16 +2068,34 @@ public class GameController : Photon.MonoBehaviour
 			this.reloadCard(target);
 		}
 	}
-	
 
-	public void addTrap(int tileX, int tileY, int type, int amount){ 
+	public void addTileModifier(int modifierType, int amount, int tileX, int tileY)
+	{
+		photonView.RPC("addTileModifierRPC", PhotonTargets.AllBuffered, modifierType, amount, tileX, tileY, this.isFirstPlayer);
+	}	
+
+	[RPC]
+	public void addTileModifierRPC(int modifierType, int amount, int tileX, int tileY, bool isFirstP)
+	{
+		switch (modifierType)
+		{
+			case 0:
+				TileController tileController = this.tiles [tileX, tileY].GetComponent<TileController>();
+				tileController.addTemple(amount);
+				break;
+			default:
+				break;
+		}
+	}
+	public void addTrap(int tileX, int tileY, int type, int amount)
+	{ 
 		photonView.RPC("addTrapRPC", PhotonTargets.AllBuffered, tileX, tileY, type, amount, this.isFirstPlayer);
 	}
 	
 	[RPC]
 	public void addTrapRPC(int tileX, int tileY, int type, int amount, bool isFirstP)
 	{
-		this.tiles[tileX, tileY].GetComponent<TileController>().setTrap(new Trap(amount, type,(this.isFirstPlayer==isFirstP)));
+		this.tiles [tileX, tileY].GetComponent<TileController>().setTrap(new Trap(amount, type, (this.isFirstPlayer == isFirstP)));
 	}
 	
 	public void setParalyzed(int target, int duration)
@@ -2108,28 +2129,30 @@ public class GameController : Photon.MonoBehaviour
 	[RPC]
 	public void setEsquiveRPC(int target, int amount)
 	{
-		this.getPCC(target).changeEsquive("Esquive", "Le héros possède "+amount+" % de chances d'esquiver les dégats");
+		this.getPCC(target).changeEsquive("Esquive", "Le héros possède " + amount + " % de chances d'esquiver les dégats");
 		this.addModifier(target, amount, (int)ModifierType.Type_EsquivePercentage, -1);
 	}
 	
-	public void removeTrap(Tile t){
+	public void removeTrap(Tile t)
+	{
 		photonView.RPC("removeTrapRPC", PhotonTargets.AllBuffered, t.x, t.y);
 	}
 	
 	[RPC]
 	public void removeTrapRPC(int x, int y)
 	{
-		this.tiles[x,y].GetComponent<TileController>().removeTrap();
+		this.tiles [x, y].GetComponent<TileController>().removeTrap();
 	}
 	
-	public void useSkill(){
+	public void useSkill()
+	{
 		photonView.RPC("useSkillRPC", PhotonTargets.AllBuffered, this.currentPlayingCard, this.clickedSkill);
 	}
 	
 	[RPC]
 	public void useSkillRPC(int target, int nbSkill)
 	{
-		this.getCard(target).Skills[nbSkill].lowerNbLeft();
+		this.getCard(target).Skills [nbSkill].lowerNbLeft();
 	}
 }
 
