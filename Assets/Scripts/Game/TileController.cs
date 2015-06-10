@@ -25,8 +25,9 @@ public class TileController : MonoBehaviour
 	public int characterID = -1 ;
 	public TileModification tileModification;
 	public StatModifier statModifier;
-
 	public Texture2D[] icons;
+	public bool statModifierActive = true;
+	public bool statModifierEachTurn = false;
 
 	void Awake()
 	{
@@ -135,24 +136,35 @@ public class TileController : MonoBehaviour
 		this.tileView.tileVM.toDisplayIcon = true;
 		this.tileModification = TileModification.Temple_Sacre;
 		this.tileView.tileVM.icon = this.icons [0];
+		statModifierActive = true;
+		statModifierEachTurn = false;
 		this.tile.StatModifier.Clear();
-		this.tile.StatModifier.Add(new StatModifier(-amount, ModifierType.Type_Multiplier, ModifierStat.Stat_Move));
+		this.tile.StatModifier.Add(new StatModifier(amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack));
 	}
 
-	public void addForetIcon()
+	public void addForetIcon(int amount)
 	{
 		this.tileView.tileVM.toDisplayIcon = true;
 		this.tileModification = TileModification.Foret_de_Lianes;
 		this.tileView.tileVM.icon = this.icons [1];
+		statModifierActive = true;
+		statModifierEachTurn = false;
+		this.tile.StatModifier.Clear();
+		this.tile.StatModifier.Add(new StatModifier(-amount, ModifierType.Type_Multiplier, ModifierStat.Stat_Move));
 	}
 
-	public void addSable()
+	public void addSable(bool isVisible)
 	{
-		this.tileView.tileVM.toDisplayIcon = true;
+		if (isVisible)
+		{
+			this.tileView.tileVM.toDisplayIcon = true;
+		}
 		this.tileModification = TileModification.Sables_Mouvants;
 		this.tileView.tileVM.icon = this.icons [2];
+		statModifierActive = true;
+		statModifierEachTurn = false;
 		this.tile.StatModifier.Clear();
-		this.tile.StatModifier.Add(new StatModifier(-999, ModifierType.Type_BonusMalus, ModifierStat.Stat_Move, 3));
+		this.tile.StatModifier.Add(new StatModifier(-999, ModifierType.Type_BonusMalus, ModifierStat.Stat_Move, 2));
 	}
 
 	public void addFontaine(int power)
@@ -160,6 +172,8 @@ public class TileController : MonoBehaviour
 		this.tileView.tileVM.toDisplayIcon = true;
 		this.tileModification = TileModification.Fontaine_de_Jouvence;
 		this.tileView.tileVM.icon = this.icons [3];
+		statModifierActive = true;
+		statModifierEachTurn = true;
 		this.tile.StatModifier.Clear();
 		this.tile.StatModifier.Add(new StatModifier(-power, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage));
 	}

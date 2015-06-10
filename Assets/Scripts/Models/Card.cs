@@ -42,7 +42,7 @@ public class Card
 	public int PercentageToNextLevel;
 	public DateTime OnSaleDate;
 	public List<StatModifier> modifiers = new List<StatModifier>();
-	public List<StatModifier> TileModifier = new List<StatModifier>();
+	public List<StatModifier> TileModifiers = new List<StatModifier>();
 	public int onSale ;
 	public int RenameCost = 200;
 	public string Error;
@@ -230,7 +230,7 @@ public class Card
 		{
 			attack = modifier.modifyAttack(attack);
 		}
-		foreach (StatModifier modifier in TileModifier)
+		foreach (StatModifier modifier in TileModifiers)
 		{
 			attack = modifier.modifyAttack(attack);
 		}
@@ -248,7 +248,7 @@ public class Card
 		{
 			life = modifier.modifyLife(life);
 		}
-		foreach (StatModifier modifier in TileModifier)
+		foreach (StatModifier modifier in TileModifiers)
 		{
 			life = modifier.modifyLife(life);
 		}
@@ -267,7 +267,7 @@ public class Card
 		{
 			speed = modifier.modifySpeed(speed);
 		}
-		foreach (StatModifier modifier in TileModifier)
+		foreach (StatModifier modifier in TileModifiers)
 		{
 			speed = modifier.modifySpeed(speed);
 		}
@@ -286,7 +286,7 @@ public class Card
 		{
 			move = modifier.modifyMove(move);
 		}
-		foreach (StatModifier modifier in TileModifier)
+		foreach (StatModifier modifier in TileModifiers)
 		{
 			move = modifier.modifyMove(move);
 		}
@@ -342,6 +342,22 @@ public class Card
 			}
 		}
 		modifiers = temp;
+
+		temp = new List<StatModifier>();
+		foreach (StatModifier modifier in TileModifiers)
+		{
+			if (!modifier.Active)
+			{
+				modifier.Active = true;
+				modifier.Duration--;
+				temp.Add(modifier);
+			} else if (modifier.Duration != 0)
+			{
+				temp.Add(modifier);
+				modifier.Duration--;
+			}
+		}
+		TileModifiers = temp;
 	}
 
 	/// <summary>

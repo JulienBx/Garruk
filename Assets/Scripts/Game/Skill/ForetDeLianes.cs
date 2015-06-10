@@ -16,30 +16,15 @@ public class ForetDeLianes : GameSkill
 	
 	public override void resolve(int[] args)
 	{
-		int amount = GameController.instance.getCurrentSkill().Power;
+		int amount = GameController.instance.getCurrentSkill().ManaCost;
 
 		GameController.instance.play(GameController.instance.getCurrentCard().Title + 
 			" a lancé Foret de Lianes \n -" +
-			amount + " pour les déplacamements sur la case");
+			amount + "% pour les déplacamements sur la case");
 		
-		int targetID = args [0];
-		
-		int decade = targetID / 10;
-
-		TileController tileController = GameController.instance.getTile(decade, targetID - decade * 10);
-		//tileController.tile.StatModifier = new StatModifier(-amount, ModifierType.Type_Multiplier, ModifierStat.Stat_Move);
-		tileController.addForetIcon();
-		foreach (Tile til in tileController.tile.getImmediateNeighbouringTiles())
-		{
-			TileController tc = GameController.instance.getTile(til.x, til.y);
-			tc.addForetIcon();
-			//tc.tile.StatModifier = new StatModifier(-amount, ModifierType.Type_Multiplier, ModifierStat.Stat_Move);
-			if (GameController.instance.getTile(til.x, til.y).characterID != -1)
-			{
-				GameController.instance.getPCC(GameController.instance.getTile(til.x, til.y).characterID).card.TileModifier = tc.tile.StatModifier;
-			}
-		}
-
+		int targetX = args [0];
+		int targetY = args [1];
+		GameController.instance.addTileModifier(1, amount, targetX, targetY);
 	}
 	
 	public override bool isLaunchable(Skill s)

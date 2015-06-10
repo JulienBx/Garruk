@@ -16,7 +16,7 @@ public class TempleSacre : GameSkill
 	
 	public override void resolve(int[] args)
 	{
-		int amount = GameController.instance.getCurrentSkill().Power;
+		int amount = GameController.instance.getCurrentSkill().ManaCost;
 		string pluriel = amount > 1 ? "s" : "";
 
 		GameController.instance.play(GameController.instance.getCurrentCard().Title + 

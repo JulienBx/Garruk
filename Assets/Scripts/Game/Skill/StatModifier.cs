@@ -46,7 +46,13 @@ public class StatModifier
 	{
 		if (Stat == ModifierStat.Stat_Attack && Active)
 		{
-			attack += Amount;
+			if (Type == ModifierType.Type_BonusMalus)
+			{
+				attack += Amount;
+			} else if (Type == ModifierType.Type_Multiplier)
+			{
+				attack = attack + Amount * attack / 100;
+			}
 		}
 		return attack;
 	}
@@ -54,8 +60,13 @@ public class StatModifier
 	{
 		if (Stat == ModifierStat.Stat_Speed && Active)
 		{
-			speed += Amount;
-			
+			if (Type == ModifierType.Type_BonusMalus)
+			{
+				speed += Amount;
+			} else if (Type == ModifierType.Type_Multiplier)
+			{
+				speed = speed + Amount * speed / 100;
+			}
 		}
 		return speed;
 	}
@@ -63,7 +74,13 @@ public class StatModifier
 	{
 		if (Stat == ModifierStat.Stat_Move && Active)
 		{
-			move += Amount;
+			if (Type == ModifierType.Type_BonusMalus)
+			{
+				move += Amount;
+			} else if (Type == ModifierType.Type_Multiplier)
+			{
+				move = move + Amount * move / 100;
+			}
 		}
 		return move;
 	}
@@ -72,11 +89,23 @@ public class StatModifier
 	{
 		if (Stat == ModifierStat.Stat_Life && Active)
 		{
-			life += Amount;
+			if (Type == ModifierType.Type_BonusMalus)
+			{
+				life += Amount;
+			} else if (Type == ModifierType.Type_Multiplier)
+			{
+				life = life + Amount * life / 100;
+			}
 		}
 		if (Stat == ModifierStat.Stat_Dommage)
 		{
-			life -= Amount;
+			if (Type == ModifierType.Type_BonusMalus)
+			{
+				life -= Amount;
+			} else if (Type == ModifierType.Type_Multiplier)
+			{
+				life = life - Amount * life / 100;
+			}
 		}
 		return life;
 	}
