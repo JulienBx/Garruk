@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class AttaqueFrontale : GameSkill
+public class AttaqueCirculaire : GameSkill
 {
-	public AttaqueFrontale()
+	public AttaqueCirculaire()
 	{
 		
 	}
@@ -33,7 +33,7 @@ public class AttaqueFrontale : GameSkill
 		else{
 			message += "\n"+GameController.instance.getCard(targetID).Title+" esquive l'attaque";
 		}
-	
+		
 		GameController.instance.play(message);	
 	}
 	
