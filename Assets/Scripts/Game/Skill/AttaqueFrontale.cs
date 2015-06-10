@@ -1,37 +1,39 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class AttaquePrecise : GameSkill
+public class AttaqueFrontale : GameSkill
 {
-	public AttaquePrecise()
+	public AttaqueFrontale()
 	{
 		
 	}
 	
 	public override void launch()
 	{
-		Debug.Log("Je lance attaque précise");
-		GameController.instance.lookForAdjacentTarget("Choisir une cible à attaquer", "Lancer att. pré.");
+		Debug.Log("Je lance attaque frontale");
+		GameController.instance.lookForAdjacentTarget("Choisir une cible à attaquer", "Lancer att. fro.");
 	}
 	
 	public override void resolve(int[] args)
 	{
 		int targetID = args [0];
 		
-		int a = -1*GameController.instance.getCurrentSkill().ManaCost / 2;
-		int attack = GameController.instance.getCurrentCard().Attack / 2 ;
+		int degats = GameController.instance.getCurrentSkill().ManaCost / 2;
+		int attack = GameController.instance.getCurrentSkill().ManaCost ;
 		
-		string message = GameController.instance.getCurrentCard().Title+" porte une attaque précise sur "+GameController.instance.getCard(targetID).Title;
+		string message = GameController.instance.getCurrentCard().Title+" porte une attaque frontale sur "+GameController.instance.getCard(targetID).Title;
 		
 		if (Random.Range(1, 100) > GameController.instance.getCard(targetID).GetEsquive()){
-			message += "\n"+GameController.instance.getCurrentCard().Title+" inflige "+attack+" dégats et diminue de "+a+" l'attaque de "+GameController.instance.getCard(targetID).Title;
+			message += "\n"+GameController.instance.getCurrentCard().Title+" inflige "+attack+" dégats à "+GameController.instance.getCard(targetID).Title;
+			message += "\n"+GameController.instance.getCurrentCard().Title+" s'inflige "+attack+" dégats ";
+			
 			GameController.instance.addModifier(targetID, attack, (int)ModifierType.Type_BonusMalus, (int)ModifierStat.Stat_Dommage);
-			GameController.instance.addModifier(targetID, a, (int)ModifierType.Type_BonusMalus, (int)ModifierStat.Stat_Attack, 1);
+			GameController.instance.addModifier(targetID, degats, (int)ModifierType.Type_BonusMalus, (int)ModifierStat.Stat_Dommage);
 		}
 		else{
 			message += "\n"+GameController.instance.getCard(targetID).Title+" esquive l'attaque";
 		}
-		
+	
 		GameController.instance.play(message);	
 	}
 	
