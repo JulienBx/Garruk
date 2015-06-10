@@ -13,6 +13,7 @@ public class SkillBookController : Photon.MonoBehaviour
 	private SkillBookModel model;
 	private SkillBookView view;
 	public GameObject MenuObject;
+	public GameObject TutorialObject;
 	public GUIStyle[] skillsVMStyle;
 	public GUIStyle[] bookVMStyle;
 	public GUIStyle[] statsVMStyle;
@@ -30,8 +31,9 @@ public class SkillBookController : Photon.MonoBehaviour
 	private int[] cardTypesNbSkills;
 	private int[] cardTypesNbCards;
 	private int globalPercentage;
-
-
+	private bool isTutorialLaunched;
+	private GameObject tutorial;
+	
 	void Start()
 	{
 		instance = this;
@@ -50,12 +52,23 @@ public class SkillBookController : Photon.MonoBehaviour
 		this.displayCTypeSelected ();
 		this.initSkillsPagination ();
 		this.displaySkillsPage ();
+		if(!model.player.SkillBookTutorial)
+		{
+			this.tutorial = Instantiate(this.TutorialObject) as GameObject;
+			MenuObject.GetComponent<MenuController>().setTutorialLaunched(true);
+			this.tutorial.GetComponent<TutorialObjectController>().launchSequence(800);
+			this.isTutorialLaunched=true;
+		}
 	}
 	public void loadAll()
 	{
 		this.resize ();
 		this.initSkillsPagination();
 		this.displaySkillsPage ();
+		if(isTutorialLaunched)
+		{
+			this.tutorial.GetComponent<TutorialObjectController>().resize();
+		}
 	}
 	private void computeIndicators()
 	{
@@ -449,5 +462,18 @@ public class SkillBookController : Photon.MonoBehaviour
 	{
 		ApplicationModel.skillChosen = view.skillsVM.names [chosenSkill];
 		Application.LoadLevel ("MyGame");
+	}
+	public void setButtonsGui(bool value)
+	{
+		view.bookVM.buttonsEnabled =value;
+	}
+	public IEnumerator endTutorial()
+	{
+		yield return StartCoroutine (model.player.setSkillBookTutorial(true));
+		MenuController.instance.setButtonsGui (true);
+		Destroy (this.tutorial);
+		this.isTutorialLaunched = false;
+		MenuController.instance.isTutorialLaunched = false;
+		this.setButtonsGui (true);
 	}
 }

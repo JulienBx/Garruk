@@ -12,12 +12,14 @@ public class SkillBookBookViewModel
 	public GUIStyle bookBackgroundStyle;
 	public GUIStyle nextButtonStyle;
 	public GUIStyle backButtonStyle;
+	public bool buttonsEnabled;
 	
 	public SkillBookBookViewModel ()
 	{
 		this.bookBackgroundStyle = new GUIStyle ();
 		this.nextButtonStyle = new GUIStyle ();
 		this.backButtonStyle = new GUIStyle ();
+		this.buttonsEnabled = true;
 	}
 	public void initStyles()
 	{
