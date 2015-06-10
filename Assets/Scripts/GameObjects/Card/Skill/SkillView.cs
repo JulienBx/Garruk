@@ -47,13 +47,13 @@ public class SkillView : MonoBehaviour
 		}
 		gameObject.transform.FindChild ("Skill").GetComponent<TextMesh> ().text = skillVM.name;
 		gameObject.transform.FindChild ("PictoSkill").renderer.material.mainTexture = skillVM.picto;
-		gameObject.transform.FindChild ("PictoMetalSkill").FindChild ("SkillForce").GetComponent<TextMesh> ().text = skillVM.power + "/" +skillVM.manaCost ;
+		gameObject.transform.FindChild ("PictoMetalSkill").FindChild ("SkillForce").GetComponent<TextMesh> ().text = skillVM.power.ToString();
 	}
 	public void setTextResolution(float resolution)
 	{
 		gameObject.transform.FindChild ("Skill").GetComponent<TextMesh>().fontSize = Mathf.RoundToInt(resolution * 12);	
 		gameObject.transform.FindChild ("Skill").localScale = new Vector3(0.06f/resolution,0.6f/resolution,0);
-		gameObject.transform.FindChild ("PictoMetalSkill").FindChild ("SkillForce").GetComponent<TextMesh> ().fontSize = Mathf.RoundToInt(resolution * 12);	
+		gameObject.transform.FindChild ("PictoMetalSkill").FindChild ("SkillForce").GetComponent<TextMesh> ().fontSize = Mathf.RoundToInt(resolution * 16);	
 		gameObject.transform.FindChild ("PictoMetalSkill").FindChild ("SkillForce").localScale = new Vector3(0.3f/resolution,0.7f/resolution,0);
 		//Vector2 size = GUI.skin.GetStyle("ProgressBarText").CalcSize(GUIContent(label));
 	}
