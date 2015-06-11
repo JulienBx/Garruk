@@ -8,11 +8,13 @@ public class EndGameViewModel {
 	
 	public GUIStyle[] styles;
 	public GUIStyle buttonStyle;
+	public bool exitButtonEnabled;
 	
 	public EndGameViewModel ()
 	{
 		this.styles=new GUIStyle[0];
 		this.buttonStyle = new GUIStyle ();
+		this.exitButtonEnabled = true;
 	}
 	public void initStyles()
 	{

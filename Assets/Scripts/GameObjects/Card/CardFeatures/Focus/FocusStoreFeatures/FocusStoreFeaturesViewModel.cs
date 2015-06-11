@@ -12,11 +12,12 @@ public class FocusStoreFeaturesViewModel
 	public int cardLevel;
 	public bool isOnSale;
 	public int price;
-
+	public bool exitButtonEnabled;
 
 	public FocusStoreFeaturesViewModel ()
 	{
 		this.cardFeaturesFocusRects=new Rect[5];
+		this.exitButtonEnabled = true;
 	}
 
 

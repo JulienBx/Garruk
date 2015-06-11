@@ -173,7 +173,7 @@ MonoBehaviour:
   tutorialVMStyle:
   - m_Name: block Background Style
     m_Normal:
-      m_Background: {fileID: 2800000, guid: 58f1295ab448c41f3bcf1e854843274b, type: 3}
+      m_Background: {fileID: 2800000, guid: 6fe37b4a5baa64f50b81aa1c1a976de2, type: 3}
       m_TextColor: {r: 0, g: 0, b: 0, a: 1}
     m_Hover:
       m_Background: {fileID: 0}

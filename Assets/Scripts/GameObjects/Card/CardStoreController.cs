@@ -10,6 +10,7 @@ public class CardStoreController : CardController
 {
 
 	private FocusStoreFeaturesView focusStoreFeaturesView;
+	private bool isTutorialLaunched;
 
 	public CardStoreController  ()
 	{
@@ -90,6 +91,10 @@ public class CardStoreController : CardController
 	public void exitFocus()
 	{
 		StoreController.instance.exitCard (); 
+		if(isTutorialLaunched)
+		{
+			StoreController.instance.tutorialCardLeaved();
+		}
 	}
 	public override void setGUI(bool value)
 	{
@@ -100,6 +105,7 @@ public class CardStoreController : CardController
 		if(this.focusStoreFeaturesView!=null)
 		{
 			focusStoreFeaturesView.cardFeaturesFocusVM.guiEnabled=value;
+			this.setExitButtonsGui (value);
 		}
 	}
 	public override void popUpDisplayed(bool value)
@@ -143,10 +149,18 @@ public class CardStoreController : CardController
 			StartCoroutine(StoreController.instance.editSellPriceCard(tempInt, gameObject));
 		}
 	}
+	public void setExitButtonsGui(bool value)
+	{
+		focusStoreFeaturesView.focusStoreFeaturesVM.exitButtonEnabled = value;
+	}
 	public override void unsellCard()
 	{
 		base.unsellCard();
 		StartCoroutine(StoreController.instance.unsellCard(gameObject));
+	}
+	public void setIsTutorialLaunched(bool value)
+	{
+		this.isTutorialLaunched = value;
 	}
 }
 

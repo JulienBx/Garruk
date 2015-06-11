@@ -45,7 +45,8 @@ public class StoreModel
 		User player = new User();
 		player.CardTypesAllowed=new List<int>();
 		player.IsAdmin=System.Convert.ToBoolean(System.Convert.ToInt32(array[0]));
-		for(int i = 1 ; i < array.Length-1 ; i++)
+		player.TutorialStep=System.Convert.ToInt32(array[1]);
+		for(int i = 2 ; i < array.Length-1 ; i++)
 		{
 			player.CardTypesAllowed.Add (System.Convert.ToInt32(array[i]));
 		}

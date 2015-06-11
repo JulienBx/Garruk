@@ -13,12 +13,14 @@ public class DivisionLobbyViewModel
 	public GUIStyle paginationStyle;
 	public GUIStyle paginationActivatedStyle;
 	public GUIStyle buttonStyle;
+	public bool buttonsEnabled;
 	
 	public DivisionLobbyViewModel ()
 	{
 		this.styles=new GUIStyle[0];
 		this.paginationStyle = new GUIStyle ();
 		this.buttonStyle = new GUIStyle ();
+		this.buttonsEnabled = true;
 	}
 	public void initStyles()
 	{

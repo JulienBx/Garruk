@@ -11,6 +11,7 @@ public class StoreController : MonoBehaviour
 	public static StoreController instance;
 	public GameObject MenuObject;
 	public GameObject CardObject;
+	public GameObject TutorialObject;
 	public GUIStyle[] storeVMStyle;
 	public GUIStyle[] packsVMStyle;
 	public GUIStyle[] popUpVMStyle;
@@ -32,6 +33,8 @@ public class StoreController : MonoBehaviour
 	private Quaternion target;
 	private GameObject cardPopUpBelongTo;
 	private int selectedPackIndex;
+	private bool isTutorialLaunched;
+	private GameObject tutorial;
 	
 	public StoreController ()
 	{
@@ -82,6 +85,13 @@ public class StoreController : MonoBehaviour
 							}
 							view.storeVM.guiEnabled=true;
 							this.startRotation=false;
+							if(isTutorialLaunched)
+							{
+								if(this.tutorial.GetComponent<TutorialObjectController>().getSequenceID()==902)
+								{
+									this.tutorial.GetComponent<TutorialObjectController>().actionIsDone();
+								}
+							}
 						}
 					}
 					this.target = Quaternion.Euler(0, this.angle, 0);
@@ -98,6 +108,13 @@ public class StoreController : MonoBehaviour
 		this.initializePagination ();
 		this.displayPage ();
 		this.resize ();
+		if(model.player.TutorialStep==6)
+		{
+			this.tutorial = Instantiate(this.TutorialObject) as GameObject;
+			MenuObject.GetComponent<MenuController>().setTutorialLaunched(true);
+			this.tutorial.GetComponent<TutorialObjectController>().launchSequence(900);
+			this.isTutorialLaunched=true;
+		}
 	}
 	private void initVM()
 	{
@@ -193,6 +210,10 @@ public class StoreController : MonoBehaviour
 		{
 			this.newSkillsPopUpResize();
 		}
+		if(isTutorialLaunched)
+		{
+			this.tutorial.GetComponent<TutorialObjectController>().resize();
+		}
 	}
 	public void rightClickedCard(GameObject gameObject)
 	{
@@ -221,6 +242,13 @@ public class StoreController : MonoBehaviour
 		else
 		{
 			StartCoroutine(this.getCards());
+		}
+		if(isTutorialLaunched)
+		{
+			if(this.tutorial.GetComponent<TutorialObjectController>().getSequenceID()==901)
+			{
+				this.tutorial.GetComponent<TutorialObjectController>().actionIsDone();
+			}
 		}
 	}
 	public void buyPackWidthCardTypeHandler()
@@ -283,6 +311,10 @@ public class StoreController : MonoBehaviour
 				this.randomCards [i].GetComponent<CardController>().setGameObject(name,scale,position);
 				this.randomCards [i].GetComponent<CardStoreController>().setStoreCard(model.packList[this.selectedPackIndex].Cards[i]);
 				this.randomCards [i].GetComponent<CardController>().setGameObjectRotation(rotation);
+				if(isTutorialLaunched && i==0)
+				{
+					this.randomCards [i].GetComponent<CardStoreController>().setIsTutorialLaunched(true);
+				}
 			}
 			this.startRotation = true;
 			this.toRotate [0] = true;
@@ -480,6 +512,10 @@ public class StoreController : MonoBehaviour
 		if(this.cardFocused!=null)
 		{
 			this.cardFocused.GetComponent<CardController>().setMyGUI(value);
+		}
+		if(!isTutorialLaunched)
+		{
+			this.setButtonsGui(value);
 		}
 	}
 	public void popUpDisplayed(bool value, GameObject gameObject)
@@ -790,5 +826,38 @@ public class StoreController : MonoBehaviour
 	{
 		view.packsVM.pageDebut = view.packsVM.pageDebut+10;
 		view.packsVM.pageFin = Mathf.Min(view.packsVM.pageFin+10, view.packsVM.nbPages);
+	}
+	public void setButtonsGui(bool value)
+	{
+		for(int i=0;i<view.storeVM.buttonsEnabled.Length;i++)
+		{
+			view.storeVM.buttonsEnabled[i]=value;
+		}
+	}
+	public void setButtonGui(int index, bool value)
+	{
+		view.storeVM.buttonsEnabled[index]=value;
+	}
+	public IEnumerator endTutorial()
+	{
+		MenuController.instance.setButtonsGui (false);
+		yield return StartCoroutine (model.player.setTutorialStep (-1));
+		Application.LoadLevel ("MyGame");
+	}
+	public void tutorialCardLeaved()
+	{
+		this.tutorial.GetComponent<TutorialObjectController> ().actionIsDone ();
+	}
+	public Vector2 getCardsPosition()
+	{
+		return this.randomCards[0].GetComponent<CardController>().GOPosition;
+	}
+	public Vector2 getCardsSize()
+	{
+		return this.randomCards[0].GetComponent<CardController>().GOSize;
+	}
+	public void setExitButtonGui(bool value)
+	{
+		this.randomCards[0].GetComponent<CardStoreController> ().setExitButtonsGui(value);
 	}
 }

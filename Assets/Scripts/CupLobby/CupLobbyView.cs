@@ -60,6 +60,7 @@ public class CupLobbyView : MonoBehaviour
 		
 		GUILayout.BeginArea(screenVM.blockTopRight,screenVM.blockBackgroundStyle);
 		{
+			GUI.enabled=cupLobbyVM.buttonsEnabled;
 			if(GUILayout.Button("Jouer",cupLobbyVM.buttonStyle))
 			{
 				CupLobbyController.instance.joinCupGame();
@@ -68,6 +69,7 @@ public class CupLobbyView : MonoBehaviour
 			{
 				CupLobbyController.instance.quitCupLobby();
 			}
+			GUI.enabled=true;
 		}
 		GUILayout.EndArea();
 		GUILayout.BeginArea (screenVM.blockMiddleRight, screenVM.blockBackgroundStyle);

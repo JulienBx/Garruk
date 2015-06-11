@@ -11,11 +11,13 @@ public class DivisionLobbyModel
 	
 	public IList<PlayerResult> results;
 	public Division currentDivision;
+	public User player;
 
 	public DivisionLobbyModel ()
 	{
 		this.results = new List<PlayerResult> ();
 		this.currentDivision = new Division ();
+		this.player = new User ();
 	}
 	public IEnumerator getDivisionLobbyData()
 	{
@@ -34,6 +36,7 @@ public class DivisionLobbyModel
 			string[] data=w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
 			this.results = this.parseResults(data[0].Split(new string[] { "#RESULT#" }, System.StringSplitOptions.None));
 			this.currentDivision = this.parseDivision(data[1].Split(new string[] { "//" }, System.StringSplitOptions.None));
+			this.player.DivisionLobbyTutorial=System.Convert.ToBoolean(System.Convert.ToInt32(data[2]));
 			ApplicationModel.currentDivision=this.currentDivision;
 		}
 	}
