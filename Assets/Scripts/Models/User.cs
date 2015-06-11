@@ -389,7 +389,15 @@ public class User
 		} 
 		else 
 		{
-			this.TutorialStep=step;
+			if(w.text.Contains("#ERROR#"))
+			{
+				string[] errors = w.text.Split(new string[] { "#ERROR#" }, System.StringSplitOptions.None);
+				Debug.Log (errors[1]);
+			}
+			else
+			{
+				this.TutorialStep=step;
+			}
 		}
 	}
 	public IEnumerator setMarketTutorial(bool step)

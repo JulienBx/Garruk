@@ -270,13 +270,19 @@ public class AuthenticationController : MonoBehaviour
 			Application.LoadLevel("Tutorial");	
 			break;
 		case 1:
-				Application.LoadLevel("Homepage");
+			Application.LoadLevel("Homepage");
 			break;
 		case 2:
 			Application.LoadLevel("MyGame");
 			break;
 		case 3:
 			Application.LoadLevel("Lobby");
+			break;
+		case 5:
+			Application.LoadLevel("EndGame");
+			break;
+		case 6:
+			Application.LoadLevel("Store");
 			break;
 		default:
 			Application.LoadLevel("HomePage");	

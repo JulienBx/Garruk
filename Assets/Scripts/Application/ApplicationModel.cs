@@ -11,7 +11,7 @@ public class ApplicationModel : MonoBehaviour
 {
 	static public string host = "http://54.77.118.214/GarrukServer/";	// Adresse du serveur
 	static public string dev = "http://localhost/GarrukServer/";		// Adresse du serveur
-	static public string username = "yoann"; 							// Pseudo de l'utilisateur connecté
+	static public string username = ""; 
 	static public string hash = "J8xy9Uz4"; 						// Clé secrète
 	static public Deck selectedDeck;								// Deck à afficher
 	static public string photonSettings = "0.2";                    // identifiant utilisé par Photon A mettre à jour à chaque nouvelle version
@@ -130,9 +130,10 @@ public class ApplicationModel : MonoBehaviour
 			} else
 			{
 				error = "";
-				username = nick;
+				string[] data = w.text.Split(new string[] { "//" }, System.StringSplitOptions.None);
 				toDeconnect = false;
-				tutorialStep = System.Convert.ToInt32(w.text);
+				username = data [0];
+				tutorialStep = System.Convert.ToInt32(data [1]);
 			}											
 		}
 	}
