@@ -259,10 +259,7 @@ public class Card
 		}
 		
 		TileModifiers.Clear();
-		if (dommage1 > 0)
-		{
-			TileModifiers.AddRange(temp);
-		}
+		TileModifiers.AddRange(temp);
 
 		List<StatModifier> temp2 = new List<StatModifier>();
 		foreach (StatModifier modifier in modifiers)
@@ -291,7 +288,6 @@ public class Card
 		{
 			life = modifier.modifyLife(life);
 		}
-		life -= dommage1 + dommage2;
 
 		if (life < 0)
 		{
