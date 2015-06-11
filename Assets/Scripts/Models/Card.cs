@@ -244,28 +244,54 @@ public class Card
 	public int GetLife()
 	{
 		int life = Life;
-		int dommage = 0;
+		int dommage1 = 0, dommage2 = 0;
+
+		List<StatModifier> temp = new List<StatModifier>();
+		foreach (StatModifier modifier in TileModifiers)
+		{
+			if (modifier.Stat == ModifierStat.Stat_Dommage)
+			{
+				dommage1 = modifier.Amount;
+			} else
+			{
+				temp.Add(modifier);
+			}
+		}
+		
+		TileModifiers.Clear();
+		if (dommage1 > 0)
+		{
+			TileModifiers.AddRange(temp);
+		}
+
+		List<StatModifier> temp2 = new List<StatModifier>();
+		foreach (StatModifier modifier in modifiers)
+		{
+			if (modifier.Stat == ModifierStat.Stat_Dommage)
+			{
+				dommage2 = modifier.Amount;
+			} else
+			{
+				temp2.Add(modifier);
+			}
+		}
+
+		modifiers.Clear();
+		if (dommage1 + dommage2 > 0)
+		{
+			modifiers.Add(new StatModifier(dommage1 + dommage2, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage));
+			modifiers.AddRange(temp2);
+		}
+
 		foreach (StatModifier modifier in modifiers)
 		{
 			life = modifier.modifyLife(life);
-//			if (modifier.Stat == ModifierStat.Stat_Dommage)
-//			{
-//				if (Type == ModifierType.Type_BonusMalus)
-//				{
-//					dommage -= modifier.Amount;
-//					if (dommage < 0)
-//					{
-//						dommage = 0;
-//					}
-//				}
-//			}
-
 		}
 		foreach (StatModifier modifier in TileModifiers)
 		{
 			life = modifier.modifyLife(life);
 		}
-
+		life -= dommage1 + dommage2;
 
 		if (life < 0)
 		{

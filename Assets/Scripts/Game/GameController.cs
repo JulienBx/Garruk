@@ -1056,6 +1056,8 @@ public class GameController : Photon.MonoBehaviour
 			this.isDragging = true;
 		}
 		this.playingCards [currentPlayingCard].GetComponentInChildren<PlayingCardController>().card.changeModifiers();
+		loadTileModifierToCharacter(getCurrentPCC().tile.x, getCurrentPCC().tile.y);
+
 		this.playingCards [currentPlayingCard].GetComponentInChildren<PlayingCardController>().show();
 
 		if ((currentPlayingCard < 5 && this.isFirstPlayer) || (currentPlayingCard >= 5 && !this.isFirstPlayer))
@@ -2075,7 +2077,7 @@ public class GameController : Photon.MonoBehaviour
 		TileController tileController = this.getTile(x, y).GetComponent<TileController>();
 		if (tileController.characterID != -1)
 		{
-			if (tileController.statModifierActive = true)
+			if (tileController.statModifierActive == true)
 			{
 				foreach (StatModifier sm in tileController.tile.StatModifier)
 				{
