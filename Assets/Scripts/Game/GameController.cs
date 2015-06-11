@@ -236,7 +236,6 @@ public class GameController : Photon.MonoBehaviour
 		}
 		this.skillsObjects [4].GetComponent<SkillObjectController>().setAttack();
 		this.skillsObjects [5].GetComponent<SkillObjectController>().setPass();
-		
 	}
 
 	public void resizeBackground()
@@ -736,7 +735,9 @@ public class GameController : Photon.MonoBehaviour
 			}
 		}
 		
-		this.updateStatusMySkills(idc);
+		if (nbTurns!=0){
+			this.updateStatusMySkills(idc);
+		}
 		
 		bool isActive = !(nbTurns == 0) && (idc == this.currentPlayingCard);
 		this.skillsObjects [4].GetComponent<SkillObjectController>().setActive(isActive);

@@ -10,7 +10,6 @@ public class PiegeALoups : GameSkill
 	
 	public override void launch()
 	{
-		Debug.Log("Je lance piege a loups");
 		GameController.instance.lookForEmptyAdjacentTile("Choisir une case à piéger", "Lancer piège à loups");
 	}
 	
@@ -19,11 +18,13 @@ public class PiegeALoups : GameSkill
 		int tileX = args [0];
 		int tileY = args [1];
 		
+		int myPlayerID = GameController.instance.currentPlayingCard;
+		string myPlayerName = GameController.instance.getCurrentCard().Title;
+		
 		int amount = GameController.instance.getCurrentSkill().ManaCost;
-		string message = GameController.instance.getCurrentCard()+" pose un piège à loups";
 		
 		GameController.instance.addTrap(tileX, tileY, 0, amount);	
-		GameController.instance.play(message);	
+		GameController.instance.displaySkillEffect(myPlayerID, myPlayerName+" pose un piège à loups", 3, 0);
 	}
 	
 	public override bool isLaunchable(Skill s){
@@ -35,8 +36,6 @@ public class PiegeALoups : GameSkill
 		bool isLaunchable = false ;
 		int i = 0 ;
 		int tempInt ; 
-		
-		GameController.instance.displaySkillEffect(myPlayerID, myPlayerName+" pose un piège à loups", 3, 0);
 		
 		while (!isLaunchable && i<tempTiles.Count){
 			t = tempTiles[i];
