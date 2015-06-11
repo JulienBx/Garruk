@@ -420,6 +420,7 @@ public class TutorialObjectController : MonoBehaviour
 		case 211:
 			if(!isResizing)
 			{
+				MyGameController.instance.setGUI(true);
 				MyGameController.instance.setButtonsGui(false);
 				MyGameController.instance.setButtonGui(1,true);
 				view.VM.displayArrow=true;
@@ -512,7 +513,7 @@ public class TutorialObjectController : MonoBehaviour
 			}
 			popUpWidth=0.35f*Screen.width;
 			popUpHeight=this.computePopUpHeight();
-			popUpX=0.3f*Screen.width;
+			popUpX=0.325f*Screen.width;
 			popUpY=0.35f*Screen.height;
 			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
 			break;
@@ -537,6 +538,577 @@ public class TutorialObjectController : MonoBehaviour
 			popUpX=arrowX+arrowWidth/2f-popUpWidth/2f;
 			popUpY=arrowY-popUpHeight-0.02f*Screen.height;
 			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			break;
+		case 500:
+			if(!isResizing)
+			{
+				MenuController.instance.setButtonsGui(false);
+				view.VM.displayArrow=false;
+				view.VM.displayNextButton=true;
+				if(MarketController.instance.getNbCardsDisplayed()>0)
+				{
+					view.VM.title="Le marché";
+					view.VM.description="Cet espace est là pour vous permettre d'acheter les cartes mises en vente par d'autres joueurs. Depuis l'écran de gestion de votre jeu, vous pourrez aussi mettre en vente vos cartes";
+				}
+				else
+				{
+					view.VM.title="Revenez un autre jour";
+					view.VM.description="Malheureusement aucune carte n'est aujourd'hui en vente. Revenez un autre jour pour découvrir le marché.";
+				}
+			}
+			MarketController.instance.setGUI(false);
+			popUpWidth=0.3f*Screen.width;
+			popUpHeight=this.computePopUpHeight();
+			popUpX=0.35f*Screen.width;
+			popUpY=0.35f*Screen.height;
+			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			break;
+		case 501:
+			if(MarketController.instance.getNbCardsDisplayed()>0)
+			{
+				if(!isResizing)
+				{
+					view.VM.displayArrow=true;
+					view.VM.displayNextButton=true;
+					view.VM.title="Les filtres";
+					view.VM.description="A terme, lorsque vous posséderez beaucoup de cartes, les filtres vous seront très utiles pour retrouver vos meilleures cartes et organiser vos decks";
+					this.setRightArrow();
+				}
+				else
+				{
+					MarketController.instance.setGUI(false);
+				}
+				MarketController.instance.setButtonGUI(true);
+				arrowHeight=(2f/3f)*0.1f*Screen.height;
+				arrowWidth=(3f/2f)*arrowHeight;
+				arrowX=0.80f*(Screen.width - 15)+10-arrowWidth;;
+				arrowY=0.5f*Screen.height-(arrowHeight/2f);
+				view.VM.arrowRect= new Rect (arrowX,arrowY,arrowWidth,arrowHeight);
+				this.drawRightArrow();
+				popUpWidth=0.35f*Screen.width;
+				popUpHeight=this.computePopUpHeight();
+				popUpX=arrowX-0.01f*Screen.width-popUpWidth;
+				popUpY=arrowY+arrowHeight/2f-popUpHeight/2f;
+				view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			}
+			else
+			{
+				StartCoroutine(MarketController.instance.endTutorial(false));
+			}
+			break;
+		case 502:
+			if(!isResizing)
+			{
+				MarketController.instance.initializeFilters();
+				view.VM.displayArrow=true;
+				view.VM.displayNextButton=true;
+				view.VM.title="Les cartes en vente";
+				view.VM.description="Tant que vos crédits vous le permettent, vous pouvez acheter les cartes sur le marché. Un clic droit sur la carte pourra vous donner davantage de précisions";
+				this.setLeftArrow();
+			}
+			MarketController.instance.setGUI(false);
+			cardPosition = MarketController.instance.getCardsPosition(0);
+			cardSize = MarketController.instance.getCardsSize(0);
+			arrowHeight=(2f/3f)*0.1f*Screen.height;
+			arrowWidth=(3f/2f)*arrowHeight;
+			arrowX=cardPosition.x+1*(cardSize.x/2f);
+			arrowY=Screen.height-cardPosition.y-(arrowHeight/2f);;
+			view.VM.arrowRect= new Rect (arrowX,arrowY,arrowWidth,arrowHeight);
+			this.drawLeftArrow();
+			popUpWidth=0.35f*Screen.width;
+			popUpHeight=this.computePopUpHeight();
+			popUpX=arrowX+arrowWidth+0.01f*Screen.width;
+			popUpY=arrowY+arrowHeight/2f-popUpHeight/2f;
+			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			break;
+		case 503:
+			if(!isResizing)
+			{
+				view.VM.displayArrow=false;
+				view.VM.displayNextButton=true;
+				view.VM.title="A vous de jouer";
+				view.VM.description="Parcourez les cartes et faites de bonnes affaires ! Bonne chance !";
+			}
+			else
+			{
+				MarketController.instance.setGUI(false);
+			}
+			popUpWidth=0.3f*Screen.width;
+			popUpHeight=this.computePopUpHeight();
+			popUpX=0.35f*Screen.width;
+			popUpY=0.35f*Screen.height;
+			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			break;
+		case 504:
+			StartCoroutine(MarketController.instance.endTutorial(true));
+			break;
+		case 600:
+			if(!isResizing)
+			{
+				MenuController.instance.setButtonsGui(false);
+				ProfileController.instance.setButtonsGui(false);
+				view.VM.displayArrow=false;
+				view.VM.displayNextButton=true;
+				view.VM.title="Votre profil de joueur";
+				view.VM.description="Bienvenue sur votre profil. Retrouvez ici tous vos amis, vos statistiques ainsi que les trophées remportées";
+			}
+			popUpWidth=0.3f*Screen.width;
+			popUpHeight=this.computePopUpHeight();
+			popUpX=0.35f*Screen.width;
+			popUpY=0.35f*Screen.height;
+			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			break;
+		case 601 :
+			if(!isResizing)
+			{
+				view.VM.displayArrow=true;
+				view.VM.displayNextButton=true;
+				view.VM.title="Vos informations personnelles";
+				view.VM.description="Sur l'encart de gauche vous retrouvez vos informations et votre photo, à tout moment vous pouvez les modifier.";
+				this.setLeftArrow();
+			}
+			arrowHeight=(2f/3f)*0.1f*Screen.height;
+			arrowWidth=(3f/2f)*arrowHeight;
+			if(Screen.height/3>180)
+			{
+				arrowX=185;
+			}
+			else
+			{
+				arrowX = Screen.height/3+5;
+			}
+			arrowY=(0.40f*Screen.height);
+			view.VM.arrowRect= new Rect (arrowX,arrowY,arrowWidth,arrowHeight);
+			this.drawLeftArrow();
+			popUpWidth=0.35f*Screen.width;
+			popUpHeight=this.computePopUpHeight();
+			popUpX=arrowX+arrowWidth+0.01f*Screen.width;
+			popUpY=arrowY+arrowHeight/2f-popUpHeight/2f;
+			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			break;
+		case 602:
+			if(!isResizing)
+			{
+				view.VM.displayArrow=true;
+				view.VM.displayNextButton=true;
+				view.VM.title="Vos amis";
+				view.VM.description="La partie centrale est dédiée à vos amis. En ajoutant un ami, vous retrouverez sur votre page d'accueil des informations sur son activité dans le jeu (compétitions, amis)";
+				this.setUpArrow();
+			}
+			arrowHeight=0.1f*Screen.height;
+			arrowWidth=(2f/3f)*arrowHeight;
+			arrowX=0.5f*Screen.width-(arrowWidth/2f);
+			arrowY=0.35f*Screen.height;
+			view.VM.arrowRect= new Rect (arrowX,arrowY,arrowWidth,arrowHeight);
+			this.drawUpArrow();
+			popUpWidth=0.3f*Screen.width;
+			popUpHeight=this.computePopUpHeight();
+			popUpX=arrowX+arrowWidth/2f-popUpWidth/2f;
+			popUpY=arrowY+arrowHeight+0.02f*Screen.height;
+			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			break;
+		case 603:
+			if(!isResizing)
+			{
+				view.VM.displayArrow=true;
+				view.VM.displayNextButton=true;
+				view.VM.title="Gérer vos amis";
+				view.VM.description="Vous retrouvez les invitations envoyés";
+				this.setDownArrow();
+			}
+			arrowHeight=0.1f*Screen.height;
+			arrowWidth=(2f/3f)*arrowHeight;
+			if(Screen.height/3>180)
+			{
+				arrowX=(Screen.width/2f-5f-190f)/2f + 190f-arrowWidth/2f;
+			}
+			else
+			{
+				arrowX = (Screen.width/2f-5f-(Screen.height/3f+10f))/2f + (Screen.height/3f+10f)-arrowWidth/2f;
+			}
+			arrowY=0.45f*Screen.height;
+			view.VM.arrowRect= new Rect (arrowX,arrowY,arrowWidth,arrowHeight);
+			this.drawDownArrow();
+			popUpWidth=0.35f*Screen.width;
+			popUpHeight=this.computePopUpHeight();
+			popUpX=arrowX+arrowWidth/2f-popUpWidth/2f;
+			popUpY=arrowY-popUpHeight-0.02f*Screen.height;
+			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			break;
+		case 604:
+			if(!isResizing)
+			{
+				view.VM.displayArrow=true;
+				view.VM.displayNextButton=true;
+				view.VM.title="Gérer vos amis";
+				view.VM.description="ainsi que les demandes des autres joueurs";
+				this.setDownArrow();
+			}
+			arrowHeight=0.1f*Screen.height;
+			arrowWidth=(2f/3f)*arrowHeight;
+			if(Screen.height/3>180)
+			{
+				arrowX=(Screen.width/2f-5f-190f)/2f + Screen.width/2f+5f-arrowWidth/2f;
+			}
+			else
+			{
+				arrowX =(Screen.width/2f-5f-(Screen.height/3f+10f))/2f + Screen.width/2f+5f-arrowWidth/2f;
+			}
+			arrowY=0.45f*Screen.height;
+			view.VM.arrowRect= new Rect (arrowX,arrowY,arrowWidth,arrowHeight);
+			this.drawDownArrow();
+			popUpWidth=0.35f*Screen.width;
+			popUpHeight=this.computePopUpHeight();
+			popUpX=arrowX+arrowWidth/2f-popUpWidth/2f;
+			popUpY=arrowY-popUpHeight-0.02f*Screen.height;
+			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			break;
+		case 605:
+			if(!isResizing)
+			{
+				view.VM.displayArrow=true;
+				view.VM.displayNextButton=true;
+				view.VM.title="Vos statistiques";
+				view.VM.description="Vous retrouvez vos statistiques en compétition ainsi que l'état d'avancement de votre collection. En cliquant sur 'Ma collection' vous retrouverez votre niveau d'acquisition des compétences";
+				this.setRightArrow();
+			}
+			arrowHeight=(2f/3f)*0.1f*Screen.height;
+			arrowWidth=(3f/2f)*arrowHeight;
+			if(Screen.height/3>180)
+			{
+				arrowX=Screen.width-185f-arrowWidth;
+			}
+			else
+			{
+				arrowX = Screen.width-(Screen.height/3f+5f)-arrowWidth;
+			}
+			arrowY=0.3f*Screen.height-(arrowHeight/2f);
+			view.VM.arrowRect= new Rect (arrowX,arrowY,arrowWidth,arrowHeight);
+			this.drawRightArrow();
+			popUpWidth=0.35f*Screen.width;
+			popUpHeight=this.computePopUpHeight();
+			popUpX=arrowX-0.01f*Screen.width-popUpWidth;
+			popUpY=arrowY+arrowHeight/2f-popUpHeight/2f;
+			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			break;
+		case 606:
+			if(!isResizing)
+			{
+				view.VM.displayArrow=true;
+				view.VM.displayNextButton=true;
+				view.VM.title="Vos trophées";
+				view.VM.description="C'est dans cette vitrine que vous retrouverez les trophées au cours du jeu";
+				this.setRightArrow();
+			}
+			arrowHeight=(2f/3f)*0.1f*Screen.height;
+			arrowWidth=(3f/2f)*arrowHeight;
+			if(Screen.height/3>180)
+			{
+				arrowX=Screen.width-185f-arrowWidth;
+			}
+			else
+			{
+				arrowX = Screen.width-(Screen.height/3f+5f)-arrowWidth;
+			}
+			arrowY=0.7f*Screen.height-(arrowHeight/2f);
+			view.VM.arrowRect= new Rect (arrowX,arrowY,arrowWidth,arrowHeight);
+			this.drawRightArrow();
+			popUpWidth=0.35f*Screen.width;
+			popUpHeight=this.computePopUpHeight();
+			popUpX=arrowX-0.01f*Screen.width-popUpWidth;
+			popUpY=arrowY+arrowHeight/2f-popUpHeight/2f;
+			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			break;
+		case 607:
+			if(!isResizing)
+			{
+				view.VM.displayArrow=false;
+				view.VM.displayNextButton=true;
+				view.VM.title="A vous de jouer";
+				view.VM.description="Commencez par mettre à jour vos informations ou bien essayez d'ajouter de nouveaux amis";
+			}
+			popUpWidth=0.3f*Screen.width;
+			popUpHeight=this.computePopUpHeight();
+			popUpX=0.35f*Screen.width;
+			popUpY=0.35f*Screen.height;
+			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			break;
+		case 608:
+			StartCoroutine(ProfileController.instance.endTutorial());
+			break;
+		case 700:
+			if(!isResizing)
+			{
+				MenuController.instance.setButtonsGui(false);
+				ProfileController.instance.setButtonsGui(false);
+				view.VM.displayArrow=false;
+				view.VM.displayNextButton=true;
+				view.VM.title="Le profil d'un joueur";
+				view.VM.description="En consultant le profil d'un autre joueur vous accédez à ces statistiques ainsi qu'à la liste de ses amis";
+			}
+			popUpWidth=0.3f*Screen.width;
+			popUpHeight=this.computePopUpHeight();
+			popUpX=0.35f*Screen.width;
+			popUpY=0.35f*Screen.height;
+			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			break;
+		case 701:
+			if(!isResizing)
+			{
+				view.VM.displayArrow=true;
+				view.VM.displayNextButton=true;
+				view.VM.title="Ajouter un ami";
+				view.VM.description="Pour ajouter ou retirer le joueur de vos amis, des boutons sont disponibles en haut à droite du profil";
+				this.setRightArrow();
+			}
+			arrowHeight=(2f/3f)*0.1f*Screen.height;
+			arrowWidth=(3f/2f)*arrowHeight;
+			if(Screen.height/3>180)
+			{
+				arrowX=Screen.width-185f-arrowWidth;
+			}
+			else
+			{
+				arrowX = Screen.width-(Screen.height/3f+5f)-arrowWidth;
+			}
+			arrowY=0.15f*Screen.height-(arrowHeight/2f);
+			view.VM.arrowRect= new Rect (arrowX,arrowY,arrowWidth,arrowHeight);
+			this.drawRightArrow();
+			popUpWidth=0.35f*Screen.width;
+			popUpHeight=this.computePopUpHeight();
+			popUpX=arrowX-0.01f*Screen.width-popUpWidth;
+			popUpY=arrowY+arrowHeight/2f-popUpHeight/2f;
+			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			break;
+		case 702:
+			if(!isResizing)
+			{
+				view.VM.displayArrow=false;
+				view.VM.displayNextButton=true;
+				view.VM.title="A vous de jouer";
+				view.VM.description="Consulter les profils de vos adversaires et tenez vous informé de leur progression";
+			}
+			popUpWidth=0.3f*Screen.width;
+			popUpHeight=this.computePopUpHeight();
+			popUpX=0.35f*Screen.width;
+			popUpY=0.35f*Screen.height;
+			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			break;
+		case 703:
+			StartCoroutine(ProfileController.instance.endTutorial());
+			break;
+		case 800:
+			if(!isResizing)
+			{
+				MenuController.instance.setButtonsGui(false);
+				SkillBookController.instance.setButtonsGui(false);
+				view.VM.displayArrow=false;
+				view.VM.displayNextButton=true;
+				view.VM.title="Le livre des compétences";
+				view.VM.description="Le livre des compétences est là pour vous donner une indication sur votre niveau de collection des compétences. Vous atteindrez le niveau ultime lorsque vous posséderez la totalité des compétences à leur niveau maximum, c'est à dire 100. Dans ce livre vous trouverez également pour chaque classe la totalité des compétences, y compris celle que vous ne possédez pas. Bonne lecture !";
+			}
+			popUpWidth=0.3f*Screen.width;
+			popUpHeight=this.computePopUpHeight();
+			popUpX=0.35f*Screen.width;
+			popUpY=0.35f*Screen.height;
+			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			break;
+		case 801:
+			StartCoroutine(SkillBookController.instance.endTutorial());
+			break;
+		case 900:
+			if(!isResizing)
+			{
+				MenuController.instance.setButtonsGui(false);
+				StoreController.instance.setButtonsGui(false);
+				view.VM.displayArrow=false;
+				view.VM.displayNextButton=true;
+				view.VM.title="Bienvenue dans le magasin";
+				view.VM.description="Le magasin est l'unique lieu ou il vous est possible d'acquérir de nouvelles cartes. Ces cartes pourront être achété grâce à la monnaie virtuelle du jeu, vous pouvez gagner des crédits en les achetant ou bien en remportant des combats.";
+			}
+			popUpWidth=0.3f*Screen.width;
+			popUpHeight=this.computePopUpHeight();
+			popUpX=0.35f*Screen.width;
+			popUpY=0.35f*Screen.height;
+			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			break;
+		case 901:
+			if(!isResizing)
+			{
+				StoreController.instance.setButtonGui(0,true);
+				view.VM.displayArrow=true;
+				view.VM.displayNextButton=false;
+				view.VM.title="Votre premier pack";
+				view.VM.description="Grâce aux gains obtenus lors de votre premier match, vous allez pouvoir acheter votre première carte. Cliquez sur le bouton 'Acheter'";
+				this.setLeftArrow();
+			}
+			arrowHeight=(2f/3f)*0.1f*Screen.height;
+			arrowWidth=(3f/2f)*arrowHeight;
+			arrowX=(Screen.width-Screen.height)/5f+Screen.height/4f;
+			arrowY=0.69f*Screen.height;
+			view.VM.arrowRect= new Rect (arrowX,arrowY,arrowWidth,arrowHeight);
+			this.drawLeftArrow();
+			popUpWidth=0.35f*Screen.width;
+			popUpHeight=this.computePopUpHeight();
+			popUpX=arrowX+arrowWidth+0.01f*Screen.width;
+			popUpY=arrowY+arrowHeight/2f-popUpHeight/2f;
+			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			break;
+		case 902:
+			if(!isResizing)
+			{
+				view.VM.displayArrow=false;
+				view.VM.displayRect=false;
+			}
+			break;
+		case 903:
+			if(!isResizing)
+			{
+				StoreController.instance.setGUI(false);
+				StoreController.instance.setExitButtonGui(true);
+				view.VM.displayRect=true;
+				view.VM.displayArrow=true;
+				view.VM.displayNextButton=false;
+				view.VM.title="Bravo !";
+				view.VM.description="Vous venez d'acheter votre première carte ! Retournons à la boutique.";
+				this.setDownArrow();
+			}
+			cardPosition = StoreController.instance.getCardsPosition();
+			cardSize = StoreController.instance.getCardsSize();
+			arrowHeight=0.1f*Screen.height;
+			arrowWidth=(2f/3f)*arrowHeight;
+			arrowX=cardPosition.x+1*(cardSize.x/2f)-(arrowWidth/2f)+cardSize.x/4f;
+			arrowY=Screen.height-cardPosition.y+0.70f*(cardSize.y/2f)-arrowHeight;
+			view.VM.arrowRect= new Rect (arrowX,arrowY,arrowWidth,arrowHeight);
+			this.drawDownArrow();
+			popUpWidth=0.35f*Screen.width;
+			popUpHeight=this.computePopUpHeight();
+			popUpX=arrowX+arrowWidth/2f-popUpWidth/2f;
+			popUpY=arrowY-popUpHeight-0.02f*Screen.height;
+			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			break;
+		case 904:
+			if(!isResizing)
+			{
+				StoreController.instance.setGUI(true);
+				StoreController.instance.setButtonsGui(false);
+				view.VM.displayRect=true;
+				view.VM.displayArrow=true;
+				view.VM.displayNextButton=true;
+				view.VM.title="Des crédits supplémentaires";
+				view.VM.description="Même si les gains en match vous permettront d'acquérir n'importe quelle carte, n'oubliez pas que vous avez toujours la possibilité d'alimenter votre portefeuille";
+				this.setDownArrow();
+			}
+			arrowHeight=0.1f*Screen.height;
+			arrowWidth=(2f/3f)*arrowHeight;
+			arrowX=Screen.width/2f-arrowWidth/2f;
+			arrowY=0.8f*Screen.height;
+			view.VM.arrowRect= new Rect (arrowX,arrowY,arrowWidth,arrowHeight);
+			this.drawDownArrow();
+			popUpWidth=0.35f*Screen.width;
+			popUpHeight=this.computePopUpHeight();
+			popUpX=arrowX+arrowWidth/2f-popUpWidth/2f;
+			popUpY=arrowY-popUpHeight-0.02f*Screen.height;
+			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			break;
+		case 905:
+			if(!isResizing)
+			{
+				MenuController.instance.setButtonsGui(false);
+				MenuController.instance.setButtonGui(2,true);
+				view.VM.displayArrow=true;
+				view.VM.displayNextButton=false;
+				view.VM.title="Félicitations";
+				view.VM.description="Vous avez terminé ce premier tutoriel. Vous pouvez désormais retourner à l'écran de gestion de vos cartes pour améliorer votre deck existant";
+				this.setUpArrow();
+			}
+			arrowHeight=0.1f*Screen.height;
+			arrowWidth=(2f/3f)*arrowHeight;
+			arrowX=0.35f*Screen.width-(arrowWidth/2f);
+			arrowY=0.08f*Screen.height;
+			view.VM.arrowRect= new Rect (arrowX,arrowY,arrowWidth,arrowHeight);
+			this.drawUpArrow();
+			popUpWidth=0.3f*Screen.width;
+			popUpHeight=this.computePopUpHeight();
+			popUpX=arrowX+arrowWidth/2f-popUpWidth/2f;
+			popUpY=arrowY+arrowHeight+0.02f*Screen.height;
+			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			break;
+		case 1000:
+			if(!isResizing)
+			{
+				MenuController.instance.setButtonsGui(false);
+				EndGameController.instance.setButtonsGui(false);
+				view.VM.displayArrow=false;
+				view.VM.displayNextButton=true;
+				view.VM.title="Après match";
+				view.VM.description="Voici l'écran d'après match, vous trouverez des statisques sur votre adversaire, et plus tard, lorsque vous disputerez des compétitions, des informations sur votre évolution";
+			}
+			popUpWidth=0.3f*Screen.width;
+			popUpHeight=this.computePopUpHeight();
+			popUpX=0.35f*Screen.width;
+			popUpY=0.35f*Screen.height;
+			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			break;
+		case 1001:
+			if(!isResizing)
+			{
+				MenuController.instance.setButtonGui(3,true);
+				view.VM.displayArrow=true;
+				view.VM.displayNextButton=false;
+				view.VM.title="Rendez vous à la boutique";
+				view.VM.description="Grâce à votre première victoire, les crédits remportés vont vous permettre d'améliorer votre jeu. Rendez vous à la boutique!";
+				this.setUpArrow();
+			}
+			arrowHeight=0.1f*Screen.height;
+			arrowWidth=(2f/3f)*arrowHeight;
+			arrowX=0.475f*Screen.width-(arrowWidth/2f);
+			arrowY=0.08f*Screen.height;
+			view.VM.arrowRect= new Rect (arrowX,arrowY,arrowWidth,arrowHeight);
+			this.drawUpArrow();
+			popUpWidth=0.3f*Screen.width;
+			popUpHeight=this.computePopUpHeight();
+			popUpX=arrowX+arrowWidth/2f-popUpWidth/2f;
+			popUpY=arrowY+arrowHeight+0.02f*Screen.height;
+			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			break;
+		case 1100:
+			if(!isResizing)
+			{
+				MenuController.instance.setButtonsGui(false);
+				DivisionLobbyController.instance.setButtonsGui(false);
+				view.VM.displayArrow=false;
+				view.VM.displayNextButton=true;
+				view.VM.title="L'écran de division";
+				view.VM.description="Cet écran montre votre évolution au sein de la division. Vous y verrez votre progression pour atteindre les divisions supérieures ainsi que vos derniers résultats";
+			}
+			popUpWidth=0.3f*Screen.width;
+			popUpHeight=this.computePopUpHeight();
+			popUpX=0.35f*Screen.width;
+			popUpY=0.35f*Screen.height;
+			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			break;
+		case 1101:
+			StartCoroutine(DivisionLobbyController.instance.endTutorial());
+			break;
+		case 1200:
+			if(!isResizing)
+			{
+				MenuController.instance.setButtonsGui(false);
+				CupLobbyController.instance.setButtonsGui(false);
+				view.VM.displayArrow=false;
+				view.VM.displayNextButton=true;
+				view.VM.title="L'écran de coupe";
+				view.VM.description="Cet écran montre votre évolution au sein de la coupe. Vous y verrez votre progression au travers des différents tours ainsi que vos derniers résultats";
+			}
+			popUpWidth=0.3f*Screen.width;
+			popUpHeight=this.computePopUpHeight();
+			popUpX=0.35f*Screen.width;
+			popUpY=0.35f*Screen.height;
+			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			break;
+		case 1201:
+			StartCoroutine(CupLobbyController.instance.endTutorial());
 			break;
 		}
 	}
@@ -614,11 +1186,17 @@ public class TutorialObjectController : MonoBehaviour
 		case 101:
 			StartCoroutine(HomePageController.instance.endTutorial());
 			break;
-		case 201: case 209: case 210: case 211: 
+		case 201: case 209: case 210: case 211: case 901: case 902: case 903:
 			this.launchSequence(this.sequenceID+1);
 			break;
 		case 214:
 			StartCoroutine(MyGameController.instance.endTutorial());
+			break;
+		case 905:
+			StartCoroutine(StoreController.instance.endTutorial());
+			break;
+		case 1001:
+			StartCoroutine(EndGameController.instance.endTutorial());
 			break;
 		}
 	}

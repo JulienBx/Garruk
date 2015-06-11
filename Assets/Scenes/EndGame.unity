@@ -171,6 +171,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MenuObject: {fileID: 187360, guid: e65524dc5104a4d1f88b72539f53fd82, type: 2}
+  TutorialObject: {fileID: 180340, guid: 1474ad9f863d24afcaf1180c03ae5275, type: 2}
   displayPopUpDelay: 2
   gaugeBackgrounds:
   - {fileID: 2800000, guid: 32081ed88f9d54cc985cb1ae38879982, type: 3}

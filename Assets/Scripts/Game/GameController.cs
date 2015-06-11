@@ -1090,6 +1090,8 @@ public class GameController : Photon.MonoBehaviour
 			this.isDragging = true;
 		}
 		this.playingCards [currentPlayingCard].GetComponentInChildren<PlayingCardController>().card.changeModifiers();
+		loadTileModifierToCharacter(getCurrentPCC().tile.x, getCurrentPCC().tile.y);
+
 		this.playingCards [currentPlayingCard].GetComponentInChildren<PlayingCardController>().show();
 
 		if ((currentPlayingCard < 5 && this.isFirstPlayer) || (currentPlayingCard >= 5 && !this.isFirstPlayer))
@@ -1512,15 +1514,13 @@ public class GameController : Photon.MonoBehaviour
 			this.tiles [this.playingCards [c].GetComponentInChildren<PlayingCardController>().tile.x, this.playingCards [c].GetComponentInChildren<PlayingCardController>().tile.y].GetComponent<TileController>().characterID = -1;
 		}
 
-		this.tiles [x, y].GetComponent<TileController>().characterID = c;
-		this.playingCards [c].GetComponentInChildren<PlayingCardController>().changeTile(new Tile(x, y), this.tiles [x, y].GetComponent<TileController>().getPosition());
+		getTile(x, y).characterID = c;
+		getTile(x, y).statModifierActive = true;
 
-		TileController newTile = getTile(x, y);
-		this.playingCards [c].GetComponentInChildren<PlayingCardController>().card.TileModifier.Clear();
-		foreach (StatModifier sm in newTile.tile.StatModifier)
-		{
-			this.playingCards [c].GetComponentInChildren<PlayingCardController>().card.TileModifier.Add(sm);
-		}
+		getPCC(c).changeTile(new Tile(x, y), getTile(x, y).getPosition());
+		getPCC(c).card.TileModifiers.Clear();
+		loadTileModifierToCharacter(x, y);
+
 		if (this.isFirstPlayer == isFirstP && nbTurns != 0)
 		{
 			this.playingCards [currentPlayingCard].GetComponentInChildren<PlayingCardController>().tile.setNeighbours(this.getCharacterTilesArray(), this.playingCards [this.currentPlayingCard].GetComponentInChildren<PlayingCardController>().card.GetMove());
@@ -2119,13 +2119,59 @@ public class GameController : Photon.MonoBehaviour
 		switch (modifierType)
 		{
 			case 0:
-				TileController tileController = this.tiles [tileX, tileY].GetComponent<TileController>();
-				tileController.addTemple(amount);
+				this.tiles [tileX, tileY].GetComponent<TileController>().addTemple(amount);
+				loadTileModifierToCharacter(tileX, tileY);
+				break;
+			case 1:
+				TileController tileController1 = this.tiles [tileX, tileY].GetComponent<TileController>();
+				tileController1.addForetIcon(amount);
+				loadTileModifierToCharacter(tileX, tileY);
+				foreach (Tile til in tileController1.tile.getImmediateNeighbouringTiles())
+				{
+					this.getTile(til.x, til.y).addForetIcon(amount);
+					loadTileModifierToCharacter(til.x, til.y);
+				}
+				break;
+			case 2: 
+				getTile(tileX, tileY).addSable((this.isFirstPlayer == isFirstP));
+				loadTileModifierToCharacter(tileX, tileY);
+				break;
+			case 3:
+				getTile(tileX, tileY).addFontaine(amount);
+				loadTileModifierToCharacter(tileX, tileY);
 				break;
 			default:
 				break;
 		}
 	}
+	public void loadTileModifierToCharacter(int x, int y)
+	{
+		TileController tileController = this.getTile(x, y).GetComponent<TileController>();
+		if (tileController.characterID != -1)
+		{
+			if (tileController.statModifierActive == true)
+			{
+				foreach (StatModifier sm in tileController.tile.StatModifier)
+				{
+
+					this.getPCC(tileController.characterID).card.TileModifiers.Add(sm);
+				}
+				if (tileController.tileModification == TileModification.Sables_Mouvants)
+				{
+					tileController.tileView.tileVM.toDisplayIcon = true;
+					playRPC(this.getPCC(tileController.characterID).card.Title + " est pris dans un sable mouvant");
+				}
+				if (tileController.tileModification != TileModification.Fontaine_de_Jouvence)
+				{
+					tileController.statModifierActive = false;
+				}
+			}
+			GameController.instance.reloadSortedList();
+			GameController.instance.reloadDestinationTiles();
+			GameController.instance.reloadCard(tileController.characterID);
+		}
+	}
+	
 	public void addTrap(int tileX, int tileY, int type, int amount)
 	{ 
 		photonView.RPC("addTrapRPC", PhotonTargets.AllBuffered, tileX, tileY, type, amount, this.isFirstPlayer);

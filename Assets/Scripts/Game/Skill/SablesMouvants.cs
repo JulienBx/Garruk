@@ -1,5 +1,4 @@
 using UnityEngine;
-using System.Collections.Generic;
 
 public class SablesMouvants : GameSkill
 {
@@ -11,12 +10,12 @@ public class SablesMouvants : GameSkill
 	public override void launch()
 	{
 		Debug.Log("Je lance Sables Mouvants");
-		GameController.instance.lookForTileTarget("Choisir une cible pour Sables Mouvants", "Lancer Sables Mouvants");
+		GameController.instance.lookForValidation(true, "Sables Mouvants cible des cases aléatoires", "Lancer Sables Mouvants");
 	}
 	
 	public override void resolve(int[] args)
 	{
-		int amount = GameController.instance.getCurrentSkill().Power;
+		int amount = GameController.instance.getCurrentSkill().ManaCost;
 		string pluriel = amount > 1 ? "s" : "";
 		GameController.instance.play(GameController.instance.getCurrentCard().Title + 
 			" a lancé Sables Mouvants \n sur "
@@ -25,13 +24,14 @@ public class SablesMouvants : GameSkill
 			pluriel +
 			" aléatoire" +
 			pluriel);
+		int targetX = args [0];
+		int targetY = args [1];
 		for (int i = 0; i < amount; i++)
 		{
 			int randX = (int)Mathf.Floor(Random.Range(0, GameController.instance.boardWidth));
 			int randY = (int)Mathf.Floor(Random.Range(0, GameController.instance.boardHeight));
-			GameController.instance.getTile(randX, randY).addSable();
+			GameController.instance.addTileModifier(2, amount, randX, randY);
 		}
-
 
 	}
 	

@@ -33,7 +33,6 @@ public class SkillBookScreenViewModel
 	{
 		this.heightScreen = Screen.height;
 		this.widthScreen = Screen.width;
-		
 	}
 	public void resize()
 	{

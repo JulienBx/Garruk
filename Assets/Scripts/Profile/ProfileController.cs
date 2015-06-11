@@ -8,7 +8,7 @@ using System.Reflection;
 public class ProfileController : MonoBehaviour {
 
 	public GameObject MenuObject;
-
+	public GameObject TutorialObject;
 	private ProfileView view;
 	public static ProfileController instance;
 	private ProfileModel model;
@@ -19,8 +19,14 @@ public class ProfileController : MonoBehaviour {
 	public GUIStyle[] profileScreenVMStyle;
 	public GUIStyle[] profileVMStyle;
 	public GUIStyle[] myTrophiesVMStyle;
+	public GUIStyle[] popUpVMStyle;
 	public Texture2D[] filePickerTextures;
 	public GUISkin fileBrowserSkin;
+	private bool isTutorialLaunched;
+	private GameObject tutorial;
+	private ProfileCheckPasswordPopUpView checkPasswordView;
+	private ProfileChangePasswordPopUpView changePasswordView;
+	private ProfileErrorPopUpView errorView;
 	
 	void Start () {
 		
@@ -57,6 +63,20 @@ public class ProfileController : MonoBehaviour {
 		this.loadData ();
 		this.pictures ();
 		view.setCanDisplay (true);
+		if(!model.Player.MyProfileTutorial && view.profileVM.isMyProfile)
+		{
+			this.tutorial = Instantiate(this.TutorialObject) as GameObject;
+			MenuObject.GetComponent<MenuController>().setTutorialLaunched(true);
+			this.tutorial.GetComponent<TutorialObjectController>().launchSequence(600);
+			this.isTutorialLaunched=true;
+		}
+		else if(!model.Player.ProfileTutorial && !view.profileVM.isMyProfile)
+		{
+			this.tutorial = Instantiate(this.TutorialObject) as GameObject;
+			MenuObject.GetComponent<MenuController>().setTutorialLaunched(true);
+			this.tutorial.GetComponent<TutorialObjectController>().launchSequence(700);
+			this.isTutorialLaunched=true;
+		}
 	}
 	private void loadData()
 	{
@@ -156,8 +176,125 @@ public class ProfileController : MonoBehaviour {
 			}
 		}
 	}
-	private void picturesInitialization(){
-
+	public void returnPressed()
+	{
+		if(this.errorView!=null)
+		{
+			this.hideErrorPopUp();
+		}
+		if(changePasswordView!=null)
+		{
+			this.editPasswordHandler(changePasswordView.changePasswordPopUpVM.tempNewPassword);
+		}
+		if(checkPasswordView!=null)
+		{
+			this.checkPasswordHandler(checkPasswordView.checkPasswordPopUpVM.tempOldPassword);
+		}
+		if(view.profileVM.isEditing)
+		{
+			this.updateUserInformationsHandler();
+		}
+	}
+	public void escapePressed()
+	{
+		if(view.profileVM.isEditing)
+		{
+			view.profileVM.isEditing=false;
+		}
+		if(this.changePasswordView!=null)
+		{
+			this.hideChangePasswordPopUp();
+		}
+		if(this.checkPasswordView!=null)
+		{
+			this.hideCheckPasswordPopUp();
+		}
+		if(this.errorView!=null)
+		{
+			this.hideErrorPopUp();
+		}
+		if(view.m_fileBrowser!=null)
+		{
+			view.m_fileBrowser=null;
+		}
+	}
+	private void setGUI(bool value)
+	{
+		view.profileVM.guiEnabled = value;
+		this.setButtonsGui (value);
+	}
+	public void setButtonsGui(bool value)
+	{
+		view.profileVM.buttonsEnabled = value;
+	}
+	public void displayChangePasswordPopUp()
+	{
+		this.setGUI (false);
+		this.changePasswordView = Camera.main.gameObject.AddComponent <ProfileChangePasswordPopUpView>();
+		changePasswordView.popUpVM.styles=new GUIStyle[this.popUpVMStyle.Length];
+		for(int i=0;i<this.popUpVMStyle.Length;i++)
+		{
+			changePasswordView.popUpVM.styles[i]=this.popUpVMStyle[i];
+		}
+		changePasswordView.popUpVM.initStyles();
+		this.resizeChangePasswordPopUp();
+	}
+	public void displayCheckPasswordPopUp()
+	{
+		this.setGUI (false);
+		this.checkPasswordView = Camera.main.gameObject.AddComponent <ProfileCheckPasswordPopUpView>();
+		checkPasswordView.popUpVM.styles=new GUIStyle[this.popUpVMStyle.Length];
+		for(int i=0;i<this.popUpVMStyle.Length;i++)
+		{
+			checkPasswordView.popUpVM.styles[i]=this.popUpVMStyle[i];
+		}
+		checkPasswordView.popUpVM.initStyles();
+		this.resizeCheckPasswordPopUp();
+	}
+	public void displayErrorPopUp()
+	{
+		this.setGUI (false);
+		this.errorView = Camera.main.gameObject.AddComponent <ProfileErrorPopUpView>();
+		errorView.popUpVM.styles=new GUIStyle[this.popUpVMStyle.Length];
+		for(int i=0;i<this.popUpVMStyle.Length;i++)
+		{
+			errorView.popUpVM.styles[i]=this.popUpVMStyle[i];
+		}
+		errorView.popUpVM.initStyles();
+		this.resizeErrorPopUp();
+	}
+	public void hideChangePasswordPopUp()
+	{
+		this.setGUI (true);
+		Destroy (this.changePasswordView);
+	}
+	public void hideCheckPasswordPopUp()
+	{
+		this.setGUI (true);
+		Destroy (this.checkPasswordView);
+	}
+	public void hideErrorPopUp()
+	{
+		this.setGUI (true);
+		Destroy (this.errorView);
+	}
+	public void resizeChangePasswordPopUp()
+	{
+		changePasswordView.popUpVM.centralWindow = view.profileScreenVM.centralWindow;
+		changePasswordView.popUpVM.resize ();
+	}
+	public void resizeCheckPasswordPopUp()
+	{
+		checkPasswordView.popUpVM.centralWindow = view.profileScreenVM.centralWindow;
+		checkPasswordView.popUpVM.resize ();
+	}
+	public void resizeErrorPopUp()
+	{
+		errorView.popUpVM.centralWindow = view.profileScreenVM.centralWindow;
+		errorView.popUpVM.resize ();
+	}
+	private void picturesInitialization()
+	{
 		view.userProfileVM.ProfilePicture = model.Profile.texture;
 		view.profileVM.contactsPicturesButtonStyle=new List<GUIStyle>();
 		view.myTrophiesVM.trophiesPicturesButtonStyle=new List<GUIStyle>();
@@ -420,6 +557,22 @@ public class ProfileController : MonoBehaviour {
 			view.invitationsReceivedVM.displayPage ();
 			view.invitationsSentVM.displayPage ();
 		}
+		if(errorView!=null)
+		{
+			this.resizeErrorPopUp();
+		}
+		if(changePasswordView!=null)
+		{
+			this.resizeChangePasswordPopUp();
+		}
+		if(checkPasswordView!=null)
+		{
+			this.resizeCheckPasswordPopUp();
+		}
+		if(isTutorialLaunched)
+		{
+			this.tutorial.GetComponent<TutorialObjectController>().resize();
+		}
 	}
 	public IEnumerator addConnection()
 	{
@@ -437,8 +590,8 @@ public class ProfileController : MonoBehaviour {
 		}
 		else
 		{
-			view.profileVM.error=model.Connections[model.Connections.Count - 1].Error;
-			view.setError(true);
+			this.displayErrorPopUp();
+			errorView.errorPopUpVM.error=model.Connections[model.Connections.Count - 1].Error;
 		}
 	}
 	public void removeConnection(int indexConnection)
@@ -483,8 +636,8 @@ public class ProfileController : MonoBehaviour {
 		}
 		else
 		{
-			view.profileVM.error=model.Connections[indexConnection].Error;
-			view.setError(true);
+			this.displayErrorPopUp();
+			errorView.errorPopUpVM.error=model.Connections[indexConnection].Error;
 		}
 	}
 	public void reloadPage()
@@ -495,61 +648,38 @@ public class ProfileController : MonoBehaviour {
 		}
 		Application.LoadLevel("Profile");
 	}
-	public IEnumerator checkPassword(string password)
+	public void checkPasswordHandler(string password)
 	{
+		StartCoroutine (checkPassword (password));
+	}
+	private IEnumerator checkPassword(string password)
+	{
+		checkPasswordView.popUpVM.guiEnabled = false;
 		yield return StartCoroutine(ApplicationModel.checkPassword(password));
 		if(ApplicationModel.error=="")
 		{
-			view.setCheckPassword (false);
-			view.setChangePassword(true);
-			view.profileVM.error="";
+			this.hideCheckPasswordPopUp();
+			this.displayChangePasswordPopUp();
 		}
 		else
 		{
-			view.profileVM.error=ApplicationModel.error;
+			checkPasswordView.checkPasswordPopUpVM.error=ApplicationModel.error;
 			ApplicationModel.error="";
 		}
+		checkPasswordView.popUpVM.guiEnabled = true;
 	}
-	public void editPassword(string password)
+	public void editPasswordHandler(string password)
 	{
-		StartCoroutine(ApplicationModel.editPassword(password));
-		view.setChangePassword(false);
+		changePasswordView.changePasswordPopUpVM.tempNewPassword="";
+		changePasswordView.changePasswordPopUpVM.tempNewPassword2="";
+		StartCoroutine(this.editPassword(password));
 	}
-	public void initializeError()
+	private IEnumerator editPassword(string password)
 	{
-		view.profileVM.error="";
-	}
-	public void updateUserInformations(string firstname, string surname, string mail)
-	{
-		model.Profile.FirstName = firstname;
-		model.Profile.Surname = surname;
-		model.Profile.Mail = mail;
-		StartCoroutine (model.Profile.updateInformations ());
-	}
-	public IEnumerator updateProfilePicture(string path)
-	{
-		File tempFile = new File ();
-		yield return StartCoroutine (tempFile.createProfilePicture (path));
-		if(tempFile.Error!="")
-		{
-			view.profileVM.error=tempFile.Error;
-			tempFile.Error="";
-			view.setError(true);
-		}
-		else
-		{
-			yield return StartCoroutine(model.Profile.updateProfilePicture(tempFile));
-			if(model.Profile.Error!="")
-			{
-				view.profileVM.error=model.Profile.Error;
-				model.Profile.Error="";
-				view.setError(true);
-			}
-			else
-			{
-				StartCoroutine (model.Profile.setProfilePicture());
-			}
-		}
+		changePasswordView.popUpVM.guiEnabled = false;
+		yield return StartCoroutine(ApplicationModel.editPassword(password));
+		changePasswordView.popUpVM.guiEnabled = true;
+		this.hideChangePasswordPopUp ();
 	}
 	public void pagination(int section, int scenario, int chosenPage=0)
 	{
@@ -632,6 +762,73 @@ public class ProfileController : MonoBehaviour {
 			}
 			break;
 		}
+	}
+	public void editProfileInformations(bool value)
+	{
+		view.profileVM.isEditing = value;
+		view.profileVM.tempSurname = model.Player.Surname;
+		view.profileVM.tempFirstName = model.Player.FirstName;
+		view.profileVM.tempMail = model.Player.Mail;
+	}
+	public void updateUserInformationsHandler()
+	{
+		StartCoroutine(updateUserInformations(view.profileVM.tempFirstName,view.profileVM.tempSurname,view.profileVM.tempMail));
+	}
+	private IEnumerator updateUserInformations(string firstname, string surname, string mail)
+	{
+		this.setGUI (false);
+		model.Profile.FirstName = firstname;
+		model.Profile.Surname = surname;
+		model.Profile.Mail = mail;
+		yield return StartCoroutine (model.Profile.updateInformations ());
+		this.setGUI (true);
+		view.profileVM.isEditing = false;
+	}
+	public void updateProfilePictureHandler(string path)
+	{
+		StartCoroutine (updateProfilePicture (path));
+	}
+	private IEnumerator updateProfilePicture(string path)
+	{
+		this.setGUI (false);
+		File tempFile = new File ();
+		yield return StartCoroutine (tempFile.createProfilePicture (path));
+		if(tempFile.Error!="")
+		{
+			this.displayErrorPopUp();
+			this.errorView.errorPopUpVM.error=tempFile.Error;
+		}
+		else
+		{
+			yield return StartCoroutine(model.Profile.updateProfilePicture(tempFile));
+			if(model.Profile.Error!="")
+			{
+				this.displayErrorPopUp();
+				this.errorView.errorPopUpVM.error=model.Profile.Error;
+				model.Profile.Error="";
+			}
+			else
+			{
+				StartCoroutine (model.Profile.setProfilePicture());
+				this.setGUI(true);
+			}
+		}
+	}
+	public IEnumerator endTutorial()
+	{
+		if(view.profileVM.isMyProfile)
+		{
+			yield return StartCoroutine (model.Player.setMyProfileTutorial(true));
+		}
+		else
+		{
+			yield return StartCoroutine (model.Player.setProfileTutorial(true));
+		}
+		MenuController.instance.setButtonsGui (true);
+		Destroy (this.tutorial);
+		this.isTutorialLaunched = false;
+		MenuController.instance.isTutorialLaunched = false;
+		this.setGUI (true);
 	}
 }
 

@@ -142,6 +142,7 @@ public class DivisionLobbyView : MonoBehaviour
 		}
 		GUILayout.EndArea();
 
+		GUI.enabled=divisionLobbyVM.buttonsEnabled;
 		GUILayout.BeginArea(screenVM.blockTopRight,screenVM.blockBackgroundStyle);
 		{
 			if(GUILayout.Button("Jouer",divisionLobbyVM.buttonStyle))
@@ -153,6 +154,7 @@ public class DivisionLobbyView : MonoBehaviour
 				DivisionLobbyController.instance.quitDivisionLobby();
 			}
 		}
+		GUI.enabled=true;
 		GUILayout.EndArea();
 		GUILayout.BeginArea (screenVM.blockMiddleRight, screenVM.blockBackgroundStyle);
 		{

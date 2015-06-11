@@ -107,10 +107,12 @@ public class FocusStoreFeaturesView : MonoBehaviour
 			GUILayout.BeginHorizontal();
 			{
 				GUILayout.Space (focusStoreFeaturesVM.cardFeaturesFocusRects[4].width*1/20);
+				GUI.enabled=focusStoreFeaturesVM.exitButtonEnabled;
 				if(GUILayout.Button("Quitter", cardFeaturesFocusVM.buttonStyle))
 				{
 					gameObject.GetComponent<CardStoreController>().exitFocus();
 				}
+				GUI.enabled = cardFeaturesFocusVM.guiEnabled;
 			}
 			GUILayout.EndHorizontal();
 		}

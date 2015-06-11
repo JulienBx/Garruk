@@ -13,6 +13,7 @@ public class TutorialObjectViewModel {
 	public string description;
 	public bool displayArrow;
 	public bool displayNextButton;
+	public bool displayRect;
 	public GUIStyle buttonStyle;
 	public GUIStyle titleStyle;
 	public GUIStyle labelStyle;
@@ -33,6 +34,7 @@ public class TutorialObjectViewModel {
 		this.arrowStyle = new GUIStyle ();
 		this.displayArrow = false;
 		this.displayNextButton = true;
+		this.displayRect = true;
 
 	}
 	public void resize()

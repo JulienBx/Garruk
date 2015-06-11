@@ -300,10 +300,12 @@ public class EndGameView : MonoBehaviour
 		GUILayout.EndArea();
 		GUILayout.BeginArea(endGameScreenVM.blockTopRight,endGameScreenVM.blockBorderStyle);
 		{
+			GUI.enabled=endGameVM.exitButtonEnabled;
 			if(GUILayout.Button("Quitter",endGameVM.buttonStyle))
 			{
 				EndGameController.instance.quitEndGame();
 			}
+			GUI.enabled=true;
 		}
 		GUILayout.EndArea ();
 		if(endGameVM.gameType!=0)

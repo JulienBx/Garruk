@@ -68,7 +68,14 @@ public class StoreView : MonoBehaviour
 							{
 								if(packsVM.guiEnabled[i])
 								{
-									GUI.enabled=storeVM.guiEnabled;
+									if(i==0)
+									{
+										GUI.enabled=storeVM.buttonsEnabled[0];
+									}
+									else
+									{
+										GUI.enabled=storeVM.buttonsEnabled[1];
+									}
 								}
 								else
 								{
@@ -83,6 +90,7 @@ public class StoreView : MonoBehaviour
 							{
 								StoreController.instance.buyPackHandler(i);
 							}
+							GUI.enabled=storeVM.guiEnabled;
 						}
 						GUILayout.EndVertical();
 						GUILayout.FlexibleSpace();
@@ -90,7 +98,7 @@ public class StoreView : MonoBehaviour
 				}
 				GUILayout.EndHorizontal();
 				GUILayout.FlexibleSpace();
-				GUI.enabled=storeVM.guiEnabled;
+				GUI.enabled=storeVM.buttonsEnabled[1];
 				GUILayout.BeginHorizontal();
 				{
 					GUILayout.FlexibleSpace();
@@ -126,8 +134,10 @@ public class StoreView : MonoBehaviour
 					GUILayout.FlexibleSpace();
 				}
 				GUILayout.EndHorizontal();
+				GUI.enabled=storeVM.guiEnabled;
 				GUILayout.FlexibleSpace();
 				GUI.enabled=storeVM.canAddCredits;
+				GUI.enabled=storeVM.buttonsEnabled[1];
 				GUILayout.BeginHorizontal();
 				{
 					GUILayout.FlexibleSpace();
@@ -138,6 +148,7 @@ public class StoreView : MonoBehaviour
 					GUILayout.FlexibleSpace();
 				}
 				GUILayout.EndHorizontal();
+				GUI.enabled=storeVM.guiEnabled;
 				GUILayout.FlexibleSpace();
 			}
 			GUILayout.EndArea();
