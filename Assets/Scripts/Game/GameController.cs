@@ -1048,6 +1048,7 @@ public class GameController : Photon.MonoBehaviour
 				{
 					this.playingCards [i].GetComponentInChildren<PlayingCardController>().hasPlayed = false;
 					this.reloadCard(i);
+					//reloadDestinationTiles();
 				}
 			}
 		}
@@ -1091,7 +1092,7 @@ public class GameController : Photon.MonoBehaviour
 			this.isDragging = true;
 		}
 		this.playingCards [currentPlayingCard].GetComponentInChildren<PlayingCardController>().card.changeModifiers();
-		loadTileModifierToCharacter(getCurrentPCC().tile.x, getCurrentPCC().tile.y);
+		//loadTileModifierToCharacter(getCurrentPCC().tile.x, getCurrentPCC().tile.y);
 
 		this.playingCards [currentPlayingCard].GetComponentInChildren<PlayingCardController>().show();
 
@@ -2167,9 +2168,9 @@ public class GameController : Photon.MonoBehaviour
 					tileController.statModifierActive = false;
 				}
 			}
-			GameController.instance.reloadSortedList();
-			GameController.instance.reloadDestinationTiles();
-			GameController.instance.reloadCard(tileController.characterID);
+			reloadSortedList();
+			reloadDestinationTiles();
+			reloadCard(tileController.characterID);
 		}
 	}
 	
