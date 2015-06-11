@@ -1520,7 +1520,7 @@ public class GameController : Photon.MonoBehaviour
 
 		getPCC(c).changeTile(new Tile(x, y), getTile(x, y).getPosition());
 		getPCC(c).card.TileModifiers.Clear();
-		loadTileModifierToCharacter(x, y);
+		//loadTileModifierToCharacter(x, y);
 
 		if (this.isFirstPlayer == isFirstP && nbTurns != 0)
 		{

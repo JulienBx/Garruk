@@ -181,6 +181,10 @@ public class PlayingCardController : GameObjectController
 	{
 		this.resizeHalo ();
 		this.resizeIcons ();
+		int h = Screen.height;
+		styles[4].fontSize=15*h/1000;
+		styles[5].fontSize=15*h/1000;
+		styles[6].fontSize=15*h/1000;
 	}
 
 	public void setIDCharacter (int i)
