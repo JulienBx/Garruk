@@ -251,7 +251,7 @@ public class Card
 		{
 			if (modifier.Stat == ModifierStat.Stat_Dommage)
 			{
-				dommage1 = modifier.Amount;
+				dommage1 += modifier.Amount;
 			} else
 			{
 				temp.Add(modifier);
@@ -266,7 +266,7 @@ public class Card
 		{
 			if (modifier.Stat == ModifierStat.Stat_Dommage)
 			{
-				dommage2 = modifier.Amount;
+				dommage2 += modifier.Amount;
 			} else
 			{
 				temp2.Add(modifier);
@@ -274,11 +274,12 @@ public class Card
 		}
 
 		modifiers.Clear();
+		modifiers.AddRange(temp2);
 		if (dommage1 + dommage2 > 0)
 		{
 			modifiers.Add(new StatModifier(dommage1 + dommage2, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage));
-			modifiers.AddRange(temp2);
 		}
+		
 
 		foreach (StatModifier modifier in modifiers)
 		{
@@ -368,40 +369,40 @@ public class Card
 		modifiers = temp;
 	}
 
-	public void changeModifiers()
-	{
-		List<StatModifier> temp = new List<StatModifier>();
-		foreach (StatModifier modifier in modifiers)
-		{
-			if (!modifier.Active)
-			{
-				modifier.Active = true;
-				modifier.Duration--;
-				temp.Add(modifier);
-			} else if (modifier.Duration != 0)
-			{
-				temp.Add(modifier);
-				modifier.Duration--;
-			}
-		}
-		modifiers = temp;
-
-		temp = new List<StatModifier>();
-		foreach (StatModifier modifier in TileModifiers)
-		{
-			if (!modifier.Active)
-			{
-				modifier.Active = true;
-				modifier.Duration--;
-				temp.Add(modifier);
-			} else if (modifier.Duration != 0)
-			{
-				temp.Add(modifier);
-				modifier.Duration--;
-			}
-		}
-		TileModifiers = temp;
-	}
+//	public void changeModifiers()
+//	{
+//		List<StatModifier> temp = new List<StatModifier>();
+//		foreach (StatModifier modifier in modifiers)
+//		{
+//			if (!modifier.Active)
+//			{
+//				modifier.Active = true;
+//				modifier.Duration--;
+//				temp.Add(modifier);
+//			} else if (modifier.Duration != 0)
+//			{
+//				temp.Add(modifier);
+//				modifier.Duration--;
+//			}
+//		}
+//		modifiers = temp;
+//
+//		temp = new List<StatModifier>();
+//		foreach (StatModifier modifier in TileModifiers)
+//		{
+//			if (!modifier.Active)
+//			{
+//				modifier.Active = true;
+//				modifier.Duration--;
+//				temp.Add(modifier);
+//			} else if (modifier.Duration != 0)
+//			{
+//				temp.Add(modifier);
+//				modifier.Duration--;
+//			}
+//		}
+//		TileModifiers = temp;
+//	}
 
 	/// <summary>
 	/// Determines whether this instance has attack modifier.

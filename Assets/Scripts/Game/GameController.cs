@@ -1069,11 +1069,13 @@ public class GameController : Photon.MonoBehaviour
 		}
 
 		this.currentPlayingCard = id;
+		
 		if (this.getCurrentCard().isParalyzed())
 		{
 			this.playindCardHasPlayed = true;
 			this.displayPopUpMessage(this.getCurrentCard().Title + " est paralysé", 3f);
-		} else
+		} 
+		else
 		{
 			this.playindCardHasPlayed = false;
 		}
@@ -1091,7 +1093,7 @@ public class GameController : Photon.MonoBehaviour
 			this.setDestinations(currentPlayingCard);
 			this.isDragging = true;
 		}
-		this.playingCards [currentPlayingCard].GetComponentInChildren<PlayingCardController>().card.changeModifiers();
+		//this.playingCards [currentPlayingCard].GetComponentInChildren<PlayingCardController>().card.changeModifiers();
 		//loadTileModifierToCharacter(getCurrentPCC().tile.x, getCurrentPCC().tile.y);
 
 		this.playingCards [currentPlayingCard].GetComponentInChildren<PlayingCardController>().show();
@@ -1159,11 +1161,16 @@ public class GameController : Photon.MonoBehaviour
 	{
 		this.isRunningSkill = false;
 		
-		this.getCurrentPCC().checkModyfiers();
+		photonView.RPC("checkModyfiersRPC", PhotonTargets.AllBuffered);
 		
 		findNextPlayer();
 		photonView.RPC("timeRunsOut", PhotonTargets.AllBuffered, timerTurn);
 		photonView.RPC("addPassEvent", PhotonTargets.AllBuffered);
+	}
+	
+	[RPC]
+	public void checkModyfiersRPC(){
+		this.getCurrentPCC().checkModyfiers();
 	}
 
 	[RPC]
@@ -2095,18 +2102,18 @@ public class GameController : Photon.MonoBehaviour
 			
 			if (this.getCard(target).GetLife() <= 0)
 			{
-				this.kill(target);
+				StartCoroutine(this.kill(target));
 				this.reloadTimeline();
 			}
 			this.reloadCard(target);
-		} else if (stat == (int)ModifierStat.Stat_Move)
+		} else if (stat == (int)ModifierStat.Stat_Move || stat == (int)ModifierStat.Stat_Attack)
 		{
 			this.reloadCard(target);
 		}
 	}
 	
 	public IEnumerator kill(int target){
-		yield return new WaitForSeconds(0.25f);
+		yield return new WaitForSeconds(2f);
 		this.getPCC(target).kill();
 	}
 
@@ -2193,7 +2200,6 @@ public class GameController : Photon.MonoBehaviour
 	[RPC]
 	public void setParalyzedRPC(int target, int duration)
 	{
-		this.addModifier(target, 0, (int)ModifierType.Type_Paralized, 0, duration);
 		this.getPCC(target).setParalyzed(duration);
 	}
 	

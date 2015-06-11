@@ -301,6 +301,11 @@ public class PlayingCardController : GameObjectController
 	
 	public void setParalyzed (int duration)
 	{
+		this.card.modifiers.Add(new StatModifier(ModifierType.Type_Paralized, 1));
+		print ("J'add paralyzed "+this.IDCharacter);
+		for(int i = 0 ; i < this.card.modifiers.Count ; i++){	
+			print (this.card.modifiers[i].Type+" - "+this.card.modifiers[i].Duration);
+		}
 		this.addIcon (this.icons [2], "Paralysé", "Le personnage ne peut pas attaquer ou se servir de ses compétences pendant "+duration+" tour(s)");
 		this.paralyzed=this.playingCardView.playingCardVM.icons.Count-1;
 	}
@@ -361,6 +366,7 @@ public class PlayingCardController : GameObjectController
 	}
 	
 	public void removeFurtivity(){
+		print ("REMOVEFurtiv");
 		this.playingCardView.playingCardVM.icons.RemoveAt (this.cannotBeTargeted);
 		this.playingCardView.playingCardVM.toDisplayDescriptionIcon.RemoveAt (this.cannotBeTargeted);
 		this.playingCardView.playingCardVM.descriptionIcon.RemoveAt (this.cannotBeTargeted);
@@ -370,6 +376,7 @@ public class PlayingCardController : GameObjectController
 	}
 	
 	public void removeParalyzed(){
+		print ("REMOVE");
 		this.playingCardView.playingCardVM.icons.RemoveAt (this.paralyzed);
 		this.playingCardView.playingCardVM.toDisplayDescriptionIcon.RemoveAt (this.paralyzed);
 		this.playingCardView.playingCardVM.descriptionIcon.RemoveAt (this.paralyzed);
@@ -380,13 +387,22 @@ public class PlayingCardController : GameObjectController
 	
 	public void checkModyfiers(){
 		List<int> modifiersToSuppress = new List<int>();
+		
+		print (this.IDCharacter+" - "+ this.card.modifiers.Count);
+		
 		for(int i = 0 ; i < this.card.modifiers.Count ; i++){
+			
 			this.card.modifiers[i].Duration--;
+			
+			print (this.card.modifiers[i].Type+" - "+this.card.modifiers[i].Duration);
 			
 			if (this.card.modifiers[i].Duration==0){
 				if (this.card.modifiers[i].Type==ModifierType.Type_Paralized){
 					modifiersToSuppress.Add(i);
 					this.removeParalyzed();
+				}
+				else if(this.card.modifiers[i].Stat==ModifierStat.Stat_Attack ||this.card.modifiers[i].Stat==ModifierStat.Stat_Move){
+					this.show ();
 				}
 			}
 		}

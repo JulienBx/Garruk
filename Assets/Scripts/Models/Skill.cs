@@ -35,7 +35,7 @@ public class Skill
 		this.ManaCost = manaCost;
 		this.Description = description;
 
-		if (id==8){
+		if (id==10){
 			nbLeft = 2 ;
 			this.Description+=nbLeft+" restant(s)";
 		}
@@ -49,7 +49,7 @@ public class Skill
 		this.Power = power;
 		this.ManaCost = manaCost;
 
-		if (id==8){
+		if (id==10){
 			nbLeft = 2 ;
 			this.Description+=nbLeft+" restant(s)";
 		}

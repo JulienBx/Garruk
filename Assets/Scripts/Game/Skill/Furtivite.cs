@@ -11,12 +11,12 @@ public class Furtivite : GameSkill
 	{
 		int targetID = args [0];
 		int myPlayerID = GameController.instance.currentPlayingCard;
-		int amount = GameController.instance.getCurrentSkill ().ManaCost;
+		int amount = GameController.instance.getCurrentCard().Attack*GameController.instance.getCurrentSkill ().ManaCost/100;
 		
 		GameController.instance.setCannotBeTargeted ();
 		GameController.instance.addModifier (GameController.instance.currentPlayingCard, amount, (int)ModifierType.Type_BonusMalus, (int)ModifierStat.Stat_Attack, 1);
 		
-		GameController.instance.displaySkillEffect(myPlayerID, "devient invisible et gagne "+amount+" ATK", 3, 1);
+		GameController.instance.displaySkillEffect(myPlayerID, "devient invisible et gagne "+amount+" ATK", 3,0);
 		
 		GameController.instance.play ();
 	}

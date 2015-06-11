@@ -30,6 +30,13 @@ public class StatModifier
 		this.Duration = -1;
 		this.Active = true;
 	}
+	
+	public StatModifier(ModifierType type, int duration)
+	{
+		this.Type = type;
+		this.Duration = duration;
+		this.Active = true;
+	}
 
 	public StatModifier(int amount, ModifierType type, ModifierStat stat, int duration) : this(amount, type, stat)
 	{
