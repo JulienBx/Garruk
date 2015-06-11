@@ -1092,7 +1092,7 @@ public class GameController : Photon.MonoBehaviour
 			this.isDragging = true;
 		}
 		this.playingCards [currentPlayingCard].GetComponentInChildren<PlayingCardController>().card.changeModifiers();
-		loadTileModifierToCharacter(getCurrentPCC().tile.x, getCurrentPCC().tile.y);
+		//loadTileModifierToCharacter(getCurrentPCC().tile.x, getCurrentPCC().tile.y);
 
 		this.playingCards [currentPlayingCard].GetComponentInChildren<PlayingCardController>().show();
 
@@ -1521,7 +1521,7 @@ public class GameController : Photon.MonoBehaviour
 
 		getPCC(c).changeTile(new Tile(x, y), getTile(x, y).getPosition());
 		getPCC(c).card.TileModifiers.Clear();
-		loadTileModifierToCharacter(x, y);
+		//loadTileModifierToCharacter(x, y);
 
 		if (this.isFirstPlayer == isFirstP && nbTurns != 0)
 		{
