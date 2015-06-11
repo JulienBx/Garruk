@@ -29,7 +29,8 @@ public class PlayingCardView : MonoBehaviour
 					gameObject.GetComponentInChildren<PlayingCardController>().addTarget();
 				}
 			}
-		} else
+		}
+		else
 		{
 			for (int i = 0; i < this.playingCardVM.icons.Count; i++)
 			{
@@ -48,6 +49,12 @@ public class PlayingCardView : MonoBehaviour
 					}
 				}
 			}
+		}
+		
+		this.playingCardVM.skillResultTimer -= Time.deltaTime;
+		if (this.playingCardVM.skillResultTimer  < 0)
+		{
+			this.playingCardVM.toDisplaySkillResult = false ;
 		}
 	}
 	
@@ -149,6 +156,10 @@ public class PlayingCardView : MonoBehaviour
 		if (this.playingCardVM.toDisplayHalo)
 		{
 			GUI.Box(this.playingCardVM.haloRect, this.playingCardVM.halo, this.playingCardVM.iconStyle);
+		}
+		if (this.playingCardVM.toDisplaySkillResult)
+		{
+			GUI.Label(this.playingCardVM.haloRect, this.playingCardVM.skillResult.text, this.playingCardVM.skillResult.style);
 		}
 	}
 }

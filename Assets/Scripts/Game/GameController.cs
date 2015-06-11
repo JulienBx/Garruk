@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -527,7 +527,6 @@ public class GameController : Photon.MonoBehaviour
 	public void lookForAdjacentTarget(string regularText, string buttonText)
 	{
 		this.numberOfExpectedArgs = 1;
-		
 		setValidationTexts(regularText, buttonText);
 
 		List<TileController> tempTiles;
@@ -687,6 +686,9 @@ public class GameController : Photon.MonoBehaviour
 		this.gameView.gameScreenVM.toDisplayValidationWindows = false;
 		this.isRunningSkill = false;
 		this.playindCardHasPlayed = false;
+		for (int i = 0 ; i < 10 ; i++){
+			this.getPCC(i).removeTargetHalo();	
+		}
 		this.showMyPlayingSkills(this.currentPlayingCard);
 	}
 
@@ -1961,7 +1963,7 @@ public class GameController : Photon.MonoBehaviour
 	}
 
 
-	public void play(string message)
+	public void play()
 	{
 		if (this.getCurrentPCC().cannotBeTargeted != -1 && this.getCurrentSkillID() != 11)
 		{
@@ -1978,7 +1980,28 @@ public class GameController : Photon.MonoBehaviour
 			this.updateStatusMySkills(this.currentPlayingCard);
 		}
 		
-		photonView.RPC("playRPC", PhotonTargets.AllBuffered, message);
+		if (this.playingCardHasMoved)
+		{
+			this.gameskills [1].launch();
+		}
+	}
+	
+	public void play(string s)
+	{
+		if (this.getCurrentPCC().cannotBeTargeted != -1 && this.getCurrentSkillID() != 11)
+		{
+			photonView.RPC("removeFurtivityRPC", PhotonTargets.AllBuffered, this.currentPlayingCard);
+		}
+		this.isRunningSkill = false;
+		this.playindCardHasPlayed = true;
+		
+		if (this.clickedPlayingCard != this.currentPlayingCard && this.clickedPlayingCard != -1)
+		{
+			this.showMyPlayingSkills(this.currentPlayingCard);
+		} else
+		{
+			this.updateStatusMySkills(this.currentPlayingCard);
+		}
 		
 		if (this.playingCardHasMoved)
 		{
@@ -1990,6 +2013,17 @@ public class GameController : Photon.MonoBehaviour
 	public void playRPC(string message)
 	{
 		this.displayPopUpMessage(message, 3);
+	}
+	
+	public void displaySkillEffect(int target, string s, float timer, int colorindex)
+	{
+		photonView.RPC("displaySkillEffectRPC", PhotonTargets.AllBuffered, target, s, timer, colorindex);
+	}
+	
+	[RPC]
+	public void displaySkillEffectRPC(int target, string s, float timer, int colorindex) 
+	{
+		this.getPCC(target).addSkillResult(s, timer, colorindex);
 	}
 	
 	[RPC]
@@ -2059,7 +2093,7 @@ public class GameController : Photon.MonoBehaviour
 			
 			if (this.getCard(target).GetLife() <= 0)
 			{
-				this.getPCC(target).kill();
+				this.kill(target);
 				this.reloadTimeline();
 			}
 			this.reloadCard(target);
@@ -2067,6 +2101,11 @@ public class GameController : Photon.MonoBehaviour
 		{
 			this.reloadCard(target);
 		}
+	}
+	
+	public IEnumerator kill(int target){
+		yield return new WaitForSeconds(0.25f);
+		this.getPCC(target).kill();
 	}
 
 	public void addTileModifier(int modifierType, int amount, int tileX, int tileY)

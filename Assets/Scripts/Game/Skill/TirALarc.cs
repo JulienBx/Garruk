@@ -4,28 +4,30 @@ public class TirALarc : GameSkill
 {
 	public override void launch()
 	{
-		Debug.Log("Je lance tir à l'arc");
 		GameController.instance.lookForTarget("Choisir une cible pour le tir", "Lancer Tir à l'arc");
 	}
 	
 	public override void resolve(int[] args)
 	{
 		int targetID = args [0];
-		string message = GameController.instance.getCurrentCard().Title+" tire une flèche sur "+GameController.instance.getCard(targetID).Title;
-		
 		int attack = GameController.instance.getCurrentSkill().ManaCost;
+		int myPlayerID = GameController.instance.currentPlayingCard;
+		
+		string myPlayerName = GameController.instance.getCurrentCard().Title;
+		string hisPlayerName = GameController.instance.getCard(targetID).Title;
+		
+		GameController.instance.displaySkillEffect(myPlayerID, myPlayerName+" tire", 3, 2);
+		
 		if (Random.Range(1, 100) > GameController.instance.getCard(targetID).GetEsquive())
 		{                             
 			GameController.instance.addModifier(targetID, attack, (int)ModifierType.Type_BonusMalus, (int)ModifierStat.Stat_Dommage);
 			GameController.instance.useSkill();
-			
-			message+="\n"+"La flèche touche la cible et inflige "+attack+" degats";
+			GameController.instance.displaySkillEffect(targetID, "prend "+attack+" dégats", 3, 1);
 		}
 		else{
-			message+="\n"+GameController.instance.getCard(targetID).Title+" esquive l'attaque";
+			GameController.instance.displaySkillEffect(targetID, hisPlayerName+" esquive", 3, 0);
 		}
-		
-		GameController.instance.play(message);
+		GameController.instance.play();
 	}
 	
 	public override bool isLaunchable(Skill s){

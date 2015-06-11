@@ -20,26 +20,27 @@ public class Paralyser : GameSkill
 		
 		int amount = GameController.instance.getCurrentSkill().ManaCost;
 		int attack = GameController.instance.getCurrentCard().Attack / 2 ;
-		
-		string message = GameController.instance.getCurrentCard().Title+" attaque "+GameController.instance.getCard(targetID).Title;
+		int myPlayerID = GameController.instance.currentPlayingCard;
+		string myPlayerName = GameController.instance.getCurrentCard().Title;
+		string hisPlayerName = GameController.instance.getCard(targetID).Title;
+		GameController.instance.displaySkillEffect(myPlayerID, myPlayerName+" attaque", 3, 2);
 		
 		if (Random.Range(1, 100) > GameController.instance.getCard(targetID).GetEsquive()){
-			message += "\n"+GameController.instance.getCurrentCard().Title+" inflige "+attack+" dégats";
 			GameController.instance.addModifier(targetID, attack, (int)ModifierType.Type_BonusMalus, (int)ModifierStat.Stat_Dommage);
 			
 			if (Random.Range(1, 100) <= amount){
-				message += "\n"+GameController.instance.getCard(targetID).Title+" est paralysé";
+				GameController.instance.displaySkillEffect(targetID, "prend "+attack+" dégats et est paralysé", 3, 1);
 				GameController.instance.setParalyzed(targetID, 1);
 			}
 			else{
-				message += "\n"+GameController.instance.getCurrentCard().Title+" n'a pas réussi à paralyser "+GameController.instance.getCard(targetID).Title;
+				GameController.instance.displaySkillEffect(targetID, "prend "+attack+" dégats", 3, 1);
 			}
 		}
 		else{
-			message += "\n"+GameController.instance.getCard(targetID).Title+" esquive l'attaque";
+			GameController.instance.displaySkillEffect(targetID, hisPlayerName+" esquive", 3, 0);
 		}
 	
-		GameController.instance.play(message);	
+		GameController.instance.play();	
 	}
 	
 	public override bool isLaunchable(Skill s){

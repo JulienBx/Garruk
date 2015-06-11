@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 
 public class Attack : GameSkill
@@ -10,26 +10,29 @@ public class Attack : GameSkill
 	
 	public override void launch()
 	{
-		Debug.Log("Je lance attack");
 		GameController.instance.lookForAdjacentTarget("Choisir une cible à attaquer", "Lancer attaque");
 	}
 	
 	public override void resolve(int[] args)
 	{
 		int targetID = args [0];
-		string message = GameController.instance.getCurrentCard().Title+" attaque "+GameController.instance.getCard(targetID).Title;
+		int amount = GameController.instance.getCurrentCard().GetAttack();
 		
-		int amount = GameController.instance.getCurrentCard().Attack;
+		int myPlayerID = GameController.instance.currentPlayingCard;
+		string myPlayerName = GameController.instance.getCurrentCard().Title;
+		string hisPlayerName = GameController.instance.getCard(targetID).Title;
+		
+		GameController.instance.displaySkillEffect(myPlayerID, myPlayerName+" attaque", 3, 2);
+		//yield return new WaitForSeconds(0.50f);
+		
 		if (Random.Range(1, 100) > GameController.instance.getCard(targetID).GetEsquive())
 		{                             
 			GameController.instance.addModifier(targetID, amount, (int)ModifierType.Type_BonusMalus, (int)ModifierStat.Stat_Dommage);
-			message+="\n"+"L'attaque touche la cible et inflige "+amount+" degats";
+			GameController.instance.displaySkillEffect(targetID, "prend "+amount+" dégats", 3, 1);
 		}
 		else{
-			message+="\n"+GameController.instance.getCard(targetID).Title+" esquive l'attaque";
+			GameController.instance.displaySkillEffect(targetID, hisPlayerName+" esquive", 3, 0);
 		}
-		
-		GameController.instance.play(message);
 	}
 
 	public override bool isLaunchable(Skill s){

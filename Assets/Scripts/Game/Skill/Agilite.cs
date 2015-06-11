@@ -9,22 +9,17 @@ public class Agilite : GameSkill
 	
 	public override void launch()
 	{
-		Debug.Log ("Je lance Agilité");
 		GameController.instance.lookForValidation (true, "Agilité cible le héros actif", "Lancer agilité");
 	}
 
 	public override void resolve(int[] args)
 	{
 		int amount = GameController.instance.getCurrentSkill().ManaCost ;
-		
+		int myPlayerID = GameController.instance.currentPlayingCard;
+		string myPlayerName = GameController.instance.getCurrentCard().Title;
 		GameController.instance.setEsquive (amount);
-		
-		
-		GameController.instance.play(GameController.instance.getCurrentCard().Title + 
-		                             " acquiert " 
-		                             + amount 
-		                             + " % de chances de d'esquiver les dégats" 
-		                             );
+		GameController.instance.displaySkillEffect(myPlayerID, myPlayerName+" gagne "+amount+"% d'esquive", 3, 0);
+		GameController.instance.play();
 	}
 	
 	public override bool isLaunchable(Skill s){

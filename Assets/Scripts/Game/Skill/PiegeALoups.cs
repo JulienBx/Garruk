@@ -29,11 +29,14 @@ public class PiegeALoups : GameSkill
 	public override bool isLaunchable(Skill s){
 		List<Tile> tempTiles;
 		Tile t = GameController.instance.getCurrentPCC().tile;
-		
+		int myPlayerID = GameController.instance.currentPlayingCard;
+		string myPlayerName = GameController.instance.getCurrentCard().Title;
 		tempTiles = t.getImmediateNeighbouringTiles();
 		bool isLaunchable = false ;
 		int i = 0 ;
 		int tempInt ; 
+		
+		GameController.instance.displaySkillEffect(myPlayerID, myPlayerName+" pose un piège à loups", 3, 0);
 		
 		while (!isLaunchable && i<tempTiles.Count){
 			t = tempTiles[i];

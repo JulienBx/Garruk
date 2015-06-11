@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -32,9 +32,12 @@ public class PlayingCardViewModel
 
 	public Texture2D halo ;
 	public Rect haloRect ;
-	public bool toDisplayHalo = false; 
-
-
+	public bool toDisplayHalo = false;
+	
+	public SkillResult skillResult ;
+	public bool toDisplaySkillResult = false;
+	public float skillResultTimer = 0 ;
+	
 	public PlayingCardViewModel ()
 	{
 		this.icons = new List<Texture2D>();

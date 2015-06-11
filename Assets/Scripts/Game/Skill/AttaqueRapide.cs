@@ -18,26 +18,30 @@ public class AttaqueRapide : GameSkill
 	{
 		int targetID = args [0];
 		
+		int myPlayerID = GameController.instance.currentPlayingCard;
+		string myPlayerName = GameController.instance.getCurrentCard().Title;
+		string hisPlayerName = GameController.instance.getCard(targetID).Title;
+	
 		int amount = GameController.instance.getCurrentSkill().ManaCost;
+		int nbSuccessfullAttacks = 0 ;
 		int attack = GameController.instance.getCurrentCard().Attack * amount / 100 ;
 		int totalAmount = 0 ;
 		int nbCoups = Random.Range(2, 4);
-		string message = nbCoups+" attaques lancées"+"\n";
+		
+		GameController.instance.displaySkillEffect(myPlayerID, myPlayerName+" attaque", 3, 2);
 		
 		for (int i = 0 ; i < nbCoups ; i++){
 			if (Random.Range(1, 100) > GameController.instance.getCard(targetID).GetEsquive()){
-				message += "L'attaque N°"+(i+1)+" a réussi et inflige "+attack+" dégats"+"\n";
 				totalAmount+=attack ;
-			}
-			else{
-				message += GameController.instance.getCard(targetID).Title+" esquive l'attaque N°"+(i+1)+"\n";
+				nbSuccessfullAttacks++;
 			}
 		}
-		
 		if(totalAmount>0){
 			GameController.instance.addModifier(targetID, totalAmount, (int)ModifierType.Type_BonusMalus, (int)ModifierStat.Stat_Dommage);	
 		}
-		GameController.instance.play(message);	
+		GameController.instance.displaySkillEffect(targetID, "touché "+nbSuccessfullAttacks+" fois. "+totalAmount+ " dégats", 3, 1);
+		
+		GameController.instance.play();	
 	}
 	
 	public override bool isLaunchable(Skill s){

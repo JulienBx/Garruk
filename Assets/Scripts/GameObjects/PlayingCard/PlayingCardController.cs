@@ -68,16 +68,29 @@ public class PlayingCardController : GameObjectController
 		int decalage = height / 15;
 
 		Vector3 positionObject = new Vector3 (0, 0, 0);
-		positionObject.x = (this.playingCardView.playingCardVM.position.x) * (height / 10f) - (decalage / 2) + (width / 2f);
-		positionObject.y = height - ((this.playingCardView.playingCardVM.position.y + this.playingCardView.playingCardVM.scale.y / 2f) * (height / 10f) - (decalage / 2) + (height / 2f));
+		positionObject.x = (this.playingCardView.playingCardVM.position.x-this.playingCardView.playingCardVM.scale.x/2.2f) * (height / 10f) + (width / 2f);
+		positionObject.y = height - ((this.playingCardView.playingCardVM.position.y + this.playingCardView.playingCardVM.scale.y / 2.2f) * (height / 10f) +(height / 2f));
 
-		Rect position = new Rect (positionObject.x, positionObject.y, decalage, decalage);
-		this.playingCardView.playingCardVM.haloRect = position;
+		Rect position = new Rect (positionObject.x, positionObject.y, this.playingCardView.playingCardVM.scale.x*height/11, this.playingCardView.playingCardVM.scale.x*height/11);
+		this.playingCardView.playingCardVM.haloRect = position ;
 	}
 
 	public void removeTargetHalo ()
 	{
 		this.playingCardView.playingCardVM.toDisplayHalo = false;
+	}
+	
+	public void addSkillResult (string s, float timer, int colorIndex)
+	{
+		this.playingCardView.playingCardVM.skillResult = new SkillResult(s, styles[4+colorIndex]) ;
+		this.playingCardView.playingCardVM.skillResultTimer = timer ;
+		
+		this.playingCardView.playingCardVM.toDisplaySkillResult = true;
+	}
+	
+	public void removeSkillResult ()
+	{
+		this.playingCardView.playingCardVM.toDisplaySkillResult = false;
 	}
 
 	public void setStyles (bool isMyCharacter)

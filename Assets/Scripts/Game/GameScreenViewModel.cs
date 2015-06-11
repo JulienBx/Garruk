@@ -117,7 +117,6 @@ public class GameScreenViewModel
 
 	public void connectOtherPlayer()
 	{
-		Debug.Log ("OKKKKKKK");
 		this.messageOpponentStartWindow = this.hisPlayerName + " prépare ses héros";
 		this.toDisplayQuitButton = true;
 	}

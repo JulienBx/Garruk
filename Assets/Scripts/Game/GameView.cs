@@ -4,18 +4,11 @@ using System.Collections.Generic;
 
 public class GameView : MonoBehaviour
 {
-	public BottomZoneViewModel bottomZoneVM;
-	public TopZoneViewModel topZoneVM ;
 	public GameScreenViewModel gameScreenVM ;
 
 	void Awake()
 	{
 		gameScreenVM = new GameScreenViewModel();
-	}
-	
-	void Start()
-	{	
-	
 	}
 
 	void Update()

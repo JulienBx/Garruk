@@ -10,7 +10,6 @@ public class Assassinat : GameSkill
 	
 	public override void launch()
 	{
-		Debug.Log("Je lance assassinat");
 		GameController.instance.lookForAdjacentTarget("Choisir une cible à attaquer", "Lancer assassinat");
 	}
 	
@@ -20,23 +19,26 @@ public class Assassinat : GameSkill
 		
 		int killpercentage = GameController.instance.getCurrentSkill().ManaCost;
 		int attack = GameController.instance.getCard(targetID).GetLife(); ;
+		int myPlayerID = GameController.instance.currentPlayingCard;
+		string myPlayerName = GameController.instance.getCurrentCard().Title;
+		string hisPlayerName = GameController.instance.getCard(targetID).Title;
 		
-		string message = GameController.instance.getCurrentCard().Title+" tente d'assassiner "+GameController.instance.getCard(targetID).Title;
+		GameController.instance.displaySkillEffect(myPlayerID, myPlayerName+" attaque", 3, 2);
 		
 		if (Random.Range(1, 100) > GameController.instance.getCard(targetID).GetEsquive()){
 			if (Random.Range(1, 100) <= killpercentage){
-				message += "\n"+"Le héros est assassiné";
 				GameController.instance.addModifier(targetID, attack, (int)ModifierType.Type_BonusMalus, (int)ModifierStat.Stat_Dommage);
+				GameController.instance.displaySkillEffect(targetID, hisPlayerName+" meurt !", 3, 1);
 			}
 			else{
-				message += "\n"+"L'assassinat échoue";
+				GameController.instance.displaySkillEffect(targetID, hisPlayerName+" ne meurt pas !", 3, 0);
 			}
 		}
 		else{
-			message += "\n"+GameController.instance.getCard(targetID).Title+" esquive l'attaque";
+			GameController.instance.displaySkillEffect(targetID, hisPlayerName+" esquive", 3, 0);
 		}
 		
-		GameController.instance.play(message);	
+		GameController.instance.play();	
 	}
 	
 	public override bool isLaunchable(Skill s){
