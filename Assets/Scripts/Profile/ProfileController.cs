@@ -6,7 +6,8 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text.RegularExpressions;
 
-public class ProfileController : MonoBehaviour {
+public class ProfileController : MonoBehaviour 
+{
 
 	public GameObject MenuObject;
 	public GameObject TutorialObject;
