@@ -16,7 +16,7 @@ public class Guerison : GameSkill
 	
 	public override void resolve(int[] args)
 	{
-		int amount = GameController.instance.getCurrentSkill().Power * -1;
+		int amount = GameController.instance.getCurrentSkill().Power;
 		GameController.instance.play(GameController.instance.getCurrentCard().Title + 
 			" a lancé guerison\n " 
 			+ convertStatToString(ModifierStat.Stat_Heal)

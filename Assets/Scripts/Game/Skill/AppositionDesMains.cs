@@ -11,12 +11,12 @@ public class AppositionDesMains : GameSkill
 	public override void launch()
 	{
 		Debug.Log("Je lance Apposition des mains");
-		GameController.instance.lookForTarget("Choisir une cible pour Apposition des mains", "Lancer Apposition des mains");
+		GameController.instance.lookForAdjacentTarget("Choisir une cible pour Apposition des mains", "Lancer Apposition des mains");
 	}
 	
 	public override void resolve(int[] args)
 	{
-		int amount = GameController.instance.getCurrentSkill().Power * -1;
+		int amount = GameController.instance.getCurrentSkill().Power;
 		GameController.instance.play(GameController.instance.getCurrentCard().Title + 
 			" a lancé apposition des mains \n " 
 			+ convertStatToString(ModifierStat.Stat_Heal)
