@@ -159,7 +159,7 @@ public class MarketController : MonoBehaviour
 			int idOwner = model.cards [tempInt].IdOWner;
 			int idCard = model.cards [tempInt].Id;
 			int price = model.cards [tempInt].Price;
-			Notification tempNotification = new Notification(idOwner,model.playerId,false,2,idCard.ToString(),price.ToString());
+			Notification tempNotification = new Notification(idOwner,model.player.Id,false,2,idCard.ToString(),price.ToString());
 			StartCoroutine(tempNotification.add ());
 		}
 		else
@@ -976,14 +976,11 @@ public class MarketController : MonoBehaviour
 		{
 			yield return StartCoroutine (model.player.setMarketTutorial(true));
 		}
-		else
-		{
-			yield break;
-		}
 		MenuController.instance.setButtonsGui (true);
 		Destroy (this.tutorial);
 		this.isTutorialLaunched = false;
 		MenuController.instance.isTutorialLaunched = false;
 		this.setGUI (true);
+		yield break;
 	}
 }
