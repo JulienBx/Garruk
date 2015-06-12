@@ -24,7 +24,7 @@ public class AttaqueRapide : GameSkill
 	
 		int amount = GameController.instance.getCurrentSkill().ManaCost;
 		int nbSuccessfullAttacks = 0 ;
-		int attack = GameController.instance.getCurrentCard().Attack * amount / 100 ;
+		int attack = GameController.instance.getCurrentCard().GetAttack() * amount / 100 ;
 		int totalAmount = 0 ;
 		int nbCoups = Random.Range(2, 4);
 		

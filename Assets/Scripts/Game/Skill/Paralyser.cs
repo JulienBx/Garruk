@@ -19,7 +19,7 @@ public class Paralyser : GameSkill
 		int targetID = args [0];
 		
 		int amount = GameController.instance.getCurrentSkill().ManaCost;
-		int attack = GameController.instance.getCurrentCard().Attack / 2 ;
+		int attack = GameController.instance.getCurrentCard().GetAttack() / 2 ;
 		int myPlayerID = GameController.instance.currentPlayingCard;
 		string myPlayerName = GameController.instance.getCurrentCard().Title;
 		string hisPlayerName = GameController.instance.getCard(targetID).Title;
