@@ -12,7 +12,12 @@ public class UserProfileViewModel {
 	public int profilePictureHeight;
 	public int updateProfilePictureButtonHeight;
 	public int updateProfilePictureButtonWidth;
-	public string title="Mes informations";
+	public string title;
+	public string error;
+	public string tempSurname;
+	public string tempFirstName;
+	public string tempMail;
+	public bool isEditing;
 
 	public GUIStyle[] styles;
 	public GUIStyle profilePictureStyle;
@@ -20,10 +25,17 @@ public class UserProfileViewModel {
 	public GUIStyle editProfilePictureButtonStyle;
 	public GUIStyle editProfileDataButtonStyle;
 	public GUIStyle inputTextfieldStyle;
+	public GUIStyle errorStyle;
 	public Rect profilePictureRect;
 	public Rect updateProfilePictureButtonRect;
 	
 	public UserProfileViewModel (){
+		this.tempSurname = "";
+		this.tempFirstName = "";
+		this.tempMail = "";
+		this.title = "Mes informations";
+		this.error = "";
+		this.isEditing = false;
 	}
 
 	public void initStyles(){
@@ -32,12 +44,14 @@ public class UserProfileViewModel {
 		this.editProfilePictureButtonStyle = this.styles [2];
 		this.editProfileDataButtonStyle = this.styles [3];
 		this.inputTextfieldStyle = this.styles [4];
+		this.errorStyle = this.styles [5];
 	}
 	public void resize(int heightScreen){
 		this.profileDataStyle.fontSize = heightScreen * 2 / 100;
 		this.editProfilePictureButtonStyle.fontSize = heightScreen * 2 / 100;
 		this.editProfileDataButtonStyle.fontSize = heightScreen * 2 / 100;
 		this.inputTextfieldStyle.fontSize=heightScreen * 2 / 100;
+		this.errorStyle.fontSize = heightScreen * 2 / 100;
 	}
 
 

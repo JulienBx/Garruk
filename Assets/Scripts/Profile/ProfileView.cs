@@ -86,7 +86,7 @@ public class ProfileView : MonoBehaviour
 						{
 							GUILayout.Label ("Argent : " + userProfileVM.Profile.Money + " credits",userProfileVM.profileDataStyle);
 						}
-						if(!profileVM.isEditing){
+						if(!userProfileVM.isEditing){
 							GUILayout.Label ("Prenom : " + userProfileVM.Profile.FirstName,userProfileVM.profileDataStyle);
 							GUILayout.Label ("Nom : " + userProfileVM.Profile.Surname,userProfileVM.profileDataStyle);
 							GUILayout.Label (userProfileVM.Profile.Mail,userProfileVM.profileDataStyle);
@@ -104,11 +104,15 @@ public class ProfileView : MonoBehaviour
 								GUI.enabled = profileVM.guiEnabled;
 							}
 						}
-						if (profileVM.isEditing)
+						if (userProfileVM.isEditing)
 						{
-							profileVM.tempFirstName = GUILayout.TextField(profileVM.tempFirstName, 15,userProfileVM.inputTextfieldStyle);
-							profileVM.tempSurname = GUILayout.TextField(profileVM.tempSurname, 15,userProfileVM.inputTextfieldStyle);
-							profileVM.tempMail=GUILayout.TextField(profileVM.tempMail, 30,userProfileVM.inputTextfieldStyle);
+							userProfileVM.tempFirstName = GUILayout.TextField(userProfileVM.tempFirstName, 15,userProfileVM.inputTextfieldStyle);
+							userProfileVM.tempSurname = GUILayout.TextField(userProfileVM.tempSurname, 15,userProfileVM.inputTextfieldStyle);
+							userProfileVM.tempMail=GUILayout.TextField(userProfileVM.tempMail, 30,userProfileVM.inputTextfieldStyle);
+							if(userProfileVM.error!="")
+							{
+								GUILayout.Label(userProfileVM.error,userProfileVM.errorStyle);
+							}
 							if (GUILayout.Button ("Valider",userProfileVM.editProfileDataButtonStyle))
 							{
 								ProfileController.instance.updateUserInformationsHandler();

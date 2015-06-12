@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Text.RegularExpressions;
 
 public class CardController : GameObjectController {
 
@@ -502,11 +503,27 @@ public class CardController : GameObjectController {
 		if(tempString=="")
 		{
 			renamePopUpView.renamePopUpVM.error="Merci de bien vouloir saisir un nom";
+			return "";
 		}
 		else if(tempString==this.card.Title)
 		{
 			renamePopUpView.renamePopUpVM.error="Le nom saisi est identique à l'ancien";
-			tempString="";
+			return "";
+		}
+		else if(tempString.Length<4 )
+		{
+			renamePopUpView.renamePopUpVM.error= "Le nom doit au moins comporter 4 caractères";
+			return "";
+		}
+		else if(tempString.Length>14 )
+		{
+			renamePopUpView.renamePopUpVM.error="Le nom doit faire moins de 12 caractères";
+			return "";
+		}
+		else if(!Regex.IsMatch(tempString, @"^[a-zA-Z0-9_]+$"))
+		{
+			renamePopUpView.renamePopUpVM.error="Vous ne pouvez pas utiliser de caractères spéciaux";
+			return "";
 		}
 		return tempString;
 	}

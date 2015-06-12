@@ -74,8 +74,7 @@ public class HomePageController : MonoBehaviour
 		this.initLabelsNo ();
 		this.initStyles ();
 		this.initVM ();
-		this.toLoadData ();
-		MenuObject.GetComponent<MenuController>().setNbNotificationsNonRead(view.notificationsVM.nbNonReadNotifications);
+		this.toLoadData (true);
 		this.isDataLoaded = true;
 		if(model.player.TutorialStep==1)
 		{
@@ -84,15 +83,15 @@ public class HomePageController : MonoBehaviour
 			MenuObject.GetComponent<MenuController>().setTutorialLaunched(true);
 		}
 	}
-	private void toLoadData()
+	private void toLoadData(bool firstLoad=false)
 	{
 		this.resize ();
-		this.manageNonReadsNotifications ();
+		this.manageNonReadsNotifications (firstLoad);
 	}
-	private void manageNonReadsNotifications(){
+	private void manageNonReadsNotifications(bool firstload){
 		this.computeNonReadsNotifications ();
 		this.initLabelTitle ();
-		StartCoroutine(this.updateReadNotifications ());
+		StartCoroutine(this.updateReadNotifications (firstload));
 	}
 	private void computeNonReadsNotifications()
 	{
@@ -330,7 +329,7 @@ public class HomePageController : MonoBehaviour
 			this.tutorial.GetComponent<TutorialObjectController>().resize();
 		}
 	}
-	private IEnumerator updateReadNotifications()
+	private IEnumerator updateReadNotifications(bool firstLoad)
 	{
 		IList<int> tempList = new List<int> ();
 		for (int i=view.notificationsVM.start;i<view.notificationsVM.finish;i++)
@@ -344,6 +343,10 @@ public class HomePageController : MonoBehaviour
 			{
 				tempList.Add (i);
 			}
+		}
+		if(firstLoad)
+		{
+			MenuObject.GetComponent<MenuController>().setNbNotificationsNonRead(view.notificationsVM.nbNonReadNotifications-tempList.Count);
 		}
 		if(tempList.Count>0)
 		{
@@ -461,7 +464,6 @@ public class HomePageController : MonoBehaviour
 		view.newsVM.chosenPage=chosenPage;
 		view.newsVM.paginatorGuiStyle[chosenPage]=view.homepageVM.paginationActivatedStyle;
 		this.displayNewsPage();
-		this.manageNonReadsNotifications ();
 	}
 	public void newsPaginationNext()
 	{
@@ -479,6 +481,7 @@ public class HomePageController : MonoBehaviour
 		view.notificationsVM.chosenPage=chosenPage;
 		view.notificationsVM.paginatorGuiStyle[chosenPage]=view.homepageVM.paginationActivatedStyle;
 		this.displayNotificationsPage();
+		this.manageNonReadsNotifications (false);
 	}
 	public void notificationsPaginationNext()
 	{
