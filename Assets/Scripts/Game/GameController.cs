@@ -2165,7 +2165,6 @@ public class GameController : Photon.MonoBehaviour
 			{
 				foreach (StatModifier sm in tileController.tile.StatModifier)
 				{
-
 					this.getPCC(tileController.characterID).card.TileModifiers.Add(sm);
 				}
 				if (tileController.tileModification == TileModification.Sables_Mouvants)
@@ -2173,7 +2172,7 @@ public class GameController : Photon.MonoBehaviour
 					tileController.tileView.tileVM.toDisplayIcon = true;
 					playRPC(this.getPCC(tileController.characterID).card.Title + " est pris dans un sable mouvant");
 				}
-				if (tileController.tileModification != TileModification.Fontaine_de_Jouvence)
+				if (!tileController.statModifierEachTurn)
 				{
 					tileController.statModifierActive = false;
 				}
