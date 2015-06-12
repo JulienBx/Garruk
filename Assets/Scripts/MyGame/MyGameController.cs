@@ -465,14 +465,22 @@ public class MyGameController : MonoBehaviour
 		yield return StartCoroutine(model.decks[view.myGameDecksVM.decksToBeDisplayed[deleteDeckPopUpView.deleteDeckPopUpVM.chosenDeck]].delete());
 		model.decks.RemoveAt (view.myGameDecksVM.decksToBeDisplayed [deleteDeckPopUpView.deleteDeckPopUpVM.chosenDeck]);
 		this.removeDeckFromAllCards (deckId);
+		this.hideDeleteDeckPopUp();
 		if(view.myGameDecksVM.chosenDeck==deleteDeckPopUpView.deleteDeckPopUpVM.chosenDeck)
 		{
 			view.myGameDecksVM.chosenDeck=0;
+			this.resetAll();
 		}
-		this.initMyGameDecksVM ();
-		this.initMyGameDeckCardsVM ();
-		this.loadDeckCards ();
-		this.hideDeleteDeckPopUp();
+		else
+		{
+			if(deleteDeckPopUpView.deleteDeckPopUpVM.chosenDeck<view.myGameDecksVM.chosenDeck)
+			{
+				view.myGameDecksVM.chosenDeck--;
+			}
+			this.initMyGameDecksVM ();
+			this.initMyGameDeckCardsVM ();
+			this.loadDeckCards ();
+		}
 		view.myGameDeckCardsVM.labelNoDecks=computeLabelNoDeck();
 	}
 	public void exitCard()
