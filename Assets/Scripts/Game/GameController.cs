@@ -1900,8 +1900,8 @@ public class GameController : Photon.MonoBehaviour
 		this.gameskills [20] = new Frenesie();
 		this.gameskills [21] = new Rugissement();
 		this.gameskills [22] = new Terreur();
-		this.gameskills [23] = new GameSkill();
-		this.gameskills [24] = new GameSkill();
+		this.gameskills [23] = new SacrificeTribal();
+		this.gameskills [24] = new RayonEnergie();
 		this.gameskills [25] = new GameSkill();
 		this.gameskills [26] = new GameSkill();
 		this.gameskills [27] = new GameSkill();

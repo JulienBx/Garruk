@@ -49,17 +49,13 @@ public class ProfileChangePasswordPopUpView : MonoBehaviour
 				GUILayout.BeginHorizontal();
 				{
 					GUILayout.FlexibleSpace();
-					if (GUILayout.Button("OK",popUpVM.centralWindowButtonStyle,GUILayout.Width (popUpVM.centralWindow.width*0.3f))){
-						if(changePasswordPopUpVM.tempNewPassword==changePasswordPopUpVM.tempNewPassword2 && changePasswordPopUpVM.tempNewPassword!="" && changePasswordPopUpVM.tempNewPassword2!=""){
-							changePasswordPopUpVM.passwordsCheck="";
-							ProfileController.instance.editPasswordHandler(changePasswordPopUpVM.tempNewPassword);
-						}
-						else if(changePasswordPopUpVM.tempNewPassword!=changePasswordPopUpVM.tempNewPassword2 && changePasswordPopUpVM.tempNewPassword!="" && changePasswordPopUpVM.tempNewPassword2!=""){
-							changePasswordPopUpVM.passwordsCheck="les saisies ne correspondent pas";
-						}
+					if (GUILayout.Button("OK",popUpVM.centralWindowButtonStyle,GUILayout.Width (popUpVM.centralWindow.width*0.3f)))
+					{
+						ProfileController.instance.editPasswordHandler();
 					}
 					GUILayout.FlexibleSpace();
-					if (GUILayout.Button("Quitter",popUpVM.centralWindowButtonStyle,GUILayout.Width (popUpVM.centralWindow.width*0.3f))){
+					if (GUILayout.Button("Quitter",popUpVM.centralWindowButtonStyle,GUILayout.Width (popUpVM.centralWindow.width*0.3f)))
+					{
 						ProfileController.instance.hideChangePasswordPopUp();
 					}
 					GUILayout.FlexibleSpace();

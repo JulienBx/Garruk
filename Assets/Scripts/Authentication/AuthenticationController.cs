@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System.Text.RegularExpressions;
 
 
 public class AuthenticationController : MonoBehaviour 
@@ -39,7 +40,12 @@ public class AuthenticationController : MonoBehaviour
 	}
 	public IEnumerator login()
 	{
-		if(authenticationWindowView.authenticationWindowPopUpVM.username!="" || authenticationWindowView.authenticationWindowPopUpVM.password!="")
+		authenticationWindowView.authenticationWindowPopUpVM.error=this.checkUsername(authenticationWindowView.authenticationWindowPopUpVM.username);
+		if(authenticationWindowView.authenticationWindowPopUpVM.error=="")
+		{
+			authenticationWindowView.authenticationWindowPopUpVM.error=this.checkPasswordComplexity(authenticationWindowView.authenticationWindowPopUpVM.password);
+		}
+		if(authenticationWindowView.authenticationWindowPopUpVM.error=="")
 		{
 			authenticationWindowView.authenticationWindowPopUpVM.guiEnabled=false;
 			yield return StartCoroutine(ApplicationModel.Login(authenticationWindowView.authenticationWindowPopUpVM.username,
@@ -55,10 +61,6 @@ public class AuthenticationController : MonoBehaviour
 				ApplicationModel.error="";
 				authenticationWindowView.authenticationWindowPopUpVM.guiEnabled=true;
 			}
-		}
-		else
-		{
-			authenticationWindowView.authenticationWindowPopUpVM.error ="Veuillez saisir vos identifiants";
 		}
 	}
 	public void displayAuthenticationWindow()
@@ -113,8 +115,11 @@ public class AuthenticationController : MonoBehaviour
 	public void hideAccountCreatedPopUp()
 	{
 		Destroy (this.accountCreatedView);
+		view.authenticationVM.password1="";
+		view.authenticationVM.password2="";
+		view.authenticationVM.email="";
+		view.authenticationVM.username="";
 		view.authenticationVM.guiEnabled = true;
-		Application.LoadLevel("Homepage");
 	}
 	public void authenticationWindowPopUpResize()
 	{
@@ -159,10 +164,14 @@ public class AuthenticationController : MonoBehaviour
 	}
 	public IEnumerator createNewAccount()
 	{
-		view.authenticationVM.usernameError="";
-		view.authenticationVM.emailError="";
-		view.authenticationVM.passwordError="";
-		if(this.checkUsername() && this.checkEmail() && this.checkPassword() )
+		view.authenticationVM.usernameError=this.checkUsername(view.authenticationVM.username);
+		view.authenticationVM.emailError=this.checkEmail(view.authenticationVM.email);
+		view.authenticationVM.passwordError=this.checkPasswordEgality(view.authenticationVM.password1,view.authenticationVM.password2);
+		if(view.authenticationVM.passwordError=="")
+		{
+			view.authenticationVM.passwordError=this.checkPasswordComplexity(view.authenticationVM.password1);
+		}
+		if(view.authenticationVM.passwordError=="" && view.authenticationVM.emailError=="" && view.authenticationVM.usernameError=="")
 		{
 			view.authenticationVM.guiEnabled = false;
 			yield return StartCoroutine(ApplicationModel.createAccount(view.authenticationVM.username,view.authenticationVM.email,view.authenticationVM.password1));
@@ -178,59 +187,57 @@ public class AuthenticationController : MonoBehaviour
 			}
 		}
 	}
-	public bool checkUsername()
+	public string checkUsername(string username)
 	{
-		if(view.authenticationVM.username=="")
+		if(username=="")
 		{
-			view.authenticationVM.usernameError="Veuillez saisir un pseudo";
-			return false;
+			return "Veuillez saisir un pseudo";
 		}
-		else if(view.authenticationVM.username.Length<4)
+		else if(username.Length<4 )
 		{
-			view.authenticationVM.usernameError="Le pseudo doit comporter au moins 3 caractères";
-			return false;
+			return "Le pseudo doit comporter au moins 3 caractères";
 		}
-		return true;
+		else if(!Regex.IsMatch(username, @"^[a-zA-Z0-9_]+$"))
+		{
+			return "Vous ne pouvez pas utiliser de caractères spéciaux";
+		}   
+		return "";
 	}
-	public bool checkPassword()
+	public string checkPasswordEgality (string password1, string password2)
 	{
-		if(view.authenticationVM.password1=="")
+		if(password1=="")
 		{
-			view.authenticationVM.passwordError="Veuillez saisir un mot de passe";
-			return false;
+			return "Veuillez saisir un mot de passe";
 		}
-		else if(view.authenticationVM.password2=="")
+		else if(password2=="")
 		{
-			view.authenticationVM.passwordError="Veuillez confirmer votre mot de passe";
-			return false;
+			return "Veuillez confirmer votre mot de passe";
 		}
-		else if(view.authenticationVM.password1!=view.authenticationVM.password2)
+		else if(password1!=password2)
 		{
-			view.authenticationVM.passwordError="Les deux mots de passes doivent être identiques";
-			return false;
+			return "Les deux mots de passes doivent être identiques";
 		}
-		else if(view.authenticationVM.password1.Length<6)
-		{
-			view.authenticationVM.passwordError="Le mot de passe doit comporter au moins 6 caractères";
-			return false;
-		}
-		return true;
+		return "";
 	}
-	public bool checkEmail()
+	public string checkPasswordComplexity(string password)
 	{
-		if(view.authenticationVM.email=="")
+		if(password.Length<5)
 		{
-			view.authenticationVM.emailError="Veuillez saisir un email";
-			return false;
+			return "Le mot de passe doit comporter au moins 5 caractères";
 		}
-		else if(view.authenticationVM.email.Length<7 ||
-			   !view.authenticationVM.email.Contains("@") || 
-			   !view.authenticationVM.email.Substring(view.authenticationVM.email.Length - 4, 4).Contains("."))
+		else if(!Regex.IsMatch(password, @"^[a-zA-Z0-9_.@]+$"))
 		{
-				view.authenticationVM.emailError="Veuillez saisir une adresse email valide";
-				return false;
+			return "Le mot de passe ne peut comporter de caractères spéciaux hormis @ _ et .";
+		} 
+		return "";
+	}
+	public string checkEmail(string email)
+	{
+		if(!Regex.IsMatch(email, @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z", RegexOptions.IgnoreCase))
+		{
+				return "Veuillez saisir une adresse email valide";
 		}
-		return true;
+		return "";
 	}
 	public void returnPressed()
 	{
