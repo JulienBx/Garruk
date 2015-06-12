@@ -571,7 +571,7 @@ public class TutorialObjectController : MonoBehaviour
 					view.VM.displayArrow=true;
 					view.VM.displayNextButton=true;
 					view.VM.title="Les filtres";
-					view.VM.description="A terme, lorsque vous posséderez beaucoup de cartes, les filtres vous seront très utiles pour retrouver vos meilleures cartes et organiser vos decks";
+					view.VM.description="Lorsque beaucoup de cartes sont en vente, les filtres vous seront très utiles pour retrouver les cartes qui vous intéressent";
 					this.setRightArrow();
 				}
 				else
@@ -593,7 +593,12 @@ public class TutorialObjectController : MonoBehaviour
 			}
 			else
 			{
-				StartCoroutine(MarketController.instance.endTutorial(false));
+				if(!isResizing)
+				{
+					view.VM.displayArrow=false;
+					view.VM.displayRect=false;
+					StartCoroutine(MarketController.instance.endTutorial(false));
+				}
 			}
 			break;
 		case 502:
