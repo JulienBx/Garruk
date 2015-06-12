@@ -1,5 +1,9 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.UI;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Reflection;
 public class EndSceneViewModel
 {
 	public int credits;
@@ -8,12 +12,14 @@ public class EndSceneViewModel
 	public int creditsToAdd;
 	public int collectionPoints;
 	public string title;
+	public IList<string> newSkills;
 	public bool guiEnabled;
 	public GUIStyle[] styles;
 	public GUIStyle titleStyle;
 	public GUIStyle creditStyle;
 	public GUIStyle labelStyle;
 	public GUIStyle buttonStyle;
+	public GUIStyle newSkillsStyle;
 
 	public EndSceneViewModel ()
 	{
@@ -21,8 +27,10 @@ public class EndSceneViewModel
 		this.creditStyle = new GUIStyle ();
 		this.labelStyle = new GUIStyle ();
 		this.buttonStyle = new GUIStyle ();
+		this.newSkillsStyle = new GUIStyle ();
 		this.guiEnabled = false;
 		this.title = "";
+		this.newSkills = new List<string> ();
 	}
 	public void initStyles()
 	{
@@ -30,6 +38,7 @@ public class EndSceneViewModel
 		this.creditStyle = this.styles [1];
 		this.labelStyle = this.styles [2];
 		this.buttonStyle = this.styles [3];
+		this.newSkillsStyle = this.styles [4];
 	}
 	public void resize(int heightScreen)
 	{
@@ -37,5 +46,6 @@ public class EndSceneViewModel
 		this.creditStyle.fontSize = heightScreen * 3 / 100;
 		this.labelStyle.fontSize = heightScreen * 3 / 100;
 		this.buttonStyle.fontSize = heightScreen * 3 / 100;
+		this.newSkillsStyle.fontSize = heightScreen * 2 / 100;
 	}
 }

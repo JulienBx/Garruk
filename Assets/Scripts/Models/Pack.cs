@@ -109,6 +109,7 @@ public class Pack
 					cards[i].PercentageToNextLevel = 0;
 					cards[i].ExperienceLevel = 0;
 					cards[i].Skills = new List<Skill>();
+					cards[i].NewSkills=new List<Skill>();
 				}
 				else
 				{       

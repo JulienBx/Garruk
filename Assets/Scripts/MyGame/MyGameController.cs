@@ -288,6 +288,7 @@ public class MyGameController : MonoBehaviour
 			this.cardFocused.GetComponent<CardController> ().setGameObjectScaleAndPosition(scale,position);
 			this.cardFocused.GetComponent<CardController> ().setCentralWindowRect (view.myGameScreenVM.centralWindow);
 			this.cardFocused.GetComponent<CardController>().setCollectionPointsWindowRect(view.myGameScreenVM.collectionPointsWindow);
+			this.cardFocused.GetComponent<CardController>().setNewSkillsWindowRect(view.myGameScreenVM.newSkillsWindow);
 		}
 		this.cardFocused.GetComponent<CardController> ().setGameObjectName (name);
 		this.cardFocused.GetComponent<CardMyGameController> ().resetFocusedMyGameCard (tempCard);
@@ -298,6 +299,9 @@ public class MyGameController : MonoBehaviour
 		Vector3 scale = new Vector3(view.myGameScreenVM.heightScreen / 120f,view.myGameScreenVM.heightScreen / 120f,view.myGameScreenVM.heightScreen / 120f);
 		Vector3 position = Camera.main.ScreenToWorldPoint (new Vector3 (0.4f * view.myGameScreenVM.widthScreen, 0.45f * view.myGameScreenVM.heightScreen - 1, 10));
 		this.cardFocused.GetComponent<CardController> ().setGameObjectScaleAndPosition(scale,position);
+		this.cardFocused.GetComponent<CardController> ().setCentralWindowRect (view.myGameScreenVM.centralWindow);
+		this.cardFocused.GetComponent<CardController>().setCollectionPointsWindowRect(view.myGameScreenVM.collectionPointsWindow);
+		this.cardFocused.GetComponent<CardController>().setNewSkillsWindowRect(view.myGameScreenVM.newSkillsWindow);
 		this.cardFocused.GetComponent<CardController> ().resize ();
 	}
 	public void displayErrorPopUp(string error)
@@ -526,6 +530,10 @@ public class MyGameController : MonoBehaviour
 			if(model.cards[index].CollectionPoints>0)
 			{
 				StartCoroutine(this.cardFocused.GetComponent<CardController>().displayCollectionPointsPopUp());
+			}
+			if(model.cards[index].NewSkills.Count>0)
+			{
+				StartCoroutine(this.cardFocused.GetComponent<CardController>().displayNewSkillsPopUp());
 			}
 		}
 		else
