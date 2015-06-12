@@ -22,7 +22,7 @@ public class Attack : GameSkill
 		string myPlayerName = GameController.instance.getCurrentCard().Title;
 		string hisPlayerName = GameController.instance.getCard(targetID).Title;
 		
-		GameController.instance.displaySkillEffect(myPlayerID, myPlayerName+" attaque", 3, 2);
+		GameController.instance.displaySkillEffect(myPlayerID, "Attaque", 3, 2);
 		//yield return new WaitForSeconds(0.50f);
 		
 		if (Random.Range(1, 100) > GameController.instance.getCard(targetID).GetEsquive())

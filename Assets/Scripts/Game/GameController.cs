@@ -1551,7 +1551,7 @@ public class GameController : Photon.MonoBehaviour
 		
 		if (!photonView.isMine)
 		{
-			displayPopUpMessage(this.playingCards [c].GetComponentInChildren<PlayingCardController>().card.Title + " s'est déplacé", 2f);
+			displaySkillEffect(c, "se déplace", 2, 2);
 		}
 		playingCardHasMoved = true;
 	}

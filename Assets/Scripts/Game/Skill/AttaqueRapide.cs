@@ -28,7 +28,7 @@ public class AttaqueRapide : GameSkill
 		int totalAmount = 0 ;
 		int nbCoups = Random.Range(2, 4);
 		
-		GameController.instance.displaySkillEffect(myPlayerID, myPlayerName+" attaque", 3, 2);
+		GameController.instance.displaySkillEffect(myPlayerID,"Attaque rapide", 3, 2);
 		
 		for (int i = 0 ; i < nbCoups ; i++){
 			if (Random.Range(1, 100) > GameController.instance.getCard(targetID).GetEsquive()){

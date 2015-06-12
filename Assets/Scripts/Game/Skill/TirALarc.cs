@@ -16,7 +16,7 @@ public class TirALarc : GameSkill
 		string myPlayerName = GameController.instance.getCurrentCard().Title;
 		string hisPlayerName = GameController.instance.getCard(targetID).Title;
 		
-		GameController.instance.displaySkillEffect(myPlayerID, myPlayerName+" tire", 3, 2);
+		GameController.instance.displaySkillEffect(myPlayerID, "Tir à l'arc", 3, 2);
 		
 		if (Random.Range(1, 100) > GameController.instance.getCard(targetID).GetEsquive())
 		{                             
