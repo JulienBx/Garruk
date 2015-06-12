@@ -2131,7 +2131,7 @@ public class GameController : Photon.MonoBehaviour
 		int c = getTile(tileX, tileY).characterID;
 		if (c != -1)
 		{
-			getPCC(getTile(tileX, tileY).characterID).card.TileModifiers.Clear();
+			getPCC(c).card.TileModifiers.Clear();
 		}
 		switch (modifierType)
 		{
