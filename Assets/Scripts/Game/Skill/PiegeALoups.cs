@@ -24,7 +24,7 @@ public class PiegeALoups : GameSkill
 		int amount = GameController.instance.getCurrentSkill().ManaCost;
 		
 		GameController.instance.addTrap(tileX, tileY, 0, amount);	
-		GameController.instance.displaySkillEffect(myPlayerID, myPlayerName+" pose un piège à loups", 3, 0);
+		GameController.instance.displaySkillEffect(myPlayerID, "Piège à loups", 3, 0);
 	}
 	
 	public override bool isLaunchable(Skill s){

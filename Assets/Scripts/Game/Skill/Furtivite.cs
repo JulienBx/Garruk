@@ -16,7 +16,7 @@ public class Furtivite : GameSkill
 		GameController.instance.setCannotBeTargeted ();
 		GameController.instance.addModifier (GameController.instance.currentPlayingCard, amount, (int)ModifierType.Type_BonusMalus, (int)ModifierStat.Stat_Attack, 1);
 		
-		GameController.instance.displaySkillEffect(myPlayerID, "devient invisible et gagne "+amount+" ATK", 3,0);
+		GameController.instance.displaySkillEffect(myPlayerID, "devient intouchable et gagne "+amount+" ATK", 3,0);
 		
 		GameController.instance.play ();
 	}

@@ -406,6 +406,10 @@ public class PlayingCardController : GameObjectController
 				}
 			}
 		}
+		
+		for(int i = 0 ; i < modifiersToSuppress.Count ; i++){
+			this.card.modifiers.RemoveAt (modifiersToSuppress[i]);
+		}
 	}
 }
 
