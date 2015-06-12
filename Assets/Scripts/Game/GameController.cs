@@ -556,14 +556,15 @@ public class GameController : Photon.MonoBehaviour
 		tempTiles = new List<TileController>();
 		foreach (Tile t in this.getCurrentPCC().tile.getImmediateNeighbouringTiles())
 		{
-			if (this.currentPlayingCard<5){
-				if (this.tiles [t.x, t.y].GetComponent<TileController>().characterID != -1 && this.tiles [t.x, t.y].GetComponent<TileController>().characterID<5)
+			if (this.currentPlayingCard < 5)
+			{
+				if (this.tiles [t.x, t.y].GetComponent<TileController>().characterID != -1 && this.tiles [t.x, t.y].GetComponent<TileController>().characterID < 5)
 				{
 					tempTiles.Add(this.tiles [t.x, t.y].GetComponent<TileController>());
 				}
-			}
-			else{
-				if (this.tiles [t.x, t.y].GetComponent<TileController>().characterID != -1 && this.tiles [t.x, t.y].GetComponent<TileController>().characterID>4)
+			} else
+			{
+				if (this.tiles [t.x, t.y].GetComponent<TileController>().characterID != -1 && this.tiles [t.x, t.y].GetComponent<TileController>().characterID > 4)
 				{
 					tempTiles.Add(this.tiles [t.x, t.y].GetComponent<TileController>());
 				}
@@ -685,7 +686,8 @@ public class GameController : Photon.MonoBehaviour
 		this.gameView.gameScreenVM.toDisplayValidationWindows = false;
 		this.isRunningSkill = false;
 		this.playindCardHasPlayed = false;
-		for (int i = 0 ; i < 10 ; i++){
+		for (int i = 0; i < 10; i++)
+		{
 			this.getPCC(i).removeTargetHalo();	
 		}
 		this.showMyPlayingSkills(this.currentPlayingCard);
@@ -735,7 +737,8 @@ public class GameController : Photon.MonoBehaviour
 			}
 		}
 		
-		if (nbTurns!=0){
+		if (nbTurns != 0)
+		{
 			this.updateStatusMySkills(idc);
 		}
 		
@@ -1074,8 +1077,7 @@ public class GameController : Photon.MonoBehaviour
 		{
 			this.playindCardHasPlayed = true;
 			this.displayPopUpMessage(this.getCurrentCard().Title + " est paralysé", 3f);
-		} 
-		else
+		} else
 		{
 			this.playindCardHasPlayed = false;
 		}
@@ -1094,7 +1096,7 @@ public class GameController : Photon.MonoBehaviour
 			this.isDragging = true;
 		}
 		//this.playingCards [currentPlayingCard].GetComponentInChildren<PlayingCardController>().card.changeModifiers();
-		//loadTileModifierToCharacter(getCurrentPCC().tile.x, getCurrentPCC().tile.y);
+		loadTileModifierToCharacter(getCurrentPCC().tile.x, getCurrentPCC().tile.y);
 
 		this.playingCards [currentPlayingCard].GetComponentInChildren<PlayingCardController>().show();
 
@@ -1169,7 +1171,8 @@ public class GameController : Photon.MonoBehaviour
 	}
 	
 	[RPC]
-	public void checkModyfiersRPC(){
+	public void checkModyfiersRPC()
+	{
 		this.getCurrentPCC().checkModyfiers();
 	}
 
@@ -1260,8 +1263,7 @@ public class GameController : Photon.MonoBehaviour
 		if (ApplicationModel.username == loginName)
 		{
 			this.gameView.gameScreenVM.myPlayerName = loginName;
-		} 
-		else
+		} else
 		{
 			this.gameView.gameScreenVM.hisPlayerName = loginName;
 			this.gameView.gameScreenVM.connectOtherPlayer();
@@ -1528,7 +1530,7 @@ public class GameController : Photon.MonoBehaviour
 
 		getPCC(c).changeTile(new Tile(x, y), getTile(x, y).getPosition());
 		getPCC(c).card.TileModifiers.Clear();
-		//loadTileModifierToCharacter(x, y);
+		loadTileModifierToCharacter(x, y);
 
 		if (this.isFirstPlayer == isFirstP && nbTurns != 0)
 		{
@@ -2030,7 +2032,7 @@ public class GameController : Photon.MonoBehaviour
 	}
 	
 	[RPC]
-	public void displaySkillEffectRPC(int target, string s, float timer, int colorindex) 
+	public void displaySkillEffectRPC(int target, string s, float timer, int colorindex)
 	{
 		this.getPCC(target).addSkillResult(s, timer, colorindex);
 	}
@@ -2112,7 +2114,8 @@ public class GameController : Photon.MonoBehaviour
 		}
 	}
 	
-	public IEnumerator kill(int target){
+	public IEnumerator kill(int target)
+	{
 		yield return new WaitForSeconds(2f);
 		this.getPCC(target).kill();
 	}
@@ -2162,7 +2165,6 @@ public class GameController : Photon.MonoBehaviour
 			{
 				foreach (StatModifier sm in tileController.tile.StatModifier)
 				{
-
 					this.getPCC(tileController.characterID).card.TileModifiers.Add(sm);
 				}
 				if (tileController.tileModification == TileModification.Sables_Mouvants)
@@ -2170,14 +2172,12 @@ public class GameController : Photon.MonoBehaviour
 					tileController.tileView.tileVM.toDisplayIcon = true;
 					playRPC(this.getPCC(tileController.characterID).card.Title + " est pris dans un sable mouvant");
 				}
-				if (tileController.tileModification != TileModification.Fontaine_de_Jouvence)
+				if (!tileController.statModifierEachTurn)
 				{
 					tileController.statModifierActive = false;
 				}
+				reloadCard(tileController.characterID);
 			}
-			reloadSortedList();
-			reloadDestinationTiles();
-			reloadCard(tileController.characterID);
 		}
 	}
 	

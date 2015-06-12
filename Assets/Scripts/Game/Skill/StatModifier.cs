@@ -51,7 +51,7 @@ public class StatModifier
 
 	public int modifyAttack(int attack)
 	{
-		if (Stat == ModifierStat.Stat_Attack && Active)
+		if (Stat == ModifierStat.Stat_Attack)
 		{
 			if (Type == ModifierType.Type_BonusMalus)
 			{
@@ -65,7 +65,7 @@ public class StatModifier
 	}
 	public int modifySpeed(int speed)
 	{
-		if (Stat == ModifierStat.Stat_Speed && Active)
+		if (Stat == ModifierStat.Stat_Speed)
 		{
 			if (Type == ModifierType.Type_BonusMalus)
 			{
@@ -79,7 +79,7 @@ public class StatModifier
 	}
 	public int modifyMove(int move)
 	{
-		if (Stat == ModifierStat.Stat_Move && Active)
+		if (Stat == ModifierStat.Stat_Move)
 		{
 			if (Type == ModifierType.Type_BonusMalus)
 			{
@@ -94,7 +94,7 @@ public class StatModifier
 	
 	public int modifyLife(int life)
 	{
-		if (Stat == ModifierStat.Stat_Life && Active)
+		if (Stat == ModifierStat.Stat_Life)
 		{
 			if (Type == ModifierType.Type_BonusMalus)
 			{

@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Text.RegularExpressions;
 
 public class ProfileController : MonoBehaviour {
 
@@ -184,22 +185,22 @@ public class ProfileController : MonoBehaviour {
 		}
 		if(changePasswordView!=null)
 		{
-			this.editPasswordHandler(changePasswordView.changePasswordPopUpVM.tempNewPassword);
+			this.editPasswordHandler();
 		}
 		if(checkPasswordView!=null)
 		{
 			this.checkPasswordHandler(checkPasswordView.checkPasswordPopUpVM.tempOldPassword);
 		}
-		if(view.profileVM.isEditing)
+		if(view.userProfileVM.isEditing)
 		{
 			this.updateUserInformationsHandler();
 		}
 	}
 	public void escapePressed()
 	{
-		if(view.profileVM.isEditing)
+		if(view.userProfileVM.isEditing)
 		{
-			view.profileVM.isEditing=false;
+			view.userProfileVM.isEditing=false;
 		}
 		if(this.changePasswordView!=null)
 		{
@@ -654,25 +655,37 @@ public class ProfileController : MonoBehaviour {
 	}
 	private IEnumerator checkPassword(string password)
 	{
-		checkPasswordView.popUpVM.guiEnabled = false;
-		yield return StartCoroutine(ApplicationModel.checkPassword(password));
-		if(ApplicationModel.error=="")
+		checkPasswordView.checkPasswordPopUpVM.error = this.checkPasswordComplexity (password);
+		if(checkPasswordView.checkPasswordPopUpVM.error=="")
 		{
-			this.hideCheckPasswordPopUp();
-			this.displayChangePasswordPopUp();
+			checkPasswordView.popUpVM.guiEnabled = false;
+			yield return StartCoroutine(ApplicationModel.checkPassword(password));
+			if(ApplicationModel.error=="")
+			{
+				this.hideCheckPasswordPopUp();
+				this.displayChangePasswordPopUp();
+			}
+			else
+			{
+				checkPasswordView.checkPasswordPopUpVM.error=ApplicationModel.error;
+				ApplicationModel.error="";
+			}
+			checkPasswordView.popUpVM.guiEnabled = true;
 		}
-		else
-		{
-			checkPasswordView.checkPasswordPopUpVM.error=ApplicationModel.error;
-			ApplicationModel.error="";
-		}
-		checkPasswordView.popUpVM.guiEnabled = true;
 	}
-	public void editPasswordHandler(string password)
+	public void editPasswordHandler()
 	{
-		changePasswordView.changePasswordPopUpVM.tempNewPassword="";
-		changePasswordView.changePasswordPopUpVM.tempNewPassword2="";
-		StartCoroutine(this.editPassword(password));
+		changePasswordView.changePasswordPopUpVM.passwordsCheck = this.checkPasswordEgality (changePasswordView.changePasswordPopUpVM.tempNewPassword, changePasswordView.changePasswordPopUpVM.tempNewPassword2);
+		if(changePasswordView.changePasswordPopUpVM.passwordsCheck=="")
+		{
+			changePasswordView.changePasswordPopUpVM.passwordsCheck=this.checkPasswordComplexity(changePasswordView.changePasswordPopUpVM.tempNewPassword);
+		}
+		if(changePasswordView.changePasswordPopUpVM.passwordsCheck=="")
+		{
+			StartCoroutine(this.editPassword(changePasswordView.changePasswordPopUpVM.tempNewPassword));
+			changePasswordView.changePasswordPopUpVM.tempNewPassword="";
+			changePasswordView.changePasswordPopUpVM.tempNewPassword2="";
+		}
 	}
 	private IEnumerator editPassword(string password)
 	{
@@ -765,14 +778,71 @@ public class ProfileController : MonoBehaviour {
 	}
 	public void editProfileInformations(bool value)
 	{
-		view.profileVM.isEditing = value;
-		view.profileVM.tempSurname = model.Player.Surname;
-		view.profileVM.tempFirstName = model.Player.FirstName;
-		view.profileVM.tempMail = model.Player.Mail;
+		view.userProfileVM.error = "";
+		view.userProfileVM.isEditing = value;
+		view.userProfileVM.tempSurname = model.Player.Surname;
+		view.userProfileVM.tempFirstName = model.Player.FirstName;
+		view.userProfileVM.tempMail = model.Player.Mail;
 	}
 	public void updateUserInformationsHandler()
 	{
-		StartCoroutine(updateUserInformations(view.profileVM.tempFirstName,view.profileVM.tempSurname,view.profileVM.tempMail));
+		view.userProfileVM.error = this.checkname (view.userProfileVM.tempSurname);
+		if(view.userProfileVM.error=="")
+		{
+			view.userProfileVM.error = this.checkname (view.userProfileVM.tempFirstName);
+		}
+		if(view.userProfileVM.error=="")
+		{
+			view.userProfileVM.error = this.checkEmail (view.userProfileVM.tempMail);
+		}
+		if(view.userProfileVM.error=="")
+		{
+			StartCoroutine(updateUserInformations(view.userProfileVM.tempFirstName,view.userProfileVM.tempSurname,view.userProfileVM.tempMail));
+		}
+	}
+	public string checkname(string name)
+	{
+		if(!Regex.IsMatch(name, @"^[a-zA-Z0-9_]+$"))
+		{
+			return "Vous ne pouvez pas utiliser de caractères spéciaux";
+		}   
+		return "";
+	}
+	public string checkPasswordEgality (string password1, string password2)
+	{
+		if(password1=="")
+		{
+			return "Veuillez saisir un mot de passe";
+		}
+		else if(password2=="")
+		{
+			return "Veuillez confirmer votre mot de passe";
+		}
+		else if(password1!=password2)
+		{
+			return "Les deux mots de passes doivent être identiques";
+		}
+		return "";
+	}
+	public string checkPasswordComplexity(string password)
+	{
+		if(password.Length<5)
+		{
+			return "Le mot de passe doit comporter au moins 5 caractères";
+		}
+		else if(!Regex.IsMatch(password, @"^[a-zA-Z0-9_.@]+$"))
+		{
+			return "Le mot de passe ne peut comporter de caractères spéciaux hormis @ _ et .";
+		} 
+		return "";
+	}
+	public string checkEmail(string email)
+	{
+		if(!Regex.IsMatch(email, @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z", RegexOptions.IgnoreCase))
+		{
+			return "Veuillez saisir une adresse email valide";
+		}
+		return "";
 	}
 	private IEnumerator updateUserInformations(string firstname, string surname, string mail)
 	{
@@ -782,7 +852,7 @@ public class ProfileController : MonoBehaviour {
 		model.Profile.Mail = mail;
 		yield return StartCoroutine (model.Profile.updateInformations ());
 		this.setGUI (true);
-		view.profileVM.isEditing = false;
+		view.userProfileVM.isEditing = false;
 	}
 	public void updateProfilePictureHandler(string path)
 	{
