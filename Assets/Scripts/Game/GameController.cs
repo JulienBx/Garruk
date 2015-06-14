@@ -1134,6 +1134,9 @@ public class GameController : Photon.MonoBehaviour
 		{
 			this.playindCardHasPlayed = false;
 		}
+		
+		this.getCurrentPCC().activateSleepingModifiers();
+		
 		this.isRunningSkill = false;
 		
 		this.playingCardHasMoved = false;
@@ -1959,7 +1962,7 @@ public class GameController : Photon.MonoBehaviour
 		this.gameskills [26] = new TempeteEnergie();
 		this.gameskills [27] = new EnergieQuantique();
 		this.gameskills [28] = new PuissanceIncontrolable();
-		this.gameskills [29] = new GameSkill();
+		this.gameskills [29] = new Concentration();
 		this.gameskills [30] = new GameSkill();
 		this.gameskills [31] = new GameSkill();
 		this.gameskills [32] = new GameSkill();
@@ -2151,7 +2154,7 @@ public class GameController : Photon.MonoBehaviour
 	[RPC]
 	public void addModifierRPC(int target, int amount, int type, int stat, int duration)
 	{
-		this.getCard(target).modifiers.Add(new StatModifier(amount, (ModifierType)type, (ModifierStat)stat, duration));
+		this.getCard(target).modifiers.Add(new StatModifier(amount, (ModifierType)type, (ModifierStat)stat, duration,"","",""));
 		if (stat == (int)ModifierStat.Stat_Dommage)
 		{
 			
@@ -2269,7 +2272,18 @@ public class GameController : Photon.MonoBehaviour
 	[RPC]
 	public void setCannotBeTargetedRPC(int target)
 	{
-		this.getPCC(target).setCannotBeTargeted("Invisible", "Le héros ne peut pas etre ciblé tant qu'il n'a pas activé une de ses compétences");
+		this.getPCC(target).setCannotBeTargeted("Intouchable", "Le héros ne peut pas etre la cible d'une attaque ou compétence");
+	}
+	
+	public void setBonusDamages(int amount, int duration)
+	{
+		photonView.RPC("setCannotBeTargetedRPC", PhotonTargets.AllBuffered, this.currentPlayingCard, amount, duration);
+	}
+	
+	[RPC]
+	public void setBonusDamagesRPC(int target, int amount, int duration)
+	{
+		this.getPCC(target).setBonusDamages(amount, duration, "Bonus DMG", "Les dégats du héros sont augmentés de "+amount+"%", "Valable à son prochain tour");
 	}
 	
 	public void setEsquive(int amount)
@@ -2280,7 +2294,7 @@ public class GameController : Photon.MonoBehaviour
 	[RPC]
 	public void setEsquiveRPC(int target, int amount)
 	{
-		this.getPCC(target).changeEsquive("Esquive", "Le héros possède " + amount + " % de chances d'esquiver les dégats");
+		this.getPCC(target).changeEsquive("Esquive", "Le héros possède " + amount + " % de chances d'esquiver les dégats", "Permanent");
 		this.addModifier(target, amount, (int)ModifierType.Type_EsquivePercentage, -1);
 	}
 	

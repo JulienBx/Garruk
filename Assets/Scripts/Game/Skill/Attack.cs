@@ -16,7 +16,8 @@ public class Attack : GameSkill
 	public override void resolve(int[] args)
 	{
 		int targetID = args [0];
-		int amount = GameController.instance.getCurrentCard().GetAttack();
+		int damageBonusPercentage = GameController.instance.getCurrentCard().GetDamagesPercentageBonus();
+		int amount = GameController.instance.getCurrentCard().GetAttack()*(100+damageBonusPercentage)/100;
 		
 		int myPlayerID = GameController.instance.currentPlayingCard;
 		string myPlayerName = GameController.instance.getCurrentCard().Title;

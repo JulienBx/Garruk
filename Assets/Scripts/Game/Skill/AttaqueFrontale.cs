@@ -18,8 +18,9 @@ public class AttaqueFrontale : GameSkill
 	{
 		int targetID = args [0];
 		
-		int degats = GameController.instance.getCurrentSkill().ManaCost / 2;
-		int attack = GameController.instance.getCurrentSkill().ManaCost ;
+		int damageBonusPercentage = GameController.instance.getCurrentCard().GetDamagesPercentageBonus();
+		int degats = (GameController.instance.getCurrentSkill().ManaCost / 2)*(100+damageBonusPercentage)/100;
+		int attack = GameController.instance.getCurrentSkill().ManaCost*(100+damageBonusPercentage)/100 ;
 		
 		string message = GameController.instance.getCurrentCard().Title+" porte une attaque frontale sur "+GameController.instance.getCard(targetID).Title;
 		

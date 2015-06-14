@@ -19,7 +19,8 @@ public class BouleEnergie : GameSkill
 		int y = args [1];
 		int width = GameController.instance.boardWidth ;
 		int height = GameController.instance.boardHeight ;
-		int amount = GameController.instance.getCurrentSkill().ManaCost;
+		int damageBonusPercentage = GameController.instance.getCurrentCard().GetDamagesPercentageBonus();
+		int amount = GameController.instance.getCurrentSkill().ManaCost*(100+damageBonusPercentage)/100;
 		
 		int myPlayerID = GameController.instance.currentPlayingCard;
 		

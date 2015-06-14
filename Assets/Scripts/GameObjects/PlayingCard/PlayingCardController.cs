@@ -45,6 +45,7 @@ public class PlayingCardController : GameObjectController
 		this.playingCardView.playingCardVM.titleStyle = styles [1];
 		this.playingCardView.playingCardVM.descriptionStyle = styles [2];
 		this.playingCardView.playingCardVM.descriptionRectStyle = styles [3];
+		this.playingCardView.playingCardVM.additionnalInfoStyle = styles [7];
 	}
 
 	public void setCannotBeTargeted(string title, string description)
@@ -53,6 +54,11 @@ public class PlayingCardController : GameObjectController
 		{
 			this.addIntouchable(title, description);
 		}
+	}
+	
+	public void setBonusDamages(int amount, int duration, string title, string description, string additionnalInfo)
+	{
+		this.card.modifiers.Add(new StatModifier(amount, ModifierType.Type_DommagePercentage, -10, 3,"","",""));
 	}
 
 	public void activateTargetHalo()
@@ -141,8 +147,9 @@ public class PlayingCardController : GameObjectController
 		this.setTextResolution();
 		updateAttack();
 		updateMove();
-		playingCardView.show();
 		this.updateLife();
+		
+		playingCardView.show();
 	}
 
 	public void setTextResolution()
@@ -300,61 +307,45 @@ public class PlayingCardController : GameObjectController
 
 	public void addIntouchable(string title, string description)
 	{
-		this.addIcon(this.icons [0], title, description);
+		this.card.modifiers.Add(new StatModifier(0, ModifierType.Type_DommagePercentage, -1, 0,"","",""));
 		this.cannotBeTargeted = this.playingCardView.playingCardVM.icons.Count - 1;
 	}
 	
 	public void setParalyzed(int duration)
 	{
-		this.card.modifiers.Add(new StatModifier(ModifierType.Type_Paralized, 1));
+		this.card.modifiers.Add(new StatModifier(ModifierType.Type_Paralized, 1, 2,"Paralysé", "Le personnage ne peut pas attaquer ou se servir de ses compétences", "Actif 1 tour"));
 		print("J'add paralyzed " + this.IDCharacter);
 		for (int i = 0; i < this.card.modifiers.Count; i++)
 		{	
 			print(this.card.modifiers [i].Type + " - " + this.card.modifiers [i].Duration);
 		}
-		this.addIcon(this.icons [2], "Paralysé", "Le personnage ne peut pas attaquer ou se servir de ses compétences pendant " + duration + " tour(s)");
 		this.paralyzed = this.playingCardView.playingCardVM.icons.Count - 1;
 	}
 	
-	public void changeEsquive(string title, string description)
+	public void changeEsquive(string title, string description, string additionnalInfo)
 	{
-		this.addIcon(this.icons [1], title, description);
-	}
-
-	public void addIcon(Texture2D icon, string title, string description)
-	{
-		this.playingCardView.playingCardVM.icons.Add(icon);
-		this.playingCardView.playingCardVM.toDisplayDescriptionIcon.Add(false);
-		this.playingCardView.playingCardVM.descriptionIcon.Add(description);
-		this.playingCardView.playingCardVM.titlesIcon.Add(title);
-		int height = Screen.height;
-		int width = Screen.width;
-		int decalage = height / 30;
-
-		Vector3 positionObject = new Vector3(0, 0, 0);
-		positionObject.x = (this.playingCardView.playingCardVM.position.x + this.playingCardView.playingCardVM.scale.x / 2f) * (height / 10f) - decalage * (this.playingCardView.playingCardVM.icons.Count) + (width / 2f);
-		positionObject.y = height - ((this.playingCardView.playingCardVM.position.y) * (height / 10f) + (height / 2f));
-
-		Rect position = new Rect(positionObject.x, positionObject.y, decalage, decalage);
-		this.playingCardView.playingCardVM.iconsRect.Add(position);
+		this.card.modifiers.Add(new StatModifier(ModifierType.Type_Paralized, 1, 1,"Esquive", "esquive", "Permnant"));
+		
 	}
 
 	public void resizeIcons()
 	{
 		int height = Screen.height;
 		int width = Screen.width;
-		int decalage = height / 30;
 		this.playingCardView.playingCardVM.iconsRect = new List<Rect>();
-		for (int i = 1; i <= this.playingCardView.playingCardVM.icons.Count; i++)
+		
+		for (int i = 1; i <= 3; i++)
 		{
 			Vector3 positionObject = new Vector3(0, 0, 0);
-			positionObject.x = (this.playingCardView.playingCardVM.position.x + this.playingCardView.playingCardVM.scale.x / 2f) * (height / 10f) - decalage * i + (width / 2f);
+			positionObject.x = (this.playingCardView.playingCardVM.position.x - this.playingCardView.playingCardVM.scale.x / 2f + (this.playingCardView.playingCardVM.scale.x*4/100) + (i*this.playingCardView.playingCardVM.scale.x*32/100)) * (height / 10f) + (width / 2f);
 			positionObject.y = height - ((this.playingCardView.playingCardVM.position.y) * (height / 10f) + (height / 2f));
 
-			Rect position = new Rect(positionObject.x, positionObject.y, decalage, decalage);
+			Rect position = new Rect(positionObject.x, positionObject.y, (this.playingCardView.playingCardVM.scale.x*28/100)* (height / 10f), (this.playingCardView.playingCardVM.scale.x*28/100)* (height / 10f));
 			this.playingCardView.playingCardVM.iconsRect.Add(position);
 		}
+		
 		this.playingCardView.playingCardVM.descriptionStyle.fontSize = height * 15 / 1000;
+		this.playingCardView.playingCardVM.additionnalInfoStyle.fontSize = height * 15 / 1000;
 		this.playingCardView.playingCardVM.titleStyle.fontSize = height * 20 / 1000;
 	}
 	
@@ -377,7 +368,6 @@ public class PlayingCardController : GameObjectController
 	{
 		print("REMOVEFurtiv");
 		this.playingCardView.playingCardVM.icons.RemoveAt(this.cannotBeTargeted);
-		this.playingCardView.playingCardVM.toDisplayDescriptionIcon.RemoveAt(this.cannotBeTargeted);
 		this.playingCardView.playingCardVM.descriptionIcon.RemoveAt(this.cannotBeTargeted);
 		this.playingCardView.playingCardVM.titlesIcon.RemoveAt(this.cannotBeTargeted);
 		this.playingCardView.playingCardVM.iconsRect.RemoveAt(this.cannotBeTargeted);
@@ -388,7 +378,6 @@ public class PlayingCardController : GameObjectController
 	{
 		print("REMOVE");
 		this.playingCardView.playingCardVM.icons.RemoveAt(this.paralyzed);
-		this.playingCardView.playingCardVM.toDisplayDescriptionIcon.RemoveAt(this.paralyzed);
 		this.playingCardView.playingCardVM.descriptionIcon.RemoveAt(this.paralyzed);
 		this.playingCardView.playingCardVM.titlesIcon.RemoveAt(this.paralyzed);
 		this.playingCardView.playingCardVM.iconsRect.RemoveAt(this.paralyzed);
@@ -441,6 +430,17 @@ public class PlayingCardController : GameObjectController
 		for (int i = 0; i < tileModifiersToSuppress.Count; i++)
 		{
 			this.card.TileModifiers.RemoveAt(tileModifiersToSuppress [i]);
+		}
+	}
+	
+	public void activateSleepingModifiers()
+	{
+		for (int i = 0; i < this.card.modifiers.Count; i++)
+		{
+			if (this.card.modifiers [i].Duration == -10)
+			{
+				this.card.modifiers [i].Duration = 1 ;	
+			}
 		}
 	}
 }

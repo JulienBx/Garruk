@@ -27,6 +27,7 @@ public class AttaqueRapide : GameSkill
 		int attack = GameController.instance.getCurrentCard().GetAttack() * amount / 100 ;
 		int totalAmount = 0 ;
 		int nbCoups = Random.Range(2, 4);
+		int damageBonusPercentage = GameController.instance.getCurrentCard().GetDamagesPercentageBonus();
 		
 		GameController.instance.displaySkillEffect(myPlayerID,"Attaque rapide", 3, 2);
 		
@@ -37,6 +38,7 @@ public class AttaqueRapide : GameSkill
 			}
 		}
 		if(totalAmount>0){
+			totalAmount = totalAmount*(100+damageBonusPercentage)/100;
 			GameController.instance.addModifier(targetID, totalAmount, (int)ModifierType.Type_BonusMalus, (int)ModifierStat.Stat_Dommage);	
 		}
 		GameController.instance.displaySkillEffect(targetID, "touché "+nbSuccessfullAttacks+" fois. "+totalAmount+ " dégats", 3, 1);

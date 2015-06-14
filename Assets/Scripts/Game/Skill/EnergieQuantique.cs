@@ -16,7 +16,8 @@ public class EnergieQuantique : GameSkill
 	public override void resolve(int[] args)
 	{
 		int targetID ;
-		int amount = GameController.instance.getCurrentSkill().ManaCost;
+		int damageBonusPercentage = GameController.instance.getCurrentCard().GetDamagesPercentageBonus();
+		int amount = GameController.instance.getCurrentSkill().ManaCost*(100+damageBonusPercentage)/100;
 		
 		int myPlayerID = GameController.instance.currentPlayingCard;
 		int currentPlayerID = GameController.instance.currentPlayingCard;

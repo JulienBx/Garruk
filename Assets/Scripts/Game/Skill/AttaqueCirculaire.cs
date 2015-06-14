@@ -38,8 +38,8 @@ public class AttaqueCirculaire : GameSkill
 			}
 			i++;
 		}
-		
-		int degats = GameController.instance.getCurrentSkill().ManaCost*GameController.instance.getCurrentCard().Attack/100;
+		int damageBonusPercentage = GameController.instance.getCurrentCard().GetDamagesPercentageBonus();
+		int degats = (GameController.instance.getCurrentSkill().ManaCost*GameController.instance.getCurrentCard().Attack/100)*(100+damageBonusPercentage)/100;
 		message += "Attaque circulaire";
 		
 		for (int j = 0 ; j < targets.Count ; j++){

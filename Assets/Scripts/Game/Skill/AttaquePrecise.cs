@@ -18,7 +18,8 @@ public class AttaquePrecise : GameSkill
 		int targetID = args [0];
 		
 		int a = -1*GameController.instance.getCurrentSkill().ManaCost / 2;
-		int attack = GameController.instance.getCurrentCard().GetAttack() / 2 ;
+		int damageBonusPercentage = GameController.instance.getCurrentCard().GetDamagesPercentageBonus();
+		int attack = (GameController.instance.getCurrentCard().GetAttack() / 2)*(100+damageBonusPercentage)/100 ;
 		int myPlayerID = GameController.instance.currentPlayingCard;
 		string myPlayerName = GameController.instance.getCurrentCard().Title;
 		string hisPlayerName = GameController.instance.getCard(targetID).Title;

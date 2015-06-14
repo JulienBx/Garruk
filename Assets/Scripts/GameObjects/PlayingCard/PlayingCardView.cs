@@ -32,22 +32,13 @@ public class PlayingCardView : MonoBehaviour
 		}
 		else
 		{
+			this.playingCardVM.toDisplayDescriptionIcon = -1;
 			for (int i = 0; i < this.playingCardVM.icons.Count; i++)
 			{
 				if (Input.mousePosition.x > this.playingCardVM.iconsRect [i].xMin && Input.mousePosition.x < this.playingCardVM.iconsRect [i].xMax && (height - Input.mousePosition.y) > this.playingCardVM.iconsRect [i].yMin && (height - Input.mousePosition.y) < this.playingCardVM.iconsRect [i].yMax)
 				{
-					if (!this.playingCardVM.toDisplayDescriptionIcon [i])
-					{
-						this.playingCardVM.toDisplayDescriptionIcon [i] = true;
-					}
-					
-				} else
-				{
-					if (this.playingCardVM.toDisplayDescriptionIcon [i])
-					{
-						this.playingCardVM.toDisplayDescriptionIcon [i] = false;
-					}
-				}
+					this.playingCardVM.toDisplayDescriptionIcon = i;
+				} 
 			}
 		}
 		
@@ -133,23 +124,25 @@ public class PlayingCardView : MonoBehaviour
 			for (int i = 0; i < this.playingCardVM.icons.Count; i++)
 			{
 				GUI.Box(this.playingCardVM.iconsRect [i], this.playingCardVM.icons [i], this.playingCardVM.iconStyle);
-				if (this.playingCardVM.toDisplayDescriptionIcon [i])
+			}
+			if (this.playingCardVM.toDisplayDescriptionIcon!=-1)
+			{
+				Rect newRect = new Rect(this.playingCardVM.iconsRect [this.playingCardVM.toDisplayDescriptionIcon].x, this.playingCardVM.iconsRect [this.playingCardVM.toDisplayDescriptionIcon].y - this.playingCardVM.iconsRect [this.playingCardVM.toDisplayDescriptionIcon].height * 3, this.playingCardVM.iconsRect [this.playingCardVM.toDisplayDescriptionIcon].width * 8, this.playingCardVM.iconsRect [this.playingCardVM.toDisplayDescriptionIcon].height * 3);
+				
+				GUILayout.BeginArea(newRect, this.playingCardVM.descriptionRectStyle);
 				{
-					Rect newRect = new Rect(this.playingCardVM.iconsRect [i].x, this.playingCardVM.iconsRect [i].y - this.playingCardVM.iconsRect [i].height * 3, this.playingCardVM.iconsRect [i].width * 8, this.playingCardVM.iconsRect [i].height * 3);
-					
-					GUILayout.BeginArea(newRect, this.playingCardVM.descriptionRectStyle);
+					GUILayout.BeginVertical();
 					{
-						GUILayout.BeginVertical();
-						{
-							GUILayout.Label(this.playingCardVM.titlesIcon [i], this.playingCardVM.titleStyle);
-							GUILayout.FlexibleSpace();
-							GUILayout.Label(this.playingCardVM.descriptionIcon [i], this.playingCardVM.descriptionStyle);
-							GUILayout.FlexibleSpace();
-						}
-						GUILayout.EndVertical();
+						GUILayout.Label(this.playingCardVM.titlesIcon [this.playingCardVM.toDisplayDescriptionIcon], this.playingCardVM.titleStyle);
+						GUILayout.FlexibleSpace();
+						GUILayout.Label(this.playingCardVM.descriptionIcon [this.playingCardVM.toDisplayDescriptionIcon], this.playingCardVM.descriptionStyle);
+						GUILayout.FlexibleSpace();
+						GUILayout.Label(this.playingCardVM.additionnalInfoIcon [this.playingCardVM.toDisplayDescriptionIcon], this.playingCardVM.additionnalInfoStyle);
+						GUILayout.FlexibleSpace();
 					}
-					GUILayout.EndArea();
+					GUILayout.EndVertical();
 				}
+				GUILayout.EndArea();
 			}
 		}
 		if (this.playingCardVM.toDisplayHalo)

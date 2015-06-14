@@ -223,6 +223,19 @@ public class Card
 		return esquive;
 	}
 	
+	public int GetDamagesPercentageBonus()
+	{
+		int damagePercentageBonus = 0;
+		foreach (StatModifier modifier in modifiers)
+		{
+			if (modifier.Type == ModifierType.Type_DommagePercentage)
+			{
+				damagePercentageBonus += modifier.Amount;
+			}
+		}
+		return damagePercentageBonus;
+	}
+	
 	public int GetAttack()
 	{
 		int attack = Attack;
@@ -277,7 +290,7 @@ public class Card
 		modifiers.AddRange(temp2);
 		if (dommage1 + dommage2 > 0)
 		{
-			modifiers.Add(new StatModifier(dommage1 + dommage2, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage));
+			modifiers.Add(new StatModifier(dommage1 + dommage2, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage,-1, "", "", ""));
 		}
 		
 

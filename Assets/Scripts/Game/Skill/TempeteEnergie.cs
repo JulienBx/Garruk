@@ -28,7 +28,8 @@ public class TempeteEnergie : GameSkill {
 			if (!pcc.isDead && !(pcc.cannotBeTargeted==-1)){
 				if (Random.Range(1, 100) > GameController.instance.getCard(i).GetEsquive())
 				{                             
-					amount = Random.Range(5, maxAmount);
+					int damageBonusPercentage = GameController.instance.getCurrentCard().GetDamagesPercentageBonus();
+					amount = Random.Range(5, maxAmount)*(100+damageBonusPercentage)/100;
 					GameController.instance.addModifier(i, amount, (int)ModifierType.Type_BonusMalus, (int)ModifierStat.Stat_Dommage);
 					GameController.instance.displaySkillEffect(i, "prend "+amount+" dégats", 3, 1);
 				}
