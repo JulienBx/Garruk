@@ -23,6 +23,7 @@ public class Deck
 	public List<Card> Cards;									// Liste de carte du deck
 	public string OwnerUsername;                                // Username de la personne possédant le deck
 	public int CollectionPoints;
+	public IList<Skill> NewSkills;
 
 	public Deck()
 	{
@@ -266,7 +267,7 @@ public class Deck
 	}
 	public IEnumerator addXpToDeck(int earnXp)
 	{
-
+		this.NewSkills = new List<Skill> ();
 		string idCards = "";
 
 		for (int i=0; i<5; i++)
@@ -315,9 +316,20 @@ public class Deck
 					}
 					else
 					{
-						this.Cards[i].Skills[j-1].Level=System.Convert.ToInt32(cardInfo[0]);
-						this.Cards[i].Skills[j-1].Power=System.Convert.ToInt32(cardInfo[1]);
-						this.Cards[i].Skills[j-1].Description=cardInfo[2];
+						this.Cards[i].Skills.Add(new Skill());
+						this.Cards[i].Skills[this.Cards[i].Skills.Count-1].Id=System.Convert.ToInt32(cardInfo[0]);
+						this.Cards[i].Skills[this.Cards[i].Skills.Count-1].Name=cardInfo[1];
+						this.Cards[i].Skills[this.Cards[i].Skills.Count-1].IsActivated=System.Convert.ToInt32(cardInfo[2]);
+						this.Cards[i].Skills[this.Cards[i].Skills.Count-1].Level=System.Convert.ToInt32(cardInfo[3]);
+						this.Cards[i].Skills[this.Cards[i].Skills.Count-1].Power=System.Convert.ToInt32(cardInfo[4]);
+						this.Cards[i].Skills[this.Cards[i].Skills.Count-1].Description=cardInfo[5];
+						this.Cards[i].Skills[this.Cards[i].Skills.Count-1].ManaCost=System.Convert.ToInt32(cardInfo[6]);
+						this.Cards[i].Skills[this.Cards[i].Skills.Count-1].IsNew=System.Convert.ToBoolean(System.Convert.ToInt32(cardInfo[7]));
+
+						if(this.Cards[i].Skills[this.Cards[i].Skills.Count-1].IsNew)
+						{
+							this.NewSkills.Add (this.Cards[i].Skills[this.Cards[i].Skills.Count-1]);
+						}
 					}
 				}
 			}

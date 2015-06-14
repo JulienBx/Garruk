@@ -26,6 +26,7 @@ public class LobbyScreenViewModel
 	public Rect blockBottom;
 	public Rect centralWindow;
 	public Rect collectionPointsWindow;
+	public Rect newSkillsWindow;
 	
 	public LobbyScreenViewModel ()
 	{
@@ -87,6 +88,10 @@ public class LobbyScreenViewModel
 		                                        0.1f * this.heightScreen+this.gapBetweenblocks, 
 		                                        this.widthScreen * 0.15f, 
 		                                        this.heightScreen * 0.1f);
+		this.newSkillsWindow = new Rect (this.collectionPointsWindow.xMin,
+		                                 this.collectionPointsWindow.yMax + this.gapBetweenblocks,
+		                                 this.collectionPointsWindow.width,
+		                                 this.heightScreen - 0.1f * this.heightScreen - 2 * this.gapBetweenblocks - this.collectionPointsWindow.height);
 	}
 }
 

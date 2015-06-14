@@ -41,7 +41,7 @@ public class StatsViewModel {
 		if(collectionRanking!=0)
 		{
 			this.collectionRanking="Class collection : " + collectionRanking.ToString();
-			this.collectionPoints="("+ collectionRanking.ToString() + " pts)";
+			this.collectionPoints="("+ collectionPoints.ToString() + " pts)";
 		}
 		else
 		{

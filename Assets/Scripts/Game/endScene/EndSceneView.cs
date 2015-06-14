@@ -18,13 +18,22 @@ public class EndSceneView : MonoBehaviour
 		GUILayout.BeginArea(screenVM.mainBlock);
 		{
 			GUILayout.Label (endSceneVM.title,endSceneVM.titleStyle);
-			GUILayout.Space(screenVM.mainBlock.height*1/10);
+			GUILayout.Space(screenVM.mainBlock.height*5/100);
 			GUILayout.Label ("Vous gagnez : "+endSceneVM.creditsToAdd+" crédits ("+endSceneVM.credits+" credits)",endSceneVM.creditStyle);
 			if(endSceneVM.collectionPoints>0)
 			{
 				GUILayout.Label("et "+endSceneVM.collectionPoints+" points de collection",endSceneVM.creditStyle);
 			}
-			GUILayout.Space(screenVM.mainBlock.height*5/10);
+			GUILayout.FlexibleSpace();
+			if(endSceneVM.newSkills.Count>0)
+			{
+				GUILayout.Label("Vous débloquez :",endSceneVM.creditStyle);
+				for(int i =0;i<endSceneVM.newSkills.Count;i++)
+				{
+					GUILayout.Label(endSceneVM.newSkills[i],endSceneVM.newSkillsStyle);
+				}
+			}
+			GUILayout.Space(screenVM.mainBlock.height*5/100);
 			GUI.enabled = endSceneVM.guiEnabled;
 			GUILayout.BeginHorizontal();
 			{
@@ -36,6 +45,7 @@ public class EndSceneView : MonoBehaviour
 				GUILayout.Space(screenVM.mainBlock.width*3/10);
 			}
 			GUILayout.EndHorizontal();
+			GUILayout.Space(screenVM.mainBlock.height*5/100);
 		}
 		GUILayout.EndArea ();
 	}

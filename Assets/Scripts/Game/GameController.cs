@@ -2128,6 +2128,11 @@ public class GameController : Photon.MonoBehaviour
 	[RPC]
 	public void addTileModifierRPC(int modifierType, int amount, int tileX, int tileY, bool isFirstP)
 	{
+		int c = getTile(tileX, tileY).characterID;
+		if (c != -1)
+		{
+			getPCC(c).card.TileModifiers.Clear();
+		}
 		switch (modifierType)
 		{
 			case 0:

@@ -574,6 +574,7 @@ public class Card
 	}
 	public IEnumerator addXpLevel()
 	{
+
 		WWWForm form = new WWWForm(); 								// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_idcard", this.Id.ToString());
@@ -615,11 +616,23 @@ public class Card
 						this.ExperienceLevel = System.Convert.ToInt32(cardInfo [9]);
 						this.NextLevelPrice = System.Convert.ToInt16(cardInfo [10]);
 						this.PercentageToNextLevel = System.Convert.ToInt16(cardInfo [11]);
-					} else
+						this.NewSkills=new List<Skill>();
+					} 
+					else
 					{
-						this.Skills [j - 1].Level = System.Convert.ToInt32(cardInfo [0]);
-						this.Skills [j - 1].Power = System.Convert.ToInt32(cardInfo [1]);
-						this.Skills [j - 1].Description = cardInfo [2];
+						this.Skills.Add(new Skill());
+						this.Skills[this.Skills.Count-1].Id=System.Convert.ToInt32(cardInfo[0]);
+						this.Skills[this.Skills.Count-1].Name=cardInfo[1];
+						this.Skills[this.Skills.Count-1].IsActivated=System.Convert.ToInt32(cardInfo[2]);
+						this.Skills[this.Skills.Count-1].Level=System.Convert.ToInt32(cardInfo[3]);
+						this.Skills[this.Skills.Count-1].Power=System.Convert.ToInt32(cardInfo[4]);
+						this.Skills[this.Skills.Count-1].Description=cardInfo[5];
+						this.Skills[this.Skills.Count-1].ManaCost=System.Convert.ToInt32(cardInfo[6]);
+						this.Skills[this.Skills.Count-1].IsNew=System.Convert.ToBoolean(System.Convert.ToInt32(cardInfo[7]));
+						if(this.Skills[this.Skills.Count-1].IsNew)
+						{
+							this.NewSkills.Add (this.Skills[this.Skills.Count-1]);
+						}
 					}
 				}
 			}
