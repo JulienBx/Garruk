@@ -25,7 +25,7 @@ public class TempeteEnergie : GameSkill {
 		
 		for (int i = 0 ; i < 10 ; i++){
 			pcc = GameController.instance.getPCC(i) ;
-			if (!pcc.isDead){
+			if (!pcc.isDead && !(pcc.cannotBeTargeted==-1)){
 				if (Random.Range(1, 100) > GameController.instance.getCard(i).GetEsquive())
 				{                             
 					amount = Random.Range(5, maxAmount);

@@ -70,14 +70,19 @@ public class BouleEnergie : GameSkill
 			targetsToHit.Add(GameController.instance.getTile(x,y).characterID);
 		}
 		
+		PlayingCardController pcc ;
+		
 		for (int i = 0 ; i < targetsToHit.Count ; i++){
-			if (Random.Range(1, 100) > GameController.instance.getCard(targetsToHit[i]).GetEsquive())
-			{                             
-				GameController.instance.addModifier(targetsToHit[i], amount, (int)ModifierType.Type_BonusMalus, (int)ModifierStat.Stat_Dommage);
-				GameController.instance.displaySkillEffect(targetsToHit[i], "prend "+amount+" dégats", 3, 1);
-			}
-			else{
-				GameController.instance.displaySkillEffect(targetsToHit[i], "Esquive", 3, 0);
+			pcc = GameController.instance.getPCC(targetsToHit[i]) ;
+			if (!pcc.isDead && !(pcc.cannotBeTargeted==-1)){
+				if (Random.Range(1, 100) > GameController.instance.getCard(targetsToHit[i]).GetEsquive())
+				{                             
+					GameController.instance.addModifier(targetsToHit[i], amount, (int)ModifierType.Type_BonusMalus, (int)ModifierStat.Stat_Dommage);
+					GameController.instance.displaySkillEffect(targetsToHit[i], "prend "+amount+" dégats", 3, 1);
+				}
+				else{
+					GameController.instance.displaySkillEffect(targetsToHit[i], "Esquive", 3, 0);
+				}
 			}
 		}
 	}
