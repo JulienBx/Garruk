@@ -522,6 +522,58 @@ public class GameController : Photon.MonoBehaviour
 			}
 		}
 	}
+	
+	public void lookForAnyTile(string regularText, string buttonText)
+	{
+		this.numberOfExpectedArgs = 2;
+		setValidationTexts(regularText, buttonText);
+		
+		for (int i = 0 ; i < this.boardWidth ; i++){
+			for (int j = 0 ; j < this.boardHeight ; j++){
+				this.tiles[i,j].GetComponent<TileController>().setLookingForTileZone(true);
+			}
+		}
+	}
+	
+	public void changeZoneTargetTile(Tile t){
+		int x = t.x;
+		int y = t.y;
+		for (int i = 0 ; i < this.boardWidth ; i++){
+			for (int j = 0 ; j < this.boardHeight ; j++){
+				this.tiles[i,j].GetComponent<TileController>().removeHalo();
+			}
+		}
+		
+		if (x>0){
+			if (y>0){
+				this.tiles[x-1,y-1].GetComponent<TileController>().activateEffectZoneHalo();
+			}
+			if (y<this.boardHeight-1){
+				this.tiles[x-1,y+1].GetComponent<TileController>().activateEffectZoneHalo();
+			}
+			this.tiles[x-1,y].GetComponent<TileController>().activateEffectZoneHalo();
+		}
+		if (x<this.boardWidth-1){
+			if (y>0){
+				this.tiles[x+1,y-1].GetComponent<TileController>().activateEffectZoneHalo();
+			}
+			if (y<this.boardHeight-1){
+				this.tiles[x+1,y+1].GetComponent<TileController>().activateEffectZoneHalo();
+			}
+			this.tiles[x+1,y].GetComponent<TileController>().activateEffectZoneHalo();
+		}
+		if (y>0){
+			this.tiles[x,y-1].GetComponent<TileController>().activateEffectZoneHalo();
+		}
+		if (y<this.boardHeight-1){
+			this.tiles[x,y+1].GetComponent<TileController>().activateEffectZoneHalo();
+		}
+		this.tiles[x,y].GetComponent<TileController>().activateEffectZoneHalo();
+	}
+	
+	public void addTargetTile(int x, int y){
+	
+	}
 
 	public void lookForAdjacentTarget(string regularText, string buttonText)
 	{
@@ -662,6 +714,7 @@ public class GameController : Photon.MonoBehaviour
 				for (int j = 0; j < this.boardHeight; j++)
 				{
 					this.tiles [i, j].GetComponent<TileController>().removeHalo();
+					this.tiles [i, j].GetComponent<TileController>().removeZoneEffect();
 				}
 			}
 			this.validateSkill();

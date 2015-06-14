@@ -68,6 +68,7 @@ public class HomePageController : MonoBehaviour
 		yield return StartCoroutine(model.player.countNonReadsNotifications(this.totalNbResultLimit));
 		MenuObject.GetComponent<MenuController>().setNbNotificationsNonRead(model.player.nonReadNotifications);
 	}
+	
 	private IEnumerator initialization()
 	{
 		yield return StartCoroutine (model.getData (this.totalNbResultLimit));
@@ -83,16 +84,19 @@ public class HomePageController : MonoBehaviour
 			MenuObject.GetComponent<MenuController>().setTutorialLaunched(true);
 		}
 	}
+	
 	private void toLoadData(bool firstLoad=false)
 	{
 		this.resize ();
 		this.manageNonReadsNotifications (firstLoad);
 	}
+	
 	private void manageNonReadsNotifications(bool firstload){
 		this.computeNonReadsNotifications ();
 		this.initLabelTitle ();
 		StartCoroutine(this.updateReadNotifications (firstload));
 	}
+	
 	private void computeNonReadsNotifications()
 	{
 		view.notificationsVM.nbNonReadNotifications = 0;

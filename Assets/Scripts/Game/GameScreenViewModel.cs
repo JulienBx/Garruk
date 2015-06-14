@@ -70,8 +70,7 @@ public class GameScreenViewModel
 	public string hisPlayingCardName ;
 	
 	public Rect validationWindowRect;
-
-
+	
 	public GameScreenViewModel()
 	{
 		this.centerMessageTextStyle = new GUIStyle();

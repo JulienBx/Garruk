@@ -220,6 +220,18 @@ public class TileController : MonoBehaviour
 		this.tileView.tileVM.border = this.borderTile [0];
 		this.tileView.changeBorder();
 	}
+	
+	public void setLookingForTileZone(bool b)
+	{
+		this.tileView.tileVM.isZoneEffect = b;
+	}
+	
+	public void hoverTarget()
+	{
+		if(this.tileView.tileVM.isZoneEffect){
+			GameController.instance.changeZoneTargetTile(this.tile);
+		}
+	}
 
 	public Vector3 getPosition()
 	{
@@ -326,10 +338,21 @@ public class TileController : MonoBehaviour
 		this.tileView.tileVM.toDisplayHalo = false;
 	}
 	
+	public void removeZoneEffect()
+	{
+		this.tileView.tileVM.isZoneEffect = false;
+	}
+	
 	public void activateWolfTrapTarget()
 	{
 		this.tileView.tileVM.toDisplayHalo = true;
 		this.tileView.tileVM.halo = this.halos [0];
+	}
+	
+	public void activateEffectZoneHalo()
+	{
+		this.tileView.tileVM.toDisplayHalo = true;
+		this.tileView.tileVM.halo = this.halos [1];
 	}
 }
 
