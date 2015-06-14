@@ -41,30 +41,44 @@ public class BouleEnergie : GameSkill
 				targetsToHit.Add(GameController.instance.getTile(x-1,y).characterID);
 			}
 		}
-		if (x<this.boardWidth-1){
+		if (x<width-1){
 			if (y>0){
-				this.tiles[x+1,y-1].GetComponent<TileController>().activateEffectZoneHalo();
+				if (GameController.instance.getTile(x+1,y-1).characterID!=-1){
+					targetsToHit.Add(GameController.instance.getTile(x+1,y-1).characterID);
+				}
 			}
-			if (y<this.boardHeight-1){
-				this.tiles[x+1,y+1].GetComponent<TileController>().activateEffectZoneHalo();
+			if (y<height-1){
+				if (GameController.instance.getTile(x+1,y+1).characterID!=-1){
+					targetsToHit.Add(GameController.instance.getTile(x+1,y+1).characterID);
+				}
 			}
-			this.tiles[x+1,y].GetComponent<TileController>().activateEffectZoneHalo();
+			if (GameController.instance.getTile(x+1,y).characterID!=-1){
+				targetsToHit.Add(GameController.instance.getTile(x+1,y).characterID);
+			}
 		}
 		if (y>0){
-			this.tiles[x,y-1].GetComponent<TileController>().activateEffectZoneHalo();
+			if (GameController.instance.getTile(x,y-1).characterID!=-1){
+				targetsToHit.Add(GameController.instance.getTile(x,y-1).characterID);
+			}
 		}
-		if (y<this.boardHeight-1){
-			this.tiles[x,y+1].GetComponent<TileController>().activateEffectZoneHalo();
+		if (y<height-1){
+			if (GameController.instance.getTile(x,y+1).characterID!=-1){
+				targetsToHit.Add(GameController.instance.getTile(x,y+1).characterID);
+			}
 		}
-		this.tiles[x,y].GetComponent<TileController>().activateEffectZoneHalo();
+		if (GameController.instance.getTile(x,y).characterID!=-1){
+			targetsToHit.Add(GameController.instance.getTile(x,y).characterID);
+		}
 		
-		if (Random.Range(1, 100) > GameController.instance.getCard(targetID).GetEsquive())
-		{                             
-			GameController.instance.addModifier(targetID, amount, (int)ModifierType.Type_BonusMalus, (int)ModifierStat.Stat_Dommage);
-			GameController.instance.displaySkillEffect(targetID, "prend "+amount+" dégats", 3, 1);
-		}
-		else{
-			GameController.instance.displaySkillEffect(targetID, hisPlayerName+" esquive", 3, 0);
+		for (int i = 0 ; i < targetsToHit.Count ; i++){
+			if (Random.Range(1, 100) > GameController.instance.getCard(targetsToHit[i]).GetEsquive())
+			{                             
+				GameController.instance.addModifier(targetsToHit[i], amount, (int)ModifierType.Type_BonusMalus, (int)ModifierStat.Stat_Dommage);
+				GameController.instance.displaySkillEffect(targetsToHit[i], "prend "+amount+" dégats", 3, 1);
+			}
+			else{
+				GameController.instance.displaySkillEffect(targetsToHit[i], "Esquive", 3, 0);
+			}
 		}
 	}
 	
