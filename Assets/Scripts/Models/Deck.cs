@@ -313,6 +313,8 @@ public class Deck
 						this.Cards[i].ExperienceLevel=System.Convert.ToInt32(cardInfo[9]);
 						this.Cards[i].NextLevelPrice=System.Convert.ToInt16(cardInfo[10]);
 						this.Cards[i].PercentageToNextLevel=System.Convert.ToInt16(cardInfo[11]);
+						this.Cards[i].IdCardTypeUnlocked=System.Convert.ToInt16(cardInfo[12]);
+						this.Cards[i].TitleCardTypeUnlocked=cardInfo[13];
 					}
 					else
 					{
