@@ -2047,7 +2047,7 @@ public class GameController : Photon.MonoBehaviour
 			this.updateStatusMySkills(this.currentPlayingCard);
 		}
 		
-		if (this.playingCardHasMoved)
+		if (this.playingCardHasMoved || this.playingCards[this.currentPlayingCard].GetComponent<PlayingCardController>().isDead)
 		{
 			this.gameskills [1].launch();
 		}

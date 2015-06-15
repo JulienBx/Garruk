@@ -54,16 +54,19 @@ public class PlayingCardController : GameObjectController
 		{
 			this.addIntouchable(title, description);
 		}
+		this.show();
 	}
 	
 	public void setBonusDamages(int amount, int duration, string title, string description, string additionnalInfo)
 	{
 		this.card.modifiers.Add(new StatModifier(amount, ModifierType.Type_DommagePercentage, -10, 3,title,description,additionnalInfo));
+		this.show();
 	}
 	
 	public void setRobotSpecialise(int amount, int duration, int type, string title, string description, string additionnalInfo)
 	{
 		this.card.modifiers.Add(new StatModifier(amount, (ModifierType)(6+type), -10, 4,title,description,additionnalInfo));
+		this.show();
 	}
 
 	public void activateTargetHalo()
@@ -153,6 +156,22 @@ public class PlayingCardController : GameObjectController
 		updateAttack();
 		updateMove();
 		this.updateLife();
+		
+		int compteurIcones = 0 ;
+		this.playingCardView.playingCardVM.icons = new List<Texture2D>();
+		this.playingCardView.playingCardVM.titlesIcon = new List<string>();
+		this.playingCardView.playingCardVM.descriptionIcon = new List<string>();
+		this.playingCardView.playingCardVM.additionnalInfoIcon = new List<string>();
+		
+		for (int i = 0 ; i < this.card.modifiers.Count && compteurIcones < 3 ; i++){
+			if (this.card.modifiers[i].idIcon!=-1){
+				this.playingCardView.playingCardVM.icons.Add(this.icons[this.card.modifiers[i].idIcon]);
+				this.playingCardView.playingCardVM.titlesIcon.Add(this.card.modifiers[i].title);
+				this.playingCardView.playingCardVM.descriptionIcon.Add(this.card.modifiers[i].description);
+				this.playingCardView.playingCardVM.additionnalInfoIcon.Add(this.card.modifiers[i].additionnalInfo);
+				compteurIcones++;
+			}
+		}
 		
 		playingCardView.show();
 	}

@@ -18,14 +18,14 @@ public class TempeteEnergie : GameSkill {
 		int maxAmount = GameController.instance.getCurrentSkill().ManaCost;
 		int myPlayerID = GameController.instance.currentPlayingCard;
 		
-		GameController.instance.displaySkillEffect(myPlayerID, "Boule d'energie", 3, 2);
+		GameController.instance.displaySkillEffect(myPlayerID, "Tempete d'energie", 3, 2);
 		List<int> targetsToHit = new List<int>();
 		PlayingCardController pcc ;
 		int amount ;
 		
 		for (int i = 0 ; i < 10 ; i++){
 			pcc = GameController.instance.getPCC(i) ;
-			if (!pcc.isDead && !(pcc.cannotBeTargeted==-1)){
+			if (!pcc.isDead && pcc.cannotBeTargeted==-1){
 				if (Random.Range(1, 100) > GameController.instance.getCard(i).GetEsquive())
 				{                             
 					int damageBonusPercentage = GameController.instance.getCurrentCard().GetDamagesPercentageBonus();

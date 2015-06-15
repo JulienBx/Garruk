@@ -36,7 +36,7 @@ public class EnergieQuantique : GameSkill
 		
 		for (int i = debut ; i < debut + 5 ; i++){
 			pcc = GameController.instance.getPCC(i) ;
-			if (!pcc.isDead && !(pcc.cannotBeTargeted==-1)){
+			if (!pcc.isDead && pcc.cannotBeTargeted==-1){
 				potentialTargets.Add(i);
 			}
 		}

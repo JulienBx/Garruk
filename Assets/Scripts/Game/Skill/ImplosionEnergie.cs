@@ -79,7 +79,7 @@ public class ImplosionEnergie : GameSkill
 		PlayingCardController pcc ;
 		for (int i = 0 ; i < targetsToHit.Count ; i++){
 			pcc = GameController.instance.getPCC(targetsToHit[i]) ;
-			if (!pcc.isDead && !(pcc.cannotBeTargeted==-1)){
+			if (!pcc.isDead && pcc.cannotBeTargeted==-1){
 				if (Random.Range(1, 100) > GameController.instance.getCard(targetsToHit[i]).GetEsquive())
 				{                             
 					GameController.instance.addModifier(targetsToHit[i], amount, (int)ModifierType.Type_BonusMalus, (int)ModifierStat.Stat_Dommage);
