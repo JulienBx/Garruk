@@ -1963,14 +1963,14 @@ public class GameController : Photon.MonoBehaviour
 		this.gameskills [27] = new EnergieQuantique();
 		this.gameskills [28] = new PuissanceIncontrolable();
 		this.gameskills [29] = new Concentration();
-		this.gameskills [30] = new GameSkill();
+		this.gameskills [30] = new ImplosionEnergie();
 		this.gameskills [31] = new GameSkill();
 		this.gameskills [32] = new GameSkill();
 		this.gameskills [33] = new GameSkill();
 		this.gameskills [34] = new GameSkill();
-		this.gameskills [35] = new GameSkill();
-		this.gameskills [36] = new GameSkill();
-		this.gameskills [37] = new GameSkill();
+		this.gameskills [35] = new Reparation();
+		this.gameskills [36] = new RobotSpecialise();
+		this.gameskills [37] = new Virus();
 		this.gameskills [38] = new GameSkill();
 		this.gameskills [39] = new GameSkill();
 		this.gameskills [40] = new GameSkill();
@@ -2284,6 +2284,54 @@ public class GameController : Photon.MonoBehaviour
 	public void setBonusDamagesRPC(int target, int amount, int duration)
 	{
 		this.getPCC(target).setBonusDamages(amount, duration, "Bonus DMG", "Les dégats du héros sont augmentés de "+amount+"%", "Valable à son prochain tour");
+	}
+	
+	public void setRobotSpecialise(int amount, int duration, int type)
+	{
+		photonView.RPC("setRobotSpecialiseRPC", PhotonTargets.AllBuffered, this.currentPlayingCard, amount, duration, type);
+	}
+	
+	[RPC]
+	public void setRobotSpecialiseRPC(int target, int amount, int duration, int type)
+	{
+		string typeName ;
+		switch (type)
+		{
+		case 0:
+			typeName = "Enchanteur";
+			break;
+		case 1:
+			typeName = "Roublard";
+			break;
+		case 2:
+			typeName = "Berserk";
+			break;
+		case 3:
+			typeName = "Artificier";
+			break;
+		case 4:
+			typeName = "Mentaliste";
+			break;
+		case 5:
+			typeName = "Androide";
+			break;
+		case 6:
+			typeName = "Métamorphe";
+			break;
+		case 7:
+			typeName = "Pretre";
+			break;
+		case 8:
+			typeName = "Animiste";
+			break;
+		case 9:
+			typeName = "Géomancien";
+			break;
+		default:
+			typeName = "Inconnu";
+			break;
+		}
+		this.getPCC(target).setRobotSpecialise(amount, duration, type, "Spécialiste", "Dégats augmentés de "+amount+"% contre la classe "+typeName, "Permanent");
 	}
 	
 	public void setEsquive(int amount)

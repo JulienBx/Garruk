@@ -58,7 +58,12 @@ public class PlayingCardController : GameObjectController
 	
 	public void setBonusDamages(int amount, int duration, string title, string description, string additionnalInfo)
 	{
-		this.card.modifiers.Add(new StatModifier(amount, ModifierType.Type_DommagePercentage, -10, 3,"","",""));
+		this.card.modifiers.Add(new StatModifier(amount, ModifierType.Type_DommagePercentage, -10, 3,title,description,additionnalInfo));
+	}
+	
+	public void setRobotSpecialise(int amount, int duration, int type, string title, string description, string additionnalInfo)
+	{
+		this.card.modifiers.Add(new StatModifier(amount, (ModifierType)(6+type), -10, 4,title,description,additionnalInfo));
 	}
 
 	public void activateTargetHalo()

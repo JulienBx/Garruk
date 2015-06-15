@@ -236,6 +236,19 @@ public class Card
 		return damagePercentageBonus;
 	}
 	
+	public int GetDamagesPercentageBonusAgainst(int type)
+	{
+		int damagePercentageBonus = 0;
+		foreach (StatModifier modifier in modifiers)
+		{
+			if ((int)modifier.Type-6 == type)
+			{
+				damagePercentageBonus += modifier.Amount;
+			}
+		}
+		return damagePercentageBonus;
+	}
+	
 	public int GetAttack()
 	{
 		int attack = Attack;
