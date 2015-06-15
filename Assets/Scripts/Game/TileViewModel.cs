@@ -21,6 +21,7 @@ public class TileViewModel
 	public Rect iconRect;
 
 	public Texture2D icon;
+	public bool isZoneEffect;
 
 	public TileViewModel()
 	{

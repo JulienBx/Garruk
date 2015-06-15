@@ -18,7 +18,8 @@ public class Frenesie : GameSkill
 	{
 		int targetID = GameController.instance.currentPlayingCard;
 		
-		int degats = GameController.instance.getCurrentSkill().ManaCost;
+		int damageBonusPercentage = GameController.instance.getCurrentCard().GetDamagesPercentageBonus();
+		int degats = GameController.instance.getCurrentSkill().ManaCost*(100+damageBonusPercentage)/100;
 		int bonus = GameController.instance.getCurrentSkill().ManaCost;
 		
 		string message = GameController.instance.getCurrentCard().Title+" s'inflige "+degats+" dégats eu augmente son attaque de "+degats;

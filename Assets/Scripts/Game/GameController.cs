@@ -523,6 +523,58 @@ public class GameController : Photon.MonoBehaviour
 			}
 		}
 	}
+	
+	public void lookForAnyTile(string regularText, string buttonText)
+	{
+		this.numberOfExpectedArgs = 2;
+		setValidationTexts(regularText, buttonText);
+		
+		for (int i = 0 ; i < this.boardWidth ; i++){
+			for (int j = 0 ; j < this.boardHeight ; j++){
+				this.tiles[i,j].GetComponent<TileController>().setLookingForTileZone(true);
+			}
+		}
+	}
+	
+	public void changeZoneTargetTile(Tile t){
+		int x = t.x;
+		int y = t.y;
+		for (int i = 0 ; i < this.boardWidth ; i++){
+			for (int j = 0 ; j < this.boardHeight ; j++){
+				this.tiles[i,j].GetComponent<TileController>().removeHalo();
+			}
+		}
+		
+		if (x>0){
+			if (y>0){
+				this.tiles[x-1,y-1].GetComponent<TileController>().activateEffectZoneHalo();
+			}
+			if (y<this.boardHeight-1){
+				this.tiles[x-1,y+1].GetComponent<TileController>().activateEffectZoneHalo();
+			}
+			this.tiles[x-1,y].GetComponent<TileController>().activateEffectZoneHalo();
+		}
+		if (x<this.boardWidth-1){
+			if (y>0){
+				this.tiles[x+1,y-1].GetComponent<TileController>().activateEffectZoneHalo();
+			}
+			if (y<this.boardHeight-1){
+				this.tiles[x+1,y+1].GetComponent<TileController>().activateEffectZoneHalo();
+			}
+			this.tiles[x+1,y].GetComponent<TileController>().activateEffectZoneHalo();
+		}
+		if (y>0){
+			this.tiles[x,y-1].GetComponent<TileController>().activateEffectZoneHalo();
+		}
+		if (y<this.boardHeight-1){
+			this.tiles[x,y+1].GetComponent<TileController>().activateEffectZoneHalo();
+		}
+		this.tiles[x,y].GetComponent<TileController>().activateEffectZoneHalo();
+	}
+	
+	public void addTargetTile(int x, int y){
+	
+	}
 
 	public void lookForAdjacentTarget(string regularText, string buttonText)
 	{
@@ -746,6 +798,7 @@ public class GameController : Photon.MonoBehaviour
 				for (int j = 0; j < this.boardHeight; j++)
 				{
 					this.tiles [i, j].GetComponent<TileController>().removeHalo();
+					this.tiles [i, j].GetComponent<TileController>().removeZoneEffect();
 				}
 			}
 			this.validateSkill();
@@ -1166,6 +1219,9 @@ public class GameController : Photon.MonoBehaviour
 		{
 			this.playindCardHasPlayed = false;
 		}
+		
+		this.getCurrentPCC().activateSleepingModifiers();
+		
 		this.isRunningSkill = false;
 		
 		this.playingCardHasMoved = false;
@@ -1987,19 +2043,19 @@ public class GameController : Photon.MonoBehaviour
 		this.gameskills [22] = new Terreur();
 		this.gameskills [23] = new SacrificeTribal();
 		this.gameskills [24] = new RayonEnergie();
-		this.gameskills [25] = new GameSkill();
-		this.gameskills [26] = new GameSkill();
-		this.gameskills [27] = new GameSkill();
-		this.gameskills [28] = new GameSkill();
-		this.gameskills [29] = new GameSkill();
-		this.gameskills [30] = new GameSkill();
+		this.gameskills [25] = new BouleEnergie();
+		this.gameskills [26] = new TempeteEnergie();
+		this.gameskills [27] = new EnergieQuantique();
+		this.gameskills [28] = new PuissanceIncontrolable();
+		this.gameskills [29] = new Concentration();
+		this.gameskills [30] = new ImplosionEnergie();
 		this.gameskills [31] = new GameSkill();
 		this.gameskills [32] = new GameSkill();
 		this.gameskills [33] = new GameSkill();
 		this.gameskills [34] = new GameSkill();
-		this.gameskills [35] = new GameSkill();
-		this.gameskills [36] = new GameSkill();
-		this.gameskills [37] = new GameSkill();
+		this.gameskills [35] = new Reparation();
+		this.gameskills [36] = new RobotSpecialise();
+		this.gameskills [37] = new Virus();
 		this.gameskills [38] = new GameSkill();
 		this.gameskills [39] = new GameSkill();
 		this.gameskills [40] = new GameSkill();
@@ -2123,7 +2179,7 @@ public class GameController : Photon.MonoBehaviour
 			this.updateStatusMySkills(this.currentPlayingCard);
 		}
 		
-		if (this.playingCardHasMoved)
+		if (this.playingCardHasMoved || this.playingCards[this.currentPlayingCard].GetComponent<PlayingCardController>().isDead)
 		{
 			this.gameskills [1].launch();
 		}
@@ -2230,7 +2286,7 @@ public class GameController : Photon.MonoBehaviour
 	[RPC]
 	public void addModifierRPC(int target, int amount, int type, int stat, int duration)
 	{
-		this.getCard(target).modifiers.Add(new StatModifier(amount, (ModifierType)type, (ModifierStat)stat, duration));
+		this.getCard(target).modifiers.Add(new StatModifier(amount, (ModifierType)type, (ModifierStat)stat, duration,"","",""));
 		if (stat == (int)ModifierStat.Stat_Dommage)
 		{
 			
@@ -2348,7 +2404,84 @@ public class GameController : Photon.MonoBehaviour
 	[RPC]
 	public void setCannotBeTargetedRPC(int target)
 	{
-		this.getPCC(target).setCannotBeTargeted("Invisible", "Le héros ne peut pas etre ciblé tant qu'il n'a pas activé une de ses compétences");
+		this.getPCC(target).setCannotBeTargeted("Intouchable", "Le héros ne peut pas etre la cible d'une attaque ou compétence");
+	}
+	
+	public void setBonusDamages(int amount, int duration)
+	{
+		photonView.RPC("setCannotBeTargetedRPC", PhotonTargets.AllBuffered, this.currentPlayingCard, amount, duration);
+	}
+	
+	[RPC]
+	public void setBonusDamagesRPC(int target, int amount, int duration)
+	{
+		this.getPCC(target).setBonusDamages(amount, duration, "Bonus DMG", "Les dégats du héros sont augmentés de "+amount+"%", "Valable à son prochain tour");
+	}
+	
+	public void setLowerAttack(int target, int amount, int duration)
+	{
+		photonView.RPC("setCannotBeTargetedRPC", PhotonTargets.AllBuffered, target, amount, duration);
+	}
+	
+	[RPC]
+	public void setLowerAttackRPC(int target, int amount, int duration)
+	{
+		string s ;
+		if (duration>1){
+			s = "Actif pendant "+duration+" tours";
+		}
+		else{
+			s = "Actif pendant "+duration+" tours";
+		}
+		this.getPCC(target).setLowerAttack(amount, duration, "Attaque --", "L'attaque du héros est diminuée de "+amount, s);
+	}
+	
+	public void setRobotSpecialise(int amount, int duration, int type)
+	{
+		photonView.RPC("setRobotSpecialiseRPC", PhotonTargets.AllBuffered, this.currentPlayingCard, amount, duration, type);
+	}
+	
+	[RPC]
+	public void setRobotSpecialiseRPC(int target, int amount, int duration, int type)
+	{
+		string typeName ;
+		switch (type)
+		{
+		case 0:
+			typeName = "Enchanteur";
+			break;
+		case 1:
+			typeName = "Roublard";
+			break;
+		case 2:
+			typeName = "Berserk";
+			break;
+		case 3:
+			typeName = "Artificier";
+			break;
+		case 4:
+			typeName = "Mentaliste";
+			break;
+		case 5:
+			typeName = "Androide";
+			break;
+		case 6:
+			typeName = "Métamorphe";
+			break;
+		case 7:
+			typeName = "Pretre";
+			break;
+		case 8:
+			typeName = "Animiste";
+			break;
+		case 9:
+			typeName = "Géomancien";
+			break;
+		default:
+			typeName = "Inconnu";
+			break;
+		}
+		this.getPCC(target).setRobotSpecialise(amount, duration, type, "Spécialiste", "Dégats augmentés de "+amount+"% contre la classe "+typeName, "Permanent");
 	}
 	
 	public void setEsquive(int amount)
@@ -2359,8 +2492,8 @@ public class GameController : Photon.MonoBehaviour
 	[RPC]
 	public void setEsquiveRPC(int target, int amount)
 	{
-		this.getPCC(target).changeEsquive("Esquive", "Le héros possède " + amount + " % de chances d'esquiver les dégats");
-		this.addModifier(target, amount, (int)ModifierType.Type_EsquivePercentage, -1);
+		this.getPCC(target).changeEsquive("Esquive", "Le héros possède " + amount + " % de chances d'esquiver les dégats", "Permanent");
+		this.addModifier(target, amount, (int)ModifierType.Type_EsquivePercentage, 1);
 	}
 	
 	public void removeTrap(Tile t)

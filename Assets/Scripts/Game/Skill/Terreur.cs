@@ -19,7 +19,8 @@ public class Terreur : GameSkill
 		int targetID = args [0];
 		
 		int amount = GameController.instance.getCurrentSkill().ManaCost;
-		int attack = GameController.instance.getCurrentCard().Attack / 2 ;
+		int damageBonusPercentage = GameController.instance.getCurrentCard().GetDamagesPercentageBonus();
+		int attack = (GameController.instance.getCurrentCard().Attack / 2)*(100+damageBonusPercentage)/100 ;
 		
 		string message = GameController.instance.getCurrentCard().Title+" attaque "+GameController.instance.getCard(targetID).Title;
 		

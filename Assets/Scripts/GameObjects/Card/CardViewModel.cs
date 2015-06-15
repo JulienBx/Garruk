@@ -21,6 +21,7 @@ public class CardViewModel
 	public Rect centralWindowsRect;
 	public Rect collectionPointsWindowsRect;
 	public Rect newSkillsWindowsRect;
+	public Rect newCardTypeWindowsRect;
 
 	public CardViewModel ()
 	{
@@ -35,7 +36,7 @@ public class CardViewModel
 		this.centralWindowsRect = new Rect ();
 		this.collectionPointsWindowsRect = new Rect ();
 		this.newSkillsWindowsRect = new Rect ();
-
+		this.newCardTypeWindowsRect = new Rect ();
 	}
 }
 

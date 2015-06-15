@@ -25,7 +25,7 @@ public class Renforcement : GameSkill
 			+ " au prochain tour");
 
 		int targetID = args [0];
-		GameController.instance.getCard(targetID).modifiers.Add(new StatModifier(amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, 1, false));
+		GameController.instance.getCard(targetID).modifiers.Add(new StatModifier(amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, 1, false,-1,"","",""));
 		GameController.instance.reloadCard(targetID);
 
 	}

@@ -82,6 +82,8 @@ public class StoreController : MonoBehaviour
 								this.randomCards[0].GetComponent<CardStoreController>().setFocusStoreFeatures();
 								this.randomCards[0].GetComponent<CardController> ().setCentralWindowRect (view.storeScreenVM.centralWindow);
 								this.randomCards[0].GetComponent<CardController> ().setCollectionPointsWindowRect (view.storeScreenVM.collectionPointsWindow);
+								this.randomCards[0].GetComponent<CardController> ().setNewSkillsWindowRect (view.storeScreenVM.newSkillsWindow);
+								this.randomCards[0].GetComponent<CardController> ().setNewCardTypeWindowRect(view.storeScreenVM.centralWindow);
 							}
 							view.storeVM.guiEnabled=true;
 							this.startRotation=false;
@@ -183,6 +185,8 @@ public class StoreController : MonoBehaviour
 		{
 			this.cardFocused.GetComponent<CardController> ().setCentralWindowRect (view.storeScreenVM.centralWindow);
 			this.cardFocused.GetComponent<CardController> ().setCollectionPointsWindowRect (view.storeScreenVM.collectionPointsWindow);
+			this.cardFocused.GetComponent<CardController> ().setNewSkillsWindowRect (view.storeScreenVM.newSkillsWindow);
+			this.cardFocused.GetComponent<CardController> ().setNewCardTypeWindowRect(view.storeScreenVM.centralWindow);
 			this.cardFocused.GetComponent<CardController>().resize();
 		}
 		if(this.randomCards!=null)
@@ -191,6 +195,8 @@ public class StoreController : MonoBehaviour
 			{
 				this.randomCards[0].GetComponent<CardController> ().setCentralWindowRect (view.storeScreenVM.centralWindow);
 				this.randomCards[0].GetComponent<CardController> ().setCollectionPointsWindowRect (view.storeScreenVM.collectionPointsWindow);
+				this.randomCards[0].GetComponent<CardController> ().setNewSkillsWindowRect (view.storeScreenVM.newSkillsWindow);
+				this.randomCards[0].GetComponent<CardController> ().setNewCardTypeWindowRect(view.storeScreenVM.centralWindow);
 				this.randomCards[0].GetComponent<CardController>().resize();
 			}
 			else
@@ -230,6 +236,8 @@ public class StoreController : MonoBehaviour
 			this.cardFocused.GetComponent<CardStoreController> ().setFocusStoreFeatures ();
 			this.cardFocused.GetComponent<CardController> ().setCentralWindowRect (view.storeScreenVM.centralWindow);
 			this.cardFocused.GetComponent<CardController> ().setCollectionPointsWindowRect (view.storeScreenVM.collectionPointsWindow);
+			this.cardFocused.GetComponent<CardController> ().setNewSkillsWindowRect (view.storeScreenVM.newSkillsWindow);
+			this.cardFocused.GetComponent<CardController> ().setNewCardTypeWindowRect(view.storeScreenVM.centralWindow);
 		}
 	}
 	public void buyPackHandler(int chosenPack)
@@ -621,6 +629,15 @@ public class StoreController : MonoBehaviour
 				{
 					StartCoroutine(this.randomCards[0].GetComponent<CardController>().displayCollectionPointsPopUp());
 				}
+				if(model.packList [this.selectedPackIndex].Cards [System.Convert.ToInt32 (gameobject.name.Substring (4))].NewSkills.Count>0)
+				{
+					StartCoroutine(this.randomCards[0].GetComponent<CardController>().displayNewSkillsPopUp());
+				}
+				if(model.packList [this.selectedPackIndex].Cards [System.Convert.ToInt32 (gameobject.name.Substring (4))].IdCardTypeUnlocked!=-1)
+				{
+					this.randomCards[0].GetComponent<CardController>().displayNewCardTypePopUp();
+					model.player.CardTypesAllowed.Add (model.packList [this.selectedPackIndex].Cards [System.Convert.ToInt32 (gameobject.name.Substring (4))].IdCardTypeUnlocked);
+				}
 			}
 			else
 			{
@@ -629,6 +646,15 @@ public class StoreController : MonoBehaviour
 				if(model.packList [this.selectedPackIndex].Cards [System.Convert.ToInt32 (gameobject.name.Substring (4))].CollectionPoints>0)
 				{
 					StartCoroutine(this.cardFocused.GetComponent<CardController>().displayCollectionPointsPopUp());
+				}
+				if(model.packList [this.selectedPackIndex].Cards [System.Convert.ToInt32 (gameobject.name.Substring (4))].NewSkills.Count>0)
+				{
+					StartCoroutine(this.cardFocused.GetComponent<CardController>().displayNewSkillsPopUp());
+				}
+				if(model.packList [this.selectedPackIndex].Cards [System.Convert.ToInt32 (gameobject.name.Substring (4))].IdCardTypeUnlocked!=-1)
+				{
+					this.cardFocused.GetComponent<CardController>().displayNewCardTypePopUp();
+					model.player.CardTypesAllowed.Add(model.packList [this.selectedPackIndex].Cards [System.Convert.ToInt32 (gameobject.name.Substring (4))].IdCardTypeUnlocked);
 				}
 			}
 		}

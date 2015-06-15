@@ -139,7 +139,7 @@ public class TileController : MonoBehaviour
 		statModifierActive = true;
 		statModifierEachTurn = false;
 		this.tile.StatModifier.Clear();
-		this.tile.StatModifier.Add(new StatModifier(amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack));
+		this.tile.StatModifier.Add(new StatModifier(amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack,-1,"","",""));
 	}
 
 	public void addForetIcon(int amount)
@@ -150,7 +150,7 @@ public class TileController : MonoBehaviour
 		statModifierActive = true;
 		statModifierEachTurn = false;
 		this.tile.StatModifier.Clear();
-		this.tile.StatModifier.Add(new StatModifier(-amount, ModifierType.Type_Multiplier, ModifierStat.Stat_Move));
+		this.tile.StatModifier.Add(new StatModifier(-amount, ModifierType.Type_Multiplier, ModifierStat.Stat_Move,-1,"","",""));
 	}
 
 	public void addSable(bool isVisible)
@@ -164,7 +164,7 @@ public class TileController : MonoBehaviour
 		statModifierActive = true;
 		statModifierEachTurn = false;
 		this.tile.StatModifier.Clear();
-		this.tile.StatModifier.Add(new StatModifier(-999, ModifierType.Type_BonusMalus, ModifierStat.Stat_Move, 3));
+		this.tile.StatModifier.Add(new StatModifier(-999, ModifierType.Type_BonusMalus, ModifierStat.Stat_Move, 3,"","",""));
 	}
 
 	public void addFontaine(int power)
@@ -175,7 +175,7 @@ public class TileController : MonoBehaviour
 		statModifierActive = true;
 		statModifierEachTurn = true;
 		this.tile.StatModifier.Clear();
-		this.tile.StatModifier.Add(new StatModifier(-power, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage));
+		this.tile.StatModifier.Add(new StatModifier(-power, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage,-1,"","",""));
 	}
 
 	public void removeIcon()
@@ -219,6 +219,18 @@ public class TileController : MonoBehaviour
 		this.tileView.changeBackground();
 		this.tileView.tileVM.border = this.borderTile [0];
 		this.tileView.changeBorder();
+	}
+	
+	public void setLookingForTileZone(bool b)
+	{
+		this.tileView.tileVM.isZoneEffect = b;
+	}
+	
+	public void hoverTarget()
+	{
+		if(this.tileView.tileVM.isZoneEffect){
+			GameController.instance.changeZoneTargetTile(this.tile);
+		}
 	}
 
 	public Vector3 getPosition()
@@ -327,10 +339,21 @@ public class TileController : MonoBehaviour
 		this.tileView.tileVM.toDisplayHalo = false;
 	}
 	
+	public void removeZoneEffect()
+	{
+		this.tileView.tileVM.isZoneEffect = false;
+	}
+	
 	public void activateWolfTrapTarget()
 	{
 		this.tileView.tileVM.toDisplayHalo = true;
 		this.tileView.tileVM.halo = this.halos [0];
+	}
+	
+	public void activateEffectZoneHalo()
+	{
+		this.tileView.tileVM.toDisplayHalo = true;
+		this.tileView.tileVM.halo = this.halos [1];
 	}
 }
 

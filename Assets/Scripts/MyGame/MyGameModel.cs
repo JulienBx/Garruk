@@ -150,6 +150,7 @@ public class MyGameModel
 				{
 					decks[i].Cards.Add(new Card ());
 					decks[i].Cards[j-1].Id=System.Convert.ToInt32(deckInfo [0]);
+					decks[i].Cards[j-1].deckOrder=System.Convert.ToInt32(deckInfo[1]);
 				}
 			}	                     
 		}

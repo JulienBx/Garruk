@@ -26,8 +26,8 @@ public class Vampire : GameSkill
 			+ " d'absorbés");
 		
 		int targetID = args [0];
-		GameController.instance.getCard(targetID).modifiers.Add(new StatModifier(amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage));
-		GameController.instance.getCurrentPCC().card.modifiers.Add(new StatModifier(-amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage));
+		GameController.instance.getCard(targetID).modifiers.Add(new StatModifier(amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage,-1,"","",""));
+		GameController.instance.getCurrentPCC().card.modifiers.Add(new StatModifier(-amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage,-1,"","",""));
 		GameController.instance.reloadCard(targetID);
 		GameController.instance.reloadCard(GameController.instance.getCurrentPCC().IDCharacter);
 	}

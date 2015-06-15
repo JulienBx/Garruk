@@ -25,7 +25,7 @@ public class Rapidite : GameSkill
 			+ " au prochain tour");
 		
 		int targetID = args [0];
-		GameController.instance.getCard(targetID).modifiers.Add(new StatModifier(amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Move, 1, false));
+		GameController.instance.getCard(targetID).modifiers.Add(new StatModifier(amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Move, 1, false,-1,"","",""));
 		GameController.instance.reloadDestinationTiles();
 		GameController.instance.reloadCard(targetID);
 	

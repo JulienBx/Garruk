@@ -29,14 +29,19 @@ public class TileView : MonoBehaviour
 		
 		if (this.tileVM.toDisplayHalo)
 		{		
+			int height = Screen.height;
+			
 			if (Input.GetMouseButtonDown(0))
 			{
-				int height = Screen.height;
 				if (Input.mousePosition.x > this.tileVM.haloRect.xMin && Input.mousePosition.x < this.tileVM.haloRect.xMax && (height - Input.mousePosition.y) > this.tileVM.haloRect.yMin && (height - Input.mousePosition.y) < this.tileVM.haloRect.yMax)
 				{
 					gameObject.GetComponentInChildren<TileController>().clickTarget();
 				}
 			}
+			else if (Input.mousePosition.x > this.tileVM.haloRect.xMin && Input.mousePosition.x < this.tileVM.haloRect.xMax && (height - Input.mousePosition.y) > this.tileVM.haloRect.yMin && (height - Input.mousePosition.y) < this.tileVM.haloRect.yMax)
+			{
+				gameObject.GetComponentInChildren<TileController>().hoverTarget();
+			}	
 		}
 	}
 

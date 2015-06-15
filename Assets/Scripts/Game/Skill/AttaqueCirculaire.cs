@@ -11,7 +11,7 @@ public class AttaqueCirculaire : GameSkill
 	public override void launch()
 	{
 		Debug.Log("Je lance attaque circulaire");
-		GameController.instance.lookForAdjacentTarget("Choisir une cible à attaquer", "Lancer att. cir.");
+		GameController.instance.lookForValidation(true,"Choisir une cible à attaquer", "Lancer att. cir.");
 	}
 	
 	public override void resolve(int[] args)
@@ -38,21 +38,21 @@ public class AttaqueCirculaire : GameSkill
 			}
 			i++;
 		}
-		
-		int degats = GameController.instance.getCurrentSkill().ManaCost*GameController.instance.getCurrentCard().Attack/100;
+		int damageBonusPercentage = GameController.instance.getCurrentCard().GetDamagesPercentageBonus();
+		int degats = (GameController.instance.getCurrentSkill().ManaCost*GameController.instance.getCurrentCard().Attack/100)*(100+damageBonusPercentage)/100;
 		message += "Attaque circulaire";
 		
 		for (int j = 0 ; j < targets.Count ; j++){
 			if (Random.Range(1, 100) > GameController.instance.getCard(targets[j]).GetEsquive()){
-				message += "\n"+GameController.instance.getCurrentCard().Title+" inflige "+degats+" dégats à "+GameController.instance.getCard(targets[j]).Title;
 				GameController.instance.addModifier(targets[j], degats, (int)ModifierType.Type_BonusMalus, (int)ModifierStat.Stat_Dommage);
+				GameController.instance.displaySkillEffect(targets[j], "prend "+degats+" dégats", 3, 1);
 			}
 			else{
-				message += "\n"+GameController.instance.getCard(targets[j]).Title+" esquive l'attaque";
+				GameController.instance.displaySkillEffect(targets[j], "Esquive", 3, 0);
 			}
 		}
 		
-		GameController.instance.play(message);	
+		GameController.instance.play();	
 	}
 	
 	public override bool isLaunchable(Skill s){

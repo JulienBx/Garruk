@@ -10,7 +10,8 @@ public class TirALarc : GameSkill
 	public override void resolve(int[] args)
 	{
 		int targetID = args [0];
-		int attack = GameController.instance.getCurrentSkill().ManaCost;
+		int damageBonusPercentage = GameController.instance.getCurrentCard().GetDamagesPercentageBonus();
+		int attack = GameController.instance.getCurrentSkill().ManaCost*(100+damageBonusPercentage)/100;
 		int myPlayerID = GameController.instance.currentPlayingCard;
 		
 		string myPlayerName = GameController.instance.getCurrentCard().Title;

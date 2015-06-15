@@ -155,6 +155,17 @@ public class EndSceneController : MonoBehaviour
 	{
 		yield return StartCoroutine(GameController.instance.myDeck.addXpToDeck (earnXp));
 		view.endSceneVM.collectionPoints = GameController.instance.myDeck.CollectionPoints;
+		if(GameController.instance.myDeck.NewSkills.Count>0)
+		{
+			for(int i=0;i<GameController.instance.myDeck.NewSkills.Count;i++)
+			{
+				view.endSceneVM.newSkills.Add (GameController.instance.myDeck.NewSkills[i].Name);
+			}
+		}
+		if(GameController.instance.myDeck.NewCardType!="")
+		{
+			view.endSceneVM.newCardType=GameController.instance.myDeck.NewCardType;
+		}
 		this.xpDrawn = 0;
 		for(int i=0;i<this.cards.Length;i++)
 		{

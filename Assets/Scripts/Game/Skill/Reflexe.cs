@@ -25,7 +25,7 @@ public class Reflexe : GameSkill
 			+ convertStatToString(ModifierStat.Stat_Speed));
 
 		int targetID = args [0];
-		GameController.instance.getCard(targetID).modifiers.Add(new StatModifier(amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Speed));
+		GameController.instance.getCard(targetID).modifiers.Add(new StatModifier(amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Speed,-1,"","",""));
 		GameController.instance.reloadSortedList();
 
 	}

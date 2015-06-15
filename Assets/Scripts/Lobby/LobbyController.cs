@@ -98,6 +98,8 @@ public class LobbyController : Photon.MonoBehaviour
 			this.cardFocused.GetComponent<CardLobbyController> ().setFocusedLobbyCard (gameObject.GetComponent<CardController> ().card);
 			this.cardFocused.GetComponent<CardController> ().setCentralWindowRect (view.screenVM.centralWindow);
 			this.cardFocused.GetComponent<CardController> ().setCollectionPointsWindowRect (view.screenVM.collectionPointsWindow);
+			this.cardFocused.GetComponent<CardController> ().setNewSkillsWindowRect (view.screenVM.newSkillsWindow);
+			this.cardFocused.GetComponent<CardController> ().setNewCardTypeWindowRect(view.screenVM.centralWindow);
 		}
 	}
 	public void exitCard()
@@ -122,6 +124,14 @@ public class LobbyController : Photon.MonoBehaviour
 			if(model.decks[deckIndex].Cards[cardIndex].CollectionPoints>0)
 			{
 				StartCoroutine(this.cardFocused.GetComponent<CardController>().displayCollectionPointsPopUp());
+			}
+			if(model.decks[deckIndex].Cards[cardIndex].NewSkills.Count>0)
+			{
+				StartCoroutine(this.cardFocused.GetComponent<CardController>().displayNewSkillsPopUp());
+			}
+			if(model.decks[deckIndex].Cards[cardIndex].IdCardTypeUnlocked!=-1)
+			{
+				this.cardFocused.GetComponent<CardController>().displayNewCardTypePopUp();
 			}
 		}
 		else
@@ -281,12 +291,18 @@ public class LobbyController : Photon.MonoBehaviour
 			Destroy (this.cardFocused);
 		}
 	}
-	public void displayDeck(int chosenDeck)
+	public void displayDeckHandler(int chosenDeck)
+	{
+		StartCoroutine(displayDeck(chosenDeck));
+	}
+	public IEnumerator displayDeck(int chosenDeck)
 	{
 		view.decksVM.myDecksButtonGuiStyle [view.decksVM.chosenDeck] = view.decksVM.deckButtonStyle;
 		view.decksVM.myDecksButtonGuiStyle [chosenDeck] = view.decksVM.deckButtonChosenStyle;
-
 		view.decksVM.chosenDeck = chosenDeck;
+
+		yield return StartCoroutine (model.decks [view.decksVM.decksToBeDisplayed [view.decksVM.chosenDeck]].RetrieveCards ());
+
 		for(int i=0;i<5;i++)
 		{
 			this.displayedDeckCards[i].GetComponent<CardLobbyController>().resetLobbyCard(model.decks[view.decksVM.decksToBeDisplayed[view.decksVM.chosenDeck]].Cards[i]);

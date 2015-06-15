@@ -8,7 +8,7 @@ public class MyGameDeckCardsViewModel
 {
 
 	public List<int> deckCardsToBeDisplayed;
-	public int nbCardsToDisplay;
+	public List<int> deckCardsOrder;
 	public string labelNoDecks;
 	public GUIStyle[] styles;
 	public GUIStyle labelNoStyle;

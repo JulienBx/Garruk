@@ -26,7 +26,7 @@ public class AppositionDesMains : GameSkill
 			+ convertStatToString(ModifierStat.Stat_Life));
 		
 		int targetID = args [0];
-		GameController.instance.getCard(targetID).modifiers.Add(new StatModifier(-amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage));
+		GameController.instance.getCard(targetID).modifiers.Add(new StatModifier(-amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1,"","",""));
 		GameController.instance.reloadCard(targetID);
 	}
 	

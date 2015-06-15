@@ -16,9 +16,9 @@ public class Agilite : GameSkill
 	{
 		int amount = GameController.instance.getCurrentSkill().ManaCost ;
 		int myPlayerID = GameController.instance.currentPlayingCard;
-		string myPlayerName = GameController.instance.getCurrentCard().Title;
+		
 		GameController.instance.setEsquive (amount);
-		GameController.instance.displaySkillEffect(myPlayerID, myPlayerName+" gagne "+amount+"% d'esquive", 3, 0);
+		GameController.instance.displaySkillEffect(myPlayerID, "Gagne "+amount+"% d'esquive", 3, 0);
 		GameController.instance.play();
 	}
 	

@@ -49,6 +49,9 @@ public class Card
 	public List<int> Decks;
 	public IList<Skill> NewSkills;
 	public int CollectionPoints;
+	public int IdCardTypeUnlocked;
+	public string TitleCardTypeUnlocked;
+	public int deckOrder;
 
 	public static bool xpDone = false;
 	
@@ -223,6 +226,32 @@ public class Card
 		return esquive;
 	}
 	
+	public int GetDamagesPercentageBonus()
+	{
+		int damagePercentageBonus = 0;
+		foreach (StatModifier modifier in modifiers)
+		{
+			if (modifier.Type == ModifierType.Type_DommagePercentage)
+			{
+				damagePercentageBonus += modifier.Amount;
+			}
+		}
+		return damagePercentageBonus;
+	}
+	
+	public int GetDamagesPercentageBonusAgainst(int type)
+	{
+		int damagePercentageBonus = 0;
+		foreach (StatModifier modifier in modifiers)
+		{
+			if ((int)modifier.Type-6 == type)
+			{
+				damagePercentageBonus += modifier.Amount;
+			}
+		}
+		return damagePercentageBonus;
+	}
+	
 	public int GetAttack()
 	{
 		int attack = Attack;
@@ -277,7 +306,7 @@ public class Card
 		modifiers.AddRange(temp2);
 		if (dommage1 + dommage2 > 0)
 		{
-			modifiers.Add(new StatModifier(dommage1 + dommage2, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage));
+			modifiers.Add(new StatModifier(dommage1 + dommage2, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage,-1, "", "", ""));
 		}
 		
 
@@ -574,6 +603,7 @@ public class Card
 	}
 	public IEnumerator addXpLevel()
 	{
+
 		WWWForm form = new WWWForm(); 								// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_idcard", this.Id.ToString());
@@ -613,13 +643,27 @@ public class Card
 						this.AttackLevel = System.Convert.ToInt32(cardInfo [7]);
 						this.Experience = System.Convert.ToInt32(cardInfo [8]);
 						this.ExperienceLevel = System.Convert.ToInt32(cardInfo [9]);
-						this.NextLevelPrice = System.Convert.ToInt16(cardInfo [10]);
-						this.PercentageToNextLevel = System.Convert.ToInt16(cardInfo [11]);
-					} else
+						this.NextLevelPrice = System.Convert.ToInt32(cardInfo [10]);
+						this.PercentageToNextLevel = System.Convert.ToInt32(cardInfo [11]);
+						this.IdCardTypeUnlocked = System.Convert.ToInt32(cardInfo [12]);
+						this.TitleCardTypeUnlocked = cardInfo[13];
+						this.NewSkills=new List<Skill>();
+					} 
+					else
 					{
-						this.Skills [j - 1].Level = System.Convert.ToInt32(cardInfo [0]);
-						this.Skills [j - 1].Power = System.Convert.ToInt32(cardInfo [1]);
-						this.Skills [j - 1].Description = cardInfo [2];
+						this.Skills.Add(new Skill());
+						this.Skills[this.Skills.Count-1].Id=System.Convert.ToInt32(cardInfo[0]);
+						this.Skills[this.Skills.Count-1].Name=cardInfo[1];
+						this.Skills[this.Skills.Count-1].IsActivated=System.Convert.ToInt32(cardInfo[2]);
+						this.Skills[this.Skills.Count-1].Level=System.Convert.ToInt32(cardInfo[3]);
+						this.Skills[this.Skills.Count-1].Power=System.Convert.ToInt32(cardInfo[4]);
+						this.Skills[this.Skills.Count-1].Description=cardInfo[5];
+						this.Skills[this.Skills.Count-1].ManaCost=System.Convert.ToInt32(cardInfo[6]);
+						this.Skills[this.Skills.Count-1].IsNew=System.Convert.ToBoolean(System.Convert.ToInt32(cardInfo[7]));
+						if(this.Skills[this.Skills.Count-1].IsNew)
+						{
+							this.NewSkills.Add (this.Skills[this.Skills.Count-1]);
+						}
 					}
 				}
 			}

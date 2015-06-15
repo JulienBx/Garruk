@@ -25,7 +25,7 @@ public class Sape : GameSkill
 			+ " " 
 			+ convertStatToString(ModifierStat.Stat_Attack)
 			+ " au prochain tour");
-		GameController.instance.getCard(targetID).modifiers.Add(new StatModifier(amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, 1, false));
+		GameController.instance.getCard(targetID).modifiers.Add(new StatModifier(amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, 1, false,-1,"","",""));
 		GameController.instance.reloadCard(targetID);
 	}
 	
