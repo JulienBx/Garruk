@@ -25,6 +25,7 @@ public class CardController : GameObjectController {
 	private ErrorCardPopUpView errorPopUpView;
 	private CardCollectionPointsPopUpView cardCollectionPointsPopUpView;
 	private CardNewSkillsPopUpView newSkillsPopUpView;
+	private CardNewCardTypePopUpView newCardTypePopUpView;
 
 	private IList<GameObject> skills;
 	private GameObject experience;
@@ -321,6 +322,21 @@ public class CardController : GameObjectController {
 		yield return new WaitForSeconds (5);
 		this.hideNewSkillsPopUp ();
 	}
+	public void displayNewCardTypePopUp()
+	{
+		newCardTypePopUpView = gameObject.AddComponent<CardNewCardTypePopUpView>();
+		newCardTypePopUpView.cardNewCardTypePopUpVM.centralWindow = this.getNewCardTypeWindowsRect ();
+		newCardTypePopUpView.cardNewCardTypePopUpVM.newCardType = this.card.TitleCardTypeUnlocked;
+		newCardTypePopUpView.cardNewCardTypePopUpVM.styles=new GUIStyle[ressources.collectionPopUpStyles.Length];
+		for(int i=0;i<ressources.collectionPopUpStyles.Length;i++)
+		{
+			newCardTypePopUpView.cardNewCardTypePopUpVM.styles[i]=ressources.collectionPopUpStyles[i];
+		}
+		newCardTypePopUpView.cardNewCardTypePopUpVM.initStyles();
+		this.newCardTypePopUpResize ();
+		this.setGUI (false);
+		this.popUpDisplayed (true);
+	}
 	public virtual void buyCard()
 	{
 		if(this.buyPopUpView!=null)
@@ -433,6 +449,12 @@ public class CardController : GameObjectController {
 	{
 		Destroy (this.newSkillsPopUpView);
 	}
+	public void hideNewCardTypePopUp()
+	{
+		Destroy (this.newCardTypePopUpView);
+		this.setGUI (true);
+		this.popUpDisplayed (false);
+	}
 	private void buyCardPopUpResize()
 	{
 		buyPopUpView.popUpVM.centralWindow = this.getCentralWindowsRect ();
@@ -482,6 +504,11 @@ public class CardController : GameObjectController {
 	{
 		newSkillsPopUpView.cardNewSkillsPopUpVM.centralWindow = this.getNewSkillsWindowsRect ();
 		newSkillsPopUpView.cardNewSkillsPopUpVM.resize ();
+	}
+	private void newCardTypePopUpResize()
+	{
+		newCardTypePopUpView.cardNewCardTypePopUpVM.centralWindow = this.getNewCardTypeWindowsRect ();
+		newCardTypePopUpView.cardNewCardTypePopUpVM.resize ();
 	}
 	public int editSellPriceSyntaxCheck()
 	{
@@ -698,6 +725,10 @@ public class CardController : GameObjectController {
 		{
 			this.newSkillsPopUpResize();
 		}
+		if(this.newCardTypePopUpView!=null)
+		{
+			this.newCardTypePopUpResize();
+		}
 	}
 	public void setCentralWindowRect(Rect centralWindowRect)
 	{
@@ -711,6 +742,10 @@ public class CardController : GameObjectController {
 	{
 		view.cardVM.newSkillsWindowsRect = newSkillsWindowRect;
 	}
+	public void setNewCardTypeWindowRect(Rect newCardTypeWindowRect)
+	{
+		view.cardVM.newCardTypeWindowsRect = newCardTypeWindowRect;
+	}
 	public Rect getCentralWindowsRect()
 	{
 		return view.cardVM.centralWindowsRect;
@@ -722,6 +757,10 @@ public class CardController : GameObjectController {
 	public Rect getNewSkillsWindowsRect()
 	{
 		return view.cardVM.newSkillsWindowsRect;
+	}
+	public Rect getNewCardTypeWindowsRect()
+	{
+		return view.cardVM.newCardTypeWindowsRect;
 	}
 	public Rect getCardFeaturesFocusRect(int position)
 	{

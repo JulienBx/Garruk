@@ -24,6 +24,7 @@ public class Deck
 	public string OwnerUsername;                                // Username de la personne possédant le deck
 	public int CollectionPoints;
 	public IList<Skill> NewSkills;
+	public string NewCardType;
 
 	public Deck()
 	{
@@ -268,6 +269,7 @@ public class Deck
 	public IEnumerator addXpToDeck(int earnXp)
 	{
 		this.NewSkills = new List<Skill> ();
+		this.NewCardType = "";
 		string idCards = "";
 
 		for (int i=0; i<5; i++)
@@ -300,7 +302,6 @@ public class Deck
 					string[] cardInfo = cardData[j].Split(new string[] { "\\" }, System.StringSplitOptions.None); 
 					if (j==0)
 					{
-						
 						this.Cards[i].Life=System.Convert.ToInt32(cardInfo[0]);
 						this.Cards[i].Attack=System.Convert.ToInt32(cardInfo[1]);
 						this.Cards[i].Speed=System.Convert.ToInt32(cardInfo[2]);
@@ -311,10 +312,14 @@ public class Deck
 						this.Cards[i].AttackLevel=System.Convert.ToInt32(cardInfo[7]);
 						this.Cards[i].Experience=System.Convert.ToInt32(cardInfo[8]);
 						this.Cards[i].ExperienceLevel=System.Convert.ToInt32(cardInfo[9]);
-						this.Cards[i].NextLevelPrice=System.Convert.ToInt16(cardInfo[10]);
-						this.Cards[i].PercentageToNextLevel=System.Convert.ToInt16(cardInfo[11]);
-						this.Cards[i].IdCardTypeUnlocked=System.Convert.ToInt16(cardInfo[12]);
+						this.Cards[i].NextLevelPrice=System.Convert.ToInt32(cardInfo[10]);
+						this.Cards[i].PercentageToNextLevel=System.Convert.ToInt32(cardInfo[11]);
+						this.Cards[i].IdCardTypeUnlocked=System.Convert.ToInt32(cardInfo[12]);
 						this.Cards[i].TitleCardTypeUnlocked=cardInfo[13];
+						if(this.Cards[i].TitleCardTypeUnlocked!="")
+						{
+							this.NewCardType=this.Cards[i].TitleCardTypeUnlocked;
+						}
 					}
 					else
 					{
@@ -327,7 +332,6 @@ public class Deck
 						this.Cards[i].Skills[this.Cards[i].Skills.Count-1].Description=cardInfo[5];
 						this.Cards[i].Skills[this.Cards[i].Skills.Count-1].ManaCost=System.Convert.ToInt32(cardInfo[6]);
 						this.Cards[i].Skills[this.Cards[i].Skills.Count-1].IsNew=System.Convert.ToBoolean(System.Convert.ToInt32(cardInfo[7]));
-
 						if(this.Cards[i].Skills[this.Cards[i].Skills.Count-1].IsNew)
 						{
 							this.NewSkills.Add (this.Cards[i].Skills[this.Cards[i].Skills.Count-1]);

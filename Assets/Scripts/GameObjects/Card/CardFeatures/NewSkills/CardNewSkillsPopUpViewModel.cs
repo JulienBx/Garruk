@@ -13,6 +13,7 @@ public class CardNewSkillsPopUpViewModel
 	public GUIStyle[] styles;
 	public GUIStyle centralWindowStyle;
 	public GUIStyle centralWindowTitleStyle;
+	public GUIStyle centralWindowButtonStyle;
 	
 	public CardNewSkillsPopUpViewModel ()
 	{
@@ -28,10 +29,12 @@ public class CardNewSkillsPopUpViewModel
 	{
 		this.centralWindowStyle = this.styles [0];
 		this.centralWindowTitleStyle = this.styles [1];
+		this.centralWindowButtonStyle = this.styles [2];
 	}
 	public void resize()
 	{
 		this.centralWindowTitleStyle.fontSize = Screen.height * 2 / 100;
+		this.centralWindowButtonStyle.fontSize = Screen.height * 2 / 100;
 	}
 }
 

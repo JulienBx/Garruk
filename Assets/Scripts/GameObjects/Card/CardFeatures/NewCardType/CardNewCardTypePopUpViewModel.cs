@@ -1,9 +1,9 @@
 using UnityEngine;
 
-public class CardCollectionPointsPopUpViewModel
+public class CardNewCardTypePopUpViewModel
 {	
 	
-	public int collectionPoints;
+	public string newCardType;
 	public int guiDepth;
 	public Rect centralWindow;
 	public GUIStyle[] styles;
@@ -11,13 +11,14 @@ public class CardCollectionPointsPopUpViewModel
 	public GUIStyle centralWindowTitleStyle;
 	public GUIStyle centralWindowButtonStyle;
 	
-	public CardCollectionPointsPopUpViewModel ()
+	public CardNewCardTypePopUpViewModel ()
 	{
 		this.guiDepth = -1;
 		this.centralWindow = new Rect();
 		this.styles=new GUIStyle[0];
 		this.centralWindowStyle = new GUIStyle ();
 		this.centralWindowTitleStyle = new GUIStyle ();
+		this.newCardType = "";
 	}
 	public void initStyles()
 	{
