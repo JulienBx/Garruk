@@ -49,6 +49,8 @@ public class Card
 	public List<int> Decks;
 	public IList<Skill> NewSkills;
 	public int CollectionPoints;
+	public int IdCardTypeUnlocked;
+	public string TitleCardTypeUnlocked;
 
 	public static bool xpDone = false;
 	
@@ -642,6 +644,8 @@ public class Card
 						this.ExperienceLevel = System.Convert.ToInt32(cardInfo [9]);
 						this.NextLevelPrice = System.Convert.ToInt16(cardInfo [10]);
 						this.PercentageToNextLevel = System.Convert.ToInt16(cardInfo [11]);
+						this.IdCardTypeUnlocked = System.Convert.ToInt16(cardInfo [12]);
+						this.TitleCardTypeUnlocked = cardInfo[13];
 						this.NewSkills=new List<Skill>();
 					} 
 					else
