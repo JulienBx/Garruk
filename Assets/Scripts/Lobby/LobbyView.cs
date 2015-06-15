@@ -77,7 +77,7 @@ public class LobbyView : MonoBehaviour
 									{
 										if (decksVM.chosenDeck != i)
 										{
-											LobbyController.instance.displayDeck(i);
+											LobbyController.instance.displayDeckHandler(i);
 										}
 									}
 								}

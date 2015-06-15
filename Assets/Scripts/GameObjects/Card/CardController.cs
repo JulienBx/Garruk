@@ -26,6 +26,7 @@ public class CardController : GameObjectController {
 	private CardCollectionPointsPopUpView cardCollectionPointsPopUpView;
 	private CardNewSkillsPopUpView newSkillsPopUpView;
 	private CardNewCardTypePopUpView newCardTypePopUpView;
+	private DeckOrderFeaturesView deckOrderFeaturesView;
 
 	private IList<GameObject> skills;
 	private GameObject experience;
@@ -109,6 +110,34 @@ public class CardController : GameObjectController {
 		this.experience.transform.localScale=new Vector3(1f, 1f, 1f);
 		this.experience.GetComponent<ExperienceController> ().setXp (this.card.ExperienceLevel,this.card.PercentageToNextLevel);
 	}
+	public void setDeckOrderFeatures(int deckOrder)
+	{
+		this.card.deckOrder = deckOrder;
+		this.deckOrderFeaturesView = gameObject.AddComponent <DeckOrderFeaturesView>();
+		deckOrderFeaturesView.deckOrderFeaturesVM.deckOrderName = ressources.deckOrderNames [this.card.deckOrder];
+		if(this.card.deckOrder>0)
+		{
+			deckOrderFeaturesView.deckOrderFeaturesVM.displayLeftArrow=true;
+		}
+		if(this.card.deckOrder<4)
+		{
+			deckOrderFeaturesView.deckOrderFeaturesVM.displayRightArrow=true;
+		}
+		deckOrderFeaturesView.deckOrderFeaturesVM.styles=new GUIStyle[ressources.deckOrderFeaturesStyles.Length];
+		for(int i=0;i<ressources.deckOrderFeaturesStyles.Length;i++)
+		{
+			deckOrderFeaturesView.deckOrderFeaturesVM.styles[i]=ressources.deckOrderFeaturesStyles[i];
+		}
+		deckOrderFeaturesView.deckOrderFeaturesVM.initStyles();
+		this.deckOrderFeaturesResize ();
+	}
+	public void deckOrderFeaturesResize()
+	{
+		deckOrderFeaturesView.deckOrderFeaturesVM.leftArrowRect = new Rect(base.GOPosition.x-base.GOSize.x/2f,(Screen.height-base.GOPosition.y)+base.GOSize.y/2f,1.47f*(base.GOSize.y/8f),base.GOSize.y/8f);
+		deckOrderFeaturesView.deckOrderFeaturesVM.rightArrowRect = new Rect(base.GOPosition.x+base.GOSize.x/2f-1.47f*(base.GOSize.y/8f),(Screen.height-base.GOPosition.y)+base.GOSize.y/2f,1.47f*(base.GOSize.y/8f),base.GOSize.y/8f);
+		deckOrderFeaturesView.deckOrderFeaturesVM.deckOrderNameRect = new Rect(base.GOPosition.x-base.GOSize.x/2f,(Screen.height-base.GOPosition.y)-base.GOSize.y/2f-base.GOSize.y/6f,base.GOSize.x,base.GOSize.y/6f);
+		deckOrderFeaturesView.deckOrderFeaturesVM.resize(base.GOSize.y);
+	}
 	public virtual void updateExperience()
 	{
 		if(this.experience!=null)
@@ -148,6 +177,10 @@ public class CardController : GameObjectController {
 		if(experience!=null)
 		{
 			Destroy (this.experience);
+		}
+		if(deckOrderFeaturesView!=null)
+		{
+			Destroy (this.deckOrderFeaturesView);
 		}
 	}
 	public void applySoldTexture()
@@ -336,6 +369,9 @@ public class CardController : GameObjectController {
 		this.newCardTypePopUpResize ();
 		this.setGUI (false);
 		this.popUpDisplayed (true);
+	}
+	public virtual void changeDeckOrder(bool moveLeft)
+	{
 	}
 	public virtual void buyCard()
 	{
@@ -573,6 +609,10 @@ public class CardController : GameObjectController {
 	}
 	public virtual void setMyGUI(bool value)
 	{
+		if(deckOrderFeaturesView!=null)
+		{
+			deckOrderFeaturesView.deckOrderFeaturesVM.guiEnabled=value;
+		}
 	}
 	public virtual void popUpDisplayed(bool value)
 	{

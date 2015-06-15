@@ -291,12 +291,18 @@ public class LobbyController : Photon.MonoBehaviour
 			Destroy (this.cardFocused);
 		}
 	}
-	public void displayDeck(int chosenDeck)
+	public void displayDeckHandler(int chosenDeck)
+	{
+		StartCoroutine(displayDeck(chosenDeck));
+	}
+	public IEnumerator displayDeck(int chosenDeck)
 	{
 		view.decksVM.myDecksButtonGuiStyle [view.decksVM.chosenDeck] = view.decksVM.deckButtonStyle;
 		view.decksVM.myDecksButtonGuiStyle [chosenDeck] = view.decksVM.deckButtonChosenStyle;
-
 		view.decksVM.chosenDeck = chosenDeck;
+
+		yield return StartCoroutine (model.decks [view.decksVM.decksToBeDisplayed [view.decksVM.chosenDeck]].RetrieveCards ());
+
 		for(int i=0;i<5;i++)
 		{
 			this.displayedDeckCards[i].GetComponent<CardLobbyController>().resetLobbyCard(model.decks[view.decksVM.decksToBeDisplayed[view.decksVM.chosenDeck]].Cards[i]);

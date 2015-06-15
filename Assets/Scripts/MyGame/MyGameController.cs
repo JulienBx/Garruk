@@ -178,20 +178,26 @@ public class MyGameController : MonoBehaviour
 	}
 	public IEnumerator moveCards(string name)
 	{
-		if(name.StartsWith("Card")&&view.myGameDeckCardsVM.nbCardsToDisplay<5)
+		if(name.StartsWith("Card")&&view.myGameDeckCardsVM.deckCardsOrder.Count<5)
 		{
 			int cardIndex = retrieveCardIndex (name);
 			if(model.cards[cardIndex].onSale==0 && model.cards[cardIndex].IdOWner!=-1)
 			{
 				int deckIndex = view.myGameDecksVM.decksToBeDisplayed[view.myGameDecksVM.chosenDeck];
-				this.displayedDeckCards[view.myGameDeckCardsVM.nbCardsToDisplay].SetActive(true);
-				this.displayedDeckCards[view.myGameDeckCardsVM.nbCardsToDisplay].GetComponent<CardMyGameController>().resetMyGameCard(model.cards[cardIndex]);
+				int deckOrder=0;
+				while(view.myGameDeckCardsVM.deckCardsOrder.Contains(deckOrder))
+				{
+					deckOrder++;
+				}
+				this.displayedDeckCards[deckOrder].SetActive(true);
+				this.displayedDeckCards[deckOrder].GetComponent<CardMyGameController>().resetMyGameCard(model.cards[cardIndex]);
+				this.displayedDeckCards[deckOrder].GetComponent<CardController>().setDeckOrderFeatures(deckOrder);
 				view.myGameDeckCardsVM.deckCardsToBeDisplayed.Add (cardIndex);
+				view.myGameDeckCardsVM.deckCardsOrder.Add (deckOrder);
 				view.myGameDecksVM.decksNbCards[view.myGameDecksVM.chosenDeck]++;
-				view.myGameDeckCardsVM.nbCardsToDisplay++;
 				model.cards[cardIndex].Decks.Add (model.decks[deckIndex].Id);
 				this.filterCards();
-				yield return StartCoroutine(model.decks[deckIndex].addCard(model.cards[cardIndex].Id));
+				yield return StartCoroutine(model.decks[deckIndex].addCard(model.cards[cardIndex].Id,deckOrder));
 				if(this.isTutorialLaunched)
 				{
 					if(view.myGameDeckCardsVM.deckCardsToBeDisplayed.Count==5)
@@ -217,9 +223,10 @@ public class MyGameController : MonoBehaviour
 			int deckIndex = view.myGameDecksVM.decksToBeDisplayed[view.myGameDecksVM.chosenDeck];
 			model.cards[cardIndex].Decks.Remove(model.decks[deckIndex].Id);
 			view.myGameDecksVM.decksNbCards[view.myGameDecksVM.chosenDeck]--;
-			view.myGameDeckCardsVM.nbCardsToDisplay--;
-			view.myGameDeckCardsVM.deckCardsToBeDisplayed.RemoveAt(System.Convert.ToInt32(name.Substring(4)));
-			this.loadDeckCards();
+			int deckOrder = view.myGameDeckCardsVM.deckCardsOrder.IndexOf(System.Convert.ToInt32(name.Substring(4)));
+			view.myGameDeckCardsVM.deckCardsToBeDisplayed.RemoveAt(deckOrder);
+			view.myGameDeckCardsVM.deckCardsOrder.RemoveAt(deckOrder);
+			this.displayedDeckCards[System.Convert.ToInt32(name.Substring(4))].SetActive(false);
 			this.filterCards();
 			yield return StartCoroutine(model.decks[deckIndex].removeCard(model.cards[cardIndex].Id));
 			if(this.isTutorialLaunched)
@@ -231,6 +238,43 @@ public class MyGameController : MonoBehaviour
 			}
 		}
 		yield break;
+	}
+	public IEnumerator changeDeckOrder(GameObject gameobject, bool moveLeft)
+	{
+		string name = gameobject.name;
+		int deckIndex = view.myGameDecksVM.decksToBeDisplayed[view.myGameDecksVM.chosenDeck];
+		int deckOrder2=System.Convert.ToInt32 (name.Substring (4));
+		int deckOrder1;
+		if(moveLeft)
+		{
+			deckOrder1 = System.Convert.ToInt32 (name.Substring (4))-1;
+		}
+		else
+		{
+			deckOrder1 = System.Convert.ToInt32 (name.Substring (4))+1;
+		}
+		int indexVMClickedCard = view.myGameDeckCardsVM.deckCardsOrder.IndexOf(deckOrder2);
+		int indexVMCardToMove = view.myGameDeckCardsVM.deckCardsOrder.IndexOf(deckOrder1);
+
+		view.myGameDeckCardsVM.deckCardsOrder [indexVMClickedCard] =deckOrder1;
+		this.displayedDeckCards[deckOrder1].GetComponent<CardMyGameController>().resetMyGameCard(model.cards[view.myGameDeckCardsVM.deckCardsToBeDisplayed[indexVMClickedCard]]);
+		this.displayedDeckCards[deckOrder1].GetComponent<CardController>().setDeckOrderFeatures(deckOrder1);
+		int idCard1 = model.cards [view.myGameDeckCardsVM.deckCardsToBeDisplayed [indexVMClickedCard]].Id;
+
+		int idCard2 = -1;
+		if(indexVMCardToMove==-1)
+		{
+			this.displayedDeckCards[deckOrder2].SetActive(false);
+			this.displayedDeckCards[deckOrder1].SetActive(true);
+		}
+		else
+		{
+			view.myGameDeckCardsVM.deckCardsOrder [indexVMCardToMove] = deckOrder2;
+			this.displayedDeckCards[deckOrder2].GetComponent<CardMyGameController>().resetMyGameCard(model.cards[view.myGameDeckCardsVM.deckCardsToBeDisplayed[indexVMCardToMove]]);
+			this.displayedDeckCards[deckOrder2].GetComponent<CardController>().setDeckOrderFeatures(deckOrder2);
+			idCard2 = model.cards[view.myGameDeckCardsVM.deckCardsToBeDisplayed[indexVMCardToMove]].Id;
+		}
+		yield return StartCoroutine(model.decks[deckIndex].changeCardsOrder(idCard1,deckOrder1,idCard2,deckOrder2));
 	}
 	public void rightClickedCard(GameObject gameobject)
 	{
@@ -493,9 +537,9 @@ public class MyGameController : MonoBehaviour
 		{
 			this.displayedCards[i].SetActive(true);
 		}
-		for(int i = 0 ; i < view.myGameDeckCardsVM.nbCardsToDisplay ; i++)
+		for(int i = 0 ; i < view.myGameDeckCardsVM.deckCardsToBeDisplayed.Count ; i++)
 		{
-			this.displayedDeckCards[i].SetActive(true);
+			this.displayedDeckCards[view.myGameDeckCardsVM.deckCardsOrder[i]].SetActive(true);
 		}
 		view.myGameVM.displayView=true ;
 	}
@@ -507,7 +551,7 @@ public class MyGameController : MonoBehaviour
 		}
 		else
 		{
-			return view.myGameDeckCardsVM.deckCardsToBeDisplayed[System.Convert.ToInt32(name.Substring(4))];
+			return view.myGameDeckCardsVM.deckCardsToBeDisplayed[view.myGameDeckCardsVM.deckCardsOrder.IndexOf(System.Convert.ToInt32(name.Substring(4)))];
 		}
 	}
 	public IEnumerator sellCard(GameObject gameobject)
@@ -565,6 +609,7 @@ public class MyGameController : MonoBehaviour
 		{
 			int tempInt = System.Convert.ToInt32(gameobject.name.Substring(4));
 			this.displayedDeckCards [tempInt].GetComponent<CardMyGameController> ().resetMyGameCard (model.cards [index]);
+			this.displayedDeckCards [tempInt].GetComponent<CardController> ().setDeckOrderFeatures(tempInt);
 		}
 	}
 	public IEnumerator renameCard(string value, GameObject gameobject)
@@ -603,6 +648,7 @@ public class MyGameController : MonoBehaviour
 		{
 			int tempInt = System.Convert.ToInt32(name.Substring(4));
 			this.displayedDeckCards [tempInt].GetComponent<CardMyGameController> ().resetMyGameCard (model.cards [index]);
+			this.displayedDeckCards [tempInt].GetComponent<CardController> ().setDeckOrderFeatures(tempInt);
 		}
 		this.cardFocused.GetComponent<CardMyGameController> ().resetFocusedMyGameCard (model.cards [index]);
 		this.refreshCredits();
@@ -728,6 +774,7 @@ public class MyGameController : MonoBehaviour
 	{
 		view.myGameDeckCardsVM.labelNoDecks=computeLabelNoDeck();
 		view.myGameDeckCardsVM.deckCardsToBeDisplayed = new List<int> ();
+		view.myGameDeckCardsVM.deckCardsOrder = new List<int> ();
 		if(model.decks.Count>0)
 		{
 			for(int i=0;i<model.decks[view.myGameDecksVM.decksToBeDisplayed[view.myGameDecksVM.chosenDeck]].Cards.Count;i++)
@@ -737,6 +784,7 @@ public class MyGameController : MonoBehaviour
 					if(model.decks[view.myGameDecksVM.decksToBeDisplayed[view.myGameDecksVM.chosenDeck]].Cards[i].Id==model.cards[j].Id)
 					{
 						view.myGameDeckCardsVM.deckCardsToBeDisplayed.Add(j);
+						view.myGameDeckCardsVM.deckCardsOrder.Add (model.decks[view.myGameDecksVM.decksToBeDisplayed[view.myGameDecksVM.chosenDeck]].Cards[i].deckOrder);
 						break;
 					}
 				}
@@ -887,7 +935,7 @@ public class MyGameController : MonoBehaviour
 		{
 			name = "Card" + i;
 			scale = new Vector3(1.5f, 1.5f, 1.5f);
-			position=new Vector3(debutLargeur + 1.6f * (i % view.myGameCardsVM.nbCardsPerRow), 0.8f - (i - i % view.myGameCardsVM.nbCardsPerRow) / view.myGameCardsVM.nbCardsPerRow * 2.2f,0);
+			position=new Vector3(debutLargeur + 1.6f * (i % view.myGameCardsVM.nbCardsPerRow), 0.35f - (i - i % view.myGameCardsVM.nbCardsPerRow) / view.myGameCardsVM.nbCardsPerRow * 1.98f,0);
 			this.displayedCards[i] = Instantiate(CardObject) as GameObject;
 			this.displayedCards[i].AddComponent<CardMyGameController>();
 			this.displayedCards[i].GetComponent<CardController>().setGameObject(name,scale,position);
@@ -918,31 +966,27 @@ public class MyGameController : MonoBehaviour
 		float pas = (width - 5f * scaleDeck) / 6f;
 		float debutLargeur = -0.3f * tempF + pas + scaleDeck / 2;
 		this.displayedDeckCards = new GameObject[5];
-		view.myGameDeckCardsVM.nbCardsToDisplay=0;
 		
 		for (int i = 0; i < 5; i++)
 		{
 			name="DCrd" + i;
 			scale = new Vector3(scaleDeck,scaleDeck,scaleDeck);
-			position = new Vector3(debutLargeur + (scaleDeck + pas) * i, 2.9f, 0); 
+			position = new Vector3(debutLargeur + (scaleDeck + pas) * i, 2.675f, 0); 
 			this.displayedDeckCards [i] = Instantiate(this.CardObject) as GameObject;
 			this.displayedDeckCards [i].AddComponent<CardMyGameController>();
 			this.displayedDeckCards [i].GetComponent<CardController>().setGameObject(name,scale,position);
-
-			if (i < view.myGameDeckCardsVM.deckCardsToBeDisplayed.Count)
+			this.displayedDeckCards[i].SetActive (false);
+		}
+		for(int i =0; i<view.myGameDeckCardsVM.deckCardsToBeDisplayed.Count;i++)
+		{
+			this.displayedDeckCards[view.myGameDeckCardsVM.deckCardsOrder[i]].GetComponent<CardMyGameController>().setMyGameCard(model.cards[view.myGameDeckCardsVM.deckCardsToBeDisplayed[i]]);
+			this.displayedDeckCards[view.myGameDeckCardsVM.deckCardsOrder[i]].GetComponent<CardController> ().setCentralWindowRect (view.myGameScreenVM.centralWindow);
+			this.displayedDeckCards[view.myGameDeckCardsVM.deckCardsOrder[i]].GetComponent<CardController>().setDeckOrderFeatures(view.myGameDeckCardsVM.deckCardsOrder[i]);
+			if(!this.isFocus)
 			{
-				this.displayedDeckCards[i].GetComponent<CardMyGameController>().setMyGameCard(model.cards[view.myGameDeckCardsVM.deckCardsToBeDisplayed[i]]);
-				this.displayedDeckCards[i].GetComponent<CardController> ().setCentralWindowRect (view.myGameScreenVM.centralWindow);
-				view.myGameDeckCardsVM.nbCardsToDisplay++;
-				if(this.isFocus)
-				{
-					this.displayedDeckCards[i].SetActive (false);
-				}
-			} else
-			{
-				this.displayedDeckCards[i].SetActive (false);
+				this.displayedDeckCards[view.myGameDeckCardsVM.deckCardsOrder[i]].SetActive (true);
 			}
-		} 
+		}
 	}
 	private void setPagination()
 	{
@@ -1021,19 +1065,15 @@ public class MyGameController : MonoBehaviour
 
 		view.myGameDecksVM.chosenDeck = chosenDeck;
 		this.initMyGameDeckCardsVM ();
-		view.myGameDeckCardsVM.nbCardsToDisplay = 0;
 		for(int i=0;i<5;i++)
 		{
-			if (i < view.myGameDeckCardsVM.deckCardsToBeDisplayed.Count)
-			{
-				this.displayedDeckCards[i].SetActive (true);
-				this.displayedDeckCards[i].GetComponent<CardMyGameController>().resetMyGameCard(model.cards[view.myGameDeckCardsVM.deckCardsToBeDisplayed[i]]);
-				view.myGameDeckCardsVM.nbCardsToDisplay++;
-			} 
-			else
-			{
-				this.displayedDeckCards[i].SetActive (false);
-			}
+			this.displayedDeckCards[i].SetActive (false);
+		}
+		for(int i =0;i<view.myGameDeckCardsVM.deckCardsOrder.Count;i++)
+		{
+			this.displayedDeckCards[view.myGameDeckCardsVM.deckCardsOrder[i]].SetActive (true);
+			this.displayedDeckCards[view.myGameDeckCardsVM.deckCardsOrder[i]].GetComponent<CardMyGameController>().resetMyGameCard(model.cards[view.myGameDeckCardsVM.deckCardsToBeDisplayed[i]]);
+			this.displayedDeckCards[view.myGameDeckCardsVM.deckCardsOrder[i]].GetComponent<CardController>().setDeckOrderFeatures(view.myGameDeckCardsVM.deckCardsOrder[i]);
 		}
 		this.filterCards ();
 	}

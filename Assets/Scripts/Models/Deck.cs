@@ -16,6 +16,7 @@ public class Deck
 	private static string URLRemoveCardFromDeck = ApplicationModel.host + "remove_card_from_deck_by_user.php";
 	private static string URLGetCardsByDeck = ApplicationModel.host + "get_cards_by_deck.php";
 	private static string URLAddXpToDeck = ApplicationModel.host + "add_xp_to_deck.php";
+	private static string URLChangeCardsOrder = ApplicationModel.host + "change_cards_order.php"; 
 
 	public int Id; 												// Id unique de la carte
 	public string Name; 										// Nom du deck
@@ -64,26 +65,60 @@ public class Deck
 		this.Cards = cards;
 	}
 
-	public IEnumerator addCard(int idCard)
+	public IEnumerator addCard(int idCard, int deckOrder)
 	{
 		WWWForm form = new WWWForm(); 						
 		form.AddField("myform_hash", ApplicationModel.hash);
 		form.AddField("myform_nick", ApplicationModel.username);
 		form.AddField("myform_deck", Id);
 		form.AddField("myform_idCard", idCard);
+		form.AddField("myform_deckOrder", deckOrder);
 		WWW w = new WWW(URLAddCardToDeck, form); 								
 		yield return w; 						
 		
 		if (w.error != null)
 		{
 			Debug.Log(w.error);								
-		} else
+		} 
+		else
 		{
 			this.NbCards++;
 			this.Cards.Add(new Card(idCard));
+			this.Cards[this.Cards.Count-1].deckOrder=deckOrder;
 		}
 	}
-
+	public IEnumerator changeCardsOrder(int idCard1, int deckOrder1, int idCard2, int deckOrder2)
+	{
+		WWWForm form = new WWWForm(); 						
+		form.AddField("myform_hash", ApplicationModel.hash);
+		form.AddField("myform_nick", ApplicationModel.username);
+		form.AddField("myform_deck", Id);
+		form.AddField("myform_idCard1", idCard1.ToString());
+		form.AddField("myform_deckOrder1", deckOrder1.ToString());
+		form.AddField("myform_idCard2", idCard2.ToString());
+		form.AddField("myform_deckOrder2", deckOrder2.ToString());
+		WWW w = new WWW(URLChangeCardsOrder, form); 								
+		yield return w; 						
+		
+		if (w.error != null)
+		{
+			Debug.Log(w.error);								
+		} 
+		else
+		{
+			for (int i =0;i<this.Cards.Count;i++)
+			{
+				if(this.Cards[i].Id==idCard1)
+				{
+					this.Cards[i].deckOrder=deckOrder1;
+				}
+				if(this.Cards[i].Id==idCard2)
+				{
+					this.Cards[i].deckOrder=deckOrder2;
+				}
+			}
+		}
+	}
 	public void addCard(Card c)
 	{
 		this.Cards.Add(c);
@@ -195,8 +230,10 @@ public class Deck
 
 	public IEnumerator RetrieveCards()
 	{
-		Card c;
-		string[] cardData;
+		this.Cards = new List<Card> ();
+		string[] cardsData;
+		string[] cardData = null;
+		string[] cardInfo = null;
 		WWWForm form = new WWWForm(); 								// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_deck", this.Id);							// Id du	 deck
@@ -208,35 +245,50 @@ public class Deck
 			Debug.Log(w.error); 									// donne l'erreur eventuelle
 		} else
 		{
-			string[] cardEntries = w.text.Split('\n'); 				// Chaque ligne du serveur correspond à une carte
-			
-			for (int i = 0; i < cardEntries.Length - 1; i++) 		// On boucle sur les attributs d'une carte
+			cardsData=w.text.Split(new string[] { "#CARD#" }, System.StringSplitOptions.None);
+			for(int i=0;i<cardsData.Length-1;i++)
 			{
-				cardData = cardEntries [i].Split('\\');
-				if (!cardEntries [i].StartsWith("skill"))
+				cardData = cardsData[i].Split(new string[] { "#SKILL#" }, System.StringSplitOptions.None);
+				for(int j = 0 ; j < cardData.Length-1 ; j++)
 				{
-					c = new Card();
-					c.Id = System.Convert.ToInt32(cardData [0]); 	// Ici, on récupère l'id en base
-					c.ArtIndex = System.Convert.ToInt32(cardData [1]); 	// l'indice de l'image
-					c.Title = cardData [2]; 					// le titre de la carte
-					c.Life = System.Convert.ToInt32(cardData [3]);	// le nombre de point de vie
-					c.Speed = System.Convert.ToInt32(cardData [4]);	// la rapidité
-					c.Move = System.Convert.ToInt32(cardData [5]);	    // le mouvement
-					c.Attack = System.Convert.ToInt32(cardData [6]);	// l'attaque
-					c.Experience = System.Convert.ToInt32(cardData [7]);	// l'experience
-					c.LifeLevel = System.Convert.ToInt32(cardData [8]);
-					c.AttackLevel = System.Convert.ToInt32(cardData [9]);
-					c.MoveLevel = System.Convert.ToInt32(cardData [10]);
-					c.SpeedLevel = System.Convert.ToInt32(cardData [11]);
-					c.ExperienceLevel = System.Convert.ToInt32(cardData [12]);
-					c.PercentageToNextLevel = System.Convert.ToInt32(cardData [13]);
-
-					c.Skills = new List<Skill>();
-					this.addCard(c);
-					NbCards ++;
-				} else
-				{
-					this.Cards [NbCards - 1].Skills.Add(new Skill(cardData [1], (System.Convert.ToInt32(cardData [2]) + 2), System.Convert.ToInt32(cardData [3]), System.Convert.ToInt32(cardData [4]), System.Convert.ToInt32(cardData [5]), System.Convert.ToInt32(cardData [6]), cardData [7], cardData [8]));
+					cardInfo = cardData[j].Split(new string[] { "//" }, System.StringSplitOptions.None); 
+					if (j==0)
+					{
+						this.Cards.Add(new Card());
+						this.Cards[i].Id=System.Convert.ToInt32(cardInfo[0]);
+						this.Cards[i].Title=cardInfo[1];
+						this.Cards[i].Life=System.Convert.ToInt32(cardInfo[2]);
+						this.Cards[i].Attack=System.Convert.ToInt32(cardInfo[3]);
+						this.Cards[i].Speed=System.Convert.ToInt32(cardInfo[4]);
+						this.Cards[i].Move=System.Convert.ToInt32(cardInfo[5]);
+						this.Cards[i].ArtIndex=System.Convert.ToInt32(cardInfo[6]);
+						this.Cards[i].IdClass=System.Convert.ToInt32(cardInfo[7]);
+						this.Cards[i].TitleClass=cardInfo[8];
+						this.Cards[i].LifeLevel=System.Convert.ToInt32(cardInfo[9]);
+						this.Cards[i].MoveLevel=System.Convert.ToInt32(cardInfo[10]);
+						this.Cards[i].SpeedLevel=System.Convert.ToInt32(cardInfo[11]);
+						this.Cards[i].AttackLevel=System.Convert.ToInt32(cardInfo[12]);
+						this.Cards[i].Experience=System.Convert.ToInt32(cardInfo[13]);
+						this.Cards[i].nbWin=System.Convert.ToInt32(cardInfo[14]);
+						this.Cards[i].nbLoose=System.Convert.ToInt32(cardInfo[15]);
+						this.Cards[i].ExperienceLevel=System.Convert.ToInt32(cardInfo[16]);
+						this.Cards[i].PercentageToNextLevel=System.Convert.ToInt32(cardInfo[17]);
+						this.Cards[i].NextLevelPrice=System.Convert.ToInt32(cardInfo[18]);
+						this.Cards[i].deckOrder=System.Convert.ToInt32(cardInfo[19]);
+						this.Cards[i].Skills = new List<Skill>();
+					}
+					else
+					{
+						this.Cards[i].Skills.Add(new Skill ());
+						this.Cards[i].Skills[j-1].Name=cardInfo[0];
+						this.Cards[i].Skills[j-1].Id=System.Convert.ToInt32(cardInfo[1]);
+						this.Cards[i].Skills[j-1].IsActivated=System.Convert.ToInt32(cardInfo[2]);
+						this.Cards[i].Skills[j-1].Level=System.Convert.ToInt32(cardInfo[3]);
+						this.Cards[i].Skills[j-1].Power=System.Convert.ToInt32(cardInfo[4]);
+						this.Cards[i].Skills[j-1].ManaCost=System.Convert.ToInt32(cardInfo[5]);
+						this.Cards[i].Skills[j-1].Description=cardInfo[6];
+						this.Cards[i].Skills[j-1].Action=cardInfo[7];
+					}
 				}
 			}
 		}

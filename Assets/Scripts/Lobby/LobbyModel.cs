@@ -10,7 +10,6 @@ using System.Linq;
 public class LobbyModel
 {
 	public IList<Deck> decks;
-	public IList<PlayerResult> results;
 	public string[] cardTypeList;
 	public string[] skillsList;
 	public Division currentDivision;
@@ -23,7 +22,6 @@ public class LobbyModel
 	public LobbyModel ()
 	{
 		this.decks = new List<Deck> ();
-		this.results = new List<PlayerResult> ();
 		this.currentDivision = new Division ();
 		this.currentCup = new Cup ();
 		this.player = new User ();
@@ -49,9 +47,13 @@ public class LobbyModel
 			this.cardTypeList = data[1].Split(new string[] { "//" }, System.StringSplitOptions.None);
 			this.skillsList = data[2].Split(new string[] { "//" }, System.StringSplitOptions.None);
 			this.decks = this.parseDecks(data[3].Split(new string[] { "#DECK#" }, System.StringSplitOptions.None));
-			this.currentDivision = this.parseDivision(data[4].Split(new string[] { "//" }, System.StringSplitOptions.None));
-			this.currentCup = this.parseCup(data[5].Split(new string[] { "//" }, System.StringSplitOptions.None));
-			this.currentFriendlyGame = this.parseFriendlyGame(data[6].Split(new string[] { "//" }, System.StringSplitOptions.None));
+			if(this.decks.Count>0)
+			{
+				this.decks[0].Cards=this.parseCards(data[4].Split(new string[] { "#CARD#" }, System.StringSplitOptions.None));
+			}
+			this.currentDivision = this.parseDivision(data[5].Split(new string[] { "//" }, System.StringSplitOptions.None));
+			this.currentCup = this.parseCup(data[6].Split(new string[] { "//" }, System.StringSplitOptions.None));
+			this.currentFriendlyGame = this.parseFriendlyGame(data[7].Split(new string[] { "//" }, System.StringSplitOptions.None));
 			ApplicationModel.currentFriendlyGame=this.currentFriendlyGame;
 		}
 	}
@@ -73,8 +75,8 @@ public class LobbyModel
 			decks.Add (new Deck());
 			decks[i].Id=System.Convert.ToInt32(deckInformation[0]);
 			decks[i].Name=deckInformation[1];
-			decks[i].Cards=new List<Card>();
-			decks[i].Cards=this.parseCards(deckInformation[2].Split(new string[] { "#CARD#" }, System.StringSplitOptions.None));
+			decks[i].NbCards=System.Convert.ToInt32(deckInformation[2]);
+
 		}
 		return decks;
 	}
@@ -101,29 +103,31 @@ public class LobbyModel
 					cards[i].Move=System.Convert.ToInt32(cardInfo[5]);
 					cards[i].ArtIndex=System.Convert.ToInt32(cardInfo[6]);
 					cards[i].IdClass=System.Convert.ToInt32(cardInfo[7]);
-					cards[i].TitleClass=this.cardTypeList[System.Convert.ToInt32(cardInfo[7])];
-					cards[i].LifeLevel=System.Convert.ToInt32(cardInfo[8]);
-					cards[i].MoveLevel=System.Convert.ToInt32(cardInfo[9]);
-					cards[i].SpeedLevel=System.Convert.ToInt32(cardInfo[10]);
-					cards[i].AttackLevel=System.Convert.ToInt32(cardInfo[11]);
-					cards[i].Experience=System.Convert.ToInt32(cardInfo[12]);
-					cards[i].nbWin=System.Convert.ToInt32(cardInfo[13]);
-					cards[i].nbLoose=System.Convert.ToInt32(cardInfo[14]);
-					cards[i].ExperienceLevel=System.Convert.ToInt32(cardInfo[15]);
-					cards[i].PercentageToNextLevel=System.Convert.ToInt32(cardInfo[16]);
-					cards[i].NextLevelPrice=System.Convert.ToInt32(cardInfo[17]);
+					cards[i].TitleClass=cardInfo[8];
+					cards[i].LifeLevel=System.Convert.ToInt32(cardInfo[9]);
+					cards[i].MoveLevel=System.Convert.ToInt32(cardInfo[10]);
+					cards[i].SpeedLevel=System.Convert.ToInt32(cardInfo[11]);
+					cards[i].AttackLevel=System.Convert.ToInt32(cardInfo[12]);
+					cards[i].Experience=System.Convert.ToInt32(cardInfo[13]);
+					cards[i].nbWin=System.Convert.ToInt32(cardInfo[14]);
+					cards[i].nbLoose=System.Convert.ToInt32(cardInfo[15]);
+					cards[i].ExperienceLevel=System.Convert.ToInt32(cardInfo[16]);
+					cards[i].PercentageToNextLevel=System.Convert.ToInt32(cardInfo[17]);
+					cards[i].NextLevelPrice=System.Convert.ToInt32(cardInfo[18]);
+					cards[i].deckOrder=System.Convert.ToInt32(cardInfo[19]);
 					cards[i].Skills = new List<Skill>();
 				}
 				else
 				{
 					cards[i].Skills.Add(new Skill ());
-					cards[i].Skills[j-1].Id=System.Convert.ToInt32(cardInfo[0]);
-					cards[i].Skills[j-1].Name=this.skillsList[System.Convert.ToInt32(cardInfo[0])];
-					cards[i].Skills[j-1].IsActivated=System.Convert.ToInt32(cardInfo[1]);
-					cards[i].Skills[j-1].Level=System.Convert.ToInt32(cardInfo[2]);
-					cards[i].Skills[j-1].Power=System.Convert.ToInt32(cardInfo[3]);
-					cards[i].Skills[j-1].ManaCost=System.Convert.ToInt32(cardInfo[4]);
-					cards[i].Skills[j-1].Description=cardInfo[5];
+					cards[i].Skills[j-1].Name=cardInfo[0];
+					cards[i].Skills[j-1].Id=System.Convert.ToInt32(cardInfo[1]);
+					cards[i].Skills[j-1].IsActivated=System.Convert.ToInt32(cardInfo[2]);
+					cards[i].Skills[j-1].Level=System.Convert.ToInt32(cardInfo[3]);
+					cards[i].Skills[j-1].Power=System.Convert.ToInt32(cardInfo[4]);
+					cards[i].Skills[j-1].ManaCost=System.Convert.ToInt32(cardInfo[5]);
+					cards[i].Skills[j-1].Description=cardInfo[6];
+					cards[i].Skills[j-1].Action=cardInfo[7];
 				}
 			}
 		}
