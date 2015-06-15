@@ -82,9 +82,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fee4db8199a6869438d0a0cf22458ebf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  backTile:
+  - {fileID: 2800000, guid: d737094809e5f4667830b815e14a6c69, type: 3}
+  - {fileID: 2800000, guid: f4c4edfb449674c498b78131aea82868, type: 3}
+  - {fileID: 2800000, guid: d053a70170a32d0498844d289c4690f2, type: 3}
+  - {fileID: 2800000, guid: 4d83579c94447f04eadcb6c61f5a4cbe, type: 3}
+  - {fileID: 2800000, guid: 4fdccd947fd480a44bda119614783404, type: 3}
+  - {fileID: 2800000, guid: 2f5588dcad14fa0439122077700ebf64, type: 3}
+  - {fileID: 2800000, guid: 6e0536f5e9cd26a4da432f716f08f36b, type: 3}
+  - {fileID: 2800000, guid: a28a69f503e29564f96160d13fd34d1b, type: 3}
+  - {fileID: 2800000, guid: 30997c436ec0e184696215454624c0c5, type: 3}
+  - {fileID: 2800000, guid: f944f838d8193784395264922722d304, type: 3}
+  borderTile:
+  - {fileID: 2800000, guid: d737094809e5f4667830b815e14a6c69, type: 3}
+  - {fileID: 2800000, guid: 4d83579c94447f04eadcb6c61f5a4cbe, type: 3}
+  - {fileID: 2800000, guid: f4c4edfb449674c498b78131aea82868, type: 3}
+  - {fileID: 2800000, guid: 4fdccd947fd480a44bda119614783404, type: 3}
+  - {fileID: 2800000, guid: 2f5588dcad14fa0439122077700ebf64, type: 3}
+  halos:
+  - {fileID: 2800000, guid: 2231d338aafdb48408837d3028a35c71, type: 3}
+  - {fileID: 2800000, guid: 4deb7240c55898b4cbec76e69559fd63, type: 3}
+  - {fileID: 2800000, guid: 1459573cb5f42654baca94e19845f605, type: 3}
   tileView: {fileID: 0}
-  isDestination: 0
-  characterID: -1
   styles:
   - m_Name: 
     m_Normal:
@@ -144,102 +163,16 @@ MonoBehaviour:
     m_FixedHeight: 0
     m_StretchWidth: 0
     m_StretchHeight: 0
+  traps:
+  - {fileID: 2800000, guid: 62c4c6cbdd1e8024bbdcb8364bc97371, type: 3}
+  isTrap: 0
+  isDestination: 0
+  characterID: -1
+  tileModification: 0
   icons:
   - {fileID: 2800000, guid: f5301452e2ef2324e80892ec312f9974, type: 3}
   - {fileID: 2800000, guid: f9d5c4c452c9ab1449cb3a93062e65c6, type: 3}
   - {fileID: 2800000, guid: 07540f6fdc5233e4f9c1a1ac131199c1, type: 3}
   - {fileID: 2800000, guid: 927f94f70b9c43a4b95a0daa46cd048d, type: 3}
-  backTile:
-  - {fileID: 2800000, guid: d737094809e5f4667830b815e14a6c69, type: 3}
-  - {fileID: 2800000, guid: f4c4edfb449674c498b78131aea82868, type: 3}
-  - {fileID: 2800000, guid: d053a70170a32d0498844d289c4690f2, type: 3}
-  - {fileID: 2800000, guid: 4d83579c94447f04eadcb6c61f5a4cbe, type: 3}
-  - {fileID: 2800000, guid: 4fdccd947fd480a44bda119614783404, type: 3}
-  - {fileID: 2800000, guid: 2f5588dcad14fa0439122077700ebf64, type: 3}
-  - {fileID: 2800000, guid: 6e0536f5e9cd26a4da432f716f08f36b, type: 3}
-  - {fileID: 2800000, guid: a28a69f503e29564f96160d13fd34d1b, type: 3}
-  - {fileID: 2800000, guid: 30997c436ec0e184696215454624c0c5, type: 3}
-  - {fileID: 2800000, guid: f944f838d8193784395264922722d304, type: 3}
-  borderTile:
-  - {fileID: 2800000, guid: d737094809e5f4667830b815e14a6c69, type: 3}
-  - {fileID: 2800000, guid: 4d83579c94447f04eadcb6c61f5a4cbe, type: 3}
-  - {fileID: 2800000, guid: f4c4edfb449674c498b78131aea82868, type: 3}
-  - {fileID: 2800000, guid: 4fdccd947fd480a44bda119614783404, type: 3}
-  - {fileID: 2800000, guid: 2f5588dcad14fa0439122077700ebf64, type: 3}
-  halos:
-  - {fileID: 2800000, guid: 2231d338aafdb48408837d3028a35c71, type: 3}
-  tileView: {fileID: 0}
-  styles:
-  - m_Name: IconStyle
-    m_Normal:
-      m_Background: {fileID: 0}
-      m_TextColor: {r: 0, g: 0, b: 0, a: 0}
-    m_Hover:
-      m_Background: {fileID: 0}
-      m_TextColor: {r: 0, g: 0, b: 0, a: 0}
-    m_Active:
-      m_Background: {fileID: 0}
-      m_TextColor: {r: 0, g: 0, b: 0, a: 0}
-    m_Focused:
-      m_Background: {fileID: 0}
-      m_TextColor: {r: 0, g: 0, b: 0, a: 0}
-    m_OnNormal:
-      m_Background: {fileID: 0}
-      m_TextColor: {r: 0, g: 0, b: 0, a: 0}
-    m_OnHover:
-      m_Background: {fileID: 0}
-      m_TextColor: {r: 0, g: 0, b: 0, a: 0}
-    m_OnActive:
-      m_Background: {fileID: 0}
-      m_TextColor: {r: 0, g: 0, b: 0, a: 0}
-    m_OnFocused:
-      m_Background: {fileID: 0}
-      m_TextColor: {r: 0, g: 0, b: 0, a: 0}
-    m_Border:
-      m_Left: 0
-      m_Right: 0
-      m_Top: 0
-      m_Bottom: 0
-    m_Margin:
-      m_Left: 0
-      m_Right: 0
-      m_Top: 0
-      m_Bottom: 0
-    m_Padding:
-      m_Left: 0
-      m_Right: 0
-      m_Top: 0
-      m_Bottom: 0
-    m_Overflow:
-      m_Left: 0
-      m_Right: 0
-      m_Top: 0
-      m_Bottom: 0
-    m_Font: {fileID: 0}
-    m_FontSize: 0
-    m_FontStyle: 0
-    m_Alignment: 0
-    m_WordWrap: 0
-    m_RichText: 0
-    m_TextClipping: 0
-    m_ImagePosition: 0
-    m_ContentOffset: {x: 0, y: 0}
-    m_FixedWidth: 0
-    m_FixedHeight: 0
-    m_StretchWidth: 1
-    m_StretchHeight: 1
-  traps:
-  - {fileID: 2800000, guid: 62c4c6cbdd1e8024bbdcb8364bc97371, type: 3}
-  isDestination: 0
-  characterID: -1
-Prefab:
-  m_ObjectHideFlags: 1
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications: []
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 164306}
-  m_IsPrefabParent: 1
-  m_IsExploded: 1
+  statModifierActive: 1
+  statModifierEachTurn: 0

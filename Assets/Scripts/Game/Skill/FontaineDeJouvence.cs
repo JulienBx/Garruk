@@ -11,7 +11,7 @@ public class FontaineDeJouvence : GameSkill
 	public override void launch()
 	{
 		Debug.Log("Je lance Fontaine De Jouvence");
-		GameController.instance.lookForTileTarget("Choisir une cible pour Fontaine De Jouvence", "Lancer Fontaine De Jouvence");
+		GameController.instance.lookForTileTarget("Choisir une cible pour Fontaine De Jouvence", "Lancer Fontaine De Jouvence", HaloSkill.Void_Halo);
 	}
 	
 	public override void resolve(int[] args)

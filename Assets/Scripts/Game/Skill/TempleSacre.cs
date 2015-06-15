@@ -11,7 +11,7 @@ public class TempleSacre : GameSkill
 	public override void launch()
 	{
 		Debug.Log("Je lance temple sacré");
-		GameController.instance.lookForTileTarget("Choisir une cible pour Temple sacré", "Lancer Temple sacré");
+		GameController.instance.lookForTileTarget("Choisir une cible pour Temple sacré", "Lancer Temple sacré", HaloSkill.Void_Halo);
 	}
 	
 	public override void resolve(int[] args)

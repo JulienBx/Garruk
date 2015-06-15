@@ -11,7 +11,7 @@ public class ForetDeLianes : GameSkill
 	public override void launch()
 	{
 		Debug.Log("Je lance Foret de Lianes");
-		GameController.instance.lookForTileTarget("Choisir une cible pour Foret de Lianes", "Lancer Foret de Lianes");
+		GameController.instance.lookForTileTarget("Choisir une cible pour Foret de Lianes", "Lancer Foret de Lianes", HaloSkill.Void_Halo);
 	}
 	
 	public override void resolve(int[] args)

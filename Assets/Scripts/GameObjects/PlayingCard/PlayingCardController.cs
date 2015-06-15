@@ -28,7 +28,6 @@ public class PlayingCardController : GameObjectController
 
 	public Tile tile ;
 
-	public List<StatModifier> statModifiers ;
 	public GUIStyle[] styles ;
 
 	void Awake()
@@ -38,7 +37,6 @@ public class PlayingCardController : GameObjectController
 		this.isDead = false;
 		this.isSelected = false;
 		this.isMoved = false;
-		statModifiers = new List<StatModifier>();
 		this.cannotBeTargeted = -1;
 		this.paralyzed = -1;
 		this.playingCardView.playingCardVM.iconStyle = styles [0];

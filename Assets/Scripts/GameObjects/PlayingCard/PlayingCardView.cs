@@ -29,8 +29,7 @@ public class PlayingCardView : MonoBehaviour
 					gameObject.GetComponentInChildren<PlayingCardController>().addTarget();
 				}
 			}
-		}
-		else
+		} else
 		{
 			for (int i = 0; i < this.playingCardVM.icons.Count; i++)
 			{
@@ -52,9 +51,9 @@ public class PlayingCardView : MonoBehaviour
 		}
 		
 		this.playingCardVM.skillResultTimer -= Time.deltaTime;
-		if (this.playingCardVM.skillResultTimer  < 0)
+		if (this.playingCardVM.skillResultTimer < 0)
 		{
-			this.playingCardVM.toDisplaySkillResult = false ;
+			this.playingCardVM.toDisplaySkillResult = false;
 		}
 	}
 	
@@ -65,6 +64,7 @@ public class PlayingCardView : MonoBehaviour
 		transform.Find("MoveArea").FindChild("Move").GetComponent<TextMesh>().text = playingCardVM.move;
 		transform.Find("AttackArea").FindChild("Attack").GetComponent<TextMesh>().text = playingCardVM.attack;
 	}
+
 	public void setTextResolution(float resolution)
 	{
 		transform.Find("MoveArea").FindChild("Move").GetComponent<TextMesh>().fontSize = Mathf.RoundToInt(resolution * 30);	

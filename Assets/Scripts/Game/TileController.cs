@@ -310,10 +310,11 @@ public class TileController : MonoBehaviour
 //		}
 //	}
 
-	public void activatePotentielTarget()
+	public void activatePotentielTarget(HaloSkill halo)
 	{
 		this.tileView.tileVM.isPotentialTarget = true;
 		this.tileView.tileVM.toDisplayHalo = true;
+		this.tileView.tileVM.halo = this.halos [(int)halo];
 	}
 
 	public void removePotentielTarget()
