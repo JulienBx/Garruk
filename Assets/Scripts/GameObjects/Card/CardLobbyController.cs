@@ -49,6 +49,10 @@ public class CardLobbyController : CardController
 			Destroy (this.focusLobbyFeaturesView);
 		}
 	}
+	public override void changeDeckOrder(bool moveLeft)
+	{
+		StartCoroutine(LobbyController.instance.changeDeckOrder(gameObject,moveLeft));
+	}
 	public override void updateExperience()
 	{
 		base.updateExperience ();

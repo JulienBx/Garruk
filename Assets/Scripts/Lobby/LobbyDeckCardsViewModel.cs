@@ -9,11 +9,13 @@ public class LobbyDeckCardsViewModel
 	public string noDeckLabel;
 	public GUIStyle[] styles;
 	public GUIStyle noDeckLabelStyle;
+	public int[] displayedCards;
 
 	public LobbyDeckCardsViewModel ()
 	{
 		this.noDeckLabel = "";
 		this.noDeckLabelStyle=new GUIStyle();
+		this.displayedCards = new int[5];
 	}
 	public void initStyles()
 	{

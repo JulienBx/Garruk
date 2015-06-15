@@ -722,10 +722,10 @@ public class MyGameController : MonoBehaviour
 //			{
 //				this.displayedCards[i].GetComponent<CardController>().setMyGUI(value);
 //			}
-//			for(int i = 0 ; i < 5 ; i++)
-//			{
-//				this.displayedDeckCards[i].GetComponent<CardController>().setMyGUI(value);
-//			}
+			for(int i = 0 ; i < 5 ; i++)
+			{
+				this.displayedDeckCards[i].GetComponent<CardController>().setMyGUI(value);
+			}
 			this.setButtonsGui (value);
 		}
 	}
