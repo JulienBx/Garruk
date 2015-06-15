@@ -348,8 +348,7 @@ public class PlayingCardController : GameObjectController
 	
 	public void changeEsquive(string title, string description, string additionnalInfo)
 	{
-		this.card.modifiers.Add(new StatModifier(ModifierType.Type_Paralized, 1, 1,"Esquive", "esquive", "Permnant"));
-		
+		this.card.modifiers.Add(new StatModifier(ModifierType.Type_EsquivePercentage, -1, 1, title, description, additionnalInfo));
 	}
 
 	public void resizeIcons()
@@ -358,11 +357,11 @@ public class PlayingCardController : GameObjectController
 		int width = Screen.width;
 		this.playingCardView.playingCardVM.iconsRect = new List<Rect>();
 		
-		for (int i = 1; i <= 3; i++)
+		for (int i = 0; i <= 2; i++)
 		{
 			Vector3 positionObject = new Vector3(0, 0, 0);
 			positionObject.x = (this.playingCardView.playingCardVM.position.x - this.playingCardView.playingCardVM.scale.x / 2f + (this.playingCardView.playingCardVM.scale.x*4/100) + (i*this.playingCardView.playingCardVM.scale.x*32/100)) * (height / 10f) + (width / 2f);
-			positionObject.y = height - ((this.playingCardView.playingCardVM.position.y) * (height / 10f) + (height / 2f));
+			positionObject.y = height - ((this.playingCardView.playingCardVM.position.y + this.playingCardView.playingCardVM.scale.y / 4f) * (height / 10f) + (height / 2f));
 
 			Rect position = new Rect(positionObject.x, positionObject.y, (this.playingCardView.playingCardVM.scale.x*28/100)* (height / 10f), (this.playingCardView.playingCardVM.scale.x*28/100)* (height / 10f));
 			this.playingCardView.playingCardVM.iconsRect.Add(position);
@@ -416,8 +415,9 @@ public class PlayingCardController : GameObjectController
 		
 		for (int i = 0; i < this.card.modifiers.Count; i++)
 		{
-			this.card.modifiers [i].Duration--;
-			print(this.card.modifiers [i].Type + " - " + this.card.modifiers [i].Duration);
+			if (this.card.modifiers [i].Duration>0){
+				this.card.modifiers [i].Duration--;
+			}
 			
 			if (this.card.modifiers [i].Duration == 0)
 			{

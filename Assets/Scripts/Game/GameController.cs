@@ -2343,7 +2343,7 @@ public class GameController : Photon.MonoBehaviour
 	public void setEsquiveRPC(int target, int amount)
 	{
 		this.getPCC(target).changeEsquive("Esquive", "Le héros possède " + amount + " % de chances d'esquiver les dégats", "Permanent");
-		this.addModifier(target, amount, (int)ModifierType.Type_EsquivePercentage, -1);
+		this.addModifier(target, amount, (int)ModifierType.Type_EsquivePercentage, 1);
 	}
 	
 	public void removeTrap(Tile t)

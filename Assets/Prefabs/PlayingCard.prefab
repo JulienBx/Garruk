@@ -962,7 +962,7 @@ MonoBehaviour:
   - m_Name: AdditionalInfoTextStyle
     m_Normal:
       m_Background: {fileID: 0}
-      m_TextColor: {r: .29411763, g: .285467118, b: .285467118, a: 1}
+      m_TextColor: {r: .660791516, g: .693423152, b: .713235259, a: 1}
     m_Hover:
       m_Background: {fileID: 0}
       m_TextColor: {r: 0, g: 0, b: 0, a: 0}
