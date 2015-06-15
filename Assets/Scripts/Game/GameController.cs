@@ -2286,6 +2286,24 @@ public class GameController : Photon.MonoBehaviour
 		this.getPCC(target).setBonusDamages(amount, duration, "Bonus DMG", "Les dégats du héros sont augmentés de "+amount+"%", "Valable à son prochain tour");
 	}
 	
+	public void setLowerAttack(int target, int amount, int duration)
+	{
+		photonView.RPC("setCannotBeTargetedRPC", PhotonTargets.AllBuffered, target, amount, duration);
+	}
+	
+	[RPC]
+	public void setLowerAttackRPC(int target, int amount, int duration)
+	{
+		string s ;
+		if (duration>1){
+			s = "Actif pendant "+duration+" tours";
+		}
+		else{
+			s = "Actif pendant "+duration+" tours";
+		}
+		this.getPCC(target).setLowerAttack(amount, duration, "Attaque --", "L'attaque du héros est diminuée de "+amount, s);
+	}
+	
 	public void setRobotSpecialise(int amount, int duration, int type)
 	{
 		photonView.RPC("setRobotSpecialiseRPC", PhotonTargets.AllBuffered, this.currentPlayingCard, amount, duration, type);

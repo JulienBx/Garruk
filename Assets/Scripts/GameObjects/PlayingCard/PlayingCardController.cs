@@ -59,7 +59,13 @@ public class PlayingCardController : GameObjectController
 	
 	public void setBonusDamages(int amount, int duration, string title, string description, string additionnalInfo)
 	{
-		this.card.modifiers.Add(new StatModifier(amount, ModifierType.Type_DommagePercentage, -10, 3,title,description,additionnalInfo));
+		this.card.modifiers.Add(new StatModifier(amount, ModifierType.Type_DommagePercentage, duration, 3,title,description,additionnalInfo));
+		this.show();
+	}
+	
+	public void setLowerAttack(int amount, int duration, string title, string description, string additionnalInfo)
+	{
+		this.card.modifiers.Add(new StatModifier(amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, duration, 5,title,description,additionnalInfo));
 		this.show();
 	}
 	
@@ -361,7 +367,7 @@ public class PlayingCardController : GameObjectController
 		{
 			Vector3 positionObject = new Vector3(0, 0, 0);
 			positionObject.x = (this.playingCardView.playingCardVM.position.x - this.playingCardView.playingCardVM.scale.x / 2f + (this.playingCardView.playingCardVM.scale.x*4/100) + (i*this.playingCardView.playingCardVM.scale.x*32/100)) * (height / 10f) + (width / 2f);
-			positionObject.y = height - ((this.playingCardView.playingCardVM.position.y + this.playingCardView.playingCardVM.scale.y / 4f) * (height / 10f) + (height / 2f));
+			positionObject.y = height - ((this.playingCardView.playingCardVM.position.y + this.playingCardView.playingCardVM.scale.y / 5f) * (height / 10f) + (height / 2f));
 
 			Rect position = new Rect(positionObject.x, positionObject.y, (this.playingCardView.playingCardVM.scale.x*28/100)* (height / 10f), (this.playingCardView.playingCardVM.scale.x*28/100)* (height / 10f));
 			this.playingCardView.playingCardVM.iconsRect.Add(position);

@@ -34,6 +34,7 @@ public class Attack : GameSkill
 		else{
 			GameController.instance.displaySkillEffect(targetID, hisPlayerName+" esquive", 3, 0);
 		}
+		GameController.instance.play();
 	}
 
 	public override bool isLaunchable(Skill s){

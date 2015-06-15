@@ -21,8 +21,6 @@ public class AttaquePrecise : GameSkill
 		int damageBonusPercentage = GameController.instance.getCurrentCard().GetDamagesPercentageBonus();
 		int attack = (GameController.instance.getCurrentCard().GetAttack() / 2)*(100+damageBonusPercentage)/100 ;
 		int myPlayerID = GameController.instance.currentPlayingCard;
-		string myPlayerName = GameController.instance.getCurrentCard().Title;
-		string hisPlayerName = GameController.instance.getCard(targetID).Title;
 		
 		GameController.instance.displaySkillEffect(myPlayerID, "Attaque précise", 3, 2);
 		
@@ -32,7 +30,7 @@ public class AttaquePrecise : GameSkill
 			GameController.instance.displaySkillEffect(targetID, "prend "+attack+" dégats et perd "+a+" ATK", 3, 1);
 		}
 		else{
-			GameController.instance.displaySkillEffect(targetID, hisPlayerName+" esquive", 3, 0);
+			GameController.instance.displaySkillEffect(targetID, "Esquive", 3, 0);
 		}
 		
 		GameController.instance.play();	
