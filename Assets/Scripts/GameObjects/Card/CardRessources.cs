@@ -21,6 +21,8 @@ public class CardRessources : MonoBehaviour
 	public GUIStyle[] popUpStyles;
 	public GUIStyle[] gameEndSceneStyles;
 	public GUIStyle[] collectionPopUpStyles;
+	public GUIStyle[] deckOrderFeaturesStyles;
+	public string[] deckOrderNames;
 
 	public CardRessources ()
 	{

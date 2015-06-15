@@ -51,6 +51,7 @@ public class Card
 	public int CollectionPoints;
 	public int IdCardTypeUnlocked;
 	public string TitleCardTypeUnlocked;
+	public int deckOrder;
 
 	public static bool xpDone = false;
 	

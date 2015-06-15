@@ -130,6 +130,7 @@ public class CardMyGameController : CardController
 	}
 	public override void setMyGUI(bool value)
 	{
+		base.setMyGUI (value);
 		if (this.focusMyGameFeaturesView != null)
 		{
 			this.focusMyGameFeaturesView.cardFeaturesFocusVM.guiEnabled = value;
@@ -139,6 +140,10 @@ public class CardMyGameController : CardController
 	public override void popUpDisplayed(bool value)
 	{
 		MyGameController.instance.popUpDisplayed (value, gameObject);
+	}
+	public override void changeDeckOrder(bool moveLeft)
+	{
+		StartCoroutine(MyGameController.instance.changeDeckOrder(gameObject,moveLeft));
 	}
 	public override void sellCard()
 	{
