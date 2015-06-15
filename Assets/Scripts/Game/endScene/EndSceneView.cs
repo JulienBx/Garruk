@@ -25,6 +25,10 @@ public class EndSceneView : MonoBehaviour
 				GUILayout.Label("et "+endSceneVM.collectionPoints+" points de collection",endSceneVM.creditStyle);
 			}
 			GUILayout.FlexibleSpace();
+			if(endSceneVM.newCardType!="")
+			{
+				GUILayout.Label("Vous avez débloqué la classe : "+endSceneVM.newCardType,endSceneVM.creditStyle);
+			}
 			if(endSceneVM.newSkills.Count>0)
 			{
 				GUILayout.Label("Vous débloquez :",endSceneVM.creditStyle);

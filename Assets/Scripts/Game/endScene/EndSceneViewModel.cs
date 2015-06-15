@@ -20,6 +20,7 @@ public class EndSceneViewModel
 	public GUIStyle labelStyle;
 	public GUIStyle buttonStyle;
 	public GUIStyle newSkillsStyle;
+	public string newCardType;
 
 	public EndSceneViewModel ()
 	{
@@ -30,6 +31,7 @@ public class EndSceneViewModel
 		this.newSkillsStyle = new GUIStyle ();
 		this.guiEnabled = false;
 		this.title = "";
+		this.newCardType = "";
 		this.newSkills = new List<string> ();
 	}
 	public void initStyles()

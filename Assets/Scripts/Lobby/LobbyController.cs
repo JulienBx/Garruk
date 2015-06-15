@@ -99,6 +99,7 @@ public class LobbyController : Photon.MonoBehaviour
 			this.cardFocused.GetComponent<CardController> ().setCentralWindowRect (view.screenVM.centralWindow);
 			this.cardFocused.GetComponent<CardController> ().setCollectionPointsWindowRect (view.screenVM.collectionPointsWindow);
 			this.cardFocused.GetComponent<CardController> ().setNewSkillsWindowRect (view.screenVM.newSkillsWindow);
+			this.cardFocused.GetComponent<CardController> ().setNewCardTypeWindowRect(view.screenVM.centralWindow);
 		}
 	}
 	public void exitCard()
@@ -127,6 +128,10 @@ public class LobbyController : Photon.MonoBehaviour
 			if(model.decks[deckIndex].Cards[cardIndex].NewSkills.Count>0)
 			{
 				StartCoroutine(this.cardFocused.GetComponent<CardController>().displayNewSkillsPopUp());
+			}
+			if(model.decks[deckIndex].Cards[cardIndex].IdCardTypeUnlocked!=-1)
+			{
+				this.cardFocused.GetComponent<CardController>().displayNewCardTypePopUp();
 			}
 		}
 		else

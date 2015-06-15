@@ -642,9 +642,9 @@ public class Card
 						this.AttackLevel = System.Convert.ToInt32(cardInfo [7]);
 						this.Experience = System.Convert.ToInt32(cardInfo [8]);
 						this.ExperienceLevel = System.Convert.ToInt32(cardInfo [9]);
-						this.NextLevelPrice = System.Convert.ToInt16(cardInfo [10]);
-						this.PercentageToNextLevel = System.Convert.ToInt16(cardInfo [11]);
-						this.IdCardTypeUnlocked = System.Convert.ToInt16(cardInfo [12]);
+						this.NextLevelPrice = System.Convert.ToInt32(cardInfo [10]);
+						this.PercentageToNextLevel = System.Convert.ToInt32(cardInfo [11]);
+						this.IdCardTypeUnlocked = System.Convert.ToInt32(cardInfo [12]);
 						this.TitleCardTypeUnlocked = cardInfo[13];
 						this.NewSkills=new List<Skill>();
 					} 
