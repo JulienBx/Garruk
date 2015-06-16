@@ -11,7 +11,7 @@ public class Loup : GameSkill
 	public override void launch()
 	{
 		Debug.Log("Je lance Resurrection");
-		GameController.instance.lookForEmptyTileTarget("invoque un Loup", "Lancer Loup", HaloSkill.Wolf);
+		GameController.instance.lookForEmptyAdjacentTile("invoque un Loup", "Lancer Loup", HaloSkill.Wolf);
 	}
 	
 	public override void resolve(int[] args)

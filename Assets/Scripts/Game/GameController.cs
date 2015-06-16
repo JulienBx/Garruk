@@ -529,50 +529,64 @@ public class GameController : Photon.MonoBehaviour
 		this.numberOfExpectedArgs = 2;
 		setValidationTexts(regularText, buttonText);
 		
-		for (int i = 0 ; i < this.boardWidth ; i++){
-			for (int j = 0 ; j < this.boardHeight ; j++){
-				this.tiles[i,j].GetComponent<TileController>().setLookingForTileZone(true);
+		for (int i = 0; i < this.boardWidth; i++)
+		{
+			for (int j = 0; j < this.boardHeight; j++)
+			{
+				this.tiles [i, j].GetComponent<TileController>().setLookingForTileZone(true);
 			}
 		}
 	}
 	
-	public void changeZoneTargetTile(Tile t){
+	public void changeZoneTargetTile(Tile t)
+	{
 		int x = t.x;
 		int y = t.y;
-		for (int i = 0 ; i < this.boardWidth ; i++){
-			for (int j = 0 ; j < this.boardHeight ; j++){
-				this.tiles[i,j].GetComponent<TileController>().removeHalo();
+		for (int i = 0; i < this.boardWidth; i++)
+		{
+			for (int j = 0; j < this.boardHeight; j++)
+			{
+				this.tiles [i, j].GetComponent<TileController>().removeHalo();
 			}
 		}
 		
-		if (x>0){
-			if (y>0){
-				this.tiles[x-1,y-1].GetComponent<TileController>().activateEffectZoneHalo();
+		if (x > 0)
+		{
+			if (y > 0)
+			{
+				this.tiles [x - 1, y - 1].GetComponent<TileController>().activateEffectZoneHalo();
 			}
-			if (y<this.boardHeight-1){
-				this.tiles[x-1,y+1].GetComponent<TileController>().activateEffectZoneHalo();
+			if (y < this.boardHeight - 1)
+			{
+				this.tiles [x - 1, y + 1].GetComponent<TileController>().activateEffectZoneHalo();
 			}
-			this.tiles[x-1,y].GetComponent<TileController>().activateEffectZoneHalo();
+			this.tiles [x - 1, y].GetComponent<TileController>().activateEffectZoneHalo();
 		}
-		if (x<this.boardWidth-1){
-			if (y>0){
-				this.tiles[x+1,y-1].GetComponent<TileController>().activateEffectZoneHalo();
+		if (x < this.boardWidth - 1)
+		{
+			if (y > 0)
+			{
+				this.tiles [x + 1, y - 1].GetComponent<TileController>().activateEffectZoneHalo();
 			}
-			if (y<this.boardHeight-1){
-				this.tiles[x+1,y+1].GetComponent<TileController>().activateEffectZoneHalo();
+			if (y < this.boardHeight - 1)
+			{
+				this.tiles [x + 1, y + 1].GetComponent<TileController>().activateEffectZoneHalo();
 			}
-			this.tiles[x+1,y].GetComponent<TileController>().activateEffectZoneHalo();
+			this.tiles [x + 1, y].GetComponent<TileController>().activateEffectZoneHalo();
 		}
-		if (y>0){
-			this.tiles[x,y-1].GetComponent<TileController>().activateEffectZoneHalo();
+		if (y > 0)
+		{
+			this.tiles [x, y - 1].GetComponent<TileController>().activateEffectZoneHalo();
 		}
-		if (y<this.boardHeight-1){
-			this.tiles[x,y+1].GetComponent<TileController>().activateEffectZoneHalo();
+		if (y < this.boardHeight - 1)
+		{
+			this.tiles [x, y + 1].GetComponent<TileController>().activateEffectZoneHalo();
 		}
-		this.tiles[x,y].GetComponent<TileController>().activateEffectZoneHalo();
+		this.tiles [x, y].GetComponent<TileController>().activateEffectZoneHalo();
 	}
 	
-	public void addTargetTile(int x, int y){
+	public void addTargetTile(int x, int y)
+	{
 	
 	}
 
@@ -665,6 +679,7 @@ public class GameController : Photon.MonoBehaviour
 	public void lookForEmptyTileTarget(string regularText, string buttonText, HaloSkill hs)
 	{
 		this.numberOfExpectedArgs++;
+		this.numberOfExpectedArgs++;
 		setValidationTexts(regularText, buttonText);
 		for (int i = 0; i < this.boardWidth; i++)
 		{
@@ -691,9 +706,10 @@ public class GameController : Photon.MonoBehaviour
 		}
 	}
 
-	public void lookForDeadTarget()
+	public void lookForDeadTarget(string regularText, string buttonText)
 	{
 		this.numberOfExpectedArgs++;
+		setValidationTexts(regularText, buttonText);
 		initDeadsList();
 		foreach (PlayingCardController pcc in deads)
 		{
@@ -723,22 +739,23 @@ public class GameController : Photon.MonoBehaviour
 			go = (GameObject)Instantiate(this.playingCard);
 			PlayingCardController deadPcc = go.GetComponent<PlayingCardController>();
 
-			deadPcc.setStyles(((pcc.IDCharacter < limitCharacterSide) == this.isFirstPlayer));
-			deadPcc.setCard(pcc.card);
-			deadPcc.setIDCharacter(pcc.IDCharacter);
-			deadPcc.setTile(new Tile(-1, -1), new Vector3(), false);
-			deadPcc.resize();
-			deadPcc.show();
-
-			deads.Add(deadPcc);
-
 			Camera camera = Camera.main;
 			Vector3 currentScale = go.renderer.bounds.size;
 			Vector3 v3 = new Vector3((0.02f + tileScale) * (boardWidth / 2 + 0.5f), 0, -1f);
 			
 			go.transform.position = v3;
+			go.tag = "deadCharacter";
 			go.transform.Translate((-transform.up * transform.localScale.y) * (-3.5f + i), Space.World);
+
+			deadPcc.setStyles(((pcc.IDCharacter < limitCharacterSide) == this.isFirstPlayer));
+			deadPcc.setCard(pcc.card);
+			deadPcc.setIDCharacter(pcc.IDCharacter);
 			
+			deadPcc.resizeDeadHalo(transform.localScale, i);
+			deadPcc.show();
+			
+			deads.Add(deadPcc);
+
 			i++;
 		}
 
@@ -788,7 +805,7 @@ public class GameController : Photon.MonoBehaviour
 		this.numberOfArgs++;
 		this.skillArgs [numberOfArgs] = t.y;
 		this.numberOfArgs++;
-		
+
 		if (this.numberOfExpectedArgs <= this.numberOfArgs)
 		{
 			this.gameView.gameScreenVM.toDisplayValidationButton = true;
@@ -1123,7 +1140,8 @@ public class GameController : Photon.MonoBehaviour
 			}
 		} else
 		{
-			this.gameskills [this.playingCards [this.currentPlayingCard].GetComponentInChildren<PlayingCardController>().card.Skills [ids].Id].launch();
+			int itest = this.playingCards [this.currentPlayingCard].GetComponentInChildren<PlayingCardController>().card.Skills [ids].Id;
+			this.gameskills [itest].launch();
 		}
 		this.skillArgs = new int[10];
 		for (int i = 0; i < 10; i++)
@@ -2179,7 +2197,7 @@ public class GameController : Photon.MonoBehaviour
 			this.updateStatusMySkills(this.currentPlayingCard);
 		}
 		
-		if (this.playingCardHasMoved || this.playingCards[this.currentPlayingCard].GetComponent<PlayingCardController>().isDead)
+		if (this.playingCardHasMoved || this.playingCards [this.currentPlayingCard].GetComponent<PlayingCardController>().isDead)
 		{
 			this.gameskills [1].launch();
 		}
@@ -2286,7 +2304,7 @@ public class GameController : Photon.MonoBehaviour
 	[RPC]
 	public void addModifierRPC(int target, int amount, int type, int stat, int duration)
 	{
-		this.getCard(target).modifiers.Add(new StatModifier(amount, (ModifierType)type, (ModifierStat)stat, duration,"","",""));
+		this.getCard(target).modifiers.Add(new StatModifier(amount, (ModifierType)type, (ModifierStat)stat, duration, "", "", ""));
 		if (stat == (int)ModifierStat.Stat_Dommage)
 		{
 			
@@ -2349,6 +2367,31 @@ public class GameController : Photon.MonoBehaviour
 				break;
 		}
 	}
+
+	public void relive(int id, int x, int y)
+	{
+		photonView.RPC("reliveRPC", PhotonTargets.AllBuffered, id, x, y, this.isFirstPlayer);
+	}
+
+	public void clearDeads()
+	{
+		deads.Clear();
+		foreach (GameObject goTag in GameObject.FindGameObjectsWithTag("deadCharacter"))
+		{
+			Destroy(goTag);
+		}
+	}
+
+	[RPC]
+	public void reliveRPC(int id, int x, int y, bool isFirstP)
+	{
+		PlayingCardController pcc = GameController.instance.getPCC(id).GetComponent<PlayingCardController>();
+		pcc.setTile(new Tile(x, y), getTile(x, y).GetComponent<TileController>().tileView.tileVM.position, (id < limitCharacterSide) != isFirstP);
+		pcc.card.Life = 1;
+		pcc.relive();
+		pcc.show();
+	}
+
 	public void loadTileModifierToCharacter(int x, int y)
 	{
 		TileController tileController = this.getTile(x, y).GetComponent<TileController>();
@@ -2415,7 +2458,7 @@ public class GameController : Photon.MonoBehaviour
 	[RPC]
 	public void setBonusDamagesRPC(int target, int amount, int duration)
 	{
-		this.getPCC(target).setBonusDamages(amount, duration, "Bonus DMG", "Les dégats du héros sont augmentés de "+amount+"%", "Valable à son prochain tour");
+		this.getPCC(target).setBonusDamages(amount, duration, "Bonus DMG", "Les dégats du héros sont augmentés de " + amount + "%", "Valable à son prochain tour");
 	}
 	
 	public void setLowerAttack(int target, int amount, int duration)
@@ -2426,14 +2469,15 @@ public class GameController : Photon.MonoBehaviour
 	[RPC]
 	public void setLowerAttackRPC(int target, int amount, int duration)
 	{
-		string s ;
-		if (duration>1){
-			s = "Actif pendant "+duration+" tours";
+		string s;
+		if (duration > 1)
+		{
+			s = "Actif pendant " + duration + " tours";
+		} else
+		{
+			s = "Actif pendant " + duration + " tours";
 		}
-		else{
-			s = "Actif pendant "+duration+" tours";
-		}
-		this.getPCC(target).setLowerAttack(amount, duration, "Attaque --", "L'attaque du héros est diminuée de "+amount, s);
+		this.getPCC(target).setLowerAttack(amount, duration, "Attaque --", "L'attaque du héros est diminuée de " + amount, s);
 	}
 	
 	public void setRobotSpecialise(int amount, int duration, int type)
@@ -2444,44 +2488,44 @@ public class GameController : Photon.MonoBehaviour
 	[RPC]
 	public void setRobotSpecialiseRPC(int target, int amount, int duration, int type)
 	{
-		string typeName ;
+		string typeName;
 		switch (type)
 		{
-		case 0:
-			typeName = "Enchanteur";
-			break;
-		case 1:
-			typeName = "Roublard";
-			break;
-		case 2:
-			typeName = "Berserk";
-			break;
-		case 3:
-			typeName = "Artificier";
-			break;
-		case 4:
-			typeName = "Mentaliste";
-			break;
-		case 5:
-			typeName = "Androide";
-			break;
-		case 6:
-			typeName = "Métamorphe";
-			break;
-		case 7:
-			typeName = "Pretre";
-			break;
-		case 8:
-			typeName = "Animiste";
-			break;
-		case 9:
-			typeName = "Géomancien";
-			break;
-		default:
-			typeName = "Inconnu";
-			break;
+			case 0:
+				typeName = "Enchanteur";
+				break;
+			case 1:
+				typeName = "Roublard";
+				break;
+			case 2:
+				typeName = "Berserk";
+				break;
+			case 3:
+				typeName = "Artificier";
+				break;
+			case 4:
+				typeName = "Mentaliste";
+				break;
+			case 5:
+				typeName = "Androide";
+				break;
+			case 6:
+				typeName = "Métamorphe";
+				break;
+			case 7:
+				typeName = "Pretre";
+				break;
+			case 8:
+				typeName = "Animiste";
+				break;
+			case 9:
+				typeName = "Géomancien";
+				break;
+			default:
+				typeName = "Inconnu";
+				break;
 		}
-		this.getPCC(target).setRobotSpecialise(amount, duration, type, "Spécialiste", "Dégats augmentés de "+amount+"% contre la classe "+typeName, "Permanent");
+		this.getPCC(target).setRobotSpecialise(amount, duration, type, "Spécialiste", "Dégats augmentés de " + amount + "% contre la classe " + typeName, "Permanent");
 	}
 	
 	public void setEsquive(int amount)
