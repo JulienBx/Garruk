@@ -63,6 +63,7 @@ public class User
 	public bool StoreTutorial;
 	public bool DivisionLobbyTutorial;
 	public bool CupLobbyTutorial;
+	public int ConnectionBonus;
 
 	public User()
 	{

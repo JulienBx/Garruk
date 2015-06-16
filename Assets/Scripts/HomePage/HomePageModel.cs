@@ -92,6 +92,7 @@ public class HomePageModel
 		player.CollectionPoints = System.Convert.ToInt32 (array [10]);
 		player.CollectionRanking = System.Convert.ToInt32 (array [11]);
 		player.TutorialStep = System.Convert.ToInt32 (array [12]);
+		player.ConnectionBonus = System.Convert.ToInt32 (array [13]);
 		return player;
 	}
 	private void lookForNonReadSystemNotification ()

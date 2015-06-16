@@ -18,6 +18,7 @@ public class HomePageController : MonoBehaviour
 	public GUIStyle[] packsVMStyle;
 	public GUIStyle[] ranksVMStyle;
 	public GUIStyle[] competsVMStyle;
+	public GUIStyle[] popUpVMStyle;
 	public GUISkin tutorialStyles;
 
 	private float timer;
@@ -31,6 +32,8 @@ public class HomePageController : MonoBehaviour
 	private HomePageView view;
 	public static HomePageController instance;
 	private HomePageModel model;
+
+	private HomePageConnectionBonusPopUpView connectionBonusView;
 	
 	void Start () 
 	{
@@ -83,8 +86,11 @@ public class HomePageController : MonoBehaviour
 			this.tutorial.GetComponent<TutorialObjectController>().launchSequence(100);
 			MenuObject.GetComponent<MenuController>().setTutorialLaunched(true);
 		}
+		else if(model.player.ConnectionBonus>0)
+		{
+			this.displayConnectionBonusPopUp(model.player.ConnectionBonus);
+		}
 	}
-	
 	private void toLoadData(bool firstLoad=false)
 	{
 		this.resize ();
@@ -524,6 +530,29 @@ public class HomePageController : MonoBehaviour
 		MenuController.instance.setButtonsGui (false);
 		yield return StartCoroutine (model.player.setTutorialStep (2));
 		Application.LoadLevel ("MyGame");
+	}
+	public void displayConnectionBonusPopUp(int connectionBonus)
+	{
+		this.setGui (false);
+		this.connectionBonusView= Camera.main.gameObject.AddComponent <HomePageConnectionBonusPopUpView>();
+		connectionBonusView.connectionBonusPopUpVM.bonus = connectionBonus.ToString();
+		connectionBonusView.popUpVM.styles=new GUIStyle[this.popUpVMStyle.Length];
+		for(int i=0;i<this.popUpVMStyle.Length;i++)
+		{
+			connectionBonusView.popUpVM.styles[i]=this.popUpVMStyle[i];
+		}
+		connectionBonusView.popUpVM.initStyles();
+		this.connectionBonusPopUpResize ();
+	}
+	public void hideConnectionBonusPopUp()
+	{
+		this.setGui (true);
+		Destroy (this.connectionBonusView);
+	}
+	public void connectionBonusPopUpResize()
+	{
+		connectionBonusView.popUpVM.centralWindow = view.homepageScreenVM.centralWindow;
+		connectionBonusView.popUpVM.resize ();
 	}
 }
 
