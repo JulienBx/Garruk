@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class SablesMouvants : GameSkill
 {
@@ -26,29 +27,36 @@ public class SablesMouvants : GameSkill
 			pluriel);
 		int targetX = args [0];
 		int targetY = args [1];
-		int[] posx = new int[amount];
-		int[] posy = new int[amount];
+
+		int EmptyPosition = 0;
+
+		List<Point> EmptyPositions = new List<Point>();
+		for (int i = 0; i < GameController.instance.boardWidth; i++)
+		{
+			for (int j = 0; j< GameController.instance.boardHeight; j++)
+			{
+				TileController tc = GameController.instance.getTile(i, j);
+				if (tc.characterID == -1 && (tc.tileModification != TileModification.Sables_Mouvants || tc.tileModification == TileModification.Sables_Mouvants && !tc.getIconVisibility()))
+				{
+					EmptyPositions.Add(new Point(i, j));
+					EmptyPosition++;
+				}
+			}
+		}
+
+		if (EmptyPosition < amount)
+		{
+			amount = EmptyPosition;
+		}
+
 		for (int i = 0; i < amount; i++)
 		{
-			int randX = (int)Mathf.Floor(Random.Range(0, GameController.instance.boardWidth));
-			int randY = (int)Mathf.Floor(Random.Range(0, GameController.instance.boardHeight));
-			bool alreadyExist = false;
-			do
-			{
-				alreadyExist = false;
-				for (int j = 0; j < posx.Length; j++)
-				{
-					if (posx [j] == randX && posy [j] == randY)
-					{
-						alreadyExist = true;
-						randX = (int)Mathf.Floor(Random.Range(0, GameController.instance.boardWidth));
-						randY = (int)Mathf.Floor(Random.Range(0, GameController.instance.boardHeight));
-					}
-				}
-			} while(alreadyExist);
-			posx [i] = randX;
-			posy [i] = randY;
-			GameController.instance.addTileModifier(2, amount, randX, randY);
+			int randPosition = (int)Mathf.Floor(Random.Range(0, EmptyPosition - 1));
+			EmptyPosition--;
+			Point temp = EmptyPositions [randPosition];
+			EmptyPositions.Remove(temp);
+			TileController tc = GameController.instance.getTile(temp.X, temp.Y);
+			GameController.instance.addTileModifier(2, amount, temp.X, temp.Y);
 		}
 
 	}

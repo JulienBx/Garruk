@@ -167,6 +167,11 @@ public class TileController : MonoBehaviour
 		this.tile.StatModifier.Add(new StatModifier(-999, ModifierType.Type_BonusMalus, ModifierStat.Stat_Move, 3, "", "", ""));
 	}
 
+	public bool getIconVisibility()
+	{
+		return this.tileView.tileVM.toDisplayIcon;
+	}
+
 	public void addFontaine(int power)
 	{
 		this.tileView.tileVM.toDisplayIcon = true;
