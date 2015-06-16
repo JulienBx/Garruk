@@ -36,7 +36,7 @@ public class SablesMouvants : GameSkill
 			for (int j = 0; j< GameController.instance.boardHeight; j++)
 			{
 				TileController tc = GameController.instance.getTile(i, j);
-				if (tc.characterID == -1 && (tc.tileModification != TileModification.Sables_Mouvants || tc.tileModification == TileModification.Sables_Mouvants && !tc.getIconVisibility()))
+				if (tc.characterID == -1 && (tc.tileModification == TileModification.Void))
 				{
 					EmptyPositions.Add(new Point(i, j));
 					EmptyPosition++;
