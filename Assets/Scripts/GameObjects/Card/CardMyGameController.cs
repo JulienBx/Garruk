@@ -191,11 +191,15 @@ public class CardMyGameController : CardController
 	{
 		focusMyGameFeaturesView.focusMyGameFeaturesVM.buttonsEnabled[index] = value;
 	}
-	public void setButtonsGui(bool value)
+	public override void setButtonsGui(bool value)
 	{
-		for(int i=0;i<focusMyGameFeaturesView.focusMyGameFeaturesVM.buttonsEnabled.Length;i++)
+		base.setButtonsGui (value);
+		if(focusMyGameFeaturesView!=null)
 		{
-			focusMyGameFeaturesView.focusMyGameFeaturesVM.buttonsEnabled[i] = value;
+			for(int i=0;i<focusMyGameFeaturesView.focusMyGameFeaturesVM.buttonsEnabled.Length;i++)
+			{
+				focusMyGameFeaturesView.focusMyGameFeaturesVM.buttonsEnabled[i] = value;
+			}
 		}
 	}
 	public void setIsTutorialLaunched(bool value)

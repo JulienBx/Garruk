@@ -107,6 +107,10 @@ public class CardLobbyController : CardController
 			this.focusLobbyFeaturesView.cardFeaturesFocusVM.guiEnabled = value;
 		}
 	}
+	public override void setButtonsGui(bool value)
+	{
+		base.setButtonsGui (value);
+	}
 	public override void popUpDisplayed(bool value)
 	{
 		LobbyController.instance.popUpDisplayed (value, gameObject);

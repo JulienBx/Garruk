@@ -1901,6 +1901,10 @@ public class MyGameController : MonoBehaviour
 		{
 			view.myGameVM.buttonsEnabled[i]=value;
 		}
+		for(int i=0;i<5;i++)
+		{
+			this.displayedDeckCards[i].GetComponent<CardMyGameController>().setButtonsGui(value);
+		}
 	}
 	public void setButtonGui(int index, bool value)
 	{

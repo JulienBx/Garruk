@@ -459,6 +459,7 @@ public class TutorialObjectController : MonoBehaviour
 		case 213:
 			if(!isResizing)
 			{
+				MyGameController.instance.setButtonsGui(false);
 				MyGameController.instance.setButtonGui(0,true);
 				view.VM.displayArrow=true;
 				view.VM.displayNextButton=true;

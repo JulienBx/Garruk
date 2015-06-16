@@ -545,6 +545,10 @@ public class LobbyController : Photon.MonoBehaviour
 		{
 			view.lobbyVM.buttonsEnabled[i]=value;
 		}
+		for(int i=0;i<5;i++)
+		{
+			this.displayedDeckCards[i].GetComponent<CardLobbyController>().setButtonsGui(value);
+		}
 	}
 	public IEnumerator endTutorial()
 	{
