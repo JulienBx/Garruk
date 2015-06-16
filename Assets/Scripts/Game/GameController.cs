@@ -1140,8 +1140,8 @@ public class GameController : Photon.MonoBehaviour
 			}
 		} else
 		{
-			int itest = this.playingCards [this.currentPlayingCard].GetComponentInChildren<PlayingCardController>().card.Skills [ids].Id;
-			this.gameskills [itest].launch();
+			int idSkill = this.playingCards [this.currentPlayingCard].GetComponentInChildren<PlayingCardController>().card.Skills [ids].Id;
+			this.gameskills [idSkill].launch();
 		}
 		this.skillArgs = new int[10];
 		for (int i = 0; i < 10; i++)
@@ -1186,7 +1186,7 @@ public class GameController : Photon.MonoBehaviour
 				if (!this.playingCards [rankedPlayingCardsID [j]].GetComponentInChildren<PlayingCardController>().hasPlayed)
 				{
 					nextPlayingCard = rankedPlayingCardsID [j];
-					j = 11;
+					j = playingCards.Length + 1;
 				}
 				j++;
 			}
@@ -1211,7 +1211,7 @@ public class GameController : Photon.MonoBehaviour
 				}
 			}
 		}
-		if (this.currentPlayingCard != -1)
+		if (this.currentPlayingCard != -1 && newTurn == false)
 		{
 			this.playingCards [this.currentPlayingCard].GetComponentInChildren<PlayingCardController>().hasPlayed = true;
 		}
@@ -2249,11 +2249,6 @@ public class GameController : Photon.MonoBehaviour
 		this.getPCC(id).removeFurtivity();
 	}
 	
-	public void updateTimeline()
-	{
-		this.sortAllCards();
-	}
-	
 	public void emptyTile(int x, int y)
 	{
 		this.tiles [x, y].GetComponent<TileController>().characterID = -1;
@@ -2416,7 +2411,8 @@ public class GameController : Photon.MonoBehaviour
 			}
 		}
 	}
-	
+
+
 	public void addTrap(int tileX, int tileY, int type, int amount)
 	{ 
 		photonView.RPC("addTrapRPC", PhotonTargets.AllBuffered, tileX, tileY, type, amount, this.isFirstPlayer);
