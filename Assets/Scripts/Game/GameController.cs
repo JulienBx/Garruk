@@ -2148,6 +2148,8 @@ public class GameController : Photon.MonoBehaviour
 			for (int i = limitCharacterSide + 1; i < temp.Length; i++)
 			{
 				temp [i] = playingCards [i - 1];
+				PlayingCardController pcctemp = playingCards [i - 1].GetComponent<PlayingCardController>();
+				getTile(pcctemp.tile.x, pcctemp.tile.y).characterID = i;
 			}
 			position = limitCharacterSide;
 			limitCharacterSide++;
