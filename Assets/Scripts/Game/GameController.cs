@@ -1265,7 +1265,14 @@ public class GameController : Photon.MonoBehaviour
 			this.isDragging = true;
 		}
 		//this.playingCards [currentPlayingCard].GetComponentInChildren<PlayingCardController>().card.changeModifiers();
-		loadTileModifierToCharacter(getCurrentPCC().tile.x, getCurrentPCC().tile.y);
+		if (newTurn)
+		{
+			foreach (GameObject pc in playingCards)
+			{
+				PlayingCardController temp = pc.GetComponent<PlayingCardController>();
+				loadTileModifierToCharacter(temp.tile.x, temp.tile.y, true);	
+			}
+		}
 
 		this.playingCards [currentPlayingCard].GetComponentInChildren<PlayingCardController>().show();
 
@@ -1337,6 +1344,7 @@ public class GameController : Photon.MonoBehaviour
 		findNextPlayer();
 		photonView.RPC("timeRunsOut", PhotonTargets.AllBuffered, timerTurn);
 		photonView.RPC("addPassEvent", PhotonTargets.AllBuffered);
+		photonView.RPC("loadTileModifierToCharacter", PhotonTargets.AllBuffered, getCurrentPCC().tile.x, getCurrentPCC().tile.y, false);
 	}
 	
 	[RPC]
@@ -1700,7 +1708,7 @@ public class GameController : Photon.MonoBehaviour
 
 		getPCC(c).changeTile(new Tile(x, y), getTile(x, y).getPosition());
 		getPCC(c).card.TileModifiers.Clear();
-		loadTileModifierToCharacter(x, y);
+		loadTileModifierToCharacter(x, y, false);
 
 		if (this.isFirstPlayer == isFirstP && nbTurns != 0)
 		{
@@ -2047,7 +2055,7 @@ public class GameController : Photon.MonoBehaviour
 
 	void initSkills()
 	{
-		this.gameskills = new GameSkill[53];
+		this.gameskills = new GameSkill[55];
 		this.gameskills [0] = new Attack();
 		this.gameskills [1] = new Pass();
 		this.gameskills [2] = new GameSkill();
@@ -2101,6 +2109,8 @@ public class GameController : Photon.MonoBehaviour
 		this.gameskills [50] = new Grizzly();
 		this.gameskills [51] = new AppositionDesMains();
 		this.gameskills [52] = new Guerison();
+		this.gameskills [53] = new GameSkill();
+		this.gameskills [54] = new GameSkill();
 	}
 
 	public void spawnMinion(string minionName, int targetX, int targetY, int amount, bool isFirstP)
@@ -2356,25 +2366,25 @@ public class GameController : Photon.MonoBehaviour
 		{
 			case 0:
 				this.tiles [tileX, tileY].GetComponent<TileController>().addTemple(amount);
-				loadTileModifierToCharacter(tileX, tileY);
+				loadTileModifierToCharacter(tileX, tileY, false);
 				break;
 			case 1:
 				TileController tileController1 = this.tiles [tileX, tileY].GetComponent<TileController>();
 				tileController1.addForetIcon(amount);
-				loadTileModifierToCharacter(tileX, tileY);
+				loadTileModifierToCharacter(tileX, tileY, false);
 				foreach (Tile til in tileController1.tile.getImmediateNeighbouringTiles())
 				{
 					this.getTile(til.x, til.y).addForetIcon(amount);
-					loadTileModifierToCharacter(til.x, til.y);
+					loadTileModifierToCharacter(til.x, til.y, false);
 				}
 				break;
 			case 2: 
 				getTile(tileX, tileY).addSable((this.isFirstPlayer == isFirstP));
-				loadTileModifierToCharacter(tileX, tileY);
+				loadTileModifierToCharacter(tileX, tileY, false);
 				break;
 			case 3:
 				getTile(tileX, tileY).addFontaine(amount);
-				loadTileModifierToCharacter(tileX, tileY);
+				loadTileModifierToCharacter(tileX, tileY, false);
 				break;
 			default:
 				break;
@@ -2414,12 +2424,13 @@ public class GameController : Photon.MonoBehaviour
 		addGameEvent(new SkillType(getCurrentSkill().Action), pcc.card.Title);
 	}
 
-	public void loadTileModifierToCharacter(int x, int y)
+	[RPC]
+	public void loadTileModifierToCharacter(int x, int y, bool newTurn)
 	{
 		TileController tileController = this.getTile(x, y).GetComponent<TileController>();
 		if (tileController.characterID != -1)
 		{
-			if (tileController.statModifierActive == true)
+			if (tileController.statModifierActive == true && newTurn == tileController.statModifierNewTurn)
 			{
 				foreach (StatModifier sm in tileController.tile.StatModifier)
 				{

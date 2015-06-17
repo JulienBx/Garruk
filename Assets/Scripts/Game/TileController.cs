@@ -28,6 +28,7 @@ public class TileController : MonoBehaviour
 	public Texture2D[] icons;
 	public bool statModifierActive = true;
 	public bool statModifierEachTurn = false;
+	public bool statModifierNewTurn = false;
 
 	void Awake()
 	{
@@ -139,7 +140,7 @@ public class TileController : MonoBehaviour
 		statModifierActive = true;
 		statModifierEachTurn = false;
 		this.tile.StatModifier.Clear();
-		this.tile.StatModifier.Add(new StatModifier(amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, -1, "", "", ""));
+		this.tile.StatModifier.Add(new StatModifier(amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, -1, 0, "", "", ""));
 	}
 
 	public void addForetIcon(int amount)
@@ -150,7 +151,7 @@ public class TileController : MonoBehaviour
 		statModifierActive = true;
 		statModifierEachTurn = false;
 		this.tile.StatModifier.Clear();
-		this.tile.StatModifier.Add(new StatModifier(-amount, ModifierType.Type_Multiplier, ModifierStat.Stat_Move, -1, "", "", ""));
+		this.tile.StatModifier.Add(new StatModifier(-amount, ModifierType.Type_Multiplier, ModifierStat.Stat_Move, -1, 0, "", "", ""));
 	}
 
 	public void addSable(bool isVisible)
@@ -164,7 +165,7 @@ public class TileController : MonoBehaviour
 		statModifierActive = true;
 		statModifierEachTurn = false;
 		this.tile.StatModifier.Clear();
-		this.tile.StatModifier.Add(new StatModifier(-999, ModifierType.Type_BonusMalus, ModifierStat.Stat_Move, 3, "", "", ""));
+		this.tile.StatModifier.Add(new StatModifier(-999, ModifierType.Type_BonusMalus, ModifierStat.Stat_Move, 4, 0, "", "", ""));
 	}
 
 	public bool getIconVisibility()
@@ -178,9 +179,10 @@ public class TileController : MonoBehaviour
 		this.tileModification = TileModification.Fontaine_de_Jouvence;
 		this.tileView.tileVM.icon = this.icons [3];
 		statModifierActive = true;
+		statModifierNewTurn = true;
 		statModifierEachTurn = true;
 		this.tile.StatModifier.Clear();
-		this.tile.StatModifier.Add(new StatModifier(-power, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, "", "", ""));
+		this.tile.StatModifier.Add(new StatModifier(-power, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, 0, "", "", ""));
 	}
 
 	public void removeIcon()

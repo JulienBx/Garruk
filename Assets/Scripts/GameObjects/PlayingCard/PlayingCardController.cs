@@ -468,8 +468,10 @@ public class PlayingCardController : GameObjectController
 
 		for (int i = 0; i < this.card.TileModifiers.Count; i++)
 		{
-			this.card.TileModifiers [i].Duration--;
-			print(this.card.TileModifiers [i].Type + " - " + this.card.TileModifiers [i].Duration);
+			if (this.card.TileModifiers [i].Duration > 0)
+			{
+				this.card.TileModifiers [i].Duration--;
+			}
 			
 			if (this.card.TileModifiers [i].Duration == 0)
 			{
