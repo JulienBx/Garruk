@@ -17,6 +17,11 @@ public class Guerison : GameSkill
 	public override void resolve(int[] args)
 	{
 		int amount = GameController.instance.getCurrentSkill().Power;
+
+		int targetID = args [0];
+		GameController.instance.getCard(targetID).modifiers.Add(new StatModifier(-amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, "", "", ""));
+		GameController.instance.reloadCard(targetID);
+
 		GameController.instance.play(GameController.instance.getCurrentCard().Title + 
 			" a lancé guerison\n " 
 			+ convertStatToString(ModifierStat.Stat_Heal)
@@ -24,10 +29,6 @@ public class Guerison : GameSkill
 			+ amount 
 			+ " " 
 			+ convertStatToString(ModifierStat.Stat_Life));
-		
-		int targetID = args [0];
-		GameController.instance.getCard(targetID).modifiers.Add(new StatModifier(-amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage,-1,"","",""));
-		GameController.instance.reloadCard(targetID);
 	}
 	
 	public override bool isLaunchable(Skill s)

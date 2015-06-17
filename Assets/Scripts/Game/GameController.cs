@@ -98,6 +98,8 @@ public class GameController : Photon.MonoBehaviour
 	List<PlayingCardController> deads;
 	string URLStat = ApplicationModel.host + "updateResult.php";
 
+	bool gameEventInitialized = false;
+
 	int clickedSkill ;
 
 	void Awake()
@@ -1670,7 +1672,7 @@ public class GameController : Photon.MonoBehaviour
 			this.rankedPlayingCardsID = new int[playingCards.Length];
 		}
 		this.rankedPlayingCardsID [rank] = id;
-		if (rank == playingCards.Length - 1)
+		if (rank == playingCards.Length - 1 && !gameEventInitialized)
 		{
 			initGameEvents();
 		}
@@ -1679,6 +1681,7 @@ public class GameController : Photon.MonoBehaviour
 	[RPC]
 	public void moveCharacterRPC(int x, int y, int c, bool isFirstP, bool isSwap)
 	{
+		addGameEvent(new MovementType(), "");
 		if (!isSwap)
 		{
 			this.tiles [this.playingCards [c].GetComponentInChildren<PlayingCardController>().tile.x, this.playingCards [c].GetComponentInChildren<PlayingCardController>().tile.y].GetComponent<TileController>().characterID = -1;
@@ -1877,7 +1880,7 @@ public class GameController : Photon.MonoBehaviour
 	{
 		bool findCharactersHaveNoAlreadyPlayed = false;
 		nextCharacterPositionTimeline = 0;
-		for (int i = 5; i >= 0; i--)
+		for (int i = 4; i >= 0; i--)
 		{
 			int rankedPlayingCardID = 0;
 			bool nextChara = true;
@@ -1918,6 +1921,7 @@ public class GameController : Photon.MonoBehaviour
 
 	void initGameEvents()
 	{
+		gameEventInitialized = true;
 		GameObject go;
 		int i = 1;
 		while (gameEvents.Count < eventMax)
@@ -1934,10 +1938,10 @@ public class GameController : Photon.MonoBehaviour
 				child.transform.localPosition = new Vector3(0f, 0f, -5f);
 				child.transform.localScale = new Vector3(0.9f, 0.9f, 10f);
 			}
-			if (i == 6)
-			{
-				go.transform.localScale = new Vector3(0.95f, 0.95f, 10f);
-			} 
+//			if (i == 6)
+//			{
+//				go.transform.localScale = new Vector3(0.95f, 0.95f, 10f);
+//			} 
 
 			if (i > 6)
 			{
@@ -2094,24 +2098,24 @@ public class GameController : Photon.MonoBehaviour
 	public void spawnMinion(string minionName, int targetX, int targetY, int amount, bool isFirstP)
 	{
 		photonView.RPC("spawnMinion", PhotonTargets.AllBuffered, this.isFirstPlayer, minionName, targetX, targetY, amount);
-		reloadTimeline();
 	}
 
 	[RPC]
 	public void spawnMinion(bool isFirstP, string minionName, int targetX, int targetY, int amount)
 	{
+		addGameEvent(new SkillType(getCurrentSkill().Action), "");
 		GameObject[] temp = new GameObject[playingCards.Length + 1];
-		if (isFirstP)
+
+		for (int i = 0; i < limitCharacterSide; i++)
 		{
-			for (int i = 0; i < limitCharacterSide; i++)
-			{
-				temp [i] = playingCards [i];
-			}
-			for (int i = limitCharacterSide + 1; i < temp.Length; i++)
-			{
-				temp [i] = playingCards [i - 1];
-			} 
+			temp [i] = playingCards [i];
 		}
+		for (int i = limitCharacterSide + 1; i < temp.Length; i++)
+		{
+			temp [i] = playingCards [i - 1];
+		} 
+
+		playingCards = temp;
 		this.playingCards [limitCharacterSide] = (GameObject)Instantiate(this.playingCard);
 		this.playingCards [limitCharacterSide].GetComponentInChildren<PlayingCardController>().setStyles((isFirstP == this.isFirstPlayer));
 		Card minion;
@@ -2135,6 +2139,7 @@ public class GameController : Photon.MonoBehaviour
 		this.tiles [targetX, targetY].GetComponent<TileController>().characterID = limitCharacterSide;
 		this.playingCards [limitCharacterSide].GetComponentInChildren<PlayingCardController>().show();
 		limitCharacterSide++;
+		reloadSortedList();
 	}
 
 	public PlayingCardController getCurrentPCC()
@@ -2361,6 +2366,7 @@ public class GameController : Photon.MonoBehaviour
 			default:
 				break;
 		}
+		addGameEvent(new SkillType(getCurrentSkill().Action), "");
 	}
 
 	public void relive(int id, int x, int y)
@@ -2385,6 +2391,7 @@ public class GameController : Photon.MonoBehaviour
 		pcc.card.Life = 1;
 		pcc.relive();
 		pcc.show();
+		addGameEvent(new SkillType(getCurrentSkill().Action), pcc.card.Title);
 	}
 
 	public void loadTileModifierToCharacter(int x, int y)

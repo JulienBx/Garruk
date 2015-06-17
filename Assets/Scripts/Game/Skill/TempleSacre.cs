@@ -17,16 +17,16 @@ public class TempleSacre : GameSkill
 	public override void resolve(int[] args)
 	{
 		int amount = GameController.instance.getCurrentSkill().ManaCost;
-		string pluriel = amount > 1 ? "s" : "";
 
+		int targetX = args [0];
+		int targetY = args [1];
+		GameController.instance.addTileModifier(0, amount, targetX, targetY);
+
+		string pluriel = amount > 1 ? "s" : "";
 		GameController.instance.play(GameController.instance.getCurrentCard().Title + 
 			" a lancé temple sacré \n +"
 			+ amount 
 			+ " point" + pluriel + " d'attaque sur la case");
-		
-		int targetX = args [0];
-		int targetY = args [1];
-		GameController.instance.addTileModifier(0, amount, targetX, targetY);
 	}
 	
 	public override bool isLaunchable(Skill s)

@@ -58,7 +58,7 @@ public class GameEventController : MonoBehaviour
 
 	public void setTarget(string target)
 	{
-		gameEventView.gameEventVM.action += " sur " + target;
+		gameEventView.gameEventVM.action += " " + target;
 	}
 
 	public void setArt(Texture2D art)

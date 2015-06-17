@@ -17,12 +17,13 @@ public class Loup : GameSkill
 	public override void resolve(int[] args)
 	{
 		int amount = GameController.instance.getCurrentSkill().ManaCost;
-		GameController.instance.play(GameController.instance.getCurrentCard().Title + 
-			" a lancé Loup\n ");
 		
 		int targetX = args [0];
 		int targetY = args [1];
 		GameController.instance.spawnMinion("Loup", targetX, targetY, amount, true);
+
+		GameController.instance.play(GameController.instance.getCurrentCard().Title + 
+			" a lancé Loup\n ");
 	}
 	
 	public override bool isLaunchable(Skill s)

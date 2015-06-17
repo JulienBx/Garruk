@@ -28,14 +28,16 @@ public class Resurrection : GameSkill
 		} else
 		{
 			int amount = GameController.instance.getCurrentSkill().ManaCost;
-			GameController.instance.play(GameController.instance.getCurrentCard().Title + 
-				" a lancé Resurrection\n ");
+
 			
 			int targetID = args [0];
 			int targetX = args [1];
 			int targetY = args [2];
 
 			GameController.instance.relive(targetID, targetX, targetY);
+
+			GameController.instance.play(GameController.instance.getCurrentCard().Title + 
+				" a lancé Resurrection\n ");
 		}
 	}
 	
