@@ -21,7 +21,7 @@ public class Loup : GameSkill
 		int targetX = args [0];
 		int targetY = args [1];
 		GameController.instance.spawnMinion("Loup", targetX, targetY, amount, true);
-
+		GameController.instance.addGameEvent(GameController.instance.getCurrentSkill().Action, "");
 		GameController.instance.play(GameController.instance.getCurrentCard().Title + 
 			" a lancé Loup\n ");
 	}

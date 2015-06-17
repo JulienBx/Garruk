@@ -53,6 +53,8 @@ public class SablesMouvants : GameSkill
 			GameController.instance.addTileModifier(2, amount, temp.X, temp.Y);
 		}
 
+		GameController.instance.addGameEvent(GameController.instance.getCurrentSkill().Action, "");
+
 		GameController.instance.play(GameController.instance.getCurrentCard().Title + 
 			" a lancé Sables Mouvants \n sur "
 			+ amount +

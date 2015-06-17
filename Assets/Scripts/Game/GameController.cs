@@ -1834,6 +1834,21 @@ public class GameController : Photon.MonoBehaviour
 		}
 	}
 
+	public void addGameEvent(string action, string targetName)
+	{
+		photonView.RPC("addGameEventRPC", PhotonTargets.AllBuffered, action, targetName);
+	}
+	[RPC]
+	public void addGameEventRPC(string action, string targetName)
+	{
+		setGameEvent(new SkillType(action));
+		if (targetName != "")
+		{
+			int midTimeline = (int)Math.Floor((double)eventMax / 2);
+			gameEvents [midTimeline].GetComponent<GameEventController>().setTarget(targetName);
+		}
+	}
+
 	public void addMovementEvent(GameObject origin, GameObject destination)
 	{
 		GameObject go = setGameEvent(new MovementType());

@@ -22,7 +22,8 @@ public class AppositionDesMains : GameSkill
 		int targetID = args [0];
 
 		GameController.instance.addCardModifier(-amount, targetID, (int)ModifierType.Type_BonusMalus, (int)ModifierStat.Stat_Dommage, -1);
-
+		GameController.instance.addGameEvent(GameController.instance.getCurrentSkill().Action, GameController.instance.getPCC(targetID).card.Title);
+		
 		GameController.instance.play(GameController.instance.getCurrentCard().Title + 
 			" a lancé apposition des mains \n " 
 			+ convertStatToString(ModifierStat.Stat_Heal)

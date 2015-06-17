@@ -18,13 +18,13 @@ public class ForetDeLianes : GameSkill
 	{
 		int amount = GameController.instance.getCurrentSkill().ManaCost;
 
-		GameController.instance.play(GameController.instance.getCurrentCard().Title + 
-			" a lancé Foret de Lianes \n -" +
-			amount + "% pour les déplacamements sur la case");
-		
 		int targetX = args [0];
 		int targetY = args [1];
 		GameController.instance.addTileModifier(1, amount, targetX, targetY);
+		GameController.instance.addGameEvent(GameController.instance.getCurrentSkill().Action, "");
+		GameController.instance.play(GameController.instance.getCurrentCard().Title + 
+			" a lancé Foret de Lianes \n -" +
+			amount + "% pour les déplacamements sur la case");
 	}
 	
 	public override bool isLaunchable(Skill s)

@@ -27,19 +27,23 @@ public class Resurrection : GameSkill
 			nextStep();
 		} else
 		{
+			int targetID = args [0];
 			int amount = GameController.instance.getCurrentSkill().ManaCost;
 			if (Random.Range(0, 100) < amount)
 			{
-				int targetID = args [0];
+
 				int targetX = args [1];
 				int targetY = args [2];
 				
 				GameController.instance.relive(targetID, targetX, targetY);
-				
+
+				GameController.instance.addGameEvent(GameController.instance.getCurrentSkill().Action, GameController.instance.getPCC(targetID).card.Title);
+
 				GameController.instance.play(GameController.instance.getCurrentCard().Title + 
 					" a lancé Resurrection\n ");
 			} else
 			{
+				GameController.instance.addGameEvent(GameController.instance.getCurrentSkill().Action, GameController.instance.getPCC(targetID).card.Title + " mais a échoué");
 				GameController.instance.play(GameController.instance.getCurrentCard().Title + 
 					" a lancé Resurrection\n mais a échoué");
 			}

@@ -18,13 +18,16 @@ public class FontaineDeJouvence : GameSkill
 	{
 		int amount = GameController.instance.getCurrentSkill().ManaCost;
 		string pluriel = amount > 1 ? "s" : "";
+
+		int targetX = args [0];
+		int targetY = args [1];
+		GameController.instance.addTileModifier(3, amount, targetX, targetY);
+		GameController.instance.addGameEvent(GameController.instance.getCurrentSkill().Action, "");
+		
 		GameController.instance.play(GameController.instance.getCurrentCard().Title + 
 			" a lancé Fontaine De Jouvence \n + "
 			+ amount +
 			" point" + pluriel + " de vie par tour");
-		int targetX = args [0];
-		int targetY = args [1];
-		GameController.instance.addTileModifier(3, amount, targetX, targetY);
 	}
 	
 	public override bool isLaunchable(Skill s)

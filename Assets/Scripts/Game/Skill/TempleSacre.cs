@@ -22,6 +22,8 @@ public class TempleSacre : GameSkill
 		int targetY = args [1];
 		GameController.instance.addTileModifier(0, amount, targetX, targetY);
 
+		GameController.instance.addGameEvent(GameController.instance.getCurrentSkill().Action, "");
+
 		string pluriel = amount > 1 ? "s" : "";
 		GameController.instance.play(GameController.instance.getCurrentCard().Title + 
 			" a lancé temple sacré \n +"

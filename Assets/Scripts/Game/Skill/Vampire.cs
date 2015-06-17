@@ -22,7 +22,8 @@ public class Vampire : GameSkill
 
 		GameController.instance.addCardModifier(amount, targetID, (int)ModifierType.Type_BonusMalus, (int)ModifierStat.Stat_Dommage, -1);
 		GameController.instance.addCardModifier(-amount, GameController.instance.getCurrentPCC().IDCharacter, (int)ModifierType.Type_BonusMalus, (int)ModifierStat.Stat_Dommage, -1);
-		
+
+		GameController.instance.addGameEvent(GameController.instance.getCurrentSkill().Action, GameController.instance.getPCC(targetID).card.Title);
 		GameController.instance.play(GameController.instance.getCurrentCard().Title + 
 			" a lancé Vampire\n " 
 			+ " "
