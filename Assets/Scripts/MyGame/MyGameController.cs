@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 public class MyGameController : MonoBehaviour
 {
@@ -446,19 +447,7 @@ public class MyGameController : MonoBehaviour
 	}
 	public IEnumerator createNewDeck()
 	{
-		newDeckPopUpView.newDeckPopUpVM.error="";
-		for(int i=0;i<model.decks.Count;i++)
-		{
-			if(model.decks[i].Name==newDeckPopUpView.newDeckPopUpVM.name)
-			{
-				newDeckPopUpView.newDeckPopUpVM.error="Nom déjà utilisé";
-				break;
-			}
-		}
-		if(newDeckPopUpView.newDeckPopUpVM.name=="")
-		{
-			newDeckPopUpView.newDeckPopUpVM.error="Veuillez saisir un nom";
-		}
+		newDeckPopUpView.newDeckPopUpVM.error=this.checkDeckName(newDeckPopUpView.newDeckPopUpVM.name);
 		if(newDeckPopUpView.newDeckPopUpVM.error=="")
 		{
 			model.decks.Add(new Deck());
@@ -476,23 +465,30 @@ public class MyGameController : MonoBehaviour
 			}
 		}
 	}
+	public string checkDeckName(string name)
+	{
+		if(!Regex.IsMatch(name, @"^[a-zA-Z0-9_\s]+$"))
+		{
+			return "Vous ne pouvez pas utiliser de caractères spéciaux";
+		}
+		for(int i=0;i<model.decks.Count;i++)
+		{
+			if(model.decks[i].Name==name)
+			{
+				return "Nom déjà utilisé";
+			}
+		}
+		if(name=="")
+		{
+			return "Veuillez saisir un nom";
+		}
+		return "";
+	}
 	public IEnumerator editDeck()
 	{
-		editDeckPopUpView.editDeckPopUpVM.error="";
 		if(editDeckPopUpView.editDeckPopUpVM.newName!=editDeckPopUpView.editDeckPopUpVM.oldName)
 		{
-			for(int i=0;i<model.decks.Count;i++)
-			{
-				if(model.decks[i].Name==editDeckPopUpView.editDeckPopUpVM.newName)
-				{
-					editDeckPopUpView.editDeckPopUpVM.error="Nom déjà utilisé";
-					break;
-				}
-			}
-			if(editDeckPopUpView.editDeckPopUpVM.newName=="")
-			{
-				editDeckPopUpView.editDeckPopUpVM.error="Veuillez saisir un nom";
-			}
+			editDeckPopUpView.editDeckPopUpVM.error=checkDeckName(editDeckPopUpView.editDeckPopUpVM.newName);
 			if(editDeckPopUpView.editDeckPopUpVM.error=="")
 			{
 				yield return StartCoroutine(model.decks[view.myGameDecksVM.decksToBeDisplayed[editDeckPopUpView.editDeckPopUpVM.chosenDeck]].edit(editDeckPopUpView.editDeckPopUpVM.newName));
@@ -722,10 +718,10 @@ public class MyGameController : MonoBehaviour
 //			{
 //				this.displayedCards[i].GetComponent<CardController>().setMyGUI(value);
 //			}
-//			for(int i = 0 ; i < 5 ; i++)
-//			{
-//				this.displayedDeckCards[i].GetComponent<CardController>().setMyGUI(value);
-//			}
+			for(int i = 0 ; i < 5 ; i++)
+			{
+				this.displayedDeckCards[i].GetComponent<CardController>().setMyGUI(value);
+			}
 			this.setButtonsGui (value);
 		}
 	}
@@ -1900,6 +1896,10 @@ public class MyGameController : MonoBehaviour
 		for(int i=0;i<view.myGameVM.buttonsEnabled.Length;i++)
 		{
 			view.myGameVM.buttonsEnabled[i]=value;
+		}
+		for(int i=0;i<5;i++)
+		{
+			this.displayedDeckCards[i].GetComponent<CardMyGameController>().setButtonsGui(value);
 		}
 	}
 	public void setButtonGui(int index, bool value)

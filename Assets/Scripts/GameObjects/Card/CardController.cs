@@ -614,6 +614,13 @@ public class CardController : GameObjectController {
 			deckOrderFeaturesView.deckOrderFeaturesVM.guiEnabled=value;
 		}
 	}
+	public virtual void setButtonsGui(bool value)
+	{
+		if(this.deckOrderFeaturesView!=null)
+		{
+			deckOrderFeaturesView.deckOrderFeaturesVM.buttonsEnabled=value;
+		}
+	}
 	public virtual void popUpDisplayed(bool value)
 	{
 	}

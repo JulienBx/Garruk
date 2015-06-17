@@ -12,6 +12,7 @@ public class DeckOrderFeaturesView : MonoBehaviour
 	void OnGUI()
 	{
 		GUI.enabled = deckOrderFeaturesVM.guiEnabled;
+		GUI.enabled = deckOrderFeaturesVM.buttonsEnabled;
 		if(deckOrderFeaturesVM.displayLeftArrow)
 		{
 			GUILayout.BeginArea (deckOrderFeaturesVM.leftArrowRect);
@@ -34,6 +35,7 @@ public class DeckOrderFeaturesView : MonoBehaviour
 			}
 			GUILayout.EndArea ();
 		}
+		GUI.enabled = deckOrderFeaturesVM.guiEnabled;
 		GUILayout.BeginArea (deckOrderFeaturesVM.deckOrderNameRect);
 		{
 			GUILayout.Label(deckOrderFeaturesVM.deckOrderName,deckOrderFeaturesVM.titleStyle);

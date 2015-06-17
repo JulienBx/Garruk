@@ -9,6 +9,7 @@ public class DeckOrderFeaturesViewModel
 	public GUIStyle leftArrowStyle;
 	public GUIStyle rightArrowStyle;
 	public string deckOrderName;
+	public bool buttonsEnabled;
 	public bool displayRightArrow;
 	public bool displayLeftArrow;
 	public bool guiEnabled;
@@ -25,6 +26,7 @@ public class DeckOrderFeaturesViewModel
 		this.displayLeftArrow = false;
 		this.displayRightArrow = false;
 		this.guiEnabled = true;
+		this.buttonsEnabled = true;
 	}
 	public void initStyles()
 	{

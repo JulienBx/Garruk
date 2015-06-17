@@ -28,6 +28,7 @@ public class HomePageScreenViewModel {
 	public Rect blockTopRight;
 	public Rect blockMiddleRight;
 	public Rect blockBottomRight;
+	public Rect centralWindow;
 
 
 	public HomePageScreenViewModel ()
@@ -92,5 +93,7 @@ public class HomePageScreenViewModel {
 		                                  0.1f * this.heightScreen+3*this.gapBetweenblocks+this.blockMiddleRightHeight+this.blockTopRightHeight, 
 		                                  this.blockBottomRightWidth, 
 		                                  this.blockBottomRightHeight);
+		this.centralWindow = new Rect (this.widthScreen * 0.25f, 0.12f * this.heightScreen, this.widthScreen * 0.50f, 0.25f * this.heightScreen);
+
 	}
 }
