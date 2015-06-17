@@ -19,8 +19,7 @@ public class Guerison : GameSkill
 		int amount = GameController.instance.getCurrentSkill().Power;
 
 		int targetID = args [0];
-		GameController.instance.getCard(targetID).modifiers.Add(new StatModifier(-amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, "", "", ""));
-		GameController.instance.reloadCard(targetID);
+		GameController.instance.addCardModifier(-amount, targetID, (int)ModifierType.Type_BonusMalus, (int)ModifierStat.Stat_Dommage, -1);
 
 		GameController.instance.play(GameController.instance.getCurrentCard().Title + 
 			" a lancé guerison\n " 

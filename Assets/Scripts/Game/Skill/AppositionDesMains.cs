@@ -17,6 +17,12 @@ public class AppositionDesMains : GameSkill
 	public override void resolve(int[] args)
 	{
 		int amount = GameController.instance.getCurrentSkill().Power;
+
+		
+		int targetID = args [0];
+
+		GameController.instance.addCardModifier(-amount, targetID, (int)ModifierType.Type_BonusMalus, (int)ModifierStat.Stat_Dommage, -1);
+
 		GameController.instance.play(GameController.instance.getCurrentCard().Title + 
 			" a lancé apposition des mains \n " 
 			+ convertStatToString(ModifierStat.Stat_Heal)
@@ -24,10 +30,6 @@ public class AppositionDesMains : GameSkill
 			+ amount 
 			+ " " 
 			+ convertStatToString(ModifierStat.Stat_Life));
-		
-		int targetID = args [0];
-		GameController.instance.getCard(targetID).modifiers.Add(new StatModifier(-amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1,"","",""));
-		GameController.instance.reloadCard(targetID);
 	}
 	
 	public override bool isLaunchable(Skill s)

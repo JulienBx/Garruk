@@ -15,7 +15,7 @@ public class Dissipation : GameSkill
 
 	public override void resolve(int[] args)
 	{
-		if (Random.Range(0, 100) < GameController.instance.getCurrentSkill().Power)
+		if (Random.Range(0, 100) < GameController.instance.getCurrentSkill().ManaCost)
 		{
 			int targetID = args [0];
 			GameController.instance.getCard(targetID).clearBuffs();
@@ -32,7 +32,8 @@ public class Dissipation : GameSkill
 		}
 	}
 	
-	public override bool isLaunchable(Skill s){
-		return true ;
+	public override bool isLaunchable(Skill s)
+	{
+		return true;
 	}
 }

@@ -846,6 +846,14 @@ public class GameController : Photon.MonoBehaviour
 		{
 			this.getPCC(i).removeTargetHalo();	
 		}
+		for (int i = 0; i < this.boardWidth; i++)
+		{
+			for (int j = 0; j < this.boardHeight; j++)
+			{
+				this.tiles [i, j].GetComponent<TileController>().removePotentielTarget();
+				this.tiles [i, j].GetComponent<TileController>().removeHalo();
+			}
+		}
 		this.showMyPlayingSkills(this.currentPlayingCard);
 	}
 
@@ -2331,6 +2339,11 @@ public class GameController : Photon.MonoBehaviour
 		photonView.RPC("addTileModifierRPC", PhotonTargets.AllBuffered, modifierType, amount, tileX, tileY, this.isFirstPlayer);
 	}	
 
+	public void addCardModifier(int amount, int targetID, int modifierType, int modifierStat, int duration)
+	{
+		photonView.RPC("addCardModifierRPC", PhotonTargets.AllBuffered, amount, targetID, modifierType, modifierStat, duration, this.isFirstPlayer);
+	}
+
 	[RPC]
 	public void addTileModifierRPC(int modifierType, int amount, int tileX, int tileY, bool isFirstP)
 	{
@@ -2367,6 +2380,13 @@ public class GameController : Photon.MonoBehaviour
 				break;
 		}
 		addGameEvent(new SkillType(getCurrentSkill().Action), "");
+	}
+
+	[RPC]
+	public void addCardModifierRPC(int amount, int targetID, int modifierType, int modifierStat, int duration, bool isFirstP)
+	{
+		getCard(targetID).modifiers.Add(new StatModifier(amount, (ModifierType)modifierType, (ModifierStat)modifierStat, duration, 0, "", "", ""));
+		reloadCard(targetID);
 	}
 
 	public void relive(int id, int x, int y)
