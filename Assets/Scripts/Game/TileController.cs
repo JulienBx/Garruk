@@ -24,7 +24,6 @@ public class TileController : MonoBehaviour
 	public bool isDestination ;
 	public int characterID = -1 ;
 	public TileModification tileModification;
-	public StatModifier statModifier;
 	public Texture2D[] icons;
 	public bool statModifierActive = true;
 	public bool statModifierEachTurn = false;

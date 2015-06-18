@@ -1300,18 +1300,22 @@ public class GameController : Photon.MonoBehaviour
 			}
 		}
 		int debut;
+		int fin;
 		if (this.isFirstPlayer)
 		{
-			debut = 5;
+			debut = limitCharacterSide;
+			fin = playingCards.Length;
 		} else
 		{
 			debut = 0;
+			fin = limitCharacterSide;
 		}
-		characterTiles [this.playingCards [debut].GetComponentInChildren<PlayingCardController>().tile.x, this.playingCards [debut].GetComponentInChildren<PlayingCardController>().tile.y] = 8;
-		characterTiles [this.playingCards [debut + 1].GetComponentInChildren<PlayingCardController>().tile.x, this.playingCards [debut + 1].GetComponentInChildren<PlayingCardController>().tile.y] = 8;
-		characterTiles [this.playingCards [debut + 2].GetComponentInChildren<PlayingCardController>().tile.x, this.playingCards [debut + 2].GetComponentInChildren<PlayingCardController>().tile.y] = 8;
-		characterTiles [this.playingCards [debut + 3].GetComponentInChildren<PlayingCardController>().tile.x, this.playingCards [debut + 3].GetComponentInChildren<PlayingCardController>().tile.y] = 8;
-		characterTiles [this.playingCards [debut + 4].GetComponentInChildren<PlayingCardController>().tile.x, this.playingCards [debut + 4].GetComponentInChildren<PlayingCardController>().tile.y] = 8;
+		for (int i = debut; i < fin; i++)
+		{
+			Tile tiletemp = this.playingCards [i].GetComponentInChildren<PlayingCardController>().tile;
+			characterTiles [tiletemp.x, tiletemp.y] = 8;
+		}
+
 		return characterTiles;
 	}
 
@@ -2405,6 +2409,7 @@ public class GameController : Photon.MonoBehaviour
 				{
 					this.getTile(til.x, til.y).addForetIcon(amount);
 					loadTileModifierToCharacter(til.x, til.y, false);
+					reloadDestinationTiles();
 				}
 				break;
 			case 2: 
@@ -2459,7 +2464,7 @@ public class GameController : Photon.MonoBehaviour
 		TileController tileController = this.getTile(x, y).GetComponent<TileController>();
 		if (tileController.characterID != -1)
 		{
-			if (tileController.statModifierActive == true && newTurn == tileController.statModifierNewTurn)
+			if (tileController.statModifierActive == true && newTurn == tileController.statModifierNewTurn && tileController.tileModification != TileModification.Foret_de_Lianes)
 			{
 				foreach (StatModifier sm in tileController.tile.StatModifier)
 				{
