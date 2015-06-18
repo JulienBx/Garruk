@@ -38,7 +38,7 @@ public class GameController : Photon.MonoBehaviour
 	public bool isFirstPlayer = false;
 	public Deck myDeck;
 	GameObject[,] tiles ;
-	GameObject[] playingCards ;
+	public GameObject[] playingCards ;
 	GameObject[] verticalBorders ;
 	GameObject[] horizontalBorders ;
 	GameObject background ;
@@ -2128,7 +2128,7 @@ public class GameController : Photon.MonoBehaviour
 		this.gameskills [50] = new Grizzly();
 		this.gameskills [51] = new AppositionDesMains();
 		this.gameskills [52] = new Guerison();
-		this.gameskills [53] = new GameSkill();
+		this.gameskills [53] = new EauBenite();
 		this.gameskills [54] = new GameSkill();
 	}
 
