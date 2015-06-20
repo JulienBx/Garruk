@@ -52,6 +52,7 @@ public class Card
 	public int IdCardTypeUnlocked;
 	public string TitleCardTypeUnlocked;
 	public int deckOrder;
+	public int destructionPrice;
 
 	public static bool xpDone = false;
 	
@@ -530,76 +531,6 @@ public class Card
 			return true;
 		}
 	}
-
-	public int getCost()
-	{
-		int cost = Mathf.RoundToInt(this.Speed +
-			this.Attack +
-			this.Move * 10 +
-			this.Life);
-		for (int i = 0; i < this.Skills.Count; i++)
-		{
-			if (this.Skills [i].IsActivated == 1)
-			{
-				cost += this.Skills [i].Power * (1 / this.Skills [i].ManaCost);
-			}
-		}
-		return cost;
-	}
-
-	public IEnumerator buyRandomCard(int cost, int cardType=-1)
-	{
-		WWWForm form = new WWWForm(); 											// Création de la connexion
-		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_nick", ApplicationModel.username);
-		form.AddField("myform_cost", cost);
-		form.AddField("myform_cardtype", cardType.ToString());
-		WWW w = new WWW(URLBuyRandomCard, form); 				// On envoie le formulaire à l'url sur le serveur 
-		yield return w;
-		if (w.error != null)
-		{
-			this.Error = w.error;
-		} else
-		{
-			string[] data = w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
-			this.Error = data [0];
-			if (this.Error == "")
-			{
-				string[] cardData = data [1].Split(new string[] { "\n" }, System.StringSplitOptions.None);
-				string[] cardInformation = cardData [0].Split(new string[] { "//" }, System.StringSplitOptions.None);
-				this.Id = System.Convert.ToInt32(cardInformation [0]);
-				this.Title = cardInformation [1];
-				this.Life = System.Convert.ToInt32(cardInformation [2]);
-				this.Attack = System.Convert.ToInt32(cardInformation [3]);
-				this.Speed = System.Convert.ToInt32(cardInformation [4]);
-				this.Move = System.Convert.ToInt32(cardInformation [5]);
-				this.ArtIndex = System.Convert.ToInt32(cardInformation [6]);
-				this.IdClass = System.Convert.ToInt32(cardInformation [7]);
-				this.TitleClass = cardInformation [8];
-				this.LifeLevel = System.Convert.ToInt32(cardInformation [9]);
-				this.MoveLevel = System.Convert.ToInt32(cardInformation [10]);
-				this.SpeedLevel = System.Convert.ToInt32(cardInformation [11]);
-				this.AttackLevel = System.Convert.ToInt32(cardInformation [12]);
-				this.onSale = 0;
-				this.Experience = 0;
-
-				this.Skills = new List<Skill>();
-				
-				for (int i = 1; i < 5; i++)
-				{         
-					cardInformation = cardData [i].Split(new string[] { "//" }, System.StringSplitOptions.None);
-					this.Skills.Add(new Skill());
-					this.Skills [this.Skills.Count - 1].Name = cardInformation [0];
-					this.Skills [this.Skills.Count - 1].Id = System.Convert.ToInt32(cardInformation [1]);
-					this.Skills [this.Skills.Count - 1].IsActivated = System.Convert.ToInt32(cardInformation [2]);
-					this.Skills [this.Skills.Count - 1].Level = System.Convert.ToInt32(cardInformation [3]);
-					this.Skills [this.Skills.Count - 1].Power = System.Convert.ToInt32(cardInformation [4]);
-					this.Skills [this.Skills.Count - 1].ManaCost = System.Convert.ToInt32(cardInformation [5]);
-					this.Skills [this.Skills.Count - 1].Description = cardInformation [6];
-				}
-			}
-		}
-	}
 	public IEnumerator addXpLevel()
 	{
 
@@ -646,6 +577,7 @@ public class Card
 						this.PercentageToNextLevel = System.Convert.ToInt32(cardInfo [11]);
 						this.IdCardTypeUnlocked = System.Convert.ToInt32(cardInfo [12]);
 						this.TitleCardTypeUnlocked = cardInfo[13];
+						this.destructionPrice=System.Convert.ToInt32(cardInfo[14]);
 						this.NewSkills=new List<Skill>();
 					} 
 					else
@@ -674,8 +606,7 @@ public class Card
 		WWWForm form = new WWWForm(); 											// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_nick", ApplicationModel.username);
-		form.AddField("myform_idcard", this.Id);
-		form.AddField("myform_cost", this.getCost());		
+		form.AddField("myform_idcard", this.Id);		
 		WWW w = new WWW(URLSellCard, form); 				// On envoie le formulaire à l'url sur le serveur 
 		yield return w;
 		if (w.error != null)

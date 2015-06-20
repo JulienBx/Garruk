@@ -67,6 +67,7 @@ public class CardMyGameController : CardController
 		base.updateExperience ();
 		focusMyGameFeaturesView.focusMyGameFeaturesVM.cardLevel = base.card.ExperienceLevel;
 		focusMyGameFeaturesView.focusMyGameFeaturesVM.nextLevelCost = base.card.NextLevelPrice;
+		focusMyGameFeaturesView.focusMyGameFeaturesVM.cardCost = base.card.destructionPrice;
 		if(isTutorialLaunched)
 		{
 			MyGameController.instance.tutorialCardUpgrated();
@@ -89,7 +90,7 @@ public class CardMyGameController : CardController
 		focusMyGameFeaturesView.focusMyGameFeaturesVM.isOnSale = System.Convert.ToBoolean(base.card.onSale);
 		focusMyGameFeaturesView.focusMyGameFeaturesVM.idOwner = base.card.IdOWner;
 		focusMyGameFeaturesView.focusMyGameFeaturesVM.price = base.card.Price;
-		focusMyGameFeaturesView.focusMyGameFeaturesVM.cardCost = base.card.getCost();
+		focusMyGameFeaturesView.focusMyGameFeaturesVM.cardCost = base.card.destructionPrice;
 		focusMyGameFeaturesView.focusMyGameFeaturesVM.cardLevel = base.card.ExperienceLevel;
 		focusMyGameFeaturesView.focusMyGameFeaturesVM.nextLevelCost = base.card.NextLevelPrice;
 		focusMyGameFeaturesView.cardFeaturesFocusVM.styles = new GUIStyle[ressources.cardFeaturesFocusStyles.Length];
