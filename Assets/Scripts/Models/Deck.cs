@@ -276,6 +276,7 @@ public class Deck
 						this.Cards[i].NextLevelPrice=System.Convert.ToInt32(cardInfo[18]);
 						this.Cards[i].deckOrder=System.Convert.ToInt32(cardInfo[19]);
 						this.Cards[i].destructionPrice=System.Convert.ToInt32(cardInfo[20]);
+						this.Cards[i].Power=System.Convert.ToInt32(cardInfo[21]);
 						this.Cards[i].Skills = new List<Skill>();
 					}
 					else
@@ -370,6 +371,7 @@ public class Deck
 						this.Cards[i].IdCardTypeUnlocked=System.Convert.ToInt32(cardInfo[12]);
 						this.Cards[i].TitleCardTypeUnlocked=cardInfo[13];
 						this.Cards[i].destructionPrice=System.Convert.ToInt32(cardInfo[14]);
+						this.Cards[i].Power=System.Convert.ToInt32(cardInfo[15]);
 						if(this.Cards[i].TitleCardTypeUnlocked!="")
 						{
 							this.NewCardType=this.Cards[i].TitleCardTypeUnlocked;

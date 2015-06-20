@@ -53,6 +53,7 @@ public class Card
 	public string TitleCardTypeUnlocked;
 	public int deckOrder;
 	public int destructionPrice;
+	public int Power;
 
 	public static bool xpDone = false;
 	
@@ -578,6 +579,7 @@ public class Card
 						this.IdCardTypeUnlocked = System.Convert.ToInt32(cardInfo [12]);
 						this.TitleCardTypeUnlocked = cardInfo[13];
 						this.destructionPrice=System.Convert.ToInt32(cardInfo[14]);
+						this.Power=System.Convert.ToInt32(cardInfo[15]);
 						this.NewSkills=new List<Skill>();
 					} 
 					else

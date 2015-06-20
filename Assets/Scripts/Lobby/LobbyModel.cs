@@ -115,6 +115,8 @@ public class LobbyModel
 					cards[i].PercentageToNextLevel=System.Convert.ToInt32(cardInfo[17]);
 					cards[i].NextLevelPrice=System.Convert.ToInt32(cardInfo[18]);
 					cards[i].deckOrder=System.Convert.ToInt32(cardInfo[19]);
+					cards[i].destructionPrice=System.Convert.ToInt32(cardInfo[20]);
+					cards[i].Power=System.Convert.ToInt32(cardInfo[21]);
 					cards[i].Skills = new List<Skill>();
 				}
 				else
