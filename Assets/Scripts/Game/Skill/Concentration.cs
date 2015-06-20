@@ -1,13 +1,14 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 public class Concentration : GameSkill
 {
 	public override void launch ()
 	{
-		GameController.instance.lookForValidation (true, "Concentration cible le héros actif", "Lancer concentration");
+		GameController.instance.lookForValidation ();
 	}
 
-	public override void resolve (int[] args)
+	public override void resolve (List<int> targetsPCC)
 	{
 		int myPlayerID = GameController.instance.currentPlayingCard;
 		int amount = GameController.instance.getCurrentSkill ().ManaCost;

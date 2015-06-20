@@ -14,13 +14,12 @@ public class Resurrection : GameSkill
 		//GameController.instance.lookForDeadTarget("Choisir une cible pour Resurrection", "Lancer Resurrection");
 	}
 	
-	public override void resolve(int[] args)
+	public override void resolve(List<int> targetsPCC)
 	{
 		int amount = GameController.instance.getCurrentSkill().Power;
-		GameController.instance.play(GameController.instance.getCurrentCard().Title + 
-			" a lancé Resurrection\n ");
+		GameController.instance.play();
 		
-		int targetID = args [0];
+//		int targetID = args [0];
 	}
 	
 	public override bool isLaunchable(Skill s)

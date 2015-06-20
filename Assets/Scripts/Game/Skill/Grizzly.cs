@@ -14,14 +14,13 @@ public class Grizzly : GameSkill
 		GameController.instance.lookForEmptyAdjacentTile("invopque un Grizzly", "Lancer Grizzly");
 	}
 	
-	public override void resolve(int[] args)
+	public override void resolve(List<int> targetsPCC)
 	{
 		int amount = GameController.instance.getCurrentSkill().Power;
-		GameController.instance.play(GameController.instance.getCurrentCard().Title + 
-			" a lancé Grizzly\n ");
+		GameController.instance.play();
 		
-		int targetX = args [0];
-		int targetY = args [1];
+//		int targetX = args [0];
+//		int targetY = args [1];
 		//GameController.instance.spawnMinion("grizzly", targetX, targetY);
 	}
 	

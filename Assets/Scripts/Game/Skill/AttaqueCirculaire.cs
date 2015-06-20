@@ -3,56 +3,38 @@ using System.Collections.Generic;
 
 public class AttaqueCirculaire : GameSkill
 {
-	public AttaqueCirculaire()
-	{
-		
+	public AttaqueCirculaire(){
+		this.idSkill = 19 ; 
+		this.numberOfExpectedTargets = 1 ; 
 	}
 	
 	public override void launch()
 	{
-		Debug.Log("Je lance attaque circulaire");
-		GameController.instance.lookForValidation(true,"Choisir une cible à attaquer", "Lancer att. cir.");
+		GameController.instance.lookForValidation ();
 	}
 	
-	public override void resolve(int[] args)
+	public override void resolve(List<int> targetsPCC)
 	{
-		List<Tile> tempTiles;
-		Tile t = GameController.instance.getCurrentPCC().tile;
+		int damageBonusPercentage ;
+		PlayingCardController targetPCC ;
+		int degats ;
 		
-		tempTiles = t.getImmediateNeighbouringTiles();
-		List<int> targets = new List<int>();
+		int myPlayerID = GameController.instance.currentPlayingCard;
+		GameController.instance.displaySkillEffect(myPlayerID, "Attaque Circulaire", 3, 2);
 		
-		int i = 0 ;
-		int tempInt ; 
-		string message = "" ;
-		
-		while (i<tempTiles.Count){
-			t = tempTiles[i];
-			tempInt = GameController.instance.getTile(t.x, t.y).characterID;
-			if (tempInt!=-1)
-			{
-				if (GameController.instance.getPCC(tempInt).cannotBeTargeted==-1)
-				{
-					targets.Add(tempInt);
-				}
-			}
-			i++;
-		}
-		int damageBonusPercentage = GameController.instance.getCurrentCard().GetDamagesPercentageBonus();
-		int degats = (GameController.instance.getCurrentSkill().ManaCost*GameController.instance.getCurrentCard().Attack/100)*(100+damageBonusPercentage)/100;
-		message += "Attaque circulaire";
-		
-		for (int j = 0 ; j < targets.Count ; j++){
-			if (Random.Range(1, 100) > GameController.instance.getCard(targets[j]).GetEsquive()){
-				GameController.instance.addModifier(targets[j], degats, (int)ModifierType.Type_BonusMalus, (int)ModifierStat.Stat_Dommage);
-				GameController.instance.displaySkillEffect(targets[j], "prend "+degats+" dégats", 3, 1);
-			}
-			else{
-				GameController.instance.displaySkillEffect(targets[j], "Esquive", 3, 0);
-			}
-		}
-		
-		GameController.instance.play();	
+//		for (int i = 0 ; i < targets.Length ; i++){
+//			targetPCC = GameController.instance.getPCC(this.targets[i]);
+//			damageBonusPercentage = GameController.instance.getCurrentCard().GetDamagesPercentageBonus(targetPCC.card);
+//			degats = (GameController.instance.getCurrentSkill().ManaCost*GameController.instance.getCurrentCard().Attack/100)*(100+damageBonusPercentage)/100;
+//			
+//			if (args[i] > GameController.instance.getCard(targets[i]).GetEsquive()){
+//				GameController.instance.addModifier(targets[i], degats, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
+//				GameController.instance.displaySkillEffect(targets[i], degats+" dégats", 3, 1);
+//			}
+//			else{
+//				GameController.instance.displaySkillEffect(targets[i], "Esquive", 3, 0);
+//			}
+//		}	
 	}
 	
 	public override bool isLaunchable(Skill s){

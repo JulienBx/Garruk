@@ -10,10 +10,10 @@ public class ImplosionEnergie : GameSkill
 	
 	public override void launch()
 	{
-		GameController.instance.lookForValidation(true, "Choisir une cible à attaquer", "Lancer implosion");
+		//GameController.instance.lookForValidation(true, "Choisir une cible à attaquer", "Lancer implosion");
 	}
 	
-	public override void resolve(int[] args)
+	public override void resolve(List<int> targetsPCC)
 	{
 		Tile t = GameController.instance.getCurrentPCC().tile ;
 		int x = t.x;
@@ -21,7 +21,7 @@ public class ImplosionEnergie : GameSkill
 		int width = GameController.instance.boardWidth ;
 		int height = GameController.instance.boardHeight ;
 		
-		int damageBonusPercentage = GameController.instance.getCurrentCard().GetDamagesPercentageBonus();
+		int damageBonusPercentage = GameController.instance.getCurrentCard().GetDamagesPercentageBonus(new Card());
 		int amount = GameController.instance.getCurrentSkill().ManaCost*(100+damageBonusPercentage)/100;
 		int amountSelfDamage = GameController.instance.getCurrentCard().GetLife();
 		
@@ -74,7 +74,7 @@ public class ImplosionEnergie : GameSkill
 			targetsToHit.Add(GameController.instance.getTile(x,y).characterID);
 		}
 		
-		GameController.instance.addModifier(myPlayerID, amountSelfDamage, (int)ModifierType.Type_BonusMalus, (int)ModifierStat.Stat_Dommage);
+		//GameController.instance.addModifier(myPlayerID, amountSelfDamage, (int)ModifierType.Type_BonusMalus, (int)ModifierStat.Stat_Dommage);
 		
 		PlayingCardController pcc ;
 		for (int i = 0 ; i < targetsToHit.Count ; i++){
@@ -82,7 +82,7 @@ public class ImplosionEnergie : GameSkill
 			if (!pcc.isDead && pcc.cannotBeTargeted==-1){
 				if (Random.Range(1, 100) > GameController.instance.getCard(targetsToHit[i]).GetEsquive())
 				{                             
-					GameController.instance.addModifier(targetsToHit[i], amount, (int)ModifierType.Type_BonusMalus, (int)ModifierStat.Stat_Dommage);
+					//GameController.instance.addModifier(targetsToHit[i], amount, (int)ModifierType.Type_BonusMalus, (int)ModifierStat.Stat_Dommage);
 					GameController.instance.displaySkillEffect(targetsToHit[i], "prend "+amount+" dégats", 3, 1);
 				}
 				else{

@@ -281,7 +281,7 @@ public class Deck
 					{
 						this.Cards[i].Skills.Add(new Skill ());
 						this.Cards[i].Skills[j-1].Name=cardInfo[0];
-						this.Cards[i].Skills[j-1].Id=System.Convert.ToInt32(cardInfo[1]);
+						this.Cards[i].Skills[j-1].Id=System.Convert.ToInt32(cardInfo[1])+2;
 						this.Cards[i].Skills[j-1].IsActivated=System.Convert.ToInt32(cardInfo[2]);
 						this.Cards[i].Skills[j-1].Level=System.Convert.ToInt32(cardInfo[3]);
 						this.Cards[i].Skills[j-1].Power=System.Convert.ToInt32(cardInfo[4]);

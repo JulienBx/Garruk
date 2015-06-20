@@ -5,33 +5,83 @@ public class Rapidite : GameSkill
 {
 	public Rapidite()
 	{
-
+		this.idSkill = 8 ; 
+		this.numberOfExpectedTargets = 1 ; 
 	}
 	
 	public override void launch()
 	{
-		Debug.Log("Je lance rapidite");
-		GameController.instance.lookForTarget("Choisir une cible pour Rapidite", "Lancer Rapidite");
+		GameController.instance.initPCCTargetHandler(numberOfExpectedTargets);
+		GameController.instance.displayAllTargets();
+		GameController.instance.displayMyControls("Rapidité");
 	}
 	
-	public override void resolve(int[] args)
-	{
-		int amount = GameController.instance.getCurrentSkill().Power;
-		GameController.instance.play(GameController.instance.getCurrentCard().Title + 
-			" a lancé rapidite \n +" 
-			+ amount 
-			+ " " 
-			+ convertStatToString(ModifierStat.Stat_Move)
-			+ " au prochain tour");
+	public override void resolve(List<int> targetsPCC)
+	{	
+		int[] targets = new int[1];
+		targets[0] = targetsPCC[0];
 		
-		int targetID = args [0];
-		GameController.instance.getCard(targetID).modifiers.Add(new StatModifier(amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Move, 1, false,-1,"","",""));
-		GameController.instance.reloadDestinationTiles();
-		GameController.instance.reloadCard(targetID);
+		if (Random.Range(1,100) > GameController.instance.getCard(targetsPCC[0]).GetEsquive())
+		{                             
+			GameController.instance.applyOn(this.idSkill, targets);
+		}
+		else{
+			GameController.instance.failedToCastOnSkill(this.idSkill, targets);
+		}
+		GameController.instance.playSkill(this.idSkill);
+		GameController.instance.play();
+	}
 	
+	public override void applyOn(int[] targets){
+		int amount = GameController.instance.getCurrentSkill().ManaCost;
+		int deplacement ;
+		int baseD ;
+		
+		for (int i = 0 ; i < targets.Length ; i++){
+			baseD = GameController.instance.getCard(targets[i]).GetMove();
+			deplacement = (amount)*baseD/100;
+			GameController.instance.addCardModifier(targets[i], deplacement, ModifierType.Type_BonusMalus, ModifierStat.Stat_Move, 1, 7, "Rapidité", "Déplacement augmenté de "+deplacement, "Actif 1 tour");
+			GameController.instance.displaySkillEffect(targets[i], "MOV : "+baseD+" -> "+(baseD+deplacement), 3, 0);
+		}
+	}
+	
+	public override void failedToCastOn(int[] targets){
+		for (int i = 0 ; i < targets.Length ; i++){
+			GameController.instance.displaySkillEffect(targets[i], "Rapidité échoue", 3, 1);
+		}
 	}
 	
 	public override bool isLaunchable(Skill s){
 		return true ;
+	}
+	
+	public override HaloTarget getTargetPCCText(Card c){
+		
+		HaloTarget h  = new HaloTarget(0); 
+		int i ;
+		
+		int amount = GameController.instance.getCurrentSkill().ManaCost;
+		int baseD = c.GetMove();
+		int deplacement = (amount)*baseD/100;
+		
+		h.addInfo("MOV : "+baseD+" -> "+(baseD+deplacement),2);
+		
+		int probaHit = 100 - c.GetEsquive();
+		if (probaHit>=80){
+			i = 2 ;
+		}
+		else if (probaHit>=20){
+			i = 1 ;
+		}
+		else{
+			i = 0 ;
+		}
+		h.addInfo("HIT% : "+probaHit,i);
+		
+		return h ;
+	}
+	
+	public override string getPlayText(){
+		return "Rapidité" ;
 	}
 }

@@ -5,45 +5,45 @@ public class AttaqueRapide : GameSkill
 {
 	public AttaqueRapide()
 	{
-		
+		this.idSkill = 14 ; 
+		this.numberOfExpectedTargets = 1 ; 
 	}
 	
 	public override void launch()
 	{
-		Debug.Log("Je lance attaque rapide");
-		GameController.instance.lookForAdjacentTarget("Choisir une cible à attaquer", "Lancer att. rap.");
+		GameController.instance.displayAdjacentTargets();
 	}
-	
-	public override void resolve(int[] args)
+
+	public override void resolve(List<int> targetsPCC)
 	{
-		int targetID = args [0];
-		
-		int myPlayerID = GameController.instance.currentPlayingCard;
-		string myPlayerName = GameController.instance.getCurrentCard().Title;
-		string hisPlayerName = GameController.instance.getCard(targetID).Title;
-	
-		int amount = GameController.instance.getCurrentSkill().ManaCost;
-		int nbSuccessfullAttacks = 0 ;
-		int attack = GameController.instance.getCurrentCard().GetAttack() * amount / 100 ;
-		int totalAmount = 0 ;
-		int nbCoups = Random.Range(2, 4);
-		int damageBonusPercentage = GameController.instance.getCurrentCard().GetDamagesPercentageBonus();
-		
-		GameController.instance.displaySkillEffect(myPlayerID,"Attaque rapide", 3, 2);
-		
-		for (int i = 0 ; i < nbCoups ; i++){
-			if (Random.Range(1, 100) > GameController.instance.getCard(targetID).GetEsquive()){
-				totalAmount+=attack ;
-				nbSuccessfullAttacks++;
-			}
-		}
-		if(totalAmount>0){
-			totalAmount = totalAmount*(100+damageBonusPercentage)/100;
-			GameController.instance.addModifier(targetID, totalAmount, (int)ModifierType.Type_BonusMalus, (int)ModifierStat.Stat_Dommage);	
-		}
-		GameController.instance.displaySkillEffect(targetID, "touché "+nbSuccessfullAttacks+" fois. "+totalAmount+ " dégats", 3, 1);
-		
-		GameController.instance.play();	
+//		int targetID = args [0];
+//		
+//		int myPlayerID = GameController.instance.currentPlayingCard;
+//		string myPlayerName = GameController.instance.getCurrentCard().Title;
+//		string hisPlayerName = GameController.instance.getCard(targetID).Title;
+//	
+//		int amount = GameController.instance.getCurrentSkill().ManaCost;
+//		int nbSuccessfullAttacks = 0 ;
+//		int attack = GameController.instance.getCurrentCard().GetAttack() * amount / 100 ;
+//		int totalAmount = 0 ;
+//		int nbCoups = Random.Range(2, 4);
+//		int damageBonusPercentage = GameController.instance.getCurrentCard().GetDamagesPercentageBonus(new Card());
+//		
+//		GameController.instance.displaySkillEffect(myPlayerID,"Attaque rapide", 3, 2);
+//		
+//		for (int i = 0 ; i < nbCoups ; i++){
+//			if (Random.Range(1, 100) > GameController.instance.getCard(targetID).GetEsquive()){
+//				totalAmount+=attack ;
+//				nbSuccessfullAttacks++;
+//			}
+//		}
+//		if(totalAmount>0){
+//			totalAmount = totalAmount*(100+damageBonusPercentage)/100;
+//			GameController.instance.addModifier(targetID, totalAmount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage,-1,-1,"","","");	
+//		}
+//		GameController.instance.displaySkillEffect(targetID, "touché "+nbSuccessfullAttacks+" fois. "+totalAmount+ " dégats", 3, 1);
+//		
+//		GameController.instance.play();	
 	}
 	
 	public override bool isLaunchable(Skill s){

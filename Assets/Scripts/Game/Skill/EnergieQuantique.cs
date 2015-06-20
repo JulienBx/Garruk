@@ -10,13 +10,13 @@ public class EnergieQuantique : GameSkill
 	
 	public override void launch()
 	{
-		GameController.instance.lookForValidation(true, "Choisir une cible à attaquer", "Lancer NRJ Quantique");
+		GameController.instance.lookForValidation();
 	}
 	
-	public override void resolve(int[] args)
+	public override void resolve(List<int> targetsPCC)
 	{
 		int targetID ;
-		int damageBonusPercentage = GameController.instance.getCurrentCard().GetDamagesPercentageBonus();
+		int damageBonusPercentage = GameController.instance.getCurrentCard().GetDamagesPercentageBonus(new Card());
 		int amount = GameController.instance.getCurrentSkill().ManaCost*(100+damageBonusPercentage)/100;
 		
 		int myPlayerID = GameController.instance.currentPlayingCard;
@@ -45,7 +45,7 @@ public class EnergieQuantique : GameSkill
 		
 		if (Random.Range(1, 100) > GameController.instance.getCard(targetID).GetEsquive())
 		{                             
-			GameController.instance.addModifier(targetID, amount, (int)ModifierType.Type_BonusMalus, (int)ModifierStat.Stat_Dommage);
+			GameController.instance.addCardModifier(targetID, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
 			GameController.instance.displaySkillEffect(targetID, "prend "+amount+" dégats", 3, 1);
 		}
 		else{

@@ -58,10 +58,12 @@ public class Card
 	public Card()
 	{
 	}
+	
 	public Card(string title)
 	{
 		this.Title = title;
 	}
+	
 	public Card(int id)
 	{
 		this.Id = id;
@@ -212,6 +214,21 @@ public class Card
 	}
 	
 	#region Modifiers
+	public void addModifier(int amount, ModifierType type, ModifierStat stat, int duration, int idIcon, string t, string d, string a){
+		if (stat == ModifierStat.Stat_Dommage){
+			int i ;
+			for (i = 0 ; i < this.modifiers.Count ; i++){
+				if (modifiers[i].Stat==ModifierStat.Stat_Dommage){
+					modifiers[i].Amount += amount ; 
+					i = this.modifiers.Count+1;
+				}
+			}
+			if (i==this.modifiers.Count){
+				this.modifiers.Add(new StatModifier(amount, type, stat, duration, idIcon, t, d, a));
+			}
+		}
+	}
+	
 	public int GetEsquive()
 	{
 		int esquive = 0;
@@ -226,7 +243,7 @@ public class Card
 		return esquive;
 	}
 	
-	public int GetDamagesPercentageBonus()
+	public int GetDamagesPercentageBonus(Card c)
 	{
 		int damagePercentageBonus = 0;
 		foreach (StatModifier modifier in modifiers)
@@ -236,6 +253,9 @@ public class Card
 				damagePercentageBonus += modifier.Amount;
 			}
 		}
+		
+		damagePercentageBonus += this.GetDamagesPercentageBonusAgainst(c.ArtIndex);
+		
 		return damagePercentageBonus;
 	}
 	
@@ -250,6 +270,33 @@ public class Card
 			}
 		}
 		return damagePercentageBonus;
+	}
+	
+	public bool isIntouchable()
+	{
+		bool isIntouchable = false;
+		int i = 0 ;
+		int max = modifiers.Count ;
+		while (i<max && !isIntouchable)
+		{
+			if (modifiers[i].Type == ModifierType.Type_Intouchable)
+			{
+				isIntouchable = true ;
+			}
+			i++;
+		}
+		return isIntouchable;
+	}
+	
+	public void emptyModifiers()
+	{
+		for (int i = modifiers.Count-1 ; i >= 0 ; i++)
+		{
+			if (modifiers[i].Stat != ModifierStat.Stat_Dommage)
+			{
+				modifiers.RemoveAt(i);
+			}
+		}
 	}
 	
 	public int GetAttack()
@@ -272,65 +319,17 @@ public class Card
 	
 	public int GetLife()
 	{
-		int life = Life;
-		int dommage1 = 0, dommage2 = 0;
-
-		List<StatModifier> temp = new List<StatModifier>();
-		foreach (StatModifier modifier in TileModifiers)
-		{
-			if (modifier.Stat == ModifierStat.Stat_Dommage)
-			{
-				dommage1 += modifier.Amount;
-			} else
-			{
-				temp.Add(modifier);
-			}
-		}
+		int life = this.Life;
 		
-		TileModifiers.Clear();
-		TileModifiers.AddRange(temp);
-
-		List<StatModifier> temp2 = new List<StatModifier>();
 		foreach (StatModifier modifier in modifiers)
 		{
 			if (modifier.Stat == ModifierStat.Stat_Dommage)
 			{
-				dommage2 += modifier.Amount;
-			} else
-			{
-				temp2.Add(modifier);
+				life -= modifier.Amount;
 			}
 		}
-
-		modifiers.Clear();
-		modifiers.AddRange(temp2);
-		if (dommage1 + dommage2 > 0)
-		{
-			modifiers.Add(new StatModifier(dommage1 + dommage2, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage,-1, "", "", ""));
-		}
 		
-
-		foreach (StatModifier modifier in modifiers)
-		{
-			life = modifier.modifyLife(life);
-		}
-
-		foreach (StatModifier modifier in TileModifiers)
-		{
-			life = modifier.modifyLife(life);
-		}
-
-		if (life < 0)
-		{
-			return 0;
-		}
-		
-		if (life>this.Life){
-			return Life ;
-		}
-		else{
-			return life;
-		}
+		return life ;
 	}
 	
 	public int GetSpeed()

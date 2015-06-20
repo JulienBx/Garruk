@@ -10,13 +10,13 @@ public class PuissanceIncontrolable : GameSkill
 	
 	public override void launch()
 	{
-		GameController.instance.lookForValidation(true, "Choisir une cible à attaquer", "Lancer Puissance incontrolable");
+		//GameController.instance.lookForValidation(true, "Choisir une cible à attaquer", "Lancer Puissance incontrolable");
 	}
 	
-	public override void resolve(int[] args)
+	public override void resolve(List<int> targetsPCC)
 	{
 		int targetID ;
-		int damageBonusPercentage = GameController.instance.getCurrentCard().GetDamagesPercentageBonus();
+		int damageBonusPercentage = GameController.instance.getCurrentCard().GetDamagesPercentageBonus(new Card());
 		int amount = GameController.instance.getCurrentSkill().ManaCost*(100+damageBonusPercentage)/100;
 		
 		int myPlayerID = GameController.instance.currentPlayingCard;
@@ -34,11 +34,13 @@ public class PuissanceIncontrolable : GameSkill
 			}
 		}
 		
-		targetID = potentialTargets[Random.Range(0, potentialTargets.Count-1)];
+		int randomInt = Random.Range(0, potentialTargets.Count-1);
+		Debug.Log(randomInt);
+		targetID = potentialTargets[randomInt];
 		
 		if (Random.Range(1, 100) > GameController.instance.getCard(targetID).GetEsquive())
 		{                             
-			GameController.instance.addModifier(targetID, amount, (int)ModifierType.Type_BonusMalus, (int)ModifierStat.Stat_Dommage);
+			//GameController.instance.addModifier(targetID, amount, (int)ModifierType.Type_BonusMalus, (int)ModifierStat.Stat_Dommage);
 			GameController.instance.displaySkillEffect(targetID, "prend "+amount+" dégats", 3, 1);
 		}
 		else{

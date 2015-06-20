@@ -18,66 +18,20 @@ public class StatModifier
 	{
 
 	}
-
-	public StatModifier(int amount, ModifierType type, int i, string t, string d, string a)
-	{
-		this.Amount = amount;
-		this.Type = type;
-		this.Duration = -1;
-		this.Active = true;
-		this.idIcon = i ;
-		this.title = t ;
-		this.description = d ;
-		this.additionnalInfo = a ;
-	}
 	
-	public StatModifier(int amount, ModifierType type, int duration, int i, string t, string d, string a)
-	{
-		this.Amount = amount;
-		this.Type = type;
-		this.Duration = -1;
-		this.Active = true;
-		this.idIcon = i ;
-		this.title = t ;
-		this.description = d ;
-		this.additionnalInfo = a ;
-	}
-	
-	public StatModifier(int amount, ModifierType type, ModifierStat stat, int i, string t, string d, string a)
+	public StatModifier(int amount, ModifierType type, ModifierStat stat, int duration, int idIco, string t, string d, string a)
 	{
 		this.Amount = amount;
 		this.Type = type;
 		this.Stat = stat;
-		this.Duration = -1;
+		this.Duration = duration;
 		this.Active = true;
-		this.idIcon = i ;
+		this.idIcon = idIco ;
 		this.title = t ;
 		this.description = d ;
 		this.additionnalInfo = a ;
 	}
 	
-	public StatModifier(ModifierType type, int duration, int i, string t, string d, string a)
-	{
-		this.Type = type;
-		this.Duration = duration;
-		this.Active = true;
-		this.idIcon = i ;
-		this.title = t ;
-		this.description = d ;
-		this.additionnalInfo = a ;
-	}
-
-	public StatModifier(int amount, ModifierType type, ModifierStat stat, int duration, int i, string t, string d, string a) : this(amount, type, stat, i, t, d, a)
-	{
-		this.Duration = duration;
-		this.Active = true;
-	}
-
-	public StatModifier(int amount, ModifierType type, ModifierStat stat, int duration, bool active, int i, string t, string d, string a) : this(amount, type, stat, duration, t, d, a)
-	{
-		this.Active = active;
-		this.idIcon = i ;
-	}
 
 	public int modifyAttack(int attack)
 	{

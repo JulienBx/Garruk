@@ -14,14 +14,13 @@ public class Loup : GameSkill
 		GameController.instance.lookForTileTarget("invopque un Loup", "Lancer Loup");
 	}
 	
-	public override void resolve(int[] args)
+	public override void resolve(List<int> targetsPCC)
 	{
 		int amount = GameController.instance.getCurrentSkill().Power * -1;
-		GameController.instance.play(GameController.instance.getCurrentCard().Title + 
-			" a lancé Loup\n ");
+		GameController.instance.play();
 		
-		int targetX = args [0];
-		int targetY = args [1];
+//		int targetX = args [0];
+//		int targetY = args [1];
 		//GameController.instance.spawnMinion("loup", targetX, targetY);
 	}
 	
