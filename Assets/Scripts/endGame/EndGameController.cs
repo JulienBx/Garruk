@@ -80,10 +80,6 @@ public class EndGameController : MonoBehaviour
 		yield return StartCoroutine (model.getEndGameData ());
 		this.initStyles ();
 		this.initVMs ();
-		if(toUpdateUserResults)
-		{
-			StartCoroutine(model.updateUserResults());
-		}
 		switch(model.lastResults[0].GameType)
 		{
 		case 0:
@@ -141,64 +137,24 @@ public class EndGameController : MonoBehaviour
 			view.divisionBoardVM.id=model.currentDivision.Id;
 			view.divisionBoardVM.titlePrize=model.currentDivision.TitlePrize;
 			view.divisionBoardVM.promotionPrize=model.currentDivision.PromotionPrize;
-
-			for(int i=0;i<model.lastResults.Count;i++)
-			{
-				if(model.lastResults[i].HasWon)
-				{
-					view.divisionBoardVM.nbWinsDivision++;
-				}
-				else
-				{
-					view.divisionBoardVM.nbLoosesDivision++;
-				}
-			}
+			view.divisionBoardVM.nbWinsDivision=model.nbWinsDivision;
+			view.divisionBoardVM.nbLoosesDivision=model.nbLoosesDivision;
 			view.divisionBoardVM.remainingGames=model.currentDivision.NbGames-model.lastResults.Count;
 			view.divisionBoardVM.hasWon=System.Convert.ToInt32(model.lastResults[0].HasWon);
-			if(view.divisionBoardVM.nbWinsDivision>=model.currentDivision.NbWinsForTitle)
+			switch(model.competitionState)
 			{
+			case 3:
 				view.divisionBoardVM.title=true;
-				if(view.divisionBoardVM.nbWinsDivision!=-1)
-				{
-					model.currentUser.Division--;
-				}
-				model.currentUser.Money=model.currentUser.Money+model.currentDivision.TitlePrize;
-				model.currentUser.NbGamesDivision=0;
-				this.toUpdateUserResults=true;
-				model.trophyWon=new Trophy(model.currentUser.Id, model.lastResults[0].GameType,model.currentDivision.Id);
-				model.trophyWonNews=new News(model.currentUser.Id, 2);
-			}
-			else if(model.lastResults.Count>=model.currentDivision.NbGames)
-			{
-				if(view.divisionBoardVM.nbWinsDivision>=model.currentDivision.NbWinsForPromotion)
-				{
-					view.divisionBoardVM.promotion=true;
-					model.currentUser.Division--;
-					model.currentUser.Money=model.currentUser.Money+model.currentDivision.PromotionPrize;
-					model.currentUser.NbGamesDivision=0;
-					this.toUpdateUserResults=true;
-				}
-				else if(view.divisionBoardVM.nbWinsDivision>=model.currentDivision.NbWinsForRelegation)
-				{
-					view.divisionBoardVM.endSeason=true;
-					model.currentUser.NbGamesDivision=0;
-					this.toUpdateUserResults=true;
-				}
-				else if(view.divisionBoardVM.nbWinsDivision<model.currentDivision.NbWinsForRelegation)
-				{
-					view.divisionBoardVM.relegation=true;
-					model.currentUser.Division++;
-					model.currentUser.NbGamesDivision=0;
-					this.toUpdateUserResults=true;
-				}
-			}
-			else if((model.currentDivision.NbGames-model.lastResults.Count)<
-			        (model.currentDivision.NbWinsForRelegation-view.divisionBoardVM.nbWinsDivision))
-			{
+				break;
+			case 2:
+				view.divisionBoardVM.promotion=true;
+				break;
+			case 1:
+				view.divisionBoardVM.endSeason=true;
+				break;
+			case 0:
 				view.divisionBoardVM.relegation=true;
-				model.currentUser.Division++;
-				model.currentUser.NbGamesDivision=0;
-				this.toUpdateUserResults=true;
+				break;
 			}
 			view.endGameCompetInfosVM.nbGames = model.currentDivision.NbGames;
 			view.endGameCompetInfosVM.titlePrize = model.currentDivision.TitlePrize;
@@ -211,20 +167,14 @@ public class EndGameController : MonoBehaviour
 			view.cupBoardVM.name = model.currentCup.Name;
 			view.cupBoardVM.nbRounds = model.currentCup.NbRounds;
 			view.cupBoardVM.cupPrize=model.currentCup.CupPrize;
-			if(model.lastResults.Count>=model.currentCup.NbRounds && model.lastResults[0].HasWon)
+			switch(model.competitionState)
 			{
+			case 1:
 				view.cupBoardVM.winCup=true;
-				model.currentUser.Money=model.currentUser.Money+model.currentCup.CupPrize;
-				model.currentUser.NbGamesCup=0;
-				this.toUpdateUserResults=true;
-				model.trophyWon=new Trophy(model.currentUser.Id, model.lastResults[0].GameType,model.currentCup.Id);
-				model.trophyWonNews=new News(model.currentUser.Id, 3);
-			}
-			else if(!model.lastResults[0].HasWon)
-			{
+				break;
+			case 0:
 				view.cupBoardVM.endCup=true;
-				model.currentUser.NbGamesCup=0;
-				this.toUpdateUserResults=true;
+				break;
 			}
 			view.endGameCompetInfosVM.nbRounds = model.currentCup.NbRounds;
 			view.endGameCompetInfosVM.cupPrize = model.currentCup.CupPrize;
