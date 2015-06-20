@@ -24,10 +24,10 @@ public class TileController : MonoBehaviour
 	public bool isDestination ;
 	public int characterID = -1 ;
 	public TileModification tileModification;
-	public StatModifier statModifier;
 	public Texture2D[] icons;
 	public bool statModifierActive = true;
 	public bool statModifierEachTurn = false;
+	public bool statModifierNewTurn = false;
 
 	void Awake()
 	{
@@ -62,7 +62,7 @@ public class TileController : MonoBehaviour
 		if (this.isTrap == true)
 		{
 			this.trap.activate(target);
-			GameController.instance.removeTrap(this.tile);
+			//GameController.instance.removeTrap(this.tile);
 		}
 	}
 	
@@ -75,19 +75,6 @@ public class TileController : MonoBehaviour
 	public int getID()
 	{
 		return (tile.x * 10 + tile.y);
-	}
-
-	public void addTileTarget()
-	{
-		this.tileView.tileVM.toDisplayHalo = false;
-		this.tileView.tileVM.isPotentialTarget = false;
-		GameController.instance.addTileTarget(this.tile);
-	}
-	
-	public void clickTarget()
-	{
-		this.tileView.tileVM.toDisplayHalo = false;
-		GameController.instance.addTileTarget(this.tile);
 	}
 
 	public void setTile(int x, int y, int boardWidth, int boardHeight, int type, float scaleTile)
@@ -139,7 +126,8 @@ public class TileController : MonoBehaviour
 		statModifierActive = true;
 		statModifierEachTurn = false;
 		this.tile.StatModifier.Clear();
-		//this.tile.StatModifier.Add(new StatModifier(amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack,-1,"","",""));
+
+		//this.tile.StatModifier.Add(new StatModifier(amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, -1, 0, "", "", ""));
 	}
 
 	public void addForetIcon(int amount)
@@ -150,7 +138,8 @@ public class TileController : MonoBehaviour
 		statModifierActive = true;
 		statModifierEachTurn = false;
 		this.tile.StatModifier.Clear();
-		//this.tile.StatModifier.Add(new StatModifier(-amount, ModifierType.Type_Multiplier, ModifierStat.Stat_Move,-1,"","",""));
+
+		//this.tile.StatModifier.Add(new StatModifier(-amount, ModifierType.Type_Multiplier, ModifierStat.Stat_Move, -1, 0, "", "", ""));
 	}
 
 	public void addSable(bool isVisible)
@@ -164,7 +153,13 @@ public class TileController : MonoBehaviour
 		statModifierActive = true;
 		statModifierEachTurn = false;
 		this.tile.StatModifier.Clear();
-		//this.tile.StatModifier.Add(new StatModifier(-999, ModifierType.Type_BonusMalus, ModifierStat.Stat_Move, 3,"","",""));
+
+		//this.tile.StatModifier.Add(new StatModifier(-999, ModifierType.Type_BonusMalus, ModifierStat.Stat_Move, 4, 0, "", "", ""));
+	}
+
+	public bool getIconVisibility()
+	{
+		return this.tileView.tileVM.toDisplayIcon;
 	}
 
 	public void addFontaine(int power)
@@ -173,9 +168,11 @@ public class TileController : MonoBehaviour
 		this.tileModification = TileModification.Fontaine_de_Jouvence;
 		this.tileView.tileVM.icon = this.icons [3];
 		statModifierActive = true;
+		statModifierNewTurn = true;
 		statModifierEachTurn = true;
 		this.tile.StatModifier.Clear();
-		//this.tile.StatModifier.Add(new StatModifier(-power, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage,-1,"","",""));
+
+		//this.tile.StatModifier.Add(new StatModifier(-power, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, 0, "", "", ""));
 	}
 
 	public void removeIcon()
@@ -228,7 +225,8 @@ public class TileController : MonoBehaviour
 	
 	public void hoverTarget()
 	{
-		if(this.tileView.tileVM.isZoneEffect){
+		if (this.tileView.tileVM.isZoneEffect)
+		{
 			GameController.instance.changeZoneTargetTile(this.tile);
 		}
 	}
@@ -322,10 +320,11 @@ public class TileController : MonoBehaviour
 //		}
 //	}
 
-	public void activatePotentielTarget()
+	public void activatePotentielTarget(HaloSkill halo)
 	{
 		this.tileView.tileVM.isPotentialTarget = true;
 		this.tileView.tileVM.toDisplayHalo = true;
+		this.tileView.tileVM.halo = this.halos [(int)halo];
 	}
 
 	public void removePotentielTarget()

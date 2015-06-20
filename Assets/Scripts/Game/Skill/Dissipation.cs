@@ -52,8 +52,9 @@ public class Dissipation : GameSkill
 		}
 	}
 	
-	public override bool isLaunchable(Skill s){
-		return true ;
+	public override bool isLaunchable(Skill s)
+	{
+		return true;
 	}
 	
 	public override HaloTarget getTargetPCCText(Card c){

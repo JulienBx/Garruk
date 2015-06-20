@@ -16,7 +16,15 @@ public class Vampire : GameSkill
 	
 	public override void resolve(List<int> targetsPCC)
 	{
+
 //		int amount = GameController.instance.getCurrentSkill().Power;
+//
+//		int targetID = args [0];
+//
+//		GameController.instance.addCardModifier(amount, targetID, (int)ModifierType.Type_BonusMalus, (int)ModifierStat.Stat_Dommage, -1);
+//		GameController.instance.addCardModifier(-amount, GameController.instance.getCurrentPCC().IDCharacter, (int)ModifierType.Type_BonusMalus, (int)ModifierStat.Stat_Dommage, -1);
+//
+//		GameController.instance.addGameEvent(GameController.instance.getCurrentSkill().Action, GameController.instance.getPCC(targetID).card.Title);
 //		GameController.instance.play(GameController.instance.getCurrentCard().Title + 
 //			" a lancé Vampire\n " 
 //			+ " "
@@ -24,12 +32,8 @@ public class Vampire : GameSkill
 //			+ " " 
 //			+ convertStatToString(ModifierStat.Stat_Life)
 //			+ " d'absorbés");
-//		
-//		int targetID = args [0];
-//		//GameController.instance.getCard(targetID).modifiers.Add(new StatModifier(amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage,-1,"","",""));
-//		//GameController.instance.getCurrentPCC().card.modifiers.Add(new StatModifier(-amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage,-1,"","",""));
-//		GameController.instance.reloadCard(targetID);
-//		GameController.instance.reloadCard(GameController.instance.getCurrentPCC().IDCharacter);
+
+
 	}
 	
 	public override bool isLaunchable(Skill s)

@@ -101,6 +101,9 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 2f5588dcad14fa0439122077700ebf64, type: 3}
   halos:
   - {fileID: 2800000, guid: 2231d338aafdb48408837d3028a35c71, type: 3}
+  - {fileID: 2800000, guid: 4deb7240c55898b4cbec76e69559fd63, type: 3}
+  - {fileID: 2800000, guid: 1459573cb5f42654baca94e19845f605, type: 3}
+  - {fileID: 2800000, guid: 994f7c13eb3dba44ca4789988e6e55d0, type: 3}
   - {fileID: 2800000, guid: 023b6f95444e13c468a83fce232b0f78, type: 3}
   tileView: {fileID: 0}
   styles:

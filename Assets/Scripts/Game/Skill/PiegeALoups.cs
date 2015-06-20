@@ -10,7 +10,7 @@ public class PiegeALoups : GameSkill
 	
 	public override void launch()
 	{
-		GameController.instance.lookForEmptyAdjacentTile("Choisir une case à piéger", "Lancer piège à loups");
+		GameController.instance.lookForEmptyAdjacentTileForWolfTrap("Choisir une case à piéger", "Lancer piège à loups");
 	}
 	
 	public override void resolve(List<int> targetsPCC)
@@ -27,25 +27,27 @@ public class PiegeALoups : GameSkill
 //		GameController.instance.displaySkillEffect(myPlayerID, "Piège à loups", 3, 0);
 	}
 	
-	public override bool isLaunchable(Skill s){
+	public override bool isLaunchable(Skill s)
+	{
 		List<Tile> tempTiles;
 		Tile t = GameController.instance.getCurrentPCC().tile;
 		int myPlayerID = GameController.instance.currentPlayingCard;
 		string myPlayerName = GameController.instance.getCurrentCard().Title;
 		tempTiles = t.getImmediateNeighbouringTiles();
-		bool isLaunchable = false ;
-		int i = 0 ;
-		int tempInt ; 
+		bool isLaunchable = false;
+		int i = 0;
+		int tempInt; 
 		
-		while (!isLaunchable && i<tempTiles.Count){
-			t = tempTiles[i];
+		while (!isLaunchable && i<tempTiles.Count)
+		{
+			t = tempTiles [i];
 			tempInt = GameController.instance.getTile(t.x, t.y).characterID;
-			if (tempInt==-1)
+			if (tempInt == -1)
 			{
-				isLaunchable = true ;
+				isLaunchable = true;
 			}
 			i++;
 		}
-		return isLaunchable ;
+		return isLaunchable;
 	}
 }

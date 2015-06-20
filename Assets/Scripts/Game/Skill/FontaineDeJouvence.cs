@@ -10,8 +10,7 @@ public class FontaineDeJouvence : GameSkill
 	
 	public override void launch()
 	{
-		Debug.Log("Je lance Fontaine De Jouvence");
-		GameController.instance.lookForTileTarget("Choisir une cible pour Fontaine De Jouvence", "Lancer Fontaine De Jouvence");
+		//GameController.instance.lookForTileTarget("Choisir une cible pour Fontaine De Jouvence", "Lancer Fontaine De Jouvence", HaloSkill.Void_Halo);
 	}
 	
 	public override void resolve(List<int> targetsPCC)
@@ -25,6 +24,7 @@ public class FontaineDeJouvence : GameSkill
 //		int targetX = args [0];
 //		int targetY = args [1];
 //		GameController.instance.addTileModifier(3, amount, targetX, targetY);
+
 	}
 	
 	public override bool isLaunchable(Skill s)

@@ -13,7 +13,7 @@ public class Concentration : GameSkill
 		int myPlayerID = GameController.instance.currentPlayingCard;
 		int amount = GameController.instance.getCurrentSkill ().ManaCost;
 		
-		GameController.instance.setBonusDamages (amount, -10);
+		//GameController.instance.setBonusDamages (amount, -10);
 		
 		GameController.instance.displaySkillEffect(myPlayerID, "Augmente de "+amount+" % les DMG", 3,0);
 		GameController.instance.play ();

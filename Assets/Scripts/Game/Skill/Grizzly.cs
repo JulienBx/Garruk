@@ -10,18 +10,22 @@ public class Grizzly : GameSkill
 	
 	public override void launch()
 	{
-		Debug.Log("Je lance Grizzly");
-		GameController.instance.lookForEmptyAdjacentTile("invopque un Grizzly", "Lancer Grizzly");
+		//GameController.instance.lookForEmptyAdjacentTile("invopque un Grizzly", "Lancer Grizzly", HaloSkill.Grizzly);
 	}
 	
 	public override void resolve(List<int> targetsPCC)
 	{
-		int amount = GameController.instance.getCurrentSkill().Power;
-		GameController.instance.play();
-		
+
+//		int amount = GameController.instance.getCurrentSkill().ManaCost;
+//		
 //		int targetX = args [0];
 //		int targetY = args [1];
-		//GameController.instance.spawnMinion("grizzly", targetX, targetY);
+//		GameController.instance.spawnMinion("Grizzly", targetX, targetY, amount, true);
+//		GameController.instance.addGameEvent(GameController.instance.getCurrentSkill().Action, "");
+//
+//		GameController.instance.play(GameController.instance.getCurrentCard().Title + 
+//			" a lancé Grizzly\n ");
+
 	}
 	
 	public override bool isLaunchable(Skill s)
