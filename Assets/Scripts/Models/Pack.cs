@@ -103,6 +103,8 @@ public class Pack
 					cards[i].SpeedLevel = System.Convert.ToInt32(cardInformation [11]);
 					cards[i].AttackLevel = System.Convert.ToInt32(cardInformation [12]);
 					cards[i].NextLevelPrice = System.Convert.ToInt32(cardInformation [13]);
+					cards[i].destructionPrice=System.Convert.ToInt32(cardInformation[14]);
+					cards[i].Power=System.Convert.ToInt32(cardInformation[15]);
 					cards[i].onSale = 0;
 					cards[i].Experience = 0;
 					cards[i].PercentageToNextLevel = 0;
