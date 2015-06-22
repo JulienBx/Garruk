@@ -1,11 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class ArmeMaudite : GameSkill
+public class ArmeEnchantee : GameSkill
 {
-	public ArmeMaudite()
+	public ArmeEnchantee()
 	{
-		this.idSkill = 59 ; 
 		this.numberOfExpectedTargets = 1 ; 
 	}
 	
@@ -13,7 +12,7 @@ public class ArmeMaudite : GameSkill
 	{
 		GameController.instance.initPCCTargetHandler(numberOfExpectedTargets);
 		GameController.instance.displayAllTargets();
-		GameController.instance.displayMyControls("Arme maudite");
+		GameController.instance.displayMyControls("Arme enchantée");
 	}
 	
 	public override void resolve(List<int> targetsPCC)
@@ -21,17 +20,18 @@ public class ArmeMaudite : GameSkill
 		int[] targets = new int[1];
 		targets[0] = targetsPCC[0];
 		int maxBonus = GameController.instance.getCurrentSkill().ManaCost;
+		GameController.instance.startPlayingSkill();
 		
 		if (Random.Range(1,100) > GameController.instance.getCard(targetsPCC[0]).GetEsquive())
 		{                             
 			int[] args = new int[1];
 			args[0] = Random.Range(1,maxBonus);
-			GameController.instance.applyOn(this.idSkill, targets, args);
+			GameController.instance.applyOn(targets, args);
 		}
 		else{
-			GameController.instance.failedToCastOnSkill(this.idSkill, targets);
+			GameController.instance.failedToCastOnSkill(targets);
 		}
-		GameController.instance.playSkill(this.idSkill);
+		GameController.instance.playSkill();
 		GameController.instance.play();
 	}
 	

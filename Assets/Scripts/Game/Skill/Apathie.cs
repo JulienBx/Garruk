@@ -5,7 +5,6 @@ public class Apathie : GameSkill
 {
 	public Apathie()
 	{
-		this.idSkill = 4 ; 
 		this.numberOfExpectedTargets = 1 ; 
 	}
 	
@@ -21,21 +20,22 @@ public class Apathie : GameSkill
 		int[] targets = new int[1];
 		targets[0] = targetsPCC[0];
 		int successChances = GameController.instance.getCurrentSkill().ManaCost;
+		GameController.instance.startPlayingSkill();
 		
 		if (Random.Range(1,100) > GameController.instance.getCard(targetsPCC[0]).GetEsquive())
 		{                             
 			if (Random.Range(1,100) <= successChances)
 			{ 
-				GameController.instance.applyOn(this.idSkill, targets);
+				GameController.instance.applyOn(targets);
 			}
 			else{
-				GameController.instance.failedToCastOnSkill(this.idSkill, targets);
+				GameController.instance.failedToCastOnSkill(targets);
 			}
 		}
 		else{
-			GameController.instance.failedToCastOnSkill(this.idSkill, targets);
+			GameController.instance.failedToCastOnSkill(targets);
 		}
-		GameController.instance.playSkill(this.idSkill);
+		GameController.instance.playSkill();
 		GameController.instance.play();
 	}
 	

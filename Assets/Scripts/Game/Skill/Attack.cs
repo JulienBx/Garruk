@@ -4,7 +4,6 @@ using System.Collections.Generic;
 public class Attack : GameSkill
 {
 	public Attack(){
-		this.idSkill = 0 ; 
 		this.numberOfExpectedTargets = 1 ; 
 	}
 	
@@ -20,14 +19,16 @@ public class Attack : GameSkill
 		int[] targets = new int[1];
 		targets[0] = targetsPCC[0];
 		
+		GameController.instance.startPlayingSkill();
+		
 		if (Random.Range(1,100) > GameController.instance.getCard(targetsPCC[0]).GetEsquive())
 		{                             
-			GameController.instance.applyOn(this.idSkill, targets);
+			GameController.instance.applyOn(targets);
 		}
 		else{
-			GameController.instance.failedToCastOnSkill(this.idSkill, targets);
+			GameController.instance.failedToCastOnSkill(targets);
 		}
-		GameController.instance.playSkill(this.idSkill);
+		GameController.instance.playSkill();
 		GameController.instance.play();
 	}
 	
@@ -36,13 +37,16 @@ public class Attack : GameSkill
 		int currentLife ;
 		int damageBonusPercentage ;
 		int amount ;
+		int bouclier ;
 		for (int i = 0 ; i < targets.Length ; i++){
 			targetCard = GameController.instance.getCard(targets[i]);
+			bouclier = targetCard.GetBouclier();
 			currentLife = targetCard.GetLife();
 			damageBonusPercentage = GameController.instance.getCurrentCard().GetDamagesPercentageBonus(targetCard);
 			amount = GameController.instance.getCurrentCard().GetAttack()*(100+damageBonusPercentage)/100;
+			amount = Mathf.Min(currentLife,amount-(bouclier*amount/100));
 			GameController.instance.addCardModifier(targets[i], amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
-			GameController.instance.displaySkillEffect(targets[i], "PV : "+currentLife+" -> "+(currentLife-amount), 3, 1);
+			GameController.instance.displaySkillEffect(targets[i], "PV : "+currentLife+" -> "+Mathf.Max(0,(currentLife-amount)), 3, 1);
 		}
 	}
 	
@@ -83,7 +87,9 @@ public class Attack : GameSkill
 		
 		int currentLife = c.GetLife();
 		int damageBonusPercentage = GameController.instance.getCurrentCard().GetDamagesPercentageBonus(c);
+		int bouclier = c.GetBouclier();
 		int amount = GameController.instance.getCurrentCard().GetAttack()*(100+damageBonusPercentage)/100;
+		amount = amount-(bouclier*amount/100);
 		
 		h.addInfo("PV : "+currentLife+" -> "+Mathf.Max(0,(currentLife-amount)),0);
 		

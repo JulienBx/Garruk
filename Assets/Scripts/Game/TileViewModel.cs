@@ -1,4 +1,5 @@
 ﻿using UnityEngine ;
+using System.Collections.Generic;
 
 public class TileViewModel
 {
@@ -11,9 +12,19 @@ public class TileViewModel
 	public Rect haloRect ;
 	public Texture2D halo ;
 	public GUIStyle haloStyle ;
+	public GUIStyle descritionIconStyle ;
+	public GUIStyle titleStyle ;
+	public GUIStyle descriptionStyle ;
+	public GUIStyle additionnalInfoStyle ;
+	public List<string> haloTexts ;
+	public List<GUIStyle> haloStyles ;
 	public GUIStyle trapStyle ;
 	public bool toDisplayTrap = false ;
 	public Texture2D trap ;
+	
+	public string title ;
+	public string description ; 
+	public string additionnalInfo ;
 
 	public bool toDisplayIcon = false;
 
@@ -22,6 +33,7 @@ public class TileViewModel
 
 	public Texture2D icon;
 	public bool isZoneEffect;
+	public bool toDisplayDescriptionIcon = false ;
 
 	public TileViewModel()
 	{
@@ -31,6 +43,9 @@ public class TileViewModel
 		this.position = new Vector3(0, 0, 0);
 		this.haloStyle = new GUIStyle();
 		this.trapStyle = new GUIStyle();
+		this.titleStyle = new GUIStyle();
+		this.descriptionStyle = new GUIStyle();
+		this.additionnalInfoStyle = new GUIStyle();
 	}
 
 	public void raiseTile()

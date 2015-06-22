@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class PiegeALoups : GameSkill
+public class PiegeDormeur : GameSkill
 {
-	public PiegeALoups(){
+	public PiegeDormeur(){
 		this.numberOfExpectedTargets = 1 ; 
 	}
 	
@@ -47,7 +47,7 @@ public class PiegeALoups : GameSkill
 			playerID = GameController.instance.getTile(t.x, t.y).characterID;
 			if (playerID == -1)
 			{
-				if (!GameController.instance.getTile(t.x, t.y).tile.isStatModifier)
+				if (GameController.instance.getTile(t.x, t.y).tile.isStatModifier)
 				{
 					isLaunchable = true ;
 				}
@@ -59,6 +59,7 @@ public class PiegeALoups : GameSkill
 	public override HaloTarget getTargetPCCText(Card c){
 		
 		HaloTarget h  = new HaloTarget(0); 
+		int i ;
 		
 		int degats = GameController.instance.getCurrentSkill().ManaCost;
 		

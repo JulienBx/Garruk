@@ -5,7 +5,6 @@ public class Dissipation : GameSkill
 {
 	public Dissipation()
 	{
-		this.idSkill = 9 ; 
 		this.numberOfExpectedTargets = 1 ; 
 	}
 	
@@ -21,27 +20,28 @@ public class Dissipation : GameSkill
 		int[] targets = new int[1];
 		targets[0] = targetsPCC[0];
 		int successChances = GameController.instance.getCurrentSkill().ManaCost;
-		
+		GameController.instance.startPlayingSkill();
 		if (Random.Range(1,100) > GameController.instance.getCard(targetsPCC[0]).GetEsquive())
 		{                             
 			if (Random.Range(1,100) <= successChances)
 			{ 
-				GameController.instance.applyOn(this.idSkill, targets);
+				GameController.instance.applyOn(targets);
 			}
 			else{
-				GameController.instance.failedToCastOnSkill(this.idSkill, targets);
+				GameController.instance.failedToCastOnSkill(targets);
 			}
 		}
 		else{
-			GameController.instance.failedToCastOnSkill(this.idSkill, targets);
+			GameController.instance.failedToCastOnSkill(targets);
 		}
-		GameController.instance.playSkill(this.idSkill);
+		GameController.instance.playSkill();
 		GameController.instance.play();
 	}
 	
 	public override void applyOn(int[] targets){
 		for (int i = 0 ; i < targets.Length ; i++){
 			GameController.instance.getCard(targets[i]).emptyModifiers();
+			GameController.instance.getPCC(targets[i]).show();
 			GameController.instance.displaySkillEffect(targets[i], "Effets supprimés", 3, 2);
 		}
 	}

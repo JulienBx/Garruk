@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class AttaquePrecise : GameSkill
+public class CoupeJambes : GameSkill
 {
-	public AttaquePrecise(){
+	public CoupeJambes(){
 		this.numberOfExpectedTargets = 1 ; 
 	}
 	
@@ -11,7 +11,7 @@ public class AttaquePrecise : GameSkill
 	{
 		GameController.instance.initPCCTargetHandler(numberOfExpectedTargets);
 		GameController.instance.displayAdjacentTargets();
-		GameController.instance.displayMyControls("Attaque précise");
+		GameController.instance.displayMyControls("Coupe-jambes");
 	}
 	
 	public override void resolve(List<int> targetsPCC)
@@ -34,18 +34,22 @@ public class AttaquePrecise : GameSkill
 	
 	public override void applyOn(int[] targets){
 		Card targetCard = GameController.instance.getCard(targets[0]);
-		int currentAttack = targetCard.GetAttack();
 		int bouclier = targetCard.GetBouclier();
 		int currentLife = targetCard.GetLife();
 		int damageBonusPercentage = GameController.instance.getCurrentCard().GetDamagesPercentageBonus(targetCard);
-		int bonusAttack = GameController.instance.getCurrentSkill().ManaCost;
-		int amount = (bonusAttack/2)*(100+damageBonusPercentage)/100;
+		int manacost = GameController.instance.getCurrentSkill().ManaCost;
+		int deplacement = GameController.instance.getCard(targets[0]).GetMove();
+		int bonusDeplacement = manacost*deplacement/100;
+		if (bonusDeplacement>deplacement){
+			bonusDeplacement = deplacement - 1 ;
+		}
+		int attack = GameController.instance.getCurrentCard().GetAttack()*manacost/100;
+		int amount = attack*(100+damageBonusPercentage)/100;
 		amount = Mathf.Min(currentLife,amount-(bouclier*amount/100));
 		
 		GameController.instance.addCardModifier(targets[0], amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
-		GameController.instance.addCardModifier(targets[0], -1*bonusAttack, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, -1, -1, "Sape", "Attaque diminuée de "+bonusAttack, "Actif 1 tour");
-		
-		GameController.instance.displaySkillEffect(targets[0], "PV : "+currentLife+" -> "+Mathf.Max(0,(currentLife-amount))+"\nATK : "+currentAttack+" -> "+Mathf.Max(0,(currentAttack-bonusAttack)), 3, 1);
+		GameController.instance.addCardModifier(targets[0], -1*bonusDeplacement, ModifierType.Type_BonusMalus, ModifierStat.Stat_Move, 1, 8, "Lenteur", "Déplacement diminué de "+bonusDeplacement, "Actif 1 tour");
+		GameController.instance.displaySkillEffect(targets[0], "PV : "+currentLife+" -> "+Mathf.Max(0,(currentLife-amount))+"\nMOV : "+deplacement+" -> "+(deplacement-bonusDeplacement), 3, 1);
 	}
 	
 	public override void failedToCastOn(int[] targets){
@@ -83,16 +87,18 @@ public class AttaquePrecise : GameSkill
 		HaloTarget h  = new HaloTarget(0); 
 		int i ;
 		
-		int currentAttack = c.GetAttack();
+		int bouclier = c.GetBouclier();
 		int currentLife = c.GetLife();
 		int damageBonusPercentage = GameController.instance.getCurrentCard().GetDamagesPercentageBonus(c);
-		int bouclier = c.GetBouclier();
-		int bonusAttack = GameController.instance.getCurrentSkill().ManaCost;
-		int amount = (bonusAttack/2)*(100+damageBonusPercentage)/100;
-		amount = amount-(bouclier*amount/100);
+		int manacost = GameController.instance.getCurrentSkill().ManaCost;
+		int deplacement = c.GetMove();
+		int bonusDeplacement = manacost*deplacement/100;
+		int attack = GameController.instance.getCurrentCard().GetAttack()*manacost/100;
+		int amount = attack*(100+damageBonusPercentage)/100;
+		amount = Mathf.Min(currentLife,amount-(bouclier*amount/100));
 		
 		h.addInfo("PV : "+currentLife+" -> "+Mathf.Max(0,(currentLife-amount)),0);
-		h.addInfo("ATK : "+currentAttack+" -> "+Mathf.Max(0,(currentAttack-bonusAttack)),0);
+		h.addInfo("MOV : "+deplacement+" -> "+Mathf.Max(1,(deplacement-bonusDeplacement)),0);
 		
 		int probaHit = 100 - c.GetEsquive();
 		if (probaHit>=80){
@@ -110,6 +116,6 @@ public class AttaquePrecise : GameSkill
 	}
 	
 	public override string getPlayText(){
-		return "Attaque précise" ;
+		return "Coupe Jambes" ;
 	}
 }

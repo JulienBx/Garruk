@@ -4,7 +4,6 @@ using System.Collections.Generic;
 public class AttaqueCirculaire : GameSkill
 {
 	public AttaqueCirculaire(){
-		this.idSkill = 19 ; 
 		this.numberOfExpectedTargets = 1 ; 
 	}
 	

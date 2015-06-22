@@ -407,9 +407,8 @@ public class PlayingCardController : GameObjectController
 	{
 		List<int> modifiersToSuppress = new List<int>();
 		List<int> tileModifiersToSuppress = new List<int>();
-		print(this.IDCharacter + " - " + this.card.modifiers.Count);
 		
-		for (int i = 0; i < this.card.modifiers.Count; i++)
+		for (int i = this.card.modifiers.Count-1; i >= 0; i--)
 		{
 			if (this.card.modifiers [i].Duration > 0)
 			{
@@ -422,9 +421,12 @@ public class PlayingCardController : GameObjectController
 				if (this.card.modifiers [i].Type == ModifierType.Type_Paralized)
 				{
 					this.removeParalyzed();
-				} else if (this.card.modifiers [i].Stat == ModifierStat.Stat_Attack || this.card.modifiers [i].Stat == ModifierStat.Stat_Move)
-				{
-					this.show();
+				} 
+			}
+			else{
+				this.card.modifiers [i].additionnalInfo = "Actif "+this.card.modifiers [i].Duration+" tour";
+				if(this.card.modifiers [i].Duration>1){
+					this.card.modifiers [i].additionnalInfo+="s";
 				}
 			}
 		}
@@ -454,6 +456,7 @@ public class PlayingCardController : GameObjectController
 		{
 			this.card.TileModifiers.RemoveAt(tileModifiersToSuppress [i]);
 		}
+		this.show();
 	}
 	
 	public void activateSleepingModifiers()

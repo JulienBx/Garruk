@@ -24,10 +24,10 @@ public class TileView : MonoBehaviour
 				}
 			}
 		}
+		int height = Screen.height;
 		
 		if (this.tileVM.toDisplayHalo)
 		{		
-			int height = Screen.height;
 			
 			if (Input.GetMouseButtonDown(0))
 			{
@@ -39,6 +39,13 @@ public class TileView : MonoBehaviour
 			{
 				gameObject.GetComponentInChildren<TileController>().hoverTarget();
 			}	
+		}
+		else{
+			this.tileVM.toDisplayDescriptionIcon = false;
+			if (Input.mousePosition.x > this.tileVM.iconRect.xMin && Input.mousePosition.x < this.tileVM.iconRect.xMax && (height - Input.mousePosition.y) > this.tileVM.iconRect.yMin && (height - Input.mousePosition.y) < this.tileVM.iconRect.yMax)
+			{
+				this.tileVM.toDisplayDescriptionIcon = true;
+			} 
 		}
 	}
 
@@ -53,16 +60,44 @@ public class TileView : MonoBehaviour
 		if (this.tileVM.toDisplayIcon)
 		{
 			GUI.Box(this.tileVM.iconRect, this.tileVM.icon, this.tileVM.iconStyle);
+			if (this.tileVM.toDisplayDescriptionIcon)
+			{
+				Rect newRect = new Rect(this.tileVM.iconRect.x, this.tileVM.iconRect.y - this.tileVM.iconRect.height * 3, this.tileVM.iconRect.width * 8, this.tileVM.iconRect.height * 3);
+				
+				GUILayout.BeginArea(newRect, this.tileVM.descritionIconStyle);
+				{
+					GUILayout.BeginVertical();
+					{
+						GUILayout.FlexibleSpace();
+						GUILayout.Label(this.tileVM.title, this.tileVM.titleStyle);
+						GUILayout.FlexibleSpace();
+						GUILayout.Label(this.tileVM.description, this.tileVM.descriptionStyle);
+						GUILayout.FlexibleSpace();
+						GUILayout.Label(this.tileVM.additionnalInfo, this.tileVM.additionnalInfoStyle);
+						GUILayout.FlexibleSpace();
+					}
+					GUILayout.EndVertical();
+				}
+				GUILayout.EndArea();
+			}
 		}
 		
 		if (this.tileVM.toDisplayHalo)
 		{
-			GUI.Box(this.tileVM.haloRect, this.tileVM.halo, this.tileVM.haloStyle);
-		} else if (this.tileVM.toDisplayTrap)
-		{
-			GUI.Box(this.tileVM.haloRect, this.tileVM.trap, this.tileVM.trapStyle);
+			GUILayout.BeginArea(this.tileVM.haloRect, this.tileVM.haloStyle);
+			{
+				GUILayout.BeginVertical();
+				{
+					GUILayout.FlexibleSpace();
+					for (int i = 0 ; i < this.tileVM.haloTexts.Count ; i++){
+						GUILayout.Label(this.tileVM.haloTexts[i], this.tileVM.haloStyles[i]);
+					}
+					GUILayout.FlexibleSpace();
+				}
+				GUILayout.EndVertical();
+			}
+			GUILayout.EndArea();
 		}
-		
 	}
 
 	public void changeBorder()

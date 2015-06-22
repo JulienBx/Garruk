@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class PiegeALoups : GameSkill
+public class PiegeAffaiblissant : GameSkill
 {
-	public PiegeALoups(){
+	public PiegeAffaiblissant(){
 		this.numberOfExpectedTargets = 1 ; 
 	}
 	
@@ -11,7 +11,7 @@ public class PiegeALoups : GameSkill
 	{
 		GameController.instance.initPCCTargetHandler(numberOfExpectedTargets);
 		GameController.instance.displayAdjacentTileTargets();
-		GameController.instance.displayMyControls("Piège à loups");
+		GameController.instance.displayMyControls("Piège affaiblissant");
 	}
 	
 	public override void resolve(List<Tile> targetsTile)
@@ -29,7 +29,7 @@ public class PiegeALoups : GameSkill
 	public override void applyOn(int[] targets){
 		int amount = GameController.instance.getCurrentSkill().ManaCost;
 		
-		GameController.instance.addTileModifier(new Tile(targets[0], targets[1]), amount, ModifierType.Type_Wolftrap, ModifierStat.Stat_Dommage, -1, 1, "Piège à loups", "Inflige "+amount+" dégats", "Permanent. Non visible du joueur adverse");
+		GameController.instance.addTileModifier(new Tile(targets[0], targets[1]), amount, ModifierType.Type_WeakeningTrap, ModifierStat.Stat_Dommage, -1, 1, "Piège affaiblissant", "Réduit de "+amount+"% l'attaque du héros touché", "Permanent. Non visible du joueur adverse");
 		GameController.instance.displaySkillEffect(targets[0], "Piège posé", 3, 2);
 	}
 	
@@ -59,6 +59,7 @@ public class PiegeALoups : GameSkill
 	public override HaloTarget getTargetPCCText(Card c){
 		
 		HaloTarget h  = new HaloTarget(0); 
+		int i ;
 		
 		int degats = GameController.instance.getCurrentSkill().ManaCost;
 		

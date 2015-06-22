@@ -1,11 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class ArmeEnchantee : GameSkill
+public class ArmeMaudite : GameSkill
 {
-	public ArmeEnchantee()
+	public ArmeMaudite()
 	{
-		this.idSkill = 58 ; 
 		this.numberOfExpectedTargets = 1 ; 
 	}
 	
@@ -13,7 +12,7 @@ public class ArmeEnchantee : GameSkill
 	{
 		GameController.instance.initPCCTargetHandler(numberOfExpectedTargets);
 		GameController.instance.displayAllTargets();
-		GameController.instance.displayMyControls("Arme enchantée");
+		GameController.instance.displayMyControls("Arme maudite");
 	}
 	
 	public override void resolve(List<int> targetsPCC)
@@ -21,17 +20,18 @@ public class ArmeEnchantee : GameSkill
 		int[] targets = new int[1];
 		targets[0] = targetsPCC[0];
 		int maxBonus = GameController.instance.getCurrentSkill().ManaCost;
+		GameController.instance.startPlayingSkill();
 		
 		if (Random.Range(1,100) > GameController.instance.getCard(targetsPCC[0]).GetEsquive())
 		{                             
 			int[] args = new int[1];
 			args[0] = Random.Range(1,maxBonus);
-			GameController.instance.applyOn(this.idSkill, targets, args);
+			GameController.instance.applyOn(targets, args);
 		}
 		else{
-			GameController.instance.failedToCastOnSkill(this.idSkill, targets);
+			GameController.instance.failedToCastOnSkill(targets);
 		}
-		GameController.instance.playSkill(this.idSkill);
+		GameController.instance.playSkill();
 		GameController.instance.play();
 	}
 	
@@ -40,9 +40,11 @@ public class ArmeEnchantee : GameSkill
 		
 		for (int i = 0 ; i < targets.Length ; i++){
 			attack = GameController.instance.getCard(targets[i]).GetAttack();
-			
-			GameController.instance.addCardModifier(targets[i], args[i], ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, -1, 5, "Arme maudite", "Attaque augmentée de "+args[0], "Permanent");
-			GameController.instance.displaySkillEffect(targets[i], "ATK : "+attack+" -> "+(attack-args[i]), 3, 0);
+			if (attack<args[i]){
+				args[i]=attack;
+			}
+			GameController.instance.addCardModifier(targets[i], -1*args[i], ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, -1, 5, "Arme maudite", "Attaque diminuée de "+args[0], "Permanent");
+			GameController.instance.displaySkillEffect(targets[i], "ATK- : "+attack+" -> "+(attack-args[i]), 3, 0);
 		}
 	}
 	
@@ -64,7 +66,7 @@ public class ArmeEnchantee : GameSkill
 		int amount = GameController.instance.getCurrentSkill().ManaCost;
 		int attack = c.GetAttack();
 		
-		h.addInfo("ATK : "+attack+" -> "+(attack-amount)+"-"+(attack-1),0);
+		h.addInfo("ATK : "+attack+" -> "+Mathf.Max(0,(attack-amount))+"-"+Mathf.Max(0,(attack-1)),0);
 		
 		int probaHit = 100 - c.GetEsquive();
 		if (probaHit>=80){

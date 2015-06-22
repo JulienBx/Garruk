@@ -5,7 +5,6 @@ public class AppositionDesMains : GameSkill
 {
 	public AppositionDesMains()
 	{
-		this.idSkill = 51 ; 
 		this.numberOfExpectedTargets = 1 ; 
 	}
 	

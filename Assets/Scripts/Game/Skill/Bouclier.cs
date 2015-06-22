@@ -5,7 +5,6 @@ public class Bouclier : GameSkill
 {
 	public Bouclier()
 	{
-		this.idSkill = 41 ; 
 		this.numberOfExpectedTargets = 1 ; 
 	}
 	
@@ -21,21 +20,16 @@ public class Bouclier : GameSkill
 		int[] targets = new int[1];
 		targets[0] = targetsPCC[0];
 		int successChances = GameController.instance.getCurrentSkill().ManaCost;
+		GameController.instance.startPlayingSkill();
 		
 		if (Random.Range(1,100) > GameController.instance.getCard(targetsPCC[0]).GetEsquive())
 		{                             
-			if (Random.Range(1,100) <= successChances)
-			{ 
-				GameController.instance.applyOn(this.idSkill, targets);
-			}
-			else{
-				GameController.instance.failedToCastOnSkill(this.idSkill, targets);
-			}
+			GameController.instance.applyOn(targets);
 		}
 		else{
-			GameController.instance.failedToCastOnSkill(this.idSkill, targets);
+			GameController.instance.failedToCastOnSkill(targets);
 		}
-		GameController.instance.playSkill(this.idSkill);
+		GameController.instance.playSkill();
 		GameController.instance.play();
 	}
 	
@@ -44,7 +38,7 @@ public class Bouclier : GameSkill
 		
 		for (int i = 0 ; i < targets.Length ; i++){
 			GameController.instance.getCard(targets[i]).emptyModifiers();
-			GameController.instance.addCardModifier(targets[i], -1*amount, ModifierType.Type_DommagePercentage, ModifierStat.Stat_Dommage, 1, 10, "Bouclier", "Prévient "+amount+ "% des dégats subis", "Permanent");
+			GameController.instance.addCardModifier(targets[i], amount, ModifierType.Type_Bouclier, ModifierStat.Stat_No, -1, 10, "Bouclier", "Prévient "+amount+ "% des dégats subis", "Permanent");
 			GameController.instance.displaySkillEffect(targets[i], "Bouclier ajouté", 3, 0);
 		}
 	}

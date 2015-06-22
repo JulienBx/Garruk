@@ -5,7 +5,6 @@ public class AttaqueFrontale : GameSkill
 {
 	public AttaqueFrontale()
 	{
-		this.idSkill = 18 ; 
 		this.numberOfExpectedTargets = 1 ; 
 	}
 	

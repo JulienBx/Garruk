@@ -3,29 +3,39 @@ using System.Collections.Generic;
 
 public class Agilite : GameSkill
 {
-	public Agilite(){
-		this.idSkill = 16 ; 
-		this.numberOfExpectedTargets = 1 ; 
+	public Agilite()
+	{
+		this.numberOfExpectedTargets = 0 ; 
 	}
 	
 	public override void launch()
 	{
-		//this.numberOfTargets = 0 ;
-		//this.targets = new int[numberOfExpectedTargets];
-		GameController.instance.lookForValidation ();
+		GameController.instance.initPCCTargetHandler(numberOfExpectedTargets);
+		this.resolve(new List<int>());
 	}
-
+	
 	public override void resolve(List<int> targetsPCC)
-	{
-		int amount = GameController.instance.getCurrentSkill().ManaCost ;
-		int myPlayerID = GameController.instance.currentPlayingCard;
+	{	                     
+		GameController.instance.startPlayingSkill();
+		GameController.instance.applyOn(null);
 		
-		GameController.instance.addCardModifier(myPlayerID, amount, ModifierType.Type_EsquivePercentage, ModifierStat.Stat_No, -1, 1, "Agilité", "Possède "+amount+"% de chances d'esquiver les attaques ou compétences le ciblant", "Permanent");
-		GameController.instance.displaySkillEffect(myPlayerID, "Esquive : +"+amount+"%", 3, 0);
+		GameController.instance.playSkill();
 		GameController.instance.play();
+	}
+	
+	public override void applyOn(int[] targets){
+		int esquive = GameController.instance.getCurrentSkill().ManaCost;
+		int target = GameController.instance.currentPlayingCard ;
+		
+		GameController.instance.addCardModifier(target, esquive, ModifierType.Type_EsquivePercentage, ModifierStat.Stat_No, -1, 1, "Esquive", esquive+"% d'esquiver les dégats", "Permanent");
+		GameController.instance.displaySkillEffect(target, "Esquive à "+esquive+"%", 3, 0);
 	}
 	
 	public override bool isLaunchable(Skill s){
 		return true ;
+	}
+	
+	public override string getPlayText(){
+		return "Agilite" ;
 	}
 }

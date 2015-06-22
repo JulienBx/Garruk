@@ -227,6 +227,17 @@ public class Card
 				this.modifiers.Add(new StatModifier(amount, type, stat, duration, idIcon, t, d, a));
 			}
 		}
+		else if(type==ModifierType.Type_Bouclier){
+			for (int j = this.modifiers.Count-1 ; j >= 0 ; j--){
+				if (modifiers[j].Type==ModifierType.Type_Bouclier){
+					modifiers.RemoveAt(j);
+				}
+			}
+			this.modifiers.Add(new StatModifier(amount, type, stat, duration, idIcon, t, d, a));
+		}
+		else{
+			this.modifiers.Add(new StatModifier(amount, type, stat, duration, idIcon, t, d, a));
+		}
 	}
 	
 	public int GetEsquive()
@@ -290,7 +301,7 @@ public class Card
 	
 	public void emptyModifiers()
 	{
-		for (int i = modifiers.Count-1 ; i >= 0 ; i++)
+		for (int i = modifiers.Count-1 ; i >= 0 ; i--)
 		{
 			if (modifiers[i].Stat != ModifierStat.Stat_Dommage)
 			{
@@ -304,7 +315,9 @@ public class Card
 		int attack = Attack;
 		foreach (StatModifier modifier in modifiers)
 		{
-			attack = modifier.modifyAttack(attack);
+			if (modifier.Stat==ModifierStat.Stat_Attack){
+				attack += modifier.Amount;
+			}
 		}
 		foreach (StatModifier modifier in TileModifiers)
 		{
@@ -316,6 +329,23 @@ public class Card
 		}
 		return attack;
 	}
+	
+	public int GetBouclier()
+	{
+		int bouclier = 0;
+		foreach (StatModifier modifier in modifiers)
+		{
+			if (modifier.Type==ModifierType.Type_Bouclier){
+				bouclier += modifier.Amount;
+			}
+		}
+		if (bouclier > 100)
+		{
+			return 100;
+		}
+		return bouclier;
+	}
+	
 	
 	public int GetLife()
 	{

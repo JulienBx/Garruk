@@ -143,6 +143,7 @@ public class PlayingCardView : MonoBehaviour
 				{
 					GUILayout.BeginVertical();
 					{
+						GUILayout.FlexibleSpace();
 						GUILayout.Label(this.playingCardVM.titlesIcon [this.playingCardVM.toDisplayDescriptionIcon], this.playingCardVM.titleStyle);
 						GUILayout.FlexibleSpace();
 						GUILayout.Label(this.playingCardVM.descriptionIcon [this.playingCardVM.toDisplayDescriptionIcon], this.playingCardVM.descriptionStyle);

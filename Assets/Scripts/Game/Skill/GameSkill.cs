@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 public class GameSkill
 {
-	public int idSkill ; 
 	public int numberOfExpectedTargets ; 
 	
 	public virtual void launch()
@@ -16,12 +15,22 @@ public class GameSkill
 		Debug.Log("Skill non implémenté");
 	}
 	
+	public virtual void resolve(List<Tile> targetsTile)
+	{
+		Debug.Log("Skill non implémenté");
+	}
+	
 	public virtual void applyOn(int[] targets)
 	{
 		Debug.Log("Skill non implémenté");
 	}
 	
 	public virtual void applyOn(int[] targets, int[] args)
+	{
+		Debug.Log("Skill non implémenté");
+	}
+	
+	public virtual void activateTrap(int[] targets, int[] args)
 	{
 		Debug.Log("Skill non implémenté");
 	}
