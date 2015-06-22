@@ -5,7 +5,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 
-public class MenuView : MonoBehaviour {
+public class MenuView : MonoBehaviour 
+{
 				
 	public MenuViewModel menuVM;
 	public NotificationsReminderViewModel notificationsReminderVM;
@@ -35,6 +36,13 @@ public class MenuView : MonoBehaviour {
 				{
 					GUILayout.FlexibleSpace();
 					GUILayout.Label ("Garruk, le jeu",menuVM.titleStyle);
+					if(menuVM.displayAdmin)
+					{
+						if(GUILayout.Button("Admin",userDataVM.welcomeStyle))
+						{
+							MenuController.instance.adminBoardLink();
+						}
+					}
 					GUILayout.FlexibleSpace();
 				}
 				GUILayout.EndVertical();
