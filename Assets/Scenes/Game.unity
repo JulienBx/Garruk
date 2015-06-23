@@ -958,7 +958,8 @@ MonoBehaviour:
   borderSize: .0199999996
   currentPlayingCard: -1
   eventMax: 11
-  limitCharacterSide: 5
+  limitCharacterSide: 4
+  clickedSkill: 0
   lifeBarsController: []
 --- !u!114 &481987440
 MonoBehaviour:

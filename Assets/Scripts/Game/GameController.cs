@@ -92,7 +92,7 @@ public class GameController : Photon.MonoBehaviour
 	int nextCharacterPositionTimeline;
 
 	GameSkill[] gameskills ;
-	public int limitCharacterSide = 5;
+	public int limitCharacterSide = 4;
 	List<PlayingCardController> deads;
 	string URLStat = ApplicationModel.host + "updateResult.php";
 
@@ -110,7 +110,7 @@ public class GameController : Photon.MonoBehaviour
 		this.gameView = Camera.main.gameObject.AddComponent <GameView>();
 		this.gameView.gameScreenVM.setStyles(gameScreenStyles);
 		tiles = new GameObject[boardWidth, boardHeight];
-		playingCards = new GameObject[10];
+		playingCards = new GameObject[2*this.limitCharacterSide];
 		gameEvents = new List<GameObject>();
 		this.skillArgs = new int[10];
 
@@ -164,7 +164,7 @@ public class GameController : Photon.MonoBehaviour
 			{
 				timeElapsed = false;
 				gameView.gameScreenVM.timer -= 1;
-				displayPopUpMessage("Temps ecoulé", 5f);
+				displayPopUpMessage("Temps ecoulé", 3f);
 			}
 			if (gameView.gameScreenVM.timer < 0 && gameView.gameScreenVM.timer > -1)
 			{
@@ -611,7 +611,7 @@ public class GameController : Photon.MonoBehaviour
 	public void displayAllTargets()
 	{
 		PlayingCardController pcc;
-		for (int i = 0; i < 10; i++)
+		for (int i = 0; i < this.playingCards.Length; i++)
 		{
 			pcc = this.getPCC(i);
 			if (pcc.canBeTargeted() && i != this.currentPlayingCard)
@@ -628,7 +628,7 @@ public class GameController : Photon.MonoBehaviour
 	
 	public void hidePCCTargets()
 	{
-		for (int i = 0; i < 10; i++)
+		for (int i = 0; i < this.playingCards.Length; i++)
 		{
 			this.playingCards [i].GetComponent<PlayingCardController>().hideTargetHalo();
 		}
@@ -1450,6 +1450,7 @@ public class GameController : Photon.MonoBehaviour
 		yield return StartCoroutine(deck.RetrieveCards());
 		int debut;
 		int hauteur;
+		int compteur=0 ;
 
 		if (isFirstP)
 		{
@@ -1457,24 +1458,28 @@ public class GameController : Photon.MonoBehaviour
 			hauteur = 0;
 		} else
 		{
-			debut = 5;
+			debut = this.limitCharacterSide;
 			hauteur = 7;
 		}
 		if (isFirstP == this.isFirstPlayer)
 		{
 			this.myDeck = deck;
 		}
-
+		//a changer
 		for (int i = 0; i < 5; i++)
 		{
-			this.playingCards [debut + i] = (GameObject)Instantiate(this.playingCard);
-			this.playingCards [debut + i].GetComponentInChildren<PlayingCardController>().setStyles((isFirstP == this.isFirstPlayer));
-			this.playingCards [debut + i].GetComponentInChildren<PlayingCardController>().setCard(deck.Cards [i]);
-			this.playingCards [debut + i].GetComponentInChildren<PlayingCardController>().setIDCharacter(debut + i);
-			this.playingCards [debut + i].GetComponentInChildren<PlayingCardController>().setTile(new Tile(i, hauteur), tiles [i, hauteur].GetComponent<TileController>().tileView.tileVM.position, !isFirstP);
-			this.playingCards [debut + i].GetComponentInChildren<PlayingCardController>().resize();
-			this.tiles [i, hauteur].GetComponent<TileController>().characterID = debut + i;
-			this.playingCards [debut + i].GetComponentInChildren<PlayingCardController>().show();
+			if(deck.Cards [i].deckOrder!=4){
+				print("Init "+(debut + deck.Cards [i].deckOrder));
+				this.playingCards [debut + deck.Cards [i].deckOrder] = (GameObject)Instantiate(this.playingCard);
+				this.playingCards [debut + deck.Cards [i].deckOrder].GetComponentInChildren<PlayingCardController>().setStyles((isFirstP == this.isFirstPlayer));
+				this.playingCards [debut + deck.Cards [i].deckOrder].GetComponentInChildren<PlayingCardController>().setCard(deck.Cards [i]);
+				this.playingCards [debut + deck.Cards [i].deckOrder].GetComponentInChildren<PlayingCardController>().setIDCharacter(debut + deck.Cards [i].deckOrder);
+				this.playingCards [debut + deck.Cards [i].deckOrder].GetComponentInChildren<PlayingCardController>().setTile(new Tile(deck.Cards [i].deckOrder+1, hauteur), tiles [deck.Cards [i].deckOrder+1, hauteur].GetComponent<TileController>().tileView.tileVM.position, !isFirstP);
+				this.playingCards [debut + deck.Cards [i].deckOrder].GetComponentInChildren<PlayingCardController>().resize();
+				this.tiles [deck.Cards [i].deckOrder+1, hauteur].GetComponent<TileController>().characterID = debut + deck.Cards [i].deckOrder;
+				this.playingCards [debut + deck.Cards [i].deckOrder].GetComponentInChildren<PlayingCardController>().show();
+				compteur++;
+			}
 		}
 		yield break;
 	}
@@ -1575,6 +1580,7 @@ public class GameController : Photon.MonoBehaviour
 		for (int i = 0; i < playingCards.Length; i++)
 		{
 			cardsToRank.Add(i);	
+			print (i);
 			quicknessesToRank.Add(this.playingCards [i].GetComponentInChildren<PlayingCardController>().card.GetSpeed());
 		}
 		for (int i = 0; i < playingCards.Length; i++)
@@ -1593,7 +1599,7 @@ public class GameController : Photon.MonoBehaviour
 		int i = 0;
 		int rankPlayingCard = -1;
 		int rankCardToRank = -1;
-		while (i<10 && (rankPlayingCard==-1||rankCardToRank==-1))
+		while (i<this.playingCards.Length && (rankPlayingCard==-1||rankCardToRank==-1))
 		{
 			if (this.rankedPlayingCardsID [i] == this.currentPlayingCard)
 			{
@@ -1608,8 +1614,8 @@ public class GameController : Photon.MonoBehaviour
 		
 		
 		int compteur = 0;
-		int[] tempRank = new int[10];
-		for (int j = 0; j < 10; j++)
+		int[] tempRank = new int[this.playingCards.Length];
+		for (int j = 0; j < this.playingCards.Length; j++)
 		{
 			if (j != rankCardToRank)
 			{
@@ -1624,7 +1630,7 @@ public class GameController : Photon.MonoBehaviour
 				compteur++;
 			}
 		}
-		for (int j = 0; j < 10; j++)
+		for (int j = 0; j < this.playingCards.Length; j++)
 		{
 			print("New " + j + " : " + tempRank [j]);
 			this.rankedPlayingCardsID [j] = tempRank [j];
@@ -1636,7 +1642,7 @@ public class GameController : Photon.MonoBehaviour
 		int i = 0;
 		int rankPlayingCard = -1;
 		int rankCardToRank = -1;
-		while (i<10 && (rankPlayingCard==-1||rankCardToRank==-1))
+		while (i<this.playingCards.Length && (rankPlayingCard==-1||rankCardToRank==-1))
 		{
 			if (this.rankedPlayingCardsID [i] == this.currentPlayingCard)
 			{
@@ -1650,8 +1656,8 @@ public class GameController : Photon.MonoBehaviour
 		}
 		
 		int compteur = 0;
-		int[] tempRank = new int[10];
-		for (int j = 0; j < 10; j++)
+		int[] tempRank = new int[this.playingCards.Length];
+		for (int j = 0; j < this.playingCards.Length; j++)
 		{
 			if (j == rankPlayingCard)
 			{
@@ -1664,7 +1670,7 @@ public class GameController : Photon.MonoBehaviour
 				compteur++;
 			}
 		}
-		for (int j = 0; j < 10; j++)
+		for (int j = 0; j < this.playingCards.Length; j++)
 		{
 			print("New " + j + " : " + tempRank [j]);
 			this.rankedPlayingCardsID [j] = tempRank [j];
@@ -1824,11 +1830,12 @@ public class GameController : Photon.MonoBehaviour
 		}
 		photonView.RPC("quitGameRPC", PhotonTargets.AllBuffered, this.isFirstPlayer);
 	}
+	
 	[RPC]
 	public void quitGameRPC(bool isFirstP)
 	{
 		gameView.gameScreenVM.toDisplayGameScreen = false;
-		for(int i = 0 ; i < 10 ; i++){
+		for(int i = 0 ; i < this.playingCards.Length; i++){
 			this.playingCards[i].SetActive(false);	
 		}
 		for(int i = 0 ; i < 6 ; i++){
@@ -2332,9 +2339,9 @@ public class GameController : Photon.MonoBehaviour
 			debut = 0;
 		} else
 		{
-			debut = 5;
+			debut = this.limitCharacterSide;
 		}
-		while (areTheyAllDead && i<5)
+		while (areTheyAllDead && i<limitCharacterSide)
 		{
 			if (!this.getPCC(debut + i).isDead)
 			{
@@ -2364,7 +2371,7 @@ public class GameController : Photon.MonoBehaviour
 	public void addTileModifier(Tile tile, int amount, ModifierType type, ModifierStat stat, int duration, int idIcon, string t, string d, string a)
 	{ 
 		bool b = true ;
-		if (this.currentPlayingCard<5!=this.isFirstPlayer){
+		if (this.currentPlayingCard<this.limitCharacterSide!=this.isFirstPlayer){
 			b = false;
 		}
 		this.tiles[tile.x, tile.y].GetComponent<TileController>().tile.setModifier(amount, type, stat, duration, idIcon, t, d, a, b);
@@ -2572,9 +2579,9 @@ public class GameController : Photon.MonoBehaviour
 		int compteur = 0;
 		if (!this.isFirstPlayer)
 		{
-			debut = 5;
+			debut = this.limitCharacterSide;
 		}
-		for (int i = debut; i < debut+5; i++)
+		for (int i = debut; i < debut+this.limitCharacterSide; i++)
 		{
 			if (!this.getPCC(i).isDead)
 			{
