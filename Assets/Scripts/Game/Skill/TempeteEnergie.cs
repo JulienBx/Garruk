@@ -21,8 +21,6 @@ public class TempeteEnergie : GameSkill {
 		GameController.instance.displaySkillEffect(myPlayerID, "Tempete d'energie", 3, 2);
 		List<int> targetsToHit = new List<int>();
 		PlayingCardController pcc ;
-		int amount ;
-		
 		for (int i = 0 ; i < 10 ; i++){
 			pcc = GameController.instance.getPCC(i) ;
 			if (!pcc.isDead && pcc.cannotBeTargeted==-1){

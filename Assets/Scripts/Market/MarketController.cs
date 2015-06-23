@@ -490,7 +490,6 @@ public class MarketController : MonoBehaviour
 		int tempMaxPrice=999999999;
 		
 		bool testFilters = false;
-		bool testDeck = false;
 		bool test ;
 		
 		bool minLifeBool = (view.marketFiltersVM.minLifeLimit==view.marketFiltersVM.minLifeVal);

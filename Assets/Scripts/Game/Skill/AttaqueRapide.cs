@@ -21,13 +21,13 @@ public class AttaqueRapide : GameSkill
 		targets[0] = targetsPCC[0];
 		GameController.instance.startPlayingSkill();
 		
-		int nbHitMax = Random.Range(1,4);
+		int nbHitMax = Random.Range(1,5);
 		
 		int[] args = new int[1];
 		args[0] = 0 ;
 		
 		for (int i = 0 ; i < nbHitMax ; i++){
-			if (Random.Range(1,100) > GameController.instance.getCard(targetsPCC[0]).GetEsquive())
+			if (Random.Range(1,101) > GameController.instance.getCard(targetsPCC[0]).GetEsquive())
 			{                             
 				args[0]++;
 			}

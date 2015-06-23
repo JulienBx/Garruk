@@ -14,10 +14,6 @@ public class AttaqueCirculaire : GameSkill
 	
 	public override void resolve(List<int> targetsPCC)
 	{
-		int damageBonusPercentage ;
-		PlayingCardController targetPCC ;
-		int degats ;
-		
 		int myPlayerID = GameController.instance.currentPlayingCard;
 		GameController.instance.displaySkillEffect(myPlayerID, "Attaque Circulaire", 3, 2);
 		

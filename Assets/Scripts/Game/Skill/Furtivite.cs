@@ -34,7 +34,7 @@ public class Furtivite : GameSkill
 	}
 	
 	public override bool isLaunchable(Skill s){
-		return true ;
+		return (GameController.instance.nbMyPlayersAlive()>1) ;
 	}
 	
 	public override string getPlayText(){

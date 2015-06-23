@@ -43,7 +43,7 @@ public class AttaquePrecise : GameSkill
 		amount = Mathf.Min(currentLife,amount-(bouclier*amount/100));
 		
 		GameController.instance.addCardModifier(targets[0], amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
-		GameController.instance.addCardModifier(targets[0], -1*bonusAttack, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, -1, -1, "Sape", "Attaque diminuée de "+bonusAttack, "Actif 1 tour");
+		GameController.instance.addCardModifier(targets[0], -1*bonusAttack, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, 1, 5, "Sape", "Attaque diminuée de "+bonusAttack, "Actif 1 tour");
 		
 		GameController.instance.displaySkillEffect(targets[0], "PV : "+currentLife+" -> "+Mathf.Max(0,(currentLife-amount))+"\nATK : "+currentAttack+" -> "+Mathf.Max(0,(currentAttack-bonusAttack)), 3, 1);
 	}

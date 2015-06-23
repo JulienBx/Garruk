@@ -22,8 +22,7 @@ public class GameController : Photon.MonoBehaviour
 	bool playingCardHasMoved = false ;
 
 	int numberOfExpectedArgs ;
-	int numberOfArgs ;
-
+	
 	public int[] skillArgs ;
 
 	public Texture2D[] cursors ;
@@ -89,8 +88,7 @@ public class GameController : Photon.MonoBehaviour
 	float timerTurn = 600;
 	bool startTurn = false;
 	bool timeElapsed = false;
-	bool popUpDisplay = false;
-
+	
 	int nextCharacterPositionTimeline;
 
 	GameSkill[] gameskills ;
@@ -568,11 +566,6 @@ public class GameController : Photon.MonoBehaviour
 		this.tiles [x, y].GetComponent<TileController>().activateEffectZoneHalo();
 	}
 	
-	public void addTargetTile(int x, int y)
-	{
-	
-	}
-	
 	public void displayAdjacentTargets()
 	{
 		List<Tile> neighbourTiles = this.getCurrentPCC().tile.getImmediateNeighbouringTiles();
@@ -599,9 +592,9 @@ public class GameController : Photon.MonoBehaviour
 			playerID = this.tiles [t.x, t.y].GetComponent<TileController>().characterID;
 			if (playerID == -1)
 			{
-				if (this.tiles[t.x, t.y].GetComponent<TileController>().tile.isStatModifier)
+				if (!this.tiles[t.x, t.y].GetComponent<TileController>().tile.isStatModifier)
 				{
-					this.tiles[t.x, t.y].GetComponent<TileController>().setTargetHalo(this.gameskills[this.getCurrentSkillID()].getTargetPCCText(this.getPCC(playerID).card));
+					this.tiles[t.x, t.y].GetComponent<TileController>().setTargetHalo(this.gameskills[this.getCurrentSkillID()].getTargetPCCText(new Card()));
 				}
 			}
 		}
@@ -627,6 +620,15 @@ public class GameController : Photon.MonoBehaviour
 	{
 		for (int i = 0 ; i < 10 ; i++){
 			this.playingCards [i].GetComponent<PlayingCardController>().hideTargetHalo();
+		}
+	}
+	
+	public void hideTileTargets()
+	{
+		for (int i = 0 ; i < this.boardWidth ; i++){
+			for (int j = 0 ; j < this.boardHeight ; j++){	
+				this.tiles [i,j].GetComponent<TileController>().hideTargetHalo();
+			}
 		}
 	}
 	
@@ -1066,7 +1068,6 @@ public class GameController : Photon.MonoBehaviour
 		{
 			this.skillArgs [i] = -1;
 		}
-		this.numberOfArgs = 0;
 	}
 
 	public void findNextPlayer()
@@ -2052,7 +2053,7 @@ public class GameController : Photon.MonoBehaviour
 
 	void initSkills()
 	{
-		this.gameskills = new GameSkill[60];
+		this.gameskills = new GameSkill[62];
 		this.gameskills [0] = new Attack();
 		this.gameskills [1] = new Pass();
 		this.gameskills [2] = new GameSkill();
@@ -2113,6 +2114,8 @@ public class GameController : Photon.MonoBehaviour
 		this.gameskills [57] = new GameSkill();
 		this.gameskills [58] = new ArmeEnchantee();
 		this.gameskills [59] = new ArmeMaudite();
+		this.gameskills [60] = new PiegeAffaiblissant();
+		this.gameskills [61] = new PiegeDormeur();
 	}
 
 	public void spawnMinion(string minionName, int targetX, int targetY, int amount, bool isFirstP)
@@ -2307,11 +2310,19 @@ public class GameController : Photon.MonoBehaviour
 	{ 
 		this.getCard(target).addModifier(amount, type, stat, duration, idIcon, t, d, a);
 		this.getPCC(target).show();
+		if(stat==ModifierStat.Stat_Dommage){
+			if(this.getCard(target).GetLife()<=0){
+				this.getPCC(target).kill ();
+			}
+		}
 	}
 	
 	public void addTileModifier(Tile tile, int amount, ModifierType type, ModifierStat stat, int duration, int idIcon, string t, string d, string a) 
 	{ 
 		this.tiles[tile.x, tile.y].GetComponent<TileController>().tile.setModifier(amount, type, stat, duration, idIcon, t, d, a);
+		if (this.currentPlayingCard<5!=this.isFirstPlayer){
+			this.tiles[tile.x, tile.y].GetComponent<TileController>().tileView.tileVM.toDisplayIcon=false;
+		}
 		this.tiles[tile.x, tile.y].GetComponent<TileController>().show();
 	}
 	
@@ -2443,6 +2454,10 @@ public class GameController : Photon.MonoBehaviour
 		this.targetPCCHandler = new TargetPCCHandler(numberOfExpectedTargets);
 	}
 	
+	public void initTileTargetHandler(int numberOfExpectedTargets){
+		this.targetTileHandler = new TargetTileHandler(numberOfExpectedTargets);
+	}
+	
 	public GameSkill getCurrentGameSkill(){
 		return this.gameskills[this.getCurrentSkillID()];
 	}
@@ -2481,6 +2496,20 @@ public class GameController : Photon.MonoBehaviour
 	[RPC]
 	public void failedToCastOnSkillRPC(int[] targets){
 		this.getCurrentGameSkill().failedToCastOn(targets);
+	}
+	
+	public int nbMyPlayersAlive(){
+		int debut = 0 ;
+		int compteur = 0 ;
+		if(!this.isFirstPlayer){
+			debut = 5 ;
+		}
+		for (int i = debut ; i < debut+5 ; i++){
+			if (!this.getPCC(i).isDead){
+				compteur++;
+			}
+		}
+		return compteur ;
 	}
 }
 

@@ -63,15 +63,18 @@ public class TileController : MonoBehaviour
 	
 	public void checkTrap(int target)
 	{
-		if (this.tile.statModifier.Type == ModifierType.Type_Wolftrap)
+		if (this.tile.isStatModifier)
 		{
-			int[] targets = new int[1];
-			targets[0] = this.characterID;
-			int[] args = new int[1];
-			args[0] = this.tile.statModifier.Amount ;
-			GameController.instance.activateTrap(15, targets, args);
-			
-			this.tile.isStatModifier = false ;
+			if (this.tile.statModifier.Type == ModifierType.Type_Wolftrap)
+			{
+				int[] targets = new int[1];
+				targets[0] = this.characterID;
+				int[] args = new int[1];
+				args[0] = this.tile.statModifier.Amount ;
+				GameController.instance.activateTrap(15, targets, args);
+				
+				this.tile.isStatModifier = false ;
+			}
 		}
 	}
 	
@@ -395,7 +398,15 @@ public class TileController : MonoBehaviour
 		else{
 			this.tileView.tileVM.toDisplayIcon = false ;
 		}
-		
+	}
+	
+	public void addTileTarget(){
+		this.tileView.tileVM.toDisplayHalo = false;
+		GameController.instance.targetTileHandler.addTargetTile(this.tile);
+	}
+	
+	public void hideTargetHalo(){
+		this.tileView.tileVM.toDisplayHalo = false;
 	}
 }
 

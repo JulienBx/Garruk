@@ -107,8 +107,6 @@ public class MyGameView : MonoBehaviour
 			{
 				bool toggle;
 				string tempString ;
-				string tempMinPrice ;
-				string tempMaxPrice ;
 				GUILayout.BeginVertical();
 				{
 					GUILayout.FlexibleSpace();

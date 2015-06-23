@@ -89,7 +89,7 @@ public class CardStoreController : CardController
 			this.focusStoreFeaturesResize();
 		}
 	}
-	public void exitFocus()
+	public override void exitFocus()
 	{
 		StoreController.instance.exitCard (); 
 		if(isTutorialLaunched)

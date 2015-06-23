@@ -92,7 +92,7 @@ public class CardLobbyController : CardController
 			this.focusLobbyFeaturesResize();
 		}
 	}
-	public void exitFocus()
+	public override void exitFocus()
 	{
 		LobbyController.instance.exitCard();
 	}

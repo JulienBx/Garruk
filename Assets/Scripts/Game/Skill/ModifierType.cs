@@ -19,5 +19,6 @@
 	Type_Bouclier,
 	Type_Wolftrap,
 	Type_WeakeningTrap,
-	Type_SleepingTrap
+	Type_SleepingTrap,
+	Type_Sleeping,	
 };

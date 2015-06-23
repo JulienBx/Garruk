@@ -117,7 +117,7 @@ public class CardMyGameController : CardController
 			this.focusMyGameFeaturesResize();
 		}
 	}
-	public void exitFocus()
+	public override void exitFocus()
 	{
 		MyGameController.instance.exitCard();
 		if(isTutorialLaunched)

@@ -33,7 +33,7 @@ public class TileView : MonoBehaviour
 			{
 				if (Input.mousePosition.x > this.tileVM.haloRect.xMin && Input.mousePosition.x < this.tileVM.haloRect.xMax && (height - Input.mousePosition.y) > this.tileVM.haloRect.yMin && (height - Input.mousePosition.y) < this.tileVM.haloRect.yMax)
 				{
-					//gameObject.GetComponentInChildren<TileController>().clickTarget();
+					gameObject.GetComponentInChildren<TileController>().addTileTarget();
 				}
 			} else if (Input.mousePosition.x > this.tileVM.haloRect.xMin && Input.mousePosition.x < this.tileVM.haloRect.xMax && (height - Input.mousePosition.y) > this.tileVM.haloRect.yMin && (height - Input.mousePosition.y) < this.tileVM.haloRect.yMax)
 			{

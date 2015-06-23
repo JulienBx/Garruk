@@ -792,7 +792,6 @@ public class StoreController : MonoBehaviour
 		}
 		view.storeVM.guiEnabled=true;
 		this.startRotation=false;
-		string name;
 		Vector3 scale;
 		Vector3 position;
 		Quaternion rotation;

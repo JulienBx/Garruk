@@ -370,6 +370,7 @@ public class PlayingCardController : GameObjectController
 		}
 		GameController.instance.emptyTile(this.tile.x, this.tile.y);
 		this.setPosition(new Vector3(-20, -20, -20));
+		this.resizeIcons();
 	}
 
 	public void relive()
@@ -423,7 +424,7 @@ public class PlayingCardController : GameObjectController
 					this.removeParalyzed();
 				} 
 			}
-			else{
+			else if (this.card.modifiers [i].Duration > 0){
 				this.card.modifiers [i].additionnalInfo = "Actif "+this.card.modifiers [i].Duration+" tour";
 				if(this.card.modifiers [i].Duration>1){
 					this.card.modifiers [i].additionnalInfo+="s";

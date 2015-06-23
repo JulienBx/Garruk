@@ -9,7 +9,7 @@ public class PiegeALoups : GameSkill
 	
 	public override void launch()
 	{
-		GameController.instance.initPCCTargetHandler(numberOfExpectedTargets);
+		GameController.instance.initTileTargetHandler(numberOfExpectedTargets);
 		GameController.instance.displayAdjacentTileTargets();
 		GameController.instance.displayMyControls("Piège à loups");
 	}
@@ -29,7 +29,7 @@ public class PiegeALoups : GameSkill
 	public override void applyOn(int[] targets){
 		int amount = GameController.instance.getCurrentSkill().ManaCost;
 		
-		GameController.instance.addTileModifier(new Tile(targets[0], targets[1]), amount, ModifierType.Type_Wolftrap, ModifierStat.Stat_Dommage, -1, 1, "Piège à loups", "Inflige "+amount+" dégats", "Permanent. Non visible du joueur adverse");
+		GameController.instance.addTileModifier(new Tile(targets[0], targets[1]), amount, ModifierType.Type_Wolftrap, ModifierStat.Stat_No, -1, 0, "Piège à loups", "Inflige "+amount+" dégats", "Permanent. Non visible du joueur adverse");
 		GameController.instance.displaySkillEffect(targets[0], "Piège posé", 3, 2);
 	}
 	

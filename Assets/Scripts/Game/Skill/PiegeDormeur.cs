@@ -9,7 +9,7 @@ public class PiegeDormeur : GameSkill
 	
 	public override void launch()
 	{
-		GameController.instance.initPCCTargetHandler(numberOfExpectedTargets);
+		GameController.instance.initTileTargetHandler(numberOfExpectedTargets);
 		GameController.instance.displayAdjacentTileTargets();
 		GameController.instance.displayMyControls("Piège à loups");
 	}
@@ -29,13 +29,13 @@ public class PiegeDormeur : GameSkill
 	public override void applyOn(int[] targets){
 		int amount = GameController.instance.getCurrentSkill().ManaCost;
 		
-		GameController.instance.addTileModifier(new Tile(targets[0], targets[1]), amount, ModifierType.Type_Wolftrap, ModifierStat.Stat_Dommage, -1, 1, "Piège à loups", "Inflige "+amount+" dégats", "Permanent. Non visible du joueur adverse");
+		GameController.instance.addTileModifier(new Tile(targets[0], targets[1]), amount, ModifierType.Type_SleepingTrap, ModifierStat.Stat_No, -1, 2, "Piège endormissant", "Endort l'adversaire. "+amount+"% de chances de se réveiller chaque tour", "Permanent. Non visible du joueur adverse");
 		GameController.instance.displaySkillEffect(targets[0], "Piège posé", 3, 2);
 	}
 	
 	public override void activateTrap(int[] targets, int[] args){
-		GameController.instance.addCardModifier(targets[0], args[0], ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
-		GameController.instance.displaySkillEffect(targets[0], "Déclenche le piège et inflige "+args[0]+" dégats", 3, 1);
+		GameController.instance.addCardModifier(targets[0], args[0], ModifierType.Type_Sleeping, ModifierStat.Stat_No, -1, 12, "Endormi", "Le héros ne peut ni se déplacer ni utiliser une compétence", args[0]+"% de chances de se réveiller à chaque tour");
+		GameController.instance.displaySkillEffect(targets[0], "Déclenche le piège et endort", 3, 1);
 	}
 	
 	public override bool isLaunchable(Skill s){
@@ -47,7 +47,7 @@ public class PiegeDormeur : GameSkill
 			playerID = GameController.instance.getTile(t.x, t.y).characterID;
 			if (playerID == -1)
 			{
-				if (GameController.instance.getTile(t.x, t.y).tile.isStatModifier)
+				if (!GameController.instance.getTile(t.x, t.y).tile.isStatModifier)
 				{
 					isLaunchable = true ;
 				}
@@ -59,16 +59,15 @@ public class PiegeDormeur : GameSkill
 	public override HaloTarget getTargetPCCText(Card c){
 		
 		HaloTarget h  = new HaloTarget(0); 
-		int i ;
 		
 		int degats = GameController.instance.getCurrentSkill().ManaCost;
 		
-		h.addInfo("Pose un piège infligeant "+degats+" dégats",0);
+		h.addInfo("Pose un piège endormissant",0);
 		
 		return h ;
 	}
 	
 	public override string getPlayText(){
-		return "Piège à loups" ;
+		return "Piège endormissant" ;
 	}
 }

@@ -101,8 +101,8 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 2f5588dcad14fa0439122077700ebf64, type: 3}
   halos:
   - {fileID: 2800000, guid: 2231d338aafdb48408837d3028a35c71, type: 3}
-  - {fileID: 2800000, guid: 4deb7240c55898b4cbec76e69559fd63, type: 3}
-  - {fileID: 2800000, guid: 1459573cb5f42654baca94e19845f605, type: 3}
+  - {fileID: 2800000, guid: a33e8839c1a8b034bbc264abddfcb4fd, type: 3}
+  - {fileID: 2800000, guid: ace66a4bac36e8042a5708777f8c8e80, type: 3}
   - {fileID: 2800000, guid: 994f7c13eb3dba44ca4789988e6e55d0, type: 3}
   - {fileID: 2800000, guid: 023b6f95444e13c468a83fce232b0f78, type: 3}
   tileView: {fileID: 0}
@@ -402,8 +402,8 @@ MonoBehaviour:
   tileModification: 0
   icons:
   - {fileID: 2800000, guid: 62c4c6cbdd1e8024bbdcb8364bc97371, type: 3}
-  - {fileID: 2800000, guid: f9d5c4c452c9ab1449cb3a93062e65c6, type: 3}
-  - {fileID: 2800000, guid: 07540f6fdc5233e4f9c1a1ac131199c1, type: 3}
+  - {fileID: 2800000, guid: cbcac7baeebe94641a04b2f75ec9df94, type: 3}
+  - {fileID: 2800000, guid: 61f8fa7e74e43544f980ab4fa0588bdb, type: 3}
   - {fileID: 2800000, guid: 927f94f70b9c43a4b95a0daa46cd048d, type: 3}
   statModifierActive: 1
   statModifierEachTurn: 0
@@ -457,10 +457,10 @@ MonoBehaviour:
     m_Font: {fileID: 0}
     m_FontSize: 0
     m_FontStyle: 0
-    m_Alignment: 0
-    m_WordWrap: 0
+    m_Alignment: 4
+    m_WordWrap: 1
     m_RichText: 0
-    m_TextClipping: 0
+    m_TextClipping: 1
     m_ImagePosition: 0
     m_ContentOffset: {x: 0, y: 0}
     m_FixedWidth: 0
@@ -515,10 +515,10 @@ MonoBehaviour:
     m_Font: {fileID: 0}
     m_FontSize: 0
     m_FontStyle: 0
-    m_Alignment: 0
-    m_WordWrap: 0
+    m_Alignment: 4
+    m_WordWrap: 1
     m_RichText: 0
-    m_TextClipping: 0
+    m_TextClipping: 1
     m_ImagePosition: 0
     m_ContentOffset: {x: 0, y: 0}
     m_FixedWidth: 0
@@ -573,10 +573,10 @@ MonoBehaviour:
     m_Font: {fileID: 0}
     m_FontSize: 0
     m_FontStyle: 0
-    m_Alignment: 0
-    m_WordWrap: 0
+    m_Alignment: 4
+    m_WordWrap: 1
     m_RichText: 0
-    m_TextClipping: 0
+    m_TextClipping: 1
     m_ImagePosition: 0
     m_ContentOffset: {x: 0, y: 0}
     m_FixedWidth: 0

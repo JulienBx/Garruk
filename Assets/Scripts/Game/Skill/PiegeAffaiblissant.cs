@@ -9,7 +9,7 @@ public class PiegeAffaiblissant : GameSkill
 	
 	public override void launch()
 	{
-		GameController.instance.initPCCTargetHandler(numberOfExpectedTargets);
+		GameController.instance.initTileTargetHandler(numberOfExpectedTargets);
 		GameController.instance.displayAdjacentTileTargets();
 		GameController.instance.displayMyControls("Piège affaiblissant");
 	}
@@ -29,13 +29,14 @@ public class PiegeAffaiblissant : GameSkill
 	public override void applyOn(int[] targets){
 		int amount = GameController.instance.getCurrentSkill().ManaCost;
 		
-		GameController.instance.addTileModifier(new Tile(targets[0], targets[1]), amount, ModifierType.Type_WeakeningTrap, ModifierStat.Stat_Dommage, -1, 1, "Piège affaiblissant", "Réduit de "+amount+"% l'attaque du héros touché", "Permanent. Non visible du joueur adverse");
+		GameController.instance.addTileModifier(new Tile(targets[0], targets[1]), amount, ModifierType.Type_WeakeningTrap, ModifierStat.Stat_No, -1, 1, "Piège affaiblissant", "Réduit de "+amount+"% l'attaque du héros touché pendant 2 tours", "Permanent. Non visible du joueur adverse");
 		GameController.instance.displaySkillEffect(targets[0], "Piège posé", 3, 2);
 	}
 	
 	public override void activateTrap(int[] targets, int[] args){
-		GameController.instance.addCardModifier(targets[0], args[0], ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
-		GameController.instance.displaySkillEffect(targets[0], "Déclenche le piège et inflige "+args[0]+" dégats", 3, 1);
+		int amount = args[0]*GameController.instance.getCard(targets[0]).GetAttack()/100;
+		GameController.instance.addCardModifier(targets[0], -1*amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, 2, 5, "Sape", "Attaque diminuée de "+amount, "Actif 2 tours");
+		GameController.instance.displaySkillEffect(targets[0], "Déclenche le piège et diminue de "+amount+" l'attaque", 3, 1);
 	}
 	
 	public override bool isLaunchable(Skill s){
@@ -59,16 +60,16 @@ public class PiegeAffaiblissant : GameSkill
 	public override HaloTarget getTargetPCCText(Card c){
 		
 		HaloTarget h  = new HaloTarget(0); 
-		int i ;
 		
 		int degats = GameController.instance.getCurrentSkill().ManaCost;
+		int amount = degats*c.GetAttack()/100;
 		
-		h.addInfo("Pose un piège infligeant "+degats+" dégats",0);
+		h.addInfo("Pose un piège diminuant de "+degats+" l'attaque pendant 2 tours",0);
 		
 		return h ;
 	}
 	
 	public override string getPlayText(){
-		return "Piège à loups" ;
+		return "Piège affaiblissant" ;
 	}
 }
