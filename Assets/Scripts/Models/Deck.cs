@@ -376,6 +376,7 @@ public class Deck
 						{
 							this.NewCardType=this.Cards[i].TitleCardTypeUnlocked;
 						}
+						this.Cards[i].Skills=new List<Skill>();
 					}
 					else
 					{

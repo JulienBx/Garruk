@@ -662,6 +662,7 @@ public class Card
 						this.destructionPrice=System.Convert.ToInt32(cardInfo[14]);
 						this.Power=System.Convert.ToInt32(cardInfo[15]);
 						this.NewSkills=new List<Skill>();
+						this.Skills=new List<Skill>();
 					} 
 					else
 					{
