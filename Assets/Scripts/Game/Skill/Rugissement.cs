@@ -5,36 +5,56 @@ public class Rugissement : GameSkill
 {
 	public Rugissement()
 	{
-		
+		this.numberOfExpectedTargets = 0 ; 
 	}
 	
 	public override void launch()
 	{
-		Debug.Log("Je lance rugissement");
-		//GameController.instance.lookForAdjacentTarget("Choisir une cible à attaquer", "Lancer rug.");
+		this.resolve(new List<int>());
 	}
 	
 	public override void resolve(List<int> targetsPCC)
-	{
-		int targetID = GameController.instance.currentPlayingCard;
+	{	
+		int[] targets ;
+		GameController.instance.startPlayingSkill();
+		
 		int debut = 0 ;
-		
-		if (targetID > 4){
-			debut = 5 	;
+		if(!GameController.instance.isFirstPlayer){
+			debut = GameController.instance.limitCharacterSide	;
 		}
 		
-		int bonus = GameController.instance.getCurrentSkill().ManaCost;
-		
-		string message = GameController.instance.getCurrentCard().Title+" ajoute "+bonus+" a l'attaque de tous ses alliés";
-			
-		for (int i = debut ; i < debut+5 ; i++){
-			//GameController.instance.addModifier(i, bonus, (int)ModifierType.Type_BonusMalus, (int)ModifierStat.Stat_Attack);
+		for(int i = debut ; i < debut+GameController.instance.limitCharacterSide;i++){
+			targets = new int[1];
+			targets[0] = i;
+			GameController.instance.applyOn(targets);
 		}
 		
-		GameController.instance.play();	
+		GameController.instance.playSkill();
+		GameController.instance.play();
+	}
+	
+	public override void applyOn(int[] targets){
+		int amount = GameController.instance.getCurrentSkill().ManaCost;
+		int attack ;
+		
+		for (int i = 0 ; i < targets.Length ; i++){
+			attack = GameController.instance.getCard(targets[i]).GetAttack();
+			GameController.instance.addCardModifier(targets[i], amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, 1, 9, "Renforcement", "Attaque augmentée de "+amount, "Actif 1 tour");
+			GameController.instance.displaySkillEffect(targets[i], "ATK : "+attack+" -> "+(attack+amount), 3, 0);
+		}
+	}
+	
+	public override void failedToCastOn(int[] targets){
+		for (int i = 0 ; i < targets.Length ; i++){
+			GameController.instance.displaySkillEffect(targets[i], "Echec", 3, 1);
+		}
 	}
 	
 	public override bool isLaunchable(Skill s){
-		return true;
+		return true ;
+	}
+	
+	public override string getPlayText(){
+		return "Frénésie" ;
 	}
 }

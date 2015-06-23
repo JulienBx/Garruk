@@ -15,8 +15,7 @@ public class AttaqueCirculaire : GameSkill
 	
 	public override void resolve(List<int> targetsPCC)
 	{	
-		int[] targets = new int[1];
-		targets[0] = targetsPCC[0];
+		int[] targets ; 
 		
 		GameController.instance.startPlayingSkill();
 		
@@ -35,7 +34,15 @@ public class AttaqueCirculaire : GameSkill
 			{
 				if (GameController.instance.getPCC(tempInt).canBeTargeted())	
 				{
-					isLaunchable = true ;
+					targets = new int[1];
+					targets[0] = tempInt;
+					if (Random.Range(1,100) > GameController.instance.getCard(tempInt).GetEsquive())
+					{                             
+						GameController.instance.applyOn(targets);
+					}
+					else{
+						GameController.instance.failedToCastOnSkill(targets);
+					}
 				}
 			}
 			i++;
@@ -56,10 +63,10 @@ public class AttaqueCirculaire : GameSkill
 			bouclier = targetCard.GetBouclier();
 			currentLife = targetCard.GetLife();
 			damageBonusPercentage = GameController.instance.getCurrentCard().GetDamagesPercentageBonus(targetCard);
-			amount = GameController.instance.getCurrentCard().GetAttack()*(100+damageBonusPercentage)/100;
+			amount = (GameController.instance.getCurrentCard().GetAttack()*GameController.instance.getCurrentSkill().ManaCost/100)*(100+damageBonusPercentage)/100;
 			amount = Mathf.Min(currentLife,amount-(bouclier*amount/100));
 			GameController.instance.addCardModifier(targets[i], amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
-			GameController.instance.displaySkillEffect(targets[i], "PV : "+currentLife+" -> "+Mathf.Max(0,(currentLife-amount)), 3, 1);
+			GameController.instance.displaySkillEffect(targets[i], "Inflige "+amount, 3, 1);
 		}
 	}
 	
@@ -93,35 +100,7 @@ public class AttaqueCirculaire : GameSkill
 		return isLaunchable ;
 	}
 	
-	public override HaloTarget getTargetPCCText(Card c){
-		
-		HaloTarget h  = new HaloTarget(0); 
-		int i ;
-		
-		int currentLife = c.GetLife();
-		int damageBonusPercentage = GameController.instance.getCurrentCard().GetDamagesPercentageBonus(c);
-		int bouclier = c.GetBouclier();
-		int amount = GameController.instance.getCurrentCard().GetAttack()*(100+damageBonusPercentage)/100;
-		amount = amount-(bouclier*amount/100);
-		
-		h.addInfo("PV : "+currentLife+" -> "+Mathf.Max(0,(currentLife-amount)),0);
-		
-		int probaHit = 100 - c.GetEsquive();
-		if (probaHit>=80){
-			i = 2 ;
-		}
-		else if (probaHit>=20){
-			i = 1 ;
-		}
-		else{
-			i = 0 ;
-		}
-		h.addInfo("HIT% : "+probaHit,i);
-		
-		return h ;
-	}
-	
 	public override string getPlayText(){
-		return "Attaque" ;
+		return "Attaque circulaire" ;
 	}
 }

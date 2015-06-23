@@ -41,7 +41,7 @@ public class ArmeEnchantee : GameSkill
 		for (int i = 0 ; i < targets.Length ; i++){
 			attack = GameController.instance.getCard(targets[i]).GetAttack();
 			
-			GameController.instance.addCardModifier(targets[i], args[i], ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, -1, 9, "Arme maudite", "Attaque augmentée de "+args[0], "Permanent");
+			GameController.instance.addCardModifier(targets[i], args[i], ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, -1, 9, "Arme enchantée", "Attaque augmentée de "+args[0], "Permanent");
 			GameController.instance.displaySkillEffect(targets[i], "ATK : "+attack+" -> "+(attack+args[i]), 3, 0);
 		}
 	}

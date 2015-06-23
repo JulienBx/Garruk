@@ -5,32 +5,39 @@ public class Frenesie : GameSkill
 {
 	public Frenesie()
 	{
-		
+		this.numberOfExpectedTargets = 0 ; 
 	}
 	
 	public override void launch()
 	{
-		Debug.Log("Je lance frénésie");
-		GameController.instance.displayAdjacentTargets();
+		GameController.instance.initPCCTargetHandler(numberOfExpectedTargets);
+		this.resolve(new List<int>());
 	}
 	
 	public override void resolve(List<int> targetsPCC)
-	{
-		int targetID = GameController.instance.currentPlayingCard;
+	{	                     
+		GameController.instance.startPlayingSkill();
+		GameController.instance.applyOn(null);
 		
-		int damageBonusPercentage = GameController.instance.getCurrentCard().GetDamagesPercentageBonus(new Card());
-		int degats = GameController.instance.getCurrentSkill().ManaCost*(100+damageBonusPercentage)/100;
-		int bonus = GameController.instance.getCurrentSkill().ManaCost;
-		
-		string message = GameController.instance.getCurrentCard().Title+" s'inflige "+degats+" dégats eu augmente son attaque de "+degats;
-			
-		GameController.instance.addCardModifier(targetID, degats, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage,-1,-1,"", "", "");
-		GameController.instance.addCardModifier(targetID, bonus, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, -1, -1, "", "", "");
+		GameController.instance.playSkill();
+		GameController.instance.play();
+	}
 	
-		GameController.instance.play();	
+	public override void applyOn(int[] targets){
+		int manacost = GameController.instance.getCurrentSkill().ManaCost;
+		int target = GameController.instance.currentPlayingCard ;
+		
+		GameController.instance.addCardModifier(target, manacost, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
+		GameController.instance.addCardModifier(target, manacost, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, -1, 9, "Arme enchantée", "Attaque augmentée de "+manacost, "Permanent");
+		
+		GameController.instance.displaySkillEffect(target, "ATK : +"+manacost+"\nPV : -"+manacost, 3, 0);
 	}
 	
 	public override bool isLaunchable(Skill s){
-		return true;
+		return true ;
+	}
+	
+	public override string getPlayText(){
+		return "Frenesie" ;
 	}
 }
