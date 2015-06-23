@@ -35,6 +35,8 @@ public class PiegeDormeur : GameSkill
 	
 	public override void activateTrap(int[] targets, int[] args){
 		GameController.instance.addCardModifier(targets[0], args[0], ModifierType.Type_Sleeping, ModifierStat.Stat_No, -1, 12, "Endormi", "Le héros ne peut ni se déplacer ni utiliser une compétence", args[0]+"% de chances de se réveiller à chaque tour");
+		GameController.instance.playindCardHasPlayed=true;
+		GameController.instance.playingCardHasMoved=true;
 		GameController.instance.displaySkillEffect(targets[0], "Déclenche le piège et endort", 3, 1);
 	}
 	

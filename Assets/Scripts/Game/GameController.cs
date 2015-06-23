@@ -19,7 +19,7 @@ public class GameController : Photon.MonoBehaviour
 	public int nbFreeStartRows ;
 	public GUIStyle[] gameScreenStyles;
 	bool isRunningSkill = false ;
-	bool playingCardHasMoved = false ;
+	public bool playingCardHasMoved = false ;
 
 	int numberOfExpectedArgs ;
 	
@@ -1162,11 +1162,21 @@ public class GameController : Photon.MonoBehaviour
 
 		this.currentPlayingCard = id;
 		
+		if (this.getCurrentCard().isSleeping())
+		{
+			if((this.currentPlayingCard<limitCharacterSide)==this.isFirstPlayer){
+				int percentage = this.getCurrentCard().getSleepingPercentage();
+				if (UnityEngine.Random.Range(1,101) <= percentage){
+					this.wakeUp();
+				}
+			}
+		}
 		if (this.getCurrentCard().isParalyzed())
 		{
 			this.playindCardHasPlayed = true;
 			this.displayPopUpMessage(this.getCurrentCard().Title + " est paralysé", 3f);
-		} else
+		} 
+		else
 		{
 			this.playindCardHasPlayed = false;
 		}
@@ -1272,6 +1282,21 @@ public class GameController : Photon.MonoBehaviour
 		photonView.RPC("timeRunsOut", PhotonTargets.AllBuffered, timerTurn);
 		photonView.RPC("addPassEvent", PhotonTargets.AllBuffered);
 		photonView.RPC("loadTileModifierToCharacter", PhotonTargets.AllBuffered, getCurrentPCC().tile.x, getCurrentPCC().tile.y, false);
+	}
+	
+	public void wakeUp()
+	{
+		photonView.RPC("wakeUpRPC", PhotonTargets.AllBuffered);
+	}
+	
+	[RPC]
+	public void wakeUpRPC()
+	{
+		this.playindCardHasPlayed=false;
+		this.playingCardHasMoved=false;
+		this.displaySkillEffect(this.currentPlayingCard, "Se réveille", 3, 2);
+		this.getCurrentCard().removeSleeping();
+		this.getCurrentPCC().show();
 	}
 	
 	[RPC]

@@ -301,6 +301,57 @@ public class Card
 		return isIntouchable;
 	}
 	
+	public bool isSleeping()
+	{
+		bool isSleeping = false;
+		int i = 0 ;
+		int max = modifiers.Count ;
+		while (i<max && !isSleeping)
+		{
+			if (modifiers[i].Type == ModifierType.Type_Sleeping)
+			{
+				isSleeping = true ;
+			}
+			i++;
+		}
+		return isSleeping;
+	}
+	
+	public int getSleepingPercentage()
+	{
+		bool isSleeping = false;
+		int percentage = 0 ;
+		int i = 0 ;
+		int max = modifiers.Count ;
+		while (i<max && !isSleeping)
+		{
+			if (modifiers[i].Type == ModifierType.Type_Sleeping)
+			{
+				isSleeping = true ;
+				percentage = modifiers[i].Amount ;
+			}
+			i++;
+		}
+		return percentage;
+	}
+	
+	public void removeSleeping()
+	{
+		bool isSleeping = false;
+		int percentage = 0 ;
+		int i = 0 ;
+		int max = modifiers.Count ;
+		while (i<max && !isSleeping)
+		{
+			if (modifiers[i].Type == ModifierType.Type_Sleeping)
+			{
+				isSleeping = true ;
+				this.modifiers.RemoveAt(i);
+			}
+			i++;
+		}
+	}
+	
 	public void emptyModifiers()
 	{
 		for (int i = modifiers.Count-1 ; i >= 0 ; i--)
