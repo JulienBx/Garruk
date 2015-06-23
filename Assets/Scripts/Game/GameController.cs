@@ -2544,6 +2544,17 @@ public class GameController : Photon.MonoBehaviour
 		this.gameskills [idSkill].activateTrap(targets, args);
 	}
 	
+	public void hideTrap(int[] targets)
+	{
+		photonView.RPC("hideTrapRPC", PhotonTargets.AllBuffered, targets);
+	}
+	
+	[RPC]
+	public void hideTrapRPC(int[] targets)
+	{
+		this.tiles[targets[0], targets[1]].GetComponent<TileController>().hideIcon();
+	}
+	
 	public void failedToCastOnSkill(int[] targets)
 	{
 		photonView.RPC("failedToCastOnSkillRPC", PhotonTargets.AllBuffered, targets);

@@ -73,8 +73,11 @@ public class TileController : MonoBehaviour
 				args[0] = this.tile.statModifier.Amount ;
 				GameController.instance.activateTrap(15, targets, args);
 				
-				this.tile.statModifier = null ;
-				this.tile.isStatModifier = false ;
+				int[] t = new int[2];
+				t[0] = this.tile.x;
+				t[1] = this.tile.y;
+				
+				GameController.instance.hideTrap(t);
 			}
 			else if (this.tile.statModifier.Type == ModifierType.Type_SleepingTrap)
 			{
@@ -82,10 +85,13 @@ public class TileController : MonoBehaviour
 				targets[0] = this.characterID;
 				int[] args = new int[1];
 				args[0] = this.tile.statModifier.Amount ;
-				GameController.instance.activateTrap(15, targets, args);
+				GameController.instance.activateTrap(61, targets, args);
 				
-				this.tile.statModifier = null ;
-				this.tile.isStatModifier = false ;
+				int[] t = new int[2];
+				t[0] = this.tile.x;
+				t[1] = this.tile.y;
+				
+				GameController.instance.hideTrap(t);
 			}
 			else if (this.tile.statModifier.Type == ModifierType.Type_WeakeningTrap)
 			{
@@ -93,12 +99,21 @@ public class TileController : MonoBehaviour
 				targets[0] = this.characterID;
 				int[] args = new int[1];
 				args[0] = this.tile.statModifier.Amount ;
-				GameController.instance.activateTrap(15, targets, args);
+				GameController.instance.activateTrap(60, targets, args);
 				
-				this.tile.statModifier = null ;
-				this.tile.isStatModifier = false ;
+				int[] t = new int[2];
+				t[0] = this.tile.x;
+				t[1] = this.tile.y;
+				
+				GameController.instance.hideTrap(t);
 			}
 		}
+	}
+	
+	public void hideIcon(){
+		this.tile.statModifier = null ;
+		this.tile.isStatModifier = false ;
+		this.show();
 	}
 	
 	public void removeTrap()
@@ -418,6 +433,13 @@ public class TileController : MonoBehaviour
 				this.tileView.tileVM.title = this.tile.statModifier.title;
 				this.tileView.tileVM.description = this.tile.statModifier.description;
 				this.tileView.tileVM.additionnalInfo = this.tile.statModifier.additionnalInfo;
+			}
+			else{
+				this.tileView.tileVM.icon = this.icons[this.tile.statModifier.idIcon];
+				this.tileView.tileVM.title = this.tile.statModifier.title;
+				this.tileView.tileVM.description = this.tile.statModifier.description;
+				this.tileView.tileVM.additionnalInfo = this.tile.statModifier.additionnalInfo;
+				this.tileView.tileVM.toDisplayIcon = false ;
 			}
 		}
 		else{
