@@ -68,8 +68,9 @@ public class PlayingCardController : GameObjectController
 		Rect position = new Rect(positionObject.x, positionObject.y, this.playingCardView.playingCardVM.scale.x * height / 11, this.playingCardView.playingCardVM.scale.x * height / 11);
 		this.playingCardView.playingCardVM.haloRect = position;
 		
-		for (int i = 0 ; i < this.haloTextStyles.Length ; i++){
-			this.haloTextStyles[i].fontSize = height * 15 / 1000;
+		for (int i = 0; i < this.haloTextStyles.Length; i++)
+		{
+			this.haloTextStyles [i].fontSize = height * 15 / 1000;
 		}
 	}
 
@@ -360,6 +361,7 @@ public class PlayingCardController : GameObjectController
 	public void kill()
 	{
 		GameController.instance.displayPopUpMessage(GameController.instance.getCard(this.IDCharacter).Title + " est mort", 3);
+		GameController.instance.getPCC(IDCharacter).tile = null;
 		this.isDead = true;
 		this.hasPlayed = true;
 		gameObject.renderer.enabled = false;
@@ -423,11 +425,12 @@ public class PlayingCardController : GameObjectController
 				{
 					this.removeParalyzed();
 				} 
-			}
-			else if (this.card.modifiers [i].Duration > 0){
-				this.card.modifiers [i].additionnalInfo = "Actif "+this.card.modifiers [i].Duration+" tour";
-				if(this.card.modifiers [i].Duration>1){
-					this.card.modifiers [i].additionnalInfo+="s";
+			} else if (this.card.modifiers [i].Duration > 0)
+			{
+				this.card.modifiers [i].additionnalInfo = "Actif " + this.card.modifiers [i].Duration + " tour";
+				if (this.card.modifiers [i].Duration > 1)
+				{
+					this.card.modifiers [i].additionnalInfo += "s";
 				}
 			}
 		}
@@ -471,33 +474,39 @@ public class PlayingCardController : GameObjectController
 		}
 	}
 	
-	public bool canBeTargeted(){
+	public bool canBeTargeted()
+	{
 		return (!this.isDead && !this.card.isIntouchable());
 	}
 	
-	public void setTargetHalo(HaloTarget h){
-		this.playingCardView.playingCardVM.haloStyle.normal.background = this.halos[h.idImage];
+	public void setTargetHalo(HaloTarget h)
+	{
+		this.playingCardView.playingCardVM.haloStyle.normal.background = this.halos [h.idImage];
 		this.playingCardView.playingCardVM.haloTexts = new List<string>();
 		this.playingCardView.playingCardVM.haloStyles = new List<GUIStyle>();
 		
-		for (int i = 0 ; i < h.textsToDisplay.Count ; i++){
-			this.playingCardView.playingCardVM.haloTexts.Add(h.textsToDisplay[i]);
-			this.playingCardView.playingCardVM.haloStyles.Add(this.haloTextStyles[h.stylesID[i]]);
+		for (int i = 0; i < h.textsToDisplay.Count; i++)
+		{
+			this.playingCardView.playingCardVM.haloTexts.Add(h.textsToDisplay [i]);
+			this.playingCardView.playingCardVM.haloStyles.Add(this.haloTextStyles [h.stylesID [i]]);
 		}
-		this.playingCardView.playingCardVM.toDisplayHalo = true ;
+		this.playingCardView.playingCardVM.toDisplayHalo = true;
 	}
 	
-	public void hideTargetHalo(){
-		this.playingCardView.playingCardVM.toDisplayHalo = false ;
+	public void hideTargetHalo()
+	{
+		this.playingCardView.playingCardVM.toDisplayHalo = false;
 	}
 	
-	public void cancelSkill(){
+	public void cancelSkill()
+	{
 		this.hideControlSkillHandler();
 		GameController.instance.cancelSkill();
 	}
 	
-	public void hideControlSkillHandler(){
-		this.playingCardView.playingCardVM.toDisplaySkillControlHandler = false ;
+	public void hideControlSkillHandler()
+	{
+		this.playingCardView.playingCardVM.toDisplaySkillControlHandler = false;
 	}
 }
 
