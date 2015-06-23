@@ -3,34 +3,60 @@ using System.Collections.Generic;
 
 public class AttaqueFrontale : GameSkill
 {
-	public AttaqueFrontale()
-	{
+	public AttaqueFrontale(){
 		this.numberOfExpectedTargets = 1 ; 
 	}
 	
 	public override void launch()
 	{
+		GameController.instance.initPCCTargetHandler(numberOfExpectedTargets);
 		GameController.instance.displayAdjacentTargets();
+		GameController.instance.displayMyControls("Attaque frontale");
 	}
-
+	
 	public override void resolve(List<int> targetsPCC)
-	{
-//		PlayingCardController targetPCC = GameController.instance.getPCC(this.targets[0]);
-//		int damageBonusPercentage = GameController.instance.getCurrentCard().GetDamagesPercentageBonus(targetPCC.card);
-//		int attack = GameController.instance.getCurrentSkill().ManaCost*(100+damageBonusPercentage)/100 ;
-//		int degats = (GameController.instance.getCurrentSkill().ManaCost / 2)*(100+damageBonusPercentage)/100;
-//		int myPlayerID = GameController.instance.currentPlayingCard;
+	{	
+		int[] targets = new int[1];
+		targets[0] = targetsPCC[0];
+		
+		GameController.instance.startPlayingSkill();
+		
+		if (Random.Range(1,100) > GameController.instance.getCard(targetsPCC[0]).GetEsquive())
+		{                             
+			GameController.instance.applyOn(targets);
+		}
+		else{
+			GameController.instance.failedToCastOnSkill(targets);
+		}
+		GameController.instance.playSkill();
+		GameController.instance.play();
+	}
+	
+	public override void applyOn(int[] targets){
+//		Card targetCard = GameController.instance.getCard(targets[0]);
+//		int myCurrentLife = GameController.instance.getCurrentCard().GetLife();
+//		int currentLife = targetCard.GetLife();
 //		
-//		GameController.instance.displaySkillEffect(myPlayerID, "Attaque frontale -"+degats+" PV", 3, 1);
+//		int myBouclier = GameController.instance.getCurrentCard().GetBouclier();
+//		int bouclier = targetCard.GetBouclier();
 //		
-//		if (args[0] > GameController.instance.getCard(targets[0]).GetEsquive()){
-//			GameController.instance.addModifier(myPlayerID, degats, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
-//			GameController.instance.addModifier(this.targets[0], attack, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
-//			GameController.instance.displaySkillEffect(this.targets[0], attack+" dégats", 3, 1);
-//		}
-//		else{
-//			GameController.instance.displaySkillEffect(this.targets[0], "Esquive", 3, 0);
-//		}
+//		int myAttack = GameController.instance.getCurrentCard().GetAttack();
+//		int attack = targetCard.GetAttack();
+//		
+//		int damageBonusPercentage = GameController.instance.getCurrentCard().GetDamagesPercentageBonus(targetCard);
+//		int amount = (bonusAttack/2)*(100+damageBonusPercentage)/100;
+//		amount = Mathf.Min(currentLife,amount-(bouclier*amount/100));
+//		
+//		GameController.instance.addCardModifier(targets[0], amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
+//		GameController.instance.addCardModifier(targets[0], -1*bonusAttack, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, 1, 5, "Sape", "Attaque diminuée de "+bonusAttack, "Actif 1 tour");
+//		
+//		GameController.instance.displaySkillEffect(targets[0], "PV : "+currentLife+" -> "+Mathf.Max(0,(currentLife-amount))+"\nATK : "+currentAttack+" -> "+Mathf.Max(0,(currentAttack-bonusAttack)), 3, 1);
+	}
+	
+	public override void failedToCastOn(int[] targets){
+		for (int i = 0 ; i < targets.Length ; i++){
+			GameController.instance.displaySkillEffect(targets[i], "Echec", 3, 0);
+		}
 	}
 	
 	public override bool isLaunchable(Skill s){
@@ -62,12 +88,16 @@ public class AttaqueFrontale : GameSkill
 		HaloTarget h  = new HaloTarget(0); 
 		int i ;
 		
+		int currentAttack = c.GetAttack();
+		int currentLife = c.GetLife();
 		int damageBonusPercentage = GameController.instance.getCurrentCard().GetDamagesPercentageBonus(c);
-		int amount = (GameController.instance.getCurrentSkill().ManaCost/2)*(100+damageBonusPercentage)/100;
-		int attack = GameController.instance.getCurrentSkill().ManaCost*(100+damageBonusPercentage)/100;
+		int bouclier = c.GetBouclier();
+		int bonusAttack = GameController.instance.getCurrentSkill().ManaCost;
+		int amount = (bonusAttack/2)*(100+damageBonusPercentage)/100;
+		amount = amount-(bouclier*amount/100);
 		
-		h.addInfo("DMG : "+amount,0);
-		h.addInfo("ATK : -"+attack,0);
+		h.addInfo("PV : "+currentLife+" -> "+Mathf.Max(0,(currentLife-amount)),0);
+		h.addInfo("ATK : "+currentAttack+" -> "+Mathf.Max(0,(currentAttack-bonusAttack)),0);
 		
 		int probaHit = 100 - c.GetEsquive();
 		if (probaHit>=80){
@@ -82,5 +112,9 @@ public class AttaqueFrontale : GameSkill
 		h.addInfo("HIT% : "+probaHit,i);
 		
 		return h ;
+	}
+	
+	public override string getPlayText(){
+		return "Attaque précise" ;
 	}
 }

@@ -42,7 +42,7 @@ public class Assassinat : GameSkill
 		
 		int currentLife = GameController.instance.getCard(targets[0]).GetLife();
 		
-		GameController.instance.addCardModifier(targets[0], -1*currentLife, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
+		GameController.instance.addCardModifier(targets[0], currentLife, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
 		GameController.instance.displaySkillEffect(targets[0], "Assassiné", 3, 1);
 	}
 	
