@@ -585,7 +585,7 @@ public class GameController : Photon.MonoBehaviour
 			{
 				if (this.playingCards [playerID].GetComponent<PlayingCardController>().canBeTargeted())
 				{
-					this.playingCards [playerID].GetComponent<PlayingCardController>().setTargetHalo(this.gameskills[this.getCurrentSkillID()].getTargetPCCText(this.getPCC(playerID).card));
+					this.playingCards [playerID].GetComponent<PlayingCardController>().setTargetHalo(this.gameskills [this.getCurrentSkillID()].getTargetPCCText(this.getPCC(playerID).card));
 				}
 			}
 		}
@@ -600,9 +600,9 @@ public class GameController : Photon.MonoBehaviour
 			playerID = this.tiles [t.x, t.y].GetComponent<TileController>().characterID;
 			if (playerID == -1)
 			{
-				if (!this.tiles[t.x, t.y].GetComponent<TileController>().tile.isStatModifier)
+				if (!this.tiles [t.x, t.y].GetComponent<TileController>().tile.isStatModifier)
 				{
-					this.tiles[t.x, t.y].GetComponent<TileController>().setTargetHalo(this.gameskills[this.getCurrentSkillID()].getTargetPCCText(new Card()));
+					this.tiles [t.x, t.y].GetComponent<TileController>().setTargetHalo(this.gameskills [this.getCurrentSkillID()].getTargetPCCText(new Card()));
 				}
 			}
 		}
@@ -610,11 +610,13 @@ public class GameController : Photon.MonoBehaviour
 	
 	public void displayAllTargets()
 	{
-		PlayingCardController pcc ;
-		for(int i = 0 ; i < 10 ; i++){
+		PlayingCardController pcc;
+		for (int i = 0; i < 10; i++)
+		{
 			pcc = this.getPCC(i);
-			if (pcc.canBeTargeted() && i!=this.currentPlayingCard){
-				pcc.setTargetHalo(this.gameskills[this.getCurrentSkillID()].getTargetPCCText(pcc.card));
+			if (pcc.canBeTargeted() && i != this.currentPlayingCard)
+			{
+				pcc.setTargetHalo(this.gameskills [this.getCurrentSkillID()].getTargetPCCText(pcc.card));
 			}
 		}		
 	}
@@ -626,16 +628,19 @@ public class GameController : Photon.MonoBehaviour
 	
 	public void hidePCCTargets()
 	{
-		for (int i = 0 ; i < 10 ; i++){
+		for (int i = 0; i < 10; i++)
+		{
 			this.playingCards [i].GetComponent<PlayingCardController>().hideTargetHalo();
 		}
 	}
 	
 	public void hideTileTargets()
 	{
-		for (int i = 0 ; i < this.boardWidth ; i++){
-			for (int j = 0 ; j < this.boardHeight ; j++){	
-				this.tiles [i,j].GetComponent<TileController>().hideTargetHalo();
+		for (int i = 0; i < this.boardWidth; i++)
+		{
+			for (int j = 0; j < this.boardHeight; j++)
+			{	
+				this.tiles [i, j].GetComponent<TileController>().hideTargetHalo();
 			}
 		}
 	}
@@ -1030,8 +1035,9 @@ public class GameController : Photon.MonoBehaviour
 	public void resolveSkillRPC(int skillID, int[] targets, int[] args, bool isFirstP)
 	{
 		//this.gameskills[skillID].resolve(targets, args);
-		if (this.isFirstPlayer==isFirstP){
-			this.play ();
+		if (this.isFirstPlayer == isFirstP)
+		{
+			this.play();
 		}
 	}
 	
@@ -1584,72 +1590,86 @@ public class GameController : Photon.MonoBehaviour
 	
 	public void rankNext(int idToRank)
 	{
-		int i = 0 ;
-		int rankPlayingCard = -1 ;
-		int rankCardToRank = -1 ;
-		while (i<10 && (rankPlayingCard==-1||rankCardToRank==-1)){
-			if (this.rankedPlayingCardsID[i]==this.currentPlayingCard){
-				rankPlayingCard = i ;
+		int i = 0;
+		int rankPlayingCard = -1;
+		int rankCardToRank = -1;
+		while (i<10 && (rankPlayingCard==-1||rankCardToRank==-1))
+		{
+			if (this.rankedPlayingCardsID [i] == this.currentPlayingCard)
+			{
+				rankPlayingCard = i;
 			}
-			if (this.rankedPlayingCardsID[i]==idToRank){
-				rankCardToRank = i ;
+			if (this.rankedPlayingCardsID [i] == idToRank)
+			{
+				rankCardToRank = i;
 			}
 			i++;
 		}
 		
 		
-		int compteur = 0 ;
+		int compteur = 0;
 		int[] tempRank = new int[10];
-		for (int j = 0 ; j < 10 ; j++){
-			if (j!=rankCardToRank){
-				tempRank[compteur]=this.rankedPlayingCardsID[j];
-				print ("J'ajoute en position "+compteur+" : "+this.rankedPlayingCardsID[j]);
+		for (int j = 0; j < 10; j++)
+		{
+			if (j != rankCardToRank)
+			{
+				tempRank [compteur] = this.rankedPlayingCardsID [j];
+				print("J'ajoute en position " + compteur + " : " + this.rankedPlayingCardsID [j]);
 				compteur++;
 			}
-			if (j==rankPlayingCard){
-				tempRank[compteur]=idToRank;
-				print ("J'ajoute en position "+compteur+" : "+idToRank);
+			if (j == rankPlayingCard)
+			{
+				tempRank [compteur] = idToRank;
+				print("J'ajoute en position " + compteur + " : " + idToRank);
 				compteur++;
 			}
 		}
-		for (int j = 0 ; j < 10 ; j++){
-			print ("New "+j+" : "+tempRank[j]);
-			this.rankedPlayingCardsID[j]=tempRank[j];
+		for (int j = 0; j < 10; j++)
+		{
+			print("New " + j + " : " + tempRank [j]);
+			this.rankedPlayingCardsID [j] = tempRank [j];
 		}
 	}
 	
 	public void rankBefore(int idToRank)
 	{
-		int i = 0 ;
-		int rankPlayingCard = -1 ;
-		int rankCardToRank = -1 ;
-		while (i<10 && (rankPlayingCard==-1||rankCardToRank==-1)){
-			if (this.rankedPlayingCardsID[i]==this.currentPlayingCard){
-				rankPlayingCard = i ;
+		int i = 0;
+		int rankPlayingCard = -1;
+		int rankCardToRank = -1;
+		while (i<10 && (rankPlayingCard==-1||rankCardToRank==-1))
+		{
+			if (this.rankedPlayingCardsID [i] == this.currentPlayingCard)
+			{
+				rankPlayingCard = i;
 			}
-			if (this.rankedPlayingCardsID[i]==idToRank){
-				rankCardToRank = i ;
+			if (this.rankedPlayingCardsID [i] == idToRank)
+			{
+				rankCardToRank = i;
 			}
 			i++;
 		}
 		
-		int compteur = 0 ;
+		int compteur = 0;
 		int[] tempRank = new int[10];
-		for (int j = 0 ; j < 10 ; j++){
-			if (j==rankPlayingCard){
-				tempRank[compteur]=idToRank;
+		for (int j = 0; j < 10; j++)
+		{
+			if (j == rankPlayingCard)
+			{
+				tempRank [compteur] = idToRank;
 				compteur++;
 			}
-			if (j!=rankCardToRank){
-				tempRank[compteur]=this.rankedPlayingCardsID[j];
+			if (j != rankCardToRank)
+			{
+				tempRank [compteur] = this.rankedPlayingCardsID [j];
 				compteur++;
 			}
 		}
-		for (int j = 0 ; j < 10 ; j++){
-			print ("New "+j+" : "+tempRank[j]);
-			this.rankedPlayingCardsID[j]=tempRank[j];
+		for (int j = 0; j < 10; j++)
+		{
+			print("New " + j + " : " + tempRank [j]);
+			this.rankedPlayingCardsID [j] = tempRank [j];
 		}
-		this.getPCC(idToRank).hasPlayed = true ;
+		this.getPCC(idToRank).hasPlayed = true;
 	}
 
 	public int FindMaxQuicknessIndex(List<int> list)
@@ -1688,7 +1708,11 @@ public class GameController : Photon.MonoBehaviour
 	[RPC]
 	public void moveCharacterRPC(int x, int y, int c, bool isFirstP, bool isSwap)
 	{
-		addGameEvent(new MovementType(), "");
+		if (nbTurns > 0)
+		{
+			addGameEvent(new MovementType(), "");
+
+		}
 		if (!isSwap)
 		{
 			this.tiles [this.playingCards [c].GetComponentInChildren<PlayingCardController>().tile.x, this.playingCards [c].GetComponentInChildren<PlayingCardController>().tile.y].GetComponent<TileController>().characterID = -1;
@@ -2238,8 +2262,7 @@ public class GameController : Photon.MonoBehaviour
 		if (this.clickedPlayingCard != this.currentPlayingCard && this.clickedPlayingCard != -1)
 		{
 			this.showMyPlayingSkills(this.clickedPlayingCard);
-		} 
-		else
+		} else
 		{
 			this.updateStatusMySkills(this.currentPlayingCard);
 		}
@@ -2261,14 +2284,15 @@ public class GameController : Photon.MonoBehaviour
 		this.displaySkillEffect(this.currentPlayingCard, this.getCurrentGameSkill().getPlayText(), 3, 2);
 	}
 	
-	public void startPlayingSkill(){
+	public void startPlayingSkill()
+	{
 		photonView.RPC("startPlayingSkillRPC", PhotonTargets.AllBuffered, this.clickedSkill);
 	}
 	
 	[RPC]
 	public void startPlayingSkillRPC(int idskill)
 	{
-		this.clickedSkill = idskill ;
+		this.clickedSkill = idskill;
 	}
 	
 	public void displaySkillEffect(int target, string s, float timer, int colorindex)
@@ -2314,24 +2338,27 @@ public class GameController : Photon.MonoBehaviour
 		}
 	}
 	
-	public void addCardModifier(int target, int amount, ModifierType type, ModifierStat stat, int duration, int idIcon, string t, string d, string a) 
+	public void addCardModifier(int target, int amount, ModifierType type, ModifierStat stat, int duration, int idIcon, string t, string d, string a)
 	{ 
 		this.getCard(target).addModifier(amount, type, stat, duration, idIcon, t, d, a);
 		this.getPCC(target).show();
-		if(stat==ModifierStat.Stat_Dommage){
-			if(this.getCard(target).GetLife()<=0){
-				this.getPCC(target).kill ();
+		if (stat == ModifierStat.Stat_Dommage)
+		{
+			if (this.getCard(target).GetLife() <= 0)
+			{
+				this.getPCC(target).kill();
 			}
 		}
 	}
 	
-	public void addTileModifier(Tile tile, int amount, ModifierType type, ModifierStat stat, int duration, int idIcon, string t, string d, string a) 
+	public void addTileModifier(Tile tile, int amount, ModifierType type, ModifierStat stat, int duration, int idIcon, string t, string d, string a)
 	{ 
-		this.tiles[tile.x, tile.y].GetComponent<TileController>().tile.setModifier(amount, type, stat, duration, idIcon, t, d, a);
-		if (this.currentPlayingCard<5!=this.isFirstPlayer){
-			this.tiles[tile.x, tile.y].GetComponent<TileController>().tileView.tileVM.toDisplayIcon=false;
+		this.tiles [tile.x, tile.y].GetComponent<TileController>().tile.setModifier(amount, type, stat, duration, idIcon, t, d, a);
+		if (this.currentPlayingCard < 5 != this.isFirstPlayer)
+		{
+			this.tiles [tile.x, tile.y].GetComponent<TileController>().tileView.tileVM.toDisplayIcon = false;
 		}
-		this.tiles[tile.x, tile.y].GetComponent<TileController>().show();
+		this.tiles [tile.x, tile.y].GetComponent<TileController>().show();
 	}
 	
 	public IEnumerator kill(int target)
@@ -2458,66 +2485,81 @@ public class GameController : Photon.MonoBehaviour
 		this.getCard(target).Skills [nbSkill].lowerNbLeft();
 	}
 	
-	public void initPCCTargetHandler(int numberOfExpectedTargets){
+	public void initPCCTargetHandler(int numberOfExpectedTargets)
+	{
 		this.targetPCCHandler = new TargetPCCHandler(numberOfExpectedTargets);
 	}
 	
-	public void initTileTargetHandler(int numberOfExpectedTargets){
+	public void initTileTargetHandler(int numberOfExpectedTargets)
+	{
 		this.targetTileHandler = new TargetTileHandler(numberOfExpectedTargets);
 	}
 	
-	public GameSkill getCurrentGameSkill(){
-		return this.gameskills[this.getCurrentSkillID()];
+	public GameSkill getCurrentGameSkill()
+	{
+		return this.gameskills [this.getCurrentSkillID()];
 	}
 	
-	public void applyOn(int[] targets){
+	public void applyOn(int[] targets)
+	{
 		photonView.RPC("applyOnRPC", PhotonTargets.AllBuffered, targets);
 	}
 	
 	[RPC]
-	public void applyOnRPC(int[] targets){
+	public void applyOnRPC(int[] targets)
+	{
 		this.getCurrentGameSkill().applyOn(targets);
 	}
 	
-	public void applyOn(int[] targets, int[] args){
+	public void applyOn(int[] targets, int[] args)
+	{
 		photonView.RPC("applyOnRPC2", PhotonTargets.AllBuffered, targets, args);
 	}
 	
 	[RPC]
-	public void applyOnRPC2(int[] targets, int[] args){
+	public void applyOnRPC2(int[] targets, int[] args)
+	{
 		this.getCurrentGameSkill().applyOn(targets, args);
 	}
 	
-	public void activateTrap(int idSkill, int[] targets, int[] args){
+	public void activateTrap(int idSkill, int[] targets, int[] args)
+	{
 		photonView.RPC("activateTrapRPC", PhotonTargets.AllBuffered, idSkill, targets, args);
 	}
 	
 	[RPC]
-	public void activateTrapRPC(int idSkill, int[] targets, int[] args){
-		this.gameskills[idSkill].activateTrap(targets, args);
+	public void activateTrapRPC(int idSkill, int[] targets, int[] args)
+	{
+		this.gameskills [idSkill].activateTrap(targets, args);
 	}
 	
-	public void failedToCastOnSkill(int[] targets){
+	public void failedToCastOnSkill(int[] targets)
+	{
 		photonView.RPC("failedToCastOnSkillRPC", PhotonTargets.AllBuffered, targets);
 	}
 	
 	[RPC]
-	public void failedToCastOnSkillRPC(int[] targets){
+	public void failedToCastOnSkillRPC(int[] targets)
+	{
 		this.getCurrentGameSkill().failedToCastOn(targets);
 	}
 	
-	public int nbMyPlayersAlive(){
-		int debut = 0 ;
-		int compteur = 0 ;
-		if(!this.isFirstPlayer){
-			debut = 5 ;
+	public int nbMyPlayersAlive()
+	{
+		int debut = 0;
+		int compteur = 0;
+		if (!this.isFirstPlayer)
+		{
+			debut = 5;
 		}
-		for (int i = debut ; i < debut+5 ; i++){
-			if (!this.getPCC(i).isDead){
+		for (int i = debut; i < debut+5; i++)
+		{
+			if (!this.getPCC(i).isDead)
+			{
 				compteur++;
 			}
 		}
-		return compteur ;
+		return compteur;
 	}
 }
 
