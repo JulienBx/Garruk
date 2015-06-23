@@ -372,7 +372,7 @@ public class PlayingCardController : GameObjectController
 		GameController.instance.emptyTile(this.tile.x, this.tile.y);
 		this.setPosition(new Vector3(-20, -20, -20));
 		this.resizeIcons();
-		GameController.instance.getPCC(IDCharacter).tile = null;
+		this.tile = null;
 	}
 
 	public void relive()
