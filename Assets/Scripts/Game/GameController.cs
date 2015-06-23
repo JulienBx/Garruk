@@ -102,6 +102,8 @@ public class GameController : Photon.MonoBehaviour
 
 	int clickedSkill ;
 
+	public List<LifeBarsController> lifeBarsController = new List<LifeBarsController>();
+
 	void Awake()
 	{
 		instance = this;
@@ -117,6 +119,10 @@ public class GameController : Photon.MonoBehaviour
 		this.eventMax = 11;
 		this.verticalBorders = new GameObject[this.boardWidth + 1];
 		this.horizontalBorders = new GameObject[this.boardHeight + 1];
+		foreach (LifeBarsController lifebarC in GetComponents<LifeBarsController>())
+		{
+			lifeBarsController.Add(lifebarC);
+		}
 
 		this.createBackground();
 		this.resize();
@@ -128,6 +134,8 @@ public class GameController : Photon.MonoBehaviour
 		users = new User[2];
 		PhotonNetwork.ConnectUsingSettings(ApplicationModel.photonSettings);
 		PhotonNetwork.autoCleanUpPlayerObjects = false;
+		//this.lifeBarsController [0].removeLife1(25);
+		//this.lifeBarsController [1].removeLife1(15);
 	}	
 
 	void Update()
