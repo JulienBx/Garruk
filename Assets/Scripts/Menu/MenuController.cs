@@ -31,6 +31,10 @@ public class MenuController : MonoBehaviour {
 		this.initStyles ();
 		this.resize ();
 		StartCoroutine (this.getUserData ());
+		if(ApplicationModel.isAdmin)
+		{
+			view.menuVM.displayAdmin=true;
+		}
 	}
 	void Update(){
 		
@@ -160,6 +164,13 @@ public class MenuController : MonoBehaviour {
 			PhotonNetwork.Disconnect();
 		}
 		Application.LoadLevel("Profile");
+	}
+	public void adminBoardLink() 
+	{
+		if(Application.loadedLevelName=="Lobby"){
+			PhotonNetwork.Disconnect();
+		}
+		Application.LoadLevel("AdminBoard");
 	}
 	public void lobbyLink()
 	{

@@ -275,13 +275,15 @@ public class Deck
 						this.Cards[i].PercentageToNextLevel=System.Convert.ToInt32(cardInfo[17]);
 						this.Cards[i].NextLevelPrice=System.Convert.ToInt32(cardInfo[18]);
 						this.Cards[i].deckOrder=System.Convert.ToInt32(cardInfo[19]);
+						this.Cards[i].destructionPrice=System.Convert.ToInt32(cardInfo[20]);
+						this.Cards[i].Power=System.Convert.ToInt32(cardInfo[21]);
 						this.Cards[i].Skills = new List<Skill>();
 					}
 					else
 					{
 						this.Cards[i].Skills.Add(new Skill ());
 						this.Cards[i].Skills[j-1].Name=cardInfo[0];
-						this.Cards[i].Skills[j-1].Id=System.Convert.ToInt32(cardInfo[1]);
+						this.Cards[i].Skills[j-1].Id=System.Convert.ToInt32(cardInfo[1])+2;
 						this.Cards[i].Skills[j-1].IsActivated=System.Convert.ToInt32(cardInfo[2]);
 						this.Cards[i].Skills[j-1].Level=System.Convert.ToInt32(cardInfo[3]);
 						this.Cards[i].Skills[j-1].Power=System.Convert.ToInt32(cardInfo[4]);
@@ -368,6 +370,8 @@ public class Deck
 						this.Cards[i].PercentageToNextLevel=System.Convert.ToInt32(cardInfo[11]);
 						this.Cards[i].IdCardTypeUnlocked=System.Convert.ToInt32(cardInfo[12]);
 						this.Cards[i].TitleCardTypeUnlocked=cardInfo[13];
+						this.Cards[i].destructionPrice=System.Convert.ToInt32(cardInfo[14]);
+						this.Cards[i].Power=System.Convert.ToInt32(cardInfo[15]);
 						if(this.Cards[i].TitleCardTypeUnlocked!="")
 						{
 							this.NewCardType=this.Cards[i].TitleCardTypeUnlocked;

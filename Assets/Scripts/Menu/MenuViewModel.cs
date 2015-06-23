@@ -12,9 +12,11 @@ public class MenuViewModel {
 	public GUIStyle buttonStyle;
 	public GUIStyle logOutButtonStyle;
 	public bool[] buttonsEnabled;
+	public bool displayAdmin;
 	
 	public MenuViewModel ()
 	{
+		this.displayAdmin = false;
 		this.styles = new GUIStyle[0];
 		this.menuBackgroundStyle = new GUIStyle ();
 		this.titleStyle = new GUIStyle ();

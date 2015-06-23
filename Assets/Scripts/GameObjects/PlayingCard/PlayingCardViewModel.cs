@@ -5,14 +5,11 @@ using System.Collections.Generic;
 public class PlayingCardViewModel
 {
 	public Vector3 position ;
-	public Vector3 ScreenPosition ;
 	public Vector3 scale ;
-	
 	public Texture face;
 	public Texture lifeGauge;
 	public Texture2D border;
 	public Texture2D background ;
-	
 	public string attack ;
 	public string move ;
 	public bool isSelected ;
@@ -32,13 +29,18 @@ public class PlayingCardViewModel
 	public GUIStyle additionnalInfoStyle ;
 	public GUIStyle descriptionRectStyle ;
 
-	public Texture2D halo ;
+	public GUIStyle haloStyle ;
 	public Rect haloRect ;
 	public bool toDisplayHalo = false;
+	public List<string> haloTexts ;
+	public List<GUIStyle> haloStyles ;
 	
 	public SkillResult skillResult ;
 	public bool toDisplaySkillResult = false;
 	public float skillResultTimer = 0 ;
+	
+	public SkillControlHandler skillControlHandler ;
+	public bool toDisplaySkillControlHandler = false;
 	
 	public PlayingCardViewModel ()
 	{
@@ -51,6 +53,7 @@ public class PlayingCardViewModel
 		this.descriptionStyle = new GUIStyle();
 		this.descriptionRectStyle = new GUIStyle();
 		this.additionnalInfoStyle = new GUIStyle();
+		this.haloStyle = new GUIStyle();
 	}
 }
 

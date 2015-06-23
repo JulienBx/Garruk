@@ -1,37 +1,103 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 public class TirALarc : GameSkill
 {
-	public override void launch()
+	public TirALarc()
 	{
-		GameController.instance.lookForTarget("Choisir une cible pour le tir", "Lancer Tir à l'arc");
+		this.numberOfExpectedTargets = 1 ; 
 	}
 	
-	public override void resolve(int[] args)
+	public override void launch()
 	{
-		int targetID = args [0];
-		int damageBonusPercentage = GameController.instance.getCurrentCard().GetDamagesPercentageBonus();
-		int attack = GameController.instance.getCurrentSkill().ManaCost*(100+damageBonusPercentage)/100;
-		int myPlayerID = GameController.instance.currentPlayingCard;
+		GameController.instance.initPCCTargetHandler(numberOfExpectedTargets);
+		GameController.instance.displayAllTargets();
+		GameController.instance.displayMyControls("Tir à l'arc");
+	}
+	
+	public override void resolve(List<int> targetsPCC)
+	{	
+		int[] targets = new int[1];
+		targets[0] = targetsPCC[0];
+		GameController.instance.startPlayingSkill();
 		
-		string myPlayerName = GameController.instance.getCurrentCard().Title;
-		string hisPlayerName = GameController.instance.getCard(targetID).Title;
+		int nbHitMax = Random.Range(1,3);
 		
-		GameController.instance.displaySkillEffect(myPlayerID, "Tir à l'arc", 3, 2);
+		int[] args = new int[1];
+		args[0] = 0 ;
 		
-		if (Random.Range(1, 100) > GameController.instance.getCard(targetID).GetEsquive())
-		{                             
-			GameController.instance.addModifier(targetID, attack, (int)ModifierType.Type_BonusMalus, (int)ModifierStat.Stat_Dommage);
-			GameController.instance.useSkill();
-			GameController.instance.displaySkillEffect(targetID, "prend "+attack+" dégats", 3, 1);
+		for (int i = 0 ; i < nbHitMax ; i++){
+			if (Random.Range(1,101) > GameController.instance.getCard(targetsPCC[0]).GetEsquive())
+			{                             
+				args[0]++;
+			}
+		}
+		
+		if (args[0]!=0){
+			GameController.instance.applyOn(targets, args);
 		}
 		else{
-			GameController.instance.displaySkillEffect(targetID, hisPlayerName+" esquive", 3, 0);
+			GameController.instance.failedToCastOnSkill(targets);
 		}
+		
+		GameController.instance.playSkill();
 		GameController.instance.play();
 	}
 	
+	public override void applyOn(int[] targets, int[] args){
+		
+		Card targetCard = GameController.instance.getCard(targets[0]);
+		int currentLife = targetCard.GetLife();
+		int damageBonusPercentage = GameController.instance.getCurrentCard().GetDamagesPercentageBonus(targetCard);
+		int bouclier = targetCard.GetBouclier();
+		int amount = GameController.instance.getCurrentSkill().ManaCost*(100+damageBonusPercentage)/100;
+		amount = Mathf.Min(currentLife,amount-(bouclier*amount/100));
+		
+		for (int i = 0 ; i < args[0] ; i++){
+			GameController.instance.addCardModifier(targets[0], amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
+		}
+		GameController.instance.displaySkillEffect(targets[0], "Touché "+args[0]+"fois\n"+"PV : "+currentLife+" -> "+Mathf.Max(0,(currentLife-args[0]*amount)), 3, 1);
+	}
+	
+	public override void failedToCastOn(int[] targets){
+		for (int i = 0 ; i < targets.Length ; i++){
+			GameController.instance.displaySkillEffect(targets[i], "Flèches évitées", 3, 1);
+		}
+	}
+	
 	public override bool isLaunchable(Skill s){
-		return (s.nbLeft > 0) ;
+		return true ;
+	}
+	
+	public override HaloTarget getTargetPCCText(Card c){
+		
+		HaloTarget h  = new HaloTarget(0); 
+		int i ;
+		
+		int currentLife = c.GetLife();
+		int damageBonusPercentage = GameController.instance.getCurrentCard().GetDamagesPercentageBonus(c);
+		int bouclier = c.GetBouclier();
+		int amount = GameController.instance.getCurrentSkill().ManaCost*(100+damageBonusPercentage)/100;
+		amount = amount-(bouclier*amount/100);
+		
+		h.addInfo("PV : "+currentLife+" -> "+Mathf.Max(0,(currentLife-2*amount))+"-"+Mathf.Max(0,(currentLife-amount)),0);
+		
+		int probaHit = 100 - c.GetEsquive();
+		if (probaHit>=80){
+			i = 2 ;
+		}
+		else if (probaHit>=20){
+			i = 1 ;
+		}
+		else{
+			i = 0 ;
+		}
+		h.addInfo("HIT% : "+probaHit+"% / HIT",i);
+		
+		return h ;
+	}
+	
+	public override string getPlayText(){
+		return "Tir à l'arc" ;
 	}
 }

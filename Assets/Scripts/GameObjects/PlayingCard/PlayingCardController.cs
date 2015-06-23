@@ -25,6 +25,7 @@ public class PlayingCardController : GameObjectController
 
 	public Texture2D[] icons ;
 	public Texture2D[] halos ;
+	public GUIStyle[] haloTextStyles ;
 
 	public Tile tile ;
 
@@ -44,39 +45,13 @@ public class PlayingCardController : GameObjectController
 		this.playingCardView.playingCardVM.descriptionStyle = styles [2];
 		this.playingCardView.playingCardVM.descriptionRectStyle = styles [3];
 		this.playingCardView.playingCardVM.additionnalInfoStyle = styles [7];
-	}
-
-	public void setCannotBeTargeted(string title, string description)
-	{
-		if (this.cannotBeTargeted == -1)
-		{
-			this.addIntouchable(title, description);
-		}
-		this.show();
-	}
-	
-	public void setBonusDamages(int amount, int duration, string title, string description, string additionnalInfo)
-	{
-		this.card.modifiers.Add(new StatModifier(amount, ModifierType.Type_DommagePercentage, duration, 3, title, description, additionnalInfo));
-		this.show();
-	}
-	
-	public void setLowerAttack(int amount, int duration, string title, string description, string additionnalInfo)
-	{
-		this.card.modifiers.Add(new StatModifier(amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, duration, 5, title, description, additionnalInfo));
-		this.show();
-	}
-	
-	public void setRobotSpecialise(int amount, int duration, int type, string title, string description, string additionnalInfo)
-	{
-		this.card.modifiers.Add(new StatModifier(amount, (ModifierType)(6 + type), -10, 4, title, description, additionnalInfo));
-		this.show();
+		this.playingCardView.playingCardVM.haloStyle = styles [8];
 	}
 
 	public void activateTargetHalo()
 	{
 		this.playingCardView.playingCardVM.toDisplayHalo = true;
-		this.playingCardView.playingCardVM.halo = this.halos [0];
+		//this.playingCardView.playingCardVM.halo = this.halos [0];
 	}
 
 	public void resizeHalo()
@@ -92,6 +67,10 @@ public class PlayingCardController : GameObjectController
 
 		Rect position = new Rect(positionObject.x, positionObject.y, this.playingCardView.playingCardVM.scale.x * height / 11, this.playingCardView.playingCardVM.scale.x * height / 11);
 		this.playingCardView.playingCardVM.haloRect = position;
+		
+		for (int i = 0 ; i < this.haloTextStyles.Length ; i++){
+			this.haloTextStyles[i].fontSize = height * 15 / 1000;
+		}
 	}
 
 	public void resizeDeadHalo(Vector3 localScale, int i)
@@ -116,6 +95,12 @@ public class PlayingCardController : GameObjectController
 		this.playingCardView.playingCardVM.skillResultTimer = timer;
 		
 		this.playingCardView.playingCardVM.toDisplaySkillResult = true;
+	}
+	
+	public void setSkillControlSkillHandler(string s)
+	{
+		this.playingCardView.playingCardVM.skillControlHandler = new SkillControlHandler(s, styles [6]);
+		this.playingCardView.playingCardVM.toDisplaySkillControlHandler = true;
 	}
 	
 	public void removeSkillResult()
@@ -168,8 +153,8 @@ public class PlayingCardController : GameObjectController
 		}
 		base.getGOCoordinates(gameObject);
 		this.setTextResolution();
-		updateAttack();
-		updateMove();
+		this.updateAttack();
+		this.updateLifeCount();
 		this.updateLife();
 		
 		int compteurIcones = 0;
@@ -258,9 +243,9 @@ public class PlayingCardController : GameObjectController
 		this.playingCardView.playingCardVM.attack = this.card.GetAttack().ToString();
 	}
 
-	public void updateMove()
+	public void updateLifeCount()
 	{
-		this.playingCardView.playingCardVM.move = this.card.GetMove().ToString();
+		this.playingCardView.playingCardVM.move = this.card.GetLife().ToString();
 	}
 
 	public void hoverPlayingCard()
@@ -276,7 +261,7 @@ public class PlayingCardController : GameObjectController
 	public void addTarget()
 	{
 		this.playingCardView.playingCardVM.toDisplayHalo = false;
-		GameController.instance.addTarget(this.IDCharacter);
+		GameController.instance.targetPCCHandler.addTargetPCC(this.IDCharacter);
 	}
 
 	public void releaseClickPlayingCard()
@@ -345,27 +330,10 @@ public class PlayingCardController : GameObjectController
 		this.playingCardView.playingCardVM.border = this.borderPC [0];
 		this.playingCardView.changeBorder();
 	}
-
-	public void addIntouchable(string title, string description)
-	{
-		this.card.modifiers.Add(new StatModifier(0, ModifierType.Type_DommagePercentage, -1, 0, "", "", ""));
-		this.cannotBeTargeted = this.playingCardView.playingCardVM.icons.Count - 1;
-	}
-	
-	public void setParalyzed(int duration)
-	{
-		this.card.modifiers.Add(new StatModifier(ModifierType.Type_Paralized, 1, 2, "Paralysé", "Le personnage ne peut pas attaquer ou se servir de ses compétences", "Actif 1 tour"));
-		print("J'add paralyzed " + this.IDCharacter);
-		for (int i = 0; i < this.card.modifiers.Count; i++)
-		{	
-			print(this.card.modifiers [i].Type + " - " + this.card.modifiers [i].Duration);
-		}
-		this.paralyzed = this.playingCardView.playingCardVM.icons.Count - 1;
-	}
 	
 	public void changeEsquive(string title, string description, string additionnalInfo)
 	{
-		this.card.modifiers.Add(new StatModifier(ModifierType.Type_EsquivePercentage, -1, 1, title, description, additionnalInfo));
+		//this.card.modifiers.Add(new StatModifier(ModifierType.Type_EsquivePercentage, -1, 1, title, description, additionnalInfo));
 	}
 
 	public void resizeIcons()
@@ -402,6 +370,7 @@ public class PlayingCardController : GameObjectController
 		}
 		GameController.instance.emptyTile(this.tile.x, this.tile.y);
 		this.setPosition(new Vector3(-20, -20, -20));
+		this.resizeIcons();
 	}
 
 	public void relive()
@@ -439,9 +408,8 @@ public class PlayingCardController : GameObjectController
 	{
 		List<int> modifiersToSuppress = new List<int>();
 		List<int> tileModifiersToSuppress = new List<int>();
-		print(this.IDCharacter + " - " + this.card.modifiers.Count);
 		
-		for (int i = 0; i < this.card.modifiers.Count; i++)
+		for (int i = this.card.modifiers.Count-1; i >= 0; i--)
 		{
 			if (this.card.modifiers [i].Duration > 0)
 			{
@@ -454,9 +422,12 @@ public class PlayingCardController : GameObjectController
 				if (this.card.modifiers [i].Type == ModifierType.Type_Paralized)
 				{
 					this.removeParalyzed();
-				} else if (this.card.modifiers [i].Stat == ModifierStat.Stat_Attack || this.card.modifiers [i].Stat == ModifierStat.Stat_Move)
-				{
-					this.show();
+				} 
+			}
+			else if (this.card.modifiers [i].Duration > 0){
+				this.card.modifiers [i].additionnalInfo = "Actif "+this.card.modifiers [i].Duration+" tour";
+				if(this.card.modifiers [i].Duration>1){
+					this.card.modifiers [i].additionnalInfo+="s";
 				}
 			}
 		}
@@ -486,6 +457,7 @@ public class PlayingCardController : GameObjectController
 		{
 			this.card.TileModifiers.RemoveAt(tileModifiersToSuppress [i]);
 		}
+		this.show();
 	}
 	
 	public void activateSleepingModifiers()
@@ -497,6 +469,35 @@ public class PlayingCardController : GameObjectController
 				this.card.modifiers [i].Duration = 1;	
 			}
 		}
+	}
+	
+	public bool canBeTargeted(){
+		return (!this.isDead && !this.card.isIntouchable());
+	}
+	
+	public void setTargetHalo(HaloTarget h){
+		this.playingCardView.playingCardVM.haloStyle.normal.background = this.halos[h.idImage];
+		this.playingCardView.playingCardVM.haloTexts = new List<string>();
+		this.playingCardView.playingCardVM.haloStyles = new List<GUIStyle>();
+		
+		for (int i = 0 ; i < h.textsToDisplay.Count ; i++){
+			this.playingCardView.playingCardVM.haloTexts.Add(h.textsToDisplay[i]);
+			this.playingCardView.playingCardVM.haloStyles.Add(this.haloTextStyles[h.stylesID[i]]);
+		}
+		this.playingCardView.playingCardVM.toDisplayHalo = true ;
+	}
+	
+	public void hideTargetHalo(){
+		this.playingCardView.playingCardVM.toDisplayHalo = false ;
+	}
+	
+	public void cancelSkill(){
+		this.hideControlSkillHandler();
+		GameController.instance.cancelSkill();
+	}
+	
+	public void hideControlSkillHandler(){
+		this.playingCardView.playingCardVM.toDisplaySkillControlHandler = false ;
 	}
 }
 

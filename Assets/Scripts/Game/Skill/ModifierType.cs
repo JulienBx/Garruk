@@ -16,4 +16,9 @@
 	Type_DommagePercentage7,
 	Type_DommagePercentage8,
 	Type_DommagePercentage9,
+	Type_Bouclier,
+	Type_Wolftrap,
+	Type_WeakeningTrap,
+	Type_SleepingTrap,
+	Type_Sleeping,	
 };

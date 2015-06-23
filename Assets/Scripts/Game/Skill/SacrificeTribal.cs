@@ -14,21 +14,27 @@ public class SacrificeTribal : GameSkill
 		GameController.instance.lookForAdjacentAllyTarget("Choisir une cible à attaquer", "Lancer sac. tri.");
 	}
 	
-	public override void resolve(int[] args)
+	public override void resolve(List<int> targetsPCC)
 	{
-		int targetID = args [0];
-		
-		int degats = GameController.instance.getCard(targetID).GetLife();
-		int bonusA = GameController.instance.getCard(targetID).GetAttack() ;
-		int bonusL = -1*GameController.instance.getCard(targetID).GetLife() ;
-		
-		string message = GameController.instance.getCurrentCard().Title+" mange "+GameController.instance.getCard(targetID).Title;
-		
-		GameController.instance.addModifier(targetID, degats, (int)ModifierType.Type_BonusMalus, (int)ModifierStat.Stat_Dommage);
-		GameController.instance.addModifier(GameController.instance.currentPlayingCard, bonusA, (int)ModifierType.Type_BonusMalus, (int)ModifierStat.Stat_Attack);
-		GameController.instance.addModifier(GameController.instance.currentPlayingCard, bonusL, (int)ModifierType.Type_BonusMalus, (int)ModifierStat.Stat_Dommage);
-		
-		GameController.instance.play(message);	
+//		int targetID = args [0];
+//		
+//		int manaCost = GameController.instance.getCurrentSkill().ManaCost;
+//		int degats = GameController.instance.getCard(targetID).GetLife();
+//		int bonusA = GameController.instance.getCard(targetID).GetAttack()*manaCost/100 ;
+//		int bonusL = -1*GameController.instance.getCard(targetID).GetLife()*manaCost/100 ;
+//		
+//		string message = GameController.instance.getCurrentCard().Title+" mange "+GameController.instance.getCard(targetID).Title;
+//		
+//		//GameController.instance.addModifier(targetID, degats, (int)ModifierType.Type_BonusMalus, (int)ModifierStat.Stat_Dommage);
+//		GameController.instance.displaySkillEffect(targetID, "Sacrifié", 3, 1);
+//		
+//		//GameController.instance.addModifier(GameController.instance.currentPlayingCard, bonusA, (int)ModifierType.Type_BonusMalus, (int)ModifierStat.Stat_Attack);
+//		//GameController.instance.addModifier(GameController.instance.currentPlayingCard, bonusL, (int)ModifierType.Type_BonusMalus, (int)ModifierStat.Stat_Dommage);
+//		GameController.instance.setSacrificeTribal (bonusA, bonusL, -1);
+//		
+//		GameController.instance.displaySkillEffect(GameController.instance.currentPlayingCard, "Sacrifice tribal", 3, 0);
+//		
+//		GameController.instance.play();	
 	}
 	
 	public override bool isLaunchable(Skill s){

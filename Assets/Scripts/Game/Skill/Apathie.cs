@@ -5,31 +5,82 @@ public class Apathie : GameSkill
 {
 	public Apathie()
 	{
-
+		this.numberOfExpectedTargets = 1 ; 
 	}
 	
 	public override void launch()
 	{
-		Debug.Log("Je lance apathie");
-		GameController.instance.lookForTarget("Choisir une cible pour Apathie", "Lancer Apathie");
+		GameController.instance.initPCCTargetHandler(numberOfExpectedTargets);
+		GameController.instance.displayAllTargets();
+		GameController.instance.displayMyControls("Apathie");
 	}
-	 
-	public override void resolve(int[] args)
-	{
-		int amount = GameController.instance.getCurrentSkill().Power * -1;
-		GameController.instance.play(GameController.instance.getCurrentCard().Title + 
-			" a lancé apathie \n " 
-			+ amount 
-			+ " " 
-			+ convertStatToString(ModifierStat.Stat_Speed));
-
-		int targetID = args [0];
-		GameController.instance.getCard(targetID).modifiers.Add(new StatModifier(amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Speed, -1,"","",""));
-		GameController.instance.reloadSortedList();
-
+	
+	public override void resolve(List<int> targetsPCC)
+	{	
+		int[] targets = new int[1];
+		targets[0] = targetsPCC[0];
+		int successChances = GameController.instance.getCurrentSkill().ManaCost;
+		GameController.instance.startPlayingSkill();
+		
+		if (Random.Range(1,100) > GameController.instance.getCard(targetsPCC[0]).GetEsquive())
+		{                             
+			if (Random.Range(1,100) <= successChances)
+			{ 
+				GameController.instance.applyOn(targets);
+			}
+			else{
+				GameController.instance.failedToCastOnSkill(targets);
+			}
+		}
+		else{
+			GameController.instance.failedToCastOnSkill(targets);
+		}
+		GameController.instance.playSkill();
+		GameController.instance.play();
+	}
+	
+	public override void applyOn(int[] targets){
+		for (int i = 0 ; i < targets.Length ; i++){
+			GameController.instance.rankBefore(targets[i]);
+			GameController.instance.displaySkillEffect(targets[i], "Apathie : passe son prochain tour", 3, 1);
+		}
+	}
+	
+	public override void failedToCastOn(int[] targets){
+		for (int i = 0 ; i < targets.Length ; i++){
+			GameController.instance.displaySkillEffect(targets[i], "Apathie échoue", 3, 0);
+		}
 	}
 	
 	public override bool isLaunchable(Skill s){
 		return true ;
+	}
+	
+	public override HaloTarget getTargetPCCText(Card c){
+		
+		HaloTarget h  = new HaloTarget(0); 
+		int i ;
+		
+		int hitPercentage = GameController.instance.getCurrentSkill().ManaCost;
+		
+		h.addInfo("Passe son prochain tour",0);
+		
+		int probaHit = hitPercentage*(100 - c.GetEsquive())/100;
+		if (probaHit>=80){
+			i = 2 ;
+		}
+		else if (probaHit>=20){
+			i = 1 ;
+		}
+		else{
+			i = 0 ;
+		}
+		h.addInfo("HIT% : "+probaHit,i);
+		
+		return h ;
+	}
+	
+	public override string getPlayText(){
+		return "Apathie" ;
 	}
 }

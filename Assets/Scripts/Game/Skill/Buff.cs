@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class Buff : GameSkill
 {
-	public new List<StatModifier> StatModifiers = new List<StatModifier>();
+	public List<StatModifier> StatModifiers = new List<StatModifier>();
 
 	/*public override void launch()
 	{

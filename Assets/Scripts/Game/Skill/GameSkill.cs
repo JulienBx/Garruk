@@ -3,17 +3,39 @@ using System.Collections.Generic;
 
 public class GameSkill
 {
+	public int numberOfExpectedTargets ; 
+	
 	public virtual void launch()
 	{
 		Debug.Log("Skill non implémenté");
 	}
-
-	public virtual void setTarget(PlayingCardController pcc)
+	
+	public virtual void resolve(List<int> targetsPCC)
 	{
 		Debug.Log("Skill non implémenté");
 	}
-
-	public virtual void resolve(int[] args)
+	
+	public virtual void resolve(List<Tile> targetsTile)
+	{
+		Debug.Log("Skill non implémenté");
+	}
+	
+	public virtual void applyOn(int[] targets)
+	{
+		Debug.Log("Skill non implémenté");
+	}
+	
+	public virtual void applyOn(int[] targets, int[] args)
+	{
+		Debug.Log("Skill non implémenté");
+	}
+	
+	public virtual void activateTrap(int[] targets, int[] args)
+	{
+		Debug.Log("Skill non implémenté");
+	}
+	
+	public virtual void failedToCastOn(int[] targets)
 	{
 		Debug.Log("Skill non implémenté");
 	}
@@ -22,32 +44,18 @@ public class GameSkill
 	{
 		return true;
 	}
-
-	public string convertStatToString(ModifierStat stat)
+	
+	public virtual HaloTarget getTargetPCCText(Card c)
 	{
-		switch (stat)
-		{
-			case ModifierStat.Stat_Attack:
-				return "en attaque";
-				break;
-			case ModifierStat.Stat_Life:
-				return "de vie";
-				break;
-			case ModifierStat.Stat_Move:
-				return "en mouvement";
-				break;
-			case ModifierStat.Stat_Speed:
-				return "en vitesse";
-				break;
-			case ModifierStat.Stat_Dommage:
-				return "de dommage";
-				break;
-			case ModifierStat.Stat_Heal:
-				return "soigne";
-				break;
-			default:
-				return "";
-				break;
-		}
+		return null;
+	}
+	
+	public virtual HaloTarget getTargetTileText()
+	{
+		return null;
+	}
+	
+	public virtual string getPlayText(){
+		return "" ;
 	}
 }

@@ -11,10 +11,10 @@ public class Rugissement : GameSkill
 	public override void launch()
 	{
 		Debug.Log("Je lance rugissement");
-		GameController.instance.lookForAdjacentTarget("Choisir une cible à attaquer", "Lancer rug.");
+		//GameController.instance.lookForAdjacentTarget("Choisir une cible à attaquer", "Lancer rug.");
 	}
 	
-	public override void resolve(int[] args)
+	public override void resolve(List<int> targetsPCC)
 	{
 		int targetID = GameController.instance.currentPlayingCard;
 		int debut = 0 ;
@@ -28,10 +28,10 @@ public class Rugissement : GameSkill
 		string message = GameController.instance.getCurrentCard().Title+" ajoute "+bonus+" a l'attaque de tous ses alliés";
 			
 		for (int i = debut ; i < debut+5 ; i++){
-			GameController.instance.addModifier(i, bonus, (int)ModifierType.Type_BonusMalus, (int)ModifierStat.Stat_Attack);
+			//GameController.instance.addModifier(i, bonus, (int)ModifierType.Type_BonusMalus, (int)ModifierStat.Stat_Attack);
 		}
 		
-		GameController.instance.play(message);	
+		GameController.instance.play();	
 	}
 	
 	public override bool isLaunchable(Skill s){

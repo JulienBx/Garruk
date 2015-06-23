@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 public class TileController : MonoBehaviour
 {
@@ -17,10 +18,7 @@ public class TileController : MonoBehaviour
 
 	private float scaleTile ;
 	public GUIStyle[] styles ;
-	public Trap trap;
-	public Texture2D[] traps ;
-	public bool isTrap ;
-
+	
 	public bool isDestination ;
 	public int characterID = -1 ;
 	public TileModification tileModification;
@@ -28,6 +26,8 @@ public class TileController : MonoBehaviour
 	public bool statModifierActive = true;
 	public bool statModifierEachTurn = false;
 	public bool statModifierNewTurn = false;
+	
+	public GUIStyle[] haloTextStyles ;
 
 	void Awake()
 	{
@@ -37,8 +37,11 @@ public class TileController : MonoBehaviour
 		this.tileView.tileVM.haloStyle = this.styles [0];
 
 		this.tileView.tileVM.iconStyle = styles [0];
+		this.tileView.tileVM.descritionIconStyle = styles [1];
+		this.tileView.tileVM.titleStyle = styles [2];
+		this.tileView.tileVM.descriptionStyle = styles [3];
+		this.tileView.tileVM.additionnalInfoStyle = styles [4];
 		this.tileModification = TileModification.Void;
-
 	}
 
 	void Start()
@@ -46,48 +49,44 @@ public class TileController : MonoBehaviour
 
 	}
 	
-	public void setTrap(Trap t)
-	{
-		this.trap = t;
-		this.tileView.tileVM.trap = traps [t.type];
-		this.tileView.tileVM.toDisplayTrap = t.isVisible;
-		if (this.isTrap == false)
-		{
-			this.isTrap = true;
+	public void setTargetHalo(HaloTarget h){
+		this.tileView.tileVM.haloStyle.normal.background = this.halos[h.idImage];
+		this.tileView.tileVM.haloTexts = new List<string>();
+		this.tileView.tileVM.haloStyles = new List<GUIStyle>();
+		
+		for (int i = 0 ; i < h.textsToDisplay.Count ; i++){
+			this.tileView.tileVM.haloTexts.Add(h.textsToDisplay[i]);
+			this.tileView.tileVM.haloStyles.Add(this.haloTextStyles[h.stylesID[i]]);
 		}
+		this.tileView.tileVM.toDisplayHalo = true ;
 	}
 	
 	public void checkTrap(int target)
 	{
-		if (this.isTrap == true)
+		if (this.tile.isStatModifier)
 		{
-			this.trap.activate(target);
-			GameController.instance.removeTrap(this.tile);
+			if (this.tile.statModifier.Type == ModifierType.Type_Wolftrap)
+			{
+				int[] targets = new int[1];
+				targets[0] = this.characterID;
+				int[] args = new int[1];
+				args[0] = this.tile.statModifier.Amount ;
+				GameController.instance.activateTrap(15, targets, args);
+				
+				this.tile.isStatModifier = false ;
+			}
 		}
 	}
 	
 	public void removeTrap()
 	{
-		this.isTrap = false;
-		this.tileView.tileVM.toDisplayTrap = false;
+//		this.isTrap = false;
+//		this.tileView.tileVM.toDisplayTrap = false;
 	}
 
 	public int getID()
 	{
 		return (tile.x * 10 + tile.y);
-	}
-
-	public void addTileTarget()
-	{
-		this.tileView.tileVM.toDisplayHalo = false;
-		this.tileView.tileVM.isPotentialTarget = false;
-		GameController.instance.addTileTarget(this.tile);
-	}
-	
-	public void clickTarget()
-	{
-		this.tileView.tileVM.toDisplayHalo = false;
-		GameController.instance.addTileTarget(this.tile);
 	}
 
 	public void setTile(int x, int y, int boardWidth, int boardHeight, int type, float scaleTile)
@@ -130,7 +129,28 @@ public class TileController : MonoBehaviour
 		
 		this.tileView.resize();
 		this.resizeIcons();
+		this.resizeHalo();
 	}
+	
+	public void resizeHalo()
+	{
+		int height = Screen.height;
+		int width = Screen.width;
+		
+		int decalage = height / 15;
+		
+		Vector3 positionObject = new Vector3(0, 0, 0);
+		positionObject.x = (this.tileView.tileVM.position.x - this.tileView.tileVM.scale.x / 2.2f) * (height / 10f) + (width / 2f);
+		positionObject.y = height - ((this.tileView.tileVM.position.y + this.tileView.tileVM.scale.y / 2.2f) * (height / 10f) + (height / 2f));
+		
+		Rect position = new Rect(positionObject.x, positionObject.y, this.tileView.tileVM.scale.x * height / 11, this.tileView.tileVM.scale.x * height / 11);
+		this.tileView.tileVM.haloRect = position;
+		
+		for (int i = 0 ; i < this.haloTextStyles.Length ; i++){
+			this.haloTextStyles[i].fontSize = height * 15 / 1000;
+		}
+	}
+	
 	public void addTemple(int amount)
 	{
 		this.tileView.tileVM.toDisplayIcon = true;
@@ -138,8 +158,9 @@ public class TileController : MonoBehaviour
 		this.tileView.tileVM.icon = this.icons [0];
 		statModifierActive = true;
 		statModifierEachTurn = false;
-		this.tile.StatModifier.Clear();
-		this.tile.StatModifier.Add(new StatModifier(amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, -1, 0, "", "", ""));
+		//this.tile.StatModifier.Clear();
+
+		//this.tile.StatModifier.Add(new StatModifier(amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, -1, 0, "", "", ""));
 	}
 
 	public void addForetIcon(int amount)
@@ -149,8 +170,9 @@ public class TileController : MonoBehaviour
 		this.tileView.tileVM.icon = this.icons [1];
 		statModifierActive = true;
 		statModifierEachTurn = false;
-		this.tile.StatModifier.Clear();
-		this.tile.StatModifier.Add(new StatModifier(-amount, ModifierType.Type_Multiplier, ModifierStat.Stat_Move, -1, 0, "", "", ""));
+		//this.tile.StatModifier.Clear();
+
+		//this.tile.StatModifier.Add(new StatModifier(-amount, ModifierType.Type_Multiplier, ModifierStat.Stat_Move, -1, 0, "", "", ""));
 	}
 
 	public void addSable(bool isVisible)
@@ -163,8 +185,9 @@ public class TileController : MonoBehaviour
 		this.tileView.tileVM.icon = this.icons [2];
 		statModifierActive = true;
 		statModifierEachTurn = false;
-		this.tile.StatModifier.Clear();
-		this.tile.StatModifier.Add(new StatModifier(-999, ModifierType.Type_BonusMalus, ModifierStat.Stat_Move, 4, 0, "", "", ""));
+		//this.tile.StatModifier.Clear();
+
+		//this.tile.StatModifier.Add(new StatModifier(-999, ModifierType.Type_BonusMalus, ModifierStat.Stat_Move, 4, 0, "", "", ""));
 	}
 
 	public bool getIconVisibility()
@@ -180,8 +203,9 @@ public class TileController : MonoBehaviour
 		statModifierActive = true;
 		statModifierNewTurn = true;
 		statModifierEachTurn = true;
-		this.tile.StatModifier.Clear();
-		this.tile.StatModifier.Add(new StatModifier(-power, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, 0, "", "", ""));
+		//this.tile.StatModifier.Clear();
+
+		//this.tile.StatModifier.Add(new StatModifier(-power, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, 0, "", "", ""));
 	}
 
 	public void removeIcon()
@@ -193,15 +217,14 @@ public class TileController : MonoBehaviour
 		int height = Screen.height;
 		int width = Screen.width;
 		
-		int decalage = height / 15;
-		
 		Vector3 positionObject = new Vector3(0, 0, 0);
-		positionObject.x = (this.tileView.tileVM.position.x) * (height / 10f) - (decalage / 2) + (width / 2f);
-		positionObject.y = height - ((this.tileView.tileVM.position.y + this.tileView.tileVM.scale.y / 2f) * (height / 10f) - (decalage / 2) + (height / 2f));
+		positionObject.x = (this.tileView.tileVM.position.x - this.tileView.tileVM.scale.x / 2.2f) * (height / 10f) + (width / 2f);
+		positionObject.y = height - ((this.tileView.tileVM.position.y + this.tileView.tileVM.scale.y / 2.2f) * (height / 10f) + (height / 2f));
 		
-		Rect position = new Rect(positionObject.x, positionObject.y, decalage, decalage);
+		Rect position = new Rect(positionObject.x, positionObject.y, this.tileView.tileVM.scale.x * height / 11, this.tileView.tileVM.scale.x * height / 11);
 		this.tileView.tileVM.iconRect = position;
 	}
+	
 	public void setDestination(bool b)
 	{
 		this.isDestination = b;
@@ -361,6 +384,29 @@ public class TileController : MonoBehaviour
 	{
 		this.tileView.tileVM.toDisplayHalo = true;
 		this.tileView.tileVM.halo = this.halos [1];
+	}
+	
+	public void show()
+	{
+		if (this.tile.isStatModifier){
+			this.tileView.tileVM.toDisplayIcon = true ;
+			this.tileView.tileVM.icon = this.icons[this.tile.statModifier.idIcon];
+			this.tileView.tileVM.title = this.tile.statModifier.title;
+			this.tileView.tileVM.description = this.tile.statModifier.description;
+			this.tileView.tileVM.additionnalInfo = this.tile.statModifier.additionnalInfo;
+		}
+		else{
+			this.tileView.tileVM.toDisplayIcon = false ;
+		}
+	}
+	
+	public void addTileTarget(){
+		this.tileView.tileVM.toDisplayHalo = false;
+		GameController.instance.targetTileHandler.addTargetTile(this.tile);
+	}
+	
+	public void hideTargetHalo(){
+		this.tileView.tileVM.toDisplayHalo = false;
 	}
 }
 

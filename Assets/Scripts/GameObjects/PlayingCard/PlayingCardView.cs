@@ -29,7 +29,17 @@ public class PlayingCardView : MonoBehaviour
 					gameObject.GetComponentInChildren<PlayingCardController>().addTarget();
 				}
 			}
-		} else
+		}
+		else if(this.playingCardVM.toDisplaySkillControlHandler){
+			if (Input.GetMouseButtonDown(0))
+			{
+				if (Input.mousePosition.x > this.playingCardVM.haloRect.xMin && Input.mousePosition.x < this.playingCardVM.haloRect.xMax && (height - Input.mousePosition.y) > this.playingCardVM.haloRect.yMin && (height - Input.mousePosition.y) < this.playingCardVM.haloRect.yMax)
+				{
+					gameObject.GetComponentInChildren<PlayingCardController>().cancelSkill();
+				}
+			}
+		}
+		else
 		{
 			this.playingCardVM.toDisplayDescriptionIcon = -1;
 			for (int i = 0; i < this.playingCardVM.icons.Count; i++)
@@ -133,6 +143,7 @@ public class PlayingCardView : MonoBehaviour
 				{
 					GUILayout.BeginVertical();
 					{
+						GUILayout.FlexibleSpace();
 						GUILayout.Label(this.playingCardVM.titlesIcon [this.playingCardVM.toDisplayDescriptionIcon], this.playingCardVM.titleStyle);
 						GUILayout.FlexibleSpace();
 						GUILayout.Label(this.playingCardVM.descriptionIcon [this.playingCardVM.toDisplayDescriptionIcon], this.playingCardVM.descriptionStyle);
@@ -147,11 +158,28 @@ public class PlayingCardView : MonoBehaviour
 		}
 		if (this.playingCardVM.toDisplayHalo)
 		{
-			GUI.Box(this.playingCardVM.haloRect, this.playingCardVM.halo, this.playingCardVM.iconStyle);
+			GUILayout.BeginArea(this.playingCardVM.haloRect, this.playingCardVM.haloStyle);
+			{
+				GUILayout.BeginVertical();
+				{
+					GUILayout.FlexibleSpace();
+					for (int i = 0 ; i < this.playingCardVM.haloTexts.Count ; i++){
+						GUILayout.Label(this.playingCardVM.haloTexts[i], this.playingCardVM.haloStyles[i]);
+					}
+					GUILayout.FlexibleSpace();
+				}
+				GUILayout.EndVertical();
+			}
+			GUILayout.EndArea();
 		}
 		if (this.playingCardVM.toDisplaySkillResult)
 		{
 			GUI.Label(this.playingCardVM.haloRect, this.playingCardVM.skillResult.text, this.playingCardVM.skillResult.style);
+		}
+		
+		else if (this.playingCardVM.toDisplaySkillControlHandler)
+		{
+			GUI.Label(this.playingCardVM.haloRect, this.playingCardVM.skillControlHandler.text, this.playingCardVM.skillControlHandler.style);
 		}
 	}
 }

@@ -208,7 +208,7 @@ public class CardController : GameObjectController {
 	public void displaySellCardPopUp()
 	{
 		this.sellPopUpView = gameObject.AddComponent<SellCardPopUpView> ();
-		sellPopUpView.sellPopUpVM.price = this.card.getCost();
+		sellPopUpView.sellPopUpVM.price = this.card.destructionPrice;
 		sellPopUpView.popUpVM.styles=new GUIStyle[ressources.popUpStyles.Length];
 		for(int i=0;i<ressources.popUpStyles.Length;i++)
 		{

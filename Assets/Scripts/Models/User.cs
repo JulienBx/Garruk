@@ -25,6 +25,7 @@ public class User
 	private string URLSetStoreTutorial = ApplicationModel.host + "set_storeTutorial.php";
 	private string URLSetDivisionLobbyTutorial = ApplicationModel.host + "set_divisionLobbyTutorial.php";
 	private string URLSetCupLobbyTutorial = ApplicationModel.host + "set_cupLobbyTutorial.php";
+	private string URLUpdateEndGameData = ApplicationModel.host + "get_end_game_data.php";
 
 	private string ServerDirectory          = "img/profile/";
 	
@@ -562,6 +563,20 @@ public class User
 		{
 			this.CupLobbyTutorial=step;
 		}
+	}
+	public IEnumerator updateEndGameData()
+	{
+		WWWForm form = new WWWForm(); 								// Création de la connexion
+		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
+		form.AddField("myform_nick", ApplicationModel.username); 
+		
+		WWW w = new WWW(URLUpdateEndGameData, form); 								// On envoie le formulaire à l'url sur le serveur 
+		yield return w; 
+		// On attend la réponse du serveur, le jeu est donc en attente
+		if (w.error != null) 
+		{
+			Debug.Log(w.error); 										// donne l'erreur eventuelle
+		} 
 	}
 }
 

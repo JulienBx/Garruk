@@ -9,7 +9,8 @@ public class Tile
 	public int x;
 	public int y;
 	public int distance;
-	public List<StatModifier> StatModifier = new List<StatModifier>();
+	public StatModifier statModifier ;
+	public bool isStatModifier = false;
 	public NeighbourTiles neighbours;
 
 	public Tile(int x, int y, int distance)
@@ -37,5 +38,10 @@ public class Tile
 			this.neighbours = new NeighbourTiles(this.x, this.y, GameController.instance.getCharacterTilesArray(), distance);
 		}
 		return neighbours.getImmediateNeighbours(this.x, this.y);
+	}
+	
+	public void setModifier(int amount, ModifierType type, ModifierStat stat, int duration, int idIcon, string t, string d, string a){
+		this.statModifier = new StatModifier(amount, type, stat, duration, idIcon, t, d, a);
+		this.isStatModifier = true ;
 	}
 }

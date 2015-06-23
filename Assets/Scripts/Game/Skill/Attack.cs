@@ -3,38 +3,57 @@ using System.Collections.Generic;
 
 public class Attack : GameSkill
 {
-	public Attack()
-	{
-	
+	public Attack(){
+		this.numberOfExpectedTargets = 1 ; 
 	}
 	
 	public override void launch()
 	{
-		GameController.instance.lookForAdjacentTarget("Choisir une cible à attaquer", "Lancer attaque");
+		GameController.instance.initPCCTargetHandler(numberOfExpectedTargets);
+		GameController.instance.displayAdjacentTargets();
+		GameController.instance.displayMyControls("Attaque");
 	}
 	
-	public override void resolve(int[] args)
-	{
-		int targetID = args [0];
-		int damageBonusPercentage = GameController.instance.getCurrentCard().GetDamagesPercentageBonus();
-		int amount = GameController.instance.getCurrentCard().GetAttack()*(100+damageBonusPercentage)/100;
+	public override void resolve(List<int> targetsPCC)
+	{	
+		int[] targets = new int[1];
+		targets[0] = targetsPCC[0];
 		
-		int myPlayerID = GameController.instance.currentPlayingCard;
-		string myPlayerName = GameController.instance.getCurrentCard().Title;
-		string hisPlayerName = GameController.instance.getCard(targetID).Title;
+		GameController.instance.startPlayingSkill();
 		
-		GameController.instance.displaySkillEffect(myPlayerID, "Attaque", 3, 2);
-		//yield return new WaitForSeconds(0.50f);
-		
-		if (Random.Range(1, 100) > GameController.instance.getCard(targetID).GetEsquive())
+		if (Random.Range(1,100) > GameController.instance.getCard(targetsPCC[0]).GetEsquive())
 		{                             
-			GameController.instance.addModifier(targetID, amount, (int)ModifierType.Type_BonusMalus, (int)ModifierStat.Stat_Dommage);
-			GameController.instance.displaySkillEffect(targetID, "prend "+amount+" dégats", 3, 1);
+			GameController.instance.applyOn(targets);
 		}
 		else{
-			GameController.instance.displaySkillEffect(targetID, hisPlayerName+" esquive", 3, 0);
+			GameController.instance.failedToCastOnSkill(targets);
 		}
+		GameController.instance.playSkill();
 		GameController.instance.play();
+	}
+	
+	public override void applyOn(int[] targets){
+		Card targetCard ;
+		int currentLife ;
+		int damageBonusPercentage ;
+		int amount ;
+		int bouclier ;
+		for (int i = 0 ; i < targets.Length ; i++){
+			targetCard = GameController.instance.getCard(targets[i]);
+			bouclier = targetCard.GetBouclier();
+			currentLife = targetCard.GetLife();
+			damageBonusPercentage = GameController.instance.getCurrentCard().GetDamagesPercentageBonus(targetCard);
+			amount = GameController.instance.getCurrentCard().GetAttack()*(100+damageBonusPercentage)/100;
+			amount = Mathf.Min(currentLife,amount-(bouclier*amount/100));
+			GameController.instance.addCardModifier(targets[i], amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
+			GameController.instance.displaySkillEffect(targets[i], "PV : "+currentLife+" -> "+Mathf.Max(0,(currentLife-amount)), 3, 1);
+		}
+	}
+	
+	public override void failedToCastOn(int[] targets){
+		for (int i = 0 ; i < targets.Length ; i++){
+			GameController.instance.displaySkillEffect(targets[i], "L'attaque échoue", 3, 0);
+		}
 	}
 
 	public override bool isLaunchable(Skill s){
@@ -51,7 +70,7 @@ public class Attack : GameSkill
 			tempInt = GameController.instance.getTile(t.x, t.y).characterID;
 			if (tempInt!=-1)
 			{
-				if (GameController.instance.getPCC(tempInt).cannotBeTargeted==-1)
+				if (GameController.instance.getPCC(tempInt).canBeTargeted())	
 				{
 					isLaunchable = true ;
 				}
@@ -59,5 +78,37 @@ public class Attack : GameSkill
 			i++;
 		}
 		return isLaunchable ;
+	}
+	
+	public override HaloTarget getTargetPCCText(Card c){
+		
+		HaloTarget h  = new HaloTarget(0); 
+		int i ;
+		
+		int currentLife = c.GetLife();
+		int damageBonusPercentage = GameController.instance.getCurrentCard().GetDamagesPercentageBonus(c);
+		int bouclier = c.GetBouclier();
+		int amount = GameController.instance.getCurrentCard().GetAttack()*(100+damageBonusPercentage)/100;
+		amount = amount-(bouclier*amount/100);
+		
+		h.addInfo("PV : "+currentLife+" -> "+Mathf.Max(0,(currentLife-amount)),0);
+		
+		int probaHit = 100 - c.GetEsquive();
+		if (probaHit>=80){
+			i = 2 ;
+		}
+		else if (probaHit>=20){
+			i = 1 ;
+		}
+		else{
+			i = 0 ;
+		}
+		h.addInfo("HIT% : "+probaHit,i);
+		
+		return h ;
+	}
+	
+	public override string getPlayText(){
+		return "Attaque" ;
 	}
 }

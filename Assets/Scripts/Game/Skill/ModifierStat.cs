@@ -1,5 +1,6 @@
 ﻿public enum ModifierStat
 {
+	Stat_No,
 	Stat_Attack,
 	Stat_Move,
 	Stat_Speed,

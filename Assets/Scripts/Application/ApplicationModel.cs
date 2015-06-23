@@ -27,6 +27,7 @@ public class ApplicationModel : MonoBehaviour
 	static public string skillChosen = "";
 	static public int cardTypeChosen = -1;
 	static public int tutorialStep;
+	static public bool isAdmin = false;
 
 	static private string URLCheckPassword = host + "check_password.php";
 	static private string URLEditPassword = host + "edit_password.php";
@@ -95,6 +96,7 @@ public class ApplicationModel : MonoBehaviour
 				string[] data = w.text.Split(new string[] { "//" }, System.StringSplitOptions.None);
 				username = data [0];
 				tutorialStep = System.Convert.ToInt32(data [1]);
+				isAdmin=System.Convert.ToBoolean(System.Convert.ToInt32(data[2]));
 			}		
 		}
 	}
@@ -134,6 +136,7 @@ public class ApplicationModel : MonoBehaviour
 				toDeconnect = false;
 				username = data [0];
 				tutorialStep = System.Convert.ToInt32(data [1]);
+				isAdmin=System.Convert.ToBoolean(System.Convert.ToInt32(data[2]));
 			}											
 		}
 	}

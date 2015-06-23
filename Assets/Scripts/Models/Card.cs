@@ -52,16 +52,20 @@ public class Card
 	public int IdCardTypeUnlocked;
 	public string TitleCardTypeUnlocked;
 	public int deckOrder;
+	public int destructionPrice;
+	public int Power;
 
 	public static bool xpDone = false;
 	
 	public Card()
 	{
 	}
+	
 	public Card(string title)
 	{
 		this.Title = title;
 	}
+	
 	public Card(int id)
 	{
 		this.Id = id;
@@ -212,6 +216,32 @@ public class Card
 	}
 	
 	#region Modifiers
+	public void addModifier(int amount, ModifierType type, ModifierStat stat, int duration, int idIcon, string t, string d, string a){
+		if (stat == ModifierStat.Stat_Dommage){
+			int i ;
+			for (i = 0 ; i < this.modifiers.Count ; i++){
+				if (modifiers[i].Stat==ModifierStat.Stat_Dommage){
+					modifiers[i].Amount += amount ; 
+					i = this.modifiers.Count+1;
+				}
+			}
+			if (i==this.modifiers.Count){
+				this.modifiers.Add(new StatModifier(amount, type, stat, duration, idIcon, t, d, a));
+			}
+		}
+		else if(type==ModifierType.Type_Bouclier){
+			for (int j = this.modifiers.Count-1 ; j >= 0 ; j--){
+				if (modifiers[j].Type==ModifierType.Type_Bouclier){
+					modifiers.RemoveAt(j);
+				}
+			}
+			this.modifiers.Add(new StatModifier(amount, type, stat, duration, idIcon, t, d, a));
+		}
+		else{
+			this.modifiers.Add(new StatModifier(amount, type, stat, duration, idIcon, t, d, a));
+		}
+	}
+	
 	public int GetEsquive()
 	{
 		int esquive = 0;
@@ -226,7 +256,7 @@ public class Card
 		return esquive;
 	}
 	
-	public int GetDamagesPercentageBonus()
+	public int GetDamagesPercentageBonus(Card c)
 	{
 		int damagePercentageBonus = 0;
 		foreach (StatModifier modifier in modifiers)
@@ -236,6 +266,9 @@ public class Card
 				damagePercentageBonus += modifier.Amount;
 			}
 		}
+		
+		damagePercentageBonus += this.GetDamagesPercentageBonusAgainst(c.ArtIndex);
+		
 		return damagePercentageBonus;
 	}
 	
@@ -252,12 +285,41 @@ public class Card
 		return damagePercentageBonus;
 	}
 	
+	public bool isIntouchable()
+	{
+		bool isIntouchable = false;
+		int i = 0 ;
+		int max = modifiers.Count ;
+		while (i<max && !isIntouchable)
+		{
+			if (modifiers[i].Type == ModifierType.Type_Intouchable)
+			{
+				isIntouchable = true ;
+			}
+			i++;
+		}
+		return isIntouchable;
+	}
+	
+	public void emptyModifiers()
+	{
+		for (int i = modifiers.Count-1 ; i >= 0 ; i--)
+		{
+			if (modifiers[i].Stat != ModifierStat.Stat_Dommage)
+			{
+				modifiers.RemoveAt(i);
+			}
+		}
+	}
+	
 	public int GetAttack()
 	{
 		int attack = Attack;
 		foreach (StatModifier modifier in modifiers)
 		{
-			attack = modifier.modifyAttack(attack);
+			if (modifier.Stat==ModifierStat.Stat_Attack){
+				attack += modifier.Amount;
+			}
 		}
 		foreach (StatModifier modifier in TileModifiers)
 		{
@@ -270,67 +332,36 @@ public class Card
 		return attack;
 	}
 	
+	public int GetBouclier()
+	{
+		int bouclier = 0;
+		foreach (StatModifier modifier in modifiers)
+		{
+			if (modifier.Type==ModifierType.Type_Bouclier){
+				bouclier += modifier.Amount;
+			}
+		}
+		if (bouclier > 100)
+		{
+			return 100;
+		}
+		return bouclier;
+	}
+	
+	
 	public int GetLife()
 	{
-		int life = Life;
-		int dommage1 = 0, dommage2 = 0;
-
-		List<StatModifier> temp = new List<StatModifier>();
-		foreach (StatModifier modifier in TileModifiers)
-		{
-			if (modifier.Stat == ModifierStat.Stat_Dommage)
-			{
-				dommage1 += modifier.Amount;
-			} else
-			{
-				temp.Add(modifier);
-			}
-		}
+		int life = this.Life;
 		
-		TileModifiers.Clear();
-		TileModifiers.AddRange(temp);
-
-		List<StatModifier> temp2 = new List<StatModifier>();
 		foreach (StatModifier modifier in modifiers)
 		{
 			if (modifier.Stat == ModifierStat.Stat_Dommage)
 			{
-				dommage2 += modifier.Amount;
-			} else
-			{
-				temp2.Add(modifier);
+				life -= modifier.Amount;
 			}
 		}
-
-		modifiers.Clear();
-		modifiers.AddRange(temp2);
-		if (dommage1 + dommage2 > 0)
-		{
-			modifiers.Add(new StatModifier(dommage1 + dommage2, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage,-1, "", "", ""));
-		}
 		
-
-		foreach (StatModifier modifier in modifiers)
-		{
-			life = modifier.modifyLife(life);
-		}
-
-		foreach (StatModifier modifier in TileModifiers)
-		{
-			life = modifier.modifyLife(life);
-		}
-
-		if (life < 0)
-		{
-			return 0;
-		}
-		
-		if (life>this.Life){
-			return Life ;
-		}
-		else{
-			return life;
-		}
+		return life ;
 	}
 	
 	public int GetSpeed()
@@ -531,76 +562,6 @@ public class Card
 			return true;
 		}
 	}
-
-	public int getCost()
-	{
-		int cost = Mathf.RoundToInt(this.Speed +
-			this.Attack +
-			this.Move * 10 +
-			this.Life);
-		for (int i = 0; i < this.Skills.Count; i++)
-		{
-			if (this.Skills [i].IsActivated == 1)
-			{
-				cost += this.Skills [i].Power * (1 / this.Skills [i].ManaCost);
-			}
-		}
-		return cost;
-	}
-
-	public IEnumerator buyRandomCard(int cost, int cardType=-1)
-	{
-		WWWForm form = new WWWForm(); 											// Création de la connexion
-		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_nick", ApplicationModel.username);
-		form.AddField("myform_cost", cost);
-		form.AddField("myform_cardtype", cardType.ToString());
-		WWW w = new WWW(URLBuyRandomCard, form); 				// On envoie le formulaire à l'url sur le serveur 
-		yield return w;
-		if (w.error != null)
-		{
-			this.Error = w.error;
-		} else
-		{
-			string[] data = w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
-			this.Error = data [0];
-			if (this.Error == "")
-			{
-				string[] cardData = data [1].Split(new string[] { "\n" }, System.StringSplitOptions.None);
-				string[] cardInformation = cardData [0].Split(new string[] { "//" }, System.StringSplitOptions.None);
-				this.Id = System.Convert.ToInt32(cardInformation [0]);
-				this.Title = cardInformation [1];
-				this.Life = System.Convert.ToInt32(cardInformation [2]);
-				this.Attack = System.Convert.ToInt32(cardInformation [3]);
-				this.Speed = System.Convert.ToInt32(cardInformation [4]);
-				this.Move = System.Convert.ToInt32(cardInformation [5]);
-				this.ArtIndex = System.Convert.ToInt32(cardInformation [6]);
-				this.IdClass = System.Convert.ToInt32(cardInformation [7]);
-				this.TitleClass = cardInformation [8];
-				this.LifeLevel = System.Convert.ToInt32(cardInformation [9]);
-				this.MoveLevel = System.Convert.ToInt32(cardInformation [10]);
-				this.SpeedLevel = System.Convert.ToInt32(cardInformation [11]);
-				this.AttackLevel = System.Convert.ToInt32(cardInformation [12]);
-				this.onSale = 0;
-				this.Experience = 0;
-
-				this.Skills = new List<Skill>();
-				
-				for (int i = 1; i < 5; i++)
-				{         
-					cardInformation = cardData [i].Split(new string[] { "//" }, System.StringSplitOptions.None);
-					this.Skills.Add(new Skill());
-					this.Skills [this.Skills.Count - 1].Name = cardInformation [0];
-					this.Skills [this.Skills.Count - 1].Id = System.Convert.ToInt32(cardInformation [1]);
-					this.Skills [this.Skills.Count - 1].IsActivated = System.Convert.ToInt32(cardInformation [2]);
-					this.Skills [this.Skills.Count - 1].Level = System.Convert.ToInt32(cardInformation [3]);
-					this.Skills [this.Skills.Count - 1].Power = System.Convert.ToInt32(cardInformation [4]);
-					this.Skills [this.Skills.Count - 1].ManaCost = System.Convert.ToInt32(cardInformation [5]);
-					this.Skills [this.Skills.Count - 1].Description = cardInformation [6];
-				}
-			}
-		}
-	}
 	public IEnumerator addXpLevel()
 	{
 
@@ -647,6 +608,8 @@ public class Card
 						this.PercentageToNextLevel = System.Convert.ToInt32(cardInfo [11]);
 						this.IdCardTypeUnlocked = System.Convert.ToInt32(cardInfo [12]);
 						this.TitleCardTypeUnlocked = cardInfo[13];
+						this.destructionPrice=System.Convert.ToInt32(cardInfo[14]);
+						this.Power=System.Convert.ToInt32(cardInfo[15]);
 						this.NewSkills=new List<Skill>();
 					} 
 					else
@@ -675,8 +638,7 @@ public class Card
 		WWWForm form = new WWWForm(); 											// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_nick", ApplicationModel.username);
-		form.AddField("myform_idcard", this.Id);
-		form.AddField("myform_cost", this.getCost());		
+		form.AddField("myform_idcard", this.Id);		
 		WWW w = new WWW(URLSellCard, form); 				// On envoie le formulaire à l'url sur le serveur 
 		yield return w;
 		if (w.error != null)

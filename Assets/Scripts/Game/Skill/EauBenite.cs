@@ -9,10 +9,10 @@ public class EauBenite : GameSkill
 	
 	public override void launch()
 	{
-		GameController.instance.lookForValidation(true, "Eau Bénite cible tous les alliés", "Lancer Eau Bénite");
+		//GameController.instance.lookForValidation(true, "Eau Bénite cible tous les alliés", "Lancer Eau Bénite");
 	}
 
-	public override void resolve(int[] args)
+	public override void resolve(List<int> targetsPCC)
 	{
 		int amount = GameController.instance.getCurrentSkill().ManaCost;
 		
@@ -38,13 +38,13 @@ public class EauBenite : GameSkill
 
 		GameController.instance.addGameEvent(GameController.instance.getCurrentSkill().Action, "");
 		
-		GameController.instance.play(GameController.instance.getCurrentCard().Title + 
-			" a lancé Eau Bénite \n " 
-			+ convertStatToString(ModifierStat.Stat_Heal)
-			+ " "
-			+ amount 
-			+ " " 
-			+ convertStatToString(ModifierStat.Stat_Life));
+//		GameController.instance.play(GameController.instance.getCurrentCard().Title + 
+//			" a lancé Eau Bénite \n " 
+//			+ convertStatToString(ModifierStat.Stat_Heal)
+//			+ " "
+//			+ amount 
+//			+ " " 
+//			+ convertStatToString(ModifierStat.Stat_Life));
 	}
 	
 	public override bool isLaunchable(Skill s)
