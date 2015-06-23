@@ -361,7 +361,6 @@ public class PlayingCardController : GameObjectController
 	public void kill()
 	{
 		GameController.instance.displayPopUpMessage(GameController.instance.getCard(this.IDCharacter).Title + " est mort", 3);
-		GameController.instance.getPCC(IDCharacter).tile = null;
 		this.isDead = true;
 		this.hasPlayed = true;
 		gameObject.renderer.enabled = false;
@@ -373,6 +372,7 @@ public class PlayingCardController : GameObjectController
 		GameController.instance.emptyTile(this.tile.x, this.tile.y);
 		this.setPosition(new Vector3(-20, -20, -20));
 		this.resizeIcons();
+		GameController.instance.getPCC(IDCharacter).tile = null;
 	}
 
 	public void relive()
