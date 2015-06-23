@@ -25,7 +25,20 @@ public class AdminBoardView : MonoBehaviour
 		{
 			GUILayout.Space (VM.heightScreen*0.05f);
 			GUILayout.Label ("ADMIN BOARD",VM.titleStyle);
-			GUILayout.Space (VM.heightScreen*0.05f);
+			GUILayout.Space (VM.heightScreen*0.02f);
+			GUILayout.BeginHorizontal();
+			{
+				GUILayout.FlexibleSpace();
+				bool toggle;
+				toggle = GUILayout.Toggle(VM.filteredStats, "Données filtrées", VM.toggleStyle);
+				if (toggle != VM.filteredStats)
+				{
+					AdminBoardController.instance.filterData(toggle);
+				}
+				GUILayout.FlexibleSpace();
+			}
+			GUILayout.EndHorizontal();
+			GUILayout.Space (VM.heightScreen*0.02f);
 			GUILayout.BeginHorizontal();
 			{
 				GUILayout.BeginVertical(GUILayout.Width(VM.widthScreen*0.5f));
@@ -34,6 +47,8 @@ public class AdminBoardView : MonoBehaviour
 					GUILayout.Space (VM.heightScreen*0.05f);
 					GUILayout.Label(VM.connectionsToday,VM.valueStyle);
 					GUILayout.Label("Nb de connections",VM.textStyle);
+					GUILayout.Label(VM.playersToday,VM.valueStyle);
+					GUILayout.Label("Nb de joueurs",VM.textStyle);
 					GUILayout.Label(VM.packBoughtToday,VM.valueStyle);
 					GUILayout.Label("Nb de pack achetés",VM.textStyle);
 					GUILayout.Label(VM.cardBoughtToday,VM.valueStyle);
@@ -76,6 +91,8 @@ public class AdminBoardView : MonoBehaviour
 					}
 					GUILayout.Label(VM.connectionsOnPeriod,VM.valueStyle);
 					GUILayout.Label("Nb de connections",VM.textStyle);
+					GUILayout.Label(VM.playersOnPeriod,VM.valueStyle);
+					GUILayout.Label("Nb de joueurs",VM.textStyle);
 					GUILayout.Label(VM.packBoughtOnPeriod,VM.valueStyle);
 					GUILayout.Label("Nb de pack achetés",VM.textStyle);
 					GUILayout.Label(VM.cardBoughtOnPeriod,VM.valueStyle);

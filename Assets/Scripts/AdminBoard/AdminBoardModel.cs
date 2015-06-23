@@ -17,12 +17,28 @@ public class AdminBoardModel
 	public int xpBoughtToday;
 	public int cardBoughtToday;
 	public int cardSoldToday;
+	public int totalConnectionsToday;
+	public int totalCardsRenamedToday;
+	public int totalPackBoughtToday;
+	public int totalXpBoughtToday;
+	public int totalCardBoughtToday;
+	public int totalCardSoldToday;
+	public int nbPlayersToday;
+	public int totalNbPlayersToday;
 	public int connectionsOnPeriod;
 	public int cardsRenamedOnPeriod;
 	public int packBoughtOnPeriod;
 	public int xpBoughtOnPeriod;
 	public int cardBoughtOnPeriod;
 	public int cardSoldOnPeriod;
+	public int totalConnectionsOnPeriod;
+	public int totalCardsRenamedOnPeriod;
+	public int totalPackBoughtOnPeriod;
+	public int totalXpBoughtOnPeriod;
+	public int totalCardBoughtOnPeriod;
+	public int totalCardSoldOnPeriod;
+	public int nbPlayersOnPeriod;
+	public int totalNbPlayersOnPeriod;
 	
 	public AdminBoardModel ()
 	{
@@ -49,12 +65,28 @@ public class AdminBoardModel
 			this.xpBoughtToday=System.Convert.ToInt32(data[3]);
 			this.packBoughtToday=System.Convert.ToInt32(data[4]);
 			this.cardSoldToday=System.Convert.ToInt32(data[5]);
-			this.connectionsOnPeriod=System.Convert.ToInt32(data[6]);
-			this.cardBoughtOnPeriod=System.Convert.ToInt32(data[7]);
-			this.cardsRenamedOnPeriod=System.Convert.ToInt32(data[8]);
-			this.xpBoughtOnPeriod=System.Convert.ToInt32(data[9]);
-			this.packBoughtOnPeriod=System.Convert.ToInt32(data[10]);
-			this.cardSoldOnPeriod=System.Convert.ToInt32(data[11]);
+			this.totalConnectionsToday=System.Convert.ToInt32(data[6]);
+			this.totalCardBoughtToday=System.Convert.ToInt32(data[7]);
+			this.totalCardsRenamedToday=System.Convert.ToInt32(data[8]);
+			this.totalXpBoughtToday=System.Convert.ToInt32(data[9]);
+			this.totalCardSoldToday=System.Convert.ToInt32(data[10]);
+			this.totalPackBoughtToday=System.Convert.ToInt32(data[11]);
+			this.nbPlayersToday=System.Convert.ToInt32(data[12]);
+			this.totalNbPlayersToday=System.Convert.ToInt32(data[13]);
+			this.connectionsOnPeriod=System.Convert.ToInt32(data[14]);
+			this.cardBoughtOnPeriod=System.Convert.ToInt32(data[15]);
+			this.cardsRenamedOnPeriod=System.Convert.ToInt32(data[16]);
+			this.xpBoughtOnPeriod=System.Convert.ToInt32(data[17]);
+			this.packBoughtOnPeriod=System.Convert.ToInt32(data[18]);
+			this.cardSoldOnPeriod=System.Convert.ToInt32(data[19]);
+			this.totalConnectionsOnPeriod=System.Convert.ToInt32(data[20]);
+			this.totalCardBoughtOnPeriod=System.Convert.ToInt32(data[21]);
+			this.totalCardsRenamedOnPeriod=System.Convert.ToInt32(data[22]);
+			this.totalXpBoughtOnPeriod=System.Convert.ToInt32(data[23]);
+			this.totalPackBoughtOnPeriod=System.Convert.ToInt32(data[24]);
+			this.totalCardSoldOnPeriod=System.Convert.ToInt32(data[25]);
+			this.nbPlayersOnPeriod=System.Convert.ToInt32(data[26]);
+			this.totalNbPlayersOnPeriod=System.Convert.ToInt32(data[27]);
 		}
 	}
 	public IEnumerator refreshPeriod(DateTime startPeriod, DateTime endPeriod)
@@ -79,6 +111,14 @@ public class AdminBoardModel
 			this.xpBoughtOnPeriod=System.Convert.ToInt32(data[3]);
 			this.packBoughtOnPeriod=System.Convert.ToInt32(data[4]);
 			this.cardSoldOnPeriod=System.Convert.ToInt32(data[5]);
+			this.totalConnectionsOnPeriod=System.Convert.ToInt32(data[6]);
+			this.totalCardBoughtOnPeriod=System.Convert.ToInt32(data[7]);
+			this.totalCardsRenamedOnPeriod=System.Convert.ToInt32(data[8]);
+			this.totalXpBoughtOnPeriod=System.Convert.ToInt32(data[9]);
+			this.totalPackBoughtOnPeriod=System.Convert.ToInt32(data[10]);
+			this.totalCardSoldOnPeriod=System.Convert.ToInt32(data[11]);
+			this.nbPlayersOnPeriod=System.Convert.ToInt32(data[12]);
+			this.totalNbPlayersOnPeriod=System.Convert.ToInt32(data[13]);
 		}
 	}
 }

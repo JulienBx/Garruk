@@ -11,15 +11,18 @@ public class AdminBoardViewModel
 	public GUIStyle buttonStyle;
 	public GUIStyle textfieldStyle;
 	public GUIStyle errorStyle;
+	public GUIStyle toggleStyle;
 	public int heightScreen;
 	public int widthScreen;
 	public string connectionsToday;
+	public string playersToday;
 	public string cardsRenamedToday;
 	public string packBoughtToday;
 	public string xpBoughtToday;
 	public string cardBoughtToday;
 	public string cardSoldToday;
 	public string connectionsOnPeriod;
+	public string playersOnPeriod;
 	public string cardsRenamedOnPeriod;
 	public string packBoughtOnPeriod;
 	public string xpBoughtOnPeriod;
@@ -28,6 +31,7 @@ public class AdminBoardViewModel
 	public string startPeriod;
 	public string endPeriod;
 	public string error;
+	public bool filteredStats;
 
 	public AdminBoardViewModel ()
 	{
@@ -40,13 +44,16 @@ public class AdminBoardViewModel
 		this.buttonStyle = new GUIStyle ();
 		this.textfieldStyle = new GUIStyle ();
 		this.errorStyle = new GUIStyle ();
+		this.toggleStyle = new GUIStyle ();
 		this.connectionsToday="";
+		this.playersToday = "";
 		this.cardsRenamedToday="";
 		this.packBoughtToday="";
 		this.xpBoughtToday="";
 		this.cardBoughtToday="";
 		this.cardSoldToday = "";
 		this.connectionsOnPeriod="";
+		this.playersOnPeriod = "";
 		this.cardsRenamedOnPeriod="";
 		this.packBoughtOnPeriod="";
 		this.xpBoughtOnPeriod="";
@@ -55,6 +62,7 @@ public class AdminBoardViewModel
 		this.startPeriod = "";
 		this.endPeriod = "";
 		this.error = "";
+		this.filteredStats = true;
 	}
 	public void initStyles()
 	{
@@ -64,6 +72,7 @@ public class AdminBoardViewModel
 		this.textfieldStyle = this.styles [3];
 		this.buttonStyle = this.styles [4];
 		this.errorStyle = this.styles [5];
+		this.toggleStyle = this.styles [6];
 	}
 	public void resize()
 	{

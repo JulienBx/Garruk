@@ -34,12 +34,14 @@ public class AdminBoardController : MonoBehaviour
 		this.resize ();
 		yield return StartCoroutine (model.getAdminBoardData (startPeriod,endPeriod));
 		view.VM.connectionsToday=model.connectionsToday.ToString();
+		view.VM.playersToday = model.nbPlayersToday.ToString ();
 		view.VM.cardsRenamedToday=model.cardsRenamedToday.ToString();
 		view.VM.packBoughtToday=model.packBoughtToday.ToString();
 		view.VM.xpBoughtToday=model.xpBoughtToday.ToString();
 		view.VM.cardBoughtToday=model.cardBoughtToday.ToString();
 		view.VM.cardSoldToday = model.cardSoldToday.ToString ();
 		view.VM.connectionsOnPeriod=model.connectionsOnPeriod.ToString();
+		view.VM.playersOnPeriod = model.nbPlayersOnPeriod.ToString ();
 		view.VM.cardsRenamedOnPeriod=model.cardsRenamedOnPeriod.ToString();
 		view.VM.packBoughtOnPeriod=model.packBoughtOnPeriod.ToString();
 		view.VM.xpBoughtOnPeriod=model.xpBoughtOnPeriod.ToString();
@@ -99,6 +101,44 @@ public class AdminBoardController : MonoBehaviour
 			view.VM.styles[i]=this.adminBoardVMStyle[i];
 		}
 		view.VM.initStyles();
+	}
+	public void filterData(bool toggle)
+	{
+		view.VM.filteredStats = toggle;
+		if (toggle) 
+		{
+			view.VM.connectionsToday=model.connectionsToday.ToString();
+			view.VM.playersToday = model.nbPlayersToday.ToString ();
+			view.VM.cardsRenamedToday=model.cardsRenamedToday.ToString();
+			view.VM.packBoughtToday=model.packBoughtToday.ToString();
+			view.VM.xpBoughtToday=model.xpBoughtToday.ToString();
+			view.VM.cardBoughtToday=model.cardBoughtToday.ToString();
+			view.VM.cardSoldToday = model.cardSoldToday.ToString ();
+			view.VM.connectionsOnPeriod=model.connectionsOnPeriod.ToString();
+			view.VM.playersOnPeriod = model.nbPlayersOnPeriod.ToString ();
+			view.VM.cardsRenamedOnPeriod=model.cardsRenamedOnPeriod.ToString();
+			view.VM.packBoughtOnPeriod=model.packBoughtOnPeriod.ToString();
+			view.VM.xpBoughtOnPeriod=model.xpBoughtOnPeriod.ToString();
+			view.VM.cardBoughtOnPeriod=model.cardBoughtOnPeriod.ToString();
+			view.VM.cardSoldOnPeriod = model.cardSoldOnPeriod.ToString ();
+		}
+		else
+		{
+			view.VM.connectionsToday=model.totalConnectionsToday.ToString();
+			view.VM.playersToday = model.totalNbPlayersToday.ToString ();
+			view.VM.cardsRenamedToday=model.totalCardsRenamedToday.ToString();
+			view.VM.packBoughtToday=model.totalPackBoughtToday.ToString();
+			view.VM.xpBoughtToday=model.totalXpBoughtToday.ToString();
+			view.VM.cardBoughtToday=model.totalCardBoughtToday.ToString();
+			view.VM.cardSoldToday = model.totalCardSoldToday.ToString ();
+			view.VM.connectionsOnPeriod=model.totalConnectionsOnPeriod.ToString();
+			view.VM.playersOnPeriod = model.totalNbPlayersOnPeriod.ToString ();
+			view.VM.cardsRenamedOnPeriod=model.totalCardsRenamedOnPeriod.ToString();
+			view.VM.packBoughtOnPeriod=model.totalPackBoughtOnPeriod.ToString();
+			view.VM.xpBoughtOnPeriod=model.totalXpBoughtOnPeriod.ToString();
+			view.VM.cardBoughtOnPeriod=model.totalCardBoughtOnPeriod.ToString();
+			view.VM.cardSoldOnPeriod = model.totalCardSoldOnPeriod.ToString ();
+		}
 	}
 }
 
