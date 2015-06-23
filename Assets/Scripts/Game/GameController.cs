@@ -1796,6 +1796,14 @@ public class GameController : Photon.MonoBehaviour
 	public void quitGameRPC(bool isFirstP)
 	{
 		gameView.gameScreenVM.toDisplayGameScreen = false;
+		for(int i = 0 ; i < 10 ; i++){
+			this.playingCards[i].SetActive(false);	
+		}
+		for(int i = 0 ; i < 6 ; i++){
+			this.skillsObjects[i].SetActive(false);
+			this.opponentSkillsObjects[i].SetActive(false);
+		}
+		
 		if (isFirstP == this.isFirstPlayer)
 		{
 			//print("J'ai perdu comme un gros con");
@@ -1848,12 +1856,14 @@ public class GameController : Photon.MonoBehaviour
 			go = gameEvents [midTimeline];
 			go.GetComponent<GameEventController>().setAction(type.toString());
 			nbActionPlayed++;
-		} else if (nbActionPlayed < 2)
+		} 
+		else if (nbActionPlayed < 2)
 		{
 			go = gameEvents [midTimeline];
 			go.GetComponent<GameEventController>().addAction(type.toString());
 			nbActionPlayed++;
-		} else
+		} 
+		else
 		{
 			go = gameEvents [0];
 		}
@@ -2319,23 +2329,26 @@ public class GameController : Photon.MonoBehaviour
 	
 	public void addTileModifier(Tile tile, int amount, ModifierType type, ModifierStat stat, int duration, int idIcon, string t, string d, string a) 
 	{ 
-		this.tiles[tile.x, tile.y].GetComponent<TileController>().tile.setModifier(amount, type, stat, duration, idIcon, t, d, a);
+		bool b = true ;
 		if (this.currentPlayingCard<5!=this.isFirstPlayer){
-			this.tiles[tile.x, tile.y].GetComponent<TileController>().tileView.tileVM.toDisplayIcon=false;
+			b = false;
 		}
+		print (b);
+		this.tiles[tile.x, tile.y].GetComponent<TileController>().tile.setModifier(amount, type, stat, duration, idIcon, t, d, a, b);
 		this.tiles[tile.x, tile.y].GetComponent<TileController>().show();
 	}
 	
 	public IEnumerator kill(int target)
 	{
 		yield return new WaitForSeconds(2f);
+		this.tiles[this.getPCC(target).tile.x, this.getPCC(target).tile.x].GetComponent<TileController>().characterID=-1;
 		this.getPCC(target).kill();
 	}
 
 	public void addTileModifier(int modifierType, int amount, int tileX, int tileY)
 	{
 		photonView.RPC("addTileModifierRPC", PhotonTargets.AllBuffered, modifierType, amount, tileX, tileY, this.isFirstPlayer);
-	}	
+	}
 
 	public void addCardModifier(int amount, int targetID, int modifierType, int modifierStat, int duration)
 	{

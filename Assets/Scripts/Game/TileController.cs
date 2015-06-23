@@ -73,6 +73,29 @@ public class TileController : MonoBehaviour
 				args[0] = this.tile.statModifier.Amount ;
 				GameController.instance.activateTrap(15, targets, args);
 				
+				this.tile.statModifier = null ;
+				this.tile.isStatModifier = false ;
+			}
+			else if (this.tile.statModifier.Type == ModifierType.Type_SleepingTrap)
+			{
+				int[] targets = new int[1];
+				targets[0] = this.characterID;
+				int[] args = new int[1];
+				args[0] = this.tile.statModifier.Amount ;
+				GameController.instance.activateTrap(15, targets, args);
+				
+				this.tile.statModifier = null ;
+				this.tile.isStatModifier = false ;
+			}
+			else if (this.tile.statModifier.Type == ModifierType.Type_WeakeningTrap)
+			{
+				int[] targets = new int[1];
+				targets[0] = this.characterID;
+				int[] args = new int[1];
+				args[0] = this.tile.statModifier.Amount ;
+				GameController.instance.activateTrap(15, targets, args);
+				
+				this.tile.statModifier = null ;
 				this.tile.isStatModifier = false ;
 			}
 		}
@@ -389,11 +412,13 @@ public class TileController : MonoBehaviour
 	public void show()
 	{
 		if (this.tile.isStatModifier){
-			this.tileView.tileVM.toDisplayIcon = true ;
-			this.tileView.tileVM.icon = this.icons[this.tile.statModifier.idIcon];
-			this.tileView.tileVM.title = this.tile.statModifier.title;
-			this.tileView.tileVM.description = this.tile.statModifier.description;
-			this.tileView.tileVM.additionnalInfo = this.tile.statModifier.additionnalInfo;
+			if (this.tile.statModifier.Active){
+				this.tileView.tileVM.toDisplayIcon = true ;
+				this.tileView.tileVM.icon = this.icons[this.tile.statModifier.idIcon];
+				this.tileView.tileVM.title = this.tile.statModifier.title;
+				this.tileView.tileVM.description = this.tile.statModifier.description;
+				this.tileView.tileVM.additionnalInfo = this.tile.statModifier.additionnalInfo;
+			}
 		}
 		else{
 			this.tileView.tileVM.toDisplayIcon = false ;

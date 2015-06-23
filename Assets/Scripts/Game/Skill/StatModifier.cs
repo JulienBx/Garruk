@@ -32,7 +32,19 @@ public class StatModifier
 		this.additionnalInfo = a ;
 	}
 	
-
+	public StatModifier(int amount, ModifierType type, ModifierStat stat, int duration, int idIco, string t, string d, string a, bool b)
+	{
+		this.Amount = amount;
+		this.Type = type;
+		this.Stat = stat;
+		this.Duration = duration;
+		this.Active = b;
+		this.idIcon = idIco ;
+		this.title = t ;
+		this.description = d ;
+		this.additionnalInfo = a ;
+	}
+	
 	public int modifyAttack(int attack)
 	{
 		if (Stat == ModifierStat.Stat_Attack)

@@ -40,8 +40,8 @@ public class Tile
 		return neighbours.getImmediateNeighbours(this.x, this.y);
 	}
 	
-	public void setModifier(int amount, ModifierType type, ModifierStat stat, int duration, int idIcon, string t, string d, string a){
-		this.statModifier = new StatModifier(amount, type, stat, duration, idIcon, t, d, a);
+	public void setModifier(int amount, ModifierType type, ModifierStat stat, int duration, int idIcon, string t, string d, string a, bool b){
+		this.statModifier = new StatModifier(amount, type, stat, duration, idIcon, t, d, a, b);
 		this.isStatModifier = true ;
 	}
 }
