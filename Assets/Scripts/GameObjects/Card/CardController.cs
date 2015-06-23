@@ -119,7 +119,7 @@ public class CardController : GameObjectController {
 		{
 			deckOrderFeaturesView.deckOrderFeaturesVM.displayLeftArrow=true;
 		}
-		if(this.card.deckOrder<4)
+		if(this.card.deckOrder<ApplicationModel.nbCardsByDeck-1)
 		{
 			deckOrderFeaturesView.deckOrderFeaturesVM.displayRightArrow=true;
 		}

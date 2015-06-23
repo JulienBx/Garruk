@@ -28,6 +28,7 @@ public class ApplicationModel : MonoBehaviour
 	static public int cardTypeChosen = -1;
 	static public int tutorialStep;
 	static public bool isAdmin = false;
+	static public int nbCardsByDeck = 4;
 
 	static private string URLCheckPassword = host + "check_password.php";
 	static private string URLEditPassword = host + "edit_password.php";

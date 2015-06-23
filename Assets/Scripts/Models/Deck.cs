@@ -326,7 +326,7 @@ public class Deck
 		this.NewCardType = "";
 		string idCards = "";
 
-		for (int i=0; i<5; i++)
+		for (int i=0; i<ApplicationModel.nbCardsByDeck; i++)
 		{
 			idCards = idCards + this.Cards [i].Id.ToString() + "SEPARATOR";
 		}
@@ -336,6 +336,7 @@ public class Deck
 		form.AddField("myform_idcard", idCards);
 		form.AddField("myform_xp", earnXp);
 		form.AddField("myform_nick", ApplicationModel.username); 
+		form.AddField ("myform_nbcardsbydeck", ApplicationModel.nbCardsByDeck);
 		
 		WWW w = new WWW(URLAddXpToDeck, form); 								// On envoie le formulaire à l'url sur le serveur 
 		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
@@ -347,8 +348,8 @@ public class Deck
 		else
 		{
 			string [] cardsData = w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
-			this.CollectionPoints=System.Convert.ToInt32(cardsData[5]);
-			for(int i=0;i<5;i++)
+			this.CollectionPoints=System.Convert.ToInt32(cardsData[cardsData.Length-1]);
+			for(int i=0;i<ApplicationModel.nbCardsByDeck;i++)
 			{
 				string [] cardData =  cardsData[i].Split(new string[] { "#S#" }, System.StringSplitOptions.None);
 				for(int j = 0 ; j < cardData.Length-1 ; j++)

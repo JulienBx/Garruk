@@ -85,7 +85,7 @@ public class LobbyController : Photon.MonoBehaviour
 		{
 			view.lobbyVM.displayView=false ;
 
-			for(int i = 0 ; i < 5 ; i++)
+			for(int i = 0 ; i < ApplicationModel.nbCardsByDeck ; i++)
 			{
 				this.displayedDeckCards[i].SetActive(false);
 			}
@@ -135,7 +135,7 @@ public class LobbyController : Photon.MonoBehaviour
 	public void exitCard()
 	{
 		this.clearFocus ();
-		for(int i = 0 ; i < 5 ; i++)
+		for(int i = 0 ; i < ApplicationModel.nbCardsByDeck ; i++)
 		{
 			this.displayedDeckCards[i].SetActive(true);
 		}
@@ -295,9 +295,9 @@ public class LobbyController : Photon.MonoBehaviour
 		float pas = (width - 5f * scaleDeck) / 6f;
 		float debutLargeur = -0.28f * tempF + pas + scaleDeck / 2;
 		int deckIndex = view.decksVM.decksToBeDisplayed [view.decksVM.chosenDeck];
-		this.displayedDeckCards = new GameObject[5];
+		this.displayedDeckCards = new GameObject[ApplicationModel.nbCardsByDeck];
 		
-		for (int i = 0; i < 5; i++)
+		for (int i = 0; i < ApplicationModel.nbCardsByDeck; i++)
 		{
 			name="Card" + i;
 			scale = new Vector3(scaleDeck,scaleDeck,scaleDeck);
@@ -306,7 +306,7 @@ public class LobbyController : Photon.MonoBehaviour
 			this.displayedDeckCards [i].AddComponent<CardLobbyController>();
 			this.displayedDeckCards [i].GetComponent<CardController>().setGameObject(name,scale,position);
 		}
-		for (int i =0;i<5;i++)
+		for (int i =0;i<ApplicationModel.nbCardsByDeck;i++)
 		{
 			this.displayedDeckCards[model.decks[deckIndex].Cards[i].deckOrder].GetComponent<CardLobbyController>().setLobbyCard(model.decks[deckIndex].Cards[i]);
 			this.displayedDeckCards[model.decks[deckIndex].Cards[i].deckOrder].GetComponent<CardController> ().setCentralWindowRect (view.screenVM.centralWindow);
@@ -316,7 +316,7 @@ public class LobbyController : Photon.MonoBehaviour
 	}
 	private void clearDeckCards()
 	{
-		for (int i = 0; i < 5; i++) 
+		for (int i = 0; i < ApplicationModel.nbCardsByDeck; i++) 
 		{
 			Destroy(this.displayedDeckCards[i]);
 		}
@@ -340,7 +340,7 @@ public class LobbyController : Photon.MonoBehaviour
 
 		yield return StartCoroutine (model.decks [view.decksVM.decksToBeDisplayed [view.decksVM.chosenDeck]].RetrieveCards ());
 
-		for(int i=0;i<5;i++)
+		for(int i=0;i<ApplicationModel.nbCardsByDeck;i++)
 		{
 			this.displayedDeckCards[model.decks[view.decksVM.decksToBeDisplayed[view.decksVM.chosenDeck]].Cards[i].deckOrder].GetComponent<CardLobbyController>().resetLobbyCard(model.decks[view.decksVM.decksToBeDisplayed[view.decksVM.chosenDeck]].Cards[i]);
 			this.displayedDeckCards[model.decks[view.decksVM.decksToBeDisplayed[view.decksVM.chosenDeck]].Cards[i].deckOrder].GetComponent<CardController>().setDeckOrderFeatures(model.decks[view.decksVM.decksToBeDisplayed[view.decksVM.chosenDeck]].Cards[i].deckOrder);
@@ -420,7 +420,7 @@ public class LobbyController : Photon.MonoBehaviour
 		{
 			this.cardFocused.GetComponent<CardController>().setMyGUI(value);
 		}
-		for(int i = 0 ; i < 5 ; i++)
+		for(int i = 0 ; i < ApplicationModel.nbCardsByDeck ; i++)
 		{
 			this.displayedDeckCards[i].GetComponent<CardController>().setMyGUI(value);
 		}
@@ -545,7 +545,7 @@ public class LobbyController : Photon.MonoBehaviour
 		{
 			view.lobbyVM.buttonsEnabled[i]=value;
 		}
-		for(int i=0;i<5;i++)
+		for(int i=0;i<ApplicationModel.nbCardsByDeck;i++)
 		{
 			this.displayedDeckCards[i].GetComponent<CardLobbyController>().setButtonsGui(value);
 		}

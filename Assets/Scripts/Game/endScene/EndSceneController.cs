@@ -83,13 +83,13 @@ public class EndSceneController : MonoBehaviour
 		Vector3 position;
 		float tempF = 2*Camera.main.camera.orthographicSize*view.screenVM.widthScreen/view.screenVM.heightScreen;
 		float width = 0.5f * tempF;
-		float scaleCard = width/6f;
-		this.cards=new GameObject[5];
-		for (int i = 0; i < 5; i++)
+		float scaleCard = width/(ApplicationModel.nbCardsByDeck+1f);
+		this.cards=new GameObject[ApplicationModel.nbCardsByDeck];
+		for (int i = 0; i < ApplicationModel.nbCardsByDeck; i++)
 		{
 			name="Card" + i;
 			scale = new Vector3(scaleCard,scaleCard,scaleCard);
-			position = new Vector3(-width/2+(scaleCard/2)+i*(scaleCard+1f/4f*scaleCard), 0f, -9f); 
+			position = new Vector3(-width/2+(scaleCard/2)+i*(scaleCard+1f/(ApplicationModel.nbCardsByDeck-1)*scaleCard), 0f, -9f); 
 			this.cards [i] = Instantiate(this.cardObject) as GameObject;
 			this.cards [i].AddComponent<CardGameController>();
 			this.cards [i].GetComponent<CardController>().setGameObject(name,scale,position);
@@ -191,7 +191,7 @@ public class EndSceneController : MonoBehaviour
 	}
 	public void clearCards()
 	{
-		for (int i = 0; i < 5; i++) 
+		for (int i = 0; i < ApplicationModel.nbCardsByDeck; i++) 
 		{
 			Destroy(this.cards[i]);
 		}
