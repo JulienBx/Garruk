@@ -1274,7 +1274,8 @@ public class GameController : Photon.MonoBehaviour
 
 	public void resolvePass()
 	{
-		this.isRunningSkill = false;
+		this.isRunningSkill = false; 
+		this.getCurrentPCC().hideControlSkillHandler();
 		
 		photonView.RPC("checkModyfiersRPC", PhotonTargets.AllBuffered);
 		
