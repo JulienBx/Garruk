@@ -1324,7 +1324,7 @@ public class GameController : Photon.MonoBehaviour
 			for (int y = 0; y < boardHeight; y++)
 			{
 				int type = Mathf.RoundToInt(UnityEngine.Random.Range(1, 25));
-				if (type > 4)
+				if (type > 0)
 				{
 					type = 0;
 				}
