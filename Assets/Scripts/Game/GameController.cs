@@ -1246,9 +1246,9 @@ public class GameController : Photon.MonoBehaviour
 		}
 		for (int i = debut; i < fin; i++)
 		{
-			Tile tiletemp = this.playingCards [i].GetComponentInChildren<PlayingCardController>().tile;
-			if (tiletemp != null)
+			if (!this.playingCards [i].GetComponentInChildren<PlayingCardController>().isDead)
 			{
+				Tile tiletemp = this.playingCards [i].GetComponentInChildren<PlayingCardController>().tile;
 				characterTiles [tiletemp.x, tiletemp.y] = 8;
 			}
 		}
