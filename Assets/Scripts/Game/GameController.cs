@@ -128,8 +128,9 @@ public class GameController : Photon.MonoBehaviour
 		this.resize();
 		this.initSkills();
 		
+		this.currentPlayingCard=2 ;
 		for (int i = 0 ; i < 1000 ; i++){
-			print(UnityEngine.Random.Range(1,2));
+			this.gameskills[27].resolve(new List<int>());
 		}
 	}
 	
@@ -2657,6 +2658,7 @@ public class GameController : Photon.MonoBehaviour
 				compteur++;
 			}
 		}
+		print (compteur);
 		return compteur;
 	}
 	

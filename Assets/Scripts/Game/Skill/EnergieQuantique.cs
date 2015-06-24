@@ -21,32 +21,34 @@ public class EnergieQuantique : GameSkill
 		if(GameController.instance.isFirstPlayer){
 			debut = GameController.instance.limitCharacterSide;
 		}
-		int index = Random.Range(0,GameController.instance.nbOtherPlayersAlive()+1);
-		int compteurDead = 0;
+		int index = Random.Range(0,GameController.instance.nbOtherPlayersAlive());
+		
+		int compteurAlive = 0;
 		bool hasFound = false;
 		while (!hasFound && debut<20){
 			if (!GameController.instance.getPCC(debut).isDead){
-				if(compteurDead==index){
-					targets[0] = debut;
+				if(compteurAlive==index){
+					targets[0] = index;
+					Debug.Log(index);
 					hasFound = true ;
 				}
 				else{
-					compteurDead++;
+					compteurAlive++;
 				}
 			}
 			debut++;
 		}
 		
-		if (Random.Range(1,101) > GameController.instance.getCard(targets[0]).GetEsquive())
-		{ 
-			GameController.instance.applyOn(targets);
-		}
-		else{
-			GameController.instance.failedToCastOnSkill(targets);
-		}
-		
-		GameController.instance.playSkill();
-		GameController.instance.play();
+//		if (Random.Range(1,101) > GameController.instance.getCard(targets[0]).GetEsquive())
+//		{ 
+//			GameController.instance.applyOn(targets);
+//		}
+//		else{
+//			GameController.instance.failedToCastOnSkill(targets);
+//		}
+//		
+//		GameController.instance.playSkill();
+//		GameController.instance.play();
 	}
 	
 	public override void applyOn(int[] targets){
