@@ -1795,7 +1795,7 @@ public class GameController : Photon.MonoBehaviour
 			}
 		}
 		
-		if (!photonView.isMine)
+		if (!photonView.isMine && nbTurns!=0)
 		{
 			displaySkillEffect(c, "se déplace", 2, 2);
 		}
