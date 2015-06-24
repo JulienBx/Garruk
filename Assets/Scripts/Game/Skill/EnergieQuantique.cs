@@ -28,7 +28,7 @@ public class EnergieQuantique : GameSkill
 		while (!hasFound && debut<20){
 			if (!GameController.instance.getPCC(debut).isDead){
 				if(compteurAlive==index){
-					targets[0] = index;
+					targets[0] = debut;
 					Debug.Log(index);
 					hasFound = true ;
 				}
