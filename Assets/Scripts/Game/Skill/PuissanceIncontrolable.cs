@@ -19,7 +19,7 @@ public class PuissanceIncontrolable : GameSkill
 		GameController.instance.startPlayingSkill();
 		int debut = 0 ; 
 	
-		int index = Random.Range(0,GameController.instance.nbMyPlayersAlive()+GameController.instance.nbOtherPlayersAlive());
+		int index = Random.Range(0,GameController.instance.nbMyPlayersAlive()+GameController.instance.nbOtherPlayersAlive()+1);
 		Debug.Log(index);
 		int compteurDead = 0;
 		bool hasFound = false;
