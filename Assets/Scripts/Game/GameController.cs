@@ -97,6 +97,8 @@ public class GameController : Photon.MonoBehaviour
 	string URLStat = ApplicationModel.host + "updateResult.php";
 
 	bool gameEventInitialized = false;
+	AudioSource audioEndTurn;
+	int soundNbAlarm = 5;
 
 	public int clickedSkill ;
 	public TargetPCCHandler targetPCCHandler ;
@@ -128,8 +130,9 @@ public class GameController : Photon.MonoBehaviour
 		this.resize();
 		this.initSkills();
 		
-		for (int i = 0 ; i < 1000 ; i++){
-			print(UnityEngine.Random.Range(1,2));
+		for (int i = 0; i < 1000; i++)
+		{
+			print(UnityEngine.Random.Range(1, 2));
 		}
 	}
 	
@@ -138,6 +141,7 @@ public class GameController : Photon.MonoBehaviour
 		users = new User[2];
 		PhotonNetwork.ConnectUsingSettings(ApplicationModel.photonSettings);
 		PhotonNetwork.autoCleanUpPlayerObjects = false;
+		audioEndTurn = GetComponent<AudioSource>();
 		//this.lifeBarsController [0].removeLife1(25);
 		//this.lifeBarsController [1].removeLife1(15);
 	}	
@@ -169,6 +173,12 @@ public class GameController : Photon.MonoBehaviour
 				timeElapsed = false;
 				gameView.gameScreenVM.timer -= 1;
 				displayPopUpMessage("Temps ecoulé", 3f);
+				audioEndTurn.Play();
+			}
+			if (gameView.gameScreenVM.timer < soundNbAlarm && !timeElapsed)
+			{
+				soundNbAlarm--;
+				audioEndTurn.Play();
 			}
 			if (gameView.gameScreenVM.timer < 0 && gameView.gameScreenVM.timer > -1)
 			{
@@ -1507,8 +1517,8 @@ public class GameController : Photon.MonoBehaviour
 			if (isFirstP != this.isFirstPlayer)
 			{
 				this.playingCards [debut + deck.Cards [i].deckOrder].GetComponentInChildren<PlayingCardController>().hideDisplay();
-			}
-			else{
+			} else
+			{
 				
 			}
 			this.playingCards [debut + deck.Cards [i].deckOrder].GetComponentInChildren<PlayingCardController>().setStyles((isFirstP == this.isFirstPlayer));
@@ -1599,13 +1609,15 @@ public class GameController : Photon.MonoBehaviour
 				this.StartFight();
 			}
 			
-			int debut = 0 ;
-			if(this.isFirstPlayer){
+			int debut = 0;
+			if (this.isFirstPlayer)
+			{
 				debut = this.limitCharacterSide;
 			}
 			
-			for (int i = debut ; i < debut+limitCharacterSide ; i++){
-				this.playingCards[i].GetComponentInChildren<PlayingCardController>().showDisplay();
+			for (int i = debut; i < debut+limitCharacterSide; i++)
+			{
+				this.playingCards [i].GetComponentInChildren<PlayingCardController>().showDisplay();
 			}
 		}
 	}
@@ -1799,7 +1811,7 @@ public class GameController : Photon.MonoBehaviour
 			}
 		}
 		
-		if (!photonView.isMine && nbTurns!=0)
+		if (!photonView.isMine && nbTurns != 0)
 		{
 			displaySkillEffect(c, "se déplace", 2, 2);
 		}
@@ -2570,7 +2582,7 @@ public class GameController : Photon.MonoBehaviour
 	
 	public void applyOn(int[] targets)
 	{
-		print("IDSKILL "+this.getCurrentSkillID());
+		print("IDSKILL " + this.getCurrentSkillID());
 		photonView.RPC("applyOnRPC", PhotonTargets.AllBuffered, targets);
 	}
 	
