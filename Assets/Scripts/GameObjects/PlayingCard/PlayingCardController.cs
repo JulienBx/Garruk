@@ -507,6 +507,28 @@ public class PlayingCardController : GameObjectController
 	{
 		this.playingCardView.playingCardVM.toDisplaySkillControlHandler = false;
 	}
+	
+	public void hideDisplay()
+	{
+		gameObject.renderer.enabled = false ;
+		transform.Find("LifeArea").FindChild("Life").renderer.enabled=false;
+		transform.Find("MoveArea").FindChild("Move").renderer.enabled=false;
+		transform.Find("AttackArea").FindChild("Attack").renderer.enabled=false;
+		transform.Find("LifeArea").renderer.enabled=false;
+		transform.Find("MoveArea").renderer.enabled=false;
+		transform.Find("AttackArea").renderer.enabled=false;
+	}
+	
+	public void showDisplay()
+	{
+		gameObject.renderer.enabled = true ;
+		transform.Find("LifeArea").FindChild("Life").renderer.enabled=true;
+		transform.Find("MoveArea").FindChild("Move").renderer.enabled=true;
+		transform.Find("AttackArea").FindChild("Attack").renderer.enabled=true;
+		transform.Find("LifeArea").renderer.enabled=true;
+		transform.Find("MoveArea").renderer.enabled=true;
+		transform.Find("AttackArea").renderer.enabled=true;
+	}
 }
 
 
