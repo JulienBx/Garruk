@@ -1140,7 +1140,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aeb35562fb896d44d9c1c3da97fb22e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lifeBarPanel: {fileID: 0}
+  lifeBarPanel: {fileID: 2057957667}
 --- !u!114 &481987443
 MonoBehaviour:
   m_ObjectHideFlags: 0
