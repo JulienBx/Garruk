@@ -21,7 +21,7 @@ public class GameSkill
 	}
 	
 	public virtual void applyOn(int[] targets)
-	{
+	{ 
 		Debug.Log("Skill non implémenté");
 	}
 	

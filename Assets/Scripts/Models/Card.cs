@@ -229,6 +229,16 @@ public class Card
 				this.modifiers.Add(new StatModifier(amount, type, stat, duration, idIcon, t, d, a));
 			}
 		}
+		else if(stat == ModifierStat.Stat_Attack || stat == ModifierStat.Stat_Speed || stat == ModifierStat.Stat_Move){
+			if(type==ModifierType.Type_BonusMalus && duration == -1){
+				for (int j = this.modifiers.Count ; j >= 0 ; j--){
+					if (modifiers[j].Stat==stat && type==ModifierType.Type_BonusMalus && duration == -1){
+						modifiers.RemoveAt(j) ; 
+					}
+				}
+			}
+			this.modifiers.Add(new StatModifier(amount, type, stat, duration, idIcon, t, d, a));
+		}
 		else if(type==ModifierType.Type_Bouclier){
 			for (int j = this.modifiers.Count-1 ; j >= 0 ; j--){
 				if (modifiers[j].Type==ModifierType.Type_Bouclier){
