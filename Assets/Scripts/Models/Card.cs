@@ -231,7 +231,7 @@ public class Card
 		}
 		else if(stat == ModifierStat.Stat_Attack || stat == ModifierStat.Stat_Speed || stat == ModifierStat.Stat_Move){
 			if(type==ModifierType.Type_BonusMalus && duration == -1){
-				for (int j = this.modifiers.Count ; j >= 0 ; j--){
+				for (int j = this.modifiers.Count-1 ; j >= 0 ; j--){
 					if (modifiers[j].Stat==stat && type==ModifierType.Type_BonusMalus && duration == -1){
 						modifiers.RemoveAt(j) ; 
 					}
