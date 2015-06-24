@@ -33,7 +33,7 @@ public class RayonEnergie : GameSkill
 		GameController.instance.play();
 	}
 	
-	public override void applyOn(int[] targets, int[] args){
+	public override void applyOn(int[] targets){
 		
 		Card targetCard = GameController.instance.getCard(targets[0]);
 		int currentLife = targetCard.GetLife();

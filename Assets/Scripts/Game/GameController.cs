@@ -1532,14 +1532,7 @@ public class GameController : Photon.MonoBehaviour
 			photonView.RPC("timeRunsOut", PhotonTargets.AllBuffered, timerTurn);
 			this.findNextPlayer();
 		}
-		int debut = 0 ;
-		if(this.isFirstPlayer){
-			debut = this.limitCharacterSide;
-		}
 		
-		for (int i = debut ; i < debut+limitCharacterSide ; i++){
-			this.playingCards[i].GetComponentInChildren<PlayingCardController>().showDisplay();
-		}
 	}
 	
 	public void reloadDestinationTiles()
@@ -1600,6 +1593,15 @@ public class GameController : Photon.MonoBehaviour
 			if (this.isFirstPlayer)
 			{
 				this.StartFight();
+			}
+			
+			int debut = 0 ;
+			if(this.isFirstPlayer){
+				debut = this.limitCharacterSide;
+			}
+			
+			for (int i = debut ; i < debut+limitCharacterSide ; i++){
+				this.playingCards[i].GetComponentInChildren<PlayingCardController>().showDisplay();
 			}
 		}
 	}
@@ -2564,6 +2566,7 @@ public class GameController : Photon.MonoBehaviour
 	
 	public void applyOn(int[] targets)
 	{
+		print("IDSKILL "+this.getCurrentSkillID());
 		photonView.RPC("applyOnRPC", PhotonTargets.AllBuffered, targets);
 	}
 	

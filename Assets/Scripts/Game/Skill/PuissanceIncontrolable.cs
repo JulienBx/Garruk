@@ -19,7 +19,8 @@ public class PuissanceIncontrolable : GameSkill
 		GameController.instance.startPlayingSkill();
 		int debut = 0 ; 
 	
-		int index = Random.Range(1,GameController.instance.nbMyPlayersAlive()+GameController.instance.nbOtherPlayersAlive()+1);
+		int index = Random.Range(1,GameController.instance.nbMyPlayersAlive()+GameController.instance.nbOtherPlayersAlive());
+		Debug.Log(index);
 		int compteurDead = 0;
 		bool hasFound = false;
 		while (!hasFound && debut<20){
@@ -47,7 +48,7 @@ public class PuissanceIncontrolable : GameSkill
 		GameController.instance.play();
 	}
 	
-	public override void applyOn(int[] targets, int[] args){
+	public override void applyOn(int[] targets){
 		
 		Card targetCard = GameController.instance.getCard(targets[0]);
 		int currentLife = targetCard.GetLife();

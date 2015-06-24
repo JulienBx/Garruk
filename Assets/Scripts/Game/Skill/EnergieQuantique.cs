@@ -21,7 +21,7 @@ public class EnergieQuantique : GameSkill
 		if(GameController.instance.isFirstPlayer){
 			debut = GameController.instance.limitCharacterSide;
 		}
-		int index = Random.Range(1,GameController.instance.nbOtherPlayersAlive()+1);
+		int index = Random.Range(1,GameController.instance.nbOtherPlayersAlive());
 		int compteurDead = 0;
 		bool hasFound = false;
 		while (!hasFound && debut<20){
@@ -49,7 +49,7 @@ public class EnergieQuantique : GameSkill
 		GameController.instance.play();
 	}
 	
-	public override void applyOn(int[] targets, int[] args){
+	public override void applyOn(int[] targets){
 		
 		Card targetCard = GameController.instance.getCard(targets[0]);
 		int currentLife = targetCard.GetLife();
