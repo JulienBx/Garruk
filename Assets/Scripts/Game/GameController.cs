@@ -85,7 +85,7 @@ public class GameController : Photon.MonoBehaviour
 	int myNextPlayer ;
 	int hisNextPlayer ;
 
-	float timerTurn = 20;
+	float timerTurn = 30;
 	bool startTurn = false;
 	bool timeElapsed = false;
 	
@@ -129,11 +129,6 @@ public class GameController : Photon.MonoBehaviour
 		this.createBackground();
 		this.resize();
 		this.initSkills();
-		
-		for (int i = 0; i < 1000; i++)
-		{
-			print(UnityEngine.Random.Range(1, 2));
-		}
 	}
 	
 	void Start()

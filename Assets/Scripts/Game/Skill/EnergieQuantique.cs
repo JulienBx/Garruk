@@ -21,17 +21,19 @@ public class EnergieQuantique : GameSkill
 		if(GameController.instance.isFirstPlayer){
 			debut = GameController.instance.limitCharacterSide;
 		}
-		int index = Random.Range(0,GameController.instance.nbOtherPlayersAlive()+1);
-		int compteurDead = 0;
+		int index = Random.Range(0,GameController.instance.nbOtherPlayersAlive());
+		
+		int compteurAlive = 0;
 		bool hasFound = false;
 		while (!hasFound && debut<20){
 			if (!GameController.instance.getPCC(debut).isDead){
-				if(compteurDead==index){
+				if(compteurAlive==index){
 					targets[0] = debut;
+					Debug.Log(index);
 					hasFound = true ;
 				}
 				else{
-					compteurDead++;
+					compteurAlive++;
 				}
 			}
 			debut++;

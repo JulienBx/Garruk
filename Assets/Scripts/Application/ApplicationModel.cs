@@ -11,7 +11,7 @@ public class ApplicationModel : MonoBehaviour
 {
 	static public string host = "http://54.77.118.214/GarrukServer/";	// Adresse du serveur
 	static public string dev = "http://localhost/GarrukServer/";		// Adresse du serveur
-	static public string username = ""; 
+	static public string username; 
 	static public string hash = "J8xy9Uz4"; 						// Clé secrète
 	static public Deck selectedDeck;								// Deck à afficher
 	static public string photonSettings = "0.2";                    // identifiant utilisé par Photon A mettre à jour à chaque nouvelle version
@@ -19,7 +19,7 @@ public class ApplicationModel : MonoBehaviour
 	static public bool toDeconnect = false;
 	static public int credits = 0;
 	static public int nbNotificationsNonRead = 0;
-	static public int gameType = 1;
+	static public int gameType;
 	static public FriendlyGame currentFriendlyGame;
 	static public Cup currentCup;
 	static public Division currentDivision;
@@ -97,7 +97,7 @@ public class ApplicationModel : MonoBehaviour
 				string[] data = w.text.Split(new string[] { "//" }, System.StringSplitOptions.None);
 				username = data [0];
 				tutorialStep = System.Convert.ToInt32(data [1]);
-				isAdmin=System.Convert.ToBoolean(System.Convert.ToInt32(data[2]));
+				isAdmin = System.Convert.ToBoolean(System.Convert.ToInt32(data [2]));
 			}		
 		}
 	}
@@ -137,7 +137,7 @@ public class ApplicationModel : MonoBehaviour
 				toDeconnect = false;
 				username = data [0];
 				tutorialStep = System.Convert.ToInt32(data [1]);
-				isAdmin=System.Convert.ToBoolean(System.Convert.ToInt32(data[2]));
+				isAdmin = System.Convert.ToBoolean(System.Convert.ToInt32(data [2]));
 			}											
 		}
 	}

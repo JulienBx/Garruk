@@ -395,16 +395,6 @@ public class PlayingCardController : GameObjectController
 		this.cannotBeTargeted = -1;
 	}
 	
-	public void removeParalyzed()
-	{
-		print("REMOVE");
-		this.playingCardView.playingCardVM.icons.RemoveAt(this.paralyzed);
-		this.playingCardView.playingCardVM.descriptionIcon.RemoveAt(this.paralyzed);
-		this.playingCardView.playingCardVM.titlesIcon.RemoveAt(this.paralyzed);
-		this.playingCardView.playingCardVM.iconsRect.RemoveAt(this.paralyzed);
-		this.paralyzed = -1;
-	}
-	
 	public void checkModyfiers()
 	{
 		List<int> modifiersToSuppress = new List<int>();
@@ -422,7 +412,7 @@ public class PlayingCardController : GameObjectController
 				modifiersToSuppress.Add(i);
 				if (this.card.modifiers [i].Type == ModifierType.Type_Paralized)
 				{
-					this.removeParalyzed();
+					this.card.modifiers.RemoveAt(i);
 				} 
 			} else if (this.card.modifiers [i].Duration > 0)
 			{
