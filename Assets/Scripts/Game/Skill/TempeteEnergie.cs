@@ -1,44 +1,62 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class TempeteEnergie : GameSkill {
-
+public class TempeteEnergie : GameSkill
+{
 	public TempeteEnergie()
 	{
-	
+		this.numberOfExpectedTargets = 0 ; 
 	}
 	
 	public override void launch()
 	{
-		//GameController.instance.lookForValidation(true, "Choisir une cible à attaquer", "Lancer Tempete");
+		this.resolve(new List<int>());
 	}
 	
 	public override void resolve(List<int> targetsPCC)
-	{
-		int maxAmount = GameController.instance.getCurrentSkill().ManaCost;
-		int myPlayerID = GameController.instance.currentPlayingCard;
+	{	
+		int[] targets ;
+		int[] args;
+		int manacost = GameController.instance.getCurrentSkill().ManaCost;
+		GameController.instance.startPlayingSkill();
 		
-		GameController.instance.displaySkillEffect(myPlayerID, "Tempete d'energie", 3, 2);
-		List<int> targetsToHit = new List<int>();
-		PlayingCardController pcc ;
-		for (int i = 0 ; i < 10 ; i++){
-			pcc = GameController.instance.getPCC(i) ;
-			if (!pcc.isDead && pcc.cannotBeTargeted==-1){
-				if (Random.Range(1, 100) > GameController.instance.getCard(i).GetEsquive())
-				{                             
-					//int damageBonusPercentage = GameController.instance.getCurrentCard().GetDamagesPercentageBonus();
-					//amount = Random.Range(5, maxAmount)*(100+damageBonusPercentage)/100;
-					//GameController.instance.addModifier(i, amount, (int)ModifierType.Type_BonusMalus, (int)ModifierStat.Stat_Dommage);
-					//GameController.instance.displaySkillEffect(i, "prend "+amount+" dégats", 3, 1);
-				}
-				else{
-					GameController.instance.displaySkillEffect(i, "Esquive", 3, 0);
-				}
-			}
+		int debut = 0 ;
+		if(!GameController.instance.isFirstPlayer){
+			debut = GameController.instance.limitCharacterSide	;
+		}
+		
+		for(int i = 0 ; i < GameController.instance.getNbPlayingCards();i++){
+			targets = new int[1];
+			targets[0] = i;
+			args = new int[1];
+			args[0] = (Random.Range(1,101)*(manacost-5)/100)+5;
+			GameController.instance.applyOn(targets, args);
+		}
+		
+		GameController.instance.playSkill();
+		GameController.instance.play();
+	}
+	
+	public override void applyOn(int[] targets, int[] args){
+		int amount = args[0];
+		
+		for (int i = 0 ; i < targets.Length ; i++){
+			GameController.instance.addCardModifier(targets[i], amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
+			GameController.instance.displaySkillEffect(targets[i], "Inflige "+amount+" dégats", 3, 1);
+		}
+	}
+	
+	public override void failedToCastOn(int[] targets){
+		for (int i = 0 ; i < targets.Length ; i++){
+			GameController.instance.displaySkillEffect(targets[i], "Echec", 3, 1);
 		}
 	}
 	
 	public override bool isLaunchable(Skill s){
 		return true ;
+	}
+	
+	public override string getPlayText(){
+		return "Tempete d'énergie" ;
 	}
 }

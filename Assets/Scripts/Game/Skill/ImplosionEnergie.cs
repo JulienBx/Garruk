@@ -3,96 +3,106 @@ using System.Collections.Generic;
 
 public class ImplosionEnergie : GameSkill
 {
-	public ImplosionEnergie()
-	{
-	
+	public ImplosionEnergie(){
+		this.numberOfExpectedTargets = 0 ; 
 	}
 	
 	public override void launch()
 	{
-		//GameController.instance.lookForValidation(true, "Choisir une cible à attaquer", "Lancer implosion");
+		this.resolve(new List<int>());
 	}
 	
 	public override void resolve(List<int> targetsPCC)
-	{
-		Tile t = GameController.instance.getCurrentPCC().tile ;
-		int x = t.x;
-		int y = t.y;
-		int width = GameController.instance.boardWidth ;
-		int height = GameController.instance.boardHeight ;
+	{	
+		int[] targets ; 
 		
-		int damageBonusPercentage = GameController.instance.getCurrentCard().GetDamagesPercentageBonus(new Card());
-		int amount = GameController.instance.getCurrentSkill().ManaCost*(100+damageBonusPercentage)/100;
-		int amountSelfDamage = GameController.instance.getCurrentCard().GetLife();
+		GameController.instance.startPlayingSkill();
 		
-		int myPlayerID = GameController.instance.currentPlayingCard;
+		List<Tile> tempTiles;
+		Tile t = GameController.instance.getCurrentPCC().tile;
 		
-		GameController.instance.displaySkillEffect(myPlayerID, "Implosion d'energie", 3, 2);
-		List<int> targetsToHit = new List<int>();
+		tempTiles = t.getImmediateNeighbouringTiles();
+		bool isLaunchable = false ;
+		int i = 0 ;
+		int tempInt ; 
 		
-		if (x>0){
-			if (y>0){
-				if (GameController.instance.getTile(x-1,y-1).characterID!=-1){
-					targetsToHit.Add(GameController.instance.getTile(x-1,y-1).characterID);
+		while (!isLaunchable && i<tempTiles.Count){
+			t = tempTiles[i];
+			tempInt = GameController.instance.getTile(t.x, t.y).characterID;
+			if (tempInt!=-1)
+			{
+				if (GameController.instance.getPCC(tempInt).canBeTargeted())	
+				{
+					targets = new int[1];
+					targets[0] = tempInt;
+					if (Random.Range(1,101) > GameController.instance.getCard(tempInt).GetEsquive())
+					{                             
+						GameController.instance.applyOn(targets);
+					}
+					else{
+						GameController.instance.failedToCastOnSkill(targets);
+					}
 				}
 			}
-			if (y<height-1){
-				if (GameController.instance.getTile(x-1,y+1).characterID!=-1){
-					targetsToHit.Add(GameController.instance.getTile(x-1,y+1).characterID);
-				}
-			}
-			if (GameController.instance.getTile(x-1,y).characterID!=-1){
-				targetsToHit.Add(GameController.instance.getTile(x-1,y).characterID);
-			}
+			i++;
 		}
-		if (x<width-1){
-			if (y>0){
-				if (GameController.instance.getTile(x+1,y-1).characterID!=-1){
-					targetsToHit.Add(GameController.instance.getTile(x+1,y-1).characterID);
-				}
-			}
-			if (y<height-1){
-				if (GameController.instance.getTile(x+1,y+1).characterID!=-1){
-					targetsToHit.Add(GameController.instance.getTile(x+1,y+1).characterID);
-				}
-			}
-			if (GameController.instance.getTile(x+1,y).characterID!=-1){
-				targetsToHit.Add(GameController.instance.getTile(x+1,y).characterID);
-			}
-		}
-		if (y>0){
-			if (GameController.instance.getTile(x,y-1).characterID!=-1){
-				targetsToHit.Add(GameController.instance.getTile(x,y-1).characterID);
-			}
-		}
-		if (y<height-1){
-			if (GameController.instance.getTile(x,y+1).characterID!=-1){
-				targetsToHit.Add(GameController.instance.getTile(x,y+1).characterID);
-			}
-		}
-		if (GameController.instance.getTile(x,y).characterID!=-1){
-			targetsToHit.Add(GameController.instance.getTile(x,y).characterID);
-		}
+		targets = new int[1];
+		targets[0] = GameController.instance.currentPlayingCard;
+		GameController.instance.applyOn(targets);
 		
-		//GameController.instance.addModifier(myPlayerID, amountSelfDamage, (int)ModifierType.Type_BonusMalus, (int)ModifierStat.Stat_Dommage);
+		GameController.instance.playSkill();
+		GameController.instance.play();
+	}
+	
+	public override void applyOn(int[] targets){
+		Card targetCard ;
+		int currentLife ;
+		int amount ;
+		int bouclier ;
 		
-		PlayingCardController pcc ;
-		for (int i = 0 ; i < targetsToHit.Count ; i++){
-			pcc = GameController.instance.getPCC(targetsToHit[i]) ;
-			if (!pcc.isDead && pcc.cannotBeTargeted==-1){
-				if (Random.Range(1, 100) > GameController.instance.getCard(targetsToHit[i]).GetEsquive())
-				{                             
-					//GameController.instance.addModifier(targetsToHit[i], amount, (int)ModifierType.Type_BonusMalus, (int)ModifierStat.Stat_Dommage);
-					GameController.instance.displaySkillEffect(targetsToHit[i], "prend "+amount+" dégats", 3, 1);
-				}
-				else{
-					GameController.instance.displaySkillEffect(targetsToHit[i], "Esquive", 3, 0);
-				}
-			}
+		if(targets[0]==GameController.instance.currentPlayingCard){
+			amount = GameController.instance.getCurrentCard().GetLife();
+		}
+		else{
+			amount = GameController.instance.getCurrentSkill().ManaCost;
+		}
+		targetCard = GameController.instance.getCard(targets[0]);
+		currentLife = targetCard.GetLife();
+		GameController.instance.addCardModifier(targets[0], amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
+		GameController.instance.displaySkillEffect(targets[0], "Inflige "+amount, 3, 1);
+	}
+	
+	public override void failedToCastOn(int[] targets){
+		for (int i = 0 ; i < targets.Length ; i++){
+			GameController.instance.displaySkillEffect(targets[i], "L'attaque échoue", 3, 0);
 		}
 	}
 	
 	public override bool isLaunchable(Skill s){
-		return true ;
+		List<Tile> tempTiles;
+		Tile t = GameController.instance.getCurrentPCC().tile;
+		
+		tempTiles = t.getImmediateNeighbouringTiles();
+		bool isLaunchable = false ;
+		int i = 0 ;
+		int tempInt ; 
+		
+		while (!isLaunchable && i<tempTiles.Count){
+			t = tempTiles[i];
+			tempInt = GameController.instance.getTile(t.x, t.y).characterID;
+			if (tempInt!=-1)
+			{
+				if (GameController.instance.getPCC(tempInt).canBeTargeted())	
+				{
+					isLaunchable = true ;
+				}
+			}
+			i++;
+		}
+		return isLaunchable ;
+	}
+	
+	public override string getPlayText(){
+		return "Implosion Energie" ;
 	}
 }

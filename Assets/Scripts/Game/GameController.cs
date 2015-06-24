@@ -2620,5 +2620,28 @@ public class GameController : Photon.MonoBehaviour
 		}
 		return compteur;
 	}
+	
+	public int nbOtherPlayersAlive()
+	{
+		int debut = 0;
+		int compteur = 0;
+		if (this.isFirstPlayer)
+		{
+			debut = this.limitCharacterSide;
+		}
+		for (int i = debut; i < debut+this.limitCharacterSide; i++)
+		{
+			if (!this.getPCC(i).isDead)
+			{
+				compteur++;
+			}
+		}
+		return compteur;
+	}
+	
+	public int getNbPlayingCards()
+	{
+		return (this.playingCards.Length);
+	}
 }
 
