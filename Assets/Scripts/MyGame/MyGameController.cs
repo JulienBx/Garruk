@@ -285,11 +285,11 @@ public class MyGameController : MonoBehaviour
 		   this.newDeckPopUpView==null && 
 		   this.deleteDeckPopUpView==null && 
 		   this.editDeckPopUpView==null && 
-		   !isTutorialLaunched)
+		   !isTutorialLaunched && !this.isFocus)
 		{
 			this.focus (name);
 		}
-		else if(isTutorialLaunched)
+		else if(isTutorialLaunched && !this.isFocus)
 		{
 			if(name.Substring(4)=="3" && this.tutorial.GetComponent<TutorialObjectController>().getSequenceID()==201)
 			{
