@@ -1499,8 +1499,14 @@ public class GameController : Photon.MonoBehaviour
 		//a changer
 		for (int i = 0; i < ApplicationModel.nbCardsByDeck; i++)
 		{
-			print("Init " + (debut + deck.Cards [i].deckOrder));
 			this.playingCards [debut + deck.Cards [i].deckOrder] = (GameObject)Instantiate(this.playingCard);
+			if (isFirstP != this.isFirstPlayer)
+			{
+				this.playingCards [debut + deck.Cards [i].deckOrder].GetComponentInChildren<PlayingCardController>().hideDisplay();
+			}
+			else{
+				
+			}
 			this.playingCards [debut + deck.Cards [i].deckOrder].GetComponentInChildren<PlayingCardController>().setStyles((isFirstP == this.isFirstPlayer));
 			this.playingCards [debut + deck.Cards [i].deckOrder].GetComponentInChildren<PlayingCardController>().setCard(deck.Cards [i]);
 			this.playingCards [debut + deck.Cards [i].deckOrder].GetComponentInChildren<PlayingCardController>().setIDCharacter(debut + deck.Cards [i].deckOrder);
@@ -1525,6 +1531,14 @@ public class GameController : Photon.MonoBehaviour
 			this.sortAllCards();
 			photonView.RPC("timeRunsOut", PhotonTargets.AllBuffered, timerTurn);
 			this.findNextPlayer();
+		}
+		int debut = 0 ;
+		if(this.isFirstPlayer){
+			debut = this.limitCharacterSide;
+		}
+		
+		for (int i = debut ; i < debut+limitCharacterSide ; i++){
+			this.playingCards[i].GetComponentInChildren<PlayingCardController>().showDisplay();
 		}
 	}
 	
