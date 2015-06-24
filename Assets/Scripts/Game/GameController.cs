@@ -98,7 +98,7 @@ public class GameController : Photon.MonoBehaviour
 
 	bool gameEventInitialized = false;
 	AudioSource audioEndTurn;
-	int soundNbAlarm = 5;
+	int soundNbAlarm = 10;
 
 	public int clickedSkill ;
 	public TargetPCCHandler targetPCCHandler ;
