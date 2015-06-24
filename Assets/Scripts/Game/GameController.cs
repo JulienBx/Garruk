@@ -168,17 +168,25 @@ public class GameController : Photon.MonoBehaviour
 				timeElapsed = false;
 				gameView.gameScreenVM.timer -= 1;
 				displayPopUpMessage("Temps ecoulé", 3f);
-				audioEndTurn.Play();
 			}
 			if (gameView.gameScreenVM.timer < soundNbAlarm && !timeElapsed)
 			{
-				soundNbAlarm--;
-				audioEndTurn.Play();
+				if (this.isFirstPlayer == (currentPlayingCard < limitCharacterSide))
+				{
+					if (soundNbAlarm < 6 || soundNbAlarm == 10)
+					{
+						audioEndTurn.Play();
+					}
+					soundNbAlarm--;
+				}
 			}
 			if (gameView.gameScreenVM.timer < 0 && gameView.gameScreenVM.timer > -1)
 			{
-				timeElapsed = true;
-				clickSkillHandler(5);
+				if (this.isFirstPlayer == (currentPlayingCard < limitCharacterSide))
+				{
+					timeElapsed = true;
+					clickSkillHandler(5);
+				}
 			}
 		}
 	}
