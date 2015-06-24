@@ -39,16 +39,16 @@ public class EnergieQuantique : GameSkill
 			debut++;
 		}
 		
-//		if (Random.Range(1,101) > GameController.instance.getCard(targets[0]).GetEsquive())
-//		{ 
-//			GameController.instance.applyOn(targets);
-//		}
-//		else{
-//			GameController.instance.failedToCastOnSkill(targets);
-//		}
-//		
-//		GameController.instance.playSkill();
-//		GameController.instance.play();
+		if (Random.Range(1,101) > GameController.instance.getCard(targets[0]).GetEsquive())
+		{ 
+			GameController.instance.applyOn(targets);
+		}
+		else{
+			GameController.instance.failedToCastOnSkill(targets);
+		}
+		
+		GameController.instance.playSkill();
+		GameController.instance.play();
 	}
 	
 	public override void applyOn(int[] targets){
