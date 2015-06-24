@@ -57,5 +57,10 @@ public class SkillView : MonoBehaviour
 		gameObject.transform.FindChild ("PictoMetalSkill").FindChild ("SkillForce").localScale = new Vector3(0.3f/resolution,0.7f/resolution,0);
 		//Vector2 size = GUI.skin.GetStyle("ProgressBarText").CalcSize(GUIContent(label));
 	}
+	public void changeTextColor(Material material)
+	{
+		gameObject.transform.FindChild ("Skill").GetComponent<TextMesh>().renderer.material = material;
+		gameObject.transform.FindChild ("PictoMetalSkill").FindChild ("SkillForce").GetComponent<TextMesh> ().renderer.material = material;
+	}
 }
 

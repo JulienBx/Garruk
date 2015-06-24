@@ -30,6 +30,7 @@ public class CardController : GameObjectController {
 
 	private IList<GameObject> skills;
 	private GameObject experience;
+	private GameObject cardUpgrade;
 	
 
 	void Awake () 
@@ -83,6 +84,10 @@ public class CardController : GameObjectController {
 			view.cardVM.moveLevel[i]=ressources.metals[c.MoveLevel];
 		}
 		this.skills = new List<GameObject> ();
+		if(this.cardUpgrade!=null)
+		{
+			Destroy(this.cardUpgrade);
+		}
 	}
 	public void setSkills()
 	{
@@ -109,6 +114,58 @@ public class CardController : GameObjectController {
 		this.experience.transform.localPosition=new Vector3(0f,0f,0f);
 		this.experience.transform.localScale=new Vector3(1f, 1f, 1f);
 		this.experience.GetComponent<ExperienceController> ().setXp (this.card.ExperienceLevel,this.card.PercentageToNextLevel);
+	}
+	public IEnumerator setCardUpgrade(int caracteristicUpgraded, int caracteristicIncrease)
+	{
+		if(this.cardUpgrade!=null)
+		{
+			Destroy(this.cardUpgrade);
+		}
+		this.cardUpgrade=Instantiate(ressources.cardUpgradeObject) as GameObject;
+		this.cardUpgrade.name = "cardUpgrade";
+		this.cardUpgrade.transform.parent=gameObject.transform.Find("texturedGameCard");
+		this.cardUpgrade.GetComponent<CardUpgradeController> ().setCardUpgrade (this.getCardUpgradeRect (caracteristicUpgraded), caracteristicIncrease);
+		yield return new WaitForSeconds(5);
+		if(this.cardUpgrade!=null)
+		{
+			Destroy(this.cardUpgrade);
+		}
+		this.card.CaracteristicUpgraded = -1;
+		this.card.CaracteristicIncrease = -1;
+	}
+	public Rect getCardUpgradeRect (int caracteristicUpgraded)
+	{
+		GameObject refObject = new GameObject ();
+		switch(caracteristicUpgraded)
+		{
+		case 0:
+			refObject = transform.Find("texturedGameCard").FindChild("PictoMetalLife").gameObject;
+			break;
+		case 1:
+			refObject=transform.Find("texturedGameCard").FindChild("AttackArea").FindChild("PictoMetalAttack").gameObject;
+			break;
+		case 2:
+			refObject=transform.Find("texturedGameCard").FindChild("MoveArea").FindChild("PictoMetalMove").gameObject;
+			break;
+		case 3:
+			refObject=transform.Find("texturedGameCard").FindChild("SpeedArea").FindChild("PictoMetalSpeed").gameObject;
+			break;
+		case 4:
+			refObject=transform.Find("texturedGameCard").FindChild("Skill1").FindChild ("PictoMetalSkill").gameObject;
+			break;
+		case 5:
+			refObject=transform.Find("texturedGameCard").FindChild("Skill2").FindChild ("PictoMetalSkill").gameObject;
+			break;
+		case 6:
+			refObject=transform.Find("texturedGameCard").FindChild("Skill3").FindChild ("PictoMetalSkill").gameObject;
+			break;
+		case 7:
+			refObject=transform.Find("texturedGameCard").FindChild("Skill4").FindChild ("PictoMetalSkill").gameObject;
+			break;
+		}
+		Vector2 refPosition = base.getGOScreenPosition(refObject);
+		Vector2 refSize = base.getGOScreenSize(refObject);
+		return new Rect (refPosition.x+refSize.x/2f,(float)Screen.height-refPosition.y-base.GOSize.y/20f,base.GOSize.x/5f,base.GOSize.y/10f);
 	}
 	public void setDeckOrderFeatures(int deckOrder)
 	{
@@ -151,6 +208,15 @@ public class CardController : GameObjectController {
 		this.setCard (this.card);
 		this.setExperience ();
 		this.setSkills ();
+		if(this.card.GetNewSkill)
+		{
+			StartCoroutine(this.skills[skills.Count-1].GetComponent<SkillController>().setSkillAsNew());
+			this.card.GetNewSkill=false;
+		}
+		if(this.card.CaracteristicUpgraded>-1&&this.card.CaracteristicIncrease>0)
+		{
+			StartCoroutine(this.setCardUpgrade(this.card.CaracteristicUpgraded,this.card.CaracteristicIncrease));
+		}
 		this.show ();
 		this.setMyGUI (true);
 	}
@@ -699,7 +765,7 @@ public class CardController : GameObjectController {
 	}
 	public void show()
 	{
-		base.getGOCoordinates (gameObject.transform.Find("texturedGameCard").gameObject);
+		base.setGOCoordinates (gameObject.transform.Find("texturedGameCard").gameObject);
 		this.setTextResolution ();
 		view.show ();
 		for (int i=0;i<skills.Count;i++)
@@ -726,11 +792,15 @@ public class CardController : GameObjectController {
 	}
 	public virtual void resize()
 	{
-		base.getGOCoordinates (gameObject.transform.Find("texturedGameCard").gameObject);
+		base.setGOCoordinates (gameObject.transform.Find("texturedGameCard").gameObject);
 		this.setTextResolution ();
 		for (int i=0;i<skills.Count;i++)
 		{
 			this.skills[i].GetComponent<SkillController>().resize();
+		}
+		if(this.cardUpgrade!=null)
+		{
+			this.cardUpgrade.GetComponent<CardUpgradeController>().resize(getCardUpgradeRect(this.card.CaracteristicUpgraded));
 		}
 		if(this.buyPopUpView!=null)
 		{

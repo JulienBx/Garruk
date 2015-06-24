@@ -54,6 +54,9 @@ public class Card
 	public int deckOrder;
 	public int destructionPrice;
 	public int Power;
+	public int CaracteristicUpgraded;
+	public int CaracteristicIncrease;
+	public bool GetNewSkill;
 
 	public static bool xpDone = false;
 	
@@ -671,6 +674,9 @@ public class Card
 						this.TitleCardTypeUnlocked = cardInfo[13];
 						this.destructionPrice=System.Convert.ToInt32(cardInfo[14]);
 						this.Power=System.Convert.ToInt32(cardInfo[15]);
+						this.GetNewSkill=System.Convert.ToBoolean(System.Convert.ToInt32(cardInfo[16]));
+						this.CaracteristicUpgraded=System.Convert.ToInt32(cardInfo[17]);
+						this.CaracteristicIncrease=System.Convert.ToInt32(cardInfo[18]);
 						this.NewSkills=new List<Skill>();
 						this.Skills=new List<Skill>();
 					} 

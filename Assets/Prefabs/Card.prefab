@@ -1342,6 +1342,7 @@ MonoBehaviour:
   soldCardTexture: {fileID: 2800000, guid: 0bcbd6834cdb34de4af130bea1438c92, type: 3}
   skillAreaObject: {fileID: 178978, guid: 91197bbfd524c4b6298c8c7125115b8e, type: 2}
   experienceAreaObject: {fileID: 125342, guid: 409e3498f41cf4e00980c800323d8171, type: 2}
+  cardUpgradeObject: {fileID: 167584, guid: 2070e5e7074fc4077ab2b06a6a80b6ff, type: 2}
   marketFeaturesStyles:
   - m_Name: Cant Buy Price Style
     m_Normal:

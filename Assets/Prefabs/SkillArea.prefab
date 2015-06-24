@@ -519,6 +519,9 @@ MonoBehaviour:
     m_FixedHeight: 0
     m_StretchWidth: 1
     m_StretchHeight: 0
+  fonts:
+  - {fileID: 2100000, guid: ff0d69e018c054f19b3afdba36eee600, type: 2}
+  - {fileID: 2100000, guid: 9470d169848ac43f28e9bfcfa6f513e4, type: 2}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

@@ -9,6 +9,7 @@ public class SkillController : GameObjectController {
 
 	public GUIStyle[] skillVMStyle;
 	private SkillView view;
+	public Material[] fonts; 
 	
 	void Awake () 
 	{	
@@ -60,7 +61,7 @@ public class SkillController : GameObjectController {
 	}
 	public void defineSkillPopUpPositions()
 	{
-		base.getGOCoordinates (gameObject);
+		base.setGOCoordinates (gameObject);
 		float tempX=base.GOPosition.x-125;
 		if(base.GOPosition.x-125<0)
 		{
@@ -71,6 +72,15 @@ public class SkillController : GameObjectController {
 			tempX=Screen.width-250;
 		}
 		view.skillVM.popUpPosition = new Rect(tempX, Screen.height-base.GOPosition.y+base.GOSize.y/2, 250, 400);
+	}
+	public IEnumerator setSkillAsNew()
+	{
+		view.changeTextColor (this.fonts [1]);
+		yield return new WaitForSeconds(5);
+		if(view!=null)
+		{
+			view.changeTextColor (this.fonts [0]);
+		}
 	}
 }
 

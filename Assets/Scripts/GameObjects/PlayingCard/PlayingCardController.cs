@@ -152,7 +152,7 @@ public class PlayingCardController : GameObjectController
 		{
 			playingCardView.playingCardVM.lifeGauge = this.lifeGauges [1];
 		}
-		base.getGOCoordinates(gameObject);
+		base.setGOCoordinates(gameObject);
 		this.setTextResolution();
 		this.updateAttack();
 		this.updateLifeCount();

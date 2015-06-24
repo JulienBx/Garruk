@@ -16,6 +16,7 @@ public class CardRessources : MonoBehaviour
 	public Texture soldCardTexture;
 	public GameObject skillAreaObject;
 	public GameObject experienceAreaObject;
+	public GameObject cardUpgradeObject;
 	public GUIStyle[] marketFeaturesStyles;
 	public GUIStyle[] cardFeaturesFocusStyles;
 	public GUIStyle[] popUpStyles;
