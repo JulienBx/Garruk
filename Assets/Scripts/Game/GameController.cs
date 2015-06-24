@@ -127,11 +127,7 @@ public class GameController : Photon.MonoBehaviour
 		this.createBackground();
 		this.resize();
 		this.initSkills();
-		
-		this.currentPlayingCard=2 ;
-		for (int i = 0 ; i < 1000 ; i++){
-			this.gameskills[27].resolve(new List<int>());
-		}
+	
 	}
 	
 	void Start()
