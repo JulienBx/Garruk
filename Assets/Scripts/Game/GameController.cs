@@ -85,7 +85,7 @@ public class GameController : Photon.MonoBehaviour
 	int myNextPlayer ;
 	int hisNextPlayer ;
 
-	float timerTurn = 20;
+	float timerTurn = 30;
 	bool startTurn = false;
 	bool timeElapsed = false;
 	
