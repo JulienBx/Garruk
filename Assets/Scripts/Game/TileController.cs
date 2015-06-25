@@ -9,7 +9,7 @@ public class TileController : MonoBehaviour
 //	public Texture2D cursorTarget;
 
 	public Tile tile ;
-	private int type ;
+	public int type ;
 
 	public Texture2D[] backTile ;
 	public Texture2D[] borderTile ;

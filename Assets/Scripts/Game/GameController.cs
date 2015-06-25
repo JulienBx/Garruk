@@ -715,6 +715,7 @@ public class GameController : Photon.MonoBehaviour
 			pcc.activateTargetHalo();
 		}
 	}
+	
 	void initDeadsList()
 	{
 		List<PlayingCardController> tempList = new List<PlayingCardController>();
@@ -757,7 +758,6 @@ public class GameController : Photon.MonoBehaviour
 
 			i++;
 		}
-
 	}
 
 	public void deactivateMySkills()
@@ -766,10 +766,6 @@ public class GameController : Photon.MonoBehaviour
 		{
 			this.skillsObjects [i].GetComponent<SkillObjectController>().setControlActive(false);
 		}
-	}
-	public void lookForValidation()
-	{
-		//this.gameskills[this.getCurrentSkillID()].prepare();
 	}
 
 	public void cancelSkill()
@@ -1043,38 +1039,6 @@ public class GameController : Photon.MonoBehaviour
 		}
 	}
 
-	public void resolveSkill(int skillID, int[] targets, int[] args)
-	{
-		photonView.RPC("resolveSkillRPC", PhotonTargets.AllBuffered, skillID, targets, args, this.isFirstPlayer);
-	}
-	
-	[RPC]
-	public void resolveSkillRPC(int skillID, int[] targets, int[] args, bool isFirstP)
-	{
-		//this.gameskills[skillID].resolve(targets, args);
-		if (this.isFirstPlayer == isFirstP)
-		{
-			this.play();
-		}
-	}
-	
-	public void resolveSkill()
-	{
-		//this.clickedSkill = idSkill;
-		//this.gameskills [this.getCurrentSkillID()].resolve(args);
-	}
-
-	[RPC]
-	public void castSkillOnTarget(int idPlayingCard)
-	{
-		PlayingCardController pcc = this.playingCards [idPlayingCard].GetComponent<PlayingCardController>();
-		//skillToBeCast.setTarget(pcc);
-		//this.addGameEvent(new SkillType(skillToBeCast.skill.Action), pcc.card.Title);
-		//this.displayPopUpMessage(this.playingCards [currentPlayingCard].GetComponent<PlayingCardController>().card.Title +
-		//	" " + skillToBeCast.skill.Action + " sur " + pcc.card.Title + " " + currentModifier.Amount + " " + convertStatToString(currentModifier.Stat), 2f);
-		this.playingCards [idPlayingCard].GetComponent<PlayingCardController>().show();
-	}
-
 	public void clickSkillHandler(int ids)
 	{
 		this.isRunningSkill = true;
@@ -1247,7 +1211,12 @@ public class GameController : Photon.MonoBehaviour
 		{
 			for (int j = 0; j < height; j ++)
 			{
-				characterTiles [i, j] = -1;
+				if(this.getTile(i,j).type==1){
+					characterTiles [i, j] = 9;
+				}
+				else{
+					characterTiles [i, j] = -1;
+				}	
 			}
 		}
 		int debut;
@@ -1281,16 +1250,6 @@ public class GameController : Photon.MonoBehaviour
 			this.tiles [t.x, t.y].GetComponentInChildren<TileController>().setDestination(true);
 		}
 		this.isDestinationDrawn = true;
-	}
-
-//	public void setStateOfAttack(bool state)
-//	{
-//		this.onGoingAttack = state;
-//	}
-
-	public void inflictDamage(int targetCharacter)
-	{
-		photonView.RPC("inflictDamageRPC", PhotonTargets.AllBuffered, targetCharacter, isFirstPlayer);
 	}
 
 	public void resolvePass()
@@ -1392,6 +1351,31 @@ public class GameController : Photon.MonoBehaviour
 				}
 				photonView.RPC("AddTileToBoard", PhotonTargets.AllBuffered, x, y, type);
 			}
+		}
+		
+		int nbRocksToAdd = UnityEngine.Random.Range(3,6);
+		int compteurRocks = 0 ;
+		bool isOk = true ;
+		int xRock=0, yRock=0 ;
+		List<Tile> rocks = new List<Tile>();
+		while (compteurRocks<nbRocksToAdd){
+			isOk = false ;
+			while(!isOk){
+				xRock = UnityEngine.Random.Range(0,this.boardWidth);
+				yRock = UnityEngine.Random.Range(0,this.boardHeight-1)+1;
+				isOk = true ;
+				for (int a = 0 ; a < rocks.Count && isOk ; a++){
+					if (rocks[a].x==xRock && rocks[a].y==yRock){
+						isOk = false;
+					}
+				}
+			}
+			rocks.Add(new Tile(xRock, yRock));
+			compteurRocks++;
+		}
+		
+		for (int a = 0 ; a < rocks.Count ; a++){
+			photonView.RPC("AddTileToBoard", PhotonTargets.AllBuffered, rocks[a].x, rocks[a].y, 1);
 		}
 	}
 
