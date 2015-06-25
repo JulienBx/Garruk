@@ -1348,15 +1348,7 @@ public class GameController : Photon.MonoBehaviour
 	private void initGrid()
 	{
 		print("J'initialise le terrain de jeu");
-
-		for (int x = 0; x < boardWidth; x++)
-		{
-			for (int y = 0; y < boardHeight; y++)
-			{
-
-				photonView.RPC("AddTileToBoard", PhotonTargets.AllBuffered, x, y, 0);
-			}
-		}
+		bool isRock = false ;
 		List<Tile> rocks = new List<Tile>();
 		if(!this.isTutorialLaunched)
 		{
@@ -1386,6 +1378,23 @@ public class GameController : Photon.MonoBehaviour
 			rocks.Add(new Tile(3,5));
 			rocks.Add(new Tile(5,3));
 		}
+		
+		for (int x = 0; x < boardWidth; x++)
+		{
+			for (int y = 0; y < boardHeight; y++)
+			{
+				isRock = false ;
+				for (int z = 0 ; z < rocks.Count && !isRock ; z++){
+					if(rocks[z].x==x && rocks[z].y==y){
+						isRock = true ;
+					}
+				}
+				if (!isRock){
+					photonView.RPC("AddTileToBoard", PhotonTargets.AllBuffered, x, y, 0);	
+				}
+			}
+		}
+		
 
 		for (int a = 0 ; a < rocks.Count ; a++){
 			photonView.RPC("AddTileToBoard", PhotonTargets.AllBuffered, rocks[a].x, rocks[a].y, 1);
@@ -1402,10 +1411,13 @@ public class GameController : Photon.MonoBehaviour
 	
 	// RPC
 	[RPC]
-	void AddPlayerToList(int id, string loginName)
+	IEnumerator AddPlayerToList(int id, string loginName)
 	{
 		print("J'add " + loginName);
-
+		users [id - 1] = new User(loginName);	
+		yield return StartCoroutine(users [id - 1].retrievePicture());
+		yield return StartCoroutine(users [id - 1].setProfilePicture());
+		
 		if (ApplicationModel.username == loginName)
 		{
 			this.gameView.gameScreenVM.myPlayerName = loginName;
@@ -1459,6 +1471,10 @@ public class GameController : Photon.MonoBehaviour
 				{
 					for (int j = 0; j < this.boardWidth; j++)
 					{
+						print (j+","+i);
+						print (this.tiles [j, i].ToString());
+						
+						print (this.tiles [j, i].GetComponent<TileController>().characterID);
 						this.tiles [j, i].GetComponent<TileController>().setDestination(true);
 					}
 				}

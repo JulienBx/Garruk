@@ -279,10 +279,6 @@ public class TileController : MonoBehaviour
 		this.tileView.tileVM.border = this.borderTile [borderIndex];
 		this.tileView.changeBorder();
 	}
-	
-	public void setGrey(){
-	
-	}
 
 	public void setStandard()
 	{
