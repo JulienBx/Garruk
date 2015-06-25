@@ -94,6 +94,7 @@ public class CardLobbyController : CardController
 	}
 	public override void exitFocus()
 	{
+		base.exitFocus ();
 		LobbyController.instance.exitCard();
 	}
 	public override void setGUI(bool value)

@@ -897,7 +897,7 @@ public class MyGameController : MonoBehaviour
 		}
 		else if(this.cardFocused!=null && !this.isTutorialLaunched)
 		{
-			this.exitCard();
+			this.cardFocused.GetComponent<CardMyGameController> ().exitFocus();
 		}
 		else if(this.errorPopUpView!=null)
 		{
