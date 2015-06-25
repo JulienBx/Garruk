@@ -19,8 +19,10 @@ public class Celerite : GameSkill
 	{	
 		int[] targets = new int[1];
 		targets[0] = targetsPCC[0];
+		
 		int successChances = GameController.instance.getCurrentSkill().ManaCost;
 		GameController.instance.startPlayingSkill();
+		
 		if (Random.Range(1,100) > GameController.instance.getCard(targetsPCC[0]).GetEsquive())
 		{                             
 			if (Random.Range(1,100) <= successChances)

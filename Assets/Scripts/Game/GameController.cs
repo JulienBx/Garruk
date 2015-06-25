@@ -20,6 +20,7 @@ public class GameController : Photon.MonoBehaviour
 	public int nbFreeStartRows ;
 	public GUIStyle[] gameScreenStyles;
 	bool isRunningSkill = false ;
+	bool bothPlayerLoaded = false ;
 	public bool playingCardHasMoved = false ;
 
 	int numberOfExpectedArgs ;
@@ -1026,7 +1027,7 @@ public class GameController : Photon.MonoBehaviour
 
 	public void releaseClickPlayingCardHandler(int idPlayingCard)
 	{
-		if (isDragging)
+		if (!this.isRunningSkill && isDragging)
 		{
 			if (this.isHovering && this.tiles [currentHoveredTile.x, currentHoveredTile.y].GetComponentInChildren<TileController>().characterID == -1 && this.tiles [currentHoveredTile.x, currentHoveredTile.y].GetComponentInChildren<TileController>().isDestination)
 			{
@@ -1034,14 +1035,13 @@ public class GameController : Photon.MonoBehaviour
 				int y = currentHoveredTile.y;
 				this.hideHoveredTile();
 				photonView.RPC("moveCharacterRPC", PhotonTargets.AllBuffered, x, y, this.currentPlayingCard, this.isFirstPlayer, false);
-				
 			}
 		}
 	}
 
 	public void releaseClickTileHandler(Tile t)
 	{
-		if (isDragging)
+		if (isDragging && !this.isRunningSkill)
 		{
 			if (this.tiles [t.x, t.y].GetComponentInChildren<TileController>().isDestination && this.tiles [currentHoveredTile.x, currentHoveredTile.y].GetComponentInChildren<TileController>().characterID == -1)
 			{
@@ -1472,14 +1472,14 @@ public class GameController : Photon.MonoBehaviour
 				{
 					for (int j = 0; j < this.boardWidth; j++)
 					{
-						print (j+","+i);
-						print (this.tiles [j, i].ToString());
-						
-						print (this.tiles [j, i].GetComponent<TileController>().characterID);
 						this.tiles [j, i].GetComponent<TileController>().setDestination(true);
 					}
 				}
 			}
+		}
+		
+		if (nbPlayers==2){
+			this.bothPlayerLoaded = true ;
 		}
 	}
 				
@@ -1792,13 +1792,20 @@ public class GameController : Photon.MonoBehaviour
 	}
 
 	[RPC]
-	public void moveCharacterRPC(int x, int y, int c, bool isFirstP, bool isSwap)
+	IEnumerator moveCharacterRPC(int x, int y, int c, bool isFirstP, bool isSwap)
 	{
+		if (!this.isFirstPlayer){
+			while(!this.bothPlayerLoaded){
+				print ("J'attends");
+				yield return new WaitForSeconds(1) ;
+			}
+		}
+		
 		if (nbTurns > 0)
 		{
 			addGameEvent(new MovementType(), "");
-
 		}
+		
 		if (!isSwap)
 		{
 			this.tiles [this.playingCards [c].GetComponentInChildren<PlayingCardController>().tile.x, this.playingCards [c].GetComponentInChildren<PlayingCardController>().tile.y].GetComponent<TileController>().characterID = -1;
