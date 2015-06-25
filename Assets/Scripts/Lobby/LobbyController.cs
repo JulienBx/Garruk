@@ -457,7 +457,7 @@ public class LobbyController : Photon.MonoBehaviour
 		ApplicationModel.gameType = 0; // 0 pour training
 		if(this.isTutorialLaunched)
 		{
-			StartCoroutine(this.endTutorial());
+			this.endTutorial();
 		}
 		else
 		{
@@ -554,9 +554,9 @@ public class LobbyController : Photon.MonoBehaviour
 			this.displayedDeckCards[i].GetComponent<CardLobbyController>().setButtonsGui(value);
 		}
 	}
-	public IEnumerator endTutorial()
+	public void endTutorial()
 	{
-		yield return StartCoroutine (model.player.setTutorialStep (4));
+		ApplicationModel.launchGameTutorial = true;
 		StartCoroutine (this.setSelectedDeck ());
 	}
 	public void setButtonGui(int index, bool value)

@@ -11,7 +11,7 @@ public class ApplicationModel : MonoBehaviour
 {
 	static public string host = "http://54.77.118.214/GarrukServer/";	// Adresse du serveur
 	static public string dev = "http://localhost/GarrukServer/";		// Adresse du serveur
-	static public string username; 
+	static public string username = ""; 
 	static public string hash = "J8xy9Uz4"; 						// Clé secrète
 	static public Deck selectedDeck;								// Deck à afficher
 	static public string photonSettings = "0.2";                    // identifiant utilisé par Photon A mettre à jour à chaque nouvelle version
@@ -29,6 +29,7 @@ public class ApplicationModel : MonoBehaviour
 	static public int tutorialStep;
 	static public bool isAdmin = false;
 	static public int nbCardsByDeck = 4;
+	static public bool launchGameTutorial = false;
 
 	static private string URLCheckPassword = host + "check_password.php";
 	static private string URLEditPassword = host + "edit_password.php";
