@@ -31,8 +31,23 @@ public class CardController : GameObjectController {
 	private IList<GameObject> skills;
 	private GameObject experience;
 	private GameObject cardUpgrade;
-	
+	private float timer;
+	private bool isCardUpgradeLaunched;
 
+	void Update()
+	{
+		if (this.isCardUpgradeLaunched) 
+		{
+			this.timer += Time.deltaTime;
+			if (this.timer > 5) 
+			{	
+				this.cardUpgrade.SetActive(false);
+				this.isCardUpgradeLaunched=false;
+				this.card.CaracteristicUpgraded = -1;
+				this.card.CaracteristicIncrease = -1;
+			}
+		}
+	}
 	void Awake () 
 	{	
 		this.view = gameObject.AddComponent <CardView>();
@@ -84,10 +99,6 @@ public class CardController : GameObjectController {
 			view.cardVM.moveLevel[i]=ressources.metals[c.MoveLevel];
 		}
 		this.skills = new List<GameObject> ();
-		if(this.cardUpgrade!=null)
-		{
-			Destroy(this.cardUpgrade);
-		}
 	}
 	public void setSkills()
 	{
@@ -115,23 +126,18 @@ public class CardController : GameObjectController {
 		this.experience.transform.localScale=new Vector3(1f, 1f, 1f);
 		this.experience.GetComponent<ExperienceController> ().setXp (this.card.ExperienceLevel,this.card.PercentageToNextLevel);
 	}
-	public IEnumerator setCardUpgrade(int caracteristicUpgraded, int caracteristicIncrease)
+	public void setCardUpgrade()
 	{
-		if(this.cardUpgrade!=null)
+		if(this.cardUpgrade==null)
 		{
-			Destroy(this.cardUpgrade);
+			this.cardUpgrade=Instantiate(ressources.cardUpgradeObject) as GameObject;
+			this.cardUpgrade.name = "cardUpgrade";
+			this.cardUpgrade.transform.parent=gameObject.transform.Find("texturedGameCard");
 		}
-		this.cardUpgrade=Instantiate(ressources.cardUpgradeObject) as GameObject;
-		this.cardUpgrade.name = "cardUpgrade";
-		this.cardUpgrade.transform.parent=gameObject.transform.Find("texturedGameCard");
-		this.cardUpgrade.GetComponent<CardUpgradeController> ().setCardUpgrade (this.getCardUpgradeRect (caracteristicUpgraded), caracteristicIncrease);
-		yield return new WaitForSeconds(5);
-		if(this.cardUpgrade!=null)
-		{
-			Destroy(this.cardUpgrade);
-		}
-		this.card.CaracteristicUpgraded = -1;
-		this.card.CaracteristicIncrease = -1;
+		this.cardUpgrade.SetActive(true);
+		this.cardUpgrade.GetComponent<CardUpgradeController> ().setCardUpgrade (this.getCardUpgradeRect (this.card.CaracteristicUpgraded), this.card.CaracteristicIncrease);
+		this.timer = 0;
+		this.isCardUpgradeLaunched = true;
 	}
 	public Rect getCardUpgradeRect (int caracteristicUpgraded)
 	{
@@ -215,7 +221,7 @@ public class CardController : GameObjectController {
 		}
 		if(this.card.CaracteristicUpgraded>-1&&this.card.CaracteristicIncrease>0)
 		{
-			StartCoroutine(this.setCardUpgrade(this.card.CaracteristicUpgraded,this.card.CaracteristicIncrease));
+			this.setCardUpgrade();
 		}
 		this.show ();
 		this.setMyGUI (true);
@@ -698,6 +704,12 @@ public class CardController : GameObjectController {
 	}
 	public virtual void exitFocus()
 	{
+		if(this.isCardUpgradeLaunched)
+		{
+			this.cardUpgrade.SetActive (false);
+			this.timer = 0;
+			this.isCardUpgradeLaunched = false;
+		}
 	}
 	public virtual void refreshCredits()
 	{
@@ -798,7 +810,7 @@ public class CardController : GameObjectController {
 		{
 			this.skills[i].GetComponent<SkillController>().resize();
 		}
-		if(this.cardUpgrade!=null)
+		if(this.isCardUpgradeLaunched)
 		{
 			this.cardUpgrade.GetComponent<CardUpgradeController>().resize(getCardUpgradeRect(this.card.CaracteristicUpgraded));
 		}

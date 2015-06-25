@@ -447,6 +447,10 @@ public class LobbyController : Photon.MonoBehaviour
 		{
 			this.cardPopUpBelongTo.GetComponent<CardController> ().exitPopUp ();
 		}
+		else if(this.cardFocused!=null)
+		{
+			this.cardFocused.GetComponent<CardLobbyController>().exitFocus();
+		}
 	}
 	public void joinFriendlyGame()
 	{

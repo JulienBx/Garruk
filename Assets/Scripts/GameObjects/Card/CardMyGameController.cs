@@ -119,6 +119,7 @@ public class CardMyGameController : CardController
 	}
 	public override void exitFocus()
 	{
+		base.exitFocus ();
 		MyGameController.instance.exitCard();
 		if(isTutorialLaunched)
 		{

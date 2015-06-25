@@ -91,6 +91,7 @@ public class CardStoreController : CardController
 	}
 	public override void exitFocus()
 	{
+		base.exitFocus ();
 		StoreController.instance.exitCard (); 
 		if(isTutorialLaunched)
 		{
