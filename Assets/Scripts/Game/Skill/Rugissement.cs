@@ -24,9 +24,11 @@ public class Rugissement : GameSkill
 		}
 		
 		for(int i = debut ; i < debut+GameController.instance.limitCharacterSide;i++){
-			targets = new int[1];
-			targets[0] = i;
-			GameController.instance.applyOn(targets);
+			if(!GameController.instance.getPCC(i).isDead){
+				targets = new int[1];
+				targets[0] = i;
+				GameController.instance.applyOn(targets);
+			}
 		}
 		
 		GameController.instance.playSkill();

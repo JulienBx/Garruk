@@ -48,12 +48,6 @@ public class PlayingCardController : GameObjectController
 		this.playingCardView.playingCardVM.haloStyle = styles [8];
 	}
 
-	public void activateTargetHalo()
-	{
-		this.playingCardView.playingCardVM.toDisplayHalo = true;
-		//this.playingCardView.playingCardVM.halo = this.halos [0];
-	}
-
 	public void resizeHalo()
 	{
 		int height = Screen.height;
@@ -383,16 +377,6 @@ public class PlayingCardController : GameObjectController
 		{
 			renderers [i].renderer.enabled = true;
 		}
-	}
-
-	public void removeFurtivity()
-	{
-		print("REMOVEFurtiv");
-		this.playingCardView.playingCardVM.icons.RemoveAt(this.cannotBeTargeted);
-		this.playingCardView.playingCardVM.descriptionIcon.RemoveAt(this.cannotBeTargeted);
-		this.playingCardView.playingCardVM.titlesIcon.RemoveAt(this.cannotBeTargeted);
-		this.playingCardView.playingCardVM.iconsRect.RemoveAt(this.cannotBeTargeted);
-		this.cannotBeTargeted = -1;
 	}
 	
 	public void checkModyfiers()

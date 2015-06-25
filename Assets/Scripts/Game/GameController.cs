@@ -705,7 +705,7 @@ public class GameController : Photon.MonoBehaviour
 		{
 			if (!this.playingCards [tc.characterID].GetComponent<PlayingCardController>().isDead && this.playingCards [tc.characterID].GetComponent<PlayingCardController>().cannotBeTargeted == -1)
 			{
-				this.playingCards [tc.characterID].GetComponent<PlayingCardController>().activateTargetHalo();
+				//this.playingCards [tc.characterID].GetComponent<PlayingCardController>().activateTargetHalo();
 			}
 		}
 	}
@@ -716,7 +716,7 @@ public class GameController : Photon.MonoBehaviour
 		initDeadsList();
 		foreach (PlayingCardController pcc in deads)
 		{
-			pcc.activateTargetHalo();
+			//pcc.activateTargetHalo();
 		}
 	}
 	
@@ -1315,11 +1315,6 @@ public class GameController : Photon.MonoBehaviour
 		yield break;
 	}
 	
-	public void addStat(int user1, int user2)
-	{
-		//StartCoroutine(sendStat(playersName[user1], playersName[user2]));
-	}
-	
 	IEnumerator sendStat(string user1, string user2)
 	{
 		WWWForm form = new WWWForm(); 								// Création de la connexion
@@ -1442,7 +1437,8 @@ public class GameController : Photon.MonoBehaviour
 						this.tiles [j, i].GetComponent<TileController>().setDestination(true);
 					}
 				}
-			} else
+			} 
+			else
 			{
 				for (int i = this.boardHeight-1; i > this.boardHeight-1-this.nbFreeStartRows; i--)
 				{
@@ -2367,12 +2363,6 @@ public class GameController : Photon.MonoBehaviour
 	public void displaySkillEffect(int target, string s, float timer, int colorindex)
 	{
 		this.getPCC(target).addSkillResult(s, timer, colorindex);
-	}
-	
-	[RPC]
-	public void removeFurtivityRPC(int id)
-	{
-		this.getPCC(id).removeFurtivity();
 	}
 	
 	public void emptyTile(int x, int y)

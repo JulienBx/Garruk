@@ -26,11 +26,13 @@ public class TempeteEnergie : GameSkill
 		}
 		
 		for(int i = 0 ; i < GameController.instance.getNbPlayingCards();i++){
-			targets = new int[1];
-			targets[0] = i;
-			args = new int[1];
-			args[0] = (Random.Range(1,101)*(manacost-5)/100)+5;
-			GameController.instance.applyOn(targets, args);
+			if(!GameController.instance.getPCC(i).isDead){
+				targets = new int[1];
+				targets[0] = i;
+				args = new int[1];
+				args[0] = (Random.Range(1,101)*(manacost-5)/100)+5;
+				GameController.instance.applyOn(targets, args);
+			}
 		}
 		
 		GameController.instance.playSkill();

@@ -43,6 +43,7 @@ public class HomePageController : MonoBehaviour
 		this.MenuObject = Instantiate(this.MenuObject) as GameObject;
 		StartCoroutine (this.initialization());
 	}
+	
 	void Update()
 	{
 		

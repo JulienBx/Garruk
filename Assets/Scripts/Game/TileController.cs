@@ -266,6 +266,7 @@ public class TileController : MonoBehaviour
 	public void setDestination(bool b)
 	{
 		this.isDestination = b;
+		
 		int facteur = 0;
 		int borderIndex = 0;
 		if (b)
@@ -277,6 +278,10 @@ public class TileController : MonoBehaviour
 		this.tileView.changeBackground();
 		this.tileView.tileVM.border = this.borderTile [borderIndex];
 		this.tileView.changeBorder();
+	}
+	
+	public void setGrey(){
+	
 	}
 
 	public void setStandard()
