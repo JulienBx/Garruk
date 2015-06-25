@@ -608,6 +608,23 @@ public class GameController : Photon.MonoBehaviour
 		}
 	}
 	
+	public void displayAdjacentAllyTargets()
+	{
+		List<Tile> neighbourTiles = this.getCurrentPCC().tile.getImmediateNeighbouringTiles();
+		int playerID;
+		foreach (Tile t in neighbourTiles)
+		{
+			playerID = this.tiles [t.x, t.y].GetComponent<TileController>().characterID;
+			if (playerID != -1)
+			{
+				if (this.playingCards [playerID].GetComponent<PlayingCardController>().canBeTargeted() && ((playerID<this.limitCharacterSide)==this.isFirstPlayer))
+				{
+					this.playingCards [playerID].GetComponent<PlayingCardController>().setTargetHalo(this.gameskills [this.getCurrentSkillID()].getTargetPCCText(this.getPCC(playerID).card));
+				}
+			}
+		}
+	}
+	
 	public void displayAdjacentTileTargets()
 	{
 		List<Tile> neighbourTiles = this.getCurrentPCC().tile.getImmediateNeighbouringTiles();
@@ -689,19 +706,6 @@ public class GameController : Photon.MonoBehaviour
 			if (!this.playingCards [tc.characterID].GetComponent<PlayingCardController>().isDead && this.playingCards [tc.characterID].GetComponent<PlayingCardController>().cannotBeTargeted == -1)
 			{
 				this.playingCards [tc.characterID].GetComponent<PlayingCardController>().activateTargetHalo();
-			}
-		}
-	}
-
-	public void lookForEmptyAdjacentTileForWolfTrap(string regularText, string buttonText)
-	{
-		this.numberOfExpectedArgs = 2;
-		
-		foreach (Tile t in this.getCurrentPCC().tile.getImmediateNeighbouringTiles())
-		{
-			if (this.tiles [t.x, t.y].GetComponent<TileController>().characterID == -1)
-			{
-				this.tiles [t.x, t.y].GetComponent<TileController>().activateWolfTrapTarget();
 			}
 		}
 	}
