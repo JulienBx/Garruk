@@ -1412,12 +1412,10 @@ public class GameController : Photon.MonoBehaviour
 	
 	// RPC
 	[RPC]
-	IEnumerator AddPlayerToList(int id, string loginName)
+	void AddPlayerToList(int id, string loginName)
 	{
 		print("J'add " + loginName);
 		users [id - 1] = new User(loginName);	
-		yield return StartCoroutine(users [id - 1].retrievePicture());
-		yield return StartCoroutine(users [id - 1].setProfilePicture());
 		
 		if (ApplicationModel.username == loginName)
 		{
@@ -1456,7 +1454,7 @@ public class GameController : Photon.MonoBehaviour
 		
 		if (ApplicationModel.username == loginName)
 		{
-			if (this.isFirstPlayer)
+			if (this.isFirstPlayer && !this.isTutorialLaunched)
 			{
 				for (int i = 0; i < this.nbFreeStartRows; i++)
 				{
@@ -1465,7 +1463,17 @@ public class GameController : Photon.MonoBehaviour
 						this.tiles [j, i].GetComponent<TileController>().setDestination(true);
 					}
 				}
-			} 
+			}
+			else if(this.isTutorialLaunched)
+			{
+				for (int i = 0; i < this.nbFreeStartRows; i++)
+				{
+					for (int j = 0; j < this.boardWidth; j++)
+					{
+						this.tiles [j, i].GetComponent<TileController>().setGrey(true);
+					}
+				}
+			}
 			else
 			{
 				for (int i = this.boardHeight-1; i > this.boardHeight-1-this.nbFreeStartRows; i--)
@@ -2695,6 +2703,17 @@ public class GameController : Photon.MonoBehaviour
 	public int getNbPlayingCards()
 	{
 		return (this.playingCards.Length);
+	}
+	public void setButtonsGUI(bool value)
+	{
+		for(int i =0;i<gameView.gameScreenVM.buttonsEnabled.Length;i++)
+		{
+			gameView.gameScreenVM.buttonsEnabled[i]=value;
+		}
+	}
+	public void setButtonGUI(int index, bool value)
+	{
+		gameView.gameScreenVM.buttonsEnabled[index]=value;
 	}
 }
 

@@ -1119,6 +1119,7 @@ public class TutorialObjectController : MonoBehaviour
 		case 1300:
 			if(!isResizing)
 			{
+				GameController.instance.setButtonsGUI(false);
 				view.VM.displayArrow=false;
 				view.VM.displayNextButton=false;
 				view.VM.title="L'écran de match";

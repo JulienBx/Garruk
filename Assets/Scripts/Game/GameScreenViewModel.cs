@@ -70,6 +70,8 @@ public class GameScreenViewModel
 	public string hisPlayingCardName ;
 	
 	public Rect validationWindowRect;
+
+	public bool[] buttonsEnabled;
 	
 	public GameScreenViewModel()
 	{
@@ -87,6 +89,11 @@ public class GameScreenViewModel
 		this.timersPopUp = new List<float>();
 		this.centerMessageRects = new List<Rect>();
 		toDisplayGameScreen = true;
+		this.buttonsEnabled = new bool[2];
+		for (int i=0;i<this.buttonsEnabled.Length;i++)
+		{
+			this.buttonsEnabled[i]=true;
+		}
 	}
 
 	public void setStyles(GUIStyle[] gameScreenStyles)
