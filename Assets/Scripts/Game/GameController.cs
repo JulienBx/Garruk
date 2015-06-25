@@ -1167,6 +1167,8 @@ public class GameController : Photon.MonoBehaviour
 					this.wakeUp();
 				}
 			}
+			this.playindCardHasPlayed = true;
+			this.playingCardHasMoved = true;
 		}
 		if (this.getCurrentCard().isParalyzed())
 		{
@@ -1180,7 +1182,6 @@ public class GameController : Photon.MonoBehaviour
 		this.getCurrentPCC().activateSleepingModifiers();
 		
 		this.isRunningSkill = false;
-		
 		this.playingCardHasMoved = false;
 
 		this.currentPlayingTile = this.playingCards [currentPlayingCard].GetComponentInChildren<PlayingCardController>().tile;
@@ -1360,7 +1361,7 @@ public class GameController : Photon.MonoBehaviour
 				isOk = false ;
 				while(!isOk){
 					xRock = UnityEngine.Random.Range(0,this.boardWidth);
-					yRock = UnityEngine.Random.Range(0,this.boardHeight-1)+1;
+					yRock = UnityEngine.Random.Range(0,this.boardHeight-2)+1;
 					isOk = true ;
 					for (int a = 0 ; a < rocks.Count && isOk ; a++){
 						if (rocks[a].x==xRock && rocks[a].y==yRock){
