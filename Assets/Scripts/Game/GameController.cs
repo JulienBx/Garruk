@@ -2185,7 +2185,7 @@ public class GameController : Photon.MonoBehaviour
 
 	void initSkills()
 	{
-		this.gameskills = new GameSkill[62];
+		this.gameskills = new GameSkill[66];
 		this.gameskills [0] = new Attack();
 		this.gameskills [1] = new Pass();
 		this.gameskills [2] = new GameSkill();
