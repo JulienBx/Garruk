@@ -15,6 +15,7 @@ public class GameController : Photon.MonoBehaviour
 	public GameObject verticalBorder;
 	public GameObject horizontalBorder;
 	public GameObject backGO;
+	public GameObject TutorialObject;
 	public Texture2D[] backgroundGO ;
 	public int nbFreeStartRows ;
 	public GUIStyle[] gameScreenStyles;
@@ -106,6 +107,9 @@ public class GameController : Photon.MonoBehaviour
 
 	public List<LifeBarsController> lifeBarsController = new List<LifeBarsController>();
 
+	private GameObject tutorial;
+	private bool isTutorialLaunched;
+
 	void Awake()
 	{
 		instance = this;
@@ -134,6 +138,12 @@ public class GameController : Photon.MonoBehaviour
 	void Start()
 	{	
 		users = new User[2];
+		if(ApplicationModel.launchGameTutorial)
+		{
+			this.tutorial = Instantiate(this.TutorialObject) as GameObject;
+			this.tutorial.GetComponent<TutorialObjectController>().launchSequence(1300);
+			this.isTutorialLaunched=true;
+		}
 		PhotonNetwork.ConnectUsingSettings(ApplicationModel.photonSettings);
 		PhotonNetwork.autoCleanUpPlayerObjects = false;
 		audioEndTurn = GetComponent<AudioSource>();
@@ -1348,57 +1358,58 @@ public class GameController : Photon.MonoBehaviour
 		{
 			for (int y = 0; y < boardHeight; y++)
 			{
-				int type = Mathf.RoundToInt(UnityEngine.Random.Range(1, 25));
-				if (type > 0)
-				{
-					type = 0;
-				}
-				photonView.RPC("AddTileToBoard", PhotonTargets.AllBuffered, x, y, type);
+
+				photonView.RPC("AddTileToBoard", PhotonTargets.AllBuffered, x, y, 0);
 			}
 		}
-		
-		int nbRocksToAdd = UnityEngine.Random.Range(3,6);
-		int compteurRocks = 0 ;
-		bool isOk = true ;
-		int xRock=0, yRock=0 ;
 		List<Tile> rocks = new List<Tile>();
-		while (compteurRocks<nbRocksToAdd){
-			isOk = false ;
-			while(!isOk){
-				xRock = UnityEngine.Random.Range(0,this.boardWidth);
-				yRock = UnityEngine.Random.Range(0,this.boardHeight-1)+1;
-				isOk = true ;
-				for (int a = 0 ; a < rocks.Count && isOk ; a++){
-					if (rocks[a].x==xRock && rocks[a].y==yRock){
-						isOk = false;
+		if(!this.isTutorialLaunched)
+		{
+			int nbRocksToAdd = UnityEngine.Random.Range(3,6);
+			int compteurRocks = 0 ;
+			bool isOk = true ;
+			int xRock=0, yRock=0 ;
+			while (compteurRocks<nbRocksToAdd){
+				isOk = false ;
+				while(!isOk){
+					xRock = UnityEngine.Random.Range(0,this.boardWidth);
+					yRock = UnityEngine.Random.Range(0,this.boardHeight-1)+1;
+					isOk = true ;
+					for (int a = 0 ; a < rocks.Count && isOk ; a++){
+						if (rocks[a].x==xRock && rocks[a].y==yRock){
+							isOk = false;
+						}
 					}
 				}
+				rocks.Add(new Tile(xRock, yRock));
+				compteurRocks++;
 			}
-			rocks.Add(new Tile(xRock, yRock));
-			compteurRocks++;
 		}
-		
+		else
+		{
+			rocks.Add(new Tile(1,3));
+			rocks.Add(new Tile(3,5));
+			rocks.Add(new Tile(5,3));
+		}
+
 		for (int a = 0 ; a < rocks.Count ; a++){
 			photonView.RPC("AddTileToBoard", PhotonTargets.AllBuffered, rocks[a].x, rocks[a].y, 1);
 		}
 	}
 
-	public IEnumerator loadMyDeck()
+	public IEnumerator loadMyDeck(bool isFirstPlayer)
 	{
 		Deck myDeck = new Deck(ApplicationModel.username);
 		yield return StartCoroutine(myDeck.LoadDeck());
 
-		photonView.RPC("SpawnCharacter", PhotonTargets.AllBuffered, this.isFirstPlayer, myDeck.Id);
+		photonView.RPC("SpawnCharacter", PhotonTargets.AllBuffered, isFirstPlayer, myDeck.Id);
 	}
 	
 	// RPC
 	[RPC]
-	IEnumerator AddPlayerToList(int id, string loginName)
+	void AddPlayerToList(int id, string loginName)
 	{
 		print("J'add " + loginName);
-		users [id - 1] = new User(loginName);	
-		yield return StartCoroutine(users [id - 1].retrievePicture());
-		yield return StartCoroutine(users [id - 1].setProfilePicture());
 
 		if (ApplicationModel.username == loginName)
 		{
@@ -1424,10 +1435,14 @@ public class GameController : Photon.MonoBehaviour
 			if (this.isFirstPlayer && nbPlayers == 1)
 			{
 				this.initGrid();
-				StartCoroutine(this.loadMyDeck());
+				StartCoroutine(this.loadMyDeck(this.isFirstPlayer));
 			} else if (!this.isFirstPlayer && nbPlayers == 2)
 			{
-				StartCoroutine(this.loadMyDeck());
+				StartCoroutine(this.loadMyDeck(this.isFirstPlayer));
+			}
+			else if(this.isTutorialLaunched && nbPlayers == 2)
+			{
+				StartCoroutine(this.loadMyDeck(false));
 			}
 		}
 		
@@ -1854,6 +1869,10 @@ public class GameController : Photon.MonoBehaviour
 		if (!isReconnecting)
 		{
 			photonView.RPC("AddPlayerToList", PhotonTargets.AllBuffered, PhotonNetwork.player.ID, ApplicationModel.username);
+			if(this.isTutorialLaunched)
+			{
+				photonView.RPC("AddPlayerToList", PhotonTargets.AllBuffered, PhotonNetwork.player.ID, "Garruk");
+			}
 
 		} else
 		{
