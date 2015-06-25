@@ -20,6 +20,7 @@ public class TileController : MonoBehaviour
 	public GUIStyle[] styles ;
 	
 	public bool isDestination ;
+	public bool isGrey;
 	public int characterID = -1 ;
 	public TileModification tileModification;
 	public Texture2D[] icons;
@@ -265,9 +266,14 @@ public class TileController : MonoBehaviour
 	
 	public void setDestination(bool b)
 	{
-		if (type!=1){
-		this.isDestination = b;
-		
+		if (type!=1)
+		{
+			this.isDestination = b;
+			this.setGrey(b);
+		}
+	}
+	public void setGrey(bool b)
+	{
 		int facteur = 0;
 		int borderIndex = 0;
 		if (b)
@@ -275,11 +281,11 @@ public class TileController : MonoBehaviour
 			facteur = 5;
 			borderIndex = 4;
 		}
+		this.isGrey = true;
 		this.tileView.tileVM.background = this.backTile [facteur + this.type];
 		this.tileView.changeBackground();
 		this.tileView.tileVM.border = this.borderTile [borderIndex];
 		this.tileView.changeBorder();
-		}
 	}
 
 	public void setStandard()
@@ -332,7 +338,7 @@ public class TileController : MonoBehaviour
 
 	public void hideHover()
 	{
-		if (this.isDestination)
+		if (this.isDestination || this.isGrey)
 		{
 			this.tileView.tileVM.border = this.borderTile [4];
 			this.tileView.changeBorder();
