@@ -2248,6 +2248,10 @@ public class GameController : Photon.MonoBehaviour
 		this.gameskills [59] = new ArmeMaudite();
 		this.gameskills [60] = new PiegeAffaiblissant();
 		this.gameskills [61] = new PiegeDormeur();
+		this.gameskills [62] = new GameSkill();
+		this.gameskills [63] = new GameSkill();
+		this.gameskills [64] = new GameSkill();
+		this.gameskills [65] = new FrappeBrute();
 	}
 
 	public void spawnMinion(string minionName, int targetX, int targetY, int amount, bool isFirstP)
@@ -2598,7 +2602,6 @@ public class GameController : Photon.MonoBehaviour
 	
 	public void applyOn(int[] targets)
 	{
-		print("IDSKILL " + this.getCurrentSkillID());
 		photonView.RPC("applyOnRPC", PhotonTargets.AllBuffered, targets);
 	}
 	
