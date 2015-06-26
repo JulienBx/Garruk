@@ -357,6 +357,7 @@ public class PlayingCardController : GameObjectController
 			GameController.instance.resolvePass();
 		}
 		else{
+			GameController.instance.playingCards [GameController.instance.currentPlayingCard].GetComponentInChildren<PlayingCardController>().tile.setNeighbours(GameController.instance.getCharacterTilesArray(), GameController.instance.playingCards [GameController.instance.currentPlayingCard].GetComponentInChildren<PlayingCardController>().card.GetMove());
 			GameController.instance.setDestinations(GameController.instance.currentPlayingCard);
 		}
 		

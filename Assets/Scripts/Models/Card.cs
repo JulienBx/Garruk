@@ -225,11 +225,17 @@ public class Card
 			for (i = 0 ; i < this.modifiers.Count ; i++){
 				if (modifiers[i].Stat==ModifierStat.Stat_Dommage){
 					modifiers[i].Amount += amount ; 
-					i = this.modifiers.Count+1;
+					if(modifiers[i].Amount<0){
+						modifiers[i].Amount=0;
+					}
+					i = this.modifiers.Count+1; 
 				}
 			}
 			if (i==this.modifiers.Count){
 				this.modifiers.Add(new StatModifier(amount, type, stat, duration, idIcon, t, d, a));
+				if(modifiers[this.modifiers.Count-1].Amount<0){
+					modifiers[this.modifiers.Count-1].Amount=0;
+				}
 			}
 		}
 		else if(stat == ModifierStat.Stat_Attack || stat == ModifierStat.Stat_Speed || stat == ModifierStat.Stat_Move){
