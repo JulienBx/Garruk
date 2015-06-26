@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class TileController : MonoBehaviour
+public class TileController : GameObjectController
 {
 //	public Texture2D cursorDragging;
 //	public Texture2D cursorExchange;
@@ -20,7 +20,7 @@ public class TileController : MonoBehaviour
 	public GUIStyle[] styles ;
 	
 	public bool isDestination ;
-	public bool isGrey;
+	public bool isGreyBorder;
 	public int characterID = -1 ;
 	public TileModification tileModification;
 	public Texture2D[] icons;
@@ -50,7 +50,8 @@ public class TileController : MonoBehaviour
 
 	}
 	
-	public void setTargetHalo(HaloTarget h){
+	public void setTargetHalo(HaloTarget h, bool isHaloDisabled=false)
+	{
 		this.tileView.tileVM.haloStyle.normal.background = this.halos[h.idImage];
 		this.tileView.tileVM.haloTexts = new List<string>();
 		this.tileView.tileVM.haloStyles = new List<GUIStyle>();
@@ -60,6 +61,7 @@ public class TileController : MonoBehaviour
 			this.tileView.tileVM.haloStyles.Add(this.haloTextStyles[h.stylesID[i]]);
 		}
 		this.tileView.tileVM.toDisplayHalo = true ;
+		this.tileView.tileVM.isHaloDisabled = isHaloDisabled;
 	}
 	
 	public void checkTrap(int target)
@@ -270,6 +272,7 @@ public class TileController : MonoBehaviour
 		{
 			this.isDestination = b;
 			this.setGrey(b);
+			this.setGreyBorder (b);
 		}
 	}
 	public void setGrey(bool b)
@@ -281,13 +284,15 @@ public class TileController : MonoBehaviour
 			facteur = 5;
 			borderIndex = 4;
 		}
-		this.isGrey = true;
 		this.tileView.tileVM.background = this.backTile [facteur + this.type];
 		this.tileView.changeBackground();
 		this.tileView.tileVM.border = this.borderTile [borderIndex];
 		this.tileView.changeBorder();
 	}
-
+	public void setGreyBorder(bool value)
+	{
+		this.isGreyBorder = value;
+	}
 	public void setStandard()
 	{
 		this.isDestination = false;
@@ -315,9 +320,10 @@ public class TileController : MonoBehaviour
 		return this.tileView.tileVM.position;
 	}
 
-	public void setBorderTile()
+	public void setBorderTile(int index)
 	{
-		
+		this.tileView.tileVM.border = this.borderTile [index];	
+		this.tileView.changeBorder();
 	}
 
 	public void hoverTile()
@@ -338,7 +344,7 @@ public class TileController : MonoBehaviour
 
 	public void hideHover()
 	{
-		if (this.isDestination || this.isGrey)
+		if (this.isGreyBorder)
 		{
 			this.tileView.tileVM.border = this.borderTile [4];
 			this.tileView.changeBorder();
@@ -463,6 +469,7 @@ public class TileController : MonoBehaviour
 	
 	public void hideTargetHalo(){
 		this.tileView.tileVM.toDisplayHalo = false;
+		this.tileView.tileVM.isHaloDisabled = false;
 	}
 }
 
