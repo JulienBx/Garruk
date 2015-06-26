@@ -347,7 +347,14 @@ public class PlayingCardController : GameObjectController
 	
 	public void kill()
 	{
-		GameController.instance.displayPopUpMessage(GameController.instance.getCard(this.IDCharacter).Title + " est mort", 3);
+		GameController.instance.displaySkillEffect(this.IDCharacter, "DEAD", 6, 1);
+		if (GameController.instance.currentPlayingCard==this.IDCharacter){
+			GameController.instance.resolvePass();
+		}
+		else{
+			GameController.instance.setDestinations(GameController.instance.currentPlayingCard);
+		}
+		
 		this.isDead = true;
 		this.hasPlayed = true;
 		gameObject.renderer.enabled = false;

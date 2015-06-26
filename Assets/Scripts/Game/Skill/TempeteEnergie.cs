@@ -24,7 +24,7 @@ public class TempeteEnergie : GameSkill
 			if(!GameController.instance.getPCC(i).isDead){
 				if (Random.Range(1,101) > GameController.instance.getCard(i).GetMagicalEsquive())
 				{ 
-					arg = (Random.Range(1,101)*(manacost-5)/100)+5;
+					arg = (Random.Range(5,manacost+1));
 					GameController.instance.applyOn(i, arg);
 					success = 1 ;
 				}

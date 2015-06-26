@@ -2645,7 +2645,7 @@ public class GameController : Photon.MonoBehaviour
 		this.getPCC(target).show();
 		if (stat == ModifierStat.Stat_Dommage)
 		{
-			if (this.getCard(target).GetLife() <= 0)
+			if (!this.getPCC(target).isDead && this.getCard(target).GetLife() <= 0)
 			{
 				this.getPCC(target).kill();
 			}
@@ -2838,7 +2838,7 @@ public class GameController : Photon.MonoBehaviour
 	
 	public void applyOn(int target, int arg)
 	{
-		photonView.RPC("applyOnRPC3", PhotonTargets.AllBuffered, target);
+		photonView.RPC("applyOnRPC3", PhotonTargets.AllBuffered, target, arg);
 	}
 	
 	[RPC]

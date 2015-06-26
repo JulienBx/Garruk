@@ -26,7 +26,7 @@ public class EnergieQuantique : GameSkill
 			}
 		}
 		
-		int target = Random.Range(0, allys.Count);
+		int target = allys[Random.Range(0, allys.Count)];
 		
 		if (Random.Range(1,101) > GameController.instance.getCard(target).GetMagicalEsquive())
 		{                             

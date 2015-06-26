@@ -45,16 +45,15 @@ public class AttaqueRapide : GameSkill
 	
 	public override void applyOn(int target, int arg){
 		
+		Debug.Log(target+","+arg);
 		Card targetCard = GameController.instance.getCard(target);
 		int currentLife = targetCard.GetLife();
 		int damageBonusPercentage = GameController.instance.getCurrentCard().GetDamagesPercentageBonus(targetCard);
 		int bouclier = targetCard.GetBouclier();
 		int amount = arg*(GameController.instance.getCurrentSkill().ManaCost*GameController.instance.getCurrentCard().GetAttack()/100)*(100+damageBonusPercentage)/100;
 		amount = Mathf.Min(currentLife,amount-(bouclier*amount/100));
+		GameController.instance.addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
 		
-		for (int i = 0 ; i < arg ; i++){
-			GameController.instance.addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
-		}
 		if (arg>1){
 			GameController.instance.displaySkillEffect(target, arg+"HITS\n"+"-"+amount+" PV", 3, 1);
 		}
@@ -83,7 +82,7 @@ public class AttaqueRapide : GameSkill
 		int amount1 = Mathf.Min(currentLife, amount-(bouclier*amount/100));
 		int amount2 = Mathf.Min(currentLife, 4*(amount-(bouclier*amount/100)));
 		
-		h.addInfo("-"+amount1+"-"+amount2+" PV",0);
+		h.addInfo("- "+amount1+"-"+amount2+" PV",0);
 		
 		int probaEsquive = c.GetEsquive();
 		int proba ;

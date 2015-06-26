@@ -23,7 +23,7 @@ public class FrappeBrute : GameSkill
 		
 		if (Random.Range(1,101) > GameController.instance.getCard(target).GetEsquive())
 		{                             
-			int arg = Random.Range(1,GameController.instance.getCurrentSkill().ManaCost+1);
+			int arg = Random.Range(1,GameController.instance.getCurrentSkill().ManaCost+1)*GameController.instance.getCurrentCard().GetAttack()/100;
 			GameController.instance.applyOn(target, arg);
 			successType = 1 ;
 		}
@@ -53,7 +53,7 @@ public class FrappeBrute : GameSkill
 		int i ;
 		
 		int currentLife = c.GetLife();
-		int amount = GameController.instance.getCurrentSkill().ManaCost;
+		int amount = GameController.instance.getCurrentSkill().ManaCost*GameController.instance.getCurrentCard().GetAttack()/100;
 		
 		h.addInfo("- 1"+"-"+amount+" PV",0);
 		
