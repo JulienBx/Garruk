@@ -172,7 +172,7 @@ public class GameController : Photon.MonoBehaviour
 		}
 
 		
-		if (startTurn)
+		if (startTurn && !isTutorialLaunched)
 		{
 			gameView.gameScreenVM.timer -= Time.deltaTime;
 			if (timeElapsed)
@@ -222,6 +222,10 @@ public class GameController : Photon.MonoBehaviour
 		if (EndSceneController.instance != null)
 		{
 			EndSceneController.instance.resize();
+		}
+		if(this.isTutorialLaunched)
+		{
+			this.tutorial.GetComponent<TutorialObjectController>().resize();
 		}
 	}
 
@@ -1198,7 +1202,10 @@ public class GameController : Photon.MonoBehaviour
 		{
 			this.activatePlayingCard(idPlayingCard);
 		}
-
+		if(this.isTutorialLaunched)
+		{
+			this.tutorial.GetComponent<TutorialObjectController>().actionIsDone();
+		}
 	}
 
 	public void releaseClickPlayingCardHandler(int idPlayingCard)
@@ -1225,6 +1232,10 @@ public class GameController : Photon.MonoBehaviour
 				int y = currentHoveredTile.y;
 				this.hideHoveredTile();
 				photonView.RPC("moveCharacterRPC", PhotonTargets.AllBuffered, x, y, this.currentPlayingCard, this.isFirstPlayer, false);
+				if(isTutorialLaunched)
+				{
+					this.tutorial.GetComponent<TutorialObjectController>().actionIsDone();
+				}
 			}
 		}
 	}
@@ -1438,7 +1449,15 @@ public class GameController : Photon.MonoBehaviour
 		List<Tile> nt = this.playingCards [idPlayer].GetComponentInChildren<PlayingCardController>().tile.neighbours.tiles;
 		foreach (Tile t in nt)
 		{
-			this.tiles [t.x, t.y].GetComponentInChildren<TileController>().setDestination(true);
+			if(!this.isTutorialLaunched)
+			{
+				this.tiles [t.x, t.y].GetComponentInChildren<TileController>().setDestination(true);
+			}
+			else
+			{
+				this.tiles [t.x, t.y].GetComponent<TileController>().setGrey(true);
+				this.tiles [t.x, t.y].GetComponent<TileController>().setGreyBorder(true);
+			}
 		}
 		this.isDestinationDrawn = true;
 	}
@@ -1585,6 +1604,13 @@ public class GameController : Photon.MonoBehaviour
 
 		photonView.RPC("SpawnCharacter", PhotonTargets.AllBuffered, isFirstPlayer, myDeck.Id);
 	}
+	public IEnumerator loadTutorialDeck(bool isFirstPlayer)
+	{
+		Deck tutorialDeck = new Deck(users[1].Username);
+		yield return StartCoroutine(tutorialDeck.LoadDeck());
+
+		photonView.RPC("SpawnCharacter", PhotonTargets.AllBuffered, isFirstPlayer, tutorialDeck.Id);
+	}
 	
 	// RPC
 	[RPC]
@@ -1627,7 +1653,7 @@ public class GameController : Photon.MonoBehaviour
 			}
 			else if(this.isTutorialLaunched && nbPlayers == 2)
 			{
-				StartCoroutine(this.loadMyDeck(false));
+				StartCoroutine(this.loadTutorialDeck(!this.isFirstPlayer));
 			}
 		}
 		
@@ -1650,8 +1676,10 @@ public class GameController : Photon.MonoBehaviour
 					for (int j = 0; j < this.boardWidth; j++)
 					{
 						this.tiles [j, i].GetComponent<TileController>().setGrey(true);
+						this.tiles [j, i].GetComponent<TileController>().setGreyBorder(true);
 					}
 				}
+				this.tutorial.GetComponent<TutorialObjectController>().setNextButtonDisplaying(true);
 			}
 			else
 			{
@@ -1742,6 +1770,11 @@ public class GameController : Photon.MonoBehaviour
 	public void playerReady()
 	{
 		photonView.RPC("playerReadyRPC", PhotonTargets.AllBuffered, this.isFirstPlayer);
+		if(isTutorialLaunched)
+		{
+			photonView.RPC("playerReadyRPC", PhotonTargets.AllBuffered, !this.isFirstPlayer);
+			this.tutorial.GetComponent<TutorialObjectController>().actionIsDone();
+		}
 	}
 
 	public void StartFight()
@@ -2079,7 +2112,7 @@ public class GameController : Photon.MonoBehaviour
 			photonView.RPC("AddPlayerToList", PhotonTargets.AllBuffered, PhotonNetwork.player.ID, ApplicationModel.username);
 			if(this.isTutorialLaunched)
 			{
-				photonView.RPC("AddPlayerToList", PhotonTargets.AllBuffered, PhotonNetwork.player.ID, "Garruk");
+				photonView.RPC("AddPlayerToList", PhotonTargets.AllBuffered, PhotonNetwork.player.ID+1, "Garruk");
 			}
 
 		} else
@@ -2932,6 +2965,9 @@ public class GameController : Photon.MonoBehaviour
 	{
 		return (this.playingCards.Length);
 	}
+
+	// Méthodes pour le tutoriel
+
 	public void setButtonsGUI(bool value)
 	{
 		for(int i =0;i<gameView.gameScreenVM.buttonsEnabled.Length;i++)
@@ -2942,6 +2978,65 @@ public class GameController : Photon.MonoBehaviour
 	public void setButtonGUI(int index, bool value)
 	{
 		gameView.gameScreenVM.buttonsEnabled[index]=value;
+	}
+	public void activeSingleCharacter(int index)
+	{
+		for(int i=0;i<this.limitCharacterSide;i++)
+		{
+			if(i!=index)
+			{
+				this.playingCards[i].GetComponent<PlayingCardController>().setTargetHalo(new HaloTarget(1),true);
+			}
+		}
+	}
+	public void activeAllCharacters()
+	{
+		for(int i=0;i<this.limitCharacterSide;i++)
+		{
+			this.playingCards[i].GetComponent<PlayingCardController>().hideTargetHalo();
+		}
+	}
+	public void disableAllCharacters()
+	{
+		for(int i=0;i<this.limitCharacterSide;i++)
+		{
+			this.playingCards[i].GetComponent<PlayingCardController>().setTargetHalo(new HaloTarget(1),true);
+		}
+	}
+	public Vector2 getPlayingCardsPosition(int index)
+	{
+		return this.playingCards[index].GetComponent<PlayingCardController>().getGOScreenPosition(this.playingCards[index]);
+	}
+	public Vector2 getPlayingCardsSize(int index)
+	{
+		return this.playingCards[index].GetComponent<PlayingCardController>().getGOScreenSize(this.playingCards[index]);
+	}
+	public Vector2 getTilesPosition(int x,int y)
+	{
+		return this.tiles[x,y].GetComponent<TileController>().getGOScreenPosition(this.tiles[x,y]);
+	}
+	public Vector2 getTilesSize(int x, int y)
+	{
+		return this.tiles[x,y].GetComponent<TileController>().getGOScreenSize(this.tiles[x,y]);
+	}
+	public void setDestination(int x,int y,bool value)
+	{
+		this.tiles [x, y].GetComponent<TileController> ().setDestination (value);
+	}
+	public void addTileHalo(int x,int y, int haloIndex, bool isHaloDisabled)
+	{
+		this.tiles [x, y].GetComponent<TileController> ().setTargetHalo (new HaloTarget (haloIndex), isHaloDisabled);
+	}
+	public void hideTileHalo(int x,int y)
+	{
+		this.tiles [x, y].GetComponent<TileController> ().hideTargetHalo();
+	}
+	public void disableAllSkillObjects()
+	{
+		for(int i=0;i<this.skillsObjects.Length;i++)
+		{
+			this.skillsObjects[i].GetComponent<SkillObjectController>().setControlActive(false);
+		}
 	}
 }
 
