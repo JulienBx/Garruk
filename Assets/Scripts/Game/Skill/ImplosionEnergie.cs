@@ -40,7 +40,7 @@ public class ImplosionEnergie : GameSkill
 						GameController.instance.applyOn(targets);
 					}
 					else{
-						GameController.instance.failedToCastOnSkill(targets);
+						//GameController.instance.failedToCastOnSkill(targets);
 					}
 				}
 			}
@@ -50,7 +50,7 @@ public class ImplosionEnergie : GameSkill
 		targets[0] = GameController.instance.currentPlayingCard;
 		GameController.instance.applyOn(targets);
 		
-		GameController.instance.playSkill();
+		//GameController.instance.playSkill();
 		GameController.instance.play();
 	}
 	
@@ -72,7 +72,7 @@ public class ImplosionEnergie : GameSkill
 		GameController.instance.displaySkillEffect(targets[0], "Inflige "+amount, 3, 1);
 	}
 	
-	public override void failedToCastOn(int[] targets){
+	public override void failedToCastOn(int[] targets, int[] args){
 		for (int i = 0 ; i < targets.Length ; i++){
 			GameController.instance.displaySkillEffect(targets[i], "L'attaque échoue", 3, 0);
 		}
@@ -102,7 +102,7 @@ public class ImplosionEnergie : GameSkill
 		return isLaunchable ;
 	}
 	
-	public override string getPlayText(){
+	public override string getSuccessText(){
 		return "Implosion Energie" ;
 	}
 }

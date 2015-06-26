@@ -17,46 +17,42 @@ public class Rugissement : GameSkill
 	{	
 		int[] targets ;
 		GameController.instance.startPlayingSkill();
-		
-		int debut = 0 ;
-		if(!GameController.instance.isFirstPlayer){
-			debut = GameController.instance.limitCharacterSide	;
-		}
-		
-		for(int i = debut ; i < debut+GameController.instance.limitCharacterSide;i++){
-			if(!GameController.instance.getPCC(i).isDead){
-				targets = new int[1];
-				targets[0] = i;
-				GameController.instance.applyOn(targets);
+		int success = 0 ;
+		 
+		for(int i = 0 ; i < GameController.instance.playingCards.Length;i++){
+			if(i!=GameController.instance.currentPlayingCard && !GameController.instance.getPCC(i).isDead && GameController.instance.getPCC(i).isMine){
+				if (Random.Range(1,101) > GameController.instance.getCard(i).GetMagicalEsquive())
+				{
+					GameController.instance.applyOn(i);
+					success = 1 ; 
+				}
+				else{
+					GameController.instance.failedToCastOnSkill(i, 1);
+				}
 			}
 		}
 		
-		GameController.instance.playSkill();
+		GameController.instance.playSkill(success);
 		GameController.instance.play();
 	}
 	
-	public override void applyOn(int[] targets){
+	public override void applyOn(int target){
 		int amount = GameController.instance.getCurrentSkill().ManaCost;
-		int attack ;
 		
-		for (int i = 0 ; i < targets.Length ; i++){
-			attack = GameController.instance.getCard(targets[i]).GetAttack();
-			GameController.instance.addCardModifier(targets[i], amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, 1, 9, "Renforcement", "Attaque augmentée de "+amount, "Actif 1 tour");
-			GameController.instance.displaySkillEffect(targets[i], "ATK : "+attack+" -> "+(attack+amount), 3, 0);
-		}
+		GameController.instance.addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, 1, 9, "Renforcement", "Attaque augmentée de "+amount, "Actif 1 tour");
+		GameController.instance.displaySkillEffect(target, "+"+amount+" ATK", 3, 0);
+		
 	}
 	
-	public override void failedToCastOn(int[] targets){
-		for (int i = 0 ; i < targets.Length ; i++){
-			GameController.instance.displaySkillEffect(targets[i], "Echec", 3, 1);
-		}
+	public override void failedToCastOn(int target, int indexFailure){
+		GameController.instance.displaySkillEffect(target, GameController.instance.castFailures.getFailure(indexFailure), 5, 1);
 	}
 	
 	public override bool isLaunchable(Skill s){
-		return true ;
+		return (GameController.instance.nbMyPlayersAlive()>0) ;
 	}
 	
-	public override string getPlayText(){
-		return "Frénésie" ;
+	public override string getSuccessText(){
+		return "Rugissement" ;
 	}
 }

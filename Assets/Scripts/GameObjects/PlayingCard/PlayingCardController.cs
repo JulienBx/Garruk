@@ -106,13 +106,6 @@ public class PlayingCardController : GameObjectController
 	public void setStyles(bool isMyCharacter)
 	{
 		isMine = isMyCharacter;
-		if (isMyCharacter)
-		{
-
-		} else
-		{
-
-		}
 	}
 
 	public void setTile(Tile t)

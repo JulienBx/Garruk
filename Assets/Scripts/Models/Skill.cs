@@ -34,11 +34,6 @@ public class Skill
 		this.Power = power;
 		this.ManaCost = manaCost;
 		this.Description = description;
-
-		if (id==10){
-			nbLeft = 2 ;
-			this.Description+=nbLeft+" restant(s)";
-		}
 	}
 	public Skill(string name, int id, int isactivated, int level, int power, int manaCost)
 	{
@@ -48,11 +43,6 @@ public class Skill
 		this.Level = level;
 		this.Power = power;
 		this.ManaCost = manaCost;
-
-		if (id==10){
-			nbLeft = 2 ;
-			this.Description+=nbLeft+" restant(s)";
-		}
 	}
 	public Skill(string name)
 	{

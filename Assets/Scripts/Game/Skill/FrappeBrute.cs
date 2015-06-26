@@ -11,46 +11,40 @@ public class FrappeBrute : GameSkill
 	public override void launch()
 	{
 		GameController.instance.initPCCTargetHandler(numberOfExpectedTargets);
-		GameController.instance.displayAdjacentTargets();
+		GameController.instance.displayAdjacentOpponentsTargets();
 		GameController.instance.displayMyControls("Frappe de brute");
 	}
 	
 	public override void resolve(List<int> targetsPCC)
 	{	
-		int[] targets = new int[1];
-		targets[0] = targetsPCC[0];
-		int maxBonus = GameController.instance.getCurrentSkill().ManaCost;
 		GameController.instance.startPlayingSkill();
+		int target = targetsPCC[0];
+		int successType = 0 ;
 		
-		if (Random.Range(1,100) > GameController.instance.getCard(targetsPCC[0]).GetEsquive())
+		if (Random.Range(1,101) > GameController.instance.getCard(target).GetEsquive())
 		{                             
-			int[] args = new int[1];
-			args[0] = Random.Range(1,maxBonus+1);
-			GameController.instance.applyOn(targets, args);
+			int arg = Random.Range(1,GameController.instance.getCurrentSkill().ManaCost+1);
+			GameController.instance.applyOn(target, arg);
+			successType = 1 ;
 		}
 		else{
-			GameController.instance.failedToCastOnSkill(targets);
+			GameController.instance.failedToCastOnSkill(target, 1);
 		}
-		GameController.instance.playSkill();
+		GameController.instance.playSkill(successType);
 		GameController.instance.play();
 	}
 	
-	public override void applyOn(int[] targets, int[] args){
-		
-		for (int i = 0 ; i < targets.Length ; i++){
-			GameController.instance.addCardModifier(targets[i], args[i], ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
-			GameController.instance.displaySkillEffect(targets[i], "Inflige "+args[i]+" dégats", 3, 1);
-		}
+	public override void applyOn(int target, int arg){
+		GameController.instance.addCardModifier(target, arg, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
+		GameController.instance.displaySkillEffect(target, "-"+arg+" PV", 3, 1);
 	}
 	
-	public override void failedToCastOn(int[] targets){
-		for (int i = 0 ; i < targets.Length ; i++){
-			GameController.instance.displaySkillEffect(targets[i], "Echec", 3, 1);
-		}
+	public override void failedToCastOn(int target, int indexFailure){
+		GameController.instance.displaySkillEffect(target, GameController.instance.castFailures.getFailure(indexFailure), 5, 1);
 	}
 	
 	public override bool isLaunchable(Skill s){
-		return true ;
+		return GameController.instance.canLaunchAdjacentOpponents();
 	}
 	
 	public override HaloTarget getTargetPCCText(Card c){
@@ -61,24 +55,40 @@ public class FrappeBrute : GameSkill
 		int currentLife = c.GetLife();
 		int amount = GameController.instance.getCurrentSkill().ManaCost;
 		
-		h.addInfo("PV : "+currentLife+" -> "+(currentLife-amount)+"-"+(currentLife-10),0);
+		h.addInfo("- 1"+"-"+amount+" PV",0);
 		
-		int probaHit = 100 - c.GetEsquive();
-		if (probaHit>=80){
-			i = 2 ;
-		}
-		else if (probaHit>=20){
-			i = 1 ;
+		int probaEsquive = c.GetEsquive();
+		int proba ;
+		string s = "HIT : ";
+		if (probaEsquive!=0){
+			proba = 100-probaEsquive;
+			s+=proba+"% : "+100+"%(ATT) - "+probaEsquive+"%(ESQ)";
 		}
 		else{
-			i = 0 ;
+			proba = 100;
+			s+=proba+"%";
 		}
-		h.addInfo("HIT% : "+probaHit,i);
+		
+		if(proba==100){
+			i=2;
+		}
+		else if(proba>=50){
+			i=1;
+		}
+		else{
+			i=0;
+		}
+		
+		h.addInfo(s,i);
 		
 		return h ;
 	}
 	
-	public override string getPlayText(){
-		return "Frappe brute" ;
+	public override string getSuccessText(){
+		return "A lancé frappe brute" ;
+	}
+	
+	public override string getFailureText(){
+		return "Frappe brute a échoué" ;
 	}
 }

@@ -11,7 +11,7 @@ public class PiegeDormeur : GameSkill
 	{
 		GameController.instance.initTileTargetHandler(numberOfExpectedTargets);
 		GameController.instance.displayAdjacentTileTargets();
-		GameController.instance.displayMyControls("Piège à loups");
+		GameController.instance.displayMyControls("Piège à dormeur");
 	}
 	
 	public override void resolve(List<Tile> targetsTile)
@@ -22,7 +22,7 @@ public class PiegeDormeur : GameSkill
 		GameController.instance.startPlayingSkill();
 		GameController.instance.applyOn(targets);
 		
-		GameController.instance.playSkill();
+		GameController.instance.playSkill(1);
 		GameController.instance.play();
 	}
 	
@@ -41,21 +41,7 @@ public class PiegeDormeur : GameSkill
 	}
 	
 	public override bool isLaunchable(Skill s){
-		bool isLaunchable = false ;
-		List<Tile> neighbourTiles = GameController.instance.getCurrentPCC().tile.getImmediateNeighbouringTiles();
-		int playerID;
-		foreach (Tile t in neighbourTiles)
-		{
-			playerID = GameController.instance.getTile(t.x, t.y).characterID;
-			if (playerID == -1)
-			{
-				if (!GameController.instance.getTile(t.x, t.y).tile.isStatModifier)
-				{
-					isLaunchable = true ;
-				}
-			}
-		}
-		return isLaunchable ;
+		return GameController.instance.canLaunchAdjacentTiles();
 	}
 	
 	public override HaloTarget getTargetPCCText(Card c){
@@ -64,12 +50,12 @@ public class PiegeDormeur : GameSkill
 		
 		int degats = GameController.instance.getCurrentSkill().ManaCost;
 		
-		h.addInfo("Pose un piège endormissant",0);
+		h.addInfo("PIEGE. Endort",0);
 		
 		return h ;
 	}
 	
-	public override string getPlayText(){
-		return "Piège endormissant" ;
+	public override string getSuccessText(){
+		return "A lancé piège endormissant" ;
 	}
 }

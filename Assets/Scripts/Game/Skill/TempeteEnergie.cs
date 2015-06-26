@@ -15,50 +15,40 @@ public class TempeteEnergie : GameSkill
 	
 	public override void resolve(List<int> targetsPCC)
 	{	
-		int[] targets ;
-		int[] args;
+		int arg ;
 		int manacost = GameController.instance.getCurrentSkill().ManaCost;
 		GameController.instance.startPlayingSkill();
+		int success = 0 ;
 		
-		int debut = 0 ;
-		if(!GameController.instance.isFirstPlayer){
-			debut = GameController.instance.limitCharacterSide	;
-		}
-		
-		for(int i = 0 ; i < GameController.instance.getNbPlayingCards();i++){
+		for(int i = 0 ; i < GameController.instance.playingCards.Length;i++){
 			if(!GameController.instance.getPCC(i).isDead){
-				targets = new int[1];
-				targets[0] = i;
-				args = new int[1];
-				args[0] = (Random.Range(1,101)*(manacost-5)/100)+5;
-				GameController.instance.applyOn(targets, args);
+				if (Random.Range(1,101) > GameController.instance.getCard(i).GetMagicalEsquive())
+				{ 
+					arg = (Random.Range(1,101)*(manacost-5)/100)+5;
+					GameController.instance.applyOn(i, arg);
+					success = 1 ;
+				}
 			}
 		}
 		
-		GameController.instance.playSkill();
+		GameController.instance.playSkill(success);
 		GameController.instance.play();
 	}
 	
-	public override void applyOn(int[] targets, int[] args){
-		int amount = args[0];
-		
-		for (int i = 0 ; i < targets.Length ; i++){
-			GameController.instance.addCardModifier(targets[i], amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
-			GameController.instance.displaySkillEffect(targets[i], "Inflige "+amount+" dégats", 3, 1);
-		}
+	public override void applyOn(int target, int arg){
+		GameController.instance.addCardModifier(target, arg, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
+		GameController.instance.displaySkillEffect(target, "-"+arg+" PV", 3, 1);
 	}
 	
-	public override void failedToCastOn(int[] targets){
-		for (int i = 0 ; i < targets.Length ; i++){
-			GameController.instance.displaySkillEffect(targets[i], "Echec", 3, 1);
-		}
+	public override void failedToCastOn(int target, int indexFailure){
+		GameController.instance.displaySkillEffect(target, GameController.instance.castFailures.getFailure(indexFailure), 5, 1);
 	}
 	
 	public override bool isLaunchable(Skill s){
 		return true ;
 	}
 	
-	public override string getPlayText(){
-		return "Tempete d'énergie" ;
+	public override string getSuccessText(){
+		return "A lancé tempete d'énergie" ;
 	}
 }

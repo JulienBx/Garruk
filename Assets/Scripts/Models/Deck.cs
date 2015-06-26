@@ -290,6 +290,9 @@ public class Deck
 						this.Cards[i].Skills[j-1].ManaCost=System.Convert.ToInt32(cardInfo[5]);
 						this.Cards[i].Skills[j-1].Description=cardInfo[6];
 						this.Cards[i].Skills[j-1].Action=cardInfo[7];
+						if (this.Cards[i].Skills[j-1].Id==11){
+							this.Cards[i].Skills[j-1].nbLeft = 1 ;
+						}
 					}
 				}
 			}

@@ -35,6 +35,7 @@ public class GameController : Photon.MonoBehaviour
 
 	//Variables du controlleur
 	public bool isTriggeringSkill = false;
+	public CastFailures castFailures = new CastFailures();
 	public static GameController instance;
 	public bool isFirstPlayer = false;
 	public Deck myDeck;
@@ -602,7 +603,7 @@ public class GameController : Photon.MonoBehaviour
 		this.tiles [x, y].GetComponent<TileController>().activateEffectZoneHalo();
 	}
 	
-	public void displayAdjacentTargets()
+	public void displayAdjacentOpponentsTargets()
 	{
 		List<Tile> neighbourTiles = this.getCurrentPCC().tile.getImmediateNeighbouringTiles();
 		int playerID;
@@ -611,12 +612,32 @@ public class GameController : Photon.MonoBehaviour
 			playerID = this.tiles [t.x, t.y].GetComponent<TileController>().characterID;
 			if (playerID != -1)
 			{
-				if (this.playingCards [playerID].GetComponent<PlayingCardController>().canBeTargeted())
+				if (this.playingCards [playerID].GetComponent<PlayingCardController>().canBeTargeted() && !this.getPCC(playerID).isMine)
 				{
 					this.playingCards [playerID].GetComponent<PlayingCardController>().setTargetHalo(this.gameskills [this.getCurrentSkillID()].getTargetPCCText(this.getPCC(playerID).card));
 				}
 			}
 		}
+	}
+	
+	public bool canLaunchAdjacentOpponents()
+	{
+		bool isLaunchable = false  ;
+		
+		List<Tile> neighbourTiles = this.getCurrentPCC().tile.getImmediateNeighbouringTiles();
+		int playerID;
+		foreach (Tile t in neighbourTiles)
+		{
+			playerID = this.tiles [t.x, t.y].GetComponent<TileController>().characterID;
+			if (playerID != -1)
+			{
+				if (this.playingCards [playerID].GetComponent<PlayingCardController>().canBeTargeted() && !this.getPCC(playerID).isMine)
+				{
+					isLaunchable = true ;
+				}
+			}
+		}
+		return isLaunchable;
 	}
 	
 	public void displayAdjacentAllyTargets()
@@ -628,12 +649,32 @@ public class GameController : Photon.MonoBehaviour
 			playerID = this.tiles [t.x, t.y].GetComponent<TileController>().characterID;
 			if (playerID != -1)
 			{
-				if (this.playingCards [playerID].GetComponent<PlayingCardController>().canBeTargeted() && ((playerID<this.limitCharacterSide)==this.isFirstPlayer))
+				if (this.playingCards [playerID].GetComponent<PlayingCardController>().canBeTargeted() && this.getPCC(playerID).isMine)
 				{
 					this.playingCards [playerID].GetComponent<PlayingCardController>().setTargetHalo(this.gameskills [this.getCurrentSkillID()].getTargetPCCText(this.getPCC(playerID).card));
 				}
 			}
 		}
+	}
+	
+	public bool canLaunchAdjacentAllys()
+	{
+		bool isLaunchable = false  ;
+		
+		List<Tile> neighbourTiles = this.getCurrentPCC().tile.getImmediateNeighbouringTiles();
+		int playerID;
+		foreach (Tile t in neighbourTiles)
+		{
+			playerID = this.tiles [t.x, t.y].GetComponent<TileController>().characterID;
+			if (playerID != -1)
+			{
+				if (this.playingCards [playerID].GetComponent<PlayingCardController>().canBeTargeted() && this.getPCC(playerID).isMine)
+				{
+					isLaunchable = true ;
+				}
+			}
+		}
+		return isLaunchable;
 	}
 	
 	public void displayAdjacentTileTargets()
@@ -653,7 +694,67 @@ public class GameController : Photon.MonoBehaviour
 		}
 	}
 	
+	public bool canLaunchAdjacentTiles()
+	{
+		bool isLaunchable = false ;
+		List<Tile> neighbourTiles = this.getCurrentPCC().tile.getImmediateNeighbouringTiles();
+		int playerID;
+		foreach (Tile t in neighbourTiles)
+		{
+			playerID = this.tiles [t.x, t.y].GetComponent<TileController>().characterID;
+			if (playerID == -1)
+			{
+				if (!this.tiles [t.x, t.y].GetComponent<TileController>().tile.isStatModifier)
+				{
+					isLaunchable = true ;
+				}
+			}
+		}
+		return isLaunchable ;
+	}
+	
 	public void displayAllTargets()
+	{
+		PlayingCardController pcc;
+		for (int i = 0; i < this.playingCards.Length; i++)
+		{
+			pcc = this.getPCC(i);
+			if (pcc.canBeTargeted())
+			{
+				pcc.setTargetHalo(this.gameskills [this.getCurrentSkillID()].getTargetPCCText(pcc.card));
+			}
+		}		
+	}
+	
+	public void displayAllButMeModifiersTargets()
+	{
+		PlayingCardController pcc;
+		for (int i = 0; i < this.playingCards.Length; i++)
+		{
+			pcc = this.getPCC(i);
+			if (pcc.card.hasModifiers() && pcc.canBeTargeted() && i != this.currentPlayingCard)
+			{
+				pcc.setTargetHalo(this.gameskills [this.getCurrentSkillID()].getTargetPCCText(pcc.card));
+			}
+		}		
+	}
+	
+	public bool canLaunchAllButMeModifiers()
+	{
+		bool isLaunchable = false  ;
+		PlayingCardController pcc;
+		for (int i = 0; i < this.playingCards.Length; i++)
+		{
+			pcc = this.getPCC(i);
+			if (pcc.card.hasModifiers() && pcc.canBeTargeted() && i != this.currentPlayingCard)
+			{
+				isLaunchable = true ;
+			}
+		}		
+		return isLaunchable;
+	}
+	
+	public void displayAllButMeTargets()
 	{
 		PlayingCardController pcc;
 		for (int i = 0; i < this.playingCards.Length; i++)
@@ -664,6 +765,81 @@ public class GameController : Photon.MonoBehaviour
 				pcc.setTargetHalo(this.gameskills [this.getCurrentSkillID()].getTargetPCCText(pcc.card));
 			}
 		}		
+	}
+	
+	public bool canLaunchAllButMe()
+	{
+		bool isLaunchable = false  ;
+		PlayingCardController pcc;
+		for (int i = 0; i < this.playingCards.Length; i++)
+		{
+			pcc = this.getPCC(i);
+			if (pcc.canBeTargeted() && i != this.currentPlayingCard)
+			{
+				isLaunchable = true ;
+			}
+		}		
+		return isLaunchable;
+	}
+	
+	public void displayAllysButMeTargets()
+	{
+		PlayingCardController pcc;
+		
+		for (int i = 0; i < this.playingCards.Length; i++)
+		{
+			pcc = this.getPCC(i);
+			if (pcc.isMine && pcc.canBeTargeted() && i != this.currentPlayingCard)
+			{
+				pcc.setTargetHalo(this.gameskills [this.getCurrentSkillID()].getTargetPCCText(pcc.card));
+			}
+		}		
+	}
+	
+	public bool canLaunchAllysButMe()
+	{
+		PlayingCardController pcc;
+		bool isLaunchable = false  ;
+		
+		for (int i = 0; i < this.playingCards.Length && !isLaunchable; i++)
+		{
+			pcc = this.getPCC(i);
+			if (pcc.isMine && pcc.canBeTargeted() && i != this.currentPlayingCard)
+			{
+				isLaunchable = true;
+			}
+		}
+		return isLaunchable ; 	
+	}
+	
+	public void displayOpponentsTargets()
+	{
+		PlayingCardController pcc;
+		
+		for (int i = 0; i < this.playingCards.Length; i++)
+		{
+			pcc = this.getPCC(i);
+			if (!pcc.isMine && pcc.canBeTargeted())
+			{
+				pcc.setTargetHalo(this.gameskills [this.getCurrentSkillID()].getTargetPCCText(pcc.card));
+			}
+		}		
+	}
+	
+	public bool canLaunchOpponents()
+	{
+		PlayingCardController pcc;
+		bool isLaunchable = false  ;
+		
+		for (int i = 0; i < this.playingCards.Length && !isLaunchable; i++)
+		{
+			pcc = this.getPCC(i);
+			if (!pcc.isMine && pcc.canBeTargeted())
+			{
+				isLaunchable = true ;
+			}
+		}
+		return isLaunchable ; 	
 	}
 	
 	public void displayMyControls(string s)
@@ -1723,6 +1899,7 @@ public class GameController : Photon.MonoBehaviour
 			print("New " + j + " : " + tempRank [j]);
 			this.rankedPlayingCardsID [j] = tempRank [j];
 		}
+		this.getPCC(idToRank).hasPlayed = false;
 	}
 	
 	public void rankBefore(int idToRank)
@@ -1917,7 +2094,7 @@ public class GameController : Photon.MonoBehaviour
 	{
 		StartCoroutine(this.quitGame());
 	}
-
+	
 	public IEnumerator quitGame()
 	{
 		if (isFirstPlayer)
@@ -2393,15 +2570,22 @@ public class GameController : Photon.MonoBehaviour
 		}
 	}
 	
-	public void playSkill()
+	public void playSkill(int isSuccess)
 	{
-		photonView.RPC("playSkillRPC", PhotonTargets.AllBuffered);
+		photonView.RPC("playSkillRPC", PhotonTargets.AllBuffered, isSuccess);
 	}
 	
 	[RPC]
-	public void playSkillRPC()
+	public void playSkillRPC(int isSuccess)
 	{
-		this.displaySkillEffect(this.currentPlayingCard, this.getCurrentGameSkill().getPlayText(), 3, 2);
+		if (isSuccess==1){
+			this.displaySkillEffect(this.currentPlayingCard, this.getCurrentGameSkill().getSuccessText(), 5, isSuccess);
+			this.addGameEvent(this.getCurrentGameSkill().getSuccessText(),"");
+		}
+		else if (isSuccess==0){
+			this.displaySkillEffect(this.currentPlayingCard, this.getCurrentGameSkill().getFailureText(), 5, isSuccess);
+			this.addGameEvent(this.getCurrentGameSkill().getFailureText(),"");
+		}
 	}
 	
 	public void startPlayingSkill()
@@ -2616,6 +2800,17 @@ public class GameController : Photon.MonoBehaviour
 		return this.gameskills [this.getCurrentSkillID()];
 	}
 	
+	public void applyOn()
+	{
+		photonView.RPC("applyOnRPC5", PhotonTargets.AllBuffered);
+	}
+	
+	[RPC]
+	public void applyOnRPC5()
+	{
+		this.getCurrentGameSkill().applyOn();
+	}
+	
 	public void applyOn(int[] targets)
 	{
 		photonView.RPC("applyOnRPC", PhotonTargets.AllBuffered, targets);
@@ -2625,6 +2820,28 @@ public class GameController : Photon.MonoBehaviour
 	public void applyOnRPC(int[] targets)
 	{
 		this.getCurrentGameSkill().applyOn(targets);
+	}
+	
+	public void applyOn(int target)
+	{
+		photonView.RPC("applyOnRPC4", PhotonTargets.AllBuffered, target);
+	}
+	
+	[RPC]
+	public void applyOnRPC4(int target)
+	{
+		this.getCurrentGameSkill().applyOn(target);
+	}
+	
+	public void applyOn(int target, int arg)
+	{
+		photonView.RPC("applyOnRPC3", PhotonTargets.AllBuffered, target);
+	}
+	
+	[RPC]
+	public void applyOnRPC3(int target, int arg)
+	{
+		this.getCurrentGameSkill().applyOn(target, arg);
 	}
 	
 	public void applyOn(int[] targets, int[] args)
@@ -2660,28 +2877,34 @@ public class GameController : Photon.MonoBehaviour
 		this.tiles [targets [0], targets [1]].GetComponent<TileController>().hideIcon();
 	}
 	
-	public void failedToCastOnSkill(int[] targets)
+	public void failedToCastOnSkill(int[] targets, int[] failures)
 	{
-		photonView.RPC("failedToCastOnSkillRPC", PhotonTargets.AllBuffered, targets);
+		photonView.RPC("failedToCastOnSkillRPC", PhotonTargets.AllBuffered, targets, failures);
 	}
 	
 	[RPC]
-	public void failedToCastOnSkillRPC(int[] targets)
+	public void failedToCastOnSkillRPC(int[] targets, int[] failures)
 	{
-		this.getCurrentGameSkill().failedToCastOn(targets);
+		this.getCurrentGameSkill().failedToCastOn(targets, failures);
+	}
+	
+	public void failedToCastOnSkill(int target, int failure)
+	{
+		photonView.RPC("failedToCastOnSkillRPC", PhotonTargets.AllBuffered, target, failure);
+	}
+	
+	[RPC]
+	public void failedToCastOnSkillRPC(int target, int failure)
+	{
+		this.getCurrentGameSkill().failedToCastOn(target, failure);
 	}
 	
 	public int nbMyPlayersAlive()
 	{
-		int debut = 0;
 		int compteur = 0;
-		if (!this.isFirstPlayer)
+		for (int i = 0; i < this.playingCards.Length; i++)
 		{
-			debut = this.limitCharacterSide;
-		}
-		for (int i = debut; i < debut+this.limitCharacterSide; i++)
-		{
-			if (!this.getPCC(i).isDead)
+			if (!this.getPCC(i).isDead && i!=this.currentPlayingCard && this.getPCC(i).isMine)
 			{
 				compteur++;
 			}
@@ -2691,15 +2914,10 @@ public class GameController : Photon.MonoBehaviour
 	
 	public int nbOtherPlayersAlive()
 	{
-		int debut = 0;
 		int compteur = 0;
-		if (this.isFirstPlayer)
+		for (int i = 0; i < this.playingCards.Length; i++)
 		{
-			debut = this.limitCharacterSide;
-		}
-		for (int i = debut; i < debut+this.limitCharacterSide; i++)
-		{
-			if (!this.getPCC(i).isDead)
+			if (!this.getPCC(i).isDead && i!=this.currentPlayingCard && !this.getPCC(i).isMine)
 			{
 				compteur++;
 			}

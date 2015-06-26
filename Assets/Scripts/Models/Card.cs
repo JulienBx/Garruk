@@ -242,9 +242,9 @@ public class Card
 			}
 			this.modifiers.Add(new StatModifier(amount, type, stat, duration, idIcon, t, d, a));
 		}
-		else if(type==ModifierType.Type_Bouclier){
+		else if(type==ModifierType.Type_Bouclier || type==ModifierType.Type_EsquivePercentage || type==ModifierType.Type_MagicalEsquivePercentage){
 			for (int j = this.modifiers.Count-1 ; j >= 0 ; j--){
-				if (modifiers[j].Type==ModifierType.Type_Bouclier){
+				if (modifiers[j].Type==type){
 					modifiers.RemoveAt(j);
 				}
 			}
@@ -261,6 +261,20 @@ public class Card
 		foreach (StatModifier modifier in modifiers)
 		{
 			if (modifier.Type == ModifierType.Type_EsquivePercentage)
+			{
+				esquive = modifier.Amount;
+			}
+		}
+		
+		return esquive;
+	}
+	
+	public int GetMagicalEsquive()
+	{
+		int esquive = 0;
+		foreach (StatModifier modifier in modifiers)
+		{
+			if (modifier.Type == ModifierType.Type_MagicalEsquivePercentage)
 			{
 				esquive = modifier.Amount;
 			}
@@ -374,6 +388,19 @@ public class Card
 				modifiers.RemoveAt(i);
 			}
 		}
+	}
+	
+	public bool hasModifiers()
+	{
+		bool hasModifiers = false;
+		for (int i = modifiers.Count-1 ; i >= 0 && !hasModifiers ; i--)
+		{
+			if (modifiers[i].Stat != ModifierStat.Stat_Dommage)
+			{
+				hasModifiers = true ;
+			}
+		}
+		return hasModifiers ;
 	}
 	
 	public int GetAttack()
