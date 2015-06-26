@@ -41,22 +41,20 @@ public class EnergieQuantique : GameSkill
 		GameController.instance.play();
 	}
 	
-	public override void applyOn(int[] targets){
+	public override void applyOn(int target){
 		
-		Card targetCard = GameController.instance.getCard(targets[0]);
+		Card targetCard = GameController.instance.getCard(target);
 		int currentLife = targetCard.GetLife();
 		int amount = GameController.instance.getCurrentSkill().ManaCost;
 		amount = Mathf.Min(currentLife,amount);
 		
-		GameController.instance.addCardModifier(targets[0], amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
+		GameController.instance.addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
 		
-		GameController.instance.displaySkillEffect(targets[0], "Inflige "+amount+" dégats", 3, 1);
+		GameController.instance.displaySkillEffect(target, "-"+amount+" PV", 3, 1);
 	}
 	
-	public override void failedToCastOn(int[] targets, int [] args){
-		for (int i = 0 ; i < targets.Length ; i++){
-			GameController.instance.displaySkillEffect(targets[i], "Echec", 3, 1);
-		}
+	public override void failedToCastOn(int target, int indexFailure){
+		GameController.instance.displaySkillEffect(target, GameController.instance.castFailures.getFailure(indexFailure), 5, 1);
 	}
 	
 	public override bool isLaunchable(Skill s){
@@ -64,6 +62,10 @@ public class EnergieQuantique : GameSkill
 	}
 	
 	public override string getSuccessText(){
-		return "Energie quantique" ;
+		return "A lancé energie quantique" ;
+	}
+	
+	public override string getFailureText(){
+		return "Energie quantique a échoué" ;
 	}
 }
