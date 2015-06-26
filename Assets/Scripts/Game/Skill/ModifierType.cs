@@ -3,6 +3,7 @@
 	Type_BonusMalus,
 	Type_Multiplier,
 	Type_EsquivePercentage,
+	Type_MagicalEsquivePercentage,
 	Type_Paralized,
 	Type_DommagePercentage,
 	Type_Intouchable,
@@ -20,5 +21,7 @@
 	Type_Wolftrap,
 	Type_WeakeningTrap,
 	Type_SleepingTrap,
-	Type_Sleeping,	
+	Type_Sleeping,
+	Type_Celerite,
+	Type_Apathie,	
 };

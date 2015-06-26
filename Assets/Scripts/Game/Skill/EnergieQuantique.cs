@@ -15,65 +15,57 @@ public class EnergieQuantique : GameSkill
 	
 	public override void resolve(List<int> targetsPCC)
 	{	
-		int[] targets = new int[1];
 		GameController.instance.startPlayingSkill();
-		int debut = 0 ; 
-		if(GameController.instance.isFirstPlayer){
-			debut = GameController.instance.limitCharacterSide;
-		}
+		int success = 0 ;
+		
 		int index = Random.Range(0,GameController.instance.nbOtherPlayersAlive());
-		
-		int compteurAlive = 0;
-		bool hasFound = false;
-		while (!hasFound && debut<20){
-			if (!GameController.instance.getPCC(debut).isDead){
-				if(compteurAlive==index){
-					targets[0] = debut;
-					Debug.Log(index);
-					hasFound = true ;
-				}
-				else{
-					compteurAlive++;
-				}
+		List<int> allys = new List<int>();
+		for (int i = 0 ; i < GameController.instance.playingCards.Length ; i++){
+			if (!GameController.instance.getPCC(i).isMine && !GameController.instance.getPCC(i).isDead){
+				allys.Add(i);
 			}
-			debut++;
 		}
 		
-		if (Random.Range(1,101) > GameController.instance.getCard(targets[0]).GetEsquive())
-		{ 
-			GameController.instance.applyOn(targets);
+		int target = Random.Range(0, allys.Count);
+		
+		if (Random.Range(1,101) > GameController.instance.getCard(target).GetMagicalEsquive())
+		{                             
+			GameController.instance.applyOn(target);
+			success = 1 ;
 		}
 		else{
-			GameController.instance.failedToCastOnSkill(targets);
+			GameController.instance.failedToCastOnSkill(target, 1);
 		}
 		
-		GameController.instance.playSkill();
+		GameController.instance.playSkill(success);
 		GameController.instance.play();
 	}
 	
-	public override void applyOn(int[] targets){
+	public override void applyOn(int target){
 		
-		Card targetCard = GameController.instance.getCard(targets[0]);
+		Card targetCard = GameController.instance.getCard(target);
 		int currentLife = targetCard.GetLife();
 		int amount = GameController.instance.getCurrentSkill().ManaCost;
 		amount = Mathf.Min(currentLife,amount);
 		
-		GameController.instance.addCardModifier(targets[0], amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
+		GameController.instance.addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
 		
-		GameController.instance.displaySkillEffect(targets[0], "Inflige "+amount+" dégats", 3, 1);
+		GameController.instance.displaySkillEffect(target, "-"+amount+" PV", 3, 1);
 	}
 	
-	public override void failedToCastOn(int[] targets){
-		for (int i = 0 ; i < targets.Length ; i++){
-			GameController.instance.displaySkillEffect(targets[i], "Echec", 3, 1);
-		}
+	public override void failedToCastOn(int target, int indexFailure){
+		GameController.instance.displaySkillEffect(target, GameController.instance.castFailures.getFailure(indexFailure), 5, 1);
 	}
 	
 	public override bool isLaunchable(Skill s){
 		return true ;
 	}
 	
-	public override string getPlayText(){
-		return "Energie quantique" ;
+	public override string getSuccessText(){
+		return "A lancé energie quantique" ;
+	}
+	
+	public override string getFailureText(){
+		return "Energie quantique a échoué" ;
 	}
 }

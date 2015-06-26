@@ -48,12 +48,6 @@ public class PlayingCardController : GameObjectController
 		this.playingCardView.playingCardVM.haloStyle = styles [8];
 	}
 
-	public void activateTargetHalo()
-	{
-		this.playingCardView.playingCardVM.toDisplayHalo = true;
-		//this.playingCardView.playingCardVM.halo = this.halos [0];
-	}
-
 	public void resizeHalo()
 	{
 		int height = Screen.height;
@@ -112,13 +106,6 @@ public class PlayingCardController : GameObjectController
 	public void setStyles(bool isMyCharacter)
 	{
 		isMine = isMyCharacter;
-		if (isMyCharacter)
-		{
-
-		} else
-		{
-
-		}
 	}
 
 	public void setTile(Tile t)
@@ -152,7 +139,7 @@ public class PlayingCardController : GameObjectController
 		{
 			playingCardView.playingCardVM.lifeGauge = this.lifeGauges [1];
 		}
-		base.getGOCoordinates(gameObject);
+		base.setGOCoordinates(gameObject);
 		this.setTextResolution();
 		this.updateAttack();
 		this.updateLifeCount();
@@ -383,16 +370,6 @@ public class PlayingCardController : GameObjectController
 		{
 			renderers [i].renderer.enabled = true;
 		}
-	}
-
-	public void removeFurtivity()
-	{
-		print("REMOVEFurtiv");
-		this.playingCardView.playingCardVM.icons.RemoveAt(this.cannotBeTargeted);
-		this.playingCardView.playingCardVM.descriptionIcon.RemoveAt(this.cannotBeTargeted);
-		this.playingCardView.playingCardVM.titlesIcon.RemoveAt(this.cannotBeTargeted);
-		this.playingCardView.playingCardVM.iconsRect.RemoveAt(this.cannotBeTargeted);
-		this.cannotBeTargeted = -1;
 	}
 	
 	public void checkModyfiers()

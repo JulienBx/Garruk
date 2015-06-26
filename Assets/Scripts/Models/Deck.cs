@@ -290,6 +290,9 @@ public class Deck
 						this.Cards[i].Skills[j-1].ManaCost=System.Convert.ToInt32(cardInfo[5]);
 						this.Cards[i].Skills[j-1].Description=cardInfo[6];
 						this.Cards[i].Skills[j-1].Action=cardInfo[7];
+						if (this.Cards[i].Skills[j-1].Id==11){
+							this.Cards[i].Skills[j-1].nbLeft = 1 ;
+						}
 					}
 				}
 			}
@@ -373,6 +376,9 @@ public class Deck
 						this.Cards[i].TitleCardTypeUnlocked=cardInfo[13];
 						this.Cards[i].destructionPrice=System.Convert.ToInt32(cardInfo[14]);
 						this.Cards[i].Power=System.Convert.ToInt32(cardInfo[15]);
+						this.Cards[i].GetNewSkill=System.Convert.ToBoolean(System.Convert.ToInt32(cardInfo[16]));
+						this.Cards[i].CaracteristicUpgraded=System.Convert.ToInt32(cardInfo[17]);
+						this.Cards[i].CaracteristicIncrease=System.Convert.ToInt32(cardInfo[18]);
 						if(this.Cards[i].TitleCardTypeUnlocked!="")
 						{
 							this.NewCardType=this.Cards[i].TitleCardTypeUnlocked;

@@ -1116,6 +1116,21 @@ public class TutorialObjectController : MonoBehaviour
 		case 1201:
 			StartCoroutine(CupLobbyController.instance.endTutorial());
 			break;
+		case 1300:
+			if(!isResizing)
+			{
+				GameController.instance.setButtonsGUI(false);
+				view.VM.displayArrow=false;
+				view.VM.displayNextButton=false;
+				view.VM.title="L'écran de match";
+				view.VM.description="Bla bla bla";
+			}
+			popUpWidth=0.3f*Screen.width;
+			popUpHeight=this.computePopUpHeight();
+			popUpX=0.35f*Screen.width;
+			popUpY=0.35f*Screen.height;
+			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			break;
 		}
 	}
 	public void resize()

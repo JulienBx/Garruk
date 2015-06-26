@@ -1578,7 +1578,6 @@ MonoBehaviour:
     m_FixedHeight: 0
     m_StretchWidth: 1
     m_StretchHeight: 1
-  nbCardsByDeck: 4
 --- !u!1 &2041279155
 GameObject:
   m_ObjectHideFlags: 0

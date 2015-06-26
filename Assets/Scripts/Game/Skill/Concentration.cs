@@ -5,7 +5,7 @@ public class Concentration : GameSkill
 {
 	public override void launch ()
 	{
-		GameController.instance.lookForValidation ();
+		//GameController.instance.lookForValidation ();
 	}
 
 	public override void resolve (List<int> targetsPCC)

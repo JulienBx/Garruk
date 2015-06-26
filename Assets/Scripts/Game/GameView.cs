@@ -18,6 +18,7 @@ public class GameView : MonoBehaviour
 
 	void OnGUI()
 	{
+		GUI.enabled = true;
 		if (this.gameScreenVM.toDisplayGameScreen)
 		{
 			if (this.gameScreenVM.toDisplayPlayingCard)
@@ -30,10 +31,12 @@ public class GameView : MonoBehaviour
 			}
 			if (this.gameScreenVM.toDisplayQuitButton)
 			{
+				GUI.enabled=gameScreenVM.buttonsEnabled[0];
 				if (GUI.Button(gameScreenVM.quitButtonRect, gameScreenVM.quitButtonText, gameScreenVM.quitButtonStyle))
 				{
 					GameController.instance.quitGameHandler();
 				}
+				GUI.enabled=true;
 			}
 
 			if (gameScreenVM.toDisplayStartWindows)
@@ -61,10 +64,12 @@ public class GameView : MonoBehaviour
 							GUILayout.BeginHorizontal();
 							{
 								GUILayout.FlexibleSpace();
+								GUI.enabled=gameScreenVM.buttonsEnabled[0];
 								if (GUILayout.Button(gameScreenVM.messageStartWindowButton, gameScreenVM.buttonTextStyle, GUILayout.Width(gameScreenVM.startButtonRect.width / 2f)))
 								{
 									GameController.instance.playerReady();
 								}
+								GUI.enabled=true;
 								GUILayout.FlexibleSpace();
 							}
 							GUILayout.EndHorizontal();

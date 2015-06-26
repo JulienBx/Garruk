@@ -3,71 +3,99 @@ using System.Collections.Generic;
 
 public class SacrificeTribal : GameSkill
 {
-	public SacrificeTribal()
-	{
-		
+	public SacrificeTribal(){
+		this.numberOfExpectedTargets = 1 ; 
 	}
 	
 	public override void launch()
 	{
-		Debug.Log("Je lance sacrifice tribal");
-		GameController.instance.lookForAdjacentAllyTarget("Choisir une cible à attaquer", "Lancer sac. tri.");
+		GameController.instance.initPCCTargetHandler(numberOfExpectedTargets);
+		GameController.instance.displayAdjacentAllyTargets();
+		GameController.instance.displayMyControls("Sacrifice tribal");
 	}
 	
 	public override void resolve(List<int> targetsPCC)
-	{
-//		int targetID = args [0];
-//		
-//		int manaCost = GameController.instance.getCurrentSkill().ManaCost;
-//		int degats = GameController.instance.getCard(targetID).GetLife();
-//		int bonusA = GameController.instance.getCard(targetID).GetAttack()*manaCost/100 ;
-//		int bonusL = -1*GameController.instance.getCard(targetID).GetLife()*manaCost/100 ;
-//		
-//		string message = GameController.instance.getCurrentCard().Title+" mange "+GameController.instance.getCard(targetID).Title;
-//		
-//		//GameController.instance.addModifier(targetID, degats, (int)ModifierType.Type_BonusMalus, (int)ModifierStat.Stat_Dommage);
-//		GameController.instance.displaySkillEffect(targetID, "Sacrifié", 3, 1);
-//		
-//		//GameController.instance.addModifier(GameController.instance.currentPlayingCard, bonusA, (int)ModifierType.Type_BonusMalus, (int)ModifierStat.Stat_Attack);
-//		//GameController.instance.addModifier(GameController.instance.currentPlayingCard, bonusL, (int)ModifierType.Type_BonusMalus, (int)ModifierStat.Stat_Dommage);
-//		GameController.instance.setSacrificeTribal (bonusA, bonusL, -1);
-//		
-//		GameController.instance.displaySkillEffect(GameController.instance.currentPlayingCard, "Sacrifice tribal", 3, 0);
-//		
-//		GameController.instance.play();	
+	{	
+		GameController.instance.startPlayingSkill();
+		int target = targetsPCC[0];
+		int successType = 0 ;
+		
+		if (Random.Range(1,101) > GameController.instance.getCard(target).GetEsquive())
+		{                             
+			GameController.instance.applyOn(target);
+			successType = 1 ;
+		}
+		else{
+			GameController.instance.failedToCastOnSkill(target, 1);
+		}
+		GameController.instance.playSkill(successType);
+		GameController.instance.play();
+	}
+	
+	public override void applyOn(int target){
+		Card targetCard = GameController.instance.getCard(target);;
+		int currentLife = targetCard.GetLife() ;
+		int currentAttack = targetCard.GetAttack() ;
+		
+		int manacost = GameController.instance.getCurrentSkill().ManaCost ;
+		
+		int bonusL = currentLife*manacost/100 ;
+		int bonusA = currentAttack*manacost/100 ;
+		
+		GameController.instance.addCardModifier(GameController.instance.currentPlayingCard, -1*bonusL, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
+		GameController.instance.addCardModifier(GameController.instance.currentPlayingCard, bonusA, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, -1, -1, "Tribalité", "Bonus d'attaque : +"+bonusA, "Permanent");
+		GameController.instance.displaySkillEffect(GameController.instance.currentPlayingCard, "+"+bonusL+" PV\n+"+bonusA+" ATK", 3, 0);
+		GameController.instance.addCardModifier(target, currentLife, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
+		GameController.instance.displaySkillEffect(target, "Sacrifié !", 3, 1);
+	}
+	
+	public override void failedToCastOn(int target, int indexFailure){
+		GameController.instance.displaySkillEffect(target, GameController.instance.castFailures.getFailure(indexFailure), 5, 1);
 	}
 	
 	public override bool isLaunchable(Skill s){
-		int myPlayer = GameController.instance.currentPlayingCard ; 
-		List<Tile> tempTiles;
-		Tile t = GameController.instance.getCurrentPCC().tile;
+		return GameController.instance.canLaunchAdjacentAllys();
+	}
+	
+	public override HaloTarget getTargetPCCText(Card c){
 		
-		tempTiles = t.getImmediateNeighbouringTiles();
-		bool isLaunchable = false ;
-		int i = 0 ;
-		int tempInt ; 
+		HaloTarget h  = new HaloTarget(0); 
+		int i ;
 		
-		while (!isLaunchable && i<tempTiles.Count){
-			t = tempTiles[i];
-			tempInt = GameController.instance.getTile(t.x, t.y).characterID;
-			if (tempInt!=-1)
-			{
-				if (GameController.instance.getPCC(tempInt).cannotBeTargeted==-1)
-				{
-					if (myPlayer<5){
-						if(tempInt < 5){
-							isLaunchable = true ;
-						}
-					}
-					else{
-						if(tempInt > 4){
-							isLaunchable = true ;
-						}
-					}
-				}
-			}
-			i++;
+		h.addInfo("Sacrifie",0);
+		
+		int probaEsquive = c.GetEsquive();
+		int proba ;
+		string s = "HIT : ";
+		if (probaEsquive!=0){
+			proba = 100-probaEsquive;
+			s+=proba+"% : "+100+"%(ATT) - "+probaEsquive+"%(ESQ)";
 		}
-		return isLaunchable ;
+		else{
+			proba = 100;
+			s+=proba+"%";
+		}
+		
+		if(proba==100){
+			i=2;
+		}
+		else if(proba>=50){
+			i=1;
+		}
+		else{
+			i=0;
+		}
+		
+		h.addInfo(s,i);
+		
+		return h ;
+	}
+	
+	public override string getSuccessText(){
+		return "A lancé sacrifice tribal" ;
+	}
+	
+	public override string getFailureText(){
+		return "Sacrifice tribal a échoué" ;
 	}
 }

@@ -41,10 +41,10 @@ public class PuissanceIncontrolable : GameSkill
 			GameController.instance.applyOn(targets);
 		}
 		else{
-			GameController.instance.failedToCastOnSkill(targets);
+			//GameController.instance.failedToCastOnSkill(targets);
 		}
 		
-		GameController.instance.playSkill();
+		//GameController.instance.playSkill();
 		GameController.instance.play();
 	}
 	
@@ -60,7 +60,7 @@ public class PuissanceIncontrolable : GameSkill
 		GameController.instance.displaySkillEffect(targets[0], "Inflige "+amount+" dégats", 3, 1);
 	}
 	
-	public override void failedToCastOn(int[] targets){
+	public override void failedToCastOn(int[] targets, int[] args){
 		for (int i = 0 ; i < targets.Length ; i++){
 			GameController.instance.displaySkillEffect(targets[i], "Echec", 3, 1);
 		}
@@ -70,7 +70,7 @@ public class PuissanceIncontrolable : GameSkill
 		return true ;
 	}
 	
-	public override string getPlayText(){
+	public override string getSuccessText(){
 		return "Puissance incontrolable" ;
 	}
 }

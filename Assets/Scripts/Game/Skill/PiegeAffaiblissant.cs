@@ -22,7 +22,7 @@ public class PiegeAffaiblissant : GameSkill
 		GameController.instance.startPlayingSkill();
 		GameController.instance.applyOn(targets);
 		
-		GameController.instance.playSkill();
+		GameController.instance.playSkill(1);
 		GameController.instance.play();
 	}
 	
@@ -40,21 +40,7 @@ public class PiegeAffaiblissant : GameSkill
 	}
 	
 	public override bool isLaunchable(Skill s){
-		bool isLaunchable = false ;
-		List<Tile> neighbourTiles = GameController.instance.getCurrentPCC().tile.getImmediateNeighbouringTiles();
-		int playerID;
-		foreach (Tile t in neighbourTiles)
-		{
-			playerID = GameController.instance.getTile(t.x, t.y).characterID;
-			if (playerID == -1)
-			{
-				if (!GameController.instance.getTile(t.x, t.y).tile.isStatModifier)
-				{
-					isLaunchable = true ;
-				}
-			}
-		}
-		return isLaunchable ;
+		return GameController.instance.canLaunchAdjacentTiles();
 	}
 	
 	public override HaloTarget getTargetPCCText(Card c){
@@ -64,12 +50,12 @@ public class PiegeAffaiblissant : GameSkill
 		int degats = GameController.instance.getCurrentSkill().ManaCost;
 		int amount = degats*c.GetAttack()/100;
 		
-		h.addInfo("Pose un piège diminuant de "+degats+" l'attaque pendant 2 tours",0);
+		h.addInfo("PIEGE -"+degats+" ATK /2 tours",0);
 		
 		return h ;
 	}
 	
-	public override string getPlayText(){
-		return "Piège affaiblissant" ;
+	public override string getSuccessText(){
+		return "A lancé piège affaiblissement" ;
 	}
 }

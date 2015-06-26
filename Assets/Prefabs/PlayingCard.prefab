@@ -560,8 +560,11 @@ MonoBehaviour:
   - {fileID: 2800000, guid: d23c17cf20edfbe408a2f7b3aba38d15, type: 3}
   - {fileID: 2800000, guid: 995e9f61bdddefb4490c4f729aa17de4, type: 3}
   - {fileID: 2800000, guid: 48701f248a57b4a439dc72fcef5c0bef, type: 3}
+  - {fileID: 2800000, guid: 7c43a9ab3b18c3346bb7ef09317957d3, type: 3}
+  - {fileID: 2800000, guid: 48701f248a57b4a439dc72fcef5c0bef, type: 3}
   halos:
   - {fileID: 2800000, guid: 8061a96a414edd04783bbc1416668913, type: 3}
+  - {fileID: 2800000, guid: d737094809e5f4667830b815e14a6c69, type: 3}
   haloTextStyles:
   - m_Name: RedText
     m_Normal:

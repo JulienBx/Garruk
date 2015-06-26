@@ -10,7 +10,7 @@ public class AppositionDesMains : GameSkill
 	
 	public override void launch()
 	{
-		GameController.instance.displayAdjacentTargets();
+		GameController.instance.displayAdjacentAllyTargets();
 	}
 	
 	public override void resolve(List<int> targetsPCC)

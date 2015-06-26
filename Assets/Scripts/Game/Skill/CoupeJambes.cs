@@ -10,25 +10,25 @@ public class CoupeJambes : GameSkill
 	public override void launch()
 	{
 		GameController.instance.initPCCTargetHandler(numberOfExpectedTargets);
-		GameController.instance.displayAdjacentTargets();
+		GameController.instance.displayAdjacentOpponentsTargets();
 		GameController.instance.displayMyControls("Coupe-jambes");
 	}
 	
 	public override void resolve(List<int> targetsPCC)
 	{	
-		int[] targets = new int[1];
-		targets[0] = targetsPCC[0];
-		
 		GameController.instance.startPlayingSkill();
+		int target = targetsPCC[0];
+		int successType = 0 ;
 		
-		if (Random.Range(1,100) > GameController.instance.getCard(targetsPCC[0]).GetEsquive())
+		if (Random.Range(1,101) > GameController.instance.getCard(target).GetEsquive())
 		{                             
-			GameController.instance.applyOn(targets);
+			GameController.instance.applyOn(target);
+			successType = 1 ;
 		}
 		else{
-			GameController.instance.failedToCastOnSkill(targets);
+			GameController.instance.failedToCastOnSkill(target, 1);
 		}
-		GameController.instance.playSkill();
+		GameController.instance.playSkill(successType);
 		GameController.instance.play();
 	}
 	
@@ -43,43 +43,21 @@ public class CoupeJambes : GameSkill
 		if (bonusDeplacement>deplacement){
 			bonusDeplacement = deplacement - 1 ;
 		}
-		int attack = GameController.instance.getCurrentCard().GetAttack()*manacost/100;
+		int attack = GameController.instance.getCurrentCard().GetAttack()/2;
 		int amount = attack*(100+damageBonusPercentage)/100;
 		amount = Mathf.Min(currentLife,amount-(bouclier*amount/100));
 		
 		GameController.instance.addCardModifier(targets[0], amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
-		GameController.instance.addCardModifier(targets[0], -1*bonusDeplacement, ModifierType.Type_BonusMalus, ModifierStat.Stat_Move, 1, 8, "Lenteur", "Déplacement diminué de "+bonusDeplacement, "Actif 1 tour");
-		GameController.instance.displaySkillEffect(targets[0], "PV : "+currentLife+" -> "+Mathf.Max(0,(currentLife-amount))+"\nMOV : "+deplacement+" -> "+(deplacement-bonusDeplacement), 3, 1);
+		GameController.instance.addCardModifier(targets[0], -1*bonusDeplacement, ModifierType.Type_BonusMalus, ModifierStat.Stat_Move, 1, 8, "Lenteur", "-"+bonusDeplacement+" MOV", "Actif 1 tour");
+		GameController.instance.displaySkillEffect(targets[0], "-"+amount+" PV\n-"+bonusDeplacement+" MOV", 3, 1);
 	}
 	
-	public override void failedToCastOn(int[] targets){
-		for (int i = 0 ; i < targets.Length ; i++){
-			GameController.instance.displaySkillEffect(targets[i], "Echec", 3, 0);
-		}
+	public override void failedToCastOn(int target, int indexFailure){
+		GameController.instance.displaySkillEffect(target, GameController.instance.castFailures.getFailure(indexFailure), 5, 1);
 	}
 	
 	public override bool isLaunchable(Skill s){
-		List<Tile> tempTiles;
-		Tile t = GameController.instance.getCurrentPCC().tile;
-		
-		tempTiles = t.getImmediateNeighbouringTiles();
-		bool isLaunchable = false ;
-		int i = 0 ;
-		int tempInt ; 
-		
-		while (!isLaunchable && i<tempTiles.Count){
-			t = tempTiles[i];
-			tempInt = GameController.instance.getTile(t.x, t.y).characterID;
-			if (tempInt!=-1)
-			{
-				if (GameController.instance.getPCC(tempInt).cannotBeTargeted==-1)
-				{
-					isLaunchable = true ;
-				}
-			}
-			i++;
-		}
-		return isLaunchable ;
+		return GameController.instance.canLaunchAdjacentOpponents();
 	}
 	
 	public override HaloTarget getTargetPCCText(Card c){
@@ -93,29 +71,45 @@ public class CoupeJambes : GameSkill
 		int manacost = GameController.instance.getCurrentSkill().ManaCost;
 		int deplacement = c.GetMove();
 		int bonusDeplacement = manacost*deplacement/100;
-		int attack = GameController.instance.getCurrentCard().GetAttack()*manacost/100;
+		int attack = (GameController.instance.getCurrentCard().GetAttack()/2);
 		int amount = attack*(100+damageBonusPercentage)/100;
 		amount = Mathf.Min(currentLife,amount-(bouclier*amount/100));
 		
-		h.addInfo("PV : "+currentLife+" -> "+Mathf.Max(0,(currentLife-amount)),0);
-		h.addInfo("MOV : "+deplacement+" -> "+Mathf.Max(1,(deplacement-bonusDeplacement)),0);
+		h.addInfo("-"+amount+" PV",0);
+		h.addInfo("-"+bonusDeplacement+" MOV",0);
 		
-		int probaHit = 100 - c.GetEsquive();
-		if (probaHit>=80){
-			i = 2 ;
-		}
-		else if (probaHit>=20){
-			i = 1 ;
+		int probaEsquive = c.GetEsquive();
+		int proba ;
+		string s = "HIT : ";
+		if (probaEsquive!=0){
+			proba = 100-probaEsquive;
+			s+=proba+"% : "+100+"%(ATT) - "+probaEsquive+"%(ESQ)";
 		}
 		else{
-			i = 0 ;
+			proba = 100;
+			s+=proba+"%";
 		}
-		h.addInfo("HIT% : "+probaHit,i);
+		
+		if(proba==100){
+			i=2;
+		}
+		else if(proba>=50){
+			i=1;
+		}
+		else{
+			i=0;
+		}
+		
+		h.addInfo(s,i);
 		
 		return h ;
 	}
 	
-	public override string getPlayText(){
-		return "Coupe Jambes" ;
+	public override string getSuccessText(){
+		return "A lancé coupe-jambes" ;
+	}
+	
+	public override string getFailureText(){
+		return "Coupe-jambes a échoué" ;
 	}
 }

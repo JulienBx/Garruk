@@ -558,7 +558,7 @@ public class StoreController : MonoBehaviour
 		}
 		else if(this.cardFocused!=null)
 		{
-			this.exitCard();
+			this.cardFocused.GetComponent<CardStoreController>().exitFocus();
 		}
 		else if(this.randomCards.Length==1&& !this.startRotation)
 		{

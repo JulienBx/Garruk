@@ -11,79 +11,95 @@ public class Lenteur : GameSkill
 	public override void launch()
 	{
 		GameController.instance.initPCCTargetHandler(numberOfExpectedTargets);
-		GameController.instance.displayAllTargets();
+		GameController.instance.displayOpponentsTargets();
 		GameController.instance.displayMyControls("Lenteur");
 	}
 	
 	public override void resolve(List<int> targetsPCC)
 	{	
-		int[] targets = new int[1];
-		targets[0] = targetsPCC[0];
 		GameController.instance.startPlayingSkill();
-		if (Random.Range(1,100) > GameController.instance.getCard(targetsPCC[0]).GetEsquive())
+		int target = targetsPCC[0];
+		int successType = 0 ;
+		
+		if (Random.Range(1,101) > GameController.instance.getCard(target).GetMagicalEsquive())
 		{                             
-			GameController.instance.applyOn(targets);
+			GameController.instance.applyOn(target);
+			successType = 1 ;
 		}
 		else{
-			GameController.instance.failedToCastOnSkill(targets);
+			GameController.instance.failedToCastOnSkill(target, 1);
 		}
-		GameController.instance.playSkill();
+		GameController.instance.playSkill(successType);
 		GameController.instance.play();
 	}
 	
-	public override void applyOn(int[] targets){
+	public override void applyOn(int target){
 		int amount = GameController.instance.getCurrentSkill().ManaCost;
-		int deplacement ;
-		int baseD ;
 		
-		for (int i = 0 ; i < targets.Length ; i++){
-			baseD = GameController.instance.getCard(targets[i]).GetMove();
-			deplacement = (amount)*baseD/100;
-			if (deplacement>baseD){
-				deplacement = baseD - 1 ;
-			}
-			GameController.instance.addCardModifier(targets[i], -1*deplacement, ModifierType.Type_BonusMalus, ModifierStat.Stat_Move, 1, 8, "Lenteur", "Déplacement diminué de "+deplacement, "Actif 1 tour");
-			GameController.instance.displaySkillEffect(targets[i], "MOV : "+baseD+" -> "+(baseD-deplacement), 3, 1);
+		int baseD = GameController.instance.getCard(target).GetMove();
+		int deplacement = (amount)*baseD/100;
+		
+		if (deplacement >= baseD){
+			deplacement = baseD - 1 ;
 		}
+		
+		GameController.instance.addCardModifier(target, -1*deplacement, ModifierType.Type_BonusMalus, ModifierStat.Stat_Move, 1, 8, "Lenteur", "-"+deplacement+"MOV", "Actif 1 tour");
+		GameController.instance.displaySkillEffect(target, "-"+deplacement+"MOV", 3, 1);
 	}
 	
-	public override void failedToCastOn(int[] targets){
-		for (int i = 0 ; i < targets.Length ; i++){
-			GameController.instance.displaySkillEffect(targets[i], "Lenteur échoue", 3, 1);
-		}
+	public override void failedToCastOn(int target, int indexFailure){
+		GameController.instance.displaySkillEffect(target, GameController.instance.castFailures.getFailure(indexFailure), 5, 1);
 	}
 	
 	public override bool isLaunchable(Skill s){
-		return true ;
+		return GameController.instance.canLaunchOpponents();
 	}
 	
 	public override HaloTarget getTargetPCCText(Card c){
 		
 		HaloTarget h  = new HaloTarget(0); 
 		int i ;
-		
-		int amount = GameController.instance.getCurrentSkill().ManaCost;
 		int baseD = c.GetMove();
-		int deplacement = (amount)*baseD/100;
-		
-		h.addInfo("MOV : "+baseD+" -> "+(baseD-deplacement),0);
-		
-		int probaHit = 100 - c.GetEsquive();
-		if (probaHit>=80){
-			i = 2 ;
+		int amount = GameController.instance.getCurrentSkill().ManaCost*baseD/100;
+		if (amount >= baseD){
+			amount = baseD - 1 ;
 		}
-		else if (probaHit>=20){
-			i = 1 ;
+		
+		h.addInfo("-"+amount+"MOV",2);
+		
+		int proba ;
+		int probaEsquive = c.GetMagicalEsquive();
+		
+		string s = "HIT : ";
+		if (probaEsquive!=0){
+			proba = 100-probaEsquive;
+			s+=proba+"% : "+100+"%(LEN) - "+probaEsquive+"%(RES)";
 		}
 		else{
-			i = 0 ;
+			proba = 100;
+			s+=proba+"%";
 		}
-		h.addInfo("HIT% : "+probaHit,i);
+		
+		if(proba==100){
+			i=2;
+		}
+		else if(proba>=50){
+			i=1;
+		}
+		else{
+			i = 0;
+		}
+		
+		h.addInfo(s,i);
 		
 		return h ;
 	}
 	
-	public override string getPlayText(){
-		return "Lenteur" ;
+	public override string getSuccessText(){
+		return "A lancé lenteur" ;
+	}
+	
+	public override string getFailureText(){
+		return "Lenteur a échoué" ;
 	}
 }

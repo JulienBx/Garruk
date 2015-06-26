@@ -10,7 +10,7 @@ public class Attack : GameSkill
 	public override void launch()
 	{
 		GameController.instance.initPCCTargetHandler(numberOfExpectedTargets);
-		GameController.instance.displayAdjacentTargets();
+		GameController.instance.displayAdjacentOpponentsTargets();
 		GameController.instance.displayMyControls("Attaque");
 	}
 	
@@ -26,9 +26,9 @@ public class Attack : GameSkill
 			GameController.instance.applyOn(targets);
 		}
 		else{
-			GameController.instance.failedToCastOnSkill(targets);
+			//GameController.instance.failedToCastOnSkill(targets);
 		}
-		GameController.instance.playSkill();
+		//GameController.instance.playSkill();
 		GameController.instance.play();
 	}
 	
@@ -50,7 +50,7 @@ public class Attack : GameSkill
 		}
 	}
 	
-	public override void failedToCastOn(int[] targets){
+	public override void failedToCastOn(int[] targets, int[] args){
 		for (int i = 0 ; i < targets.Length ; i++){
 			GameController.instance.displaySkillEffect(targets[i], "L'attaque échoue", 3, 0);
 		}
@@ -108,7 +108,7 @@ public class Attack : GameSkill
 		return h ;
 	}
 	
-	public override string getPlayText(){
+	public override string getSuccessText(){
 		return "Attaque" ;
 	}
 }

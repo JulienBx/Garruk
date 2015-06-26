@@ -22,7 +22,7 @@ public class PiegeALoups : GameSkill
 		GameController.instance.startPlayingSkill();
 		GameController.instance.applyOn(targets);
 		
-		GameController.instance.playSkill();
+		GameController.instance.playSkill(1);
 		GameController.instance.play();
 	}
 	
@@ -30,44 +30,29 @@ public class PiegeALoups : GameSkill
 		int amount = GameController.instance.getCurrentSkill().ManaCost;
 		
 		GameController.instance.addTileModifier(new Tile(targets[0], targets[1]), amount, ModifierType.Type_Wolftrap, ModifierStat.Stat_No, -1, 0, "Piège à loups", "Inflige "+amount+" dégats", "Permanent. Non visible du joueur adverse");
-		GameController.instance.displaySkillEffect(targets[0], "Piège posé", 3, 2);
+		GameController.instance.displaySkillEffect(GameController.instance.currentPlayingCard, "Piège posé", 3, 2);
 	}
 	
 	public override void activateTrap(int[] targets, int[] args){
 		GameController.instance.addCardModifier(targets[0], args[0], ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
-		GameController.instance.displaySkillEffect(targets[0], "Déclenche le piège et inflige "+args[0]+" dégats", 3, 1);
+		GameController.instance.displaySkillEffect(targets[0], "PIEGE\n-"+args[0]+" PV", 3, 1);
 	}
 	
 	public override bool isLaunchable(Skill s){
-		bool isLaunchable = false ;
-		List<Tile> neighbourTiles = GameController.instance.getCurrentPCC().tile.getImmediateNeighbouringTiles();
-		int playerID;
-		foreach (Tile t in neighbourTiles)
-		{
-			playerID = GameController.instance.getTile(t.x, t.y).characterID;
-			if (playerID == -1)
-			{
-				if (!GameController.instance.getTile(t.x, t.y).tile.isStatModifier)
-				{
-					isLaunchable = true ;
-				}
-			}
-		}
-		return isLaunchable ;
+		return GameController.instance.canLaunchAdjacentTiles();
 	}
 	
 	public override HaloTarget getTargetPCCText(Card c){
 		
 		HaloTarget h  = new HaloTarget(0); 
-		
 		int degats = GameController.instance.getCurrentSkill().ManaCost;
 		
-		h.addInfo("Pose un piège infligeant "+degats+" dégats",0);
+		h.addInfo("PIEGE\n-"+degats+" PV",0);
 		
 		return h ;
 	}
 	
-	public override string getPlayText(){
-		return "Piège à loups" ;
+	public override string getSuccessText(){
+		return "A lancé piège à loups" ;
 	}
 }

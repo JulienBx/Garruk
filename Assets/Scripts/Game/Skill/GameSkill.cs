@@ -20,6 +20,16 @@ public class GameSkill
 		Debug.Log("Skill non implémenté");
 	}
 	
+	public virtual void applyOn()
+	{ 
+		Debug.Log("Skill non implémenté");
+	}
+	
+	public virtual void applyOn(int target)
+	{ 
+		Debug.Log("Skill non implémenté");
+	}
+	
 	public virtual void applyOn(int[] targets)
 	{ 
 		Debug.Log("Skill non implémenté");
@@ -30,12 +40,22 @@ public class GameSkill
 		Debug.Log("Skill non implémenté");
 	}
 	
+	public virtual void applyOn(int target, int arg)
+	{
+		Debug.Log("Skill non implémenté");
+	}
+	
 	public virtual void activateTrap(int[] targets, int[] args)
 	{
 		Debug.Log("Skill non implémenté");
 	}
 	
-	public virtual void failedToCastOn(int[] targets)
+	public virtual void failedToCastOn(int[] targets, int[] args)
+	{
+		Debug.Log("Skill non implémenté");
+	}
+	
+	public virtual void failedToCastOn(int targets, int args)
 	{
 		Debug.Log("Skill non implémenté");
 	}
@@ -55,7 +75,15 @@ public class GameSkill
 		return null;
 	}
 	
-	public virtual string getPlayText(){
+	public virtual string getSuccessText(){
+		return "" ;
+	}
+	
+	public virtual string getFailureText(){
+		return "" ;
+	}
+	
+	public virtual string getTimelineText(){
 		return "" ;
 	}
 }
