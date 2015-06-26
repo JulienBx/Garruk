@@ -1588,10 +1588,13 @@ public class GameController : Photon.MonoBehaviour
 	
 	// RPC
 	[RPC]
-	void AddPlayerToList(int id, string loginName)
+	IEnumerator AddPlayerToList(int id, string loginName)
 	{
 		print("J'add " + loginName);
 		users [id - 1] = new User(loginName);	
+		
+		yield return StartCoroutine(users [id - 1].retrievePicture());
+		yield return StartCoroutine(users [id - 1].setProfilePicture());
 		
 		if (ApplicationModel.username == loginName)
 		{
