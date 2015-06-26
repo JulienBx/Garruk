@@ -82,6 +82,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fee4db8199a6869438d0a0cf22458ebf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  GOPosition: {x: 0, y: 0}
+  GOSize: {x: 0, y: 0}
+  type: 0
   backTile:
   - {fileID: 2800000, guid: d737094809e5f4667830b815e14a6c69, type: 3}
   - {fileID: 2800000, guid: 31ce0db19a95a964893ce4ed1ca75aed, type: 3}
@@ -105,6 +108,7 @@ MonoBehaviour:
   - {fileID: 2800000, guid: ace66a4bac36e8042a5708777f8c8e80, type: 3}
   - {fileID: 2800000, guid: 994f7c13eb3dba44ca4789988e6e55d0, type: 3}
   - {fileID: 2800000, guid: 023b6f95444e13c468a83fce232b0f78, type: 3}
+  - {fileID: 2800000, guid: bc14785b2285d574583892a9a192a0be, type: 3}
   tileView: {fileID: 0}
   styles:
   - m_Name: 
@@ -398,6 +402,7 @@ MonoBehaviour:
     m_StretchWidth: 1
     m_StretchHeight: 0
   isDestination: 0
+  isGrey: 0
   characterID: -1
   tileModification: 0
   icons:
