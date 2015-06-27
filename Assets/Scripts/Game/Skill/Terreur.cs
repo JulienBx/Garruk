@@ -18,12 +18,13 @@ public class Terreur : GameSkill
 	{	
 		GameController.instance.startPlayingSkill();
 		int target = targetsPCC[0];
-		int successType = 1 ;
+		int successType = 0 ;
 		
 		if (Random.Range(1,101) > GameController.instance.getCard(target).GetEsquive())
 		{                             
-			GameController.instance.applyOn(target);
-			successType = 0 ;
+			int arg = Random.Range(1,101);
+			GameController.instance.applyOn(target, arg);
+			successType = 1 ;
 		}
 		else{
 			GameController.instance.failedToCastOnSkill(target, 1);
@@ -32,8 +33,8 @@ public class Terreur : GameSkill
 		GameController.instance.play();
 	}
 	
-	public override void applyOn(int[] targets, int[] args){
-		Card targetCard = GameController.instance.getCard(targets[0]);
+	public override void applyOn(int target, int arg){
+		Card targetCard = GameController.instance.getCard(target);
 		int bouclier = targetCard.GetBouclier();
 		int currentLife = targetCard.GetLife();
 		int damageBonusPercentage = GameController.instance.getCurrentCard().GetDamagesPercentageBonus(targetCard);
@@ -41,13 +42,13 @@ public class Terreur : GameSkill
 		int amount = (GameController.instance.getCurrentCard().GetAttack()/2)*(100+damageBonusPercentage)/100;
 		amount = Mathf.Min(currentLife,amount-(bouclier*amount/100));
 		
-		GameController.instance.addCardModifier(targets[0], amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
-		if (args[0]<=manacost){
-			GameController.instance.addCardModifier(targets[0], amount, ModifierType.Type_Paralized, ModifierStat.Stat_No, 1, 2, "Paralisé", "Ne peut plus utiliser ses compétences", "Actif 1 tour");
-			GameController.instance.displaySkillEffect(targets[0], "-"+amount+" PV\nParalise !", 3, 1);
+		GameController.instance.addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
+		if (arg<=manacost){
+			GameController.instance.addCardModifier(target, amount, ModifierType.Type_Paralized, ModifierStat.Stat_No, 1, 2, "Paralisé", "Ne peut plus utiliser ses compétences", "Actif 1 tour");
+			GameController.instance.displaySkillEffect(target, "-"+amount+" PV\nParalisye", 3, 1);
 		}
 		else{
-			GameController.instance.displaySkillEffect(targets[0], "-"+amount+" PV", 3, 1);
+			GameController.instance.displaySkillEffect(target, "-"+amount+" PV\nEchec paralysie", 3, 1);
 		}	
 	}
 	

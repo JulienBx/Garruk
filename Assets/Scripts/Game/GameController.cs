@@ -690,7 +690,7 @@ public class GameController : Photon.MonoBehaviour
 			playerID = this.tiles [t.x, t.y].GetComponent<TileController>().characterID;
 			if (playerID == -1)
 			{
-				if (!this.tiles [t.x, t.y].GetComponent<TileController>().tile.isStatModifier)
+				if (!this.tiles [t.x, t.y].GetComponent<TileController>().tile.isStatModifier && this.tiles [t.x, t.y].GetComponent<TileController>().type==0)
 				{
 					this.tiles [t.x, t.y].GetComponent<TileController>().setTargetHalo(this.gameskills [this.getCurrentSkillID()].getTargetPCCText(new Card()));
 				}
@@ -708,7 +708,7 @@ public class GameController : Photon.MonoBehaviour
 			playerID = this.tiles [t.x, t.y].GetComponent<TileController>().characterID;
 			if (playerID == -1)
 			{
-				if (!this.tiles [t.x, t.y].GetComponent<TileController>().tile.isStatModifier)
+				if (!this.tiles [t.x, t.y].GetComponent<TileController>().tile.isStatModifier && this.tiles [t.x, t.y].GetComponent<TileController>().type==0)
 				{
 					isLaunchable = true ;
 				}
@@ -1352,6 +1352,9 @@ public class GameController : Photon.MonoBehaviour
 				if (UnityEngine.Random.Range(1, 101) <= percentage)
 				{
 					this.wakeUp();
+				}
+				else{
+					this.displaySkillEffect(this.currentPlayingCard,"Ne se réveille pas", 3, 1);
 				}
 			}
 			this.playindCardHasPlayed = true;
@@ -2058,10 +2061,6 @@ public class GameController : Photon.MonoBehaviour
 			}
 		}
 		
-		if (!photonView.isMine && nbTurns != 0)
-		{
-			displaySkillEffect(c, "se déplace", 2, 2);
-		}
 		playingCardHasMoved = true;
 	}
 

@@ -18,7 +18,6 @@ public class PuissanceIncontrolable : GameSkill
 		GameController.instance.startPlayingSkill();
 		int success = 0 ;
 		
-		int index = Random.Range(0,GameController.instance.nbOtherPlayersAlive());
 		List<int> aliveCharacters = new List<int>();
 		for (int i = 0 ; i < GameController.instance.playingCards.Length ; i++){
 			if (!GameController.instance.getPCC(i).isDead){

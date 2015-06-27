@@ -22,7 +22,7 @@ public class Agilite : GameSkill
 		GameController.instance.play();
 	}
 	
-	public override void applyOn(int[] targets){
+	public override void applyOn(){
 		int esquive = GameController.instance.getCurrentSkill().ManaCost;
 		int target = GameController.instance.currentPlayingCard ;
 		
