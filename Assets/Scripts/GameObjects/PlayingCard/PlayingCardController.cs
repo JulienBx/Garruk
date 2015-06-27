@@ -514,6 +514,10 @@ public class PlayingCardController : GameObjectController
 		transform.Find("MoveArea").renderer.enabled=true;
 		transform.Find("AttackArea").renderer.enabled=true;
 	}
+	public void setIsDisable(bool value)
+	{
+		this.isDisable = value;
+	}
 }
 
 

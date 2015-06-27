@@ -1224,7 +1224,56 @@ public class TutorialObjectController : MonoBehaviour
 		case 1302:
 			if(!isResizing)
 			{
-				GameController.instance.disableAllCharacters();
+				GameController.instance.setDestination(2,1,true);
+				GameController.instance.addTileHalo(2,1,5, true);
+				view.VM.displayArrow=true;
+				view.VM.displayNextButton=false;
+				view.VM.title="Mon écran 3";
+				view.VM.description="Bla bla bla";
+				this.setDownArrow();
+			}
+			GOPosition = GameController.instance.getTilesPosition(2,1);
+			GOSize =GameController.instance.getTilesSize(2,1);
+			arrowHeight=0.1f*Screen.height;
+			arrowWidth=(2f/3f)*arrowHeight;
+			arrowX=GOPosition.x-(arrowWidth/2f);
+			arrowY=Screen.height-GOPosition.y-GOSize.y/2f-arrowHeight;
+			view.VM.arrowRect= new Rect (arrowX,arrowY,arrowWidth,arrowHeight);
+			this.drawDownArrow();
+			popUpWidth=0.35f*Screen.width;
+			popUpHeight=this.computePopUpHeight();
+			popUpX=arrowX+arrowWidth/2f-popUpWidth/2f;
+			popUpY=arrowY-popUpHeight-0.02f*Screen.height;
+			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			break;
+		case 1303:
+			if(!isResizing)
+			{
+				GameController.instance.hideTileHalo(2,1);
+				GameController.instance.activeSingleCharacter(2);
+				view.VM.displayArrow=true;
+				view.VM.displayNextButton=false;
+				view.VM.title="Mon écran 4";
+				view.VM.description="Bla bla bla";
+				this.setDownArrow();
+			}
+			GOPosition = GameController.instance.getPlayingCardsPosition(2);
+			GOSize =GameController.instance.getPlayingCardsSize(2);
+			arrowHeight=0.1f*Screen.height;
+			arrowWidth=(2f/3f)*arrowHeight;
+			arrowX=GOPosition.x-(arrowWidth/2f);
+			arrowY=Screen.height-GOPosition.y-GOSize.y/2f-arrowHeight;
+			view.VM.arrowRect= new Rect (arrowX,arrowY,arrowWidth,arrowHeight);
+			this.drawDownArrow();
+			popUpWidth=0.35f*Screen.width;
+			popUpHeight=this.computePopUpHeight();
+			popUpX=arrowX+arrowWidth/2f-popUpWidth/2f;
+			popUpY=arrowY-popUpHeight-0.02f*Screen.height;
+			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			break;
+		case 1304:
+			if(!isResizing)
+			{
 				GameController.instance.setDestination(3,1,true);
 				GameController.instance.addTileHalo(3,1,5, true);
 				view.VM.displayArrow=true;
@@ -1247,11 +1296,15 @@ public class TutorialObjectController : MonoBehaviour
 			popUpY=arrowY-popUpHeight-0.02f*Screen.height;
 			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
 			break;
-		case 1303:
+		case 1305:
 			if(!isResizing)
 			{
 				GameController.instance.hideTileHalo(3,1);
 				GameController.instance.setButtonGUI(1,true);
+				StartCoroutine(GameController.instance.moveCharacterRPC(1,6,4,true,false));
+				StartCoroutine(GameController.instance.moveCharacterRPC(2,6,5,true,false));
+				StartCoroutine(GameController.instance.moveCharacterRPC(4,6,6,true,false));
+				StartCoroutine(GameController.instance.moveCharacterRPC(5,6,7,true,false));
 				view.VM.displayArrow=true;
 				view.VM.displayNextButton=false;
 				view.VM.title="Mon écran 4";
@@ -1270,7 +1323,7 @@ public class TutorialObjectController : MonoBehaviour
 			popUpY=arrowY-popUpHeight-0.02f*Screen.height;
 			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
 			break;
-		case 1304:
+		case 1306:
 			if(!isResizing)
 			{
 				GameController.instance.disableAllCharacters();
@@ -1286,14 +1339,14 @@ public class TutorialObjectController : MonoBehaviour
 			popUpY=0.35f*Screen.height;
 			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
 			break;
-		case 1305:
+		case 1307:
 			if(!isResizing)
 			{
 				GameController.instance.setDestination(3,4,true);
 				GameController.instance.addTileHalo(3,4,5, true);
 				view.VM.displayArrow=true;
 				view.VM.displayNextButton=false;
-				view.VM.title="Mon écran 3";
+				view.VM.title="Mon écran 6";
 				view.VM.description="Bla bla bla";
 				this.setDownArrow();
 			}
@@ -1309,6 +1362,468 @@ public class TutorialObjectController : MonoBehaviour
 			popUpHeight=this.computePopUpHeight();
 			popUpX=arrowX+arrowWidth/2f-popUpWidth/2f;
 			popUpY=arrowY-popUpHeight-0.02f*Screen.height;
+			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			break;
+		case 1308:
+			if(!isResizing)
+			{
+				GameController.instance.hideTileHalo(3,4);
+				view.VM.displayArrow=true;
+				view.VM.displayNextButton=false;
+				view.VM.title="Mon écran 7";
+				view.VM.description="Bla bla bla";
+				this.setDownArrow();
+			}
+			GOPosition = GameController.instance.getSkillObjectsPosition(5);
+			GOSize =GameController.instance.getSkillObjectsSize(5);
+			arrowHeight=0.1f*Screen.height;
+			arrowWidth=(2f/3f)*arrowHeight;
+			arrowX=GOPosition.x-(arrowWidth/2f);
+			arrowY=Screen.height-GOPosition.y-GOSize.y/2f-arrowHeight;
+			view.VM.arrowRect= new Rect (arrowX,arrowY,arrowWidth,arrowHeight);
+			this.drawDownArrow();
+			popUpWidth=0.35f*Screen.width;
+			popUpHeight=this.computePopUpHeight();
+			popUpX=arrowX+arrowWidth/2f-popUpWidth/2f;
+			popUpY=arrowY-popUpHeight-0.02f*Screen.height;
+			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			break;
+		case 1309:
+			if(!isResizing)
+			{
+				StartCoroutine(GameController.instance.moveCharacterRPC(2,4,4,true,false));
+				view.VM.displayArrow=false;
+				view.VM.displayNextButton=true;
+				view.VM.title="Mon écran 8";
+				view.VM.description="Bla bla bla";
+			}
+			popUpWidth=0.3f*Screen.width;
+			popUpHeight=this.computePopUpHeight();
+			popUpX=0.35f*Screen.width;
+			popUpY=0.65f*Screen.height;
+			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			break;
+		case 1310:
+			if(!isResizing)
+			{
+				GameController.instance.launchSkill(4,new List<int> {2});
+				view.VM.displayArrow=false;
+				view.VM.displayNextButton=true;
+				view.VM.title="Mon écran 9";
+				view.VM.description="Bla bla bla";
+			}
+			popUpWidth=0.3f*Screen.width;
+			popUpHeight=this.computePopUpHeight();
+			popUpX=0.35f*Screen.width;
+			popUpY=0.65f*Screen.height;
+			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			break;
+		case 1311:
+			if(!isResizing)
+			{
+				StartCoroutine(GameController.instance.moveCharacterRPC(5,4,7,true,false));
+				view.VM.displayArrow=false;
+				view.VM.displayNextButton=true;
+				view.VM.title="Mon écran 10";
+				view.VM.description="Bla bla bla";
+			}
+			popUpWidth=0.3f*Screen.width;
+			popUpHeight=this.computePopUpHeight();
+			popUpX=0.35f*Screen.width;
+			popUpY=0.65f*Screen.height;
+			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			break;
+		case 1312:
+			if(!isResizing)
+			{
+				GameController.instance.resolvePass();
+				GameController.instance.disableAllCharacters();
+				GameController.instance.setDestination(1,3,true);
+				GameController.instance.addTileHalo(1,3,5, true);
+				GameController.instance.disableAllSkillObjects();
+				view.VM.displayArrow=true;
+				view.VM.displayNextButton=false;
+				view.VM.title="Mon écran 11";
+				view.VM.description="Bla bla bla";
+				this.setDownArrow();
+			}
+			GOPosition = GameController.instance.getTilesPosition(1,3);
+			GOSize =GameController.instance.getTilesSize(1,3);
+			arrowHeight=0.1f*Screen.height;
+			arrowWidth=(2f/3f)*arrowHeight;
+			arrowX=GOPosition.x-(arrowWidth/2f);
+			arrowY=Screen.height-GOPosition.y-GOSize.y/2f-arrowHeight;
+			view.VM.arrowRect= new Rect (arrowX,arrowY,arrowWidth,arrowHeight);
+			this.drawDownArrow();
+			popUpWidth=0.35f*Screen.width;
+			popUpHeight=this.computePopUpHeight();
+			popUpX=arrowX+arrowWidth/2f-popUpWidth/2f;
+			popUpY=arrowY-popUpHeight-0.02f*Screen.height;
+			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			break;
+		case 1313:
+			if(!isResizing)
+			{
+				GameController.instance.hideTileHalo(1,3);
+				GameController.instance.disableAllCharacters();
+				GameController.instance.disableAllSkillObjects();
+				GameController.instance.activeSingleSkillObjects(0);
+				view.VM.displayArrow=true;
+				view.VM.displayNextButton=false;
+				view.VM.title="Mon écran 12";
+				view.VM.description="Bla bla bla";
+				this.setDownArrow();
+			}
+			GOPosition = GameController.instance.getSkillObjectsPosition(0);
+			GOSize =GameController.instance.getSkillObjectsSize(0);
+			arrowHeight=0.1f*Screen.height;
+			arrowWidth=(2f/3f)*arrowHeight;
+			arrowX=GOPosition.x-(arrowWidth/2f);
+			arrowY=Screen.height-GOPosition.y-GOSize.y/2f-arrowHeight;
+			view.VM.arrowRect= new Rect (arrowX,arrowY,arrowWidth,arrowHeight);
+			this.drawDownArrow();
+			popUpWidth=0.35f*Screen.width;
+			popUpHeight=this.computePopUpHeight();
+			popUpX=arrowX+arrowWidth/2f-popUpWidth/2f;
+			popUpY=arrowY-popUpHeight-0.02f*Screen.height;
+			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			break;
+		case 1314:
+			if(!isResizing)
+			{
+				view.VM.displayArrow=false;
+				view.VM.displayNextButton=true;
+				view.VM.title="Mon écran 13";
+				view.VM.description="Bla bla bla";
+			}
+			popUpWidth=0.3f*Screen.width;
+			popUpHeight=this.computePopUpHeight();
+			popUpX=0.35f*Screen.width;
+			popUpY=0.65f*Screen.height;
+			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			break;
+		case 1315:
+			if(!isResizing)
+			{
+				StartCoroutine(GameController.instance.moveCharacterRPC(4,4,6,true,false));
+				view.VM.displayArrow=false;
+				view.VM.displayNextButton=true;
+				view.VM.title="Mon écran 14";
+				view.VM.description="Bla bla bla";
+			}
+			popUpWidth=0.3f*Screen.width;
+			popUpHeight=this.computePopUpHeight();
+			popUpX=0.35f*Screen.width;
+			popUpY=0.65f*Screen.height;
+			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			break;
+		case 1316:
+			if(!isResizing)
+			{
+				GameController.instance.launchSkill(4,new List<int> {2});
+				view.VM.displayArrow=false;
+				view.VM.displayNextButton=true;
+				view.VM.title="Mon écran 15";
+				view.VM.description="Bla bla bla";
+			}
+			popUpWidth=0.3f*Screen.width;
+			popUpHeight=this.computePopUpHeight();
+			popUpX=0.35f*Screen.width;
+			popUpY=0.65f*Screen.height;
+			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			break;
+		case 1317:
+			if(!isResizing)
+			{
+				GameController.instance.disableAllCharacters();
+				GameController.instance.setDestination(2,2,true);
+				GameController.instance.addTileHalo(2,2,5, true);
+				GameController.instance.disableAllSkillObjects();
+				view.VM.displayArrow=true;
+				view.VM.displayNextButton=false;
+				view.VM.title="Mon écran 16";
+				view.VM.description="Bla bla bla";
+				this.setDownArrow();
+			}
+			GOPosition = GameController.instance.getTilesPosition(2,2);
+			GOSize =GameController.instance.getTilesSize(2,2);
+			arrowHeight=0.1f*Screen.height;
+			arrowWidth=(2f/3f)*arrowHeight;
+			arrowX=GOPosition.x-(arrowWidth/2f);
+			arrowY=Screen.height-GOPosition.y-GOSize.y/2f-arrowHeight;
+			view.VM.arrowRect= new Rect (arrowX,arrowY,arrowWidth,arrowHeight);
+			this.drawDownArrow();
+			popUpWidth=0.35f*Screen.width;
+			popUpHeight=this.computePopUpHeight();
+			popUpX=arrowX+arrowWidth/2f-popUpWidth/2f;
+			popUpY=arrowY-popUpHeight-0.02f*Screen.height;
+			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			break;
+		case 1318:
+			if(!isResizing)
+			{
+				GameController.instance.hideTileHalo(2,2);
+				GameController.instance.disableAllSkillObjects();
+				GameController.instance.activeSingleSkillObjects(5);
+				view.VM.displayArrow=true;
+				view.VM.displayNextButton=false;
+				view.VM.title="Mon écran 17";
+				view.VM.description="Bla bla bla";
+				this.setDownArrow();
+			}
+			GOPosition = GameController.instance.getSkillObjectsPosition(5);
+			GOSize =GameController.instance.getSkillObjectsSize(5);
+			arrowHeight=0.1f*Screen.height;
+			arrowWidth=(2f/3f)*arrowHeight;
+			arrowX=GOPosition.x-(arrowWidth/2f);
+			arrowY=Screen.height-GOPosition.y-GOSize.y/2f-arrowHeight;
+			view.VM.arrowRect= new Rect (arrowX,arrowY,arrowWidth,arrowHeight);
+			this.drawDownArrow();
+			popUpWidth=0.35f*Screen.width;
+			popUpHeight=this.computePopUpHeight();
+			popUpX=arrowX+arrowWidth/2f-popUpWidth/2f;
+			popUpY=arrowY-popUpHeight-0.02f*Screen.height;
+			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			break;
+		case 1319:
+			if(!isResizing)
+			{
+				StartCoroutine(GameController.instance.moveCharacterRPC(1,4,5,true,false));
+				view.VM.displayArrow=false;
+				view.VM.displayNextButton=true;
+				view.VM.title="Mon écran 18";
+				view.VM.description="Bla bla bla";
+			}
+			popUpWidth=0.3f*Screen.width;
+			popUpHeight=this.computePopUpHeight();
+			popUpX=0.35f*Screen.width;
+			popUpY=0.65f*Screen.height;
+			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			break;
+		case 1320:
+			if(!isResizing)
+			{
+				GameController.instance.launchSkill(4,new List<int> {1});
+				view.VM.displayArrow=false;
+				view.VM.displayNextButton=true;
+				view.VM.title="Mon écran 19";
+				view.VM.description="Bla bla bla";
+			}
+			popUpWidth=0.3f*Screen.width;
+			popUpHeight=this.computePopUpHeight();
+			popUpX=0.35f*Screen.width;
+			popUpY=0.65f*Screen.height;
+			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			break;
+		case 1321:
+			if(!isResizing)
+			{
+				GameController.instance.disableAllCharacters();
+				GameController.instance.setDestination(5,3,true);
+				GameController.instance.addTileHalo(5,3,5, true);
+				GameController.instance.disableAllSkillObjects();
+				view.VM.displayArrow=true;
+				view.VM.displayNextButton=false;
+				view.VM.title="Mon écran 20";
+				view.VM.description="Bla bla bla";
+				this.setDownArrow();
+			}
+			GOPosition = GameController.instance.getTilesPosition(5,3);
+			GOSize =GameController.instance.getTilesSize(5,3);
+			arrowHeight=0.1f*Screen.height;
+			arrowWidth=(2f/3f)*arrowHeight;
+			arrowX=GOPosition.x-(arrowWidth/2f);
+			arrowY=Screen.height-GOPosition.y-GOSize.y/2f-arrowHeight;
+			view.VM.arrowRect= new Rect (arrowX,arrowY,arrowWidth,arrowHeight);
+			this.drawDownArrow();
+			popUpWidth=0.35f*Screen.width;
+			popUpHeight=this.computePopUpHeight();
+			popUpX=arrowX+arrowWidth/2f-popUpWidth/2f;
+			popUpY=arrowY-popUpHeight-0.02f*Screen.height;
+			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			break;
+		case 1322:
+			if(!isResizing)
+			{
+				GameController.instance.hideTileHalo(5,3);
+				GameController.instance.disableAllSkillObjects();
+				GameController.instance.activeSingleSkillObjects(4);
+				view.VM.displayArrow=true;
+				view.VM.displayNextButton=false;
+				view.VM.title="Mon écran 21";
+				view.VM.description="Bla bla bla";
+				this.setDownArrow();
+			}
+			GOPosition = GameController.instance.getSkillObjectsPosition(4);
+			GOSize =GameController.instance.getSkillObjectsSize(4);
+			arrowHeight=0.1f*Screen.height;
+			arrowWidth=(2f/3f)*arrowHeight;
+			arrowX=GOPosition.x-(arrowWidth/2f);
+			arrowY=Screen.height-GOPosition.y-GOSize.y/2f-arrowHeight;
+			view.VM.arrowRect= new Rect (arrowX,arrowY,arrowWidth,arrowHeight);
+			this.drawDownArrow();
+			popUpWidth=0.35f*Screen.width;
+			popUpHeight=this.computePopUpHeight();
+			popUpX=arrowX+arrowWidth/2f-popUpWidth/2f;
+			popUpY=arrowY-popUpHeight-0.02f*Screen.height;
+			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			break;
+		case 1323:
+			if(!isResizing)
+			{
+				GameController.instance.disableAllSkillObjects();
+				GameController.instance.activeTargetingOnCharacter(7);
+				view.VM.displayArrow=true;
+				view.VM.displayNextButton=false;
+				view.VM.title="Mon écran 22";
+				view.VM.description="Bla bla bla";
+				this.setDownArrow();
+			}
+			GOPosition = GameController.instance.getTilesPosition(5,4);
+			GOSize =GameController.instance.getTilesSize(5,4);
+			arrowHeight=0.1f*Screen.height;
+			arrowWidth=(2f/3f)*arrowHeight;
+			arrowX=GOPosition.x-(arrowWidth/2f);
+			arrowY=Screen.height-GOPosition.y-GOSize.y/2f-arrowHeight;
+			view.VM.arrowRect= new Rect (arrowX,arrowY,arrowWidth,arrowHeight);
+			this.drawDownArrow();
+			popUpWidth=0.35f*Screen.width;
+			popUpHeight=this.computePopUpHeight();
+			popUpX=arrowX+arrowWidth/2f-popUpWidth/2f;
+			popUpY=arrowY-popUpHeight-0.02f*Screen.height;
+			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			break;
+		case 1324:
+			if(!isResizing)
+			{
+				view.VM.displayArrow=false;
+				view.VM.displayNextButton=true;
+				view.VM.title="Mon écran 23";
+				view.VM.description="Bla bla bla";
+			}
+			popUpWidth=0.3f*Screen.width;
+			popUpHeight=this.computePopUpHeight();
+			popUpX=0.35f*Screen.width;
+			popUpY=0.65f*Screen.height;
+			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			break;
+		case 1325:
+			if(!isResizing)
+			{
+				GameController.instance.disableAllCharacters();
+				GameController.instance.disableAllSkillObjects();
+				GameController.instance.activeSingleSkillObjects(0);
+				view.VM.displayArrow=true;
+				view.VM.displayNextButton=false;
+				view.VM.title="Mon écran 24";
+				view.VM.description="Bla bla bla";
+				this.setDownArrow();
+			}
+			GOPosition = GameController.instance.getSkillObjectsPosition(0);
+			GOSize =GameController.instance.getSkillObjectsSize(0);
+			arrowHeight=0.1f*Screen.height;
+			arrowWidth=(2f/3f)*arrowHeight;
+			arrowX=GOPosition.x-(arrowWidth/2f);
+			arrowY=Screen.height-GOPosition.y-GOSize.y/2f-arrowHeight;
+			view.VM.arrowRect= new Rect (arrowX,arrowY,arrowWidth,arrowHeight);
+			this.drawDownArrow();
+			popUpWidth=0.35f*Screen.width;
+			popUpHeight=this.computePopUpHeight();
+			popUpX=arrowX+arrowWidth/2f-popUpWidth/2f;
+			popUpY=arrowY-popUpHeight-0.02f*Screen.height;
+			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			break;
+		case 1326:
+			if(!isResizing)
+			{
+				GameController.instance.disableAllCharacters();
+				GameController.instance.disableAllSkillObjects();
+				GameController.instance.activeSingleSkillObjects(5);
+				view.VM.displayArrow=true;
+				view.VM.displayNextButton=false;
+				view.VM.title="Mon écran 25";
+				view.VM.description="Bla bla bla";
+				this.setDownArrow();
+			}
+			GOPosition = GameController.instance.getSkillObjectsPosition(5);
+			GOSize =GameController.instance.getSkillObjectsSize(5);
+			arrowHeight=0.1f*Screen.height;
+			arrowWidth=(2f/3f)*arrowHeight;
+			arrowX=GOPosition.x-(arrowWidth/2f);
+			arrowY=Screen.height-GOPosition.y-GOSize.y/2f-arrowHeight;
+			view.VM.arrowRect= new Rect (arrowX,arrowY,arrowWidth,arrowHeight);
+			this.drawDownArrow();
+			popUpWidth=0.35f*Screen.width;
+			popUpHeight=this.computePopUpHeight();
+			popUpX=arrowX+arrowWidth/2f-popUpWidth/2f;
+			popUpY=arrowY-popUpHeight-0.02f*Screen.height;
+			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			break;
+		case 1327:
+			if(!isResizing)
+			{
+				GameController.instance.disableAllCharacters();
+				GameController.instance.disableAllSkillObjects();
+				GameController.instance.activeSingleSkillObjects(4);
+				view.VM.displayArrow=true;
+				view.VM.displayNextButton=false;
+				view.VM.title="Mon écran 26";
+				view.VM.description="Bla bla bla";
+				this.setDownArrow();
+			}
+			GOPosition = GameController.instance.getSkillObjectsPosition(4);
+			GOSize =GameController.instance.getSkillObjectsSize(4);
+			arrowHeight=0.1f*Screen.height;
+			arrowWidth=(2f/3f)*arrowHeight;
+			arrowX=GOPosition.x-(arrowWidth/2f);
+			arrowY=Screen.height-GOPosition.y-GOSize.y/2f-arrowHeight;
+			view.VM.arrowRect= new Rect (arrowX,arrowY,arrowWidth,arrowHeight);
+			this.drawDownArrow();
+			popUpWidth=0.35f*Screen.width;
+			popUpHeight=this.computePopUpHeight();
+			popUpX=arrowX+arrowWidth/2f-popUpWidth/2f;
+			popUpY=arrowY-popUpHeight-0.02f*Screen.height;
+			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			break;
+		case 1328:
+			if(!isResizing)
+			{
+				GameController.instance.disableAllSkillObjects();
+				GameController.instance.activeTargetingOnCharacter(5);
+				view.VM.displayArrow=true;
+				view.VM.displayNextButton=false;
+				view.VM.title="Mon écran 27";
+				view.VM.description="Bla bla bla";
+				this.setDownArrow();
+			}
+			GOPosition = GameController.instance.getTilesPosition(1,4);
+			GOSize =GameController.instance.getTilesSize(1,4);
+			arrowHeight=0.1f*Screen.height;
+			arrowWidth=(2f/3f)*arrowHeight;
+			arrowX=GOPosition.x-(arrowWidth/2f);
+			arrowY=Screen.height-GOPosition.y-GOSize.y/2f-arrowHeight;
+			view.VM.arrowRect= new Rect (arrowX,arrowY,arrowWidth,arrowHeight);
+			this.drawDownArrow();
+			popUpWidth=0.35f*Screen.width;
+			popUpHeight=this.computePopUpHeight();
+			popUpX=arrowX+arrowWidth/2f-popUpWidth/2f;
+			popUpY=arrowY-popUpHeight-0.02f*Screen.height;
+			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			break;
+		case 1329:
+			if(!isResizing)
+			{
+				GameController.instance.disableAllCharacters();
+				GameController.instance.disableAllSkillObjects();
+				view.VM.displayArrow=false;
+				view.VM.displayNextButton=true;
+				view.VM.title="Mon écran 28";
+				view.VM.description="Bla bla bla";
+			}
+			popUpWidth=0.3f*Screen.width;
+			popUpHeight=this.computePopUpHeight();
+			popUpX=0.35f*Screen.width;
+			popUpY=0.65f*Screen.height;
 			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
 			break;
 		}
@@ -1387,7 +1902,7 @@ public class TutorialObjectController : MonoBehaviour
 		case 101:
 			StartCoroutine(HomePageController.instance.endTutorial());
 			break;
-		case 201: case 209: case 210: case 211: case 212: case 213: case 214: case 215: case 901: case 902: case 903: case 1301: case 1302: case 1303:
+		case 201: case 209: case 210: case 211: case 212: case 213: case 214: case 215: case 901: case 902: case 903: case 1301: case 1302: case 1303: case 1304: case 1305: case 1307: case 1308: case 1312: case 1313: case 1317: case 1318: case 1319: case 1321: case 1322: case 1323: case 1325: case 1326: case 1327: case 1328:
 			this.launchSequence(this.sequenceID+1);
 			break;
 		case 217:

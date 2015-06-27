@@ -1264,6 +1264,10 @@ public class GameController : Photon.MonoBehaviour
 		{
 			this.skillArgs [i] = -1;
 		}
+		if(isTutorialLaunched)
+		{
+			this.tutorial.GetComponent<TutorialObjectController>().actionIsDone();
+		}
 	}
 
 	public void findNextPlayer()
@@ -1573,9 +1577,9 @@ public class GameController : Photon.MonoBehaviour
 		}
 		else
 		{
-			rocks.Add(new Tile(1,3));
+			rocks.Add(new Tile(2,3));
 			rocks.Add(new Tile(3,5));
-			rocks.Add(new Tile(5,3));
+			rocks.Add(new Tile(4,3));
 		}
 		
 		for (int x = 0; x < boardWidth; x++)
@@ -1766,6 +1770,10 @@ public class GameController : Photon.MonoBehaviour
 			this.tiles [deck.Cards [i].deckOrder + 1, hauteur].GetComponent<TileController>().characterID = debut + deck.Cards [i].deckOrder;
 			this.playingCards [debut + deck.Cards [i].deckOrder].GetComponentInChildren<PlayingCardController>().show();
 			compteur++;
+		}
+		if(this.isTutorialLaunched && !isFirstP)
+		{
+			this.disableAllCharacters();
 		}
 		yield break;
 	}
@@ -2016,7 +2024,7 @@ public class GameController : Photon.MonoBehaviour
 	}
 
 	[RPC]
-	IEnumerator moveCharacterRPC(int x, int y, int c, bool isFirstP, bool isSwap)
+	public IEnumerator moveCharacterRPC(int x, int y, int c, bool isFirstP, bool isSwap)
 	{
 		if (!this.isFirstPlayer){
 			while(!this.bothPlayerLoaded){
@@ -2980,13 +2988,11 @@ public class GameController : Photon.MonoBehaviour
 	}
 	public void activeSingleCharacter(int index)
 	{
-		for(int i=0;i<this.limitCharacterSide;i++)
-		{
-			if(i!=index)
-			{
-				this.playingCards[i].GetComponent<PlayingCardController>().setTargetHalo(new HaloTarget(1),true);
-			}
-		}
+		this.playingCards[index].GetComponent<PlayingCardController>().hideTargetHalo();
+	}
+	public void activeTargetingOnCharacter(int index)
+	{
+		this.playingCards [index].GetComponent<PlayingCardController> ().setIsDisable (false);
 	}
 	public void activeAllCharacters()
 	{
@@ -2997,7 +3003,7 @@ public class GameController : Photon.MonoBehaviour
 	}
 	public void disableAllCharacters()
 	{
-		for(int i=0;i<this.limitCharacterSide;i++)
+		for(int i=0;i<this.playingCards.Length;i++)
 		{
 			this.playingCards[i].GetComponent<PlayingCardController>().setTargetHalo(new HaloTarget(1),true);
 		}
@@ -3035,6 +3041,30 @@ public class GameController : Photon.MonoBehaviour
 		for(int i=0;i<this.skillsObjects.Length;i++)
 		{
 			this.skillsObjects[i].GetComponent<SkillObjectController>().setControlActive(false);
+		}
+	}
+	public void activeSingleSkillObjects(int index)
+	{
+		this.skillsObjects[index].GetComponent<SkillObjectController>().setControlActive(true);
+	}
+	public Vector2 getSkillObjectsPosition(int index)
+	{
+		return this.skillsObjects [index].GetComponent<SkillObjectController> ().getGOScreenPosition (this.skillsObjects [index]);
+	}
+	public Vector2 getSkillObjectsSize(int index)
+	{
+		return this.skillsObjects [index].GetComponent<SkillObjectController> ().getGOScreenSize (this.skillsObjects [index]);
+	}
+	public void launchSkill(int clickedSkill, List<int> pcc)
+	{
+		this.clickedSkill = clickedSkill;
+		this.gameskills [getCurrentSkillID()].resolve (pcc);
+	}
+	public void callTutorial()
+	{
+		if(isTutorialLaunched)
+		{
+			this.tutorial.GetComponent<TutorialObjectController>().actionIsDone();
 		}
 	}
 }
