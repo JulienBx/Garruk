@@ -263,7 +263,7 @@ MonoBehaviour:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Sprite: {fileID: 21300000, guid: 2c94f398135f71d4aae846a2031ac470, type: 3}
   m_Type: 0
-  m_PreserveAspect: 1
+  m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -361,7 +361,7 @@ GameObject:
   - 222: {fileID: 223363794}
   - 114: {fileID: 223363793}
   m_Layer: 5
-  m_Name: CharacterName
+  m_Name: characterName
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -744,6 +744,8 @@ GameObject:
   - 114: {fileID: 481987441}
   - 114: {fileID: 481987442}
   - 82: {fileID: 481987444}
+  - 114: {fileID: 481987445}
+  - 114: {fileID: 481987446}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1392,6 +1394,8 @@ MonoBehaviour:
   limitCharacterSide: 4
   clickedSkill: 0
   lifeBarsController: []
+  leftStats: {fileID: 0}
+  rightStats: {fileID: 0}
 --- !u!114 &481987440
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1803,6 +1807,98 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
+--- !u!114 &481987445
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 481987433}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41254f9708a609a49944f4417eecd348, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: {fileID: 1106022381}
+--- !u!114 &481987446
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 481987433}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d1e89917ca458d48b62ea13425729bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stat: {fileID: 129666476}
+  skill: {fileID: 634119321}
+  sprites:
+  - {fileID: 21300000, guid: 726baa2715a169b439decabbe1f33266, type: 3}
+  - {fileID: 21300000, guid: 726baa2715a169b439decabbe1f33266, type: 3}
+  - {fileID: 21300000, guid: 726baa2715a169b439decabbe1f33266, type: 3}
+  - {fileID: 21300000, guid: 726baa2715a169b439decabbe1f33266, type: 3}
+  - {fileID: 21300000, guid: 726baa2715a169b439decabbe1f33266, type: 3}
+  - {fileID: 21300000, guid: 726baa2715a169b439decabbe1f33266, type: 3}
+  - {fileID: 21300000, guid: 726baa2715a169b439decabbe1f33266, type: 3}
+  - {fileID: 21300000, guid: 726baa2715a169b439decabbe1f33266, type: 3}
+  - {fileID: 21300000, guid: 726baa2715a169b439decabbe1f33266, type: 3}
+  - {fileID: 21300000, guid: 726baa2715a169b439decabbe1f33266, type: 3}
+  - {fileID: 21300000, guid: 726baa2715a169b439decabbe1f33266, type: 3}
+  - {fileID: 21300000, guid: 726baa2715a169b439decabbe1f33266, type: 3}
+  - {fileID: 21300000, guid: 726baa2715a169b439decabbe1f33266, type: 3}
+  - {fileID: 21300000, guid: 726baa2715a169b439decabbe1f33266, type: 3}
+  - {fileID: 21300000, guid: 726baa2715a169b439decabbe1f33266, type: 3}
+  - {fileID: 21300000, guid: 726baa2715a169b439decabbe1f33266, type: 3}
+  - {fileID: 21300000, guid: 726baa2715a169b439decabbe1f33266, type: 3}
+  - {fileID: 21300000, guid: 726baa2715a169b439decabbe1f33266, type: 3}
+  - {fileID: 21300000, guid: 726baa2715a169b439decabbe1f33266, type: 3}
+  - {fileID: 21300000, guid: 726baa2715a169b439decabbe1f33266, type: 3}
+  - {fileID: 21300000, guid: 726baa2715a169b439decabbe1f33266, type: 3}
+  - {fileID: 21300000, guid: 726baa2715a169b439decabbe1f33266, type: 3}
+  - {fileID: 21300000, guid: 726baa2715a169b439decabbe1f33266, type: 3}
+  - {fileID: 21300000, guid: 726baa2715a169b439decabbe1f33266, type: 3}
+  - {fileID: 21300000, guid: 726baa2715a169b439decabbe1f33266, type: 3}
+  - {fileID: 21300000, guid: 726baa2715a169b439decabbe1f33266, type: 3}
+  - {fileID: 21300000, guid: 726baa2715a169b439decabbe1f33266, type: 3}
+  - {fileID: 21300000, guid: 726baa2715a169b439decabbe1f33266, type: 3}
+  - {fileID: 21300000, guid: 726baa2715a169b439decabbe1f33266, type: 3}
+  - {fileID: 21300000, guid: 726baa2715a169b439decabbe1f33266, type: 3}
+  - {fileID: 21300000, guid: 726baa2715a169b439decabbe1f33266, type: 3}
+  - {fileID: 21300000, guid: 726baa2715a169b439decabbe1f33266, type: 3}
+  - {fileID: 21300000, guid: 726baa2715a169b439decabbe1f33266, type: 3}
+  - {fileID: 21300000, guid: 726baa2715a169b439decabbe1f33266, type: 3}
+  - {fileID: 21300000, guid: 726baa2715a169b439decabbe1f33266, type: 3}
+  - {fileID: 21300000, guid: 726baa2715a169b439decabbe1f33266, type: 3}
+  - {fileID: 21300000, guid: 726baa2715a169b439decabbe1f33266, type: 3}
+  - {fileID: 21300000, guid: 726baa2715a169b439decabbe1f33266, type: 3}
+  - {fileID: 21300000, guid: 726baa2715a169b439decabbe1f33266, type: 3}
+  - {fileID: 21300000, guid: 726baa2715a169b439decabbe1f33266, type: 3}
+  - {fileID: 21300000, guid: 726baa2715a169b439decabbe1f33266, type: 3}
+  - {fileID: 21300000, guid: 726baa2715a169b439decabbe1f33266, type: 3}
+  - {fileID: 21300000, guid: 726baa2715a169b439decabbe1f33266, type: 3}
+  - {fileID: 21300000, guid: 726baa2715a169b439decabbe1f33266, type: 3}
+  - {fileID: 21300000, guid: 726baa2715a169b439decabbe1f33266, type: 3}
+  - {fileID: 21300000, guid: 726baa2715a169b439decabbe1f33266, type: 3}
+  - {fileID: 21300000, guid: 726baa2715a169b439decabbe1f33266, type: 3}
+  - {fileID: 21300000, guid: 726baa2715a169b439decabbe1f33266, type: 3}
+  - {fileID: 21300000, guid: 726baa2715a169b439decabbe1f33266, type: 3}
+  - {fileID: 21300000, guid: 726baa2715a169b439decabbe1f33266, type: 3}
+  - {fileID: 21300000, guid: 726baa2715a169b439decabbe1f33266, type: 3}
+  - {fileID: 21300000, guid: 726baa2715a169b439decabbe1f33266, type: 3}
+  - {fileID: 21300000, guid: 726baa2715a169b439decabbe1f33266, type: 3}
+  - {fileID: 21300000, guid: 726baa2715a169b439decabbe1f33266, type: 3}
+  - {fileID: 21300000, guid: 726baa2715a169b439decabbe1f33266, type: 3}
+  - {fileID: 21300000, guid: 726baa2715a169b439decabbe1f33266, type: 3}
+  - {fileID: 21300000, guid: 726baa2715a169b439decabbe1f33266, type: 3}
+  - {fileID: 21300000, guid: 726baa2715a169b439decabbe1f33266, type: 3}
+  - {fileID: 21300000, guid: 726baa2715a169b439decabbe1f33266, type: 3}
+  - {fileID: 21300000, guid: 726baa2715a169b439decabbe1f33266, type: 3}
+  - {fileID: 21300000, guid: 726baa2715a169b439decabbe1f33266, type: 3}
+  - {fileID: 21300000, guid: 726baa2715a169b439decabbe1f33266, type: 3}
+  - {fileID: 21300000, guid: 726baa2715a169b439decabbe1f33266, type: 3}
+  - {fileID: 21300000, guid: 726baa2715a169b439decabbe1f33266, type: 3}
+  - {fileID: 21300000, guid: 726baa2715a169b439decabbe1f33266, type: 3}
+  - {fileID: 21300000, guid: 726baa2715a169b439decabbe1f33266, type: 3}
 --- !u!1 &589422201
 GameObject:
   m_ObjectHideFlags: 0
@@ -2189,7 +2285,7 @@ MonoBehaviour:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Sprite: {fileID: 21300000, guid: cb221184a3f46ea4496e7dde4a414c52, type: 3}
   m_Type: 0
-  m_PreserveAspect: 1
+  m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -3337,7 +3433,7 @@ GameObject:
   - 222: {fileID: 1407195538}
   - 114: {fileID: 1407195537}
   m_Layer: 5
-  m_Name: SkillTitre
+  m_Name: skillTitre
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3599,7 +3695,7 @@ GameObject:
   - 222: {fileID: 1701350393}
   - 114: {fileID: 1701350392}
   m_Layer: 5
-  m_Name: SkillDescription
+  m_Name: skillDescription
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3637,12 +3733,12 @@ MonoBehaviour:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
+    m_FontSize: 6
     m_FontStyle: 1
     m_BestFit: 1
-    m_MinSize: 5
-    m_MaxSize: 20
-    m_Alignment: 0
+    m_MinSize: 6
+    m_MaxSize: 10
+    m_Alignment: 3
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0

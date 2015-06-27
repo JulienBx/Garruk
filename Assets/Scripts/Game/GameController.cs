@@ -108,6 +108,8 @@ public class GameController : Photon.MonoBehaviour
 	public TargetTileHandler targetTileHandler ;
 
 	public List<LifeBarsController> lifeBarsController = new List<LifeBarsController>();
+	public LeftStatsController leftStats;
+	public RightStatsController rightStats;
 
 	private GameObject tutorial;
 	private bool isTutorialLaunched;
@@ -131,7 +133,8 @@ public class GameController : Photon.MonoBehaviour
 		{
 			lifeBarsController.Add(lifebarC);
 		}
-
+		rightStats = GetComponent<RightStatsController>();
+		leftStats = GetComponent<LeftStatsController>();
 		this.createBackground();
 		this.resize();
 		this.initSkills();
@@ -140,11 +143,11 @@ public class GameController : Photon.MonoBehaviour
 	void Start()
 	{	
 		users = new User[2];
-		if(ApplicationModel.launchGameTutorial)
+		if (ApplicationModel.launchGameTutorial)
 		{
 			this.tutorial = Instantiate(this.TutorialObject) as GameObject;
 			this.tutorial.GetComponent<TutorialObjectController>().launchSequence(1300);
-			this.isTutorialLaunched=true;
+			this.isTutorialLaunched = true;
 		}
 		PhotonNetwork.ConnectUsingSettings(ApplicationModel.photonSettings);
 		PhotonNetwork.autoCleanUpPlayerObjects = false;
@@ -622,7 +625,7 @@ public class GameController : Photon.MonoBehaviour
 	
 	public bool canLaunchAdjacentOpponents()
 	{
-		bool isLaunchable = false  ;
+		bool isLaunchable = false;
 		
 		List<Tile> neighbourTiles = this.getCurrentPCC().tile.getImmediateNeighbouringTiles();
 		int playerID;
@@ -633,7 +636,7 @@ public class GameController : Photon.MonoBehaviour
 			{
 				if (this.playingCards [playerID].GetComponent<PlayingCardController>().canBeTargeted() && !this.getPCC(playerID).isMine)
 				{
-					isLaunchable = true ;
+					isLaunchable = true;
 				}
 			}
 		}
@@ -659,7 +662,7 @@ public class GameController : Photon.MonoBehaviour
 	
 	public bool canLaunchAdjacentAllys()
 	{
-		bool isLaunchable = false  ;
+		bool isLaunchable = false;
 		
 		List<Tile> neighbourTiles = this.getCurrentPCC().tile.getImmediateNeighbouringTiles();
 		int playerID;
@@ -670,7 +673,7 @@ public class GameController : Photon.MonoBehaviour
 			{
 				if (this.playingCards [playerID].GetComponent<PlayingCardController>().canBeTargeted() && this.getPCC(playerID).isMine)
 				{
-					isLaunchable = true ;
+					isLaunchable = true;
 				}
 			}
 		}
@@ -696,7 +699,7 @@ public class GameController : Photon.MonoBehaviour
 	
 	public bool canLaunchAdjacentTiles()
 	{
-		bool isLaunchable = false ;
+		bool isLaunchable = false;
 		List<Tile> neighbourTiles = this.getCurrentPCC().tile.getImmediateNeighbouringTiles();
 		int playerID;
 		foreach (Tile t in neighbourTiles)
@@ -706,11 +709,11 @@ public class GameController : Photon.MonoBehaviour
 			{
 				if (!this.tiles [t.x, t.y].GetComponent<TileController>().tile.isStatModifier)
 				{
-					isLaunchable = true ;
+					isLaunchable = true;
 				}
 			}
 		}
-		return isLaunchable ;
+		return isLaunchable;
 	}
 	
 	public void displayAllTargets()
@@ -741,14 +744,14 @@ public class GameController : Photon.MonoBehaviour
 	
 	public bool canLaunchAllButMeModifiers()
 	{
-		bool isLaunchable = false  ;
+		bool isLaunchable = false;
 		PlayingCardController pcc;
 		for (int i = 0; i < this.playingCards.Length; i++)
 		{
 			pcc = this.getPCC(i);
 			if (pcc.card.hasModifiers() && pcc.canBeTargeted() && i != this.currentPlayingCard)
 			{
-				isLaunchable = true ;
+				isLaunchable = true;
 			}
 		}		
 		return isLaunchable;
@@ -769,14 +772,14 @@ public class GameController : Photon.MonoBehaviour
 	
 	public bool canLaunchAllButMe()
 	{
-		bool isLaunchable = false  ;
+		bool isLaunchable = false;
 		PlayingCardController pcc;
 		for (int i = 0; i < this.playingCards.Length; i++)
 		{
 			pcc = this.getPCC(i);
 			if (pcc.canBeTargeted() && i != this.currentPlayingCard)
 			{
-				isLaunchable = true ;
+				isLaunchable = true;
 			}
 		}		
 		return isLaunchable;
@@ -799,7 +802,7 @@ public class GameController : Photon.MonoBehaviour
 	public bool canLaunchAllysButMe()
 	{
 		PlayingCardController pcc;
-		bool isLaunchable = false  ;
+		bool isLaunchable = false;
 		
 		for (int i = 0; i < this.playingCards.Length && !isLaunchable; i++)
 		{
@@ -809,7 +812,7 @@ public class GameController : Photon.MonoBehaviour
 				isLaunchable = true;
 			}
 		}
-		return isLaunchable ; 	
+		return isLaunchable; 	
 	}
 	
 	public void displayOpponentsTargets()
@@ -829,17 +832,17 @@ public class GameController : Photon.MonoBehaviour
 	public bool canLaunchOpponents()
 	{
 		PlayingCardController pcc;
-		bool isLaunchable = false  ;
+		bool isLaunchable = false;
 		
 		for (int i = 0; i < this.playingCards.Length && !isLaunchable; i++)
 		{
 			pcc = this.getPCC(i);
 			if (!pcc.isMine && pcc.canBeTargeted())
 			{
-				isLaunchable = true ;
+				isLaunchable = true;
 			}
 		}
-		return isLaunchable ; 	
+		return isLaunchable; 	
 	}
 	
 	public void displayMyControls(string s)
@@ -1391,6 +1394,9 @@ public class GameController : Photon.MonoBehaviour
 			displayPopUpMessage("Tour du joueur adverse", 3f);
 			this.showOpponentSkills(this.currentPlayingCard);
 		}
+		Card currentCard = getCurrentCard();
+		leftStats.setCharacterStat(currentCard.Title, currentCard.GetMove(), currentCard.GetLife(), currentCard.GetAttack());
+		leftStats.setSkill(currentCard.Skills [0].Name, currentCard.Skills [0].Description, currentCard.Skills [0].Id - 2);
 	}
 
 	public int[,] getCharacterTilesArray()
@@ -1402,10 +1408,11 @@ public class GameController : Photon.MonoBehaviour
 		{
 			for (int j = 0; j < height; j ++)
 			{
-				if(this.getTile(i,j).type==1){
+				if (this.getTile(i, j).type == 1)
+				{
 					characterTiles [i, j] = 9;
-				}
-				else{
+				} else
+				{
 					characterTiles [i, j] = -1;
 				}	
 			}
@@ -1525,22 +1532,26 @@ public class GameController : Photon.MonoBehaviour
 	private void initGrid()
 	{
 		print("J'initialise le terrain de jeu");
-		bool isRock = false ;
+		bool isRock = false;
 		List<Tile> rocks = new List<Tile>();
-		if(!this.isTutorialLaunched)
+		if (!this.isTutorialLaunched)
 		{
-			int nbRocksToAdd = UnityEngine.Random.Range(3,6);
-			int compteurRocks = 0 ;
-			bool isOk = true ;
-			int xRock=0, yRock=0 ;
-			while (compteurRocks<nbRocksToAdd){
-				isOk = false ;
-				while(!isOk){
-					xRock = UnityEngine.Random.Range(0,this.boardWidth);
-					yRock = UnityEngine.Random.Range(0,this.boardHeight-2)+1;
-					isOk = true ;
-					for (int a = 0 ; a < rocks.Count && isOk ; a++){
-						if (rocks[a].x==xRock && rocks[a].y==yRock){
+			int nbRocksToAdd = UnityEngine.Random.Range(3, 6);
+			int compteurRocks = 0;
+			bool isOk = true;
+			int xRock = 0, yRock = 0;
+			while (compteurRocks<nbRocksToAdd)
+			{
+				isOk = false;
+				while (!isOk)
+				{
+					xRock = UnityEngine.Random.Range(0, this.boardWidth);
+					yRock = UnityEngine.Random.Range(0, this.boardHeight - 2) + 1;
+					isOk = true;
+					for (int a = 0; a < rocks.Count && isOk; a++)
+					{
+						if (rocks [a].x == xRock && rocks [a].y == yRock)
+						{
 							isOk = false;
 						}
 					}
@@ -1548,33 +1559,36 @@ public class GameController : Photon.MonoBehaviour
 				rocks.Add(new Tile(xRock, yRock));
 				compteurRocks++;
 			}
-		}
-		else
+		} else
 		{
-			rocks.Add(new Tile(1,3));
-			rocks.Add(new Tile(3,5));
-			rocks.Add(new Tile(5,3));
+			rocks.Add(new Tile(1, 3));
+			rocks.Add(new Tile(3, 5));
+			rocks.Add(new Tile(5, 3));
 		}
 		
 		for (int x = 0; x < boardWidth; x++)
 		{
 			for (int y = 0; y < boardHeight; y++)
 			{
-				isRock = false ;
-				for (int z = 0 ; z < rocks.Count && !isRock ; z++){
-					if(rocks[z].x==x && rocks[z].y==y){
-						isRock = true ;
+				isRock = false;
+				for (int z = 0; z < rocks.Count && !isRock; z++)
+				{
+					if (rocks [z].x == x && rocks [z].y == y)
+					{
+						isRock = true;
 					}
 				}
-				if (!isRock){
+				if (!isRock)
+				{
 					photonView.RPC("AddTileToBoard", PhotonTargets.AllBuffered, x, y, 0);	
 				}
 			}
 		}
 		
 
-		for (int a = 0 ; a < rocks.Count ; a++){
-			photonView.RPC("AddTileToBoard", PhotonTargets.AllBuffered, rocks[a].x, rocks[a].y, 1);
+		for (int a = 0; a < rocks.Count; a++)
+		{
+			photonView.RPC("AddTileToBoard", PhotonTargets.AllBuffered, rocks [a].x, rocks [a].y, 1);
 		}
 	}
 
@@ -1621,8 +1635,7 @@ public class GameController : Photon.MonoBehaviour
 			} else if (!this.isFirstPlayer && nbPlayers == 2)
 			{
 				StartCoroutine(this.loadMyDeck(this.isFirstPlayer));
-			}
-			else if(this.isTutorialLaunched && nbPlayers == 2)
+			} else if (this.isTutorialLaunched && nbPlayers == 2)
 			{
 				StartCoroutine(this.loadMyDeck(false));
 			}
@@ -1639,8 +1652,7 @@ public class GameController : Photon.MonoBehaviour
 						this.tiles [j, i].GetComponent<TileController>().setDestination(true);
 					}
 				}
-			}
-			else if(this.isTutorialLaunched)
+			} else if (this.isTutorialLaunched)
 			{
 				for (int i = 0; i < this.nbFreeStartRows; i++)
 				{
@@ -1649,8 +1661,7 @@ public class GameController : Photon.MonoBehaviour
 						this.tiles [j, i].GetComponent<TileController>().setGrey(true);
 					}
 				}
-			}
-			else
+			} else
 			{
 				for (int i = this.boardHeight-1; i > this.boardHeight-1-this.nbFreeStartRows; i--)
 				{
@@ -1662,8 +1673,9 @@ public class GameController : Photon.MonoBehaviour
 			}
 		}
 		
-		if (nbPlayers==2){
-			this.bothPlayerLoaded = true ;
+		if (nbPlayers == 2)
+		{
+			this.bothPlayerLoaded = true;
 		}
 	}
 				
@@ -1979,10 +1991,12 @@ public class GameController : Photon.MonoBehaviour
 	[RPC]
 	IEnumerator moveCharacterRPC(int x, int y, int c, bool isFirstP, bool isSwap)
 	{
-		if (!this.isFirstPlayer){
-			while(!this.bothPlayerLoaded){
-				print ("J'attends");
-				yield return new WaitForSeconds(1) ;
+		if (!this.isFirstPlayer)
+		{
+			while (!this.bothPlayerLoaded)
+			{
+				print("J'attends");
+				yield return new WaitForSeconds(1);
 			}
 		}
 		
@@ -2074,7 +2088,7 @@ public class GameController : Photon.MonoBehaviour
 		if (!isReconnecting)
 		{
 			photonView.RPC("AddPlayerToList", PhotonTargets.AllBuffered, PhotonNetwork.player.ID, ApplicationModel.username);
-			if(this.isTutorialLaunched)
+			if (this.isTutorialLaunched)
 			{
 				photonView.RPC("AddPlayerToList", PhotonTargets.AllBuffered, PhotonNetwork.player.ID, "Garruk");
 			}
@@ -2578,13 +2592,14 @@ public class GameController : Photon.MonoBehaviour
 	[RPC]
 	public void playSkillRPC(int isSuccess)
 	{
-		if (isSuccess==1){
+		if (isSuccess == 1)
+		{
 			this.displaySkillEffect(this.currentPlayingCard, this.getCurrentGameSkill().getSuccessText(), 5, isSuccess);
-			this.addGameEvent(this.getCurrentGameSkill().getSuccessText(),"");
-		}
-		else if (isSuccess==0){
+			this.addGameEvent(this.getCurrentGameSkill().getSuccessText(), "");
+		} else if (isSuccess == 0)
+		{
 			this.displaySkillEffect(this.currentPlayingCard, this.getCurrentGameSkill().getFailureText(), 5, isSuccess);
-			this.addGameEvent(this.getCurrentGameSkill().getFailureText(),"");
+			this.addGameEvent(this.getCurrentGameSkill().getFailureText(), "");
 		}
 	}
 	
@@ -2904,7 +2919,7 @@ public class GameController : Photon.MonoBehaviour
 		int compteur = 0;
 		for (int i = 0; i < this.playingCards.Length; i++)
 		{
-			if (!this.getPCC(i).isDead && i!=this.currentPlayingCard && this.getPCC(i).isMine)
+			if (!this.getPCC(i).isDead && i != this.currentPlayingCard && this.getPCC(i).isMine)
 			{
 				compteur++;
 			}
@@ -2917,7 +2932,7 @@ public class GameController : Photon.MonoBehaviour
 		int compteur = 0;
 		for (int i = 0; i < this.playingCards.Length; i++)
 		{
-			if (!this.getPCC(i).isDead && i!=this.currentPlayingCard && !this.getPCC(i).isMine)
+			if (!this.getPCC(i).isDead && i != this.currentPlayingCard && !this.getPCC(i).isMine)
 			{
 				compteur++;
 			}
@@ -2931,14 +2946,14 @@ public class GameController : Photon.MonoBehaviour
 	}
 	public void setButtonsGUI(bool value)
 	{
-		for(int i =0;i<gameView.gameScreenVM.buttonsEnabled.Length;i++)
+		for (int i =0; i<gameView.gameScreenVM.buttonsEnabled.Length; i++)
 		{
-			gameView.gameScreenVM.buttonsEnabled[i]=value;
+			gameView.gameScreenVM.buttonsEnabled [i] = value;
 		}
 	}
 	public void setButtonGUI(int index, bool value)
 	{
-		gameView.gameScreenVM.buttonsEnabled[index]=value;
+		gameView.gameScreenVM.buttonsEnabled [index] = value;
 	}
 }
 
