@@ -64,7 +64,7 @@ public class GameView : MonoBehaviour
 							GUILayout.BeginHorizontal();
 							{
 								GUILayout.FlexibleSpace();
-								GUI.enabled=gameScreenVM.buttonsEnabled[0];
+								GUI.enabled=gameScreenVM.buttonsEnabled[1];
 								if (GUILayout.Button(gameScreenVM.messageStartWindowButton, gameScreenVM.buttonTextStyle, GUILayout.Width(gameScreenVM.startButtonRect.width / 2f)))
 								{
 									GameController.instance.playerReady();

@@ -20,6 +20,7 @@ public class TileViewModel
 	public List<GUIStyle> haloStyles ;
 	public GUIStyle trapStyle ;
 	public bool toDisplayTrap = false ;
+	public bool isHaloDisabled = false;
 	public Texture2D trap ;
 	
 	public string title ;

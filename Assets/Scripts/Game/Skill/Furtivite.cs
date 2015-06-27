@@ -30,7 +30,8 @@ public class Furtivite : GameSkill
 		GameController.instance.addCardModifier(target, attackBonus, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, 2, 9, "Renforcement", "Attaque augmentée de "+attackBonus, "Actif 2 tours");
 		GameController.instance.displaySkillEffect(target, "INVISIBLE\n+"+attackBonus+" ATK", 3, 0);
 		GameController.instance.getCurrentSkill().nbLeft--;
-		GameController.instance.getCurrentSkill().Description="Déjà utilisé";
+		GameController.instance.getCurrentSkill().Description="Ne peut etre utilisé qu'une fois par combat. Déjà utilisé";
+		GameController.instance.showMyPlayingSkills(target);
 	}
 	
 	public override bool isLaunchable(Skill s){

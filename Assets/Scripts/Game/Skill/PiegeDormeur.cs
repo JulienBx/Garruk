@@ -30,7 +30,7 @@ public class PiegeDormeur : GameSkill
 		int amount = GameController.instance.getCurrentSkill().ManaCost;
 		
 		GameController.instance.addTileModifier(new Tile(targets[0], targets[1]), amount, ModifierType.Type_SleepingTrap, ModifierStat.Stat_No, -1, 2, "Piège endormissant", "Endort l'adversaire. "+amount+"% de chances de se réveiller chaque tour", "Permanent. Non visible du joueur adverse");
-		GameController.instance.displaySkillEffect(targets[0], "Piège posé", 3, 2);
+		GameController.instance.displaySkillEffect(GameController.instance.currentPlayingCard, "Piège posé", 3, 2);
 	}
 	
 	public override void activateTrap(int[] targets, int[] args){
@@ -56,6 +56,6 @@ public class PiegeDormeur : GameSkill
 	}
 	
 	public override string getSuccessText(){
-		return "A lancé piège endormissant" ;
+		return "Piège posé" ;
 	}
 }

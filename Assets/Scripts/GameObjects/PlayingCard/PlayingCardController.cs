@@ -30,10 +30,12 @@ public class PlayingCardController : GameObjectController
 	public Tile tile ;
 
 	public GUIStyle[] styles ;
+	private bool isDisable; // variable pour le tutoriel
 
 	void Awake()
 	{
 		this.playingCardView = gameObject.AddComponent <PlayingCardView>();
+		this.isDisable = false;
 		this.isMovable = true;
 		this.isDead = false;
 		this.isSelected = false;
@@ -248,8 +250,11 @@ public class PlayingCardController : GameObjectController
 
 	public void addTarget()
 	{
-		this.playingCardView.playingCardVM.toDisplayHalo = false;
-		GameController.instance.targetPCCHandler.addTargetPCC(this.IDCharacter);
+		if(!this.isDisable)
+		{
+			this.playingCardView.playingCardVM.toDisplayHalo = false;
+			GameController.instance.targetPCCHandler.addTargetPCC(this.IDCharacter);
+		}
 	}
 
 	public void releaseClickPlayingCard()
@@ -347,7 +352,15 @@ public class PlayingCardController : GameObjectController
 	
 	public void kill()
 	{
-		GameController.instance.displayPopUpMessage(GameController.instance.getCard(this.IDCharacter).Title + " est mort", 3);
+		GameController.instance.displaySkillEffect(this.IDCharacter, "DEAD", 6, 1);
+		if (GameController.instance.currentPlayingCard==this.IDCharacter){
+			GameController.instance.resolvePass();
+		}
+		else{
+			GameController.instance.playingCards [GameController.instance.currentPlayingCard].GetComponentInChildren<PlayingCardController>().tile.setNeighbours(GameController.instance.getCharacterTilesArray(), GameController.instance.playingCards [GameController.instance.currentPlayingCard].GetComponentInChildren<PlayingCardController>().card.GetMove());
+			GameController.instance.setDestinations(GameController.instance.currentPlayingCard);
+		}
+		
 		this.isDead = true;
 		this.hasPlayed = true;
 		gameObject.renderer.enabled = false;
@@ -445,7 +458,7 @@ public class PlayingCardController : GameObjectController
 		return (!this.isDead && !this.card.isIntouchable());
 	}
 	
-	public void setTargetHalo(HaloTarget h)
+	public void setTargetHalo(HaloTarget h, bool isDisable=false)
 	{
 		this.playingCardView.playingCardVM.haloStyle.normal.background = this.halos [h.idImage];
 		this.playingCardView.playingCardVM.haloTexts = new List<string>();
@@ -457,11 +470,16 @@ public class PlayingCardController : GameObjectController
 			this.playingCardView.playingCardVM.haloStyles.Add(this.haloTextStyles [h.stylesID [i]]);
 		}
 		this.playingCardView.playingCardVM.toDisplayHalo = true;
+		if(isDisable)
+		{
+			this.isDisable=true;
+		}
 	}
 	
 	public void hideTargetHalo()
 	{
 		this.playingCardView.playingCardVM.toDisplayHalo = false;
+		this.isDisable = false;
 	}
 	
 	public void cancelSkill()
@@ -495,6 +513,10 @@ public class PlayingCardController : GameObjectController
 		transform.Find("LifeArea").renderer.enabled=true;
 		transform.Find("MoveArea").renderer.enabled=true;
 		transform.Find("AttackArea").renderer.enabled=true;
+	}
+	public void setIsDisable(bool value)
+	{
+		this.isDisable = value;
 	}
 }
 

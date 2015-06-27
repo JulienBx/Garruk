@@ -171,9 +171,25 @@ public class MyGameController : MonoBehaviour
 		}
 		else if(isTutorialLaunched)
 		{
-			if(this.tutorial.GetComponent<TutorialObjectController>().getSequenceID()==212)
+			if(this.tutorial.GetComponent<TutorialObjectController>().getSequenceID()==212 && name=="Card0")
 			{
 				StartCoroutine(this.moveCards(name));
+				this.tutorial.GetComponent<TutorialObjectController>().actionIsDone();
+			}
+			else if(this.tutorial.GetComponent<TutorialObjectController>().getSequenceID()==213 && name=="Card2")
+			{
+				StartCoroutine(this.moveCards(name));
+				this.tutorial.GetComponent<TutorialObjectController>().actionIsDone();
+			}
+			else if(this.tutorial.GetComponent<TutorialObjectController>().getSequenceID()==214 && name=="Card1")
+			{
+				StartCoroutine(this.moveCards(name));
+				this.tutorial.GetComponent<TutorialObjectController>().actionIsDone();
+			}
+			else if(this.tutorial.GetComponent<TutorialObjectController>().getSequenceID()==215 && name=="Card0")
+			{
+				StartCoroutine(this.moveCards(name));
+				this.tutorial.GetComponent<TutorialObjectController>().actionIsDone();
 			}
 		}
 	}
@@ -199,13 +215,6 @@ public class MyGameController : MonoBehaviour
 				model.cards[cardIndex].Decks.Add (model.decks[deckIndex].Id);
 				this.filterCards();
 				yield return StartCoroutine(model.decks[deckIndex].addCard(model.cards[cardIndex].Id,deckOrder));
-				if(this.isTutorialLaunched)
-				{
-					if(view.myGameDeckCardsVM.deckCardsToBeDisplayed.Count==ApplicationModel.nbCardsByDeck)
-					{
-						this.tutorial.GetComponent<TutorialObjectController>().setNextButtonDisplaying(true);
-					}
-				}
 			}
 			else if(model.cards[cardIndex].onSale==1)
 			{
@@ -230,13 +239,6 @@ public class MyGameController : MonoBehaviour
 			this.displayedDeckCards[System.Convert.ToInt32(name.Substring(4))].SetActive(false);
 			this.filterCards();
 			yield return StartCoroutine(model.decks[deckIndex].removeCard(model.cards[cardIndex].Id));
-			if(this.isTutorialLaunched)
-			{
-				if(view.myGameDeckCardsVM.deckCardsToBeDisplayed.Count<ApplicationModel.nbCardsByDeck)
-				{
-					this.tutorial.GetComponent<TutorialObjectController>().setNextButtonDisplaying(false);
-				}
-			}
 		}
 		yield break;
 	}

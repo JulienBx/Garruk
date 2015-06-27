@@ -9,7 +9,7 @@ public class HaloTarget
 
 	public HaloTarget(int i)
 	{
-		this.idImage = 0 ;
+		this.idImage = i ;
 		this.textsToDisplay = new List<string>();
 		this.stylesID = new List<int>();
 	}

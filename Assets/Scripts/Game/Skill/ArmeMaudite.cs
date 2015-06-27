@@ -36,7 +36,7 @@ public class ArmeMaudite : GameSkill
 	}
 	
 	public override void applyOn(int target, int arg){
-		GameController.instance.addCardModifier(target, -1*arg, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, -1, 5, "Arme maudite", "-"+arg+"ATK", "Permanent");
+		GameController.instance.addCardModifier(target, -1*arg, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, -1, 5, "Arme maudite", "-"+arg+" ATK", "Permanent");
 		GameController.instance.displaySkillEffect(target, "-"+arg+" ATK", 3, 0);
 	}
 	

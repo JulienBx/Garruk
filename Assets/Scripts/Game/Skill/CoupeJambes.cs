@@ -32,13 +32,13 @@ public class CoupeJambes : GameSkill
 		GameController.instance.play();
 	}
 	
-	public override void applyOn(int[] targets){
-		Card targetCard = GameController.instance.getCard(targets[0]);
+	public override void applyOn(int target){
+		Card targetCard = GameController.instance.getCard(target);
 		int bouclier = targetCard.GetBouclier();
 		int currentLife = targetCard.GetLife();
 		int damageBonusPercentage = GameController.instance.getCurrentCard().GetDamagesPercentageBonus(targetCard);
 		int manacost = GameController.instance.getCurrentSkill().ManaCost;
-		int deplacement = GameController.instance.getCard(targets[0]).GetMove();
+		int deplacement = GameController.instance.getCard(target).GetMove();
 		int bonusDeplacement = manacost*deplacement/100;
 		if (bonusDeplacement>deplacement){
 			bonusDeplacement = deplacement - 1 ;
@@ -47,9 +47,9 @@ public class CoupeJambes : GameSkill
 		int amount = attack*(100+damageBonusPercentage)/100;
 		amount = Mathf.Min(currentLife,amount-(bouclier*amount/100));
 		
-		GameController.instance.addCardModifier(targets[0], amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
-		GameController.instance.addCardModifier(targets[0], -1*bonusDeplacement, ModifierType.Type_BonusMalus, ModifierStat.Stat_Move, 1, 8, "Lenteur", "-"+bonusDeplacement+" MOV", "Actif 1 tour");
-		GameController.instance.displaySkillEffect(targets[0], "-"+amount+" PV\n-"+bonusDeplacement+" MOV", 3, 1);
+		GameController.instance.addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
+		GameController.instance.addCardModifier(target, -1*bonusDeplacement, ModifierType.Type_BonusMalus, ModifierStat.Stat_Move, 1, 8, "Lenteur", "-"+bonusDeplacement+" MOV", "Actif 1 tour");
+		GameController.instance.displaySkillEffect(target, "-"+amount+" PV\n-"+bonusDeplacement+" MOV", 3, 1);
 	}
 	
 	public override void failedToCastOn(int target, int indexFailure){

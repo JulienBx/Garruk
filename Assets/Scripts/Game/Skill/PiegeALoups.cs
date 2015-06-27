@@ -53,6 +53,6 @@ public class PiegeALoups : GameSkill
 	}
 	
 	public override string getSuccessText(){
-		return "A lancé piège à loups" ;
+		return "Piège posé" ;
 	}
 }

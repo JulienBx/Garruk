@@ -18,7 +18,7 @@ public class Assassinat : GameSkill
 	{	
 		GameController.instance.startPlayingSkill();
 		int target = targetsPCC[0];
-		int successType = 1 ;
+		int successType = 0 ;
 		
 		int successChances = GameController.instance.getCurrentSkill().ManaCost;
 		
@@ -27,7 +27,7 @@ public class Assassinat : GameSkill
 			if (Random.Range(1,101) <= successChances)
 			{ 
 				GameController.instance.applyOn(target);
-				successType = 0 ;
+				successType = 1 ;
 			}
 			else{
 				GameController.instance.failedToCastOnSkill(target, 2);

@@ -36,7 +36,7 @@ public class Renforcement : GameSkill
 	public override void applyOn(int target){
 		int amount = GameController.instance.getCurrentSkill().ManaCost;
 		GameController.instance.addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, 1, 9, "Renforcement", "+"+amount+"ATK", "Actif 1 tour");
-		GameController.instance.displaySkillEffect(target, "+"+amount+"ATK", 5, 0);
+		GameController.instance.displaySkillEffect(target, "+"+amount+" ATK", 5, 0);
 	}
 	
 	public override void failedToCastOn(int target, int indexFailure){

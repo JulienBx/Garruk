@@ -32,27 +32,28 @@ public class AttaqueFrontale : GameSkill
 		GameController.instance.play();
 	}
 	
-	public override void applyOn(int[] targets){
-		Card targetCard = GameController.instance.getCard(targets[0]);
+	public override void applyOn(int target){
+		Card targetCard = GameController.instance.getCard(target);
 		int myCurrentLife = GameController.instance.getCurrentCard().GetLife();
 		int currentLife = targetCard.GetLife();
 		
 		int myBouclier = GameController.instance.getCurrentCard().GetBouclier();
 		int bouclier = targetCard.GetBouclier();
 		
-		int myAttack = GameController.instance.getCurrentSkill().ManaCost;
+		int amount = GameController.instance.getCurrentCard().GetAttack()*150/100;
 		
 		int damageBonusPercentage = GameController.instance.getCurrentCard().GetDamagesPercentageBonus(targetCard);
-		int amount = myAttack*(100+damageBonusPercentage)/100;
 		amount = Mathf.Min(currentLife,amount-(bouclier*amount/100));
 		damageBonusPercentage = GameController.instance.getCurrentCard().GetDamagesPercentageBonus(GameController.instance.getCurrentCard());
-		int myAmount = (myAttack/2)*(100+damageBonusPercentage)/100;
+		
+		int myAttack = GameController.instance.getCurrentSkill().ManaCost;
+		int myAmount = (myAttack)*(100+damageBonusPercentage)/100;
 		myAmount = Mathf.Min(currentLife,myAmount-(myBouclier*myAmount/100));
 		
-		GameController.instance.addCardModifier(targets[0], amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
+		GameController.instance.addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
 		GameController.instance.addCardModifier(GameController.instance.currentPlayingCard, myAmount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
 		
-		GameController.instance.displaySkillEffect(targets[0], "-"+amount+" PV", 3, 1);
+		GameController.instance.displaySkillEffect(target, "-"+amount+" PV", 3, 1);
 		GameController.instance.displaySkillEffect(GameController.instance.currentPlayingCard, "- "+myAmount+" PV", 3, 1);
 	}
 	
@@ -75,14 +76,15 @@ public class AttaqueFrontale : GameSkill
 		int myBouclier = GameController.instance.getCurrentCard().GetBouclier();
 		int bouclier = c.GetBouclier();
 		
-		int myAttack = GameController.instance.getCurrentSkill().ManaCost;
+		int amount = GameController.instance.getCurrentCard().GetAttack()*150/100;
 		
 		int damageBonusPercentage = GameController.instance.getCurrentCard().GetDamagesPercentageBonus(c);
-		int amount = myAttack*(100+damageBonusPercentage)/100;
 		amount = Mathf.Min(currentLife,amount-(bouclier*amount/100));
 		damageBonusPercentage = GameController.instance.getCurrentCard().GetDamagesPercentageBonus(GameController.instance.getCurrentCard());
-		int myAmount = (myAttack/2)*(100+damageBonusPercentage)/100;
-		myAmount = Mathf.Min(currentLife,amount-(myBouclier*amount/100));
+		
+		int myAttack = GameController.instance.getCurrentSkill().ManaCost;
+		int myAmount = (myAttack)*(100+damageBonusPercentage)/100;
+		myAmount = Mathf.Min(currentLife,myAmount-(myBouclier*myAmount/100));
 		
 		h.addInfo("-"+amount+" PV",0);
 		

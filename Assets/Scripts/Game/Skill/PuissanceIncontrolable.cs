@@ -15,55 +15,46 @@ public class PuissanceIncontrolable : GameSkill
 	
 	public override void resolve(List<int> targetsPCC)
 	{	
-		int[] targets = new int[1];
 		GameController.instance.startPlayingSkill();
-		int debut = 0 ; 
-	
-		int index = Random.Range(0,GameController.instance.nbMyPlayersAlive()+GameController.instance.nbOtherPlayersAlive());
-		Debug.Log(index);
-		int compteurDead = 0;
-		bool hasFound = false;
-		while (!hasFound && debut<20){
-			if (!GameController.instance.getPCC(debut).isDead){
-				if(compteurDead==index){
-					targets[0] = debut;
-					hasFound = true ;
-				}
-				else{
-					compteurDead++;
-				}
+		int success = 0 ;
+		
+		List<int> aliveCharacters = new List<int>();
+		for (int i = 0 ; i < GameController.instance.playingCards.Length ; i++){
+			if (!GameController.instance.getPCC(i).isDead){
+				aliveCharacters.Add(i);
 			}
-			debut++;
 		}
 		
-		if (Random.Range(1,101) > GameController.instance.getCard(targets[0]).GetEsquive())
-		{ 
-			GameController.instance.applyOn(targets);
+		int target = aliveCharacters[Random.Range(0, aliveCharacters.Count)];
+		
+		if (Random.Range(1,101) > GameController.instance.getCard(target).GetMagicalEsquive())
+		{                             
+			GameController.instance.applyOn(target);
+			success = 1 ;
 		}
 		else{
-			//GameController.instance.failedToCastOnSkill(targets);
+			GameController.instance.failedToCastOnSkill(target, 1);
 		}
 		
-		//GameController.instance.playSkill();
+		GameController.instance.playSkill(success);
 		GameController.instance.play();
+	
 	}
 	
-	public override void applyOn(int[] targets){
+	public override void applyOn(int target){
 		
-		Card targetCard = GameController.instance.getCard(targets[0]);
+		Card targetCard = GameController.instance.getCard(target);
 		int currentLife = targetCard.GetLife();
 		int amount = GameController.instance.getCurrentSkill().ManaCost;
 		amount = Mathf.Min(currentLife,amount);
 		
-		GameController.instance.addCardModifier(targets[0], amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
+		GameController.instance.addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
 		
-		GameController.instance.displaySkillEffect(targets[0], "Inflige "+amount+" dégats", 3, 1);
+		GameController.instance.displaySkillEffect(target, "-"+amount+" PV", 3, 1);
 	}
 	
-	public override void failedToCastOn(int[] targets, int[] args){
-		for (int i = 0 ; i < targets.Length ; i++){
-			GameController.instance.displaySkillEffect(targets[i], "Echec", 3, 1);
-		}
+	public override void failedToCastOn(int target, int indexFailure){
+		GameController.instance.displaySkillEffect(target, GameController.instance.castFailures.getFailure(indexFailure), 5, 1);
 	}
 	
 	public override bool isLaunchable(Skill s){
@@ -71,6 +62,10 @@ public class PuissanceIncontrolable : GameSkill
 	}
 	
 	public override string getSuccessText(){
-		return "Puissance incontrolable" ;
+		return "A lancé puissance incontrolable" ;
+	}
+	
+	public override string getFailureText(){
+		return "Puissance incontrolable a échoué" ;
 	}
 }
