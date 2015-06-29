@@ -8,7 +8,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 480340}
-  - 114: {fileID: 11480340}
+  - 114: {fileID: 11491356}
   m_Layer: 0
   m_Name: TutorialObject
   m_TagString: Untagged
@@ -28,7 +28,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!114 &11480340
+--- !u!114 &11491356
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -36,48 +36,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 180340}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 13a2a688bd6014e19bec55a65bde1ad8, type: 3}
+  m_Script: {fileID: 11500000, guid: 564412f17b5b447debade0a7526a709c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   styles: {fileID: 11400000, guid: dc8983bf5aa2d48ee937d0aaaa292488, type: 2}
-  titles:
-  - Bienvenue
-  - Vite des cartes !
-  - Vos cartes
-  - Zoom sur une carte
-  - Comprendre le visuel d'une carte
-  - Comprendre le visuel d'une carte
-  - Comprendre le visuel d'une carte
-  - Comprendre le visuel d'une carte
-  - Comprendre le visuel d'une carte
-  - Comprendre le visuel d'une carte
-  - Comprendre le visuel d'une carte
-  - Comprendre le visuel d'une carte
-  - Comprendre le visuel d'une carte
-  - Comprendre le visuel d'une carte
-  - Comprendre le visuel d'une carte
-  descriptions:
-  - "Vous \xEAtes ici sur la page d'accueil. Derni\xE8res cartes vendues, actualit\xE9s
-    des amis, comp\xE9titions en cours ou bien cartes en vente \xE0 la boutique, vous
-    avez tout ici en un clin d'oeil !"
-  - "Nous allons commencer par d\xE9couvrir vos cartes. "
-  - "Dans cet espaces vous allez pouvoir g\xE9rer vos cartes et cr\xE9er vos desck
-    que vous utiliserez en cours de match."
-  - Pour examiner une carte, cliquez avec le bouton droit de la souris sur son visuel.
-  - "Une carte comprend un certain nombre d'\xE9l\xE9ments que nous allons d\xE9tailler
-    maintenant."
-  - "La zone sup\xE9rieure droite de la carte donne son nombre de points de vie. Ces
-    points varient au cours du combat en fonction des d\xE9g\xE2ts qui sont afflig\xE9s
-    \xE0 la cr\xE9ature. Lorsque ces points atteignent 0, la cr\xE9ature meurt."
-  - "a compl\xE9ter"
-  - "a compl\xE9ter"
-  - "a compl\xE9ter"
-  - "a compl\xE9ter"
-  - "a compl\xE9ter"
-  - "a compl\xE9ter"
-  - "a compl\xE9ter"
-  - "a compl\xE9ter"
-  - "a compl\xE9ter"
   arrowTextures:
   - {fileID: 2800000, guid: 7f899140a207640aba075bb2b482956e, type: 3}
   - {fileID: 2800000, guid: 9af7566703ce741369dc24c9a3c9baa3, type: 3}

@@ -67,7 +67,8 @@ public class MarketController : MonoBehaviour
 		{
 			this.tutorial = Instantiate(this.TutorialObject) as GameObject;
 			MenuObject.GetComponent<MenuController>().setTutorialLaunched(true);
-			this.tutorial.GetComponent<TutorialObjectController>().launchSequence(500);
+			this.tutorial.AddComponent<MarketTutorialController>();
+			this.tutorial.GetComponent<MarketTutorialController>().launchSequence(0);
 			this.isTutorialLaunched=true;
 		}
 	}
@@ -80,7 +81,7 @@ public class MarketController : MonoBehaviour
 		view.marketVM.displayView = true;
 		if(isTutorialLaunched)
 		{
-			tutorial.GetComponent<TutorialObjectController>().resize();
+			tutorial.GetComponent<MarketTutorialController>().resize();
 		}
 	}
 	private void initVM()

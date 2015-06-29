@@ -177,8 +177,19 @@ public class EndSceneController : MonoBehaviour
 		this.xpDrawn++;
 		if(xpDrawn==this.cards.Length)
 		{
-			view.endSceneVM.guiEnabled=true;
+			if(GameController.instance.getIsTutorialLaunched())
+			{
+				GameController.instance.callTutorial();
+			}
+			else
+			{
+				this.setGUI(true);
+			}
 		}
+	}
+	public void setGUI(bool value)
+	{
+		view.endSceneVM.guiEnabled=value;
 	}
 	public void initStyles()
 	{
@@ -218,7 +229,14 @@ public class EndSceneController : MonoBehaviour
 	public void quitEndScene()
 	{
 		GameController.instance.disconnect ();
-		Application.LoadLevel("EndGame");
+		if(GameController.instance.getIsTutorialLaunched())
+		{
+			StartCoroutine(GameController.instance.endTutorial());
+		}
+		else
+		{
+			Application.LoadLevel("EndGame");
+		}
 	}
 }
 

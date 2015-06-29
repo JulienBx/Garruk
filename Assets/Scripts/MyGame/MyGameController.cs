@@ -83,7 +83,8 @@ public class MyGameController : MonoBehaviour
 		{
 			this.tutorial = Instantiate(this.TutorialObject) as GameObject;
 			MenuObject.GetComponent<MenuController>().setTutorialLaunched(true);
-			this.tutorial.GetComponent<TutorialObjectController>().launchSequence(200);
+			this.tutorial.AddComponent<MyGameTutorialController>();
+			this.tutorial.GetComponent<MyGameTutorialController>().launchSequence(0);
 			this.isTutorialLaunched=true;
 		}
 	}
@@ -98,7 +99,7 @@ public class MyGameController : MonoBehaviour
 		}
 		if(isTutorialLaunched)
 		{
-			tutorial.GetComponent<TutorialObjectController>().resize();
+			tutorial.GetComponent<MyGameTutorialController>().resize();
 		}
 	}
 	public void loadDeckCards()
@@ -171,25 +172,25 @@ public class MyGameController : MonoBehaviour
 		}
 		else if(isTutorialLaunched)
 		{
-			if(this.tutorial.GetComponent<TutorialObjectController>().getSequenceID()==212 && name=="Card0")
+			if(this.tutorial.GetComponent<MyGameTutorialController>().getSequenceID()==12 && name=="Card0")
 			{
 				StartCoroutine(this.moveCards(name));
-				this.tutorial.GetComponent<TutorialObjectController>().actionIsDone();
+				this.tutorial.GetComponent<MyGameTutorialController>().actionIsDone();
 			}
-			else if(this.tutorial.GetComponent<TutorialObjectController>().getSequenceID()==213 && name=="Card2")
+			else if(this.tutorial.GetComponent<MyGameTutorialController>().getSequenceID()==13 && name=="Card2")
 			{
 				StartCoroutine(this.moveCards(name));
-				this.tutorial.GetComponent<TutorialObjectController>().actionIsDone();
+				this.tutorial.GetComponent<MyGameTutorialController>().actionIsDone();
 			}
-			else if(this.tutorial.GetComponent<TutorialObjectController>().getSequenceID()==214 && name=="Card1")
+			else if(this.tutorial.GetComponent<MyGameTutorialController>().getSequenceID()==14 && name=="Card1")
 			{
 				StartCoroutine(this.moveCards(name));
-				this.tutorial.GetComponent<TutorialObjectController>().actionIsDone();
+				this.tutorial.GetComponent<MyGameTutorialController>().actionIsDone();
 			}
-			else if(this.tutorial.GetComponent<TutorialObjectController>().getSequenceID()==215 && name=="Card0")
+			else if(this.tutorial.GetComponent<MyGameTutorialController>().getSequenceID()==15 && name=="Card0")
 			{
 				StartCoroutine(this.moveCards(name));
-				this.tutorial.GetComponent<TutorialObjectController>().actionIsDone();
+				this.tutorial.GetComponent<MyGameTutorialController>().actionIsDone();
 			}
 		}
 	}
@@ -293,11 +294,11 @@ public class MyGameController : MonoBehaviour
 		}
 		else if(isTutorialLaunched && !this.isFocus)
 		{
-			if(name.Substring(4)=="3" && this.tutorial.GetComponent<TutorialObjectController>().getSequenceID()==201)
+			if(name.Substring(4)=="3" && this.tutorial.GetComponent<MyGameTutorialController>().getSequenceID()==1)
 			{
 				this.focus (name);
 				this.cardFocused.GetComponent<CardMyGameController>().setIsTutorialLaunched(true);
-				this.tutorial.GetComponent<TutorialObjectController>().actionIsDone();
+				this.tutorial.GetComponent<MyGameTutorialController>().actionIsDone();
 			}
 		}
 	}
@@ -463,7 +464,7 @@ public class MyGameController : MonoBehaviour
 			this.hideNewDeckPopUp();
 			if(this.isTutorialLaunched)
 			{
-				this.tutorial.GetComponent<TutorialObjectController>().actionIsDone();
+				this.tutorial.GetComponent<MyGameTutorialController>().actionIsDone();
 			}
 		}
 	}
@@ -697,7 +698,7 @@ public class MyGameController : MonoBehaviour
 	{
 		if(this.isTutorialLaunched)
 		{
-			if(this.tutorial.GetComponent<TutorialObjectController>().getSequenceID()!=209)
+			if(this.tutorial.GetComponent<MyGameTutorialController>().getSequenceID()!=9)
 			{
 				view.myGameVM.guiEnabled = value;
 				if(this.cardFocused!=null)
@@ -1931,12 +1932,12 @@ public class MyGameController : MonoBehaviour
 	}
 	public void tutorialCardUpgrated()
 	{
-		this.tutorial.GetComponent<TutorialObjectController> ().actionIsDone ();
+		this.tutorial.GetComponent<MyGameTutorialController> ().actionIsDone ();
 	}
 	public void tutorialCardLeaved()
 	{
 		this.cardFocused.GetComponent<CardMyGameController>().setIsTutorialLaunched(false);
-		this.tutorial.GetComponent<TutorialObjectController> ().actionIsDone ();
+		this.tutorial.GetComponent<MyGameTutorialController> ().actionIsDone ();
 	}
 	public IEnumerator endTutorial()
 	{

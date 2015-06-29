@@ -146,7 +146,8 @@ public class GameController : Photon.MonoBehaviour
 		if (ApplicationModel.launchGameTutorial)
 		{
 			this.tutorial = Instantiate(this.TutorialObject) as GameObject;
-			this.tutorial.GetComponent<TutorialObjectController>().launchSequence(1300);
+			this.tutorial.AddComponent<GameTutorialController>();
+			this.tutorial.GetComponent<GameTutorialController>().launchSequence(0);
 			this.isTutorialLaunched = true;
 		}
 		PhotonNetwork.ConnectUsingSettings(ApplicationModel.photonSettings);
@@ -228,7 +229,7 @@ public class GameController : Photon.MonoBehaviour
 		}
 		if (this.isTutorialLaunched)
 		{
-			this.tutorial.GetComponent<TutorialObjectController>().resize();
+			this.tutorial.GetComponent<GameTutorialController>().resize();
 		}
 	}
 
@@ -1207,7 +1208,7 @@ public class GameController : Photon.MonoBehaviour
 		}
 		if (this.isTutorialLaunched)
 		{
-			this.tutorial.GetComponent<TutorialObjectController>().actionIsDone();
+			this.tutorial.GetComponent<GameTutorialController>().actionIsDone();
 		}
 	}
 
@@ -1237,7 +1238,7 @@ public class GameController : Photon.MonoBehaviour
 				photonView.RPC("moveCharacterRPC", PhotonTargets.AllBuffered, x, y, this.currentPlayingCard, this.isFirstPlayer, false);
 				if (isTutorialLaunched)
 				{
-					this.tutorial.GetComponent<TutorialObjectController>().actionIsDone();
+					this.tutorial.GetComponent<GameTutorialController>().actionIsDone();
 				}
 			}
 		}
@@ -1269,7 +1270,7 @@ public class GameController : Photon.MonoBehaviour
 		}
 		if (isTutorialLaunched)
 		{
-			this.tutorial.GetComponent<TutorialObjectController>().actionIsDone();
+			this.tutorial.GetComponent<GameTutorialController>().actionIsDone();
 		}
 	}
 
@@ -1540,7 +1541,7 @@ public class GameController : Photon.MonoBehaviour
 		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_nick1", user1); 	                    // Pseudo de l'utilisateur victorieux
 		form.AddField("myform_nick2", user2); 	                    // Pseudo de l'autre utilisateur
-		form.AddField("myform_gametype", ApplicationModel.gameType);		
+		form.AddField("myform_gametype", ApplicationModel.gameType);
 
 		WWW w = new WWW(URLStat, form); 							// On envoie le formulaire à l'url sur le serveur 
 		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
@@ -1697,7 +1698,7 @@ public class GameController : Photon.MonoBehaviour
 						this.tiles [j, i].GetComponent<TileController>().setGreyBorder(true);
 					}
 				}
-				this.tutorial.GetComponent<TutorialObjectController>().setNextButtonDisplaying(true);
+				this.tutorial.GetComponent<GameTutorialController>().setNextButtonDisplaying(true);
 			} else
 			{
 				for (int i = this.boardHeight-1; i > this.boardHeight-1-this.nbFreeStartRows; i--)
@@ -1795,7 +1796,7 @@ public class GameController : Photon.MonoBehaviour
 		if (isTutorialLaunched)
 		{
 			photonView.RPC("playerReadyRPC", PhotonTargets.AllBuffered, !this.isFirstPlayer);
-			this.tutorial.GetComponent<TutorialObjectController>().actionIsDone();
+			this.tutorial.GetComponent<GameTutorialController>().actionIsDone();
 		}
 	}
 
@@ -2153,14 +2154,23 @@ public class GameController : Photon.MonoBehaviour
 	
 	public IEnumerator quitGame()
 	{
-		if (isFirstPlayer)
-		{
-			yield return (StartCoroutine(this.sendStat(this.users [1].Username, this.users [0].Username)));
-		} else
+		if(isTutorialLaunched)
 		{
 			yield return (StartCoroutine(this.sendStat(this.users [0].Username, this.users [1].Username)));
+			photonView.RPC("quitGameRPC", PhotonTargets.AllBuffered, false);
 		}
-		photonView.RPC("quitGameRPC", PhotonTargets.AllBuffered, this.isFirstPlayer);
+		else
+		{
+			if(isFirstPlayer)
+			{
+				yield return (StartCoroutine(this.sendStat(this.users [1].Username, this.users [0].Username)));
+			} 
+			else
+			{
+				yield return (StartCoroutine(this.sendStat(this.users [0].Username, this.users [1].Username)));
+			}
+			photonView.RPC("quitGameRPC", PhotonTargets.AllBuffered, this.isFirstPlayer);
+		}
 	}
 	
 	[RPC]
@@ -3057,6 +3067,13 @@ public class GameController : Photon.MonoBehaviour
 			this.skillsObjects [i].GetComponent<SkillObjectController>().setControlActive(false);
 		}
 	}
+	public void setAllSkillObjects(bool value)
+	{
+		for (int i=0; i<this.skillsObjects.Length; i++)
+		{
+			this.skillsObjects [i].GetComponent<SkillObjectController>().setActive(value);
+		}
+	}
 	public void activeSingleSkillObjects(int index)
 	{
 		this.skillsObjects [index].GetComponent<SkillObjectController>().setControlActive(true);
@@ -3078,8 +3095,24 @@ public class GameController : Photon.MonoBehaviour
 	{
 		if (isTutorialLaunched)
 		{
-			this.tutorial.GetComponent<TutorialObjectController>().actionIsDone();
+			this.tutorial.GetComponent<GameTutorialController>().actionIsDone();
 		}
 	}
+	public bool getIsTutorialLaunched()
+	{
+		return this.isTutorialLaunched;
+	}
+	public void setEndSceneControllerGUI(bool value)
+	{
+		EndSceneController.instance.setGUI (value);
+	}
+	public IEnumerator endTutorial()
+	{
+		this.setEndSceneControllerGUI (false);
+		yield return StartCoroutine (this.users[0].setTutorialStep (5));
+		ApplicationModel.launchGameTutorial = false;
+		Application.LoadLevel ("EndGame");
+	}
+	
 }
 
