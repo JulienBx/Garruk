@@ -428,6 +428,7 @@ public class StoreController : MonoBehaviour
 		}
 		this.collectionPointsPopUpView = Camera.main.gameObject.AddComponent <StoreCollectionPointsPopUpView>();
 		collectionPointsPopUpView.storeCollectionPointsPopUpVM.collectionPoints = model.packList [this.selectedPackIndex].CollectionPoints;
+		collectionPointsPopUpView.storeCollectionPointsPopUpVM.collectionPointsRanking = model.packList [this.selectedPackIndex].CollectionPointsRanking;
 		collectionPointsPopUpView.storeCollectionPointsPopUpVM.styles=new GUIStyle[this.popUpCollectionVMStyle.Length];
 		for(int i=0;i<this.popUpCollectionVMStyle.Length;i++)
 		{

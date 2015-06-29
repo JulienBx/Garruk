@@ -55,15 +55,18 @@ public class HomePageView : MonoBehaviour
 					}
 				}
 				GUILayout.Space(homepageScreenVM.widthScreen*0.01f);
-				for (int i = notificationsVM.pageDebut ; i < notificationsVM.pageFin ; i++)
+				if(notificationsVM.pageFin>1)
 				{
-					if (GUILayout.Button(""+(i+1),notificationsVM.paginatorGuiStyle[i],
-					                     GUILayout.Height(homepageScreenVM.heightScreen*3/100),
-					                     GUILayout.Width (homepageScreenVM.widthScreen*2/100)))
+					for (int i = notificationsVM.pageDebut ; i < notificationsVM.pageFin ; i++)
 					{
-						HomePageController.instance.notificationsPaginationSelect(i);
+						if (GUILayout.Button(""+(i+1),notificationsVM.paginatorGuiStyle[i],
+						                     GUILayout.Height(homepageScreenVM.heightScreen*3/100),
+						                     GUILayout.Width (homepageScreenVM.widthScreen*2/100)))
+						{
+							HomePageController.instance.notificationsPaginationSelect(i);
+						}
+						GUILayout.Space(homepageScreenVM.widthScreen*0.01f);
 					}
-					GUILayout.Space(homepageScreenVM.widthScreen*0.01f);
 				}
 				if (notificationsVM.nbPages>notificationsVM.pageFin)
 				{
@@ -172,15 +175,18 @@ public class HomePageView : MonoBehaviour
 					}
 				}
 				GUILayout.Space(homepageScreenVM.widthScreen*0.01f);
-				for (int i = newsVM.pageDebut ; i < newsVM.pageFin ; i++)
+				if(newsVM.pageFin>1)
 				{
-					if (GUILayout.Button(""+(i+1),newsVM.paginatorGuiStyle[i],
-					                     GUILayout.Height(homepageScreenVM.heightScreen*3/100),
-					                     GUILayout.Width (homepageScreenVM.widthScreen*2/100)))
+					for (int i = newsVM.pageDebut ; i < newsVM.pageFin ; i++)
 					{
-						HomePageController.instance.newsPaginationSelect(i);
+						if (GUILayout.Button(""+(i+1),newsVM.paginatorGuiStyle[i],
+						                     GUILayout.Height(homepageScreenVM.heightScreen*3/100),
+						                     GUILayout.Width (homepageScreenVM.widthScreen*2/100)))
+						{
+							HomePageController.instance.newsPaginationSelect(i);
+						}
+						GUILayout.Space(homepageScreenVM.widthScreen*0.01f);
 					}
-					GUILayout.Space(homepageScreenVM.widthScreen*0.01f);
 				}
 				if (newsVM.nbPages>newsVM.pageFin)
 				{

@@ -152,15 +152,18 @@ public class ProfileView : MonoBehaviour
 						}
 					}
 					GUILayout.Space(profileScreenVM.widthScreen*0.01f);
-					for (int i = myFriendsVM.pageDebut ; i < myFriendsVM.pageFin ; i++)
+					if(myFriendsVM.pageFin>1)
 					{
-						if (GUILayout.Button(""+(i+1),myFriendsVM.paginatorGuiStyle[i],
-					                     GUILayout.Height(profileScreenVM.heightScreen*3/100),
-					                     GUILayout.Width (profileScreenVM.widthScreen*2/100)))
+						for (int i = myFriendsVM.pageDebut ; i < myFriendsVM.pageFin ; i++)
 						{
-							ProfileController.instance.pagination(0,1,i);
+							if (GUILayout.Button(""+(i+1),myFriendsVM.paginatorGuiStyle[i],
+						                     GUILayout.Height(profileScreenVM.heightScreen*3/100),
+						                     GUILayout.Width (profileScreenVM.widthScreen*2/100)))
+							{
+								ProfileController.instance.pagination(0,1,i);
+							}
+								GUILayout.Space(profileScreenVM.widthScreen*0.01f);
 						}
-							GUILayout.Space(profileScreenVM.widthScreen*0.01f);
 					}
 					if (myFriendsVM.nbPages>myFriendsVM.pageFin)
 					{
@@ -258,15 +261,18 @@ public class ProfileView : MonoBehaviour
 							}
 						}
 						GUILayout.Space(profileScreenVM.widthScreen*0.01f);
-						for (int i = invitationsSentVM.pageDebut ; i < invitationsSentVM.pageFin ; i++)
+						if(invitationsSentVM.pageFin>1)
 						{
-							if (GUILayout.Button(""+(i+1),invitationsSentVM.paginatorGuiStyle[i],
-						                     GUILayout.Height(profileScreenVM.heightScreen*3/100),
-						                     GUILayout.Width (profileScreenVM.widthScreen*2/100)))
+							for (int i = invitationsSentVM.pageDebut ; i < invitationsSentVM.pageFin ; i++)
 							{
-								ProfileController.instance.pagination(1,1,i);
+								if (GUILayout.Button(""+(i+1),invitationsSentVM.paginatorGuiStyle[i],
+							                     GUILayout.Height(profileScreenVM.heightScreen*3/100),
+							                     GUILayout.Width (profileScreenVM.widthScreen*2/100)))
+								{
+									ProfileController.instance.pagination(1,1,i);
+								}
+									GUILayout.Space(profileScreenVM.widthScreen*0.01f);
 							}
-								GUILayout.Space(profileScreenVM.widthScreen*0.01f);
 						}
 						if (invitationsSentVM.nbPages>invitationsSentVM.pageFin)
 						{
@@ -362,15 +368,18 @@ public class ProfileView : MonoBehaviour
 							}
 						}
 						GUILayout.Space(profileScreenVM.widthScreen*0.01f);
-						for (int i = invitationsReceivedVM.pageDebut ; i < invitationsReceivedVM.pageFin ; i++)
+						if(invitationsReceivedVM.pageFin>1)
 						{
-							if (GUILayout.Button(""+(i+1),invitationsReceivedVM.paginatorGuiStyle[i],
-							                     GUILayout.Height(profileScreenVM.heightScreen*3/100),
-							                     GUILayout.Width (profileScreenVM.widthScreen*2/100)))
+							for (int i = invitationsReceivedVM.pageDebut ; i < invitationsReceivedVM.pageFin ; i++)
 							{
-								ProfileController.instance.pagination(2,1,i);
+								if (GUILayout.Button(""+(i+1),invitationsReceivedVM.paginatorGuiStyle[i],
+								                     GUILayout.Height(profileScreenVM.heightScreen*3/100),
+								                     GUILayout.Width (profileScreenVM.widthScreen*2/100)))
+								{
+									ProfileController.instance.pagination(2,1,i);
+								}
+								GUILayout.Space(profileScreenVM.widthScreen*0.01f);
 							}
-							GUILayout.Space(profileScreenVM.widthScreen*0.01f);
 						}
 						if (invitationsReceivedVM.nbPages>invitationsReceivedVM.pageFin)
 						{
@@ -573,15 +582,18 @@ public class ProfileView : MonoBehaviour
 						}
 					}
 					GUILayout.Space(profileScreenVM.widthScreen*0.01f);
-					for (int i = myTrophiesVM.pageDebut ; i < myTrophiesVM.pageFin ; i++)
+					if(myTrophiesVM.pageFin>1)
 					{
-						if (GUILayout.Button(""+(i+1),myTrophiesVM.paginatorGuiStyle[i],
-						                     GUILayout.Height(profileScreenVM.heightScreen*3/100),
-						                     GUILayout.Width (profileScreenVM.widthScreen*2/100)))
+						for (int i = myTrophiesVM.pageDebut ; i < myTrophiesVM.pageFin ; i++)
 						{
-							ProfileController.instance.pagination (3,1,i);
+							if (GUILayout.Button(""+(i+1),myTrophiesVM.paginatorGuiStyle[i],
+							                     GUILayout.Height(profileScreenVM.heightScreen*3/100),
+							                     GUILayout.Width (profileScreenVM.widthScreen*2/100)))
+							{
+								ProfileController.instance.pagination (3,1,i);
+							}
+							GUILayout.Space(profileScreenVM.widthScreen*0.01f);
 						}
-						GUILayout.Space(profileScreenVM.widthScreen*0.01f);
 					}
 					if (myTrophiesVM.nbPages>myTrophiesVM.pageFin)
 					{

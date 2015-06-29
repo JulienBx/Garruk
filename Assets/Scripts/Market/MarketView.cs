@@ -94,15 +94,18 @@ public class MarketView : MonoBehaviour
 						}
 					}
 					GUILayout.Space(marketScreenVM.widthScreen*0.01f);
-					for (int i = marketCardsVM.pageDebut ; i < marketCardsVM.pageFin ; i++)
+					if(marketCardsVM.pageFin>1)
 					{
-						if (GUILayout.Button(""+(i+1),marketCardsVM.paginatorGuiStyle[i]
-						                     ,GUILayout.Height(marketScreenVM.heightScreen*3/100)
-						                     ,GUILayout.Width(marketScreenVM.widthScreen*2/100)))
+						for (int i = marketCardsVM.pageDebut ; i < marketCardsVM.pageFin ; i++)
 						{
-							MarketController.instance.paginationSelect(i);
+							if (GUILayout.Button(""+(i+1),marketCardsVM.paginatorGuiStyle[i]
+							                     ,GUILayout.Height(marketScreenVM.heightScreen*3/100)
+							                     ,GUILayout.Width(marketScreenVM.widthScreen*2/100)))
+							{
+								MarketController.instance.paginationSelect(i);
+							}
+							GUILayout.Space(marketScreenVM.widthScreen*0.01f);
 						}
-						GUILayout.Space(marketScreenVM.widthScreen*0.01f);
 					}
 					if (marketCardsVM.nbPages>marketCardsVM.pageFin)
 					{
@@ -242,7 +245,7 @@ public class MarketView : MonoBehaviour
 					
 					GUILayout.BeginHorizontal();
 					{
-						GUILayout.Label ("Filtrer par Mouvement",marketFiltersVM.filterTitleStyle);
+						GUILayout.Label ("Filtrer par Rapidité",marketFiltersVM.filterTitleStyle);
 						GUILayout.FlexibleSpace();
 						if(GUILayout.Button ("^",marketFiltersVM.sortButtonStyle[6],GUILayout.Width(marketScreenVM.blockRightWidth*7/100))) 
 						{
@@ -252,34 +255,6 @@ public class MarketView : MonoBehaviour
 						if(GUILayout.Button ("v",marketFiltersVM.sortButtonStyle[7],GUILayout.Width(marketScreenVM.blockRightWidth*7/100))) 
 						{
 							MarketController.instance.sortCards(7);
-						}
-					}
-					GUILayout.EndHorizontal();
-					GUILayout.Space(-1);
-					GUILayout.BeginHorizontal();
-					{
-						GUILayout.Label ("Min:"+ Mathf.Round(marketFiltersVM.minMoveVal),marketFiltersVM.smallPoliceStyle);
-						GUILayout.FlexibleSpace();
-						GUILayout.Label ("Max:"+ Mathf.Round(marketFiltersVM.maxMoveVal),marketFiltersVM.smallPoliceStyle);
-					}
-					GUILayout.EndHorizontal();
-					GUILayout.Space(-5);
-					MyGUI.MinMaxSlider (ref marketFiltersVM.minMoveVal, ref marketFiltersVM.maxMoveVal, marketFiltersVM.minMoveLimit, marketFiltersVM.maxMoveLimit);
-					
-					GUILayout.FlexibleSpace();
-					
-					GUILayout.BeginHorizontal();
-					{
-						GUILayout.Label ("Filtrer par Rapidité",marketFiltersVM.filterTitleStyle);
-						GUILayout.FlexibleSpace();
-						if(GUILayout.Button ("^",marketFiltersVM.sortButtonStyle[8],GUILayout.Width(marketScreenVM.blockRightWidth*7/100))) 
-						{
-							MarketController.instance.sortCards(8);
-						}
-						GUILayout.Space (marketScreenVM.blockRightWidth*2/100);
-						if(GUILayout.Button ("v",marketFiltersVM.sortButtonStyle[9],GUILayout.Width(marketScreenVM.blockRightWidth*7/100))) 
-						{
-							MarketController.instance.sortCards(9);
 						}
 					}
 					GUILayout.EndHorizontal();

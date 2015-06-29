@@ -416,8 +416,6 @@ public class MarketController : MonoBehaviour
 		view.marketFiltersVM.maxLifeLimit=0;
 		view.marketFiltersVM.minAttackLimit=10000;
 		view.marketFiltersVM.maxAttackLimit=0;
-		view.marketFiltersVM.minMoveLimit=10000;
-		view.marketFiltersVM.maxMoveLimit=0;
 		view.marketFiltersVM.minQuicknessLimit=10000;
 		view.marketFiltersVM.maxQuicknessLimit=0;
 		
@@ -435,18 +433,27 @@ public class MarketController : MonoBehaviour
 			if (model.cards[i].Attack>view.marketFiltersVM.maxAttackLimit){
 				view.marketFiltersVM.maxAttackLimit = model.cards[i].Attack;
 			}
-			if (model.cards[i].Move<view.marketFiltersVM.minMoveLimit){
-				view.marketFiltersVM.minMoveLimit = model.cards[i].Move;
-			}
-			if (model.cards[i].Move>view.marketFiltersVM.maxMoveLimit){
-				view.marketFiltersVM.maxMoveLimit = model.cards[i].Move;
-			}
 			if (model.cards[i].Speed<view.marketFiltersVM.minQuicknessLimit){
 				view.marketFiltersVM.minQuicknessLimit = model.cards[i].Speed;
 			}
 			if (model.cards[i].Speed>view.marketFiltersVM.maxQuicknessLimit){
 				view.marketFiltersVM.maxQuicknessLimit = model.cards[i].Speed;
 			}
+		}
+		if(view.marketFiltersVM.minLifeLimit>view.marketFiltersVM.maxLifeLimit)
+		{
+			view.marketFiltersVM.minLifeLimit=0;
+			view.marketFiltersVM.maxLifeLimit=0;
+		}
+		if(view.marketFiltersVM.minAttackLimit>view.marketFiltersVM.maxAttackLimit)
+		{
+			view.marketFiltersVM.minAttackLimit=0;
+			view.marketFiltersVM.maxAttackLimit=0;
+		}
+		if(view.marketFiltersVM.minQuicknessLimit>view.marketFiltersVM.maxQuicknessLimit)
+		{
+			view.marketFiltersVM.minQuicknessLimit=0;
+			view.marketFiltersVM.maxQuicknessLimit=0;
 		}
 		view.marketFiltersVM.minLifeVal = view.marketFiltersVM.minLifeLimit;
 		view.marketFiltersVM.maxLifeVal = view.marketFiltersVM.maxLifeLimit;
@@ -456,10 +463,6 @@ public class MarketController : MonoBehaviour
 		view.marketFiltersVM.maxAttackVal = view.marketFiltersVM.maxAttackLimit;
 		view.marketFiltersVM.oldMinAttackVal = view.marketFiltersVM.minAttackLimit;
 		view.marketFiltersVM.oldMaxAttackVal = view.marketFiltersVM.maxAttackLimit;
-		view.marketFiltersVM.minMoveVal = view.marketFiltersVM.minMoveLimit;
-		view.marketFiltersVM.maxMoveVal = view.marketFiltersVM.maxMoveLimit;
-		view.marketFiltersVM.oldMinMoveVal = view.marketFiltersVM.minMoveLimit;
-		view.marketFiltersVM.oldMaxMoveVal = view.marketFiltersVM.maxMoveLimit;
 		view.marketFiltersVM.minQuicknessVal = view.marketFiltersVM.minQuicknessLimit;
 		view.marketFiltersVM.maxQuicknessVal = view.marketFiltersVM.maxQuicknessLimit;
 		view.marketFiltersVM.oldMinQuicknessVal = view.marketFiltersVM.minQuicknessLimit;
@@ -495,8 +498,6 @@ public class MarketController : MonoBehaviour
 		
 		bool minLifeBool = (view.marketFiltersVM.minLifeLimit==view.marketFiltersVM.minLifeVal);
 		bool maxLifeBool = (view.marketFiltersVM.maxLifeLimit==view.marketFiltersVM.maxLifeVal);
-		bool minMoveBool = (view.marketFiltersVM.minMoveLimit==view.marketFiltersVM.minMoveVal);
-		bool maxMoveBool = (view.marketFiltersVM.maxMoveLimit==view.marketFiltersVM.maxMoveVal);
 		bool minQuicknessBool = (view.marketFiltersVM.minQuicknessLimit==view.marketFiltersVM.minQuicknessVal);
 		bool maxQuicknessBool = (view.marketFiltersVM.maxQuicknessLimit==view.marketFiltersVM.maxQuicknessVal);
 		bool minAttackBool = (view.marketFiltersVM.minAttackLimit==view.marketFiltersVM.minAttackVal);
@@ -556,8 +557,6 @@ public class MarketController : MonoBehaviour
 			view.marketFiltersVM.maxLifeLimit=0;
 			view.marketFiltersVM.minAttackLimit=10000;
 			view.marketFiltersVM.maxAttackLimit=0;
-			view.marketFiltersVM.minMoveLimit=10000;
-			view.marketFiltersVM.maxMoveLimit=0;
 			view.marketFiltersVM.minQuicknessLimit=10000;
 			view.marketFiltersVM.maxQuicknessLimit=0;
 			for (int i = 0 ; i < tempCardsToBeDisplayed.Count ; i++){
@@ -572,12 +571,6 @@ public class MarketController : MonoBehaviour
 				}
 				if (model.cards[tempCardsToBeDisplayed[i]].Attack>view.marketFiltersVM.maxAttackLimit){
 					view.marketFiltersVM.maxAttackLimit = model.cards[tempCardsToBeDisplayed[i]].Attack;
-				}
-				if (model.cards[tempCardsToBeDisplayed[i]].Move<view.marketFiltersVM.minMoveLimit){
-					view.marketFiltersVM.minMoveLimit = model.cards[tempCardsToBeDisplayed[i]].Move;
-				}
-				if (model.cards[tempCardsToBeDisplayed[i]].Move>view.marketFiltersVM.maxMoveLimit){
-					view.marketFiltersVM.maxMoveLimit = model.cards[tempCardsToBeDisplayed[i]].Move;
 				}
 				if (model.cards[tempCardsToBeDisplayed[i]].Speed<view.marketFiltersVM.minQuicknessLimit){
 					view.marketFiltersVM.minQuicknessLimit = model.cards[tempCardsToBeDisplayed[i]].Speed;
@@ -618,22 +611,6 @@ public class MarketController : MonoBehaviour
 					view.marketFiltersVM.maxAttackLimit = view.marketFiltersVM.maxAttackVal;
 				}
 			}
-			if (minMoveBool && view.marketFiltersVM.maxMoveVal>view.marketFiltersVM.minMoveLimit){
-				view.marketFiltersVM.minMoveVal = view.marketFiltersVM.minMoveLimit;
-			}
-			else{
-				if (view.marketFiltersVM.minMoveVal<view.marketFiltersVM.minMoveLimit){
-					view.marketFiltersVM.minMoveLimit = view.marketFiltersVM.minMoveVal;
-				}
-			}
-			if (maxMoveBool && view.marketFiltersVM.minMoveVal<view.marketFiltersVM.maxMoveLimit){
-				view.marketFiltersVM.maxMoveVal = view.marketFiltersVM.maxMoveLimit;
-			}
-			else{
-				if (view.marketFiltersVM.maxMoveVal>view.marketFiltersVM.maxMoveLimit){
-					view.marketFiltersVM.maxMoveLimit = view.marketFiltersVM.maxMoveVal;
-				}
-			}
 			if (minQuicknessBool && view.marketFiltersVM.maxQuicknessVal>view.marketFiltersVM.minQuicknessLimit){
 				view.marketFiltersVM.minQuicknessVal = view.marketFiltersVM.minQuicknessLimit;
 			}
@@ -655,8 +632,6 @@ public class MarketController : MonoBehaviour
 			view.marketFiltersVM.oldMaxLifeVal = view.marketFiltersVM.maxLifeVal ;
 			view.marketFiltersVM.oldMinQuicknessVal = view.marketFiltersVM.minQuicknessVal ;
 			view.marketFiltersVM.oldMaxQuicknessVal = view.marketFiltersVM.maxQuicknessVal ;
-			view.marketFiltersVM.oldMinMoveVal = view.marketFiltersVM.minMoveVal ;
-			view.marketFiltersVM.oldMaxMoveVal = view.marketFiltersVM.maxMoveVal ;
 			view.marketFiltersVM.oldMinAttackVal = view.marketFiltersVM.minAttackVal ;
 			view.marketFiltersVM.oldMaxAttackVal = view.marketFiltersVM.maxAttackVal ;
 		}
@@ -671,12 +646,6 @@ public class MarketController : MonoBehaviour
 			testFilters = true ;
 		}
 		else if (view.marketFiltersVM.maxAttackVal!=view.marketFiltersVM.maxAttackLimit){
-			testFilters = true ;
-		}
-		else if (view.marketFiltersVM.minMoveVal!=view.marketFiltersVM.minMoveLimit){
-			testFilters = true ;
-		}
-		else if (view.marketFiltersVM.maxMoveVal!=view.marketFiltersVM.maxMoveLimit){
 			testFilters = true ;
 		}
 		else if (view.marketFiltersVM.minQuicknessVal!=view.marketFiltersVM.minQuicknessLimit){
@@ -701,8 +670,6 @@ public class MarketController : MonoBehaviour
 				                                                    view.marketFiltersVM.maxLifeVal,
 				                                                    view.marketFiltersVM.minAttackVal,
 				                                                    view.marketFiltersVM.maxAttackVal,
-				                                                    view.marketFiltersVM.minMoveVal,
-				                                                    view.marketFiltersVM.maxMoveVal,
 				                                                    view.marketFiltersVM.minQuicknessVal,
 				                                                    view.marketFiltersVM.maxQuicknessVal,
 				                                                    tempMinPrice,tempMaxPrice)){
@@ -768,8 +735,6 @@ public class MarketController : MonoBehaviour
 		view.marketFiltersVM.minLifeVal=Mathf.RoundToInt(view.marketFiltersVM.minLifeVal);
 		view.marketFiltersVM.maxAttackVal=Mathf.RoundToInt(view.marketFiltersVM.maxAttackVal);
 		view.marketFiltersVM.minAttackVal=Mathf.RoundToInt(view.marketFiltersVM.minAttackVal);
-		view.marketFiltersVM.maxMoveVal=Mathf.RoundToInt(view.marketFiltersVM.maxMoveVal);
-		view.marketFiltersVM.minMoveVal=Mathf.RoundToInt(view.marketFiltersVM.minMoveVal);
 		view.marketFiltersVM.maxQuicknessVal=Mathf.RoundToInt(view.marketFiltersVM.maxQuicknessVal);
 		view.marketFiltersVM.minQuicknessVal=Mathf.RoundToInt(view.marketFiltersVM.minQuicknessVal);
 		
@@ -787,14 +752,6 @@ public class MarketController : MonoBehaviour
 		}
 		if (view.marketFiltersVM.oldMinAttackVal != view.marketFiltersVM.minAttackVal){
 			view.marketFiltersVM.oldMinAttackVal = view.marketFiltersVM.minAttackVal;
-			isMoved = true ; 
-		}
-		if (view.marketFiltersVM.oldMaxMoveVal != view.marketFiltersVM.maxMoveVal){
-			view.marketFiltersVM.oldMaxMoveVal = view.marketFiltersVM.maxMoveVal;
-			isMoved = true ; 
-		}
-		if (view.marketFiltersVM.oldMinMoveVal != view.marketFiltersVM.minMoveVal){
-			view.marketFiltersVM.oldMinMoveVal = view.marketFiltersVM.minMoveVal;
 			isMoved = true ; 
 		}
 		if (view.marketFiltersVM.oldMaxQuicknessVal != view.marketFiltersVM.maxQuicknessVal){
@@ -918,18 +875,10 @@ public class MarketController : MonoBehaviour
 					tempA = model.cards[view.marketCardsVM.cardsToBeDisplayed[j]].Attack;
 					break;
 				case 6:
-					tempA = model.cards[view.marketCardsVM.cardsToBeDisplayed[i]].Move;
-					tempB = model.cards[view.marketCardsVM.cardsToBeDisplayed[j]].Move;
-					break;
-				case 7:
-					tempB = model.cards[view.marketCardsVM.cardsToBeDisplayed[i]].Move;
-					tempA = model.cards[view.marketCardsVM.cardsToBeDisplayed[j]].Move;
-					break;
-				case 8:
 					tempA = model.cards[view.marketCardsVM.cardsToBeDisplayed[i]].Speed;
 					tempB = model.cards[view.marketCardsVM.cardsToBeDisplayed[j]].Speed;
 					break;
-				case 9:
+				case 7:
 					tempB = model.cards[view.marketCardsVM.cardsToBeDisplayed[i]].Speed;
 					tempA = model.cards[view.marketCardsVM.cardsToBeDisplayed[j]].Speed;
 					break;

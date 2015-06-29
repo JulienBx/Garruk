@@ -1103,37 +1103,51 @@ public class MyGameController : MonoBehaviour
 		view.myGameFiltersVM.maxLifeLimit=0;
 		view.myGameFiltersVM.minAttackLimit=10000;
 		view.myGameFiltersVM.maxAttackLimit=0;
-		view.myGameFiltersVM.minMoveLimit=10000;
-		view.myGameFiltersVM.maxMoveLimit=0;
 		view.myGameFiltersVM.minQuicknessLimit=10000;
 		view.myGameFiltersVM.maxQuicknessLimit=0;
 		
 		int max = model.cards.Count;
-		for (int i = 0; i < max ; i++) {
-			if (model.cards[i].Life<view.myGameFiltersVM.minLifeLimit){
+		for (int i = 0; i < max ; i++) 
+		{
+			if (model.cards[i].Life<view.myGameFiltersVM.minLifeLimit)
+			{
 				view.myGameFiltersVM.minLifeLimit = model.cards[i].Life;
 			}
-			if (model.cards[i].Life>view.myGameFiltersVM.maxLifeLimit){
+			if (model.cards[i].Life>view.myGameFiltersVM.maxLifeLimit)
+			{
 				view.myGameFiltersVM.maxLifeLimit = model.cards[i].Life;
 			}
-			if (model.cards[i].Attack<view.myGameFiltersVM.minAttackLimit){
+			if (model.cards[i].Attack<view.myGameFiltersVM.minAttackLimit)
+			{
 				view.myGameFiltersVM.minAttackLimit = model.cards[i].Attack;
 			}
-			if (model.cards[i].Attack>view.myGameFiltersVM.maxAttackLimit){
+			if (model.cards[i].Attack>view.myGameFiltersVM.maxAttackLimit)
+			{
 				view.myGameFiltersVM.maxAttackLimit = model.cards[i].Attack;
 			}
-			if (model.cards[i].Move<view.myGameFiltersVM.minMoveLimit){
-				view.myGameFiltersVM.minMoveLimit = model.cards[i].Move;
-			}
-			if (model.cards[i].Move>view.myGameFiltersVM.maxMoveLimit){
-				view.myGameFiltersVM.maxMoveLimit = model.cards[i].Move;
-			}
-			if (model.cards[i].Speed<view.myGameFiltersVM.minQuicknessLimit){
+			if (model.cards[i].Speed<view.myGameFiltersVM.minQuicknessLimit)
+			{
 				view.myGameFiltersVM.minQuicknessLimit = model.cards[i].Speed;
 			}
-			if (model.cards[i].Speed>view.myGameFiltersVM.maxQuicknessLimit){
+			if (model.cards[i].Speed>view.myGameFiltersVM.maxQuicknessLimit)
+			{
 				view.myGameFiltersVM.maxQuicknessLimit = model.cards[i].Speed;
 			}
+		}
+		if(view.myGameFiltersVM.minLifeLimit>view.myGameFiltersVM.maxLifeLimit)
+		{
+			view.myGameFiltersVM.minLifeLimit=0;
+			view.myGameFiltersVM.maxLifeLimit=0;
+		}
+		if(view.myGameFiltersVM.minAttackLimit>view.myGameFiltersVM.maxAttackLimit)
+		{
+			view.myGameFiltersVM.minAttackLimit=0;
+			view.myGameFiltersVM.maxAttackLimit=0;
+		}
+		if(view.myGameFiltersVM.minQuicknessLimit>view.myGameFiltersVM.maxQuicknessLimit)
+		{
+			view.myGameFiltersVM.minQuicknessLimit=0;
+			view.myGameFiltersVM.maxQuicknessLimit=0;
 		}
 		view.myGameFiltersVM.minLifeVal = view.myGameFiltersVM.minLifeLimit;
 		view.myGameFiltersVM.maxLifeVal = view.myGameFiltersVM.maxLifeLimit;
@@ -1143,10 +1157,6 @@ public class MyGameController : MonoBehaviour
 		view.myGameFiltersVM.maxAttackVal = view.myGameFiltersVM.maxAttackLimit;
 		view.myGameFiltersVM.oldMinAttackVal = view.myGameFiltersVM.minAttackLimit;
 		view.myGameFiltersVM.oldMaxAttackVal = view.myGameFiltersVM.maxAttackLimit;
-		view.myGameFiltersVM.minMoveVal = view.myGameFiltersVM.minMoveLimit;
-		view.myGameFiltersVM.maxMoveVal = view.myGameFiltersVM.maxMoveLimit;
-		view.myGameFiltersVM.oldMinMoveVal = view.myGameFiltersVM.minMoveLimit;
-		view.myGameFiltersVM.oldMaxMoveVal = view.myGameFiltersVM.maxMoveLimit;
 		view.myGameFiltersVM.minQuicknessVal = view.myGameFiltersVM.minQuicknessLimit;
 		view.myGameFiltersVM.maxQuicknessVal = view.myGameFiltersVM.maxQuicknessLimit;
 		view.myGameFiltersVM.oldMinQuicknessVal = view.myGameFiltersVM.minQuicknessLimit;
@@ -1184,8 +1194,6 @@ public class MyGameController : MonoBehaviour
 		
 		bool minLifeBool = (view.myGameFiltersVM.minLifeLimit==view.myGameFiltersVM.minLifeVal);
 		bool maxLifeBool = (view.myGameFiltersVM.maxLifeLimit==view.myGameFiltersVM.maxLifeVal);
-		bool minMoveBool = (view.myGameFiltersVM.minMoveLimit==view.myGameFiltersVM.minMoveVal);
-		bool maxMoveBool = (view.myGameFiltersVM.maxMoveLimit==view.myGameFiltersVM.maxMoveVal);
 		bool minQuicknessBool = (view.myGameFiltersVM.minQuicknessLimit==view.myGameFiltersVM.minQuicknessVal);
 		bool maxQuicknessBool = (view.myGameFiltersVM.maxQuicknessLimit==view.myGameFiltersVM.maxQuicknessVal);
 		bool minAttackBool = (view.myGameFiltersVM.minAttackLimit==view.myGameFiltersVM.minAttackVal);
@@ -1513,8 +1521,6 @@ public class MyGameController : MonoBehaviour
 			view.myGameFiltersVM.maxLifeLimit=0;
 			view.myGameFiltersVM.minAttackLimit=10000;
 			view.myGameFiltersVM.maxAttackLimit=0;
-			view.myGameFiltersVM.minMoveLimit=10000;
-			view.myGameFiltersVM.maxMoveLimit=0;
 			view.myGameFiltersVM.minQuicknessLimit=10000;
 			view.myGameFiltersVM.maxQuicknessLimit=0;
 			for (int i = 0 ; i < tempCardsToBeDisplayed.Count ; i++){
@@ -1529,12 +1535,6 @@ public class MyGameController : MonoBehaviour
 				}
 				if (model.cards[tempCardsToBeDisplayed[i]].Attack>view.myGameFiltersVM.maxAttackLimit){
 					view.myGameFiltersVM.maxAttackLimit = model.cards[tempCardsToBeDisplayed[i]].Attack;
-				}
-				if (model.cards[tempCardsToBeDisplayed[i]].Move<view.myGameFiltersVM.minMoveLimit){
-					view.myGameFiltersVM.minMoveLimit = model.cards[tempCardsToBeDisplayed[i]].Move;
-				}
-				if (model.cards[tempCardsToBeDisplayed[i]].Move>view.myGameFiltersVM.maxMoveLimit){
-					view.myGameFiltersVM.maxMoveLimit = model.cards[tempCardsToBeDisplayed[i]].Move;
 				}
 				if (model.cards[tempCardsToBeDisplayed[i]].Speed<view.myGameFiltersVM.minQuicknessLimit){
 					view.myGameFiltersVM.minQuicknessLimit = model.cards[tempCardsToBeDisplayed[i]].Speed;
@@ -1575,22 +1575,6 @@ public class MyGameController : MonoBehaviour
 					view.myGameFiltersVM.maxAttackLimit = view.myGameFiltersVM.maxAttackVal;
 				}
 			}
-			if (minMoveBool && view.myGameFiltersVM.maxMoveVal>view.myGameFiltersVM.minMoveLimit){
-				view.myGameFiltersVM.minMoveVal = view.myGameFiltersVM.minMoveLimit;
-			}
-			else{
-				if (view.myGameFiltersVM.minMoveVal<view.myGameFiltersVM.minMoveLimit){
-					view.myGameFiltersVM.minMoveLimit = view.myGameFiltersVM.minMoveVal;
-				}
-			}
-			if (maxMoveBool && view.myGameFiltersVM.minMoveVal<view.myGameFiltersVM.maxMoveLimit){
-				view.myGameFiltersVM.maxMoveVal = view.myGameFiltersVM.maxMoveLimit;
-			}
-			else{
-				if (view.myGameFiltersVM.maxMoveVal>view.myGameFiltersVM.maxMoveLimit){
-					view.myGameFiltersVM.maxMoveLimit = view.myGameFiltersVM.maxMoveVal;
-				}
-			}
 			if (minQuicknessBool && view.myGameFiltersVM.maxQuicknessVal>view.myGameFiltersVM.minQuicknessLimit){
 				view.myGameFiltersVM.minQuicknessVal = view.myGameFiltersVM.minQuicknessLimit;
 			}
@@ -1612,8 +1596,6 @@ public class MyGameController : MonoBehaviour
 			view.myGameFiltersVM.oldMaxLifeVal = view.myGameFiltersVM.maxLifeVal ;
 			view.myGameFiltersVM.oldMinQuicknessVal = view.myGameFiltersVM.minQuicknessVal ;
 			view.myGameFiltersVM.oldMaxQuicknessVal = view.myGameFiltersVM.maxQuicknessVal ;
-			view.myGameFiltersVM.oldMinMoveVal = view.myGameFiltersVM.minMoveVal ;
-			view.myGameFiltersVM.oldMaxMoveVal = view.myGameFiltersVM.maxMoveVal ;
 			view.myGameFiltersVM.oldMinAttackVal = view.myGameFiltersVM.minAttackVal ;
 			view.myGameFiltersVM.oldMaxAttackVal = view.myGameFiltersVM.maxAttackVal ;
 		}
@@ -1630,12 +1612,6 @@ public class MyGameController : MonoBehaviour
 		else if (view.myGameFiltersVM.maxAttackVal!=view.myGameFiltersVM.maxAttackLimit){
 			testFilters = true ;
 		}
-		else if (view.myGameFiltersVM.minMoveVal!=view.myGameFiltersVM.minMoveLimit){
-			testFilters = true ;
-		}
-		else if (view.myGameFiltersVM.maxMoveVal!=view.myGameFiltersVM.maxMoveLimit){
-			testFilters = true ;
-		}
 		else if (view.myGameFiltersVM.minQuicknessVal!=view.myGameFiltersVM.minQuicknessLimit){
 			testFilters = true ;
 		}
@@ -1650,8 +1626,6 @@ public class MyGameController : MonoBehaviour
 				                                                    view.myGameFiltersVM.maxLifeVal,
 				                                                    view.myGameFiltersVM.minAttackVal,
 				                                                    view.myGameFiltersVM.maxAttackVal,
-				                                                    view.myGameFiltersVM.minMoveVal,
-				                                                    view.myGameFiltersVM.maxMoveVal,
 				                                                    view.myGameFiltersVM.minQuicknessVal,
 				                                                    view.myGameFiltersVM.maxQuicknessVal,
 				                                                    tempMinPrice,tempMaxPrice)){
@@ -1717,8 +1691,6 @@ public class MyGameController : MonoBehaviour
 		view.myGameFiltersVM.minLifeVal=Mathf.RoundToInt(view.myGameFiltersVM.minLifeVal);
 		view.myGameFiltersVM.maxAttackVal=Mathf.RoundToInt(view.myGameFiltersVM.maxAttackVal);
 		view.myGameFiltersVM.minAttackVal=Mathf.RoundToInt(view.myGameFiltersVM.minAttackVal);
-		view.myGameFiltersVM.maxMoveVal=Mathf.RoundToInt(view.myGameFiltersVM.maxMoveVal);
-		view.myGameFiltersVM.minMoveVal=Mathf.RoundToInt(view.myGameFiltersVM.minMoveVal);
 		view.myGameFiltersVM.maxQuicknessVal=Mathf.RoundToInt(view.myGameFiltersVM.maxQuicknessVal);
 		view.myGameFiltersVM.minQuicknessVal=Mathf.RoundToInt(view.myGameFiltersVM.minQuicknessVal);
 		
@@ -1736,14 +1708,6 @@ public class MyGameController : MonoBehaviour
 		}
 		if (view.myGameFiltersVM.oldMinAttackVal != view.myGameFiltersVM.minAttackVal){
 			view.myGameFiltersVM.oldMinAttackVal = view.myGameFiltersVM.minAttackVal;
-			isMoved = true ; 
-		}
-		if (view.myGameFiltersVM.oldMaxMoveVal != view.myGameFiltersVM.maxMoveVal){
-			view.myGameFiltersVM.oldMaxMoveVal = view.myGameFiltersVM.maxMoveVal;
-			isMoved = true ; 
-		}
-		if (view.myGameFiltersVM.oldMinMoveVal != view.myGameFiltersVM.minMoveVal){
-			view.myGameFiltersVM.oldMinMoveVal = view.myGameFiltersVM.minMoveVal;
 			isMoved = true ; 
 		}
 		if (view.myGameFiltersVM.oldMaxQuicknessVal != view.myGameFiltersVM.maxQuicknessVal){
@@ -1867,18 +1831,10 @@ public class MyGameController : MonoBehaviour
 					tempA = model.cards[view.myGameCardsVM.cardsToBeDisplayed[j]].Attack;
 					break;
 				case 4:
-					tempA = model.cards[view.myGameCardsVM.cardsToBeDisplayed[i]].Move;
-					tempB = model.cards[view.myGameCardsVM.cardsToBeDisplayed[j]].Move;
-					break;
-				case 5:
-					tempB = model.cards[view.myGameCardsVM.cardsToBeDisplayed[i]].Move;
-					tempA = model.cards[view.myGameCardsVM.cardsToBeDisplayed[j]].Move;
-					break;
-				case 6:
 					tempA = model.cards[view.myGameCardsVM.cardsToBeDisplayed[i]].Speed;
 					tempB = model.cards[view.myGameCardsVM.cardsToBeDisplayed[j]].Speed;
 					break;
-				case 7:
+				case 5:
 					tempB = model.cards[view.myGameCardsVM.cardsToBeDisplayed[i]].Speed;
 					tempA = model.cards[view.myGameCardsVM.cardsToBeDisplayed[j]].Speed;
 					break;

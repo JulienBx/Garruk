@@ -31,10 +31,6 @@ public class MyGameFiltersViewModel
 	public float maxAttackVal;
 	public float minAttackLimit;
 	public float maxAttackLimit;
-	public float minMoveVal;
-	public float maxMoveVal;
-	public float minMoveLimit;
-	public float maxMoveLimit;
 	public float minQuicknessVal;
 	public float maxQuicknessVal;
 	public float minQuicknessLimit;
@@ -43,8 +39,6 @@ public class MyGameFiltersViewModel
 	public float oldMaxLifeVal;
 	public float oldMinAttackVal;
 	public float oldMaxAttackVal;
-	public float oldMinMoveVal;
-	public float oldMaxMoveVal;
 	public float oldMinQuicknessVal;
 	public float oldMaxQuicknessVal;
 	
@@ -80,10 +74,6 @@ public class MyGameFiltersViewModel
 		this.maxAttackVal = 100;
 		this.oldMinAttackVal = 0;
 		this.oldMaxAttackVal = 100;
-		this.minMoveVal = 0;
-		this.maxMoveVal = 10;
-		this.oldMinMoveVal = 0;
-		this.oldMaxMoveVal = 10;
 		this.oldMinQuicknessVal = 0;
 		this.oldMaxQuicknessVal = 100;
 		this.sortSelected = 10;

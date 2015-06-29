@@ -17,6 +17,7 @@ public class Pack
 	public string Error;
 	public IList<Skill> NewSkills;
 	public int CollectionPoints;
+	public int CollectionPointsRanking;
 
 	private string URLBuyPack = ApplicationModel.host + "buyPack.php";
 
@@ -59,6 +60,7 @@ public class Pack
 				string[] data = w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
 				this.Cards=parseCard(data[0].Split(new string[] { "CARD" }, System.StringSplitOptions.None));
 				this.CollectionPoints=System.Convert.ToInt32(data[1]);
+				this.CollectionPointsRanking=System.Convert.ToInt32(data[2]);
 
 				this.NewSkills=new List<Skill>();
 				for(int i=0;i<this.Cards.Count;i++)
