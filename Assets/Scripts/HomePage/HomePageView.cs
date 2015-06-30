@@ -308,7 +308,7 @@ public class HomePageView : MonoBehaviour
 					{
 						HomePageController.instance.buyPackHandler(i);
 					}
-					GUI.enabled=true;
+					GUI.enabled = homepageVM.guiEnabled;
 					GUILayout.FlexibleSpace();
 				}
 				GUILayout.EndHorizontal();
