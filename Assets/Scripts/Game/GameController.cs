@@ -122,6 +122,7 @@ public class GameController : Photon.MonoBehaviour
 		this.horizontalBorders = new GameObject[this.boardHeight + 1];
 		
 		this.backgroundImage = (GameObject)Instantiate(this.backgroundImageModel);
+		this.backgroundImage.GetComponent<BackgroundImageController>().setImage(0);
 		
 
 //		for (int i = 0; i < this.verticalBorders.Length; i++)
