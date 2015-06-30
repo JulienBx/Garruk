@@ -89,9 +89,9 @@ public class StoreController : MonoBehaviour
 							this.startRotation=false;
 							if(isTutorialLaunched)
 							{
-								if(this.tutorial.GetComponent<TutorialObjectController>().getSequenceID()==902)
+								if(this.tutorial.GetComponent<StoreTutorialController>().getSequenceID()==2)
 								{
-									this.tutorial.GetComponent<TutorialObjectController>().actionIsDone();
+									this.tutorial.GetComponent<StoreTutorialController>().actionIsDone();
 								}
 							}
 						}
@@ -114,7 +114,8 @@ public class StoreController : MonoBehaviour
 		{
 			this.tutorial = Instantiate(this.TutorialObject) as GameObject;
 			MenuObject.GetComponent<MenuController>().setTutorialLaunched(true);
-			this.tutorial.GetComponent<TutorialObjectController>().launchSequence(900);
+			this.tutorial.AddComponent<StoreTutorialController>();
+			this.tutorial.GetComponent<StoreTutorialController>().launchSequence(0);
 			this.isTutorialLaunched=true;
 		}
 	}
@@ -218,7 +219,7 @@ public class StoreController : MonoBehaviour
 		}
 		if(isTutorialLaunched)
 		{
-			this.tutorial.GetComponent<TutorialObjectController>().resize();
+			this.tutorial.GetComponent<StoreTutorialController>().resize();
 		}
 	}
 	public void rightClickedCard(GameObject gameObject)
@@ -253,9 +254,9 @@ public class StoreController : MonoBehaviour
 		}
 		if(isTutorialLaunched)
 		{
-			if(this.tutorial.GetComponent<TutorialObjectController>().getSequenceID()==901)
+			if(this.tutorial.GetComponent<StoreTutorialController>().getSequenceID()==1)
 			{
-				this.tutorial.GetComponent<TutorialObjectController>().actionIsDone();
+				this.tutorial.GetComponent<StoreTutorialController>().actionIsDone();
 			}
 		}
 	}
@@ -427,6 +428,7 @@ public class StoreController : MonoBehaviour
 		}
 		this.collectionPointsPopUpView = Camera.main.gameObject.AddComponent <StoreCollectionPointsPopUpView>();
 		collectionPointsPopUpView.storeCollectionPointsPopUpVM.collectionPoints = model.packList [this.selectedPackIndex].CollectionPoints;
+		collectionPointsPopUpView.storeCollectionPointsPopUpVM.collectionPointsRanking = model.packList [this.selectedPackIndex].CollectionPointsRanking;
 		collectionPointsPopUpView.storeCollectionPointsPopUpVM.styles=new GUIStyle[this.popUpCollectionVMStyle.Length];
 		for(int i=0;i<this.popUpCollectionVMStyle.Length;i++)
 		{
@@ -871,7 +873,7 @@ public class StoreController : MonoBehaviour
 	}
 	public void tutorialCardLeaved()
 	{
-		this.tutorial.GetComponent<TutorialObjectController> ().actionIsDone ();
+		this.tutorial.GetComponent<StoreTutorialController> ().actionIsDone ();
 	}
 	public Vector2 getCardsPosition()
 	{

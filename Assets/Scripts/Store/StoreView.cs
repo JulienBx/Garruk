@@ -112,15 +112,18 @@ public class StoreView : MonoBehaviour
 						}
 					}
 					GUILayout.Space(storeScreenVM.widthScreen*0.01f);
-					for (int i = packsVM.pageDebut ; i < packsVM.pageFin ; i++)
+					if(packsVM.pageFin>1)
 					{
-						if (GUILayout.Button(""+(i+1),packsVM.paginatorGuiStyle[i],
-						                     GUILayout.Height(storeScreenVM.heightScreen*3/100),
-						                     GUILayout.Width (storeScreenVM.widthScreen*2/100)))
+						for (int i = packsVM.pageDebut ; i < packsVM.pageFin ; i++)
 						{
-							StoreController.instance.paginationSelect(i);
+							if (GUILayout.Button(""+(i+1),packsVM.paginatorGuiStyle[i],
+							                     GUILayout.Height(storeScreenVM.heightScreen*3/100),
+							                     GUILayout.Width (storeScreenVM.widthScreen*2/100)))
+							{
+								StoreController.instance.paginationSelect(i);
+							}
+							GUILayout.Space(storeScreenVM.widthScreen*0.01f);
 						}
-						GUILayout.Space(storeScreenVM.widthScreen*0.01f);
 					}
 					if (packsVM.nbPages>packsVM.pageFin)
 					{

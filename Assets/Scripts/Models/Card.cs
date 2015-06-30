@@ -49,6 +49,7 @@ public class Card
 	public List<int> Decks;
 	public IList<Skill> NewSkills;
 	public int CollectionPoints;
+	public int CollectionPointsRanking;
 	public int IdCardTypeUnlocked;
 	public string TitleCardTypeUnlocked;
 	public int deckOrder;
@@ -637,15 +638,12 @@ public class Card
 		}
 	}
 
-	public bool verifyC2(float minLife, float maxLife, float minAttack, float maxAttack, float minMove, float maxMove, float minQuickness, float maxQuickness, int minPrice, int maxPrice)
+	public bool verifyC2(float minLife, float maxLife, float minAttack, float maxAttack, float minQuickness, float maxQuickness, int minPrice, int maxPrice)
 	{
 		if (minLife > this.Life || maxLife < this.Life)
 		{
 			return false;
 		} else if (minAttack > this.Attack || maxAttack < this.Attack)
-		{
-			return false;
-		} else if (minMove > this.Move || maxMove < this.Move)
 		{
 			return false;
 		} else if (minQuickness > this.Speed || maxQuickness < this.Speed)
@@ -685,6 +683,7 @@ public class Card
 				string [] cardData = w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
 				string [] cardInformations = cardData [0].Split(new string[] { "#S#" }, System.StringSplitOptions.None);
 				this.CollectionPoints = System.Convert.ToInt32(cardData [1]);
+				this.CollectionPointsRanking=System.Convert.ToInt32(cardData[2]);
 				for (int j = 0; j < cardInformations.Length-1; j++)
 				{
 					string[] cardInfo = cardInformations [j].Split(new string[] { "\\" }, System.StringSplitOptions.None); 

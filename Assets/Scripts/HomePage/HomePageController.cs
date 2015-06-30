@@ -84,7 +84,8 @@ public class HomePageController : MonoBehaviour
 		if(model.player.TutorialStep==1)
 		{
 			this.tutorial = Instantiate(this.TutorialObject) as GameObject;
-			this.tutorial.GetComponent<TutorialObjectController>().launchSequence(100);
+			this.tutorial.AddComponent<HomePageTutorialController>();
+			this.tutorial.GetComponent<HomePageTutorialController>().launchSequence(0);
 			MenuObject.GetComponent<MenuController>().setTutorialLaunched(true);
 		}
 		else if(model.player.ConnectionBonus>0)
@@ -337,7 +338,7 @@ public class HomePageController : MonoBehaviour
 		this.displayPacksPage ();
 		if(this.tutorial!=null)
 		{
-			this.tutorial.GetComponent<TutorialObjectController>().resize();
+			this.tutorial.GetComponent<HomePageTutorialController>().resize();
 		}
 	}
 	private IEnumerator updateReadNotifications(bool firstLoad)

@@ -64,7 +64,8 @@ public class LobbyController : Photon.MonoBehaviour
 		{
 			this.tutorial = Instantiate(this.TutorialObject) as GameObject;
 			MenuObject.GetComponent<MenuController>().setTutorialLaunched(true);
-			this.tutorial.GetComponent<TutorialObjectController>().launchSequence(300);
+			this.tutorial.AddComponent<LobbyTutorialController>();
+			this.tutorial.GetComponent<LobbyTutorialController>().launchSequence(0);
 			this.isTutorialLaunched=true;
 		}
 	}
@@ -410,7 +411,7 @@ public class LobbyController : Photon.MonoBehaviour
 		view.playersVM.resize (view.screenVM.heightScreen);
 		if(this.isTutorialLaunched)
 		{
-			this.tutorial.GetComponent<TutorialObjectController>().resize();
+			this.tutorial.GetComponent<LobbyTutorialController>().resize();
 		}
 	}
 	public void setGUI(bool value)

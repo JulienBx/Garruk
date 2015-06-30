@@ -16,6 +16,7 @@ public class CardCollectionPointsPopUpView : MonoBehaviour
 		{
 			GUILayout.FlexibleSpace();
 			GUILayout.Label ("Collections Points : + "+cardCollectionPointsPopUpVM.collectionPoints,cardCollectionPointsPopUpVM.centralWindowTitleStyle);
+			GUILayout.Label ("(classement : "+cardCollectionPointsPopUpVM.collectionPointsRanking+")",cardCollectionPointsPopUpVM.centralWindowTitleStyle);
 			GUILayout.FlexibleSpace();
 		}
 		GUILayout.EndArea();

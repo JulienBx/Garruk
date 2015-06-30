@@ -4,6 +4,7 @@ public class StoreCollectionPointsPopUpViewModel
 {	
 
 	public int collectionPoints;
+	public int collectionPointsRanking;
 	public int guiDepth;
 	public Rect centralWindow;
 	public GUIStyle[] styles;

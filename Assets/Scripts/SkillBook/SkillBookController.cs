@@ -56,7 +56,8 @@ public class SkillBookController : Photon.MonoBehaviour
 		{
 			this.tutorial = Instantiate(this.TutorialObject) as GameObject;
 			MenuObject.GetComponent<MenuController>().setTutorialLaunched(true);
-			this.tutorial.GetComponent<TutorialObjectController>().launchSequence(800);
+			this.tutorial.AddComponent<SkillBookTutorialController>();
+			this.tutorial.GetComponent<SkillBookTutorialController>().launchSequence(0);
 			this.isTutorialLaunched=true;
 		}
 	}
@@ -67,7 +68,7 @@ public class SkillBookController : Photon.MonoBehaviour
 		this.displaySkillsPage ();
 		if(isTutorialLaunched)
 		{
-			this.tutorial.GetComponent<TutorialObjectController>().resize();
+			this.tutorial.GetComponent<SkillBookTutorialController>().resize();
 		}
 	}
 	private void computeIndicators()

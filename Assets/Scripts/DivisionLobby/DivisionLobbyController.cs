@@ -45,7 +45,8 @@ public class DivisionLobbyController : MonoBehaviour
 		{
 			this.tutorial = Instantiate(this.TutorialObject) as GameObject;
 			MenuObject.GetComponent<MenuController>().setTutorialLaunched(true);
-			this.tutorial.GetComponent<TutorialObjectController>().launchSequence(1100);
+			this.tutorial.AddComponent<DivisionLobbyTutorialController>();
+			this.tutorial.GetComponent<DivisionLobbyTutorialController>().launchSequence(0);
 			this.isTutorialLaunched=true;
 		}
 	}
@@ -210,7 +211,7 @@ public class DivisionLobbyController : MonoBehaviour
 		this.resizeGauge ();
 		if(this.isTutorialLaunched)
 		{
-			this.tutorial.GetComponent<TutorialObjectController>().resize();
+			this.tutorial.GetComponent<DivisionLobbyController>().resize();
 		}
 	}
 	private void resizeGauge()

@@ -88,7 +88,8 @@ public class EndGameController : MonoBehaviour
 			{
 				this.tutorial = Instantiate(this.TutorialObject) as GameObject;
 				MenuObject.GetComponent<MenuController>().setTutorialLaunched(true);
-				this.tutorial.GetComponent<TutorialObjectController>().launchSequence(1000);
+				this.tutorial.AddComponent<EndGameTutorialController>();
+				this.tutorial.GetComponent<EndGameTutorialController>().launchSequence(0);
 				this.isTutorialLaunched=true;
 			}
 			break;
@@ -245,7 +246,7 @@ public class EndGameController : MonoBehaviour
 			view.friendlyBoardVM.resize (view.endGameScreenVM.heightScreen);
 			if(isTutorialLaunched)
 			{
-				this.tutorial.GetComponent<TutorialObjectController>().resize();
+				this.tutorial.GetComponent<EndGameTutorialController>().resize();
 			}
 			break;
 		case 1:

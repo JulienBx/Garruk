@@ -22,7 +22,7 @@ public class EndSceneView : MonoBehaviour
 			GUILayout.Label ("Vous gagnez : "+endSceneVM.creditsToAdd+" crédits ("+endSceneVM.credits+" credits)",endSceneVM.creditStyle);
 			if(endSceneVM.collectionPoints>0)
 			{
-				GUILayout.Label("et "+endSceneVM.collectionPoints+" points de collection",endSceneVM.creditStyle);
+				GUILayout.Label("et "+endSceneVM.collectionPoints+" points de collection (classement : "+endSceneVM.collectionPointsRanking+")",endSceneVM.creditStyle);
 			}
 			GUILayout.FlexibleSpace();
 			if(endSceneVM.newCardType!="")

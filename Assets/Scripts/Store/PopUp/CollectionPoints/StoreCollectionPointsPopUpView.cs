@@ -16,6 +16,7 @@ public class StoreCollectionPointsPopUpView : MonoBehaviour
 		{
 			GUILayout.FlexibleSpace();
 			GUILayout.Label ("Collections Points : + "+storeCollectionPointsPopUpVM.collectionPoints,storeCollectionPointsPopUpVM.centralWindowTitleStyle);
+			GUILayout.Label ("(classement : "+storeCollectionPointsPopUpVM.collectionPointsRanking+")",storeCollectionPointsPopUpVM.centralWindowTitleStyle);
 			GUILayout.FlexibleSpace();
 		}
 		GUILayout.EndArea();

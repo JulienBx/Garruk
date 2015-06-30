@@ -69,14 +69,16 @@ public class ProfileController : MonoBehaviour
 		{
 			this.tutorial = Instantiate(this.TutorialObject) as GameObject;
 			MenuObject.GetComponent<MenuController>().setTutorialLaunched(true);
-			this.tutorial.GetComponent<TutorialObjectController>().launchSequence(600);
+			this.tutorial.AddComponent<MyProfileTutorialController>();
+			this.tutorial.GetComponent<MyProfileTutorialController>().launchSequence(0);
 			this.isTutorialLaunched=true;
 		}
 		else if(!model.Player.ProfileTutorial && !view.profileVM.isMyProfile)
 		{
 			this.tutorial = Instantiate(this.TutorialObject) as GameObject;
 			MenuObject.GetComponent<MenuController>().setTutorialLaunched(true);
-			this.tutorial.GetComponent<TutorialObjectController>().launchSequence(700);
+			this.tutorial.AddComponent<ProfileTutorialController>();
+			this.tutorial.GetComponent<ProfileTutorialController>().launchSequence(0);
 			this.isTutorialLaunched=true;
 		}
 	}

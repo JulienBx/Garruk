@@ -69,15 +69,18 @@ public class MyGameView : MonoBehaviour
 						}
 					}
 					GUILayout.Space(myGameScreenVM.widthScreen*0.01f);
-					for (int i = myGameCardsVM.pageDebut ; i < myGameCardsVM.pageFin ; i++)
+					if (myGameCardsVM.pageFin>1)
 					{
-						if (GUILayout.Button(""+(i+1),myGameCardsVM.paginatorGuiStyle[i]
-						                     ,GUILayout.Height(myGameScreenVM.heightScreen*3/100)
-						                     ,GUILayout.Width(myGameScreenVM.widthScreen*2/100)))
+						for (int i = myGameCardsVM.pageDebut ; i < myGameCardsVM.pageFin ; i++)
 						{
-							MyGameController.instance.paginationSelect(i);
+							if (GUILayout.Button(""+(i+1),myGameCardsVM.paginatorGuiStyle[i]
+							                     ,GUILayout.Height(myGameScreenVM.heightScreen*3/100)
+							                     ,GUILayout.Width(myGameScreenVM.widthScreen*2/100)))
+							{
+								MyGameController.instance.paginationSelect(i);
+							}
+							GUILayout.Space(myGameScreenVM.widthScreen*0.01f);
 						}
-						GUILayout.Space(myGameScreenVM.widthScreen*0.01f);
 					}
 					if (myGameCardsVM.nbPages>myGameCardsVM.pageFin)
 					{
@@ -206,7 +209,7 @@ public class MyGameView : MonoBehaviour
 					
 					GUILayout.BeginHorizontal();
 					{
-						GUILayout.Label ("Filtrer par Mouvement",myGameFiltersVM.filterTitleStyle);
+						GUILayout.Label ("Filtrer par Rapidité",myGameFiltersVM.filterTitleStyle);
 						GUILayout.FlexibleSpace();
 						if(GUILayout.Button ("^",myGameFiltersVM.sortButtonStyle[4],GUILayout.Width(myGameScreenVM.blockFiltersWidth*7/100))) 
 						{
@@ -216,33 +219,6 @@ public class MyGameView : MonoBehaviour
 						if(GUILayout.Button ("v",myGameFiltersVM.sortButtonStyle[5],GUILayout.Width(myGameScreenVM.blockFiltersWidth*7/100))) 
 						{
 							MyGameController.instance.sortCards(5);
-						}
-					}
-					GUILayout.EndHorizontal();
-					GUILayout.Space(-1);
-					GUILayout.BeginHorizontal();
-					{
-						GUILayout.Label ("Min:"+ Mathf.Round(myGameFiltersVM.minMoveVal),myGameFiltersVM.smallPoliceStyle);
-						GUILayout.FlexibleSpace();
-						GUILayout.Label ("Max:"+ Mathf.Round(myGameFiltersVM.maxMoveVal),myGameFiltersVM.smallPoliceStyle);
-					}
-					GUILayout.EndHorizontal();
-					GUILayout.Space(-5);
-					MyGUI.MinMaxSlider (ref myGameFiltersVM.minMoveVal, ref myGameFiltersVM.maxMoveVal, myGameFiltersVM.minMoveLimit, myGameFiltersVM.maxMoveLimit);
-					GUILayout.FlexibleSpace();
-					
-					GUILayout.BeginHorizontal();
-					{
-						GUILayout.Label ("Filtrer par Rapidité",myGameFiltersVM.filterTitleStyle);
-						GUILayout.FlexibleSpace();
-						if(GUILayout.Button ("^",myGameFiltersVM.sortButtonStyle[6],GUILayout.Width(myGameScreenVM.blockFiltersWidth*7/100))) 
-						{
-							MyGameController.instance.sortCards(6);
-						}
-						GUILayout.Space (myGameScreenVM.blockFiltersWidth*2/100);
-						if(GUILayout.Button ("v",myGameFiltersVM.sortButtonStyle[7],GUILayout.Width(myGameScreenVM.blockFiltersWidth*7/100))) 
-						{
-							MyGameController.instance.sortCards(7);
 						}
 					}
 					GUILayout.EndHorizontal();
