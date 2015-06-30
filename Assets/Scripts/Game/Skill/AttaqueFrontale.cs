@@ -51,14 +51,14 @@ public class AttaqueFrontale : GameSkill
 		myAmount = Mathf.Min(currentLife,myAmount-(myBouclier*myAmount/100));
 		
 		GameController.instance.addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
-		GameController.instance.addCardModifier(GameController.instance.currentPlayingCard, myAmount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
+		//GameController.instance.addCardModifier(GameController.instance.currentPlayingCard, myAmount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
 		
 		GameController.instance.displaySkillEffect(target, "-"+amount+" PV", 3, 1);
-		GameController.instance.displaySkillEffect(GameController.instance.currentPlayingCard, "- "+myAmount+" PV", 3, 1);
+		//GameController.instance.displaySkillEffect(GameController.instance.currentPlayingCard, "- "+myAmount+" PV", 3, 1);
 	}
 	
 	public override void failedToCastOn(int target, int indexFailure){
-		GameController.instance.displaySkillEffect(target, GameController.instance.castFailures.getFailure(indexFailure), 5, 1);
+		//GameController.instance.displaySkillEffect(target, GameController.instance.castFailures.getFailure(indexFailure), 5, 1);
 	}
 	
 	public override bool isLaunchable(Skill s){

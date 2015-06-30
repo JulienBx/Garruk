@@ -24,10 +24,10 @@ public class Agilite : GameSkill
 	
 	public override void applyOn(){
 		int esquive = GameController.instance.getCurrentSkill().ManaCost;
-		int target = GameController.instance.currentPlayingCard ;
+		//int target = GameController.instance.currentPlayingCard ;
 		
-		GameController.instance.addCardModifier(target, esquive, ModifierType.Type_EsquivePercentage, ModifierStat.Stat_No, -1, 1, "Esquive", esquive+"% d'esquiver les attaques physiques", "Permanent");
-		GameController.instance.displaySkillEffect(target, "Esquive : "+esquive+"%", 3, 0);
+		//GameController.instance.addCardModifier(target, esquive, ModifierType.Type_EsquivePercentage, ModifierStat.Stat_No, -1, 1, "Esquive", esquive+"% d'esquiver les attaques physiques", "Permanent");
+		//GameController.instance.displaySkillEffect(target, "Esquive : "+esquive+"%", 3, 0);
 	}
 	
 	public override bool isLaunchable(Skill s){

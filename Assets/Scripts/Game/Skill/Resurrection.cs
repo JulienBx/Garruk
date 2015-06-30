@@ -11,7 +11,7 @@ public class Resurrection : GameSkill
 	public override void launch()
 	{
 		Debug.Log("Je lance Resurrection");
-		GameController.instance.lookForDeadTarget("Choisir une cible pour Resurrection", "Lancer Resurrection");
+		//GameController.instance.lookForDeadTarget("Choisir une cible pour Resurrection", "Lancer Resurrection");
 	}
 
 	public void nextStep()

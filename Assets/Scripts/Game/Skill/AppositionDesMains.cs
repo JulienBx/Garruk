@@ -17,8 +17,8 @@ public class AppositionDesMains : GameSkill
 	{
 		int amount = GameController.instance.getCurrentSkill().ManaCost;
 		
-		int myPlayerID = GameController.instance.currentPlayingCard;
-		GameController.instance.displaySkillEffect(myPlayerID, "Apposition des mains", 3, 2);
+		//int myPlayerID = GameController.instance.currentPlayingCard;
+		//GameController.instance.displaySkillEffect(myPlayerID, "Apposition des mains", 3, 2);
 		
 //		if (args[0] > GameController.instance.getCard(this.targets[0]).GetEsquive())
 //		{                             
@@ -45,10 +45,10 @@ public class AppositionDesMains : GameSkill
 			tempInt = GameController.instance.getTile(t.x, t.y).characterID;
 			if (tempInt!=-1)
 			{
-				if (GameController.instance.getPCC(tempInt).cannotBeTargeted==-1)
-				{
-					isLaunchable = true ;
-				}
+//				if (GameController.instance.getPCC(tempInt).cannotBeTargeted==-1)
+//				{
+//					isLaunchable = true ;
+//				}
 			}
 			i++;
 		}

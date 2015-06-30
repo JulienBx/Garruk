@@ -10,7 +10,7 @@ public class BouleEnergie : GameSkill
 	
 	public override void launch()
 	{
-		GameController.instance.lookForAnyTile();
+		//GameController.instance.lookForAnyTile();
 	}
 	
 	public override void resolve(List<int> targetsPCC)

@@ -5,222 +5,92 @@ using System.Collections.Generic;
 
 public class GameController : Photon.MonoBehaviour
 {	
-	//Variables UNITY
-	public bool isReconnecting;
-	public GameObject tile ;
+	//GameObjects publics
+	public GameObject tileModel ;
+	public GameObject verticalBorderModel;
+	public GameObject horizontalBorderModel;
+	public GameObject backgroundImageModel;
+	public GameObject playingCardModel;
+	public GameObject skillButtonModel;
+	public static GameController instance;
+	
+	//Paramètres du board
+	public int nbFreeStartRows ;
 	public int boardWidth ;
 	public int boardHeight ;
-	public GameObject[] characters;
-	public GameObject playingCard;
-	public GameObject verticalBorder;
-	public GameObject horizontalBorder;
-	public GameObject backGO;
-	public GameObject TutorialObject;
-	public Texture2D[] backgroundGO ;
-	public int nbFreeStartRows ;
-	public GUIStyle[] gameScreenStyles;
-	bool isRunningSkill = false ;
-	bool bothPlayerLoaded = false ;
-	public bool playingCardHasMoved = false ;
-
-	int numberOfExpectedArgs ;
+	public float timerTurn ;
+	public int limitCharacterSide = 4;
 	
-	public int[] skillArgs ;
-
-	public Texture2D[] cursors ;
-	public GameObject gameEvent;
-	public GameObject skillObject;
-
-	public bool playindCardHasPlayed = false ;
-
-	//Variables du controlleur
-	public bool isTriggeringSkill = false;
-	public CastFailures castFailures = new CastFailures();
-	public static GameController instance;
-	public bool isFirstPlayer = false;
-	public Deck myDeck;
+	//Styles et textes
+	public GUIStyle[] gameStyles;
+	public GUIStyle[] gameTexts;
+	
+	//Tutoriel
+	public GameObject TutorialObject;
+	
+	//URL pour les appels en BDD
+	string URLStat = ApplicationModel.host + "updateResult.php";
+	
+	//Gameobjects de la scène
 	GameObject[,] tiles ;
-	public GameObject[] playingCards ;
 	GameObject[] verticalBorders ;
 	GameObject[] horizontalBorders ;
-	GameObject background ;
-	List<GameObject> gameEvents;
-
-	GameObject selectedPlayingCard ;
-	GameObject[] skillsObjects ;
-
-	GameObject selectedOpponentCard ;
-	GameObject[] opponentSkillsObjects ;
-
-	Tile currentHoveredTile ;
-	Tile currentClickedTile ;
-	Tile currentOpponentClickedTile ;
-	Tile currentPlayingTile ;
-	int hoveredPlayingCard = -1;
-	int clickedPlayingCard = -1;
-	int clickedOpponentPlayingCard = -1;
-	bool isHovering = false ;
-	bool isDestinationDrawn = true ;
-
-	public float borderSize ;
-
-	int widthScreen ; 
-	int heightScreen ;
-	float tileScale ; 
-	int backgroundType = -1 ;
-	const string roomNamePrefix = "GarrukGame";
-	private int nbPlayers = 0 ;
-	public User[] users;
-	GameView gameView;
-
-	bool isDragging = false;
-
-	GameSkill skillToBeCast;
-	int nbPlayersReadyToFight; 
-
-	public int currentPlayingCard = -1;
-	public int eventMax;
-	int nbActionPlayed = 0;
-	int nbTurns = 0 ;
-
-	int[] rankedPlayingCardsID; 
-
-	int myNextPlayer ;
-	int hisNextPlayer ;
-
-	float timerTurn = 30;
-	bool startTurn = false;
-	bool timeElapsed = false;
+	GameObject[] playingCards ;
+	GameObject[] skillButtons ;
+	GameObject backgroundImage ;
+	GameObject tutorial;
 	
-	int nextCharacterPositionTimeline;
-
+	//Variables de gestion
+	bool isReconnecting = false ;
+	bool isFirstPlayer = false;
+	bool isRunningSkill = false ;
+	bool bothPlayerLoaded = false ;
+	CastFailures castFailures = new CastFailures();
+	const string roomNamePrefix = "GarrukGame";
+	int nbPlayers = 0 ;
+	User[] users;
+	GameView gameView;
+	int nbPlayersReadyToFight; 
+	int currentPlayingCard = -1;
+	int nbTurns = 0 ;
+	int[] rankedPlayingCardsID; 
 	GameSkill[] gameskills ;
-	public int limitCharacterSide = 4;
-	List<PlayingCardController> deads;
-	string URLStat = ApplicationModel.host + "updateResult.php";
-
-	bool gameEventInitialized = false;
-	AudioSource audioEndTurn;
-	int soundNbAlarm = 10;
-
-	public int clickedSkill ;
 	public TargetPCCHandler targetPCCHandler ;
 	public TargetTileHandler targetTileHandler ;
-
-	public List<LifeBarsController> lifeBarsController = new List<LifeBarsController>();
-	public LeftStatsController leftStats;
-	public RightStatsController rightStats;
-
-	private GameObject tutorial;
-	private bool isTutorialLaunched;
+	bool isTutorialLaunched;
+	AudioSource audioEndTurn;
 
 	void Awake()
 	{
 		instance = this;
-		this.gameView = Camera.main.gameObject.AddComponent <GameView>();
-		this.gameView.gameScreenVM.setStyles(gameScreenStyles);
-		tiles = new GameObject[boardWidth, boardHeight];
-		playingCards = new GameObject[2 * this.limitCharacterSide];
-		gameEvents = new List<GameObject>();
-		this.skillArgs = new int[10];
-
+		this.tiles = new GameObject[boardWidth, boardHeight];
+		this.playingCards = new GameObject[2 * this.limitCharacterSide];
 		this.nbPlayersReadyToFight = 0;
 		this.currentPlayingCard = -1;
-		this.eventMax = 11;
-		this.verticalBorders = new GameObject[this.boardWidth + 1];
-		this.horizontalBorders = new GameObject[this.boardHeight + 1];
-		foreach (LifeBarsController lifebarC in GetComponents<LifeBarsController>())
-		{
-			lifeBarsController.Add(lifebarC);
-		}
-		rightStats = GetComponent<RightStatsController>();
-		leftStats = GetComponent<LeftStatsController>();
+		this.users = new User[2];
+		this.audioEndTurn = GetComponent<AudioSource>();
+		
 		this.createBackground();
-		this.resize();
+		this.gameView = Camera.main.gameObject.AddComponent <GameView>();
+		
 		this.initSkills();
-	}
-	
-	void Start()
-	{	
-		users = new User[2];
+		
 		if (ApplicationModel.launchGameTutorial)
 		{
 			this.tutorial = Instantiate(this.TutorialObject) as GameObject;
 			this.tutorial.GetComponent<TutorialObjectController>().launchSequence(1300);
 			this.isTutorialLaunched = true;
-		}
-		PhotonNetwork.ConnectUsingSettings(ApplicationModel.photonSettings);
-		PhotonNetwork.autoCleanUpPlayerObjects = false;
-		audioEndTurn = GetComponent<AudioSource>();
-		//this.lifeBarsController [0].removeLife1(25);
-		//this.lifeBarsController [1].removeLife1(15);
-	}	
-
-	void Update()
-	{	
-		if (this.widthScreen != Screen.width || this.heightScreen != Screen.height)
-		{
-			this.resize();
-		}
-		for (int i = 0; i < gameView.gameScreenVM.messagesToDisplay.Count; i++)
-		{
-			gameView.gameScreenVM.timersPopUp [i] -= Time.deltaTime;
-			if (gameView.gameScreenVM.timersPopUp [i] < 0)
-			{
-				gameView.gameScreenVM.messagesToDisplay.RemoveAt(i);
-				gameView.gameScreenVM.timersPopUp.RemoveAt(i);
-				gameView.gameScreenVM.centerMessageRects.RemoveAt(i);
-				gameView.gameScreenVM.resizePopUps();
-			}
-		}
-
-		
-		if (startTurn && !isTutorialLaunched)
-		{
-			gameView.gameScreenVM.timer -= Time.deltaTime;
-			if (timeElapsed)
-			{
-				timeElapsed = false;
-				gameView.gameScreenVM.timer -= 1;
-				displayPopUpMessage("Temps ecoulé", 3f);
-			}
-			if (gameView.gameScreenVM.timer < soundNbAlarm && !timeElapsed)
-			{
-				if (this.isFirstPlayer == (currentPlayingCard < limitCharacterSide))
-				{
-					if (soundNbAlarm < 6 || soundNbAlarm == 10)
-					{
-						audioEndTurn.Play();
-					}
-					soundNbAlarm--;
-				}
-			}
-			if (gameView.gameScreenVM.timer < 0 && gameView.gameScreenVM.timer > -1)
-			{
-				if (this.isFirstPlayer == (currentPlayingCard < limitCharacterSide))
-				{
-					timeElapsed = true;
-					clickSkillHandler(5);
-				}
-			}
+			
+			PhotonNetwork.ConnectUsingSettings(ApplicationModel.photonSettings);
+			PhotonNetwork.autoCleanUpPlayerObjects = false;
 		}
 	}
 
-	public void resize()
+	public void resize(int w, int h)
 	{
-		this.widthScreen = Screen.width;
-		this.heightScreen = Screen.height;
-		if (this.widthScreen * 10f / 6f > this.heightScreen)
-		{
-			this.tileScale = 1f;
-		} else
-		{
-			this.tileScale = 1f * (1.0f * widthScreen / heightScreen) * 10f / 6f;
-		}
+		this.gameView.gameVM.resize(w , h);
 
-		this.gameView.gameScreenVM.recalculate(widthScreen, heightScreen);
 		this.resizeBackground();
-		int h = this.gameView.gameScreenVM.heightScreen;
 		this.recalculateGameEvents();
 		if (EndSceneController.instance != null)
 		{
@@ -231,336 +101,323 @@ public class GameController : Photon.MonoBehaviour
 			this.tutorial.GetComponent<TutorialObjectController>().resize();
 		}
 	}
-
-	public void displayPopUpMessage(string message, float time)
+	
+	public void timeOut()
 	{
-		gameView.gameScreenVM.messagesToDisplay.Add(message);
-		gameView.gameScreenVM.timersPopUp.Add(time);
-		gameView.gameScreenVM.centerMessageRects.Add(new Rect());
-		gameView.gameScreenVM.resizePopUps();
+	
+	}
+	
+	public void playAlarm()
+	{
+		
 	}
 
 	public void createBackground()
 	{
-		if (this.widthScreen > this.heightScreen)
-		{
-			this.background = (GameObject)Instantiate(this.backGO);
-		} else
-		{
-			this.background = (GameObject)Instantiate(this.backGO);
-		}
-
-		for (int i = 0; i < this.verticalBorders.Length; i++)
-		{
-			this.verticalBorders [i] = (GameObject)Instantiate(this.verticalBorder);
-		}
-		for (int i = 0; i < this.horizontalBorders.Length; i++)
-		{
-			this.horizontalBorders [i] = (GameObject)Instantiate(this.horizontalBorder);
-		}
-
-		this.selectedPlayingCard = (GameObject)Instantiate(this.playingCard);
-		this.selectedPlayingCard.GetComponent<PlayingCardController>().isMine = true;
-		this.selectedPlayingCard.GetComponent<PlayingCardController>().setControlActive(false);
-		this.selectedPlayingCard.GetComponent<PlayingCardController>().setActive(false);
+		this.verticalBorders = new GameObject[this.boardWidth + 1];
+		this.horizontalBorders = new GameObject[this.boardHeight + 1];
 		
-		this.selectedOpponentCard = (GameObject)Instantiate(this.playingCard);
-		this.selectedOpponentCard.GetComponent<PlayingCardController>().setControlActive(false);
-		this.selectedOpponentCard.GetComponent<PlayingCardController>().setActive(false);
+		this.backgroundImage = (GameObject)Instantiate(this.backgroundImageModel);
 		
-		this.skillsObjects = new GameObject[6];
-		this.opponentSkillsObjects = new GameObject[6];
-		for (int i = 0; i < 6; i++)
-		{
-			this.skillsObjects [i] = (GameObject)Instantiate(this.skillObject);
-			this.skillsObjects [i].GetComponent<SkillObjectController>().setOwner(true);
-			this.skillsObjects [i].GetComponent<SkillObjectController>().setID(i);
-			this.skillsObjects [i].GetComponent<SkillObjectController>().setActive(false);
-			this.opponentSkillsObjects [i] = (GameObject)Instantiate(this.skillObject);
-			this.opponentSkillsObjects [i].GetComponent<SkillObjectController>().setOwner(false);
-			this.opponentSkillsObjects [i].GetComponent<SkillObjectController>().setID(i);
-			this.opponentSkillsObjects [i].GetComponent<SkillObjectController>().setActive(false);
-		}
-		this.skillsObjects [4].GetComponent<SkillObjectController>().setAttack();
-		this.skillsObjects [5].GetComponent<SkillObjectController>().setPass();
+
+//		for (int i = 0; i < this.verticalBorders.Length; i++)
+//		{
+//			this.verticalBorders [i] = (GameObject)Instantiate(this.verticalBorder);
+//		}
+//		for (int i = 0; i < this.horizontalBorders.Length; i++)
+//		{
+//			this.horizontalBorders [i] = (GameObject)Instantiate(this.horizontalBorder);
+//		}
+//
+//		this.selectedPlayingCard = (GameObject)Instantiate(this.playingCard);
+//		this.selectedPlayingCard.GetComponent<PlayingCardController>().isMine = true;
+//		this.selectedPlayingCard.GetComponent<PlayingCardController>().setControlActive(false);
+//		this.selectedPlayingCard.GetComponent<PlayingCardController>().setActive(false);
+//		
+//		this.selectedOpponentCard = (GameObject)Instantiate(this.playingCard);
+//		this.selectedOpponentCard.GetComponent<PlayingCardController>().setControlActive(false);
+//		this.selectedOpponentCard.GetComponent<PlayingCardController>().setActive(false);
+//		
+//		this.skillsObjects = new GameObject[6];
+//		this.opponentSkillsObjects = new GameObject[6];
+//		for (int i = 0; i < 6; i++)
+//		{
+//			this.skillsObjects [i] = (GameObject)Instantiate(this.skillObject);
+//			this.skillsObjects [i].GetComponent<SkillObjectController>().setOwner(true);
+//			this.skillsObjects [i].GetComponent<SkillObjectController>().setID(i);
+//			this.skillsObjects [i].GetComponent<SkillObjectController>().setActive(false);
+//			this.opponentSkillsObjects [i] = (GameObject)Instantiate(this.skillObject);
+//			this.opponentSkillsObjects [i].GetComponent<SkillObjectController>().setOwner(false);
+//			this.opponentSkillsObjects [i].GetComponent<SkillObjectController>().setID(i);
+//			this.opponentSkillsObjects [i].GetComponent<SkillObjectController>().setActive(false);
+//		}
+//		this.skillsObjects [4].GetComponent<SkillObjectController>().setAttack();
+//		this.skillsObjects [5].GetComponent<SkillObjectController>().setPass();
 	}
 
 	public void resizeBackground()
 	{
-		if (this.widthScreen > this.heightScreen && this.backgroundType != 1)
-		{
-			this.background.renderer.materials [0].mainTexture = this.backgroundGO [1];
-			this.backgroundType = 1;
-		} else if (this.widthScreen <= this.heightScreen && this.backgroundType != 0)
-		{
-			this.background.renderer.materials [0].mainTexture = this.backgroundGO [0];
-			this.backgroundType = 0;
-		}
-		
-		if (this.widthScreen > this.heightScreen)
-		{
-			this.background.transform.localScale = new Vector3(20f, 10f, 0.5f);
-		} else
-		{
-			if (this.tileScale == 1f)
-			{
-				this.background.transform.localScale = new Vector3(10f * tileScale * (1.0f * widthScreen / heightScreen), 10 * tileScale, 0.5f);
-			} else
-			{
-				this.background.transform.localScale = new Vector3(6 * tileScale, 12 * tileScale, 0.5f);
-			}
-		}
-		
-		Vector3 position;
-		Vector3 scale;
-		for (int i = 0; i < this.horizontalBorders.Length; i++)
-		{
-			position = new Vector3(0, (5f - 4f * this.tileScale) + tileScale * i - 5f, -1.2f);
-			this.horizontalBorders [i].transform.localPosition = position;
-			this.horizontalBorders [i].transform.localScale = new Vector3(this.tileScale * 6f, this.borderSize, this.borderSize);
-		}
-
-		for (int i = 0; i < this.verticalBorders.Length; i++)
-		{
-			position = new Vector3((-3 * this.tileScale) + i * this.tileScale, 0f, -1.2f);
-			this.verticalBorders [i].transform.localPosition = position;
-			this.verticalBorders [i].transform.localScale = new Vector3(this.verticalBorders [i].transform.localScale.x, 8f * tileScale, this.verticalBorders [i].transform.localScale.z);
-		}
-
-		position = new Vector3((-2.6f * this.tileScale), -4.5f * this.tileScale, -1f);
-		scale = new Vector3(0.8f, 0.8f, 0.8f);
-		this.selectedPlayingCard.GetComponent<PlayingCardController>().setPosition(position, scale);
-
-		position = new Vector3((-2.6f * this.tileScale), 4.5f * this.tileScale, -1f);
-		scale = new Vector3(0.8f, 0.8f, 0.8f);
-		this.selectedOpponentCard.GetComponent<PlayingCardController>().setPosition(position, scale);
-
-		for (int i = 0; i < this.skillsObjects.Length; i++)
-		{
-			position = new Vector3((-1.5f * this.tileScale) + i * this.tileScale * 0.8f, -4.4f * this.tileScale, -1f);
-			scale = new Vector3(0.6f, 0.6f, 0.6f);
-			this.skillsObjects [i].GetComponent<SkillObjectController>().setPosition(position, scale);
-			this.skillsObjects [i].GetComponent<SkillObjectController>().resize();
-			this.skillsObjects [i].GetComponent<SkillObjectController>().show();
-		}
-
-		for (int i = 0; i < this.opponentSkillsObjects.Length; i++)
-		{
-			position = new Vector3((-1.5f * this.tileScale) + i * this.tileScale * 0.8f, 4.4f * this.tileScale, -1f);
-			scale = new Vector3(0.6f, 0.6f, 0.6f);
-			this.opponentSkillsObjects [i].GetComponent<SkillObjectController>().setPosition(position, scale);
-			this.opponentSkillsObjects [i].GetComponent<SkillObjectController>().resize();
-			this.opponentSkillsObjects [i].GetComponent<SkillObjectController>().show();
-		}
-		this.selectedPlayingCard.GetComponent<PlayingCardController>().resize();
-		this.selectedOpponentCard.GetComponent<PlayingCardController>().resize();
+//		if (this.widthScreen > this.heightScreen && this.backgroundType != 1)
+//		{
+//			this.background.renderer.materials [0].mainTexture = this.backgroundGO [1];
+//			this.backgroundType = 1;
+//		} else if (this.widthScreen <= this.heightScreen && this.backgroundType != 0)
+//		{
+//			this.background.renderer.materials [0].mainTexture = this.backgroundGO [0];
+//			this.backgroundType = 0;
+//		}
+//		
+//		if (this.widthScreen > this.heightScreen)
+//		{
+//			this.background.transform.localScale = new Vector3(20f, 10f, 0.5f);
+//		} else
+//		{
+//			if (this.tileScale == 1f)
+//			{
+//				this.background.transform.localScale = new Vector3(10f * tileScale * (1.0f * widthScreen / heightScreen), 10 * tileScale, 0.5f);
+//			} else
+//			{
+//				this.background.transform.localScale = new Vector3(6 * tileScale, 12 * tileScale, 0.5f);
+//			}
+//		}
+//		
+//		Vector3 position;
+//		Vector3 scale;
+//		for (int i = 0; i < this.horizontalBorders.Length; i++)
+//		{
+//			position = new Vector3(0, (5f - 4f * this.tileScale) + tileScale * i - 5f, -1.2f);
+//			this.horizontalBorders [i].transform.localPosition = position;
+//			this.horizontalBorders [i].transform.localScale = new Vector3(this.tileScale * 6f, this.borderSize, this.borderSize);
+//		}
+//
+//		for (int i = 0; i < this.verticalBorders.Length; i++)
+//		{
+//			position = new Vector3((-3 * this.tileScale) + i * this.tileScale, 0f, -1.2f);
+//			this.verticalBorders [i].transform.localPosition = position;
+//			this.verticalBorders [i].transform.localScale = new Vector3(this.verticalBorders [i].transform.localScale.x, 8f * tileScale, this.verticalBorders [i].transform.localScale.z);
+//		}
+//
+//		position = new Vector3((-2.6f * this.tileScale), -4.5f * this.tileScale, -1f);
+//		scale = new Vector3(0.8f, 0.8f, 0.8f);
+//		this.selectedPlayingCard.GetComponent<PlayingCardController>().setPosition(position, scale);
+//
+//		position = new Vector3((-2.6f * this.tileScale), 4.5f * this.tileScale, -1f);
+//		scale = new Vector3(0.8f, 0.8f, 0.8f);
+//		this.selectedOpponentCard.GetComponent<PlayingCardController>().setPosition(position, scale);
+//
+//		for (int i = 0; i < this.skillsObjects.Length; i++)
+//		{
+//			position = new Vector3((-1.5f * this.tileScale) + i * this.tileScale * 0.8f, -4.4f * this.tileScale, -1f);
+//			scale = new Vector3(0.6f, 0.6f, 0.6f);
+//			this.skillsObjects [i].GetComponent<SkillObjectController>().setPosition(position, scale);
+//			this.skillsObjects [i].GetComponent<SkillObjectController>().resize();
+//			this.skillsObjects [i].GetComponent<SkillObjectController>().show();
+//		}
+//
+//		for (int i = 0; i < this.opponentSkillsObjects.Length; i++)
+//		{
+//			position = new Vector3((-1.5f * this.tileScale) + i * this.tileScale * 0.8f, 4.4f * this.tileScale, -1f);
+//			scale = new Vector3(0.6f, 0.6f, 0.6f);
+//			this.opponentSkillsObjects [i].GetComponent<SkillObjectController>().setPosition(position, scale);
+//			this.opponentSkillsObjects [i].GetComponent<SkillObjectController>().resize();
+//			this.opponentSkillsObjects [i].GetComponent<SkillObjectController>().show();
+//		}
+//		this.selectedPlayingCard.GetComponent<PlayingCardController>().resize();
+//		this.selectedOpponentCard.GetComponent<PlayingCardController>().resize();
 	}
 
 	public void hideHoveredTile()
 	{
-		this.tiles [currentHoveredTile.x, currentHoveredTile.y].GetComponent<TileController>().hideHover();
-		this.isHovering = false;
+		//this.tiles [currentHoveredTile.x, currentHoveredTile.y].GetComponent<TileController>().hideHover();
+		//this.isHovering = false;
 	}
 
 	public void hideHoveredPlayingCard()
 	{
-		this.playingCards [this.hoveredPlayingCard].GetComponent<PlayingCardController>().hideHover();
-		this.isHovering = false;
-		this.hoveredPlayingCard = -1;
+//		this.playingCards [this.hoveredPlayingCard].GetComponent<PlayingCardController>().hideHover();
+//		this.isHovering = false;
+//		this.hoveredPlayingCard = -1;
 	}
 
 	public void hoverTile(Tile t)
 	{
-		this.tiles [t.x, t.y].GetComponent<TileController>().displayHover();
-		this.currentHoveredTile = t;
-		this.isHovering = true;
-		this.hoveredPlayingCard = -1;
+//		this.tiles [t.x, t.y].GetComponent<TileController>().displayHover();
+//		this.currentHoveredTile = t;
+//		this.isHovering = true;
+//		this.hoveredPlayingCard = -1;
 	}
 
 	public void hoverPlayingCard(int idPlayingCard)
 	{
-		this.hoveredPlayingCard = idPlayingCard;
-		this.playingCards [idPlayingCard].GetComponent<PlayingCardController>().displayHover();
-		this.currentHoveredTile = this.playingCards [idPlayingCard].GetComponent<PlayingCardController>().tile;
-		this.isHovering = true;
+//		this.hoveredPlayingCard = idPlayingCard;
+//		this.playingCards [idPlayingCard].GetComponent<PlayingCardController>().displayHover();
+//		this.currentHoveredTile = this.playingCards [idPlayingCard].GetComponent<PlayingCardController>().tile;
+//		this.isHovering = true;
 	}
 
 	public void activatePlayingCard(int idPlayingCard)
 	{
-		if (this.hoveredPlayingCard != -1)
-		{
-			this.hideHoveredPlayingCard();
-		}
-		this.currentPlayingCard = idPlayingCard;
-
-		if (this.isFirstPlayer == (idPlayingCard < limitCharacterSide))
-		{
-			this.isDragging = true;
-			this.clickedPlayingCard = idPlayingCard;
-		} else
-		{
-			this.clickedOpponentPlayingCard = idPlayingCard;
-		}
-
-		this.playingCards [this.currentPlayingCard].GetComponent<PlayingCardController>().displayPlaying();
-		this.currentPlayingTile = this.playingCards [this.currentPlayingCard].GetComponent<PlayingCardController>().tile;
-		this.currentClickedTile = this.playingCards [this.currentPlayingCard].GetComponent<PlayingCardController>().tile;
-
-		if (this.isFirstPlayer == (idPlayingCard < limitCharacterSide))
-		{
-			this.showMyPlayingSkills(this.currentPlayingCard);
-		} else
-		{
-			this.showOpponentSkills(this.currentPlayingCard);
-		}
+//		if (this.hoveredPlayingCard != -1)
+//		{
+//			this.hideHoveredPlayingCard();
+//		}
+//		this.currentPlayingCard = idPlayingCard;
+//
+//		if (this.isFirstPlayer == (idPlayingCard < limitCharacterSide))
+//		{
+//			this.isDragging = true;
+//			this.clickedPlayingCard = idPlayingCard;
+//		} else
+//		{
+//			this.clickedOpponentPlayingCard = idPlayingCard;
+//		}
+//
+//		this.playingCards [this.currentPlayingCard].GetComponent<PlayingCardController>().displayPlaying();
+//		this.currentPlayingTile = this.playingCards [this.currentPlayingCard].GetComponent<PlayingCardController>().tile;
+//		this.currentClickedTile = this.playingCards [this.currentPlayingCard].GetComponent<PlayingCardController>().tile;
+//
+//		if (this.isFirstPlayer == (idPlayingCard < limitCharacterSide))
+//		{
+//			this.showMyPlayingSkills(this.currentPlayingCard);
+//		} else
+//		{
+//			this.showOpponentSkills(this.currentPlayingCard);
+//		}
 	}
 
 	public void hideClickedTile()
 	{
-		this.tiles [currentClickedTile.x, currentClickedTile.y].GetComponent<TileController>().hideSelected();
+		//this.tiles [currentClickedTile.x, currentClickedTile.y].GetComponent<TileController>().hideSelected();
 	}
 
 	public void hoverPlayingCardHandler(int idPlayingCard)
 	{
-		bool toHover = true;
-		bool toHide = false;
-
-		if (this.isHovering)
-		{
-			if (this.currentHoveredTile.x != this.playingCards [idPlayingCard].GetComponent<PlayingCardController>().tile.x || this.currentHoveredTile.y != this.playingCards [idPlayingCard].GetComponent<PlayingCardController>().tile.y)
-			{
-				toHide = true;
-			} else
-			{
-				toHover = false;
-			}
-		}
-		if (this.clickedPlayingCard != -1)
-		{
-			if (clickedPlayingCard == idPlayingCard)
-			{
-				toHover = false;
-			}
-		}
-		if (this.clickedOpponentPlayingCard != -1)
-		{
-			if (clickedOpponentPlayingCard == idPlayingCard)
-			{
-				toHover = false;
-			}
-		}
-		if (this.currentPlayingCard != -1)
-		{
-			if (currentPlayingCard == idPlayingCard)
-			{
-				toHover = false;
-			}
-		}
-
-		if (toHide)
-		{
-			if (this.hoveredPlayingCard == -1)
-			{
-				this.hideHoveredTile();
-			} else
-			{
-				this.hideHoveredPlayingCard();
-			}
-		}
-		if (toHover)
-		{
-			this.hoverPlayingCard(idPlayingCard);
-		}
+//		bool toHover = true;
+//		bool toHide = false;
+//
+//		if (this.isHovering)
+//		{
+//			if (this.currentHoveredTile.x != this.playingCards [idPlayingCard].GetComponent<PlayingCardController>().tile.x || this.currentHoveredTile.y != this.playingCards [idPlayingCard].GetComponent<PlayingCardController>().tile.y)
+//			{
+//				toHide = true;
+//			} else
+//			{
+//				toHover = false;
+//			}
+//		}
+//		if (this.clickedPlayingCard != -1)
+//		{
+//			if (clickedPlayingCard == idPlayingCard)
+//			{
+//				toHover = false;
+//			}
+//		}
+//		if (this.clickedOpponentPlayingCard != -1)
+//		{
+//			if (clickedOpponentPlayingCard == idPlayingCard)
+//			{
+//				toHover = false;
+//			}
+//		}
+//		if (this.currentPlayingCard != -1)
+//		{
+//			if (currentPlayingCard == idPlayingCard)
+//			{
+//				toHover = false;
+//			}
+//		}
+//
+//		if (toHide)
+//		{
+//			if (this.hoveredPlayingCard == -1)
+//			{
+//				this.hideHoveredTile();
+//			} else
+//			{
+//				this.hideHoveredPlayingCard();
+//			}
+//		}
+//		if (toHover)
+//		{
+//			this.hoverPlayingCard(idPlayingCard);
+//		}
 	}
 
 	public void hoverTileHandler(Tile t)
 	{
-		bool toHover = true;
-		bool toHide = false;
-		if (this.isHovering)
-		{
-			if (t.x != this.currentHoveredTile.x || t.y != this.currentHoveredTile.y)
-			{
-				toHide = true;
-			} else
-			{
-				toHover = false;
-			}
-		}
-		if (this.currentPlayingCard != -1)
-		{
-
-		}
-
-		if (toHide)
-		{
-			if (this.hoveredPlayingCard == -1)
-			{
-				this.hideHoveredTile();
-			} else
-			{
-				this.hideHoveredPlayingCard();
-			}
-		}
-		if (toHover)
-		{
-			this.hoverTile(t);
-		}
+//		bool toHover = true;
+//		bool toHide = false;
+//		if (this.isHovering)
+//		{
+//			if (t.x != this.currentHoveredTile.x || t.y != this.currentHoveredTile.y)
+//			{
+//				toHide = true;
+//			} else
+//			{
+//				toHover = false;
+//			}
+//		}
+//		if (this.currentPlayingCard != -1)
+//		{
+//
+//		}
+//
+//		if (toHide)
+//		{
+//			if (this.hoveredPlayingCard == -1)
+//			{
+//				this.hideHoveredTile();
+//			} else
+//			{
+//				this.hideHoveredPlayingCard();
+//			}
+//		}
+//		if (toHover)
+//		{
+//			this.hoverTile(t);
+//		}
 	}
 
 	public void hideClickedPlayingCard()
 	{
-		this.hideMySkills();
-
-		this.playingCards [this.clickedPlayingCard].GetComponent<PlayingCardController>().hideSelected();
-		print("Je hide " + this.clickedPlayingCard);
-		this.clickedPlayingCard = -1;
+//		this.hideMySkills();
+//
+//		this.playingCards [this.clickedPlayingCard].GetComponent<PlayingCardController>().hideSelected();
+//		print("Je hide " + this.clickedPlayingCard);
+//		this.clickedPlayingCard = -1;
 	}
 
 	public void hideOpponentClickedPlayingCard()
 	{
-		this.hideOpponentSkills();
-
-		this.playingCards [this.clickedOpponentPlayingCard].GetComponent<PlayingCardController>().hideSelected();
-		this.clickedOpponentPlayingCard = -1;
+//		this.hideOpponentSkills();
+//
+//		this.playingCards [this.clickedOpponentPlayingCard].GetComponent<PlayingCardController>().hideSelected();
+//		this.clickedOpponentPlayingCard = -1;
 	}
 
 	public void clickPlayingCard(int idPlayingCard)
 	{
-		if (this.hoveredPlayingCard != -1)
-		{
-			this.hideHoveredPlayingCard();
-		}
-		this.playingCards [idPlayingCard].GetComponent<PlayingCardController>().displaySelected();
-		this.clickedPlayingCard = idPlayingCard;
-		this.currentClickedTile = this.playingCards [idPlayingCard].GetComponent<PlayingCardController>().tile;
-		this.showMyPlayingSkills(this.clickedPlayingCard);
+//		if (this.hoveredPlayingCard != -1)
+//		{
+//			this.hideHoveredPlayingCard();
+//		}
+//		this.playingCards [idPlayingCard].GetComponent<PlayingCardController>().displaySelected();
+//		this.clickedPlayingCard = idPlayingCard;
+//		this.currentClickedTile = this.playingCards [idPlayingCard].GetComponent<PlayingCardController>().tile;
+//		this.showMyPlayingSkills(this.clickedPlayingCard);
 	}
 
 	public void clickOpponentPlayingCard(int idPlayingCard)
 	{
-		if (this.hoveredPlayingCard != -1)
-		{
-			this.hideHoveredPlayingCard();
-		}
-		this.playingCards [idPlayingCard].GetComponent<PlayingCardController>().displayOpponentSelected();
-		this.clickedOpponentPlayingCard = idPlayingCard;
-		this.currentClickedTile = this.playingCards [idPlayingCard].GetComponent<PlayingCardController>().tile;
-
-		this.showOpponentSkills(this.clickedOpponentPlayingCard);
-	}
-	
-	public void lookForAnyTile()
-	{
-		this.numberOfExpectedArgs = 2;
-		
-		for (int i = 0; i < this.boardWidth; i++)
-		{
-			for (int j = 0; j < this.boardHeight; j++)
-			{
-				this.tiles [i, j].GetComponent<TileController>().setLookingForTileZone(true);
-			}
-		}
+//		if (this.hoveredPlayingCard != -1)
+//		{
+//			this.hideHoveredPlayingCard();
+//		}
+//		this.playingCards [idPlayingCard].GetComponent<PlayingCardController>().displayOpponentSelected();
+//		this.clickedOpponentPlayingCard = idPlayingCard;
+//		this.currentClickedTile = this.playingCards [idPlayingCard].GetComponent<PlayingCardController>().tile;
+//
+//		this.showOpponentSkills(this.clickedOpponentPlayingCard);
 	}
 	
 	public void changeZoneTargetTile(Tile t)
@@ -873,381 +730,338 @@ public class GameController : Photon.MonoBehaviour
 		}
 	}
 	
-	public void lookForAdjacentAllyTarget(string regularText, string buttonText)
-	{
-		this.numberOfExpectedArgs = 1;
-		
-		List<TileController> tempTiles;
-		tempTiles = new List<TileController>();
-		foreach (Tile t in this.getCurrentPCC().tile.getImmediateNeighbouringTiles())
-		{
-			if (this.currentPlayingCard < limitCharacterSide)
-			{
-				if (this.tiles [t.x, t.y].GetComponent<TileController>().characterID != -1 && this.tiles [t.x, t.y].GetComponent<TileController>().characterID < limitCharacterSide)
-				{
-					tempTiles.Add(this.tiles [t.x, t.y].GetComponent<TileController>());
-				}
-			} else
-			{
-				if (this.tiles [t.x, t.y].GetComponent<TileController>().characterID != -1 && this.tiles [t.x, t.y].GetComponent<TileController>().characterID >= limitCharacterSide)
-				{
-					tempTiles.Add(this.tiles [t.x, t.y].GetComponent<TileController>());
-				}
-			}
-		}
-		foreach (TileController tc in tempTiles)
-		{
-			if (!this.playingCards [tc.characterID].GetComponent<PlayingCardController>().isDead && this.playingCards [tc.characterID].GetComponent<PlayingCardController>().cannotBeTargeted == -1)
-			{
-				//this.playingCards [tc.characterID].GetComponent<PlayingCardController>().activateTargetHalo();
-			}
-		}
-	}
-
-	public void lookForDeadTarget(string regularText, string buttonText)
-	{
-		this.numberOfExpectedArgs++;
-		initDeadsList();
-		foreach (PlayingCardController pcc in deads)
-		{
-			//pcc.activateTargetHalo();
-		}
-	}
-	
 	void initDeadsList()
 	{
-		List<PlayingCardController> tempList = new List<PlayingCardController>();
-
-		this.deads = new List<PlayingCardController>();
-
-		foreach (GameObject g in playingCards)
-		{
-			PlayingCardController pcc = g.GetComponent<PlayingCardController>();
-			if (pcc.isDead)
-			{
-				tempList.Add(pcc);
-			}
-		}
-
-		GameObject go;
-		int i = 0;
-
-		foreach (PlayingCardController pcc in tempList)
-		{
-			go = (GameObject)Instantiate(this.playingCard);
-			PlayingCardController deadPcc = go.GetComponent<PlayingCardController>();
-
-			Camera camera = Camera.main;
-			Vector3 currentScale = go.renderer.bounds.size;
-			Vector3 v3 = new Vector3((0.02f + tileScale) * (boardWidth / 2 + 0.5f), 0, -1f);
-			
-			go.transform.position = v3;
-			go.tag = "deadCharacter";
-			go.transform.Translate((-transform.up * transform.localScale.y) * (-3.5f + i), Space.World);
-
-			deadPcc.setStyles(((pcc.IDCharacter < limitCharacterSide) == this.isFirstPlayer));
-			deadPcc.setCard(pcc.card);
-			deadPcc.setIDCharacter(pcc.IDCharacter);
-			
-			deadPcc.resizeDeadHalo(transform.localScale, i);
-			deadPcc.show();
-			
-			deads.Add(deadPcc);
-
-			i++;
-		}
+//		List<PlayingCardController> tempList = new List<PlayingCardController>();
+//
+//		foreach (GameObject g in playingCards)
+//		{
+//			PlayingCardController pcc = g.GetComponent<PlayingCardController>();
+//			if (pcc.isDead)
+//			{
+//				tempList.Add(pcc);
+//			}
+//		}
+//
+//		GameObject go;
+//		int i = 0;
+//
+//		foreach (PlayingCardController pcc in tempList)
+//		{
+//			go = (GameObject)Instantiate(this.playingCard);
+//			PlayingCardController deadPcc = go.GetComponent<PlayingCardController>();
+//
+//			Camera camera = Camera.main;
+//			Vector3 currentScale = go.renderer.bounds.size;
+//			Vector3 v3 = new Vector3((0.02f + tileScale) * (boardWidth / 2 + 0.5f), 0, -1f);
+//			
+//			go.transform.position = v3;
+//			go.tag = "deadCharacter";
+//			go.transform.Translate((-transform.up * transform.localScale.y) * (-3.5f + i), Space.World);
+//
+//			deadPcc.setStyles(((pcc.IDCharacter < limitCharacterSide) == this.isFirstPlayer));
+//			deadPcc.setCard(pcc.card);
+//			deadPcc.setIDCharacter(pcc.IDCharacter);
+//			
+//			deadPcc.resizeDeadHalo(transform.localScale, i);
+//			deadPcc.show();
+//			
+//			deads.Add(deadPcc);
+//
+//			i++;
+//		}
 	}
 
 	public void deactivateMySkills()
 	{
 		for (int i = 0; i < 6; i++)
 		{
-			this.skillsObjects [i].GetComponent<SkillObjectController>().setControlActive(false);
+			//this.skillsObjects [i].GetComponent<SkillObjectController>().setControlActive(false);
 		}
 	}
 
 	public void cancelSkill()
 	{
-		this.isRunningSkill = false;
-		this.playindCardHasPlayed = false;
-		for (int i = 0; i < playingCards.Length; i++)
-		{
-			this.getPCC(i).removeTargetHalo();	
-		}
-		for (int i = 0; i < this.boardWidth; i++)
-		{
-			for (int j = 0; j < this.boardHeight; j++)
-			{
-				this.tiles [i, j].GetComponent<TileController>().removePotentielTarget();
-				this.tiles [i, j].GetComponent<TileController>().removeHalo();
-			}
-		}
-		this.showMyPlayingSkills(this.currentPlayingCard);
+//		this.isRunningSkill = false;
+//		this.playindCardHasPlayed = false;
+//		for (int i = 0; i < playingCards.Length; i++)
+//		{
+//			this.getPCC(i).removeTargetHalo();	
+//		}
+//		for (int i = 0; i < this.boardWidth; i++)
+//		{
+//			for (int j = 0; j < this.boardHeight; j++)
+//			{
+//				this.tiles [i, j].GetComponent<TileController>().removePotentielTarget();
+//				this.tiles [i, j].GetComponent<TileController>().removeHalo();
+//			}
+//		}
+//		this.showMyPlayingSkills(this.currentPlayingCard);
 	}
 
 	public void hideActivatedPlayingCard()
 	{
-		if (this.isFirstPlayer == (this.currentPlayingCard < limitCharacterSide))
-		{
-			this.hideMySkills();
-		} else
-		{
-			this.hideOpponentSkills();
-		}
-
-		this.playingCards [this.currentPlayingCard].GetComponent<PlayingCardController>().hidePlaying();
-		if (this.currentPlayingCard == this.clickedPlayingCard)
-		{
-			this.clickedPlayingCard = -1;
-		}
-		this.currentPlayingCard = -1;
-		this.isDragging = false;
+//		if (this.isFirstPlayer == (this.currentPlayingCard < limitCharacterSide))
+//		{
+//			this.hideMySkills();
+//		} else
+//		{
+//			this.hideOpponentSkills();
+//		}
+//
+//		this.playingCards [this.currentPlayingCard].GetComponent<PlayingCardController>().hidePlaying();
+//		if (this.currentPlayingCard == this.clickedPlayingCard)
+//		{
+//			this.clickedPlayingCard = -1;
+//		}
+//		this.currentPlayingCard = -1;
+//		this.isDragging = false;
 	}
 
 	public void showMyPlayingSkills(int idc)
 	{
-		this.selectedPlayingCard.GetComponent<PlayingCardController>().setCard(this.playingCards [idc].GetComponent<PlayingCardController>().card);
-		this.selectedPlayingCard.GetComponent<PlayingCardController>().show();
-		this.selectedPlayingCard.GetComponent<PlayingCardController>().setActive(true);
-
-		List<Skill> skills = this.playingCards [idc].GetComponent<PlayingCardController>().card.Skills;
-		for (int i = 0; i < 4; i++)
-		{
-			if (i < skills.Count)
-			{
-				this.skillsObjects [i].GetComponent<SkillObjectController>().setSkill(skills [i]);
-				this.skillsObjects [i].GetComponent<SkillObjectController>().setActive(true);
-			} else
-			{
-				this.skillsObjects [i].GetComponent<SkillObjectController>().setActive(false);
-			}
-		}
-		
-		if (nbTurns != 0)
-		{
-			this.updateStatusMySkills(idc);
-		}
-		
-		bool isActive = !(nbTurns == 0) && (idc == this.currentPlayingCard);
-		this.skillsObjects [4].GetComponent<SkillObjectController>().setActive(isActive);
-		this.skillsObjects [5].GetComponent<SkillObjectController>().setActive(isActive);
+//		this.selectedPlayingCard.GetComponent<PlayingCardController>().setCard(this.playingCards [idc].GetComponent<PlayingCardController>().card);
+//		this.selectedPlayingCard.GetComponent<PlayingCardController>().show();
+//		this.selectedPlayingCard.GetComponent<PlayingCardController>().setActive(true);
+//
+//		List<Skill> skills = this.playingCards [idc].GetComponent<PlayingCardController>().card.Skills;
+//		for (int i = 0; i < 4; i++)
+//		{
+//			if (i < skills.Count)
+//			{
+//				this.skillsObjects [i].GetComponent<SkillObjectController>().setSkill(skills [i]);
+//				this.skillsObjects [i].GetComponent<SkillObjectController>().setActive(true);
+//			} else
+//			{
+//				this.skillsObjects [i].GetComponent<SkillObjectController>().setActive(false);
+//			}
+//		}
+//		
+//		if (nbTurns != 0)
+//		{
+//			this.updateStatusMySkills(idc);
+//		}
+//		
+//		bool isActive = !(nbTurns == 0) && (idc == this.currentPlayingCard);
+//		this.skillsObjects [4].GetComponent<SkillObjectController>().setActive(isActive);
+//		this.skillsObjects [5].GetComponent<SkillObjectController>().setActive(isActive);
 		
 	}
 		
 	public void updateStatusMySkills(int idc)
 	{
-		bool controlActive;
-		bool isActive = !(nbTurns == 0) && (idc == this.currentPlayingCard);
-		List<Skill> skills = this.playingCards [idc].GetComponent<PlayingCardController>().card.Skills;
-		for (int i = 0; i < 4; i++)
-		{
-			if (i < skills.Count)
-			{
-				this.skillsObjects [i].GetComponent<SkillObjectController>().setActiveStatus(isActive);
-				controlActive = this.gameskills [skills [i].Id].isLaunchable(skills [i]) && !this.playindCardHasPlayed && !this.isRunningSkill;
-				this.skillsObjects [i].GetComponent<SkillObjectController>().setControlStatus(controlActive);
-				this.skillsObjects [i].GetComponent<SkillObjectController>().show();
-			}
-		}
-		this.skillsObjects [4].GetComponent<SkillObjectController>().setActive(isActive);
-		if (isActive)
-		{
-			this.skillsObjects [4].GetComponent<SkillObjectController>().setAttackValue(this.playingCards [idc].GetComponent<PlayingCardController>().card.GetAttack());
-		}
-		this.skillsObjects [4].GetComponent<SkillObjectController>().setActiveStatus(isActive);
-		controlActive = this.gameskills [0].isLaunchable(new Skill()) && !this.playindCardHasPlayed && !this.isRunningSkill;
-		this.skillsObjects [4].GetComponent<SkillObjectController>().setControlStatus(controlActive);
-		this.skillsObjects [4].GetComponent<SkillObjectController>().show();
-		this.skillsObjects [5].GetComponent<SkillObjectController>().setActive(isActive);
-		this.skillsObjects [5].GetComponent<SkillObjectController>().setActiveStatus(isActive);
-		this.skillsObjects [5].GetComponent<SkillObjectController>().setControlStatus(true);
-		this.skillsObjects [5].GetComponent<SkillObjectController>().show();
+//		bool controlActive;
+//		bool isActive = !(nbTurns == 0) && (idc == this.currentPlayingCard);
+//		List<Skill> skills = this.playingCards [idc].GetComponent<PlayingCardController>().card.Skills;
+//		for (int i = 0; i < 4; i++)
+//		{
+//			if (i < skills.Count)
+//			{
+//				this.skillsObjects [i].GetComponent<SkillObjectController>().setActiveStatus(isActive);
+//				controlActive = this.gameskills [skills [i].Id].isLaunchable(skills [i]) && !this.playindCardHasPlayed && !this.isRunningSkill;
+//				this.skillsObjects [i].GetComponent<SkillObjectController>().setControlStatus(controlActive);
+//				this.skillsObjects [i].GetComponent<SkillObjectController>().show();
+//			}
+//		}
+//		this.skillsObjects [4].GetComponent<SkillObjectController>().setActive(isActive);
+//		if (isActive)
+//		{
+//			this.skillsObjects [4].GetComponent<SkillObjectController>().setAttackValue(this.playingCards [idc].GetComponent<PlayingCardController>().card.GetAttack());
+//		}
+//		this.skillsObjects [4].GetComponent<SkillObjectController>().setActiveStatus(isActive);
+//		controlActive = this.gameskills [0].isLaunchable(new Skill()) && !this.playindCardHasPlayed && !this.isRunningSkill;
+//		this.skillsObjects [4].GetComponent<SkillObjectController>().setControlStatus(controlActive);
+//		this.skillsObjects [4].GetComponent<SkillObjectController>().show();
+//		this.skillsObjects [5].GetComponent<SkillObjectController>().setActive(isActive);
+//		this.skillsObjects [5].GetComponent<SkillObjectController>().setActiveStatus(isActive);
+//		this.skillsObjects [5].GetComponent<SkillObjectController>().setControlStatus(true);
+//		this.skillsObjects [5].GetComponent<SkillObjectController>().show();
 	}
 
 	public void showOpponentSkills(int idc)
 	{
-		this.selectedOpponentCard.GetComponent<PlayingCardController>().setCard(this.playingCards [idc].GetComponent<PlayingCardController>().card);
-		this.selectedOpponentCard.GetComponent<PlayingCardController>().show();
-		this.selectedOpponentCard.GetComponent<PlayingCardController>().setActive(true);
-		
-		List<Skill> skills = this.playingCards [idc].GetComponent<PlayingCardController>().card.Skills;
-		for (int i = 0; i < 4; i++)
-		{
-			if (i < skills.Count)
-			{
-				this.opponentSkillsObjects [i].GetComponent<SkillObjectController>().setSkill(skills [i]);
-				this.opponentSkillsObjects [i].SetActive(true);
-			} else
-			{
-				this.opponentSkillsObjects [i].SetActive(false);
-			}
-		}
-		this.opponentSkillsObjects [4].SetActive(false);
-		this.opponentSkillsObjects [5].SetActive(false);
+//		this.selectedOpponentCard.GetComponent<PlayingCardController>().setCard(this.playingCards [idc].GetComponent<PlayingCardController>().card);
+//		this.selectedOpponentCard.GetComponent<PlayingCardController>().show();
+//		this.selectedOpponentCard.GetComponent<PlayingCardController>().setActive(true);
+//		
+//		List<Skill> skills = this.playingCards [idc].GetComponent<PlayingCardController>().card.Skills;
+//		for (int i = 0; i < 4; i++)
+//		{
+//			if (i < skills.Count)
+//			{
+//				this.opponentSkillsObjects [i].GetComponent<SkillObjectController>().setSkill(skills [i]);
+//				this.opponentSkillsObjects [i].SetActive(true);
+//			} else
+//			{
+//				this.opponentSkillsObjects [i].SetActive(false);
+//			}
+//		}
+//		this.opponentSkillsObjects [4].SetActive(false);
+//		this.opponentSkillsObjects [5].SetActive(false);
 	}
 
 	public void hideMySkills()
 	{
-		this.selectedPlayingCard.SetActive(false);
-		for (int i = 0; i < 6; i++)
-		{
-			this.skillsObjects [i].SetActive(false);
-		}
+//		this.selectedPlayingCard.SetActive(false);
+//		for (int i = 0; i < 6; i++)
+//		{
+//			this.skillsObjects [i].SetActive(false);
+//		}
 	}
 
 	public void hideOpponentSkills()
 	{
-		for (int i = 0; i < 6; i++)
-		{
-			this.selectedOpponentCard.SetActive(false);
-			this.opponentSkillsObjects [i].SetActive(false);
-		}
+//		for (int i = 0; i < 6; i++)
+//		{
+//			this.selectedOpponentCard.SetActive(false);
+//			this.opponentSkillsObjects [i].SetActive(false);
+//		}
 	}
 
 	public void clickPlayingCardHandler(int idPlayingCard)
 	{
-		bool toClick = false;
-		bool toClickOpponent = false;
-		bool toHideClick = false;
-		bool toHideOpponentClick = false;
-		bool toHidePlay = false;
-		bool toPlay = false;
-
-
-		if (idPlayingCard == this.currentPlayingCard)
-		{
-			if (this.nbTurns == 0)
-			{
-				toHidePlay = true;
-			} else if (this.isFirstPlayer == (idPlayingCard < limitCharacterSide))
-			{
-				if (this.clickedPlayingCard != idPlayingCard)
-				{
-					this.hideClickedPlayingCard();
-					this.clickedPlayingCard = idPlayingCard;
-					this.showMyPlayingSkills(idPlayingCard);
-				}
-			} else
-			{
-				if (this.clickedOpponentPlayingCard != idPlayingCard)
-				{
-					this.hideOpponentClickedPlayingCard();
-					this.clickedOpponentPlayingCard = idPlayingCard;
-					this.showOpponentSkills(idPlayingCard);
-				}
-			}
-		} else if (idPlayingCard == this.clickedPlayingCard)
-		{
-			toHideClick = true;
-		} else if (idPlayingCard == this.clickedOpponentPlayingCard)
-		{
-			toHideOpponentClick = true;
-		} else
-		{
-			if (this.nbTurns == 0)
-			{
-				if (this.isFirstPlayer == (idPlayingCard < limitCharacterSide))
-				{
-					if (this.currentPlayingCard != -1)
-					{
-						toHidePlay = true;
-					}
-					toPlay = true;
-				} else
-				{
-					if (clickedOpponentPlayingCard != -1)
-					{
-						toHideOpponentClick = true;
-					}
-					toClickOpponent = true;
-				}
-			} else
-			{
-				if (this.isFirstPlayer == (idPlayingCard < limitCharacterSide))
-				{
-					if (this.clickedPlayingCard != -1 && this.clickedPlayingCard != this.currentPlayingCard)
-					{
-						toHideClick = true;
-					}
-					toClick = true;
-				} else
-				{
-					if (clickedOpponentPlayingCard != -1 && this.clickedOpponentPlayingCard != this.currentPlayingCard)
-					{
-						toHideOpponentClick = true;
-					}
-					toClickOpponent = true;
-				}
-			}
-		}
-	
-		if (toHideClick)
-		{
-			this.hideClickedPlayingCard();
-		}
-		if (toHideOpponentClick)
-		{
-			this.hideOpponentClickedPlayingCard();
-		}
-		if (toHidePlay)
-		{
-			this.hideActivatedPlayingCard();
-		}
-		if (toClick)
-		{
-			this.clickPlayingCard(idPlayingCard);
-		}
-		if (toClickOpponent)
-		{
-			this.clickOpponentPlayingCard(idPlayingCard);
-		}
-		if (toPlay)
-		{
-			this.activatePlayingCard(idPlayingCard);
-		}
-		if (this.isTutorialLaunched)
-		{
-			this.tutorial.GetComponent<TutorialObjectController>().actionIsDone();
-		}
+//		bool toClick = false;
+//		bool toClickOpponent = false;
+//		bool toHideClick = false;
+//		bool toHideOpponentClick = false;
+//		bool toHidePlay = false;
+//		bool toPlay = false;
+//
+//
+//		if (idPlayingCard == this.currentPlayingCard)
+//		{
+//			if (this.nbTurns == 0)
+//			{
+//				toHidePlay = true;
+//			} else if (this.isFirstPlayer == (idPlayingCard < limitCharacterSide))
+//			{
+//				if (this.clickedPlayingCard != idPlayingCard)
+//				{
+//					this.hideClickedPlayingCard();
+//					this.clickedPlayingCard = idPlayingCard;
+//					this.showMyPlayingSkills(idPlayingCard);
+//				}
+//			} else
+//			{
+//				if (this.clickedOpponentPlayingCard != idPlayingCard)
+//				{
+//					this.hideOpponentClickedPlayingCard();
+//					this.clickedOpponentPlayingCard = idPlayingCard;
+//					this.showOpponentSkills(idPlayingCard);
+//				}
+//			}
+//		} else if (idPlayingCard == this.clickedPlayingCard)
+//		{
+//			toHideClick = true;
+//		} else if (idPlayingCard == this.clickedOpponentPlayingCard)
+//		{
+//			toHideOpponentClick = true;
+//		} else
+//		{
+//			if (this.nbTurns == 0)
+//			{
+//				if (this.isFirstPlayer == (idPlayingCard < limitCharacterSide))
+//				{
+//					if (this.currentPlayingCard != -1)
+//					{
+//						toHidePlay = true;
+//					}
+//					toPlay = true;
+//				} else
+//				{
+//					if (clickedOpponentPlayingCard != -1)
+//					{
+//						toHideOpponentClick = true;
+//					}
+//					toClickOpponent = true;
+//				}
+//			} else
+//			{
+//				if (this.isFirstPlayer == (idPlayingCard < limitCharacterSide))
+//				{
+//					if (this.clickedPlayingCard != -1 && this.clickedPlayingCard != this.currentPlayingCard)
+//					{
+//						toHideClick = true;
+//					}
+//					toClick = true;
+//				} else
+//				{
+//					if (clickedOpponentPlayingCard != -1 && this.clickedOpponentPlayingCard != this.currentPlayingCard)
+//					{
+//						toHideOpponentClick = true;
+//					}
+//					toClickOpponent = true;
+//				}
+//			}
+//		}
+//	
+//		if (toHideClick)
+//		{
+//			this.hideClickedPlayingCard();
+//		}
+//		if (toHideOpponentClick)
+//		{
+//			this.hideOpponentClickedPlayingCard();
+//		}
+//		if (toHidePlay)
+//		{
+//			this.hideActivatedPlayingCard();
+//		}
+//		if (toClick)
+//		{
+//			this.clickPlayingCard(idPlayingCard);
+//		}
+//		if (toClickOpponent)
+//		{
+//			this.clickOpponentPlayingCard(idPlayingCard);
+//		}
+//		if (toPlay)
+//		{
+//			this.activatePlayingCard(idPlayingCard);
+//		}
+//		if (this.isTutorialLaunched)
+//		{
+//			this.tutorial.GetComponent<TutorialObjectController>().actionIsDone();
+//		}
 	}
 
 	public void releaseClickPlayingCardHandler(int idPlayingCard)
 	{
-		if (!this.isRunningSkill && isDragging)
-		{
-			if (this.isHovering && this.tiles [currentHoveredTile.x, currentHoveredTile.y].GetComponentInChildren<TileController>().characterID == -1 && this.tiles [currentHoveredTile.x, currentHoveredTile.y].GetComponentInChildren<TileController>().isDestination)
-			{
-				int x = currentHoveredTile.x;
-				int y = currentHoveredTile.y;
-				this.hideHoveredTile();
-				photonView.RPC("moveCharacterRPC", PhotonTargets.AllBuffered, x, y, this.currentPlayingCard, this.isFirstPlayer, false);
-			}
-		}
+//		if (!this.isRunningSkill && isDragging)
+//		{
+//			if (this.isHovering && this.tiles [currentHoveredTile.x, currentHoveredTile.y].GetComponentInChildren<TileController>().characterID == -1 && this.tiles [currentHoveredTile.x, currentHoveredTile.y].GetComponentInChildren<TileController>().isDestination)
+//			{
+//				int x = currentHoveredTile.x;
+//				int y = currentHoveredTile.y;
+//				this.hideHoveredTile();
+//				photonView.RPC("moveCharacterRPC", PhotonTargets.AllBuffered, x, y, this.currentPlayingCard, this.isFirstPlayer, false);
+//			}
+//		}
 	}
 
 	public void releaseClickTileHandler(Tile t)
 	{
-		if (isDragging && !this.isRunningSkill)
-		{
-			if (this.tiles [t.x, t.y].GetComponentInChildren<TileController>().isDestination && this.tiles [currentHoveredTile.x, currentHoveredTile.y].GetComponentInChildren<TileController>().characterID == -1)
-			{
-				int x = currentHoveredTile.x;
-				int y = currentHoveredTile.y;
-				this.hideHoveredTile();
-				photonView.RPC("moveCharacterRPC", PhotonTargets.AllBuffered, x, y, this.currentPlayingCard, this.isFirstPlayer, false);
-				if (isTutorialLaunched)
-				{
-					this.tutorial.GetComponent<TutorialObjectController>().actionIsDone();
-				}
-			}
-		}
+//		if (isDragging && !this.isRunningSkill)
+//		{
+//			if (this.tiles [t.x, t.y].GetComponentInChildren<TileController>().isDestination && this.tiles [currentHoveredTile.x, currentHoveredTile.y].GetComponentInChildren<TileController>().characterID == -1)
+//			{
+//				int x = currentHoveredTile.x;
+//				int y = currentHoveredTile.y;
+//				this.hideHoveredTile();
+//				photonView.RPC("moveCharacterRPC", PhotonTargets.AllBuffered, x, y, this.currentPlayingCard, this.isFirstPlayer, false);
+//				if (isTutorialLaunched)
+//				{
+//					this.tutorial.GetComponent<TutorialObjectController>().actionIsDone();
+//				}
+//			}
+//		}
 	}
 
 	public void clickSkillHandler(int ids)
 	{
 		this.isRunningSkill = true;
 		this.updateStatusMySkills(this.currentPlayingCard);
-		this.clickedSkill = ids;
+		//this.clickedSkill = ids;
 		if (ids > 3)
 		{
 			if (ids == 4)
@@ -1262,11 +1076,7 @@ public class GameController : Photon.MonoBehaviour
 			int idSkill = this.playingCards [this.currentPlayingCard].GetComponentInChildren<PlayingCardController>().card.Skills [ids].Id;
 			this.gameskills [idSkill].launch();
 		}
-		this.skillArgs = new int[10];
-		for (int i = 0; i < 10; i++)
-		{
-			this.skillArgs [i] = -1;
-		}
+		
 		if (isTutorialLaunched)
 		{
 			this.tutorial.GetComponent<TutorialObjectController>().actionIsDone();
@@ -1364,24 +1174,24 @@ public class GameController : Photon.MonoBehaviour
 					this.displaySkillEffect(this.currentPlayingCard, "Ne se réveille pas", 3, 1);
 				}
 			}
-			this.playindCardHasPlayed = true;
-			this.playingCardHasMoved = true;
+			//this.playindCardHasPlayed = true;
+			//this.playingCardHasMoved = true;
 		}
 		if (this.getCurrentCard().isParalyzed())
 		{
-			this.playindCardHasPlayed = true;
-			this.displayPopUpMessage(this.getCurrentCard().Title + " est paralysé", 3f);
+			//this.playindCardHasPlayed = true;
+			//this.displayPopUpMessage(this.getCurrentCard().Title + " est paralysé", 3f);
 		} else
 		{
-			this.playindCardHasPlayed = false;
+			//this.playindCardHasPlayed = false;
 		}
 		
 		this.getCurrentPCC().activateSleepingModifiers();
 		
 		this.isRunningSkill = false;
-		this.playingCardHasMoved = false;
+		//this.playingCardHasMoved = false;
 
-		this.currentPlayingTile = this.playingCards [currentPlayingCard].GetComponentInChildren<PlayingCardController>().tile;
+		//this.currentPlayingTile = this.playingCards [currentPlayingCard].GetComponentInChildren<PlayingCardController>().tile;
 
 		this.activatePlayingCard(id);
 
@@ -1389,7 +1199,7 @@ public class GameController : Photon.MonoBehaviour
 		{
 			this.playingCards [currentPlayingCard].GetComponentInChildren<PlayingCardController>().tile.setNeighbours(this.getCharacterTilesArray(), this.playingCards [id].GetComponentInChildren<PlayingCardController>().card.GetMove());
 			this.setDestinations(currentPlayingCard);
-			this.isDragging = true;
+			//this.isDragging = true;
 		}
 		//this.playingCards [currentPlayingCard].GetComponentInChildren<PlayingCardController>().card.changeModifiers();
 		if (newTurn)
@@ -1405,16 +1215,16 @@ public class GameController : Photon.MonoBehaviour
 
 		if ((currentPlayingCard < limitCharacterSide && this.isFirstPlayer) || (currentPlayingCard >= limitCharacterSide && !this.isFirstPlayer))
 		{
-			displayPopUpMessage("A votre tour de jouer", 3f);
+			//displayPopUpMessage("A votre tour de jouer", 3f);
 			this.showMyPlayingSkills(this.currentPlayingCard);
 		} else
 		{
-			displayPopUpMessage("Tour du joueur adverse", 3f);
+			//displayPopUpMessage("Tour du joueur adverse", 3f);
 			this.showOpponentSkills(this.currentPlayingCard);
 		}
 		Card currentCard = getCurrentCard();
-		leftStats.setCharacterStat(currentCard.Title, currentCard.GetMove(), currentCard.GetLife(), currentCard.GetAttack());
-		leftStats.setSkill(currentCard.Skills [0].Name, currentCard.Skills [0].Description, currentCard.Skills [0].Id - 2);
+		//leftStats.setCharacterStat(currentCard.Title, currentCard.GetMove(), currentCard.GetLife(), currentCard.GetAttack());
+		//leftStats.setSkill(currentCard.Skills [0].Name, currentCard.Skills [0].Description, currentCard.Skills [0].Id - 2);
 	}
 
 	public int[,] getCharacterTilesArray()
@@ -1472,7 +1282,7 @@ public class GameController : Photon.MonoBehaviour
 				this.tiles [t.x, t.y].GetComponent<TileController>().setGreyBorder(true);
 			}
 		}
-		this.isDestinationDrawn = true;
+		//this.isDestinationDrawn = true;
 	}
 
 	public void resolvePass()
@@ -1497,8 +1307,8 @@ public class GameController : Photon.MonoBehaviour
 	[RPC]
 	public void wakeUpRPC()
 	{
-		this.playindCardHasPlayed = false;
-		this.playingCardHasMoved = false;
+		//this.playindCardHasPlayed = false;
+		//this.playingCardHasMoved = false;
 		this.displaySkillEffect(this.currentPlayingCard, "Se réveille", 3, 2);
 		this.getCurrentCard().removeSleeping();
 		this.getCurrentPCC().show();
@@ -1515,7 +1325,7 @@ public class GameController : Photon.MonoBehaviour
 	{
 		GameEventType ge = new PassType();
 		addGameEvent(ge, "");
-		nbActionPlayed = 0;
+		//nbActionPlayed = 0;
 		changeGameEvents();
 		fillTimeline();
 	}
@@ -1644,11 +1454,11 @@ public class GameController : Photon.MonoBehaviour
 		
 		if (ApplicationModel.username == loginName)
 		{
-			this.gameView.gameScreenVM.myPlayerName = loginName;
+			//this.gameView.gameScreenVM.myPlayerName = loginName;
 		} else
 		{
-			this.gameView.gameScreenVM.hisPlayerName = loginName;
-			this.gameView.gameScreenVM.connectOtherPlayer();
+			//this.gameView.gameScreenVM.hisPlayerName = loginName;
+			//this.gameView.gameScreenVM.connectOtherPlayer();
 		}
 		nbPlayers++;
 
@@ -1718,25 +1528,25 @@ public class GameController : Photon.MonoBehaviour
 				
 	public void resetDestinations()
 	{
-		if (isDestinationDrawn)
-		{
-			for (int i = 0; i < this.boardHeight; i++)
-			{
-				for (int j = 0; j < this.boardWidth; j++)
-				{
-					this.tiles [j, i].GetComponent<TileController>().setDestination(false);
-				}
-			}
-			this.isDestinationDrawn = false;
-		}
+//		if (isDestinationDrawn)
+//		{
+//			for (int i = 0; i < this.boardHeight; i++)
+//			{
+//				for (int j = 0; j < this.boardWidth; j++)
+//				{
+//					this.tiles [j, i].GetComponent<TileController>().setDestination(false);
+//				}
+//			}
+//			this.isDestinationDrawn = false;
+//		}
 	}
 
 	[RPC]
 	void AddTileToBoard(int x, int y, int type)
 	{
-		tiles [x, y] = (GameObject)Instantiate(this.tile);
+		//tiles [x, y] = (GameObject)Instantiate(this.tile);
 		tiles [x, y].name = "Tile " + (x) + "-" + (y);
-		tiles [x, y].GetComponent<TileController>().setTile(x, y, this.boardWidth, this.boardHeight, type, this.tileScale);
+		//tiles [x, y].GetComponent<TileController>().setTile(x, y, this.boardWidth, this.boardHeight, type, this.tileScale);
 	}
 
 	[RPC]
@@ -1760,12 +1570,12 @@ public class GameController : Photon.MonoBehaviour
 		}
 		if (isFirstP == this.isFirstPlayer)
 		{
-			this.myDeck = deck;
+			//this.myDeck = deck;
 		}
 		//a changer
 		for (int i = 0; i < ApplicationModel.nbCardsByDeck; i++)
 		{
-			this.playingCards [debut + deck.Cards [i].deckOrder] = (GameObject)Instantiate(this.playingCard);
+			//this.playingCards [debut + deck.Cards [i].deckOrder] = (GameObject)Instantiate(this.playingCard);
 			if (isFirstP != this.isFirstPlayer)
 			{
 				this.playingCards [debut + deck.Cards [i].deckOrder].GetComponentInChildren<PlayingCardController>().hideDisplay();
@@ -1825,10 +1635,10 @@ public class GameController : Photon.MonoBehaviour
 	{
 		if (isFirst == this.isFirstPlayer)
 		{
-			this.gameView.gameScreenVM.startMyPlayer();
+			//this.gameView.gameScreenVM.startMyPlayer();
 		} else
 		{
-			this.gameView.gameScreenVM.startOtherPlayer();
+			//this.gameView.gameScreenVM.startOtherPlayer();
 		}
 
 		if (this.isFirstPlayer)
@@ -1855,8 +1665,8 @@ public class GameController : Photon.MonoBehaviour
 		
 		if (nbPlayersReadyToFight == 2)
 		{
-			this.gameView.gameScreenVM.toDisplayStartWindows = false;
-			this.displayPopUpMessage("Le combat commence", 2);
+			//this.gameView.gameScreenVM.toDisplayStartWindows = false;
+			//this.displayPopUpMessage("Le combat commence", 2);
 			this.resetDestinations();	
 			this.nbTurns = 1;
 			
@@ -2028,10 +1838,10 @@ public class GameController : Photon.MonoBehaviour
 			this.rankedPlayingCardsID = new int[playingCards.Length];
 		}
 		this.rankedPlayingCardsID [rank] = id;
-		if (rank == playingCards.Length - 1 && !gameEventInitialized)
-		{
-			initGameEvents();
-		}
+//		if (rank == playingCards.Length - 1 && !gameEventInitialized)
+//		{
+//			initGameEvents();
+//		}
 	}
 
 	[RPC]
@@ -2066,23 +1876,23 @@ public class GameController : Photon.MonoBehaviour
 		if (this.isFirstPlayer == isFirstP && nbTurns != 0)
 		{
 			this.playingCards [currentPlayingCard].GetComponentInChildren<PlayingCardController>().tile.setNeighbours(this.getCharacterTilesArray(), this.playingCards [this.currentPlayingCard].GetComponentInChildren<PlayingCardController>().card.GetMove());
-			this.isDragging = false;
+			//this.isDragging = false;
 			this.resetDestinations();
-			if (this.clickedPlayingCard != this.currentPlayingCard)
-			{
-				this.showMyPlayingSkills(this.currentPlayingCard);
-			} else
-			{
-				this.updateStatusMySkills(this.currentPlayingCard);
-			}
-			this.tiles [x, y].GetComponentInChildren<TileController>().checkTrap(this.currentPlayingCard);
-			if (this.playindCardHasPlayed)
-			{
-				this.gameskills [1].launch();
-			}
+//			if (this.clickedPlayingCard != this.currentPlayingCard)
+//			{
+//				this.showMyPlayingSkills(this.currentPlayingCard);
+//			} else
+//			{
+//				this.updateStatusMySkills(this.currentPlayingCard);
+//			}
+//			this.tiles [x, y].GetComponentInChildren<TileController>().checkTrap(this.currentPlayingCard);
+//			if (this.playindCardHasPlayed)
+//			{
+//				this.gameskills [1].launch();
+//			}
 		}
 		
-		playingCardHasMoved = true;
+		//playingCardHasMoved = true;
 	}
 
 	[RPC]
@@ -2090,15 +1900,15 @@ public class GameController : Photon.MonoBehaviour
 	{
 		if (!photonView.isMine)
 		{
-			displayPopUpMessage(this.playingCards [targetCharacter].GetComponentInChildren<PlayingCardController>().card.Title + " attaque", 2f);
+			//displayPopUpMessage(this.playingCards [targetCharacter].GetComponentInChildren<PlayingCardController>().card.Title + " attaque", 2f);
 		}
 	}
 
 	[RPC]
 	public void timeRunsOut(float time)
 	{
-		startTurn = true;
-		gameView.gameScreenVM.timer = time;
+//		startTurn = true;
+//		gameView.gameScreenVM.timer = time;
 	}
 	
 	// Photon
@@ -2166,15 +1976,15 @@ public class GameController : Photon.MonoBehaviour
 	[RPC]
 	public void quitGameRPC(bool isFirstP)
 	{
-		gameView.gameScreenVM.toDisplayGameScreen = false;
+		//gameView.gameScreenVM.toDisplayGameScreen = false;
 		for (int i = 0; i < this.playingCards.Length; i++)
 		{
 			this.playingCards [i].SetActive(false);	
 		}
 		for (int i = 0; i < 6; i++)
 		{
-			this.skillsObjects [i].SetActive(false);
-			this.opponentSkillsObjects [i].SetActive(false);
+//			this.skillsObjects [i].SetActive(false);
+//			this.opponentSkillsObjects [i].SetActive(false);
 		}
 		
 		if (isFirstP == this.isFirstPlayer)
@@ -2193,8 +2003,8 @@ public class GameController : Photon.MonoBehaviour
 		setGameEvent(type);
 		if (targetName != "")
 		{
-			int midTimeline = (int)Math.Floor((double)eventMax / 2);
-			gameEvents [midTimeline].GetComponent<GameEventController>().setTarget(targetName);
+//			int midTimeline = (int)Math.Floor((double)eventMax / 2);
+//			gameEvents [midTimeline].GetComponent<GameEventController>().setTarget(targetName);
 		}
 	}
 
@@ -2208,8 +2018,8 @@ public class GameController : Photon.MonoBehaviour
 		setGameEvent(new SkillType(action));
 		if (targetName != "")
 		{
-			int midTimeline = (int)Math.Floor((double)eventMax / 2);
-			gameEvents [midTimeline].GetComponent<GameEventController>().setTarget(targetName);
+//			int midTimeline = (int)Math.Floor((double)eventMax / 2);
+//			gameEvents [midTimeline].GetComponent<GameEventController>().setTarget(targetName);
 		}
 	}
 
@@ -2222,24 +2032,25 @@ public class GameController : Photon.MonoBehaviour
 
 	GameObject setGameEvent(GameEventType type)
 	{
-		int midTimeline = (int)Math.Floor((double)eventMax / 2);
-		GameObject go;
-		if (nbActionPlayed == 0)
-		{ 
-			go = gameEvents [midTimeline];
-			go.GetComponent<GameEventController>().setAction(type.toString());
-			nbActionPlayed++;
-		} else if (nbActionPlayed < 2)
-		{
-			go = gameEvents [midTimeline];
-			go.GetComponent<GameEventController>().addAction(type.toString());
-			nbActionPlayed++;
-		} else
-		{
-			go = gameEvents [0];
-		}
+//		int midTimeline = (int)Math.Floor((double)eventMax / 2);
+//		GameObject go;
+//		if (nbActionPlayed == 0)
+//		{ 
+//			go = gameEvents [midTimeline];
+//			go.GetComponent<GameEventController>().setAction(type.toString());
+//			nbActionPlayed++;
+//		} else if (nbActionPlayed < 2)
+//		{
+//			go = gameEvents [midTimeline];
+//			go.GetComponent<GameEventController>().addAction(type.toString());
+//			nbActionPlayed++;
+//		} else
+//		{
+//			go = gameEvents [0];
+//		}
 
-		return go;
+		//return go;
+		return null;
 	}
 
 	void fillTimeline()
@@ -2248,25 +2059,25 @@ public class GameController : Photon.MonoBehaviour
 		bool nextChara = true;
 		bool findCharactersHaveNoAlreadyPlayed = false;
 
-		if (nextCharacterPositionTimeline < 7)
-		{
-			findCharactersHaveNoAlreadyPlayed = true;
-		}
-
-		while (nextChara)
-		{
-			rankedPlayingCardID = rankedPlayingCardsID [nextCharacterPositionTimeline];
-			PlayingCardController pcc = this.playingCards [rankedPlayingCardID] .GetComponentInChildren<PlayingCardController>();
-			if (!pcc.isDead && (!pcc.hasPlayed && !findCharactersHaveNoAlreadyPlayed || findCharactersHaveNoAlreadyPlayed))
-			{
-				nextChara = false;
-			}
-			if (++nextCharacterPositionTimeline > playingCards.Length - 1)
-			{
-				nextCharacterPositionTimeline = 0;
-				findCharactersHaveNoAlreadyPlayed = true;
-			}
-		}
+//		if (nextCharacterPositionTimeline < 7)
+//		{
+//			findCharactersHaveNoAlreadyPlayed = true;
+//		}
+//
+//		while (nextChara)
+//		{
+//			rankedPlayingCardID = rankedPlayingCardsID [nextCharacterPositionTimeline];
+//			PlayingCardController pcc = this.playingCards [rankedPlayingCardID] .GetComponentInChildren<PlayingCardController>();
+//			if (!pcc.isDead && (!pcc.hasPlayed && !findCharactersHaveNoAlreadyPlayed || findCharactersHaveNoAlreadyPlayed))
+//			{
+//				nextChara = false;
+//			}
+//			if (++nextCharacterPositionTimeline > playingCards.Length - 1)
+//			{
+//				nextCharacterPositionTimeline = 0;
+//				findCharactersHaveNoAlreadyPlayed = true;
+//			}
+//		}
 		addCardEvent(rankedPlayingCardID, 0);
 	}
 
@@ -2274,25 +2085,25 @@ public class GameController : Photon.MonoBehaviour
 	public void reloadTimeline()
 	{
 		bool findCharactersHaveNoAlreadyPlayed = false;
-		nextCharacterPositionTimeline = 0;
+		//nextCharacterPositionTimeline = 0;
 		for (int i = 4; i >= 0; i--)
 		{
 			int rankedPlayingCardID = 0;
 			bool nextChara = true;
 			while (nextChara)
 			{
-				rankedPlayingCardID = rankedPlayingCardsID [nextCharacterPositionTimeline];
+				//rankedPlayingCardID = rankedPlayingCardsID [nextCharacterPositionTimeline];
 				PlayingCardController pcc = this.playingCards [rankedPlayingCardID] .GetComponentInChildren<PlayingCardController>();
 				
 				if (!pcc.isDead && (!pcc.hasPlayed && !findCharactersHaveNoAlreadyPlayed || findCharactersHaveNoAlreadyPlayed) && rankedPlayingCardID != currentPlayingCard)
 				{
 					nextChara = false;
 				}
-				if (++nextCharacterPositionTimeline > playingCards.Length - 1)
-				{
-					nextCharacterPositionTimeline = 0;
-					findCharactersHaveNoAlreadyPlayed = true;
-				}
+//				if (++nextCharacterPositionTimeline > playingCards.Length - 1)
+//				{
+//					nextCharacterPositionTimeline = 0;
+//					findCharactersHaveNoAlreadyPlayed = true;
+//				}
 			}
 			addCardEvent(rankedPlayingCardID, i);
 		}
@@ -2301,60 +2112,60 @@ public class GameController : Photon.MonoBehaviour
 
 	void addCardEvent(int idCharacter, int position)
 	{
-		GameObject go = gameEvents [position];
-		PlayingCardController pcc = playingCards [idCharacter].GetComponent<PlayingCardController>();
-		go.GetComponent<GameEventController>().setCharacterName(pcc.card.Title);
-		Texture t2 = playingCards [idCharacter].GetComponent<PlayingCardController>().getPicture();
-		Texture2D temp = getImageResized(t2 as Texture2D);
-		go.GetComponent<GameEventController>().IDCharacter = idCharacter;
-		go.GetComponent<GameEventController>().setAction("");
-		go.GetComponent<GameEventController>().setArt(temp);
-		go.GetComponent<GameEventController>().setBorder(isThisCharacterMine(idCharacter));
-		go.GetComponent<GameEventController>().gameEventView.show();
-		go.renderer.enabled = true;
+		//GameObject go = gameEvents [position];
+//		PlayingCardController pcc = playingCards [idCharacter].GetComponent<PlayingCardController>();
+//		go.GetComponent<GameEventController>().setCharacterName(pcc.card.Title);
+//		Texture t2 = playingCards [idCharacter].GetComponent<PlayingCardController>().getPicture();
+//		Texture2D temp = getImageResized(t2 as Texture2D);
+//		go.GetComponent<GameEventController>().IDCharacter = idCharacter;
+//		go.GetComponent<GameEventController>().setAction("");
+//		go.GetComponent<GameEventController>().setArt(temp);
+//		go.GetComponent<GameEventController>().setBorder(isThisCharacterMine(idCharacter));
+//		go.GetComponent<GameEventController>().gameEventView.show();
+//		go.renderer.enabled = true;
 	}
 
 	void initGameEvents()
 	{
-		gameEventInitialized = true;
-		GameObject go;
-		int i = 1;
-		while (gameEvents.Count < eventMax)
-		{
-			go = (GameObject)Instantiate(gameEvent);
-			gameEvents.Add(go);
-			go.GetComponent<GameEventController>().setScreenPosition(gameEvents.Count, boardWidth, boardHeight, tileScale);
-			go.GetComponent<GameEventController>().setBorder(0);
-			if (i < 7)
-			{
-				GameObject child = (GameObject)Instantiate(go.GetComponent<GameEventController>().transparentImage);
-				child.name = "TransparentEvent";
-				child.transform.parent = go.transform;
-				child.transform.localPosition = new Vector3(0f, 0f, -5f);
-				child.transform.localScale = new Vector3(0.9f, 0.9f, 10f);
-			}
-//			if (i == 6)
+//		//gameEventInitialized = true;
+//		GameObject go;
+//		int i = 1;
+//		while (gameEvents.Count < eventMax)
+//		{
+//			go = (GameObject)Instantiate(gameEvent);
+//			gameEvents.Add(go);
+//			go.GetComponent<GameEventController>().setScreenPosition(gameEvents.Count, boardWidth, boardHeight, tileScale);
+//			go.GetComponent<GameEventController>().setBorder(0);
+//			if (i < 7)
 //			{
-//				go.transform.localScale = new Vector3(0.95f, 0.95f, 10f);
-//			} 
-
-			if (i > 6)
-			{
-				GameObject child = (GameObject)Instantiate(go.GetComponent<GameEventController>().darkImage);
-				child.name = "DarkEvent";
-				child.transform.parent = go.transform;
-				child.transform.localPosition = new Vector3(0f, 0f, -5f);
-				child.transform.localScale = new Vector3(0.9f, 0.9f, 10f);
-				child.renderer.enabled = false;
-			}
-			go.renderer.enabled = false;
-			i++;
-		}
-		for (i = 0; i < 6; i++)
-		{
-			addCardEvent(rankedPlayingCardsID [5 - i], i);
-		}
-		nextCharacterPositionTimeline = 6;
+//				GameObject child = (GameObject)Instantiate(go.GetComponent<GameEventController>().transparentImage);
+//				child.name = "TransparentEvent";
+//				child.transform.parent = go.transform;
+//				child.transform.localPosition = new Vector3(0f, 0f, -5f);
+//				child.transform.localScale = new Vector3(0.9f, 0.9f, 10f);
+//			}
+////			if (i == 6)
+////			{
+////				go.transform.localScale = new Vector3(0.95f, 0.95f, 10f);
+////			} 
+//
+//			if (i > 6)
+//			{
+//				GameObject child = (GameObject)Instantiate(go.GetComponent<GameEventController>().darkImage);
+//				child.name = "DarkEvent";
+//				child.transform.parent = go.transform;
+//				child.transform.localPosition = new Vector3(0f, 0f, -5f);
+//				child.transform.localScale = new Vector3(0.9f, 0.9f, 10f);
+//				child.renderer.enabled = false;
+//			}
+//			go.renderer.enabled = false;
+//			i++;
+//		}
+//		for (i = 0; i < 6; i++)
+//		{
+//			addCardEvent(rankedPlayingCardsID [5 - i], i);
+//		}
+//		nextCharacterPositionTimeline = 6;
 	}
 
 	Texture2D getImageResized(Texture2D t)
@@ -2384,42 +2195,42 @@ public class GameController : Photon.MonoBehaviour
 
 	void changeGameEvents()
 	{
-		for (int i = gameEvents.Count - 1; i > 0; i--)
-		{
-			int id = gameEvents [i - 1].GetComponent<GameEventController>().IDCharacter;
-			string title = gameEvents [i - 1].GetComponent<GameEventController>().getCharacterName();
-			string action = gameEvents [i - 1].GetComponent<GameEventController>().getAction();
-			GameObject[] movement = gameEvents [i - 1].GetComponent<GameEventController>().getMovement();
-			Texture2D t2 = gameEvents [i - 1].GetComponent<GameEventController>().getArt();
-			if (title != "" && i > 5)
-			{
-				gameEvents [i].renderer.enabled = true;
-				gameEvents [i].transform.Find("DarkEvent").renderer.enabled = true;
-			}
-
-			gameEvents [i].GetComponent<GameEventController>().IDCharacter = id;
-			gameEvents [i].GetComponent<GameEventController>().setCharacterName(title);
-			gameEvents [i].GetComponent<GameEventController>().setAction(action);
-			gameEvents [i].GetComponent<GameEventController>().setMovement(movement [0], movement [1]);
-			gameEvents [i].GetComponent<GameEventController>().setArt(t2);
-			if (i < 6)
-			{
-				gameEvents [i].GetComponent<GameEventController>().setBorder(isThisCharacterMine(id));
-			}
-
-			gameEvents [i].GetComponent<GameEventController>().gameEventView.show();
-			gameEvents [i - 1].GetComponent<GameEventController>().setMovement(null, null);
-		}
+//		for (int i = gameEvents.Count - 1; i > 0; i--)
+//		{
+//			int id = gameEvents [i - 1].GetComponent<GameEventController>().IDCharacter;
+//			string title = gameEvents [i - 1].GetComponent<GameEventController>().getCharacterName();
+//			string action = gameEvents [i - 1].GetComponent<GameEventController>().getAction();
+//			GameObject[] movement = gameEvents [i - 1].GetComponent<GameEventController>().getMovement();
+//			Texture2D t2 = gameEvents [i - 1].GetComponent<GameEventController>().getArt();
+//			if (title != "" && i > 5)
+//			{
+//				gameEvents [i].renderer.enabled = true;
+//				gameEvents [i].transform.Find("DarkEvent").renderer.enabled = true;
+//			}
+//
+//			gameEvents [i].GetComponent<GameEventController>().IDCharacter = id;
+//			gameEvents [i].GetComponent<GameEventController>().setCharacterName(title);
+//			gameEvents [i].GetComponent<GameEventController>().setAction(action);
+//			gameEvents [i].GetComponent<GameEventController>().setMovement(movement [0], movement [1]);
+//			gameEvents [i].GetComponent<GameEventController>().setArt(t2);
+//			if (i < 6)
+//			{
+//				gameEvents [i].GetComponent<GameEventController>().setBorder(isThisCharacterMine(id));
+//			}
+//
+//			gameEvents [i].GetComponent<GameEventController>().gameEventView.show();
+//			gameEvents [i - 1].GetComponent<GameEventController>().setMovement(null, null);
+//		}
 	}
 
 	void recalculateGameEvents()
 	{
 		int i = 1;
 
-		foreach (GameObject go in gameEvents)
-		{
-			go.GetComponent<GameEventController>().setScreenPosition(i++, boardWidth, boardHeight, tileScale);
-		}
+//		foreach (GameObject go in gameEvents)
+//		{
+//			go.GetComponent<GameEventController>().setScreenPosition(i++, boardWidth, boardHeight, tileScale);
+//		}
 	}
 
 	public void disconnect()
@@ -2538,7 +2349,7 @@ public class GameController : Photon.MonoBehaviour
 		}
 
 		playingCards = temp;
-		this.playingCards [position] = (GameObject)Instantiate(this.playingCard);
+		//this.playingCards [position] = (GameObject)Instantiate(this.playingCard);
 		PlayingCardController pccTemp = this.playingCards [position].GetComponentInChildren<PlayingCardController>();
 		pccTemp.setStyles(isFirstP == this.isFirstPlayer);
 		Card minion;
@@ -2586,19 +2397,21 @@ public class GameController : Photon.MonoBehaviour
 
 	public Skill getCurrentSkill()
 	{
-		return this.playingCards [this.currentPlayingCard].GetComponent<PlayingCardController>().card.Skills [this.clickedSkill];
+		//return this.playingCards [this.currentPlayingCard].GetComponent<PlayingCardController>().card.Skills [this.clickedSkill];
+		return null;
 	}
 
 	public int getCurrentSkillID()
 	{
-		if (this.clickedSkill == 4)
-		{
-			return 0;
-		} else if (this.clickedSkill == 5)
-		{
-			return 1;
-		}
-		return this.playingCards [this.currentPlayingCard].GetComponent<PlayingCardController>().card.Skills [this.clickedSkill].Id;
+//		if (this.clickedSkill == 4)
+//		{
+//			return 0;
+//		} else if (this.clickedSkill == 5)
+//		{
+//			return 1;
+//		}
+//		return this.playingCards [this.currentPlayingCard].GetComponent<PlayingCardController>().card.Skills [this.clickedSkill].Id;
+		return 0;
 	}
 
 	public void reloadCard(int id)
@@ -2610,20 +2423,20 @@ public class GameController : Photon.MonoBehaviour
 	{
 		this.getCurrentPCC().hideControlSkillHandler();
 		this.isRunningSkill = false;
-		this.playindCardHasPlayed = true;
-		
-		if (this.clickedPlayingCard != this.currentPlayingCard && this.clickedPlayingCard != -1)
-		{
-			this.showMyPlayingSkills(this.clickedPlayingCard);
-		} else
-		{
-			this.updateStatusMySkills(this.currentPlayingCard);
-		}
-		
-		if (this.playingCardHasMoved || this.playingCards [this.currentPlayingCard].GetComponent<PlayingCardController>().isDead)
-		{
-			this.gameskills [1].launch();
-		}
+//		this.playindCardHasPlayed = true;
+//		
+//		if (this.clickedPlayingCard != this.currentPlayingCard && this.clickedPlayingCard != -1)
+//		{
+//			this.showMyPlayingSkills(this.clickedPlayingCard);
+//		} else
+//		{
+//			this.updateStatusMySkills(this.currentPlayingCard);
+//		}
+//		
+//		if (this.playingCardHasMoved || this.playingCards [this.currentPlayingCard].GetComponent<PlayingCardController>().isDead)
+//		{
+//			this.gameskills [1].launch();
+//		}
 	}
 	
 	public void playSkill(int isSuccess)
@@ -2647,13 +2460,13 @@ public class GameController : Photon.MonoBehaviour
 	
 	public void startPlayingSkill()
 	{
-		photonView.RPC("startPlayingSkillRPC", PhotonTargets.AllBuffered, this.clickedSkill);
+		//photonView.RPC("startPlayingSkillRPC", PhotonTargets.AllBuffered, this.clickedSkill);
 	}
 	
 	[RPC]
 	public void startPlayingSkillRPC(int idskill)
 	{
-		this.clickedSkill = idskill;
+		//this.clickedSkill = idskill;
 	}
 	
 	public void displaySkillEffect(int target, string s, float timer, int colorindex)
@@ -2787,7 +2600,7 @@ public class GameController : Photon.MonoBehaviour
 
 	public void clearDeads()
 	{
-		deads.Clear();
+		//deads.Clear();
 		foreach (GameObject goTag in GameObject.FindGameObjectsWithTag("deadCharacter"))
 		{
 			Destroy(goTag);
@@ -2833,7 +2646,7 @@ public class GameController : Photon.MonoBehaviour
 	
 	public void useSkill()
 	{
-		photonView.RPC("useSkillRPC", PhotonTargets.AllBuffered, this.currentPlayingCard, this.clickedSkill);
+		//photonView.RPC("useSkillRPC", PhotonTargets.AllBuffered, this.currentPlayingCard, this.clickedSkill);
 	}
 	
 	[RPC]
@@ -2991,14 +2804,14 @@ public class GameController : Photon.MonoBehaviour
 
 	public void setButtonsGUI(bool value)
 	{
-		for (int i =0; i<gameView.gameScreenVM.buttonsEnabled.Length; i++)
-		{
-			gameView.gameScreenVM.buttonsEnabled [i] = value;
-		}
+//		for (int i =0; i<gameView.gameScreenVM.buttonsEnabled.Length; i++)
+//		{
+//			gameView.gameScreenVM.buttonsEnabled [i] = value;
+//		}
 	}
 	public void setButtonGUI(int index, bool value)
 	{
-		gameView.gameScreenVM.buttonsEnabled [index] = value;
+		//gameView.gameScreenVM.buttonsEnabled [index] = value;
 	}
 	public void activeSingleCharacter(int index)
 	{
@@ -3052,26 +2865,28 @@ public class GameController : Photon.MonoBehaviour
 	}
 	public void disableAllSkillObjects()
 	{
-		for (int i=0; i<this.skillsObjects.Length; i++)
-		{
-			this.skillsObjects [i].GetComponent<SkillObjectController>().setControlActive(false);
-		}
+//		for (int i=0; i<this.skillsObjects.Length; i++)
+//		{
+//			this.skillsObjects [i].GetComponent<SkillObjectController>().setControlActive(false);
+//		}
 	}
 	public void activeSingleSkillObjects(int index)
 	{
-		this.skillsObjects [index].GetComponent<SkillObjectController>().setControlActive(true);
+		//this.skillsObjects [index].GetComponent<SkillObjectController>().setControlActive(true);
 	}
 	public Vector2 getSkillObjectsPosition(int index)
 	{
-		return this.skillsObjects [index].GetComponent<SkillObjectController>().getGOScreenPosition(this.skillsObjects [index]);
+		//return this.skillsObjects [index].GetComponent<SkillObjectController>().getGOScreenPosition(this.skillsObjects [index]);
+		return new Vector2();
 	}
 	public Vector2 getSkillObjectsSize(int index)
 	{
-		return this.skillsObjects [index].GetComponent<SkillObjectController>().getGOScreenSize(this.skillsObjects [index]);
+		//return this.skillsObjects [index].GetComponent<SkillObjectController>().getGOScreenSize(this.skillsObjects [index]);
+		return new Vector2();
 	}
 	public void launchSkill(int clickedSkill, List<int> pcc)
 	{
-		this.clickedSkill = clickedSkill;
+		//this.clickedSkill = clickedSkill;
 		this.gameskills [getCurrentSkillID()].resolve(pcc);
 	}
 	public void callTutorial()

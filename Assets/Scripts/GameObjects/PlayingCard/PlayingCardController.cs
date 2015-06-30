@@ -18,10 +18,9 @@ public class PlayingCardController : GameObjectController
 	public bool isDead ;
 	public bool isSelected ;
 	public bool isMoved ;
-	public bool hasPlayed ;
 	public bool isMine;
-	public int cannotBeTargeted;
-	public int paralyzed;
+	public bool hasMoved ;
+	public bool hasPlayed ;
 
 	public Texture2D[] icons ;
 	public Texture2D[] halos ;

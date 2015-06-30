@@ -25,10 +25,10 @@ public class GameEventController : MonoBehaviour
 	{
 		Camera camera = Camera.main;
 		Vector3 currentScale = renderer.bounds.size;
-		Vector3 v3 = new Vector3((0.02f + scaleTile) * (- boardWidth / 2 - 0.5f), currentScale.y * GameController.instance.eventMax / 2 + 0.1f, -1f);
+		//Vector3 v3 = new Vector3((0.02f + scaleTile) * (- boardWidth / 2 - 0.5f), currentScale.y * GameController.instance.eventMax / 2 + 0.1f, -1f);
 		//Vector3 newPosition = camera.ScreenToWorldPoint(v3);
 		
-		transform.position = v3;
+		//transform.position = v3;
 		transform.Translate((-transform.up * transform.localScale.y - transform.up * 0.1f) * (count - 1), Space.World);
 
 		Vector3 reverse = Utils.getGOScreenPosition(new Vector3(transform.position.x + 0.54f, transform.position.y + 0.35f, transform.position.z));
