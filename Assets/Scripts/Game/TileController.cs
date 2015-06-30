@@ -110,7 +110,7 @@ public class TileController : GameObjectController
 				GameController.instance.hideTrap(t);
 			}
 			else{
-				GameController.instance.displaySkillEffect(GameController.instance.currentPlayingCard, "se déplace", 2, 2);
+				//GameController.instance.displaySkillEffect(GameController.instance.currentPlayingCard, "se déplace", 2, 2);
 			}
 		}
 	}
@@ -152,14 +152,14 @@ public class TileController : GameObjectController
 		
 		Vector3 position;
 		this.tileView.tileVM.scale = new Vector3(scaleTile, scaleTile, scaleTile);
-		if (GameController.instance.isFirstPlayer)
-		{
-			position = new Vector3(scaleTile * (-offsetX + 0.5f + this.tile.x), scaleTile * (-offsetY + 0.5f + this.tile.y), -1);
-		} else
-		{
-			position = new Vector3(scaleTile * (offsetX - 0.5f - this.tile.x), scaleTile * (offsetY - 0.5f - this.tile.y), -1);
-		}
-		this.tileView.tileVM.position = position;
+//		if (GameController.instance.isFirstPlayer)
+//		{
+//			position = new Vector3(scaleTile * (-offsetX + 0.5f + this.tile.x), scaleTile * (-offsetY + 0.5f + this.tile.y), -1);
+//		} else
+//		{
+//			position = new Vector3(scaleTile * (offsetX - 0.5f - this.tile.x), scaleTile * (offsetY - 0.5f - this.tile.y), -1);
+//		}
+		//this.tileView.tileVM.position = position;
 		
 		int decalage = height / 15;
 		

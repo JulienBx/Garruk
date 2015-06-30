@@ -50,10 +50,10 @@ public class Virus : GameSkill
 			tempInt = GameController.instance.getTile(t.x, t.y).characterID;
 			if (tempInt!=-1)
 			{
-				if (GameController.instance.getPCC(tempInt).cannotBeTargeted==-1)
-				{
-					isLaunchable = true ;
-				}
+//				if (GameController.instance.getPCC(tempInt).cannotBeTargeted==-1)
+//				{
+//					isLaunchable = true ;
+//				}
 			}
 			i++;
 		}

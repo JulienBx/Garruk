@@ -1024,109 +1024,109 @@ public class GameController : Photon.MonoBehaviour
 //		{
 //			this.tutorial.GetComponent<TutorialObjectController>().actionIsDone();
 //		}
-		bool toClick = false;
-		bool toClickOpponent = false;
-		bool toHideClick = false;
-		bool toHideOpponentClick = false;
-		bool toHidePlay = false;
-		bool toPlay = false;
-
-
-		if (idPlayingCard == this.currentPlayingCard)
-		{
-			if (this.nbTurns == 0)
-			{
-				toHidePlay = true;
-			} else if (this.isFirstPlayer == (idPlayingCard < limitCharacterSide))
-			{
-				if (this.clickedPlayingCard != idPlayingCard)
-				{
-					this.hideClickedPlayingCard();
-					this.clickedPlayingCard = idPlayingCard;
-					this.showMyPlayingSkills(idPlayingCard);
-				}
-			} else
-			{
-				if (this.clickedOpponentPlayingCard != idPlayingCard)
-				{
-					this.hideOpponentClickedPlayingCard();
-					this.clickedOpponentPlayingCard = idPlayingCard;
-					this.showOpponentSkills(idPlayingCard);
-				}
-			}
-		} else if (idPlayingCard == this.clickedPlayingCard)
-		{
-			toHideClick = true;
-		} else if (idPlayingCard == this.clickedOpponentPlayingCard)
-		{
-			toHideOpponentClick = true;
-		} else
-		{
-			if (this.nbTurns == 0)
-			{
-				if (this.isFirstPlayer == (idPlayingCard < limitCharacterSide))
-				{
-					if (this.currentPlayingCard != -1)
-					{
-						toHidePlay = true;
-					}
-					toPlay = true;
-				} else
-				{
-					if (clickedOpponentPlayingCard != -1)
-					{
-						toHideOpponentClick = true;
-					}
-					toClickOpponent = true;
-				}
-			} else
-			{
-				if (this.isFirstPlayer == (idPlayingCard < limitCharacterSide))
-				{
-					if (this.clickedPlayingCard != -1 && this.clickedPlayingCard != this.currentPlayingCard)
-					{
-						toHideClick = true;
-					}
-					toClick = true;
-				} else
-				{
-					if (clickedOpponentPlayingCard != -1 && this.clickedOpponentPlayingCard != this.currentPlayingCard)
-					{
-						toHideOpponentClick = true;
-					}
-					toClickOpponent = true;
-				}
-			}
-		}
-	
-		if (toHideClick)
-		{
-			this.hideClickedPlayingCard();
-		}
-		if (toHideOpponentClick)
-		{
-			this.hideOpponentClickedPlayingCard();
-		}
-		if (toHidePlay)
-		{
-			this.hideActivatedPlayingCard();
-		}
-		if (toClick)
-		{
-			this.clickPlayingCard(idPlayingCard);
-		}
-		if (toClickOpponent)
-		{
-			this.clickOpponentPlayingCard(idPlayingCard);
-		}
-		if (toPlay)
-		{
-			this.activatePlayingCard(idPlayingCard);
-		}
-		if (this.isTutorialLaunched)
-		{
-			this.tutorial.GetComponent<GameTutorialController>().actionIsDone();
-		}
+//		bool toClick = false;
+//		bool toClickOpponent = false;
+//		bool toHideClick = false;
+//		bool toHideOpponentClick = false;
+//		bool toHidePlay = false;
+//		bool toPlay = false;
+//
+//
+//		if (idPlayingCard == this.currentPlayingCard)
+//		{
+//			if (this.nbTurns == 0)
+//			{
+//				toHidePlay = true;
+//			} else if (this.isFirstPlayer == (idPlayingCard < limitCharacterSide))
+//			{
+//				if (this.clickedPlayingCard != idPlayingCard)
+//				{
+//					this.hideClickedPlayingCard();
+//					this.clickedPlayingCard = idPlayingCard;
+//					this.showMyPlayingSkills(idPlayingCard);
+//				}
+//			} else
+//			{
+//				if (this.clickedOpponentPlayingCard != idPlayingCard)
+//				{
+//					this.hideOpponentClickedPlayingCard();
+//					this.clickedOpponentPlayingCard = idPlayingCard;
+//					this.showOpponentSkills(idPlayingCard);
+//				}
+//			}
+//		} else if (idPlayingCard == this.clickedPlayingCard)
+//		{
+//			toHideClick = true;
+//		} else if (idPlayingCard == this.clickedOpponentPlayingCard)
+//		{
+//			toHideOpponentClick = true;
+//		} else
+//		{
+//			if (this.nbTurns == 0)
+//			{
+//				if (this.isFirstPlayer == (idPlayingCard < limitCharacterSide))
+//				{
+//					if (this.currentPlayingCard != -1)
+//					{
+//						toHidePlay = true;
+//					}
+//					toPlay = true;
+//				} else
+//				{
+//					if (clickedOpponentPlayingCard != -1)
+//					{
+//						toHideOpponentClick = true;
+//					}
+//					toClickOpponent = true;
+//				}
+//			} else
+//			{
+//				if (this.isFirstPlayer == (idPlayingCard < limitCharacterSide))
+//				{
+//					if (this.clickedPlayingCard != -1 && this.clickedPlayingCard != this.currentPlayingCard)
+//					{
+//						toHideClick = true;
+//					}
+//					toClick = true;
+//				} else
+//				{
+//					if (clickedOpponentPlayingCard != -1 && this.clickedOpponentPlayingCard != this.currentPlayingCard)
+//					{
+//						toHideOpponentClick = true;
+//					}
+//					toClickOpponent = true;
+//				}
+//			}
+//		}
+//	
+//		if (toHideClick)
+//		{
+//			this.hideClickedPlayingCard();
+//		}
+//		if (toHideOpponentClick)
+//		{
+//			this.hideOpponentClickedPlayingCard();
+//		}
+//		if (toHidePlay)
+//		{
+//			this.hideActivatedPlayingCard();
+//		}
+//		if (toClick)
+//		{
+//			this.clickPlayingCard(idPlayingCard);
+//		}
+//		if (toClickOpponent)
+//		{
+//			this.clickOpponentPlayingCard(idPlayingCard);
+//		}
+//		if (toPlay)
+//		{
+//			this.activatePlayingCard(idPlayingCard);
+//		}
+//		if (this.isTutorialLaunched)
+//		{
+//			this.tutorial.GetComponent<GameTutorialController>().actionIsDone();
+//		}
 	}
 
 	public void releaseClickPlayingCardHandler(int idPlayingCard)
@@ -1145,20 +1145,20 @@ public class GameController : Photon.MonoBehaviour
 
 	public void releaseClickTileHandler(Tile t)
 	{
-		if (isDragging && !this.isRunningSkill)
-		{
-			if (this.tiles [t.x, t.y].GetComponentInChildren<TileController>().isDestination && this.tiles [currentHoveredTile.x, currentHoveredTile.y].GetComponentInChildren<TileController>().characterID == -1)
-			{
-				int x = currentHoveredTile.x;
-				int y = currentHoveredTile.y;
-				this.hideHoveredTile();
-				photonView.RPC("moveCharacterRPC", PhotonTargets.AllBuffered, x, y, this.currentPlayingCard, this.isFirstPlayer, false);
-				if (isTutorialLaunched)
-				{
-					this.tutorial.GetComponent<GameTutorialController>().actionIsDone();
-				}
-			}
-		}
+//		if (isDragging && !this.isRunningSkill)
+//		{
+//			if (this.tiles [t.x, t.y].GetComponentInChildren<TileController>().isDestination && this.tiles [currentHoveredTile.x, currentHoveredTile.y].GetComponentInChildren<TileController>().characterID == -1)
+//			{
+//				int x = currentHoveredTile.x;
+//				int y = currentHoveredTile.y;
+//				this.hideHoveredTile();
+//				photonView.RPC("moveCharacterRPC", PhotonTargets.AllBuffered, x, y, this.currentPlayingCard, this.isFirstPlayer, false);
+//				if (isTutorialLaunched)
+//				{
+//					this.tutorial.GetComponent<GameTutorialController>().actionIsDone();
+//				}
+//			}
+//		}
 	}
 
 	public void clickSkillHandler(int ids)
@@ -2985,10 +2985,10 @@ public class GameController : Photon.MonoBehaviour
 	}
 	public void setAllSkillObjects(bool value)
 	{
-		for (int i=0; i<this.skillsObjects.Length; i++)
-		{
-			this.skillsObjects [i].GetComponent<SkillObjectController>().setActive(value);
-		}
+//		for (int i=0; i<this.skillsObjects.Length; i++)
+//		{
+//			this.skillsObjects [i].GetComponent<SkillObjectController>().setActive(value);
+//		}
 	}
 	public void activeSingleSkillObjects(int index)
 	{

@@ -19,18 +19,18 @@ public class Rugissement : GameSkill
 		GameController.instance.startPlayingSkill();
 		int success = 0 ;
 		 
-		for(int i = 0 ; i < GameController.instance.playingCards.Length;i++){
-			if(i!=GameController.instance.currentPlayingCard && !GameController.instance.getPCC(i).isDead && GameController.instance.getPCC(i).isMine){
-				if (Random.Range(1,101) > GameController.instance.getCard(i).GetMagicalEsquive())
-				{
-					GameController.instance.applyOn(i);
-					success = 1 ; 
-				}
-				else{
-					GameController.instance.failedToCastOnSkill(i, 1);
-				}
-			}
-		}
+//		for(int i = 0 ; i < GameController.instance.playingCards.Length;i++){
+//			if(i!=GameController.instance.currentPlayingCard && !GameController.instance.getPCC(i).isDead && GameController.instance.getPCC(i).isMine){
+//				if (Random.Range(1,101) > GameController.instance.getCard(i).GetMagicalEsquive())
+//				{
+//					GameController.instance.applyOn(i);
+//					success = 1 ; 
+//				}
+//				else{
+//					GameController.instance.failedToCastOnSkill(i, 1);
+//				}
+//			}
+//		}
 		
 		GameController.instance.playSkill(success);
 		GameController.instance.play();
@@ -45,7 +45,7 @@ public class Rugissement : GameSkill
 	}
 	
 	public override void failedToCastOn(int target, int indexFailure){
-		GameController.instance.displaySkillEffect(target, GameController.instance.castFailures.getFailure(indexFailure), 5, 1);
+		//GameController.instance.displaySkillEffect(target, GameController.instance.castFailures.getFailure(indexFailure), 5, 1);
 	}
 	
 	public override bool isLaunchable(Skill s){

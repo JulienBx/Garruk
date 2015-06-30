@@ -47,7 +47,7 @@ public class ImplosionEnergie : GameSkill
 			i++;
 		}
 		targets = new int[1];
-		targets[0] = GameController.instance.currentPlayingCard;
+		//targets[0] = GameController.instance.currentPlayingCard;
 		GameController.instance.applyOn(targets);
 		
 		//GameController.instance.playSkill();
@@ -58,18 +58,18 @@ public class ImplosionEnergie : GameSkill
 		Card targetCard ;
 		int currentLife ;
 		int amount ;
-		int bouclier ;
+		//int bouclier ;
 		
-		if(targets[0]==GameController.instance.currentPlayingCard){
-			amount = GameController.instance.getCurrentCard().GetLife();
-		}
-		else{
-			amount = GameController.instance.getCurrentSkill().ManaCost;
-		}
+//		if(targets[0]==GameController.instance.currentPlayingCard){
+//			amount = GameController.instance.getCurrentCard().GetLife();
+//		}
+//		else{
+//			amount = GameController.instance.getCurrentSkill().ManaCost;
+//		}
 		targetCard = GameController.instance.getCard(targets[0]);
 		currentLife = targetCard.GetLife();
-		GameController.instance.addCardModifier(targets[0], amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
-		GameController.instance.displaySkillEffect(targets[0], "Inflige "+amount, 3, 1);
+		//GameController.instance.addCardModifier(targets[0], amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
+		//GameController.instance.displaySkillEffect(targets[0], "Inflige "+amount, 3, 1);
 	}
 	
 	public override void failedToCastOn(int[] targets, int[] args){

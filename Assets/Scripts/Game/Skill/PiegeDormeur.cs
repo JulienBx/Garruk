@@ -30,14 +30,14 @@ public class PiegeDormeur : GameSkill
 		int amount = GameController.instance.getCurrentSkill().ManaCost;
 		
 		GameController.instance.addTileModifier(new Tile(targets[0], targets[1]), amount, ModifierType.Type_SleepingTrap, ModifierStat.Stat_No, -1, 2, "Piège endormissant", "Endort l'adversaire. "+amount+"% de chances de se réveiller chaque tour", "Permanent. Non visible du joueur adverse");
-		GameController.instance.displaySkillEffect(GameController.instance.currentPlayingCard, "Piège posé", 3, 2);
+		//GameController.instance.displaySkillEffect(GameController.instance.currentPlayingCard, "Piège posé", 3, 2);
 	}
 	
 	public override void activateTrap(int[] targets, int[] args){
-		GameController.instance.addCardModifier(targets[0], args[0], ModifierType.Type_Sleeping, ModifierStat.Stat_No, -1, 12, "Endormi", "Le héros ne peut ni se déplacer ni utiliser une compétence", args[0]+"% de chances de se réveiller à chaque tour");
-		GameController.instance.playindCardHasPlayed=true;
-		GameController.instance.playingCardHasMoved=true;
-		GameController.instance.displaySkillEffect(targets[0], "Déclenche le piège et endort", 3, 1);
+//		GameController.instance.addCardModifier(targets[0], args[0], ModifierType.Type_Sleeping, ModifierStat.Stat_No, -1, 12, "Endormi", "Le héros ne peut ni se déplacer ni utiliser une compétence", args[0]+"% de chances de se réveiller à chaque tour");
+//		GameController.instance.playindCardHasPlayed=true;
+//		GameController.instance.playingCardHasMoved=true;
+//		GameController.instance.displaySkillEffect(targets[0], "Déclenche le piège et endort", 3, 1);
 	}
 	
 	public override bool isLaunchable(Skill s){

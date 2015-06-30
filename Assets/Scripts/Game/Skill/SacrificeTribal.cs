@@ -42,15 +42,15 @@ public class SacrificeTribal : GameSkill
 		int bonusL = currentLife*manacost/100 ;
 		int bonusA = currentAttack*manacost/100 ;
 		
-		GameController.instance.addCardModifier(GameController.instance.currentPlayingCard, -1*bonusL, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
-		GameController.instance.addCardModifier(GameController.instance.currentPlayingCard, bonusA, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, -1, -1, "Tribalité", "Bonus d'attaque : +"+bonusA, "Permanent");
-		GameController.instance.displaySkillEffect(GameController.instance.currentPlayingCard, "+"+bonusL+" PV\n+"+bonusA+" ATK", 3, 0);
-		GameController.instance.addCardModifier(target, currentLife, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
-		GameController.instance.displaySkillEffect(target, "Sacrifié !", 3, 1);
+//		GameController.instance.addCardModifier(GameController.instance.currentPlayingCard, -1*bonusL, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
+//		GameController.instance.addCardModifier(GameController.instance.currentPlayingCard, bonusA, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, -1, -1, "Tribalité", "Bonus d'attaque : +"+bonusA, "Permanent");
+//		GameController.instance.displaySkillEffect(GameController.instance.currentPlayingCard, "+"+bonusL+" PV\n+"+bonusA+" ATK", 3, 0);
+//		GameController.instance.addCardModifier(target, currentLife, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
+//		GameController.instance.displaySkillEffect(target, "Sacrifié !", 3, 1);
 	}
 	
 	public override void failedToCastOn(int target, int indexFailure){
-		GameController.instance.displaySkillEffect(target, GameController.instance.castFailures.getFailure(indexFailure), 5, 1);
+		//GameController.instance.displaySkillEffect(target, GameController.instance.castFailures.getFailure(indexFailure), 5, 1);
 	}
 	
 	public override bool isLaunchable(Skill s){

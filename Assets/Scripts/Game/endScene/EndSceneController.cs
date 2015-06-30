@@ -63,7 +63,7 @@ public class EndSceneController : MonoBehaviour
 		this.initLabels (hasWon);
 		this.createCards ();
 		this.retrieveBonus (hasWon);
-		StartCoroutine (drawCredits ());
+		//StartCoroutine (drawCredits ());
 	}
 	public void initLabels(bool hasWon)
 	{
@@ -93,7 +93,7 @@ public class EndSceneController : MonoBehaviour
 			this.cards [i] = Instantiate(this.cardObject) as GameObject;
 			this.cards [i].AddComponent<CardGameController>();
 			this.cards [i].GetComponent<CardController>().setGameObject(name,scale,position);
-			this.cards [i].GetComponent<CardGameController>().setGameCard(GameController.instance.myDeck.Cards[i]);
+			//this.cards [i].GetComponent<CardGameController>().setGameCard(GameController.instance.myDeck.Cards[i]);
 		} 
 	}
 	private void retrieveBonus(bool hasWon)
@@ -138,40 +138,41 @@ public class EndSceneController : MonoBehaviour
 			break;
 		}
 	}
-	public IEnumerator drawCredits()
-	{
-		view.endSceneVM.creditsToAdd = earnCredits;
-		int playerIndex = 0;
-		if(!GameController.instance.isFirstPlayer)
-		{
-			playerIndex=1;
-		}
-		yield return StartCoroutine(GameController.instance.users[playerIndex].addMoney(earnCredits));
-		view.endSceneVM.endCredits = GameController.instance.users[playerIndex].Money;
-		view.endSceneVM.startCredits = view.endSceneVM.endCredits-view.endSceneVM.creditsToAdd;
-		this.toUpdateCredits = true;
-	}
+//	public IEnumerator drawCredits()
+//	{
+//		view.endSceneVM.creditsToAdd = earnCredits;
+//		int playerIndex = 0;
+////		if(!GameController.instance.isFirstPlayer)
+////		{
+////			playerIndex=1;
+////		}
+////		yield return StartCoroutine(GameController.instance.users[playerIndex].addMoney(earnCredits));
+////		view.endSceneVM.endCredits = GameController.instance.users[playerIndex].Money;
+//		view.endSceneVM.startCredits = view.endSceneVM.endCredits-view.endSceneVM.creditsToAdd;
+//		this.toUpdateCredits = true;
+//	}
 	public IEnumerator drawExperience()
 	{
-		yield return StartCoroutine(GameController.instance.myDeck.addXpToDeck (earnXp));
-		view.endSceneVM.collectionPoints = GameController.instance.myDeck.CollectionPoints;
-		view.endSceneVM.collectionPointsRanking = GameController.instance.myDeck.CollectionPointsRanking;
-		if(GameController.instance.myDeck.NewSkills.Count>0)
-		{
-			for(int i=0;i<GameController.instance.myDeck.NewSkills.Count;i++)
-			{
-				view.endSceneVM.newSkills.Add (GameController.instance.myDeck.NewSkills[i].Name);
-			}
-		}
-		if(GameController.instance.myDeck.NewCardType!="")
-		{
-			view.endSceneVM.newCardType=GameController.instance.myDeck.NewCardType;
-		}
-		this.xpDrawn = 0;
-		for(int i=0;i<this.cards.Length;i++)
-		{
-			this.cards [i].GetComponent<CardController>().animateExperience (GameController.instance.myDeck.Cards[i]);
-		}
+//		yield return StartCoroutine(GameController.instance.myDeck.addXpToDeck (earnXp));
+//		view.endSceneVM.collectionPoints = GameController.instance.myDeck.CollectionPoints;
+//		view.endSceneVM.collectionPointsRanking = GameController.instance.myDeck.CollectionPointsRanking;
+//		if(GameController.instance.myDeck.NewSkills.Count>0)
+//		{
+//			for(int i=0;i<GameController.instance.myDeck.NewSkills.Count;i++)
+//			{
+//				view.endSceneVM.newSkills.Add (GameController.instance.myDeck.NewSkills[i].Name);
+//			}
+//		}
+//		if(GameController.instance.myDeck.NewCardType!="")
+//		{
+//			view.endSceneVM.newCardType=GameController.instance.myDeck.NewCardType;
+//		}
+//		this.xpDrawn = 0;
+//		for(int i=0;i<this.cards.Length;i++)
+//		{
+//			this.cards [i].GetComponent<CardController>().animateExperience (GameController.instance.myDeck.Cards[i]);
+//		}
+		yield return 0;
 	}
 	public void incrementXpDrawn()
 	{

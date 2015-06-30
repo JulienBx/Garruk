@@ -30,7 +30,7 @@ public class PiegeAffaiblissant : GameSkill
 		int amount = GameController.instance.getCurrentSkill().ManaCost;
 		
 		GameController.instance.addTileModifier(new Tile(targets[0], targets[1]), amount, ModifierType.Type_WeakeningTrap, ModifierStat.Stat_No, -1, 1, "Piège affaiblissant", "Réduit de "+amount+"% l'attaque du héros touché pendant 2 tours", "Permanent. Non visible du joueur adverse");
-		GameController.instance.displaySkillEffect(GameController.instance.currentPlayingCard, "Piège posé", 3, 2);
+		//GameController.instance.displaySkillEffect(GameController.instance.currentPlayingCard, "Piège posé", 3, 2);
 	}
 	
 	public override void activateTrap(int[] targets, int[] args){

@@ -20,11 +20,11 @@ public class EnergieQuantique : GameSkill
 		
 		int index = Random.Range(0,GameController.instance.nbOtherPlayersAlive());
 		List<int> allys = new List<int>();
-		for (int i = 0 ; i < GameController.instance.playingCards.Length ; i++){
-			if (!GameController.instance.getPCC(i).isMine && !GameController.instance.getPCC(i).isDead){
-				allys.Add(i);
-			}
-		}
+//		for (int i = 0 ; i < GameController.instance.playingCards.Length ; i++){
+//			if (!GameController.instance.getPCC(i).isMine && !GameController.instance.getPCC(i).isDead){
+//				allys.Add(i);
+//			}
+//		}
 		
 		int target = allys[Random.Range(0, allys.Count)];
 		
@@ -54,7 +54,7 @@ public class EnergieQuantique : GameSkill
 	}
 	
 	public override void failedToCastOn(int target, int indexFailure){
-		GameController.instance.displaySkillEffect(target, GameController.instance.castFailures.getFailure(indexFailure), 5, 1);
+		//GameController.instance.displaySkillEffect(target, GameController.instance.castFailures.getFailure(indexFailure), 5, 1);
 	}
 	
 	public override bool isLaunchable(Skill s){

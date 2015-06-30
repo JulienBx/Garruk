@@ -20,16 +20,16 @@ public class TempeteEnergie : GameSkill
 		GameController.instance.startPlayingSkill();
 		int success = 0 ;
 		
-		for(int i = 0 ; i < GameController.instance.playingCards.Length;i++){
-			if(!GameController.instance.getPCC(i).isDead){
-				if (Random.Range(1,101) > GameController.instance.getCard(i).GetMagicalEsquive())
-				{ 
-					arg = (Random.Range(5,manacost+1));
-					GameController.instance.applyOn(i, arg);
-					success = 1 ;
-				}
-			}
-		}
+//		for(int i = 0 ; i < GameController.instance.playingCards.Length;i++){
+//			if(!GameController.instance.getPCC(i).isDead){
+//				if (Random.Range(1,101) > GameController.instance.getCard(i).GetMagicalEsquive())
+//				{ 
+//					arg = (Random.Range(5,manacost+1));
+//					GameController.instance.applyOn(i, arg);
+//					success = 1 ;
+//				}
+//			}
+//		}
 		
 		GameController.instance.playSkill(success);
 		GameController.instance.play();
@@ -41,7 +41,7 @@ public class TempeteEnergie : GameSkill
 	}
 	
 	public override void failedToCastOn(int target, int indexFailure){
-		GameController.instance.displaySkillEffect(target, GameController.instance.castFailures.getFailure(indexFailure), 5, 1);
+		//GameController.instance.displaySkillEffect(target, GameController.instance.castFailures.getFailure(indexFailure), 5, 1);
 	}
 	
 	public override bool isLaunchable(Skill s){

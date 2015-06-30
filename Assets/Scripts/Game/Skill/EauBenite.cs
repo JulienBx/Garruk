@@ -18,23 +18,23 @@ public class EauBenite : GameSkill
 		
 		int debut;
 		int fin;
-		if (GameController.instance.isFirstPlayer)
-		{
-			debut = GameController.instance.limitCharacterSide;
-			fin = GameController.instance.playingCards.Length;
-		} else
-		{
-			debut = 0;
-			fin = GameController.instance.limitCharacterSide;
-		}
-		for (int i = debut; i < fin; i++)
-		{
-			PlayingCardController pcc = GameController.instance.getPCC(i);
-			if (!pcc.isDead)
-			{
-				GameController.instance.addCardModifier(-amount, pcc.IDCharacter, (int)ModifierType.Type_BonusMalus, (int)ModifierStat.Stat_Dommage, -1);
-			}
-		}
+//		if (GameController.instance.isFirstPlayer)
+//		{
+//			debut = GameController.instance.limitCharacterSide;
+//			fin = GameController.instance.playingCards.Length;
+//		} else
+//		{
+//			debut = 0;
+//			fin = GameController.instance.limitCharacterSide;
+//		}
+//		for (int i = debut; i < fin; i++)
+//		{
+//			PlayingCardController pcc = GameController.instance.getPCC(i);
+//			if (!pcc.isDead)
+//			{
+//				GameController.instance.addCardModifier(-amount, pcc.IDCharacter, (int)ModifierType.Type_BonusMalus, (int)ModifierStat.Stat_Dommage, -1);
+//			}
+//		}
 
 		GameController.instance.addGameEvent(GameController.instance.getCurrentSkill().Action, "");
 		

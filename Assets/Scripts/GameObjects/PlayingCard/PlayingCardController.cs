@@ -39,8 +39,6 @@ public class PlayingCardController : GameObjectController
 		this.isDead = false;
 		this.isSelected = false;
 		this.isMoved = false;
-		this.cannotBeTargeted = -1;
-		this.paralyzed = -1;
 		this.playingCardView.playingCardVM.iconStyle = styles [0];
 		this.playingCardView.playingCardVM.titleStyle = styles [1];
 		this.playingCardView.playingCardVM.descriptionStyle = styles [2];
@@ -352,13 +350,13 @@ public class PlayingCardController : GameObjectController
 	public void kill()
 	{
 		GameController.instance.displaySkillEffect(this.IDCharacter, "DEAD", 6, 1);
-		if (GameController.instance.currentPlayingCard==this.IDCharacter){
-			GameController.instance.resolvePass();
-		}
-		else{
-			GameController.instance.playingCards [GameController.instance.currentPlayingCard].GetComponentInChildren<PlayingCardController>().tile.setNeighbours(GameController.instance.getCharacterTilesArray(), GameController.instance.playingCards [GameController.instance.currentPlayingCard].GetComponentInChildren<PlayingCardController>().card.GetMove());
-			GameController.instance.setDestinations(GameController.instance.currentPlayingCard);
-		}
+//		if (GameController.instance.currentPlayingCard==this.IDCharacter){
+//			GameController.instance.resolvePass();
+//		}
+//		else{
+//			GameController.instance.playingCards [GameController.instance.currentPlayingCard].GetComponentInChildren<PlayingCardController>().tile.setNeighbours(GameController.instance.getCharacterTilesArray(), GameController.instance.playingCards [GameController.instance.currentPlayingCard].GetComponentInChildren<PlayingCardController>().card.GetMove());
+//			GameController.instance.setDestinations(GameController.instance.currentPlayingCard);
+//		}
 		
 		this.isDead = true;
 		this.hasPlayed = true;
