@@ -29,6 +29,7 @@ public class ApplicationModel : MonoBehaviour
 	static public int tutorialStep;
 	static public bool isAdmin = false;
 	static public int nbCardsByDeck = 4;
+	static public int packToBuy = -1;
 	static public bool launchGameTutorial = false;
 
 	static private string URLCheckPassword = host + "check_password.php";

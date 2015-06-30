@@ -271,30 +271,6 @@ public class HomePageView : MonoBehaviour
 			GUILayout.Label("Disponible en boutique",homepageVM.titleStyle,GUILayout.Height(0.125f*homepageScreenVM.blockBottomRightHeight));
 			GUILayout.Label(packsVM.labelNo,packsVM.labelNoStyle,GUILayout.Height(0.125f*homepageScreenVM.blockBottomRightHeight));
 			GUILayout.FlexibleSpace();
-			GUILayout.BeginHorizontal();
-			{
-				GUILayout.FlexibleSpace();
-				GUILayout.BeginHorizontal();
-				{
-					GUI.enabled=homepageVM.buttonsEnabled;
-					if(GUILayout.Button("Acheter des cartes",packsVM.buttonStyle,GUILayout.Height(0.125f*homepageScreenVM.blockBottomRightHeight),GUILayout.Width(0.4f*homepageScreenVM.blockBottomRightWidth)))
-					{
-						Application.LoadLevel("Store");
-					}
-					GUI.enabled = homepageVM.guiEnabled;
-					GUILayout.Space (0.1f*homepageScreenVM.blockBottomRightWidth);
-					GUI.enabled=homepageVM.buttonsEnabled;
-					if(GUILayout.Button("Vider mes cartes",packsVM.buttonStyle,GUILayout.Height(0.125f*homepageScreenVM.blockBottomRightHeight),GUILayout.Width(0.4f*homepageScreenVM.blockBottomRightWidth)))
-					{
-						HomePageController.instance.cleanCardsHandler();
-					}
-					GUI.enabled = homepageVM.guiEnabled;
-				}
-				GUILayout.EndHorizontal();
-				GUILayout.FlexibleSpace();
-			}
-			GUILayout.EndHorizontal();
-			GUILayout.Space(0.05f*homepageScreenVM.blockBottomRightHeight);
 		}
 		GUILayout.EndArea();
 		for (int i=0;i<packsVM.finish-packsVM.start;i++)
@@ -303,7 +279,7 @@ public class HomePageView : MonoBehaviour
 			{
 			
 				GUILayout.FlexibleSpace();
-				GUILayout.Label(packsVM.packsNames[i],packsVM.packNameStyle,GUILayout.Height(packsVM.blocksHeight*15f/100f));
+				GUILayout.Label(packsVM.packsNames[i],packsVM.packNameStyle,GUILayout.Height(packsVM.blocksHeight*8f/100f));
 				if(packsVM.packsNew[i])
 				{
 					GUILayout.Label ("Nouveau !",packsVM.newPackStyle,GUILayout.Height(packsVM.blocksHeight*1f/10f));
@@ -315,9 +291,24 @@ public class HomePageView : MonoBehaviour
 				GUILayout.BeginHorizontal();
 				{
 					GUILayout.FlexibleSpace();
-					if(GUILayout.Button("",packsVM.packPicturesButtonStyle[i],GUILayout.Height(packsVM.blocksHeight*6f/10f),GUILayout.Width(packsVM.blocksHeight*6f/10f)))
+					if(GUILayout.Button("",packsVM.packPicturesButtonStyle[i],GUILayout.Height(packsVM.blocksHeight*55f/100f),GUILayout.Width(packsVM.blocksHeight*6f/10f)))
 					{
 					}
+					GUILayout.FlexibleSpace();
+				}
+				GUILayout.EndHorizontal();
+				GUILayout.FlexibleSpace();
+				GUILayout.Label(packsVM.packsPrice[i].ToString()+" crédits",packsVM.packPriceStyle,GUILayout.Height(packsVM.blocksHeight*8f/100f));
+				GUILayout.FlexibleSpace();
+				GUILayout.BeginHorizontal();
+				{
+					GUILayout.FlexibleSpace();
+					GUI.enabled=homepageVM.buttonsEnabled;
+					if(GUILayout.Button("Acheter",packsVM.buttonStyle,GUILayout.Height(packsVM.blocksHeight*15f/100f),GUILayout.Width(packsVM.blocksHeight*6f/10f)))
+					{
+						HomePageController.instance.buyPackHandler(i);
+					}
+					GUI.enabled=true;
 					GUILayout.FlexibleSpace();
 				}
 				GUILayout.EndHorizontal();
@@ -345,27 +336,34 @@ public class HomePageView : MonoBehaviour
 			GUILayout.BeginHorizontal();
 			{
 				GUILayout.FlexibleSpace();
-				GUILayout.BeginHorizontal();
+				GUI.enabled=homepageVM.buttonsEnabled;
+				if(GUILayout.Button("Mon profil",ranksVM.buttonStyle,GUILayout.Height(0.1f*homepageScreenVM.blockBottomRightHeight),GUILayout.Width(0.4f*homepageScreenVM.blockMiddleRightWidth)))
 				{
-					GUI.enabled=homepageVM.buttonsEnabled;
-					if(GUILayout.Button("Mon profil",ranksVM.buttonStyle,GUILayout.Height(0.125f*homepageScreenVM.blockBottomRightHeight),GUILayout.Width(0.4f*homepageScreenVM.blockMiddleRightWidth)))
-					{
-						Application.LoadLevel("Profile");
-					}
-					GUI.enabled = homepageVM.guiEnabled;
-					GUILayout.Space (0.1f*homepageScreenVM.blockMiddleRightWidth);
-					GUI.enabled=homepageVM.buttonsEnabled;
-					if(GUILayout.Button("Ma collection",ranksVM.buttonStyle,GUILayout.Height(0.125f*homepageScreenVM.blockBottomRightHeight),GUILayout.Width(0.4f*homepageScreenVM.blockMiddleRightWidth)))
-					{
-						Application.LoadLevel("SkillBook");
-					}
-					GUI.enabled = homepageVM.guiEnabled;
+					Application.LoadLevel("Profile");
 				}
-				GUILayout.EndHorizontal();
+				GUI.enabled = homepageVM.guiEnabled;
+				GUILayout.Space (0.1f*homepageScreenVM.blockMiddleRightWidth);
+				GUI.enabled=homepageVM.buttonsEnabled;
+				if(GUILayout.Button("Ma collection",ranksVM.buttonStyle,GUILayout.Height(0.1f*homepageScreenVM.blockBottomRightHeight),GUILayout.Width(0.4f*homepageScreenVM.blockMiddleRightWidth)))
+				{
+					Application.LoadLevel("SkillBook");
+				}
+				GUI.enabled = homepageVM.guiEnabled;
 				GUILayout.FlexibleSpace();
 			}
 			GUILayout.EndHorizontal();
-			GUILayout.Space(0.05f*homepageScreenVM.blockBottomRightHeight);
+			GUILayout.FlexibleSpace();
+			GUILayout.BeginHorizontal();
+			{
+				GUILayout.FlexibleSpace();
+				if(GUILayout.Button("Vider mes cartes",ranksVM.buttonStyle,GUILayout.Height(0.1f*homepageScreenVM.blockBottomRightHeight),GUILayout.Width(0.5f*homepageScreenVM.blockBottomRightWidth)))
+				{
+					HomePageController.instance.cleanCardsHandler();
+				}
+				GUILayout.FlexibleSpace();
+			}
+			GUILayout.EndHorizontal();
+			GUILayout.Space(0.02f*homepageScreenVM.blockBottomRightHeight);
 		}
 		GUILayout.EndArea();
 		GUILayout.BeginArea(homepageScreenVM.blockTopRight,homepageScreenVM.blockBorderStyle);
@@ -409,7 +407,7 @@ public class HomePageView : MonoBehaviour
 				GUILayout.FlexibleSpace();
 			}
 			GUILayout.EndHorizontal();
-			GUILayout.Space(0.05f*homepageScreenVM.blockBottomRightHeight);
+			GUILayout.Space(0.02f*homepageScreenVM.blockBottomRightHeight);
 		}
 		GUILayout.EndArea();
 	}

@@ -55,9 +55,11 @@ public class HomePageModel
 		{
 			string[] packData =array[i].Split(new string[] { "//" }, System.StringSplitOptions.None);
 			packs.Add (new Pack());
-			packs[i].Name= packData[0];
-			packs[i].New= System.Convert.ToBoolean(System.Convert.ToInt32(packData[1]));
-			packs[i].Picture=packData[2];
+			packs[i].Id= System.Convert.ToInt32(packData[0]);
+			packs[i].Name= packData[1];
+			packs[i].New= System.Convert.ToBoolean(System.Convert.ToInt32(packData[2]));
+			packs[i].Picture=packData[3];
+			packs[i].Price=System.Convert.ToInt32(packData[4]);
 		}
 		return packs;
 	}

@@ -118,6 +118,11 @@ public class StoreController : MonoBehaviour
 			this.tutorial.GetComponent<StoreTutorialController>().launchSequence(0);
 			this.isTutorialLaunched=true;
 		}
+		if(ApplicationModel.packToBuy!=-1)
+		{
+			this.buyPackFromHomePage(ApplicationModel.packToBuy);
+			ApplicationModel.packToBuy = -1;
+		}
 	}
 	private void initVM()
 	{
@@ -239,6 +244,33 @@ public class StoreController : MonoBehaviour
 			this.cardFocused.GetComponent<CardController> ().setCollectionPointsWindowRect (view.storeScreenVM.collectionPointsWindow);
 			this.cardFocused.GetComponent<CardController> ().setNewSkillsWindowRect (view.storeScreenVM.newSkillsWindow);
 			this.cardFocused.GetComponent<CardController> ().setNewCardTypeWindowRect(view.storeScreenVM.centralWindow);
+		}
+	}
+	public void buyPackFromHomePage(int packId)
+	{
+		for(int i=0;i<model.packList.Count;i++)
+		{
+			if(model.packList[i].Id==packId)
+			{
+				this.selectedPackIndex=i;
+				break;
+			}
+		}
+		if(model.packList[selectedPackIndex].Price<=ApplicationModel.credits)
+		{
+			if(model.packList[selectedPackIndex].CardType==-2)
+			{
+				this.displaySelectCardPopUp();
+			}
+			else
+			{
+				StartCoroutine(this.getCards());
+			}
+		}
+		else
+		{
+			this.displayErrorPopUp();
+			errorPopUpView.errorPopUpVM.error="Vous n'avez pas assez de crédits pour acheter ce paquet ! A tout moment vous pouvez approvisionner votre portefeuille";
 		}
 	}
 	public void buyPackHandler(int chosenPack)

@@ -320,12 +320,12 @@ public class HomePageController : MonoBehaviour
 		}
 		view.packsVM.elementPerRow = 2;
 		view.packsVM.blocksWidth = view.homepageScreenVM.blockBottomRightWidth / view.packsVM.elementPerRow;
-		view.packsVM.blocksHeight = view.homepageScreenVM.blockBottomRightHeight*0.75f;
+		view.packsVM.blocksHeight = view.homepageScreenVM.blockBottomRightHeight*0.8f;
 		view.packsVM.blocks=new Rect[view.packsVM.elementPerRow];
 		for(int i=0;i<view.packsVM.blocks.Length;i++)
 		{
 			view.packsVM.blocks[i]=new Rect(view.homepageScreenVM.blockBottomRight.xMin+(i%view.packsVM.elementPerRow)*view.packsVM.blocksWidth,
-			                               view.homepageScreenVM.blockBottomRight.yMin+0.125f*view.packsVM.blocksHeight+Mathf.FloorToInt(i/view.packsVM.elementPerRow)*view.packsVM.blocksHeight,
+			                               view.homepageScreenVM.blockBottomRight.yMin+0.2f*view.packsVM.blocksHeight+Mathf.FloorToInt(i/view.packsVM.elementPerRow)*view.packsVM.blocksHeight,
 			                               view.packsVM.blocksWidth,
 			                               view.packsVM.blocksHeight);
 		}
@@ -455,15 +455,22 @@ public class HomePageController : MonoBehaviour
 		}
 		view.packsVM.packsNames = new List<string> ();
 		view.packsVM.packsNew = new List<bool> ();
+		view.packsVM.packsPrice = new List<int> ();
 		view.packsVM.packPicturesButtonStyle = new List<GUIStyle> ();
 		for(int i =view.packsVM.start;i<view.packsVM.finish;i++)
 		{
 			view.packsVM.packsNames.Add (model.packs[i].Name);
 			view.packsVM.packsNew.Add (model.packs[i].New);
+			view.packsVM.packsPrice.Add (model.packs[i].Price);
 			view.packsVM.packPicturesButtonStyle.Add (new GUIStyle());
 			view.packsVM.packPicturesButtonStyle[i-view.packsVM.start].normal.background=model.packs[i].texture;
 			StartCoroutine(model.packs[i].setPicture());
 		}
+	}
+	public void buyPackHandler(int index)
+	{
+		ApplicationModel.packToBuy = model.packs [view.packsVM.start + index].Id;
+		Application.LoadLevel ("Store");
 	}
 	public void newsPaginationBack()
 	{

@@ -13,8 +13,10 @@ public class HomePagePacksViewModel
 	public GUIStyle newPackStyle;
 	public GUIStyle packNameStyle;
 	public GUIStyle labelNoStyle;
+	public GUIStyle packPriceStyle;
 	public IList<string> packsNames;
 	public IList<bool> packsNew;
+	public IList<int> packsPrice;
 	public string labelNo;
 	public int nbPages;
 	public int chosenPage;
@@ -31,6 +33,7 @@ public class HomePagePacksViewModel
 		this.newPackStyle = new GUIStyle ();
 		this.packNameStyle = new GUIStyle ();
 		this.labelNoStyle = new GUIStyle ();
+		this.packPriceStyle = new GUIStyle ();
 		this.blocks=new Rect[0];
 	}
 	public void initStyles()
@@ -39,7 +42,7 @@ public class HomePagePacksViewModel
 		this.newPackStyle = this.styles [1];
 		this.packNameStyle = this.styles [2];
 		this.labelNoStyle = this.styles [3];
-
+		this.packPriceStyle = this.styles [4];
 	}
 	public void resize(int heightScreen)
 	{	
@@ -47,5 +50,6 @@ public class HomePagePacksViewModel
 		this.newPackStyle.fontSize = heightScreen * 2 / 100;
 		this.packNameStyle.fontSize = heightScreen * 2 / 100;
 		this.labelNoStyle.fontSize = heightScreen * 2 / 100;
+		this.packPriceStyle.fontSize = heightScreen * 2 / 100;
 	}
 }
