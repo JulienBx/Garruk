@@ -765,10 +765,12 @@ public class StoreController : MonoBehaviour
 	public void enableMainGui()
 	{
 		view.storeVM.guiEnabled = true;
+		this.setButtonsGui (true);
 	}
 	public void disableMainGui()
 	{
 		view.storeVM.guiEnabled = false;
+		this.setButtonsGui (false);
 	}
 	public void displayMainGUI()
 	{
