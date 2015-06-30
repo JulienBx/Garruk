@@ -155,6 +155,7 @@ public class EndSceneController : MonoBehaviour
 	{
 		yield return StartCoroutine(GameController.instance.myDeck.addXpToDeck (earnXp));
 		view.endSceneVM.collectionPoints = GameController.instance.myDeck.CollectionPoints;
+		view.endSceneVM.collectionPointsRanking = GameController.instance.myDeck.CollectionPointsRanking;
 		if(GameController.instance.myDeck.NewSkills.Count>0)
 		{
 			for(int i=0;i<GameController.instance.myDeck.NewSkills.Count;i++)

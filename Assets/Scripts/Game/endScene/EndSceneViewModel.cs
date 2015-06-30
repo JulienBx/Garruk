@@ -11,6 +11,7 @@ public class EndSceneViewModel
 	public int endCredits;
 	public int creditsToAdd;
 	public int collectionPoints;
+	public int collectionPointsRanking;
 	public string title;
 	public IList<string> newSkills;
 	public bool guiEnabled;

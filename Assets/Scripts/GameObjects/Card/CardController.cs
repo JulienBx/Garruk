@@ -388,6 +388,7 @@ public class CardController : GameObjectController {
 		cardCollectionPointsPopUpView = gameObject.AddComponent<CardCollectionPointsPopUpView>();
 		cardCollectionPointsPopUpView.cardCollectionPointsPopUpVM.centralWindow = this.getCollectionPointsWindowsRect ();
 		cardCollectionPointsPopUpView.cardCollectionPointsPopUpVM.collectionPoints = this.card.CollectionPoints;
+		cardCollectionPointsPopUpView.cardCollectionPointsPopUpVM.collectionPointsRanking = this.card.CollectionPointsRanking;
 		cardCollectionPointsPopUpView.cardCollectionPointsPopUpVM.styles=new GUIStyle[ressources.collectionPopUpStyles.Length];
 		for(int i=0;i<ressources.collectionPopUpStyles.Length;i++)
 		{

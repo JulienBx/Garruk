@@ -24,6 +24,7 @@ public class Deck
 	public List<Card> Cards;									// Liste de carte du deck
 	public string OwnerUsername;                                // Username de la personne possédant le deck
 	public int CollectionPoints;
+	public int CollectionPointsRanking;
 	public IList<Skill> NewSkills;
 	public string NewCardType;
 
@@ -351,7 +352,8 @@ public class Deck
 		else
 		{
 			string [] cardsData = w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
-			this.CollectionPoints=System.Convert.ToInt32(cardsData[cardsData.Length-1]);
+			this.CollectionPoints=System.Convert.ToInt32(cardsData[cardsData.Length-2]);
+			this.CollectionPointsRanking=System.Convert.ToInt32(cardsData[cardsData.Length-1]);
 			for(int i=0;i<ApplicationModel.nbCardsByDeck;i++)
 			{
 				string [] cardData =  cardsData[i].Split(new string[] { "#S#" }, System.StringSplitOptions.None);

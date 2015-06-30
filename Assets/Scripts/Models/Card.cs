@@ -49,6 +49,7 @@ public class Card
 	public List<int> Decks;
 	public IList<Skill> NewSkills;
 	public int CollectionPoints;
+	public int CollectionPointsRanking;
 	public int IdCardTypeUnlocked;
 	public string TitleCardTypeUnlocked;
 	public int deckOrder;
@@ -682,6 +683,7 @@ public class Card
 				string [] cardData = w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
 				string [] cardInformations = cardData [0].Split(new string[] { "#S#" }, System.StringSplitOptions.None);
 				this.CollectionPoints = System.Convert.ToInt32(cardData [1]);
+				this.CollectionPointsRanking=System.Convert.ToInt32(cardData[2]);
 				for (int j = 0; j < cardInformations.Length-1; j++)
 				{
 					string[] cardInfo = cardInformations [j].Split(new string[] { "\\" }, System.StringSplitOptions.None); 
