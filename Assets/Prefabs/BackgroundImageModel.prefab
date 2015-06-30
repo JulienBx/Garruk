@@ -11,6 +11,7 @@ GameObject:
   - 33: {fileID: 3395768}
   - 64: {fileID: 6495768}
   - 23: {fileID: 2395768}
+  - 114: {fileID: 11418142}
   m_Layer: 0
   m_Name: BackgroundImageModel
   m_TagString: Untagged
@@ -24,7 +25,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 195768}
-  m_LocalRotation: {x: 1, y: 0, z: 0, w: -4.37113883e-08}
+  m_LocalRotation: {x: 0, y: .707106769, z: -.707106769, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 1, z: 1}
   m_Children: []
@@ -70,6 +71,21 @@ MeshCollider:
   m_SmoothSphereCollisions: 0
   m_Convex: 0
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &11418142
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 195768}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 672bf27986869b741aa5cec505b7d47c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GOPosition: {x: 0, y: 0}
+  GOSize: {x: 0, y: 0}
+  backgroundImages:
+  - {fileID: 2800000, guid: 01f9dbee1a0be984ebaef9f104a6e355, type: 3}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

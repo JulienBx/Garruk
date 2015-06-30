@@ -233,7 +233,7 @@ public class EndSceneController : MonoBehaviour
 		GameController.instance.disconnect ();
 		if(GameController.instance.getIsTutorialLaunched())
 		{
-			StartCoroutine(GameController.instance.endTutorial());
+			//StartCoroutine(GameController.instance.endTutorial());
 		}
 		else
 		{

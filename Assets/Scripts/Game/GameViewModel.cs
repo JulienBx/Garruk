@@ -15,7 +15,6 @@ public class GameViewModel
 	public string messageStartWindow = "";
 	public string messageStartWindowButton = "";
 	public string messageOpponentStartWindow = "";
-	public string messageOpponentStartWindowButton = "";
 	
 	public Rect startButtonRect;
 	public Rect opponentStartButtonRect;
@@ -32,6 +31,9 @@ public class GameViewModel
 	public int timerSeconds;
 	public Rect timerRect;
 	public GUIStyle timerStyle;
+	
+	public string myPlayerName ; 
+	public string hisPlayerName ;
 	
 	public GameViewModel()
 	{
@@ -60,7 +62,7 @@ public class GameViewModel
 	public void resize(int w, int h)
 	{
 		this.topCenterRect = new Rect((w/2f)-0.1f*h,0,0.2f*h,0.1f*h);
-		this.timerStyle.fontSize = h*50/1000;
+		this.timerStyle.fontSize = h*60/1000;
 	}
 }
 

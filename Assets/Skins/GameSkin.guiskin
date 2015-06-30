@@ -1250,7 +1250,7 @@ MonoBehaviour:
     m_FixedWidth: 0
     m_FixedHeight: 0
     m_StretchWidth: 1
-    m_StretchHeight: 1
+    m_StretchHeight: 0
   m_Settings:
     m_DoubleClickSelectsWord: 1
     m_TripleClickSelectsLine: 1
