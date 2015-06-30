@@ -29,8 +29,7 @@ public class GameView : MonoBehaviour
 			}
 			else{
 				int tempInt = Mathf.FloorToInt(this.gameVM.timer);
-				if(tempInt!=this.gameVM.timerSeconds && tempInt < 10){
-					this.gameVM.timerSeconds = tempInt;
+				if(tempInt!=this.gameVM.timerSeconds){
 					this.gameVM.timerSeconds = tempInt;
 					if(tempInt < 10){
 						GameController.instance.playAlarm();
@@ -42,11 +41,38 @@ public class GameView : MonoBehaviour
 
 	void OnGUI()
 	{	
-		if (GUI.Button(gameVM.quitButtonRect, gameVM.quitButtonText, gameVM.quitButtonStyle))
+		GUILayout.BeginArea(gameVM.topCenterRect);
 		{
-			GameController.instance.quitGameHandler();
-		}	
-
+			GUILayout.BeginVertical();
+			{
+				GUILayout.FlexibleSpace();
+				GUILayout.BeginHorizontal();
+				{
+					if (gameVM.timerSeconds >= 0)
+					{
+						GUILayout.FlexibleSpace();
+						if (gameVM.timerSeconds > 9)
+						{
+							GUILayout.Label(gameVM.timerSeconds.ToString(), gameVM.timerStyle);
+						}
+						else{
+							GUILayout.Label("0"+gameVM.timerSeconds.ToString(), gameVM.timerStyle);
+						}
+					}
+					GUILayout.FlexibleSpace();
+					if (GUILayout.Button("", gameVM.quitButtonStyle, GUILayout.Height(gameVM.timerStyle.fontSize), GUILayout.Width(gameVM.timerStyle.fontSize)))
+					{
+						GameController.instance.quitGameHandler();
+					}
+					GUILayout.FlexibleSpace();
+				}
+				GUILayout.EndHorizontal();
+				GUILayout.FlexibleSpace();
+			}
+			GUILayout.EndVertical();
+		}
+		GUILayout.EndArea();
+		
 		if (gameVM.toDisplayStartWindows)
 		{
 			GUILayout.BeginArea(gameVM.startButtonRect, this.gameVM.startWindowStyle);
@@ -87,18 +113,7 @@ public class GameView : MonoBehaviour
 			GUILayout.EndArea();
 		}
 
-		if (gameVM.timerSeconds >= 0)
-		{
-			GUILayout.BeginArea(gameVM.timerRect);
-			{
-				GUILayout.BeginHorizontal();
-				{
-					GUILayout.Label(gameVM.timerSeconds.ToString(), gameVM.timerStyle);
-				}
-				GUILayout.EndHorizontal();
-			}
-			GUILayout.EndArea();
-		}
+		
 	}
 }
 

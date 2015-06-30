@@ -22,8 +22,10 @@ public class GameController : Photon.MonoBehaviour
 	public int limitCharacterSide = 4;
 	
 	//Styles et textes
-	public GUIStyle[] gameStyles;
-	public GUIStyle[] gameTexts;
+	public GUISkin mainSkin;
+	public GUISkin titlesSkin;
+	public GUISkin gameSkin;
+	public string[] gameTexts;
 	
 	//Tutoriel
 	public GameObject TutorialObject;
@@ -72,7 +74,9 @@ public class GameController : Photon.MonoBehaviour
 		
 		this.createBackground();
 		this.gameView = Camera.main.gameObject.AddComponent <GameView>();
-		
+		this.gameView.gameVM.setStyles(this.mainSkin, this.titlesSkin, this.gameSkin);
+		this.gameView.gameVM.setTexts(this.gameTexts);
+		this.resize(Screen.width, Screen.height);
 		this.initSkills();
 		
 		if (ApplicationModel.launchGameTutorial)
@@ -91,16 +95,15 @@ public class GameController : Photon.MonoBehaviour
 	{
 		this.gameView.gameVM.resize(w , h);
 
-		this.resizeBackground();
-		this.recalculateGameEvents();
-		if (EndSceneController.instance != null)
-		{
-			EndSceneController.instance.resize();
-		}
-		if (this.isTutorialLaunched)
-		{
-			this.tutorial.GetComponent<GameTutorialController>().resize();
-		}
+//		this.resizeBackground();
+//		if (EndSceneController.instance != null)
+//		{
+//			EndSceneController.instance.resize();
+//		}
+//		if (this.isTutorialLaunched)
+//		{
+//			this.tutorial.GetComponent<GameTutorialController>().resize();
+//		}
 	}
 	
 	public void timeOut()
