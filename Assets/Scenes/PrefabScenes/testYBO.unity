@@ -124,7 +124,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: .192156866, g: .301960796, b: .474509805, a: .0196078438}
+  m_BackGroundColor: {r: .0793103427, g: .0793103427, b: .0793103427, a: .0196078438}
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -181,7 +181,7 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 1d97ecc9f01194033bfaa12c38b9b783, type: 3}
   - {fileID: 2800000, guid: b26f17cff078748f4bfc3ba9f8fed069, type: 3}
   - {fileID: 2800000, guid: 88a553970d35c43b7bb6850ceb82e4a9, type: 3}
-  - {fileID: 2800000, guid: 80c84fa55357040b195f343f043a73bc, type: 3}
+  - {fileID: 2800000, guid: 90466fc211b354ca3880c51c30a84ea9, type: 3}
 --- !u!1 &604359206
 GameObject:
   m_ObjectHideFlags: 0
