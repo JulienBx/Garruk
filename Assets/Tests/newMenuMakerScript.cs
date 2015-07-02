@@ -19,6 +19,5 @@ public class newMenuMakerScript : MonoBehaviour
 		this.menu = Instantiate(this.newMenuObject) as GameObject;
 		this.menu.GetComponent<newMenuController> ().setCurrentPage (1);
 		this.backgroundImage = (GameObject)Instantiate(this.backgroundImageModel);
-		this.backgroundImage.GetComponent<BackgroundImageController>().setImage(1);
 	}
 }

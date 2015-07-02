@@ -122,9 +122,6 @@ public class GameController : Photon.MonoBehaviour
 		this.verticalBorders = new GameObject[this.boardWidth + 1];
 		this.horizontalBorders = new GameObject[this.boardHeight + 1];
 		
-		this.backgroundImage = (GameObject)Instantiate(this.backgroundImageModel);
-		this.backgroundImage.GetComponent<BackgroundImageController>().setImage(0);
-		
 		//this.leftLifeBar = (GameObject)Instantiate(this.leftLifeBarModel);
 		//this.leftLifeBar.name = "LLB";
 		
