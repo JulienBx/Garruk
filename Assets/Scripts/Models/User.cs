@@ -7,7 +7,8 @@ using System.Linq;
 public class User
 {
 	private string URLGetUserGameProfile    = ApplicationModel.host + "get_user_game_profile.php";
-	private string URLDefaultProfilePicture = ApplicationModel.host + "img/profile/defautprofilepicture.png";
+	private string URLDefaultProfilePicture = ApplicationModel.host + "img/profile/defaultprofilepicture.png";
+	private string URLDefaultThumbProfilePicture = ApplicationModel.host + "img/profile/defaultthumbprofilepicture.png";
 	private string URLGetDecks              = ApplicationModel.host + "get_decks_by_user.php";
 	private string URLGetMyCardsPage        = ApplicationModel.host + "get_mycardspage_data.php";
 	private string URLUpdateUserInformations= ApplicationModel.host + "update_user_informations.php";
@@ -37,6 +38,7 @@ public class User
 	public string Surname;
 
 	public string Picture;
+	public string ThumbPicture;
 	public int Money;
 	public List<Connection> Connections;
 	public int Division;
@@ -240,6 +242,20 @@ public class User
 		}
 		else {
 			var www = new WWW(URLDefaultProfilePicture);
+			yield return www;
+			www.LoadImageIntoTexture(this.texture);
+		}
+	}
+
+	public IEnumerator setThumbProfilePicture(){
+		
+		if (this.ThumbPicture.StartsWith(ServerDirectory)){
+			var www = new WWW(ApplicationModel.host+this.ThumbPicture);
+			yield return www;
+			www.LoadImageIntoTexture(this.texture);
+		}
+		else {
+			var www = new WWW(URLDefaultThumbProfilePicture);
 			yield return www;
 			www.LoadImageIntoTexture(this.texture);
 		}
