@@ -39,6 +39,7 @@ public class MyGameController : MonoBehaviour
 		this.view = Camera.main.gameObject.AddComponent <MyGameView>();
 		this.model = new MyGameModel ();
 		this.MenuObject = Instantiate(this.MenuObject) as GameObject;
+		Debug.Log ("toto");
 		StartCoroutine (this.initialization ());
 	}
 	void Update()
