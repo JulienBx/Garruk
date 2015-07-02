@@ -49,3 +49,15 @@ TagManager:
     userID: 0
     uniqueID: 0
     locked: 0
+  - name: Background
+    userID: 1
+    uniqueID: 4021773551
+    locked: 0
+  - name: Foreground
+    userID: 2
+    uniqueID: 3811571435
+    locked: 0
+  - name: UI
+    userID: 3
+    uniqueID: 3625065333
+    locked: 0
