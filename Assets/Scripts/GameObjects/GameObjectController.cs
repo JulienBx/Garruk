@@ -26,14 +26,14 @@ public class GameObjectController : MonoBehaviour
 	{
 		Vector2 position = new Vector2 (gameobject.transform.position.x,gameobject.transform.position.y);
 		float worldHeight;
-		if(Camera.main.camera.isOrthoGraphic)
+		if(Camera.main.GetComponent<Camera>().orthographic)
 		{
-			worldHeight = 2f*Camera.main.camera.orthographicSize;
+			worldHeight = 2f*Camera.main.GetComponent<Camera>().orthographicSize;
 		}
 		else
 		{
-			float distance = Mathf.Abs(Camera.main.camera.transform.position.z-gameobject.transform.position.z);
-			float radians = (Camera.main.camera.fieldOfView/2f) * (Mathf.PI/180f);
+			float distance = Mathf.Abs(Camera.main.GetComponent<Camera>().transform.position.z-gameobject.transform.position.z);
+			float radians = (Camera.main.GetComponent<Camera>().fieldOfView/2f) * (Mathf.PI/180f);
 			worldHeight=2f*(distance*Mathf.Tan(radians));
 		}
 		float worldWidth = ((float)Screen.width/(float)Screen.height) * worldHeight;
@@ -45,14 +45,14 @@ public class GameObjectController : MonoBehaviour
 	{
 		Vector2 size = new Vector2 (gameobject.GetComponent<Renderer> ().bounds.size.x,gameobject.GetComponent<Renderer> ().bounds.size.y);
 		float worldHeight;
-		if(Camera.main.camera.isOrthoGraphic)
+		if(Camera.main.GetComponent<Camera>().orthographic)
 		{
-			worldHeight = 2f*Camera.main.camera.orthographicSize;
+			worldHeight = 2f*Camera.main.GetComponent<Camera>().orthographicSize;
 		}
 		else
 		{
-			float distance = Mathf.Abs(Camera.main.camera.transform.position.z-gameobject.transform.position.z);
-			float radians = (Camera.main.camera.fieldOfView/2f) * (Mathf.PI/180f);
+			float distance = Mathf.Abs(Camera.main.GetComponent<Camera>().transform.position.z-gameobject.transform.position.z);
+			float radians = (Camera.main.GetComponent<Camera>().fieldOfView/2f) * (Mathf.PI/180f);
 			worldHeight=2f*(distance*Mathf.Tan(radians));
 		}
 		float worldWidth = ((float)Screen.width/(float)Screen.height) * worldHeight;

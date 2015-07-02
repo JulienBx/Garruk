@@ -69,8 +69,8 @@ public class PlayingCardController : GameObjectController
 
 	public void resizeDeadHalo(Vector3 localScale, int i)
 	{
-		Vector3 min = Utils.getGOScreenPosition(gameObject.renderer.bounds.min);
-		Vector3 max = Utils.getGOScreenPosition(gameObject.renderer.bounds.max);
+		Vector3 min = Utils.getGOScreenPosition(gameObject.GetComponent<Renderer>().bounds.min);
+		Vector3 max = Utils.getGOScreenPosition(gameObject.GetComponent<Renderer>().bounds.max);
 		Vector3 positionScale = Utils.getGOScreenPosition(localScale);
 		i++;
 		Rect position = new Rect(min.x, (max.y - min.y) * i, max.x - min.x, max.y - min.y);
@@ -360,11 +360,11 @@ public class PlayingCardController : GameObjectController
 		
 		this.isDead = true;
 		this.hasPlayed = true;
-		gameObject.renderer.enabled = false;
+		gameObject.GetComponent<Renderer>().enabled = false;
 		Renderer[] renderers = GetComponentsInChildren<Renderer>();
 		for (int i = 0; i < renderers.Length; i++)
 		{
-			renderers [i].renderer.enabled = false;
+			renderers [i].GetComponent<Renderer>().enabled = false;
 		}
 		GameController.instance.emptyTile(this.tile.x, this.tile.y);
 		this.setPosition(new Vector3(-20, -20, -20));
@@ -374,11 +374,11 @@ public class PlayingCardController : GameObjectController
 	public void relive()
 	{
 		this.isDead = false;
-		gameObject.renderer.enabled = true;
+		gameObject.GetComponent<Renderer>().enabled = true;
 		Renderer[] renderers = GetComponentsInChildren<Renderer>();
 		for (int i = 0; i < renderers.Length; i++)
 		{
-			renderers [i].renderer.enabled = true;
+			renderers [i].GetComponent<Renderer>().enabled = true;
 		}
 	}
 	
@@ -492,24 +492,24 @@ public class PlayingCardController : GameObjectController
 	
 	public void hideDisplay()
 	{
-		gameObject.renderer.enabled = false ;
-		transform.Find("LifeArea").FindChild("Life").renderer.enabled=false;
-		transform.Find("MoveArea").FindChild("Move").renderer.enabled=false;
-		transform.Find("AttackArea").FindChild("Attack").renderer.enabled=false;
-		transform.Find("LifeArea").renderer.enabled=false;
-		transform.Find("MoveArea").renderer.enabled=false;
-		transform.Find("AttackArea").renderer.enabled=false;
+		gameObject.GetComponent<Renderer>().enabled = false ;
+		transform.Find("LifeArea").FindChild("Life").GetComponent<Renderer>().enabled=false;
+		transform.Find("MoveArea").FindChild("Move").GetComponent<Renderer>().enabled=false;
+		transform.Find("AttackArea").FindChild("Attack").GetComponent<Renderer>().enabled=false;
+		transform.Find("LifeArea").GetComponent<Renderer>().enabled=false;
+		transform.Find("MoveArea").GetComponent<Renderer>().enabled=false;
+		transform.Find("AttackArea").GetComponent<Renderer>().enabled=false;
 	}
 	
 	public void showDisplay()
 	{
-		gameObject.renderer.enabled = true ;
-		transform.Find("LifeArea").FindChild("Life").renderer.enabled=true;
-		transform.Find("MoveArea").FindChild("Move").renderer.enabled=true;
-		transform.Find("AttackArea").FindChild("Attack").renderer.enabled=true;
-		transform.Find("LifeArea").renderer.enabled=true;
-		transform.Find("MoveArea").renderer.enabled=true;
-		transform.Find("AttackArea").renderer.enabled=true;
+		gameObject.GetComponent<Renderer>().enabled = true ;
+		transform.Find("LifeArea").FindChild("Life").GetComponent<Renderer>().enabled=true;
+		transform.Find("MoveArea").FindChild("Move").GetComponent<Renderer>().enabled=true;
+		transform.Find("AttackArea").FindChild("Attack").GetComponent<Renderer>().enabled=true;
+		transform.Find("LifeArea").GetComponent<Renderer>().enabled=true;
+		transform.Find("MoveArea").GetComponent<Renderer>().enabled=true;
+		transform.Find("AttackArea").GetComponent<Renderer>().enabled=true;
 	}
 	public void setIsDisable(bool value)
 	{

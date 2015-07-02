@@ -13,13 +13,13 @@ public class SkillObjectView : MonoBehaviour
 
 	public void show()
 	{
-		transform.renderer.materials [1].mainTexture = skillVM.face;
-		transform.renderer.materials [0].mainTexture = skillVM.border; 
+		transform.GetComponent<Renderer>().materials [1].mainTexture = skillVM.face;
+		transform.GetComponent<Renderer>().materials [0].mainTexture = skillVM.border; 
 	}
 
 	public void changeBorder()
 	{
-		transform.renderer.materials [0].mainTexture = skillVM.border; 
+		transform.GetComponent<Renderer>().materials [0].mainTexture = skillVM.border; 
 	}
 
 	public void replace()

@@ -43,8 +43,8 @@ public class GameEventView : MonoBehaviour
 
 	public void show()
 	{
-		transform.renderer.materials [0].mainTexture = gameEventVM.border;
-		transform.renderer.materials [1].mainTexture = gameEventVM.art;
+		transform.GetComponent<Renderer>().materials [0].mainTexture = gameEventVM.border;
+		transform.GetComponent<Renderer>().materials [1].mainTexture = gameEventVM.art;
 	}
 
 	public void changeBorder()
@@ -53,7 +53,7 @@ public class GameEventView : MonoBehaviour
 
 	void OnMouseEnter()
 	{
-		if (gameObject.renderer.enabled)
+		if (gameObject.GetComponent<Renderer>().enabled)
 		{
 			isHovered = true;
 			isMvt = gameObject.GetComponent<GameEventController>().hasMouvementType();
@@ -72,7 +72,7 @@ public class GameEventView : MonoBehaviour
 
 	void OnMouseExit()
 	{
-		if (gameObject.renderer.enabled)
+		if (gameObject.GetComponent<Renderer>().enabled)
 		{
 			isHovered = false;
 			if (isMvt)

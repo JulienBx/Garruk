@@ -43,10 +43,10 @@ public class SkillView : MonoBehaviour
 	{
 		for (int j = 0 ; j < 6 ; j++)
 		{
-			gameObject.transform.FindChild("PictoMetalSkill").renderer.materials[j].mainTexture = skillVM.skillLevel[j];
+			gameObject.transform.FindChild("PictoMetalSkill").GetComponent<Renderer>().materials[j].mainTexture = skillVM.skillLevel[j];
 		}
 		gameObject.transform.FindChild ("Skill").GetComponent<TextMesh> ().text = skillVM.name;
-		gameObject.transform.FindChild ("PictoSkill").renderer.material.mainTexture = skillVM.picto;
+		gameObject.transform.FindChild ("PictoSkill").GetComponent<Renderer>().material.mainTexture = skillVM.picto;
 		gameObject.transform.FindChild ("PictoMetalSkill").FindChild ("SkillForce").GetComponent<TextMesh> ().text = skillVM.power.ToString();
 	}
 	public void setTextResolution(float resolution)
@@ -59,8 +59,8 @@ public class SkillView : MonoBehaviour
 	}
 	public void changeTextColor(Material material)
 	{
-		gameObject.transform.FindChild ("Skill").GetComponent<TextMesh>().renderer.material = material;
-		gameObject.transform.FindChild ("PictoMetalSkill").FindChild ("SkillForce").GetComponent<TextMesh> ().renderer.material = material;
+		gameObject.transform.FindChild ("Skill").GetComponent<TextMesh>().GetComponent<Renderer>().material = material;
+		gameObject.transform.FindChild ("PictoMetalSkill").FindChild ("SkillForce").GetComponent<TextMesh> ().GetComponent<Renderer>().material = material;
 	}
 }
 

@@ -31,7 +31,7 @@ public class ExperienceView : MonoBehaviour
 	{
 		for (int i = 0 ; i < 6 ; i++)
 		{
-			transform.FindChild ("ExperienceGauge").renderer.materials[i].mainTexture = experienceVM.xpLevelTexture;
+			transform.FindChild ("ExperienceGauge").GetComponent<Renderer>().materials[i].mainTexture = experienceVM.xpLevelTexture;
 		}
 		transform.FindChild("Level").GetComponent<TextMesh> ().text = "Lvl"+experienceVM.currentLevel ;
 	}
@@ -39,7 +39,7 @@ public class ExperienceView : MonoBehaviour
 	{
 		for (int i = 0 ; i < 6 ; i++)
 		{
-			transform.FindChild ("ExperienceGauge").renderer.materials[i].mainTexture = experienceVM.xpLevelTexture;
+			transform.FindChild ("ExperienceGauge").GetComponent<Renderer>().materials[i].mainTexture = experienceVM.xpLevelTexture;
 		}
 		
 		gameObject.transform.FindChild("Level").GetComponent<TextMesh> ().text = "Lvl"+experienceVM.level ;

@@ -37,8 +37,8 @@ public class GameTile : MonoBehaviour {
 	
 	void setSizes()
 	{
-		hexWidth = renderer.bounds.size.x;
-		hexHeight = renderer.bounds.size.y;
+		hexWidth = GetComponent<Renderer>().bounds.size.x;
+		hexHeight = GetComponent<Renderer>().bounds.size.y;
 	}
 	
 	// Update is called once per frame
@@ -109,8 +109,8 @@ public class GameTile : MonoBehaviour {
 	{
 		if (color.a == 1)
 			color.a = 130f / 255f;
-		renderer.material = OpaqueMaterial;
-		renderer.material.color = color;
+		GetComponent<Renderer>().material = OpaqueMaterial;
+		GetComponent<Renderer>().material.color = color;
 	}
 	
 	public static void RemovePassableTile()

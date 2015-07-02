@@ -24,7 +24,7 @@ public class GameEventController : MonoBehaviour
 	public void setScreenPosition(int count, int boardWidth, int boardHeight, float scaleTile)
 	{
 		Camera camera = Camera.main;
-		Vector3 currentScale = renderer.bounds.size;
+		Vector3 currentScale = GetComponent<Renderer>().bounds.size;
 		//Vector3 v3 = new Vector3((0.02f + scaleTile) * (- boardWidth / 2 - 0.5f), currentScale.y * GameController.instance.eventMax / 2 + 0.1f, -1f);
 		//Vector3 newPosition = camera.ScreenToWorldPoint(v3);
 		

@@ -13,7 +13,7 @@ public class BackgroundImageController : GameObjectController
 	
 	public void setImage(int i)
 	{
-		this.renderer.material.mainTexture = backgroundImages[i];
+		this.GetComponent<Renderer>().material.mainTexture = backgroundImages[i];
 	}
 }
 

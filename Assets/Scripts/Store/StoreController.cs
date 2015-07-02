@@ -328,7 +328,7 @@ public class StoreController : MonoBehaviour
 			Vector3 scale;
 			Vector3 position=new Vector3(0,0,0);
 			Quaternion rotation;
-			float tempF = 2*Camera.main.camera.orthographicSize*view.storeScreenVM.widthScreen/view.storeScreenVM.heightScreen;
+			float tempF = 2*Camera.main.GetComponent<Camera>().orthographicSize*view.storeScreenVM.widthScreen/view.storeScreenVM.heightScreen;
 			float width = 0.75f * tempF;
 			float scaleCard = width/(model.packList[this.selectedPackIndex].NbCards+1);
 			if(scaleCard>view.storeScreenVM.heightScreen / 140f)
@@ -831,7 +831,7 @@ public class StoreController : MonoBehaviour
 		Vector3 scale;
 		Vector3 position;
 		Quaternion rotation;
-		float tempF = 2*Camera.main.camera.orthographicSize*view.storeScreenVM.widthScreen/view.storeScreenVM.heightScreen;
+		float tempF = 2*Camera.main.GetComponent<Camera>().orthographicSize*view.storeScreenVM.widthScreen/view.storeScreenVM.heightScreen;
 		float width = 0.75f * tempF;
 		float scaleCard = width/6f;
 		for (int i = 0; i < randomCards.Length; i++)

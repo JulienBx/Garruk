@@ -60,8 +60,8 @@ public class PlayingCardView : MonoBehaviour
 	
 	public void show()
 	{
-		transform.renderer.materials [1].mainTexture = playingCardVM.face; 
-		transform.Find("LifeArea").FindChild("Life").renderer.materials [0].mainTexture = playingCardVM.lifeGauge;
+		transform.GetComponent<Renderer>().materials [1].mainTexture = playingCardVM.face; 
+		transform.Find("LifeArea").FindChild("Life").GetComponent<Renderer>().materials [0].mainTexture = playingCardVM.lifeGauge;
 		transform.Find("MoveArea").FindChild("Move").GetComponent<TextMesh>().text = playingCardVM.move;
 		transform.Find("AttackArea").FindChild("Attack").GetComponent<TextMesh>().text = playingCardVM.attack;
 	}
@@ -83,12 +83,12 @@ public class PlayingCardView : MonoBehaviour
 
 	public void changeBorder()
 	{
-		renderer.materials [0].mainTexture = this.playingCardVM.border;
+		GetComponent<Renderer>().materials [0].mainTexture = this.playingCardVM.border;
 	}
 	
 	public void changeBackground()
 	{
-		renderer.materials [1].mainTexture = this.playingCardVM.background;
+		GetComponent<Renderer>().materials [1].mainTexture = this.playingCardVM.background;
 	}
 	
 	void OnMouseEnter()

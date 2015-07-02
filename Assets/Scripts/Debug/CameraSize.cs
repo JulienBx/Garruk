@@ -14,7 +14,7 @@ public class CameraSize : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		cameraSize = Screen.width * 0.108f;
-		camera.orthographicSize = cameraSize;
+		GetComponent<Camera>().orthographicSize = cameraSize;
 		width = Screen.width;
 		height = Screen.height;
 	}

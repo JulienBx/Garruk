@@ -10,16 +10,16 @@ public class CardView : MonoBehaviour
 	}
 	public void show()
 	{
-		transform.Find("texturedGameCard").FindChild("AttackArea").renderer.material.mainTexture = cardVM.attackArea;
-		transform.Find ("texturedGameCard").FindChild ("SpeedArea").renderer.material.mainTexture = cardVM.speedArea;
-		transform.Find("texturedGameCard").FindChild("MoveArea").renderer.material.mainTexture = cardVM.moveArea;
+		transform.Find("texturedGameCard").FindChild("AttackArea").GetComponent<Renderer>().material.mainTexture = cardVM.attackArea;
+		transform.Find ("texturedGameCard").FindChild ("SpeedArea").GetComponent<Renderer>().material.mainTexture = cardVM.speedArea;
+		transform.Find("texturedGameCard").FindChild("MoveArea").GetComponent<Renderer>().material.mainTexture = cardVM.moveArea;
 		for (int i=0;i<6;i++)
 		{
-			transform.Find("texturedGameCard").renderer.materials[i].mainTexture = cardVM.cardFaces[i]; 
-			transform.Find("texturedGameCard").FindChild("PictoMetalLife").renderer.materials[i].mainTexture = cardVM.lifeLevel[i];
-			transform.Find("texturedGameCard").FindChild("AttackArea").FindChild("PictoMetalAttack").renderer.materials[i].mainTexture = cardVM.attackLevel[i];
-			transform.Find("texturedGameCard").FindChild("MoveArea").FindChild ("PictoMetalMove").renderer.materials[i].mainTexture = cardVM.moveLevel[i];
-			transform.Find("texturedGameCard").FindChild("SpeedArea").FindChild("PictoMetalSpeed").renderer.materials[i].mainTexture = cardVM.speedLevel[i];
+			transform.Find("texturedGameCard").GetComponent<Renderer>().materials[i].mainTexture = cardVM.cardFaces[i]; 
+			transform.Find("texturedGameCard").FindChild("PictoMetalLife").GetComponent<Renderer>().materials[i].mainTexture = cardVM.lifeLevel[i];
+			transform.Find("texturedGameCard").FindChild("AttackArea").FindChild("PictoMetalAttack").GetComponent<Renderer>().materials[i].mainTexture = cardVM.attackLevel[i];
+			transform.Find("texturedGameCard").FindChild("MoveArea").FindChild ("PictoMetalMove").GetComponent<Renderer>().materials[i].mainTexture = cardVM.moveLevel[i];
+			transform.Find("texturedGameCard").FindChild("SpeedArea").FindChild("PictoMetalSpeed").GetComponent<Renderer>().materials[i].mainTexture = cardVM.speedLevel[i];
 		}
 		transform.Find("texturedGameCard").FindChild("Title").GetComponent<TextMesh>().text = cardVM.title;
 		transform.Find("texturedGameCard").FindChild("PictoMetalLife").FindChild("Life").GetComponent<TextMesh> ().text = cardVM.life.ToString();

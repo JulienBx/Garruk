@@ -38,7 +38,7 @@ public class testYBO : MonoBehaviour
 		this.sprites[1].transform.FindChild("text").GetComponent<TextMesh>().color=Color.blue;
 		TextMesh textMesh = this.sprites [0].transform.FindChild ("text").GetComponent<TextMesh> (); 
 		textMesh.font = ArialFont;
-		textMesh.renderer.material = ArialFont.material;
+		textMesh.GetComponent<Renderer>().material = ArialFont.material;
 		textMesh.fontSize = 15;
 		textMesh.fontStyle = FontStyle.Bold;
 	}

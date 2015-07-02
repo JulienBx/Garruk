@@ -81,7 +81,7 @@ public class EndSceneController : MonoBehaviour
 		string name;
 		Vector3 scale;
 		Vector3 position;
-		float tempF = 2*Camera.main.camera.orthographicSize*view.screenVM.widthScreen/view.screenVM.heightScreen;
+		float tempF = 2*Camera.main.GetComponent<Camera>().orthographicSize*view.screenVM.widthScreen/view.screenVM.heightScreen;
 		float width = 0.5f * tempF;
 		float scaleCard = width/(ApplicationModel.nbCardsByDeck+1f);
 		this.cards=new GameObject[ApplicationModel.nbCardsByDeck];

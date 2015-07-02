@@ -5,13 +5,13 @@ public static class Utils
 	public static Vector3 getGOScreenPosition(Vector3 pos)
 	{
 		float worldHeight;
-		if (Camera.main.camera.isOrthoGraphic)
+		if (Camera.main.GetComponent<Camera>().orthographic)
 		{
-			worldHeight = 2f * Camera.main.camera.orthographicSize;
+			worldHeight = 2f * Camera.main.GetComponent<Camera>().orthographicSize;
 		} else
 		{
-			float distance = Mathf.Abs(Camera.main.camera.transform.position.z);
-			float radians = (Camera.main.camera.fieldOfView / 2f) * (Mathf.PI / 180f);
+			float distance = Mathf.Abs(Camera.main.GetComponent<Camera>().transform.position.z);
+			float radians = (Camera.main.GetComponent<Camera>().fieldOfView / 2f) * (Mathf.PI / 180f);
 			worldHeight = 2f * (distance * Mathf.Tan(radians));
 		}
 		float worldWidth = ((float)Screen.width / (float)Screen.height) * worldHeight;

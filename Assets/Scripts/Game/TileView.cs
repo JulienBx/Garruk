@@ -15,8 +15,8 @@ public class TileView : MonoBehaviour
 		{
 			if (Input.GetMouseButton(0))
 			{
-				Vector3 min = Utils.getGOScreenPosition(gameObject.renderer.bounds.min);
-				Vector3 max = Utils.getGOScreenPosition(gameObject.renderer.bounds.max);
+				Vector3 min = Utils.getGOScreenPosition(gameObject.GetComponent<Renderer>().bounds.min);
+				Vector3 max = Utils.getGOScreenPosition(gameObject.GetComponent<Renderer>().bounds.max);
 
 				if (Input.mousePosition.x > min.x && Input.mousePosition.x < max.x && Input.mousePosition.y > min.y && Input.mousePosition.y < max.y)
 				{
@@ -109,12 +109,12 @@ public class TileView : MonoBehaviour
 
 	public void changeBorder()
 	{
-		renderer.materials [0].mainTexture = this.tileVM.border;
+		GetComponent<Renderer>().materials [0].mainTexture = this.tileVM.border;
 	}
 
 	public void changeBackground()
 	{
-		renderer.materials [1].mainTexture = this.tileVM.background;
+		GetComponent<Renderer>().materials [1].mainTexture = this.tileVM.background;
 	}
 
 	void OnMouseEnter()
