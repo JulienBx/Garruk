@@ -54,6 +54,7 @@ public class GameView : MonoBehaviour
 						if (gameVM.timerSeconds > 9)
 						{
 							GUILayout.Label(gameVM.timerSeconds.ToString(), gameVM.timerStyle);
+							GUILayout.Label("BLABLABLA", gameVM.timerStyle);
 						}
 						else{
 							GUILayout.Label("0"+gameVM.timerSeconds.ToString(), gameVM.timerStyle);
@@ -112,8 +113,6 @@ public class GameView : MonoBehaviour
 			}
 			GUILayout.EndArea();
 		}
-
-		
 	}
 }
 

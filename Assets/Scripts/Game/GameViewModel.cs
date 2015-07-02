@@ -49,7 +49,7 @@ public class GameViewModel
 
 	public void setStyles(GUISkin mainSkin, GUISkin titlesSkin, GUISkin gameSkin)
 	{
-		this.quitButtonStyle = gameSkin.customStyles[0];
+		this.quitButtonStyle = new GUIStyle(gameSkin.customStyles[0]);
 		this.timerStyle = titlesSkin.label;
 		this.timerStyle.fontStyle=FontStyle.Italic;
 	}

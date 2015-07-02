@@ -125,9 +125,9 @@ public class GameController : Photon.MonoBehaviour
 		this.backgroundImage = (GameObject)Instantiate(this.backgroundImageModel);
 		this.backgroundImage.GetComponent<BackgroundImageController>().setImage(0);
 		
-		this.leftLifeBar = (GameObject)Instantiate(this.leftLifeBarModel);
-		this.backgroundImage.GetComponent<BackgroundImageController>().setImage(0);
-	
+		//this.leftLifeBar = (GameObject)Instantiate(this.leftLifeBarModel);
+		//this.leftLifeBar.name = "LLB";
+		
 		for (int i = 0; i < this.verticalBorders.Length; i++)
 		{
 			this.verticalBorders [i] = (GameObject)Instantiate(this.verticalBorderModel);
@@ -156,6 +156,9 @@ public class GameController : Photon.MonoBehaviour
 			this.verticalBorders [i].transform.localPosition = position;
 			this.verticalBorders [i].transform.localScale = new Vector3(0.04f, 8, this.verticalBorders [i].transform.localScale.z);
 		}
+		
+		
+		//this.leftLifeBar.GetComponent<LeftLifeBarController>().resize(w, h);
 	}
 
 	public void hideHoveredTile()
