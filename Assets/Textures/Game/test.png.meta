@@ -2,13 +2,22 @@ fileFormatVersion: 2
 guid: 4ea8c37f2bf7480428f13a8d5f57b8eb
 TextureImporter:
   fileIDToRecycleName:
-    21300000: centerBar
-    21300002: centerTemplate
-    21300004: leftBarTemplate
-    21300006: leftTemplate2
-    21300008: rightTemplate
-    21300010: rightTemplate2
-    21300012: url
+    21300000: 01
+    21300002: 02
+    21300004: 03
+    21300006: 04
+    21300008: 05
+    21300010: 06
+    21300012: 07
+    21300014: 08
+    21300016: 09
+    21300018: 10
+    21300020: 11
+    21300022: 12
+    21300024: 13
+    21300026: 14
+    21300028: 15
+    21300030: 16
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -28,7 +37,7 @@ TextureImporter:
   grayScaleToAlpha: 0
   generateCubemap: 0
   seamlessCubemap: 0
-  textureFormat: -1
+  textureFormat: -3
   maxTextureSize: 4096
   textureSettings:
     filterMode: 0
@@ -50,67 +59,137 @@ TextureImporter:
   buildTargetSettings: []
   spriteSheet:
     sprites:
-    - name: centerBar
+    - name: 01
       rect:
         serializedVersion: 2
-        x: 2003
-        y: 1864
-        width: 1
-        height: 64
+        x: 2042
+        y: 1875
+        width: 2
+        height: 171
       alignment: 9
-      pivot: {x: .5, y: .46875}
+      pivot: {x: .5, y: .485380113}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: centerTemplate
-      rect:
-        serializedVersion: 2
-        x: 2043
-        y: 1884
-        width: 1
-        height: 162
-      alignment: 0
-      pivot: {x: .5, y: .5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-    - name: leftBarTemplate
+    - name: 02
       rect:
         serializedVersion: 2
         x: 1924
-        y: 1884
-        width: 77
-        height: 162
+        y: 971
+        width: 61
+        height: 89
       alignment: 9
-      pivot: {x: .298701286, y: .5}
+      pivot: {x: .885245919, y: .415730327}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: leftTemplate2
+    - name: 03
       rect:
         serializedVersion: 2
-        x: 2003
-        y: 1930
-        width: 38
-        height: 116
-      alignment: 0
-      pivot: {x: .5, y: .5}
+        x: 2006
+        y: 1959
+        width: 34
+        height: 87
+      alignment: 9
+      pivot: {x: -.588235319, y: .425287366}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: rightTemplate
+    - name: 04
       rect:
         serializedVersion: 2
         x: 1924
-        y: 1720
+        y: 1408
+        width: 76
+        height: 119
+      alignment: 9
+      pivot: {x: .631578922, y: .428571433}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: 05
+      rect:
+        serializedVersion: 2
+        x: 1987
+        y: 713
         width: 54
-        height: 162
-      alignment: 0
-      pivot: {x: .5, y: .5}
+        height: 189
+      alignment: 9
+      pivot: {x: .370370358, y: .571428597}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: rightTemplate2
+    - name: 06
       rect:
         serializedVersion: 2
-        x: 1980
-        y: 1746
-        width: 53
-        height: 116
-      alignment: 0
-      pivot: {x: .5, y: .5}
+        x: 1987
+        y: 904
+        width: 56
+        height: 156
+      alignment: 9
+      pivot: {x: .571428597, y: .416666657}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: url
+    - name: 07
+      rect:
+        serializedVersion: 2
+        x: 2002
+        y: 1448
+        width: 43
+        height: 79
+      alignment: 9
+      pivot: {x: .581395328, y: .41772151}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: 08
+      rect:
+        serializedVersion: 2
+        x: 1924
+        y: 880
+        width: 61
+        height: 89
+      alignment: 9
+      pivot: {x: .114754096, y: .415730327}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: 09
+      rect:
+        serializedVersion: 2
+        x: 1924
+        y: 1875
+        width: 80
+        height: 171
+      alignment: 9
+      pivot: {x: .324999988, y: .485380113}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: 10
+      rect:
+        serializedVersion: 2
+        x: 1924
+        y: 1235
+        width: 67
+        height: 171
+      alignment: 9
+      pivot: {x: .194029853, y: .485380113}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: 11
+      rect:
+        serializedVersion: 2
+        x: 2042
+        y: 1786
+        width: 2
+        height: 87
+      alignment: 9
+      pivot: {x: .5, y: .425287366}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: 12
+      rect:
+        serializedVersion: 2
+        x: 1924
+        y: 1062
+        width: 67
+        height: 171
+      alignment: 9
+      pivot: {x: .805970132, y: .485380113}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: 13
+      rect:
+        serializedVersion: 2
+        x: 1924
+        y: 1702
+        width: 80
+        height: 171
+      alignment: 9
+      pivot: {x: .675000012, y: .485380113}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: 14
       rect:
         serializedVersion: 2
         x: 2
@@ -119,6 +198,26 @@ TextureImporter:
         height: 1080
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: 15
+      rect:
+        serializedVersion: 2
+        x: 1924
+        y: 1529
+        width: 80
+        height: 171
+      alignment: 9
+      pivot: {x: .324999988, y: .485380113}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: 16
+      rect:
+        serializedVersion: 2
+        x: 2006
+        y: 1870
+        width: 34
+        height: 87
+      alignment: 9
+      pivot: {x: 1.58823526, y: .425287366}
       border: {x: 0, y: 0, z: 0, w: 0}
   spritePackingTag: 
   userData: 

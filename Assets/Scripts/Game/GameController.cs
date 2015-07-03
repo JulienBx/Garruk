@@ -119,42 +119,27 @@ public class GameController : Photon.MonoBehaviour
 
 	public void createBackground()
 	{
-		this.verticalBorders = new GameObject[this.boardWidth + 1];
-		this.horizontalBorders = new GameObject[this.boardHeight + 1];
-		
-		//this.leftLifeBar = (GameObject)Instantiate(this.leftLifeBarModel);
-		//this.leftLifeBar.name = "LLB";
-		
-		for (int i = 0; i < this.verticalBorders.Length; i++)
-		{
-			this.verticalBorders [i] = (GameObject)Instantiate(this.verticalBorderModel);
-		}
-		for (int i = 0; i < this.horizontalBorders.Length; i++)
-		{
-			this.horizontalBorders [i] = (GameObject)Instantiate(this.horizontalBorderModel);
-		}
+	
 	}
 
 	public void resizeBackground(int w, int h)
 	{		
 		Vector3 position;
 		
-		float tileScale = 8f / this.boardHeight;
-		for (int i = 0; i < this.horizontalBorders.Length; i++)
-		{
-			position = new Vector3(0, -4 + tileScale * i, -1f);
-			this.horizontalBorders [i].transform.localPosition = position;
-			this.horizontalBorders [i].transform.localScale = new Vector3(this.boardWidth*tileScale, 0.04f, 1);
-		}
-
-		for (int i = 0; i < this.verticalBorders.Length; i++)
-		{
-			position = new Vector3((-this.boardWidth/2+i)*tileScale, 0f, -1f);
-			this.verticalBorders [i].transform.localPosition = position;
-			this.verticalBorders [i].transform.localScale = new Vector3(0.04f, 8, this.verticalBorders [i].transform.localScale.z);
-		}
-		
-		
+//		float tileScale = 8f / this.boardHeight;
+//		for (int i = 0; i < this.horizontalBorders.Length; i++)
+//		{
+//			position = new Vector3(0, -4 + tileScale * i, -1f);
+//			this.horizontalBorders [i].transform.localPosition = position;
+//			this.horizontalBorders [i].transform.localScale = new Vector3(this.boardWidth*tileScale, 0.04f, 1);
+//		}
+//
+//		for (int i = 0; i < this.verticalBorders.Length; i++)
+//		{
+//			position = new Vector3((-this.boardWidth/2+i)*tileScale, 0f, -1f);
+//			this.verticalBorders [i].transform.localPosition = position;
+//			this.verticalBorders [i].transform.localScale = new Vector3(0.04f, 8, this.verticalBorders [i].transform.localScale.z);
+//		}
 		//this.leftLifeBar.GetComponent<LeftLifeBarController>().resize(w, h);
 	}
 
