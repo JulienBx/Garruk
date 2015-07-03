@@ -1,0 +1,176 @@
+fileFormatVersion: 2
+guid: 01c29fae0f15e4304959e90eb0ff2d05
+timeCreated: 1435848997
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: bell_icon
+    21300002: bell_icon_hover
+    21300004: buttonTexture
+    21300006: cristalblue
+    21300008: mainLogo
+    21300010: thumbBorder
+    21300012: thumbBorder2
+    21300014: disconnect
+    21300016: disconnectHover
+    21300018: admin
+    21300020: adminHover
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 8
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 4096
+  textureSettings:
+    filterMode: 1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 108
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: admin
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 27
+        width: 39
+        height: 39
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: adminHover
+      rect:
+        serializedVersion: 2
+        x: 91
+        y: 27
+        width: 39
+        height: 39
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: bell_icon
+      rect:
+        serializedVersion: 2
+        x: 449
+        y: 155
+        width: 46
+        height: 48
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: bell_icon_hover
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 18
+        width: 46
+        height: 48
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: buttonTexture
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 165
+        width: 445
+        height: 89
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: cristalblue
+      rect:
+        serializedVersion: 2
+        x: 449
+        y: 205
+        width: 52
+        height: 49
+      alignment: 9
+      pivot: {x: .5, y: .510204077}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: disconnect
+      rect:
+        serializedVersion: 2
+        x: 132
+        y: 30
+        width: 36
+        height: 36
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: disconnectHover
+      rect:
+        serializedVersion: 2
+        x: 170
+        y: 30
+        width: 36
+        height: 36
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: mainLogo
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 68
+        width: 321
+        height: 85
+      alignment: 9
+      pivot: {x: .503115237, y: .494117647}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: thumbBorder
+      rect:
+        serializedVersion: 2
+        x: 325
+        y: 94
+        width: 69
+        height: 69
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: thumbBorder2
+      rect:
+        serializedVersion: 2
+        x: 325
+        y: 23
+        width: 69
+        height: 69
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
