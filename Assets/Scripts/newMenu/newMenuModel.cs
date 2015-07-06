@@ -8,12 +8,19 @@ using System.Reflection;
 public class newMenuModel {
 
 	public User player;
-	
+	public string[] buttonsLabels;
+
 	private string URLGetUserData = ApplicationModel.host+"get_user_data.php";
 	
 	public newMenuModel()
 	{
 		this.player = new User ();
+		this.buttonsLabels = new string[5];
+		this.buttonsLabels [0] = "Accueil";
+		this.buttonsLabels [1] = "Mes cartes";
+		this.buttonsLabels [2] = "La boutique";
+		this.buttonsLabels [3] = "Le bazar";
+		this.buttonsLabels [4] = "Jouer";
 	}
 	
 	public IEnumerator loadUserData(int totalNbResultLimit){
