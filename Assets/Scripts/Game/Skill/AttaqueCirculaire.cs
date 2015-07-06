@@ -25,25 +25,25 @@ public class AttaqueCirculaire : GameSkill
 		int i = 0 ;
 		int tempInt ; 
 		
-		while (!isLaunchable && i<tempTiles.Count){
-			t = tempTiles[i];
-			tempInt = GameController.instance.getTile(t.x, t.y).characterID;
-			if (tempInt!=-1)
-			{
-				if (GameController.instance.getPCC(tempInt).canBeTargeted())	
-				{
-					if (Random.Range(1,101) > GameController.instance.getCard(tempInt).GetEsquive())
-					{                             
-						GameController.instance.applyOn(tempInt);
-						success = 1 ;
-					}
-					else{
-						GameController.instance.failedToCastOnSkill(tempInt, 1);
-					}
-				}
-			}
-			i++;
-		}
+//		while (!isLaunchable && i<tempTiles.Count){
+//			t = tempTiles[i];
+//			tempInt = GameController.instance.getTile(t.x, t.y).characterID;
+//			if (tempInt!=-1)
+//			{
+//				if (GameController.instance.getPCC(tempInt).canBeTargeted())	
+//				{
+//					if (Random.Range(1,101) > GameController.instance.getCard(tempInt).GetEsquive())
+//					{                             
+//						GameController.instance.applyOn(tempInt);
+//						success = 1 ;
+//					}
+//					else{
+//						GameController.instance.failedToCastOnSkill(tempInt, 1);
+//					}
+//				}
+//			}
+//			i++;
+//		}
 		
 		GameController.instance.playSkill(success);
 		GameController.instance.play();

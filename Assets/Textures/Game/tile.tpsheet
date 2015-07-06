@@ -1,0 +1,12 @@
+#
+# Sprite sheet data for Unity.
+#
+# To import these sprites into your Unity project, download "TexturePackerImporter":
+# http://www.codeandweb.com/texturepacker/unity
+#
+# Sprite sheet: tile.png (512 x 512)
+# $TexturePacker:SmartUpdate:ed318bb42946fb7cf7db9bad36f0755d:65f1ba1690c5aef67cfe90ccf702093c:c1763d00249eb182439c810061703251$
+#
+
+01;2;168;342;342;0.48830409356725146;0.49122807017543857
+02;2;79;61;87;0.8852459016393442;0.4252873563218391

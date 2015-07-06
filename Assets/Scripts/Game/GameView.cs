@@ -87,6 +87,13 @@ public class GameView : MonoBehaviour
 		this.resize();
 	}
 	
+	public void createTile(int x, int y, int type)
+	{
+		tiles [x, y] = (GameObject)Instantiate(this.tileModel);
+		tiles [x, y].name = "Tile " + (x) + "-" + (y);
+		//tiles [x, y].GetComponent<TileController>().setTile(x, y, this.boardWidth, this.boardHeight, type, this.tileScale);
+	}
+	
 	public void resize()
 	{
 		this.widthScreen = Screen.width ;
@@ -107,14 +114,14 @@ public class GameView : MonoBehaviour
 		{
 			position = new Vector3(0, -4 + tileScale * i, -1f);
 			this.horizontalBorders [i].transform.localPosition = position;
-			this.horizontalBorders [i].transform.localScale = new Vector3(1,1,1);
+			this.horizontalBorders [i].transform.localScale = new Vector3(1,0.5f,1);
 		}
 		
 		for (int i = 0; i < this.verticalBorders.Length; i++)
 		{
 			position = new Vector3((-this.boardWidth/2+i)*tileScale, 0f, -1f);
 			this.verticalBorders [i].transform.localPosition = position;
-			this.verticalBorders [i].transform.localScale = new Vector3(1,1,1);
+			this.verticalBorders [i].transform.localScale = new Vector3(0.5f,1,1);
 		}
 		
 		GameObject llbl = GameObject.Find("LLBLeft");
@@ -158,9 +165,14 @@ public class GameView : MonoBehaviour
 		rlbb.transform.localScale = new Vector3((reb.transform.position.x-rcb.transform.position.x-0.49f)/10f, 0.5f, 0.5f);	
 		
 		GameObject tempGO = GameObject.Find("MyPlayerName");
-		tempGO.transform.position = new Vector3(-0.48f*realwidth,4f,0);
+		tempGO.transform.position = new Vector3(-0.48f*realwidth,4f,1);
 		tempGO.transform.localScale = new Vector3(0.1f,0.1f,0.1f);
-		tempGO.GetComponent<Renderer>().sortingLayerID = 2 ;
+		tempGO.GetComponent<Renderer>().sortingLayerName = "Foreground" ;
+		
+		tempGO = GameObject.Find("HisPlayerName");
+		tempGO.transform.position = new Vector3(0.48f*realwidth,4f,1);
+		tempGO.transform.localScale = new Vector3(0.1f,0.1f,0.1f);
+		tempGO.GetComponent<Renderer>().sortingLayerName = "Foreground" ;
 		
 		if (EndSceneController.instance != null)
 		{
@@ -175,13 +187,23 @@ public class GameView : MonoBehaviour
 	public void setMyPlayerName(string s){
 		GameObject tempGO = GameObject.Find("MyPlayerName");
 		tempGO.GetComponent<TextMesh>().text = s ;
-		tempGO.SetActive(true);
 	}
 	
 	public void setHisPlayerName(string s){
 		GameObject tempGO = GameObject.Find("HisPlayerName");
 		tempGO.GetComponent<TextMesh>().text = s ;
-		tempGO.SetActive(true);
+	}
+	
+	public Tile getRandomRock(int nbForbiddenRows){
+		return new Tile(UnityEngine.Random.Range(0, this.boardWidth), UnityEngine.Random.Range(0, this.boardHeight - 2*nbForbiddenRows) + 1);
+	}
+	
+	public int getBoardWidth(){
+		return this.boardWidth;
+	}
+	
+	public int getBoardHeight(){
+		return this.boardHeight;
 	}
 }
 

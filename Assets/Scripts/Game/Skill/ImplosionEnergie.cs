@@ -26,26 +26,26 @@ public class ImplosionEnergie : GameSkill
 		int i = 0 ;
 		int tempInt ; 
 		
-		while (!isLaunchable && i<tempTiles.Count){
-			t = tempTiles[i];
-			tempInt = GameController.instance.getTile(t.x, t.y).characterID;
-			if (tempInt!=-1)
-			{
-				if (GameController.instance.getPCC(tempInt).canBeTargeted())	
-				{
-					targets = new int[1];
-					targets[0] = tempInt;
-					if (Random.Range(1,101) > GameController.instance.getCard(tempInt).GetEsquive())
-					{                             
-						GameController.instance.applyOn(targets);
-					}
-					else{
-						//GameController.instance.failedToCastOnSkill(targets);
-					}
-				}
-			}
-			i++;
-		}
+//		while (!isLaunchable && i<tempTiles.Count){
+//			t = tempTiles[i];
+//			tempInt = GameController.instance.getTile(t.x, t.y).characterID;
+//			if (tempInt!=-1)
+//			{
+//				if (GameController.instance.getPCC(tempInt).canBeTargeted())	
+//				{
+//					targets = new int[1];
+//					targets[0] = tempInt;
+//					if (Random.Range(1,101) > GameController.instance.getCard(tempInt).GetEsquive())
+//					{                             
+//						GameController.instance.applyOn(targets);
+//					}
+//					else{
+//						//GameController.instance.failedToCastOnSkill(targets);
+//					}
+//				}
+//			}
+//			i++;
+//		}
 		targets = new int[1];
 		//targets[0] = GameController.instance.currentPlayingCard;
 		GameController.instance.applyOn(targets);
@@ -79,26 +79,26 @@ public class ImplosionEnergie : GameSkill
 	}
 	
 	public override bool isLaunchable(Skill s){
-		List<Tile> tempTiles;
-		Tile t = GameController.instance.getCurrentPCC().tile;
-		
-		tempTiles = t.getImmediateNeighbouringTiles();
+//		List<Tile> tempTiles;
+//		Tile t = GameController.instance.getCurrentPCC().tile;
+//		
+//		tempTiles = t.getImmediateNeighbouringTiles();
 		bool isLaunchable = false ;
-		int i = 0 ;
-		int tempInt ; 
-		
-		while (!isLaunchable && i<tempTiles.Count){
-			t = tempTiles[i];
-			tempInt = GameController.instance.getTile(t.x, t.y).characterID;
-			if (tempInt!=-1)
-			{
-				if (GameController.instance.getPCC(tempInt).canBeTargeted())	
-				{
-					isLaunchable = true ;
-				}
-			}
-			i++;
-		}
+//		int i = 0 ;
+//		int tempInt ; 
+//		
+//		while (!isLaunchable && i<tempTiles.Count){
+//			t = tempTiles[i];
+//			tempInt = GameController.instance.getTile(t.x, t.y).characterID;
+//			if (tempInt!=-1)
+//			{
+//				if (GameController.instance.getPCC(tempInt).canBeTargeted())	
+//				{
+//					isLaunchable = true ;
+//				}
+//			}
+//			i++;
+//		}
 		return isLaunchable ;
 	}
 	

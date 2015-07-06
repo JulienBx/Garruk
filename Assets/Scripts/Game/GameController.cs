@@ -1301,67 +1301,65 @@ public class GameController : Photon.MonoBehaviour
 		yield break;
 	}
 
-	private void initGrid()
+	void initGrid()
 	{
-//		print("J'initialise le terrain de jeu");
-//		bool isRock = false;
-//		List<Tile> rocks = new List<Tile>();
-//		if (!this.isTutorialLaunched)
-//		{
-//			int nbRocksToAdd = UnityEngine.Random.Range(3, 6);
-//			int compteurRocks = 0;
-//			bool isOk = true;
-//			int xRock = 0, yRock = 0;
-//			while (compteurRocks<nbRocksToAdd)
-//			{
-//				isOk = false;
-//				while (!isOk)
-//				{
-//					xRock = UnityEngine.Random.Range(0, this.boardWidth);
-//					yRock = UnityEngine.Random.Range(0, this.boardHeight - 2) + 1;
-//					isOk = true;
-//					for (int a = 0; a < rocks.Count && isOk; a++)
-//					{
-//						if (rocks [a].x == xRock && rocks [a].y == yRock)
-//						{
-//							isOk = false;
-//						}
-//					}
-//				}
-//				rocks.Add(new Tile(xRock, yRock));
-//				compteurRocks++;
-//			}
-//		} else
-//		{
-//			rocks.Add(new Tile(2, 3));
-//			rocks.Add(new Tile(3, 5));
-//			rocks.Add(new Tile(4, 3));
-//		}
-//		
-//		for (int x = 0; x < boardWidth; x++)
-//		{
-//			for (int y = 0; y < boardHeight; y++)
-//			{
-//				isRock = false;
-//				for (int z = 0; z < rocks.Count && !isRock; z++)
-//				{
-//					if (rocks [z].x == x && rocks [z].y == y)
-//					{
-//						isRock = true;
-//					}
-//				}
-//				if (!isRock)
-//				{
-//					photonView.RPC("AddTileToBoard", PhotonTargets.AllBuffered, x, y, 0);	
-//				}
-//			}
-//		}
-//		
-//
-//		for (int a = 0; a < rocks.Count; a++)
-//		{
-//			photonView.RPC("AddTileToBoard", PhotonTargets.AllBuffered, rocks [a].x, rocks [a].y, 1);
-//		}
+		print("J'initialise le terrain de jeu");
+		bool isRock = false;
+		List<Tile> rocks = new List<Tile>();
+		Tile t = new Tile(0,0) ;
+		if (!this.isTutorialLaunched)
+		{
+			int nbRocksToAdd = UnityEngine.Random.Range(3, 6);
+			int compteurRocks = 0;
+			bool isOk = true;
+			while (compteurRocks<nbRocksToAdd)
+			{
+				isOk = false;
+				while (!isOk)
+				{
+					t = GameView.instance.getRandomRock(1);
+					isOk = true;
+					for (int a = 0; a < rocks.Count && isOk; a++)
+					{
+						if (rocks [a].x == t.x && rocks [a].y == t.y)
+						{
+							isOk = false;
+						}
+					}
+				}
+				rocks.Add(t);
+				compteurRocks++;
+			}
+		} else
+		{
+			rocks.Add(new Tile(2, 3));
+			rocks.Add(new Tile(3, 5));
+			rocks.Add(new Tile(4, 3));
+		}
+		
+		int w = GameView.instance.getBoardWidth();
+		int h = GameView.instance.getBoardHeight();
+		for (int x = 0; x < w; x++)
+		{
+			for (int y = 0; y < h; y++)
+			{
+				isRock = false;
+				for (int z = 0; z < rocks.Count && !isRock; z++)
+				{
+					if (rocks [z].x == x && rocks [z].y == y)
+					{
+						isRock = true;
+					}
+				}
+				if (!isRock)
+				{
+					photonView.RPC("AddTileToBoard", PhotonTargets.AllBuffered, x, y, 0);	
+				}
+				else{
+					photonView.RPC("AddTileToBoard", PhotonTargets.AllBuffered, x, y, 1);
+				}
+			}
+		}
 	}
 
 	public IEnumerator loadMyDeck(bool isFirstPlayer)
@@ -1371,6 +1369,7 @@ public class GameController : Photon.MonoBehaviour
 
 		photonView.RPC("SpawnCharacter", PhotonTargets.AllBuffered, isFirstPlayer, myDeck.Id);
 	}
+	
 	public IEnumerator loadTutorialDeck(bool isFirstPlayer, string name)
 	{
 		Deck tutorialDeck = new Deck(name);
@@ -1391,36 +1390,10 @@ public class GameController : Photon.MonoBehaviour
 		{
 			GameView.instance.setHisPlayerName(loginName);
 		}
+		
 		this.nbPlayers++;
 		
 
-
-//		if (this.isReconnecting)
-//		{
-//			if (ApplicationModel.username == loginName)
-//			{
-//				if (nbPlayers == 1)
-//				{
-//					this.isFirstPlayer = true;
-//				}
-//			}
-//		} 
-//		else
-//		{
-//			if (this.isFirstPlayer && nbPlayers == 1)
-//			{
-//				this.initGrid();
-//				StartCoroutine(this.loadMyDeck(true));
-//			} 
-//			else if (!this.isFirstPlayer && nbPlayers == 2)
-//			{
-//				StartCoroutine(this.loadMyDeck(false));
-//			} 
-//			else if (this.isTutorialLaunched && nbPlayers == 2)
-//			{
-//				StartCoroutine(this.loadTutorialDeck(!this.isFirstPlayer, loginName));
-//			}
-//		}
 		
 //		if (ApplicationModel.username == loginName)
 //		{
@@ -1475,9 +1448,7 @@ public class GameController : Photon.MonoBehaviour
 	[RPC]
 	void AddTileToBoard(int x, int y, int type)
 	{
-		//tiles [x, y] = (GameObject)Instantiate(this.tileModel);
-		//tiles [x, y].name = "Tile " + (x) + "-" + (y);
-		//tiles [x, y].GetComponent<TileController>().setTile(x, y, this.boardWidth, this.boardHeight, type, this.tileScale);
+		GameView.instance.createTile(x, y, type);
 	}
 
 	[RPC]
@@ -1881,7 +1852,21 @@ public class GameController : Photon.MonoBehaviour
 		{
 			Debug.Log("Mode reconnection");
 		}
-		GameView.instance.createBackground();		
+		GameView.instance.createBackground();
+		
+		if (this.isFirstPlayer)
+		{
+			this.initGrid();
+			//StartCoroutine(this.loadMyDeck(true));
+		} 
+		else if (!this.isFirstPlayer && nbPlayers == 2)
+		{
+			//StartCoroutine(this.loadMyDeck(false));
+		} 
+		else if (this.isTutorialLaunched && nbPlayers == 2)
+		{
+			//StartCoroutine(this.loadTutorialDeck(!this.isFirstPlayer, loginName));
+		}		
 	}
 	
 	void OnDisconnectedFromPhoton()
@@ -2500,26 +2485,26 @@ public class GameController : Photon.MonoBehaviour
 	public void loadTileModifierToCharacter(int x, int y, bool newTurn)
 	{
 		TileController tileController = this.getTile(x, y).GetComponent<TileController>();
-		if (tileController.characterID != -1)
-		{
-			if (tileController.statModifierActive == true && newTurn == tileController.statModifierNewTurn && tileController.tileModification != TileModification.Foret_de_Lianes)
-			{
-//				foreach (StatModifier sm in tileController.tile.StatModifier)
-//				{
-//					this.getPCC(tileController.characterID).card.TileModifiers.Add(sm);
-//				}
-//				if (tileController.tileModification == TileModification.Sables_Mouvants)
-//				{
-//					tileController.tileView.tileVM.toDisplayIcon = true;
-//					//playRPC(this.getPCC(tileController.characterID).card.Title + " est pris dans un sable mouvant");
-//				}
-//				if (!tileController.statModifierEachTurn)
-//				{
-//					tileController.statModifierActive = false;
-//				}
-				//reloadCard(tileController.characterID);
-			}
-		}
+//		if (tileController.characterID != -1)
+//		{
+//			if (tileController.statModifierActive == true && newTurn == tileController.statModifierNewTurn && tileController.tileModification != TileModification.Foret_de_Lianes)
+//			{
+////				foreach (StatModifier sm in tileController.tile.StatModifier)
+////				{
+////					this.getPCC(tileController.characterID).card.TileModifiers.Add(sm);
+////				}
+////				if (tileController.tileModification == TileModification.Sables_Mouvants)
+////				{
+////					tileController.tileView.tileVM.toDisplayIcon = true;
+////					//playRPC(this.getPCC(tileController.characterID).card.Title + " est pris dans un sable mouvant");
+////				}
+////				if (!tileController.statModifierEachTurn)
+////				{
+////					tileController.statModifierActive = false;
+////				}
+//				//reloadCard(tileController.characterID);
+//			}
+//		}
 	}
 	
 	public void useSkill()

@@ -38,20 +38,20 @@ public class AppositionDesMains : GameSkill
 		tempTiles = t.getImmediateNeighbouringTiles();
 		bool isLaunchable = false ;
 		int i = 0 ;
-		int tempInt ; 
+		int tempInt ;
 		
-		while (!isLaunchable && i<tempTiles.Count){
-			t = tempTiles[i];
-			tempInt = GameController.instance.getTile(t.x, t.y).characterID;
-			if (tempInt!=-1)
-			{
-//				if (GameController.instance.getPCC(tempInt).cannotBeTargeted==-1)
-//				{
-//					isLaunchable = true ;
-//				}
-			}
-			i++;
-		}
+//		while (!isLaunchable && i<tempTiles.Count){
+//			t = tempTiles[i];
+//			tempInt = GameController.instance.getTile(t.x, t.y).characterID;
+//			if (tempInt!=-1)
+//			{
+////				if (GameController.instance.getPCC(tempInt).cannotBeTargeted==-1)
+////				{
+////					isLaunchable = true ;
+////				}
+//			}
+//			i++;
+//		}
 		return isLaunchable ;
 	}
 	

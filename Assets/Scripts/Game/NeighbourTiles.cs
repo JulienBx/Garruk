@@ -43,22 +43,22 @@ public class NeighbourTiles
 		}
 
 
-		foreach (Tile temp in getImmediateNeighbours(t.x, t.y))
-		{
-			float newRemaining = moveRemaining;
-			if (characterTiles [temp.x, temp.y] < 5)
-			{
-				if(GameController.instance.getTile(temp.x, temp.y).tile.isStatModifier){
-					StatModifier stm = GameController.instance.getTile(temp.x, temp.y).tile.statModifier;
-					if (stm.Stat == ModifierStat.Stat_Move && stm.Type == ModifierType.Type_Multiplier)
-					{
-						newRemaining = newRemaining + (stm.Amount) / 100f;
-					}
-				}
-				
-				findWay(temp, (newRemaining - 1), (distance + 1));
-			}
-		}
+//		foreach (Tile temp in getImmediateNeighbours(t.x, t.y))
+//		{
+//			float newRemaining = moveRemaining;
+//			if (characterTiles [temp.x, temp.y] < 5)
+//			{
+//				if(GameController.instance.getTile(temp.x, temp.y).tile.isStatModifier){
+//					StatModifier stm = GameController.instance.getTile(temp.x, temp.y).tile.statModifier;
+//					if (stm.Stat == ModifierStat.Stat_Move && stm.Type == ModifierType.Type_Multiplier)
+//					{
+//						newRemaining = newRemaining + (stm.Amount) / 100f;
+//					}
+//				}
+//				
+//				findWay(temp, (newRemaining - 1), (distance + 1));
+//			}
+//		}
 	}
 
 
