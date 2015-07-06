@@ -5,106 +5,46 @@ using System.Collections.Generic;
 
 public class GameController : Photon.MonoBehaviour
 {	
-	//GameObjects publics
-	public GameObject tileModel ;
-	public GameObject verticalBorderModel;
-	public GameObject horizontalBorderModel;
-	public GameObject backgroundImageModel;
-	public GameObject playingCardModel;
-	public GameObject skillButtonModel;
-	public GameObject leftLifeBarModel;
-	public GameObject rightLifeBarModel;
 	public static GameController instance;
-	
-	//Paramètres du board
-	public int nbFreeStartRows ;
-	public int boardWidth ;
-	public int boardHeight ;
-	public float timerTurn ;
-	public int limitCharacterSide = 4;
-	
-	//Styles et textes
-	public GUISkin mainSkin;
-	public GUISkin titlesSkin;
-	public GUISkin gameSkin;
-	public string[] gameTexts;
-	
-	//Tutoriel
-	public GameObject TutorialObject;
+	private float timePerTurn = 30 ;
 	
 	//URL pour les appels en BDD
 	string URLStat = ApplicationModel.host + "updateResult.php";
-	
-	//Gameobjects de la scène
-	GameObject[,] tiles ;
-	GameObject[] verticalBorders ;
-	GameObject[] horizontalBorders ;
-	GameObject[] playingCards ;
-	GameObject[] skillButtons ;
-	GameObject backgroundImage ;
-	GameObject leftLifeBar;
-	GameObject rightLifeBar;
-	GameObject tutorial;
+
+	//Variable Photon
+	const string roomNamePrefix = "GarrukGame";
 	
 	//Variables de gestion
 	bool isReconnecting = false ;
 	bool isFirstPlayer = false;
 	bool bothPlayerLoaded = false ;
-	CastFailures castFailures = new CastFailures();
-	const string roomNamePrefix = "GarrukGame";
 	int nbPlayers = 0 ;
-	GameView gameView;
-	int nbPlayersReadyToFight; 
+	int nbPlayersReadyToFight = 0; 
 	int currentPlayingCard = -1;
-	int nbTurns = 0 ;
 	int[] rankedPlayingCardsID; 
-	GameSkill[] gameskills ;
-	public TargetPCCHandler targetPCCHandler ;
-	public TargetTileHandler targetTileHandler ;
+	TargetPCCHandler targetPCCHandler ;
+	TargetTileHandler targetTileHandler ;
 	bool isTutorialLaunched;
-	AudioSource audioEndTurn;
 
 	void Awake()
 	{
 		instance = this;
-		this.tiles = new GameObject[boardWidth, boardHeight];
-		this.playingCards = new GameObject[2 * this.limitCharacterSide];
-		this.nbPlayersReadyToFight = 0;
-		this.currentPlayingCard = -1;
-		this.audioEndTurn = GetComponent<AudioSource>();
 		
-		this.createBackground();
-		this.gameView = Camera.main.gameObject.AddComponent <GameView>();
-		this.gameView.gameVM.setStyles(this.mainSkin, this.titlesSkin, this.gameSkin);
-		this.gameView.gameVM.setTexts(this.gameTexts);
-		this.resize(Screen.width, Screen.height);
-		this.initSkills();
-		
-		PhotonNetwork.ConnectUsingSettings(ApplicationModel.photonSettings);
 		PhotonNetwork.autoCleanUpPlayerObjects = false;
+		PhotonNetwork.ConnectUsingSettings(ApplicationModel.photonSettings);
 		
-		if (ApplicationModel.launchGameTutorial)
-		{
-			this.tutorial = Instantiate(this.TutorialObject) as GameObject;
-			this.tutorial.AddComponent<GameTutorialController>();
-			this.tutorial.GetComponent<GameTutorialController>().launchSequence(0);
-			this.isTutorialLaunched = true;
-		}
+//		if (ApplicationModel.launchGameTutorial)
+//		{
+//			this.tutorial = Instantiate(this.TutorialObject) as GameObject;
+//			this.tutorial.AddComponent<GameTutorialController>();
+//			this.tutorial.GetComponent<GameTutorialController>().launchSequence(0);
+//			this.isTutorialLaunched = true;
+//		}
 	}
 
 	public void resize(int w, int h)
 	{
-		this.gameView.gameVM.resize(w , h);
-		this.resizeBackground(w, h);
-
-		if (EndSceneController.instance != null)
-		{
-			EndSceneController.instance.resize();
-		}
-		if (this.isTutorialLaunched)
-		{
-			this.tutorial.GetComponent<GameTutorialController>().resize();
-		}
+		
 	}
 	
 	public void timeOut()
@@ -117,31 +57,9 @@ public class GameController : Photon.MonoBehaviour
 		
 	}
 
-	public void createBackground()
-	{
 	
-	}
 
-	public void resizeBackground(int w, int h)
-	{		
-		Vector3 position;
-		
-//		float tileScale = 8f / this.boardHeight;
-//		for (int i = 0; i < this.horizontalBorders.Length; i++)
-//		{
-//			position = new Vector3(0, -4 + tileScale * i, -1f);
-//			this.horizontalBorders [i].transform.localPosition = position;
-//			this.horizontalBorders [i].transform.localScale = new Vector3(this.boardWidth*tileScale, 0.04f, 1);
-//		}
-//
-//		for (int i = 0; i < this.verticalBorders.Length; i++)
-//		{
-//			position = new Vector3((-this.boardWidth/2+i)*tileScale, 0f, -1f);
-//			this.verticalBorders [i].transform.localPosition = position;
-//			this.verticalBorders [i].transform.localScale = new Vector3(0.04f, 8, this.verticalBorders [i].transform.localScale.z);
-//		}
-		//this.leftLifeBar.GetComponent<LeftLifeBarController>().resize(w, h);
-	}
+	
 
 	public void hideHoveredTile()
 	{
@@ -339,122 +257,123 @@ public class GameController : Photon.MonoBehaviour
 	
 	public void changeZoneTargetTile(Tile t)
 	{
-		int x = t.x;
-		int y = t.y;
-		for (int i = 0; i < this.boardWidth; i++)
-		{
-			for (int j = 0; j < this.boardHeight; j++)
-			{
-				this.tiles [i, j].GetComponent<TileController>().removeHalo();
-			}
-		}
-		
-		if (x > 0)
-		{
-			if (y > 0)
-			{
-				this.tiles [x - 1, y - 1].GetComponent<TileController>().activateEffectZoneHalo();
-			}
-			if (y < this.boardHeight - 1)
-			{
-				this.tiles [x - 1, y + 1].GetComponent<TileController>().activateEffectZoneHalo();
-			}
-			this.tiles [x - 1, y].GetComponent<TileController>().activateEffectZoneHalo();
-		}
-		if (x < this.boardWidth - 1)
-		{
-			if (y > 0)
-			{
-				this.tiles [x + 1, y - 1].GetComponent<TileController>().activateEffectZoneHalo();
-			}
-			if (y < this.boardHeight - 1)
-			{
-				this.tiles [x + 1, y + 1].GetComponent<TileController>().activateEffectZoneHalo();
-			}
-			this.tiles [x + 1, y].GetComponent<TileController>().activateEffectZoneHalo();
-		}
-		if (y > 0)
-		{
-			this.tiles [x, y - 1].GetComponent<TileController>().activateEffectZoneHalo();
-		}
-		if (y < this.boardHeight - 1)
-		{
-			this.tiles [x, y + 1].GetComponent<TileController>().activateEffectZoneHalo();
-		}
-		this.tiles [x, y].GetComponent<TileController>().activateEffectZoneHalo();
+//		int x = t.x;
+//		int y = t.y;
+//		for (int i = 0; i < this.boardWidth; i++)
+//		{
+//			for (int j = 0; j < this.boardHeight; j++)
+//			{
+//				this.tiles [i, j].GetComponent<TileController>().removeHalo();
+//			}
+//		}
+//		
+//		if (x > 0)
+//		{
+//			if (y > 0)
+//			{
+//				this.tiles [x - 1, y - 1].GetComponent<TileController>().activateEffectZoneHalo();
+//			}
+//			if (y < this.boardHeight - 1)
+//			{
+//				this.tiles [x - 1, y + 1].GetComponent<TileController>().activateEffectZoneHalo();
+//			}
+//			this.tiles [x - 1, y].GetComponent<TileController>().activateEffectZoneHalo();
+//		}
+//		if (x < this.boardWidth - 1)
+//		{
+//			if (y > 0)
+//			{
+//				this.tiles [x + 1, y - 1].GetComponent<TileController>().activateEffectZoneHalo();
+//			}
+//			if (y < this.boardHeight - 1)
+//			{
+//				this.tiles [x + 1, y + 1].GetComponent<TileController>().activateEffectZoneHalo();
+//			}
+//			this.tiles [x + 1, y].GetComponent<TileController>().activateEffectZoneHalo();
+//		}
+//		if (y > 0)
+//		{
+//			this.tiles [x, y - 1].GetComponent<TileController>().activateEffectZoneHalo();
+//		}
+//		if (y < this.boardHeight - 1)
+//		{
+//			this.tiles [x, y + 1].GetComponent<TileController>().activateEffectZoneHalo();
+//		}
+//		this.tiles [x, y].GetComponent<TileController>().activateEffectZoneHalo();
 	}
 	
 	public void displayAdjacentOpponentsTargets()
 	{
-		List<Tile> neighbourTiles = this.getCurrentPCC().tile.getImmediateNeighbouringTiles();
-		int playerID;
-		foreach (Tile t in neighbourTiles)
-		{
-			playerID = this.tiles [t.x, t.y].GetComponent<TileController>().characterID;
-			if (playerID != -1)
-			{
-				if (this.playingCards [playerID].GetComponent<PlayingCardController>().canBeTargeted() && !this.getPCC(playerID).isMine)
-				{
-					this.playingCards [playerID].GetComponent<PlayingCardController>().setTargetHalo(this.gameskills [this.getCurrentSkillID()].getTargetPCCText(this.getPCC(playerID).card));
-				}
-			}
-		}
+//		List<Tile> neighbourTiles = this.getCurrentPCC().tile.getImmediateNeighbouringTiles();
+//		int playerID;
+//		foreach (Tile t in neighbourTiles)
+//		{
+//			playerID = this.tiles [t.x, t.y].GetComponent<TileController>().characterID;
+//			if (playerID != -1)
+//			{
+//				if (this.playingCards [playerID].GetComponent<PlayingCardController>().canBeTargeted() && !this.getPCC(playerID).isMine)
+//				{
+//					this.playingCards [playerID].GetComponent<PlayingCardController>().setTargetHalo(this.gameskills [this.getCurrentSkillID()].getTargetPCCText(this.getPCC(playerID).card));
+//				}
+//			}
+//		}
 	}
 	
 	public bool canLaunchAdjacentOpponents()
 	{
-		bool isLaunchable = false;
-		
-		List<Tile> neighbourTiles = this.getCurrentPCC().tile.getImmediateNeighbouringTiles();
-		int playerID;
-		foreach (Tile t in neighbourTiles)
-		{
-			playerID = this.tiles [t.x, t.y].GetComponent<TileController>().characterID;
-			if (playerID != -1)
-			{
-				if (this.playingCards [playerID].GetComponent<PlayingCardController>().canBeTargeted() && !this.getPCC(playerID).isMine)
-				{
-					isLaunchable = true;
-				}
-			}
-		}
-		return isLaunchable;
+//		bool isLaunchable = false;
+//		
+//		List<Tile> neighbourTiles = this.getCurrentPCC().tile.getImmediateNeighbouringTiles();
+//		int playerID;
+//		foreach (Tile t in neighbourTiles)
+//		{
+//			playerID = this.tiles [t.x, t.y].GetComponent<TileController>().characterID;
+//			if (playerID != -1)
+//			{
+//				if (this.playingCards [playerID].GetComponent<PlayingCardController>().canBeTargeted() && !this.getPCC(playerID).isMine)
+//				{
+//					isLaunchable = true;
+//				}
+//			}
+//		}
+//		return isLaunchable;
+	return true ;
 	}
 	
 	public void displayAdjacentAllyTargets()
 	{
-		List<Tile> neighbourTiles = this.getCurrentPCC().tile.getImmediateNeighbouringTiles();
-		int playerID;
-		foreach (Tile t in neighbourTiles)
-		{
-			playerID = this.tiles [t.x, t.y].GetComponent<TileController>().characterID;
-			if (playerID != -1)
-			{
-				if (this.playingCards [playerID].GetComponent<PlayingCardController>().canBeTargeted() && this.getPCC(playerID).isMine)
-				{
-					this.playingCards [playerID].GetComponent<PlayingCardController>().setTargetHalo(this.gameskills [this.getCurrentSkillID()].getTargetPCCText(this.getPCC(playerID).card));
-				}
-			}
-		}
+//		List<Tile> neighbourTiles = this.getCurrentPCC().tile.getImmediateNeighbouringTiles();
+//		int playerID;
+//		foreach (Tile t in neighbourTiles)
+//		{
+//			playerID = this.tiles [t.x, t.y].GetComponent<TileController>().characterID;
+//			if (playerID != -1)
+//			{
+//				if (this.playingCards [playerID].GetComponent<PlayingCardController>().canBeTargeted() && this.getPCC(playerID).isMine)
+//				{
+//					this.playingCards [playerID].GetComponent<PlayingCardController>().setTargetHalo(this.gameskills [this.getCurrentSkillID()].getTargetPCCText(this.getPCC(playerID).card));
+//				}
+//			}
+//		}
 	}
 	
 	public bool canLaunchAdjacentAllys()
 	{
 		bool isLaunchable = false;
 		
-		List<Tile> neighbourTiles = this.getCurrentPCC().tile.getImmediateNeighbouringTiles();
-		int playerID;
-		foreach (Tile t in neighbourTiles)
-		{
-			playerID = this.tiles [t.x, t.y].GetComponent<TileController>().characterID;
-			if (playerID != -1)
-			{
-				if (this.playingCards [playerID].GetComponent<PlayingCardController>().canBeTargeted() && this.getPCC(playerID).isMine)
-				{
-					isLaunchable = true;
-				}
-			}
-		}
+//		List<Tile> neighbourTiles = this.getCurrentPCC().tile.getImmediateNeighbouringTiles();
+//		int playerID;
+//		foreach (Tile t in neighbourTiles)
+//		{
+//			playerID = this.tiles [t.x, t.y].GetComponent<TileController>().characterID;
+//			if (playerID != -1)
+//			{
+//				if (this.playingCards [playerID].GetComponent<PlayingCardController>().canBeTargeted() && this.getPCC(playerID).isMine)
+//				{
+//					isLaunchable = true;
+//				}
+//			}
+//		}
 		return isLaunchable;
 	}
 	
@@ -462,17 +381,17 @@ public class GameController : Photon.MonoBehaviour
 	{
 		List<Tile> neighbourTiles = this.getCurrentPCC().tile.getImmediateNeighbouringTiles();
 		int playerID;
-		foreach (Tile t in neighbourTiles)
-		{
-			playerID = this.tiles [t.x, t.y].GetComponent<TileController>().characterID;
-			if (playerID == -1)
-			{
-				if (!this.tiles [t.x, t.y].GetComponent<TileController>().tile.isStatModifier && this.tiles [t.x, t.y].GetComponent<TileController>().type == 0)
-				{
-					this.tiles [t.x, t.y].GetComponent<TileController>().setTargetHalo(this.gameskills [this.getCurrentSkillID()].getTargetPCCText(new Card()));
-				}
-			}
-		}
+//		foreach (Tile t in neighbourTiles)
+//		{
+//			playerID = this.tiles [t.x, t.y].GetComponent<TileController>().characterID;
+//			if (playerID == -1)
+//			{
+//				if (!this.tiles [t.x, t.y].GetComponent<TileController>().tile.isStatModifier && this.tiles [t.x, t.y].GetComponent<TileController>().type == 0)
+//				{
+//					this.tiles [t.x, t.y].GetComponent<TileController>().setTargetHalo(this.gameskills [this.getCurrentSkillID()].getTargetPCCText(new Card()));
+//				}
+//			}
+//		}
 	}
 	
 	public bool canLaunchAdjacentTiles()
@@ -480,86 +399,86 @@ public class GameController : Photon.MonoBehaviour
 		bool isLaunchable = false;
 		List<Tile> neighbourTiles = this.getCurrentPCC().tile.getImmediateNeighbouringTiles();
 		int playerID;
-		foreach (Tile t in neighbourTiles)
-		{
-			playerID = this.tiles [t.x, t.y].GetComponent<TileController>().characterID;
-			if (playerID == -1)
-			{
-				if (!this.tiles [t.x, t.y].GetComponent<TileController>().tile.isStatModifier && this.tiles [t.x, t.y].GetComponent<TileController>().type == 0)
-				{
-					isLaunchable = true;
-				}
-			}
-		}
+//		foreach (Tile t in neighbourTiles)
+//		{
+//			playerID = this.tiles [t.x, t.y].GetComponent<TileController>().characterID;
+//			if (playerID == -1)
+//			{
+//				if (!this.tiles [t.x, t.y].GetComponent<TileController>().tile.isStatModifier && this.tiles [t.x, t.y].GetComponent<TileController>().type == 0)
+//				{
+//					isLaunchable = true;
+//				}
+//			}
+//		}
 		return isLaunchable;
 	}
 	
 	public void displayAllTargets()
 	{
-		PlayingCardController pcc;
-		for (int i = 0; i < this.playingCards.Length; i++)
-		{
-			pcc = this.getPCC(i);
-			if (pcc.canBeTargeted())
-			{
-				pcc.setTargetHalo(this.gameskills [this.getCurrentSkillID()].getTargetPCCText(pcc.card));
-			}
-		}		
+//		PlayingCardController pcc;
+//		for (int i = 0; i < this.playingCards.Length; i++)
+//		{
+//			pcc = this.getPCC(i);
+//			if (pcc.canBeTargeted())
+//			{
+//				pcc.setTargetHalo(this.gameskills [this.getCurrentSkillID()].getTargetPCCText(pcc.card));
+//			}
+//		}		
 	}
 	
 	public void displayAllButMeModifiersTargets()
 	{
-		PlayingCardController pcc;
-		for (int i = 0; i < this.playingCards.Length; i++)
-		{
-			pcc = this.getPCC(i);
-			if (pcc.card.hasModifiers() && pcc.canBeTargeted() && i != this.currentPlayingCard)
-			{
-				pcc.setTargetHalo(this.gameskills [this.getCurrentSkillID()].getTargetPCCText(pcc.card));
-			}
-		}		
+//		PlayingCardController pcc;
+//		for (int i = 0; i < this.playingCards.Length; i++)
+//		{
+//			pcc = this.getPCC(i);
+//			if (pcc.card.hasModifiers() && pcc.canBeTargeted() && i != this.currentPlayingCard)
+//			{
+//				pcc.setTargetHalo(this.gameskills [this.getCurrentSkillID()].getTargetPCCText(pcc.card));
+//			}
+//		}		
 	}
 	
 	public bool canLaunchAllButMeModifiers()
 	{
 		bool isLaunchable = false;
 		PlayingCardController pcc;
-		for (int i = 0; i < this.playingCards.Length; i++)
-		{
-			pcc = this.getPCC(i);
-			if (pcc.card.hasModifiers() && pcc.canBeTargeted() && i != this.currentPlayingCard)
-			{
-				isLaunchable = true;
-			}
-		}		
+//		for (int i = 0; i < this.playingCards.Length; i++)
+//		{
+//			pcc = this.getPCC(i);
+//			if (pcc.card.hasModifiers() && pcc.canBeTargeted() && i != this.currentPlayingCard)
+//			{
+//				isLaunchable = true;
+//			}
+//		}		
 		return isLaunchable;
 	}
 	
 	public void displayAllButMeTargets()
 	{
 		PlayingCardController pcc;
-		for (int i = 0; i < this.playingCards.Length; i++)
-		{
-			pcc = this.getPCC(i);
-			if (pcc.canBeTargeted() && i != this.currentPlayingCard)
-			{
-				pcc.setTargetHalo(this.gameskills [this.getCurrentSkillID()].getTargetPCCText(pcc.card));
-			}
-		}		
+//		for (int i = 0; i < this.playingCards.Length; i++)
+//		{
+//			pcc = this.getPCC(i);
+//			if (pcc.canBeTargeted() && i != this.currentPlayingCard)
+//			{
+//				pcc.setTargetHalo(this.gameskills [this.getCurrentSkillID()].getTargetPCCText(pcc.card));
+//			}
+//		}		
 	}
 	
 	public bool canLaunchAllButMe()
 	{
 		bool isLaunchable = false;
 		PlayingCardController pcc;
-		for (int i = 0; i < this.playingCards.Length; i++)
-		{
-			pcc = this.getPCC(i);
-			if (pcc.canBeTargeted() && i != this.currentPlayingCard)
-			{
-				isLaunchable = true;
-			}
-		}		
+//		for (int i = 0; i < this.playingCards.Length; i++)
+//		{
+//			pcc = this.getPCC(i);
+//			if (pcc.canBeTargeted() && i != this.currentPlayingCard)
+//			{
+//				isLaunchable = true;
+//			}
+//		}		
 		return isLaunchable;
 	}
 	
@@ -567,14 +486,14 @@ public class GameController : Photon.MonoBehaviour
 	{
 		PlayingCardController pcc;
 		
-		for (int i = 0; i < this.playingCards.Length; i++)
-		{
-			pcc = this.getPCC(i);
-			if (pcc.isMine && pcc.canBeTargeted() && i != this.currentPlayingCard)
-			{
-				pcc.setTargetHalo(this.gameskills [this.getCurrentSkillID()].getTargetPCCText(pcc.card));
-			}
-		}		
+//		for (int i = 0; i < this.playingCards.Length; i++)
+//		{
+//			pcc = this.getPCC(i);
+//			if (pcc.isMine && pcc.canBeTargeted() && i != this.currentPlayingCard)
+//			{
+//				pcc.setTargetHalo(this.gameskills [this.getCurrentSkillID()].getTargetPCCText(pcc.card));
+//			}
+//		}		
 	}
 	
 	public bool canLaunchAllysButMe()
@@ -582,14 +501,14 @@ public class GameController : Photon.MonoBehaviour
 		PlayingCardController pcc;
 		bool isLaunchable = false;
 		
-		for (int i = 0; i < this.playingCards.Length && !isLaunchable; i++)
-		{
-			pcc = this.getPCC(i);
-			if (pcc.isMine && pcc.canBeTargeted() && i != this.currentPlayingCard)
-			{
-				isLaunchable = true;
-			}
-		}
+//		for (int i = 0; i < this.playingCards.Length && !isLaunchable; i++)
+//		{
+//			pcc = this.getPCC(i);
+//			if (pcc.isMine && pcc.canBeTargeted() && i != this.currentPlayingCard)
+//			{
+//				isLaunchable = true;
+//			}
+//		}
 		return isLaunchable; 	
 	}
 	
@@ -597,14 +516,14 @@ public class GameController : Photon.MonoBehaviour
 	{
 		PlayingCardController pcc;
 		
-		for (int i = 0; i < this.playingCards.Length; i++)
-		{
-			pcc = this.getPCC(i);
-			if (!pcc.isMine && pcc.canBeTargeted())
-			{
-				pcc.setTargetHalo(this.gameskills [this.getCurrentSkillID()].getTargetPCCText(pcc.card));
-			}
-		}		
+//		for (int i = 0; i < this.playingCards.Length; i++)
+//		{
+//			pcc = this.getPCC(i);
+//			if (!pcc.isMine && pcc.canBeTargeted())
+//			{
+//				pcc.setTargetHalo(this.gameskills [this.getCurrentSkillID()].getTargetPCCText(pcc.card));
+//			}
+//		}		
 	}
 	
 	public bool canLaunchOpponents()
@@ -612,14 +531,14 @@ public class GameController : Photon.MonoBehaviour
 		PlayingCardController pcc;
 		bool isLaunchable = false;
 		
-		for (int i = 0; i < this.playingCards.Length && !isLaunchable; i++)
-		{
-			pcc = this.getPCC(i);
-			if (!pcc.isMine && pcc.canBeTargeted())
-			{
-				isLaunchable = true;
-			}
-		}
+//		for (int i = 0; i < this.playingCards.Length && !isLaunchable; i++)
+//		{
+//			pcc = this.getPCC(i);
+//			if (!pcc.isMine && pcc.canBeTargeted())
+//			{
+//				isLaunchable = true;
+//			}
+//		}
 		return isLaunchable; 	
 	}
 	
@@ -630,21 +549,21 @@ public class GameController : Photon.MonoBehaviour
 	
 	public void hidePCCTargets()
 	{
-		for (int i = 0; i < this.playingCards.Length; i++)
-		{
-			this.playingCards [i].GetComponent<PlayingCardController>().hideTargetHalo();
-		}
+//		for (int i = 0; i < this.playingCards.Length; i++)
+//		{
+//			this.playingCards [i].GetComponent<PlayingCardController>().hideTargetHalo();
+//		}
 	}
 	
 	public void hideTileTargets()
 	{
-		for (int i = 0; i < this.boardWidth; i++)
-		{
-			for (int j = 0; j < this.boardHeight; j++)
-			{	
-				this.tiles [i, j].GetComponent<TileController>().hideTargetHalo();
-			}
-		}
+//		for (int i = 0; i < this.boardWidth; i++)
+//		{
+//			for (int j = 0; j < this.boardHeight; j++)
+//			{	
+//				this.tiles [i, j].GetComponent<TileController>().hideTargetHalo();
+//			}
+//		}
 	}
 	
 	void initDeadsList()
@@ -1079,227 +998,228 @@ public class GameController : Photon.MonoBehaviour
 
 	public void clickSkillHandler(int ids)
 	{
-		this.updateStatusMySkills(this.currentPlayingCard);
-		//this.clickedSkill = ids;
-		if (ids > 3)
-		{
-			if (ids == 4)
-			{
-				this.gameskills [0].launch();
-			} else
-			{
-				this.gameskills [1].launch();
-			}
-		} else
-		{
-			int idSkill = this.playingCards [this.currentPlayingCard].GetComponentInChildren<PlayingCardController>().card.Skills [ids].Id;
-			this.gameskills [idSkill].launch();
-		}
-		
-		if (isTutorialLaunched)
-		{
-			this.tutorial.GetComponent<GameTutorialController>().actionIsDone();
-		}
+//		this.updateStatusMySkills(this.currentPlayingCard);
+//		//this.clickedSkill = ids;
+//		if (ids > 3)
+//		{
+//			if (ids == 4)
+//			{
+//				this.gameskills [0].launch();
+//			} else
+//			{
+//				this.gameskills [1].launch();
+//			}
+//		} else
+//		{
+//			int idSkill = this.playingCards [this.currentPlayingCard].GetComponentInChildren<PlayingCardController>().card.Skills [ids].Id;
+//			this.gameskills [idSkill].launch();
+//		}
+//		
+//		if (isTutorialLaunched)
+//		{
+//			this.tutorial.GetComponent<GameTutorialController>().actionIsDone();
+//		}
 	}
 
 	public void findNextPlayer()
 	{
-		if (this.currentPlayingCard != -1)
-		{
-			this.playingCards [this.currentPlayingCard].GetComponentInChildren<PlayingCardController>().hasPlayed = true;
-		}
-		bool newTurn = true;
-		int nextPlayingCard = -1;
-		int i = 0;
-
-		while (i < playingCards.Length && newTurn == true)
-		{
-			if (!this.playingCards [rankedPlayingCardsID [i]].GetComponentInChildren<PlayingCardController>().hasPlayed)
-			{
-				nextPlayingCard = rankedPlayingCardsID [i];
-				newTurn = false;
-			}
-			i++;
-		}
-
-		if (newTurn)
-		{
-			for (i = 0; i < playingCards.Length; i++)
-			{
-				if (!this.playingCards [i].GetComponentInChildren<PlayingCardController>().isDead)
-				{
-					this.playingCards [i].GetComponentInChildren<PlayingCardController>().hasPlayed = false;
-				}
-			}
-			int j = 0;
-			while (j < playingCards.Length)
-			{
-				if (!this.playingCards [rankedPlayingCardsID [j]].GetComponentInChildren<PlayingCardController>().hasPlayed)
-				{
-					nextPlayingCard = rankedPlayingCardsID [j];
-					j = playingCards.Length + 1;
-				}
-				j++;
-			}
-		}
-		
-		photonView.RPC("initPlayer", PhotonTargets.AllBuffered, nextPlayingCard, newTurn, this.isFirstPlayer);
+//		if (this.currentPlayingCard != -1)
+//		{
+//			this.playingCards [this.currentPlayingCard].GetComponentInChildren<PlayingCardController>().hasPlayed = true;
+//		}
+//		bool newTurn = true;
+//		int nextPlayingCard = -1;
+//		int i = 0;
+//
+//		while (i < playingCards.Length && newTurn == true)
+//		{
+//			if (!this.playingCards [rankedPlayingCardsID [i]].GetComponentInChildren<PlayingCardController>().hasPlayed)
+//			{
+//				nextPlayingCard = rankedPlayingCardsID [i];
+//				newTurn = false;
+//			}
+//			i++;
+//		}
+//
+//		if (newTurn)
+//		{
+//			for (i = 0; i < playingCards.Length; i++)
+//			{
+//				if (!this.playingCards [i].GetComponentInChildren<PlayingCardController>().isDead)
+//				{
+//					this.playingCards [i].GetComponentInChildren<PlayingCardController>().hasPlayed = false;
+//				}
+//			}
+//			int j = 0;
+//			while (j < playingCards.Length)
+//			{
+//				if (!this.playingCards [rankedPlayingCardsID [j]].GetComponentInChildren<PlayingCardController>().hasPlayed)
+//				{
+//					nextPlayingCard = rankedPlayingCardsID [j];
+//					j = playingCards.Length + 1;
+//				}
+//				j++;
+//			}
+//		}
+//		
+//		photonView.RPC("initPlayer", PhotonTargets.AllBuffered, nextPlayingCard, newTurn, this.isFirstPlayer);
 	}
 
 	[RPC]
 	public void initPlayer(int id, bool newTurn, bool isFirstP)
 	{
-		print("Au tour de " + id);
-		if (newTurn)
-		{
-			for (int i = 0; i < playingCards.Length; i++)
-			{
-				if (!this.playingCards [i].GetComponentInChildren<PlayingCardController>().isDead)
-				{
-					this.playingCards [i].GetComponentInChildren<PlayingCardController>().hasPlayed = false;
-					this.reloadCard(i);
-					//reloadDestinationTiles();
-				}
-			}
-		}
-		if (this.currentPlayingCard != -1 && newTurn == false)
-		{
-			this.playingCards [this.currentPlayingCard].GetComponentInChildren<PlayingCardController>().hasPlayed = true;
-		}
-
-		if (this.currentPlayingCard != -1)
-		{
-			this.hideActivatedPlayingCard();
-		}
-		this.resetDestinations();
-
-		if (newTurn)
-		{
-			this.nbTurns++;
-		}
-
-		this.currentPlayingCard = id;
-		
-		if (this.getCurrentCard().isSleeping())
-		{
-			if ((this.currentPlayingCard < limitCharacterSide) == this.isFirstPlayer)
-			{
-				int percentage = this.getCurrentCard().getSleepingPercentage();
-				if (UnityEngine.Random.Range(1, 101) <= percentage)
-				{
-					this.wakeUp();
-				} else
-				{
-					this.displaySkillEffect(this.currentPlayingCard, "Ne se réveille pas", 3, 1);
-				}
-			}
-			//this.playindCardHasPlayed = true;
-			//this.playingCardHasMoved = true;
-		}
-		if (this.getCurrentCard().isParalyzed())
-		{
-			//this.playindCardHasPlayed = true;
-			//this.displayPopUpMessage(this.getCurrentCard().Title + " est paralysé", 3f);
-		} else
-		{
-			//this.playindCardHasPlayed = false;
-		}
-		
-		this.getCurrentPCC().activateSleepingModifiers();
-		
-		//this.playingCardHasMoved = false;
-
-		//this.currentPlayingTile = this.playingCards [currentPlayingCard].GetComponentInChildren<PlayingCardController>().tile;
-
-		this.activatePlayingCard(id);
-
-		if (this.isFirstPlayer == (id < limitCharacterSide))
-		{
-			this.playingCards [currentPlayingCard].GetComponentInChildren<PlayingCardController>().tile.setNeighbours(this.getCharacterTilesArray(), this.playingCards [id].GetComponentInChildren<PlayingCardController>().card.GetMove());
-			this.setDestinations(currentPlayingCard);
-			//this.isDragging = true;
-		}
-		//this.playingCards [currentPlayingCard].GetComponentInChildren<PlayingCardController>().card.changeModifiers();
-		if (newTurn)
-		{
-			foreach (GameObject pc in playingCards)
-			{
-				PlayingCardController temp = pc.GetComponent<PlayingCardController>();
-				loadTileModifierToCharacter(temp.tile.x, temp.tile.y, true);	
-			}
-		}
-
-		this.playingCards [currentPlayingCard].GetComponentInChildren<PlayingCardController>().show();
-
-		if ((currentPlayingCard < limitCharacterSide && this.isFirstPlayer) || (currentPlayingCard >= limitCharacterSide && !this.isFirstPlayer))
-		{
-			//displayPopUpMessage("A votre tour de jouer", 3f);
-			this.showMyPlayingSkills(this.currentPlayingCard);
-		} else
-		{
-			//displayPopUpMessage("Tour du joueur adverse", 3f);
-			this.showOpponentSkills(this.currentPlayingCard);
-		}
-		Card currentCard = getCurrentCard();
-		//leftStats.setCharacterStat(currentCard.Title, currentCard.GetMove(), currentCard.GetLife(), currentCard.GetAttack());
-		//leftStats.setSkill(currentCard.Skills [0].Name, currentCard.Skills [0].Description, currentCard.Skills [0].Id - 2);
+//		print("Au tour de " + id);
+//		if (newTurn)
+//		{
+//			for (int i = 0; i < playingCards.Length; i++)
+//			{
+//				if (!this.playingCards [i].GetComponentInChildren<PlayingCardController>().isDead)
+//				{
+//					this.playingCards [i].GetComponentInChildren<PlayingCardController>().hasPlayed = false;
+//					this.reloadCard(i);
+//					//reloadDestinationTiles();
+//				}
+//			}
+//		}
+//		if (this.currentPlayingCard != -1 && newTurn == false)
+//		{
+//			this.playingCards [this.currentPlayingCard].GetComponentInChildren<PlayingCardController>().hasPlayed = true;
+//		}
+//
+//		if (this.currentPlayingCard != -1)
+//		{
+//			this.hideActivatedPlayingCard();
+//		}
+//		this.resetDestinations();
+//
+//		if (newTurn)
+//		{
+//			this.nbTurns++;
+//		}
+//
+//		this.currentPlayingCard = id;
+//		
+//		if (this.getCurrentCard().isSleeping())
+//		{
+//			if ((this.currentPlayingCard < limitCharacterSide) == this.isFirstPlayer)
+//			{
+//				int percentage = this.getCurrentCard().getSleepingPercentage();
+//				if (UnityEngine.Random.Range(1, 101) <= percentage)
+//				{
+//					this.wakeUp();
+//				} else
+//				{
+//					this.displaySkillEffect(this.currentPlayingCard, "Ne se réveille pas", 3, 1);
+//				}
+//			}
+//			//this.playindCardHasPlayed = true;
+//			//this.playingCardHasMoved = true;
+//		}
+//		if (this.getCurrentCard().isParalyzed())
+//		{
+//			//this.playindCardHasPlayed = true;
+//			//this.displayPopUpMessage(this.getCurrentCard().Title + " est paralysé", 3f);
+//		} else
+//		{
+//			//this.playindCardHasPlayed = false;
+//		}
+//		
+//		this.getCurrentPCC().activateSleepingModifiers();
+//		
+//		//this.playingCardHasMoved = false;
+//
+//		//this.currentPlayingTile = this.playingCards [currentPlayingCard].GetComponentInChildren<PlayingCardController>().tile;
+//
+//		this.activatePlayingCard(id);
+//
+//		if (this.isFirstPlayer == (id < limitCharacterSide))
+//		{
+//			this.playingCards [currentPlayingCard].GetComponentInChildren<PlayingCardController>().tile.setNeighbours(this.getCharacterTilesArray(), this.playingCards [id].GetComponentInChildren<PlayingCardController>().card.GetMove());
+//			this.setDestinations(currentPlayingCard);
+//			//this.isDragging = true;
+//		}
+//		//this.playingCards [currentPlayingCard].GetComponentInChildren<PlayingCardController>().card.changeModifiers();
+//		if (newTurn)
+//		{
+//			foreach (GameObject pc in playingCards)
+//			{
+//				PlayingCardController temp = pc.GetComponent<PlayingCardController>();
+//				loadTileModifierToCharacter(temp.tile.x, temp.tile.y, true);	
+//			}
+//		}
+//
+//		this.playingCards [currentPlayingCard].GetComponentInChildren<PlayingCardController>().show();
+//
+//		if ((currentPlayingCard < limitCharacterSide && this.isFirstPlayer) || (currentPlayingCard >= limitCharacterSide && !this.isFirstPlayer))
+//		{
+//			//displayPopUpMessage("A votre tour de jouer", 3f);
+//			this.showMyPlayingSkills(this.currentPlayingCard);
+//		} else
+//		{
+//			//displayPopUpMessage("Tour du joueur adverse", 3f);
+//			this.showOpponentSkills(this.currentPlayingCard);
+//		}
+//		Card currentCard = getCurrentCard();
+//		//leftStats.setCharacterStat(currentCard.Title, currentCard.GetMove(), currentCard.GetLife(), currentCard.GetAttack());
+//		//leftStats.setSkill(currentCard.Skills [0].Name, currentCard.Skills [0].Description, currentCard.Skills [0].Id - 2);
 	}
 
 	public int[,] getCharacterTilesArray()
 	{
-		int width = GameController.instance.boardWidth;
-		int height = GameController.instance.boardHeight;
-		int[,] characterTiles = new int[width, height]; 
-		for (int i = 0; i < width; i ++)
-		{
-			for (int j = 0; j < height; j ++)
-			{
-				if (this.getTile(i, j).type == 1)
-				{
-					characterTiles [i, j] = 9;
-				} else
-				{
-					characterTiles [i, j] = -1;
-				}	
-			}
-		}
-		int debut;
-		int fin;
-		if (this.isFirstPlayer)
-		{
-			debut = limitCharacterSide;
-			fin = playingCards.Length;
-		} else
-		{
-			debut = 0;
-			fin = limitCharacterSide;
-		}
-		for (int i = debut; i < fin; i++)
-		{
-			if (!this.playingCards [i].GetComponentInChildren<PlayingCardController>().isDead)
-			{
-				Tile tiletemp = this.playingCards [i].GetComponentInChildren<PlayingCardController>().tile;
-				characterTiles [tiletemp.x, tiletemp.y] = 8;
-			}
-		}
-
+//		int width = GameView.instance.boardWidth;
+//		int height = GameView.instance.boardHeight;
+//		int[,] characterTiles = new int[width, height];
+		int[,] characterTiles = new int[1, 1];
+//		for (int i = 0; i < width; i ++)
+//		{
+//			for (int j = 0; j < height; j ++)
+//			{
+//				if (this.getTile(i, j).type == 1)
+//				{
+//					characterTiles [i, j] = 9;
+//				} else
+//				{
+//					characterTiles [i, j] = -1;
+//				}	
+//			}
+//		}
+//		int debut;
+//		int fin;
+//		if (this.isFirstPlayer)
+//		{
+//			debut = limitCharacterSide;
+//			fin = playingCards.Length;
+//		} else
+//		{
+//			debut = 0;
+//			fin = limitCharacterSide;
+//		}
+//		for (int i = debut; i < fin; i++)
+//		{
+//			if (!this.playingCards [i].GetComponentInChildren<PlayingCardController>().isDead)
+//			{
+//				Tile tiletemp = this.playingCards [i].GetComponentInChildren<PlayingCardController>().tile;
+//				characterTiles [tiletemp.x, tiletemp.y] = 8;
+//			}
+//		}
+//
 		return characterTiles;
 	}
 
 	public void setDestinations(int idPlayer)
 	{
-		List<Tile> nt = this.playingCards [idPlayer].GetComponentInChildren<PlayingCardController>().tile.neighbours.tiles;
-		foreach (Tile t in nt)
-		{
-			if (!this.isTutorialLaunched)
-			{
-				this.tiles [t.x, t.y].GetComponentInChildren<TileController>().setDestination(true);
-			} else
-			{
-				this.tiles [t.x, t.y].GetComponent<TileController>().setGrey(true);
-				this.tiles [t.x, t.y].GetComponent<TileController>().setGreyBorder(true);
-			}
-		}
+//		List<Tile> nt = this.playingCards [idPlayer].GetComponentInChildren<PlayingCardController>().tile.neighbours.tiles;
+//		foreach (Tile t in nt)
+//		{
+//			if (!this.isTutorialLaunched)
+//			{
+//				this.tiles [t.x, t.y].GetComponentInChildren<TileController>().setDestination(true);
+//			} else
+//			{
+//				this.tiles [t.x, t.y].GetComponent<TileController>().setGrey(true);
+//				this.tiles [t.x, t.y].GetComponent<TileController>().setGreyBorder(true);
+//			}
+//		}
 		//this.isDestinationDrawn = true;
 	}
 
@@ -1311,7 +1231,7 @@ public class GameController : Photon.MonoBehaviour
 		photonView.RPC("checkModyfiersRPC", PhotonTargets.AllBuffered);
 		
 		findNextPlayer();
-		photonView.RPC("timeRunsOut", PhotonTargets.AllBuffered, timerTurn);
+		photonView.RPC("timeRunsOut", PhotonTargets.AllBuffered, this.timePerTurn);
 		photonView.RPC("addPassEvent", PhotonTargets.AllBuffered);
 		photonView.RPC("loadTileModifierToCharacter", PhotonTargets.AllBuffered, getCurrentPCC().tile.x, getCurrentPCC().tile.y, false);
 	}
@@ -1383,65 +1303,65 @@ public class GameController : Photon.MonoBehaviour
 
 	private void initGrid()
 	{
-		print("J'initialise le terrain de jeu");
-		bool isRock = false;
-		List<Tile> rocks = new List<Tile>();
-		if (!this.isTutorialLaunched)
-		{
-			int nbRocksToAdd = UnityEngine.Random.Range(3, 6);
-			int compteurRocks = 0;
-			bool isOk = true;
-			int xRock = 0, yRock = 0;
-			while (compteurRocks<nbRocksToAdd)
-			{
-				isOk = false;
-				while (!isOk)
-				{
-					xRock = UnityEngine.Random.Range(0, this.boardWidth);
-					yRock = UnityEngine.Random.Range(0, this.boardHeight - 2) + 1;
-					isOk = true;
-					for (int a = 0; a < rocks.Count && isOk; a++)
-					{
-						if (rocks [a].x == xRock && rocks [a].y == yRock)
-						{
-							isOk = false;
-						}
-					}
-				}
-				rocks.Add(new Tile(xRock, yRock));
-				compteurRocks++;
-			}
-		} else
-		{
-			rocks.Add(new Tile(2, 3));
-			rocks.Add(new Tile(3, 5));
-			rocks.Add(new Tile(4, 3));
-		}
-		
-		for (int x = 0; x < boardWidth; x++)
-		{
-			for (int y = 0; y < boardHeight; y++)
-			{
-				isRock = false;
-				for (int z = 0; z < rocks.Count && !isRock; z++)
-				{
-					if (rocks [z].x == x && rocks [z].y == y)
-					{
-						isRock = true;
-					}
-				}
-				if (!isRock)
-				{
-					photonView.RPC("AddTileToBoard", PhotonTargets.AllBuffered, x, y, 0);	
-				}
-			}
-		}
-		
-
-		for (int a = 0; a < rocks.Count; a++)
-		{
-			photonView.RPC("AddTileToBoard", PhotonTargets.AllBuffered, rocks [a].x, rocks [a].y, 1);
-		}
+//		print("J'initialise le terrain de jeu");
+//		bool isRock = false;
+//		List<Tile> rocks = new List<Tile>();
+//		if (!this.isTutorialLaunched)
+//		{
+//			int nbRocksToAdd = UnityEngine.Random.Range(3, 6);
+//			int compteurRocks = 0;
+//			bool isOk = true;
+//			int xRock = 0, yRock = 0;
+//			while (compteurRocks<nbRocksToAdd)
+//			{
+//				isOk = false;
+//				while (!isOk)
+//				{
+//					xRock = UnityEngine.Random.Range(0, this.boardWidth);
+//					yRock = UnityEngine.Random.Range(0, this.boardHeight - 2) + 1;
+//					isOk = true;
+//					for (int a = 0; a < rocks.Count && isOk; a++)
+//					{
+//						if (rocks [a].x == xRock && rocks [a].y == yRock)
+//						{
+//							isOk = false;
+//						}
+//					}
+//				}
+//				rocks.Add(new Tile(xRock, yRock));
+//				compteurRocks++;
+//			}
+//		} else
+//		{
+//			rocks.Add(new Tile(2, 3));
+//			rocks.Add(new Tile(3, 5));
+//			rocks.Add(new Tile(4, 3));
+//		}
+//		
+//		for (int x = 0; x < boardWidth; x++)
+//		{
+//			for (int y = 0; y < boardHeight; y++)
+//			{
+//				isRock = false;
+//				for (int z = 0; z < rocks.Count && !isRock; z++)
+//				{
+//					if (rocks [z].x == x && rocks [z].y == y)
+//					{
+//						isRock = true;
+//					}
+//				}
+//				if (!isRock)
+//				{
+//					photonView.RPC("AddTileToBoard", PhotonTargets.AllBuffered, x, y, 0);	
+//				}
+//			}
+//		}
+//		
+//
+//		for (int a = 0; a < rocks.Count; a++)
+//		{
+//			photonView.RPC("AddTileToBoard", PhotonTargets.AllBuffered, rocks [a].x, rocks [a].y, 1);
+//		}
 	}
 
 	public IEnumerator loadMyDeck(bool isFirstPlayer)
@@ -1462,17 +1382,18 @@ public class GameController : Photon.MonoBehaviour
 	[RPC]
 	void AddPlayerToList(int id, string loginName)
 	{
-		print("J'add " + loginName);
-		this.nbPlayers++;
-		
+		print(loginName+" se connecte");
+
 		if (ApplicationModel.username == loginName)
 		{
-			this.gameView.gameVM.myPlayerName = loginName;
+			GameView.instance.setMyPlayerName(loginName);
 		} else
 		{
-			this.gameView.gameVM.hisPlayerName = loginName;
-			this.gameView.gameVM.messageOpponentStartWindow = this.gameTexts[1];
+			GameView.instance.setHisPlayerName(loginName);
 		}
+		this.nbPlayers++;
+		
+
 
 //		if (this.isReconnecting)
 //		{
@@ -1554,58 +1475,58 @@ public class GameController : Photon.MonoBehaviour
 	[RPC]
 	void AddTileToBoard(int x, int y, int type)
 	{
-		tiles [x, y] = (GameObject)Instantiate(this.tileModel);
-		tiles [x, y].name = "Tile " + (x) + "-" + (y);
+		//tiles [x, y] = (GameObject)Instantiate(this.tileModel);
+		//tiles [x, y].name = "Tile " + (x) + "-" + (y);
 		//tiles [x, y].GetComponent<TileController>().setTile(x, y, this.boardWidth, this.boardHeight, type, this.tileScale);
 	}
 
 	[RPC]
 	IEnumerator SpawnCharacter(bool isFirstP, int idDeck)
 	{
-		Deck deck;
-		deck = new Deck(idDeck);
-		yield return StartCoroutine(deck.RetrieveCards());
-		int debut;
-		int hauteur;
-		int compteur = 0;
-
-		if (isFirstP)
-		{
-			debut = 0;
-			hauteur = 0;
-		} else
-		{
-			debut = this.limitCharacterSide;
-			hauteur = 7;
-		}
-		if (isFirstP == this.isFirstPlayer)
-		{
-			//this.myDeck = deck;
-		}
-		//a changer
-		for (int i = 0; i < ApplicationModel.nbCardsByDeck; i++)
-		{
-			//this.playingCards [debut + deck.Cards [i].deckOrder] = (GameObject)Instantiate(this.playingCard);
-			if (isFirstP != this.isFirstPlayer)
-			{
-				this.playingCards [debut + deck.Cards [i].deckOrder].GetComponentInChildren<PlayingCardController>().hideDisplay();
-			} else
-			{
-				
-			}
-			this.playingCards [debut + deck.Cards [i].deckOrder].GetComponentInChildren<PlayingCardController>().setStyles((isFirstP == this.isFirstPlayer));
-			this.playingCards [debut + deck.Cards [i].deckOrder].GetComponentInChildren<PlayingCardController>().setCard(deck.Cards [i]);
-			this.playingCards [debut + deck.Cards [i].deckOrder].GetComponentInChildren<PlayingCardController>().setIDCharacter(debut + deck.Cards [i].deckOrder);
-			this.playingCards [debut + deck.Cards [i].deckOrder].GetComponentInChildren<PlayingCardController>().setTile(new Tile(deck.Cards [i].deckOrder + 1, hauteur), tiles [deck.Cards [i].deckOrder + 1, hauteur].GetComponent<TileController>().tileView.tileVM.position, !isFirstP);
-			this.playingCards [debut + deck.Cards [i].deckOrder].GetComponentInChildren<PlayingCardController>().resize();
-			this.tiles [deck.Cards [i].deckOrder + 1, hauteur].GetComponent<TileController>().characterID = debut + deck.Cards [i].deckOrder;
-			this.playingCards [debut + deck.Cards [i].deckOrder].GetComponentInChildren<PlayingCardController>().show();
-			compteur++;
-		}
-		if (this.isTutorialLaunched && !isFirstP)
-		{
-			this.disableAllCharacters();
-		}
+//		Deck deck;
+//		deck = new Deck(idDeck);
+//		yield return StartCoroutine(deck.RetrieveCards());
+//		int debut;
+//		int hauteur;
+//		int compteur = 0;
+//
+//		if (isFirstP)
+//		{
+//			debut = 0;
+//			hauteur = 0;
+//		} else
+//		{
+//			debut = this.limitCharacterSide;
+//			hauteur = 7;
+//		}
+//		if (isFirstP == this.isFirstPlayer)
+//		{
+//			//this.myDeck = deck;
+//		}
+//		//a changer
+//		for (int i = 0; i < ApplicationModel.nbCardsByDeck; i++)
+//		{
+//			//this.playingCards [debut + deck.Cards [i].deckOrder] = (GameObject)Instantiate(this.playingCard);
+//			if (isFirstP != this.isFirstPlayer)
+//			{
+//				this.playingCards [debut + deck.Cards [i].deckOrder].GetComponentInChildren<PlayingCardController>().hideDisplay();
+//			} else
+//			{
+//				
+//			}
+//			this.playingCards [debut + deck.Cards [i].deckOrder].GetComponentInChildren<PlayingCardController>().setStyles((isFirstP == this.isFirstPlayer));
+//			this.playingCards [debut + deck.Cards [i].deckOrder].GetComponentInChildren<PlayingCardController>().setCard(deck.Cards [i]);
+//			this.playingCards [debut + deck.Cards [i].deckOrder].GetComponentInChildren<PlayingCardController>().setIDCharacter(debut + deck.Cards [i].deckOrder);
+//			this.playingCards [debut + deck.Cards [i].deckOrder].GetComponentInChildren<PlayingCardController>().setTile(new Tile(deck.Cards [i].deckOrder + 1, hauteur), tiles [deck.Cards [i].deckOrder + 1, hauteur].GetComponent<TileController>().tileView.tileVM.position, !isFirstP);
+//			this.playingCards [debut + deck.Cards [i].deckOrder].GetComponentInChildren<PlayingCardController>().resize();
+//			this.tiles [deck.Cards [i].deckOrder + 1, hauteur].GetComponent<TileController>().characterID = debut + deck.Cards [i].deckOrder;
+//			this.playingCards [debut + deck.Cards [i].deckOrder].GetComponentInChildren<PlayingCardController>().show();
+//			compteur++;
+//		}
+//		if (this.isTutorialLaunched && !isFirstP)
+//		{
+//			this.disableAllCharacters();
+//		}
 		yield break;
 	}
 
@@ -1615,7 +1536,7 @@ public class GameController : Photon.MonoBehaviour
 		if (isTutorialLaunched)
 		{
 			photonView.RPC("playerReadyRPC", PhotonTargets.AllBuffered, !this.isFirstPlayer);
-			this.tutorial.GetComponent<GameTutorialController>().actionIsDone();
+			//this.tutorial.GetComponent<GameTutorialController>().actionIsDone();
 		}
 	}
 
@@ -1624,7 +1545,7 @@ public class GameController : Photon.MonoBehaviour
 		if (this.isFirstPlayer)
 		{
 			this.sortAllCards();
-			photonView.RPC("timeRunsOut", PhotonTargets.AllBuffered, timerTurn);
+			photonView.RPC("timeRunsOut", PhotonTargets.AllBuffered, this.timePerTurn);
 			this.findNextPlayer();
 		}
 		
@@ -1632,75 +1553,75 @@ public class GameController : Photon.MonoBehaviour
 	
 	public void reloadDestinationTiles()
 	{
-		if (this.isFirstPlayer == (currentPlayingCard < limitCharacterSide))
-		{
-			resetDestinations();
-			this.playingCards [currentPlayingCard].GetComponentInChildren<PlayingCardController>().tile.setNeighbours(this.getCharacterTilesArray(), this.playingCards [currentPlayingCard].GetComponentInChildren<PlayingCardController>().card.GetMove());
-			this.setDestinations(currentPlayingCard);
-		}
+//		if (this.isFirstPlayer == (currentPlayingCard < limitCharacterSide))
+//		{
+//			resetDestinations();
+//			//this.playingCards [currentPlayingCard].GetComponentInChildren<PlayingCardController>().tile.setNeighbours(this.getCharacterTilesArray(), this.playingCards [currentPlayingCard].GetComponentInChildren<PlayingCardController>().card.GetMove());
+//			this.setDestinations(currentPlayingCard);
+//		}
 	}
 	
 	[RPC]
 	public void playerReadyRPC(bool isFirst)
 	{
-		if (isFirst == this.isFirstPlayer)
-		{
-			//this.gameView.gameScreenVM.startMyPlayer();
-		} else
-		{
-			//this.gameView.gameScreenVM.startOtherPlayer();
-		}
-
-		if (this.isFirstPlayer)
-		{
-			for (int i = 0; i < this.nbFreeStartRows; i++)
-			{
-				for (int j = 0; j < this.boardWidth; j++)
-				{
-					this.tiles [j, i].GetComponent<TileController>().setDestination(true);
-				}
-			}
-		} else
-		{
-			for (int i = this.boardHeight-1; i > this.boardHeight-1-this.nbFreeStartRows; i--)
-			{
-				for (int j = 0; j < this.boardWidth; j++)
-				{
-					this.tiles [j, i].GetComponent<TileController>().setDestination(true);
-				}
-			}
-		}
-		
-		nbPlayersReadyToFight++;
-		
-		if (nbPlayersReadyToFight == 2)
-		{
-			//this.gameView.gameScreenVM.toDisplayStartWindows = false;
-			//this.displayPopUpMessage("Le combat commence", 2);
-			this.resetDestinations();	
-			this.nbTurns = 1;
-			
-			if (this.currentPlayingCard != -1)
-			{
-				this.hideActivatedPlayingCard();
-			}
-			
-			if (this.isFirstPlayer)
-			{
-				this.StartFight();
-			}
-			
-			int debut = 0;
-			if (this.isFirstPlayer)
-			{
-				debut = this.limitCharacterSide;
-			}
-			
-			for (int i = debut; i < debut+limitCharacterSide; i++)
-			{
-				this.playingCards [i].GetComponentInChildren<PlayingCardController>().showDisplay();
-			}
-		}
+//		if (isFirst == this.isFirstPlayer)
+//		{
+//			//this.gameView.gameScreenVM.startMyPlayer();
+//		} else
+//		{
+//			//this.gameView.gameScreenVM.startOtherPlayer();
+//		}
+//
+//		if (this.isFirstPlayer)
+//		{
+//			for (int i = 0; i < this.nbFreeStartRows; i++)
+//			{
+//				for (int j = 0; j < this.boardWidth; j++)
+//				{
+//					this.tiles [j, i].GetComponent<TileController>().setDestination(true);
+//				}
+//			}
+//		} else
+//		{
+//			for (int i = this.boardHeight-1; i > this.boardHeight-1-this.nbFreeStartRows; i--)
+//			{
+//				for (int j = 0; j < this.boardWidth; j++)
+//				{
+//					this.tiles [j, i].GetComponent<TileController>().setDestination(true);
+//				}
+//			}
+//		}
+//		
+//		nbPlayersReadyToFight++;
+//		
+//		if (nbPlayersReadyToFight == 2)
+//		{
+//			//this.gameView.gameScreenVM.toDisplayStartWindows = false;
+//			//this.displayPopUpMessage("Le combat commence", 2);
+//			this.resetDestinations();	
+//			this.nbTurns = 1;
+//			
+//			if (this.currentPlayingCard != -1)
+//			{
+//				this.hideActivatedPlayingCard();
+//			}
+//			
+//			if (this.isFirstPlayer)
+//			{
+//				this.StartFight();
+//			}
+//			
+//			int debut = 0;
+//			if (this.isFirstPlayer)
+//			{
+//				debut = this.limitCharacterSide;
+//			}
+//			
+//			for (int i = debut; i < debut+limitCharacterSide; i++)
+//			{
+//				this.playingCards [i].GetComponentInChildren<PlayingCardController>().showDisplay();
+//			}
+//		}
 	}
 
 	public void reloadSortedList()
@@ -1715,110 +1636,110 @@ public class GameController : Photon.MonoBehaviour
 
 	public void sortAllCards()
 	{
-		List <int> cardsToRank = new List<int>();
-		List <int> quicknessesToRank = new List<int>();
-		int indexToRank;
-
-		for (int i = 0; i < playingCards.Length; i++)
-		{
-			cardsToRank.Add(i);	
-			print(i);
-			quicknessesToRank.Add(this.playingCards [i].GetComponentInChildren<PlayingCardController>().card.GetSpeed());
-		}
-		for (int i = 0; i < playingCards.Length; i++)
-		{
-			indexToRank = this.FindMaxQuicknessIndex(quicknessesToRank);
-			print("j'add " + cardsToRank [indexToRank] + " au rang " + i + " avec la vitesse " + quicknessesToRank [indexToRank]);
-
-			quicknessesToRank.RemoveAt(indexToRank);
-			photonView.RPC("addRankedCharacter", PhotonTargets.AllBuffered, cardsToRank [indexToRank], i);
-			cardsToRank.RemoveAt(indexToRank);
-		}
+//		List <int> cardsToRank = new List<int>();
+//		List <int> quicknessesToRank = new List<int>();
+//		int indexToRank;
+//
+//		for (int i = 0; i < playingCards.Length; i++)
+//		{
+//			cardsToRank.Add(i);	
+//			print(i);
+//			quicknessesToRank.Add(this.playingCards [i].GetComponentInChildren<PlayingCardController>().card.GetSpeed());
+//		}
+//		for (int i = 0; i < playingCards.Length; i++)
+//		{
+//			indexToRank = this.FindMaxQuicknessIndex(quicknessesToRank);
+//			print("j'add " + cardsToRank [indexToRank] + " au rang " + i + " avec la vitesse " + quicknessesToRank [indexToRank]);
+//
+//			quicknessesToRank.RemoveAt(indexToRank);
+//			photonView.RPC("addRankedCharacter", PhotonTargets.AllBuffered, cardsToRank [indexToRank], i);
+//			cardsToRank.RemoveAt(indexToRank);
+//		}
 	}
 	
 	public void rankNext(int idToRank)
 	{
-		int i = 0;
-		int rankPlayingCard = -1;
-		int rankCardToRank = -1;
-		while (i<this.playingCards.Length && (rankPlayingCard==-1||rankCardToRank==-1))
-		{
-			if (this.rankedPlayingCardsID [i] == this.currentPlayingCard)
-			{
-				rankPlayingCard = i;
-			}
-			if (this.rankedPlayingCardsID [i] == idToRank)
-			{
-				rankCardToRank = i;
-			}
-			i++;
-		}
-		
-		
-		int compteur = 0;
-		int[] tempRank = new int[this.playingCards.Length];
-		for (int j = 0; j < this.playingCards.Length; j++)
-		{
-			if (j != rankCardToRank)
-			{
-				tempRank [compteur] = this.rankedPlayingCardsID [j];
-				print("J'ajoute en position " + compteur + " : " + this.rankedPlayingCardsID [j]);
-				compteur++;
-			}
-			if (j == rankPlayingCard)
-			{
-				tempRank [compteur] = idToRank;
-				print("J'ajoute en position " + compteur + " : " + idToRank);
-				compteur++;
-			}
-		}
-		for (int j = 0; j < this.playingCards.Length; j++)
-		{
-			print("New " + j + " : " + tempRank [j]);
-			this.rankedPlayingCardsID [j] = tempRank [j];
-		}
-		this.getPCC(idToRank).hasPlayed = false;
+//		int i = 0;
+//		int rankPlayingCard = -1;
+//		int rankCardToRank = -1;
+//		while (i<this.playingCards.Length && (rankPlayingCard==-1||rankCardToRank==-1))
+//		{
+//			if (this.rankedPlayingCardsID [i] == this.currentPlayingCard)
+//			{
+//				rankPlayingCard = i;
+//			}
+//			if (this.rankedPlayingCardsID [i] == idToRank)
+//			{
+//				rankCardToRank = i;
+//			}
+//			i++;
+//		}
+//		
+//		
+//		int compteur = 0;
+//		int[] tempRank = new int[this.playingCards.Length];
+//		for (int j = 0; j < this.playingCards.Length; j++)
+//		{
+//			if (j != rankCardToRank)
+//			{
+//				tempRank [compteur] = this.rankedPlayingCardsID [j];
+//				print("J'ajoute en position " + compteur + " : " + this.rankedPlayingCardsID [j]);
+//				compteur++;
+//			}
+//			if (j == rankPlayingCard)
+//			{
+//				tempRank [compteur] = idToRank;
+//				print("J'ajoute en position " + compteur + " : " + idToRank);
+//				compteur++;
+//			}
+//		}
+//		for (int j = 0; j < this.playingCards.Length; j++)
+//		{
+//			print("New " + j + " : " + tempRank [j]);
+//			this.rankedPlayingCardsID [j] = tempRank [j];
+//		}
+//		this.getPCC(idToRank).hasPlayed = false;
 	}
 	
 	public void rankBefore(int idToRank)
 	{
-		int i = 0;
-		int rankPlayingCard = -1;
-		int rankCardToRank = -1;
-		while (i<this.playingCards.Length && (rankPlayingCard==-1||rankCardToRank==-1))
-		{
-			if (this.rankedPlayingCardsID [i] == this.currentPlayingCard)
-			{
-				rankPlayingCard = i;
-			}
-			if (this.rankedPlayingCardsID [i] == idToRank)
-			{
-				rankCardToRank = i;
-			}
-			i++;
-		}
-		
-		int compteur = 0;
-		int[] tempRank = new int[this.playingCards.Length];
-		for (int j = 0; j < this.playingCards.Length; j++)
-		{
-			if (j == rankPlayingCard)
-			{
-				tempRank [compteur] = idToRank;
-				compteur++;
-			}
-			if (j != rankCardToRank)
-			{
-				tempRank [compteur] = this.rankedPlayingCardsID [j];
-				compteur++;
-			}
-		}
-		for (int j = 0; j < this.playingCards.Length; j++)
-		{
-			print("New " + j + " : " + tempRank [j]);
-			this.rankedPlayingCardsID [j] = tempRank [j];
-		}
-		this.getPCC(idToRank).hasPlayed = true;
+//		int i = 0;
+//		int rankPlayingCard = -1;
+//		int rankCardToRank = -1;
+//		while (i<this.playingCards.Length && (rankPlayingCard==-1||rankCardToRank==-1))
+//		{
+//			if (this.rankedPlayingCardsID [i] == this.currentPlayingCard)
+//			{
+//				rankPlayingCard = i;
+//			}
+//			if (this.rankedPlayingCardsID [i] == idToRank)
+//			{
+//				rankCardToRank = i;
+//			}
+//			i++;
+//		}
+//		
+//		int compteur = 0;
+//		int[] tempRank = new int[this.playingCards.Length];
+//		for (int j = 0; j < this.playingCards.Length; j++)
+//		{
+//			if (j == rankPlayingCard)
+//			{
+//				tempRank [compteur] = idToRank;
+//				compteur++;
+//			}
+//			if (j != rankCardToRank)
+//			{
+//				tempRank [compteur] = this.rankedPlayingCardsID [j];
+//				compteur++;
+//			}
+//		}
+//		for (int j = 0; j < this.playingCards.Length; j++)
+//		{
+//			print("New " + j + " : " + tempRank [j]);
+//			this.rankedPlayingCardsID [j] = tempRank [j];
+//		}
+//		this.getPCC(idToRank).hasPlayed = true;
 	}
 
 	public int FindMaxQuicknessIndex(List<int> list)
@@ -1843,11 +1764,11 @@ public class GameController : Photon.MonoBehaviour
 	[RPC]
 	public void addRankedCharacter(int id, int rank)
 	{
-		if (rank == 0)
-		{
-			this.rankedPlayingCardsID = new int[playingCards.Length];
-		}
-		this.rankedPlayingCardsID [rank] = id;
+//		if (rank == 0)
+//		{
+//			this.rankedPlayingCardsID = new int[playingCards.Length];
+//		}
+//		this.rankedPlayingCardsID [rank] = id;
 //		if (rank == playingCards.Length - 1 && !gameEventInitialized)
 //		{
 //			initGameEvents();
@@ -1857,52 +1778,53 @@ public class GameController : Photon.MonoBehaviour
 	[RPC]
 	public IEnumerator moveCharacterRPC(int x, int y, int c, bool isFirstP, bool isSwap)
 	{
-		if (!this.isFirstPlayer)
-		{
-			while (!this.bothPlayerLoaded)
-			{
-				print("J'attends");
-				yield return new WaitForSeconds(1);
-			}
-		}
-		
-		if (nbTurns > 0)
-		{
-			addGameEvent(new MovementType(), "");
-		}
-		
-		if (!isSwap)
-		{
-			this.tiles [this.playingCards [c].GetComponentInChildren<PlayingCardController>().tile.x, this.playingCards [c].GetComponentInChildren<PlayingCardController>().tile.y].GetComponent<TileController>().characterID = -1;
-		}
-
-		getTile(x, y).characterID = c;
-		getTile(x, y).statModifierActive = true;
-
-		getPCC(c).changeTile(new Tile(x, y), getTile(x, y).getPosition());
-		getPCC(c).card.TileModifiers.Clear();
-		loadTileModifierToCharacter(x, y, false);
-
-		if (this.isFirstPlayer == isFirstP && nbTurns != 0)
-		{
-			this.playingCards [currentPlayingCard].GetComponentInChildren<PlayingCardController>().tile.setNeighbours(this.getCharacterTilesArray(), this.playingCards [this.currentPlayingCard].GetComponentInChildren<PlayingCardController>().card.GetMove());
-			//this.isDragging = false;
-			this.resetDestinations();
-//			if (this.clickedPlayingCard != this.currentPlayingCard)
+//		if (!this.isFirstPlayer)
+//		{
+//			while (!this.bothPlayerLoaded)
 //			{
-//				this.showMyPlayingSkills(this.currentPlayingCard);
-//			} else
-//			{
-//				this.updateStatusMySkills(this.currentPlayingCard);
+//				print("J'attends");
+//				yield return new WaitForSeconds(1);
 //			}
-//			this.tiles [x, y].GetComponentInChildren<TileController>().checkTrap(this.currentPlayingCard);
-//			if (this.playindCardHasPlayed)
-//			{
-//				this.gameskills [1].launch();
-//			}
-		}
-		
-		//playingCardHasMoved = true;
+//		}
+//		
+//		if (nbTurns > 0)
+//		{
+//			addGameEvent(new MovementType(), "");
+//		}
+//		
+//		if (!isSwap)
+//		{
+//			this.tiles [this.playingCards [c].GetComponentInChildren<PlayingCardController>().tile.x, this.playingCards [c].GetComponentInChildren<PlayingCardController>().tile.y].GetComponent<TileController>().characterID = -1;
+//		}
+//
+//		getTile(x, y).characterID = c;
+//		getTile(x, y).statModifierActive = true;
+//
+//		getPCC(c).changeTile(new Tile(x, y), getTile(x, y).getPosition());
+//		getPCC(c).card.TileModifiers.Clear();
+//		loadTileModifierToCharacter(x, y, false);
+//
+//		if (this.isFirstPlayer == isFirstP && nbTurns != 0)
+//		{
+//			this.playingCards [currentPlayingCard].GetComponentInChildren<PlayingCardController>().tile.setNeighbours(this.getCharacterTilesArray(), this.playingCards [this.currentPlayingCard].GetComponentInChildren<PlayingCardController>().card.GetMove());
+//			//this.isDragging = false;
+//			this.resetDestinations();
+////			if (this.clickedPlayingCard != this.currentPlayingCard)
+////			{
+////				this.showMyPlayingSkills(this.currentPlayingCard);
+////			} else
+////			{
+////				this.updateStatusMySkills(this.currentPlayingCard);
+////			}
+////			this.tiles [x, y].GetComponentInChildren<TileController>().checkTrap(this.currentPlayingCard);
+////			if (this.playindCardHasPlayed)
+////			{
+////				this.gameskills [1].launch();
+////			}
+//		}
+//		
+//		//playingCardHasMoved = true;
+	yield break ;
 	}
 
 	[RPC]
@@ -1946,7 +1868,7 @@ public class GameController : Photon.MonoBehaviour
 	
 	void OnJoinedRoom()
 	{
-		Debug.Log("Connected to a room");
+		Debug.Log("Connecté à Photon");
 		if (!isReconnecting)
 		{
 			photonView.RPC("AddPlayerToList", PhotonTargets.AllBuffered, PhotonNetwork.player.ID, ApplicationModel.username);
@@ -1957,8 +1879,9 @@ public class GameController : Photon.MonoBehaviour
 		} 
 		else
 		{
-			Debug.Log("Reconnecting...");
+			Debug.Log("Mode reconnection");
 		}
+		GameView.instance.createBackground();		
 	}
 	
 	void OnDisconnectedFromPhoton()
@@ -1996,26 +1919,26 @@ public class GameController : Photon.MonoBehaviour
 	[RPC]
 	public void quitGameRPC(bool isFirstP)
 	{
-		//gameView.gameScreenVM.toDisplayGameScreen = false;
-		for (int i = 0; i < this.playingCards.Length; i++)
-		{
-			this.playingCards [i].SetActive(false);	
-		}
-		for (int i = 0; i < 6; i++)
-		{
-//			this.skillsObjects [i].SetActive(false);
-//			this.opponentSkillsObjects [i].SetActive(false);
-		}
-		
-		if (isFirstP == this.isFirstPlayer)
-		{
-			//print("J'ai perdu comme un gros con");
-			EndSceneController.instance.displayEndScene(false);
-		} else
-		{
-			//print("Mon adversaire a lachement abandonné comme une merde");
-			EndSceneController.instance.displayEndScene(true);
-		}
+//		//gameView.gameScreenVM.toDisplayGameScreen = false;
+//		for (int i = 0; i < this.playingCards.Length; i++)
+//		{
+//			this.playingCards [i].SetActive(false);	
+//		}
+//		for (int i = 0; i < 6; i++)
+//		{
+////			this.skillsObjects [i].SetActive(false);
+////			this.opponentSkillsObjects [i].SetActive(false);
+//		}
+//		
+//		if (isFirstP == this.isFirstPlayer)
+//		{
+//			//print("J'ai perdu comme un gros con");
+//			EndSceneController.instance.displayEndScene(false);
+//		} else
+//		{
+//			//print("Mon adversaire a lachement abandonné comme une merde");
+//			EndSceneController.instance.displayEndScene(true);
+//		}
 	}
 
 	public void addGameEvent(GameEventType type, string targetName)
@@ -2104,29 +2027,29 @@ public class GameController : Photon.MonoBehaviour
 	[RPC]
 	public void reloadTimeline()
 	{
-		bool findCharactersHaveNoAlreadyPlayed = false;
-		//nextCharacterPositionTimeline = 0;
-		for (int i = 4; i >= 0; i--)
-		{
-			int rankedPlayingCardID = 0;
-			bool nextChara = true;
-			while (nextChara)
-			{
-				//rankedPlayingCardID = rankedPlayingCardsID [nextCharacterPositionTimeline];
-				PlayingCardController pcc = this.playingCards [rankedPlayingCardID] .GetComponentInChildren<PlayingCardController>();
-				
-				if (!pcc.isDead && (!pcc.hasPlayed && !findCharactersHaveNoAlreadyPlayed || findCharactersHaveNoAlreadyPlayed) && rankedPlayingCardID != currentPlayingCard)
-				{
-					nextChara = false;
-				}
-//				if (++nextCharacterPositionTimeline > playingCards.Length - 1)
+//		bool findCharactersHaveNoAlreadyPlayed = false;
+//		//nextCharacterPositionTimeline = 0;
+//		for (int i = 4; i >= 0; i--)
+//		{
+//			int rankedPlayingCardID = 0;
+//			bool nextChara = true;
+//			while (nextChara)
+//			{
+//				//rankedPlayingCardID = rankedPlayingCardsID [nextCharacterPositionTimeline];
+//				PlayingCardController pcc = this.playingCards [rankedPlayingCardID] .GetComponentInChildren<PlayingCardController>();
+//				
+//				if (!pcc.isDead && (!pcc.hasPlayed && !findCharactersHaveNoAlreadyPlayed || findCharactersHaveNoAlreadyPlayed) && rankedPlayingCardID != currentPlayingCard)
 //				{
-//					nextCharacterPositionTimeline = 0;
-//					findCharactersHaveNoAlreadyPlayed = true;
+//					nextChara = false;
 //				}
-			}
-			addCardEvent(rankedPlayingCardID, i);
-		}
+////				if (++nextCharacterPositionTimeline > playingCards.Length - 1)
+////				{
+////					nextCharacterPositionTimeline = 0;
+////					findCharactersHaveNoAlreadyPlayed = true;
+////				}
+//			}
+//			addCardEvent(rankedPlayingCardID, i);
+//		}
 
 	}
 
@@ -2210,7 +2133,8 @@ public class GameController : Photon.MonoBehaviour
 	
 	public Card getCurrentCard()
 	{
-		return this.playingCards [this.currentPlayingCard].GetComponent<PlayingCardController>().card;
+		//return this.playingCards [this.currentPlayingCard].GetComponent<PlayingCardController>().card;
+		return new Card();
 	}
 
 	void changeGameEvents()
@@ -2260,79 +2184,11 @@ public class GameController : Photon.MonoBehaviour
 
 	int isThisCharacterMine(int id)
 	{
-		return (isFirstPlayer == (id < limitCharacterSide)) ? 1 : -1;
+		//return (isFirstPlayer == (id < limitCharacterSide)) ? 1 : -1;
+		return 0 ;
 	}
 
-	void initSkills()
-	{
-		this.gameskills = new GameSkill[66];
-		this.gameskills [0] = new Attack();
-		this.gameskills [1] = new Pass();
-		this.gameskills [2] = new GameSkill();
-		this.gameskills [3] = new Celerite();
-		this.gameskills [4] = new Apathie();
-		this.gameskills [5] = new Renforcement();
-		this.gameskills [6] = new Sape();
-		this.gameskills [7] = new Lenteur();
-		this.gameskills [8] = new Rapidite();
-		this.gameskills [9] = new Dissipation();
-		this.gameskills [10] = new TirALarc();
-		this.gameskills [11] = new Furtivite();
-		this.gameskills [12] = new Assassinat();
-		this.gameskills [13] = new AttaquePrecise();
-		this.gameskills [14] = new AttaqueRapide();
-		this.gameskills [15] = new PiegeALoups();
-		this.gameskills [16] = new Agilite();
-		this.gameskills [17] = new CoupeJambes();
-		this.gameskills [18] = new AttaqueFrontale();
-		this.gameskills [19] = new AttaqueCirculaire();
-		this.gameskills [20] = new Frenesie();
-		this.gameskills [21] = new Rugissement();
-		this.gameskills [22] = new Terreur();
-		this.gameskills [23] = new SacrificeTribal();
-		this.gameskills [24] = new RayonEnergie();
-		this.gameskills [25] = new BouleEnergie();
-		this.gameskills [26] = new TempeteEnergie();
-		this.gameskills [27] = new EnergieQuantique();
-		this.gameskills [28] = new PuissanceIncontrolable();
-		this.gameskills [29] = new Concentration();
-		this.gameskills [30] = new ImplosionEnergie();
-		this.gameskills [31] = new GameSkill();
-		this.gameskills [32] = new GameSkill();
-		this.gameskills [33] = new GameSkill();
-		this.gameskills [34] = new GameSkill();
-		this.gameskills [35] = new Reparation();
-		this.gameskills [36] = new RobotSpecialise();
-		this.gameskills [37] = new Virus();
-		this.gameskills [38] = new GameSkill();
-		this.gameskills [39] = new GameSkill();
-		this.gameskills [40] = new GameSkill();
-		this.gameskills [41] = new Bouclier();
-		this.gameskills [42] = new TempleSacre();
-		this.gameskills [43] = new ForetDeLianes();
-		this.gameskills [44] = new SablesMouvants();
-		this.gameskills [45] = new GameSkill();
-		this.gameskills [46] = new FontaineDeJouvence();
-		this.gameskills [47] = new Loup();
-		this.gameskills [48] = new Resurrection();
-		this.gameskills [49] = new Vampire();
-		this.gameskills [50] = new Grizzly();
-		this.gameskills [51] = new AppositionDesMains();
-		this.gameskills [52] = new Guerison();
-		this.gameskills [53] = new EauBenite();
-		this.gameskills [54] = new GameSkill();
-		this.gameskills [55] = new GameSkill();
-		this.gameskills [56] = new GameSkill();
-		this.gameskills [57] = new GameSkill();
-		this.gameskills [58] = new ArmeEnchantee();
-		this.gameskills [59] = new ArmeMaudite();
-		this.gameskills [60] = new PiegeAffaiblissant();
-		this.gameskills [61] = new PiegeDormeur();
-		this.gameskills [62] = new GameSkill();
-		this.gameskills [63] = new GameSkill();
-		this.gameskills [64] = new GameSkill();
-		this.gameskills [65] = new FrappeBrute();
-	}
+	
 
 	public void spawnMinion(string minionName, int targetX, int targetY, int amount, bool isFirstP)
 	{
@@ -2342,77 +2198,81 @@ public class GameController : Photon.MonoBehaviour
 	[RPC]
 	public void spawnMinion(bool isFirstP, string minionName, int targetX, int targetY, int amount)
 	{
-		//addGameEvent(new SkillType(getCurrentSkill().Action), "");
-		GameObject[] temp = new GameObject[playingCards.Length + 1];
-		int position;
-		if (isFirstP)
-		{
-			for (int i = 0; i < limitCharacterSide; i++)
-			{
-				temp [i] = playingCards [i];
-			}
-			for (int i = limitCharacterSide + 1; i < temp.Length; i++)
-			{
-				temp [i] = playingCards [i - 1];
-				PlayingCardController pcctemp = playingCards [i - 1].GetComponent<PlayingCardController>();
-				getTile(pcctemp.tile.x, pcctemp.tile.y).characterID = i;
-			}
-			position = limitCharacterSide;
-			limitCharacterSide++;
-		} else
-		{
-			for (int i = 0; i < playingCards.Length; i++)
-			{
-				temp [i] = playingCards [i];
-			}
-			position = playingCards.Length;
-		}
-
-		playingCards = temp;
-		//this.playingCards [position] = (GameObject)Instantiate(this.playingCard);
-		PlayingCardController pccTemp = this.playingCards [position].GetComponentInChildren<PlayingCardController>();
-		pccTemp.setStyles(isFirstP == this.isFirstPlayer);
-		Card minion;
-		switch (minionName)
-		{
-			case "Grizzly": 
-				minion = new Card(0, minionName, 60, 10, 50, 2, amount, new List<Skill>());
-				break;
-			case "Loup": 
-				minion = new Card(0, minionName, 40, 11, 100, 5, amount, new List<Skill>());
-				break;
-			default:
-				minion = new Card();
-				break;
-		}
-		
-		pccTemp.setCard(minion);
-		pccTemp.setIDCharacter(position);
-		pccTemp.setTile(new Tile(targetX, targetY), tiles [targetX, targetY].GetComponent<TileController>().tileView.tileVM.position, !isFirstP);
-		pccTemp.resize();
-		this.tiles [targetX, targetY].GetComponent<TileController>().characterID = position;
-		pccTemp.show();
-		reloadSortedList();
+//		//addGameEvent(new SkillType(getCurrentSkill().Action), "");
+//		GameObject[] temp = new GameObject[playingCards.Length + 1];
+//		int position;
+//		if (isFirstP)
+//		{
+//			for (int i = 0; i < limitCharacterSide; i++)
+//			{
+//				temp [i] = playingCards [i];
+//			}
+//			for (int i = limitCharacterSide + 1; i < temp.Length; i++)
+//			{
+//				temp [i] = playingCards [i - 1];
+//				PlayingCardController pcctemp = playingCards [i - 1].GetComponent<PlayingCardController>();
+//				getTile(pcctemp.tile.x, pcctemp.tile.y).characterID = i;
+//			}
+//			position = limitCharacterSide;
+//			limitCharacterSide++;
+//		} else
+//		{
+//			for (int i = 0; i < playingCards.Length; i++)
+//			{
+//				temp [i] = playingCards [i];
+//			}
+//			position = playingCards.Length;
+//		}
+//
+//		playingCards = temp;
+//		//this.playingCards [position] = (GameObject)Instantiate(this.playingCard);
+//		PlayingCardController pccTemp = this.playingCards [position].GetComponentInChildren<PlayingCardController>();
+//		pccTemp.setStyles(isFirstP == this.isFirstPlayer);
+//		Card minion;
+//		switch (minionName)
+//		{
+//			case "Grizzly": 
+//				minion = new Card(0, minionName, 60, 10, 50, 2, amount, new List<Skill>());
+//				break;
+//			case "Loup": 
+//				minion = new Card(0, minionName, 40, 11, 100, 5, amount, new List<Skill>());
+//				break;
+//			default:
+//				minion = new Card();
+//				break;
+//		}
+//		
+//		pccTemp.setCard(minion);
+//		pccTemp.setIDCharacter(position);
+//		pccTemp.setTile(new Tile(targetX, targetY), tiles [targetX, targetY].GetComponent<TileController>().tileView.tileVM.position, !isFirstP);
+//		pccTemp.resize();
+//		this.tiles [targetX, targetY].GetComponent<TileController>().characterID = position;
+//		pccTemp.show();
+//		reloadSortedList();
 	}
 
 	public PlayingCardController getCurrentPCC()
 	{
-		return this.playingCards [this.currentPlayingCard].GetComponent<PlayingCardController>();
+		//return this.playingCards [this.currentPlayingCard].GetComponent<PlayingCardController>();
+		return null ;
 	}
 
 	public PlayingCardController getPCC(int id)
 	{
-		return this.playingCards [id].GetComponent<PlayingCardController>();
+		//return this.playingCards [id].GetComponent<PlayingCardController>();
+		return null;
 	}
 
 	public TileController getTile(int x, int y)
 	{
-		return this.tiles [x, y].GetComponent<TileController>();
+		//return this.tiles [x, y].GetComponent<TileController>();
+		return null;
 	}
 
 	public Card getCard(int id)
 	{
-		return this.playingCards [id].GetComponent<PlayingCardController>().card;
+		//return this.playingCards [id].GetComponent<PlayingCardController>().card;
+		return new Card();
 	}
 
 	public Skill getCurrentSkill()
@@ -2436,7 +2296,7 @@ public class GameController : Photon.MonoBehaviour
 
 	public void reloadCard(int id)
 	{
-		this.playingCards [id].GetComponent<PlayingCardController>().show();
+		//this.playingCards [id].GetComponent<PlayingCardController>().show();
 	}
 
 	public void play()
@@ -2494,34 +2354,34 @@ public class GameController : Photon.MonoBehaviour
 	
 	public void emptyTile(int x, int y)
 	{
-		this.tiles [x, y].GetComponent<TileController>().characterID = -1;
+		//this.tiles [x, y].GetComponent<TileController>().characterID = -1;
 		this.areMyHeroesDead();
 	}
 	
 	public void areMyHeroesDead()
 	{
-		bool areTheyAllDead = true;
-		int debut;
-		int i = 0;
-		if (this.isFirstPlayer)
-		{
-			debut = 0;
-		} else
-		{
-			debut = this.limitCharacterSide;
-		}
-		while (areTheyAllDead && i<limitCharacterSide)
-		{
-			if (!this.getPCC(debut + i).isDead)
-			{
-				areTheyAllDead = false;
-			}
-			i++;
-		}
-		if (areTheyAllDead)
-		{
-			//StartCoroutine(this.quitGame());
-		}
+//		bool areTheyAllDead = true;
+//		int debut;
+//		int i = 0;
+//		if (this.isFirstPlayer)
+//		{
+//			debut = 0;
+//		} else
+//		{
+//			debut = this.limitCharacterSide;
+//		}
+//		while (areTheyAllDead && i<limitCharacterSide)
+//		{
+//			if (!this.getPCC(debut + i).isDead)
+//			{
+//				areTheyAllDead = false;
+//			}
+//			i++;
+//		}
+//		if (areTheyAllDead)
+//		{
+//			//StartCoroutine(this.quitGame());
+//		}
 	}
 	
 	public void addCardModifier(int target, int amount, ModifierType type, ModifierStat stat, int duration, int idIcon, string t, string d, string a)
@@ -2539,19 +2399,19 @@ public class GameController : Photon.MonoBehaviour
 	
 	public void addTileModifier(Tile tile, int amount, ModifierType type, ModifierStat stat, int duration, int idIcon, string t, string d, string a)
 	{ 
-		bool b = true;
-		if (this.currentPlayingCard < this.limitCharacterSide != this.isFirstPlayer)
-		{
-			b = false;
-		}
-		this.tiles [tile.x, tile.y].GetComponent<TileController>().tile.setModifier(amount, type, stat, duration, idIcon, t, d, a, b);
-		this.tiles [tile.x, tile.y].GetComponent<TileController>().show();
+//		bool b = true;
+//		if (this.currentPlayingCard < this.limitCharacterSide != this.isFirstPlayer)
+//		{
+//			b = false;
+//		}
+//		this.tiles [tile.x, tile.y].GetComponent<TileController>().tile.setModifier(amount, type, stat, duration, idIcon, t, d, a, b);
+//		this.tiles [tile.x, tile.y].GetComponent<TileController>().show();
 	}
 	
 	public IEnumerator kill(int target)
 	{
 		yield return new WaitForSeconds(2f);
-		this.tiles [this.getPCC(target).tile.x, this.getPCC(target).tile.x].GetComponent<TileController>().characterID = -1;
+		//this.tiles [this.getPCC(target).tile.x, this.getPCC(target).tile.x].GetComponent<TileController>().characterID = -1;
 		this.getPCC(target).kill();
 	}
 
@@ -2568,40 +2428,40 @@ public class GameController : Photon.MonoBehaviour
 	[RPC]
 	public void addTileModifierRPC(int modifierType, int amount, int tileX, int tileY, bool isFirstP)
 	{
-		int c = getTile(tileX, tileY).characterID;
-		if (c != -1)
-		{
-			getPCC(c).card.TileModifiers.Clear();
-		}
-		switch (modifierType)
-		{
-			case 0:
-				this.tiles [tileX, tileY].GetComponent<TileController>().addTemple(amount);
-				loadTileModifierToCharacter(tileX, tileY, false);
-				break;
-			case 1:
-				TileController tileController1 = this.tiles [tileX, tileY].GetComponent<TileController>();
-				tileController1.addForetIcon(amount);
-				loadTileModifierToCharacter(tileX, tileY, false);
-				foreach (Tile til in tileController1.tile.getImmediateNeighbouringTiles())
-				{
-					this.getTile(til.x, til.y).addForetIcon(amount);
-					loadTileModifierToCharacter(til.x, til.y, false);
-					reloadDestinationTiles();
-				}
-				break;
-			case 2: 
-				getTile(tileX, tileY).addSable((this.isFirstPlayer == isFirstP));
-				loadTileModifierToCharacter(tileX, tileY, false);
-				break;
-			case 3:
-				getTile(tileX, tileY).addFontaine(amount);
-				loadTileModifierToCharacter(tileX, tileY, false);
-				break;
-			default:
-				break;
-		}
-		//addGameEvent(new SkillType(getCurrentSkill().Action), "");
+//		int c = getTile(tileX, tileY).characterID;
+//		if (c != -1)
+//		{
+//			getPCC(c).card.TileModifiers.Clear();
+//		}
+//		switch (modifierType)
+//		{
+//			case 0:
+//				this.tiles [tileX, tileY].GetComponent<TileController>().addTemple(amount);
+//				loadTileModifierToCharacter(tileX, tileY, false);
+//				break;
+//			case 1:
+//				TileController tileController1 = this.tiles [tileX, tileY].GetComponent<TileController>();
+//				tileController1.addForetIcon(amount);
+//				loadTileModifierToCharacter(tileX, tileY, false);
+//				foreach (Tile til in tileController1.tile.getImmediateNeighbouringTiles())
+//				{
+//					this.getTile(til.x, til.y).addForetIcon(amount);
+//					loadTileModifierToCharacter(til.x, til.y, false);
+//					reloadDestinationTiles();
+//				}
+//				break;
+//			case 2: 
+//				getTile(tileX, tileY).addSable((this.isFirstPlayer == isFirstP));
+//				loadTileModifierToCharacter(tileX, tileY, false);
+//				break;
+//			case 3:
+//				getTile(tileX, tileY).addFontaine(amount);
+//				loadTileModifierToCharacter(tileX, tileY, false);
+//				break;
+//			default:
+//				break;
+//		}
+//		//addGameEvent(new SkillType(getCurrentSkill().Action), "");
 	}
 
 	[RPC]
@@ -2629,7 +2489,7 @@ public class GameController : Photon.MonoBehaviour
 	public void reliveRPC(int id, int x, int y, bool isFirstP)
 	{
 		PlayingCardController pcc = GameController.instance.getPCC(id).GetComponent<PlayingCardController>();
-		pcc.setTile(new Tile(x, y), getTile(x, y).GetComponent<TileController>().tileView.tileVM.position, (id < limitCharacterSide) != isFirstP);
+		//pcc.setTile(new Tile(x, y), getTile(x, y).GetComponent<TileController>().tileView.tileVM.position, (id < limitCharacterSide) != isFirstP);
 		pcc.card.Life = 1;
 		pcc.relive();
 		pcc.show();
@@ -2685,7 +2545,8 @@ public class GameController : Photon.MonoBehaviour
 	
 	public GameSkill getCurrentGameSkill()
 	{
-		return this.gameskills [this.getCurrentSkillID()];
+		//return this.gameskills [this.getCurrentSkillID()];
+		return null;
 	}
 	
 	public void applyOn()
@@ -2751,7 +2612,7 @@ public class GameController : Photon.MonoBehaviour
 	[RPC]
 	public void activateTrapRPC(int idSkill, int[] targets, int[] args)
 	{
-		this.gameskills [idSkill].activateTrap(targets, args);
+		//this.gameskills [idSkill].activateTrap(targets, args);
 	}
 	
 	public void hideTrap(int[] targets)
@@ -2762,7 +2623,7 @@ public class GameController : Photon.MonoBehaviour
 	[RPC]
 	public void hideTrapRPC(int[] targets)
 	{
-		this.tiles [targets [0], targets [1]].GetComponent<TileController>().hideIcon();
+		//this.tiles [targets [0], targets [1]].GetComponent<TileController>().hideIcon();
 	}
 	
 	public void failedToCastOnSkill(int[] targets, int[] failures)
@@ -2790,32 +2651,33 @@ public class GameController : Photon.MonoBehaviour
 	public int nbMyPlayersAlive()
 	{
 		int compteur = 0;
-		for (int i = 0; i < this.playingCards.Length; i++)
-		{
-			if (!this.getPCC(i).isDead && i != this.currentPlayingCard && this.getPCC(i).isMine)
-			{
-				compteur++;
-			}
-		}
+//		for (int i = 0; i < this.playingCards.Length; i++)
+//		{
+//			if (!this.getPCC(i).isDead && i != this.currentPlayingCard && this.getPCC(i).isMine)
+//			{
+//				compteur++;
+//			}
+//		}
 		return compteur;
 	}
 	
 	public int nbOtherPlayersAlive()
 	{
 		int compteur = 0;
-		for (int i = 0; i < this.playingCards.Length; i++)
-		{
-			if (!this.getPCC(i).isDead && i != this.currentPlayingCard && !this.getPCC(i).isMine)
-			{
-				compteur++;
-			}
-		}
+//		for (int i = 0; i < this.playingCards.Length; i++)
+//		{
+//			if (!this.getPCC(i).isDead && i != this.currentPlayingCard && !this.getPCC(i).isMine)
+//			{
+//				compteur++;
+//			}
+//		}
 		return compteur;
 	}
 	
 	public int getNbPlayingCards()
 	{
-		return (this.playingCards.Length);
+		//return (this.playingCards.Length);
+		return 0;
 	}
 
 	// Méthodes pour le tutoriel
@@ -2833,53 +2695,62 @@ public class GameController : Photon.MonoBehaviour
 	}
 	public void activeSingleCharacter(int index)
 	{
-		this.playingCards [index].GetComponent<PlayingCardController>().hideTargetHalo();
+		//this.playingCards [index].GetComponent<PlayingCardController>().hideTargetHalo();
 	}
 	public void activeTargetingOnCharacter(int index)
 	{
-		this.playingCards [index].GetComponent<PlayingCardController>().setIsDisable(false);
+		//this.playingCards [index].GetComponent<PlayingCardController>().setIsDisable(false);
 	}
 	public void activeAllCharacters()
 	{
-		for (int i=0; i<this.limitCharacterSide; i++)
-		{
-			this.playingCards [i].GetComponent<PlayingCardController>().hideTargetHalo();
-		}
+//		for (int i=0; i<this.limitCharacterSide; i++)
+//		{
+//			//this.playingCards [i].GetComponent<PlayingCardController>().hideTargetHalo();
+//		}
 	}
 	public void disableAllCharacters()
 	{
-		for (int i=0; i<this.playingCards.Length; i++)
-		{
-			this.playingCards [i].GetComponent<PlayingCardController>().setTargetHalo(new HaloTarget(1), true);
-		}
+//		for (int i=0; i<this.playingCards.Length; i++)
+//		{
+//			this.playingCards [i].GetComponent<PlayingCardController>().setTargetHalo(new HaloTarget(1), true);
+//		}
 	}
 	public Vector2 getPlayingCardsPosition(int index)
 	{
-		return this.playingCards [index].GetComponent<PlayingCardController>().getGOScreenPosition(this.playingCards [index]);
+		//return this.playingCards [index].GetComponent<PlayingCardController>().getGOScreenPosition(this.playingCards [index]);
+		return new Vector2();
 	}
+	
 	public Vector2 getPlayingCardsSize(int index)
 	{
-		return this.playingCards [index].GetComponent<PlayingCardController>().getGOScreenSize(this.playingCards [index]);
+		//return this.playingCards [index].GetComponent<PlayingCardController>().getGOScreenSize(this.playingCards [index]);
+		return new Vector2();
 	}
+	
 	public Vector2 getTilesPosition(int x, int y)
 	{
-		return this.tiles [x, y].GetComponent<TileController>().getGOScreenPosition(this.tiles [x, y]);
+		//return this.tiles [x, y].GetComponent<TileController>().getGOScreenPosition(this.tiles [x, y]);
+		return new Vector2();
 	}
+	
 	public Vector2 getTilesSize(int x, int y)
 	{
-		return this.tiles [x, y].GetComponent<TileController>().getGOScreenSize(this.tiles [x, y]);
+		//return this.tiles [x, y].GetComponent<TileController>().getGOScreenSize(this.tiles [x, y]);
+		return new Vector2();
 	}
+	
 	public void setDestination(int x, int y, bool value)
 	{
-		this.tiles [x, y].GetComponent<TileController>().setDestination(value);
+		//this.tiles [x, y].GetComponent<TileController>().setDestination(value);
 	}
+	
 	public void addTileHalo(int x, int y, int haloIndex, bool isHaloDisabled)
 	{
-		this.tiles [x, y].GetComponent<TileController>().setTargetHalo(new HaloTarget(haloIndex), isHaloDisabled);
+		//this.tiles [x, y].GetComponent<TileController>().setTargetHalo(new HaloTarget(haloIndex), isHaloDisabled);
 	}
 	public void hideTileHalo(int x, int y)
 	{
-		this.tiles [x, y].GetComponent<TileController>().hideTargetHalo();
+		//this.tiles [x, y].GetComponent<TileController>().hideTargetHalo();
 	}
 	public void disableAllSkillObjects()
 	{
@@ -2912,13 +2783,13 @@ public class GameController : Photon.MonoBehaviour
 	public void launchSkill(int clickedSkill, List<int> pcc)
 	{
 		//this.clickedSkill = clickedSkill;
-		this.gameskills [getCurrentSkillID()].resolve(pcc);
+		//this.gameskills [getCurrentSkillID()].resolve(pcc);
 	}
 	public void callTutorial()
 	{
 		if (isTutorialLaunched)
 		{
-			this.tutorial.GetComponent<GameTutorialController>().actionIsDone();
+			//this.tutorial.GetComponent<GameTutorialController>().actionIsDone();
 		}
 	}
 	public bool getIsTutorialLaunched()

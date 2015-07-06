@@ -250,7 +250,7 @@ public class PlayingCardController : GameObjectController
 		if(!this.isDisable)
 		{
 			this.playingCardView.playingCardVM.toDisplayHalo = false;
-			GameController.instance.targetPCCHandler.addTargetPCC(this.IDCharacter);
+			//GameController.instance.targetPCCHandler.addTargetPCC(this.IDCharacter);
 		}
 	}
 

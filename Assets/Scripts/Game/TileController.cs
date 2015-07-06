@@ -466,7 +466,7 @@ public class TileController : GameObjectController
 	
 	public void addTileTarget(){
 		this.tileView.tileVM.toDisplayHalo = false;
-		GameController.instance.targetTileHandler.addTargetTile(this.tile);
+		//GameController.instance.targetTileHandler.addTargetTile(this.tile);
 	}
 	
 	public void hideTargetHalo(){

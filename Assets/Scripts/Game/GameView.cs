@@ -1,118 +1,188 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
+using System;
+using System.Collections;
 
 public class GameView : MonoBehaviour
 {
-	public GameViewModel gameVM ;
+	public static GameView instance;
+	
+	public GameObject tileModel ;
+	public GameObject verticalBorderModel;
+	public GameObject horizontalBorderModel;
+	public GameObject backgroundImageModel;
+	public GameObject playingCardModel;
+	public GameObject skillButtonModel;
+	public string[] gameTexts;
+	public GameObject TutorialObject;
+	
+	int boardWidth = 6;
+	int boardHeight = 8;
+	
+	int nbCardsPerPlayer = 4 ;
+	int nbFreeRowsAtBeginning = 2 ;
+	
+	GameObject[,] tiles ;
+	GameObject[] verticalBorders ;
+	GameObject[] horizontalBorders ;
+	GameObject[] playingCards ;
+	GameObject[] skillButtons ;
+	GameObject backgroundImage ;
+	GameObject tutorial;
+	
+	int heightScreen = -1;
+	int widthScreen = -1;
+	
+	float timer;
+	int timerSeconds;
+	
+	float myLifePercentage = 100 ; 
+	float hisLifePercentage = 100 ;
+	
+	AudioSource audioEndTurn;
+	
+	bool isBackgroundLoaded = false ;
+	
 	
 	void Awake()
 	{
-		this.gameVM = new GameViewModel();
+		instance = this;
+		
+		this.tiles = new GameObject[this.boardWidth, this.boardHeight];
+		this.playingCards = new GameObject[2 * nbCardsPerPlayer];
+		this.verticalBorders = new GameObject[this.boardWidth+1];
+		this.horizontalBorders = new GameObject[this.boardHeight+1];
+		this.timer = 0;
+		
+		this.audioEndTurn = GetComponent<AudioSource>();
 	}
-
+	
 	void Update()
 	{
-		if (this.gameVM.widthScreen != Screen.width || this.gameVM.heightScreen != Screen.height)
-		{
-			this.gameVM.widthScreen = Screen.width ;
-			this.gameVM.heightScreen = Screen.height ;
-			GameController.instance.resize(this.gameVM.widthScreen, this.gameVM.heightScreen);
-		}
-		
-		if (this.gameVM.timer!=-1)
-		{
-			this.gameVM.timer -= Time.deltaTime;
-			if (this.gameVM.timer<0)
-			{
-				GameController.instance.timeOut();
-			}
-			else{
-				int tempInt = Mathf.FloorToInt(this.gameVM.timer);
-				if(tempInt!=this.gameVM.timerSeconds){
-					this.gameVM.timerSeconds = tempInt;
-					if(tempInt < 10){
-						GameController.instance.playAlarm();
-					}
-				}
+		if (this.widthScreen!=-1){
+			if (this.widthScreen!=-Screen.width){
+				this.resize();
 			}
 		}
 	}
-
-	void OnGUI()
-	{	
-		GUILayout.BeginArea(gameVM.topCenterRect);
+	
+	public void createBackground()
+	{
+		for (int i = 0; i < this.verticalBorders.Length; i++)
 		{
-			GUILayout.BeginVertical();
-			{
-				GUILayout.FlexibleSpace();
-				GUILayout.BeginHorizontal();
-				{
-					if (gameVM.timerSeconds >= 0)
-					{
-						GUILayout.FlexibleSpace();
-						if (gameVM.timerSeconds > 9)
-						{
-							GUILayout.Label(gameVM.timerSeconds.ToString(), gameVM.timerStyle);
-							GUILayout.Label("BLABLABLA", gameVM.timerStyle);
-						}
-						else{
-							GUILayout.Label("0"+gameVM.timerSeconds.ToString(), gameVM.timerStyle);
-						}
-					}
-					GUILayout.FlexibleSpace();
-					if (GUILayout.Button("", gameVM.quitButtonStyle, GUILayout.Height(gameVM.timerStyle.fontSize), GUILayout.Width(gameVM.timerStyle.fontSize)))
-					{
-						GameController.instance.quitGameHandler();
-					}
-					GUILayout.FlexibleSpace();
-				}
-				GUILayout.EndHorizontal();
-				GUILayout.FlexibleSpace();
-			}
-			GUILayout.EndVertical();
+			this.verticalBorders [i] = (GameObject)Instantiate(this.verticalBorderModel);
 		}
-		GUILayout.EndArea();
+		for (int i = 0; i < this.horizontalBorders.Length; i++)
+		{
+			this.horizontalBorders [i] = (GameObject)Instantiate(this.horizontalBorderModel);
+		}
 		
-		if (gameVM.toDisplayStartWindows)
+		GameObject go = GameObject.Find("toDisplay");
+		foreach (Transform child in go.transform)
 		{
-			GUILayout.BeginArea(gameVM.startButtonRect, this.gameVM.startWindowStyle);
-			{
-				GUILayout.BeginVertical();
-				{
-					GUILayout.FlexibleSpace();
-					GUILayout.Label(gameVM.messageStartWindow, gameVM.startWindowTextStyle);
-					if (!this.gameVM.haveIStarted)
-					{
-						GUILayout.BeginHorizontal();
-						{
-							GUILayout.FlexibleSpace();
-							if (GUILayout.Button(gameVM.messageStartWindowButton, gameVM.startButtonTextStyle, GUILayout.Width(gameVM.startButtonRect.width*0.8f)))
-							{
-								GameController.instance.playerReady();
-							}
-							GUILayout.FlexibleSpace();
-						}
-						GUILayout.EndHorizontal();
-					}
-					GUILayout.FlexibleSpace();
-				}
-				GUILayout.EndVertical();
-			}
-			GUILayout.EndArea();
-				
-			GUILayout.BeginArea(gameVM.opponentStartButtonRect, this.gameVM.opponentStartWindowStyle);
-			{
-				GUILayout.BeginVertical();
-				{
-					GUILayout.FlexibleSpace();
-					GUILayout.Label(gameVM.messageOpponentStartWindow, gameVM.opponentStartWindowTextStyle);
-					GUILayout.FlexibleSpace();
-				}
-				GUILayout.EndVertical();
-			}
-			GUILayout.EndArea();
+			child.gameObject.SetActive(true);
 		}
+		
+		this.isBackgroundLoaded = true ;
+		this.resize();
+	}
+	
+	public void resize()
+	{
+		this.widthScreen = Screen.width ;
+		this.heightScreen = Screen.height ;
+		
+		if (this.isBackgroundLoaded){
+			this.resizeBackground();
+		}
+	}
+	
+	public void resizeBackground()
+	{		
+		Vector3 position;
+		float realwidth = 10f*this.widthScreen/this.heightScreen;
+		float tileScale = 8f / this.boardHeight;
+		
+		for (int i = 0; i < this.horizontalBorders.Length; i++)
+		{
+			position = new Vector3(0, -4 + tileScale * i, -1f);
+			this.horizontalBorders [i].transform.localPosition = position;
+			this.horizontalBorders [i].transform.localScale = new Vector3(1,1,1);
+		}
+		
+		for (int i = 0; i < this.verticalBorders.Length; i++)
+		{
+			position = new Vector3((-this.boardWidth/2+i)*tileScale, 0f, -1f);
+			this.verticalBorders [i].transform.localPosition = position;
+			this.verticalBorders [i].transform.localScale = new Vector3(1,1,1);
+		}
+		
+		GameObject llbl = GameObject.Find("LLBLeft");
+		llbl.transform.position = new Vector3(-realwidth/2f+0.25f, 4.5f, 0);
+		
+		GameObject llbr = GameObject.Find("LLBRight");
+		llbr.transform.position = new Vector3(-1.2f, 4.5f, 0);
+		
+		GameObject llbc = GameObject.Find("LLBCenter");
+		llbc.transform.position = new Vector3((llbl.transform.position.x+llbr.transform.position.x)/2f, 4.5f, 0);
+		llbc.transform.localScale = new Vector3((-llbl.transform.position.x+llbr.transform.position.x-0.49f)/10f, 0.5f, 1f);
+		
+		GameObject leb = GameObject.Find("LLBRightEnd");
+		leb.transform.position = new Vector3(-1.2f, 4.5f, 0);
+		
+		GameObject lcb = GameObject.Find("LLBLeftEnd");
+		lcb.transform.position = new Vector3(llbr.transform.position.x-0.5f+this.myLifePercentage*(-llbr.transform.position.x+0.5f+(llbl.transform.position.x+0.1f))/100, 4.5f, 0);
+		
+		GameObject llbb = GameObject.Find("LLBBar");
+		llbb.transform.position = new Vector3((leb.transform.position.x+lcb.transform.position.x)/2f, 4.5f, 0);
+		llbb.transform.localScale = new Vector3((leb.transform.position.x-lcb.transform.position.x-0.49f)/10f, 0.5f, 0.5f);
+		
+		GameObject rlbl = GameObject.Find("RLBLeft");
+		rlbl.transform.position = new Vector3(1.2f, 4.5f, 0);
+		
+		GameObject rlbr = GameObject.Find("RLBRight");
+		rlbr.transform.position = new Vector3(realwidth/2f-0.25f, 4.5f, 0);
+		
+		GameObject rlbc = GameObject.Find("RLBCenter");
+		rlbc.transform.position = new Vector3((rlbl.transform.position.x+rlbr.transform.position.x)/2f, 4.5f, 0);
+		rlbc.transform.localScale = new Vector3((-rlbl.transform.position.x+rlbr.transform.position.x-0.49f)/10f, 0.5f, 0.5f);
+		
+		GameObject reb = GameObject.Find("RLBRightEnd");
+		reb.transform.position = new Vector3(rlbl.transform.position.x+0.5f+this.hisLifePercentage*(-rlbl.transform.position.x-0.5f+(rlbr.transform.position.x-0.1f))/100, 4.5f, 0);
+		
+		GameObject rcb = GameObject.Find("RLBLeftEnd");
+		rcb.transform.position = new Vector3(1.20f, 4.5f, 0);
+		
+		GameObject rlbb = GameObject.Find("RLBBar");
+		rlbb.transform.position = new Vector3((reb.transform.position.x+rcb.transform.position.x)/2f, 4.5f, 0);
+		rlbb.transform.localScale = new Vector3((reb.transform.position.x-rcb.transform.position.x-0.49f)/10f, 0.5f, 0.5f);	
+		
+		GameObject tempGO = GameObject.Find("MyPlayerName");
+		tempGO.transform.position = new Vector3(-0.48f*realwidth,4f,0);
+		tempGO.transform.localScale = new Vector3(0.1f,0.1f,0.1f);
+		tempGO.GetComponent<Renderer>().sortingLayerID = 2 ;
+		
+		if (EndSceneController.instance != null)
+		{
+			EndSceneController.instance.resize();
+		}
+		//if (GameController.instance.isTutorialLaunched)
+		//{
+		//	this.tutorial.GetComponent<GameTutorialController>().resize();
+		//}
+	}
+	
+	public void setMyPlayerName(string s){
+		GameObject tempGO = GameObject.Find("MyPlayerName");
+		tempGO.GetComponent<TextMesh>().text = s ;
+		tempGO.SetActive(true);
+	}
+	
+	public void setHisPlayerName(string s){
+		GameObject tempGO = GameObject.Find("HisPlayerName");
+		tempGO.GetComponent<TextMesh>().text = s ;
+		tempGO.SetActive(true);
 	}
 }
+
 

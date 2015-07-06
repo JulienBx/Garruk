@@ -24,7 +24,8 @@ public class NeighbourTiles
 		{
 			return;
 		}
-		int uidtemp = t.y * GameController.instance.boardWidth + t.x;
+		//int uidtemp = t.y * GameController.instance.boardWidth + t.x;
+		int uidtemp=0;
 		if (UID.ContainsKey(uidtemp))
 		{
 			if (UID [uidtemp] > moveRemaining)
@@ -64,26 +65,26 @@ public class NeighbourTiles
 	public List<Tile> getImmediateNeighbours(int x, int y)
 	{
 		List<Tile> tempTiles = new List<Tile>();
-		int width = GameController.instance.boardWidth;
-		int height = GameController.instance.boardHeight;
-
-		if (x > 0)
-		{
-			tempTiles.Add(new Tile(x - 1, y));
-		}
-		if (x < width - 1)
-		{
-			tempTiles.Add(new Tile(x + 1, y));
-		}
-		if (y > 0)
-		{
-			tempTiles.Add(new Tile(x, y - 1));
-		}
-		if (y < height - 1)
-		{
-			tempTiles.Add(new Tile(x, y + 1));
-		}
-		
+//		int width = GameView.instance.boardWidth;
+//		int height = GameView.instance.boardHeight;
+//
+//		if (x > 0)
+//		{
+//			tempTiles.Add(new Tile(x - 1, y));
+//		}
+//		if (x < width - 1)
+//		{
+//			tempTiles.Add(new Tile(x + 1, y));
+//		}
+//		if (y > 0)
+//		{
+//			tempTiles.Add(new Tile(x, y - 1));
+//		}
+//		if (y < height - 1)
+//		{
+//			tempTiles.Add(new Tile(x, y + 1));
+//		}
+//		
 		return tempTiles;
 	}
 
