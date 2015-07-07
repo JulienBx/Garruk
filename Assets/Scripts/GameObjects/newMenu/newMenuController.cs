@@ -22,30 +22,24 @@ public class newMenuController : MonoBehaviour
 	private float startButtonPosition;
 	private float endButtonPosition;
 	private Vector3 currentButtonPosition;
-
-	private int widthScreen;
-	private int heightScreen;
 	
-	void Start () 
-	{	
+	void Awake()
+	{
 		instance = this;
 		this.speed = 15;
 		this.startButtonPosition = -1.5625f;
-		this.endButtonPosition = -0.65f;
+		this.endButtonPosition = -1f;
 		this.toMoveButtons = false;
 		this.model = new newMenuModel ();
+	}
+	void Start () 
+	{	
 		StartCoroutine (this.initialization());
 	}
 	void Update()
 	{
 		timer += Time.deltaTime;
-		
-		if (Screen.width != this.widthScreen || Screen.height != this.heightScreen) 
-		{
-			this.resizeMeunObject();
-			this.widthScreen=Screen.width;
-			this.heightScreen=Screen.height;
-		}
+
 		if (timer > refreshInterval) 
 		{
 			timer=timer-refreshInterval;
@@ -138,7 +132,6 @@ public class newMenuController : MonoBehaviour
 		ApplicationModel.credits = model.player.Money;
 
 		this.initializeMenuObject ();
-		this.resizeMeunObject ();
 		this.refreshMenuObject ();
 		StartCoroutine (setUsersPicture ());
 	}
@@ -171,11 +164,8 @@ public class newMenuController : MonoBehaviour
 			this.gameObject.transform.FindChild("User").FindChild("Username").localScale=new Vector3(scale,scale,0);
 		}
 	}
-	public void resizeMeunObject()
+	public void resizeMeunObject(float worldHeight, float worldWidth)
 	{
-		float worldHeight = 2f*Camera.main.GetComponent<Camera>().orthographicSize;
-		float worldWidth = ((float)Screen.width/(float)Screen.height) * worldHeight;
-		
 		this.gameObject.transform.position =new Vector3(-worldWidth / 2f + 1.5625f, 0, 0);
 		this.gameObject.transform.Find ("Toolbar").position = new Vector3 (worldWidth / 2f - 0.3665f - 0.2f * (worldHeight / worldWidth), worldHeight / 2f - 0.2f - 0.1805f, 0f);
 	}

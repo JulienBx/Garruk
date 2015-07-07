@@ -1,0 +1,18 @@
+#
+# Sprite sheet data for Unity.
+#
+# To import these sprites into your Unity project, download "TexturePackerImporter":
+# http://www.codeandweb.com/texturepacker/unity
+#
+# Sprite sheet: myGameTextures.png (512 x 1024)
+# $TexturePacker:SmartUpdate:29c44f657e1d381a21e8c5abc1f79988:8a549f511538af89b4ba064980f4dd76:a67fa547e21c155316e596295fdf68c1$
+#
+
+arrowButton;2;146;74;74;0.5;0.5
+buttonBorder;78;885;219;50;0.5;0.5
+corner;328;934;56;56;0.2857142857142857;0.7142857142857143
+cursor;397;944;78;78;0.5;0.5
+filterBar;2;992;393;30;0.5;0.5
+line;477;222;13;800;1.2307692307692308;0.5
+newDeck;2;941;49;49;0.5102040816326531;0.4897959183673469
+searchBar;78;937;248;53;0.5;0.5

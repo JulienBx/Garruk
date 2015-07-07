@@ -1,0 +1,27 @@
+#
+# Sprite sheet data for Unity.
+#
+# To import these sprites into your Unity project, download "TexturePackerImporter":
+# http://www.codeandweb.com/texturepacker/unity
+#
+# Sprite sheet: cardsMediumTextures.png (512 x 1024)
+# $TexturePacker:SmartUpdate:33198d26764abd3ca8a15204269b4396:7683be15e7744d883f2a3fde5a18465d:bf92d2779b6d16d5015d28cd76a98b48$
+#
+
+medium_1star;452;850;43;40;0.5116279069767442;0.475
+medium_2stars;400;892;90;40;0.5;0.525
+medium_3stars;400;934;90;78;0.5;0.47435897435897434
+medium_arrow;440;737;32;31;0.453125;0.532258064516129
+medium_arrowHover;474;737;32;31;0.453125;0.532258064516129
+medium_atkpic;452;810;38;38;0.5;0.5
+medium_cdhalo;2;743;200;279;0.5;0.5
+medium_cdmatblue;204;751;194;271;0.5;0.5
+medium_cdmatgreen;204;478;194;271;0.5;0.5
+medium_cdmatpurple;2;470;194;271;0.5;0.5
+medium_cdmatred;198;205;194;271;0.5;0.5
+medium_cristalblue;400;843;50;47;0.5;0.5106382978723405
+medium_expbackground;400;1019;100;3;0.5;0.5
+medium_expcomplete;400;1014;100;3;0.5;0.5
+medium_hppic;400;803;38;38;0.5;0.5
+medium_movepic;440;770;38;38;0.5;0.5
+medium_speedpic;400;763;38;38;0.5;0.5
