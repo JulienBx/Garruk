@@ -857,12 +857,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70111dce66a70aa49825f18c4e141ef2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileModel: {fileID: 0}
+  tileModel: {fileID: 136864, guid: f826cc62ca8bc0f4fb3b594132ae1b37, type: 2}
   verticalBorderModel: {fileID: 192440, guid: 5d75fc6fbd642be499d9432c0837496f, type: 2}
   horizontalBorderModel: {fileID: 104434, guid: 55c2036365b50e047ae68c02b551a671,
     type: 2}
   backgroundImageModel: {fileID: 0}
-  playingCardModel: {fileID: 0}
+  playingCardModel: {fileID: 133976, guid: 0bc68bdce9d671649a222fcb066be87c, type: 2}
   skillButtonModel: {fileID: 0}
   gameTexts: []
   TutorialObject: {fileID: 0}

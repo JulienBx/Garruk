@@ -7,7 +7,6 @@ public class TileController : GameObjectController
 	
 	Tile tile ;
 	int type ;
-	int characterID = -1 ;
 	
 	void Awake()
 	{
@@ -23,6 +22,15 @@ public class TileController : GameObjectController
 	public void resize(Vector3 p, Vector3 s){
 		gameObject.transform.position = p ;
 		gameObject.transform.localScale = s ;
+	}
+	
+	public Vector3 getPosition()
+	{
+		return gameObject.transform.position;
+	}
+	
+	public bool isRock(){
+		return (type==1);
 	}
 	
 	public void setTargetHalo(HaloTarget h, bool isHaloDisabled=false)
@@ -294,11 +302,7 @@ public class TileController : GameObjectController
 //		}
 	}
 
-	public Vector3 getPosition()
-	{
-//		return this.tileView.tileVM.position;
-	return new Vector3() ;
-	}
+	
 
 	public void setBorderTile(int index)
 	{

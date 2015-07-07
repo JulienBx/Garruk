@@ -6,10 +6,12 @@ TextureImporter:
   fileIDToRecycleName:
     21300000: 01
     21300002: 02
+    21300004: 03
+    21300006: 04
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
-    enableMipMap: 1
+    enableMipMap: 0
     linearTexture: 0
     correctGamma: 0
     fadeOut: 0
@@ -32,7 +34,7 @@ TextureImporter:
   maxTextureSize: 4096
   textureSettings:
     filterMode: -1
-    aniso: -1
+    aniso: 16
     mipBias: -1
     wrapMode: 1
   nPOTScale: 0
@@ -45,7 +47,7 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: .5, y: .5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 108
   alphaIsTransparency: 1
   textureType: 8
   buildTargetSettings: []
@@ -55,21 +57,41 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 2
-        y: 168
-        width: 342
-        height: 342
-      alignment: 9
-      pivot: {x: .488304108, y: .491228074}
+        y: 218
+        width: 370
+        height: 370
+      alignment: 0
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: 02
       rect:
         serializedVersion: 2
-        x: 2
-        y: 79
-        width: 61
-        height: 87
+        x: 374
+        y: 218
+        width: 370
+        height: 370
       alignment: 9
-      pivot: {x: .885245919, y: .425287366}
+      pivot: {x: .497297287, y: .502702713}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: 03
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 215
+        width: 1
+        height: 1
+      alignment: 9
+      pivot: {x: 216, y: -215}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: 04
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 590
+        width: 432
+        height: 432
+      alignment: 0
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
   spritePackingTag: 
   userData: 

@@ -55,6 +55,7 @@ public class Card
 	public int deckOrder;
 	public int destructionPrice;
 	public int Power;
+	public int PowerLevel;
 	public int CaracteristicUpgraded;
 	public int CaracteristicIncrease;
 	public bool GetNewSkill;
@@ -428,6 +429,17 @@ public class Card
 			return 0;
 		}
 		return attack;
+	}
+	
+	public string GetAttackString()
+	{
+		int attack = this.GetAttack();
+		if (attack<10){
+			return ("0"+attack);
+		}
+		else{
+			return attack.ToString();
+		}
 	}
 	
 	public int GetBouclier()

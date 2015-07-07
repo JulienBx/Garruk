@@ -19,9 +19,9 @@ public class ImplosionEnergie : GameSkill
 		GameController.instance.startPlayingSkill();
 		
 		List<Tile> tempTiles;
-		Tile t = GameController.instance.getCurrentPCC().tile;
+		//Tile t = GameController.instance.getCurrentPCC().tile;
 		
-		tempTiles = t.getImmediateNeighbouringTiles();
+		//tempTiles = t.getImmediateNeighbouringTiles();
 		bool isLaunchable = false ;
 		int i = 0 ;
 		int tempInt ; 
