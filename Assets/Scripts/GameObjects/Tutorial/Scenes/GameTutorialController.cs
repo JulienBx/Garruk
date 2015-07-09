@@ -133,10 +133,10 @@ public class GameTutorialController : TutorialObjectController
 			{
 				GameController.instance.hideTileHalo(3,1);
 				GameController.instance.setButtonGUI(1,true);
-				StartCoroutine(GameController.instance.moveCharacterRPC(1,6,4,true,false));
-				StartCoroutine(GameController.instance.moveCharacterRPC(2,6,5,true,false));
-				StartCoroutine(GameController.instance.moveCharacterRPC(4,6,6,true,false));
-				StartCoroutine(GameController.instance.moveCharacterRPC(5,6,7,true,false));
+				StartCoroutine(GameController.instance.moveCharacterRPC(1,6,4));
+				StartCoroutine(GameController.instance.moveCharacterRPC(2,6,5));
+				StartCoroutine(GameController.instance.moveCharacterRPC(4,6,6));
+				StartCoroutine(GameController.instance.moveCharacterRPC(5,6,7));
 				view.VM.displayArrow=true;
 				view.VM.displayNextButton=false;
 				view.VM.title="On commence !";
@@ -265,7 +265,7 @@ public class GameTutorialController : TutorialObjectController
 		case 11:
 			if(!isResizing)
 			{
-				StartCoroutine(GameController.instance.moveCharacterRPC(2,4,4,true,false));
+				StartCoroutine(GameController.instance.moveCharacterRPC(2,4,4));
 				GameController.instance.setAllSkillObjects(false);
 				view.VM.displayArrow=false;
 				view.VM.displayNextButton=true;
@@ -297,7 +297,7 @@ public class GameTutorialController : TutorialObjectController
 		case 13:
 			if(!isResizing)
 			{
-				StartCoroutine(GameController.instance.moveCharacterRPC(5,4,7,true,false));
+				StartCoroutine(GameController.instance.moveCharacterRPC(5,4,7));
 				GameController.instance.setAllSkillObjects(false);
 				view.VM.displayArrow=false;
 				view.VM.displayNextButton=true;
@@ -382,7 +382,7 @@ public class GameTutorialController : TutorialObjectController
 		case 17:
 			if(!isResizing)
 			{
-				StartCoroutine(GameController.instance.moveCharacterRPC(4,4,6,true,false));
+				StartCoroutine(GameController.instance.moveCharacterRPC(4,4,6));
 				GameController.instance.setAllSkillObjects(false);
 				view.VM.displayArrow=false;
 				view.VM.displayNextButton=true;
@@ -467,7 +467,7 @@ public class GameTutorialController : TutorialObjectController
 		case 21:
 			if(!isResizing)
 			{
-				StartCoroutine(GameController.instance.moveCharacterRPC(1,4,5,true,false));
+				StartCoroutine(GameController.instance.moveCharacterRPC(1,4,5));
 				GameController.instance.setAllSkillObjects(false);
 				view.VM.displayArrow=false;
 				view.VM.displayNextButton=true;

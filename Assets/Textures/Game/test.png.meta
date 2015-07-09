@@ -1,5 +1,7 @@
 fileFormatVersion: 2
 guid: 4ea8c37f2bf7480428f13a8d5f57b8eb
+timeCreated: 1436351207
+licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
     21300000: 01
@@ -20,6 +22,9 @@ TextureImporter:
     21300030: 16
     21300032: 17
     21300034: 18
+    21300036: 19
+    21300038: 20
+    21300040: 21
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -45,7 +50,7 @@ TextureImporter:
   textureFormat: -1
   maxTextureSize: 4096
   textureSettings:
-    filterMode: 1
+    filterMode: -1
     aniso: 16
     mipBias: -1
     wrapMode: 1
@@ -69,7 +74,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 2
-        y: 235
+        y: 229
         width: 1080
         height: 171
       alignment: 9
@@ -198,7 +203,7 @@ TextureImporter:
     - name: 14
       rect:
         serializedVersion: 2
-        x: 2
+        x: 870
         y: 408
         width: 666
         height: 426
@@ -229,7 +234,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 2
-        y: 146
+        y: 140
         width: 1080
         height: 87
       alignment: 9
@@ -242,6 +247,26 @@ TextureImporter:
         y: 966
         width: 1920
         height: 1080
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: 19
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 402
+        width: 432
+        height: 432
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: 20
+      rect:
+        serializedVersion: 2
+        x: 436
+        y: 402
+        width: 432
+        height: 432
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}

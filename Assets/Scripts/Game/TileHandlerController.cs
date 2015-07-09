@@ -37,14 +37,15 @@ public class TileHandlerController : GameObjectController
 		return (characterID!=-1);
 	}
 	
-	void OnMouseEnter()
-	{
-		//gameObject.GetComponentInChildren<TileController>().hoverTile();
+	void OnMouseEnter(){
+		GameView.instance.hoverTile(this.tile);
 	}
 	
 	void OnMouseDown()
 	{
-		//gameObject.GetComponentInChildren<TileController>().releaseClickTile();
+		if (this.type==1){
+			GameController.instance.moveToDestination(this.tile);
+		}
 	}
 }
 

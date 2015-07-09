@@ -19,8 +19,6 @@ public class PlayingCardMakerScript : MonoBehaviour {
 	
 	public static PlayingCardMakerScript instance;
 	
-	
-	
 	// Use this for initialization
 	void OnGUI() 
 	{

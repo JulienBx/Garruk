@@ -54,12 +54,21 @@ public class PlayingCardController : GameObjectController
 		transform.Find("Icon5").GetComponent<SpriteRenderer>().sprite = this.iconSprites[0];
 		transform.Find("Icon6").GetComponent<SpriteRenderer>().sprite = this.iconSprites[0];
 		transform.Find("Art").GetComponent<SpriteRenderer>().sprite = this.artSprites[c.ArtIndex];
-		
 	}
 	
 	public void setIDCharacter(int i)
 	{
 		this.id = i ;
+	}
+	
+	public Tile getTile()
+	{
+		return this.tile ;
+	}
+	
+	public Card getCard()
+	{
+		return this.card ;
 	}
 	
 	public void setIsMine(bool b)
@@ -73,7 +82,14 @@ public class PlayingCardController : GameObjectController
 		}
 	}
 	
-
+	public void OnMouseEnter(){
+		GameView.instance.hoverTile(this.id, this.tile);
+	}
+	
+	public void OnMouseDown(){
+		GameController.instance.clickPlayingCard(this.id, this.tile);
+	}
+	
 	public void resizeHalo()
 	{
 //		int height = Screen.height;
@@ -132,11 +148,6 @@ public class PlayingCardController : GameObjectController
 	public void setStyles(bool isMyCharacter)
 	{
 		isMine = isMyCharacter;
-	}
-
-	public void setTile(Tile t)
-	{
-		this.tile = t;
 	}
 
 	public void setActive(bool b)
@@ -214,8 +225,10 @@ public class PlayingCardController : GameObjectController
 	public void setTile(Tile t, Vector3 p)
 	{
 		this.tile = t;
+		p.z = -0.5f;
 		gameObject.transform.position = p ;
 		gameObject.transform.localScale = new Vector3(0.25f, 0.25f, 0.25f);
+		this.hasMoved = true ;
 	}
 
 	public void changeTile(Tile t, Vector3 position)

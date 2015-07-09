@@ -7,6 +7,7 @@ public class TileController : GameObjectController
 	
 	Tile tile ;
 	int type ;
+	int characterID = -1;
 	
 	void Awake()
 	{
@@ -29,8 +30,16 @@ public class TileController : GameObjectController
 		return gameObject.transform.position;
 	}
 	
-	public bool isRock(){
-		return (type==1);
+	public bool canBeDestination(){
+		return (type!=1 && characterID==-1);
+	}
+	
+	public void OnMouseEnter(){
+		GameView.instance.hoverTile(this.tile);
+	}
+	
+	public void setCharacterID(int i){
+		this.characterID = i ;
 	}
 	
 	public void setTargetHalo(HaloTarget h, bool isHaloDisabled=false)
