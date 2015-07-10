@@ -11,6 +11,7 @@ TextureImporter:
     21300008: 03
     21300010: 19
     21300012: 20
+    21300014: 23
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -59,8 +60,8 @@ TextureImporter:
     - name: 01
       rect:
         serializedVersion: 2
-        x: 394
-        y: 141
+        x: 1460
+        y: 1853
         width: 154
         height: 193
       alignment: 9
@@ -69,8 +70,8 @@ TextureImporter:
     - name: 02
       rect:
         serializedVersion: 2
-        x: 2
-        y: 135
+        x: 1068
+        y: 1847
         width: 213
         height: 199
       alignment: 9
@@ -79,8 +80,8 @@ TextureImporter:
     - name: 03
       rect:
         serializedVersion: 2
-        x: 217
-        y: 138
+        x: 1283
+        y: 1850
         width: 175
         height: 196
       alignment: 9
@@ -90,7 +91,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 2
-        y: 1406
+        y: 1192
         width: 1058
         height: 640
       alignment: 9
@@ -100,7 +101,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 2
-        y: 550
+        y: 336
         width: 1058
         height: 212
       alignment: 9
@@ -110,21 +111,31 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 2
-        y: 336
+        y: 122
         width: 1058
         height: 212
       alignment: 9
-      pivot: {x: .495274097, y: .5}
+      pivot: {x: .504725873, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: 22
       rect:
         serializedVersion: 2
         x: 2
-        y: 764
+        y: 550
         width: 1058
         height: 640
       alignment: 9
       pivot: {x: .495274097, y: .493750006}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: 23
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 1834
+        width: 1064
+        height: 212
+      alignment: 9
+      pivot: {x: .507518768, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
   spritePackingTag: 
   userData: 

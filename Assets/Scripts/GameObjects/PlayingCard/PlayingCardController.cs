@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 
 public class PlayingCardController : GameObjectController
 {
@@ -42,7 +43,7 @@ public class PlayingCardController : GameObjectController
 	{
 		this.card = c ;
 		transform.Find("Grade").GetComponent<SpriteRenderer>().sprite = this.gradeSprites[d];
-		transform.Find("AttackValue").GetComponent<TextMesh>().text = c.GetAttackString();
+		transform.Find("AttackValue").GetComponent<TextMeshPro>().text = c.GetAttackString();
 		transform.Find("AttackValue").GetComponent<Renderer>().sortingLayerName = "Foreground" ;
 		
 		transform.Find("LifeBar").GetComponent<SpriteRenderer>().sprite = this.lifebarSprites[0];

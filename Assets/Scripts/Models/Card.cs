@@ -370,6 +370,11 @@ public class Card
 		return percentage;
 	}
 	
+	public List<Skill> getSkills()
+	{
+		return this.Skills;
+	}
+	
 	public void removeSleeping()
 	{
 		bool isSleeping = false;
@@ -439,6 +444,28 @@ public class Card
 		}
 		else{
 			return attack.ToString();
+		}
+	}
+	
+	public string GetMoveString()
+	{
+		int move = this.GetMove();
+		if (move<10){
+			return ("0"+move);
+		}
+		else{
+			return move.ToString();
+		}
+	}
+	
+	public string GetLifeString()
+	{
+		int life = this.GetLife();
+		if (life<10){
+			return ("0"+life);
+		}
+		else{
+			return life.ToString();
 		}
 	}
 	

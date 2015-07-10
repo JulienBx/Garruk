@@ -864,7 +864,7 @@ public class ProfileController : MonoBehaviour
 	private IEnumerator updateProfilePicture(string path)
 	{
 		this.setGUI (false);
-		File tempFile = new File ();
+		File2 tempFile = new File2 ();
 		yield return StartCoroutine (tempFile.createProfilePicture (path));
 		if(tempFile.Error!="")
 		{

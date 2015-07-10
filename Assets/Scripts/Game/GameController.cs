@@ -103,6 +103,7 @@ public class GameController : Photon.MonoBehaviour
 			this.currentPlayingCard = c ;
 		}
 		GameView.instance.clickTile(t);
+		GameView.instance.hideHoveredPC(c);
 		GameView.instance.displayClickedPC(c);
 	}
 
@@ -2041,6 +2042,11 @@ public class GameController : Photon.MonoBehaviour
 	{
 		//return this.playingCards [this.currentPlayingCard].GetComponent<PlayingCardController>().card;
 		return new Card();
+	}
+	
+	public int getCurrentPlayingCard()
+	{
+		return this.currentPlayingCard;
 	}
 
 	void changeGameEvents()

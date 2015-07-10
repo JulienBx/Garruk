@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-public class File
+public class File2
 {
 	public string Error="";
 	public WWW LocalFile;
@@ -16,9 +16,11 @@ public class File
 	private List<string> availableExtension = new List<string>(){".jpg", ".png"};
 
 
-	public File()
+	public File2()
 	{
+	
 	}
+	
 	public IEnumerator createProfilePicture(string path)
 	{
 		this.Error = "";

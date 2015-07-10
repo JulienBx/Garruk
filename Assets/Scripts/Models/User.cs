@@ -194,7 +194,7 @@ public class User
 			Debug.Log (w.error); 
 		}
 	}
-	public IEnumerator updateProfilePicture(File file)
+	public IEnumerator updateProfilePicture(File2 file)
 	{
 		WWWForm form = new WWWForm(); 											// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
