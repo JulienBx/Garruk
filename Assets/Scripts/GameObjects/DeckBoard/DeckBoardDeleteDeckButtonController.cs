@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class DeckBoardNewDeckButtonController : MonoBehaviour 
+public class DeckBoardDeleteDeckButtonController : MonoBehaviour 
 {
 	public Sprite[] sprites;
 	
@@ -16,7 +16,7 @@ public class DeckBoardNewDeckButtonController : MonoBehaviour
 	}
 	void OnMouseDown()
 	{
-		newMyGameController.instance.displayNewDeckPopUp ();
+		newMyGameController.instance.displayDeleteDeckPopUp ();
 	}
 }
 

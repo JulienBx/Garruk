@@ -1,13 +1,15 @@
 using UnityEngine;
 
-public class DeckBoardNewDeckButtonController : MonoBehaviour 
+public class DeckBoardDeckListController : MonoBehaviour 
 {
+	
 	public Sprite[] sprites;
+	public int id;
 	
 	void OnMouseOver()
 	{
 		gameObject.transform.GetComponent<SpriteRenderer> ().sprite = this.sprites [1];
-		gameObject.transform.FindChild("Title").GetComponent<TextMesh>().color=new Color(155f/255f,220f/255f,1f);
+		gameObject.transform.FindChild("Title").GetComponent<TextMesh>().color=new Color(0f,0f,0f);
 	}
 	void OnMouseExit()
 	{
@@ -16,7 +18,11 @@ public class DeckBoardNewDeckButtonController : MonoBehaviour
 	}
 	void OnMouseDown()
 	{
-		newMyGameController.instance.displayNewDeckPopUp ();
+		newMyGameController.instance.selectDeck (this.id);
+	}
+	public void setId(int id)
+	{
+		this.id = id;
 	}
 }
 
