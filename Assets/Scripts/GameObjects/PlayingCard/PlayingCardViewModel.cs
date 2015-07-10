@@ -39,7 +39,6 @@ public class PlayingCardViewModel
 	public bool toDisplaySkillResult = false;
 	public float skillResultTimer = 0 ;
 	
-	public SkillControlHandler skillControlHandler ;
 	public bool toDisplaySkillControlHandler = false;
 	
 	public PlayingCardViewModel ()

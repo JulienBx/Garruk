@@ -179,7 +179,7 @@ public class PlayingCardView : MonoBehaviour
 		
 		else if (this.playingCardVM.toDisplaySkillControlHandler)
 		{
-			GUI.Label(this.playingCardVM.haloRect, this.playingCardVM.skillControlHandler.text, this.playingCardVM.skillControlHandler.style);
+			//GUI.Label(this.playingCardVM.haloRect, this.playingCardVM.skillControlHandler.text, this.playingCardVM.skillControlHandler.style);
 		}
 	}
 }

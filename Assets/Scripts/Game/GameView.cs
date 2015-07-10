@@ -62,6 +62,12 @@ public class GameView : MonoBehaviour
 	
 	float timerHoveredRPC ;
 	
+	bool isDisplayedSkill = false ;
+	int statusSkill = 0;
+	Vector3 skillPosition ;
+	
+	float timerSkillRPC ;
+	
 	int currentHoveredCard = -1;
 	
 	void Awake()
@@ -109,6 +115,32 @@ public class GameView : MonoBehaviour
 				}
 				this.isDisplayedHoveredRPC = false ;
 				this.timerHoveredRPC=0;
+			}
+		}
+		
+		if (statusClickedPC==1){
+			this.timerClickedRPC += Time.deltaTime;
+			this.clickedPCPosition.x = (-0.5f*this.realwidth-5f)+(Mathf.Min(1,this.timerClickedRPC/this.animationTime))*(0.5f*realwidth-3.25f);
+			this.clickedRPC.transform.position = this.clickedPCPosition ;
+			if (timerClickedRPC>animationTime){
+				statusClickedPC = 0 ;
+				this.isDisplayedClickedRPC = true ;
+			}
+		}
+		else if (statusClickedPC<0){
+			this.timerClickedRPC += Time.deltaTime;
+			this.clickedPCPosition.x = (-8.25f)-(Mathf.Min(1,this.timerClickedRPC/this.animationTime))*(0.5f*realwidth-3.25f);
+			this.clickedRPC.transform.position = this.clickedPCPosition ;
+			if (timerClickedRPC>animationTime){
+				if (statusClickedPC==-2){
+					this.loadClickedPC();
+					statusClickedPC = 1 ;
+					this.timerClickedRPC = 0 ;
+				}
+				else{
+					statusClickedPC = 0 ;
+				}
+				this.isDisplayedClickedRPC = false ;
 			}
 		}
 		
@@ -455,6 +487,13 @@ public class GameView : MonoBehaviour
 		tempGO.transform.localPosition = new Vector3((0.19f*(this.realwidth/2f-3f))-5f,-1.8f,0f);
 		tempGO.GetComponent<Renderer>().sortingLayerName = "UI" ;
 		
+		GameObject.Find("AttackButton").transform.localPosition = new Vector3((0.90f*(this.realwidth/2f-3f))-5.2f, 0f,0f);
+		GameObject.Find("SkillButton1").transform.localPosition = new Vector3((0.74f*(this.realwidth/2f-3f))-5.2f, 0f, 0f);
+		GameObject.Find("SkillButton2").transform.localPosition = new Vector3((0.58f*(this.realwidth/2f-3f))-5.2f, 0f, 0f);
+		GameObject.Find("SkillButton3").transform.localPosition = new Vector3((0.42f*(this.realwidth/2f-3f))-5.2f, 0f, 0f);
+		GameObject.Find("SkillButton4").transform.localPosition = new Vector3((0.26f*(this.realwidth/2f-3f))-5.2f, 0f, 0f);
+		GameObject.Find("PassButton").transform.localPosition = new Vector3((0.10f*(this.realwidth/2f-3f))-5.2f, 0f, 0f);
+		
 		if (EndSceneController.instance != null)
 		{
 			EndSceneController.instance.resize();
@@ -466,10 +505,12 @@ public class GameView : MonoBehaviour
 	}
 	
 	public void hoverTile(int c, Tile t){
-		this.currentHoveredCard = c ;
-		int currentPlayingCard = GameController.instance.getCurrentPlayingCard();
-		if (currentPlayingCard!=this.currentHoveredCard){
-			this.displayHoveredPC(c);
+		if (c!=this.currentHoveredCard){
+			int currentPlayingCard = GameController.instance.getCurrentPlayingCard();
+			if (currentPlayingCard!=c){
+				this.currentHoveredCard = c ;
+				this.displayHoveredPC(c);
+			}
 		}
 		GameObject tempGO = GameObject.Find("Hover");
 		Vector3 pos = tiles[t.x, t.y].GetComponent<TileController>().getPosition();

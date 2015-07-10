@@ -4,6 +4,11 @@ public class SkillButtonController
 
 	public SkillButtonController()
 	{
+		
+	}
+	
+	public void setSkill(Skill s){
+		this.skill = s ;
 	}
 }
 

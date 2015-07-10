@@ -1877,7 +1877,7 @@ public class GameController : Photon.MonoBehaviour
 	{
 		GameObject go = setGameEvent(new MovementType());
 
-		go.GetComponent<GameEventController>().setMovement(origin, destination);
+		//go.GetComponent<GameEventController>().setMovement(origin, destination);
 	}
 
 	GameObject setGameEvent(GameEventType type)

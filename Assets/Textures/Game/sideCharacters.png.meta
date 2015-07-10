@@ -12,6 +12,9 @@ TextureImporter:
     21300010: 19
     21300012: 20
     21300014: 23
+    21300016: 04
+    21300018: 05
+    21300020: 06
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -60,7 +63,7 @@ TextureImporter:
     - name: 01
       rect:
         serializedVersion: 2
-        x: 1460
+        x: 1874
         y: 1853
         width: 154
         height: 193
@@ -80,12 +83,42 @@ TextureImporter:
     - name: 03
       rect:
         serializedVersion: 2
-        x: 1283
+        x: 1697
         y: 1850
         width: 175
         height: 196
       alignment: 9
       pivot: {x: .519999981, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: 04
+      rect:
+        serializedVersion: 2
+        x: 1283
+        y: 1841
+        width: 205
+        height: 205
+      alignment: 9
+      pivot: {x: .497560978, y: .502439022}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: 05
+      rect:
+        serializedVersion: 2
+        x: 1068
+        y: 1640
+        width: 205
+        height: 205
+      alignment: 9
+      pivot: {x: .497560978, y: .502439022}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: 06
+      rect:
+        serializedVersion: 2
+        x: 1490
+        y: 1841
+        width: 205
+        height: 205
+      alignment: 9
+      pivot: {x: .497560978, y: .502439022}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: 19
       rect:
@@ -101,7 +134,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 2
-        y: 336
+        y: 549
         width: 1058
         height: 212
       alignment: 9
@@ -111,7 +144,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 2
-        y: 122
+        y: 335
         width: 1058
         height: 212
       alignment: 9
@@ -121,11 +154,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 2
-        y: 550
+        y: 763
         width: 1058
-        height: 640
+        height: 427
       alignment: 9
-      pivot: {x: .495274097, y: .493750006}
+      pivot: {x: .504725873, y: .505854785}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: 23
       rect:
