@@ -2,7 +2,7 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!21 &2105580
 Material:
-  serializedVersion: 5
+  serializedVersion: 6
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
@@ -11,6 +11,7 @@ Material:
   m_ShaderKeywords: 
   m_LightmapFlags: 5
   m_CustomRenderQueue: -1
+  stringTagMap: {}
   m_SavedProperties:
     serializedVersion: 2
     m_TexEnvs:
@@ -107,22 +108,22 @@ MonoBehaviour:
     SubSize: .5
     Underline: -10.6933594
     UnderlineThickness: 5.49316406
-    TabWidth: 0
+    TabWidth: 210
     CharacterCount: 96
     AtlasWidth: 512
     AtlasHeight: 512
-  fontHashCode: 0
+  fontHashCode: 62543971
   atlas: {fileID: 2805304}
   material: {fileID: 2105580}
-  materialHashCode: 0
+  materialHashCode: -485814172
   m_glyphInfoList:
   - id: 32
     x: 5
     y: 507
-    width: 0
-    height: 0
+    width: 21
+    height: 84
     xOffset: 0
-    yOffset: 0
+    yOffset: 68
     xAdvance: 21
   - id: 33
     x: 498

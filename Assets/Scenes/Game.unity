@@ -918,6 +918,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 464018951}
   - 212: {fileID: 464018952}
+  - 114: {fileID: 464018953}
   m_Layer: 0
   m_Name: SkillButton1
   m_TagString: Untagged
@@ -963,6 +964,21 @@ SpriteRenderer:
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300018, guid: ed8e0226f6540d841a68b740930a2e58, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
+--- !u!114 &464018953
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 464018950}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdecb29bf3d6e5745a65b51f413d13d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GOPosition: {x: 0, y: 0}
+  GOSize: {x: 0, y: 0}
+  skillVMStyle: []
+  fonts: []
 --- !u!1 &470217411
 GameObject:
   m_ObjectHideFlags: 0
@@ -1823,8 +1839,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 0
-  havePropertiesChanged: 0
+  isInputParsingRequired: 1
+  havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_inputSource: 0
@@ -3578,8 +3594,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 0
-  havePropertiesChanged: 0
+  isInputParsingRequired: 1
+  havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_inputSource: 0

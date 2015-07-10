@@ -66,7 +66,7 @@ public class GameView : MonoBehaviour
 	int statusSkill = 0;
 	Vector3 skillPosition ;
 	
-	float timerSkillRPC ;
+	float timerSkill ;
 	
 	int currentHoveredCard = -1;
 	
@@ -144,9 +144,9 @@ public class GameView : MonoBehaviour
 			}
 		}
 		
-		if (statusClickedPC==1){
-			this.timerClickedRPC += Time.deltaTime;
-			this.clickedPCPosition.x = (-0.5f*this.realwidth-5f)+(Mathf.Min(1,this.timerClickedRPC/this.animationTime))*(0.5f*realwidth-3.25f);
+		if (statusSkill==1){
+			this.timerSkill += Time.deltaTime;
+			this.skillPosition.x = (-0.5f*this.realwidth-5f)+(Mathf.Min(1,this.timerSkill/this.animationTime))*(0.5f*realwidth-3.25f);
 			this.clickedRPC.transform.position = this.clickedPCPosition ;
 			if (timerClickedRPC>animationTime){
 				statusClickedPC = 0 ;
