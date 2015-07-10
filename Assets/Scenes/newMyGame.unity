@@ -739,8 +739,8 @@ MonoBehaviour:
     type: 2}
   deckListObject: {fileID: 126134, guid: 88b8fc1b5878a4546bf5747376d6924f, type: 2}
   cursorTextures:
-  - {fileID: 2800000, guid: 01edd81e847d046098290ee6897193f1, type: 3}
-  - {fileID: 2800000, guid: 91e97078a597f4b39ba9e4c5b8df2b4a, type: 3}
+  - {fileID: 2800000, guid: 08f50f2cc45204b04a49b530764a01e3, type: 3}
+  - {fileID: 2800000, guid: d65f1e3ba1fe54e86a891670df8bd658, type: 3}
   popUpSkin: {fileID: 11400000, guid: 6346424849e084205bcebcf25bed265c, type: 2}
 --- !u!1001 &1718283415
 Prefab:
