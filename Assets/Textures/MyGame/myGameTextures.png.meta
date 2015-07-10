@@ -89,7 +89,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 158
-        y: 824
+        y: 854
         width: 74
         height: 74
       alignment: 0
@@ -108,8 +108,8 @@ TextureImporter:
     - name: buttonBorderHover
       rect:
         serializedVersion: 2
-        x: 242
-        y: 769
+        x: 2
+        y: 776
         width: 219
         height: 50
       alignment: 0
@@ -148,8 +148,8 @@ TextureImporter:
     - name: deckListHover
       rect:
         serializedVersion: 2
-        x: 2
-        y: 900
+        x: 242
+        y: 791
         width: 213
         height: 28
       alignment: 0
@@ -179,7 +179,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 98
-        y: 849
+        y: 879
         width: 49
         height: 49
       alignment: 9
@@ -189,7 +189,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 98
-        y: 798
+        y: 828
         width: 49
         height: 49
       alignment: 9
@@ -212,26 +212,6 @@ TextureImporter:
         y: 126
         width: 94
         height: 94
-      alignment: 0
-      pivot: {x: .5, y: .5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-    - name: pointer
-      rect:
-        serializedVersion: 2
-        x: 217
-        y: 936
-        width: 21
-        height: 22
-      alignment: 9
-      pivot: {x: .523809552, y: .5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-    - name: pointerDrag
-      rect:
-        serializedVersion: 2
-        x: 217
-        y: 918
-        width: 18
-        height: 16
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
