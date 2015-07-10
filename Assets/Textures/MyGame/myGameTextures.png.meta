@@ -1,0 +1,271 @@
+fileFormatVersion: 2
+guid: 4a716028edd7d465c8d29843d43b320a
+timeCreated: 1436085678
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: deckButton
+    21300002: deleteDeck
+    21300004: editDeck
+    21300006: newDeck
+    21300008: scrollButton
+    21300010: corner
+    21300012: line
+    21300014: searchBar
+    21300016: filterBar
+    21300018: sortButton
+    21300020: cursor
+    21300022: arrowButton
+    21300024: buttonBorder
+    21300026: skillList
+    21300028: skillListHover
+    21300030: pagination
+    21300032: paginationHover
+    21300034: decksList
+    21300036: decksListHover
+    21300038: arrowButtonHover
+    21300040: deckList
+    21300042: deckListHover
+    21300044: newDeckHover
+    21300046: buttonBorderHover
+    21300048: pointer
+    21300050: pointerDrag
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 8
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 4096
+  textureSettings:
+    filterMode: 1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 108
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: arrowButton
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 50
+        width: 74
+        height: 74
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: arrowButtonHover
+      rect:
+        serializedVersion: 2
+        x: 158
+        y: 824
+        width: 74
+        height: 74
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: buttonBorder
+      rect:
+        serializedVersion: 2
+        x: 242
+        y: 821
+        width: 219
+        height: 50
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: buttonBorderHover
+      rect:
+        serializedVersion: 2
+        x: 242
+        y: 769
+        width: 219
+        height: 50
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: corner
+      rect:
+        serializedVersion: 2
+        x: 242
+        y: 934
+        width: 56
+        height: 56
+      alignment: 9
+      pivot: {x: .285714298, y: .714285731}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: cursor
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 46
+        width: 78
+        height: 78
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: deckList
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 930
+        width: 213
+        height: 28
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: deckListHover
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 900
+        width: 213
+        height: 28
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: filterBar
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 992
+        width: 393
+        height: 30
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: line
+      rect:
+        serializedVersion: 2
+        x: 493
+        y: 222
+        width: 13
+        height: 800
+      alignment: 9
+      pivot: {x: 1.23076928, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: newDeck
+      rect:
+        serializedVersion: 2
+        x: 98
+        y: 849
+        width: 49
+        height: 49
+      alignment: 9
+      pivot: {x: .510204077, y: .489795923}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: newDeckHover
+      rect:
+        serializedVersion: 2
+        x: 98
+        y: 798
+        width: 49
+        height: 49
+      alignment: 9
+      pivot: {x: .510204077, y: .489795923}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: pagination
+      rect:
+        serializedVersion: 2
+        x: 397
+        y: 928
+        width: 94
+        height: 94
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: paginationHover
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 126
+        width: 94
+        height: 94
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: pointer
+      rect:
+        serializedVersion: 2
+        x: 217
+        y: 936
+        width: 21
+        height: 22
+      alignment: 9
+      pivot: {x: .523809552, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: pointerDrag
+      rect:
+        serializedVersion: 2
+        x: 217
+        y: 918
+        width: 18
+        height: 16
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: searchBar
+      rect:
+        serializedVersion: 2
+        x: 242
+        y: 873
+        width: 248
+        height: 53
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skillList
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 14
+        width: 238
+        height: 30
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skillListHover
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 960
+        width: 238
+        height: 30
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
