@@ -21,10 +21,11 @@ TextureImporter:
     21300028: medium_hppic
     21300030: medium_movepic
     21300032: medium_speedpic
+    21300034: medium_skillPicto
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
-    enableMipMap: 0
+    enableMipMap: 1
     linearTexture: 0
     correctGamma: 0
     fadeOut: 0
@@ -139,6 +140,16 @@ TextureImporter:
     - name: medium_cdmatblue
       rect:
         serializedVersion: 2
+        x: 198
+        y: 213
+        width: 188
+        height: 263
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: medium_cdmatgreen
+      rect:
+        serializedVersion: 2
         x: 204
         y: 751
         width: 194
@@ -146,7 +157,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: medium_cdmatgreen
+    - name: medium_cdmatpurple
       rect:
         serializedVersion: 2
         x: 204
@@ -156,21 +167,11 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: medium_cdmatpurple
+    - name: medium_cdmatred
       rect:
         serializedVersion: 2
         x: 2
         y: 470
-        width: 194
-        height: 271
-      alignment: 0
-      pivot: {x: .5, y: .5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-    - name: medium_cdmatred
-      rect:
-        serializedVersion: 2
-        x: 198
-        y: 205
         width: 194
         height: 271
       alignment: 0
@@ -225,6 +226,16 @@ TextureImporter:
         height: 38
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: medium_skillPicto
+      rect:
+        serializedVersion: 2
+        x: 388
+        y: 340
+        width: 116
+        height: 136
+      alignment: 9
+      pivot: {x: .491379321, y: .477941185}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: medium_speedpic
       rect:
