@@ -102,7 +102,6 @@ public class newMyGameController : MonoBehaviour
 	private Vector3[] cardsPosition;
 	private Vector3[] deckCardsPosition;
 	private Texture2D cursorTexture;
-
 	void Update()
 	{	
 		if (Screen.width != this.widthScreen || Screen.height != this.heightScreen) 
@@ -118,6 +117,7 @@ public class newMyGameController : MonoBehaviour
 			{
 				this.isLeftClicked=false;
 				this.isDragging=true;
+				Cursor.SetCursor (this.cursorTextures[1], new Vector2(this.cursorTextures[1].width/2f,this.cursorTextures[1].width/2f), CursorMode.Auto);
 			}
 		}
 		if(isSearchingSkill)
@@ -1667,7 +1667,6 @@ public class newMyGameController : MonoBehaviour
 	{
 		if(isDragging)
 		{
-			Cursor.SetCursor (this.cursorTextures[1], Vector2.zero, CursorMode.Auto);
 			Vector3 mousePosition = Camera.main.ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, Input.mousePosition.z));
 			if(this.idCardClicked>-1)
 			{
@@ -1682,6 +1681,14 @@ public class newMyGameController : MonoBehaviour
 	public void endDragging()
 	{
 		this.isDragging=false;
+		if(this.isHovering)
+		{
+			Cursor.SetCursor (this.cursorTextures[0], new Vector2(this.cursorTextures[0].width/2f,this.cursorTextures[0].width/2f), CursorMode.Auto);
+		}
+		else
+		{
+			Cursor.SetCursor (null, Vector2.zero, CursorMode.Auto);
+		}
 
 		if(this.idCardClicked>-1)
 		{
@@ -1697,7 +1704,10 @@ public class newMyGameController : MonoBehaviour
 		if(!isHovering)
 		{
 			this.isHovering=true;
-			Cursor.SetCursor (this.cursorTextures[0], Vector2.zero, CursorMode.Auto);
+			if(!this.isDragging)
+			{
+				Cursor.SetCursor (this.cursorTextures[0], new Vector2(this.cursorTextures[0].width/2f,this.cursorTextures[0].width/2f), CursorMode.Auto);
+			}
 		}
 
 	}
@@ -1706,7 +1716,10 @@ public class newMyGameController : MonoBehaviour
 		if(this.isHovering)
 		{
 			this.isHovering=false;
-			Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
+			if(!this.isDragging)
+			{
+				Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
+			}
 		}
 	}
 }
