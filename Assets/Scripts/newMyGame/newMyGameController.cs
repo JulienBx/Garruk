@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using TMPro;
 
 public class newMyGameController : MonoBehaviour
 {
@@ -26,7 +27,10 @@ public class newMyGameController : MonoBehaviour
 	private GameObject[] cursors;
 	private GameObject[] paginationButtons;
 	private GameObject[] sortButtons;
-	private GameObject draggedCard;
+	private GameObject focusedCard;
+	private GameObject[] focusedFeatures;
+	private int focusedCardIndex;
+	private bool isCardFocusedDisplayed;
 	private IList<GameObject> matchValues;
 	private IList<GameObject> deckList;
 	
@@ -93,15 +97,21 @@ public class newMyGameController : MonoBehaviour
 	private bool editDeckViewDisplayed;
 	private NewMyGameDeleteDeckPopUpView deleteDeckView;
 	private bool deleteDeckViewDisplayed;
+	private NewMyGameErrorPopUpView errorView;
+	private bool errorViewDisplayed;
 
 	private bool isDragging;
 	private bool isLeftClicked;
 	private bool isHovering;
 	private float clickInterval;
 	private int idCardClicked;
+	private bool isDeckCardClicked;
 	private Vector3[] cardsPosition;
 	private Vector3[] deckCardsPosition;
+	private Rect[] deckCardsArea;
+	private Rect cardsArea;
 	private Texture2D cursorTexture;
+
 	void Update()
 	{	
 		if (Screen.width != this.widthScreen || Screen.height != this.heightScreen) 
@@ -116,8 +126,7 @@ public class newMyGameController : MonoBehaviour
 			if(this.clickInterval>2f)
 			{
 				this.isLeftClicked=false;
-				this.isDragging=true;
-				Cursor.SetCursor (this.cursorTextures[1], new Vector2(this.cursorTextures[1].width/2f,this.cursorTextures[1].width/2f), CursorMode.Auto);
+				this.startDragging();
 			}
 		}
 		if(isSearchingSkill)
@@ -129,12 +138,12 @@ public class newMyGameController : MonoBehaviour
 					if(c==(char)KeyCode.Backspace && this.valueSkill.Length>0)
 					{
 						this.valueSkill = this.valueSkill.Remove(this.valueSkill.Length - 1);
-						this.filters.transform.FindChild("skillSearch").FindChild ("SearchBar").FindChild("Text").GetComponent<TextMesh>().text = this.valueSkill;
+						this.filters.transform.FindChild("skillSearch").FindChild ("SearchBar").FindChild("Text").GetComponent<TextMeshPro>().text = this.valueSkill;
 						this.setSkillAutocompletion();
 						if(this.valueSkill.Length==0)
 						{
 							this.isSearchingSkill=false;
-							this.filters.transform.FindChild("skillSearch").FindChild ("SearchBar").FindChild("Text").GetComponent<TextMesh>().text ="Rechercher";
+							this.filters.transform.FindChild("skillSearch").FindChild ("SearchBar").FindChild("Text").GetComponent<TextMeshPro>().text ="Rechercher";
 						}
 					}
 					else if (c == "\b"[0])
@@ -163,7 +172,7 @@ public class newMyGameController : MonoBehaviour
 			{
 					this.isSearchingSkill=false;
 					this.cleanSkillAutocompletion();
-					this.filters.transform.FindChild("skillSearch").FindChild ("SearchBar").FindChild("Text").GetComponent<TextMesh>().text ="Rechercher";
+					this.filters.transform.FindChild("skillSearch").FindChild ("SearchBar").FindChild("Text").GetComponent<TextMeshPro>().text ="Rechercher";
 			}
 		}
 		if(this.isSearchingDeck)
@@ -231,6 +240,7 @@ public class newMyGameController : MonoBehaviour
 		for (int i=0;i<4;i++)
 		{
 			this.deckCards[i]=GameObject.Find("deckCard"+i);
+			this.deckCards[i].AddComponent<NewCardMyGameController>();
 		}
 		this.cursors=new GameObject[8];
 		for (int i=0;i<8;i++)
@@ -242,65 +252,37 @@ public class newMyGameController : MonoBehaviour
 		{
 			this.sortButtons[i]=GameObject.Find("Sort"+i);
 		}
-		this.draggedCard = GameObject.Find ("draggedCard");
-
-		this.deckBoard.transform.FindChild("deckList").FindChild("renameDeckButton").FindChild("Title").GetComponent<MeshRenderer> ().sortingLayerName = "UI";
-		this.deckBoard.transform.FindChild("deckList").FindChild("renameDeckButton").FindChild("Title").GetComponent<TextMesh>().text = "Renommer";
-		this.deckBoard.transform.FindChild("deckList").FindChild("deleteDeckButton").FindChild("Title").GetComponent<MeshRenderer> ().sortingLayerName = "UI";
-		this.deckBoard.transform.FindChild("deckList").FindChild("deleteDeckButton").FindChild("Title").GetComponent<TextMesh>().text = "Supprimer";
-		this.deckBoard.transform.FindChild("deckList").FindChild("newDeckButton").FindChild("Title").GetComponent<MeshRenderer> ().sortingLayerName = "UI";
-		this.deckBoard.transform.FindChild("deckList").FindChild("newDeckButton").FindChild("Title").GetComponent<TextMesh>().text = "Nouveau deck";
-		this.deckBoard.transform.FindChild("deckList").FindChild("Title").GetComponent<MeshRenderer> ().sortingLayerName = "UI";
-		this.deckBoard.transform.FindChild("deckList").FindChild ("Title").GetComponent<TextMesh> ().text = "Mes decks";
-		this.deckBoard.transform.FindChild("deckList").FindChild("currentDeck").FindChild("deckName").GetComponent<MeshRenderer> ().sortingLayerName = "UI";
-		this.deckBoard.transform.FindChild("deckList").FindChild("currentDeck").FindChild("deckName").GetComponent<TextMesh> ().text="Aucun deck créé";
-		this.filters.transform.FindChild("Title").GetComponent<MeshRenderer> ().sortingLayerName = "UI";
-		this.filters.transform.FindChild("Title").GetComponent<TextMesh>().text = "Filtres";
-		this.filters.transform.FindChild ("onSaleFilters").FindChild("Toggle0").GetComponent<MeshRenderer> ().sortingLayerName = "UI";
-		this.filters.transform.FindChild ("onSaleFilters").FindChild("Toggle0").GetComponent<TextMesh>().text = "Cartes mises en vente";
-		this.filters.transform.FindChild ("onSaleFilters").FindChild("Toggle1").GetComponent<MeshRenderer> ().sortingLayerName = "UI";
-		this.filters.transform.FindChild ("onSaleFilters").FindChild("Toggle1").GetComponent<TextMesh>().text = "Cartes non mises en vente";
-		this.filters.transform.FindChild("cardTypeFilters").FindChild("Title").GetComponent<MeshRenderer> ().sortingLayerName = "UI";
-		this.filters.transform.FindChild("cardTypeFilters").FindChild("Title").GetComponent<TextMesh>().text = "Classes";
-		this.filters.transform.FindChild("cardTypeFilters").FindChild("Toggle2").GetComponent<MeshRenderer> ().sortingLayerName = "UI";
-		this.filters.transform.FindChild("cardTypeFilters").FindChild("Toggle3").GetComponent<MeshRenderer> ().sortingLayerName = "UI";
-		this.filters.transform.FindChild("cardTypeFilters").FindChild("Toggle4").GetComponent<MeshRenderer> ().sortingLayerName = "UI";
-		this.filters.transform.FindChild("cardTypeFilters").FindChild("Toggle5").GetComponent<MeshRenderer> ().sortingLayerName = "UI";
-		this.filters.transform.FindChild("cardTypeFilters").FindChild("Toggle6").GetComponent<MeshRenderer> ().sortingLayerName = "UI";
-		this.filters.transform.FindChild("cardTypeFilters").FindChild("Toggle7").GetComponent<MeshRenderer> ().sortingLayerName = "UI";
-		this.filters.transform.FindChild("cardTypeFilters").FindChild("Toggle8").GetComponent<MeshRenderer> ().sortingLayerName = "UI";
-		this.filters.transform.FindChild("cardTypeFilters").FindChild("Toggle9").GetComponent<MeshRenderer> ().sortingLayerName = "UI";
-		this.filters.transform.FindChild("cardTypeFilters").FindChild("Toggle10").GetComponent<MeshRenderer> ().sortingLayerName = "UI";
-		this.filters.transform.FindChild("cardTypeFilters").FindChild("Toggle11").GetComponent<MeshRenderer> ().sortingLayerName = "UI";
-		this.filters.transform.FindChild("cardTypeFilters").FindChild("Toggle2").GetComponent<TextMesh>().text = "Enchanteur";
-		this.filters.transform.FindChild("cardTypeFilters").FindChild("Toggle3").GetComponent<TextMesh>().text = "Roublard";
-		this.filters.transform.FindChild("cardTypeFilters").FindChild("Toggle4").GetComponent<TextMesh>().text = "Berserk";
-		this.filters.transform.FindChild("cardTypeFilters").FindChild("Toggle5").GetComponent<TextMesh>().text = "Artificier";
-		this.filters.transform.FindChild("cardTypeFilters").FindChild("Toggle6").GetComponent<TextMesh>().text = "Mentaliste";
-		this.filters.transform.FindChild("cardTypeFilters").FindChild("Toggle7").GetComponent<TextMesh>().text = "Androide";
-		this.filters.transform.FindChild("cardTypeFilters").FindChild("Toggle8").GetComponent<TextMesh>().text = "Metamorphe";
-		this.filters.transform.FindChild("cardTypeFilters").FindChild("Toggle9").GetComponent<TextMesh>().text = "Pretre";
-		this.filters.transform.FindChild("cardTypeFilters").FindChild("Toggle10").GetComponent<TextMesh>().text = "Animiste";
-		this.filters.transform.FindChild("cardTypeFilters").FindChild("Toggle11").GetComponent<TextMesh>().text = "Geomancien";
-		this.filters.transform.FindChild("skillSearch").FindChild("Title").GetComponent<MeshRenderer> ().sortingLayerName = "UI";
-		this.filters.transform.FindChild("skillSearch").FindChild("Title").GetComponent<TextMesh>().text = "Compétences";
-		this.filters.transform.FindChild("skillSearch").FindChild ("SearchBar").FindChild("Text").GetComponent<MeshRenderer> ().sortingLayerName = "UI";
-		this.filters.transform.FindChild("powerFilter").FindChild ("Title").GetComponent<MeshRenderer> ().sortingLayerName = "UI";
-		this.filters.transform.FindChild("powerFilter").FindChild ("Title").GetComponent<TextMesh>().text = "Puissance";
-		this.filters.transform.FindChild("powerFilter").FindChild ("MinValue").GetComponent<MeshRenderer> ().sortingLayerName = "UI";
-		this.filters.transform.FindChild("powerFilter").FindChild ("MaxValue").GetComponent<MeshRenderer> ().sortingLayerName = "UI";
-		this.filters.transform.FindChild("lifeFilter").FindChild ("Title").GetComponent<MeshRenderer> ().sortingLayerName = "UI";
-		this.filters.transform.FindChild("lifeFilter").FindChild ("Title").GetComponent<TextMesh>().text = "Vie";
-		this.filters.transform.FindChild("lifeFilter").FindChild ("MinValue").GetComponent<MeshRenderer> ().sortingLayerName = "UI";
-		this.filters.transform.FindChild("lifeFilter").FindChild ("MaxValue").GetComponent<MeshRenderer> ().sortingLayerName = "UI";
-		this.filters.transform.FindChild("attackFilter").FindChild ("Title").GetComponent<MeshRenderer> ().sortingLayerName = "UI";
-		this.filters.transform.FindChild("attackFilter").FindChild ("Title").GetComponent<TextMesh>().text = "Attaque";
-		this.filters.transform.FindChild("attackFilter").FindChild ("MinValue").GetComponent<MeshRenderer> ().sortingLayerName = "UI";
-		this.filters.transform.FindChild("attackFilter").FindChild ("MaxValue").GetComponent<MeshRenderer> ().sortingLayerName = "UI";
-		this.filters.transform.FindChild("quicknessFilter").FindChild ("Title").GetComponent<MeshRenderer> ().sortingLayerName = "UI";
-		this.filters.transform.FindChild("quicknessFilter").FindChild ("Title").GetComponent<TextMesh>().text = "Rapidité";
-		this.filters.transform.FindChild("quicknessFilter").FindChild ("MinValue").GetComponent<MeshRenderer> ().sortingLayerName = "UI";
-		this.filters.transform.FindChild("quicknessFilter").FindChild ("MaxValue").GetComponent<MeshRenderer> ().sortingLayerName = "UI";
+		this.focusedCard = GameObject.Find ("FocusedCard");
+		this.focusedCard.AddComponent<NewFocusedCardMyGameController> ();
+		this.focusedFeatures=new GameObject[6];
+		for (int i=0;i<6;i++)
+		{
+			this.focusedFeatures[i]=GameObject.Find("FocusFeature"+i);
+		}
+		this.deckBoard.transform.FindChild("deckList").FindChild("renameDeckButton").FindChild("Title").GetComponent<TextMeshPro>().text = "Renommer";
+		this.deckBoard.transform.FindChild("deckList").FindChild("deleteDeckButton").FindChild("Title").GetComponent<TextMeshPro>().text = "Supprimer";
+		this.deckBoard.transform.FindChild("deckList").FindChild("newDeckButton").FindChild("Title").GetComponent<TextMeshPro>().text = "Nouveau deck";
+		this.deckBoard.transform.FindChild("deckList").FindChild ("Title").GetComponent<TextMeshPro> ().text = "Mes decks";
+		this.deckBoard.transform.FindChild("deckList").FindChild("currentDeck").FindChild("deckName").GetComponent<TextMeshPro> ().text="Aucun deck créé";
+		this.filters.transform.FindChild("Title").GetComponent<TextMeshPro>().text = "Filtres";
+		this.filters.transform.FindChild ("onSaleFilters").FindChild("Toggle0").GetComponent<TextMeshPro>().text = "Cartes mises en vente";
+		this.filters.transform.FindChild ("onSaleFilters").FindChild("Toggle1").GetComponent<TextMeshPro>().text = "Cartes non mises en vente";
+		this.filters.transform.FindChild("cardTypeFilters").FindChild("Title").GetComponent<TextMeshPro>().text = "Classes";
+		this.filters.transform.FindChild("cardTypeFilters").FindChild("Toggle2").GetComponent<TextMeshPro>().text = "Enchanteur";
+		this.filters.transform.FindChild("cardTypeFilters").FindChild("Toggle3").GetComponent<TextMeshPro>().text = "Roublard";
+		this.filters.transform.FindChild("cardTypeFilters").FindChild("Toggle4").GetComponent<TextMeshPro>().text = "Berserk";
+		this.filters.transform.FindChild("cardTypeFilters").FindChild("Toggle5").GetComponent<TextMeshPro>().text = "Artificier";
+		this.filters.transform.FindChild("cardTypeFilters").FindChild("Toggle6").GetComponent<TextMeshPro>().text = "Mentaliste";
+		this.filters.transform.FindChild("cardTypeFilters").FindChild("Toggle7").GetComponent<TextMeshPro>().text = "Androide";
+		this.filters.transform.FindChild("cardTypeFilters").FindChild("Toggle8").GetComponent<TextMeshPro>().text = "Metamorphe";
+		this.filters.transform.FindChild("cardTypeFilters").FindChild("Toggle9").GetComponent<TextMeshPro>().text = "Pretre";
+		this.filters.transform.FindChild("cardTypeFilters").FindChild("Toggle10").GetComponent<TextMeshPro>().text = "Animiste";
+		this.filters.transform.FindChild("cardTypeFilters").FindChild("Toggle11").GetComponent<TextMeshPro>().text = "Geomancien";
+		this.filters.transform.FindChild("skillSearch").FindChild("Title").GetComponent<TextMeshPro>().text = "Compétences";
+		this.filters.transform.FindChild("powerFilter").FindChild ("Title").GetComponent<TextMeshPro>().text = "Puissance";
+		this.filters.transform.FindChild("lifeFilter").FindChild ("Title").GetComponent<TextMeshPro>().text = "Vie";
+		this.filters.transform.FindChild("attackFilter").FindChild ("Title").GetComponent<TextMeshPro>().text = "Attaque";
+		this.filters.transform.FindChild("quicknessFilter").FindChild ("Title").GetComponent<TextMeshPro>().text = "Rapidité";
 	}
 	private void resetFiltersValue()
 	{
@@ -334,7 +316,7 @@ public class newMyGameController : MonoBehaviour
 		this.isOnSaleFilterOn = false;
 		this.isNotOnSaleFilterOn = false;
 		this.cleanSkillAutocompletion ();
-		this.filters.transform.FindChild("skillSearch").FindChild ("SearchBar").FindChild("Text").GetComponent<TextMesh>().text ="Rechercher";
+		this.filters.transform.FindChild("skillSearch").FindChild ("SearchBar").FindChild("Text").GetComponent<TextMeshPro>().text ="Rechercher";
 		if(this.sortingOrder!=-1)
 		{
 			this.sortButtons[this.sortingOrder].GetComponent<MyGameFiltersSortController>().setActive(false);
@@ -410,13 +392,13 @@ public class newMyGameController : MonoBehaviour
 
 		if(tempWidth>0.25f)
 		{
-			this.deckBoard.transform.position=new Vector3(selectButtonWorldWidth/2f +tempWidth/4f,3.4f,0);
+			this.deckBoard.transform.position=new Vector3(selectButtonWorldWidth/2f +tempWidth/4f,3.4f,0f);
 			this.deckBoard.transform.FindChild("deckList").localPosition=new Vector3(-deckCardsWidth/2f-tempWidth/2f-selectButtonWorldWidth/2f,0,0);
 			this.deckBoard.transform.FindChild("deckList").FindChild("currentDeck").localPosition=new Vector3(0f,0.27f,0f);
 			this.deckBoard.transform.FindChild("deckList").FindChild("renameDeckButton").localPosition=new Vector3(-selectButtonWorldWidth/2f+deleteRenameButtonWorldWidth/2f,-0.27f,0);
 			this.deckBoard.transform.FindChild("deckList").FindChild("deleteDeckButton").localPosition=new Vector3(selectButtonWorldWidth/2f-deleteRenameButtonWorldWidth/2f,-0.27f,0);
 			this.deckBoard.transform.FindChild("deckList").FindChild("newDeckButton").localPosition=new Vector3(-0.93f,-0.74f,0);
-			this.deckBoard.transform.FindChild("deckList").FindChild("Title").localPosition=new Vector3(0,0.86f,0);
+			this.deckBoard.transform.FindChild("deckList").FindChild("Title").localPosition=new Vector3(0,0.86f,0f);
 			this.deckBoard.transform.FindChild("3stars").localPosition=new Vector3(-2.55f,1.29f,0);
 			this.deckBoard.transform.FindChild("2stars").localPosition=new Vector3(-0.85f,1.29f,0);
 			this.deckBoard.transform.FindChild("1star").localPosition=new Vector3(0.85f,1.29f,0);
@@ -425,13 +407,13 @@ public class newMyGameController : MonoBehaviour
 		}
 		else
 		{
-			this.deckBoard.transform.position=new Vector3(0,2.25f,0);
+			this.deckBoard.transform.position=new Vector3(0,2.25f,0f);
 			this.deckBoard.transform.FindChild("deckList").localPosition=new Vector3(0,1.6f,0);
 			this.deckBoard.transform.FindChild("deckList").FindChild("currentDeck").localPosition=new Vector3(0.34f,0,0);
 			this.deckBoard.transform.FindChild("deckList").FindChild("renameDeckButton").localPosition=new Vector3(2.6f,0.15f,0);
 			this.deckBoard.transform.FindChild("deckList").FindChild("deleteDeckButton").localPosition=new Vector3(2.6f,-0.15f,0);
 			this.deckBoard.transform.FindChild("deckList").FindChild("newDeckButton").localPosition=new Vector3(-3.169f,0,0);
-			this.deckBoard.transform.FindChild("deckList").FindChild("Title").localPosition=new Vector3(0,0.69f,0);
+			this.deckBoard.transform.FindChild("deckList").FindChild("Title").localPosition=new Vector3(0,0.69f,0f);
 			this.deckBoard.transform.FindChild("3stars").localPosition=new Vector3(-2.55f,-1.35f,0);
 			this.deckBoard.transform.FindChild("2stars").localPosition=new Vector3(-0.85f,-1.35f,0);
 			this.deckBoard.transform.FindChild("1star").localPosition=new Vector3(0.85f,-1.35f,0);
@@ -440,23 +422,28 @@ public class newMyGameController : MonoBehaviour
 		
 		float cardsBoardHeight = worldHeight - cardsBoardUpMargin-cardsBoardDownMargin;
 		float cardsBoardWidth = worldWidth-cardsBoardLeftMargin-cardsBoardRightMargin;
-		Vector2 cardsBoardOrigin = new Vector3 (-worldWidth/2f+cardsBoardLeftMargin+cardsBoardWidth/2f, -worldHeight / 2f + cardsBoardDownMargin + cardsBoardHeight / 2,0);
+		Vector2 cardsBoardOrigin = new Vector3 (-worldWidth/2f+cardsBoardLeftMargin+cardsBoardWidth/2f, -worldHeight / 2f + cardsBoardDownMargin + cardsBoardHeight / 2,0f);
 
-		this.cardsBoard.GetComponent<CardsBoardController> ().resize(cardsBoardWidth,cardsBoardHeight,cardsBoardOrigin);
-		this.deckCardsPosition=new Vector3[4];
+		this.cardsArea = new Rect (cardsBoardOrigin.x - cardsBoardWidth / 2f, cardsBoardOrigin.y - cardsBoardHeight/2f, cardsBoardWidth, cardsBoardHeight);
 
-		for(int i=0;i<4;i++)
-		{
-			this.deckCardsPosition[i]=this.deckBoard.transform.FindChild("Card"+i).position;
-			this.deckCards[i].transform.position=this.deckCardsPosition[i];
-			this.deckCards[i].transform.localScale=new Vector3(1f,1f,1f);
-			this.deckCards[i].SetActive(false);
-		}
-		
 		float cardWidth = 194f;
 		float cardHeight = 271f;
 		float cardWorldWidth = (cardWidth / pixelPerUnit) * cardScale;
 		float cardWorldHeight = (cardHeight / pixelPerUnit) * cardScale;
+
+		this.cardsBoard.GetComponent<CardsBoardController> ().resize(cardsBoardWidth,cardsBoardHeight,cardsBoardOrigin);
+		this.deckCardsPosition=new Vector3[4];
+		this.deckCardsArea=new Rect[4];
+
+		for(int i=0;i<4;i++)
+		{
+			this.deckCardsPosition[i]=this.deckBoard.transform.FindChild("Card"+i).position;
+			this.deckCardsArea[i]=new Rect(this.deckCardsPosition[i].x-cardWorldWidth/2f,this.deckCardsPosition[i].y-cardWorldHeight/2f,cardWorldWidth,cardWorldHeight);
+			this.deckCards[i].transform.position=this.deckCardsPosition[i];
+			this.deckCards[i].transform.localScale=new Vector3(1f,1f,1f);
+			this.deckCards[i].transform.GetComponent<NewCardMyGameController>().setId(i,true);
+			this.deckCards[i].SetActive(false);
+		}
 
 		this.cardsPerLine = Mathf.FloorToInt ((cardsBoardWidth-0.5f) / cardWorldWidth);
 		this.nbLines = Mathf.FloorToInt ((cardsBoardHeight-0.5f) / cardWorldHeight);
@@ -474,15 +461,39 @@ public class newMyGameController : MonoBehaviour
 			for(int i =0;i<this.cardsPerLine;i++)
 			{
 				this.cards[j*(cardsPerLine)+i] = Instantiate(this.cardObject) as GameObject;
+				this.cards[j*(cardsPerLine)+i].AddComponent<NewCardMyGameController>();
 				this.cards[j*(cardsPerLine)+i].transform.localScale= new Vector3(1f,1f,1f);
-				this.cardsPosition[j*(this.cardsPerLine)+i]=new Vector3(cardBoardStartX+(i+1)*(gapWidth+cardWorldWidth),cardBoardStartY-(j+1)*(gapHeight+cardWorldHeight),0);
+				this.cardsPosition[j*(this.cardsPerLine)+i]=new Vector3(cardBoardStartX+(i+1)*(gapWidth+cardWorldWidth),cardBoardStartY-(j+1)*(gapHeight+cardWorldHeight),0f);
 				this.cards[j*(cardsPerLine)+i].transform.position=this.cardsPosition[j*(this.cardsPerLine)+i];
 				this.cards[j*(this.cardsPerLine)+i].transform.name="Card"+(j*(this.cardsPerLine)+i);
+				this.cards[j*(cardsPerLine)+i].transform.GetComponent<NewCardMyGameController>().setId(j*(cardsPerLine)+i,false);
 				this.cards[j*(this.cardsPerLine)+i].SetActive(false);
 			}
 		}
 
 		this.filters.transform.position = new Vector3 (worldWidth/2f - 1.4f, 0f, 0f);
+
+		float focusedCardScale = 3.648985f;
+		float focusedCardWidth = 194f;
+		float focusedCardHeight = 271f;
+		float focusedCardRightMargin = 0.5f;
+		float focusedCardLeftMargin = 2.8f;
+		float focusedCardWorldWidth = (focusedCardWidth / pixelPerUnit) * focusedCardScale;
+		float focusedCardWorldHeight = (focusedCardHeight / pixelPerUnit) * focusedCardScale;
+		float focusedCardButtonWorldWidth = (1f / 3f) * focusedCardWorldWidth;
+		float focusedCardButtonWorldHeight = (1f / 6f) * focusedCardWorldHeight;
+		float gapBetweenButtonsAndFocusedCard = (1f / 20f) * focusedCardWorldWidth;
+		float emptyWidth = this.worldWidth - focusedCardRightMargin - focusedCardLeftMargin - focusedCardWorldWidth - gapBetweenButtonsAndFocusedCard - focusedCardButtonWorldWidth;
+
+		this.focusedCard.transform.position = new Vector3 (focusedCardLeftMargin + emptyWidth / 2f + focusedCardWorldWidth/2f - worldWidth / 2f, -0.25f, 0f);
+		for(int i=0;i<this.focusedFeatures.Length;i++)
+		{
+			this.focusedFeatures[i].transform.position=new Vector3(this.focusedCard.transform.position.x+focusedCardWorldWidth/2f+gapBetweenButtonsAndFocusedCard+focusedCardButtonWorldWidth/2f,
+			                                                       this.focusedCard.transform.position.y+focusedCardWorldHeight/2f-focusedCardButtonWorldHeight/2f-i*focusedCardButtonWorldHeight,
+			                                                       0);
+			this.focusedFeatures[i].SetActive(false);
+		}
+		this.focusedCard.SetActive (false);
 
 		if(newDeckViewDisplayed)
 		{
@@ -495,6 +506,10 @@ public class newMyGameController : MonoBehaviour
 		if(deleteDeckViewDisplayed)
 		{
 			this.deleteDeckPopUpResize();
+		}
+		if(errorViewDisplayed)
+		{
+			this.errorPopUpResize();
 		}
 	}
 	public void drawCards()
@@ -509,7 +524,6 @@ public class newMyGameController : MonoBehaviour
 				{
 					this.cardsDisplayed.Add (this.cardsToBeDisplayed[this.chosenPage*(this.nbLines*this.cardsPerLine)+j*(cardsPerLine)+i]);
 					this.cards[j*(cardsPerLine)+i].transform.GetComponent<NewCardController>().setCard(model.cards[this.cardsDisplayed[j*(cardsPerLine)+i]]);
-					this.cards[j*(cardsPerLine)+i].transform.GetComponent<NewCardController>().setId(j*(cardsPerLine)+i);
 					this.cards[j*(cardsPerLine)+i].SetActive(true);
 				}
 				else
@@ -537,14 +551,14 @@ public class newMyGameController : MonoBehaviour
 					}
 				}
 			}
-			this.deckBoard.transform.FindChild("deckList").FindChild("currentDeck").FindChild("deckName").GetComponent<TextMesh> ().text = model.decks[this.deckDisplayed].Name;
+			this.deckBoard.transform.FindChild("deckList").FindChild("currentDeck").FindChild("deckName").GetComponent<TextMeshPro> ().text = model.decks[this.deckDisplayed].Name;
 			this.deckBoard.transform.FindChild("deckList").FindChild("currentDeck").FindChild("selectButton").gameObject.SetActive(true);
 			this.deckBoard.transform.FindChild("deckList").FindChild("renameDeckButton").gameObject.SetActive(true);
 			this.deckBoard.transform.FindChild("deckList").FindChild("deleteDeckButton").gameObject.SetActive(true);
 		}
 		else
 		{
-			this.deckBoard.transform.FindChild("deckList").FindChild("currentDeck").FindChild("deckName").GetComponent<TextMesh> ().text="Aucun deck créé";
+			this.deckBoard.transform.FindChild("deckList").FindChild("currentDeck").FindChild("deckName").GetComponent<TextMeshPro> ().text="Aucun deck créé";
 			this.deckBoard.transform.FindChild("deckList").FindChild("currentDeck").FindChild("selectButton").gameObject.SetActive(false);
 			this.deckBoard.transform.FindChild("deckList").FindChild("renameDeckButton").gameObject.SetActive(false);
 			this.deckBoard.transform.FindChild("deckList").FindChild("deleteDeckButton").gameObject.SetActive(false);
@@ -554,13 +568,62 @@ public class newMyGameController : MonoBehaviour
 			if(this.deckCardsDisplayed[i]!=-1)
 			{
 				this.deckCards[i].transform.GetComponent<NewCardController>().setCard(model.cards[this.deckCardsDisplayed[i]]);
-				this.deckCards[i].transform.GetComponent<NewCardController>().setId(-i);
 				this.deckCards[i].SetActive(true);
 			}
 			else
 			{
 				this.deckCards[i].SetActive(false);
 			}
+		}
+	}
+	public void displayCardFocused()
+	{
+		this.isCardFocusedDisplayed = true;
+		this.displayBackUI (false);
+		this.displayFocusFeatures (true);
+		int cardIndex;
+		if(isDeckCardClicked)
+		{
+			this.focusedCard.GetComponent<NewFocusedCardController>().setCard(model.cards[this.deckCardsDisplayed[this.idCardClicked]]);
+		}
+		else
+		{
+			this.focusedCard.GetComponent<NewFocusedCardController>().setCard(model.cards[this.cardsDisplayed[this.idCardClicked]]);
+		}
+	}
+	public void hideCardFocused()
+	{
+		this.isCardFocusedDisplayed = false;
+		this.displayBackUI (true);
+		this.displayFocusFeatures (false);
+	}
+	public void displayBackUI(bool value)
+	{
+		this.deckBoard.SetActive (value);
+		this.cardsBoard.SetActive (value);
+		this.filters.SetActive (value);
+		for(int i=0;i<this.cardsDisplayed.Count;i++)
+		{
+			this.cards[i].SetActive(value);
+		}
+		for(int i=0;i<this.deckCardsDisplayed.Length;i++)
+		{
+			if(this.deckCardsDisplayed[i]!=-1)
+			{
+				this.deckCards[i].SetActive(value);
+			}
+		}
+		for(int i=0;i<this.paginationButtons.Length;i++)
+		{
+			this.paginationButtons[i].SetActive(value);
+		}
+	}
+	public void displayFocusFeatures(bool value)
+	{
+		this.focusedCard.SetActive (value);
+		for(int i=0;i<this.focusedFeatures.Length;i++)
+		{
+			this.focusedFeatures[i].SetActive(value);
 		}
 	}
 	public void selectDeck(int id)
@@ -599,9 +662,8 @@ public class newMyGameController : MonoBehaviour
 			this.deckList.Add (Instantiate(this.deckListObject) as GameObject);
 			this.deckList[this.deckList.Count-1].transform.parent=this.deckBoard.transform.FindChild("deckList").FindChild("currentDeck");
 			this.deckList[this.deckList.Count-1].transform.localScale=new Vector3(1.4f,1.4f,1.4f);
-			this.deckList[this.deckList.Count-1].transform.localPosition=new Vector3(0f, -0.45f+(this.deckList.Count-1)*(-0.32f),0);
-			this.deckList[this.deckList.Count-1].transform.FindChild("Title").GetComponent<MeshRenderer> ().sortingLayerName = "UI3";
-			this.deckList[this.deckList.Count-1].transform.FindChild("Title").GetComponent<TextMesh>().text = model.decks [this.decksDisplayed[i]].Name;
+			this.deckList[this.deckList.Count-1].transform.localPosition=new Vector3(0f, -0.45f+(this.deckList.Count-1)*(-0.32f),0f);
+			this.deckList[this.deckList.Count-1].transform.FindChild("Title").GetComponent<TextMeshPro>().text = model.decks [this.decksDisplayed[i]].Name;
 			this.deckList[this.deckList.Count-1].GetComponent<DeckBoardDeckListController>().setId(i);
 		}
 	}
@@ -622,7 +684,7 @@ public class newMyGameController : MonoBehaviour
 		this.cleanSkillAutocompletion();
 		this.isSearchingSkill = true;
 		this.valueSkill = "";
-		this.filters.transform.FindChild("skillSearch").FindChild ("SearchBar").FindChild("Text").GetComponent<TextMesh>().text = this.valueSkill;
+		this.filters.transform.FindChild("skillSearch").FindChild ("SearchBar").FindChild("Text").GetComponent<TextMeshPro>().text = this.valueSkill;
 	}
 	public void changeToggle(int toggleId)
 	{
@@ -739,7 +801,7 @@ public class newMyGameController : MonoBehaviour
 			minPowerVal=minPowerLimit+Mathf.CeilToInt(ratio*(maxPowerLimit-minPowerLimit));
 			if(minPowerVal!=oldMinPowerVal)
 			{
-				this.filters.transform.FindChild("powerFilter").FindChild ("MinValue").GetComponent<TextMesh>().text = minPowerVal.ToString();
+				this.filters.transform.FindChild("powerFilter").FindChild ("MinValue").GetComponent<TextMeshPro>().text = minPowerVal.ToString();
 				isMoved=true;
 			}
 			break;
@@ -747,7 +809,7 @@ public class newMyGameController : MonoBehaviour
 			maxPowerVal=maxPowerLimit-Mathf.FloorToInt(ratio*(maxPowerLimit-minPowerLimit));
 			if(maxPowerVal!=oldMaxPowerVal)
 			{
-				this.filters.transform.FindChild("powerFilter").FindChild ("MaxValue").GetComponent<TextMesh>().text = maxPowerVal.ToString();
+				this.filters.transform.FindChild("powerFilter").FindChild ("MaxValue").GetComponent<TextMeshPro>().text = maxPowerVal.ToString();
 				isMoved=true;
 			}
 			break;
@@ -755,7 +817,7 @@ public class newMyGameController : MonoBehaviour
 			minLifeVal=minLifeLimit+Mathf.CeilToInt(ratio*(maxLifeLimit-minLifeLimit));
 			if(minLifeVal!=oldMinLifeVal)
 			{
-				this.filters.transform.FindChild("lifeFilter").FindChild ("MinValue").GetComponent<TextMesh>().text = minLifeVal.ToString();
+				this.filters.transform.FindChild("lifeFilter").FindChild ("MinValue").GetComponent<TextMeshPro>().text = minLifeVal.ToString();
 				isMoved=true;
 			}
 			break;
@@ -763,7 +825,7 @@ public class newMyGameController : MonoBehaviour
 			maxLifeVal=maxLifeLimit-Mathf.FloorToInt(ratio*(maxLifeLimit-minLifeLimit));
 			if(maxLifeVal!=oldMaxLifeVal)
 			{
-				this.filters.transform.FindChild("lifeFilter").FindChild ("MaxValue").GetComponent<TextMesh>().text = maxLifeVal.ToString();
+				this.filters.transform.FindChild("lifeFilter").FindChild ("MaxValue").GetComponent<TextMeshPro>().text = maxLifeVal.ToString();
 				isMoved=true;
 			}
 			break;
@@ -771,7 +833,7 @@ public class newMyGameController : MonoBehaviour
 			minAttackVal=minAttackLimit+Mathf.CeilToInt(ratio*(maxAttackLimit-minAttackLimit));
 			if(minAttackVal!=oldMinAttackVal)
 			{
-				this.filters.transform.FindChild("attackFilter").FindChild ("MinValue").GetComponent<TextMesh>().text = minAttackVal.ToString();
+				this.filters.transform.FindChild("attackFilter").FindChild ("MinValue").GetComponent<TextMeshPro>().text = minAttackVal.ToString();
 				isMoved=true;
 			}
 			break;
@@ -779,7 +841,7 @@ public class newMyGameController : MonoBehaviour
 			maxAttackVal=maxAttackLimit-Mathf.FloorToInt(ratio*(maxAttackLimit-minAttackLimit));
 			if(maxAttackVal!=oldMaxAttackVal)
 			{
-				this.filters.transform.FindChild("attackFilter").FindChild ("MaxValue").GetComponent<TextMesh>().text = maxAttackVal.ToString();
+				this.filters.transform.FindChild("attackFilter").FindChild ("MaxValue").GetComponent<TextMeshPro>().text = maxAttackVal.ToString();
 				isMoved=true;
 			}
 			break;
@@ -787,7 +849,7 @@ public class newMyGameController : MonoBehaviour
 			minQuicknessVal=minQuicknessLimit+Mathf.CeilToInt(ratio*(maxQuicknessLimit-minQuicknessLimit));
 			if(minQuicknessVal!=oldMinQuicknessVal)
 			{
-				this.filters.transform.FindChild("quicknessFilter").FindChild ("MinValue").GetComponent<TextMesh>().text = minQuicknessVal.ToString();
+				this.filters.transform.FindChild("quicknessFilter").FindChild ("MinValue").GetComponent<TextMeshPro>().text = minQuicknessVal.ToString();
 				isMoved=true;
 			}
 			break;
@@ -795,7 +857,7 @@ public class newMyGameController : MonoBehaviour
 			maxQuicknessVal=maxQuicknessLimit-Mathf.FloorToInt(ratio*(maxQuicknessLimit-minQuicknessLimit));
 			if(maxQuicknessVal!=oldMaxQuicknessVal)
 			{
-				this.filters.transform.FindChild("quicknessFilter").FindChild ("MaxValue").GetComponent<TextMesh>().text = maxQuicknessVal.ToString();
+				this.filters.transform.FindChild("quicknessFilter").FindChild ("MaxValue").GetComponent<TextMeshPro>().text = maxQuicknessVal.ToString();
 				isMoved=true;
 			}
 			break;
@@ -1353,19 +1415,19 @@ public class newMyGameController : MonoBehaviour
 			}
 		}
 
-		this.filters.transform.FindChild("powerFilter").FindChild ("MinValue").GetComponent<TextMesh>().text = this.minPowerVal.ToString();
-		this.filters.transform.FindChild("powerFilter").FindChild ("MaxValue").GetComponent<TextMesh>().text = this.maxPowerVal.ToString();
-		this.filters.transform.FindChild("lifeFilter").FindChild ("MinValue").GetComponent<TextMesh>().text = this.minLifeVal.ToString();
-		this.filters.transform.FindChild("lifeFilter").FindChild ("MaxValue").GetComponent<TextMesh>().text = this.maxLifeVal.ToString();
-		this.filters.transform.FindChild("attackFilter").FindChild ("MinValue").GetComponent<TextMesh>().text = this.minAttackVal.ToString();
-		this.filters.transform.FindChild("attackFilter").FindChild ("MaxValue").GetComponent<TextMesh>().text = this.maxAttackVal.ToString();
-		this.filters.transform.FindChild("quicknessFilter").FindChild ("MinValue").GetComponent<TextMesh>().text = this.minQuicknessVal.ToString();
-		this.filters.transform.FindChild("quicknessFilter").FindChild ("MaxValue").GetComponent<TextMesh>().text = this.maxQuicknessVal.ToString();
+		this.filters.transform.FindChild("powerFilter").FindChild ("MinValue").GetComponent<TextMeshPro>().text = this.minPowerVal.ToString();
+		this.filters.transform.FindChild("powerFilter").FindChild ("MaxValue").GetComponent<TextMeshPro>().text = this.maxPowerVal.ToString();
+		this.filters.transform.FindChild("lifeFilter").FindChild ("MinValue").GetComponent<TextMeshPro>().text = this.minLifeVal.ToString();
+		this.filters.transform.FindChild("lifeFilter").FindChild ("MaxValue").GetComponent<TextMeshPro>().text = this.maxLifeVal.ToString();
+		this.filters.transform.FindChild("attackFilter").FindChild ("MinValue").GetComponent<TextMeshPro>().text = this.minAttackVal.ToString();
+		this.filters.transform.FindChild("attackFilter").FindChild ("MaxValue").GetComponent<TextMeshPro>().text = this.maxAttackVal.ToString();
+		this.filters.transform.FindChild("quicknessFilter").FindChild ("MinValue").GetComponent<TextMeshPro>().text = this.minQuicknessVal.ToString();
+		this.filters.transform.FindChild("quicknessFilter").FindChild ("MaxValue").GetComponent<TextMeshPro>().text = this.maxQuicknessVal.ToString();
 	}
 	private void setSkillAutocompletion()
 	{
 		this.cleanSkillAutocompletion ();
-		this.filters.transform.FindChild("skillSearch").FindChild ("SearchBar").FindChild("Text").GetComponent<TextMesh>().text = this.valueSkill;
+		this.filters.transform.FindChild("skillSearch").FindChild ("SearchBar").FindChild("Text").GetComponent<TextMeshPro>().text = this.valueSkill;
 		if(this.valueSkill.Length>0)
 		{
 			for (int i = 0; i < model.skillsList.Count; i++) 
@@ -1374,9 +1436,8 @@ public class newMyGameController : MonoBehaviour
 				{
 					this.matchValues.Add (Instantiate(this.skillListObject) as GameObject);
 					this.matchValues[this.matchValues.Count-1].transform.parent=this.filters.transform.FindChild("skillSearch");
-					this.matchValues[this.matchValues.Count-1].transform.localPosition=new Vector3(0, -0.55f+(this.matchValues.Count-1)*(-0.27f),0);
-					this.matchValues[this.matchValues.Count-1].transform.FindChild("Title").GetComponent<MeshRenderer> ().sortingLayerName = "UI3";
-					this.matchValues[this.matchValues.Count-1].transform.FindChild("Title").GetComponent<TextMesh>().text = model.skillsList [i];
+					this.matchValues[this.matchValues.Count-1].transform.localPosition=new Vector3(0, -0.55f+(this.matchValues.Count-1)*(-0.27f),0f);
+					this.matchValues[this.matchValues.Count-1].transform.FindChild("Title").GetComponent<TextMeshPro>().text = model.skillsList [i];
 				}
 			}
 		}
@@ -1394,7 +1455,7 @@ public class newMyGameController : MonoBehaviour
 		this.isSearchingSkill = false;
 		this.valueSkill = skill.ToLower();
 		this.isSkillChosen = true;
-		this.filters.transform.FindChild("skillSearch").FindChild ("SearchBar").FindChild("Text").GetComponent<TextMesh>().text =valueSkill;
+		this.filters.transform.FindChild("skillSearch").FindChild ("SearchBar").FindChild("Text").GetComponent<TextMeshPro>().text =valueSkill;
 		this.cleanSkillAutocompletion ();
 		this.applyFilters ();
 	}
@@ -1439,13 +1500,12 @@ public class newMyGameController : MonoBehaviour
 			for(int i =0;i<nbButtonsToDraw;i++)
 			{
 				this.paginationButtons[i] = Instantiate(this.paginationButtonObject) as GameObject;
-				this.paginationButtons[i].transform.position=new Vector3((0.5f+i-nbButtonsToDraw/2f)*(paginationButtonWidth+gapBetweenPaginationButton),-4.7f,0);
-				this.paginationButtons[i].transform.FindChild("Title").GetComponent<MeshRenderer> ().sortingLayerName = "UI";
+				this.paginationButtons[i].transform.position=new Vector3((0.5f+i-nbButtonsToDraw/2f)*(paginationButtonWidth+gapBetweenPaginationButton),-4.7f,0f);
 				this.paginationButtons[i].name="Pagination"+i.ToString();
 			}
 			for(int i=System.Convert.ToInt32(drawBackButton);i<nbButtonsToDraw-System.Convert.ToInt32(drawNextButton);i++)
 			{
-				this.paginationButtons[i].transform.FindChild("Title").GetComponent<TextMesh>().text=(this.pageDebut+i-System.Convert.ToInt32(drawBackButton)).ToString();
+				this.paginationButtons[i].transform.FindChild("Title").GetComponent<TextMeshPro>().text=(this.pageDebut+i-System.Convert.ToInt32(drawBackButton)).ToString();
 				this.paginationButtons[i].GetComponent<MyGamePaginationController>().setId(i);
 				if(this.pageDebut+i-System.Convert.ToInt32(drawBackButton)==this.chosenPage)
 				{
@@ -1456,12 +1516,12 @@ public class newMyGameController : MonoBehaviour
 			if(drawBackButton)
 			{
 				this.paginationButtons[0].GetComponent<MyGamePaginationController>().setId(-2);
-				this.paginationButtons[0].transform.FindChild("Title").GetComponent<TextMesh>().text="...";
+				this.paginationButtons[0].transform.FindChild("Title").GetComponent<TextMeshPro>().text="...";
 			}
 			if(drawNextButton)
 			{
 				this.paginationButtons[nbButtonsToDraw-1].GetComponent<MyGamePaginationController>().setId(-1);
-				this.paginationButtons[nbButtonsToDraw-1].transform.FindChild("Title").GetComponent<TextMesh>().text="...";
+				this.paginationButtons[nbButtonsToDraw-1].transform.FindChild("Title").GetComponent<TextMeshPro>().text="...";
 			}
 		}
 	}
@@ -1525,6 +1585,17 @@ public class newMyGameController : MonoBehaviour
 		deleteDeckView.popUpVM.transparentStyle = new GUIStyle (this.popUpSkin.customStyles [2]);
 		this.deleteDeckPopUpResize ();
 	}
+	public void displayErrorPopUp(string error)
+	{
+		this.errorViewDisplayed = true;
+		this.errorView = Camera.main.gameObject.AddComponent <NewMyGameErrorPopUpView>();
+		errorView.errorPopUpVM.error = error;
+		errorView.popUpVM.centralWindowStyle = new GUIStyle(this.popUpSkin.customStyles[3]);
+		errorView.popUpVM.centralWindowTitleStyle = new GUIStyle (this.popUpSkin.customStyles [0]);
+		errorView.popUpVM.centralWindowButtonStyle = new GUIStyle (this.popUpSkin.button);
+		errorView.popUpVM.transparentStyle = new GUIStyle (this.popUpSkin.customStyles [2]);
+		this.errorPopUpResize ();
+	}
 	public void hideNewDeckPopUp()
 	{
 		Destroy (this.newDeckView);
@@ -1540,6 +1611,11 @@ public class newMyGameController : MonoBehaviour
 		Destroy (this.deleteDeckView);
 		this.deleteDeckViewDisplayed = false;
 	}
+	public void hideErrorPopUp()
+	{
+		Destroy (this.errorView);
+		this.errorViewDisplayed = false;
+	}
 	public void newDeckPopUpResize()
 	{
 		newDeckView.popUpVM.centralWindow = this.centralWindow;
@@ -1554,6 +1630,11 @@ public class newMyGameController : MonoBehaviour
 	{
 		deleteDeckView.popUpVM.centralWindow = this.centralWindow;
 		deleteDeckView.popUpVM.resize ();
+	}
+	public void errorPopUpResize()
+	{
+		errorView.popUpVM.centralWindow = this.centralWindow;
+		errorView.popUpVM.resize ();
 	}
 	public void createNewDeckHandler()
 	{
@@ -1589,7 +1670,7 @@ public class newMyGameController : MonoBehaviour
 			{
 				this.editDeckView.editDeckPopUpVM.guiEnabled=false;
 				yield return StartCoroutine(model.decks[this.deckDisplayed].edit(editDeckView.editDeckPopUpVM.newName));
-				this.deckBoard.transform.FindChild("deckList").FindChild("currentDeck").FindChild("deckName").GetComponent<TextMesh> ().text = model.decks[this.deckDisplayed].Name;
+				this.deckBoard.transform.FindChild("deckList").FindChild("currentDeck").FindChild("deckName").GetComponent<TextMeshPro> ().text = model.decks[this.deckDisplayed].Name;
 				this.hideEditDeckPopUp();
 			}
 		}
@@ -1646,37 +1727,169 @@ public class newMyGameController : MonoBehaviour
 		}
 		return "";
 	}
-	public void leftClickedHandler(int id)
+	public void leftClickedHandler(int id, bool isDeckCard)
 	{
 		this.idCardClicked = id;
-		this.isLeftClicked = true;
-		this.clickInterval = 0f;
+		this.isDeckCardClicked = isDeckCard;
+		bool onSale;
+		int idOwner;
+		if(isDeckCard)
+		{
+			onSale=System.Convert.ToBoolean(model.cards[this.deckCardsDisplayed[id]].onSale);
+			idOwner=model.cards[this.deckCardsDisplayed[id]].onSale;
+		}
+		else
+		{
+			onSale=System.Convert.ToBoolean(model.cards[this.cardsDisplayed[id]].onSale);
+			idOwner = model.cards[this.cardsDisplayed[id]].onSale;
+		}
+		if(this.deckDisplayed==-1)
+		{
+			this.displayErrorPopUp("Vous devez créer un deck avant de sélectionner une carte");
+		}
+		else if(onSale)
+		{
+			this.displayErrorPopUp("Vous ne pouvez pas ajouter à votre deck une carte qui est en vente");
+		}
+		else if(idOwner==-1)
+		{
+			this.displayErrorPopUp("Cette carte a été vendue, vous ne pouvez plus l'ajouter");
+		}
+		else
+		{
+			this.isLeftClicked = true;
+			this.clickInterval = 0f;
+		}
+	}
+	public void rightClickedHandler(int id, bool isDeckCard)
+	{
+		this.idCardClicked = id;
+		this.isDeckCardClicked = isDeckCard;
+		bool onSale;
+		int idOwner;
+		this.displayCardFocused ();
 	}
 	public void leftClickReleaseHandler()
 	{
 		if(isLeftClicked)
 		{
 			this.isLeftClicked=false;
+			if(this.isDeckCardClicked)
+			{
+				this.moveToCards();
+			}
+			else
+			{
+				int position=-1;
+				for(int i=0;i<this.deckCardsDisplayed.Length;i++)
+				{
+					if(deckCardsDisplayed[i]==-1)
+					{
+						position=i;
+						break;
+					}
+				}
+				if(position>-1)
+				{
+					this.moveToDeckCards(position);
+				}
+			}
 		}
 		else
 		{
 			this.endDragging();
 		}
 	}
+	public void startDragging()
+	{
+		this.isDragging=true;
+		Cursor.SetCursor (this.cursorTextures[1], new Vector2(this.cursorTextures[1].width/2f,this.cursorTextures[1].width/2f), CursorMode.Auto);
+		if(!isDeckCardClicked)
+		{
+			this.cards[this.idCardClicked].GetComponent<NewCardController>().changeLayer(2);
+		}
+		else
+		{
+			this.deckCards[this.idCardClicked].GetComponent<NewCardController>().changeLayer(2);
+			this.cardsBoard.GetComponent<CardsBoardController> ().changeColor (new Color (155f / 255f, 220f / 255f, 1f));
+		}
+		this.deckBoard.GetComponent<DeckBoardController> ().changeCardsColor (new Color (155f / 255f, 220f / 255f, 1f));
+	}
 	public void isDraggingCard()
 	{
 		if(isDragging)
 		{
 			Vector3 mousePosition = Camera.main.ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, Input.mousePosition.z));
-			if(this.idCardClicked>-1)
+			if(!isDeckCardClicked)
 			{
-				this.cards[this.idCardClicked].transform.position=new Vector3(mousePosition.x,mousePosition.y,0);
+				this.cards[this.idCardClicked].transform.position=new Vector3(mousePosition.x,mousePosition.y,0f);
 			}
 			else
 			{
-				this.deckCards[-this.idCardClicked].transform.position=new Vector3(mousePosition.x,mousePosition.y,0);
+				this.deckCards[this.idCardClicked].transform.position=new Vector3(mousePosition.x,mousePosition.y,0f);
 			}
 		}
+	}
+	public void moveToCards()
+	{
+		StartCoroutine(removeCardFromDeck(this.idCardClicked));
+		this.deckCards[this.idCardClicked].SetActive(false);
+		this.deckCardsDisplayed[this.idCardClicked]=-1;
+		this.applyFilters();
+	}
+	public void moveToDeckCards(int position)
+	{
+		if(!isDeckCardClicked)
+		{
+			StartCoroutine(addCardToDeck(this.idCardClicked,position));
+			if(this.deckCardsDisplayed[position]!=-1)
+			{
+				StartCoroutine(removeCardFromDeck(position));
+			}
+			this.deckCards[position].SetActive(true);
+			this.deckCards[position].GetComponent<NewCardController>().setCard(model.cards[this.cardsDisplayed[this.idCardClicked]]);
+			this.deckCardsDisplayed[position]=this.cardsDisplayed[this.idCardClicked];
+			this.applyFilters();
+		}
+		else
+		{
+			int idCard1=model.cards[deckCardsDisplayed[this.idCardClicked]].Id;
+			this.deckCards[position].SetActive(true);
+			this.deckCards[position].GetComponent<NewCardController>().setCard(model.cards[this.deckCardsDisplayed[this.idCardClicked]]);
+			if(this.deckCardsDisplayed[position]!=-1)
+			{
+				int indexCard2=this.deckCardsDisplayed[position];
+				int idCard2=model.cards[indexCard2].Id;
+				this.deckCards[position].GetComponent<NewCardController>().setCard(model.cards[this.deckCardsDisplayed[this.idCardClicked]]);
+				this.deckCardsDisplayed[position]=this.deckCardsDisplayed[this.idCardClicked];
+				this.deckCards[this.idCardClicked].GetComponent<NewCardController>().setCard(model.cards[indexCard2]);
+				this.deckCardsDisplayed[this.idCardClicked]=indexCard2;
+				StartCoroutine(this.changeDeckCardsOrder(idCard1,position,idCard2,this.idCardClicked));
+			}
+			else
+			{
+				this.deckCardsDisplayed[position]=this.deckCardsDisplayed[this.idCardClicked];
+				this.deckCards[this.idCardClicked].SetActive(false);
+				this.deckCardsDisplayed[this.idCardClicked]=-1;
+				StartCoroutine(changeDeckCardsOrder(idCard1,position,-1,-1));
+			}
+		}
+	}
+	public IEnumerator removeCardFromDeck(int cardPosition)
+	{
+		int cardIndex = deckCardsDisplayed[cardPosition];
+		model.cards[cardIndex].Decks.Remove(model.decks[this.deckDisplayed].Id);
+		yield return StartCoroutine(model.decks[this.deckDisplayed].removeCard(model.cards[cardIndex].Id));
+	}
+	public IEnumerator addCardToDeck(int cardPosition, int deckOrder)
+	{
+		int cardIndex = this.cardsDisplayed [cardPosition];
+		model.cards[cardIndex].Decks.Add(model.decks[this.deckDisplayed].Id);
+		yield return StartCoroutine(model.decks[this.deckDisplayed].addCard(model.cards[cardIndex].Id,deckOrder));
+	}
+	public IEnumerator changeDeckCardsOrder(int idCard1, int deckOrder1, int idCard2, int deckOrder2)
+	{
+		yield return StartCoroutine(model.decks[this.deckDisplayed].changeCardsOrder(idCard1,deckOrder1,idCard2,deckOrder2));
 	}
 	public void endDragging()
 	{
@@ -1689,14 +1902,34 @@ public class newMyGameController : MonoBehaviour
 		{
 			Cursor.SetCursor (null, Vector2.zero, CursorMode.Auto);
 		}
-
-		if(this.idCardClicked>-1)
+		if(!isDeckCardClicked)
 		{
 			this.cards[this.idCardClicked].transform.position=this.cardsPosition[this.idCardClicked];
+			this.cards[this.idCardClicked].GetComponent<NewCardController>().changeLayer(-2);
 		}
 		else
 		{
-			this.deckCards[-this.idCardClicked].transform.position=this.deckCardsPosition[-this.idCardClicked];
+			this.deckCards[this.idCardClicked].GetComponent<NewCardController>().changeLayer(-2);
+			this.deckCards[this.idCardClicked].transform.position=this.deckCardsPosition[this.idCardClicked];
+			this.cardsBoard.GetComponent<CardsBoardController> ().changeColor (new Color (1f,1f, 1f));
+		}
+		this.deckBoard.GetComponent<DeckBoardController> ().changeCardsColor (new Color (1f,1f, 1f));bool toCards=false;
+
+		Vector3 cursorPosition = Camera.main.ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, Input.mousePosition.z));
+		if(this.cardsArea.Contains(cursorPosition) && isDeckCardClicked)
+		{
+			this.moveToCards();
+		}
+		else
+		{
+			for(int i=0;i<deckCardsArea.Length;i++)
+			{
+				if(this.deckCardsArea[i].Contains(Camera.main.ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, Input.mousePosition.z))))
+				{
+					this.moveToDeckCards(i);
+					break;
+				}
+			}
 		}
 	}
 	public void isHoveringCard()

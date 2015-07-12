@@ -3,16 +3,14 @@ using UnityEngine;
 public class DeckBoardSelectButtonController : MonoBehaviour 
 {
 	
-	public Sprite[] sprites;
-	
 	void OnMouseOver()
 	{
-		gameObject.transform.GetComponent<SpriteRenderer> ().sprite = this.sprites [1];
+		gameObject.GetComponent<SpriteRenderer>().color=new Color(155f/255f,220f/255f,1f);
 		newMyGameController.instance.mouseOnSelectDeckButton (true);
 	}
 	void OnMouseExit()
 	{
-		gameObject.transform.GetComponent<SpriteRenderer> ().sprite = this.sprites [0];
+		gameObject.GetComponent<SpriteRenderer>().color=new Color(1f,1f,1f);
 		newMyGameController.instance.mouseOnSelectDeckButton (false);
 	}
 	void OnMouseDown()

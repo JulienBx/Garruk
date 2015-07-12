@@ -52,5 +52,20 @@ public class CardsBoardController : MonoBehaviour
 		this.gameObject.transform.FindChild ("bottomLine").localScale = horizontalLinesScale;
 
 	}
+	public void changeColor(Color color)
+	{
+		this.gameObject.transform.FindChild ("topLeftCorner").GetComponent<SpriteRenderer>().color=color;
+		this.gameObject.transform.FindChild ("topRightCorner").GetComponent<SpriteRenderer>().color=color;
+		this.gameObject.transform.FindChild ("bottomLeftCorner").GetComponent<SpriteRenderer>().color=color;
+		this.gameObject.transform.FindChild ("bottomRightCorner").GetComponent<SpriteRenderer>().color=color;
+		this.gameObject.transform.FindChild ("leftLine").GetComponent<SpriteRenderer>().color=color;
+		this.gameObject.transform.FindChild ("rightLine").GetComponent<SpriteRenderer>().color=color;
+		this.gameObject.transform.FindChild ("topLine").GetComponent<SpriteRenderer>().color=color;
+		this.gameObject.transform.FindChild ("bottomLine").GetComponent<SpriteRenderer>().color=color;
+		this.gameObject.transform.FindChild ("leftLine").GetComponent<SpriteRenderer>().color=color;
+		this.gameObject.transform.FindChild ("rightLine").GetComponent<SpriteRenderer>().color=color;
+		this.gameObject.transform.FindChild ("topLine").GetComponent<SpriteRenderer>().color=color;
+		this.gameObject.transform.FindChild ("bottomLine").GetComponent<SpriteRenderer>().color=color;
+	}
 }
 

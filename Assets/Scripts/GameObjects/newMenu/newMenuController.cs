@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using TMPro;
 
 public class newMenuController : MonoBehaviour 
 {
@@ -138,7 +139,7 @@ public class newMenuController : MonoBehaviour
 	public IEnumerator setUsersPicture()
 	{
 		yield return StartCoroutine (model.player.setThumbProfilePicture ());
-		gameObject.transform.Find ("User").FindChild ("Picture").GetComponent<SpriteRenderer> ().sprite = Sprite.Create (model.player.texture, new Rect (0, 0, model.player.texture.width, model.player.texture.height), new Vector2 (0.5f, 0.5f));
+		gameObject.transform.Find ("Picture").GetComponent<SpriteRenderer> ().sprite = Sprite.Create (model.player.texture, new Rect (0, 0, model.player.texture.width, model.player.texture.height), new Vector2 (0.5f, 0.5f));
 	}
 	public void initializeMenuObject()
 	{
@@ -149,20 +150,10 @@ public class newMenuController : MonoBehaviour
 		
 		for (int i=0;i<5;i++)
 		{
-			this.gameObject.transform.FindChild("Button"+i).FindChild("Text").GetComponent<TextMesh>().text=model.buttonsLabels[i];
-			this.gameObject.transform.FindChild("Button"+i).FindChild("Text").GetComponent<MeshRenderer>().sortingLayerName = this.gameObject.transform.FindChild("Button"+i).GetComponent<SpriteRenderer>().sortingLayerName;
+			this.gameObject.transform.FindChild("Button"+i).FindChild("Text").GetComponent<TextMeshPro>().text=model.buttonsLabels[i];
 		}
 		
-		this.gameObject.transform.FindChild("User").FindChild("Username").GetComponent<MeshRenderer>().sortingLayerName = this.gameObject.transform.FindChild("User").GetComponent<SpriteRenderer>().sortingLayerName;
-		this.gameObject.transform.FindChild("User").FindChild("Credits").GetComponent<MeshRenderer>().sortingLayerName = this.gameObject.transform.FindChild("User").GetComponent<SpriteRenderer>().sortingLayerName;
-		this.gameObject.transform.FindChild("Notifications").FindChild("Text").GetComponent<MeshRenderer>().sortingLayerName = this.gameObject.transform.FindChild("Notifications").GetComponent<SpriteRenderer>().sortingLayerName;
-		
-		this.gameObject.transform.FindChild("User").FindChild("Username").GetComponent<TextMesh>().text=ApplicationModel.username;
-		if(ApplicationModel.username.Length>10)
-		{
-			float scale = (0.08f-(ApplicationModel.username.Length-10)*0.008f);
-			this.gameObject.transform.FindChild("User").FindChild("Username").localScale=new Vector3(scale,scale,0);
-		}
+		this.gameObject.transform.FindChild("User").FindChild("Username").GetComponent<TextMeshPro>().text=ApplicationModel.username;
 	}
 	public void resizeMeunObject(float worldHeight, float worldWidth)
 	{
@@ -171,16 +162,11 @@ public class newMenuController : MonoBehaviour
 	}
 	public void refreshMenuObject()
 	{
-		this.gameObject.transform.FindChild("User").FindChild("Credits").GetComponent<TextMesh>().text=ApplicationModel.credits.ToString();
-		if(ApplicationModel.credits.ToString().Length>7)
-		{
-			float scale = (0.065f-(ApplicationModel.credits.ToString().Length-7)*0.008f);
-			this.gameObject.transform.FindChild("User").FindChild("Credits").localScale=new Vector3(scale,scale,0);
-		}
+		this.gameObject.transform.FindChild("User").FindChild("Credits").GetComponent<TextMeshPro>().text=ApplicationModel.credits.ToString();
 		if(ApplicationModel.nbNotificationsNonRead>0)
 		{
 			this.gameObject.transform.FindChild("Notifications").gameObject.SetActive(true);
-			this.gameObject.transform.FindChild("Notifications").FindChild("Text").GetComponent<TextMesh>().text=ApplicationModel.nbNotificationsNonRead.ToString();
+			this.gameObject.transform.FindChild("Notifications").FindChild("Text").GetComponent<TextMeshPro>().text=ApplicationModel.nbNotificationsNonRead.ToString();
 		}
 		else
 		{

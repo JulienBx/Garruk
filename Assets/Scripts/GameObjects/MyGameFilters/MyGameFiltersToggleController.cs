@@ -1,4 +1,5 @@
 using UnityEngine;
+using TMPro;
 
 public class MyGameFiltersToggleController : MonoBehaviour 
 {
@@ -11,13 +12,13 @@ public class MyGameFiltersToggleController : MonoBehaviour
 	}
 	void OnMouseOver()
 	{
-		gameObject.transform.GetComponent<TextMesh>().color=new Color(155f/255f,220f/255f,1f);
+		gameObject.transform.GetComponent<TextMeshPro>().color=new Color(155f/255f,220f/255f,1f);
 	}
 	void OnMouseExit()
 	{
 		if(!isActive)
 		{
-			gameObject.transform.GetComponent<TextMesh>().color=new Color(1f,1f,1f);
+			gameObject.transform.GetComponent<TextMeshPro>().color=new Color(1f,1f,1f);
 		}
 	}
 	void OnMouseDown()
@@ -31,11 +32,11 @@ public class MyGameFiltersToggleController : MonoBehaviour
 	{
 		if(isActive)
 		{
-			gameObject.transform.GetComponent<TextMesh>().color=new Color(155f/255f,220f/255f,1f);
+			gameObject.transform.GetComponent<TextMeshPro>().color=new Color(155f/255f,220f/255f,1f);
 		}
 		else
 		{
-			gameObject.transform.GetComponent<TextMesh>().color=new Color(1f,1f,1f);
+			gameObject.transform.GetComponent<TextMeshPro>().color=new Color(1f,1f,1f);
 		}
 	}
 	public void setActive(bool value)

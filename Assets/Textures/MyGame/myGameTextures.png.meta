@@ -30,6 +30,11 @@ TextureImporter:
     21300046: buttonBorderHover
     21300048: pointer
     21300050: pointerDrag
+    21300052: 1star
+    21300054: 2stars
+    21300056: 3stars
+    21300058: cdhalo
+    21300060: focusButton
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -75,21 +80,41 @@ TextureImporter:
   buildTargetSettings: []
   spriteSheet:
     sprites:
+    - name: 1star
+      rect:
+        serializedVersion: 2
+        x: 323
+        y: 841
+        width: 43
+        height: 40
+      alignment: 9
+      pivot: {x: .511627913, y: .474999994}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: 2stars
+      rect:
+        serializedVersion: 2
+        x: 94
+        y: 668
+        width: 90
+        height: 40
+      alignment: 9
+      pivot: {x: .5, y: .524999976}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: 3stars
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 630
+        width: 90
+        height: 78
+      alignment: 9
+      pivot: {x: .5, y: .474358976}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: arrowButton
       rect:
         serializedVersion: 2
-        x: 82
-        y: 50
-        width: 74
-        height: 74
-      alignment: 0
-      pivot: {x: .5, y: .5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-    - name: arrowButtonHover
-      rect:
-        serializedVersion: 2
-        x: 158
-        y: 854
+        x: 2
+        y: 554
         width: 74
         height: 74
       alignment: 0
@@ -98,27 +123,27 @@ TextureImporter:
     - name: buttonBorder
       rect:
         serializedVersion: 2
-        x: 242
-        y: 821
+        x: 2
+        y: 740
         width: 219
         height: 50
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: buttonBorderHover
+    - name: cdhalo
       rect:
         serializedVersion: 2
-        x: 2
-        y: 776
-        width: 219
-        height: 50
+        x: 217
+        y: 457
+        width: 200
+        height: 279
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: corner
       rect:
         serializedVersion: 2
-        x: 242
+        x: 323
         y: 934
         width: 56
         height: 56
@@ -128,8 +153,8 @@ TextureImporter:
     - name: cursor
       rect:
         serializedVersion: 2
-        x: 2
-        y: 46
+        x: 94
+        y: 588
         width: 78
         height: 78
       alignment: 0
@@ -138,8 +163,8 @@ TextureImporter:
     - name: deckList
       rect:
         serializedVersion: 2
-        x: 2
-        y: 930
+        x: 223
+        y: 738
         width: 213
         height: 28
       alignment: 0
@@ -148,8 +173,8 @@ TextureImporter:
     - name: deckListHover
       rect:
         serializedVersion: 2
-        x: 242
-        y: 791
+        x: 2
+        y: 710
         width: 213
         height: 28
       alignment: 0
@@ -162,6 +187,16 @@ TextureImporter:
         y: 992
         width: 393
         height: 30
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: focusButton
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 847
+        width: 319
+        height: 143
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -178,18 +213,8 @@ TextureImporter:
     - name: newDeck
       rect:
         serializedVersion: 2
-        x: 98
-        y: 879
-        width: 49
-        height: 49
-      alignment: 9
-      pivot: {x: .510204077, y: .489795923}
-      border: {x: 0, y: 0, z: 0, w: 0}
-    - name: newDeckHover
-      rect:
-        serializedVersion: 2
-        x: 98
-        y: 828
+        x: 323
+        y: 883
         width: 49
         height: 49
       alignment: 9
@@ -208,8 +233,8 @@ TextureImporter:
     - name: paginationHover
       rect:
         serializedVersion: 2
-        x: 2
-        y: 126
+        x: 374
+        y: 832
         width: 94
         height: 94
       alignment: 0
@@ -218,8 +243,8 @@ TextureImporter:
     - name: searchBar
       rect:
         serializedVersion: 2
-        x: 242
-        y: 873
+        x: 2
+        y: 792
         width: 248
         height: 53
       alignment: 0
@@ -228,8 +253,8 @@ TextureImporter:
     - name: skillList
       rect:
         serializedVersion: 2
-        x: 2
-        y: 14
+        x: 252
+        y: 800
         width: 238
         height: 30
       alignment: 0
@@ -238,8 +263,8 @@ TextureImporter:
     - name: skillListHover
       rect:
         serializedVersion: 2
-        x: 2
-        y: 960
+        x: 252
+        y: 768
         width: 238
         height: 30
       alignment: 0
