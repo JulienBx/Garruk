@@ -16,7 +16,7 @@ public class NewMyGameDeleteDeckPopUpView : MonoBehaviour
 		{
 		}
 		GUILayout.EndArea ();
-		GUI.enabled = deleteDeckPopUpVM.guiEnabled;
+		GUI.enabled = popUpVM.guiEnabled;
 		GUILayout.BeginArea(popUpVM.centralWindow);
 		{
 			GUILayout.BeginVertical(popUpVM.centralWindowStyle);

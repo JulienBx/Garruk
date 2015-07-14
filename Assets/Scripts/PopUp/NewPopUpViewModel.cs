@@ -9,7 +9,7 @@ public class NewPopUpViewModel
 	public GUIStyle centralWindowTextfieldStyle;
 	public GUIStyle centralWindowErrorStyle;
 	public GUIStyle transparentStyle;
-	
+	public bool guiEnabled;
 	
 	public NewPopUpViewModel ()
 	{
@@ -20,6 +20,7 @@ public class NewPopUpViewModel
 		this.centralWindowTextfieldStyle = new GUIStyle ();
 		this.centralWindowErrorStyle = new GUIStyle ();
 		this.transparentStyle = new GUIStyle ();
+		this.guiEnabled = true;
 	}
 	public void resize()
 	{

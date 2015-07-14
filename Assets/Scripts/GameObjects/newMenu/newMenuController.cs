@@ -230,7 +230,7 @@ public class newMenuController : MonoBehaviour
 		}
 		else
 		{
-			Application.LoadLevel("MyGame");
+			Application.LoadLevel("newMyGame");
 		}
 	}
 	public void marketLink() 

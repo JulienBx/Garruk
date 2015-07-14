@@ -16,7 +16,7 @@ public class NewMyGameEditDeckPopUpView : MonoBehaviour
 		{
 		}
 		GUILayout.EndArea ();
-		GUI.enabled = editDeckPopUpVM.guiEnabled;
+		GUI.enabled = popUpVM.guiEnabled;
 		GUILayout.BeginArea(popUpVM.centralWindow);
 		{
 			GUILayout.BeginVertical(popUpVM.centralWindowStyle);

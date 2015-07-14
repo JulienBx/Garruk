@@ -20,5 +20,18 @@ public class NewFocusedCardSkillController : MonoBehaviour
 		this.s = s;
 		this.show ();
 	}
+	public void highlightSkill(bool value)
+	{
+		if(value)
+		{
+			this.gameObject.transform.FindChild("Name").GetComponent<TextMeshPro>().color=new Color(1f, 0f, 0f);
+			this.gameObject.transform.FindChild("Description").GetComponent<TextMeshPro>().color=new Color(1f, 0f, 0f);
+		}
+		else
+		{
+			this.gameObject.transform.FindChild("Name").GetComponent<TextMeshPro>().color=new Color(1f, 1f, 1f);
+			this.gameObject.transform.FindChild("Description").GetComponent<TextMeshPro>().color=new Color(1f, 1f, 1f);
+		}
+	}
 }
 

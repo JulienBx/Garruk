@@ -7,21 +7,18 @@ public class NewCardController : MonoBehaviour
 	public Card c;
 	private NewCardRessources ressources;
 	private GameObject[] skills;
+	private GameObject panelSold;
 
 	void Awake()
 	{
 		this.skills=new GameObject[0];
 		this.ressources = this.gameObject.GetComponent<NewCardRessources> ();
+		this.panelSold = this.gameObject.transform.FindChild ("PanelSold").gameObject;
 	}
-	public void setCard(Card c)
-	{
-		this.c = c;
-		this.show ();
-	}
-	void show()
+	public void show()
 	{
 		this.gameObject.transform.FindChild ("Face").GetComponent<SpriteRenderer> ().sprite = ressources.faces[0];
-		this.gameObject.transform.FindChild ("Name").GetComponent<TextMeshPro> ().text = this.c.TitleClass;
+		this.gameObject.transform.FindChild ("Name").GetComponent<TextMeshPro> ().text = this.c.Title;
 		this.gameObject.transform.FindChild("Power").FindChild("Text").GetComponent<TextMeshPro>().text = this.c.Power.ToString();
 		this.gameObject.transform.FindChild ("Power").FindChild ("Text").GetComponent<TextMeshPro> ().color = ressources.colors [this.c.PowerLevel - 1];
 		this.gameObject.transform.FindChild("Life").FindChild("Text").GetComponent<TextMeshPro>().text = this.c.Life.ToString();
@@ -46,6 +43,18 @@ public class NewCardController : MonoBehaviour
 			this.skills[i].transform.localPosition=new Vector3(-0.4f,-0.3f-i*0.2f,0);
 			this.skills[i].transform.GetComponent<NewCardSkillController>().setSkill(c.Skills[i]);
 		}
+		if(this.c.IdOWner==-1)
+		{
+			this.setSoldPanel(true);
+		}
+		else
+		{
+			this.setSoldPanel(false);
+		}
+	}
+	public void setSoldPanel(bool value)
+	{
+		this.panelSold.SetActive (value);
 	}
 	public void changeLayer(int layerVariation)
 	{

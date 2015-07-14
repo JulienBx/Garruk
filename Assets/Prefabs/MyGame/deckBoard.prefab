@@ -999,7 +999,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sprites:
   - {fileID: 21300006, guid: 4a716028edd7d465c8d29843d43b320a, type: 3}
-  - {fileID: 21300044, guid: 4a716028edd7d465c8d29843d43b320a, type: 3}
+  - {fileID: 0}
 --- !u!114 &11421332
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1177,7 +1177,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sprites:
   - {fileID: 21300024, guid: 4a716028edd7d465c8d29843d43b320a, type: 3}
-  - {fileID: 21300046, guid: 4a716028edd7d465c8d29843d43b320a, type: 3}
+  - {fileID: 0}
 --- !u!114 &11463056
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1191,7 +1191,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sprites:
   - {fileID: 21300024, guid: 4a716028edd7d465c8d29843d43b320a, type: 3}
-  - {fileID: 21300046, guid: 4a716028edd7d465c8d29843d43b320a, type: 3}
+  - {fileID: 0}
 --- !u!114 &11471298
 MonoBehaviour:
   m_ObjectHideFlags: 1

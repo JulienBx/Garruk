@@ -5,20 +5,23 @@
 # http://www.codeandweb.com/texturepacker/unity
 #
 # Sprite sheet: cardsMediumTextures.png (512 x 1024)
-# $TexturePacker:SmartUpdate:3f2847f4945d53b11908f8bbbd969aeb:38b02b420cebafea77e3982428e7a28b:bf92d2779b6d16d5015d28cd76a98b48$
+# $TexturePacker:SmartUpdate:60fb4c5abba82b23903735dbfff6bf96:171afafe309b7783f886c84659960b1b:bf92d2779b6d16d5015d28cd76a98b48$
 #
 
-medium_arrow;474;763;32;31;0.453125;0.532258064516129
-medium_arrowHover;474;730;32;31;0.453125;0.532258064516129
-medium_atkpic;446;836;38;38;0.5;0.5
-medium_cdmatblue;198;486;188;263;0.5;0.5
-medium_cdmatgreen;2;751;194;271;0.5;0.5
-medium_cdmatpurple;198;751;194;271;0.5;0.5
-medium_cdmatred;2;478;194;271;0.5;0.5
-medium_cristalblue;394;827;50;47;0.5;0.5106382978723405
-medium_expbackground;394;881;100;3;0.5;0.5
-medium_expcomplete;394;876;100;3;0.5;0.5
-medium_hppic;446;796;38;38;0.5;0.5
-medium_movepic;394;787;38;38;0.5;0.5
-medium_skillPicto;394;886;116;136;0.49137931034482757;0.4779411764705882
-medium_speedpic;434;756;38;38;0.5;0.5
+medium_arrow;441;782;32;31;0.453125;0.532258064516129
+medium_arrowHover;475;782;32;31;0.453125;0.532258064516129
+medium_atkpic;458;935;38;38;0.5;0.5
+medium_cardupgrade;198;798;90;69;0.5;0.5
+medium_cdmatblue;2;68;188;263;0.5;0.5
+medium_cdmatgreen;2;606;194;271;0.5;0.5
+medium_cdmatpurple;198;511;194;271;0.5;0.5
+medium_cdmatred;2;333;194;271;0.5;0.5
+medium_cristalblue;458;975;50;47;0.5;0.5106382978723405
+medium_expbackground;198;874;100;3;0.5;0.5
+medium_expcomplete;198;869;100;3;0.5;0.5
+medium_focusButton;2;879;319;143;0.5;0.5
+medium_hppic;458;895;38;38;0.5;0.5
+medium_movepic;441;855;38;38;0.5;0.5
+medium_skillPicto;323;784;116;136;0.49137931034482757;0.4779411764705882
+medium_soldPanel;323;922;133;100;0.5;0.5
+medium_speedpic;441;815;38;38;0.5;0.5

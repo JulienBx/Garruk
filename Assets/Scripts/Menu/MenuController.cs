@@ -124,7 +124,7 @@ public class MenuController : MonoBehaviour {
 		}
 		else
 		{
-			Application.LoadLevel("MyGame");
+			Application.LoadLevel("newMyGame");
 		}
 	}
 	public void shopLink()

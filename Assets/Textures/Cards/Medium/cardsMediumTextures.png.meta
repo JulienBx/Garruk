@@ -22,6 +22,10 @@ TextureImporter:
     21300030: medium_movepic
     21300032: medium_speedpic
     21300034: medium_skillPicto
+    21300036: medium_focusButton
+    21300038: medium_addXp
+    21300040: medium_cardupgrade
+    21300042: medium_soldPanel
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -70,8 +74,8 @@ TextureImporter:
     - name: medium_arrow
       rect:
         serializedVersion: 2
-        x: 474
-        y: 763
+        x: 441
+        y: 782
         width: 32
         height: 31
       alignment: 9
@@ -80,8 +84,8 @@ TextureImporter:
     - name: medium_arrowHover
       rect:
         serializedVersion: 2
-        x: 474
-        y: 730
+        x: 475
+        y: 782
         width: 32
         height: 31
       alignment: 9
@@ -90,18 +94,28 @@ TextureImporter:
     - name: medium_atkpic
       rect:
         serializedVersion: 2
-        x: 446
-        y: 836
+        x: 458
+        y: 935
         width: 38
         height: 38
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: medium_cardupgrade
+      rect:
+        serializedVersion: 2
+        x: 198
+        y: 798
+        width: 90
+        height: 69
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: medium_cdmatblue
       rect:
         serializedVersion: 2
-        x: 198
-        y: 486
+        x: 2
+        y: 68
         width: 188
         height: 263
       alignment: 0
@@ -111,7 +125,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 2
-        y: 751
+        y: 606
         width: 194
         height: 271
       alignment: 0
@@ -121,7 +135,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 198
-        y: 751
+        y: 511
         width: 194
         height: 271
       alignment: 0
@@ -131,7 +145,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 2
-        y: 478
+        y: 333
         width: 194
         height: 271
       alignment: 0
@@ -140,8 +154,8 @@ TextureImporter:
     - name: medium_cristalblue
       rect:
         serializedVersion: 2
-        x: 394
-        y: 827
+        x: 458
+        y: 975
         width: 50
         height: 47
       alignment: 9
@@ -150,8 +164,8 @@ TextureImporter:
     - name: medium_expbackground
       rect:
         serializedVersion: 2
-        x: 394
-        y: 881
+        x: 198
+        y: 874
         width: 100
         height: 3
       alignment: 0
@@ -160,18 +174,28 @@ TextureImporter:
     - name: medium_expcomplete
       rect:
         serializedVersion: 2
-        x: 394
-        y: 876
+        x: 198
+        y: 869
         width: 100
         height: 3
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: medium_focusButton
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 879
+        width: 319
+        height: 143
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: medium_hppic
       rect:
         serializedVersion: 2
-        x: 446
-        y: 796
+        x: 458
+        y: 895
         width: 38
         height: 38
       alignment: 0
@@ -180,8 +204,8 @@ TextureImporter:
     - name: medium_movepic
       rect:
         serializedVersion: 2
-        x: 394
-        y: 787
+        x: 441
+        y: 855
         width: 38
         height: 38
       alignment: 0
@@ -190,18 +214,28 @@ TextureImporter:
     - name: medium_skillPicto
       rect:
         serializedVersion: 2
-        x: 394
-        y: 886
+        x: 323
+        y: 784
         width: 116
         height: 136
       alignment: 9
       pivot: {x: .491379321, y: .477941185}
       border: {x: 0, y: 0, z: 0, w: 0}
+    - name: medium_soldPanel
+      rect:
+        serializedVersion: 2
+        x: 323
+        y: 922
+        width: 133
+        height: 100
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: medium_speedpic
       rect:
         serializedVersion: 2
-        x: 434
-        y: 756
+        x: 441
+        y: 815
         width: 38
         height: 38
       alignment: 0
