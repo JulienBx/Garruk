@@ -49,7 +49,7 @@ public class NewFocusedCardPutOnMarketPopUpView : MonoBehaviour
 					GUILayout.Space(0.04f * popUpVM.centralWindow.width);
 					if (GUILayout.Button("Annuler", popUpVM.centralWindowButtonStyle))
 					{
-						gameObject.GetComponent<CardController>().hideputOnMarketCardPopUp();
+						gameObject.GetComponent<NewFocusedCardController>().hidePutOnMarketPopUp();
 					}
 					GUILayout.Space(0.03f * popUpVM.centralWindow.width);
 				}

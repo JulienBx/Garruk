@@ -686,21 +686,29 @@ public class Card
 		}
 	}
 
-	public bool verifyC2(float minLife, float maxLife, float minAttack, float maxAttack, float minQuickness, float maxQuickness, int minPrice, int maxPrice)
+	public bool verifyC2(float minPrice, float maxPrice, float minPower, float maxPower, float minLife, float maxLife, float minAttack, float maxAttack, float minQuickness, float maxQuickness)
 	{
-		if (minLife > this.Life || maxLife < this.Life)
+		if (minPrice > this.Price || maxPrice < this.Price)
 		{
 			return false;
-		} else if (minAttack > this.Attack || maxAttack < this.Attack)
+		}
+		else if (minPower > this.Power || maxPower < this.Power)
 		{
 			return false;
-		} else if (minQuickness > this.Speed || maxQuickness < this.Speed)
+		}
+		else if (minLife > this.Life || maxLife < this.Life)
 		{
 			return false;
-		} else if (minPrice > this.Price || maxPrice < this.Price)
+		} 
+		else if (minAttack > this.Attack || maxAttack < this.Attack)
 		{
 			return false;
-		} else
+		} 
+		else if (minQuickness > this.Speed || maxQuickness < this.Speed)
+		{
+			return false;
+		} 
+		else
 		{
 			return true;
 		}
