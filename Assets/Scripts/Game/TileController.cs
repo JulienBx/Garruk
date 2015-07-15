@@ -30,6 +30,11 @@ public class TileController : GameObjectController
 		return gameObject.transform.position;
 	}
 	
+	public int getTileType()
+	{
+		return this.type;
+	}
+	
 	public bool canBeDestination(){
 		return (type!=1 && characterID==-1);
 	}

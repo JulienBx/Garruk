@@ -35,7 +35,7 @@ public class Tile
 	{
 		if (neighbours == null)
 		{
-			this.neighbours = new NeighbourTiles(this.x, this.y, GameController.instance.getCharacterTilesArray(), distance);
+			this.neighbours = new NeighbourTiles(this.x, this.y, GameView.instance.getCharacterTilesArray(GameController.instance.amIFirstPlayer()), distance);
 		}
 		return neighbours.getImmediateNeighbours(this.x, this.y);
 	}

@@ -19,7 +19,7 @@ public class Skill
 	public Texture2D texture;
 	public string Picture;
 	public bool IsNew;
-
+	
 	public Skill(string name, string description)
 	{
 		this.Name = name;
@@ -62,6 +62,7 @@ public class Skill
 	{
 		this.texture = new Texture2D(1, 1, TextureFormat.ARGB32, false);
 	}
+	
 	public IEnumerator setPicture()
 	{
 		var www = new WWW(ApplicationModel.host + this.Picture);

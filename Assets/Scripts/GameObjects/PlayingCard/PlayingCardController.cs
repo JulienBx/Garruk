@@ -32,11 +32,35 @@ public class PlayingCardController : GameObjectController
 	public void hide()
 	{
 		gameObject.GetComponent<SpriteRenderer>().enabled = false ;
+		Transform t = gameObject.transform;
+		t.FindChild("Grade").GetComponent<SpriteRenderer>().enabled = false ;
+		t.FindChild("Art").GetComponent<SpriteRenderer>().enabled = false ;
+		t.FindChild("Life").GetComponent<SpriteRenderer>().enabled = false ;
+		t.FindChild("LifeBar").GetComponent<SpriteRenderer>().enabled = false ;
+		t.FindChild("Icon1").GetComponent<SpriteRenderer>().enabled = false ;
+		t.FindChild("Icon2").GetComponent<SpriteRenderer>().enabled = false ;
+		t.FindChild("Icon3").GetComponent<SpriteRenderer>().enabled = false ;
+		t.FindChild("Icon4").GetComponent<SpriteRenderer>().enabled = false ;
+		t.FindChild("Icon5").GetComponent<SpriteRenderer>().enabled = false ;
+		t.FindChild("Icon6").GetComponent<SpriteRenderer>().enabled = false ;
+		t.FindChild("AttackValue").GetComponent<MeshRenderer>().enabled = false ;
 	}
 	
 	public void display()
 	{
 		gameObject.GetComponent<SpriteRenderer>().enabled = true ;
+		Transform t = gameObject.transform;
+		t.FindChild("Grade").GetComponent<SpriteRenderer>().enabled = true ;
+		t.FindChild("Art").GetComponent<SpriteRenderer>().enabled = true ;
+		t.FindChild("Life").GetComponent<SpriteRenderer>().enabled = true ;
+		t.FindChild("LifeBar").GetComponent<SpriteRenderer>().enabled = true ;
+		t.FindChild("Icon1").GetComponent<SpriteRenderer>().enabled = true ;
+		t.FindChild("Icon2").GetComponent<SpriteRenderer>().enabled = true ;
+		t.FindChild("Icon3").GetComponent<SpriteRenderer>().enabled = true ;
+		t.FindChild("Icon4").GetComponent<SpriteRenderer>().enabled = true ;
+		t.FindChild("Icon5").GetComponent<SpriteRenderer>().enabled = true ;
+		t.FindChild("Icon6").GetComponent<SpriteRenderer>().enabled = true ;
+		t.FindChild("AttackValue").GetComponent<MeshRenderer>().enabled = true ;
 	}
 	
 	public void setCard(Card c, int d)
@@ -65,6 +89,31 @@ public class PlayingCardController : GameObjectController
 	public Tile getTile()
 	{
 		return this.tile ;
+	}
+	
+	public bool getIsMine()
+	{
+		return this.isMine ;
+	}
+	
+	public bool getHasPlayed()
+	{
+		return this.hasPlayed ;
+	}
+	
+	public bool getIsDead()
+	{
+		return this.isDead ;
+	}
+	
+	public void play(bool b)
+	{
+		this.hasPlayed = b ;
+	}
+	
+	public void move(bool b)
+	{
+		this.hasMoved = b ;
 	}
 	
 	public Card getCard()

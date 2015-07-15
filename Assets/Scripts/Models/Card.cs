@@ -447,6 +447,11 @@ public class Card
 		}
 	}
 	
+	public Skill GetAttackSkill()
+	{
+		return new Skill("Attaque", "Inflige "+this.GetAttack()+" dégats au contact");
+	}
+	
 	public string GetMoveString()
 	{
 		int move = this.GetMove();

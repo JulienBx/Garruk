@@ -17,6 +17,7 @@ public class GameView : MonoBehaviour
 	public GameObject skillButtonModel;
 	public string[] gameTexts;
 	public GameObject TutorialObject;
+	public Sprite[] volets ;
 	
 	int boardWidth = 6;
 	int boardHeight = 8;
@@ -32,7 +33,10 @@ public class GameView : MonoBehaviour
 	GameObject[] skillButtons ;
 	GameObject clickedRPC ;
 	GameObject hoveredRPC ;
+	GameObject skillRPC ;
 	GameObject tutorial;
+	GameObject popUp;
+	GameObject popUpText;
 	
 	int heightScreen = -1;
 	int widthScreen = -1;
@@ -69,6 +73,11 @@ public class GameView : MonoBehaviour
 	float timerSkill ;
 	
 	int currentHoveredCard = -1;
+	Skill currentHoveredSkill = new Skill(-1) ;
+	
+	float timerPopUp ;
+	float popUpTime = 3 ;
+	bool toDisplayPopUp = false ;
 	
 	void Awake()
 	{
@@ -79,6 +88,18 @@ public class GameView : MonoBehaviour
 		this.playingCards = new GameObject[2 * nbCardsPerPlayer];
 		this.verticalBorders = new GameObject[this.boardWidth+1];
 		this.horizontalBorders = new GameObject[this.boardHeight+1];
+		this.skillButtons = new GameObject[6];
+		this.skillButtons[0] = GameObject.Find("AttackButton");
+		this.skillButtons[1] = GameObject.Find("SkillButton0");
+		this.skillButtons[2] = GameObject.Find("SkillButton1");
+		this.skillButtons[3] = GameObject.Find("SkillButton2");
+		this.skillButtons[4] = GameObject.Find("SkillButton3");
+		this.skillButtons[5] = GameObject.Find("PassButton");
+		this.clickedRPC = GameObject.Find("ClickedPlayingCard");
+		this.hoveredRPC = GameObject.Find("HoveredPlayingCard");
+		this.skillRPC = GameObject.Find("SkillDescription");
+		this.popUp = GameObject.Find("PopUp");
+		this.popUpText = GameObject.Find("PopUpText");
 		this.timer = 0;
 		
 		this.audioEndTurn = GetComponent<AudioSource>();
@@ -94,7 +115,7 @@ public class GameView : MonoBehaviour
 		
 		if (statusHoveredPC==1){
 			this.timerHoveredRPC += Time.deltaTime;
-			this.hoveredPCPosition.x = (0.5f*this.realwidth+5f)-(Mathf.Min(1,this.timerHoveredRPC/this.animationTime))*(0.5f*realwidth-3.25f);
+			this.hoveredPCPosition.x = (0.5f*this.realwidth+5.25f)-(Mathf.Min(1,this.timerHoveredRPC/this.animationTime))*(0.5f*realwidth-3f);
 			this.hoveredRPC.transform.position = this.hoveredPCPosition ;
 			if (timerHoveredRPC>animationTime){
 				statusHoveredPC = 0 ;
@@ -103,7 +124,7 @@ public class GameView : MonoBehaviour
 		}
 		else if (statusHoveredPC<0){
 			this.timerHoveredRPC += Time.deltaTime;
-			this.hoveredPCPosition.x = (8.25f)+(Mathf.Min(1,this.timerHoveredRPC/this.animationTime))*(0.5f*realwidth-3.25f);
+			this.hoveredPCPosition.x = (8.25f)+(Mathf.Min(1,this.timerHoveredRPC/this.animationTime))*(0.5f*realwidth-3f);
 			this.hoveredRPC.transform.position = this.hoveredPCPosition ;
 			if (timerHoveredRPC>animationTime){
 				if (statusHoveredPC==-2){
@@ -146,52 +167,106 @@ public class GameView : MonoBehaviour
 		
 		if (statusSkill==1){
 			this.timerSkill += Time.deltaTime;
-			this.skillPosition.x = (-0.5f*this.realwidth-5f)+(Mathf.Min(1,this.timerSkill/this.animationTime))*(0.5f*realwidth-3.25f);
-			this.clickedRPC.transform.position = this.clickedPCPosition ;
-			if (timerClickedRPC>animationTime){
-				statusClickedPC = 0 ;
-				this.isDisplayedClickedRPC = true ;
+			this.skillPosition.x = (5f+(realwidth/2f)-8.25f)-(Mathf.Min(1,this.timerSkill/this.animationTime))*(5f+(realwidth/2f)-8.25f);
+			this.skillRPC.transform.localPosition = this.skillPosition ;
+			if (timerSkill>animationTime){
+				statusSkill = 0 ;
+				this.isDisplayedSkill = true ;
 			}
 		}
-		else if (statusClickedPC<0){
-			this.timerClickedRPC += Time.deltaTime;
-			this.clickedPCPosition.x = (-8.25f)-(Mathf.Min(1,this.timerClickedRPC/this.animationTime))*(0.5f*realwidth-3.25f);
-			this.clickedRPC.transform.position = this.clickedPCPosition ;
-			if (timerClickedRPC>animationTime){
-				if (statusClickedPC==-2){
-					this.loadClickedPC();
-					statusClickedPC = 1 ;
-					this.timerClickedRPC = 0 ;
+		else if (statusSkill<0){
+			this.timerSkill += Time.deltaTime;
+			this.skillPosition.x = (Mathf.Min(1,this.timerSkill/this.animationTime))*(5f+(realwidth/2f)-8.25f);
+			this.skillRPC.transform.localPosition = this.skillPosition ;
+			if (timerSkill>animationTime){
+				if (statusSkill==-2){
+					this.loadSkill();
+					statusSkill = 1 ;
+					this.timerSkill = 0 ;
 				}
 				else{
-					statusClickedPC = 0 ;
+					statusSkill = 0 ;
 				}
-				this.isDisplayedClickedRPC = false ;
+				this.isDisplayedSkill = false ;
+			}
+		}
+		
+		if (this.toDisplayPopUp){
+			this.timerPopUp += Time.deltaTime;
+			if (this.timerPopUp>this.popUpTime){
+				this.popUp.transform.position = new Vector3(0f, -10f, 0f);
+				this.toDisplayPopUp = false ;
 			}
 		}
 	}
 	
 	public void loadHoveredPC(){
-		GameObject.Find("Title").GetComponent<TextMesh>().text = this.playingCards[this.currentHoveredCard].GetComponent<PlayingCardController>().getCard().Title;
-		GameObject.Find("TextMove").GetComponent<TextMesh>().text = this.playingCards[this.currentHoveredCard].GetComponent<PlayingCardController>().getCard().GetMoveString();
-		GameObject.Find("TextLife").GetComponent<TextMesh>().text = this.playingCards[this.currentHoveredCard].GetComponent<PlayingCardController>().getCard().GetLifeString();
-		GameObject.Find("TextAttack").GetComponent<TextMesh>().text = this.playingCards[this.currentHoveredCard].GetComponent<PlayingCardController>().getCard().GetAttackString();
+		if(this.playingCards[this.currentHoveredCard].GetComponent<PlayingCardController>().getIsMine()){
+			GameObject.Find("MainDescription").GetComponent<SpriteRenderer>().sprite=this.volets[1];
+			GameObject.Find("SkillsDescription").GetComponent<SpriteRenderer>().sprite=this.volets[3];
+		}
+		else{
+			GameObject.Find("MainDescription").GetComponent<SpriteRenderer>().sprite=this.volets[0];
+			GameObject.Find("SkillsDescription").GetComponent<SpriteRenderer>().sprite=this.volets[2];
+		}
+		
+		GameObject.Find("Title").GetComponent<TextMeshPro>().text = this.playingCards[this.currentHoveredCard].GetComponent<PlayingCardController>().getCard().Title;
+		GameObject.Find("TextMove").GetComponent<TextMeshPro>().text = this.playingCards[this.currentHoveredCard].GetComponent<PlayingCardController>().getCard().GetMoveString();
+		GameObject.Find("TextLife").GetComponent<TextMeshPro>().text = this.playingCards[this.currentHoveredCard].GetComponent<PlayingCardController>().getCard().GetLifeString();
+		GameObject.Find("TextAttack").GetComponent<TextMeshPro>().text = this.playingCards[this.currentHoveredCard].GetComponent<PlayingCardController>().getCard().GetAttackString();
 	
 		List<Skill> skills = this.playingCards[this.currentHoveredCard].GetComponent<PlayingCardController>().getCard().getSkills();
 		for (int i = 0 ; i < skills.Count ; i++){
-			GameObject.Find("Skill"+i+"Title").GetComponent<TextMesh>().text = skills[i].Name;
-			GameObject.Find(("Skill"+i+"Description")).GetComponent<TextMesh>().text = skills[i].Description;
+			GameObject.Find("Skill"+i+"Title").GetComponent<TextMeshPro>().text = skills[i].Name;
+			GameObject.Find(("Skill"+i+"Description")).GetComponent<TextMeshPro>().text = skills[i].Description;
+		}
+		for (int i = skills.Count ; i < 4 ; i++){
+			GameObject.Find("Skill"+i+"Title").GetComponent<TextMeshPro>().text = "";
+			GameObject.Find(("Skill"+i+"Description")).GetComponent<TextMeshPro>().text = "";
 		}
 	}
 	
 	public void loadClickedPC(){
 		int currentPlayingCard = GameController.instance.getCurrentPlayingCard();
+		if(this.playingCards[currentPlayingCard].GetComponent<PlayingCardController>().getIsMine()){
+			GameObject.Find("MainDescription2").GetComponent<SpriteRenderer>().sprite=this.volets[5];
+			GameObject.Find("SkillDescription").GetComponent<SpriteRenderer>().sprite=this.volets[7];
+		}
+		else{
+			GameObject.Find("MainDescription2").GetComponent<SpriteRenderer>().sprite=this.volets[4];
+			GameObject.Find("SkillDescription").GetComponent<SpriteRenderer>().sprite=this.volets[6];
+		}
+		Card c = this.playingCards[currentPlayingCard].GetComponent<PlayingCardController>().getCard();
 		
-		GameObject.Find("Title2").GetComponent<TextMesh>().text = this.playingCards[currentPlayingCard].GetComponent<PlayingCardController>().getCard().Title;
-		GameObject.Find("TextMove2").GetComponent<TextMesh>().text = this.playingCards[currentPlayingCard].GetComponent<PlayingCardController>().getCard().GetMoveString();
-		GameObject.Find("TextLife2").GetComponent<TextMesh>().text = this.playingCards[currentPlayingCard].GetComponent<PlayingCardController>().getCard().GetLifeString();
-		GameObject.Find("TextAttack2").GetComponent<TextMesh>().text = this.playingCards[currentPlayingCard].GetComponent<PlayingCardController>().getCard().GetAttackString();
+		GameObject.Find("Title2").GetComponent<TextMeshPro>().text = c.Title;
+		GameObject.Find("TextMove2").GetComponent<TextMeshPro>().text = c.GetMoveString();
+		GameObject.Find("TextLife2").GetComponent<TextMeshPro>().text = c.GetLifeString();
+		GameObject.Find("TextAttack2").GetComponent<TextMeshPro>().text = c.GetAttackString();
 		
+		this.skillButtons[0].GetComponent<SkillButtonController>().setSkill(c.GetAttackSkill());
+		this.skillButtons[5].GetComponent<SkillButtonController>().setSkill(new Skill("Fin du tour","Termine son tour et passe la main au personnage suivant"));
+		
+		for (int i = 0 ; i < c.Skills.Count ; i++){
+			this.skillButtons[1+i].SetActive(true);
+			this.skillButtons[1+i].GetComponent<SkillButtonController>().setSkill(c.Skills[i]);
+		}
+		for (int i = c.Skills.Count ; i < 4 ; i++){
+			this.skillButtons[1+i].SetActive(false);
+		}
+		
+	}
+	
+	public void resetSkill(){
+		this.skillPosition.x = (5f+(realwidth/2f)-8.25f);
+		this.skillRPC.transform.localPosition = this.skillPosition;
+		this.isDisplayedSkill = false ;
+	}
+	
+	public void loadSkill(){
+		int currentPlayingCard = GameController.instance.getCurrentPlayingCard();
+		print (this.currentHoveredSkill.Name);
+		GameObject.Find("TitleSD").GetComponent<TextMeshPro>().text = this.currentHoveredSkill.Name;
+		GameObject.Find("DescriptionSD").GetComponent<TextMeshPro>().text = this.currentHoveredSkill.Description;
 	}
 	
 	public void createBackground()
@@ -266,6 +341,15 @@ public class GameView : MonoBehaviour
 		}
 	}
 	
+	public void displayPopUp(string s){
+		this.popUpText.GetComponent<TextMeshPro>().text = s ;
+		this.popUp.transform.position = new Vector3(0f, 0f, 0f);
+		
+		this.timerPopUp = 0 ;
+		this.toDisplayPopUp = true ;
+		
+	}
+	
 	public void displayClickedPC(int c){
 		if (!this.isDisplayedClickedRPC){
 			this.loadClickedPC();
@@ -291,11 +375,28 @@ public class GameView : MonoBehaviour
 		}
 	}
 	
+	public void displaySkill(){
+		
+		if (!this.isDisplayedSkill){
+			this.loadSkill();
+			statusSkill = 1 ;
+			this.timerSkill= 0 ;
+		}
+		else{
+			statusSkill = -2 ;
+			this.timerSkill = 0 ;
+		}
+	}
+	
 	public void hideHoveredPC(int c){
 		
 		if (this.isDisplayedHoveredRPC){	
 			statusHoveredPC = -1 ;
 			this.timerHoveredRPC = 0 ;
+		}
+		else if(this.statusHoveredPC==1){
+			statusHoveredPC = -1 ;
+			this.timerHoveredRPC = this.animationTime-timerHoveredRPC ;
 		}
 	}
 	
@@ -314,22 +415,26 @@ public class GameView : MonoBehaviour
 	{
 		int debut = 0 ;
 		int hauteur = 0 ;
-	
+		
 		if (!isFirstP){
 			debut = this.nbCardsPerPlayer ;
-			hauteur = this.boardHeight ;
+			hauteur = this.boardHeight-1 ;
 		}
 		this.playingCards [debut + c.deckOrder] = (GameObject)Instantiate(this.playingCardModel);
 		if (isFirstP != isFirstPlayer)
 		{
 			this.playingCards [debut + c.deckOrder].GetComponentInChildren<PlayingCardController>().hide();
 		} 
-	
 		this.playingCards [debut + c.deckOrder].GetComponentInChildren<PlayingCardController>().setCard(c, 3-c.deckOrder);
 		this.playingCards [debut + c.deckOrder].GetComponentInChildren<PlayingCardController>().setIDCharacter(debut + c.deckOrder);
-		this.playingCards [debut + c.deckOrder].GetComponentInChildren<PlayingCardController>().setTile(new Tile(c.deckOrder + 1, hauteur), tiles [c.deckOrder + 1, hauteur].GetComponent<TileController>().getPosition());
+		if (isFirstP){
+			this.playingCards [debut + c.deckOrder].GetComponentInChildren<PlayingCardController>().setTile(new Tile(c.deckOrder + 1, hauteur), tiles [c.deckOrder + 1, hauteur].GetComponent<TileController>().getPosition());
+		}
+		else{
+			this.playingCards [debut + c.deckOrder].GetComponentInChildren<PlayingCardController>().setTile(new Tile(4-c.deckOrder, hauteur), tiles [4-c.deckOrder, hauteur].GetComponent<TileController>().getPosition());
+		}
 		this.playingCards [debut + c.deckOrder].GetComponentInChildren<PlayingCardController>().setIsMine(isFirstP==isFirstPlayer);
-		
+			
 		this.tiles [c.deckOrder + 1, hauteur].GetComponent<TileController>().setCharacterID(debut + c.deckOrder);
 	}
 	
@@ -352,6 +457,19 @@ public class GameView : MonoBehaviour
 		}
 	}
 	
+	public void displayOpponentCards(bool isFirstP){
+		int debut = 0;
+		if (isFirstP)
+		{
+			debut = this.nbCardsPerPlayer;
+		}
+				
+		for (int i = debut; i < debut+this.nbCardsPerPlayer; i++)
+		{
+			this.playingCards [i].GetComponentInChildren<PlayingCardController>().display();
+		}
+	}
+	
 	public void resizeBackground()
 	{		
 		Vector3 position;
@@ -371,6 +489,18 @@ public class GameView : MonoBehaviour
 			this.verticalBorders [i].transform.localPosition = position;
 			this.verticalBorders [i].transform.localScale = new Vector3(0.5f,1f,1f);
 		}
+		
+		GameObject tempGO = GameObject.Find("MyPlayerName");
+		position = tempGO.transform.position ;
+		position.x = -0.48f*this.realwidth;
+		tempGO.transform.position = position;
+		tempGO.GetComponent<TextContainer>().width = 0.48f*this.realwidth-3f ;
+		
+		tempGO = GameObject.Find("HisPlayerName");
+		position = tempGO.transform.position ;
+		position.x = 0.48f*this.realwidth;
+		tempGO.transform.position = position;
+		tempGO.GetComponent<TextContainer>().width = 0.48f*this.realwidth-3f ;
 		
 		GameObject llbl = GameObject.Find("LLBLeft");
 		llbl.transform.position = new Vector3(-this.realwidth/2f+0.25f, 4.5f, 0);
@@ -412,92 +542,133 @@ public class GameView : MonoBehaviour
 		rlbb.transform.position = new Vector3((reb.transform.position.x+rcb.transform.position.x)/2f, 4.5f, 0);
 		rlbb.transform.localScale = new Vector3((reb.transform.position.x-rcb.transform.position.x-0.49f)/10f, 0.5f, 0.5f);	
 		
-		GameObject tempGO = GameObject.Find("MyPlayerName");
-		tempGO.transform.position = new Vector3(-0.48f*this.realwidth,4f,1);
-		tempGO.GetComponent<Renderer>().sortingLayerName = "UI" ;
-		
-		tempGO = GameObject.Find("HisPlayerName");
-		tempGO.transform.position = new Vector3(0.48f*this.realwidth,4f,1);
-		tempGO.GetComponent<Renderer>().sortingLayerName = "UI" ;
-		
-		this.clickedRPC = GameObject.Find("ClickedPlayingCard");
-		this.clickedPCPosition = new Vector3(-0.50f*this.realwidth-10f,-1f,1);
+		this.clickedPCPosition = new Vector3(-0.50f*this.realwidth-5f,-1f,1);
 		this.clickedRPC.transform.position = this.clickedPCPosition;
 		
-		this.hoveredRPC = GameObject.Find("HoveredPlayingCard");
-		this.hoveredPCPosition = new Vector3(0.50f*this.realwidth+10f,-1f,1);
+		this.hoveredPCPosition = new Vector3(0.50f*this.realwidth+5f,-1f,1);
 		this.hoveredRPC.transform.position = this.hoveredPCPosition;
 		
-		GameObject.Find("IconMove").transform.localPosition = new Vector3((0.25f*(this.realwidth/2f-3f))-5.2f,-0.4f,0f);
-		GameObject.Find("IconLife").transform.localPosition = new Vector3((0.5f*(this.realwidth/2f-3f))-5.2f,-0.4f,0f);
-		GameObject.Find("IconAttack").transform.localPosition = new Vector3((0.75f*(this.realwidth/2f-3f))-5.2f,-0.4f,0f);
+		this.skillPosition = this.skillRPC.transform.localPosition;
+		this.skillPosition.x = 5f+(realwidth/2f)-8.25f;
+		this.skillRPC.transform.localPosition = this.skillPosition;
 		
 		tempGO = GameObject.Find("Title");
-		tempGO.transform.localPosition = new Vector3((0.55f*(this.realwidth/2f-3f))-5f,0.42f,0f);
-		tempGO.GetComponent<Renderer>().sortingLayerName = "UI" ;
+		position = tempGO.transform.localPosition ;
+		position.x = (realwidth/2f)-8.25f-(realwidth/2f-4.25f)/2f;
+		tempGO.transform.localPosition = position;
+		tempGO.GetComponent<TextContainer>().width = (realwidth/2f-4.25f) ;
+		
+		tempGO = GameObject.Find("IconMove");
+		position = tempGO.transform.localPosition ;
+		position.x = (realwidth/2f)-8.45f-0.80f*(realwidth/2f-3.75f);
+		tempGO.transform.localPosition = position;
+		
+		tempGO = GameObject.Find("IconLife");
+		position = tempGO.transform.localPosition ;
+		position.x = (realwidth/2f)-8.45f-0.5f*(realwidth/2f-3.75f);
+		tempGO.transform.localPosition = position;
+		
+		tempGO = GameObject.Find("IconAttack");
+		position = tempGO.transform.localPosition ;
+		position.x = (realwidth/2f)-8.45f-0.20f*(realwidth/2f-3.75f);
+		tempGO.transform.localPosition = position;
+		
 		tempGO = GameObject.Find("TextMove");
-		tempGO.transform.localPosition = new Vector3((0.25f*(this.realwidth/2f-3f))-5f,-0.4f,0f);
-		tempGO.GetComponent<Renderer>().sortingLayerName = "UI" ;
+		position = tempGO.transform.localPosition ;
+		position.x = (realwidth/2f)-8.25f-0.80f*(realwidth/2f-3.75f);
+		tempGO.transform.localPosition = position;
+		
 		tempGO = GameObject.Find("TextLife");
-		tempGO.transform.localPosition = new Vector3((0.5f*(this.realwidth/2f-3f))-5f,-0.4f,0f);
-		tempGO.GetComponent<Renderer>().sortingLayerName = "UI" ;
+		position = tempGO.transform.localPosition ;
+		position.x = (realwidth/2f)-8.25f-0.5f*(realwidth/2f-3.75f);
+		tempGO.transform.localPosition = position;
+		
 		tempGO = GameObject.Find("TextAttack");
-		tempGO.transform.localPosition = new Vector3((0.75f*(this.realwidth/2f-3f))-5f,-0.4f,0f);
-		tempGO.GetComponent<Renderer>().sortingLayerName = "UI" ;
-		
-		GameObject.Find("IconMove2").transform.localPosition = new Vector3((0.80f*(this.realwidth/2f-3f))-4.8f,-0.4f,0f);
-		GameObject.Find("IconLife2").transform.localPosition = new Vector3((0.55f*(this.realwidth/2f-3f))-4.8f,-0.4f,0f);
-		GameObject.Find("IconAttack2").transform.localPosition = new Vector3((0.30f*(this.realwidth/2f-3f))-4.8f,-0.4f,0f);
-		
-		tempGO = GameObject.Find("Title2");
-		tempGO.transform.localPosition = new Vector3((0.5f*(this.realwidth/2f-3f))-5f,0.42f,0f);
-		tempGO.GetComponent<Renderer>().sortingLayerName = "UI" ;
-		tempGO = GameObject.Find("TextMove2");
-		tempGO.transform.localPosition = new Vector3((0.80f*(this.realwidth/2f-3f))-5f,-0.4f,0f);
-		tempGO.GetComponent<Renderer>().sortingLayerName = "UI" ;
-		tempGO = GameObject.Find("TextLife2");
-		tempGO.transform.localPosition = new Vector3((0.55f*(this.realwidth/2f-3f))-5f,-0.4f,0f);
-		tempGO.GetComponent<Renderer>().sortingLayerName = "UI" ;
-		tempGO = GameObject.Find("TextAttack2");
-		tempGO.transform.localPosition = new Vector3((0.30f*(this.realwidth/2f-3f))-5f,-0.4f,0f);
-		tempGO.GetComponent<Renderer>().sortingLayerName = "UI" ;
+		position = tempGO.transform.localPosition ;
+		position.x = (realwidth/2f)-8.25f-0.20f*(realwidth/2f-3.75f);
+		tempGO.transform.localPosition = position;
 		
 		tempGO = GameObject.Find("Skill0Title");
-		tempGO.transform.localPosition = new Vector3((0.05f*(this.realwidth/2f-3f))-5f,2.7f,0f);
-		tempGO.GetComponent<Renderer>().sortingLayerName = "UI" ;
+		tempGO.GetComponent<TextContainer>().width = (realwidth/2f-3.65f) ;
 		tempGO = GameObject.Find("Skill0Description");
-		tempGO.transform.localPosition = new Vector3((0.07f*(this.realwidth/2f-3f))-5f,2.0f,0f);
-		tempGO.GetComponent<Renderer>().sortingLayerName = "UI" ;
+		tempGO.GetComponent<TextContainer>().width = (realwidth/2f-3.75f) ;
 		tempGO = GameObject.Find("Skill1Title");
-		tempGO.transform.localPosition = new Vector3((0.09f*(this.realwidth/2f-3f))-5f,1.4f,0f);
-		tempGO.GetComponent<Renderer>().sortingLayerName = "UI" ;
+		tempGO.GetComponent<TextContainer>().width = (realwidth/2f-3.85f) ;
 		tempGO = GameObject.Find("Skill1Description");
-		tempGO.transform.localPosition = new Vector3((0.11f*(this.realwidth/2f-3f))-5f,0.7f,0f);
-		tempGO.GetComponent<Renderer>().sortingLayerName = "UI" ;
+		tempGO.GetComponent<TextContainer>().width = (realwidth/2f-3.95f) ;
 		tempGO = GameObject.Find("Skill2Title");
-		tempGO.transform.localPosition = new Vector3((0.13f*(this.realwidth/2f-3f))-5f,0.1f,0f);
-		tempGO.GetComponent<Renderer>().sortingLayerName = "UI" ;
+		tempGO.GetComponent<TextContainer>().width = (realwidth/2f-4.05f) ;
 		tempGO = GameObject.Find("Skill2Description");
-		tempGO.transform.localPosition = new Vector3((0.15f*(this.realwidth/2f-3f))-5f,-0.5f,0f);
-		tempGO.GetComponent<Renderer>().sortingLayerName = "UI" ;
+		tempGO.GetComponent<TextContainer>().width = (realwidth/2f-4.15f) ;
 		tempGO = GameObject.Find("Skill3Title");
-		tempGO.transform.localPosition = new Vector3((0.17f*(this.realwidth/2f-3f))-5f,-1.2f,0f);
-		tempGO.GetComponent<Renderer>().sortingLayerName = "UI" ;
+		tempGO.GetComponent<TextContainer>().width = (realwidth/2f-4.25f) ;
 		tempGO = GameObject.Find("Skill3Description");
-		tempGO.transform.localPosition = new Vector3((0.19f*(this.realwidth/2f-3f))-5f,-1.8f,0f);
-		tempGO.GetComponent<Renderer>().sortingLayerName = "UI" ;
+		tempGO.GetComponent<TextContainer>().width = (realwidth/2f-4.35f) ;
 		
-		GameObject.Find("AttackButton").transform.localPosition = new Vector3((0.90f*(this.realwidth/2f-3f))-5.2f, 0f,0f);
-		GameObject.Find("SkillButton1").transform.localPosition = new Vector3((0.74f*(this.realwidth/2f-3f))-5.2f, 0f, 0f);
-		GameObject.Find("SkillButton2").transform.localPosition = new Vector3((0.58f*(this.realwidth/2f-3f))-5.2f, 0f, 0f);
-		GameObject.Find("SkillButton3").transform.localPosition = new Vector3((0.42f*(this.realwidth/2f-3f))-5.2f, 0f, 0f);
-		GameObject.Find("SkillButton4").transform.localPosition = new Vector3((0.26f*(this.realwidth/2f-3f))-5.2f, 0f, 0f);
-		GameObject.Find("PassButton").transform.localPosition = new Vector3((0.10f*(this.realwidth/2f-3f))-5.2f, 0f, 0f);
+		tempGO = GameObject.Find("Title2");
+		position = tempGO.transform.localPosition ;
+		position.x = (realwidth/2f)-8.25f-(realwidth/2f-3.75f)/2f;
+		tempGO.transform.localPosition = position;
+		tempGO.GetComponent<TextContainer>().width = (realwidth/2f-3.75f) ;
 		
-		if (EndSceneController.instance != null)
-		{
-			EndSceneController.instance.resize();
-		}
+		tempGO = GameObject.Find("IconMove2");
+		position = tempGO.transform.localPosition ;
+		position.x = (realwidth/2f)-8.05f-0.20f*(realwidth/2f-4.25f);
+		tempGO.transform.localPosition = position;
+		
+		tempGO = GameObject.Find("IconLife2");
+		position = tempGO.transform.localPosition ;
+		position.x = (realwidth/2f)-8.05f-0.5f*(realwidth/2f-4.25f);
+		tempGO.transform.localPosition = position;
+		
+		tempGO = GameObject.Find("IconAttack2");
+		position = tempGO.transform.localPosition ;
+		position.x = (realwidth/2f)-8.05f-0.80f*(realwidth/2f-4.25f);
+		tempGO.transform.localPosition = position;
+		
+		tempGO = GameObject.Find("TextMove2");
+		position = tempGO.transform.localPosition ;
+		position.x = (realwidth/2f)-8.25f-0.20f*(realwidth/2f-4.25f);
+		tempGO.transform.localPosition = position;
+		
+		tempGO = GameObject.Find("TextLife2");
+		position = tempGO.transform.localPosition ;
+		position.x = (realwidth/2f)-8.25f-0.5f*(realwidth/2f-4.25f);
+		tempGO.transform.localPosition = position;
+		
+		tempGO = GameObject.Find("TextAttack2");
+		position = tempGO.transform.localPosition ;
+		position.x = (realwidth/2f)-8.25f-0.80f*(realwidth/2f-4.25f);
+		tempGO.transform.localPosition = position;
+				
+		this.skillButtons[0].transform.localPosition = new Vector3((0.90f*(this.realwidth/2f-3f))-5.2f, 0f,0f);
+		this.skillButtons[1].transform.localPosition = new Vector3((0.74f*(this.realwidth/2f-3f))-5.2f, 0f, 0f);
+		this.skillButtons[2].transform.localPosition = new Vector3((0.58f*(this.realwidth/2f-3f))-5.2f, 0f, 0f);
+		this.skillButtons[3].transform.localPosition = new Vector3((0.42f*(this.realwidth/2f-3f))-5.2f, 0f, 0f);
+		this.skillButtons[4].transform.localPosition = new Vector3((0.26f*(this.realwidth/2f-3f))-5.2f, 0f, 0f);
+		this.skillButtons[5].transform.localPosition = new Vector3((0.10f*(this.realwidth/2f-3f))-5.2f, 0f, 0f);
+		
+		tempGO = GameObject.Find("IconSD");
+		position = tempGO.transform.localPosition ;
+		position.x = (realwidth/2f)-8.75f;
+		tempGO.transform.localPosition = position;
+		
+		tempGO = GameObject.Find("TitleSD");
+		position = tempGO.transform.localPosition ;
+		position.x = (realwidth/2f)-8.55f-(realwidth/2f-3.75f)/2f;
+		tempGO.transform.localPosition = position;
+		tempGO.GetComponent<TextContainer>().width = (realwidth/2f-5.25f) ;
+		
+		tempGO = GameObject.Find("DescriptionSD");
+		position = tempGO.transform.localPosition ;
+		position.x = (realwidth/2f)-8.55f-(realwidth/2f-3.75f)/2f;
+		tempGO.transform.localPosition = position;
+		tempGO.GetComponent<TextContainer>().width = (realwidth/2f-5.25f) ;
+		
+//		if (EndSceneController.instance != null)
+//		{
+//			EndSceneController.instance.resize();
+//		}
 		//if (GameController.instance.isTutorialLaunched)
 		//{
 		//	this.tutorial.GetComponent<GameTutorialController>().resize();
@@ -518,6 +689,13 @@ public class GameView : MonoBehaviour
 		tempGO.transform.position = pos ;
 	}
 	
+	public void hoverSkill(Skill s){
+		if (s.Id!=this.currentHoveredSkill.Id){
+			this.currentHoveredSkill = s ;
+			this.displaySkill();
+		}	
+	}
+	
 	public void hoverTile(Tile t){
 		GameObject tempGO = GameObject.Find("Hover");
 		Vector3 pos = tiles[t.x, t.y].GetComponent<TileController>().getPosition();
@@ -530,6 +708,42 @@ public class GameView : MonoBehaviour
 		Vector3 pos = tiles[t.x, t.y].GetComponent<TileController>().getPosition();
 		pos.z = -1 ;
 		tempGO.transform.position = pos ;
+	}
+	
+	public int getNbPlayingCards(){
+		return this.playingCards.Length;
+	}
+	
+	public Card getCard(int i){
+		return this.playingCards[i].GetComponent<PlayingCardController>().getCard();
+	}
+	
+	public Tile getPlayingCardTile(int i){
+		return this.playingCards[i].GetComponent<PlayingCardController>().getTile();
+	}
+	
+	public bool hasPlayed(int i){
+		return this.playingCards[i].GetComponent<PlayingCardController>().getHasPlayed();
+	}
+	
+	public bool getIsMine(int i){
+		return this.playingCards[i].GetComponent<PlayingCardController>().getIsMine();
+	}
+	
+	public void playCard(int i, bool b){
+		this.playingCards[i].GetComponent<PlayingCardController>().play(b);
+	}
+	
+	public void moveCard(int i, bool b){
+		this.playingCards[i].GetComponent<PlayingCardController>().move(b);
+	}
+	
+	public void setNeighbours(int i, bool isFirstP){
+		this.playingCards [i].GetComponentInChildren<PlayingCardController>().getTile().setNeighbours(this.getCharacterTilesArray(isFirstP), this.playingCards [i].GetComponentInChildren<PlayingCardController>().getCard().GetMove());
+	}
+	
+	public bool isDead(int i){
+		return this.playingCards[i].GetComponent<PlayingCardController>().getIsDead();
 	}
 	
 	public void setMyPlayerName(string s){
@@ -552,6 +766,63 @@ public class GameView : MonoBehaviour
 	
 	public int getBoardHeight(){
 		return this.boardHeight;
+	}
+	
+	public int[,] getCharacterTilesArray(bool isFirstP)
+	{		
+		int[,] characterTiles = new int[this.boardWidth, this.boardHeight];
+		
+		for (int i = 0; i < this.boardWidth; i ++)
+		{
+			for (int j = 0; j < this.boardHeight; j ++)
+			{
+				if (this.tiles[i, j].GetComponent<TileController>().getTileType() == 1)
+				{
+					characterTiles [i, j] = 9;
+				} 
+				else
+				{
+					characterTiles [i, j] = -1;
+				}	
+			}
+		}
+		int debut;
+		int fin;
+		if (isFirstP)
+		{
+			debut = this.nbCardsPerPlayer;
+			fin = playingCards.Length;
+		} else
+		{
+			debut = 0;
+			fin = this.nbCardsPerPlayer;
+		}
+		for (int i = debut; i < fin; i++)
+		{
+			if (!this.isDead(i))
+			{
+				Tile tiletemp = this.playingCards [i].GetComponentInChildren<PlayingCardController>().getTile();
+				characterTiles [tiletemp.x, tiletemp.y] = 8;
+			}
+		}
+		
+		return characterTiles;
+	}
+	
+	public void setDestinations(int idPlayer)
+	{
+		List<Tile> nt = this.playingCards [idPlayer].GetComponentInChildren<PlayingCardController>().getTile().neighbours.tiles;
+		foreach (Tile t in nt)
+		{
+//			if (!this.isTutorialLaunched)
+//			{
+//				this.tiles [t.x, t.y].GetComponentInChildren<TileController>().setDestination(true);
+//			} else
+//			{
+			this.tileHandlers[t.x, t.y].GetComponent<TileHandlerController>().changeType(1);
+			this.tileHandlers[t.x, t.y].SetActive(true);
+			//			}
+		}
 	}
 }
 
