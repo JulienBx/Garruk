@@ -5,20 +5,21 @@
 # http://www.codeandweb.com/texturepacker/unity
 #
 # Sprite sheet: cardsMediumTextures.png (512 x 1024)
-# $TexturePacker:SmartUpdate:60fb4c5abba82b23903735dbfff6bf96:171afafe309b7783f886c84659960b1b:bf92d2779b6d16d5015d28cd76a98b48$
+# $TexturePacker:SmartUpdate:fbfe293ca3b58486ff5ea8d4927d09f6:d3c0a850679efa507542f4e190c07615:bf92d2779b6d16d5015d28cd76a98b48$
 #
 
 medium_arrow;441;782;32;31;0.453125;0.532258064516129
 medium_arrowHover;475;782;32;31;0.453125;0.532258064516129
 medium_atkpic;458;935;38;38;0.5;0.5
-medium_cardupgrade;198;798;90;69;0.5;0.5
-medium_cdmatblue;2;68;188;263;0.5;0.5
-medium_cdmatgreen;2;606;194;271;0.5;0.5
+medium_buttonBorder;2;827;219;50;0.5;0.5
+medium_cardupgrade;223;808;90;69;0.5;0.5
+medium_cdmatblue;2;16;188;263;0.5;0.5
+medium_cdmatgreen;2;554;194;271;0.5;0.5
 medium_cdmatpurple;198;511;194;271;0.5;0.5
-medium_cdmatred;2;333;194;271;0.5;0.5
+medium_cdmatred;2;281;194;271;0.5;0.5
 medium_cristalblue;458;975;50;47;0.5;0.5106382978723405
-medium_expbackground;198;874;100;3;0.5;0.5
-medium_expcomplete;198;869;100;3;0.5;0.5
+medium_expbackground;198;803;100;3;0.5;0.5
+medium_expcomplete;198;798;100;3;0.5;0.5
 medium_focusButton;2;879;319;143;0.5;0.5
 medium_hppic;458;895;38;38;0.5;0.5
 medium_movepic;441;855;38;38;0.5;0.5

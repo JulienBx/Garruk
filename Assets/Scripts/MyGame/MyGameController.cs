@@ -1623,13 +1623,12 @@ public class MyGameController : MonoBehaviour
 		if (testFilters == true){
 			for (int i = 0 ; i < tempCardsToBeDisplayed.Count ; i++)
 			{
-				if (model.cards[tempCardsToBeDisplayed[i]].verifyC2(view.myGameFiltersVM.minLifeVal,
+				if (model.cards[tempCardsToBeDisplayed[i]].verifyC(0,100,view.myGameFiltersVM.minLifeVal,
 				                                                    view.myGameFiltersVM.maxLifeVal,
 				                                                    view.myGameFiltersVM.minAttackVal,
 				                                                    view.myGameFiltersVM.maxAttackVal,
 				                                                    view.myGameFiltersVM.minQuicknessVal,
-				                                                    view.myGameFiltersVM.maxQuicknessVal,
-				                                                    tempMinPrice,tempMaxPrice)){
+				                                                    view.myGameFiltersVM.maxQuicknessVal)){
 					view.myGameCardsVM.cardsToBeDisplayed.Add(tempCardsToBeDisplayed[i]);
 				}
 			}

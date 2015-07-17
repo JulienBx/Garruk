@@ -1,8 +1,7 @@
 using UnityEngine;
 
-public class MyGameFiltersSortController : MonoBehaviour 
+public class MarketFiltersSortController : MonoBehaviour 
 {
-	public Sprite[] sprites;
 	private bool isActive;
 	
 	void OnMouseOver()
@@ -19,7 +18,7 @@ public class MyGameFiltersSortController : MonoBehaviour
 	void OnMouseDown()
 	{
 		this.isActive=!this.isActive;
-		newMyGameController.instance.changeSort (System.Convert.ToInt32(gameObject.name.Substring (4)));
+		NewMarketController.instance.changeSort (System.Convert.ToInt32(gameObject.name.Substring (4)));
 		this.setColor ();
 	}
 	private void setColor()

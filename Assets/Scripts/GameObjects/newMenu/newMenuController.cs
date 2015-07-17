@@ -236,7 +236,7 @@ public class newMenuController : MonoBehaviour
 	public void marketLink() 
 	{
 		this.checkPhoton ();
-		Application.LoadLevel("Market");
+		Application.LoadLevel("newMarket");
 	}
 	public void storeLink() 
 	{

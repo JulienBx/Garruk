@@ -904,6 +904,7 @@ public class Card
 		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_nick", ApplicationModel.username);
 		form.AddField("myform_idcard", this.Id);
+		form.AddField ("myform_price", this.Price);
 		
 		WWW w = new WWW(URLBuyCard, form); 				// On envoie le formulaire à l'url sur le serveur 
 		yield return w;
@@ -920,13 +921,23 @@ public class Card
 				if (w.text.Contains("#SOLD#"))
 				{
 					this.onSale = 0;
+					this.IdOWner=-1;
 				}
-			} else
+				else if (w.text.Contains("#PRICECHANGED#"))
+				{
+					string[] newPrice = w.text.Split(new string[] { "#PRICECHANGED#" }, System.StringSplitOptions.None);
+					this.Price=System.Convert.ToInt32(newPrice[0]);
+				}
+			}
+			else
 			{
 				this.Error = "";
 				this.onSale = 0;
 				string[] data = w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
-				this.CollectionPoints = System.Convert.ToInt32(data [0]);
+				string[] cardData = data [0].Split(new string[] { "//" }, System.StringSplitOptions.None);
+				this.CollectionPoints = System.Convert.ToInt32(cardData [0]);
+				this.IdCardTypeUnlocked=System.Convert.ToInt32(cardData[1]);
+				this.TitleCardTypeUnlocked=cardData[2];
 				string[] newSkills = data [1].Split(new string[] { "//" }, System.StringSplitOptions.None);
 				for (int i=0; i<newSkills.Length-1; i++)
 				{

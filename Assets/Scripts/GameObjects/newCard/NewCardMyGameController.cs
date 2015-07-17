@@ -6,6 +6,10 @@ public class NewCardMyGameController : NewCardController
 	private int id;
 	private bool isDeckCard;
 
+	public override void Update()
+	{
+	}
+	
 	void OnMouseDrag()
 	{
 		newMyGameController.instance.isDraggingCard ();
@@ -40,6 +44,18 @@ public class NewCardMyGameController : NewCardController
 	{
 		this.id = value;
 		this.isDeckCard = isDeckCard;
+	}
+	public override void show()
+	{
+		base.show ();
+		if(this.c.IdOWner==-1)
+		{
+			this.displayPanelSold();
+		}
+		else
+		{
+			this.hidePanelSold();
+		}
 	}
 }
 

@@ -28,6 +28,7 @@ public class newMyGameController : MonoBehaviour
 	private GameObject[] cursors;
 	private GameObject[] paginationButtons;
 	private GameObject[] sortButtons;
+	private GameObject[] toggleButtons;
 	private GameObject focusedCard;
 	private int focusedCardIndex;
 	private bool isCardFocusedDisplayed;
@@ -275,6 +276,11 @@ public class newMyGameController : MonoBehaviour
 		{
 			this.sortButtons[i]=GameObject.Find("Sort"+i);
 		}
+		this.toggleButtons=new GameObject[12];
+		for (int i=0;i<12;i++)
+		{
+			this.toggleButtons[i]=GameObject.Find("Toggle"+i);
+		}
 		this.focusedCard = GameObject.Find ("FocusedCard");
 		this.focusedCard.AddComponent<NewFocusedCardMyGameController> ();
 		this.deckBoard.transform.FindChild("deckList").FindChild("renameDeckButton").FindChild("Title").GetComponent<TextMeshPro>().text = "Renommer";
@@ -329,6 +335,10 @@ public class newMyGameController : MonoBehaviour
 		this.oldMinQuicknessVal=0;
 		this.oldMaxQuicknessVal=100;
 		this.filtersCardType = new List<int> ();
+		for(int i=0;i<this.toggleButtons.Length;i++)
+		{
+			this.toggleButtons[i].GetComponent<MyGameFiltersToggleController>().setActive(false);
+		}
 		this.valueSkill = "";
 		this.isSkillChosen = false;
 		this.isOnSaleFilterOn = false;
@@ -793,7 +803,7 @@ public class newMyGameController : MonoBehaviour
 			{
 				cursorPosition.x=-0.975f+sliderPositionX;
 			}
-			distance = cursorPosition.x -(-0.975f+sliderPositionX)-0.01f;
+			distance = cursorPosition.x -(-0.975f+sliderPositionX);
 		}
 		else
 		{
@@ -807,11 +817,19 @@ public class newMyGameController : MonoBehaviour
 			{
 				cursorPosition.x=secondCursorPositionX+cursorSizeX;
 			}
-			distance = (0.975f+sliderPositionX)-cursorPosition.x+0.01f;
+			distance = (0.975f+sliderPositionX)-cursorPosition.x;
 		}
 		this.cursors [cursorId].transform.position = cursorPosition;
 		float maxDistance = 2 * 0.975f-cursorSizeX;
 		float ratio = distance / maxDistance;
+		if(ratio>0.99f)
+		{
+			ratio=1f;
+		}
+		else if(ratio<0.01f)
+		{
+			ratio=0f;
+		}
 		bool isMoved = false ;
 		switch (cursorId) 
 		{
@@ -1255,67 +1273,67 @@ public class newMyGameController : MonoBehaviour
 					this.maxQuicknessLimit = model.cards[tempCardsToBeDisplayed[i]].Speed;
 				}
 			}
-			if (minPowerBool && this.maxPowerVal>this.minPowerLimit){
+			if (minPowerBool && this.maxPowerVal>=this.minPowerLimit){
 				this.minPowerVal = this.minPowerLimit;
 			}
 			else{
-				if (this.minPowerVal<this.minPowerLimit){
+				if (this.minPowerVal<=this.minPowerLimit){
 					this.minPowerLimit = this.minPowerVal;
 				}
 			}
-			if (maxPowerBool && this.minPowerVal<this.maxPowerLimit){
+			if (maxPowerBool && this.minPowerVal<=this.maxPowerLimit){
 				this.maxPowerVal = this.maxPowerLimit;
 			}
 			else{
-				if (this.maxPowerVal>this.maxPowerLimit){
+				if (this.maxPowerVal>=this.maxPowerLimit){
 					this.maxPowerLimit = this.maxPowerVal;
 				}
 			}
-			if (minLifeBool && this.maxLifeVal>this.minLifeLimit){
+			if (minLifeBool && this.maxLifeVal>=this.minLifeLimit){
 				this.minLifeVal = this.minLifeLimit;
 			}
 			else{
-				if (this.minLifeVal<this.minLifeLimit){
+				if (this.minLifeVal<=this.minLifeLimit){
 					this.minLifeLimit = this.minLifeVal;
 				}
 			}
-			if (maxLifeBool && this.minLifeVal<this.maxLifeLimit){
+			if (maxLifeBool && this.minLifeVal<=this.maxLifeLimit){
 				this.maxLifeVal = this.maxLifeLimit;
 			}
 			else{
-				if (this.maxLifeVal>this.maxLifeLimit){
+				if (this.maxLifeVal>=this.maxLifeLimit){
 					this.maxLifeLimit = this.maxLifeVal;
 				}
 			}
-			if (minAttackBool && this.maxAttackVal>this.minAttackLimit){
+			if (minAttackBool && this.maxAttackVal>=this.minAttackLimit){
 				this.minAttackVal = this.minAttackLimit;
 			}
 			else{
-				if (this.minAttackVal<this.minAttackLimit){
+				if (this.minAttackVal<=this.minAttackLimit){
 					this.minAttackLimit = this.minAttackVal;
 				}
 			}
-			if (maxAttackBool && this.minAttackVal<this.maxAttackLimit){
+			if (maxAttackBool && this.minAttackVal<=this.maxAttackLimit){
 				this.maxAttackVal = this.maxAttackLimit;
 			}
 			else{
-				if (this.maxAttackVal>this.maxAttackLimit){
+				if (this.maxAttackVal>=this.maxAttackLimit){
 					this.maxAttackLimit = this.maxAttackVal;
 				}
 			}
-			if (minQuicknessBool && this.maxQuicknessVal>this.minQuicknessLimit){
+			if (minQuicknessBool && this.maxQuicknessVal>=this.minQuicknessLimit){
 				this.minQuicknessVal = this.minQuicknessLimit;
 			}
 			else{
-				if (this.minQuicknessVal<this.minQuicknessLimit){
+				if (this.minQuicknessVal<=this.minQuicknessLimit){
 					this.minQuicknessLimit = this.minQuicknessVal;
 				}
 			}
-			if (maxQuicknessBool && this.minQuicknessVal<this.maxQuicknessLimit){
+			if (maxQuicknessBool && this.minQuicknessVal<=this.maxQuicknessLimit){
 				this.maxQuicknessVal = this.maxQuicknessLimit;
 			}
 			else{
-				if (this.maxQuicknessVal>this.maxQuicknessLimit){
+				if (this.maxQuicknessVal>=this.maxQuicknessLimit){
 					this.maxQuicknessLimit = this.maxQuicknessVal;
 				}
 			}
@@ -1519,6 +1537,7 @@ public class newMyGameController : MonoBehaviour
 			for(int i =0;i<nbButtonsToDraw;i++)
 			{
 				this.paginationButtons[i] = Instantiate(this.paginationButtonObject) as GameObject;
+				this.paginationButtons[i].AddComponent<MyGamePaginationController>();
 				this.paginationButtons[i].transform.position=new Vector3((0.5f+i-nbButtonsToDraw/2f)*(paginationButtonWidth+gapBetweenPaginationButton),-4.7f,0f);
 				this.paginationButtons[i].name="Pagination"+i.ToString();
 			}
@@ -2074,7 +2093,7 @@ public class newMyGameController : MonoBehaviour
 		int index;
 		if(isCardFocusedDisplayed && model.cards[this.focusedCardIndex].IdOWner==-1)
 		{
-			this.focusedCard.GetComponent<NewFocusedCardController>().setPanelSold();
+			this.focusedCard.GetComponent<NewFocusedCardController>().setCardSold();
 		}
 		else if(this.isSceneLoaded)
 		{
@@ -2082,7 +2101,7 @@ public class newMyGameController : MonoBehaviour
 			{
 				if(model.cards[this.cardsDisplayed[i]].IdOWner==-1)
 				{
-					this.cards[i].GetComponent<NewCardController>().setSoldPanel(true);
+					this.cards[i].GetComponent<NewCardController>().displayPanelSold();
 				}
 			}
 		}

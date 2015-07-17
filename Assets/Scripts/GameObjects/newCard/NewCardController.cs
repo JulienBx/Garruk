@@ -1,21 +1,24 @@
 using UnityEngine;
 using TMPro;
 
-public class NewCardController : MonoBehaviour 
+public class NewCardController : NewFocusedCardController 
 {
-
-	public Card c;
 	private NewCardRessources ressources;
 	private GameObject[] skills;
 	private GameObject panelSold;
 
-	void Awake()
+	public override void Update()
+	{
+		base.Update ();
+	}
+	public override void Awake()
 	{
 		this.skills=new GameObject[0];
 		this.ressources = this.gameObject.GetComponent<NewCardRessources> ();
+		base.setPopUpRessources ();
 		this.panelSold = this.gameObject.transform.FindChild ("PanelSold").gameObject;
 	}
-	public void show()
+	public override void show()
 	{
 		this.gameObject.transform.FindChild ("Face").GetComponent<SpriteRenderer> ().sprite = ressources.faces[0];
 		this.gameObject.transform.FindChild ("Name").GetComponent<TextMeshPro> ().text = this.c.Title;
@@ -43,18 +46,14 @@ public class NewCardController : MonoBehaviour
 			this.skills[i].transform.localPosition=new Vector3(-0.4f,-0.3f-i*0.2f,0);
 			this.skills[i].transform.GetComponent<NewCardSkillController>().setSkill(c.Skills[i]);
 		}
-		if(this.c.IdOWner==-1)
-		{
-			this.setSoldPanel(true);
-		}
-		else
-		{
-			this.setSoldPanel(false);
-		}
 	}
-	public void setSoldPanel(bool value)
+	public override void displayPanelSold()
 	{
-		this.panelSold.SetActive (value);
+		this.panelSold.SetActive (true);
+	}
+	public override void hidePanelSold()
+	{
+		this.panelSold.SetActive (false);
 	}
 	public void changeLayer(int layerVariation)
 	{

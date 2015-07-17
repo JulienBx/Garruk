@@ -246,6 +246,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 484438}
   - 114: {fileID: 11400340}
+  - 114: {fileID: 11429506}
   m_Layer: 0
   m_Name: FocusedCard
   m_TagString: Untagged
@@ -1579,7 +1580,6 @@ MonoBehaviour:
   - {r: .68235296, g: .482352942, b: .266666681, a: 1}
   - {r: .65882355, g: .65882355, b: .65882355, a: 1}
   - {r: .960784316, g: .913725495, b: .313725501, a: 1}
-  popUpSkin: {fileID: 11400000, guid: 6346424849e084205bcebcf25bed265c, type: 2}
 --- !u!114 &11404378
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2100,6 +2100,18 @@ MonoBehaviour:
     width: .349999994
     height: .349999994
   m_margins: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &11429506
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 140198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f28561f96f31943919d7a6fdf6e7eb18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  popUpSkin: {fileID: 11400000, guid: 6346424849e084205bcebcf25bed265c, type: 2}
 --- !u!114 &11435506
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3602,6 +3614,11 @@ Prefab:
       value: 
       objectReference: {fileID: 21300014, guid: 794530463996d40b2ab82078c2dc307a,
         type: 3}
+    - target: {fileID: 0}
+      propertyPath: popUpSkin
+      value: 
+      objectReference: {fileID: 11400000, guid: 6346424849e084205bcebcf25bed265c,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 140198}

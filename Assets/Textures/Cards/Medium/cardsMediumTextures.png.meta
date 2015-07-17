@@ -26,6 +26,7 @@ TextureImporter:
     21300038: medium_addXp
     21300040: medium_cardupgrade
     21300042: medium_soldPanel
+    21300044: medium_buttonBorder
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -101,11 +102,21 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
+    - name: medium_buttonBorder
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 827
+        width: 219
+        height: 50
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: medium_cardupgrade
       rect:
         serializedVersion: 2
-        x: 198
-        y: 798
+        x: 223
+        y: 808
         width: 90
         height: 69
       alignment: 0
@@ -115,7 +126,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 2
-        y: 68
+        y: 16
         width: 188
         height: 263
       alignment: 0
@@ -125,7 +136,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 2
-        y: 606
+        y: 554
         width: 194
         height: 271
       alignment: 0
@@ -145,7 +156,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 2
-        y: 333
+        y: 281
         width: 194
         height: 271
       alignment: 0
@@ -165,7 +176,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 198
-        y: 874
+        y: 803
         width: 100
         height: 3
       alignment: 0
@@ -175,7 +186,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 198
-        y: 869
+        y: 798
         width: 100
         height: 3
       alignment: 0

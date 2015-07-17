@@ -3,7 +3,7 @@ using TMPro;
 
 public class NewFocusedCardMyGameController : NewFocusedCardController
 {
-	public override void setFocusFeatures()
+	public override void updateFocusFeatures()
 	{
 		this.gameObject.transform.FindChild("FocusFeature0").FindChild("Title").GetComponent<TextMeshPro>().text="Désintégrer \n( +"+this.c.destructionPrice+" crédits)";
 		if(this.c.ExperienceLevel!=10)

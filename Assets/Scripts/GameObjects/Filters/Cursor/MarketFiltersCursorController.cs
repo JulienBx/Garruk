@@ -1,12 +1,12 @@
 using UnityEngine;
 
-public class MyGameFiltersCursorController : MonoBehaviour 
+public class MarketFiltersCursorController : MonoBehaviour
 {
-
+	
 	void OnMouseDrag() 
 	{
 		int cursorId = System.Convert.ToInt32 (gameObject.name.Substring (6));
-		newMyGameController.instance.moveMinMaxCursor (cursorId);
+		NewMarketController.instance.moveMinMaxCursor (cursorId);
 	}
 }
 
