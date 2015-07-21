@@ -27,6 +27,7 @@ TextureImporter:
     21300040: medium_cardupgrade
     21300042: medium_soldPanel
     21300044: medium_buttonBorder
+    21300046: medium_backCard
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -76,7 +77,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 441
-        y: 782
+        y: 780
         width: 32
         height: 31
       alignment: 9
@@ -86,7 +87,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 475
-        y: 782
+        y: 780
         width: 32
         height: 31
       alignment: 9
@@ -96,9 +97,19 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 458
-        y: 935
+        y: 933
         width: 38
         height: 38
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: medium_backCard
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 16
+        width: 188
+        height: 263
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -125,7 +136,7 @@ TextureImporter:
     - name: medium_cdmatblue
       rect:
         serializedVersion: 2
-        x: 2
+        x: 192
         y: 16
         width: 188
         height: 263
@@ -166,11 +177,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 458
-        y: 975
-        width: 50
-        height: 47
+        y: 973
+        width: 52
+        height: 49
       alignment: 9
-      pivot: {x: .5, y: .510638297}
+      pivot: {x: .5, y: .510204077}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: medium_expbackground
       rect:
@@ -206,7 +217,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 458
-        y: 895
+        y: 893
         width: 38
         height: 38
       alignment: 0
@@ -216,7 +227,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 441
-        y: 855
+        y: 853
         width: 38
         height: 38
       alignment: 0
@@ -246,7 +257,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 441
-        y: 815
+        y: 813
         width: 38
         height: 38
       alignment: 0

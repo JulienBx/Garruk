@@ -133,26 +133,26 @@ MonoBehaviour:
   m_toggle:
     m_Name: toggle
     m_Normal:
-      m_Background: {fileID: 0}
+      m_Background: {fileID: 2800000, guid: d737094809e5f4667830b815e14a6c69, type: 3}
       m_TextColor: {r: 1, g: 1, b: 1, a: 1}
     m_Hover:
-      m_Background: {fileID: 0}
-      m_TextColor: {r: .172549024, g: .427451015, b: .556862772, a: 1}
+      m_Background: {fileID: 2800000, guid: d737094809e5f4667830b815e14a6c69, type: 3}
+      m_TextColor: {r: .0317906514, g: .412597358, b: .617647052, a: 1}
     m_Active:
-      m_Background: {fileID: 11013, guid: 0000000000000000e000000000000000, type: 0}
+      m_Background: {fileID: 2800000, guid: d737094809e5f4667830b815e14a6c69, type: 3}
       m_TextColor: {r: 1, g: 1, b: 1, a: 1}
     m_Focused:
-      m_Background: {fileID: 0}
+      m_Background: {fileID: 2800000, guid: d737094809e5f4667830b815e14a6c69, type: 3}
       m_TextColor: {r: 0, g: 0, b: 0, a: 1}
     m_OnNormal:
-      m_Background: {fileID: 11016, guid: 0000000000000000e000000000000000, type: 0}
-      m_TextColor: {r: .890196085, g: .890196085, b: .890196085, a: 1}
+      m_Background: {fileID: 2800000, guid: d737094809e5f4667830b815e14a6c69, type: 3}
+      m_TextColor: {r: .0313725509, g: .411764711, b: .615686297, a: 1}
     m_OnHover:
-      m_Background: {fileID: 11015, guid: 0000000000000000e000000000000000, type: 0}
-      m_TextColor: {r: 1, g: 1, b: 1, a: 1}
+      m_Background: {fileID: 2800000, guid: d737094809e5f4667830b815e14a6c69, type: 3}
+      m_TextColor: {r: .0313725509, g: .411764711, b: .615686297, a: 1}
     m_OnActive:
-      m_Background: {fileID: 11017, guid: 0000000000000000e000000000000000, type: 0}
-      m_TextColor: {r: 1, g: 1, b: 1, a: 1}
+      m_Background: {fileID: 2800000, guid: d737094809e5f4667830b815e14a6c69, type: 3}
+      m_TextColor: {r: .0313725509, g: .411764711, b: .615686297, a: 1}
     m_OnFocused:
       m_Background: {fileID: 0}
       m_TextColor: {r: 0, g: 0, b: 0, a: 1}
@@ -176,7 +176,7 @@ MonoBehaviour:
       m_Right: 0
       m_Top: -4
       m_Bottom: 0
-    m_Font: {fileID: 0}
+    m_Font: {fileID: 12800000, guid: ef0523a1adfd0774cb8b7f0bd25137f7, type: 3}
     m_FontSize: 0
     m_FontStyle: 0
     m_Alignment: 4

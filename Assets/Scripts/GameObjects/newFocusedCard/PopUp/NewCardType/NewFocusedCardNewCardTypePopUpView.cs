@@ -31,6 +31,7 @@ public class NewFocusedCardNewCardTypePopUpView : MonoBehaviour
 			}
 			GUILayout.EndHorizontal();
 			GUILayout.FlexibleSpace();
+			GUILayout.FlexibleSpace();
 		}
 		GUILayout.EndArea();
 	}

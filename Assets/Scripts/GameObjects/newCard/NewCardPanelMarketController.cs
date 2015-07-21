@@ -17,9 +17,9 @@ public class NewCardPanelMarketController : MonoBehaviour
 		this.isClickable = value;
 		if(!value)
 		{
-			gameObject.GetComponent<SpriteRenderer>().color=new Color(221f/255f,31f/255f,28f/255f);
-			gameObject.transform.FindChild("Title").GetComponent<TextMeshPro>().color=new Color(221f/255f,31f/255f,28f/255f);
-			gameObject.transform.FindChild("Cristal").GetComponent<SpriteRenderer>().color=new Color(221f/255f,31f/255f,28f/255f);
+			gameObject.GetComponent<SpriteRenderer>().color=new Color(166f/255f,31f/255f,28f/255f);
+			gameObject.transform.FindChild("Title").GetComponent<TextMeshPro>().color=new Color(166f/255f,31f/255f,28f/255f);
+			gameObject.transform.FindChild("Cristal").GetComponent<SpriteRenderer>().color=new Color(166f/255f,31f/255f,28f/255f);
 		}
 		else
 		{

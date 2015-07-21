@@ -1,0 +1,12 @@
+#
+# Sprite sheet data for Unity.
+#
+# To import these sprites into your Unity project, download "TexturePackerImporter":
+# http://www.codeandweb.com/texturepacker/unity
+#
+# Sprite sheet: storeTexture.png (256 x 128)
+# $TexturePacker:SmartUpdate:38ae6eea61507e07c8e2406072539e03:142863758aba8c6d00c879f8cd79f4b7:2ebdbbeb91d60a914e30f72d9b564eec$
+#
+
+buttonBorder;2;76;219;50;0.5;0.5
+cristalblue;2;25;52;49;0.5;0.5102040816326531

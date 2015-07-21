@@ -49,7 +49,7 @@ public class NewCardMarketController : NewCardController
 	{
 		this.panelMarket.SetActive (true);
 		this.panelMarket.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = this.c.Price.ToString();
-		if(this.c.Price<ApplicationModel.credits)
+		if(this.c.Price<=ApplicationModel.credits)
 		{
 			this.panelMarket.GetComponent<NewCardPanelMarketController>().setClickable(true);
 		}

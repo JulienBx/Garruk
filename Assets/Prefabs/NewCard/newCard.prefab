@@ -1469,6 +1469,7 @@ MonoBehaviour:
   - {r: .68235296, g: .482352942, b: .266666681, a: 1}
   - {r: .65882355, g: .65882355, b: .65882355, a: 1}
   - {r: .960784316, g: .913725495, b: .313725501, a: 1}
+  backFace: {fileID: 21300046, guid: 794530463996d40b2ab82078c2dc307a, type: 3}
 --- !u!114 &11459160
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2244,6 +2245,11 @@ Prefab:
       propertyPath: faces.Array.data[0]
       value: 
       objectReference: {fileID: 21300014, guid: 794530463996d40b2ab82078c2dc307a,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: backFace
+      value: 
+      objectReference: {fileID: 21300046, guid: 794530463996d40b2ab82078c2dc307a,
         type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

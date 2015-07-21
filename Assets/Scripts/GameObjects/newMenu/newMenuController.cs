@@ -247,7 +247,7 @@ public class newMenuController : MonoBehaviour
 		}
 		else
 		{
-			Application.LoadLevel("Store");
+			Application.LoadLevel("NewStore");
 		}
 	}
 	public void lobbyLink() 

@@ -20,7 +20,7 @@ public class NewCardController : NewFocusedCardController
 	}
 	public override void show()
 	{
-		this.gameObject.transform.FindChild ("Face").GetComponent<SpriteRenderer> ().sprite = ressources.faces[0];
+		this.applyFrontTexture ();
 		this.gameObject.transform.FindChild ("Name").GetComponent<TextMeshPro> ().text = this.c.Title;
 		this.gameObject.transform.FindChild("Power").FindChild("Text").GetComponent<TextMeshPro>().text = this.c.Power.ToString();
 		this.gameObject.transform.FindChild ("Power").FindChild ("Text").GetComponent<TextMeshPro> ().color = ressources.colors [this.c.PowerLevel - 1];
@@ -46,6 +46,10 @@ public class NewCardController : NewFocusedCardController
 			this.skills[i].transform.localPosition=new Vector3(-0.4f,-0.3f-i*0.2f,0);
 			this.skills[i].transform.GetComponent<NewCardSkillController>().setSkill(c.Skills[i]);
 		}
+	}
+	public override void applyFrontTexture()
+	{
+		this.gameObject.transform.FindChild ("Face").GetComponent<SpriteRenderer> ().sprite = ressources.faces[0];
 	}
 	public override void displayPanelSold()
 	{
@@ -75,6 +79,10 @@ public class NewCardController : NewFocusedCardController
 		{
 			this.skills[i].transform.GetComponent<NewCardSkillController>().changeLayer(layerVariation);
 		}
+	} 
+	public override void applyBackTexture()
+	{
+		this.gameObject.transform.FindChild ("Face").GetComponent<SpriteRenderer> ().sprite = ressources.backFace;
 	}
 }
 

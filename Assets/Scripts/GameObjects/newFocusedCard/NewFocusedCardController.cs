@@ -36,9 +36,9 @@ public class NewFocusedCardController : MonoBehaviour
 	private bool isEditSellPriceViewDisplayed;
 	private NewFocusedCardPutOnMarketPopUpView putOnMarketView;
 	private bool isPutOnMarketViewDisplayed;
-	private NewFocusedCardCollectionPointsPopUpView collectionPointsView;
+	private NewCollectionPointsPopUpView collectionPointsView;
 	private bool isCollectionPointsViewDisplayed;
-	private NewFocusedCardNewSkillsPopUpView newSkillsView;
+	private NewSkillsPopUpView newSkillsView;
 	private bool isNewSkillsViewDisplayed;
 	private NewFocusedCardNewCardTypePopUpView newCardTypeView;
 	private bool isNewCardTypeViewDisplayed;
@@ -109,7 +109,7 @@ public class NewFocusedCardController : MonoBehaviour
 	}
 	public virtual void show()
 	{
-		this.gameObject.transform.FindChild ("Face").GetComponent<SpriteRenderer> ().sprite = ressources.faces[0];
+		this.applyFrontTexture ();
 		this.gameObject.transform.FindChild ("Name").GetComponent<TextMeshPro> ().text = this.c.Title;
 		this.gameObject.transform.FindChild("Power").FindChild("Text").GetComponent<TextMeshPro>().text = this.c.Power.ToString();
 		this.gameObject.transform.FindChild ("Power").FindChild ("Text").GetComponent<TextMeshPro> ().color = ressources.colors [this.c.PowerLevel - 1];
@@ -135,6 +135,10 @@ public class NewFocusedCardController : MonoBehaviour
 		}
 		this.experience.GetComponent<NewFocusedCardExperienceController> ().setExperience (this.c.ExperienceLevel, this.c.PercentageToNextLevel);
 		this.updateFocusFeatures ();
+	}
+	public virtual void applyFrontTexture()
+	{
+		this.gameObject.transform.FindChild ("Face").GetComponent<SpriteRenderer> ().sprite = ressources.faces[0];
 	}
 	public void setCardSold()
 	{
@@ -325,7 +329,7 @@ public class NewFocusedCardController : MonoBehaviour
 		{
 			this.hideCollectionPointsPopUp();
 		}
-		collectionPointsView = gameObject.AddComponent<NewFocusedCardCollectionPointsPopUpView>();
+		collectionPointsView = gameObject.AddComponent<NewCollectionPointsPopUpView>();
 		this.isCollectionPointsViewDisplayed = true;
 		this.timerCollectionPoints = 0f;
 		collectionPointsView.popUpVM.centralWindow = this.collectionPointsWindow;
@@ -341,7 +345,7 @@ public class NewFocusedCardController : MonoBehaviour
 		{
 			this.hideNewSkillsPopUp();
 		}
-		this.newSkillsView = gameObject.AddComponent<NewFocusedCardNewSkillsPopUpView>();
+		this.newSkillsView = gameObject.AddComponent<NewSkillsPopUpView>();
 		this.isNewSkillsViewDisplayed = true;
 		newSkillsView.popUpVM.centralWindow = this.newSkillsWindow;
 		for(int i=0;i<this.c.NewSkills.Count;i++)
@@ -950,6 +954,24 @@ public class NewFocusedCardController : MonoBehaviour
 		Vector3 refPosition =refObject.transform.position;
 		float refSizeX = refObject.transform.GetComponent<MeshRenderer> ().bounds.max.x-refObject.transform.GetComponent<MeshRenderer> ().bounds.min.x;
 		return new Vector3 (refPosition.x+gap,refPosition.y,0f);
+	}
+	public void setBackFace(bool value)
+	{
+		if(value)
+		{
+			this.applyBackTexture();
+			this.gameObject.transform.FindChild ("Face").GetComponent<SpriteRenderer> ().sortingOrder = 10;
+		}
+		else
+		{
+			this.applyFrontTexture();
+			this.gameObject.transform.FindChild ("Face").GetComponent<SpriteRenderer> ().sortingOrder = 0;
+		}
+
+	}
+	public virtual void applyBackTexture()
+	{
+		this.gameObject.transform.FindChild ("Face").GetComponent<SpriteRenderer> ().sprite = ressources.backFace;
 	}
 }
 

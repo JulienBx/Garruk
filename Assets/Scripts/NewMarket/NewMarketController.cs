@@ -118,7 +118,15 @@ public class NewMarketController : MonoBehaviour
 		{
 			if(isSceneLoaded)
 			{
-				this.updateCardsMarketFeatures();
+				if(this.isCardFocusedDisplayed)
+				{
+					this.toUpdateCardsMarketFeatures=true;
+					this.focusedCard.GetComponent<NewFocusedCardMarketController>().updateFocusFeatures();
+				}
+				else
+				{
+					this.updateCardsMarketFeatures();
+				}
 			}
 			this.money=ApplicationModel.credits;
 		}
@@ -460,7 +468,6 @@ public class NewMarketController : MonoBehaviour
 		if(toUpdateCardsMarketFeatures)
 		{
 			this.updateCardsMarketFeatures();
-			this.toUpdateCardsMarketFeatures=false;
 		}
 	}
 	public void displayBackUI(bool value)
@@ -1211,6 +1218,7 @@ public class NewMarketController : MonoBehaviour
 	}
 	public void updateCardsMarketFeatures()
 	{
+		this.toUpdateCardsMarketFeatures=false;
 		for (int i=0;i<this.cardsDisplayed.Count;i++)
 		{
 			this.cards[i].GetComponent<NewCardMarketController>().setMarketFeatures();

@@ -12,6 +12,7 @@ public class Pack
 	public bool New;
 	public string Picture;
 	public Texture2D texture;
+	public bool isTextureLoaded;
 	public string Name;
 	public IList<Card> Cards;
 	public string Error;
@@ -31,6 +32,7 @@ public class Pack
 		var www = new WWW(ApplicationModel.host+this.Picture);
 		yield return www;
 		www.LoadImageIntoTexture(this.texture);
+		this.isTextureLoaded = true;
 	}
 	public IEnumerator buyPack(int cardType=-1)
 	{
@@ -107,6 +109,7 @@ public class Pack
 					cards[i].NextLevelPrice = System.Convert.ToInt32(cardInformation [13]);
 					cards[i].destructionPrice=System.Convert.ToInt32(cardInformation[14]);
 					cards[i].Power=System.Convert.ToInt32(cardInformation[15]);
+					cards[i].PowerLevel=System.Convert.ToInt32(cardInformation[16]);
 					cards[i].onSale = 0;
 					cards[i].Experience = 0;
 					cards[i].PercentageToNextLevel = 0;
