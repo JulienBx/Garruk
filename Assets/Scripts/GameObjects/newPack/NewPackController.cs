@@ -13,7 +13,7 @@ public class NewPackController : MonoBehaviour
 
 	public Pack p;
 
-	private int Id;
+	public int Id;
 	private bool isClickable;
 
 	private Rect centralWindow;
@@ -92,7 +92,7 @@ public class NewPackController : MonoBehaviour
 			gameObject.transform.FindChild("BuyButton").FindChild("Title").GetComponent<TextMeshPro>().color=new Color(1f,1f,1f);
 		}
 	}
-	void OnMouseDown()
+	public virtual void OnMouseDown()
 	{
 		if(isClickable)
 		{
@@ -135,7 +135,7 @@ public class NewPackController : MonoBehaviour
 			this.displayErrorPopUp();
 		}
 	}
-	public void show()
+	public virtual void show()
 	{
 		gameObject.transform.FindChild("PackTitle").GetComponent<TextMeshPro>().text=p.Name;
 		gameObject.transform.FindChild("BuyButton").FindChild("Title").GetComponent<TextMeshPro>().text=p.Price.ToString();

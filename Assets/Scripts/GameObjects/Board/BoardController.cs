@@ -5,7 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 
-public class CardsBoardController : MonoBehaviour 
+public class BoardController : MonoBehaviour 
 {
 	
 	public void resize(float width, float height, Vector3 origin)

@@ -28,6 +28,7 @@ public class NewStoreController : MonoBehaviour
 	private GameObject addCreditsButton;
 	private GameObject backButton;
 	private GameObject buyCreditsButton;
+	private GameObject homePageBoughtPack;
 
 	private IList<int> packsDisplayed;
 
@@ -204,6 +205,22 @@ public class NewStoreController : MonoBehaviour
 		this.money = ApplicationModel.credits;
 		this.createPacks ();
 		this.isSceneLoaded = true;
+		if(ApplicationModel.packToBuy!=-1)
+		{
+			int tempId=0;
+			for(int i=0;i<model.packList.Count;i++)
+			{
+				if(model.packList[i].Id==ApplicationModel.packToBuy)
+				{
+					tempId=i;
+					break;
+				}
+			}
+			ApplicationModel.packToBuy = -1;
+			this.homePageBoughtPack.GetComponent<NewPackStoreController>().p=model.packList[tempId];
+			this.homePageBoughtPack.GetComponent<NewPackStoreController>().setId(tempId);
+			this.homePageBoughtPack.GetComponent<NewPackStoreController>().OnMouseDown();
+		}
 	}
 	public void initializeScene()
 	{
@@ -216,6 +233,7 @@ public class NewStoreController : MonoBehaviour
 		this.packs=new GameObject[0];
 		this.backButton = GameObject.Find ("BackButton");
 		this.buyCreditsButton = GameObject.Find ("BuyCreditsButton");
+		this.homePageBoughtPack = GameObject.Find ("HomePageBoughtPack");
 	}
 	public void resize()
 	{
@@ -305,6 +323,9 @@ public class NewStoreController : MonoBehaviour
 			this.packs[i].transform.GetComponent<NewPackStoreController>().setNewSkillsWindow (this.newSkillsWindow);
 			this.packs[i].SetActive(false);
 		}
+		this.homePageBoughtPack.transform.GetComponent<NewPackStoreController>().setCentralWindow (this.centralWindow);
+		this.homePageBoughtPack.transform.GetComponent<NewPackStoreController>().setCollectionPointsWindow (this.collectionPointsWindow);
+		this.homePageBoughtPack.transform.GetComponent<NewPackStoreController>().setNewSkillsWindow (this.newSkillsWindow);
 		this.drawPacks ();
 		this.updatePackPrices ();
 		this.drawPagination ();
@@ -412,11 +433,6 @@ public class NewStoreController : MonoBehaviour
 				scaleCard=(cardMaxWorldHeight*(cardWidth/cardHeight)*this.pixelPerUnit)/cardWidth;
 			}
 			float gapBetweenCards = cardWorldWidth / (nbCards + 1);
-			print (width);
-			print (nbCards);
-			print (gapBetweenCards);
-			print (cardWorldWidth);
-			print (scaleCard);
 			for (int i = 0; i <nbCards; i++)
 			{
 				name="Card" + i;

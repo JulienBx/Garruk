@@ -22,7 +22,6 @@ public class newMyGameController : MonoBehaviour
 	private GameObject deckBoard;
 	private GameObject cardsBoard;
 	private GameObject filters;
-	private GameObject deckBoardTitle;
 	private GameObject[] deckCards;
 	private GameObject[] cards;
 	private GameObject[] cursors;
@@ -119,6 +118,8 @@ public class newMyGameController : MonoBehaviour
 	private float timer;
 	private bool isSceneLoaded;
 
+	private int money;
+
 	void Update()
 	{	
 		this.timer += Time.deltaTime;
@@ -206,6 +207,17 @@ public class newMyGameController : MonoBehaviour
 		{
 			this.escapePressed();
 		}
+		if(money!=ApplicationModel.credits)
+		{
+			if(isSceneLoaded)
+			{
+				if(this.isCardFocusedDisplayed)
+				{
+					this.focusedCard.GetComponent<NewFocusedCardMyGameController>().updateFocusFeatures();
+				}
+			}
+			this.money=ApplicationModel.credits;
+		}
 	}
 	void Awake()
 	{
@@ -229,6 +241,7 @@ public class newMyGameController : MonoBehaviour
 		this.initializeDecks ();
 		this.initializeCards ();
 		this.isSceneLoaded = true;
+		this.money = ApplicationModel.credits;
 	}
 	private void initializeDecks()
 	{
@@ -255,7 +268,6 @@ public class newMyGameController : MonoBehaviour
 		this.deckBoard = GameObject.Find ("deckBoard");
 		this.cardsBoard = GameObject.Find ("cardsBoard");
 		this.filters = GameObject.Find ("myGameFilters");
-		this.deckBoardTitle = GameObject.Find ("deckBoardTitle");
 		this.deckCards=new GameObject[4];
 		this.cards = new GameObject[0];
 		this.matchValues=new List<GameObject>();
@@ -462,7 +474,7 @@ public class newMyGameController : MonoBehaviour
 		float cardWorldWidth = (cardWidth / pixelPerUnit) * cardScale;
 		float cardWorldHeight = (cardHeight / pixelPerUnit) * cardScale;
 
-		this.cardsBoard.GetComponent<CardsBoardController> ().resize(cardsBoardWidth,cardsBoardHeight,cardsBoardOrigin);
+		this.cardsBoard.GetComponent<BoardController> ().resize(cardsBoardWidth,cardsBoardHeight,cardsBoardOrigin);
 		this.deckCardsPosition=new Vector3[4];
 		this.deckCardsArea=new Rect[4];
 
@@ -604,6 +616,7 @@ public class newMyGameController : MonoBehaviour
 	public void showCardFocused()
 	{
 		this.isCardFocusedDisplayed = true;
+		this.isHovering=false;
 		this.displayBackUI (false);
 		this.focusedCard.SetActive (true);
 		Cursor.SetCursor (null, Vector2.zero, CursorMode.Auto);
@@ -692,7 +705,7 @@ public class newMyGameController : MonoBehaviour
 			this.deckList[this.deckList.Count-1].transform.localScale=new Vector3(1.4f,1.4f,1.4f);
 			this.deckList[this.deckList.Count-1].transform.localPosition=new Vector3(0f, -0.45f+(this.deckList.Count-1)*(-0.32f),0f);
 			this.deckList[this.deckList.Count-1].transform.FindChild("Title").GetComponent<TextMeshPro>().text = model.decks [this.decksDisplayed[i]].Name;
-			this.deckList[this.deckList.Count-1].GetComponent<DeckBoardDeckListController>().setId(i);
+			this.deckList[this.deckList.Count-1].GetComponent<DeckBoardDeckListMyGameController>().setId(i);
 		}
 	}
 	public void cleanCards()
@@ -1881,7 +1894,7 @@ public class newMyGameController : MonoBehaviour
 		else
 		{
 			this.deckCards[this.idCardClicked].GetComponent<NewCardController>().changeLayer(4);
-			this.cardsBoard.GetComponent<CardsBoardController> ().changeColor (new Color (155f / 255f, 220f / 255f, 1f));
+			this.cardsBoard.GetComponent<BoardController> ().changeColor (new Color (155f / 255f, 220f / 255f, 1f));
 		}
 		this.deckBoard.GetComponent<DeckBoardController> ().changeCardsColor (new Color (155f / 255f, 220f / 255f, 1f));
 	}
@@ -1985,7 +1998,7 @@ public class newMyGameController : MonoBehaviour
 		{
 			this.deckCards[this.idCardClicked].GetComponent<NewCardController>().changeLayer(-4);
 			this.deckCards[this.idCardClicked].transform.position=this.deckCardsPosition[this.idCardClicked];
-			this.cardsBoard.GetComponent<CardsBoardController> ().changeColor (new Color (1f,1f, 1f));
+			this.cardsBoard.GetComponent<BoardController> ().changeColor (new Color (1f,1f, 1f));
 		}
 		this.deckBoard.GetComponent<DeckBoardController> ().changeCardsColor (new Color (1f,1f, 1f));bool toCards=false;
 

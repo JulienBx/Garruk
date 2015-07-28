@@ -278,6 +278,7 @@ public class Deck
 						this.Cards[i].deckOrder=System.Convert.ToInt32(cardInfo[19]);
 						this.Cards[i].destructionPrice=System.Convert.ToInt32(cardInfo[20]);
 						this.Cards[i].Power=System.Convert.ToInt32(cardInfo[21]);
+						this.Cards[i].PowerLevel=System.Convert.ToInt32(cardInfo[22]);
 						this.Cards[i].Skills = new List<Skill>();
 					}
 					else

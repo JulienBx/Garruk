@@ -1,7 +1,7 @@
 using UnityEngine;
 using TMPro;
 
-public class NewFocusedFeaturesMyGameController : MonoBehaviour
+public class NewFocusedFeaturesController : MonoBehaviour
 {
 	private bool isClickable;
 	private bool isEnabled;

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class DeckBoardSelectButtonController : MonoBehaviour 
+public class DeckBoardMyGameSelectButtonController : MonoBehaviour 
 {
 	
 	void OnMouseOver()
@@ -17,6 +17,6 @@ public class DeckBoardSelectButtonController : MonoBehaviour
 	{
 		newMyGameController.instance.displayDeckList ();	
 	}
-
+	
 }
 

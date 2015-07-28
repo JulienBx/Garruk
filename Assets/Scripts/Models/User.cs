@@ -67,6 +67,8 @@ public class User
 	public bool DivisionLobbyTutorial;
 	public bool CupLobbyTutorial;
 	public int ConnectionBonus;
+	public bool isProfilePictureLoaded;
+	public bool isThumbPictureLoaded;
 
 	public User()
 	{
@@ -136,7 +138,7 @@ public class User
 	}
 	public User(int id, 
 	            string username, 
-	            string picture, 
+	            string thumbPicture, 
 	            int division, 
 	            int rankingpoints, 
 	            int ranking,  
@@ -145,7 +147,7 @@ public class User
 	{
 		this.Id = id;
 		this.Username = username;
-		this.Picture = picture;
+		this.ThumbPicture = thumbPicture;
 		this.Division = division;
 		this.RankingPoints = rankingpoints;
 		this.Ranking = ranking;
@@ -245,6 +247,7 @@ public class User
 			yield return www;
 			www.LoadImageIntoTexture(this.texture);
 		}
+		this.isProfilePictureLoaded = true;
 	}
 
 	public IEnumerator setThumbProfilePicture(){
@@ -259,6 +262,7 @@ public class User
 			yield return www;
 			www.LoadImageIntoTexture(this.texture);
 		}
+		this.isThumbPictureLoaded = true;
 	}
 
 	public IEnumerator getCards(Action<string> callback)

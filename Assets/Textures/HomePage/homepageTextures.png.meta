@@ -1,0 +1,122 @@
+fileFormatVersion: 2
+guid: 905ba7a6861ea400bb089e8f9d42105a
+timeCreated: 1437660761
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: corner
+    21300002: line
+    21300004: thumbBorder
+    21300006: pagination
+    21300008: paginationHover
+    21300010: packBorder
+    21300012: competitionBorder
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 8
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 4096
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 108
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: competitionBorder
+      rect:
+        serializedVersion: 2
+        x: 98
+        y: 772
+        width: 250
+        height: 250
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: corner
+      rect:
+        serializedVersion: 2
+        x: 17
+        y: 895
+        width: 56
+        height: 56
+      alignment: 9
+      pivot: {x: .285714298, y: .714285731}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: line
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 222
+        width: 13
+        height: 800
+      alignment: 9
+      pivot: {x: 1.23076928, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: pagination
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 126
+        width: 94
+        height: 94
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: paginationHover
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 30
+        width: 94
+        height: 94
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: thumbBorder
+      rect:
+        serializedVersion: 2
+        x: 17
+        y: 953
+        width: 69
+        height: 69
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

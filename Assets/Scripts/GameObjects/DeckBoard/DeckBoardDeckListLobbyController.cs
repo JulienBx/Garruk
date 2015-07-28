@@ -1,11 +1,11 @@
 using UnityEngine;
 using TMPro;
 
-public class DeckBoardDeckListController : MonoBehaviour 
+public class DeckBoardDeckListLobbyController : MonoBehaviour 
 {
 	
 	public Sprite[] sprites;
-	public int id;
+	private int id;
 	
 	void OnMouseOver()
 	{
@@ -19,7 +19,7 @@ public class DeckBoardDeckListController : MonoBehaviour
 	}
 	void OnMouseDown()
 	{
-		newMyGameController.instance.selectDeck (this.id);
+		NewLobbyController.instance.selectDeck (this.id);
 	}
 	public void setId(int id)
 	{

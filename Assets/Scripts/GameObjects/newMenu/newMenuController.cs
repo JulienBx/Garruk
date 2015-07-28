@@ -196,7 +196,7 @@ public class newMenuController : MonoBehaviour
 	}
 	public void checkPhoton()
 	{
-		if(Application.loadedLevelName=="Lobby")
+		if(Application.loadedLevelName=="NewLobby")
 		{
 			PhotonNetwork.Disconnect();
 		}
@@ -205,7 +205,7 @@ public class newMenuController : MonoBehaviour
 	{
 		ApplicationModel.username = "";
 		ApplicationModel.toDeconnect = true;
-		if(Application.loadedLevelName=="Lobby")
+		if(Application.loadedLevelName=="NewLobby")
 		{
 			PhotonNetwork.Disconnect();
 		}
@@ -214,7 +214,7 @@ public class newMenuController : MonoBehaviour
 	public void homePageLink()
 	{
 		this.checkPhoton ();
-		Application.LoadLevel("HomePage");
+		Application.LoadLevel("NewHomePage");
 	}
 	public void profileLink() 
 	{
@@ -259,12 +259,12 @@ public class newMenuController : MonoBehaviour
 		}
 		else
 		{
-			Application.LoadLevel("Lobby");
+			Application.LoadLevel("NewLobby");
 		}
 	}
 	public void adminBoardLink() 
 	{
-		if(Application.loadedLevelName=="Lobby"){
+		if(Application.loadedLevelName=="NewLobby"){
 			PhotonNetwork.Disconnect();
 		}
 		Application.LoadLevel("AdminBoard");
