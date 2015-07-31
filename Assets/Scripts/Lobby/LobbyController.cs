@@ -72,12 +72,12 @@ public class LobbyController : Photon.MonoBehaviour
 	public void loadAll()
 	{
 		this.resize ();
-		if(model.decks.Count>0)
-		{
-			this.clearFocus();
-			this.clearDeckCards();
-			this.createDeckCards ();
-		}
+//		if(model.decks.Count>0)
+//		{
+//			this.clearFocus();
+//			this.clearDeckCards();
+//			this.createDeckCards ();
+//		}
 		view.lobbyVM.displayView=true ;
 	}
 	public void rightClickedCard(GameObject gameObject)
@@ -287,33 +287,33 @@ public class LobbyController : Photon.MonoBehaviour
 	}
 	private void createDeckCards()
 	{
-		string name;
-		Vector3 scale;
-		Vector3 position;
-		float tempF = 10f*view.screenVM.widthScreen/view.screenVM.heightScreen;
-		float width = 10f*0.68f*(view.screenVM.blockTopCenterWidth)/(0.9f*view.screenVM.heightScreen-2*view.screenVM.gapBetweenblocks);
-		float scaleDeck = Mathf.Min(1.6f, width / 6f);
-		float pas = (width - 5f * scaleDeck) / 6f;
-		float debutLargeur = -0.28f * tempF + pas + scaleDeck / 2;
-		int deckIndex = view.decksVM.decksToBeDisplayed [view.decksVM.chosenDeck];
-		this.displayedDeckCards = new GameObject[ApplicationModel.nbCardsByDeck];
-		
-		for (int i = 0; i < ApplicationModel.nbCardsByDeck; i++)
-		{
-			name="Card" + i;
-			scale = new Vector3(scaleDeck,scaleDeck,scaleDeck);
-			position = new Vector3(debutLargeur + (scaleDeck + pas) * i, 2.65f, 0); 
-			this.displayedDeckCards [i] = Instantiate(this.CardObject) as GameObject;
-			this.displayedDeckCards [i].AddComponent<CardLobbyController>();
-			this.displayedDeckCards [i].GetComponent<CardController>().setGameObject(name,scale,position);
-		}
-		for (int i =0;i<ApplicationModel.nbCardsByDeck;i++)
-		{
-			this.displayedDeckCards[model.decks[deckIndex].Cards[i].deckOrder].GetComponent<CardLobbyController>().setLobbyCard(model.decks[deckIndex].Cards[i]);
-			this.displayedDeckCards[model.decks[deckIndex].Cards[i].deckOrder].GetComponent<CardController> ().setCentralWindowRect (view.screenVM.centralWindow);
-			this.displayedDeckCards[model.decks[deckIndex].Cards[i].deckOrder].GetComponent<CardController>().setDeckOrderFeatures(model.decks[deckIndex].Cards[i].deckOrder);
-			view.decksCardVM.displayedCards[model.decks[deckIndex].Cards[i].deckOrder]=i;
-		} 
+//		string name;
+//		Vector3 scale;
+//		Vector3 position;
+//		float tempF = 10f*view.screenVM.widthScreen/view.screenVM.heightScreen;
+//		float width = 10f*0.68f*(view.screenVM.blockTopCenterWidth)/(0.9f*view.screenVM.heightScreen-2*view.screenVM.gapBetweenblocks);
+//		float scaleDeck = Mathf.Min(1.6f, width / 6f);
+//		float pas = (width - 5f * scaleDeck) / 6f;
+//		float debutLargeur = -0.28f * tempF + pas + scaleDeck / 2;
+//		int deckIndex = view.decksVM.decksToBeDisplayed [view.decksVM.chosenDeck];
+//		this.displayedDeckCards = new GameObject[ApplicationModel.nbCardsByDeck];
+//		
+//		for (int i = 0; i < ApplicationModel.nbCardsByDeck; i++)
+//		{
+//			name="Card" + i;
+//			scale = new Vector3(scaleDeck,scaleDeck,scaleDeck);
+//			position = new Vector3(debutLargeur + (scaleDeck + pas) * i, 2.65f, 0); 
+//			this.displayedDeckCards [i] = Instantiate(this.CardObject) as GameObject;
+//			this.displayedDeckCards [i].AddComponent<CardLobbyController>();
+//			this.displayedDeckCards [i].GetComponent<CardController>().setGameObject(name,scale,position);
+//		}
+//		for (int i =0;i<ApplicationModel.nbCardsByDeck;i++)
+//		{
+//			this.displayedDeckCards[model.decks[deckIndex].Cards[i].deckOrder].GetComponent<CardLobbyController>().setLobbyCard(model.decks[deckIndex].Cards[i]);
+//			this.displayedDeckCards[model.decks[deckIndex].Cards[i].deckOrder].GetComponent<CardController> ().setCentralWindowRect (view.screenVM.centralWindow);
+//			this.displayedDeckCards[model.decks[deckIndex].Cards[i].deckOrder].GetComponent<CardController>().setDeckOrderFeatures(model.decks[deckIndex].Cards[i].deckOrder);
+//			view.decksCardVM.displayedCards[model.decks[deckIndex].Cards[i].deckOrder]=i;
+//		} 
 	}
 	private void clearDeckCards()
 	{

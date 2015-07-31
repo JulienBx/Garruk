@@ -142,7 +142,7 @@ public class SkillObjectController : GameObjectController
 
 	public void clickSkill ()
 	{
-		GameController.instance.clickSkillHandler (this.id);
+		//GameController.instance.clickSkillHandler (this.id);
 	}
 }
 

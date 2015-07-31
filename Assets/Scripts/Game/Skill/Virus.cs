@@ -36,7 +36,7 @@ public class Virus : GameSkill
 //		}
 	}
 
-	public override bool isLaunchable(Skill s){
+	public override string isLaunchable(){
 //		List<Tile> tempTiles;
 //		Tile t = GameController.instance.getCurrentPCC().tile;
 //		
@@ -57,6 +57,6 @@ public class Virus : GameSkill
 //			}
 //			i++;
 //		}
-		return isLaunchable ;
+		return "" ;
 	}
 }

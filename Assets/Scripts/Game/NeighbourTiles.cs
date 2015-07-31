@@ -16,6 +16,14 @@ public class NeighbourTiles
 		UID = new Dictionary<int, float>();
 		this.characterTiles = characterTiles;
 		findWay(new Tile(x, y), moveRemaining, distance);
+		List<Tile> tilesToRemove = GameView.instance.getMyPlayingCardsTiles();
+		for (int i = tiles.Count-1 ; i >= 0 ; i--){
+			for (int j = 0 ; j < tilesToRemove.Count ; j++){
+				if(tiles[i].x==tilesToRemove[j].x && tiles[i].y==tilesToRemove[j].y){
+					this.tiles.RemoveAt(i);
+				}
+			}
+		}
 	}
 
 	void findWay(Tile t, float moveRemaining, int distance)
@@ -24,8 +32,7 @@ public class NeighbourTiles
 		{
 			return;
 		}
-		//int uidtemp = t.y * GameController.instance.boardWidth + t.x;
-		int uidtemp=0;
+		int uidtemp = t.y * GameView.instance.getBoardWidth() + t.x;
 		if (UID.ContainsKey(uidtemp))
 		{
 			if (UID [uidtemp] > moveRemaining)
@@ -42,49 +49,48 @@ public class NeighbourTiles
 			tiles.Add(new Tile(t.x, t.y, distance));
 		}
 
-
-//		foreach (Tile temp in getImmediateNeighbours(t.x, t.y))
-//		{
-//			float newRemaining = moveRemaining;
-//			if (characterTiles [temp.x, temp.y] < 5)
-//			{
-//				if(GameController.instance.getTile(temp.x, temp.y).tile.isStatModifier){
-//					StatModifier stm = GameController.instance.getTile(temp.x, temp.y).tile.statModifier;
-//					if (stm.Stat == ModifierStat.Stat_Move && stm.Type == ModifierType.Type_Multiplier)
-//					{
-//						newRemaining = newRemaining + (stm.Amount) / 100f;
-//					}
-//				}
-//				
-//				findWay(temp, (newRemaining - 1), (distance + 1));
-//			}
-//		}
+		foreach (Tile temp in getImmediateNeighbours(t.x, t.y))
+		{
+			float newRemaining = moveRemaining;
+			if (characterTiles [temp.x, temp.y] < 5)
+			{
+				if(GameView.instance.getTile(temp.x, temp.y).isStatModifier){
+					StatModifier stm = GameController.instance.getTile(temp.x, temp.y).getTile ().statModifier;
+					if (stm.Stat == ModifierStat.Stat_Move && stm.Type == ModifierType.Type_Multiplier)
+					{
+						newRemaining = newRemaining + (stm.Amount) / 100f;
+					}
+				}
+				
+				findWay(temp, (newRemaining - 1), (distance + 1));
+			}
+		}
 	}
 
 
 	public List<Tile> getImmediateNeighbours(int x, int y)
 	{
 		List<Tile> tempTiles = new List<Tile>();
-//		int width = GameView.instance.boardWidth;
-//		int height = GameView.instance.boardHeight;
-//
-//		if (x > 0)
-//		{
-//			tempTiles.Add(new Tile(x - 1, y));
-//		}
-//		if (x < width - 1)
-//		{
-//			tempTiles.Add(new Tile(x + 1, y));
-//		}
-//		if (y > 0)
-//		{
-//			tempTiles.Add(new Tile(x, y - 1));
-//		}
-//		if (y < height - 1)
-//		{
-//			tempTiles.Add(new Tile(x, y + 1));
-//		}
-//		
+		int width = GameView.instance.getBoardWidth();
+		int height = GameView.instance.getBoardHeight();
+
+		if (x > 0)
+		{
+			tempTiles.Add(new Tile(x - 1, y));
+		}
+		if (x < width - 1)
+		{
+			tempTiles.Add(new Tile(x + 1, y));
+		}
+		if (y > 0)
+		{
+			tempTiles.Add(new Tile(x, y - 1));
+		}
+		if (y < height - 1)
+		{
+			tempTiles.Add(new Tile(x, y + 1));
+		}
+		
 		return tempTiles;
 	}
 

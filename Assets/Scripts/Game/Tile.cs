@@ -11,13 +11,13 @@ public class Tile
 	public int distance;
 	public StatModifier statModifier ;
 	public bool isStatModifier = false;
-	public NeighbourTiles neighbours;
-
+	
 	public Tile(int x, int y, int distance)
 	{
 		this.x = x;
 		this.y = y;
 		this.distance = distance;
+		this.isStatModifier = false;
 	}
 
 	public Tile(int x, int y)
@@ -25,19 +25,31 @@ public class Tile
 		this.x = x;
 		this.y = y;
 	}
-
-	public void setNeighbours(int[,] characterTiles, int distance)
+	
+	public List<Tile> getImmediateNeighbourTiles()
 	{
-		this.neighbours = new NeighbourTiles(this.x, this.y, characterTiles, distance);
-	}
-
-	public List<Tile> getImmediateNeighbouringTiles()
-	{
-		if (neighbours == null)
+		List<Tile> tempTiles = new List<Tile>();
+		int width = GameView.instance.getBoardWidth();
+		int height = GameView.instance.getBoardHeight();
+		
+		if (x > 0)
 		{
-			this.neighbours = new NeighbourTiles(this.x, this.y, GameView.instance.getCharacterTilesArray(GameController.instance.amIFirstPlayer()), distance);
+			tempTiles.Add(new Tile(x - 1, y));
 		}
-		return neighbours.getImmediateNeighbours(this.x, this.y);
+		if (x < width - 1)
+		{
+			tempTiles.Add(new Tile(x + 1, y));
+		}
+		if (y > 0)
+		{
+			tempTiles.Add(new Tile(x, y - 1));
+		}
+		if (y < height - 1)
+		{
+			tempTiles.Add(new Tile(x, y + 1));
+		}
+		
+		return tempTiles;
 	}
 	
 	public void setModifier(int amount, ModifierType type, ModifierStat stat, int duration, int idIcon, string t, string d, string a, bool b){

@@ -56,7 +56,7 @@ public class GameTutorialController : TutorialObjectController
 		case 2:
 			if(!isResizing)
 			{
-				GameController.instance.setDestination(2,1,true);
+				//GameController.instance.setDestination(2,1,true);
 				GameController.instance.addTileHalo(2,1,5, true);
 				view.VM.displayArrow=true;
 				view.VM.displayNextButton=false;
@@ -106,7 +106,7 @@ public class GameTutorialController : TutorialObjectController
 		case 4:
 			if(!isResizing)
 			{
-				GameController.instance.setDestination(3,1,true);
+				//GameController.instance.setDestination(3,1,true);
 				GameController.instance.addTileHalo(3,1,5, true);
 				view.VM.displayArrow=true;
 				view.VM.displayNextButton=false;
@@ -216,7 +216,7 @@ public class GameTutorialController : TutorialObjectController
 		case 9:
 			if(!isResizing)
 			{
-				GameController.instance.setDestination(3,4,true);
+				//GameController.instance.setDestination(3,4,true);
 				GameController.instance.addTileHalo(3,4,5, true);
 				view.VM.displayArrow=true;
 				view.VM.displayNextButton=false;
@@ -281,7 +281,7 @@ public class GameTutorialController : TutorialObjectController
 		case 12:
 			if(!isResizing)
 			{
-				GameController.instance.launchSkill(4,new List<int> {2});
+				//GameController.instance.launchSkill(4,new List<int> {2});
 				GameController.instance.setAllSkillObjects(false);
 				view.VM.displayArrow=false;
 				view.VM.displayNextButton=true;
@@ -315,7 +315,7 @@ public class GameTutorialController : TutorialObjectController
 			{
 				GameController.instance.resolvePass();
 				GameController.instance.disableAllCharacters();
-				GameController.instance.setDestination(1,3,true);
+				//GameController.instance.setDestination(1,3,true);
 				GameController.instance.addTileHalo(1,3,5, true);
 				GameController.instance.disableAllSkillObjects();
 				view.VM.displayArrow=true;
@@ -398,7 +398,7 @@ public class GameTutorialController : TutorialObjectController
 		case 18:
 			if(!isResizing)
 			{
-				GameController.instance.launchSkill(4,new List<int> {2});
+				//GameController.instance.launchSkill(4,new List<int> {2});
 				GameController.instance.disableAllSkillObjects();
 				view.VM.displayArrow=false;
 				view.VM.displayNextButton=true;
@@ -415,7 +415,7 @@ public class GameTutorialController : TutorialObjectController
 			if(!isResizing)
 			{
 				GameController.instance.disableAllCharacters();
-				GameController.instance.setDestination(2,2,true);
+				//GameController.instance.setDestination(2,2,true);
 				GameController.instance.addTileHalo(2,2,5, true);
 				GameController.instance.disableAllSkillObjects();
 				view.VM.displayArrow=true;
@@ -483,7 +483,7 @@ public class GameTutorialController : TutorialObjectController
 		case 22:
 			if(!isResizing)
 			{
-				GameController.instance.launchSkill(4,new List<int> {1});
+				//GameController.instance.launchSkill(4,new List<int> {1});
 				GameController.instance.disableAllSkillObjects();
 				view.VM.displayArrow=false;
 				view.VM.displayNextButton=true;
@@ -500,7 +500,7 @@ public class GameTutorialController : TutorialObjectController
 			if(!isResizing)
 			{
 				GameController.instance.disableAllCharacters();
-				GameController.instance.setDestination(5,3,true);
+				//GameController.instance.setDestination(5,3,true);
 				GameController.instance.addTileHalo(5,3,5, true);
 				GameController.instance.disableAllSkillObjects();
 				view.VM.displayArrow=true;

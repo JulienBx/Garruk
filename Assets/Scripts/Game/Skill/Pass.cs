@@ -4,10 +4,11 @@ public class Pass : GameSkill
 {
 	public override void launch()
 	{
+		Debug.Log("PASS");
 		GameController.instance.resolvePass();
 	}
 	
-	public override bool isLaunchable(Skill s){
-		return true ;
+	public override string isLaunchable(){
+		return "" ;
 	}
 }

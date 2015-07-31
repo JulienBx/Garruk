@@ -7,6 +7,11 @@ TextureImporter:
     21300000: 19
     21300002: 20
     21300004: 27
+    21300006: 21
+    21300008: 29
+    21300010: 22
+    21300012: 23
+    21300014: 24
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -56,7 +61,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 583
-        y: 590
+        y: 1614
         width: 432
         height: 432
       alignment: 0
@@ -66,17 +71,57 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 2
-        y: 480
+        y: 1504
         width: 432
         height: 432
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: 27
+    - name: 21
+      rect:
+        serializedVersion: 2
+        x: 436
+        y: 1180
+        width: 432
+        height: 432
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: 22
       rect:
         serializedVersion: 2
         x: 2
-        y: 914
+        y: 1070
+        width: 432
+        height: 432
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: 23
+      rect:
+        serializedVersion: 2
+        x: 436
+        y: 746
+        width: 432
+        height: 432
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: 24
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 636
+        width: 432
+        height: 432
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: 29
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 1938
         width: 579
         height: 108
       alignment: 0

@@ -378,7 +378,6 @@ public class Card
 	public void removeSleeping()
 	{
 		bool isSleeping = false;
-		int percentage = 0 ;
 		int i = 0 ;
 		int max = modifiers.Count ;
 		while (i<max && !isSleeping)
@@ -449,7 +448,7 @@ public class Card
 	
 	public Skill GetAttackSkill()
 	{
-		return new Skill("Attaque", "Inflige "+this.GetAttack()+" dégats au contact");
+		return new Skill("Attaque", "Inflige "+this.GetAttack()+" dégats au contact",0);
 	}
 	
 	public string GetMoveString()

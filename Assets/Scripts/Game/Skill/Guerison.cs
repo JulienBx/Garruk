@@ -32,8 +32,8 @@ public class Guerison : GameSkill
 
 	}
 	
-	public override bool isLaunchable(Skill s)
+	public override string isLaunchable()
 	{
-		return true;
+		return "";
 	}
 }

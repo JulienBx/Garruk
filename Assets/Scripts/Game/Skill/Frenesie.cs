@@ -15,10 +15,8 @@ public class Frenesie : GameSkill
 	
 	public override void resolve(List<int> targetsPCC)
 	{	                     
-		GameController.instance.startPlayingSkill();
 		GameController.instance.applyOn(null);
 		
-		GameController.instance.playSkill(1);
 		GameController.instance.play();
 	}
 	
@@ -32,11 +30,7 @@ public class Frenesie : GameSkill
 //		GameController.instance.displaySkillEffect(target, "+"+manacost+" ATK\n-"+manacost+" PV", 3, 2);
 	}
 	
-	public override bool isLaunchable(Skill s){
-		return true ;
-	}
-	
-	public override string getSuccessText(){
-		return "A lancé frénésie" ;
+	public override string isLaunchable(){
+		return "" ;
 	}
 }

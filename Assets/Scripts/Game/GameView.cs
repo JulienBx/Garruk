@@ -17,7 +17,7 @@ public class GameView : MonoBehaviour
 	public GameObject skillButtonModel;
 	public string[] gameTexts;
 	public GameObject TutorialObject;
-	public Sprite[] volets ;
+	public Sprite[] sprites;
 	
 	int boardWidth = 6;
 	int boardHeight = 8;
@@ -32,18 +32,21 @@ public class GameView : MonoBehaviour
 	GameObject[] playingCards ;
 	GameObject[] skillButtons ;
 	GameObject clickedRPC ;
-	GameObject hoveredRPC ;
+	GameObject myHoveredRPC ;
+	GameObject hisHoveredRPC ;
 	GameObject skillRPC ;
 	GameObject tutorial;
 	GameObject popUp;
 	GameObject popUpText;
+	GameObject timerGO;
 	
 	int heightScreen = -1;
 	int widthScreen = -1;
 	float realwidth = -1;
 	
-	float timer;
-	int timerSeconds;
+	float timerTurn;
+	int timerSeconds ;
+	float turnTime;
 	
 	float myLifePercentage = 100 ; 
 	float hisLifePercentage = 100 ;
@@ -54,17 +57,25 @@ public class GameView : MonoBehaviour
 	
 	float animationTime = 0.2f ;
 	
-	bool isDisplayedClickedRPC = false ;
+	float timerRightSide ;
+	float timerLeftSide ;
+	
+	bool isDisplayedClickedPC = false ;
+	bool isDisplayedMyHoveredPC = false ;
+	bool isDisplayedHisHoveredPC = false ;
+	
 	int statusClickedPC = 0;
+	int statusMyHoveredPC = 0;
+	int statusHisHoveredPC = 0;
+	
+	int nextDisplayedPCLeft = -1;
+	int nextDisplayedPCRight =-1; 
+	
+	Vector3 myHoveredPCPosition ;
+	Vector3 hisHoveredPCPosition ;
 	Vector3 clickedPCPosition ;
-
-	float timerClickedRPC ;
 	
-	bool isDisplayedHoveredRPC = false ;
-	int statusHoveredPC = 0;
-	Vector3 hoveredPCPosition ;
-	
-	float timerHoveredRPC ;
+	float timerHisHoveredRPC ;
 	
 	bool isDisplayedSkill = false ;
 	int statusSkill = 0;
@@ -72,12 +83,34 @@ public class GameView : MonoBehaviour
 	
 	float timerSkill ;
 	
-	int currentHoveredCard = -1;
+	int currentLeftCard = -1;
+	int currentRightCard = -1;
+	
 	Skill currentHoveredSkill = new Skill(-1) ;
 	
 	float timerPopUp ;
 	float popUpTime = 3 ;
 	bool toDisplayPopUp = false ;
+	
+	public bool isTargeting = false ;
+	List<Tile> targets ;
+	float timerTargeting ;
+	float targetingTime = 0.5f ;
+	bool isTargetingHaloOn = false ;
+	
+	int currentTargetingTileHandler = -1;
+	
+	int nextMove ; 
+	
+	bool toDisplayDeadHalos = false ;
+	List<int> displayedDeads ;
+	List<float> displayedDeadsTimer ;
+	
+	bool toDisplaySE = false ;
+	List<int> displayedSE ;
+	List<float> displayedSETimer ;
+	
+	List<Tile> destinations ;
 	
 	void Awake()
 	{
@@ -96,11 +129,17 @@ public class GameView : MonoBehaviour
 		this.skillButtons[4] = GameObject.Find("SkillButton3");
 		this.skillButtons[5] = GameObject.Find("PassButton");
 		this.clickedRPC = GameObject.Find("ClickedPlayingCard");
-		this.hoveredRPC = GameObject.Find("HoveredPlayingCard");
+		this.myHoveredRPC = GameObject.Find("MyHoveredPlayingCard");
+		this.hisHoveredRPC = GameObject.Find("HisHoveredPlayingCard");
 		this.skillRPC = GameObject.Find("SkillDescription");
 		this.popUp = GameObject.Find("PopUp");
 		this.popUpText = GameObject.Find("PopUpText");
-		this.timer = 0;
+		this.timerGO = GameObject.Find("Timer");
+		this.targets = new List<Tile>();
+		this.displayedDeads = new List<int>();
+		this.displayedDeadsTimer = new List<float>();
+		this.displayedSE = new List<int>();
+		this.displayedSETimer = new List<float>();
 		
 		this.audioEndTurn = GetComponent<AudioSource>();
 	}
@@ -113,55 +152,85 @@ public class GameView : MonoBehaviour
 			}
 		}
 		
-		if (statusHoveredPC==1){
-			this.timerHoveredRPC += Time.deltaTime;
-			this.hoveredPCPosition.x = (0.5f*this.realwidth+5.25f)-(Mathf.Min(1,this.timerHoveredRPC/this.animationTime))*(0.5f*realwidth-3f);
-			this.hoveredRPC.transform.position = this.hoveredPCPosition ;
-			if (timerHoveredRPC>animationTime){
-				statusHoveredPC = 0 ;
-				this.isDisplayedHoveredRPC = true ;
+		if(GameController.instance.getCurrentPlayingCard()!=-1){
+			this.playingCards[GameController.instance.getCurrentPlayingCard()].GetComponent<PlayingCardController>().addTime(Time.deltaTime);
+		}
+		
+		if(timerTurn>0){
+			this.timerTurn += Time.deltaTime; 
+			if (this.timerTurn<=0 && this.getIsMine(GameController.instance.getCurrentPlayingCard())){
+				GameController.instance.resolvePass();
+			}
+			else{
+				if(this.timerSeconds != Mathf.Min(Mathf.FloorToInt(this.timerTurn))){
+					this.timerSeconds = Mathf.Min(Mathf.FloorToInt(this.timerTurn));
+					if(this.timerSeconds>9){
+						this.timerGO.GetComponent<TextMeshPro>().text = this.timerSeconds.ToString();
+					}
+					else{
+						this.timerGO.GetComponent<TextMeshPro>().text = "0"+this.timerSeconds.ToString();
+					}
+				}
 			}
 		}
-		else if (statusHoveredPC<0){
-			this.timerHoveredRPC += Time.deltaTime;
-			this.hoveredPCPosition.x = (8.25f)+(Mathf.Min(1,this.timerHoveredRPC/this.animationTime))*(0.5f*realwidth-3f);
-			this.hoveredRPC.transform.position = this.hoveredPCPosition ;
-			if (timerHoveredRPC>animationTime){
-				if (statusHoveredPC==-2){
-					this.loadHoveredPC();
-					statusHoveredPC = 1 ;
-				}
-				else{
-					statusHoveredPC = 0 ;
-				}
-				this.isDisplayedHoveredRPC = false ;
-				this.timerHoveredRPC=0;
+		
+		if (statusMyHoveredPC==1){
+			this.timerLeftSide += Time.deltaTime;
+			this.myHoveredPCPosition.x = (-0.5f*this.realwidth-5f)+(Mathf.Min(1,this.timerLeftSide/this.animationTime))*(0.5f*realwidth-3.25f);
+			this.myHoveredRPC.transform.position = this.myHoveredPCPosition ;
+			if (timerLeftSide>animationTime){
+				statusMyHoveredPC = 0 ;
+				this.isDisplayedMyHoveredPC = true ;
+			}
+		}
+		else if (statusMyHoveredPC<0){
+			this.timerLeftSide += Time.deltaTime;
+			this.myHoveredPCPosition.x = (-8.25f)-(Mathf.Min(1,this.timerLeftSide/this.animationTime))*(0.5f*realwidth-3.25f);
+			this.myHoveredRPC.transform.position = this.myHoveredPCPosition ;
+			if (this.timerLeftSide>animationTime){
+				statusMyHoveredPC = 0 ;
+				this.isDisplayedMyHoveredPC = false ;
+				this.launchNextMoveLeftSide() ;
+			}
+		}
+		
+		if (statusHisHoveredPC==1){
+			this.timerRightSide += Time.deltaTime;
+			this.hisHoveredPCPosition.x = (0.5f*this.realwidth+5f)-(Mathf.Min(1,this.timerRightSide/this.animationTime))*(0.5f*realwidth-3.25f);
+			this.hisHoveredRPC.transform.position = this.hisHoveredPCPosition ;
+			if (timerRightSide>animationTime){
+				statusHisHoveredPC = 0 ;
+				this.isDisplayedHisHoveredPC = true ;
+			}
+		}
+		else if (statusHisHoveredPC<0){
+			this.timerRightSide += Time.deltaTime;
+			this.hisHoveredPCPosition.x = (8.25f)+(Mathf.Min(1,this.timerRightSide/this.animationTime))*(0.5f*realwidth-3.25f);
+			this.hisHoveredRPC.transform.position = this.hisHoveredPCPosition ;
+			if (this.timerRightSide>animationTime){
+				statusHisHoveredPC = 0 ;
+				this.isDisplayedHisHoveredPC = false ;
+				this.launchNextMoveRightSide() ;
 			}
 		}
 		
 		if (statusClickedPC==1){
-			this.timerClickedRPC += Time.deltaTime;
-			this.clickedPCPosition.x = (-0.5f*this.realwidth-5f)+(Mathf.Min(1,this.timerClickedRPC/this.animationTime))*(0.5f*realwidth-3.25f);
+			this.timerLeftSide += Time.deltaTime;
+			this.clickedPCPosition.x = (-0.5f*this.realwidth-5f)+(Mathf.Min(1,this.timerLeftSide/this.animationTime))*(0.5f*realwidth-3.25f);
 			this.clickedRPC.transform.position = this.clickedPCPosition ;
-			if (timerClickedRPC>animationTime){
+			if (timerLeftSide>animationTime){
 				statusClickedPC = 0 ;
-				this.isDisplayedClickedRPC = true ;
+				this.isDisplayedClickedPC = true ;
 			}
 		}
 		else if (statusClickedPC<0){
-			this.timerClickedRPC += Time.deltaTime;
-			this.clickedPCPosition.x = (-8.25f)-(Mathf.Min(1,this.timerClickedRPC/this.animationTime))*(0.5f*realwidth-3.25f);
+			this.timerLeftSide += Time.deltaTime;
+			this.clickedPCPosition.x = (-8.25f)-(Mathf.Min(1,this.timerLeftSide/this.animationTime))*(0.5f*realwidth-3.25f);
 			this.clickedRPC.transform.position = this.clickedPCPosition ;
-			if (timerClickedRPC>animationTime){
-				if (statusClickedPC==-2){
-					this.loadClickedPC();
-					statusClickedPC = 1 ;
-					this.timerClickedRPC = 0 ;
-				}
-				else{
-					statusClickedPC = 0 ;
-				}
-				this.isDisplayedClickedRPC = false ;
+			if (this.timerLeftSide>animationTime){
+				statusClickedPC = 0 ;
+				this.isDisplayedClickedPC = false ;
+				this.launchNextMoveLeftSide() ;
 			}
 		}
 		
@@ -198,24 +267,141 @@ public class GameView : MonoBehaviour
 				this.toDisplayPopUp = false ;
 			}
 		}
-	}
-	
-	public void loadHoveredPC(){
-		if(this.playingCards[this.currentHoveredCard].GetComponent<PlayingCardController>().getIsMine()){
-			GameObject.Find("MainDescription").GetComponent<SpriteRenderer>().sprite=this.volets[1];
-			GameObject.Find("SkillsDescription").GetComponent<SpriteRenderer>().sprite=this.volets[3];
-		}
-		else{
-			GameObject.Find("MainDescription").GetComponent<SpriteRenderer>().sprite=this.volets[0];
-			GameObject.Find("SkillsDescription").GetComponent<SpriteRenderer>().sprite=this.volets[2];
+		
+		if (this.isTargeting){
+			this.timerTargeting += Time.deltaTime;
+			Tile t ;
+			
+			if (this.timerTargeting>this.targetingTime){
+				if(this.isTargetingHaloOn){
+					for (int i = 0 ; i < this.targets.Count ; i++){	
+						t = this.targets[i];
+						if (!this.tileHandlers[t.x, t.y].GetComponent<TileHandlerController>().getIsHovered()){
+							this.tileHandlers[t.x, t.y].GetComponent<TileHandlerController>().disable() ;
+						}
+					}
+				}
+				else{
+					for (int i = 0 ; i < this.targets.Count ; i++){	
+						t = this.targets[i];
+						this.tileHandlers[t.x, t.y].GetComponent<TileHandlerController>().enable() ;
+					}
+				}
+				this.isTargetingHaloOn = !this.isTargetingHaloOn;
+				this.timerTargeting=0;
+			}
 		}
 		
-		GameObject.Find("Title").GetComponent<TextMeshPro>().text = this.playingCards[this.currentHoveredCard].GetComponent<PlayingCardController>().getCard().Title;
-		GameObject.Find("TextMove").GetComponent<TextMeshPro>().text = this.playingCards[this.currentHoveredCard].GetComponent<PlayingCardController>().getCard().GetMoveString();
-		GameObject.Find("TextLife").GetComponent<TextMeshPro>().text = this.playingCards[this.currentHoveredCard].GetComponent<PlayingCardController>().getCard().GetLifeString();
-		GameObject.Find("TextAttack").GetComponent<TextMeshPro>().text = this.playingCards[this.currentHoveredCard].GetComponent<PlayingCardController>().getCard().GetAttackString();
+		if(this.toDisplayDeadHalos){
+			for (int i = this.displayedDeads.Count-1 ; i >= 0 ; i--){
+				this.displayedDeadsTimer[i] -= Time.deltaTime;
+				if (this.displayedDeadsTimer[i]<=0f){
+					Tile t = this.getPlayingCardTile(this.displayedDeads[i]);
+					this.disappear(this.displayedDeads[i]);
+					this.tileHandlers[t.x, t.y].SetActive(false);
+					this.displayedDeads.RemoveAt(i);
+					this.displayedDeadsTimer.RemoveAt(i);
+				}
+			}
+			if (this.displayedDeads.Count==0){
+				this.toDisplayDeadHalos = false ;
+			}
+		}
+		
+		if(this.toDisplaySE){
+			for (int i = this.displayedSE.Count-1 ; i >= 0 ; i--){
+				this.displayedSETimer[i] -= Time.deltaTime;
+				if (this.displayedSETimer[i]<=0f){
+					Tile t = this.getPlayingCardTile(this.displayedSE[i]);
+					this.tileHandlers[t.x, t.y].SetActive(false);
+					this.displayedSE.RemoveAt(i);
+					this.displayedSETimer.RemoveAt(i);
+				}
+			}
+			if (this.displayedSE.Count==0){
+				this.toDisplaySE = false ;
+			}
+		}
+	}
 	
-		List<Skill> skills = this.playingCards[this.currentHoveredCard].GetComponent<PlayingCardController>().getCard().getSkills();
+	public void unSelectPC(int p){
+		this.playingCards[p].GetComponent<PlayingCardController>().resetTimer();
+	}
+	
+	public void launchNextMoveLeftSide(){
+		if (this.nextDisplayedPCLeft!=-1){
+			if(this.nextDisplayedPCLeft==GameController.instance.getCurrentPlayingCard() && GameController.instance.hasGameStarted()){
+				this.statusClickedPC = 1 ;
+			}
+			else{
+				this.loadMyHoveredPC(nextDisplayedPCLeft);
+				this.statusMyHoveredPC = 1 ;
+			}
+			this.timerLeftSide = 0 ;
+			this.currentLeftCard = this.nextDisplayedPCLeft;
+			this.nextDisplayedPCLeft = -1 ;
+		}
+	}
+	
+	public void launchNextMoveRightSide(){
+		if (this.nextDisplayedPCRight!=-1){
+			this.loadHisHoveredPC(nextDisplayedPCRight);
+			this.statusHisHoveredPC = 1 ;
+			this.timerRightSide = 0 ;
+			this.currentRightCard = this.nextDisplayedPCRight;
+			this.nextDisplayedPCRight = -1 ;
+		}
+	}
+	
+	public void initTimer(){
+		this.timerTurn = this.turnTime ;
+		this.timerSeconds = Mathf.FloorToInt(this.timerTurn) ;
+		this.timerGO.GetComponent<TextMeshPro>().text = this.timerSeconds.ToString();
+	}
+	
+	public void selectSkill(int id){
+		this.unSelectSkill();
+		GameObject.Find ("Skill"+id+"Title").GetComponent<TextMeshPro>().color = Color.yellow;
+		GameObject.Find ("Skill"+id+"Description").GetComponent<TextMeshPro>().color = Color.yellow;
+	}
+	
+	public void unSelectSkill(){
+		for(int i = 0 ; i < 4 ; i++){
+			GameObject.Find ("Skill"+i+"Title").GetComponent<TextMeshPro>().color = Color.white;
+			GameObject.Find ("Skill"+i+"Description").GetComponent<TextMeshPro>().color = Color.white;
+		}
+	}
+	
+	public void loadMyHoveredPC(int c){
+		Card card = this.playingCards[c].GetComponent<PlayingCardController>().getCard();
+		GameObject.Find("MyTitle").GetComponent<TextMeshPro>().text = card.Title;
+		GameObject.Find("MyTextMove").GetComponent<TextMeshPro>().text = card.GetMoveString();
+		GameObject.Find("MyTextLife").GetComponent<TextMeshPro>().text = card.GetLifeString();
+		GameObject.Find("MyTextAttack").GetComponent<TextMeshPro>().text = card.GetAttackString();
+	
+		this.myHoveredRPC.GetComponent<SpriteRenderer>().sprite = this.sprites[card.ArtIndex];
+		
+		List<Skill> skills = this.playingCards[c].GetComponent<PlayingCardController>().getCard().getSkills();
+		for (int i = 0 ; i < skills.Count ; i++){
+			GameObject.Find("MySkill"+i+"Title").GetComponent<TextMeshPro>().text = skills[i].Name;
+			GameObject.Find(("MySkill"+i+"Description")).GetComponent<TextMeshPro>().text = skills[i].Description;
+		}
+		for (int i = skills.Count ; i < 4 ; i++){
+			GameObject.Find("MySkill"+i+"Title").GetComponent<TextMeshPro>().text = "";
+			GameObject.Find(("MySkill"+i+"Description")).GetComponent<TextMeshPro>().text = "";
+		}
+	}
+	
+	public void loadHisHoveredPC(int c){
+		Card card = this.playingCards[c].GetComponent<PlayingCardController>().getCard();
+		GameObject.Find("Title").GetComponent<TextMeshPro>().text = card.Title;
+		GameObject.Find("TextMove").GetComponent<TextMeshPro>().text = card.GetMoveString();
+		GameObject.Find("TextLife").GetComponent<TextMeshPro>().text = card.GetLifeString();
+		GameObject.Find("TextAttack").GetComponent<TextMeshPro>().text = card.GetAttackString();
+		
+		this.hisHoveredRPC.GetComponent<SpriteRenderer>().sprite = this.sprites[card.ArtIndex];
+		
+		List<Skill> skills = this.playingCards[c].GetComponent<PlayingCardController>().getCard().getSkills();
 		for (int i = 0 ; i < skills.Count ; i++){
 			GameObject.Find("Skill"+i+"Title").GetComponent<TextMeshPro>().text = skills[i].Name;
 			GameObject.Find(("Skill"+i+"Description")).GetComponent<TextMeshPro>().text = skills[i].Description;
@@ -228,15 +414,9 @@ public class GameView : MonoBehaviour
 	
 	public void loadClickedPC(){
 		int currentPlayingCard = GameController.instance.getCurrentPlayingCard();
-		if(this.playingCards[currentPlayingCard].GetComponent<PlayingCardController>().getIsMine()){
-			GameObject.Find("MainDescription2").GetComponent<SpriteRenderer>().sprite=this.volets[5];
-			GameObject.Find("SkillDescription").GetComponent<SpriteRenderer>().sprite=this.volets[7];
-		}
-		else{
-			GameObject.Find("MainDescription2").GetComponent<SpriteRenderer>().sprite=this.volets[4];
-			GameObject.Find("SkillDescription").GetComponent<SpriteRenderer>().sprite=this.volets[6];
-		}
 		Card c = this.playingCards[currentPlayingCard].GetComponent<PlayingCardController>().getCard();
+		
+		this.clickedRPC.GetComponent<SpriteRenderer>().sprite = this.sprites[c.ArtIndex];
 		
 		GameObject.Find("Title2").GetComponent<TextMeshPro>().text = c.Title;
 		GameObject.Find("TextMove2").GetComponent<TextMeshPro>().text = c.GetMoveString();
@@ -244,7 +424,7 @@ public class GameView : MonoBehaviour
 		GameObject.Find("TextAttack2").GetComponent<TextMeshPro>().text = c.GetAttackString();
 		
 		this.skillButtons[0].GetComponent<SkillButtonController>().setSkill(c.GetAttackSkill());
-		this.skillButtons[5].GetComponent<SkillButtonController>().setSkill(new Skill("Fin du tour","Termine son tour et passe la main au personnage suivant"));
+		this.skillButtons[5].GetComponent<SkillButtonController>().setSkill(new Skill("Fin du tour","Termine son tour et passe la main au personnage suivant",1));
 		
 		for (int i = 0 ; i < c.Skills.Count ; i++){
 			this.skillButtons[1+i].SetActive(true);
@@ -264,7 +444,6 @@ public class GameView : MonoBehaviour
 	
 	public void loadSkill(){
 		int currentPlayingCard = GameController.instance.getCurrentPlayingCard();
-		print (this.currentHoveredSkill.Name);
 		GameObject.Find("TitleSD").GetComponent<TextMeshPro>().text = this.currentHoveredSkill.Name;
 		GameObject.Find("DescriptionSD").GetComponent<TextMeshPro>().text = this.currentHoveredSkill.Description;
 	}
@@ -318,7 +497,7 @@ public class GameView : MonoBehaviour
 	
 	public void setInitialDestinations(bool isFirstP)
 	{
-		List<Tile> tileList = new List<Tile>();
+		this.destinations = new List<Tile>();
 		int debut = 0 ;
 		if (!isFirstP){
 			debut = this.boardHeight-this.nbFreeRowsAtBeginning;
@@ -326,53 +505,21 @@ public class GameView : MonoBehaviour
 		for (int i = debut ; i < debut + this.nbFreeRowsAtBeginning; i++){
 			for (int j = 0 ; j < this.boardWidth; j++){
 				if (tiles[j,i].GetComponent<TileController>().canBeDestination()){
-					tileList.Add(new Tile(j,i));
+					this.destinations.Add(new Tile(j,i));
 				}
 			}
 		}
-		this.setDestinationTiles(tileList);
+		this.displayDestinations();
 	}
 	
-	public void setDestinationTiles(List<Tile> tileList)
-	{
-		for (int i = 0 ; i < tileList.Count ; i++){
-			this.tileHandlers[tileList[i].x, tileList[i].y].GetComponent<TileHandlerController>().changeType(1);
-			this.tileHandlers[tileList[i].x, tileList[i].y].SetActive(true);
-		}
-	}
-	
-	public void displayPopUp(string s){
+	public void displayPopUp(string s, float t){
 		this.popUpText.GetComponent<TextMeshPro>().text = s ;
 		this.popUp.transform.position = new Vector3(0f, 0f, 0f);
 		
 		this.timerPopUp = 0 ;
+		this.popUpTime = t ;
 		this.toDisplayPopUp = true ;
 		
-	}
-	
-	public void displayClickedPC(int c){
-		if (!this.isDisplayedClickedRPC){
-			this.loadClickedPC();
-			statusClickedPC = 1 ;
-			this.timerClickedRPC = 0 ;
-		}
-		else{
-			statusClickedPC = -2 ;
-			this.timerClickedRPC = 0 ;
-		}
-	}
-	
-	public void displayHoveredPC(int c){
-		
-		if (!this.isDisplayedHoveredRPC){
-			this.loadHoveredPC();
-			statusHoveredPC = 1 ;
-			this.timerClickedRPC = 0 ;
-		}
-		else{
-			statusHoveredPC = -2 ;
-			this.timerHoveredRPC = 0 ;
-		}
 	}
 	
 	public void displaySkill(){
@@ -388,25 +535,15 @@ public class GameView : MonoBehaviour
 		}
 	}
 	
-	public void hideHoveredPC(int c){
-		
-		if (this.isDisplayedHoveredRPC){	
-			statusHoveredPC = -1 ;
-			this.timerHoveredRPC = 0 ;
-		}
-		else if(this.statusHoveredPC==1){
-			statusHoveredPC = -1 ;
-			this.timerHoveredRPC = this.animationTime-timerHoveredRPC ;
-		}
-	}
-	
 	public void removeDestinations()
 	{
 		for (int i = 0; i < this.boardWidth; i++)
 		{
 			for (int j = 0; j < this.boardHeight; j++)
 			{
-				this.tileHandlers [i, j].SetActive(false);
+				if(this.tileHandlers [i, j].GetComponent<TileHandlerController>().getTypeNumber()==1){
+					this.tileHandlers [i, j].SetActive(false);
+				}
 			}
 		}
 	}
@@ -425,17 +562,18 @@ public class GameView : MonoBehaviour
 		{
 			this.playingCards [debut + c.deckOrder].GetComponentInChildren<PlayingCardController>().hide();
 		} 
+		this.playingCards [debut + c.deckOrder].GetComponentInChildren<PlayingCardController>().setIsMine(isFirstP==isFirstPlayer);
 		this.playingCards [debut + c.deckOrder].GetComponentInChildren<PlayingCardController>().setCard(c, 3-c.deckOrder);
 		this.playingCards [debut + c.deckOrder].GetComponentInChildren<PlayingCardController>().setIDCharacter(debut + c.deckOrder);
+		this.playingCards [debut + c.deckOrder].name = "Card"+(debut + c.deckOrder);
 		if (isFirstP){
 			this.playingCards [debut + c.deckOrder].GetComponentInChildren<PlayingCardController>().setTile(new Tile(c.deckOrder + 1, hauteur), tiles [c.deckOrder + 1, hauteur].GetComponent<TileController>().getPosition());
+			this.tiles [c.deckOrder + 1, hauteur].GetComponent<TileController>().setCharacterID(debut + c.deckOrder);
 		}
 		else{
 			this.playingCards [debut + c.deckOrder].GetComponentInChildren<PlayingCardController>().setTile(new Tile(4-c.deckOrder, hauteur), tiles [4-c.deckOrder, hauteur].GetComponent<TileController>().getPosition());
+			this.tiles [4-c.deckOrder, hauteur].GetComponent<TileController>().setCharacterID(debut + c.deckOrder);
 		}
-		this.playingCards [debut + c.deckOrder].GetComponentInChildren<PlayingCardController>().setIsMine(isFirstP==isFirstPlayer);
-			
-		this.tiles [c.deckOrder + 1, hauteur].GetComponent<TileController>().setCharacterID(debut + c.deckOrder);
 	}
 	
 	public void movePlayingCard(int x, int y, int c)
@@ -444,11 +582,29 @@ public class GameView : MonoBehaviour
 		this.tiles[t.x, t.y].GetComponentInChildren<TileController>().setCharacterID(-1);
 		this.playingCards [c].GetComponentInChildren<PlayingCardController>().setTile(new Tile(x,y), this.tiles[x,y].GetComponentInChildren<TileController>().getPosition());
 		this.tiles[x, y].GetComponentInChildren<TileController>().setCharacterID(c);
+		if(this.getIsMine(c)){
+			this.tiles[x, y].GetComponentInChildren<TileController>().checkTrap(c);
+		}
+		
+		if (GameController.instance.hasGameStarted()){
+			this.checkSkillsLaunchability();
+		}
+	}
+	
+	public void hideTrap(int x, int y){
+		this.tiles [x, y].GetComponent<TileController>().removeTrap();
+	}
+	
+	public void checkSkillsLaunchability(){
+		List<Skill> skills = this.getCard(GameController.instance.getCurrentPlayingCard()).getSkills();
+		this.skillButtons[0].GetComponentInChildren<SkillButtonController>().checkLaunchability();
+		for (int i = 0 ; i < skills.Count ; i++){
+			this.skillButtons[1+i].GetComponentInChildren<SkillButtonController>().checkLaunchability();
+		}
 	}
 	
 	public void resize()
 	{
-		print ("Je resize");
 		this.widthScreen = Screen.width ;
 		this.heightScreen = Screen.height ;
 		
@@ -467,6 +623,13 @@ public class GameView : MonoBehaviour
 		for (int i = debut; i < debut+this.nbCardsPerPlayer; i++)
 		{
 			this.playingCards [i].GetComponentInChildren<PlayingCardController>().display();
+		}
+	}
+	
+	public void playEveryone(){
+		for (int i = 0; i < this.playingCards.Length; i++)
+		{
+			this.playCard(i,true);
 		}
 	}
 	
@@ -545,8 +708,11 @@ public class GameView : MonoBehaviour
 		this.clickedPCPosition = new Vector3(-0.50f*this.realwidth-5f,-1f,1);
 		this.clickedRPC.transform.position = this.clickedPCPosition;
 		
-		this.hoveredPCPosition = new Vector3(0.50f*this.realwidth+5f,-1f,1);
-		this.hoveredRPC.transform.position = this.hoveredPCPosition;
+		this.hisHoveredPCPosition = new Vector3(0.50f*this.realwidth+5f,-1f,1);
+		this.hisHoveredRPC.transform.position = this.hisHoveredPCPosition;
+		
+		this.myHoveredPCPosition = new Vector3(-0.50f*this.realwidth-5f,-1f,1);
+		this.myHoveredRPC.transform.position = this.myHoveredPCPosition;
 		
 		this.skillPosition = this.skillRPC.transform.localPosition;
 		this.skillPosition.x = 5f+(realwidth/2f)-8.25f;
@@ -603,6 +769,59 @@ public class GameView : MonoBehaviour
 		tempGO = GameObject.Find("Skill3Title");
 		tempGO.GetComponent<TextContainer>().width = (realwidth/2f-4.25f) ;
 		tempGO = GameObject.Find("Skill3Description");
+		tempGO.GetComponent<TextContainer>().width = (realwidth/2f-4.35f) ;
+		
+		tempGO = GameObject.Find("MyTitle");
+		position = tempGO.transform.localPosition ;
+		position.x = (realwidth/2f)-8.25f-(realwidth/2f-4.25f)/2f;
+		tempGO.transform.localPosition = position;
+		tempGO.GetComponent<TextContainer>().width = (realwidth/2f-4.25f) ;
+		
+		tempGO = GameObject.Find("MyIconMove");
+		position = tempGO.transform.localPosition ;
+		position.x = (realwidth/2f)-8.05f-0.80f*(realwidth/2f-3.75f);
+		tempGO.transform.localPosition = position;
+		
+		tempGO = GameObject.Find("MyIconLife");
+		position = tempGO.transform.localPosition ;
+		position.x = (realwidth/2f)-8.05f-0.5f*(realwidth/2f-3.75f);
+		tempGO.transform.localPosition = position;
+		
+		tempGO = GameObject.Find("MyIconAttack");
+		position = tempGO.transform.localPosition ;
+		position.x = (realwidth/2f)-8.05f-0.20f*(realwidth/2f-3.75f);
+		tempGO.transform.localPosition = position;
+		
+		tempGO = GameObject.Find("MyTextMove");
+		position = tempGO.transform.localPosition ;
+		position.x = (realwidth/2f)-8.25f-0.80f*(realwidth/2f-3.75f);
+		tempGO.transform.localPosition = position;
+		
+		tempGO = GameObject.Find("MyTextLife");
+		position = tempGO.transform.localPosition ;
+		position.x = (realwidth/2f)-8.25f-0.5f*(realwidth/2f-3.75f);
+		tempGO.transform.localPosition = position;
+		
+		tempGO = GameObject.Find("MyTextAttack");
+		position = tempGO.transform.localPosition ;
+		position.x = (realwidth/2f)-8.25f-0.20f*(realwidth/2f-3.75f);
+		tempGO.transform.localPosition = position;
+		
+		tempGO = GameObject.Find("MySkill0Title");
+		tempGO.GetComponent<TextContainer>().width = (realwidth/2f-3.65f) ;
+		tempGO = GameObject.Find("MySkill0Description");
+		tempGO.GetComponent<TextContainer>().width = (realwidth/2f-3.75f) ;
+		tempGO = GameObject.Find("MySkill1Title");
+		tempGO.GetComponent<TextContainer>().width = (realwidth/2f-3.85f) ;
+		tempGO = GameObject.Find("MySkill1Description");
+		tempGO.GetComponent<TextContainer>().width = (realwidth/2f-3.95f) ;
+		tempGO = GameObject.Find("MySkill2Title");
+		tempGO.GetComponent<TextContainer>().width = (realwidth/2f-4.05f) ;
+		tempGO = GameObject.Find("MySkill2Description");
+		tempGO.GetComponent<TextContainer>().width = (realwidth/2f-4.15f) ;
+		tempGO = GameObject.Find("MySkill3Title");
+		tempGO.GetComponent<TextContainer>().width = (realwidth/2f-4.25f) ;
+		tempGO = GameObject.Find("MySkill3Description");
 		tempGO.GetComponent<TextContainer>().width = (realwidth/2f-4.35f) ;
 		
 		tempGO = GameObject.Find("Title2");
@@ -675,39 +894,313 @@ public class GameView : MonoBehaviour
 		//}
 	}
 	
+	public void hideClickedPC(){
+		this.timerLeftSide = 0 ;
+		this.statusClickedPC = -1 ;
+	}
+	
+	public void hideMyHoveredPC(){
+		this.timerLeftSide = 0 ;
+		this.statusMyHoveredPC = -1 ;
+	}
+	
+	public void hideHisHoveredPC(){
+		this.timerRightSide = 0 ;
+		this.statusHisHoveredPC = -1 ;
+	}
+	
 	public void hoverTile(int c, Tile t){
-		if (c!=this.currentHoveredCard){
-			int currentPlayingCard = GameController.instance.getCurrentPlayingCard();
-			if (currentPlayingCard!=c){
-				this.currentHoveredCard = c ;
-				this.displayHoveredPC(c);
+		
+		int currentPlayingCard = GameController.instance.getCurrentPlayingCard();
+		
+		if (this.isTargeting && this.currentTargetingTileHandler!=-1 && this.currentTargetingTileHandler!=c){	
+			Tile tile = this.getPlayingCardTile(currentTargetingTileHandler);
+			this.tileHandlers[tile.x, tile.y].GetComponent<TileHandlerController>().changeType(6);
+			this.tileHandlers[tile.x, tile.y].GetComponentInChildren<TextMeshPro>().text = "";
+			this.currentTargetingTileHandler = -1 ;
+		}
+		
+		if(c!=-1){
+			if (this.getIsMine(c)){
+				if(this.isDisplayedClickedPC){
+					if(c!=currentPlayingCard){
+						if(this.statusClickedPC==-1){
+							
+						}
+						else{
+							this.hideClickedPC();
+						}
+						this.nextDisplayedPCLeft = c ;
+					}
+					else{
+						if(this.statusClickedPC==-1){
+							this.statusClickedPC=1;
+							this.timerLeftSide = this.animationTime - this.timerLeftSide ;
+							this.nextDisplayedPCLeft = -1;
+						}
+					}
+				}
+				else if(this.isDisplayedMyHoveredPC){
+					if(c!=currentLeftCard){
+						if(this.statusMyHoveredPC==-1){
+							
+						}
+						else{
+							this.hideMyHoveredPC();
+						}
+						this.nextDisplayedPCLeft = c ;
+					}
+					else{
+						if(this.statusMyHoveredPC==-1){
+							this.statusMyHoveredPC=1;
+							this.timerLeftSide = this.animationTime - this.timerLeftSide ;
+							this.nextDisplayedPCLeft = -1;
+						}
+					}
+				}
+				else{
+					if(this.statusClickedPC==1){
+						if(c!=currentPlayingCard){
+							this.statusClickedPC=-1;
+							this.timerLeftSide = this.animationTime - this.timerLeftSide ;
+							this.nextDisplayedPCLeft = c ;
+						}
+					}
+					else if(this.statusMyHoveredPC==1){
+						if(c!=currentLeftCard){
+							this.statusMyHoveredPC=-1;
+							this.timerLeftSide = this.animationTime - this.timerLeftSide ;
+							this.nextDisplayedPCLeft = c ;
+						}
+					}
+					else{
+						this.nextDisplayedPCLeft = c ;
+						this.launchNextMoveLeftSide();
+					}
+				}
+			}
+			else{
+				if(this.isDisplayedHisHoveredPC){
+					if(c!=currentRightCard){
+						if(this.statusHisHoveredPC==-1){
+							
+						}
+						else{
+							this.hideHisHoveredPC();
+						}
+						this.nextDisplayedPCRight = c ;
+					}
+					else{
+						if(this.statusHisHoveredPC==-1){
+							this.statusHisHoveredPC=1;
+							this.timerRightSide = this.animationTime - this.timerRightSide ;
+							this.nextDisplayedPCRight = -1;
+						}
+					}
+				}
+				else{
+					if(this.statusHisHoveredPC==1){
+						if(c!=currentRightCard){
+							this.statusHisHoveredPC=-1;
+							this.timerRightSide = this.animationTime - this.timerLeftSide ;
+							this.nextDisplayedPCRight = c ;
+						}
+					}
+					else{
+						this.nextDisplayedPCRight = c ;
+						this.launchNextMoveRightSide();
+					}
+				}
 			}
 		}
+		else{
+			if(currentPlayingCard!=-1){
+				if(this.getIsMine(currentPlayingCard)){
+					if(this.isDisplayedClickedPC){
+					 	if(this.statusClickedPC==-1){
+							this.statusClickedPC=1;
+							this.timerLeftSide = this.animationTime - this.timerLeftSide ;
+							this.nextDisplayedPCLeft = -1;
+					 	}
+					}
+					else if(this.isDisplayedMyHoveredPC){
+						if (GameController.instance.hasGameStarted()){
+							if(statusMyHoveredPC==-1){
+								this.nextDisplayedPCLeft = currentPlayingCard ;
+							}
+							else{
+								this.statusMyHoveredPC=-1;
+								this.timerLeftSide = 0 ;
+								this.nextDisplayedPCLeft = currentPlayingCard ;
+							}
+						}
+						else{
+							if(this.currentLeftCard!=currentPlayingCard){
+								if(statusMyHoveredPC==0){
+									this.hideMyHoveredPC() ;
+								}
+								this.nextDisplayedPCLeft = currentPlayingCard ;
+							}
+						}
+					}
+					else{
+						if(statusClickedPC==1){
+							
+						}
+						else if(statusMyHoveredPC==1){
+							this.statusMyHoveredPC=-1;
+							this.timerLeftSide = this.animationTime - this.timerLeftSide ;
+							this.nextDisplayedPCLeft = currentPlayingCard ;
+						}
+						else{
+							this.nextDisplayedPCLeft = currentPlayingCard ;
+							this.launchNextMoveLeftSide();
+						}
+					}
+					
+					if (this.isDisplayedHisHoveredPC){
+						
+						if(this.statusHisHoveredPC==0){
+							this.hideHisHoveredPC();
+						}
+						this.nextDisplayedPCRight = -1;
+					}
+					else{
+						if(this.statusHisHoveredPC==1){
+							this.statusHisHoveredPC=-1;
+							this.timerRightSide = this.animationTime - this.timerRightSide ;
+							this.nextDisplayedPCRight = -1;
+						}
+					}
+				}
+				else{
+					if(this.isDisplayedHisHoveredPC){
+						if (this.currentRightCard==currentPlayingCard){
+							if(this.statusHisHoveredPC==-1){
+								this.statusHisHoveredPC=1;
+								this.timerRightSide = this.animationTime - this.timerLeftSide ;
+								this.nextDisplayedPCRight = -1 ;
+							}
+						}
+						else{
+							if(this.statusHisHoveredPC==-1){
+								this.nextDisplayedPCRight = currentPlayingCard ;
+							}
+							else{
+								this.hideHisHoveredPC();
+								this.nextDisplayedPCRight = currentPlayingCard ;
+							}
+						}
+					}
+					else{
+						if(this.statusHisHoveredPC==1){
+							if(this.currentRightCard==currentPlayingCard){
+							
+							}
+							else{
+								this.statusHisHoveredPC=-1;
+								this.timerRightSide = this.animationTime - this.timerLeftSide ;
+								this.nextDisplayedPCRight = currentPlayingCard ;
+							}
+						}
+						else{
+							this.nextDisplayedPCRight = currentPlayingCard ;
+							this.launchNextMoveRightSide();
+						}
+					}
+					if (this.isDisplayedMyHoveredPC){
+						if(this.statusMyHoveredPC==0){
+							this.hideMyHoveredPC();
+						}
+						this.nextDisplayedPCLeft = -1;
+					}
+					else{
+						if(this.statusMyHoveredPC==1){
+							this.statusMyHoveredPC=-1;
+							this.timerLeftSide = this.animationTime - this.timerLeftSide ;
+							this.nextDisplayedPCLeft = -1;
+						}
+					}
+				}
+			}
+			else{
+				if (this.isDisplayedMyHoveredPC){
+					if(this.statusMyHoveredPC==0){
+						this.hideMyHoveredPC();
+					}
+					this.nextDisplayedPCLeft = -1;
+				}
+				else{
+					if(this.statusMyHoveredPC==1){
+						this.statusMyHoveredPC=-1;
+						this.timerLeftSide = this.animationTime - this.timerLeftSide ;
+						this.nextDisplayedPCLeft = -1;
+					}
+				}
+			}
+		}
+		
 		GameObject tempGO = GameObject.Find("Hover");
 		Vector3 pos = tiles[t.x, t.y].GetComponent<TileController>().getPosition();
 		pos.z = -1 ;
 		tempGO.transform.position = pos ;
 	}
 	
-	public void hoverSkill(Skill s){
-		if (s.Id!=this.currentHoveredSkill.Id){
-			this.currentHoveredSkill = s ;
+	public void changePlayingCard(int c){
+		Tile t = this.getPlayingCardTile(c);
+		if (GameController.instance.hasGameStarted()){
+			this.playingCards[c].GetComponent<PlayingCardController>().move(false);
+			if(c!=-1){
+				if(this.getIsMine(c)){
+					if(this.getCard(c).isSleeping()){
+						int sleepingPercentage = this.getCard(c).getSleepingPercentage();
+						if(UnityEngine.Random.Range(1,101)>sleepingPercentage){
+							this.displaySkillEffect(c, "REVEIL", 4);
+							this.getCard(c).removeSleeping();
+							this.playingCards[c].GetComponent<PlayingCardController>().show();
+						}
+						else{
+							this.displaySkillEffect(c, "RESTE ENDORMI", 4);
+						}
+					}
+				}
+			}
+			this.loadClickedPC();
+			
+		}
+		this.hoverTile(c, t);
+	}
+	
+	public void hoverSkill(SkillButtonController s){
+		if (s.skill.Id!=this.currentHoveredSkill.Id){
+			this.currentHoveredSkill = s.skill ;
+			if(!s.isLaunchable){
+				GameObject.Find("AdditionnalInfo").GetComponent<TextMeshPro>().text = s.launchabilityText;
+			}
+			else{
+				GameObject.Find("AdditionnalInfo").GetComponent<TextMeshPro>().text = "";
+			}
 			this.displaySkill();
 		}	
 	}
 	
-	public void hoverTile(Tile t){
-		GameObject tempGO = GameObject.Find("Hover");
-		Vector3 pos = tiles[t.x, t.y].GetComponent<TileController>().getPosition();
-		pos.z = -1 ;
-		tempGO.transform.position = pos ;
-	}
-	
-	public void clickTile(Tile t){
-		GameObject tempGO = GameObject.Find("Click");
-		Vector3 pos = tiles[t.x, t.y].GetComponent<TileController>().getPosition();
-		pos.z = -1 ;
-		tempGO.transform.position = pos ;
+	public void hoverTileHandler(int c, Tile t){
+		
+		this.hoverTile(c,t);
+		
+		if (this.currentTargetingTileHandler !=c && this.currentTargetingTileHandler!=-1){
+			this.tileHandlers[this.getPlayingCardTile(currentTargetingTileHandler).x, this.getPlayingCardTile(currentTargetingTileHandler).y].GetComponent<TileHandlerController>().changeType(6);
+			this.tileHandlers[this.getPlayingCardTile(currentTargetingTileHandler).x,this.getPlayingCardTile(currentTargetingTileHandler).y].GetComponentInChildren<TextMeshPro>().text = "";
+		}
+		this.tileHandlers[t.x,t.y].GetComponent<TileHandlerController>().changeType(2);
+		if(c==-1){
+			this.tileHandlers[t.x,t.y].GetComponentInChildren<TextMeshPro>().text = GameSkills.instance.getCurrentGameSkill().getTargetText(new Card());
+		}
+		else{
+			this.tileHandlers[t.x,t.y].GetComponentInChildren<TextMeshPro>().text = GameSkills.instance.getCurrentGameSkill().getTargetText(this.getCard(c));
+		}
+		
+		this.currentTargetingTileHandler = c ;
 	}
 	
 	public int getNbPlayingCards(){
@@ -722,8 +1215,16 @@ public class GameView : MonoBehaviour
 		return this.playingCards[i].GetComponent<PlayingCardController>().getTile();
 	}
 	
+	public Tile getTile(int x, int y){
+		return this.tiles[x,y].GetComponent<TileController>().getTile();
+	}
+	
 	public bool hasPlayed(int i){
 		return this.playingCards[i].GetComponent<PlayingCardController>().getHasPlayed();
+	}
+	
+	public bool hasMoved(int i){
+		return this.playingCards[i].GetComponent<PlayingCardController>().getHasMoved();
 	}
 	
 	public bool getIsMine(int i){
@@ -734,12 +1235,59 @@ public class GameView : MonoBehaviour
 		this.playingCards[i].GetComponent<PlayingCardController>().play(b);
 	}
 	
+	public void checkModifyers(int i){
+		this.playingCards[i].GetComponent<PlayingCardController>().checkModyfiers();
+	}
+	
 	public void moveCard(int i, bool b){
 		this.playingCards[i].GetComponent<PlayingCardController>().move(b);
 	}
 	
-	public void setNeighbours(int i, bool isFirstP){
-		this.playingCards [i].GetComponentInChildren<PlayingCardController>().getTile().setNeighbours(this.getCharacterTilesArray(isFirstP), this.playingCards [i].GetComponentInChildren<PlayingCardController>().getCard().GetMove());
+	public void setDestinations(int i, bool isFirstP){
+		bool[,] hasBeenPassages = new bool[this.boardWidth, this.boardHeight];
+		bool[,] isDestination = new bool[this.boardWidth, this.boardHeight];
+		
+		for(int l = 0 ; l < this.boardWidth ; l++){
+			for(int k = 0 ; k < this.boardHeight ; k++){
+				hasBeenPassages[l,k]=false;
+				isDestination[l,k]=false;
+			}
+		}
+		
+		this.destinations = new List<Tile>();
+		List<Tile> baseTiles = new List<Tile>();
+		List<Tile> tempTiles = new List<Tile>();
+		List<Tile> tempNeighbours ;
+		baseTiles.Add(this.getPlayingCardTile(i));
+		int move = this.getCard(i).GetMove();
+		
+		int j = 0 ;
+		while (j < move){
+			tempTiles = new List<Tile>();
+			
+			for(int k = 0 ; k < baseTiles.Count ; k++){
+				tempNeighbours = this.getDestinationImmediateNeighbours(baseTiles[k]);
+				for(int l = 0 ; l < tempNeighbours.Count ; l++){
+					
+					if(!hasBeenPassages[tempNeighbours[l].x, tempNeighbours[l].y]){
+						tempTiles.Add(tempNeighbours[l]);
+						hasBeenPassages[tempNeighbours[l].x, tempNeighbours[l].y]=true;
+					}
+					if(this.tiles[tempNeighbours[l].x, tempNeighbours[l].y].GetComponent<TileController>().getCharacterID()==-1){
+						if(!isDestination[tempNeighbours[l].x, tempNeighbours[l].y]){
+							destinations.Add(tempNeighbours[l]);
+							isDestination[tempNeighbours[l].x, tempNeighbours[l].y]=true;
+						}
+					}
+				}	
+			}
+			baseTiles = new List<Tile>();
+			for(int l = 0 ; l < tempTiles.Count ; l++){
+				baseTiles.Add(tempTiles[l]);
+			}
+			j++;
+		}
+		this.displayDestinations();
 	}
 	
 	public bool isDead(int i){
@@ -766,6 +1314,16 @@ public class GameView : MonoBehaviour
 	
 	public int getBoardHeight(){
 		return this.boardHeight;
+	}
+	
+	public List<Tile> getMyPlayingCardsTiles(){
+		List<Tile> tiles = new List<Tile>();
+		for (int i = 0 ; i < this.playingCards.Length ; i++){
+			if (this.getIsMine(i)){
+				tiles.Add(this.getPlayingCardTile(i));
+			}
+		}
+		return tiles;
 	}
 	
 	public int[,] getCharacterTilesArray(bool isFirstP)
@@ -809,20 +1367,262 @@ public class GameView : MonoBehaviour
 		return characterTiles;
 	}
 	
-	public void setDestinations(int idPlayer)
+	public void clearDestinations(){
+		for (int i = 0 ; i < GameView.instance.boardWidth ; i++){
+			for (int j = 0 ; j < GameView.instance.boardHeight ; j++){
+				if(this.tileHandlers[i,j].activeSelf){
+					this.tileHandlers[i, j].GetComponent<TileHandlerController>().changeType(0);
+					this.tileHandlers[i, j].GetComponent<TileHandlerController>().setText("");
+					this.tileHandlers[i, j].SetActive(false);
+					print ("clearDesti");
+				}
+			}
+		}
+	}
+	
+	public void displayDestinations()
 	{
-		List<Tile> nt = this.playingCards [idPlayer].GetComponentInChildren<PlayingCardController>().getTile().neighbours.tiles;
-		foreach (Tile t in nt)
+		foreach (Tile t in destinations)
 		{
 //			if (!this.isTutorialLaunched)
 //			{
 //				this.tiles [t.x, t.y].GetComponentInChildren<TileController>().setDestination(true);
 //			} else
 //			{
-			this.tileHandlers[t.x, t.y].GetComponent<TileHandlerController>().changeType(1);
 			this.tileHandlers[t.x, t.y].SetActive(true);
-			//			}
+			this.tileHandlers[t.x, t.y].GetComponent<TileHandlerController>().changeType(1);
+			this.tileHandlers[t.x, t.y].GetComponent<TileHandlerController>().setText("");
+			this.tileHandlers[t.x, t.y].GetComponent<TileHandlerController>().enable();
 		}
+	}
+	
+	public void hideStartButton(){
+		GameObject.Find("StartButton").SetActive(false);
+	}
+	
+	public void showStartButton(){
+		GameObject go = GameObject.Find("SB");
+		foreach (Transform child in go.transform)
+		{
+			child.gameObject.SetActive(true);
+		}
+	}
+	
+	public void displayAdjacentOpponentsTargets()
+	{
+		Tile tile ;
+		this.targets = new List<Tile>();
+		List<Tile> neighbourTiles = this.getOpponentImmediateNeighbours(this.getPlayingCardTile(GameController.instance.getCurrentPlayingCard()));
+		int playerID;
+		foreach (Tile t in neighbourTiles)
+		{
+			playerID = this.tiles [t.x, t.y].GetComponent<TileController>().getCharacterID();
+			if (playerID != -1)
+			{
+				if (this.playingCards [playerID].GetComponent<PlayingCardController>().canBeTargeted() && !this.getIsMine(playerID))
+				{
+					tile = this.getPlayingCardTile(playerID);
+					this.targets.Add(tile);
+					this.tileHandlers[tile.x, tile.y].SetActive(true);
+					this.tileHandlers[tile.x, tile.y].GetComponent<TileHandlerController>().changeType(6);
+					this.tileHandlers[tile.x, tile.y].GetComponent<TileHandlerController>().setText("");
+					this.tileHandlers[tile.x, tile.y].GetComponent<TileHandlerController>().setCharacterID(playerID);
+				}
+			}
+		}
+		this.timerTargeting = 0 ;
+		this.currentTargetingTileHandler = -1;
+		this.isTargeting = true ;
+	}
+	
+	public void displayAdjacentTileTargets()
+	{
+		List<Tile> neighbourTiles = this.getFreeImmediateNeighbours(this.getPlayingCardTile(GameController.instance.getCurrentPlayingCard()));
+		this.targets = new List<Tile>();
+		
+		foreach (Tile t in neighbourTiles){
+			this.targets.Add(t);
+			this.tileHandlers[t.x, t.y].SetActive(true);
+			this.tileHandlers[t.x, t.y].GetComponent<TileHandlerController>().changeType(6);
+			this.tileHandlers[t.x, t.y].GetComponent<TileHandlerController>().setText("");
+			this.tileHandlers[t.x, t.y].GetComponent<TileHandlerController>().setCharacterID(-1);
+		}
+		this.isTargeting = true ;
+	}
+	
+	public void displayOpponentsTargets()
+	{
+		PlayingCardController pcc;
+		Tile tile ;
+		this.targets = new List<Tile>();
+		
+		for (int i = 0; i < this.playingCards.Length; i++)
+		{
+			pcc = this.getPCC(i);
+			if (!this.getIsMine(i) && pcc.canBeTargeted())
+			{
+				tile = this.getPlayingCardTile(i);
+				this.targets.Add(tile);
+				this.tileHandlers[tile.x, tile.y].SetActive(true);
+				this.tileHandlers[tile.x, tile.y].GetComponent<TileHandlerController>().changeType(6);
+				this.tileHandlers[tile.x, tile.y].GetComponent<TileHandlerController>().setText("");
+				this.tileHandlers[tile.x, tile.y].GetComponent<TileHandlerController>().setCharacterID(i);
+			}
+		}
+		this.timerTargeting = 0 ;
+		this.currentTargetingTileHandler = -1;
+		this.isTargeting = true ;	
+	}
+	
+	public PlayingCardController getPCC(int i){
+		return this.playingCards[i].GetComponent<PlayingCardController>();
+	}
+	
+	public void hideTargets(){
+		this.isTargeting = false ;
+		this.currentTargetingTileHandler = -1;
+		for (int i = 0 ; i < this.targets.Count ; i++){
+			this.tileHandlers[this.targets[i].x, this.targets[i].y].SetActive(false);
+		}
+		this.skillPosition.x = 0  ;
+		this.skillRPC.transform.localPosition = this.skillPosition ;
+		if(!hasMoved(GameController.instance.getCurrentPlayingCard())){
+			this.displayDestinations();
+		}
+	}
+	
+	public string canLaunchAdjacentOpponents()
+	{
+		string isLaunchable = "Aucun ennemi à proximité";
+		
+		List<Tile> neighbourTiles = this.getOpponentImmediateNeighbours(this.getPlayingCardTile(GameController.instance.getCurrentPlayingCard()));
+		int playerID;
+		foreach (Tile t in neighbourTiles)
+		{
+			playerID = this.tiles [t.x, t.y].GetComponent<TileController>().getCharacterID();
+			if (playerID != -1)
+			{
+				if (this.playingCards [playerID].GetComponent<PlayingCardController>().canBeTargeted() && !this.getIsMine(playerID))
+				{
+					isLaunchable = "";
+				}
+			}
+		}
+		return isLaunchable;
+	}
+	
+	public string canLaunchAdjacentTileTargets()
+	{
+		string isLaunchable = "Aucun terrain ne peut etre ciblé";
+		
+		List<Tile> neighbourTiles = this.getFreeImmediateNeighbours(this.getPlayingCardTile(GameController.instance.getCurrentPlayingCard()));
+		this.targets = new List<Tile>();
+		
+		if(neighbourTiles.Count>0){
+			isLaunchable = "";
+		}
+			
+		return isLaunchable;
+	}
+	
+	public string canLaunchOpponentsTargets()
+	{
+		string isLaunchable = "Aucun ennemi ne peut etre atteint";
+		
+		PlayingCardController pcc;
+		
+		for (int i = 0; i < this.playingCards.Length; i++)
+		{
+			pcc = this.getPCC(i);
+			if (!this.getIsMine(i) && pcc.canBeTargeted())
+			{
+				isLaunchable = "";
+			}
+		}
+		return isLaunchable;
+	}
+	
+	public void setModifier(Tile tile, int amount, ModifierType type, ModifierStat stat, int duration, int idIcon, string t, string d, string a, bool b){
+		this.tiles [tile.x, tile.y].GetComponent<TileController>().getTile().setModifier(amount, type, stat, duration, idIcon, t, d, a, b);
+		this.tiles [tile.x, tile.y].GetComponent<TileController>().changeTrapId(idIcon);
+		this.tiles [tile.x, tile.y].GetComponent<TileController>().show();
+	}
+	
+	public void show(int target){
+		this.playingCards[target].GetComponent<PlayingCardController>().show();
+	}
+	
+	public void kill(int target){
+		Tile t = this.getPlayingCardTile(target);
+		this.tileHandlers[t.x, t.y].SetActive(true);
+		this.tileHandlers[t.x, t.y].GetComponent<TileHandlerController>().setText("");
+		this.tileHandlers[t.x, t.y].GetComponent<TileHandlerController>().changeType(3);
+		this.displayedDeads.Add(target);
+		this.displayedDeadsTimer.Add(3);
+		
+		this.toDisplayDeadHalos = true ;
+	}
+	
+	public void disappear(int target){
+		this.playingCards[target].GetComponent<PlayingCardController>().disappear();
+	}
+	
+	public void displaySkillEffect(int target, string text, int type){
+		Tile t = this.getPlayingCardTile(target);
+		this.tileHandlers[t.x, t.y].SetActive(true);
+		this.tileHandlers[t.x, t.y].GetComponent<TileHandlerController>().enable();
+		this.tileHandlers[t.x, t.y].GetComponent<TileHandlerController>().changeType(type);
+		this.tileHandlers[t.x, t.y].GetComponent<TileHandlerController>().setText(text);
+		
+		this.displayedSE.Add(target);
+		this.displayedSETimer.Add(2);
+		
+		this.toDisplaySE = true ;
+	}
+	
+	public List<Tile> getFreeImmediateNeighbours(Tile t){
+		List<Tile> freeNeighbours = new List<Tile>();
+		List<Tile> neighbours = t.getImmediateNeighbourTiles();
+		for (int i = 0 ; i < neighbours.Count ; i++){
+			if(this.tiles[neighbours[i].x, neighbours[i].y].GetComponent<TileController>().getTileType()==0 && this.tiles[neighbours[i].x, neighbours[i].y].GetComponent<TileController>().getCharacterID()==-1){
+				freeNeighbours.Add(neighbours[i]);
+			}
+		}
+		return freeNeighbours ;
+	}
+	
+	public List<Tile> getDestinationImmediateNeighbours(Tile t){
+		bool b ; 
+		List<Tile> freeNeighbours = new List<Tile>();
+		List<Tile> neighbours = t.getImmediateNeighbourTiles();
+		for (int i = 0 ; i < neighbours.Count ; i++){
+			b = false ;
+			if(this.tiles[neighbours[i].x, neighbours[i].y].GetComponent<TileController>().getCharacterID()!=-1){
+				if(this.getIsMine(this.tiles[neighbours[i].x, neighbours[i].y].GetComponent<TileController>().getCharacterID())){
+					b = true ;
+				}
+			}
+			else{
+				b = true ; 
+			}
+			if(this.tiles[neighbours[i].x, neighbours[i].y].GetComponent<TileController>().getTileType()==0 && b){
+				freeNeighbours.Add(neighbours[i]);
+			}
+		}
+		return freeNeighbours ;
+	}
+	
+	public List<Tile> getOpponentImmediateNeighbours(Tile t){
+		List<Tile> freeNeighbours = new List<Tile>();
+		List<Tile> neighbours = t.getImmediateNeighbourTiles();
+		for (int i = 0 ; i < neighbours.Count ; i++){
+			if(this.tiles[neighbours[i].x, neighbours[i].y].GetComponent<TileController>().getCharacterID()!=-1){
+				if(!this.getIsMine(this.tiles[neighbours[i].x, neighbours[i].y].GetComponent<TileController>().getCharacterID())){
+					freeNeighbours.Add(neighbours[i]);
+				}
+			}
+		}
+		return freeNeighbours ;
 	}
 }
 

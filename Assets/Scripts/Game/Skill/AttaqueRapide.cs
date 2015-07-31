@@ -11,21 +11,21 @@ public class AttaqueRapide : GameSkill
 	public override void launch()
 	{
 		GameController.instance.initPCCTargetHandler(numberOfExpectedTargets);
-		GameController.instance.displayAdjacentOpponentsTargets();
-		GameController.instance.displayMyControls("Attaque rapide");
+		GameView.instance.displayAdjacentOpponentsTargets();
 	}
 	
 	public override void resolve(List<int> targetsPCC)
 	{	
-		int target = targetsPCC[0];
-		GameController.instance.startPlayingSkill();
-		int success = 0 ;
-		int nbHitMax = Random.Range(1,5);
+		if (GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
+			GameView.instance.hideTargets();
+		}
 		
+		int target = targetsPCC[0];
+		int nbHitMax = Random.Range(1,5);
 		int arg = 0;
 		
 		for (int i = 0 ; i < nbHitMax ; i++){
-			if (Random.Range(1,101) > GameController.instance.getCard(targetsPCC[0]).GetEsquive())
+			if (Random.Range(1,101) > GameView.instance.getCard(target).GetEsquive())
 			{                             
 				arg++;
 			}
@@ -33,89 +33,65 @@ public class AttaqueRapide : GameSkill
 		
 		if (arg!=0){
 			GameController.instance.applyOn(target, arg);
-			success=1;
 		}
 		else{
 			GameController.instance.failedToCastOnSkill(target,1);
 		}
-		
-		GameController.instance.playSkill(success);
 		GameController.instance.play();
 	}
 	
 	public override void applyOn(int target, int arg){
 		
-		Debug.Log(target+","+arg);
-		Card targetCard = GameController.instance.getCard(target);
+		Card targetCard = GameView.instance.getCard(target);
 		int currentLife = targetCard.GetLife();
-		int damageBonusPercentage = GameController.instance.getCurrentCard().GetDamagesPercentageBonus(targetCard);
+		int damageBonusPercentage = base.card.GetDamagesPercentageBonus(targetCard);
 		int bouclier = targetCard.GetBouclier();
-		int amount = arg*(GameController.instance.getCurrentSkill().ManaCost*GameController.instance.getCurrentCard().GetAttack()/100)*(100+damageBonusPercentage)/100;
+		int amount = arg*(base.skill.ManaCost*base.card.GetAttack()/100)*(100+damageBonusPercentage)/100;
 		amount = Mathf.Min(currentLife,amount-(bouclier*amount/100));
 		GameController.instance.addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
 		
-		if (arg>1){
-			GameController.instance.displaySkillEffect(target, arg+"HITS\n"+"-"+amount+" PV", 3, 1);
-		}
-		else{
-			GameController.instance.displaySkillEffect(target, arg+"HIT\n"+"-"+amount+" PV", 3, 1);
+		if(currentLife!=(amount)){
+			GameView.instance.displaySkillEffect(target, "HIT X"+arg+"\n-"+(amount)+" PV", 5);
 		}
 	}
 	
 	public override void failedToCastOn(int target, int indexFailure){
-		//GameController.instance.displaySkillEffect(target, GameController.instance.castFailures.getFailure(indexFailure), 5, 1);
+		GameView.instance.displaySkillEffect(target, "ESQUIVE", 4);
 	}
 	
-	public override bool isLaunchable(Skill s){
-		return GameController.instance.canLaunchAdjacentOpponents();
+	public override string isLaunchable(){
+		return GameView.instance.canLaunchAdjacentOpponents();
 	}
 	
-	public override HaloTarget getTargetPCCText(Card c){
+	public override string getTargetText(Card targetCard){
 		
-		HaloTarget h  = new HaloTarget(0); 
-		int i ;
+		int proba;
+		int probaEsquive = targetCard.GetEsquive();
+		int currentLife = targetCard.GetLife();
+		int bouclier = targetCard.GetBouclier();
 		
-		int currentLife = c.GetLife();
-		int damageBonusPercentage = GameController.instance.getCurrentCard().GetDamagesPercentageBonus(c);
-		int bouclier = c.GetBouclier();
-		int amount = (GameController.instance.getCurrentSkill().ManaCost*GameController.instance.getCurrentCard().GetAttack()/100)*(100+damageBonusPercentage)/100;
-		int amount1 = Mathf.Min(currentLife, amount-(bouclier*amount/100));
-		int amount2 = Mathf.Min(currentLife, 4*(amount-(bouclier*amount/100)));
+		int damageBonusPercentage = GameController.instance.getCurrentCard().GetDamagesPercentageBonus(targetCard);
+		int amount = base.card.GetAttack()*this.skill.ManaCost*(100+damageBonusPercentage)/10000;
+		amount = Mathf.Min(currentLife,amount-(bouclier*amount/100));
+		string text ;
 		
-		h.addInfo("- "+amount1+"-"+amount2+" PV",0);
+		if(currentLife-Mathf.Min(currentLife,amount)==0){
+			text = "PV : "+currentLife+"->0";
+		}
+		else{
+			text = "PV : "+currentLife+"->"+(currentLife-Mathf.Min(currentLife,amount))+"-"+(currentLife-Mathf.Min(currentLife,(4*amount)));
+		}
 		
-		int probaEsquive = c.GetEsquive();
-		int proba ;
-		string s = "HIT : ";
+		text += "\nHIT : ";
 		if (probaEsquive!=0){
 			proba = 100-probaEsquive;
-			s+=proba+"% : "+100+"%(ATT) - "+probaEsquive+"%(ESQ)";
+			text+=proba+"% : "+100+"%(ATT) - "+probaEsquive+"%(ESQ)";
 		}
 		else{
 			proba = 100;
-			s+=proba+"%";
+			text+=proba+"%";
 		}
 		
-		if(proba==100){
-			i=2;
-		}
-		else if(proba>=50){
-			i=1;
-		}
-		else{
-			i=0;
-		}
-		
-		h.addInfo(s,i);
-		
-		return h ;
-	}
-	
-	public override string getSuccessText(){
-		return "A lancé attaque rapide" ;
-	}
-	
-	public override string getFailureText(){
-		return "Attaque rapide a échoué" ;
+		return text ;
 	}
 }

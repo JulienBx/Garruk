@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using TMPro;
 
 public class TileHandlerController : GameObjectController
 {
@@ -8,6 +9,7 @@ public class TileHandlerController : GameObjectController
 	Tile tile ;
 	int type ;
 	int characterID = -1 ;
+	bool isHovered = false ; 
 	
 	void Awake()
 	{
@@ -28,6 +30,10 @@ public class TileHandlerController : GameObjectController
 		this.characterID = i ;
 	}
 	
+	public int getTypeNumber(){
+		return this.type;
+	}
+	
 	public void changeType(int i){
 		this.type = i ;
 		gameObject.GetComponent<SpriteRenderer>().sprite = this.sprites[i];
@@ -38,7 +44,22 @@ public class TileHandlerController : GameObjectController
 	}
 	
 	void OnMouseEnter(){
-		GameView.instance.hoverTile(this.tile);
+		if(type==6){
+			GameView.instance.hoverTileHandler(characterID, this.tile);
+		}
+		else{
+			GameView.instance.hoverTile(characterID, this.tile);
+		}
+		gameObject.GetComponent<SpriteRenderer>().enabled = true ;
+		this.isHovered = true ;
+	}
+	
+	void OnMouseExit(){
+		if(type==2){
+			this.isHovered = false ;
+			type=6;
+			this.GetComponentInChildren<TextMeshPro>().text = "";
+		}
 	}
 	
 	void OnMouseDown()
@@ -46,6 +67,35 @@ public class TileHandlerController : GameObjectController
 		if (this.type==1){
 			GameController.instance.moveToDestination(this.tile);
 		}
+		else if (this.type==2){
+			if(this.characterID==-1){
+				GameController.instance.hitTarget(this.tile);
+			}
+			else{
+				GameController.instance.hitTarget(this.characterID);
+			}
+		}
 	}
+	
+	public void setText(string s){
+		gameObject.GetComponentInChildren<TextMeshPro>().text = s ;
+	}
+	
+	public bool getIsHovered(){
+		return this.isHovered;
+	}
+	
+	public void disable(){
+		this.GetComponent<SpriteRenderer>().enabled = false ;
+		Transform tempGO = gameObject.transform.FindChild("TileHandlerText");
+		tempGO.GetComponent<TextMeshPro>().enabled = false ;
+	}
+	
+	public void enable(){
+		this.GetComponent<SpriteRenderer>().enabled = true ;
+		Transform tempGO = gameObject.transform.FindChild("TileHandlerText");
+		tempGO.GetComponent<TextMeshPro>().enabled = true ;
+	}
+	
 }
 

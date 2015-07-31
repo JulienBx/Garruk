@@ -4,6 +4,13 @@ using System.Collections.Generic;
 public class GameSkill
 {
 	public int numberOfExpectedTargets ; 
+	public Card card ;
+	public Skill skill ;
+	
+	public virtual void init(Card c, Skill s){
+		this.card = c ;
+		this.skill = s ;
+	}
 	
 	public virtual void launch()
 	{
@@ -60,12 +67,17 @@ public class GameSkill
 		Debug.Log("Skill non implémenté");
 	}
 
-	public virtual bool isLaunchable(Skill s)
+	public virtual string isLaunchable()
 	{
-		return true;
+		return "";
 	}
 	
 	public virtual HaloTarget getTargetPCCText(Card c)
+	{
+		return null;
+	}
+	
+	public virtual string getTargetText(Card targetCard)
 	{
 		return null;
 	}
@@ -74,15 +86,7 @@ public class GameSkill
 	{
 		return null;
 	}
-	
-	public virtual string getSuccessText(){
-		return "" ;
-	}
-	
-	public virtual string getFailureText(){
-		return "" ;
-	}
-	
+
 	public virtual string getTimelineText(){
 		return "" ;
 	}

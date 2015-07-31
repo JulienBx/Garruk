@@ -40,7 +40,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 4, y: 4, z: 0}
+  m_Size: {x: 4, y: 4, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &11487638
 MonoBehaviour:
@@ -58,6 +58,9 @@ MonoBehaviour:
   sprites:
   - {fileID: 21300004, guid: 7a21bed42c055b84085efde435b9c407, type: 3}
   - {fileID: 21300000, guid: 7a21bed42c055b84085efde435b9c407, type: 3}
+  - {fileID: 21300008, guid: 7a21bed42c055b84085efde435b9c407, type: 3}
+  - {fileID: 21300010, guid: 7a21bed42c055b84085efde435b9c407, type: 3}
+  - {fileID: 21300012, guid: 7a21bed42c055b84085efde435b9c407, type: 3}
 --- !u!212 &21264844
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -93,7 +96,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 0}
       propertyPath: sprites.Array.size
-      value: 2
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: sprites.Array.data[1]
@@ -112,6 +115,25 @@ Prefab:
       propertyPath: sprites.Array.data[0]
       value: 
       objectReference: {fileID: 21300004, guid: 7a21bed42c055b84085efde435b9c407,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: m_Size.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: sprites.Array.data[2]
+      value: 
+      objectReference: {fileID: 21300008, guid: 7a21bed42c055b84085efde435b9c407,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: sprites.Array.data[3]
+      value: 
+      objectReference: {fileID: 21300010, guid: 7a21bed42c055b84085efde435b9c407,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: sprites.Array.data[4]
+      value: 
+      objectReference: {fileID: 21300012, guid: 7a21bed42c055b84085efde435b9c407,
         type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

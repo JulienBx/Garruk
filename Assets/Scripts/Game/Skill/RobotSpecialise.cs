@@ -25,7 +25,7 @@ public class RobotSpecialise : GameSkill
 		
 	}
 	
-	public override bool isLaunchable(Skill s){
-		return true ;
+	public override string isLaunchable(){
+		return "" ;
 	}
 }

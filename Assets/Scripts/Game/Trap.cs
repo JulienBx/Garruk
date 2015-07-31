@@ -16,8 +16,8 @@ public class Trap
 	public void activate(int target)
 	{
 		if (type==0){
-			string message = GameController.instance.getCard(target).Title+" déclenche piège à loups";
-			message += "\n"+GameController.instance.getCard(target).Title+" subit "+amount+" dégats";
+			string message = GameView.instance.getCard(target).Title+" déclenche piège à loups";
+			message += "\n"+GameView.instance.getCard(target).Title+" subit "+amount+" dégats";
 			
 			//GameController.instance.addModifier(target, amount, (int)ModifierType.Type_BonusMalus, (int)ModifierStat.Stat_Dommage);	
 			GameController.instance.play();	

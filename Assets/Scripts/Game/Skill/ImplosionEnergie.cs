@@ -16,7 +16,6 @@ public class ImplosionEnergie : GameSkill
 	{	
 		int[] targets ; 
 		
-		GameController.instance.startPlayingSkill();
 		
 		List<Tile> tempTiles;
 		//Tile t = GameController.instance.getCurrentPCC().tile;
@@ -66,7 +65,7 @@ public class ImplosionEnergie : GameSkill
 //		else{
 //			amount = GameController.instance.getCurrentSkill().ManaCost;
 //		}
-		targetCard = GameController.instance.getCard(targets[0]);
+		targetCard = GameView.instance.getCard(targets[0]);
 		currentLife = targetCard.GetLife();
 		//GameController.instance.addCardModifier(targets[0], amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
 		//GameController.instance.displaySkillEffect(targets[0], "Inflige "+amount, 3, 1);
@@ -74,16 +73,16 @@ public class ImplosionEnergie : GameSkill
 	
 	public override void failedToCastOn(int[] targets, int[] args){
 		for (int i = 0 ; i < targets.Length ; i++){
-			GameController.instance.displaySkillEffect(targets[i], "L'attaque échoue", 3, 0);
+			GameView.instance.displaySkillEffect(targets[i], "L'attaque échoue", 0);
 		}
 	}
 	
-	public override bool isLaunchable(Skill s){
+	public override string isLaunchable(){
 //		List<Tile> tempTiles;
 //		Tile t = GameController.instance.getCurrentPCC().tile;
 //		
 //		tempTiles = t.getImmediateNeighbouringTiles();
-		bool isLaunchable = false ;
+		string isLaunchable = "" ;
 //		int i = 0 ;
 //		int tempInt ; 
 //		
@@ -100,9 +99,5 @@ public class ImplosionEnergie : GameSkill
 //			i++;
 //		}
 		return isLaunchable ;
-	}
-	
-	public override string getSuccessText(){
-		return "Implosion Energie" ;
 	}
 }

@@ -10,97 +10,67 @@ public class Attack : GameSkill
 	public override void launch()
 	{
 		GameController.instance.initPCCTargetHandler(numberOfExpectedTargets);
-		GameController.instance.displayAdjacentOpponentsTargets();
-		GameController.instance.displayMyControls("Attaque");
+		GameView.instance.displayAdjacentOpponentsTargets();
 	}
 	
 	public override void resolve(List<int> targetsPCC)
 	{	
-		GameController.instance.startPlayingSkill();
 		int target = targetsPCC[0];
-		int successType = 0 ;
 		
-		if (Random.Range(1,101) > GameController.instance.getCard(target).GetEsquive())
+		if (Random.Range(1,101) > GameView.instance.getCard(target).GetEsquive())
 		{                             
+			
 			GameController.instance.applyOn(target);
-			successType = 1 ;
 		}
 		else{
-			GameController.instance.failedToCastOnSkill(target, 1);
+			GameController.instance.failedToCastOnSkill(target, 0);
 		}
-		GameController.instance.playSkill(successType);
 		GameController.instance.play();
 	}
 	
 	public override void applyOn(int target){
-		Card targetCard ;
-		int currentLife ;
-		int damageBonusPercentage ;
-		int amount ;
-		int bouclier ;
-		targetCard = GameController.instance.getCard(target);
-		bouclier = targetCard.GetBouclier();
-		currentLife = targetCard.GetLife();
-		damageBonusPercentage = GameController.instance.getCurrentCard().GetDamagesPercentageBonus(targetCard);
-		amount = GameController.instance.getCurrentCard().GetAttack()*(100+damageBonusPercentage)/100;
+		Card targetCard = GameView.instance.getCard(target);
+		int bouclier = targetCard.GetBouclier();
+		int currentLife = targetCard.GetLife();
+		int damageBonusPercentage = base.card.GetDamagesPercentageBonus(targetCard);
+		int amount = this.card.GetAttack()*(100+damageBonusPercentage)/100;
 		amount = Mathf.Min(currentLife,amount-(bouclier*amount/100));
 		GameController.instance.addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
-		GameController.instance.displaySkillEffect(target, "-"+amount+" PV", 3, 1);
-		
+		if(currentLife!=amount){
+			GameView.instance.displaySkillEffect(target, "HIT\n-"+amount+" PV", 5);
+		}
 	}
 	
 	public override void failedToCastOn(int target, int indexFailure){
-		//GameController.instance.displaySkillEffect(target, GameController.instance.castFailures.getFailure(indexFailure), 5, 1);
+		GameView.instance.displaySkillEffect(target, "ESQUIVE", 4);
 	}
 	
-	public override bool isLaunchable(Skill s){
-		return GameController.instance.canLaunchAdjacentOpponents();
+	public override string isLaunchable(){
+		return GameView.instance.canLaunchAdjacentOpponents();
 	}
 	
-	public override HaloTarget getTargetPCCText(Card c){
+	public override string getTargetText(Card targetCard){
 		
-		HaloTarget h  = new HaloTarget(0); 
-		int i ;
+		int currentLife = targetCard.GetLife();
+		int damageBonusPercentage = this.card.GetDamagesPercentageBonus(targetCard);
 		
-		int currentLife = c.GetLife();
-		int damageBonusPercentage = GameController.instance.getCurrentCard().GetDamagesPercentageBonus(c);
-		int bouclier = c.GetBouclier();
-		int amount = GameController.instance.getCurrentCard().GetAttack()*(100+damageBonusPercentage)/100;
+		int bouclier = targetCard.GetBouclier();
+		int amount = this.card.GetAttack()*(100+damageBonusPercentage)/100;
 		amount = Mathf.Min(currentLife, amount-(bouclier*amount/100));
 		
-		h.addInfo("-"+amount+" PV",0);
-		int probaEsquive = c.GetEsquive();
+		string text = "PV : "+currentLife+"->"+(currentLife-amount)+"\n";
+		int probaEsquive = targetCard.GetEsquive();
 		int proba ;
-		string s = "HIT : ";
+		text += "HIT : ";
 		if (probaEsquive!=0){
 			proba = 100-probaEsquive;
-			s+=proba+"% : "+100+"%(ATT) - "+probaEsquive+"%(ESQ)";
+			text+=proba+"% : "+100+"%(ATT) - "+probaEsquive+"%(ESQ)";
 		}
 		else{
 			proba = 100;
-			s+=proba+"%";
+			text+=proba+"%";
 		}
 		
-		if(proba==100){
-			i=2;
-		}
-		else if(proba>=50){
-			i=1;
-		}
-		else{
-			i=0;
-		}
-		
-		h.addInfo(s,i);
-		
-		return h ;
-	}
-	
-	public override string getSuccessText(){
-		return "A lancé attaque" ;
-	}
-	
-	public override string getFailureText(){
-		return "Attaque" ;
+		return text ;
 	}
 }

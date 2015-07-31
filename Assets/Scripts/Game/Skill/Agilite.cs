@@ -15,26 +15,20 @@ public class Agilite : GameSkill
 	
 	public override void resolve(List<int> targetsPCC)
 	{	                     
-		GameController.instance.startPlayingSkill();
 		GameController.instance.applyOn();
-		
-		GameController.instance.playSkill(1);
 		GameController.instance.play();
 	}
 	
 	public override void applyOn(){
-		int esquive = GameController.instance.getCurrentSkill().ManaCost;
-		//int target = GameController.instance.currentPlayingCard ;
+		int esquive = base.skill.ManaCost;
+		int target = GameController.instance.getCurrentPlayingCard();
 		
-		//GameController.instance.addCardModifier(target, esquive, ModifierType.Type_EsquivePercentage, ModifierStat.Stat_No, -1, 1, "Esquive", esquive+"% d'esquiver les attaques physiques", "Permanent");
-		//GameController.instance.displaySkillEffect(target, "Esquive : "+esquive+"%", 3, 0);
+		GameController.instance.addCardModifier(target, esquive, ModifierType.Type_EsquivePercentage, ModifierStat.Stat_No, -1, 1, "Esquive", esquive+"% d'esquiver les attaques physiques", "Permanent");
+		
+		GameView.instance.displaySkillEffect(target, "SUCCES\nEsquive = "+esquive+"%", 4);
 	}
 	
-	public override bool isLaunchable(Skill s){
-		return true ;
-	}
-	
-	public override string getSuccessText(){
-		return "A lancé agilité" ;
+	public override string isLaunchable(){
+		return "" ;
 	}
 }

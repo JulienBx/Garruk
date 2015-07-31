@@ -4,6 +4,7 @@ public class GameSkills : MonoBehaviour
 {	
 	public static GameSkills instance;
 	GameSkill[] skills ;
+	Skill currentSkill ;
 
 	void Awake()
 	{
@@ -81,6 +82,25 @@ public class GameSkills : MonoBehaviour
 	public GameSkill getSkill(int i)
 	{
 		return this.skills[i];
+	}
+	
+	public GameSkill getCurrentGameSkill()
+	{
+		return this.skills[this.currentSkill.Id];
+	}
+	
+	public GameSkill getCurrentSkill()
+	{
+		return this.skills[this.currentSkill.Id];
+	}
+	
+	public int getCurrentSkillId()
+	{
+		return this.currentSkill.Id;
+	}
+	
+	public void setCurrentSkill(Skill s){
+		this.currentSkill = s ;
 	}
 }
 

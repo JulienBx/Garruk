@@ -15,7 +15,7 @@ public class AppositionDesMains : GameSkill
 	
 	public override void resolve(List<int> targetsPCC)
 	{
-		int amount = GameController.instance.getCurrentSkill().ManaCost;
+		//int amount = GameController.instance.getCurrentSkill().ManaCost;
 		
 		//int myPlayerID = GameController.instance.currentPlayingCard;
 		//GameController.instance.displaySkillEffect(myPlayerID, "Apposition des mains", 3, 2);
@@ -30,13 +30,13 @@ public class AppositionDesMains : GameSkill
 //		}
 	}
 	
-	public override bool isLaunchable(Skill s)
+	public override string isLaunchable()
 	{
 		List<Tile> tempTiles;
 		//Tile t = GameController.instance.getCurrentPCC().tile;
 		
 		//tempTiles = t.getImmediateNeighbouringTiles();
-		bool isLaunchable = false ;
+		string isLaunchable = "" ;
 		int i = 0 ;
 		int tempInt ;
 		
@@ -58,22 +58,22 @@ public class AppositionDesMains : GameSkill
 	public override HaloTarget getTargetPCCText(Card c){
 		
 		HaloTarget h  = new HaloTarget(0); 
-		int i ;
-		
-		int amount = GameController.instance.getCurrentSkill().ManaCost;
-		h.addInfo("SOIN : +"+amount+"PV",2);
-		
-		int probaHit = 100 - c.GetEsquive();
-		if (probaHit>=80){
-			i = 2 ;
-		}
-		else if (probaHit>=20){
-			i = 1 ;
-		}
-		else{
-			i = 0 ;
-		}
-		h.addInfo("HIT% : "+probaHit,i);
+//		int i ;
+//		
+//		int amount = GameController.instance.getCurrentSkill().ManaCost;
+//		h.addInfo("SOIN : +"+amount+"PV",2);
+//		
+//		int probaHit = 100 - c.GetEsquive();
+//		if (probaHit>=80){
+//			i = 2 ;
+//		}
+//		else if (probaHit>=20){
+//			i = 1 ;
+//		}
+//		else{
+//			i = 0 ;
+//		}
+//		h.addInfo("HIT% : "+probaHit,i);
 		
 		return h ;
 	}

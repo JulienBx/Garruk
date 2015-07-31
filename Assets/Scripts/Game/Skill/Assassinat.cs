@@ -10,24 +10,24 @@ public class Assassinat : GameSkill
 	public override void launch()
 	{
 		GameController.instance.initPCCTargetHandler(numberOfExpectedTargets);
-		GameController.instance.displayAdjacentOpponentsTargets();
-		GameController.instance.displayMyControls("Assassinat");
+		GameView.instance.displayAdjacentOpponentsTargets();
 	}
 	
 	public override void resolve(List<int> targetsPCC)
 	{	
-		GameController.instance.startPlayingSkill();
+		if (GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
+			GameView.instance.hideTargets();
+		}
+		
 		int target = targetsPCC[0];
-		int successType = 0 ;
 		
-		int successChances = GameController.instance.getCurrentSkill().ManaCost;
+		int successChances = base.skill.ManaCost;
 		
-		if (Random.Range(1,101) > GameController.instance.getCard(target).GetEsquive())
+		if (Random.Range(1,101) > GameView.instance.getCard(target).GetEsquive())
 		{                             
 			if (Random.Range(1,101) <= successChances)
 			{ 
 				GameController.instance.applyOn(target);
-				successType = 1 ;
 			}
 			else{
 				GameController.instance.failedToCastOnSkill(target, 2);
@@ -36,64 +36,41 @@ public class Assassinat : GameSkill
 		else{
 			GameController.instance.failedToCastOnSkill(target, 1);
 		}
-		GameController.instance.playSkill(successType);
 		GameController.instance.play();
 	}
 	
 	public override void applyOn(int target){
-		int currentLife = GameController.instance.getCard(target).GetLife();
+		int currentLife = GameView.instance.getCard(target).GetLife();
 		GameController.instance.addCardModifier(target, currentLife, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
-		GameController.instance.displaySkillEffect(target, "Assassiné", 3, 1);
 	}
 	
 	public override void failedToCastOn(int target, int indexFailure){
-		//GameController.instance.displaySkillEffect(target, GameController.instance.castFailures.getFailure(indexFailure), 5, 1);
+		if(indexFailure==1){
+			GameView.instance.displaySkillEffect(target, "ESQUIVE", 4);
+		}
+		else{
+			GameView.instance.displaySkillEffect(target, "ECHEC", 4);
+		}
 	}
 	
-	public override bool isLaunchable(Skill s){
-		return GameController.instance.canLaunchAdjacentOpponents();
+	public override string isLaunchable(){
+		return GameView.instance.canLaunchAdjacentOpponents();
 	}
 	
-	public override HaloTarget getTargetPCCText(Card c){
+	public override string getTargetText(Card targetCard){
 		
-		HaloTarget h  = new HaloTarget(0); 
-		int i ;
-		int probaEsquive = c.GetEsquive();
-		int probaHit = GameController.instance.getCurrentSkill().ManaCost;
-		int proba ;
+		int chances = base.skill.ManaCost;
 		
-		h.addInfo("Assassinat",2);
-		
-		string s = "HIT : ";
+		int probaEsquive = targetCard.GetEsquive();
+		int proba = (chances)*(100-probaEsquive)/100;
+		string text = "HIT : ";
 		if (probaEsquive!=0){
-			proba = probaHit-probaEsquive;
-			s+=proba+"% : "+probaHit+"%(ASS) - "+probaEsquive+"%(ESQ)";
+			text+=proba+"% : "+chances+"%(ASS) - "+probaEsquive+"%(ESQ)";
 		}
 		else{
-			proba = probaHit;
-			s+=proba+"%";
+			text+=proba+"% : ";
 		}
 		
-		if(proba==100){
-			i=2;
-		}
-		else if(proba>=50){
-			i=1;
-		}
-		else{
-			i=0;
-		}
-		
-		h.addInfo(s,i);
-		
-		return h ;
-	}
-	
-	public override string getSuccessText(){
-		return "A lancé assassinat" ;
-	}
-	
-	public override string getFailureText(){
-		return "Assassinat a échoué" ;
+		return text ;
 	}
 }

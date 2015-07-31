@@ -8,6 +8,7 @@ public class TileController : GameObjectController
 	Tile tile ;
 	int type ;
 	int characterID = -1;
+	int trapID =-1; 
 	
 	void Awake()
 	{
@@ -35,225 +36,86 @@ public class TileController : GameObjectController
 		return this.type;
 	}
 	
+	public Tile getTile()
+	{
+		return this.tile;
+	}
+	
 	public bool canBeDestination(){
 		return (type!=1 && characterID==-1);
 	}
 	
 	public void OnMouseEnter(){
-		GameView.instance.hoverTile(this.tile);
+		GameView.instance.hoverTile(-1, this.tile);
 	}
 	
 	public void setCharacterID(int i){
 		this.characterID = i ;
 	}
 	
-	public void setTargetHalo(HaloTarget h, bool isHaloDisabled=false)
-	{
-//		this.tileView.tileVM.haloStyle.normal.background = this.halos[h.idImage];
-//		this.tileView.tileVM.haloTexts = new List<string>();
-//		this.tileView.tileVM.haloStyles = new List<GUIStyle>();
-//		
-//		for (int i = 0 ; i < h.textsToDisplay.Count ; i++){
-//			this.tileView.tileVM.haloTexts.Add(h.textsToDisplay[i]);
-//			this.tileView.tileVM.haloStyles.Add(this.haloTextStyles[h.stylesID[i]]);
-//		}
-//		this.tileView.tileVM.toDisplayHalo = true ;
-//		this.tileView.tileVM.isHaloDisabled = isHaloDisabled;
+	public int getCharacterID(){
+		return this.characterID ;
 	}
 	
 	public void checkTrap(int target)
 	{
-//		if (this.tile.isStatModifier)
-//		{
-//			if (this.tile.statModifier.Type == ModifierType.Type_Wolftrap)
-//			{
-//				int[] targets = new int[1];
-//				targets[0] = this.characterID;
-//				int[] args = new int[1];
-//				args[0] = this.tile.statModifier.Amount ;
-//				GameController.instance.activateTrap(15, targets, args);
-//				int[] t = new int[2];
-//				t[0] = this.tile.x;
-//				t[1] = this.tile.y;
-//				
-//				GameController.instance.hideTrap(t);
-//			}
-//			else if (this.tile.statModifier.Type == ModifierType.Type_SleepingTrap)
-//			{
-//				int[] targets = new int[1];
-//				targets[0] = this.characterID;
-//				int[] args = new int[1];
-//				args[0] = this.tile.statModifier.Amount ;
-//				GameController.instance.activateTrap(61, targets, args);
-//				
-//				int[] t = new int[2];
-//				t[0] = this.tile.x;
-//				t[1] = this.tile.y;
-//				
-//				GameController.instance.hideTrap(t);
-//			}
-//			else if (this.tile.statModifier.Type == ModifierType.Type_WeakeningTrap)
-//			{
-//				int[] targets = new int[1];
-//				targets[0] = this.characterID;
-//				int[] args = new int[1];
-//				args[0] = this.tile.statModifier.Amount ;
-//				GameController.instance.activateTrap(60, targets, args);
-//				
-//				int[] t = new int[2];
-//				t[0] = this.tile.x;
-//				t[1] = this.tile.y;
-//				
-//				GameController.instance.hideTrap(t);
-//			}
-//			else{
-//				//GameController.instance.displaySkillEffect(GameController.instance.currentPlayingCard, "se déplace", 2, 2);
-//			}
-//		}
-	}
-	
-	public void hideIcon(){
-//		this.tile.statModifier = null ;
-//		this.tile.isStatModifier = false ;
-//		this.show();
+		if (this.trapID!=-1)
+		{
+			if (this.tile.statModifier.Type == ModifierType.Type_Wolftrap)
+			{
+				int[] targets = new int[1];
+				targets[0] = this.characterID;
+				int[] args = new int[1];
+				args[0] = this.tile.statModifier.Amount ;
+				GameController.instance.activateTrap(15, targets, args);
+				int[] t = new int[2];
+				t[0] = this.tile.x;
+				t[1] = this.tile.y;
+				
+				GameController.instance.hideTrap(t);
+			}
+			else if (this.tile.statModifier.Type == ModifierType.Type_SleepingTrap)
+			{
+				print("Je check sleep "+this.trapID);
+				
+				int[] targets = new int[1];
+				targets[0] = this.characterID;
+				int[] args = new int[1];
+				args[0] = this.tile.statModifier.Amount ;
+				GameController.instance.activateTrap(61, targets, args);
+				
+				int[] t = new int[2];
+				t[0] = this.tile.x;
+				t[1] = this.tile.y;
+				
+				GameController.instance.hideTrap(t);
+			}
+			else if (this.tile.statModifier.Type == ModifierType.Type_WeakeningTrap)
+			{
+				int[] targets = new int[1];
+				targets[0] = this.characterID;
+				int[] args = new int[1];
+				args[0] = this.tile.statModifier.Amount ;
+				GameController.instance.activateTrap(60, targets, args);
+				
+				int[] t = new int[2];
+				t[0] = this.tile.x;
+				t[1] = this.tile.y;
+				
+				GameController.instance.hideTrap(t);
+			}
+		}
+		else{
+			GameView.instance.displaySkillEffect(target, "SE DEPLACE", 4);
+		}
 	}
 	
 	public void removeTrap()
 	{
-//		this.isTrap = false;
-//		this.tileView.tileVM.toDisplayTrap = false;
+		this.trapID = -1;
+		this.show ();
 	}
 
-	public int getID()
-	{
-		//return (tile.x * 10 + tile.y);
-		return 0 ;
-	}
-
-	public void setTile(int x, int y, int boardWidth, int boardHeight, int type, float scaleTile)
-	{
-//		this.tile = new Tile(x, y);
-//		this.type = type;
-//
-//		this.tileView.tileVM.background = backTile [type];
-//		this.tileView.changeBackground();
-//		this.tileView.tileVM.border = borderTile [0];
-//		this.tileView.changeBorder();
-//
-//		this.resize(1f, 3, 4);
-	}
-
-	public void resize(float scaleTile, float offsetX, float offsetY)
-	{
-//		int height = Screen.height;
-//		int width = Screen.width;
-//		
-//		Vector3 position;
-//		this.tileView.tileVM.scale = new Vector3(scaleTile, scaleTile, scaleTile);
-//		if (GameController.instance.isFirstPlayer)
-//		{
-//			position = new Vector3(scaleTile * (-offsetX + 0.5f + this.tile.x), scaleTile * (-offsetY + 0.5f + this.tile.y), -1);
-//		} else
-//		{
-//			position = new Vector3(scaleTile * (offsetX - 0.5f - this.tile.x), scaleTile * (offsetY - 0.5f - this.tile.y), -1);
-//		}
-		//this.tileView.tileVM.position = position;
-		
-//		int decalage = height / 15;
-//		
-//		Vector3 positionObject = new Vector3(0, 0, 0);
-//		positionObject.x = (this.tileView.tileVM.position.x) * (height / 10f) - (decalage / 2) + (width / 2f);
-//		positionObject.y = height - ((this.tileView.tileVM.position.y + this.tileView.tileVM.scale.y / 2f) * (height / 10f) - (decalage / 2) + (height / 2f));
-//		
-//		Rect haloRect = new Rect(positionObject.x, positionObject.y, decalage, decalage);
-//		this.tileView.tileVM.haloRect = haloRect;
-//		
-//		this.tileView.resize();
-//		this.resizeIcons();
-//		this.resizeHalo();
-	}
-	
-	public void resizeHalo()
-	{
-//		int height = Screen.height;
-//		int width = Screen.width;
-//		
-//		int decalage = height / 15;
-//		
-//		Vector3 positionObject = new Vector3(0, 0, 0);
-//		positionObject.x = (this.tileView.tileVM.position.x - this.tileView.tileVM.scale.x / 2.2f) * (height / 10f) + (width / 2f);
-//		positionObject.y = height - ((this.tileView.tileVM.position.y + this.tileView.tileVM.scale.y / 2.2f) * (height / 10f) + (height / 2f));
-//		
-//		Rect position = new Rect(positionObject.x, positionObject.y, this.tileView.tileVM.scale.x * height / 11, this.tileView.tileVM.scale.x * height / 11);
-//		this.tileView.tileVM.haloRect = position;
-//		
-//		for (int i = 0 ; i < this.haloTextStyles.Length ; i++){
-//			this.haloTextStyles[i].fontSize = height * 15 / 1000;
-//		}
-	}
-	
-	public void addTemple(int amount)
-	{
-//		this.tileView.tileVM.toDisplayIcon = true;
-//		this.tileModification = TileModification.Temple_Sacre;
-//		this.tileView.tileVM.icon = this.icons [0];
-//		statModifierActive = true;
-//		statModifierEachTurn = false;
-		//this.tile.StatModifier.Clear();
-
-		//this.tile.StatModifier.Add(new StatModifier(amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, -1, 0, "", "", ""));
-	}
-
-	public void addForetIcon(int amount)
-	{
-//		this.tileView.tileVM.toDisplayIcon = true;
-//		this.tileModification = TileModification.Foret_de_Lianes;
-//		this.tileView.tileVM.icon = this.icons [1];
-//		statModifierActive = true;
-//		statModifierEachTurn = false;
-		//this.tile.StatModifier.Clear();
-
-		//this.tile.StatModifier.Add(new StatModifier(-amount, ModifierType.Type_Multiplier, ModifierStat.Stat_Move, -1, 0, "", "", ""));
-	}
-
-	public void addSable(bool isVisible)
-	{
-//		if (isVisible)
-//		{
-//			this.tileView.tileVM.toDisplayIcon = true;
-//		}
-//		this.tileModification = TileModification.Sables_Mouvants;
-//		this.tileView.tileVM.icon = this.icons [2];
-//		statModifierActive = true;
-//		statModifierEachTurn = false;
-		//this.tile.StatModifier.Clear();
-
-		//this.tile.StatModifier.Add(new StatModifier(-999, ModifierType.Type_BonusMalus, ModifierStat.Stat_Move, 4, 0, "", "", ""));
-	}
-
-	public bool getIconVisibility()
-	{
-//		return this.tileView.tileVM.toDisplayIcon;
-	return false ;
-	}
-
-	public void addFontaine(int power)
-	{
-//		this.tileView.tileVM.toDisplayIcon = true;
-//		this.tileModification = TileModification.Fontaine_de_Jouvence;
-//		this.tileView.tileVM.icon = this.icons [3];
-//		statModifierActive = true;
-//		statModifierNewTurn = true;
-//		statModifierEachTurn = true;
-		//this.tile.StatModifier.Clear();
-
-		//this.tile.StatModifier.Add(new StatModifier(-power, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, 0, "", "", ""));
-	}
-
-	public void removeIcon()
-	{
-//		this.tileView.tileVM.toDisplayIcon = false;
-	}
 	public void resizeIcons()
 	{
 //		int height = Screen.height;
@@ -437,27 +299,19 @@ public class TileController : GameObjectController
 		//this.tileView.tileVM.halo = this.halos [1];
 	}
 	
+	public void changeTrapId(int i)
+	{
+		this.trapID = i ;
+	}
+	
 	public void show()
 	{
-//		if (this.tile.isStatModifier){
-//			if (this.tile.statModifier.Active){
-//				this.tileView.tileVM.toDisplayIcon = true ;
-//				this.tileView.tileVM.icon = this.icons[this.tile.statModifier.idIcon];
-//				this.tileView.tileVM.title = this.tile.statModifier.title;
-//				this.tileView.tileVM.description = this.tile.statModifier.description;
-//				this.tileView.tileVM.additionnalInfo = this.tile.statModifier.additionnalInfo;
-//			}
-//			else{
-//				this.tileView.tileVM.icon = this.icons[this.tile.statModifier.idIcon];
-//				this.tileView.tileVM.title = this.tile.statModifier.title;
-//				this.tileView.tileVM.description = this.tile.statModifier.description;
-//				this.tileView.tileVM.additionnalInfo = this.tile.statModifier.additionnalInfo;
-//				this.tileView.tileVM.toDisplayIcon = false ;
-//			}
-//		}
-//		else{
-//			this.tileView.tileVM.toDisplayIcon = false ;
-//		}
+		if (this.trapID!=-1 && this.tile.statModifier.Active){
+			gameObject.GetComponent<SpriteRenderer>().sprite = this.sprites[trapID];
+		}
+		else{
+			gameObject.GetComponent<SpriteRenderer>().sprite = this.sprites[type];
+		}
 	}
 	
 	public void addTileTarget(){

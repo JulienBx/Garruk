@@ -15,30 +15,34 @@ public class Furtivite : GameSkill
 	
 	public override void resolve(List<int> targetsPCC)
 	{	                     
-		GameController.instance.startPlayingSkill();
 		GameController.instance.applyOn();
-		
-		GameController.instance.playSkill(1);
 		GameController.instance.play();
 	}
 	
 	public override void applyOn(){
-//		int attackBonus = GameController.instance.getCurrentSkill().ManaCost;
-//		int target = GameController.instance.currentPlayingCard ;
-//		
-//		GameController.instance.addCardModifier(target, 0, ModifierType.Type_Intouchable, ModifierStat.Stat_No, 2, 0, "Invisible", "Ne peut pas etre ciblé par une attaque ou compétence", "Actif 2 tours");
-//		GameController.instance.addCardModifier(target, attackBonus, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, 2, 9, "Renforcement", "Attaque augmentée de "+attackBonus, "Actif 2 tours");
-//		GameController.instance.displaySkillEffect(target, "INVISIBLE\n+"+attackBonus+" ATK", 3, 0);
-//		GameController.instance.getCurrentSkill().nbLeft--;
-//		GameController.instance.getCurrentSkill().Description="Ne peut etre utilisé qu'une fois par combat. Déjà utilisé";
-//		GameController.instance.showMyPlayingSkills(target);
+		int attackBonus = this.skill.ManaCost;
+		int target = GameController.instance.getCurrentPlayingCard() ;
+		
+		GameController.instance.addCardModifier(target, 0, ModifierType.Type_Intouchable, ModifierStat.Stat_No, 2, 20, "Invisible", "Ne peut pas etre ciblé par une attaque ou compétence", "Actif 2 tours");
+		GameController.instance.addCardModifier(target, attackBonus, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, 2, 9, "Renforcement", "Attaque augmentée de "+attackBonus, "Actif 2 tours");
+			
+		GameView.instance.displaySkillEffect(target, "Intouchable et +"+attackBonus+" ATK au prochain tour", 4);
+		
+		this.skill.nbLeft--;
 	}
 	
-	public override bool isLaunchable(Skill s){
-		return (s.nbLeft>0) ;
-	}
-	
-	public override string getSuccessText(){
-		return "A lancé furtivité" ;
+	public override string isLaunchable(){
+		string s = "";
+		int nbLeft = 0 ; 
+		Card c = GameView.instance.getCard(GameController.instance.getCurrentPlayingCard());
+		for (int i = 0 ; i < c.Skills.Count ; i++){
+			if (c.Skills[i].Id==11){
+				nbLeft = c.Skills[i].nbLeft;
+			}
+		}
+		if (nbLeft==0){
+			s = "Déjà utilisé pendant le combat";
+		}
+		return s ; 
 	}
 }

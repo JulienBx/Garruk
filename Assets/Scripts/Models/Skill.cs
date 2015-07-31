@@ -14,16 +14,17 @@ public class Skill
 	public float Ponderation;
 	public int XMin;
 	public string Action;
-	public int nbLeft = -1;
+	public int nbLeft = 1;
 	public int CardType;
 	public Texture2D texture;
 	public string Picture;
 	public bool IsNew;
 	
-	public Skill(string name, string description)
+	public Skill(string name, string description, int id)
 	{
 		this.Name = name;
 		this.Description = description;
+		this.Id = id ;
 	}
 
 	public Skill(string name, int id, int isactivated, int level, int power, int manaCost, string description, string action) : this(name, id, isactivated, level, power, manaCost, description)

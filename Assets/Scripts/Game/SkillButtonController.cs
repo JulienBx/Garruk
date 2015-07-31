@@ -4,19 +4,76 @@ using System;
 
 public class SkillButtonController : MonoBehaviour
 {
-	Skill skill ;
+	public Skill skill ;
+	public bool isLaunched = false ;
+	public bool isLaunchable = false ;
+	public string launchabilityText ;
+	public int id ; 
 	
 	public void setSkill(Skill s){
-		this.skill = s ;
+		this.skill = s  ;
+		this.checkLaunchability() ;
+		this.isLaunched = false ;
+	}
+	
+	public void checkLaunchability(){
+		if(GameView.instance.getCard(GameController.instance.getCurrentPlayingCard()).isSleeping() && this.id!=-2){
+			this.launchabilityText = "Le personnage est endormi";
+			gameObject.GetComponent<SpriteRenderer>().color=new Color(255/255f,120f/255f,120f/255f, 1f);
+			this.isLaunchable = false ;
+		}
+		else if(!GameView.instance.hasPlayed(GameController.instance.getCurrentPlayingCard())){
+			this.launchabilityText = GameSkills.instance.getSkill(this.skill.Id).isLaunchable();
+			if (this.launchabilityText.Length<4){
+				gameObject.GetComponent<SpriteRenderer>().color=new Color(1f, 1f, 1f, 1f);
+				this.isLaunchable = true ;
+				this.launchabilityText = "";
+			}
+			else{
+				gameObject.GetComponent<SpriteRenderer>().color=new Color(255/255f,120f/255f,120f/255f, 1f);
+				this.isLaunchable = false ;
+			}
+		}
+		else{
+			this.launchabilityText = "Le personnage a déjà joué";
+			gameObject.GetComponent<SpriteRenderer>().color=new Color(255/255f,120f/255f,120f/255f, 1f);
+			this.isLaunchable = false ;
+		}
 	}
 	
 	public void OnMouseEnter(){
-		gameObject.GetComponent<SpriteRenderer>().color=new Color(155f/255f,220f/255f,1f, 1f);
-		GameView.instance.hoverSkill(this.skill);
+		if (!GameController.instance.getIsRunningSkill()){
+			if(this.isLaunchable){
+				gameObject.GetComponent<SpriteRenderer>().color=new Color(120/255f,120f/255f,1f, 1f);
+			}
+			GameView.instance.hoverSkill(this);
+		}
 	}
 	
 	public void OnMouseExit(){
-		gameObject.GetComponent<SpriteRenderer>().color=new Color(1f, 1f, 1f, 1f);
+		if (!GameController.instance.getIsRunningSkill()){
+			if(this.isLaunchable){
+				gameObject.GetComponent<SpriteRenderer>().color=new Color(1f, 1f, 1f, 1f);
+			}
+			else{
+				gameObject.GetComponent<SpriteRenderer>().color=new Color(255/255f,120f/255f,120f/255f, 1f);
+			}
+		}
+	}
+	
+	public void OnMouseDown(){
+		if(this.isLaunched){
+			gameObject.GetComponent<SpriteRenderer>().color=new Color(1f, 1f, 1f, 1f);
+			GameController.instance.cancelSkill();
+			this.isLaunched = false ;
+		}
+		else{
+			if (!GameController.instance.getIsRunningSkill() && this.isLaunchable){
+				gameObject.GetComponent<SpriteRenderer>().color=new Color(120f/255f,255f/255f,120f/255f, 1f);
+				GameController.instance.launchSkill(this.id);
+				this.isLaunched = true ;
+			}
+		}
 	}
 }
 
