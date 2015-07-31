@@ -18,7 +18,7 @@ public class MyGameTutorialController : TutorialObjectController
 			if(!isResizing)
 			{
 				MenuController.instance.setButtonsGui(false);
-				MyGameController.instance.setButtonsGui(false);
+				//MyGameController.instance.setButtonsGui(false);
 				view.VM.displayArrow=false;
 				view.VM.displayNextButton=true;
 				view.VM.title="Vos cartes";
@@ -39,8 +39,8 @@ public class MyGameTutorialController : TutorialObjectController
 				view.VM.description="Pour examiner une carte, cliquez avec le bouton droit de la souris sur son visuel.";
 				this.setUpArrow();
 			}
-			GOPosition = MyGameController.instance.getCardsPosition(3);
-			GOSize = MyGameController.instance.getCardsSize(3);
+			//GOPosition = MyGameController.instance.getCardsPosition(3);
+			//GOSize = MyGameController.instance.getCardsSize(3);
 			view.VM.popUpRect= new Rect (GOPosition.x-0.15f*Screen.width,
 			                             Screen.height-GOPosition.y+GOSize.y/2f+0.12f*Screen.height,
 			                             0.3f*Screen.width,0.5f*Screen.height);
@@ -59,14 +59,14 @@ public class MyGameTutorialController : TutorialObjectController
 		case 2:
 			if(!isResizing)
 			{
-				MyGameController.instance.setGUI(false);
+				//MyGameController.instance.setGUI(false);
 				view.VM.displayArrow=false;
 				view.VM.displayNextButton=true;
 				view.VM.title="Comprendre le visuel d'une carte";
 				view.VM.description="Chaque comprend une illustration qui correspond à sa classe ainsi qu'un certain nombre d'éléments que nous allons détailler maintenant. Ces éléments sont variables en fonction de la classe de la carte";
 			}
-			GOPosition = MyGameController.instance.getFocusCardsPosition();
-			GOSize = MyGameController.instance.getFocusCardsSize();
+			//GOPosition = MyGameController.instance.getFocusCardsPosition();
+			//GOSize = MyGameController.instance.getFocusCardsSize();
 			popUpWidth=0.58f*GOSize.x;
 			popUpHeight=this.computePopUpHeight();
 			popUpX=GOPosition.x+GOSize.x/2f;
@@ -82,8 +82,8 @@ public class MyGameTutorialController : TutorialObjectController
 				view.VM.description="La zone supérieure droite de la carte donne son nombre de points de vie. Ces points varient au cours du combat en fonction des dégâts qui sont affligés à la créature. Lorsque ces points atteignent 0, la créature meurt.";
 				this.setUpArrow();
 			}
-			GOPosition = MyGameController.instance.getFocusCardsPosition();
-			GOSize = MyGameController.instance.getFocusCardsSize();
+			//GOPosition = MyGameController.instance.getFocusCardsPosition();
+			//GOSize = MyGameController.instance.getFocusCardsSize();
 			arrowHeight=0.1f*Screen.height;
 			arrowWidth=(2f/3f)*arrowHeight;
 			arrowX=GOPosition.x+0.60f*(GOSize.x/2f)-(arrowWidth/2f);
@@ -106,8 +106,8 @@ public class MyGameTutorialController : TutorialObjectController
 				view.VM.description="Ils indiquent les dégats qui seront causés par le personnage lors d'une simple attaque. 10 points de dégâts se traduisent par une perte de 10 points de vie sur la carte ciblée par l'attaque.";
 				this.setDownArrow();
 			}
-			GOPosition = MyGameController.instance.getFocusCardsPosition();
-			GOSize = MyGameController.instance.getFocusCardsSize();
+			//GOPosition = MyGameController.instance.getFocusCardsPosition();
+			//GOSize = MyGameController.instance.getFocusCardsSize();
 			arrowHeight=0.1f*Screen.height;
 			arrowWidth=(2f/3f)*arrowHeight;
 			arrowX=GOPosition.x-0.66f*(GOSize.x/2f)-(arrowWidth/2f);
@@ -129,8 +129,8 @@ public class MyGameTutorialController : TutorialObjectController
 				view.VM.description="Ce sont ces points là qui déterminent l'ordre de jeu entre les différents personnages. Plus ces points sont élevés plus la carte à de chance de jouer en premier.";
 				this.setDownArrow();
 			}
-			GOPosition = MyGameController.instance.getFocusCardsPosition();
-			GOSize = MyGameController.instance.getFocusCardsSize();
+			//GOPosition = MyGameController.instance.getFocusCardsPosition();
+			//GOSize = MyGameController.instance.getFocusCardsSize();
 			arrowHeight=0.1f*Screen.height;
 			arrowWidth=(2f/3f)*arrowHeight;
 			arrowX=GOPosition.x-0f*(GOSize.x/2f)-(arrowWidth/2f);
@@ -152,8 +152,8 @@ public class MyGameTutorialController : TutorialObjectController
 				view.VM.description="Ils indiquent tout simplement le nombre de pas autorisé par la carte. Seule les déplacement verticaux et horizontaux sont possibles.";
 				this.setDownArrow();
 			}
-			GOPosition = MyGameController.instance.getFocusCardsPosition();
-			GOSize = MyGameController.instance.getFocusCardsSize();
+			//GOPosition = MyGameController.instance.getFocusCardsPosition();
+			//GOSize = MyGameController.instance.getFocusCardsSize();
 			arrowHeight=0.1f*Screen.height;
 			arrowWidth=(2f/3f)*arrowHeight;
 			arrowX=GOPosition.x+0.63f*(GOSize.x/2f)-(arrowWidth/2f);
@@ -175,8 +175,8 @@ public class MyGameTutorialController : TutorialObjectController
 				view.VM.description="Il s'agit des sorts pouvant être lancés par la carte en situation de combat. Chaque sort est évalué de 0 à 100. En passant la souris sur une compétence vous pouvez lire ses effets";
 				this.setDownArrow();
 			}
-			GOPosition = MyGameController.instance.getFocusCardsPosition();
-			GOSize = MyGameController.instance.getFocusCardsSize();
+			//GOPosition = MyGameController.instance.getFocusCardsPosition();
+			//GOSize = MyGameController.instance.getFocusCardsSize();
 			arrowHeight=0.1f*Screen.height;
 			arrowWidth=(2f/3f)*arrowHeight;
 			arrowX=GOPosition.x-0f*(GOSize.x/2f)-(arrowWidth/2f);
@@ -198,8 +198,8 @@ public class MyGameTutorialController : TutorialObjectController
 				view.VM.description="Au cours de sa vie, une carte progresse en fonction de son expérience. A chaque niveau, une de ses caractèristique est augmentée. Il y a en tout 10 niveau. La jauge symbolise le niveau de progression de la carte sur son nivau";
 				this.setDownArrow();
 			}
-			GOPosition = MyGameController.instance.getFocusCardsPosition();
-			GOSize = MyGameController.instance.getFocusCardsSize();
+			//GOPosition = MyGameController.instance.getFocusCardsPosition();
+			//GOSize = MyGameController.instance.getFocusCardsSize();
 			arrowHeight=0.1f*Screen.height;
 			arrowWidth=(2f/3f)*arrowHeight;
 			arrowX=GOPosition.x+0.72f*(GOSize.x/2f)-(arrowWidth/2f);
@@ -215,15 +215,15 @@ public class MyGameTutorialController : TutorialObjectController
 		case 9:
 			if(!isResizing)
 			{
-				MyGameController.instance.setButtonGuiOnFocusedCard(0,true);
+				//MyGameController.instance.setButtonGuiOnFocusedCard(0,true);
 				view.VM.displayArrow=true;
 				view.VM.displayNextButton=false;
 				view.VM.title="Faire progresser la carte";
 				view.VM.description="A tout moment et en fonction de vos crédits il vous est possible d'augmenter le niveau d'une carte. A vous de jouer, faites progresser cette carte jusqu'au prochain niveau";
 				this.setUpArrow();
 			}
-			GOPosition = MyGameController.instance.getFocusCardsPosition();
-			GOSize = MyGameController.instance.getFocusCardsSize();
+			//GOPosition = MyGameController.instance.getFocusCardsPosition();
+			//GOSize = MyGameController.instance.getFocusCardsSize();
 			arrowHeight=0.1f*Screen.height;
 			arrowWidth=(2f/3f)*arrowHeight;
 			arrowX=GOPosition.x+1*(GOSize.x/2f)-(arrowWidth/2f)+GOSize.x/4f;
@@ -239,16 +239,16 @@ public class MyGameTutorialController : TutorialObjectController
 		case 10:
 			if(!isResizing)
 			{
-				MyGameController.instance.setGUI(false);
-				MyGameController.instance.setButtonGuiOnFocusedCard(1,true);
+				//MyGameController.instance.setGUI(false);
+				//MyGameController.instance.setButtonGuiOnFocusedCard(1,true);
 				view.VM.displayArrow=true;
 				view.VM.displayNextButton=false;
 				view.VM.title="Bravo !";
 				view.VM.description="Vous verrez que d'autres actions sont possible comme la vente ou le renommage. Retournons à l'écran d'affichage de vos cartes";
 				this.setDownArrow();
 			}
-			GOPosition = MyGameController.instance.getFocusCardsPosition();
-			GOSize = MyGameController.instance.getFocusCardsSize();
+			//GOPosition = MyGameController.instance.getFocusCardsPosition();
+			//GOSize = MyGameController.instance.getFocusCardsSize();
 			arrowHeight=0.1f*Screen.height;
 			arrowWidth=(2f/3f)*arrowHeight;
 			arrowX=GOPosition.x+1*(GOSize.x/2f)-(arrowWidth/2f)+GOSize.x/4f;
@@ -264,9 +264,9 @@ public class MyGameTutorialController : TutorialObjectController
 		case 11:
 			if(!isResizing)
 			{
-				MyGameController.instance.setGUI(true);
-				MyGameController.instance.setButtonsGui(false);
-				MyGameController.instance.setButtonGui(1,true);
+				//MyGameController.instance.setGUI(true);
+				//MyGameController.instance.setButtonsGui(false);
+				//MyGameController.instance.setButtonGui(1,true);
 				view.VM.displayArrow=true;
 				view.VM.displayNextButton=false;
 				view.VM.title="Créer un deck";
@@ -288,15 +288,15 @@ public class MyGameTutorialController : TutorialObjectController
 		case 12:
 			if(!isResizing)
 			{
-				MyGameController.instance.setButtonsGui(false);
+				//MyGameController.instance.setButtonsGui(false);
 				view.VM.displayArrow=true;
 				view.VM.displayNextButton=false;
 				view.VM.title="Sélectionner des cartes";
 				view.VM.description="A l'aide du clic gauche vous pouvez faire basculer les cartes vers le deck (et inversement). Votre deck sera terminé lorsqu'il sera constitué de 5 cartes";
 				this.setUpArrow();			
 			}
-			GOPosition = MyGameController.instance.getCardsPosition(0);
-			GOSize = MyGameController.instance.getCardsSize(0);
+			//GOPosition = MyGameController.instance.getCardsPosition(0);
+			//GOSize = MyGameController.instance.getCardsSize(0);
 			arrowHeight=0.1f*Screen.height;
 			arrowWidth=(2f/3f)*arrowHeight;
 			arrowX=GOPosition.x-(arrowWidth/2f);
@@ -312,10 +312,10 @@ public class MyGameTutorialController : TutorialObjectController
 		case 13:
 			if(!isResizing)
 			{
-				MyGameController.instance.setButtonsGui(false);
+				//MyGameController.instance.setButtonsGui(false);
 			}
-			GOPosition = MyGameController.instance.getCardsPosition(2);
-			GOSize = MyGameController.instance.getCardsSize(2);
+			//GOPosition = MyGameController.instance.getCardsPosition(2);
+			//GOSize = MyGameController.instance.getCardsSize(2);
 			arrowHeight=0.1f*Screen.height;
 			arrowWidth=(2f/3f)*arrowHeight;
 			arrowX=GOPosition.x-(arrowWidth/2f);
@@ -331,10 +331,10 @@ public class MyGameTutorialController : TutorialObjectController
 		case 14:
 			if(!isResizing)
 			{
-				MyGameController.instance.setButtonsGui(false);
+				//MyGameController.instance.setButtonsGui(false);
 			}
-			GOPosition = MyGameController.instance.getCardsPosition(1);
-			GOSize = MyGameController.instance.getCardsSize(1);
+			//GOPosition = MyGameController.instance.getCardsPosition(1);
+			//GOSize = MyGameController.instance.getCardsSize(1);
 			arrowHeight=0.1f*Screen.height;
 			arrowWidth=(2f/3f)*arrowHeight;
 			arrowX=GOPosition.x-(arrowWidth/2f);
@@ -350,10 +350,10 @@ public class MyGameTutorialController : TutorialObjectController
 		case 15:
 			if(!isResizing)
 			{
-				MyGameController.instance.setButtonsGui(false);
+				//MyGameController.instance.setButtonsGui(false);
 			}
-			GOPosition = MyGameController.instance.getCardsPosition(0);
-			GOSize = MyGameController.instance.getCardsSize(0);
+			//GOPosition = MyGameController.instance.getCardsPosition(0);
+			//GOSize = MyGameController.instance.getCardsSize(0);
 			arrowHeight=0.1f*Screen.height;
 			arrowWidth=(2f/3f)*arrowHeight;
 			arrowX=GOPosition.x-(arrowWidth/2f);
@@ -369,8 +369,8 @@ public class MyGameTutorialController : TutorialObjectController
 		case 16:
 			if(!isResizing)
 			{
-				MyGameController.instance.setButtonsGui(false);
-				MyGameController.instance.setButtonGui(0,true);
+				//MyGameController.instance.setButtonsGui(false);
+				//MyGameController.instance.setButtonGui(0,true);
 				view.VM.displayArrow=true;
 				view.VM.displayNextButton=true;
 				view.VM.title="Les filtres";
@@ -393,7 +393,7 @@ public class MyGameTutorialController : TutorialObjectController
 			if(!isResizing)
 			{
 				MenuController.instance.setButtonGui(5,true);
-				MyGameController.instance.setButtonsGui(false);
+				//MyGameController.instance.setButtonsGui(false);
 				view.VM.displayArrow=true;
 				view.VM.displayNextButton=false;
 				view.VM.title="Allons jouer !";
@@ -422,7 +422,7 @@ public class MyGameTutorialController : TutorialObjectController
 			this.launchSequence(this.sequenceID+1);
 			break;
 		case 17:
-			StartCoroutine(MyGameController.instance.endTutorial());
+			//StartCoroutine(MyGameController.instance.endTutorial());
 			break;
 		}
 	}

@@ -7,7 +7,8 @@ using TMPro;
 
 public class NewFocusedCardController : MonoBehaviour 
 {
-	public NewFocusedCardRessources ressources;
+	private NewFocusedCardRessources ressources;
+	public NewPopUpRessources popUpRessources;
 	public Card c;
 	private GameObject[] skills;
 	private GameObject experience;
@@ -25,6 +26,8 @@ public class NewFocusedCardController : MonoBehaviour
 	private bool isErrorViewDisplayed;
 	private NewFocusedCardRenamePopUpView renameView;
 	private bool isRenameViewDisplayed;
+	private NewFocusedCardBuyPopUpView buyView;
+	private bool isBuyViewDisplayed;
 	private NewFocusedCardBuyXpView buyXpView;
 	private bool isBuyXpViewDisplayed;
 	private NewFocusedCardEditSellPopUpView editSellView;
@@ -33,9 +36,9 @@ public class NewFocusedCardController : MonoBehaviour
 	private bool isEditSellPriceViewDisplayed;
 	private NewFocusedCardPutOnMarketPopUpView putOnMarketView;
 	private bool isPutOnMarketViewDisplayed;
-	private NewFocusedCardCollectionPointsPopUpView collectionPointsView;
+	private NewCollectionPointsPopUpView collectionPointsView;
 	private bool isCollectionPointsViewDisplayed;
-	private NewFocusedCardNewSkillsPopUpView newSkillsView;
+	private NewSkillsPopUpView newSkillsView;
 	private bool isNewSkillsViewDisplayed;
 	private NewFocusedCardNewCardTypePopUpView newCardTypeView;
 	private bool isNewCardTypeViewDisplayed;
@@ -44,13 +47,14 @@ public class NewFocusedCardController : MonoBehaviour
 
 	private bool isCardUpgradeDisplayed;
 	private bool isSkillHighlighted;
+	private bool isPanelSoldIsDisplayed;
 
 	private float speed;
 	private float timerCollectionPoints;
 	private float timerCardUpgrade;
 	private float timerSkillHighlighted;
 
-	void Update ()
+	public virtual void Update ()
 	{
 		if(isCollectionPointsViewDisplayed)
 		{
@@ -84,18 +88,28 @@ public class NewFocusedCardController : MonoBehaviour
 			}
 		}
 	}
-	void Awake()
+	public virtual void Awake()
 	{
 		this.skills=new GameObject[0];
-		this.speed = 5f;
 		this.ressources = this.gameObject.GetComponent<NewFocusedCardRessources> ();
+		this.setPopUpRessources ();
+		this.setUpdateSpeed ();
 		this.experience = this.gameObject.transform.FindChild ("Experience").gameObject;
 		this.cardUpgrade = this.gameObject.transform.FindChild ("CardUpgrade").gameObject;
 		this.panelSold = this.gameObject.transform.FindChild ("PanelSold").gameObject;
+		this.initializeFocusFeatures ();
 	}
-	public void show()
+	public void setPopUpRessources()
 	{
-		this.gameObject.transform.FindChild ("Face").GetComponent<SpriteRenderer> ().sprite = ressources.faces[0];
+		this.popUpRessources = this.gameObject.GetComponent<NewPopUpRessources> ();
+	}
+	public void setUpdateSpeed()
+	{
+		this.speed = 5f;
+	}
+	public virtual void show()
+	{
+		this.applyFrontTexture ();
 		this.gameObject.transform.FindChild ("Name").GetComponent<TextMeshPro> ().text = this.c.Title;
 		this.gameObject.transform.FindChild("Power").FindChild("Text").GetComponent<TextMeshPro>().text = this.c.Power.ToString();
 		this.gameObject.transform.FindChild ("Power").FindChild ("Text").GetComponent<TextMeshPro> ().color = ressources.colors [this.c.PowerLevel - 1];
@@ -120,21 +134,35 @@ public class NewFocusedCardController : MonoBehaviour
 			this.skills[i].transform.GetComponent<NewFocusedCardSkillController>().setSkill(c.Skills[i]);
 		}
 		this.experience.GetComponent<NewFocusedCardExperienceController> ().setExperience (this.c.ExperienceLevel, this.c.PercentageToNextLevel);
-		this.setFocusFeatures ();
+		this.updateFocusFeatures ();
 	}
-	public void setPanelSold()
+	public virtual void applyFrontTexture()
+	{
+		this.gameObject.transform.FindChild ("Face").GetComponent<SpriteRenderer> ().sprite = ressources.faces[0];
+	}
+	public void setCardSold()
 	{
 		if(!isSoldCardViewDisplayed)
 		{
-			this.panelSold.SetActive (true);
+			this.displayPanelSold();
 			this.closePopUps ();
 			this.displaySoldPopUp ();
 		}
 	}
+	public virtual void displayPanelSold()
+	{
+		this.panelSold.SetActive (true);
+		this.isPanelSoldIsDisplayed=true;
+	}
+	public virtual void hidePanelSold()
+	{
+		this.panelSold.SetActive (false);
+		this.isPanelSoldIsDisplayed=false;
+	}
 	public void endUpdatingXp()
 	{
 		this.show ();
-		this.setFocusFeatures ();
+		this.updateFocus ();
 		if(this.c.CollectionPoints>0)
 		{
 			this.displayCollectionPointsPopUp();
@@ -182,7 +210,10 @@ public class NewFocusedCardController : MonoBehaviour
 	{
 		this.newCardTypeWindow = newCardTypeWindowRect;
 	}
-	public virtual void setFocusFeatures()
+	public virtual void initializeFocusFeatures()
+	{
+	}
+	public virtual void updateFocusFeatures()
 	{
 	}
 	public virtual void refreshCredits()
@@ -193,10 +224,10 @@ public class NewFocusedCardController : MonoBehaviour
 		this.sellView = gameObject.AddComponent<NewFocusedCardSellPopUpView> ();
 		this.isSellViewDisplayed = true;
 		sellView.sellPopUpVM.price = this.c.destructionPrice;
-		sellView.popUpVM.centralWindowStyle = new GUIStyle(ressources.popUpSkin.window);
-		sellView.popUpVM.centralWindowTitleStyle = new GUIStyle (ressources.popUpSkin.customStyles [0]);
-		sellView.popUpVM.centralWindowButtonStyle = new GUIStyle (ressources.popUpSkin.button);
-		sellView.popUpVM.transparentStyle = new GUIStyle (ressources.popUpSkin.customStyles [2]);
+		sellView.popUpVM.centralWindowStyle = new GUIStyle(popUpRessources.popUpSkin.window);
+		sellView.popUpVM.centralWindowTitleStyle = new GUIStyle (popUpRessources.popUpSkin.customStyles [0]);
+		sellView.popUpVM.centralWindowButtonStyle = new GUIStyle (popUpRessources.popUpSkin.button);
+		sellView.popUpVM.transparentStyle = new GUIStyle (popUpRessources.popUpSkin.customStyles [2]);
 		this.sellPopUpResize ();
 	}
 	public void displayErrorPopUp()
@@ -205,10 +236,10 @@ public class NewFocusedCardController : MonoBehaviour
 		this.isErrorViewDisplayed = true;
 		errorView.errorPopUpVM.error = this.c.Error;
 		this.c.Error = "";
-		errorView.popUpVM.centralWindowStyle = new GUIStyle(ressources.popUpSkin.customStyles[3]);
-		errorView.popUpVM.centralWindowTitleStyle = new GUIStyle (ressources.popUpSkin.customStyles [0]);
-		errorView.popUpVM.centralWindowButtonStyle = new GUIStyle (ressources.popUpSkin.button);
-		errorView.popUpVM.transparentStyle = new GUIStyle (ressources.popUpSkin.customStyles [2]);
+		errorView.popUpVM.centralWindowStyle = new GUIStyle(popUpRessources.popUpSkin.customStyles[3]);
+		errorView.popUpVM.centralWindowTitleStyle = new GUIStyle (popUpRessources.popUpSkin.customStyles [0]);
+		errorView.popUpVM.centralWindowButtonStyle = new GUIStyle (popUpRessources.popUpSkin.button);
+		errorView.popUpVM.transparentStyle = new GUIStyle (popUpRessources.popUpSkin.customStyles [2]);
 		this.errorPopUpResize ();
 	}
 	public void displayRenameCardPopUp()
@@ -217,12 +248,12 @@ public class NewFocusedCardController : MonoBehaviour
 		this.isRenameViewDisplayed = true;
 		renameView.renamePopUpVM.price = this.c.RenameCost;
 		renameView.renamePopUpVM.newTitle = "";
-		renameView.popUpVM.centralWindowStyle = new GUIStyle(ressources.popUpSkin.window);
-		renameView.popUpVM.centralWindowTitleStyle = new GUIStyle (ressources.popUpSkin.customStyles [0]);
-		renameView.popUpVM.centralWindowButtonStyle = new GUIStyle (ressources.popUpSkin.button);
-		renameView.popUpVM.centralWindowTextfieldStyle = new GUIStyle (ressources.popUpSkin.textField);
-		renameView.popUpVM.centralWindowErrorStyle = new GUIStyle (ressources.popUpSkin.customStyles [1]);
-		renameView.popUpVM.transparentStyle = new GUIStyle (ressources.popUpSkin.customStyles [2]);
+		renameView.popUpVM.centralWindowStyle = new GUIStyle(popUpRessources.popUpSkin.window);
+		renameView.popUpVM.centralWindowTitleStyle = new GUIStyle (popUpRessources.popUpSkin.customStyles [0]);
+		renameView.popUpVM.centralWindowButtonStyle = new GUIStyle (popUpRessources.popUpSkin.button);
+		renameView.popUpVM.centralWindowTextfieldStyle = new GUIStyle (popUpRessources.popUpSkin.textField);
+		renameView.popUpVM.centralWindowErrorStyle = new GUIStyle (popUpRessources.popUpSkin.customStyles [1]);
+		renameView.popUpVM.transparentStyle = new GUIStyle (popUpRessources.popUpSkin.customStyles [2]);
 		this.renamePopUpResize ();
 	}
 	public void displayBuyXpCardPopUp()
@@ -230,21 +261,32 @@ public class NewFocusedCardController : MonoBehaviour
 		this.buyXpView = gameObject.AddComponent<NewFocusedCardBuyXpView> ();
 		this.isBuyXpViewDisplayed = true;
 		buyXpView.buyXpPopUpVM.price = this.c.NextLevelPrice;
-		buyXpView.popUpVM.centralWindowStyle = new GUIStyle(ressources.popUpSkin.window);
-		buyXpView.popUpVM.centralWindowTitleStyle = new GUIStyle (ressources.popUpSkin.customStyles [0]);
-		buyXpView.popUpVM.centralWindowButtonStyle = new GUIStyle (ressources.popUpSkin.button);
-		buyXpView.popUpVM.transparentStyle = new GUIStyle (ressources.popUpSkin.customStyles [2]);
+		buyXpView.popUpVM.centralWindowStyle = new GUIStyle(popUpRessources.popUpSkin.window);
+		buyXpView.popUpVM.centralWindowTitleStyle = new GUIStyle (popUpRessources.popUpSkin.customStyles [0]);
+		buyXpView.popUpVM.centralWindowButtonStyle = new GUIStyle (popUpRessources.popUpSkin.button);
+		buyXpView.popUpVM.transparentStyle = new GUIStyle (popUpRessources.popUpSkin.customStyles [2]);
 		this.buyXpPopUpResize ();
+	}
+	public void displayBuyCardPopUp()
+	{
+		this.buyView = gameObject.AddComponent<NewFocusedCardBuyPopUpView> ();
+		this.isBuyViewDisplayed = true;
+		buyView.buyPopUpVM.price = this.c.Price;
+		buyView.popUpVM.centralWindowStyle = new GUIStyle(popUpRessources.popUpSkin.window);
+		buyView.popUpVM.centralWindowTitleStyle = new GUIStyle (popUpRessources.popUpSkin.customStyles [0]);
+		buyView.popUpVM.centralWindowButtonStyle = new GUIStyle (popUpRessources.popUpSkin.button);
+		buyView.popUpVM.transparentStyle = new GUIStyle (popUpRessources.popUpSkin.customStyles [2]);
+		this.buyPopUpResize ();
 	}
 	public void displayEditSellCardPopUp()
 	{
 		this.editSellView = gameObject.AddComponent<NewFocusedCardEditSellPopUpView> ();
 		this.isEditSellViewDisplayed = true;
 		editSellView.editSellPopUpVM.price = this.c.Price;
-		editSellView.popUpVM.centralWindowStyle = new GUIStyle(ressources.popUpSkin.window);
-		editSellView.popUpVM.centralWindowTitleStyle = new GUIStyle (ressources.popUpSkin.customStyles [0]);
-		editSellView.popUpVM.centralWindowButtonStyle = new GUIStyle (ressources.popUpSkin.button);
-		editSellView.popUpVM.transparentStyle = new GUIStyle (ressources.popUpSkin.customStyles [2]);
+		editSellView.popUpVM.centralWindowStyle = new GUIStyle(popUpRessources.popUpSkin.window);
+		editSellView.popUpVM.centralWindowTitleStyle = new GUIStyle (popUpRessources.popUpSkin.customStyles [0]);
+		editSellView.popUpVM.centralWindowButtonStyle = new GUIStyle (popUpRessources.popUpSkin.button);
+		editSellView.popUpVM.transparentStyle = new GUIStyle (popUpRessources.popUpSkin.customStyles [2]);
 		this.editSellPopUpResize ();
 	}
 	public void displayEditSellPriceCardPopUp()
@@ -256,12 +298,12 @@ public class NewFocusedCardController : MonoBehaviour
 		this.editSellPriceView = gameObject.AddComponent<NewFocusedCardEditSellPricePopUpView> ();
 		this.isEditSellPriceViewDisplayed = true;
 		editSellPriceView.editSellPricePopUpVM.price = this.c.Price.ToString();
-		editSellPriceView.popUpVM.centralWindowStyle = new GUIStyle(ressources.popUpSkin.window);
-		editSellPriceView.popUpVM.centralWindowTitleStyle = new GUIStyle (ressources.popUpSkin.customStyles [0]);
-		editSellPriceView.popUpVM.centralWindowButtonStyle = new GUIStyle (ressources.popUpSkin.button);
-		editSellPriceView.popUpVM.centralWindowTextfieldStyle = new GUIStyle (ressources.popUpSkin.textField);
-		editSellPriceView.popUpVM.centralWindowErrorStyle = new GUIStyle (ressources.popUpSkin.customStyles [1]);
-		editSellPriceView.popUpVM.transparentStyle = new GUIStyle (ressources.popUpSkin.customStyles [2]);
+		editSellPriceView.popUpVM.centralWindowStyle = new GUIStyle(popUpRessources.popUpSkin.window);
+		editSellPriceView.popUpVM.centralWindowTitleStyle = new GUIStyle (popUpRessources.popUpSkin.customStyles [0]);
+		editSellPriceView.popUpVM.centralWindowButtonStyle = new GUIStyle (popUpRessources.popUpSkin.button);
+		editSellPriceView.popUpVM.centralWindowTextfieldStyle = new GUIStyle (popUpRessources.popUpSkin.textField);
+		editSellPriceView.popUpVM.centralWindowErrorStyle = new GUIStyle (popUpRessources.popUpSkin.customStyles [1]);
+		editSellPriceView.popUpVM.transparentStyle = new GUIStyle (popUpRessources.popUpSkin.customStyles [2]);
 		this.editSellPricePopUpResize ();
 	}
 	public void displayputOnMarketCardPopUp()
@@ -273,12 +315,12 @@ public class NewFocusedCardController : MonoBehaviour
 		this.putOnMarketView = gameObject.AddComponent<NewFocusedCardPutOnMarketPopUpView> ();
 		this.isPutOnMarketViewDisplayed = true;
 		putOnMarketView.putOnMarketPopUpVM.price = "";
-		putOnMarketView.popUpVM.centralWindowStyle = new GUIStyle(ressources.popUpSkin.window);
-		putOnMarketView.popUpVM.centralWindowTitleStyle = new GUIStyle (ressources.popUpSkin.customStyles [0]);
-		putOnMarketView.popUpVM.centralWindowButtonStyle = new GUIStyle (ressources.popUpSkin.button);
-		putOnMarketView.popUpVM.centralWindowTextfieldStyle = new GUIStyle (ressources.popUpSkin.textField);
-		putOnMarketView.popUpVM.centralWindowErrorStyle = new GUIStyle (ressources.popUpSkin.customStyles [1]);
-		putOnMarketView.popUpVM.transparentStyle = new GUIStyle (ressources.popUpSkin.customStyles [2]);
+		putOnMarketView.popUpVM.centralWindowStyle = new GUIStyle(popUpRessources.popUpSkin.window);
+		putOnMarketView.popUpVM.centralWindowTitleStyle = new GUIStyle (popUpRessources.popUpSkin.customStyles [0]);
+		putOnMarketView.popUpVM.centralWindowButtonStyle = new GUIStyle (popUpRessources.popUpSkin.button);
+		putOnMarketView.popUpVM.centralWindowTextfieldStyle = new GUIStyle (popUpRessources.popUpSkin.textField);
+		putOnMarketView.popUpVM.centralWindowErrorStyle = new GUIStyle (popUpRessources.popUpSkin.customStyles [1]);
+		putOnMarketView.popUpVM.transparentStyle = new GUIStyle (popUpRessources.popUpSkin.customStyles [2]);
 		this.putOnMarketPopUpResize ();
 	}
 	public void displayCollectionPointsPopUp()
@@ -287,14 +329,14 @@ public class NewFocusedCardController : MonoBehaviour
 		{
 			this.hideCollectionPointsPopUp();
 		}
-		collectionPointsView = gameObject.AddComponent<NewFocusedCardCollectionPointsPopUpView>();
+		collectionPointsView = gameObject.AddComponent<NewCollectionPointsPopUpView>();
 		this.isCollectionPointsViewDisplayed = true;
 		this.timerCollectionPoints = 0f;
 		collectionPointsView.popUpVM.centralWindow = this.collectionPointsWindow;
 		collectionPointsView.cardCollectionPointsPopUpVM.collectionPoints = this.c.CollectionPoints;
 		collectionPointsView.cardCollectionPointsPopUpVM.collectionPointsRanking = this.c.CollectionPointsRanking;
-		collectionPointsView.popUpVM.centralWindowStyle = new GUIStyle(ressources.popUpSkin.window);
-		collectionPointsView.popUpVM.centralWindowTitleStyle = new GUIStyle (ressources.popUpSkin.customStyles [0]);
+		collectionPointsView.popUpVM.centralWindowStyle = new GUIStyle(popUpRessources.popUpSkin.window);
+		collectionPointsView.popUpVM.centralWindowTitleStyle = new GUIStyle (popUpRessources.popUpSkin.customStyles [0]);
 		this.collectionPointsPopUpResize ();
 	}
 	public void displayNewSkillsPopUp()
@@ -303,7 +345,7 @@ public class NewFocusedCardController : MonoBehaviour
 		{
 			this.hideNewSkillsPopUp();
 		}
-		this.newSkillsView = gameObject.AddComponent<NewFocusedCardNewSkillsPopUpView>();
+		this.newSkillsView = gameObject.AddComponent<NewSkillsPopUpView>();
 		this.isNewSkillsViewDisplayed = true;
 		newSkillsView.popUpVM.centralWindow = this.newSkillsWindow;
 		for(int i=0;i<this.c.NewSkills.Count;i++)
@@ -318,8 +360,8 @@ public class NewFocusedCardController : MonoBehaviour
 		{
 			newSkillsView.cardNewSkillsPopUpVM.title="Nouvelle compétence :";
 		}
-		newSkillsView.popUpVM.centralWindowStyle = new GUIStyle(ressources.popUpSkin.window);
-		newSkillsView.popUpVM.centralWindowTitleStyle = new GUIStyle (ressources.popUpSkin.customStyles [0]);
+		newSkillsView.popUpVM.centralWindowStyle = new GUIStyle(popUpRessources.popUpSkin.window);
+		newSkillsView.popUpVM.centralWindowTitleStyle = new GUIStyle (popUpRessources.popUpSkin.customStyles [0]);
 		this.newSkillsPopUpResize ();
 	}
 	public void displayNewCardTypePopUp()
@@ -328,9 +370,9 @@ public class NewFocusedCardController : MonoBehaviour
 		this.isNewCardTypeViewDisplayed = true;
 		newCardTypeView.popUpVM.centralWindow = this.newCardTypeWindow;
 		newCardTypeView.cardNewCardTypePopUpVM.newCardType = this.c.TitleCardTypeUnlocked;
-		newCardTypeView.popUpVM.centralWindowStyle = new GUIStyle(ressources.popUpSkin.window);
-		newCardTypeView.popUpVM.centralWindowTitleStyle = new GUIStyle (ressources.popUpSkin.customStyles [0]);
-		newCardTypeView.popUpVM.centralWindowButtonStyle = new GUIStyle (ressources.popUpSkin.button);
+		newCardTypeView.popUpVM.centralWindowStyle = new GUIStyle(popUpRessources.popUpSkin.window);
+		newCardTypeView.popUpVM.centralWindowTitleStyle = new GUIStyle (popUpRessources.popUpSkin.customStyles [0]);
+		newCardTypeView.popUpVM.centralWindowButtonStyle = new GUIStyle (popUpRessources.popUpSkin.button);
 		this.newCardTypePopUpResize ();
 	}
 	public void displaySoldPopUp()
@@ -338,10 +380,10 @@ public class NewFocusedCardController : MonoBehaviour
 		this.soldCardView = gameObject.AddComponent<NewFocusedCardSoldPopUpView> ();
 		this.isSoldCardViewDisplayed = true;
 		soldCardView.soldPopUpVM.error = "Votre carte vient d'être vendue";
-		soldCardView.popUpVM.centralWindowStyle = new GUIStyle(ressources.popUpSkin.customStyles[3]);
-		soldCardView.popUpVM.centralWindowTitleStyle = new GUIStyle (ressources.popUpSkin.customStyles [0]);
-		soldCardView.popUpVM.centralWindowButtonStyle = new GUIStyle (ressources.popUpSkin.button);
-		soldCardView.popUpVM.transparentStyle = new GUIStyle (ressources.popUpSkin.customStyles [2]);
+		soldCardView.popUpVM.centralWindowStyle = new GUIStyle(popUpRessources.popUpSkin.customStyles[3]);
+		soldCardView.popUpVM.centralWindowTitleStyle = new GUIStyle (popUpRessources.popUpSkin.customStyles [0]);
+		soldCardView.popUpVM.centralWindowButtonStyle = new GUIStyle (popUpRessources.popUpSkin.button);
+		soldCardView.popUpVM.transparentStyle = new GUIStyle (popUpRessources.popUpSkin.customStyles [2]);
 		this.soldCardPopUpResize ();
 	}
 	private void sellPopUpResize()
@@ -363,6 +405,11 @@ public class NewFocusedCardController : MonoBehaviour
 	{
 		buyXpView.popUpVM.centralWindow = this.centralWindow;
 		buyXpView.popUpVM.resize ();
+	}
+	private void buyPopUpResize()
+	{
+		buyView.popUpVM.centralWindow = this.centralWindow;
+		buyView.popUpVM.resize ();
 	}
 	private void editSellPopUpResize()
 	{
@@ -418,6 +465,11 @@ public class NewFocusedCardController : MonoBehaviour
 	{
 		Destroy (this.buyXpView);
 		this.isBuyXpViewDisplayed = false;
+	}
+	public void hideBuyPopUp()
+	{
+		Destroy (this.buyView);
+		this.isBuyViewDisplayed = false;
 	}
 	public void hideEditSellPopUp()
 	{
@@ -509,6 +561,55 @@ public class NewFocusedCardController : MonoBehaviour
 		{
 			this.displayErrorPopUp();
 		}
+	}
+	public void buyCardHandler()
+	{
+		StartCoroutine (this.buyCard ());
+	}
+	public IEnumerator buyCard()
+	{
+		buyView.popUpVM.guiEnabled = false;
+		int oldPrice = this.c.Price;
+		yield return StartCoroutine(this.c.buyCard());
+		this.hideBuyPopUp ();
+		this.refreshCredits ();
+		if(this.c.Error=="")
+		{
+			this.displayPanelSold();
+			this.updateFocusFeatures ();
+			if(this.c.CollectionPoints>0)
+			{
+				this.displayCollectionPointsPopUp();
+			}
+			if(this.c.NewSkills.Count>0)
+			{
+				this.displayNewSkillsPopUp();
+			}
+			if(this.c.IdCardTypeUnlocked!=-1)
+			{
+				this.displayNewCardTypePopUp();
+			}
+		}
+		else
+		{
+			if(this.c.onSale==0)
+			{
+				this.c.Error="";
+				this.setCardSold();
+			}
+			else if(this.c.Price!=oldPrice)
+			{
+				this.actualizePrice();
+				this.displayErrorPopUp();
+			}
+			else
+			{
+				this.displayErrorPopUp();
+			}
+		}
+	}
+	public virtual void actualizePrice()
+	{
 	}
 	public void editSellPriceCardHandler()
 	{
@@ -632,7 +733,10 @@ public class NewFocusedCardController : MonoBehaviour
 		if(this.isSoldCardViewDisplayed)
 		{
 			this.hideSoldCardPopUp();
-			this.panelSold.SetActive(false);
+		}
+		if(this.isPanelSoldIsDisplayed)
+		{
+			this.hidePanelSold();
 		}
 	}
 	public virtual void focusFeaturesHandler (int type)
@@ -641,7 +745,7 @@ public class NewFocusedCardController : MonoBehaviour
 	public void updateFocus()
 	{
 		this.show ();
-		this.setFocusFeatures ();
+		this.updateFocusFeatures ();
 		this.refreshCredits();
 		if(this.c.Error!="")
 		{
@@ -667,6 +771,10 @@ public class NewFocusedCardController : MonoBehaviour
 			this.renamePopUpResize();
 		}
 		else if(isBuyXpViewDisplayed)
+		{
+			this.buyXpPopUpResize();
+		}
+		else if(isBuyViewDisplayed)
 		{
 			this.buyXpPopUpResize();
 		}
@@ -721,6 +829,10 @@ public class NewFocusedCardController : MonoBehaviour
 		{
 			this.buyXpCardHandler();
 		}
+		else if(isBuyViewDisplayed)
+		{
+			this.buyCardHandler();
+		}
 		else if(isEditSellViewDisplayed)
 		{
 			this.hideEditSellPopUp();
@@ -763,6 +875,10 @@ public class NewFocusedCardController : MonoBehaviour
 		else if(isBuyXpViewDisplayed)
 		{
 			this.hideBuyXpPopUp();
+		}
+		else if(isBuyViewDisplayed)
+		{
+			this.hideBuyPopUp();
 		}
 		else if(isEditSellViewDisplayed)
 		{
@@ -838,6 +954,24 @@ public class NewFocusedCardController : MonoBehaviour
 		Vector3 refPosition =refObject.transform.position;
 		float refSizeX = refObject.transform.GetComponent<MeshRenderer> ().bounds.max.x-refObject.transform.GetComponent<MeshRenderer> ().bounds.min.x;
 		return new Vector3 (refPosition.x+gap,refPosition.y,0f);
+	}
+	public void setBackFace(bool value)
+	{
+		if(value)
+		{
+			this.applyBackTexture();
+			this.gameObject.transform.FindChild ("Face").GetComponent<SpriteRenderer> ().sortingOrder = 10;
+		}
+		else
+		{
+			this.applyFrontTexture();
+			this.gameObject.transform.FindChild ("Face").GetComponent<SpriteRenderer> ().sortingOrder = 0;
+		}
+
+	}
+	public virtual void applyBackTexture()
+	{
+		this.gameObject.transform.FindChild ("Face").GetComponent<SpriteRenderer> ().sprite = ressources.backFace;
 	}
 }
 

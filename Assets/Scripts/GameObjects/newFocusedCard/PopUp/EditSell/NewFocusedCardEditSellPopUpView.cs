@@ -49,6 +49,7 @@ public class NewFocusedCardEditSellPopUpView : MonoBehaviour
 				GUILayout.FlexibleSpace();
 			}
 			GUILayout.EndVertical();
+			GUILayout.FlexibleSpace();
 		}
 		GUILayout.EndArea();
 	}

@@ -1,0 +1,154 @@
+fileFormatVersion: 2
+guid: 68aaadfe8f8424325a3ef0a6b1a2990b
+timeCreated: 1437128627
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: arrowButton
+    21300002: buttonBorder
+    21300004: cursor
+    21300006: filterBar
+    21300008: pagination
+    21300010: paginationHover
+    21300012: searchBar
+    21300014: skillList
+    21300016: skillListHover
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 8
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 4096
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 108
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: arrowButton
+      rect:
+        serializedVersion: 2
+        x: 252
+        y: 20
+        width: 74
+        height: 74
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: buttonBorder
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 172
+        width: 219
+        height: 50
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: cursor
+      rect:
+        serializedVersion: 2
+        x: 98
+        y: 80
+        width: 78
+        height: 78
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: filterBar
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 224
+        width: 393
+        height: 30
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: pagination
+      rect:
+        serializedVersion: 2
+        x: 397
+        y: 160
+        width: 94
+        height: 94
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: paginationHover
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 64
+        width: 94
+        height: 94
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: searchBar
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 9
+        width: 248
+        height: 53
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skillList
+      rect:
+        serializedVersion: 2
+        x: 252
+        y: 128
+        width: 238
+        height: 30
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skillListHover
+      rect:
+        serializedVersion: 2
+        x: 252
+        y: 96
+        width: 238
+        height: 30
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

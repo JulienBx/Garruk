@@ -14,6 +14,7 @@ public class Division
 	public string Name;
 	public string Picture;
 	public Texture2D texture;
+	public bool isTextureLoaded;
 	public int EarnXp_W;
 	public int EarnXp_L;
 	public int EarnCredits_W;
@@ -42,6 +43,7 @@ public class Division
 		var www = new WWW(ApplicationModel.host+this.Picture);
 		yield return www;
 		www.LoadImageIntoTexture(this.texture);
+		this.isTextureLoaded = true;
 	}
 }
 

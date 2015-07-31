@@ -1,0 +1,19 @@
+#
+# Sprite sheet data for Unity.
+#
+# To import these sprites into your Unity project, download "TexturePackerImporter":
+# http://www.codeandweb.com/texturepacker/unity
+#
+# Sprite sheet: marketTextures.png (512 x 256)
+# $TexturePacker:SmartUpdate:96030833b244d3f13de3c8f6357cb5e0:4fecd09c19a70cc74269713dbe4d7ebd:c16d281cb858f706ec4038ef74cd28f7$
+#
+
+arrowButton;252;20;74;74;0.5;0.5
+buttonBorder;2;172;219;50;0.5;0.5
+cursor;98;80;78;78;0.5;0.5
+filterBar;2;224;393;30;0.5;0.5
+pagination;397;160;94;94;0.5;0.5
+paginationHover;2;64;94;94;0.5;0.5
+searchBar;2;9;248;53;0.5;0.5
+skillList;252;128;238;30;0.5;0.5
+skillListHover;252;96;238;30;0.5;0.5

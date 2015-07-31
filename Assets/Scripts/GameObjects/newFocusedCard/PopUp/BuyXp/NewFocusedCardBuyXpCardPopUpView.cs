@@ -44,6 +44,7 @@ public class NewFocusedCardBuyXpView: MonoBehaviour
 				GUILayout.FlexibleSpace();
 			}
 			GUILayout.EndVertical();
+			GUILayout.FlexibleSpace();
 		}
 		GUILayout.EndArea();
 	}

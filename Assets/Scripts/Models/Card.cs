@@ -685,21 +685,29 @@ public class Card
 		}
 	}
 
-	public bool verifyC2(float minLife, float maxLife, float minAttack, float maxAttack, float minQuickness, float maxQuickness, int minPrice, int maxPrice)
+	public bool verifyC2(float minPrice, float maxPrice, float minPower, float maxPower, float minLife, float maxLife, float minAttack, float maxAttack, float minQuickness, float maxQuickness)
 	{
-		if (minLife > this.Life || maxLife < this.Life)
+		if (minPrice > this.Price || maxPrice < this.Price)
 		{
 			return false;
-		} else if (minAttack > this.Attack || maxAttack < this.Attack)
+		}
+		else if (minPower > this.Power || maxPower < this.Power)
 		{
 			return false;
-		} else if (minQuickness > this.Speed || maxQuickness < this.Speed)
+		}
+		else if (minLife > this.Life || maxLife < this.Life)
 		{
 			return false;
-		} else if (minPrice > this.Price || maxPrice < this.Price)
+		} 
+		else if (minAttack > this.Attack || maxAttack < this.Attack)
 		{
 			return false;
-		} else
+		} 
+		else if (minQuickness > this.Speed || maxQuickness < this.Speed)
+		{
+			return false;
+		} 
+		else
 		{
 			return true;
 		}
@@ -895,6 +903,7 @@ public class Card
 		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_nick", ApplicationModel.username);
 		form.AddField("myform_idcard", this.Id);
+		form.AddField ("myform_price", this.Price);
 		
 		WWW w = new WWW(URLBuyCard, form); 				// On envoie le formulaire à l'url sur le serveur 
 		yield return w;
@@ -911,13 +920,23 @@ public class Card
 				if (w.text.Contains("#SOLD#"))
 				{
 					this.onSale = 0;
+					this.IdOWner=-1;
 				}
-			} else
+				else if (w.text.Contains("#PRICECHANGED#"))
+				{
+					string[] newPrice = w.text.Split(new string[] { "#PRICECHANGED#" }, System.StringSplitOptions.None);
+					this.Price=System.Convert.ToInt32(newPrice[0]);
+				}
+			}
+			else
 			{
 				this.Error = "";
 				this.onSale = 0;
 				string[] data = w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
-				this.CollectionPoints = System.Convert.ToInt32(data [0]);
+				string[] cardData = data [0].Split(new string[] { "//" }, System.StringSplitOptions.None);
+				this.CollectionPoints = System.Convert.ToInt32(cardData [0]);
+				this.IdCardTypeUnlocked=System.Convert.ToInt32(cardData[1]);
+				this.TitleCardTypeUnlocked=cardData[2];
 				string[] newSkills = data [1].Split(new string[] { "//" }, System.StringSplitOptions.None);
 				for (int i=0; i<newSkills.Length-1; i++)
 				{

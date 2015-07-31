@@ -666,13 +666,16 @@ public class MarketController : MonoBehaviour
 		if (testFilters == true){
 			for (int i = 0 ; i < tempCardsToBeDisplayed.Count ; i++)
 			{
-				if (model.cards[tempCardsToBeDisplayed[i]].verifyC2(view.marketFiltersVM.minLifeVal,
+				if (model.cards[tempCardsToBeDisplayed[i]].verifyC2((float)tempMinPrice, 
+				                                                    (float)tempMaxPrice,
+				                                                    0,
+				                                                    100,
+				                                                    view.marketFiltersVM.minLifeVal,
 				                                                    view.marketFiltersVM.maxLifeVal,
 				                                                    view.marketFiltersVM.minAttackVal,
 				                                                    view.marketFiltersVM.maxAttackVal,
 				                                                    view.marketFiltersVM.minQuicknessVal,
-				                                                    view.marketFiltersVM.maxQuicknessVal,
-				                                                    tempMinPrice,tempMaxPrice)){
+				                                                    view.marketFiltersVM.maxQuicknessVal)){
 					view.marketCardsVM.cardsToBeDisplayed.Add(tempCardsToBeDisplayed[i]);
 				}
 			}

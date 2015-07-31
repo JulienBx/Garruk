@@ -42,6 +42,7 @@ public class NewMyGameDeleteDeckPopUpView : MonoBehaviour
 				GUILayout.FlexibleSpace();
 			}
 			GUILayout.EndVertical();
+			GUILayout.FlexibleSpace();
 		}
 		GUILayout.EndArea();
 	}

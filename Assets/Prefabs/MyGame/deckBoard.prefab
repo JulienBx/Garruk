@@ -658,7 +658,7 @@ MeshRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_Materials:
-  - {fileID: 2125862, guid: 8e2965dd5c901214880e99a92e395a6c, type: 2}
+  - {fileID: 2129278, guid: f179af0ea69274726baaefe1d3191113, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 1
@@ -1092,7 +1092,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_text: 
-  m_fontAsset: {fileID: 11400000, guid: 8e2965dd5c901214880e99a92e395a6c, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: f179af0ea69274726baaefe1d3191113, type: 2}
   m_fontStyle: 1
   m_isOverlay: 0
   m_fontColor32:
@@ -1284,7 +1284,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 122290}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d39508ba4a5f640d8a402d66728fc591, type: 3}
+  m_Script: {fileID: 11500000, guid: 68badaec53bbb4296b4e0850404b58f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &11478960

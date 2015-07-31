@@ -53,7 +53,7 @@ public class MenuController : MonoBehaviour {
 	public IEnumerator getUserData()
 	{
 		yield return StartCoroutine (model.loadUserData (this.totalNbResultLimit));
-		if(Application.loadedLevelName!="HomePage")
+		if(Application.loadedLevelName!="NewHomePage")
 		{
 			view.notificationsReminderVM.nbNotificationsNonRead = model.nbNotificationsNonRead;
 			ApplicationModel.nbNotificationsNonRead = model.nbNotificationsNonRead;
@@ -106,15 +106,15 @@ public class MenuController : MonoBehaviour {
 	}
 	public void homePageLink()
 	{
-		if(Application.loadedLevelName=="Lobby")
+		if(Application.loadedLevelName=="NewLobby")
 		{
 			PhotonNetwork.Disconnect();
 		}
-		Application.LoadLevel("HomePage");
+		Application.LoadLevel("NewHomePage");
 	}
 	public void myGameLink()
 	{
-		if(Application.loadedLevelName=="Lobby")
+		if(Application.loadedLevelName=="NewLobby")
 		{
 			PhotonNetwork.Disconnect();
 		}
@@ -129,7 +129,7 @@ public class MenuController : MonoBehaviour {
 	}
 	public void shopLink()
 	{
-		if(Application.loadedLevelName=="Lobby"){
+		if(Application.loadedLevelName=="NewLobby"){
 			PhotonNetwork.Disconnect();
 		}
 		if(this.isTutorialLaunched)
@@ -138,43 +138,43 @@ public class MenuController : MonoBehaviour {
 		}
 		else
 		{
-			Application.LoadLevel("Store");
+			Application.LoadLevel("NewStore");
 		}
 	}
 	public void marketLink()
 	{
-		if(Application.loadedLevelName=="Lobby"){
+		if(Application.loadedLevelName=="NewLobby"){
 			PhotonNetwork.Disconnect();
 		}
-		Application.LoadLevel("Market");
+		Application.LoadLevel("NewMarket");
 	}
 	
 	public void logOutLink() 
 	{
 		ApplicationModel.username = "";
 		ApplicationModel.toDeconnect = true;
-		if(Application.loadedLevelName=="Lobby"){
+		if(Application.loadedLevelName=="NewLobby"){
 			PhotonNetwork.Disconnect();
 		}
 		Application.LoadLevel("Authentication");
 	}
 	public void profileLink() 
 	{
-		if(Application.loadedLevelName=="Lobby"){
+		if(Application.loadedLevelName=="NewLobby"){
 			PhotonNetwork.Disconnect();
 		}
 		Application.LoadLevel("Profile");
 	}
 	public void adminBoardLink() 
 	{
-		if(Application.loadedLevelName=="Lobby"){
+		if(Application.loadedLevelName=="NewLobby"){
 			PhotonNetwork.Disconnect();
 		}
 		Application.LoadLevel("AdminBoard");
 	}
 	public void lobbyLink()
 	{
-		if(Application.loadedLevelName=="Lobby"){
+		if(Application.loadedLevelName=="NewLobby"){
 			PhotonNetwork.Disconnect();
 		}
 		if(this.isTutorialLaunched)
@@ -183,7 +183,7 @@ public class MenuController : MonoBehaviour {
 		}
 		else
 		{
-			Application.LoadLevel("Lobby");
+			Application.LoadLevel("NewLobby");
 		}
 	}
 	public void setButtonsGui(bool value)

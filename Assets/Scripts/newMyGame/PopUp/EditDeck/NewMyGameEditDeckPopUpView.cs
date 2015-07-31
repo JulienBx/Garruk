@@ -55,6 +55,7 @@ public class NewMyGameEditDeckPopUpView : MonoBehaviour
 				GUILayout.FlexibleSpace();
 			}
 			GUILayout.EndVertical();
+			GUILayout.FlexibleSpace();
 		}
 		GUILayout.EndArea();
 	}

@@ -18,7 +18,7 @@ public class StoreTutorialController : TutorialObjectController
 			if(!isResizing)
 			{
 				MenuController.instance.setButtonsGui(false);
-				StoreController.instance.setButtonsGui(false);
+				//StoreController.instance.setButtonsGui(false);
 				view.VM.displayArrow=false;
 				view.VM.displayNextButton=true;
 				view.VM.title="Bienvenue dans le magasin";
@@ -33,7 +33,7 @@ public class StoreTutorialController : TutorialObjectController
 		case 1:
 			if(!isResizing)
 			{
-				StoreController.instance.setButtonGui(0,true);
+				//StoreController.instance.setButtonGui(0,true);
 				view.VM.displayArrow=true;
 				view.VM.displayNextButton=false;
 				view.VM.title="Votre premier pack";
@@ -62,8 +62,8 @@ public class StoreTutorialController : TutorialObjectController
 		case 3:
 			if(!isResizing)
 			{
-				StoreController.instance.setGUI(false);
-				StoreController.instance.setExitButtonGui(true);
+				//StoreController.instance.setGUI(false);
+				//StoreController.instance.setExitButtonGui(true);
 				view.VM.displayRect=true;
 				view.VM.displayArrow=true;
 				view.VM.displayNextButton=false;
@@ -71,8 +71,8 @@ public class StoreTutorialController : TutorialObjectController
 				view.VM.description="Vous venez d'acheter votre première carte ! Retournons à la boutique.";
 				this.setDownArrow();
 			}
-			GOPosition = StoreController.instance.getCardsPosition();
-			GOSize = StoreController.instance.getCardsSize();
+			//GOPosition = StoreController.instance.getCardsPosition();
+			//GOSize = StoreController.instance.getCardsSize();
 			arrowHeight=0.1f*Screen.height;
 			arrowWidth=(2f/3f)*arrowHeight;
 			arrowX=GOPosition.x+1*(GOSize.x/2f)-(arrowWidth/2f)+GOSize.x/4f;
@@ -88,8 +88,8 @@ public class StoreTutorialController : TutorialObjectController
 		case 4:
 			if(!isResizing)
 			{
-				StoreController.instance.setGUI(true);
-				StoreController.instance.setButtonsGui(false);
+				//StoreController.instance.setGUI(true);
+				//StoreController.instance.setButtonsGui(false);
 				view.VM.displayRect=true;
 				view.VM.displayArrow=true;
 				view.VM.displayNextButton=true;
@@ -142,7 +142,7 @@ public class StoreTutorialController : TutorialObjectController
 			this.launchSequence(this.sequenceID+1);
 			break;
 		case 5:
-			StartCoroutine(StoreController.instance.endTutorial());
+			//StartCoroutine(StoreController.instance.endTutorial());
 			break;
 		}
 	}

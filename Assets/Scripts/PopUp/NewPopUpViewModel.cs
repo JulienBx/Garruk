@@ -9,6 +9,7 @@ public class NewPopUpViewModel
 	public GUIStyle centralWindowTextfieldStyle;
 	public GUIStyle centralWindowErrorStyle;
 	public GUIStyle transparentStyle;
+	public GUIStyle centralWindowSelGridStyle;
 	public bool guiEnabled;
 	
 	public NewPopUpViewModel ()
@@ -20,6 +21,7 @@ public class NewPopUpViewModel
 		this.centralWindowTextfieldStyle = new GUIStyle ();
 		this.centralWindowErrorStyle = new GUIStyle ();
 		this.transparentStyle = new GUIStyle ();
+		this.centralWindowSelGridStyle = new GUIStyle ();
 		this.guiEnabled = true;
 	}
 	public void resize()
@@ -28,6 +30,7 @@ public class NewPopUpViewModel
 		this.centralWindowTextfieldStyle.fontSize= Screen.height * 2 / 100;
 		this.centralWindowButtonStyle.fontSize = Screen.height * 2 / 100;
 		this.centralWindowErrorStyle.fontSize = Screen.height * 2 / 100;
+		this.centralWindowSelGridStyle.fontSize = Screen.height * 2 / 100;
 	}
 }
 

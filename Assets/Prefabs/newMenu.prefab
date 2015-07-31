@@ -688,7 +688,7 @@ MeshRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_Materials:
-  - {fileID: 2125862, guid: 8e2965dd5c901214880e99a92e395a6c, type: 2}
+  - {fileID: 2129278, guid: f179af0ea69274726baaefe1d3191113, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 1
@@ -712,7 +712,7 @@ MeshRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_Materials:
-  - {fileID: 2125862, guid: 8e2965dd5c901214880e99a92e395a6c, type: 2}
+  - {fileID: 2129278, guid: f179af0ea69274726baaefe1d3191113, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 1
@@ -736,7 +736,7 @@ MeshRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_Materials:
-  - {fileID: 2125862, guid: 8e2965dd5c901214880e99a92e395a6c, type: 2}
+  - {fileID: 2129278, guid: f179af0ea69274726baaefe1d3191113, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 1
@@ -760,7 +760,7 @@ MeshRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_Materials:
-  - {fileID: 2125862, guid: 8e2965dd5c901214880e99a92e395a6c, type: 2}
+  - {fileID: 2129278, guid: f179af0ea69274726baaefe1d3191113, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 1
@@ -784,7 +784,7 @@ MeshRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_Materials:
-  - {fileID: 2125862, guid: 8e2965dd5c901214880e99a92e395a6c, type: 2}
+  - {fileID: 2129278, guid: f179af0ea69274726baaefe1d3191113, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 1
@@ -808,7 +808,7 @@ MeshRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_Materials:
-  - {fileID: 2125862, guid: 8e2965dd5c901214880e99a92e395a6c, type: 2}
+  - {fileID: 2129278, guid: f179af0ea69274726baaefe1d3191113, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 1
@@ -832,7 +832,7 @@ MeshRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_Materials:
-  - {fileID: 2125862, guid: 8e2965dd5c901214880e99a92e395a6c, type: 2}
+  - {fileID: 2129278, guid: f179af0ea69274726baaefe1d3191113, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 1
@@ -856,7 +856,7 @@ MeshRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_Materials:
-  - {fileID: 2125862, guid: 8e2965dd5c901214880e99a92e395a6c, type: 2}
+  - {fileID: 2129278, guid: f179af0ea69274726baaefe1d3191113, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 1
@@ -1066,7 +1066,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_text: 
-  m_fontAsset: {fileID: 11400000, guid: 8e2965dd5c901214880e99a92e395a6c, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: f179af0ea69274726baaefe1d3191113, type: 2}
   m_fontStyle: 0
   m_isOverlay: 0
   m_fontColor32:
@@ -1150,7 +1150,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_text: 
-  m_fontAsset: {fileID: 11400000, guid: 8e2965dd5c901214880e99a92e395a6c, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: f179af0ea69274726baaefe1d3191113, type: 2}
   m_fontStyle: 1
   m_isOverlay: 0
   m_fontColor32:
@@ -1254,7 +1254,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_text: 
-  m_fontAsset: {fileID: 11400000, guid: 8e2965dd5c901214880e99a92e395a6c, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: f179af0ea69274726baaefe1d3191113, type: 2}
   m_fontStyle: 0
   m_isOverlay: 0
   m_fontColor32:
@@ -1371,7 +1371,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_text: 
-  m_fontAsset: {fileID: 11400000, guid: 8e2965dd5c901214880e99a92e395a6c, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: f179af0ea69274726baaefe1d3191113, type: 2}
   m_fontStyle: 0
   m_isOverlay: 0
   m_fontColor32:
@@ -1455,7 +1455,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_text: 
-  m_fontAsset: {fileID: 11400000, guid: 8e2965dd5c901214880e99a92e395a6c, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: f179af0ea69274726baaefe1d3191113, type: 2}
   m_fontStyle: 0
   m_isOverlay: 0
   m_fontColor32:
@@ -1553,7 +1553,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_text: 
-  m_fontAsset: {fileID: 11400000, guid: 8e2965dd5c901214880e99a92e395a6c, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: f179af0ea69274726baaefe1d3191113, type: 2}
   m_fontStyle: 1
   m_isOverlay: 0
   m_fontColor32:
@@ -1657,7 +1657,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_text: 
-  m_fontAsset: {fileID: 11400000, guid: 8e2965dd5c901214880e99a92e395a6c, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: f179af0ea69274726baaefe1d3191113, type: 2}
   m_fontStyle: 0
   m_isOverlay: 0
   m_fontColor32:
@@ -1799,7 +1799,7 @@ MonoBehaviour:
     y: 0
     width: .471514225
     height: .206809044
-  m_margins: {x: 0, y: 0, z: -.00211429596, w: 0}
+  m_margins: {x: 0, y: 0, z: 0, w: 0}
 --- !u!114 &11484064
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1812,7 +1812,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_text: 
-  m_fontAsset: {fileID: 11400000, guid: 8e2965dd5c901214880e99a92e395a6c, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: f179af0ea69274726baaefe1d3191113, type: 2}
   m_fontStyle: 0
   m_isOverlay: 0
   m_fontColor32:

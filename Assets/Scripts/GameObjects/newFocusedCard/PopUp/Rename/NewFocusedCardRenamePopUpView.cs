@@ -57,6 +57,7 @@ public class NewFocusedCardRenamePopUpView : MonoBehaviour
 				GUILayout.FlexibleSpace();
 			}
 			GUILayout.EndVertical();
+			GUILayout.FlexibleSpace();
 		}
 		GUILayout.EndArea();
 	}

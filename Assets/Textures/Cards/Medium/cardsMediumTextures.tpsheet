@@ -5,23 +5,25 @@
 # http://www.codeandweb.com/texturepacker/unity
 #
 # Sprite sheet: cardsMediumTextures.png (512 x 1024)
-# $TexturePacker:SmartUpdate:60fb4c5abba82b23903735dbfff6bf96:171afafe309b7783f886c84659960b1b:bf92d2779b6d16d5015d28cd76a98b48$
+# $TexturePacker:SmartUpdate:3f6ba56ef36de166d365644f14445b21:baf693682531f39c387bff8854b2d0d7:bf92d2779b6d16d5015d28cd76a98b48$
 #
 
-medium_arrow;441;782;32;31;0.453125;0.532258064516129
-medium_arrowHover;475;782;32;31;0.453125;0.532258064516129
-medium_atkpic;458;935;38;38;0.5;0.5
-medium_cardupgrade;198;798;90;69;0.5;0.5
-medium_cdmatblue;2;68;188;263;0.5;0.5
-medium_cdmatgreen;2;606;194;271;0.5;0.5
+medium_arrow;441;780;32;31;0.453125;0.532258064516129
+medium_arrowHover;475;780;32;31;0.453125;0.532258064516129
+medium_atkpic;458;933;38;38;0.5;0.5
+medium_backCard;2;16;188;263;0.5;0.5
+medium_buttonBorder;2;827;219;50;0.5;0.5
+medium_cardupgrade;223;808;90;69;0.5;0.5
+medium_cdmatblue;192;16;188;263;0.5;0.5
+medium_cdmatgreen;2;554;194;271;0.5;0.5
 medium_cdmatpurple;198;511;194;271;0.5;0.5
-medium_cdmatred;2;333;194;271;0.5;0.5
-medium_cristalblue;458;975;50;47;0.5;0.5106382978723405
-medium_expbackground;198;874;100;3;0.5;0.5
-medium_expcomplete;198;869;100;3;0.5;0.5
+medium_cdmatred;2;281;194;271;0.5;0.5
+medium_cristalblue;458;973;52;49;0.5;0.5102040816326531
+medium_expbackground;198;803;100;3;0.5;0.5
+medium_expcomplete;198;798;100;3;0.5;0.5
 medium_focusButton;2;879;319;143;0.5;0.5
-medium_hppic;458;895;38;38;0.5;0.5
-medium_movepic;441;855;38;38;0.5;0.5
+medium_hppic;458;893;38;38;0.5;0.5
+medium_movepic;441;853;38;38;0.5;0.5
 medium_skillPicto;323;784;116;136;0.49137931034482757;0.4779411764705882
 medium_soldPanel;323;922;133;100;0.5;0.5
-medium_speedpic;441;815;38;38;0.5;0.5
+medium_speedpic;441;813;38;38;0.5;0.5
