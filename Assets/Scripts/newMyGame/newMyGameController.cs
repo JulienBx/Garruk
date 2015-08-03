@@ -2079,7 +2079,11 @@ public class newMyGameController : MonoBehaviour
 	}
 	public void escapePressed()
 	{
-		if(isCardFocusedDisplayed)
+		if(newMenuController.instance.isAPopUpDisplayed())
+		{
+			newMenuController.instance.hideAllPopUp();
+		}
+		else if(isCardFocusedDisplayed)
 		{
 			this.focusedCard.GetComponent<NewFocusedCardController>().escapePressed();
 		}

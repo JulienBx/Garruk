@@ -28,6 +28,15 @@ TextureImporter:
     21300042: medium_soldPanel
     21300044: medium_buttonBorder
     21300046: medium_backCard
+    21300048: Artilleur card
+    21300050: Berserker card
+    21300052: Droid card
+    21300054: Enchanteur card
+    21300056: Mentaliste card
+    21300058: Pretresse card
+    21300060: Roublard card
+    21300062: geomancienne card
+    21300064: invocateur card
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -73,11 +82,101 @@ TextureImporter:
   buildTargetSettings: []
   spriteSheet:
     sprites:
+    - name: Artilleur card
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 2049
+        width: 720
+        height: 1004
+      alignment: 9
+      pivot: {x: .5, y: .499502003}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Berserker card
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 1043
+        width: 720
+        height: 1004
+      alignment: 9
+      pivot: {x: .5, y: .499502003}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Droid card
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 37
+        width: 720
+        height: 1004
+      alignment: 9
+      pivot: {x: .5, y: .499502003}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Enchanteur card
+      rect:
+        serializedVersion: 2
+        x: 724
+        y: 2049
+        width: 720
+        height: 1004
+      alignment: 9
+      pivot: {x: .5, y: .499502003}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Mentaliste card
+      rect:
+        serializedVersion: 2
+        x: 804
+        y: 3090
+        width: 720
+        height: 1004
+      alignment: 9
+      pivot: {x: .5, y: .499502003}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Pretresse card
+      rect:
+        serializedVersion: 2
+        x: 724
+        y: 1043
+        width: 720
+        height: 1004
+      alignment: 9
+      pivot: {x: .5, y: .499502003}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Roublard card
+      rect:
+        serializedVersion: 2
+        x: 724
+        y: 37
+        width: 720
+        height: 1004
+      alignment: 9
+      pivot: {x: .5, y: .499502003}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: geomancienne card
+      rect:
+        serializedVersion: 2
+        x: 1526
+        y: 3090
+        width: 720
+        height: 1004
+      alignment: 9
+      pivot: {x: .5, y: .499502003}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: invocateur card
+      rect:
+        serializedVersion: 2
+        x: 2248
+        y: 3090
+        width: 720
+        height: 1004
+      alignment: 9
+      pivot: {x: .5, y: .499502003}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: medium_arrow
       rect:
         serializedVersion: 2
-        x: 441
-        y: 780
+        x: 2
+        y: 4
         width: 32
         height: 31
       alignment: 9
@@ -86,8 +185,8 @@ TextureImporter:
     - name: medium_arrowHover
       rect:
         serializedVersion: 2
-        x: 475
-        y: 780
+        x: 36
+        y: 4
         width: 32
         height: 31
       alignment: 9
@@ -96,8 +195,8 @@ TextureImporter:
     - name: medium_atkpic
       rect:
         serializedVersion: 2
-        x: 458
-        y: 933
+        x: 4013
+        y: 4005
         width: 38
         height: 38
       alignment: 0
@@ -107,17 +206,17 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 2
-        y: 16
-        width: 188
-        height: 263
-      alignment: 0
-      pivot: {x: .5, y: .5}
+        y: 3055
+        width: 800
+        height: 1039
+      alignment: 9
+      pivot: {x: .500625014, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: medium_buttonBorder
       rect:
         serializedVersion: 2
-        x: 2
-        y: 827
+        x: 3692
+        y: 3899
         width: 219
         height: 50
       alignment: 0
@@ -126,8 +225,8 @@ TextureImporter:
     - name: medium_cardupgrade
       rect:
         serializedVersion: 2
-        x: 223
-        y: 808
+        x: 3810
+        y: 3828
         width: 90
         height: 69
       alignment: 0
@@ -136,48 +235,18 @@ TextureImporter:
     - name: medium_cdmatblue
       rect:
         serializedVersion: 2
-        x: 192
-        y: 16
-        width: 188
-        height: 263
-      alignment: 0
-      pivot: {x: .5, y: .5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-    - name: medium_cdmatgreen
-      rect:
-        serializedVersion: 2
-        x: 2
-        y: 554
-        width: 194
-        height: 271
-      alignment: 0
-      pivot: {x: .5, y: .5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-    - name: medium_cdmatpurple
-      rect:
-        serializedVersion: 2
-        x: 198
-        y: 511
-        width: 194
-        height: 271
-      alignment: 0
-      pivot: {x: .5, y: .5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-    - name: medium_cdmatred
-      rect:
-        serializedVersion: 2
-        x: 2
-        y: 281
-        width: 194
-        height: 271
-      alignment: 0
-      pivot: {x: .5, y: .5}
+        x: 2970
+        y: 3090
+        width: 720
+        height: 1004
+      alignment: 9
+      pivot: {x: .5, y: .499502003}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: medium_cristalblue
       rect:
         serializedVersion: 2
-        x: 458
-        y: 973
+        x: 4013
+        y: 4045
         width: 52
         height: 49
       alignment: 9
@@ -186,8 +255,8 @@ TextureImporter:
     - name: medium_expbackground
       rect:
         serializedVersion: 2
-        x: 198
-        y: 803
+        x: 70
+        y: 32
         width: 100
         height: 3
       alignment: 0
@@ -196,8 +265,8 @@ TextureImporter:
     - name: medium_expcomplete
       rect:
         serializedVersion: 2
-        x: 198
-        y: 798
+        x: 70
+        y: 27
         width: 100
         height: 3
       alignment: 0
@@ -206,8 +275,8 @@ TextureImporter:
     - name: medium_focusButton
       rect:
         serializedVersion: 2
-        x: 2
-        y: 879
+        x: 3692
+        y: 3951
         width: 319
         height: 143
       alignment: 0
@@ -216,8 +285,8 @@ TextureImporter:
     - name: medium_hppic
       rect:
         serializedVersion: 2
-        x: 458
-        y: 893
+        x: 4053
+        y: 4005
         width: 38
         height: 38
       alignment: 0
@@ -226,8 +295,8 @@ TextureImporter:
     - name: medium_movepic
       rect:
         serializedVersion: 2
-        x: 441
-        y: 853
+        x: 4013
+        y: 3965
         width: 38
         height: 38
       alignment: 0
@@ -236,8 +305,8 @@ TextureImporter:
     - name: medium_skillPicto
       rect:
         serializedVersion: 2
-        x: 323
-        y: 784
+        x: 3692
+        y: 3761
         width: 116
         height: 136
       alignment: 9
@@ -246,8 +315,8 @@ TextureImporter:
     - name: medium_soldPanel
       rect:
         serializedVersion: 2
-        x: 323
-        y: 922
+        x: 3913
+        y: 3849
         width: 133
         height: 100
       alignment: 0
@@ -256,8 +325,8 @@ TextureImporter:
     - name: medium_speedpic
       rect:
         serializedVersion: 2
-        x: 441
-        y: 813
+        x: 4053
+        y: 3965
         width: 38
         height: 38
       alignment: 0

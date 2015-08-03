@@ -11,6 +11,17 @@ TextureImporter:
     21300008: paginationHover
     21300010: packBorder
     21300012: competitionBorder
+    21300014: statsBorder
+    21300016: test
+    21300018: pixel
+    21300020: background
+    21300022: buttonBorder
+    21300024: friendlyGame
+    21300026: deckList
+    21300028: deckListHover
+    21300030: popUp
+    21300032: statsPopUpBorder
+    21300034: cristalblue
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -36,7 +47,7 @@ TextureImporter:
   textureFormat: -1
   maxTextureSize: 4096
   textureSettings:
-    filterMode: -1
+    filterMode: 1
     aniso: 16
     mipBias: -1
     wrapMode: 1
@@ -56,41 +67,81 @@ TextureImporter:
   buildTargetSettings: []
   spriteSheet:
     sprites:
+    - name: buttonBorder
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 917
+        width: 425
+        height: 105
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: competitionBorder
       rect:
         serializedVersion: 2
-        x: 98
-        y: 772
+        x: 2
+        y: 161
         width: 250
         height: 250
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: corner
+    - name: cristalblue
       rect:
         serializedVersion: 2
-        x: 17
-        y: 895
-        width: 56
-        height: 56
+        x: 375
+        y: 393
+        width: 52
+        height: 49
       alignment: 9
-      pivot: {x: .285714298, y: .714285731}
+      pivot: {x: .5, y: .510204077}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: line
+    - name: deckList
+      rect:
+        serializedVersion: 2
+        x: 279
+        y: 670
+        width: 213
+        height: 28
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: deckListHover
+      rect:
+        serializedVersion: 2
+        x: 279
+        y: 640
+        width: 213
+        height: 28
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: friendlyGame
+      rect:
+        serializedVersion: 2
+        x: 429
+        y: 898
+        width: 53
+        height: 53
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: packBorder
       rect:
         serializedVersion: 2
         x: 2
-        y: 222
-        width: 13
-        height: 800
-      alignment: 9
-      pivot: {x: 1.23076928, y: .5}
+        y: 413
+        width: 275
+        height: 300
+      alignment: 0
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: pagination
       rect:
         serializedVersion: 2
-        x: 2
-        y: 126
+        x: 404
+        y: 700
         width: 94
         height: 94
       alignment: 0
@@ -99,17 +150,47 @@ TextureImporter:
     - name: paginationHover
       rect:
         serializedVersion: 2
-        x: 2
-        y: 30
+        x: 279
+        y: 348
         width: 94
         height: 94
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: popUp
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 715
+        width: 400
+        height: 200
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: statsBorder
+      rect:
+        serializedVersion: 2
+        x: 279
+        y: 444
+        width: 194
+        height: 194
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: statsPopUpBorder
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 796
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: thumbBorder
       rect:
         serializedVersion: 2
-        x: 17
+        x: 429
         y: 953
         width: 69
         height: 69

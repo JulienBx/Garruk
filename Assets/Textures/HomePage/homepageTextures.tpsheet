@@ -5,12 +5,19 @@
 # http://www.codeandweb.com/texturepacker/unity
 #
 # Sprite sheet: homepageTextures.png (512 x 1024)
-# $TexturePacker:SmartUpdate:eaf81e8336612a183b790185b0491426:531b2f846671418ae90f8eec6443eb7c:9229eaf6b945ad3b895cd83787cdb955$
+# $TexturePacker:SmartUpdate:989499152371d83f1868d2d6dc6f5cca:08fe5dc0aa38ec5159080818f9bef793:9229eaf6b945ad3b895cd83787cdb955$
 #
 
-competitionBorder;98;772;250;250;0.5;0.5
-corner;17;895;56;56;0.2857142857142857;0.7142857142857143
-line;2;222;13;800;1.2307692307692308;0.5
-pagination;2;126;94;94;0.5;0.5
-paginationHover;2;30;94;94;0.5;0.5
-thumbBorder;17;953;69;69;0.5;0.5
+buttonBorder;2;917;425;105;0.5;0.5
+competitionBorder;2;161;250;250;0.5;0.5
+cristalblue;375;393;52;49;0.5;0.5102040816326531
+deckList;279;670;213;28;0.5;0.5
+deckListHover;279;640;213;28;0.5;0.5
+friendlyGame;429;898;53;53;0.5;0.5
+packBorder;2;413;275;300;0.5;0.5
+pagination;404;700;94;94;0.5;0.5
+paginationHover;279;348;94;94;0.5;0.5
+popUp;2;715;400;200;0.5;0.5
+statsBorder;279;444;194;194;0.5;0.5
+statsPopUpBorder;404;796;100;100;0.5;0.5
+thumbBorder;429;953;69;69;0.5;0.5

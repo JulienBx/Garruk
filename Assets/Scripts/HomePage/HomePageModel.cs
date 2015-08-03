@@ -152,7 +152,8 @@ public class HomePageModel
 			notifications.Add(new DisplayedNotification(new Notification(System.Convert.ToInt32(notificationData[0]),
 			                                                                  DateTime.ParseExact(notificationData[2], "yyyy-MM-dd HH:mm:ss", null),
 			                                                                  System.Convert.ToBoolean(System.Convert.ToInt32(notificationData[3])),
-			                                                                  System.Convert.ToInt32(notificationData[4])),
+			                                                                  System.Convert.ToInt32(notificationData[4]),
+			                                                             notificationData[5]),
 			                                                 new User(System.Convert.ToInt32(notificationData[5]),
 			         notificationData[6],
 			         notificationData[7],
@@ -206,7 +207,8 @@ public class HomePageModel
 			string[] newsData =array[i].Split(new string[] { "//" }, System.StringSplitOptions.None);
 			
 			news.Add(new DisplayedNews(new News(System.Convert.ToInt32(newsData[1]),
-			                                         DateTime.ParseExact(newsData[2], "yyyy-MM-dd HH:mm:ss", null)),
+			                                         DateTime.ParseExact(newsData[2], "yyyy-MM-dd HH:mm:ss", null),
+			                                    newsData[3]),
 			                                new User(System.Convert.ToInt32(newsData[3]),
 			         newsData[4],
 			         newsData[5],

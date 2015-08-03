@@ -5,34 +5,50 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using TMPro;
 
-public class NewHomePageController : MonoBehaviour
+public class NewHomePageController : Photon.MonoBehaviour
 {
 	public static NewHomePageController instance;
 	private NewHomePageModel model;
 
+	public GameObject blockObject;
 	public GameObject paginationButtonObject;
 	public GameObject packObject;
 	public GameObject competitionObject;
+	public GameObject deckListObject;
+	public GameObject popUpObject;
+	public GameObject popUpCompetitionObject;
 	public GUISkin popUpSkin;
+	public Texture2D[] cursorTextures;
 	public int refreshInterval;
 	public int sliderRefreshInterval;
 	public int totalNbResultLimit;
 	
+	private GameObject storeBlock;
+	private GameObject notificationsBlock;
+	private GameObject competitionsBlock;
+	private GameObject statsBlock;
+	private GameObject newsBlock;
+	private GameObject popUp;
+
 	private GameObject menu;
-	private GameObject storeBoard;
 	private GameObject storeAssetsTitle;
-	private GameObject newsBoard;
 	private GameObject newsTitle;
-	private GameObject notificationsBoard;
 	private GameObject notificationsTitle;
-	private GameObject competitionsBoard;
 	private GameObject competitionsTitle;
+	private GameObject connectedPlayersTitle;
+	private GameObject statsTitle;
+	private GameObject deckBoard;
+	private GameObject deckBlock;
+	private GameObject stats;
+	private GameObject collectionButton;
+	private GameObject cleanCardsButton;
 	private GameObject[] news;
 	private GameObject[] notifications;
 	private GameObject[] packs;
 	private GameObject[] competitions;
 	private GameObject[] paginationButtonsNotifications;
 	private GameObject[] paginationButtonsNews;
+	private GameObject[] deckCards;
 	
 	private int widthScreen;
 	private int heightScreen;
@@ -40,11 +56,13 @@ public class NewHomePageController : MonoBehaviour
 	private float worldHeight;
 	private float pixelPerUnit;
 	private Rect centralWindow;
+	private Rect collectionPointsWindow;
+	private Rect newSkillsWindow;
+	private Rect newCardTypeWindow;
 	
 	private IList<int> newsDisplayed;
 	private IList<int> notificationsDisplayed;
 	private IList<int> packsDisplayed;
-	private IList<int> competitionsDisplayed;
 	
 	private int nbPagesNotifications;
 	private int nbPaginationButtonsLimitNotifications;
@@ -63,41 +81,72 @@ public class NewHomePageController : MonoBehaviour
 	private int nbPagesPacks;
 	private int chosenPagePacks;
 
-	private int nbPagesCompetitions;
-	private int chosenPageCompetitions;
-	
-	private float timer;
+	private float sliderTimer;
+	private float notificationsTimer;
 	private bool isSceneLoaded;
 	
 	private int money;
 
-	private bool areNotificationsPicturesLoading;
-	private Texture2D[] notificationsPictures;
-	private Rect[] atlasNotificationsPicturesRects;
-	private Texture2D atlasNotificationsPictures;
-
-	private bool areNewsPicturesLoading;
-	private Texture2D[] newsPictures;
-	private Rect[] atlasNewsPicturesRects;
-	private Texture2D atlasNewsPictures;
-
-	private bool arePacksPicturesLoading;
-	private Texture2D[] packsPictures;
-	private Rect[] atlasPacksPicturesRects;
-	private Texture2D atlasPacksPictures;
-
-	private bool areCompetitionsPicturesLoading;
-	private Texture2D[] competitionsPictures;
-	private Rect[] atlasCompetitionsPicturesRects;
-	private Texture2D atlasCompetitionsPictures;
-
 	private int packsPerLine;
 	private int competitionsPerLine;
+
+	private Vector3[] deckCardsPosition;
+	private Rect[] deckCardsArea;
+
+	private IList<int> decksDisplayed;
+	private int[] deckCardsDisplayed;
+	private int deckDisplayed;
+	
+	private GameObject focusedCard;
+	private int focusedCardIndex;
+	private bool isCardFocusedDisplayed;
+	private IList<GameObject> deckList;
+
+	private int idCardClicked;
+	private bool isDragging;
+	private bool isLeftClicked;
+	private bool isHovering;
+	private float clickInterval;
+
+	private bool isSearchingDeck;
+	private bool isMouseOnSelectDeckButton;
+
+	private bool isHoveringNotification;
+	private bool isHoveringNews;
+	private bool isHoveringCompetition;
+	private bool isHoveringPopUp;
+	private bool isPopUpDisplayed;
+	private int idNotificationHovered;
+	private int idNewsHovered;
+	private int idCompetitionHovered;
+	private bool toDestroyPopUp;
+	private float popUpDestroyInterval;
+
+	private int nbNonReadNotifications;
+
+	private bool areNewsPicturesLoading;
+	private bool areNotificationsPicturesLoading;
+	private bool arePacksPicturesLoading;
+	private bool areCompetitionsPicturesLoading;
+
+	private NewHomePageConnectionBonusPopUpView connectionBonusView;
+	private bool isConnectionBonusViewDisplayed;
+
+	public int countPlayers;
+	public Dictionary<int, string> playersName;
+	private const string roomName="GarrukLobby";
+	private bool attemptToPlay;
 	
 	void Update()
 	{	
-		this.timer += Time.deltaTime;
-
+		this.sliderTimer += Time.deltaTime;
+		this.notificationsTimer += Time.deltaTime;
+		
+		if (notificationsTimer > refreshInterval) 
+		{
+			StartCoroutine(this.refreshNonReadsNotifications());
+			
+		}
 		if (Screen.width != this.widthScreen || Screen.height != this.heightScreen) 
 		{
 			this.resize();
@@ -105,10 +154,10 @@ public class NewHomePageController : MonoBehaviour
 			this.drawPaginationNotifications();
 			this.initializePacks();
 		}
-		if(this.timer>this.sliderRefreshInterval)
+		if(this.sliderTimer>this.sliderRefreshInterval)
 		{
-			this.timer=0;
-			if(this.isSceneLoaded)
+			this.sliderTimer=0;
+			if(this.isSceneLoaded && !this.isCardFocusedDisplayed)
 			{
 				if(nbPagesPacks-1>this.chosenPagePacks)
 				{
@@ -122,92 +171,128 @@ public class NewHomePageController : MonoBehaviour
 				}
 			}
 		}
-		if(areNotificationsPicturesLoading)
+		if(isLeftClicked)
 		{
-			bool createAtlas=true;
-			for(int i =0;i<this.notificationsDisplayed.Count;i++)
+			this.clickInterval=this.clickInterval+Time.deltaTime*10f;
+			if(this.clickInterval>2f)
 			{
-				if(!model.notifications[this.notificationsDisplayed[i]].SendingUser.isThumbPictureLoaded)
+				this.isLeftClicked=false;
+				this.startDragging();
+			}
+		}
+		if(toDestroyPopUp)
+		{
+			this.popUpDestroyInterval=this.popUpDestroyInterval+Time.deltaTime;
+			if(this.popUpDestroyInterval>0.5f)
+			{
+				this.toDestroyPopUp=false;
+				this.hidePopUp();
+			}
+		}
+		if(this.isSearchingDeck)
+		{
+			if((Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))&& !this.isMouseOnSelectDeckButton)
+			{
+				this.isSearchingDeck=false;
+				this.cleanDeckList();
+			}
+		}
+		if(Input.GetKeyDown(KeyCode.Return)) 
+		{
+			this.returnPressed();
+		}
+		if(Input.GetKeyDown(KeyCode.Escape)) 
+		{
+			this.escapePressed();
+		}
+		if(money!=ApplicationModel.credits)
+		{
+			if(isSceneLoaded)
+			{
+				if(this.isCardFocusedDisplayed)
 				{
-					createAtlas=false;
+					this.focusedCard.GetComponent<NewFocusedCardHomePageController>().updateFocusFeatures();
 				}
 			}
-			if(createAtlas)
-			{
-				this.areNotificationsPicturesLoading=false;
-				this.atlasNotificationsPictures = new Texture2D(8192, 8192);
-				this.atlasNotificationsPicturesRects = atlasNotificationsPictures.PackTextures(notificationsPictures, 2, 8192);
-				
-				for(int i=0;i<this.notificationsDisplayed.Count;i++)
-				{
-					this.notifications [i].GetComponent<NotificationController> ().setPicture(Sprite.Create(this.atlasNotificationsPictures,new Rect(this.atlasNotificationsPicturesRects[i].x*atlasNotificationsPictures.width,this.atlasNotificationsPicturesRects[i].y*atlasNotificationsPictures.height,this.atlasNotificationsPicturesRects[i].width*atlasNotificationsPictures.width,this.atlasNotificationsPicturesRects[i].height*atlasNotificationsPictures.height),new Vector2(0.5f,0.5f)));
-				}
-			}
+			this.money=ApplicationModel.credits;
 		}
 		if(areNewsPicturesLoading)
 		{
-			bool createAtlas=true;
-			for(int i =0;i<this.newsDisplayed.Count;i++)
+			bool allPicturesLoaded=true;
+			for(int i=0;i<newsDisplayed.Count;i++)
 			{
 				if(!model.news[this.newsDisplayed[i]].User.isThumbPictureLoaded)
 				{
-					createAtlas=false;
+					allPicturesLoaded=false;
+					break;
 				}
 			}
-			if(createAtlas)
+			if(allPicturesLoaded)
 			{
 				this.areNewsPicturesLoading=false;
-				this.atlasNewsPictures = new Texture2D(8192, 8192);
-				this.atlasNewsPicturesRects = atlasNewsPictures.PackTextures(newsPictures, 2, 8192);
-				
-				for(int i=0;i<this.newsDisplayed.Count;i++)
+				for(int i=0;i<newsDisplayed.Count;i++)
 				{
-					this.news [i].GetComponent<NewsController> ().setPicture(Sprite.Create(this.atlasNewsPictures,new Rect(this.atlasNewsPicturesRects[i].x*atlasNewsPictures.width,this.atlasNewsPicturesRects[i].y*atlasNewsPictures.height,this.atlasNewsPicturesRects[i].width*atlasNewsPictures.width,this.atlasNewsPicturesRects[i].height*atlasNewsPictures.height),new Vector2(0.5f,0.5f)));
+					this.news[i].GetComponent<NewsController>().setPicture(model.news[this.newsDisplayed[i]].User.texture);
+				}
+			}
+		}
+		if(areNotificationsPicturesLoading)
+		{
+			bool allPicturesLoaded=true;
+			for(int i=0;i<notificationsDisplayed.Count;i++)
+			{
+				if(!model.notifications[this.notificationsDisplayed[i]].SendingUser.isThumbPictureLoaded)
+				{
+					allPicturesLoaded=false;
+					break;
+				}
+			}
+			if(allPicturesLoaded)
+			{
+				this.areNotificationsPicturesLoading=false;
+				for(int i=0;i<notificationsDisplayed.Count;i++)
+				{
+					this.notifications[i].GetComponent<NotificationController>().setPicture(model.notifications[this.notificationsDisplayed[i]].SendingUser.texture);
 				}
 			}
 		}
 		if(arePacksPicturesLoading)
 		{
-			bool createAtlas=true;
-			for(int i =0;i<this.packsDisplayed.Count;i++)
+			bool allPicturesLoaded=true;
+			for(int i=0;i<packsDisplayed.Count;i++)
 			{
 				if(!model.packs[this.packsDisplayed[i]].isTextureLoaded)
 				{
-					createAtlas=false;
+					allPicturesLoaded=false;
+					break;
 				}
 			}
-			if(createAtlas)
+			if(allPicturesLoaded)
 			{
 				this.arePacksPicturesLoading=false;
-				this.atlasPacksPictures = new Texture2D(8192, 8192);
-				this.atlasPacksPicturesRects = atlasPacksPictures.PackTextures(packsPictures, 2, 8192);
-				
-				for(int i=0;i<this.packsDisplayed.Count;i++)
+				for(int i=0;i<packsDisplayed.Count;i++)
 				{
-					this.packs [i].GetComponent<NewPackController> ().setPackPicture(Sprite.Create(this.atlasPacksPictures,new Rect(this.atlasPacksPicturesRects[i].x*atlasPacksPictures.width,this.atlasPacksPicturesRects[i].y*atlasPacksPictures.height,this.atlasPacksPicturesRects[i].width*atlasPacksPictures.width,this.atlasPacksPicturesRects[i].height*atlasPacksPictures.height),new Vector2(0.5f,0.5f)));
+					this.packs[i].GetComponent<NewPackController>().setPackPicture(model.packs[this.packsDisplayed[i]].texture);
 				}
 			}
 		}
 		if(areCompetitionsPicturesLoading)
 		{
-			bool createAtlas=true;
-			if(!model.currentDivision.isTextureLoaded)
+			bool allPicturesLoaded=true;
+			for(int i=0;i<model.competitions.Count;i++)
 			{
-				createAtlas=false;
+				if(!model.competitions[i].isTextureLoaded)
+				{
+					allPicturesLoaded=false;
+					break;
+				}
 			}
-			if(competitionsDisplayed.Count>1 && !model.currentCup.isTextureLoaded)
-			{
-				createAtlas=false;
-			}
-			if(createAtlas)
+			if(allPicturesLoaded)
 			{
 				this.areCompetitionsPicturesLoading=false;
-				this.atlasCompetitionsPictures = new Texture2D(8192, 8192);
-				this.atlasCompetitionsPicturesRects = atlasCompetitionsPictures.PackTextures(competitionsPictures, 2, 8192);
-				
-				for(int i=0;i<this.competitionsDisplayed.Count;i++)
+				for(int i=0;i<model.competitions.Count;i++)
 				{
-					this.competitions [i].GetComponent<CompetitionController> ().setPicture(Sprite.Create(this.atlasCompetitionsPictures,new Rect(this.atlasCompetitionsPicturesRects[i].x*atlasCompetitionsPictures.width,this.atlasCompetitionsPicturesRects[i].y*atlasCompetitionsPictures.height,this.atlasCompetitionsPicturesRects[i].width*atlasCompetitionsPictures.width,this.atlasCompetitionsPicturesRects[i].height*atlasCompetitionsPictures.height),new Vector2(0.5f,0.5f)));
+					this.competitions[i+1].GetComponent<CompetitionController>().setPicture(model.competitions[i].texture);
 				}
 			}
 		}
@@ -219,6 +304,9 @@ public class NewHomePageController : MonoBehaviour
 		this.pixelPerUnit = 108f;
 		this.elementsPerPageNotifications = 3;
 		this.elementsPerPageNews = 6;
+		this.countPlayers = 0;
+		this.attemptToPlay = false;
+		this.playersName= new Dictionary<int, string>();
 		this.initializeScene ();
 	}
 	void Start()
@@ -226,6 +314,7 @@ public class NewHomePageController : MonoBehaviour
 		instance = this;
 		this.model = new NewHomePageModel ();
 		this.resize ();
+		PhotonNetwork.ConnectUsingSettings(ApplicationModel.photonSettings);
 		StartCoroutine (this.initialization ());
 	}
 	private IEnumerator initialization()
@@ -235,14 +324,21 @@ public class NewHomePageController : MonoBehaviour
 		this.initializeNews ();
 		this.initializePacks ();
 		this.initializeCompetitions ();
+		this.initializeStats ();
+		this.retrieveDefaultDeck ();
+		this.initializeDecks ();
 		this.isSceneLoaded = true;
+		if(model.player.ConnectionBonus>0)
+		{
+			this.displayConnectionBonusPopUp(model.player.ConnectionBonus);
+		}
 	}
 	private void initializeNotifications()
 	{
 		this.chosenPageNotifications = 0;
 		this.pageDebutNotifications = 0 ;
 		this.drawPaginationNotifications();
-		this.drawNotifications ();
+		this.drawNotifications (true);
 	}
 	private void initializeNews()
 	{
@@ -258,75 +354,193 @@ public class NewHomePageController : MonoBehaviour
 	}
 	private void initializeCompetitions()
 	{
-		this.chosenPageCompetitions = 0;
 		this.drawCompetitions ();
+	}
+	private void initializeStats()
+	{
+		this.drawStats ();
+	}
+	private void initializeDecks()
+	{
+		this.retrieveDecksList ();
+		StartCoroutine(this.drawDeckCards ());
 	}
 	public void initializeScene()
 	{
 		menu = GameObject.Find ("newMenu");
 		menu.GetComponent<newMenuController> ().setCurrentPage (0);
-		this.storeBoard = GameObject.Find ("StoreBoard");
-		this.newsBoard = GameObject.Find ("NewsBoard");
-		this.notificationsBoard = GameObject.Find ("NotificationsBoard");
-		this.competitionsBoard = GameObject.Find ("CompetitionsBoard");
+		this.newsBlock = Instantiate(this.blockObject) as GameObject;
+		this.statsBlock = Instantiate(this.blockObject) as GameObject;
+		this.deckBlock = Instantiate(this.blockObject) as GameObject;
+		this.storeBlock = Instantiate(this.blockObject) as GameObject;
+		this.notificationsBlock = Instantiate(this.blockObject) as GameObject;
+		this.competitionsBlock = Instantiate(this.blockObject) as GameObject;
+		this.deckBoard = GameObject.Find ("deckBoard");
 		this.storeAssetsTitle = GameObject.Find ("StoreAssetsTitle");
-		this.storeAssetsTitle.GetComponent<TextMeshPro> ().text = "Nouveautés";
+		this.storeAssetsTitle.GetComponent<TextMeshPro> ().text = "Boutique";
+		this.statsTitle = GameObject.Find ("StatsTitle");
 		this.newsTitle = GameObject.Find ("NewsTitle");
 		this.newsTitle.GetComponent<TextMeshPro> ().text = "Fil d'actualités";
 		this.notificationsTitle = GameObject.Find ("NotificationsTitle");
 		this.notificationsTitle.GetComponent<TextMeshPro> ().text = "Notifications";
 		this.competitionsTitle = GameObject.Find ("CompetitionsTitle");
-		this.competitionsTitle.GetComponent<TextMeshPro> ().text = "Mes compétitions";
+		this.connectedPlayersTitle = GameObject.Find ("ConnectedPlayers");
+		this.competitionsTitle.GetComponent<TextMeshPro> ().text = "Jouer";
+		this.stats = GameObject.Find ("Stats");
 		this.paginationButtonsNotifications = new GameObject[0];
 		this.paginationButtonsNews = new GameObject[0];
 		this.packs=new GameObject[0];
-		this.competitions=new GameObject[0];
 		this.notifications=new GameObject[3];
 		for(int i=0;i<this.notifications.Length;i++)
 		{
 			this.notifications[i]=GameObject.Find ("Notification"+i);
+			this.notifications[i].GetComponent<NotificationController>().setId(i);
 			this.notifications[i].SetActive(false);
+		}
+		this.competitions=new GameObject[3];
+		for(int i=0;i<this.competitions.Length;i++)
+		{
+			this.competitions[i]=GameObject.Find ("Competition"+i);
 		}
 		this.news=new GameObject[6];
 		for(int i=0;i<this.news.Length;i++)
 		{
 			this.news[i]=GameObject.Find ("News"+i);
+			this.news[i].GetComponent<NewsController>().setId(i);
 			this.news[i].SetActive(false);
 		}
+		this.deckBoard.transform.FindChild("deckList").FindChild ("Title").GetComponent<TextMeshPro> ().text = "Mes decks";
+		this.deckBoard.transform.FindChild("deckList").FindChild("currentDeck").FindChild("deckName").GetComponent<TextMeshPro> ().text="Aucun deck créé";
+		this.deckList = new List<GameObject> ();
+		this.deckCards=new GameObject[4];
+		for (int i=0;i<4;i++)
+		{
+			this.deckCards[i]=GameObject.Find("deckCard"+i);
+			this.deckCards[i].AddComponent<NewCardHomePageController>();
+			this.deckCards[i].SetActive(false);
+		}
+		this.collectionButton = GameObject.Find ("CollectionButton");
+		this.collectionButton.transform.FindChild("Title").GetComponent<TextMeshPro> ().text = "Ma collection";
+		this.cleanCardsButton = GameObject.Find ("CleanCardsButton");
+		this.cleanCardsButton.transform.FindChild("Title").GetComponent<TextMeshPro> ().text = "Vider";
+		if(!ApplicationModel.isAdmin)
+		{
+			this.cleanCardsButton.SetActive(false);
+		}
+
+		this.focusedCard = GameObject.Find ("FocusedCard");
+		this.focusedCard.AddComponent<NewFocusedCardHomePageController> ();
+		this.deckBoard.transform.FindChild("deckList").FindChild ("Title").GetComponent<TextMeshPro> ().text = "Choisir un deck";
+		this.deckBoard.transform.FindChild("deckList").FindChild("currentDeck").FindChild("deckName").GetComponent<TextMeshPro> ().text="Aucun deck créé";
 	}
 	public void resize()
 	{
+		if(this.isCardFocusedDisplayed)
+		{
+			this.hideCardFocused();
+		}
 		this.cleanPacks ();
-		this.cleanCompetitions ();
 		this.widthScreen=Screen.width;
 		this.heightScreen=Screen.height;
 		this.centralWindow = new Rect (this.widthScreen * 0.25f, 0.12f * this.heightScreen, this.widthScreen * 0.50f, 0.25f * this.heightScreen);
+		this.centralWindow = new Rect (this.widthScreen * 0.25f, 0.12f * this.heightScreen, this.widthScreen * 0.50f, 0.25f * this.heightScreen);
+		this.collectionPointsWindow=new Rect(this.widthScreen - this.widthScreen * 0.17f-5,0.1f * this.heightScreen+5,this.widthScreen * 0.17f,this.heightScreen * 0.1f);
+		this.newSkillsWindow = new Rect (this.collectionPointsWindow.xMin, this.collectionPointsWindow.yMax + 5,this.collectionPointsWindow.width,this.heightScreen - 0.1f * this.heightScreen - 2 * 5 - this.collectionPointsWindow.height);
+		this.newCardTypeWindow = new Rect (this.widthScreen * 0.25f, 0.12f * this.heightScreen, this.widthScreen * 0.50f, 0.25f * this.heightScreen);
 		this.worldHeight = 2f*Camera.main.GetComponent<Camera>().orthographicSize;
 		this.worldWidth = ((float)Screen.width/(float)Screen.height) * worldHeight;
 		float screenRatio = (float)this.widthScreen / (float)this.heightScreen;
 		menu.GetComponent<newMenuController> ().resizeMeunObject (worldHeight,worldWidth);
 
-		float storeBoardLeftMargin = 2.9f;
-		float storeBoardRightMargin = (this.worldWidth - 2.9f - 3.25f) / 2f + 3.25f;
-		float storeBoardUpMargin = 5f;
-		float storeBoardDownMargin = 0.25f;
+		float storeBlockLeftMargin =3f;
+		float storeBlockRightMargin = (this.worldWidth - 3f - 3f) / 2f + 3.1f;
+		float storeBlockUpMargin = 6.1f;
+		float storeBlockDownMargin = 0.2f;
 
-		float storeBoardHeight = worldHeight - storeBoardUpMargin-storeBoardDownMargin;
-		float storeBoardWidth = worldWidth-storeBoardLeftMargin-storeBoardRightMargin;
-		Vector2 storeBoardOrigin = new Vector3 (-worldWidth/2f+storeBoardLeftMargin+storeBoardWidth/2f, -worldHeight / 2f + storeBoardDownMargin + storeBoardHeight / 2,0f);
+		float storeBlockHeight = worldHeight - storeBlockUpMargin-storeBlockDownMargin;
+		float storeBlockWidth = worldWidth-storeBlockLeftMargin-storeBlockRightMargin;
+		Vector2 storeBlockOrigin = new Vector3 (-worldWidth/2f+storeBlockLeftMargin+storeBlockWidth/2f, -worldHeight / 2f + storeBlockDownMargin + storeBlockHeight / 2,0f);
 		
-		this.storeBoard.GetComponent<BoardController> ().resize(storeBoardWidth,storeBoardHeight,storeBoardOrigin);
-		this.storeAssetsTitle.transform.position = new Vector3 (storeBoardOrigin.x, storeBoardOrigin.y+storeBoardHeight/2f-0.3f, 0);
+		this.storeBlock.GetComponent<BlockController> ().resize(new Rect(storeBlockOrigin.x,storeBlockOrigin.y,storeBlockWidth,storeBlockHeight));
+		this.storeAssetsTitle.transform.position = new Vector3 (storeBlockOrigin.x, storeBlockOrigin.y+storeBlockHeight/2f-0.3f, 0);
+
+		float competitionsBlockLeftMargin = (this.worldWidth - 3f - 3f) / 2f + 3.1f;
+		float competitionsBlockRightMargin = 3f;
+		float competitionsBlockUpMargin = 6.1f;
+		float competitionsBlockDownMargin = 0.2f;
+		
+		float competitionsBlockHeight = worldHeight - competitionsBlockUpMargin-competitionsBlockDownMargin;
+		float competitionsBlockWidth = worldWidth-competitionsBlockLeftMargin-competitionsBlockRightMargin;
+		Vector2 competitionsBlockOrigin = new Vector3 (-worldWidth/2f+competitionsBlockLeftMargin+competitionsBlockWidth/2f, -worldHeight / 2f + competitionsBlockDownMargin + competitionsBlockHeight / 2,0f);
+		
+		this.competitionsBlock.GetComponent<BlockController> ().resize(new Rect(competitionsBlockOrigin.x,competitionsBlockOrigin.y,competitionsBlockWidth,competitionsBlockHeight));
+		this.competitionsTitle.transform.position = new Vector3 (competitionsBlockOrigin.x, competitionsBlockOrigin.y+competitionsBlockHeight/2f-0.3f, 0);
+		this.connectedPlayersTitle.transform.position = new Vector3 (competitionsBlockOrigin.x,  competitionsBlockOrigin.y-competitionsBlockHeight/2f+0.2f, 0);
+
+		float statsBlockLeftMargin = 3f;
+		float statsBlockRightMargin = 3f;
+		float statsBlockUpMargin = 3.6f;
+		float statsBlockDownMargin = 4.1f;
+		
+		float statsBlockHeight = worldHeight - statsBlockUpMargin-statsBlockDownMargin;
+		float statsBlockWidth = worldWidth-statsBlockLeftMargin-statsBlockRightMargin;
+		Vector2 statsBlockOrigin = new Vector3 (-worldWidth/2f+statsBlockLeftMargin+statsBlockWidth/2f, -worldHeight / 2f + statsBlockDownMargin + statsBlockHeight / 2,0f);
+		
+		this.statsBlock.GetComponent<BlockController> ().resize(new Rect(statsBlockOrigin.x,statsBlockOrigin.y,statsBlockWidth,statsBlockHeight));
+		this.statsTitle.transform.position = new Vector3 (statsBlockOrigin.x, statsBlockOrigin.y+statsBlockHeight/2f-0.3f, 0);
+
+		this.stats.transform.position = new Vector3 (statsBlockOrigin.x, statsBlockOrigin.y, 0);
+		this.stats.transform.FindChild ("nbWins").localPosition = new Vector3 (-1.5f * statsBlockWidth / 5f, 0f, 0);
+		this.stats.transform.FindChild ("nbLooses").localPosition = new Vector3 (-0.5f * statsBlockWidth / 5f, 0f, 0);
+		this.stats.transform.FindChild ("ranking").localPosition = new Vector3 (0.5f * statsBlockWidth / 5f, 0f, 0);
+		this.stats.transform.FindChild ("collectionPoints").localPosition = new Vector3 (1.5f * statsBlockWidth / 5f, 0f, 0);
+		this.collectionButton.transform.position = new Vector3 (1.5f * statsBlockWidth / 5f, statsBlockOrigin.y+statsBlockHeight/2f-0.3f, 0f);
+		this.cleanCardsButton.transform.position = new Vector3 (1.5f * statsBlockWidth / 5f, statsBlockOrigin.y+statsBlockHeight/2f-0.58f, 0f);
+		
+		float deckBlockLeftMargin = 3f;
+		float deckBlockRightMargin = 3f;
+		float deckBlockUpMargin = 0.2f;
+		float deckBlockDownMargin = 6.6f;
+		
+		float deckBlockHeight = worldHeight - deckBlockUpMargin-deckBlockDownMargin;
+		float deckBlockWidth = worldWidth-deckBlockLeftMargin-deckBlockRightMargin;
+		Vector2 deckBlockOrigin = new Vector3 (-worldWidth/2f+deckBlockLeftMargin+deckBlockWidth/2f, -worldHeight / 2f + deckBlockDownMargin + deckBlockHeight / 2,0f);
+		
+		this.deckBlock.GetComponent<BlockController> ().resize(new Rect(deckBlockOrigin.x,deckBlockOrigin.y,deckBlockWidth,deckBlockHeight));
+
+		float newsBlockLeftMargin = this.worldWidth-2.8f;
+		float newsBlockRightMargin = 0f;
+		float newsBlockUpMargin = 4.1f;
+		float newsBlockDownMargin = 0.2f;
+		
+		float newsBlockHeight = worldHeight - newsBlockUpMargin-newsBlockDownMargin;
+		float newsBlockWidth = worldWidth-newsBlockLeftMargin-newsBlockRightMargin;
+		Vector2 newsBlockOrigin = new Vector3 (-worldWidth/2f+newsBlockLeftMargin+newsBlockWidth/2f, -worldHeight / 2f + newsBlockDownMargin + newsBlockHeight / 2,0f);
+		
+		this.newsBlock.GetComponent<BlockController> ().resize(new Rect(newsBlockOrigin.x,newsBlockOrigin.y, newsBlockWidth, newsBlockHeight));
+		this.newsTitle.transform.position = new Vector3 (newsBlockOrigin.x, newsBlockOrigin.y+newsBlockHeight/2f-0.3f, 0);
+		
+		float notificationsBlockLeftMargin = this.worldWidth-2.8f;
+		float notificationsBlockRightMargin = 0f;
+		float notificationsBlockUpMargin = 0.6f;
+		float notificationsBlockDownMargin = 6.1f;
+		
+		float notificationsBlockHeight = worldHeight - notificationsBlockUpMargin-notificationsBlockDownMargin;
+		float notificationsBlockWidth = worldWidth-notificationsBlockLeftMargin-notificationsBlockRightMargin;
+		Vector2 notificationsBlockOrigin = new Vector3 (-worldWidth/2f+notificationsBlockLeftMargin+notificationsBlockWidth/2f, -worldHeight / 2f + notificationsBlockDownMargin + notificationsBlockHeight / 2,0f);
+		
+		this.notificationsBlock.GetComponent<BlockController> ().resize(new Rect(notificationsBlockOrigin.x,notificationsBlockOrigin.y,notificationsBlockWidth,notificationsBlockHeight));
+		this.notificationsTitle.transform.position = new Vector3 (notificationsBlockOrigin.x, notificationsBlockOrigin.y+notificationsBlockHeight/2f-0.3f, 0);
 
 		float packScale = 0.84f;
 		
 		float packWidth = 250f;
 		float packWorldWidth = (packWidth / pixelPerUnit) * packScale;
 		
-		this.packsPerLine = Mathf.FloorToInt ((storeBoardWidth-0.5f) / packWorldWidth);
+		this.packsPerLine = Mathf.FloorToInt ((storeBlockWidth-0.5f) / packWorldWidth);
 
-		float packsGapWidth = (storeBoardWidth - (this.packsPerLine * packWorldWidth)) / (this.packsPerLine + 1);
-		float packsBoardStartX = storeBoardOrigin.x - storeBoardWidth / 2f-packWorldWidth/2f;
+		float packsGapWidth = (storeBlockWidth - (this.packsPerLine * packWorldWidth)) / (this.packsPerLine + 1);
+		float packsBoardStartX = storeBlockOrigin.x - storeBlockWidth / 2f-packWorldWidth/2f;
 
 		this.packs=new GameObject[this.packsPerLine];
 		
@@ -334,83 +548,423 @@ public class NewHomePageController : MonoBehaviour
 		{
 			this.packs[i] = Instantiate(this.packObject) as GameObject;
 			this.packs[i].transform.localScale= new Vector3(0.7f,0.7f,0.7f);
-			this.packs[i].transform.position=new Vector3(packsBoardStartX+(i+1)*(packsGapWidth+packWorldWidth),storeBoardOrigin.y-0.5f,0f);
+			this.packs[i].transform.position=new Vector3(packsBoardStartX+(i+1)*(packsGapWidth+packWorldWidth),storeBlockOrigin.y-0.5f,0f);
 			this.packs[i].transform.name="Pack"+i;
 			this.packs[i].AddComponent<NewPackHomePageController>();
 			this.packs[i].transform.GetComponent<NewPackHomePageController>().setId(i);
 			this.packs[i].SetActive(false);
 		}
 
-		float competitionsBoardLeftMargin = (this.worldWidth - 2.9f - 3.25f) / 2f + 2.9f;
-		float competitionsBoardRightMargin = 3.25f;
-		float competitionsBoardUpMargin = 5f;
-		float competitionsBoardDownMargin = 0.25f;
-		
-		float competitionsBoardHeight = worldHeight - competitionsBoardUpMargin-competitionsBoardDownMargin;
-		float competitionsBoardWidth = worldWidth-competitionsBoardLeftMargin-competitionsBoardRightMargin;
-		Vector2 competitionsBoardOrigin = new Vector3 (-worldWidth/2f+competitionsBoardLeftMargin+competitionsBoardWidth/2f, -worldHeight / 2f + competitionsBoardDownMargin + competitionsBoardHeight / 2,0f);
-		
-		this.competitionsBoard.GetComponent<BoardController> ().resize(competitionsBoardWidth,competitionsBoardHeight,competitionsBoardOrigin);
-		this.competitionsTitle.transform.position = new Vector3 (competitionsBoardOrigin.x, competitionsBoardOrigin.y+competitionsBoardHeight/2f-0.3f, 0);
+		float selectButtonWidth=219f;
+		float selectButtonScale = 1.4f;
+		float deleteRenameButtonScale = 0.7f;
+		float deleteRenameButtonWidth = 219;
+		float cardHaloWidth = 200f;
+		float cardScale = 0.83f;
+		float deckCardsInterval = 1.7f;
 
-		float competitionsScale = 0.84f;
+		float selectButtonWorldWidth = selectButtonScale*(selectButtonWidth / pixelPerUnit);
+		float cardHaloWorldWidth = cardScale * (cardHaloWidth / pixelPerUnit);
+		float deckCardsWidth = deckCardsInterval * 3f + cardHaloWorldWidth;
+		float deckBoardLeftMargin = 2.9f;
+		float deckBoardRightMargin = 2.9f;
+		float cardsBoardUpMargin;
+		float cardsBoardDownMargin = 0.5f;
+
+		float cardWidth = 194f;
+		float cardHeight = 271f;
+		float cardWorldWidth = (cardWidth / pixelPerUnit) * cardScale;
+		float cardWorldHeight = (cardHeight / pixelPerUnit) * cardScale;
+
+		float tempWidth = worldWidth - deckBoardLeftMargin - deckBoardRightMargin - selectButtonWorldWidth - deckCardsWidth;
 		
-		float competitionsWidth = 250f;
-		float competitionsWorldWidth = (competitionsWidth / pixelPerUnit) * competitionsScale;
-		
-		this.competitionsPerLine = Mathf.FloorToInt ((competitionsBoardWidth-0.5f) / competitionsWorldWidth);
-		
-		float competitionsGapWidth = (competitionsBoardWidth - (this.competitionsPerLine * competitionsWorldWidth)) / (this.competitionsPerLine + 1);
-		float competitionsBoardStartX = competitionsBoardOrigin.x - competitionsBoardWidth / 2f-competitionsWorldWidth/2f;
-		
-		this.competitions=new GameObject[this.competitionsPerLine];
-		
-		for(int i =0;i<this.competitionsPerLine;i++)
+		if(tempWidth>0.25f)
 		{
-			this.competitions[i] = Instantiate(this.competitionObject) as GameObject;
-			this.competitions[i].transform.localScale= new Vector3(0.7f,0.7f,0.7f);
-			this.competitions[i].transform.position=new Vector3(competitionsBoardStartX+(i+1)*(competitionsGapWidth+packWorldWidth),competitionsBoardOrigin.y-0.5f,0f);
-			this.competitions[i].transform.name="Competition"+i;
-			this.competitions[i].transform.GetComponent<CompetitionController>().setId(i);
-			this.competitions[i].SetActive(false);
+			this.deckBoard.transform.position=new Vector3(selectButtonWorldWidth/2f +tempWidth/4f,3.05f,0f);
+			this.deckBoard.transform.FindChild("deckList").localPosition=new Vector3(-deckCardsWidth/2f-tempWidth/2f-selectButtonWorldWidth/2f,-0.32f,0);
+			this.deckBoard.transform.FindChild("deckList").FindChild("currentDeck").localPosition=new Vector3(0f,0.27f,0f);
+			this.deckBoard.transform.FindChild("deckList").FindChild("Title").localPosition=new Vector3(0,0.86f,0f);
+			this.deckBoard.transform.FindChild("3stars").localPosition=new Vector3(-2.55f,1.29f,0);
+			this.deckBoard.transform.FindChild("2stars").localPosition=new Vector3(-0.85f,1.29f,0);
+			this.deckBoard.transform.FindChild("1star").localPosition=new Vector3(0.85f,1.29f,0);
 		}
-
-		float newsBoardLeftMargin = this.worldWidth-3.25f;
-		float newsBoardRightMargin = 0f;
-		float newsBoardUpMargin = 4f;
-		float newsBoardDownMargin = 0.25f;
+		else
+		{
+			this.deckBoard.transform.position=new Vector3(0,3.05f,0f);
+			this.deckBoard.transform.FindChild("deckList").localPosition=new Vector3(0,1.43f,0);
+			this.deckBoard.transform.FindChild("deckList").FindChild("currentDeck").localPosition=new Vector3(1.6f,0,0);
+			this.deckBoard.transform.FindChild("deckList").FindChild("Title").localPosition=new Vector3(-1.7f,0f,0f);
+			this.deckBoard.transform.FindChild("3stars").localPosition=new Vector3(-2.55f,-1.25f,0);
+			this.deckBoard.transform.FindChild("2stars").localPosition=new Vector3(-0.85f,-1.25f,0);
+			this.deckBoard.transform.FindChild("1star").localPosition=new Vector3(0.85f,-1.25f,0);
+		}
 		
-		float newsBoardHeight = worldHeight - newsBoardUpMargin-newsBoardDownMargin;
-		float newsBoardWidth = worldWidth-newsBoardLeftMargin-newsBoardRightMargin;
-		Vector2 newsBoardOrigin = new Vector3 (-worldWidth/2f+newsBoardLeftMargin+newsBoardWidth/2f, -worldHeight / 2f + newsBoardDownMargin + newsBoardHeight / 2,0f);
-		
-		this.newsBoard.GetComponent<BoardController> ().resize(newsBoardWidth,newsBoardHeight,newsBoardOrigin);
-		this.newsTitle.transform.position = new Vector3 (newsBoardOrigin.x, newsBoardOrigin.y+newsBoardHeight/2f-0.3f, 0);
-
-		float notificationsBoardLeftMargin = this.worldWidth-3.25f;
-		float notificationsBoardRightMargin = 0f;
-		float notificationsBoardUpMargin = 0.6f;
-		float notificationsBoardDownMargin = 6f;
-		
-		float notificationsBoardHeight = worldHeight - notificationsBoardUpMargin-notificationsBoardDownMargin;
-		float notificationsBoardWidth = worldWidth-notificationsBoardLeftMargin-notificationsBoardRightMargin;
-		Vector2 notificationsBoardOrigin = new Vector3 (-worldWidth/2f+notificationsBoardLeftMargin+notificationsBoardWidth/2f, -worldHeight / 2f + notificationsBoardDownMargin + notificationsBoardHeight / 2,0f);
-		
-		this.notificationsBoard.GetComponent<BoardController> ().resize(notificationsBoardWidth,notificationsBoardHeight,notificationsBoardOrigin);
-		this.notificationsTitle.transform.position = new Vector3 (notificationsBoardOrigin.x, notificationsBoardOrigin.y+notificationsBoardHeight/2f-0.3f, 0);
+		for(int i =0;i<this.competitions.Length;i++)
+		{
+			this.competitions[i].transform.position=new Vector3(competitionsBlockOrigin.x,competitionsBlockOrigin.y+0.75f-i*0.85f,0f);
+			this.competitions[i].transform.GetComponent<CompetitionController>().setId(i);
+		}
 
 		for(int i=0;i<this.notifications.Length;i++)
 		{
-			this.notifications[i].transform.position=new Vector3(notificationsBoardOrigin.x-0.25f,notificationsBoardOrigin.y+notificationsBoardHeight/2f-0.85f-i*0.77f,0);
+			this.notifications[i].transform.position=new Vector3(notificationsBlockOrigin.x-0.2f,notificationsBlockOrigin.y+notificationsBlockHeight/2f-0.85f-i*0.77f,0);
 		}
 
 		for(int i=0;i<this.news.Length;i++)
 		{
-			this.news[i].transform.position=new Vector3(newsBoardOrigin.x-0.25f,newsBoardOrigin.y+newsBoardHeight/2f-0.85f-i*0.77f,0);
+			this.news[i].transform.position=new Vector3(newsBlockOrigin.x-0.2f,newsBlockOrigin.y+newsBlockHeight/2f-0.85f-i*0.77f,0);
+		}
+
+		this.deckCardsPosition=new Vector3[4];
+		this.deckCardsArea=new Rect[4];
+		
+		for(int i=0;i<4;i++)
+		{
+			this.deckCardsPosition[i]=this.deckBoard.transform.FindChild("Card"+i).position;
+			this.deckCardsArea[i]=new Rect(this.deckCardsPosition[i].x-cardWorldWidth/2f,this.deckCardsPosition[i].y-cardWorldHeight/2f,cardWorldWidth,cardWorldHeight);
+			this.deckCards[i].transform.position=this.deckCardsPosition[i];
+			this.deckCards[i].transform.localScale=new Vector3(1f,1f,1f);
+			this.deckCards[i].transform.GetComponent<NewCardHomePageController>().setId(i);
+		}
+		float focusedCardScale = 3.648985f;
+		float focusedCardWidth = 194f;
+		float focusedCardHeight = 271f;
+		float focusedCardRightMargin = 0.5f;
+		float focusedCardLeftMargin = 2.8f;
+		float emptyWidth = this.worldWidth - focusedCardRightMargin - focusedCardLeftMargin;
+		
+		this.focusedCard.transform.position = new Vector3 (focusedCardLeftMargin+emptyWidth/2f-this.worldWidth/2f, -0.25f, 0f);
+		this.focusedCard.transform.GetComponent<NewFocusedCardController> ().setCentralWindow (this.centralWindow);
+		this.focusedCard.transform.GetComponent<NewFocusedCardController> ().setCollectionPointsWindow (this.collectionPointsWindow);
+		this.focusedCard.transform.GetComponent<NewFocusedCardController> ().setNewSkillsWindow (this.newSkillsWindow);
+		this.focusedCard.transform.GetComponent<NewFocusedCardController> ().setNewCardTypeWindow (this.newCardTypeWindow);
+		this.focusedCard.SetActive (false);
+	}
+	private void retrieveDefaultDeck()
+	{
+		this.decksDisplayed=new List<int>();
+		if(model.decks.Count>0)
+		{
+			this.deckDisplayed = 0;
+			for(int i=0;i<model.decks.Count;i++)
+			{
+				if(model.decks[i].Id==model.player.SelectedDeckId)
+				{
+					this.deckDisplayed=i;
+					break;
+				}
+			}
+		}
+		else
+		{
+			this.deckDisplayed=-1;
 		}
 	}
-
-	public void drawNotifications()
+	private void retrieveDecksList()
+	{
+		this.decksDisplayed=new List<int>();
+		if(this.deckDisplayed!=-1)
+		{
+			for(int i=0;i<model.decks.Count;i++)
+			{
+				if(i!=this.deckDisplayed)
+				{
+					this.decksDisplayed.Add (i);
+				}
+			}
+		}
+	}
+	public IEnumerator drawDeckCards()
+	{
+		this.deckCardsDisplayed = new int[]{-1,-1,-1,-1};
+		if(this.deckDisplayed!=-1)
+		{	
+			
+			yield return StartCoroutine(model.decks[this.deckDisplayed].RetrieveCards());
+			
+			for(int i=0;i<model.decks[this.deckDisplayed].Cards.Count;i++)
+			{
+				int deckOrder = model.decks[this.deckDisplayed].Cards[i].deckOrder;
+				this.deckCardsDisplayed[deckOrder]=i;
+			}
+			this.deckBoard.transform.FindChild("deckList").FindChild("currentDeck").FindChild("deckName").GetComponent<TextMeshPro> ().text = model.decks[this.deckDisplayed].Name;
+			this.deckBoard.transform.FindChild("deckList").FindChild("currentDeck").FindChild("selectButton").gameObject.SetActive(true);
+		}
+		else
+		{
+			this.deckBoard.transform.FindChild("deckList").FindChild("currentDeck").FindChild("deckName").GetComponent<TextMeshPro> ().text="Aucun deck créé";
+			this.deckBoard.transform.FindChild("deckList").FindChild("currentDeck").FindChild("selectButton").gameObject.SetActive(false);
+		}
+		for(int i=0;i<this.deckCards.Length;i++)
+		{
+			if(this.deckCardsDisplayed[i]!=-1)
+			{
+				this.deckCards[i].transform.GetComponent<NewCardController>().c=model.decks[this.deckDisplayed].Cards[this.deckCardsDisplayed[i]];
+				this.deckCards[i].transform.GetComponent<NewCardController>().show();
+				this.deckCards[i].SetActive(true);
+			}
+			else
+			{
+				this.deckCards[i].SetActive(false);
+			}
+		}
+	}
+	public void showCardFocused()
+	{
+		this.isCardFocusedDisplayed = true;
+		this.isHovering=false;
+		Cursor.SetCursor (null, Vector2.zero, CursorMode.Auto);
+		this.displayBackUI (false);
+		this.focusedCard.SetActive (true);
+		this.focusedCardIndex=this.deckCardsDisplayed[this.idCardClicked];
+		this.focusedCard.GetComponent<NewFocusedCardController>().c=model.decks[this.deckDisplayed].Cards[this.deckCardsDisplayed[this.idCardClicked]];
+		this.focusedCard.GetComponent<NewFocusedCardController> ().show ();
+	}
+	public void hideCardFocused()
+	{
+		this.isCardFocusedDisplayed = false;
+		this.displayBackUI (true);
+		this.focusedCard.SetActive (false);
+		this.deckCards[this.idCardClicked].GetComponent<NewCardController>().show();
+	}
+	public void displayBackUI(bool value)
+	{
+		this.deckBoard.SetActive (value);
+		this.deckBlock.GetComponent<BlockController>().display(value);
+		for(int i=0;i<this.deckCardsDisplayed.Length;i++)
+		{
+			if(this.deckCardsDisplayed[i]!=-1)
+			{
+				this.deckCards[i].SetActive(value);
+			}
+		}
+		this.newsBlock.GetComponent<BlockController>().display(value);
+		this.newsTitle.SetActive (value);
+		for(int i=0;i<this.newsDisplayed.Count;i++)
+		{
+			this.news[i].SetActive(value);
+		}
+		this.notificationsBlock.GetComponent<BlockController>().display(value);
+		this.notificationsTitle.SetActive (value);
+		for(int i=0;i<this.notificationsDisplayed.Count;i++)
+		{
+			this.notifications[i].SetActive(value);
+		}
+		this.storeBlock.GetComponent<BlockController>().display(value);
+		this.storeAssetsTitle.SetActive (value);
+		for(int i=0;i<this.packs.Length;i++)
+		{
+			this.packs[i].SetActive(value);
+		}
+		this.competitionsBlock.GetComponent<BlockController>().display(value);
+		this.competitionsTitle.SetActive (value);
+		this.connectedPlayersTitle.SetActive (value);
+		for(int i=0;i<this.competitions.Length;i++)
+		{
+			this.competitions[i].SetActive(value);
+		}
+		this.stats.SetActive (value);
+		this.statsBlock.GetComponent<BlockController>().display(value);
+		this.statsTitle.SetActive (value);
+		this.cleanCardsButton.SetActive (value);
+		this.collectionButton.SetActive (value);
+		for(int i=0;i<this.paginationButtonsNews.Length;i++)
+		{
+			this.paginationButtonsNews[i].SetActive(value);
+		}
+		for(int i=0;i<this.paginationButtonsNotifications.Length;i++)
+		{
+			this.paginationButtonsNotifications[i].SetActive(value);
+		}
+	}
+	public void selectDeck(int id)
+	{
+		this.deckDisplayed = this.decksDisplayed [id];
+		this.cleanDeckList ();
+		this.isSearchingDeck = false;
+		this.initializeDecks ();
+	}
+	public void displayDeckList()
+	{
+		this.cleanDeckList ();
+		if(!isSearchingDeck)
+		{
+			this.setDeckList ();
+			this.isSearchingDeck=true;
+		}
+		else
+		{
+			this.isSearchingDeck=false;
+		}
+	}
+	private void cleanDeckList ()
+	{
+		for(int i=0;i<this.deckList.Count;i++)
+		{
+			Destroy(this.deckList[i]);
+		}
+		this.deckList=new List<GameObject>();
+	}
+	private void setDeckList()
+	{
+		for (int i = 0; i < this.decksDisplayed.Count; i++) 
+		{  
+			this.deckList.Add (Instantiate(this.deckListObject) as GameObject);
+			this.deckList[this.deckList.Count-1].transform.parent=this.deckBoard.transform.FindChild("deckList").FindChild("currentDeck");
+			this.deckList[this.deckList.Count-1].transform.localScale=new Vector3(1.4f,1.4f,1.4f);
+			this.deckList[this.deckList.Count-1].transform.localPosition=new Vector3(0f, -0.45f+(this.deckList.Count-1)*(-0.32f),0f);
+			this.deckList[this.deckList.Count-1].transform.FindChild("Title").GetComponent<TextMeshPro>().text = model.decks [this.decksDisplayed[i]].Name;
+			this.deckList[this.deckList.Count-1].GetComponent<DeckBoardDeckListHomePageController>().setId(i);
+		}
+	}
+	public void mouseOnSelectDeckButton(bool value)
+	{
+		this.isMouseOnSelectDeckButton = value;
+	}
+	public void refreshCredits()
+	{
+		StartCoroutine(this.menu.GetComponent<newMenuController> ().getUserData ());
+	}
+	public void returnPressed()
+	{
+		if(isCardFocusedDisplayed)
+		{
+			this.focusedCard.GetComponent<NewFocusedCardController>().returnPressed();
+		}
+	}
+	public void escapePressed()
+	{
+		if(newMenuController.instance.isAPopUpDisplayed())
+		{
+			newMenuController.instance.hideAllPopUp();
+		}
+		else if(isCardFocusedDisplayed)
+		{
+			this.focusedCard.GetComponent<NewFocusedCardController>().escapePressed();
+		}
+	}
+	public void rightClickedHandler(int id)
+	{
+		this.idCardClicked = id;
+		this.showCardFocused ();
+	}
+	public void leftClickedHandler(int id)
+	{
+		this.idCardClicked = id;
+		bool onSale;
+		int idOwner;
+		this.isLeftClicked = true;
+		this.clickInterval = 0f;
+	}
+	public void leftClickReleaseHandler()
+	{
+		this.isLeftClicked = false;
+		if(isDragging)
+		{
+			this.endDragging();
+		}
+	}
+	public void isHoveringCard()
+	{
+		if(!isHovering)
+		{
+			this.isHovering=true;
+			if(!this.isDragging)
+			{
+				Cursor.SetCursor (this.cursorTextures[0], new Vector2(this.cursorTextures[0].width/2f,this.cursorTextures[0].width/2f), CursorMode.Auto);
+			}
+		}
+	}
+	public void endHoveringCard()
+	{
+		if(this.isHovering)
+		{
+			this.isHovering=false;
+			if(!this.isDragging)
+			{
+				Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
+			}
+			else
+			{
+				this.isDragging=false;
+			}
+		}
+	}
+	public void startDragging()
+	{
+		if(!this.isDragging)
+		{
+			this.isDragging=true;
+			Cursor.SetCursor (this.cursorTextures[1], new Vector2(this.cursorTextures[1].width/2f,this.cursorTextures[1].width/2f), CursorMode.Auto);
+			this.deckCards[this.idCardClicked].GetComponent<NewCardController>().changeLayer(4);
+			this.deckBoard.GetComponent<DeckBoardController> ().changeCardsColor (new Color (155f / 255f, 220f / 255f, 1f));
+		}
+	}
+	public void endDragging()
+	{
+		this.isDragging=false;
+		if(this.isHovering)
+		{
+			Cursor.SetCursor (this.cursorTextures[0], new Vector2(this.cursorTextures[0].width/2f,this.cursorTextures[0].width/2f), CursorMode.Auto);
+		}
+		else
+		{
+			Cursor.SetCursor (null, Vector2.zero, CursorMode.Auto);
+		}
+		this.deckCards[this.idCardClicked].GetComponent<NewCardController>().changeLayer(-4);
+		this.deckCards[this.idCardClicked].transform.position=this.deckCardsPosition[this.idCardClicked];
+		this.deckBoard.GetComponent<DeckBoardController> ().changeCardsColor (new Color (1f,1f, 1f));bool toCards=false;
+		
+		Vector3 cursorPosition = Camera.main.ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, Input.mousePosition.z));
+		for(int i=0;i<deckCardsArea.Length;i++)
+		{
+			if(this.deckCardsArea[i].Contains(Camera.main.ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, Input.mousePosition.z))))
+			{
+				this.moveToDeckCards(i);
+				break;
+			}
+		}
+	}
+	public void isDraggingCard()
+	{
+		if(isDragging)
+		{
+			Vector3 mousePosition = Camera.main.ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, Input.mousePosition.z));
+			this.deckCards[this.idCardClicked].transform.position=new Vector3(mousePosition.x,mousePosition.y,0f);
+		}
+	}
+	public void moveToDeckCards(int position)
+	{
+		
+		int idCard1 = model.decks [this.deckDisplayed].Cards [this.deckCardsDisplayed [this.idCardClicked]].Id;
+		this.deckCards[position].SetActive(true);
+		this.deckCards[position].GetComponent<NewCardController>().c=model.decks [this.deckDisplayed].Cards [this.deckCardsDisplayed [this.idCardClicked]];
+		this.deckCards[position].GetComponent<NewCardController>().show();
+		if(this.deckCardsDisplayed[position]!=-1)
+		{
+			int indexCard2=this.deckCardsDisplayed[position];
+			int idCard2=model.decks [this.deckDisplayed].Cards [indexCard2].Id;
+			this.deckCards[position].GetComponent<NewCardController>().c=model.decks [this.deckDisplayed].Cards [this.deckCardsDisplayed [this.idCardClicked]];
+			this.deckCards[position].GetComponent<NewCardController>().show ();
+			this.deckCardsDisplayed[position]=this.deckCardsDisplayed[this.idCardClicked];
+			this.deckCards[this.idCardClicked].GetComponent<NewCardController>().c=model.decks [this.deckDisplayed].Cards [indexCard2];
+			this.deckCards[this.idCardClicked].GetComponent<NewCardController>().show ();
+			this.deckCardsDisplayed[this.idCardClicked]=indexCard2;
+			StartCoroutine(this.changeDeckCardsOrder(idCard1,position,idCard2,this.idCardClicked));
+		}
+		else
+		{
+			this.deckCardsDisplayed[position]=this.deckCardsDisplayed[this.idCardClicked];
+			this.deckCards[this.idCardClicked].SetActive(false);
+			this.deckCardsDisplayed[this.idCardClicked]=-1;
+			StartCoroutine(changeDeckCardsOrder(idCard1,position,-1,-1));
+		}
+	}
+	public IEnumerator changeDeckCardsOrder(int idCard1, int deckOrder1, int idCard2, int deckOrder2)
+	{
+		yield return StartCoroutine(model.decks[this.deckDisplayed].changeCardsOrder(idCard1,deckOrder1,idCard2,deckOrder2));
+	}
+	public void drawNotifications(bool firstLoad=false)
 	{
 		this.notificationsDisplayed = new List<int> ();
 		int tempInt = this.elementsPerPageNotifications;
@@ -418,27 +972,31 @@ public class NewHomePageController : MonoBehaviour
 		{
 			tempInt=model.notifications.Count-this.chosenPageNotifications*(elementsPerPageNotifications);
 		}
-		this.notificationsPictures = new Texture2D[tempInt];
+		bool allPicturesLoaded = true;
 		for(int i =0;i<elementsPerPageNotifications;i++)
 		{
 			if(this.chosenPageNotifications*this.elementsPerPageNotifications+i<model.notifications.Count)
 			{
+				if(!model.notifications[this.chosenPageNotifications*this.elementsPerPageNotifications+i].SendingUser.isThumbPictureLoaded)
+				{
+					StartCoroutine(model.notifications[this.chosenPageNotifications*this.elementsPerPageNotifications+i].SendingUser.setThumbProfilePicture());
+					allPicturesLoaded=false;
+				}
 				this.notificationsDisplayed.Add (this.chosenPageNotifications*this.elementsPerPageNotifications+i);
 				this.notifications[i].GetComponent<NotificationController>().setNotification(model.notifications[this.chosenPageNotifications*this.elementsPerPageNotifications+i]);
 				this.notifications[i].GetComponent<NotificationController>().show();
 				this.notifications[i].SetActive(true);
-				if(!model.notifications[this.chosenPageNotifications*this.elementsPerPageNotifications+i].SendingUser.isThumbPictureLoaded)
-				{
-					StartCoroutine(model.notifications[this.chosenPageNotifications*this.elementsPerPageNotifications+i].SendingUser.setThumbProfilePicture());
-				}
-				this.notificationsPictures[i]=model.notifications[this.chosenPageNotifications*this.elementsPerPageNotifications+i].SendingUser.texture;
 			}
 			else
 			{
 				this.notifications[i].SetActive(false);
 			}
 		}
-		this.areNotificationsPicturesLoading = true;
+		if(!allPicturesLoaded)
+		{
+			this.areNotificationsPicturesLoading=true;
+		}
+		this.manageNonReadsNotifications (firstLoad);
 	}
 	public void drawNews()
 	{
@@ -448,118 +1006,101 @@ public class NewHomePageController : MonoBehaviour
 		{
 			tempInt=model.news.Count-this.chosenPageNews*(elementsPerPageNews);
 		}
-		this.newsPictures = new Texture2D[tempInt];
+		bool allPicturesLoaded = true;
 		for(int i =0;i<elementsPerPageNews;i++)
 		{
 			if(this.chosenPageNews*this.elementsPerPageNews+i<model.news.Count)
 			{
+				if(!model.news[this.chosenPageNews*this.elementsPerPageNews+i].User.isThumbPictureLoaded)
+				{
+					StartCoroutine(model.news[this.chosenPageNews*this.elementsPerPageNews+i].User.setThumbProfilePicture());
+					allPicturesLoaded=false;
+				}
 				this.newsDisplayed.Add (this.chosenPageNews*this.elementsPerPageNews+i);
 				this.news[i].GetComponent<NewsController>().setNews(model.news[this.chosenPageNews*this.elementsPerPageNews+i]);
 				this.news[i].GetComponent<NewsController>().show();
 				this.news[i].SetActive(true);
-				if(!model.news[this.chosenPageNews*this.elementsPerPageNews+i].User.isThumbPictureLoaded)
-				{
-					StartCoroutine(model.news[this.chosenPageNews*this.elementsPerPageNews+i].User.setThumbProfilePicture());
-				}
-				this.newsPictures[i]=model.news[this.chosenPageNews*this.elementsPerPageNews+i].User.texture;
 			}
 			else
 			{
 				this.news[i].SetActive(false);
 			}
 		}
-		this.areNewsPicturesLoading = true;
+		if(!allPicturesLoaded)
+		{
+			this.areNewsPicturesLoading=true;
+		}
 	}
 	public void drawPacks()
 	{
-		this.arePacksPicturesLoading = false;
 		this.packsDisplayed = new List<int> ();
 		int tempInt = this.packsPerLine;
 		if(this.chosenPagePacks*(packsPerLine)+packsPerLine>this.model.packs.Count)
 		{
 			tempInt=model.packs.Count-this.chosenPagePacks*(packsPerLine);
 		}
-		this.packsPictures = new Texture2D[tempInt];
-		
+		bool allPicturesLoaded = true;
 		for(int i=0;i<packsPerLine;i++)
 		{
 			if(this.chosenPagePacks*(packsPerLine)+i<this.model.packs.Count)
 			{
+				if(!model.packs[this.chosenPagePacks*(packsPerLine)+i].isTextureLoaded)
+				{
+					StartCoroutine(model.packs[this.chosenPagePacks*(packsPerLine)+i].setPicture());
+					allPicturesLoaded=false;
+				}
 				this.packsDisplayed.Add (this.chosenPagePacks*(packsPerLine)+i);
 				this.packs[i].SetActive(true);
 				this.packs[i].transform.GetComponent<NewPackHomePageController>().p=model.packs[this.chosenPagePacks*(packsPerLine)+i];
 				this.packs[i].transform.GetComponent<NewPackHomePageController>().show();
 				this.packs[i].transform.GetComponent<NewPackHomePageController>().setId(i);
-				if(!model.packs[this.chosenPagePacks*(packsPerLine)+i].isTextureLoaded)
-				{
-					StartCoroutine(model.packs[this.chosenPagePacks*(packsPerLine)+i].setPicture());
-				}
-				this.packsPictures[i]=model.packs[this.chosenPagePacks*(packsPerLine)+i].texture;
 			}
 			else
 			{
 				this.packs[i].SetActive(false);
 			}
 		}
-		this.arePacksPicturesLoading = true;
+		if(!allPicturesLoaded)
+		{
+			this.arePacksPicturesLoading=true;
+		}
 		this.nbPagesPacks = Mathf.CeilToInt((float)model.packs.Count / (float)this.packsPerLine);
 	}
 	public void drawCompetitions()
-	{
-		this.areCompetitionsPicturesLoading = false;
-		this.competitionsDisplayed = new List<int> ();
-		int tempInt = this.competitionsPerLine;
-		int tempNbCompetition=1;
-		if(model.player.NbGamesCup>0)
+	{	
+		this.competitions [0].transform.GetComponent<CompetitionController> ().show ("Amical");
+		bool allPicturesLoaded = true;
+		for(int i=0;i<competitions.Length;i++)
 		{
-			tempNbCompetition=2;
-		}
-		if(this.chosenPagePacks*(packsPerLine)+packsPerLine>tempNbCompetition)
-		{
-			tempInt=tempNbCompetition-this.chosenPagePacks*(packsPerLine);
-		}
-		this.competitionsPictures = new Texture2D[tempInt];
-		
-		for(int i=0;i<competitionsPerLine;i++)
-		{
-			if(this.chosenPagePacks*(packsPerLine)+i<tempNbCompetition)
+			if(i>0)
 			{
-				this.competitionsDisplayed.Add (this.chosenPagePacks*(packsPerLine)+i);
-				this.competitions[i].SetActive(true);
-				this.competitions[i].transform.GetComponent<CompetitionController>().setId(i);
-				if(this.chosenPagePacks*(packsPerLine)==0)
+				this.competitions[i].transform.GetComponent<CompetitionController>().show(model.competitions[i-1].Name);
+				if(!model.competitions[i-1].isTextureLoaded)
 				{
-					this.competitions[i].transform.GetComponent<CompetitionController>().show(model.currentDivision.Name);
-					if(!model.currentDivision.isTextureLoaded)
-					{
-						StartCoroutine(model.currentDivision.setPicture());
-					}
-					this.competitionsPictures[i]=model.currentDivision.texture;
-				}
-				else if(this.chosenPagePacks*(packsPerLine)==1)
-				{
-					this.competitions[i].transform.GetComponent<CompetitionController>().show(model.currentCup.Name);
-					if(!model.currentCup.isTextureLoaded)
-					{
-						StartCoroutine(model.currentCup.setPicture());
-					}
-					this.competitionsPictures[i]=model.currentCup.texture;
+					StartCoroutine(model.competitions[i-1].setPicture());
+					this.competitions[i].transform.GetComponent<CompetitionController>().setPicture(model.competitions[i-1].texture);
+					allPicturesLoaded=false;
 				}
 			}
-			else
-			{
-				this.competitions[i].SetActive(false);
-			}
+			this.competitions[i].transform.GetComponent<CompetitionController>().setId(i);
 		}
-		this.areCompetitionsPicturesLoading = true;
-		this.nbPagesPacks = Mathf.CeilToInt((float)tempNbCompetition / (float)this.competitionsPerLine);
+		if(!allPicturesLoaded)
+		{
+			this.areCompetitionsPicturesLoading=true;
+		}
 	}
-	public void cleanCompetitions()
+	public void drawStats()
 	{
-		for (int i=0;i<this.competitions.Length;i++)
-		{
-			Destroy (this.competitions[i]);
-		}
+		this.stats.transform.FindChild ("nbWins").FindChild ("Value").GetComponent<TextMeshPro> ().text = model.player.TotalNbWins.ToString ();
+		this.stats.transform.FindChild ("nbWins").FindChild ("Title").GetComponent<TextMeshPro> ().text = "Victoires";
+		this.stats.transform.FindChild ("nbLooses").FindChild ("Value").GetComponent<TextMeshPro> ().text = model.player.TotalNbLooses.ToString ();
+		this.stats.transform.FindChild ("nbLooses").FindChild ("Title").GetComponent<TextMeshPro> ().text = "Défaites";
+		this.stats.transform.FindChild ("ranking").FindChild ("Title").GetComponent<TextMeshPro> ().text = "Classement";
+		this.stats.transform.FindChild ("ranking").FindChild ("Value").GetComponent<TextMeshPro> ().text = model.player.Ranking.ToString ();
+		this.stats.transform.FindChild ("ranking").FindChild ("Title2").GetComponent<TextMeshPro> ().text = "("+model.player.RankingPoints.ToString()+" pts)";
+		this.stats.transform.FindChild ("collectionPoints").FindChild ("Title").GetComponent<TextMeshPro> ().text = "Collection";
+		this.stats.transform.FindChild ("collectionPoints").FindChild ("Value").GetComponent<TextMeshPro> ().text = model.player.Ranking.ToString ();
+		this.stats.transform.FindChild ("collectionPoints").FindChild ("Title2").GetComponent<TextMeshPro> ().text = "("+model.player.CollectionPoints.ToString()+" pts)";
 	}
 	public void cleanPacks()
 	{
@@ -581,7 +1122,7 @@ public class NewHomePageController : MonoBehaviour
 		this.nbPagesNotifications = Mathf.CeilToInt((float)model.notifications.Count / ((float)this.elementsPerPageNotifications));
 		if(this.nbPagesNotifications>1)
 		{
-			this.nbPaginationButtonsLimitNotifications = Mathf.CeilToInt((3.25f)/(paginationButtonWidth+gapBetweenPaginationButton));
+			this.nbPaginationButtonsLimitNotifications = Mathf.CeilToInt((2.9f)/(paginationButtonWidth+gapBetweenPaginationButton));
 			int nbButtonsToDraw=0;
 			bool drawBackButton=false;
 			if (this.pageDebutNotifications !=0)
@@ -603,7 +1144,7 @@ public class NewHomePageController : MonoBehaviour
 			{
 				this.paginationButtonsNotifications[i] = Instantiate(this.paginationButtonObject) as GameObject;
 				this.paginationButtonsNotifications[i].AddComponent<HomePageNotificationsPaginationController>();
-				this.paginationButtonsNotifications[i].transform.position=new Vector3(this.worldWidth/2f-3.25f/2f+(0.5f+i-nbButtonsToDraw/2f)*(paginationButtonWidth+gapBetweenPaginationButton),1.3f,0f);
+				this.paginationButtonsNotifications[i].transform.position=new Vector3(this.worldWidth/2f-2.9f/2f+(0.5f+i-nbButtonsToDraw/2f)*(paginationButtonWidth+gapBetweenPaginationButton),1.35f,0f);
 				this.paginationButtonsNotifications[i].name="PaginationNotification"+i.ToString();
 			}
 			for(int i=System.Convert.ToInt32(drawBackButton);i<nbButtonsToDraw-System.Convert.ToInt32(drawNextButton);i++)
@@ -664,7 +1205,7 @@ public class NewHomePageController : MonoBehaviour
 		this.nbPagesNews = Mathf.CeilToInt((float)model.news.Count / ((float)this.elementsPerPageNews));
 		if(this.nbPagesNews>1)
 		{
-			this.nbPaginationButtonsLimitNews = Mathf.CeilToInt((3.25f)/(paginationButtonWidth+gapBetweenPaginationButton));
+			this.nbPaginationButtonsLimitNews = Mathf.CeilToInt((2.9f)/(paginationButtonWidth+gapBetweenPaginationButton));
 			int nbButtonsToDraw=0;
 			bool drawBackButton=false;
 			if (this.pageDebutNews !=0)
@@ -686,7 +1227,7 @@ public class NewHomePageController : MonoBehaviour
 			{
 				this.paginationButtonsNews[i] = Instantiate(this.paginationButtonObject) as GameObject;
 				this.paginationButtonsNews[i].AddComponent<HomePageNewsPaginationController>();
-				this.paginationButtonsNews[i].transform.position=new Vector3(this.worldWidth/2f-3.25f/2f+(0.5f+i-nbButtonsToDraw/2f)*(paginationButtonWidth+gapBetweenPaginationButton),0.55f,0f);
+				this.paginationButtonsNews[i].transform.position=new Vector3(this.worldWidth/2f-2.9f/2f+(0.5f+i-nbButtonsToDraw/2f)*(paginationButtonWidth+gapBetweenPaginationButton),0.55f,0f);
 				this.paginationButtonsNews[i].name="PaginationNews"+i.ToString();
 			}
 			for(int i=System.Convert.ToInt32(drawBackButton);i<nbButtonsToDraw-System.Convert.ToInt32(drawNextButton);i++)
@@ -738,5 +1279,337 @@ public class NewHomePageController : MonoBehaviour
 	{
 		ApplicationModel.packToBuy = model.packs [this.packsDisplayed[id]].Id;
 		Application.LoadLevel ("NewStore");
+	}
+	public void collectionButtonHandler()
+	{
+		Application.LoadLevel ("SkillBook");
+	}
+	public void cleanCardsHandler()
+	{
+		StartCoroutine (this.cleanCards ());
+	}
+	private IEnumerator cleanCards()
+	{
+		yield return StartCoroutine (model.player.cleanCards ());
+		StartCoroutine(this.initialization ());
+	}
+	public void startHoveringPopUp()
+	{
+		this.isHoveringPopUp = true;
+		this.toDestroyPopUp = false;
+		this.popUpDestroyInterval = 0f;
+	}
+	public void endHoveringPopUp()
+	{
+		this.isHoveringPopUp = false;
+		this.toDestroyPopUp = true;
+		this.popUpDestroyInterval = 0f;
+	}
+	public void startHoveringNotification (int id)
+	{
+		this.idNotificationHovered=id;
+		this.isHoveringNotification = true;
+		if(this.isPopUpDisplayed && this.popUp.GetComponent<PopUpController>().getIsNotification())
+		{
+			if(this.popUp.GetComponent<PopUpNotificationHomePageController>().getId()!=this.idNotificationHovered);
+			{
+				this.hidePopUp();
+				this.showPopUpNotification();
+			}
+		}
+		else
+		{
+			if(this.isPopUpDisplayed)
+			{
+				this.hidePopUp();
+			}
+			this.showPopUpNotification();
+		}
+	}
+	public void startHoveringNews (int id)
+	{
+		this.idNewsHovered=id;
+		this.isHoveringNews = true;
+		if(this.isPopUpDisplayed && this.popUp.GetComponent<PopUpController>().getIsNews())
+		{
+			if(this.popUp.GetComponent<PopUpNewsHomePageController>().getId()!=this.idNewsHovered);
+			{
+				this.hidePopUp();
+				this.showPopUpNews();
+			}
+		}
+		else
+		{
+			if(this.isPopUpDisplayed)
+			{
+				this.hidePopUp();
+			}
+			this.showPopUpNews();
+		}
+	}
+	public void startHoveringCompetition (int id)
+	{
+		this.idCompetitionHovered=id;
+		this.isHoveringCompetition = true;
+		if(this.isPopUpDisplayed && this.popUp.GetComponent<PopUpController>().getIsCompetition())
+		{
+			if(this.popUp.GetComponent<PopUpCompetitionsHomePageController>().getId()!=this.idCompetitionHovered);
+			{
+				this.hidePopUp();
+				this.showPopUpCompetition();
+			}
+		}
+		else
+		{
+			if(this.isPopUpDisplayed)
+			{
+				this.hidePopUp();
+			}
+			this.showPopUpCompetition();
+		}
+	}
+	public void endHoveringNotification ()
+	{
+		this.isHoveringNotification = false;
+		this.toDestroyPopUp = true;
+		this.popUpDestroyInterval = 0f;
+	}
+	public void endHoveringNews ()
+	{
+		this.isHoveringNews = false;
+		this.toDestroyPopUp = true;
+		this.popUpDestroyInterval = 0f;
+	}
+	public void endHoveringCompetition ()
+	{
+		this.isHoveringCompetition = false;
+		this.toDestroyPopUp = true;
+		this.popUpDestroyInterval = 0f;
+	}
+	public void showPopUpNotification()
+	{
+		float verticalPosition = +1.28f;
+		if(this.idNotificationHovered==0)
+		{
+			verticalPosition=-1.28f;
+		}
+		this.popUp = Instantiate(this.popUpObject) as GameObject;
+		this.popUp.transform.position=new Vector3(this.notifications[this.idNotificationHovered].transform.position.x-0.25f,this.notifications[this.idNotificationHovered].transform.position.y+verticalPosition,-1f);
+		this.popUp.AddComponent<PopUpNotificationHomePageController>();
+		this.popUp.GetComponent<PopUpNotificationHomePageController> ().setIsNotification (true);
+		this.popUp.GetComponent<PopUpNotificationHomePageController> ().setId (this.idNotificationHovered);
+		this.popUp.GetComponent<PopUpNotificationHomePageController> ().show (model.notifications [this.notificationsDisplayed [this.idNotificationHovered]]);
+		this.isPopUpDisplayed=true;
+	}
+	public void showPopUpNews()
+	{
+		this.popUp = Instantiate(this.popUpObject) as GameObject;
+		this.popUp.transform.position=new Vector3(this.news[this.idNewsHovered].transform.position.x-0.25f,this.news[this.idNewsHovered].transform.position.y+1.28f,-1f);
+		this.popUp.AddComponent<PopUpNewsHomePageController>();
+		this.popUp.GetComponent<PopUpNewsHomePageController> ().setIsNews (true);
+		this.popUp.GetComponent<PopUpNewsHomePageController> ().setId (this.idNewsHovered);
+		this.popUp.GetComponent<PopUpNewsHomePageController> ().show (model.news [this.newsDisplayed [this.idNewsHovered]]);
+		this.isPopUpDisplayed=true;
+	}
+	public void showPopUpCompetition()
+	{
+		this.popUp = Instantiate(this.popUpCompetitionObject) as GameObject;
+		this.popUp.transform.position=new Vector3(this.competitions[this.idCompetitionHovered].transform.position.x,this.competitions[this.idCompetitionHovered].transform.position.y+1.28f,-1f);
+		this.popUp.AddComponent<PopUpCompetitionsHomePageController>();
+		this.popUp.GetComponent<PopUpCompetitionsHomePageController> ().setIsCompetition (true);
+		this.popUp.GetComponent<PopUpCompetitionsHomePageController> ().setId (this.idCompetitionHovered);
+		if(model.competitions[this.idCompetitionHovered-1].GetType()==typeof(Division))
+		{
+			this.popUp.GetComponent<PopUpCompetitionsHomePageController> ().showDivision (model.currentDivision);
+		}
+		else if(model.competitions[this.idCompetitionHovered-1].GetType()==typeof(Cup))
+		{
+			this.popUp.GetComponent<PopUpCompetitionsHomePageController> ().showCup (model.currentCup);
+		}
+		this.isPopUpDisplayed=true;
+	}
+	public void hidePopUp()
+	{
+		this.toDestroyPopUp = false;
+		this.popUpDestroyInterval = 0f;
+		Destroy (this.popUp);
+		this.isPopUpDisplayed=false;
+	}
+	private IEnumerator refreshNonReadsNotifications()
+	{
+		this.notificationsTimer=this.notificationsTimer-this.refreshInterval;
+		yield return StartCoroutine(model.player.countNonReadsNotifications(this.totalNbResultLimit));
+		menu.GetComponent<newMenuController>().setNbNotificationsNonRead(model.player.nonReadNotifications);
+	}
+	private void manageNonReadsNotifications(bool firstload)
+	{
+		this.computeNonReadsNotifications ();
+		StartCoroutine(this.updateReadNotifications (firstload));
+	}
+	private void computeNonReadsNotifications()
+	{
+		this.nbNonReadNotifications = 0;
+		for(int i=0;i<model.notifications.Count;i++)
+		{
+			if(i==model.notificationSystemIndex)
+			{
+				this.nbNonReadNotifications++;
+			}
+			else if(!model.notifications[i].Notification.IsRead)
+			{
+				this.nbNonReadNotifications++;
+			}
+		}
+	}
+	private IEnumerator updateReadNotifications(bool firstLoad)
+	{
+		IList<int> tempList = new List<int> ();
+		for (int i=0;i<this.notificationsDisplayed.Count;i++)
+		{
+			if(i==model.notificationSystemIndex)
+			{
+				tempList.Add (this.notificationsDisplayed[i]);
+				model.notificationSystemIndex=-1;
+			}
+			else if(!model.notifications[this.notificationsDisplayed[i]].Notification.IsRead)
+			{
+				tempList.Add (this.notificationsDisplayed[i]);
+			}
+		}
+		if(firstLoad)
+		{
+			menu.GetComponent<newMenuController>().setNbNotificationsNonRead(nbNonReadNotifications-tempList.Count);
+		}
+		if(tempList.Count>0)
+		{
+			yield return StartCoroutine(model.updateReadNotifications (tempList,this.totalNbResultLimit));
+			menu.GetComponent<newMenuController>().setNbNotificationsNonRead(model.player.nonReadNotifications);
+		}
+		yield break;
+	}
+	public int getNbGamesCup()
+	{
+		return model.player.NbGamesCup;
+	}
+	public int getNbGamesDivision()
+	{
+		return model.player.NbGamesCup;
+	}
+	public void displayConnectionBonusPopUp(int connectionBonus)
+	{
+		this.isConnectionBonusViewDisplayed=true;
+		this.connectionBonusView= Camera.main.gameObject.AddComponent <NewHomePageConnectionBonusPopUpView>();
+		connectionBonusView.connectionBonusPopUpVM.bonus = connectionBonus.ToString();
+		connectionBonusView.popUpVM.centralWindowStyle = new GUIStyle(this.popUpSkin.window);
+		connectionBonusView.popUpVM.centralWindowTitleStyle = new GUIStyle (this.popUpSkin.customStyles [0]);
+		connectionBonusView.popUpVM.centralWindowButtonStyle = new GUIStyle (this.popUpSkin.button);
+		connectionBonusView.popUpVM.transparentStyle = new GUIStyle (this.popUpSkin.customStyles [2]);
+		this.connectionBonusPopUpResize ();
+	}
+	public void hideConnectionBonusPopUp()
+	{
+		this.isConnectionBonusViewDisplayed = false;
+		Destroy (this.connectionBonusView);
+	}
+	public void connectionBonusPopUpResize()
+	{
+		connectionBonusView.popUpVM.centralWindow = this.centralWindow;
+		connectionBonusView.popUpVM.resize ();
+	}
+	public void joinGame(int id)
+	{
+		ApplicationModel.gameType = id;
+		StartCoroutine (this.setSelectedDeck ());
+		//if(this.isTutorialLaunched)
+		//{
+		//	this.endTutorial();
+		//}
+	}
+	private IEnumerator setSelectedDeck()
+	{
+		yield return StartCoroutine(model.player.SetSelectedDeck(model.decks[this.deckDisplayed].Id));
+		attemptToPlay = true;
+		PhotonNetwork.Disconnect();
+	}
+	private void updateNbPlayersLabel()
+	{
+		if (countPlayers>0)
+		{
+			if (countPlayers==1)
+			{
+				this.connectedPlayersTitle.GetComponent<TextMeshPro>().text="1 joueur en ligne";
+			}
+			else
+			{
+				this.connectedPlayersTitle.GetComponent<TextMeshPro>().text=countPlayers+" joueurs en ligne";
+			}
+		}
+	}
+	void RemovePlayerFromList(int id)
+	{
+		playersName.Remove(id);
+		countPlayers--;
+		this.updateNbPlayersLabel ();
+	}
+	void OnJoinedLobby()
+	{
+		TypedLobby sqlLobby = new TypedLobby("lobby", LobbyType.SqlLobby);    
+		string sqlLobbyFilter = "C0 = 0";
+		PhotonNetwork.JoinRandomRoom(null, 0, MatchmakingMode.FillRoom, sqlLobby, sqlLobbyFilter);
+	}
+	void OnPhotonRandomJoinFailed()
+	{
+		RoomOptions newRoomOptions = new RoomOptions();
+		newRoomOptions.isOpen = true;
+		newRoomOptions.isVisible = true;
+		newRoomOptions.maxPlayers = 50;
+		
+		newRoomOptions.customRoomProperties = new ExitGames.Client.Photon.Hashtable() { { "C0", 0 } };
+		newRoomOptions.customRoomPropertiesForLobby = new string[] { "C0" }; // C0 est récupérable dans le lobby
+		TypedLobby sqlLobby = new TypedLobby("lobby", LobbyType.SqlLobby);
+		
+		PhotonNetwork.CreateRoom(roomName, newRoomOptions, sqlLobby);
+		//Debug.Log("Creating room");
+	}
+	
+	void OnReceivedRoomListUpdate()
+	{
+		//roomsList = PhotonNetwork.GetRoomList();
+	}
+	void OnJoinedRoom()
+	{
+		//Debug.Log("Connected to Room");
+		photonView.RPC("AddPlayerToList", PhotonTargets.AllBuffered, PhotonNetwork.player.ID, ApplicationModel.username);
+	}
+	
+	void OnPhotonPlayerDisconnected(PhotonPlayer player)
+	{
+		RemovePlayerFromList(player.ID);
+	}
+	void OnDisconnectedFromPhoton()
+	{
+		if (attemptToPlay)
+		{
+			if(ApplicationModel.gameType==1)
+			{
+				Application.LoadLevel("DivisionLobby");
+			}
+			else if(ApplicationModel.gameType==2)
+			{
+				Application.LoadLevel("CupLobby");
+			}
+			else
+			{
+				Application.LoadLevel("Game");
+			}
+		}
+	}
+	[RPC]
+	void AddPlayerToList(int id, string loginName)
+	{
+		//print ("I add a player");
+		playersName.Add(id, loginName);
+		countPlayers++;
+		this.updateNbPlayersLabel ();
 	}
 }

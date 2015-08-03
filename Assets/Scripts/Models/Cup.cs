@@ -2,23 +2,14 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class Cup 
+public class Cup : Competition 
 {
 	public int NbRounds;
 	public int CupPrize;
-	public int Id;
-	public string Name;
-	public string Picture;
-	public Texture2D texture;
-	public bool isTextureLoaded;
-	public int EarnXp_W;
-	public int EarnXp_L;
-	public int EarnCredits_W;
-	public int EarnCredits_L;
-	
+
 	public Cup()
 	{
-		this.texture = new Texture2D (1, 1, TextureFormat.ARGB32, false);
+		this.texture = Sprite.Create (new Texture2D (1, 1, TextureFormat.ARGB32, false), new Rect (0, 0, 1, 1), new Vector2 (0.5f, 0.5f));
 	}
 	public Cup(int id, int nbrounds, int cupprize, string name)
 	{
@@ -26,13 +17,6 @@ public class Cup
 		this.NbRounds = nbrounds;
 		this.CupPrize = cupprize;
 		this.Name = name;
-	}
-	public IEnumerator setPicture()
-	{
-		var www = new WWW(ApplicationModel.host+this.Picture);
-		yield return www;
-		www.LoadImageIntoTexture(this.texture);
-		this.isTextureLoaded = true;
 	}
 }
 

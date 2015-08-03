@@ -87,12 +87,12 @@ public class CupLobbyController : MonoBehaviour
 			view.opponentVM.ranking = model.results [0].Opponent.Ranking;
 			view.opponentVM.rankingPoints = model.results [0].Opponent.RankingPoints;
 			view.opponentVM.division = model.results [0].Opponent.Division;
-			view.opponentVM.profilePictureStyle.normal.background = model.results [0].Opponent.texture;
+			//view.opponentVM.profilePictureStyle.normal.background = model.results [0].Opponent.texture;
 			StartCoroutine (model.results [0].Opponent.setProfilePicture ());
 		}
 		view.competInfosVM.nbRounds = model.currentCup.NbRounds;
 		view.competInfosVM.cupPrize = model.currentCup.CupPrize;
-		view.competInfosVM.competitionPictureStyle.normal.background = model.currentCup.texture;
+		//view.competInfosVM.competitionPictureStyle.normal.background = model.currentCup.texture;
 		StartCoroutine (model.currentCup.setPicture ());
 	}
 	public void displayOpponent(int chosenOpponent)
@@ -103,7 +103,7 @@ public class CupLobbyController : MonoBehaviour
 		view.opponentVM.ranking = model.results [chosenOpponent].Opponent.Ranking;
 		view.opponentVM.rankingPoints = model.results [chosenOpponent].Opponent.RankingPoints;
 		view.opponentVM.division = model.results [chosenOpponent].Opponent.Division;
-		view.opponentVM.profilePictureStyle.normal.background = model.results [chosenOpponent].Opponent.texture;
+		//view.opponentVM.profilePictureStyle.normal.background = model.results [chosenOpponent].Opponent.texture;
 		StartCoroutine (model.results [chosenOpponent].Opponent.setProfilePicture ());
 		view.resultsVM.focusButtonStyles[chosenOpponent]=view.resultsVM.selectedFocusButtonStyle;
 		view.resultsVM.focusButtonStyles[view.resultsVM.chosenResult]=view.resultsVM.focusButtonStyle;

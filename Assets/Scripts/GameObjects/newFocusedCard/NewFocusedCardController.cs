@@ -138,7 +138,7 @@ public class NewFocusedCardController : MonoBehaviour
 	}
 	public virtual void applyFrontTexture()
 	{
-		this.gameObject.transform.FindChild ("Face").GetComponent<SpriteRenderer> ().sprite = ressources.faces[0];
+		this.gameObject.transform.FindChild ("Face").GetComponent<SpriteRenderer> ().sprite = ressources.faces[this.c.IdClass];
 	}
 	public void setCardSold()
 	{

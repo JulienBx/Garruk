@@ -1,0 +1,14 @@
+#
+# Sprite sheet data for Unity.
+#
+# To import these sprites into your Unity project, download "TexturePackerImporter":
+# http://www.codeandweb.com/texturepacker/unity
+#
+# Sprite sheet: blockTextures.png (1024 x 1024)
+# $TexturePacker:SmartUpdate:5c9dd1b4c240b3defe18fb87194ae6f4:8b4b9b2aeb794fc1b33452dfc200741b:562aee4a1dc8747c61074ccb03478120$
+#
+
+background;2;522;500;500;0.5;0.5
+corner;504;822;200;200;0.5;0.5
+line;2;8;500;10;0.5;0.5
+shadow;2;20;500;500;0.5;0.5

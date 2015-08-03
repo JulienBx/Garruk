@@ -13,6 +13,7 @@ public class News
 	public string Param1;
 	public string Param2;
 	public string Param3;
+	public string Description;
 
 	private string URLAddNews = ApplicationModel.host +"add_news.php";
 	private string URLRemoveNews = ApplicationModel.host +"remove_news.php";
@@ -20,10 +21,11 @@ public class News
 	public News()
 	{
 	}
-	public News(int idnewstype, DateTime date)
+	public News(int idnewstype, DateTime date, String description)
 	{
 		this.IdNewsType = idnewstype;
 		this.Date = date;
+		this.Description = description;
 	}
 	public News(int iduser, int idnewstype, string param1="", string param2="", string param3="")
 	{

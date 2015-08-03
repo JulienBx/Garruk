@@ -64,11 +64,7 @@ public class NewStoreController : MonoBehaviour
 	private Rect newSkillsWindow;
 	private Rect newCardTypeWindow;
 
-	private Texture2D[] packPictures;
-	private Rect[] atlasPackPicturesRects;
-	private Texture2D atlasPackPictures;
-
-	private bool arePicturesLoading;
+	private bool arePacksPicturesLoading;
 
 	private int selectedPackIndex;
 	private int clickedCardId;
@@ -136,28 +132,6 @@ public class NewStoreController : MonoBehaviour
 		{
 			this.escapePressed();
 		}
-		if(arePicturesLoading)
-		{
-			bool createAtlas=true;
-			for(int i =0;i<this.packsDisplayed.Count;i++)
-			{
-				if(!model.packList[this.packsDisplayed[i]].isTextureLoaded)
-				{
-					createAtlas=false;
-				}
-			}
-			if(createAtlas)
-			{
-				this.arePicturesLoading=false;
-				this.atlasPackPictures = new Texture2D(8192, 8192);
-				this.atlasPackPicturesRects = atlasPackPictures.PackTextures(packPictures, 2, 8192);
-				
-				for(int i=0;i<this.packsDisplayed.Count;i++)
-				{
-					this.packs [i].GetComponent<NewPackController> ().setPackPicture(Sprite.Create(this.atlasPackPictures,new Rect(this.atlasPackPicturesRects[i].x*atlasPackPictures.width,this.atlasPackPicturesRects[i].y*atlasPackPictures.height,this.atlasPackPicturesRects[i].width*atlasPackPictures.width,this.atlasPackPicturesRects[i].height*atlasPackPictures.height),new Vector2(0.5f,0.5f)));
-				}
-			}
-		}
 		if (this.startRotation)
 		{
 			for(int i=0;i<this.randomCards.Length;i++)
@@ -195,6 +169,26 @@ public class NewStoreController : MonoBehaviour
 					}
 					this.target = Quaternion.Euler(0, this.angle, 0);
 					this.randomCards[i].transform.rotation = target;
+				}
+			}
+		}
+		if(arePacksPicturesLoading)
+		{
+			bool allPicturesLoaded=true;
+			for(int i=0;i<packsDisplayed.Count;i++)
+			{
+				if(!model.packList[this.packsDisplayed[i]].isTextureLoaded)
+				{
+					allPicturesLoaded=false;
+					break;
+				}
+			}
+			if(allPicturesLoaded)
+			{
+				this.arePacksPicturesLoading=false;
+				for(int i=0;i<packsDisplayed.Count;i++)
+				{
+					this.packs[i].GetComponent<NewPackController>().setPackPicture(model.packList[this.packsDisplayed[i]].texture);
 				}
 			}
 		}
@@ -375,36 +369,38 @@ public class NewStoreController : MonoBehaviour
 	}
 	public void drawPacks()
 	{
-		this.arePicturesLoading = false;
 		this.packsDisplayed = new List<int> ();
 		int tempInt = this.packsPerLine;
 		if(this.chosenPage*(packsPerLine)+packsPerLine>this.model.packList.Count)
 		{
 			tempInt=model.packList.Count-this.chosenPage*(packsPerLine);
 		}
-		this.packPictures = new Texture2D[tempInt];
-
+		bool allPicturesLoaded = true;
 		for(int i=0;i<packsPerLine;i++)
 		{
 			if(this.chosenPage*(packsPerLine)+i<this.model.packList.Count)
 			{
+				if(!model.packList[this.chosenPage*(packsPerLine)+i].isTextureLoaded)
+				{
+					StartCoroutine(model.packList[this.chosenPage*(packsPerLine)+i].setPicture());
+					allPicturesLoaded=false;
+				}
 				this.packsDisplayed.Add (this.chosenPage*(packsPerLine)+i);
 				this.packs[i].SetActive(true);
 				this.packs[i].transform.GetComponent<NewPackStoreController>().p=model.packList[this.chosenPage*(packsPerLine)+i];
 				this.packs[i].transform.GetComponent<NewPackStoreController>().show();
 				this.packs[i].transform.GetComponent<NewPackStoreController>().setId(i);
-				if(!model.packList[this.chosenPage*(packsPerLine)+i].isTextureLoaded)
-				{
-					StartCoroutine(model.packList[this.chosenPage*(packsPerLine)+i].setPicture());
-				}
-				this.packPictures[i]=model.packList[this.chosenPage*(packsPerLine)+i].texture;
+
 			}
 			else
 			{
 				this.packs[i].SetActive(false);
 			}
 		}
-		this.arePicturesLoading = true;
+		if(!allPicturesLoaded)
+		{
+			this.arePacksPicturesLoading=true;
+		}
 	}
 	public void drawRandomCards(int id)
 	{
@@ -652,7 +648,11 @@ public class NewStoreController : MonoBehaviour
 	}
 	public void escapePressed()
 	{
-		if(isCardFocusedDisplayed)
+		if(newMenuController.instance.isAPopUpDisplayed())
+		{
+			newMenuController.instance.hideAllPopUp();
+		}
+		else if(isCardFocusedDisplayed)
 		{
 			this.focusedCard.GetComponent<NewFocusedCardStoreController>().escapePressed();
 		}

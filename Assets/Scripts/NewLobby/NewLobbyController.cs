@@ -284,10 +284,10 @@ public class NewLobbyController : Photon.MonoBehaviour
 		}
 		this.buttons [0].GetComponent<LobbyButtonController> ().setDefaultSprite (this.friendlyGameButtonTexture);
 		StartCoroutine(model.currentDivision.setPicture());
-		this.buttonsPictures [0] = model.currentDivision.texture;
+		//this.buttonsPictures [0] = model.currentDivision.texture;
 		StartCoroutine (model.currentCup.setPicture ());
 		this.buttons [1].GetComponent<DivisionGameButtonController> ().setDivision (model.currentDivision);
-		this.buttonsPictures [1] = model.currentCup.texture;
+		//this.buttonsPictures [1] = model.currentCup.texture;
 		this.buttons [2].GetComponent<CupGameButtonController> ().setCup (model.currentCup);
 		this.arePicturesLoading = true;
 	}

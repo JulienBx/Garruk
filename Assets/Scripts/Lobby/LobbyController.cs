@@ -196,8 +196,8 @@ public class LobbyController : Photon.MonoBehaviour
 	}
 	private void initVM()
 	{
-		view.divisionGameVM.buttonStyle.normal.background = model.currentDivision.texture;
-		view.cupGameVM.buttonStyle.normal.background = model.currentCup.texture;
+		//view.divisionGameVM.buttonStyle.normal.background = model.currentDivision.texture;
+		//view.cupGameVM.buttonStyle.normal.background = model.currentCup.texture;
 		StartCoroutine (model.currentDivision.setPicture ());
 		StartCoroutine (model.currentCup.setPicture ());
 		view.decksVM.decksName = new List<string> ();

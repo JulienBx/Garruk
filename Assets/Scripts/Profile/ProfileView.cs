@@ -129,7 +129,7 @@ public class ProfileView : MonoBehaviour
 				GUILayout.EndHorizontal();
 			}
 			GUILayout.EndArea();
-			GUI.DrawTexture(new Rect(userProfileVM.profilePictureRect),userProfileVM.Profile.texture,ScaleMode.StretchToFill);
+			//GUI.DrawTexture(new Rect(userProfileVM.profilePictureRect),userProfileVM.Profile.texture,ScaleMode.StretchToFill);
 				
 			// BLOC HAUT CENTRE
 

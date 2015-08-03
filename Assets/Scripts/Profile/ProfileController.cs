@@ -299,14 +299,14 @@ public class ProfileController : MonoBehaviour
 	}
 	private void picturesInitialization()
 	{
-		view.userProfileVM.ProfilePicture = model.Profile.texture;
+		//view.userProfileVM.ProfilePicture = model.Profile.texture;
 		view.profileVM.contactsPicturesButtonStyle=new List<GUIStyle>();
 		view.myTrophiesVM.trophiesPicturesButtonStyle=new List<GUIStyle>();
 		
 		for(int i =0;i<model.Contacts.Count;i++)
 		{
 			view.profileVM.contactsPicturesButtonStyle.Add(new GUIStyle());
-			view.profileVM.contactsPicturesButtonStyle[i].normal.background=model.Contacts[i].texture;
+			//view.profileVM.contactsPicturesButtonStyle[i].normal.background=model.Contacts[i].texture;
 		}
 		for(int i =0;i<model.Trophies.Count;i++)
 		{
@@ -583,7 +583,7 @@ public class ProfileController : MonoBehaviour
 		model.Connections.Add (new Connection (model.Player.Id, model.Profile.Id,false));
 		model.Contacts.Add (model.Player);
 		view.profileVM.contactsPicturesButtonStyle.Add(new GUIStyle());
-		view.profileVM.contactsPicturesButtonStyle[view.profileVM.contactsPicturesButtonStyle.Count-1].normal.background=model.Contacts[model.Contacts.Count-1].texture;
+		//view.profileVM.contactsPicturesButtonStyle[view.profileVM.contactsPicturesButtonStyle.Count-1].normal.background=model.Contacts[model.Contacts.Count-1].texture;
 		StartCoroutine(model.Player.setProfilePicture());
 		yield return StartCoroutine(model.Connections [model.Connections.Count - 1].add ());
 		if(model.Connections [model.Connections.Count - 1].Error=="")

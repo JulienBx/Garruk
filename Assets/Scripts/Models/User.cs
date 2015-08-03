@@ -49,7 +49,7 @@ public class User
 	public int RankingPoints;
 	public int TotalNbWins;
 	public int TotalNbLooses;
-	public Texture2D texture;
+	public Sprite texture;
 	public int NbGamesDivision;
 	public bool readnotificationsystem;
 	public int nonReadNotifications;
@@ -74,24 +74,24 @@ public class User
 	{
 		this.Username = "";
 		this.Picture = "";
-		this.texture = new Texture2D (1, 1, TextureFormat.ARGB32, false);
+		this.texture = Sprite.Create (new Texture2D (1, 1, TextureFormat.ARGB32, false), new Rect (0, 0, 1, 1), new Vector2 (0.5f, 0.5f));
 	}
 	public User(int id)
 	{
 		this.Id = id;
-		this.texture = new Texture2D (1, 1, TextureFormat.ARGB32, false);
+		this.texture = Sprite.Create (new Texture2D (1, 1, TextureFormat.ARGB32, false), new Rect (0, 0, 1, 1), new Vector2 (0.5f, 0.5f));
 	}
 	public User(string username)
 	{
 		this.Username = username;
-		this.texture = new Texture2D (1, 1, TextureFormat.ARGB32, false);
+		this.texture = Sprite.Create (new Texture2D (1, 1, TextureFormat.ARGB32, false), new Rect (0, 0, 1, 1), new Vector2 (0.5f, 0.5f));
 	}
 
 	public User(string username, string picture)
 	{
 		this.Username = username;
 		this.Picture = picture;
-		this.texture = new Texture2D (1, 1, TextureFormat.ARGB32, false);
+		this.texture = Sprite.Create (new Texture2D (1, 1, TextureFormat.ARGB32, false), new Rect (0, 0, 1, 1), new Vector2 (0.5f, 0.5f));
 	}
 
 	public User(string username, string mail, int money, string firstname, string surname, string picture)
@@ -102,7 +102,7 @@ public class User
 		this.FirstName = firstname;
 		this.Surname = surname;
 		this.Picture = picture;
-		this.texture = new Texture2D (1, 1, TextureFormat.ARGB32, false);
+		this.texture = Sprite.Create (new Texture2D (1, 1, TextureFormat.ARGB32, false), new Rect (0, 0, 1, 1), new Vector2 (0.5f, 0.5f));
 	}
 
 	public User(List<Connection> connections)
@@ -134,12 +134,12 @@ public class User
 		this.Ranking = ranking;
 		this.TotalNbWins = totalnbwins;
 		this.TotalNbLooses = totalnblooses;
-		this.texture = new Texture2D (1, 1, TextureFormat.ARGB32, false);
+		this.texture = Sprite.Create (new Texture2D (1, 1, TextureFormat.ARGB32, false), new Rect (0, 0, 1, 1), new Vector2 (0.5f, 0.5f));
 	}
 	public User(int id, 
 	            string username, 
 	            string thumbPicture, 
-	            int division, 
+	            int collectionRanking, 
 	            int rankingpoints, 
 	            int ranking,  
 	            int totalnbwins, 
@@ -148,12 +148,12 @@ public class User
 		this.Id = id;
 		this.Username = username;
 		this.ThumbPicture = thumbPicture;
-		this.Division = division;
+		this.CollectionRanking = collectionRanking;
 		this.RankingPoints = rankingpoints;
 		this.Ranking = ranking;
 		this.TotalNbWins = totalnbwins;
 		this.TotalNbLooses = totalnblooses;
-		this.texture = new Texture2D (1, 1, TextureFormat.ARGB32, false);
+		this.texture = Sprite.Create (new Texture2D (1, 1, TextureFormat.ARGB32, false), new Rect (0, 0, 1, 1), new Vector2 (0.5f, 0.5f));
 	}
 	public User(int id, int money, int division, int nbgamesdivision, int cup, int nbgamescup, int rankingpoints,int ranking,  int totalnbwins, int totalnblooses)
 	{
@@ -167,7 +167,7 @@ public class User
 		this.Ranking = ranking;
 		this.TotalNbWins = totalnbwins;
 		this.TotalNbLooses = totalnblooses;
-		this.texture = new Texture2D (1, 1, TextureFormat.ARGB32, false);
+		this.texture = Sprite.Create (new Texture2D (1, 1, TextureFormat.ARGB32, false), new Rect (0, 0, 1, 1), new Vector2 (0.5f, 0.5f));
 	}
 	public User(string username, string picture, int division, int rankingpoints,int ranking,  int totalnbwins, int totalnblooses)
 	{
@@ -178,7 +178,7 @@ public class User
 		this.Ranking = ranking;
 		this.TotalNbWins = totalnbwins;
 		this.TotalNbLooses = totalnblooses;
-		this.texture = new Texture2D (1, 1, TextureFormat.ARGB32, false);
+		this.texture = Sprite.Create (new Texture2D (1, 1, TextureFormat.ARGB32, false), new Rect (0, 0, 1, 1), new Vector2 (0.5f, 0.5f));
 	}
 
 	public IEnumerator updateInformations(){
@@ -240,12 +240,16 @@ public class User
 		if (this.Picture.StartsWith(ServerDirectory)){
 			var www = new WWW(ApplicationModel.host+this.Picture);
 			yield return www;
-			www.LoadImageIntoTexture(this.texture);
+			Texture2D tempTexture=new Texture2D (1, 1, TextureFormat.ARGB32, false);
+			www.LoadImageIntoTexture(tempTexture);
+			this.texture=Sprite.Create (tempTexture, new Rect (0, 0, tempTexture.width, tempTexture.height), new Vector2 (0.5f, 0.5f));
 		}
 		else {
 			var www = new WWW(URLDefaultProfilePicture);
 			yield return www;
-			www.LoadImageIntoTexture(this.texture);
+			Texture2D tempTexture=new Texture2D (1, 1, TextureFormat.ARGB32, false);
+			www.LoadImageIntoTexture(tempTexture);
+			this.texture=Sprite.Create (tempTexture, new Rect (0, 0, tempTexture.width, tempTexture.height), new Vector2 (0.5f, 0.5f));
 		}
 		this.isProfilePictureLoaded = true;
 	}
@@ -255,12 +259,16 @@ public class User
 		if (this.ThumbPicture.StartsWith(ServerDirectory)){
 			var www = new WWW(ApplicationModel.host+this.ThumbPicture);
 			yield return www;
-			www.LoadImageIntoTexture(this.texture);
+			Texture2D tempTexture=new Texture2D (1, 1, TextureFormat.ARGB32, false);
+			www.LoadImageIntoTexture(tempTexture);
+			this.texture=Sprite.Create (tempTexture, new Rect (0, 0, tempTexture.width, tempTexture.height), new Vector2 (0.5f, 0.5f));
 		}
 		else {
 			var www = new WWW(URLDefaultThumbProfilePicture);
 			yield return www;
-			www.LoadImageIntoTexture(this.texture);
+			Texture2D tempTexture=new Texture2D (1, 1, TextureFormat.ARGB32, false);
+			www.LoadImageIntoTexture(tempTexture);
+			this.texture=Sprite.Create (tempTexture, new Rect (0, 0, tempTexture.width, tempTexture.height), new Vector2 (0.5f, 0.5f));
 		}
 		this.isThumbPictureLoaded = true;
 	}

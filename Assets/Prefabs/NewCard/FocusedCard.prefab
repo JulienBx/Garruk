@@ -767,7 +767,7 @@ Transform:
   m_GameObject: {fileID: 101212}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1.27393162, y: -0, z: 0}
-  m_LocalScale: {x: 3.64898467, y: 3.64898324, z: 3.64898324}
+  m_LocalScale: {x: .980909944, y: .980909944, z: .980909944}
   m_Children: []
   m_Father: {fileID: 484438}
   m_RootOrder: 0
@@ -1575,7 +1575,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillObject: {fileID: 147588, guid: f2137b495144742ca8a863737820dd4f, type: 2}
   faces:
+  - {fileID: 21300054, guid: 794530463996d40b2ab82078c2dc307a, type: 3}
+  - {fileID: 21300060, guid: 794530463996d40b2ab82078c2dc307a, type: 3}
+  - {fileID: 21300050, guid: 794530463996d40b2ab82078c2dc307a, type: 3}
+  - {fileID: 21300048, guid: 794530463996d40b2ab82078c2dc307a, type: 3}
+  - {fileID: 21300056, guid: 794530463996d40b2ab82078c2dc307a, type: 3}
+  - {fileID: 21300052, guid: 794530463996d40b2ab82078c2dc307a, type: 3}
   - {fileID: 21300014, guid: 794530463996d40b2ab82078c2dc307a, type: 3}
+  - {fileID: 21300058, guid: 794530463996d40b2ab82078c2dc307a, type: 3}
+  - {fileID: 21300064, guid: 794530463996d40b2ab82078c2dc307a, type: 3}
+  - {fileID: 21300062, guid: 794530463996d40b2ab82078c2dc307a, type: 3}
   colors:
   - {r: .68235296, g: .482352942, b: .266666681, a: 1}
   - {r: .65882355, g: .65882355, b: .65882355, a: 1}

@@ -77,7 +77,7 @@ public class NewPackController : MonoBehaviour
 			gameObject.transform.FindChild("PackTitle").GetComponent<TextMeshPro>().color=new Color(155f/255f,220f/255f,1f);
 			gameObject.transform.FindChild("BuyButton").GetComponent<SpriteRenderer>().color=new Color(155f/255f,220f/255f,1f);
 			gameObject.transform.FindChild("PackBorder").GetComponent<SpriteRenderer>().color=new Color(155f/255f,220f/255f,1f);
-			//gameObject.transform.FindChild("PackPicture").GetComponent<SpriteRenderer>().color=new Color(155f/255f,220f/255f,1f);
+			gameObject.transform.FindChild("PackPicture").GetComponent<SpriteRenderer>().color=new Color(155f/255f,220f/255f,1f);
 			gameObject.transform.FindChild("BuyButton").FindChild("Title").GetComponent<TextMeshPro>().color=new Color(155f/255f,220f/255f,1f);
 		}
 	}
@@ -88,7 +88,7 @@ public class NewPackController : MonoBehaviour
 			gameObject.transform.FindChild("PackTitle").GetComponent<TextMeshPro>().color=new Color(1f,1f,1f);
 			gameObject.transform.FindChild("BuyButton").GetComponent<SpriteRenderer>().color=new Color(1f,1f,1f);
 			gameObject.transform.FindChild("PackBorder").GetComponent<SpriteRenderer>().color=new Color(1f,1f,1f);
-			//gameObject.transform.FindChild("PackPicture").GetComponent<SpriteRenderer>().color=new Color(1f,1f,1f);
+			gameObject.transform.FindChild("PackPicture").GetComponent<SpriteRenderer>().color=new Color(1f,1f,1f);
 			gameObject.transform.FindChild("BuyButton").FindChild("Title").GetComponent<TextMeshPro>().color=new Color(1f,1f,1f);
 		}
 	}
@@ -139,7 +139,7 @@ public class NewPackController : MonoBehaviour
 	{
 		gameObject.transform.FindChild("PackTitle").GetComponent<TextMeshPro>().text=p.Name;
 		gameObject.transform.FindChild("BuyButton").FindChild("Title").GetComponent<TextMeshPro>().text=p.Price.ToString();
-		gameObject.transform.FindChild ("PackPicture").GetComponent<SpriteRenderer> ().sprite = null;
+		gameObject.transform.FindChild ("PackPicture").GetComponent<SpriteRenderer> ().sprite = p.texture;
 	}
 	public void displayPack(bool value)
 	{

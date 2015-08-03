@@ -12,7 +12,12 @@ public class NewHomePageModel
 	public int notificationSystemIndex;
 	public Division currentDivision;
 	public Cup currentCup;
+	public FriendlyGame currentFriendlyGame;
 	public IList<Pack> packs;
+	public IList<Competition> competitions;
+	public IList<Deck> decks;
+	public string[] cardTypeList;
+	public string[] skillsList;
 	
 	private string URLInitialize = ApplicationModel.host+"get_homepage_data.php";
 	private string URLUpdateReadNotifications = ApplicationModel.host+"update_read_notifications.php";
@@ -24,6 +29,7 @@ public class NewHomePageModel
 		
 		this.notifications = new List<DisplayedNotification>();
 		this.news = new List<DisplayedNews>();
+		this.competitions = new List<Competition> ();
 		this.player = new User();
 		this.notificationSystemIndex = -1;
 		
@@ -31,6 +37,7 @@ public class NewHomePageModel
 		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_nick", ApplicationModel.username);
 		form.AddField ("myform_totalnbresultlimit", totalNbResultLimit.ToString());
+		form.AddField ("myform_nbcardsbydeck", ApplicationModel.nbCardsByDeck.ToString ());
 		
 		WWW w = new WWW(URLInitialize, form); 				// On envoie le formulaire à l'url sur le serveur 
 		yield return w;
@@ -40,12 +47,18 @@ public class NewHomePageModel
 		{
 			string[] data=w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
 			this.player = parseUser(data[0].Split(new string[] { "//" }, System.StringSplitOptions.None));
-			this.notifications=parseNotifications(data[1].Split(new string[] { "#N#" }, System.StringSplitOptions.None));
-			this.news=this.filterNews(parseNews(data[2].Split(new string[] { "#N#" }, System.StringSplitOptions.None)),this.player.Id);
-			this.currentDivision=parseDivision(data[3].Split(new string[] { "//" }, System.StringSplitOptions.None));
-			this.currentCup=parseCup(data[4].Split(new string[] { "//" }, System.StringSplitOptions.None));
-			this.packs=parsePacks(data[5].Split(new string[] { "#PACK#" }, System.StringSplitOptions.None));
+			this.decks = this.parseDecks(data[1].Split(new string[] { "#DECK#" }, System.StringSplitOptions.None));
+			this.notifications=parseNotifications(data[2].Split(new string[] { "#N#" }, System.StringSplitOptions.None));
+			this.news=this.filterNews(parseNews(data[3].Split(new string[] { "#N#" }, System.StringSplitOptions.None)),this.player.Id);
+			this.currentDivision=parseDivision(data[4].Split(new string[] { "//" }, System.StringSplitOptions.None));
+			this.currentCup=parseCup(data[5].Split(new string[] { "//" }, System.StringSplitOptions.None));
+			this.packs=parsePacks(data[6].Split(new string[] { "#PACK#" }, System.StringSplitOptions.None));
+			this.cardTypeList = data[7].Split(new string[] { "//" }, System.StringSplitOptions.None);
+			this.skillsList = data[8].Split(new string[] { "//" }, System.StringSplitOptions.None);
+			this.currentFriendlyGame = this.parseFriendlyGame(data[9].Split(new string[] { "//" }, System.StringSplitOptions.None));
 			this.lookForNonReadSystemNotification();
+			this.competitions.Add (this.currentDivision);
+			this.competitions.Add (this.currentCup);
 		}
 	}
 	private IList<Pack> parsePacks (string[] array)
@@ -68,6 +81,8 @@ public class NewHomePageModel
 		Cup cup = new Cup ();
 		cup.Name= array[0];
 		cup.Picture= array[1];
+		cup.NbRounds = System.Convert.ToInt32(array [2]);
+		cup.CupPrize = System.Convert.ToInt32(array [3]);
 		return cup;
 	}
 	private Division parseDivision(string[] array)
@@ -75,6 +90,8 @@ public class NewHomePageModel
 		Division division = new Division ();
 		division.Name= array[0];
 		division.Picture= array[1];
+		division.NbGames = System.Convert.ToInt32(array [2]);
+		division.TitlePrize = System.Convert.ToInt32(array [3]);
 		return division;
 	}
 	private User parseUser(string[] array)
@@ -93,7 +110,8 @@ public class NewHomePageModel
 		player.CollectionPoints = System.Convert.ToInt32 (array [10]);
 		player.CollectionRanking = System.Convert.ToInt32 (array [11]);
 		player.TutorialStep = System.Convert.ToInt32 (array [12]);
-		player.ConnectionBonus = System.Convert.ToInt32 (array [13]);
+		player.SelectedDeckId = System.Convert.ToInt32 (array [13]);
+		player.ConnectionBonus = System.Convert.ToInt32 (array [14]);
 		return player;
 	}
 	private void lookForNonReadSystemNotification ()
@@ -152,18 +170,19 @@ public class NewHomePageModel
 			notifications.Add(new DisplayedNotification(new Notification(System.Convert.ToInt32(notificationData[0]),
 			                                                             DateTime.ParseExact(notificationData[2], "yyyy-MM-dd HH:mm:ss", null),
 			                                                             System.Convert.ToBoolean(System.Convert.ToInt32(notificationData[3])),
-			                                                             System.Convert.ToInt32(notificationData[4])),
-			                                            new User(System.Convert.ToInt32(notificationData[5]),
-			         notificationData[6],
+			                                                             System.Convert.ToInt32(notificationData[4]),
+			                                                             notificationData[5]),
+			                                            new User(System.Convert.ToInt32(notificationData[6]),
 			         notificationData[7],
-			         System.Convert.ToInt32(notificationData[8]),
+			         notificationData[8],
 			         System.Convert.ToInt32(notificationData[9]),
 			         System.Convert.ToInt32(notificationData[10]),
 			         System.Convert.ToInt32(notificationData[11]),
-			         System.Convert.ToInt32(notificationData[12]))));
+			         System.Convert.ToInt32(notificationData[12]),
+			         System.Convert.ToInt32(notificationData[13]))));
 			
 			string tempContent=notificationData[1];
-			for(int j=13;j<notificationData.Length-1;j++)
+			for(int j=14;j<notificationData.Length-1;j++)
 			{
 				string[] notificationObjectData = notificationData[j].Split (new char[] {':'},System.StringSplitOptions.None);
 				switch (notificationObjectData[0])
@@ -206,18 +225,19 @@ public class NewHomePageModel
 			string[] newsData =array[i].Split(new string[] { "//" }, System.StringSplitOptions.None);
 			
 			news.Add(new DisplayedNews(new News(System.Convert.ToInt32(newsData[1]),
-			                                    DateTime.ParseExact(newsData[2], "yyyy-MM-dd HH:mm:ss", null)),
-			                           new User(System.Convert.ToInt32(newsData[3]),
-			         newsData[4],
+			                                    DateTime.ParseExact(newsData[2], "yyyy-MM-dd HH:mm:ss", null),
+			                                    newsData[3]),
+			                           new User(System.Convert.ToInt32(newsData[4]),
 			         newsData[5],
-			         System.Convert.ToInt32(newsData[6]),
+			         newsData[6],
 			         System.Convert.ToInt32(newsData[7]),
 			         System.Convert.ToInt32(newsData[8]),
 			         System.Convert.ToInt32(newsData[9]),
-			         System.Convert.ToInt32(newsData[10])))); 
+			         System.Convert.ToInt32(newsData[10]),
+			         System.Convert.ToInt32(newsData[11])))); 
 			
 			string tempContent=newsData[0];
-			for(int j=11;j<newsData.Length-1;j++)
+			for(int j=12;j<newsData.Length-1;j++)
 			{
 				string[] newsObjectData = newsData[j].Split (new char[] {':'},System.StringSplitOptions.None);
 				switch (newsObjectData[0])
@@ -299,6 +319,28 @@ public class NewHomePageModel
 			return text;
 		}
 		return text.Substring(0, pos) + replace + text.Substring(pos + search.Length);
+	}
+	private FriendlyGame parseFriendlyGame(string[] friendlyGameData)
+	{
+		FriendlyGame friendlyGame =new FriendlyGame();
+		friendlyGame.EarnXp_W = System.Convert.ToInt32 (friendlyGameData [0]);
+		friendlyGame.EarnXp_L = System.Convert.ToInt32 (friendlyGameData [1]);
+		friendlyGame.EarnCredits_W = System.Convert.ToInt32 (friendlyGameData [2]);
+		friendlyGame.EarnCredits_L = System.Convert.ToInt32 (friendlyGameData [3]);
+		return friendlyGame;
+	}
+	private List<Deck> parseDecks(string[] decksData)
+	{
+		List<Deck> decks = new List<Deck> ();
+		for(int i=0;i<decksData.Length-1;i++)
+		{
+			string[] deckInformation = decksData[i].Split(new string[] { "#DECKINFO#" }, System.StringSplitOptions.None);
+			decks.Add (new Deck());
+			decks[i].Id=System.Convert.ToInt32(deckInformation[0]);
+			decks[i].Name=deckInformation[1];
+			decks[i].NbCards=System.Convert.ToInt32(deckInformation[2]);
+		}
+		return decks;
 	}
 }
 

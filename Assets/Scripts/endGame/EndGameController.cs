@@ -160,7 +160,7 @@ public class EndGameController : MonoBehaviour
 			view.endGameCompetInfosVM.nbGames = model.currentDivision.NbGames;
 			view.endGameCompetInfosVM.titlePrize = model.currentDivision.TitlePrize;
 			view.endGameCompetInfosVM.promotionPrize = model.currentDivision.PromotionPrize;
-			view.endGameCompetInfosVM.competitionPictureStyle.normal.background = model.currentDivision.texture;
+			//view.endGameCompetInfosVM.competitionPictureStyle.normal.background = model.currentDivision.texture;
 			StartCoroutine (model.currentDivision.setPicture ());
 			break;
 		case 2:
@@ -179,7 +179,7 @@ public class EndGameController : MonoBehaviour
 			}
 			view.endGameCompetInfosVM.nbRounds = model.currentCup.NbRounds;
 			view.endGameCompetInfosVM.cupPrize = model.currentCup.CupPrize;
-			view.endGameCompetInfosVM.competitionPictureStyle.normal.background = model.currentCup.texture;
+			//view.endGameCompetInfosVM.competitionPictureStyle.normal.background = model.currentCup.texture;
 			StartCoroutine (model.currentCup.setPicture ());
 			break;
 		}
@@ -215,7 +215,7 @@ public class EndGameController : MonoBehaviour
 			view.endGameOpponentVM.ranking = model.lastResults [0].Opponent.Ranking;
 			view.endGameOpponentVM.rankingPoints = model.lastResults [0].Opponent.RankingPoints;
 			view.endGameOpponentVM.division = model.lastResults [0].Opponent.Division;
-			view.endGameOpponentVM.profilePictureStyle.normal.background = model.lastResults [0].Opponent.texture;
+			//view.endGameOpponentVM.profilePictureStyle.normal.background = model.lastResults [0].Opponent.texture;
 			StartCoroutine (model.lastResults [0].Opponent.setProfilePicture ());
 		}
 	}
@@ -227,7 +227,7 @@ public class EndGameController : MonoBehaviour
 		view.endGameOpponentVM.ranking = model.lastResults [chosenOpponent].Opponent.Ranking;
 		view.endGameOpponentVM.rankingPoints = model.lastResults [chosenOpponent].Opponent.RankingPoints;
 		view.endGameOpponentVM.division = model.lastResults [chosenOpponent].Opponent.Division;
-		view.endGameOpponentVM.profilePictureStyle.normal.background = model.lastResults [chosenOpponent].Opponent.texture;
+		//view.endGameOpponentVM.profilePictureStyle.normal.background = model.lastResults [chosenOpponent].Opponent.texture;
 		StartCoroutine (model.lastResults [chosenOpponent].Opponent.setProfilePicture ());
 		view.endGameResultsVM.focusButtonStyles[chosenOpponent]=view.endGameResultsVM.selectedFocusButtonStyle;
 		view.endGameResultsVM.focusButtonStyles[view.endGameResultsVM.chosenResult]=view.endGameResultsVM.focusButtonStyle;

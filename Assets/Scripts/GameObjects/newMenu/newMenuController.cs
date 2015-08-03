@@ -11,6 +11,8 @@ public class newMenuController : MonoBehaviour
 	public int totalNbResultLimit;
 	public int refreshInterval;
 	public bool isTutorialLaunched;
+	public GameObject playPopUpObject;
+	public GameObject transparentBackgroundObject;
 	
 	public static newMenuController instance;
 	private newMenuModel model;
@@ -23,6 +25,9 @@ public class newMenuController : MonoBehaviour
 	private float startButtonPosition;
 	private float endButtonPosition;
 	private Vector3 currentButtonPosition;
+	private GameObject playPopUp;
+	private GameObject transparentBackground;
+	private bool isPlayPopUpDisplayed;
 	
 	void Awake()
 	{
@@ -91,6 +96,24 @@ public class newMenuController : MonoBehaviour
 			}
 		}
 	}
+	public void displayPlayPopUp()
+	{
+		this.transparentBackground=Instantiate(this.transparentBackgroundObject) as GameObject;
+		this.transparentBackground.transform.position = new Vector3 (0, 0, -1f);
+		this.playPopUp=Instantiate(this.playPopUpObject) as GameObject;
+		this.playPopUp.transform.position = new Vector3 (0f, 0f, -2f);
+		this.playPopUp.transform.GetComponent<PlayPopUpController> ().setCup (model.currentCup);
+		this.playPopUp.transform.GetComponent<PlayPopUpController> ().setDivision (model.currentDivision);
+		this.playPopUp.transform.GetComponent<PlayPopUpController> ().setFriendlyGame (model.currentFriendlyGame);
+		this.playPopUp.transform.GetComponent<PlayPopUpController> ().show ();
+		this.isPlayPopUpDisplayed = true;
+	}
+	public void hidePlayPopUp()
+	{
+		Destroy (this.playPopUp);
+		Destroy (this.transparentBackground);
+		this.isPlayPopUpDisplayed = false;
+	}
 	public void moveButton(int value)
 	{
 		this.toMoveButtons = true;
@@ -115,8 +138,8 @@ public class newMenuController : MonoBehaviour
 	}
 	public IEnumerator getUserData()
 	{
-		yield return StartCoroutine (model.loadUserData (this.totalNbResultLimit));
-		if(Application.loadedLevelName!="HomePage")
+		yield return StartCoroutine (model.refreshUserData (this.totalNbResultLimit));
+		if(Application.loadedLevelName!="NewHomePage")
 		{
 			ApplicationModel.nbNotificationsNonRead = model.player.nonReadNotifications;
 		}
@@ -126,7 +149,7 @@ public class newMenuController : MonoBehaviour
 	public IEnumerator initialization()
 	{
 		yield return StartCoroutine (model.loadUserData (this.totalNbResultLimit));
-		if(Application.loadedLevelName!="HomePage")
+		if(Application.loadedLevelName!="NewHomePage")
 		{
 			ApplicationModel.nbNotificationsNonRead = model.player.nonReadNotifications;
 		}
@@ -139,7 +162,7 @@ public class newMenuController : MonoBehaviour
 	public IEnumerator setUsersPicture()
 	{
 		yield return StartCoroutine (model.player.setThumbProfilePicture ());
-		gameObject.transform.Find ("Picture").GetComponent<SpriteRenderer> ().sprite = Sprite.Create (model.player.texture, new Rect (0, 0, model.player.texture.width, model.player.texture.height), new Vector2 (0.5f, 0.5f));
+		gameObject.transform.Find ("Picture").GetComponent<SpriteRenderer> ().sprite = model.player.texture;
 	}
 	public void initializeMenuObject()
 	{
@@ -190,13 +213,13 @@ public class newMenuController : MonoBehaviour
 			this.marketLink();
 			break;
 		case 4:
-			this.lobbyLink();
+			this.playLink();
 			break;
 		}
 	}
 	public void checkPhoton()
 	{
-		if(Application.loadedLevelName=="NewLobby")
+		if(Application.loadedLevelName=="NewHomePage")
 		{
 			PhotonNetwork.Disconnect();
 		}
@@ -250,16 +273,15 @@ public class newMenuController : MonoBehaviour
 			Application.LoadLevel("NewStore");
 		}
 	}
-	public void lobbyLink() 
+	public void playLink() 
 	{
-		this.checkPhoton ();
 		if(this.isTutorialLaunched)
 		{
 			TutorialObjectController.instance.actionIsDone();
 		}
 		else
 		{
-			Application.LoadLevel("NewLobby");
+			this.displayPlayPopUp();
 		}
 	}
 	public void adminBoardLink() 
@@ -283,6 +305,21 @@ public class newMenuController : MonoBehaviour
 	public void setTutorialLaunched(bool value)
 	{
 		this.isTutorialLaunched = value;
+	}
+	public bool isAPopUpDisplayed()
+	{
+		if(isPlayPopUpDisplayed)
+		{
+			return true;
+		}
+		return false;
+	}
+	public void hideAllPopUp()
+	{
+		if(isPlayPopUpDisplayed)
+		{
+			this.hidePlayPopUp();
+		}
 	}
 }
 

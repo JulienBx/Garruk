@@ -179,14 +179,14 @@ public class HomePageController : MonoBehaviour
 		{
 			view.competsVM.competsNames.Add (model.currentDivision.Name);
 			view.competsVM.competsButtonsStyle.Add (new GUIStyle());
-			view.competsVM.competsButtonsStyle[view.competsVM.competsButtonsStyle.Count-1].normal.background=model.currentDivision.texture;
+			//view.competsVM.competsButtonsStyle[view.competsVM.competsButtonsStyle.Count-1].normal.background=model.currentDivision.texture;
 			StartCoroutine(model.currentDivision.setPicture());
 		}
 		if(model.player.NbGamesCup>0)
 		{
 			view.competsVM.competsNames.Add (model.currentCup.Name);
 			view.competsVM.competsButtonsStyle.Add (new GUIStyle());
-			view.competsVM.competsButtonsStyle[view.competsVM.competsButtonsStyle.Count-1].normal.background=model.currentCup.texture;
+			//view.competsVM.competsButtonsStyle[view.competsVM.competsButtonsStyle.Count-1].normal.background=model.currentCup.texture;
 			StartCoroutine(model.currentCup.setPicture());
 		}
 		for (int i=0;i<view.competsVM.competsButtonsStyle.Count;i++)
@@ -397,7 +397,7 @@ public class HomePageController : MonoBehaviour
 			view.notificationsVM.content.Add (model.notifications[i].Content);
 			view.notificationsVM.date.Add (model.notifications[i].Notification.Date);
 			view.notificationsVM.profilePicturesButtonStyle.Add (new GUIStyle());
-			view.notificationsVM.profilePicturesButtonStyle[i-view.notificationsVM.start].normal.background=model.notifications[i].SendingUser.texture;
+			//view.notificationsVM.profilePicturesButtonStyle[i-view.notificationsVM.start].normal.background=model.notifications[i].SendingUser.texture;
 			StartCoroutine(model.notifications[i].SendingUser.setProfilePicture());
 			if(!model.notifications[i].Notification.IsRead || i==model.notificationSystemIndex)
 			{
@@ -438,7 +438,7 @@ public class HomePageController : MonoBehaviour
 			view.newsVM.content.Add (model.news[i].Content);
 			view.newsVM.date.Add (model.news[i].News.Date);
 			view.newsVM.profilePicturesButtonStyle.Add (new GUIStyle());
-			view.newsVM.profilePicturesButtonStyle[i-view.newsVM.start].normal.background=model.news[i].User.texture;
+			//view.newsVM.profilePicturesButtonStyle[i-view.newsVM.start].normal.background=model.news[i].User.texture;
 			StartCoroutine(model.news[i].User.setProfilePicture());
 		}
 	}
@@ -463,7 +463,7 @@ public class HomePageController : MonoBehaviour
 			view.packsVM.packsNew.Add (model.packs[i].New);
 			view.packsVM.packsPrice.Add (model.packs[i].Price);
 			view.packsVM.packPicturesButtonStyle.Add (new GUIStyle());
-			view.packsVM.packPicturesButtonStyle[i-view.packsVM.start].normal.background=model.packs[i].texture;
+			//view.packsVM.packPicturesButtonStyle[i-view.packsVM.start].normal.background=model.packs[i].texture;
 			StartCoroutine(model.packs[i].setPicture());
 		}
 	}

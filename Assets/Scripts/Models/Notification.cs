@@ -12,6 +12,7 @@ public class Notification
 	public int IdUser;
 	public int IdSendingUser;
 	public int IdNotificationType;
+	public string Description;
 	public string Param1;
 	public string Param2;
 	public string Param3;
@@ -22,12 +23,13 @@ public class Notification
 	public Notification()
 	{
 	}
-	public Notification(int id, DateTime date, bool isread, int idnotificationtype)
+	public Notification(int id, DateTime date, bool isread, int idnotificationtype, string description)
 	{
 		this.Id = id;
 		this.Date = date;
 		this.IsRead = isread;
 		this.IdNotificationType = idnotificationtype;
+		this.Description = description;
 	}
 	public Notification(int iduser, int idsendinguser, int idnotificationtype)
 	{
