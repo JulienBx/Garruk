@@ -67,7 +67,6 @@ public class PlayingCardController : GameObjectController
 		this.card = c ;
 		transform.Find("Grade").GetComponent<SpriteRenderer>().sprite = this.gradeSprites[d];
 		transform.Find("AttackValue").GetComponent<TextMeshPro>().text = c.GetAttackString();
-		
 		transform.Find("LifeBar").GetComponent<SpriteRenderer>().sprite = this.lifebarSprites[0];
 		transform.Find("Life").GetComponent<SpriteRenderer>().sprite = this.lifebarSprites[1];
 		transform.Find("Icon0").GetComponent<SpriteRenderer>().sprite = this.iconSprites[0];
@@ -96,14 +95,44 @@ public class PlayingCardController : GameObjectController
 		else {
 			float f = 1.2f - 0.2f * (this.timerSelection/this.selectionTime);
 			gameObject.transform.localScale = new Vector3(f, f, f) ;
-		}	
+		}
+	}
+	
+	public void moveForward(){
+		Transform t = gameObject.transform;
+		t.FindChild("Grade").GetComponent<SpriteRenderer>().sortingOrder = 11 ;
+		t.FindChild("Art").GetComponent<SpriteRenderer>().sortingOrder = 10 ;
+		t.FindChild("Life").GetComponent<SpriteRenderer>().sortingOrder = 12 ;
+		t.FindChild("LifeBar").GetComponent<SpriteRenderer>().sortingOrder = 11 ;
+		t.FindChild("LifeBar").FindChild("PV").GetComponent<MeshRenderer>().sortingOrder = 14 ;
+		t.FindChild("LifeBar").FindChild("PVValue").GetComponent<MeshRenderer>().sortingOrder = 14 ;
+		
+		t.FindChild("Icon0").GetComponent<SpriteRenderer>().sortingOrder = 11 ;
+		t.FindChild("Icon1").GetComponent<SpriteRenderer>().sortingOrder = 11 ;
+		t.FindChild("Icon2").GetComponent<SpriteRenderer>().sortingOrder = 11 ;
+		t.FindChild("Icon3").GetComponent<SpriteRenderer>().sortingOrder = 11 ;
+		t.FindChild("AttackValue").GetComponent<MeshRenderer>().sortingOrder = 12 ;
+		
 	}
 	
 	public void resetTimer(){
 		this.timerSelection = 0 ;
 		this.isGettingBigger = true ;
 		gameObject.transform.localScale = new Vector3(1, 1, 1) ;
+		
+		Transform t = gameObject.transform;
+		t.FindChild("Grade").GetComponent<SpriteRenderer>().sortingOrder = 2 ;
+		t.FindChild("Art").GetComponent<SpriteRenderer>().sortingOrder = 1 ;
+		t.FindChild("Life").GetComponent<SpriteRenderer>().sortingOrder = 3 ;
+		t.FindChild("LifeBar").GetComponent<SpriteRenderer>().sortingOrder = 2 ;
+		
+		t.FindChild("Icon0").GetComponent<SpriteRenderer>().sortingOrder = 2 ;
+		t.FindChild("Icon1").GetComponent<SpriteRenderer>().sortingOrder = 2 ;
+		t.FindChild("Icon2").GetComponent<SpriteRenderer>().sortingOrder = 2 ;
+		t.FindChild("Icon3").GetComponent<SpriteRenderer>().sortingOrder = 2 ;
+		t.FindChild("AttackValue").GetComponent<MeshRenderer>().sortingOrder = 4 ;
 	}
+	
 	
 	public void setIDCharacter(int i)
 	{
@@ -193,9 +222,8 @@ public class PlayingCardController : GameObjectController
 		tempGO.transform.localPosition = position;
 		tempGO.transform.localScale = scale;
 		
-		//base.setGOCoordinates(gameObject);
-		
 		this.updateAttack();
+		this.updateLife();
 		
 		int compteurIcones = 0;
 		
@@ -249,19 +277,18 @@ public class PlayingCardController : GameObjectController
 		gameObject.transform.Find("AttackValue").GetComponent<TextMeshPro>().text = this.card.GetAttackString();
 	}
 	
+	public void updateLife()
+	{
+		int lifeBase = this.card.Life ;
+		int life = this.card.GetLife();
+		gameObject.transform.Find("PVValue").GetComponent<TextMeshPro>().text = life+"/"+lifeBase;
+	}
+	
 	public void kill()
 	{
-		GameView.instance.kill(this.id);
 		this.isDead = true;
 		this.hasPlayed = true;
 		this.hasMoved = true;
-		if (GameController.instance.getCurrentPlayingCard()==this.id){
-
-		}
-		else if(GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
-			GameView.instance.removeDestinations();
-			GameController.instance.calculateDestinations();
-		}
 	}
 	
 	public void disappear(){
@@ -270,7 +297,6 @@ public class PlayingCardController : GameObjectController
 		{
 			renderers [i].GetComponent<Renderer>().enabled = false;
 		}
-		GameController.instance.emptyTile(this.tile.x, this.tile.y);
 		gameObject.transform.position = new Vector3(-20, -20, -20);
 	}
 

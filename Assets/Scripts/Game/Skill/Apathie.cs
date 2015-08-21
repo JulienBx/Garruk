@@ -16,21 +16,23 @@ public class Apathie : GameSkill
 	
 	public override void resolve(List<int> targetsPCC)
 	{	
-		int target = targetsPCC[0];
-		int successType = 0 ;
+		if (GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
+			GameView.instance.hideTargets();
+		}
 		
-		//int successChances = GameController.instance.getCurrentSkill().ManaCost;
+		int target = targetsPCC[0];
+		
+		int successChances = base.skill.ManaCost;
 		
 		if (Random.Range(1,101) > GameView.instance.getCard(target).GetMagicalEsquive())
 		{                             
-//			if (Random.Range(1,101) <= successChances)
-//			{ 
-//				GameController.instance.applyOn(target);
-//				successType = 1 ;
-//			}
-//			else{
-//				GameController.instance.failedToCastOnSkill(target, 2);
-//			}
+			if (Random.Range(1,101) <= successChances)
+			{ 
+				GameController.instance.applyOn(target);
+			}
+			else{
+				GameController.instance.failedToCastOnSkill(target, 2);
+			}
 		}
 		else{
 			GameController.instance.failedToCastOnSkill(target, 1);
@@ -40,50 +42,42 @@ public class Apathie : GameSkill
 	
 	public override void applyOn(int target){
 		GameController.instance.rankBefore(target);
-		GameController.instance.addCardModifier(target, 0, ModifierType.Type_Apathie, ModifierStat.Stat_No, 1, 11, "APATHIE", "Rapidité diminuée", "Actif jusqu'au tour suivant");
-		GameView.instance.displaySkillEffect(target, "+ APATHIE", 0);
+		GameView.instance.displaySkillEffect(target, "APATHIE", 5);
 	}
 	
 	public override void failedToCastOn(int target, int indexFailure){
-		//GameController.instance.displaySkillEffect(target, GameController.instance.castFailures.getFailure(indexFailure), 5, 1);
+		if (indexFailure==1){
+			GameView.instance.displaySkillEffect(target, "ESQUIVE", 4);
+		}
+		else if (indexFailure==2){
+			GameView.instance.displaySkillEffect(target, "ECHEC APATHIE", 4);
+		}
 	}
 	
 	public override string isLaunchable(){
-		return "false";
+		return GameView.instance.canLaunchOpponentsTargets();
 	}
 	
-	public override HaloTarget getTargetPCCText(Card c){
+	public override string getTargetText(Card targetCard){
 		
-		HaloTarget h  = new HaloTarget(0); 
-		int i ;
-		int probaEsquive = c.GetMagicalEsquive();
-		//int probaHit = GameController.instance.getCurrentSkill().ManaCost;
+		int amount = base.skill.ManaCost;
+		int attack = base.card.GetAttack();
+		string text;
+		
+		text = "Recule le tour du héros\n";
+		
+		int probaEsquive = targetCard.GetMagicalEsquive();
 		int proba ;
+		text += "HIT : ";
+		if (probaEsquive!=0){
+			proba = 100-probaEsquive;
+			text+=proba+"% : "+100+"%(ATT) - "+probaEsquive+"%(ESQ)";
+		}
+		else{
+			proba = 100;
+			text+=proba+"%";
+		}
 		
-		h.addInfo("+ Apathie",2);
-		
-		string s = "HIT : ";
-//		if (probaEsquive!=0){
-//			proba = probaHit-probaEsquive;
-//			s+=proba+"% : "+probaHit+"%(APA) - "+probaEsquive+"%(RES)";
-//		}
-//		else{
-//			proba = probaHit;
-//			s+=proba+"%";
-//		}
-		
-//		if(proba==100){
-//			i = 2;
-//		}
-//		else if(proba>=50){
-//			i = 1;
-//		}
-//		else{
-//			i = 0;
-//		}
-		
-//		h.addInfo(s,i);
-		
-		return h ;
+		return text ;
 	}
 }

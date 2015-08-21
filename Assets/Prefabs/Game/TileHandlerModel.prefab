@@ -85,7 +85,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -669901963
-  m_SortingOrder: 3
+  m_SortingOrder: 0
 --- !u!33 &3382662
 MeshFilter:
   m_ObjectHideFlags: 1
@@ -253,8 +253,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -669901963
-  m_SortingOrder: 2
+  m_SortingLayerID: -483395861
+  m_SortingOrder: 5
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1001 &100100000
@@ -316,6 +316,14 @@ Prefab:
       value: 
       objectReference: {fileID: 21300006, guid: 7e1b4151ad140b74da11c36c23719857,
         type: 3}
+    - target: {fileID: 0}
+      propertyPath: m_SortingLayerID
+      value: -483395861
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_SortingOrder
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 133300}

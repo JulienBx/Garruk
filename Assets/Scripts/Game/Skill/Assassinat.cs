@@ -49,7 +49,7 @@ public class Assassinat : GameSkill
 			GameView.instance.displaySkillEffect(target, "ESQUIVE", 4);
 		}
 		else{
-			GameView.instance.displaySkillEffect(target, "ECHEC", 4);
+			GameView.instance.displaySkillEffect(target, "ECHEC ASSASSINAT", 4);
 		}
 	}
 	

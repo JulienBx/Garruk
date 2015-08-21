@@ -48,12 +48,11 @@ public class TirALarc : GameSkill
 		
 		int damageBonusPercentage = this.card.GetDamagesPercentageBonus(targetCard);
 		
-		int amount = this.skill.ManaCost*(100+damageBonusPercentage)/100;
+		int amount = arg*this.skill.ManaCost*(100+damageBonusPercentage)/100;
 		amount = Mathf.Min(currentLife,amount-(bouclier*amount/100));
 		
-		for (int i = 0 ; i < arg ; i++){
-			GameController.instance.addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
-		}
+		GameController.instance.addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
+		
 		if(currentLife!=(arg*amount)){
 			GameView.instance.displaySkillEffect(target, "HIT X"+arg+"\n-"+(arg*amount)+" PV", 5);
 		}

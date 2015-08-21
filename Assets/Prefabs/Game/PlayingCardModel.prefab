@@ -2378,6 +2378,9 @@ MonoBehaviour:
   GOPosition: {x: 0, y: 0}
   GOSize: {x: 0, y: 0}
   backgroundSprites:
+  - {fileID: 21300086, guid: 075994fcb3c9ef54e9ee86a9f415b94e, type: 3}
+  - {fileID: 21300000, guid: 075994fcb3c9ef54e9ee86a9f415b94e, type: 3}
+  - {fileID: 21300078, guid: 075994fcb3c9ef54e9ee86a9f415b94e, type: 3}
   - {fileID: 21300000, guid: 075994fcb3c9ef54e9ee86a9f415b94e, type: 3}
   - {fileID: 21300000, guid: 075994fcb3c9ef54e9ee86a9f415b94e, type: 3}
   - {fileID: 21300000, guid: 075994fcb3c9ef54e9ee86a9f415b94e, type: 3}
@@ -2385,12 +2388,9 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 075994fcb3c9ef54e9ee86a9f415b94e, type: 3}
   - {fileID: 21300000, guid: 075994fcb3c9ef54e9ee86a9f415b94e, type: 3}
   - {fileID: 21300000, guid: 075994fcb3c9ef54e9ee86a9f415b94e, type: 3}
-  - {fileID: 21300000, guid: 075994fcb3c9ef54e9ee86a9f415b94e, type: 3}
-  - {fileID: 21300000, guid: 075994fcb3c9ef54e9ee86a9f415b94e, type: 3}
-  - {fileID: 21300000, guid: 075994fcb3c9ef54e9ee86a9f415b94e, type: 3}
+  - {fileID: 21300088, guid: 075994fcb3c9ef54e9ee86a9f415b94e, type: 3}
   - {fileID: 21300002, guid: 075994fcb3c9ef54e9ee86a9f415b94e, type: 3}
-  - {fileID: 21300002, guid: 075994fcb3c9ef54e9ee86a9f415b94e, type: 3}
-  - {fileID: 21300002, guid: 075994fcb3c9ef54e9ee86a9f415b94e, type: 3}
+  - {fileID: 21300080, guid: 075994fcb3c9ef54e9ee86a9f415b94e, type: 3}
   - {fileID: 21300002, guid: 075994fcb3c9ef54e9ee86a9f415b94e, type: 3}
   - {fileID: 21300002, guid: 075994fcb3c9ef54e9ee86a9f415b94e, type: 3}
   - {fileID: 21300002, guid: 075994fcb3c9ef54e9ee86a9f415b94e, type: 3}
@@ -3084,6 +3084,26 @@ Prefab:
       propertyPath: iconSprites.Array.data[9]
       value: 
       objectReference: {fileID: 21300062, guid: 075994fcb3c9ef54e9ee86a9f415b94e,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: backgroundSprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300086, guid: 075994fcb3c9ef54e9ee86a9f415b94e,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: backgroundSprites.Array.data[10]
+      value: 
+      objectReference: {fileID: 21300088, guid: 075994fcb3c9ef54e9ee86a9f415b94e,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: backgroundSprites.Array.data[2]
+      value: 
+      objectReference: {fileID: 21300078, guid: 075994fcb3c9ef54e9ee86a9f415b94e,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: backgroundSprites.Array.data[12]
+      value: 
+      objectReference: {fileID: 21300080, guid: 075994fcb3c9ef54e9ee86a9f415b94e,
         type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

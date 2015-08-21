@@ -185,19 +185,6 @@ public class GameController : Photon.MonoBehaviour
 //		}		
 	}
 	
-	public void displayAllButMeModifiersTargets()
-	{
-//		PlayingCardController pcc;
-//		for (int i = 0; i < this.playingCards.Length; i++)
-//		{
-//			pcc = this.getPCC(i);
-//			if (pcc.card.hasModifiers() && pcc.canBeTargeted() && i != this.currentPlayingCard)
-//			{
-//				pcc.setTargetHalo(this.gameskills [this.getCurrentSkillID()].getTargetPCCText(pcc.card));
-//			}
-//		}		
-	}
-	
 	public bool canLaunchAllButMeModifiers()
 	{
 		bool isLaunchable = false;
@@ -296,7 +283,7 @@ public class GameController : Photon.MonoBehaviour
 
 		while (i < length && newTurn == true)
 		{
-			if (rankedPlayingCardsID [i]!=this.currentPlayingCard && !GameView.instance.hasPlayed(rankedPlayingCardsID [i]))
+			if (rankedPlayingCardsID [i]!=this.currentPlayingCard && !GameView.instance.hasPlayed(rankedPlayingCardsID [i]) && !GameView.instance.isDead(rankedPlayingCardsID [i]))
 			{
 				nextPlayingCard = rankedPlayingCardsID [i];
 				newTurn = false;
@@ -374,7 +361,7 @@ public class GameController : Photon.MonoBehaviour
 	}
 	
 	public void calculateDestinations(){
-		GameView.instance.setDestinations(this.currentPlayingCard, this.isFirstPlayer);
+		GameView.instance.setDestinations(this.currentPlayingCard);
 	}
 	
 	[RPC]
@@ -699,43 +686,43 @@ public class GameController : Photon.MonoBehaviour
 	
 	public void rankBefore(int idToRank)
 	{
-//		int i = 0;
-//		int rankPlayingCard = -1;
-//		int rankCardToRank = -1;
-//		while (i<this.playingCards.Length && (rankPlayingCard==-1||rankCardToRank==-1))
-//		{
-//			if (this.rankedPlayingCardsID [i] == this.currentPlayingCard)
-//			{
-//				rankPlayingCard = i;
-//			}
-//			if (this.rankedPlayingCardsID [i] == idToRank)
-//			{
-//				rankCardToRank = i;
-//			}
-//			i++;
-//		}
-//		
-//		int compteur = 0;
-//		int[] tempRank = new int[this.playingCards.Length];
-//		for (int j = 0; j < this.playingCards.Length; j++)
-//		{
-//			if (j == rankPlayingCard)
-//			{
-//				tempRank [compteur] = idToRank;
-//				compteur++;
-//			}
-//			if (j != rankCardToRank)
-//			{
-//				tempRank [compteur] = this.rankedPlayingCardsID [j];
-//				compteur++;
-//			}
-//		}
-//		for (int j = 0; j < this.playingCards.Length; j++)
-//		{
-//			print("New " + j + " : " + tempRank [j]);
-//			this.rankedPlayingCardsID [j] = tempRank [j];
-//		}
-//		this.getPCC(idToRank).hasPlayed = true;
+		int i = 0;
+		int rankPlayingCard = -1;
+		int rankCardToRank = -1;
+		while (i<this.rankedPlayingCardsID.Length && (rankPlayingCard==-1||rankCardToRank==-1))
+		{
+			if (this.rankedPlayingCardsID [i] == this.currentPlayingCard)
+			{
+				rankPlayingCard = i;
+			}
+			if (this.rankedPlayingCardsID [i] == idToRank)
+			{
+				rankCardToRank = i;
+			}
+			i++;
+		}
+		
+		int compteur = 0;
+		int[] tempRank = new int[this.rankedPlayingCardsID.Length];
+		for (int j = 0; j < this.rankedPlayingCardsID.Length; j++)
+		{
+			if (j == rankPlayingCard)
+			{
+				tempRank [compteur] = idToRank;
+				compteur++;
+			}
+			if (j != rankCardToRank)
+			{
+				tempRank [compteur] = this.rankedPlayingCardsID [j];
+				compteur++;
+			}
+		}
+		for (int j = 0; j < this.rankedPlayingCardsID.Length; j++)
+		{
+			print("New " + j + " : " + tempRank [j]);
+			this.rankedPlayingCardsID [j] = tempRank [j];
+		}
+		GameView.instance.playCard(idToRank,true);
 	}
 
 	public int FindMaxQuicknessIndex(List<int> list)
@@ -1205,12 +1192,6 @@ public class GameController : Photon.MonoBehaviour
 		return null ;
 	}
 
-	public PlayingCardController getPCC(int id)
-	{
-		//return this.playingCards [id].GetComponent<PlayingCardController>();
-		return null;
-	}
-
 	public TileController getTile(int x, int y)
 	{
 		//return this.tiles [x, y].GetComponent<TileController>();
@@ -1281,12 +1262,6 @@ public class GameController : Photon.MonoBehaviour
 		}
 	}
 	
-	public void emptyTile(int x, int y)
-	{
-		//this.tiles [x, y].GetComponent<TileController>().characterID = -1;
-		this.areMyHeroesDead();
-	}
-	
 	public void areMyHeroesDead()
 	{
 //		bool areTheyAllDead = true;
@@ -1340,7 +1315,7 @@ public class GameController : Photon.MonoBehaviour
 	{
 		yield return new WaitForSeconds(2f);
 		//this.tiles [this.getPCC(target).tile.x, this.getPCC(target).tile.x].GetComponent<TileController>().characterID = -1;
-		this.getPCC(target).kill();
+		GameView.instance.getPCC(target).kill();
 	}
 
 	public void addTileModifier(int modifierType, int amount, int tileX, int tileY)
@@ -1411,11 +1386,11 @@ public class GameController : Photon.MonoBehaviour
 	[RPC]
 	public void reliveRPC(int id, int x, int y, bool isFirstP)
 	{
-		PlayingCardController pcc = GameController.instance.getPCC(id).GetComponent<PlayingCardController>();
+		//PlayingCardController pcc = GameController.instance.getPCC(id).GetComponent<PlayingCardController>();
 		//pcc.setTile(new Tile(x, y), getTile(x, y).GetComponent<TileController>().tileView.tileVM.position, (id < limitCharacterSide) != isFirstP);
 		//pcc.card.Life = 1;
-		pcc.relive();
-		pcc.show();
+		//pcc.relive();
+		//pcc.show();
 		//addGameEvent(new SkillType(getCurrentSkill().Action), pcc.card.Title);
 	}
 
