@@ -1,0 +1,253 @@
+fileFormatVersion: 2
+guid: 912f114b2652c476b9266d7a0942fd83
+timeCreated: 1440785216
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: artilleurbb
+    21300002: berserkerbb
+    21300004: droidbb
+    21300006: enchanteurbb
+    21300008: geomanciennebb
+    21300010: invocateurbb
+    21300012: mentalistebb
+    21300014: polymorphebb
+    21300016: pretressebb
+    21300018: roublardbb (1)
+    21300020: jauge
+    21300022: jaugeBackground
+    21300024: buttonBorder
+    21300026: skillBorder
+    21300028: skillPicto
+    21300030: blankStar
+    21300032: fullStar
+    21300034: halfStar
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 8
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 4096
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 108
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: artilleurbb
+      rect:
+        serializedVersion: 2
+        x: 604
+        y: 1554
+        width: 386
+        height: 385
+      alignment: 9
+      pivot: {x: .502590656, y: .501298726}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: berserkerbb
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 1459
+        width: 386
+        height: 385
+      alignment: 9
+      pivot: {x: .502590656, y: .501298726}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: blankStar
+      rect:
+        serializedVersion: 2
+        x: 1767
+        y: 1393
+        width: 266
+        height: 266
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: buttonBorder
+      rect:
+        serializedVersion: 2
+        x: 604
+        y: 1941
+        width: 425
+        height: 105
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: droidbb
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 1072
+        width: 385
+        height: 385
+      alignment: 9
+      pivot: {x: .501298726, y: .501298726}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: enchanteurbb
+      rect:
+        serializedVersion: 2
+        x: 1421
+        y: 1661
+        width: 386
+        height: 385
+      alignment: 9
+      pivot: {x: .502590656, y: .501298726}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: fullStar
+      rect:
+        serializedVersion: 2
+        x: 1767
+        y: 1125
+        width: 266
+        height: 266
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: geomanciennebb
+      rect:
+        serializedVersion: 2
+        x: 1380
+        y: 1274
+        width: 385
+        height: 385
+      alignment: 9
+      pivot: {x: .501298726, y: .501298726}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: halfStar
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 804
+        width: 266
+        height: 266
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: invocateurbb
+      rect:
+        serializedVersion: 2
+        x: 992
+        y: 1274
+        width: 386
+        height: 385
+      alignment: 9
+      pivot: {x: .502590656, y: .501298726}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jauge
+      rect:
+        serializedVersion: 2
+        x: 390
+        y: 1703
+        width: 100
+        height: 3
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jaugeBackground
+      rect:
+        serializedVersion: 2
+        x: 492
+        y: 1703
+        width: 100
+        height: 3
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: mentalistebb
+      rect:
+        serializedVersion: 2
+        x: 390
+        y: 1167
+        width: 386
+        height: 385
+      alignment: 9
+      pivot: {x: .502590656, y: .501298726}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: polymorphebb
+      rect:
+        serializedVersion: 2
+        x: 1031
+        y: 1661
+        width: 388
+        height: 385
+      alignment: 9
+      pivot: {x: .50515461, y: .501298726}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: pretressebb
+      rect:
+        serializedVersion: 2
+        x: 778
+        y: 887
+        width: 385
+        height: 385
+      alignment: 9
+      pivot: {x: .501298726, y: .501298726}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: roublardbb (1)
+      rect:
+        serializedVersion: 2
+        x: 389
+        y: 780
+        width: 385
+        height: 385
+      alignment: 9
+      pivot: {x: .501298726, y: .501298726}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skillBorder
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 1846
+        width: 600
+        height: 200
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skillPicto
+      rect:
+        serializedVersion: 2
+        x: 390
+        y: 1708
+        width: 116
+        height: 136
+      alignment: 9
+      pivot: {x: .491379321, y: .477941185}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

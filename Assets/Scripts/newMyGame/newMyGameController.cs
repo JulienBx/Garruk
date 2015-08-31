@@ -10,6 +10,7 @@ public class newMyGameController : MonoBehaviour
 	public static newMyGameController instance;
 	private NewMyGameModel model;
 
+	public GameObject blockObject;
 	public GameObject cardObject;
 	public GameObject skillListObject;
 	public GameObject paginationButtonObject;
@@ -20,7 +21,9 @@ public class newMyGameController : MonoBehaviour
 
 	private GameObject menu;
 	private GameObject deckBoard;
-	private GameObject cardsBoard;
+	private GameObject cardsBlock;
+	private GameObject deckBlock;
+	private GameObject filtersBlock;
 	private GameObject filters;
 	private GameObject[] deckCards;
 	private GameObject[] cards;
@@ -239,7 +242,20 @@ public class newMyGameController : MonoBehaviour
 		yield return StartCoroutine (model.initializeMyGame ());
 		this.retrieveDefaultDeck ();
 		this.initializeDecks ();
-		this.initializeCards ();
+		this.resetFiltersValue ();
+		if(ApplicationModel.skillChosen!="")
+		{
+			this.isSkillChosen=true;
+			this.valueSkill=ApplicationModel.skillChosen.ToLower();
+			this.filters.transform.FindChild("skillSearch").FindChild ("SearchBar").FindChild("Text").GetComponent<TextMeshPro>().text=valueSkill;
+		   	ApplicationModel.skillChosen="";
+		}
+		if(ApplicationModel.cardTypeChosen!=-1)
+		{
+			this.filtersCardType.Add (ApplicationModel.cardTypeChosen);
+		   	ApplicationModel.cardTypeChosen=-1;
+		}
+		this.applyFilters ();
 		this.isSceneLoaded = true;
 		this.money = ApplicationModel.credits;
 	}
@@ -265,8 +281,10 @@ public class newMyGameController : MonoBehaviour
 	{
 		menu = GameObject.Find ("newMenu");
 		menu.GetComponent<newMenuController> ().setCurrentPage (1);
+		this.cardsBlock = Instantiate(this.blockObject) as GameObject;
+		this.deckBlock = Instantiate(this.blockObject) as GameObject;
+		this.filtersBlock = Instantiate(this.blockObject) as GameObject;
 		this.deckBoard = GameObject.Find ("deckBoard");
-		this.cardsBoard = GameObject.Find ("cardsBoard");
 		this.filters = GameObject.Find ("myGameFilters");
 		this.deckCards=new GameObject[4];
 		this.cards = new GameObject[0];
@@ -426,55 +444,67 @@ public class newMyGameController : MonoBehaviour
 		float deleteRenameButtonWorldWidth = deleteRenameButtonScale*(deleteRenameButtonWidth / pixelPerUnit);
 		float cardHaloWorldWidth = cardScale * (cardHaloWidth / pixelPerUnit);
 		float deckCardsWidth = deckCardsInterval * 3f + cardHaloWorldWidth;
-		float cardsBoardLeftMargin = 2.9f;
-		float cardsBoardRightMargin = 2.9f;
+		float cardsBoardLeftMargin = 3f;
+		float cardsBoardRightMargin = 3f;
 		float cardsBoardUpMargin;
-		float cardsBoardDownMargin = 0.5f;
+		float deckBlockDownMargin;
+		float cardsBoardDownMargin = 0.2f;
 
 		float tempWidth = worldWidth - cardsBoardLeftMargin - cardsBoardRightMargin - selectButtonWorldWidth - deckCardsWidth;
 
 		if(tempWidth>0.25f)
 		{
-			this.deckBoard.transform.position=new Vector3(selectButtonWorldWidth/2f +tempWidth/4f,3.4f,0f);
+			this.deckBoard.transform.position=new Vector3(selectButtonWorldWidth/2f +tempWidth/4f,3.35f,0f);
 			this.deckBoard.transform.FindChild("deckList").localPosition=new Vector3(-deckCardsWidth/2f-tempWidth/2f-selectButtonWorldWidth/2f,0,0);
 			this.deckBoard.transform.FindChild("deckList").FindChild("currentDeck").localPosition=new Vector3(0f,0.27f,0f);
 			this.deckBoard.transform.FindChild("deckList").FindChild("renameDeckButton").localPosition=new Vector3(-selectButtonWorldWidth/2f+deleteRenameButtonWorldWidth/2f,-0.27f,0);
 			this.deckBoard.transform.FindChild("deckList").FindChild("deleteDeckButton").localPosition=new Vector3(selectButtonWorldWidth/2f-deleteRenameButtonWorldWidth/2f,-0.27f,0);
 			this.deckBoard.transform.FindChild("deckList").FindChild("newDeckButton").localPosition=new Vector3(-0.93f,-0.74f,0);
 			this.deckBoard.transform.FindChild("deckList").FindChild("Title").localPosition=new Vector3(0,0.86f,0f);
-			this.deckBoard.transform.FindChild("3stars").localPosition=new Vector3(-2.55f,1.29f,0);
-			this.deckBoard.transform.FindChild("2stars").localPosition=new Vector3(-0.85f,1.29f,0);
-			this.deckBoard.transform.FindChild("1star").localPosition=new Vector3(0.85f,1.29f,0);
-
-			cardsBoardUpMargin = 2.75f;
+			this.deckBoard.transform.FindChild("3stars").localPosition=new Vector3(-2.55f,1.24f,0);
+			this.deckBoard.transform.FindChild("2stars").localPosition=new Vector3(-0.85f,1.24f,0);
+			this.deckBoard.transform.FindChild("1star").localPosition=new Vector3(0.85f,1.24f,0);
+			deckBlockDownMargin = 7.25f;
 		}
 		else
 		{
 			this.deckBoard.transform.position=new Vector3(0,2.25f,0f);
 			this.deckBoard.transform.FindChild("deckList").localPosition=new Vector3(0,1.6f,0);
 			this.deckBoard.transform.FindChild("deckList").FindChild("currentDeck").localPosition=new Vector3(0.34f,0,0);
-			this.deckBoard.transform.FindChild("deckList").FindChild("renameDeckButton").localPosition=new Vector3(2.6f,0.15f,0);
-			this.deckBoard.transform.FindChild("deckList").FindChild("deleteDeckButton").localPosition=new Vector3(2.6f,-0.15f,0);
-			this.deckBoard.transform.FindChild("deckList").FindChild("newDeckButton").localPosition=new Vector3(-3.169f,0,0);
+			this.deckBoard.transform.FindChild("deckList").FindChild("renameDeckButton").localPosition=new Vector3(2.5f,0.15f,0);
+			this.deckBoard.transform.FindChild("deckList").FindChild("deleteDeckButton").localPosition=new Vector3(2.5f,-0.15f,0);
+			this.deckBoard.transform.FindChild("deckList").FindChild("newDeckButton").localPosition=new Vector3(-3f,0,0);
 			this.deckBoard.transform.FindChild("deckList").FindChild("Title").localPosition=new Vector3(0,0.69f,0f);
 			this.deckBoard.transform.FindChild("3stars").localPosition=new Vector3(-2.55f,-1.35f,0);
 			this.deckBoard.transform.FindChild("2stars").localPosition=new Vector3(-0.85f,-1.35f,0);
 			this.deckBoard.transform.FindChild("1star").localPosition=new Vector3(0.85f,-1.35f,0);
-			cardsBoardUpMargin = 4.5f;
+			deckBlockDownMargin = 5.5f;
 		}
+
+		float deckBlockLeftMargin = 3f;
+		float deckBlockRightMargin = 3f;
+		float deckBlockUpMargin = 0.2f;
 		
+		float deckBlockHeight = worldHeight - deckBlockUpMargin-deckBlockDownMargin;
+		float deckBlockWidth = worldWidth-deckBlockLeftMargin-deckBlockRightMargin;
+		Vector2 deckBlockOrigin = new Vector3 (-worldWidth/2f+deckBlockLeftMargin+deckBlockWidth/2f, -worldHeight / 2f + deckBlockDownMargin + deckBlockHeight / 2,0f);
+		
+		this.deckBlock.GetComponent<BlockController> ().resize(new Rect(deckBlockOrigin.x,deckBlockOrigin.y,deckBlockWidth,deckBlockHeight));
+
+		cardsBoardUpMargin= worldHeight-deckBlockDownMargin+0.2f; 
 		float cardsBoardHeight = worldHeight - cardsBoardUpMargin-cardsBoardDownMargin;
 		float cardsBoardWidth = worldWidth-cardsBoardLeftMargin-cardsBoardRightMargin;
 		Vector2 cardsBoardOrigin = new Vector3 (-worldWidth/2f+cardsBoardLeftMargin+cardsBoardWidth/2f, -worldHeight / 2f + cardsBoardDownMargin + cardsBoardHeight / 2,0f);
 
-		this.cardsArea = new Rect (cardsBoardOrigin.x - cardsBoardWidth / 2f, cardsBoardOrigin.y - cardsBoardHeight/2f, cardsBoardWidth, cardsBoardHeight);
+		this.cardsArea = new Rect (cardsBoardOrigin.x-cardsBoardWidth/2f, cardsBoardOrigin.y-cardsBoardHeight/2f, cardsBoardWidth, cardsBoardHeight);
 
 		float cardWidth = 194f;
 		float cardHeight = 271f;
 		float cardWorldWidth = (cardWidth / pixelPerUnit) * cardScale;
 		float cardWorldHeight = (cardHeight / pixelPerUnit) * cardScale;
 
-		this.cardsBoard.GetComponent<BoardController> ().resize(cardsBoardWidth,cardsBoardHeight,cardsBoardOrigin);
+		this.cardsBlock.GetComponent<BlockController> ().resize(new Rect (cardsBoardOrigin.x, cardsBoardOrigin.y, cardsBoardWidth, cardsBoardHeight));
+
 		this.deckCardsPosition=new Vector3[4];
 		this.deckCardsArea=new Rect[4];
 
@@ -489,10 +519,10 @@ public class newMyGameController : MonoBehaviour
 		}
 
 		this.cardsPerLine = Mathf.FloorToInt ((cardsBoardWidth-0.5f) / cardWorldWidth);
-		this.nbLines = Mathf.FloorToInt ((cardsBoardHeight-0.5f) / cardWorldHeight);
+		this.nbLines = Mathf.FloorToInt ((cardsBoardHeight-0.6f) / cardWorldHeight);
 
 		float gapWidth = (cardsBoardWidth - (this.cardsPerLine * cardWorldWidth)) / (this.cardsPerLine + 1);
-		float gapHeight = (cardsBoardHeight - (this.nbLines * cardWorldHeight)) / (this.nbLines + 1);
+		float gapHeight = (cardsBoardHeight - 0.45f - (this.nbLines * cardWorldHeight)) / (this.nbLines + 1);
 		float cardBoardStartX = cardsBoardOrigin.x - cardsBoardWidth / 2f-cardWorldWidth/2f;
 		float cardBoardStartY = cardsBoardOrigin.y + cardsBoardHeight / 2f+cardWorldHeight/2f;
 
@@ -513,6 +543,17 @@ public class newMyGameController : MonoBehaviour
 				this.cards[j*(this.cardsPerLine)+i].SetActive(false);
 			}
 		}
+
+		float filtersBlockLeftMargin = this.worldWidth-2.8f;
+		float filtersBlockRightMargin = 0f;
+		float filtersBlockUpMargin = 0.6f;
+		float filtersBlockDownMargin = 0.2f;
+		
+		float filtersBlockHeight = worldHeight - filtersBlockUpMargin-filtersBlockDownMargin;
+		float filtersBlockWidth = worldWidth-filtersBlockLeftMargin-filtersBlockRightMargin;
+		Vector2 filtersBlockOrigin = new Vector3 (-worldWidth/2f+filtersBlockLeftMargin+filtersBlockWidth/2f, -worldHeight / 2f + filtersBlockDownMargin + filtersBlockHeight / 2,0f);
+		
+		this.filtersBlock.GetComponent<BlockController> ().resize(new Rect(filtersBlockOrigin.x,filtersBlockOrigin.y, filtersBlockWidth, filtersBlockHeight));
 
 		this.filters.transform.position = new Vector3 (worldWidth/2f - 1.4f, 0f, 0f);
 
@@ -649,7 +690,9 @@ public class newMyGameController : MonoBehaviour
 	public void displayBackUI(bool value)
 	{
 		this.deckBoard.SetActive (value);
-		this.cardsBoard.SetActive (value);
+		this.cardsBlock.GetComponent<BlockController> ().display (value);
+		this.deckBlock.GetComponent<BlockController> ().display (value);
+		this.filtersBlock.GetComponent<BlockController> ().display (value);
 		this.filters.SetActive (value);
 		for(int i=0;i<this.cardsDisplayed.Count;i++)
 		{
@@ -1551,7 +1594,7 @@ public class newMyGameController : MonoBehaviour
 			{
 				this.paginationButtons[i] = Instantiate(this.paginationButtonObject) as GameObject;
 				this.paginationButtons[i].AddComponent<MyGamePaginationController>();
-				this.paginationButtons[i].transform.position=new Vector3((0.5f+i-nbButtonsToDraw/2f)*(paginationButtonWidth+gapBetweenPaginationButton),-4.7f,0f);
+				this.paginationButtons[i].transform.position=new Vector3((0.5f+i-nbButtonsToDraw/2f)*(paginationButtonWidth+gapBetweenPaginationButton),-4.55f,0f);
 				this.paginationButtons[i].name="Pagination"+i.ToString();
 			}
 			for(int i=System.Convert.ToInt32(drawBackButton);i<nbButtonsToDraw-System.Convert.ToInt32(drawNextButton);i++)
@@ -1701,6 +1744,7 @@ public class newMyGameController : MonoBehaviour
 			yield return StartCoroutine(model.decks[model.decks.Count-1].create(newDeckView.newDeckPopUpVM.name));
 			this.deckDisplayed=model.decks.Count-1;
 			this.initializeDecks();
+			this.initializeCards();
 			this.hideNewDeckPopUp();
 //			if(this.isTutorialLaunched)
 //			{
@@ -1743,7 +1787,8 @@ public class newMyGameController : MonoBehaviour
 		this.hideDeleteDeckPopUp();
 		this.retrieveDefaultDeck ();
 		this.initializeDecks ();
-		this.drawCards ();
+		//this.drawCards ();
+		this.initializeCards ();
 	}
 	public void removeDeckFromAllCards(int id)
 	{
@@ -1894,7 +1939,7 @@ public class newMyGameController : MonoBehaviour
 		else
 		{
 			this.deckCards[this.idCardClicked].GetComponent<NewCardController>().changeLayer(4);
-			this.cardsBoard.GetComponent<BoardController> ().changeColor (new Color (155f / 255f, 220f / 255f, 1f));
+			//this.cardsBoard.GetComponent<BoardController> ().changeColor (new Color (155f / 255f, 220f / 255f, 1f));
 		}
 		this.deckBoard.GetComponent<DeckBoardController> ().changeCardsColor (new Color (155f / 255f, 220f / 255f, 1f));
 	}
@@ -1998,7 +2043,7 @@ public class newMyGameController : MonoBehaviour
 		{
 			this.deckCards[this.idCardClicked].GetComponent<NewCardController>().changeLayer(-4);
 			this.deckCards[this.idCardClicked].transform.position=this.deckCardsPosition[this.idCardClicked];
-			this.cardsBoard.GetComponent<BoardController> ().changeColor (new Color (1f,1f, 1f));
+			//this.cardsBoard.GetComponent<BoardController> ().changeColor (new Color (1f,1f, 1f));
 		}
 		this.deckBoard.GetComponent<DeckBoardController> ().changeCardsColor (new Color (1f,1f, 1f));bool toCards=false;
 

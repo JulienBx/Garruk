@@ -61,7 +61,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 147588}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -3.78155804, y: .0374879837, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 483192}
@@ -333,8 +333,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 767e8d9a7499846129330ca98af0d429, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skillsPicto:
-  - {fileID: 21300034, guid: 794530463996d40b2ab82078c2dc307a, type: 3}
   colors:
   - {r: .68235296, g: .482352942, b: .266666681, a: 1}
   - {r: .65882355, g: .65882355, b: .65882355, a: 1}
@@ -517,6 +515,18 @@ Prefab:
       value: 
       objectReference: {fileID: 11400000, guid: bbc845773694540939bde240858219f5,
         type: 2}
+    - target: {fileID: 0}
+      propertyPath: skillPopUpObject
+      value: 
+      objectReference: {fileID: 172574, guid: 7080a10169d164f738580088b6ac015d, type: 2}
+    - target: {fileID: 0}
+      propertyPath: m_Size.x
+      value: .600000024
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Size.y
+      value: .150000006
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 147588}

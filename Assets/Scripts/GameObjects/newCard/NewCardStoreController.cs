@@ -9,12 +9,17 @@ public class NewCardStoreController : NewCardController
 	{
 	}
 
-	void OnMouseOver()
+	public override void OnMouseOver()
 	{
+		base.OnMouseOver ();
 		if (Input.GetMouseButton(1)) 
 		{
 			NewStoreController.instance.rightClickedHandler(this.id);
 		}
+	}
+	public override void OnMouseExit()
+	{
+		base.OnMouseExit ();
 	}
 	public void setId(int value)
 	{

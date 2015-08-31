@@ -1,0 +1,157 @@
+fileFormatVersion: 2
+guid: f76b3d4b16c004212ad7b8195ad8eb22
+timeCreated: 1440948653
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: tutorialBackground1
+    21300002: tutorialBackground2
+    21300004: tutorialBackground3
+    21300006: Artilleur full
+    21300008: Enchanteur full
+    21300010: Geomanciennefull
+    21300012: "Pr\xEAtresse full"
+    21300014: Roublardfull
+    21300016: background
+    21300018: background2
+    21300020: polymorphe full
+    21300022: buttonBorder
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 8
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 4096
+  textureSettings:
+    filterMode: -1
+    aniso: -1
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: Artilleur full
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 1986
+        width: 576
+        height: 1026
+      alignment: 9
+      pivot: {x: .508680582, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Enchanteur full
+      rect:
+        serializedVersion: 2
+        x: 580
+        y: 2006
+        width: 632
+        height: 1006
+      alignment: 9
+      pivot: {x: .492879748, y: .508449316}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Geomanciennefull
+      rect:
+        serializedVersion: 2
+        x: 684
+        y: 1033
+        width: 639
+        height: 971
+      alignment: 9
+      pivot: {x: .4968701, y: .50926882}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: "Pr\xEAtresse full"
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 973
+        width: 680
+        height: 1011
+      alignment: 9
+      pivot: {x: .483823538, y: .520276964}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Roublardfull
+      rect:
+        serializedVersion: 2
+        x: 1214
+        y: 2141
+        width: 524
+        height: 871
+      alignment: 9
+      pivot: {x: .510496199, y: .502870262}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: background
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 3014
+        width: 1920
+        height: 1080
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: background2
+      rect:
+        serializedVersion: 2
+        x: 1924
+        y: 3014
+        width: 1920
+        height: 1080
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: buttonBorder
+      rect:
+        serializedVersion: 2
+        x: 3846
+        y: 4044
+        width: 219
+        height: 50
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: polymorphe full
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 7
+        width: 717
+        height: 964
+      alignment: 9
+      pivot: {x: .506276131, y: .505186737}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

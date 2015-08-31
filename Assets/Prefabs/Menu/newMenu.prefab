@@ -1544,6 +1544,9 @@ MonoBehaviour:
   playPopUpObject: {fileID: 189314, guid: 8fe97dd726eec47f581ab750441248f2, type: 2}
   transparentBackgroundObject: {fileID: 156154, guid: aad2bd4f953b34f068977d17f460f61f,
     type: 2}
+  startButtonPosition: -1.5625
+  endButtonPosition: -1
+  speed: 15
 --- !u!114 &11463570
 MonoBehaviour:
   m_ObjectHideFlags: 1

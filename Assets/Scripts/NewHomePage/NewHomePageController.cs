@@ -642,7 +642,6 @@ public class NewHomePageController : Photon.MonoBehaviour
 	}
 	private void retrieveDefaultDeck()
 	{
-		this.decksDisplayed=new List<int>();
 		if(model.decks.Count>0)
 		{
 			this.deckDisplayed = 0;
@@ -783,6 +782,7 @@ public class NewHomePageController : Photon.MonoBehaviour
 		this.cleanDeckList ();
 		this.isSearchingDeck = false;
 		this.initializeDecks ();
+		StartCoroutine(model.player.SetSelectedDeck(model.decks[this.deckDisplayed].Id));
 	}
 	public void displayDeckList()
 	{
@@ -883,10 +883,6 @@ public class NewHomePageController : Photon.MonoBehaviour
 			if(!this.isDragging)
 			{
 				Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
-			}
-			else
-			{
-				this.isDragging=false;
 			}
 		}
 	}
@@ -1227,7 +1223,7 @@ public class NewHomePageController : Photon.MonoBehaviour
 			{
 				this.paginationButtonsNews[i] = Instantiate(this.paginationButtonObject) as GameObject;
 				this.paginationButtonsNews[i].AddComponent<HomePageNewsPaginationController>();
-				this.paginationButtonsNews[i].transform.position=new Vector3(this.worldWidth/2f-2.9f/2f+(0.5f+i-nbButtonsToDraw/2f)*(paginationButtonWidth+gapBetweenPaginationButton),0.55f,0f);
+				this.paginationButtonsNews[i].transform.position=new Vector3(this.worldWidth/2f-2.9f/2f+(0.5f+i-nbButtonsToDraw/2f)*(paginationButtonWidth+gapBetweenPaginationButton),-4.55f,0f);
 				this.paginationButtonsNews[i].name="PaginationNews"+i.ToString();
 			}
 			for(int i=System.Convert.ToInt32(drawBackButton);i<nbButtonsToDraw-System.Convert.ToInt32(drawNextButton);i++)
@@ -1282,7 +1278,7 @@ public class NewHomePageController : Photon.MonoBehaviour
 	}
 	public void collectionButtonHandler()
 	{
-		Application.LoadLevel ("SkillBook");
+		Application.LoadLevel ("NewSkillBook");
 	}
 	public void cleanCardsHandler()
 	{
@@ -1388,13 +1384,8 @@ public class NewHomePageController : Photon.MonoBehaviour
 	}
 	public void showPopUpNotification()
 	{
-		float verticalPosition = +1.28f;
-		if(this.idNotificationHovered==0)
-		{
-			verticalPosition=-1.28f;
-		}
 		this.popUp = Instantiate(this.popUpObject) as GameObject;
-		this.popUp.transform.position=new Vector3(this.notifications[this.idNotificationHovered].transform.position.x-0.25f,this.notifications[this.idNotificationHovered].transform.position.y+verticalPosition,-1f);
+		this.popUp.transform.position=new Vector3(this.notifications[this.idNotificationHovered].transform.position.x-3.1f,this.notifications[this.idNotificationHovered].transform.position.y,-1f);
 		this.popUp.AddComponent<PopUpNotificationHomePageController>();
 		this.popUp.GetComponent<PopUpNotificationHomePageController> ().setIsNotification (true);
 		this.popUp.GetComponent<PopUpNotificationHomePageController> ().setId (this.idNotificationHovered);
@@ -1404,7 +1395,7 @@ public class NewHomePageController : Photon.MonoBehaviour
 	public void showPopUpNews()
 	{
 		this.popUp = Instantiate(this.popUpObject) as GameObject;
-		this.popUp.transform.position=new Vector3(this.news[this.idNewsHovered].transform.position.x-0.25f,this.news[this.idNewsHovered].transform.position.y+1.28f,-1f);
+		this.popUp.transform.position=new Vector3(this.news[this.idNewsHovered].transform.position.x-3.1f,this.news[this.idNewsHovered].transform.position.y,-1f);
 		this.popUp.AddComponent<PopUpNewsHomePageController>();
 		this.popUp.GetComponent<PopUpNewsHomePageController> ().setIsNews (true);
 		this.popUp.GetComponent<PopUpNewsHomePageController> ().setId (this.idNewsHovered);
@@ -1414,7 +1405,7 @@ public class NewHomePageController : Photon.MonoBehaviour
 	public void showPopUpCompetition()
 	{
 		this.popUp = Instantiate(this.popUpCompetitionObject) as GameObject;
-		this.popUp.transform.position=new Vector3(this.competitions[this.idCompetitionHovered].transform.position.x,this.competitions[this.idCompetitionHovered].transform.position.y+1.28f,-1f);
+		this.popUp.transform.position=new Vector3(this.competitions[this.idCompetitionHovered].transform.position.x-3.5f,this.competitions[this.idCompetitionHovered].transform.position.y,-1f);
 		this.popUp.AddComponent<PopUpCompetitionsHomePageController>();
 		this.popUp.GetComponent<PopUpCompetitionsHomePageController> ().setIsCompetition (true);
 		this.popUp.GetComponent<PopUpCompetitionsHomePageController> ().setId (this.idCompetitionHovered);
@@ -1518,12 +1509,15 @@ public class NewHomePageController : Photon.MonoBehaviour
 	}
 	public void joinGame(int id)
 	{
-		ApplicationModel.gameType = id;
-		StartCoroutine (this.setSelectedDeck ());
-		//if(this.isTutorialLaunched)
-		//{
-		//	this.endTutorial();
-		//}
+		if(id==0 && this.deckDisplayed!=-1)
+		{
+			ApplicationModel.gameType = id;
+			StartCoroutine (this.setSelectedDeck ());
+			//if(this.isTutorialLaunched)
+			//{
+			//	this.endTutorial();
+			//}
+		}
 	}
 	private IEnumerator setSelectedDeck()
 	{

@@ -76,7 +76,7 @@ public class NewPackController : MonoBehaviour
 		{
 			gameObject.transform.FindChild("PackTitle").GetComponent<TextMeshPro>().color=new Color(155f/255f,220f/255f,1f);
 			gameObject.transform.FindChild("BuyButton").GetComponent<SpriteRenderer>().color=new Color(155f/255f,220f/255f,1f);
-			gameObject.transform.FindChild("PackBorder").GetComponent<SpriteRenderer>().color=new Color(155f/255f,220f/255f,1f);
+			//gameObject.transform.FindChild("PackBorder").GetComponent<SpriteRenderer>().color=new Color(155f/255f,220f/255f,1f);
 			gameObject.transform.FindChild("PackPicture").GetComponent<SpriteRenderer>().color=new Color(155f/255f,220f/255f,1f);
 			gameObject.transform.FindChild("BuyButton").FindChild("Title").GetComponent<TextMeshPro>().color=new Color(155f/255f,220f/255f,1f);
 		}
@@ -87,7 +87,7 @@ public class NewPackController : MonoBehaviour
 		{
 			gameObject.transform.FindChild("PackTitle").GetComponent<TextMeshPro>().color=new Color(1f,1f,1f);
 			gameObject.transform.FindChild("BuyButton").GetComponent<SpriteRenderer>().color=new Color(1f,1f,1f);
-			gameObject.transform.FindChild("PackBorder").GetComponent<SpriteRenderer>().color=new Color(1f,1f,1f);
+			//gameObject.transform.FindChild("PackBorder").GetComponent<SpriteRenderer>().color=new Color(1f,1f,1f);
 			gameObject.transform.FindChild("PackPicture").GetComponent<SpriteRenderer>().color=new Color(1f,1f,1f);
 			gameObject.transform.FindChild("BuyButton").FindChild("Title").GetComponent<TextMeshPro>().color=new Color(1f,1f,1f);
 		}
@@ -146,7 +146,7 @@ public class NewPackController : MonoBehaviour
 		gameObject.transform.FindChild ("PackTitle").gameObject.SetActive (value);
 		gameObject.transform.FindChild ("BuyButton").gameObject.SetActive (value);
 		gameObject.transform.FindChild ("PackPicture").gameObject.SetActive (value);
-		gameObject.transform.FindChild ("PackBorder").gameObject.SetActive (value);
+		//gameObject.transform.FindChild ("PackBorder").gameObject.SetActive (value);
 	}
 	public void setPackPicture(Sprite picture)
 	{

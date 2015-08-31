@@ -37,6 +37,7 @@ TextureImporter:
     21300060: Roublard card
     21300062: geomancienne card
     21300064: invocateur card
+    21300066: Polymorphe card
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -132,7 +133,7 @@ TextureImporter:
       alignment: 9
       pivot: {x: .5, y: .499502003}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Pretresse card
+    - name: Polymorphe card
       rect:
         serializedVersion: 2
         x: 724
@@ -142,7 +143,7 @@ TextureImporter:
       alignment: 9
       pivot: {x: .5, y: .499502003}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Roublard card
+    - name: Pretresse card
       rect:
         serializedVersion: 2
         x: 724
@@ -152,7 +153,7 @@ TextureImporter:
       alignment: 9
       pivot: {x: .5, y: .499502003}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: geomancienne card
+    - name: Roublard card
       rect:
         serializedVersion: 2
         x: 1526
@@ -162,10 +163,20 @@ TextureImporter:
       alignment: 9
       pivot: {x: .5, y: .499502003}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: invocateur card
+    - name: geomancienne card
       rect:
         serializedVersion: 2
         x: 2248
+        y: 3090
+        width: 720
+        height: 1004
+      alignment: 9
+      pivot: {x: .5, y: .499502003}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: invocateur card
+      rect:
+        serializedVersion: 2
+        x: 2970
         y: 3090
         width: 720
         height: 1004
@@ -235,8 +246,8 @@ TextureImporter:
     - name: medium_cdmatblue
       rect:
         serializedVersion: 2
-        x: 2970
-        y: 3090
+        x: 1446
+        y: 2084
         width: 720
         height: 1004
       alignment: 9

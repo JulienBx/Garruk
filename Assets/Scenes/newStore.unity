@@ -302,6 +302,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CardObject: {fileID: 140198, guid: c25993382841f4e39b1732ebd3c4dabc, type: 2}
   PackObject: {fileID: 133506, guid: 78fc0b51c82654cc8990c6716529559f, type: 2}
+  BlockObject: {fileID: 182654, guid: 464682f2a97f14999b4d5576d375be2b, type: 2}
   paginationButtonObject: {fileID: 119004, guid: bad8316d156574ebeaf8f16b46e1c712,
     type: 2}
   popUpSkin: {fileID: 11400000, guid: 6346424849e084205bcebcf25bed265c, type: 2}

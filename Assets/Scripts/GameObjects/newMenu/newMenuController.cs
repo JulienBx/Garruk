@@ -13,6 +13,9 @@ public class newMenuController : MonoBehaviour
 	public bool isTutorialLaunched;
 	public GameObject playPopUpObject;
 	public GameObject transparentBackgroundObject;
+	public float startButtonPosition;
+	public float endButtonPosition;
+	public float speed;
 	
 	public static newMenuController instance;
 	private newMenuModel model;
@@ -21,9 +24,6 @@ public class newMenuController : MonoBehaviour
 	private float timer;
 	private bool toMoveButtons;
 	private bool toMoveBackButtons;
-	private float speed;
-	private float startButtonPosition;
-	private float endButtonPosition;
 	private Vector3 currentButtonPosition;
 	private GameObject playPopUp;
 	private GameObject transparentBackground;
@@ -32,9 +32,6 @@ public class newMenuController : MonoBehaviour
 	void Awake()
 	{
 		instance = this;
-		this.speed = 15;
-		this.startButtonPosition = -1.5625f;
-		this.endButtonPosition = -1f;
 		this.toMoveButtons = false;
 		this.model = new newMenuModel ();
 	}
@@ -102,10 +99,7 @@ public class newMenuController : MonoBehaviour
 		this.transparentBackground.transform.position = new Vector3 (0, 0, -1f);
 		this.playPopUp=Instantiate(this.playPopUpObject) as GameObject;
 		this.playPopUp.transform.position = new Vector3 (0f, 0f, -2f);
-		this.playPopUp.transform.GetComponent<PlayPopUpController> ().setCup (model.currentCup);
-		this.playPopUp.transform.GetComponent<PlayPopUpController> ().setDivision (model.currentDivision);
-		this.playPopUp.transform.GetComponent<PlayPopUpController> ().setFriendlyGame (model.currentFriendlyGame);
-		this.playPopUp.transform.GetComponent<PlayPopUpController> ().show ();
+		this.setCurrentPage (4);
 		this.isPlayPopUpDisplayed = true;
 	}
 	public void hidePlayPopUp()
@@ -113,6 +107,26 @@ public class newMenuController : MonoBehaviour
 		Destroy (this.playPopUp);
 		Destroy (this.transparentBackground);
 		this.isPlayPopUpDisplayed = false;
+		if(Application.loadedLevelName=="newMyGame")
+		{
+			this.setCurrentPage (1);
+		}
+		else if(Application.loadedLevelName=="newStore")
+		{
+			this.setCurrentPage (2);
+		}
+		else if(Application.loadedLevelName=="newMarket")
+		{
+			this.setCurrentPage (3);
+		}
+		else
+		{
+			this.setCurrentPage (0);
+		}
+		Vector3 tempPosition;
+		tempPosition= gameObject.transform.Find("Button"+4).localPosition;
+		tempPosition.x = this.startButtonPosition;
+		gameObject.transform.Find("Button"+4).localPosition=tempPosition;
 	}
 	public void moveButton(int value)
 	{
@@ -228,7 +242,7 @@ public class newMenuController : MonoBehaviour
 	{
 		ApplicationModel.username = "";
 		ApplicationModel.toDeconnect = true;
-		if(Application.loadedLevelName=="NewLobby")
+		if(Application.loadedLevelName=="NewHomePage")
 		{
 			PhotonNetwork.Disconnect();
 		}

@@ -16,12 +16,17 @@ public class NewCardMarketController : NewCardController
 		this.setUpdateSpeed ();
 		this.panelMarket = this.gameObject.transform.FindChild ("PanelMarket").gameObject;
 	}
-	void OnMouseOver()
+	public override void OnMouseOver()
 	{
+		base.OnMouseOver ();
 		if (Input.GetMouseButton(1)) 
 		{
 			NewMarketController.instance.rightClickedHandler(this.id);
 		}
+	}
+	public override void OnMouseExit()
+	{
+		base.OnMouseExit ();
 	}
 	public void setId(int value)
 	{
