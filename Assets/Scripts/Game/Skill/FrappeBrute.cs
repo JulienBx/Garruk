@@ -21,11 +21,10 @@ public class FrappeBrute : GameSkill
 		}
 		
 		int target = targetsPCC[0];
-		int successType = 0 ;
 		
 		if (Random.Range(1,101) > GameView.instance.getCard(target).GetEsquive())
 		{                             
-			int arg = Random.Range(1,base.skill.ManaCost+1)*GameController.instance.getCurrentCard().GetAttack()/100;
+			int arg = (int)(1.0f*Random.Range(1,base.skill.ManaCost+1)*GameController.instance.getCurrentCard().GetAttack()/100.0f);
 			GameController.instance.applyOn(target, arg);
 		}
 		else{

@@ -612,7 +612,7 @@ public class GameView : MonoBehaviour
 			this.tiles[x, y].GetComponentInChildren<TileController>().checkTrap(c);
 		}
 		
-		if (GameController.instance.hasGameStarted()){
+		if (GameController.instance.hasGameStarted() && this.getIsMine(GameController.instance.getCurrentPlayingCard())){
 			this.checkSkillsLaunchability();
 		}
 	}
