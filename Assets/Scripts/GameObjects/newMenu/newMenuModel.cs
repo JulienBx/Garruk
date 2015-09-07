@@ -16,12 +16,13 @@ public class newMenuModel {
 	public newMenuModel()
 	{
 		this.player = new User ();
-		this.buttonsLabels = new string[5];
+		this.buttonsLabels = new string[6];
 		this.buttonsLabels [0] = "Accueil";
 		this.buttonsLabels [1] = "Mes cartes";
 		this.buttonsLabels [2] = "La boutique";
 		this.buttonsLabels [3] = "Le bazar";
-		this.buttonsLabels [4] = "Jouer";
+		this.buttonsLabels [4] = "Ma collection";
+		this.buttonsLabels [5] = "Jouer";
 	}
 	
 	public IEnumerator loadUserData(int totalNbResultLimit){

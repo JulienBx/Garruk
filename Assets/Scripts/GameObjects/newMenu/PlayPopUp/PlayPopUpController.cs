@@ -54,6 +54,10 @@ public class PlayPopUpController : Photon.MonoBehaviour
 		this.retrieveDecksList ();
 		this.drawDeck ();
 		this.show ();
+		if(newMenuController.instance.getIsTutorialLaunched())
+		{
+			TutorialObjectController.instance.actionIsDone();
+		}
 	}
 	private void initializePopUp()
 	{
@@ -197,7 +201,11 @@ public class PlayPopUpController : Photon.MonoBehaviour
 	{
 		yield return StartCoroutine(model.player.SetSelectedDeck(model.decks[this.deckDisplayed].Id));
 		attemptToPlay = true;
-		if(Application.loadedLevelName=="NewHomePage")
+		if(newMenuController.instance.getIsTutorialLaunched())
+		{
+			TutorialObjectController.instance.actionIsDone();
+		}
+		else if(Application.loadedLevelName=="NewHomePage")
 		{
 			PhotonNetwork.Disconnect();
 		}
@@ -235,6 +243,10 @@ public class PlayPopUpController : Photon.MonoBehaviour
 	public void mouseOnSelectDeckButton(bool value)
 	{
 		this.isMouseOnSelectDeckButton = value;
+	}
+	public Vector3 getFriendlyGameButtonPosition()
+	{
+		return gameObject.transform.FindChild ("Button0").position;
 	}
 }
 

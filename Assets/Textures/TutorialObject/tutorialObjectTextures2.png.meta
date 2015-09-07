@@ -1,0 +1,121 @@
+fileFormatVersion: 2
+guid: ed3f2a103d0b3427e91ecdde71d03d07
+timeCreated: 1441267515
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: arrowBackground
+    21300002: popUpBackground
+    21300004: transparentWhiteBackground
+    21300006: buttonBorder
+    21300008: popUpBackgroundLarge
+    21300010: popUpBackgroundSmall
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 8
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 4096
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 108
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: arrowBackground
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 2110
+        width: 1537
+        height: 902
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: buttonBorder
+      rect:
+        serializedVersion: 2
+        x: 1541
+        y: 2907
+        width: 425
+        height: 105
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: popUpBackground
+      rect:
+        serializedVersion: 2
+        x: 814
+        y: 1498
+        width: 810
+        height: 610
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: popUpBackgroundLarge
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 1298
+        width: 810
+        height: 810
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: popUpBackgroundSmall
+      rect:
+        serializedVersion: 2
+        x: 814
+        y: 1086
+        width: 810
+        height: 410
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: transparentWhiteBackground
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 3014
+        width: 1920
+        height: 1080
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

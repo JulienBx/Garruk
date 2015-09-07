@@ -17,110 +17,79 @@ public class MarketTutorialController : TutorialObjectController
 		case 0:
 			if(!isResizing)
 			{
-				MenuController.instance.setButtonsGui(false);
-				view.VM.displayArrow=false;
-				view.VM.displayNextButton=true;
-				if(MarketController.instance.getNbCardsDisplayed()>0)
+				this.displayArrow(false);
+				this.displayPopUp(1);
+				this.displayNextButton(true);
+				if(NewMarketController.instance.areSomeCardsDisplayed())
 				{
-					view.VM.title="Le marché";
-					view.VM.description="Cet espace est là pour vous permettre d'acheter les cartes mises en vente par d'autres joueurs. Depuis l'écran de gestion de votre jeu, vous pourrez aussi mettre en vente vos cartes";
+					this.setPopUpTitle("Le marché");
+					this.setPopUpDescription("Cet espace est là pour vous permettre d'acheter les cartes mises en vente par d'autres joueurs. Depuis l'écran de gestion de votre jeu, vous pourrez aussi mettre en vente vos cartes");
 				}
 				else
 				{
-					view.VM.title="Revenez un autre jour";
-					view.VM.description="Malheureusement aucune carte n'est aujourd'hui en vente. Revenez un autre jour pour découvrir le marché.";
+					this.setPopUpTitle("Revenez un autre jour");
+					this.setPopUpDescription("Malheureusement aucune carte n'est aujourd'hui en vente. Revenez un autre jour pour découvrir le marché.");
 				}
+				this.displayBackground(true);
 			}
-			MarketController.instance.setGUI(false);
-			popUpWidth=0.3f*Screen.width;
-			popUpHeight=this.computePopUpHeight();
-			popUpX=0.35f*Screen.width;
-			popUpY=0.35f*Screen.height;
-			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			this.resizeBackground(new Rect(0,0,0,0),1f,1f);
+			this.resizePopUp(new Vector3(0,0,-4f));
 			break;
 		case 1:
-			if(MarketController.instance.getNbCardsDisplayed()>0)
+			if(NewMarketController.instance.areSomeCardsDisplayed())
 			{
 				if(!isResizing)
 				{
-					view.VM.displayArrow=true;
-					view.VM.displayNextButton=true;
-					view.VM.title="Les filtres";
-					view.VM.description="Lorsque beaucoup de cartes sont en vente, les filtres vous seront très utiles pour retrouver les cartes qui vous intéressent";
-					this.setRightArrow();
+					this.displayArrow(false);
+					this.displayPopUp(0);
+					this.displayNextButton(true);
+					this.setPopUpTitle("Les filtres");
+					this.setPopUpDescription("Lorsque beaucoup de cartes sont en vente, les filtres vous seront très utiles pour retrouver les cartes qui vous intéressent");
+					this.displayBackground(true);
 				}
-				else
-				{
-					MarketController.instance.setGUI(false);
-				}
-				MarketController.instance.setButtonGUI(true);
-				arrowHeight=(2f/3f)*0.1f*Screen.height;
-				arrowWidth=(3f/2f)*arrowHeight;
-				arrowX=0.80f*(Screen.width - 15)+10-arrowWidth;;
-				arrowY=0.5f*Screen.height-(arrowHeight/2f);
-				view.VM.arrowRect= new Rect (arrowX,arrowY,arrowWidth,arrowHeight);
-				this.drawRightArrow();
-				popUpWidth=0.35f*Screen.width;
-				popUpHeight=this.computePopUpHeight();
-				popUpX=arrowX-0.01f*Screen.width-popUpWidth;
-				popUpY=arrowY+arrowHeight/2f-popUpHeight/2f;
-				view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+				Vector3 filtersPosition = NewMarketController.instance.getFiltersPosition();
+				this.resizeBackground(new Rect(filtersPosition.x,filtersPosition.y,5f,10f),0f,0f);
+				this.resizePopUp(new Vector3(0,0,-4f));
 			}
 			else
 			{
 				if(!isResizing)
 				{
-					view.VM.displayArrow=false;
-					view.VM.displayRect=false;
-					StartCoroutine(MarketController.instance.endTutorial(false));
+					this.displayPopUp(-1);
+					this.displayBackground(false);	
 				}
+				StartCoroutine(NewMarketController.instance.endTutorial(false));
 			}
 			break;
 		case 2:
 			if(!isResizing)
 			{
-				MarketController.instance.initializeFilters();
-				view.VM.displayArrow=true;
-				view.VM.displayNextButton=true;
-				view.VM.title="Les cartes en vente";
-				view.VM.description="Tant que vos crédits vous le permettent, vous pouvez acheter les cartes sur le marché. Un clic droit sur la carte pourra vous donner davantage de précisions";
+				this.displayPopUp(0);
 				this.setLeftArrow();
+				this.displayNextButton(true);
+				this.setPopUpTitle("Les cartes en vente");
+				this.setPopUpDescription("Tant que vos crédits vous le permettent, vous pouvez acheter les cartes sur le marché. Un clic droit sur la carte pourra vous donner davantage de précisions");
+				this.displayBackground(true);
 			}
-			MarketController.instance.setGUI(false);
-			GOPosition = MarketController.instance.getCardsPosition(0);
-			GOSize = MarketController.instance.getCardsSize(0);
-			arrowHeight=(2f/3f)*0.1f*Screen.height;
-			arrowWidth=(3f/2f)*arrowHeight;
-			arrowX=GOPosition.x+1*(GOSize.x/2f);
-			arrowY=Screen.height-GOPosition.y-(arrowHeight/2f);;
-			view.VM.arrowRect= new Rect (arrowX,arrowY,arrowWidth,arrowHeight);
+			Vector3 cardPosition = NewMarketController.instance.getCardsPosition(0);
+			this.resizeBackground(new Rect(cardPosition.x,cardPosition.y,3f,3f),0f,0f);
 			this.drawLeftArrow();
-			popUpWidth=0.35f*Screen.width;
-			popUpHeight=this.computePopUpHeight();
-			popUpX=arrowX+arrowWidth+0.01f*Screen.width;
-			popUpY=arrowY+arrowHeight/2f-popUpHeight/2f;
-			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
 			break;
 		case 3:
 			if(!isResizing)
 			{
-				view.VM.displayArrow=false;
-				view.VM.displayNextButton=true;
-				view.VM.title="A vous de jouer";
-				view.VM.description="Parcourez les cartes et faites de bonnes affaires ! Bonne chance !";
+				this.displayArrow(false);
+				this.displayPopUp(1);
+				this.displayNextButton(true);
+				this.setPopUpTitle("A vous de jouer");
+				this.setPopUpDescription("Parcourez les cartes et faites de bonnes affaires ! Bonne chance !");
+				this.displayBackground(true);
 			}
-			else
-			{
-				MarketController.instance.setGUI(false);
-			}
-			popUpWidth=0.3f*Screen.width;
-			popUpHeight=this.computePopUpHeight();
-			popUpX=0.35f*Screen.width;
-			popUpY=0.35f*Screen.height;
-			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			this.resizeBackground(new Rect(0,0,0,0),0f,10f);
+			this.resizePopUp(new Vector3(0,0,-4f));
 			break;
 		case 4:
-			StartCoroutine(MarketController.instance.endTutorial(true));
+			StartCoroutine(NewMarketController.instance.endTutorial(true));
 			break;
 		}
 	}

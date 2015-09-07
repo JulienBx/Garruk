@@ -1,0 +1,12 @@
+#
+# Sprite sheet data for Unity.
+#
+# To import these sprites into your Unity project, download "TexturePackerImporter":
+# http://www.codeandweb.com/texturepacker/unity
+#
+# Sprite sheet: tutorialObjectTextures.png (2048 x 4096)
+# $TexturePacker:SmartUpdate:dcb5a56b73dad421538a65f54deb49bc:4582dc874443b0231db2778522c68065:5bef301b5381af8d076e0a4e99529e8a$
+#
+
+transparentBackground;2;3014;1920;1080;0.5;0.5
+transparentBackgroundCircle;2;2012;1000;1000;0.5;0.5

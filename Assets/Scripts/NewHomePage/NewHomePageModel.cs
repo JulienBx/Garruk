@@ -99,19 +99,19 @@ public class NewHomePageModel
 		User player = new User ();
 		player.readnotificationsystem=System.Convert.ToBoolean(System.Convert.ToInt32(array[0]));
 		player.Id= System.Convert.ToInt32(array[1]);
-		player.Division = System.Convert.ToInt32 (array [2]);
-		player.NbGamesDivision = System.Convert.ToInt32 (array [3]);
-		player.Cup = System.Convert.ToInt32 (array [4]);
-		player.NbGamesCup = System.Convert.ToInt32 (array [5]);
-		player.Ranking = System.Convert.ToInt32 (array [6]);
-		player.RankingPoints = System.Convert.ToInt32 (array [7]);
-		player.TotalNbWins = System.Convert.ToInt32 (array [8]);
-		player.TotalNbLooses = System.Convert.ToInt32 (array [9]);
-		player.CollectionPoints = System.Convert.ToInt32 (array [10]);
-		player.CollectionRanking = System.Convert.ToInt32 (array [11]);
-		player.TutorialStep = System.Convert.ToInt32 (array [12]);
-		player.SelectedDeckId = System.Convert.ToInt32 (array [13]);
-		player.ConnectionBonus = System.Convert.ToInt32 (array [14]);
+		player.Ranking = System.Convert.ToInt32 (array [2]);
+		player.RankingPoints = System.Convert.ToInt32 (array [3]);
+		player.TotalNbWins = System.Convert.ToInt32 (array [4]);
+		player.TotalNbLooses = System.Convert.ToInt32 (array [5]);
+		player.CollectionPoints = System.Convert.ToInt32 (array [6]);
+		player.CollectionRanking = System.Convert.ToInt32 (array [7]);
+		player.TutorialStep = System.Convert.ToInt32 (array [8]);
+		player.SelectedDeckId = System.Convert.ToInt32 (array [9]);
+		player.ConnectionBonus = System.Convert.ToInt32 (array [10]);
+		player.Division = System.Convert.ToInt32 (array [11]);
+		player.NbGamesDivision = System.Convert.ToInt32 (array [12]);
+		player.Cup = System.Convert.ToInt32 (array [13]);
+		player.NbGamesCup = System.Convert.ToInt32 (array [14]);
 		return player;
 	}
 	private void lookForNonReadSystemNotification ()

@@ -305,6 +305,7 @@ MonoBehaviour:
   BlockObject: {fileID: 182654, guid: 464682f2a97f14999b4d5576d375be2b, type: 2}
   paginationButtonObject: {fileID: 119004, guid: bad8316d156574ebeaf8f16b46e1c712,
     type: 2}
+  tutorialObject: {fileID: 180340, guid: 1474ad9f863d24afcaf1180c03ae5275, type: 2}
   popUpSkin: {fileID: 11400000, guid: 6346424849e084205bcebcf25bed265c, type: 2}
 --- !u!1001 &643309091
 Prefab:

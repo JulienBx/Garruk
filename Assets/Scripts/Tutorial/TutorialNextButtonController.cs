@@ -16,7 +16,7 @@ public class TutorialNextButtonController : MonoBehaviour
 	}
 	void OnMouseDown()
 	{
-		TutorialController.instance.nextButtonHandler ();
+		TutorialObjectController.instance.nextStepHandler ();
 	}
 	
 }

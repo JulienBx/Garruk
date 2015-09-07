@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using TMPro;
 
 public class HomePageTutorialController : TutorialObjectController 
 {
@@ -17,42 +18,53 @@ public class HomePageTutorialController : TutorialObjectController
 		case 0:
 			if(!isResizing)
 			{
-				MenuController.instance.setButtonsGui(false);
-				HomePageController.instance.setButtonsGui(false);
-				view.VM.displayArrow=false;
-				view.VM.displayNextButton=true;
-				view.VM.title="Bienvenue";
-				view.VM.description="Vous êtes ici sur la page d'accueil. Dernières cartes vendues, actualités des amis, compétitions en cours ou bien cartes en vente à la boutique, vous avez tout ici en un clin d'oeil !";
+				this.displayArrow(false);
+				this.displayPopUp(1);
+				this.displayNextButton(true);
+				this.setPopUpTitle("Bienvenue");
+				this.setPopUpDescription("Vous êtes ici sur la page d'accueil. Dernières cartes vendues, actualités des amis, compétitions en cours ou bien cartes en vente à la boutique, vous avez tout ici en un clin d'oeil !");
+				this.displayBackground(true);
+
 			}
-			popUpWidth=0.35f*Screen.width;
-			popUpHeight=this.computePopUpHeight();
-			popUpX=0.3f*Screen.width;
-			popUpY=0.35f*Screen.height;
-			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			this.resizeBackground(new Rect(0,0,0,0),0f,10f);
+			this.resizePopUp(new Vector3(0,0,-4f));
 			break;
 		case 1:
 			if(!isResizing)
 			{
-				MenuController.instance.setButtonsGui(false);
-				MenuController.instance.setButtonGui(2,true);
-				HomePageController.instance.setButtonsGui(false);
-				view.VM.displayArrow=true;
-				view.VM.displayNextButton=false;
-				view.VM.title="Vite des cartes !";
-				view.VM.description="Nous allons commencer par découvrir vos cartes. ";
-				this.setUpArrow();
+				this.displayPopUp(0);
+				this.setLeftArrow();
+				this.displayNextButton(false);
+				this.setPopUpTitle("Vite des cartes !");
+				this.setPopUpDescription("Nous allons commencer par découvrir vos cartes. ");
+				this.displayBackground(true);
+
 			}
-			arrowHeight=0.1f*Screen.height;
-			arrowWidth=(2f/3f)*arrowHeight;
-			arrowX=0.35f*Screen.width-(arrowWidth/2f);
-			arrowY=0.08f*Screen.height;
-			view.VM.arrowRect= new Rect (arrowX,arrowY,arrowWidth,arrowHeight);
-			this.drawUpArrow();
-			popUpWidth=0.3f*Screen.width;
-			popUpHeight=this.computePopUpHeight();
-			popUpX=arrowX+arrowWidth/2f-popUpWidth/2f;
-			popUpY=arrowY+arrowHeight+0.02f*Screen.height;
-			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			Vector3 buttonPosition1 = newMenuController.instance.getButtonPosition(1);
+			this.resizeBackground(new Rect(buttonPosition1.x+1f,buttonPosition1.y,3f,2f),1f,0.45f);
+			this.drawLeftArrow();
+			break;
+		case 2:
+			if(!isResizing)
+			{
+				this.displayPopUp(-1);
+				this.displayBackground(false);	
+			}
+			break;
+		case 3:
+			if(!isResizing)
+			{
+				this.displayPopUp(0);
+				this.setLeftArrow();
+				this.displayNextButton(false);
+				this.setPopUpTitle("Une récompense");
+				this.setPopUpDescription("Allons à la boutique découvrir ce que nous avons gagné");
+				this.displayBackground(true);
+				
+			}
+			Vector3 buttonPosition2 = newMenuController.instance.getButtonPosition(2);
+			this.resizeBackground(new Rect(buttonPosition2.x+1f,buttonPosition2.y,3f,2f),1f,0.45f);
+			this.drawLeftArrow();
 			break;
 		}
 	}
@@ -61,7 +73,13 @@ public class HomePageTutorialController : TutorialObjectController
 		switch(this.sequenceID)
 		{
 		case 1:
-			StartCoroutine(HomePageController.instance.endTutorial());
+			StartCoroutine(NewHomePageController.instance.endTutorial());
+			break;
+		case 2: 
+			this.launchSequence(this.sequenceID+1);
+			break;
+		case 3:
+			StartCoroutine(NewHomePageController.instance.endTutorial());
 			break;
 		}
 	}

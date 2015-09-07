@@ -14,12 +14,14 @@ public class NewMarketController : MonoBehaviour
 	public GameObject skillListObject;
 	public GameObject paginationButtonObject;
 	public GameObject blockObject;
+	public GameObject tutorialObject;
 	public GUISkin popUpSkin;
 	public int totalNbResultLimit;
 	public int refreshInterval;
 
 	
 	private GameObject menu;
+	private GameObject tutorial;
 	private GameObject filters;
 	private GameObject[] cards;
 	private GameObject[] paginationButtons;
@@ -107,6 +109,8 @@ public class NewMarketController : MonoBehaviour
 	private bool toUpdateCardsMarketFeatures;
 	private bool areNewCardsAvailable;
 
+	private bool isTutorialLaunched;
+
 	void Update()
 	{	
 		this.timer += Time.deltaTime;
@@ -189,7 +193,7 @@ public class NewMarketController : MonoBehaviour
 		{
 			this.returnPressed();
 		}
-		if(Input.GetKeyDown(KeyCode.Escape)) 
+		if(Input.GetKeyDown(KeyCode.Escape) && !isTutorialLaunched) 
 		{
 			this.escapePressed();
 		}
@@ -227,6 +231,14 @@ public class NewMarketController : MonoBehaviour
 		this.initializeCards ();
 		this.isSceneLoaded = true;
 		this.money = ApplicationModel.credits;
+		if(!model.player.MarketTutorial)
+		{
+			this.tutorial = Instantiate(this.tutorialObject) as GameObject;
+			this.tutorial.AddComponent<MarketTutorialController>();
+			this.tutorial.GetComponent<MarketTutorialController>().launchSequence(0);
+			this.menu.GetComponent<newMenuController>().setTutorialLaunched(true);
+			this.isTutorialLaunched=true;
+		} 
 	}
 	private void initializeCards()
 	{
@@ -448,10 +460,13 @@ public class NewMarketController : MonoBehaviour
 		{
 			this.refreshMarketButton.SetActive(false);
 		}
-		
 		if(errorViewDisplayed)
 		{
 			this.errorPopUpResize();
+		}
+		if(this.isTutorialLaunched)
+		{
+			this.tutorial.GetComponent<TutorialObjectController>().resize();
 		}
 	}
 	public void drawCards()
@@ -1304,5 +1319,35 @@ public class NewMarketController : MonoBehaviour
 			}
 		}
 		this.applyFilters ();
+	}
+	public bool areSomeCardsDisplayed()
+	{
+		if(this.cardsDisplayed.Count>0)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	public Vector3 getFiltersPosition()
+	{
+		return this.filters.transform.position;
+	}
+	public IEnumerator endTutorial(bool toUpdate)
+	{
+		Destroy (this.tutorial);
+		this.isTutorialLaunched = false;
+		newMenuController.instance.setTutorialLaunched (false);
+		if(toUpdate)
+		{
+			yield return StartCoroutine (model.player.setMarketTutorial(true));
+		}
+		yield break;
+	}
+	public Vector3 getCardsPosition(int id)
+	{
+		return cards[id].transform.position;
 	}
 }

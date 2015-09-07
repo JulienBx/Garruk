@@ -386,6 +386,7 @@ MonoBehaviour:
   paginationButtonObject: {fileID: 119004, guid: eb8aa49700e4f4614915e131f0a46459,
     type: 2}
   blockObject: {fileID: 182654, guid: 464682f2a97f14999b4d5576d375be2b, type: 2}
+  tutorialObject: {fileID: 180340, guid: 1474ad9f863d24afcaf1180c03ae5275, type: 2}
   popUpSkin: {fileID: 11400000, guid: 6346424849e084205bcebcf25bed265c, type: 2}
   totalNbResultLimit: 2000
   refreshInterval: 5

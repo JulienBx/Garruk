@@ -10,6 +10,7 @@ public class newMyGameController : MonoBehaviour
 	public static newMyGameController instance;
 	private NewMyGameModel model;
 
+	public GameObject tutorialObject;
 	public GameObject blockObject;
 	public GameObject cardObject;
 	public GameObject skillListObject;
@@ -20,6 +21,7 @@ public class newMyGameController : MonoBehaviour
 	public int refreshInterval;
 
 	private GameObject menu;
+	private GameObject tutorial;
 	private GameObject deckBoard;
 	private GameObject cardsBlock;
 	private GameObject deckBlock;
@@ -123,6 +125,9 @@ public class newMyGameController : MonoBehaviour
 
 	private int money;
 
+	private bool isTutorialLaunched;
+	private bool toResizeBackUI;
+
 	void Update()
 	{	
 		this.timer += Time.deltaTime;
@@ -135,14 +140,21 @@ public class newMyGameController : MonoBehaviour
 
 		if (Screen.width != this.widthScreen || Screen.height != this.heightScreen) 
 		{
+			if(toResizeBackUI)
+			{
+				this.toResizeBackUI=false;
+			}
 			this.resize();
-			this.initializeDecks();
-			this.initializeCards();
+			if(!toResizeBackUI)
+			{
+				this.initializeDecks();
+				this.initializeCards();
+			}
 		}
 		if(isLeftClicked)
 		{
 			this.clickInterval=this.clickInterval+Time.deltaTime*10f;
-			if(this.clickInterval>2f)
+			if(this.clickInterval>2f && !isTutorialLaunched)
 			{
 				this.isLeftClicked=false;
 				this.startDragging();
@@ -206,7 +218,7 @@ public class newMyGameController : MonoBehaviour
 		{
 			this.returnPressed();
 		}
-		if(Input.GetKeyDown(KeyCode.Escape)) 
+		if(Input.GetKeyDown(KeyCode.Escape) && !isTutorialLaunched) 
 		{
 			this.escapePressed();
 		}
@@ -258,6 +270,14 @@ public class newMyGameController : MonoBehaviour
 		this.applyFilters ();
 		this.isSceneLoaded = true;
 		this.money = ApplicationModel.credits;
+		if(model.player.TutorialStep==2)
+		{
+			this.tutorial = Instantiate(this.tutorialObject) as GameObject;
+			this.tutorial.AddComponent<MyGameTutorialController>();
+			this.tutorial.GetComponent<MyGameTutorialController>().launchSequence(0);
+			this.menu.GetComponent<newMenuController>().setTutorialLaunched(true);
+			this.isTutorialLaunched=true;
+		} 
 	}
 	private void initializeDecks()
 	{
@@ -417,11 +437,27 @@ public class newMyGameController : MonoBehaviour
 	}
 	public void resize()
 	{
+		if(!toResizeBackUI)
+		{
+			this.resizeMainParameters();
+			this.resizeFocusedCard();
+		}
 		if(this.isCardFocusedDisplayed)
 		{
-			this.hideCardFocused();
+			toResizeBackUI=true;
+			this.focusedCard.GetComponent<NewFocusedCardController>().resize();
 		}
-		this.cleanCards ();
+		else
+		{
+			this.resizeBackUI();
+		}
+		if(this.isTutorialLaunched)
+		{
+			this.tutorial.GetComponent<TutorialObjectController>().resize();
+		}
+	}
+	public void resizeMainParameters()
+	{
 		this.widthScreen=Screen.width;
 		this.heightScreen=Screen.height;
 		this.centralWindow = new Rect (this.widthScreen * 0.25f, 0.12f * this.heightScreen, this.widthScreen * 0.50f, 0.25f * this.heightScreen);
@@ -430,6 +466,11 @@ public class newMyGameController : MonoBehaviour
 		this.newCardTypeWindow = new Rect (this.widthScreen * 0.25f, 0.12f * this.heightScreen, this.widthScreen * 0.50f, 0.25f * this.heightScreen);
 		this.worldHeight = 2f*Camera.main.GetComponent<Camera>().orthographicSize;
 		this.worldWidth = ((float)Screen.width/(float)Screen.height) * worldHeight;
+		menu.GetComponent<newMenuController> ().resizeMeunObject (worldHeight,worldWidth);
+	}
+	public void resizeBackUI()
+	{
+		this.cleanCards ();
 		float screenRatio = (float)this.widthScreen / (float)this.heightScreen;
 		float selectButtonWidth=219f;
 		float selectButtonScale = 1.4f;
@@ -438,8 +479,7 @@ public class newMyGameController : MonoBehaviour
 		float cardHaloWidth = 200f;
 		float cardScale = 0.83f;
 		float deckCardsInterval = 1.7f;
-
-		menu.GetComponent<newMenuController> ().resizeMeunObject (worldHeight,worldWidth);
+		
 		float selectButtonWorldWidth = selectButtonScale*(selectButtonWidth / pixelPerUnit);
 		float deleteRenameButtonWorldWidth = deleteRenameButtonScale*(deleteRenameButtonWidth / pixelPerUnit);
 		float cardHaloWorldWidth = cardScale * (cardHaloWidth / pixelPerUnit);
@@ -449,21 +489,18 @@ public class newMyGameController : MonoBehaviour
 		float cardsBoardUpMargin;
 		float deckBlockDownMargin;
 		float cardsBoardDownMargin = 0.2f;
-
+		
 		float tempWidth = worldWidth - cardsBoardLeftMargin - cardsBoardRightMargin - selectButtonWorldWidth - deckCardsWidth;
-
+		
 		if(tempWidth>0.25f)
 		{
-			this.deckBoard.transform.position=new Vector3(selectButtonWorldWidth/2f +tempWidth/4f,3.35f,0f);
+			this.deckBoard.transform.position=new Vector3(selectButtonWorldWidth/2f +tempWidth/4f,3.52f,0f);
 			this.deckBoard.transform.FindChild("deckList").localPosition=new Vector3(-deckCardsWidth/2f-tempWidth/2f-selectButtonWorldWidth/2f,0,0);
 			this.deckBoard.transform.FindChild("deckList").FindChild("currentDeck").localPosition=new Vector3(0f,0.27f,0f);
 			this.deckBoard.transform.FindChild("deckList").FindChild("renameDeckButton").localPosition=new Vector3(-selectButtonWorldWidth/2f+deleteRenameButtonWorldWidth/2f,-0.27f,0);
 			this.deckBoard.transform.FindChild("deckList").FindChild("deleteDeckButton").localPosition=new Vector3(selectButtonWorldWidth/2f-deleteRenameButtonWorldWidth/2f,-0.27f,0);
 			this.deckBoard.transform.FindChild("deckList").FindChild("newDeckButton").localPosition=new Vector3(-0.93f,-0.74f,0);
 			this.deckBoard.transform.FindChild("deckList").FindChild("Title").localPosition=new Vector3(0,0.86f,0f);
-			this.deckBoard.transform.FindChild("3stars").localPosition=new Vector3(-2.55f,1.24f,0);
-			this.deckBoard.transform.FindChild("2stars").localPosition=new Vector3(-0.85f,1.24f,0);
-			this.deckBoard.transform.FindChild("1star").localPosition=new Vector3(0.85f,1.24f,0);
 			deckBlockDownMargin = 7.25f;
 		}
 		else
@@ -475,12 +512,9 @@ public class newMyGameController : MonoBehaviour
 			this.deckBoard.transform.FindChild("deckList").FindChild("deleteDeckButton").localPosition=new Vector3(2.5f,-0.15f,0);
 			this.deckBoard.transform.FindChild("deckList").FindChild("newDeckButton").localPosition=new Vector3(-3f,0,0);
 			this.deckBoard.transform.FindChild("deckList").FindChild("Title").localPosition=new Vector3(0,0.69f,0f);
-			this.deckBoard.transform.FindChild("3stars").localPosition=new Vector3(-2.55f,-1.35f,0);
-			this.deckBoard.transform.FindChild("2stars").localPosition=new Vector3(-0.85f,-1.35f,0);
-			this.deckBoard.transform.FindChild("1star").localPosition=new Vector3(0.85f,-1.35f,0);
-			deckBlockDownMargin = 5.5f;
+			deckBlockDownMargin = 6f;
 		}
-
+		
 		float deckBlockLeftMargin = 3f;
 		float deckBlockRightMargin = 3f;
 		float deckBlockUpMargin = 0.2f;
@@ -490,24 +524,24 @@ public class newMyGameController : MonoBehaviour
 		Vector2 deckBlockOrigin = new Vector3 (-worldWidth/2f+deckBlockLeftMargin+deckBlockWidth/2f, -worldHeight / 2f + deckBlockDownMargin + deckBlockHeight / 2,0f);
 		
 		this.deckBlock.GetComponent<BlockController> ().resize(new Rect(deckBlockOrigin.x,deckBlockOrigin.y,deckBlockWidth,deckBlockHeight));
-
+		
 		cardsBoardUpMargin= worldHeight-deckBlockDownMargin+0.2f; 
 		float cardsBoardHeight = worldHeight - cardsBoardUpMargin-cardsBoardDownMargin;
 		float cardsBoardWidth = worldWidth-cardsBoardLeftMargin-cardsBoardRightMargin;
 		Vector2 cardsBoardOrigin = new Vector3 (-worldWidth/2f+cardsBoardLeftMargin+cardsBoardWidth/2f, -worldHeight / 2f + cardsBoardDownMargin + cardsBoardHeight / 2,0f);
-
+		
 		this.cardsArea = new Rect (cardsBoardOrigin.x-cardsBoardWidth/2f, cardsBoardOrigin.y-cardsBoardHeight/2f, cardsBoardWidth, cardsBoardHeight);
-
+		
 		float cardWidth = 194f;
 		float cardHeight = 271f;
 		float cardWorldWidth = (cardWidth / pixelPerUnit) * cardScale;
 		float cardWorldHeight = (cardHeight / pixelPerUnit) * cardScale;
-
+		
 		this.cardsBlock.GetComponent<BlockController> ().resize(new Rect (cardsBoardOrigin.x, cardsBoardOrigin.y, cardsBoardWidth, cardsBoardHeight));
-
+		
 		this.deckCardsPosition=new Vector3[4];
 		this.deckCardsArea=new Rect[4];
-
+		
 		for(int i=0;i<4;i++)
 		{
 			this.deckCardsPosition[i]=this.deckBoard.transform.FindChild("Card"+i).position;
@@ -517,18 +551,18 @@ public class newMyGameController : MonoBehaviour
 			this.deckCards[i].transform.GetComponent<NewCardMyGameController>().setId(i,true);
 			this.deckCards[i].SetActive(false);
 		}
-
+		
 		this.cardsPerLine = Mathf.FloorToInt ((cardsBoardWidth-0.5f) / cardWorldWidth);
 		this.nbLines = Mathf.FloorToInt ((cardsBoardHeight-0.6f) / cardWorldHeight);
-
+		
 		float gapWidth = (cardsBoardWidth - (this.cardsPerLine * cardWorldWidth)) / (this.cardsPerLine + 1);
 		float gapHeight = (cardsBoardHeight - 0.45f - (this.nbLines * cardWorldHeight)) / (this.nbLines + 1);
 		float cardBoardStartX = cardsBoardOrigin.x - cardsBoardWidth / 2f-cardWorldWidth/2f;
 		float cardBoardStartY = cardsBoardOrigin.y + cardsBoardHeight / 2f+cardWorldHeight/2f;
-
+		
 		this.cards=new GameObject[this.cardsPerLine*this.nbLines];
 		this.cardsPosition=new Vector3[this.cardsPerLine*this.nbLines];
-
+		
 		for(int j=0;j<this.nbLines;j++)
 		{
 			for(int i =0;i<this.cardsPerLine;i++)
@@ -543,7 +577,7 @@ public class newMyGameController : MonoBehaviour
 				this.cards[j*(this.cardsPerLine)+i].SetActive(false);
 			}
 		}
-
+		
 		float filtersBlockLeftMargin = this.worldWidth-2.8f;
 		float filtersBlockRightMargin = 0f;
 		float filtersBlockUpMargin = 0.6f;
@@ -554,23 +588,10 @@ public class newMyGameController : MonoBehaviour
 		Vector2 filtersBlockOrigin = new Vector3 (-worldWidth/2f+filtersBlockLeftMargin+filtersBlockWidth/2f, -worldHeight / 2f + filtersBlockDownMargin + filtersBlockHeight / 2,0f);
 		
 		this.filtersBlock.GetComponent<BlockController> ().resize(new Rect(filtersBlockOrigin.x,filtersBlockOrigin.y, filtersBlockWidth, filtersBlockHeight));
-
+		
 		this.filters.transform.position = new Vector3 (worldWidth/2f - 1.4f, 0f, 0f);
-
-		float focusedCardScale = 3.648985f;
-		float focusedCardWidth = 194f;
-		float focusedCardHeight = 271f;
-		float focusedCardRightMargin = 0.5f;
-		float focusedCardLeftMargin = 2.8f;
-		float emptyWidth = this.worldWidth - focusedCardRightMargin - focusedCardLeftMargin;
-
-		this.focusedCard.transform.position = new Vector3 (focusedCardLeftMargin+emptyWidth/2f-this.worldWidth/2f, -0.25f, 0f);
-		this.focusedCard.transform.GetComponent<NewFocusedCardController> ().setCentralWindow (this.centralWindow);
-		this.focusedCard.transform.GetComponent<NewFocusedCardController> ().setCollectionPointsWindow (this.collectionPointsWindow);
-		this.focusedCard.transform.GetComponent<NewFocusedCardController> ().setNewSkillsWindow (this.newSkillsWindow);
-		this.focusedCard.transform.GetComponent<NewFocusedCardController> ().setNewCardTypeWindow (this.newCardTypeWindow);
 		this.focusedCard.SetActive (false);
-
+		
 		if(newDeckViewDisplayed)
 		{
 			this.newDeckPopUpResize();
@@ -587,6 +608,21 @@ public class newMyGameController : MonoBehaviour
 		{
 			this.errorPopUpResize();
 		}
+	}
+	public void resizeFocusedCard()
+	{
+		float focusedCardScale = 3.648985f;
+		float focusedCardWidth = 194f;
+		float focusedCardHeight = 271f;
+		float focusedCardRightMargin = 0.5f;
+		float focusedCardLeftMargin = 2.8f;
+		float emptyWidth = this.worldWidth - focusedCardRightMargin - focusedCardLeftMargin;
+		
+		this.focusedCard.transform.position = new Vector3 (focusedCardLeftMargin+emptyWidth/2f-this.worldWidth/2f, -0.25f, 0f);
+		this.focusedCard.transform.GetComponent<NewFocusedCardController> ().setCentralWindow (this.centralWindow);
+		this.focusedCard.transform.GetComponent<NewFocusedCardController> ().setCollectionPointsWindow (this.collectionPointsWindow);
+		this.focusedCard.transform.GetComponent<NewFocusedCardController> ().setNewSkillsWindow (this.newSkillsWindow);
+		this.focusedCard.transform.GetComponent<NewFocusedCardController> ().setNewCardTypeWindow (this.newCardTypeWindow);
 	}
 	public void drawCards()
 	{
@@ -676,8 +712,18 @@ public class newMyGameController : MonoBehaviour
 	public void hideCardFocused()
 	{
 		this.isCardFocusedDisplayed = false;
+		if(this.toResizeBackUI)
+		{
+			this.resize();
+			this.toResizeBackUI=false;
+			this.initializeDecks();
+			this.initializeCards();
+		}
+		else
+		{
+			this.focusedCard.SetActive (false);
+		}
 		this.displayBackUI (true);
-		this.focusedCard.SetActive (false);
 		if(isDeckCardClicked)
 		{
 			this.deckCards[this.idCardClicked].GetComponent<NewCardController>().show();
@@ -1746,10 +1792,10 @@ public class newMyGameController : MonoBehaviour
 			this.initializeDecks();
 			this.initializeCards();
 			this.hideNewDeckPopUp();
-//			if(this.isTutorialLaunched)
-//			{
-//				this.tutorial.GetComponent<MyGameTutorialController>().actionIsDone();
-//			}
+			if(this.isTutorialLaunched)
+			{
+				TutorialObjectController.instance.actionIsDone();
+			}
 		}
 	}
 	public void editDeckHandler()
@@ -1866,6 +1912,14 @@ public class newMyGameController : MonoBehaviour
 		{
 			this.displayErrorPopUp("Cette carte a été vendue, vous ne pouvez plus l'ajouter");
 		}
+		else if(isTutorialLaunched)
+		{
+			if(TutorialObjectController.instance.getSequenceID()>=13 && TutorialObjectController.instance.getSequenceID()<=16)
+			{
+				this.isLeftClicked = true;
+				this.clickInterval = 0f;
+			}
+		}
 		else
 		{
 			this.isLeftClicked = true;
@@ -1891,6 +1945,14 @@ public class newMyGameController : MonoBehaviour
 		if(idOwner==-1)
 		{
 			this.displayErrorPopUp("Cette carte a été vendue, vous ne pouvez plus la consulter");
+		}
+		else if(isTutorialLaunched)
+		{
+			if(TutorialObjectController.instance.getSequenceID()==1)
+			{
+				this.showCardFocused();
+				TutorialObjectController.instance.actionIsDone();
+			}
 		}
 		else
 		{
@@ -1920,6 +1982,10 @@ public class newMyGameController : MonoBehaviour
 				if(position>-1)
 				{
 					this.moveToDeckCards(position);
+					if(isTutorialLaunched)
+					{
+						TutorialObjectController.instance.actionIsDone();
+					}
 				}
 			}
 		}
@@ -2167,5 +2233,67 @@ public class newMyGameController : MonoBehaviour
 				}
 			}
 		}
+	}
+	public bool getIsTutorialLaunched()
+	{
+		return isTutorialLaunched;
+	}
+	public Vector3 getCardsPosition(int id)
+	{
+		return cards[id].transform.position;
+	}
+	public Vector3 getFocusedCardHealthPointsPosition()
+	{
+		return new Vector3(this.focusedCard.transform.FindChild ("Life").FindChild ("Text").position.x,
+		                   (this.focusedCard.transform.FindChild ("Life").FindChild ("Picto").position.y+this.focusedCard.transform.FindChild ("Life").FindChild ("Text").position.y)/2f,
+		                   this.focusedCard.transform.FindChild ("Life").FindChild ("Text").position.z);
+	}
+	public Vector3 getFocusedCardAttackPointsPosition()
+	{
+		return new Vector3(this.focusedCard.transform.FindChild ("Attack").FindChild ("Text").position.x,
+		                   (this.focusedCard.transform.FindChild ("Attack").FindChild ("Picto").position.y+this.focusedCard.transform.FindChild ("Attack").FindChild ("Text").position.y)/2f,
+		                   this.focusedCard.transform.FindChild ("Attack").FindChild ("Text").position.z);
+	}
+	public Vector3 getFocusedCardQuicknessPointsPosition()
+	{
+		return new Vector3(this.focusedCard.transform.FindChild ("Quickness").FindChild ("Text").position.x,
+		                   (this.focusedCard.transform.FindChild ("Quickness").FindChild ("Picto").position.y+this.focusedCard.transform.FindChild ("Quickness").FindChild ("Text").position.y)/2f,
+		                   this.focusedCard.transform.FindChild ("Quickness").FindChild ("Text").position.z);
+	}
+	public Vector3 getFocusedCardMovePointsPosition()
+	{
+		return new Vector3(this.focusedCard.transform.FindChild ("Move").FindChild ("Text").position.x,
+		                   (this.focusedCard.transform.FindChild ("Move").FindChild ("Picto").position.y+this.focusedCard.transform.FindChild ("Move").FindChild ("Text").position.y)/2f,
+		                   this.focusedCard.transform.FindChild ("Move").FindChild ("Text").position.z);
+	}
+	public Vector3 getFocusedCardSkillsPosition()
+	{
+		return new Vector3((this.focusedCard.transform.FindChild ("Skill1").FindChild("Description").position.x+this.focusedCard.transform.FindChild ("Skill1").FindChild("Power").position.x)/2f,
+		                   this.focusedCard.transform.FindChild ("Skill1").position.y-(this.focusedCard.transform.FindChild ("Skill0").position.y-this.focusedCard.transform.FindChild ("Skill1").position.y)/2f,
+		                   this.focusedCard.transform.FindChild ("Skill1").position.z);
+	}
+	public Vector3 getFocusedCardExperiencePosition()
+	{
+		return this.focusedCard.transform.FindChild ("Experience").FindChild("ExperienceBar").position;
+	}
+	public Vector3 getFocusedCardFeaturePosition(int id)
+	{
+		return this.focusedCard.transform.FindChild ("FocusFeature"+id).position;
+	}
+	public Vector3 getNewDeckButtonPosition()
+	{
+		return new Vector3(this.deckBoard.transform.FindChild ("deckList").FindChild ("newDeckButton").FindChild ("Title").position.x+this.deckBoard.transform.FindChild("deckList").FindChild ("newDeckButton").FindChild ("Title").GetComponent<TextContainer>().width/3f,
+		                   this.deckBoard.transform.FindChild ("deckList").FindChild ("newDeckButton").FindChild("Title").position.y,
+		                   this.deckBoard.transform.FindChild ("deckList").FindChild ("newDeckButton").FindChild("Title").position.z);
+	}
+	public Vector3 getFiltersPosition()
+	{
+		return this.filters.transform.position;
+	}
+	public IEnumerator endTutorial()
+	{
+		newMenuController.instance.setTutorialLaunched (false);
+		yield return StartCoroutine (model.player.setTutorialStep (3));
+		Application.LoadLevel ("Game");
 	}
 }

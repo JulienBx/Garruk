@@ -13,10 +13,12 @@ public class NewSkillBookController : MonoBehaviour
 	public GameObject blockObject;
 	public GameObject paginationButtonObject;
 	public GameObject skillObject;
+	public GameObject tutorialObject;
 	public Sprite[] cardTypesPictos;
 	public Sprite[] starsPictos;
 
 	private GameObject menu;
+	private GameObject tutorial;
 	private GameObject starsBlock;
 	private GameObject mainBlock;
 	private GameObject cardTypesBlock;
@@ -53,6 +55,8 @@ public class NewSkillBookController : MonoBehaviour
 	private int[] cardTypesNbSkills;
 	private int[] cardTypesNbCards;
 	private int globalPercentage;
+
+	private bool isTutorialLaunched;
 	
 	void Update()
 	{	
@@ -89,11 +93,19 @@ public class NewSkillBookController : MonoBehaviour
 		this.computeIndicators ();
 		this.drawCollectionLevel ();
 		this.loadSkills ();
+		if(!model.player.SkillBookTutorial)
+		{
+			this.tutorial = Instantiate(this.tutorialObject) as GameObject;
+			this.tutorial.AddComponent<SkillBookTutorialController>();
+			this.tutorial.GetComponent<SkillBookTutorialController>().launchSequence(0);
+			this.menu.GetComponent<newMenuController>().setTutorialLaunched(true);
+			this.isTutorialLaunched=true;
+		} 
 	}
 	public void initializeScene()
 	{
 		menu = GameObject.Find ("newMenu");
-		menu.GetComponent<newMenuController> ().setCurrentPage (0);
+		menu.GetComponent<newMenuController> ().setCurrentPage (4);
 		this.mainBlock = Instantiate(this.blockObject) as GameObject;
 		this.cardTypesBlock = Instantiate(this.blockObject) as GameObject;
 		this.starsBlock = Instantiate(this.blockObject) as GameObject;
@@ -103,6 +115,7 @@ public class NewSkillBookController : MonoBehaviour
 		this.paginationButtons=new GameObject[0];
 		this.collectionLevel = GameObject.Find ("CollectionLevel");
 		this.collectionLevel.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Niveau de la collection";
+		this.selectedCardType.transform.FindChild ("buttonBorder").FindChild ("Title").GetComponent<TextMeshPro> ().text = "Afficher";
 	}
 	public void resize()
 	{
@@ -184,6 +197,10 @@ public class NewSkillBookController : MonoBehaviour
 				this.skills[j*(skillsPerLine)+i].SetActive(false);
 			}
 		}
+		if(this.isTutorialLaunched)
+		{
+			this.tutorial.GetComponent<TutorialObjectController>().resize();
+		}
 	}
 	public void loadSkills()
 	{
@@ -195,7 +212,7 @@ public class NewSkillBookController : MonoBehaviour
 		if(this.cardTypesNbCards[this.selectedCardTypeId]>0)
 		{
 			display=true;
-			this.selectedCardType.transform.FindChild("Description").GetComponent<TextMeshPro>().text=this.cardTypesNbSkillsOwn[this.selectedCardTypeId]+"/"+this.cardTypesNbSkills[this.selectedCardTypeId]+"compétences acquises";
+			this.selectedCardType.transform.FindChild("Description").GetComponent<TextMeshPro>().text=this.cardTypesNbSkillsOwn[this.selectedCardTypeId]+"/"+this.cardTypesNbSkills[this.selectedCardTypeId]+" compétences acquises";
 			float percentage = (float)this.cardTypesNbSkillsOwn[this.selectedCardTypeId]/(float)this.cardTypesNbSkills[this.selectedCardTypeId];
 			//print (percentage);
 			if(this.cardTypesNbCards[this.selectedCardTypeId]>1)
@@ -541,5 +558,16 @@ public class NewSkillBookController : MonoBehaviour
 		{
 			newMenuController.instance.hideAllPopUp();
 		}
+	}
+	public IEnumerator endTutorial(bool toUpdate)
+	{
+		Destroy (this.tutorial);
+		this.isTutorialLaunched = false;
+		newMenuController.instance.setTutorialLaunched (false);
+		if(toUpdate)
+		{
+			yield return StartCoroutine (model.player.setSkillBookTutorial(true));
+		}
+		yield break;
 	}
 }

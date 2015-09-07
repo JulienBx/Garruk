@@ -247,7 +247,19 @@ Material:
         first:
           name: _GlowInner
         second: .0500000007
+      data:
+        first:
+          name: _FaceShininess
+        second: 0
+      data:
+        first:
+          name: _OutlineShininess
+        second: 0
     m_Colors:
+      data:
+        first:
+          name: _SpecColor
+        second: {r: 0, g: 0, b: 0, a: 1}
       data:
         first:
           name: _FaceColor

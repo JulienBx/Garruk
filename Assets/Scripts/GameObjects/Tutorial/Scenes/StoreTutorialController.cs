@@ -17,120 +17,96 @@ public class StoreTutorialController : TutorialObjectController
 		case 0:
 			if(!isResizing)
 			{
-				MenuController.instance.setButtonsGui(false);
-				//StoreController.instance.setButtonsGui(false);
-				view.VM.displayArrow=false;
-				view.VM.displayNextButton=true;
-				view.VM.title="Bienvenue dans le magasin";
-				view.VM.description="Le magasin est l'unique lieu ou il vous est possible d'acquérir de nouvelles cartes. Ces cartes pourront être achété grâce à la monnaie virtuelle du jeu, vous pouvez gagner des crédits en les achetant ou bien en remportant des combats.";
+				this.displayArrow(false);
+				this.displayPopUp(1);
+				this.displayNextButton(true);
+				this.setPopUpTitle("Bienvenue dans le magasin");
+				this.setPopUpDescription("Le magasin est l'unique lieu ou il vous est possible d'acquérir de nouvelles cartes. Ces cartes pourront être achété grâce à la monnaie virtuelle du jeu, vous pouvez gagner des crédits en les achetant ou bien en remportant des combats.");
+				this.displayBackground(true);
+				
 			}
-			popUpWidth=0.3f*Screen.width;
-			popUpHeight=this.computePopUpHeight();
-			popUpX=0.35f*Screen.width;
-			popUpY=0.35f*Screen.height;
-			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			this.resizeBackground(new Rect(0,0,0,0),1f,1f);
+			this.resizePopUp(new Vector3(0,0,-4f));
 			break;
 		case 1:
 			if(!isResizing)
 			{
-				//StoreController.instance.setButtonGui(0,true);
-				view.VM.displayArrow=true;
-				view.VM.displayNextButton=false;
-				view.VM.title="Votre premier pack";
-				view.VM.description="Grâce aux gains obtenus lors de votre premier match, vous allez pouvoir acheter votre première carte. Cliquez sur le bouton 'Acheter'";
+				this.displayPopUp(0);
 				this.setLeftArrow();
+				this.displayNextButton(false);
+				this.setPopUpTitle("Votre premier pack");
+				this.setPopUpDescription("Grâce aux gains obtenus lors de votre premier match, vous allez pouvoir acheter votre première carte. Cliquez sur le bouton 'Acheter'");
+				this.displayBackground(true);
 			}
-			arrowHeight=(2f/3f)*0.1f*Screen.height;
-			arrowWidth=(3f/2f)*arrowHeight;
-			arrowX=(Screen.width-Screen.height)/5f+Screen.height/4f;
-			arrowY=0.69f*Screen.height;
-			view.VM.arrowRect= new Rect (arrowX,arrowY,arrowWidth,arrowHeight);
+			Vector3 packPosition = NewStoreController.instance.getFirstPackPosition();
+			this.resizeBackground(new Rect(packPosition.x,packPosition.y,4.5f,5f),0.7f,0.7f);
 			this.drawLeftArrow();
-			popUpWidth=0.35f*Screen.width;
-			popUpHeight=this.computePopUpHeight();
-			popUpX=arrowX+arrowWidth+0.01f*Screen.width;
-			popUpY=arrowY+arrowHeight/2f-popUpHeight/2f;
-			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
 			break;
 		case 2:
 			if(!isResizing)
 			{
-				view.VM.displayArrow=false;
-				view.VM.displayRect=false;
+				this.displayPopUp(-1);
+				this.displayBackground(false);
+				this.displayArrow(false);
 			}
 			break;
 		case 3:
 			if(!isResizing)
 			{
-				//StoreController.instance.setGUI(false);
-				//StoreController.instance.setExitButtonGui(true);
-				view.VM.displayRect=true;
-				view.VM.displayArrow=true;
-				view.VM.displayNextButton=false;
-				view.VM.title="Bravo !";
-				view.VM.description="Vous venez d'acheter votre première carte ! Retournons à la boutique.";
-				this.setDownArrow();
+				this.displayPopUp(0);
+				this.displayArrow(false);
+				this.displayNextButton(true);
+				this.setPopUpTitle("Bravo !");
+				this.setPopUpDescription("Vous venez d'acheter votre première carte !");
+				this.displayBackground(true);
 			}
-			//GOPosition = StoreController.instance.getCardsPosition();
-			//GOSize = StoreController.instance.getCardsSize();
-			arrowHeight=0.1f*Screen.height;
-			arrowWidth=(2f/3f)*arrowHeight;
-			arrowX=GOPosition.x+1*(GOSize.x/2f)-(arrowWidth/2f)+GOSize.x/4f;
-			arrowY=Screen.height-GOPosition.y+0.70f*(GOSize.y/2f)-arrowHeight;
-			view.VM.arrowRect= new Rect (arrowX,arrowY,arrowWidth,arrowHeight);
-			this.drawDownArrow();
-			popUpWidth=0.35f*Screen.width;
-			popUpHeight=this.computePopUpHeight();
-			popUpX=arrowX+arrowWidth/2f-popUpWidth/2f;
-			popUpY=arrowY-popUpHeight-0.02f*Screen.height;
-			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			Vector3 focusedCardPosition = NewStoreController.instance.getFocusedCardPosition();
+			this.resizeBackground(new Rect(focusedCardPosition.x,focusedCardPosition.y,8f,9f),0f,0f);
+			this.resizePopUp(new Vector3(focusedCardPosition.x+3f,focusedCardPosition.y+1,-4f));
 			break;
 		case 4:
 			if(!isResizing)
 			{
-				//StoreController.instance.setGUI(true);
-				//StoreController.instance.setButtonsGui(false);
-				view.VM.displayRect=true;
-				view.VM.displayArrow=true;
-				view.VM.displayNextButton=true;
-				view.VM.title="Des crédits supplémentaires";
-				view.VM.description="Même si les gains en match vous permettront d'acquérir n'importe quelle carte, n'oubliez pas que vous avez toujours la possibilité d'alimenter votre portefeuille";
+				this.displayPopUp(0);
 				this.setDownArrow();
+				this.displayNextButton(false);
+				this.setPopUpTitle("Retour au magasin");
+				this.setPopUpDescription("Retournons au magasin");
+				this.displayBackground(true);
 			}
-			arrowHeight=0.1f*Screen.height;
-			arrowWidth=(2f/3f)*arrowHeight;
-			arrowX=Screen.width/2f-arrowWidth/2f;
-			arrowY=0.8f*Screen.height;
-			view.VM.arrowRect= new Rect (arrowX,arrowY,arrowWidth,arrowHeight);
+			Vector3 feature5Position = NewStoreController.instance.getFocusedCardFeaturePosition(5);
+			this.resizeBackground(new Rect(feature5Position.x,feature5Position.y,3f,2f),0.8f,0.6f);
 			this.drawDownArrow();
-			popUpWidth=0.35f*Screen.width;
-			popUpHeight=this.computePopUpHeight();
-			popUpX=arrowX+arrowWidth/2f-popUpWidth/2f;
-			popUpY=arrowY-popUpHeight-0.02f*Screen.height;
-			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
 			break;
 		case 5:
 			if(!isResizing)
 			{
-				MenuController.instance.setButtonsGui(false);
-				MenuController.instance.setButtonGui(2,true);
-				view.VM.displayArrow=true;
-				view.VM.displayNextButton=false;
-				view.VM.title="Félicitations";
-				view.VM.description="Vous avez terminé ce premier tutoriel. Vous pouvez désormais retourner à l'écran de gestion de vos cartes pour améliorer votre deck existant";
-				this.setUpArrow();
+				this.displayPopUp(0);
+				this.setDownArrow();
+				this.displayNextButton(true);
+				this.setPopUpTitle("Des crédits supplémentaires");
+				this.setPopUpDescription("Même si les gains en match vous permettront d'acquérir n'importe quelle carte, n'oubliez pas que vous avez toujours la possibilité d'alimenter votre portefeuille");
+				this.displayBackground(true);
 			}
-			arrowHeight=0.1f*Screen.height;
-			arrowWidth=(2f/3f)*arrowHeight;
-			arrowX=0.35f*Screen.width-(arrowWidth/2f);
-			arrowY=0.08f*Screen.height;
-			view.VM.arrowRect= new Rect (arrowX,arrowY,arrowWidth,arrowHeight);
-			this.drawUpArrow();
-			popUpWidth=0.3f*Screen.width;
-			popUpHeight=this.computePopUpHeight();
-			popUpX=arrowX+arrowWidth/2f-popUpWidth/2f;
-			popUpY=arrowY+arrowHeight+0.02f*Screen.height;
-			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			Vector3 buyCreditsButtonPosition = NewStoreController.instance.getBuyCreditsButtonPosition();
+			this.resizeBackground(new Rect(buyCreditsButtonPosition.x,buyCreditsButtonPosition.y,5f,2f),0f,0f);
+			this.drawDownArrow();
+			break;
+		case 6:
+			if(!isResizing)
+			{
+				this.displayArrow(false);
+				this.displayPopUp(1);
+				this.displayNextButton(true);
+				this.setPopUpTitle("Félicitations");
+				this.setPopUpDescription("Vous avez terminé ce premier tutoriel");
+				this.displayBackground(true);
+			}
+			this.resizeBackground(new Rect(0,0,0,0),1f,1f);
+			this.resizePopUp(new Vector3(0,0,-4f));
+			break;
+		case 7:
+			StartCoroutine(NewStoreController.instance.endTutorial());
 			break;
 		}
 	}
@@ -138,11 +114,8 @@ public class StoreTutorialController : TutorialObjectController
 	{
 		switch(this.sequenceID)
 		{
-		case 1: case 2: case 3: 
+		case 1: case 2: case 4: 
 			this.launchSequence(this.sequenceID+1);
-			break;
-		case 5:
-			//StartCoroutine(StoreController.instance.endTutorial());
 			break;
 		}
 	}

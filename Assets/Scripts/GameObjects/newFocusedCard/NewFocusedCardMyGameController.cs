@@ -1,4 +1,7 @@
-using UnityEngine;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using TMPro;
 
 public class NewFocusedCardMyGameController : NewFocusedCardController
@@ -40,6 +43,14 @@ public class NewFocusedCardMyGameController : NewFocusedCardController
 	{
 		newMyGameController.instance.refreshCredits ();
 	}
+	public override void buyXpCardHandler()
+	{
+		base.buyXpCardHandler ();
+		if(newMyGameController.instance.getIsTutorialLaunched())
+		{
+			TutorialObjectController.instance.actionIsDone();
+		}
+	}
 	public override void deleteCard ()
 	{
 		base.exitFocus ();
@@ -74,6 +85,10 @@ public class NewFocusedCardMyGameController : NewFocusedCardController
 			}
 			break;
 		case 5:
+			if(newMyGameController.instance.getIsTutorialLaunched())
+			{
+				TutorialObjectController.instance.actionIsDone();
+			}
 			this.exitFocus();
 			break;
 		}

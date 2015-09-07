@@ -77,6 +77,10 @@ public class NewFocusedCardStoreController : NewFocusedCardController
 			}
 			break;
 		case 5:
+			if(NewStoreController.instance.getIsTutorialLaunched())
+			{
+				TutorialObjectController.instance.actionIsDone();
+			}
 			this.exitFocus();
 			break;
 		}

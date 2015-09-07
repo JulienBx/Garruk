@@ -117,7 +117,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a1578b9753d2604f98d608cb4239e2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_text: 2 cartes
+  m_text: 
   m_fontAsset: {fileID: 11400000, guid: 417116fc0b0e447faa47204a6eab148e, type: 2}
   m_fontStyle: 0
   m_isOverlay: 0
@@ -153,7 +153,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 0
+  checkPaddingRequired: 1
   m_enableWordWrapping: 0
   m_overflowMode: 0
   m_wordWrappingRatios: .400000006
@@ -1235,7 +1235,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a1578b9753d2604f98d608cb4239e2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_text: Enchanteur
+  m_text: 
   m_fontAsset: {fileID: 11400000, guid: 417116fc0b0e447faa47204a6eab148e, type: 2}
   m_fontStyle: 0
   m_isOverlay: 0
@@ -1271,7 +1271,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 0
+  checkPaddingRequired: 1
   m_enableWordWrapping: 0
   m_overflowMode: 0
   m_wordWrappingRatios: .400000006
@@ -1460,6 +1460,7 @@ MonoBehaviour:
   paginationButtonObject: {fileID: 119004, guid: 97e73fadd307546e1926ce6909f25ca4,
     type: 2}
   skillObject: {fileID: 188602, guid: bd68237388d164a2a9ff637300824533, type: 2}
+  tutorialObject: {fileID: 180340, guid: 1474ad9f863d24afcaf1180c03ae5275, type: 2}
   cardTypesPictos:
   - {fileID: 21300006, guid: 912f114b2652c476b9266d7a0942fd83, type: 3}
   - {fileID: 21300018, guid: 912f114b2652c476b9266d7a0942fd83, type: 3}
@@ -1687,7 +1688,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a1578b9753d2604f98d608cb4239e2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_text: Afficher
+  m_text: 
   m_fontAsset: {fileID: 11400000, guid: 417116fc0b0e447faa47204a6eab148e, type: 2}
   m_fontStyle: 0
   m_isOverlay: 0
@@ -1723,7 +1724,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 0
+  checkPaddingRequired: 1
   m_enableWordWrapping: 0
   m_overflowMode: 0
   m_wordWrappingRatios: .400000006
@@ -1835,7 +1836,7 @@ Transform:
   m_GameObject: {fileID: 1477927523}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -.136000007, y: -.0953924656, z: 0}
-  m_LocalScale: {x: 2.48152709, y: 5, z: 1}
+  m_LocalScale: {x: 0, y: 5, z: 1}
   m_Children: []
   m_Father: {fileID: 409261954}
   m_RootOrder: 3
@@ -2576,7 +2577,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a1578b9753d2604f98d608cb4239e2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_text: "4/10 comp\xE9tences acquises"
+  m_text: 
   m_fontAsset: {fileID: 11400000, guid: 417116fc0b0e447faa47204a6eab148e, type: 2}
   m_fontStyle: 0
   m_isOverlay: 0
@@ -2612,7 +2613,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 0
+  checkPaddingRequired: 1
   m_enableWordWrapping: 0
   m_overflowMode: 0
   m_wordWrappingRatios: .400000006

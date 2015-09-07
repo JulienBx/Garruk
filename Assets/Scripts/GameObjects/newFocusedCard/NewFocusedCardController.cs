@@ -543,7 +543,7 @@ public class NewFocusedCardController : MonoBehaviour
 		this.hideRenamePopUp ();
 		this.updateFocus ();
 	}
-	public void buyXpCardHandler()
+	public virtual void buyXpCardHandler()
 	{
 		StartCoroutine (this.buyXpCard ());
 	}
@@ -760,7 +760,7 @@ public class NewFocusedCardController : MonoBehaviour
 		}
 		else if(isSellViewDisplayed)
 		{
-			this.editSellPopUpResize();
+			this.sellPopUpResize();
 		}
 		else if(isErrorViewDisplayed)
 		{

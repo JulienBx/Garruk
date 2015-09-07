@@ -15,9 +15,11 @@ public class NewStoreController : MonoBehaviour
 	public GameObject PackObject;
 	public GameObject BlockObject;
 	public GameObject paginationButtonObject;
+	public GameObject tutorialObject;
 	public GUISkin popUpSkin;
 
 	private GameObject menu;
+	private GameObject tutorial;
 	private GameObject focusedCard;
 	private GameObject[] paginationButtons;
 	private GameObject[] randomCards;
@@ -83,6 +85,9 @@ public class NewStoreController : MonoBehaviour
 	private int money;
 
 	private bool toUpdatePackPrices;
+	private bool isTutorialLaunched;
+
+	private bool toResizeBackUI;
 	
 	public NewStoreController ()
 	{
@@ -108,8 +113,15 @@ public class NewStoreController : MonoBehaviour
 	{
 		if (Screen.width != this.widthScreen || Screen.height != this.heightScreen) 
 		{
+			if(toResizeBackUI)
+			{
+				this.toResizeBackUI=false;
+			}
 			this.resize();
-			this.createPacks();
+			if(!toResizeBackUI)
+			{
+				this.createPacks();
+			}
 		}
 		if(money!=ApplicationModel.credits)
 		{
@@ -131,7 +143,7 @@ public class NewStoreController : MonoBehaviour
 		{
 			this.returnPressed();
 		}
-		if(Input.GetKeyDown(KeyCode.Escape)) 
+		if(Input.GetKeyDown(KeyCode.Escape) && !isTutorialLaunched) 
 		{
 			this.escapePressed();
 		}
@@ -167,6 +179,10 @@ public class NewStoreController : MonoBehaviour
 							if(model.packList[this.selectedPackIndex].NbCards==1)
 							{
 								this.randomCards[i].GetComponent<NewFocusedCardStoreController>().displayFocusFeatures(true);
+							}
+							if(this.isTutorialLaunched)
+							{
+								TutorialObjectController.instance.actionIsDone();
 							}
 						}
 					}
@@ -218,6 +234,14 @@ public class NewStoreController : MonoBehaviour
 			this.homePageBoughtPack.GetComponent<NewPackStoreController>().setId(tempId);
 			this.homePageBoughtPack.GetComponent<NewPackStoreController>().OnMouseDown();
 		}
+		if(model.player.TutorialStep==5)
+		{
+			this.tutorial = Instantiate(this.tutorialObject) as GameObject;
+			this.tutorial.AddComponent<StoreTutorialController>();
+			this.menu.GetComponent<newMenuController>().setTutorialLaunched(true);
+			this.tutorial.GetComponent<StoreTutorialController>().launchSequence(0);
+			this.isTutorialLaunched=true;
+		}
 	}
 	public void initializeScene()
 	{
@@ -226,24 +250,47 @@ public class NewStoreController : MonoBehaviour
 		this.paginationButtons = new GameObject[0];
 		this.focusedCard = GameObject.Find ("FocusedCard");
 		this.focusedCard.AddComponent<NewFocusedCardStoreController> ();
+		this.focusedCard.SetActive (false);
 		this.addCreditsButton = GameObject.Find ("AddCreditsButton");
 		this.packs=new GameObject[0];
 		this.packsBlocks = new GameObject[0];
 		this.backButton = GameObject.Find ("BackButton");
+		this.backButton.SetActive (false);
 		this.buyCreditsButton = GameObject.Find ("BuyCreditsButton");
+		this.buyCreditsButton.SetActive (true);
 		this.homePageBoughtPack = GameObject.Find ("HomePageBoughtPack");
 	}
 	public void resize()
 	{
-		if(this.isCardFocusedDisplayed)
+		if(!toResizeBackUI)
 		{
-			this.hideCardFocused();
+			this.resizeMainParameters();
+			this.resizeRandomCardsUI();
+			this.resizeFocusedCard();
 		}
-		if(this.areRandomCardsGenerated)
+		if(this.isCardFocusedDisplayed || this.areRandomCardsGenerated)
 		{
-			this.backToPacks();
+			toResizeBackUI=true;
+			if(this.isCardFocusedDisplayed)
+			{
+				this.focusedCard.GetComponent<NewFocusedCardController>().resize();
+			}
+			if(this.areRandomCardsGenerated)
+			{
+				this.resizeRandomCards();
+			}
 		}
-		this.cleanPacks ();
+		else 
+		{
+			this.resizeBackUI();
+		}
+		if(this.isTutorialLaunched)
+		{
+			this.tutorial.GetComponent<TutorialObjectController>().resize();
+		}
+	}
+	public void resizeMainParameters()
+	{
 		this.widthScreen=Screen.width;
 		this.heightScreen=Screen.height;
 		this.centralWindow = new Rect (this.widthScreen * 0.25f, 0.12f * this.heightScreen, this.widthScreen * 0.50f, 0.40f * this.heightScreen);
@@ -253,9 +300,11 @@ public class NewStoreController : MonoBehaviour
 		this.newCardTypeWindow = new Rect (this.widthScreen * 0.25f, 0.12f * this.heightScreen, this.widthScreen * 0.50f, 0.25f * this.heightScreen);
 		this.worldHeight = 2f*Camera.main.GetComponent<Camera>().orthographicSize;
 		this.worldWidth = ((float)Screen.width/(float)Screen.height) * worldHeight;
-
-		menu.GetComponent<newMenuController> ().resizeMeunObject (worldHeight,worldWidth);
 		
+		menu.GetComponent<newMenuController> ().resizeMeunObject (worldHeight,worldWidth);
+	}
+	public void resizeFocusedCard()
+	{
 		float focusedCardScale = 3.648985f;
 		float focusedCardWidth = 194f;
 		float focusedCardHeight = 271f;
@@ -268,13 +317,20 @@ public class NewStoreController : MonoBehaviour
 		this.focusedCard.transform.GetComponent<NewFocusedCardController> ().setCollectionPointsWindow (this.collectionPointsWindow);
 		this.focusedCard.transform.GetComponent<NewFocusedCardController> ().setNewSkillsWindow (this.newSkillsWindow);
 		this.focusedCard.transform.GetComponent<NewFocusedCardController> ().setNewCardTypeWindow (this.newCardTypeWindow);
-		this.focusedCard.SetActive (false);
-
-		this.backButton.transform.position = new Vector3 ((focusedCardLeftMargin - focusedCardRightMargin) / 2f, -4f, 0);
-		this.backButton.SetActive (false);
-
-		this.buyCreditsButton.transform.position = new Vector3 ((focusedCardLeftMargin - focusedCardRightMargin) / 2f, -3.5f, 0);
-		this.buyCreditsButton.SetActive (true);
+		//this.focusedCard.SetActive (false);
+	}
+	public void resizeRandomCardsUI()
+	{
+		float backButtonLeftMargin = 2.8f;
+		float backButtonRightMargin = 0.5f;
+		this.backButton.transform.position = new Vector3 ((backButtonLeftMargin - backButtonRightMargin) / 2f, -4f, 0);
+	}
+	public void resizeBackUI()
+	{
+		this.cleanPacks ();
+		float buyCreditsButtonLeftMargin = 2.8f;
+		float buyCreditsButtonRightMargin = 0.5f;
+		this.buyCreditsButton.transform.position = new Vector3 ((buyCreditsButtonLeftMargin - buyCreditsButtonRightMargin) / 2f, -3.5f, 0);
 		
 		if(isErrorViewDisplayed)
 		{
@@ -283,6 +339,32 @@ public class NewStoreController : MonoBehaviour
 		else if(isAddCreditsViewDisplayed)
 		{
 			this.addCreditsPopUpResize();
+		}
+	}
+	public void resizeRandomCards()
+	{
+		int nbCards = model.packList [this.selectedPackIndex].NbCards;
+		float cardWidth = 188f*0.83f;
+		float cardHeight = 263f*0.83f;
+		Vector3 scale;
+		Vector3 position=new Vector3(0,0,0);
+		float width = this.worldWidth-this.packsBoardLeftMargin-this.packsBoardRightMargin;
+		float cardWorldWidth = width/(nbCards+1);
+		float scaleCard = cardWorldWidth / (cardWidth/this.pixelPerUnit);
+		float cardMaxWorldHeight = 6f;
+		float cardWorldHeight = cardWorldWidth * (cardWidth / cardHeight);
+		if(cardWorldHeight>cardMaxWorldHeight)
+		{
+			cardWorldWidth=cardMaxWorldHeight*(cardWidth/cardHeight);
+			scaleCard=(cardMaxWorldHeight*(cardWidth/cardHeight)*this.pixelPerUnit)/cardWidth;
+		}
+		float gapBetweenCards = cardWorldWidth / (nbCards + 1);
+		for (int i = 0; i <nbCards; i++)
+		{
+			scale = new Vector3(scaleCard,scaleCard,scaleCard);
+			position = new Vector3((this.packsBoardLeftMargin-this.packsBoardRightMargin-width)/2f+gapBetweenCards+cardWorldWidth/2f+(float)i*(gapBetweenCards+cardWorldWidth), 0f, 0f); 
+			this.randomCards[i].transform.position=position;
+			this.randomCards[i].transform.localScale=scale;
 		}
 	}
 	public void createPacks()
@@ -373,6 +455,12 @@ public class NewStoreController : MonoBehaviour
 	public void backToPacks()
 	{
 		this.areRandomCardsGenerated = false;
+		if(this.toResizeBackUI)
+		{
+			this.resize();
+			this.toResizeBackUI=false;
+			this.createPacks();
+		}
 		this.displayPacks (true);
 		this.backButton.SetActive (false);
 		this.buyCreditsButton.SetActive (true);
@@ -421,6 +509,10 @@ public class NewStoreController : MonoBehaviour
 	}
 	public void drawRandomCards(int id)
 	{
+		if(this.isTutorialLaunched)
+		{
+			TutorialObjectController.instance.actionIsDone();
+		}
 		this.displayPacks (false);
 		this.selectedPackIndex = id;
 		int nbCards = model.packList [this.selectedPackIndex].NbCards;
@@ -497,6 +589,12 @@ public class NewStoreController : MonoBehaviour
 		}
 		else
 		{
+			if(this.toResizeBackUI)
+			{
+				this.resize();
+				this.toResizeBackUI=false;
+				this.createPacks();
+			}
 			this.displayPacks(true);
 			this.buyCreditsButton.SetActive(true);
 		}
@@ -772,5 +870,31 @@ public class NewStoreController : MonoBehaviour
 		}
 		addCreditsView.addCreditsPopUpVM.error="Merci de bien vouloir saisir une valeur";
 		return -1;
+	}
+	public Vector3 getFirstPackPosition()
+	{
+		return this.packs[0].transform.FindChild("PackPicture").position;
+	}
+	public Vector3 getFocusedCardFeaturePosition(int id)
+	{
+		return this.focusedCard.transform.FindChild ("FocusFeature"+id).position;
+	}
+	public Vector3 getBuyCreditsButtonPosition()
+	{
+		return this.buyCreditsButton.transform.position;
+	}
+	public Vector3 getFocusedCardPosition()
+	{
+		return this.focusedCard.transform.FindChild("Face").position;
+	}
+	public IEnumerator endTutorial()
+	{
+		newMenuController.instance.setTutorialLaunched (false);
+		yield return StartCoroutine (model.player.setTutorialStep (-1));
+		Application.LoadLevel ("NewHomePage");
+	}
+	public bool getIsTutorialLaunched()
+	{
+		return isTutorialLaunched;
 	}
 }

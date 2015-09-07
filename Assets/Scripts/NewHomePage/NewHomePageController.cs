@@ -10,6 +10,7 @@ public class NewHomePageController : Photon.MonoBehaviour
 	public static NewHomePageController instance;
 	private NewHomePageModel model;
 
+	public GameObject tutorialObject;
 	public GameObject blockObject;
 	public GameObject paginationButtonObject;
 	public GameObject packObject;
@@ -31,6 +32,7 @@ public class NewHomePageController : Photon.MonoBehaviour
 	private GameObject popUp;
 
 	private GameObject menu;
+	private GameObject tutorial;
 	private GameObject storeAssetsTitle;
 	private GameObject newsTitle;
 	private GameObject notificationsTitle;
@@ -49,6 +51,9 @@ public class NewHomePageController : Photon.MonoBehaviour
 	private GameObject[] paginationButtonsNotifications;
 	private GameObject[] paginationButtonsNews;
 	private GameObject[] deckCards;
+
+	private GameObject transparentBackground;
+	private GameObject endGamePopUp;
 	
 	private int widthScreen;
 	private int heightScreen;
@@ -136,6 +141,9 @@ public class NewHomePageController : Photon.MonoBehaviour
 	public Dictionary<int, string> playersName;
 	private const string roomName="GarrukLobby";
 	private bool attemptToPlay;
+
+	private bool isTutorialLaunched;
+	private bool isEndGamePopUpDisplayed;
 	
 	void Update()
 	{	
@@ -201,7 +209,7 @@ public class NewHomePageController : Photon.MonoBehaviour
 		{
 			this.returnPressed();
 		}
-		if(Input.GetKeyDown(KeyCode.Escape)) 
+		if(Input.GetKeyDown(KeyCode.Escape) && !isTutorialLaunched) 
 		{
 			this.escapePressed();
 		}
@@ -319,6 +327,12 @@ public class NewHomePageController : Photon.MonoBehaviour
 	}
 	private IEnumerator initialization()
 	{
+		if(ApplicationModel.launchEndGameSequence)
+		{
+			this.launchEndGameSequence(ApplicationModel.hasWonLastGame);
+			ApplicationModel.launchEndGameSequence=false;
+			ApplicationModel.hasWonLastGame=false;
+		}
 		yield return StartCoroutine (model.getData (this.totalNbResultLimit));
 		this.initializeNotifications ();
 		this.initializeNews ();
@@ -328,7 +342,30 @@ public class NewHomePageController : Photon.MonoBehaviour
 		this.retrieveDefaultDeck ();
 		this.initializeDecks ();
 		this.isSceneLoaded = true;
-		if(model.player.ConnectionBonus>0)
+		if(model.player.TutorialStep==1 || model.player.TutorialStep==4)
+		{
+			this.tutorial = Instantiate(this.tutorialObject) as GameObject;
+			this.tutorial.AddComponent<HomePageTutorialController>();
+			this.menu.GetComponent<newMenuController>().setTutorialLaunched(true);
+			this.isTutorialLaunched=true;
+
+			if(model.player.TutorialStep==1)
+			{
+				this.tutorial.GetComponent<HomePageTutorialController>().launchSequence(0);
+			}
+			else if(model.player.TutorialStep==4)
+			{
+				if(this.isEndGamePopUpDisplayed)
+				{
+					this.tutorial.GetComponent<HomePageTutorialController>().launchSequence(2);
+				}
+				else
+				{
+					this.tutorial.GetComponent<HomePageTutorialController>().launchSequence(3);
+				}
+			}
+		}
+		else if(model.player.ConnectionBonus>0)
 		{
 			this.displayConnectionBonusPopUp(model.player.ConnectionBonus);
 		}
@@ -432,6 +469,12 @@ public class NewHomePageController : Photon.MonoBehaviour
 		this.focusedCard.AddComponent<NewFocusedCardHomePageController> ();
 		this.deckBoard.transform.FindChild("deckList").FindChild ("Title").GetComponent<TextMeshPro> ().text = "Choisir un deck";
 		this.deckBoard.transform.FindChild("deckList").FindChild("currentDeck").FindChild("deckName").GetComponent<TextMeshPro> ().text="Aucun deck créé";
+
+		this.transparentBackground = GameObject.Find ("TransparentBackGround");
+		this.transparentBackground.SetActive (false);
+		this.endGamePopUp = GameObject.Find ("EndGamePopUp");
+		this.endGamePopUp.SetActive (false);
+
 	}
 	public void resize()
 	{
@@ -580,13 +623,10 @@ public class NewHomePageController : Photon.MonoBehaviour
 		
 		if(tempWidth>0.25f)
 		{
-			this.deckBoard.transform.position=new Vector3(selectButtonWorldWidth/2f +tempWidth/4f,3.05f,0f);
+			this.deckBoard.transform.position=new Vector3(selectButtonWorldWidth/2f +tempWidth/4f,3.22f,0f);
 			this.deckBoard.transform.FindChild("deckList").localPosition=new Vector3(-deckCardsWidth/2f-tempWidth/2f-selectButtonWorldWidth/2f,-0.32f,0);
 			this.deckBoard.transform.FindChild("deckList").FindChild("currentDeck").localPosition=new Vector3(0f,0.27f,0f);
 			this.deckBoard.transform.FindChild("deckList").FindChild("Title").localPosition=new Vector3(0,0.86f,0f);
-			this.deckBoard.transform.FindChild("3stars").localPosition=new Vector3(-2.55f,1.29f,0);
-			this.deckBoard.transform.FindChild("2stars").localPosition=new Vector3(-0.85f,1.29f,0);
-			this.deckBoard.transform.FindChild("1star").localPosition=new Vector3(0.85f,1.29f,0);
 		}
 		else
 		{
@@ -594,9 +634,6 @@ public class NewHomePageController : Photon.MonoBehaviour
 			this.deckBoard.transform.FindChild("deckList").localPosition=new Vector3(0,1.43f,0);
 			this.deckBoard.transform.FindChild("deckList").FindChild("currentDeck").localPosition=new Vector3(1.6f,0,0);
 			this.deckBoard.transform.FindChild("deckList").FindChild("Title").localPosition=new Vector3(-1.7f,0f,0f);
-			this.deckBoard.transform.FindChild("3stars").localPosition=new Vector3(-2.55f,-1.25f,0);
-			this.deckBoard.transform.FindChild("2stars").localPosition=new Vector3(-0.85f,-1.25f,0);
-			this.deckBoard.transform.FindChild("1star").localPosition=new Vector3(0.85f,-1.25f,0);
 		}
 		
 		for(int i =0;i<this.competitions.Length;i++)
@@ -639,6 +676,14 @@ public class NewHomePageController : Photon.MonoBehaviour
 		this.focusedCard.transform.GetComponent<NewFocusedCardController> ().setNewSkillsWindow (this.newSkillsWindow);
 		this.focusedCard.transform.GetComponent<NewFocusedCardController> ().setNewCardTypeWindow (this.newCardTypeWindow);
 		this.focusedCard.SetActive (false);
+
+		if(this.isTutorialLaunched)
+		{
+			this.tutorial.GetComponent<TutorialObjectController>().resize();
+		}
+
+		this.transparentBackground.transform.position = new Vector3 (0, 0, -2f);
+		this.endGamePopUp.transform.position = new Vector3 (0, 2f, -3f);
 	}
 	private void retrieveDefaultDeck()
 	{
@@ -831,6 +876,10 @@ public class NewHomePageController : Photon.MonoBehaviour
 		{
 			this.focusedCard.GetComponent<NewFocusedCardController>().returnPressed();
 		}
+		else if(isEndGamePopUpDisplayed)
+		{
+			this.hideEndGamePopUp();
+		}
 	}
 	public void escapePressed()
 	{
@@ -841,6 +890,10 @@ public class NewHomePageController : Photon.MonoBehaviour
 		else if(isCardFocusedDisplayed)
 		{
 			this.focusedCard.GetComponent<NewFocusedCardController>().escapePressed();
+		}
+		else if(isEndGamePopUpDisplayed)
+		{
+			this.hideEndGamePopUp();
 		}
 	}
 	public void rightClickedHandler(int id)
@@ -1274,10 +1327,12 @@ public class NewHomePageController : Photon.MonoBehaviour
 	public void buyPackHandler(int id)
 	{
 		ApplicationModel.packToBuy = model.packs [this.packsDisplayed[id]].Id;
+		PhotonNetwork.Disconnect();
 		Application.LoadLevel ("NewStore");
 	}
 	public void collectionButtonHandler()
 	{
+		PhotonNetwork.Disconnect();
 		Application.LoadLevel ("NewSkillBook");
 	}
 	public void cleanCardsHandler()
@@ -1507,6 +1562,21 @@ public class NewHomePageController : Photon.MonoBehaviour
 		connectionBonusView.popUpVM.centralWindow = this.centralWindow;
 		connectionBonusView.popUpVM.resize ();
 	}
+	public IEnumerator endTutorial()
+	{
+		newMenuController.instance.setTutorialLaunched (false);
+		PhotonNetwork.Disconnect();
+		if(TutorialObjectController.instance.getSequenceID()==1)
+		{
+			yield return StartCoroutine (model.player.setTutorialStep (2));
+			Application.LoadLevel ("newMyGame");
+		}
+		else if(TutorialObjectController.instance.getSequenceID()==3)
+		{
+			yield return StartCoroutine (model.player.setTutorialStep (5));
+			Application.LoadLevel ("newStore");
+		}
+	}
 	public void joinGame(int id)
 	{
 		if(id==0 && this.deckDisplayed!=-1)
@@ -1605,5 +1675,39 @@ public class NewHomePageController : Photon.MonoBehaviour
 		playersName.Add(id, loginName);
 		countPlayers++;
 		this.updateNbPlayersLabel ();
+	}
+	private void launchEndGameSequence(bool hasWon)
+	{
+		if(hasWon)
+		{
+			this.endGamePopUp.transform.FindChild("Title").GetComponent<TextMeshPro>().text="BRAVO !";
+			this.endGamePopUp.transform.FindChild("Content").GetComponent<TextMeshPro>().text="Venez en match officiel vous mesurer aux meilleurs joueurs !";
+		}
+		else
+		{
+			this.endGamePopUp.transform.FindChild("Title").GetComponent<TextMeshPro>().text="DOMMAGE !";
+			this.endGamePopUp.transform.FindChild("Content").GetComponent<TextMeshPro>().text="C'est en s'entrainant qu'on progresse ! Courage !";
+		}
+		this.displayEndGamePopUp ();
+	}
+	private void displayEndGamePopUp()
+	{
+		this.isEndGamePopUpDisplayed = true;
+		this.endGamePopUp.SetActive (true);
+		this.transparentBackground.SetActive (true);
+	}
+	public void hideEndGamePopUp()
+	{
+		this.isEndGamePopUpDisplayed = false;
+		this.endGamePopUp.SetActive (false);
+		this.transparentBackground.SetActive (false);
+		if(this.isTutorialLaunched)
+		{
+			TutorialObjectController.instance.actionIsDone();
+		}
+	}
+	public Vector3 getEndGamePopUpButtonPosition()
+	{
+		return this.endGamePopUp.transform.FindChild ("Button").position;
 	}
 }

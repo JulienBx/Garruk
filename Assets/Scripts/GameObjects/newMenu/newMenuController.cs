@@ -51,7 +51,7 @@ public class newMenuController : MonoBehaviour
 		if(toMoveButtons)
 		{
 			this.toMoveButtons=false;
-			for(int i=0;i<5;i++)
+			for(int i=0;i<6;i++)
 			{
 				this.currentButtonPosition= gameObject.transform.Find("Button"+i).localPosition;
 				if(i!=this.pageHovered && this.currentButtonPosition.x!=this.startButtonPosition)
@@ -99,7 +99,7 @@ public class newMenuController : MonoBehaviour
 		this.transparentBackground.transform.position = new Vector3 (0, 0, -1f);
 		this.playPopUp=Instantiate(this.playPopUpObject) as GameObject;
 		this.playPopUp.transform.position = new Vector3 (0f, 0f, -2f);
-		this.setCurrentPage (4);
+		this.setCurrentPage (5);
 		this.isPlayPopUpDisplayed = true;
 	}
 	public void hidePlayPopUp()
@@ -118,6 +118,10 @@ public class newMenuController : MonoBehaviour
 		else if(Application.loadedLevelName=="newMarket")
 		{
 			this.setCurrentPage (3);
+		}
+		else if(Application.loadedLevelName=="NewSkillBook")
+		{
+			this.setCurrentPage (4);
 		}
 		else
 		{
@@ -185,7 +189,7 @@ public class newMenuController : MonoBehaviour
 			this.gameObject.transform.Find("Toolbar").FindChild("AdminButton").gameObject.SetActive(true);
 		}
 		
-		for (int i=0;i<5;i++)
+		for (int i=0;i<6;i++)
 		{
 			this.gameObject.transform.FindChild("Button"+i).FindChild("Text").GetComponent<TextMeshPro>().text=model.buttonsLabels[i];
 		}
@@ -227,6 +231,9 @@ public class newMenuController : MonoBehaviour
 			this.marketLink();
 			break;
 		case 4:
+			this.skillBookLink();
+			break;
+		case 5:
 			this.playLink();
 			break;
 		}
@@ -275,6 +282,11 @@ public class newMenuController : MonoBehaviour
 		this.checkPhoton ();
 		Application.LoadLevel("newMarket");
 	}
+	public void skillBookLink() 
+	{
+		this.checkPhoton ();
+		Application.LoadLevel("NewSkillBook");
+	}
 	public void storeLink() 
 	{
 		this.checkPhoton ();
@@ -284,19 +296,12 @@ public class newMenuController : MonoBehaviour
 		}
 		else
 		{
-			Application.LoadLevel("NewStore");
+			Application.LoadLevel("newStore");
 		}
 	}
 	public void playLink() 
 	{
-		if(this.isTutorialLaunched)
-		{
-			TutorialObjectController.instance.actionIsDone();
-		}
-		else
-		{
-			this.displayPlayPopUp();
-		}
+		this.displayPlayPopUp();
 	}
 	public void adminBoardLink() 
 	{
@@ -320,6 +325,10 @@ public class newMenuController : MonoBehaviour
 	{
 		this.isTutorialLaunched = value;
 	}
+	public bool getIsTutorialLaunched()
+	{
+		return isTutorialLaunched;
+	}
 	public bool isAPopUpDisplayed()
 	{
 		if(isPlayPopUpDisplayed)
@@ -334,6 +343,10 @@ public class newMenuController : MonoBehaviour
 		{
 			this.hidePlayPopUp();
 		}
+	}
+	public Vector3 getButtonPosition(int id)
+	{
+		return gameObject.transform.FindChild ("Button" + id).position;
 	}
 }
 
