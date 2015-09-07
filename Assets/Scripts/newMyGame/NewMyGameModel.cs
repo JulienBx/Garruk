@@ -205,12 +205,12 @@ public class NewMyGameModel
 				{
 					cards[i].Skills.Add(new Skill ());
 					cards[i].Skills[j-1].Id=System.Convert.ToInt32(cardInfo[0]);
-					cards[i].Skills[j-1].Name=this.skillsList[System.Convert.ToInt32(cardInfo[0])];
-					cards[i].Skills[j-1].IsActivated=System.Convert.ToInt32(cardInfo[1]);
-					cards[i].Skills[j-1].Level=System.Convert.ToInt32(cardInfo[2]);
-					cards[i].Skills[j-1].Power=System.Convert.ToInt32(cardInfo[3]);
-					cards[i].Skills[j-1].ManaCost=System.Convert.ToInt32(cardInfo[4]);
-					cards[i].Skills[j-1].Description=cardInfo[5];
+					cards[i].Skills[j-1].Name=cardInfo[1];
+					cards[i].Skills[j-1].IsActivated=System.Convert.ToInt32(cardInfo[2]);
+					cards[i].Skills[j-1].Level=System.Convert.ToInt32(cardInfo[3]);
+					cards[i].Skills[j-1].Power=System.Convert.ToInt32(cardInfo[4]);
+					cards[i].Skills[j-1].ManaCost=System.Convert.ToInt32(cardInfo[5]);
+					cards[i].Skills[j-1].Description=cardInfo[6];
 				}
 			}
 		}
