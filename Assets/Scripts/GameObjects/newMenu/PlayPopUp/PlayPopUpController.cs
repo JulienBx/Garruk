@@ -6,16 +6,22 @@ using System.Collections.Generic;
 using System.Reflection;
 using TMPro;
 
-public class PlayPopUpController : MonoBehaviour 
+public class PlayPopUpController : Photon.MonoBehaviour 
 {
-	
-	private Cup c;
-	private Division d;
-	private FriendlyGame f;
+	public GameObject deckListObject;
 
+	public static PlayPopUpController instance;
+	private PlayPopUpModel model;
+
+	private IList<int> decksDisplayed;
+	private int deckDisplayed;
 	private bool arePicturesLoading;
+	private bool isSearchingDeck;
+	private bool isMouseOnSelectDeckButton;
+	private IList<GameObject> deckList;
+	private bool attemptToPlay;
 	
-	public virtual void Update ()
+	void Update ()
 	{
 		if(arePicturesLoading)
 		{
@@ -25,24 +31,31 @@ public class PlayPopUpController : MonoBehaviour
 				this.arePicturesLoading=false;
 			}
 		}
+		if(this.isSearchingDeck)
+		{
+			if((Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))&& !this.isMouseOnSelectDeckButton)
+			{
+				this.isSearchingDeck=false;
+				this.cleanDeckList();
+			}
+		}
 	}
-	void Awake()
+	void Start () 
+	{	
+		instance = this;
+		this.model = new PlayPopUpModel ();
+		this.initializePopUp ();
+		StartCoroutine (this.initialization());
+	}
+	public IEnumerator initialization()
 	{
-		this.initialize ();
+		yield return StartCoroutine (model.loadUserData ());
+		this.retrieveDefaultDeck ();
+		this.retrieveDecksList ();
+		this.drawDeck ();
+		this.show ();
 	}
-	public void setCup(Cup c)
-	{
-		this.c = c;
-	}
-	public void setDivision(Division d)
-	{
-		this.d = d;
-	}
-	public void setFriendlyGame(FriendlyGame f)
-	{
-		this.f = f;
-	}
-	public void initialize()
+	private void initializePopUp()
 	{
 		gameObject.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Choisir un type de match";
 		gameObject.transform.FindChild ("Button0").FindChild ("Title").GetComponent<TextMeshPro> ().text = "Match Amical";
@@ -51,22 +64,113 @@ public class PlayPopUpController : MonoBehaviour
 		{
 			gameObject.transform.FindChild("Button"+i).GetComponent<PlayPopUpCompetitionButtonController>().setId(i);
 		}
+		gameObject.transform.FindChild("deckList").FindChild("currentDeck").FindChild ("Title").GetComponent<TextMeshPro> ().text = "Deck sélectionné";
+		gameObject.transform.FindChild("deckList").FindChild("currentDeck").FindChild("deckName").GetComponent<TextMeshPro> ().text="Aucun deck créé";
+		this.deckList=new List<GameObject>();
 	}
 	public void show()
 	{
-		gameObject.transform.FindChild ("Button1").FindChild ("Title").GetComponent<TextMeshPro> ().text = this.d.Name;
-		gameObject.transform.FindChild ("Button2").FindChild ("Title").GetComponent<TextMeshPro> ().text = this.c.Name;
-		StartCoroutine (this.d.setPicture ());
-		StartCoroutine (this.c.setPicture ());
+		gameObject.transform.FindChild ("Button1").FindChild ("Title").GetComponent<TextMeshPro> ().text = model.currentDivision.Name;
+		gameObject.transform.FindChild ("Button2").FindChild ("Title").GetComponent<TextMeshPro> ().text = model.currentCup.Name;
+		StartCoroutine (model.currentDivision.setPicture ());
+		StartCoroutine (model.currentCup.setPicture ());
 		this.arePicturesLoading=true;
+	}
+	public void selectDeck(int id)
+	{
+		this.deckDisplayed = this.decksDisplayed [id];
+		this.cleanDeckList ();
+		this.isSearchingDeck = false;
+		this.retrieveDecksList ();
+		this.drawDeck ();
+	}
+	public void drawDeck()
+	{
+		if(deckDisplayed!=-1)
+		{
+			gameObject.transform.FindChild("deckList").FindChild("currentDeck").FindChild("deckName").GetComponent<TextMeshPro> ().text = model.decks[this.deckDisplayed].Name;
+			gameObject.transform.FindChild("deckList").FindChild("currentDeck").FindChild("selectButton").gameObject.SetActive(true);
+		}
+		else
+		{
+			gameObject.transform.FindChild("deckList").FindChild("currentDeck").FindChild("deckName").GetComponent<TextMeshPro> ().text="Aucun deck créé";
+			gameObject.transform.FindChild("deckList").FindChild("currentDeck").FindChild("selectButton").gameObject.SetActive(false);
+		}
+
+	}
+	private void retrieveDefaultDeck()
+	{
+		if(model.decks.Count>0)
+		{
+			this.deckDisplayed = 0;
+			for(int i=0;i<model.decks.Count;i++)
+			{
+				if(model.decks[i].Id==model.player.SelectedDeckId)
+				{
+					this.deckDisplayed=i;
+					break;
+				}
+			}
+		}
+		else
+		{
+			this.deckDisplayed=-1;
+		}
+	}
+	private void retrieveDecksList()
+	{
+		this.decksDisplayed=new List<int>();
+		if(this.deckDisplayed!=-1)
+		{
+			for(int i=0;i<model.decks.Count;i++)
+			{
+				if(i!=this.deckDisplayed)
+				{
+					this.decksDisplayed.Add (i);
+				}
+			}
+		}
+	}
+	public void displayDeckList()
+	{
+		this.cleanDeckList ();
+		if(!isSearchingDeck)
+		{
+			this.setDeckList ();
+			this.isSearchingDeck=true;
+		}
+		else
+		{
+			this.isSearchingDeck=false;
+		}
+	}
+	private void cleanDeckList ()
+	{
+		for(int i=0;i<this.deckList.Count;i++)
+		{
+			Destroy(this.deckList[i]);
+		}
+		this.deckList=new List<GameObject>();
+	}
+	private void setDeckList()
+	{
+		for (int i = 0; i < this.decksDisplayed.Count; i++) 
+		{  
+			this.deckList.Add (Instantiate(this.deckListObject) as GameObject);
+			this.deckList[this.deckList.Count-1].transform.parent=gameObject.transform.FindChild("deckList").FindChild("currentDeck");
+			this.deckList[this.deckList.Count-1].transform.localScale=new Vector3(1.6f,1.6f,1.6f);
+			this.deckList[this.deckList.Count-1].transform.localPosition=new Vector3(0.58f, -0.77f+(this.deckList.Count-1)*(-0.4f),-3f);
+			this.deckList[this.deckList.Count-1].transform.FindChild("Title").GetComponent<TextMeshPro>().text = model.decks [this.decksDisplayed[i]].Name;
+			this.deckList[this.deckList.Count-1].GetComponent<DeckBoardDeckListPlayPopUpController>().setId(i);
+		}
 	}
 	private bool checkIfPicturesAreLoaded()
 	{
-		if(!this.d.isTextureLoaded)
+		if(!model.currentDivision.isTextureLoaded)
 		{
 			return false;
 		}
-		if(!this.c.isTextureLoaded)
+		if(!model.currentCup.isTextureLoaded)
 		{
 			return false;
 		}
@@ -74,21 +178,41 @@ public class PlayPopUpController : MonoBehaviour
 	}
 	private void setPictures()
 	{
-		gameObject.transform.FindChild ("Button1").FindChild ("Picture").GetComponent<SpriteRenderer> ().sprite = this.d.texture;
-		gameObject.transform.FindChild ("Button2").FindChild ("Picture").GetComponent<SpriteRenderer> ().sprite = this.c.texture;
+		gameObject.transform.FindChild ("Button1").FindChild ("Picture").GetComponent<SpriteRenderer> ().sprite = model.currentDivision.texture;
+		gameObject.transform.FindChild ("Button2").FindChild ("Picture").GetComponent<SpriteRenderer> ().sprite = model.currentCup.texture;
 	}
-	public void joinGame(int id)
+	public void selectGame(int id)
 	{
+		if(id==0 && deckDisplayed!=-1)
+		{
+			ApplicationModel.gameType = id;
+			StartCoroutine (this.setSelectedDeck ());
+			//if(this.isTutorialLaunched)
+			//{
+			//	this.endTutorial();
+			//}
+		}
+	}
+	private IEnumerator setSelectedDeck()
+	{
+		yield return StartCoroutine(model.player.SetSelectedDeck(model.decks[this.deckDisplayed].Id));
+		attemptToPlay = true;
 		if(Application.loadedLevelName=="NewHomePage")
 		{
 			PhotonNetwork.Disconnect();
 		}
-		ApplicationModel.gameType = id;
-		if(id==1)
+		else
+		{
+			this.joinGame();
+		}
+	}
+	public void joinGame()
+	{
+		if(ApplicationModel.gameType==1)
 		{
 			Application.LoadLevel("DivisionLobby");
 		}
-		else if(id==2)
+		else if(ApplicationModel.gameType==2)
 		{
 			Application.LoadLevel("CupLobby");
 		}
@@ -97,9 +221,20 @@ public class PlayPopUpController : MonoBehaviour
 			Application.LoadLevel("Game");
 		}
 	}
+	void OnDisconnectedFromPhoton()
+	{
+		if (attemptToPlay)
+		{
+			this.joinGame();
+		}
+	}
 	public void quitPopUp()
 	{
 		newMenuController.instance.hidePlayPopUp ();
+	}
+	public void mouseOnSelectDeckButton(bool value)
+	{
+		this.isMouseOnSelectDeckButton = value;
 	}
 }
 

@@ -33,7 +33,7 @@ public class PlayPopUpCompetitionButtonController : MonoBehaviour
 	}
 	public void OnMouseDown()
 	{
-		gameObject.transform.parent.GetComponent<PlayPopUpController> ().joinGame (this.id);	
+		gameObject.transform.parent.GetComponent<PlayPopUpController> ().selectGame (this.id);	
 	}
 }
 

@@ -13,6 +13,7 @@ public class NewMarketController : MonoBehaviour
 	public GameObject cardObject;
 	public GameObject skillListObject;
 	public GameObject paginationButtonObject;
+	public GameObject blockObject;
 	public GUISkin popUpSkin;
 	public int totalNbResultLimit;
 	public int refreshInterval;
@@ -27,6 +28,8 @@ public class NewMarketController : MonoBehaviour
 	private GameObject[] toggleButtons;
 	private GameObject focusedCard;
 	private GameObject refreshMarketButton;
+	private GameObject filtersBlock;
+	private GameObject cardsBlock;
 	private int focusedCardIndex;
 	private bool isCardFocusedDisplayed;
 	private IList<GameObject> matchValues;
@@ -243,7 +246,9 @@ public class NewMarketController : MonoBehaviour
 		menu = GameObject.Find ("newMenu");
 		menu.GetComponent<newMenuController> ().setCurrentPage (3);
 		this.filters = GameObject.Find ("marketFilters");
+		this.filtersBlock = Instantiate(this.blockObject) as GameObject;
 		this.cards = new GameObject[0];
+		this.cardsBlock = Instantiate(this.blockObject) as GameObject;
 		this.matchValues=new List<GameObject>();
 		this.paginationButtons = new GameObject[0];
 		this.cursors=new GameObject[10];
@@ -288,9 +293,9 @@ public class NewMarketController : MonoBehaviour
 	private void resetFiltersValue()
 	{
 		this.minPriceVal = 0;
-		this.maxPriceVal=100;
+		this.maxPriceVal=10000000;
 		this.minPriceLimit = 0;
-		this.maxPriceLimit=100;
+		this.maxPriceLimit=10000000;
 		this.minPowerVal=0;
 		this.maxPowerVal=100;
 		this.minPowerLimit=0;
@@ -396,7 +401,30 @@ public class NewMarketController : MonoBehaviour
 		}
 		
 		this.filters.transform.position = new Vector3 (worldWidth/2f - 1.4f, 0f, 0f);
+
+		float filtersBlockLeftMargin = this.worldWidth-2.8f;
+		float filtersBlockRightMargin = 0f;
+		float filtersBlockUpMargin = 0.6f;
+		float filtersBlockDownMargin = 0.2f;
 		
+		float filtersBlockHeight = worldHeight - filtersBlockUpMargin-filtersBlockDownMargin;
+		float filtersBlockWidth = worldWidth-filtersBlockLeftMargin-filtersBlockRightMargin;
+		Vector2 filtersBlockOrigin = new Vector3 (-worldWidth/2f+filtersBlockLeftMargin+filtersBlockWidth/2f, -worldHeight / 2f + filtersBlockDownMargin + filtersBlockHeight / 2,0f);
+		
+		this.filtersBlock.GetComponent<BlockController> ().resize(new Rect(filtersBlockOrigin.x,filtersBlockOrigin.y, filtersBlockWidth, filtersBlockHeight));
+
+
+		float cardsBlockLeftMargin = 3f;
+		float cardsBlockRightMargin = 3f;
+		float cardsBlockUpMargin = 0.6f;
+		float cardsBlockDownMargin = 0.2f;
+		
+		float cardsBlockHeight = worldHeight - cardsBlockUpMargin-cardsBlockDownMargin;
+		float cardsBlockWidth = worldWidth-cardsBlockLeftMargin-cardsBlockRightMargin;
+		Vector2 cardsBlockOrigin = new Vector3 (-worldWidth/2f+cardsBlockLeftMargin+cardsBlockWidth/2f, -worldHeight / 2f + cardsBlockDownMargin + cardsBlockHeight / 2,0f);
+		
+		this.cardsBlock.GetComponent<BlockController> ().resize(new Rect(cardsBlockOrigin.x,cardsBlockOrigin.y, cardsBlockWidth, cardsBlockHeight));
+
 		float focusedCardScale = 3.648985f;
 		float focusedCardWidth = 194f;
 		float focusedCardHeight = 271f;
@@ -473,6 +501,8 @@ public class NewMarketController : MonoBehaviour
 	public void displayBackUI(bool value)
 	{
 		this.filters.SetActive (value);
+		this.filtersBlock.GetComponent<BlockController> ().display (value);
+		this.cardsBlock.GetComponent<BlockController> ().display (value);
 		for(int i=0;i<this.cardsDisplayed.Count;i++)
 		{
 			this.cards[i].SetActive(value);
@@ -1099,7 +1129,7 @@ public class NewMarketController : MonoBehaviour
 			{
 				this.paginationButtons[i] = Instantiate(this.paginationButtonObject) as GameObject;
 				this.paginationButtons[i].AddComponent<MarketPaginationController>();
-				this.paginationButtons[i].transform.position=new Vector3((0.5f+i-nbButtonsToDraw/2f)*(paginationButtonWidth+gapBetweenPaginationButton),-4.7f,0f);
+				this.paginationButtons[i].transform.position=new Vector3((0.5f+i-nbButtonsToDraw/2f)*(paginationButtonWidth+gapBetweenPaginationButton),-4.55f,0f);
 				this.paginationButtons[i].name="Pagination"+i.ToString();
 			}
 			for(int i=System.Convert.ToInt32(drawBackButton);i<nbButtonsToDraw-System.Convert.ToInt32(drawNextButton);i++)

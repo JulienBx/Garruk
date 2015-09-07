@@ -1,0 +1,19 @@
+#
+# Sprite sheet data for Unity.
+#
+# To import these sprites into your Unity project, download "TexturePackerImporter":
+# http://www.codeandweb.com/texturepacker/unity
+#
+# Sprite sheet: tutorialTextures.png (4096 x 4096)
+# $TexturePacker:SmartUpdate:090906f50ee93890bdaf1fab23513932:c8cbf9e966760d5d90bf1ffc345f70f4:fdaf31e214b410cade3f9029a14e931f$
+#
+
+Artilleur full;2;1986;576;1026;0.5086805555555556;0.5
+Enchanteur full;580;2006;632;1006;0.49287974683544306;0.5084493041749503
+Geomanciennefull;684;1033;639;971;0.4968701095461659;0.5092687950566426
+Prêtresse full;2;973;680;1011;0.4838235294117647;0.5202769535113749
+Roublardfull;1214;2141;524;871;0.5104961832061069;0.5028702640642939
+background;2;3014;1920;1080;0.5;0.5
+background2;1924;3014;1920;1080;0.5;0.5
+buttonBorder;3846;4044;219;50;0.5;0.5
+polymorphe full;2;7;717;964;0.5062761506276151;0.5051867219917012

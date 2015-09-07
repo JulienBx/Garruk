@@ -20,7 +20,15 @@ public class BlockController : MonoBehaviour
 		}
 		this.gameObject.SetActive (value);
 	}
-	
+
+	public void destroyShadow()
+	{
+		if(shadow)
+		{
+			Destroy (this.shadow);
+		}
+	}
+
 	public void resize(Rect block, bool shadow=true)
 	{
 		float pixelPerUnit = 108f;

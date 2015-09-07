@@ -14,8 +14,9 @@ public class NewCardMyGameController : NewCardController
 	{
 		newMyGameController.instance.isDraggingCard ();
 	}
-	void OnMouseOver()
+	public override void OnMouseOver()
 	{
+		base.OnMouseOver ();
 		if(this.c.onSale!=1 && this.c.IdOWner!=-1)
 		{
 			newMyGameController.instance.isHoveringCard ();
@@ -25,8 +26,9 @@ public class NewCardMyGameController : NewCardController
 			newMyGameController.instance.rightClickedHandler(this.id,this.isDeckCard);
 		}
 	}
-	void OnMouseExit()
+	public override void OnMouseExit()
 	{
+		base.OnMouseExit ();
 		if(this.c.onSale!=1 && this.c.IdOWner!=-1)
 		{
 			newMyGameController.instance.endHoveringCard ();

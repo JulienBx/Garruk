@@ -13,16 +13,18 @@ public class NewCardHomePageController : NewCardController
 	{
 		NewHomePageController.instance.isDraggingCard ();
 	}
-	void OnMouseOver()
+	public override void OnMouseOver()
 	{
-		//NewLobbyController.instance.isHoveringCard ();
+		base.OnMouseOver ();
+		NewHomePageController.instance.isHoveringCard ();
 		if (Input.GetMouseButton(1)) 
 		{
 			NewHomePageController.instance.rightClickedHandler(this.id);
 		}
 	}
-	void OnMouseExit()
+	public override void OnMouseExit()
 	{
+		base.OnMouseExit ();
 		NewHomePageController.instance.endHoveringCard ();
 	}
 	void OnMouseDown()

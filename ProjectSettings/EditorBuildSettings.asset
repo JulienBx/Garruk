@@ -30,8 +30,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/EndGame.unity
   - enabled: 1
-    path: Assets/Scenes/SkillBook.unity
-  - enabled: 1
     path: Assets/Scenes/Tutorial.unity
   - enabled: 1
     path: Assets/Scenes/AdminBoard.unity
@@ -43,3 +41,5 @@ EditorBuildSettings:
     path: Assets/Scenes/newStore.unity
   - enabled: 1
     path: Assets/Scenes/newMarket.unity
+  - enabled: 1
+    path: Assets/Scenes/newSkillBook.unity

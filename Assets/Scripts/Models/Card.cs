@@ -766,6 +766,7 @@ public class Card
 						this.GetNewSkill=System.Convert.ToBoolean(System.Convert.ToInt32(cardInfo[16]));
 						this.CaracteristicUpgraded=System.Convert.ToInt32(cardInfo[17]);
 						this.CaracteristicIncrease=System.Convert.ToInt32(cardInfo[18]);
+						this.PowerLevel=System.Convert.ToInt32(cardInfo[19]);
 						this.NewSkills=new List<Skill>();
 						this.Skills=new List<Skill>();
 					} 

@@ -17,6 +17,8 @@ TextureImporter:
     21300020: adminHover
     21300022: playPopUpBackground
     21300024: transparentBackGround
+    21300026: deckList
+    21300028: deckListHover
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -65,8 +67,8 @@ TextureImporter:
     - name: admin
       rect:
         serializedVersion: 2
-        x: 834
-        y: 896
+        x: 927
+        y: 923
         width: 39
         height: 39
       alignment: 0
@@ -75,8 +77,8 @@ TextureImporter:
     - name: adminHover
       rect:
         serializedVersion: 2
-        x: 875
-        y: 896
+        x: 754
+        y: 821
         width: 39
         height: 39
       alignment: 0
@@ -85,7 +87,7 @@ TextureImporter:
     - name: bell_icon
       rect:
         serializedVersion: 2
-        x: 967
+        x: 969
         y: 923
         width: 46
         height: 48
@@ -95,8 +97,8 @@ TextureImporter:
     - name: bell_icon_hover
       rect:
         serializedVersion: 2
-        x: 786
-        y: 887
+        x: 856
+        y: 843
         width: 46
         height: 48
       alignment: 0
@@ -106,7 +108,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 2
-        y: 447
+        y: 100
         width: 439
         height: 83
       alignment: 0
@@ -115,18 +117,38 @@ TextureImporter:
     - name: cristalblue
       rect:
         serializedVersion: 2
-        x: 967
+        x: 969
         y: 973
         width: 52
         height: 49
       alignment: 9
       pivot: {x: .5, y: .510204077}
       border: {x: 0, y: 0, z: 0, w: 0}
+    - name: deckList
+      rect:
+        serializedVersion: 2
+        x: 754
+        y: 994
+        width: 213
+        height: 28
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: deckListHover
+      rect:
+        serializedVersion: 2
+        x: 754
+        y: 964
+        width: 213
+        height: 28
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: disconnect
       rect:
         serializedVersion: 2
-        x: 916
-        y: 899
+        x: 795
+        y: 824
         width: 36
         height: 36
       alignment: 0
@@ -135,8 +157,8 @@ TextureImporter:
     - name: disconnectHover
       rect:
         serializedVersion: 2
-        x: 954
-        y: 885
+        x: 904
+        y: 814
         width: 36
         height: 36
       alignment: 0
@@ -145,8 +167,8 @@ TextureImporter:
     - name: mainLogo
       rect:
         serializedVersion: 2
-        x: 644
-        y: 937
+        x: 2
+        y: 185
         width: 321
         height: 85
       alignment: 9
@@ -156,17 +178,17 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 2
-        y: 532
-        width: 640
-        height: 490
+        y: 272
+        width: 750
+        height: 750
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: thumbBorder
       rect:
         serializedVersion: 2
-        x: 644
-        y: 866
+        x: 856
+        y: 893
         width: 69
         height: 69
       alignment: 0
@@ -175,8 +197,8 @@ TextureImporter:
     - name: thumbBorder2
       rect:
         serializedVersion: 2
-        x: 715
-        y: 866
+        x: 927
+        y: 852
         width: 69
         height: 69
       alignment: 0
@@ -185,12 +207,12 @@ TextureImporter:
     - name: transparentBackGround
       rect:
         serializedVersion: 2
-        x: 1021
-        y: 1021
-        width: 1
-        height: 1
-      alignment: 9
-      pivot: {x: 750, y: -749}
+        x: 754
+        y: 862
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
   spritePackingTag: 
   userData: 

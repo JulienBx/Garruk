@@ -13,6 +13,7 @@ public class NewStoreController : MonoBehaviour
 
 	public GameObject CardObject;
 	public GameObject PackObject;
+	public GameObject BlockObject;
 	public GameObject paginationButtonObject;
 	public GUISkin popUpSkin;
 
@@ -24,6 +25,7 @@ public class NewStoreController : MonoBehaviour
 	private bool isCardFocusedDisplayed;
 	private bool areRandomCardsGenerated;
 	private GameObject[] packs;
+	private GameObject[] packsBlocks;
 	private GameObject cardFocused;
 	private GameObject addCreditsButton;
 	private GameObject backButton;
@@ -63,6 +65,7 @@ public class NewStoreController : MonoBehaviour
 	private Rect collectionPointsWindow;
 	private Rect newSkillsWindow;
 	private Rect newCardTypeWindow;
+	private Rect selectCardTypeWindow;
 
 	private bool arePacksPicturesLoading;
 
@@ -225,6 +228,7 @@ public class NewStoreController : MonoBehaviour
 		this.focusedCard.AddComponent<NewFocusedCardStoreController> ();
 		this.addCreditsButton = GameObject.Find ("AddCreditsButton");
 		this.packs=new GameObject[0];
+		this.packsBlocks = new GameObject[0];
 		this.backButton = GameObject.Find ("BackButton");
 		this.buyCreditsButton = GameObject.Find ("BuyCreditsButton");
 		this.homePageBoughtPack = GameObject.Find ("HomePageBoughtPack");
@@ -243,6 +247,7 @@ public class NewStoreController : MonoBehaviour
 		this.widthScreen=Screen.width;
 		this.heightScreen=Screen.height;
 		this.centralWindow = new Rect (this.widthScreen * 0.25f, 0.12f * this.heightScreen, this.widthScreen * 0.50f, 0.40f * this.heightScreen);
+		this.selectCardTypeWindow = new Rect (this.widthScreen * 0.25f, 0.12f * this.heightScreen, this.widthScreen * 0.50f, 0.50f * this.heightScreen);
 		this.collectionPointsWindow=new Rect(this.widthScreen - this.widthScreen * 0.17f-5,0.1f * this.heightScreen+5,this.widthScreen * 0.17f,this.heightScreen * 0.1f);
 		this.newSkillsWindow = new Rect (this.collectionPointsWindow.xMin, this.collectionPointsWindow.yMax + 5,this.collectionPointsWindow.width,this.heightScreen - 0.1f * this.heightScreen - 2 * 5 - this.collectionPointsWindow.height);
 		this.newCardTypeWindow = new Rect (this.widthScreen * 0.25f, 0.12f * this.heightScreen, this.widthScreen * 0.50f, 0.25f * this.heightScreen);
@@ -289,35 +294,39 @@ public class NewStoreController : MonoBehaviour
 		float packsBoardHeight = worldHeight - packsBoardDownMargin - packsBoardUpMargin;
 		
 		Vector2 packsBoardOrigin = new Vector3 (-worldWidth/2f+packsBoardLeftMargin+packsBoardWidth/2f, -worldHeight / 2f + packsBoardDownMargin + packsBoardHeight / 2,0f);
+
+		float packBlockWorldWidth=3.25f;
+		float packBlockWorldHeight = 4.5f;
 		
-		float packWidth = 250f;
-		float packWorldWidth = (packWidth / pixelPerUnit) * packScale;
-		
-		this.packsPerLine = Mathf.FloorToInt ((packsBoardWidth-0.5f) / packWorldWidth);
+		this.packsPerLine = Mathf.FloorToInt ((packsBoardWidth-0.5f) / packBlockWorldWidth);
 		if(this.packsPerLine>model.packList.Count)
 		{
 			this.packsPerLine=model.packList.Count;
 		}
 		
-		float gapWidth = (packsBoardWidth - (this.packsPerLine * packWorldWidth)) / (this.packsPerLine + 1);
-		float cardBoardStartX = packsBoardOrigin.x - packsBoardWidth / 2f-packWorldWidth/2f;
+		float gapWidth = (packsBoardWidth - (this.packsPerLine * packBlockWorldWidth)) / (this.packsPerLine + 1);
+		float cardBoardStartX = packsBoardOrigin.x - packsBoardWidth / 2f-packBlockWorldWidth/2f;
 		
 		this.packs=new GameObject[this.packsPerLine];
+		this.packsBlocks = new GameObject[this.packsPerLine];
 		
 		for(int i =0;i<this.packsPerLine;i++)
 		{
 			this.packs[i] = Instantiate(this.PackObject) as GameObject;
+			this.packsBlocks[i]=Instantiate(this.BlockObject) as GameObject;
 			this.packs[i].transform.localScale= new Vector3(1f,1f,1f);
-			this.packs[i].transform.position=new Vector3(cardBoardStartX+(i+1)*(gapWidth+packWorldWidth),packsBoardOrigin.y,0f);
+			this.packs[i].transform.position=new Vector3(cardBoardStartX+(i+1)*(gapWidth+packBlockWorldWidth),packsBoardOrigin.y,0f);
+			this.packsBlocks[i].GetComponent<BlockController>().resize(new Rect(cardBoardStartX+(i+1)*(gapWidth+packBlockWorldWidth),packsBoardOrigin.y+0.5f,packBlockWorldWidth,packBlockWorldHeight));
 			this.packs[i].transform.name="Pack"+i;
 			this.packs[i].AddComponent<NewPackStoreController>();
 			this.packs[i].transform.GetComponent<NewPackStoreController>().setId(i);
-			this.packs[i].transform.GetComponent<NewPackStoreController>().setCentralWindow (this.centralWindow);
+			this.packs[i].transform.GetComponent<NewPackStoreController>().setCentralWindow (this.selectCardTypeWindow);
 			this.packs[i].transform.GetComponent<NewPackStoreController>().setCollectionPointsWindow (this.collectionPointsWindow);
 			this.packs[i].transform.GetComponent<NewPackStoreController>().setNewSkillsWindow (this.newSkillsWindow);
 			this.packs[i].SetActive(false);
+			this.packsBlocks[i].GetComponent<BlockController>().display(false);
 		}
-		this.homePageBoughtPack.transform.GetComponent<NewPackStoreController>().setCentralWindow (this.centralWindow);
+		this.homePageBoughtPack.transform.GetComponent<NewPackStoreController>().setCentralWindow (this.selectCardTypeWindow);
 		this.homePageBoughtPack.transform.GetComponent<NewPackStoreController>().setCollectionPointsWindow (this.collectionPointsWindow);
 		this.homePageBoughtPack.transform.GetComponent<NewPackStoreController>().setNewSkillsWindow (this.newSkillsWindow);
 		this.drawPacks ();
@@ -330,6 +339,11 @@ public class NewStoreController : MonoBehaviour
 		{
 			Destroy (this.packs[i]);
 		}
+		for (int i=0;i<this.packsBlocks.Length;i++)
+		{
+			this.packsBlocks[i].GetComponent<BlockController>().destroyShadow();
+			Destroy (this.packsBlocks[i]);
+		}
 	}
 	public void displayPacks(bool value)
 	{
@@ -337,6 +351,7 @@ public class NewStoreController : MonoBehaviour
 		{
 			this.packs[i].GetComponent<NewPackController>().displayPack(value);
 			this.packs[i].GetComponent<BoxCollider2D>().enabled=value;
+			this.packsBlocks[i].GetComponent<BlockController>().display(value);
 		}
 		for(int i=0;i<this.paginationButtons.Length;i++)
 		{
@@ -387,6 +402,7 @@ public class NewStoreController : MonoBehaviour
 				}
 				this.packsDisplayed.Add (this.chosenPage*(packsPerLine)+i);
 				this.packs[i].SetActive(true);
+				this.packsBlocks[i].GetComponent<BlockController>().display(true);
 				this.packs[i].transform.GetComponent<NewPackStoreController>().p=model.packList[this.chosenPage*(packsPerLine)+i];
 				this.packs[i].transform.GetComponent<NewPackStoreController>().show();
 				this.packs[i].transform.GetComponent<NewPackStoreController>().setId(i);
@@ -395,6 +411,7 @@ public class NewStoreController : MonoBehaviour
 			else
 			{
 				this.packs[i].SetActive(false);
+				this.packsBlocks[i].GetComponent<BlockController>().display(false);
 			}
 		}
 		if(!allPicturesLoaded)
@@ -439,7 +456,7 @@ public class NewStoreController : MonoBehaviour
 				this.randomCards [i].AddComponent<NewCardStoreController>();
 				this.randomCards [i].name=name;
 				this.randomCards[i].GetComponent<NewCardStoreController>().setId(i);
-				this.randomCards[i].GetComponent<NewCardStoreController>().c=model.packList[this.selectedPackIndex].Cards[i];
+				this.randomCards[i].GetComponent<NewCardStoreController>().c=model.packList[this.selectedPackIndex+chosenPage*nbPages].Cards[i];
 				this.randomCards[i].GetComponent<NewCardStoreController>().show();
 				this.randomCards[i].GetComponent<NewCardStoreController>().setBackFace(true);
 				this.randomCards[i].transform.rotation=Quaternion.Euler(0, 180, 0);
@@ -456,7 +473,7 @@ public class NewStoreController : MonoBehaviour
 			this.randomCardsDisplayed[0]=true;
 			this.focusedCard.SetActive(true);
 			this.focusedCard.GetComponent<NewFocusedCardStoreController>().displayFocusFeatures(false);
-			this.focusedCard.GetComponent<NewFocusedCardStoreController>().c=model.packList[this.selectedPackIndex].Cards[0];
+			this.focusedCard.GetComponent<NewFocusedCardStoreController>().c=model.packList[this.selectedPackIndex+chosenPage*nbPages].Cards[0];
 			this.focusedCard.GetComponent<NewFocusedCardStoreController>().show ();
 			this.focusedCard.GetComponent<NewFocusedCardStoreController>().setBackFace(true);
 			this.focusedCard.GetComponent<NewFocusedCardStoreController>().transform.rotation=Quaternion.Euler(0, 180, 0);
@@ -520,7 +537,7 @@ public class NewStoreController : MonoBehaviour
 			{
 				this.paginationButtons[i] = Instantiate(this.paginationButtonObject) as GameObject;
 				this.paginationButtons[i].AddComponent<StorePaginationController>();
-				this.paginationButtons[i].transform.position=new Vector3((1f+this.packsBoardLeftMargin-this.packsBoardRightMargin+i-nbButtonsToDraw/2f)*(paginationButtonWidth+gapBetweenPaginationButton),-1.25f,0f);
+				this.paginationButtons[i].transform.position=new Vector3((1f+this.packsBoardLeftMargin-this.packsBoardRightMargin+i-nbButtonsToDraw/2f)*(paginationButtonWidth+gapBetweenPaginationButton),-1.4f,0f);
 				this.paginationButtons[i].name="Pagination"+i.ToString();
 			}
 			for(int i=System.Convert.ToInt32(drawBackButton);i<nbButtonsToDraw-System.Convert.ToInt32(drawNextButton);i++)
