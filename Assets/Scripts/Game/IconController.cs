@@ -11,6 +11,7 @@ public class IconController : GameObjectController
 	string additionnalInfo;
 	
 	bool isActive = false;
+	bool isHovered = false ;
 	
 	void Awake()
 	{
@@ -26,9 +27,8 @@ public class IconController : GameObjectController
 		this.description = d ; 
 		this.additionnalInfo = i ; 
 		this.isActive = true ;
-		gameObject.transform.FindChild("Focus").FindChild("TitleI"+this.id).GetComponent<TextMeshPro>().text = t ;
-		gameObject.transform.FindChild("Focus").FindChild("DescriptionI"+this.id).GetComponent<TextMeshPro>().text = d ;
-		gameObject.transform.FindChild("Focus").FindChild("AdditionnalInfoI"+this.id).GetComponent<TextMeshPro>().text = i ;
+		
+		
 	}
 	
 	public void resetInformation(){
@@ -37,20 +37,20 @@ public class IconController : GameObjectController
 	
 	public void OnMouseEnter(){
 		if(this.isActive){
-			Renderer[] renderers = GetComponentsInChildren<Renderer>();
-			for (int i = 1; i < renderers.Length; i++)
-			{
-				renderers [i].GetComponent<Renderer>().enabled = true;
+			if (!this.isHovered){	
+				Vector3 position = gameObject.transform.position;
+				position.y += 0.45f;
+				GameView.instance.displayPopUp(this.description, position, this.title);
+				this.isHovered = true ;
 			}
 		}
 	}
 	
 	public void OnMouseExit(){
 		if(this.isActive){
-			Renderer[] renderers = GetComponentsInChildren<Renderer>();
-			for (int i = 1; i < renderers.Length; i++)
-			{
-				renderers [i].GetComponent<Renderer>().enabled = false;
+			if (this.isHovered){	
+				GameView.instance.hidePopUp();
+				this.isHovered = false ;
 			}
 		}
 	}

@@ -119,10 +119,10 @@ public class GameController : Photon.MonoBehaviour
 			else{
 				if(GameView.instance.getIsMine(this.currentPlayingCard)){
 					if(this.turnsToWait==1){
-						GameView.instance.changeOverloadText("A votre adversaire de jouer. "+this.turnsToWait+" tour d'attente");
+						GameView.instance.overloadSkills("A votre adversaire de jouer. "+this.turnsToWait+" tour d'attente");
 					}
 					else{
-						GameView.instance.changeOverloadText("A votre adversaire de jouer. "+this.turnsToWait+" tours d'attente");
+						GameView.instance.overloadSkills("A votre adversaire de jouer. "+this.turnsToWait+" tours d'attente");
 					}
 				}
 				else{
@@ -342,9 +342,23 @@ public class GameController : Photon.MonoBehaviour
 			}
 			i++;
 		}
+		
+		for(int i2 = 0 ; i2 < this.playingCardTurnsToWait.Count ; i2++){
+			GameView.instance.getCard(i2).nbTurnsToWait=this.playingCardTurnsToWait[i2];
+			GameView.instance.showTR(i2);
+		}
 
-		print ("Turns To Wait "+this.turnsToWait);
 		this.initPlayer(nextPlayingCard);
+	}
+	
+	public void killHandle(int c){
+		for (int i = 0 ; i < this.playingCardTurnsToWait.Count ; i++){
+			if(this.playingCardTurnsToWait[i]>this.playingCardTurnsToWait[c]){
+				this.playingCardTurnsToWait[i]--;
+				GameView.instance.getCard(i).nbTurnsToWait=this.playingCardTurnsToWait[i];
+				GameView.instance.showTR(i);
+			}
+		}
 	}
 
 	IEnumerator setPlayer(float time, int id){
@@ -674,9 +688,10 @@ public class GameController : Photon.MonoBehaviour
 					this.playingCardTurnsToWait[i]++;
 				}
 			}
-			
-			photonView.RPC("addRankedCharacter", PhotonTargets.AllBuffered, this.playingCardTurnsToWait[i], i);
+			print ("Héros "+i+" attend "+this.playingCardTurnsToWait[i]+" tours");
+			photonView.RPC("addRankedCharacter", PhotonTargets.AllBuffered, i, this.playingCardTurnsToWait[i]);
 		}
+		photonView.RPC("addRankedCharacter", PhotonTargets.AllBuffered, length-1, this.playingCardTurnsToWait[length-1]);
 	}
 	
 	public void rankNext(int idToRank)
@@ -743,8 +758,10 @@ public class GameController : Photon.MonoBehaviour
 	{
 		if (!this.isFirstPlayer)
 		{
-			this.playingCardTurnsToWait.Insert(rank,id);
+			this.playingCardTurnsToWait.Insert(id,rank);
 		}
+		GameView.instance.getCard(id).nbTurnsToWait = rank ;
+		GameView.instance.showTR(id);
 	}
 
 	[RPC]

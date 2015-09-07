@@ -19,26 +19,31 @@ public class SkillButtonController : MonoBehaviour
 	}
 	
 	public void checkLaunchability(){
-		if(GameView.instance.getCard(GameController.instance.getCurrentPlayingCard()).isSleeping() && this.id!=-2){
-			this.launchabilityText = "Le personnage est endormi";
-			gameObject.GetComponent<SpriteRenderer>().color=new Color(255/255f,120f/255f,120f/255f, 1f);
-			this.isLaunchable = false ;
-		}
-		else if(!GameView.instance.hasPlayed(GameController.instance.getCurrentPlayingCard())){
-			this.launchabilityText = GameSkills.instance.getSkill(this.skill.Id).isLaunchable();
-			if (this.launchabilityText.Length<4){
-				gameObject.GetComponent<SpriteRenderer>().color=new Color(1f, 1f, 1f, 1f);
-				this.isLaunchable = true ;
-				this.launchabilityText = "";
+		if(this.skill.Id!=-99){
+			if(GameView.instance.getCard(GameController.instance.getCurrentPlayingCard()).isSleeping() && this.id!=-2){
+				this.launchabilityText = "Le personnage est endormi";
+				gameObject.GetComponent<SpriteRenderer>().color=new Color(255/255f,120f/255f,120f/255f, 1f);
+				this.isLaunchable = false ;
+			}
+			else if(!GameView.instance.hasPlayed(GameController.instance.getCurrentPlayingCard())){
+				this.launchabilityText = GameSkills.instance.getSkill(this.skill.Id).isLaunchable();
+				if (this.launchabilityText.Length<4){
+					gameObject.GetComponent<SpriteRenderer>().color=new Color(1f, 1f, 1f, 1f);
+					this.isLaunchable = true ;
+					this.launchabilityText = "";
+				}
+				else{
+					gameObject.GetComponent<SpriteRenderer>().color=new Color(255/255f,120f/255f,120f/255f, 1f);
+					this.isLaunchable = false ;
+				}
 			}
 			else{
+				this.launchabilityText = "Le personnage a déjà joué";
 				gameObject.GetComponent<SpriteRenderer>().color=new Color(255/255f,120f/255f,120f/255f, 1f);
 				this.isLaunchable = false ;
 			}
 		}
 		else{
-			this.launchabilityText = "Le personnage a déjà joué";
-			gameObject.GetComponent<SpriteRenderer>().color=new Color(255/255f,120f/255f,120f/255f, 1f);
 			this.isLaunchable = false ;
 		}
 	}

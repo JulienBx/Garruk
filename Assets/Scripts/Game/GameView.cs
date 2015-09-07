@@ -289,6 +289,7 @@ public class GameView : MonoBehaviour
 				this.displayedSETimer[i] -= Time.deltaTime;
 				if (this.displayedSETimer[i]<=0f){
 					Tile t = this.getPlayingCardTile(this.displayedSE[i]);
+					this.tileHandlers[t.x, t.y].GetComponent<TileHandlerController>().moveBack();
 					this.tileHandlers[t.x, t.y].SetActive(false);
 					this.displayedSE.RemoveAt(i);
 					this.displayedSETimer.RemoveAt(i);
@@ -440,11 +441,11 @@ public class GameView : MonoBehaviour
 			}
 			else{
 				if(i==1){
-					this.skillButtons[1+i].GetComponent<SkillButtonController>().setSkill(new Skill("Non disponible","Niveau 4 requis pour débloquer cette compétence",0), this.skillSprites[this.skillSprites.Length-2]);
+					this.skillButtons[1+i].GetComponent<SkillButtonController>().setSkill(new Skill("Non disponible","Niveau 4 requis pour débloquer cette compétence",-99), this.skillSprites[this.skillSprites.Length-2]);
 					GameObject.Find ("Description"+i).GetComponent<TextMeshPro>().text = "?";
 				}
 				else{
-					this.skillButtons[1+i].GetComponent<SkillButtonController>().setSkill(new Skill("Non disponible","Niveau 8 requis pour débloquer cette compétence",1), this.skillSprites[this.skillSprites.Length-1]);
+					this.skillButtons[1+i].GetComponent<SkillButtonController>().setSkill(new Skill("Non disponible","Niveau 8 requis pour débloquer cette compétence",-99), this.skillSprites[this.skillSprites.Length-1]);
 					GameObject.Find ("Description"+i).GetComponent<TextMeshPro>().text = "?";
 				}
 			}
@@ -593,6 +594,11 @@ public class GameView : MonoBehaviour
 			this.playingCards [debut + c.deckOrder].GetComponentInChildren<PlayingCardController>().setTile(new Tile(4-c.deckOrder, hauteur), tiles [4-c.deckOrder, hauteur].GetComponent<TileController>().getPosition());
 			this.tiles [4-c.deckOrder, hauteur].GetComponent<TileController>().setCharacterID(debut + c.deckOrder);
 		}
+	}
+	
+	public void showTR(int i)
+	{
+		this.playingCards [i].GetComponent<PlayingCardController>().showTR(true);
 	}
 	
 	public void movePlayingCard(int x, int y, int c)
@@ -1099,7 +1105,6 @@ public class GameView : MonoBehaviour
 	}
 	
 	public Tile getPlayingCardTile(int i){
-		print (i);
 		return this.playingCards[i].GetComponent<PlayingCardController>().getTile();
 	}
 	
@@ -1467,8 +1472,6 @@ public class GameView : MonoBehaviour
 		for (int i = 0 ; i < this.targets.Count ; i++){
 			this.tileHandlers[this.targets[i].x, this.targets[i].y].SetActive(false);
 		}
-		this.skillPosition.x = 0  ;
-		this.skillRPC.transform.localPosition = this.skillPosition ;
 		if(!hasMoved(GameController.instance.getCurrentPlayingCard())){
 			this.displayDestinations();
 		}
@@ -1621,6 +1624,8 @@ public class GameView : MonoBehaviour
 		this.displayedDeads.Add(target);
 		this.displayedDeadsTimer.Add(1);
 		
+		GameController.instance.killHandle (target);
+		
 		this.toDisplayDeadHalos = true ;
 	}
 	
@@ -1642,6 +1647,7 @@ public class GameView : MonoBehaviour
 		this.tileHandlers[t.x, t.y].GetComponent<TileHandlerController>().changeType(type);
 		this.tileHandlers[t.x, t.y].GetComponent<TileHandlerController>().setText(text);
 		
+		this.tileHandlers[t.x, t.y].GetComponent<TileHandlerController>().moveForward();
 		this.displayedSE.Add(target);
 		this.displayedSETimer.Add(2);
 		

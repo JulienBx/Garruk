@@ -53,6 +53,8 @@ public class PlayingCardController : GameObjectController
 	public void showTR(bool b)
 	{
 		Transform t = gameObject.transform;
+		t.FindChild("WaitTime").GetComponent<TextMeshPro>().text = ""+this.card.nbTurnsToWait;
+		
 		t.FindChild("WaitTime").GetComponent<MeshRenderer>().enabled = b ;
 		t.FindChild("PictoTR").GetComponent<SpriteRenderer>().enabled = b ;
 		t.FindChild("PictoTR").GetComponent<BoxCollider>().enabled = b ;
@@ -291,7 +293,7 @@ public class PlayingCardController : GameObjectController
 		else{
 			gameObject.transform.FindChild("AttackZone").FindChild("AttackValue").GetComponent<TextMeshPro>().color = Color.white;
 		}
-		gameObject.transform.Find("AttackValue").GetComponent<TextMeshPro>().text = this.card.GetAttackString();
+		gameObject.transform.FindChild("AttackZone").FindChild("AttackValue").GetComponent<TextMeshPro>().text = this.card.GetAttackString();
 	}
 	
 	public void updateLife()

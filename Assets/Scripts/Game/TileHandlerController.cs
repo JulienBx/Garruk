@@ -30,6 +30,14 @@ public class TileHandlerController : GameObjectController
 		this.characterID = i ;
 	}
 	
+	public void moveForward(){
+		gameObject.transform.GetComponent<SpriteRenderer>().sortingOrder = 20;
+	}
+	
+	public void moveBack(){
+		gameObject.transform.GetComponent<SpriteRenderer>().sortingOrder = 5;
+	}
+	
 	public int getTypeNumber(){
 		return this.type;
 	}
