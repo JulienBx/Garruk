@@ -20,10 +20,12 @@ public class StartButtonController : MonoBehaviour
 	}
 	
 	public void OnMouseDown(){
-		this.isPushed = true ;
-		gameObject.GetComponent<TextMeshPro>().text="En attente du joueur 2";
-		gameObject.GetComponent<TextMeshPro>().color=new Color(1f,1f,1f, 1f);
-		GameController.instance.playerReady();
+		if(this.isPushed==false){
+			this.isPushed = true ;
+			gameObject.GetComponent<TextMeshPro>().text="En attente du joueur 2";
+			gameObject.GetComponent<TextMeshPro>().color=new Color(1f,1f,1f, 1f);
+			GameController.instance.playerReady();
+		}
 	}
 }
 

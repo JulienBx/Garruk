@@ -46,7 +46,7 @@ public class TileController : GameObjectController
 	}
 	
 	public void OnMouseEnter(){
-		GameView.instance.hoverTile(-1, this.tile);
+		GameView.instance.hoverTile(-1, this.tile, true);
 	}
 	
 	public void setCharacterID(int i){
@@ -104,9 +104,6 @@ public class TileController : GameObjectController
 				
 				GameController.instance.hideTrap(t);
 			}
-		}
-		else{
-			GameView.instance.displaySkillEffect(target, "SE DEPLACE", 4);
 		}
 	}
 	

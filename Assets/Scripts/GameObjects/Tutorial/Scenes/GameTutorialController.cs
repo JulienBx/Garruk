@@ -711,7 +711,7 @@ public class GameTutorialController : TutorialObjectController
 		case 32:
 			if(!isResizing)
 			{
-				StartCoroutine(GameController.instance.quitGame());
+				//StartCoroutine(GameController.instance.quitGame());
 				view.VM.displayArrow=false;
 				view.VM.displayNextButton=false;
 				view.VM.title="Récompenses";

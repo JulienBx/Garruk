@@ -17,17 +17,20 @@ public class GameController : Photon.MonoBehaviour
 	
 	//Variables de gestion
 	bool isReconnecting = false ;
+	bool haveIStarted = false ;
 	bool isRunningSkill = false ;
 	bool isFirstPlayer = false;
 	bool bothPlayerLoaded = false ;
 	int nbPlayers = 0 ;
 	int nbPlayersReadyToFight = 0; 
 	int currentPlayingCard = -1;
-	int[] rankedPlayingCardsID; 
+	int currentClickedCard = -1;
+	List<int> playingCardTurnsToWait; 
 	TargetPCCHandler targetPCCHandler ;
 	TargetTileHandler targetTileHandler ;
 	bool isTutorialLaunched;
 	public Deck myDeck ;
+	int turnsToWait ; 
 	
 	void Awake()
 	{
@@ -35,6 +38,8 @@ public class GameController : Photon.MonoBehaviour
 		
 		PhotonNetwork.autoCleanUpPlayerObjects = false;
 		PhotonNetwork.ConnectUsingSettings(ApplicationModel.photonSettings);
+		
+		this.playingCardTurnsToWait = new List<int>();
 		
 //		if (ApplicationModel.launchGameTutorial)
 //		{
@@ -47,6 +52,9 @@ public class GameController : Photon.MonoBehaviour
 	
 	public void moveToDestination(Tile t){
 		int characterToMove = this.currentPlayingCard;
+		if (characterToMove==-1){
+			characterToMove = this.currentClickedCard;
+		}
 		
 		if (characterToMove!=-1){
 			photonView.RPC("moveCharacterRPC", PhotonTargets.AllBuffered, t.x, t.y, characterToMove);
@@ -68,33 +76,81 @@ public class GameController : Photon.MonoBehaviour
 		GameView.instance.removeDestinations();	
 		
 		if (this.nbPlayersReadyToFight==2){
-			
+			if (GameView.instance.hasPlayed(this.currentPlayingCard))
+			{
+				this.resolvePass();
+			}
 		}
 		else{
-			GameView.instance.setInitialDestinations(this.isFirstPlayer);	
+			GameView.instance.setInitialDestinations(this.isFirstPlayer);
+			if(GameView.instance.getIsMine(c)){
+				this.changeClickedCard(c);
+			}
 		}
-		
-		if (GameView.instance.hasPlayed(this.currentPlayingCard))
-		{
-			this.resolvePass();
-		}
-				
+			
 		yield break ;
 	}
 
 	public void clickPlayingCard(int c, Tile t){
-		if (c!=this.currentPlayingCard && nbPlayersReadyToFight<2){
-			this.changePlayingCard(c);
+		if (c!=this.currentClickedCard && !this.havIStarted()){
+			this.changeClickedCard(c);
 		}
+	}
+	
+	public void changeClickedCard(int c){
+		if(this.currentClickedCard!=-1){
+			GameView.instance.unClickPC (this.currentClickedCard);
+		}
+		this.currentClickedCard = c ;
+		GameView.instance.changeClickedCard(c);
 	}
 	
 	public void changePlayingCard(int c){
 		if(this.currentPlayingCard!=-1){
 			GameView.instance.unSelectPC (this.currentPlayingCard);
+			if(this.turnsToWait==0){
+				if(GameView.instance.getIsMine(this.currentPlayingCard)){
+					
+				}
+				else{
+					GameView.instance.showSkills();
+				}
+			}
+			else{
+				if(GameView.instance.getIsMine(this.currentPlayingCard)){
+					if(this.turnsToWait==1){
+						GameView.instance.changeOverloadText("A votre adversaire de jouer. "+this.turnsToWait+" tour d'attente");
+					}
+					else{
+						GameView.instance.changeOverloadText("A votre adversaire de jouer. "+this.turnsToWait+" tours d'attente");
+					}
+				}
+				else{
+					if(this.turnsToWait==1){
+						GameView.instance.changeOverloadText("A votre adversaire de jouer. "+this.turnsToWait+" tour d'attente");
+					}
+					else{
+						GameView.instance.changeOverloadText("A votre adversaire de jouer. "+this.turnsToWait+" tours d'attente");
+					}
+				}
+			}
 		}
+		else{
+			if(this.turnsToWait==0){
+				GameView.instance.showSkills();
+			}
+			else{
+				if(this.turnsToWait==1){
+					GameView.instance.overloadSkills("A votre adversaire de jouer. "+this.turnsToWait+" tour d'attente");
+				}
+				else{
+					GameView.instance.overloadSkills("A votre adversaire de jouer. "+this.turnsToWait+" tours d'attente");
+				}
+			}
+		}
+		
 		this.currentPlayingCard = c ;
 		GameView.instance.changePlayingCard(c);
-		GameView.instance.resetSkill();
 	}
 	
 	public void displayAdjacentOpponentsTargets()
@@ -107,23 +163,6 @@ public class GameController : Photon.MonoBehaviour
 //			if (playerID != -1)
 //			{
 //				if (this.playingCards [playerID].GetComponent<PlayingCardController>().canBeTargeted() && !this.getPCC(playerID).isMine)
-//				{
-//					this.playingCards [playerID].GetComponent<PlayingCardController>().setTargetHalo(this.gameskills [this.getCurrentSkillID()].getTargetPCCText(this.getPCC(playerID).card));
-//				}
-//			}
-//		}
-	}
-	
-	public void displayAdjacentAllyTargets()
-	{
-//		List<Tile> neighbourTiles = this.getCurrentPCC().tile.getImmediateNeighbouringTiles();
-//		int playerID;
-//		foreach (Tile t in neighbourTiles)
-//		{
-//			playerID = this.tiles [t.x, t.y].GetComponent<TileController>().characterID;
-//			if (playerID != -1)
-//			{
-//				if (this.playingCards [playerID].GetComponent<PlayingCardController>().canBeTargeted() && this.getPCC(playerID).isMine)
 //				{
 //					this.playingCards [playerID].GetComponent<PlayingCardController>().setTargetHalo(this.gameskills [this.getCurrentSkillID()].getTargetPCCText(this.getPCC(playerID).card));
 //				}
@@ -274,114 +313,102 @@ public class GameController : Photon.MonoBehaviour
 		return isLaunchable; 	
 	}
 
+	[RPC]
 	public void findNextPlayer()
 	{
+		this.timeRunsOut(2);
+		
+		this.turnsToWait = 100;
+		
 		bool newTurn = true;
 		int nextPlayingCard = -1;
 		int i = 0;
-		int length = GameView.instance.getNbPlayingCards();
-
+		int length = this.playingCardTurnsToWait.Count;
+		
 		while (i < length && newTurn == true)
 		{
-			if (rankedPlayingCardsID [i]!=this.currentPlayingCard && !GameView.instance.hasPlayed(rankedPlayingCardsID [i]) && !GameView.instance.isDead(rankedPlayingCardsID [i]))
+			this.playingCardTurnsToWait[i]--;
+			
+			if(GameView.instance.getIsMine(i)){
+				if(this.playingCardTurnsToWait[i]<this.turnsToWait){
+					this.turnsToWait = this.playingCardTurnsToWait[i];
+				}
+			}
+			
+			if (this.playingCardTurnsToWait[i]==0)
 			{
-				nextPlayingCard = rankedPlayingCardsID [i];
-				newTurn = false;
+				this.playingCardTurnsToWait[i]=length;
+				nextPlayingCard = i;
 			}
 			i++;
 		}
 
-		if (newTurn)
-		{
-			print ("newTurn1");
-			
-			for (i = 0; i < length; i++)
-			{
-				if (!GameView.instance.isDead(i))
-				{
-					GameView.instance.playCard(i, false);
-					GameView.instance.moveCard(i, false);
-				}
-			}
-			int j = 0;
-			while (j < length)
-			{
-				if (!GameView.instance.hasPlayed(rankedPlayingCardsID [j]))
-				{
-					nextPlayingCard = rankedPlayingCardsID [j];
-					j = length + 1;
-				}
-				j++;
-			}
-			print ("endNewTurn1");
-			
-		}
-		
-		photonView.RPC("initPlayer", PhotonTargets.AllBuffered, nextPlayingCard, newTurn, this.isFirstPlayer);
+		print ("Turns To Wait "+this.turnsToWait);
+		this.initPlayer(nextPlayingCard);
 	}
 
-	IEnumerator setPlayer(float time, int id, bool newTurn, bool isFirstP){
+	IEnumerator setPlayer(float time, int id){
 		yield return new WaitForSeconds(time);
-		int length = GameView.instance.getNbPlayingCards();
+		int length = this.playingCardTurnsToWait.Count;
 		
-		if (newTurn)
+		if (this.currentPlayingCard != -1)
 		{
-			print ("newTurn");
-			for (int i = 0; i < length; i++)
-			{
-				if (!GameView.instance.isDead(i))
-				{
-					GameView.instance.playCard(i, false);
-					GameView.instance.moveCard(i, false);
-				}
+			GameView.instance.checkModifyers(this.currentPlayingCard);
+		}
+	
+		GameView.instance.removeDestinations();
+		
+		if(this.turnsToWait==0){
+			this.changePlayingCard(id);
+			if (GameView.instance.getCard(id).isParalyzed()){
+				GameView.instance.playCard(id, true);
+				GameView.instance.moveCard(id, false);
 			}
-			print ("endNewTurn");
+			else if (GameView.instance.getCard(id).isSleeping()){
+				//				int sleepingPercentage = this.getCard(c).getSleepingPercentage();
+				//				if(UnityEngine.Random.Range(1,101)>sleepingPercentage){
+				//					this.displaySkillEffect(c, "REVEIL", 4);
+				//					this.getCard(c).removeSleeping();
+				//					this.playingCards[c].GetComponent<PlayingCardController>().show();
+				//				}
+				//				else{
+				//					this.displaySkillEffect(c, "RESTE ENDORMI", 4);
+				//				}
+			}
+			else{
+				this.calculateDestinations();
+				GameView.instance.playCard(id, false);
+				GameView.instance.moveCard(id, false);
+			}
 		}
 		else{
-			if (this.currentPlayingCard != -1)
-			{
-				GameView.instance.playCard(this.currentPlayingCard, true);
-				GameView.instance.checkModifyers(this.currentPlayingCard);
-			}
-		}
-		
-		if(this.currentPlayingCard!=-1){
-			if (GameView.instance.getIsMine(this.currentPlayingCard)){
-				GameView.instance.hideClickedPC();
-			}
-		}
-		this.changePlayingCard(id);
-		
-		if (GameView.instance.getIsMine(id))
-		{
-			this.calculateDestinations();
+			this.changePlayingCard(id);
+			this.calculateHisDestinations();
 		}
 		this.isRunningSkill = false ;
-		
 	}
 	
 	public void calculateDestinations(){
 		GameView.instance.setDestinations(this.currentPlayingCard);
 	}
 	
-	[RPC]
-	public void initPlayer(int id, bool newTurn, bool isFirstP)
+	public void calculateHisDestinations(){
+		GameView.instance.setHisDestinations(this.currentPlayingCard);
+	}
+
+	public void initPlayer(int id)
 	{
 		if(this.currentPlayingCard!=-1){
 			if(!GameView.instance.getIsMine(this.currentPlayingCard)){
 				GameView.instance.unSelectSkill();
 			}
 		}
-		GameView.instance.displayPopUp("Au tour de "+GameView.instance.getCard(id).Title,2);
-		StartCoroutine(setPlayer(1, id, newTurn, isFirstP));
+		StartCoroutine(setPlayer(1, id));
 	}
 
 	public void resolvePass()
 	{
-		if(!GameView.instance.hasMoved(this.currentPlayingCard)){
-			GameView.instance.removeDestinations();
-		}
-		this.findNextPlayer();
+		photonView.RPC("findNextPlayer", PhotonTargets.AllBuffered);
 	}
 	
 	public void wakeUp()
@@ -576,6 +603,8 @@ public class GameController : Photon.MonoBehaviour
 	public void playerReady()
 	{
 		GameView.instance.removeDestinations();
+		GameView.instance.removeClickedCard(this.currentClickedCard);
+		this.haveIStarted = true ;
 		photonView.RPC("playerReadyRPC", PhotonTargets.AllBuffered, this.isFirstPlayer);
 		if (isTutorialLaunched)
 		{
@@ -588,8 +617,7 @@ public class GameController : Photon.MonoBehaviour
 	public void StartFight()
 	{		
 		this.sortAllCards();
-		this.findNextPlayer();
-		photonView.RPC("timeRunsOut", PhotonTargets.AllBuffered, this.timePerTurn);
+		photonView.RPC("findNextPlayer", PhotonTargets.AllBuffered);
 	}
 	
 	[RPC]
@@ -618,111 +646,77 @@ public class GameController : Photon.MonoBehaviour
 	
 	public void sortAllCards()
 	{
-		List <int> cardsToRank = new List<int>();
 		List <int> quicknessesToRank = new List<int>();
-		int indexToRank;
 		int length = GameView.instance.getNbPlayingCards();
 		
 		for (int i = 0; i < length; i++)
 		{
-			cardsToRank.Add(i);	
 			quicknessesToRank.Add(GameView.instance.getCard(i).GetSpeed());
+			this.playingCardTurnsToWait.Add(1);
 		}
-		for (int i = 0; i < length; i++)
+		
+		for (int i = 0; i < length-1; i++)
 		{
-			indexToRank = this.FindMaxQuicknessIndex(quicknessesToRank);
-			print("j'add " + cardsToRank [indexToRank] + " au rang " + i + " avec la vitesse " + quicknessesToRank [indexToRank]);
+			for (int j = i+1; j < length; j++)
+			{
+				if (i==j){
+					
+				}
+				else if(quicknessesToRank[i]<quicknessesToRank[j]){
+					this.playingCardTurnsToWait[j]++;
+				}
+				else if(quicknessesToRank[i]==quicknessesToRank[j]){
+					if(i<j){
+						this.playingCardTurnsToWait[j]++;
+					}
+				}
+				else{
+					this.playingCardTurnsToWait[i]++;
+				}
+			}
 			
-			quicknessesToRank.RemoveAt(indexToRank);
-			photonView.RPC("addRankedCharacter", PhotonTargets.AllBuffered, cardsToRank [indexToRank], i);
-			cardsToRank.RemoveAt(indexToRank);
+			photonView.RPC("addRankedCharacter", PhotonTargets.AllBuffered, this.playingCardTurnsToWait[i], i);
 		}
-		GameView.instance.playEveryone();
 	}
 	
 	public void rankNext(int idToRank)
 	{
-//		int i = 0;
-//		int rankPlayingCard = -1;
-//		int rankCardToRank = -1;
-//		while (i<this.playingCards.Length && (rankPlayingCard==-1||rankCardToRank==-1))
-//		{
-//			if (this.rankedPlayingCardsID [i] == this.currentPlayingCard)
-//			{
-//				rankPlayingCard = i;
-//			}
-//			if (this.rankedPlayingCardsID [i] == idToRank)
-//			{
-//				rankCardToRank = i;
-//			}
-//			i++;
-//		}
-//		
-//		
-//		int compteur = 0;
-//		int[] tempRank = new int[this.playingCards.Length];
-//		for (int j = 0; j < this.playingCards.Length; j++)
-//		{
-//			if (j != rankCardToRank)
-//			{
-//				tempRank [compteur] = this.rankedPlayingCardsID [j];
-//				print("J'ajoute en position " + compteur + " : " + this.rankedPlayingCardsID [j]);
-//				compteur++;
-//			}
-//			if (j == rankPlayingCard)
-//			{
-//				tempRank [compteur] = idToRank;
-//				print("J'ajoute en position " + compteur + " : " + idToRank);
-//				compteur++;
-//			}
-//		}
-//		for (int j = 0; j < this.playingCards.Length; j++)
-//		{
-//			print("New " + j + " : " + tempRank [j]);
-//			this.rankedPlayingCardsID [j] = tempRank [j];
-//		}
-//		this.getPCC(idToRank).hasPlayed = false;
+		int i = 0;
+		int length = this.playingCardTurnsToWait.Count;
+		int initRank = this.playingCardTurnsToWait[idToRank];
+		
+		while (i<length)
+		{
+			if(i==idToRank){
+				this.playingCardTurnsToWait[i]=length;
+			}
+			if (this.playingCardTurnsToWait[i]>initRank)
+			{
+				this.playingCardTurnsToWait[i]--;
+			}
+			GameView.instance.show(i);
+			i++;
+		}
 	}
 	
 	public void rankBefore(int idToRank)
 	{
 		int i = 0;
-		int rankPlayingCard = -1;
-		int rankCardToRank = -1;
-		while (i<this.rankedPlayingCardsID.Length && (rankPlayingCard==-1||rankCardToRank==-1))
+		int length = this.playingCardTurnsToWait.Count;
+		int initRank = this.playingCardTurnsToWait[idToRank];
+		
+		while (i<length)
 		{
-			if (this.rankedPlayingCardsID [i] == this.currentPlayingCard)
-			{
-				rankPlayingCard = i;
+			if(i==idToRank){
+				this.playingCardTurnsToWait[i]=1;
 			}
-			if (this.rankedPlayingCardsID [i] == idToRank)
+			if (this.playingCardTurnsToWait[i]<initRank)
 			{
-				rankCardToRank = i;
+				this.playingCardTurnsToWait[i]++;
 			}
+			GameView.instance.show(i);
 			i++;
 		}
-		
-		int compteur = 0;
-		int[] tempRank = new int[this.rankedPlayingCardsID.Length];
-		for (int j = 0; j < this.rankedPlayingCardsID.Length; j++)
-		{
-			if (j == rankPlayingCard)
-			{
-				tempRank [compteur] = idToRank;
-				compteur++;
-			}
-			if (j != rankCardToRank)
-			{
-				tempRank [compteur] = this.rankedPlayingCardsID [j];
-				compteur++;
-			}
-		}
-		for (int j = 0; j < this.rankedPlayingCardsID.Length; j++)
-		{
-			print("New " + j + " : " + tempRank [j]);
-			this.rankedPlayingCardsID [j] = tempRank [j];
-		}
-		GameView.instance.playCard(idToRank,true);
 	}
 
 	public int FindMaxQuicknessIndex(List<int> list)
@@ -747,18 +741,11 @@ public class GameController : Photon.MonoBehaviour
 	[RPC]
 	public void addRankedCharacter(int id, int rank)
 	{
-		if (rank == 0)
+		if (!this.isFirstPlayer)
 		{
-			this.rankedPlayingCardsID = new int[GameView.instance.getNbPlayingCards()];
+			this.playingCardTurnsToWait.Insert(rank,id);
 		}
-		this.rankedPlayingCardsID [rank] = id;
-//		if (rank == GameView.instance.getNbPlayingCards() - 1)
-//		{
-//			initGameEvents();
-//		}
 	}
-
-	
 
 	[RPC]
 	public void inflictDamageRPC(int targetCharacter, bool isFisrtPlayerCharacter)
@@ -769,7 +756,6 @@ public class GameController : Photon.MonoBehaviour
 		}
 	}
 
-	[RPC]
 	public void timeRunsOut(float time)
 	{
 //		startTurn = true;
@@ -830,7 +816,7 @@ public class GameController : Photon.MonoBehaviour
 	
 	void OnDisconnectedFromPhoton()
 	{
-		//Application.LoadLevel("Lobby");
+		Application.LoadLevel("NewHomePage");
 	}
 
 	public void quitGameHandler()
@@ -838,7 +824,7 @@ public class GameController : Photon.MonoBehaviour
 		//StartCoroutine(this.quitGame());
 	}
 	
-	public IEnumerator quitGame()
+	public IEnumerator quitGame2()
 	{
 //		if(isTutorialLaunched)
 //		{
@@ -1703,6 +1689,7 @@ public class GameController : Photon.MonoBehaviour
 				GameView.instance.removeDestinations();
 			}
 			this.isRunningSkill = true ;
+			print ("je lance "+id);
 			this.startPlayingSkill(id);
 		}
 		else{
@@ -1737,6 +1724,18 @@ public class GameController : Photon.MonoBehaviour
 	
 	public bool hasGameStarted(){
 		return (this.nbPlayersReadyToFight==2);
+	}
+	
+	public bool havIStarted(){
+		return (this.haveIStarted);
+	}
+	
+	public void quitGame(){
+		PhotonNetwork.Disconnect();
+	}
+	
+	public int getClickedCard(){
+		return this.currentClickedCard ;
 	}
 }
 

@@ -20,6 +20,11 @@ TextureImporter:
     21300026: 25
     21300028: 26
     21300030: 27
+    21300032: 08
+    21300034: 09
+    21300036: 10
+    21300038: 11
+    21300040: 12
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -68,8 +73,8 @@ TextureImporter:
     - name: 01
       rect:
         serializedVersion: 2
-        x: 1248
-        y: 153
+        x: 1181
+        y: 110
         width: 154
         height: 193
       alignment: 9
@@ -78,8 +83,8 @@ TextureImporter:
     - name: 02
       rect:
         serializedVersion: 2
-        x: 1278
-        y: 586
+        x: 992
+        y: 129
         width: 187
         height: 174
       alignment: 9
@@ -88,7 +93,7 @@ TextureImporter:
     - name: 03
       rect:
         serializedVersion: 2
-        x: 1071
+        x: 815
         y: 150
         width: 175
         height: 196
@@ -98,8 +103,8 @@ TextureImporter:
     - name: 04
       rect:
         serializedVersion: 2
-        x: 1062
-        y: 762
+        x: 1084
+        y: 305
         width: 205
         height: 205
       alignment: 9
@@ -108,8 +113,8 @@ TextureImporter:
     - name: 05
       rect:
         serializedVersion: 2
-        x: 1071
-        y: 555
+        x: 1291
+        y: 305
         width: 205
         height: 205
       alignment: 9
@@ -118,8 +123,8 @@ TextureImporter:
     - name: 06
       rect:
         serializedVersion: 2
-        x: 1269
-        y: 762
+        x: 1498
+        y: 305
         width: 205
         height: 205
       alignment: 9
@@ -128,100 +133,60 @@ TextureImporter:
     - name: 07
       rect:
         serializedVersion: 2
-        x: 1071
-        y: 348
+        x: 1705
+        y: 305
         width: 205
         height: 205
       alignment: 9
       pivot: {x: .497560978, y: .502439022}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: 19
+    - name: 08
       rect:
         serializedVersion: 2
         x: 2
-        y: 756
-        width: 1058
-        height: 640
+        y: 141
+        width: 205
+        height: 205
       alignment: 9
-      pivot: {x: .504725873, y: .493750006}
+      pivot: {x: .497560978, y: .502439022}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: 20
+    - name: 09
       rect:
         serializedVersion: 2
-        x: 1084
-        y: 1616
-        width: 1058
-        height: 212
+        x: 209
+        y: 141
+        width: 205
+        height: 205
       alignment: 9
-      pivot: {x: .504725873, y: .5}
+      pivot: {x: .497560978, y: .502439022}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: 21
+    - name: 10
       rect:
         serializedVersion: 2
-        x: 1084
-        y: 1402
-        width: 1058
-        height: 212
+        x: 416
+        y: 141
+        width: 205
+        height: 205
       alignment: 9
-      pivot: {x: .504725873, y: .5}
+      pivot: {x: .497560978, y: .502439022}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: 22
-      rect:
-        serializedVersion: 2
-        x: 1062
-        y: 969
-        width: 1058
-        height: 427
-      alignment: 9
-      pivot: {x: .504725873, y: .505854785}
-      border: {x: 0, y: 0, z: 0, w: 0}
-    - name: 23
+    - name: 11
       rect:
         serializedVersion: 2
         x: 2
-        y: 104
-        width: 1067
-        height: 216
-      alignment: 9
-      pivot: {x: .506091833, y: .5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-    - name: 24
-      rect:
-        serializedVersion: 2
-        x: 1084
-        y: 1830
-        width: 1067
-        height: 216
-      alignment: 9
-      pivot: {x: .506091833, y: .5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-    - name: 25
-      rect:
-        serializedVersion: 2
-        x: 2
-        y: 1398
+        y: 348
         width: 1080
-        height: 648
+        height: 162
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: 26
+    - name: 12
       rect:
         serializedVersion: 2
-        x: 2
-        y: 322
-        width: 1067
-        height: 432
-      alignment: 9
-      pivot: {x: .506091833, y: .5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-    - name: 27
-      rect:
-        serializedVersion: 2
-        x: 1071
-        y: 40
-        width: 579
-        height: 108
+        x: 623
+        y: 150
+        width: 190
+        height: 196
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}

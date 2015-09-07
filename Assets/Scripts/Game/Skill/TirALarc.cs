@@ -53,8 +53,8 @@ public class TirALarc : GameSkill
 		
 		GameController.instance.addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
 		
-		if(currentLife!=(arg*amount)){
-			GameView.instance.displaySkillEffect(target, "HIT X"+arg+"\n-"+(arg*amount)+" PV", 5);
+		if(currentLife>amount){
+			GameView.instance.displaySkillEffect(target, "HIT X"+arg+"\n-"+(amount)+" PV", 5);
 		}
 	}
 	

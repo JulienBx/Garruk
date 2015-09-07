@@ -19,10 +19,6 @@ public class AttaquePrecise : GameSkill
 			GameView.instance.hideTargets();
 		}
 		
-		if (GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
-			GameView.instance.hideTargets();
-		}
-		
 		int target = targetsPCC[0];
 		
 		if (Random.Range(1,101) > GameView.instance.getCard(target).GetEsquive())

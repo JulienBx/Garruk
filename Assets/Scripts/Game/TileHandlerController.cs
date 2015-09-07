@@ -35,6 +35,7 @@ public class TileHandlerController : GameObjectController
 	}
 	
 	public void changeType(int i){
+		this.setText("");
 		this.type = i ;
 		gameObject.GetComponent<SpriteRenderer>().sprite = this.sprites[i];
 	}
@@ -48,7 +49,7 @@ public class TileHandlerController : GameObjectController
 			GameView.instance.hoverTileHandler(characterID, this.tile);
 		}
 		else{
-			GameView.instance.hoverTile(characterID, this.tile);
+			GameView.instance.hoverTile(characterID, this.tile, true);
 		}
 		gameObject.GetComponent<SpriteRenderer>().enabled = true ;
 		this.isHovered = true ;

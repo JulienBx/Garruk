@@ -15,25 +15,16 @@ public class EnergieQuantique : GameSkill
 	
 	public override void resolve(List<int> targetsPCC)
 	{	
-		int success = 0 ;
+		List<int> targets = GameView.instance.getAllys();
 		
-		int index = Random.Range(0,GameController.instance.nbOtherPlayersAlive());
-		List<int> allys = new List<int>();
-//		for (int i = 0 ; i < GameController.instance.playingCards.Length ; i++){
-//			if (!GameController.instance.getPCC(i).isMine && !GameController.instance.getPCC(i).isDead){
-//				allys.Add(i);
-//			}
-//		}
-		
-		int target = allys[Random.Range(0, allys.Count)];
-		
-		if (Random.Range(1,101) > GameView.instance.getCard(target).GetMagicalEsquive())
-		{                             
-			GameController.instance.applyOn(target);
-			success = 1 ;
-		}
-		else{
-			GameController.instance.failedToCastOnSkill(target, 1);
+		for(int i = 0 ; i < targets.Count ; i++){
+			if (Random.Range(1,101) > GameView.instance.getCard(targets[i]).GetMagicalEsquive())
+			{
+				GameController.instance.applyOn(targets[i]);
+			}
+			else{
+				GameController.instance.failedToCastOnSkill(targets[i], 0);
+			}
 		}
 		
 		GameController.instance.play();

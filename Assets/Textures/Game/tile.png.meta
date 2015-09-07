@@ -11,6 +11,7 @@ TextureImporter:
     21300008: 05
     21300010: 06
     21300012: 07
+    21300014: 08
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -59,7 +60,7 @@ TextureImporter:
     - name: 01
       rect:
         serializedVersion: 2
-        x: 2
+        x: 436
         y: 808
         width: 370
         height: 370
@@ -69,8 +70,8 @@ TextureImporter:
     - name: 02
       rect:
         serializedVersion: 2
-        x: 374
-        y: 808
+        x: 436
+        y: 436
         width: 370
         height: 370
       alignment: 9
@@ -121,6 +122,16 @@ TextureImporter:
         serializedVersion: 2
         x: 436
         y: 1180
+        width: 432
+        height: 432
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: 08
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 746
         width: 432
         height: 432
       alignment: 0

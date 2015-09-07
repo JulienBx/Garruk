@@ -11,18 +11,21 @@ public class Renforcement : GameSkill
 	public override void launch()
 	{
 		GameController.instance.initPCCTargetHandler(numberOfExpectedTargets);
-		GameController.instance.displayAllysButMeTargets();
+		GameView.instance.displayOpponentsTargets();
 	}
 	
 	public override void resolve(List<int> targetsPCC)
 	{	
+		if (GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
+			GameView.instance.hideTargets();
+		}
+		
 		int target = targetsPCC[0];
-		int successType = 0 ;
 		
 		if (Random.Range(1,101) > GameView.instance.getCard(target).GetMagicalEsquive())
 		{                             
-			GameController.instance.applyOn(target);
-			successType = 1 ;
+			int arg = Random.Range(1,base.skill.ManaCost+1);
+			GameController.instance.applyOn(target,arg);
 		}
 		else{
 			GameController.instance.failedToCastOnSkill(target, 1);
@@ -30,52 +33,44 @@ public class Renforcement : GameSkill
 		GameController.instance.play();
 	}
 	
-	public override void applyOn(int target){
-//		int amount = GameController.instance.getCurrentSkill().ManaCost;
-//		GameController.instance.addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, 1, 9, "Renforcement", "+"+amount+"ATK", "Actif 1 tour");
-//		GameController.instance.displaySkillEffect(target, "+"+amount+" ATK", 5, 0);
+	public override void applyOn(int target, int arg){
+		GameController.instance.addCardModifier(target, arg, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, 1, 9, "Renforcement", "+"+arg+"ATK", "Actif 1 tour");
+		GameView.instance.displaySkillEffect(target, "+"+arg+" ATK", 5);
 	}
 	
 	public override void failedToCastOn(int target, int indexFailure){
-		//GameController.instance.displaySkillEffect(target, GameController.instance.castFailures.getFailure(indexFailure), 5, 1);
+		GameView.instance.displaySkillEffect(target, "ESQUIVE", 4);
 	}
 	
 	public override string isLaunchable(){
-		return "";
+		return GameView.instance.canLaunchOpponentsTargets();
 	}
 	
-	public override HaloTarget getTargetPCCText(Card c){
+	public override string getTargetText(Card targetCard){
 		
-		HaloTarget h  = new HaloTarget(0); 
-//		int i ;
-//		int probaEsquive = c.GetMagicalEsquive();
-//		int amount = GameController.instance.getCurrentSkill().ManaCost;
-//		int proba ;
-//		
-//		h.addInfo("+"+amount+"ATK",2);
-//		
-//		string s = "HIT : ";
-//		if (probaEsquive!=0){
-//			proba = 100-probaEsquive;
-//			s+=proba+"% : "+100+"%(SAP) - "+probaEsquive+"%(RES)";
-//		}
-//		else{
-//			proba = 100;
-//			s+=proba+"%";
-//		}
-//		
-//		if(proba==100){
-//			i=2;
-//		}
-//		else if(proba>=50){
-//			i=1;
-//		}
-//		else{
-//			i = 0;
-//		}
-//		
-//		h.addInfo(s,i);
+		int amount = base.skill.ManaCost;
+		int attack = base.card.GetAttack();
+		string text;
 		
-		return h ;
+		if(attack==1){
+			text = "ATK : "+attack+"->0";
+		}
+		else{
+			text = "ATK : "+attack+"->"+(attack+1)+"-"+Mathf.Max (0,attack+amount);
+		}
+		
+		int probaEsquive = targetCard.GetMagicalEsquive();
+		int proba ;
+		text += "HIT : ";
+		if (probaEsquive!=0){
+			proba = 100-probaEsquive;
+			text+=proba+"% : "+100+"%(ATT) - "+probaEsquive+"%(ESQ)";
+		}
+		else{
+			proba = 100;
+			text+=proba+"%";
+		}
+		
+		return text ;
 	}
 }

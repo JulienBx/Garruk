@@ -15,38 +15,33 @@ public class Rugissement : GameSkill
 	
 	public override void resolve(List<int> targetsPCC)
 	{	
-		int[] targets ;
-		int success = 0 ;
+		List<int> targets = GameView.instance.getAllys();
 		 
-//		for(int i = 0 ; i < GameController.instance.playingCards.Length;i++){
-//			if(i!=GameController.instance.currentPlayingCard && !GameController.instance.getPCC(i).isDead && GameController.instance.getPCC(i).isMine){
-//				if (Random.Range(1,101) > GameController.instance.getCard(i).GetMagicalEsquive())
-//				{
-//					GameController.instance.applyOn(i);
-//					success = 1 ; 
-//				}
-//				else{
-//					GameController.instance.failedToCastOnSkill(i, 1);
-//				}
-//			}
-//		}
+		for(int i = 0 ; i < targets.Count ; i++){
+			if (Random.Range(1,101) > GameView.instance.getCard(targets[i]).GetMagicalEsquive())
+			{
+				GameController.instance.applyOn(targets[i]);
+			}
+			else{
+				GameController.instance.failedToCastOnSkill(targets[i], 0);
+			}
+		}
 		
 		GameController.instance.play();
 	}
 	
 	public override void applyOn(int target){
-//		int amount = GameController.instance.getCurrentSkill().ManaCost;
-//		
-//		GameController.instance.addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, 1, 9, "Renforcement", "Attaque augmentée de "+amount, "Actif 1 tour");
-//		GameController.instance.displaySkillEffect(target, "+"+amount+" ATK", 3, 0);
+		int amount = base.skill.ManaCost;
 		
+		GameController.instance.addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, 1, 9, "Renforcement", "Attaque augmentée de "+amount, "Actif 1 tour");
+		GameView.instance.displaySkillEffect(target, "+"+amount+" ATK", 4);	
 	}
 	
 	public override void failedToCastOn(int target, int indexFailure){
-		//GameController.instance.displaySkillEffect(target, GameController.instance.castFailures.getFailure(indexFailure), 5, 1);
+		GameView.instance.displaySkillEffect(target, "ESQUIVE", 4);
 	}
 	
 	public override string isLaunchable(){
-		return "" ;
+		return GameView.instance.canLaunchAllysButMeTargets();
 	}
 }

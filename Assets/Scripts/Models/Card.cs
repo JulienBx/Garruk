@@ -59,11 +59,13 @@ public class Card
 	public int CaracteristicUpgraded;
 	public int CaracteristicIncrease;
 	public bool GetNewSkill;
+	public int nbTurnsToWait ;
 
 	public static bool xpDone = false;
 	
 	public Card()
 	{
+	
 	}
 	
 	public Card(string title)

@@ -12,6 +12,11 @@ TextureImporter:
     21300010: 22
     21300012: 23
     21300014: 24
+    21300016: 25
+    21300018: 26
+    21300020: 30
+    21300022: 31
+    21300024: 32
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -60,7 +65,7 @@ TextureImporter:
     - name: 19
       rect:
         serializedVersion: 2
-        x: 583
+        x: 1233
         y: 1614
         width: 432
         height: 432
@@ -81,13 +86,33 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 436
-        y: 1180
+        y: 1504
         width: 432
         height: 432
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: 22
+      rect:
+        serializedVersion: 2
+        x: 870
+        y: 1180
+        width: 432
+        height: 432
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: 23
+      rect:
+        serializedVersion: 2
+        x: 1304
+        y: 1180
+        width: 432
+        height: 432
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: 24
       rect:
         serializedVersion: 2
         x: 2
@@ -97,17 +122,17 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: 23
+    - name: 25
       rect:
         serializedVersion: 2
         x: 436
-        y: 746
+        y: 1070
         width: 432
         height: 432
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: 24
+    - name: 26
       rect:
         serializedVersion: 2
         x: 2
@@ -120,9 +145,39 @@ TextureImporter:
     - name: 29
       rect:
         serializedVersion: 2
-        x: 2
+        x: 652
         y: 1938
         width: 579
+        height: 108
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: 30
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 434
+        width: 400
+        height: 200
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: 31
+      rect:
+        serializedVersion: 2
+        x: 1667
+        y: 2024
+        width: 90
+        height: 22
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: 32
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 1938
+        width: 648
         height: 108
       alignment: 0
       pivot: {x: .5, y: .5}

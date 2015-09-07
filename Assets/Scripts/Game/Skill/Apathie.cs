@@ -67,16 +67,8 @@ public class Apathie : GameSkill
 		text = "Recule le tour du héros\n";
 		
 		int probaEsquive = targetCard.GetMagicalEsquive();
-		int proba ;
-		text += "HIT : ";
-		if (probaEsquive!=0){
-			proba = 100-probaEsquive;
-			text+=proba+"% : "+100+"%(ATT) - "+probaEsquive+"%(ESQ)";
-		}
-		else{
-			proba = 100;
-			text+=proba+"%";
-		}
+		int probaHit = Mathf.Max(0,amount-probaEsquive) ;
+		text += "HIT : "+probaHit;
 		
 		return text ;
 	}
