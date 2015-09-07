@@ -951,7 +951,7 @@ public class GameView : MonoBehaviour
 								this.nextDisplayedPCLeft = currentPlayingCard ;
 							}
 							else{
-								this.nextDisplayedPCRight = currentPlayingCard ;
+								this.nextDisplayedPCLeft = currentPlayingCard ;
 								this.launchNextMoveLeftSide();
 							}
 					 	}
