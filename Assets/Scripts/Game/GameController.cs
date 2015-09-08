@@ -1748,5 +1748,15 @@ public class GameController : Photon.MonoBehaviour
 	public int getClickedCard(){
 		return this.currentClickedCard ;
 	}
+
+	public string getMyPlayerName()
+	{
+		return this.myPlayerName;
+	}
+
+	public string getHisPlayerName()
+	{
+		return this.hisPlayerName;
+	}
 }
 
