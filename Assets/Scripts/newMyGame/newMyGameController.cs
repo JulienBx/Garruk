@@ -2000,11 +2000,11 @@ public class newMyGameController : MonoBehaviour
 		Cursor.SetCursor (this.cursorTextures[1], new Vector2(this.cursorTextures[1].width/2f,this.cursorTextures[1].width/2f), CursorMode.Auto);
 		if(!isDeckCardClicked)
 		{
-			this.cards[this.idCardClicked].GetComponent<NewCardController>().changeLayer(4);
+			this.cards[this.idCardClicked].GetComponent<NewCardController>().changeLayer(4,"Foreground");
 		}
 		else
 		{
-			this.deckCards[this.idCardClicked].GetComponent<NewCardController>().changeLayer(4);
+			this.deckCards[this.idCardClicked].GetComponent<NewCardController>().changeLayer(4,"Foreground");
 			//this.cardsBoard.GetComponent<BoardController> ().changeColor (new Color (155f / 255f, 220f / 255f, 1f));
 		}
 		this.deckBoard.GetComponent<DeckBoardController> ().changeCardsColor (new Color (155f / 255f, 220f / 255f, 1f));
@@ -2102,12 +2102,13 @@ public class newMyGameController : MonoBehaviour
 		}
 		if(!isDeckCardClicked)
 		{
+			//print (this.cards[0].transform.FindChild("Face").GetComponent<SpriteRenderer>().sortingLayerID);
 			this.cards[this.idCardClicked].transform.position=this.cardsPosition[this.idCardClicked];
-			this.cards[this.idCardClicked].GetComponent<NewCardController>().changeLayer(-4);
+			this.cards[this.idCardClicked].GetComponent<NewCardController>().changeLayer(-4,"Foreground");
 		}
 		else
 		{
-			this.deckCards[this.idCardClicked].GetComponent<NewCardController>().changeLayer(-4);
+			this.deckCards[this.idCardClicked].GetComponent<NewCardController>().changeLayer(-4,"Foreground");
 			this.deckCards[this.idCardClicked].transform.position=this.deckCardsPosition[this.idCardClicked];
 			//this.cardsBoard.GetComponent<BoardController> ().changeColor (new Color (1f,1f, 1f));
 		}

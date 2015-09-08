@@ -369,7 +369,7 @@ MonoBehaviour:
   m_window:
     m_Name: window
     m_Normal:
-      m_Background: {fileID: 2800000, guid: cca3cf2660deb41fdba8960d17a748cf, type: 3}
+      m_Background: {fileID: 2800000, guid: bfffcd960ab85408982c9c27e1ddfcaa, type: 3}
       m_TextColor: {r: 1, g: 1, b: 1, a: 1}
     m_Hover:
       m_Background: {fileID: 0}

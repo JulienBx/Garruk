@@ -14,9 +14,9 @@ public class DeckBoardController : MonoBehaviour
 		{
 			this.gameObject.transform.FindChild ("Card"+i).GetComponent<SpriteRenderer>().color=color;
 		}
-		this.gameObject.transform.FindChild("3stars").GetComponent<SpriteRenderer>().color=color;
-		this.gameObject.transform.FindChild("2stars").GetComponent<SpriteRenderer>().color=color;
-		this.gameObject.transform.FindChild("1star").GetComponent<SpriteRenderer>().color=color;
+		//this.gameObject.transform.FindChild("3stars").GetComponent<SpriteRenderer>().color=color;
+		//this.gameObject.transform.FindChild("2stars").GetComponent<SpriteRenderer>().color=color;
+		//this.gameObject.transform.FindChild("1star").GetComponent<SpriteRenderer>().color=color;
 	}
 }
 

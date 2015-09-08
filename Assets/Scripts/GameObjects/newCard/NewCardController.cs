@@ -64,25 +64,45 @@ public class NewCardController : NewFocusedCardController
 	{
 		this.panelSold.SetActive (false);
 	}
-	public void changeLayer(int layerVariation)
+	public void changeLayer(int layerVariation, string layerName)
 	{
+
 		this.gameObject.transform.FindChild ("Face").GetComponent<SpriteRenderer> ().sortingOrder += layerVariation;
+		this.gameObject.transform.FindChild ("Face").GetComponent<SpriteRenderer> ().sortingLayerName = layerName;
+
+		int sortingLayerID = this.gameObject.transform.FindChild ("Face").GetComponent<SpriteRenderer> ().sortingLayerID;
+
 		this.gameObject.transform.FindChild ("Name").GetComponent<TextMeshPro> ().sortingOrder += layerVariation;
+		this.gameObject.transform.FindChild ("Name").GetComponent<TextMeshPro> ().sortingLayerID = sortingLayerID;
 		this.gameObject.transform.FindChild("Power").FindChild("Text").GetComponent<TextMeshPro>().sortingOrder += layerVariation;
+		this.gameObject.transform.FindChild("Power").FindChild("Text").GetComponent<TextMeshPro>().sortingLayerID = sortingLayerID;
 		this.gameObject.transform.FindChild("Power").FindChild("Picto").GetComponent<SpriteRenderer> ().sortingOrder += layerVariation;
+		this.gameObject.transform.FindChild("Power").FindChild("Picto").GetComponent<SpriteRenderer> ().sortingLayerID = sortingLayerID;
 		this.gameObject.transform.FindChild("Life").FindChild("Text").GetComponent<TextMeshPro>().sortingOrder += layerVariation;
+		this.gameObject.transform.FindChild("Life").FindChild("Text").GetComponent<TextMeshPro>().sortingLayerID = sortingLayerID;
 		this.gameObject.transform.FindChild("Life").FindChild("Picto").GetComponent<SpriteRenderer> ().sortingOrder += layerVariation;
+		this.gameObject.transform.FindChild("Life").FindChild("Picto").GetComponent<SpriteRenderer> ().sortingLayerID = sortingLayerID;
 		this.gameObject.transform.FindChild("Move").FindChild("Text").GetComponent<TextMeshPro>().sortingOrder += layerVariation;
+		this.gameObject.transform.FindChild("Move").FindChild("Text").GetComponent<TextMeshPro>().sortingLayerID = sortingLayerID;
 		this.gameObject.transform.FindChild("Move").FindChild("Picto").GetComponent<SpriteRenderer> ().sortingOrder += layerVariation;
+		this.gameObject.transform.FindChild("Move").FindChild("Picto").GetComponent<SpriteRenderer> ().sortingLayerID = sortingLayerID;
 		this.gameObject.transform.FindChild("Attack").FindChild("Text").GetComponent<TextMeshPro>().sortingOrder += layerVariation;
+		this.gameObject.transform.FindChild("Attack").FindChild("Text").GetComponent<TextMeshPro>().sortingLayerID = sortingLayerID;
 		this.gameObject.transform.FindChild("Attack").FindChild("Picto").GetComponent<SpriteRenderer> ().sortingOrder += layerVariation;
+		this.gameObject.transform.FindChild("Attack").FindChild("Picto").GetComponent<SpriteRenderer> ().sortingLayerID = sortingLayerID;
 		this.gameObject.transform.FindChild("Quickness").FindChild("Text").GetComponent<TextMeshPro>().sortingOrder += layerVariation;
+		this.gameObject.transform.FindChild("Quickness").FindChild("Text").GetComponent<TextMeshPro>().sortingLayerID = sortingLayerID;
 		this.gameObject.transform.FindChild("Quickness").FindChild("Picto").GetComponent<SpriteRenderer> ().sortingOrder += layerVariation;
+		this.gameObject.transform.FindChild("Quickness").FindChild("Picto").GetComponent<SpriteRenderer> ().sortingLayerID = sortingLayerID;
 		this.gameObject.transform.FindChild ("ExperienceGauge").GetComponent<SpriteRenderer>().sortingOrder += layerVariation;
+		this.gameObject.transform.FindChild ("ExperienceGauge").GetComponent<SpriteRenderer>().sortingLayerID = sortingLayerID;
+		this.gameObject.transform.FindChild ("ExperienceBar").GetComponent<SpriteRenderer>().sortingOrder += layerVariation;
+		this.gameObject.transform.FindChild ("ExperienceBar").GetComponent<SpriteRenderer>().sortingLayerID = sortingLayerID;
 		this.gameObject.transform.FindChild("ExperienceLevel").GetComponent<TextMeshPro>().sortingOrder += layerVariation;
+		this.gameObject.transform.FindChild("ExperienceLevel").GetComponent<TextMeshPro>().sortingLayerID = sortingLayerID;
 		for(int i=0;i<this.skills.Length;i++)
 		{
-			this.skills[i].transform.GetComponent<NewCardSkillController>().changeLayer(layerVariation);
+			this.skills[i].transform.GetComponent<NewCardSkillController>().changeLayer(layerVariation,sortingLayerID);
 		}
 	} 
 	public override void applyBackTexture()

@@ -21,7 +21,7 @@ public class ForfeitController : GameObjectController
 	}
 	
 	public void OnMouseDown(){
-		GameController.instance.quitGame();
+		GameController.instance.quitGameHandler();
 	}
 }
 

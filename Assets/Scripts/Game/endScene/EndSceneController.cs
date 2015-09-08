@@ -4,14 +4,19 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using TMPro;
 
 public class EndSceneController : MonoBehaviour 
 {
 
 	public static EndSceneController instance;
+
+	public GameObject endGamePanelObject;
 	public GameObject cardObject;
-	public GameObject darkBackgroundObject;
+	//public GameObject darkBackgroundObject;
 	public GUIStyle[] endSceneVMStyles;
+
+	private GameObject endGamePanel;
 	private GameObject[] cards;
 	private EndSceneView view;
 
@@ -21,9 +26,13 @@ public class EndSceneController : MonoBehaviour
 
 	private int earnXp;
 	private int earnCredits;
+	private int credits;
+
 	private int xpDrawn;
+
+	private bool hasWon;
 	
-	private GameObject darkBackground;
+	//private GameObject darkBackground;
 	
 	void Awake()
 	{
@@ -31,6 +40,7 @@ public class EndSceneController : MonoBehaviour
 		this.updateSpeed = 0.7f;
 		this.updateRatio = 0;
 		this.toUpdateCredits = false;
+		this.credits = 0;
 	}
 	void Update () 
 	{
@@ -55,47 +65,41 @@ public class EndSceneController : MonoBehaviour
 	}
 	public void displayEndScene(bool hasWon)
 	{
-		this.view = Camera.main.gameObject.AddComponent <EndSceneView>();
-		this.darkBackground = Instantiate(darkBackgroundObject) as GameObject;
-		this.darkBackground.name = "darkBackground";
-		this.initStyles ();
-		this.resize ();
-		this.initLabels (hasWon);
-		this.createCards ();
 		this.retrieveBonus (hasWon);
-		//StartCoroutine (drawCredits ());
-	}
-	public void initLabels(bool hasWon)
-	{
+		this.endGamePanel = Instantiate(endGamePanelObject) as GameObject;
+		this.endGamePanel.transform.position = new Vector3 (0f, 0f, -8f);
+		this.cards=new GameObject[ApplicationModel.nbCardsByDeck];
+		for(int i=0;i<ApplicationModel.nbCardsByDeck;i++)
+		{
+			cards[i]=Instantiate(cardObject) as GameObject;
+			cards[i].transform.localScale=new Vector3(1.4f,1.4f,1.4f);
+			cards[i].transform.position=new Vector3(-4.5f+i*3f,0f,-9f);
+			cards[i].AddComponent<NewCardEndSceneController>();
+			cards[i].GetComponent<NewCardController>().c=GameController.instance.myDeck.Cards[i];
+			cards[i].GetComponent<NewCardEndSceneController>().show();
+			cards[i].GetComponent<NewCardController>().changeLayer(11,"UIA");
+		}
+
 		if(hasWon)
 		{
-			view.endSceneVM.title="BRAVO !";
+			this.endGamePanel.transform.FindChild("Title").GetComponent<TextMeshPro>().text="BRAVO !";
 		}
 		else
 		{
-			view.endSceneVM.title="DOMMAGE !";
+			this.endGamePanel.transform.FindChild("Title").GetComponent<TextMeshPro>().text="DOMMAGE !";
 		}
+
+		//this.endGamePanel.transform.FindChild("Credits").GetComponent<TextMeshPro>().text="Vous gagnez "+this.credits 
+
+		//this.darkBackground.name = "darkBackground";
+		//this.initStyles ();
+		//this.resize ();
+		//this.initLabels (hasWon);
+		//this.createCards ();
+
+		//StartCoroutine (drawCredits ());
 	}
-	public void createCards()
-	{
-		string name;
-		Vector3 scale;
-		Vector3 position;
-		float tempF = 2*Camera.main.GetComponent<Camera>().orthographicSize*view.screenVM.widthScreen/view.screenVM.heightScreen;
-		float width = 0.5f * tempF;
-		float scaleCard = width/(ApplicationModel.nbCardsByDeck+1f);
-		this.cards=new GameObject[ApplicationModel.nbCardsByDeck];
-		for (int i = 0; i < ApplicationModel.nbCardsByDeck; i++)
-		{
-			name="Card" + i;
-			scale = new Vector3(scaleCard,scaleCard,scaleCard);
-			position = new Vector3(-width/2+(scaleCard/2)+i*(scaleCard+1f/(ApplicationModel.nbCardsByDeck-1)*scaleCard), 0f, -9f); 
-			this.cards [i] = Instantiate(this.cardObject) as GameObject;
-			this.cards [i].AddComponent<CardGameController>();
-			this.cards [i].GetComponent<CardController>().setGameObject(name,scale,position);
-			//this.cards [i].GetComponent<CardGameController>().setGameCard(GameController.instance.myDeck.Cards[i]);
-		} 
-	}
+	
 	private void retrieveBonus(bool hasWon)
 	{
 		switch(ApplicationModel.gameType)
@@ -209,26 +213,7 @@ public class EndSceneController : MonoBehaviour
 			Destroy(this.cards[i]);
 		}
 	}
-	public void resize()
-	{
-		if(this.view!=null)
-		{
-			view.screenVM.resize ();
-			view.endSceneVM.resize (view.screenVM.heightScreen);
-		}
-		if(this.darkBackground!=null)
-		{
-			this.darkBackground.GetComponent<DarkBackgroundController> ().resize();
-		}
-		if(this.cards!=null)
-		{
-			for (int i=0;i<this.cards.Length;i++)
-			{
-				this.cards[i].GetComponent<CardController>().resize();
-			}
-		}
-	}
-	public void quitEndScene()
+	public void quitEndSceneHandler()
 	{
 		GameController.instance.disconnect ();
 		if(GameController.instance.getIsTutorialLaunched())
@@ -237,7 +222,19 @@ public class EndSceneController : MonoBehaviour
 		}
 		else
 		{
-			Application.LoadLevel("EndGame");
+			if(hasWon)
+			{
+				ApplicationModel.hasWonLastGame=true;
+			}
+			if(ApplicationModel.gameType==3) // A MODIFIER APRES
+			{
+				ApplicationModel.launchEndGameSequence=true;
+				Application.LoadLevel("NewHomePage");
+			}
+			else
+			{
+				Application.LoadLevel("EndGame");
+			}
 		}
 	}
 }

@@ -1,0 +1,12 @@
+#
+# Sprite sheet data for Unity.
+#
+# To import these sprites into your Unity project, download "TexturePackerImporter":
+# http://www.codeandweb.com/texturepacker/unity
+#
+# Sprite sheet: endGamePanelTextures.png (2048 x 2048)
+# $TexturePacker:SmartUpdate:3ad7a6990a0fc4120b87b4caa63f0200:63811ff69e345440f2a5aff79e3b9e8b:823b0e98d5f42d8778b35be7ac6c3ab0$
+#
+
+buttonBorder;2;859;425;105;0.5;0.5
+transparentBackground;2;966;1920;1080;0.5;0.5

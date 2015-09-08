@@ -226,6 +226,7 @@ public class PlayPopUpController : Photon.MonoBehaviour
 		}
 		else
 		{
+			ApplicationModel.gameType=3; // A SUPPRIMER !! NECESSAIRE POUR DES TESTS
 			Application.LoadLevel("Game");
 		}
 	}

@@ -945,7 +945,7 @@ public class NewHomePageController : Photon.MonoBehaviour
 		{
 			this.isDragging=true;
 			Cursor.SetCursor (this.cursorTextures[1], new Vector2(this.cursorTextures[1].width/2f,this.cursorTextures[1].width/2f), CursorMode.Auto);
-			this.deckCards[this.idCardClicked].GetComponent<NewCardController>().changeLayer(4);
+			this.deckCards[this.idCardClicked].GetComponent<NewCardController>().changeLayer(4,"Foreground");
 			this.deckBoard.GetComponent<DeckBoardController> ().changeCardsColor (new Color (155f / 255f, 220f / 255f, 1f));
 		}
 	}
@@ -960,7 +960,7 @@ public class NewHomePageController : Photon.MonoBehaviour
 		{
 			Cursor.SetCursor (null, Vector2.zero, CursorMode.Auto);
 		}
-		this.deckCards[this.idCardClicked].GetComponent<NewCardController>().changeLayer(-4);
+		this.deckCards[this.idCardClicked].GetComponent<NewCardController>().changeLayer(-4,"Foreground");
 		this.deckCards[this.idCardClicked].transform.position=this.deckCardsPosition[this.idCardClicked];
 		this.deckBoard.GetComponent<DeckBoardController> ().changeCardsColor (new Color (1f,1f, 1f));bool toCards=false;
 		

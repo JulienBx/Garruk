@@ -18,10 +18,12 @@ public class NewCardSkillController : MonoBehaviour
 		this.s = s;
 		this.show ();
 	}
-	public void changeLayer(int layerVariation)
+	public void changeLayer(int layerVariation, int sortingLayerId)
 	{
 		this.gameObject.transform.FindChild ("Name").GetComponent<TextMeshPro> ().sortingOrder += layerVariation;
+		this.gameObject.transform.FindChild ("Name").GetComponent<TextMeshPro> ().sortingLayerID =sortingLayerId;
 		this.gameObject.transform.FindChild ("Power").GetComponent<TextMeshPro> ().sortingOrder += layerVariation;
+		this.gameObject.transform.FindChild ("Power").GetComponent<TextMeshPro> ().sortingLayerID = sortingLayerId;
 	}
 }
 
