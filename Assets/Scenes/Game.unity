@@ -1610,8 +1610,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c5cfae414cb94136a619d02136e8f69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cardObject: {fileID: 157076, guid: 5aec1731b1da74118aaca3ee17b3c4e1, type: 2}
-  darkBackgroundObject: {fileID: 105148, guid: ee41bfdffa67548d097fa36d56d5439b, type: 2}
+  endGamePanelObject: {fileID: 142334, guid: 14b3635fa03fc410a8aaf7397d62a4ef, type: 2}
+  cardObject: {fileID: 140198, guid: c25993382841f4e39b1732ebd3c4dabc, type: 2}
   endSceneVMStyles:
   - m_Name: Title Style
     m_Normal:
@@ -2186,7 +2186,7 @@ GameObject:
   - 4: {fileID: 519768212}
   - 212: {fileID: 519768213}
   - 114: {fileID: 519768214}
-  - 61: {fileID: 519768215}
+  - 65: {fileID: 519768215}
   m_Layer: 0
   m_Name: Forfeit
   m_TagString: Untagged
@@ -2245,19 +2245,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GOPosition: {x: 0, y: 0}
   GOSize: {x: 0, y: 0}
---- !u!61 &519768215
-BoxCollider2D:
+--- !u!65 &519768215
+BoxCollider:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 519768211}
-  m_Enabled: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_Offset: {x: .00925928354, y: .00462961197}
+  m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.96296299, y: 1.8425926}
+  m_Size: {x: 1.96296299, y: 1.8425926, z: .200000003}
+  m_Center: {x: .00925928354, y: .00462961197, z: 0}
 --- !u!1 &585525440
 GameObject:
   m_ObjectHideFlags: 0
@@ -7484,8 +7483,8 @@ GameObject:
   - 23: {fileID: 1736148097}
   - 33: {fileID: 1736148096}
   - 114: {fileID: 1736148095}
-  - 61: {fileID: 1736148100}
   - 114: {fileID: 1736148101}
+  - 65: {fileID: 1736148100}
   m_Layer: 0
   m_Name: StartButton
   m_TagString: Untagged
@@ -7640,19 +7639,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1898404462}
   m_RootOrder: 0
---- !u!61 &1736148100
-BoxCollider2D:
+--- !u!65 &1736148100
+BoxCollider:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1736148094}
-  m_Enabled: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_Offset: {x: .00101834536, y: -.00316904485}
+  m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2.07579565, y: .584507108}
+  m_Size: {x: 2.07500005, y: .583999991, z: .200000003}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1736148101
 MonoBehaviour:
   m_ObjectHideFlags: 0

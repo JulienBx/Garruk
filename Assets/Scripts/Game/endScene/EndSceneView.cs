@@ -44,7 +44,7 @@ public class EndSceneView : MonoBehaviour
 				GUILayout.Space(screenVM.mainBlock.width*3/10);
 				if(GUILayout.Button("Quitter",endSceneVM.buttonStyle,GUILayout.Height(screenVM.mainBlock.height*10/100)))
 				{
-					EndSceneController.instance.quitEndScene();
+					//EndSceneController.instance.quitEndScene();
 				}
 				GUILayout.Space(screenVM.mainBlock.width*3/10);
 			}

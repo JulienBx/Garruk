@@ -31,6 +31,8 @@ public class GameController : Photon.MonoBehaviour
 	bool isTutorialLaunched;
 	public Deck myDeck ;
 	int turnsToWait ; 
+	string myPlayerName;
+	string hisPlayerName;
 	
 	void Awake()
 	{
@@ -571,9 +573,13 @@ public class GameController : Photon.MonoBehaviour
 		if (ApplicationModel.username == loginName)
 		{
 			GameView.instance.setMyPlayerName(loginName);
+			this.myPlayerName=loginName;
+			print (myPlayerName);
 		} else
 		{
 			GameView.instance.setHisPlayerName(loginName);
+			this.hisPlayerName=loginName;
+			print (hisPlayerName);
 		}
 		
 		this.nbPlayers++;
@@ -854,56 +860,44 @@ public class GameController : Photon.MonoBehaviour
 
 	public void quitGameHandler()
 	{
-		//StartCoroutine(this.quitGame());
+		StartCoroutine(this.quitGame());
 	}
 	
-	public IEnumerator quitGame2()
+	public IEnumerator quitGame()
 	{
-//		if(isTutorialLaunched)
-//		{
-//			yield return (StartCoroutine(this.sendStat(this.users [0].Username, this.users [1].Username)));
-//			photonView.RPC("quitGameRPC", PhotonTargets.AllBuffered, false);
-//		}
-//		else
-//		{
-//			if(isFirstPlayer)
-//			{
-//				yield return (StartCoroutine(this.sendStat(this.users [1].Username, this.users [0].Username)));
-//			} 
-//			else
-//			{
-//				yield return (StartCoroutine(this.sendStat(this.users [0].Username, this.users [1].Username)));
-//			}
-//			photonView.RPC("quitGameRPC", PhotonTargets.AllBuffered, this.isFirstPlayer);
-//		}
-	yield return 0;
+		if(isTutorialLaunched)
+		{
+			yield return (StartCoroutine(this.sendStat(myPlayerName, hisPlayerName)));
+			photonView.RPC("quitGameRPC", PhotonTargets.AllBuffered, false);
+		}
+		else
+		{
+			if(isFirstPlayer)
+			{
+				yield return (StartCoroutine(this.sendStat(hisPlayerName, myPlayerName)));
+			} 
+			else
+			{
+				yield return (StartCoroutine(this.sendStat(hisPlayerName, myPlayerName)));
+			}
+			photonView.RPC("quitGameRPC", PhotonTargets.AllBuffered, this.isFirstPlayer);
+		}
+	yield break;
 	}
 	
 	[RPC]
 	public void quitGameRPC(bool isFirstP)
 	{
-//		//gameView.gameScreenVM.toDisplayGameScreen = false;
-//		for (int i = 0; i < this.playingCards.Length; i++)
-//		{
-//			this.playingCards [i].SetActive(false);	
-//		}
-//		for (int i = 0; i < 6; i++)
-//		{
-////			this.skillsObjects [i].SetActive(false);
-////			this.opponentSkillsObjects [i].SetActive(false);
-//		}
-//		
-//		if (isFirstP == this.isFirstPlayer)
-//		{
-//			//print("J'ai perdu comme un gros con");
-//			EndSceneController.instance.displayEndScene(false);
-//		} else
-//		{
-//			//print("Mon adversaire a lachement abandonné comme une merde");
-//			EndSceneController.instance.displayEndScene(true);
-//		}
+		if (isFirstP == this.isFirstPlayer)
+		{
+			//Le joueur actif a perdu
+			EndSceneController.instance.displayEndScene(false);
+		} else
+		{
+			//Le deuxième joueur a perdu
+			EndSceneController.instance.displayEndScene(true);
+		}
 	}
-
 	public void addGameEvent(GameEventType type, string targetName)
 	{
 		setGameEvent(type);
@@ -1694,7 +1688,7 @@ public class GameController : Photon.MonoBehaviour
 	}
 	public void setEndSceneControllerGUI(bool value)
 	{
-		EndSceneController.instance.setGUI (value);
+		//EndSceneController.instance.setGUI (value);
 	}
 	public IEnumerator endTutorial()
 	{
@@ -1757,12 +1751,22 @@ public class GameController : Photon.MonoBehaviour
 		return (this.haveIStarted);
 	}
 	
-	public void quitGame(){
-		PhotonNetwork.Disconnect();
-	}
-	
+//	public void quitGame(){
+//		PhotonNetwork.Disconnect();
+//	}
+//	
 	public int getClickedCard(){
 		return this.currentClickedCard ;
+	}
+
+	public string getMyPlayerName()
+	{
+		return this.myPlayerName;
+	}
+
+	public string getHisPlayerName()
+	{
+		return this.hisPlayerName;
 	}
 }
 
