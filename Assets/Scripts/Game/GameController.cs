@@ -1678,7 +1678,7 @@ public class GameController : Photon.MonoBehaviour
 	}
 	public void setEndSceneControllerGUI(bool value)
 	{
-		EndSceneController.instance.setGUI (value);
+		//EndSceneController.instance.setGUI (value);
 	}
 	public IEnumerator endTutorial()
 	{
