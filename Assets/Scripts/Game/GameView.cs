@@ -440,19 +440,19 @@ public class GameView : MonoBehaviour
 		
 		int count = c.Skills.Count ;
 		
-		for (int i = 0 ; i < 3 ; i++){
-			this.skillButtons[1+i].SetActive(true);
+		for (int i = 1 ; i < 4 ; i++){
+			this.skillButtons[i].SetActive(true);
 			if (i<count){
-				this.skillButtons[1+i].GetComponent<SkillButtonController>().setSkill(c.Skills[i], this.skillSprites[c.Skills[i].Id]);
+				this.skillButtons[i].GetComponent<SkillButtonController>().setSkill(c.Skills[i], this.skillSprites[c.Skills[i].Id]);
 				GameObject.Find ("Description"+i).GetComponent<TextMeshPro>().text = c.Skills[i].Name;
 			}
 			else{
 				if(i==1){
-					this.skillButtons[1+i].GetComponent<SkillButtonController>().setSkill(new Skill("Non disponible","Niveau 4 requis pour débloquer cette compétence",-99), this.skillSprites[this.skillSprites.Length-2]);
+					this.skillButtons[i].GetComponent<SkillButtonController>().setSkill(new Skill("Non disponible","Niveau 4 requis pour débloquer cette compétence",-99), this.skillSprites[this.skillSprites.Length-2]);
 					GameObject.Find ("Description"+i).GetComponent<TextMeshPro>().text = "?";
 				}
 				else{
-					this.skillButtons[1+i].GetComponent<SkillButtonController>().setSkill(new Skill("Non disponible","Niveau 8 requis pour débloquer cette compétence",-99), this.skillSprites[this.skillSprites.Length-1]);
+					this.skillButtons[i].GetComponent<SkillButtonController>().setSkill(new Skill("Non disponible","Niveau 8 requis pour débloquer cette compétence",-99), this.skillSprites[this.skillSprites.Length-1]);
 					GameObject.Find ("Description"+i).GetComponent<TextMeshPro>().text = "?";
 				}
 			}

@@ -39,7 +39,7 @@ public class Adrenaline : GameSkill
 		int deplacement = Mathf.FloorToInt((amount)*baseD/100)+1;
 		
 		GameController.instance.addCardModifier(target, deplacement, ModifierType.Type_BonusMalus, ModifierStat.Stat_Move, 1, 9, "Accéléré", "+"+deplacement+" MOV", "Actif 1 tour");
-		GameView.instance.displaySkillEffect(target, "+"+deplacement+" MOV", 4);
+		GameView.instance.displaySkillEffect(target, "+"+deplacement+" MOV", 5);
 	}
 	
 	public override void failedToCastOn(int target, int indexFailure){

@@ -52,7 +52,7 @@ public class GameSkills : MonoBehaviour
 		this.skills [38] = new GameSkill();
 		this.skills [39] = new GameSkill();
 		this.skills [40] = new GameSkill();
-		this.skills [41] = new Bouclier();
+		this.skills [41] = new Renfoderme();
 		this.skills [42] = new TempleSacre();
 		this.skills [43] = new ForetDeLianes();
 		this.skills [44] = new SablesMouvants();
@@ -69,8 +69,8 @@ public class GameSkills : MonoBehaviour
 		this.skills [55] = new GameSkill();
 		this.skills [56] = new GameSkill();
 		this.skills [57] = new GameSkill();
-		this.skills [58] = new ArmeEnchantee();
-		this.skills [59] = new ArmeMaudite();
+		this.skills [58] = new Steroide();
+		this.skills [59] = new Senilite();
 		this.skills [60] = new PiegeAffaiblissant();
 		this.skills [61] = new PiegeDormeur();
 		this.skills [62] = new GameSkill();

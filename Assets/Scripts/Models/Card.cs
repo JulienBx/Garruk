@@ -571,6 +571,16 @@ public class Card
 		}
 		modifiers = temp;
 	}
+	
+	public bool isGenerous()
+	{
+		return (this.Skills[0].Id == 74);
+	}
+	
+	public int getPassiveManacost()
+	{
+		return (this.Skills[0].ManaCost);
+	}
 
 //	public void changeModifiers()
 //	{

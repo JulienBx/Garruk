@@ -1,9 +1,9 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 
-public class Excitant : GameSkill
+public class Renfoderme : GameSkill
 {
-	public Excitant()
+	public Renfoderme()
 	{
 		this.numberOfExpectedTargets = 1 ; 
 	}
@@ -24,46 +24,33 @@ public class Excitant : GameSkill
 		
 		if (Random.Range(1,101) > GameView.instance.getCard(target).GetMagicalEsquive())
 		{                             
-			GameController.instance.applyOn(target, 0);
+			GameController.instance.applyOn(target);
 		}
 		else{
 			GameController.instance.failedToCastOnSkill(target, 1);
 		}
 		
-		if (base.card.isGenerous()){
-			if (Random.Range(1,101) > base.card.getPassiveManacost()){
-				List<int> allys = GameView.instance.getAllys();
-				allys.Remove(target);
-				Random.Range(0,allys.Count+1);
-				
-				GameController.instance.applyOn(target,1);
-			}
-		}
-		
 		GameController.instance.play();
 	}
 	
-	public override void applyOn(int target, int arg){
-		GameController.instance.advanceTurns(target, base.skill.ManaCost);
-		GameView.instance.displaySkillEffect(target, "Temps d'attente : -"+base.skill.ManaCost, 5);
+	public override void applyOn(int target){
+		int amount = base.skill.ManaCost;
+		
+		GameController.instance.addCardModifier(target, amount, ModifierType.Type_Bouclier, ModifierStat.Stat_No, -1, 10, "Bouclier", "Dommages subis : -"+amount+"%", "Permanent");
+		GameView.instance.displaySkillEffect(target, "Bouclier ajouté", 5);
 	}
 	
 	public override void failedToCastOn(int target, int indexFailure){
-		if (indexFailure==1){
-			GameView.instance.displaySkillEffect(target, "Esquive", 4);
-		}
+		GameView.instance.displaySkillEffect(target, "Esquive", 4);
 	}
 	
 	public override string isLaunchable(){
-		return GameView.instance.canLaunchOpponentsTargets();
+		return GameView.instance.canLaunchAllysButMeTargets();
 	}
 	
 	public override string getTargetText(Card targetCard){
 		
-		int amount = base.skill.ManaCost;
-		string text;
-		
-		text = "Temps d'attente : -"+amount+" tours\n";
+		string text = "Ajoute un bouclier\n";
 		
 		int probaEsquive = targetCard.GetMagicalEsquive();
 		int probaHit = Mathf.Max(0,100-probaEsquive) ;

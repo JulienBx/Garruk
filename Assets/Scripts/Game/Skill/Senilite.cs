@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class Excitant : GameSkill
+public class Senilite : GameSkill
 {
-	public Excitant()
+	public Senilite()
 	{
 		this.numberOfExpectedTargets = 1 ; 
 	}
@@ -11,7 +11,7 @@ public class Excitant : GameSkill
 	public override void launch()
 	{
 		GameController.instance.initPCCTargetHandler(numberOfExpectedTargets);
-		GameView.instance.displayAllysButMeTargets();
+		GameController.instance.displayAllysButMeTargets();
 	}
 	
 	public override void resolve(List<int> targetsPCC)
@@ -24,46 +24,35 @@ public class Excitant : GameSkill
 		
 		if (Random.Range(1,101) > GameView.instance.getCard(target).GetMagicalEsquive())
 		{                             
-			GameController.instance.applyOn(target, 0);
+			int arg = Random.Range(1,base.skill.ManaCost+1);
+			GameController.instance.applyOn(target,arg);
 		}
 		else{
 			GameController.instance.failedToCastOnSkill(target, 1);
 		}
-		
-		if (base.card.isGenerous()){
-			if (Random.Range(1,101) > base.card.getPassiveManacost()){
-				List<int> allys = GameView.instance.getAllys();
-				allys.Remove(target);
-				Random.Range(0,allys.Count+1);
-				
-				GameController.instance.applyOn(target,1);
-			}
-		}
-		
 		GameController.instance.play();
 	}
 	
 	public override void applyOn(int target, int arg){
-		GameController.instance.advanceTurns(target, base.skill.ManaCost);
-		GameView.instance.displaySkillEffect(target, "Temps d'attente : -"+base.skill.ManaCost, 5);
+		GameController.instance.addCardModifier(target, arg, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, -1, 5, "Affaibli", "-"+arg+" ATK", "Permanent");
+		GameView.instance.displaySkillEffect(target, "-"+arg+" ATK", 5);
 	}
 	
 	public override void failedToCastOn(int target, int indexFailure){
-		if (indexFailure==1){
-			GameView.instance.displaySkillEffect(target, "Esquive", 4);
-		}
+		GameView.instance.displaySkillEffect(target, "Esquive", 4);
 	}
 	
 	public override string isLaunchable(){
-		return GameView.instance.canLaunchOpponentsTargets();
+		return GameView.instance.canLaunchAllysButMeTargets();
 	}
 	
 	public override string getTargetText(Card targetCard){
 		
 		int amount = base.skill.ManaCost;
+		int attack = base.card.GetAttack();
 		string text;
 		
-		text = "Temps d'attente : -"+amount+" tours\n";
+		text = "ATK : "+attack+"->"+Mathf.Max(1,(attack-1))+"-"+Mathf.Max(1,(attack-amount));
 		
 		int probaEsquive = targetCard.GetMagicalEsquive();
 		int probaHit = Mathf.Max(0,100-probaEsquive) ;
