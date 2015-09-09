@@ -3,10 +3,8 @@ using TMPro;
 
 public class NewCardController : NewFocusedCardController 
 {
-	private NewCardRessources ressources;
-	private GameObject[] skills;
-	private GameObject panelSold;
 	private GameObject skillPopUp;
+	private NewCardRessources ressources;
 	private bool isSkillPopUpDisplayed;
 	private int skillDisplayed;
 
@@ -16,12 +14,13 @@ public class NewCardController : NewFocusedCardController
 	}
 	public override void Awake()
 	{
+		base.Awake ();
 		this.skillDisplayed = -1;
-		this.skills=new GameObject[0];
-		this.ressources = this.gameObject.GetComponent<NewCardRessources> ();
-		base.setPopUpRessources ();
-		this.panelSold = this.gameObject.transform.FindChild ("PanelSold").gameObject;
 		this.skillPopUp = this.gameObject.transform.FindChild ("SkillPopUp").gameObject;
+	}
+	public override void getRessources()
+	{
+		this.ressources = this.gameObject.GetComponent<NewCardRessources> ();
 	}
 	public override void show()
 	{
@@ -36,9 +35,7 @@ public class NewCardController : NewFocusedCardController
 		this.gameObject.transform.FindChild ("Attack").FindChild ("Text").GetComponent<TextMeshPro> ().color = ressources.colors [this.c.AttackLevel - 1];
 		this.gameObject.transform.FindChild("Quickness").FindChild("Text").GetComponent<TextMeshPro>().text = this.c.Speed.ToString();
 		this.gameObject.transform.FindChild ("Quickness").FindChild ("Text").GetComponent<TextMeshPro> ().color = ressources.colors [this.c.SpeedLevel - 1];
-		this.gameObject.transform.FindChild ("ExperienceGauge").localPosition = new Vector3 (-0.43f+0.43f*this.c.PercentageToNextLevel*0.01f, 0.711f, 0f);
-		this.gameObject.transform.FindChild ("ExperienceGauge").localScale = new Vector3 (this.c.PercentageToNextLevel *0.01f* (0.97f), 0.78f, 0f);
-		this.gameObject.transform.FindChild("ExperienceLevel").GetComponent<TextMeshPro>().text = this.c.ExperienceLevel.ToString();
+		this.experience.GetComponent<NewCardExperienceController> ().setExperience (this.c.ExperienceLevel, this.c.PercentageToNextLevel);
 		for(int i=0;i<this.skills.Length;i++)
 		{
 			Destroy (this.skills[i]);
@@ -49,6 +46,8 @@ public class NewCardController : NewFocusedCardController
 			this.skills[i]= Instantiate(ressources.skillObject) as GameObject;
 			this.skills[i].transform.parent=this.gameObject.transform;
 			this.skills[i].transform.localPosition=new Vector3(-0.4f,-0.3f-i*0.2f,0);
+			this.skills[i].AddComponent<NewCardSkillController>();
+			this.skills[i].transform.GetComponent<NewCardSkillController>().initialize();
 			this.skills[i].transform.GetComponent<NewCardSkillController>().setSkill(c.Skills[i]);
 		}
 	}
@@ -94,12 +93,17 @@ public class NewCardController : NewFocusedCardController
 		this.gameObject.transform.FindChild("Quickness").FindChild("Text").GetComponent<TextMeshPro>().sortingLayerID = sortingLayerID;
 		this.gameObject.transform.FindChild("Quickness").FindChild("Picto").GetComponent<SpriteRenderer> ().sortingOrder += layerVariation;
 		this.gameObject.transform.FindChild("Quickness").FindChild("Picto").GetComponent<SpriteRenderer> ().sortingLayerID = sortingLayerID;
-		this.gameObject.transform.FindChild ("ExperienceGauge").GetComponent<SpriteRenderer>().sortingOrder += layerVariation;
-		this.gameObject.transform.FindChild ("ExperienceGauge").GetComponent<SpriteRenderer>().sortingLayerID = sortingLayerID;
-		this.gameObject.transform.FindChild ("ExperienceBar").GetComponent<SpriteRenderer>().sortingOrder += layerVariation;
-		this.gameObject.transform.FindChild ("ExperienceBar").GetComponent<SpriteRenderer>().sortingLayerID = sortingLayerID;
-		this.gameObject.transform.FindChild("ExperienceLevel").GetComponent<TextMeshPro>().sortingOrder += layerVariation;
-		this.gameObject.transform.FindChild("ExperienceLevel").GetComponent<TextMeshPro>().sortingLayerID = sortingLayerID;
+		this.gameObject.transform.FindChild("Experience").FindChild ("ExperienceGauge").GetComponent<SpriteRenderer>().sortingOrder += layerVariation;
+		this.gameObject.transform.FindChild("Experience").FindChild ("ExperienceGauge").GetComponent<SpriteRenderer>().sortingLayerID = sortingLayerID;
+		this.gameObject.transform.FindChild("Experience").FindChild ("ExperienceBar").GetComponent<SpriteRenderer>().sortingOrder += layerVariation;
+		this.gameObject.transform.FindChild("Experience").FindChild ("ExperienceBar").GetComponent<SpriteRenderer>().sortingLayerID = sortingLayerID;
+		this.gameObject.transform.FindChild("Experience").FindChild("ExperienceLevel").GetComponent<TextMeshPro>().sortingOrder += layerVariation;
+		this.gameObject.transform.FindChild("Experience").FindChild("ExperienceLevel").GetComponent<TextMeshPro>().sortingLayerID = sortingLayerID;
+		this.gameObject.transform.FindChild("CardUpgrade").FindChild("Text").GetComponent<TextMeshPro>().sortingOrder += layerVariation;
+		this.gameObject.transform.FindChild("CardUpgrade").FindChild("Text").GetComponent<TextMeshPro>().sortingLayerID = sortingLayerID;
+		this.gameObject.transform.FindChild("CardUpgrade").GetComponent<SpriteRenderer>().sortingOrder += layerVariation;
+		this.gameObject.transform.FindChild("CardUpgrade").GetComponent<SpriteRenderer>().sortingLayerID = sortingLayerID;
+
 		for(int i=0;i<this.skills.Length;i++)
 		{
 			this.skills[i].transform.GetComponent<NewCardSkillController>().changeLayer(layerVariation,sortingLayerID);
@@ -157,6 +161,7 @@ public class NewCardController : NewFocusedCardController
 			this.skillDisplayed=-1;
 		}
 	}
+
 	public int skillHovered()
 	{
 		Vector3 cursorPosition = Camera.main.ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, Input.mousePosition.z));
@@ -184,6 +189,22 @@ public class NewCardController : NewFocusedCardController
 		else
 		{
 			return -1;
+		}
+	}
+	public override void animateExperience()
+	{
+		this.experience.GetComponent<NewCardExperienceController>().startUpdatingXp(c.ExperienceLevel,c.PercentageToNextLevel);
+	}
+	public override void endUpdatingXp()
+	{
+		this.show ();
+		if(this.c.CaracteristicUpgraded>-1&&this.c.CaracteristicIncrease>0)
+		{
+			base.setCardUpgrade();
+		}
+		if(this.c.GetNewSkill)
+		{
+			base.setHighlightedSkills();
 		}
 	}
 }

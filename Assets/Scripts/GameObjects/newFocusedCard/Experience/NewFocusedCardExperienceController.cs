@@ -20,7 +20,7 @@ public class NewFocusedCardExperienceController : MonoBehaviour
 	private float scaleSpeed;
 	private float nbIteration;
 	
-	void Update ()
+	public virtual void Update ()
 	{
 		if(toUpdateXp)
 		{
@@ -52,7 +52,7 @@ public class NewFocusedCardExperienceController : MonoBehaviour
 						}
 					}
 				}
-				this.updateGauge();
+				this.updateGauge(this.currentPercentage);
 			}
 			else 
 			{	
@@ -61,14 +61,14 @@ public class NewFocusedCardExperienceController : MonoBehaviour
 			}
 		}
 	}
-	public void setExperience(int Level, int Percentage)
+	public virtual void setExperience(int Level, int Percentage)
 	{
 		this.currentLevel = Level;
 		this.currentPercentage = 0.01f*(float)Percentage;
 		this.gameObject.transform.FindChild("ExperienceLevel").GetComponent<TextMeshPro>().text = currentLevel.ToString();
-		this.updateGauge ();
+		this.updateGauge (this.currentPercentage);
 	}
-	public void startUpdatingXp(int endLevel, int endPercentage)
+	public virtual void startUpdatingXp(int endLevel, int endPercentage)
 	{
 		this.startLevel = this.currentLevel;
 		this.startPercentage = this.currentPercentage;
@@ -90,10 +90,10 @@ public class NewFocusedCardExperienceController : MonoBehaviour
 		this.scaleSpeed = 0.5f*nbIteration;
 		this.toUpdateXp=true;
 	}
-	public void updateGauge()
+	public virtual void updateGauge(float currentPercentage)
 	{
-		this.gameObject.transform.FindChild ("ExperienceGauge").localPosition = new Vector3 (-3.15f+this.currentPercentage*(1.9f), 3.125f, 0);
-		this.gameObject.transform.FindChild ("ExperienceGauge").localScale = new Vector3 (this.currentPercentage*4.14f, 3.425f, 3.425f);
+		this.gameObject.transform.FindChild ("ExperienceGauge").localPosition = new Vector3 (-3.15f+currentPercentage*(1.9f), 3.125f, 0);
+		this.gameObject.transform.FindChild ("ExperienceGauge").localScale = new Vector3 (currentPercentage*4.14f, 3.425f, 3.425f);
 	}
 }
 

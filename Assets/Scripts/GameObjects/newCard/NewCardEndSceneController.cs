@@ -38,5 +38,10 @@ public class NewCardEndSceneController : NewCardController
 	{
 		base.show ();
 	}
+	public override void endUpdatingXp()
+	{
+		base.endUpdatingXp ();
+		EndSceneController.instance.incrementXpDrawn ();
+	}
 }
 

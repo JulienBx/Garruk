@@ -40,6 +40,9 @@ public class PlayPopUpModel {
 			this.currentCup=parseCup(data[2].Split(new string[] { "//" }, System.StringSplitOptions.None));
 			this.currentFriendlyGame = this.parseFriendlyGame(data[3].Split(new string[] { "//" }, System.StringSplitOptions.None));
 			this.decks = this.parseDecks(data[4].Split(new string[] { "#DECK#" }, System.StringSplitOptions.None));
+			ApplicationModel.currentFriendlyGame=this.currentFriendlyGame;
+			ApplicationModel.currentDivision=this.currentDivision;
+			ApplicationModel.currentCup=this.currentCup;
 		}
 	}
 	private User parseUser(string[] array)

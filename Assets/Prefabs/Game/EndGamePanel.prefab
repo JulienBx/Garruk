@@ -118,8 +118,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 117262}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -4, z: -1}
-  m_LocalScale: {x: .600000024, y: .600000024, z: 1}
+  m_LocalPosition: {x: 0, y: -4.28000021, z: -1}
+  m_LocalScale: {x: .699999988, y: .699999988, z: .699999988}
   m_Children:
   - {fileID: 415654}
   m_Father: {fileID: 447254}
@@ -155,7 +155,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 135938}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 4.4000001, z: 0}
+  m_LocalPosition: {x: 0, y: 4.30999994, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 447254}
@@ -198,7 +198,7 @@ MeshRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_Materials:
-  - {fileID: 2163612, guid: 417116fc0b0e447faa47204a6eab148e, type: 2}
+  - {fileID: 2129278, guid: f179af0ea69274726baaefe1d3191113, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 1
@@ -348,7 +348,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_text: "F\xE9licitations"
-  m_fontAsset: {fileID: 11400000, guid: 417116fc0b0e447faa47204a6eab148e, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: f179af0ea69274726baaefe1d3191113, type: 2}
   m_fontStyle: 0
   m_isOverlay: 0
   m_fontColor32:
@@ -367,10 +367,10 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 3.5
+  m_fontSize: 5
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontSizeBase: 3.5
+  m_fontSizeBase: 5
   m_charSpacingMax: 0
   m_lineSpacingMax: 0
   m_charWidthMaxAdj: 0
@@ -402,7 +402,7 @@ MonoBehaviour:
   m_isCullingEnabled: 0
   m_pageToDisplay: 1
   m_fontAssetArray:
-  - {fileID: 11400000, guid: 417116fc0b0e447faa47204a6eab148e, type: 2}
+  - {fileID: 11400000, guid: f179af0ea69274726baaefe1d3191113, type: 2}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -448,7 +448,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 117262}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc03a1319e41641ea9c5c175df4759b0, type: 3}
+  m_Script: {fileID: 11500000, guid: 051e054b1ece641189b839dc75a0f196, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &11450146
@@ -468,7 +468,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 5.5
+    width: 10
     height: 2
   m_margins: {x: 0, y: 0, z: 0, w: 0}
 --- !u!114 &11467610
@@ -488,7 +488,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 5.5
+    width: 10
     height: 2
   m_margins: {x: 0, y: 0, z: 0, w: 0}
 --- !u!114 &11480366
@@ -528,8 +528,8 @@ MonoBehaviour:
   m_isOverlay: 0
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4292657293
-  m_fontColor: {r: .552941203, g: .752941191, b: .862745106, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_fontColorGradient:
     topLeft: {r: 1, g: 1, b: 1, a: 1}
     topRight: {r: 1, g: 1, b: 1, a: 1}
@@ -542,10 +542,10 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 2.5
+  m_fontSize: 3
   m_fontSizeMin: 1
-  m_fontSizeMax: 2.5
-  m_fontSizeBase: 2.5
+  m_fontSizeMax: 3
+  m_fontSizeBase: 3
   m_charSpacingMax: 0
   m_lineSpacingMax: 0
   m_charWidthMaxAdj: 0
@@ -696,8 +696,8 @@ MonoBehaviour:
   m_isOverlay: 0
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4292657293
-  m_fontColor: {r: .552941203, g: .752941191, b: .862745106, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_fontColorGradient:
     topLeft: {r: 1, g: 1, b: 1, a: 1}
     topRight: {r: 1, g: 1, b: 1, a: 1}
@@ -710,10 +710,10 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 2.5
+  m_fontSize: 3
   m_fontSizeMin: 1
-  m_fontSizeMax: 2.5
-  m_fontSizeBase: 2.5
+  m_fontSizeMax: 3
+  m_fontSizeBase: 3
   m_charSpacingMax: 0
   m_lineSpacingMax: 0
   m_charWidthMaxAdj: 0

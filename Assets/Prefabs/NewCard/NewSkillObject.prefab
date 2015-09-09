@@ -330,11 +330,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 147588}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 767e8d9a7499846129330ca98af0d429, type: 3}
+  m_Script: {fileID: 11500000, guid: 1118067d2607643acb65b92f790b5eb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   colors:
-  - {r: .68235296, g: .482352942, b: .266666681, a: 1}
+  - {r: .68235296, g: .482352972, b: .266666681, a: 1}
   - {r: .65882355, g: .65882355, b: .65882355, a: 1}
   - {r: .960784316, g: .913725495, b: .313725501, a: 1}
 --- !u!114 &11479236
@@ -428,7 +428,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: colors.Array.data[0].g
-      value: .482352942
+      value: .482352972
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: colors.Array.data[0].b

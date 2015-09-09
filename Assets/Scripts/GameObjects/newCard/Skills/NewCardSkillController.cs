@@ -1,22 +1,24 @@
 using UnityEngine;
 using TMPro;
 
-public class NewCardSkillController : MonoBehaviour 
+public class NewCardSkillController : NewFocusedCardSkillController 
 {
 	
-	private Skill s;
-	public Color[] colors;
+	private NewCardSkillRessources ressources;
 	
-	private void show()
+	public override void initialize()
+	{
+		this.ressources = gameObject.GetComponent<NewCardSkillRessources> ();
+	}
+	public override void show()
 	{
 		this.gameObject.transform.FindChild ("Name").GetComponent<TextMeshPro> ().text = this.s.Name;
 		this.gameObject.transform.FindChild ("Power").GetComponent<TextMeshPro> ().text = this.s.Power.ToString();
-		this.gameObject.transform.FindChild ("Power").GetComponent<TextMeshPro> ().color = this.colors [this.s.Level - 1];
+		this.gameObject.transform.FindChild ("Power").GetComponent<TextMeshPro> ().color = this.ressources.colors [this.s.Level - 1];
 	}
-	public void setSkill(Skill s)
+	public override void setSkill(Skill s)
 	{
-		this.s = s;
-		this.show ();
+		base.setSkill (s);
 	}
 	public void changeLayer(int layerVariation, int sortingLayerId)
 	{
@@ -24,6 +26,10 @@ public class NewCardSkillController : MonoBehaviour
 		this.gameObject.transform.FindChild ("Name").GetComponent<TextMeshPro> ().sortingLayerID =sortingLayerId;
 		this.gameObject.transform.FindChild ("Power").GetComponent<TextMeshPro> ().sortingOrder += layerVariation;
 		this.gameObject.transform.FindChild ("Power").GetComponent<TextMeshPro> ().sortingLayerID = sortingLayerId;
+	}
+	public override void highlightSkill(bool value)
+	{
+		base.highlightSkill(value);
 	}
 }
 

@@ -59,6 +59,9 @@ public class NewHomePageModel
 			this.lookForNonReadSystemNotification();
 			this.competitions.Add (this.currentDivision);
 			this.competitions.Add (this.currentCup);
+			ApplicationModel.currentFriendlyGame=this.currentFriendlyGame;
+			ApplicationModel.currentDivision=this.currentDivision;
+			ApplicationModel.currentCup=this.currentCup;
 		}
 	}
 	private IList<Pack> parsePacks (string[] array)

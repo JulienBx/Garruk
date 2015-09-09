@@ -3,24 +3,28 @@ using TMPro;
 
 public class NewFocusedCardSkillController : MonoBehaviour 
 {
-	public Color[] colors;
-	public Sprite[] pictos;
-	private Skill s;
-	
-	private void show()
+
+	public Skill s;
+	private NewFocusedCardSkillRessources ressources;
+
+	public virtual void initialize()
 	{
-		this.gameObject.transform.FindChild ("Picto").GetComponent<SpriteRenderer> ().sprite = this.pictos [0];
+		ressources = gameObject.GetComponent<NewFocusedCardSkillRessources> ();
+	}
+	public virtual void show()
+	{
+		this.gameObject.transform.FindChild ("Picto").GetComponent<SpriteRenderer> ().sprite = ressources.pictos [0];
 		this.gameObject.transform.FindChild ("Name").GetComponent<TextMeshPro> ().text = this.s.Name;
 		this.gameObject.transform.FindChild ("Power").GetComponent<TextMeshPro> ().text = this.s.Power.ToString();
-		this.gameObject.transform.FindChild ("Power").GetComponent<TextMeshPro> ().color = this.colors [this.s.Level - 1];
+		this.gameObject.transform.FindChild ("Power").GetComponent<TextMeshPro> ().color = ressources.colors [this.s.Level - 1];
 		this.gameObject.transform.FindChild ("Description").GetComponent<TextMeshPro> ().text = this.s.Description;
 	}
-	public void setSkill(Skill s)
+	public virtual void setSkill(Skill s)
 	{
 		this.s = s;
 		this.show ();
 	}
-	public void highlightSkill(bool value)
+	public virtual void highlightSkill(bool value)
 	{
 		if(value)
 		{

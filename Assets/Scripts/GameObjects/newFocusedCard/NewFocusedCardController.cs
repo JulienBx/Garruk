@@ -10,10 +10,10 @@ public class NewFocusedCardController : MonoBehaviour
 	private NewFocusedCardRessources ressources;
 	public NewPopUpRessources popUpRessources;
 	public Card c;
-	private GameObject[] skills;
-	private GameObject experience;
-	private GameObject cardUpgrade;
-	private GameObject panelSold;
+	public GameObject[] skills;
+	public GameObject experience;
+	public GameObject cardUpgrade;
+	public GameObject panelSold;
 	
 	private Rect centralWindow;
 	private Rect collectionPointsWindow;
@@ -91,13 +91,17 @@ public class NewFocusedCardController : MonoBehaviour
 	public virtual void Awake()
 	{
 		this.skills=new GameObject[0];
-		this.ressources = this.gameObject.GetComponent<NewFocusedCardRessources> ();
+		this.getRessources ();
 		this.setPopUpRessources ();
 		this.setUpdateSpeed ();
 		this.experience = this.gameObject.transform.FindChild ("Experience").gameObject;
 		this.cardUpgrade = this.gameObject.transform.FindChild ("CardUpgrade").gameObject;
 		this.panelSold = this.gameObject.transform.FindChild ("PanelSold").gameObject;
 		this.initializeFocusFeatures ();
+	}
+	public virtual void getRessources()
+	{
+		this.ressources = this.gameObject.GetComponent<NewFocusedCardRessources> ();
 	}
 	public void setPopUpRessources()
 	{
@@ -131,6 +135,8 @@ public class NewFocusedCardController : MonoBehaviour
 			this.skills[i].transform.parent=this.gameObject.transform;
 			this.skills[i].transform.name="Skill"+i;
 			this.skills[i].transform.localPosition=new Vector3(-1.46f,-1.35f-i*0.75f,0);
+			this.skills[i].AddComponent<NewFocusedCardSkillController>();
+			this.skills[i].transform.GetComponent<NewFocusedCardSkillController>().initialize();
 			this.skills[i].transform.GetComponent<NewFocusedCardSkillController>().setSkill(c.Skills[i]);
 		}
 		this.experience.GetComponent<NewFocusedCardExperienceController> ().setExperience (this.c.ExperienceLevel, this.c.PercentageToNextLevel);
@@ -159,7 +165,7 @@ public class NewFocusedCardController : MonoBehaviour
 		this.panelSold.SetActive (false);
 		this.isPanelSoldIsDisplayed=false;
 	}
-	public void endUpdatingXp()
+	public virtual void endUpdatingXp()
 	{
 		this.show ();
 		this.updateFocus ();
@@ -181,17 +187,7 @@ public class NewFocusedCardController : MonoBehaviour
 		}
 		if(this.c.GetNewSkill)
 		{
-			if(isSkillHighlighted)
-			{
-				this.skills[skills.Length-2].GetComponent<NewFocusedCardSkillController>().highlightSkill(false);
-			}
-			else
-			{
-				this.isSkillHighlighted=true;
-			}
-			this.skills[skills.Length-1].GetComponent<NewFocusedCardSkillController>().highlightSkill(true);
-			this.c.GetNewSkill=false;
-			this.timerSkillHighlighted=0;
+			this.setHighlightedSkills();
 		}
 	}
 	public void setCentralWindow(Rect centralWindow)
@@ -555,7 +551,7 @@ public class NewFocusedCardController : MonoBehaviour
 		this.refreshCredits();
 		if(this.c.Error=="")
 		{
-			this.experience.GetComponent<NewFocusedCardExperienceController>().startUpdatingXp(c.ExperienceLevel,c.PercentageToNextLevel);
+			this.animateExperience();
 		}
 		else
 		{
@@ -744,7 +740,7 @@ public class NewFocusedCardController : MonoBehaviour
 	}
 	public void updateFocus()
 	{
-		this.show ();
+		//this.show ();
 		this.updateFocusFeatures ();
 		this.refreshCredits();
 		if(this.c.Error!="")
@@ -920,6 +916,20 @@ public class NewFocusedCardController : MonoBehaviour
 		this.timerCardUpgrade = 0;
 		this.isCardUpgradeDisplayed = true;
 	}
+	public void setHighlightedSkills()
+	{
+		if(isSkillHighlighted)
+		{
+			this.skills[skills.Length-2].GetComponent<NewFocusedCardSkillController>().highlightSkill(false);
+		}
+		else
+		{
+			this.isSkillHighlighted=true;
+		}
+		this.skills[skills.Length-1].GetComponent<NewFocusedCardSkillController>().highlightSkill(true);
+		this.c.GetNewSkill=false;
+		this.timerSkillHighlighted=0;
+	}
 	public Vector3 getCardUpgradePosition (int caracteristicUpgraded)
 	{
 		GameObject refObject = new GameObject ();
@@ -972,6 +982,10 @@ public class NewFocusedCardController : MonoBehaviour
 	public virtual void applyBackTexture()
 	{
 		this.gameObject.transform.FindChild ("Face").GetComponent<SpriteRenderer> ().sprite = ressources.backFace;
+	}
+	public virtual void animateExperience()
+	{
+		this.experience.GetComponent<NewFocusedCardExperienceController>().startUpdatingXp(c.ExperienceLevel,c.PercentageToNextLevel);
 	}
 }
 
