@@ -1,9 +1,9 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class Lenteur : GameSkill
+public class Calmant : GameSkill
 {
-	public Lenteur()
+	public Calmant()
 	{
 		this.numberOfExpectedTargets = 1 ; 
 	}
@@ -33,21 +33,14 @@ public class Lenteur : GameSkill
 	}
 	
 	public override void applyOn(int target){
-		int amount = base.skill.ManaCost;
-		
-		int baseD = GameView.instance.getCard(target).GetMove();
-		int deplacement = Mathf.FloorToInt((amount)*baseD/100)+1;
-		
-		if (deplacement >= baseD){
-			deplacement = baseD - 1 ;
-		}
-		
-		GameController.instance.addCardModifier(target, -1*deplacement, ModifierType.Type_BonusMalus, ModifierStat.Stat_Move, 1, 8, "Lenteur", "-"+deplacement+"MOV", "Actif 1 tour");
-		GameView.instance.displaySkillEffect(target, "HIT\n-"+deplacement+" MOV", 5);
+		GameController.instance.backTurns(target, base.skill.ManaCost);
+		GameView.instance.displaySkillEffect(target, "Temps d'attente : +"+base.skill.ManaCost, 5);
 	}
 	
 	public override void failedToCastOn(int target, int indexFailure){
-		GameView.instance.displaySkillEffect(target, "ESQUIVE", 4);
+		if (indexFailure==1){
+			GameView.instance.displaySkillEffect(target, "Esquive", 4);
+		}
 	}
 	
 	public override string isLaunchable(){
@@ -57,27 +50,14 @@ public class Lenteur : GameSkill
 	public override string getTargetText(Card targetCard){
 		
 		int amount = base.skill.ManaCost;
+		string text;
 		
-		int baseD = targetCard.GetMove();
-		int deplacement = Mathf.FloorToInt((amount)*baseD/100)+1;
-		
-		if (deplacement >= baseD){
-			deplacement = baseD - 1 ;
-		}
-		
-		string text = "MOV : "+baseD+"->"+Mathf.Max(1,baseD-deplacement)+"\n";
+		text = "Temps d'attente : +"+amount+" tours\n";
 		
 		int probaEsquive = targetCard.GetMagicalEsquive();
-		int proba ;
-		text += "HIT : ";
-		if (probaEsquive!=0){
-			proba = 100-probaEsquive;
-			text+=proba+"% : "+100+"%(ATT) - "+probaEsquive+"%(ESQ)";
-		}
-		else{
-			proba = 100;
-			text+=proba+"%";
-		}
+		int probaHit = Mathf.Max(0,100-probaEsquive) ;
+		
+		text += "HIT% : "+probaHit;
 		
 		return text ;
 	}

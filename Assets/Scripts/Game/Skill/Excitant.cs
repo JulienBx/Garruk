@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class Sape : GameSkill
+public class Excitant : GameSkill
 {
-	public Sape()
+	public Excitant()
 	{
 		this.numberOfExpectedTargets = 1 ; 
 	}
@@ -11,7 +11,7 @@ public class Sape : GameSkill
 	public override void launch()
 	{
 		GameController.instance.initPCCTargetHandler(numberOfExpectedTargets);
-		GameView.instance.displayOpponentsTargets();
+		GameView.instance.displayAllysButMeTargets();
 	}
 	
 	public override void resolve(List<int> targetsPCC)
@@ -24,8 +24,7 @@ public class Sape : GameSkill
 		
 		if (Random.Range(1,101) > GameView.instance.getCard(target).GetMagicalEsquive())
 		{                             
-			int arg = Random.Range(1,base.skill.ManaCost+1);
-			GameController.instance.applyOn(target,arg);
+			GameController.instance.applyOn(target);
 		}
 		else{
 			GameController.instance.failedToCastOnSkill(target, 1);
@@ -33,13 +32,15 @@ public class Sape : GameSkill
 		GameController.instance.play();
 	}
 	
-	public override void applyOn(int target, int arg){
-		GameController.instance.addCardModifier(target, -1*arg, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, 1, 5, "Sape", "-"+arg+"ATK", "Actif 1 tour");
-		GameView.instance.displaySkillEffect(target, "-"+arg+" ATK", 5);
+	public override void applyOn(int target){
+		GameController.instance.advanceTurns(target, base.skill.ManaCost);
+		GameView.instance.displaySkillEffect(target, "Temps d'attente : -"+base.skill.ManaCost, 5);
 	}
 	
 	public override void failedToCastOn(int target, int indexFailure){
-		GameView.instance.displaySkillEffect(target, "ESQUIVE", 4);
+		if (indexFailure==1){
+			GameView.instance.displaySkillEffect(target, "Esquive", 4);
+		}
 	}
 	
 	public override string isLaunchable(){
@@ -49,27 +50,14 @@ public class Sape : GameSkill
 	public override string getTargetText(Card targetCard){
 		
 		int amount = base.skill.ManaCost;
-		int attack = base.card.GetAttack();
 		string text;
 		
-		if(attack==1){
-			text = "ATK : "+attack+"->0";
-		}
-		else{
-			text = "ATK : "+attack+"->"+(attack-1)+"-"+Mathf.Max (0,attack-amount);
-		}
+		text = "Temps d'attente : -"+amount+" tours\n";
 		
 		int probaEsquive = targetCard.GetMagicalEsquive();
-		int proba ;
-		text += "HIT : ";
-		if (probaEsquive!=0){
-			proba = 100-probaEsquive;
-			text+=proba+"% : "+100+"%(ATT) - "+probaEsquive+"%(ESQ)";
-		}
-		else{
-			proba = 100;
-			text+=proba+"%";
-		}
+		int probaHit = Mathf.Max(0,100-probaEsquive) ;
+		
+		text += "HIT% : "+probaHit;
 		
 		return text ;
 	}

@@ -14,13 +14,13 @@ public class GameSkills : MonoBehaviour
 		this.skills [0] = new Attack();
 		this.skills [1] = new Pass();
 		this.skills [2] = new GameSkill();
-		this.skills [3] = new Celerite();
-		this.skills [4] = new Apathie();
-		this.skills [5] = new Renforcement();
-		this.skills [6] = new Sape();
-		this.skills [7] = new Lenteur();
-		this.skills [8] = new Rapidite();
-		this.skills [9] = new Dissipation();
+		this.skills [3] = new Excitant();
+		this.skills [4] = new Calmant();
+		this.skills [5] = new Fortifiant();
+		this.skills [6] = new Relaxant();
+		this.skills [7] = new Lest();
+		this.skills [8] = new Adrenaline();
+		this.skills [9] = new Antibiotique();
 		this.skills [10] = new TirALarc();
 		this.skills [11] = new Furtivite();
 		this.skills [12] = new Assassinat();
@@ -76,7 +76,7 @@ public class GameSkills : MonoBehaviour
 		this.skills [62] = new GameSkill();
 		this.skills [63] = new GameSkill();
 		this.skills [64] = new GameSkill();
-		this.skills [65] = new FrappeBrute();
+		this.skills [65] = new Massue();
 	}
 
 	public GameSkill getSkill(int i)

@@ -1,9 +1,9 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 
-public class Celerite : GameSkill
+public class Adrenaline : GameSkill
 {
-	public Celerite()
+	public Adrenaline()
 	{
 		this.numberOfExpectedTargets = 1 ; 
 	}
@@ -22,17 +22,9 @@ public class Celerite : GameSkill
 		
 		int target = targetsPCC[0];
 		
-		int successChances = base.skill.ManaCost;
-		
 		if (Random.Range(1,101) > GameView.instance.getCard(target).GetMagicalEsquive())
 		{                             
-			if (Random.Range(1,101) <= successChances)
-			{ 
-				GameController.instance.applyOn(target);
-			}
-			else{
-				GameController.instance.failedToCastOnSkill(target, 2);
-			}
+			GameController.instance.applyOn(target);
 		}
 		else{
 			GameController.instance.failedToCastOnSkill(target, 1);
@@ -41,34 +33,36 @@ public class Celerite : GameSkill
 	}
 	
 	public override void applyOn(int target){
-		GameController.instance.rankNext(target);
-		GameView.instance.displaySkillEffect(target, "CELERITE", 5);
+		int amount = base.skill.ManaCost;
+		
+		int baseD = GameView.instance.getCard(target).GetMove();
+		int deplacement = Mathf.FloorToInt((amount)*baseD/100)+1;
+		
+		GameController.instance.addCardModifier(target, deplacement, ModifierType.Type_BonusMalus, ModifierStat.Stat_Move, 1, 9, "Accéléré", "+"+deplacement+" MOV", "Actif 1 tour");
+		GameView.instance.displaySkillEffect(target, "+"+deplacement+" MOV", 4);
 	}
 	
 	public override void failedToCastOn(int target, int indexFailure){
-		if (indexFailure==1){
-			GameView.instance.displaySkillEffect(target, "ESQUIVE", 4);
-		}
-		else if (indexFailure==2){
-			GameView.instance.displaySkillEffect(target, "ECHEC CELERITE", 4);
-		}
+		GameView.instance.displaySkillEffect(target, "Esquive", 4);
 	}
 	
 	public override string isLaunchable(){
-		return GameView.instance.canLaunchOpponentsTargets();
+		return GameView.instance.canLaunchAllysButMeTargets();
 	}
 	
 	public override string getTargetText(Card targetCard){
 		
 		int amount = base.skill.ManaCost;
-		int attack = base.card.GetAttack();
-		string text;
 		
-		text = "Avance le tour du héros\n";
+		int baseD = targetCard.GetMove();
+		int deplacement = Mathf.FloorToInt((amount)*baseD/100)+1;
+		
+		string text = "MOV: "+baseD+"->"+(baseD+deplacement)+"\n";
 		
 		int probaEsquive = targetCard.GetMagicalEsquive();
-		int probaHit = Mathf.Max(0,amount-probaEsquive) ;
-		text += "HIT : "+probaHit;
+		int probaHit = Mathf.Max(0,100-probaEsquive) ;
+		
+		text += "HIT% : "+probaHit;
 		
 		return text ;
 	}

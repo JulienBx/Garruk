@@ -1,9 +1,9 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class Dissipation : GameSkill
+public class Antibiotique : GameSkill
 {
-	public Dissipation()
+	public Antibiotique()
 	{
 		this.numberOfExpectedTargets = 1 ; 
 	}
@@ -43,15 +43,15 @@ public class Dissipation : GameSkill
 	public override void applyOn(int target){
 		GameView.instance.getCard(target).emptyModifiers();
 		GameView.instance.getPCC(target).show();
-		GameView.instance.displaySkillEffect(target, "DISSIPATION", 4);
+		GameView.instance.displaySkillEffect(target, "Effets supprimés !", 5);
 	}
 	
 	public override void failedToCastOn(int target, int indexFailure){
 		if (indexFailure==1){
-			GameView.instance.displaySkillEffect(target, "ESQUIVE", 4);
+			GameView.instance.displaySkillEffect(target, "Esquive", 4);
 		}
 		else if (indexFailure==2){
-			GameView.instance.displaySkillEffect(target, "ECHEC DISSIPATION", 4);
+			GameView.instance.displaySkillEffect(target, "Sans effet", 4);
 		}
 	}
 	
@@ -68,17 +68,11 @@ public class Dissipation : GameSkill
 		
 		text = "Dissipe les effets\n";
 		
+		
 		int probaEsquive = targetCard.GetMagicalEsquive();
-		int proba ;
-		text += "HIT : ";
-		if (probaEsquive!=0){
-			proba = 100-probaEsquive;
-			text+=proba+"% : "+100+"%(ATT) - "+probaEsquive+"%(ESQ)";
-		}
-		else{
-			proba = 100;
-			text+=proba+"%";
-		}
+		int probaHit = Mathf.Max(0,(amount*(100-probaEsquive)/100)) ;
+		
+		text += "HIT% : "+probaHit;
 		
 		return text ;
 	}

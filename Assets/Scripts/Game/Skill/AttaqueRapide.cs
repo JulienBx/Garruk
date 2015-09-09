@@ -70,7 +70,7 @@ public class AttaqueRapide : GameSkill
 		int currentLife = targetCard.GetLife();
 		int bouclier = targetCard.GetBouclier();
 		
-		int damageBonusPercentage = GameController.instance.getCurrentCard().GetDamagesPercentageBonus(targetCard);
+		int damageBonusPercentage = GameView.instance.getCard(GameController.instance.getCurrentPlayingCard()).GetDamagesPercentageBonus(targetCard);
 		int amount = base.card.GetAttack()*this.skill.ManaCost*(100+damageBonusPercentage)/10000;
 		amount = Mathf.Min(currentLife,amount-(bouclier*amount/100));
 		string text ;

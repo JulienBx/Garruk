@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class Apathie : GameSkill
+public class Fortifiant : GameSkill
 {
-	public Apathie()
+	public Fortifiant()
 	{
 		this.numberOfExpectedTargets = 1 ; 
 	}
@@ -22,17 +22,9 @@ public class Apathie : GameSkill
 		
 		int target = targetsPCC[0];
 		
-		int successChances = base.skill.ManaCost;
-		
 		if (Random.Range(1,101) > GameView.instance.getCard(target).GetMagicalEsquive())
 		{                             
-			if (Random.Range(1,101) <= successChances)
-			{ 
-				GameController.instance.applyOn(target);
-			}
-			else{
-				GameController.instance.failedToCastOnSkill(target, 2);
-			}
+			GameController.instance.applyOn(target);
 		}
 		else{
 			GameController.instance.failedToCastOnSkill(target, 1);
@@ -41,17 +33,13 @@ public class Apathie : GameSkill
 	}
 	
 	public override void applyOn(int target){
-		GameController.instance.rankBefore(target);
-		GameView.instance.displaySkillEffect(target, "APATHIE", 5);
+		int arg = base.skill.ManaCost;
+		GameController.instance.addCardModifier(target, arg, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, 1, 9, "Renforcé", "+"+arg+" ATK", "Actif 1 tour");
+		GameView.instance.displaySkillEffect(target, "+"+arg+" ATK / 1 tour", 5);
 	}
 	
 	public override void failedToCastOn(int target, int indexFailure){
-		if (indexFailure==1){
-			GameView.instance.displaySkillEffect(target, "ESQUIVE", 4);
-		}
-		else if (indexFailure==2){
-			GameView.instance.displaySkillEffect(target, "ECHEC APATHIE", 4);
-		}
+		GameView.instance.displaySkillEffect(target, "Esquive", 4);
 	}
 	
 	public override string isLaunchable(){
@@ -64,11 +52,12 @@ public class Apathie : GameSkill
 		int attack = base.card.GetAttack();
 		string text;
 		
-		text = "Recule le tour du héros\n";
-		
+		text = "ATK : "+attack+"->"+(attack+amount);
+	
 		int probaEsquive = targetCard.GetMagicalEsquive();
-		int probaHit = Mathf.Max(0,amount-probaEsquive) ;
-		text += "HIT : "+probaHit;
+		int probaHit = Mathf.Max(0,100-probaEsquive) ;
+		
+		text += "HIT% : "+probaHit;
 		
 		return text ;
 	}

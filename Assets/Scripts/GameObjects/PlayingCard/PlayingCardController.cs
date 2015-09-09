@@ -261,6 +261,8 @@ public class PlayingCardController : GameObjectController
 			gameObject.transform.FindChild("Icon"+i).GetComponent<SpriteRenderer>().sprite = this.iconSprites[0];
 			gameObject.transform.FindChild("Icon"+i).GetComponent<IconController>().resetInformation();
 		}
+		
+		this.showTR(true);
 	}
 
 	public void setTile(Tile t, Vector3 p)

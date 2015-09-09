@@ -277,6 +277,13 @@ public class GameView : MonoBehaviour
 					this.tileHandlers[t.x, t.y].SetActive(false);
 					this.displayedDeads.RemoveAt(i);
 					this.displayedDeadsTimer.RemoveAt(i);
+					this.removeDestinations();
+					if(this.getIsMine(GameController.instance.getCurrentPlayingCard())){
+						this.setDestinations(GameController.instance.getCurrentPlayingCard());
+					}
+					else{
+						this.setHisDestinations(GameController.instance.getCurrentPlayingCard());
+					}
 				}
 			}
 			if (this.displayedDeads.Count==0){
@@ -1746,6 +1753,16 @@ public class GameView : MonoBehaviour
 			}
 		}
 		return everyone;
+	}
+	
+	public int countAlive(){
+		int compteur = 0 ;
+		for (int i = 0 ; i < this.playingCards.Count ; i++){
+			if (!this.isDead(i)){
+				compteur++;
+			}
+		}
+		return compteur ;
 	}
 }
 

@@ -1,9 +1,9 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class Rapidite : GameSkill
+public class Lest : GameSkill
 {
-	public Rapidite()
+	public Lest()
 	{
 		this.numberOfExpectedTargets = 1 ; 
 	}
@@ -11,7 +11,7 @@ public class Rapidite : GameSkill
 	public override void launch()
 	{
 		GameController.instance.initPCCTargetHandler(numberOfExpectedTargets);
-		GameView.instance.displayAllysButMeTargets();
+		GameView.instance.displayOpponentsTargets();
 	}
 	
 	public override void resolve(List<int> targetsPCC)
@@ -42,16 +42,16 @@ public class Rapidite : GameSkill
 			deplacement = baseD - 1 ;
 		}
 		
-		GameController.instance.addCardModifier(target, deplacement, ModifierType.Type_BonusMalus, ModifierStat.Stat_Move, 1, 9, "Rapidité", "+"+deplacement+" MOV", "Actif 1 tour");
-		GameView.instance.displaySkillEffect(target, "HIT\n+"+deplacement+" MOV", 4);
+		GameController.instance.addCardModifier(target, -1*deplacement, ModifierType.Type_BonusMalus, ModifierStat.Stat_Move, 1, 8, "Lesté", "-"+deplacement+" MOV", "Actif 1 tour");
+		GameView.instance.displaySkillEffect(target, "-"+deplacement+" MOV", 5);
 	}
 	
 	public override void failedToCastOn(int target, int indexFailure){
-		GameView.instance.displaySkillEffect(target, "ESQUIVE", 4);
+		GameView.instance.displaySkillEffect(target, "Esquive", 4);
 	}
 	
 	public override string isLaunchable(){
-		return GameView.instance.canLaunchAllysButMeTargets();
+		return GameView.instance.canLaunchOpponentsTargets();
 	}
 	
 	public override string getTargetText(Card targetCard){
@@ -65,19 +65,12 @@ public class Rapidite : GameSkill
 			deplacement = baseD - 1 ;
 		}
 		
-		string text = "MOV : "+baseD+"->"+(baseD+deplacement)+"\n";
+		string text = "MOV: "+baseD+"->"+(baseD-deplacement)+"\n";
 		
 		int probaEsquive = targetCard.GetMagicalEsquive();
-		int proba ;
-		text += "HIT : ";
-		if (probaEsquive!=0){
-			proba = 100-probaEsquive;
-			text+=proba+"% : "+100+"%(ATT) - "+probaEsquive+"%(ESQ)";
-		}
-		else{
-			proba = 100;
-			text+=proba+"%";
-		}
+		int probaHit = Mathf.Max(0,100-probaEsquive) ;
+		
+		text += "HIT% : "+probaHit;
 		
 		return text ;
 	}

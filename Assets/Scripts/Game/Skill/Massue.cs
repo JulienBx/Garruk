@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class FrappeBrute : GameSkill
+public class Massue : GameSkill
 {
-	public FrappeBrute()
+	public Massue()
 	{
 		this.numberOfExpectedTargets = 1 ; 
 	}
@@ -23,8 +23,9 @@ public class FrappeBrute : GameSkill
 		int target = targetsPCC[0];
 		
 		if (Random.Range(1,101) > GameView.instance.getCard(target).GetEsquive())
-		{                             
-			int arg = (int)(1.0f*Random.Range(1,base.skill.ManaCost+1)*GameController.instance.getCurrentCard().GetAttack()/100.0f);
+		{   
+			int arg = Random.Range(1,base.skill.ManaCost+1)*GameView.instance.getCard(GameController.instance.getCurrentPlayingCard()).GetAttack()/100;
+			Debug.Log("arg"+arg);
 			GameController.instance.applyOn(target, arg);
 		}
 		else{
