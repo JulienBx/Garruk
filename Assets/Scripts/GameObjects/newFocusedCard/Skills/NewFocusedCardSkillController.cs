@@ -5,18 +5,13 @@ public class NewFocusedCardSkillController : MonoBehaviour
 {
 
 	public Skill s;
-	private NewFocusedCardSkillRessources ressources;
-
-	public virtual void initialize()
-	{
-		ressources = gameObject.GetComponent<NewFocusedCardSkillRessources> ();
-	}
+	
 	public virtual void show()
 	{
-		this.gameObject.transform.FindChild ("Picto").GetComponent<SpriteRenderer> ().sprite = ressources.pictos [0];
+		this.gameObject.transform.FindChild ("Picto").GetComponent<SpriteRenderer> ().sprite = gameObject.transform.parent.GetComponent<NewFocusedCardController>().getSkillSprite(0);
 		this.gameObject.transform.FindChild ("Name").GetComponent<TextMeshPro> ().text = this.s.Name;
 		this.gameObject.transform.FindChild ("Power").GetComponent<TextMeshPro> ().text = this.s.Power.ToString();
-		this.gameObject.transform.FindChild ("Power").GetComponent<TextMeshPro> ().color = ressources.colors [this.s.Level - 1];
+		this.gameObject.transform.FindChild ("Power").GetComponent<TextMeshPro> ().color = gameObject.transform.parent.GetComponent<NewFocusedCardController>().getColors (this.s.Level - 1);
 		this.gameObject.transform.FindChild ("Description").GetComponent<TextMeshPro> ().text = this.s.Description;
 	}
 	public virtual void setSkill(Skill s)

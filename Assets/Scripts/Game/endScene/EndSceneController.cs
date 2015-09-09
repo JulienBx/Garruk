@@ -32,30 +32,24 @@ public class EndSceneController : MonoBehaviour
 
 	private int xpDrawn;
 
-	//private bool hasWon;
 	private User player;
 
 	private int collectionPoints;
 	private int collectionPointsRanking;
 	private string newCardType;
 	public IList<string> newSkills;
-	
 
-
-
-	//private GameObject darkBackground;
-	
 	void Awake()
 	{
 		instance = this;
-		this.updateSpeed = 0.7f;
+		this.updateSpeed = 1.5f;
 		this.updateRatio = 0;
 		this.toUpdateCredits = false;
 		this.toStartExperienceUpdate = false;
 		this.areCreditsUpdated = false;
 		this.player = new User ();
 		this.newSkills = new List<string> ();
-
+		this.newCardType = "";
 	}
 	void Update () 
 	{
@@ -76,7 +70,10 @@ public class EndSceneController : MonoBehaviour
 		}
 		if(this.areCreditsUpdated && this.toStartExperienceUpdate)
 		{
-			this.cards[this.xpDrawn].GetComponent<NewCardEndSceneController>().animateExperience();
+			for(int i=0;i<this.cards.Length;i++)
+			{
+				this.cards[i].GetComponent<NewCardEndSceneController>().animateExperience();
+			}
 			this.toStartExperienceUpdate=false;
 		}
 	}
@@ -85,18 +82,18 @@ public class EndSceneController : MonoBehaviour
 		this.retrieveBonus (hasWon);
 		this.player.Username = GameController.instance.getMyPlayerName ();
 		this.endGamePanel = Instantiate(endGamePanelObject) as GameObject;
-		this.endGamePanel.transform.FindChild ("Button").gameObject.SetActive (true); // A remodifier
+		this.endGamePanel.transform.FindChild ("Button").gameObject.SetActive (false); 
 		this.endGamePanel.transform.position = new Vector3 (0f, 0f, -8f);
 		this.cards=new GameObject[ApplicationModel.nbCardsByDeck];
 		for(int i=0;i<ApplicationModel.nbCardsByDeck;i++)
 		{
 			cards[i]=Instantiate(cardObject) as GameObject;
-			cards[i].transform.localScale=new Vector3(1.4f,1.4f,1.4f);
 			cards[i].transform.position=new Vector3(-4.5f+i*3f,0f,-9f);
 			cards[i].AddComponent<NewCardEndSceneController>();
 			cards[i].GetComponent<NewCardController>().c=GameController.instance.myDeck.Cards[i];
 			cards[i].GetComponent<NewCardEndSceneController>().show();
-			cards[i].GetComponent<NewCardController>().changeLayer(11,"UIA");
+			cards[i].GetComponent<NewCardEndSceneController>().changeLayer(11,"UIA");
+			cards[i].transform.localScale=new Vector3(1.4f,1.4f,1.4f);
 		}
 
 		if(hasWon)
@@ -188,10 +185,22 @@ public class EndSceneController : MonoBehaviour
 		if(xpDrawn==this.cards.Length)
 		{
 			this.endGamePanel.transform.FindChild("Button").gameObject.SetActive(true);
-		}
-		else
-		{
-			this.cards[this.xpDrawn].GetComponent<NewCardEndSceneController>().animateExperience();
+			if(this.collectionPoints>0)
+			{
+				this.endGamePanel.transform.FindChild("Credits").GetComponent<TextMeshPro>().text =this.endGamePanel.transform.FindChild("Credits").GetComponent<TextMeshPro>().text+"\n et "+this.collectionPoints+" points de collection (classement : "+this.collectionPointsRanking+")";
+			}
+			if(this.newCardType!="")
+			{
+				this.endGamePanel.transform.FindChild("NewCardType").GetComponent<TextMeshPro>().text="Bravo ! Vous venez d'acquérir la classe : "+this.newCardType;
+			}
+			if(this.newSkills.Count>0)
+			{
+				this.endGamePanel.transform.FindChild("Skills").GetComponent<TextMeshPro>().text="Vous débloquez : ";
+				for(int i =0;i<this.newSkills.Count;i++)
+				{
+					this.endGamePanel.transform.FindChild("Skills").GetComponent<TextMeshPro>().text=this.endGamePanel.transform.FindChild("Skills").GetComponent<TextMeshPro>().text+"\n- "+this.newSkills[i];
+				}
+			}
 		}
 	}
 	public void quitEndSceneHandler()

@@ -53,7 +53,7 @@ public class NewFocusedCardController : MonoBehaviour
 	private float timerCollectionPoints;
 	private float timerCardUpgrade;
 	private float timerSkillHighlighted;
-
+	
 	public virtual void Update ()
 	{
 		if(isCollectionPointsViewDisplayed)
@@ -90,7 +90,7 @@ public class NewFocusedCardController : MonoBehaviour
 	}
 	public virtual void Awake()
 	{
-		this.skills=new GameObject[0];
+		this.skills=new GameObject[4];
 		this.getRessources ();
 		this.setPopUpRessources ();
 		this.setUpdateSpeed ();
@@ -98,6 +98,11 @@ public class NewFocusedCardController : MonoBehaviour
 		this.cardUpgrade = this.gameObject.transform.FindChild ("CardUpgrade").gameObject;
 		this.panelSold = this.gameObject.transform.FindChild ("PanelSold").gameObject;
 		this.initializeFocusFeatures ();
+		for(int i=0;i<this.skills.Length;i++)
+		{
+			this.skills[i]=this.gameObject.transform.FindChild("Skill"+i).gameObject;
+		}
+
 	}
 	public virtual void getRessources()
 	{
@@ -124,20 +129,18 @@ public class NewFocusedCardController : MonoBehaviour
 		this.gameObject.transform.FindChild ("Attack").FindChild ("Text").GetComponent<TextMeshPro> ().color = ressources.colors [this.c.AttackLevel - 1];
 		this.gameObject.transform.FindChild("Quickness").FindChild("Text").GetComponent<TextMeshPro>().text = this.c.Speed.ToString();
 		this.gameObject.transform.FindChild ("Quickness").FindChild ("Text").GetComponent<TextMeshPro> ().color = ressources.colors [this.c.SpeedLevel - 1];
+
 		for(int i=0;i<this.skills.Length;i++)
 		{
-			Destroy (this.skills[i]);
-		}
-		this.skills = new GameObject[this.c.Skills.Count];
-		for(int i=0;i<c.Skills.Count;i++)
-		{
-			this.skills[i]= Instantiate(ressources.skillObject) as GameObject;
-			this.skills[i].transform.parent=this.gameObject.transform;
-			this.skills[i].transform.name="Skill"+i;
-			this.skills[i].transform.localPosition=new Vector3(-1.46f,-1.35f-i*0.75f,0);
-			this.skills[i].AddComponent<NewFocusedCardSkillController>();
-			this.skills[i].transform.GetComponent<NewFocusedCardSkillController>().initialize();
-			this.skills[i].transform.GetComponent<NewFocusedCardSkillController>().setSkill(c.Skills[i]);
+			if(i<this.c.Skills.Count)
+			{
+				this.skills[i].transform.GetComponent<NewFocusedCardSkillController>().setSkill(c.Skills[i]);
+				this.skills[i].SetActive(true);
+			}
+			else
+			{
+				this.skills[i].SetActive(false);
+			}
 		}
 		this.experience.GetComponent<NewFocusedCardExperienceController> ().setExperience (this.c.ExperienceLevel, this.c.PercentageToNextLevel);
 		this.updateFocusFeatures ();
@@ -920,20 +923,20 @@ public class NewFocusedCardController : MonoBehaviour
 	{
 		if(isSkillHighlighted)
 		{
-			this.skills[skills.Length-2].GetComponent<NewFocusedCardSkillController>().highlightSkill(false);
+			this.skills[c.Skills.Count-2].GetComponent<NewFocusedCardSkillController>().highlightSkill(false);
 		}
 		else
 		{
 			this.isSkillHighlighted=true;
 		}
-		this.skills[skills.Length-1].GetComponent<NewFocusedCardSkillController>().highlightSkill(true);
+		this.skills[c.Skills.Count-1].GetComponent<NewFocusedCardSkillController>().highlightSkill(true);
 		this.c.GetNewSkill=false;
 		this.timerSkillHighlighted=0;
 	}
 	public Vector3 getCardUpgradePosition (int caracteristicUpgraded)
 	{
 		GameObject refObject = new GameObject ();
-		float gap = 1f;
+		float gap = this.getCardUpdateGap();
 		switch(caracteristicUpgraded)
 		{
 		case 0:
@@ -965,6 +968,10 @@ public class NewFocusedCardController : MonoBehaviour
 		float refSizeX = refObject.transform.GetComponent<MeshRenderer> ().bounds.max.x-refObject.transform.GetComponent<MeshRenderer> ().bounds.min.x;
 		return new Vector3 (refPosition.x+gap,refPosition.y,0f);
 	}
+	public virtual float getCardUpdateGap()
+	{
+		return 1f;
+	}
 	public void setBackFace(bool value)
 	{
 		if(value)
@@ -986,6 +993,14 @@ public class NewFocusedCardController : MonoBehaviour
 	public virtual void animateExperience()
 	{
 		this.experience.GetComponent<NewFocusedCardExperienceController>().startUpdatingXp(c.ExperienceLevel,c.PercentageToNextLevel);
+	}
+	public virtual Color getColors(int id)
+	{
+		return this.ressources.colors[id];	
+	}
+	public virtual Sprite getSkillSprite(int id)
+	{
+		return this.ressources.pictos [id];
 	}
 }
 

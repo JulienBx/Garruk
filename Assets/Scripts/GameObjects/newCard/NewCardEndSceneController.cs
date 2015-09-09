@@ -7,20 +7,17 @@ public class NewCardEndSceneController : NewCardController
 	
 	public override void Update()
 	{
+		base.Update ();
 	}
-	
 	void OnMouseDrag()
 	{
 
 	}
 	public override void OnMouseOver()
 	{
-		base.OnMouseOver ();
-
 	}
 	public override void OnMouseExit()
 	{
-		base.OnMouseExit ();
 	}
 	void OnMouseDown()
 	{

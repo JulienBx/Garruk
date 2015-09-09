@@ -9,7 +9,6 @@ public class NewCardMyGameController : NewCardController
 	public override void Update()
 	{
 	}
-	
 	void OnMouseDrag()
 	{
 		newMyGameController.instance.isDraggingCard ();

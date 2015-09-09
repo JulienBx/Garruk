@@ -4,11 +4,10 @@ using TMPro;
 public class NewCardStoreController : NewCardController
 {
 	private int id;
-	
+
 	public override void Update()
 	{
 	}
-
 	public override void OnMouseOver()
 	{
 		base.OnMouseOver ();

@@ -8,7 +8,6 @@ public class NewCardMarketController : NewCardController
 
 	public override void Update()
 	{
-		base.Update ();
 	}
 	public override void Awake()
 	{

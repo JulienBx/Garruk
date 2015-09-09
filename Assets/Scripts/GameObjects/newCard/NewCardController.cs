@@ -8,6 +8,9 @@ public class NewCardController : NewFocusedCardController
 	private bool isSkillPopUpDisplayed;
 	private int skillDisplayed;
 
+	private int layerVariation;
+	private string layerName;
+
 	public override void Update()
 	{
 		base.Update ();
@@ -36,19 +39,18 @@ public class NewCardController : NewFocusedCardController
 		this.gameObject.transform.FindChild("Quickness").FindChild("Text").GetComponent<TextMeshPro>().text = this.c.Speed.ToString();
 		this.gameObject.transform.FindChild ("Quickness").FindChild ("Text").GetComponent<TextMeshPro> ().color = ressources.colors [this.c.SpeedLevel - 1];
 		this.experience.GetComponent<NewCardExperienceController> ().setExperience (this.c.ExperienceLevel, this.c.PercentageToNextLevel);
+
 		for(int i=0;i<this.skills.Length;i++)
 		{
-			Destroy (this.skills[i]);
-		}
-		this.skills = new GameObject[this.c.Skills.Count];
-		for(int i=0;i<c.Skills.Count;i++)
-		{
-			this.skills[i]= Instantiate(ressources.skillObject) as GameObject;
-			this.skills[i].transform.parent=this.gameObject.transform;
-			this.skills[i].transform.localPosition=new Vector3(-0.4f,-0.3f-i*0.2f,0);
-			this.skills[i].AddComponent<NewCardSkillController>();
-			this.skills[i].transform.GetComponent<NewCardSkillController>().initialize();
-			this.skills[i].transform.GetComponent<NewCardSkillController>().setSkill(c.Skills[i]);
+			if(i<this.c.Skills.Count)
+			{
+				this.skills[i].transform.GetComponent<NewCardSkillController>().setSkill(c.Skills[i]);
+				this.skills[i].SetActive(true);
+			}
+			else
+			{
+				this.skills[i].SetActive(false);
+			}
 		}
 	}
 	public override void applyFrontTexture()
@@ -68,10 +70,10 @@ public class NewCardController : NewFocusedCardController
 
 		this.gameObject.transform.FindChild ("Face").GetComponent<SpriteRenderer> ().sortingOrder += layerVariation;
 		this.gameObject.transform.FindChild ("Face").GetComponent<SpriteRenderer> ().sortingLayerName = layerName;
+		this.gameObject.transform.FindChild ("Name").GetComponent<TextMeshPro> ().sortingOrder += layerVariation;
 
 		int sortingLayerID = this.gameObject.transform.FindChild ("Face").GetComponent<SpriteRenderer> ().sortingLayerID;
 
-		this.gameObject.transform.FindChild ("Name").GetComponent<TextMeshPro> ().sortingOrder += layerVariation;
 		this.gameObject.transform.FindChild ("Name").GetComponent<TextMeshPro> ().sortingLayerID = sortingLayerID;
 		this.gameObject.transform.FindChild("Power").FindChild("Text").GetComponent<TextMeshPro>().sortingOrder += layerVariation;
 		this.gameObject.transform.FindChild("Power").FindChild("Text").GetComponent<TextMeshPro>().sortingLayerID = sortingLayerID;
@@ -206,6 +208,14 @@ public class NewCardController : NewFocusedCardController
 		{
 			base.setHighlightedSkills();
 		}
+	}
+	public override Color getColors(int id)
+	{
+		return this.ressources.colors[id];	
+	}
+	public override float getCardUpdateGap()
+	{
+		return 0.33f;
 	}
 }
 
