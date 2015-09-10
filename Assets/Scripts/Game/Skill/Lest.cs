@@ -24,15 +24,31 @@ public class Lest : GameSkill
 		
 		if (Random.Range(1,101) > GameView.instance.getCard(target).GetMagicalEsquive())
 		{                             
-			GameController.instance.applyOn(target);
+			GameController.instance.applyOn(target, 0);
 		}
 		else{
 			GameController.instance.failedToCastOnSkill(target, 1);
 		}
+		
+		if (base.card.isGenerous()){
+			if (Random.Range(1,101) <= base.card.getPassiveManacost()){
+				List<int> allys = GameView.instance.getAllys();
+				if(allys.Count>1){
+					allys.Remove(target);
+					target = Random.Range(0,allys.Count+1);
+					
+					if (Random.Range(1,101) > GameView.instance.getCard(target).GetMagicalEsquive())
+					{
+						GameController.instance.applyOn(target,1);
+					}
+				}
+			}
+		}
+		
 		GameController.instance.play();
 	}
 	
-	public override void applyOn(int target){
+	public override void applyOn(int target, int arg){
 		int amount = base.skill.ManaCost;
 		
 		int baseD = GameView.instance.getCard(target).GetMove();
@@ -43,7 +59,13 @@ public class Lest : GameSkill
 		}
 		
 		GameController.instance.addCardModifier(target, -1*deplacement, ModifierType.Type_BonusMalus, ModifierStat.Stat_Move, 1, 8, "Lesté", "-"+deplacement+" MOV", "Actif 1 tour");
-		GameView.instance.displaySkillEffect(target, "-"+deplacement+" MOV", 5);
+		
+		if(arg==0){
+			GameView.instance.displaySkillEffect(target, "-"+deplacement+" MOV", 5);
+		}
+		else if (arg==1){
+			GameView.instance.displaySkillEffect(target, "BONUS\n-"+deplacement+" MOV", 5);
+		}
 	}
 	
 	public override void failedToCastOn(int target, int indexFailure){

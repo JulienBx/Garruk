@@ -91,7 +91,7 @@ public class PlayingCardMakerScript : MonoBehaviour {
 	
 		//this.myCard.GetComponent<PlayingCardController> ().isMine = false;
 		//this.myCard.GetComponent<PlayingCardController> ().setCard (c);
-		this.myCard.GetComponent<PlayingCardController> ().show ();
+		//this.myCard.GetComponent<PlayingCardController> ().show ();
 	}
 	
 	// Update is called once per frame

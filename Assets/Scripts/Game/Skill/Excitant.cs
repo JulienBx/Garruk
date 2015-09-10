@@ -31,12 +31,17 @@ public class Excitant : GameSkill
 		}
 		
 		if (base.card.isGenerous()){
-			if (Random.Range(1,101) > base.card.getPassiveManacost()){
+			if (Random.Range(1,101) <= base.card.getPassiveManacost()){
 				List<int> allys = GameView.instance.getAllys();
-				allys.Remove(target);
-				Random.Range(0,allys.Count+1);
-				
-				GameController.instance.applyOn(target,1);
+				if(allys.Count>1){
+					allys.Remove(target);
+					target = Random.Range(0,allys.Count+1);
+					
+					if (Random.Range(1,101) > GameView.instance.getCard(target).GetMagicalEsquive())
+					{
+						GameController.instance.applyOn(target,1);
+					}
+				}
 			}
 		}
 		
@@ -45,7 +50,12 @@ public class Excitant : GameSkill
 	
 	public override void applyOn(int target, int arg){
 		GameController.instance.advanceTurns(target, base.skill.ManaCost);
-		GameView.instance.displaySkillEffect(target, "Temps d'attente : -"+base.skill.ManaCost, 5);
+		if(arg==0){
+			GameView.instance.displaySkillEffect(target, "Attente: -"+base.skill.ManaCost+" tours", 5);
+		}
+		else if(arg==1){
+			GameView.instance.displaySkillEffect(target, "Bonus\n Attente: -"+base.skill.ManaCost+" tours", 5);
+		}
 	}
 	
 	public override void failedToCastOn(int target, int indexFailure){
@@ -63,7 +73,7 @@ public class Excitant : GameSkill
 		int amount = base.skill.ManaCost;
 		string text;
 		
-		text = "Temps d'attente : -"+amount+" tours\n";
+		text = "Attente : -"+amount+" tours\n";
 		
 		int probaEsquive = targetCard.GetMagicalEsquive();
 		int probaHit = Mathf.Max(0,100-probaEsquive) ;

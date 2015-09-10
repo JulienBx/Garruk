@@ -44,7 +44,7 @@ public class Terreur : GameSkill
 		GameController.instance.addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
 		
 		if (arg<=manacost){
-			GameController.instance.addCardModifier(target, amount, ModifierType.Type_Paralized, ModifierStat.Stat_No, 1, 2, "Paralisé", "Ne peut plus utiliser ses compétences", "Actif 1 tour");
+			GameController.instance.addCardModifier(target, amount, ModifierType.Type_Paralized, ModifierStat.Stat_No, 1, 2, "Paralisé", "Ne peur rien faire au prochain tour", "Actif 1 tour");
 			if(currentLife>amount){
 				GameView.instance.displaySkillEffect(target, "-"+amount+" PV\nParalyse", 5);
 			}
@@ -57,7 +57,7 @@ public class Terreur : GameSkill
 	}
 	
 	public override void failedToCastOn(int target, int indexFailure){
-		GameView.instance.displaySkillEffect(target, "ESQUIVE", 4);
+		GameView.instance.displaySkillEffect(target, "Esquive", 4);
 	}
 	
 	public override string isLaunchable(){
@@ -74,19 +74,12 @@ public class Terreur : GameSkill
 		amount = Mathf.Min(currentLife,amount-(bouclier*amount/100));
 		
 		string text = "PV : "+currentLife+"->"+(currentLife-amount)+"\n";
-		text += "PARALYSE HIT% : "+manacost;
+		text += "PARALYSIE HIT% : "+manacost;
 		
 		int probaEsquive = targetCard.GetEsquive();
-		int proba ;
-		text += "HIT : ";
-		if (probaEsquive!=0){
-			proba = 100-probaEsquive;
-			text+=proba+"% : "+100+"%(ATT) - "+probaEsquive+"%(ESQ)";
-		}
-		else{
-			proba = 100;
-			text+=proba+"%";
-		}
+		int probaHit = Mathf.Max(0,100-probaEsquive) ;
+		
+		text += "HIT% : "+probaHit;
 		
 		return text ;
 	}

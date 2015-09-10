@@ -216,7 +216,7 @@ public class PlayingCardController : GameObjectController
 		gameObject.SetActive(b);
 	}
 
-	public void show()
+	public void show(bool showTR)
 	{
 		float percentage = 1.0f*this.card.GetLife()/this.card.Life;
 		
@@ -248,7 +248,7 @@ public class PlayingCardController : GameObjectController
 		
 		for (int i = 0; i < this.card.modifiers.Count && compteurIcones < 4; i++)
 		{
-			if (this.card.modifiers [i].idIcon != -1)
+			if (this.card.modifiers [i].idIcon > -1)
 			{
 				gameObject.transform.FindChild("Icon"+compteurIcones).GetComponent<SpriteRenderer>().sprite = this.iconSprites[this.card.modifiers [i].idIcon];
 				gameObject.transform.FindChild("Icon"+compteurIcones).GetComponent<IconController>().setInformation(this.card.modifiers [i].title, this.card.modifiers [i].description, this.card.modifiers [i].additionnalInfo);
@@ -262,7 +262,7 @@ public class PlayingCardController : GameObjectController
 			gameObject.transform.FindChild("Icon"+i).GetComponent<IconController>().resetInformation();
 		}
 		
-		this.showTR(true);
+		this.showTR(showTR);
 	}
 
 	public void setTile(Tile t, Vector3 p)
@@ -300,9 +300,18 @@ public class PlayingCardController : GameObjectController
 	
 	public void updateLife()
 	{
-		int lifeBase = this.card.Life ;
+		int lifeBase = this.card.GetTotalLife() ;
 		int life = this.card.GetLife();
 		gameObject.transform.FindChild("LifeBar").FindChild("PVValue").GetComponent<TextMeshPro>().text = life+"/"+lifeBase;
+		if (lifeBase>this.card.Life){
+			gameObject.transform.FindChild("LifeBar").FindChild("PVValue").GetComponent<TextMeshPro>().color = Color.green;
+		}
+		else if(lifeBase<this.card.Life){
+			gameObject.transform.FindChild("LifeBar").FindChild("PVValue").GetComponent<TextMeshPro>().color = Color.red;
+		}
+		else{
+			gameObject.transform.FindChild("LifeBar").FindChild("PVValue").GetComponent<TextMeshPro>().color = Color.white;
+		}
 	}
 	
 	public void kill()
@@ -378,7 +387,7 @@ public class PlayingCardController : GameObjectController
 				tileModifiersToSuppress.Add(i);
 				if (this.card.TileModifiers [i].Stat == ModifierStat.Stat_Attack || this.card.TileModifiers [i].Stat == ModifierStat.Stat_Move)
 				{
-					this.show();
+					this.show(true);
 				}
 			}
 		}
@@ -386,7 +395,7 @@ public class PlayingCardController : GameObjectController
 		{
 			this.card.TileModifiers.RemoveAt(tileModifiersToSuppress [i]);
 		}
-		this.show();
+		this.show(true);
 	}
 	
 	public void activateSleepingModifiers()
@@ -403,41 +412,6 @@ public class PlayingCardController : GameObjectController
 	public bool canBeTargeted()
 	{
 		return (!this.isDead && !this.card.isIntouchable());
-	}
-	
-	public void setTargetHalo(HaloTarget h, bool isDisabled=false)
-	{
-//		this.playingCardView.playingCardVM.haloStyle.normal.background = this.halos [h.idImage];
-//		this.playingCardView.playingCardVM.haloTexts = new List<string>();
-//		this.playingCardView.playingCardVM.haloStyles = new List<GUIStyle>();
-//		
-//		for (int i = 0; i < h.textsToDisplay.Count; i++)
-//		{
-//			this.playingCardView.playingCardVM.haloTexts.Add(h.textsToDisplay [i]);
-//			this.playingCardView.playingCardVM.haloStyles.Add(this.haloTextStyles [h.stylesID [i]]);
-//		}
-//		this.playingCardView.playingCardVM.toDisplayHalo = true;
-//		if(isDisabled)
-//		{
-//			this.isDisabled=true;
-//		}
-	}
-	
-	public void hideTargetHalo()
-	{
-		//this.playingCardView.playingCardVM.toDisplayHalo = false;
-		this.isDisabled = false;
-	}
-	
-	public void cancelSkill()
-	{
-		this.hideControlSkillHandler();
-		GameController.instance.cancelSkill();
-	}
-	
-	public void hideControlSkillHandler()
-	{
-		//this.playingCardView.playingCardVM.toDisplaySkillControlHandler = false;
 	}
 	
 	public void showDisplay()

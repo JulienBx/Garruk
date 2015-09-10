@@ -29,12 +29,12 @@ public class GameSkills : MonoBehaviour
 		this.skills [15] = new PiegeALoups();
 		this.skills [16] = new Agilite();
 		this.skills [17] = new CoupeJambes();
-		this.skills [18] = new AttaqueFrontale();
-		this.skills [19] = new AttaqueCirculaire();
+		this.skills [18] = new Berserk();
+		this.skills [19] = new Attaque360();
 		this.skills [20] = new Frenesie();
 		this.skills [21] = new Rugissement();
 		this.skills [22] = new Terreur();
-		this.skills [23] = new SacrificeTribal();
+		this.skills [23] = new Cannibale();
 		this.skills [24] = new RayonEnergie();
 		this.skills [25] = new BouleEnergie();
 		this.skills [26] = new TempeteEnergie();

@@ -242,8 +242,18 @@ public class Card
 				}
 			}
 		}
-		else if(stat == ModifierStat.Stat_Attack || stat == ModifierStat.Stat_Speed || stat == ModifierStat.Stat_Move){
-			if(type==ModifierType.Type_BonusMalus && duration == -1){
+		else if(stat == ModifierStat.Stat_Attack){
+			if(type==ModifierType.Type_BonusMalus && duration == -1 && (idIcon==9)){
+				for (int j = this.modifiers.Count-1 ; j >= 0 ; j--){
+					if (modifiers[j].idIcon==9 && type==ModifierType.Type_BonusMalus && duration == -1){
+						modifiers.RemoveAt(j) ; 
+					}
+				}
+			}
+			this.modifiers.Add(new StatModifier(amount, type, stat, duration, idIcon, t, d, a));
+		}
+		else if(stat == ModifierStat.Stat_Speed || stat == ModifierStat.Stat_Move){
+			if(type==ModifierType.Type_BonusMalus && duration == -1 && idIcon!=4){
 				for (int j = this.modifiers.Count-1 ; j >= 0 ; j--){
 					if (modifiers[j].Stat==stat && type==ModifierType.Type_BonusMalus && duration == -1){
 						modifiers.RemoveAt(j) ; 
@@ -402,6 +412,19 @@ public class Card
 				modifiers.RemoveAt(i);
 			}
 		}
+		
+		if(this.GetLife()<0){
+			this.addModifier(this.GetTotalLife()-1,ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
+		}
+	}
+	
+	public void removeLeaderEffect(){
+		for (int i = modifiers.Count-1 ; i >= 0 ; i--)
+		{
+			if(modifiers[i].idIcon==-4 ||modifiers[i].idIcon==4){
+				modifiers.RemoveAt(i);
+			}
+		}
 	}
 	
 	public bool hasModifiers()
@@ -491,10 +514,31 @@ public class Card
 		return bouclier;
 	}
 	
+	public int GetTotalLife()
+	{
+		int life = this.Life;
+		
+		foreach (StatModifier modifier in modifiers)
+		{
+			if (modifier.Stat == ModifierStat.Stat_Life)
+			{
+				life += modifier.Amount;
+			}
+		}
+		return life ;
+	}
 	
 	public int GetLife()
 	{
 		int life = this.Life;
+		
+		foreach (StatModifier modifier in modifiers)
+		{
+			if (modifier.Stat == ModifierStat.Stat_Life)
+			{
+				life += modifier.Amount;
+			}
+		}
 		
 		foreach (StatModifier modifier in modifiers)
 		{
@@ -575,6 +619,41 @@ public class Card
 	public bool isGenerous()
 	{
 		return (this.Skills[0].Id == 74);
+	}
+	
+	public bool isPacifiste()
+	{
+		return (this.Skills[0].Id == 75);
+	}
+	
+	public bool isNurse()
+	{
+		return (this.Skills[0].Id == 77);
+	}
+	
+	public bool isLeader()
+	{
+		return (this.Skills[0].Id == 78);
+	}
+	
+	public bool isAguerri()
+	{
+		return (this.Skills[0].Id == 70);
+	}
+	
+	public bool isFrenetique()
+	{
+		return (this.Skills[0].Id == 71);
+	}
+	
+	public bool isGeant()
+	{
+		return (this.Skills[0].Id == 72);
+	}
+	
+	public bool isRapide()
+	{
+		return (this.Skills[0].Id == 73);
 	}
 	
 	public int getPassiveManacost()

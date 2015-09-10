@@ -25,7 +25,7 @@ public class Frenesie : GameSkill
 		int target = GameController.instance.getCurrentPlayingCard() ;
 		
 		GameController.instance.addCardModifier(target, manacost, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
-		GameController.instance.addCardModifier(target, manacost, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, -1, 9, "Arme enchantée", "Attaque augmentée de "+manacost, "Permanent");
+		GameController.instance.addCardModifier(target, manacost, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, -1, 9, "Frénésie", "Attaque augmentée de "+manacost, "Permanent");
 		
 		if(myCurrentLife>manacost){
 			GameView.instance.displaySkillEffect(target, "+"+manacost+" ATK\n-"+manacost+" PV", 4);

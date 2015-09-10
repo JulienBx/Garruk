@@ -1,9 +1,9 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 
-public class AttaqueCirculaire : GameSkill
+public class Attaque360 : GameSkill
 {
-	public AttaqueCirculaire()
+	public Attaque360()
 	{
 		this.numberOfExpectedTargets = 0 ; 
 	}
@@ -64,7 +64,7 @@ public class AttaqueCirculaire : GameSkill
 	}
 	
 	public override void failedToCastOn(int target, int indexFailure){
-		GameView.instance.displaySkillEffect(target, "ESQUIVE", 4);
+		GameView.instance.displaySkillEffect(target, "Esquive", 4);
 	}
 	
 	public override string isLaunchable(){

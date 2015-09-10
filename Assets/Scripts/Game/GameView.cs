@@ -26,6 +26,8 @@ public class GameView : MonoBehaviour
 	int nbCardsPerPlayer = 4 ;
 	int nbFreeRowsAtBeginning = 2 ;
 	
+	int turnTime = 30 ;
+	
 	GameObject[,] tiles ;
 	GameObject[,] tileHandlers ;
 	GameObject[] verticalBorders ;
@@ -51,8 +53,7 @@ public class GameView : MonoBehaviour
 	
 	float timerTurn;
 	int timerSeconds ;
-	float turnTime;
-	
+
 	float myLifePercentage = 100 ; 
 	float hisLifePercentage = 100 ;
 	
@@ -600,6 +601,31 @@ public class GameView : MonoBehaviour
 		else{
 			this.playingCards [debut + c.deckOrder].GetComponentInChildren<PlayingCardController>().setTile(new Tile(4-c.deckOrder, hauteur), tiles [4-c.deckOrder, hauteur].GetComponent<TileController>().getPosition());
 			this.tiles [4-c.deckOrder, hauteur].GetComponent<TileController>().setCharacterID(debut + c.deckOrder);
+		}
+		
+		if(this.getCard(debut+c.deckOrder).isPacifiste()){
+			int amount = this.getCard(debut+c.deckOrder).getPassiveManacost();
+			int amountLife = Mathf.CeilToInt(this.getCard(debut+c.deckOrder).GetLife()*amount / 100f);
+			int amountAttack = Mathf.CeilToInt(amount * this.getCard(debut+c.deckOrder).GetAttack() / 100f);
+			
+			this.getCard(debut+c.deckOrder).addModifier(1*amountLife, ModifierType.Type_BonusMalus, ModifierStat.Stat_Life, -1, -1, "", "", "");
+			this.getCard(debut+c.deckOrder).addModifier(-1*amountAttack, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, -1, 3, "Pacifiste", "+"+amountLife+" PV MAX\n-"+amountAttack+" ATK", "Permanent");
+			this.playingCards [debut + c.deckOrder].GetComponentInChildren<PlayingCardController>().show(false);
+		}
+		else if(this.getCard(debut+c.deckOrder).isAguerri()){
+			int amount = this.getCard(debut+c.deckOrder).getPassiveManacost();
+			int amountAttack = Mathf.CeilToInt(this.getCard(debut+c.deckOrder).GetAttack()*amount / 100f);
+			
+			this.getCard(debut+c.deckOrder).addModifier(amountAttack, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, -1, 9, "Aguerri", "Permanent, +"+amountAttack+" ATK", "Permanent");
+			this.playingCards [debut + c.deckOrder].GetComponentInChildren<PlayingCardController>().show(false);
+		}
+		else if(this.getCard(debut+c.deckOrder).isRapide()){
+			int amount = this.getCard(debut+c.deckOrder).getPassiveManacost();
+			int amountMove = Mathf.CeilToInt(this.getCard(debut+c.deckOrder).GetMove()*amount / 100f);
+			int amountAttack = Mathf.CeilToInt(this.getCard(debut+c.deckOrder).GetAttack()*amount / 100f);
+			
+			this.getCard(debut+c.deckOrder).addModifier(-1*amountAttack, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, -1, 9, "Rapide", "Permanent, +"+amountMove+" MOV et -"+amountAttack+" ATK", "Permanent");
+			this.playingCards [debut + c.deckOrder].GetComponentInChildren<PlayingCardController>().show(false);
 		}
 	}
 	
@@ -1362,7 +1388,7 @@ public class GameView : MonoBehaviour
 	{
 		Tile tile ;
 		this.targets = new List<Tile>();
-		List<Tile> neighbourTiles = this.getOpponentImmediateNeighbours(this.getPlayingCardTile(GameController.instance.getCurrentPlayingCard()));
+		List<Tile> neighbourTiles = this.getAllyImmediateNeighbours(this.getPlayingCardTile(GameController.instance.getCurrentPlayingCard()));
 		int playerID;
 		foreach (Tile t in neighbourTiles)
 		{
@@ -1614,8 +1640,8 @@ public class GameView : MonoBehaviour
 		this.tiles [tile.x, tile.y].GetComponent<TileController>().show();
 	}
 	
-	public void show(int target){
-		this.playingCards[target].GetComponent<PlayingCardController>().show();
+	public void show(int target, bool showTR){
+		this.playingCards[target].GetComponent<PlayingCardController>().show(showTR);
 	}
 	
 	public void kill(int target){
@@ -1630,6 +1656,15 @@ public class GameView : MonoBehaviour
 		this.tileHandlers[t.x, t.y].GetComponent<TileHandlerController>().changeType(3);
 		this.displayedDeads.Add(target);
 		this.displayedDeadsTimer.Add(1);
+		
+		if(this.getCard(target).isLeader()){
+			for (int i = 0 ; i < this.playingCards.Count ; i++){
+				List<int> allys = this.getAllys();
+				for (int j = 0 ; j < allys.Count ; j++){
+					this.getCard(allys[j]).removeLeaderEffect();
+				}
+			}
+		}
 		
 		GameController.instance.killHandle (target);
 		
@@ -1727,6 +1762,19 @@ public class GameView : MonoBehaviour
 		return freeNeighbours ;
 	}
 	
+	public List<Tile> getAllyImmediateNeighbours(Tile t){
+		List<Tile> freeNeighbours = new List<Tile>();
+		List<Tile> neighbours = t.getImmediateNeighbourTiles();
+		for (int i = 0 ; i < neighbours.Count ; i++){
+			if(this.tiles[neighbours[i].x, neighbours[i].y].GetComponent<TileController>().getCharacterID()!=-1){
+				if(this.getIsMine(this.tiles[neighbours[i].x, neighbours[i].y].GetComponent<TileController>().getCharacterID())){
+					freeNeighbours.Add(neighbours[i]);
+				}
+			}
+		}
+		return freeNeighbours ;
+	}
+	
 	public void removeClickedCard(int c){
 		if(c!=-1){
 			Tile t = this.getPlayingCardTile(c);
@@ -1763,6 +1811,30 @@ public class GameView : MonoBehaviour
 			}
 		}
 		return compteur ;
+	}
+	
+	public void checkPassiveSkills(){
+		bool isFoundLeader = false ;
+		
+		for (int i = 0 ; i < this.playingCards.Count ; i++){
+			if (this.getIsMine(i)){
+				if(this.getCard(i).isLeader() && !isFoundLeader){
+					isFoundLeader = true ;
+					int amount = this.getCard(i).getPassiveManacost();
+					for (int j = 0 ; j < this.playingCards.Count ; j++){
+						if(i!=j){
+							if (this.getIsMine(j)){
+								int amountLife = Mathf.CeilToInt(amount*this.getCard(j).GetTotalLife()/100f);
+								int amountAttack = Mathf.CeilToInt(amount*this.getCard(j).GetAttack()/100f);
+								this.getCard(j).addModifier(amountLife, ModifierType.Type_BonusMalus, ModifierStat.Stat_Life, -1, -4, "", "", "");
+								this.getCard(j).addModifier(amountAttack, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, -1, 4, "Leader actif", "Le leader confère +"+amountAttack+" ATK et +"+amountLife+" PV au héros", "Jusqu'à la mort du leader");
+								this.show (j, false);
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 }
 

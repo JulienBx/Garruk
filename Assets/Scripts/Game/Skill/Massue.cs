@@ -44,7 +44,7 @@ public class Massue : GameSkill
 	}
 	
 	public override void failedToCastOn(int target, int indexFailure){
-		GameView.instance.displaySkillEffect(target, "ESQUIVE", 4);
+		GameView.instance.displaySkillEffect(target, "Esquive", 4);
 	}
 	
 	public override string isLaunchable(){
@@ -58,16 +58,9 @@ public class Massue : GameSkill
 		string text = "PV : "+currentLife+"->"+(currentLife-1)+"-"+(Mathf.Max(0,currentLife-base.skill.ManaCost))+"\n";
 	
 		int probaEsquive = targetCard.GetEsquive();
-		int proba ;
-		text += "HIT : ";
-		if (probaEsquive!=0){
-			proba = 100-probaEsquive;
-			text+=proba+"% : "+100+"%(ATT) - "+probaEsquive+"%(ESQ)";
-		}
-		else{
-			proba = 100;
-			text+=proba+"%";
-		}
+		int probaHit = Mathf.Max(0,100-probaEsquive) ;
+		
+		text += "HIT% : "+probaHit;
 		
 		return text ;
 	}

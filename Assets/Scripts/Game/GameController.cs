@@ -318,38 +318,55 @@ public class GameController : Photon.MonoBehaviour
 	[RPC]
 	public void findNextPlayer()
 	{
+		if(GameView.instance.getCard(this.currentPlayingCard).isNurse()){
+			List<Tile> targets = GameView.instance.getAllyImmediateNeighbours(GameView.instance.getPlayingCardTile(this.currentPlayingCard));
+			for (int i = 0 ; i < targets.Count ; i++){
+				int target = GameView.instance.getTileCharacterID(targets[i].x, targets[i].y);
+				int amount = Mathf.CeilToInt(GameView.instance.getCard(this.currentPlayingCard).getPassiveManacost()*GameView.instance.getCard(target).GetTotalLife()/100f);
+				this.addCardModifier(target, -1*amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
+				GameView.instance.displaySkillEffect(target, "INFIRMIER\n+"+amount+" PV", 4);
+			}
+		}
+		else if(GameView.instance.getCard(this.currentPlayingCard).isFrenetique()){
+			int amount = GameView.instance.getCard(this.currentPlayingCard).getPassiveManacost();
+			int amountAttack = Mathf.CeilToInt(GameView.instance.getCard(this.currentPlayingCard).GetAttack()*amount / 100f);
+			
+			GameView.instance.getCard(this.currentPlayingCard).addModifier(amountAttack, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, -1, 13, "Frénétique", "Permanent, +"+amount+" ATK", "Permanent");
+			GameView.instance.show(this.currentPlayingCard, false);
+		}
+		
 		this.timeRunsOut(2);
 		
 		this.turnsToWait = 100;
 		
 		bool newTurn = true;
 		int nextPlayingCard = -1;
-		int i = 0;
+		int i2 = 0;
 		int length = this.playingCardTurnsToWait.Count;
 		
-		while (i < length && newTurn == true)
+		while (i2 < length && newTurn == true)
 		{
-			if(!GameView.instance.isDead(i)){
-				this.playingCardTurnsToWait[i]--;
+			if(!GameView.instance.isDead(i2)){
+				this.playingCardTurnsToWait[i2]--;
 				
-				if(GameView.instance.getIsMine(i)){
-					if(this.playingCardTurnsToWait[i]<this.turnsToWait){
-						this.turnsToWait = this.playingCardTurnsToWait[i];
+				if(GameView.instance.getIsMine(i2)){
+					if(this.playingCardTurnsToWait[i2]<this.turnsToWait){
+						this.turnsToWait = this.playingCardTurnsToWait[i2];
 					}
 				}
 				
-				if (this.playingCardTurnsToWait[i]==0)
+				if (this.playingCardTurnsToWait[i2]==0)
 				{
-					this.playingCardTurnsToWait[i]=GameView.instance.countAlive();
-					nextPlayingCard = i;
+					this.playingCardTurnsToWait[i2]=GameView.instance.countAlive();
+					nextPlayingCard = i2;
 				}
 			}
-			i++;
+			i2++;
 		}
 		
-		for(int i2 = 0 ; i2 < this.playingCardTurnsToWait.Count ; i2++){
-			GameView.instance.getCard(i2).nbTurnsToWait=this.playingCardTurnsToWait[i2];
-			GameView.instance.showTR(i2);
+		for(int i3 = 0 ; i3 < this.playingCardTurnsToWait.Count ; i3++){
+			GameView.instance.getCard(i3).nbTurnsToWait=this.playingCardTurnsToWait[i3];
+			GameView.instance.showTR(i3);
 		}
 
 		this.initPlayer(nextPlayingCard);
@@ -425,7 +442,7 @@ public class GameController : Photon.MonoBehaviour
 	}
 
 	public void resolvePass()
-	{
+	{	
 		photonView.RPC("findNextPlayer", PhotonTargets.AllBuffered);
 	}
 	
@@ -441,7 +458,7 @@ public class GameController : Photon.MonoBehaviour
 		//this.playingCardHasMoved = false;
 		//this.displaySkillEffect(this.currentPlayingCard, "Se réveille", 3, 2);
 		//this.getCurrentCard().removeSleeping();
-		this.getCurrentPCC().show();
+		//this.getCurrentPCC().show();
 	}
 
 	[RPC]
@@ -608,6 +625,7 @@ public class GameController : Photon.MonoBehaviour
 			this.myDeck = deck;
 			GameView.instance.setInitialDestinations(this.isFirstPlayer);
 			GameView.instance.showStartButton();
+			GameView.instance.checkPassiveSkills();
 		}
 		
 		if (this.isTutorialLaunched && !isFirstP)
@@ -721,11 +739,16 @@ public class GameController : Photon.MonoBehaviour
 			i++;
 		}
 		
-		this.playingCardTurnsToWait[idToRank]-=nbTurns ;
+		this.playingCardTurnsToWait[idToRank]=Mathf.Max(1, this.playingCardTurnsToWait[idToRank]-nbTurns) ;
 		
 		for (int j = 0 ; j < length ; j++){
 			GameView.instance.getCard(j).nbTurnsToWait = this.playingCardTurnsToWait[j];
-			GameView.instance.show(j);
+			if(j!=this.getCurrentPlayingCard()){
+				GameView.instance.show(j, true);
+			}
+			else{
+				GameView.instance.show(j, false);
+			}
 		}
 	}
 	
@@ -748,11 +771,16 @@ public class GameController : Photon.MonoBehaviour
 			i++;
 		}
 		
-		this.playingCardTurnsToWait[idToRank]-=nbTurns ;
+		this.playingCardTurnsToWait[idToRank] = Mathf.Min (8, this.playingCardTurnsToWait[idToRank]+nbTurns) ;
 		
 		for (int j = 0 ; j < length ; j++){
 			GameView.instance.getCard(j).nbTurnsToWait = this.playingCardTurnsToWait[j];
-			GameView.instance.show(j);
+			if(j!=this.getCurrentPlayingCard()){
+				GameView.instance.show(j, true);
+			}
+			else{
+				GameView.instance.show(j, false);
+			}
 		}
 	}
 
@@ -1298,7 +1326,12 @@ public class GameController : Photon.MonoBehaviour
 	public void addCardModifier(int target, int amount, ModifierType type, ModifierStat stat, int duration, int idIcon, string t, string d, string a)
 	{ 
 		GameView.instance.getCard(target).addModifier(amount, type, stat, duration, idIcon, t, d, a);
-		GameView.instance.show(target);
+		if(target!=this.getCurrentPlayingCard()){
+			GameView.instance.show(target, true);
+		}
+		else{
+			GameView.instance.show(target, false);
+		}
 		if (stat == ModifierStat.Stat_Dommage)
 		{
 			if (!GameView.instance.isDead(target) && GameView.instance.getCard(target).GetLife() <= 0)
@@ -1490,6 +1523,17 @@ public class GameController : Photon.MonoBehaviour
 	public void applyOnRPC3(int target, int arg)
 	{
 		GameSkills.instance.getCurrentGameSkill().applyOn(target, arg);
+	}
+	
+	public void applyOn(int target, int arg, int arg2)
+	{
+		photonView.RPC("applyOnRPC6", PhotonTargets.AllBuffered, target, arg, arg2);
+	}
+	
+	[RPC]
+	public void applyOnRPC6(int target, int arg, int arg2)
+	{
+		GameSkills.instance.getCurrentGameSkill().applyOn(target, arg, arg2);
 	}
 	
 	public void applyOn(int[] targets, int[] args)

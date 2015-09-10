@@ -28,7 +28,7 @@ public class Antibiotique : GameSkill
 		{                             
 			if (Random.Range(1,101) <= successChances)
 			{ 
-				GameController.instance.applyOn(target);
+				GameController.instance.applyOn(target,0);
 			}
 			else{
 				GameController.instance.failedToCastOnSkill(target, 2);
@@ -37,13 +37,42 @@ public class Antibiotique : GameSkill
 		else{
 			GameController.instance.failedToCastOnSkill(target, 1);
 		}
+		
+		if (base.card.isGenerous()){
+			if (Random.Range(1,101) <= base.card.getPassiveManacost()){
+				List<int> allys = GameView.instance.getAllys();
+				if(allys.Count>1){
+					allys.Remove(target);
+					target = Random.Range(0,allys.Count+1);
+					
+					if (Random.Range(1,101) <= successChances)
+					{
+						if (Random.Range(1,101) > GameView.instance.getCard(target).GetMagicalEsquive())
+						{
+							GameController.instance.applyOn(target,1);
+						}
+					}
+				}
+			}
+		}
+		
 		GameController.instance.play();
 	}
 	
-	public override void applyOn(int target){
+	public override void applyOn(int target, int arg){
 		GameView.instance.getCard(target).emptyModifiers();
-		GameView.instance.getPCC(target).show();
-		GameView.instance.displaySkillEffect(target, "Effets supprimés !", 5);
+		if(target!=GameController.instance.getCurrentPlayingCard()){
+			GameView.instance.show(target, true);
+		}
+		else{
+			GameView.instance.show(target, false);
+		}
+		if(arg==0){
+			GameView.instance.displaySkillEffect(target, "Effets supprimés !", 5);
+		}
+		else if (arg==1){
+			GameView.instance.displaySkillEffect(target, "BONUS\nEffets supprimés !", 5);
+		}
 	}
 	
 	public override void failedToCastOn(int target, int indexFailure){

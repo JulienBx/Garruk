@@ -33,12 +33,12 @@ public class Rugissement : GameSkill
 	public override void applyOn(int target){
 		int amount = base.skill.ManaCost;
 		
-		GameController.instance.addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, 1, 9, "Renforcement", "Attaque augmentée de "+amount, "Actif 1 tour");
+		GameController.instance.addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, 1, 9, "Rugissement", "+"+amount+" ATK pour un tour", "Actif 1 tour");
 		GameView.instance.displaySkillEffect(target, "+"+amount+" ATK", 4);	
 	}
 	
 	public override void failedToCastOn(int target, int indexFailure){
-		GameView.instance.displaySkillEffect(target, "ESQUIVE", 4);
+		GameView.instance.displaySkillEffect(target, "Esquive", 5);
 	}
 	
 	public override string isLaunchable(){
