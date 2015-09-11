@@ -28,7 +28,6 @@ public class GameController : Photon.MonoBehaviour
 	List<int> playingCardTurnsToWait; 
 	TargetPCCHandler targetPCCHandler ;
 	TargetTileHandler targetTileHandler ;
-	bool isTutorialLaunched;
 	public Deck myDeck ;
 	int turnsToWait ; 
 	string myPlayerName;
@@ -42,14 +41,7 @@ public class GameController : Photon.MonoBehaviour
 		PhotonNetwork.ConnectUsingSettings(ApplicationModel.photonSettings);
 		
 		this.playingCardTurnsToWait = new List<int>();
-		
-//		if (ApplicationModel.launchGameTutorial)
-//		{
-//			this.tutorial = Instantiate(this.TutorialObject) as GameObject;
-//			this.tutorial.AddComponent<GameTutorialController>();
-//			this.tutorial.GetComponent<GameTutorialController>().launchSequence(0);
-//			this.isTutorialLaunched = true;
-//		}
+
 	}
 	
 	public void moveToDestination(Tile t){
@@ -511,7 +503,7 @@ public class GameController : Photon.MonoBehaviour
 		bool isRock = false;
 		List<Tile> rocks = new List<Tile>();
 		Tile t = new Tile(0,0) ;
-		if (!this.isTutorialLaunched)
+		if (!GameView.instance.getIsTutorialLaunched())
 		{
 			int nbRocksToAdd = UnityEngine.Random.Range(3, 6);
 			int compteurRocks = 0;
@@ -572,8 +564,12 @@ public class GameController : Photon.MonoBehaviour
 		yield return StartCoroutine(myDeck.LoadDeck());
 
 		photonView.RPC("SpawnCharacter", PhotonTargets.AllBuffered, this.isFirstPlayer, myDeck.Id);
+
+		if (GameView.instance.getIsTutorialLaunched())
+		{
+			StartCoroutine(this.loadTutorialDeck(!this.isFirstPlayer, "Garruk"));
+		}	
 	}
-	
 	public IEnumerator loadTutorialDeck(bool isFirstPlayer, string name)
 	{
 		Deck tutorialDeck = new Deck(name);
@@ -627,14 +623,19 @@ public class GameController : Photon.MonoBehaviour
 			GameView.instance.showStartButton();
 			GameView.instance.checkPassiveSkills();
 		}
-		
-		if (this.isTutorialLaunched && !isFirstP)
+
+		if (GameView.instance.getIsTutorialLaunched())
 		{
-			this.disableAllCharacters();
+			TutorialObjectController.instance.actionIsDone();
 		}
-		
+
 		if (this.nbPlayers==2){
 			this.bothPlayerLoaded = true ;
+		}
+
+		if (GameView.instance.getIsTutorialLaunched())
+		{
+
 		}
 		
 		yield break;
@@ -646,10 +647,9 @@ public class GameController : Photon.MonoBehaviour
 		GameView.instance.removeClickedCard(this.currentClickedCard);
 		this.haveIStarted = true ;
 		photonView.RPC("playerReadyRPC", PhotonTargets.AllBuffered, this.isFirstPlayer);
-		if (isTutorialLaunched)
+		if (GameView.instance.getIsTutorialLaunched())
 		{
 			photonView.RPC("playerReadyRPC", PhotonTargets.AllBuffered, !this.isFirstPlayer);
-			//this.tutorial.GetComponent<GameTutorialController>().actionIsDone();
 		}
 		
 	}
@@ -858,7 +858,7 @@ public class GameController : Photon.MonoBehaviour
 		if (!isReconnecting)
 		{
 			photonView.RPC("AddPlayerToList", PhotonTargets.AllBuffered, PhotonNetwork.player.ID, ApplicationModel.username);
-			if (this.isTutorialLaunched)
+			if (GameView.instance.getIsTutorialLaunched())
 			{
 				photonView.RPC("AddPlayerToList", PhotonTargets.AllBuffered, PhotonNetwork.player.ID + 1, "Garruk");
 			}
@@ -875,10 +875,7 @@ public class GameController : Photon.MonoBehaviour
 		}
 		StartCoroutine(this.loadMyDeck());
 		
-		if (this.isTutorialLaunched)
-		{
-			//StartCoroutine(this.loadTutorialDeck(!this.isFirstPlayer, loginName));
-		}		
+			
 	}
 	
 	void OnDisconnectedFromPhoton()
@@ -893,7 +890,7 @@ public class GameController : Photon.MonoBehaviour
 	
 	public IEnumerator quitGame()
 	{
-		if(isTutorialLaunched)
+		if(GameView.instance.getIsTutorialLaunched())
 		{
 			yield return (StartCoroutine(this.sendStat(myPlayerName, hisPlayerName)));
 			photonView.RPC("quitGameRPC", PhotonTargets.AllBuffered, false);
@@ -1721,14 +1718,14 @@ public class GameController : Photon.MonoBehaviour
 	
 	public void callTutorial()
 	{
-		if (isTutorialLaunched)
+		if (GameView.instance.getIsTutorialLaunched())
 		{
 			//this.tutorial.GetComponent<GameTutorialController>().actionIsDone();
 		}
 	}
 	public bool getIsTutorialLaunched()
 	{
-		return this.isTutorialLaunched;
+		return GameView.instance.getIsTutorialLaunched();
 	}
 	public void setEndSceneControllerGUI(bool value)
 	{

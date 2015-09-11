@@ -8,6 +8,8 @@ using System.Reflection;
 public class GameTutorialController : TutorialObjectController 
 {
 	public static GameTutorialController instance;
+	private int playerCount;
+	private Vector3 gameObjectPosition;
 
 	public override void launchSequence(int sequenceID)
 	{
@@ -17,733 +19,837 @@ public class GameTutorialController : TutorialObjectController
 		case 0:
 			if(!isResizing)
 			{
-				GameController.instance.setButtonsGUI(false);
-				view.VM.displayArrow=false;
-				view.VM.displayNextButton=false;
-				view.VM.title="Le mode match";
-				view.VM.description="Pret pour votre premier duel ! Le match se joue sur un damier sur lequel vous pouvez déplacer vos cartes. Vous démarrez la partie en choisissant une disposition pour vos cartes sur les deux premiè!res lignes.";
+				this.displayArrow(false);
+				this.displayPopUp(1);
+				this.displayNextButton(false);
+				this.setPopUpTitle("Le mode match");
+				this.setPopUpDescription("Pret pour votre premier duel ! Le match se joue sur un damier sur lequel vous pouvez déplacer vos cartes. Vous démarrez la partie en choisissant une disposition pour vos cartes sur les deux premiè!res lignes.");
+				this.displayBackground(true);
 			}
-			popUpWidth=0.35f*Screen.width;
-			popUpHeight=this.computePopUpHeight();
-			popUpX=0.6f*Screen.width;
-			popUpY=0.1f*Screen.height;
-			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			this.resizeBackground(new Rect(0,0,0,0),0f,0f);
+			this.resizePopUp(new Vector3(0,0,-4f));
 			break;
 		case 1:
 			if(!isResizing)
 			{
-				GameController.instance.activeSingleCharacter(1);
-				view.VM.displayArrow=true;
-				view.VM.displayNextButton=false;
-				view.VM.title="Préparons le combat";
-				view.VM.description="Nous allons commencer par déplacer une première carte. Pour sélectionner une carte il suffit de cliquer dessus.";
+				this.displayPopUp(0);
 				this.setDownArrow();
+				this.displayNextButton(false);
+				this.setPopUpTitle("Préparons le combat");
+				this.setPopUpDescription("Nous allons commencer par déplacer une première carte. Pour sélectionner une carte il suffit de cliquer dessus.");
+				this.displayBackground(true);
 			}
-			GOPosition = GameController.instance.getPlayingCardsPosition(1);
-			GOSize =GameController.instance.getPlayingCardsSize(1);
-			arrowHeight=0.1f*Screen.height;
-			arrowWidth=(2f/3f)*arrowHeight;
-			arrowX=GOPosition.x-(arrowWidth/2f);
-			arrowY=Screen.height-GOPosition.y-GOSize.y/2f-arrowHeight;
-			view.VM.arrowRect= new Rect (arrowX,arrowY,arrowWidth,arrowHeight);
+			
+			this.gameObjectPosition = GameView.instance.getPlayingCardsPosition(0);
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2f,2f),0.4f,0.4f);
 			this.drawDownArrow();
-			popUpWidth=0.35f*Screen.width;
-			popUpHeight=this.computePopUpHeight();
-			popUpX=arrowX+arrowWidth/2f-popUpWidth/2f;
-			popUpY=arrowY-popUpHeight-0.02f*Screen.height;
-			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
 			break;
 		case 2:
 			if(!isResizing)
 			{
-				//GameController.instance.setDestination(2,1,true);
-				GameController.instance.addTileHalo(2,1,5, true);
-				view.VM.displayArrow=true;
-				view.VM.displayNextButton=false;
-				view.VM.title="Préparons le combat";
-				view.VM.description="Maintenant nous allons cliquer sur la case sur laquelle nous souhaitons déplacer la carte. Avant le combat, il vous est possible de déplacer vos cartes sur les deux premières lignes.";
-				this.setDownArrow();
+				this.displayPopUp(0);
+				this.setLeftArrow();
+				this.displayNextButton(true);
+				this.setPopUpTitle("Préparons le combat");
+				this.setPopUpDescription("Lorsque vous survolez ou cliquez sur une carte, un panneau s'affiche avec des informations sur la carte.");
+				this.displayBackground(true);
 			}
-			GOPosition = GameController.instance.getTilesPosition(2,1);
-			GOSize =GameController.instance.getTilesSize(2,1);
-			arrowHeight=0.1f*Screen.height;
-			arrowWidth=(2f/3f)*arrowHeight;
-			arrowX=GOPosition.x-(arrowWidth/2f);
-			arrowY=Screen.height-GOPosition.y-GOSize.y/2f-arrowHeight;
-			view.VM.arrowRect= new Rect (arrowX,arrowY,arrowWidth,arrowHeight);
-			this.drawDownArrow();
-			popUpWidth=0.35f*Screen.width;
-			popUpHeight=this.computePopUpHeight();
-			popUpX=arrowX+arrowWidth/2f-popUpWidth/2f;
-			popUpY=arrowY-popUpHeight-0.02f*Screen.height;
-			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			
+			this.gameObjectPosition = GameView.instance.getMyHoveredRPCPosition();
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,11f,10f),0f,0f);
+			this.drawLeftArrow();
 			break;
 		case 3:
 			if(!isResizing)
 			{
-				GameController.instance.hideTileHalo(2,1);
-				GameController.instance.activeSingleCharacter(2);
-				view.VM.displayArrow=true;
-				view.VM.displayNextButton=false;
-				view.VM.title="Préparons le combat";
-				view.VM.description="Vous pouvez déplacer toutes vos troupes. Nous allons pour le moment déplacer vos deux cartes les plus offensives et les approcher du campement ennemi.";
+				this.displayPopUp(0);
 				this.setDownArrow();
+				this.displayNextButton(false);
+				this.setPopUpTitle("Préparons le combat");
+				this.setPopUpDescription("Maintenant nous allons cliquer sur la case sur laquelle nous souhaitons déplacer la carte. Avant le combat, il vous est possible de déplacer vos cartes sur les deux premières lignes.");
+				this.displayBackground(true);
 			}
-			GOPosition = GameController.instance.getPlayingCardsPosition(2);
-			GOSize =GameController.instance.getPlayingCardsSize(2);
-			arrowHeight=0.1f*Screen.height;
-			arrowWidth=(2f/3f)*arrowHeight;
-			arrowX=GOPosition.x-(arrowWidth/2f);
-			arrowY=Screen.height-GOPosition.y-GOSize.y/2f-arrowHeight;
-			view.VM.arrowRect= new Rect (arrowX,arrowY,arrowWidth,arrowHeight);
+
+			this.gameObjectPosition = GameView.instance.getTilesPosition(1,1);
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2f,2f),0.4f,0.4f);
 			this.drawDownArrow();
-			popUpWidth=0.35f*Screen.width;
-			popUpHeight=this.computePopUpHeight();
-			popUpX=arrowX+arrowWidth/2f-popUpWidth/2f;
-			popUpY=arrowY-popUpHeight-0.02f*Screen.height;
-			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
 			break;
 		case 4:
 			if(!isResizing)
 			{
-				//GameController.instance.setDestination(3,1,true);
-				GameController.instance.addTileHalo(3,1,5, true);
-				view.VM.displayArrow=true;
-				view.VM.displayNextButton=false;
-				view.VM.title="Préparons le combat";
-				view.VM.description="En rapprochant ainsi vos cartes, vous pourrez attaquer votre adversaire plus rapidement.";
+				this.displayPopUp(0);
 				this.setDownArrow();
+				this.displayNextButton(false);
+				this.setPopUpTitle("Préparons le combat");
+				this.setPopUpDescription("Vous pouvez déplacer toutes vos troupes. Nous allons pour le moment déplacer vos deux cartes les plus offensives et les approcher du campement ennemi.");
+				this.displayBackground(true);
 			}
-			GOPosition = GameController.instance.getTilesPosition(3,1);
-			GOSize =GameController.instance.getTilesSize(3,1);
-			arrowHeight=0.1f*Screen.height;
-			arrowWidth=(2f/3f)*arrowHeight;
-			arrowX=GOPosition.x-(arrowWidth/2f);
-			arrowY=Screen.height-GOPosition.y-GOSize.y/2f-arrowHeight;
-			view.VM.arrowRect= new Rect (arrowX,arrowY,arrowWidth,arrowHeight);
+			this.gameObjectPosition = GameView.instance.getPlayingCardsPosition(2);
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2f,2f),0.4f,0.4f);
 			this.drawDownArrow();
-			popUpWidth=0.35f*Screen.width;
-			popUpHeight=this.computePopUpHeight();
-			popUpX=arrowX+arrowWidth/2f-popUpWidth/2f;
-			popUpY=arrowY-popUpHeight-0.02f*Screen.height;
-			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
 			break;
 		case 5:
 			if(!isResizing)
 			{
-				GameController.instance.hideTileHalo(3,1);
-				GameController.instance.setButtonGUI(1,true);
-				StartCoroutine(GameController.instance.moveCharacterRPC(1,6,4));
-				StartCoroutine(GameController.instance.moveCharacterRPC(2,6,5));
-				StartCoroutine(GameController.instance.moveCharacterRPC(4,6,6));
-				StartCoroutine(GameController.instance.moveCharacterRPC(5,6,7));
-				view.VM.displayArrow=true;
-				view.VM.displayNextButton=false;
-				view.VM.title="On commence !";
-				view.VM.description="Une fois que vous avez déplacé vos cartes, cliquez sur 'Je suis prêt' pour démarrer le combat";
+				this.displayPopUp(0);
 				this.setDownArrow();
+				this.displayNextButton(false);
+				this.setPopUpTitle("Préparons le combat");
+				this.setPopUpDescription("En rapprochant ainsi vos cartes, vous pourrez attaquer votre adversaire plus rapidement.");
+				this.displayBackground(true);
 			}
-			arrowHeight=0.1f*Screen.height;
-			arrowWidth=(2f/3f)*arrowHeight;
-			arrowX=Screen.width/2f-(arrowWidth/2f);
-			arrowY=Screen.height/(1.75f)-arrowHeight;
-			view.VM.arrowRect= new Rect (arrowX,arrowY,arrowWidth,arrowHeight);
+			this.gameObjectPosition = GameView.instance.getTilesPosition(3,1);
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2f,2f),0.4f,0.4f);
 			this.drawDownArrow();
-			popUpWidth=0.35f*Screen.width;
-			popUpHeight=this.computePopUpHeight();
-			popUpX=arrowX+arrowWidth/2f-popUpWidth/2f;
-			popUpY=arrowY-popUpHeight-0.02f*Screen.height;
-			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
 			break;
 		case 6:
 			if(!isResizing)
 			{
-				GameController.instance.disableAllCharacters();
-				GameController.instance.disableAllSkillObjects();
-				view.VM.displayArrow=false;
-				view.VM.displayNextButton=true;
-				view.VM.title="Je découvre le jeu de l'adversaire";
-				view.VM.description="Lorsque le combat démarre, vous dévoilez le jeu de l'adversaire ainsi que sa disposition.";
+				this.displayPopUp(0);
+				this.setDownArrow();
+				this.displayNextButton(false);
+				this.setPopUpTitle("Préparons le combat");
+				this.setPopUpDescription("Vous pouvez déplacer toutes vos troupes. Nous allons pour le moment déplacer vos deux cartes les plus offensives et les approcher du campement ennemi.");
+				this.displayBackground(true);
 			}
-			popUpWidth=0.35f*Screen.width;
-			popUpHeight=this.computePopUpHeight();
-			popUpX=0.6f*Screen.width;
-			popUpY=0.1f*Screen.height;
-			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			this.gameObjectPosition = GameView.instance.getPlayingCardsPosition(3);
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2f,2f),0.4f,0.4f);
+			this.drawDownArrow();
 			break;
 		case 7:
 			if(!isResizing)
 			{
-				view.VM.displayArrow=true;
-				view.VM.displayNextButton=true;
-				view.VM.title="Timeline";
-				view.VM.description="Une timeline apparaît sur la gauche de l'écran, elle vous permettra de voir quels seront les prochaines cartes à jouer. Vous retrouverez également l'historique des coups joués précédemment";
-				this.setLeftArrow();
+				this.displayPopUp(0);
+				this.setDownArrow();
+				this.displayNextButton(false);
+				this.setPopUpTitle("Préparons le combat");
+				this.setPopUpDescription("En rapprochant ainsi vos cartes, vous pourrez attaquer votre adversaire plus rapidement.");
+				this.displayBackground(true);
 			}
-			arrowHeight=(2f/3f)*0.1f*Screen.height;
-			arrowWidth=(3f/2f)*arrowHeight;
-			arrowX=0.33f*Screen.width;
-			arrowY=0.25f*Screen.height;
-			view.VM.arrowRect= new Rect (arrowX,arrowY,arrowWidth,arrowHeight);
-			this.drawLeftArrow();
-			popUpWidth=0.35f*Screen.width;
-			popUpHeight=this.computePopUpHeight();
-			popUpX=arrowX+arrowWidth+0.01f*Screen.width;
-			popUpY=arrowY+arrowHeight/2f-popUpHeight/2f;
-			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			this.gameObjectPosition = GameView.instance.getTilesPosition(5,1);
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2f,2f),0.4f,0.4f);
+			this.drawDownArrow();
 			break;
 		case 8:
 			if(!isResizing)
 			{
-				view.VM.displayArrow=true;
-				view.VM.displayNextButton=true;
-				view.VM.title="Le compte à rebours";
-				view.VM.description="Un compte à rebours est affiché sur la gauche. Celui-ci sera actif lorsque vous commencerez des combats avec d'autres adversaires. Vous n'aurez que 30 secondes pour jouer !";
-				this.setRightArrow();
+				StartCoroutine(GameController.instance.moveCharacterRPC(1,6,4));
+				StartCoroutine(GameController.instance.moveCharacterRPC(2,6,5));
+				StartCoroutine(GameController.instance.moveCharacterRPC(4,6,6));
+				StartCoroutine(GameController.instance.moveCharacterRPC(5,6,7));
+				this.displayPopUp(0);
+				this.setDownArrow();
+				this.displayNextButton(false);
+				this.setPopUpTitle("On commence !");
+				this.setPopUpDescription("Une fois que vous avez déplacé vos cartes, cliquez sur 'Je suis prêt' pour démarrer le combat");
+				this.displayBackground(true);
 			}
-			arrowHeight=(2f/3f)*0.1f*Screen.height;
-			arrowWidth=(3f/2f)*arrowHeight;
-			arrowX=0.9f*Screen.width-arrowWidth;;
-			arrowY=0.51f*Screen.height-(arrowHeight/2f);
-			view.VM.arrowRect= new Rect (arrowX,arrowY,arrowWidth,arrowHeight);
-			this.drawRightArrow();
-			popUpWidth=0.35f*Screen.width;
-			popUpHeight=this.computePopUpHeight();
-			popUpX=arrowX-0.01f*Screen.width-popUpWidth;
-			popUpY=arrowY+arrowHeight/2f-popUpHeight/2f;
-			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			this.gameObjectPosition = GameView.instance.getStartButtonPosition();
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,4f,1.5f),0.8f,0.6f);
+			this.drawDownArrow();
 			break;
 		case 9:
 			if(!isResizing)
 			{
-				//GameController.instance.setDestination(3,4,true);
-				GameController.instance.addTileHalo(3,4,5, true);
-				view.VM.displayArrow=true;
-				view.VM.displayNextButton=false;
-				view.VM.title="Mon premier tour";
-				view.VM.description="C'est l'une de vos cartes qui est la plus rapide. Vous commencez donc à jouer. Nous allons déplacer votre carte pour la rapprocher de l'ennemi.";
-				this.setDownArrow();
+				this.displayPopUp(0);
+				this.setUpArrow();
+				this.displayNextButton(false);
+				this.setPopUpTitle("Je découvre le jeu de l'adversaire");
+				this.setPopUpDescription("Lorsque le combat démarre, vous dévoilez le jeu de l'adversaire ainsi que sa disposition. Cliquez sur l'une des cartes de votre adveraire pour continuer");
+				this.displayBackground(true);
 			}
-			GOPosition = GameController.instance.getTilesPosition(3,4);
-			GOSize =GameController.instance.getTilesSize(3,4);
-			arrowHeight=0.1f*Screen.height;
-			arrowWidth=(2f/3f)*arrowHeight;
-			arrowX=GOPosition.x-(arrowWidth/2f);
-			arrowY=Screen.height-GOPosition.y-GOSize.y/2f-arrowHeight;
-			view.VM.arrowRect= new Rect (arrowX,arrowY,arrowWidth,arrowHeight);
-			this.drawDownArrow();
-			popUpWidth=0.35f*Screen.width;
-			popUpHeight=this.computePopUpHeight();
-			popUpX=arrowX+arrowWidth/2f-popUpWidth/2f;
-			popUpY=arrowY-popUpHeight-0.02f*Screen.height;
-			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			this.gameObjectPosition = GameView.instance.getTilesPosition(3,6);
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,7f,2.5f),0.8f,0.8f);
+			this.drawUpArrow();
 			break;
 		case 10:
 			if(!isResizing)
 			{
-				GameController.instance.hideTileHalo(3,4);
-				view.VM.displayArrow=true;
-				view.VM.displayNextButton=false;
-				view.VM.title="Mon premier tour";
-				view.VM.description="Votre carte n'étant pas à portée immédiate d'un adversaire, vous ne pourrez pas attaquer à ce tour. Vous pouvez donc passer.";
-				this.setDownArrow();
+				this.displayPopUp(0);
+				this.setRightArrow();
+				this.displayNextButton(true);
+				this.setPopUpTitle("Je découvre le jeu de l'adversaire");
+				this.setPopUpDescription("Le panneau latéral de droite vous permet de découvrir les caractéristiques des cartes de l'adversaire");
+				this.displayBackground(true);
 			}
-			GOPosition = GameController.instance.getSkillObjectsPosition(5);
-			GOSize =GameController.instance.getSkillObjectsSize(5);
-			arrowHeight=0.1f*Screen.height;
-			arrowWidth=(2f/3f)*arrowHeight;
-			arrowX=GOPosition.x-(arrowWidth/2f);
-			arrowY=Screen.height-GOPosition.y-GOSize.y/2f-arrowHeight;
-			view.VM.arrowRect= new Rect (arrowX,arrowY,arrowWidth,arrowHeight);
-			this.drawDownArrow();
-			popUpWidth=0.35f*Screen.width;
-			popUpHeight=this.computePopUpHeight();
-			popUpX=arrowX+arrowWidth/2f-popUpWidth/2f;
-			popUpY=arrowY-popUpHeight-0.02f*Screen.height;
-			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			
+			this.gameObjectPosition = GameView.instance.getHisHoveredRPCPosition();
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,11f,10f),0f,0f);
+			this.drawRightArrow();
 			break;
 		case 11:
 			if(!isResizing)
 			{
-				StartCoroutine(GameController.instance.moveCharacterRPC(2,4,4));
-				GameController.instance.setAllSkillObjects(false);
-				view.VM.displayArrow=false;
-				view.VM.displayNextButton=true;
-				view.VM.title="L'adversaire joue";
-				view.VM.description="L'adversaire joue à son tour et vient de déplacer une carte à proximité de votre carte";
+				this.displayPopUp(0);
+				this.setUpArrow();
+				this.displayNextButton(true);
+				this.setPopUpTitle("Timer");
+				this.setPopUpDescription("Lorsque vous jouerez contre d'autres joueurs, vous disposerez d'un temps limité pour jouer. Un compteur est affiché en haut de l'écran");
+				this.displayBackground(true);
 			}
-			popUpWidth=0.35f*Screen.width;
-			popUpHeight=this.computePopUpHeight();
-			popUpX=0.6f*Screen.width;
-			popUpY=0.1f*Screen.height;
-			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			this.gameObjectPosition = GameView.instance.getTimerGoPosition();
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2f,2f),0f,0f);
+			this.drawUpArrow();
 			break;
 		case 12:
 			if(!isResizing)
 			{
-				//GameController.instance.launchSkill(4,new List<int> {2});
-				GameController.instance.setAllSkillObjects(false);
-				view.VM.displayArrow=false;
-				view.VM.displayNextButton=true;
-				view.VM.title="L'adversaire joue";
-				view.VM.description="Il déclenche une attaque simple et blesse votre personnage. ";
+				this.displayPopUp(1);
+				this.setDownArrow();
+				this.displayNextButton(true);
+				this.setPopUpTitle("Principes de jeu");
+				this.setPopUpDescription("La carte ayant la plus grande rapidité commence à jouer, ici il s'agit de votre carte. Celle-ci clignote, avant de commencer, détaillons les caractéristiques d'une carte");
+				this.displayBackground(true);
 			}
-			popUpWidth=0.35f*Screen.width;
-			popUpHeight=this.computePopUpHeight();
-			popUpX=0.6f*Screen.width;
-			popUpY=0.1f*Screen.height;
-			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			this.gameObjectPosition = GameView.instance.getPlayingCardsPosition(2);
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2f,2f),0f,0f);
+			this.drawDownArrow();
 			break;
 		case 13:
 			if(!isResizing)
 			{
-				StartCoroutine(GameController.instance.moveCharacterRPC(5,4,7));
-				GameController.instance.setAllSkillObjects(false);
-				view.VM.displayArrow=false;
-				view.VM.displayNextButton=true;
-				view.VM.title="L'adversaire joue";
-				view.VM.description="Comme l'adversaire possède une autre carte plus rapide que les votres, celui-ci peut jouer une deuxième fois et en profite pour déplacer une de ses cartes.";
+				this.displayPopUp(0);
+				this.setDownArrow();
+				this.displayNextButton(true);
+				this.setPopUpTitle("Caractéristiques d'une carte");
+				this.setPopUpDescription("Chaque carte joue dans un ordre précis et susceptible d'évoluer en cours de jeu. Sur chaque carte vous retrouverez le nombre de tour avant que cette dernière puisse jouer");
+				this.displayBackground(true);
 			}
-			popUpWidth=0.35f*Screen.width;
-			popUpHeight=this.computePopUpHeight();
-			popUpX=0.6f*Screen.width;
-			popUpY=0.1f*Screen.height;
-			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			this.gameObjectPosition = GameView.instance.getPlayingCardsQuicknessZonePosition(3);
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,1f,0.75f),0f,0f);
+			this.drawDownArrow();
 			break;
 		case 14:
 			if(!isResizing)
 			{
-				GameController.instance.resolvePass();
-				GameController.instance.disableAllCharacters();
-				//GameController.instance.setDestination(1,3,true);
-				GameController.instance.addTileHalo(1,3,5, true);
-				GameController.instance.disableAllSkillObjects();
-				view.VM.displayArrow=true;
-				view.VM.displayNextButton=false;
-				view.VM.title="Mon Deuxième tour";
-				view.VM.description="C'est votre tour, nous allons maintenant déplacer une deuxième carte à proximité du terrain adverse.";
+				this.displayPopUp(0);
 				this.setDownArrow();
+				this.displayNextButton(true);
+				this.setPopUpTitle("Caractéristiques d'une carte");
+				this.setPopUpDescription("Chaque carte possède une jauge de vie, lorsque celle-ci tombe à zéro, la carte quitte le terrain");
+				this.displayBackground(true);
 			}
-			GOPosition = GameController.instance.getTilesPosition(1,3);
-			GOSize =GameController.instance.getTilesSize(1,3);
-			arrowHeight=0.1f*Screen.height;
-			arrowWidth=(2f/3f)*arrowHeight;
-			arrowX=GOPosition.x-(arrowWidth/2f);
-			arrowY=Screen.height-GOPosition.y-GOSize.y/2f-arrowHeight;
-			view.VM.arrowRect= new Rect (arrowX,arrowY,arrowWidth,arrowHeight);
+			this.gameObjectPosition = GameView.instance.getPlayingCardsLifeZonePosition(3);
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,1.5f,0.75f),0f,0f);
 			this.drawDownArrow();
-			popUpWidth=0.35f*Screen.width;
-			popUpHeight=this.computePopUpHeight();
-			popUpX=arrowX+arrowWidth/2f-popUpWidth/2f;
-			popUpY=arrowY-popUpHeight-0.02f*Screen.height;
-			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
 			break;
 		case 15:
 			if(!isResizing)
 			{
-				GameController.instance.hideTileHalo(1,3);
-				GameController.instance.disableAllCharacters();
-				GameController.instance.disableAllSkillObjects();
-				GameController.instance.activeSingleSkillObjects(0);
-				view.VM.displayArrow=true;
-				view.VM.displayNextButton=false;
-				view.VM.title="Lancement de compétence";
-				view.VM.description="Votre carte n'est pas à proximité d'un adversaire, mais vous pouvez tout de même lancer la compétence rugissement, cette dernière va permettre de donner des points supplémentaire d'attaque à vos autres cartes. Pour déclencher une compétence il suffit de cliquer sur le bouton correspondant, affiché en bas de l'écran.";
+				this.displayPopUp(0);
 				this.setDownArrow();
+				this.displayNextButton(true);
+				this.setPopUpTitle("Caractéristiques d'une carte");
+				this.setPopUpDescription("Chaque carte possède une attaque rapprochée. Il s'agit de la valeur des dégâts infligés par la carte en corps à corps");
+				this.displayBackground(true);
 			}
-			GOPosition = GameController.instance.getSkillObjectsPosition(0);
-			GOSize =GameController.instance.getSkillObjectsSize(0);
-			arrowHeight=0.1f*Screen.height;
-			arrowWidth=(2f/3f)*arrowHeight;
-			arrowX=GOPosition.x-(arrowWidth/2f);
-			arrowY=Screen.height-GOPosition.y-GOSize.y/2f-arrowHeight;
-			view.VM.arrowRect= new Rect (arrowX,arrowY,arrowWidth,arrowHeight);
+			this.gameObjectPosition = GameView.instance.getPlayingCardsAttackZonePosition(3);
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,1f,0.75f),0f,0f);
 			this.drawDownArrow();
-			popUpWidth=0.35f*Screen.width;
-			popUpHeight=this.computePopUpHeight();
-			popUpX=arrowX+arrowWidth/2f-popUpWidth/2f;
-			popUpY=arrowY-popUpHeight-0.02f*Screen.height;
-			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
 			break;
 		case 16:
 			if(!isResizing)
 			{
-				view.VM.displayArrow=false;
-				view.VM.displayNextButton=true;
-				view.VM.title="Le rugissement";
-				view.VM.description="L'effet est immediat, chacune de vos cartes gagne des points d'attaque supplémentaires";
+				this.displayPopUp(0);
+				this.setDownArrow();
+				this.displayNextButton(true);
+				this.setPopUpTitle("Principes de jeu");
+				this.setPopUpDescription("Elle peut également lancer des actions : attaque au corps à corps, déclenchement d'une compétence ou passage d'un tour. Les actions sont disponibles dans la partie inférieure de l'écran.");
+				this.displayBackground(true);
 			}
-			popUpWidth=0.35f*Screen.width;
-			popUpHeight=this.computePopUpHeight();
-			popUpX=0.6f*Screen.width;
-			popUpY=0.1f*Screen.height;
-			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			this.resizeBackground(new Rect(0,-4.5f,8f,2f),0f,0f);
+			this.drawDownArrow();
 			break;
 		case 17:
 			if(!isResizing)
 			{
-				StartCoroutine(GameController.instance.moveCharacterRPC(4,4,6));
-				GameController.instance.setAllSkillObjects(false);
-				view.VM.displayArrow=false;
-				view.VM.displayNextButton=true;
-				view.VM.title="L'adversaire joue";
-				view.VM.description="C'est encore au tour de l'adversaire qui déplace de nouveau un de ses personnage prêt de votre berseker";
+				this.displayPopUp(0);
+				this.displayArrow(false);
+				this.displayNextButton(true);
+				this.setPopUpTitle("Principes de jeu");
+				this.setPopUpDescription("Lorsqu'une carte joue, elle peut se déplacer, sa zone d'action correspond aux cases en bleue");
+				this.displayBackground(true);
 			}
-			popUpWidth=0.35f*Screen.width;
-			popUpHeight=this.computePopUpHeight();
-			popUpX=0.6f*Screen.width;
-			popUpY=0.1f*Screen.height;
-			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			this.gameObjectPosition = GameView.instance.getTilesPosition(3,2);
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,7f,7f),0f,0f);
+			this.resizePopUp(new Vector3(0,2f,-4f));
 			break;
 		case 18:
 			if(!isResizing)
 			{
-				//GameController.instance.launchSkill(4,new List<int> {2});
-				GameController.instance.disableAllSkillObjects();
-				view.VM.displayArrow=false;
-				view.VM.displayNextButton=true;
-				view.VM.title="L'adversaire joue";
-				view.VM.description="... et lui inflige des points de dégâts";
+				this.displayPopUp(0);
+				this.setUpArrow();
+				this.displayNextButton(false);
+				this.setPopUpTitle("Mouvement");
+				this.setPopUpDescription("Premier déplacement de la carte 2");
+				this.displayBackground(true);
 			}
-			popUpWidth=0.35f*Screen.width;
-			popUpHeight=this.computePopUpHeight();
-			popUpX=0.6f*Screen.width;
-			popUpY=0.1f*Screen.height;
-			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			this.gameObjectPosition = GameView.instance.getTilesPosition(3,4);
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2f,2f),0.4f,0.4f);
+			this.drawUpArrow();
 			break;
 		case 19:
 			if(!isResizing)
 			{
-				GameController.instance.disableAllCharacters();
-				//GameController.instance.setDestination(2,2,true);
-				GameController.instance.addTileHalo(2,2,5, true);
-				GameController.instance.disableAllSkillObjects();
-				view.VM.displayArrow=true;
-				view.VM.displayNextButton=false;
-				view.VM.title="Mon troisième tour";
-				view.VM.description="Déplaçons une autre de vos cartes et rapprochons là de vos adversaires.";
+				this.displayPopUp(0);
 				this.setDownArrow();
+				this.displayNextButton(false);
+				this.setPopUpTitle("Passer le tour");
+				this.setPopUpDescription("On passe le tour de la carte 2");
+				this.displayBackground(true);
 			}
-			GOPosition = GameController.instance.getTilesPosition(2,2);
-			GOSize =GameController.instance.getTilesSize(2,2);
-			arrowHeight=0.1f*Screen.height;
-			arrowWidth=(2f/3f)*arrowHeight;
-			arrowX=GOPosition.x-(arrowWidth/2f);
-			arrowY=Screen.height-GOPosition.y-GOSize.y/2f-arrowHeight;
-			view.VM.arrowRect= new Rect (arrowX,arrowY,arrowWidth,arrowHeight);
+			this.gameObjectPosition = GameView.instance.getPassButtonPosition();
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2f,2f),0.4f,0.4f);
 			this.drawDownArrow();
-			popUpWidth=0.35f*Screen.width;
-			popUpHeight=this.computePopUpHeight();
-			popUpX=arrowX+arrowWidth/2f-popUpWidth/2f;
-			popUpY=arrowY-popUpHeight-0.02f*Screen.height;
-			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
 			break;
 		case 20:
 			if(!isResizing)
 			{
-				GameController.instance.hideTileHalo(2,2);
-				GameController.instance.disableAllSkillObjects();
-				GameController.instance.activeSingleSkillObjects(5);
-				view.VM.displayArrow=true;
-				view.VM.displayNextButton=false;
-				view.VM.title="Mon troisième tour";
-				view.VM.description="Vous ne pouvez malheureusement pas attaquer ni déclencher d'autres compétences. On va donc passer ce tour.";
-				this.setDownArrow();
+				this.displayPopUp(0);
+				this.setUpArrow();
+				this.displayNextButton(true);
+				this.setPopUpTitle("Mouvement");
+				this.setPopUpDescription("Au tour de la carte 4 à jouer");
+				this.displayBackground(true);
 			}
-			GOPosition = GameController.instance.getSkillObjectsPosition(5);
-			GOSize =GameController.instance.getSkillObjectsSize(5);
-			arrowHeight=0.1f*Screen.height;
-			arrowWidth=(2f/3f)*arrowHeight;
-			arrowX=GOPosition.x-(arrowWidth/2f);
-			arrowY=Screen.height-GOPosition.y-GOSize.y/2f-arrowHeight;
-			view.VM.arrowRect= new Rect (arrowX,arrowY,arrowWidth,arrowHeight);
-			this.drawDownArrow();
-			popUpWidth=0.35f*Screen.width;
-			popUpHeight=this.computePopUpHeight();
-			popUpX=arrowX+arrowWidth/2f-popUpWidth/2f;
-			popUpY=arrowY-popUpHeight-0.02f*Screen.height;
-			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			this.gameObjectPosition = GameView.instance.getPlayingCardsPosition(4);
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2f,2f),0f,0f);
+			this.drawUpArrow();
 			break;
 		case 21:
 			if(!isResizing)
 			{
-				StartCoroutine(GameController.instance.moveCharacterRPC(1,4,5));
-				GameController.instance.setAllSkillObjects(false);
-				view.VM.displayArrow=false;
-				view.VM.displayNextButton=true;
-				view.VM.title="L'adversaire joue";
-				view.VM.description="L'adversaire déplace une de ses cartes à proximité d'un de vos bersek.";
+				StartCoroutine(GameController.instance.moveCharacterRPC(2,4,4));
+				this.displayPopUp(0);
+				this.setUpArrow();
+				this.displayNextButton(true);
+				this.setPopUpTitle("Mouvement");
+				this.setPopUpDescription("La carte 4 s'est déplacée");
+				this.displayBackground(true);
 			}
-			popUpWidth=0.35f*Screen.width;
-			popUpHeight=this.computePopUpHeight();
-			popUpX=0.6f*Screen.width;
-			popUpY=0.1f*Screen.height;
-			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			this.gameObjectPosition = GameView.instance.getTilesPosition(2,4);
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2f,2f),0f,0f);
+			this.drawUpArrow();
 			break;
 		case 22:
 			if(!isResizing)
 			{
-				//GameController.instance.launchSkill(4,new List<int> {1});
-				GameController.instance.disableAllSkillObjects();
-				view.VM.displayArrow=false;
-				view.VM.displayNextButton=true;
-				view.VM.title="L'adversaire joue";
-				view.VM.description="... et lui inflige des dégâts.";
+				GameSkills.instance.getSkill(0).init(GameView.instance.getCard(4),GameView.instance.getCard(4).GetAttackSkill());
+				GameSkills.instance.getSkill(0).applyOn(2);
+				this.displayPopUp(0);
+				this.setUpArrow();
+				this.displayNextButton(true);
+				this.setPopUpTitle("Attaque");
+				this.setPopUpDescription("La carte 4 a attaqué votre carte 2");
+				this.displayBackground(true);
 			}
-			popUpWidth=0.35f*Screen.width;
-			popUpHeight=this.computePopUpHeight();
-			popUpX=0.6f*Screen.width;
-			popUpY=0.1f*Screen.height;
-			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			this.gameObjectPosition = GameView.instance.getPlayingCardsPosition(2);
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2f,2f),0f,0f);
+			this.drawUpArrow();
 			break;
 		case 23:
 			if(!isResizing)
 			{
-				GameController.instance.disableAllCharacters();
-				//GameController.instance.setDestination(5,3,true);
-				GameController.instance.addTileHalo(5,3,5, true);
-				GameController.instance.disableAllSkillObjects();
-				view.VM.displayArrow=true;
-				view.VM.displayNextButton=false;
-				view.VM.title="A l'attaque";
-				view.VM.description="Votre adversaire est suffisament prêt pour que vous puissiez l'attaquer. Déplacez votre bersek à proximité.";
-				this.setDownArrow();
+				GameController.instance.resolvePass();
+				this.displayPopUp(0);
+				this.setUpArrow();
+				this.displayNextButton(true);
+				this.setPopUpTitle("Mouvement");
+				this.setPopUpDescription("Au tour de la carte 7 à jouer");
+				this.displayBackground(true);
 			}
-			GOPosition = GameController.instance.getTilesPosition(5,3);
-			GOSize =GameController.instance.getTilesSize(5,3);
-			arrowHeight=0.1f*Screen.height;
-			arrowWidth=(2f/3f)*arrowHeight;
-			arrowX=GOPosition.x-(arrowWidth/2f);
-			arrowY=Screen.height-GOPosition.y-GOSize.y/2f-arrowHeight;
-			view.VM.arrowRect= new Rect (arrowX,arrowY,arrowWidth,arrowHeight);
-			this.drawDownArrow();
-			popUpWidth=0.35f*Screen.width;
-			popUpHeight=this.computePopUpHeight();
-			popUpX=arrowX+arrowWidth/2f-popUpWidth/2f;
-			popUpY=arrowY-popUpHeight-0.02f*Screen.height;
-			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			this.gameObjectPosition = GameView.instance.getPlayingCardsPosition(7);
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2f,2f),0f,0f);
+			this.drawUpArrow();
 			break;
 		case 24:
 			if(!isResizing)
 			{
-				GameController.instance.hideTileHalo(5,3);
-				GameController.instance.disableAllSkillObjects();
-				GameController.instance.activeSingleSkillObjects(4);
-				view.VM.displayArrow=true;
-				view.VM.displayNextButton=false;
-				view.VM.title="A l'attaque";
-				view.VM.description="Il est temps de lancer une attaque simple. La carte étant adjacente à la vôtre, il est désormais possible d'attaquer.";
-				this.setDownArrow();
+				StartCoroutine(GameController.instance.moveCharacterRPC(5,4,7));
+				this.displayPopUp(0);
+				this.setUpArrow();
+				this.displayNextButton(true);
+				this.setPopUpTitle("Mouvement");
+				this.setPopUpDescription("La carte 7 s'est déplacée");
+				this.displayBackground(true);
 			}
-			GOPosition = GameController.instance.getSkillObjectsPosition(4);
-			GOSize =GameController.instance.getSkillObjectsSize(4);
-			arrowHeight=0.1f*Screen.height;
-			arrowWidth=(2f/3f)*arrowHeight;
-			arrowX=GOPosition.x-(arrowWidth/2f);
-			arrowY=Screen.height-GOPosition.y-GOSize.y/2f-arrowHeight;
-			view.VM.arrowRect= new Rect (arrowX,arrowY,arrowWidth,arrowHeight);
-			this.drawDownArrow();
-			popUpWidth=0.35f*Screen.width;
-			popUpHeight=this.computePopUpHeight();
-			popUpX=arrowX+arrowWidth/2f-popUpWidth/2f;
-			popUpY=arrowY-popUpHeight-0.02f*Screen.height;
-			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			this.gameObjectPosition = GameView.instance.getTilesPosition(5,4);
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2f,2f),0f,0f);
+			this.drawUpArrow();
 			break;
 		case 25:
 			if(!isResizing)
 			{
-				GameController.instance.disableAllSkillObjects();
-				GameController.instance.activeTargetingOnCharacter(7);
-				view.VM.displayArrow=true;
-				view.VM.displayNextButton=false;
-				view.VM.title="A l'attaque";
-				view.VM.description="Sélectionnez bien la carte ennemi, vous voyez qu'apparaît déjà les futurs effets de l'attaque. Ici le nombre de points de vie va chuter à 0";
+				GameSkills.instance.getSkill(59).init(GameView.instance.getCard(7),GameView.instance.getCard(7).getSkills()[1]);
+				GameSkills.instance.getSkill(59).applyOn(3);
+				this.displayPopUp(0);
 				this.setDownArrow();
+				this.displayNextButton(true);
+				this.setPopUpTitle("Attaque");
+				this.setPopUpDescription("La carte 7 a lancé sénilité sur la carte 3");
+				this.displayBackground(true);
 			}
-			GOPosition = GameController.instance.getTilesPosition(5,4);
-			GOSize =GameController.instance.getTilesSize(5,4);
-			arrowHeight=0.1f*Screen.height;
-			arrowWidth=(2f/3f)*arrowHeight;
-			arrowX=GOPosition.x-(arrowWidth/2f);
-			arrowY=Screen.height-GOPosition.y-GOSize.y/2f-arrowHeight;
-			view.VM.arrowRect= new Rect (arrowX,arrowY,arrowWidth,arrowHeight);
+			this.gameObjectPosition = GameView.instance.getPlayingCardsPosition(3);
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2f,2f),0f,0f);
 			this.drawDownArrow();
-			popUpWidth=0.35f*Screen.width;
-			popUpHeight=this.computePopUpHeight();
-			popUpX=arrowX+arrowWidth/2f-popUpWidth/2f;
-			popUpY=arrowY-popUpHeight-0.02f*Screen.height;
-			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
 			break;
 		case 26:
 			if(!isResizing)
 			{
-				GameController.instance.disableAllSkillObjects();
-				view.VM.displayArrow=false;
-				view.VM.displayNextButton=true;
-				view.VM.title="La puissance des compétences";
-				view.VM.description="Votre personnage se trouve coincé entre deux ennemis. On pourait utiliser une attaque simple, mais celle-ci ne permettrait d'atteindre qu'un seul des deux ennemis.";
+				GameController.instance.resolvePass();
+				this.displayPopUp(0);
+				this.setDownArrow();
+				this.displayNextButton(true);
+				this.setPopUpTitle("Mouvement");
+				this.setPopUpDescription("Au tour de la carte 0 à jouer");
+				this.displayBackground(true);
 			}
-			popUpWidth=0.35f*Screen.width;
-			popUpHeight=this.computePopUpHeight();
-			popUpX=0.6f*Screen.width;
-			popUpY=0.1f*Screen.height;
-			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			this.gameObjectPosition = GameView.instance.getPlayingCardsPosition(0);
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2f,2f),0f,0f);
+			this.drawDownArrow();
 			break;
 		case 27:
 			if(!isResizing)
 			{
-				GameController.instance.disableAllCharacters();
-				GameController.instance.disableAllSkillObjects();
-				GameController.instance.activeSingleSkillObjects(0);
-				view.VM.displayArrow=true;
-				view.VM.displayNextButton=false;
-				view.VM.title="La puissance des compétences";
-				view.VM.description="Heureusement votre carte possède l'attaque circulaire est en mesure d'infliger des dégâts à toutes les unités adjacentes, cliquez dessus pour l'activer.";
+				this.displayPopUp(0);
 				this.setDownArrow();
+				this.displayNextButton(false);
+				this.setPopUpTitle("Mouvement");
+				this.setPopUpDescription("Déplacement de la carte 0");
+				this.displayBackground(true);
 			}
-			GOPosition = GameController.instance.getSkillObjectsPosition(0);
-			GOSize =GameController.instance.getSkillObjectsSize(0);
-			arrowHeight=0.1f*Screen.height;
-			arrowWidth=(2f/3f)*arrowHeight;
-			arrowX=GOPosition.x-(arrowWidth/2f);
-			arrowY=Screen.height-GOPosition.y-GOSize.y/2f-arrowHeight;
-			view.VM.arrowRect= new Rect (arrowX,arrowY,arrowWidth,arrowHeight);
+			this.gameObjectPosition = GameView.instance.getTilesPosition(1,3);
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2f,2f),0.4f,0.4f);
 			this.drawDownArrow();
-			popUpWidth=0.35f*Screen.width;
-			popUpHeight=this.computePopUpHeight();
-			popUpX=arrowX+arrowWidth/2f-popUpWidth/2f;
-			popUpY=arrowY-popUpHeight-0.02f*Screen.height;
-			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
 			break;
 		case 28:
 			if(!isResizing)
 			{
-				GameController.instance.disableAllCharacters();
-				GameController.instance.disableAllSkillObjects();
-				GameController.instance.activeSingleSkillObjects(5);
-				view.VM.displayArrow=true;
-				view.VM.displayNextButton=false;
-				view.VM.title="La puissance des compétences";
-				view.VM.description="Bravo ! Vous venez d'éléminer deux adversaires d'un coup. Vous pouvez passer au tour suivant.";
+				this.displayPopUp(0);
 				this.setDownArrow();
+				this.displayNextButton(false);
+				this.setPopUpTitle("Lancer Stéroïdes");
+				this.setPopUpDescription("On lance stéroïdes");
+				this.displayBackground(true);
 			}
-			GOPosition = GameController.instance.getSkillObjectsPosition(5);
-			GOSize =GameController.instance.getSkillObjectsSize(5);
-			arrowHeight=0.1f*Screen.height;
-			arrowWidth=(2f/3f)*arrowHeight;
-			arrowX=GOPosition.x-(arrowWidth/2f);
-			arrowY=Screen.height-GOPosition.y-GOSize.y/2f-arrowHeight;
-			view.VM.arrowRect= new Rect (arrowX,arrowY,arrowWidth,arrowHeight);
+			this.gameObjectPosition = GameView.instance.getSkillButtonPosition(0); 
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2f,2f),0.4f,0.4f);
 			this.drawDownArrow();
-			popUpWidth=0.35f*Screen.width;
-			popUpHeight=this.computePopUpHeight();
-			popUpX=arrowX+arrowWidth/2f-popUpWidth/2f;
-			popUpY=arrowY-popUpHeight-0.02f*Screen.height;
-			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
 			break;
 		case 29:
 			if(!isResizing)
 			{
-				GameController.instance.disableAllCharacters();
-				GameController.instance.disableAllSkillObjects();
-				GameController.instance.activeSingleSkillObjects(4);
-				view.VM.displayArrow=true;
-				view.VM.displayNextButton=false;
-				view.VM.title="Le coup de grâce";
-				view.VM.description="Il ne reste plus qu'un adversaire. Essayons de l'éliminer maintenant. C'est le tour de votre carte située à proximité immédaite. Déclanchons une attaque.";
+				this.displayPopUp(0);
 				this.setDownArrow();
+				this.displayNextButton(false);
+				this.setPopUpTitle("Lancer Stéroïdes");
+				this.setPopUpDescription("On cible le personnage allié");
+				this.displayBackground(true);
 			}
-			GOPosition = GameController.instance.getSkillObjectsPosition(4);
-			GOSize =GameController.instance.getSkillObjectsSize(4);
-			arrowHeight=0.1f*Screen.height;
-			arrowWidth=(2f/3f)*arrowHeight;
-			arrowX=GOPosition.x-(arrowWidth/2f);
-			arrowY=Screen.height-GOPosition.y-GOSize.y/2f-arrowHeight;
-			view.VM.arrowRect= new Rect (arrowX,arrowY,arrowWidth,arrowHeight);
+			this.gameObjectPosition = GameView.instance.getPlayingCardsPosition(3);
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2f,2f),0.4f,0.4f);
 			this.drawDownArrow();
-			popUpWidth=0.35f*Screen.width;
-			popUpHeight=this.computePopUpHeight();
-			popUpX=arrowX+arrowWidth/2f-popUpWidth/2f;
-			popUpY=arrowY-popUpHeight-0.02f*Screen.height;
-			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
 			break;
 		case 30:
 			if(!isResizing)
 			{
-				GameController.instance.disableAllSkillObjects();
-				GameController.instance.activeTargetingOnCharacter(5);
-				view.VM.displayArrow=true;
-				view.VM.displayNextButton=false;
-				view.VM.title="Le coup de grâce";
-				view.VM.description="Comme tout à l'heure, on sélectionne la cible.";
+				this.displayPopUp(0);
 				this.setDownArrow();
+				this.displayNextButton(true);
+				this.setPopUpTitle("Stéroïdes");
+				this.setPopUpDescription("Explication des effets");
+				this.displayBackground(true);
 			}
-			GOPosition = GameController.instance.getTilesPosition(1,4);
-			GOSize =GameController.instance.getTilesSize(1,4);
-			arrowHeight=0.1f*Screen.height;
-			arrowWidth=(2f/3f)*arrowHeight;
-			arrowX=GOPosition.x-(arrowWidth/2f);
-			arrowY=Screen.height-GOPosition.y-GOSize.y/2f-arrowHeight;
-			view.VM.arrowRect= new Rect (arrowX,arrowY,arrowWidth,arrowHeight);
+			this.gameObjectPosition = GameView.instance.getPlayingCardsPosition(3);
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2f,2f),0f,0f);
 			this.drawDownArrow();
-			popUpWidth=0.35f*Screen.width;
-			popUpHeight=this.computePopUpHeight();
-			popUpX=arrowX+arrowWidth/2f-popUpWidth/2f;
-			popUpY=arrowY-popUpHeight-0.02f*Screen.height;
-			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
 			break;
 		case 31:
 			if(!isResizing)
 			{
-				GameController.instance.disableAllCharacters();
-				GameController.instance.disableAllSkillObjects();
-				view.VM.displayArrow=false;
-				view.VM.displayNextButton=true;
-				view.VM.title="Fin du combat";
-				view.VM.description="Vous avez éliminé tous vos ennemis, le combat s'arrête et vous remportez une précieuse victoire ! Félicitations";
+				GameController.instance.resolvePass(); // A SUPPRIMER DES QUE LA COMPETENCE SERA LA !!!!!!!!!!!!!!!!
+				this.displayPopUp(0);
+				this.setUpArrow();
+				this.displayNextButton(true);
+				this.setPopUpTitle("Mouvement");
+				this.setPopUpDescription("Au tour de la carte 6 à jouer");
+				this.displayBackground(true);
 			}
-			popUpWidth=0.35f*Screen.width;
-			popUpHeight=this.computePopUpHeight();
-			popUpX=0.6f*Screen.width;
-			popUpY=0.1f*Screen.height;
-			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			this.gameObjectPosition = GameView.instance.getTilesPosition(4,6);
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2f,2f),0f,0f);
+			this.drawUpArrow();
 			break;
 		case 32:
 			if(!isResizing)
 			{
-				//StartCoroutine(GameController.instance.quitGame());
-				view.VM.displayArrow=false;
-				view.VM.displayNextButton=false;
-				view.VM.title="Récompenses";
-				view.VM.description="A chaque fin de match vous remportez diverses récompenses : des crédits pour acheter ou améliorer des cartes, ainsi que des points d'expérience.";
+				StartCoroutine(GameController.instance.moveCharacterRPC(4,4,6));
+				this.displayPopUp(0);
+				this.setUpArrow();
+				this.displayNextButton(true);
+				this.setPopUpTitle("Mouvement");
+				this.setPopUpDescription("La carte 6 s'est déplacée");
+				this.displayBackground(true);
 			}
-			popUpWidth=0.35f*Screen.width;
-			popUpHeight=this.computePopUpHeight();
-			popUpX=0.6f*Screen.width;
-			popUpY=0.1f*Screen.height;
-			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			this.gameObjectPosition = GameView.instance.getTilesPosition(4,4);
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2f,2f),0f,0f);
+			this.drawUpArrow();
 			break;
 		case 33:
 			if(!isResizing)
 			{
-				GameController.instance.setEndSceneControllerGUI(true);
-				view.VM.displayArrow=true;
-				view.VM.displayNextButton=false;
-				view.VM.title="Quittons le combat";
-				view.VM.description="Vous pouvez désormais quitter le mode match.";
-				this.setDownArrow();
+				GameSkills.instance.getSkill(0).init(GameView.instance.getCard(6),GameView.instance.getCard(6).GetAttackSkill());
+				GameSkills.instance.getSkill(0).applyOn(2);
+				this.displayPopUp(0);
+				this.setUpArrow();
+				this.displayNextButton(true);
+				this.setPopUpTitle("Attaque");
+				this.setPopUpDescription("La carte 6 a attaqué votre carte 2");
+				this.displayBackground(true);
 			}
-			arrowHeight=0.1f*Screen.height;
-			arrowWidth=(2f/3f)*arrowHeight;
-			arrowX=Screen.width/2f-(arrowWidth/2f);
-			arrowY=Screen.height/(1.2f)-arrowHeight;
-			view.VM.arrowRect= new Rect (arrowX,arrowY,arrowWidth,arrowHeight);
+			this.gameObjectPosition = GameView.instance.getPlayingCardsPosition(2);
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,4f,2f),0f,0f);
+			this.drawUpArrow();
+			break;
+		case 34:
+			if(!isResizing)
+			{
+				GameController.instance.resolvePass();
+				this.displayPopUp(0);
+				this.setDownArrow();
+				this.displayNextButton(true);
+				this.setPopUpTitle("Mouvement");
+				this.setPopUpDescription("Au tour de la carte 1 à jouer");
+				this.displayBackground(true);
+			}
+			this.gameObjectPosition = GameView.instance.getTilesPosition(2,0);
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2f,2f),0f,0f);
 			this.drawDownArrow();
-			popUpWidth=0.35f*Screen.width;
-			popUpHeight=this.computePopUpHeight();
-			popUpX=arrowX+arrowWidth/2f-popUpWidth/2f;
-			popUpY=arrowY-popUpHeight-0.02f*Screen.height;
-			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
+			break;
+		case 35:
+			if(!isResizing)
+			{
+				this.displayPopUp(0);
+				this.setDownArrow();
+				this.displayNextButton(false);
+				this.setPopUpTitle("Mouvement");
+				this.setPopUpDescription("Déplacement de la carte 1");
+				this.displayBackground(true);
+			}
+			this.gameObjectPosition = GameView.instance.getTilesPosition(2,2);
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2f,2f),0.4f,0.4f);
+			this.drawDownArrow();
+			break;
+		case 36:
+			if(!isResizing)
+			{
+				this.displayPopUp(0);
+				this.setDownArrow();
+				this.displayNextButton(false);
+				this.setPopUpTitle("Lancer Renforcement");
+				this.setPopUpDescription("On lance renforcement");
+				this.displayBackground(true);
+			}
+			this.gameObjectPosition = GameView.instance.getSkillButtonPosition(0); 
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2f,2f),0.4f,0.4f);
+			this.drawDownArrow();
+			break;
+		case 37:
+			if(!isResizing)
+			{
+				this.displayPopUp(0);
+				this.setUpArrow();
+				this.displayNextButton(false);
+				this.setPopUpTitle("Lancer Renforcement");
+				this.setPopUpDescription("On cible le personnage allié");
+				this.displayBackground(true);
+			}
+			this.gameObjectPosition = GameView.instance.getPlayingCardsPosition(2);
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2f,2f),0.4f,0.4f);
+			this.drawUpArrow();
+			break;
+		case 38:
+			if(!isResizing)
+			{
+				this.displayPopUp(0);
+				this.setUpArrow();
+				this.displayNextButton(true);
+				this.setPopUpTitle("Lancer Renforcement");
+				this.setPopUpDescription("Explication des effets");
+				this.displayBackground(true);
+			}
+			this.gameObjectPosition = GameView.instance.getPlayingCardsPosition(2);
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2f,2f),0f,0f);
+			this.drawUpArrow();
+			break;
+		case 39:
+			if(!isResizing)
+			{
+				this.displayPopUp(0);
+				this.setUpArrow();
+				this.displayNextButton(true);
+				this.setPopUpTitle("Mouvement");
+				this.setPopUpDescription("Au tour de la carte 5 à jouer");
+				this.displayBackground(true);
+			}
+			this.gameObjectPosition = GameView.instance.getPlayingCardsPosition(5);
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2f,2f),0f,0f);
+			this.drawUpArrow();
+			break;
+		case 40:
+			if(!isResizing)
+			{
+				StartCoroutine(GameController.instance.moveCharacterRPC(1,4,5));
+				this.displayPopUp(0);
+				this.setUpArrow();
+				this.displayNextButton(true);
+				this.setPopUpTitle("Mouvement");
+				this.setPopUpDescription("La carte 5 s'est déplacée");
+				this.displayBackground(true);
+			}
+			this.gameObjectPosition = GameView.instance.getPlayingCardsPosition(5);
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2f,2f),0f,0f);
+			this.drawUpArrow();
+			break;
+		case 41:
+			if(!isResizing)
+			{
+				GameSkills.instance.getSkill(65).init(GameView.instance.getCard(5),GameView.instance.getCard(5).getSkills()[1]);
+				GameSkills.instance.getSkill(65).applyOn(0);
+				this.displayPopUp(0);
+				this.setDownArrow();
+				this.displayNextButton(true);
+				this.setPopUpTitle("Attaque");
+				this.setPopUpDescription("La carte 5 a lancé une attaque massue sur votre carte 0");
+				this.displayBackground(true);
+			}
+			this.gameObjectPosition = GameView.instance.getPlayingCardsPosition(0);
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2f,2f),0f,0f);
+			this.drawDownArrow();
+			break;
+		case 42:
+			if(!isResizing)
+			{
+				GameController.instance.resolvePass();
+				this.displayPopUp(0);
+				this.setDownArrow();
+				this.displayNextButton(true);
+				this.setPopUpTitle("Mouvement");
+				this.setPopUpDescription("Au tour de la carte 3 à jouer");
+				this.displayBackground(true);
+			}
+			this.gameObjectPosition = GameView.instance.getPlayingCardsPosition(3);
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2f,2f),0f,0f);
+			this.drawDownArrow();
+			break;
+		case 43:
+			if(!isResizing)
+			{
+				this.displayPopUp(0);
+				this.setDownArrow();
+				this.displayNextButton(false);
+				this.setPopUpTitle("Mouvement");
+				this.setPopUpDescription("Déplacement de la carte 3");
+				this.displayBackground(true);
+			}
+			this.gameObjectPosition = GameView.instance.getTilesPosition(5,3);
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2f,2f),0.4f,0.4f);
+			this.drawDownArrow();
+			break;
+		case 44:
+			if(!isResizing)
+			{
+				this.displayPopUp(0);
+				this.setDownArrow();
+				this.displayNextButton(false);
+				this.setPopUpTitle("Lancer Attaque bersek");
+				this.setPopUpDescription("On lance attaque bersek");
+				this.displayBackground(true);
+			}
+			this.gameObjectPosition = GameView.instance.getSkillButtonPosition(0); 
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2f,2f),0.4f,0.4f);
+			this.drawDownArrow();
+			break;
+		case 45:
+			if(!isResizing)
+			{
+				this.displayPopUp(0);
+				this.setUpArrow();
+				this.displayNextButton(false);
+				this.setPopUpTitle("Lancer attaque bersek");
+				this.setPopUpDescription("On cible le personnage ennemi");
+				this.displayBackground(true);
+			}
+			this.gameObjectPosition = GameView.instance.getPlayingCardsPosition(7);
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2f,2f),0.4f,0.4f);
+			this.drawUpArrow();
+			break;
+		case 46:
+			if(!isResizing)
+			{
+				this.displayPopUp(0);
+				this.setUpArrow();
+				this.displayNextButton(true);
+				this.setPopUpTitle("Lancer attaque bersek");
+				this.setPopUpDescription("Explication des effets");
+				this.displayBackground(true);
+			}
+			this.gameObjectPosition = GameView.instance.getPlayingCardsPosition(7);
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2f,2f),0f,0f);
+			this.drawUpArrow();
+			break;
+		case 47:
+			if(!isResizing)
+			{
+				//GameController.instance.resolvePass();
+				this.displayPopUp(0);
+				this.setUpArrow();
+				this.displayNextButton(true);
+				this.setPopUpTitle("Mouvement");
+				this.setPopUpDescription("Au tour de la carte 2 à jouer");
+				this.displayBackground(true);
+			}
+			this.gameObjectPosition = GameView.instance.getPlayingCardsPosition(2);
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2f,2f),0f,0f);
+			this.drawUpArrow();
+			break;
+		case 48:
+			if(!isResizing)
+			{
+				this.displayPopUp(0);
+				this.setDownArrow();
+				this.displayNextButton(false);
+				this.setPopUpTitle("Lancer Attaque 360");
+				this.setPopUpDescription("On lance attaque 360");
+				this.displayBackground(true);
+			}
+			this.gameObjectPosition = GameView.instance.getSkillButtonPosition(0); 
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2f,2f),0.4f,0.4f);
+			this.drawDownArrow();
+			break;
+		case 49:
+			if(!isResizing)
+			{
+				this.displayPopUp(0);
+				this.setUpArrow();
+				this.displayNextButton(false);
+				this.setPopUpTitle("Lancer attaque 360");
+				this.setPopUpDescription("On cible le personnage ennemi");
+				this.displayBackground(true);
+			}
+			this.gameObjectPosition = GameView.instance.getPlayingCardsPosition(4);
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2f,2f),0.4f,0.4f);
+			this.drawUpArrow();
+			break;
+		case 50:
+			if(!isResizing)
+			{
+				this.displayPopUp(0);
+				this.setUpArrow();
+				this.displayNextButton(true);
+				this.setPopUpTitle("Lancer attaque bersek");
+				this.setPopUpDescription("Explication des effets");
+				this.displayBackground(true);
+			}
+			this.gameObjectPosition = GameView.instance.getPlayingCardsPosition(2);
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,6f,2f),0f,0f);
+			this.drawUpArrow();
+			break;
+		case 51:
+			if(!isResizing)
+			{
+				this.displayPopUp(0);
+				this.setDownArrow();
+				this.displayNextButton(false);
+				this.setPopUpTitle("Mouvement");
+				this.setPopUpDescription("Déplacement de la carte 2");
+				this.displayBackground(true);
+			}
+			this.gameObjectPosition = GameView.instance.getTilesPosition(2,4);
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2f,2f),0.4f,0.4f);
+			this.drawDownArrow();
+			break;
+		case 52:
+			if(!isResizing)
+			{
+				this.displayPopUp(0);
+				this.setDownArrow();
+				this.displayNextButton(true);
+				this.setPopUpTitle("Mouvement");
+				this.setPopUpDescription("Au tour de la carte 0 à jouer");
+				this.displayBackground(true);
+			}
+			this.gameObjectPosition = GameView.instance.getPlayingCardsPosition(0);
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2f,2f),0f,0f);
+			this.drawDownArrow();
+			break;
+		case 53:
+			if(!isResizing)
+			{
+				this.displayPopUp(0);
+				this.setDownArrow();
+				this.displayNextButton(false);
+				this.setPopUpTitle("Lancer Attaque simple");
+				this.setPopUpDescription("On lance attaque");
+				this.displayBackground(true);
+			}
+			this.gameObjectPosition = GameView.instance.getAttackButtonPosition(); 
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2f,2f),0.4f,0.4f);
+			this.drawDownArrow();
+			break;
+		case 54:
+			if(!isResizing)
+			{
+				this.displayPopUp(0);
+				this.setUpArrow();
+				this.displayNextButton(false);
+				this.setPopUpTitle("Lancer attaque simple");
+				this.setPopUpDescription("On cible le personnage ennemi");
+				this.displayBackground(true);
+			}
+			this.gameObjectPosition = GameView.instance.getPlayingCardsPosition(5);
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2f,2f),0.4f,0.4f);
+			this.drawUpArrow();
+			break;
+		case 55:
+			if(!isResizing)
+			{
+				this.displayPopUp(0);
+				this.setUpArrow();
+				this.displayNextButton(true);
+				this.setPopUpTitle("Lancer attaque simple");
+				this.setPopUpDescription("Explication des effets");
+				this.displayBackground(true);
+			}
+			this.gameObjectPosition = GameView.instance.getPlayingCardsPosition(5);
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2f,2f),0f,0f);
+			this.drawUpArrow();
+			break;
+		case 56:
+			if(!isResizing)
+			{
+				this.displayArrow(false);
+				this.displayPopUp(0);
+				this.displayNextButton(false);
+				this.setPopUpTitle("Récompenses");
+				this.setPopUpDescription("A chaque fin de match vous remportez diverses récompenses : des crédits pour acheter ou améliorer des cartes, ainsi que des points d'expérience.");
+				this.displayBackground(true);
+			}
+			this.resizeBackground(new Rect(0,0,0,0),0f,0f);
+			this.resizePopUp(new Vector3(0,-3f,-4f));
+			break;
+		case 57:
+			if(!isResizing)
+			{
+				this.displayPopUp(0);
+				this.setDownArrow();
+				this.displayNextButton(false);
+				this.setPopUpTitle("Retour au lobby");
+				this.setPopUpDescription("Vous pouvez cliquer sur Quitter et retourner au lobby");
+				this.displayBackground(true);
+			}
+			this.gameObjectPosition = EndSceneController.instance.getQuitButtonPosition(); 
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,4f,2f),0.7f,0.7f);
+			this.drawDownArrow();
 			break;
 		}
 	}
@@ -751,13 +857,20 @@ public class GameTutorialController : TutorialObjectController
 	{
 		switch(this.sequenceID)
 		{
-		case 1: case 2: case 3: case 4: case 5: case 9: case 10: case 14: case 15: case 19: case 20: case 21: case 23: case 24: case 25: case 27: case 28: case 29: case 30:
+		case 0:
+			playerCount++;
+			if(playerCount==2)
+			{
+				this.displayNextButton(true);
+			}
+			break;
+		case 1: case 3: case 4: case 5: case 6: case 7: case 8: case 9: case 18: case 19: case 27: case 28: case 29: case 35: case 36: case 37: case 43: case 44: case 45: case 48: case 49: case 51: case 53: case 54: 
 			this.launchSequence(this.sequenceID+1);
 			break;
-		case 32:
-			this.setNextButtonDisplaying(true);
+		case 56:
+			this.displayNextButton(true);
 			break;
-		case 33:
+		case 301:
 			StartCoroutine(GameController.instance.endTutorial());
 			break;
 		}

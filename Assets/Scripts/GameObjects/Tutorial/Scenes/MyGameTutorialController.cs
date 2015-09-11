@@ -7,6 +7,7 @@ using System.Reflection;
 
 public class MyGameTutorialController : TutorialObjectController 
 {
+
 	public static MyGameTutorialController instance;
 	
 	public override void launchSequence(int sequenceID)

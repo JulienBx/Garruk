@@ -185,6 +185,10 @@ public class EndSceneController : MonoBehaviour
 		if(xpDrawn==this.cards.Length)
 		{
 			this.endGamePanel.transform.FindChild("Button").gameObject.SetActive(true);
+			if(GameView.instance.getIsTutorialLaunched())
+			{
+				TutorialObjectController.instance.actionIsDone();
+			}
 			if(this.collectionPoints>0)
 			{
 				this.endGamePanel.transform.FindChild("Credits").GetComponent<TextMeshPro>().text =this.endGamePanel.transform.FindChild("Credits").GetComponent<TextMeshPro>().text+"\n et "+this.collectionPoints+" points de collection (classement : "+this.collectionPointsRanking+")";
@@ -206,22 +210,19 @@ public class EndSceneController : MonoBehaviour
 	public void quitEndSceneHandler()
 	{
 		GameController.instance.disconnect ();
-		if(GameController.instance.getIsTutorialLaunched())
+		if(ApplicationModel.gameType==3) // A MODIFIER APRES
 		{
-			//StartCoroutine(GameController.instance.endTutorial());
+			ApplicationModel.launchEndGameSequence=true;
+			Application.LoadLevel("NewHomePage");
 		}
 		else
 		{
-			if(ApplicationModel.gameType==3) // A MODIFIER APRES
-			{
-				ApplicationModel.launchEndGameSequence=true;
-				Application.LoadLevel("NewHomePage");
-			}
-			else
-			{
-				Application.LoadLevel("EndGame");
-			}
+			Application.LoadLevel("EndGame");
 		}
+	}
+	public Vector3 getQuitButtonPosition()
+	{
+		return this.endGamePanel.transform.FindChild ("Button").gameObject.transform.position;
 	}
 }
 

@@ -84,6 +84,10 @@ public class TileHandlerController : GameObjectController
 				GameController.instance.hitTarget(this.characterID);
 			}
 		}
+		if(GameView.instance.getIsTutorialLaunched())
+		{
+			TutorialObjectController.instance.actionIsDone();
+		}
 	}
 	
 	public void setText(string s){
