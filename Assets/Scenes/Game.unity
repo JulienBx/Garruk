@@ -1632,7 +1632,7 @@ MonoBehaviour:
   playingCardModel: {fileID: 123124, guid: 0bc68bdce9d671649a222fcb066be87c, type: 2}
   skillButtonModel: {fileID: 0}
   gameTexts: []
-  TutorialObject: {fileID: 0}
+  TutorialObject: {fileID: 163120, guid: da5274c1a004c45189ee600eaef147e1, type: 2}
   sprites:
   - {fileID: 21300112, guid: 075994fcb3c9ef54e9ee86a9f415b94e, type: 3}
   - {fileID: 21300072, guid: 075994fcb3c9ef54e9ee86a9f415b94e, type: 3}

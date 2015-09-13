@@ -98,6 +98,10 @@ public class SkillButtonController : MonoBehaviour
 				
 			}
 		}
+		if(GameView.instance.getIsTutorialLaunched())
+		{
+			TutorialObjectController.instance.actionIsDone();
+		}
 	}
 }
 

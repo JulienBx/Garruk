@@ -112,6 +112,8 @@ public class GameView : MonoBehaviour
 	List<float> displayedSETimer ;
 	
 	List<Tile> destinations ;
+
+	bool isTutorialLaunched;
 		
 	void Awake()
 	{
@@ -147,6 +149,16 @@ public class GameView : MonoBehaviour
 		this.displayedSETimer = new List<float>();
 		
 		this.audioEndTurn = GetComponent<AudioSource>();
+
+		if (ApplicationModel.launchGameTutorial)
+		{
+			this.isTutorialLaunched=true;
+			ApplicationModel.launchGameTutorial=false;
+			this.tutorial = Instantiate(this.TutorialObject) as GameObject;
+			this.tutorial.AddComponent<GameTutorialController>();
+			this.tutorial.GetComponent<GameTutorialController>().launchSequence(0);
+		}
+
 	}
 	
 	void Update()
@@ -579,7 +591,6 @@ public class GameView : MonoBehaviour
 			debut = this.nbCardsPerPlayer ;
 			hauteur = this.boardHeight-1 ;
 		}
-		
 		this.playingCards.Insert(debut + c.deckOrder, (GameObject)Instantiate(this.playingCardModel));
 		if (isFirstP != isFirstPlayer)
 		{
@@ -1961,7 +1972,6 @@ public class GameView : MonoBehaviour
 	
 	public void checkPassiveSkills(bool mine){
 		bool isFoundLeader = false ;
-		print ("pAssive");
 		for (int i = 0 ; i < this.playingCards.Count ; i++){
 			if (this.getIsMine(i)==mine){
 				if(this.getCard(i).isLeader() && !isFoundLeader){
@@ -1981,6 +1991,59 @@ public class GameView : MonoBehaviour
 				}
 			}
 		}
+	}
+
+	public bool getIsTutorialLaunched()
+	{
+		return isTutorialLaunched;
+	}
+	public Vector3 getTilesPosition(int x, int y)
+	{
+		return this.tiles [x, y].transform.position;
+	} 
+	public Vector3 getPlayingCardsPosition(int index)
+	{
+		return this.playingCards [index].transform.position;
+	}
+	public Vector3 getPlayingCardsAttackZonePosition(int index)
+	{
+		return this.playingCards [index].transform.FindChild("AttackZone").position;
+	}
+	public Vector3 getPlayingCardsQuicknessZonePosition(int index)
+	{
+		return this.playingCards [index].transform.FindChild("WaitTime").position;
+	}
+	public Vector3 getPlayingCardsLifeZonePosition(int index)
+	{
+		return this.playingCards [index].transform.FindChild("LifeBar").FindChild("PVValue").position;
+	}
+	public Vector3 getMyHoveredRPCPosition()
+	{
+		return this.myHoveredRPC.transform.position;
+	}
+	public Vector3 getHisHoveredRPCPosition()
+	{
+		return this.hisHoveredRPC.transform.position;
+	}
+	public Vector3 getStartButtonPosition()
+	{
+		return GameObject.Find ("StartButton").transform.position;
+	}
+	public Vector3 getTimerGoPosition()
+	{
+		return this.timerGO.transform.position;
+	}
+	public Vector3 getSkillButtonPosition(int id)
+	{
+		return GameObject.Find ("ActionButtons").gameObject.transform.FindChild ("SkillButton"+id).transform.position;
+	}
+	public Vector3 getAttackButtonPosition()
+	{
+		return GameObject.Find ("ActionButtons").gameObject.transform.FindChild ("AttackButton").transform.position;
+	}
+	public Vector3 getPassButtonPosition()
+	{
+		return GameObject.Find ("ActionButtons").gameObject.transform.FindChild ("PassButton").transform.position;
 	}
 	
 	public bool areAllMyPlayersDead(){

@@ -3,14 +3,26 @@ using TMPro;
 
 public class TutorialBackgroundController : MonoBehaviour 
 {
-	
+
+	public Vector2 topColliderSize;
+	public Vector2 topColliderOffset;
+
+	public Vector2 bottomColliderSize;
+	public Vector2 bottomColliderOffset;
+
+	public Vector2 leftColliderSize;
+	public Vector2 leftColliderOffset;
+
+	public Vector2 rightColliderSize;
+	public Vector2 rightColliderOffset;
+
+
 	void Awake()
 	{
 	}
 
-	public void resize (Rect rect, float clickableSectionXRatio, float clickableSectionYRatio)
+	public virtual void resize (Rect rect, float clickableSectionXRatio, float clickableSectionYRatio)
 	{
-
 		float worldHeight = 2f*Camera.main.GetComponent<Camera>().orthographicSize;
 		float worldWidth = ((float)Screen.width/(float)Screen.height) * worldHeight;
 
@@ -77,9 +89,9 @@ public class TutorialBackgroundController : MonoBehaviour
 		gameObject.transform.FindChild ("circleBackground").transform.position = new Vector3 (circleBackgroundX, circleBackgroundY, -3f);
 		gameObject.transform.FindChild ("circleBackground").transform.localScale = new Vector3 (circleBackgroundWidth / circleBackgroundWorldSizeX, circleBackgroundHeight/circleBackgroundWorldSizeY, 1f);
 
-		BoxCollider2D[] colliders = gameObject.transform.FindChild("circleBackground").GetComponents<BoxCollider2D>();
 
-		Vector2 upperColliderWorldSize = new Vector2 (circleBackgroundWorldSizeX, (circleBackgroundWorldSizeY - clickableSectionY) / 2f);
+
+		Vector2  upperColliderWorldSize = new Vector2 (circleBackgroundWorldSizeX, (circleBackgroundWorldSizeY - clickableSectionY) / 2f);
 		Vector2 upperColliderWorldOffset = new Vector2 (0f,clickableSectionY/2f+upperColliderWorldSize.y/2f);
 
 		Vector2 lowerColliderWorldSize = new Vector2 (circleBackgroundWorldSizeX, (circleBackgroundWorldSizeY - clickableSectionY) / 2f);
@@ -91,17 +103,33 @@ public class TutorialBackgroundController : MonoBehaviour
 		Vector2 rightColliderWorldSize = new Vector2 ((circleBackgroundWorldSizeX-clickableSectionX)/2f,clickableSectionY);
 		Vector2 rightColliderWorldOffset = new Vector2 (clickableSectionX/2f+rightColliderWorldSize.x/2f,0f);
 
-		colliders[0].size = new Vector2 ((upperColliderWorldSize.x / circleBackgroundWorldSizeX) * ((float)circleBackgroundSizeX / (float)pixelPerUnit), (upperColliderWorldSize.y / circleBackgroundWorldSizeY) * ((float)circleBackgroundSizeY / (float)pixelPerUnit));
-		colliders[0].offset = new Vector2 ((upperColliderWorldOffset.x / circleBackgroundWorldSizeX) * (circleBackgroundSizeX / (float)pixelPerUnit), (upperColliderWorldOffset.y / circleBackgroundWorldSizeY) * ((float)circleBackgroundSizeY / (float)pixelPerUnit));
+		this.topColliderSize = new Vector2 ((upperColliderWorldSize.x / circleBackgroundWorldSizeX) * ((float)circleBackgroundSizeX / (float)pixelPerUnit), (upperColliderWorldSize.y / circleBackgroundWorldSizeY) * ((float)circleBackgroundSizeY / (float)pixelPerUnit));
+		this.topColliderOffset = new Vector2 ((upperColliderWorldOffset.x / circleBackgroundWorldSizeX) * (circleBackgroundSizeX / (float)pixelPerUnit), (upperColliderWorldOffset.y / circleBackgroundWorldSizeY) * ((float)circleBackgroundSizeY / (float)pixelPerUnit));
 
-		colliders[1].size = new Vector2 ((lowerColliderWorldSize.x / circleBackgroundWorldSizeX) * ((float)circleBackgroundSizeX / (float)pixelPerUnit), (lowerColliderWorldSize.y / circleBackgroundWorldSizeY) * ((float)circleBackgroundSizeY / (float)pixelPerUnit));
-		colliders[1].offset = new Vector2 ((lowerColliderWorldOffset.x / circleBackgroundWorldSizeX) * (circleBackgroundSizeX / (float)pixelPerUnit), (lowerColliderWorldOffset.y / circleBackgroundWorldSizeY) * ((float)circleBackgroundSizeY / (float)pixelPerUnit));
+		this.bottomColliderSize = new Vector2 ((lowerColliderWorldSize.x / circleBackgroundWorldSizeX) * ((float)circleBackgroundSizeX / (float)pixelPerUnit), (lowerColliderWorldSize.y / circleBackgroundWorldSizeY) * ((float)circleBackgroundSizeY / (float)pixelPerUnit));
+		this.bottomColliderOffset = new Vector2 ((lowerColliderWorldOffset.x / circleBackgroundWorldSizeX) * (circleBackgroundSizeX / (float)pixelPerUnit), (lowerColliderWorldOffset.y / circleBackgroundWorldSizeY) * ((float)circleBackgroundSizeY / (float)pixelPerUnit));
 
-		colliders[2].size = new Vector2 ((leftColliderWorldSize.x / circleBackgroundWorldSizeX) * ((float)circleBackgroundSizeX / (float)pixelPerUnit), (leftColliderWorldSize.y / circleBackgroundWorldSizeY) * ((float)circleBackgroundSizeY / (float)pixelPerUnit));
-		colliders[2].offset = new Vector2 ((leftColliderWorldOffset.x / circleBackgroundWorldSizeX) * (circleBackgroundSizeX / (float)pixelPerUnit), (leftColliderWorldOffset.y / circleBackgroundWorldSizeY) * ((float)circleBackgroundSizeY / (float)pixelPerUnit));
+		this.leftColliderSize = new Vector2 ((leftColliderWorldSize.x / circleBackgroundWorldSizeX) * ((float)circleBackgroundSizeX / (float)pixelPerUnit), (leftColliderWorldSize.y / circleBackgroundWorldSizeY) * ((float)circleBackgroundSizeY / (float)pixelPerUnit));
+		this.leftColliderOffset = new Vector2 ((leftColliderWorldOffset.x / circleBackgroundWorldSizeX) * (circleBackgroundSizeX / (float)pixelPerUnit), (leftColliderWorldOffset.y / circleBackgroundWorldSizeY) * ((float)circleBackgroundSizeY / (float)pixelPerUnit));
+		
+		this.rightColliderSize = new Vector2 ((rightColliderWorldSize.x / circleBackgroundWorldSizeX) * ((float)circleBackgroundSizeX / (float)pixelPerUnit), (rightColliderWorldSize.y / circleBackgroundWorldSizeY) * ((float)circleBackgroundSizeY / (float)pixelPerUnit));
+		this.rightColliderOffset = new Vector2 ((rightColliderWorldOffset.x / circleBackgroundWorldSizeX) * ((float)circleBackgroundSizeX / (float)pixelPerUnit), (rightColliderWorldOffset.y / circleBackgroundWorldSizeY) * ((float)circleBackgroundSizeY / (float)pixelPerUnit));
 
-		colliders[3].size = new Vector2 ((rightColliderWorldSize.x / circleBackgroundWorldSizeX) * ((float)circleBackgroundSizeX / (float)pixelPerUnit), (rightColliderWorldSize.y / circleBackgroundWorldSizeY) * ((float)circleBackgroundSizeY / (float)pixelPerUnit));
-		colliders[3].offset = new Vector2 ((rightColliderWorldOffset.x / circleBackgroundWorldSizeX) * ((float)circleBackgroundSizeX / (float)pixelPerUnit), (rightColliderWorldOffset.y / circleBackgroundWorldSizeY) * ((float)circleBackgroundSizeY / (float)pixelPerUnit));
+		this.computeColliders ();
 	}
+
+	public virtual void computeColliders()
+	{
+		BoxCollider2D[] colliders = gameObject.transform.FindChild("circleBackground").GetComponents<BoxCollider2D>();
+		colliders [0].size = this.topColliderSize;
+		colliders [0].offset = this.topColliderOffset;
+		colliders [1].size = this.bottomColliderSize;
+		colliders [1].offset = this.bottomColliderOffset;
+		colliders [2].size = this.leftColliderSize;
+		colliders [2].offset = this.leftColliderOffset;
+		colliders [3].size = this.rightColliderSize;
+		colliders [3].offset = this.rightColliderOffset;
+	}
+
 }
 

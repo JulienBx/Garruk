@@ -1565,7 +1565,7 @@ public class NewHomePageController : Photon.MonoBehaviour
 	public IEnumerator endTutorial()
 	{
 		newMenuController.instance.setTutorialLaunched (false);
-		PhotonNetwork.Disconnect();
+		//PhotonNetwork.Disconnect();
 		if(TutorialObjectController.instance.getSequenceID()==1)
 		{
 			yield return StartCoroutine (model.player.setTutorialStep (2));

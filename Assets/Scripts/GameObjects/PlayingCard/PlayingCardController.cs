@@ -209,6 +209,10 @@ public class PlayingCardController : GameObjectController
 	
 	public void OnMouseDown(){
 		GameController.instance.clickPlayingCard(this.id, this.tile);
+		if(GameView.instance.getIsTutorialLaunched())
+		{
+			TutorialObjectController.instance.actionIsDone();
+		}
 	}
 
 	public void setActive(bool b)

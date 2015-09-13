@@ -2295,6 +2295,8 @@ public class newMyGameController : MonoBehaviour
 	{
 		newMenuController.instance.setTutorialLaunched (false);
 		yield return StartCoroutine (model.player.setTutorialStep (3));
+		ApplicationModel.launchGameTutorial = true;
+		ApplicationModel.gameType = 3; // A modifier par la suite !
 		Application.LoadLevel ("Game");
 	}
 }

@@ -216,8 +216,8 @@ public class TutorialObjectController : MonoBehaviour
 	}
 	public void drawUpArrow()
 	{
-		this.resizeArrow(new Vector3(backgroundRect.x,backgroundRect.y+0.5f-backgroundRect.height/2f,-4f));
-		this.startTranslation=backgroundRect.y-1f-backgroundRect.height/2f;
+		this.resizeArrow(new Vector3(backgroundRect.x,backgroundRect.y+0.3f-backgroundRect.height/2f,-4f));
+		this.startTranslation=backgroundRect.y-0.8f-backgroundRect.height/2f;
 		Vector3 popUpPosition = this.arrow.transform.position;
 		popUpPosition.y = this.startTranslation +0.5f- this.popUpHalfHeight;
 		this.resizePopUp (popUpPosition);
@@ -227,8 +227,8 @@ public class TutorialObjectController : MonoBehaviour
 	}
 	public void drawDownArrow()
 	{
-		this.resizeArrow(new Vector3(backgroundRect.x,backgroundRect.y+0.5f+backgroundRect.height/2f,-4f));
-		this.startTranslation=backgroundRect.y+0.5f+backgroundRect.height/2f;
+		this.resizeArrow(new Vector3(backgroundRect.x,backgroundRect.y+0.3f+backgroundRect.height/2f,-4f));
+		this.startTranslation=backgroundRect.y+0.3f+backgroundRect.height/2f;
 		Vector3 popUpPosition = this.arrow.transform.position;
 		popUpPosition.y = this.startTranslation + this.popUpHalfHeight;
 		this.resizePopUp (popUpPosition);
@@ -238,8 +238,8 @@ public class TutorialObjectController : MonoBehaviour
 	}
 	public void drawRightArrow()
 	{
-		this.resizeArrow(new Vector3(backgroundRect.x-0.5f-backgroundRect.width/2f,backgroundRect.y,-4f));
-		this.startTranslation=backgroundRect.x-1f-backgroundRect.width/2f;
+		this.resizeArrow(new Vector3(backgroundRect.x-0.3f-backgroundRect.width/2f,backgroundRect.y,-4f));
+		this.startTranslation=backgroundRect.x-0.8f-backgroundRect.width/2f;
 		Vector3 popUpPosition = this.arrow.transform.position;
 		popUpPosition.x = this.startTranslation+0.5f - 4f;
 		this.resizePopUp (popUpPosition);
@@ -249,8 +249,8 @@ public class TutorialObjectController : MonoBehaviour
 	}
 	public void drawLeftArrow()
 	{
-		this.resizeArrow(new Vector3(backgroundRect.x+0.5f+backgroundRect.width/2f,backgroundRect.y,-4f));
-		this.startTranslation=backgroundRect.x+0.5f+backgroundRect.width/2f;
+		this.resizeArrow(new Vector3(backgroundRect.x+0.3f+backgroundRect.width/2f,backgroundRect.y,-4f));
+		this.startTranslation=backgroundRect.x+0.3f+backgroundRect.width/2f;
 		Vector3 popUpPosition = this.arrow.transform.position;
 		popUpPosition.x = this.startTranslation + 4f;
 		this.resizePopUp (popUpPosition);
