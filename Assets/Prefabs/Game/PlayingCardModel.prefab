@@ -799,7 +799,7 @@ MonoBehaviour:
   - {fileID: 21300048, guid: 075994fcb3c9ef54e9ee86a9f415b94e, type: 3}
   - {fileID: 21300056, guid: 075994fcb3c9ef54e9ee86a9f415b94e, type: 3}
   - {fileID: 21300134, guid: 075994fcb3c9ef54e9ee86a9f415b94e, type: 3}
-  - {fileID: 0}
+  - {fileID: 21300028, guid: 075994fcb3c9ef54e9ee86a9f415b94e, type: 3}
   - {fileID: 21300066, guid: 075994fcb3c9ef54e9ee86a9f415b94e, type: 3}
   - {fileID: 0}
   - {fileID: 0}
@@ -808,7 +808,7 @@ MonoBehaviour:
   - {fileID: 21300040, guid: 075994fcb3c9ef54e9ee86a9f415b94e, type: 3}
   - {fileID: 21300062, guid: 075994fcb3c9ef54e9ee86a9f415b94e, type: 3}
   - {fileID: 21300044, guid: 075994fcb3c9ef54e9ee86a9f415b94e, type: 3}
-  - {fileID: 0}
+  - {fileID: 21300064, guid: 075994fcb3c9ef54e9ee86a9f415b94e, type: 3}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -1494,7 +1494,17 @@ Prefab:
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: iconSprites.Array.data[4]
+      value: 
+      objectReference: {fileID: 21300028, guid: 075994fcb3c9ef54e9ee86a9f415b94e,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: iconSprites.Array.data[13]
+      value: 
+      objectReference: {fileID: 21300064, guid: 075994fcb3c9ef54e9ee86a9f415b94e,
+        type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 123124}

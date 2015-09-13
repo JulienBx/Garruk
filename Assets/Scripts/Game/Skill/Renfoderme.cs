@@ -54,10 +54,10 @@ public class Renfoderme : GameSkill
 		GameController.instance.addCardModifier(target, amount, ModifierType.Type_Bouclier, ModifierStat.Stat_No, -1, 10, "Bouclier", "Dommages subis : -"+amount+"%", "Permanent");
 		
 		if(arg==0){
-			GameView.instance.displaySkillEffect(target, "Bouclier ajouté", 5);
+			GameView.instance.displaySkillEffect(target, "Bouclier ajouté", 4);
 		}
 		else if(arg==1){
-			GameView.instance.displaySkillEffect(target, "BONUS\nBouclier ajouté", 5);
+			GameView.instance.displaySkillEffect(target, "BONUS\nBouclier ajouté", 4);
 		}
 	}
 	

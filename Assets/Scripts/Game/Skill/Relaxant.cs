@@ -50,7 +50,7 @@ public class Relaxant : GameSkill
 	
 	public override void applyOn(int target, int arg){
 		int arg2 = base.skill.ManaCost;
-		GameController.instance.addCardModifier(target, -1*arg2, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, 1, 5, "Affaibli", "-"+arg+" ATK", "Actif 1 tour");
+		GameController.instance.addCardModifier(target, -1*arg2, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, 1, 5, "Affaibli", "-"+arg2+" ATK", "Actif 1 tour");
 		
 		if(arg==0){
 			GameView.instance.displaySkillEffect(target, "-"+arg2+" ATK", 5);
@@ -71,10 +71,10 @@ public class Relaxant : GameSkill
 	public override string getTargetText(Card targetCard){
 		
 		int amount = base.skill.ManaCost;
-		int attack = base.card.GetAttack();
+		int attack = targetCard.GetAttack();
 		string text;
 		
-		text = "ATK : "+attack+"->"+Mathf.Max(1,attack-amount);
+		text = "ATK : "+attack+"->"+Mathf.Max(1,attack-amount)+"\n";
 		
 		int probaEsquive = targetCard.GetMagicalEsquive();
 		int probaHit = Mathf.Max(0,100-probaEsquive) ;

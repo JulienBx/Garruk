@@ -11,7 +11,7 @@ public class Senilite : GameSkill
 	public override void launch()
 	{
 		GameController.instance.initPCCTargetHandler(numberOfExpectedTargets);
-		GameController.instance.displayAllysButMeTargets();
+		GameView.instance.displayOpponentsTargets();
 	}
 	
 	public override void resolve(List<int> targetsPCC)
@@ -51,7 +51,7 @@ public class Senilite : GameSkill
 	}
 	
 	public override void applyOn(int target, int arg, int arg2){
-		GameController.instance.addCardModifier(target, arg, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, -1, 5, "Affaibli", "-"+arg+" ATK", "Permanent");
+		GameController.instance.addCardModifier(target, -1*arg, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, -1, 5, "Affaibli", "-"+arg+" ATK", "Permanent");
 		
 		if(arg2==0){
 			GameView.instance.displaySkillEffect(target, "-"+arg+" ATK", 5);
@@ -72,10 +72,11 @@ public class Senilite : GameSkill
 	public override string getTargetText(Card targetCard){
 		
 		int amount = base.skill.ManaCost;
-		int attack = base.card.GetAttack();
+		Debug.Log(amount);
+		int attack = targetCard.GetAttack();
 		string text;
 		
-		text = "ATK : "+attack+"->"+Mathf.Max(1,(attack-1))+"-"+Mathf.Max(1,(attack-amount));
+		text = "ATK : "+attack+"->"+Mathf.Max(1,(attack-1))+"-"+Mathf.Max(1,(attack-amount))+"\n";
 		
 		int probaEsquive = targetCard.GetMagicalEsquive();
 		int probaHit = Mathf.Max(0,100-probaEsquive) ;

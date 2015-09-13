@@ -11,7 +11,7 @@ public class Steroide : GameSkill
 	public override void launch()
 	{
 		GameController.instance.initPCCTargetHandler(numberOfExpectedTargets);
-		GameController.instance.displayAllysButMeTargets();
+		GameView.instance.displayAllysButMeTargets();
 	}
 	
 	public override void resolve(List<int> targetsPCC)
@@ -73,10 +73,10 @@ public class Steroide : GameSkill
 	public override string getTargetText(Card targetCard){
 		
 		int amount = base.skill.ManaCost;
-		int attack = base.card.GetAttack();
+		int attack = targetCard.GetAttack();
 		string text;
 		
-		text = "ATK : "+attack+"->"+(attack+1)+"-"+(attack+amount);
+		text = "ATK : "+attack+"->"+(attack+1)+"-"+(attack+amount)+"\n";
 		
 		int probaEsquive = targetCard.GetMagicalEsquive();
 		int probaHit = Mathf.Max(0,100-probaEsquive) ;

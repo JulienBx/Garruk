@@ -1384,6 +1384,150 @@ public class GameView : MonoBehaviour
 		this.isTargeting = true ;
 	}
 	
+	public void display1TileAwayOpponentsTargets()
+	{
+		int playerID;
+		Tile tile = this.getPlayingCardTile(GameController.instance.getCurrentPlayingCard()) ;
+		if(tile.x>1){
+			if(tile.y>1){
+				playerID = this.tiles [tile.x-2, tile.y-2].GetComponent<TileController>().getCharacterID();
+				if (playerID != -1)
+				{
+					if(!this.getIsMine(this.getTileCharacterID(tile.x-2, tile.y-2))){
+						if (this.playingCards [playerID].GetComponent<PlayingCardController>().canBeTargeted() && !this.getIsMine(playerID))
+						{
+							tile = this.getPlayingCardTile(playerID);
+							this.targets.Add(tile);
+							this.tileHandlers[tile.x, tile.y].SetActive(true);
+							this.tileHandlers[tile.x, tile.y].GetComponent<TileHandlerController>().changeType(6);
+							this.tileHandlers[tile.x, tile.y].GetComponent<TileHandlerController>().setText("");
+							this.tileHandlers[tile.x, tile.y].GetComponent<TileHandlerController>().setCharacterID(playerID);
+						}
+					}
+				}
+			}
+			if(tile.y<this.boardHeight-2){
+				playerID = this.tiles [tile.x-2, tile.y+2].GetComponent<TileController>().getCharacterID();
+				if (playerID != -1)
+				{
+					if(!this.getIsMine(this.getTileCharacterID(tile.x-2, tile.y+2))){
+						if (this.playingCards [playerID].GetComponent<PlayingCardController>().canBeTargeted() && !this.getIsMine(playerID))
+						{
+							tile = this.getPlayingCardTile(playerID);
+							this.targets.Add(tile);
+							this.tileHandlers[tile.x, tile.y].SetActive(true);
+							this.tileHandlers[tile.x, tile.y].GetComponent<TileHandlerController>().changeType(6);
+							this.tileHandlers[tile.x, tile.y].GetComponent<TileHandlerController>().setText("");
+							this.tileHandlers[tile.x, tile.y].GetComponent<TileHandlerController>().setCharacterID(playerID);
+						}
+					}
+				}
+			}
+		}
+		if(tile.x<this.boardWidth-2){
+			if(tile.y>1){
+				playerID = this.tiles [tile.x-2, tile.y-2].GetComponent<TileController>().getCharacterID();
+				if (playerID != -1)
+				{
+					if(!this.getIsMine(this.getTileCharacterID(tile.x+2, tile.y-2))){
+						if (this.playingCards [playerID].GetComponent<PlayingCardController>().canBeTargeted() && !this.getIsMine(playerID))
+						{
+							tile = this.getPlayingCardTile(playerID);
+							this.targets.Add(tile);
+							this.tileHandlers[tile.x, tile.y].SetActive(true);
+							this.tileHandlers[tile.x, tile.y].GetComponent<TileHandlerController>().changeType(6);
+							this.tileHandlers[tile.x, tile.y].GetComponent<TileHandlerController>().setText("");
+							this.tileHandlers[tile.x, tile.y].GetComponent<TileHandlerController>().setCharacterID(playerID);
+						}
+					}
+				}
+			}
+			if(tile.y<this.boardHeight-2){
+				playerID = this.tiles [tile.x-2, tile.y+2].GetComponent<TileController>().getCharacterID();
+				if (playerID != -1)
+				{
+					if(!this.getIsMine(this.getTileCharacterID(tile.x+2, tile.y+2))){
+						if (this.playingCards [playerID].GetComponent<PlayingCardController>().canBeTargeted() && !this.getIsMine(playerID))
+						{
+							tile = this.getPlayingCardTile(playerID);
+							this.targets.Add(tile);
+							this.tileHandlers[tile.x, tile.y].SetActive(true);
+							this.tileHandlers[tile.x, tile.y].GetComponent<TileHandlerController>().changeType(6);
+							this.tileHandlers[tile.x, tile.y].GetComponent<TileHandlerController>().setText("");
+							this.tileHandlers[tile.x, tile.y].GetComponent<TileHandlerController>().setCharacterID(playerID);
+						}
+					}
+				}
+			}
+		}
+		
+		this.timerTargeting = 0 ;
+		this.currentTargetingTileHandler = -1;
+		this.isTargeting = true ;
+	}
+	
+	public string canLaunch1TileAwayOpponents()
+	{
+		string isLaunchable = "Aucun ennemi à portée de lance";
+		
+		int playerID;
+		Tile tile = this.getPlayingCardTile(GameController.instance.getCurrentPlayingCard()) ;
+		if(tile.x>1){
+			if(tile.y>1){
+				playerID = this.tiles [tile.x-2, tile.y-2].GetComponent<TileController>().getCharacterID();
+				if (playerID != -1)
+				{
+					if(!this.getIsMine(this.getTileCharacterID(tile.x-2, tile.y-2))){
+						if (this.playingCards [playerID].GetComponent<PlayingCardController>().canBeTargeted() && !this.getIsMine(playerID))
+						{
+							isLaunchable="";
+						}
+					}
+				}
+			}
+			if(tile.y<this.boardHeight-2){
+				playerID = this.tiles [tile.x-2, tile.y+2].GetComponent<TileController>().getCharacterID();
+				if (playerID != -1)
+				{
+					if(!this.getIsMine(this.getTileCharacterID(tile.x-2, tile.y+2))){
+						if (this.playingCards [playerID].GetComponent<PlayingCardController>().canBeTargeted() && !this.getIsMine(playerID))
+						{
+							isLaunchable="";
+						}
+					}
+				}
+			}
+		}
+		if(tile.x<this.boardWidth-2){
+			if(tile.y>1){
+				playerID = this.tiles [tile.x-2, tile.y-2].GetComponent<TileController>().getCharacterID();
+				if (playerID != -1)
+				{
+					if(!this.getIsMine(this.getTileCharacterID(tile.x+2, tile.y-2))){
+						if (this.playingCards [playerID].GetComponent<PlayingCardController>().canBeTargeted() && !this.getIsMine(playerID))
+						{
+							isLaunchable="";
+						}
+					}
+				}
+			}
+			if(tile.y<this.boardHeight-2){
+				playerID = this.tiles [tile.x-2, tile.y+2].GetComponent<TileController>().getCharacterID();
+				if (playerID != -1)
+				{
+					if(!this.getIsMine(this.getTileCharacterID(tile.x+2, tile.y+2))){
+						if (this.playingCards [playerID].GetComponent<PlayingCardController>().canBeTargeted() && !this.getIsMine(playerID))
+						{
+							isLaunchable="";
+						}
+					}
+				}
+			}
+		}
+		
+		return isLaunchable;
+	}
+	
 	public void displayAdjacentAllyTargets()
 	{
 		Tile tile ;
@@ -1645,6 +1789,10 @@ public class GameView : MonoBehaviour
 	}
 	
 	public void kill(int target){
+		
+		this.playingCards[target].GetComponent<PlayingCardController>().kill();
+		GameController.instance.killHandle (target);
+		
 		Tile t = this.getPlayingCardTile(target);
 		this.emptyTile(t.x, t.y);
 		if(this.getIsMine(GameController.instance.getCurrentPlayingCard())){
@@ -1658,15 +1806,15 @@ public class GameView : MonoBehaviour
 		this.displayedDeadsTimer.Add(1);
 		
 		if(this.getCard(target).isLeader()){
+			bool isMine = this.getIsMine(target);
 			for (int i = 0 ; i < this.playingCards.Count ; i++){
-				List<int> allys = this.getAllys();
-				for (int j = 0 ; j < allys.Count ; j++){
-					this.getCard(allys[j]).removeLeaderEffect();
+				if(i!=target && this.getIsMine(i)==isMine){
+					this.getCard(i).removeLeaderEffect();
+					this.show(i,true);
 				}
 			}
-		}
-		
-		GameController.instance.killHandle (target);
+			
+		}	
 		
 		this.toDisplayDeadHalos = true ;
 	}
@@ -1674,11 +1822,9 @@ public class GameView : MonoBehaviour
 	public void emptyTile(int x, int y)
 	{
 		this.tiles [x, y].GetComponent<TileController>().setCharacterID(-1);
-		GameController.instance.areMyHeroesDead();
 	}
 	
 	public void disappear(int target){
-		this.playingCards[target].GetComponent<PlayingCardController>().kill();
 		this.playingCards[target].GetComponent<PlayingCardController>().disappear();		
 	}
 	
@@ -1813,17 +1959,17 @@ public class GameView : MonoBehaviour
 		return compteur ;
 	}
 	
-	public void checkPassiveSkills(){
+	public void checkPassiveSkills(bool mine){
 		bool isFoundLeader = false ;
-		
+		print ("pAssive");
 		for (int i = 0 ; i < this.playingCards.Count ; i++){
-			if (this.getIsMine(i)){
+			if (this.getIsMine(i)==mine){
 				if(this.getCard(i).isLeader() && !isFoundLeader){
 					isFoundLeader = true ;
 					int amount = this.getCard(i).getPassiveManacost();
 					for (int j = 0 ; j < this.playingCards.Count ; j++){
 						if(i!=j){
-							if (this.getIsMine(j)){
+							if (this.getIsMine(j)==mine){
 								int amountLife = Mathf.CeilToInt(amount*this.getCard(j).GetTotalLife()/100f);
 								int amountAttack = Mathf.CeilToInt(amount*this.getCard(j).GetAttack()/100f);
 								this.getCard(j).addModifier(amountLife, ModifierType.Type_BonusMalus, ModifierStat.Stat_Life, -1, -4, "", "", "");
@@ -1835,6 +1981,21 @@ public class GameView : MonoBehaviour
 				}
 			}
 		}
+	}
+	
+	public bool areAllMyPlayersDead(){
+		bool areMyPlayersDead = true ;
+		for (int i = 0 ; i < this.playingCards.Count ; i++){
+			if (this.getIsMine(i)){
+				if (!this.isDead(i)){
+					areMyPlayersDead = false ;
+				}
+				else{
+					print ("Dead "+i);
+				}
+			}
+		}
+		return areMyPlayersDead ;
 	}
 }
 

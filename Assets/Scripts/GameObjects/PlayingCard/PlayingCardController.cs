@@ -218,7 +218,7 @@ public class PlayingCardController : GameObjectController
 
 	public void show(bool showTR)
 	{
-		float percentage = 1.0f*this.card.GetLife()/this.card.Life;
+		float percentage = 1.0f*this.card.GetLife()/this.card.GetTotalLife();
 		
 		Transform tempGO = gameObject.transform.FindChild("Life");
 		

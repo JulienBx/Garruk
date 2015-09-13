@@ -11,7 +11,7 @@ public class Fortifiant : GameSkill
 	public override void launch()
 	{
 		GameController.instance.initPCCTargetHandler(numberOfExpectedTargets);
-		GameView.instance.displayOpponentsTargets();
+		GameView.instance.displayAllysButMeTargets();
 	}
 	
 	public override void resolve(List<int> targetsPCC)

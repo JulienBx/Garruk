@@ -54,12 +54,12 @@ public class Adrenaline : GameSkill
 		int baseD = GameView.instance.getCard(target).GetMove();
 		int deplacement = Mathf.FloorToInt((amount)*baseD/100)+1;
 		
-		GameController.instance.addCardModifier(target, deplacement, ModifierType.Type_BonusMalus, ModifierStat.Stat_Move, 1, 9, "Accéléré", "+"+deplacement+" MOV", "Actif 1 tour");
+		GameController.instance.addCardModifier(target, deplacement, ModifierType.Type_BonusMalus, ModifierStat.Stat_Move, 1, 11, "Accéléré", "+"+deplacement+" MOV pour 1 tour", "Actif 1 tour");
 		if(arg==0){
-			GameView.instance.displaySkillEffect(target, "+"+deplacement+" MOV", 5);
+			GameView.instance.displaySkillEffect(target, "+"+deplacement+" MOV", 4);
 		}
 		else if (arg==1){
-			GameView.instance.displaySkillEffect(target, "BONUS\n+"+deplacement+" MOV", 5);
+			GameView.instance.displaySkillEffect(target, "BONUS\n+"+deplacement+" MOV", 4);
 		}
 	}
 	

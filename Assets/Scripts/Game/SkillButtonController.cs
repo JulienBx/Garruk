@@ -44,6 +44,7 @@ public class SkillButtonController : MonoBehaviour
 			}
 		}
 		else{
+			this.launchabilityText = "Compétence non débloquée";
 			this.isLaunchable = false ;
 		}
 	}
@@ -92,6 +93,9 @@ public class SkillButtonController : MonoBehaviour
 				gameObject.GetComponent<SpriteRenderer>().color=new Color(120f/255f,255f/255f,120f/255f, 1f);
 				GameController.instance.launchSkill(this.id);
 				this.isLaunched = true ;
+				this.isHovered = false ;
+				GameView.instance.hidePopUp();
+				
 			}
 		}
 	}
