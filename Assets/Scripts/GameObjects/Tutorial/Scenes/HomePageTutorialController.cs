@@ -27,7 +27,7 @@ public class HomePageTutorialController : TutorialObjectController
 
 			}
 			this.resizeBackground(new Rect(0,0,0,0),0f,10f);
-			this.resizePopUp(new Vector3(0,0,-4f));
+			this.resizePopUp(new Vector3(0,0,-9.5f));
 			break;
 		case 1:
 			if(!isResizing)

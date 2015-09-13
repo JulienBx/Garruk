@@ -26,7 +26,7 @@ public class StoreTutorialController : TutorialObjectController
 				
 			}
 			this.resizeBackground(new Rect(0,0,0,0),1f,1f);
-			this.resizePopUp(new Vector3(0,0,-4f));
+			this.resizePopUp(new Vector3(0,0,-9.5f));
 			break;
 		case 1:
 			if(!isResizing)
@@ -62,7 +62,7 @@ public class StoreTutorialController : TutorialObjectController
 			}
 			Vector3 focusedCardPosition = NewStoreController.instance.getFocusedCardPosition();
 			this.resizeBackground(new Rect(focusedCardPosition.x,focusedCardPosition.y,8f,9f),0f,0f);
-			this.resizePopUp(new Vector3(focusedCardPosition.x+3f,focusedCardPosition.y+1,-4f));
+			this.resizePopUp(new Vector3(focusedCardPosition.x+3f,focusedCardPosition.y+1,-9.5f));
 			break;
 		case 4:
 			if(!isResizing)
@@ -103,10 +103,10 @@ public class StoreTutorialController : TutorialObjectController
 				this.displayBackground(true);
 			}
 			this.resizeBackground(new Rect(0,0,0,0),1f,1f);
-			this.resizePopUp(new Vector3(0,0,-4f));
+			this.resizePopUp(new Vector3(0,0,-9.5f));
 			break;
 		case 7:
-			StartCoroutine(NewStoreController.instance.endTutorial());
+			NewStoreController.instance.endTutorial();
 			break;
 		}
 	}
@@ -114,7 +114,11 @@ public class StoreTutorialController : TutorialObjectController
 	{
 		switch(this.sequenceID)
 		{
-		case 1: case 2: case 4: 
+		case 1: case 4: 
+			this.launchSequence(this.sequenceID+1);
+			break;
+		case 2:
+			NewStoreController.instance.setTutorialStep();
 			this.launchSequence(this.sequenceID+1);
 			break;
 		}

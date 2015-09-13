@@ -88,7 +88,7 @@ public class EndSceneController : MonoBehaviour
 		for(int i=0;i<ApplicationModel.nbCardsByDeck;i++)
 		{
 			cards[i]=Instantiate(cardObject) as GameObject;
-			cards[i].transform.position=new Vector3(-4.5f+i*3f,0f,-9f);
+			cards[i].transform.position=new Vector3(-4.5f+i*3f,0f,-8f);
 			cards[i].AddComponent<NewCardEndSceneController>();
 			cards[i].GetComponent<NewCardController>().c=GameController.instance.myDeck.Cards[i];
 			cards[i].GetComponent<NewCardEndSceneController>().show();
@@ -115,7 +115,7 @@ public class EndSceneController : MonoBehaviour
 	{
 		switch(ApplicationModel.gameType)
 		{
-		case 0: case 3: // ENLEVER 3 
+		case 0:
 			if(hasWon)
 			{
 				this.earnXp=ApplicationModel.currentFriendlyGame.EarnXp_W;
@@ -210,7 +210,7 @@ public class EndSceneController : MonoBehaviour
 	public void quitEndSceneHandler()
 	{
 		GameController.instance.disconnect ();
-		if(ApplicationModel.gameType==3) // A MODIFIER APRES
+		if(ApplicationModel.gameType==0)
 		{
 			ApplicationModel.launchEndGameSequence=true;
 			Application.LoadLevel("NewHomePage");

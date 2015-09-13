@@ -887,11 +887,14 @@ public class NewStoreController : MonoBehaviour
 	{
 		return this.focusedCard.transform.FindChild("Face").position;
 	}
-	public IEnumerator endTutorial()
+	public void endTutorial()
 	{
 		newMenuController.instance.setTutorialLaunched (false);
-		yield return StartCoroutine (model.player.setTutorialStep (-1));
 		Application.LoadLevel ("NewHomePage");
+	}
+	public void setTutorialStep()
+	{
+		StartCoroutine (model.player.setTutorialStep (-1));
 	}
 	public bool getIsTutorialLaunched()
 	{

@@ -325,13 +325,20 @@ public class GameController : Photon.MonoBehaviour
 		yield break;
 	}
 	
-	IEnumerator sendStat(string user1, string user2)
+	IEnumerator sendStat(string user1, string user2, bool isTutorialGame)
 	{
+		int isTutorialGameInt = 0;
+		if(isTutorialGame)
+		{
+			isTutorialGameInt=1;
+		}
+
 		WWWForm form = new WWWForm(); 								// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_nick1", user1); 	                    // Pseudo de l'utilisateur victorieux
 		form.AddField("myform_nick2", user2); 	                    // Pseudo de l'autre utilisateur
 		form.AddField("myform_gametype", ApplicationModel.gameType);
+		form.AddField ("myform_istutorialgame", isTutorialGameInt);
 
 		WWW w = new WWW(URLStat, form); 							// On envoie le formulaire à l'url sur le serveur 
 		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
@@ -744,18 +751,18 @@ public class GameController : Photon.MonoBehaviour
 		
 		if(GameView.instance.getIsTutorialLaunched())
 		{
-			yield return (StartCoroutine(this.sendStat(myPlayerName, hisPlayerName)));
+			yield return (StartCoroutine(this.sendStat(myPlayerName, hisPlayerName, true)));
 			photonView.RPC("quitGameRPC", PhotonTargets.AllBuffered, false);
 		}
 		else
 		{
 			if(isFirstPlayer)
 			{
-				yield return (StartCoroutine(this.sendStat(hisPlayerName, myPlayerName)));
+				yield return (StartCoroutine(this.sendStat(hisPlayerName, myPlayerName, false)));
 			} 
 			else
 			{
-				yield return (StartCoroutine(this.sendStat(hisPlayerName, myPlayerName)));
+				yield return (StartCoroutine(this.sendStat(hisPlayerName, myPlayerName, false)));
 			}
 			photonView.RPC("quitGameRPC", PhotonTargets.AllBuffered, this.isFirstPlayer);
 		}

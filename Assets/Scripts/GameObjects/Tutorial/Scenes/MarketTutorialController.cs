@@ -33,7 +33,7 @@ public class MarketTutorialController : TutorialObjectController
 				this.displayBackground(true);
 			}
 			this.resizeBackground(new Rect(0,0,0,0),1f,1f);
-			this.resizePopUp(new Vector3(0,0,-4f));
+			this.resizePopUp(new Vector3(0,0,-9.5f));
 			break;
 		case 1:
 			if(NewMarketController.instance.areSomeCardsDisplayed())
@@ -49,7 +49,7 @@ public class MarketTutorialController : TutorialObjectController
 				}
 				Vector3 filtersPosition = NewMarketController.instance.getFiltersPosition();
 				this.resizeBackground(new Rect(filtersPosition.x,filtersPosition.y,5f,10f),0f,0f);
-				this.resizePopUp(new Vector3(0,0,-4f));
+				this.resizePopUp(new Vector3(0,0,-9.5f));
 			}
 			else
 			{
@@ -86,7 +86,7 @@ public class MarketTutorialController : TutorialObjectController
 				this.displayBackground(true);
 			}
 			this.resizeBackground(new Rect(0,0,0,0),0f,10f);
-			this.resizePopUp(new Vector3(0,0,-4f));
+			this.resizePopUp(new Vector3(0,0,-9.5f));
 			break;
 		case 4:
 			StartCoroutine(NewMarketController.instance.endTutorial(true));

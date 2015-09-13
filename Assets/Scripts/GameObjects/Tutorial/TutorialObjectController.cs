@@ -216,7 +216,7 @@ public class TutorialObjectController : MonoBehaviour
 	}
 	public void drawUpArrow()
 	{
-		this.resizeArrow(new Vector3(backgroundRect.x,backgroundRect.y+0.3f-backgroundRect.height/2f,-4f));
+		this.resizeArrow(new Vector3(backgroundRect.x,backgroundRect.y+0.3f-backgroundRect.height/2f,-9.5f));
 		this.startTranslation=backgroundRect.y-0.8f-backgroundRect.height/2f;
 		Vector3 popUpPosition = this.arrow.transform.position;
 		popUpPosition.y = this.startTranslation +0.5f- this.popUpHalfHeight;
@@ -227,7 +227,7 @@ public class TutorialObjectController : MonoBehaviour
 	}
 	public void drawDownArrow()
 	{
-		this.resizeArrow(new Vector3(backgroundRect.x,backgroundRect.y+0.3f+backgroundRect.height/2f,-4f));
+		this.resizeArrow(new Vector3(backgroundRect.x,backgroundRect.y+0.3f+backgroundRect.height/2f,-9.5f));
 		this.startTranslation=backgroundRect.y+0.3f+backgroundRect.height/2f;
 		Vector3 popUpPosition = this.arrow.transform.position;
 		popUpPosition.y = this.startTranslation + this.popUpHalfHeight;
@@ -238,7 +238,7 @@ public class TutorialObjectController : MonoBehaviour
 	}
 	public void drawRightArrow()
 	{
-		this.resizeArrow(new Vector3(backgroundRect.x-0.3f-backgroundRect.width/2f,backgroundRect.y,-4f));
+		this.resizeArrow(new Vector3(backgroundRect.x-0.3f-backgroundRect.width/2f,backgroundRect.y,-9.5f));
 		this.startTranslation=backgroundRect.x-0.8f-backgroundRect.width/2f;
 		Vector3 popUpPosition = this.arrow.transform.position;
 		popUpPosition.x = this.startTranslation+0.5f - 4f;
@@ -249,7 +249,7 @@ public class TutorialObjectController : MonoBehaviour
 	}
 	public void drawLeftArrow()
 	{
-		this.resizeArrow(new Vector3(backgroundRect.x+0.3f+backgroundRect.width/2f,backgroundRect.y,-4f));
+		this.resizeArrow(new Vector3(backgroundRect.x+0.3f+backgroundRect.width/2f,backgroundRect.y,-9.5f));
 		this.startTranslation=backgroundRect.x+0.3f+backgroundRect.width/2f;
 		Vector3 popUpPosition = this.arrow.transform.position;
 		popUpPosition.x = this.startTranslation + 4f;

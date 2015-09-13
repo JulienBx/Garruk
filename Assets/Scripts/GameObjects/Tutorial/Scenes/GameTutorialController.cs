@@ -27,7 +27,7 @@ public class GameTutorialController : TutorialObjectController
 				this.displayBackground(true);
 			}
 			this.resizeBackground(new Rect(0,0,0,0),0f,0f);
-			this.resizePopUp(new Vector3(0,0,-4f));
+			this.resizePopUp(new Vector3(0,0,-9.5f));
 			break;
 		case 1:
 			if(!isResizing)
@@ -272,7 +272,7 @@ public class GameTutorialController : TutorialObjectController
 			}
 			this.gameObjectPosition = GameView.instance.getTilesPosition(3,2);
 			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,7f,7f),0f,0f);
-			this.resizePopUp(new Vector3(0,2f,-4f));
+			this.resizePopUp(new Vector3(0,2f,-9.5f));
 			break;
 		case 18:
 			if(!isResizing)
@@ -467,7 +467,7 @@ public class GameTutorialController : TutorialObjectController
 		case 31:
 			if(!isResizing)
 			{
-				GameController.instance.resolvePass(); // A SUPPRIMER DES QUE LA COMPETENCE SERA LA !!!!!!!!!!!!!!!!
+				//GameController.instance.resolvePass(); // A SUPPRIMER DES QUE LA COMPETENCE SERA LA !!!!!!!!!!!!!!!!
 				this.displayPopUp(0);
 				this.setUpArrow();
 				this.displayNextButton(true);
@@ -827,6 +827,7 @@ public class GameTutorialController : TutorialObjectController
 		case 56:
 			if(!isResizing)
 			{
+				StartCoroutine(GameController.instance.quitGame()); // A supprimer dès que ATTAQUE 360 fonctionne
 				this.displayArrow(false);
 				this.displayPopUp(0);
 				this.displayNextButton(false);
@@ -835,7 +836,7 @@ public class GameTutorialController : TutorialObjectController
 				this.displayBackground(true);
 			}
 			this.resizeBackground(new Rect(0,0,0,0),0f,0f);
-			this.resizePopUp(new Vector3(0,-3f,-4f));
+			this.resizePopUp(new Vector3(0,-3.5f,-9.5f));
 			break;
 		case 57:
 			if(!isResizing)

@@ -26,7 +26,7 @@ public class MyGameTutorialController : TutorialObjectController
 				this.displayBackground(true);
 			}
 			this.resizeBackground(new Rect(0,0,0,0),0f,0f);
-			this.resizePopUp(new Vector3(0,0,-4f));
+			this.resizePopUp(new Vector3(0,0,-9.5f));
 			break;
 		case 1:
 			if(!isResizing)
@@ -53,7 +53,7 @@ public class MyGameTutorialController : TutorialObjectController
 				this.displayBackground(true);
 			}
 			this.resizeBackground(new Rect(0,0,0,0),0f,0f);
-			this.resizePopUp(new Vector3(0,0,-4f));
+			this.resizePopUp(new Vector3(0,0,-9.5f));
 			break;
 			break;
 		case 3:
@@ -167,7 +167,7 @@ public class MyGameTutorialController : TutorialObjectController
 			}
 			Vector3 experiencePosition2 = newMyGameController.instance.getFocusedCardExperiencePosition();
 			this.resizeBackground(new Rect(experiencePosition2.x,experiencePosition2.y,7f,1f),0f,0f);
-			this.resizePopUp(new Vector3(0,0,-4f));
+			this.resizePopUp(new Vector3(0,0,-9.5f));
 			break;
 		case 11:
 			if(!isResizing)
@@ -253,7 +253,7 @@ public class MyGameTutorialController : TutorialObjectController
 			}
 			Vector3 filtersPosition = newMyGameController.instance.getFiltersPosition();
 			this.resizeBackground(new Rect(filtersPosition.x,filtersPosition.y,5f,10f),0f,0f);
-			this.resizePopUp(new Vector3(0,0,-4f));
+			this.resizePopUp(new Vector3(0,0,-9.5f));
 			break;
 		case 18:
 			if(!isResizing)
@@ -290,11 +290,15 @@ public class MyGameTutorialController : TutorialObjectController
 	{
 		switch(this.sequenceID)
 		{
-		case 1: case 9: case 11: case 12: case 13: case 14: case 15: case 16: case 18:
+		case 1: case 11: case 12: case 13: case 14: case 15: case 16: case 18:
+			this.launchSequence(this.sequenceID+1);
+			break;
+		case 9: 
+			newMyGameController.instance.setTutorialStep();
 			this.launchSequence(this.sequenceID+1);
 			break;
 		case 19:
-			StartCoroutine(newMyGameController.instance.endTutorial());
+			newMyGameController.instance.endTutorial();
 			break;
 		
 		}

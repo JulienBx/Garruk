@@ -74,19 +74,19 @@ public class TutorialBackgroundController : MonoBehaviour
 		float circleBackgroundX = rect.x;
 		float circleBackgroundY = rect.y;
 
-		gameObject.transform.FindChild("leftBackground").transform.position=new Vector3(leftBackgroundX,leftBackgroundY,-3f);
+		gameObject.transform.FindChild("leftBackground").transform.position=new Vector3(leftBackgroundX,leftBackgroundY,-9f);
 		gameObject.transform.FindChild ("leftBackground").transform.localScale = new Vector3 (leftBackgroundScaleX, leftBackgroundHeight / backgroundWorldSizeY, 1f);
 
-		gameObject.transform.FindChild("rightBackground").transform.position=new Vector3(rightBackgroundX,rightBackgroundY,-3f);
+		gameObject.transform.FindChild("rightBackground").transform.position=new Vector3(rightBackgroundX,rightBackgroundY,-9f);
 		gameObject.transform.FindChild ("rightBackground").transform.localScale = new Vector3 (rightBackgroundScaleX, rightBackgroundHeight / backgroundWorldSizeY, 1f);
 
-		gameObject.transform.FindChild("upperBackground").transform.position=new Vector3(upperBackgroundX,upperBackgroundY,-3f);
+		gameObject.transform.FindChild("upperBackground").transform.position=new Vector3(upperBackgroundX,upperBackgroundY,-9f);
 		gameObject.transform.FindChild ("upperBackground").transform.localScale = new Vector3 (upperBackgroundScaleX, upperBackgroundHeight / backgroundWorldSizeY, 1f);
 
-		gameObject.transform.FindChild("lowerBackground").transform.position=new Vector3(lowerBackgroundX,lowerBackgroundY,-3f);
+		gameObject.transform.FindChild("lowerBackground").transform.position=new Vector3(lowerBackgroundX,lowerBackgroundY,-9f);
 		gameObject.transform.FindChild ("lowerBackground").transform.localScale = new Vector3 (lowerBackgroundScaleX, lowerBackgroundHeight / backgroundWorldSizeY, 1f);
 
-		gameObject.transform.FindChild ("circleBackground").transform.position = new Vector3 (circleBackgroundX, circleBackgroundY, -3f);
+		gameObject.transform.FindChild ("circleBackground").transform.position = new Vector3 (circleBackgroundX, circleBackgroundY, -9f);
 		gameObject.transform.FindChild ("circleBackground").transform.localScale = new Vector3 (circleBackgroundWidth / circleBackgroundWorldSizeX, circleBackgroundHeight/circleBackgroundWorldSizeY, 1f);
 
 

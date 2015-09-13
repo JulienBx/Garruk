@@ -25,7 +25,7 @@ public class SkillBookTutorialController : TutorialObjectController
 				this.displayBackground(true);
 			}
 			this.resizeBackground(new Rect(0,0,0,0),0f,0f);
-			this.resizePopUp(new Vector3(0,0,-4f));
+			this.resizePopUp(new Vector3(0,0,-9.5f));
 			break;
 		case 1:
 			StartCoroutine(NewSkillBookController.instance.endTutorial(true));

@@ -270,12 +270,19 @@ public class newMyGameController : MonoBehaviour
 		this.applyFilters ();
 		this.isSceneLoaded = true;
 		this.money = ApplicationModel.credits;
-		if(model.player.TutorialStep==2)
+		if(model.player.TutorialStep==2 || model.player.TutorialStep==3)
 		{
 			this.tutorial = Instantiate(this.tutorialObject) as GameObject;
 			this.tutorial.AddComponent<MyGameTutorialController>();
-			this.tutorial.GetComponent<MyGameTutorialController>().launchSequence(0);
 			this.menu.GetComponent<newMenuController>().setTutorialLaunched(true);
+			if(model.player.TutorialStep==2)
+			{
+				this.tutorial.GetComponent<MyGameTutorialController>().launchSequence(0);
+			}
+			else if(model.player.TutorialStep==3)
+			{
+				this.tutorial.GetComponent<MyGameTutorialController>().launchSequence(12);
+			}
 			this.isTutorialLaunched=true;
 		} 
 	}
@@ -1900,7 +1907,15 @@ public class newMyGameController : MonoBehaviour
 			onSale=System.Convert.ToBoolean(model.cards[this.cardsDisplayed[id]].onSale);
 			idOwner = model.cards[this.cardsDisplayed[id]].IdOWner;
 		}
-		if(this.deckDisplayed==-1)
+		if(isTutorialLaunched)
+		{
+			if(TutorialObjectController.instance.getSequenceID()>=13 && TutorialObjectController.instance.getSequenceID()<=16)
+			{
+				this.isLeftClicked = true;
+				this.clickInterval = 0f;
+			}
+		}
+		else if(this.deckDisplayed==-1)
 		{
 			this.displayErrorPopUp("Vous devez créer un deck avant de sélectionner une carte");
 		}
@@ -1911,14 +1926,6 @@ public class newMyGameController : MonoBehaviour
 		else if(idOwner==-1)
 		{
 			this.displayErrorPopUp("Cette carte a été vendue, vous ne pouvez plus l'ajouter");
-		}
-		else if(isTutorialLaunched)
-		{
-			if(TutorialObjectController.instance.getSequenceID()>=13 && TutorialObjectController.instance.getSequenceID()<=16)
-			{
-				this.isLeftClicked = true;
-				this.clickInterval = 0f;
-			}
 		}
 		else
 		{
@@ -2291,12 +2298,15 @@ public class newMyGameController : MonoBehaviour
 	{
 		return this.filters.transform.position;
 	}
-	public IEnumerator endTutorial()
+	public void setTutorialStep()
+	{
+		StartCoroutine (model.player.setTutorialStep (3));
+	}
+	public void endTutorial()
 	{
 		newMenuController.instance.setTutorialLaunched (false);
-		yield return StartCoroutine (model.player.setTutorialStep (3));
 		ApplicationModel.launchGameTutorial = true;
-		ApplicationModel.gameType = 3; // A modifier par la suite !
+		ApplicationModel.gameType = 0;
 		Application.LoadLevel ("Game");
 	}
 }
