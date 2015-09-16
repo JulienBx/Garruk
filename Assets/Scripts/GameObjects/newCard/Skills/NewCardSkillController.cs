@@ -7,8 +7,8 @@ public class NewCardSkillController : NewFocusedCardSkillController
 	public override void show()
 	{
 		this.gameObject.transform.FindChild ("Name").GetComponent<TextMeshPro> ().text = this.s.Name;
-		this.gameObject.transform.FindChild ("Power").GetComponent<TextMeshPro> ().text = this.s.Power.ToString();
-		this.gameObject.transform.FindChild ("Power").GetComponent<TextMeshPro> ().color = gameObject.transform.parent.GetComponent<NewCardController>().getColors(this.s.Level - 1);
+		//this.gameObject.transform.FindChild ("Power").GetComponent<TextMeshPro> ().text = this.s.Power.ToString();
+		this.gameObject.transform.FindChild ("Picto").GetComponent<SpriteRenderer> ().sprite = gameObject.transform.parent.GetComponent<NewCardController>().getSkillSprite(this.s.Level - 1);
 	}
 	public override void setSkill(Skill s)
 	{
@@ -16,10 +16,12 @@ public class NewCardSkillController : NewFocusedCardSkillController
 	}
 	public void changeLayer(int layerVariation, int sortingLayerId)
 	{
-		this.gameObject.transform.FindChild ("Name").GetComponent<TextMeshPro> ().sortingOrder =+ layerVariation;
+		this.gameObject.transform.GetComponent<SpriteRenderer> ().sortingOrder +=layerVariation;
+		this.gameObject.transform.GetComponent<SpriteRenderer> ().sortingLayerID = sortingLayerId;
+		this.gameObject.transform.FindChild ("Name").GetComponent<TextMeshPro> ().sortingOrder += layerVariation;
 		this.gameObject.transform.FindChild ("Name").GetComponent<TextMeshPro> ().sortingLayerID =sortingLayerId;
-		this.gameObject.transform.FindChild ("Power").GetComponent<TextMeshPro> ().sortingOrder =+ layerVariation;
-		this.gameObject.transform.FindChild ("Power").GetComponent<TextMeshPro> ().sortingLayerID = sortingLayerId;
+		this.gameObject.transform.FindChild ("Picto").GetComponent<SpriteRenderer> ().sortingOrder += layerVariation;
+		this.gameObject.transform.FindChild ("Picto").GetComponent<SpriteRenderer> ().sortingLayerID = sortingLayerId;
 	}
 	public override void highlightSkill(bool value)
 	{

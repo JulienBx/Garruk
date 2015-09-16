@@ -93,7 +93,7 @@ public class EndSceneController : MonoBehaviour
 			cards[i].GetComponent<NewCardController>().c=GameController.instance.myDeck.Cards[i];
 			cards[i].GetComponent<NewCardEndSceneController>().show();
 			cards[i].GetComponent<NewCardEndSceneController>().changeLayer(11,"UIA");
-			cards[i].transform.localScale=new Vector3(1.4f,1.4f,1.4f);
+			cards[i].transform.localScale=new Vector3(0.3108f,0.3108f,0.3108f);
 		}
 
 		if(hasWon)

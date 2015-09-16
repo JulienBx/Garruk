@@ -5,6 +5,11 @@ public class NewCardEndSceneController : NewCardController
 {
 	//private int id;
 	
+	public override void Awake()
+	{
+		base.Awake ();
+		base.experience.SetActive (true);
+	}
 	public override void Update()
 	{
 		base.Update ();
@@ -34,6 +39,7 @@ public class NewCardEndSceneController : NewCardController
 	public override void show()
 	{
 		base.show ();
+		base.experience.GetComponent<NewCardExperienceController> ().setExperience (this.c.ExperienceLevel, this.c.PercentageToNextLevel);
 	}
 	public override void endUpdatingXp()
 	{

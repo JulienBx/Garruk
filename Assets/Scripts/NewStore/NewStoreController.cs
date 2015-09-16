@@ -344,8 +344,8 @@ public class NewStoreController : MonoBehaviour
 	public void resizeRandomCards()
 	{
 		int nbCards = model.packList [this.selectedPackIndex].NbCards;
-		float cardWidth = 188f*0.83f;
-		float cardHeight = 263f*0.83f;
+		float cardWidth = 720f;
+		float cardHeight = 1004f;
 		Vector3 scale;
 		Vector3 position=new Vector3(0,0,0);
 		float width = this.worldWidth-this.packsBoardLeftMargin-this.packsBoardRightMargin;
@@ -521,8 +521,8 @@ public class NewStoreController : MonoBehaviour
 		this.toRotate= new bool[nbCards];
 		if(nbCards>1)
 		{
-			float cardWidth = 188f*0.83f;
-			float cardHeight = 263f*0.83f;
+			float cardWidth = 720f;
+			float cardHeight = 1004f;
 			string name;
 			Vector3 scale;
 			Vector3 position=new Vector3(0,0,0);

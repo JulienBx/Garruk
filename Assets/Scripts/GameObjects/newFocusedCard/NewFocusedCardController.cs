@@ -120,15 +120,15 @@ public class NewFocusedCardController : MonoBehaviour
 	{
 		this.applyFrontTexture ();
 		this.gameObject.transform.FindChild ("Name").GetComponent<TextMeshPro> ().text = this.c.Title;
-		this.gameObject.transform.FindChild("Power").FindChild("Text").GetComponent<TextMeshPro>().text = this.c.Power.ToString();
-		this.gameObject.transform.FindChild ("Power").FindChild ("Text").GetComponent<TextMeshPro> ().color = ressources.colors [this.c.PowerLevel - 1];
+		//this.gameObject.transform.FindChild("Power").FindChild("Text").GetComponent<TextMeshPro>().text = this.c.Power.ToString();
+		//this.gameObject.transform.FindChild ("Power").FindChild ("Text").GetComponent<TextMeshPro> ().color = ressources.colors [this.c.PowerLevel - 1];
 		this.gameObject.transform.FindChild("Life").FindChild("Text").GetComponent<TextMeshPro>().text = this.c.Life.ToString();
-		this.gameObject.transform.FindChild ("Life").FindChild ("Text").GetComponent<TextMeshPro> ().color = ressources.colors [this.c.LifeLevel - 1];
-		this.gameObject.transform.FindChild("Move").FindChild("Text").GetComponent<TextMeshPro>().text = this.c.Move.ToString();
+		this.gameObject.transform.FindChild ("Life").FindChild("Picto").GetComponent<SpriteRenderer> ().color = ressources.colors [this.c.LifeLevel - 1];
+		//this.gameObject.transform.FindChild("Move").FindChild("Text").GetComponent<TextMeshPro>().text = this.c.Move.ToString();
 		this.gameObject.transform.FindChild("Attack").FindChild("Text").GetComponent<TextMeshPro>().text = this.c.Attack.ToString();
-		this.gameObject.transform.FindChild ("Attack").FindChild ("Text").GetComponent<TextMeshPro> ().color = ressources.colors [this.c.AttackLevel - 1];
+		this.gameObject.transform.FindChild ("Attack").FindChild("Picto").GetComponent<SpriteRenderer> ().color = ressources.colors [this.c.AttackLevel - 1];
 		this.gameObject.transform.FindChild("Quickness").FindChild("Text").GetComponent<TextMeshPro>().text = this.c.Speed.ToString();
-		this.gameObject.transform.FindChild ("Quickness").FindChild ("Text").GetComponent<TextMeshPro> ().color = ressources.colors [this.c.SpeedLevel - 1];
+		this.gameObject.transform.FindChild ("Quickness").FindChild("Picto").GetComponent<SpriteRenderer> ().color = ressources.colors [this.c.SpeedLevel - 1];
 
 		for(int i=0;i<this.skills.Length;i++)
 		{
@@ -147,7 +147,8 @@ public class NewFocusedCardController : MonoBehaviour
 	}
 	public virtual void applyFrontTexture()
 	{
-		this.gameObject.transform.FindChild ("Face").GetComponent<SpriteRenderer> ().sprite = ressources.faces[this.c.IdClass];
+		this.gameObject.transform.FindChild ("Caracter").GetComponent<SpriteRenderer> ().sprite = ressources.caracters[this.c.IdClass];
+		this.gameObject.transform.FindChild ("Face").GetComponent<SpriteRenderer> ().sprite = ressources.faces [this.c.PowerLevel - 1];
 	}
 	public void setCardSold()
 	{
@@ -933,10 +934,10 @@ public class NewFocusedCardController : MonoBehaviour
 		this.c.GetNewSkill=false;
 		this.timerSkillHighlighted=0;
 	}
-	public Vector3 getCardUpgradePosition (int caracteristicUpgraded)
+	public virtual Vector3 getCardUpgradePosition (int caracteristicUpgraded)
 	{
 		GameObject refObject = new GameObject ();
-		float gap = this.getCardUpdateGap();
+		float gap = 0.5f;
 		switch(caracteristicUpgraded)
 		{
 		case 0:
@@ -965,12 +966,8 @@ public class NewFocusedCardController : MonoBehaviour
 			break;
 		}
 		Vector3 refPosition =refObject.transform.position;
-		float refSizeX = refObject.transform.GetComponent<MeshRenderer> ().bounds.max.x-refObject.transform.GetComponent<MeshRenderer> ().bounds.min.x;
-		return new Vector3 (refPosition.x+gap,refPosition.y,0f);
-	}
-	public virtual float getCardUpdateGap()
-	{
-		return 1f;
+		float refSizeX = refObject.transform.GetComponent<MeshRenderer> ().bounds.size.x;
+		return new Vector3 (refPosition.x+gap+refSizeX/2f,refPosition.y,0f);
 	}
 	public void setBackFace(bool value)
 	{
@@ -1000,7 +997,7 @@ public class NewFocusedCardController : MonoBehaviour
 	}
 	public virtual Sprite getSkillSprite(int id)
 	{
-		return this.ressources.pictos [id];
+		return this.ressources.skills [id];
 	}
 }
 

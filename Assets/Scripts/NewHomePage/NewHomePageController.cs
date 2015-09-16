@@ -603,7 +603,7 @@ public class NewHomePageController : Photon.MonoBehaviour
 		float deleteRenameButtonScale = 0.7f;
 		float deleteRenameButtonWidth = 219;
 		float cardHaloWidth = 200f;
-		float cardScale = 0.83f;
+		float cardScale = 0.222f;
 		float deckCardsInterval = 1.7f;
 
 		float selectButtonWorldWidth = selectButtonScale*(selectButtonWidth / pixelPerUnit);
@@ -660,7 +660,7 @@ public class NewHomePageController : Photon.MonoBehaviour
 			this.deckCardsPosition[i]=this.deckBoard.transform.FindChild("Card"+i).position;
 			this.deckCardsArea[i]=new Rect(this.deckCardsPosition[i].x-cardWorldWidth/2f,this.deckCardsPosition[i].y-cardWorldHeight/2f,cardWorldWidth,cardWorldHeight);
 			this.deckCards[i].transform.position=this.deckCardsPosition[i];
-			this.deckCards[i].transform.localScale=new Vector3(1f,1f,1f);
+			this.deckCards[i].transform.localScale=new Vector3(cardScale,cardScale,cardScale);
 			this.deckCards[i].transform.GetComponent<NewCardHomePageController>().setId(i);
 		}
 		float focusedCardScale = 3.648985f;
@@ -945,7 +945,7 @@ public class NewHomePageController : Photon.MonoBehaviour
 		{
 			this.isDragging=true;
 			Cursor.SetCursor (this.cursorTextures[1], new Vector2(this.cursorTextures[1].width/2f,this.cursorTextures[1].width/2f), CursorMode.Auto);
-			this.deckCards[this.idCardClicked].GetComponent<NewCardController>().changeLayer(4,"Foreground");
+			this.deckCards[this.idCardClicked].GetComponent<NewCardController>().changeLayer(10,"Foreground");
 			this.deckBoard.GetComponent<DeckBoardController> ().changeCardsColor (new Color (155f / 255f, 220f / 255f, 1f));
 		}
 	}
@@ -960,7 +960,7 @@ public class NewHomePageController : Photon.MonoBehaviour
 		{
 			Cursor.SetCursor (null, Vector2.zero, CursorMode.Auto);
 		}
-		this.deckCards[this.idCardClicked].GetComponent<NewCardController>().changeLayer(-4,"Foreground");
+		this.deckCards[this.idCardClicked].GetComponent<NewCardController>().changeLayer(-10,"Foreground");
 		this.deckCards[this.idCardClicked].transform.position=this.deckCardsPosition[this.idCardClicked];
 		this.deckBoard.GetComponent<DeckBoardController> ().changeCardsColor (new Color (1f,1f, 1f));bool toCards=false;
 		

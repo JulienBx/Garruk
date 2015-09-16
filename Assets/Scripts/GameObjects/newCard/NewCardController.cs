@@ -28,17 +28,17 @@ public class NewCardController : NewFocusedCardController
 	public override void show()
 	{
 		this.applyFrontTexture ();
-		this.gameObject.transform.FindChild ("Name").GetComponent<TextMeshPro> ().text = this.c.Title;
-		this.gameObject.transform.FindChild("Power").FindChild("Text").GetComponent<TextMeshPro>().text = this.c.Power.ToString();
-		this.gameObject.transform.FindChild ("Power").FindChild ("Text").GetComponent<TextMeshPro> ().color = ressources.colors [this.c.PowerLevel - 1];
+		this.gameObject.transform.FindChild ("Name").GetComponent<TextMeshPro> ().text = this.c.Title.ToUpper();
+		//this.gameObject.transform.FindChild("Power").FindChild("Text").GetComponent<TextMeshPro>().text = this.c.Power.ToString();
+		//this.gameObject.transform.FindChild ("Face").FindChild ("Text").GetComponent<TextMeshPro> ().color = ressources.colors [this.c.PowerLevel - 1];
 		this.gameObject.transform.FindChild("Life").FindChild("Text").GetComponent<TextMeshPro>().text = this.c.Life.ToString();
-		this.gameObject.transform.FindChild ("Life").FindChild ("Text").GetComponent<TextMeshPro> ().color = ressources.colors [this.c.LifeLevel - 1];
-		this.gameObject.transform.FindChild("Move").FindChild("Text").GetComponent<TextMeshPro>().text = this.c.Move.ToString();
+		this.gameObject.transform.FindChild ("Life").FindChild ("Picto").GetComponent<SpriteRenderer> ().color = ressources.colors [this.c.LifeLevel - 1];
+		//this.gameObject.transform.FindChild("Move").FindChild("Text").GetComponent<TextMeshPro>().text = this.c.Move.ToString();
 		this.gameObject.transform.FindChild("Attack").FindChild("Text").GetComponent<TextMeshPro>().text = this.c.Attack.ToString();
-		this.gameObject.transform.FindChild ("Attack").FindChild ("Text").GetComponent<TextMeshPro> ().color = ressources.colors [this.c.AttackLevel - 1];
+		this.gameObject.transform.FindChild ("Attack").FindChild ("Picto").GetComponent<SpriteRenderer> ().color = ressources.colors [this.c.AttackLevel - 1];
 		this.gameObject.transform.FindChild("Quickness").FindChild("Text").GetComponent<TextMeshPro>().text = this.c.Speed.ToString();
-		this.gameObject.transform.FindChild ("Quickness").FindChild ("Text").GetComponent<TextMeshPro> ().color = ressources.colors [this.c.SpeedLevel - 1];
-		this.experience.GetComponent<NewCardExperienceController> ().setExperience (this.c.ExperienceLevel, this.c.PercentageToNextLevel);
+		this.gameObject.transform.FindChild ("Quickness").FindChild ("Picto").GetComponent<SpriteRenderer> ().color = ressources.colors [this.c.SpeedLevel - 1];
+		//this.experience.GetComponent<NewCardExperienceController> ().setExperience (this.c.ExperienceLevel, this.c.PercentageToNextLevel);
 
 		for(int i=0;i<this.skills.Length;i++)
 		{
@@ -55,7 +55,8 @@ public class NewCardController : NewFocusedCardController
 	}
 	public override void applyFrontTexture()
 	{
-		this.gameObject.transform.FindChild ("Face").GetComponent<SpriteRenderer> ().sprite = ressources.faces[this.c.IdClass];
+		this.gameObject.transform.FindChild ("Caracter").GetComponent<SpriteRenderer> ().sprite = ressources.caracters[this.c.IdClass];
+		this.gameObject.transform.FindChild ("Face").GetComponent<SpriteRenderer> ().sprite = ressources.faces [this.c.PowerLevel - 1];
 	}
 	public override void displayPanelSold()
 	{
@@ -74,19 +75,22 @@ public class NewCardController : NewFocusedCardController
 
 		int sortingLayerID = this.gameObject.transform.FindChild ("Face").GetComponent<SpriteRenderer> ().sortingLayerID;
 
+		this.gameObject.transform.FindChild ("Caracter").GetComponent<SpriteRenderer> ().sortingOrder += layerVariation;
+		this.gameObject.transform.FindChild ("Caracter").GetComponent<SpriteRenderer> ().sortingLayerID = sortingLayerID;
+
 		this.gameObject.transform.FindChild ("Name").GetComponent<TextMeshPro> ().sortingLayerID = sortingLayerID;
-		this.gameObject.transform.FindChild("Power").FindChild("Text").GetComponent<TextMeshPro>().sortingOrder += layerVariation;
-		this.gameObject.transform.FindChild("Power").FindChild("Text").GetComponent<TextMeshPro>().sortingLayerID = sortingLayerID;
-		this.gameObject.transform.FindChild("Power").FindChild("Picto").GetComponent<SpriteRenderer> ().sortingOrder += layerVariation;
-		this.gameObject.transform.FindChild("Power").FindChild("Picto").GetComponent<SpriteRenderer> ().sortingLayerID = sortingLayerID;
+		//this.gameObject.transform.FindChild("Power").FindChild("Text").GetComponent<TextMeshPro>().sortingOrder += layerVariation;
+		//this.gameObject.transform.FindChild("Power").FindChild("Text").GetComponent<TextMeshPro>().sortingLayerID = sortingLayerID;
+		//this.gameObject.transform.FindChild("Power").FindChild("Picto").GetComponent<SpriteRenderer> ().sortingOrder += layerVariation;
+		//this.gameObject.transform.FindChild("Power").FindChild("Picto").GetComponent<SpriteRenderer> ().sortingLayerID = sortingLayerID;
 		this.gameObject.transform.FindChild("Life").FindChild("Text").GetComponent<TextMeshPro>().sortingOrder += layerVariation;
 		this.gameObject.transform.FindChild("Life").FindChild("Text").GetComponent<TextMeshPro>().sortingLayerID = sortingLayerID;
 		this.gameObject.transform.FindChild("Life").FindChild("Picto").GetComponent<SpriteRenderer> ().sortingOrder += layerVariation;
 		this.gameObject.transform.FindChild("Life").FindChild("Picto").GetComponent<SpriteRenderer> ().sortingLayerID = sortingLayerID;
-		this.gameObject.transform.FindChild("Move").FindChild("Text").GetComponent<TextMeshPro>().sortingOrder += layerVariation;
-		this.gameObject.transform.FindChild("Move").FindChild("Text").GetComponent<TextMeshPro>().sortingLayerID = sortingLayerID;
-		this.gameObject.transform.FindChild("Move").FindChild("Picto").GetComponent<SpriteRenderer> ().sortingOrder += layerVariation;
-		this.gameObject.transform.FindChild("Move").FindChild("Picto").GetComponent<SpriteRenderer> ().sortingLayerID = sortingLayerID;
+		//this.gameObject.transform.FindChild("Move").FindChild("Text").GetComponent<TextMeshPro>().sortingOrder += layerVariation;
+		//this.gameObject.transform.FindChild("Move").FindChild("Text").GetComponent<TextMeshPro>().sortingLayerID = sortingLayerID;
+		//this.gameObject.transform.FindChild("Move").FindChild("Picto").GetComponent<SpriteRenderer> ().sortingOrder += layerVariation;
+		//this.gameObject.transform.FindChild("Move").FindChild("Picto").GetComponent<SpriteRenderer> ().sortingLayerID = sortingLayerID;
 		this.gameObject.transform.FindChild("Attack").FindChild("Text").GetComponent<TextMeshPro>().sortingOrder += layerVariation;
 		this.gameObject.transform.FindChild("Attack").FindChild("Text").GetComponent<TextMeshPro>().sortingLayerID = sortingLayerID;
 		this.gameObject.transform.FindChild("Attack").FindChild("Picto").GetComponent<SpriteRenderer> ().sortingOrder += layerVariation;
@@ -97,10 +101,10 @@ public class NewCardController : NewFocusedCardController
 		this.gameObject.transform.FindChild("Quickness").FindChild("Picto").GetComponent<SpriteRenderer> ().sortingLayerID = sortingLayerID;
 		this.gameObject.transform.FindChild("Experience").FindChild ("ExperienceGauge").GetComponent<SpriteRenderer>().sortingOrder += layerVariation;
 		this.gameObject.transform.FindChild("Experience").FindChild ("ExperienceGauge").GetComponent<SpriteRenderer>().sortingLayerID = sortingLayerID;
-		this.gameObject.transform.FindChild("Experience").FindChild ("ExperienceBar").GetComponent<SpriteRenderer>().sortingOrder += layerVariation;
-		this.gameObject.transform.FindChild("Experience").FindChild ("ExperienceBar").GetComponent<SpriteRenderer>().sortingLayerID = sortingLayerID;
-		this.gameObject.transform.FindChild("Experience").FindChild("ExperienceLevel").GetComponent<TextMeshPro>().sortingOrder += layerVariation;
-		this.gameObject.transform.FindChild("Experience").FindChild("ExperienceLevel").GetComponent<TextMeshPro>().sortingLayerID = sortingLayerID;
+		//this.gameObject.transform.FindChild("Experience").FindChild ("ExperienceBar").GetComponent<SpriteRenderer>().sortingOrder += layerVariation;
+		//this.gameObject.transform.FindChild("Experience").FindChild ("ExperienceBar").GetComponent<SpriteRenderer>().sortingLayerID = sortingLayerID;
+		//this.gameObject.transform.FindChild("Experience").FindChild("ExperienceLevel").GetComponent<TextMeshPro>().sortingOrder += layerVariation;
+		//this.gameObject.transform.FindChild("Experience").FindChild("ExperienceLevel").GetComponent<TextMeshPro>().sortingLayerID = sortingLayerID;
 		this.gameObject.transform.FindChild("CardUpgrade").FindChild("Text").GetComponent<TextMeshPro>().sortingOrder += layerVariation;
 		this.gameObject.transform.FindChild("CardUpgrade").FindChild("Text").GetComponent<TextMeshPro>().sortingLayerID = sortingLayerID;
 		this.gameObject.transform.FindChild("CardUpgrade").GetComponent<SpriteRenderer>().sortingOrder += layerVariation;
@@ -132,7 +136,14 @@ public class NewCardController : NewFocusedCardController
 						Vector3 popUpScale = new Vector3(1f/this.gameObject.transform.localScale.x,1f/this.gameObject.transform.localScale.y,1f/this.gameObject.transform.localScale.z);
 						this.skillPopUp.transform.localScale=popUpScale;
 					}
-					this.skillPopUp.transform.position=new Vector3(gameObject.transform.position.x,gameObject.transform.position.y-(skillDisplayed*(0.175f*this.gameObject.transform.localScale.y))+0.25f/this.gameObject.transform.localScale.y+0.45f,-1f);
+					if(newSkillHovered==0)
+					{
+						this.skillPopUp.transform.position=new Vector3(gameObject.transform.position.x,gameObject.transform.position.y-0.8f+(+0.6f)*(0.5f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y),-1f);
+					}
+					else
+					{
+						this.skillPopUp.transform.position=new Vector3(gameObject.transform.position.x,gameObject.transform.position.y+0.8f+(-0.6f+(newSkillHovered-1f)*0.24f)*(0.5f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y),-1f);
+					}
 					this.skillPopUp.transform.FindChild("title").GetComponent<TextMeshPro>().text=c.Skills[skillDisplayed].Name;
 					this.skillPopUp.transform.FindChild("description").GetComponent<TextMeshPro>().text=c.Skills[skillDisplayed].Description;
 				}
@@ -167,25 +178,32 @@ public class NewCardController : NewFocusedCardController
 	public int skillHovered()
 	{
 		Vector3 cursorPosition = Camera.main.ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, Input.mousePosition.z));
-		if(cursorPosition.x>this.gameObject.transform.position.x-(0.35f*this.gameObject.transform.localScale.x) && 
-		   cursorPosition.y<this.gameObject.transform.position.y-(0.25f*this.gameObject.transform.localScale.y) &&
-		   cursorPosition.y>this.gameObject.transform.position.y-(0.95f*this.gameObject.transform.localScale.y))
+		if(cursorPosition.x>this.gameObject.transform.position.x-(0.45f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.x) && 
+		   cursorPosition.x<this.gameObject.transform.position.x+(0.45f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.x))
 		{
-			if(cursorPosition.y>this.gameObject.transform.position.y-(0.425f*this.gameObject.transform.localScale.y))
+			if(cursorPosition.y>this.gameObject.transform.position.y+(0.5f*0.50f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y) && 
+			   cursorPosition.y<this.gameObject.transform.position.y+(0.5f*0.70f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y))
 			{
 				return 0;
 			}
-			else if(cursorPosition.y>this.gameObject.transform.position.y-(0.60f*this.gameObject.transform.localScale.y))
+			else if(cursorPosition.y>this.gameObject.transform.position.y-(0.5f*0.30f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y) && 
+			        cursorPosition.y<this.gameObject.transform.position.y-(0.5f*0.10f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y))
 			{
-				return 1;
+				return 3;
 			}
-			else if(cursorPosition.y>this.gameObject.transform.position.y-(0.775f*this.gameObject.transform.localScale.y))
+			else if(cursorPosition.y>this.gameObject.transform.position.y-(0.5f*0.50f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y) && 
+			        cursorPosition.y<this.gameObject.transform.position.y-(0.5f*0.30f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y))
 			{
 				return 2;
 			}
+			else if(cursorPosition.y>this.gameObject.transform.position.y-(0.5f*0.70f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y) && 
+			        cursorPosition.y<this.gameObject.transform.position.y-(0.5f*0.50f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y))
+			{
+				return 1;
+			}
 			else
 			{
-				return 3;
+				return -1;
 			}
 		}
 		else
@@ -213,9 +231,44 @@ public class NewCardController : NewFocusedCardController
 	{
 		return this.ressources.colors[id];	
 	}
-	public override float getCardUpdateGap()
+	public override Vector3 getCardUpgradePosition (int caracteristicUpgraded)
 	{
-		return 0.33f;
+		GameObject refObject = new GameObject ();
+		float gap = 0.165f;
+		switch(caracteristicUpgraded)
+		{
+		case 0:
+			refObject = transform.FindChild("Life").FindChild("Text").gameObject;
+			break;
+		case 1:
+			refObject=transform.FindChild("Attack").FindChild("Text").gameObject.gameObject;
+			break;
+		case 2:
+			refObject=transform.FindChild("Move").FindChild("Text").gameObject.gameObject;
+			break;
+		case 3:
+			refObject=transform.FindChild("Quickness").FindChild("Text").gameObject.gameObject;
+			break;
+		case 4:
+			refObject=transform.FindChild("Skill0").FindChild ("Name").gameObject;
+			break;
+		case 5:
+			refObject=transform.FindChild("Skill1").FindChild ("Name").gameObject;
+			break;
+		case 6:
+			refObject=transform.FindChild("Skill2").FindChild ("Name").gameObject;
+			break;
+		case 7:
+			refObject=transform.FindChild("Skill3").FindChild ("Name").gameObject;
+			break;
+		}
+		Vector3 refPosition =refObject.transform.position;
+		float refSizeX = refObject.transform.GetComponent<MeshRenderer> ().bounds.size.x;
+		return new Vector3 (refPosition.x+gap+refSizeX/2f,refPosition.y,0f);
+	}
+	public virtual Sprite getSkillSprite(int id)
+	{
+		return this.ressources.skills [id];
 	}
 }
 

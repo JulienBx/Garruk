@@ -365,7 +365,7 @@ public class NewMarketController : MonoBehaviour
 		this.worldHeight = 2f*Camera.main.GetComponent<Camera>().orthographicSize;
 		this.worldWidth = ((float)Screen.width/(float)Screen.height) * worldHeight;
 		float screenRatio = (float)this.widthScreen / (float)this.heightScreen;
-		float cardScale = 0.83f;
+		float cardScale = 0.222f;
 		
 		menu.GetComponent<newMenuController> ().resizeMeunObject (worldHeight,worldWidth);
 
@@ -378,8 +378,8 @@ public class NewMarketController : MonoBehaviour
 		float cardsBoardWidth = worldWidth-cardsBoardLeftMargin-cardsBoardRightMargin;
 		Vector2 cardsBoardOrigin = new Vector3 (-worldWidth/2f+cardsBoardLeftMargin+cardsBoardWidth/2f, -worldHeight / 2f + cardsBoardDownMargin + cardsBoardHeight / 2,0f);
 		
-		float cardWidth = 194f;
-		float cardHeight = 271f;
+		float cardWidth = 720f;
+		float cardHeight = 1004f;
 		float panelMarketHeight = cardHeight / 6f;
 		float cardWorldWidth = (cardWidth / pixelPerUnit) * cardScale;
 		float cardWorldHeight = ((cardHeight+panelMarketHeight) / pixelPerUnit) * cardScale;
@@ -400,7 +400,7 @@ public class NewMarketController : MonoBehaviour
 			{
 				this.cards[j*(cardsPerLine)+i] = Instantiate(this.cardObject) as GameObject;
 				this.cards[j*(cardsPerLine)+i].AddComponent<NewCardMarketController>();
-				this.cards[j*(cardsPerLine)+i].transform.localScale= new Vector3(1f,1f,1f);
+				this.cards[j*(cardsPerLine)+i].transform.localScale= new Vector3(cardScale,cardScale,cardScale);
 				this.cards[j*(cardsPerLine)+i].transform.position=new Vector3(cardBoardStartX+(i+1)*(gapWidth+cardWorldWidth),cardBoardStartY+1/12f*cardWorldHeight-(j+1)*(gapHeight+cardWorldHeight),0f);
 				this.cards[j*(this.cardsPerLine)+i].transform.name="Card"+(j*(this.cardsPerLine)+i);
 				this.cards[j*(cardsPerLine)+i].transform.GetComponent<NewCardMarketController>().setId(j*(cardsPerLine)+i);

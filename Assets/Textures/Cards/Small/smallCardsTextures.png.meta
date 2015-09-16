@@ -1,0 +1,352 @@
+fileFormatVersion: 2
+guid: 93aa04ff847cf4287b8b32a81c753a46
+timeCreated: 1442327455
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: assassin
+    21300002: atkicon
+    21300004: drogueur
+    21300006: droid
+    21300008: face
+    21300010: geomancienne
+    21300012: invocateur
+    21300014: lifeicon
+    21300016: mentaliste
+    21300018: mitrailleur
+    21300020: polymorphe
+    21300022: predateur
+    21300024: pretresse
+    21300026: speedicon
+    21300028: stone
+    21300030: cristal
+    21300032: face1
+    21300034: face2
+    21300036: cristal1
+    21300038: cristal2
+    21300040: backCard
+    21300042: buttonBorder
+    21300044: cardupgrade
+    21300046: popUp
+    21300048: soldPanel
+    21300050: expcomplete
+    21300052: cardbox
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 8
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 4096
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 108
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: assassin
+      rect:
+        serializedVersion: 2
+        x: 2000
+        y: 2020
+        width: 559
+        height: 654
+      alignment: 9
+      pivot: {x: .542933822, y: .577217102}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: atkicon
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 22
+        width: 95
+        height: 120
+      alignment: 9
+      pivot: {x: .452631593, y: .491666675}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: backCard
+      rect:
+        serializedVersion: 2
+        x: 1406
+        y: 3090
+        width: 720
+        height: 1004
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: buttonBorder
+      rect:
+        serializedVersion: 2
+        x: 314
+        y: 21
+        width: 219
+        height: 50
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: cardbox
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 3162
+        width: 1402
+        height: 932
+      alignment: 9
+      pivot: {x: .500713289, y: .498927027}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: cardupgrade
+      rect:
+        serializedVersion: 2
+        x: 314
+        y: 73
+        width: 90
+        height: 69
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: cristal
+      rect:
+        serializedVersion: 2
+        x: 406
+        y: 93
+        width: 52
+        height: 49
+      alignment: 9
+      pivot: {x: .5, y: .510204077}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: cristal1
+      rect:
+        serializedVersion: 2
+        x: 460
+        y: 93
+        width: 52
+        height: 49
+      alignment: 9
+      pivot: {x: .5, y: .510204077}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: cristal2
+      rect:
+        serializedVersion: 2
+        x: 514
+        y: 93
+        width: 52
+        height: 49
+      alignment: 9
+      pivot: {x: .5, y: .510204077}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: drogueur
+      rect:
+        serializedVersion: 2
+        x: 2733
+        y: 2669
+        width: 561
+        height: 690
+      alignment: 9
+      pivot: {x: .514260232, y: .547101438}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: droid
+      rect:
+        serializedVersion: 2
+        x: 1300
+        y: 1695
+        width: 543
+        height: 636
+      alignment: 9
+      pivot: {x: .494475126, y: .593553483}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: expcomplete
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 12
+        width: 100
+        height: 3
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: face
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 2156
+        width: 720
+        height: 1004
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: face1
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 1150
+        width: 720
+        height: 1004
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: face2
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 144
+        width: 720
+        height: 1004
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: geomancienne
+      rect:
+        serializedVersion: 2
+        x: 3476
+        y: 3353
+        width: 610
+        height: 741
+      alignment: 9
+      pivot: {x: .497540981, y: .509446681}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: invocateur
+      rect:
+        serializedVersion: 2
+        x: 2128
+        y: 2676
+        width: 603
+        height: 755
+      alignment: 9
+      pivot: {x: .50497514, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: lifeicon
+      rect:
+        serializedVersion: 2
+        x: 2000
+        y: 2923
+        width: 110
+        height: 165
+      alignment: 9
+      pivot: {x: .481818169, y: .5090909}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: mentaliste
+      rect:
+        serializedVersion: 2
+        x: 1395
+        y: 2333
+        width: 603
+        height: 755
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: mitrailleur
+      rect:
+        serializedVersion: 2
+        x: 724
+        y: 1580
+        width: 574
+        height: 755
+      alignment: 9
+      pivot: {x: .507839739, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: polymorphe
+      rect:
+        serializedVersion: 2
+        x: 2819
+        y: 3361
+        width: 655
+        height: 733
+      alignment: 9
+      pivot: {x: .506106853, y: .51500684}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: popUp
+      rect:
+        serializedVersion: 2
+        x: 3296
+        y: 3201
+        width: 350
+        height: 150
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: predateur
+      rect:
+        serializedVersion: 2
+        x: 2128
+        y: 3433
+        width: 689
+        height: 661
+      alignment: 9
+      pivot: {x: .5, y: .571104407}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: pretresse
+      rect:
+        serializedVersion: 2
+        x: 724
+        y: 2337
+        width: 576
+        height: 710
+      alignment: 9
+      pivot: {x: .483506948, y: .531690121}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: soldPanel
+      rect:
+        serializedVersion: 2
+        x: 179
+        y: 42
+        width: 133
+        height: 100
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: speedicon
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 17
+        width: 78
+        height: 125
+      alignment: 9
+      pivot: {x: .5, y: .536000013}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: stone
+      rect:
+        serializedVersion: 2
+        x: 724
+        y: 3049
+        width: 669
+        height: 111
+      alignment: 9
+      pivot: {x: .500747383, y: .509009004}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
