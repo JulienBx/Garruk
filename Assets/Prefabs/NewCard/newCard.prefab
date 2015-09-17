@@ -651,7 +651,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 172488}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: .0343851149, y: 4.1640625, z: 0}
+  m_LocalPosition: {x: 0, y: 4.13999987, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 407260}
@@ -663,7 +663,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 190900}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -10.5374022, y: 8.25794983, z: 0}
+  m_LocalPosition: {x: 1.04930055, y: 9.09362793, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 487878}
@@ -1520,8 +1520,8 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 6.33489704
-    height: 1.03187501
+    width: 6.5999999
+    height: 1.20000005
   m_margins: {x: 0, y: 0, z: 0, w: 0}
 --- !u!114 &11406476
 MonoBehaviour:
@@ -2781,9 +2781,9 @@ MonoBehaviour:
     serializedVersion: 2
     rgba: 4278190080
   m_fontSize: 8
-  m_fontSizeMin: 18
-  m_fontSizeMax: 72
-  m_fontSizeBase: 8
+  m_fontSizeMin: 5
+  m_fontSizeMax: 8
+  m_fontSizeBase: 5
   m_charSpacingMax: 0
   m_lineSpacingMax: 0
   m_charWidthMaxAdj: 0
@@ -2832,7 +2832,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   m_maskType: 0
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
 --- !u!114 &11497048
 MonoBehaviour:
   m_ObjectHideFlags: 1

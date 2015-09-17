@@ -253,6 +253,7 @@ public class newMyGameController : MonoBehaviour
 	{
 		yield return StartCoroutine (model.initializeMyGame ());
 		this.retrieveDefaultDeck ();
+		this.initializeFilters ();
 		this.initializeDecks ();
 		this.resetFiltersValue ();
 		if(ApplicationModel.skillChosen!="")
@@ -285,6 +286,13 @@ public class newMyGameController : MonoBehaviour
 			}
 			this.isTutorialLaunched=true;
 		} 
+	}
+	private void initializeFilters()
+	{
+		for(int i=2;i<12;i++)
+		{
+			this.filters.transform.FindChild("cardTypeFilters").FindChild("Toggle"+i).GetComponent<TextMeshPro>().text = model.cardTypeList[i-2];
+		}
 	}
 	private void initializeDecks()
 	{
@@ -349,16 +357,6 @@ public class newMyGameController : MonoBehaviour
 		this.filters.transform.FindChild ("onSaleFilters").FindChild("Toggle0").GetComponent<TextMeshPro>().text = "Cartes mises en vente";
 		this.filters.transform.FindChild ("onSaleFilters").FindChild("Toggle1").GetComponent<TextMeshPro>().text = "Cartes non mises en vente";
 		this.filters.transform.FindChild("cardTypeFilters").FindChild("Title").GetComponent<TextMeshPro>().text = "Classes";
-		this.filters.transform.FindChild("cardTypeFilters").FindChild("Toggle2").GetComponent<TextMeshPro>().text = "Enchanteur";
-		this.filters.transform.FindChild("cardTypeFilters").FindChild("Toggle3").GetComponent<TextMeshPro>().text = "Roublard";
-		this.filters.transform.FindChild("cardTypeFilters").FindChild("Toggle4").GetComponent<TextMeshPro>().text = "Berserk";
-		this.filters.transform.FindChild("cardTypeFilters").FindChild("Toggle5").GetComponent<TextMeshPro>().text = "Artificier";
-		this.filters.transform.FindChild("cardTypeFilters").FindChild("Toggle6").GetComponent<TextMeshPro>().text = "Mentaliste";
-		this.filters.transform.FindChild("cardTypeFilters").FindChild("Toggle7").GetComponent<TextMeshPro>().text = "Androide";
-		this.filters.transform.FindChild("cardTypeFilters").FindChild("Toggle8").GetComponent<TextMeshPro>().text = "Metamorphe";
-		this.filters.transform.FindChild("cardTypeFilters").FindChild("Toggle9").GetComponent<TextMeshPro>().text = "Pretre";
-		this.filters.transform.FindChild("cardTypeFilters").FindChild("Toggle10").GetComponent<TextMeshPro>().text = "Animiste";
-		this.filters.transform.FindChild("cardTypeFilters").FindChild("Toggle11").GetComponent<TextMeshPro>().text = "Geomancien";
 		this.filters.transform.FindChild("skillSearch").FindChild("Title").GetComponent<TextMeshPro>().text = "Compétences";
 		this.filters.transform.FindChild("powerFilter").FindChild ("Title").GetComponent<TextMeshPro>().text = "Puissance";
 		this.filters.transform.FindChild("lifeFilter").FindChild ("Title").GetComponent<TextMeshPro>().text = "Vie";
@@ -483,7 +481,7 @@ public class newMyGameController : MonoBehaviour
 		float selectButtonScale = 1.4f;
 		float deleteRenameButtonScale = 0.7f;
 		float deleteRenameButtonWidth = 219;
-		float cardHaloWidth = 200f;
+		float cardHaloWidth = 740f;
 		float cardScale = 0.222f;
 		float deckCardsInterval = 1.7f;
 		
@@ -501,14 +499,14 @@ public class newMyGameController : MonoBehaviour
 		
 		if(tempWidth>0.25f)
 		{
-			this.deckBoard.transform.position=new Vector3(selectButtonWorldWidth/2f +tempWidth/4f,3.52f,0f);
+			this.deckBoard.transform.position=new Vector3(selectButtonWorldWidth/2f +tempWidth/4f,3.645f,0f);
 			this.deckBoard.transform.FindChild("deckList").localPosition=new Vector3(-deckCardsWidth/2f-tempWidth/2f-selectButtonWorldWidth/2f,0,0);
 			this.deckBoard.transform.FindChild("deckList").FindChild("currentDeck").localPosition=new Vector3(0f,0.27f,0f);
 			this.deckBoard.transform.FindChild("deckList").FindChild("renameDeckButton").localPosition=new Vector3(-selectButtonWorldWidth/2f+deleteRenameButtonWorldWidth/2f,-0.27f,0);
 			this.deckBoard.transform.FindChild("deckList").FindChild("deleteDeckButton").localPosition=new Vector3(selectButtonWorldWidth/2f-deleteRenameButtonWorldWidth/2f,-0.27f,0);
 			this.deckBoard.transform.FindChild("deckList").FindChild("newDeckButton").localPosition=new Vector3(-0.93f,-0.74f,0);
 			this.deckBoard.transform.FindChild("deckList").FindChild("Title").localPosition=new Vector3(0,0.86f,0f);
-			deckBlockDownMargin = 7.25f;
+			deckBlockDownMargin = 7.5f;
 		}
 		else
 		{
@@ -2252,20 +2250,20 @@ public class newMyGameController : MonoBehaviour
 	}
 	public Vector3 getFocusedCardHealthPointsPosition()
 	{
-		return new Vector3(this.focusedCard.transform.FindChild ("Life").FindChild ("Text").position.x,
-		                   (this.focusedCard.transform.FindChild ("Life").FindChild ("Picto").position.y+this.focusedCard.transform.FindChild ("Life").FindChild ("Text").position.y)/2f,
+		return new Vector3((this.focusedCard.transform.FindChild ("Life").FindChild ("Picto").position.x+this.focusedCard.transform.FindChild ("Life").FindChild ("Text").position.x)/2f,
+		                   this.focusedCard.transform.FindChild ("Life").FindChild ("Text").position.y,
 		                   this.focusedCard.transform.FindChild ("Life").FindChild ("Text").position.z);
 	}
 	public Vector3 getFocusedCardAttackPointsPosition()
 	{
-		return new Vector3(this.focusedCard.transform.FindChild ("Attack").FindChild ("Text").position.x,
-		                   (this.focusedCard.transform.FindChild ("Attack").FindChild ("Picto").position.y+this.focusedCard.transform.FindChild ("Attack").FindChild ("Text").position.y)/2f,
+		return new Vector3((this.focusedCard.transform.FindChild ("Attack").FindChild ("Picto").position.x+this.focusedCard.transform.FindChild ("Attack").FindChild ("Text").position.x)/2f,
+		                   this.focusedCard.transform.FindChild ("Attack").FindChild ("Text").position.y,
 		                   this.focusedCard.transform.FindChild ("Attack").FindChild ("Text").position.z);
 	}
 	public Vector3 getFocusedCardQuicknessPointsPosition()
 	{
-		return new Vector3(this.focusedCard.transform.FindChild ("Quickness").FindChild ("Text").position.x,
-		                   (this.focusedCard.transform.FindChild ("Quickness").FindChild ("Picto").position.y+this.focusedCard.transform.FindChild ("Quickness").FindChild ("Text").position.y)/2f,
+		return new Vector3((this.focusedCard.transform.FindChild ("Quickness").FindChild ("Picto").position.x+this.focusedCard.transform.FindChild ("Quickness").FindChild ("Text").position.x)/2f,
+		                   this.focusedCard.transform.FindChild ("Quickness").FindChild ("Text").position.y,
 		                   this.focusedCard.transform.FindChild ("Quickness").FindChild ("Text").position.z);
 	}
 	public Vector3 getFocusedCardMovePointsPosition()
@@ -2274,15 +2272,29 @@ public class newMyGameController : MonoBehaviour
 		                   (this.focusedCard.transform.FindChild ("Move").FindChild ("Picto").position.y+this.focusedCard.transform.FindChild ("Move").FindChild ("Text").position.y)/2f,
 		                   this.focusedCard.transform.FindChild ("Move").FindChild ("Text").position.z);
 	}
-	public Vector3 getFocusedCardSkillsPosition()
+	public Vector3 getFocusedCardSkill1Position()
 	{
-		return new Vector3((this.focusedCard.transform.FindChild ("Skill1").FindChild("Description").position.x+this.focusedCard.transform.FindChild ("Skill1").FindChild("Power").position.x)/2f,
-		                   this.focusedCard.transform.FindChild ("Skill1").position.y-(this.focusedCard.transform.FindChild ("Skill0").position.y-this.focusedCard.transform.FindChild ("Skill1").position.y)/2f,
+		return new Vector3(this.focusedCard.transform.FindChild ("Face").position.x,
+		                   this.focusedCard.transform.FindChild ("Skill1").FindChild("Description").position.y,
 		                   this.focusedCard.transform.FindChild ("Skill1").position.z);
 	}
-	public Vector3 getFocusedCardExperiencePosition()
+	public Vector3 getFocusedCardSkill0Position()
 	{
-		return this.focusedCard.transform.FindChild ("Experience").FindChild("ExperienceBar").position;
+		return new Vector3(this.focusedCard.transform.FindChild ("Face").position.x,
+		                   this.focusedCard.transform.FindChild ("Skill0").FindChild("Description").position.y,
+		                   this.focusedCard.transform.FindChild ("Skill0").position.z);
+	}
+	public Vector3 getFocusedCardExperienceLevelPosition()
+	{
+		return new Vector3(this.focusedCard.transform.FindChild ("Experience").FindChild("ExperienceLevel").position.x,
+		                   this.focusedCard.transform.FindChild ("Experience").FindChild("ExperienceLevel").position.y,
+		                   this.focusedCard.transform.FindChild ("Experience").FindChild("ExperienceLevel").position.z);
+	}
+	public Vector3 getFocusedCardExperienceGaugePosition()
+	{
+		return new Vector3(this.focusedCard.transform.FindChild ("Face").position.x,
+		                    this.focusedCard.transform.FindChild ("Experience").FindChild("ExperienceGauge").position.y,
+		                    this.focusedCard.transform.FindChild ("Experience").FindChild("ExperienceGauge").position.z);
 	}
 	public Vector3 getFocusedCardFeaturePosition(int id)
 	{

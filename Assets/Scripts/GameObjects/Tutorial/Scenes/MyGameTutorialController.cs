@@ -64,11 +64,11 @@ public class MyGameTutorialController : TutorialObjectController
 				this.setPopUpTitle("Les points de vie");
 				this.setPopUpDescription("La zone supérieure droite de la carte donne son nombre de points de vie. Ces points varient au cours du combat en fonction des dégâts qui sont affligés à la créature. Lorsque ces points atteignent 0, la créature meurt.");
 				this.displayBackground(true);
-				this.setLeftArrow();
+				this.setDownArrow();
 			}
 			Vector3 healthPointsPosition = newMyGameController.instance.getFocusedCardHealthPointsPosition();
-			this.resizeBackground(new Rect(healthPointsPosition.x,healthPointsPosition.y,2f,2.5f),0f,0f);
-			this.drawLeftArrow();
+			this.resizeBackground(new Rect(healthPointsPosition.x,healthPointsPosition.y,2.5f,2.5f),0f,0f);
+			this.drawDownArrow();
 			break;
 		case 4:
 			if(!isResizing)
@@ -78,11 +78,11 @@ public class MyGameTutorialController : TutorialObjectController
 				this.setPopUpTitle("Les points d'attaque");
 				this.setPopUpDescription("Ils indiquent les dégats qui seront causés par le personnage lors d'une simple attaque. 10 points de dégâts se traduisent par une perte de 10 points de vie sur la carte ciblée par l'attaque.");
 				this.displayBackground(true);
-				this.setLeftArrow();
+				this.setDownArrow();
 			}
 			Vector3 attackPointsPosition = newMyGameController.instance.getFocusedCardAttackPointsPosition();
-			this.resizeBackground(new Rect(attackPointsPosition.x,attackPointsPosition.y,2f,2.5f),0f,0f);
-			this.drawLeftArrow();
+			this.resizeBackground(new Rect(attackPointsPosition.x,attackPointsPosition.y,2.5f,2.5f),0f,0f);
+			this.drawDownArrow();
 			break;
 		case 5:
 			if(!isResizing)
@@ -95,35 +95,35 @@ public class MyGameTutorialController : TutorialObjectController
 				this.setDownArrow();
 			}
 			Vector3 quicknessPointsPosition = newMyGameController.instance.getFocusedCardQuicknessPointsPosition();
-			this.resizeBackground(new Rect(quicknessPointsPosition.x,quicknessPointsPosition.y,2f,2.5f),0f,0f);
+			this.resizeBackground(new Rect(quicknessPointsPosition.x,quicknessPointsPosition.y,2.5f,2.5f),0f,0f);
 			this.drawDownArrow();
 			break;
-//		case 6:
-//			if(!isResizing)
-//			{
-//				this.displayPopUp(0);
-//				this.displayNextButton(true);
-//				this.setPopUpTitle("Les points de déplacement");
-//				this.setPopUpDescription("Ils indiquent tout simplement le nombre de pas autorisé par la carte. Seule les déplacement verticaux et horizontaux sont possibles.");
-//				this.displayBackground(true);
-//				this.setLeftArrow();
-//			}
-//			Vector3 movePointsPosition = newMyGameController.instance.getFocusedCardMovePointsPosition();
-//			this.resizeBackground(new Rect(movePointsPosition.x,movePointsPosition.y,2f,2.5f),0f,0f);
-//			this.drawLeftArrow();
-//			break;
+		case 6:
+			if(!isResizing)
+			{
+				this.displayPopUp(0);
+				this.displayNextButton(true);
+				this.setPopUpTitle("La compétence passive");
+				this.setPopUpDescription("Ils indiquent tout simplement le nombre de pas autorisé par la carte. Seule les déplacement verticaux et horizontaux sont possibles.");
+				this.displayBackground(true);
+				this.setUpArrow();
+			}
+			Vector3 skill0Position = newMyGameController.instance.getFocusedCardSkill0Position();
+			this.resizeBackground(new Rect(skill0Position.x,skill0Position.y,8f,2f),0f,0f);
+			this.drawUpArrow();
+			break;
 		case 7:
 			if(!isResizing)
 			{
 				this.displayPopUp(0);
 				this.displayNextButton(true);
-				this.setPopUpTitle("Les compétences");
+				this.setPopUpTitle("Les autres compétences");
 				this.setPopUpDescription("Il s'agit des sorts pouvant être lancés par la carte en situation de combat. Chaque sort est évalué de 0 à 100. En passant la souris sur une compétence vous pouvez lire ses effets");
 				this.displayBackground(true);
 				this.setDownArrow();
 			}
-			Vector3 skillsPosition = newMyGameController.instance.getFocusedCardSkillsPosition();
-			this.resizeBackground(new Rect(skillsPosition.x,skillsPosition.y,7f,4.5f),0f,0f);
+			Vector3 skillsPosition = newMyGameController.instance.getFocusedCardSkill1Position();
+			this.resizeBackground(new Rect(skillsPosition.x,skillsPosition.y,8f,2f),0f,0f);
 			this.drawDownArrow();
 			break;
 		case 8:
@@ -136,8 +136,8 @@ public class MyGameTutorialController : TutorialObjectController
 				this.displayBackground(true);
 				this.setUpArrow();
 			}
-			Vector3 experiencePosition = newMyGameController.instance.getFocusedCardExperiencePosition();
-			this.resizeBackground(new Rect(experiencePosition.x,experiencePosition.y,7f,1f),0f,0f);
+			Vector3 experiencePosition = newMyGameController.instance.getFocusedCardExperienceLevelPosition();
+			this.resizeBackground(new Rect(experiencePosition.x,experiencePosition.y,3f,1f),0f,0f);
 			this.drawUpArrow();
 			break;
 		case 9:
@@ -165,8 +165,8 @@ public class MyGameTutorialController : TutorialObjectController
 				this.setPopUpDescription("Vous verrez que d'autres actions sont possible comme la vente ou le renommage.");
 				this.displayBackground(true);
 			}
-			Vector3 experiencePosition2 = newMyGameController.instance.getFocusedCardExperiencePosition();
-			this.resizeBackground(new Rect(experiencePosition2.x,experiencePosition2.y,7f,1f),0f,0f);
+			Vector3 experiencePosition2 = newMyGameController.instance.getFocusedCardExperienceGaugePosition();
+			this.resizeBackground(new Rect(experiencePosition2.x,experiencePosition2.y,8f,1.5f),0f,0f);
 			this.resizePopUp(new Vector3(0,0,-9.5f));
 			break;
 		case 11:

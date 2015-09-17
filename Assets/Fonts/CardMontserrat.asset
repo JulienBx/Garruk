@@ -54,7 +54,7 @@ Material:
       data:
         first:
           name: _FaceDilate
-        second: .430999994
+        second: .180999994
       data:
         first:
           name: _UnderlayOffsetX
@@ -170,11 +170,11 @@ Material:
       data:
         first:
           name: _ScaleRatioB
-        second: .474166662
+        second: .682500064
       data:
         first:
           name: _ScaleRatioC
-        second: .474166662
+        second: .682500064
       data:
         first:
           name: _StencilOp

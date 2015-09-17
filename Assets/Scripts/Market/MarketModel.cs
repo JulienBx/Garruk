@@ -46,6 +46,7 @@ public class MarketModel
 		else 
 		{
 			string[] data=w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
+			Debug.Log(data[0]);
 			this.cardTypeList = data[0].Split(new string[] { "\\" }, System.StringSplitOptions.None);
 			this.skillsList=parseSkills(data[1].Split(new string[] { "#SK#" }, System.StringSplitOptions.None));
 			this.cards=parseCards(data[2].Split(new string[] { "#C#" }, System.StringSplitOptions.None));

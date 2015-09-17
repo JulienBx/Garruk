@@ -233,15 +233,15 @@ public class NewSkillBookController : MonoBehaviour
 			Color color = new Color ();
 			if(percentage<0.6)
 			{
-				color=new Color(170f/255f,124f/255f,80f/255f);
+				color=new Color(171f/255f,171f/255f,171f/255f);
 			}
 			else if(percentage<0.8)
 			{
-				color=new Color(168f/255f,168f/255f,168f/255f);
+				color=new Color(75f/255f,163f/255f,174f/255f);
 			}
 			else
 			{
-				color=new Color(255f/255f,232f/255f,99f/255f);
+				color=new Color(218f/255f,70f/255f,70f/255f);
 			}
 			this.selectedCardType.transform.FindChild ("Jauge").GetComponent<SpriteRenderer> ().color = color;
 		}
@@ -463,7 +463,7 @@ public class NewSkillBookController : MonoBehaviour
 			this.collectionLevel.transform.FindChild("Star2").GetComponent<SpriteRenderer>().sprite=this.starsPictos[2];
 			this.collectionLevel.transform.FindChild("Star1").GetComponent<SpriteRenderer>().sprite=this.starsPictos[2];
 			this.collectionLevel.transform.FindChild("Star0").GetComponent<SpriteRenderer>().sprite=this.starsPictos[2];
-			starsColor=new Color(255f/255f,232f/255f,99f/255f);
+			starsColor=new Color(218f/255f,70f/255f,70f/255f);
 		}
 		else if(this.globalPercentage>80)
 		{
@@ -472,7 +472,7 @@ public class NewSkillBookController : MonoBehaviour
 			this.collectionLevel.transform.FindChild("Star2").GetComponent<SpriteRenderer>().sprite=this.starsPictos[2];
 			this.collectionLevel.transform.FindChild("Star1").GetComponent<SpriteRenderer>().sprite=this.starsPictos[2];
 			this.collectionLevel.transform.FindChild("Star0").GetComponent<SpriteRenderer>().sprite=this.starsPictos[2];
-			starsColor=new Color(255f/255f,232f/255f,99f/255f);
+			starsColor=new Color(218f/255f,70f/255f,70f/255f);
 		}
 		else if(this.globalPercentage>70)
 		{
@@ -481,7 +481,7 @@ public class NewSkillBookController : MonoBehaviour
 			this.collectionLevel.transform.FindChild("Star2").GetComponent<SpriteRenderer>().sprite=this.starsPictos[2];
 			this.collectionLevel.transform.FindChild("Star1").GetComponent<SpriteRenderer>().sprite=this.starsPictos[2];
 			this.collectionLevel.transform.FindChild("Star0").GetComponent<SpriteRenderer>().sprite=this.starsPictos[2];
-			starsColor=new Color(168f/255f,168f/255f,168f/255f);
+			starsColor=new Color(75f/255f,163f/255f,174f/255f);
 		}
 		else if(this.globalPercentage>60)
 		{
@@ -490,7 +490,7 @@ public class NewSkillBookController : MonoBehaviour
 			this.collectionLevel.transform.FindChild("Star2").GetComponent<SpriteRenderer>().sprite=this.starsPictos[2];
 			this.collectionLevel.transform.FindChild("Star1").GetComponent<SpriteRenderer>().sprite=this.starsPictos[2];
 			this.collectionLevel.transform.FindChild("Star0").GetComponent<SpriteRenderer>().sprite=this.starsPictos[2];
-			starsColor=new Color(168f/255f,168f/255f,168f/255f);
+			starsColor=new Color(75f/255f,163f/255f,174f/255f);
 		}
 		else if(this.globalPercentage>50)
 		{
@@ -499,7 +499,7 @@ public class NewSkillBookController : MonoBehaviour
 			this.collectionLevel.transform.FindChild("Star2").GetComponent<SpriteRenderer>().sprite=this.starsPictos[2];
 			this.collectionLevel.transform.FindChild("Star1").GetComponent<SpriteRenderer>().sprite=this.starsPictos[2];
 			this.collectionLevel.transform.FindChild("Star0").GetComponent<SpriteRenderer>().sprite=this.starsPictos[2];
-			starsColor= new Color(170f/255f,124f/255f,80f/255f);
+			starsColor= new Color(171f/255f,171f/255f,171f/255f);
 		}
 		else if(this.globalPercentage>40)
 		{
@@ -508,7 +508,7 @@ public class NewSkillBookController : MonoBehaviour
 			this.collectionLevel.transform.FindChild("Star2").GetComponent<SpriteRenderer>().sprite=this.starsPictos[1];
 			this.collectionLevel.transform.FindChild("Star1").GetComponent<SpriteRenderer>().sprite=this.starsPictos[2];
 			this.collectionLevel.transform.FindChild("Star0").GetComponent<SpriteRenderer>().sprite=this.starsPictos[2];
-			starsColor= new Color(170f/255f,124f/255f,80f/255f);
+			starsColor= new Color(171f/255f,171f/255f,171f/255f);
 		}
 		else if(this.globalPercentage>30)
 		{
@@ -517,7 +517,7 @@ public class NewSkillBookController : MonoBehaviour
 			this.collectionLevel.transform.FindChild("Star2").GetComponent<SpriteRenderer>().sprite=this.starsPictos[0];
 			this.collectionLevel.transform.FindChild("Star1").GetComponent<SpriteRenderer>().sprite=this.starsPictos[2];
 			this.collectionLevel.transform.FindChild("Star0").GetComponent<SpriteRenderer>().sprite=this.starsPictos[2];
-			starsColor= new Color(170f/255f,124f/255f,80f/255f);
+			starsColor= new Color(171f/255f,171f/255f,171f/255f);
 		}
 		else if(this.globalPercentage>20)
 		{
@@ -526,7 +526,7 @@ public class NewSkillBookController : MonoBehaviour
 			this.collectionLevel.transform.FindChild("Star2").GetComponent<SpriteRenderer>().sprite=this.starsPictos[0];
 			this.collectionLevel.transform.FindChild("Star1").GetComponent<SpriteRenderer>().sprite=this.starsPictos[1];
 			this.collectionLevel.transform.FindChild("Star0").GetComponent<SpriteRenderer>().sprite=this.starsPictos[2];
-			starsColor= new Color(170f/255f,124f/255f,80f/255f);
+			starsColor= new Color(171f/255f,171f/255f,171f/255f);
 		}
 		else if(this.globalPercentage>10)
 		{
@@ -535,7 +535,7 @@ public class NewSkillBookController : MonoBehaviour
 			this.collectionLevel.transform.FindChild("Star2").GetComponent<SpriteRenderer>().sprite=this.starsPictos[0];
 			this.collectionLevel.transform.FindChild("Star1").GetComponent<SpriteRenderer>().sprite=this.starsPictos[0];
 			this.collectionLevel.transform.FindChild("Star0").GetComponent<SpriteRenderer>().sprite=this.starsPictos[2];
-			starsColor= new Color(170f/255f,124f/255f,80f/255f);
+			starsColor= new Color(171f/255f,171f/255f,171f/255f);
 		}
 		else
 		{
@@ -544,7 +544,7 @@ public class NewSkillBookController : MonoBehaviour
 			this.collectionLevel.transform.FindChild("Star2").GetComponent<SpriteRenderer>().sprite=this.starsPictos[0];
 			this.collectionLevel.transform.FindChild("Star1").GetComponent<SpriteRenderer>().sprite=this.starsPictos[0];
 			this.collectionLevel.transform.FindChild("Star0").GetComponent<SpriteRenderer>().sprite=this.starsPictos[1];
-			starsColor= new Color(170f/255f,124f/255f,80f/255f);
+			starsColor= new Color(171f/255f,171f/255f,171f/255f);
 		}
 		this.collectionLevel.transform.FindChild ("Star0").GetComponent<SpriteRenderer> ().color = starsColor;
 		this.collectionLevel.transform.FindChild ("Star1").GetComponent<SpriteRenderer> ().color = starsColor;

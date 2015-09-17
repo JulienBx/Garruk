@@ -228,6 +228,7 @@ public class NewMarketController : MonoBehaviour
 	private IEnumerator initialization()
 	{
 		yield return StartCoroutine (model.initializeMarket (this.totalNbResultLimit));
+		this.initializeFilters ();
 		this.initializeCards ();
 		this.isSceneLoaded = true;
 		this.money = ApplicationModel.credits;
@@ -244,6 +245,13 @@ public class NewMarketController : MonoBehaviour
 	{
 		this.resetFiltersValue ();
 		this.applyFilters ();
+	}
+	private void initializeFilters()
+	{
+		for(int i=0;i<10;i++)
+		{
+			this.filters.transform.FindChild("cardTypeFilters").FindChild("Toggle"+i).GetComponent<TextMeshPro>().text = model.cardTypeList[i];
+		}
 	}
 	private void applyFilters()
 	{
@@ -283,16 +291,6 @@ public class NewMarketController : MonoBehaviour
 		this.focusedCard.AddComponent<NewFocusedCardMarketController> ();
 		this.filters.transform.FindChild("Title").GetComponent<TextMeshPro>().text = "Filtres";
 		this.filters.transform.FindChild("cardTypeFilters").FindChild("Title").GetComponent<TextMeshPro>().text = "Classes";
-		this.filters.transform.FindChild("cardTypeFilters").FindChild("Toggle0").GetComponent<TextMeshPro>().text = "Enchanteur";
-		this.filters.transform.FindChild("cardTypeFilters").FindChild("Toggle1").GetComponent<TextMeshPro>().text = "Roublard";
-		this.filters.transform.FindChild("cardTypeFilters").FindChild("Toggle2").GetComponent<TextMeshPro>().text = "Berserk";
-		this.filters.transform.FindChild("cardTypeFilters").FindChild("Toggle3").GetComponent<TextMeshPro>().text = "Artificier";
-		this.filters.transform.FindChild("cardTypeFilters").FindChild("Toggle4").GetComponent<TextMeshPro>().text = "Mentaliste";
-		this.filters.transform.FindChild("cardTypeFilters").FindChild("Toggle5").GetComponent<TextMeshPro>().text = "Androide";
-		this.filters.transform.FindChild("cardTypeFilters").FindChild("Toggle6").GetComponent<TextMeshPro>().text = "Metamorphe";
-		this.filters.transform.FindChild("cardTypeFilters").FindChild("Toggle7").GetComponent<TextMeshPro>().text = "Pretre";
-		this.filters.transform.FindChild("cardTypeFilters").FindChild("Toggle8").GetComponent<TextMeshPro>().text = "Animiste";
-		this.filters.transform.FindChild("cardTypeFilters").FindChild("Toggle9").GetComponent<TextMeshPro>().text = "Geomancien";
 		this.filters.transform.FindChild("skillSearch").FindChild("Title").GetComponent<TextMeshPro>().text = "Compétences";
 		this.filters.transform.FindChild("priceFilter").FindChild ("Title").GetComponent<TextMeshPro>().text = "Prix";
 		this.filters.transform.FindChild("powerFilter").FindChild ("Title").GetComponent<TextMeshPro>().text = "Puissance";

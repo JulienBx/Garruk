@@ -51,15 +51,15 @@ public class NewSkillBookSkillController : MonoBehaviour
 		}
 		else if(percentage<56)
 		{
-			color=new Color(170f/255f,124f/255f,80f/255f);
+			color=new Color(171f/255f,171f/255f,171f/255f);
 		}
 		else if(percentage<76)
 		{
-			color=new Color(168f/255f,168f/255f,168f/255f);
+			color=new Color(75f/255f,163f/255f,174f/255f);
 		}
 		else
 		{
-			color=new Color(255f/255f,232f/255f,99f/255f);
+			color=new Color(218f/255f,70f/255f,70f/255f);
 		}
 		//this.gameObject.transform.GetComponent<SpriteRenderer> ().color = color;
 		this.gameObject.transform.FindChild ("Jauge").GetComponent<SpriteRenderer> ().color = color;

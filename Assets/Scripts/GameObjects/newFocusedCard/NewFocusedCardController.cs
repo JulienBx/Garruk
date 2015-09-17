@@ -81,9 +81,9 @@ public class NewFocusedCardController : MonoBehaviour
 		if(isSkillHighlighted)
 		{
 			timerSkillHighlighted = timerSkillHighlighted + speed * Time.deltaTime;
-			if(timerCardUpgrade>15f)
+			if(timerSkillHighlighted>15f)
 			{
-				this.skills[skills.Length-1].GetComponent<NewFocusedCardSkillController>().highlightSkill(false);
+				this.skills[this.c.Skills.Count-1].GetComponent<NewFocusedCardSkillController>().highlightSkill(false);
 				this.isSkillHighlighted=false;
 			}
 		}
@@ -119,7 +119,7 @@ public class NewFocusedCardController : MonoBehaviour
 	public virtual void show()
 	{
 		this.applyFrontTexture ();
-		this.gameObject.transform.FindChild ("Name").GetComponent<TextMeshPro> ().text = this.c.Title;
+		this.gameObject.transform.FindChild ("Name").GetComponent<TextMeshPro> ().text = this.c.Title.ToUpper();
 		//this.gameObject.transform.FindChild("Power").FindChild("Text").GetComponent<TextMeshPro>().text = this.c.Power.ToString();
 		//this.gameObject.transform.FindChild ("Power").FindChild ("Text").GetComponent<TextMeshPro> ().color = ressources.colors [this.c.PowerLevel - 1];
 		this.gameObject.transform.FindChild("Life").FindChild("Text").GetComponent<TextMeshPro>().text = this.c.Life.ToString();
@@ -247,7 +247,7 @@ public class NewFocusedCardController : MonoBehaviour
 		this.renameView = gameObject.AddComponent<NewFocusedCardRenamePopUpView> ();
 		this.isRenameViewDisplayed = true;
 		renameView.renamePopUpVM.price = this.c.RenameCost;
-		renameView.renamePopUpVM.newTitle = "";
+		renameView.renamePopUpVM.newTitle = this.c.Title;
 		renameView.popUpVM.centralWindowStyle = new GUIStyle(popUpRessources.popUpSkin.window);
 		renameView.popUpVM.centralWindowTitleStyle = new GUIStyle (popUpRessources.popUpSkin.customStyles [0]);
 		renameView.popUpVM.centralWindowButtonStyle = new GUIStyle (popUpRessources.popUpSkin.button);
@@ -541,6 +541,7 @@ public class NewFocusedCardController : MonoBehaviour
 		renameView.popUpVM.guiEnabled = false;
 		yield return StartCoroutine(this.c.renameCard(newName,this.c.RenameCost));
 		this.hideRenamePopUp ();
+		gameObject.transform.FindChild ("Name").GetComponent<TextMeshPro> ().text = this.c.Title.ToUpper();
 		this.updateFocus ();
 	}
 	public virtual void buyXpCardHandler()
@@ -670,7 +671,7 @@ public class NewFocusedCardController : MonoBehaviour
 			renameView.renamePopUpVM.error= "Le nom doit au moins comporter 4 caractères";
 			return "";
 		}
-		else if(tempString.Length>14 )
+		else if(tempString.Length>11 )
 		{
 			renameView.renamePopUpVM.error="Le nom doit faire moins de 12 caractères";
 			return "";
@@ -728,7 +729,7 @@ public class NewFocusedCardController : MonoBehaviour
 		if(this.isSkillHighlighted)
 		{
 			this.isSkillHighlighted=false;
-			this.skills[skills.Length-1].GetComponent<NewFocusedCardSkillController>().highlightSkill(false);
+			this.skills[this.c.Skills.Count-1].GetComponent<NewFocusedCardSkillController>().highlightSkill(false);
 		}
 		if(this.isSoldCardViewDisplayed)
 		{
@@ -937,7 +938,7 @@ public class NewFocusedCardController : MonoBehaviour
 	public virtual Vector3 getCardUpgradePosition (int caracteristicUpgraded)
 	{
 		GameObject refObject = new GameObject ();
-		float gap = 0.5f;
+		float gap = 0.6f;
 		switch(caracteristicUpgraded)
 		{
 		case 0:

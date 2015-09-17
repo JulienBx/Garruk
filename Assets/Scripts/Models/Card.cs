@@ -44,7 +44,7 @@ public class Card
 	public List<StatModifier> modifiers = new List<StatModifier>();
 	public List<StatModifier> TileModifiers = new List<StatModifier>();
 	public int onSale ;
-	public int RenameCost = 200;
+	public int RenameCost = 5;
 	public string Error;
 	public List<int> Decks;
 	public IList<Skill> NewSkills;

@@ -602,7 +602,7 @@ public class NewHomePageController : Photon.MonoBehaviour
 		float selectButtonScale = 1.4f;
 		float deleteRenameButtonScale = 0.7f;
 		float deleteRenameButtonWidth = 219;
-		float cardHaloWidth = 200f;
+		float cardHaloWidth = 740f;
 		float cardScale = 0.222f;
 		float deckCardsInterval = 1.7f;
 

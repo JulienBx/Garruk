@@ -29,7 +29,7 @@ public class NewFocusedCardRenamePopUpView : MonoBehaviour
 				GUILayout.BeginHorizontal();
 				{
 					GUILayout.Space(0.03f * popUpVM.centralWindow.width);
-					renamePopUpVM.newTitle = GUILayout.TextField(renamePopUpVM.newTitle, 14, popUpVM.centralWindowTextfieldStyle);
+					renamePopUpVM.newTitle = GUILayout.TextField(renamePopUpVM.newTitle, 11, popUpVM.centralWindowTextfieldStyle);
 					GUILayout.Space(0.03f * popUpVM.centralWindow.width);
 				}
 				GUILayout.EndHorizontal();
