@@ -17,14 +17,17 @@ public class NewCardExperienceController : NewFocusedCardExperienceController
 	{
 		base.setExperience (Level, Percentage);
 	}
+	public override void updateExperienceLevel()
+	{
+	}
 	public override void startUpdatingXp(int endLevel, int endPercentage)
 	{
 		base.startUpdatingXp (endLevel, endPercentage);
 	}
 	public override void updateGauge(float currentPercentage)
 	{
-		this.gameObject.transform.FindChild ("ExperienceGauge").localPosition = new Vector3 (-0.6f+currentPercentage*(0.45f), 0f, 0);
-		this.gameObject.transform.FindChild ("ExperienceGauge").localScale = new Vector3 (currentPercentage*1f, 0.78f, 0.78f);
+		this.gameObject.transform.FindChild ("ExperienceGauge").localPosition = new Vector3 (-0.705f+currentPercentage*(0.705f), 0f, 0);
+		this.gameObject.transform.FindChild ("ExperienceGauge").localScale = new Vector3 (currentPercentage*1.53f, 1.25f, 1.25f);
 	}
 }
 

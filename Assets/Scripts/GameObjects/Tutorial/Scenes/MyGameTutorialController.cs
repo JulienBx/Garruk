@@ -98,20 +98,20 @@ public class MyGameTutorialController : TutorialObjectController
 			this.resizeBackground(new Rect(quicknessPointsPosition.x,quicknessPointsPosition.y,2f,2.5f),0f,0f);
 			this.drawDownArrow();
 			break;
-		case 6:
-			if(!isResizing)
-			{
-				this.displayPopUp(0);
-				this.displayNextButton(true);
-				this.setPopUpTitle("Les points de déplacement");
-				this.setPopUpDescription("Ils indiquent tout simplement le nombre de pas autorisé par la carte. Seule les déplacement verticaux et horizontaux sont possibles.");
-				this.displayBackground(true);
-				this.setLeftArrow();
-			}
-			Vector3 movePointsPosition = newMyGameController.instance.getFocusedCardMovePointsPosition();
-			this.resizeBackground(new Rect(movePointsPosition.x,movePointsPosition.y,2f,2.5f),0f,0f);
-			this.drawLeftArrow();
-			break;
+//		case 6:
+//			if(!isResizing)
+//			{
+//				this.displayPopUp(0);
+//				this.displayNextButton(true);
+//				this.setPopUpTitle("Les points de déplacement");
+//				this.setPopUpDescription("Ils indiquent tout simplement le nombre de pas autorisé par la carte. Seule les déplacement verticaux et horizontaux sont possibles.");
+//				this.displayBackground(true);
+//				this.setLeftArrow();
+//			}
+//			Vector3 movePointsPosition = newMyGameController.instance.getFocusedCardMovePointsPosition();
+//			this.resizeBackground(new Rect(movePointsPosition.x,movePointsPosition.y,2f,2.5f),0f,0f);
+//			this.drawLeftArrow();
+//			break;
 		case 7:
 			if(!isResizing)
 			{

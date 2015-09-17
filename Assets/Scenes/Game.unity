@@ -1611,7 +1611,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   endGamePanelObject: {fileID: 142334, guid: 14b3635fa03fc410a8aaf7397d62a4ef, type: 2}
-  cardObject: {fileID: 140198, guid: c25993382841f4e39b1732ebd3c4dabc, type: 2}
+  cardObject: {fileID: 190900, guid: f775ae7416f404f6c88334f843071b57, type: 2}
 --- !u!114 &481987441
 MonoBehaviour:
   m_ObjectHideFlags: 0

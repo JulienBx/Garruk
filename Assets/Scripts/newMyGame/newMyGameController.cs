@@ -484,7 +484,7 @@ public class newMyGameController : MonoBehaviour
 		float deleteRenameButtonScale = 0.7f;
 		float deleteRenameButtonWidth = 219;
 		float cardHaloWidth = 200f;
-		float cardScale = 0.83f;
+		float cardScale = 0.222f;
 		float deckCardsInterval = 1.7f;
 		
 		float selectButtonWorldWidth = selectButtonScale*(selectButtonWidth / pixelPerUnit);
@@ -539,8 +539,8 @@ public class newMyGameController : MonoBehaviour
 		
 		this.cardsArea = new Rect (cardsBoardOrigin.x-cardsBoardWidth/2f, cardsBoardOrigin.y-cardsBoardHeight/2f, cardsBoardWidth, cardsBoardHeight);
 		
-		float cardWidth = 194f;
-		float cardHeight = 271f;
+		float cardWidth = 720f;
+		float cardHeight = 1004f;
 		float cardWorldWidth = (cardWidth / pixelPerUnit) * cardScale;
 		float cardWorldHeight = (cardHeight / pixelPerUnit) * cardScale;
 		
@@ -554,7 +554,7 @@ public class newMyGameController : MonoBehaviour
 			this.deckCardsPosition[i]=this.deckBoard.transform.FindChild("Card"+i).position;
 			this.deckCardsArea[i]=new Rect(this.deckCardsPosition[i].x-cardWorldWidth/2f,this.deckCardsPosition[i].y-cardWorldHeight/2f,cardWorldWidth,cardWorldHeight);
 			this.deckCards[i].transform.position=this.deckCardsPosition[i];
-			this.deckCards[i].transform.localScale=new Vector3(1f,1f,1f);
+			this.deckCards[i].transform.localScale=new Vector3(cardScale,cardScale,cardScale);
 			this.deckCards[i].transform.GetComponent<NewCardMyGameController>().setId(i,true);
 			this.deckCards[i].SetActive(false);
 		}
@@ -576,7 +576,7 @@ public class newMyGameController : MonoBehaviour
 			{
 				this.cards[j*(cardsPerLine)+i] = Instantiate(this.cardObject) as GameObject;
 				this.cards[j*(cardsPerLine)+i].AddComponent<NewCardMyGameController>();
-				this.cards[j*(cardsPerLine)+i].transform.localScale= new Vector3(1f,1f,1f);
+				this.cards[j*(cardsPerLine)+i].transform.localScale= new Vector3(cardScale,cardScale,cardScale);
 				this.cardsPosition[j*(this.cardsPerLine)+i]=new Vector3(cardBoardStartX+(i+1)*(gapWidth+cardWorldWidth),cardBoardStartY-(j+1)*(gapHeight+cardWorldHeight),0f);
 				this.cards[j*(cardsPerLine)+i].transform.position=this.cardsPosition[j*(this.cardsPerLine)+i];
 				this.cards[j*(this.cardsPerLine)+i].transform.name="Card"+(j*(this.cardsPerLine)+i);
@@ -2007,11 +2007,11 @@ public class newMyGameController : MonoBehaviour
 		Cursor.SetCursor (this.cursorTextures[1], new Vector2(this.cursorTextures[1].width/2f,this.cursorTextures[1].width/2f), CursorMode.Auto);
 		if(!isDeckCardClicked)
 		{
-			this.cards[this.idCardClicked].GetComponent<NewCardController>().changeLayer(4,"Foreground");
+			this.cards[this.idCardClicked].GetComponent<NewCardController>().changeLayer(10,"Foreground");
 		}
 		else
 		{
-			this.deckCards[this.idCardClicked].GetComponent<NewCardController>().changeLayer(4,"Foreground");
+			this.deckCards[this.idCardClicked].GetComponent<NewCardController>().changeLayer(10,"Foreground");
 			//this.cardsBoard.GetComponent<BoardController> ().changeColor (new Color (155f / 255f, 220f / 255f, 1f));
 		}
 		this.deckBoard.GetComponent<DeckBoardController> ().changeCardsColor (new Color (155f / 255f, 220f / 255f, 1f));
@@ -2111,11 +2111,11 @@ public class newMyGameController : MonoBehaviour
 		{
 			//print (this.cards[0].transform.FindChild("Face").GetComponent<SpriteRenderer>().sortingLayerID);
 			this.cards[this.idCardClicked].transform.position=this.cardsPosition[this.idCardClicked];
-			this.cards[this.idCardClicked].GetComponent<NewCardController>().changeLayer(-4,"Foreground");
+			this.cards[this.idCardClicked].GetComponent<NewCardController>().changeLayer(-10,"Foreground");
 		}
 		else
 		{
-			this.deckCards[this.idCardClicked].GetComponent<NewCardController>().changeLayer(-4,"Foreground");
+			this.deckCards[this.idCardClicked].GetComponent<NewCardController>().changeLayer(-10,"Foreground");
 			this.deckCards[this.idCardClicked].transform.position=this.deckCardsPosition[this.idCardClicked];
 			//this.cardsBoard.GetComponent<BoardController> ().changeColor (new Color (1f,1f, 1f));
 		}
