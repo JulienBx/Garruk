@@ -19,10 +19,10 @@ public class HomePageTutorialController : TutorialObjectController
 			if(!isResizing)
 			{
 				this.displayArrow(false);
-				this.displayPopUp(1);
+				this.displayPopUp(2);
 				this.displayNextButton(true);
-				this.setPopUpTitle("Bienvenue");
-				this.setPopUpDescription("Vous êtes ici sur la page d'accueil. Dernières cartes vendues, actualités des amis, compétitions en cours ou bien cartes en vente à la boutique, vous avez tout ici en un clin d'oeil !");
+				this.setPopUpTitle("Bienvenue sur votre tableau de bord");
+				this.setPopUpDescription("Cet écran d'accueil vous permettra d'accéder rapidement à l'arène, au marché ou à la boutique, ainsi qu'à toutes les informations utiles.\n\nAu centre, vos classements d'explorateur et de combattant vous permettent de mesurer votre progression, et vous pouvez également accéder à droite aux actualités de Crystalia et de ses habitants.");
 				this.displayBackground(true);
 
 			}
@@ -35,8 +35,8 @@ public class HomePageTutorialController : TutorialObjectController
 				this.displayPopUp(0);
 				this.setLeftArrow();
 				this.displayNextButton(false);
-				this.setPopUpTitle("Vite des cartes !");
-				this.setPopUpDescription("Nous allons commencer par découvrir vos cartes. ");
+				this.setPopUpTitle("Recruter des crystaliens");
+				this.setPopUpDescription("4 crystaliens recrutés depuis la Terre vous attendent déjà. Allons les rencontrer et découvrir leur compétences");
 				this.displayBackground(true);
 
 			}
@@ -54,11 +54,11 @@ public class HomePageTutorialController : TutorialObjectController
 		case 3:
 			if(!isResizing)
 			{
-				this.displayPopUp(0);
+				this.displayPopUp(1);
 				this.setLeftArrow();
 				this.displayNextButton(false);
-				this.setPopUpTitle("Une récompense");
-				this.setPopUpDescription("Allons à la boutique découvrir ce que nous avons gagné");
+				this.setPopUpTitle("Nouvelle recrue");
+				this.setPopUpDescription("Le cristal que nous avons gagné va pouvoir nous permettre de recruter de nouveaux combattants!\n\nAllons au centre de recrutement essayer de nous renseigner");
 				this.displayBackground(true);
 				
 			}

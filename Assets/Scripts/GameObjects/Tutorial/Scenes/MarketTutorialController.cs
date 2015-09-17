@@ -18,12 +18,12 @@ public class MarketTutorialController : TutorialObjectController
 			if(!isResizing)
 			{
 				this.displayArrow(false);
-				this.displayPopUp(1);
+				this.displayPopUp(2);
 				this.displayNextButton(true);
 				if(NewMarketController.instance.areSomeCardsDisplayed())
 				{
-					this.setPopUpTitle("Le marché");
-					this.setPopUpDescription("Cet espace est là pour vous permettre d'acheter les cartes mises en vente par d'autres joueurs. Depuis l'écran de gestion de votre jeu, vous pourrez aussi mettre en vente vos cartes");
+					this.setPopUpTitle("Les mercenaires");
+					this.setPopUpDescription("Certains colons souhaitent rompre leur contrat avec leurs crystaliens et les inscrivent en tant que mercenaire sur le marché.\n\nAccessible à tous, ce marché permet de recruter des crystaliens à des prix parfois intéressants, mais aussi de découvrir de nouvelles compétences et de parfaire sa connaissance de Crystalia");
 				}
 				else
 				{
@@ -43,8 +43,8 @@ public class MarketTutorialController : TutorialObjectController
 					this.displayArrow(false);
 					this.displayPopUp(0);
 					this.displayNextButton(true);
-					this.setPopUpTitle("Les filtres");
-					this.setPopUpDescription("Lorsque beaucoup de cartes sont en vente, les filtres vous seront très utiles pour retrouver les cartes qui vous intéressent");
+					this.setPopUpTitle("Utiliser les filtres");
+					this.setPopUpDescription("Les filtres permettent d'affiner la recherche et de spécifier les caractéristiques ou compétences recherchées.");
 					this.displayBackground(true);
 				}
 				Vector3 filtersPosition = NewMarketController.instance.getFiltersPosition();
@@ -64,11 +64,11 @@ public class MarketTutorialController : TutorialObjectController
 		case 2:
 			if(!isResizing)
 			{
-				this.displayPopUp(0);
+				this.displayPopUp(2);
 				this.setLeftArrow();
 				this.displayNextButton(true);
-				this.setPopUpTitle("Les cartes en vente");
-				this.setPopUpDescription("Tant que vos crédits vous le permettent, vous pouvez acheter les cartes sur le marché. Un clic droit sur la carte pourra vous donner davantage de précisions");
+				this.setPopUpTitle("Engager un mercenaire");
+				this.setPopUpDescription("Engager un mercenaire coute des cristaux, payables directement au colon.\n\nCertains colons sont passsés maitres dans l'art de gagner de grosses sommes d'argent en engageant des mercenaires à bas prix pour les vendre très cher.");
 				this.displayBackground(true);
 			}
 			Vector3 cardPosition = NewMarketController.instance.getCardsPosition(0);
@@ -81,8 +81,8 @@ public class MarketTutorialController : TutorialObjectController
 				this.displayArrow(false);
 				this.displayPopUp(1);
 				this.displayNextButton(true);
-				this.setPopUpTitle("A vous de jouer");
-				this.setPopUpDescription("Parcourez les cartes et faites de bonnes affaires ! Bonne chance !");
+				this.setPopUpTitle("N'oubliez pas de revenir");
+				this.setPopUpDescription("Les colons peuvent proposer des mercenaires tous les jours, revenez souvent pour ne pas manquer les bonnes affaires!");
 				this.displayBackground(true);
 			}
 			this.resizeBackground(new Rect(0,0,0,0),0f,10f);

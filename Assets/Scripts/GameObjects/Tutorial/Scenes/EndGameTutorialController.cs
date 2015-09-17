@@ -21,7 +21,7 @@ public class EndGameTutorialController : TutorialObjectController
 				EndGameController.instance.setButtonsGui(false);
 				view.VM.displayArrow=false;
 				view.VM.displayNextButton=true;
-				view.VM.title="Après match";
+				view.VM.title="Fin du combat";
 				view.VM.description="Voici l'écran d'après match, vous trouverez des statisques sur votre adversaire, et plus tard, lorsque vous disputerez des compétitions, des informations sur votre évolution";
 			}
 			popUpWidth=0.3f*Screen.width;

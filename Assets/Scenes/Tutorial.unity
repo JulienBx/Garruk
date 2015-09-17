@@ -250,27 +250,31 @@ MonoBehaviour:
   - {fileID: 21300010, guid: f76b3d4b16c004212ad7b8195ad8eb22, type: 3}
   - {fileID: 21300020, guid: f76b3d4b16c004212ad7b8195ad8eb22, type: 3}
   titles:
-  - Titre 1
-  - Titre 2
-  - Titre 3
+  - "Bienvenue \xE0 Crystalia !"
+  - Histoire de Crystalia
+  - Explorer et combattre
   descriptions:
-  - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus interdum ac nulla
-    id condimentum. Morbi vel leo id neque sagittis egestas vel vel mi. Integer mollis
-    mi eget auctor tempor. Donec ut lacus lacus. Suspendisse vel sagittis turpis,
-    et pellentesque massa. Maecenas rhoncus metus elit, sed ullamcorper leo viverra
-    ac. Aenean consequat magna ut lacus tristique, a auctor quam luctus. Morbi laoreet
-    eros ac tristique molestie.
-  - Aenean nec venenatis nunc. Proin tellus libero, elementum ut laoreet nec, sollicitudin
-    at sem. Nulla tempus lectus id ex volutpat, in lobortis est fermentum. Morbi et
-    facilisis mauris. Nulla vel lorem sed purus commodo congue ut at nisi. Donec non
-    nulla eget urna tincidunt pulvinar sit amet a ligula. Maecenas tristique, urna
-    a suscipit hendrerit, odio diam congue ex, auctor malesuada est lectus non sem.
-    Vestibulum id dapibus enim, id suscipit velit. Nulla quis elementum orci.
-  - Pellentesque congue risus ex, nec lacinia mauris dictum non. Donec aliquet diam
-    eu ante volutpat vehicula. Donec eleifend elit quis lectus euismod pellentesque.
-    Donec ac vehicula erat, eu consectetur metus. Suspendisse potenti. Suspendisse
-    lobortis pretium nunc eu facilisis. Cras rhoncus sagittis massa, ut luctus urna
-    pulvinar nec. Suspendisse venenatis lacus diam, id mollis urna ultricies vehicula.
+  - "Nous esp\xE9rons que votre voyage \xE0 bord du vaisseau Xaros en provenance de
+    la Terre s'est bien d\xE9roul\xE9. Ex-colonie terrienne, la plan\xE8te Crystalia
+    s'est \xE9mancip\xE9e il y a 20 ann\xE9es terrestres. Des guerres internes ravagent
+    le pays, plusieurs factions essayant de prendre posession du cristal, ressource
+    unique dans la galaxie dont les pouvoirs sont encore mal compris par les scientifiques.
+    Au milieu de ces conflits, votre objectif sera de percer les myst\xE8res du cristal
+    tout en ramenant la paix sur Crystalia."
+  - "Les premiers colons terriens se sont rapidement int\xE9r\xE9ss\xE9s au Cristal
+    et en sont devenus tr\xE8s d\xE9pendants. M\xE9decine, ing\xE9nierie, arm\xE9e...
+    les applications permises par le cristal ont rapidement cr\xE9\xE9 des tensions
+    entre les terriens, chaque faction essayent de s'approprier les r\xE9serves de
+    Cristal des autres. Cent ans apr\xE8s leur arriv\xE9e sur la plan\xE8te, les factions
+    sont d\xE9sormais en guerre ouverte, chacune ayant d\xE9velopp\xE9 des capacit\xE9s
+    au contact du cristal. Les nouveaux colons, dont vous faites partie, arrivent
+    bien d\xE9termin\xE9s \xE0 ramener la paix sur Crystalia."
+  - "Sur Crystalia, chaque habitant est unique et dispose de ses propres comp\xE9tences.
+    Recrutez et faites progresser les Crystaliens pour vous constituer une \xE9quipe
+    et d\xE9fier les nouveaux colons. D\xE9couvrez les nombreuses facettes du Cristal
+    et d\xE9bloquez de nouvelles factions et comp\xE9tences pour am\xE9liorer votre
+    \xE9quipe ! Nous amor\xE7ons la descente dans l'atmosph\xE8re, veuillez attacher
+    vos ceintures, regagner votre si\xE8ge et d\xE9sactiver vos hologrammes... "
 --- !u!1 &554144497
 GameObject:
   m_ObjectHideFlags: 0
@@ -349,7 +353,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 1
+  checkPaddingRequired: 0
   m_enableWordWrapping: 0
   m_overflowMode: 0
   m_wordWrappingRatios: .400000006
@@ -357,8 +361,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 1
-  havePropertiesChanged: 1
+  isInputParsingRequired: 0
+  havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_inputSource: 0
@@ -584,7 +588,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 1
+  checkPaddingRequired: 0
   m_enableWordWrapping: 0
   m_overflowMode: 0
   m_wordWrappingRatios: .400000006
@@ -592,8 +596,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 1
-  havePropertiesChanged: 1
+  isInputParsingRequired: 0
+  havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 0
   m_inputSource: 0
@@ -714,12 +718,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a1578b9753d2604f98d608cb4239e2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_text: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus interdum
-    ac nulla id condimentum. Morbi vel leo id neque sagittis egestas vel vel mi. Integer
-    mollis mi eget auctor tempor. Donec ut lacus lacus. Suspendisse vel sagittis turpis,
-    et pellentesque massa. Maecenas rhoncus metus elit, sed ullamcorper leo viverra
-    ac. Aenean consequat magna ut lacus tristique, a auctor quam luctus. Morbi laoreet
-    eros ac tristique molestie.
+  m_text: "Sur Crystalia, chaque habitant est unique et dispose de ses propres comp\xE9tences.
+    Recrutez et faites progresser les Crystaliens pour vous constituer une \xE9quipe
+    et d\xE9fier les nouveaux colons. D\xE9couvrez les nombreuses facettes du Cristal
+    et d\xE9bloquez de nouvelles factions et comp\xE9tences pour am\xE9liorer votre
+    \xE9quipe !\nNous amor\xE7ons la descente dans l'atmosph\xE8re, veuillez attacher
+    vos ceintures, regagner votre si\xE8ge et d\xE9sactiver vos hologrammes...\n"
   m_fontAsset: {fileID: 11400000, guid: 417116fc0b0e447faa47204a6eab148e, type: 2}
   m_fontStyle: 0
   m_isOverlay: 0
@@ -739,7 +743,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 2.04999995
+  m_fontSize: 3
   m_fontSizeMin: .649999976
   m_fontSizeMax: 3
   m_fontSizeBase: 4
@@ -751,11 +755,11 @@ MonoBehaviour:
   m_paragraphSpacing: 0
   m_lineLength: 0
   m_anchor: 0
-  m_textAlignment: 4
+  m_textAlignment: 7
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 1
+  checkPaddingRequired: 0
   m_enableWordWrapping: 1
   m_overflowMode: 0
   m_wordWrappingRatios: .400000006
@@ -763,8 +767,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 1
-  havePropertiesChanged: 1
+  isInputParsingRequired: 0
+  havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 0
   m_inputSource: 0
@@ -841,7 +845,7 @@ MonoBehaviour:
     x: 0
     y: 0
     width: 15
-    height: 1
+    height: 2.5
   m_margins: {x: 0, y: 0, z: 0, w: 0}
 --- !u!4 &1489164669
 Transform:
@@ -850,7 +854,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1489164664}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -3.70000005, z: 0}
+  m_LocalPosition: {x: 0, y: -2.79999995, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -933,7 +937,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 1
+  checkPaddingRequired: 0
   m_enableWordWrapping: 0
   m_overflowMode: 0
   m_wordWrappingRatios: .400000006
@@ -941,8 +945,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 1
-  havePropertiesChanged: 1
+  isInputParsingRequired: 0
+  havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_inputSource: 0
