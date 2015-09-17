@@ -35,7 +35,7 @@ public class Fortifiant : GameSkill
 				List<int> allys = GameView.instance.getAllys();
 				if(allys.Count>1){
 					allys.Remove(target);
-					target = Random.Range(0,allys.Count+1);
+					target = allys[Random.Range(0,allys.Count)];
 					
 					if (Random.Range(1,101) > GameView.instance.getCard(target).GetMagicalEsquive())
 					{
@@ -50,7 +50,7 @@ public class Fortifiant : GameSkill
 	
 	public override void applyOn(int target, int arg){
 		int arg2 = base.skill.ManaCost;
-		GameController.instance.addCardModifier(target, arg2, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, 1, 9, "Renforcé", "+"+arg+" ATK", "Actif 1 tour");
+		GameController.instance.addCardModifier(target, arg2, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, 1, 9, "Renforcé", "+"+arg2+" ATK pour un tour", "Actif 1 tour");
 		if(arg==0){
 			GameView.instance.displaySkillEffect(target, "+"+arg2+" ATK / 1 tour", 5);
 		}
@@ -67,13 +67,13 @@ public class Fortifiant : GameSkill
 		return GameView.instance.canLaunchOpponentsTargets();
 	}
 	
-	public override string getTargetText(Card targetCard){
+	public override string getTargetText(int id, Card targetCard){
 		
 		int amount = base.skill.ManaCost;
-		int attack = base.card.GetAttack();
+		int attack = targetCard.GetAttack();
 		string text;
 		
-		text = "ATK : "+attack+"->"+(attack+amount);
+		text = "ATK : "+attack+"->"+(attack+amount)+"\n";
 	
 		int probaEsquive = targetCard.GetMagicalEsquive();
 		int probaHit = Mathf.Max(0,100-probaEsquive) ;

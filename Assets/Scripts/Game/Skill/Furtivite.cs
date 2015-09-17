@@ -24,7 +24,7 @@ public class Furtivite : GameSkill
 		int target = GameController.instance.getCurrentPlayingCard() ;
 		
 		GameController.instance.addCardModifier(target, 0, ModifierType.Type_Intouchable, ModifierStat.Stat_No, 2, 20, "Invisible", "Ne peut pas etre ciblé par une attaque ou compétence", "Actif 2 tours");
-		GameController.instance.addCardModifier(target, attackBonus, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, 2, 9, "Renforcement", "Attaque augmentée de "+attackBonus, "Actif 2 tours");
+		GameController.instance.addCardModifier(target, attackBonus, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, 2, 9, "Renforcement", "Attaque augmentée de "+attackBonus+" pour un tour", "Actif 2 tours");
 			
 		GameView.instance.displaySkillEffect(target, "Intouchable et +"+attackBonus+" ATK au prochain tour", 4);
 		

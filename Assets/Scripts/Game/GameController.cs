@@ -152,7 +152,13 @@ public class GameController : Photon.MonoBehaviour
 	{
 		if(this.currentPlayingCard!=-1){
 			if(GameView.instance.getCard(this.currentPlayingCard).isNurse()){
-				List<Tile> targets = GameView.instance.getAllyImmediateNeighbours(GameView.instance.getPlayingCardTile(this.currentPlayingCard));
+				List<Tile> targets = new List<Tile>();
+				if(GameView.instance.getIsMine(this.currentPlayingCard)){
+					targets = GameView.instance.getAllyImmediateNeighbours(GameView.instance.getPlayingCardTile(this.currentPlayingCard));
+				}
+				else{
+					targets = GameView.instance.getOpponentImmediateNeighbours(GameView.instance.getPlayingCardTile(this.currentPlayingCard));
+				}
 				for (int i = 0 ; i < targets.Count ; i++){
 					int target = GameView.instance.getTileCharacterID(targets[i].x, targets[i].y);
 					int amount = Mathf.CeilToInt(GameView.instance.getCard(this.currentPlayingCard).getPassiveManacost()*GameView.instance.getCard(target).GetTotalLife()/100f);
@@ -164,7 +170,7 @@ public class GameController : Photon.MonoBehaviour
 				int amount = GameView.instance.getCard(this.currentPlayingCard).getPassiveManacost();
 				int amountAttack = Mathf.CeilToInt(GameView.instance.getCard(this.currentPlayingCard).GetAttack()*amount / 100f);
 				
-				GameView.instance.getCard(this.currentPlayingCard).addModifier(amountAttack, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, -1, 13, "Frénétique", "Permanent, +"+amount+" ATK", "Permanent");
+				GameView.instance.getCard(this.currentPlayingCard).addModifier(amountAttack, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, -1, 13, "Frénétique", "Permanent, +"+amountAttack+" ATK", "Permanent");
 				GameView.instance.show(this.currentPlayingCard, false);
 			}
 		}
@@ -198,12 +204,14 @@ public class GameController : Photon.MonoBehaviour
 			i2++;
 		}
 		
+		this.initPlayer(nextPlayingCard);
+	}
+	
+	public void displayTR(){
 		for(int i3 = 0 ; i3 < this.playingCardTurnsToWait.Count ; i3++){
 			GameView.instance.getCard(i3).nbTurnsToWait=this.playingCardTurnsToWait[i3];
 			GameView.instance.showTR(i3);
 		}
-
-		this.initPlayer(nextPlayingCard);
 	}
 	
 	public void killHandle(int c){
@@ -221,9 +229,21 @@ public class GameController : Photon.MonoBehaviour
 			}
 		}
 	}
+	
+	public void displaySkillEffect(int id, string text, int color){
+		photonView.RPC("displaySkillEffectRPC", PhotonTargets.AllBuffered, id, text, color);
+	}
+	
+	[RPC]
+	public void displaySkillEffectRPC(int id, string text, int color){
+		GameView.instance.displaySkillEffect(id, text, color);
+	}
 
 	IEnumerator setPlayer(float time, int id){
 		yield return new WaitForSeconds(time);
+		
+		this.displayTR();
+		
 		int length = this.playingCardTurnsToWait.Count;
 		
 		if (this.currentPlayingCard != -1)
@@ -234,26 +254,26 @@ public class GameController : Photon.MonoBehaviour
 		GameView.instance.removeDestinations();
 		
 		if(this.turnsToWait==0){
-			this.changePlayingCard(id);
 			if (GameView.instance.getCard(id).isParalyzed()){
-				GameView.instance.playCard(id, true);
 				GameView.instance.moveCard(id, false);
 			}
-			else if (GameView.instance.getCard(id).isSleeping()){
-				//				int sleepingPercentage = this.getCard(c).getSleepingPercentage();
-				//				if(UnityEngine.Random.Range(1,101)>sleepingPercentage){
-				//					this.displaySkillEffect(c, "REVEIL", 4);
-				//					this.getCard(c).removeSleeping();
-				//					this.playingCards[c].GetComponent<PlayingCardController>().show();
-				//				}
-				//				else{
-				//					this.displaySkillEffect(c, "RESTE ENDORMI", 4);
-				//				}
+			if (GameView.instance.getCard(id).isSleeping()){
+				int sleepingPercentage = GameView.instance.getCard(id).getSleepingPercentage();
+				if(UnityEngine.Random.Range(1,101)<sleepingPercentage){
+					this.displaySkillEffect(id, "SE REVEILLE", 4);
+					this.wakeUp(id);
+				}
+				else{
+					this.displaySkillEffect(id, "RESTE ENDORMI", 5);
+				}
 			}
 			else{
-				this.calculateDestinations();
 				GameView.instance.playCard(id, false);
 				GameView.instance.moveCard(id, false);
+			}
+			this.changePlayingCard(id);
+			if(!GameView.instance.hasMoved(id)){
+				this.calculateDestinations();
 			}
 		}
 		else{
@@ -265,6 +285,27 @@ public class GameController : Photon.MonoBehaviour
 	
 	public void calculateDestinations(){
 		GameView.instance.setDestinations(this.currentPlayingCard);
+		
+		if(GameView.instance.getCard(this.currentPlayingCard).isFurious()){
+			StartCoroutine(launchFury());
+		}
+	}
+	
+	IEnumerator launchFury(){
+		yield return new WaitForSeconds(1);
+		
+		int enemy = GameView.instance.attackClosestEnnemy();
+		
+		yield return new WaitForSeconds(1);
+		
+		if(enemy!=-1){
+			GameSkills.instance.getSkill(0).init(GameView.instance.getCard(this.currentPlayingCard), GameView.instance.getCard(this.currentPlayingCard).GetAttackSkill());
+			GameSkills.instance.getSkill(0).applyOn(enemy);
+			
+			yield return new WaitForSeconds(1);
+		}
+		
+		this.resolvePass();
 	}
 	
 	public void calculateHisDestinations(){
@@ -286,19 +327,16 @@ public class GameController : Photon.MonoBehaviour
 		photonView.RPC("findNextPlayer", PhotonTargets.AllBuffered);
 	}
 	
-	public void wakeUp()
+	public void wakeUp(int id)
 	{
-		photonView.RPC("wakeUpRPC", PhotonTargets.AllBuffered);
+		photonView.RPC("wakeUpRPC", PhotonTargets.AllBuffered, id);
 	}
 	
 	[RPC]
-	public void wakeUpRPC()
+	public void wakeUpRPC(int id)
 	{
-		//this.playindCardHasPlayed = false;
-		//this.playingCardHasMoved = false;
-		//this.displaySkillEffect(this.currentPlayingCard, "Se réveille", 3, 2);
-		//this.getCurrentCard().removeSleeping();
-		//this.getCurrentPCC().show();
+		GameView.instance.getCard(id).removeSleeping();
+		GameView.instance.show(id, false);
 	}
 
 	[RPC]
@@ -560,7 +598,7 @@ public class GameController : Photon.MonoBehaviour
 				if (i==j){
 					
 				}
-				else if(quicknessesToRank[i]<quicknessesToRank[j]){
+				else if(quicknessesToRank[i]>quicknessesToRank[j]){
 					this.playingCardTurnsToWait[j]++;
 				}
 				else if(quicknessesToRank[i]==quicknessesToRank[j]){
@@ -1174,12 +1212,20 @@ public class GameController : Photon.MonoBehaviour
 	
 	public void addTileModifier(Tile tile, int amount, ModifierType type, ModifierStat stat, int duration, int idIcon, string t, string d, string a)
 	{ 
-		bool b = true;
-		if (!GameView.instance.getIsMine(this.currentPlayingCard))
-		{
-			b = false;
+		bool b = false;
+		if(GameView.instance.getIsMine(this.currentPlayingCard)){
+			b = true ;
 		}
 		GameView.instance.setModifier(tile, amount, type, stat, duration, idIcon, t, d, a, b);
+	}
+	
+	public void addElectroPiege(int x, int y, int manacost, bool isFirstP){
+		photonView.RPC("addElectroPiegeRPC", PhotonTargets.AllBuffered, x, y, manacost, isFirstP);
+	}
+	
+	[RPC]
+	public void addElectroPiegeRPC(int x, int y, int manacost, bool isFirstP){
+		GameView.instance.setModifier(new Tile(x,y), manacost, ModifierType.Type_Wolftrap, ModifierStat.Stat_No, -1, 4, "Electropiege", "Inflige "+manacost+" dégats", "Permanent. Non visible du joueur adverse", (isFirstP==this.isFirstPlayer));
 	}
 	
 	public IEnumerator kill(int target)
@@ -1187,16 +1233,6 @@ public class GameController : Photon.MonoBehaviour
 		yield return new WaitForSeconds(2f);
 		//this.tiles [this.getPCC(target).tile.x, this.getPCC(target).tile.x].GetComponent<TileController>().characterID = -1;
 		GameView.instance.getPCC(target).kill();
-	}
-
-	public void addTileModifier(int modifierType, int amount, int tileX, int tileY)
-	{
-		photonView.RPC("addTileModifierRPC", PhotonTargets.AllBuffered, modifierType, amount, tileX, tileY, this.isFirstPlayer);
-	}
-
-	public void relive(int id, int x, int y)
-	{
-		photonView.RPC("reliveRPC", PhotonTargets.AllBuffered, id, x, y, this.isFirstPlayer);
 	}
 
 	public void clearDeads()
@@ -1549,6 +1585,11 @@ public class GameController : Photon.MonoBehaviour
 	public string getHisPlayerName()
 	{
 		return this.hisPlayerName;
+	}
+	
+	public bool getIsFirstPlayer()
+	{
+		return this.isFirstPlayer;
 	}
 }
 

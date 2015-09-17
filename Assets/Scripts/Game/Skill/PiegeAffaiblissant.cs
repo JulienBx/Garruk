@@ -35,15 +35,15 @@ public class PiegeAffaiblissant : GameSkill
 	
 	public override void activateTrap(int[] targets, int[] args){
 		int amount = args[0]*GameView.instance.getCard(targets[0]).GetAttack()/100;
-		GameController.instance.addCardModifier(targets[0], -1*amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, 2, 5, "Sape", "Attaque diminuée de "+amount, "Actif 2 tours");
-		GameView.instance.displaySkillEffect(targets[0], "PIEGE\n-"+amount+"ATK", 5);
+		GameController.instance.addCardModifier(targets[0], -1*amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, 2, 5, "Parapiège", "Attaque diminuée de "+amount, "Actif 2 tours");
+		GameView.instance.displaySkillEffect(targets[0], "PIEGE\n-"+amount+" ATK", 5);
 	}
 	
 	public override string isLaunchable(){
 		return GameView.instance.canLaunchAdjacentTileTargets();
 	}
 	
-	public override string getTargetText(Card c){
+	public override string getTargetText(int i, Card c){
 		
 		int amount = base.skill.ManaCost;
 		string s = "Pose un piège\n-"+amount+"% ATK";

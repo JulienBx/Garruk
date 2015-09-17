@@ -41,8 +41,8 @@ public class Cannibale : GameSkill
 		int bonusL = currentLife*manacost/100 ;
 		int bonusA = currentAttack*manacost/100 ;
 		
-		GameController.instance.addCardModifier(GameController.instance.getCurrentPlayingCard(), -1*bonusL, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
-		GameController.instance.addCardModifier(GameController.instance.getCurrentPlayingCard(), bonusA, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, -1, 9, "Renforcement", "+"+bonusA+" ATK", "Permanent");
+		GameController.instance.addCardModifier(GameController.instance.getCurrentPlayingCard(), bonusL, ModifierType.Type_BonusMalus, ModifierStat.Stat_Life, -1, -1, "", "", "");
+		GameController.instance.addCardModifier(GameController.instance.getCurrentPlayingCard(), bonusA, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, -1, 9, "Cannibalisme", "+"+bonusA+" ATK et +"+bonusL+" LIFE", "Permanent");
 		
 		GameView.instance.displaySkillEffect(GameController.instance.getCurrentPlayingCard(), "+"+bonusL+" PV\n+"+bonusA+" ATK", 4);
 		
@@ -57,9 +57,9 @@ public class Cannibale : GameSkill
 		return GameView.instance.canLaunchAdjacentAllys();
 	}
 	
-	public override string getTargetText(Card targetCard){
+	public override string getTargetText(int id, Card targetCard){
 		
-		string text = "SACRIFICE";
+		string text = "SACRIFICE\n";
 		
 		int probaEsquive = targetCard.GetEsquive();
 		int probaHit = Mathf.Max(0,100-probaEsquive) ;

@@ -262,7 +262,7 @@ public class Card
 			}
 			this.modifiers.Add(new StatModifier(amount, type, stat, duration, idIcon, t, d, a));
 		}
-		else if(type==ModifierType.Type_Bouclier || type==ModifierType.Type_EsquivePercentage || type==ModifierType.Type_MagicalEsquivePercentage){
+		else if(type==ModifierType.Type_Paralized || type==ModifierType.Type_Bouclier || type==ModifierType.Type_EsquivePercentage || type==ModifierType.Type_MagicalEsquivePercentage){
 			for (int j = this.modifiers.Count-1 ; j >= 0 ; j--){
 				if (modifiers[j].Type==type){
 					modifiers.RemoveAt(j);
@@ -594,13 +594,28 @@ public class Card
 		int i = 0;
 		while (i < this.modifiers.Count && !isParalyzed)
 		{
-			if (this.modifiers [i].Type == ModifierType.Type_Paralized)
+			if (this.modifiers [i].Type == ModifierType.Type_Paralized && this.modifiers[i].Duration>0)
 			{
 				isParalyzed = true;
 			}
 			i++;
 		}
 		return isParalyzed;
+	}
+	
+	public bool isFurious()
+	{
+		bool isCrazy = false;
+		int i = 0;
+		while (i < this.modifiers.Count && !isCrazy)
+		{
+			if (this.modifiers [i].Type == ModifierType.Type_Crazy)
+			{
+				isCrazy = true;
+			}
+			i++;
+		}
+		return isCrazy;
 	}
 
 	public void clearBuffs()
@@ -619,6 +634,11 @@ public class Card
 	public bool isGenerous()
 	{
 		return (this.Skills[0].Id == 74);
+	}
+	
+	public bool isGiant()
+	{
+		return (this.Skills[0].Id == 72);
 	}
 	
 	public bool isPacifiste()
@@ -654,6 +674,26 @@ public class Card
 	public bool isRapide()
 	{
 		return (this.Skills[0].Id == 73);
+	}
+	
+	public bool isRobuste()
+	{
+		return (this.Skills[0].Id == 69);
+	}
+	
+	public bool isLache()
+	{
+		return (this.Skills[0].Id == 67);
+	}
+	
+	public bool isPiegeur()
+	{
+		return (this.Skills[0].Id == 66);
+	}
+	
+	public bool isAgile()
+	{
+		return (this.Skills[0].Id == 68);
 	}
 	
 	public int getPassiveManacost()

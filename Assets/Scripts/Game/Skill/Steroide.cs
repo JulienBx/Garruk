@@ -36,7 +36,7 @@ public class Steroide : GameSkill
 				List<int> allys = GameView.instance.getAllys();
 				if(allys.Count>1){
 					allys.Remove(target);
-					target = Random.Range(0,allys.Count+1);
+					target = allys[Random.Range(0,allys.Count)];
 					
 					if (Random.Range(1,101) > GameView.instance.getCard(target).GetMagicalEsquive())
 					{
@@ -51,7 +51,7 @@ public class Steroide : GameSkill
 	}
 	
 	public override void applyOn(int target, int arg, int arg2){
-		GameController.instance.addCardModifier(target, arg, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, -1, 9, "Renforcé", "+"+arg+" ATK", "Permanent");
+		GameController.instance.addCardModifier(target, arg, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, -1, 9, "Renforcé", "+"+arg+" ATK. Permanent", "Permanent");
 		GameView.instance.displaySkillEffect(target, "+"+arg+" ATK", 5);
 		
 		if(arg2==0){
@@ -70,7 +70,7 @@ public class Steroide : GameSkill
 		return GameView.instance.canLaunchAllysButMeTargets();
 	}
 	
-	public override string getTargetText(Card targetCard){
+	public override string getTargetText(int i, Card targetCard){
 		
 		int amount = base.skill.ManaCost;
 		int attack = targetCard.GetAttack();

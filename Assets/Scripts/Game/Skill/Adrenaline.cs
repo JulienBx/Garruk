@@ -35,7 +35,7 @@ public class Adrenaline : GameSkill
 				List<int> allys = GameView.instance.getAllys();
 				if(allys.Count>1){
 					allys.Remove(target);
-					target = Random.Range(0,allys.Count+1);
+					target = allys[Random.Range(0,allys.Count)];
 					
 					if (Random.Range(1,101) > GameView.instance.getCard(target).GetMagicalEsquive())
 					{
@@ -71,7 +71,7 @@ public class Adrenaline : GameSkill
 		return GameView.instance.canLaunchAllysButMeTargets();
 	}
 	
-	public override string getTargetText(Card targetCard){
+	public override string getTargetText(int id, Card targetCard){
 		
 		int amount = base.skill.ManaCost;
 		

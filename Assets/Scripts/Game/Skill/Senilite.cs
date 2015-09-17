@@ -33,10 +33,10 @@ public class Senilite : GameSkill
 		
 		if (base.card.isGenerous()){
 			if (Random.Range(1,101) <= base.card.getPassiveManacost()){
-				List<int> allys = GameView.instance.getAllys();
+				List<int> allys = GameView.instance.getOpponents();
 				if(allys.Count>1){
 					allys.Remove(target);
-					target = Random.Range(0,allys.Count+1);
+					target = allys[Random.Range(0,allys.Count)];
 					
 					if (Random.Range(1,101) > GameView.instance.getCard(target).GetMagicalEsquive())
 					{
@@ -51,7 +51,7 @@ public class Senilite : GameSkill
 	}
 	
 	public override void applyOn(int target, int arg, int arg2){
-		GameController.instance.addCardModifier(target, -1*arg, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, -1, 5, "Affaibli", "-"+arg+" ATK", "Permanent");
+		GameController.instance.addCardModifier(target, -1*arg, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, -1, 5, "Affaibli", "-"+arg+" ATK. Permanent", "Permanent");
 		
 		if(arg2==0){
 			GameView.instance.displaySkillEffect(target, "-"+arg+" ATK", 5);
@@ -69,7 +69,7 @@ public class Senilite : GameSkill
 		return GameView.instance.canLaunchAllysButMeTargets();
 	}
 	
-	public override string getTargetText(Card targetCard){
+	public override string getTargetText(int i, Card targetCard){
 		
 		int amount = base.skill.ManaCost;
 		Debug.Log(amount);

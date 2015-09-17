@@ -32,10 +32,10 @@ public class Relaxant : GameSkill
 		
 		if (base.card.isGenerous()){
 			if (Random.Range(1,101) <= base.card.getPassiveManacost()){
-				List<int> allys = GameView.instance.getAllys();
+				List<int> allys = GameView.instance.getOpponents();
 				if(allys.Count>1){
 					allys.Remove(target);
-					target = Random.Range(0,allys.Count+1);
+					target = allys[Random.Range(0,allys.Count)];
 					
 					if (Random.Range(1,101) > GameView.instance.getCard(target).GetMagicalEsquive())
 					{
@@ -68,7 +68,7 @@ public class Relaxant : GameSkill
 		return GameView.instance.canLaunchOpponentsTargets();
 	}
 	
-	public override string getTargetText(Card targetCard){
+	public override string getTargetText(int i,Card targetCard){ 
 		
 		int amount = base.skill.ManaCost;
 		int attack = targetCard.GetAttack();

@@ -25,21 +25,41 @@ public class Massue : GameSkill
 		if (Random.Range(1,101) > GameView.instance.getCard(target).GetEsquive())
 		{   
 			int arg = Random.Range(1,base.skill.ManaCost+1)*GameView.instance.getCard(GameController.instance.getCurrentPlayingCard()).GetAttack()/100;
-			Debug.Log("arg"+arg);
-			GameController.instance.applyOn(target, arg);
+			GameController.instance.applyOn(target, arg,0);
 		}
 		else{
 			GameController.instance.failedToCastOnSkill(target, 0);
 		}
 		GameController.instance.play();
+		
+		if (base.card.isGiant()){
+			if (Random.Range(1,101) <= base.card.getPassiveManacost()){
+				List<Tile> opponents = GameView.instance.getOpponentImmediateNeighbours(GameView.instance.getPlayingCardTile(target));
+				if(opponents.Count>1){
+					int ran = Random.Range(0,opponents.Count);
+					target = GameView.instance.getTileCharacterID(opponents[ran].x, opponents[ran].y) ;
+					
+					if (Random.Range(1,101) > GameView.instance.getCard(target).GetMagicalEsquive())
+					{
+						int arg = Random.Range(1,base.skill.ManaCost+1)*GameView.instance.getCard(GameController.instance.getCurrentPlayingCard()).GetAttack()/100;
+						GameController.instance.applyOn(target,arg,1);
+					}
+				}
+			}
+		}
 	}
 	
-	public override void applyOn(int target, int arg){
+	public override void applyOn(int target, int arg, int arg2){
 		Card targetCard = GameView.instance.getCard(target);
 		int currentLife = targetCard.GetLife();
 		GameController.instance.addCardModifier(target, arg, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
 		if(currentLife>arg){
-			GameView.instance.displaySkillEffect(target, "-"+arg+" PV", 5);
+			if(arg2==0){
+				GameView.instance.displaySkillEffect(target, "-"+arg+" PV", 5);
+			}
+			else{
+				GameView.instance.displaySkillEffect(target, "GEANT\n-"+arg+" PV", 5);
+			}
 		}
 	}
 	
@@ -51,7 +71,7 @@ public class Massue : GameSkill
 		return GameView.instance.canLaunchAdjacentOpponents();
 	}
 	
-	public override string getTargetText(Card targetCard){
+	public override string getTargetText(int id, Card targetCard){
 		
 		int currentLife = targetCard.GetLife();
 		

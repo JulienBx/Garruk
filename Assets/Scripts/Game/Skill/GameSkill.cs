@@ -82,7 +82,7 @@ public class GameSkill
 		return null;
 	}
 	
-	public virtual string getTargetText(Card targetCard)
+	public virtual string getTargetText(int id, Card targetCard)
 	{
 		return null;
 	}

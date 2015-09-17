@@ -23,5 +23,6 @@
 	Type_SleepingTrap,
 	Type_Sleeping,
 	Type_Celerite,
-	Type_Apathie,	
+	Type_Apathie,
+	Type_Crazy,
 };

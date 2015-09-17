@@ -32,10 +32,25 @@ public class Attaque360 : GameSkill
 				{
 					if (Random.Range(1,101) > GameView.instance.getCard(tempInt).GetEsquive())
 					{                             
-						GameController.instance.applyOn(tempInt);
+						GameController.instance.applyOn(tempInt,0);
 					}
 					else{
 						GameController.instance.failedToCastOnSkill(tempInt, 0);
+					}
+					
+					if (base.card.isGiant()){
+						if (Random.Range(1,101) <= base.card.getPassiveManacost()){
+							List<Tile> opponents = GameView.instance.getOpponentImmediateNeighbours(GameView.instance.getPlayingCardTile(tempInt));
+							if(opponents.Count>1){
+								int ran = Random.Range(0,opponents.Count);
+								tempInt = GameView.instance.getTileCharacterID(opponents[ran].x, opponents[ran].y) ;
+								
+								if (Random.Range(1,101) > GameView.instance.getCard(tempInt).GetMagicalEsquive())
+								{
+									GameController.instance.applyOn(tempInt,1);
+								}
+							}
+						}
 					}
 				}
 			}
@@ -45,7 +60,7 @@ public class Attaque360 : GameSkill
 		GameController.instance.play();
 	}
 	
-	public override void applyOn(int target){
+	public override void applyOn(int target, int arg){
 		Card targetCard = GameView.instance.getCard(target);
 		int currentLife ;
 		int damageBonusPercentage ;
@@ -59,7 +74,12 @@ public class Attaque360 : GameSkill
 		GameController.instance.addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
 		
 		if(currentLife!=amount){
-			GameView.instance.displaySkillEffect(target, "-"+amount+" PV", 5);
+			if(arg==0){
+				GameView.instance.displaySkillEffect(target, "-"+amount+" PV", 5);
+			}
+			else{
+				GameView.instance.displaySkillEffect(target, "GEANT\n-"+amount+" PV", 5);
+			}
 		}
 	}
 	

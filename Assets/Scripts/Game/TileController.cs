@@ -68,6 +68,7 @@ public class TileController : GameObjectController
 				int[] args = new int[1];
 				args[0] = this.tile.statModifier.Amount ;
 				GameController.instance.activateTrap(15, targets, args);
+				
 				int[] t = new int[2];
 				t[0] = this.tile.x;
 				t[1] = this.tile.y;
@@ -299,6 +300,11 @@ public class TileController : GameObjectController
 	public void changeTrapId(int i)
 	{
 		this.trapID = i ;
+	}
+	
+	public int getTrapId()
+	{
+		return this.trapID;
 	}
 	
 	public void show()

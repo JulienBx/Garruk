@@ -23,13 +23,27 @@ public class Berserk : GameSkill
 		
 		if (Random.Range(1,101) > GameView.instance.getCard(target).GetEsquive())
 		{                             
-			int arg = Random.Range(1,base.skill.ManaCost+1);
-			GameController.instance.applyOn(target,arg);
+			GameController.instance.applyOn(target,0);
 		}
 		else{
 			GameController.instance.failedToCastOnSkill(target, 0);
 		}
 		GameController.instance.play();
+		
+		if (base.card.isGiant()){
+			if (Random.Range(1,101) <= base.card.getPassiveManacost()){
+				List<Tile> opponents = GameView.instance.getOpponentImmediateNeighbours(GameView.instance.getPlayingCardTile(target));
+				if(opponents.Count>1){
+					int ran = Random.Range(0,opponents.Count);
+					target = GameView.instance.getTileCharacterID(opponents[ran].x, opponents[ran].y) ;
+					
+					if (Random.Range(1,101) > GameView.instance.getCard(target).GetMagicalEsquive())
+					{
+						GameController.instance.applyOn(target,1);
+					}
+				}
+			}
+		}
 	}
 	
 	public override void applyOn(int target, int arg){
@@ -40,22 +54,29 @@ public class Berserk : GameSkill
 		int myBouclier = base.card.GetBouclier();
 		int bouclier = targetCard.GetBouclier();
 		
-		int amount = Mathf.CeilToInt(base.card.GetAttack()*120/100);
+		int amount = Mathf.CeilToInt(base.card.GetAttack()*125/100);
 		
 		int damageBonusPercentage = base.card.GetDamagesPercentageBonus(targetCard);
 		amount = Mathf.Min(currentLife,amount-(bouclier*amount/100));
 		
-		int myAttack = base.skill.ManaCost;
+		int arg2 = base.skill.ManaCost;
 		
 		GameController.instance.addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
-		GameController.instance.addCardModifier(GameController.instance.getCurrentPlayingCard(), arg, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
+		GameController.instance.addCardModifier(GameController.instance.getCurrentPlayingCard(), arg2, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
 		
 		if(currentLife!=amount){
-			GameView.instance.displaySkillEffect(target, "-"+amount+" PV", 5);
+			if(arg==0){
+				GameView.instance.displaySkillEffect(target, "-"+amount+" PV", 5);
+			}
+			else{
+				GameView.instance.displaySkillEffect(target, "GEANT\n-"+amount+" PV", 5);
+			}
 		}
 		
-		if(myCurrentLife!=arg){
-			GameView.instance.displaySkillEffect(GameController.instance.getCurrentPlayingCard(), "-"+arg+" PV", 5);
+		if(arg==0){
+			if(myCurrentLife!=arg){
+				GameView.instance.displaySkillEffect(GameController.instance.getCurrentPlayingCard(), "-"+arg2+" PV", 5);
+			}
 		}
 	}
 	
@@ -67,7 +88,7 @@ public class Berserk : GameSkill
 		return GameView.instance.canLaunchAdjacentOpponents();
 	}
 	
-	public override string getTargetText(Card targetCard){
+	public override string getTargetText(int id, Card targetCard){
 		
 		int myCurrentLife = base.card.GetLife();
 		int currentLife = targetCard.GetLife();
@@ -75,14 +96,10 @@ public class Berserk : GameSkill
 		int myBouclier = base.card.GetBouclier();
 		int bouclier = targetCard.GetBouclier();
 		
-		int amount = Mathf.CeilToInt(base.card.GetAttack()*120f/100f);
+		int amount = Mathf.CeilToInt(base.card.GetAttack()*125f/100f);
 		
 		int damageBonusPercentage = base.card.GetDamagesPercentageBonus(targetCard);
 		amount = Mathf.Min(currentLife,amount-(bouclier*amount/100));
-		
-		int myAttack = base.skill.ManaCost;
-		int myAmount = (myAttack)*(100+damageBonusPercentage)/100;
-		myAmount = Mathf.Min(currentLife,myAmount-(myBouclier*myAmount/100));
 		
 		string text = "PV: "+currentLife+"->"+(currentLife-amount)+"\n";
 		

@@ -57,7 +57,7 @@ public class Assassinat : GameSkill
 		return GameView.instance.canLaunchAdjacentOpponents();
 	}
 	
-	public override string getTargetText(Card targetCard){
+	public override string getTargetText(int id, Card targetCard){
 		
 		int chances = base.skill.ManaCost;
 		

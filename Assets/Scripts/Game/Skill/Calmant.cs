@@ -32,10 +32,17 @@ public class Calmant : GameSkill
 		
 		if (base.card.isGenerous()){
 			if (Random.Range(1,101) <= base.card.getPassiveManacost()){
-				List<int> allys = GameView.instance.getAllys();
+				List<int> allys = GameView.instance.getOpponents();
+				for (int i = 0 ; i < allys.Count ; i++){
+					Debug.Log("Allys "+allys[i]);
+				}
 				if(allys.Count>1){
 					allys.Remove(target);
-					target = Random.Range(0,allys.Count+1);
+					for (int i = 0 ; i < allys.Count ; i++){
+						Debug.Log("Allys2 "+allys[i]);
+					}
+					
+					target = allys[Random.Range(0,allys.Count)];
 					
 					if (Random.Range(1,101) > GameView.instance.getCard(target).GetMagicalEsquive())
 					{
@@ -49,6 +56,8 @@ public class Calmant : GameSkill
 	}
 	
 	public override void applyOn(int target, int arg){
+		Debug.Log("Target "+target+","+arg);
+		
 		GameController.instance.backTurns(target, base.skill.ManaCost);
 		if(arg==0){
 			GameView.instance.displaySkillEffect(target, "Temps d'attente : +"+base.skill.ManaCost, 5);
@@ -68,7 +77,7 @@ public class Calmant : GameSkill
 		return GameView.instance.canLaunchOpponentsTargets();
 	}
 	
-	public override string getTargetText(Card targetCard){
+	public override string getTargetText(int id, Card targetCard){
 		
 		int amount = base.skill.ManaCost;
 		string text;

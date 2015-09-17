@@ -10,7 +10,7 @@ public class GameSkills : MonoBehaviour
 	{
 		instance = this;
 		
-		this.skills = new GameSkill[66];
+		this.skills = new GameSkill[96];
 		this.skills [0] = new Attack();
 		this.skills [1] = new Pass();
 		this.skills [2] = new GameSkill();
@@ -24,9 +24,9 @@ public class GameSkills : MonoBehaviour
 		this.skills [10] = new TirALarc();
 		this.skills [11] = new Furtivite();
 		this.skills [12] = new Assassinat();
-		this.skills [13] = new AttaquePrecise();
-		this.skills [14] = new AttaqueRapide();
-		this.skills [15] = new PiegeALoups();
+		this.skills [13] = new Estoc();
+		this.skills [14] = new Combo();
+		this.skills [15] = new Electropiege();
 		this.skills [16] = new Agilite();
 		this.skills [17] = new CoupeJambes();
 		this.skills [18] = new Berserk();
@@ -72,11 +72,42 @@ public class GameSkills : MonoBehaviour
 		this.skills [58] = new Steroide();
 		this.skills [59] = new Senilite();
 		this.skills [60] = new PiegeAffaiblissant();
-		this.skills [61] = new PiegeDormeur();
+		this.skills [61] = new Somnipiege();
 		this.skills [62] = new GameSkill();
 		this.skills [63] = new GameSkill();
 		this.skills [64] = new GameSkill();
 		this.skills [65] = new Massue();
+		this.skills [66] = new GameSkill();
+		this.skills [67] = new GameSkill();
+		this.skills [68] = new GameSkill();
+		this.skills [69] = new GameSkill();
+		this.skills [70] = new GameSkill();
+		this.skills [71] = new GameSkill();
+		this.skills [72] = new GameSkill();
+		this.skills [73] = new GameSkill();
+		this.skills [74] = new GameSkill();
+		this.skills [75] = new GameSkill();
+		this.skills [76] = new GameSkill();
+		this.skills [77] = new GameSkill();
+		this.skills [78] = new GameSkill();
+		this.skills [79] = new GameSkill();
+		this.skills [80] = new GameSkill();
+		this.skills [81] = new GameSkill();
+		this.skills [82] = new GameSkill();
+		this.skills [83] = new GameSkill();
+		this.skills [84] = new GameSkill();
+		this.skills [85] = new GameSkill();
+		this.skills [86] = new GameSkill();
+		this.skills [87] = new GameSkill();
+		this.skills [88] = new GameSkill();
+		this.skills [89] = new GameSkill();
+		this.skills [90] = new GameSkill();
+		this.skills [91] = new GameSkill();
+		this.skills [92] = new GameSkill();
+		this.skills [93] = new Lance();
+		this.skills [94] = new ToutDonner();
+		this.skills [95] = new Furie();
+		
 	}
 
 	public GameSkill getSkill(int i)

@@ -44,6 +44,20 @@ public class CoupeJambes : GameSkill
 		}
 		int attack = base.card.GetAttack()/2;
 		int amount = attack*(100+damageBonusPercentage)/100;
+		
+		if (base.card.isLache()){
+			if(GameController.instance.getIsFirstPlayer()==GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
+				if(GameView.instance.getPlayingCardTile(target).y==GameView.instance.getPlayingCardTile(GameController.instance.getCurrentPlayingCard()).y-1){
+					amount = (100+base.card.getPassiveManacost())*amount/100;
+				}
+			}
+			else{
+				if(GameView.instance.getPlayingCardTile(target).y-1==GameView.instance.getPlayingCardTile(GameController.instance.getCurrentPlayingCard()).y){
+					amount = (100+base.card.getPassiveManacost())*amount/100;
+				}
+			}
+		}
+		
 		amount = Mathf.Min(currentLife,amount-(bouclier*amount/100));
 		
 		GameController.instance.addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
@@ -61,7 +75,7 @@ public class CoupeJambes : GameSkill
 		return GameView.instance.canLaunchAdjacentOpponents();
 	}
 	
-	public override string getTargetText(Card targetCard){
+	public override string getTargetText(int id, Card targetCard){
 		
 		int bouclier = targetCard.GetBouclier();
 		int currentLife = targetCard.GetLife();
@@ -74,22 +88,32 @@ public class CoupeJambes : GameSkill
 		}
 		int attack = base.card.GetAttack()/2;
 		int amount = attack*(100+damageBonusPercentage)/100;
+		string text = "";
+		
+		if (base.card.isLache()){
+			if(GameController.instance.getIsFirstPlayer()==GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
+				if(GameView.instance.getPlayingCardTile(id).y==GameView.instance.getPlayingCardTile(GameController.instance.getCurrentPlayingCard()).y-1){
+					amount = (100+base.card.getPassiveManacost())*amount/100;
+					text="LACHE\n";
+				}
+			}
+			else{
+				if(GameView.instance.getPlayingCardTile(id).y-1==GameView.instance.getPlayingCardTile(GameController.instance.getCurrentPlayingCard()).y){
+					amount = (100+base.card.getPassiveManacost())*amount/100;
+					text="LACHE\n";
+				}
+			}
+		}
+		
 		amount = Mathf.Min(currentLife,amount-(bouclier*amount/100));
 		
-		string text = "PV : "+currentLife+"->"+(currentLife-amount)+"\n";
+		text += "PV : "+currentLife+"->"+(currentLife-amount)+"\n";
 		text += "MOV : "+deplacement+"->"+Mathf.Max(1,deplacement-bonusDeplacement)+"\n";
 		
 		int probaEsquive = targetCard.GetEsquive();
-		int proba ;
-		text += "HIT : ";
-		if (probaEsquive!=0){
-			proba = 100-probaEsquive;
-			text+=proba+"% : "+100+"%(ATT) - "+probaEsquive+"%(ESQ)";
-		}
-		else{
-			proba = 100;
-			text+=proba+"%";
-		}
+		int probaHit = Mathf.Max(0,100-probaEsquive) ;
+		
+		text += "HIT% : "+probaHit;
 		
 		return text ;
 	}

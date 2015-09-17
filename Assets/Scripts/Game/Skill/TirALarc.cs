@@ -66,7 +66,7 @@ public class TirALarc : GameSkill
 		return GameView.instance.canLaunchOpponentsTargets();
 	}
 	
-	public override string getTargetText(Card targetCard){
+	public override string getTargetText(int i, Card targetCard){
 		
 		int proba;
 		int probaEsquive = targetCard.GetEsquive();

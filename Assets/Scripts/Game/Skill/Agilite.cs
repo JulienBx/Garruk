@@ -23,7 +23,7 @@ public class Agilite : GameSkill
 		int esquive = base.skill.ManaCost;
 		int target = GameController.instance.getCurrentPlayingCard();
 		
-		GameController.instance.addCardModifier(target, esquive, ModifierType.Type_EsquivePercentage, ModifierStat.Stat_No, -1, 1, "Esquive", esquive+"% d'esquiver les attaques physiques", "Permanent");
+		GameController.instance.addCardModifier(target, esquive, ModifierType.Type_EsquivePercentage, ModifierStat.Stat_No, -1, 1, "Esquive", esquive+"% de chances d'esquiver les attaques au contact", "Permanent");
 		
 		GameView.instance.displaySkillEffect(target, "SUCCES\nEsquive = "+esquive+"%", 4);
 	}

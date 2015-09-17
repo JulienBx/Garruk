@@ -356,15 +356,15 @@ public class PlayingCardController : GameObjectController
 			{
 				this.card.modifiers [i].Duration--;
 			}
+			else if (this.card.modifiers [i].Duration == -2){
+				this.card.modifiers [i].Duration = 1;
+			}
 			
 			if (this.card.modifiers [i].Duration == 0)
 			{
-				modifiersToSuppress.Add(i);
-				if (this.card.modifiers [i].Type == ModifierType.Type_Paralized)
-				{
-					this.card.modifiers.RemoveAt(i);
-				} 
-			} else if (this.card.modifiers [i].Duration > 0)
+				this.card.modifiers.RemoveAt(i);
+			}
+			else if (this.card.modifiers [i].Duration > 0)
 			{
 				this.card.modifiers [i].additionnalInfo = "Actif " + this.card.modifiers [i].Duration + " tour";
 				if (this.card.modifiers [i].Duration > 1)
@@ -372,11 +372,6 @@ public class PlayingCardController : GameObjectController
 					this.card.modifiers [i].additionnalInfo += "s";
 				}
 			}
-		}
-		
-		for (int i = 0; i < modifiersToSuppress.Count; i++)
-		{
-			this.card.modifiers.RemoveAt(modifiersToSuppress [i]);
 		}
 
 		for (int i = 0; i < this.card.TileModifiers.Count; i++)
