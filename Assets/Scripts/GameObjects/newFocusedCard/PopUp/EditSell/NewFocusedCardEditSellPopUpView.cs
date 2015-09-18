@@ -24,12 +24,12 @@ public class NewFocusedCardEditSellPopUpView : MonoBehaviour
 			GUILayout.BeginVertical(popUpVM.centralWindowStyle);
 			{
 				GUILayout.FlexibleSpace();
-				GUILayout.Label("La carte est mise en vente sur le bazar pour "+ editSellPopUpVM.price+" crédits. Modifier ?", popUpVM.centralWindowTitleStyle);
+				GUILayout.Label("Unité sur le marché pour "+ editSellPopUpVM.price+" cristaux. Modifier ?", popUpVM.centralWindowTitleStyle);
 				GUILayout.FlexibleSpace();
 				GUILayout.BeginHorizontal();
 				{
 					GUILayout.Space(0.03f * popUpVM.centralWindow.width);
-					if (GUILayout.Button("Retirer du bazar", popUpVM.centralWindowButtonStyle))
+					if (GUILayout.Button("Retirer du marché", popUpVM.centralWindowButtonStyle))
 					{
 						gameObject.GetComponent<NewFocusedCardController>().unsellCardHandler();
 					}

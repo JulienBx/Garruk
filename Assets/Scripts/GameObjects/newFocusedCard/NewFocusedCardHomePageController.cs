@@ -12,7 +12,7 @@ public class NewFocusedCardHomePageController : NewFocusedCardController
 	{
 		if(this.c.ExperienceLevel!=10)
 		{
-			this.gameObject.transform.FindChild("FocusFeature0").FindChild("Title").GetComponent<TextMeshPro>().text="Passer la carte au niveau suivant \n( -"+this.c.NextLevelPrice+ " crédits)";
+			this.gameObject.transform.FindChild("FocusFeature0").FindChild("Title").GetComponent<TextMeshPro>().text="Passer l'unité au niveau suivant \n( -"+this.c.NextLevelPrice+ " cristaux)";
 			this.gameObject.transform.FindChild("FocusFeature0").GetComponent<NewFocusedFeaturesController>().setIsClickable(true);
 		}
 		else
@@ -20,7 +20,7 @@ public class NewFocusedCardHomePageController : NewFocusedCardController
 			this.gameObject.transform.FindChild("FocusFeature0").FindChild("Title").GetComponent<TextMeshPro>().text="Niveau maximum atteint";
 			this.gameObject.transform.FindChild("FocusFeature0").transform.GetComponent<NewFocusedFeaturesController>().setIsClickable(false);
 		}
-		this.gameObject.transform.FindChild("FocusFeature1").transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Renommer la carte \n( -" + this.c.RenameCost + " crédits)";
+		this.gameObject.transform.FindChild("FocusFeature1").transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Renommer l'unité \n( -" + this.c.RenameCost + " cristaux)";
 		this.gameObject.transform.FindChild("FocusFeature4").transform.GetComponent<TextMeshPro>().text=this.c.nbWin+" Victoires \n" + this.c.nbLoose+" Défaites";
 		this.gameObject.transform.FindChild("FocusFeature5").transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Quitter";
 	}

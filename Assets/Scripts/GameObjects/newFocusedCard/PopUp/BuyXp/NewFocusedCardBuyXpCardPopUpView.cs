@@ -24,7 +24,7 @@ public class NewFocusedCardBuyXpView: MonoBehaviour
 			GUILayout.BeginVertical(popUpVM.centralWindowStyle);
 			{
 				GUILayout.FlexibleSpace();
-				GUILayout.Label("Confirmer la montée de niveau de la carte (coûte " + buyXpPopUpVM.price + " crédits)",popUpVM.centralWindowTitleStyle);
+				GUILayout.Label("Confirmer la montée de niveau de l'unité (coûte " + buyXpPopUpVM.price + " cristaux)",popUpVM.centralWindowTitleStyle);
 				GUILayout.Space(0.02f * popUpVM.centralWindow.height);
 				GUILayout.BeginHorizontal();
 				{

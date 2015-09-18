@@ -22,7 +22,7 @@ public class NewMyGameEditDeckPopUpView : MonoBehaviour
 			GUILayout.BeginVertical(popUpVM.centralWindowStyle);
 			{
 				GUILayout.FlexibleSpace();
-				GUILayout.Label("Modifiez le nom de votre deck "+editDeckPopUpVM.oldName, popUpVM.centralWindowTitleStyle);
+				GUILayout.Label("Modifiez le nom de votre équipe "+editDeckPopUpVM.oldName, popUpVM.centralWindowTitleStyle);
 				GUILayout.FlexibleSpace();
 				GUILayout.BeginHorizontal();
 				{

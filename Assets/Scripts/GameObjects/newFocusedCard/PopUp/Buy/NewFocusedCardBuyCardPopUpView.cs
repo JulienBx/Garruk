@@ -23,7 +23,7 @@ public class NewFocusedCardBuyPopUpView : MonoBehaviour
 			GUILayout.BeginVertical(popUpVM.centralWindowStyle);
 			{
 				GUILayout.FlexibleSpace();
-				GUILayout.Label("Confirmer l'achat de la carte (coûte "+buyPopUpVM.price+ " crédits)", popUpVM.centralWindowTitleStyle);
+				GUILayout.Label("Confirmer le recrutement de l'unité (coûte "+buyPopUpVM.price+ " cristaux)", popUpVM.centralWindowTitleStyle);
 				GUILayout.Space(0.02f*popUpVM.centralWindow.height);
 				GUILayout.BeginHorizontal();
 				{

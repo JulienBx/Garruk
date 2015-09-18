@@ -24,7 +24,7 @@ public class NewHomePageConnectionBonusPopUpView : MonoBehaviour
 			GUILayout.BeginVertical(popUpVM.centralWindowStyle);
 			{
 				GUILayout.FlexibleSpace();
-				GUILayout.Label ("Première connection de la journée, vous gagnez "+connectionBonusPopUpVM.bonus+" crédits",popUpVM.centralWindowTitleStyle);
+				GUILayout.Label ("Première connection de la journée, vous gagnez "+connectionBonusPopUpVM.bonus+" cristaux",popUpVM.centralWindowTitleStyle);
 				GUILayout.FlexibleSpace();
 				GUILayout.BeginHorizontal();
 				{

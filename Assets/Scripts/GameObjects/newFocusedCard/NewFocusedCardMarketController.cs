@@ -23,17 +23,17 @@ public class NewFocusedCardMarketController : NewFocusedCardController
 
 		if(this.c.Price>ApplicationModel.credits && this.c.onSale==1)
 		{
-			this.gameObject.transform.FindChild("FocusFeature0").transform.FindChild("Title").GetComponent<TextMeshPro>().text="Il vous manque "+(this.c.Price-ApplicationModel.credits)+" crédits pour acheter cette carte.";
+			this.gameObject.transform.FindChild("FocusFeature0").transform.FindChild("Title").GetComponent<TextMeshPro>().text="Il vous manque "+(this.c.Price-ApplicationModel.credits)+" cristaux pour acheter cette carte.";
 			this.gameObject.transform.FindChild("FocusFeature0").transform.GetComponent<NewFocusedFeaturesController>().setIsClickable(false);
 		}
 		else if(this.c.onSale==1)
 		{
-			this.gameObject.transform.FindChild("FocusFeature0").transform.FindChild("Title").GetComponent<TextMeshPro>().text="Carte en vente pour "+this.c.Price+" crédits. \nAcheter ?";
+			this.gameObject.transform.FindChild("FocusFeature0").transform.FindChild("Title").GetComponent<TextMeshPro>().text="Unité en vente pour "+this.c.Price+" cristaux. \nAcheter ?";
 			this.gameObject.transform.FindChild("FocusFeature0").transform.GetComponent<NewFocusedFeaturesController>().setIsClickable(true);
 		}
 		else
 		{
-			this.gameObject.transform.FindChild("FocusFeature0").transform.FindChild("Title").GetComponent<TextMeshPro>().text="Cette carte n'est plus en vente";
+			this.gameObject.transform.FindChild("FocusFeature0").transform.FindChild("Title").GetComponent<TextMeshPro>().text="Cette unité n'est plus en vente";
 			this.gameObject.transform.FindChild("FocusFeature0").transform.GetComponent<NewFocusedFeaturesController>().setIsClickable(false);
 		}
 		this.gameObject.transform.FindChild("FocusFeature4").transform.GetComponent<TextMeshPro>().text=this.c.nbWin+" Victoires \n" + this.c.nbLoose+" Défaites";

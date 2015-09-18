@@ -414,7 +414,7 @@ public class NewHomePageController : Photon.MonoBehaviour
 		this.competitionsBlock = Instantiate(this.blockObject) as GameObject;
 		this.deckBoard = GameObject.Find ("deckBoard");
 		this.storeAssetsTitle = GameObject.Find ("StoreAssetsTitle");
-		this.storeAssetsTitle.GetComponent<TextMeshPro> ().text = "Boutique";
+		this.storeAssetsTitle.GetComponent<TextMeshPro> ().text = "Centre de recrutement";
 		this.statsTitle = GameObject.Find ("StatsTitle");
 		this.newsTitle = GameObject.Find ("NewsTitle");
 		this.newsTitle.GetComponent<TextMeshPro> ().text = "Fil d'actualités";
@@ -447,7 +447,7 @@ public class NewHomePageController : Photon.MonoBehaviour
 			this.news[i].SetActive(false);
 		}
 		this.deckBoard.transform.FindChild("deckList").FindChild ("Title").GetComponent<TextMeshPro> ().text = "Mes decks";
-		this.deckBoard.transform.FindChild("deckList").FindChild("currentDeck").FindChild("deckName").GetComponent<TextMeshPro> ().text="Aucun deck créé";
+		this.deckBoard.transform.FindChild("deckList").FindChild("currentDeck").FindChild("deckName").GetComponent<TextMeshPro> ().text="Aucune équipe";
 		this.deckList = new List<GameObject> ();
 		this.deckCards=new GameObject[4];
 		for (int i=0;i<4;i++)
@@ -457,7 +457,7 @@ public class NewHomePageController : Photon.MonoBehaviour
 			this.deckCards[i].SetActive(false);
 		}
 		this.collectionButton = GameObject.Find ("CollectionButton");
-		this.collectionButton.transform.FindChild("Title").GetComponent<TextMeshPro> ().text = "Ma collection";
+		this.collectionButton.transform.FindChild("Title").GetComponent<TextMeshPro> ().text = "Cristalopedia";
 		this.cleanCardsButton = GameObject.Find ("CleanCardsButton");
 		this.cleanCardsButton.transform.FindChild("Title").GetComponent<TextMeshPro> ().text = "Vider";
 		if(!ApplicationModel.isAdmin)
@@ -467,8 +467,8 @@ public class NewHomePageController : Photon.MonoBehaviour
 
 		this.focusedCard = GameObject.Find ("FocusedCard");
 		this.focusedCard.AddComponent<NewFocusedCardHomePageController> ();
-		this.deckBoard.transform.FindChild("deckList").FindChild ("Title").GetComponent<TextMeshPro> ().text = "Choisir un deck";
-		this.deckBoard.transform.FindChild("deckList").FindChild("currentDeck").FindChild("deckName").GetComponent<TextMeshPro> ().text="Aucun deck créé";
+		this.deckBoard.transform.FindChild("deckList").FindChild ("Title").GetComponent<TextMeshPro> ().text = "Choisir une équipe";
+		this.deckBoard.transform.FindChild("deckList").FindChild("currentDeck").FindChild("deckName").GetComponent<TextMeshPro> ().text="Aucune équipe créé";
 
 		this.transparentBackground = GameObject.Find ("TransparentBackGround");
 		this.transparentBackground.SetActive (false);
@@ -1117,7 +1117,7 @@ public class NewHomePageController : Photon.MonoBehaviour
 	}
 	public void drawCompetitions()
 	{	
-		this.competitions [0].transform.GetComponent<CompetitionController> ().show ("Amical");
+		this.competitions [0].transform.GetComponent<CompetitionController> ().show ("Entrainement");
 		bool allPicturesLoaded = true;
 		for(int i=0;i<competitions.Length;i++)
 		{
@@ -1144,10 +1144,10 @@ public class NewHomePageController : Photon.MonoBehaviour
 		this.stats.transform.FindChild ("nbWins").FindChild ("Title").GetComponent<TextMeshPro> ().text = "Victoires";
 		this.stats.transform.FindChild ("nbLooses").FindChild ("Value").GetComponent<TextMeshPro> ().text = model.player.TotalNbLooses.ToString ();
 		this.stats.transform.FindChild ("nbLooses").FindChild ("Title").GetComponent<TextMeshPro> ().text = "Défaites";
-		this.stats.transform.FindChild ("ranking").FindChild ("Title").GetComponent<TextMeshPro> ().text = "Classement";
+		this.stats.transform.FindChild ("ranking").FindChild ("Title").GetComponent<TextMeshPro> ().text = "Classement combattant";
 		this.stats.transform.FindChild ("ranking").FindChild ("Value").GetComponent<TextMeshPro> ().text = model.player.Ranking.ToString ();
 		this.stats.transform.FindChild ("ranking").FindChild ("Title2").GetComponent<TextMeshPro> ().text = "("+model.player.RankingPoints.ToString()+" pts)";
-		this.stats.transform.FindChild ("collectionPoints").FindChild ("Title").GetComponent<TextMeshPro> ().text = "Collection";
+		this.stats.transform.FindChild ("collectionPoints").FindChild ("Title").GetComponent<TextMeshPro> ().text = "Classement collectionneur";
 		this.stats.transform.FindChild ("collectionPoints").FindChild ("Value").GetComponent<TextMeshPro> ().text = model.player.Ranking.ToString ();
 		this.stats.transform.FindChild ("collectionPoints").FindChild ("Title2").GetComponent<TextMeshPro> ().text = "("+model.player.CollectionPoints.ToString()+" pts)";
 	}
@@ -1601,11 +1601,11 @@ public class NewHomePageController : Photon.MonoBehaviour
 		{
 			if (countPlayers==1)
 			{
-				this.connectedPlayersTitle.GetComponent<TextMeshPro>().text="1 joueur en ligne";
+				this.connectedPlayersTitle.GetComponent<TextMeshPro>().text="1 colon en ligne";
 			}
 			else
 			{
-				this.connectedPlayersTitle.GetComponent<TextMeshPro>().text=countPlayers+" joueurs en ligne";
+				this.connectedPlayersTitle.GetComponent<TextMeshPro>().text=countPlayers+" colons en ligne";
 			}
 		}
 	}

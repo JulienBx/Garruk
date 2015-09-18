@@ -62,14 +62,14 @@ public class PlayPopUpController : Photon.MonoBehaviour
 	private void initializePopUp()
 	{
 		gameObject.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Choisir un type de match";
-		gameObject.transform.FindChild ("Button0").FindChild ("Title").GetComponent<TextMeshPro> ().text = "Match Amical";
+		gameObject.transform.FindChild ("Button0").FindChild ("Title").GetComponent<TextMeshPro> ().text = "Entrainement";
 		gameObject.transform.FindChild ("quitButton").FindChild ("Title").GetComponent<TextMeshPro> ().text = "Annuler";
 		for(int i=0;i<3;i++)
 		{
 			gameObject.transform.FindChild("Button"+i).GetComponent<PlayPopUpCompetitionButtonController>().setId(i);
 		}
-		gameObject.transform.FindChild("deckList").FindChild("currentDeck").FindChild ("Title").GetComponent<TextMeshPro> ().text = "Deck sélectionné";
-		gameObject.transform.FindChild("deckList").FindChild("currentDeck").FindChild("deckName").GetComponent<TextMeshPro> ().text="Aucun deck créé";
+		gameObject.transform.FindChild("deckList").FindChild("currentDeck").FindChild ("Title").GetComponent<TextMeshPro> ().text = "Equipe sélectionnée";
+		gameObject.transform.FindChild("deckList").FindChild("currentDeck").FindChild("deckName").GetComponent<TextMeshPro> ().text="Aucune équipe";
 		this.deckList=new List<GameObject>();
 	}
 	public void show()

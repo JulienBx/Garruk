@@ -24,7 +24,7 @@ public class NewFocusedCardEditSellPricePopUpView : MonoBehaviour
 			GUILayout.BeginVertical(popUpVM.centralWindowStyle);
 			{
 				GUILayout.FlexibleSpace();
-				GUILayout.Label("Changer le prix de vente de la carte sur le bazar", popUpVM.centralWindowTitleStyle);
+				GUILayout.Label("Changer le prix de vente de l'unité sur le marché", popUpVM.centralWindowTitleStyle);
 				GUILayout.FlexibleSpace();
 				
 				GUILayout.BeginHorizontal();

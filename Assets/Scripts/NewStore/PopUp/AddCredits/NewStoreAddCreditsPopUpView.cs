@@ -24,7 +24,7 @@ public class NewStoreAddCreditsPopUpView : MonoBehaviour
 			GUILayout.BeginVertical(popUpVM.centralWindowStyle);
 			{
 				GUILayout.FlexibleSpace();
-				GUILayout.Label ("Crédits à ajouter :",popUpVM.centralWindowTitleStyle);
+				GUILayout.Label ("Cristaux à ajouter :",popUpVM.centralWindowTitleStyle);
 				GUILayout.FlexibleSpace();
 				GUILayout.BeginHorizontal();
 				{

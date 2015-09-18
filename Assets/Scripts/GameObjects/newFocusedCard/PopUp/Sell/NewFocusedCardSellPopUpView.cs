@@ -24,14 +24,14 @@ public class NewFocusedCardSellPopUpView : MonoBehaviour
 			GUILayout.BeginVertical(popUpVM.centralWindowStyle);
 			{
 				GUILayout.FlexibleSpace();
-				GUILayout.Label("Confirmer la désintégration de la carte (rapporte " + sellPopUpVM.price + " crédits)", 
+				GUILayout.Label("Confirmer le bannissement de l'unité (rapporte " + sellPopUpVM.price + " cristaux)", 
 				                popUpVM.centralWindowTitleStyle);
 				
 				GUILayout.Space(0.02f * popUpVM.centralWindow.height);
 				GUILayout.BeginHorizontal();
 				{
 					GUILayout.Space(0.03f * popUpVM.centralWindow.width);
-					if (GUILayout.Button("Désintégrer", popUpVM.centralWindowButtonStyle))
+					if (GUILayout.Button("Bannir", popUpVM.centralWindowButtonStyle))
 					{
 						gameObject.GetComponent<NewFocusedCardController>().sellCardHandler();
 					}

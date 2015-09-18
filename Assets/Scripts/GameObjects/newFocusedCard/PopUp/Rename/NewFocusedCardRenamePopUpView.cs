@@ -24,7 +24,7 @@ public class NewFocusedCardRenamePopUpView : MonoBehaviour
 			GUILayout.BeginVertical(popUpVM.centralWindowStyle);
 			{
 				GUILayout.FlexibleSpace();
-				GUILayout.Label("Renommer la carte pour " + renamePopUpVM.price + " crédits", popUpVM.centralWindowTitleStyle);
+				GUILayout.Label("Renommer l'unité pour " + renamePopUpVM.price + " cristaux", popUpVM.centralWindowTitleStyle);
 				GUILayout.FlexibleSpace();
 				GUILayout.BeginHorizontal();
 				{
