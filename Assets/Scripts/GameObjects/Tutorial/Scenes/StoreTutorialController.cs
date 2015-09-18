@@ -18,10 +18,10 @@ public class StoreTutorialController : TutorialObjectController
 			if(!isResizing)
 			{
 				this.displayArrow(false);
-				this.displayPopUp(1);
+				this.displayPopUp(2);
 				this.displayNextButton(true);
-				this.setPopUpTitle("Bienvenue dans le magasin");
-				this.setPopUpDescription("Le magasin est l'unique lieu ou il vous est possible d'acquérir de nouvelles cartes. Ces cartes pourront être achété grâce à la monnaie virtuelle du jeu, vous pouvez gagner des crédits en les achetant ou bien en remportant des combats.");
+				this.setPopUpTitle("Bienvenue au centre de recrutement");
+				this.setPopUpDescription("Le centre de recrutement vous permet de recruter de nouveaux Cristaliens. Les unités se présentent spontanément au centre de recrutement et sont uniques!\n\nElles ne peuvent pas etre consultées avant de les recruter, il vous faudra donc recruter beaucoup de crystaliens avant de trouver des perles rares.\n\nMoyennant un prix plus élevé, les responsables du centre pourront sélectionner des candidats selon leur faction, facilitant votre travail de recrutement.");
 				this.displayBackground(true);
 				
 			}
@@ -34,8 +34,8 @@ public class StoreTutorialController : TutorialObjectController
 				this.displayPopUp(0);
 				this.setLeftArrow();
 				this.displayNextButton(false);
-				this.setPopUpTitle("Votre premier pack");
-				this.setPopUpDescription("Grâce aux gains obtenus lors de votre premier match, vous allez pouvoir acheter votre première carte. Cliquez sur le bouton 'Acheter'");
+				this.setPopUpTitle("Première recrue");
+				this.setPopUpDescription("le Cristal obtenu lors de votre combat face à Garruk vous permet de recruter un Cristlien. Cliquez sur le bouton <i>'Recruter'</i>");
 				this.displayBackground(true);
 			}
 			Vector3 packPosition = NewStoreController.instance.getFirstPackPosition();
