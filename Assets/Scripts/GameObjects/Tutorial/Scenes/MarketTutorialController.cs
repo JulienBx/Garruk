@@ -23,7 +23,7 @@ public class MarketTutorialController : TutorialObjectController
 				if(NewMarketController.instance.areSomeCardsDisplayed())
 				{
 					this.setPopUpTitle("Les mercenaires");
-					this.setPopUpDescription("Certains colons souhaitent rompre leur contrat avec leurs crystaliens et les inscrivent en tant que mercenaire sur le marché.\n\nAccessible à tous, ce marché permet de recruter des crystaliens à des prix parfois intéressants, mais aussi de découvrir de nouvelles compétences et de parfaire sa connaissance de Crystalia");
+					this.setPopUpDescription("Certains colons souhaitent rompre leur contrat avec leurs Cristaliens et les inscrivent en tant que mercenaire sur le marché.\n\nAccessible à tous, ce marché permet de recruter des Cristaliens à des prix parfois intéressants, mais aussi de découvrir de nouvelles compétences et de parfaire sa connaissance de Cristalia");
 				}
 				else
 				{
@@ -64,7 +64,7 @@ public class MarketTutorialController : TutorialObjectController
 		case 2:
 			if(!isResizing)
 			{
-				this.displayPopUp(2);
+				this.displayPopUp(1);
 				this.setLeftArrow();
 				this.displayNextButton(true);
 				this.setPopUpTitle("Engager un mercenaire");
@@ -72,7 +72,7 @@ public class MarketTutorialController : TutorialObjectController
 				this.displayBackground(true);
 			}
 			Vector3 cardPosition = NewMarketController.instance.getCardsPosition(0);
-			this.resizeBackground(new Rect(cardPosition.x,cardPosition.y,3f,3f),0f,0f);
+			this.resizeBackground(new Rect(cardPosition.x,cardPosition.y,3f,4f),0f,0f);
 			this.drawLeftArrow();
 			break;
 		case 3:

@@ -21,8 +21,8 @@ public class HomePageTutorialController : TutorialObjectController
 				this.displayArrow(false);
 				this.displayPopUp(2);
 				this.displayNextButton(true);
-				this.setPopUpTitle("Bienvenue sur votre tableau de bord");
-				this.setPopUpDescription("Cet écran d'accueil vous permettra d'accéder rapidement à l'arène, au marché ou à la boutique, ainsi qu'à toutes les informations utiles.\n\nAu centre, vos classements d'explorateur et de combattant vous permettent de mesurer votre progression, et vous pouvez également accéder à droite aux actualités de Crystalia et de ses habitants.");
+				this.setPopUpTitle("Bienvenue sur le tableau de bord");
+				this.setPopUpDescription("Cet écran d'accueil vous permettra d'accéder rapidement aux combats, au marché ou au centre de recrutement, ainsi qu'à toutes les informations utiles.\n\nAu centre, vos classements de combattant et de collectionneur vous permettent de mesurer votre progression, et vous pouvez également accéder à droite aux actualités de Cristalia et de ses habitants.");
 				this.displayBackground(true);
 
 			}
@@ -32,11 +32,11 @@ public class HomePageTutorialController : TutorialObjectController
 		case 1:
 			if(!isResizing)
 			{
-				this.displayPopUp(0);
+				this.displayPopUp(1);
 				this.setLeftArrow();
 				this.displayNextButton(false);
 				this.setPopUpTitle("Recruter des crystaliens");
-				this.setPopUpDescription("4 crystaliens recrutés depuis la Terre vous attendent déjà. Allons les rencontrer et découvrir leur compétences");
+				this.setPopUpDescription("4 Cristaliens recrutés depuis la Terre vous attendent déjà. Allons les rencontrer et découvrir leur compétences.\n\n<b>Cliquez sur le bouton 'Mon armée'</b>");
 				this.displayBackground(true);
 
 			}

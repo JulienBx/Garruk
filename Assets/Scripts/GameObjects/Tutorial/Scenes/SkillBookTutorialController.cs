@@ -18,7 +18,7 @@ public class SkillBookTutorialController : TutorialObjectController
 			if(!isResizing)
 			{
 				this.displayArrow(false);
-				this.displayPopUp(1);
+				this.displayPopUp(2);
 				this.displayNextButton(true);
 				this.setPopUpTitle("Cristalopedia");
 				this.setPopUpDescription("La Cristalopedia rassemble l'ensemble de vos connaissances sur les factions et compétences de Crystalia. Découvrir toutes les compétences et recruter des Cristaliens les possédant vous permettra d'enrichir votre collection.\n\nPlus la compétence que vous possédez est de niveau élevée, plus vous gagnez de points de collection.\n\nIl est dit que le premier colon à acquérir toutes les compétences au niveau 100 sera sacré empereur de Cristalia!");

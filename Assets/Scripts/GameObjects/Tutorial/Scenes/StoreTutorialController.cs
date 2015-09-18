@@ -20,8 +20,8 @@ public class StoreTutorialController : TutorialObjectController
 				this.displayArrow(false);
 				this.displayPopUp(2);
 				this.displayNextButton(true);
-				this.setPopUpTitle("Bienvenue au centre de recrutement");
-				this.setPopUpDescription("Le centre de recrutement vous permet de recruter de nouveaux Cristaliens. Les unités se présentent spontanément au centre de recrutement et sont uniques!\n\nElles ne peuvent pas etre consultées avant de les recruter, il vous faudra donc recruter beaucoup de crystaliens avant de trouver des perles rares.\n\nMoyennant un prix plus élevé, les responsables du centre pourront sélectionner des candidats selon leur faction, facilitant votre travail de recrutement.");
+				this.setPopUpTitle("Centre de recrutement");
+				this.setPopUpDescription("Le centre de recrutement vous permet de recruter de nouveaux Cristaliens. Les unités se présentent spontanément au centre de recrutement et sont uniques!\n\nElles ne peuvent pas etre consultées avant de les recruter, il vous faudra donc recruter beaucoup de Cristaliens avant de trouver des perles rares.\n\nMoyennant un prix plus élevé, les responsables du centre pourront sélectionner des candidats selon leur faction, facilitant votre travail de recrutement.");
 				this.displayBackground(true);
 				
 			}
@@ -35,7 +35,7 @@ public class StoreTutorialController : TutorialObjectController
 				this.setLeftArrow();
 				this.displayNextButton(false);
 				this.setPopUpTitle("Première recrue");
-				this.setPopUpDescription("le Cristal obtenu lors de votre combat face à Garruk vous permet de recruter un Cristlien. Cliquez sur le bouton <i>'Recruter'</i>");
+				this.setPopUpDescription("le Cristal obtenu lors de votre combat face à Garruk vous permet de recruter un Cristalien. <i>Cliquez sur le Cristalien</i>");
 				this.displayBackground(true);
 			}
 			Vector3 packPosition = NewStoreController.instance.getFirstPackPosition();
@@ -57,7 +57,7 @@ public class StoreTutorialController : TutorialObjectController
 				this.displayArrow(false);
 				this.displayNextButton(true);
 				this.setPopUpTitle("Bravo !");
-				this.setPopUpDescription("Vous venez d'acheter votre première carte !");
+				this.setPopUpDescription("Vous venez d'acheter votre première carte ! Selon leur puissance les Cristaliens sont affichés sur un fond argenté (les moins puissants), bleu (puissantes), et rouges (très puissantes)");
 				this.displayBackground(true);
 			}
 			Vector3 focusedCardPosition = NewStoreController.instance.getFocusedCardPosition();
@@ -70,8 +70,8 @@ public class StoreTutorialController : TutorialObjectController
 				this.displayPopUp(0);
 				this.setDownArrow();
 				this.displayNextButton(false);
-				this.setPopUpTitle("Retour au magasin");
-				this.setPopUpDescription("Retournons au magasin");
+				this.setPopUpTitle("Retour");
+				this.setPopUpDescription("Retournons au centre de recrutement");
 				this.displayBackground(true);
 			}
 			Vector3 feature5Position = NewStoreController.instance.getFocusedCardFeaturePosition(5);

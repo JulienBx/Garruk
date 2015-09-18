@@ -51,7 +51,7 @@ public class GameTutorialController : TutorialObjectController
 				this.setLeftArrow();
 				this.displayNextButton(true);
 				this.setPopUpTitle("Focus sur les unités");
-				this.setPopUpDescription("Les compétences et caractéristiques de chaque unité peuvent etre consultées en survolant celle-ci sur le champ de bataille.\n\nKrudi, célèbre artiste crystalien, aime à raconter l'histoire suivante :\n<i>A la tete de mille hommes Grimorak s'élança,\nsans connaitre ses troupes, envoya au combat,\ncent nains unijambistes, et cinq cents cancrelats,\nqui rotirent sous le feu de quelques bazookas.");
+				this.setPopUpDescription("Les compétences et caractéristiques de chaque unité peuvent etre consultées en survolant celle-ci sur le champ de bataille.\n\nKrudi, célèbre artiste Crystalien, aime à raconter l'histoire suivante :\n<i>A la tete de mille hommes Grimorak s'élança,\nsans connaitre ses troupes, envoya au combat,\ncent nains unijambistes, et cinq cents cancrelats,\nqui rotirent sous le feu de quelques bazookas.");
 				this.displayBackground(true);
 			}
 			
@@ -184,7 +184,7 @@ public class GameTutorialController : TutorialObjectController
 				this.setUpArrow();
 				this.displayNextButton(true);
 				this.setPopUpTitle("Le timer");
-				this.setPopUpDescription("Vous disposerez de 20 secondes à chaque tour pour choisir vos actions. Un temps très court...\n\nPour ce premier duel néanmoins, aucune limite de temps ne vous est imposée");
+				this.setPopUpDescription("Vous disposerez de 30 secondes à chaque tour pour choisir vos actions. Un temps très court...\n\nPour ce premier duel néanmoins, aucune limite de temps ne vous est imposée");
 				this.displayBackground(true);
 			}
 			this.gameObjectPosition = GameView.instance.getTimerGoPosition();
@@ -222,7 +222,7 @@ public class GameTutorialController : TutorialObjectController
 		case 14:
 			if(!isResizing)
 			{
-				this.displayPopUp(1);
+				this.displayPopUp(0);
 				this.setDownArrow();
 				this.displayNextButton(true);
 				this.setPopUpTitle("Les points de vie");
@@ -390,7 +390,7 @@ public class GameTutorialController : TutorialObjectController
 				this.displayBackground(true);
 			}
 			this.gameObjectPosition = GameView.instance.getPlayingCardsPosition(3);
-			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2f,2f),0f,0f);
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2f,2f),0.4f,0.4f);
 			this.drawDownArrow();
 			break;
 		case 26:
@@ -425,7 +425,7 @@ public class GameTutorialController : TutorialObjectController
 		case 28:
 			if(!isResizing)
 			{
-				this.displayPopUp(1);
+				this.displayPopUp(0);
 				this.setDownArrow();
 				this.displayNextButton(false);
 				this.setPopUpTitle("Aider un allié");
@@ -461,7 +461,7 @@ public class GameTutorialController : TutorialObjectController
 				this.displayBackground(true);
 			}
 			this.gameObjectPosition = GameView.instance.getPlayingCardsPosition(3);
-			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2f,2f),0f,0f);
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2f,2f),0.4f,0.4f);
 			this.drawDownArrow();
 			break;
 		case 31:
@@ -542,7 +542,7 @@ public class GameTutorialController : TutorialObjectController
 		case 36:
 			if(!isResizing)
 			{
-				this.displayPopUp(1);
+				this.displayPopUp(0);
 				this.setDownArrow();
 				this.displayNextButton(false);
 				this.setPopUpTitle("Renforcement");
@@ -830,14 +830,14 @@ public class GameTutorialController : TutorialObjectController
 			{
 				StartCoroutine(GameController.instance.quitGame()); // A supprimer dès que ATTAQUE 360 fonctionne
 				this.displayArrow(false);
-				this.displayPopUp(2);
+				this.displayPopUp(1);
 				this.displayNextButton(false);
 				this.setPopUpTitle("Fin de combat");
 				this.setPopUpDescription("A chaque fin de combat, vos troupes reçoivent des bonus d'expérience et vous recevez du cristal.\n\nDisputer des combats officiels rapporte plus d'expérience et de cristal!");
 				this.displayBackground(true);
 			}
 			this.resizeBackground(new Rect(0,0,0,0),0f,0f);
-			this.resizePopUp(new Vector3(0,-3.5f,-9.5f));
+			this.resizePopUp(new Vector3(0,-2.5f,-9.5f));
 			break;
 		case 57:
 			if(!isResizing)
@@ -871,6 +871,8 @@ public class GameTutorialController : TutorialObjectController
 			break;
 		case 48 :
 			this.launchSequence(this.sequenceID+3);
+			break;
+		case 25: case 30 :
 			break;
 		case 56:
 			this.displayNextButton(true);

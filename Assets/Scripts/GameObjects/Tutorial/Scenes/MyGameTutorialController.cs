@@ -19,9 +19,9 @@ public class MyGameTutorialController : TutorialObjectController
 			if(!isResizing)
 			{
 				this.displayArrow(false);
-				this.displayPopUp(2);
+				this.displayPopUp(1);
 				this.displayNextButton(true);
-				this.setPopUpTitle("Mes recrues");
+				this.setPopUpTitle("Mon armée");
 				this.setPopUpDescription("Cet espace vous permet d'accéder à l'ensemble de vos recrues et de constituer des équipes pour participer aux combats de Cristalia\n\nLes recrues sont présentées sous forme de cartes résumant leurs caractéristiques et compétences.");
 				this.displayBackground(true);
 			}
@@ -49,7 +49,7 @@ public class MyGameTutorialController : TutorialObjectController
 				this.displayPopUp(2);
 				this.displayNextButton(true);
 				this.setPopUpTitle("Recrues et cartes");
-				this.setPopUpDescription("La carte représente les caractéristiques et compétences de la recrue.\n\nChaque cristalien appartient à une faction, les factions ayant chacune développé des compétences distinctes au contact du Cristal.\n\nRegardons maintenant de plus près les informations affichées sur la carte.");
+				this.setPopUpDescription("La carte représente les caractéristiques et compétences de la recrue.\n\nChaque Cristalien appartient à une faction, les factions ayant chacune développé des compétences distinctes au contact du Cristal.\n\nRegardons maintenant de plus près les informations affichées sur la carte.");
 				this.displayBackground(true);
 			}
 			this.resizeBackground(new Rect(0,0,0,0),0f,0f);
@@ -90,7 +90,7 @@ public class MyGameTutorialController : TutorialObjectController
 				this.displayPopUp(2);
 				this.displayNextButton(true);
 				this.setPopUpTitle("Les points de rapidité");
-				this.setPopUpDescription("La rapidité détermine l'ordre des tours pendant un combat. Un personnage puisant mais lent n'aura peut-etre meme pas le temps d'utiliser ses compétences avant d'etre neutralisé. <i>Une équipe d'unités rapides peut désorganiser meme les équipes les plus fortes</i>, De l'art du Blietzkrieg, Caradec - célèbre militaire Cristalien célèbre.");
+				this.setPopUpDescription("La rapidité détermine l'ordre des tours pendant un combat. Un personnage puissant mais lent n'aura peut-etre meme pas le temps d'utiliser ses compétences avant d'etre neutralisé. <i>Une équipe d'unités rapides peut désorganiser meme les équipes les plus fortes</i>, De l'art du Blietzkrieg, Caradec - célèbre militaire Cristalien célèbre.");
 				this.displayBackground(true);
 				this.setDownArrow();
 			}
@@ -115,10 +115,10 @@ public class MyGameTutorialController : TutorialObjectController
 		case 7:
 			if(!isResizing)
 			{
-				this.displayPopUp(0);
+				this.displayPopUp(1);
 				this.displayNextButton(true);
 				this.setPopUpTitle("Les compétences");
-				this.setPopUpDescription("Les compétences sont les savoirs-faire développés par les habitants de Cristalia pendant leur séjour au centre d'entrainement urbain. Nul ne sait exactement prédire exactement les effets du Cristal sur les habitants, ce qui rend chaque compétence unique et plus ou moins puissante.");
+				this.setPopUpDescription("Les compétences sont les savoirs-faire développés par les habitants de Cristalia pendant leur séjour au centre d'entrainement urbain. Nul ne sait prédire exactement les effets du Cristal sur les habitants, ce qui rend chaque compétence unique et plus ou moins puissante.");
 				this.displayBackground(true);
 				this.setDownArrow();
 			}
@@ -129,7 +129,7 @@ public class MyGameTutorialController : TutorialObjectController
 		case 8:
 			if(!isResizing)
 			{
-				this.displayPopUp(1);
+				this.displayPopUp(2);
 				this.displayNextButton(true);
 				this.setPopUpTitle("L'expérience de la carte");
 				this.setPopUpDescription("Chaque Cristalien engrange de l'expérience au fur et à mesure qu'il combat dans vos équipes. Les points d'expérience permettent de débloquer de nouvelles compétences et d'améliorer les caractéristiques d'une carte.\n\nUne recrue semblant faible peut en fait potentiellement développer des compétences extremement puissantes au fil de sa vie dans vos équipes.");
@@ -143,10 +143,10 @@ public class MyGameTutorialController : TutorialObjectController
 		case 9:
 			if(!isResizing)
 			{
-				this.displayPopUp(2);
+				this.displayPopUp(1);
 				this.displayNextButton(false);
 				this.setPopUpTitle("Centre d'entrainement urbain");
-				this.setPopUpDescription("Vos recrues peuvent etre envoyées au centre d'entrainement urbain pour acquérir de l'expérience plus vite.\n\nCes séjours payants vous permettent d'accélérer le développement de vos unités et de ne pas envoyer la bleusaille au combat\n\n<b>Envoyez votre recrue au centre d'entrainement pour qu'elle acquiert un niveau d'expérience!</b>");
+				this.setPopUpDescription("Vos recrues peuvent etre envoyées au centre d'entrainement urbain pour acquérir de l'expérience plus vite.\nCes séjours payants vous permettent d'accélérer le développement de vos unités et de ne pas envoyer la bleusaille au combat\n\n<b>Envoyez votre recrue au centre d'entrainement pour qu'elle acquiert un niveau d'expérience!</b>");
 				this.displayBackground(true);
 				this.setRightArrow();
 			}
@@ -189,7 +189,7 @@ public class MyGameTutorialController : TutorialObjectController
 				this.displayPopUp(2);
 				this.displayNextButton(false);
 				this.setPopUpTitle("Créer une équipe");
-				this.setPopUpDescription("Vos recrues peuvent etre organisées en plusieurs équipes de 4 Cristaliens. Ces équipes sont constituées en accord avec le code de Guerre de Cristalia créés après la guerre d'indépendance de la planète.\n\nCe réglement stipule que pour éviter les trop nombreux décès (57% des habitants de la planète ont été décimés pendant la guerre), les combats entre colons s'effectueront désormais entre équipes de 4 cristaliens");
+				this.setPopUpDescription("Vos recrues peuvent etre organisées en plusieurs équipes de 4 Cristaliens. Ces équipes sont constituées en accord avec le code de Guerre de Cristalia créé après la guerre d'indépendance de la planète.\n\nCe réglement stipule que pour éviter les trop nombreux décès (57% des habitants de la planète ont été décimés pendant la guerre), les combats entre colons s'effectueront désormais entre équipes de 4 cristaliens");
 				this.displayBackground(true);
 				this.setUpArrow();
 			}
@@ -245,7 +245,7 @@ public class MyGameTutorialController : TutorialObjectController
 			if(!isResizing)
 			{
 				this.displayArrow(false);
-				this.displayPopUp(0);
+				this.displayPopUp(1);
 				this.displayNextButton(true);
 				this.setPopUpTitle("Les filtres");
 				this.setPopUpDescription("Des filtres sur le coté vous permettront de trier vos recrues selon différents critères (caractéristiques, compétences, etc.). Utile pour gérer de puissantes armées! Krigeff, général cristalien disposant à l'époque d'une armée de 1700 recrues, a sombré dans la folie le jour ou il a malencontreusement désinstallé son logiciel de filtrage");
