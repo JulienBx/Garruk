@@ -53,9 +53,6 @@ public class GameView : MonoBehaviour
 	
 	float timerTurn;
 	int timerSeconds ;
-
-	float myLifePercentage = 100 ; 
-	float hisLifePercentage = 100 ;
 	
 	AudioSource audioEndTurn;
 	
@@ -390,55 +387,53 @@ public class GameView : MonoBehaviour
 	}
 	
 	public void selectSkill(int id){
-		this.unSelectSkill();
-		GameObject.Find ("Skill"+id+"Title").GetComponent<TextMeshPro>().color = Color.yellow;
-		GameObject.Find ("Skill"+id+"Description").GetComponent<TextMeshPro>().color = Color.yellow;
+//		this.unSelectSkill();
+//		GameObject.Find ("Skill"+id+"Title").GetComponent<TextMeshPro>().color = Color.yellow;
+//		GameObject.Find ("Skill"+id+"Description").GetComponent<TextMeshPro>().color = Color.yellow;
 	}
 	
 	public void unSelectSkill(){
-		for(int i = 0 ; i < 4 ; i++){
-			GameObject.Find ("Skill"+i+"Title").GetComponent<TextMeshPro>().color = Color.white;
-			GameObject.Find ("Skill"+i+"Description").GetComponent<TextMeshPro>().color = Color.white;
-		}
+//		for(int i = 0 ; i < 4 ; i++){
+//			GameObject.Find ("Skill"+i+"Title").GetComponent<TextMeshPro>().color = Color.white;
+//			GameObject.Find ("Skill"+i+"Description").GetComponent<TextMeshPro>().color = Color.white;
+//		}
 	}
 	
 	public void loadMyHoveredPC(int c){
+		List<Skill> skills = this.playingCards[c].GetComponent<PlayingCardController>().getCard().getSkills();
 		Card card = this.playingCards[c].GetComponent<PlayingCardController>().getCard();
 		GameObject.Find("MyTitle").GetComponent<TextMeshPro>().text = card.Title;
-		GameObject.Find("MyTextMove").GetComponent<TextMeshPro>().text = card.GetMoveString();
-		GameObject.Find("MyTextLife").GetComponent<TextMeshPro>().text = card.GetLifeString();
-		GameObject.Find("MyTextAttack").GetComponent<TextMeshPro>().text = card.GetAttackString();
+		GameObject.Find("MySpecialite").GetComponent<TextMeshPro>().text = skills[0].Name;
+		GameObject.Find("MySpecialiteDescription").GetComponent<TextMeshPro>().text = skills[0].Description;
 	
 		this.myHoveredRPC.GetComponent<SpriteRenderer>().sprite = this.sprites[card.ArtIndex];
 		
-		List<Skill> skills = this.playingCards[c].GetComponent<PlayingCardController>().getCard().getSkills();
-		for (int i = 0 ; i < skills.Count ; i++){
-			GameObject.Find("MySkill"+i+"Title").GetComponent<TextMeshPro>().text = skills[i].Name;
-			GameObject.Find(("MySkill"+i+"Description")).GetComponent<TextMeshPro>().text = skills[i].Description;
+		for (int i = 1 ; i < skills.Count ; i++){
+			GameObject.Find("MySkill"+(i-1)+"Title").GetComponent<TextMeshPro>().text = skills[i].Name;
+			GameObject.Find(("MySkill"+(i-1)+"Description")).GetComponent<TextMeshPro>().text = skills[i].Description;
 		}
 		for (int i = skills.Count ; i < 4 ; i++){
-			GameObject.Find("MySkill"+i+"Title").GetComponent<TextMeshPro>().text = "";
-			GameObject.Find(("MySkill"+i+"Description")).GetComponent<TextMeshPro>().text = "";
+			GameObject.Find("MySkill"+(i-1)+"Title").GetComponent<TextMeshPro>().text = "";
+			GameObject.Find(("MySkill"+(i-1)+"Description")).GetComponent<TextMeshPro>().text = "";
 		}
 	}
 	
 	public void loadHisHoveredPC(int c){
 		Card card = this.playingCards[c].GetComponent<PlayingCardController>().getCard();
+		List<Skill> skills = this.playingCards[c].GetComponent<PlayingCardController>().getCard().getSkills();
 		GameObject.Find("Title").GetComponent<TextMeshPro>().text = card.Title;
-		GameObject.Find("TextMove").GetComponent<TextMeshPro>().text = card.GetMoveString();
-		GameObject.Find("TextLife").GetComponent<TextMeshPro>().text = card.GetLifeString();
-		GameObject.Find("TextAttack").GetComponent<TextMeshPro>().text = card.GetAttackString();
+		GameObject.Find("HisSpecialite").GetComponent<TextMeshPro>().text = skills[0].Name;
+		GameObject.Find("HisSpecialiteDescription").GetComponent<TextMeshPro>().text = skills[0].Description;
 		
 		this.hisHoveredRPC.GetComponent<SpriteRenderer>().sprite = this.sprites[card.ArtIndex];
 		
-		List<Skill> skills = this.playingCards[c].GetComponent<PlayingCardController>().getCard().getSkills();
-		for (int i = 0 ; i < skills.Count ; i++){
-			GameObject.Find("Skill"+i+"Title").GetComponent<TextMeshPro>().text = skills[i].Name;
-			GameObject.Find(("Skill"+i+"Description")).GetComponent<TextMeshPro>().text = skills[i].Description;
+		for (int i = 1 ; i < skills.Count ; i++){
+			GameObject.Find("Skill"+(i-1)+"Title").GetComponent<TextMeshPro>().text = skills[i].Name;
+			GameObject.Find(("Skill"+(i-1)+"Description")).GetComponent<TextMeshPro>().text = skills[i].Description;
 		}
 		for (int i = skills.Count ; i < 4 ; i++){
-			GameObject.Find("Skill"+i+"Title").GetComponent<TextMeshPro>().text = "";
-			GameObject.Find(("Skill"+i+"Description")).GetComponent<TextMeshPro>().text = "";
+			GameObject.Find("Skill"+(i-1)+"Title").GetComponent<TextMeshPro>().text = "";
+			GameObject.Find(("Skill"+(i-1)+"Description")).GetComponent<TextMeshPro>().text = "";
 		}
 	}
 	
@@ -744,6 +739,47 @@ public class GameView : MonoBehaviour
 		}
 	}
 	
+	public void updateMyLifeBar(){
+		GameObject llbr = GameObject.Find("LLBRight");
+		llbr.transform.position = new Vector3(-1.2f, 4.5f, 0);
+		
+		GameObject leb = GameObject.Find("LLBRightEnd");
+		leb.transform.position = new Vector3(-1.2f, 4.5f, 0);
+		
+		GameObject llbl = GameObject.Find("LLBLeft");
+		llbl.transform.position = new Vector3(-this.realwidth/2f+0.25f, 4.5f, 0);
+		
+		GameObject lcb = GameObject.Find("LLBLeftEnd");
+		lcb.transform.position = new Vector3(llbr.transform.position.x-0.5f+(this.getPercentageLifeMyPlayer())*(-llbr.transform.position.x+0.5f+(llbl.transform.position.x+0.1f))/100, 4.5f, 0);
+		
+		GameObject llbb = GameObject.Find("LLBBar");
+		llbb.transform.position = new Vector3((leb.transform.position.x+lcb.transform.position.x)/2f, 4.5f, 0);
+		llbb.transform.localScale = new Vector3((leb.transform.position.x-lcb.transform.position.x-0.49f)/10f, 0.5f, 0.5f);
+	}
+	
+	public void updateHisLifeBar(){
+		GameObject rlbl = GameObject.Find("RLBLeft");
+		rlbl.transform.position = new Vector3(1.2f, 4.5f, 0);
+		
+		GameObject rlbr = GameObject.Find("RLBRight");
+		rlbr.transform.position = new Vector3(this.realwidth/2f-0.25f, 4.5f, 0);
+		
+		GameObject rlbc = GameObject.Find("RLBCenter");
+		rlbc.transform.position = new Vector3((rlbl.transform.position.x+rlbr.transform.position.x)/2f, 4.5f, 0);
+		rlbc.transform.localScale = new Vector3((-rlbl.transform.position.x+rlbr.transform.position.x-0.49f)/10f, 0.5f, 0.5f);
+		
+		GameObject reb = GameObject.Find("RLBRightEnd");
+		reb.transform.position = new Vector3(rlbl.transform.position.x+0.5f+(this.getPercentageLifeHisPlayer())*(-rlbl.transform.position.x-0.5f+(rlbr.transform.position.x-0.1f))/100, 4.5f, 0);
+		
+		GameObject rcb = GameObject.Find("RLBLeftEnd");
+		rcb.transform.position = new Vector3(1.20f, 4.5f, 0);
+		
+		GameObject rlbb = GameObject.Find("RLBBar");
+		rlbb.transform.position = new Vector3((reb.transform.position.x+rcb.transform.position.x)/2f, 4.5f, 0);
+		rlbb.transform.localScale = new Vector3((reb.transform.position.x-rcb.transform.position.x-0.49f)/10f, 0.5f, 0.5f);	
+	}
+	
+	
 	public void resizeBackground()
 	{		
 		Vector3 position;
@@ -790,7 +826,7 @@ public class GameView : MonoBehaviour
 		leb.transform.position = new Vector3(-1.2f, 4.5f, 0);
 		
 		GameObject lcb = GameObject.Find("LLBLeftEnd");
-		lcb.transform.position = new Vector3(llbr.transform.position.x-0.5f+this.myLifePercentage*(-llbr.transform.position.x+0.5f+(llbl.transform.position.x+0.1f))/100, 4.5f, 0);
+		lcb.transform.position = new Vector3(llbr.transform.position.x-0.5f+100f*(-llbr.transform.position.x+0.5f+(llbl.transform.position.x+0.1f))/100, 4.5f, 0);
 		
 		GameObject llbb = GameObject.Find("LLBBar");
 		llbb.transform.position = new Vector3((leb.transform.position.x+lcb.transform.position.x)/2f, 4.5f, 0);
@@ -807,7 +843,7 @@ public class GameView : MonoBehaviour
 		rlbc.transform.localScale = new Vector3((-rlbl.transform.position.x+rlbr.transform.position.x-0.49f)/10f, 0.5f, 0.5f);
 		
 		GameObject reb = GameObject.Find("RLBRightEnd");
-		reb.transform.position = new Vector3(rlbl.transform.position.x+0.5f+this.hisLifePercentage*(-rlbl.transform.position.x-0.5f+(rlbr.transform.position.x-0.1f))/100, 4.5f, 0);
+		reb.transform.position = new Vector3(rlbl.transform.position.x+0.5f+100f*(-rlbl.transform.position.x-0.5f+(rlbr.transform.position.x-0.1f))/100, 4.5f, 0);
 		
 		GameObject rcb = GameObject.Find("RLBLeftEnd");
 		rcb.transform.position = new Vector3(1.20f, 4.5f, 0);
@@ -826,36 +862,18 @@ public class GameView : MonoBehaviour
 		position = tempGO.transform.localPosition ;
 		position.x = (realwidth/2f)-8.25f-(realwidth/2f-4.25f)/2f;
 		tempGO.transform.localPosition = position;
-		tempGO.GetComponent<TextContainer>().width = (realwidth/2f-4.25f) ;
+		tempGO.GetComponent<TextContainer>().width = (realwidth/2f-4.25f) ;	
 		
-		tempGO = GameObject.Find("IconMove");
+		tempGO = GameObject.Find("HisSpecialite");
 		position = tempGO.transform.localPosition ;
-		position.x = (realwidth/2f)-8.45f-0.80f*(realwidth/2f-3.75f);
+		position.x = (realwidth/2f)-8.25f-0.76f*(realwidth/2f-3.75f);
+		tempGO.GetComponent<TextContainer>().width = (realwidth/2f-3.75f)*(4f/10f) ;
 		tempGO.transform.localPosition = position;
 		
-		tempGO = GameObject.Find("IconLife");
+		tempGO = GameObject.Find("HisSpecialiteDescription");
 		position = tempGO.transform.localPosition ;
-		position.x = (realwidth/2f)-8.45f-0.5f*(realwidth/2f-3.75f);
-		tempGO.transform.localPosition = position;
-		
-		tempGO = GameObject.Find("IconAttack");
-		position = tempGO.transform.localPosition ;
-		position.x = (realwidth/2f)-8.45f-0.20f*(realwidth/2f-3.75f);
-		tempGO.transform.localPosition = position;
-		
-		tempGO = GameObject.Find("TextMove");
-		position = tempGO.transform.localPosition ;
-		position.x = (realwidth/2f)-8.25f-0.80f*(realwidth/2f-3.75f);
-		tempGO.transform.localPosition = position;
-		
-		tempGO = GameObject.Find("TextLife");
-		position = tempGO.transform.localPosition ;
-		position.x = (realwidth/2f)-8.25f-0.5f*(realwidth/2f-3.75f);
-		tempGO.transform.localPosition = position;
-		
-		tempGO = GameObject.Find("TextAttack");
-		position = tempGO.transform.localPosition ;
-		position.x = (realwidth/2f)-8.25f-0.20f*(realwidth/2f-3.75f);
+		position.x = (realwidth/2f)-8.25f-0.28f*(realwidth/2f-3.75f);
+		tempGO.GetComponent<TextContainer>().width = (realwidth/2f-3.75f)*(6f/10f) ;
 		tempGO.transform.localPosition = position;
 		
 		tempGO = GameObject.Find("Skill0Title");
@@ -870,10 +888,6 @@ public class GameView : MonoBehaviour
 		tempGO.GetComponent<TextContainer>().width = (realwidth/2f-4.05f) ;
 		tempGO = GameObject.Find("Skill2Description");
 		tempGO.GetComponent<TextContainer>().width = (realwidth/2f-4.15f) ;
-		tempGO = GameObject.Find("Skill3Title");
-		tempGO.GetComponent<TextContainer>().width = (realwidth/2f-4.25f) ;
-		tempGO = GameObject.Find("Skill3Description");
-		tempGO.GetComponent<TextContainer>().width = (realwidth/2f-4.35f) ;
 		
 		tempGO = GameObject.Find("MyTitle");
 		position = tempGO.transform.localPosition ;
@@ -881,35 +895,18 @@ public class GameView : MonoBehaviour
 		tempGO.transform.localPosition = position;
 		tempGO.GetComponent<TextContainer>().width = (realwidth/2f-4.25f) ;
 		
-		tempGO = GameObject.Find("MyIconMove");
+		tempGO = GameObject.Find("MySpecialite");
 		position = tempGO.transform.localPosition ;
-		position.x = (realwidth/2f)-8.05f-0.80f*(realwidth/2f-3.75f);
+		position.x = (realwidth/2f)-8.05f-0.24f*(realwidth/2f-3.75f);
+		tempGO.GetComponent<TextContainer>().width = (realwidth/2f-3.75f)*(4f/10f) ;
 		tempGO.transform.localPosition = position;
 		
-		tempGO = GameObject.Find("MyIconLife");
+		tempGO = GameObject.Find("MySpecialiteDescription");
 		position = tempGO.transform.localPosition ;
-		position.x = (realwidth/2f)-8.05f-0.5f*(realwidth/2f-3.75f);
+		position.x = (realwidth/2f)-8.05f-0.72f*(realwidth/2f-3.75f);
+		tempGO.GetComponent<TextContainer>().width = (realwidth/2f-3.75f)*(6f/10f) ;
 		tempGO.transform.localPosition = position;
 		
-		tempGO = GameObject.Find("MyIconAttack");
-		position = tempGO.transform.localPosition ;
-		position.x = (realwidth/2f)-8.05f-0.20f*(realwidth/2f-3.75f);
-		tempGO.transform.localPosition = position;
-		
-		tempGO = GameObject.Find("MyTextMove");
-		position = tempGO.transform.localPosition ;
-		position.x = (realwidth/2f)-8.25f-0.80f*(realwidth/2f-3.75f);
-		tempGO.transform.localPosition = position;
-		
-		tempGO = GameObject.Find("MyTextLife");
-		position = tempGO.transform.localPosition ;
-		position.x = (realwidth/2f)-8.25f-0.5f*(realwidth/2f-3.75f);
-		tempGO.transform.localPosition = position;
-		
-		tempGO = GameObject.Find("MyTextAttack");
-		position = tempGO.transform.localPosition ;
-		position.x = (realwidth/2f)-8.25f-0.20f*(realwidth/2f-3.75f);
-		tempGO.transform.localPosition = position;
 		
 		tempGO = GameObject.Find("MySkill0Title");
 		tempGO.GetComponent<TextContainer>().width = (realwidth/2f-3.65f) ;
@@ -923,19 +920,6 @@ public class GameView : MonoBehaviour
 		tempGO.GetComponent<TextContainer>().width = (realwidth/2f-4.05f) ;
 		tempGO = GameObject.Find("MySkill2Description");
 		tempGO.GetComponent<TextContainer>().width = (realwidth/2f-4.15f) ;
-		tempGO = GameObject.Find("MySkill3Title");
-		tempGO.GetComponent<TextContainer>().width = (realwidth/2f-4.25f) ;
-		tempGO = GameObject.Find("MySkill3Description");
-		tempGO.GetComponent<TextContainer>().width = (realwidth/2f-4.35f) ;
-		
-//		if (EndSceneController.instance != null)
-//		{
-//			EndSceneController.instance.resize();
-//		}
-		//if (GameController.instance.isTutorialLaunched)
-		//{
-		//	this.tutorial.GetComponent<GameTutorialController>().resize();
-		//}
 	}
 	
 	public void hideMyHoveredPC(){
@@ -2188,6 +2172,35 @@ public class GameView : MonoBehaviour
 		
 		return idEnnemyToAttack;
 	}
+	
+	public float getPercentageLifeMyPlayer(){
+		float life = 0; 
+		float totalLife = 0;
+		for(int i = 0 ; i < this.playingCards.Count ; i++){
+			if(this.getIsMine(i)){
+				totalLife += this.getCard(i).GetTotalLife();
+				if(!this.isDead(i)){
+					life += this.getCard(i).GetLife();
+				}
+			}
+		}
+		return (100f*(life/totalLife));
+	}
+	
+	public float getPercentageLifeHisPlayer(){
+		float life = 0; 
+		float totalLife = 0;
+		for(int i = 0 ; i < this.playingCards.Count ; i++){
+			if(!this.getIsMine(i)){
+				totalLife += this.getCard(i).GetTotalLife();
+				if(!this.isDead(i)){
+					life += this.getCard(i).GetLife();
+				}
+			}
+		}
+		return (100f*(life/totalLife));
+	}
+	
 }
 
 

@@ -20,6 +20,7 @@ public class IconController : GameObjectController
 		{
 			renderers [i].GetComponent<Renderer>().enabled = false;
 		}
+		gameObject.GetComponent<BoxCollider>().enabled=false;
 	}
 	
 	public void setInformation(string t, string d, string i){
@@ -27,11 +28,11 @@ public class IconController : GameObjectController
 		this.description = d ; 
 		this.additionnalInfo = i ; 
 		this.isActive = true ;
-		
-		
+		gameObject.GetComponent<BoxCollider>().enabled=true;
 	}
 	
 	public void resetInformation(){
+		gameObject.GetComponent<BoxCollider>().enabled=false;
 		this.isActive = false ;
 	}
 	
@@ -44,6 +45,16 @@ public class IconController : GameObjectController
 				this.isHovered = true ;
 			}
 		}
+	}
+	
+	public void OnMouseDown(){
+//		if(!this.isActive){
+//			GameController.instance.clickPlayingCard(this.id, this.tile);
+//			if(GameView.instance.getIsTutorialLaunched())
+//			{
+//				TutorialObjectController.instance.actionIsDone();
+//			}
+//		}
 	}
 	
 	public void OnMouseExit(){

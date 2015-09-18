@@ -20,8 +20,8 @@ public class SkillBookTutorialController : TutorialObjectController
 				this.displayArrow(false);
 				this.displayPopUp(1);
 				this.displayNextButton(true);
-				this.setPopUpTitle("L'encyclopédie");
-				this.setPopUpDescription("L'encyclopédie est là pour vous donner une indication sur votre niveau de collection des compétences. Vous atteindrez le niveau ultime lorsque vous posséderez la totalité des compétences à leur niveau maximum, c'est à dire 100. Dans ce livre vous trouverez également pour chaque classe la totalité des compétences, y compris celle que vous ne possédez pas. Bonne lecture !");
+				this.setPopUpTitle("Cristalopedia");
+				this.setPopUpDescription("La Cristalopedia rassemble l'ensemble de vos connaissances sur les factions et compétences de Crystalia. Découvrir toutes les compétences et recruter des Cristaliens les possédant vous permettra d'enrichir votre collection.\n\nPlus la compétence que vous possédez est de niveau élevée, plus vous gagnez de points de collection.\n\nIl est dit que le premier colon à acquérir toutes les compétences au niveau 100 sera sacré empereur de Cristalia!");
 				this.displayBackground(true);
 			}
 			this.resizeBackground(new Rect(0,0,0,0),0f,0f);

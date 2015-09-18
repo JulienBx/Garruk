@@ -276,7 +276,7 @@ public class MyGameTutorialController : TutorialObjectController
 				this.displayPopUp(0);
 				this.displayNextButton(false);
 				this.setPopUpTitle("Entrainement");
-				this.setPopUpDescription("Entrainement ");
+				this.setPopUpDescription("Commençons par un combat d'entrainement. Les combats officiels rapportent plus de Cristal et d'expérience mais sont également plus difficiles ");
 				this.displayBackground(true);
 				this.setUpArrow();
 			}

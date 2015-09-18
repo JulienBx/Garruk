@@ -489,6 +489,11 @@ public class GameController : Photon.MonoBehaviour
 		}
 		
 		this.nbPlayers++;
+		if(this.nbPlayers==2){
+			if(this.isFirstPlayer==true){
+				PhotonNetwork.room.open = false;
+			}
+		}
 	}
 
 	[RPC]
@@ -1207,6 +1212,8 @@ public class GameController : Photon.MonoBehaviour
 			{
 				GameView.instance.kill(target);
 			}
+			GameView.instance.updateMyLifeBar();
+			GameView.instance.updateHisLifeBar();
 		}
 	}
 	

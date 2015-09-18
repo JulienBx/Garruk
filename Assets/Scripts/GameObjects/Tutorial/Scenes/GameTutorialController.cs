@@ -194,11 +194,11 @@ public class GameTutorialController : TutorialObjectController
 		case 12:
 			if(!isResizing)
 			{
-				this.displayPopUp(2);
+				this.displayPopUp(1);
 				this.setDownArrow();
 				this.displayNextButton(true);
 				this.setPopUpTitle("Ordre de jeu");
-				this.setPopUpDescription("Les unités jouent les unes après les autres, l'ordre étant déterminé par la caractéristique de rapidité de la carte.\n\nUne caractéristique plus importante qu'il n'y parait puisqu'une carte très puissante mais lente pourra etre neutralisée avant meme d'avoir pu jouer!\n\nL'unité dont c'est le tour clignote, il s'agit de votre prédateur!");
+				this.setPopUpDescription("Les unités jouent les unes après les autres, l'ordre étant déterminé par la caractéristique de rapidité de la carte.\n\nUne carte très puissante mais lente pourra etre neutralisée avant meme d'avoir pu jouer!\n\nL'unité dont c'est le tour clignote, il s'agit de votre prédateur!");
 				this.displayBackground(true);
 			}
 			this.gameObjectPosition = GameView.instance.getPlayingCardsPosition(2);
@@ -222,7 +222,7 @@ public class GameTutorialController : TutorialObjectController
 		case 14:
 			if(!isResizing)
 			{
-				this.displayPopUp(0);
+				this.displayPopUp(1);
 				this.setDownArrow();
 				this.displayNextButton(true);
 				this.setPopUpTitle("Les points de vie");
@@ -236,7 +236,7 @@ public class GameTutorialController : TutorialObjectController
 		case 15:
 			if(!isResizing)
 			{
-				this.displayPopUp(2);
+				this.displayPopUp(1);
 				this.setDownArrow();
 				this.displayNextButton(true);
 				this.setPopUpTitle("Les points d'attaque");
@@ -277,7 +277,7 @@ public class GameTutorialController : TutorialObjectController
 		case 18:
 			if(!isResizing)
 			{
-				this.displayPopUp(1);
+				this.displayPopUp(0);
 				this.setUpArrow();
 				this.displayNextButton(false);
 				this.setPopUpTitle("Tour du prédateur");
@@ -335,12 +335,12 @@ public class GameTutorialController : TutorialObjectController
 			if(!isResizing)
 			{
 				GameSkills.instance.getSkill(0).init(GameView.instance.getCard(4),GameView.instance.getCard(4).GetAttackSkill());
-				GameSkills.instance.getSkill(0).applyOn(2);
+				GameSkills.instance.getSkill(0).applyOn(2,0);
 				this.displayPopUp(0);
 				this.setUpArrow();
 				this.displayNextButton(true);
 				this.setPopUpTitle("Escarmouche");
-				this.setPopUpDescription("Nous sommes attaqués par le prédateur de Garruk !\n\nPas de panique, notre personnage est résistant. Et Garruk risque de regretter son attaque au prochain tour...");
+				this.setPopUpDescription("Nous sommes attaqués par le prédateur de Garruk !\n\nPas de panique... Garruk risque de regretter son attaque!");
 				this.displayBackground(true);
 			}
 			this.gameObjectPosition = GameView.instance.getPlayingCardsPosition(2);
@@ -355,7 +355,7 @@ public class GameTutorialController : TutorialObjectController
 				this.setUpArrow();
 				this.displayNextButton(true);
 				this.setPopUpTitle("Encore le tour de Garruk");
-				this.setPopUpDescription("Un meme joueur peut jouer deux tours d'affilée selon l'odre des unités. D'ou l'importance de bien vérifier l'odre des tours en début de combat !");
+				this.setPopUpDescription("Un meme joueur peut jouer deux tours d'affilée selon l'ordre des unités. D'ou l'importance de bien vérifier l'ordre des tours en début de combat !");
 				this.displayBackground(true);
 			}
 			this.gameObjectPosition = GameView.instance.getPlayingCardsPosition(7);
@@ -366,11 +366,11 @@ public class GameTutorialController : TutorialObjectController
 			if(!isResizing)
 			{
 				StartCoroutine(GameController.instance.moveCharacterRPC(5,4,7));
-				this.displayPopUp(1);
+				this.displayPopUp(0);
 				this.setUpArrow();
 				this.displayNextButton(true);
 				this.setPopUpTitle("Déplacement");
-				this.setPopUpDescription("le drogueur dispose d'un déplacement limité par rapport au prédateur et ne peut donc pas venir nous attaquer.\n\n Les drogueurs disposent en revanche de plusieurs compétences permettant de gener nos unités...");
+				this.setPopUpDescription("le drogueur dispose d'un déplacement limité par rapport au prédateur et ne peut donc pas venir nous attaquer.");
 				this.displayBackground(true);
 			}
 			this.gameObjectPosition = GameView.instance.getTilesPosition(5,4);
@@ -382,10 +382,10 @@ public class GameTutorialController : TutorialObjectController
 			{
 				GameSkills.instance.getSkill(59).init(GameView.instance.getCard(7),GameView.instance.getCard(7).getSkills()[1]);
 				GameSkills.instance.getSkill(59).applyOn(3,5,0);
-				this.displayPopUp(0);
+				this.displayPopUp(1);
 				this.setDownArrow();
 				this.displayNextButton(true);
-				this.setPopUpTitle("Attaque");
+				this.setPopUpTitle("Sénilité");
 				this.setPopUpDescription("Le drogueur a utilisé sa compétence <i>Sénilité</i> pour affaiblir notre prédateur en diminuant sa compétence d'attaque.\n\n Une icone sur la carte de l'unité touchée permet de voir l'effet de la compétence et sa durée");
 				this.displayBackground(true);
 			}
@@ -453,7 +453,7 @@ public class GameTutorialController : TutorialObjectController
 		case 30:
 			if(!isResizing)
 			{
-				this.displayPopUp(2);
+				this.displayPopUp(1);
 				this.setDownArrow();
 				this.displayNextButton(true);
 				this.setPopUpTitle("Stéroides");
@@ -487,7 +487,7 @@ public class GameTutorialController : TutorialObjectController
 				this.setUpArrow();
 				this.displayNextButton(true);
 				this.setPopUpTitle("Un allié en danger");
-				this.setPopUpDescription("L'unité se déplace vers votre prédateur, Garruk choisit de concentrer ses attaques sur votre unité blessée.\n\nEtre le premier à anéantir une unité ennemie permet souvent de prendre un avantage décisif dans un conflit!");
+				this.setPopUpDescription("L'unité se déplace vers votre prédateur, Garruk choisit de concentrer ses attaques sur votre unité blessée.");
 				this.displayBackground(true);
 			}
 			this.gameObjectPosition = GameView.instance.getTilesPosition(4,4);
@@ -498,7 +498,7 @@ public class GameTutorialController : TutorialObjectController
 			if(!isResizing)
 			{
 				GameSkills.instance.getSkill(0).init(GameView.instance.getCard(6),GameView.instance.getCard(6).GetAttackSkill());
-				GameSkills.instance.getSkill(0).applyOn(2);
+				GameSkills.instance.getSkill(0).applyOn(2,0);
 				this.displayPopUp(0);
 				this.setUpArrow();
 				this.displayNextButton(true);
@@ -546,7 +546,7 @@ public class GameTutorialController : TutorialObjectController
 				this.setDownArrow();
 				this.displayNextButton(false);
 				this.setPopUpTitle("Renforcement");
-				this.setPopUpDescription("Cette compétence va nous permettre de booster notre prédateur en vue de son tour qui arrive très rapidement");
+				this.setPopUpDescription("Cette compétence va nous permettre de protéger notre prédateur en lui ajoutant un bouclier");
 				this.displayBackground(true);
 			}
 			this.gameObjectPosition = GameView.instance.getSkillButtonPosition(0); 
@@ -560,7 +560,7 @@ public class GameTutorialController : TutorialObjectController
 				this.setUpArrow();
 				this.displayNextButton(false);
 				this.setPopUpTitle("Cibler un allié");
-				this.setPopUpDescription("Ciblez le prédateur pour augmenter sa compétence d'attaque!");
+				this.setPopUpDescription("Ciblez le prédateur pour augmenter sa défense!");
 				this.displayBackground(true);
 			}
 			this.gameObjectPosition = GameView.instance.getPlayingCardsPosition(2);
@@ -570,11 +570,11 @@ public class GameTutorialController : TutorialObjectController
 		case 38:
 			if(!isResizing)
 			{
-				this.displayPopUp(1);
+				this.displayPopUp(0);
 				this.setUpArrow();
 				this.displayNextButton(true);
-				this.setPopUpTitle("Renforcement");
-				this.setPopUpDescription("La compétence d'attaque du prédateur est augmentée.\n\nIl est maintenant pret à riposter et balayer les prédateurs de Garruk!");
+				this.setPopUpTitle("Renfoderme");
+				this.setPopUpDescription("La défense du prédateur est augmentée.\nIl est maintenant pret à riposter et balayer les prédateurs de Garruk!");
 				this.displayBackground(true);
 			}
 			this.gameObjectPosition = GameView.instance.getPlayingCardsPosition(2);
@@ -615,11 +615,11 @@ public class GameTutorialController : TutorialObjectController
 			{
 				GameSkills.instance.getSkill(65).init(GameView.instance.getCard(5),GameView.instance.getCard(5).getSkills()[1]);
 				GameSkills.instance.getSkill(65).applyOn(0,12,0);
-				this.displayPopUp(2);
+				this.displayPopUp(0);
 				this.setDownArrow();
 				this.displayNextButton(true);
 				this.setPopUpTitle("Attaque");
-				this.setPopUpDescription("Le prédateur utilise <i>Massue</i> sur notre unité.\n\nCette compétence fait partie des nombreuses compétences dont la puissance dépend directement du niveau d'attaque de l'unité");
+				this.setPopUpDescription("Le prédateur utilise <i>Massue</i> sur notre unité.\nCette compétence dépend directement du niveau d'attaque de l'unité");
 				this.displayBackground(true);
 			}
 			this.gameObjectPosition = GameView.instance.getPlayingCardsPosition(0);
@@ -686,7 +686,7 @@ public class GameTutorialController : TutorialObjectController
 		case 46:
 			if(!isResizing)
 			{
-				this.displayPopUp(1);
+				this.displayPopUp(0);
 				this.setUpArrow();
 				this.displayNextButton(true);
 				this.setPopUpTitle("Résultat");
@@ -701,7 +701,7 @@ public class GameTutorialController : TutorialObjectController
 			if(!isResizing)
 			{
 				//GameController.instance.resolvePass();
-				this.displayPopUp(1);
+				this.displayPopUp(0);
 				this.setUpArrow();
 				this.displayNextButton(true);
 				this.setPopUpTitle("Enfoncer le clou");
@@ -715,7 +715,7 @@ public class GameTutorialController : TutorialObjectController
 		case 48:
 			if(!isResizing)
 			{
-				this.displayPopUp(2);
+				this.displayPopUp(1);
 				this.setDownArrow();
 				this.displayNextButton(false);
 				this.setPopUpTitle("Attaque 360");
@@ -726,43 +726,43 @@ public class GameTutorialController : TutorialObjectController
 			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2f,2f),0.4f,0.4f);
 			this.drawDownArrow();
 			break;
-		case 49:
+//		case 49:
 			// a supprimer, pas de ciblage
-			if(!isResizing)
-			{
-				this.displayPopUp(1);
-				this.setUpArrow();
-				this.displayNextButton(false);
-				this.setPopUpTitle("Passer son tour");
-				this.setPopUpDescription("Terminez votre tour sans vous déplacer. La fin du combat est proche!");
-				this.displayBackground(true);
-			}
-			this.gameObjectPosition = GameView.instance.getPlayingCardsPosition(4);
-			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2f,2f),0.4f,0.4f);
-			this.drawUpArrow();
-			break;
-		case 50:
-			if(!isResizing)
-			{
-				this.displayPopUp(0);
-				this.setUpArrow();
-				this.displayNextButton(true);
-				this.setPopUpTitle("Lancer attaque bersek");
-				this.setPopUpDescription("Explication des effets");
-				this.displayBackground(true);
-			}
-			this.gameObjectPosition = GameView.instance.getPlayingCardsPosition(2);
-			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,6f,2f),0f,0f);
-			this.drawUpArrow();
-			break;
+//			if(!isResizing)
+//			{
+//				this.displayPopUp(0);
+//				this.setUpArrow();
+//				this.displayNextButton(false);
+//				this.setPopUpTitle("Passer son tour");
+//				this.setPopUpDescription("Terminez votre tour sans vous déplacer. La fin du combat est proche!");
+//				this.displayBackground(true);
+//			}
+//			this.gameObjectPosition = GameView.instance.getPlayingCardsPosition(4);
+//			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2f,2f),0.4f,0.4f);
+//			this.drawUpArrow();
+//			break;
+//		case 50:
+//			if(!isResizing)
+//			{
+//				this.displayPopUp(0);
+//				this.setUpArrow();
+//				this.displayNextButton(true);
+//				this.setPopUpTitle("Lancer attaque bersek");
+//				this.setPopUpDescription("Explication des effets");
+//				this.displayBackground(true);
+//			}
+//			this.gameObjectPosition = GameView.instance.getPlayingCardsPosition(2);
+//			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,6f,2f),0f,0f);
+//			this.drawUpArrow();
+//			break;
 		case 51:
 			if(!isResizing)
 			{
 				this.displayPopUp(0);
 				this.setDownArrow();
 				this.displayNextButton(false);
-				this.setPopUpTitle("Mouvement");
-				this.setPopUpDescription("Déplacement de la carte 2");
+				this.setPopUpTitle("Se déplacer");
+				this.setPopUpDescription("Déplacez votre prédateur près du dernier ennemi restant");
 				this.displayBackground(true);
 			}
 			this.gameObjectPosition = GameView.instance.getTilesPosition(2,4);
@@ -775,8 +775,8 @@ public class GameTutorialController : TutorialObjectController
 				this.displayPopUp(0);
 				this.setDownArrow();
 				this.displayNextButton(true);
-				this.setPopUpTitle("Mouvement");
-				this.setPopUpDescription("Au tour de la carte 0 à jouer");
+				this.setPopUpTitle("A vous de jouer");
+				this.setPopUpDescription("Votre drogueur va pouvoir achever l'ennemi");
 				this.displayBackground(true);
 			}
 			this.gameObjectPosition = GameView.instance.getPlayingCardsPosition(0);
@@ -789,8 +789,8 @@ public class GameTutorialController : TutorialObjectController
 				this.displayPopUp(0);
 				this.setDownArrow();
 				this.displayNextButton(false);
-				this.setPopUpTitle("Lancer Attaque simple");
-				this.setPopUpDescription("On lance attaque");
+				this.setPopUpTitle("Attaque");
+				this.setPopUpDescription("Attaquez-le !");
 				this.displayBackground(true);
 			}
 			this.gameObjectPosition = GameView.instance.getAttackButtonPosition(); 
@@ -803,8 +803,8 @@ public class GameTutorialController : TutorialObjectController
 				this.displayPopUp(0);
 				this.setUpArrow();
 				this.displayNextButton(false);
-				this.setPopUpTitle("Lancer attaque simple");
-				this.setPopUpDescription("On cible le personnage ennemi");
+				this.setPopUpTitle("Ciblez l'ennemi");
+				this.setPopUpDescription("Ciblez le drogueur ennemi...");
 				this.displayBackground(true);
 			}
 			this.gameObjectPosition = GameView.instance.getPlayingCardsPosition(5);
@@ -817,8 +817,8 @@ public class GameTutorialController : TutorialObjectController
 				this.displayPopUp(0);
 				this.setUpArrow();
 				this.displayNextButton(true);
-				this.setPopUpTitle("Lancer attaque simple");
-				this.setPopUpDescription("Explication des effets");
+				this.setPopUpTitle("Dernière attaque");
+				this.setPopUpDescription("Et terrassez Garruk!");
 				this.displayBackground(true);
 			}
 			this.gameObjectPosition = GameView.instance.getPlayingCardsPosition(5);
@@ -866,8 +866,11 @@ public class GameTutorialController : TutorialObjectController
 				this.displayNextButton(true);
 			}
 			break;
-		case 1: case 3: case 4: case 5: case 6: case 7: case 8: case 9: case 18: case 19: case 27: case 28: case 29: case 35: case 36: case 37: case 43: case 44: case 45: case 48: case 49: case 51: case 53: case 54: 
+		case 1: case 3: case 4: case 5: case 6: case 7: case 8: case 9: case 18: case 19: case 27: case 28: case 29: case 35: case 36: case 37: case 43: case 44: case 45: case 51: case 53: case 54: 
 			this.launchSequence(this.sequenceID+1);
+			break;
+		case 48 :
+			this.launchSequence(this.sequenceID+3);
 			break;
 		case 56:
 			this.displayNextButton(true);
