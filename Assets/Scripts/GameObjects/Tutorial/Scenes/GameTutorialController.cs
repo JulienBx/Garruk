@@ -381,7 +381,7 @@ public class GameTutorialController : TutorialObjectController
 			if(!isResizing)
 			{
 				GameSkills.instance.getSkill(59).init(GameView.instance.getCard(7),GameView.instance.getCard(7).getSkills()[1]);
-				GameSkills.instance.getSkill(59).applyOn(3);
+				GameSkills.instance.getSkill(59).applyOn(3,5,0);
 				this.displayPopUp(0);
 				this.setDownArrow();
 				this.displayNextButton(true);
@@ -614,7 +614,7 @@ public class GameTutorialController : TutorialObjectController
 			if(!isResizing)
 			{
 				GameSkills.instance.getSkill(65).init(GameView.instance.getCard(5),GameView.instance.getCard(5).getSkills()[1]);
-				GameSkills.instance.getSkill(65).applyOn(0);
+				GameSkills.instance.getSkill(65).applyOn(0,12,0);
 				this.displayPopUp(2);
 				this.setDownArrow();
 				this.displayNextButton(true);
