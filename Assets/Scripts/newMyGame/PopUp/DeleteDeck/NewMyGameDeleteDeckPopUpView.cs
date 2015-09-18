@@ -22,7 +22,7 @@ public class NewMyGameDeleteDeckPopUpView : MonoBehaviour
 			GUILayout.BeginVertical(popUpVM.centralWindowStyle);
 			{
 				GUILayout.FlexibleSpace();
-				GUILayout.Label("Confirmez vous la suppression du deck "+deleteDeckPopUpVM.name, popUpVM.centralWindowTitleStyle);
+				GUILayout.Label("Confirmez vous la suppression de l'équipe "+deleteDeckPopUpVM.name, popUpVM.centralWindowTitleStyle);
 				GUILayout.FlexibleSpace();
 				GUILayout.BeginHorizontal();
 				{

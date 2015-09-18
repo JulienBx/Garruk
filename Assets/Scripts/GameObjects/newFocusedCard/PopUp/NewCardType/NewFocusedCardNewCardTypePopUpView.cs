@@ -17,7 +17,7 @@ public class NewFocusedCardNewCardTypePopUpView : MonoBehaviour
 		GUILayout.BeginArea(popUpVM.centralWindow,popUpVM.centralWindowStyle);
 		{
 			GUILayout.FlexibleSpace();
-			GUILayout.Label("Félicications !! Vous avez débloqué la classe :",popUpVM.centralWindowTitleStyle);
+			GUILayout.Label("Félicications !! Vous avez débloqué la faction :",popUpVM.centralWindowTitleStyle);
 			GUILayout.Label (cardNewCardTypePopUpVM.newCardType,popUpVM.centralWindowTitleStyle);
 			GUILayout.FlexibleSpace();
 			GUILayout.BeginHorizontal();

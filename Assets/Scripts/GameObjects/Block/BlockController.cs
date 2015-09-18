@@ -46,10 +46,10 @@ public class BlockController : MonoBehaviour
 		Vector3 newVerticalLineScale = new Vector3 ((block.height-2f*newCornerSize.x) / lineSize.x, 1f, 1f);
 		Vector3 newVerticalLineSize = new Vector3(newVerticalLineScale.x * (lineSize.x),newVerticalLineScale.y * (lineSize.y),0f);
 		
-		Vector3 newHorizontalAreaScale = new Vector3 (newHorizontalLineSize.x / areaSize.x, (newCornerSize.y - newHorizontalLineSize.y) / areaSize.y, 1f);
+		Vector3 newHorizontalAreaScale = new Vector3 (newHorizontalLineSize.x / (areaSize.x), (newCornerSize.y - newHorizontalLineSize.y) / (areaSize.y), 1f);
 		Vector3 newHorizontalAreaSize = new Vector3(newHorizontalAreaScale.x * (areaSize.x),newHorizontalAreaScale.y * (areaSize.y),0f);
 		
-		Vector3 newVerticalAreaScale = new Vector3 ((newCornerSize.x - newVerticalLineSize.y) / areaSize.x, newVerticalLineSize.x / areaSize.y, 1f);
+		Vector3 newVerticalAreaScale = new Vector3 ((newCornerSize.x - newVerticalLineSize.y) / (areaSize.x), newVerticalLineSize.x / (areaSize.y), 1f);
 		Vector3 newVerticalAreaSize = new Vector3(newVerticalAreaScale.x * (areaSize.x),newVerticalAreaScale.y * (areaSize.y),0f);
 		
 		Vector3 newBigAreaScale = new Vector3 ((block.width- 2f * newVerticalLineSize.y -2*newVerticalAreaSize.x) /(areaSize.x), (block.height - 2f * newHorizontalLineSize.y - 2f * newHorizontalAreaSize.y) / (areaSize.y), 1f);

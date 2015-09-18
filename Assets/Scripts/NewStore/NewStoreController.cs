@@ -257,6 +257,7 @@ public class NewStoreController : MonoBehaviour
 		this.backButton = GameObject.Find ("BackButton");
 		this.backButton.SetActive (false);
 		this.buyCreditsButton = GameObject.Find ("BuyCreditsButton");
+		this.buyCreditsButton.transform.FindChild("Title").GetComponent<TextMeshPro> ().text = "Acheter des cristaux";
 		this.buyCreditsButton.SetActive (true);
 		this.homePageBoughtPack = GameObject.Find ("HomePageBoughtPack");
 	}

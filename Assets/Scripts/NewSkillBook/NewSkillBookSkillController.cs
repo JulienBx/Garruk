@@ -27,7 +27,7 @@ public class NewSkillBookSkillController : MonoBehaviour
 		this.gameObject.transform.FindChild ("Jauge").gameObject.SetActive (display);
 		this.gameObject.transform.FindChild ("JaugeBackground").gameObject.SetActive (display);
 		this.gameObject.transform.FindChild ("JaugeDescription").gameObject.SetActive (display);
-		string text = " carte";
+		string text = " unité";
 		if(nbCards>1)
 		{
 			text=text+"s";

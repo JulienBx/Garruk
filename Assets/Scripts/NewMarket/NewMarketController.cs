@@ -290,7 +290,7 @@ public class NewMarketController : MonoBehaviour
 		this.focusedCard = GameObject.Find ("FocusedCard");
 		this.focusedCard.AddComponent<NewFocusedCardMarketController> ();
 		this.filters.transform.FindChild("Title").GetComponent<TextMeshPro>().text = "Filtres";
-		this.filters.transform.FindChild("cardTypeFilters").FindChild("Title").GetComponent<TextMeshPro>().text = "Classes";
+		this.filters.transform.FindChild("cardTypeFilters").FindChild("Title").GetComponent<TextMeshPro>().text = "Factions";
 		this.filters.transform.FindChild("skillSearch").FindChild("Title").GetComponent<TextMeshPro>().text = "Compétences";
 		this.filters.transform.FindChild("priceFilter").FindChild ("Title").GetComponent<TextMeshPro>().text = "Prix";
 		this.filters.transform.FindChild("powerFilter").FindChild ("Title").GetComponent<TextMeshPro>().text = "Puissance";

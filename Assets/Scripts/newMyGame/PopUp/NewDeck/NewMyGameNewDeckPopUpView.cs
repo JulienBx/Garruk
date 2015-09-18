@@ -22,7 +22,7 @@ public class NewMyGameNewDeckPopUpView : MonoBehaviour
 			GUILayout.BeginVertical(popUpVM.centralWindowStyle);
 			{
 				GUILayout.FlexibleSpace();
-				GUILayout.Label("Choisissez le nom de votre nouveau deck", popUpVM.centralWindowTitleStyle);
+				GUILayout.Label("Choisissez le nom de votre nouvelle équipe", popUpVM.centralWindowTitleStyle);
 				GUILayout.FlexibleSpace();
 				GUILayout.BeginHorizontal();
 				{
@@ -40,7 +40,7 @@ public class NewMyGameNewDeckPopUpView : MonoBehaviour
 				GUILayout.BeginHorizontal();
 				{
 					GUILayout.Space(0.2f * popUpVM.centralWindow.width);
-					if (GUILayout.Button("Créer le deck", popUpVM.centralWindowButtonStyle,GUILayout.Width(0.2f*popUpVM.centralWindow.width)))
+					if (GUILayout.Button("Créer l'équipe", popUpVM.centralWindowButtonStyle,GUILayout.Width(0.2f*popUpVM.centralWindow.width)))
 					{
 						newMyGameController.instance.createNewDeckHandler();
 					}

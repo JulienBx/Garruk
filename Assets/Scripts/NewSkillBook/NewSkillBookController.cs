@@ -111,6 +111,7 @@ public class NewSkillBookController : MonoBehaviour
 		this.starsBlock = Instantiate(this.blockObject) as GameObject;
 		selectedCardType = GameObject.Find ("SelectedCardType");
 		cardTypes = GameObject.Find ("CardTypes");
+		cardTypes.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Factions";
 		this.skills=new GameObject[0];
 		this.paginationButtons=new GameObject[0];
 		this.collectionLevel = GameObject.Find ("CollectionLevel");
@@ -217,11 +218,11 @@ public class NewSkillBookController : MonoBehaviour
 			//print (percentage);
 			if(this.cardTypesNbCards[this.selectedCardTypeId]>1)
 			{
-				this.selectedCardType.transform.FindChild("NbCards").GetComponent<TextMeshPro>().text=this.cardTypesNbCards[this.selectedCardTypeId]+" cartes";
+				this.selectedCardType.transform.FindChild("NbCards").GetComponent<TextMeshPro>().text=this.cardTypesNbCards[this.selectedCardTypeId]+" unités";
 			}
 			else
 			{
-				this.selectedCardType.transform.FindChild("NbCards").GetComponent<TextMeshPro>().text=this.cardTypesNbCards[this.selectedCardTypeId]+" carte";
+				this.selectedCardType.transform.FindChild("NbCards").GetComponent<TextMeshPro>().text=this.cardTypesNbCards[this.selectedCardTypeId]+" unités";
 			}
 			Vector3 tempPosition = this.selectedCardType.transform.FindChild ("Jauge").transform.localPosition;
 			tempPosition.x = -1.3f + percentage * 1.16f;
