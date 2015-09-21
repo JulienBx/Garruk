@@ -641,7 +641,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 189314}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -20.2023125, y: -12.3751974, z: 0}
+  m_LocalPosition: {x: 24.642971, y: -13.2110958, z: 0}
   m_LocalScale: {x: .850000024, y: .850000024, z: .850000024}
   m_Children:
   - {fileID: 484244}
@@ -1165,6 +1165,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c362cef5391dd4f33b652793c3556168, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  loadingScreenObject: {fileID: 142260, guid: 176cf68df92cb427b84ce1324381ee24, type: 2}
   deckListObject: {fileID: 126134, guid: 644f85ab9e00f4f498e8e4bf08384935, type: 2}
 --- !u!114 &11423202
 MonoBehaviour:

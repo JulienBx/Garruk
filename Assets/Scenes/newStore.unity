@@ -300,6 +300,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f493b1e74ee84a13bc34b0d44d5f21d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  loadingScreenObject: {fileID: 142260, guid: 176cf68df92cb427b84ce1324381ee24, type: 2}
   CardObject: {fileID: 190900, guid: f775ae7416f404f6c88334f843071b57, type: 2}
   PackObject: {fileID: 133506, guid: 78fc0b51c82654cc8990c6716529559f, type: 2}
   BlockObject: {fileID: 182654, guid: 464682f2a97f14999b4d5576d375be2b, type: 2}

@@ -11,6 +11,7 @@ public class NewStoreController : MonoBehaviour
 {
 	public static NewStoreController instance;
 
+	public GameObject loadingScreenObject;
 	public GameObject CardObject;
 	public GameObject PackObject;
 	public GameObject BlockObject;
@@ -18,6 +19,7 @@ public class NewStoreController : MonoBehaviour
 	public GameObject tutorialObject;
 	public GUISkin popUpSkin;
 
+	private GameObject loadingScreen;
 	private GameObject menu;
 	private GameObject tutorial;
 	private GameObject focusedCard;
@@ -94,6 +96,7 @@ public class NewStoreController : MonoBehaviour
 	}
 	void Awake()
 	{
+		this.loadingScreen=Instantiate(this.loadingScreenObject) as GameObject;
 		this.widthScreen = Screen.width;
 		this.heightScreen = Screen.height;
 		this.pixelPerUnit = 108;
@@ -217,6 +220,7 @@ public class NewStoreController : MonoBehaviour
 		yield return(StartCoroutine(this.model.initializeStore()));
 		this.money = ApplicationModel.credits;
 		this.createPacks ();
+		Destroy (this.loadingScreen);
 		this.isSceneLoaded = true;
 		if(ApplicationModel.packToBuy!=-1)
 		{

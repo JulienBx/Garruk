@@ -10,6 +10,7 @@ public class newMyGameController : MonoBehaviour
 	public static newMyGameController instance;
 	private NewMyGameModel model;
 
+	public GameObject loadingScreenObject;
 	public GameObject tutorialObject;
 	public GameObject blockObject;
 	public GameObject cardObject;
@@ -20,6 +21,7 @@ public class newMyGameController : MonoBehaviour
 	public GUISkin popUpSkin;
 	public int refreshInterval;
 
+	private GameObject loadingScreen;
 	private GameObject menu;
 	private GameObject tutorial;
 	private GameObject deckBoard;
@@ -236,6 +238,7 @@ public class newMyGameController : MonoBehaviour
 	}
 	void Awake()
 	{
+		this.loadingScreen=Instantiate(this.loadingScreenObject) as GameObject;
 		this.widthScreen = Screen.width;
 		this.heightScreen = Screen.height;
 		this.pixelPerUnit = 108f;
@@ -269,6 +272,7 @@ public class newMyGameController : MonoBehaviour
 		   	ApplicationModel.cardTypeChosen=-1;
 		}
 		this.applyFilters ();
+		Destroy (this.loadingScreen);
 		this.isSceneLoaded = true;
 		this.money = ApplicationModel.credits;
 		if(model.player.TutorialStep==2 || model.player.TutorialStep==3)

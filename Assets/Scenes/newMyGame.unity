@@ -796,6 +796,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4379a4ae9dc24daab68605628f1e4de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  loadingScreenObject: {fileID: 142260, guid: 176cf68df92cb427b84ce1324381ee24, type: 2}
   tutorialObject: {fileID: 180340, guid: 1474ad9f863d24afcaf1180c03ae5275, type: 2}
   blockObject: {fileID: 182654, guid: 464682f2a97f14999b4d5576d375be2b, type: 2}
   cardObject: {fileID: 190900, guid: f775ae7416f404f6c88334f843071b57, type: 2}

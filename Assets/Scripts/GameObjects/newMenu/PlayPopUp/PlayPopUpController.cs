@@ -8,11 +8,13 @@ using TMPro;
 
 public class PlayPopUpController : Photon.MonoBehaviour 
 {
+	public GameObject loadingScreenObject;
 	public GameObject deckListObject;
 
 	public static PlayPopUpController instance;
 	private PlayPopUpModel model;
 
+	private GameObject loadingScreen;
 	private IList<int> decksDisplayed;
 	private int deckDisplayed;
 	private bool arePicturesLoading;
@@ -40,6 +42,10 @@ public class PlayPopUpController : Photon.MonoBehaviour
 			}
 		}
 	}
+	void Awake()
+	{
+		this.loadingScreen=Instantiate(this.loadingScreenObject) as GameObject;
+	}
 	void Start () 
 	{	
 		instance = this;
@@ -53,6 +59,7 @@ public class PlayPopUpController : Photon.MonoBehaviour
 		this.retrieveDefaultDeck ();
 		this.retrieveDecksList ();
 		this.drawDeck ();
+		Destroy (this.loadingScreen);
 		this.show ();
 		if(newMenuController.instance.getIsTutorialLaunched())
 		{

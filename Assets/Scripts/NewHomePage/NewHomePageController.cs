@@ -10,6 +10,7 @@ public class NewHomePageController : Photon.MonoBehaviour
 	public static NewHomePageController instance;
 	private NewHomePageModel model;
 
+	public GameObject loadingScreenObject;
 	public GameObject tutorialObject;
 	public GameObject blockObject;
 	public GameObject paginationButtonObject;
@@ -23,7 +24,7 @@ public class NewHomePageController : Photon.MonoBehaviour
 	public int refreshInterval;
 	public int sliderRefreshInterval;
 	public int totalNbResultLimit;
-	
+
 	private GameObject storeBlock;
 	private GameObject notificationsBlock;
 	private GameObject competitionsBlock;
@@ -31,6 +32,7 @@ public class NewHomePageController : Photon.MonoBehaviour
 	private GameObject newsBlock;
 	private GameObject popUp;
 
+	private GameObject loadingScreen;
 	private GameObject menu;
 	private GameObject tutorial;
 	private GameObject storeAssetsTitle;
@@ -307,6 +309,7 @@ public class NewHomePageController : Photon.MonoBehaviour
 	}
 	void Awake()
 	{
+		this.loadingScreen=Instantiate(this.loadingScreenObject) as GameObject;
 		this.widthScreen = Screen.width;
 		this.heightScreen = Screen.height;
 		this.pixelPerUnit = 108f;
@@ -341,6 +344,7 @@ public class NewHomePageController : Photon.MonoBehaviour
 		this.initializeStats ();
 		this.retrieveDefaultDeck ();
 		this.initializeDecks ();
+		Destroy (this.loadingScreen);
 		this.isSceneLoaded = true;
 		if(model.player.TutorialStep==1 || model.player.TutorialStep==4)
 		{
