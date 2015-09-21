@@ -59,31 +59,12 @@ public class newMyGameController : MonoBehaviour
 	private bool isOnSaleFilterOn;
 	private bool isNotOnSaleFilterOn;
 	private string valueSkill;
+	
+	private int powerVal;
+	private int lifeVal;
+	private int attackVal;
+	private int quicknessVal;
 
-	private float minPowerVal;
-	private float maxPowerVal;
-	private float minPowerLimit;
-	private float maxPowerLimit;
-	private float minLifeVal;
-	private float maxLifeVal;
-	private float minLifeLimit;
-	private float maxLifeLimit;
-	private float minAttackVal;
-	private float maxAttackVal;
-	private float minAttackLimit;
-	private float maxAttackLimit;
-	private float minQuicknessVal;
-	private float maxQuicknessVal;
-	private float minQuicknessLimit;
-	private float maxQuicknessLimit;
-	private float oldMinPowerVal;
-	private float oldMaxPowerVal;
-	private float oldMinLifeVal;
-	private float oldMaxLifeVal;
-	private float oldMinAttackVal;
-	private float oldMaxAttackVal;
-	private float oldMinQuicknessVal;
-	private float oldMaxQuicknessVal;
 	private IList<int> filtersCardType;
 	private int sortingOrder;
 
@@ -335,8 +316,8 @@ public class newMyGameController : MonoBehaviour
 			this.deckCards[i]=GameObject.Find("deckCard"+i);
 			this.deckCards[i].AddComponent<NewCardMyGameController>();
 		}
-		this.cursors=new GameObject[8];
-		for (int i=0;i<8;i++)
+		this.cursors=new GameObject[4];
+		for (int i=0;i<4;i++)
 		{
 			this.cursors[i]=GameObject.Find("Cursor"+i);
 		}
@@ -369,30 +350,23 @@ public class newMyGameController : MonoBehaviour
 	}
 	private void resetFiltersValue()
 	{
-		this.minPowerVal=0;
-		this.maxPowerVal=100;
-		this.minPowerLimit=0;
-		this.maxPowerLimit=100;
-		this.minLifeVal = 0;
-		this.maxLifeVal = 100;
-		this.minLifeLimit=0;
-		this.maxLifeLimit=100;
-		this.minAttackVal=0;
-		this.maxAttackVal=100;
-		this.minAttackLimit=0;
-		this.maxAttackLimit=100;
-		this.minQuicknessVal=0;
-		this.maxQuicknessVal=100;
-		this.minQuicknessLimit=0;
-		this.maxQuicknessLimit=100;
-		this.oldMinPowerVal=0;
-		this.oldMaxPowerVal=100;
-		this.oldMinLifeVal=0;
-		this.oldMaxLifeVal=100;
-		this.oldMinAttackVal=0;
-		this.oldMaxAttackVal=100;
-		this.oldMinQuicknessVal=0;
-		this.oldMaxQuicknessVal=100;
+		this.powerVal = 0;
+		this.lifeVal = 0;
+		this.attackVal = 0;
+		this.quicknessVal = 0;
+		this.filters.transform.FindChild("powerFilter").FindChild ("Value").GetComponent<TextMeshPro>().text = getValueFilterLabel(powerVal);
+		this.filters.transform.FindChild("lifeFilter").FindChild ("Value").GetComponent<TextMeshPro>().text = getValueFilterLabel(lifeVal);
+		this.filters.transform.FindChild("attackFilter").FindChild ("Value").GetComponent<TextMeshPro>().text = getValueFilterLabel(attackVal);
+		this.filters.transform.FindChild("quicknessFilter").FindChild ("Value").GetComponent<TextMeshPro>().text = getValueFilterLabel(quicknessVal);
+
+		for(int i=0;i<this.cursors.Length;i++)
+		{
+			Vector3 cursorPosition = this.cursors [i].transform.localPosition;
+			cursorPosition.x=-0.975f;
+			this.cursors[i].transform.localPosition=cursorPosition;
+		}
+
+
 		this.filtersCardType = new List<int> ();
 		for(int i=0;i<this.toggleButtons.Length;i++)
 		{
@@ -890,621 +864,174 @@ public class newMyGameController : MonoBehaviour
 		}
 		this.applyFilters ();
 	}
-	public void moveMinMaxCursor(int cursorId)
+	public void moveCursors(int cursorId)
 	{
 		Vector3 mousePosition = Camera.main.ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, Input.mousePosition.z));
 		float mousePositionX=mousePosition.x;
-		Vector3 cursorPosition = this.cursors [cursorId].transform.position;
-		float sliderPositionX = this.cursors [cursorId].transform.parent.gameObject.transform.position.x;
-		float cursorSizeX = (78f / 108f) * 0.3f;
-		float offset = mousePositionX-cursorPosition.x;
-		cursorPosition.x = cursorPosition.x + offset;
-		int secondCursorId;
-		float secondCursorPositionX;
-		float distance;
-		if(cursorId%2==0)
+		Vector3 cursorPosition = this.cursors [cursorId].transform.localPosition;
+		float offset = mousePositionX-this.cursors [cursorId].transform.position.x;
+
+		int value = -1;
+		string label = "";
+
+		bool isMoved = true ;
+
+		if(cursorPosition.x==-0.975f)
 		{
-			secondCursorId=cursorId+1;
-			secondCursorPositionX = this.cursors [secondCursorId].transform.position.x;
-			if(cursorPosition.x>secondCursorPositionX-cursorSizeX)
+			if(offset>0.975f)
 			{
-				cursorPosition.x=secondCursorPositionX-cursorSizeX;
+				value = 2;
+				cursorPosition.x=+0.975f;
+				this.cursors [cursorId].transform.localPosition = cursorPosition;
 			}
-			else if(cursorPosition.x<-0.975f+sliderPositionX)
+			else if(offset>0.975/2f)
 			{
-				cursorPosition.x=-0.975f+sliderPositionX;
+				value = 1;
+				cursorPosition.x=0;
+				this.cursors [cursorId].transform.localPosition = cursorPosition;
 			}
-			distance = cursorPosition.x -(-0.975f+sliderPositionX);
+			else
+			{
+				isMoved=false;
+			}
+		}
+		else if(cursorPosition.x==0)
+		{
+			if(offset>0.975f/2f)
+			{
+				value =2;
+				cursorPosition.x=+0.975f;
+				this.cursors [cursorId].transform.localPosition = cursorPosition;
+			}
+			else if(offset<-0.975f/2f)
+			{
+				value = 0;
+				cursorPosition.x=-0.975f;
+				this.cursors [cursorId].transform.localPosition = cursorPosition;
+			}
+			else
+			{
+				isMoved=false;
+			}
+		}
+		else if(cursorPosition.x==0.975f)
+		{
+			if(offset<-0.975f)
+			{
+				value = 0;
+				cursorPosition.x=-0.975f;
+				this.cursors [cursorId].transform.localPosition = cursorPosition;
+			}
+			else if(offset<-0.975/2f)
+			{
+				value = 1;
+				cursorPosition.x=0;
+				this.cursors [cursorId].transform.localPosition = cursorPosition;
+			}
+			else
+			{
+				isMoved=false;
+			}
+		}
+
+
+		if(isMoved)
+		{
+			switch (cursorId) 
+			{
+			case 0:
+				powerVal=value;
+				this.filters.transform.FindChild("powerFilter").FindChild ("Value").GetComponent<TextMeshPro>().text = getValueFilterLabel(powerVal);
+				break;
+			case 1:
+				lifeVal=value;
+				this.filters.transform.FindChild("lifeFilter").FindChild ("Value").GetComponent<TextMeshPro>().text = getValueFilterLabel(lifeVal);
+				break;
+			case 2:
+				attackVal=value;
+				this.filters.transform.FindChild("attackFilter").FindChild ("Value").GetComponent<TextMeshPro>().text = getValueFilterLabel(attackVal);
+				break;
+			case 3:
+				quicknessVal=value;
+				this.filters.transform.FindChild("quicknessFilter").FindChild ("Value").GetComponent<TextMeshPro>().text = getValueFilterLabel(quicknessVal);
+				break;
+			}
+			this.applyFilters();
+		}
+	}
+	public string getValueFilterLabel(int value)
+	{
+		if(value==1)
+		{
+			return "Rares";
+		}
+		else if(value==2)
+		{
+			return "Très rares";
 		}
 		else
 		{
-			secondCursorId=cursorId-1;
-			secondCursorPositionX = this.cursors [secondCursorId].transform.position.x;
-			if(cursorPosition.x>0.975f+sliderPositionX)
-			{
-				cursorPosition.x=0.975f+sliderPositionX;
-			}
-			else if(cursorPosition.x<secondCursorPositionX+cursorSizeX)
-			{
-				cursorPosition.x=secondCursorPositionX+cursorSizeX;
-			}
-			distance = (0.975f+sliderPositionX)-cursorPosition.x;
-		}
-		this.cursors [cursorId].transform.position = cursorPosition;
-		float maxDistance = 2 * 0.975f-cursorSizeX;
-		float ratio = distance / maxDistance;
-		if(ratio>0.99f)
-		{
-			ratio=1f;
-		}
-		else if(ratio<0.01f)
-		{
-			ratio=0f;
-		}
-		bool isMoved = false ;
-		switch (cursorId) 
-		{
-		case 0:
-			minPowerVal=minPowerLimit+Mathf.CeilToInt(ratio*(maxPowerLimit-minPowerLimit));
-			if(minPowerVal!=oldMinPowerVal)
-			{
-				this.filters.transform.FindChild("powerFilter").FindChild ("MinValue").GetComponent<TextMeshPro>().text = minPowerVal.ToString();
-				isMoved=true;
-			}
-			break;
-		case 1:
-			maxPowerVal=maxPowerLimit-Mathf.FloorToInt(ratio*(maxPowerLimit-minPowerLimit));
-			if(maxPowerVal!=oldMaxPowerVal)
-			{
-				this.filters.transform.FindChild("powerFilter").FindChild ("MaxValue").GetComponent<TextMeshPro>().text = maxPowerVal.ToString();
-				isMoved=true;
-			}
-			break;
-		case 2:
-			minLifeVal=minLifeLimit+Mathf.CeilToInt(ratio*(maxLifeLimit-minLifeLimit));
-			if(minLifeVal!=oldMinLifeVal)
-			{
-				this.filters.transform.FindChild("lifeFilter").FindChild ("MinValue").GetComponent<TextMeshPro>().text = minLifeVal.ToString();
-				isMoved=true;
-			}
-			break;
-		case 3:
-			maxLifeVal=maxLifeLimit-Mathf.FloorToInt(ratio*(maxLifeLimit-minLifeLimit));
-			if(maxLifeVal!=oldMaxLifeVal)
-			{
-				this.filters.transform.FindChild("lifeFilter").FindChild ("MaxValue").GetComponent<TextMeshPro>().text = maxLifeVal.ToString();
-				isMoved=true;
-			}
-			break;
-		case 4:
-			minAttackVal=minAttackLimit+Mathf.CeilToInt(ratio*(maxAttackLimit-minAttackLimit));
-			if(minAttackVal!=oldMinAttackVal)
-			{
-				this.filters.transform.FindChild("attackFilter").FindChild ("MinValue").GetComponent<TextMeshPro>().text = minAttackVal.ToString();
-				isMoved=true;
-			}
-			break;
-		case 5:
-			maxAttackVal=maxAttackLimit-Mathf.FloorToInt(ratio*(maxAttackLimit-minAttackLimit));
-			if(maxAttackVal!=oldMaxAttackVal)
-			{
-				this.filters.transform.FindChild("attackFilter").FindChild ("MaxValue").GetComponent<TextMeshPro>().text = maxAttackVal.ToString();
-				isMoved=true;
-			}
-			break;
-		case 6:
-			minQuicknessVal=minQuicknessLimit+Mathf.CeilToInt(ratio*(maxQuicknessLimit-minQuicknessLimit));
-			if(minQuicknessVal!=oldMinQuicknessVal)
-			{
-				this.filters.transform.FindChild("quicknessFilter").FindChild ("MinValue").GetComponent<TextMeshPro>().text = minQuicknessVal.ToString();
-				isMoved=true;
-			}
-			break;
-		case 7:
-			maxQuicknessVal=maxQuicknessLimit-Mathf.FloorToInt(ratio*(maxQuicknessLimit-minQuicknessLimit));
-			if(maxQuicknessVal!=oldMaxQuicknessVal)
-			{
-				this.filters.transform.FindChild("quicknessFilter").FindChild ("MaxValue").GetComponent<TextMeshPro>().text = maxQuicknessVal.ToString();
-				isMoved=true;
-			}
-			break;
-		}
-		if(isMoved)
-		{
-			this.applyFilters();
+			return "Toutes";
 		}
 	}
 	private void computeFilters() 
 	{
 		this.cardsToBeDisplayed=new List<int>();
-		IList<int> tempCardsToBeDisplayed = new List<int>();
 		int nbFilters = this.filtersCardType.Count;
-		
-		bool testFilters = false;
-		bool testDeck = false;
-		bool test ;
+		int max = model.cards.Count;
 
-		bool minPowerBool = (this.minPowerLimit==this.minPowerVal);
-		bool maxPowerBool = (this.maxPowerLimit==this.maxPowerVal);
-		bool minLifeBool = (this.minLifeLimit==this.minLifeVal);
-		bool maxLifeBool = (this.maxLifeLimit==this.maxLifeVal);
-		bool minQuicknessBool = (this.minQuicknessLimit==this.minQuicknessVal);
-		bool maxQuicknessBool = (this.maxQuicknessLimit==this.maxQuicknessVal);
-		bool minAttackBool = (this.minAttackLimit==this.minAttackVal);
-		bool maxAttackBool = (this.maxAttackLimit==this.maxAttackVal);
+		for(int i=0;i<max;i++)
+		{
 
-		if (this.isSkillChosen)
-		{
-			int max = model.cards.Count;
-			if (nbFilters == 0)
+			if(this.isOnSaleFilterOn && model.cards [i].onSale == 1)
 			{
-				max = model.cards.Count;
-				if (this.isOnSaleFilterOn)
-				{
-					for (int i = 0; i < max; i++)
-					{
-						if (model.cards [i].hasSkill(this.valueSkill) && model.cards [i].onSale == 1)
-						{
-							testDeck = false;
-							for (int j = 0; j < this.deckCardsDisplayed.Length; j++)
-							{
-								if (i == this.deckCardsDisplayed [j])
-								{
-									testDeck = true;
-								}
-							}
-							if (!testDeck)
-							{
-								tempCardsToBeDisplayed.Add(i);
-							}
-						}
-					}
-				}
-				else if (this.isNotOnSaleFilterOn)
-				{
-					for (int i = 0; i < max; i++)
-					{
-						if (model.cards [i].hasSkill(this.valueSkill) && model.cards [i].onSale == 0)
-						{
-							testDeck = false;
-							for (int j = 0; j < this.deckCardsDisplayed.Length; j++)
-							{
-								if (i == this.deckCardsDisplayed [j])
-								{
-									testDeck = true;
-								}
-							}
-							if (!testDeck)
-							{
-								tempCardsToBeDisplayed.Add(i);
-							}
-						}
-					}
-				}
-				else
-				{
-					for (int i = 0; i < max; i++)
-					{
-						if (model.cards [i].hasSkill(this.valueSkill))
-						{
-							testDeck = false;
-							for (int j = 0; j < this.deckCardsDisplayed.Length; j++)
-							{
-								if (i == this.deckCardsDisplayed [j])
-								{
-									testDeck = true;
-								}
-							}
-							if (!testDeck)
-							{
-								tempCardsToBeDisplayed.Add(i);
-							}
-						}
-					}
-				}
-			} else
+				continue;
+			}
+			if(this.isNotOnSaleFilterOn && model.cards [i].onSale == 0)
 			{
-				for (int i = 0; i < max; i++)
-				{
-					test = false;
-					int j = 0;
-					if (this.isNotOnSaleFilterOn)
-					{
-						while (!test && j != nbFilters)
-						{
-							if (model.cards [i].IdClass == this.filtersCardType [j])
-							{
-								test = true;
-								if (model.cards [i].hasSkill(this.valueSkill) && model.cards [i].onSale == 1)
-								{
-									testDeck = false;
-									for (int k = 0; k < this.deckCardsDisplayed.Length; k++)
-									{
-										if (i == this.deckCardsDisplayed [k])
-										{
-											testDeck = true; 
-										}
-									}
-									if (!testDeck)
-									{
-										tempCardsToBeDisplayed.Add(i);
-									}
-								}
-							}
-							j++;
-						}
-					} 
-					else if (this.isNotOnSaleFilterOn)
-					{
-						while (!test && j != nbFilters)
-						{
-							if (model.cards [i].IdClass == this.filtersCardType [j])
-							{
-								test = true;
-								if (model.cards [i].hasSkill(this.valueSkill) && model.cards [i].onSale == 0)
-								{
-									testDeck = false;
-									for (int k = 0; k < this.deckCardsDisplayed.Length; k++)
-									{
-										if (i == this.deckCardsDisplayed [k])
-										{
-											testDeck = true; 
-										}
-									}
-									if (!testDeck)
-									{
-										tempCardsToBeDisplayed.Add(i);
-									}
-								}
-							}
-							j++;
-						}
-					}
-					else
-					{
-						while (!test && j != nbFilters)
-						{
-							if (model.cards [i].IdClass == this.filtersCardType [j])
-							{
-								test = true;
-								if (model.cards [i].hasSkill(this.valueSkill))
-								{
-									testDeck = false;
-									for (int k = 0; k < this.deckCardsDisplayed.Length; k++)
-									{
-										if (i == this.deckCardsDisplayed [k])
-										{
-											testDeck = true; 
-										}
-									}
-									if (!testDeck)
-									{
-										tempCardsToBeDisplayed.Add(i);
-									}
-								}
-							}
-							j++;
-						}
-					}
-				}
+				continue;
 			}
-		} 
-		else
-		{
-			int max = model.cards.Count;
-			if (nbFilters == 0)
+			if(this.isSkillChosen && !model.cards [i].hasSkill(this.valueSkill))
 			{
-				if (this.isOnSaleFilterOn)
-				{
-					for (int i = 0; i < max; i++)
-					{
-						if (model.cards [i].onSale == 1)
-						{
-							testDeck = false;
-							for (int j = 0; j < this.deckCardsDisplayed.Length; j++)
-							{
-								if (i == this.deckCardsDisplayed [j])
-								{
-									testDeck = true;
-								}
-							}
-							if (!testDeck)
-							{
-								tempCardsToBeDisplayed.Add(i);
-							}
-						}
-					}
-				}
-				else if(this.isNotOnSaleFilterOn)
-				{
-					for (int i = 0; i < max; i++)
-					{
-						if (model.cards [i].onSale == 0)
-						{
-							testDeck = false;
-							for (int j = 0; j < this.deckCardsDisplayed.Length; j++)
-							{
-								if (i == this.deckCardsDisplayed [j])
-								{
-									testDeck = true;
-								}
-							}
-							if (!testDeck)
-							{
-								tempCardsToBeDisplayed.Add(i);
-							}
-						}
-					}
-				}
-				else
-				{
-					for (int i = 0; i < max; i++)
-					{
-						testDeck = false;
-						for (int j = 0; j < this.deckCardsDisplayed.Length; j++)
-						{
-							if (i == this.deckCardsDisplayed [j])
-							{
-								testDeck = true;
-							}
-						}
-						if (!testDeck)
-						{
-							tempCardsToBeDisplayed.Add(i);
-						}
-					}
-				}
-			} 
-			else
+				continue;
+			}
+			if(nbFilters>0)
 			{
-				if (this.isOnSaleFilterOn)
+				bool testCardTypes=false;
+				for(int j=0;j<nbFilters;j++)
 				{
-					for (int i = 0; i < max; i++)
+					if (model.cards [i].IdClass == this.filtersCardType [j])
 					{
-						test = false;
-						int j = 0;
-						while (!test && j != nbFilters)
-						{
-							if (model.cards [i].IdClass == this.filtersCardType [j])
-							{
-								if (model.cards [i].onSale == 1)
-								{
-									test = true;
-									testDeck = false;
-									for (int k = 0; k < this.deckCardsDisplayed.Length; k++)
-									{
-										if (i == this.deckCardsDisplayed [k])
-										{
-											testDeck = true; 
-										}
-									}
-									if (!testDeck)
-									{
-										tempCardsToBeDisplayed.Add(i);
-									}
-								}
-							}
-							j++;
-						}
+						testCardTypes=true;
+						break;
 					}
 				}
-				else if(this.isNotOnSaleFilterOn)
+				if(!testCardTypes)
 				{
-					for (int i = 0; i < max; i++)
-					{
-						test = false;
-						int j = 0;
-						while (!test && j != nbFilters)
-						{
-							if (model.cards [i].IdClass == this.filtersCardType [j])
-							{
-								if (model.cards [i].onSale == 0)
-								{
-									test = true;
-									testDeck = false;
-									for (int k = 0; k < this.deckCardsDisplayed.Length; k++)
-									{
-										if (i == this.deckCardsDisplayed [k])
-										{
-											testDeck = true; 
-										}
-									}
-									if (!testDeck)
-									{
-										tempCardsToBeDisplayed.Add(i);
-									}
-								}
-							}
-							j++;
-						}
-					}
+					continue;
 				}
-				else
+			}
+			bool testDeck=true;
+			for (int j = 0; j < this.deckCardsDisplayed.Length; j++)
+			{
+				if (i == this.deckCardsDisplayed [j])
 				{
-					for (int i = 0; i < max; i++)
-					{
-						test = false;
-						int j = 0;
-						while (!test && j != nbFilters)
-						{
-							if (model.cards [i].IdClass == this.filtersCardType [j])
-							{
-								test = true;
-								testDeck = false;
-								for (int k = 0; k < this.deckCardsDisplayed.Length; k++)
-								{
-									if (i == this.deckCardsDisplayed [k])
-									{
-										testDeck = true;
-									}
-								}
-								if (!testDeck)
-								{
-									tempCardsToBeDisplayed.Add(i);
-								}
-							}
-							j++;
-						}
-					}
+					testDeck = false; 
 				}
 			}
-		}
-		if (tempCardsToBeDisplayed.Count>0){
-			this.minPowerLimit=10000;
-			this.maxPowerLimit=0;
-			this.minLifeLimit=10000;
-			this.maxLifeLimit=0;
-			this.minAttackLimit=10000;
-			this.maxAttackLimit=0;
-			this.minQuicknessLimit=10000;
-			this.maxQuicknessLimit=0;
-			for (int i = 0 ; i < tempCardsToBeDisplayed.Count ; i++){
-				if (model.cards[tempCardsToBeDisplayed[i]].Power<this.minPowerLimit){
-					this.minPowerLimit = model.cards[tempCardsToBeDisplayed[i]].Power;
-				}
-				if (model.cards[tempCardsToBeDisplayed[i]].Power>this.maxPowerLimit){
-					this.maxPowerLimit = model.cards[tempCardsToBeDisplayed[i]].Power;
-				}
-				if (model.cards[tempCardsToBeDisplayed[i]].Life<this.minLifeLimit){
-					this.minLifeLimit = model.cards[tempCardsToBeDisplayed[i]].Life;
-				}
-				if (model.cards[tempCardsToBeDisplayed[i]].Life>this.maxLifeLimit){
-					this.maxLifeLimit = model.cards[tempCardsToBeDisplayed[i]].Life;
-				}
-				if (model.cards[tempCardsToBeDisplayed[i]].Attack<this.minAttackLimit){
-					this.minAttackLimit = model.cards[tempCardsToBeDisplayed[i]].Attack;
-				}
-				if (model.cards[tempCardsToBeDisplayed[i]].Attack>this.maxAttackLimit){
-					this.maxAttackLimit = model.cards[tempCardsToBeDisplayed[i]].Attack;
-				}
-				if (model.cards[tempCardsToBeDisplayed[i]].Speed<this.minQuicknessLimit){
-					this.minQuicknessLimit = model.cards[tempCardsToBeDisplayed[i]].Speed;
-				}
-				if (model.cards[tempCardsToBeDisplayed[i]].Speed>this.maxQuicknessLimit){
-					this.maxQuicknessLimit = model.cards[tempCardsToBeDisplayed[i]].Speed;
-				}
+			if(!testDeck)
+			{
+				continue;
 			}
-			if (minPowerBool && this.maxPowerVal>=this.minPowerLimit){
-				this.minPowerVal = this.minPowerLimit;
+			if(model.cards[i].PowerLevel-1>=this.powerVal&&
+			   model.cards[i].AttackLevel-1>=this.attackVal&&
+			   model.cards[i].LifeLevel-1>=this.lifeVal&&
+			   model.cards[i].SpeedLevel-1>=this.quicknessVal)
+			{
+				this.cardsToBeDisplayed.Add(i);
 			}
-			else{
-				if (this.minPowerVal<=this.minPowerLimit){
-					this.minPowerLimit = this.minPowerVal;
-				}
-			}
-			if (maxPowerBool && this.minPowerVal<=this.maxPowerLimit){
-				this.maxPowerVal = this.maxPowerLimit;
-			}
-			else{
-				if (this.maxPowerVal>=this.maxPowerLimit){
-					this.maxPowerLimit = this.maxPowerVal;
-				}
-			}
-			if (minLifeBool && this.maxLifeVal>=this.minLifeLimit){
-				this.minLifeVal = this.minLifeLimit;
-			}
-			else{
-				if (this.minLifeVal<=this.minLifeLimit){
-					this.minLifeLimit = this.minLifeVal;
-				}
-			}
-			if (maxLifeBool && this.minLifeVal<=this.maxLifeLimit){
-				this.maxLifeVal = this.maxLifeLimit;
-			}
-			else{
-				if (this.maxLifeVal>=this.maxLifeLimit){
-					this.maxLifeLimit = this.maxLifeVal;
-				}
-			}
-			if (minAttackBool && this.maxAttackVal>=this.minAttackLimit){
-				this.minAttackVal = this.minAttackLimit;
-			}
-			else{
-				if (this.minAttackVal<=this.minAttackLimit){
-					this.minAttackLimit = this.minAttackVal;
-				}
-			}
-			if (maxAttackBool && this.minAttackVal<=this.maxAttackLimit){
-				this.maxAttackVal = this.maxAttackLimit;
-			}
-			else{
-				if (this.maxAttackVal>=this.maxAttackLimit){
-					this.maxAttackLimit = this.maxAttackVal;
-				}
-			}
-			if (minQuicknessBool && this.maxQuicknessVal>=this.minQuicknessLimit){
-				this.minQuicknessVal = this.minQuicknessLimit;
-			}
-			else{
-				if (this.minQuicknessVal<=this.minQuicknessLimit){
-					this.minQuicknessLimit = this.minQuicknessVal;
-				}
-			}
-			if (maxQuicknessBool && this.minQuicknessVal<=this.maxQuicknessLimit){
-				this.maxQuicknessVal = this.maxQuicknessLimit;
-			}
-			else{
-				if (this.maxQuicknessVal>=this.maxQuicknessLimit){
-					this.maxQuicknessLimit = this.maxQuicknessVal;
-				}
-			}
-			this.oldMinPowerVal = this.minPowerVal ;
-			this.oldMaxPowerVal = this.maxPowerVal ;
-			this.oldMinLifeVal = this.minLifeVal ;
-			this.oldMaxLifeVal = this.maxLifeVal ;
-			this.oldMinQuicknessVal = this.minQuicknessVal ;
-			this.oldMaxQuicknessVal = this.maxQuicknessVal ;
-			this.oldMinAttackVal = this.minAttackVal ;
-			this.oldMaxAttackVal = this.maxAttackVal ;
-		}
-		if(this.minPowerVal!=this.minPowerLimit){
-			testFilters=true;
-		}
-		else if(this.maxPowerVal!=maxPowerLimit){
-			testFilters=true;
-		}
-		else if (this.minLifeVal!=this.minLifeLimit){
-			testFilters = true ;
-		}
-		else if (this.maxLifeVal!=this.maxLifeLimit){
-			testFilters = true ;
-		}
-		else if (this.minAttackVal!=this.minAttackLimit){
-			testFilters = true ;
-		}
-		else if (this.maxAttackVal!=this.maxAttackLimit){
-			testFilters = true ;
-		}
-		else if (this.minQuicknessVal!=this.minQuicknessLimit){
-			testFilters = true ;
-		}
-		else if (this.maxQuicknessVal!=this.maxQuicknessLimit){
-			testFilters = true ;
 		}
 		
-		if (testFilters == true){
-			for (int i = 0 ; i < tempCardsToBeDisplayed.Count ; i++)
-			{
-				if (model.cards[tempCardsToBeDisplayed[i]].verifyC(this.minPowerVal,
-				                                                   this.maxPowerVal,
-				                                                   this.minLifeVal,
-				                                                   this.maxLifeVal,
-				                                                   this.minAttackVal,
-				                                                   this.maxAttackVal,
-				                                                   this.minQuicknessVal,
-				                                                   this.maxQuicknessVal)){
-					this.cardsToBeDisplayed.Add(tempCardsToBeDisplayed[i]);
-				}
-			}
-		}
-		else
-		{
-			for (int i = 0 ; i < tempCardsToBeDisplayed.Count ; i++)
-			{
-				this.cardsToBeDisplayed.Add(tempCardsToBeDisplayed[i]);
-			}
-		}
-
 		if(this.sortingOrder!=-1)
 		{
 			int tempA=new int();
@@ -1561,15 +1088,6 @@ public class newMyGameController : MonoBehaviour
 				}
 			}
 		}
-
-		this.filters.transform.FindChild("powerFilter").FindChild ("MinValue").GetComponent<TextMeshPro>().text = this.minPowerVal.ToString();
-		this.filters.transform.FindChild("powerFilter").FindChild ("MaxValue").GetComponent<TextMeshPro>().text = this.maxPowerVal.ToString();
-		this.filters.transform.FindChild("lifeFilter").FindChild ("MinValue").GetComponent<TextMeshPro>().text = this.minLifeVal.ToString();
-		this.filters.transform.FindChild("lifeFilter").FindChild ("MaxValue").GetComponent<TextMeshPro>().text = this.maxLifeVal.ToString();
-		this.filters.transform.FindChild("attackFilter").FindChild ("MinValue").GetComponent<TextMeshPro>().text = this.minAttackVal.ToString();
-		this.filters.transform.FindChild("attackFilter").FindChild ("MaxValue").GetComponent<TextMeshPro>().text = this.maxAttackVal.ToString();
-		this.filters.transform.FindChild("quicknessFilter").FindChild ("MinValue").GetComponent<TextMeshPro>().text = this.minQuicknessVal.ToString();
-		this.filters.transform.FindChild("quicknessFilter").FindChild ("MaxValue").GetComponent<TextMeshPro>().text = this.maxQuicknessVal.ToString();
 	}
 	private void setSkillAutocompletion()
 	{
