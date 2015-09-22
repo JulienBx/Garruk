@@ -1456,6 +1456,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2daaaaaa1b89e40cc9f2d2b59d22e4c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  loadingScreenObject: {fileID: 142260, guid: 176cf68df92cb427b84ce1324381ee24, type: 2}
   blockObject: {fileID: 182654, guid: 464682f2a97f14999b4d5576d375be2b, type: 2}
   paginationButtonObject: {fileID: 119004, guid: 97e73fadd307546e1926ce6909f25ca4,
     type: 2}

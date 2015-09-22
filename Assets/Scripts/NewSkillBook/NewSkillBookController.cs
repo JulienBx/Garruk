@@ -10,6 +10,7 @@ public class NewSkillBookController : MonoBehaviour
 	public static NewSkillBookController instance;
 	private NewSkillBookModel model;
 	
+	public GameObject loadingScreenObject;
 	public GameObject blockObject;
 	public GameObject paginationButtonObject;
 	public GameObject skillObject;
@@ -17,6 +18,7 @@ public class NewSkillBookController : MonoBehaviour
 	public Sprite[] cardTypesPictos;
 	public Sprite[] starsPictos;
 
+	private GameObject loadingScreen;
 	private GameObject menu;
 	private GameObject tutorial;
 	private GameObject starsBlock;
@@ -73,6 +75,7 @@ public class NewSkillBookController : MonoBehaviour
 	}
 	void Awake()
 	{
+		this.loadingScreen=Instantiate(this.loadingScreenObject) as GameObject;
 		this.widthScreen = Screen.width;
 		this.heightScreen = Screen.height;
 		this.pixelPerUnit = 108f;
@@ -93,6 +96,7 @@ public class NewSkillBookController : MonoBehaviour
 		this.computeIndicators ();
 		this.drawCollectionLevel ();
 		this.loadSkills ();
+		Destroy (this.loadingScreen);
 		if(!model.player.SkillBookTutorial)
 		{
 			this.tutorial = Instantiate(this.tutorialObject) as GameObject;

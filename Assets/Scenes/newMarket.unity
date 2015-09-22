@@ -673,6 +673,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6472bc5cf5e174539904b75cbb604115, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  loadingScreenObject: {fileID: 142260, guid: 176cf68df92cb427b84ce1324381ee24, type: 2}
   cardObject: {fileID: 190900, guid: f775ae7416f404f6c88334f843071b57, type: 2}
   skillListObject: {fileID: 126134, guid: 07b305dc399fc4d77afe9ea3874fec39, type: 2}
   paginationButtonObject: {fileID: 119004, guid: eb8aa49700e4f4614915e131f0a46459,
