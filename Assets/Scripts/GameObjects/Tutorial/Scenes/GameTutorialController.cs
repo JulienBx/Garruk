@@ -23,7 +23,7 @@ public class GameTutorialController : TutorialObjectController
 				this.displayPopUp(2);
 				this.displayNextButton(false);
 				this.setPopUpTitle("Début du combat");
-				this.setPopUpDescription("Pret pour votre premier combat ? Le colonel Garruk, fraichement débarqué lui aussi sur Crystalia, terrorise les habitants avec ses prédateurs surentrainés. Anéantissez son armée pour ramener le calme dans la région !\n\nLe terrain de bataille est constitué de cases dont certaines ne peuvent etre franchies. Attention, certains personnages peuvent piéger les cases, rendant les déplacements périlleux ! Heureusement pour vous Garruk, peu adepte de la finesse, préfèrera sans doute foncer dans le tas !");
+				this.setPopUpDescription("Pret pour votre premier combat ? Le colonel Garruk, fraichement débarqué lui aussi sur Cristalia, terrorise les habitants avec ses prédateurs surentrainés. Anéantissez son armée pour ramener le calme dans la région !\n\nLe terrain de bataille est constitué de cases dont certaines ne peuvent etre franchies. Attention, certains personnages peuvent piéger les cases, rendant les déplacements périlleux ! Heureusement pour vous Garruk, peu adepte de la finesse, préfèrera sans doute foncer dans le tas !");
 				this.displayBackground(true);
 			}
 			this.resizeBackground(new Rect(0,0,0,0),0f,0f);
@@ -36,7 +36,7 @@ public class GameTutorialController : TutorialObjectController
 				this.setDownArrow();
 				this.displayNextButton(false);
 				this.setPopUpTitle("Sélectionner une unité");
-				this.setPopUpDescription("Vos troupes sont pretes pour le combat. Chaque unité est affichée sous forme de carte avec un visuel différent pour chaque classe de personnage.\n\nA chaque début de combat, vous pourrez placer vos troupes sur les deux premières rangées de cases. Vos unités plus résistantes pourront ainsi protéger vos unités les plus faibles.\n\n<b>Cliquez sur ce roublard pour le déplacer.</b> ");
+				this.setPopUpDescription("Vos troupes sont pretes pour le combat. Chaque unité est affichée sous forme de carte avec un visuel différent pour chaque classe de personnage.\n\nA chaque début de combat, vous pourrez placer vos troupes sur les deux premières rangées de cases. Vos unités plus résistantes pourront ainsi protéger vos unités les plus faibles.\n\n<b>Cliquez sur ce prédateur pour le déplacer.</b> ");
 				this.displayBackground(true);
 			}
 			
@@ -51,7 +51,7 @@ public class GameTutorialController : TutorialObjectController
 				this.setLeftArrow();
 				this.displayNextButton(true);
 				this.setPopUpTitle("Focus sur les unités");
-				this.setPopUpDescription("Les compétences et caractéristiques de chaque unité peuvent etre consultées en survolant celle-ci sur le champ de bataille.\n\nKrudi, célèbre artiste Crystalien, aime à raconter l'histoire suivante :\n<i>A la tete de mille hommes Grimorak s'élança,\nsans connaitre ses troupes, envoya au combat,\ncent nains unijambistes, et cinq cents cancrelats,\nqui rotirent sous le feu de quelques bazookas.");
+				this.setPopUpDescription("Les compétences et caractéristiques de chaque unité peuvent etre consultées en survolant celle-ci sur le champ de bataille.\n\nKrudi, célèbre artiste Cristalien, aime à raconter l'histoire suivante :\n<i>A la tete de mille hommes Grimorak s'élança,\nsans connaitre ses troupes, envoya au combat,\ncent nains unijambistes, et cinq cents cancrelats,\nqui rotirent sous le feu de quelques bazookas.");
 				this.displayBackground(true);
 			}
 			
@@ -240,7 +240,7 @@ public class GameTutorialController : TutorialObjectController
 				this.setDownArrow();
 				this.displayNextButton(true);
 				this.setPopUpTitle("Les points d'attaque");
-				this.setPopUpDescription("Chaque unité dispose de points d'attaque. Il servent à déterminer la puissance d'attaque de chaque personnage mais influent également sur de nombreuses compétences !\n\nLe combat se présente bien, les prédateurs de Garruk ont des niveaux d'attaque équivalents à ceux d'un caniche de Crystalia");
+				this.setPopUpDescription("Chaque unité dispose de points d'attaque. Il servent à déterminer la puissance d'attaque de chaque personnage mais influent également sur de nombreuses compétences !\n\nLe combat se présente bien, les prédateurs de Garruk ont des niveaux d'attaque équivalents à ceux d'un caniche de Cristalia");
 				this.displayBackground(true);
 			}
 			this.gameObjectPosition = GameView.instance.getPlayingCardsAttackZonePosition(3);

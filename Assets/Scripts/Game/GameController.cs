@@ -300,7 +300,7 @@ public class GameController : Photon.MonoBehaviour
 		
 		if(enemy!=-1){
 			GameSkills.instance.getSkill(0).init(GameView.instance.getCard(this.currentPlayingCard), GameView.instance.getCard(this.currentPlayingCard).GetAttackSkill());
-			GameSkills.instance.getSkill(0).applyOn(enemy);
+			GameSkills.instance.getSkill(0).applyOn(enemy, 0);
 			
 			yield return new WaitForSeconds(1);
 		}

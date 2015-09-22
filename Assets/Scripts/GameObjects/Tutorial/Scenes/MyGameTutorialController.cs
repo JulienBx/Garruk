@@ -162,7 +162,7 @@ public class MyGameTutorialController : TutorialObjectController
 				this.displayPopUp(2);
 				this.displayNextButton(true);
 				this.setPopUpTitle("Félicitations");
-				this.setPopUpDescription("Votre recrue vous revient entrainée et améliorée!\n\nVous disposez de nombreuses autres actions pour gérer vos unités : les licencier (vous récupérez alors le Cristal qui les équipait), les mettre à disposition sur le marché des mercenaires, etc.");
+				this.setPopUpDescription("Votre recrue vous revient entrainée et améliorée!\n\nVous disposez de nombreuses autres actions pour gérer vos unités : les bannir (vous récupérez alors le Cristal qui les équipait), les mettre à disposition sur le marché des mercenaires, etc.");
 				this.displayBackground(true);
 			}
 			Vector3 experiencePosition2 = newMyGameController.instance.getFocusedCardExperienceGaugePosition();
@@ -261,7 +261,7 @@ public class MyGameTutorialController : TutorialObjectController
 				this.displayPopUp(0);
 				this.setLeftArrow();
 				this.displayNextButton(false);
-				this.setPopUpTitle("Carière militaire");
+				this.setPopUpTitle("Carrière militaire");
 				this.setPopUpDescription("Votre équipe est maintenant constituée et prete à combattre! Entrons sur le champ de bataille");
 				this.displayBackground(true);
 				

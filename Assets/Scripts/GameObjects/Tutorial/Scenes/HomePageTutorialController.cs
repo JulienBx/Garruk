@@ -35,7 +35,7 @@ public class HomePageTutorialController : TutorialObjectController
 				this.displayPopUp(1);
 				this.setLeftArrow();
 				this.displayNextButton(false);
-				this.setPopUpTitle("Recruter des crystaliens");
+				this.setPopUpTitle("Recruter des Cristaliens");
 				this.setPopUpDescription("4 Cristaliens recrutés depuis la Terre vous attendent déjà. Allons les rencontrer et découvrir leur compétences.\n\n<b>Cliquez sur le bouton 'Mon armée'</b>");
 				this.displayBackground(true);
 
