@@ -22,6 +22,8 @@ public class PlayPopUpController : Photon.MonoBehaviour
 	private bool isMouseOnSelectDeckButton;
 	private IList<GameObject> deckList;
 	private bool attemptToPlay;
+
+	private bool isLoadingScreenDisplayed;
 	
 	void Update ()
 	{
@@ -44,7 +46,7 @@ public class PlayPopUpController : Photon.MonoBehaviour
 	}
 	void Awake()
 	{
-		this.loadingScreen=Instantiate(this.loadingScreenObject) as GameObject;
+		this.displayLoadingScreen ();
 	}
 	void Start () 
 	{	
@@ -59,7 +61,7 @@ public class PlayPopUpController : Photon.MonoBehaviour
 		this.retrieveDefaultDeck ();
 		this.retrieveDecksList ();
 		this.drawDeck ();
-		Destroy (this.loadingScreen);
+		this.hideLoadingScreen ();
 		this.show ();
 		if(newMenuController.instance.getIsTutorialLaunched())
 		{
@@ -170,7 +172,7 @@ public class PlayPopUpController : Photon.MonoBehaviour
 			this.deckList.Add (Instantiate(this.deckListObject) as GameObject);
 			this.deckList[this.deckList.Count-1].transform.parent=gameObject.transform.FindChild("deckList").FindChild("currentDeck");
 			this.deckList[this.deckList.Count-1].transform.localScale=new Vector3(1.6f,1.6f,1.6f);
-			this.deckList[this.deckList.Count-1].transform.localPosition=new Vector3(0.58f, -0.77f+(this.deckList.Count-1)*(-0.4f),-3f);
+			this.deckList[this.deckList.Count-1].transform.localPosition=new Vector3(0.58f, -0.77f+(this.deckList.Count-1)*(-0.4f),1f);
 			this.deckList[this.deckList.Count-1].transform.FindChild("Title").GetComponent<TextMeshPro>().text = model.decks [this.decksDisplayed[i]].Name;
 			this.deckList[this.deckList.Count-1].GetComponent<DeckBoardDeckListPlayPopUpController>().setId(i);
 		}
@@ -206,6 +208,7 @@ public class PlayPopUpController : Photon.MonoBehaviour
 	}
 	private IEnumerator setSelectedDeck()
 	{
+		this.displayLoadingScreen ();
 		yield return StartCoroutine(model.player.SetSelectedDeck(model.decks[this.deckDisplayed].Id));
 		attemptToPlay = true;
 		if(newMenuController.instance.getIsTutorialLaunched())
@@ -236,6 +239,7 @@ public class PlayPopUpController : Photon.MonoBehaviour
 			ApplicationModel.gameType=0;
 			Application.LoadLevel("Game");
 		}
+		//this.hideLoadingScreen ();
 	}
 	void OnDisconnectedFromPhoton()
 	{
@@ -255,6 +259,22 @@ public class PlayPopUpController : Photon.MonoBehaviour
 	public Vector3 getFriendlyGameButtonPosition()
 	{
 		return gameObject.transform.FindChild ("Button0").position;
+	}
+	public void displayLoadingScreen()
+	{
+		if(!isLoadingScreenDisplayed)
+		{
+			this.loadingScreen=Instantiate(this.loadingScreenObject) as GameObject;
+			this.isLoadingScreenDisplayed=true;
+		}
+	}
+	public void hideLoadingScreen()
+	{
+		if(isLoadingScreenDisplayed)
+		{
+			Destroy (this.loadingScreen);
+			this.isLoadingScreenDisplayed=false;
+		}
 	}
 }
 

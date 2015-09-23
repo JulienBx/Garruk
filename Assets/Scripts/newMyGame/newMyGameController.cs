@@ -111,6 +111,8 @@ public class newMyGameController : MonoBehaviour
 	private bool isTutorialLaunched;
 	private bool toResizeBackUI;
 
+	private bool isLoadingScreenDisplayed;
+
 	void Update()
 	{	
 		this.timer += Time.deltaTime;
@@ -219,7 +221,7 @@ public class newMyGameController : MonoBehaviour
 	}
 	void Awake()
 	{
-		this.loadingScreen=Instantiate(this.loadingScreenObject) as GameObject;
+		this.displayLoadingScreen ();
 		this.widthScreen = Screen.width;
 		this.heightScreen = Screen.height;
 		this.pixelPerUnit = 108f;
@@ -253,7 +255,7 @@ public class newMyGameController : MonoBehaviour
 		   	ApplicationModel.cardTypeChosen=-1;
 		}
 		this.applyFilters ();
-		Destroy (this.loadingScreen);
+		this.hideLoadingScreen ();
 		this.isSceneLoaded = true;
 		this.money = ApplicationModel.credits;
 		if(model.player.TutorialStep==2 || model.player.TutorialStep==3)
@@ -1312,17 +1314,19 @@ public class newMyGameController : MonoBehaviour
 		newDeckView.newDeckPopUpVM.error=this.checkDeckName(newDeckView.newDeckPopUpVM.name);
 		if(newDeckView.newDeckPopUpVM.error=="")
 		{
+			this.hideNewDeckPopUp();
+			this.displayLoadingScreen();
 			this.newDeckView.popUpVM.guiEnabled=false;
 			model.decks.Add(new Deck());
 			yield return StartCoroutine(model.decks[model.decks.Count-1].create(newDeckView.newDeckPopUpVM.name));
 			this.deckDisplayed=model.decks.Count-1;
 			this.initializeDecks();
 			this.initializeCards();
-			this.hideNewDeckPopUp();
 			if(this.isTutorialLaunched)
 			{
 				TutorialObjectController.instance.actionIsDone();
 			}
+			this.hideLoadingScreen();
 		}
 	}
 	public void editDeckHandler()
@@ -1336,10 +1340,11 @@ public class newMyGameController : MonoBehaviour
 			editDeckView.editDeckPopUpVM.error=checkDeckName(editDeckView.editDeckPopUpVM.newName);
 			if(editDeckView.editDeckPopUpVM.error=="")
 			{
-				this.editDeckView.popUpVM.guiEnabled=false;
+				this.displayLoadingScreen();
+				this.hideEditDeckPopUp();
 				yield return StartCoroutine(model.decks[this.deckDisplayed].edit(editDeckView.editDeckPopUpVM.newName));
 				this.deckBoard.transform.FindChild("deckList").FindChild("currentDeck").FindChild("deckName").GetComponent<TextMeshPro> ().text = model.decks[this.deckDisplayed].Name;
-				this.hideEditDeckPopUp();
+				this.hideLoadingScreen();
 			}
 		}
 		else
@@ -1353,15 +1358,16 @@ public class newMyGameController : MonoBehaviour
 	}
 	public IEnumerator deleteDeck()
 	{
-		this.deleteDeckView.popUpVM.guiEnabled=false;
+		this.hideDeleteDeckPopUp();
+		this.displayLoadingScreen ();
 		yield return StartCoroutine(model.decks[this.deckDisplayed].delete());
 		this.removeDeckFromAllCards (model.decks[this.deckDisplayed].Id);
 		model.decks.RemoveAt (this.deckDisplayed);
-		this.hideDeleteDeckPopUp();
 		this.retrieveDefaultDeck ();
 		this.initializeDecks ();
 		//this.drawCards ();
 		this.initializeCards ();
+		this.hideLoadingScreen ();
 	}
 	public void removeDeckFromAllCards(int id)
 	{
@@ -1842,5 +1848,21 @@ public class newMyGameController : MonoBehaviour
 		ApplicationModel.launchGameTutorial = true;
 		ApplicationModel.gameType = 0;
 		Application.LoadLevel ("Game");
+	}
+	public void displayLoadingScreen()
+	{
+		if(!isLoadingScreenDisplayed)
+		{
+			this.loadingScreen=Instantiate(this.loadingScreenObject) as GameObject;
+			this.isLoadingScreenDisplayed=true;
+		}
+	}
+	public void hideLoadingScreen()
+	{
+		if(isLoadingScreenDisplayed)
+		{
+			Destroy (this.loadingScreen);
+			this.isLoadingScreenDisplayed=false;
+		}
 	}
 }

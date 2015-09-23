@@ -112,12 +112,13 @@ public class NewPackController : MonoBehaviour
 	}
 	private IEnumerator buyPack(int cardType=-1)
 	{
-		yield return StartCoroutine (this.p.buyPack (cardType));
-		this.refreshCredits ();
 		if(isSelectCardTypeViewDisplayed)
 		{
 			this.hideSelectCardPopUp();
 		}
+		this.displayLoadingScreen ();
+		yield return StartCoroutine (this.p.buyPack (cardType));
+		this.refreshCredits ();
 		if(this.p.Error=="")
 		{
 			NewStoreController.instance.drawRandomCards(this.Id);
@@ -134,6 +135,7 @@ public class NewPackController : MonoBehaviour
 		{
 			this.displayErrorPopUp();
 		}
+		this.hideLoadingScreen ();
 	}
 	public virtual void show()
 	{
@@ -310,6 +312,12 @@ public class NewPackController : MonoBehaviour
 		return -1;
 	}
 	public virtual void refreshCredits()
+	{
+	}
+	public virtual void displayLoadingScreen()
+	{
+	}
+	public virtual void hideLoadingScreen()
 	{
 	}
 }

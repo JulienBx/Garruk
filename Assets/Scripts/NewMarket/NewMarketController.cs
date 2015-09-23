@@ -92,6 +92,7 @@ public class NewMarketController : MonoBehaviour
 	private bool areNewCardsAvailable;
 
 	private bool isTutorialLaunched;
+	private bool isLoadingScreenDisplayed;
 
 	void Update()
 	{	
@@ -194,7 +195,7 @@ public class NewMarketController : MonoBehaviour
 	}
 	void Awake()
 	{
-		this.loadingScreen=Instantiate(this.loadingScreenObject) as GameObject;
+		this.displayLoadingScreen ();
 		this.widthScreen = Screen.width;
 		this.heightScreen = Screen.height;
 		this.pixelPerUnit = 108f;
@@ -213,7 +214,7 @@ public class NewMarketController : MonoBehaviour
 		yield return StartCoroutine (model.initializeMarket (this.totalNbResultLimit));
 		this.initializeFilters ();
 		this.initializeCards ();
-		Destroy (this.loadingScreen);
+		this.hideLoadingScreen ();
 		this.isSceneLoaded = true;
 		this.money = ApplicationModel.credits;
 		if(!model.player.MarketTutorial)
@@ -1147,12 +1148,30 @@ public class NewMarketController : MonoBehaviour
 		newMenuController.instance.setTutorialLaunched (false);
 		if(toUpdate)
 		{
+			this.displayLoadingScreen();
 			yield return StartCoroutine (model.player.setMarketTutorial(true));
+			this.hideLoadingScreen();
 		}
 		yield break;
 	}
 	public Vector3 getCardsPosition(int id)
 	{
 		return cards[id].transform.position;
+	}
+	public void displayLoadingScreen()
+	{
+		if(!isLoadingScreenDisplayed)
+		{
+			this.loadingScreen=Instantiate(this.loadingScreenObject) as GameObject;
+			this.isLoadingScreenDisplayed=true;
+		}
+	}
+	public void hideLoadingScreen()
+	{
+		if(isLoadingScreenDisplayed)
+		{
+			Destroy (this.loadingScreen);
+			this.isLoadingScreenDisplayed=false;
+		}
 	}
 }

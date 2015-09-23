@@ -36,7 +36,7 @@ public class GameController : Photon.MonoBehaviour
 	void Awake()
 	{
 		instance = this;
-		
+
 		PhotonNetwork.autoCleanUpPlayerObjects = false;
 		PhotonNetwork.ConnectUsingSettings(ApplicationModel.photonSettings);
 		
@@ -461,7 +461,8 @@ public class GameController : Photon.MonoBehaviour
 		if (GameView.instance.getIsTutorialLaunched())
 		{
 			StartCoroutine(this.loadTutorialDeck(!this.isFirstPlayer, "Garruk"));
-		}	
+		}
+		GameView.instance.hideLoadingScreen ();
 	}
 	public IEnumerator loadTutorialDeck(bool isFirstPlayer, string name)
 	{

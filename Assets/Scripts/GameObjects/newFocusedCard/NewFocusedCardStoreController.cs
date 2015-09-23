@@ -85,5 +85,13 @@ public class NewFocusedCardStoreController : NewFocusedCardController
 			break;
 		}
 	}
+	public override void displayLoadingScreen()
+	{
+		NewStoreController.instance.displayLoadingScreen ();
+	}
+	public override void hideLoadingScreen()
+	{
+		NewStoreController.instance.hideLoadingScreen ();
+	}
 }
 
