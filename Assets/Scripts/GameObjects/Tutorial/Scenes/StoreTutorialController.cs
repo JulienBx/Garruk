@@ -25,7 +25,7 @@ public class StoreTutorialController : TutorialObjectController
 				this.displayBackground(true);
 				
 			}
-			this.resizeBackground(new Rect(0,0,0,0),1f,1f);
+			this.resizeBackground(new Rect(0,10,5,5),0f,0f);
 			this.resizePopUp(new Vector3(0,0,-9.5f));
 			break;
 		case 1:
@@ -102,7 +102,7 @@ public class StoreTutorialController : TutorialObjectController
 				this.setPopUpDescription("Vous avez terminé ce premier tutoriel");
 				this.displayBackground(true);
 			}
-			this.resizeBackground(new Rect(0,0,0,0),1f,1f);
+			this.resizeBackground(new Rect(0,10,5,5),0f,0f);
 			this.resizePopUp(new Vector3(0,0,-9.5f));
 			break;
 		case 7:

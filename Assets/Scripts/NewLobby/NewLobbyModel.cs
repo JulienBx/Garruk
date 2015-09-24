@@ -1,106 +1,138 @@
 using UnityEngine;
-using UnityEngine.UI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Reflection;
-using System.Linq;
 
-
-public class NewLobbyModel
+public class NewLobbyModel 
 {
-	public IList<Deck> decks;
-	public string[] cardTypeList;
-	public string[] skillsList;
-	public Division currentDivision;
+	
+	private string URLGetLobbyData = ApplicationModel.host+"get_lobby_data.php";
+
+	public IList<PlayerResult> lastResults;
 	public Cup currentCup;
+	public Division currentDivision;
 	public User player;
-	public FriendlyGame currentFriendlyGame;
 	
-	private string URLGetLobbyData = ApplicationModel.host + "get_lobby_data.php";
-	
-	public NewLobbyModel ()
+	public NewLobbyModel()
 	{
-		this.decks = new List<Deck> ();
-		this.currentDivision = new Division ();
-		this.currentCup = new Cup ();
-		this.player = new User ();
 	}
-	public IEnumerator getLobbyData()
+	public IEnumerator getLobbyData(bool isDivisionLobby, bool isEndGameLobby)
 	{
+
+		this.lastResults = new List<PlayerResult> ();
+
+		int isDivisionLobbyInt = 0;
+		if(isDivisionLobby)
+		{
+			isDivisionLobbyInt = 1;
+		}
+	
+		int isEndGameLobbyInt = 0;
+		if(isEndGameLobby)
+		{
+			isEndGameLobbyInt = 1;
+		}
+
 		WWWForm form = new WWWForm(); 											// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_nick", ApplicationModel.username);
-		form.AddField ("myform_nbcardsbydeck", ApplicationModel.nbCardsByDeck.ToString ());
+		form.AddField("myform_isdivisionlobby", isDivisionLobbyInt.ToString());
+		form.AddField("myform_isendgamelobby", isEndGameLobbyInt.ToString());
 		
 		WWW w = new WWW(URLGetLobbyData, form); 				// On envoie le formulaire à l'url sur le serveur 
 		yield return w;
 		if (w.error != null) 
-		{
-			Debug.Log (w.error); 										// donne l'erreur eventuelle
-		} 
+			Debug.Log (w.error); 
 		else 
 		{
 			string[] data=w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
-			
-			this.player = this.parsePlayer(data[0].Split(new string[] { "//" }, System.StringSplitOptions.None));
-			this.cardTypeList = data[1].Split(new string[] { "//" }, System.StringSplitOptions.None);
-			this.skillsList = data[2].Split(new string[] { "//" }, System.StringSplitOptions.None);
-			this.decks = this.parseDecks(data[3].Split(new string[] { "#DECK#" }, System.StringSplitOptions.None));
-			this.currentDivision = this.parseDivision(data[4].Split(new string[] { "//" }, System.StringSplitOptions.None));
-			this.currentCup = this.parseCup(data[5].Split(new string[] { "//" }, System.StringSplitOptions.None));
-			this.currentFriendlyGame = this.parseFriendlyGame(data[6].Split(new string[] { "//" }, System.StringSplitOptions.None));
-			ApplicationModel.currentFriendlyGame=this.currentFriendlyGame;
+			this.player = parseUser(data[0].Split(new string[] { "//" }, System.StringSplitOptions.None));
+
+			if(isDivisionLobby)
+			{
+				this.currentDivision=parseDivision(data[1].Split(new string[] { "//" }, System.StringSplitOptions.None));
+			}
+			else
+			{
+				this.currentCup=parseCup(data[1].Split(new string[] { "//" }, System.StringSplitOptions.None));
+			}
+			this.lastResults=parseResults(data[2].Split(new string[] {"RESULT"},System.StringSplitOptions.None));
 		}
 	}
-	private User parsePlayer(string[] userData)
+
+	private Cup parseCup(string[] array)
 	{
-		User user = new User ();
-		user.NbGamesDivision = System.Convert.ToInt32 (userData [0]);
-		user.NbGamesCup = System.Convert.ToInt32 (userData [1]);
-		user.SelectedDeckId = System.Convert.ToInt32 (userData [2]);
-		user.TutorialStep = System.Convert.ToInt32 (userData [3]);
-		return user;
-	}
-	private List<Deck> parseDecks(string[] decksData)
-	{
-		List<Deck> decks = new List<Deck> ();
-		for(int i=0;i<decksData.Length-1;i++)
-		{
-			string[] deckInformation = decksData[i].Split(new string[] { "#DECKINFO#" }, System.StringSplitOptions.None);
-			decks.Add (new Deck());
-			decks[i].Id=System.Convert.ToInt32(deckInformation[0]);
-			decks[i].Name=deckInformation[1];
-			decks[i].NbCards=System.Convert.ToInt32(deckInformation[2]);
-		}
-		return decks;
-	}
-	private Division parseDivision(string[] divisionData)
-	{
-		Division division = new Division ();
-		division.Name = divisionData [0];
-		division.Picture = divisionData [1];
-		division.TitlePrize = System.Convert.ToInt32 (divisionData [2]);
-		division.NbGames = System.Convert.ToInt32 (divisionData [3]);
-		return division;
-	}
-	private Cup parseCup(string[] cupData)
-	{
-		Cup cup=new Cup();
-		cup.Name = cupData [0];
-		cup.Picture = cupData [1];
-		cup.CupPrize = System.Convert.ToInt32 (cupData [2]);
-		cup.NbRounds = System.Convert.ToInt32 (cupData [3]);
+		Cup cup = new Cup ();
+		cup.GamesPlayed= System.Convert.ToInt32(array [0]);
+		cup.NbWins= System.Convert.ToInt32(array [1]);
+		cup.NbLooses= System.Convert.ToInt32(array [2]);
+		cup.Status= System.Convert.ToInt32(array [3]);
+		cup.Name= array[4];
+		cup.Picture= array[5];
+		cup.CupPrize = System.Convert.ToInt32(array [6]);
+		cup.NbRounds = System.Convert.ToInt32(array [7]);
+		cup.EarnXp_W= System.Convert.ToInt32(array [8]);
+		cup.EarnXp_L= System.Convert.ToInt32(array [9]);
+		cup.EarnCredits_W= System.Convert.ToInt32(array [10]);
+		cup.EarnCredits_L= System.Convert.ToInt32(array [11]);
 		return cup;
 	}
-	private FriendlyGame parseFriendlyGame(string[] friendlyGameData)
+	private Division parseDivision(string[] array)
 	{
-		FriendlyGame friendlyGame =new FriendlyGame();
-		friendlyGame.EarnXp_W = System.Convert.ToInt32 (friendlyGameData [0]);
-		friendlyGame.EarnXp_L = System.Convert.ToInt32 (friendlyGameData [1]);
-		friendlyGame.EarnCredits_W = System.Convert.ToInt32 (friendlyGameData [2]);
-		friendlyGame.EarnCredits_L = System.Convert.ToInt32 (friendlyGameData [3]);
-		return friendlyGame;
+		Division division = new Division ();
+		division.GamesPlayed= System.Convert.ToInt32(array [0]);
+		division.NbWins= System.Convert.ToInt32(array [1]);
+		division.NbLooses= System.Convert.ToInt32(array [2]);
+		division.Status= System.Convert.ToInt32(array [3]);
+		division.Name= array[4];
+		division.Picture= array[5];
+		division.TitlePrize = System.Convert.ToInt32(array [6]);
+		division.PromotionPrize = System.Convert.ToInt32(array [7]);
+		division.NbWinsForRelegation = System.Convert.ToInt32(array [8]);
+		division.NbWinsForPromotion = System.Convert.ToInt32(array [9]);
+		division.NbWinsForTitle = System.Convert.ToInt32(array [10]);
+		division.NbGames = System.Convert.ToInt32(array [11]);
+		division.EarnXp_W= System.Convert.ToInt32(array [12]);
+		division.EarnXp_L= System.Convert.ToInt32(array [13]);
+		division.EarnCredits_W= System.Convert.ToInt32(array [14]);
+		division.EarnCredits_L= System.Convert.ToInt32(array [15]);
+		return division;
 	}
+	private User parseUser(string[] array)
+	{
+		User player = new User ();
+		player.Ranking = System.Convert.ToInt32 (array [0]);
+		player.RankingPoints = System.Convert.ToInt32 (array [1]);
+		player.CollectionPoints = System.Convert.ToInt32 (array [2]);
+		player.CollectionRanking = System.Convert.ToInt32 (array [3]);
+		player.TotalNbWins = System.Convert.ToInt32 (array [4]);
+		player.TotalNbLooses = System.Convert.ToInt32 (array [5]);
+		return player;
+	}
+	public IList<PlayerResult> parseResults(string[] array)
+	{
+		IList<PlayerResult> results = new List<PlayerResult> ();
+		
+		for (int i=0;i<array.Length-1;i++)
+		{
+			
+			string[] resultData=array[i].Split (new string[] {"//"}, System.StringSplitOptions.None);
+
+			this.lastResults.Add (new PlayerResult(System.Convert.ToBoolean(System.Convert.ToInt32(resultData[0])),
+			                                       System.DateTime.ParseExact(resultData[1], "yyyy-MM-dd HH:mm:ss", null),
+			                                       new User(resultData[2],
+			         resultData[3],
+			         System.Convert.ToInt32(resultData[4]),
+			         System.Convert.ToInt32(resultData[5]),
+			         System.Convert.ToInt32(resultData[6]),
+			         System.Convert.ToInt32(resultData[7])))); //total Nblooses
+
+		}
+		
+		return results;
+	}
+	
 }
+
+
 

@@ -13,7 +13,7 @@ public class TutorialGameBackgroundController : TutorialBackgroundController
 	}
 	public override void computeColliders()
 	{
-		BoxCollider[] colliders = gameObject.transform.FindChild("circleBackground").GetComponents<BoxCollider>();
+		BoxCollider[] colliders = gameObject.transform.GetComponents<BoxCollider>();
 		colliders [0].size = new Vector3( this.topColliderSize.x,this.topColliderSize.y,0.2f);
 		colliders [0].center = new Vector3 (this.topColliderOffset.x, this.topColliderOffset.y, 0f);
 		colliders [1].size = new Vector3 (this.bottomColliderSize.x, this.bottomColliderSize.y, 0.2f);

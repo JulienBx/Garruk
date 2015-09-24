@@ -13,12 +13,11 @@ public class PlayerResult
 	public PlayerResult()
 	{
 	}
-	public PlayerResult(bool haswon, DateTime date,int gametype,User opponent)
+	public PlayerResult(bool haswon, DateTime date,User opponent)
 	{
 		this.Opponent = opponent;
 		this.HasWon = haswon;
 		this.Date = date;
-		this.GameType = gametype;
 	}
 }
 

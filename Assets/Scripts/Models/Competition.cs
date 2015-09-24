@@ -13,6 +13,21 @@ public class Competition
 	public int EarnXp_L;
 	public int EarnCredits_W;
 	public int EarnCredits_L;
+	public int GamesPlayed;
+	public int NbWins;
+	public int NbLooses;
+	public int Status;
+
+	// Status pour division
+	// - 1 -> Relégation (fin de saison)
+	// 0 -> En cours
+	// 1 -> Maintien (fin de saison)
+	// 11 -> Maintien (vient juste d'être obtenu)
+	// 12 -> Maintien (obtenu précédemment)
+	// 2 -> Promotion (fin de saison)
+	// 21 -> Promotion (vient juste d'être obtenue)
+	// 22 -> Promotion (obtenu précédemment)
+	// 3 -> Titre (fin de saison)
 	
 	public Competition()
 	{

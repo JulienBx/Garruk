@@ -14,6 +14,7 @@ public class PopUpController : MonoBehaviour
 	private bool isNotification;
 	private bool isNews;
 	private bool isCompetition;
+	private bool isResult;
 	
 	
 	void Awake()
@@ -66,6 +67,14 @@ public class PopUpController : MonoBehaviour
 	public bool getIsCompetition()
 	{
 		return isCompetition;
+	}
+	public void setIsResult(bool value)
+	{
+		this.isResult = value;
+	}
+	public bool getIsResult()
+	{
+		return isResult;
 	}
 	public void setId(int Id)
 	{

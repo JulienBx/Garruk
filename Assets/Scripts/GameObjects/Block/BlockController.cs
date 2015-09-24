@@ -32,6 +32,7 @@ public class BlockController : MonoBehaviour
 	public void resize(Rect block, bool shadow=true)
 	{
 		float pixelPerUnit = 108f;
+		float pixelSize = (2f * Camera.main.GetComponent<Camera> ().orthographicSize)/Screen.height ;
 		
 		Vector3 cornerSize = new Vector3 (200f, 200f,0)/pixelPerUnit;
 		Vector3 lineSize = new Vector3 (500f, 10f,0)/pixelPerUnit;
@@ -46,10 +47,10 @@ public class BlockController : MonoBehaviour
 		Vector3 newVerticalLineScale = new Vector3 ((block.height-2f*newCornerSize.x) / lineSize.x, 1f, 1f);
 		Vector3 newVerticalLineSize = new Vector3(newVerticalLineScale.x * (lineSize.x),newVerticalLineScale.y * (lineSize.y),0f);
 		
-		Vector3 newHorizontalAreaScale = new Vector3 (newHorizontalLineSize.x / (areaSize.x), (newCornerSize.y - newHorizontalLineSize.y) / (areaSize.y), 1f);
+		Vector3 newHorizontalAreaScale = new Vector3 ((newHorizontalLineSize.x) / (areaSize.x), (newCornerSize.y - newHorizontalLineSize.y) / (areaSize.y), 1f);
 		Vector3 newHorizontalAreaSize = new Vector3(newHorizontalAreaScale.x * (areaSize.x),newHorizontalAreaScale.y * (areaSize.y),0f);
 		
-		Vector3 newVerticalAreaScale = new Vector3 ((newCornerSize.x - newVerticalLineSize.y) / (areaSize.x), newVerticalLineSize.x / (areaSize.y), 1f);
+		Vector3 newVerticalAreaScale = new Vector3 ((newCornerSize.x - newVerticalLineSize.y) / (areaSize.x), (newVerticalLineSize.x) / (areaSize.y), 1f);
 		Vector3 newVerticalAreaSize = new Vector3(newVerticalAreaScale.x * (areaSize.x),newVerticalAreaScale.y * (areaSize.y),0f);
 		
 		Vector3 newBigAreaScale = new Vector3 ((block.width- 2f * newVerticalLineSize.y -2*newVerticalAreaSize.x) /(areaSize.x), (block.height - 2f * newHorizontalLineSize.y - 2f * newHorizontalAreaSize.y) / (areaSize.y), 1f);
@@ -70,33 +71,40 @@ public class BlockController : MonoBehaviour
 		Vector3 topLinePosition = new Vector3 (0f, newBigAreaSize.y / 2f + newHorizontalAreaSize.y  + newHorizontalLineSize.y / 2f, 0f);
 		Vector3 leftLinePosition = new Vector3 (- newBigAreaSize.x / 2f - newVerticalAreaSize.x - newVerticalLineSize.y / 2f, 0f, 0f);
 		Vector3 rightLinePosition = new Vector3 (newBigAreaSize.x / 2f + newVerticalAreaSize.x + newVerticalLineSize.y / 2f,0f, 0f);
-		
+
+		Vector3 correctedNewHorizontalAreaScale = new Vector3 (newHorizontalAreaScale.x*1.01f, newHorizontalAreaScale.y * 1.6f, newHorizontalAreaScale.z);
+		Vector3 correctedNewVerticalAreaScale = new Vector3 (newVerticalAreaScale.x*1.6f, newVerticalAreaScale.y*1.01f, newVerticalAreaScale.z);
+		Vector3 correctedNewCornerScale = new Vector3 (newCornerScale.x * 1.01f, newCornerScale.y * 1.01f, newCornerScale.z * 1.01f);
+		Vector3 correctedNewHorizontalLineScale = new Vector3 (newHorizontalLineScale.x * 1.01f, newHorizontalLineScale.y * 1.01f, newHorizontalLineScale.z);
+		Vector3 correctedNewVerticalLineScale = new Vector3 (newVerticalLineScale.x * 1.01f, newVerticalLineScale.y * 1.01f, newVerticalLineScale.z);
+		Vector3 correctedNewBigAreaScale = new Vector3 (newBigAreaScale.x * 1.02f, newBigAreaScale.y * 1.02f, newBigAreaScale.z);
+
 		this.gameObject.transform.FindChild ("TopRectangle").localPosition = topRectanglePosition;
-		this.gameObject.transform.FindChild ("TopRectangle").localScale = newHorizontalAreaScale;
+		this.gameObject.transform.FindChild ("TopRectangle").localScale = correctedNewHorizontalAreaScale;
 		this.gameObject.transform.FindChild ("BottomRectangle").localPosition = bottomRectanglePosition;
-		this.gameObject.transform.FindChild ("BottomRectangle").localScale = newHorizontalAreaScale;
+		this.gameObject.transform.FindChild ("BottomRectangle").localScale = correctedNewHorizontalAreaScale;
 		this.gameObject.transform.FindChild ("LeftRectangle").localPosition = leftRectanglePosition;
-		this.gameObject.transform.FindChild ("LeftRectangle").localScale = newVerticalAreaScale;
+		this.gameObject.transform.FindChild ("LeftRectangle").localScale = correctedNewVerticalAreaScale;
 		this.gameObject.transform.FindChild ("RightRectangle").localPosition = rightRectanglePosition;
-		this.gameObject.transform.FindChild ("RightRectangle").localScale = newVerticalAreaScale;
+		this.gameObject.transform.FindChild ("RightRectangle").localScale = correctedNewVerticalAreaScale;
 		this.gameObject.transform.FindChild ("CenterRectangle").localPosition = centerRectanglePosition;
-		this.gameObject.transform.FindChild ("CenterRectangle").localScale = newBigAreaScale;
+		this.gameObject.transform.FindChild ("CenterRectangle").localScale = correctedNewBigAreaScale;
 		this.gameObject.transform.FindChild ("BottomLeftCorner").localPosition = bottomLeftCornerPosition;
-		this.gameObject.transform.FindChild ("BottomLeftCorner").localScale = newCornerScale;
+		this.gameObject.transform.FindChild ("BottomLeftCorner").localScale = correctedNewCornerScale;
 		this.gameObject.transform.FindChild ("BottomRightCorner").localPosition = bottomRightCornerPosition;
-		this.gameObject.transform.FindChild ("BottomRightCorner").localScale = newCornerScale;
+		this.gameObject.transform.FindChild ("BottomRightCorner").localScale = correctedNewCornerScale;
 		this.gameObject.transform.FindChild ("TopRightCorner").localPosition = topRightCornerPosition;
-		this.gameObject.transform.FindChild ("TopRightCorner").localScale = newCornerScale;
+		this.gameObject.transform.FindChild ("TopRightCorner").localScale = correctedNewCornerScale;
 		this.gameObject.transform.FindChild ("TopLeftCorner").localPosition = topLeftCornerPosition;
-		this.gameObject.transform.FindChild ("TopLeftCorner").localScale = newCornerScale;
+		this.gameObject.transform.FindChild ("TopLeftCorner").localScale = correctedNewCornerScale;
 		this.gameObject.transform.FindChild ("TopLine").localPosition = topLinePosition;
-		this.gameObject.transform.FindChild ("TopLine").localScale = newHorizontalLineScale;
+		this.gameObject.transform.FindChild ("TopLine").localScale = correctedNewHorizontalLineScale;
 		this.gameObject.transform.FindChild ("BottomLine").localPosition = bottomLinePosition;
-		this.gameObject.transform.FindChild ("BottomLine").localScale = newHorizontalLineScale;
+		this.gameObject.transform.FindChild ("BottomLine").localScale = correctedNewHorizontalLineScale;
 		this.gameObject.transform.FindChild ("LeftLine").localPosition = leftLinePosition;
-		this.gameObject.transform.FindChild ("LeftLine").localScale = newVerticalLineScale;
+		this.gameObject.transform.FindChild ("LeftLine").localScale = correctedNewVerticalLineScale;
 		this.gameObject.transform.FindChild ("RightLine").localPosition = rightLinePosition;
-		this.gameObject.transform.FindChild ("RightLine").localScale = newVerticalLineScale;
+		this.gameObject.transform.FindChild ("RightLine").localScale = correctedNewVerticalLineScale;
 		
 		if(shadow)
 		{

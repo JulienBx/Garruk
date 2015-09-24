@@ -26,7 +26,7 @@ public class GameTutorialController : TutorialObjectController
 				this.setPopUpDescription("Pret pour votre premier combat ? Le colonel Garruk, fraichement débarqué lui aussi sur Cristalia, terrorise les habitants avec ses prédateurs surentrainés. Anéantissez son armée pour ramener le calme dans la région !\n\nLe terrain de bataille est constitué de cases dont certaines ne peuvent etre franchies. Attention, certains personnages peuvent piéger les cases, rendant les déplacements périlleux ! Heureusement pour vous Garruk, peu adepte de la finesse, préfèrera sans doute foncer dans le tas !");
 				this.displayBackground(true);
 			}
-			this.resizeBackground(new Rect(0,0,0,0),0f,0f);
+			this.resizeBackground(new Rect(0,10,5,5),0f,0f);
 			this.resizePopUp(new Vector3(0,0,-9.5f));
 			break;
 		case 1:
@@ -836,7 +836,7 @@ public class GameTutorialController : TutorialObjectController
 				this.setPopUpDescription("A chaque fin de combat, vos troupes reçoivent des bonus d'expérience et vous recevez du cristal.\n\nDisputer des combats officiels rapporte plus d'expérience et de cristal!");
 				this.displayBackground(true);
 			}
-			this.resizeBackground(new Rect(0,0,0,0),0f,0f);
+			this.resizeBackground(new Rect(0,10,5,5),0f,0f);
 			this.resizePopUp(new Vector3(0,-2.5f,-9.5f));
 			break;
 		case 57:
