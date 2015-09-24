@@ -39,6 +39,7 @@ public class GameView : MonoBehaviour
 	GameObject hisHoveredRPC ;
 	GameObject skillRPC ;
 	GameObject tutorial;
+	GameObject skillPopUp;
 	GameObject popUp;
 	GameObject popUpText;
 	GameObject popUpTitle;
@@ -137,6 +138,8 @@ public class GameView : MonoBehaviour
 		this.skillRPC = GameObject.Find("SkillDescription");
 		this.popUp = GameObject.Find("PopUp");
 		this.popUpText = GameObject.Find("PopUpText");
+		this.skillPopUp = GameObject.Find("SkillPopUp");
+		this.skillPopUp.GetComponent<SkillPopUpController>().hide ();
 		this.popUpTitle = GameObject.Find("PopUpTitle");
 		this.timerGO = GameObject.Find("Timer");
 		this.targets = new List<Tile>();
@@ -168,6 +171,10 @@ public class GameView : MonoBehaviour
 		
 		if(GameController.instance.getCurrentPlayingCard()!=-1){
 			this.playingCards[GameController.instance.getCurrentPlayingCard()].GetComponent<PlayingCardController>().addTime(Time.deltaTime);
+		}
+		
+		if(this.skillPopUp.GetComponent<SkillPopUpController>().getTimeToDisplay()!=0){
+			this.skillPopUp.GetComponent<SkillPopUpController>().addTime(Time.deltaTime);
 		}
 		
 		if(timerTurn>0){
@@ -316,6 +323,11 @@ public class GameView : MonoBehaviour
 				this.toDisplaySE = false ;
 			}
 		}
+	}
+	
+	public void setSkillPopUp(string texte, Card launcher, List<Card> receivers, List<string> textsReceivers){
+		this.skillPopUp.GetComponent<SkillPopUpController>().setPopUp(texte, launcher, receivers, textsReceivers);
+		this.skillPopUp.GetComponent<SkillPopUpController>().setTimeToDisplay(3f);
 	}
 	
 	public void displaySkills(bool b){
@@ -592,7 +604,7 @@ public class GameView : MonoBehaviour
 			this.playingCards [debut + c.deckOrder].GetComponentInChildren<PlayingCardController>().hide();
 		} 
 		this.playingCards [debut + c.deckOrder].GetComponentInChildren<PlayingCardController>().setIsMine(isFirstP==isFirstPlayer);
-		this.playingCards [debut + c.deckOrder].GetComponentInChildren<PlayingCardController>().setCard(c, 3-c.deckOrder);
+		this.playingCards [debut + c.deckOrder].GetComponentInChildren<PlayingCardController>().setCard(c);
 		this.playingCards [debut + c.deckOrder].GetComponentInChildren<PlayingCardController>().setIDCharacter(debut + c.deckOrder);
 		this.playingCards [debut + c.deckOrder].name = "Card"+(debut + c.deckOrder);
 		this.playingCards [debut + c.deckOrder].transform.FindChild("AttackZone").GetComponent<AttackPictoController>().setIDCard(debut + c.deckOrder);

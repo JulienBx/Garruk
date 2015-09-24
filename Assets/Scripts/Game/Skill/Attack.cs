@@ -69,13 +69,22 @@ public class Attack : GameSkill
 		amount = Mathf.Min(currentLife,amount-(bouclier*amount/100));
 		
 		GameController.instance.addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
-		if(currentLife!=amount){
-			if(arg==0){
-				GameView.instance.displaySkillEffect(target, "HIT\n-"+amount+" PV", 5);
+		if(GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
+			if(currentLife!=amount){
+				if(arg==0){
+					GameView.instance.displaySkillEffect(target, "HIT\n-"+amount+" PV", 5);
+				}
+				else{
+					GameView.instance.displaySkillEffect(target, "GEANT\n-"+amount+" PV", 5);
+				}
 			}
-			else{
-				GameView.instance.displaySkillEffect(target, "GEANT\n-"+amount+" PV", 5);
-			}
+		}
+		else{
+			List<Card> receivers =  new List<Card>();
+			receivers.Add (targetCard);
+			List<string> receiversTexts =  new List<string>();
+			receiversTexts.Add ("HIT\n-"+amount+" PV");
+			GameView.instance.setSkillPopUp("lance <b>Attaque</b>...", base.card, receivers, receiversTexts);
 		}
 	}
 	

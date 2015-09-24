@@ -37,6 +37,9 @@ public class PlayingCardController : GameObjectController
 	{
 		Transform t = gameObject.transform;
 		t.Find("AttackZone").FindChild("AttackPicto").GetComponent<SpriteRenderer>().enabled = false ;
+		t.Find("AttackZone").GetComponent<BoxCollider>().enabled = false ;
+		
+		t.Find("AttackZone").FindChild("AttackValue").GetComponent<MeshRenderer>().enabled = false ;
 		t.FindChild("Art").GetComponent<SpriteRenderer>().enabled = false ;
 		t.FindChild("Life").GetComponent<SpriteRenderer>().enabled = false ;
 		t.FindChild("LifeBar").GetComponent<SpriteRenderer>().enabled = false ;
@@ -46,7 +49,11 @@ public class PlayingCardController : GameObjectController
 		t.FindChild("Icon1").GetComponent<SpriteRenderer>().enabled = false ;
 		t.FindChild("Icon2").GetComponent<SpriteRenderer>().enabled = false ;
 		t.FindChild("Icon3").GetComponent<SpriteRenderer>().enabled = false ;
-		t.Find("AttackZone").FindChild("AttackValue").GetComponent<MeshRenderer>().enabled = false ;
+		t.FindChild("Icon3").GetComponent<SpriteRenderer>().enabled = false ;
+		t.FindChild("Icon3").GetComponent<SpriteRenderer>().enabled = false ;
+		t.FindChild("PictoTR").GetComponent<SpriteRenderer>().enabled = false ;
+		t.FindChild("WaitTime").GetComponent<MeshRenderer>().enabled = false ;
+		
 		gameObject.GetComponent<BoxCollider>().enabled = false ;
 	}
 	
@@ -64,6 +71,10 @@ public class PlayingCardController : GameObjectController
 	{
 		Transform t = gameObject.transform;
 		t.Find("AttackZone").FindChild("AttackPicto").GetComponent<SpriteRenderer>().enabled = true ;
+		t.Find("AttackZone").GetComponent<BoxCollider>().enabled = true ;
+		
+		t.Find("AttackZone").FindChild("AttackValue").GetComponent<MeshRenderer>().enabled = true ;
+		
 		t.FindChild("Art").GetComponent<SpriteRenderer>().enabled = true ;
 		t.FindChild("Life").GetComponent<SpriteRenderer>().enabled = true ;
 		t.FindChild("LifeBar").GetComponent<SpriteRenderer>().enabled = true ;
@@ -78,7 +89,7 @@ public class PlayingCardController : GameObjectController
 		gameObject.GetComponent<BoxCollider>().enabled = true ;
 	}
 	
-	public void setCard(Card c, int d)
+	public void setCard(Card c)
 	{
 		this.card = c ;
 		transform.Find("AttackZone").FindChild("AttackValue").GetComponent<TextMeshPro>().text = c.GetAttackString();
