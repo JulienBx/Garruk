@@ -1323,6 +1323,17 @@ public class GameController : Photon.MonoBehaviour
 		GameSkills.instance.getCurrentGameSkill().addTarget(target, result);
 	}
 	
+	public void addTarget(int target, int result, int value)
+	{
+		photonView.RPC("addTargetValueRPC", PhotonTargets.AllBuffered, target, result, value);
+	}
+	
+	[RPC]
+	public void addTargetValueRPC(int target, int result, int value)
+	{
+		GameSkills.instance.getCurrentGameSkill().addTarget(target, result, value);
+	}
+	
 	public void addTargetTile(int tileX, int tileY, int result)
 	{
 		photonView.RPC("addTargetTileRPC", PhotonTargets.AllBuffered, tileX, tileY, result);

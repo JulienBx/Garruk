@@ -15,20 +15,32 @@ public class Frenesie : GameSkill
 	
 	public override void resolve(List<int> targetsPCC)
 	{	                     
-		GameController.instance.applyOn();
 		GameController.instance.play();
 	}
 	
 	public override void applyOn(){
-		int manacost = base.skill.ManaCost;
-		int myCurrentLife = base.card.GetAttack();
-		int target = GameController.instance.getCurrentPlayingCard() ;
+		int amount = base.skill.ManaCost;
+		int myCurrentLife = base.card.GetLife();
+		int amount2 = Mathf.Min(amount, myCurrentLife);
 		
-		GameController.instance.addCardModifier(target, manacost, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
-		GameController.instance.addCardModifier(target, manacost, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, -1, 9, "Frénésie", "Attaque augmentée de "+manacost+". Permanent", "Permanent");
+		int target = GameController.instance.getCurrentPlayingCard();
+		List<Card> receivers =  new List<Card>();
+		List<string> receiversTexts = new List<string>();
 		
-		if(myCurrentLife>manacost){
-			GameView.instance.displaySkillEffect(target, "+"+manacost+" ATK\n-"+manacost+" PV", 4);
+		GameController.instance.addCardModifier(target, amount2, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
+		GameController.instance.addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, -1, 9, "Frénésie", "+"+amount+" ATK", "Permanent");
+		
+		string text = "+"+amount+" ATK\n-"+amount+" PV";
+		if(GameView.instance.getCard(target).GetLife()==amount2){
+			text+="\nMORT";
+		}
+		GameView.instance.displaySkillEffect(target, text, 4);
+		
+		receivers.Add (GameView.instance.getCard(target));
+		receiversTexts.Add(text);
+		
+		if(!GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
+			GameView.instance.setSkillPopUp("lance <b>Frénésie</b>...", base.card, receivers, receiversTexts);
 		}
 	}
 	

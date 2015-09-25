@@ -32,10 +32,10 @@ public class Attaque360 : GameSkill
 				{
 					if (Random.Range(1,101) > GameView.instance.getCard(tempInt).GetEsquive())
 					{                             
-						GameController.instance.applyOn(tempInt,0);
+						GameController.instance.addTarget(tempInt,1);
 					}
 					else{
-						GameController.instance.failedToCastOnSkill(tempInt, 0);
+						GameController.instance.addTarget(tempInt,0);
 					}
 					
 					if (base.card.isGiant()){
@@ -47,7 +47,10 @@ public class Attaque360 : GameSkill
 								
 								if (Random.Range(1,101) > GameView.instance.getCard(tempInt).GetMagicalEsquive())
 								{
-									GameController.instance.applyOn(tempInt,1);
+									GameController.instance.addTarget(tempInt,3);
+								}
+								else{
+									GameController.instance.addTarget(tempInt,2);
 								}
 							}
 						}
@@ -60,32 +63,66 @@ public class Attaque360 : GameSkill
 		GameController.instance.play();
 	}
 	
-//	public override void applyOn(int target, int arg){
-//		Card targetCard = GameView.instance.getCard(target);
-//		int currentLife ;
-//		int damageBonusPercentage ;
-//		int amount ;
-//		int bouclier ;
-//		bouclier = targetCard.GetBouclier();
-//		currentLife = targetCard.GetLife();
-//		damageBonusPercentage = base.card.GetDamagesPercentageBonus(targetCard);
-//		amount = (base.card.GetAttack()*base.skill.ManaCost/100)*(100+damageBonusPercentage)/100;
-//		amount = Mathf.Min(currentLife,amount-(bouclier*amount/100));
-//		GameController.instance.addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
-//		
-//		if(currentLife!=amount){
-//			if(arg==0){
-//				GameView.instance.displaySkillEffect(target, "-"+amount+" PV", 5);
-//			}
-//			else{
-//				GameView.instance.displaySkillEffect(target, "GEANT\n-"+amount+" PV", 5);
-//			}
-//		}
-//	}
-	
-//	public override void failedToCastOn(int target, int indexFailure){
-//		GameView.instance.displaySkillEffect(target, "Esquive", 4);
-//	}
+	public override void applyOn(){
+		Card targetCard ;
+		int target ;
+		string text ;
+		List<Card> receivers =  new List<Card>();
+		List<string> receiversTexts =  new List<string>();
+		
+		int amount ; 
+		
+		for(int i = 0 ; i < base.targets.Count ; i++){
+			target = base.targets[i];
+			targetCard = GameView.instance.getCard(target);
+			receivers.Add (targetCard);
+			if (base.results[i]==0){
+				text = "Esquive";
+				GameView.instance.displaySkillEffect(target, text, 4);
+				receiversTexts.Add (text);
+			}
+			else if (base.results[i]==2){
+				text = "Bonus 'Géant'\nEsquive";
+				GameView.instance.displaySkillEffect(target, text, 4);
+				receiversTexts.Add (text);
+			}
+			else{
+				amount = Mathf.Min(targetCard.GetLife(),base.card.GetAttack()*(1-(targetCard.GetBouclier()/100)));
+				if (base.card.isLache()){
+					if(GameController.instance.getIsFirstPlayer()==GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
+						if(GameView.instance.getPlayingCardTile(target).y==GameView.instance.getPlayingCardTile(GameController.instance.getCurrentPlayingCard()).y-1){
+							amount = (100+base.card.getPassiveManacost())*amount/100;
+						}
+					}
+					else{
+						if(GameView.instance.getPlayingCardTile(target).y-1==GameView.instance.getPlayingCardTile(GameController.instance.getCurrentPlayingCard()).y){
+							amount = (100+base.card.getPassiveManacost())*amount/100;
+						}
+					}
+				}
+				if(base.results[i]==3){
+					text = "Bonus Géant\n";
+				}
+				else{
+					text="";
+				}
+				
+				text+="-"+amount+" PV";
+				
+				if(targetCard.GetLife()==amount){
+					text+="\nMORT";
+				}
+				receiversTexts.Add (text);
+				
+				GameController.instance.addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
+				
+				GameView.instance.displaySkillEffect(target, text, 5);
+			}	
+		}
+		if(!GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
+			GameView.instance.setSkillPopUp("lance <b>Attaque Circulaire</b>...", base.card, receivers, receiversTexts);
+		}
+	}
 	
 	public override string isLaunchable(){
 		return GameView.instance.canLaunchAdjacentOpponents();

@@ -24,10 +24,10 @@ public class Calmant : GameSkill
 		
 		if (Random.Range(1,101) > GameView.instance.getCard(target).GetMagicalEsquive())
 		{                             
-			GameController.instance.applyOn(target,0);
+			GameController.instance.addTarget(target,1);
 		}
 		else{
-			GameController.instance.failedToCastOnSkill(target, 1);
+			GameController.instance.addTarget(target,0);
 		}
 		
 		if (base.card.isGenerous()){
@@ -46,7 +46,10 @@ public class Calmant : GameSkill
 					
 					if (Random.Range(1,101) > GameView.instance.getCard(target).GetMagicalEsquive())
 					{
-						GameController.instance.applyOn(target,1);
+						GameController.instance.addTarget(target,3);
+					}
+					else{
+						GameController.instance.addTarget(target,2);
 					}
 				}
 			}
@@ -55,23 +58,48 @@ public class Calmant : GameSkill
 		GameController.instance.play();
 	}
 	
-//	public override void applyOn(int target, int arg){
-//		Debug.Log("Target "+target+","+arg);
-//		
-//		GameController.instance.backTurns(target, base.skill.ManaCost);
-//		if(arg==0){
-//			GameView.instance.displaySkillEffect(target, "Temps d'attente : +"+base.skill.ManaCost, 5);
-//		}
-//		else if (arg==1){
-//			GameView.instance.displaySkillEffect(target, "BONUS\nTemps d'attente : +"+base.skill.ManaCost, 5);
-//		}
-//	}
-//	
-//	public override void failedToCastOn(int target, int indexFailure){
-//		if (indexFailure==1){
-//			GameView.instance.displaySkillEffect(target, "Esquive", 4);
-//		}
-//	}
+	public override void applyOn(){
+		Card targetCard ;
+		int target ;
+		string text ;
+		List<Card> receivers =  new List<Card>();
+		List<string> receiversTexts =  new List<string>();
+		
+		for(int i = 0 ; i < base.targets.Count ; i++){
+			target = base.targets[i];
+			targetCard = GameView.instance.getCard(target);
+			receivers.Add (targetCard);
+			if (base.results[i]==0){
+				text = "Esquive";
+				GameView.instance.displaySkillEffect(target, text, 4);
+				receiversTexts.Add (text);
+			}
+			else if (base.results[i]==2){
+				text = "Bonus 'Généreux'\nEsquive";
+				GameView.instance.displaySkillEffect(target, text, 4);
+				receiversTexts.Add (text);
+			}
+			else{
+				if(base.results[i]==3){
+					text = "Bonus Généreux\n";
+				}
+				else{
+					text="";
+				}
+				
+				text+="Attente\n+"+base.skill.ManaCost+" tours";
+				
+				receiversTexts.Add (text);
+				
+				GameController.instance.backTurns(target, base.skill.ManaCost);
+				
+				GameView.instance.displaySkillEffect(target, text, 5);
+			}	
+		}
+		if(!GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
+			GameView.instance.setSkillPopUp("lance <b>Calmant</b>...", base.card, receivers, receiversTexts);
+		}
+	}
 	
 	public override string isLaunchable(){
 		return GameView.instance.canLaunchOpponentsTargets();

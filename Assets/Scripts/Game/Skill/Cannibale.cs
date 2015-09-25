@@ -23,35 +23,62 @@ public class Cannibale : GameSkill
 		
 		if (Random.Range(1,101) > GameView.instance.getCard(target).GetEsquive())
 		{                             
-			GameController.instance.applyOn(target);
+			GameController.instance.addTarget(target,1);
 		}
 		else{
-			GameController.instance.failedToCastOnSkill(target, 0);
+			GameController.instance.addTarget(target,0);
 		}
 		GameController.instance.play();
 	}
 	
-//	public override void applyOn(int target){
-//		Card targetCard = GameView.instance.getCard(target);;
-//		int currentLife = targetCard.GetLife() ;
-//		int currentAttack = targetCard.GetAttack() ;
-//		
-//		int manacost = base.skill.ManaCost ;
-//		
-//		int bonusL = currentLife*manacost/100 ;
-//		int bonusA = currentAttack*manacost/100 ;
-//		
-//		GameController.instance.addCardModifier(GameController.instance.getCurrentPlayingCard(), bonusL, ModifierType.Type_BonusMalus, ModifierStat.Stat_Life, -1, -1, "", "", "");
-//		GameController.instance.addCardModifier(GameController.instance.getCurrentPlayingCard(), bonusA, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, -1, 9, "Cannibalisme", "+"+bonusA+" ATK et +"+bonusL+" LIFE", "Permanent");
-//		
-//		GameView.instance.displaySkillEffect(GameController.instance.getCurrentPlayingCard(), "+"+bonusL+" PV\n+"+bonusA+" ATK", 4);
-//		
-//		GameController.instance.addCardModifier(target, currentLife, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
-//	}
-	
-//	public override void failedToCastOn(int target, int indexFailure){
-//		GameView.instance.displaySkillEffect(target, "Esquive", 4);
-//	}
+	public override void applyOn(){
+		Card targetCard ;
+		int target ;
+		string text ;
+		List<Card> receivers =  new List<Card>();
+		List<string> receiversTexts =  new List<string>();
+		
+		int currentLife ; 
+		int amount ;
+		int amount2 ; 
+		
+		for(int i = 0 ; i < base.targets.Count ; i++){
+			target = base.targets[i];
+			targetCard = GameView.instance.getCard(target);
+			receivers.Add (targetCard);
+			if (base.results[i]==0){
+				text = "Esquive";
+				GameView.instance.displaySkillEffect(target, text, 4);
+				receiversTexts.Add (text);
+			}
+			else if (base.results[i]==2){
+				text = "Bonus 'Géant'\nEsquive";
+				GameView.instance.displaySkillEffect(target, text, 4);
+				receiversTexts.Add (text);
+			}
+			else{
+				currentLife = targetCard.GetLife();
+				amount = currentLife*base.skill.ManaCost/100;
+				amount2 = targetCard.GetAttack()*base.skill.ManaCost/100;
+				
+				text="Sacrifié";
+				receiversTexts.Add (text);
+				GameController.instance.addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Life, -1, -1, "", "", "");
+				GameController.instance.addCardModifier(target, amount2, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, -1, -1, "", "", "");
+				
+				GameView.instance.displaySkillEffect(target, text, 5);
+				
+				targetCard = GameView.instance.getCard(GameController.instance.getCurrentPlayingCard());
+				receivers.Add (targetCard);
+				text="+"+amount+" PV\n+"+amount2+" ATK";
+				receiversTexts.Add (text);
+				GameView.instance.displaySkillEffect(GameController.instance.getCurrentPlayingCard(), text, 4);
+			}	
+		}
+		if(!GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
+			GameView.instance.setSkillPopUp("lance <b>Cannibale</b>...", base.card, receivers, receiversTexts);
+		}
+	}
 	
 	public override string isLaunchable(){
 		return GameView.instance.canLaunchAdjacentAllys();

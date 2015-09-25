@@ -27,31 +27,55 @@ public class Assassinat : GameSkill
 		{                             
 			if (Random.Range(1,101) <= successChances)
 			{ 
-				GameController.instance.applyOn(target);
+				GameController.instance.addTarget(target,1);
 			}
 			else{
-				GameController.instance.failedToCastOnSkill(target, 2);
+				GameController.instance.addTarget(target,2);
 			}
 		}
 		else{
-			GameController.instance.failedToCastOnSkill(target, 1);
+			GameController.instance.addTarget(target,0);
 		}
 		GameController.instance.play();
 	}
 	
-//	public override void applyOn(int target){
-//		int currentLife = GameView.instance.getCard(target).GetLife();
-//		GameController.instance.addCardModifier(target, currentLife, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
-//	}
-//	
-//	public override void failedToCastOn(int target, int indexFailure){
-//		if(indexFailure==1){
-//			GameView.instance.displaySkillEffect(target, "ESQUIVE", 4);
-//		}
-//		else{
-//			GameView.instance.displaySkillEffect(target, "ECHEC ASSASSINAT", 4);
-//		}
-//	}
+	public override void applyOn(){
+		
+		Card targetCard ;
+		int target ;
+		string text ;
+		List<Card> receivers =  new List<Card>();
+		List<string> receiversTexts =  new List<string>();
+		
+		int amount ; 
+		
+		for(int i = 0 ; i < base.targets.Count ; i++){
+			target = base.targets[i];
+			targetCard = GameView.instance.getCard(target);
+			receivers.Add (targetCard);
+			if (base.results[i]==0){
+				text = "Esquive";
+				GameView.instance.displaySkillEffect(target, text, 4);
+				receiversTexts.Add (text);
+			}
+			else if (base.results[i]==2){
+				text = "Echec";
+				GameView.instance.displaySkillEffect(target, text, 4);
+				receiversTexts.Add (text);
+			}
+			else{
+				amount = targetCard.GetLife();
+			
+				text="MORT";
+				receiversTexts.Add (text);
+				
+				GameController.instance.addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
+			}	
+		}
+		if(!GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
+			GameView.instance.setSkillPopUp("lance <b>Assassinat</b>...", base.card, receivers, receiversTexts);
+		}
+	}
 	
 	public override string isLaunchable(){
 		return GameView.instance.canLaunchAdjacentOpponents();

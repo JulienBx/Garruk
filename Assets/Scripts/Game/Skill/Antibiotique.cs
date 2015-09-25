@@ -28,14 +28,14 @@ public class Antibiotique : GameSkill
 		{                             
 			if (Random.Range(1,101) <= successChances)
 			{ 
-				GameController.instance.applyOn(target,0);
+				GameController.instance.addTarget(target,1);
 			}
 			else{
-				GameController.instance.failedToCastOnSkill(target, 2);
+				GameController.instance.addTarget(target,2);
 			}
 		}
 		else{
-			GameController.instance.failedToCastOnSkill(target, 1);
+			GameController.instance.addTarget(target,0);
 		}
 		
 		if (base.card.isGenerous()){
@@ -49,8 +49,14 @@ public class Antibiotique : GameSkill
 					{
 						if (Random.Range(1,101) > GameView.instance.getCard(target).GetMagicalEsquive())
 						{
-							GameController.instance.applyOn(target,1);
+							GameController.instance.addTarget(target,4);
 						}
+						else{
+							GameController.instance.addTarget(target,5);
+						}
+					}
+					else{
+						GameController.instance.addTarget(target,3);
 					}
 				}
 			}
@@ -59,30 +65,67 @@ public class Antibiotique : GameSkill
 		GameController.instance.play();
 	}
 	
-//	public override void applyOn(int target, int arg){
-//		GameView.instance.getCard(target).emptyModifiers();
-//		if(target!=GameController.instance.getCurrentPlayingCard()){
-//			GameView.instance.show(target, true);
-//		}
-//		else{
-//			GameView.instance.show(target, false);
-//		}
-//		if(arg==0){
-//			GameView.instance.displaySkillEffect(target, "Effets supprimés !", 5);
-//		}
-//		else if (arg==1){
-//			GameView.instance.displaySkillEffect(target, "BONUS\nEffets supprimés !", 5);
-//		}
-//	}
-	
-//	public override void failedToCastOn(int target, int indexFailure){
-//		if (indexFailure==1){
-//			GameView.instance.displaySkillEffect(target, "Esquive", 4);
-//		}
-//		else if (indexFailure==2){
-//			GameView.instance.displaySkillEffect(target, "Sans effet", 4);
-//		}
-//	}
+	public override void applyOn(){
+		
+		Card targetCard ;
+		int target ;
+		string text ;
+		List<Card> receivers =  new List<Card>();
+		List<string> receiversTexts =  new List<string>();
+		
+		int amount ; 
+		
+		for(int i = 0 ; i < base.targets.Count ; i++){
+			target = base.targets[i];
+			targetCard = GameView.instance.getCard(target);
+			receivers.Add (targetCard);
+			if (base.results[i]==0){
+				text = "Esquive";
+				GameView.instance.displaySkillEffect(target, text, 4);
+				receiversTexts.Add (text);
+			}
+			else if (base.results[i]==2){
+				text = "Echec";
+				GameView.instance.displaySkillEffect(target, text, 4);
+				receiversTexts.Add (text);
+			}
+			else if (base.results[i]==3){
+				text = "Bonus 'Généreux'\nEsquive";
+				GameView.instance.displaySkillEffect(target, text, 4);
+				receiversTexts.Add (text);
+			}
+			else if (base.results[i]==5){
+				text = "Bonus 'Généreux'\nEchec";
+				GameView.instance.displaySkillEffect(target, text, 4);
+				receiversTexts.Add (text);
+			}
+			else{
+				GameView.instance.getCard(target).emptyModifiers();
+				if(target!=GameController.instance.getCurrentPlayingCard()){
+					GameView.instance.show(target, true);
+				}
+				else{
+					GameView.instance.show(target, false);
+				}
+				
+				if(base.results[i]==4){
+					text = "Bonus Généreux\n";
+				}
+				else{
+					text="";
+				}
+				
+				text+="Effets dissipés";
+				
+				receiversTexts.Add (text);
+				
+				GameView.instance.displaySkillEffect(target, text, 5);
+			}	
+		}
+		if(!GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
+			GameView.instance.setSkillPopUp("lance <b>Antibiotique</b>...", base.card, receivers, receiversTexts);
+		}
+	}
 	
 	public override string isLaunchable()
 	{

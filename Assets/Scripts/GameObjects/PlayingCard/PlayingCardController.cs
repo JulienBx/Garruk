@@ -100,6 +100,13 @@ public class PlayingCardController : GameObjectController
 		transform.Find("Icon1").GetComponent<SpriteRenderer>().sprite = this.iconSprites[0];
 		transform.Find("Icon2").GetComponent<SpriteRenderer>().sprite = this.iconSprites[0];
 		transform.Find("Icon3").GetComponent<SpriteRenderer>().sprite = this.iconSprites[0];
+		
+		if (c.isMine){
+			transform.Find("Art").GetComponent<SpriteRenderer>().sprite = this.backgroundSprites[this.card.ArtIndex];
+		}
+		else{
+			transform.Find("Art").GetComponent<SpriteRenderer>().sprite = this.backgroundSprites[this.card.ArtIndex+10];
+		}
 	}
 	
 	public void addTime(float t){

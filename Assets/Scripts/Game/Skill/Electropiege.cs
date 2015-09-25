@@ -18,25 +18,32 @@ public class Electropiege : GameSkill
 		if (GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
 			GameView.instance.hideTargets();
 		}
-		
-		int[] targets = new int[2];
-		targets[0] = targetsTile[0].x;
-		targets[1] = targetsTile[0].y;
-		GameController.instance.applyOn(targets);
+	
+		GameController.instance.addTargetTile(targetsTile[0].x, targetsTile[0].y, 1);
 		GameController.instance.play();
 	}
 	
-//	public override void applyOn(int[] targets){
-//		if(targets[2]==0){
-//			int amount = base.skill.ManaCost;
-//			GameController.instance.addTileModifier(new Tile(targets[0], targets[1]), amount, ModifierType.Type_Wolftrap, ModifierStat.Stat_No, -1, 4, "Electropiege", "Inflige "+amount+" dégats", "Permanent. Non visible du joueur adverse");
-//			GameView.instance.displaySkillEffect(GameController.instance.getCurrentPlayingCard(), "Piège posé", 4);
-//		}
-//		else{
-//			int amount = targets[3];
-//			GameController.instance.addTileModifier(new Tile(targets[0], targets[1]), amount, ModifierType.Type_Wolftrap, ModifierStat.Stat_No, -1, 4, "Electropiege", "Inflige "+amount+" dégats", "Permanent. Non visible du joueur adverse");
-//		}
-//	}
+	public override void applyOn(){
+		Tile target ;
+		string text ;
+		List<Card> receivers =  new List<Card>();
+		List<string> receiversTexts =  new List<string>();
+		
+		int amount ; 
+		
+		for(int i = 0 ; i < base.tileTargets.Count ; i++){
+			target = base.tileTargets[i];	
+			amount = base.skill.ManaCost;
+			
+			text="Piège posé";
+			
+			GameController.instance.addTileModifier(target, amount, ModifierType.Type_Wolftrap, ModifierStat.Stat_No, -1, 4, "Electropiege", "Inflige "+amount+" dégats", "Permanent. Non visible du joueur adverse");
+			GameView.instance.displaySkillEffect(GameController.instance.getCurrentPlayingCard(), text, 4);
+		}
+		if(!GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
+			GameView.instance.setSkillPopUp("pose un <b>électropiège</b>...", base.card, receivers, receiversTexts);
+		}
+	}
 	
 	public override void activateTrap(int[] targets, int[] args){
 		GameController.instance.addCardModifier(targets[0], args[0], ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");

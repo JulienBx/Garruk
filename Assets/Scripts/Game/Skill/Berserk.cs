@@ -23,10 +23,10 @@ public class Berserk : GameSkill
 		
 		if (Random.Range(1,101) > GameView.instance.getCard(target).GetEsquive())
 		{                             
-			GameController.instance.applyOn(target,0);
+			GameController.instance.addTarget(target,1);
 		}
 		else{
-			GameController.instance.failedToCastOnSkill(target, 0);
+			GameController.instance.addTarget(target,0);
 		}
 		GameController.instance.play();
 		
@@ -37,52 +37,81 @@ public class Berserk : GameSkill
 					int ran = Random.Range(0,opponents.Count);
 					target = GameView.instance.getTileCharacterID(opponents[ran].x, opponents[ran].y) ;
 					
-					if (Random.Range(1,101) > GameView.instance.getCard(target).GetMagicalEsquive())
+					if (Random.Range(1,101) > GameView.instance.getCard(target).GetEsquive())
 					{
-						GameController.instance.applyOn(target,1);
+						GameController.instance.addTarget(target,3);
+					}
+					else{
+						GameController.instance.addTarget(target,2);
 					}
 				}
 			}
 		}
 	}
 	
-//	public override void applyOn(int target, int arg){
-//		Card targetCard = GameView.instance.getCard(target);
-//		int myCurrentLife = base.card.GetLife();
-//		int currentLife = targetCard.GetLife();
-//		
-//		int myBouclier = base.card.GetBouclier();
-//		int bouclier = targetCard.GetBouclier();
-//		
-//		int amount = Mathf.CeilToInt(base.card.GetAttack()*125/100);
-//		
-//		int damageBonusPercentage = base.card.GetDamagesPercentageBonus(targetCard);
-//		amount = Mathf.Min(currentLife,amount-(bouclier*amount/100));
-//		
-//		int arg2 = base.skill.ManaCost;
-//		
-//		GameController.instance.addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
-//		GameController.instance.addCardModifier(GameController.instance.getCurrentPlayingCard(), arg2, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
-//		
-//		if(currentLife!=amount){
-//			if(arg==0){
-//				GameView.instance.displaySkillEffect(target, "-"+amount+" PV", 5);
-//			}
-//			else{
-//				GameView.instance.displaySkillEffect(target, "GEANT\n-"+amount+" PV", 5);
-//			}
-//		}
-//		
-//		if(arg==0){
-//			if(myCurrentLife!=arg){
-//				GameView.instance.displaySkillEffect(GameController.instance.getCurrentPlayingCard(), "-"+arg2+" PV", 5);
-//			}
-//		}
-//	}
-	
-//	public override void failedToCastOn(int target, int indexFailure){
-//		GameView.instance.displaySkillEffect(target, "Esquive", 4);
-//	}
+	public override void applyOn(){
+		Card targetCard ;
+		int target ;
+		string text ;
+		List<Card> receivers =  new List<Card>();
+		List<string> receiversTexts =  new List<string>();
+		
+		int amount ; 
+		int amount2 ;
+		
+		for(int i = 0 ; i < base.targets.Count ; i++){
+			target = base.targets[i];
+			targetCard = GameView.instance.getCard(target);
+			receivers.Add (targetCard);
+			if (base.results[i]==0){
+				text = "Esquive";
+				GameView.instance.displaySkillEffect(target, text, 4);
+				receiversTexts.Add (text);
+			}
+			else if (base.results[i]==2){
+				text = "Bonus 'Géant'\nEsquive";
+				GameView.instance.displaySkillEffect(target, text, 4);
+				receiversTexts.Add (text);
+			}
+			else{
+				amount = Mathf.Min(targetCard.GetLife(),(base.card.GetAttack()*125/100)*(1-(targetCard.GetBouclier()/100)));
+				
+				if(base.results[i]==3){
+					text = "Bonus Géant\n";
+				}
+				else{
+					text="";
+				}
+				
+				text+="-"+amount+" PV";
+				
+				if(targetCard.GetLife()==amount){
+					text+="\nMORT";
+				}
+				receiversTexts.Add (text);
+				
+				GameController.instance.addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
+				
+				GameView.instance.displaySkillEffect(target, text, 5);
+			}	
+		}
+		
+		targetCard = GameView.instance.getCard(GameController.instance.getCurrentPlayingCard());
+		amount2=Mathf.Min(targetCard.GetLife(),base.skill.ManaCost);
+		receivers.Add (targetCard);
+		text="S'inflige "+amount2+" dégats";
+		if(targetCard.GetLife()==amount2){
+			text+="\nMORT";
+		}
+		receiversTexts.Add (text);
+		
+		GameController.instance.addCardModifier(GameController.instance.getCurrentPlayingCard(), amount2, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
+		GameView.instance.displaySkillEffect(GameController.instance.getCurrentPlayingCard(), text, 5);
+		
+		if(!GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
+			GameView.instance.setSkillPopUp("lance <b>Berserk</b>...", base.card, receivers, receiversTexts);
+		}
+	}
 	
 	public override string isLaunchable(){
 		return GameView.instance.canLaunchAdjacentOpponents();
