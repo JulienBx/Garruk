@@ -15,19 +15,27 @@ public class Furtivite : GameSkill
 	
 	public override void resolve(List<int> targetsPCC)
 	{	                     
-		GameController.instance.applyOn();
 		GameController.instance.play();
 	}
 	
 	public override void applyOn(){
 		int attackBonus = this.skill.ManaCost;
 		int target = GameController.instance.getCurrentPlayingCard() ;
+		List<Card> receivers =  new List<Card>();
+		List<string> receiversTexts =  new List<string>();
+		string text = "Invisible\n+"+attackBonus+" ATK";
 		
 		GameController.instance.addCardModifier(target, 0, ModifierType.Type_Intouchable, ModifierStat.Stat_No, 2, 20, "Invisible", "Ne peut pas etre ciblé par une attaque ou compétence", "Actif 2 tours");
 		GameController.instance.addCardModifier(target, attackBonus, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, 2, 9, "Renforcement", "Attaque augmentée de "+attackBonus+" pour un tour", "Actif 2 tours");
-			
-		GameView.instance.displaySkillEffect(target, "Intouchable et +"+attackBonus+" ATK au prochain tour", 4);
 		
+		receivers.Add(GameView.instance.getCard(GameController.instance.getCurrentPlayingCard()));
+		receiversTexts.Add(text);
+		
+		GameView.instance.displaySkillEffect(target, text, 4);
+		
+		if(!GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
+			GameView.instance.setSkillPopUp("lance <b>Furtivité</b>...", base.card, receivers, receiversTexts);
+		}
 		this.skill.nbLeft--;
 	}
 	

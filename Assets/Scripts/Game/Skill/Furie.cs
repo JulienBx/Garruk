@@ -26,7 +26,7 @@ public class Furie : GameSkill
 		List<string> receiversTexts =  new List<string>();
 		
 		GameController.instance.addCardModifier(target, 0, ModifierType.Type_Crazy, ModifierStat.Stat_No, 50, 14, "Furieux", "Attaque à chaque tour le héros le plus proche. Permanent", "Actif 2 tours");	
-		GameView.instance.displaySkillEffect(target, "Entre dans une rage folle", 5);
+		GameView.instance.displaySkillEffect(target, text, 5);
 		
 		receivers.Add(GameView.instance.getCard(GameController.instance.getCurrentPlayingCard()));
 		receiversTexts.Add(text);

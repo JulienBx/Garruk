@@ -321,6 +321,13 @@ public class GameView : MonoBehaviour
 					this.tileHandlers[t.x, t.y].SetActive(false);
 					this.displayedSE.RemoveAt(i);
 					this.displayedSETimer.RemoveAt(i);
+					this.removeDestinations();
+					if(this.getIsMine(GameController.instance.getCurrentPlayingCard())){
+						this.setDestinations(GameController.instance.getCurrentPlayingCard());
+					}
+					else{
+						this.setHisDestinations(GameController.instance.getCurrentPlayingCard());
+					}
 				}
 			}
 			if (this.displayedSE.Count==0){
