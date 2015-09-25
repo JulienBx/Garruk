@@ -33,7 +33,7 @@ TextureImporter:
   textureFormat: -1
   maxTextureSize: 4096
   textureSettings:
-    filterMode: 0
+    filterMode: 1
     aniso: 16
     mipBias: -1
     wrapMode: 1
@@ -67,21 +67,21 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 504
-        y: 822
-        width: 200
-        height: 200
-      alignment: 0
-      pivot: {x: .5, y: .5}
+        y: 828
+        width: 194
+        height: 194
+      alignment: 9
+      pivot: {x: .484536082, y: .484536082}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: line
       rect:
         serializedVersion: 2
         x: 2
-        y: 8
+        y: 9
         width: 500
-        height: 10
-      alignment: 0
-      pivot: {x: .5, y: .5}
+        height: 9
+      alignment: 9
+      pivot: {x: .5, y: .444444448}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: shadow
       rect:

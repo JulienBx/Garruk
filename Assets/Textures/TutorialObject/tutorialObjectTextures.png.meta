@@ -9,6 +9,7 @@ TextureImporter:
     21300004: arrowBackground
     21300006: popUpBackground
     21300008: transparentWhiteBackground
+    21300010: tutorialObjectTexture
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -54,23 +55,13 @@ TextureImporter:
   buildTargetSettings: []
   spriteSheet:
     sprites:
-    - name: transparentBackground
+    - name: tutorialObjectTexture
       rect:
         serializedVersion: 2
         x: 2
-        y: 3014
-        width: 1920
-        height: 1080
-      alignment: 0
-      pivot: {x: .5, y: .5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-    - name: transparentBackgroundCircle
-      rect:
-        serializedVersion: 2
-        x: 2
-        y: 2012
-        width: 1000
-        height: 1000
+        y: 3190
+        width: 5000
+        height: 5000
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}

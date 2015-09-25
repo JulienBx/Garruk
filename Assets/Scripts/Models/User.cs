@@ -180,7 +180,16 @@ public class User
 		this.TotalNbLooses = totalnblooses;
 		this.texture = Sprite.Create (new Texture2D (1, 1, TextureFormat.ARGB32, false), new Rect (0, 0, 1, 1), new Vector2 (0.5f, 0.5f));
 	}
-
+	public User(string username, string picture, int ranking, int collectionRanking,  int totalnbwins, int totalnblooses)
+	{
+		this.Username = username;
+		this.Picture = picture;
+		this.CollectionRanking = collectionRanking;
+		this.Ranking = ranking;
+		this.TotalNbWins = totalnbwins;
+		this.TotalNbLooses = totalnblooses;
+		this.texture = Sprite.Create (new Texture2D (1, 1, TextureFormat.ARGB32, false), new Rect (0, 0, 1, 1), new Vector2 (0.5f, 0.5f));
+	}
 	public IEnumerator updateInformations(){
 
 		WWWForm form = new WWWForm(); 											// Création de la connexion

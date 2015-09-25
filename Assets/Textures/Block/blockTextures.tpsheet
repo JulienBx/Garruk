@@ -5,10 +5,10 @@
 # http://www.codeandweb.com/texturepacker/unity
 #
 # Sprite sheet: blockTextures.png (1024 x 1024)
-# $TexturePacker:SmartUpdate:5c9dd1b4c240b3defe18fb87194ae6f4:8b4b9b2aeb794fc1b33452dfc200741b:562aee4a1dc8747c61074ccb03478120$
+# $TexturePacker:SmartUpdate:5df2f6ca68d116ec7b70c7c1db52da5f:0ae1dfbe677d6f78b73ec31a55342953:562aee4a1dc8747c61074ccb03478120$
 #
 
 background;2;522;500;500;0.5;0.5
-corner;504;822;200;200;0.5;0.5
-line;2;8;500;10;0.5;0.5
+corner;504;828;194;194;0.4845360824742268;0.48453608247422686
+line;2;9;500;9;0.5;0.4444444444444444
 shadow;2;20;500;500;0.5;0.5

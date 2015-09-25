@@ -25,7 +25,7 @@ public class MyGameTutorialController : TutorialObjectController
 				this.setPopUpDescription("Cet espace vous permet d'accéder à l'ensemble de vos recrues et de constituer des équipes pour participer aux combats de Cristalia\n\nLes recrues sont présentées sous forme de cartes résumant leurs caractéristiques et compétences.");
 				this.displayBackground(true);
 			}
-			this.resizeBackground(new Rect(0,0,0,0),0f,0f);
+			this.resizeBackground(new Rect(0,10,5,5),0f,0f);
 			this.resizePopUp(new Vector3(0,0,-9.5f));
 			break;
 		case 1:
@@ -52,7 +52,7 @@ public class MyGameTutorialController : TutorialObjectController
 				this.setPopUpDescription("La carte représente les caractéristiques et compétences de la recrue.\n\nChaque Cristalien appartient à une faction, les factions ayant chacune développé des compétences distinctes au contact du Cristal.\n\nRegardons maintenant de plus près les informations affichées sur la carte.");
 				this.displayBackground(true);
 			}
-			this.resizeBackground(new Rect(0,0,0,0),0f,0f);
+			this.resizeBackground(new Rect(0,10,5,5),0f,0f);
 			this.resizePopUp(new Vector3(0,0,-9.5f));
 			break;
 			break;
@@ -194,7 +194,7 @@ public class MyGameTutorialController : TutorialObjectController
 				this.setUpArrow();
 			}
 			Vector3 newDeckButtonPosition = newMyGameController.instance.getNewDeckButtonPosition();
-			this.resizeBackground(new Rect(newDeckButtonPosition.x,newDeckButtonPosition.y,4f,0.75f),0.8f,0.8f);
+			this.resizeBackground(new Rect(newDeckButtonPosition.x,newDeckButtonPosition.y,4f,1f),0.8f,0.6f);
 			this.drawUpArrow();
 			break;
 		case 13:
