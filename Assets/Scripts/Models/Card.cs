@@ -60,6 +60,7 @@ public class Card
 	public int CaracteristicIncrease;
 	public bool GetNewSkill;
 	public int nbTurnsToWait ;
+	public bool isMine;
 
 	public static bool xpDone = false;
 	

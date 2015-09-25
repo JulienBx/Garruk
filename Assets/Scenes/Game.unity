@@ -1861,6 +1861,7 @@ MonoBehaviour:
   - {fileID: 21300020, guid: ed8e0226f6540d841a68b740930a2e58, type: 3}
   - {fileID: 21300034, guid: ed8e0226f6540d841a68b740930a2e58, type: 3}
   - {fileID: 21300036, guid: ed8e0226f6540d841a68b740930a2e58, type: 3}
+  loadingScreenObject: {fileID: 195100, guid: 90034040fbc364e6780f4c981ceaaf08, type: 2}
   isTargeting: 0
 --- !u!114 &481987443
 MonoBehaviour:

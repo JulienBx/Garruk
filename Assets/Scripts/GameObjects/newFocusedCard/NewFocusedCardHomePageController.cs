@@ -48,5 +48,13 @@ public class NewFocusedCardHomePageController : NewFocusedCardController
 			break;
 		}
 	}
+	public override void displayLoadingScreen()
+	{
+		NewHomePageController.instance.displayLoadingScreen ();
+	}
+	public override void hideLoadingScreen()
+	{
+		NewHomePageController.instance.hideLoadingScreen ();
+	}
 }
 

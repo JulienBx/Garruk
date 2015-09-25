@@ -64,5 +64,13 @@ public class NewFocusedCardMarketController : NewFocusedCardController
 	{
 		this.updateFocusFeatures ();
 	}
+	public override void displayLoadingScreen()
+	{
+		NewMarketController.instance.displayLoadingScreen ();
+	}
+	public override void hideLoadingScreen()
+	{
+		NewMarketController.instance.hideLoadingScreen ();
+	}
 }
 

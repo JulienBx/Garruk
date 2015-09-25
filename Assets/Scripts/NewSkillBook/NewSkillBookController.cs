@@ -59,6 +59,7 @@ public class NewSkillBookController : MonoBehaviour
 	private int globalPercentage;
 
 	private bool isTutorialLaunched;
+	private bool isLoadingScreenDisplayed;
 	
 	void Update()
 	{	
@@ -75,7 +76,7 @@ public class NewSkillBookController : MonoBehaviour
 	}
 	void Awake()
 	{
-		this.loadingScreen=Instantiate(this.loadingScreenObject) as GameObject;
+		this.displayLoadingScreen ();
 		this.widthScreen = Screen.width;
 		this.heightScreen = Screen.height;
 		this.pixelPerUnit = 108f;
@@ -96,7 +97,7 @@ public class NewSkillBookController : MonoBehaviour
 		this.computeIndicators ();
 		this.drawCollectionLevel ();
 		this.loadSkills ();
-		Destroy (this.loadingScreen);
+		this.hideLoadingScreen ();
 		if(!model.player.SkillBookTutorial)
 		{
 			this.tutorial = Instantiate(this.tutorialObject) as GameObject;
@@ -571,8 +572,26 @@ public class NewSkillBookController : MonoBehaviour
 		newMenuController.instance.setTutorialLaunched (false);
 		if(toUpdate)
 		{
+			this.displayLoadingScreen();
 			yield return StartCoroutine (model.player.setSkillBookTutorial(true));
+			this.hideLoadingScreen();
 		}
 		yield break;
+	}
+	public void displayLoadingScreen()
+	{
+		if(!isLoadingScreenDisplayed)
+		{
+			this.loadingScreen=Instantiate(this.loadingScreenObject) as GameObject;
+			this.isLoadingScreenDisplayed=true;
+		}
+	}
+	public void hideLoadingScreen()
+	{
+		if(isLoadingScreenDisplayed)
+		{
+			Destroy (this.loadingScreen);
+			this.isLoadingScreenDisplayed=false;
+		}
 	}
 }

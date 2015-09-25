@@ -146,6 +146,7 @@ public class NewHomePageController : Photon.MonoBehaviour
 
 	private bool isTutorialLaunched;
 	private bool isEndGamePopUpDisplayed;
+	private bool isLoadingScreenDisplayed;
 	
 	void Update()
 	{	
@@ -309,7 +310,7 @@ public class NewHomePageController : Photon.MonoBehaviour
 	}
 	void Awake()
 	{
-		this.loadingScreen=Instantiate(this.loadingScreenObject) as GameObject;
+		this.displayLoadingScreen ();
 		this.widthScreen = Screen.width;
 		this.heightScreen = Screen.height;
 		this.pixelPerUnit = 108f;
@@ -344,7 +345,6 @@ public class NewHomePageController : Photon.MonoBehaviour
 		this.initializeStats ();
 		this.retrieveDefaultDeck ();
 		this.initializeDecks ();
-		Destroy (this.loadingScreen);
 		this.isSceneLoaded = true;
 		if(model.player.TutorialStep==1 || model.player.TutorialStep==4)
 		{
@@ -724,10 +724,10 @@ public class NewHomePageController : Photon.MonoBehaviour
 	}
 	public IEnumerator drawDeckCards()
 	{
+		this.displayLoadingScreen();
 		this.deckCardsDisplayed = new int[]{-1,-1,-1,-1};
 		if(this.deckDisplayed!=-1)
 		{	
-			
 			yield return StartCoroutine(model.decks[this.deckDisplayed].RetrieveCards());
 			
 			for(int i=0;i<model.decks[this.deckDisplayed].Cards.Count;i++)
@@ -756,6 +756,7 @@ public class NewHomePageController : Photon.MonoBehaviour
 				this.deckCards[i].SetActive(false);
 			}
 		}
+		this.hideLoadingScreen();
 	}
 	public void showCardFocused()
 	{
@@ -1345,6 +1346,7 @@ public class NewHomePageController : Photon.MonoBehaviour
 	}
 	private IEnumerator cleanCards()
 	{
+		this.displayLoadingScreen ();
 		yield return StartCoroutine (model.player.cleanCards ());
 		StartCoroutine(this.initialization ());
 	}
@@ -1572,11 +1574,13 @@ public class NewHomePageController : Photon.MonoBehaviour
 		//PhotonNetwork.Disconnect();
 		if(TutorialObjectController.instance.getSequenceID()==1)
 		{
+			this.displayLoadingScreen();
 			yield return StartCoroutine (model.player.setTutorialStep (2));
 			Application.LoadLevel ("newMyGame");
 		}
 		else if(TutorialObjectController.instance.getSequenceID()==3)
 		{
+			this.displayLoadingScreen();
 			yield return StartCoroutine (model.player.setTutorialStep (5));
 			Application.LoadLevel ("newStore");
 		}
@@ -1595,7 +1599,9 @@ public class NewHomePageController : Photon.MonoBehaviour
 	}
 	private IEnumerator setSelectedDeck()
 	{
+		this.displayLoadingScreen ();
 		yield return StartCoroutine(model.player.SetSelectedDeck(model.decks[this.deckDisplayed].Id));
+		this.hideLoadingScreen ();
 		attemptToPlay = true;
 		PhotonNetwork.Disconnect();
 	}
@@ -1713,5 +1719,21 @@ public class NewHomePageController : Photon.MonoBehaviour
 	public Vector3 getEndGamePopUpButtonPosition()
 	{
 		return this.endGamePopUp.transform.FindChild ("Button").position;
+	}
+	public void displayLoadingScreen()
+	{
+		if(!isLoadingScreenDisplayed)
+		{
+			this.loadingScreen=Instantiate(this.loadingScreenObject) as GameObject;
+			this.isLoadingScreenDisplayed=true;
+		}
+	}
+	public void hideLoadingScreen()
+	{
+		if(isLoadingScreenDisplayed)
+		{
+			Destroy (this.loadingScreen);
+			this.isLoadingScreenDisplayed=false;
+		}
 	}
 }

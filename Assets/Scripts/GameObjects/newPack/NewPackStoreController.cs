@@ -21,5 +21,13 @@ public class NewPackStoreController : NewPackController
 	{
 		NewStoreController.instance.refreshCredits ();
 	}
+	public override void displayLoadingScreen()
+	{
+		NewStoreController.instance.displayLoadingScreen ();
+	}
+	public override void hideLoadingScreen()
+	{
+		NewStoreController.instance.hideLoadingScreen ();
+	}
 }
 

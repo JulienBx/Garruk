@@ -512,9 +512,9 @@ public class NewFocusedCardController : MonoBehaviour
 	}
 	public IEnumerator sellCard()
 	{
-		sellView.popUpVM.guiEnabled = false;
-		yield return StartCoroutine (this.c.sellCard());
 		this.hideSellPopUp ();
+		this.displayLoadingScreen ();
+		yield return StartCoroutine (this.c.sellCard());
 		this.refreshCredits();
 		if(this.c.Error=="")
 		{
@@ -524,6 +524,7 @@ public class NewFocusedCardController : MonoBehaviour
 		{
 			this.displayErrorPopUp();
 		}
+		this.hideLoadingScreen ();
 	}
 	public virtual void deleteCard()
 	{
@@ -538,11 +539,12 @@ public class NewFocusedCardController : MonoBehaviour
 	}
 	public IEnumerator renameCard(string newName)
 	{
-		renameView.popUpVM.guiEnabled = false;
-		yield return StartCoroutine(this.c.renameCard(newName,this.c.RenameCost));
 		this.hideRenamePopUp ();
+		this.displayLoadingScreen ();
+		yield return StartCoroutine(this.c.renameCard(newName,this.c.RenameCost));
 		gameObject.transform.FindChild ("Name").GetComponent<TextMeshPro> ().text = this.c.Title.ToUpper();
 		this.updateFocus ();
+		this.hideLoadingScreen ();
 	}
 	public virtual void buyXpCardHandler()
 	{
@@ -550,9 +552,9 @@ public class NewFocusedCardController : MonoBehaviour
 	}
 	public IEnumerator buyXpCard()
 	{
-		buyXpView.popUpVM.guiEnabled = false;
-		yield return StartCoroutine(this.c.addXpLevel());
 		this.hideBuyXpPopUp();
+		this.displayLoadingScreen ();
+		yield return StartCoroutine(this.c.addXpLevel());
 		this.refreshCredits();
 		if(this.c.Error=="")
 		{
@@ -562,6 +564,7 @@ public class NewFocusedCardController : MonoBehaviour
 		{
 			this.displayErrorPopUp();
 		}
+		this.hideLoadingScreen ();
 	}
 	public void buyCardHandler()
 	{
@@ -569,10 +572,10 @@ public class NewFocusedCardController : MonoBehaviour
 	}
 	public IEnumerator buyCard()
 	{
-		buyView.popUpVM.guiEnabled = false;
+		this.hideBuyPopUp ();
+		this.displayLoadingScreen ();
 		int oldPrice = this.c.Price;
 		yield return StartCoroutine(this.c.buyCard());
-		this.hideBuyPopUp ();
 		this.refreshCredits ();
 		if(this.c.Error=="")
 		{
@@ -608,6 +611,7 @@ public class NewFocusedCardController : MonoBehaviour
 				this.displayErrorPopUp();
 			}
 		}
+		this.hideLoadingScreen ();
 	}
 	public virtual void actualizePrice()
 	{
@@ -622,10 +626,11 @@ public class NewFocusedCardController : MonoBehaviour
 	}
 	public IEnumerator editSellPrice(int newPrice)
 	{
-		editSellPriceView.popUpVM.guiEnabled = false;
-		yield return StartCoroutine (this.c.changePriceCard (newPrice));
 		this.hideEditSellPricePopUp ();
+		this.displayLoadingScreen ();
+		yield return StartCoroutine (this.c.changePriceCard (newPrice));
 		this.updateFocus ();
+		this.hideLoadingScreen ();
 	}
 	public void unsellCardHandler()
 	{
@@ -633,10 +638,11 @@ public class NewFocusedCardController : MonoBehaviour
 	}
 	public IEnumerator unsellCard()
 	{
-		editSellView.popUpVM.guiEnabled = false;
-		yield return StartCoroutine (this.c.notToSell ());
 		this.hideEditSellPopUp ();
+		this.displayLoadingScreen ();
+		yield return StartCoroutine (this.c.notToSell ());
 		this.updateFocus ();
+		this.hideLoadingScreen ();
 	}
 	public void putOnMarketCardHandler()
 	{
@@ -648,10 +654,11 @@ public class NewFocusedCardController : MonoBehaviour
 	}
 	public IEnumerator putOnMarketCard(int price)
 	{
-		putOnMarketView.popUpVM.guiEnabled = false;
-		yield return StartCoroutine (this.c.toSell (price));
 		this.hidePutOnMarketPopUp ();
+		this.displayLoadingScreen ();
+		yield return StartCoroutine (this.c.toSell (price));
 		this.updateFocus ();
+		this.hideLoadingScreen ();
 	}
 	public string renameCardSyntaxCheck()
 	{
@@ -999,6 +1006,12 @@ public class NewFocusedCardController : MonoBehaviour
 	public virtual Sprite getSkillSprite(int id)
 	{
 		return this.ressources.skills [id];
+	}
+	public virtual void displayLoadingScreen()
+	{
+	}
+	public virtual void hideLoadingScreen()
+	{
 	}
 }
 

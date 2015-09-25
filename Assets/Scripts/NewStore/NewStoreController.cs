@@ -90,13 +90,15 @@ public class NewStoreController : MonoBehaviour
 	private bool isTutorialLaunched;
 
 	private bool toResizeBackUI;
+
+	private bool isLoadingScreenDisplayed;
 	
 	public NewStoreController ()
 	{
 	}
 	void Awake()
 	{
-		this.loadingScreen=Instantiate(this.loadingScreenObject) as GameObject;
+		this.displayLoadingScreen ();
 		this.widthScreen = Screen.width;
 		this.heightScreen = Screen.height;
 		this.pixelPerUnit = 108;
@@ -220,7 +222,7 @@ public class NewStoreController : MonoBehaviour
 		yield return(StartCoroutine(this.model.initializeStore()));
 		this.money = ApplicationModel.credits;
 		this.createPacks ();
-		Destroy (this.loadingScreen);
+		this.hideLoadingScreen ();
 		this.isSceneLoaded = true;
 		if(ApplicationModel.packToBuy!=-1)
 		{
@@ -857,10 +859,11 @@ public class NewStoreController : MonoBehaviour
 	}
 	public IEnumerator addCredits(int value)
 	{
-		addCreditsView.addCreditsPopUpVM.guiEnabled = false;
-		yield return StartCoroutine (this.model.player.addMoney (value));
 		this.hideAddCreditsPopUp ();
+		this.displayLoadingScreen ();
+		yield return StartCoroutine (this.model.player.addMoney (value));
 		this.refreshCredits ();
+		this.hideLoadingScreen ();
 	}
 	public int addCreditsSyntaxCheck()
 	{
@@ -904,5 +907,21 @@ public class NewStoreController : MonoBehaviour
 	public bool getIsTutorialLaunched()
 	{
 		return isTutorialLaunched;
+	}
+	public void displayLoadingScreen()
+	{
+		if(!isLoadingScreenDisplayed)
+		{
+			this.loadingScreen=Instantiate(this.loadingScreenObject) as GameObject;
+			this.isLoadingScreenDisplayed=true;
+		}
+	}
+	public void hideLoadingScreen()
+	{
+		if(isLoadingScreenDisplayed)
+		{
+			Destroy (this.loadingScreen);
+			this.isLoadingScreenDisplayed=false;
+		}
 	}
 }

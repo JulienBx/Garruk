@@ -12,7 +12,6 @@ public class PlayingCardController : GameObjectController
 	Card card ;
 	int id = -1 ;
 	bool isDead ;
-	bool isMine;
 	
 	bool hasMoved ;
 	bool hasPlayed ;
@@ -101,13 +100,6 @@ public class PlayingCardController : GameObjectController
 		transform.Find("Icon1").GetComponent<SpriteRenderer>().sprite = this.iconSprites[0];
 		transform.Find("Icon2").GetComponent<SpriteRenderer>().sprite = this.iconSprites[0];
 		transform.Find("Icon3").GetComponent<SpriteRenderer>().sprite = this.iconSprites[0];
-		
-		if (this.isMine){
-			transform.Find("Art").GetComponent<SpriteRenderer>().sprite = this.backgroundSprites[c.ArtIndex];
-		}
-		else{
-			transform.Find("Art").GetComponent<SpriteRenderer>().sprite = this.backgroundSprites[c.ArtIndex+10];
-		}
 	}
 	
 	public void addTime(float t){
@@ -176,7 +168,7 @@ public class PlayingCardController : GameObjectController
 	
 	public bool getIsMine()
 	{
-		return this.isMine ;
+		return this.card.isMine ;
 	}
 	
 	public bool getHasPlayed()
@@ -211,7 +203,14 @@ public class PlayingCardController : GameObjectController
 	
 	public void setIsMine(bool b)
 	{
-		this.isMine = b ;
+		this.card.isMine = b ;
+		
+		if (b){
+			transform.Find("Art").GetComponent<SpriteRenderer>().sprite = this.backgroundSprites[this.card.ArtIndex];
+		}
+		else{
+			transform.Find("Art").GetComponent<SpriteRenderer>().sprite = this.backgroundSprites[this.card.ArtIndex+10];
+		}
 	}
 	
 	public void OnMouseEnter(){

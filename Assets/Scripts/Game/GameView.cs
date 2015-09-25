@@ -7,7 +7,7 @@ using TMPro ;
 public class GameView : MonoBehaviour
 {
 	public static GameView instance;
-	
+
 	public GameObject tileModel ;
 	public GameObject tileHandlerModel ;
 	public GameObject verticalBorderModel;
@@ -19,6 +19,7 @@ public class GameView : MonoBehaviour
 	public GameObject TutorialObject;
 	public Sprite[] sprites;
 	public Sprite[] skillSprites;
+	public GameObject loadingScreenObject;
 	
 	int boardWidth = 6;
 	int boardHeight = 8;
@@ -47,7 +48,8 @@ public class GameView : MonoBehaviour
 	GameObject actionButtons;
 	
 	GameObject timerGO;
-	
+	GameObject loadingScreen;
+
 	int heightScreen = -1;
 	int widthScreen = -1;
 	float realwidth = -1;
@@ -112,11 +114,13 @@ public class GameView : MonoBehaviour
 	List<Tile> destinations ;
 
 	bool isTutorialLaunched;
+	bool isLoadingScreenDisplayed;
 		
 	void Awake()
 	{
 		instance = this;
-		
+
+		this.displayLoadingScreen ();
 		this.tiles = new GameObject[this.boardWidth, this.boardHeight];
 		this.tileHandlers = new GameObject[this.boardWidth, this.boardHeight];
 		this.playingCards = new List<GameObject>();
@@ -603,8 +607,9 @@ public class GameView : MonoBehaviour
 		{
 			this.playingCards [debut + c.deckOrder].GetComponentInChildren<PlayingCardController>().hide();
 		} 
-		this.playingCards [debut + c.deckOrder].GetComponentInChildren<PlayingCardController>().setIsMine(isFirstP==isFirstPlayer);
 		this.playingCards [debut + c.deckOrder].GetComponentInChildren<PlayingCardController>().setCard(c);
+		print (isFirstP==isFirstPlayer);
+		this.playingCards [debut + c.deckOrder].GetComponentInChildren<PlayingCardController>().setIsMine(isFirstP==isFirstPlayer);
 		this.playingCards [debut + c.deckOrder].GetComponentInChildren<PlayingCardController>().setIDCharacter(debut + c.deckOrder);
 		this.playingCards [debut + c.deckOrder].name = "Card"+(debut + c.deckOrder);
 		this.playingCards [debut + c.deckOrder].transform.FindChild("AttackZone").GetComponent<AttackPictoController>().setIDCard(debut + c.deckOrder);
@@ -2211,6 +2216,22 @@ public class GameView : MonoBehaviour
 			}
 		}
 		return (100f*(life/totalLife));
+	}
+	public void displayLoadingScreen()
+	{
+		if(!isLoadingScreenDisplayed)
+		{
+			this.loadingScreen=Instantiate(this.loadingScreenObject) as GameObject;
+			this.isLoadingScreenDisplayed=true;
+		}
+	}
+	public void hideLoadingScreen()
+	{
+		if(isLoadingScreenDisplayed)
+		{
+			Destroy (this.loadingScreen);
+			this.isLoadingScreenDisplayed=false;
+		}
 	}
 	
 }
