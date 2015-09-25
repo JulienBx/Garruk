@@ -298,12 +298,14 @@ public class GameView : MonoBehaviour
 					this.tileHandlers[t.x, t.y].SetActive(false);
 					this.displayedDeads.RemoveAt(i);
 					this.displayedDeadsTimer.RemoveAt(i);
-					this.removeDestinations();
-					if(this.getIsMine(GameController.instance.getCurrentPlayingCard())){
-						this.setDestinations(GameController.instance.getCurrentPlayingCard());
-					}
-					else{
-						this.setHisDestinations(GameController.instance.getCurrentPlayingCard());
+					if(!this.hasMoved(GameController.instance.getCurrentPlayingCard())){
+						this.removeDestinations();
+						if(this.getIsMine(GameController.instance.getCurrentPlayingCard())){
+							this.setDestinations(GameController.instance.getCurrentPlayingCard());
+						}
+						else{
+							this.setHisDestinations(GameController.instance.getCurrentPlayingCard());
+						}
 					}
 				}
 			}
@@ -321,8 +323,10 @@ public class GameView : MonoBehaviour
 					this.tileHandlers[t.x, t.y].SetActive(false);
 					this.displayedSE.RemoveAt(i);
 					this.displayedSETimer.RemoveAt(i);
-					this.removeDestinations();
 					if(!this.hasMoved(GameController.instance.getCurrentPlayingCard())){
+						print (GameController.instance.getCurrentPlayingCard()+" n'a pas joué");
+						this.removeDestinations();
+						
 						if(this.getIsMine(GameController.instance.getCurrentPlayingCard())){
 							this.setDestinations(GameController.instance.getCurrentPlayingCard());
 						}

@@ -19,19 +19,31 @@ public class PiegeAffaiblissant : GameSkill
 			GameView.instance.hideTargets();
 		}
 		
-		int[] targets = new int[2];
-		targets[0] = targetsTile[0].x;
-		targets[1] = targetsTile[0].y;
-		GameController.instance.applyOn(targets);
+		GameController.instance.addTargetTile(targetsTile[0].x, targetsTile[0].y, 1);
 		GameController.instance.play();
 	}
-//	
-//	public override void applyOn(int[] targets){
-//		int amount = base.skill.ManaCost;
-//		
-//		GameController.instance.addTileModifier(new Tile(targets[0], targets[1]), amount, ModifierType.Type_WeakeningTrap, ModifierStat.Stat_No, -1, 3, "Piège affaiblissant", "Réduit de "+amount+"% l'attaque du héros touché pendant 2 tours", "Permanent. Non visible du joueur adverse");
-//		GameView.instance.displaySkillEffect(GameController.instance.getCurrentPlayingCard(), "Piège posé", 4);
-//	}
+	
+	public override void applyOn(){
+		Tile target ;
+		string text ;
+		List<Card> receivers =  new List<Card>();
+		List<string> receiversTexts =  new List<string>();
+		
+		int amount ; 
+		
+		for(int i = 0 ; i < base.tileTargets.Count ; i++){
+			target = base.tileTargets[i];	
+			amount = base.skill.ManaCost;
+			
+			text="Piège posé";
+			
+			GameController.instance.addTileModifier(new Tile(targets[0], targets[1]), amount, ModifierType.Type_WeakeningTrap, ModifierStat.Stat_No, -1, 3, "Piège affaiblissant", "Réduit de "+amount+"% l'attaque du héros touché pendant 2 tours", "Permanent. Non visible du joueur adverse");
+			GameView.instance.displaySkillEffect(GameController.instance.getCurrentPlayingCard(), text, 4);
+		}
+		if(!GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
+			GameView.instance.setSkillPopUp("pose un <b>électropiège</b>...", base.card, receivers, receiversTexts);
+		}
+	}
 	
 	public override void activateTrap(int[] targets, int[] args){
 		int amount = args[0]*GameView.instance.getCard(targets[0]).GetAttack()/100;

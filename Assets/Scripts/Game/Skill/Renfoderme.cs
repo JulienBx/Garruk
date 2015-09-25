@@ -24,22 +24,32 @@ public class Renfoderme : GameSkill
 		
 		if (Random.Range(1,101) > GameView.instance.getCard(target).GetMagicalEsquive())
 		{                             
-			GameController.instance.applyOn(target,0);
+			GameController.instance.addTarget(target,1);
 		}
 		else{
-			GameController.instance.failedToCastOnSkill(target, 1);
+			GameController.instance.addTarget(target,0);
 		}
 		
 		if (base.card.isGenerous()){
 			if (Random.Range(1,101) <= base.card.getPassiveManacost()){
 				List<int> allys = GameView.instance.getAllys();
+				for (int i = 0 ; i < allys.Count ; i++){
+					Debug.Log("Allys "+allys[i]);
+				}
 				if(allys.Count>1){
 					allys.Remove(target);
+					for (int i = 0 ; i < allys.Count ; i++){
+						Debug.Log("Allys2 "+allys[i]);
+					}
+					
 					target = allys[Random.Range(0,allys.Count)];
 					
 					if (Random.Range(1,101) > GameView.instance.getCard(target).GetMagicalEsquive())
 					{
-						GameController.instance.applyOn(target,1);
+						GameController.instance.addTarget(target,3);
+					}
+					else{
+						GameController.instance.addTarget(target,2);
 					}
 				}
 			}
