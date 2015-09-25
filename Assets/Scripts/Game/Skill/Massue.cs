@@ -76,7 +76,7 @@ public class Massue : GameSkill
 				receiversTexts.Add (text);
 			}
 			else{
-				amount = base.values[i];
+				amount = Mathf.Min (targetCard.GetLife(), base.values[i]);
 				if (base.card.isLache()){
 					if(GameController.instance.getIsFirstPlayer()==GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
 						if(GameView.instance.getPlayingCardTile(target).y==GameView.instance.getPlayingCardTile(GameController.instance.getCurrentPlayingCard()).y-1){
