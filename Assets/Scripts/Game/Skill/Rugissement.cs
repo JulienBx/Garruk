@@ -20,26 +20,48 @@ public class Rugissement : GameSkill
 		for(int i = 0 ; i < targets.Count ; i++){
 			if (Random.Range(1,101) > GameView.instance.getCard(targets[i]).GetMagicalEsquive())
 			{
-				GameController.instance.applyOn(targets[i]);
+				GameController.instance.addTarget(targets[i],1);
 			}
 			else{
-				GameController.instance.failedToCastOnSkill(targets[i], 0);
+				GameController.instance.addTarget(targets[i],0);
 			}
 		}
 		
 		GameController.instance.play();
 	}
 	
-//	public override void applyOn(int target){
-//		int amount = base.skill.ManaCost;
-//		
-//		GameController.instance.addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, 1, 9, "Rugissement", "+"+amount+" ATK pour un tour", "Actif 1 tour");
-//		GameView.instance.displaySkillEffect(target, "+"+amount+" ATK", 4);	
-//	}
-//	
-//	public override void failedToCastOn(int target, int indexFailure){
-//		GameView.instance.displaySkillEffect(target, "Esquive", 5);
-//	}
+	public override void applyOn(){
+		Card targetCard ;
+		int target ;
+		string text ;
+		List<Card> receivers =  new List<Card>();
+		List<string> receiversTexts =  new List<string>();
+		int amount ; 
+		
+		for(int i = 0 ; i < base.targets.Count ; i++){
+			target = base.targets[i];
+			targetCard = GameView.instance.getCard(target);
+			receivers.Add (targetCard);
+			if (base.results[i]==0){
+				text = "Esquive";
+				GameView.instance.displaySkillEffect(target, text, 4);
+				receiversTexts.Add (text);
+			}
+			else{
+				amount = base.skill.ManaCost;
+				
+				text="+"+amount+" ATK";
+				receiversTexts.Add (text);
+				
+				GameController.instance.addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, 1, 9, "Renforcé", "+"+amount+" ATK pour 1 tour", "Actif 1 tour");
+				
+				GameView.instance.displaySkillEffect(target, text, 5);
+			}	
+		}
+		if(!GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
+			GameView.instance.setSkillPopUp("lance <b>Rugissement</b>...", base.card, receivers, receiversTexts);
+		}
+	}
 	
 	public override string isLaunchable(){
 		return GameView.instance.canLaunchAllysButMeTargets();

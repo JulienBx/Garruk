@@ -24,12 +24,11 @@ public class Terreur : GameSkill
 		if (Random.Range(1,101) > GameView.instance.getCard(target).GetEsquive())
 		{                             
 			int arg = Random.Range(1,101);
-			GameController.instance.applyOn(target,arg,0);
+			GameController.instance.addTarget(target,1,arg);
 		}
 		else{
-			GameController.instance.failedToCastOnSkill(target, 0);
+			GameController.instance.addTarget(target,0,0);
 		}
-		GameController.instance.play();
 		
 		if (base.card.isGiant()){
 			if (Random.Range(1,101) <= base.card.getPassiveManacost()){
@@ -41,47 +40,73 @@ public class Terreur : GameSkill
 					if (Random.Range(1,101) > GameView.instance.getCard(target).GetMagicalEsquive())
 					{
 						int arg = Random.Range(1,101);
-						GameController.instance.applyOn(target,arg,1);
+						GameController.instance.addTarget(target,3,arg);
+					}
+					else{
+						GameController.instance.addTarget(target,2,0);
 					}
 				}
 			}
 		}
+		
+		GameController.instance.play();
 	}
 	
-//	public override void applyOn(int target, int arg, int arg2){
-//		Card targetCard = GameView.instance.getCard(target);
-//		int bouclier = targetCard.GetBouclier();
-//		int currentLife = targetCard.GetLife();
-//		int damageBonusPercentage = base.card.GetDamagesPercentageBonus(targetCard);
-//		int manacost = base.skill.ManaCost;
-//		int amount = (base.card.GetAttack()/2)*(100+damageBonusPercentage)/100;
-//		amount = Mathf.Min(currentLife,amount-(bouclier*amount/100));
-//		
-//		GameController.instance.addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
-//		
-//		if (arg<=manacost && arg2==0){
-//			GameController.instance.addCardModifier(target, amount, ModifierType.Type_Paralized, ModifierStat.Stat_No, 1, 2, "Paralisé", "Ne peur rien faire au prochain tour", "Actif 1 tour");
-//			if(currentLife>amount){
-//				GameView.instance.displaySkillEffect(target, "-"+amount+" PV\nParalyse", 5);
-//			}
-//		}
-//		else{
-//			if(arg2==0){
-//				if(currentLife>amount){
-//					GameView.instance.displaySkillEffect(target, "-"+amount+" PV\nEchec paralysie", 4);
-//				}
-//			}
-//			else{
-//				if(currentLife>amount){
-//					GameView.instance.displaySkillEffect(target, "GEANT\n-"+amount+" PV", 4);
-//				}
-//			}
-//		}	
-//	}
-//	
-//	public override void failedToCastOn(int target, int indexFailure){
-//		GameView.instance.displaySkillEffect(target, "Esquive", 4);
-//	}
+	public override void applyOn(){
+		Card targetCard ;
+		int target ;
+		string text ;
+		List<Card> receivers =  new List<Card>();
+		List<string> receiversTexts =  new List<string>();
+		
+		int amount ; 
+		
+		for(int i = 0 ; i < base.targets.Count ; i++){
+			target = base.targets[i];
+			targetCard = GameView.instance.getCard(target);
+			receivers.Add (targetCard);
+			if (base.results[i]==0){
+				text = "Esquive";
+				GameView.instance.displaySkillEffect(target, text, 4);
+				receiversTexts.Add (text);
+			}
+			else if (base.results[i]==2){
+				text = "Bonus 'Géant'\nEsquive";
+				GameView.instance.displaySkillEffect(target, text, 4);
+				receiversTexts.Add (text);
+			}
+			else{
+				if(base.results[i]==3){
+					text = "Bonus Géant\n";
+				}
+				else{
+					text="";
+				}
+				if(base.values[i]<base.skill.ManaCost){
+					text+="\nParalyse";
+					GameController.instance.addCardModifier(target, 0, ModifierType.Type_Paralized, ModifierStat.Stat_No, 1, 2, "Paralisé", "Ne peur rien faire au prochain tour", "Actif 1 tour");
+				}
+				else{
+				
+				}
+				amount = (base.card.GetAttack()/2)*(100+base.card.GetDamagesPercentageBonus(targetCard))/100;
+				
+				text+="-"+amount+" PV";
+				
+				if(targetCard.GetLife()==amount){
+					text+="\nMORT";
+				}
+				receiversTexts.Add (text);
+				
+				GameController.instance.addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
+				
+				GameView.instance.displaySkillEffect(target, text, 5);
+			}	
+		}
+		if(!GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
+			GameView.instance.setSkillPopUp("lance <b>Terreur</b>...", base.card, receivers, receiversTexts);
+		}
+	}
 	
 	public override string isLaunchable(){
 		return GameView.instance.canLaunchAdjacentOpponents();

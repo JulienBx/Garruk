@@ -19,19 +19,31 @@ public class Somnipiege : GameSkill
 			GameView.instance.hideTargets();
 		}
 		
-		int[] targets = new int[2];
-		targets[0] = targetsTile[0].x;
-		targets[1] = targetsTile[0].y;
-		GameController.instance.applyOn(targets);
+		GameController.instance.addTargetTile(targetsTile[0].x, targetsTile[0].y, 1);
 		GameController.instance.play();
 	}
 	
-//	public override void applyOn(int[] targets){
-//		int amount = base.skill.ManaCost;
-//		
-//		GameController.instance.addTileModifier(new Tile(targets[0], targets[1]), amount, ModifierType.Type_SleepingTrap, ModifierStat.Stat_No, -1, 2, "Piège endormissant", "Endort l'adversaire. "+amount+"% de chances de se réveiller chaque tour", "Permanent. Non visible du joueur adverse");
-//		GameView.instance.displaySkillEffect(GameController.instance.getCurrentPlayingCard(), "Piège posé", 4);
-//	}
+	public override void applyOn(){
+		Tile target ;
+		string text ;
+		List<Card> receivers =  new List<Card>();
+		List<string> receiversTexts =  new List<string>();
+		
+		int amount ; 
+		
+		for(int i = 0 ; i < base.tileTargets.Count ; i++){
+			target = base.tileTargets[i];	
+			amount = base.skill.ManaCost;
+			
+			text="Piège posé";
+			
+			GameController.instance.addTileModifier(new Tile(targets[0], targets[1]), amount, ModifierType.Type_SleepingTrap, ModifierStat.Stat_No, -1, 2, "Piège endormissant", "Endort l'adversaire. "+amount+"% de chances de se réveiller chaque tour", "Permanent. Non visible du joueur adverse");
+			GameView.instance.displaySkillEffect(GameController.instance.getCurrentPlayingCard(), text, 4);
+		}
+		if(!GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
+			GameView.instance.setSkillPopUp("pose un <b>somnipiège</b>...", base.card, receivers, receiversTexts);
+		}
+	}
 	
 	public override void activateTrap(int[] targets, int[] args){
 		GameController.instance.addCardModifier(targets[0], args[0], ModifierType.Type_Sleeping, ModifierStat.Stat_No, -1, 12, "Endormi", "Le héros ne peut ni se déplacer ni agir", args[0]+"% réveil / tour");

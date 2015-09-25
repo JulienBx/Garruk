@@ -58,22 +58,49 @@ public class Renfoderme : GameSkill
 		GameController.instance.play();
 	}
 	
-//	public override void applyOn(int target, int arg){
-//		int amount = base.skill.ManaCost;
-//		
-//		GameController.instance.addCardModifier(target, amount, ModifierType.Type_Bouclier, ModifierStat.Stat_No, -1, 10, "Bouclier", "Dommages subis : -"+amount+"%", "Permanent");
-//		
-//		if(arg==0){
-//			GameView.instance.displaySkillEffect(target, "Bouclier ajouté", 4);
-//		}
-//		else if(arg==1){
-//			GameView.instance.displaySkillEffect(target, "BONUS\nBouclier ajouté", 4);
-//		}
-//	}
-//	
-//	public override void failedToCastOn(int target, int indexFailure){
-//		GameView.instance.displaySkillEffect(target, "Esquive", 4);
-//	}
+	public override void applyOn(){
+		Card targetCard ;
+		int target ;
+		string text ;
+		List<Card> receivers =  new List<Card>();
+		List<string> receiversTexts =  new List<string>();
+		int amount ; 
+		
+		for(int i = 0 ; i < base.targets.Count ; i++){
+			target = base.targets[i];
+			targetCard = GameView.instance.getCard(target);
+			receivers.Add (targetCard);
+			if (base.results[i]==0){
+				text = "Esquive";
+				GameView.instance.displaySkillEffect(target, text, 4);
+				receiversTexts.Add (text);
+			}
+			else if (base.results[i]==2){
+				text = "Bonus 'Généreux'\nEsquive";
+				GameView.instance.displaySkillEffect(target, text, 4);
+				receiversTexts.Add (text);
+			}
+			else{
+				amount = base.skill.ManaCost;
+				if(base.results[i]==3){
+					text = "Bonus Généreux\n";
+				}
+				else{
+					text="";
+				}
+				
+				text+="Renforcé";
+				receiversTexts.Add (text);
+				
+				GameController.instance.addCardModifier(target, amount, ModifierType.Type_Bouclier, ModifierStat.Stat_No, -1, 10, "Bouclier", "Dommages subis : -"+amount+"%", "Permanent");
+				
+				GameView.instance.displaySkillEffect(target, text, 5);
+			}	
+		}
+		if(!GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
+			GameView.instance.setSkillPopUp("lance <b>Renfoderme</b>...", base.card, receivers, receiversTexts);
+		}
+	}
 	
 	public override string isLaunchable(){
 		return GameView.instance.canLaunchAllysButMeTargets();

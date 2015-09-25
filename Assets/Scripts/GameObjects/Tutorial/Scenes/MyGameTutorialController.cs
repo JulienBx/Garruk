@@ -55,14 +55,13 @@ public class MyGameTutorialController : TutorialObjectController
 			this.resizeBackground(new Rect(0,10,5,5),0f,0f);
 			this.resizePopUp(new Vector3(0,0,-9.5f));
 			break;
-			break;
 		case 3:
 			if(!isResizing)
 			{
 				this.displayPopUp(2);
 				this.displayNextButton(true);
 				this.setPopUpTitle("Les caractéristiques de carte");
-				this.setPopUpDescription("(Rajouter les autres descriptions) La zone inférieure présente les caractéristiques de la carte. Au centre sont affichés les points de vie. Chaque unité dispose de ses propres points de vie, et est anéantie pendant un combat quand ses points de vie tombent à 0.\n\nUne unité anéantie pendant un combat reste votre propriété et sera disponible pour le combat suivant (moyennant un passage éclair à l'hopital galactique de Cristalia, réputé pour ses caissons de récupération à haute vitesse)");
+				this.setPopUpDescription("La zone inférieure présente les caractéristiques de la carte. A gauche on trouve la force d'attaque de la carte (les dégats infligés à chaque attaque), à droite la rapidité (déterminant l'ordre de jeu de chaque carte pendans le combat) et au centre sont affichés les points de vie et .\n\nUne unité anéantie pendant un combat reste votre propriété et sera disponible pour le combat suivant (moyennant un passage éclair à l'hopital galactique de Cristalia, réputé pour ses caissons de récupération à haute vitesse)");
 				this.displayBackground(true);
 				this.setDownArrow();
 			}
@@ -211,7 +210,7 @@ public class MyGameTutorialController : TutorialObjectController
 				this.displayPopUp(0);
 				this.displayNextButton(false);
 				this.setPopUpTitle("Ajouter des recrues à son équipe");
-				this.setPopUpDescription("Cliquez sur les recrues proposées pour créer votre première équipe");
+				this.setPopUpDescription("Ajouter vos 4 Crystaliens à l'équipe créée!");
 				this.displayBackground(true);
 				//this.setUpArrow();			
 			}

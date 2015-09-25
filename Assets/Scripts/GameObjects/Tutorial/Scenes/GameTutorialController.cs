@@ -35,8 +35,8 @@ public class GameTutorialController : TutorialObjectController
 				this.displayPopUp(2);
 				this.setDownArrow();
 				this.displayNextButton(false);
-				this.setPopUpTitle("Sélectionner une unité");
-				this.setPopUpDescription("Vos troupes sont pretes pour le combat. Chaque unité est affichée sous forme de carte avec un visuel différent pour chaque classe de personnage.\n\nA chaque début de combat, vous pourrez placer vos troupes sur les deux premières rangées de cases. Vos unités plus résistantes pourront ainsi protéger vos unités les plus faibles.\n\n<b>Cliquez sur ce prédateur pour le déplacer.</b> ");
+				this.setPopUpTitle("Survol d'une unité");
+				this.setPopUpDescription("Vos troupes sont pretes pour le combat. Chaque unité est affichée sous forme de carte avec un visuel différent pour chaque classe de personnage.\n\nA chaque début de combat, vous pourrez placer vos troupes sur les deux premières rangées de cases. Vos unités plus résistantes pourront ainsi protéger vos unités les plus faibles.\n\n<b>Survolez votre unité pour accéder au détail de ses compétences</b> ");
 				this.displayBackground(true);
 			}
 			
@@ -65,8 +65,8 @@ public class GameTutorialController : TutorialObjectController
 				this.displayPopUp(0);
 				this.setDownArrow();
 				this.displayNextButton(false);
-				this.setPopUpTitle("Déplacer ses unités");
-				this.setPopUpDescription("Déplaçons maintenant notre drogueur sur une case libre en cliquant sur celle-ci.");
+				this.setPopUpTitle("Déplacer une unité");
+				this.setPopUpDescription("Déplaçons maintenant notre drogueur sur une case libre.\n<b>Cliquez sur le drogueur</b>");
 				this.displayBackground(true);
 			}
 

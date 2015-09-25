@@ -25,10 +25,10 @@ public class Senilite : GameSkill
 		if (Random.Range(1,101) > GameView.instance.getCard(target).GetMagicalEsquive())
 		{                             
 			int arg = Random.Range(1,base.skill.ManaCost+1);
-			GameController.instance.applyOn(target,arg,0);
+			GameController.instance.applyOn(target,1,arg);
 		}
 		else{
-			GameController.instance.failedToCastOnSkill(target, 1);
+			GameController.instance.applyOn(target,0,0);
 		}
 		
 		if (base.card.isGenerous()){
@@ -41,7 +41,10 @@ public class Senilite : GameSkill
 					if (Random.Range(1,101) > GameView.instance.getCard(target).GetMagicalEsquive())
 					{
 						int arg = Random.Range(1,base.skill.ManaCost+1);
-						GameController.instance.applyOn(target,arg, 1);
+						GameController.instance.applyOn(target,3,arg);
+					}
+					else{
+						GameController.instance.applyOn(target,2,0);
 					}
 				}
 			}
@@ -50,20 +53,50 @@ public class Senilite : GameSkill
 		GameController.instance.play();
 	}
 	
-//	public override void applyOn(int target, int arg, int arg2){
-//		GameController.instance.addCardModifier(target, -1*arg, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, -1, 5, "Affaibli", "-"+arg+" ATK. Permanent", "Permanent");
-//		
-//		if(arg2==0){
-//			GameView.instance.displaySkillEffect(target, "-"+arg+" ATK", 5);
-//		}
-//		else if(arg2==1){
-//			GameView.instance.displaySkillEffect(target, "BONUS\n-"+arg+" ATK", 5);
-//		}
-//	}
-//	
-//	public override void failedToCastOn(int target, int indexFailure){
-//		GameView.instance.displaySkillEffect(target, "Esquive", 4);
-//	}
+	public override void applyOn(){
+		Card targetCard ;
+		int target ;
+		string text ;
+		List<Card> receivers =  new List<Card>();
+		List<string> receiversTexts =  new List<string>();
+		
+		int amount ; 
+		
+		for(int i = 0 ; i < base.targets.Count ; i++){
+			target = base.targets[i];
+			targetCard = GameView.instance.getCard(target);
+			receivers.Add (targetCard);
+			if (base.results[i]==0){
+				text = "Esquive";
+				GameView.instance.displaySkillEffect(target, text, 4);
+				receiversTexts.Add (text);
+			}
+			else if (base.results[i]==2){
+				text = "Bonus 'Généreux'\nEsquive";
+				GameView.instance.displaySkillEffect(target, text, 4);
+				receiversTexts.Add (text);
+			}
+			else{
+				amount = base.values[i];
+				if(base.results[i]==3){
+					text = "Bonus Généreux\n";
+				}
+				else{
+					text="";
+				}
+				
+				text+="-"+amount+" ATK";
+				receiversTexts.Add (text);
+				
+				GameController.instance.addCardModifier(target, -1*amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, -1, 5, "Affaibli", "-"+amount+" ATK. Permanent", "Permanent");
+				
+				GameView.instance.displaySkillEffect(target, text, 5);
+			}	
+		}
+		if(!GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
+			GameView.instance.setSkillPopUp("lance <b>Sénilité</b>...", base.card, receivers, receiversTexts);
+		}
+	}
 	
 	public override string isLaunchable(){
 		return GameView.instance.canLaunchAllysButMeTargets();

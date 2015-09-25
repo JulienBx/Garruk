@@ -24,12 +24,11 @@ public class ToutDonner : GameSkill
 		
 		if (Random.Range(1,101) > GameView.instance.getCard(target).GetEsquive())
 		{                             
-			GameController.instance.applyOn(target,0);
+			GameController.instance.addTarget(target,1);
 		}
 		else{
-			GameController.instance.failedToCastOnSkill(target, 0);
+			GameController.instance.addTarget(target,0);
 		}
-		GameController.instance.play();
 		
 		if (base.card.isGiant()){
 			if (Random.Range(1,101) <= base.card.getPassiveManacost()){
@@ -38,37 +37,76 @@ public class ToutDonner : GameSkill
 					int ran = Random.Range(0,opponents.Count);
 					target = GameView.instance.getTileCharacterID(opponents[ran].x, opponents[ran].y) ;
 					
-					if (Random.Range(1,101) > GameView.instance.getCard(target).GetMagicalEsquive())
+					if (Random.Range(1,101) > GameView.instance.getCard(target).GetEsquive())
 					{
-						GameController.instance.applyOn(target,1);
+						GameController.instance.addTarget(target,3);
+					}
+					else{
+						GameController.instance.addTarget(target,2);
 					}
 				}
 			}
 		}
+		
+		GameController.instance.play();
 	}
 	
-//	public override void applyOn(int target, int arg){
-//		Card targetCard = GameView.instance.getCard(target);
-//		int bouclier = targetCard.GetBouclier();
-//		int currentLife = targetCard.GetLife();
-//		int damageBonusPercentage = base.card.GetDamagesPercentageBonus(targetCard);
-//		int amount = (this.card.GetAttack()*base.skill.ManaCost/100)*(100+damageBonusPercentage)/100;
-//		amount = Mathf.Min(currentLife,amount-(bouclier*amount/100));
-//		GameController.instance.addCardModifier(GameController.instance.getCurrentPlayingCard(), amount, ModifierType.Type_Paralized, ModifierStat.Stat_No, -2, 2, "Paralisé", "Ne peut rien faire au prochain tour", "Actif 1 tour");
-//		GameController.instance.addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
-//		if(currentLife!=amount){
-//			if(arg==0){
-//				GameView.instance.displaySkillEffect(target, "-"+amount+" PV", 5);
-//			}
-//			else{
-//				GameView.instance.displaySkillEffect(target, "GEANT\n-"+amount+" PV", 5);
-//			}
-//		}
-//	}
-//	
-//	public override void failedToCastOn(int target, int indexFailure){
-//		GameView.instance.displaySkillEffect(target, "ESQUIVE", 4);
-//	}
+	public override void applyOn(){
+		Card targetCard ;
+		int target ;
+		string text ;
+		List<Card> receivers =  new List<Card>();
+		List<string> receiversTexts =  new List<string>();
+		
+		int amount ; 
+		
+		for(int i = 0 ; i < base.targets.Count ; i++){
+			target = base.targets[i];
+			targetCard = GameView.instance.getCard(target);
+			receivers.Add (targetCard);
+			if (base.results[i]==0){
+				text = "Esquive";
+				GameView.instance.displaySkillEffect(target, text, 4);
+				receiversTexts.Add (text);
+			}
+			else if (base.results[i]==2){
+				text = "Bonus 'Géant'\nEsquive";
+				GameView.instance.displaySkillEffect(target, text, 4);
+				receiversTexts.Add (text);
+			}
+			else{
+				amount = Mathf.Min(targetCard.GetLife(),(base.card.GetAttack()*base.skill.ManaCost/100)*(1-(targetCard.GetBouclier()/100)));
+				
+				if(base.results[i]==3){
+					text = "Bonus Géant\n";
+				}
+				else{
+					text="";
+				}
+				
+				text+="-"+amount+" PV";
+				
+				if(targetCard.GetLife()==amount){
+					text+="\nMORT";
+				}
+				receiversTexts.Add (text);
+				
+				GameController.instance.addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
+				
+				GameView.instance.displaySkillEffect(target, text, 5);
+			}	
+		}
+		
+		receivers.Add (GameView.instance.getCard(GameController.instance.getCurrentPlayingCard()));
+		text="Paralyse";
+		receiversTexts.Add (text);
+		GameController.instance.addCardModifier(GameController.instance.getCurrentPlayingCard(), 0, ModifierType.Type_Paralized, ModifierStat.Stat_No, -2, 2, "Paralisé", "Ne peut rien faire au prochain tour", "Actif 1 tour");	
+		GameView.instance.displaySkillEffect(GameController.instance.getCurrentPlayingCard(), text, 5);
+		
+		if(!GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
+			GameView.instance.setSkillPopUp("lance <b>Tout donner</b>...", base.card, receivers, receiversTexts);
+		}
+	}
 	
 	public override string isLaunchable(){
 		return GameView.instance.canLaunchAdjacentOpponents();

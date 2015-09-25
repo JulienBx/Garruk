@@ -32,35 +32,51 @@ public class TirALarc : GameSkill
 		}
 		
 		if (arg!=0){
-			GameController.instance.applyOn(target, arg);
+			GameController.instance.addTarget(target,1,arg);
 		}
 		else{
-			GameController.instance.failedToCastOnSkill(target,1);
+			GameController.instance.addTarget(target,0,0);
 		}
 		GameController.instance.play();
 	}
 	
-//	public override void applyOn(int target, int arg){
-//		
-//		Card targetCard = GameView.instance.getCard(target);
-//		int currentLife = targetCard.GetLife();
-//		int bouclier = targetCard.GetBouclier();
-//		
-//		int damageBonusPercentage = this.card.GetDamagesPercentageBonus(targetCard);
-//		
-//		int amount = arg*this.skill.ManaCost*(100+damageBonusPercentage)/100;
-//		amount = Mathf.Min(currentLife,amount-(bouclier*amount/100));
-//		
-//		GameController.instance.addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
-//		
-//		if(currentLife>amount){
-//			GameView.instance.displaySkillEffect(target, "HIT X"+arg+"\n-"+(amount)+" PV", 5);
-//		}
-//	}
-//	
-//	public override void failedToCastOn(int target, int indexFailure){
-//		GameView.instance.displaySkillEffect(target, "ESQUIVE", 4);
-//	}
+	public override void applyOn(){
+		Card targetCard ;
+		int target ;
+		string text ;
+		List<Card> receivers =  new List<Card>();
+		List<string> receiversTexts =  new List<string>();
+		
+		int amount ; 
+		
+		for(int i = 0 ; i < base.targets.Count ; i++){
+			target = base.targets[i];
+			targetCard = GameView.instance.getCard(target);
+			receivers.Add (targetCard);
+			if (base.results[i]==0){
+				text = "Esquive";
+				GameView.instance.displaySkillEffect(target, text, 4);
+				receiversTexts.Add (text);
+			}
+			else{
+				amount = Mathf.Min(targetCard.GetLife(),base.values[i]*base.skill.ManaCost*(1-(targetCard.GetBouclier()/100)));
+				
+				text="Hits X"+base.values[i]+"\n-"+amount+" PV";
+				
+				if(targetCard.GetLife()==amount){
+					text+="\nMORT";
+				}
+				receiversTexts.Add (text);
+				
+				GameController.instance.addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
+				
+				GameView.instance.displaySkillEffect(target, text, 5);
+			}	
+		}
+		if(!GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
+			GameView.instance.setSkillPopUp("lance <b>Tir à l'arc</b>...", base.card, receivers, receiversTexts);
+		}
+	}
 	
 	public override string isLaunchable(){
 		return GameView.instance.canLaunchOpponentsTargets();

@@ -42,10 +42,10 @@ public class Massue : GameSkill
 					if (Random.Range(1,101) > GameView.instance.getCard(target).GetMagicalEsquive())
 					{
 						int arg = Random.Range(1,base.skill.ManaCost+1)*GameView.instance.getCard(GameController.instance.getCurrentPlayingCard()).GetAttack()/100;
-						GameController.instance.applyOn(target,3,arg);
+						GameController.instance.addTarget(target,3,arg);
 					}
 					else{
-						GameController.instance.applyOn(target,2,0);
+						GameController.instance.addTarget(target,2,0);
 					}
 				}
 			}

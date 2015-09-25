@@ -41,7 +41,7 @@ public class PiegeAffaiblissant : GameSkill
 			GameView.instance.displaySkillEffect(GameController.instance.getCurrentPlayingCard(), text, 4);
 		}
 		if(!GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
-			GameView.instance.setSkillPopUp("pose un <b>électropiège</b>...", base.card, receivers, receiversTexts);
+			GameView.instance.setSkillPopUp("pose un <b>piège affaiblissant</b>...", base.card, receivers, receiversTexts);
 		}
 	}
 	
