@@ -32,7 +32,7 @@ public class SkillPopUpController : MonoBehaviour
 	public void addTime(float delta){
 		this.actualTime += delta;
 		print (this.actualTime);
-		if(this.actualTime>this.timeToDisplay){
+		if(this.actualTime>this.timeToDisplay && (!GameView.instance.getIsTutorialLaunched() || TutorialObjectController.instance.getSequenceID()!=22)){
 			this.hide();
 			this.resetTime();
 			this.timeToDisplay=0;

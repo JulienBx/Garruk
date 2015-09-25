@@ -177,15 +177,16 @@ public class TutorialObjectController : MonoBehaviour
 //	}
 	public void nextStepHandler()
 	{
-		this.launchSequence (this.sequenceID + 1);
+		StartCoroutine(this.launchSequence (this.sequenceID + 1));
 	}
-	public virtual void launchSequence(int sequenceID)
+	public virtual IEnumerator launchSequence(int sequenceID)
 	{
+		yield break;
 	}
 	public void resize()
 	{
 		this.isResizing = true;
-		this.launchSequence(sequenceID);
+		StartCoroutine(this.launchSequence(sequenceID));
 		this.isResizing = false;
 	}
 	public void setUpArrow()

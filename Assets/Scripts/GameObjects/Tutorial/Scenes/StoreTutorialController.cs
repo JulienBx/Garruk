@@ -9,7 +9,7 @@ public class StoreTutorialController : TutorialObjectController
 {
 	public static StoreTutorialController instance;
 	
-	public override void launchSequence(int sequenceID)
+	public override IEnumerator launchSequence(int sequenceID)
 	{
 		this.sequenceID = sequenceID;
 		switch(this.sequenceID)
@@ -109,17 +109,18 @@ public class StoreTutorialController : TutorialObjectController
 			NewStoreController.instance.endTutorial();
 			break;
 		}
+		yield break;
 	}
 	public override void actionIsDone()
 	{
 		switch(this.sequenceID)
 		{
 		case 1: case 4: 
-			this.launchSequence(this.sequenceID+1);
+			StartCoroutine(this.launchSequence(this.sequenceID+1));
 			break;
 		case 2:
 			NewStoreController.instance.setTutorialStep();
-			this.launchSequence(this.sequenceID+1);
+			StartCoroutine(this.launchSequence(this.sequenceID+1));
 			break;
 		}
 	}

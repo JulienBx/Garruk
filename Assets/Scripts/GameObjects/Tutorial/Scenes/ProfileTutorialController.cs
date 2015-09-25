@@ -9,7 +9,7 @@ public class ProfileTutorialController : TutorialObjectController
 {
 	public static ProfileTutorialController instance;
 	
-	public override void launchSequence(int sequenceID)
+	public override IEnumerator launchSequence(int sequenceID)
 	{
 		this.sequenceID = sequenceID;
 		switch(this.sequenceID)
@@ -76,6 +76,7 @@ public class ProfileTutorialController : TutorialObjectController
 			StartCoroutine(ProfileController.instance.endTutorial());
 			break;
 		}
+		yield break;
 	}
 	public override void actionIsDone()
 	{

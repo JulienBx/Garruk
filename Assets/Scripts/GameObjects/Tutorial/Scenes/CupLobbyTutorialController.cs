@@ -9,7 +9,7 @@ public class CupLobbyTutorialController : TutorialObjectController
 {
 	public static CupLobbyTutorialController instance;
 	
-	public override void launchSequence(int sequenceID)
+	public override IEnumerator launchSequence(int sequenceID)
 	{
 		this.sequenceID = sequenceID;
 		switch(this.sequenceID)
@@ -34,6 +34,7 @@ public class CupLobbyTutorialController : TutorialObjectController
 			StartCoroutine(CupLobbyController.instance.endTutorial());
 			break;
 		}
+		yield break;
 	}
 	public override void actionIsDone()
 	{

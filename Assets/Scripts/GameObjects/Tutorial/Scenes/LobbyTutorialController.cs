@@ -9,7 +9,7 @@ public class LobbyTutorialController : TutorialObjectController
 {
 	public static LobbyTutorialController instance;
 	
-	public override void launchSequence(int sequenceID)
+	public override IEnumerator launchSequence(int sequenceID)
 	{
 		this.sequenceID = sequenceID;
 		switch(this.sequenceID)
@@ -53,6 +53,7 @@ public class LobbyTutorialController : TutorialObjectController
 			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
 			break;
 		}
+		yield break;
 	}
 	public override void actionIsDone()
 	{
