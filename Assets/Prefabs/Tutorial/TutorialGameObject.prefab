@@ -1320,7 +1320,7 @@ MonoBehaviour:
   m_paragraphSpacing: 0
   m_lineLength: 0
   m_anchor: 0
-  m_textAlignment: 4
+  m_textAlignment: 7
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
@@ -1444,7 +1444,7 @@ MonoBehaviour:
   m_paragraphSpacing: 0
   m_lineLength: 0
   m_anchor: 0
-  m_textAlignment: 4
+  m_textAlignment: 7
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
@@ -1800,7 +1800,7 @@ MonoBehaviour:
   m_paragraphSpacing: 0
   m_lineLength: 0
   m_anchor: 0
-  m_textAlignment: 4
+  m_textAlignment: 7
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
