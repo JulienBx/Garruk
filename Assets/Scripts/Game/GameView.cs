@@ -322,11 +322,13 @@ public class GameView : MonoBehaviour
 					this.displayedSE.RemoveAt(i);
 					this.displayedSETimer.RemoveAt(i);
 					this.removeDestinations();
-					if(this.getIsMine(GameController.instance.getCurrentPlayingCard())){
-						this.setDestinations(GameController.instance.getCurrentPlayingCard());
-					}
-					else{
-						this.setHisDestinations(GameController.instance.getCurrentPlayingCard());
+					if(!this.hasMoved(GameController.instance.getCurrentPlayingCard())){
+						if(this.getIsMine(GameController.instance.getCurrentPlayingCard())){
+							this.setDestinations(GameController.instance.getCurrentPlayingCard());
+						}
+						else{
+							this.setHisDestinations(GameController.instance.getCurrentPlayingCard());
+						}
 					}
 				}
 			}
