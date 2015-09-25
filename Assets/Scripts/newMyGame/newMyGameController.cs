@@ -269,7 +269,7 @@ public class newMyGameController : MonoBehaviour
 			}
 			else if(model.player.TutorialStep==3)
 			{
-				this.tutorial.GetComponent<MyGameTutorialController>().launchSequence(12);
+				this.tutorial.GetComponent<MyGameTutorialController>().launchSequence(18);
 			}
 			this.isTutorialLaunched=true;
 		} 
@@ -1435,7 +1435,7 @@ public class newMyGameController : MonoBehaviour
 		}
 		if(isTutorialLaunched)
 		{
-			if(TutorialObjectController.instance.getSequenceID()>=13 && TutorialObjectController.instance.getSequenceID()<=16)
+			if(TutorialObjectController.instance.getSequenceID()==13)
 			{
 				this.isLeftClicked = true;
 				this.clickInterval = 0f;
@@ -1838,12 +1838,29 @@ public class newMyGameController : MonoBehaviour
 	{
 		return this.filters.transform.position;
 	}
-	public void setTutorialStep()
+	public bool isDeckCompleted()
 	{
-		StartCoroutine (model.player.setTutorialStep (3));
+		for(int i=0;i<this.deckCardsDisplayed.Length;i++)
+		{
+			if(this.deckCardsDisplayed[i]==-1)
+			{
+				return false;
+			}
+		}
+		return true;
 	}
-	public void endTutorial()
+	public void setDeckListColliders(bool value)
 	{
+		this.deckBoard.transform.FindChild ("deckList").FindChild ("newDeckButton").GetComponent<BoxCollider2D> ().enabled = value;
+		this.deckBoard.transform.FindChild ("deckList").FindChild ("deleteDeckButton").GetComponent<BoxCollider2D> ().enabled = value;
+		this.deckBoard.transform.FindChild ("deckList").FindChild ("renameDeckButton").GetComponent<BoxCollider2D> ().enabled = value;
+		this.deckBoard.transform.FindChild ("deckList").FindChild ("currentDeck").FindChild ("selectButton").GetComponent<BoxCollider2D> ().enabled = value;
+
+	}
+	public IEnumerator endTutorial()
+	{
+		this.displayLoadingScreen();
+		yield return StartCoroutine (model.player.setTutorialStep (3));
 		newMenuController.instance.setTutorialLaunched (false);
 		ApplicationModel.launchGameTutorial = true;
 		ApplicationModel.gameType = 0;

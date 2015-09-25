@@ -15,8 +15,6 @@ public class TutorialObjectController : MonoBehaviour
 	private float startTranslation;
 	private float currentTranslation;
 	private float speed;
-	public float worldWidth;
-	public float worldHeight;
 	public float arrowWidth;
 	public float arrowHeight;
 	public float arrowX;
