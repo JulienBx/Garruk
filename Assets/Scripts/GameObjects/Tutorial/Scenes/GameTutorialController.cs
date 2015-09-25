@@ -67,7 +67,7 @@ public class GameTutorialController : TutorialObjectController
 				this.setDownArrow();
 				this.displayNextButton(false);
 				this.setPopUpTitle("Déplacer ses unités");
-				this.setPopUpDescription("Sélectionnons maintenant notre drogueur pour le déplacer sur une case.");
+				this.setPopUpDescription("Cliquez sur le drogueur pour le déplacer.");
 				this.displayBackground(true);
 			}
 			
@@ -224,11 +224,11 @@ public class GameTutorialController : TutorialObjectController
 		case 14:
 			if(!isResizing)
 			{
-				this.displayPopUp(0);
+				this.displayPopUp(1);
 				this.setDownArrow();
 				this.displayNextButton(true);
-				this.setPopUpTitle("Comprendre l'ordre de jeu");
-				this.setPopUpDescription("Une fois la partie lancée, sur chaque unité est affichée le nombre de tours à attendre avant de pouvoir jouer");
+				this.setPopUpTitle("Caractéristiques des cartes");
+				this.setPopUpDescription("Une fois la partie lancée, sur chaque unité est affichée le nombre de tours (sablier) à attendre avant de pouvoir jouer. On retrouve également la compétence d'attaque, et les points de vie. Quand le total de points de vie atteint 0, l'unité est anéantie !");
 				this.displayBackground(true);
 			}
 			this.gameObjectPosition = GameView.instance.getPlayingCardsPosition(3);
@@ -371,8 +371,8 @@ public class GameTutorialController : TutorialObjectController
 				this.displayPopUp(0);
 				this.displayArrow(false);
 				this.displayNextButton(true);
-				this.setPopUpTitle("Escarmouche");
-				this.setPopUpDescription("Nous sommes attaqués par le prédateur de Garruk !\n\nPas de panique... Garruk risque de regretter son attaque!");
+				this.setPopUpTitle("L'adversaire attaque");
+				this.setPopUpDescription("La fenetre indique la compétence utilisée par l'adversaire et ses effets");
 				this.displayBackground(true);
 			}
 			//this.gameObjectPosition = GameView.instance.getPlayingCardsPosition(2);
@@ -971,7 +971,7 @@ public class GameTutorialController : TutorialObjectController
 				this.displayPopUp(1);
 				this.displayNextButton(false);
 				this.setPopUpTitle("Fin de combat");
-				this.setPopUpDescription("chaque fin de combat, vos troupes reçoivent des bonus d'expérience et vous recevez du cristal.\n\nDisputer des combats officiels rapporte plus d'expérience et de cristal!");
+				this.setPopUpDescription("chaque fin de combat, vos troupes reçoivent des bonus d'expérience et vous recevez du cristal.\n\nL'expérience permet de faire progresser vos unités et de leur apprendre de nouvelles compétences !");
 				this.displayBackground(true);
 			}
 			this.resizeBackground(new Rect(0f,0f,40f,20f),0f,0f);
