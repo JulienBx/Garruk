@@ -59,7 +59,7 @@ public class Rugissement : GameSkill
 			}	
 		}
 		if(!GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
-			GameView.instance.setSkillPopUp("lance <b>Rugissement</b>...", base.card, receivers, receiversTexts);
+			GameView.instance.setSkillPopUp("lance <b>Cri de rage</b>...", base.card, receivers, receiversTexts);
 		}
 	}
 	
