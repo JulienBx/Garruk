@@ -245,7 +245,7 @@ public class NewStoreController : MonoBehaviour
 			this.tutorial = Instantiate(this.tutorialObject) as GameObject;
 			this.tutorial.AddComponent<StoreTutorialController>();
 			this.menu.GetComponent<newMenuController>().setTutorialLaunched(true);
-			this.tutorial.GetComponent<StoreTutorialController>().launchSequence(0);
+			StartCoroutine(this.tutorial.GetComponent<StoreTutorialController>().launchSequence(0));
 			this.isTutorialLaunched=true;
 		}
 	}

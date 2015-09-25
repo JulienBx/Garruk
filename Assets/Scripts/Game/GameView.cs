@@ -160,7 +160,7 @@ public class GameView : MonoBehaviour
 			ApplicationModel.launchGameTutorial=false;
 			this.tutorial = Instantiate(this.TutorialObject) as GameObject;
 			this.tutorial.AddComponent<GameTutorialController>();
-			this.tutorial.GetComponent<GameTutorialController>().launchSequence(0);
+			StartCoroutine(this.tutorial.GetComponent<GameTutorialController>().launchSequence(0));
 		}
 
 	}
@@ -206,6 +206,13 @@ public class GameView : MonoBehaviour
 			if (timerLeftSide>animationTime){
 				statusMyHoveredPC = 0 ;
 				this.isDisplayedMyHoveredPC = true ;
+				if(this.getIsTutorialLaunched())
+				{
+					if(TutorialObjectController.instance.getSequenceID()==1)
+					{
+						StartCoroutine(TutorialObjectController.instance.launchSequence(2));
+					}
+				}
 			}
 		}
 		else if (statusMyHoveredPC<0){
@@ -226,6 +233,13 @@ public class GameView : MonoBehaviour
 			if (timerRightSide>animationTime){
 				statusHisHoveredPC = 0 ;
 				this.isDisplayedHisHoveredPC = true ;
+				if(this.getIsTutorialLaunched())
+				{
+					if(TutorialObjectController.instance.getSequenceID()==10)
+					{
+						StartCoroutine(TutorialObjectController.instance.launchSequence(11));
+					}
+				}
 			}
 		}
 		else if (statusHisHoveredPC<0){

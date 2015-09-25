@@ -10,8 +10,9 @@ public class GameTutorialController : TutorialObjectController
 	public static GameTutorialController instance;
 	private int playerCount;
 	private Vector3 gameObjectPosition;
+	private Vector3 secondGameObjectPosition;
 
-	public override void launchSequence(int sequenceID)
+	public override IEnumerator launchSequence(int sequenceID)
 	{
 		this.sequenceID = sequenceID;
 		switch(this.sequenceID)
@@ -65,8 +66,23 @@ public class GameTutorialController : TutorialObjectController
 				this.displayPopUp(0);
 				this.setDownArrow();
 				this.displayNextButton(false);
-				this.setPopUpTitle("Déplacer une unité");
-				this.setPopUpDescription("Déplaçons maintenant notre drogueur sur une case libre.\n<b>Cliquez sur le drogueur</b>");
+				this.setPopUpTitle("Déplacer ses unités");
+				this.setPopUpDescription("Sélectionnons maintenant notre drogueur pour le déplacer sur une case.");
+				this.displayBackground(true);
+			}
+			
+			this.gameObjectPosition = GameView.instance.getPlayingCardsPosition(0);
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2f,2f),0.4f,0.4f);
+			this.drawDownArrow();
+			break;
+		case 4:
+			if(!isResizing)
+			{
+				this.displayPopUp(0);
+				this.setDownArrow();
+				this.displayNextButton(false);
+				this.setPopUpTitle("Déplacer ses unités");
+				this.setPopUpDescription("Déplaçons maintenant notre drogueur sur une case libre en cliquant sur celle-ci.");
 				this.displayBackground(true);
 			}
 
@@ -74,7 +90,7 @@ public class GameTutorialController : TutorialObjectController
 			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2f,2f),0.4f,0.4f);
 			this.drawDownArrow();
 			break;
-		case 4:
+		case 5:
 			if(!isResizing)
 			{
 				this.displayPopUp(0);
@@ -88,7 +104,7 @@ public class GameTutorialController : TutorialObjectController
 			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2f,2f),0.4f,0.4f);
 			this.drawDownArrow();
 			break;
-		case 5:
+		case 6:
 			if(!isResizing)
 			{
 				this.displayPopUp(0);
@@ -102,7 +118,7 @@ public class GameTutorialController : TutorialObjectController
 			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2f,2f),0.4f,0.4f);
 			this.drawDownArrow();
 			break;
-		case 6:
+		case 7:
 			if(!isResizing)
 			{
 				this.displayPopUp(0);
@@ -116,7 +132,7 @@ public class GameTutorialController : TutorialObjectController
 			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2f,2f),0.4f,0.4f);
 			this.drawDownArrow();
 			break;
-		case 7:
+		case 8:
 			if(!isResizing)
 			{
 				this.displayPopUp(0);
@@ -130,7 +146,7 @@ public class GameTutorialController : TutorialObjectController
 			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2f,2f),0.4f,0.4f);
 			this.drawDownArrow();
 			break;
-		case 8:
+		case 9:
 			if(!isResizing)
 			{
 				StartCoroutine(GameController.instance.moveCharacterRPC(1,6,4));
@@ -148,7 +164,7 @@ public class GameTutorialController : TutorialObjectController
 			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,4f,1.5f),0.8f,0.6f);
 			this.drawDownArrow();
 			break;
-		case 9:
+		case 10:
 			if(!isResizing)
 			{
 				this.displayPopUp(0);
@@ -162,7 +178,7 @@ public class GameTutorialController : TutorialObjectController
 			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,7f,2.5f),0.8f,0.8f);
 			this.drawUpArrow();
 			break;
-		case 10:
+		case 11:
 			if(!isResizing)
 			{
 				this.displayPopUp(0);
@@ -177,7 +193,7 @@ public class GameTutorialController : TutorialObjectController
 			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,11f,10f),0f,0f);
 			this.drawRightArrow();
 			break;
-		case 11:
+		case 12:
 			if(!isResizing)
 			{
 				this.displayPopUp(1);
@@ -191,7 +207,7 @@ public class GameTutorialController : TutorialObjectController
 			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2f,2f),0f,0f);
 			this.drawUpArrow();
 			break;
-		case 12:
+		case 13:
 			if(!isResizing)
 			{
 				this.displayPopUp(1);
@@ -205,7 +221,7 @@ public class GameTutorialController : TutorialObjectController
 			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2f,2f),0f,0f);
 			this.drawDownArrow();
 			break;
-		case 13:
+		case 14:
 			if(!isResizing)
 			{
 				this.displayPopUp(0);
@@ -215,38 +231,41 @@ public class GameTutorialController : TutorialObjectController
 				this.setPopUpDescription("Une fois la partie lancée, sur chaque unité est affichée le nombre de tours à attendre avant de pouvoir jouer");
 				this.displayBackground(true);
 			}
-			this.gameObjectPosition = GameView.instance.getPlayingCardsQuicknessZonePosition(3);
-			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,1f,0.75f),0f,0f);
-			this.drawDownArrow();
-			break;
-		case 14:
-			if(!isResizing)
-			{
-				this.displayPopUp(0);
-				this.setDownArrow();
-				this.displayNextButton(true);
-				this.setPopUpTitle("Les points de vie");
-				this.setPopUpDescription("Chaque unité dispose d'un certain nombre de points de vie.\n\nUne unité est anéantie dès que son total de points de vie atteint 0");
-				this.displayBackground(true);
-			}
-			this.gameObjectPosition = GameView.instance.getPlayingCardsLifeZonePosition(3);
-			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,1.5f,0.75f),0f,0f);
+			this.gameObjectPosition = GameView.instance.getPlayingCardsPosition(3);
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2f,2f),0f,0f);
 			this.drawDownArrow();
 			break;
 		case 15:
-			if(!isResizing)
-			{
-				this.displayPopUp(1);
-				this.setDownArrow();
-				this.displayNextButton(true);
-				this.setPopUpTitle("Les points d'attaque");
-				this.setPopUpDescription("Chaque unité dispose de points d'attaque. Il servent à déterminer la puissance d'attaque de chaque personnage mais influent également sur de nombreuses compétences !\n\nLe combat se présente bien, les prédateurs de Garruk ont des niveaux d'attaque équivalents à ceux d'un caniche de Cristalia");
-				this.displayBackground(true);
-			}
-			this.gameObjectPosition = GameView.instance.getPlayingCardsAttackZonePosition(3);
-			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,1f,0.75f),0f,0f);
-			this.drawDownArrow();
+			StartCoroutine(launchSequence(16));
 			break;
+//		case 14:
+//			if(!isResizing)
+//			{
+//				this.displayPopUp(0);
+//				this.setDownArrow();
+//				this.displayNextButton(true);
+//				this.setPopUpTitle("Les points de vie");
+//				this.setPopUpDescription("Chaque unité dispose d'un certain nombre de points de vie.\n\nUne unité est anéantie dès que son total de points de vie atteint 0");
+//				this.displayBackground(true);
+//			}
+//			this.gameObjectPosition = GameView.instance.getPlayingCardsLifeZonePosition(3);
+//			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,1.5f,0.75f),0f,0f);
+//			this.drawDownArrow();
+//			break;
+//		case 15:
+//			if(!isResizing)
+//			{
+//				this.displayPopUp(1);
+//				this.setDownArrow();
+//				this.displayNextButton(true);
+//				this.setPopUpTitle("Les points d'attaque");
+//				this.setPopUpDescription("Chaque unité dispose de points d'attaque. Il servent à déterminer la puissance d'attaque de chaque personnage mais influent également sur de nombreuses compétences !\n\nLe combat se présente bien, les prédateurs de Garruk ont des niveaux d'attaque équivalents à ceux d'un caniche de Cristalia");
+//				this.displayBackground(true);
+//			}
+//			this.gameObjectPosition = GameView.instance.getPlayingCardsAttackZonePosition(3);
+//			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,1f,0.75f),0f,0f);
+//			this.drawDownArrow();
+//			break;
 		case 16:
 			if(!isResizing)
 			{
@@ -305,32 +324,44 @@ public class GameTutorialController : TutorialObjectController
 		case 20:
 			if(!isResizing)
 			{
-				this.displayPopUp(0);
-				this.setUpArrow();
-				this.displayNextButton(true);
-				this.setPopUpTitle("Au tour de Garruk");
-				this.setPopUpDescription("C'est au tour du prédateur de Garruk de jouer !");
-				this.displayBackground(true);
-			}
-			this.gameObjectPosition = GameView.instance.getPlayingCardsPosition(4);
-			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2f,2f),0f,0f);
-			this.drawUpArrow();
-			break;
-		case 21:
-			if(!isResizing)
-			{
-				StartCoroutine(GameController.instance.moveCharacterRPC(2,4,4));
-				this.displayPopUp(0);
-				this.setUpArrow();
-				this.displayNextButton(true);
+				//this.setUpArrow();
+				this.displayPopUp(-1);
+				this.displayArrow(false);
 				this.setPopUpTitle("Danger !");
 				this.setPopUpDescription("Garruk a bien vu que notre prédateur était à portée du sien, il se déplace logiquement pour nous attaquer");
 				this.displayBackground(true);
 			}
-			this.gameObjectPosition = GameView.instance.getTilesPosition(2,4);
-			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2f,2f),0f,0f);
-			this.drawUpArrow();
+			this.gameObjectPosition = GameView.instance.getPlayingCardsPosition(4);
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,6f,7f),0f,0f);
+			this.secondGameObjectPosition = GameView.instance.getTilesPosition(2,4);
+			if(!isResizing)
+			{
+				yield return new WaitForSeconds(3);
+				StartCoroutine(GameController.instance.moveCharacterRPC(2,4,4));
+				this.displayPopUp(0);
+				this.displayNextButton(true);
+			}
+			this.resizePopUp(new Vector3(secondGameObjectPosition.x,secondGameObjectPosition.y-2f,-9.5f));
+			//this.drawUpArrow();
 			break;
+		case 21:
+			StartCoroutine(this.launchSequence(22));
+			break;
+//		case 21:
+//			if(!isResizing)
+//			{
+//				StartCoroutine(GameController.instance.moveCharacterRPC(2,4,4));
+//				this.displayPopUp(0);
+//				this.setUpArrow();
+//				this.displayNextButton(true);
+//				this.setPopUpTitle("Danger !");
+//				this.setPopUpDescription("Garruk a bien vu que notre prédateur était à portée du sien, il se déplace logiquement pour nous attaquer");
+//				this.displayBackground(true);
+//			}
+//			this.gameObjectPosition = GameView.instance.getTilesPosition(2,4);
+//			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2f,2f),0f,0f);
+//			this.drawUpArrow();
+//			break;
 		case 22:
 			if(!isResizing)
 			{
@@ -338,62 +369,80 @@ public class GameTutorialController : TutorialObjectController
 				GameSkills.instance.getSkill(0).addTarget(2,1);
 				GameSkills.instance.getSkill(0).applyOn();
 				this.displayPopUp(0);
-				this.setUpArrow();
+				this.displayArrow(false);
 				this.displayNextButton(true);
 				this.setPopUpTitle("Escarmouche");
 				this.setPopUpDescription("Nous sommes attaqués par le prédateur de Garruk !\n\nPas de panique... Garruk risque de regretter son attaque!");
 				this.displayBackground(true);
 			}
-			this.gameObjectPosition = GameView.instance.getPlayingCardsPosition(2);
-			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2f,2f),0f,0f);
-			this.drawUpArrow();
+			//this.gameObjectPosition = GameView.instance.getPlayingCardsPosition(2);
+			this.resizeBackground(new Rect(0,0,8f,3.5f),0f,0f);
+			this.resizePopUp(new Vector3(0,-3.25f,-9.5f));
+			//this.drawUpArrow();
 			break;
 		case 23:
 			if(!isResizing)
 			{
 				GameController.instance.resolvePass();
-				this.displayPopUp(0);
-				this.setUpArrow();
+				this.displayPopUp(-1);
+				this.displayArrow(false);
+				//this.setUpArrow();
 				this.displayNextButton(true);
 				this.setPopUpTitle("Encore le tour de Garruk");
 				this.setPopUpDescription("Un meme joueur peut jouer deux tours d'affilée selon l'ordre des unités. D'ou l'importance de bien vérifier l'ordre des tours en début de combat !");
 				this.displayBackground(true);
 			}
 			this.gameObjectPosition = GameView.instance.getPlayingCardsPosition(7);
-			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2f,2f),0f,0f);
-			this.drawUpArrow();
-			break;
-		case 24:
+			yield return new WaitForSeconds(1);
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,6f,7f),0f,0f);
+			//this.drawUpArrow();
+			this.secondGameObjectPosition = GameView.instance.getTilesPosition(5,4);
 			if(!isResizing)
 			{
+				yield return new WaitForSeconds(2);
 				StartCoroutine(GameController.instance.moveCharacterRPC(5,4,7));
 				this.displayPopUp(0);
-				this.setUpArrow();
 				this.displayNextButton(true);
-				this.setPopUpTitle("Déplacement");
-				this.setPopUpDescription("le drogueur dispose d'un déplacement limité par rapport au prédateur et ne peut donc pas venir nous attaquer.");
-				this.displayBackground(true);
 			}
-			this.gameObjectPosition = GameView.instance.getTilesPosition(5,4);
-			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2f,2f),0f,0f);
-			this.drawUpArrow();
+			this.resizePopUp(new Vector3(this.secondGameObjectPosition.x,this.secondGameObjectPosition.y-2f,-9.5f));
+			//this.drawUpArrow();
 			break;
+		case 24:
+			StartCoroutine(this.launchSequence(25));
+			break;
+//		case 24:
+//			if(!isResizing)
+//			{
+//				StartCoroutine(GameController.instance.moveCharacterRPC(5,4,7));
+//				this.displayPopUp(0);
+//				this.setUpArrow();
+//				this.displayNextButton(true);
+//				this.setPopUpTitle("Déplacement");
+//				this.setPopUpDescription("le drogueur dispose d'un déplacement limité par rapport au prédateur et ne peut donc pas venir nous attaquer.");
+//				this.displayBackground(true);
+//			}
+//			this.gameObjectPosition = GameView.instance.getTilesPosition(5,4);
+//			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2f,2f),0f,0f);
+//			this.drawUpArrow();
+//			break;
 		case 25:
 			if(!isResizing)
 			{
 				GameSkills.instance.getSkill(59).init(GameView.instance.getCard(7),GameView.instance.getCard(7).getSkills()[1]);
 				GameSkills.instance.getSkill(59).addTarget(3,1,5);
 				GameSkills.instance.getSkill(59).applyOn();
-				this.displayPopUp(1);
-				this.setDownArrow();
+				this.displayPopUp(0);
+				//this.setDownArrow();
+				this.displayArrow(false);
 				this.displayNextButton(true);
 				this.setPopUpTitle("Sénilité");
 				this.setPopUpDescription("Le drogueur a utilisé sa compétence <i>Sénilité</i> pour affaiblir notre prédateur en diminuant sa compétence d'attaque.\n\n Une icone sur la carte de l'unité touchée permet de voir l'effet de la compétence et sa durée");
 				this.displayBackground(true);
 			}
-			this.gameObjectPosition = GameView.instance.getPlayingCardsPosition(3);
-			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2f,2f),0.4f,0.4f);
-			this.drawDownArrow();
+			//this.gameObjectPosition = GameView.instance.getPlayingCardsPosition(3);
+			this.resizeBackground(new Rect(0,0,8f,3.5f),0f,0f);
+			this.resizePopUp(new Vector3(0,-3.25f,-9.5f));
+			//this.drawDownArrow();
 			break;
 		case 26:
 			if(!isResizing)
@@ -455,64 +504,92 @@ public class GameTutorialController : TutorialObjectController
 		case 30:
 			if(!isResizing)
 			{
-				this.displayPopUp(1);
-				this.setDownArrow();
-				this.displayNextButton(true);
-				this.setPopUpTitle("Stéroides");
-				this.setPopUpDescription("Cette compétence donnera un bonus à l'attaque de l'unité pour compenser le sort du drogueur adverse.\n\nL'effet de la compétence s'ajoute sur la carte et peut etre consulté à tout moment");
-				this.displayBackground(true);
+				this.displayArrow(false);
+				this.displayPopUp(-1);
 			}
 			this.gameObjectPosition = GameView.instance.getPlayingCardsPosition(3);
-			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2f,2f),0.4f,0.4f);
-			this.drawDownArrow();
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2f,2f),0f,0f);
+			if(!isResizing)
+			{
+				yield return new WaitForSeconds(2);
+				StartCoroutine(this.launchSequence(31));
+			}
 			break;
+//			if(!isResizing)
+//			{
+//				this.displayPopUp(1);
+//				this.setDownArrow();
+//				this.displayNextButton(true);
+//				this.setPopUpTitle("Stéroides");
+//				this.setPopUpDescription("Cette compétence donnera un bonus à l'attaque de l'unité pour compenser le sort du drogueur adverse.\n\nL'effet de la compétence s'ajoute sur la carte et peut etre consulté à tout moment");
+//				this.displayBackground(true);
+//			}
+//			this.gameObjectPosition = GameView.instance.getPlayingCardsPosition(3);
+//			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2f,2f),0.4f,0.4f);
+//			this.drawDownArrow();
+//			break;
 		case 31:
 			if(!isResizing)
 			{
 				//GameController.instance.resolvePass(); // A SUPPRIMER DES QUE LA COMPETENCE SERA LA !!!!!!!!!!!!!!!!
-				this.displayPopUp(0);
-				this.setUpArrow();
+				this.displayPopUp(-1);
+				this.displayArrow(false);
+				//this.setUpArrow();
 				this.displayNextButton(true);
 				this.setPopUpTitle("Au tour de Garruk");
 				this.setPopUpDescription("C'est au prédateur adverse de jouer !");
 				this.displayBackground(true);
 			}
 			this.gameObjectPosition = GameView.instance.getTilesPosition(4,6);
-			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2f,2f),0f,0f);
-			this.drawUpArrow();
-			break;
-		case 32:
+			//this.drawUpArrow();
+			yield return new WaitForSeconds(1);
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,6f,7f),0f,0f);
+			//this.drawUpArrow();
+			this.secondGameObjectPosition = GameView.instance.getTilesPosition(4,4);
 			if(!isResizing)
 			{
+				yield return new WaitForSeconds(2);
 				StartCoroutine(GameController.instance.moveCharacterRPC(4,4,6));
 				this.displayPopUp(0);
-				this.setUpArrow();
 				this.displayNextButton(true);
-				this.setPopUpTitle("Un allié en danger");
-				this.setPopUpDescription("L'unité se déplace vers votre prédateur, Garruk choisit de concentrer ses attaques sur votre unité blessée.");
-				this.displayBackground(true);
 			}
-			this.gameObjectPosition = GameView.instance.getTilesPosition(4,4);
-			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2f,2f),0f,0f);
-			this.drawUpArrow();
+			this.resizePopUp(new Vector3(this.secondGameObjectPosition.x,this.secondGameObjectPosition.y-2f,-9.5f));
+			//this.drawUpArrow();
 			break;
+		case 32:
+			StartCoroutine(this.launchSequence(33));
+			break;
+//		case 32:
+//			if(!isResizing)
+//			{
+//				StartCoroutine(GameController.instance.moveCharacterRPC(4,4,6));
+//				this.displayPopUp(0);
+//				this.setUpArrow();
+//				this.displayNextButton(true);
+//				this.setPopUpTitle("Un allié en danger");
+//				this.setPopUpDescription("L'unité se déplace vers votre prédateur, Garruk choisit de concentrer ses attaques sur votre unité blessée.");
+//				this.displayBackground(true);
+//			}
+//			this.gameObjectPosition = GameView.instance.getTilesPosition(4,4);
+//			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2f,2f),0f,0f);
+//			this.drawUpArrow();
+//			break;
 		case 33:
 			if(!isResizing)
 			{
 				GameSkills.instance.getSkill(0).init(GameView.instance.getCard(6),GameView.instance.getCard(6).GetAttackSkill());
 				GameSkills.instance.getSkill(0).addTarget(2,1);
-				
 				GameSkills.instance.getSkill(0).applyOn();
 				this.displayPopUp(0);
-				this.setUpArrow();
+				//this.setUpArrow();
 				this.displayNextButton(true);
 				this.setPopUpTitle("Attaque !");
 				this.setPopUpDescription("Votre prédateur est à nouveau attaqué!");
 				this.displayBackground(true);
 			}
-			this.gameObjectPosition = GameView.instance.getPlayingCardsPosition(2);
-			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,4f,2f),0f,0f);
-			this.drawUpArrow();
+			this.resizeBackground(new Rect(0,0,8f,3.5f),0f,0f);
+			this.resizePopUp(new Vector3(0,-3.25f,-9.5f));
+			//this.drawUpArrow();
 			break;
 		case 34:
 			if(!isResizing)
@@ -574,46 +651,61 @@ public class GameTutorialController : TutorialObjectController
 		case 38:
 			if(!isResizing)
 			{
-				this.displayPopUp(0);
-				this.setUpArrow();
-				this.displayNextButton(true);
-				this.setPopUpTitle("Renfoderme");
-				this.setPopUpDescription("La défense du prédateur est augmentée.\nIl est maintenant pret à riposter et balayer les prédateurs de Garruk!");
-				this.displayBackground(true);
+				this.displayArrow(false);
+				this.displayPopUp(-1);
 			}
 			this.gameObjectPosition = GameView.instance.getPlayingCardsPosition(2);
 			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2f,2f),0f,0f);
-			this.drawUpArrow();
+			if(!isResizing)
+			{
+				yield return new WaitForSeconds(2);
+				StartCoroutine(this.launchSequence(39));
+			}
 			break;
 		case 39:
 			if(!isResizing)
 			{
-				this.displayPopUp(0);
-				this.setUpArrow();
+				this.displayPopUp(-1);
+				this.displayArrow(false);
+				//this.setUpArrow();
 				this.displayNextButton(true);
 				this.setPopUpTitle("Au tour de Garruk");
 				this.setPopUpDescription("Au tour d'un prédateur ennemi de jouer");
 				this.displayBackground(true);
 			}
 			this.gameObjectPosition = GameView.instance.getPlayingCardsPosition(5);
-			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2f,2f),0f,0f);
-			this.drawUpArrow();
-			break;
-		case 40:
+			yield return new WaitForSeconds(1);
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,6f,7f),0f,0f);
+			//this.drawUpArrow();
+			this.secondGameObjectPosition = GameView.instance.getTilesPosition(1,4);
 			if(!isResizing)
 			{
+				yield return new WaitForSeconds(2);
 				StartCoroutine(GameController.instance.moveCharacterRPC(1,4,5));
 				this.displayPopUp(0);
-				this.setUpArrow();
 				this.displayNextButton(true);
-				this.setPopUpTitle("Déplacement");
-				this.setPopUpDescription("Le prédateur se déplace lui aussi vers notre unité!");
-				this.displayBackground(true);
 			}
-			this.gameObjectPosition = GameView.instance.getPlayingCardsPosition(5);
-			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2f,2f),0f,0f);
-			this.drawUpArrow();
+			this.resizePopUp(new Vector3(this.secondGameObjectPosition.x,this.secondGameObjectPosition.y-2f,-9.5f));
+			//this.drawUpArrow();
 			break;
+		case 40:
+			StartCoroutine(this.launchSequence(41));
+			break;
+//		case 40:
+//			if(!isResizing)
+//			{
+//				StartCoroutine(GameController.instance.moveCharacterRPC(1,4,5));
+//				this.displayPopUp(0);
+//				this.setUpArrow();
+//				this.displayNextButton(true);
+//				this.setPopUpTitle("Déplacement");
+//				this.setPopUpDescription("Le prédateur se déplace lui aussi vers notre unité!");
+//				this.displayBackground(true);
+//			}
+//			this.gameObjectPosition = GameView.instance.getPlayingCardsPosition(5);
+//			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2f,2f),0f,0f);
+//			this.drawUpArrow();
+//			break;
 		case 41:
 			if(!isResizing)
 			{
@@ -621,15 +713,15 @@ public class GameTutorialController : TutorialObjectController
 				GameSkills.instance.getSkill(65).addTarget(0,1,12);
 				GameSkills.instance.getSkill(65).applyOn();
 				this.displayPopUp(0);
-				this.setDownArrow();
+				//this.setDownArrow();
 				this.displayNextButton(true);
 				this.setPopUpTitle("Attaque");
 				this.setPopUpDescription("Le prédateur utilise <i>Massue</i> sur notre unité.\nCette compétence dépend directement du niveau d'attaque de l'unité");
 				this.displayBackground(true);
 			}
-			this.gameObjectPosition = GameView.instance.getPlayingCardsPosition(0);
-			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2f,2f),0f,0f);
-			this.drawDownArrow();
+			this.resizeBackground(new Rect(0,0,8f,3.5f),0f,0f);
+			this.resizePopUp(new Vector3(0,-3.25f,-9.5f));
+			//this.drawDownArrow();
 			break;
 		case 42:
 			if(!isResizing)
@@ -691,17 +783,30 @@ public class GameTutorialController : TutorialObjectController
 		case 46:
 			if(!isResizing)
 			{
-				this.displayPopUp(0);
-				this.setUpArrow();
-				this.displayNextButton(true);
-				this.setPopUpTitle("Résultat");
-				this.setPopUpDescription("L'unité ciblée est anéantie en un seul coup !\n\nLes prédateurs peuvent infliger d'énormes dégats bien qu'étant assez lents");
-				this.displayBackground(true);
+				this.displayArrow(false);
+				this.displayPopUp(-1);
 			}
-			this.gameObjectPosition = GameView.instance.getPlayingCardsPosition(7);
-			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2f,2f),0f,0f);
-			this.drawUpArrow();
+			this.gameObjectPosition = GameView.instance.getPlayingCardsPosition(3);
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y+1f,2f,4f),0f,0f);
+			if(!isResizing)
+			{
+				yield return new WaitForSeconds(2);
+				StartCoroutine(this.launchSequence(47));
+			}
 			break;
+//			if(!isResizing)
+//			{
+//				this.displayPopUp(0);
+//				this.setUpArrow();
+//				this.displayNextButton(true);
+//				this.setPopUpTitle("Résultat");
+//				this.setPopUpDescription("L'unité ciblée est anéantie en un seul coup !\n\nLes prédateurs peuvent infliger d'énormes dégats bien qu'étant assez lents");
+//				this.displayBackground(true);
+//			}
+//			this.gameObjectPosition = GameView.instance.getPlayingCardsPosition(7);
+//			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2f,2f),0f,0f);
+//			this.drawUpArrow();
+//			break;
 		case 47:
 			if(!isResizing)
 			{
@@ -730,6 +835,20 @@ public class GameTutorialController : TutorialObjectController
 			this.gameObjectPosition = GameView.instance.getSkillButtonPosition(0); 
 			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2f,2f),0.4f,0.4f);
 			this.drawDownArrow();
+			break;
+		case 49:
+			if(!isResizing)
+			{
+				this.displayArrow(false);
+				this.displayPopUp(-1);
+			}
+			this.gameObjectPosition = GameView.instance.getPlayingCardsPosition(2);
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,4f,2f),0f,0f);
+			if(!isResizing)
+			{
+				yield return new WaitForSeconds(2);
+				StartCoroutine(this.launchSequence(51));
+			}
 			break;
 //		case 49:
 			// a supprimer, pas de ciblage
@@ -819,30 +938,44 @@ public class GameTutorialController : TutorialObjectController
 		case 55:
 			if(!isResizing)
 			{
-				this.displayPopUp(0);
-				this.setUpArrow();
-				this.displayNextButton(true);
-				this.setPopUpTitle("Dernière attaque");
-				this.setPopUpDescription("Et terrassez Garruk!");
-				this.displayBackground(true);
+				this.displayArrow(false);
+				this.displayPopUp(-1);
 			}
-			this.gameObjectPosition = GameView.instance.getPlayingCardsPosition(5);
-			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2f,2f),0f,0f);
-			this.drawUpArrow();
+			this.gameObjectPosition = GameView.instance.getPlayingCardsPosition(0);
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y+1f,2f,4f),0f,0f);
+			if(!isResizing)
+			{
+				yield return new WaitForSeconds(2);
+				StartCoroutine(this.launchSequence(56));
+			}
 			break;
+//		case 55:
+//			if(!isResizing)
+//			{
+//				this.displayPopUp(0);
+//				this.setUpArrow();
+//				this.displayNextButton(true);
+//				this.setPopUpTitle("Dernière attaque");
+//				this.setPopUpDescription("Et terrassez Garruk!");
+//				this.displayBackground(true);
+//			}
+//			this.gameObjectPosition = GameView.instance.getPlayingCardsPosition(5);
+//			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2f,2f),0f,0f);
+//			this.drawUpArrow();
+//			break;
 		case 56:
 			if(!isResizing)
 			{
-				StartCoroutine(GameController.instance.quitGame()); // A supprimer dès que ATTAQUE 360 fonctionne
+				StartCoroutine(GameController.instance.quitGame()); 
 				this.displayArrow(false);
 				this.displayPopUp(1);
 				this.displayNextButton(false);
 				this.setPopUpTitle("Fin de combat");
-				this.setPopUpDescription("A chaque fin de combat, vos troupes reçoivent des bonus d'expérience et vous recevez du cristal.\n\nDisputer des combats officiels rapporte plus d'expérience et de cristal!");
+				this.setPopUpDescription("chaque fin de combat, vos troupes reçoivent des bonus d'expérience et vous recevez du cristal.\n\nDisputer des combats officiels rapporte plus d'expérience et de cristal!");
 				this.displayBackground(true);
 			}
-			this.resizeBackground(new Rect(0,10,5,5),0f,0f);
-			this.resizePopUp(new Vector3(0,-2.5f,-9.5f));
+			this.resizeBackground(new Rect(0f,0f,40f,20f),0f,0f);
+			this.resizePopUp(new Vector3(0,-3f,-9.5f));
 			break;
 		case 57:
 			if(!isResizing)
@@ -859,6 +992,7 @@ public class GameTutorialController : TutorialObjectController
 			this.drawDownArrow();
 			break;
 		}
+		yield break;
 	}
 	public override void actionIsDone()
 	{
@@ -871,11 +1005,8 @@ public class GameTutorialController : TutorialObjectController
 				this.displayNextButton(true);
 			}
 			break;
-		case 1: case 3: case 4: case 5: case 6: case 7: case 8: case 9: case 18: case 19: case 27: case 28: case 29: case 35: case 36: case 37: case 43: case 44: case 45: case 51: case 53: case 54: 
-			this.launchSequence(this.sequenceID+1);
-			break;
-		case 48 :
-			this.launchSequence(this.sequenceID+3);
+		case 3: case 4: case 5: case 6: case 7: case 8: case 9: case 10: case 18: case 19: case 27: case 28: case 29: case 35: case 36: case 37: case 43: case 44: case 45: case 48: case 51: case 53: case 54: 
+			StartCoroutine(this.launchSequence(this.sequenceID+1));
 			break;
 		case 25: case 30 :
 			break;

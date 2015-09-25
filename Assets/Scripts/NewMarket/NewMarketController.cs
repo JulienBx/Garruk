@@ -221,7 +221,7 @@ public class NewMarketController : MonoBehaviour
 		{
 			this.tutorial = Instantiate(this.tutorialObject) as GameObject;
 			this.tutorial.AddComponent<MarketTutorialController>();
-			this.tutorial.GetComponent<MarketTutorialController>().launchSequence(0);
+			StartCoroutine(this.tutorial.GetComponent<MarketTutorialController>().launchSequence(0));
 			this.menu.GetComponent<newMenuController>().setTutorialLaunched(true);
 			this.isTutorialLaunched=true;
 		} 
@@ -1148,9 +1148,7 @@ public class NewMarketController : MonoBehaviour
 		newMenuController.instance.setTutorialLaunched (false);
 		if(toUpdate)
 		{
-			this.displayLoadingScreen();
 			yield return StartCoroutine (model.player.setMarketTutorial(true));
-			this.hideLoadingScreen();
 		}
 		yield break;
 	}

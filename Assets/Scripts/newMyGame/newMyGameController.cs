@@ -265,11 +265,11 @@ public class newMyGameController : MonoBehaviour
 			this.menu.GetComponent<newMenuController>().setTutorialLaunched(true);
 			if(model.player.TutorialStep==2)
 			{
-				this.tutorial.GetComponent<MyGameTutorialController>().launchSequence(0);
+				StartCoroutine(this.tutorial.GetComponent<MyGameTutorialController>().launchSequence(0));
 			}
 			else if(model.player.TutorialStep==3)
 			{
-				this.tutorial.GetComponent<MyGameTutorialController>().launchSequence(18);
+				StartCoroutine(this.tutorial.GetComponent<MyGameTutorialController>().launchSequence(18));
 			}
 			this.isTutorialLaunched=true;
 		} 

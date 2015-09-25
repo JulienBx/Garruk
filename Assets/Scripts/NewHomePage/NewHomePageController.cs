@@ -355,17 +355,17 @@ public class NewHomePageController : Photon.MonoBehaviour
 
 			if(model.player.TutorialStep==1)
 			{
-				this.tutorial.GetComponent<HomePageTutorialController>().launchSequence(0);
+				StartCoroutine(this.tutorial.GetComponent<HomePageTutorialController>().launchSequence(0));
 			}
 			else if(model.player.TutorialStep==4)
 			{
 				if(this.isEndGamePopUpDisplayed)
 				{
-					this.tutorial.GetComponent<HomePageTutorialController>().launchSequence(2);
+					StartCoroutine(this.tutorial.GetComponent<HomePageTutorialController>().launchSequence(2));
 				}
 				else
 				{
-					this.tutorial.GetComponent<HomePageTutorialController>().launchSequence(3);
+					StartCoroutine(this.tutorial.GetComponent<HomePageTutorialController>().launchSequence(3));
 				}
 			}
 		}

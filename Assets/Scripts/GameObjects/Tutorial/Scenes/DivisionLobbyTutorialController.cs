@@ -9,7 +9,7 @@ public class DivisionLobbyTutorialController : TutorialObjectController
 {
 	public static DivisionLobbyTutorialController instance;
 	
-	public override void launchSequence(int sequenceID)
+	public override IEnumerator launchSequence(int sequenceID)
 	{
 		this.sequenceID = sequenceID;
 		switch(this.sequenceID)
@@ -34,6 +34,7 @@ public class DivisionLobbyTutorialController : TutorialObjectController
 			StartCoroutine(DivisionLobbyController.instance.endTutorial());
 			break;
 		}
+		yield break;
 	}
 	public override void actionIsDone()
 	{

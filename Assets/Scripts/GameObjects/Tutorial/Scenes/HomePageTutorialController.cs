@@ -10,7 +10,7 @@ public class HomePageTutorialController : TutorialObjectController
 {
 	public static HomePageTutorialController instance;
 	
-	public override void launchSequence(int sequenceID)
+	public override IEnumerator launchSequence(int sequenceID)
 	{
 		this.sequenceID = sequenceID;
 		switch(this.sequenceID)
@@ -67,6 +67,7 @@ public class HomePageTutorialController : TutorialObjectController
 			this.drawLeftArrow();
 			break;
 		}
+		yield break;
 	}
 	public override void actionIsDone()
 	{
@@ -76,7 +77,7 @@ public class HomePageTutorialController : TutorialObjectController
 			StartCoroutine(NewHomePageController.instance.endTutorial());
 			break;
 		case 2: 
-			this.launchSequence(this.sequenceID+1);
+			StartCoroutine(this.launchSequence(this.sequenceID+1));
 			break;
 		case 3:
 			StartCoroutine(NewHomePageController.instance.endTutorial());

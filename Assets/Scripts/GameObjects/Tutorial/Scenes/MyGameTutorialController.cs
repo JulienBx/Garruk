@@ -10,7 +10,7 @@ public class MyGameTutorialController : TutorialObjectController
 
 	public static MyGameTutorialController instance;
 	
-	public override void launchSequence(int sequenceID)
+	public override IEnumerator launchSequence(int sequenceID)
 	{
 		this.sequenceID = sequenceID;
 		switch(this.sequenceID)
@@ -70,7 +70,7 @@ public class MyGameTutorialController : TutorialObjectController
 			this.drawDownArrow();
 			break;
 		case 4:
-			this.launchSequence(6);
+			StartCoroutine(this.launchSequence(6));
 			break;
 //		case 4:
 //			if(!isResizing)
@@ -129,7 +129,7 @@ public class MyGameTutorialController : TutorialObjectController
 			this.drawDownArrow();
 			break;
 		case 8:
-			this.launchSequence(11);
+			StartCoroutine(this.launchSequence(11));
 			break;
 //		case 8:
 //			if(!isResizing)
@@ -296,13 +296,14 @@ public class MyGameTutorialController : TutorialObjectController
 			this.drawUpArrow();
 			break;
 		}
+		yield break;
 	}
 	public override void actionIsDone()
 	{
 		switch(this.sequenceID)
 		{
 		case 1: case 11: case 12: case 18:
-			this.launchSequence(this.sequenceID+1);
+			StartCoroutine(this.launchSequence(this.sequenceID+1));
 			break;
 //		case 9: 
 //			newMyGameController.instance.setTutorialStep();
@@ -311,7 +312,7 @@ public class MyGameTutorialController : TutorialObjectController
 		case 13 :
 			if(newMyGameController.instance.isDeckCompleted())
 			{
-				this.launchSequence(17);
+				StartCoroutine(this.launchSequence(17));
 				newMyGameController.instance.setDeckListColliders(true);
 			}
 			break;
