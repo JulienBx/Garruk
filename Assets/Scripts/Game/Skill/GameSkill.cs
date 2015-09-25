@@ -45,7 +45,7 @@ public class GameSkill
 	{ 
 		this.targets.Add(a);
 		this.results.Add(b);
-		this.values.Add(b);
+		this.values.Add(c);
 	}
 	
 	public virtual void addTarget(Tile t, int b)
