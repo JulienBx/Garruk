@@ -61,43 +61,46 @@ public class MyGameTutorialController : TutorialObjectController
 			{
 				this.displayPopUp(2);
 				this.displayNextButton(true);
-				this.setPopUpTitle("Les points de vie");
-				this.setPopUpDescription("La zone inférieure présente les caractéristiques de la carte. Au centre sont affichés les points de vie. Chaque unité dispose de ses propres points de vie, et est anéantie pendant un combat quand ses points de vie tombent à 0.\n\nUne unité anéantie pendant un combat reste votre propriété et sera disponible pour le combat suivant (moyennant un passage éclair à l'hopital galactique de Cristalia, réputé pour ses caissons de récupération à haute vitesse)");
+				this.setPopUpTitle("Les caractéristiques de carte");
+				this.setPopUpDescription("(Rajouter les autres descriptions) La zone inférieure présente les caractéristiques de la carte. Au centre sont affichés les points de vie. Chaque unité dispose de ses propres points de vie, et est anéantie pendant un combat quand ses points de vie tombent à 0.\n\nUne unité anéantie pendant un combat reste votre propriété et sera disponible pour le combat suivant (moyennant un passage éclair à l'hopital galactique de Cristalia, réputé pour ses caissons de récupération à haute vitesse)");
 				this.displayBackground(true);
 				this.setDownArrow();
 			}
 			Vector3 healthPointsPosition = newMyGameController.instance.getFocusedCardHealthPointsPosition();
-			this.resizeBackground(new Rect(healthPointsPosition.x,healthPointsPosition.y,2.5f,2.5f),0f,0f);
+			this.resizeBackground(new Rect(healthPointsPosition.x,healthPointsPosition.y,8f,2.5f),0f,0f);
 			this.drawDownArrow();
 			break;
 		case 4:
-			if(!isResizing)
-			{
-				this.displayPopUp(1);
-				this.displayNextButton(true);
-				this.setPopUpTitle("Les points d'attaque");
-				this.setPopUpDescription("Les points d'attaque définissent les dégats de base infligés par les unités pendant une attaque. Ces points influencent également de nombreuses compétences, le Cristal catalysant la puissance de chacun.");
-				this.displayBackground(true);
-				this.setDownArrow();
-			}
-			Vector3 attackPointsPosition = newMyGameController.instance.getFocusedCardAttackPointsPosition();
-			this.resizeBackground(new Rect(attackPointsPosition.x,attackPointsPosition.y,2.5f,2.5f),0f,0f);
-			this.drawDownArrow();
+			this.launchSequence(6);
 			break;
-		case 5:
-			if(!isResizing)
-			{
-				this.displayPopUp(2);
-				this.displayNextButton(true);
-				this.setPopUpTitle("Les points de rapidité");
-				this.setPopUpDescription("La rapidité détermine l'ordre des tours pendant un combat. Un personnage puissant mais lent n'aura peut-etre meme pas le temps d'utiliser ses compétences avant d'etre neutralisé. <i>Une équipe d'unités rapides peut désorganiser meme les équipes les plus fortes</i>, De l'art du Blietzkrieg, Caradec - célèbre militaire Cristalien célèbre.");
-				this.displayBackground(true);
-				this.setDownArrow();
-			}
-			Vector3 quicknessPointsPosition = newMyGameController.instance.getFocusedCardQuicknessPointsPosition();
-			this.resizeBackground(new Rect(quicknessPointsPosition.x,quicknessPointsPosition.y,2.5f,2.5f),0f,0f);
-			this.drawDownArrow();
-			break;
+//		case 4:
+//			if(!isResizing)
+//			{
+//				this.displayPopUp(1);
+//				this.displayNextButton(true);
+//				this.setPopUpTitle("Les points d'attaque");
+//				this.setPopUpDescription("Les points d'attaque définissent les dégats de base infligés par les unités pendant une attaque. Ces points influencent également de nombreuses compétences, le Cristal catalysant la puissance de chacun.");
+//				this.displayBackground(true);
+//				this.setDownArrow();
+//			}
+//			Vector3 attackPointsPosition = newMyGameController.instance.getFocusedCardAttackPointsPosition();
+//			this.resizeBackground(new Rect(attackPointsPosition.x,attackPointsPosition.y,2.5f,2.5f),0f,0f);
+//			this.drawDownArrow();
+//			break;
+//		case 5:
+//			if(!isResizing)
+//			{
+//				this.displayPopUp(2);
+//				this.displayNextButton(true);
+//				this.setPopUpTitle("Les points de rapidité");
+//				this.setPopUpDescription("La rapidité détermine l'ordre des tours pendant un combat. Un personnage puissant mais lent n'aura peut-etre meme pas le temps d'utiliser ses compétences avant d'etre neutralisé. <i>Une équipe d'unités rapides peut désorganiser meme les équipes les plus fortes</i>, De l'art du Blietzkrieg, Caradec - célèbre militaire Cristalien célèbre.");
+//				this.displayBackground(true);
+//				this.setDownArrow();
+//			}
+//			Vector3 quicknessPointsPosition = newMyGameController.instance.getFocusedCardQuicknessPointsPosition();
+//			this.resizeBackground(new Rect(quicknessPointsPosition.x,quicknessPointsPosition.y,2.5f,2.5f),0f,0f);
+//			this.drawDownArrow();
+//			break;
 		case 6:
 			if(!isResizing)
 			{
@@ -127,48 +130,51 @@ public class MyGameTutorialController : TutorialObjectController
 			this.drawDownArrow();
 			break;
 		case 8:
-			if(!isResizing)
-			{
-				this.displayPopUp(2);
-				this.displayNextButton(true);
-				this.setPopUpTitle("L'expérience de la carte");
-				this.setPopUpDescription("Chaque Cristalien engrange de l'expérience au fur et à mesure qu'il combat dans vos équipes. Les points d'expérience permettent de débloquer de nouvelles compétences et d'améliorer les caractéristiques d'une carte.\n\nUne recrue semblant faible peut en fait potentiellement développer des compétences extremement puissantes au fil de sa vie dans vos équipes.");
-				this.displayBackground(true);
-				this.setUpArrow();
-			}
-			Vector3 experiencePosition = newMyGameController.instance.getFocusedCardExperienceLevelPosition();
-			this.resizeBackground(new Rect(experiencePosition.x,experiencePosition.y,3f,1f),0f,0f);
-			this.drawUpArrow();
+			this.launchSequence(11);
 			break;
-		case 9:
-			if(!isResizing)
-			{
-				this.displayPopUp(1);
-				this.displayNextButton(false);
-				this.setPopUpTitle("Centre d'entrainement urbain");
-				this.setPopUpDescription("Vos recrues peuvent etre envoyées au centre d'entrainement urbain pour acquérir de l'expérience plus vite.\nCes séjours payants vous permettent d'accélérer le développement de vos unités et de ne pas envoyer la bleusaille au combat\n\n<b>Envoyez votre recrue au centre d'entrainement pour qu'elle acquiert un niveau d'expérience!</b>");
-				this.displayBackground(true);
-				this.setRightArrow();
-			}
-			Vector3 feature1Position = newMyGameController.instance.getFocusedCardFeaturePosition(1);
-			this.resizeBackground(new Rect(feature1Position.x,feature1Position.y,3f,2f),0.8f,0.6f);
-			this.drawRightArrow();
-			break;
-		case 10:
-			if(!isResizing)
-			{
-				
-				this.displayArrow(false);
-				this.displayPopUp(2);
-				this.displayNextButton(true);
-				this.setPopUpTitle("Félicitations");
-				this.setPopUpDescription("Votre recrue vous revient entrainée et améliorée!\n\nVous disposez de nombreuses autres actions pour gérer vos unités : les bannir (vous récupérez alors le Cristal qui les équipait), les mettre à disposition sur le marché des mercenaires, etc.");
-				this.displayBackground(true);
-			}
-			Vector3 experiencePosition2 = newMyGameController.instance.getFocusedCardExperienceGaugePosition();
-			this.resizeBackground(new Rect(experiencePosition2.x,experiencePosition2.y,8f,1.5f),0f,0f);
-			this.resizePopUp(new Vector3(0,0,-9.5f));
-			break;
+//		case 8:
+//			if(!isResizing)
+//			{
+//				this.displayPopUp(2);
+//				this.displayNextButton(true);
+//				this.setPopUpTitle("L'expérience de la carte");
+//				this.setPopUpDescription("Chaque Cristalien engrange de l'expérience au fur et à mesure qu'il combat dans vos équipes. Les points d'expérience permettent de débloquer de nouvelles compétences et d'améliorer les caractéristiques d'une carte.\n\nUne recrue semblant faible peut en fait potentiellement développer des compétences extremement puissantes au fil de sa vie dans vos équipes.");
+//				this.displayBackground(true);
+//				this.setUpArrow();
+//			}
+//			Vector3 experiencePosition = newMyGameController.instance.getFocusedCardExperienceLevelPosition();
+//			this.resizeBackground(new Rect(experiencePosition.x,experiencePosition.y,3f,1f),0f,0f);
+//			this.drawUpArrow();
+//			break;
+//		case 9:
+//			if(!isResizing)
+//			{
+//				this.displayPopUp(1);
+//				this.displayNextButton(false);
+//				this.setPopUpTitle("Centre d'entrainement urbain");
+//				this.setPopUpDescription("Vos recrues peuvent etre envoyées au centre d'entrainement urbain pour acquérir de l'expérience plus vite.\nCes séjours payants vous permettent d'accélérer le développement de vos unités et de ne pas envoyer la bleusaille au combat\n\n<b>Envoyez votre recrue au centre d'entrainement pour qu'elle acquiert un niveau d'expérience!</b>");
+//				this.displayBackground(true);
+//				this.setRightArrow();
+//			}
+//			Vector3 feature1Position = newMyGameController.instance.getFocusedCardFeaturePosition(1);
+//			this.resizeBackground(new Rect(feature1Position.x,feature1Position.y,3f,2f),0.8f,0.6f);
+//			this.drawRightArrow();
+//			break;
+//		case 10:
+//			if(!isResizing)
+//			{
+//				
+//				this.displayArrow(false);
+//				this.displayPopUp(2);
+//				this.displayNextButton(true);
+//				this.setPopUpTitle("Félicitations");
+//				this.setPopUpDescription("Votre recrue vous revient entrainée et améliorée!\n\nVous disposez de nombreuses autres actions pour gérer vos unités : les bannir (vous récupérez alors le Cristal qui les équipait), les mettre à disposition sur le marché des mercenaires, etc.");
+//				this.displayBackground(true);
+//			}
+//			Vector3 experiencePosition2 = newMyGameController.instance.getFocusedCardExperienceGaugePosition();
+//			this.resizeBackground(new Rect(experiencePosition2.x,experiencePosition2.y,8f,1.5f),0f,0f);
+//			this.resizePopUp(new Vector3(0,0,-9.5f));
+//			break;
 		case 11:
 			if(!isResizing)
 			{
@@ -200,47 +206,53 @@ public class MyGameTutorialController : TutorialObjectController
 		case 13:
 			if(!isResizing)
 			{
+				newMyGameController.instance.setDeckListColliders(false);
+				this.displayArrow(false);
 				this.displayPopUp(0);
 				this.displayNextButton(false);
 				this.setPopUpTitle("Ajouter des recrues à son équipe");
 				this.setPopUpDescription("Cliquez sur les recrues proposées pour créer votre première équipe");
 				this.displayBackground(true);
-				this.setLeftArrow();			
+				//this.setUpArrow();			
 			}
-			Vector3 firstCardPosition = newMyGameController.instance.getCardsPosition(0);
-			this.resizeBackground(new Rect(firstCardPosition.x,firstCardPosition.y,3f,3f),0.55f,0.7f);
-			this.drawLeftArrow();
+			Vector3 secondCardPosition = newMyGameController.instance.getCardsPosition(1);
+			Vector3 thirdCardPosition = newMyGameController.instance.getCardsPosition(2);
+			float worldHeight = 2f*Camera.main.GetComponent<Camera>().orthographicSize;
+			float worldWidth = ((float)Screen.width/(float)Screen.height) * worldHeight;
+			this.resizeBackground(new Rect(0,secondCardPosition.y+1f,worldWidth-3f,8f),0.8f,0.8f);
+			this.resizePopUp(new Vector3((secondCardPosition.x-thirdCardPosition.x)/2+thirdCardPosition.x,secondCardPosition.y-2.5f,-9.5f));
+			//this.drawUpArrow();
 			break;
-		case 14:
-			if(!isResizing)
-			{
-				this.displayBackground(true);
-				this.setLeftArrow();			
-			}
-			Vector3 secondCardPosition = newMyGameController.instance.getCardsPosition(2);
-			this.resizeBackground(new Rect(secondCardPosition.x,secondCardPosition.y,3f,3f),0.55f,0.7f);
-			this.drawLeftArrow();
-			break;
-		case 15:
-			if(!isResizing)
-			{
-				this.displayBackground(true);
-				this.setLeftArrow();			
-			}
-			Vector3 thirdCardPosition = newMyGameController.instance.getCardsPosition(1);
-			this.resizeBackground(new Rect(thirdCardPosition.x,thirdCardPosition.y,3f,3f),0.55f,0.7f);
-			this.drawLeftArrow();
-			break;
-		case 16:
-			if(!isResizing)
-			{
-				this.displayBackground(true);
-				this.setLeftArrow();			
-			}
-			Vector3 fourthCardPosition = newMyGameController.instance.getCardsPosition(0);
-			this.resizeBackground(new Rect(fourthCardPosition.x,fourthCardPosition.y,3f,3f),0.55f,0.7f);
-			this.drawLeftArrow();
-			break;
+//		case 14:
+//			if(!isResizing)
+//			{
+//				this.displayBackground(true);
+//				this.setLeftArrow();			
+//			}
+//			Vector3 secondCardPosition = newMyGameController.instance.getCardsPosition(2);
+//			this.resizeBackground(new Rect(secondCardPosition.x,secondCardPosition.y,3f,3f),0.55f,0.7f);
+//			this.drawLeftArrow();
+//			break;
+//		case 15:
+//			if(!isResizing)
+//			{
+//				this.displayBackground(true);
+//				this.setLeftArrow();			
+//			}
+//			Vector3 thirdCardPosition = newMyGameController.instance.getCardsPosition(1);
+//			this.resizeBackground(new Rect(thirdCardPosition.x,thirdCardPosition.y,3f,3f),0.55f,0.7f);
+//			this.drawLeftArrow();
+//			break;
+//		case 16:
+//			if(!isResizing)
+//			{
+//				this.displayBackground(true);
+//				this.setLeftArrow();			
+//			}
+//			Vector3 fourthCardPosition = newMyGameController.instance.getCardsPosition(0);
+//			this.resizeBackground(new Rect(fourthCardPosition.x,fourthCardPosition.y,3f,3f),0.55f,0.7f);
+//			this.drawLeftArrow();
+//			break;
 		case 17:
 			if(!isResizing)
 			{
@@ -290,15 +302,22 @@ public class MyGameTutorialController : TutorialObjectController
 	{
 		switch(this.sequenceID)
 		{
-		case 1: case 11: case 12: case 13: case 14: case 15: case 16: case 18:
+		case 1: case 11: case 12: case 18:
 			this.launchSequence(this.sequenceID+1);
 			break;
-		case 9: 
-			newMyGameController.instance.setTutorialStep();
-			this.launchSequence(this.sequenceID+1);
+//		case 9: 
+//			newMyGameController.instance.setTutorialStep();
+//			this.launchSequence(this.sequenceID+1);
+//			break;
+		case 13 :
+			if(newMyGameController.instance.isDeckCompleted())
+			{
+				this.launchSequence(17);
+				newMyGameController.instance.setDeckListColliders(true);
+			}
 			break;
 		case 19:
-			newMyGameController.instance.endTutorial();
+			StartCoroutine(newMyGameController.instance.endTutorial());
 			break;
 		
 		}
