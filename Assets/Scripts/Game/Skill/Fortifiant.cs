@@ -48,20 +48,20 @@ public class Fortifiant : GameSkill
 		GameController.instance.play();
 	}
 	
-	public override void applyOn(int target, int arg){
-		int arg2 = base.skill.ManaCost;
-		GameController.instance.addCardModifier(target, arg2, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, 1, 9, "Renforcé", "+"+arg2+" ATK pour un tour", "Actif 1 tour");
-		if(arg==0){
-			GameView.instance.displaySkillEffect(target, "+"+arg2+" ATK / 1 tour", 5);
-		}
-		else if (arg==1){
-			GameView.instance.displaySkillEffect(target, "BONUS\n+"+arg2+" ATK / 1 tour", 5);
-		}
-	}
-	
-	public override void failedToCastOn(int target, int indexFailure){
-		GameView.instance.displaySkillEffect(target, "Esquive", 4);
-	}
+//	public override void applyOn(int target, int arg){
+//		int arg2 = base.skill.ManaCost;
+//		GameController.instance.addCardModifier(target, arg2, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, 1, 9, "Renforcé", "+"+arg2+" ATK pour un tour", "Actif 1 tour");
+//		if(arg==0){
+//			GameView.instance.displaySkillEffect(target, "+"+arg2+" ATK / 1 tour", 5);
+//		}
+//		else if (arg==1){
+//			GameView.instance.displaySkillEffect(target, "BONUS\n+"+arg2+" ATK / 1 tour", 5);
+//		}
+//	}
+//	
+//	public override void failedToCastOn(int target, int indexFailure){
+//		GameView.instance.displaySkillEffect(target, "Esquive", 4);
+//	}
 	
 	public override string isLaunchable(){
 		return GameView.instance.canLaunchOpponentsTargets();

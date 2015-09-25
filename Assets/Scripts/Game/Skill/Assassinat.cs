@@ -39,19 +39,19 @@ public class Assassinat : GameSkill
 		GameController.instance.play();
 	}
 	
-	public override void applyOn(int target){
-		int currentLife = GameView.instance.getCard(target).GetLife();
-		GameController.instance.addCardModifier(target, currentLife, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
-	}
-	
-	public override void failedToCastOn(int target, int indexFailure){
-		if(indexFailure==1){
-			GameView.instance.displaySkillEffect(target, "ESQUIVE", 4);
-		}
-		else{
-			GameView.instance.displaySkillEffect(target, "ECHEC ASSASSINAT", 4);
-		}
-	}
+//	public override void applyOn(int target){
+//		int currentLife = GameView.instance.getCard(target).GetLife();
+//		GameController.instance.addCardModifier(target, currentLife, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
+//	}
+//	
+//	public override void failedToCastOn(int target, int indexFailure){
+//		if(indexFailure==1){
+//			GameView.instance.displaySkillEffect(target, "ESQUIVE", 4);
+//		}
+//		else{
+//			GameView.instance.displaySkillEffect(target, "ECHEC ASSASSINAT", 4);
+//		}
+//	}
 	
 	public override string isLaunchable(){
 		return GameView.instance.canLaunchAdjacentOpponents();

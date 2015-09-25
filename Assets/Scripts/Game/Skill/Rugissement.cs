@@ -30,16 +30,16 @@ public class Rugissement : GameSkill
 		GameController.instance.play();
 	}
 	
-	public override void applyOn(int target){
-		int amount = base.skill.ManaCost;
-		
-		GameController.instance.addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, 1, 9, "Rugissement", "+"+amount+" ATK pour un tour", "Actif 1 tour");
-		GameView.instance.displaySkillEffect(target, "+"+amount+" ATK", 4);	
-	}
-	
-	public override void failedToCastOn(int target, int indexFailure){
-		GameView.instance.displaySkillEffect(target, "Esquive", 5);
-	}
+//	public override void applyOn(int target){
+//		int amount = base.skill.ManaCost;
+//		
+//		GameController.instance.addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, 1, 9, "Rugissement", "+"+amount+" ATK pour un tour", "Actif 1 tour");
+//		GameView.instance.displaySkillEffect(target, "+"+amount+" ATK", 4);	
+//	}
+//	
+//	public override void failedToCastOn(int target, int indexFailure){
+//		GameView.instance.displaySkillEffect(target, "Esquive", 5);
+//	}
 	
 	public override string isLaunchable(){
 		return GameView.instance.canLaunchAllysButMeTargets();

@@ -39,7 +39,7 @@ public class PuissanceIncontrolable : GameSkill
 	
 	}
 	
-	public override void applyOn(int target){
+	public override void applyOn(){
 		
 //		Card targetCard = GameController.instance.getCard(target);
 //		int currentLife = targetCard.GetLife();
@@ -49,10 +49,6 @@ public class PuissanceIncontrolable : GameSkill
 //		GameController.instance.addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
 //		
 //		GameController.instance.displaySkillEffect(target, "-"+amount+" PV", 3, 1);
-	}
-	
-	public override void failedToCastOn(int target, int indexFailure){
-		//GameController.instance.displaySkillEffect(target, GameController.instance.castFailures.getFailure(indexFailure), 5, 1);
 	}
 	
 	public override string isLaunchable(){

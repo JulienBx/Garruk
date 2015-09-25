@@ -32,14 +32,14 @@ public class TempeteEnergie : GameSkill
 		GameController.instance.play();
 	}
 	
-	public override void applyOn(int target, int arg){
-		GameController.instance.addCardModifier(target, arg, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
-		GameView.instance.displaySkillEffect(target, "-"+arg+" PV", 1);
-	}
-	
-	public override void failedToCastOn(int target, int indexFailure){
-		GameView.instance.displaySkillEffect(target, "ESQUIVE", 4);
-	}
+//	public override void applyOn(int target, int arg){
+//		GameController.instance.addCardModifier(target, arg, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
+//		GameView.instance.displaySkillEffect(target, "-"+arg+" PV", 1);
+//	}
+//	
+//	public override void failedToCastOn(int target, int indexFailure){
+//		GameView.instance.displaySkillEffect(target, "ESQUIVE", 4);
+//	}
 	
 	public override string isLaunchable(){
 		return GameView.instance.canLaunchAnyone();

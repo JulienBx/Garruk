@@ -26,12 +26,12 @@ public class Somnipiege : GameSkill
 		GameController.instance.play();
 	}
 	
-	public override void applyOn(int[] targets){
-		int amount = base.skill.ManaCost;
-		
-		GameController.instance.addTileModifier(new Tile(targets[0], targets[1]), amount, ModifierType.Type_SleepingTrap, ModifierStat.Stat_No, -1, 2, "Piège endormissant", "Endort l'adversaire. "+amount+"% de chances de se réveiller chaque tour", "Permanent. Non visible du joueur adverse");
-		GameView.instance.displaySkillEffect(GameController.instance.getCurrentPlayingCard(), "Piège posé", 4);
-	}
+//	public override void applyOn(int[] targets){
+//		int amount = base.skill.ManaCost;
+//		
+//		GameController.instance.addTileModifier(new Tile(targets[0], targets[1]), amount, ModifierType.Type_SleepingTrap, ModifierStat.Stat_No, -1, 2, "Piège endormissant", "Endort l'adversaire. "+amount+"% de chances de se réveiller chaque tour", "Permanent. Non visible du joueur adverse");
+//		GameView.instance.displaySkillEffect(GameController.instance.getCurrentPlayingCard(), "Piège posé", 4);
+//	}
 	
 	public override void activateTrap(int[] targets, int[] args){
 		GameController.instance.addCardModifier(targets[0], args[0], ModifierType.Type_Sleeping, ModifierStat.Stat_No, -1, 12, "Endormi", "Le héros ne peut ni se déplacer ni agir", args[0]+"% réveil / tour");

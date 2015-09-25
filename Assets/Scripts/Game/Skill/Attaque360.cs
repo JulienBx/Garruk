@@ -60,32 +60,32 @@ public class Attaque360 : GameSkill
 		GameController.instance.play();
 	}
 	
-	public override void applyOn(int target, int arg){
-		Card targetCard = GameView.instance.getCard(target);
-		int currentLife ;
-		int damageBonusPercentage ;
-		int amount ;
-		int bouclier ;
-		bouclier = targetCard.GetBouclier();
-		currentLife = targetCard.GetLife();
-		damageBonusPercentage = base.card.GetDamagesPercentageBonus(targetCard);
-		amount = (base.card.GetAttack()*base.skill.ManaCost/100)*(100+damageBonusPercentage)/100;
-		amount = Mathf.Min(currentLife,amount-(bouclier*amount/100));
-		GameController.instance.addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
-		
-		if(currentLife!=amount){
-			if(arg==0){
-				GameView.instance.displaySkillEffect(target, "-"+amount+" PV", 5);
-			}
-			else{
-				GameView.instance.displaySkillEffect(target, "GEANT\n-"+amount+" PV", 5);
-			}
-		}
-	}
+//	public override void applyOn(int target, int arg){
+//		Card targetCard = GameView.instance.getCard(target);
+//		int currentLife ;
+//		int damageBonusPercentage ;
+//		int amount ;
+//		int bouclier ;
+//		bouclier = targetCard.GetBouclier();
+//		currentLife = targetCard.GetLife();
+//		damageBonusPercentage = base.card.GetDamagesPercentageBonus(targetCard);
+//		amount = (base.card.GetAttack()*base.skill.ManaCost/100)*(100+damageBonusPercentage)/100;
+//		amount = Mathf.Min(currentLife,amount-(bouclier*amount/100));
+//		GameController.instance.addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
+//		
+//		if(currentLife!=amount){
+//			if(arg==0){
+//				GameView.instance.displaySkillEffect(target, "-"+amount+" PV", 5);
+//			}
+//			else{
+//				GameView.instance.displaySkillEffect(target, "GEANT\n-"+amount+" PV", 5);
+//			}
+//		}
+//	}
 	
-	public override void failedToCastOn(int target, int indexFailure){
-		GameView.instance.displaySkillEffect(target, "Esquive", 4);
-	}
+//	public override void failedToCastOn(int target, int indexFailure){
+//		GameView.instance.displaySkillEffect(target, "Esquive", 4);
+//	}
 	
 	public override string isLaunchable(){
 		return GameView.instance.canLaunchAdjacentOpponents();

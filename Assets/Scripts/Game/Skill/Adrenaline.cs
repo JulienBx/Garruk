@@ -24,10 +24,10 @@ public class Adrenaline : GameSkill
 		
 		if (Random.Range(1,101) > GameView.instance.getCard(target).GetMagicalEsquive())
 		{                             
-			GameController.instance.applyOn(target,0);
+			GameController.instance.addTarget(target,1);
 		}
 		else{
-			GameController.instance.failedToCastOnSkill(target, 1);
+			GameController.instance.addTarget(target,0);
 		}
 		
 		if (base.card.isGenerous()){
@@ -39,7 +39,10 @@ public class Adrenaline : GameSkill
 					
 					if (Random.Range(1,101) > GameView.instance.getCard(target).GetMagicalEsquive())
 					{
-						GameController.instance.applyOn(target,1);
+						GameController.instance.addTarget(target,3);
+					}
+					else{
+						GameController.instance.addTarget(target,2);
 					}
 				}
 			}
@@ -48,23 +51,63 @@ public class Adrenaline : GameSkill
 		GameController.instance.play();
 	}
 	
-	public override void applyOn(int target, int arg){
-		int amount = base.skill.ManaCost;
+	public override void applyOn(){
 		
-		int baseD = GameView.instance.getCard(target).GetMove();
-		int deplacement = Mathf.FloorToInt((amount)*baseD/100)+1;
+		Card targetCard ;
+		int target ;
+		string text ;
+		List<Card> receivers =  new List<Card>();
+		List<string> receiversTexts =  new List<string>();
 		
-		GameController.instance.addCardModifier(target, deplacement, ModifierType.Type_BonusMalus, ModifierStat.Stat_Move, 1, 11, "Accéléré", "+"+deplacement+" MOV pour 1 tour", "Actif 1 tour");
-		if(arg==0){
-			GameView.instance.displaySkillEffect(target, "+"+deplacement+" MOV", 4);
+		int amount ; 
+		
+		for(int i = 0 ; i < base.targets.Count ; i++){
+			target = base.targets[i];
+			targetCard = GameView.instance.getCard(target);
+			receivers.Add (targetCard);
+			if (base.results[i]==0){
+				text = "Esquive";
+				GameView.instance.displaySkillEffect(target, text, 4);
+				receiversTexts.Add (text);
+			}
+			else if (base.results[i]==2){
+				text = "Bonus 'Généreux'\nEsquive";
+				GameView.instance.displaySkillEffect(target, text, 4);
+				receiversTexts.Add (text);
+			}
+			else{
+				amount = Mathf.CeilToInt((base.skill.ManaCost)*targetCard.GetMove()/100f);
+				if (base.card.isLache()){
+					if(GameController.instance.getIsFirstPlayer()==GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
+						if(GameView.instance.getPlayingCardTile(target).y==GameView.instance.getPlayingCardTile(GameController.instance.getCurrentPlayingCard()).y-1){
+							amount = (100+base.card.getPassiveManacost())*amount/100;
+						}
+					}
+					else{
+						if(GameView.instance.getPlayingCardTile(target).y-1==GameView.instance.getPlayingCardTile(GameController.instance.getCurrentPlayingCard()).y){
+							amount = (100+base.card.getPassiveManacost())*amount/100;
+						}
+					}
+				}
+				if(base.results[i]==3){
+					text = "Bonus Généreux\n";
+				}
+				else{
+					text="";
+				}
+				
+				text+="+"+amount+" MOV";
+				
+				receiversTexts.Add (text);
+				
+				GameController.instance.addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Move, 1, 11, "Rapidité", "+"+amount+" MOV pour 1 tour", "Actif 1 tour");
+				
+				GameView.instance.displaySkillEffect(target, text, 5);
+			}	
 		}
-		else if (arg==1){
-			GameView.instance.displaySkillEffect(target, "BONUS\n+"+deplacement+" MOV", 4);
+		if(!GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
+			GameView.instance.setSkillPopUp("lance <b>Adrénaline</b>...", base.card, receivers, receiversTexts);
 		}
-	}
-	
-	public override void failedToCastOn(int target, int indexFailure){
-		GameView.instance.displaySkillEffect(target, "Esquive", 4);
 	}
 	
 	public override string isLaunchable(){

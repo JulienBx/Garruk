@@ -53,29 +53,29 @@ public class ImplosionEnergie : GameSkill
 		GameController.instance.play();
 	}
 	
-	public override void applyOn(int[] targets){
-		Card targetCard ;
-		int currentLife ;
-		int amount ;
-		//int bouclier ;
-		
-//		if(targets[0]==GameController.instance.currentPlayingCard){
-//			amount = GameController.instance.getCurrentCard().GetLife();
+//	public override void applyOn(int[] targets){
+//		Card targetCard ;
+//		int currentLife ;
+//		int amount ;
+//		//int bouclier ;
+//		
+////		if(targets[0]==GameController.instance.currentPlayingCard){
+////			amount = GameController.instance.getCurrentCard().GetLife();
+////		}
+////		else{
+////			amount = GameController.instance.getCurrentSkill().ManaCost;
+////		}
+//		targetCard = GameView.instance.getCard(targets[0]);
+//		currentLife = targetCard.GetLife();
+//		//GameController.instance.addCardModifier(targets[0], amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
+//		//GameController.instance.displaySkillEffect(targets[0], "Inflige "+amount, 3, 1);
+//	}
+//	
+//	public override void failedToCastOn(int[] targets, int[] args){
+//		for (int i = 0 ; i < targets.Length ; i++){
+//			GameView.instance.displaySkillEffect(targets[i], "L'attaque échoue", 0);
 //		}
-//		else{
-//			amount = GameController.instance.getCurrentSkill().ManaCost;
-//		}
-		targetCard = GameView.instance.getCard(targets[0]);
-		currentLife = targetCard.GetLife();
-		//GameController.instance.addCardModifier(targets[0], amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
-		//GameController.instance.displaySkillEffect(targets[0], "Inflige "+amount, 3, 1);
-	}
-	
-	public override void failedToCastOn(int[] targets, int[] args){
-		for (int i = 0 ; i < targets.Length ; i++){
-			GameView.instance.displaySkillEffect(targets[i], "L'attaque échoue", 0);
-		}
-	}
+//	}
 	
 	public override string isLaunchable(){
 //		List<Tile> tempTiles;

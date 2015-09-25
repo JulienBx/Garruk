@@ -34,6 +34,7 @@ public class SkillPopUpController : MonoBehaviour
 		print (this.actualTime);
 		if(this.actualTime>this.timeToDisplay){
 			this.hide();
+			this.resetTime();
 			this.timeToDisplay=0;
 		}
 	}

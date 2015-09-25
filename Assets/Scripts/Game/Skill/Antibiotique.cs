@@ -59,30 +59,30 @@ public class Antibiotique : GameSkill
 		GameController.instance.play();
 	}
 	
-	public override void applyOn(int target, int arg){
-		GameView.instance.getCard(target).emptyModifiers();
-		if(target!=GameController.instance.getCurrentPlayingCard()){
-			GameView.instance.show(target, true);
-		}
-		else{
-			GameView.instance.show(target, false);
-		}
-		if(arg==0){
-			GameView.instance.displaySkillEffect(target, "Effets supprimés !", 5);
-		}
-		else if (arg==1){
-			GameView.instance.displaySkillEffect(target, "BONUS\nEffets supprimés !", 5);
-		}
-	}
+//	public override void applyOn(int target, int arg){
+//		GameView.instance.getCard(target).emptyModifiers();
+//		if(target!=GameController.instance.getCurrentPlayingCard()){
+//			GameView.instance.show(target, true);
+//		}
+//		else{
+//			GameView.instance.show(target, false);
+//		}
+//		if(arg==0){
+//			GameView.instance.displaySkillEffect(target, "Effets supprimés !", 5);
+//		}
+//		else if (arg==1){
+//			GameView.instance.displaySkillEffect(target, "BONUS\nEffets supprimés !", 5);
+//		}
+//	}
 	
-	public override void failedToCastOn(int target, int indexFailure){
-		if (indexFailure==1){
-			GameView.instance.displaySkillEffect(target, "Esquive", 4);
-		}
-		else if (indexFailure==2){
-			GameView.instance.displaySkillEffect(target, "Sans effet", 4);
-		}
-	}
+//	public override void failedToCastOn(int target, int indexFailure){
+//		if (indexFailure==1){
+//			GameView.instance.displaySkillEffect(target, "Esquive", 4);
+//		}
+//		else if (indexFailure==2){
+//			GameView.instance.displaySkillEffect(target, "Sans effet", 4);
+//		}
+//	}
 	
 	public override string isLaunchable()
 	{

@@ -300,12 +300,9 @@ public class GameController : Photon.MonoBehaviour
 		
 		if(enemy!=-1){
 			GameSkills.instance.getSkill(0).init(GameView.instance.getCard(this.currentPlayingCard), GameView.instance.getCard(this.currentPlayingCard).GetAttackSkill());
-			GameSkills.instance.getSkill(0).applyOn(enemy, 0);
-			
-			yield return new WaitForSeconds(1);
+			GameSkills.instance.getSkill(0).addTarget(enemy,1);
+			GameSkills.instance.getSkill(0).applyOn();
 		}
-		
-		this.resolvePass();
 	}
 	
 	public void calculateHisDestinations(){
@@ -1148,6 +1145,15 @@ public class GameController : Photon.MonoBehaviour
 
 	public void play()
 	{	
+		StartCoroutine(playEnum ());
+	}
+	
+	public IEnumerator playEnum()
+	{
+		this.applyOn();
+		
+		yield return new WaitForSeconds(1);
+		
 		if (GameView.instance.hasMoved(this.currentPlayingCard) || GameView.instance.isDead(this.currentPlayingCard))
 		{
 			this.isRunningSkill = false ;
@@ -1281,7 +1287,7 @@ public class GameController : Photon.MonoBehaviour
 	[RPC]
 	public void applyOnRPC(int[] targets)
 	{
-		GameSkills.instance.getCurrentGameSkill().applyOn(targets);
+		//GameSkills.instance.getCurrentGameSkill().applyOn(targets);
 	}
 	
 	public void applyOn(int target)
@@ -1292,7 +1298,7 @@ public class GameController : Photon.MonoBehaviour
 	[RPC]
 	public void applyOnRPC4(int target)
 	{
-		GameSkills.instance.getCurrentGameSkill().applyOn(target);
+		//GameSkills.instance.getCurrentGameSkill().applyOn(target);
 	}
 	
 	public void applyOn(int target, int arg)
@@ -1303,7 +1309,29 @@ public class GameController : Photon.MonoBehaviour
 	[RPC]
 	public void applyOnRPC3(int target, int arg)
 	{
-		GameSkills.instance.getCurrentGameSkill().applyOn(target, arg);
+		//GameSkills.instance.getCurrentGameSkill().applyOn(target, arg);
+	}
+	
+	public void addTarget(int target, int result)
+	{
+		photonView.RPC("addTargetRPC", PhotonTargets.AllBuffered, target, result);
+	}
+	
+	[RPC]
+	public void addTargetRPC(int target, int result)
+	{
+		GameSkills.instance.getCurrentGameSkill().addTarget(target, result);
+	}
+	
+	public void addTargetTile(int tileX, int tileY, int result)
+	{
+		photonView.RPC("addTargetTileRPC", PhotonTargets.AllBuffered, tileX, tileY, result);
+	}
+	
+	[RPC]
+	public void addTargetTileRPC(int tileX, int tileY, int result)
+	{
+		GameSkills.instance.getCurrentGameSkill().addTarget(new Tile(tileX, tileY), result);
 	}
 	
 	public void applyOn(int target, int arg, int arg2)
@@ -1314,7 +1342,7 @@ public class GameController : Photon.MonoBehaviour
 	[RPC]
 	public void applyOnRPC6(int target, int arg, int arg2)
 	{
-		GameSkills.instance.getCurrentGameSkill().applyOn(target, arg, arg2);
+		//GameSkills.instance.getCurrentGameSkill().applyOn(target, arg, arg2);
 	}
 	
 	public void applyOn(int[] targets, int[] args)
@@ -1325,7 +1353,7 @@ public class GameController : Photon.MonoBehaviour
 	[RPC]
 	public void applyOnRPC2(int[] targets, int[] args)
 	{
-		GameSkills.instance.getCurrentGameSkill().applyOn(targets, args);
+		//GameSkills.instance.getCurrentGameSkill().applyOn(targets, args);
 	}
 	
 	public void activateTrap(int idSkill, int[] targets, int[] args)
@@ -1358,7 +1386,7 @@ public class GameController : Photon.MonoBehaviour
 	[RPC]
 	public void failedToCastOnSkillRPC(int[] targets, int[] failures)
 	{
-		GameSkills.instance.getCurrentGameSkill().failedToCastOn(targets, failures);
+		//GameSkills.instance.getCurrentGameSkill().failedToCastOn(targets, failures);
 	}
 	
 	public void failedToCastOnSkill(int target, int failure)
@@ -1369,7 +1397,7 @@ public class GameController : Photon.MonoBehaviour
 	[RPC]
 	public void failedToCastOnSkillRPC(int target, int failure)
 	{
-		GameSkills.instance.getCurrentGameSkill().failedToCastOn(target, failure);
+		//GameSkills.instance.getCurrentGameSkill().failedToCastOn(target, failure);
 	}
 	
 	public int nbMyPlayersAlive()

@@ -40,38 +40,38 @@ public class Combo : GameSkill
 		GameController.instance.play();
 	}
 	
-	public override void applyOn(int target, int arg){
-		
-		Card targetCard = GameView.instance.getCard(target);
-		int currentLife = targetCard.GetLife();
-		int damageBonusPercentage = base.card.GetDamagesPercentageBonus(targetCard);
-		int bouclier = targetCard.GetBouclier();
-		int amount = arg*(base.skill.ManaCost*base.card.GetAttack()/100)*(100+damageBonusPercentage)/100;
-		
-		if (base.card.isLache()){
-			if(GameController.instance.getIsFirstPlayer()==GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
-				if(GameView.instance.getPlayingCardTile(target).y==GameView.instance.getPlayingCardTile(GameController.instance.getCurrentPlayingCard()).y-1){
-					amount = (100+base.card.getPassiveManacost())*amount/100;
-				}
-			}
-			else{
-				if(GameView.instance.getPlayingCardTile(target).y-1==GameView.instance.getPlayingCardTile(GameController.instance.getCurrentPlayingCard()).y){
-					amount = (100+base.card.getPassiveManacost())*amount/100;
-				}
-			}
-		}
-		
-		amount = Mathf.Min(currentLife,amount-(bouclier*amount/100));
-		GameController.instance.addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
-		
-		if(currentLife!=(amount)){
-			GameView.instance.displaySkillEffect(target, "HIT X"+arg+"\n-"+(amount)+" PV", 5);
-		}
-	}
+//	public override void applyOn(int target, int arg){
+//		
+//		Card targetCard = GameView.instance.getCard(target);
+//		int currentLife = targetCard.GetLife();
+//		int damageBonusPercentage = base.card.GetDamagesPercentageBonus(targetCard);
+//		int bouclier = targetCard.GetBouclier();
+//		int amount = arg*(base.skill.ManaCost*base.card.GetAttack()/100)*(100+damageBonusPercentage)/100;
+//		
+//		if (base.card.isLache()){
+//			if(GameController.instance.getIsFirstPlayer()==GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
+//				if(GameView.instance.getPlayingCardTile(target).y==GameView.instance.getPlayingCardTile(GameController.instance.getCurrentPlayingCard()).y-1){
+//					amount = (100+base.card.getPassiveManacost())*amount/100;
+//				}
+//			}
+//			else{
+//				if(GameView.instance.getPlayingCardTile(target).y-1==GameView.instance.getPlayingCardTile(GameController.instance.getCurrentPlayingCard()).y){
+//					amount = (100+base.card.getPassiveManacost())*amount/100;
+//				}
+//			}
+//		}
+//		
+//		amount = Mathf.Min(currentLife,amount-(bouclier*amount/100));
+//		GameController.instance.addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
+//		
+//		if(currentLife!=(amount)){
+//			GameView.instance.displaySkillEffect(target, "HIT X"+arg+"\n-"+(amount)+" PV", 5);
+//		}
+//	}
 	
-	public override void failedToCastOn(int target, int indexFailure){
-		GameView.instance.displaySkillEffect(target, "ESQUIVE", 4);
-	}
+//	public override void failedToCastOn(int target, int indexFailure){
+//		GameView.instance.displaySkillEffect(target, "ESQUIVE", 4);
+//	}
 	
 	public override string isLaunchable(){
 		return GameView.instance.canLaunchAdjacentOpponents();

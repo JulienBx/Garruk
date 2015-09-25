@@ -48,21 +48,21 @@ public class Excitant : GameSkill
 		GameController.instance.play();
 	}
 	
-	public override void applyOn(int target, int arg){
-		GameController.instance.advanceTurns(target, base.skill.ManaCost);
-		if(arg==0){
-			GameView.instance.displaySkillEffect(target, "Attente: -"+base.skill.ManaCost+" tours", 5);
-		}
-		else if(arg==1){
-			GameView.instance.displaySkillEffect(target, "Bonus\n Attente: -"+base.skill.ManaCost+" tours", 5);
-		}
-	}
-	
-	public override void failedToCastOn(int target, int indexFailure){
-		if (indexFailure==1){
-			GameView.instance.displaySkillEffect(target, "Esquive", 4);
-		}
-	}
+//	public override void applyOn(int target, int arg){
+//		GameController.instance.advanceTurns(target, base.skill.ManaCost);
+//		if(arg==0){
+//			GameView.instance.displaySkillEffect(target, "Attente: -"+base.skill.ManaCost+" tours", 5);
+//		}
+//		else if(arg==1){
+//			GameView.instance.displaySkillEffect(target, "Bonus\n Attente: -"+base.skill.ManaCost+" tours", 5);
+//		}
+//	}
+//	
+//	public override void failedToCastOn(int target, int indexFailure){
+//		if (indexFailure==1){
+//			GameView.instance.displaySkillEffect(target, "Esquive", 4);
+//		}
+//	}
 	
 	public override string isLaunchable(){
 		return GameView.instance.canLaunchOpponentsTargets();

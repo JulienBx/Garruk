@@ -46,43 +46,43 @@ public class Berserk : GameSkill
 		}
 	}
 	
-	public override void applyOn(int target, int arg){
-		Card targetCard = GameView.instance.getCard(target);
-		int myCurrentLife = base.card.GetLife();
-		int currentLife = targetCard.GetLife();
-		
-		int myBouclier = base.card.GetBouclier();
-		int bouclier = targetCard.GetBouclier();
-		
-		int amount = Mathf.CeilToInt(base.card.GetAttack()*125/100);
-		
-		int damageBonusPercentage = base.card.GetDamagesPercentageBonus(targetCard);
-		amount = Mathf.Min(currentLife,amount-(bouclier*amount/100));
-		
-		int arg2 = base.skill.ManaCost;
-		
-		GameController.instance.addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
-		GameController.instance.addCardModifier(GameController.instance.getCurrentPlayingCard(), arg2, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
-		
-		if(currentLife!=amount){
-			if(arg==0){
-				GameView.instance.displaySkillEffect(target, "-"+amount+" PV", 5);
-			}
-			else{
-				GameView.instance.displaySkillEffect(target, "GEANT\n-"+amount+" PV", 5);
-			}
-		}
-		
-		if(arg==0){
-			if(myCurrentLife!=arg){
-				GameView.instance.displaySkillEffect(GameController.instance.getCurrentPlayingCard(), "-"+arg2+" PV", 5);
-			}
-		}
-	}
+//	public override void applyOn(int target, int arg){
+//		Card targetCard = GameView.instance.getCard(target);
+//		int myCurrentLife = base.card.GetLife();
+//		int currentLife = targetCard.GetLife();
+//		
+//		int myBouclier = base.card.GetBouclier();
+//		int bouclier = targetCard.GetBouclier();
+//		
+//		int amount = Mathf.CeilToInt(base.card.GetAttack()*125/100);
+//		
+//		int damageBonusPercentage = base.card.GetDamagesPercentageBonus(targetCard);
+//		amount = Mathf.Min(currentLife,amount-(bouclier*amount/100));
+//		
+//		int arg2 = base.skill.ManaCost;
+//		
+//		GameController.instance.addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
+//		GameController.instance.addCardModifier(GameController.instance.getCurrentPlayingCard(), arg2, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
+//		
+//		if(currentLife!=amount){
+//			if(arg==0){
+//				GameView.instance.displaySkillEffect(target, "-"+amount+" PV", 5);
+//			}
+//			else{
+//				GameView.instance.displaySkillEffect(target, "GEANT\n-"+amount+" PV", 5);
+//			}
+//		}
+//		
+//		if(arg==0){
+//			if(myCurrentLife!=arg){
+//				GameView.instance.displaySkillEffect(GameController.instance.getCurrentPlayingCard(), "-"+arg2+" PV", 5);
+//			}
+//		}
+//	}
 	
-	public override void failedToCastOn(int target, int indexFailure){
-		GameView.instance.displaySkillEffect(target, "Esquive", 4);
-	}
+//	public override void failedToCastOn(int target, int indexFailure){
+//		GameView.instance.displaySkillEffect(target, "Esquive", 4);
+//	}
 	
 	public override string isLaunchable(){
 		return GameView.instance.canLaunchAdjacentOpponents();

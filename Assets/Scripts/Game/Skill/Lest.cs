@@ -48,29 +48,29 @@ public class Lest : GameSkill
 		GameController.instance.play();
 	}
 	
-	public override void applyOn(int target, int arg){
-		int amount = base.skill.ManaCost;
-		
-		int baseD = GameView.instance.getCard(target).GetMove();
-		int deplacement = Mathf.FloorToInt((amount)*baseD/100)+1;
-		
-		if (deplacement >= baseD){
-			deplacement = baseD - 1 ;
-		}
-		
-		GameController.instance.addCardModifier(target, -1*deplacement, ModifierType.Type_BonusMalus, ModifierStat.Stat_Move, 1, 8, "Lesté", "-"+deplacement+" MOV", "Actif 1 tour");
-		
-		if(arg==0){
-			GameView.instance.displaySkillEffect(target, "-"+deplacement+" MOV", 5);
-		}
-		else if (arg==1){
-			GameView.instance.displaySkillEffect(target, "BONUS\n-"+deplacement+" MOV", 5);
-		}
-	}
-	
-	public override void failedToCastOn(int target, int indexFailure){
-		GameView.instance.displaySkillEffect(target, "Esquive", 4);
-	}
+//	public override void applyOn(int target, int arg){
+//		int amount = base.skill.ManaCost;
+//		
+//		int baseD = GameView.instance.getCard(target).GetMove();
+//		int deplacement = Mathf.FloorToInt((amount)*baseD/100)+1;
+//		
+//		if (deplacement >= baseD){
+//			deplacement = baseD - 1 ;
+//		}
+//		
+//		GameController.instance.addCardModifier(target, -1*deplacement, ModifierType.Type_BonusMalus, ModifierStat.Stat_Move, 1, 8, "Lesté", "-"+deplacement+" MOV", "Actif 1 tour");
+//		
+//		if(arg==0){
+//			GameView.instance.displaySkillEffect(target, "-"+deplacement+" MOV", 5);
+//		}
+//		else if (arg==1){
+//			GameView.instance.displaySkillEffect(target, "BONUS\n-"+deplacement+" MOV", 5);
+//		}
+//	}
+//	
+//	public override void failedToCastOn(int target, int indexFailure){
+//		GameView.instance.displaySkillEffect(target, "Esquive", 4);
+//	}
 	
 	public override string isLaunchable(){
 		return GameView.instance.canLaunchOpponentsTargets();

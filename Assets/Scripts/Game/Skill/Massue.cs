@@ -49,23 +49,23 @@ public class Massue : GameSkill
 		}
 	}
 	
-	public override void applyOn(int target, int arg, int arg2){
-		Card targetCard = GameView.instance.getCard(target);
-		int currentLife = targetCard.GetLife();
-		GameController.instance.addCardModifier(target, arg, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
-		if(currentLife>arg){
-			if(arg2==0){
-				GameView.instance.displaySkillEffect(target, "-"+arg+" PV", 5);
-			}
-			else{
-				GameView.instance.displaySkillEffect(target, "GEANT\n-"+arg+" PV", 5);
-			}
-		}
-	}
-	
-	public override void failedToCastOn(int target, int indexFailure){
-		GameView.instance.displaySkillEffect(target, "Esquive", 4);
-	}
+//	public override void applyOn(int target, int arg, int arg2){
+//		Card targetCard = GameView.instance.getCard(target);
+//		int currentLife = targetCard.GetLife();
+//		GameController.instance.addCardModifier(target, arg, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
+//		if(currentLife>arg){
+//			if(arg2==0){
+//				GameView.instance.displaySkillEffect(target, "-"+arg+" PV", 5);
+//			}
+//			else{
+//				GameView.instance.displaySkillEffect(target, "GEANT\n-"+arg+" PV", 5);
+//			}
+//		}
+//	}
+//	
+//	public override void failedToCastOn(int target, int indexFailure){
+//		GameView.instance.displaySkillEffect(target, "Esquive", 4);
+//	}
 	
 	public override string isLaunchable(){
 		return GameView.instance.canLaunchAdjacentOpponents();

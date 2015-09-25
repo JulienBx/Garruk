@@ -48,22 +48,22 @@ public class Renfoderme : GameSkill
 		GameController.instance.play();
 	}
 	
-	public override void applyOn(int target, int arg){
-		int amount = base.skill.ManaCost;
-		
-		GameController.instance.addCardModifier(target, amount, ModifierType.Type_Bouclier, ModifierStat.Stat_No, -1, 10, "Bouclier", "Dommages subis : -"+amount+"%", "Permanent");
-		
-		if(arg==0){
-			GameView.instance.displaySkillEffect(target, "Bouclier ajouté", 4);
-		}
-		else if(arg==1){
-			GameView.instance.displaySkillEffect(target, "BONUS\nBouclier ajouté", 4);
-		}
-	}
-	
-	public override void failedToCastOn(int target, int indexFailure){
-		GameView.instance.displaySkillEffect(target, "Esquive", 4);
-	}
+//	public override void applyOn(int target, int arg){
+//		int amount = base.skill.ManaCost;
+//		
+//		GameController.instance.addCardModifier(target, amount, ModifierType.Type_Bouclier, ModifierStat.Stat_No, -1, 10, "Bouclier", "Dommages subis : -"+amount+"%", "Permanent");
+//		
+//		if(arg==0){
+//			GameView.instance.displaySkillEffect(target, "Bouclier ajouté", 4);
+//		}
+//		else if(arg==1){
+//			GameView.instance.displaySkillEffect(target, "BONUS\nBouclier ajouté", 4);
+//		}
+//	}
+//	
+//	public override void failedToCastOn(int target, int indexFailure){
+//		GameView.instance.displaySkillEffect(target, "Esquive", 4);
+//	}
 	
 	public override string isLaunchable(){
 		return GameView.instance.canLaunchAllysButMeTargets();
