@@ -118,6 +118,8 @@ public class GameView : MonoBehaviour
 		
 	void Awake()
 	{
+		GameController.instance.setCurrentPlayingCard(-1);
+		
 		instance = this;
 
 		this.displayLoadingScreen ();

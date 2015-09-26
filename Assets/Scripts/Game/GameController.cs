@@ -35,10 +35,7 @@ public class GameController : Photon.MonoBehaviour
 	
 	void Awake()
 	{
-		if(ApplicationModel.launchGameTutorial)
-		{
-			PhotonNetwork.room.open = false;
-		}
+		this.currentPlayingCard = -1;
 		instance = this;
 
 		PhotonNetwork.autoCleanUpPlayerObjects = false;
@@ -734,7 +731,7 @@ public class GameController : Photon.MonoBehaviour
 	
 	// Photon
 	void OnJoinedLobby()
-	{
+	{	
 		TypedLobby sqlLobby = new TypedLobby("rankedGame", LobbyType.SqlLobby);    
 		string sqlLobbyFilter = "C0 = " + ApplicationModel.gameType;
 		PhotonNetwork.JoinRandomRoom(null, 0, MatchmakingMode.FillRoom, sqlLobby, sqlLobbyFilter);
@@ -757,6 +754,10 @@ public class GameController : Photon.MonoBehaviour
 	
 	void OnJoinedRoom()
 	{
+		if(ApplicationModel.launchGameTutorial)
+		{
+			PhotonNetwork.room.open = false;
+		}
 		Debug.Log("Connecté à Photon");
 		if (!isReconnecting)
 		{
@@ -1642,6 +1643,10 @@ public class GameController : Photon.MonoBehaviour
 	public bool getIsFirstPlayer()
 	{
 		return this.isFirstPlayer;
+	}
+	
+	public void setCurrentPlayingCard(int i){
+		this.currentPlayingCard = i;
 	}
 }
 
