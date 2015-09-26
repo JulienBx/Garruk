@@ -48,6 +48,7 @@ public class NewFocusedCardController : MonoBehaviour
 	private bool isCardUpgradeDisplayed;
 	private bool isSkillHighlighted;
 	private bool isPanelSoldIsDisplayed;
+	private bool isXpBeingUpdated;
 
 	private float speed;
 	private float timerCollectionPoints;
@@ -193,6 +194,7 @@ public class NewFocusedCardController : MonoBehaviour
 		{
 			this.setHighlightedSkills();
 		}
+		this.setIsXpBeingUpdated (false);
 	}
 	public void setCentralWindow(Rect centralWindow)
 	{
@@ -258,14 +260,17 @@ public class NewFocusedCardController : MonoBehaviour
 	}
 	public void displayBuyXpCardPopUp()
 	{
-		this.buyXpView = gameObject.AddComponent<NewFocusedCardBuyXpView> ();
-		this.isBuyXpViewDisplayed = true;
-		buyXpView.buyXpPopUpVM.price = this.c.NextLevelPrice;
-		buyXpView.popUpVM.centralWindowStyle = new GUIStyle(popUpRessources.popUpSkin.window);
-		buyXpView.popUpVM.centralWindowTitleStyle = new GUIStyle (popUpRessources.popUpSkin.customStyles [0]);
-		buyXpView.popUpVM.centralWindowButtonStyle = new GUIStyle (popUpRessources.popUpSkin.button);
-		buyXpView.popUpVM.transparentStyle = new GUIStyle (popUpRessources.popUpSkin.customStyles [2]);
-		this.buyXpPopUpResize ();
+		if(!this.isXpBeingUpdated)
+		{
+			this.buyXpView = gameObject.AddComponent<NewFocusedCardBuyXpView> ();
+			this.isBuyXpViewDisplayed = true;
+			buyXpView.buyXpPopUpVM.price = this.c.NextLevelPrice;
+			buyXpView.popUpVM.centralWindowStyle = new GUIStyle(popUpRessources.popUpSkin.window);
+			buyXpView.popUpVM.centralWindowTitleStyle = new GUIStyle (popUpRessources.popUpSkin.customStyles [0]);
+			buyXpView.popUpVM.centralWindowButtonStyle = new GUIStyle (popUpRessources.popUpSkin.button);
+			buyXpView.popUpVM.transparentStyle = new GUIStyle (popUpRessources.popUpSkin.customStyles [2]);
+			this.buyXpPopUpResize ();
+		}
 	}
 	public void displayBuyCardPopUp()
 	{
@@ -997,6 +1002,7 @@ public class NewFocusedCardController : MonoBehaviour
 	}
 	public virtual void animateExperience()
 	{
+		this.setIsXpBeingUpdated (true);
 		this.experience.GetComponent<NewFocusedCardExperienceController>().startUpdatingXp(c.ExperienceLevel,c.PercentageToNextLevel);
 	}
 	public virtual Color getColors(int id)
@@ -1012,6 +1018,14 @@ public class NewFocusedCardController : MonoBehaviour
 	}
 	public virtual void hideLoadingScreen()
 	{
+	}
+	public void setIsXpBeingUpdated(bool value)
+	{
+		this.isXpBeingUpdated = value;
+	}
+	public bool getIsXpBeingUpdated()
+	{
+		return this.isXpBeingUpdated;
 	}
 }
 

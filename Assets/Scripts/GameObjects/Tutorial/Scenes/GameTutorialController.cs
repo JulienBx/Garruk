@@ -436,7 +436,7 @@ public class GameTutorialController : TutorialObjectController
 				this.displayArrow(false);
 				this.displayNextButton(true);
 				this.setPopUpTitle("Sénilité");
-				this.setPopUpDescription("Le drogueur a utilisé sa compétence <i>Sénilité</i> pour affaiblir notre prédateur en diminuant sa compétence d'attaque.\n\n Une icone sur la carte de l'unité touchée permet de voir l'effet de la compétence et sa durée");
+				this.setPopUpDescription("Le drogueur a utilisé sa compétence <i>Sénilité</i> pour affaiblir notre prédateur.\n\n Une icône sur la carte de l'unité touchée permet de voir l'effet de la compétence et sa durée");
 				this.displayBackground(true);
 			}
 			//this.gameObjectPosition = GameView.instance.getPlayingCardsPosition(3);

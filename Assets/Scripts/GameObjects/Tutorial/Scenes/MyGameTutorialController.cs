@@ -61,7 +61,7 @@ public class MyGameTutorialController : TutorialObjectController
 				this.displayPopUp(2);
 				this.displayNextButton(true);
 				this.setPopUpTitle("Les caractéristiques de carte");
-				this.setPopUpDescription("La zone inférieure présente les caractéristiques de la carte. A gauche on trouve la force d'attaque de la carte (les dégats infligés à chaque attaque), à droite la rapidité (déterminant l'ordre de jeu de chaque carte pendans le combat) et au centre sont affichés les points de vie et .\n\nUne unité anéantie pendant un combat reste votre propriété et sera disponible pour le combat suivant (moyennant un passage éclair à l'hopital galactique de Cristalia, réputé pour ses caissons de récupération à haute vitesse)");
+				this.setPopUpDescription("La zone inférieure présente les caractéristiques de la carte. A gauche on trouve la force d'attaque de la carte (les dégats infligés à chaque attaque), à droite la rapidité (déterminant l'ordre de jeu de chaque carte pendant le combat) et au centre sont affichés les points de vie et d'attaque.\n\nUne unité anéantie pendant un combat reste votre propriété et sera disponible pour le combat suivant (moyennant un passage éclair à l'hopital galactique de Cristalia, réputé pour ses caissons de récupération à haute vitesse)");
 				this.displayBackground(true);
 				this.setDownArrow();
 			}
@@ -259,7 +259,7 @@ public class MyGameTutorialController : TutorialObjectController
 				this.displayPopUp(1);
 				this.displayNextButton(true);
 				this.setPopUpTitle("Les filtres");
-				this.setPopUpDescription("Des filtres sur le coté vous permettront de trier vos recrues selon différents critères (caractéristiques, compétences, etc.). Utile pour gérer de puissantes armées! Krigeff, général cristalien disposant à l'époque d'une armée de 1700 recrues, a sombré dans la folie le jour ou il a malencontreusement désinstallé son logiciel de filtrage");
+				this.setPopUpDescription("Des filtres sur le coté vous permettront de trier vos recrues selon différents critères (caractéristiques, compétences, etc.). Utile pour gérer de puissantes armées! Krigeff, général cristalien disposant à l'époque d'une armée de 1700 recrues, a sombré dans la folie le jour où il a malencontreusement désinstallé son logiciel de filtrage");
 				this.displayBackground(true);
 			}
 			Vector3 filtersPosition = newMyGameController.instance.getFiltersPosition();
