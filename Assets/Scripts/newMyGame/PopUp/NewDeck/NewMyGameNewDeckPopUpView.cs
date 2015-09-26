@@ -27,7 +27,7 @@ public class NewMyGameNewDeckPopUpView : MonoBehaviour
 				GUILayout.BeginHorizontal();
 				{
 					GUILayout.Space(0.1f * popUpVM.centralWindow.width);
-					newDeckPopUpVM.name = GUILayout.TextField(newDeckPopUpVM.name, popUpVM.centralWindowTextfieldStyle);
+					newDeckPopUpVM.name = GUILayout.TextField(newDeckPopUpVM.name,12, popUpVM.centralWindowTextfieldStyle);
 					GUILayout.Space(0.1f * popUpVM.centralWindow.width);
 				}
 				GUILayout.EndHorizontal();

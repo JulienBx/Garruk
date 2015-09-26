@@ -35,6 +35,10 @@ public class GameController : Photon.MonoBehaviour
 	
 	void Awake()
 	{
+		if(ApplicationModel.launchGameTutorial)
+		{
+			PhotonNetwork.room.open = false;
+		}
 		instance = this;
 
 		PhotonNetwork.autoCleanUpPlayerObjects = false;
