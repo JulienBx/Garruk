@@ -63,12 +63,13 @@ public class Cannibale : GameSkill
 				
 				text="Sacrifié";
 				receiversTexts.Add (text);
-				GameController.instance.addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Life, -1, -1, "", "", "");
-				GameController.instance.addCardModifier(target, amount2, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, -1, -1, "", "", "");
+				GameController.instance.addCardModifier(target, currentLife, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
 				
 				GameView.instance.displaySkillEffect(target, text, 5);
 				
 				targetCard = GameView.instance.getCard(GameController.instance.getCurrentPlayingCard());
+				GameController.instance.addCardModifier(GameController.instance.getCurrentPlayingCard(), amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Life, -1, -1, "", "", "");
+				GameController.instance.addCardModifier(GameController.instance.getCurrentPlayingCard(), amount2, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, -1, -1, "", "", "");
 				receivers.Add (targetCard);
 				text="+"+amount+" PV\n+"+amount2+" ATK";
 				receiversTexts.Add (text);

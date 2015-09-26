@@ -87,7 +87,7 @@ public class Attaque360 : GameSkill
 				receiversTexts.Add (text);
 			}
 			else{
-				amount = Mathf.Min(targetCard.GetLife(),base.card.GetAttack()*(1-(targetCard.GetBouclier()/100)));
+				amount = Mathf.Min(targetCard.GetLife(),(base.card.GetAttack()*base.skill.ManaCost/100)*(1-(targetCard.GetBouclier()/100)));
 				if (base.card.isLache()){
 					if(GameController.instance.getIsFirstPlayer()==GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
 						if(GameView.instance.getPlayingCardTile(target).y==GameView.instance.getPlayingCardTile(GameController.instance.getCurrentPlayingCard()).y-1){

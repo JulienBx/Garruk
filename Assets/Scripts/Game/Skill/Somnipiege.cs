@@ -37,7 +37,7 @@ public class Somnipiege : GameSkill
 			
 			text="Piège posé";
 			
-			GameController.instance.addTileModifier(new Tile(targets[0], targets[1]), amount, ModifierType.Type_SleepingTrap, ModifierStat.Stat_No, -1, 2, "Piège endormissant", "Endort l'adversaire. "+amount+"% de chances de se réveiller chaque tour", "Permanent. Non visible du joueur adverse");
+			GameController.instance.addTileModifier(target, amount, ModifierType.Type_SleepingTrap, ModifierStat.Stat_No, -1, 2, "Piège endormissant", "Endort l'adversaire. "+amount+"% de chances de se réveiller chaque tour", "Permanent. Non visible du joueur adverse");
 			GameView.instance.displaySkillEffect(GameController.instance.getCurrentPlayingCard(), text, 4);
 		}
 		if(!GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){

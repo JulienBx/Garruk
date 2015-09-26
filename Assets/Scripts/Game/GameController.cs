@@ -299,9 +299,9 @@ public class GameController : Photon.MonoBehaviour
 		yield return new WaitForSeconds(1);
 		
 		if(enemy!=-1){
-			GameSkills.instance.getSkill(0).init(GameView.instance.getCard(this.currentPlayingCard), GameView.instance.getCard(this.currentPlayingCard).GetAttackSkill());
-			GameSkills.instance.getSkill(0).addTarget(enemy,1);
-			GameSkills.instance.getSkill(0).applyOn();
+			this.startPlayingSkill(-1);
+			GameController.instance.addTarget(enemy,1);
+			GameController.instance.play();
 		}
 	}
 	
@@ -1276,6 +1276,7 @@ public class GameController : Photon.MonoBehaviour
 	[RPC]
 	public void applyOnRPC5()
 	{
+		print ("current skill "+GameSkills.instance.getCurrentSkillId());
 		GameSkills.instance.getCurrentGameSkill().applyOn();
 	}
 	

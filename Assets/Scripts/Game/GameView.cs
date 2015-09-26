@@ -338,7 +338,6 @@ public class GameView : MonoBehaviour
 					this.displayedSE.RemoveAt(i);
 					this.displayedSETimer.RemoveAt(i);
 					if(!this.hasMoved(GameController.instance.getCurrentPlayingCard())){
-						print (GameController.instance.getCurrentPlayingCard()+" n'a pas joué");
 						this.removeDestinations();
 						
 						if(this.getIsMine(GameController.instance.getCurrentPlayingCard())){
@@ -2206,11 +2205,9 @@ public class GameView : MonoBehaviour
 		}
 		
 		if(hasFoundEnnemy==false){
-			print ("Pas trouvé"+baseTiles[0].x+","+baseTiles[0].y);
 			GameController.instance.moveToDestination(baseTiles[0]);
 		}
 		else{
-			print ("Trouvé "+idPlaceToMoveTo.x+","+idPlaceToMoveTo.y);
 			GameController.instance.moveToDestination(idPlaceToMoveTo);
 		}
 		

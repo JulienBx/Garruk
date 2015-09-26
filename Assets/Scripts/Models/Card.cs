@@ -243,16 +243,6 @@ public class Card
 				}
 			}
 		}
-		else if(stat == ModifierStat.Stat_Attack){
-			if(type==ModifierType.Type_BonusMalus && duration == -1 && (idIcon==9)){
-				for (int j = this.modifiers.Count-1 ; j >= 0 ; j--){
-					if (modifiers[j].idIcon==9 && type==ModifierType.Type_BonusMalus && duration == -1){
-						modifiers.RemoveAt(j) ; 
-					}
-				}
-			}
-			this.modifiers.Add(new StatModifier(amount, type, stat, duration, idIcon, t, d, a));
-		}
 		else if(stat == ModifierStat.Stat_Speed || stat == ModifierStat.Stat_Move){
 			if(type==ModifierType.Type_BonusMalus && duration == -1 && idIcon!=4){
 				for (int j = this.modifiers.Count-1 ; j >= 0 ; j--){

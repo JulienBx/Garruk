@@ -37,7 +37,7 @@ public class PiegeAffaiblissant : GameSkill
 			
 			text="Piège posé";
 			
-			GameController.instance.addTileModifier(new Tile(targets[0], targets[1]), amount, ModifierType.Type_WeakeningTrap, ModifierStat.Stat_No, -1, 3, "Piège affaiblissant", "Réduit de "+amount+"% l'attaque du héros touché pendant 2 tours", "Permanent. Non visible du joueur adverse");
+			GameController.instance.addTileModifier(target, amount, ModifierType.Type_WeakeningTrap, ModifierStat.Stat_No, -1, 3, "Piège affaiblissant", "Réduit de "+amount+"% l'attaque du héros touché pendant 2 tours", "Permanent. Non visible du joueur adverse");
 			GameView.instance.displaySkillEffect(GameController.instance.getCurrentPlayingCard(), text, 4);
 		}
 		if(!GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){

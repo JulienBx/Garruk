@@ -104,7 +104,7 @@ public class ToutDonner : GameSkill
 		GameView.instance.displaySkillEffect(GameController.instance.getCurrentPlayingCard(), text, 5);
 		
 		if(!GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
-			GameView.instance.setSkillPopUp("lance <b>Tout donner</b>...", base.card, receivers, receiversTexts);
+			GameView.instance.setSkillPopUp("lance <b>Coup risqué</b>...", base.card, receivers, receiversTexts);
 		}
 	}
 	

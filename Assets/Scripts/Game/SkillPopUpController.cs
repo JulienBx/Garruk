@@ -31,7 +31,6 @@ public class SkillPopUpController : MonoBehaviour
 	
 	public void addTime(float delta){
 		this.actualTime += delta;
-		print (this.actualTime);
 		if(this.actualTime>this.timeToDisplay && (!GameView.instance.getIsTutorialLaunched() || TutorialObjectController.instance.getSequenceID()!=22)){
 			this.hide();
 			this.resetTime();
@@ -60,10 +59,13 @@ public class SkillPopUpController : MonoBehaviour
 		
 		gameObject.transform.FindChild("Launcher").GetComponent<PlayingCardController>().setCard(launcher);
 		gameObject.transform.FindChild("Launcher").GetComponent<PlayingCardController>().display(true);
-		gameObject.transform.FindChild("Launcher").GetComponent<PlayingCardController>().show(true);
+		gameObject.transform.FindChild("Launcher").GetComponent<PlayingCardController>().show(false);
 		gameObject.transform.FindChild("LauncherText").GetComponent<TextMeshPro>().text=texte;
 		gameObject.transform.FindChild("LauncherText").GetComponent<MeshRenderer>().enabled=true;
 		
+		if(receivers.Count==0){
+			
+		}
 		if(receivers.Count==1){
 			gameObject.transform.FindChild(("Receiver2")).GetComponent<PlayingCardController>().setCard(receivers[0]);
 			gameObject.transform.FindChild(("Receiver2")).GetComponent<PlayingCardController>().display(true);
@@ -75,7 +77,6 @@ public class SkillPopUpController : MonoBehaviour
 			gameObject.transform.FindChild(("Receiver1")).GetComponent<PlayingCardController>().setCard(receivers[0]);
 			gameObject.transform.FindChild(("Receiver1")).GetComponent<PlayingCardController>().display(true);
 			gameObject.transform.FindChild(("Receiver1")).GetComponent<PlayingCardController>().show(false);
-			
 			gameObject.transform.FindChild("Receiver1Text").GetComponent<TextMeshPro>().text=textsReceivers[0];
 			gameObject.transform.FindChild("Receiver1Text").GetComponent<MeshRenderer>().enabled=true;
 			gameObject.transform.FindChild(("Receiver3")).GetComponent<PlayingCardController>().setCard(receivers[1]);

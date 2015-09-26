@@ -83,7 +83,7 @@ public class Terreur : GameSkill
 					text="";
 				}
 				if(base.values[i]<base.skill.ManaCost){
-					text+="\nParalyse";
+					text+="Paralyse\n";
 					GameController.instance.addCardModifier(target, 0, ModifierType.Type_Paralized, ModifierStat.Stat_No, 1, 2, "Paralisé", "Ne peur rien faire au prochain tour", "Actif 1 tour");
 				}
 				else{

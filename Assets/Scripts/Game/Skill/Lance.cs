@@ -21,23 +21,29 @@ public class Lance : GameSkill
 		
 		int target = targetsPCC[0];
 		
-		if (Random.Range(1,101) > GameView.instance.getCard(target).GetMagicalEsquive())
+		if (Random.Range(1,101) > GameView.instance.getCard(target).GetEsquive())
 		{                             
 			GameController.instance.addTarget(target,1);
 		}
 		else{
 			GameController.instance.addTarget(target,0);
 		}
-		GameController.instance.play();
 		
 		if (base.card.isGiant()){
+			Debug.Log("Je suis giant ");
+			
 			if (Random.Range(1,101) <= base.card.getPassiveManacost()){
+				Debug.Log("Je lance giant ");
+				
 				List<Tile> opponents = GameView.instance.getOpponentImmediateNeighbours(GameView.instance.getPlayingCardTile(target));
-				if(opponents.Count>1){
+				Debug.Log("Je trouve "+opponents.Count+" opponents");
+				
+				if(opponents.Count>=1){
 					int ran = Random.Range(0,opponents.Count);
 					target = GameView.instance.getTileCharacterID(opponents[ran].x, opponents[ran].y) ;
+					Debug.Log("Je choisis "+target);
 					
-					if (Random.Range(1,101) > GameView.instance.getCard(target).GetMagicalEsquive())
+					if (Random.Range(1,101) > GameView.instance.getCard(target).GetEsquive())
 					{
 						GameController.instance.addTarget(target,3);
 					}
@@ -47,6 +53,7 @@ public class Lance : GameSkill
 				}
 			}
 		}
+		GameController.instance.play();
 	}
 	
 	public override void applyOn(){
@@ -58,7 +65,10 @@ public class Lance : GameSkill
 		
 		int amount ; 
 		
+		
 		for(int i = 0 ; i < base.targets.Count ; i++){
+			Debug.Log("Lance "+base.results[i]);
+						
 			target = base.targets[i];
 			targetCard = GameView.instance.getCard(target);
 			receivers.Add (targetCard);

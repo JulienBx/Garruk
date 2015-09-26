@@ -25,7 +25,7 @@ public class SkillButtonController : MonoBehaviour
 				gameObject.GetComponent<SpriteRenderer>().color=new Color(255/255f,120f/255f,120f/255f, 1f);
 				this.isLaunchable = false ;
 			}
-			if(GameView.instance.getCard(GameController.instance.getCurrentPlayingCard()).isParalyzed() && this.id!=-2){
+			else if(GameView.instance.getCard(GameController.instance.getCurrentPlayingCard()).isParalyzed() && this.id!=-2){
 				this.launchabilityText = "Le personnage est paralysé";
 				gameObject.GetComponent<SpriteRenderer>().color=new Color(255/255f,120f/255f,120f/255f, 1f);
 				this.isLaunchable = false ;

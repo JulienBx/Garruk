@@ -63,6 +63,7 @@ public class Attack : GameSkill
 			target = base.targets[i];
 			targetCard = GameView.instance.getCard(target);
 			receivers.Add (targetCard);
+			Debug.Log ("J'ajoute aux receivers "+target);
 			if (base.results[i]==0){
 				text = "Esquive";
 				GameView.instance.displaySkillEffect(target, text, 4);
@@ -100,6 +101,8 @@ public class Attack : GameSkill
 					text+="\nMORT";
 				}
 				receiversTexts.Add (text);
+				Debug.Log ("J'ajoute aux receiversTexts "+text);
+				
 				
 				GameController.instance.addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
 				

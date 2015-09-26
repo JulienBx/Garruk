@@ -25,10 +25,10 @@ public class Steroide : GameSkill
 		if (Random.Range(1,101) > GameView.instance.getCard(target).GetMagicalEsquive())
 		{                             
 			int arg = Random.Range(1,base.skill.ManaCost+1);
-			GameController.instance.applyOn(target,1,arg);
+			GameController.instance.addTarget(target,1,arg);
 		}
 		else{
-			GameController.instance.applyOn(target,0,0);
+			GameController.instance.addTarget(target,0,0);
 		}
 		
 		if (base.card.isGenerous()){
@@ -41,10 +41,10 @@ public class Steroide : GameSkill
 					if (Random.Range(1,101) > GameView.instance.getCard(target).GetMagicalEsquive())
 					{
 						int arg = Random.Range(1,base.skill.ManaCost+1);
-						GameController.instance.applyOn(target,3,arg);
+						GameController.instance.addTarget(target,3,arg);
 					}
 					else{
-						GameController.instance.applyOn(target,2,0);
+						GameController.instance.addTarget(target,2,0);
 					}
 				}
 			}

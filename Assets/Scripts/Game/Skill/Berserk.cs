@@ -28,7 +28,6 @@ public class Berserk : GameSkill
 		else{
 			GameController.instance.addTarget(target,0);
 		}
-		GameController.instance.play();
 		
 		if (base.card.isGiant()){
 			if (Random.Range(1,101) <= base.card.getPassiveManacost()){
@@ -47,6 +46,8 @@ public class Berserk : GameSkill
 				}
 			}
 		}
+		GameController.instance.play();
+		
 	}
 	
 	public override void applyOn(){
