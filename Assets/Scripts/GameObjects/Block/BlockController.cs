@@ -72,8 +72,8 @@ public class BlockController : MonoBehaviour
 		Vector3 leftLinePosition = new Vector3 (- newBigAreaSize.x / 2f - newVerticalAreaSize.x - newVerticalLineSize.y / 2f, 0f, 0f);
 		Vector3 rightLinePosition = new Vector3 (newBigAreaSize.x / 2f + newVerticalAreaSize.x + newVerticalLineSize.y / 2f,0f, 0f);
 
-		Vector3 correctedNewHorizontalAreaScale = new Vector3 (newHorizontalAreaScale.x*1.01f, newHorizontalAreaScale.y * 1.6f, newHorizontalAreaScale.z);
-		Vector3 correctedNewVerticalAreaScale = new Vector3 (newVerticalAreaScale.x*1.6f, newVerticalAreaScale.y*1.01f, newVerticalAreaScale.z);
+		Vector3 correctedNewHorizontalAreaScale = new Vector3 (newHorizontalAreaScale.x*1.01f, newHorizontalAreaScale.y * 2f, newHorizontalAreaScale.z);
+		Vector3 correctedNewVerticalAreaScale = new Vector3 (newVerticalAreaScale.x*2f, newVerticalAreaScale.y*1.01f, newVerticalAreaScale.z);
 		Vector3 correctedNewCornerScale = new Vector3 (newCornerScale.x * 1.01f, newCornerScale.y * 1.01f, newCornerScale.z * 1.01f);
 		Vector3 correctedNewHorizontalLineScale = new Vector3 (newHorizontalLineScale.x * 1.01f, newHorizontalLineScale.y * 1.01f, newHorizontalLineScale.z);
 		Vector3 correctedNewVerticalLineScale = new Vector3 (newVerticalLineScale.x * 1.01f, newVerticalLineScale.y * 1.01f, newVerticalLineScale.z);
