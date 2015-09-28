@@ -694,7 +694,7 @@ public class NewStoreController : MonoBehaviour
 	{
 		StartCoroutine(this.menu.GetComponent<newMenuController> ().getUserData ());
 	}
-	public void rightClickedHandler(int id)
+	public void leftClickedHandler(int id)
 	{
 		this.clickedCardId = id;
 		this.focusedCard.SetActive (true);
@@ -755,7 +755,11 @@ public class NewStoreController : MonoBehaviour
 	}
 	public void returnPressed()
 	{
-		if(isCardFocusedDisplayed)
+		if(newMenuController.instance.isAPopUpDisplayed())
+		{
+			newMenuController.instance.returnPressed();
+		}
+		else if(isCardFocusedDisplayed)
 		{
 			this.focusedCard.GetComponent<NewFocusedCardStoreController>().returnPressed();
 		}
@@ -772,7 +776,7 @@ public class NewStoreController : MonoBehaviour
 	{
 		if(newMenuController.instance.isAPopUpDisplayed())
 		{
-			newMenuController.instance.hideAllPopUp();
+			newMenuController.instance.escapePressed();
 		}
 		else if(isCardFocusedDisplayed)
 		{

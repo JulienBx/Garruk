@@ -1019,7 +1019,7 @@ public class NewMarketController : MonoBehaviour
 		errorView.popUpVM.centralWindow = this.centralWindow;
 		errorView.popUpVM.resize ();
 	}
-	public void rightClickedHandler(int id)
+	public void leftClickedHandler(int id)
 	{
 		this.idCardClicked = id;
 		bool onSale=System.Convert.ToBoolean(model.cards[this.cardsDisplayed[id]].onSale);
@@ -1039,7 +1039,11 @@ public class NewMarketController : MonoBehaviour
 	}
 	public void returnPressed()
 	{
-		if(isCardFocusedDisplayed)
+		if(newMenuController.instance.isAPopUpDisplayed())
+		{
+			newMenuController.instance.returnPressed();
+		}
+		else if(isCardFocusedDisplayed)
 		{
 			this.focusedCard.GetComponent<NewFocusedCardController>().returnPressed();
 		}
@@ -1056,7 +1060,7 @@ public class NewMarketController : MonoBehaviour
 	{
 		if(newMenuController.instance.isAPopUpDisplayed())
 		{
-			newMenuController.instance.hideAllPopUp();
+			newMenuController.instance.escapePressed();
 		}
 		else if(isCardFocusedDisplayed)
 		{

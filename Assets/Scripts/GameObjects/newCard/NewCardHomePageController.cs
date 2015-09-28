@@ -17,10 +17,10 @@ public class NewCardHomePageController : NewCardController
 	{
 		base.OnMouseOver ();
 		NewHomePageController.instance.isHoveringCard ();
-		if (Input.GetMouseButton(1)) 
-		{
-			NewHomePageController.instance.rightClickedHandler(this.id);
-		}
+//		if (Input.GetMouseButton(1)) 
+//		{
+//			NewHomePageController.instance.rightClickedHandler(this.id);
+//		}
 	}
 	public override void OnMouseExit()
 	{

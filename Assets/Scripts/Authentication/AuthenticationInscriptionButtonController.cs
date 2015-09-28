@@ -21,7 +21,7 @@ public class AuthenticationInscriptionButtonController : MonoBehaviour
 	}
 	public void OnMouseDown()
 	{
-		StartCoroutine(AuthenticationController.instance.createNewAccount ());
+		StartCoroutine(AuthenticationController.instance.login());
 	}
 }
 

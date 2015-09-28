@@ -139,7 +139,7 @@ public class newMyGameController : MonoBehaviour
 		if(isLeftClicked)
 		{
 			this.clickInterval=this.clickInterval+Time.deltaTime*10f;
-			if(this.clickInterval>2f && !isTutorialLaunched)
+			if(this.clickInterval>2f)
 			{
 				this.isLeftClicked=false;
 				this.startDragging();
@@ -1421,105 +1421,74 @@ public class newMyGameController : MonoBehaviour
 	{
 		this.idCardClicked = id;
 		this.isDeckCardClicked = isDeckCard;
-		bool onSale;
-		int idOwner;
-		if(isDeckCard)
-		{
-			onSale=System.Convert.ToBoolean(model.cards[this.deckCardsDisplayed[id]].onSale);
-			idOwner=model.cards[this.deckCardsDisplayed[id]].onSale;
-		}
-		else
-		{
-			onSale=System.Convert.ToBoolean(model.cards[this.cardsDisplayed[id]].onSale);
-			idOwner = model.cards[this.cardsDisplayed[id]].IdOWner;
-		}
-		if(isTutorialLaunched)
-		{
-			if(TutorialObjectController.instance.getSequenceID()==13)
-			{
-				this.isLeftClicked = true;
-				this.clickInterval = 0f;
-			}
-		}
-		else if(this.deckDisplayed==-1)
-		{
-			this.displayErrorPopUp("Vous devez créer un deck avant de sélectionner une carte");
-		}
-		else if(onSale)
-		{
-			this.displayErrorPopUp("Vous ne pouvez pas ajouter à votre deck une carte qui est en vente");
-		}
-		else if(idOwner==-1)
-		{
-			this.displayErrorPopUp("Cette carte a été vendue, vous ne pouvez plus l'ajouter");
-		}
-		else
-		{
-			this.isLeftClicked = true;
-			this.clickInterval = 0f;
-		}
+		this.isLeftClicked = true;
+		this.clickInterval = 0f;
 	}
-	public void rightClickedHandler(int id, bool isDeckCard)
-	{
-		this.idCardClicked = id;
-		this.isDeckCardClicked = isDeckCard;
-		bool onSale;
-		int idOwner;
-		if(isDeckCard)
-		{
-			onSale=System.Convert.ToBoolean(model.cards[this.deckCardsDisplayed[id]].onSale);
-			idOwner=model.cards[this.deckCardsDisplayed[id]].onSale;
-		}
-		else
-		{
-			onSale=System.Convert.ToBoolean(model.cards[this.cardsDisplayed[id]].onSale);
-			idOwner = model.cards[this.cardsDisplayed[id]].IdOWner;
-		}
-		if(idOwner==-1)
-		{
-			this.displayErrorPopUp("Cette carte a été vendue, vous ne pouvez plus la consulter");
-		}
-		else if(isTutorialLaunched)
-		{
-			if(TutorialObjectController.instance.getSequenceID()==1)
-			{
-				this.showCardFocused();
-				TutorialObjectController.instance.actionIsDone();
-			}
-		}
-		else
-		{
-			this.showCardFocused ();
-		}
-	}
+//	public void rightClickedHandler(int id, bool isDeckCard)
+//	{
+//		this.idCardClicked = id;
+//		this.isDeckCardClicked = isDeckCard;
+//		bool onSale;
+//		int idOwner;
+//		if(isDeckCard)
+//		{
+//			onSale=System.Convert.ToBoolean(model.cards[this.deckCardsDisplayed[id]].onSale);
+//			idOwner=model.cards[this.deckCardsDisplayed[id]].onSale;
+//		}
+//		else
+//		{
+//			onSale=System.Convert.ToBoolean(model.cards[this.cardsDisplayed[id]].onSale);
+//			idOwner = model.cards[this.cardsDisplayed[id]].IdOWner;
+//		}
+//		if(idOwner==-1)
+//		{
+//			this.displayErrorPopUp("Cette carte a été vendue, vous ne pouvez plus la consulter");
+//		}
+//		else if(isTutorialLaunched)
+//		{
+//			if(TutorialObjectController.instance.getSequenceID()==1)
+//			{
+//				this.showCardFocused();
+//				TutorialObjectController.instance.actionIsDone();
+//			}
+//		}
+//		else
+//		{
+//			this.showCardFocused ();
+//		}
+//	}
 	public void leftClickReleaseHandler()
 	{
 		if(isLeftClicked)
 		{
 			this.isLeftClicked=false;
+			bool onSale;
+			int idOwner;
 			if(this.isDeckCardClicked)
 			{
-				this.moveToCards();
+				onSale=System.Convert.ToBoolean(model.cards[this.deckCardsDisplayed[this.idCardClicked]].onSale);
+				idOwner=model.cards[this.deckCardsDisplayed[this.idCardClicked]].onSale;
 			}
 			else
 			{
-				int position=-1;
-				for(int i=0;i<this.deckCardsDisplayed.Length;i++)
+				onSale=System.Convert.ToBoolean(model.cards[this.cardsDisplayed[this.idCardClicked]].onSale);
+				idOwner = model.cards[this.cardsDisplayed[this.idCardClicked]].IdOWner;
+			}
+			if(idOwner==-1)
+			{
+				this.displayErrorPopUp("Cette carte a été vendue, vous ne pouvez plus la consulter");
+			}
+			else if(isTutorialLaunched)
+			{
+				if(TutorialObjectController.instance.getSequenceID()==1)
 				{
-					if(deckCardsDisplayed[i]==-1)
-					{
-						position=i;
-						break;
-					}
+					this.showCardFocused();
+					TutorialObjectController.instance.actionIsDone();
 				}
-				if(position>-1)
-				{
-					this.moveToDeckCards(position);
-					if(isTutorialLaunched)
-					{
-						TutorialObjectController.instance.actionIsDone();
-					}
-				}
+			}
+			else
+			{
+				this.showCardFocused ();
 			}
 		}
 		else if(isDragging)
@@ -1529,18 +1498,50 @@ public class newMyGameController : MonoBehaviour
 	}
 	public void startDragging()
 	{
-		this.isDragging=true;
-		Cursor.SetCursor (this.cursorTextures[1], new Vector2(this.cursorTextures[1].width/2f,this.cursorTextures[1].width/2f), CursorMode.Auto);
-		if(!isDeckCardClicked)
+	
+		bool onSale;
+		int idOwner;
+		if(this.isDeckCardClicked)
 		{
-			this.cards[this.idCardClicked].GetComponent<NewCardController>().changeLayer(10,"Foreground");
+			onSale=System.Convert.ToBoolean(model.cards[this.deckCardsDisplayed[this.idCardClicked]].onSale);
+			idOwner=model.cards[this.deckCardsDisplayed[this.idCardClicked]].onSale;
 		}
 		else
 		{
-			this.deckCards[this.idCardClicked].GetComponent<NewCardController>().changeLayer(10,"Foreground");
-			//this.cardsBoard.GetComponent<BoardController> ().changeColor (new Color (155f / 255f, 220f / 255f, 1f));
+			onSale=System.Convert.ToBoolean(model.cards[this.cardsDisplayed[this.idCardClicked]].onSale);
+			idOwner = model.cards[this.cardsDisplayed[this.idCardClicked]].IdOWner;
 		}
-		this.deckBoard.GetComponent<DeckBoardController> ().changeCardsColor (new Color (155f / 255f, 220f / 255f, 1f));
+
+		if(this.deckDisplayed==-1)
+		{
+			this.displayErrorPopUp("Vous devez créer un deck avant de sélectionner une carte");
+			this.isLeftClicked=false;
+		}
+		else if(onSale)
+		{
+			this.displayErrorPopUp("Vous ne pouvez pas ajouter à votre deck une carte qui est en vente");
+			this.isLeftClicked=false;
+		}
+		else if(idOwner==-1)
+		{
+			this.displayErrorPopUp("Cette carte a été vendue, vous ne pouvez plus l'ajouter");
+			this.isLeftClicked=false;
+		}
+		else if(!this.isTutorialLaunched || TutorialObjectController.instance.getSequenceID()==13)
+		{
+			this.isDragging=true;
+			Cursor.SetCursor (this.cursorTextures[1], new Vector2(this.cursorTextures[1].width/2f,this.cursorTextures[1].width/2f), CursorMode.Auto);
+			if(!isDeckCardClicked)
+			{
+				this.cards[this.idCardClicked].GetComponent<NewCardController>().changeLayer(10,"Foreground");
+			}
+			else
+			{
+				this.deckCards[this.idCardClicked].GetComponent<NewCardController>().changeLayer(10,"Foreground");
+				//this.cardsBoard.GetComponent<BoardController> ().changeColor (new Color (155f / 255f, 220f / 255f, 1f));
+			}
+			this.deckBoard.GetComponent<DeckBoardController> ().changeCardsColor (new Color (155f / 255f, 220f / 255f, 1f));
+		}
 	}
 	public void isDraggingCard()
 	{
@@ -1663,6 +1664,10 @@ public class newMyGameController : MonoBehaviour
 				}
 			}
 		}
+		if(this.isTutorialLaunched)
+		{
+			TutorialObjectController.instance.actionIsDone();
+		}
 	}
 	public void isHoveringCard()
 	{
@@ -1701,7 +1706,11 @@ public class newMyGameController : MonoBehaviour
 	}
 	public void returnPressed()
 	{
-		if(isCardFocusedDisplayed)
+		if(newMenuController.instance.isAPopUpDisplayed())
+		{
+			newMenuController.instance.returnPressed();
+		}
+		else if(isCardFocusedDisplayed)
 		{
 			this.focusedCard.GetComponent<NewFocusedCardController>().returnPressed();
 		}
@@ -1726,7 +1735,7 @@ public class newMyGameController : MonoBehaviour
 	{
 		if(newMenuController.instance.isAPopUpDisplayed())
 		{
-			newMenuController.instance.hideAllPopUp();
+			newMenuController.instance.escapePressed();
 		}
 		else if(isCardFocusedDisplayed)
 		{

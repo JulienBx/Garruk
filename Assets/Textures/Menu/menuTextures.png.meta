@@ -154,16 +154,6 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: disconnectHover
-      rect:
-        serializedVersion: 2
-        x: 904
-        y: 814
-        width: 36
-        height: 36
-      alignment: 0
-      pivot: {x: .5, y: .5}
-      border: {x: 0, y: 0, z: 0, w: 0}
     - name: mainLogo
       rect:
         serializedVersion: 2

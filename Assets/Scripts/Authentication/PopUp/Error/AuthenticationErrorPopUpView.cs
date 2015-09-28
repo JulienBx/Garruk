@@ -14,7 +14,7 @@ public class AuthenticationErrorPopUpView : MonoBehaviour
 	
 	void OnGUI()
 	{
-		GUI.depth = popUpVM.guiDepth;
+		GUI.depth = popUpVM.guiDepth-1;
 		GUILayout.BeginArea(popUpVM.centralWindow);
 		{
 			GUILayout.BeginVertical(popUpVM.centralWindowStyle);

@@ -20,10 +20,10 @@ public class NewCardMyGameController : NewCardController
 		{
 			newMyGameController.instance.isHoveringCard ();
 		}
-		if (Input.GetMouseButton(1)) 
-		{
-			newMyGameController.instance.rightClickedHandler(this.id,this.isDeckCard);
-		}
+//		if (Input.GetMouseButton(1)) 
+//		{
+//			newMyGameController.instance.rightClickedHandler(this.id,this.isDeckCard);
+//		}
 	}
 	public override void OnMouseExit()
 	{

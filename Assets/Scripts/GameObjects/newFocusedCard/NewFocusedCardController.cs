@@ -751,6 +751,11 @@ public class NewFocusedCardController : MonoBehaviour
 		{
 			this.hidePanelSold();
 		}
+		if(this.isXpBeingUpdated)
+		{
+			this.experience.GetComponent<NewFocusedCardExperienceController>().setToUpdateXp(false);
+			this.setIsXpBeingUpdated(false);
+		}
 	}
 	public virtual void focusFeaturesHandler (int type)
 	{

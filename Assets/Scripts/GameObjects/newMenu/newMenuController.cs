@@ -16,6 +16,7 @@ public class newMenuController : MonoBehaviour
 	public float startButtonPosition;
 	public float endButtonPosition;
 	public float speed;
+	public GUISkin popUpSkin;
 	
 	public static newMenuController instance;
 	private newMenuModel model;
@@ -28,7 +29,12 @@ public class newMenuController : MonoBehaviour
 	private GameObject playPopUp;
 	private GameObject transparentBackground;
 	private bool isPlayPopUpDisplayed;
-	
+	private Rect centralWindow;
+
+	private bool isDisconnectedViewDisplayed;
+	private NewMenuDisconnectedPopUpView disconnectedView;
+
+
 	void Awake()
 	{
 		instance = this;
@@ -128,9 +134,9 @@ public class newMenuController : MonoBehaviour
 			this.setCurrentPage (0);
 		}
 		Vector3 tempPosition;
-		tempPosition= gameObject.transform.Find("Button"+4).localPosition;
+		tempPosition= gameObject.transform.Find("Button"+5).localPosition;
 		tempPosition.x = this.startButtonPosition;
-		gameObject.transform.Find("Button"+4).localPosition=tempPosition;
+		gameObject.transform.Find("Button"+5).localPosition=tempPosition;
 	}
 	public void moveButton(int value)
 	{
@@ -200,6 +206,7 @@ public class newMenuController : MonoBehaviour
 	{
 		this.gameObject.transform.position =new Vector3(-worldWidth / 2f + 1.5625f, 0, 0);
 		this.gameObject.transform.Find ("Toolbar").position = new Vector3 (worldWidth / 2f - 0.3665f - 0.2f * (worldHeight / worldWidth), worldHeight / 2f - 0.2f - 0.1805f, 0f);
+		this.centralWindow = new Rect (Screen.width * 0.25f, 0.12f * Screen.height,Screen.width * 0.50f, 0.40f * Screen.height);
 	}
 	public void refreshMenuObject()
 	{
@@ -247,6 +254,10 @@ public class newMenuController : MonoBehaviour
 	}
 	public void logOutLink() 
 	{
+		if(isDisconnectedViewDisplayed)
+		{
+			this.hideDisconnectedPopUp();
+		}
 		ApplicationModel.username = "";
 		ApplicationModel.toDeconnect = true;
 		if(Application.loadedLevelName=="NewHomePage")
@@ -335,18 +346,53 @@ public class newMenuController : MonoBehaviour
 		{
 			return true;
 		}
+		if(isDisconnectedViewDisplayed)
+		{
+			return true;
+		}
 		return false;
 	}
-	public void hideAllPopUp()
+	public void returnPressed()
+	{
+		if(isDisconnectedViewDisplayed)
+		{
+			this.logOutLink();
+		}
+	}
+	public void escapePressed()
 	{
 		if(isPlayPopUpDisplayed)
 		{
 			this.hidePlayPopUp();
 		}
+		if(isDisconnectedViewDisplayed)
+		{
+			this.hideDisconnectedPopUp();
+		}
 	}
 	public Vector3 getButtonPosition(int id)
 	{
 		return gameObject.transform.FindChild ("Button" + id).position;
+	}
+	public void displayDisconnectedPopUp()
+	{
+		this.isDisconnectedViewDisplayed = true;
+		this.disconnectedView = Camera.main.gameObject.AddComponent <NewMenuDisconnectedPopUpView>();
+		disconnectedView.popUpVM.centralWindowStyle = new GUIStyle(this.popUpSkin.window);
+		disconnectedView.popUpVM.centralWindowTitleStyle = new GUIStyle (this.popUpSkin.customStyles [0]);
+		disconnectedView.popUpVM.centralWindowButtonStyle = new GUIStyle (this.popUpSkin.button);
+		disconnectedView.popUpVM.transparentStyle = new GUIStyle (this.popUpSkin.customStyles [2]);
+		this.disconnectedPopUpResize ();
+	}
+	public void disconnectedPopUpResize()
+	{
+		disconnectedView.popUpVM.centralWindow = this.centralWindow;
+		disconnectedView.popUpVM.resize ();
+	}
+	public void hideDisconnectedPopUp()
+	{
+		Destroy (this.disconnectedView);
+		this.isDisconnectedViewDisplayed = false;
 	}
 }
 

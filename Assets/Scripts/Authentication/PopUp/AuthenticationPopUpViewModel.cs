@@ -11,7 +11,7 @@ public class AuthenticationPopUpViewModel
 	public GUIStyle centralWindowTextfieldStyle;
 	public GUIStyle centralWindowPasswordFieldStyle;
 	public GUIStyle centralWindowErrorStyle;
-	public GUIStyle centralWindowToggleStyle;
+	public GUIStyle instructionsStyle;
 	
 	
 	public AuthenticationPopUpViewModel ()
@@ -24,16 +24,18 @@ public class AuthenticationPopUpViewModel
 		this.centralWindowButtonStyle = new GUIStyle ();
 		this.centralWindowTextfieldStyle = new GUIStyle ();
 		this.centralWindowErrorStyle = new GUIStyle ();
-		this.centralWindowToggleStyle = new GUIStyle ();
+		this.instructionsStyle = new GUIStyle ();
+		this.centralWindowPasswordFieldStyle = new GUIStyle ();
 	}
 	public void initStyles()
 	{
 		this.centralWindowStyle = this.styles [0];
 		this.centralWindowTitleStyle = this.styles [1];
 		this.centralWindowButtonStyle = this.styles [2];
-		this.centralWindowTextfieldStyle = this.styles [3];
-		this.centralWindowErrorStyle = this.styles [4];
-		this.centralWindowToggleStyle = this.styles [5];
+		this.centralWindowTextfieldStyle = this.styles [4];
+		this.centralWindowErrorStyle = this.styles [5];
+		this.instructionsStyle = this.styles [6];
+		this.centralWindowPasswordFieldStyle = this.styles [3];
 	}
 	public void resize()
 	{
@@ -41,7 +43,8 @@ public class AuthenticationPopUpViewModel
 		this.centralWindowTextfieldStyle.fontSize= Screen.height * 2 / 100;
 		this.centralWindowButtonStyle.fontSize = Screen.height * 2 / 100;
 		this.centralWindowErrorStyle.fontSize = Screen.height * 2 / 100;
-		this.centralWindowToggleStyle.fontSize = Screen.height * 2 / 100;
+		this.instructionsStyle.fontSize = Screen.height * 18 / 1000;
+		this.centralWindowPasswordFieldStyle.fontSize= Screen.height * 2 / 100;
 	}
 }
 

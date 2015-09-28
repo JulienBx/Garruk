@@ -73,6 +73,10 @@ public class NewSkillBookController : MonoBehaviour
 		{
 			this.escapePressed();
 		}
+		if(Input.GetKeyDown(KeyCode.Return))
+		{
+			this.returnPressed();
+		}
 	}
 	void Awake()
 	{
@@ -558,11 +562,18 @@ public class NewSkillBookController : MonoBehaviour
 		this.collectionLevel.transform.FindChild ("Star3").GetComponent<SpriteRenderer> ().color = starsColor;
 		this.collectionLevel.transform.FindChild ("Star4").GetComponent<SpriteRenderer> ().color = starsColor;
 	}
+	public void returnPressed()
+	{
+		if(newMenuController.instance.isAPopUpDisplayed())
+		{
+			newMenuController.instance.returnPressed();
+		}
+	}
 	public void escapePressed()
 	{
 		if(newMenuController.instance.isAPopUpDisplayed())
 		{
-			newMenuController.instance.hideAllPopUp();
+			newMenuController.instance.escapePressed();
 		}
 	}
 	public IEnumerator endTutorial(bool toUpdate)

@@ -18,33 +18,44 @@ public class AuthenticationView : MonoBehaviour
 		GUI.enabled = authenticationVM.guiEnabled;
 		GUILayout.BeginArea (authenticationScreenVM.mainBlock);
 		{
-			GUILayout.Label("ou inscrivez-vous",authenticationVM.titleStyle,GUILayout.Height(authenticationScreenVM.mainBlock.height*7/100));
-			GUILayout.Space(authenticationScreenVM.mainBlock.height*4/100);
-			GUILayout.Label("Pseudo",authenticationVM.labelStyle,GUILayout.Height(authenticationScreenVM.mainBlock.height*5/100));
-			authenticationVM.username=GUILayout.TextField(authenticationVM.username,14,authenticationVM.textFieldStyle,GUILayout.Height(authenticationScreenVM.mainBlock.height*5/100));
-			GUILayout.Label ("le pseudo doit comporter doit comprendre au moins 3 caractères, vous pouvez utiliser des chiffres, des lettres et l'underscore",authenticationVM.instructionsStyle);
-			if(authenticationVM.usernameError!="")
+			GUILayout.FlexibleSpace();
+			GUILayout.Label("ou connectez-vous",authenticationVM.titleStyle,GUILayout.Height(authenticationScreenVM.mainBlock.height*7/100));
+			GUILayout.FlexibleSpace();
+			GUILayout.Label("Login", authenticationVM.labelStyle);
+			GUILayout.FlexibleSpace();
+			GUILayout.BeginHorizontal();
 			{
-				GUILayout.Label(authenticationVM.usernameError,authenticationVM.errorStyle,GUILayout.Height(authenticationScreenVM.mainBlock.height*5/100));
+				GUILayout.FlexibleSpace();
+				authenticationVM.username = GUILayout.TextField(authenticationVM.username, authenticationVM.textFieldStyle, GUILayout.Height(authenticationScreenVM.mainBlock.height*10/100), GUILayout.Width(authenticationScreenVM.mainBlock.width*80/100));
+				GUILayout.FlexibleSpace();
 			}
-			GUILayout.Space(authenticationScreenVM.mainBlock.height*4/100);
-			GUILayout.Label("Adresse email",authenticationVM.labelStyle,GUILayout.Height(authenticationScreenVM.mainBlock.height*5/100));
-			authenticationVM.email=GUILayout.TextField(authenticationVM.email,authenticationVM.textFieldStyle,GUILayout.Height(authenticationScreenVM.mainBlock.height*5/100));
-			if(authenticationVM.emailError!="")
+			GUILayout.EndHorizontal();
+			GUILayout.FlexibleSpace();
+			GUILayout.Label("Mot de passe", authenticationVM.labelStyle);
+			GUILayout.FlexibleSpace();
+			GUILayout.BeginHorizontal();
 			{
-				GUILayout.Label(authenticationVM.emailError,authenticationVM.errorStyle,GUILayout.Height(authenticationScreenVM.mainBlock.height*5/100));
+				GUILayout.FlexibleSpace();
+				GUILayout.Space(3);
+				authenticationVM.password = GUILayout.PasswordField(authenticationVM.password, "*"[0],authenticationVM.textFieldStyle, GUILayout.Height(authenticationScreenVM.mainBlock.height*10/100),GUILayout.Width(authenticationScreenVM.mainBlock.width*80/100));
+				GUILayout.FlexibleSpace();
 			}
-			GUILayout.Space(authenticationScreenVM.mainBlock.height*7/100);
-			GUILayout.Label("Mot de passe", authenticationVM.labelStyle,GUILayout.Height(authenticationScreenVM.mainBlock.height*5/100));
-			authenticationVM.password1 = GUILayout.PasswordField(authenticationVM.password1, "*"[0],authenticationVM.passwordFieldStyle,GUILayout.Height(authenticationScreenVM.mainBlock.height*5/100));
-			GUILayout.Label ("le mot de passe doit comprendre au moins 5 caractères, vous pouvez utiliser des lettres, des chiffres et les caractères sivants @_.",authenticationVM.instructionsStyle);
-			GUILayout.Space(authenticationScreenVM.mainBlock.height*4/100);
-			GUILayout.Label("Confirmez votre mot de passe", authenticationVM.labelStyle,GUILayout.Height(authenticationScreenVM.mainBlock.height*5/100));
-			authenticationVM.password2 = GUILayout.PasswordField(authenticationVM.password2, "*"[0],authenticationVM.passwordFieldStyle,GUILayout.Height(authenticationScreenVM.mainBlock.height*5/100));
-			if(authenticationVM.passwordError!="")
+			GUILayout.EndHorizontal();
+			GUILayout.FlexibleSpace();
+			GUILayout.BeginHorizontal();
 			{
-				GUILayout.Label(authenticationVM.passwordError,authenticationVM.errorStyle,GUILayout.Height(authenticationScreenVM.mainBlock.height*5/100));
+				GUILayout.FlexibleSpace();
+				authenticationVM.toMemorize = GUILayout.Toggle(authenticationVM.toMemorize, "Memoriser vos identifiants", authenticationVM.toggleStyle, GUILayout.Width(authenticationScreenVM.mainBlock.width*60/100));
+				GUILayout.FlexibleSpace();
 			}
+			GUILayout.EndHorizontal();
+			if(authenticationVM.error!="")
+			{
+				GUILayout.FlexibleSpace();
+				GUILayout.Label(authenticationVM.error,authenticationVM.errorStyle);
+			}
+			GUILayout.FlexibleSpace();
+			GUI.enabled = authenticationVM.guiEnabled;
 		}
 		GUILayout.EndArea();
 	}
