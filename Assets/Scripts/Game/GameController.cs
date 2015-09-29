@@ -285,7 +285,7 @@ public class GameController : Photon.MonoBehaviour
 	}
 	
 	public void calculateDestinations(){
-		GameView.instance.setDestinations(this.currentPlayingCard);
+		GameView.instance.setDestinations(this.currentPlayingCard, true);
 		
 		if(GameView.instance.getCard(this.currentPlayingCard).isFurious()){
 			StartCoroutine(launchFury());
@@ -307,7 +307,7 @@ public class GameController : Photon.MonoBehaviour
 	}
 	
 	public void calculateHisDestinations(){
-		GameView.instance.setHisDestinations(this.currentPlayingCard);
+		GameView.instance.setHisDestinations(this.currentPlayingCard, true);
 	}
 
 	public void initPlayer(int id)
@@ -1167,7 +1167,7 @@ public class GameController : Photon.MonoBehaviour
 		else{
 			GameView.instance.playCard(this.currentPlayingCard, true);
 			if (!GameView.instance.isDead(this.currentPlayingCard)){
-				GameView.instance.displayDestinations();
+				GameView.instance.displayDestinations(true);
 			}
 			GameView.instance.checkSkillsLaunchability();
 			this.isRunningSkill = false ;
@@ -1590,7 +1590,7 @@ public class GameController : Photon.MonoBehaviour
 	
 	public void cancelSkill(){
 		if (!GameView.instance.hasMoved(this.currentPlayingCard)){
-			GameView.instance.displayDestinations();
+			GameView.instance.displayDestinations(true);
 		}
 		GameView.instance.checkSkillsLaunchability();
 		GameView.instance.hideTargets();

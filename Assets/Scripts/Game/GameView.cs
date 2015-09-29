@@ -21,6 +21,8 @@ public class GameView : MonoBehaviour
 	public Sprite[] skillSprites;
 	public GameObject loadingScreenObject;
 	
+	bool isDisplayedItsDestinations = false ;
+	
 	int boardWidth = 6;
 	int boardHeight = 8;
 	
@@ -317,10 +319,10 @@ public class GameView : MonoBehaviour
 					if(!this.hasMoved(GameController.instance.getCurrentPlayingCard())){
 						this.removeDestinations();
 						if(this.getIsMine(GameController.instance.getCurrentPlayingCard())){
-							this.setDestinations(GameController.instance.getCurrentPlayingCard());
+							this.setDestinations(GameController.instance.getCurrentPlayingCard(), true);
 						}
 						else{
-							this.setHisDestinations(GameController.instance.getCurrentPlayingCard());
+							this.setHisDestinations(GameController.instance.getCurrentPlayingCard(), true);
 						}
 					}
 				}
@@ -343,10 +345,10 @@ public class GameView : MonoBehaviour
 						this.removeDestinations();
 						
 						if(this.getIsMine(GameController.instance.getCurrentPlayingCard())){
-							this.setDestinations(GameController.instance.getCurrentPlayingCard());
+							this.setDestinations(GameController.instance.getCurrentPlayingCard(), true);
 						}
 						else{
-							this.setHisDestinations(GameController.instance.getCurrentPlayingCard());
+							this.setHisDestinations(GameController.instance.getCurrentPlayingCard(), true);
 						}
 					}
 				}
@@ -578,7 +580,7 @@ public class GameView : MonoBehaviour
 				}
 			}
 		}
-		this.displayDestinations();
+		this.displayDestinations(true);
 	}
 	
 	public void displayPopUp(string s, Vector3 position, string t){
@@ -989,6 +991,32 @@ public class GameView : MonoBehaviour
 		}
 		
 		if(c!=-1){
+			if(GameController.instance.getCurrentPlayingCard()!=-1){		
+				if (GameController.instance.getCurrentPlayingCard()!=c){
+					this.clearDestinations();
+					this.isDisplayedItsDestinations = true ;
+					if (this.getIsMine(c)){
+						print ("Je set my destinations");
+						this.setDestinations(c, false);
+					}
+					else{
+						print ("Je set his destinations");
+						this.setHisDestinations(c, false);
+					}
+				}
+				else{
+					if(this.isDisplayedItsDestinations){
+						this.clearDestinations();
+						if (this.getIsMine(GameController.instance.getCurrentPlayingCard())){
+							this.setDestinations(GameController.instance.getCurrentPlayingCard(), true);
+						}
+						else{
+							this.setHisDestinations(GameController.instance.getCurrentPlayingCard(), true);
+						}
+						this.isDisplayedItsDestinations=false;
+					}
+				}
+			}
 			if (this.getIsMine(c)){
 				if(this.isDisplayedMyHoveredPC){
 					if(c!=currentLeftCard){
@@ -1057,6 +1085,16 @@ public class GameView : MonoBehaviour
 			}
 		}
 		else{
+			if(GameController.instance.getCurrentPlayingCard()!=-1){
+				this.clearDestinations();
+				if (this.getIsMine(GameController.instance.getCurrentPlayingCard())){
+					this.setDestinations(GameController.instance.getCurrentPlayingCard(), true);
+				}
+				else{
+					this.setHisDestinations(GameController.instance.getCurrentPlayingCard(), true);
+				}
+				this.isDisplayedItsDestinations=false;
+			}
 			if(currentPlayingCard!=-1){
 				if(this.getIsMine(currentPlayingCard)){
 					if(this.isDisplayedMyHoveredPC){
@@ -1261,7 +1299,7 @@ public class GameView : MonoBehaviour
 		this.playingCards[i].GetComponent<PlayingCardController>().move(b);
 	}
 	
-	public void setDestinations(int i){
+	public void setDestinations(int i, bool b){
 		bool[,] hasBeenPassages = new bool[this.boardWidth, this.boardHeight];
 		bool[,] isDestination = new bool[this.boardWidth, this.boardHeight];
 		
@@ -1305,10 +1343,10 @@ public class GameView : MonoBehaviour
 			}
 			j++;
 		}
-		this.displayDestinations();
+		this.displayDestinations(b);
 	}
 	
-	public void setHisDestinations(int i){
+	public void setHisDestinations(int i, bool b){
 		bool[,] hasBeenPassages = new bool[this.boardWidth, this.boardHeight];
 		bool[,] isDestination = new bool[this.boardWidth, this.boardHeight];
 		
@@ -1351,7 +1389,7 @@ public class GameView : MonoBehaviour
 			}
 			j++;
 		}
-		this.displayHisDestinations();
+		this.displayHisDestinations(b);
 	}
 	
 	public bool isDead(int i){
@@ -1397,38 +1435,37 @@ public class GameView : MonoBehaviour
 					this.tileHandlers[i, j].GetComponent<TileHandlerController>().changeType(0);
 					this.tileHandlers[i, j].GetComponent<TileHandlerController>().setText("");
 					this.tileHandlers[i, j].SetActive(false);
-					print ("clearDesti");
 				}
 			}
 		}
 	}
 	
-	public void displayDestinations()
+	public void displayDestinations(bool b)
 	{
+		int i = 10;
+		if(b){
+			i = 1;
+		}
+		
 		foreach (Tile t in destinations)
 		{
-//			if (!this.isTutorialLaunched)
-//			{
-//				this.tiles [t.x, t.y].GetComponentInChildren<TileController>().setDestination(true);
-//			} else
-//			{
 			this.tileHandlers[t.x, t.y].SetActive(true);
-			this.tileHandlers[t.x, t.y].GetComponent<TileHandlerController>().changeType(1);
+			this.tileHandlers[t.x, t.y].GetComponent<TileHandlerController>().changeType(i);
 			this.tileHandlers[t.x, t.y].GetComponent<TileHandlerController>().enable();
 		}
 	}
 	
-	public void displayHisDestinations()
+	public void displayHisDestinations(bool b)
 	{
+		int i = 10;
+		if(b){
+			i = 9;
+		}
+		
 		foreach (Tile t in destinations)
 		{
-			//			if (!this.isTutorialLaunched)
-			//			{
-			//				this.tiles [t.x, t.y].GetComponentInChildren<TileController>().setDestination(true);
-			//			} else
-			//			{
 			this.tileHandlers[t.x, t.y].SetActive(true);
-			this.tileHandlers[t.x, t.y].GetComponent<TileHandlerController>().changeType(9);
+			this.tileHandlers[t.x, t.y].GetComponent<TileHandlerController>().changeType(i);
 			this.tileHandlers[t.x, t.y].GetComponent<TileHandlerController>().enable();
 		}
 	}
@@ -1731,7 +1768,7 @@ public class GameView : MonoBehaviour
 			this.tileHandlers[this.targets[i].x, this.targets[i].y].SetActive(false);
 		}
 		if(!hasMoved(GameController.instance.getCurrentPlayingCard())){
-			this.displayDestinations();
+			this.displayDestinations(true);
 		}
 	}
 	

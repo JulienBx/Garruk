@@ -129,6 +129,7 @@ MonoBehaviour:
   - {fileID: 21300016, guid: 7e1b4151ad140b74da11c36c23719857, type: 3}
   - {fileID: 21300018, guid: 7e1b4151ad140b74da11c36c23719857, type: 3}
   - {fileID: 21300014, guid: 7a21bed42c055b84085efde435b9c407, type: 3}
+  - {fileID: 21300028, guid: 7e1b4151ad140b74da11c36c23719857, type: 3}
 --- !u!114 &11486016
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -268,7 +269,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 0}
       propertyPath: sprites.Array.size
-      value: 10
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_text
@@ -335,6 +336,11 @@ Prefab:
       propertyPath: sprites.Array.data[9]
       value: 
       objectReference: {fileID: 21300014, guid: 7a21bed42c055b84085efde435b9c407,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: sprites.Array.data[10]
+      value: 
+      objectReference: {fileID: 21300028, guid: 7e1b4151ad140b74da11c36c23719857,
         type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
