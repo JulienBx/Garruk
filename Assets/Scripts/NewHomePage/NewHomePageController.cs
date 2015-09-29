@@ -877,7 +877,11 @@ public class NewHomePageController : Photon.MonoBehaviour
 	}
 	public void returnPressed()
 	{
-		if(isCardFocusedDisplayed)
+		if(newMenuController.instance.isAPopUpDisplayed())
+		{
+			newMenuController.instance.returnPressed();
+		}
+		else if(isCardFocusedDisplayed)
 		{
 			this.focusedCard.GetComponent<NewFocusedCardController>().returnPressed();
 		}
@@ -890,7 +894,7 @@ public class NewHomePageController : Photon.MonoBehaviour
 	{
 		if(newMenuController.instance.isAPopUpDisplayed())
 		{
-			newMenuController.instance.hideAllPopUp();
+			newMenuController.instance.escapePressed();
 		}
 		else if(isCardFocusedDisplayed)
 		{
@@ -900,11 +904,6 @@ public class NewHomePageController : Photon.MonoBehaviour
 		{
 			this.hideEndGamePopUp();
 		}
-	}
-	public void rightClickedHandler(int id)
-	{
-		this.idCardClicked = id;
-		this.showCardFocused ();
 	}
 	public void leftClickedHandler(int id)
 	{
@@ -920,6 +919,10 @@ public class NewHomePageController : Photon.MonoBehaviour
 		if(isDragging)
 		{
 			this.endDragging();
+		}
+		else
+		{
+			this.showCardFocused ();
 		}
 	}
 	public void isHoveringCard()

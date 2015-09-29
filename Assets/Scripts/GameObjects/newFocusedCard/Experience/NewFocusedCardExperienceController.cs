@@ -56,7 +56,7 @@ public class NewFocusedCardExperienceController : MonoBehaviour
 			}
 			else 
 			{	
-				this.toUpdateXp=false;
+				this.setToUpdateXp(false);
 				gameObject.transform.parent.GetComponent<NewFocusedCardController>().endUpdatingXp ();
 			}
 		}
@@ -78,7 +78,7 @@ public class NewFocusedCardExperienceController : MonoBehaviour
 		this.startPercentage = this.currentPercentage;
 		this.endLevel = endLevel;
 		this.endPercentage = 0.01f*(float)endPercentage;
-		this.toUpdateXp = false;
+		this.setToUpdateXp(false);
 		if(this.endLevel!=this.startLevel)
 		{
 			this.hasLevelChanged=true;
@@ -92,12 +92,16 @@ public class NewFocusedCardExperienceController : MonoBehaviour
 			this.nbIteration=10f-(float)this.startLevel-this.startPercentage;
 		}
 		this.scaleSpeed = 0.5f*nbIteration;
-		this.toUpdateXp=true;
+		this.setToUpdateXp(true);
 	}
 	public virtual void updateGauge(float currentPercentage)
 	{
 		this.gameObject.transform.FindChild ("ExperienceGauge").localPosition = new Vector3 (-0.216f+currentPercentage*0.578f, 0f, 0);
 		this.gameObject.transform.FindChild ("ExperienceGauge").localScale = new Vector3 (currentPercentage*1.26f, 1.25f, 1.25f);
+	}
+	public void setToUpdateXp(bool value)
+	{
+		this.toUpdateXp=value;
 	}
 }
 

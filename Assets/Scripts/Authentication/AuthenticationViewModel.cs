@@ -10,15 +10,16 @@ public class AuthenticationViewModel
 	public GUIStyle passwordFieldStyle;
 	public GUIStyle labelStyle;
 	public GUIStyle errorStyle;
-	public GUIStyle instructionsStyle;
+	public GUIStyle toggleStyle;
+
+
+	public string error;
 	public string username;
-	public string email;
-	public string password1;
-	public string password2;
-	public string usernameError;
-	public string emailError;
-	public string passwordError;
+	public string password;
+	public bool toMemorize;
 	public bool guiEnabled;
+
+
 
 	public AuthenticationViewModel ()
 	{
@@ -29,15 +30,14 @@ public class AuthenticationViewModel
 		this.passwordFieldStyle = new GUIStyle ();
 		this.labelStyle = new GUIStyle ();
 		this.errorStyle = new GUIStyle ();
-		this.instructionsStyle = new GUIStyle ();
-		this.username = "";
-		this.email = "";
-		this.password1 = "";
-		this.password2 = "";
-		this.usernameError = "";
-		this.emailError = "";
-		this.passwordError = "";
-		this.guiEnabled = false;
+		this.toggleStyle = new GUIStyle ();
+
+		this.toMemorize = false;
+		this.username = ApplicationModel.username;
+		this.password = "";
+		this.guiEnabled = true;
+		this.error = "";
+
 	}
 	public void initStyles()
 	{
@@ -47,7 +47,7 @@ public class AuthenticationViewModel
 		this.passwordFieldStyle = this.styles [3];
 		this.labelStyle = this.styles [4];
 		this.errorStyle = this.styles [5];
-		this.instructionsStyle = this.styles [6];
+		this.toggleStyle = this.styles [6];
 	}
 	public void resize(int heightScreen)
 	{
@@ -57,7 +57,11 @@ public class AuthenticationViewModel
 		this.passwordFieldStyle.fontSize = heightScreen * 2 / 100;
 		this.labelStyle.fontSize = heightScreen * 2 / 100;
 		this.errorStyle.fontSize = heightScreen * 2 / 100;
-		this.instructionsStyle.fontSize = heightScreen * 15 / 1000;
+		this.toggleStyle.fontSize = heightScreen * 2 / 100;
 	}
+
+
+
+
 }
 

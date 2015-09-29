@@ -18,10 +18,14 @@ public class NewCardMarketController : NewCardController
 	public override void OnMouseOver()
 	{
 		base.OnMouseOver ();
-		if (Input.GetMouseButton(1)) 
-		{
-			NewMarketController.instance.rightClickedHandler(this.id);
-		}
+//		if (Input.GetMouseButton(1)) 
+//		{
+//			NewMarketController.instance.rightClickedHandler(this.id);
+//		}
+	}
+	void OnMouseDown()
+	{
+		NewMarketController.instance.leftClickedHandler (this.id);
 	}
 	public override void OnMouseExit()
 	{

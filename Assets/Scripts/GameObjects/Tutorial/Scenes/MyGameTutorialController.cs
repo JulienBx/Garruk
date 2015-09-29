@@ -35,7 +35,7 @@ public class MyGameTutorialController : TutorialObjectController
 				this.setLeftArrow();
 				this.displayNextButton(false);
 				this.setPopUpTitle("Zoomer sur une recrue");
-				this.setPopUpDescription("Pour examiner une recrue, cliquez avec le bouton droit de la souris sur sa carte.");
+				this.setPopUpDescription("Pour examiner une recrue, cliquez sur une carte.");
 				this.displayBackground(true);
 			}
 			Vector3 cardPosition = newMyGameController.instance.getCardsPosition(0);

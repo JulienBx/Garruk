@@ -13,7 +13,7 @@ public class MenuDisconnectController : MonoBehaviour
 	}
 	void OnMouseDown()
 	{
-		newMenuController.instance.logOutLink ();
+		newMenuController.instance.displayDisconnectedPopUp ();
 	}
 }
 

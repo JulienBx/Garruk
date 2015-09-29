@@ -1,15 +1,15 @@
 using UnityEngine;
 
-public class NewFocusedCardSellPopUpView : MonoBehaviour
+public class NewMenuDisconnectedPopUpView : MonoBehaviour
 {
 	
 	public NewPopUpViewModel popUpVM;
-	public NewFocusedCardSellPopUpViewModel sellPopUpVM;
+	public NewMenuDisconnectedPopUpViewModel disconnectPopUpVM;
 	
-	public NewFocusedCardSellPopUpView ()
+	public NewMenuDisconnectedPopUpView ()
 	{
 		this.popUpVM = new NewPopUpViewModel ();
-		this.sellPopUpVM = new NewFocusedCardSellPopUpViewModel ();
+		this.disconnectPopUpVM = new NewMenuDisconnectedPopUpViewModel ();
 	}
 	
 	void OnGUI()
@@ -24,21 +24,20 @@ public class NewFocusedCardSellPopUpView : MonoBehaviour
 			GUILayout.BeginVertical(popUpVM.centralWindowStyle);
 			{
 				GUILayout.FlexibleSpace();
-				GUILayout.Label("Confirmer le bannissement de l'unité (rapporte " + sellPopUpVM.price + " cristaux). \n\n Attention cette action est irréversible ! \n Vous perdrez définitivement votre unité.\n", 
-				                popUpVM.centralWindowTitleStyle);
+				GUILayout.Label("Souhaitez-vous quitter le jeu ?",popUpVM.centralWindowTitleStyle);
 				
 				GUILayout.Space(0.02f * popUpVM.centralWindow.height);
 				GUILayout.BeginHorizontal();
 				{
 					GUILayout.Space(0.03f * popUpVM.centralWindow.width);
-					if (GUILayout.Button("Bannir", popUpVM.centralWindowButtonStyle))
+					if (GUILayout.Button("Confirmer", popUpVM.centralWindowButtonStyle))
 					{
-						gameObject.GetComponent<NewFocusedCardController>().sellCardHandler();
+						newMenuController.instance.logOutLink();
 					}
 					GUILayout.Space(0.04f * popUpVM.centralWindow.width);
 					if (GUILayout.Button("Annuler", popUpVM.centralWindowButtonStyle))
 					{
-						gameObject.GetComponent<NewFocusedCardController>().hideSellPopUp();
+						newMenuController.instance.hideDisconnectedPopUp();
 					}
 					GUILayout.Space(0.03f * popUpVM.centralWindow.width);
 				}

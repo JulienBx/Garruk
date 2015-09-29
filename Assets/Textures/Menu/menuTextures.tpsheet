@@ -5,7 +5,7 @@
 # http://www.codeandweb.com/texturepacker/unity
 #
 # Sprite sheet: menuTextures.png (1024 x 1024)
-# $TexturePacker:SmartUpdate:6580429fcd5acadd72d53e9048a20c07:0086c18e4ba094376ca8ab836177752b:dd4db01fe50b9156da70f581c8e9a025$
+# $TexturePacker:SmartUpdate:e339bfaf73f29bde0f09bdb48f740d88:51a2476d1c8c6c5c19c78e697c2f28ba:dd4db01fe50b9156da70f581c8e9a025$
 #
 
 admin;927;923;39;39;0.5;0.5
@@ -17,7 +17,6 @@ cristalblue;969;973;52;49;0.5;0.5102040816326531
 deckList;754;994;213;28;0.5;0.5
 deckListHover;754;964;213;28;0.5;0.5
 disconnect;795;824;36;36;0.5;0.5
-disconnectHover;904;814;36;36;0.5;0.5
 mainLogo;2;185;321;85;0.5031152647975078;0.49411764705882355
 playPopUpBackground;2;272;750;750;0.5;0.5
 thumbBorder;856;893;69;69;0.5;0.5

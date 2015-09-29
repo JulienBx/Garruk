@@ -289,13 +289,16 @@ public class NewLobbyController : MonoBehaviour
 
 	public void returnPressed()
 	{
-
+		if(newMenuController.instance.isAPopUpDisplayed())
+		{
+			newMenuController.instance.returnPressed();
+		}
 	}
 	public void escapePressed()
 	{
 		if(newMenuController.instance.isAPopUpDisplayed())
 		{
-			newMenuController.instance.hideAllPopUp();
+			newMenuController.instance.escapePressed();
 		}
 	}
 	public void drawResults()

@@ -33,6 +33,7 @@ public class AuthenticationController : MonoBehaviour
 	private float worldWidth;
 
 	private Rect centralWindow;
+	private Rect messageWindow;
 
 	void Start ()
 	{
@@ -72,26 +73,26 @@ public class AuthenticationController : MonoBehaviour
 	}
 	public IEnumerator login()
 	{
-		authenticationWindowView.authenticationWindowPopUpVM.error=this.checkUsername(authenticationWindowView.authenticationWindowPopUpVM.username);
-		if(authenticationWindowView.authenticationWindowPopUpVM.error=="")
+		this.view.authenticationVM.error=this.checkUsername(this.view.authenticationVM.username);
+		if(this.view.authenticationVM.error=="")
 		{
-			authenticationWindowView.authenticationWindowPopUpVM.error=this.checkPasswordComplexity(authenticationWindowView.authenticationWindowPopUpVM.password);
+			this.view.authenticationVM.error=this.checkPasswordComplexity(this.view.authenticationVM.password);
 		}
-		if(authenticationWindowView.authenticationWindowPopUpVM.error=="")
+		if(this.view.authenticationVM.error=="")
 		{
-			authenticationWindowView.authenticationWindowPopUpVM.guiEnabled=false;
-			yield return StartCoroutine(ApplicationModel.Login(authenticationWindowView.authenticationWindowPopUpVM.username,
-			                                    authenticationWindowView.authenticationWindowPopUpVM.password,
-			                                    authenticationWindowView.authenticationWindowPopUpVM.toMemorize));
+			this.view.authenticationVM.guiEnabled=false;
+			yield return StartCoroutine(ApplicationModel.Login(this.view.authenticationVM.username,
+			                                                   this.view.authenticationVM.password,
+			                                                   this.view.authenticationVM.toMemorize));
 			if(ApplicationModel.username!=""&& !ApplicationModel.toDeconnect)
 			{
 				this.loadLevels();
 			}
 			else
 			{
-				authenticationWindowView.authenticationWindowPopUpVM.error=ApplicationModel.error;
+				this.view.authenticationVM.error=ApplicationModel.error;
 				ApplicationModel.error="";
-				authenticationWindowView.authenticationWindowPopUpVM.guiEnabled=true;
+				this.view.authenticationVM.guiEnabled=true;
 			}
 		}
 	}
@@ -112,9 +113,8 @@ public class AuthenticationController : MonoBehaviour
 	}
 	public void displayErrorPopUp()
 	{
-		view.authenticationVM.guiEnabled = false;
-		this.transparentBackground=Instantiate(this.transparentBackgroundObject) as GameObject;
-		this.transparentBackground.transform.position = new Vector3 (0, 0, -1f);
+		//this.transparentBackground=Instantiate(this.transparentBackgroundObject) as GameObject;
+		//this.transparentBackground.transform.position = new Vector3 (0, 0, -1f);
 		this.errorView = Camera.main.gameObject.AddComponent <AuthenticationErrorPopUpView>();
 		
 		errorView.popUpVM.styles=new GUIStyle[this.popUpVMStyle.Length];
@@ -143,8 +143,8 @@ public class AuthenticationController : MonoBehaviour
 	public void hideErrorPopUp()
 	{
 		Destroy (this.errorView);
-		view.authenticationVM.guiEnabled = true;
-		Destroy (this.transparentBackground);
+		authenticationWindowView.authenticationWindowPopUpVM.guiEnabled = true;
+		//Destroy (this.transparentBackground);
 	}
 	public void hideAuthenticationWindowPopUp()
 	{
@@ -155,10 +155,6 @@ public class AuthenticationController : MonoBehaviour
 	public void hideAccountCreatedPopUp()
 	{
 		Destroy (this.accountCreatedView);
-		view.authenticationVM.password1="";
-		view.authenticationVM.password2="";
-		view.authenticationVM.email="";
-		view.authenticationVM.username="";
 		view.authenticationVM.guiEnabled = true;
 		Destroy (this.transparentBackground);
 	}
@@ -169,12 +165,12 @@ public class AuthenticationController : MonoBehaviour
 	}
 	public void errorPopUpResize()
 	{
-		errorView.popUpVM.centralWindow = this.centralWindow;
+		errorView.popUpVM.centralWindow = this.messageWindow;
 		errorView.popUpVM.resize ();
 	}
 	public void accountCreatedPopUpResize()
 	{
-		accountCreatedView.popUpVM.centralWindow = this.centralWindow;
+		accountCreatedView.popUpVM.centralWindow = this.messageWindow;
 		accountCreatedView.popUpVM.resize ();
 	}
 	public void initStyles()
@@ -191,8 +187,8 @@ public class AuthenticationController : MonoBehaviour
 		this.mainBlock = Instantiate(this.blockObject) as GameObject;
 		this.inscriptionButton = GameObject.Find ("inscriptionButton");
 		this.connectionButton = GameObject.Find ("connectionButton");
-		this.inscriptionButton.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Inscription";
-		this.connectionButton.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Connectez-vous";
+		this.inscriptionButton.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Connexion";
+		this.connectionButton.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Inscrivez-vous";
 
 	}
 	public void resize()
@@ -201,7 +197,8 @@ public class AuthenticationController : MonoBehaviour
 		this.heightScreen=Screen.height;
 		this.worldHeight = 2f*Camera.main.GetComponent<Camera>().orthographicSize;
 		this.worldWidth = ((float)Screen.width/(float)Screen.height) * worldHeight;
-		this.centralWindow = new Rect (this.widthScreen * 0.25f, 0.12f * this.heightScreen, this.widthScreen * 0.50f, 0.35f * this.heightScreen);
+		this.centralWindow = new Rect (this.widthScreen * 0.25f, 0.12f * this.heightScreen, this.widthScreen * 0.50f, 0.70f * this.heightScreen);
+		this.messageWindow = new Rect (this.widthScreen * 0.25f, 0.2f * this.heightScreen, this.widthScreen * 0.50f, 0.25f * this.heightScreen);
 		view.authenticationVM.resize (this.heightScreen);
 		if(this.authenticationWindowView!=null)
 		{
@@ -220,36 +217,36 @@ public class AuthenticationController : MonoBehaviour
 		float mainBlockLeftMargin = (worldWidth-mainBlockWidth)/2f;
 		float mainBlockRightMargin = mainBlockLeftMargin;
 		float mainBlockUpMargin = 3f;
-		float mainBlockDownMargin = 0.5f;
+		float mainBlockDownMargin = 2f;
 		
 		float mainBlockHeight = worldHeight - mainBlockUpMargin-mainBlockDownMargin;
 		Vector2 mainBlockOrigin = new Vector3 (-worldWidth/2f+mainBlockLeftMargin+mainBlockWidth/2f, -worldHeight / 2f + mainBlockDownMargin + mainBlockHeight / 2,0f);
 		
 		this.mainBlock.GetComponent<BlockController> ().resize(new Rect(mainBlockOrigin.x,mainBlockOrigin.y,mainBlockWidth,mainBlockHeight));
 
-		float mainBlockGUIWidth = ((mainBlockWidth-2f) / (2f * Camera.main.GetComponent<Camera> ().orthographicSize)) * heightScreen;
-		float mainBlockGUIHeight = ((mainBlockHeight)/(2f * Camera.main.GetComponent<Camera> ().orthographicSize))* heightScreen;
-		float mainBlockGUIXOrigin = (((mainBlockOrigin.x - (mainBlockWidth-2f) / 2f) + worldWidth / 2f) / worldWidth) * widthScreen;
-		float mainBlockGUIYOrigin = ((worldHeight / 2f-(mainBlockOrigin.y + mainBlockHeight / 2f)) / worldHeight) * heightScreen;
+		float mainBlockGUIWidth = ((mainBlockWidth-1f) / (2f * Camera.main.GetComponent<Camera> ().orthographicSize)) * heightScreen;
+		float mainBlockGUIHeight = ((mainBlockHeight-1f)/(2f * Camera.main.GetComponent<Camera> ().orthographicSize))* heightScreen;
+		float mainBlockGUIXOrigin = (((mainBlockOrigin.x - (mainBlockWidth-1f) / 2f) + worldWidth / 2f) / worldWidth) * widthScreen;
+		float mainBlockGUIYOrigin = ((worldHeight / 2f-(mainBlockOrigin.y + 0.5f+ (mainBlockHeight-1f) / 2f)) / worldHeight) * heightScreen;
 
 		view.authenticationScreenVM.setMainBlock(new Rect(mainBlockGUIXOrigin,mainBlockGUIYOrigin,mainBlockGUIWidth,mainBlockGUIHeight));
 	}
 	public IEnumerator createNewAccount()
 	{
-		view.authenticationVM.usernameError=this.checkUsername(view.authenticationVM.username);
-		if(view.authenticationVM.usernameError=="")
+		this.authenticationWindowView.authenticationWindowPopUpVM.usernameError=this.checkUsername(this.authenticationWindowView.authenticationWindowPopUpVM.username);
+		if(this.authenticationWindowView.authenticationWindowPopUpVM.usernameError=="")
 		{
-			view.authenticationVM.emailError=this.checkEmail(view.authenticationVM.email);
-			if(view.authenticationVM.emailError=="")
+			this.authenticationWindowView.authenticationWindowPopUpVM.emailError=this.checkEmail(this.authenticationWindowView.authenticationWindowPopUpVM.email);
+			if(this.authenticationWindowView.authenticationWindowPopUpVM.emailError=="")
 			{
-				view.authenticationVM.passwordError=this.checkPasswordEgality(view.authenticationVM.password1,view.authenticationVM.password2);
-				if(view.authenticationVM.passwordError=="")
+				this.authenticationWindowView.authenticationWindowPopUpVM.passwordError=this.checkPasswordEgality(this.authenticationWindowView.authenticationWindowPopUpVM.password1,this.authenticationWindowView.authenticationWindowPopUpVM.password2);
+				if(this.authenticationWindowView.authenticationWindowPopUpVM.passwordError=="")
 				{
-					view.authenticationVM.passwordError=this.checkPasswordComplexity(view.authenticationVM.password1);
-					if(view.authenticationVM.passwordError=="")
+					this.authenticationWindowView.authenticationWindowPopUpVM.passwordError=this.checkPasswordComplexity(this.authenticationWindowView.authenticationWindowPopUpVM.password1);
+					if(this.authenticationWindowView.authenticationWindowPopUpVM.passwordError=="")
 					{
-						view.authenticationVM.guiEnabled = false;
-						yield return StartCoroutine(ApplicationModel.createAccount(view.authenticationVM.username,view.authenticationVM.email,view.authenticationVM.password1));
+						this.authenticationWindowView.authenticationWindowPopUpVM.guiEnabled = false;
+						yield return StartCoroutine(ApplicationModel.createAccount(this.authenticationWindowView.authenticationWindowPopUpVM.username,this.authenticationWindowView.authenticationWindowPopUpVM.email,this.authenticationWindowView.authenticationWindowPopUpVM.password1));
 						if(ApplicationModel.error!="")
 						{
 							this.displayErrorPopUp();
@@ -258,6 +255,8 @@ public class AuthenticationController : MonoBehaviour
 						}
 						else
 						{
+							view.authenticationVM.username=this.authenticationWindowView.authenticationWindowPopUpVM.username;
+							this.hideAuthenticationWindowPopUp();
 							this.displayAccountCreatedPopUp();
 						}
 					}
@@ -319,13 +318,13 @@ public class AuthenticationController : MonoBehaviour
 	}
 	public void returnPressed()
 	{
-		if(this.authenticationWindowView!=null)
-		{
-			this.login();
-		}
 		if(this.errorView!=null)
 		{
 			this.hideErrorPopUp();
+		}
+		else if(this.authenticationWindowView!=null)
+		{
+			StartCoroutine(this.createNewAccount());
 		}
 		if(this.accountCreatedView!=null)
 		{
@@ -334,13 +333,13 @@ public class AuthenticationController : MonoBehaviour
 	}
 	public void escapePressed()
 	{
-		if(this.authenticationWindowView!=null)
-		{
-			this.hideAuthenticationWindowPopUp();
-		}
 		if(this.errorView!=null)
 		{
 			this.hideErrorPopUp();
+		}
+		else if(this.authenticationWindowView!=null)
+		{
+			this.hideAuthenticationWindowPopUp();
 		}
 		if(this.accountCreatedView!=null)
 		{

@@ -1685,6 +1685,7 @@ MonoBehaviour:
   startButtonPosition: -1.5625
   endButtonPosition: -1
   speed: 15
+  popUpSkin: {fileID: 11400000, guid: 6346424849e084205bcebcf25bed265c, type: 2}
 --- !u!114 &11463570
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2565,6 +2566,11 @@ Prefab:
       propertyPath: transparentBackgroundObject
       value: 
       objectReference: {fileID: 156154, guid: aad2bd4f953b34f068977d17f460f61f, type: 2}
+    - target: {fileID: 0}
+      propertyPath: popUpSkin
+      value: 
+      objectReference: {fileID: 11400000, guid: 6346424849e084205bcebcf25bed265c,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 158684}

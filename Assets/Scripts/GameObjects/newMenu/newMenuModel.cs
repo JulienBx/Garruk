@@ -41,6 +41,7 @@ public class newMenuModel {
 		{
 			string[] data=w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
 			this.player = parseUser(data[0].Split(new string[] { "//" }, System.StringSplitOptions.None));
+			//Debug.Log(this.player.nonReadNotifications);
 		}
 	}
 	public IEnumerator refreshUserData(int totalNbResultLimit)
@@ -61,6 +62,7 @@ public class newMenuModel {
 			string[] data=w.text.Split(new string[] { "//" }, System.StringSplitOptions.None);
 			this.player.Money = System.Convert.ToInt32(data[0]);
 			this.player.nonReadNotifications = System.Convert.ToInt32(data[1]);
+			//Debug.Log(this.player.nonReadNotifications);
 		}
 	}
 	private User parseUser(string[] array)

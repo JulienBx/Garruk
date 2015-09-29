@@ -183,6 +183,11 @@ public class NewHomePageModel
 			         System.Convert.ToInt32(notificationData[11]),
 			         System.Convert.ToInt32(notificationData[12]),
 			         System.Convert.ToInt32(notificationData[13]))));
+
+			if(this.player.readnotificationsystem && notifications[i].Notification.IdNotificationType==1)
+			{
+				notifications[i].Notification.IsRead=true;
+			}
 			
 			string tempContent=notificationData[1];
 			for(int j=14;j<notificationData.Length-1;j++)
@@ -280,6 +285,7 @@ public class NewHomePageModel
 		bool isSystemNotification = false;
 		for(int i=0;i<readNotifications.Count;i++)
 		{
+			this.notifications[readNotifications[i]].Notification.IsRead=true;
 			if(this.notifications[readNotifications[i]].Notification.IdNotificationType==1)
 			{
 				isSystemNotification=true;
@@ -287,7 +293,6 @@ public class NewHomePageModel
 			}
 			else
 			{
-				this.notifications[readNotifications[i]].Notification.IsRead=true;
 				query=query+" id="+this.notifications[readNotifications[i]].Notification.Id+" or";
 			}
 		}
