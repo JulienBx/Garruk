@@ -1128,13 +1128,25 @@ public class GameView : MonoBehaviour
 							this.launchNextMoveLeftSide();
 						}
 					}
+					if(!this.isDisplayedHisHoveredPC){
+						if(this.statusHisHoveredPC==1){
+							this.statusHisHoveredPC=-1;
+							this.timerRightSide = this.animationTime - this.timerRightSide ;
+							this.nextDisplayedPCRight = -1 ;
+						}
+					}
+					else{
+						this.statusHisHoveredPC = -1;
+						this.timerRightSide = 0 ;
+						this.nextDisplayedPCRight = -1 ;
+					}
 				}
 				else{
 					if(this.isDisplayedHisHoveredPC){
-						if (this.currentRightCard==currentPlayingCard){
+						if (statusMyHoveredPC==1){
 							if(this.statusHisHoveredPC==-1){
-								this.statusHisHoveredPC=1;
-								this.timerRightSide = this.animationTime - this.timerLeftSide ;
+								this.statusHisHoveredPC = 1;
+								this.timerRightSide = this.animationTime - this.timerRightSide ;
 								this.nextDisplayedPCRight = -1 ;
 							}
 						}
