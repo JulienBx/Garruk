@@ -210,14 +210,14 @@ public class EndSceneController : MonoBehaviour
 	public void quitEndSceneHandler()
 	{
 		GameController.instance.disconnect ();
+		ApplicationModel.launchEndGameSequence=true;
 		if(ApplicationModel.gameType==0)
 		{
-			ApplicationModel.launchEndGameSequence=true;
 			Application.LoadLevel("NewHomePage");
 		}
 		else
 		{
-			Application.LoadLevel("EndGame");
+			Application.LoadLevel("NewLobby");
 		}
 	}
 	public Vector3 getQuitButtonPosition()

@@ -1590,21 +1590,17 @@ public class NewHomePageController : Photon.MonoBehaviour
 	}
 	public void joinGame(int id)
 	{
-		if(id==0 && this.deckDisplayed!=-1)
+		if(this.deckDisplayed!=-1)
 		{
 			ApplicationModel.gameType = id;
 			StartCoroutine (this.setSelectedDeck ());
-			//if(this.isTutorialLaunched)
-			//{
-			//	this.endTutorial();
-			//}
 		}
 	}
 	private IEnumerator setSelectedDeck()
 	{
 		this.displayLoadingScreen ();
 		yield return StartCoroutine(model.player.SetSelectedDeck(model.decks[this.deckDisplayed].Id));
-		this.hideLoadingScreen ();
+		//this.hideLoadingScreen ();
 		attemptToPlay = true;
 		PhotonNetwork.Disconnect();
 	}
@@ -1667,17 +1663,13 @@ public class NewHomePageController : Photon.MonoBehaviour
 	{
 		if (attemptToPlay)
 		{
-			if(ApplicationModel.gameType==1)
+			if(ApplicationModel.gameType==0)
 			{
-				Application.LoadLevel("DivisionLobby");
-			}
-			else if(ApplicationModel.gameType==2)
-			{
-				Application.LoadLevel("CupLobby");
+				Application.LoadLevel("Game");
 			}
 			else
 			{
-				Application.LoadLevel("Game");
+				Application.LoadLevel("NewLobby");
 			}
 		}
 	}

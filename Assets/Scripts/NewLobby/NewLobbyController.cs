@@ -33,6 +33,7 @@ public class NewLobbyController : MonoBehaviour
 	private GameObject[] paginationButtons;
 	private GameObject transparentBackground;
 	private GameObject competition;
+	private GameObject playButton;
 	
 	private int widthScreen;
 	private int heightScreen;
@@ -117,16 +118,18 @@ public class NewLobbyController : MonoBehaviour
 		{
 			if(this.isDivisionLobby)
 			{
-				if(!model.currentDivision.isTextureLoaded)
+				if(model.currentDivision.isTextureLoaded)
 				{
-					this.competition.GetComponent<CompetitionInfosController>().setPicture(model.currentDivision.texture);
+					this.competition.transform.FindChild("Picture").GetComponent<SpriteRenderer>().sprite=model.currentDivision.texture;
+					this.isCompetitionPictureLoading=false;
 				}
 			}
 			else
 			{
-				if(!model.currentCup.isTextureLoaded)
+				if(model.currentCup.isTextureLoaded)
 				{
-					this.competition.GetComponent<CompetitionInfosController>().setPicture(model.currentCup.texture);
+					this.competition.transform.FindChild("Picture").GetComponent<SpriteRenderer>().sprite=model.currentCup.texture;
+					this.isCompetitionPictureLoading=false;
 				}
 			}
 
@@ -152,7 +155,7 @@ public class NewLobbyController : MonoBehaviour
 		this.widthScreen = Screen.width;
 		this.heightScreen = Screen.height;
 		this.pixelPerUnit = 108f;
-		this.elementsPerPage = 5;
+		this.elementsPerPage = 6;
 		this.initializeScene ();
 	}
 	void Start()
@@ -180,7 +183,7 @@ public class NewLobbyController : MonoBehaviour
 	}
 	private void initializeCompetitions()
 	{
-		//this.drawCompetition ();
+		this.drawCompetition ();
 	}
 	private void initializeStats()
 	{
@@ -189,17 +192,29 @@ public class NewLobbyController : MonoBehaviour
 	public void initializeScene()
 	{
 		menu = GameObject.Find ("newMenu");
-		menu.GetComponent<newMenuController> ().setCurrentPage (0);
+		menu.GetComponent<newMenuController> ().setCurrentPage (5);
 		this.mainBlock = Instantiate(this.blockObject) as GameObject;
 		this.mainBlockTitle = GameObject.Find ("MainBlockTitle");
+		this.mainBlockTitle.GetComponent<TextMeshPro> ().text = "Progression";
+		this.playButton = GameObject.Find ("playButton");
+		if(this.isEndGameLobby)
+		{
+			this.playButton.SetActive(false);
+		}
+		else
+		{
+			this.playButton.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Jouer";
+		}
 		this.statsBlock = Instantiate(this.blockObject) as GameObject;
 		this.statsBlockTitle = GameObject.Find ("StatsBlockTitle");
+		this.statsBlockTitle.GetComponent<TextMeshPro> ().text = "Statistiques";
 		this.lastResultsBlock = Instantiate(this.blockObject) as GameObject;
 		this.lastResultsBlockTitle = GameObject.Find ("LastResultsBlockTitle");
+		this.lastResultsBlockTitle.GetComponent<TextMeshPro> ().text = "Résultats";
 		this.competitionBlock = Instantiate(this.blockObject) as GameObject;
 		this.competitionBlockTitle = GameObject.Find ("CompetitionBlockTitle");
 		this.paginationButtons = new GameObject[0];
-		this.results=new GameObject[5];
+		this.results=new GameObject[6];
 		for(int i=0;i<this.results.Length;i++)
 		{
 			this.results[i]=GameObject.Find ("Result"+i);
@@ -213,6 +228,7 @@ public class NewLobbyController : MonoBehaviour
 		this.profilePopUp = GameObject.Find ("ProfilePopUp");
 		this.profilePopUp.SetActive (false);
 		this.stats = GameObject.Find ("Stats");
+		this.competition = GameObject.Find ("Competition");
 		
 	}
 	public void resize()
@@ -227,7 +243,7 @@ public class NewLobbyController : MonoBehaviour
 		float mainBlockLeftMargin =3f;
 		float mainBlockRightMargin = 3f;
 		float mainBlockUpMargin = 0.2f;
-		float mainBlockDownMargin = 4f;
+		float mainBlockDownMargin = 2.7f;
 		
 		float mainBlockHeight = worldHeight - mainBlockUpMargin-mainBlockDownMargin;
 		float mainBlockWidth = worldWidth-mainBlockLeftMargin-mainBlockRightMargin;
@@ -235,11 +251,12 @@ public class NewLobbyController : MonoBehaviour
 		
 		this.mainBlock.GetComponent<BlockController> ().resize(new Rect(mainBlockOrigin.x,mainBlockOrigin.y,mainBlockWidth,mainBlockHeight));
 		this.mainBlockTitle.transform.position = new Vector3 (mainBlockOrigin.x, mainBlockOrigin.y+mainBlockHeight/2f-0.3f, 0);
+		this.playButton.transform.position = new Vector3 (mainBlockOrigin.x, mainBlockOrigin.y - mainBlockHeight / 2f + 0.5f, 0f);
 
 		float competitionBlockLeftMargin =this.worldWidth-2.8f;
 		float competitionBlockRightMargin = 0f;
-		float competitionBlockUpMargin = 4.1f;
-		float competitionBlockDownMargin = 0.2f;
+		float competitionBlockUpMargin = 0.6f;
+		float competitionBlockDownMargin = 5.9f;
 		
 		float competitionBlockHeight = worldHeight - competitionBlockUpMargin-competitionBlockDownMargin;
 		float competitionBlockWidth = worldWidth-competitionBlockLeftMargin-competitionBlockRightMargin;
@@ -247,10 +264,12 @@ public class NewLobbyController : MonoBehaviour
 		
 		this.competitionBlock.GetComponent<BlockController> ().resize(new Rect(competitionBlockOrigin.x,competitionBlockOrigin.y,competitionBlockWidth,competitionBlockHeight));
 		this.competitionBlockTitle.transform.position = new Vector3 (competitionBlockOrigin.x, competitionBlockOrigin.y+competitionBlockHeight/2f-0.3f, 0);
+		this.competition.transform.position = new Vector3 (competitionBlockOrigin.x, competitionBlockOrigin.y, 0f);
+
 
 		float statsBlockLeftMargin =3f;
 		float statsBlockRightMargin = 3f;
-		float statsBlockUpMargin = 6.2f;
+		float statsBlockUpMargin = 7.5f;
 		float statsBlockDownMargin = 0.2f;
 		
 		float statsBlockHeight = worldHeight - statsBlockUpMargin-statsBlockDownMargin;
@@ -267,17 +286,21 @@ public class NewLobbyController : MonoBehaviour
 
 		float lastResultsBlockLeftMargin =this.worldWidth-2.8f;
 		float lastResultsBlockRightMargin = 0f;
-		float lastResultsBlockUpMargin = 0.6f;
-		float lastResultsBlockDownMargin = 6.1f;
+		float lastResultsBlockUpMargin = 4.3f; 
+		float lastResultsBlockDownMargin = 0.2f; 
 		
 		float lastResultsBlockHeight = worldHeight - lastResultsBlockUpMargin-lastResultsBlockDownMargin;
 		float lastResultsBlockWidth = worldWidth-lastResultsBlockLeftMargin-lastResultsBlockRightMargin;
 		Vector2 lastResultsBlockOrigin = new Vector3 (-worldWidth/2f+lastResultsBlockLeftMargin+lastResultsBlockWidth/2f, -worldHeight / 2f + lastResultsBlockDownMargin + lastResultsBlockHeight / 2,0f);
 		
 		this.lastResultsBlock.GetComponent<BlockController> ().resize(new Rect(lastResultsBlockOrigin.x,lastResultsBlockOrigin.y,lastResultsBlockWidth,lastResultsBlockHeight));
-		this.mainBlockTitle.transform.position = new Vector3 (lastResultsBlockOrigin.x, lastResultsBlockOrigin.y+lastResultsBlockHeight/2f-0.3f, 0);
+		this.lastResultsBlockTitle.transform.position = new Vector3 (lastResultsBlockOrigin.x, lastResultsBlockOrigin.y+lastResultsBlockHeight/2f-0.3f, 0);
 
-		
+		for(int i=0;i<this.results.Length;i++)
+		{
+			this.results[i].transform.position=new Vector3(lastResultsBlockOrigin.x-0.1f,lastResultsBlockOrigin.y+lastResultsBlockHeight/2f-0.85f-i*0.77f,0);
+		}
+
 		if(this.isTutorialLaunched)
 		{
 			this.tutorial.GetComponent<TutorialObjectController>().resize();
@@ -346,6 +369,28 @@ public class NewLobbyController : MonoBehaviour
 		this.stats.transform.FindChild ("collectionPoints").FindChild ("Title").GetComponent<TextMeshPro> ().text = "Classement collectionneur";
 		this.stats.transform.FindChild ("collectionPoints").FindChild ("Value").GetComponent<TextMeshPro> ().text = model.player.Ranking.ToString ();
 		this.stats.transform.FindChild ("collectionPoints").FindChild ("Title2").GetComponent<TextMeshPro> ().text = "("+model.player.CollectionPoints.ToString()+" pts)";
+	}
+	public void drawCompetition()
+	{
+		if(this.isDivisionLobby)
+		{
+			this.competitionBlockTitle.GetComponent<TextMeshPro>().text=model.currentDivision.Name;
+			string description="Montée : "+model.currentDivision.TitlePrize.ToString()+" cristaux";
+			if(model.currentDivision.NbWinsForPromotion!=-1)
+			{
+				description=description+"\n Promotion : "+model.currentDivision.PromotionPrize.ToString()+" cristaux";
+			}
+			this.competition.transform.FindChild("Description").GetComponent<TextMeshPro>().text=description;
+			StartCoroutine(model.currentDivision.setPicture());
+		}
+		else
+		{
+			this.competitionBlockTitle.GetComponent<TextMeshPro>().text=model.currentCup.Name;
+			string description="Victoire : "+model.currentCup.CupPrize.ToString()+" cristaux";
+			this.competition.transform.FindChild("Description").GetComponent<TextMeshPro>().text=description;
+			StartCoroutine(model.currentCup.setPicture());
+		}
+		this.isCompetitionPictureLoading = true;
 	}
 	private void drawPagination()
 	{
@@ -446,12 +491,12 @@ public class NewLobbyController : MonoBehaviour
 	{
 		this.idResultHovered=id;
 		this.isHoveringResult = true;
-		if(this.isProfilePopUpDisplayed && this.profilePopUp.GetComponent<PopUpController>().getIsNotification())
+		if(this.isProfilePopUpDisplayed && this.profilePopUp.GetComponent<PopUpController>().getIsResult())
 		{
 			if(this.profilePopUp.GetComponent<PopUpResultLobbyController>().getId()!=this.idResultHovered);
 			{
 				this.hideProfilePopUp();
-				this.showPopUpResult();
+				this.showProfilePopUp();
 			}
 		}
 		else
@@ -460,7 +505,7 @@ public class NewLobbyController : MonoBehaviour
 			{
 				this.hideProfilePopUp();
 			}
-			this.showPopUpResult();
+			this.showProfilePopUp();
 		}
 	}
 	public void endHoveringResult ()
@@ -469,12 +514,12 @@ public class NewLobbyController : MonoBehaviour
 		this.toDestroyPopUp = true;
 		this.popUpDestroyInterval = 0f;
 	}
-	public void showPopUpResult()
+	public void showProfilePopUp()
 	{
 		this.profilePopUp.SetActive (true);
 		this.profilePopUp.transform.position=new Vector3(this.results[this.idResultHovered].transform.position.x-3.1f,this.results[this.idResultHovered].transform.position.y,-1f);
 		this.profilePopUp.AddComponent<PopUpResultLobbyController>();
-		this.profilePopUp.GetComponent<PopUpResultLobbyController> ().setIsNotification (true);
+		this.profilePopUp.GetComponent<PopUpResultLobbyController> ().setIsResult (true);
 		this.profilePopUp.GetComponent<PopUpResultLobbyController> ().setId (this.idResultHovered);
 		this.profilePopUp.GetComponent<PopUpResultLobbyController> ().show (model.lastResults [this.resultsDisplayed [this.idResultHovered]]);
 		this.isPopUpDisplayed=true;
@@ -513,5 +558,9 @@ public class NewLobbyController : MonoBehaviour
 			Destroy (this.loadingScreen);
 			this.isLoadingScreenDisplayed=false;
 		}
+	}
+	public void playHandler()
+	{
+		Application.LoadLevel("Game");
 	}
 }

@@ -118,7 +118,7 @@ public class NewLobbyModel
 			
 			string[] resultData=array[i].Split (new string[] {"//"}, System.StringSplitOptions.None);
 
-			this.lastResults.Add (new PlayerResult(System.Convert.ToBoolean(System.Convert.ToInt32(resultData[0])),
+			results.Add (new PlayerResult(System.Convert.ToBoolean(System.Convert.ToInt32(resultData[0])),
 			                                       System.DateTime.ParseExact(resultData[1], "yyyy-MM-dd HH:mm:ss", null),
 			                                       new User(resultData[2],
 			         resultData[3],
