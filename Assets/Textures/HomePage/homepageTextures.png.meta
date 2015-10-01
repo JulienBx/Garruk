@@ -23,6 +23,7 @@ TextureImporter:
     21300032: statsPopUpBorder
     21300034: cristalblue
     21300036: endGamePopUpBackground
+    21300038: onlinestatus
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -135,6 +136,16 @@ TextureImporter:
         y: 604
         width: 53
         height: 53
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: onlinestatus
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 141
+        width: 170
+        height: 170
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}

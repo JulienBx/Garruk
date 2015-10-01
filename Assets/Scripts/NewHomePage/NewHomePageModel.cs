@@ -8,6 +8,8 @@ public class NewHomePageModel
 	
 	public IList<DisplayedNotification> notifications;
 	public IList<DisplayedNews> news;
+	public IList<User> users;
+	public string[] usernameList;
 	public User player;
 	public int notificationSystemIndex;
 	public Division currentDivision;
@@ -31,6 +33,7 @@ public class NewHomePageModel
 		this.news = new List<DisplayedNews>();
 		this.competitions = new List<Competition> ();
 		this.player = new User();
+		this.users = new List<User> ();
 		this.notificationSystemIndex = -1;
 		
 		WWWForm form = new WWWForm(); 											// Création de la connexion
@@ -46,7 +49,8 @@ public class NewHomePageModel
 		else 
 		{
 			string[] data=w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
-			this.player = parseUser(data[0].Split(new string[] { "//" }, System.StringSplitOptions.None));
+			this.player = parsePlayer(data[0].Split(new string[] { "//" }, System.StringSplitOptions.None));
+			this.users = parseUsers(data[10].Split(new string[] { "#U#"  }, System.StringSplitOptions.None));
 			this.decks = this.parseDecks(data[1].Split(new string[] { "#DECK#" }, System.StringSplitOptions.None));
 			this.notifications=parseNotifications(data[2].Split(new string[] { "#N#" }, System.StringSplitOptions.None));
 			this.news=this.filterNews(parseNews(data[3].Split(new string[] { "#N#" }, System.StringSplitOptions.None)),this.player.Id);
@@ -56,12 +60,20 @@ public class NewHomePageModel
 			this.cardTypeList = data[7].Split(new string[] { "//" }, System.StringSplitOptions.None);
 			this.skillsList = data[8].Split(new string[] { "//" }, System.StringSplitOptions.None);
 			this.currentFriendlyGame = this.parseFriendlyGame(data[9].Split(new string[] { "//" }, System.StringSplitOptions.None));
+
 			this.lookForNonReadSystemNotification();
 			this.competitions.Add (this.currentDivision);
 			this.competitions.Add (this.currentCup);
 			ApplicationModel.currentFriendlyGame=this.currentFriendlyGame;
 			ApplicationModel.currentDivision=this.currentDivision;
 			ApplicationModel.currentCup=this.currentCup;
+
+			usernameList=new string[this.users.Count];
+			for(int i=0;i<this.users.Count;i++)
+			{
+				this.usernameList[i]=this.users[i].Username;
+			}
+
 		}
 	}
 	private IList<Pack> parsePacks (string[] array)
@@ -105,7 +117,7 @@ public class NewHomePageModel
 		division.EarnCredits_L = System.Convert.ToInt32 (array [7]);
 		return division;
 	}
-	private User parseUser(string[] array)
+	private User parsePlayer(string[] array)
 	{
 		User player = new User ();
 		player.readnotificationsystem=System.Convert.ToBoolean(System.Convert.ToInt32(array[0]));
@@ -124,6 +136,26 @@ public class NewHomePageModel
 		player.Cup = System.Convert.ToInt32 (array [13]);
 		player.NbGamesCup = System.Convert.ToInt32 (array [14]);
 		return player;
+	}
+	private IList<User> parseUsers(string[] array)
+	{
+		IList<User> users = new List<User>();
+
+		for (int i=0;i<array.Length-1;i++)
+		{
+			string[] userData =array[i].Split(new string[] { "//" }, System.StringSplitOptions.None);
+
+			users.Add (new User());
+			users[i].Id= System.Convert.ToInt32(userData[0]);
+			users[i].Username= userData[1];
+			users[i].ThumbPicture= userData[2];
+			users[i].CollectionRanking = System.Convert.ToInt32 (userData [3]);
+			users[i].RankingPoints = System.Convert.ToInt32 (userData [4]);
+			users[i].Ranking = System.Convert.ToInt32 (userData [5]);
+			users[i].TotalNbWins = System.Convert.ToInt32 (userData[6]);
+			users[i].TotalNbLooses = System.Convert.ToInt32 (userData [7]);
+		}
+		return users;
 	}
 	private void lookForNonReadSystemNotification ()
 	{
@@ -183,14 +215,9 @@ public class NewHomePageModel
 			                                                             System.Convert.ToBoolean(System.Convert.ToInt32(notificationData[3])),
 			                                                             System.Convert.ToInt32(notificationData[4]),
 			                                                             notificationData[5]),
-			                                            new User(System.Convert.ToInt32(notificationData[6]),
-			         notificationData[7],
-			         notificationData[8],
-			         System.Convert.ToInt32(notificationData[9]),
-			         System.Convert.ToInt32(notificationData[10]),
-			         System.Convert.ToInt32(notificationData[11]),
-			         System.Convert.ToInt32(notificationData[12]),
-			         System.Convert.ToInt32(notificationData[13]))));
+			                                            new User()));
+
+			notifications[i].SendingUser=this.users[returnUsersIndex(System.Convert.ToInt32(notificationData[6]))];
 
 			if(this.player.readnotificationsystem && notifications[i].Notification.IdNotificationType==1)
 			{
@@ -198,21 +225,15 @@ public class NewHomePageModel
 			}
 			
 			string tempContent=notificationData[1];
-			for(int j=14;j<notificationData.Length-1;j++)
+			for(int j=7;j<notificationData.Length-1;j++)
 			{
 				string[] notificationObjectData = notificationData[j].Split (new char[] {':'},System.StringSplitOptions.None);
 				switch (notificationObjectData[0])
 				{
 				case "user":
-					notifications[i].Users.Add (new User(System.Convert.ToInt32(notificationObjectData[1]),
-					                                     notificationObjectData[2],
-					                                     notificationObjectData[3],
-					                                     System.Convert.ToInt32(notificationObjectData[4]),
-					                                     System.Convert.ToInt32(notificationObjectData[5]),
-					                                     System.Convert.ToInt32(notificationObjectData[6]),
-					                                     System.Convert.ToInt32(notificationObjectData[7]),
-					                                     System.Convert.ToInt32(notificationObjectData[8])));
-					tempContent=ReplaceFirst(tempContent,"#*user*#",notificationObjectData[2]);
+					notifications[i].Users.Add (new User());
+					notifications[i].Users[notifications[i].Users.Count-1]=this.users[returnUsersIndex(System.Convert.ToInt32(notificationObjectData[1]))];
+					tempContent=ReplaceFirst(tempContent,"#*user*#",notifications[i].Users[notifications[i].Users.Count-1].Username);
 					break;
 				case "card":
 					notifications[i].Cards.Add (new Card (notificationObjectData[1]));
@@ -243,31 +264,20 @@ public class NewHomePageModel
 			news.Add(new DisplayedNews(new News(System.Convert.ToInt32(newsData[1]),
 			                                    DateTime.ParseExact(newsData[2], "yyyy-MM-dd HH:mm:ss", null),
 			                                    newsData[3]),
-			                           new User(System.Convert.ToInt32(newsData[4]),
-			         newsData[5],
-			         newsData[6],
-			         System.Convert.ToInt32(newsData[7]),
-			         System.Convert.ToInt32(newsData[8]),
-			         System.Convert.ToInt32(newsData[9]),
-			         System.Convert.ToInt32(newsData[10]),
-			         System.Convert.ToInt32(newsData[11])))); 
+			                           new User())); 
+
+			news[i].User=this.users[returnUsersIndex(System.Convert.ToInt32(newsData[4]))];
 			
 			string tempContent=newsData[0];
-			for(int j=12;j<newsData.Length-1;j++)
+			for(int j=5;j<newsData.Length-1;j++)
 			{
 				string[] newsObjectData = newsData[j].Split (new char[] {':'},System.StringSplitOptions.None);
 				switch (newsObjectData[0])
 				{
 				case "user":
-					news[i].Users.Add (new User(System.Convert.ToInt32(newsObjectData[1]),
-					                            newsObjectData[2],
-					                            newsObjectData[3],
-					                            System.Convert.ToInt32(newsObjectData[4]),
-					                            System.Convert.ToInt32(newsObjectData[5]),
-					                            System.Convert.ToInt32(newsObjectData[6]),
-					                            System.Convert.ToInt32(newsObjectData[7]),
-					                            System.Convert.ToInt32(newsObjectData[8])));
-					tempContent=ReplaceFirst(tempContent,"#*user*#",newsObjectData[2]);
+					news[i].Users.Add (new User());
+					news[i].Users[news[i].Users.Count-1]=this.users[returnUsersIndex(System.Convert.ToInt32(newsObjectData[1]))];
+					tempContent=ReplaceFirst(tempContent,"#*user*#",news[i].Users[news[i].Users.Count-1].Username);
 					break;
 				case "card":
 					news[i].Cards.Add (new Card (newsObjectData[1]));
@@ -357,6 +367,19 @@ public class NewHomePageModel
 			decks[i].NbCards=System.Convert.ToInt32(deckInformation[2]);
 		}
 		return decks;
+	}
+	private int returnUsersIndex(int id)
+	{
+		int index=new int();
+		for(int j=0;j<this.users.Count;j++)
+		{
+			if(this.users[j].Id==id)
+			{
+				index=j;
+				break;
+			}
+		}
+		return index;
 	}
 }
 

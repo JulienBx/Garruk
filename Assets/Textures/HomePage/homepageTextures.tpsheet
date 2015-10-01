@@ -5,7 +5,7 @@
 # http://www.codeandweb.com/texturepacker/unity
 #
 # Sprite sheet: homepageTextures.png (1024 x 1024)
-# $TexturePacker:SmartUpdate:3b7edce43ae721daddbdc10e8fd7b43f:ed8a46ea77105350cbfc66ec3576c399:9229eaf6b945ad3b895cd83787cdb955$
+# $TexturePacker:SmartUpdate:ef5f9a2ea6ddf59dda26dfee7cc3abcf:a8657f1aa20dcd471f86612d8e6cb327:9229eaf6b945ad3b895cd83787cdb955$
 #
 
 buttonBorder;2;515;425;105;0.5;0.5
@@ -15,6 +15,7 @@ deckList;429;592;213;28;0.5;0.5
 deckListHover;429;562;213;28;0.5;0.5
 endGamePopUpBackground;2;622;640;400;0.5;0.5
 friendlyGame;896;604;53;53;0.5;0.5
+onlinestatus;2;141;170;170;0.5;0.5
 packBorder;644;722;275;300;0.5;0.5
 pagination;921;826;94;94;0.5;0.5
 paginationHover;921;730;94;94;0.5;0.5
