@@ -66,18 +66,13 @@ public class GameView : MonoBehaviour
 	float animationTime = 0.2f ;
 	
 	float timerRightSide ;
-	float timerLeftSide ;
 	
-	bool isDisplayedMyHoveredPC = false ;
 	bool isDisplayedHisHoveredPC = false ;
 	
-	int statusMyHoveredPC = 0;
 	int statusHisHoveredPC = 0;
 	
-	int nextDisplayedPCLeft = -1;
 	int nextDisplayedPCRight =-1; 
 	
-	Vector3 myHoveredPCPosition ;
 	Vector3 hisHoveredPCPosition ;
 	
 	float timerHisHoveredRPC ;
@@ -88,7 +83,6 @@ public class GameView : MonoBehaviour
 	
 	float timerSkill ;
 	
-	int currentLeftCard = -1;
 	int currentRightCard = -1;
 	
 	Skill currentHoveredSkill = new Skill(-1) ;
@@ -203,31 +197,8 @@ public class GameView : MonoBehaviour
 			}
 		}
 		
-		if (statusMyHoveredPC==1){
-			this.timerLeftSide += Time.deltaTime;
-			this.myHoveredPCPosition.x = (-0.5f*this.realwidth-5f)+(Mathf.Min(1,this.timerLeftSide/this.animationTime))*(0.5f*realwidth-3.25f);
-			this.myHoveredRPC.transform.position = this.myHoveredPCPosition ;
-			if (timerLeftSide>animationTime){
-				statusMyHoveredPC = 0 ;
-				this.isDisplayedMyHoveredPC = true ;
-				if(this.getIsTutorialLaunched())
-				{
-					if(TutorialObjectController.instance.getSequenceID()==1)
-					{
-						StartCoroutine(TutorialObjectController.instance.launchSequence(2));
-					}
-				}
-			}
-		}
-		else if (statusMyHoveredPC<0){
-			this.timerLeftSide += Time.deltaTime;
-			this.myHoveredPCPosition.x = (-8.25f)-(Mathf.Min(1,this.timerLeftSide/this.animationTime))*(0.5f*realwidth-3.25f);
-			this.myHoveredRPC.transform.position = this.myHoveredPCPosition ;
-			if (this.timerLeftSide>animationTime){
-				statusMyHoveredPC = 0 ;
-				this.isDisplayedMyHoveredPC = false ;
-				this.launchNextMoveLeftSide() ;
-			}
+		if (this.getMyHoveredCardController().getStatus()!=0){
+			this.getMyHoveredCardController().addTime(Time.deltaTime);
 		}
 		
 		if (statusHisHoveredPC==1){
@@ -405,15 +376,8 @@ public class GameView : MonoBehaviour
 		this.tileHandlers[t.x,t.y].SetActive(false);
 	}
 	
-	public void launchNextMoveLeftSide(){
-		if (this.nextDisplayedPCLeft!=-1){
-			this.loadMyHoveredPC(nextDisplayedPCLeft);
-			this.statusMyHoveredPC = 1 ;
-				
-			this.timerLeftSide = 0 ;
-			this.currentLeftCard = this.nextDisplayedPCLeft;
-			this.nextDisplayedPCLeft = -1 ;
-		}
+	public MyHoveredCardController getMyHoveredCardController(){
+		return this.myHoveredRPC.GetComponent<MyHoveredCardController>();
 	}
 	
 	public void launchNextMoveRightSide(){
@@ -445,23 +409,8 @@ public class GameView : MonoBehaviour
 //		}
 	}
 	
-	public void loadMyHoveredPC(int c){
-		List<Skill> skills = this.playingCards[c].GetComponent<PlayingCardController>().getCard().getSkills();
-		Card card = this.playingCards[c].GetComponent<PlayingCardController>().getCard();
-		GameObject.Find("MyTitle").GetComponent<TextMeshPro>().text = card.Title;
-		GameObject.Find("MySpecialite").GetComponent<TextMeshPro>().text = skills[0].Name;
-		GameObject.Find("MySpecialiteDescription").GetComponent<TextMeshPro>().text = skills[0].Description;
-	
-		this.myHoveredRPC.GetComponent<SpriteRenderer>().sprite = this.sprites[card.ArtIndex];
-		
-		for (int i = 1 ; i < skills.Count ; i++){
-			GameObject.Find("MySkill"+(i-1)+"Title").GetComponent<TextMeshPro>().text = skills[i].Name;
-			GameObject.Find(("MySkill"+(i-1)+"Description")).GetComponent<TextMeshPro>().text = skills[i].Description;
-		}
-		for (int i = skills.Count ; i < 4 ; i++){
-			GameObject.Find("MySkill"+(i-1)+"Title").GetComponent<TextMeshPro>().text = "";
-			GameObject.Find(("MySkill"+(i-1)+"Description")).GetComponent<TextMeshPro>().text = "";
-		}
+	public Sprite getSprite(int i){
+		return this.sprites[i];
 	}
 	
 	public void loadHisHoveredPC(int c){
@@ -638,7 +587,6 @@ public class GameView : MonoBehaviour
 			this.playingCards [debut + c.deckOrder].GetComponentInChildren<PlayingCardController>().hide();
 		} 
 		this.playingCards [debut + c.deckOrder].GetComponentInChildren<PlayingCardController>().setCard(c);
-		print (isFirstP==isFirstPlayer);
 		this.playingCards [debut + c.deckOrder].GetComponentInChildren<PlayingCardController>().setIsMine(isFirstP==isFirstPlayer);
 		this.playingCards [debut + c.deckOrder].GetComponentInChildren<PlayingCardController>().setIDCharacter(debut + c.deckOrder);
 		this.playingCards [debut + c.deckOrder].name = "Card"+(debut + c.deckOrder);
@@ -901,78 +849,62 @@ public class GameView : MonoBehaviour
 		
 		this.hisHoveredPCPosition = new Vector3(0.50f*this.realwidth+5f,-1f,1);
 		this.hisHoveredRPC.transform.position = this.hisHoveredPCPosition;
+
 		
-		this.myHoveredPCPosition = new Vector3(-0.50f*this.realwidth-5f,-1f,1);
-		this.myHoveredRPC.transform.position = this.myHoveredPCPosition;
+//		
+//		tempGO = GameObject.Find("Title");
+//		position = tempGO.transform.localPosition ;
+//		position.x = (realwidth/2f)-8.25f-(realwidth/2f-4.25f)/2f;
+//		tempGO.transform.localPosition = position;
+//		tempGO.GetComponent<TextContainer>().width = (realwidth/2f-4.25f) ;	
+//		
+//		tempGO = GameObject.Find("HisSpecialite");
+//		position = tempGO.transform.localPosition ;
+//		position.x = (realwidth/2f)-8.25f-0.76f*(realwidth/2f-3.75f);
+//		tempGO.GetComponent<TextContainer>().width = (realwidth/2f-3.75f)*(4f/10f) ;
+//		tempGO.transform.localPosition = position;
+//		
+//		tempGO = GameObject.Find("HisSpecialiteDescription");
+//		position = tempGO.transform.localPosition ;
+//		position.x = (realwidth/2f)-8.25f-0.28f*(realwidth/2f-3.75f);
+//		tempGO.GetComponent<TextContainer>().width = (realwidth/2f-3.75f)*(6f/10f) ;
+//		tempGO.transform.localPosition = position;
+//		
+//		tempGO = GameObject.Find("Skill0Title");
+//		tempGO.GetComponent<TextContainer>().width = (realwidth/2f-3.65f) ;
+//		tempGO = GameObject.Find("Skill0Description");
+//		tempGO.GetComponent<TextContainer>().width = (realwidth/2f-3.75f) ;
+//		tempGO = GameObject.Find("Skill1Title");
+//		tempGO.GetComponent<TextContainer>().width = (realwidth/2f-3.85f) ;
+//		tempGO = GameObject.Find("Skill1Description");
+//		tempGO.GetComponent<TextContainer>().width = (realwidth/2f-3.95f) ;
+//		tempGO = GameObject.Find("Skill2Title");
+//		tempGO.GetComponent<TextContainer>().width = (realwidth/2f-4.05f) ;
+//		tempGO = GameObject.Find("Skill2Description");
+//		tempGO.GetComponent<TextContainer>().width = (realwidth/2f-4.15f) ;
+//		
+//		tempGO = GameObject.Find("MyTitle");
+//		position = tempGO.transform.localPosition ;
+//		position.x = (realwidth/2f)-8.25f-(realwidth/2f-4.25f)/2f;
+//		tempGO.transform.localPosition = position;
+//		tempGO.GetComponent<TextContainer>().width = (realwidth/2f-4.25f) ;
+//		
+//		tempGO = GameObject.Find("MySpecialite");
+//		position = tempGO.transform.localPosition ;
+//		position.x = (realwidth/2f)-8.05f-0.24f*(realwidth/2f-3.75f);
+//		tempGO.GetComponent<TextContainer>().width = (realwidth/2f-3.75f)*(4f/10f) ;
+//		tempGO.transform.localPosition = position;
+//		
+//		tempGO = GameObject.Find("MySpecialiteDescription");
+//		position = tempGO.transform.localPosition ;
+//		position.x = (realwidth/2f)-8.05f-0.72f*(realwidth/2f-3.75f);
+//		tempGO.GetComponent<TextContainer>().width = (realwidth/2f-3.75f)*(6f/10f) ;
+//		tempGO.transform.localPosition = position;
 		
-		tempGO = GameObject.Find("Title");
-		position = tempGO.transform.localPosition ;
-		position.x = (realwidth/2f)-8.25f-(realwidth/2f-4.25f)/2f;
-		tempGO.transform.localPosition = position;
-		tempGO.GetComponent<TextContainer>().width = (realwidth/2f-4.25f) ;	
-		
-		tempGO = GameObject.Find("HisSpecialite");
-		position = tempGO.transform.localPosition ;
-		position.x = (realwidth/2f)-8.25f-0.76f*(realwidth/2f-3.75f);
-		tempGO.GetComponent<TextContainer>().width = (realwidth/2f-3.75f)*(4f/10f) ;
-		tempGO.transform.localPosition = position;
-		
-		tempGO = GameObject.Find("HisSpecialiteDescription");
-		position = tempGO.transform.localPosition ;
-		position.x = (realwidth/2f)-8.25f-0.28f*(realwidth/2f-3.75f);
-		tempGO.GetComponent<TextContainer>().width = (realwidth/2f-3.75f)*(6f/10f) ;
-		tempGO.transform.localPosition = position;
-		
-		tempGO = GameObject.Find("Skill0Title");
-		tempGO.GetComponent<TextContainer>().width = (realwidth/2f-3.65f) ;
-		tempGO = GameObject.Find("Skill0Description");
-		tempGO.GetComponent<TextContainer>().width = (realwidth/2f-3.75f) ;
-		tempGO = GameObject.Find("Skill1Title");
-		tempGO.GetComponent<TextContainer>().width = (realwidth/2f-3.85f) ;
-		tempGO = GameObject.Find("Skill1Description");
-		tempGO.GetComponent<TextContainer>().width = (realwidth/2f-3.95f) ;
-		tempGO = GameObject.Find("Skill2Title");
-		tempGO.GetComponent<TextContainer>().width = (realwidth/2f-4.05f) ;
-		tempGO = GameObject.Find("Skill2Description");
-		tempGO.GetComponent<TextContainer>().width = (realwidth/2f-4.15f) ;
-		
-		tempGO = GameObject.Find("MyTitle");
-		position = tempGO.transform.localPosition ;
-		position.x = (realwidth/2f)-8.25f-(realwidth/2f-4.25f)/2f;
-		tempGO.transform.localPosition = position;
-		tempGO.GetComponent<TextContainer>().width = (realwidth/2f-4.25f) ;
-		
-		tempGO = GameObject.Find("MySpecialite");
-		position = tempGO.transform.localPosition ;
-		position.x = (realwidth/2f)-8.05f-0.24f*(realwidth/2f-3.75f);
-		tempGO.GetComponent<TextContainer>().width = (realwidth/2f-3.75f)*(4f/10f) ;
-		tempGO.transform.localPosition = position;
-		
-		tempGO = GameObject.Find("MySpecialiteDescription");
-		position = tempGO.transform.localPosition ;
-		position.x = (realwidth/2f)-8.05f-0.72f*(realwidth/2f-3.75f);
-		tempGO.GetComponent<TextContainer>().width = (realwidth/2f-3.75f)*(6f/10f) ;
-		tempGO.transform.localPosition = position;
-		
-		
-		tempGO = GameObject.Find("MySkill0Title");
-		tempGO.GetComponent<TextContainer>().width = (realwidth/2f-3.65f) ;
-		tempGO = GameObject.Find("MySkill0Description");
-		tempGO.GetComponent<TextContainer>().width = (realwidth/2f-3.75f) ;
-		tempGO = GameObject.Find("MySkill1Title");
-		tempGO.GetComponent<TextContainer>().width = (realwidth/2f-3.85f) ;
-		tempGO = GameObject.Find("MySkill1Description");
-		tempGO.GetComponent<TextContainer>().width = (realwidth/2f-3.95f) ;
-		tempGO = GameObject.Find("MySkill2Title");
-		tempGO.GetComponent<TextContainer>().width = (realwidth/2f-4.05f) ;
-		tempGO = GameObject.Find("MySkill2Description");
-		tempGO.GetComponent<TextContainer>().width = (realwidth/2f-4.15f) ;
+		this.getMyHoveredCardController().resize(realwidth, tileScale);
 	}
 	
-	public void hideMyHoveredPC(){
-		this.timerLeftSide = 0 ;
-		this.statusMyHoveredPC = -1 ;
-	}
+	
 	
 	public void hideHisHoveredPC(){
 		this.timerRightSide = 0 ;
@@ -1018,35 +950,33 @@ public class GameView : MonoBehaviour
 				}
 			}
 			if (this.getIsMine(c)){
-				if(this.isDisplayedMyHoveredPC){
-					if(c!=currentLeftCard){
-						if(this.statusMyHoveredPC==-1){
+				if(this.getMyHoveredCardController().getIsDisplayed()){
+					if(c!=this.getMyHoveredCardController().getCurrentCharacter()){
+						if(this.getMyHoveredCardController().getStatus()==-1){
 							
 						}
 						else{
-							this.hideMyHoveredPC();
+							this.getMyHoveredCardController().hide();
 						}
-						this.nextDisplayedPCLeft = c ;
+						this.getMyHoveredCardController().setNextDisplayedCharacter(c) ;
 					}
 					else{
-						if(this.statusMyHoveredPC==-1){
-							this.statusMyHoveredPC=1;
-							this.timerLeftSide = this.animationTime - this.timerLeftSide ;
-							this.nextDisplayedPCLeft = -1;
+						if(this.getMyHoveredCardController().getStatus()==-1){
+							this.getMyHoveredCardController().reverse(1);
+							this.getMyHoveredCardController().setNextDisplayedCharacter(-1) ;
 						}
 					}
 				}
 				else{
-					if(this.statusMyHoveredPC==1){
-						if(c!=currentLeftCard){
-							this.statusMyHoveredPC=-1;
-							this.timerLeftSide = this.animationTime - this.timerLeftSide ;
-							this.nextDisplayedPCLeft = c ;
+					if(this.getMyHoveredCardController().getStatus()==1){
+						if(c!=this.getMyHoveredCardController().getCurrentCharacter()){
+							this.getMyHoveredCardController().reverse(-1);
+							this.getMyHoveredCardController().setNextDisplayedCharacter(c) ;
 						}
 					}
 					else{
-						this.nextDisplayedPCLeft = c ;
-						this.launchNextMoveLeftSide();
+						this.getMyHoveredCardController().setNextDisplayedCharacter(c) ;
+						this.getMyHoveredCardController().launchNextMove();
 					}
 				}
 			}
@@ -1097,35 +1027,32 @@ public class GameView : MonoBehaviour
 			}
 			if(currentPlayingCard!=-1){
 				if(this.getIsMine(currentPlayingCard)){
-					if(this.isDisplayedMyHoveredPC){
-					 	if(this.statusMyHoveredPC==-1){
-							this.statusMyHoveredPC=1;
-							this.timerLeftSide = this.animationTime - this.timerLeftSide ;
-							this.nextDisplayedPCLeft = currentPlayingCard;
+					if(this.getMyHoveredCardController().getIsDisplayed()){
+						if(this.getMyHoveredCardController().getStatus()==-1){
+							this.getMyHoveredCardController().reverse(1);
+							this.getMyHoveredCardController().setNextDisplayedCharacter(currentPlayingCard) ;
 					 	}
-					 	else if (this.currentLeftCard!=currentPlayingCard){
-							if(this.statusMyHoveredPC==1){
-								this.statusMyHoveredPC=-1;
-								this.timerLeftSide = this.animationTime - this.timerLeftSide ;
-								this.nextDisplayedPCLeft = currentPlayingCard ;
+						else if (this.getMyHoveredCardController().getCurrentCharacter()!=currentPlayingCard){
+							if(this.getMyHoveredCardController().getStatus()==1){
+								this.getMyHoveredCardController().reverse(-1);
+								this.getMyHoveredCardController().setNextDisplayedCharacter(currentPlayingCard) ;
 							}
 							else{
-								this.nextDisplayedPCLeft = currentPlayingCard ;
-								this.launchNextMoveLeftSide();
+								this.getMyHoveredCardController().setNextDisplayedCharacter(currentPlayingCard) ;
+								this.getMyHoveredCardController().launchNextMove();
 							}
 					 	}
 					}
 					else{
-						if(statusMyHoveredPC==1){
-							if(this.currentLeftCard!=currentPlayingCard){
-								this.statusMyHoveredPC=-1;
-								this.timerLeftSide = this.animationTime - this.timerLeftSide ;
-								this.nextDisplayedPCLeft = currentPlayingCard ;
+						if(this.getMyHoveredCardController().getStatus()==1){
+							if(this.getMyHoveredCardController().getCurrentCharacter()!=currentPlayingCard){
+								this.getMyHoveredCardController().reverse(-1);
+								this.getMyHoveredCardController().setNextDisplayedCharacter(currentPlayingCard) ;
 							}
 						}
 						else{
-							this.nextDisplayedPCLeft = currentPlayingCard ;
-							this.launchNextMoveLeftSide();
+							this.getMyHoveredCardController().setNextDisplayedCharacter(currentPlayingCard) ;
+							this.getMyHoveredCardController().launchNextMove();
 						}
 					}
 					if(!this.isDisplayedHisHoveredPC){
@@ -1143,7 +1070,7 @@ public class GameView : MonoBehaviour
 				}
 				else{
 					if(this.isDisplayedHisHoveredPC){
-						if (statusMyHoveredPC==1){
+						if (statusHisHoveredPC==1){
 							if(this.statusHisHoveredPC==-1){
 								this.statusHisHoveredPC = 1;
 								this.timerRightSide = this.animationTime - this.timerRightSide ;
@@ -1167,7 +1094,7 @@ public class GameView : MonoBehaviour
 							}
 							else{
 								this.statusHisHoveredPC=-1;
-								this.timerRightSide = this.animationTime - this.timerLeftSide ;
+								this.timerRightSide = this.animationTime - this.timerRightSide ;
 								this.nextDisplayedPCRight = currentPlayingCard ;
 							}
 						}
@@ -1181,38 +1108,36 @@ public class GameView : MonoBehaviour
 			else{
 				int clickedCard = GameController.instance.getClickedCard();
 				if (clickedCard!=-1){
-					if (this.isDisplayedMyHoveredPC){
-						if(this.currentLeftCard!=clickedCard){
-							if(this.statusMyHoveredPC==0){
-								this.hideMyHoveredPC();
+					if (this.getMyHoveredCardController().getIsDisplayed()){
+						if(this.getMyHoveredCardController().getCurrentCharacter()!=clickedCard){
+							if(this.getMyHoveredCardController().getStatus()==0){
+								this.getMyHoveredCardController().hide();
 							}
-							this.nextDisplayedPCLeft = clickedCard;
+							this.getMyHoveredCardController().setNextDisplayedCharacter(clickedCard);
 						}
 					}
 					else{
-						if(this.statusMyHoveredPC==1){
-							this.statusMyHoveredPC=-1;
-							this.timerLeftSide = this.animationTime - this.timerLeftSide ;
-							this.nextDisplayedPCLeft = clickedCard;
+						if(this.getMyHoveredCardController().getStatus()==1){
+							this.getMyHoveredCardController().reverse(-1);
+							this.getMyHoveredCardController().setNextDisplayedCharacter(clickedCard);
 						}
 						else{
-							this.nextDisplayedPCLeft = clickedCard;
-							this.launchNextMoveLeftSide();
+							this.getMyHoveredCardController().setNextDisplayedCharacter(clickedCard);
+							this.getMyHoveredCardController().launchNextMove();
 						}
 					}
 				}
 				else{
-					if (this.isDisplayedMyHoveredPC){
-						if(this.statusMyHoveredPC==0){
-							this.hideMyHoveredPC();
+					if (this.getMyHoveredCardController().getIsDisplayed()){
+						if(this.getMyHoveredCardController().getStatus()==0){
+							this.getMyHoveredCardController().hide();
 						}
-						this.nextDisplayedPCLeft = -1;
+						this.getMyHoveredCardController().setNextDisplayedCharacter(-1);
 					}
 					else{
-						if(this.statusMyHoveredPC==1){
-							this.statusMyHoveredPC=-1;
-							this.timerLeftSide = this.animationTime - this.timerLeftSide ;
-							this.nextDisplayedPCLeft = -1;
+						if(this.getMyHoveredCardController().getStatus()==1){
+							this.getMyHoveredCardController().reverse(-1);
+							this.getMyHoveredCardController().setNextDisplayedCharacter(-1);
 						}
 					}
 				}
