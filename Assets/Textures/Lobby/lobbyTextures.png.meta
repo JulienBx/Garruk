@@ -18,6 +18,8 @@ TextureImporter:
     21300022: statsBorder
     21300024: statsPopUpBorder
     21300026: thumbBorder
+    21300028: gauge
+    21300030: gaugeBackground
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -80,6 +82,26 @@ TextureImporter:
         y: 622
         width: 640
         height: 400
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: gauge
+      rect:
+        serializedVersion: 2
+        x: 936
+        y: 790
+        width: 59
+        height: 59
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: gaugeBackground
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 482
+        width: 402
+        height: 138
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}

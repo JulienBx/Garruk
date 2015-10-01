@@ -51,10 +51,12 @@ public class NewLobbyModel
 			if(isDivisionLobby)
 			{
 				this.currentDivision=parseDivision(data[1].Split(new string[] { "//" }, System.StringSplitOptions.None));
+				ApplicationModel.currentDivision=this.currentDivision;
 			}
 			else
 			{
 				this.currentCup=parseCup(data[1].Split(new string[] { "//" }, System.StringSplitOptions.None));
+				ApplicationModel.currentCup=this.currentCup;
 			}
 			this.lastResults=parseResults(data[2].Split(new string[] {"RESULT"},System.StringSplitOptions.None));
 		}
@@ -118,7 +120,7 @@ public class NewLobbyModel
 			
 			string[] resultData=array[i].Split (new string[] {"//"}, System.StringSplitOptions.None);
 
-			this.lastResults.Add (new PlayerResult(System.Convert.ToBoolean(System.Convert.ToInt32(resultData[0])),
+			results.Add (new PlayerResult(System.Convert.ToBoolean(System.Convert.ToInt32(resultData[0])),
 			                                       System.DateTime.ParseExact(resultData[1], "yyyy-MM-dd HH:mm:ss", null),
 			                                       new User(resultData[2],
 			         resultData[3],

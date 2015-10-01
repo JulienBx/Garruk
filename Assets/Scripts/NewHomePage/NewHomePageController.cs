@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using TMPro;
+using System.Linq;
 
 public class NewHomePageController : Photon.MonoBehaviour
 {
@@ -140,7 +141,6 @@ public class NewHomePageController : Photon.MonoBehaviour
 	private bool isConnectionBonusViewDisplayed;
 
 	public int countPlayers;
-	public Dictionary<int, string> playersName;
 	private const string roomName="GarrukLobby";
 	private bool attemptToPlay;
 
@@ -153,10 +153,10 @@ public class NewHomePageController : Photon.MonoBehaviour
 		this.sliderTimer += Time.deltaTime;
 		this.notificationsTimer += Time.deltaTime;
 		
-		if (notificationsTimer > refreshInterval) 
+		if (notificationsTimer > refreshInterval && this.isSceneLoaded) 
 		{
 			StartCoroutine(this.refreshNonReadsNotifications());
-			
+			PhotonNetwork.FindFriends (model.usernameList);
 		}
 		if (Screen.width != this.widthScreen || Screen.height != this.heightScreen) 
 		{
@@ -318,7 +318,6 @@ public class NewHomePageController : Photon.MonoBehaviour
 		this.elementsPerPageNews = 6;
 		this.countPlayers = 0;
 		this.attemptToPlay = false;
-		this.playersName= new Dictionary<int, string>();
 		this.initializeScene ();
 	}
 	void Start()
@@ -326,6 +325,7 @@ public class NewHomePageController : Photon.MonoBehaviour
 		instance = this;
 		this.model = new NewHomePageModel ();
 		this.resize ();
+		PhotonNetwork.playerName = ApplicationModel.username;
 		PhotonNetwork.ConnectUsingSettings(ApplicationModel.photonSettings);
 		StartCoroutine (this.initialization ());
 	}
@@ -1040,7 +1040,7 @@ public class NewHomePageController : Photon.MonoBehaviour
 					allPicturesLoaded=false;
 				}
 				this.notificationsDisplayed.Add (this.chosenPageNotifications*this.elementsPerPageNotifications+i);
-				this.notifications[i].GetComponent<NotificationController>().setNotification(model.notifications[this.chosenPageNotifications*this.elementsPerPageNotifications+i]);
+				this.notifications[i].GetComponent<NotificationController>().n=model.notifications[this.chosenPageNotifications*this.elementsPerPageNotifications+i];
 				this.notifications[i].GetComponent<NotificationController>().show();
 				this.notifications[i].SetActive(true);
 			}
@@ -1074,7 +1074,7 @@ public class NewHomePageController : Photon.MonoBehaviour
 					allPicturesLoaded=false;
 				}
 				this.newsDisplayed.Add (this.chosenPageNews*this.elementsPerPageNews+i);
-				this.news[i].GetComponent<NewsController>().setNews(model.news[this.chosenPageNews*this.elementsPerPageNews+i]);
+				this.news[i].GetComponent<NewsController>().n=model.news[this.chosenPageNews*this.elementsPerPageNews+i];
 				this.news[i].GetComponent<NewsController>().show();
 				this.news[i].SetActive(true);
 			}
@@ -1590,21 +1590,17 @@ public class NewHomePageController : Photon.MonoBehaviour
 	}
 	public void joinGame(int id)
 	{
-		if(id==0 && this.deckDisplayed!=-1)
+		if(this.deckDisplayed!=-1)
 		{
 			ApplicationModel.gameType = id;
 			StartCoroutine (this.setSelectedDeck ());
-			//if(this.isTutorialLaunched)
-			//{
-			//	this.endTutorial();
-			//}
 		}
 	}
 	private IEnumerator setSelectedDeck()
 	{
 		this.displayLoadingScreen ();
 		yield return StartCoroutine(model.player.SetSelectedDeck(model.decks[this.deckDisplayed].Id));
-		this.hideLoadingScreen ();
+		//this.hideLoadingScreen ();
 		attemptToPlay = true;
 		PhotonNetwork.Disconnect();
 	}
@@ -1622,72 +1618,28 @@ public class NewHomePageController : Photon.MonoBehaviour
 			}
 		}
 	}
-	void RemovePlayerFromList(int id)
-	{
-		playersName.Remove(id);
-		countPlayers--;
-		this.updateNbPlayersLabel ();
-	}
 	void OnJoinedLobby()
 	{
 		TypedLobby sqlLobby = new TypedLobby("lobby", LobbyType.SqlLobby);    
 		string sqlLobbyFilter = "C0 = 0";
-		PhotonNetwork.JoinRandomRoom(null, 0, MatchmakingMode.FillRoom, sqlLobby, sqlLobbyFilter);
-	}
-	void OnPhotonRandomJoinFailed()
-	{
-		RoomOptions newRoomOptions = new RoomOptions();
-		newRoomOptions.isOpen = true;
-		newRoomOptions.isVisible = true;
-		newRoomOptions.maxPlayers = 50;
-		
-		newRoomOptions.customRoomProperties = new ExitGames.Client.Photon.Hashtable() { { "C0", 0 } };
-		newRoomOptions.customRoomPropertiesForLobby = new string[] { "C0" }; // C0 est récupérable dans le lobby
-		TypedLobby sqlLobby = new TypedLobby("lobby", LobbyType.SqlLobby);
-		
-		PhotonNetwork.CreateRoom(roomName, newRoomOptions, sqlLobby);
-		//Debug.Log("Creating room");
-	}
-	
-	void OnReceivedRoomListUpdate()
-	{
-		//roomsList = PhotonNetwork.GetRoomList();
-	}
-	void OnJoinedRoom()
-	{
-		//Debug.Log("Connected to Room");
-		photonView.RPC("AddPlayerToList", PhotonTargets.AllBuffered, PhotonNetwork.player.ID, ApplicationModel.username);
-	}
-	
-	void OnPhotonPlayerDisconnected(PhotonPlayer player)
-	{
-		RemovePlayerFromList(player.ID);
+		if(this.isSceneLoaded)
+		{
+			PhotonNetwork.FindFriends (model.usernameList);
+		}
 	}
 	void OnDisconnectedFromPhoton()
 	{
 		if (attemptToPlay)
 		{
-			if(ApplicationModel.gameType==1)
-			{
-				Application.LoadLevel("DivisionLobby");
-			}
-			else if(ApplicationModel.gameType==2)
-			{
-				Application.LoadLevel("CupLobby");
-			}
-			else
+			if(ApplicationModel.gameType==0)
 			{
 				Application.LoadLevel("Game");
 			}
+			else
+			{
+				Application.LoadLevel("NewLobby");
+			}
 		}
-	}
-	[RPC]
-	void AddPlayerToList(int id, string loginName)
-	{
-		//print ("I add a player");
-		playersName.Add(id, loginName);
-		countPlayers++;
-		this.updateNbPlayersLabel ();
 	}
 	private void launchEndGameSequence(bool hasWon)
 	{
@@ -1737,6 +1689,40 @@ public class NewHomePageController : Photon.MonoBehaviour
 		{
 			Destroy (this.loadingScreen);
 			this.isLoadingScreenDisplayed=false;
+		}
+	}
+	public void OnUpdatedFriendList()
+	{
+		print ("toto");
+		for(int i=0;i<PhotonNetwork.Friends.Count;i++)
+		{
+			for(int j=0;j<model.users.Count;j++)
+			{
+				if(model.users[j].Username==PhotonNetwork.Friends[i].Name)
+				{
+					if(PhotonNetwork.Friends[i].IsInRoom)
+					{
+						model.users[j].OnlineStatus=2;
+					}
+					else if(PhotonNetwork.Friends[i].IsOnline)
+					{
+						model.users[j].OnlineStatus=1;
+					}
+					else
+					{
+						model.users[j].OnlineStatus=0;
+					}
+					break;
+				}
+			}
+		}
+		for(int i=0;i<this.newsDisplayed.Count;i++)
+		{
+			this.news[i].GetComponent<NewsController>().setOnlineStatus();
+		}
+		for(int i=0;i<this.notificationsDisplayed.Count;i++)
+		{
+			this.notifications[i].GetComponent<NotificationController>().setOnlineStatus();
 		}
 	}
 }

@@ -33,6 +33,9 @@ public class NewLobbyController : MonoBehaviour
 	private GameObject[] paginationButtons;
 	private GameObject transparentBackground;
 	private GameObject competition;
+	private GameObject playButton;
+	private GameObject divisionProgression;
+	private GameObject cupProgression;
 	
 	private int widthScreen;
 	private int heightScreen;
@@ -68,6 +71,11 @@ public class NewLobbyController : MonoBehaviour
 	private bool isDivisionLobby;
 	private bool isEndGameLobby;
 	private bool hasWonLastGame;
+
+	private bool waitForPopUp;
+	private float timer;
+
+	private bool isEndCompetition;
 	
 	void Update()
 	{	
@@ -117,19 +125,29 @@ public class NewLobbyController : MonoBehaviour
 		{
 			if(this.isDivisionLobby)
 			{
-				if(!model.currentDivision.isTextureLoaded)
+				if(model.currentDivision.isTextureLoaded)
 				{
-					this.competition.GetComponent<CompetitionInfosController>().setPicture(model.currentDivision.texture);
+					this.competition.transform.FindChild("Picture").GetComponent<SpriteRenderer>().sprite=model.currentDivision.texture;
+					this.isCompetitionPictureLoading=false;
 				}
 			}
 			else
 			{
-				if(!model.currentCup.isTextureLoaded)
+				if(model.currentCup.isTextureLoaded)
 				{
-					this.competition.GetComponent<CompetitionInfosController>().setPicture(model.currentCup.texture);
+					this.competition.transform.FindChild("Picture").GetComponent<SpriteRenderer>().sprite=model.currentCup.texture;
+					this.isCompetitionPictureLoading=false;
 				}
 			}
-
+		}
+		if(this.waitForPopUp)
+		{
+			this.timer=timer+Time.deltaTime;
+			if(this.timer>2.5f)
+			{
+				this.waitForPopUp=false;
+				this.displayPopUp();
+			}
 		}
 	}
 	void Awake()
@@ -152,7 +170,8 @@ public class NewLobbyController : MonoBehaviour
 		this.widthScreen = Screen.width;
 		this.heightScreen = Screen.height;
 		this.pixelPerUnit = 108f;
-		this.elementsPerPage = 5;
+		this.elementsPerPage = 6;
+		this.timer = 0f;
 		this.initializeScene ();
 	}
 	void Start()
@@ -168,6 +187,19 @@ public class NewLobbyController : MonoBehaviour
 		this.initializeResults ();
 		this.initializeCompetitions ();
 		this.initializeStats ();
+		if(this.isDivisionLobby)
+		{
+			this.drawGauge();
+		}
+		else
+		{
+			this.drawCup();
+		}
+		if(this.isEndGameLobby)
+		{
+			this.initializePopUp ();
+		}
+		this.initializePlayButton ();
 		this.isSceneLoaded = true;
 		this.hideLoadingScreen ();
 	}
@@ -180,7 +212,7 @@ public class NewLobbyController : MonoBehaviour
 	}
 	private void initializeCompetitions()
 	{
-		//this.drawCompetition ();
+		this.drawCompetition ();
 	}
 	private void initializeStats()
 	{
@@ -189,17 +221,21 @@ public class NewLobbyController : MonoBehaviour
 	public void initializeScene()
 	{
 		menu = GameObject.Find ("newMenu");
-		menu.GetComponent<newMenuController> ().setCurrentPage (0);
+		menu.GetComponent<newMenuController> ().setCurrentPage (5);
 		this.mainBlock = Instantiate(this.blockObject) as GameObject;
 		this.mainBlockTitle = GameObject.Find ("MainBlockTitle");
+		this.mainBlockTitle.GetComponent<TextMeshPro> ().text = "Progression";
+		this.playButton = GameObject.Find ("playButton");
 		this.statsBlock = Instantiate(this.blockObject) as GameObject;
 		this.statsBlockTitle = GameObject.Find ("StatsBlockTitle");
+		this.statsBlockTitle.GetComponent<TextMeshPro> ().text = "Statistiques";
 		this.lastResultsBlock = Instantiate(this.blockObject) as GameObject;
 		this.lastResultsBlockTitle = GameObject.Find ("LastResultsBlockTitle");
+		this.lastResultsBlockTitle.GetComponent<TextMeshPro> ().text = "Résultats";
 		this.competitionBlock = Instantiate(this.blockObject) as GameObject;
 		this.competitionBlockTitle = GameObject.Find ("CompetitionBlockTitle");
 		this.paginationButtons = new GameObject[0];
-		this.results=new GameObject[5];
+		this.results=new GameObject[6];
 		for(int i=0;i<this.results.Length;i++)
 		{
 			this.results[i]=GameObject.Find ("Result"+i);
@@ -209,10 +245,25 @@ public class NewLobbyController : MonoBehaviour
 		this.transparentBackground = GameObject.Find ("TransparentBackGround");
 		this.transparentBackground.SetActive (false);
 		this.popUp = GameObject.Find ("PopUp");
+		this.popUp.transform.FindChild ("Button").FindChild ("Title").GetComponent<TextMeshPro> ().text = "Continuer";
 		this.popUp.SetActive (false);
 		this.profilePopUp = GameObject.Find ("ProfilePopUp");
 		this.profilePopUp.SetActive (false);
 		this.stats = GameObject.Find ("Stats");
+		this.competition = GameObject.Find ("Competition");
+		this.divisionProgression = GameObject.Find ("DivisionProgression");
+		this.cupProgression = GameObject.Find ("CupProgression");
+		if(this.isDivisionLobby)
+		{
+			this.divisionProgression.SetActive(true);
+			this.cupProgression.SetActive (false);
+
+		}
+		else
+		{
+			this.divisionProgression.SetActive(false);
+			this.cupProgression.SetActive(true);
+		}
 		
 	}
 	public void resize()
@@ -227,7 +278,7 @@ public class NewLobbyController : MonoBehaviour
 		float mainBlockLeftMargin =3f;
 		float mainBlockRightMargin = 3f;
 		float mainBlockUpMargin = 0.2f;
-		float mainBlockDownMargin = 4f;
+		float mainBlockDownMargin = 2.7f;
 		
 		float mainBlockHeight = worldHeight - mainBlockUpMargin-mainBlockDownMargin;
 		float mainBlockWidth = worldWidth-mainBlockLeftMargin-mainBlockRightMargin;
@@ -235,11 +286,12 @@ public class NewLobbyController : MonoBehaviour
 		
 		this.mainBlock.GetComponent<BlockController> ().resize(new Rect(mainBlockOrigin.x,mainBlockOrigin.y,mainBlockWidth,mainBlockHeight));
 		this.mainBlockTitle.transform.position = new Vector3 (mainBlockOrigin.x, mainBlockOrigin.y+mainBlockHeight/2f-0.3f, 0);
+		this.playButton.transform.position = new Vector3 (mainBlockOrigin.x, mainBlockOrigin.y - mainBlockHeight / 2f + 0.5f, 0f);
 
 		float competitionBlockLeftMargin =this.worldWidth-2.8f;
 		float competitionBlockRightMargin = 0f;
-		float competitionBlockUpMargin = 4.1f;
-		float competitionBlockDownMargin = 0.2f;
+		float competitionBlockUpMargin = 0.6f;
+		float competitionBlockDownMargin = 5.9f;
 		
 		float competitionBlockHeight = worldHeight - competitionBlockUpMargin-competitionBlockDownMargin;
 		float competitionBlockWidth = worldWidth-competitionBlockLeftMargin-competitionBlockRightMargin;
@@ -247,10 +299,12 @@ public class NewLobbyController : MonoBehaviour
 		
 		this.competitionBlock.GetComponent<BlockController> ().resize(new Rect(competitionBlockOrigin.x,competitionBlockOrigin.y,competitionBlockWidth,competitionBlockHeight));
 		this.competitionBlockTitle.transform.position = new Vector3 (competitionBlockOrigin.x, competitionBlockOrigin.y+competitionBlockHeight/2f-0.3f, 0);
+		this.competition.transform.position = new Vector3 (competitionBlockOrigin.x, competitionBlockOrigin.y, 0f);
+
 
 		float statsBlockLeftMargin =3f;
 		float statsBlockRightMargin = 3f;
-		float statsBlockUpMargin = 6.2f;
+		float statsBlockUpMargin = 7.5f;
 		float statsBlockDownMargin = 0.2f;
 		
 		float statsBlockHeight = worldHeight - statsBlockUpMargin-statsBlockDownMargin;
@@ -267,17 +321,21 @@ public class NewLobbyController : MonoBehaviour
 
 		float lastResultsBlockLeftMargin =this.worldWidth-2.8f;
 		float lastResultsBlockRightMargin = 0f;
-		float lastResultsBlockUpMargin = 0.6f;
-		float lastResultsBlockDownMargin = 6.1f;
+		float lastResultsBlockUpMargin = 4.3f; 
+		float lastResultsBlockDownMargin = 0.2f; 
 		
 		float lastResultsBlockHeight = worldHeight - lastResultsBlockUpMargin-lastResultsBlockDownMargin;
 		float lastResultsBlockWidth = worldWidth-lastResultsBlockLeftMargin-lastResultsBlockRightMargin;
 		Vector2 lastResultsBlockOrigin = new Vector3 (-worldWidth/2f+lastResultsBlockLeftMargin+lastResultsBlockWidth/2f, -worldHeight / 2f + lastResultsBlockDownMargin + lastResultsBlockHeight / 2,0f);
 		
 		this.lastResultsBlock.GetComponent<BlockController> ().resize(new Rect(lastResultsBlockOrigin.x,lastResultsBlockOrigin.y,lastResultsBlockWidth,lastResultsBlockHeight));
-		this.mainBlockTitle.transform.position = new Vector3 (lastResultsBlockOrigin.x, lastResultsBlockOrigin.y+lastResultsBlockHeight/2f-0.3f, 0);
+		this.lastResultsBlockTitle.transform.position = new Vector3 (lastResultsBlockOrigin.x, lastResultsBlockOrigin.y+lastResultsBlockHeight/2f-0.3f, 0);
 
-		
+		for(int i=0;i<this.results.Length;i++)
+		{
+			this.results[i].transform.position=new Vector3(lastResultsBlockOrigin.x-0.1f,lastResultsBlockOrigin.y+lastResultsBlockHeight/2f-0.85f-i*0.77f,0);
+		}
+
 		if(this.isTutorialLaunched)
 		{
 			this.tutorial.GetComponent<TutorialObjectController>().resize();
@@ -285,13 +343,25 @@ public class NewLobbyController : MonoBehaviour
 		
 		this.transparentBackground.transform.position = new Vector3 (0, 0, -2f);
 		this.popUp.transform.position = new Vector3 (0, 2f, -3f);
-	}
 
+		if(this.isDivisionLobby)
+		{
+			this.divisionProgression.GetComponent<DivisionProgressionController>().resize(new Rect(mainBlockOrigin.x,mainBlockOrigin.y,mainBlockWidth,mainBlockHeight));
+		}
+		else
+		{
+			this.cupProgression.GetComponent<CupProgressionController>().resize(new Rect(mainBlockOrigin.x,mainBlockOrigin.y,mainBlockWidth,mainBlockHeight));
+		}
+	}
 	public void returnPressed()
 	{
 		if(newMenuController.instance.isAPopUpDisplayed())
 		{
 			newMenuController.instance.returnPressed();
+		}
+		else if(this.isPopUpDisplayed)
+		{
+			this.hidePopUp();
 		}
 	}
 	public void escapePressed()
@@ -299,6 +369,10 @@ public class NewLobbyController : MonoBehaviour
 		if(newMenuController.instance.isAPopUpDisplayed())
 		{
 			newMenuController.instance.escapePressed();
+		}
+		else if(this.isPopUpDisplayed)
+		{
+			this.hidePopUp();
 		}
 	}
 	public void drawResults()
@@ -346,6 +420,28 @@ public class NewLobbyController : MonoBehaviour
 		this.stats.transform.FindChild ("collectionPoints").FindChild ("Title").GetComponent<TextMeshPro> ().text = "Classement collectionneur";
 		this.stats.transform.FindChild ("collectionPoints").FindChild ("Value").GetComponent<TextMeshPro> ().text = model.player.Ranking.ToString ();
 		this.stats.transform.FindChild ("collectionPoints").FindChild ("Title2").GetComponent<TextMeshPro> ().text = "("+model.player.CollectionPoints.ToString()+" pts)";
+	}
+	public void drawCompetition()
+	{
+		if(this.isDivisionLobby)
+		{
+			this.competitionBlockTitle.GetComponent<TextMeshPro>().text=model.currentDivision.Name;
+			string description="Montée : "+model.currentDivision.TitlePrize.ToString()+" cristaux";
+			if(model.currentDivision.NbWinsForPromotion!=-1)
+			{
+				description=description+"\n Promotion : "+model.currentDivision.PromotionPrize.ToString()+" cristaux";
+			}
+			this.competition.transform.FindChild("Description").GetComponent<TextMeshPro>().text=description;
+			StartCoroutine(model.currentDivision.setPicture());
+		}
+		else
+		{
+			this.competitionBlockTitle.GetComponent<TextMeshPro>().text=model.currentCup.Name;
+			string description="Victoire : "+model.currentCup.CupPrize.ToString()+" cristaux";
+			this.competition.transform.FindChild("Description").GetComponent<TextMeshPro>().text=description;
+			StartCoroutine(model.currentCup.setPicture());
+		}
+		this.isCompetitionPictureLoading = true;
 	}
 	private void drawPagination()
 	{
@@ -446,12 +542,12 @@ public class NewLobbyController : MonoBehaviour
 	{
 		this.idResultHovered=id;
 		this.isHoveringResult = true;
-		if(this.isProfilePopUpDisplayed && this.profilePopUp.GetComponent<PopUpController>().getIsNotification())
+		if(this.isProfilePopUpDisplayed && this.profilePopUp.GetComponent<PopUpController>().getIsResult())
 		{
 			if(this.profilePopUp.GetComponent<PopUpResultLobbyController>().getId()!=this.idResultHovered);
 			{
 				this.hideProfilePopUp();
-				this.showPopUpResult();
+				this.showProfilePopUp();
 			}
 		}
 		else
@@ -460,7 +556,7 @@ public class NewLobbyController : MonoBehaviour
 			{
 				this.hideProfilePopUp();
 			}
-			this.showPopUpResult();
+			this.showProfilePopUp();
 		}
 	}
 	public void endHoveringResult ()
@@ -469,12 +565,12 @@ public class NewLobbyController : MonoBehaviour
 		this.toDestroyPopUp = true;
 		this.popUpDestroyInterval = 0f;
 	}
-	public void showPopUpResult()
+	public void showProfilePopUp()
 	{
 		this.profilePopUp.SetActive (true);
 		this.profilePopUp.transform.position=new Vector3(this.results[this.idResultHovered].transform.position.x-3.1f,this.results[this.idResultHovered].transform.position.y,-1f);
 		this.profilePopUp.AddComponent<PopUpResultLobbyController>();
-		this.profilePopUp.GetComponent<PopUpResultLobbyController> ().setIsNotification (true);
+		this.profilePopUp.GetComponent<PopUpResultLobbyController> ().setIsResult (true);
 		this.profilePopUp.GetComponent<PopUpResultLobbyController> ().setId (this.idResultHovered);
 		this.profilePopUp.GetComponent<PopUpResultLobbyController> ().show (model.lastResults [this.resultsDisplayed [this.idResultHovered]]);
 		this.isPopUpDisplayed=true;
@@ -512,6 +608,168 @@ public class NewLobbyController : MonoBehaviour
 		{
 			Destroy (this.loadingScreen);
 			this.isLoadingScreenDisplayed=false;
+		}
+	}
+	public void playHandler()
+	{
+		if(this.isEndCompetition)
+		{
+			Application.LoadLevel("NewLobby");
+		}
+		else
+		{
+			Application.LoadLevel("Game");
+		}
+	}
+	public void drawGauge()
+	{
+		if(this.isEndGameLobby)
+		{
+			if(hasWonLastGame)
+			{
+				this.divisionProgression.GetComponent<DivisionProgressionController> ().drawGauge (model.currentDivision,true);
+				this.divisionProgression.GetComponent<DivisionProgressionController>().animateGauge();
+			}
+			else
+			{
+				this.divisionProgression.GetComponent<DivisionProgressionController> ().drawGauge (model.currentDivision,false);
+			}
+		}
+		else
+		{
+			this.divisionProgression.GetComponent<DivisionProgressionController> ().drawGauge (model.currentDivision,false);
+		}
+	}
+	public void endGaugeAnimation()
+	{
+		this.divisionProgression.GetComponent<DivisionProgressionController> ().drawGauge (model.currentDivision,false);
+	}
+	public void drawCup()
+	{
+		if(this.isEndGameLobby)
+		{
+			this.cupProgression.GetComponent<CupProgressionController> ().drawCup (model.currentCup,this.hasWonLastGame);
+		}
+		else
+		{
+			this.cupProgression.GetComponent<CupProgressionController> ().drawCup (model.currentCup,true);
+		}
+	}
+	public void initializePopUp()
+	{
+		bool displayPopUp = false;
+		string title = "";
+		string content = "";
+		if(this.isDivisionLobby)
+		{
+			if(model.currentDivision.Status==3) // Fin de saison + Promotion + Titre
+			{
+				title = "Fin de saison";
+				content ="Bravo ! Vous terminez champion ! Votre prochaine saison se déroulera en division supérieure.";
+				displayPopUp=true;
+				this.isEndCompetition=true;
+			}
+			else if(model.currentDivision.Status==30) // Fin de saison + Titre
+			{
+				title="Fin de saison";
+				content ="Bravo ! Vous terminez champion !";
+				displayPopUp=true;
+				this.isEndCompetition=true;
+			}
+			else if(model.currentDivision.Status==20) // Promotion obtenue au cours du match + Fin de saison
+			{
+				title = "Fin de saison";
+				content="Bravo ! Votre prochaine saison se déroulera en division supérieure";
+				displayPopUp=true;
+				this.isEndCompetition=true;
+			}
+			else if(model.currentDivision.Status==2) // Promotion + Fin de saison
+			{
+				title = "Fin de saison";
+				content="Bravo ! Votre prochaine saison se déroulera en division supérieure";
+				displayPopUp=true;
+				this.isEndCompetition=true;
+			}
+			else if(model.currentDivision.Status==21) // Promotion obtenue au cours du match
+			{
+				title="Félicitations";
+				content="Votre victoire vous donne accès à la division supérieure pour la saison suivante";
+				displayPopUp=true;
+			}
+			else if(model.currentDivision.Status==10) // Maintien obtenu au cours du match + Fin de saison
+			{
+				title = "Fin de saison";
+				content="Vous jouerez la saison prochaine dans la même division";
+				displayPopUp=true;
+				this.isEndCompetition=true;
+			}
+			else if(model.currentDivision.Status==1) // Maintien + Fin de saison
+			{
+				title = "Fin de saison";
+				content="Vous jouerez la saison prochaine dans la même division";
+				displayPopUp=true;
+				this.isEndCompetition=true;
+			}
+			else if(model.currentDivision.Status==11) // Maintien obtenu au cours du match
+			{
+				title="Félicitations";
+				content="Vous ne pouvez désormais plus descendre de division";
+				displayPopUp=true;
+			}
+			else if(model.currentDivision.Status==-1) // Relégation
+			{
+				title = "Fin de saison";
+				content="Malheureusement vous jouerez en division inférieure la saison prochaine";
+				displayPopUp=true;
+			}
+		}
+		else
+		{
+			if(model.currentCup.Status==11) // Fin de saison + Promotion + Titre
+			{
+				title = "Félicitations";
+				content ="Bravo ! vous avez remporté la coupe ! Vos résultats en division vous permettent d'accéder à une nouvelle coupe.";
+				displayPopUp=true;
+				this.isEndCompetition=true;
+			}
+			else if(model.currentCup.Status==1) // Fin de saison + Titre
+			{
+				title = "Félicitations";
+				content ="Bravo ! vous avez remporté la coupe !";
+				displayPopUp=true;
+				this.isEndCompetition=true;
+			}
+			if(model.currentCup.Status==-11) // Fin de saison + Promotion + Titre
+			{
+				title = "Dommage";
+				content ="Vous êtes éliminé... Vos résultats en division vous permettent désormais d'accéder à une nouvelle coupe";
+				displayPopUp=true;
+				this.isEndCompetition=true;
+			}
+			else if(model.currentCup.Status==-1) // Fin de saison + Titre
+			{
+				title = "Dommage";
+				content ="Vous êtes élminé...";
+				displayPopUp=true;
+				this.isEndCompetition=true;
+			}
+		}
+		if(displayPopUp)
+		{
+			this.waitForPopUp=true;
+			this.popUp.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = title;
+			this.popUp.transform.FindChild ("Content").GetComponent<TextMeshPro> ().text = content;
+		}
+	}
+	public void initializePlayButton()
+	{
+		if(this.isEndCompetition)
+		{
+			this.playButton.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Continuer";
+		}
+		else
+		{
+			this.playButton.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Jouer";
 		}
 	}
 }

@@ -67,6 +67,10 @@ public class PlayPopUpModel {
 		cup.Picture= array[1];
 		cup.NbRounds = System.Convert.ToInt32(array [2]);
 		cup.CupPrize = System.Convert.ToInt32(array [3]);
+		cup.EarnXp_W = System.Convert.ToInt32 (array [4]);
+		cup.EarnXp_L = System.Convert.ToInt32 (array [5]);
+		cup.EarnCredits_W = System.Convert.ToInt32 (array [6]);
+		cup.EarnCredits_L = System.Convert.ToInt32 (array [7]);
 		return cup;
 	}
 	private Division parseDivision(string[] array)
@@ -76,6 +80,10 @@ public class PlayPopUpModel {
 		division.Picture= array[1];
 		division.NbGames = System.Convert.ToInt32(array [2]);
 		division.TitlePrize = System.Convert.ToInt32(array [3]);
+		division.EarnXp_W = System.Convert.ToInt32 (array [4]);
+		division.EarnXp_L = System.Convert.ToInt32 (array [5]);
+		division.EarnCredits_W = System.Convert.ToInt32 (array [6]);
+		division.EarnCredits_L = System.Convert.ToInt32 (array [7]);
 		return division;
 	}
 	private List<Deck> parseDecks(string[] decksData)

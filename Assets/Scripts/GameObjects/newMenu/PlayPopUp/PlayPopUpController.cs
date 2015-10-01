@@ -196,14 +196,10 @@ public class PlayPopUpController : Photon.MonoBehaviour
 	}
 	public void selectGame(int id)
 	{
-		if(id==0 && deckDisplayed!=-1)
+		if(deckDisplayed!=-1)
 		{
 			ApplicationModel.gameType = id;
 			StartCoroutine (this.setSelectedDeck ());
-			//if(this.isTutorialLaunched)
-			//{
-			//	this.endTutorial();
-			//}
 		}
 	}
 	private IEnumerator setSelectedDeck()
@@ -226,20 +222,14 @@ public class PlayPopUpController : Photon.MonoBehaviour
 	}
 	public void joinGame()
 	{
-		if(ApplicationModel.gameType==1)
+		if(ApplicationModel.gameType==0)
 		{
-			Application.LoadLevel("DivisionLobby");
-		}
-		else if(ApplicationModel.gameType==2)
-		{
-			Application.LoadLevel("CupLobby");
+			Application.LoadLevel("Game");
 		}
 		else
 		{
-			ApplicationModel.gameType=0;
-			Application.LoadLevel("Game");
+			Application.LoadLevel("NewLobby");
 		}
-		//this.hideLoadingScreen ();
 	}
 	void OnDisconnectedFromPhoton()
 	{

@@ -56,6 +56,7 @@ public class User
 	public int SelectedDeckId;
 	public List<int> CardTypesAllowed;
 	public bool IsAdmin;
+	public int OnlineStatus; // 0 -> Offline, 1 -> Online, 2-> PlayingGame
 	public int CollectionPoints;
 	public int CollectionRanking;
 	public int TutorialStep;
@@ -69,6 +70,7 @@ public class User
 	public int ConnectionBonus;
 	public bool isProfilePictureLoaded;
 	public bool isThumbPictureLoaded;
+	public bool isThumbPictureLoading;
 
 	public User()
 	{
@@ -180,10 +182,10 @@ public class User
 		this.TotalNbLooses = totalnblooses;
 		this.texture = Sprite.Create (new Texture2D (1, 1, TextureFormat.ARGB32, false), new Rect (0, 0, 1, 1), new Vector2 (0.5f, 0.5f));
 	}
-	public User(string username, string picture, int ranking, int collectionRanking,  int totalnbwins, int totalnblooses)
+	public User(string username, string thumbpicture, int ranking, int collectionRanking,  int totalnbwins, int totalnblooses)
 	{
 		this.Username = username;
-		this.Picture = picture;
+		this.ThumbPicture = thumbpicture;
 		this.CollectionRanking = collectionRanking;
 		this.Ranking = ranking;
 		this.TotalNbWins = totalnbwins;
@@ -265,21 +267,28 @@ public class User
 
 	public IEnumerator setThumbProfilePicture(){
 		
-		if (this.ThumbPicture.StartsWith(ServerDirectory)){
-			var www = new WWW(ApplicationModel.host+this.ThumbPicture);
-			yield return www;
-			Texture2D tempTexture=new Texture2D (1, 1, TextureFormat.ARGB32, false);
-			www.LoadImageIntoTexture(tempTexture);
-			this.texture=Sprite.Create (tempTexture, new Rect (0, 0, tempTexture.width, tempTexture.height), new Vector2 (0.5f, 0.5f));
+		if(!this.isThumbPictureLoading)
+		{
+			this.isThumbPictureLoading=true;
+			if (this.ThumbPicture.StartsWith(ServerDirectory))
+			{
+				var www = new WWW(ApplicationModel.host+this.ThumbPicture);
+				yield return www;
+				Texture2D tempTexture=new Texture2D (1, 1, TextureFormat.ARGB32, false);
+				www.LoadImageIntoTexture(tempTexture);
+				this.texture=Sprite.Create (tempTexture, new Rect (0, 0, tempTexture.width, tempTexture.height), new Vector2 (0.5f, 0.5f));
+			}
+			else 
+			{
+				var www = new WWW(URLDefaultThumbProfilePicture);
+				yield return www;
+				Texture2D tempTexture=new Texture2D (1, 1, TextureFormat.ARGB32, false);
+				www.LoadImageIntoTexture(tempTexture);
+				this.texture=Sprite.Create (tempTexture, new Rect (0, 0, tempTexture.width, tempTexture.height), new Vector2 (0.5f, 0.5f));
+			}
+			this.isThumbPictureLoaded = true;
+			this.isThumbPictureLoading=false;
 		}
-		else {
-			var www = new WWW(URLDefaultThumbProfilePicture);
-			yield return www;
-			Texture2D tempTexture=new Texture2D (1, 1, TextureFormat.ARGB32, false);
-			www.LoadImageIntoTexture(tempTexture);
-			this.texture=Sprite.Create (tempTexture, new Rect (0, 0, tempTexture.width, tempTexture.height), new Vector2 (0.5f, 0.5f));
-		}
-		this.isThumbPictureLoaded = true;
 	}
 
 	public IEnumerator getCards(Action<string> callback)

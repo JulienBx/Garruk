@@ -32,7 +32,7 @@ public class NotificationController : MonoBehaviour
 		{
 			this.isHovering=false;
 			NewHomePageController.instance.endHoveringNotification ();
-			gameObject.transform.FindChild("PictureBorder").GetComponent<SpriteRenderer>().color=new Color(1f,1f,1f);
+			this.setOnlineStatus ();
 			gameObject.transform.FindChild("Username").GetComponent<TextMeshPro>().color=new Color(1f,1f,1f);
 			gameObject.transform.FindChild("Notification").GetComponent<TextMeshPro>().color=new Color(1f,1f,1f);
 		}
@@ -41,15 +41,12 @@ public class NotificationController : MonoBehaviour
 	{
 
 	}
-	public void setNotification(DisplayedNotification notification)
-	{
-		this.n = notification;
-	}
 	public void show()
 	{
 		gameObject.transform.FindChild ("Username").GetComponent<TextMeshPro> ().text = this.n.SendingUser.Username;
 		gameObject.transform.FindChild ("Notification").GetComponent<TextMeshPro> ().text = this.n.Notification.Description;
 		gameObject.transform.FindChild ("Picture").GetComponent<SpriteRenderer> ().sprite = this.n.SendingUser.texture;
+		this.setOnlineStatus ();
 
 		if(!this.n.Notification.IsRead)
 		{
@@ -67,6 +64,24 @@ public class NotificationController : MonoBehaviour
 	public void setId(int Id)
 	{
 		this.Id = Id;
+	}
+	public void setOnlineStatus()
+	{
+		if(!this.isHovering)
+		{
+			if(this.n.SendingUser.OnlineStatus==2)
+			{
+				gameObject.transform.FindChild("PictureBorder").GetComponent<SpriteRenderer>().color=new Color(182f/255f,0f,0f);
+			}
+			else if(this.n.SendingUser.OnlineStatus==1)
+			{
+				gameObject.transform.FindChild("PictureBorder").GetComponent<SpriteRenderer>().color=new Color(0f,182f/255f,29f/255f);
+			}
+			else
+			{
+				gameObject.transform.FindChild("PictureBorder").GetComponent<SpriteRenderer>().color=new Color(1f,1f,1f);
+			}
+		}
 	}
 }
 

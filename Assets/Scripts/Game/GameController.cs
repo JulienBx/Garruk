@@ -383,7 +383,7 @@ public class GameController : Photon.MonoBehaviour
 			print(w.error); 										// donne l'erreur eventuelle
 		} else
 		{
-			//print(w.text);
+			print(w.text);
 		}
 		yield break;
 	}

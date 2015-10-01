@@ -47,13 +47,27 @@ public class ResultController : MonoBehaviour
 	}
 	public void show()
 	{
-		//gameObject.transform.FindChild ("Username").GetComponent<TextMeshPro> ().text = this.n.User.Username;
-		//gameObject.transform.FindChild ("News").GetComponent<TextMeshPro> ().text = this.n.News.Description;
-		//gameObject.transform.FindChild ("Picture").GetComponent<SpriteRenderer> ().sprite = this.n.User.texture;
+		gameObject.transform.FindChild ("Username").GetComponent<TextMeshPro> ().text = this.pR.Opponent.Username;
+		gameObject.transform.FindChild ("Picture").GetComponent<SpriteRenderer> ().sprite = this.pR.Opponent.texture;
+		Color tempColor = new Color ();
+		if(this.pR.HasWon)
+		{
+			tempColor = new Color(75f/255f,163f/255f,174f/255f);
+			gameObject.transform.FindChild ("Result").GetComponent<TextMeshPro> ().text = "Victoire";
+
+		}
+		else
+		{
+			tempColor = new Color(233f/255f,140f/255f,140f/255f);
+			gameObject.transform.FindChild ("Result").GetComponent<TextMeshPro> ().text = "Défaite";
+		}
+		gameObject.transform.FindChild("Result").GetComponent<TextMeshPro>().color=tempColor;
+		gameObject.transform.FindChild("PictureBorder").GetComponent<SpriteRenderer>().color=tempColor;
+		gameObject.transform.FindChild("Username").GetComponent<TextMeshPro>().color=tempColor;
 	}
 	public void setPicture(Sprite picture)
 	{
-		//gameObject.transform.FindChild ("Picture").GetComponent<SpriteRenderer> ().sprite = picture;
+		gameObject.transform.FindChild ("Picture").GetComponent<SpriteRenderer> ().sprite = picture;
 	}
 	public void setId(int Id)
 	{
