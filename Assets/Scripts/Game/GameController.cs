@@ -14,14 +14,14 @@ public class GameController : Photon.MonoBehaviour
 
 	//Variable Photon
 	const string roomNamePrefix = "GarrukGame";
-	
+
 	//Variables de gestion
-	bool isReconnecting = false ;
+	//bool isReconnecting = false ;
 	bool haveIStarted = false ;
 	bool isRunningSkill = false ;
 	bool isFirstPlayer = false;
-	bool bothPlayerLoaded = false ;
-	int nbPlayers = 0 ;
+	bool bothPlayerLoaded = true ;
+	//int nbPlayers = 0 ;
 	int nbPlayersReadyToFight = 0; 
 	int currentPlayingCard = -1;
 	int currentClickedCard = -1;
@@ -38,13 +38,23 @@ public class GameController : Photon.MonoBehaviour
 		this.currentPlayingCard = -1;
 		instance = this;
 
-		PhotonNetwork.autoCleanUpPlayerObjects = false;
-		PhotonNetwork.ConnectUsingSettings(ApplicationModel.photonSettings);
+		//PhotonNetwork.autoCleanUpPlayerObjects = false;
+		//PhotonNetwork.ConnectUsingSettings(ApplicationModel.photonSettings);
 		
 		this.playingCardTurnsToWait = new List<int>();
 
+		this.isFirstPlayer = ApplicationModel.isFirstPlayer;
+		ApplicationModel.isFirstPlayer = false;
+
+		this.myPlayerName = ApplicationModel.myPlayerName;
+		this.hisPlayerName = ApplicationModel.hisPlayerName;
+		if (this.isFirstPlayer)
+		{
+			this.initGrid();
+		}
+		StartCoroutine(this.loadMyDeck());
+
 	}
-	
 	public void moveToDestination(Tile t){
 		int characterToMove = this.currentPlayingCard;
 		if (characterToMove==-1){
@@ -448,7 +458,6 @@ public class GameController : Photon.MonoBehaviour
 			}
 		}
 	}
-
 	public IEnumerator loadMyDeck()
 	{
 		Deck myDeck = new Deck(ApplicationModel.username);
@@ -470,30 +479,30 @@ public class GameController : Photon.MonoBehaviour
 		photonView.RPC("SpawnCharacter", PhotonTargets.AllBuffered, isFirstPlayer, tutorialDeck.Id);
 	}
 	
-	[RPC]
-	void AddPlayerToList(int id, string loginName)
-	{
-		print(loginName+" se connecte");
-
-		if (ApplicationModel.username == loginName)
-		{
-			GameView.instance.setMyPlayerName(loginName);
-			this.myPlayerName=loginName;
-			print (myPlayerName);
-		} else
-		{
-			GameView.instance.setHisPlayerName(loginName);
-			this.hisPlayerName=loginName;
-			print (hisPlayerName);
-		}
-		
-		this.nbPlayers++;
-		if(this.nbPlayers==2){
-			if(this.isFirstPlayer==true){
-				PhotonNetwork.room.open = false;
-			}
-		}
-	}
+//	[RPC]
+//	void AddPlayerToList(int id, string loginName)
+//	{
+//		print(loginName+" se connecte");
+//
+//		if (ApplicationModel.username == loginName)
+//		{
+//			GameView.instance.setMyPlayerName(loginName);
+//			this.myPlayerName=loginName;
+//			print (myPlayerName);
+//		} else
+//		{
+//			GameView.instance.setHisPlayerName(loginName);
+//			this.hisPlayerName=loginName;
+//			print (hisPlayerName);
+//		}
+//		
+//		this.nbPlayers++;
+//		if(this.nbPlayers==2){
+//			if(this.isFirstPlayer==true){
+//				PhotonNetwork.room.open = false;
+//			}
+//		}
+//	}
 
 	[RPC]
 	void AddTileToBoard(int x, int y, int type)
@@ -529,9 +538,9 @@ public class GameController : Photon.MonoBehaviour
 			TutorialObjectController.instance.actionIsDone();
 		}
 
-		if (this.nbPlayers==2){
-			this.bothPlayerLoaded = true ;
-		}
+//		if (this.nbPlayers==2){
+//			this.bothPlayerLoaded = true ;
+//		}
 
 		if (GameView.instance.getIsTutorialLaunched())
 		{
@@ -730,61 +739,61 @@ public class GameController : Photon.MonoBehaviour
 	}
 	
 	// Photon
-	void OnJoinedLobby()
-	{	
-		TypedLobby sqlLobby = new TypedLobby("rankedGame", LobbyType.SqlLobby);    
-		string sqlLobbyFilter = "C0 = " + ApplicationModel.gameType;
-		PhotonNetwork.JoinRandomRoom(null, 0, MatchmakingMode.FillRoom, sqlLobby, sqlLobbyFilter);
-	}
+//	void OnJoinedLobby()
+//	{	
+//		TypedLobby sqlLobby = new TypedLobby("rankedGame", LobbyType.SqlLobby);    
+//		string sqlLobbyFilter = "C0 = " + ApplicationModel.gameType;
+//		PhotonNetwork.JoinRandomRoom(null, 0, MatchmakingMode.FillRoom, sqlLobby, sqlLobbyFilter);
+//	}
+//	
+//	void OnPhotonRandomJoinFailed()
+//	{
+//		Debug.Log("Can't join random room! - creating a new room");
+//		RoomOptions newRoomOptions = new RoomOptions();
+//		newRoomOptions.isOpen = true;
+//		newRoomOptions.isVisible = true;
+//		newRoomOptions.maxPlayers = 2;
+//		newRoomOptions.customRoomProperties = new ExitGames.Client.Photon.Hashtable() { { "C0", ApplicationModel.gameType } }; // CO pour une partie simple
+//		newRoomOptions.customRoomPropertiesForLobby = new string[] { "C0" }; // C0 est récupérable dans le lobby
+//		
+//		TypedLobby sqlLobby = new TypedLobby("rankedGame", LobbyType.SqlLobby);
+//		PhotonNetwork.CreateRoom(roomNamePrefix + Guid.NewGuid().ToString("N"), newRoomOptions, sqlLobby);
+//		this.isFirstPlayer = true;
+//	}
 	
-	void OnPhotonRandomJoinFailed()
-	{
-		Debug.Log("Can't join random room! - creating a new room");
-		RoomOptions newRoomOptions = new RoomOptions();
-		newRoomOptions.isOpen = true;
-		newRoomOptions.isVisible = true;
-		newRoomOptions.maxPlayers = 2;
-		newRoomOptions.customRoomProperties = new ExitGames.Client.Photon.Hashtable() { { "C0", ApplicationModel.gameType } }; // CO pour une partie simple
-		newRoomOptions.customRoomPropertiesForLobby = new string[] { "C0" }; // C0 est récupérable dans le lobby
-		
-		TypedLobby sqlLobby = new TypedLobby("rankedGame", LobbyType.SqlLobby);
-		PhotonNetwork.CreateRoom(roomNamePrefix + Guid.NewGuid().ToString("N"), newRoomOptions, sqlLobby);
-		this.isFirstPlayer = true;
-	}
-	
-	void OnJoinedRoom()
-	{
-		if(ApplicationModel.launchGameTutorial)
-		{
-			PhotonNetwork.room.open = false;
-		}
-		Debug.Log("Connecté à Photon");
-		if (!isReconnecting)
-		{
-			photonView.RPC("AddPlayerToList", PhotonTargets.AllBuffered, PhotonNetwork.player.ID, ApplicationModel.username);
-			if (GameView.instance.getIsTutorialLaunched())
-			{
-				photonView.RPC("AddPlayerToList", PhotonTargets.AllBuffered, PhotonNetwork.player.ID + 1, "Garruk");
-			}
-		} 
-		else
-		{
-			Debug.Log("Mode reconnection");
-		}
-		GameView.instance.createBackground();
-		
-		if (this.isFirstPlayer)
-		{
-			this.initGrid();
-		}
-		StartCoroutine(this.loadMyDeck());
-		
-			
-	}
+//	void OnJoinedRoom()
+//	{
+//		if(ApplicationModel.launchGameTutorial)
+//		{
+//			PhotonNetwork.room.open = false;
+//		}
+//		Debug.Log("Connecté à Photon");
+//		if (!isReconnecting)
+//		{
+//			photonView.RPC("AddPlayerToList", PhotonTargets.AllBuffered, PhotonNetwork.player.ID, ApplicationModel.username);
+//			if (GameView.instance.getIsTutorialLaunched())
+//			{
+//				photonView.RPC("AddPlayerToList", PhotonTargets.AllBuffered, PhotonNetwork.player.ID + 1, "Garruk");
+//			}
+//		} 
+//		else
+//		{
+//			Debug.Log("Mode reconnection");
+//		}
+//		GameView.instance.createBackground();
+//		
+//		if (this.isFirstPlayer)
+//		{
+//			this.initGrid();
+//		}
+//		StartCoroutine(this.loadMyDeck());
+//		
+//			
+//	}
 	
 	void OnDisconnectedFromPhoton()
 	{
-		Application.LoadLevel("NewHomePage");
+		Application.LoadLevel("Authentication");
 	}
 
 	public void quitGameHandler()
@@ -827,6 +836,7 @@ public class GameController : Photon.MonoBehaviour
 			//Le deuxième joueur a perdu
 			EndSceneController.instance.displayEndScene(true);
 		}
+		PhotonNetwork.LeaveRoom ();
 	}
 	public void addGameEvent(GameEventType type, string targetName)
 	{
@@ -1057,10 +1067,10 @@ public class GameController : Photon.MonoBehaviour
 //		}
 	}
 
-	public void disconnect()
-	{
-		PhotonNetwork.Disconnect();
-	}
+//	public void disconnect()
+//	{
+//		PhotonNetwork.Disconnect();
+//	}
 
 	public void spawnMinion(string minionName, int targetX, int targetY, int amount, bool isFirstP)
 	{
@@ -1623,9 +1633,8 @@ public class GameController : Photon.MonoBehaviour
 	}
 	
 //	public void quitGame(){
-//		PhotonNetwork.Disconnect();
 //	}
-//	
+	
 	public int getClickedCard(){
 		return this.currentClickedCard ;
 	}

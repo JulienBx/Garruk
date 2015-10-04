@@ -19,7 +19,7 @@ public class ApplicationModel : MonoBehaviour
 	static public bool toDeconnect = false;
 	static public int credits = 0;
 	static public int nbNotificationsNonRead = 0;
-	static public int gameType;
+	static public int gameType = 0;
 	static public FriendlyGame currentFriendlyGame;
 	static public Cup currentCup;
 	static public Division currentDivision;
@@ -27,12 +27,15 @@ public class ApplicationModel : MonoBehaviour
 	static public string skillChosen = "";
 	static public int cardTypeChosen = -1;
 	static public int tutorialStep;
-	static public bool isAdmin = false;
+	static public bool isAdmin = true;
 	static public int nbCardsByDeck = 4;
 	static public int packToBuy = -1;
 	static public bool launchGameTutorial = false;
 	static public bool launchEndGameSequence = false;
 	static public bool hasWonLastGame = false;
+	static public bool isFirstPlayer=false;
+	static public string hisPlayerName = "";
+	static public string myPlayerName="";
 
 	static private string URLCheckPassword = host + "check_password.php";
 	static private string URLEditPassword = host + "edit_password.php";

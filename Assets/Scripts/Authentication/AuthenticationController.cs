@@ -5,19 +5,21 @@ using System.Text.RegularExpressions;
 using TMPro;
 
 
-public class AuthenticationController : MonoBehaviour 
+public class AuthenticationController : Photon.MonoBehaviour 
 {
-	
+
 	public static AuthenticationController instance;
 	private AuthenticationView view;
 	private AuthenticationWindowPopUpView authenticationWindowView;
 	
+	public GameObject loadingScreenObject;
 	public GUIStyle[] popUpVMStyle;
 	public GUIStyle[] authenticationVMStyle;
 
 	public GameObject blockObject;
 	public GameObject transparentBackgroundObject;
 	
+	private GameObject loadingScreen;
 	private GameObject mainBlock;
 	private GameObject transparentBackground;
 	private GameObject connectionButton;
@@ -34,6 +36,8 @@ public class AuthenticationController : MonoBehaviour
 
 	private Rect centralWindow;
 	private Rect messageWindow;
+
+	private bool isLoadingScreenDisplayed;
 
 	void Start ()
 	{
@@ -80,19 +84,24 @@ public class AuthenticationController : MonoBehaviour
 		}
 		if(this.view.authenticationVM.error=="")
 		{
+			this.displayLoadingScreen();
 			this.view.authenticationVM.guiEnabled=false;
 			yield return StartCoroutine(ApplicationModel.Login(this.view.authenticationVM.username,
 			                                                   this.view.authenticationVM.password,
 			                                                   this.view.authenticationVM.toMemorize));
 			if(ApplicationModel.username!=""&& !ApplicationModel.toDeconnect)
 			{
-				this.loadLevels();
+				this.loadingScreen.GetComponent<LoadingScreenController> ().changeLoadingScreenLabel ("Connexion au lobby ...");
+				PhotonNetwork.playerName = ApplicationModel.username;
+				PhotonNetwork.ConnectUsingSettings(ApplicationModel.photonSettings);
+				PhotonNetwork.autoCleanUpPlayerObjects = false;
 			}
 			else
 			{
 				this.view.authenticationVM.error=ApplicationModel.error;
 				ApplicationModel.error="";
 				this.view.authenticationVM.guiEnabled=true;
+				this.hideLoadingScreen();
 			}
 		}
 	}
@@ -368,6 +377,30 @@ public class AuthenticationController : MonoBehaviour
 		default:
 			Application.LoadLevel("NewHomePage");	
 			break;
+		}
+	}
+	void OnJoinedLobby()
+	{
+		//TypedLobby sqlLobby = new TypedLobby("lobby", LobbyType.SqlLobby);    
+		this.loadLevels();
+		print (PhotonNetwork.connectionState);
+	}
+	public void displayLoadingScreen()
+	{
+		Camera.main.gameObject.GetComponent <AuthenticationView> ().enabled = false;
+		if(!isLoadingScreenDisplayed)
+		{
+			this.loadingScreen=Instantiate(this.loadingScreenObject) as GameObject;
+			this.isLoadingScreenDisplayed=true;
+		}
+	}
+	public void hideLoadingScreen()
+	{
+		Camera.main.gameObject.GetComponent <AuthenticationView> ().enabled = true;
+		if(isLoadingScreenDisplayed)
+		{
+			Destroy (this.loadingScreen);
+			this.isLoadingScreenDisplayed=false;
 		}
 	}
 }

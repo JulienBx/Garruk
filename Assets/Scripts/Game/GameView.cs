@@ -152,6 +152,10 @@ public class GameView : MonoBehaviour
 		
 		this.audioEndTurn = GetComponent<AudioSource>();
 
+		this.setMyPlayerName(ApplicationModel.myPlayerName);
+		this.setHisPlayerName(ApplicationModel.hisPlayerName);
+		this.createBackground();
+
 		if (ApplicationModel.launchGameTutorial)
 		{
 			this.isTutorialLaunched=true;
@@ -576,7 +580,7 @@ public class GameView : MonoBehaviour
 	{
 		int debut = 0 ;
 		int hauteur = 0 ;
-		
+
 		if (!isFirstP){
 			debut = this.nbCardsPerPlayer ;
 			hauteur = this.boardHeight-1 ;

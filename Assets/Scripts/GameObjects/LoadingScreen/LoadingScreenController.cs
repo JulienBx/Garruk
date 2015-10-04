@@ -23,6 +23,10 @@ public class LoadingScreenController : MonoBehaviour
 		this.target = Quaternion.Euler (0f, 0f, this.angle);
 		this.gameObject.transform.FindChild("loadingCircle").transform.rotation = target;
 	}
+	public void changeLoadingScreenLabel(string label)
+	{
+		this.gameObject.transform.FindChild ("title").GetComponent<TextMeshPro> ().text = label;
+	}
 }
 
 

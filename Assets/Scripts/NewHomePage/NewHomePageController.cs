@@ -142,11 +142,11 @@ public class NewHomePageController : Photon.MonoBehaviour
 
 	public int countPlayers;
 	private const string roomName="GarrukLobby";
-	private bool attemptToPlay;
 
 	private bool isTutorialLaunched;
 	private bool isEndGamePopUpDisplayed;
 	private bool isLoadingScreenDisplayed;
+	private bool isInRoom;
 	
 	void Update()
 	{	
@@ -156,7 +156,7 @@ public class NewHomePageController : Photon.MonoBehaviour
 		if (notificationsTimer > refreshInterval && this.isSceneLoaded) 
 		{
 			StartCoroutine(this.refreshNonReadsNotifications());
-			PhotonNetwork.FindFriends (model.usernameList);
+			this.checkFriendsOnlineStatus();
 		}
 		if (Screen.width != this.widthScreen || Screen.height != this.heightScreen) 
 		{
@@ -317,7 +317,6 @@ public class NewHomePageController : Photon.MonoBehaviour
 		this.elementsPerPageNotifications = 3;
 		this.elementsPerPageNews = 6;
 		this.countPlayers = 0;
-		this.attemptToPlay = false;
 		this.initializeScene ();
 	}
 	void Start()
@@ -325,8 +324,6 @@ public class NewHomePageController : Photon.MonoBehaviour
 		instance = this;
 		this.model = new NewHomePageModel ();
 		this.resize ();
-		PhotonNetwork.playerName = ApplicationModel.username;
-		PhotonNetwork.ConnectUsingSettings(ApplicationModel.photonSettings);
 		StartCoroutine (this.initialization ());
 	}
 	private IEnumerator initialization()
@@ -345,6 +342,7 @@ public class NewHomePageController : Photon.MonoBehaviour
 		this.initializeStats ();
 		this.retrieveDefaultDeck ();
 		this.initializeDecks ();
+		this.checkFriendsOnlineStatus ();
 		this.isSceneLoaded = true;
 		if(model.player.TutorialStep==1 || model.player.TutorialStep==4)
 		{
@@ -1588,57 +1586,26 @@ public class NewHomePageController : Photon.MonoBehaviour
 			Application.LoadLevel ("newStore");
 		}
 	}
-	public void joinGame(int id)
+	public void joinGameHandler(int id)
 	{
 		if(this.deckDisplayed!=-1)
 		{
 			ApplicationModel.gameType = id;
-			StartCoroutine (this.setSelectedDeck ());
+			StartCoroutine (this.joinGame ());
 		}
 	}
-	private IEnumerator setSelectedDeck()
+	private IEnumerator joinGame()
 	{
 		this.displayLoadingScreen ();
-		yield return StartCoroutine(model.player.SetSelectedDeck(model.decks[this.deckDisplayed].Id));
-		//this.hideLoadingScreen ();
-		attemptToPlay = true;
-		PhotonNetwork.Disconnect();
-	}
-	private void updateNbPlayersLabel()
-	{
-		if (countPlayers>0)
+		yield return StartCoroutine (model.player.SetSelectedDeck (model.decks [this.deckDisplayed].Id));
+		if(ApplicationModel.gameType==0)
 		{
-			if (countPlayers==1)
-			{
-				this.connectedPlayersTitle.GetComponent<TextMeshPro>().text="1 colon en ligne";
-			}
-			else
-			{
-				this.connectedPlayersTitle.GetComponent<TextMeshPro>().text=countPlayers+" colons en ligne";
-			}
+			this.loadingScreen.GetComponent<LoadingScreenController> ().changeLoadingScreenLabel ("En attente de joueurs ...");
+			newMenuController.instance.joinRandomRoom();
 		}
-	}
-	void OnJoinedLobby()
-	{
-		TypedLobby sqlLobby = new TypedLobby("lobby", LobbyType.SqlLobby);    
-		string sqlLobbyFilter = "C0 = 0";
-		if(this.isSceneLoaded)
+		else
 		{
-			PhotonNetwork.FindFriends (model.usernameList);
-		}
-	}
-	void OnDisconnectedFromPhoton()
-	{
-		if (attemptToPlay)
-		{
-			if(ApplicationModel.gameType==0)
-			{
-				Application.LoadLevel("Game");
-			}
-			else
-			{
-				Application.LoadLevel("NewLobby");
-			}
+			Application.LoadLevel("NewLobby");
 		}
 	}
 	private void launchEndGameSequence(bool hasWon)
@@ -1691,9 +1658,16 @@ public class NewHomePageController : Photon.MonoBehaviour
 			this.isLoadingScreenDisplayed=false;
 		}
 	}
+	public void checkFriendsOnlineStatus()
+	{
+		if(PhotonNetwork.insideLobby)
+		{
+			PhotonNetwork.FindFriends (model.usernameList);
+			print ("toto");
+		}
+	}
 	public void OnUpdatedFriendList()
 	{
-		print ("toto");
 		for(int i=0;i<PhotonNetwork.Friends.Count;i++)
 		{
 			for(int j=0;j<model.users.Count;j++)
