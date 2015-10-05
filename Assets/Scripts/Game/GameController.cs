@@ -5,8 +5,6 @@ using System.Collections.Generic;
 
 public class GameController : Photon.MonoBehaviour
 {	
-	public static GameController instance;
-	
 	private float timePerTurn = 30 ;
 	
 	//URL pour les appels en BDD
@@ -36,8 +34,7 @@ public class GameController : Photon.MonoBehaviour
 	void Awake()
 	{
 		this.currentPlayingCard = -1;
-		instance = this;
-
+		
 		//PhotonNetwork.autoCleanUpPlayerObjects = false;
 		//PhotonNetwork.ConnectUsingSettings(ApplicationModel.photonSettings);
 		
@@ -48,6 +45,17 @@ public class GameController : Photon.MonoBehaviour
 
 		this.myPlayerName = ApplicationModel.myPlayerName;
 		this.hisPlayerName = ApplicationModel.hisPlayerName;
+		
+		if (ApplicationModel.launchGameTutorial)
+		{
+			GameView.instance.setIsTutorialLaunched(true);
+			ApplicationModel.launchGameTutorial=false;
+			GameView.instance.launchTuto();
+		}
+		else{
+			GameView.instance.setIsTutorialLaunched(false);
+		}
+		
 		if (this.isFirstPlayer)
 		{
 			this.initGrid();
@@ -311,8 +319,8 @@ public class GameController : Photon.MonoBehaviour
 		
 		if(enemy!=-1){
 			this.startPlayingSkill(-1);
-			GameController.instance.addTarget(enemy,1);
-			GameController.instance.play();
+			GameView.instance.getGC().addTarget(enemy,1);
+			GameView.instance.getGC().play();
 		}
 	}
 	
@@ -1206,14 +1214,14 @@ public class GameController : Photon.MonoBehaviour
 			idskill = 0 ;
 			Skill s = new Skill();
 			GameSkills.instance.getSkill(0).init(GameView.instance.getCard(this.currentPlayingCard), s);
-			if (GameController.instance.isMyCharacterPlaying()){
+			if (GameView.instance.getGC().isMyCharacterPlaying()){
 				GameSkills.instance.getSkill(0).launch ();
 			}
 		}
 		else{
 			Skill s = GameView.instance.getCard(this.currentPlayingCard).getSkills()[idskill];
 			GameSkills.instance.getSkill(s.Id).init(GameView.instance.getCard(this.currentPlayingCard), s);	
-			if (GameController.instance.isMyCharacterPlaying()){
+			if (GameView.instance.getGC().isMyCharacterPlaying()){
 				GameSkills.instance.getSkill(s.Id).launch ();
 			}
 		}

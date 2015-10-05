@@ -9,13 +9,13 @@ public class Assassinat : GameSkill
 	
 	public override void launch()
 	{
-		GameController.instance.initPCCTargetHandler(numberOfExpectedTargets);
+		GameView.instance.getGC().initPCCTargetHandler(numberOfExpectedTargets);
 		GameView.instance.displayAdjacentOpponentsTargets();
 	}
 	
 	public override void resolve(List<int> targetsPCC)
 	{	
-		if (GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
+		if (GameView.instance.getIsMine(GameView.instance.getGC().getCurrentPlayingCard())){
 			GameView.instance.hideTargets();
 		}
 		
@@ -27,16 +27,16 @@ public class Assassinat : GameSkill
 		{                             
 			if (Random.Range(1,101) <= successChances)
 			{ 
-				GameController.instance.addTarget(target,1);
+				GameView.instance.getGC().addTarget(target,1);
 			}
 			else{
-				GameController.instance.addTarget(target,2);
+				GameView.instance.getGC().addTarget(target,2);
 			}
 		}
 		else{
-			GameController.instance.addTarget(target,0);
+			GameView.instance.getGC().addTarget(target,0);
 		}
-		GameController.instance.play();
+		GameView.instance.getGC().play();
 	}
 	
 	public override void applyOn(){
@@ -69,10 +69,10 @@ public class Assassinat : GameSkill
 				text="MORT";
 				receiversTexts.Add (text);
 				
-				GameController.instance.addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
+				GameView.instance.getGC().addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
 			}	
 		}
-		if(!GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
+		if(!GameView.instance.getIsMine(GameView.instance.getGC().getCurrentPlayingCard())){
 			GameView.instance.setSkillPopUp("lance <b>Assassinat</b>...", base.card, receivers, receiversTexts);
 		}
 	}

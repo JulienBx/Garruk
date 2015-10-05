@@ -9,18 +9,18 @@ public class Electropiege : GameSkill
 	
 	public override void launch()
 	{
-		GameController.instance.initTileTargetHandler(numberOfExpectedTargets);
+		GameView.instance.getGC().initTileTargetHandler(numberOfExpectedTargets);
 		GameView.instance.displayAdjacentTileTargets();
 	}
 	
 	public override void resolve(List<Tile> targetsTile)
 	{	
-		if (GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
+		if (GameView.instance.getIsMine(GameView.instance.getGC().getCurrentPlayingCard())){
 			GameView.instance.hideTargets();
 		}
 	
-		GameController.instance.addTargetTile(targetsTile[0].x, targetsTile[0].y, 1);
-		GameController.instance.play();
+		GameView.instance.getGC().addTargetTile(targetsTile[0].x, targetsTile[0].y, 1);
+		GameView.instance.getGC().play();
 	}
 	
 	public override void applyOn(){
@@ -37,16 +37,16 @@ public class Electropiege : GameSkill
 			
 			text="Piège posé";
 			
-			GameController.instance.addTileModifier(target, amount, ModifierType.Type_Wolftrap, ModifierStat.Stat_No, -1, 4, "Electropiege", "Inflige "+amount+" dégats", "Permanent. Non visible du joueur adverse");
-			GameView.instance.displaySkillEffect(GameController.instance.getCurrentPlayingCard(), text, 4);
+			GameView.instance.getGC().addTileModifier(target, amount, ModifierType.Type_Wolftrap, ModifierStat.Stat_No, -1, 4, "Electropiege", "Inflige "+amount+" dégats", "Permanent. Non visible du joueur adverse");
+			GameView.instance.displaySkillEffect(GameView.instance.getGC().getCurrentPlayingCard(), text, 4);
 		}
-		if(!GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
+		if(!GameView.instance.getIsMine(GameView.instance.getGC().getCurrentPlayingCard())){
 			GameView.instance.setSkillPopUp("pose un <b>électropiège</b>...", base.card, receivers, receiversTexts);
 		}
 	}
 	
 	public override void activateTrap(int[] targets, int[] args){
-		GameController.instance.addCardModifier(targets[0], args[0], ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
+		GameView.instance.getGC().addCardModifier(targets[0], args[0], ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
 		if(GameView.instance.getCard(targets[0]).GetLife()>0){
 			GameView.instance.displaySkillEffect(targets[0], "HIT\n-"+args[0]+" PV", 5);
 		}

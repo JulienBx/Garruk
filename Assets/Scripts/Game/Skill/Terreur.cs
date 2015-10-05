@@ -9,13 +9,13 @@ public class Terreur : GameSkill
 	
 	public override void launch()
 	{
-		GameController.instance.initPCCTargetHandler(numberOfExpectedTargets);
+		GameView.instance.getGC().initPCCTargetHandler(numberOfExpectedTargets);
 		GameView.instance.displayAdjacentOpponentsTargets();
 	}
 	
 	public override void resolve(List<int> targetsPCC)
 	{	
-		if (GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
+		if (GameView.instance.getIsMine(GameView.instance.getGC().getCurrentPlayingCard())){
 			GameView.instance.hideTargets();
 		}
 		
@@ -24,10 +24,10 @@ public class Terreur : GameSkill
 		if (Random.Range(1,101) > GameView.instance.getCard(target).GetEsquive())
 		{                             
 			int arg = Random.Range(1,101);
-			GameController.instance.addTarget(target,1,arg);
+			GameView.instance.getGC().addTarget(target,1,arg);
 		}
 		else{
-			GameController.instance.addTarget(target,0,0);
+			GameView.instance.getGC().addTarget(target,0,0);
 		}
 		
 		if (base.card.isGiant()){
@@ -40,16 +40,16 @@ public class Terreur : GameSkill
 					if (Random.Range(1,101) > GameView.instance.getCard(target).GetMagicalEsquive())
 					{
 						int arg = Random.Range(1,101);
-						GameController.instance.addTarget(target,3,arg);
+						GameView.instance.getGC().addTarget(target,3,arg);
 					}
 					else{
-						GameController.instance.addTarget(target,2,0);
+						GameView.instance.getGC().addTarget(target,2,0);
 					}
 				}
 			}
 		}
 		
-		GameController.instance.play();
+		GameView.instance.getGC().play();
 	}
 	
 	public override void applyOn(){
@@ -84,7 +84,7 @@ public class Terreur : GameSkill
 				}
 				if(base.values[i]<base.skill.ManaCost){
 					text+="Paralyse\n";
-					GameController.instance.addCardModifier(target, 0, ModifierType.Type_Paralized, ModifierStat.Stat_No, 1, 2, "Paralisé", "Ne peur rien faire au prochain tour", "Actif 1 tour");
+					GameView.instance.getGC().addCardModifier(target, 0, ModifierType.Type_Paralized, ModifierStat.Stat_No, 1, 2, "Paralisé", "Ne peur rien faire au prochain tour", "Actif 1 tour");
 				}
 				else{
 				
@@ -98,12 +98,12 @@ public class Terreur : GameSkill
 				}
 				receiversTexts.Add (text);
 				
-				GameController.instance.addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
+				GameView.instance.getGC().addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
 				
 				GameView.instance.displaySkillEffect(target, text, 5);
 			}	
 		}
-		if(!GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
+		if(!GameView.instance.getIsMine(GameView.instance.getGC().getCurrentPlayingCard())){
 			GameView.instance.setSkillPopUp("lance <b>Terreur</b>...", base.card, receivers, receiversTexts);
 		}
 	}

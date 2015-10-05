@@ -74,14 +74,14 @@ public class TileHandlerController : GameObjectController
 	void OnMouseDown()
 	{
 		if (this.type==1){
-			GameController.instance.moveToDestination(this.tile);
+			GameView.instance.getGC().moveToDestination(this.tile);
 		}
 		else if (this.type==2){
 			if(this.characterID==-1){
-				GameController.instance.hitTarget(this.tile);
+				GameView.instance.getGC().hitTarget(this.tile);
 			}
 			else{
-				GameController.instance.hitTarget(this.characterID);
+				GameView.instance.getGC().hitTarget(this.characterID);
 			}
 		}
 		if(GameView.instance.getIsTutorialLaunched())

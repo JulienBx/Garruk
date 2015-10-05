@@ -9,13 +9,13 @@ public class Cannibale : GameSkill
 	
 	public override void launch()
 	{
-		GameController.instance.initPCCTargetHandler(numberOfExpectedTargets);
+		GameView.instance.getGC().initPCCTargetHandler(numberOfExpectedTargets);
 		GameView.instance.displayAdjacentAllyTargets();
 	}
 	
 	public override void resolve(List<int> targetsPCC)
 	{	
-		if (GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
+		if (GameView.instance.getIsMine(GameView.instance.getGC().getCurrentPlayingCard())){
 			GameView.instance.hideTargets();
 		}
 		
@@ -23,12 +23,12 @@ public class Cannibale : GameSkill
 		
 		if (Random.Range(1,101) > GameView.instance.getCard(target).GetEsquive())
 		{                             
-			GameController.instance.addTarget(target,1);
+			GameView.instance.getGC().addTarget(target,1);
 		}
 		else{
-			GameController.instance.addTarget(target,0);
+			GameView.instance.getGC().addTarget(target,0);
 		}
-		GameController.instance.play();
+		GameView.instance.getGC().play();
 	}
 	
 	public override void applyOn(){
@@ -63,20 +63,20 @@ public class Cannibale : GameSkill
 				
 				text="Sacrifié";
 				receiversTexts.Add (text);
-				GameController.instance.addCardModifier(target, currentLife, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
+				GameView.instance.getGC().addCardModifier(target, currentLife, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
 				
 				GameView.instance.displaySkillEffect(target, text, 5);
 				
-				targetCard = GameView.instance.getCard(GameController.instance.getCurrentPlayingCard());
-				GameController.instance.addCardModifier(GameController.instance.getCurrentPlayingCard(), amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Life, -1, -1, "", "", "");
-				GameController.instance.addCardModifier(GameController.instance.getCurrentPlayingCard(), amount2, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, -1, -1, "", "", "");
+				targetCard = GameView.instance.getCard(GameView.instance.getGC().getCurrentPlayingCard());
+				GameView.instance.getGC().addCardModifier(GameView.instance.getGC().getCurrentPlayingCard(), amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Life, -1, -1, "", "", "");
+				GameView.instance.getGC().addCardModifier(GameView.instance.getGC().getCurrentPlayingCard(), amount2, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, -1, -1, "", "", "");
 				receivers.Add (targetCard);
 				text="+"+amount+" PV\n+"+amount2+" ATK";
 				receiversTexts.Add (text);
-				GameView.instance.displaySkillEffect(GameController.instance.getCurrentPlayingCard(), text, 4);
+				GameView.instance.displaySkillEffect(GameView.instance.getGC().getCurrentPlayingCard(), text, 4);
 			}	
 		}
-		if(!GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
+		if(!GameView.instance.getIsMine(GameView.instance.getGC().getCurrentPlayingCard())){
 			GameView.instance.setSkillPopUp("lance <b>Cannibale</b>...", base.card, receivers, receiversTexts);
 		}
 	}

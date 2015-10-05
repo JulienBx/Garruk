@@ -20,14 +20,14 @@ public class Rugissement : GameSkill
 		for(int i = 0 ; i < targets.Count ; i++){
 			if (Random.Range(1,101) > GameView.instance.getCard(targets[i]).GetMagicalEsquive())
 			{
-				GameController.instance.addTarget(targets[i],1);
+				GameView.instance.getGC().addTarget(targets[i],1);
 			}
 			else{
-				GameController.instance.addTarget(targets[i],0);
+				GameView.instance.getGC().addTarget(targets[i],0);
 			}
 		}
 		
-		GameController.instance.play();
+		GameView.instance.getGC().play();
 	}
 	
 	public override void applyOn(){
@@ -53,12 +53,12 @@ public class Rugissement : GameSkill
 				text="+"+amount+" ATK";
 				receiversTexts.Add (text);
 				
-				GameController.instance.addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, 1, 9, "Renforcé", "+"+amount+" ATK pour 1 tour", "Actif 1 tour");
+				GameView.instance.getGC().addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, 1, 9, "Renforcé", "+"+amount+" ATK pour 1 tour", "Actif 1 tour");
 				
 				GameView.instance.displaySkillEffect(target, text, 5);
 			}	
 		}
-		if(!GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
+		if(!GameView.instance.getIsMine(GameView.instance.getGC().getCurrentPlayingCard())){
 			GameView.instance.setSkillPopUp("lance <b>Cri de rage</b>...", base.card, receivers, receiversTexts);
 		}
 	}

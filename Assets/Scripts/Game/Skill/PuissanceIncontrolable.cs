@@ -28,14 +28,14 @@ public class PuissanceIncontrolable : GameSkill
 		
 		if (Random.Range(1,101) > GameView.instance.getCard(target).GetMagicalEsquive())
 		{                             
-			GameController.instance.applyOn(target);
+			GameView.instance.getGC().applyOn(target);
 			success = 1 ;
 		}
 		else{
-			GameController.instance.failedToCastOnSkill(target, 1);
+			GameView.instance.getGC().failedToCastOnSkill(target, 1);
 		}
 		
-		GameController.instance.play();
+		GameView.instance.getGC().play();
 	
 	}
 	

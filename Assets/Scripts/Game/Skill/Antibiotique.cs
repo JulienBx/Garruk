@@ -10,13 +10,13 @@ public class Antibiotique : GameSkill
 	
 	public override void launch()
 	{
-		GameController.instance.initPCCTargetHandler(numberOfExpectedTargets);
+		GameView.instance.getGC().initPCCTargetHandler(numberOfExpectedTargets);
 		GameView.instance.displayAllButMeModifiersTargets();
 	}
 	
 	public override void resolve(List<int> targetsPCC)
 	{	
-		if (GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
+		if (GameView.instance.getIsMine(GameView.instance.getGC().getCurrentPlayingCard())){
 			GameView.instance.hideTargets();
 		}
 		
@@ -28,14 +28,14 @@ public class Antibiotique : GameSkill
 		{                             
 			if (Random.Range(1,101) <= successChances)
 			{ 
-				GameController.instance.addTarget(target,1);
+				GameView.instance.getGC().addTarget(target,1);
 			}
 			else{
-				GameController.instance.addTarget(target,2);
+				GameView.instance.getGC().addTarget(target,2);
 			}
 		}
 		else{
-			GameController.instance.addTarget(target,0);
+			GameView.instance.getGC().addTarget(target,0);
 		}
 		
 		if (base.card.isGenerous()){
@@ -49,20 +49,20 @@ public class Antibiotique : GameSkill
 					{
 						if (Random.Range(1,101) > GameView.instance.getCard(target).GetMagicalEsquive())
 						{
-							GameController.instance.addTarget(target,4);
+							GameView.instance.getGC().addTarget(target,4);
 						}
 						else{
-							GameController.instance.addTarget(target,5);
+							GameView.instance.getGC().addTarget(target,5);
 						}
 					}
 					else{
-						GameController.instance.addTarget(target,3);
+						GameView.instance.getGC().addTarget(target,3);
 					}
 				}
 			}
 		}
 		
-		GameController.instance.play();
+		GameView.instance.getGC().play();
 	}
 	
 	public override void applyOn(){
@@ -101,7 +101,7 @@ public class Antibiotique : GameSkill
 			}
 			else{
 				GameView.instance.getCard(target).emptyModifiers();
-				if(target!=GameController.instance.getCurrentPlayingCard()){
+				if(target!=GameView.instance.getGC().getCurrentPlayingCard()){
 					GameView.instance.show(target, true);
 				}
 				else{
@@ -122,7 +122,7 @@ public class Antibiotique : GameSkill
 				GameView.instance.displaySkillEffect(target, text, 5);
 			}	
 		}
-		if(!GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
+		if(!GameView.instance.getIsMine(GameView.instance.getGC().getCurrentPlayingCard())){
 			GameView.instance.setSkillPopUp("lance <b>Antibiotique</b>...", base.card, receivers, receiversTexts);
 		}
 	}

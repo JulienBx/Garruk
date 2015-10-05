@@ -20,7 +20,7 @@ public class Trap
 			message += "\n"+GameView.instance.getCard(target).Title+" subit "+amount+" dégats";
 			
 			//GameController.instance.addModifier(target, amount, (int)ModifierType.Type_BonusMalus, (int)ModifierStat.Stat_Dommage);	
-			GameController.instance.play();	
+			GameView.instance.getGC().play();	
 		}
 	}
 }

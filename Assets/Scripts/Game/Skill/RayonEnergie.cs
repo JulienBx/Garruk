@@ -10,7 +10,7 @@ public class RayonEnergie : GameSkill
 	
 	public override void launch()
 	{
-		GameController.instance.initPCCTargetHandler(numberOfExpectedTargets);
+		GameView.instance.getGC().initPCCTargetHandler(numberOfExpectedTargets);
 		GameView.instance.displayOpponentsTargets();
 	}
 	
@@ -21,13 +21,13 @@ public class RayonEnergie : GameSkill
 		
 		if (Random.Range(1,101) > GameView.instance.getCard(target).GetMagicalEsquive())
 		{                             
-			GameController.instance.applyOn(target);
+			GameView.instance.getGC().applyOn(target);
 			successType = 1 ;
 		}
 		else{
-			GameController.instance.failedToCastOnSkill(target, 1);
+			GameView.instance.getGC().failedToCastOnSkill(target, 1);
 		}
-		GameController.instance.play();
+		GameView.instance.getGC().play();
 	}
 	
 	public override void applyOn(){

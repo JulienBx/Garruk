@@ -15,23 +15,23 @@ public class Furie : GameSkill
 	
 	public override void resolve(List<int> targetsPCC)
 	{	                     
-		GameController.instance.play();
+		GameView.instance.getGC().play();
 	}
 	
 	public override void applyOn(){
-		int target = GameController.instance.getCurrentPlayingCard() ;
+		int target = GameView.instance.getGC().getCurrentPlayingCard() ;
 		string text = "Devient furieux!";
 		
 		List<Card> receivers =  new List<Card>();
 		List<string> receiversTexts =  new List<string>();
 		
-		GameController.instance.addCardModifier(target, 0, ModifierType.Type_Crazy, ModifierStat.Stat_No, 50, 14, "Furieux", "Attaque à chaque tour le héros le plus proche. Permanent", "Actif 2 tours");	
+		GameView.instance.getGC().addCardModifier(target, 0, ModifierType.Type_Crazy, ModifierStat.Stat_No, 50, 14, "Furieux", "Attaque à chaque tour le héros le plus proche. Permanent", "Actif 2 tours");	
 		GameView.instance.displaySkillEffect(target, text, 5);
 		
-		receivers.Add(GameView.instance.getCard(GameController.instance.getCurrentPlayingCard()));
+		receivers.Add(GameView.instance.getCard(GameView.instance.getGC().getCurrentPlayingCard()));
 		receiversTexts.Add(text);
 		
-		if(!GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
+		if(!GameView.instance.getIsMine(GameView.instance.getGC().getCurrentPlayingCard())){
 			GameView.instance.setSkillPopUp("lance <b>Furie</b>...", base.card, receivers, receiversTexts);
 		}
 	}

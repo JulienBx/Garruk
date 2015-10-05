@@ -2152,7 +2152,6 @@ GameObject:
   - 124: {fileID: 481987435}
   - 81: {fileID: 481987434}
   - 114: {fileID: 481987441}
-  - 114: {fileID: 481987439}
   - 114: {fileID: 481987443}
   - 114: {fileID: 481987446}
   - 114: {fileID: 481987440}
@@ -2230,17 +2229,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 5
---- !u!114 &481987439
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 481987433}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 93bdf921d5dd1d24c9c32a3dbebd497f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &481987440
 MonoBehaviour:
   m_ObjectHideFlags: 0

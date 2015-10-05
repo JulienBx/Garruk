@@ -109,12 +109,16 @@ public class GameView : MonoBehaviour
 	
 	List<Tile> destinations ;
 
-	bool isTutorialLaunched;
+	bool isTutorialLaunched = false;
 	bool isLoadingScreenDisplayed;
+	
+	GameController gc ;
 		
 	void Awake()
 	{
-		GameController.instance.setCurrentPlayingCard(-1);
+		gc = new GameController();
+		
+		GameView.instance.getGC().setCurrentPlayingCard(-1);
 		
 		instance = this;
 
@@ -155,16 +159,6 @@ public class GameView : MonoBehaviour
 		this.setMyPlayerName(ApplicationModel.myPlayerName);
 		this.setHisPlayerName(ApplicationModel.hisPlayerName);
 		this.createBackground();
-
-		if (ApplicationModel.launchGameTutorial)
-		{
-			this.isTutorialLaunched=true;
-			ApplicationModel.launchGameTutorial=false;
-			this.tutorial = Instantiate(this.TutorialObject) as GameObject;
-			this.tutorial.AddComponent<GameTutorialController>();
-			StartCoroutine(this.tutorial.GetComponent<GameTutorialController>().launchSequence(0));
-		}
-
 	}
 	
 	void Update()
@@ -175,8 +169,8 @@ public class GameView : MonoBehaviour
 			}
 		}
 		
-		if(GameController.instance.getCurrentPlayingCard()!=-1){
-			this.playingCards[GameController.instance.getCurrentPlayingCard()].GetComponent<PlayingCardController>().addTime(Time.deltaTime);
+		if(GameView.instance.getGC().getCurrentPlayingCard()!=-1){
+			this.playingCards[GameView.instance.getGC().getCurrentPlayingCard()].GetComponent<PlayingCardController>().addTime(Time.deltaTime);
 		}
 		
 		if(this.skillPopUp.GetComponent<SkillPopUpController>().getTimeToDisplay()!=0){
@@ -185,8 +179,8 @@ public class GameView : MonoBehaviour
 		
 		if(timerTurn>0){
 			this.timerTurn += Time.deltaTime; 
-			if (this.timerTurn<=0 && this.getIsMine(GameController.instance.getCurrentPlayingCard())){
-				GameController.instance.resolvePass();
+			if (this.timerTurn<=0 && this.getIsMine(GameView.instance.getGC().getCurrentPlayingCard())){
+				GameView.instance.getGC().resolvePass();
 			}
 			else{
 				if(this.timerSeconds != Mathf.Min(Mathf.FloorToInt(this.timerTurn))){
@@ -291,13 +285,13 @@ public class GameView : MonoBehaviour
 					this.tileHandlers[t.x, t.y].SetActive(false);
 					this.displayedDeads.RemoveAt(i);
 					this.displayedDeadsTimer.RemoveAt(i);
-					if(!this.hasMoved(GameController.instance.getCurrentPlayingCard())){
+					if(!this.hasMoved(GameView.instance.getGC().getCurrentPlayingCard())){
 						this.removeDestinations();
-						if(this.getIsMine(GameController.instance.getCurrentPlayingCard())){
-							this.setDestinations(GameController.instance.getCurrentPlayingCard(), true);
+						if(this.getIsMine(GameView.instance.getGC().getCurrentPlayingCard())){
+							this.setDestinations(GameView.instance.getGC().getCurrentPlayingCard(), true);
 						}
 						else{
-							this.setHisDestinations(GameController.instance.getCurrentPlayingCard(), true);
+							this.setHisDestinations(GameView.instance.getGC().getCurrentPlayingCard(), true);
 						}
 					}
 				}
@@ -316,14 +310,14 @@ public class GameView : MonoBehaviour
 					this.tileHandlers[t.x, t.y].SetActive(false);
 					this.displayedSE.RemoveAt(i);
 					this.displayedSETimer.RemoveAt(i);
-					if(!this.hasMoved(GameController.instance.getCurrentPlayingCard())){
+					if(!this.hasMoved(GameView.instance.getGC().getCurrentPlayingCard())){
 						this.removeDestinations();
 						
-						if(this.getIsMine(GameController.instance.getCurrentPlayingCard())){
-							this.setDestinations(GameController.instance.getCurrentPlayingCard(), true);
+						if(this.getIsMine(GameView.instance.getGC().getCurrentPlayingCard())){
+							this.setDestinations(GameView.instance.getGC().getCurrentPlayingCard(), true);
 						}
 						else{
-							this.setHisDestinations(GameController.instance.getCurrentPlayingCard(), true);
+							this.setHisDestinations(GameView.instance.getGC().getCurrentPlayingCard(), true);
 						}
 					}
 				}
@@ -332,6 +326,10 @@ public class GameView : MonoBehaviour
 				this.toDisplaySE = false ;
 			}
 		}
+	}
+	
+	public GameController getGC(){
+		return this.gc;
 	}
 	
 	public void setSkillPopUp(string texte, Card launcher, List<Card> receivers, List<string> textsReceivers){
@@ -437,7 +435,7 @@ public class GameView : MonoBehaviour
 	}
 	
 	public void loadClickedPC(){
-		int currentPlayingCard = GameController.instance.getCurrentPlayingCard();
+		int currentPlayingCard = GameView.instance.getGC().getCurrentPlayingCard();
 		Card c = this.playingCards[currentPlayingCard].GetComponent<PlayingCardController>().getCard();
 		
 		this.skillButtons[0].SetActive(true);
@@ -467,7 +465,7 @@ public class GameView : MonoBehaviour
 	}
 	
 	public void loadSkill(){
-		int currentPlayingCard = GameController.instance.getCurrentPlayingCard();
+		int currentPlayingCard = GameView.instance.getGC().getCurrentPlayingCard();
 		GameObject.Find("TitleSD").GetComponent<TextMeshPro>().text = this.currentHoveredSkill.Name;
 		GameObject.Find("DescriptionSD").GetComponent<TextMeshPro>().text = this.currentHoveredSkill.Description;
 	}
@@ -653,13 +651,13 @@ public class GameView : MonoBehaviour
 				
 				if(tiles.Count>0){
 					randomNumber = UnityEngine.Random.Range(0,tiles.Count);
-					GameController.instance.addElectroPiege(tiles[randomNumber].x, tiles[randomNumber].y, this.getCard(debut+c.deckOrder).getPassiveManacost(), GameController.instance.getIsFirstPlayer());
+					GameView.instance.getGC().addElectroPiege(tiles[randomNumber].x, tiles[randomNumber].y, this.getCard(debut+c.deckOrder).getPassiveManacost(), GameView.instance.getGC().getIsFirstPlayer());
 					tiles.RemoveAt(randomNumber);
 				}
 				
 				if(tiles.Count>0){
 					randomNumber = UnityEngine.Random.Range(0,tiles.Count);
-					GameController.instance.addElectroPiege(tiles[randomNumber].x, tiles[randomNumber].y, this.getCard(debut+c.deckOrder).getPassiveManacost(), GameController.instance.getIsFirstPlayer());
+					GameView.instance.getGC().addElectroPiege(tiles[randomNumber].x, tiles[randomNumber].y, this.getCard(debut+c.deckOrder).getPassiveManacost(), GameView.instance.getGC().getIsFirstPlayer());
 				}
 			}
 		}
@@ -698,7 +696,7 @@ public class GameView : MonoBehaviour
 			this.tiles[x, y].GetComponentInChildren<TileController>().checkTrap(c);
 		}
 		
-		if (GameController.instance.hasGameStarted() && this.getIsMine(GameController.instance.getCurrentPlayingCard())){
+		if (GameView.instance.getGC().hasGameStarted() && this.getIsMine(GameView.instance.getGC().getCurrentPlayingCard())){
 			this.checkSkillsLaunchability();
 		}
 	}
@@ -708,7 +706,7 @@ public class GameView : MonoBehaviour
 	}
 	
 	public void checkSkillsLaunchability(){
-		List<Skill> skills = this.getCard(GameController.instance.getCurrentPlayingCard()).getSkills();
+		List<Skill> skills = this.getCard(GameView.instance.getGC().getCurrentPlayingCard()).getSkills();
 		this.skillButtons[0].GetComponentInChildren<SkillButtonController>().checkLaunchability();
 		for (int i = 0 ; i < skills.Count ; i++){
 			this.skillButtons[1+i].GetComponentInChildren<SkillButtonController>().checkLaunchability();
@@ -917,7 +915,7 @@ public class GameView : MonoBehaviour
 	
 	public void hoverTile(int c, Tile t, bool toCheckSkills){
 		
-		int currentPlayingCard = GameController.instance.getCurrentPlayingCard();
+		int currentPlayingCard = GameView.instance.getGC().getCurrentPlayingCard();
 		
 		if (this.isTargeting && this.currentTargetingTileHandler!=-1 && this.currentTargetingTileHandler!=c){	
 			Tile tile = this.getPlayingCardTile(currentTargetingTileHandler);
@@ -927,8 +925,8 @@ public class GameView : MonoBehaviour
 		}
 		
 		if(c!=-1){
-			if(GameController.instance.getCurrentPlayingCard()!=-1){		
-				if (GameController.instance.getCurrentPlayingCard()!=c){
+			if(GameView.instance.getGC().getCurrentPlayingCard()!=-1){		
+				if (GameView.instance.getGC().getCurrentPlayingCard()!=c){
 					this.clearDestinations();
 					this.isDisplayedItsDestinations = true ;
 					if (this.getIsMine(c)){
@@ -941,11 +939,11 @@ public class GameView : MonoBehaviour
 				else{
 					if(this.isDisplayedItsDestinations){
 						this.clearDestinations();
-						if (this.getIsMine(GameController.instance.getCurrentPlayingCard())){
-							this.setDestinations(GameController.instance.getCurrentPlayingCard(), true);
+						if (this.getIsMine(GameView.instance.getGC().getCurrentPlayingCard())){
+							this.setDestinations(GameView.instance.getGC().getCurrentPlayingCard(), true);
 						}
 						else{
-							this.setHisDestinations(GameController.instance.getCurrentPlayingCard(), true);
+							this.setHisDestinations(GameView.instance.getGC().getCurrentPlayingCard(), true);
 						}
 						this.isDisplayedItsDestinations=false;
 					}
@@ -1017,13 +1015,13 @@ public class GameView : MonoBehaviour
 			}
 		}
 		else{
-			if(GameController.instance.getCurrentPlayingCard()!=-1){
+			if(GameView.instance.getGC().getCurrentPlayingCard()!=-1){
 				this.clearDestinations();
-				if (this.getIsMine(GameController.instance.getCurrentPlayingCard())){
-					this.setDestinations(GameController.instance.getCurrentPlayingCard(), true);
+				if (this.getIsMine(GameView.instance.getGC().getCurrentPlayingCard())){
+					this.setDestinations(GameView.instance.getGC().getCurrentPlayingCard(), true);
 				}
 				else{
-					this.setHisDestinations(GameController.instance.getCurrentPlayingCard(), true);
+					this.setHisDestinations(GameView.instance.getGC().getCurrentPlayingCard(), true);
 				}
 				this.isDisplayedItsDestinations=false;
 			}
@@ -1108,7 +1106,7 @@ public class GameView : MonoBehaviour
 				}
 			}
 			else{
-				int clickedCard = GameController.instance.getClickedCard();
+				int clickedCard = GameView.instance.getGC().getClickedCard();
 				if (clickedCard!=-1){
 					if (this.getMyHoveredCardController().getIsDisplayed()){
 						if(this.getMyHoveredCardController().getCurrentCharacter()!=clickedCard){
@@ -1427,7 +1425,7 @@ public class GameView : MonoBehaviour
 	{
 		Tile tile ;
 		this.targets = new List<Tile>();
-		List<Tile> neighbourTiles = this.getOpponentImmediateNeighbours(this.getPlayingCardTile(GameController.instance.getCurrentPlayingCard()));
+		List<Tile> neighbourTiles = this.getOpponentImmediateNeighbours(this.getPlayingCardTile(GameView.instance.getGC().getCurrentPlayingCard()));
 		int playerID;
 		foreach (Tile t in neighbourTiles)
 		{
@@ -1453,7 +1451,7 @@ public class GameView : MonoBehaviour
 	public void display1TileAwayOpponentsTargets()
 	{
 		int playerID;
-		Tile tile = this.getPlayingCardTile(GameController.instance.getCurrentPlayingCard()) ;
+		Tile tile = this.getPlayingCardTile(GameView.instance.getGC().getCurrentPlayingCard()) ;
 		if(tile.x>1){
 			playerID = this.tiles [tile.x-2, tile.y].GetComponent<TileController>().getCharacterID();
 			if (playerID != -1)
@@ -1533,7 +1531,7 @@ public class GameView : MonoBehaviour
 		string isLaunchable = "Aucun ennemi à portée de lance";
 		
 		int playerID;
-		Tile tile = this.getPlayingCardTile(GameController.instance.getCurrentPlayingCard()) ;
+		Tile tile = this.getPlayingCardTile(GameView.instance.getGC().getCurrentPlayingCard()) ;
 		
 		if(tile.x>1){
 			playerID = this.tiles [tile.x-2, tile.y].GetComponent<TileController>().getCharacterID();
@@ -1591,7 +1589,7 @@ public class GameView : MonoBehaviour
 	{
 		Tile tile ;
 		this.targets = new List<Tile>();
-		List<Tile> neighbourTiles = this.getAllyImmediateNeighbours(this.getPlayingCardTile(GameController.instance.getCurrentPlayingCard()));
+		List<Tile> neighbourTiles = this.getAllyImmediateNeighbours(this.getPlayingCardTile(GameView.instance.getGC().getCurrentPlayingCard()));
 		int playerID;
 		foreach (Tile t in neighbourTiles)
 		{
@@ -1616,7 +1614,7 @@ public class GameView : MonoBehaviour
 	
 	public void displayAdjacentTileTargets()
 	{
-		List<Tile> neighbourTiles = this.getFreeImmediateNeighbours(this.getPlayingCardTile(GameController.instance.getCurrentPlayingCard()));
+		List<Tile> neighbourTiles = this.getFreeImmediateNeighbours(this.getPlayingCardTile(GameView.instance.getGC().getCurrentPlayingCard()));
 		this.targets = new List<Tile>();
 		
 		foreach (Tile t in neighbourTiles){
@@ -1638,7 +1636,7 @@ public class GameView : MonoBehaviour
 		for (int i = 0; i < this.playingCards.Count; i++)
 		{
 			pcc = this.getPCC(i);
-			if (pcc.getCard().hasModifiers() && pcc.canBeTargeted() && i != GameController.instance.getCurrentPlayingCard())
+			if (pcc.getCard().hasModifiers() && pcc.canBeTargeted() && i != GameView.instance.getGC().getCurrentPlayingCard())
 			{
 				tile = this.getPlayingCardTile(i);
 				this.targets.Add(tile);
@@ -1683,7 +1681,7 @@ public class GameView : MonoBehaviour
 		for (int i = 0; i < this.playingCards.Count; i++)
 		{
 			pcc = this.getPCC(i);
-			if (this.getIsMine(i) && pcc.canBeTargeted() &&  i != GameController.instance.getCurrentPlayingCard())
+			if (this.getIsMine(i) && pcc.canBeTargeted() &&  i != GameView.instance.getGC().getCurrentPlayingCard())
 			{
 				tile = this.getPlayingCardTile(i);
 				this.targets.Add(tile);
@@ -1708,7 +1706,7 @@ public class GameView : MonoBehaviour
 		for (int i = 0 ; i < this.targets.Count ; i++){
 			this.tileHandlers[this.targets[i].x, this.targets[i].y].SetActive(false);
 		}
-		if(!hasMoved(GameController.instance.getCurrentPlayingCard())){
+		if(!hasMoved(GameView.instance.getGC().getCurrentPlayingCard())){
 			this.displayDestinations(true);
 		}
 	}
@@ -1717,7 +1715,7 @@ public class GameView : MonoBehaviour
 	{
 		string isLaunchable = "Aucun ennemi à proximité";
 		
-		List<Tile> neighbourTiles = this.getOpponentImmediateNeighbours(this.getPlayingCardTile(GameController.instance.getCurrentPlayingCard()));
+		List<Tile> neighbourTiles = this.getOpponentImmediateNeighbours(this.getPlayingCardTile(GameView.instance.getGC().getCurrentPlayingCard()));
 		int playerID;
 		foreach (Tile t in neighbourTiles)
 		{
@@ -1737,7 +1735,7 @@ public class GameView : MonoBehaviour
 	{
 		string isLaunchable = "Aucun allié à proximité";
 		
-		List<Tile> neighbourTiles = this.getAllyImmediateNeighbours(this.getPlayingCardTile(GameController.instance.getCurrentPlayingCard()));
+		List<Tile> neighbourTiles = this.getAllyImmediateNeighbours(this.getPlayingCardTile(GameView.instance.getGC().getCurrentPlayingCard()));
 		int playerID;
 		foreach (Tile t in neighbourTiles)
 		{
@@ -1757,7 +1755,7 @@ public class GameView : MonoBehaviour
 	{
 		string isLaunchable = "Aucun terrain ne peut etre ciblé";
 		
-		List<Tile> neighbourTiles = this.getFreeImmediateNeighbours(this.getPlayingCardTile(GameController.instance.getCurrentPlayingCard()));
+		List<Tile> neighbourTiles = this.getFreeImmediateNeighbours(this.getPlayingCardTile(GameView.instance.getGC().getCurrentPlayingCard()));
 		this.targets = new List<Tile>();
 		
 		if(neighbourTiles.Count>0){
@@ -1778,7 +1776,7 @@ public class GameView : MonoBehaviour
 		for (int i = 0; i < this.playingCards.Count; i++)
 		{
 			pcc = this.getPCC(i);
-			if (pcc.getCard().hasModifiers() && pcc.canBeTargeted() && i != GameController.instance.getCurrentPlayingCard())
+			if (pcc.getCard().hasModifiers() && pcc.canBeTargeted() && i != GameView.instance.getGC().getCurrentPlayingCard())
 			{
 				isLaunchable = "";
 			}
@@ -1812,7 +1810,7 @@ public class GameView : MonoBehaviour
 		for (int i = 0; i < this.playingCards.Count; i++)
 		{
 			pcc = this.getPCC(i);
-			if (this.getIsMine(i) && pcc.canBeTargeted() && i != GameController.instance.getCurrentPlayingCard())
+			if (this.getIsMine(i) && pcc.canBeTargeted() && i != GameView.instance.getGC().getCurrentPlayingCard())
 			{
 				isLaunchable = "";
 			}
@@ -1829,7 +1827,7 @@ public class GameView : MonoBehaviour
 		for (int i = 0; i < this.playingCards.Count; i++)
 		{
 			pcc = this.getPCC(i);
-			if (pcc.canBeTargeted() && i != GameController.instance.getCurrentPlayingCard())
+			if (pcc.canBeTargeted() && i != GameView.instance.getGC().getCurrentPlayingCard())
 			{
 				isLaunchable = "";
 			}
@@ -1850,7 +1848,7 @@ public class GameView : MonoBehaviour
 	public void kill(int target){
 		
 		this.playingCards[target].GetComponent<PlayingCardController>().kill();
-		GameController.instance.killHandle (target);
+		GameView.instance.getGC().killHandle (target);
 		
 		Tile t = this.getPlayingCardTile(target);
 		this.emptyTile(t.x, t.y);
@@ -1968,7 +1966,7 @@ public class GameView : MonoBehaviour
 		List<Tile> freeNeighbours = new List<Tile>();
 		List<Tile> neighbours = t.getImmediateNeighbourTiles();
 		for (int i = 0 ; i < neighbours.Count ; i++){
-			if(this.tiles[neighbours[i].x, neighbours[i].y].GetComponent<TileController>().getCharacterID()!=-1 && this.tiles[neighbours[i].x, neighbours[i].y].GetComponent<TileController>().getCharacterID()!=GameController.instance.getCurrentPlayingCard()){
+			if(this.tiles[neighbours[i].x, neighbours[i].y].GetComponent<TileController>().getCharacterID()!=-1 && this.tiles[neighbours[i].x, neighbours[i].y].GetComponent<TileController>().getCharacterID()!=GameView.instance.getGC().getCurrentPlayingCard()){
 				freeNeighbours.Add(neighbours[i]);
 			}
 		}
@@ -1997,7 +1995,7 @@ public class GameView : MonoBehaviour
 	
 	public List<int> getAllys(){
 		List<int> allys = new List<int>();
-		int CPC = GameController.instance.getCurrentPlayingCard();
+		int CPC = GameView.instance.getGC().getCurrentPlayingCard();
 		for(int i = 0 ; i < this.playingCards.Count;i++){
 			if(i!=CPC && !GameView.instance.isDead(i) && GameView.instance.getIsMine(i)){
 				allys.Add(i);
@@ -2029,7 +2027,7 @@ public class GameView : MonoBehaviour
 	public List<int> getEveryoneButMe(){
 		List<int> everyone = new List<int>();
 		for(int i = 0 ; i < this.playingCards.Count;i++){
-			if(!GameView.instance.isDead(i) && GameController.instance.getCurrentPlayingCard()!=i){
+			if(!GameView.instance.isDead(i) && GameView.instance.getGC().getCurrentPlayingCard()!=i){
 				everyone.Add(i);
 			}
 		}
@@ -2068,10 +2066,18 @@ public class GameView : MonoBehaviour
 			}
 		}
 	}
-
+	public void launchTuto(){
+		this.tutorial = Instantiate(this.TutorialObject) as GameObject;
+		this.tutorial.AddComponent<GameTutorialController>();
+		StartCoroutine(this.tutorial.GetComponent<GameTutorialController>().launchSequence(0));
+	}
 	public bool getIsTutorialLaunched()
 	{
 		return isTutorialLaunched;
+	}
+	public void setIsTutorialLaunched(bool b)
+	{
+		this.isTutorialLaunched = b ;
 	}
 	public Vector3 getTilesPosition(int x, int y)
 	{
@@ -2148,13 +2154,13 @@ public class GameView : MonoBehaviour
 			}
 		}
 		
-		int move = this.getCard(GameController.instance.getCurrentPlayingCard()).GetMove();
+		int move = this.getCard(GameView.instance.getGC().getCurrentPlayingCard()).GetMove();
 		
 		this.destinations = new List<Tile>();
 		List<Tile> baseTiles = new List<Tile>();
 		List<Tile> tempTiles = new List<Tile>();
 		List<Tile> tempNeighbours = new List<Tile>();
-		baseTiles.Add(this.getPlayingCardTile(GameController.instance.getCurrentPlayingCard()));
+		baseTiles.Add(this.getPlayingCardTile(GameView.instance.getGC().getCurrentPlayingCard()));
 		
 		int j = 0 ;
 		while (!hasFoundEnnemy && j<move){
@@ -2185,10 +2191,10 @@ public class GameView : MonoBehaviour
 		}
 		
 		if(hasFoundEnnemy==false){
-			GameController.instance.moveToDestination(baseTiles[0]);
+			GameView.instance.getGC().moveToDestination(baseTiles[0]);
 		}
 		else{
-			GameController.instance.moveToDestination(idPlaceToMoveTo);
+			GameView.instance.getGC().moveToDestination(idPlaceToMoveTo);
 		}
 		
 		return idEnnemyToAttack;

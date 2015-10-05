@@ -10,13 +10,13 @@ public class TirALarc : GameSkill
 	
 	public override void launch()
 	{
-		GameController.instance.initPCCTargetHandler(numberOfExpectedTargets);
+		GameView.instance.getGC().initPCCTargetHandler(numberOfExpectedTargets);
 		GameView.instance.displayOpponentsTargets();
 	}
 	
 	public override void resolve(List<int> targetsPCC)
 	{	
-		if (GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
+		if (GameView.instance.getIsMine(GameView.instance.getGC().getCurrentPlayingCard())){
 			GameView.instance.hideTargets();
 		}
 		
@@ -32,12 +32,12 @@ public class TirALarc : GameSkill
 		}
 		
 		if (arg!=0){
-			GameController.instance.addTarget(target,1,arg);
+			GameView.instance.getGC().addTarget(target,1,arg);
 		}
 		else{
-			GameController.instance.addTarget(target,0,0);
+			GameView.instance.getGC().addTarget(target,0,0);
 		}
-		GameController.instance.play();
+		GameView.instance.getGC().play();
 	}
 	
 	public override void applyOn(){
@@ -68,12 +68,12 @@ public class TirALarc : GameSkill
 				}
 				receiversTexts.Add (text);
 				
-				GameController.instance.addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
+				GameView.instance.getGC().addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
 				
 				GameView.instance.displaySkillEffect(target, text, 5);
 			}	
 		}
-		if(!GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
+		if(!GameView.instance.getIsMine(GameView.instance.getGC().getCurrentPlayingCard())){
 			GameView.instance.setSkillPopUp("lance <b>Tir à l'arc</b>...", base.card, receivers, receiversTexts);
 		}
 	}
@@ -89,7 +89,7 @@ public class TirALarc : GameSkill
 		int currentLife = targetCard.GetLife();
 		int bouclier = targetCard.GetBouclier();
 		
-		int damageBonusPercentage = GameView.instance.getCard(GameController.instance.getCurrentPlayingCard()).GetDamagesPercentageBonus(targetCard);
+		int damageBonusPercentage = GameView.instance.getCard(GameView.instance.getGC().getCurrentPlayingCard()).GetDamagesPercentageBonus(targetCard);
 		int amount = this.skill.ManaCost*(100+damageBonusPercentage)/100;
 		amount = Mathf.Min(currentLife,amount-(bouclier*amount/100));
 		string text ;

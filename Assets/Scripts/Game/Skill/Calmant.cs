@@ -10,13 +10,13 @@ public class Calmant : GameSkill
 	
 	public override void launch()
 	{
-		GameController.instance.initPCCTargetHandler(numberOfExpectedTargets);
+		GameView.instance.getGC().initPCCTargetHandler(numberOfExpectedTargets);
 		GameView.instance.displayOpponentsTargets();
 	}
 	
 	public override void resolve(List<int> targetsPCC)
 	{	
-		if (GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
+		if (GameView.instance.getIsMine(GameView.instance.getGC().getCurrentPlayingCard())){
 			GameView.instance.hideTargets();
 		}
 		
@@ -24,10 +24,10 @@ public class Calmant : GameSkill
 		
 		if (Random.Range(1,101) > GameView.instance.getCard(target).GetMagicalEsquive())
 		{                             
-			GameController.instance.addTarget(target,1);
+			GameView.instance.getGC().addTarget(target,1);
 		}
 		else{
-			GameController.instance.addTarget(target,0);
+			GameView.instance.getGC().addTarget(target,0);
 		}
 		
 		if (base.card.isGenerous()){
@@ -46,16 +46,16 @@ public class Calmant : GameSkill
 					
 					if (Random.Range(1,101) > GameView.instance.getCard(target).GetMagicalEsquive())
 					{
-						GameController.instance.addTarget(target,3);
+						GameView.instance.getGC().addTarget(target,3);
 					}
 					else{
-						GameController.instance.addTarget(target,2);
+						GameView.instance.getGC().addTarget(target,2);
 					}
 				}
 			}
 		}
 		
-		GameController.instance.play();
+		GameView.instance.getGC().play();
 	}
 	
 	public override void applyOn(){
@@ -91,12 +91,12 @@ public class Calmant : GameSkill
 				
 				receiversTexts.Add (text);
 				
-				GameController.instance.backTurns(target, base.skill.ManaCost);
+				GameView.instance.getGC().backTurns(target, base.skill.ManaCost);
 				
 				GameView.instance.displaySkillEffect(target, text, 5);
 			}	
 		}
-		if(!GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
+		if(!GameView.instance.getIsMine(GameView.instance.getGC().getCurrentPlayingCard())){
 			GameView.instance.setSkillPopUp("lance <b>Calmant</b>...", base.card, receivers, receiversTexts);
 		}
 	}

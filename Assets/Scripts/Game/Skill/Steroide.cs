@@ -10,13 +10,13 @@ public class Steroide : GameSkill
 	
 	public override void launch()
 	{
-		GameController.instance.initPCCTargetHandler(numberOfExpectedTargets);
+		GameView.instance.getGC().initPCCTargetHandler(numberOfExpectedTargets);
 		GameView.instance.displayAllysButMeTargets();
 	}
 	
 	public override void resolve(List<int> targetsPCC)
 	{	
-		if (GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
+		if (GameView.instance.getIsMine(GameView.instance.getGC().getCurrentPlayingCard())){
 			GameView.instance.hideTargets();
 		}
 		
@@ -25,10 +25,10 @@ public class Steroide : GameSkill
 		if (Random.Range(1,101) > GameView.instance.getCard(target).GetMagicalEsquive())
 		{                             
 			int arg = Random.Range(1,base.skill.ManaCost+1);
-			GameController.instance.addTarget(target,1,arg);
+			GameView.instance.getGC().addTarget(target,1,arg);
 		}
 		else{
-			GameController.instance.addTarget(target,0,0);
+			GameView.instance.getGC().addTarget(target,0,0);
 		}
 		
 		if (base.card.isGenerous()){
@@ -41,16 +41,16 @@ public class Steroide : GameSkill
 					if (Random.Range(1,101) > GameView.instance.getCard(target).GetMagicalEsquive())
 					{
 						int arg = Random.Range(1,base.skill.ManaCost+1);
-						GameController.instance.addTarget(target,3,arg);
+						GameView.instance.getGC().addTarget(target,3,arg);
 					}
 					else{
-						GameController.instance.addTarget(target,2,0);
+						GameView.instance.getGC().addTarget(target,2,0);
 					}
 				}
 			}
 		}
 		
-		GameController.instance.play();
+		GameView.instance.getGC().play();
 	
 	}
 	
@@ -89,12 +89,12 @@ public class Steroide : GameSkill
 				text+="+"+amount+" ATK";
 				receiversTexts.Add (text);
 				
-				GameController.instance.addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, -1, 5, "Renforcé", "+"+amount+" ATK. Permanent", "Permanent");
+				GameView.instance.getGC().addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, -1, 5, "Renforcé", "+"+amount+" ATK. Permanent", "Permanent");
 				
 				GameView.instance.displaySkillEffect(target, text, 5);
 			}	
 		}
-		if(!GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
+		if(!GameView.instance.getIsMine(GameView.instance.getGC().getCurrentPlayingCard())){
 			GameView.instance.setSkillPopUp("lance <b>Steroide</b>...", base.card, receivers, receiversTexts);
 		}
 	}

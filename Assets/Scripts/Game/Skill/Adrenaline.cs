@@ -10,13 +10,13 @@ public class Adrenaline : GameSkill
 	
 	public override void launch()
 	{
-		GameController.instance.initPCCTargetHandler(numberOfExpectedTargets);
+		GameView.instance.getGC().initPCCTargetHandler(numberOfExpectedTargets);
 		GameView.instance.displayAllysButMeTargets();
 	}
 	
 	public override void resolve(List<int> targetsPCC)
 	{	
-		if (GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
+		if (GameView.instance.getIsMine(GameView.instance.getGC().getCurrentPlayingCard())){
 			GameView.instance.hideTargets();
 		}
 		
@@ -24,10 +24,10 @@ public class Adrenaline : GameSkill
 		
 		if (Random.Range(1,101) > GameView.instance.getCard(target).GetMagicalEsquive())
 		{                             
-			GameController.instance.addTarget(target,1);
+			GameView.instance.getGC().addTarget(target,1);
 		}
 		else{
-			GameController.instance.addTarget(target,0);
+			GameView.instance.getGC().addTarget(target,0);
 		}
 		
 		if (base.card.isGenerous()){
@@ -39,16 +39,16 @@ public class Adrenaline : GameSkill
 					
 					if (Random.Range(1,101) > GameView.instance.getCard(target).GetMagicalEsquive())
 					{
-						GameController.instance.addTarget(target,3);
+						GameView.instance.getGC().addTarget(target,3);
 					}
 					else{
-						GameController.instance.addTarget(target,2);
+						GameView.instance.getGC().addTarget(target,2);
 					}
 				}
 			}
 		}
 		
-		GameController.instance.play();
+		GameView.instance.getGC().play();
 	}
 	
 	public override void applyOn(){
@@ -78,13 +78,13 @@ public class Adrenaline : GameSkill
 			else{
 				amount = Mathf.CeilToInt((base.skill.ManaCost)*targetCard.GetMove()/100f);
 				if (base.card.isLache()){
-					if(GameController.instance.getIsFirstPlayer()==GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
-						if(GameView.instance.getPlayingCardTile(target).y==GameView.instance.getPlayingCardTile(GameController.instance.getCurrentPlayingCard()).y-1){
+					if(GameView.instance.getGC().getIsFirstPlayer()==GameView.instance.getIsMine(GameView.instance.getGC().getCurrentPlayingCard())){
+						if(GameView.instance.getPlayingCardTile(target).y==GameView.instance.getPlayingCardTile(GameView.instance.getGC().getCurrentPlayingCard()).y-1){
 							amount = (100+base.card.getPassiveManacost())*amount/100;
 						}
 					}
 					else{
-						if(GameView.instance.getPlayingCardTile(target).y-1==GameView.instance.getPlayingCardTile(GameController.instance.getCurrentPlayingCard()).y){
+						if(GameView.instance.getPlayingCardTile(target).y-1==GameView.instance.getPlayingCardTile(GameView.instance.getGC().getCurrentPlayingCard()).y){
 							amount = (100+base.card.getPassiveManacost())*amount/100;
 						}
 					}
@@ -100,12 +100,12 @@ public class Adrenaline : GameSkill
 				
 				receiversTexts.Add (text);
 				
-				GameController.instance.addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Move, 1, 11, "Rapidité", "+"+amount+" MOV pour 1 tour", "Actif 1 tour");
+				GameView.instance.getGC().addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Move, 1, 11, "Rapidité", "+"+amount+" MOV pour 1 tour", "Actif 1 tour");
 				
 				GameView.instance.displaySkillEffect(target, text, 5);
 			}	
 		}
-		if(!GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
+		if(!GameView.instance.getIsMine(GameView.instance.getGC().getCurrentPlayingCard())){
 			GameView.instance.setSkillPopUp("lance <b>Adrénaline</b>...", base.card, receivers, receiversTexts);
 		}
 	}

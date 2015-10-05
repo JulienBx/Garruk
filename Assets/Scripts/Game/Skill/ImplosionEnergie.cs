@@ -47,10 +47,10 @@ public class ImplosionEnergie : GameSkill
 //		}
 		targets = new int[1];
 		//targets[0] = GameController.instance.currentPlayingCard;
-		GameController.instance.applyOn(targets);
+		GameView.instance.getGC().applyOn(targets);
 		
 		//GameController.instance.playSkill();
-		GameController.instance.play();
+		GameView.instance.getGC().play();
 	}
 	
 //	public override void applyOn(int[] targets){

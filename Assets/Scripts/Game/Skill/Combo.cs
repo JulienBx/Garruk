@@ -10,13 +10,13 @@ public class Combo : GameSkill
 	
 	public override void launch()
 	{
-		GameController.instance.initPCCTargetHandler(numberOfExpectedTargets);
+		GameView.instance.getGC().initPCCTargetHandler(numberOfExpectedTargets);
 		GameView.instance.displayAdjacentOpponentsTargets();
 	}
 	
 	public override void resolve(List<int> targetsPCC)
 	{	
-		if (GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
+		if (GameView.instance.getIsMine(GameView.instance.getGC().getCurrentPlayingCard())){
 			GameView.instance.hideTargets();
 		}
 		
@@ -32,12 +32,12 @@ public class Combo : GameSkill
 		}
 		
 		if (arg!=0){
-			GameController.instance.addTarget(target,1,arg);
+			GameView.instance.getGC().addTarget(target,1,arg);
 		}
 		else{
-			GameController.instance.addTarget(target,1,arg);
+			GameView.instance.getGC().addTarget(target,1,arg);
 		}
-		GameController.instance.play();
+		GameView.instance.getGC().play();
 	}
 	
 	public override void applyOn(){
@@ -61,13 +61,13 @@ public class Combo : GameSkill
 			else{
 				amount = Mathf.Min(targetCard.GetLife(),base.values[i]*(base.card.GetAttack()*(1-(targetCard.GetBouclier()/100))));
 				if (base.card.isLache()){
-					if(GameController.instance.getIsFirstPlayer()==GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
-						if(GameView.instance.getPlayingCardTile(target).y==GameView.instance.getPlayingCardTile(GameController.instance.getCurrentPlayingCard()).y-1){
+					if(GameView.instance.getGC().getIsFirstPlayer()==GameView.instance.getIsMine(GameView.instance.getGC().getCurrentPlayingCard())){
+						if(GameView.instance.getPlayingCardTile(target).y==GameView.instance.getPlayingCardTile(GameView.instance.getGC().getCurrentPlayingCard()).y-1){
 							amount = (100+base.card.getPassiveManacost())*amount/100;
 						}
 					}
 					else{
-						if(GameView.instance.getPlayingCardTile(target).y-1==GameView.instance.getPlayingCardTile(GameController.instance.getCurrentPlayingCard()).y){
+						if(GameView.instance.getPlayingCardTile(target).y-1==GameView.instance.getPlayingCardTile(GameView.instance.getGC().getCurrentPlayingCard()).y){
 							amount = (100+base.card.getPassiveManacost())*amount/100;
 						}
 					}
@@ -80,12 +80,12 @@ public class Combo : GameSkill
 				}
 				receiversTexts.Add (text);
 				
-				GameController.instance.addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
+				GameView.instance.getGC().addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
 				
 				GameView.instance.displaySkillEffect(target, text, 5);
 			}	
 		}
-		if(!GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
+		if(!GameView.instance.getIsMine(GameView.instance.getGC().getCurrentPlayingCard())){
 			GameView.instance.setSkillPopUp("lance <b>Combo</b>...", base.card, receivers, receiversTexts);
 		}
 	}
@@ -99,19 +99,19 @@ public class Combo : GameSkill
 		int currentLife = targetCard.GetLife();
 		int bouclier = targetCard.GetBouclier();
 		
-		int damageBonusPercentage = GameView.instance.getCard(GameController.instance.getCurrentPlayingCard()).GetDamagesPercentageBonus(targetCard);
+		int damageBonusPercentage = GameView.instance.getCard(GameView.instance.getGC().getCurrentPlayingCard()).GetDamagesPercentageBonus(targetCard);
 		int amount = base.card.GetAttack()*this.skill.ManaCost*(100+damageBonusPercentage)/10000;
 		string text = "";
 		
 		if (base.card.isLache()){
-			if(GameController.instance.getIsFirstPlayer()==GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
-				if(GameView.instance.getPlayingCardTile(id).y==GameView.instance.getPlayingCardTile(GameController.instance.getCurrentPlayingCard()).y-1){
+			if(GameView.instance.getGC().getIsFirstPlayer()==GameView.instance.getIsMine(GameView.instance.getGC().getCurrentPlayingCard())){
+				if(GameView.instance.getPlayingCardTile(id).y==GameView.instance.getPlayingCardTile(GameView.instance.getGC().getCurrentPlayingCard()).y-1){
 					amount = (100+base.card.getPassiveManacost())*amount/100;
 					text="LACHE\n";
 				}
 			}
 			else{
-				if(GameView.instance.getPlayingCardTile(id).y-1==GameView.instance.getPlayingCardTile(GameController.instance.getCurrentPlayingCard()).y){
+				if(GameView.instance.getPlayingCardTile(id).y-1==GameView.instance.getPlayingCardTile(GameView.instance.getGC().getCurrentPlayingCard()).y){
 					amount = (100+base.card.getPassiveManacost())*amount/100;
 					text="LACHE\n";
 				}
