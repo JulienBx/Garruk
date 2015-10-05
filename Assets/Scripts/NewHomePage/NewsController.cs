@@ -32,9 +32,10 @@ public class NewsController : MonoBehaviour
 		{
 			this.isHovering=false;
 			NewHomePageController.instance.endHoveringNews ();
-			this.setOnlineStatus();
+			//this.setOnlineStatus();
 			gameObject.transform.FindChild("Username").GetComponent<TextMeshPro>().color=new Color(1f,1f,1f);
 			gameObject.transform.FindChild("News").GetComponent<TextMeshPro>().color=new Color(1f,1f,1f);
+			gameObject.transform.FindChild("PictureBorder").GetComponent<SpriteRenderer>().color=new Color(1f,1f,1f);
 		}
 	}
 	void OnMouseDown()
@@ -46,7 +47,7 @@ public class NewsController : MonoBehaviour
 		gameObject.transform.FindChild ("Username").GetComponent<TextMeshPro> ().text = this.n.User.Username;
 		gameObject.transform.FindChild ("News").GetComponent<TextMeshPro> ().text = this.n.News.Description;
 		gameObject.transform.FindChild ("Picture").GetComponent<SpriteRenderer> ().sprite = this.n.User.texture;
-		this.setOnlineStatus ();
+		//this.setOnlineStatus ();
 	}
 	public void setPicture(Sprite picture)
 	{
@@ -56,23 +57,23 @@ public class NewsController : MonoBehaviour
 	{
 		this.Id = Id;
 	}
-	public void setOnlineStatus()
-	{
-		if(!this.isHovering)
-		{
-			if(this.n.User.OnlineStatus==2)
-			{
-				gameObject.transform.FindChild("PictureBorder").GetComponent<SpriteRenderer>().color=new Color(182f/255f,0f,0f);
-			}
-			else if(this.n.User.OnlineStatus==1)
-			{
-				gameObject.transform.FindChild("PictureBorder").GetComponent<SpriteRenderer>().color=new Color(0f,182f/255f,29f/255f);
-			}
-			else
-			{
-				gameObject.transform.FindChild("PictureBorder").GetComponent<SpriteRenderer>().color=new Color(1f,1f,1f);
-			}
-		}
-	}
+//	public void setOnlineStatus()
+//	{
+//		if(!this.isHovering)
+//		{
+//			if(this.n.User.OnlineStatus==2)
+//			{
+//				gameObject.transform.FindChild("PictureBorder").GetComponent<SpriteRenderer>().color=new Color(182f/255f,0f,0f);
+//			}
+//			else if(this.n.User.OnlineStatus==1)
+//			{
+//				gameObject.transform.FindChild("PictureBorder").GetComponent<SpriteRenderer>().color=new Color(0f,182f/255f,29f/255f);
+//			}
+//			else
+//			{
+//				gameObject.transform.FindChild("PictureBorder").GetComponent<SpriteRenderer>().color=new Color(1f,1f,1f);
+//			}
+//		}
+//	}
 }
 

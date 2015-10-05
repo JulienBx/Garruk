@@ -9,6 +9,7 @@ public class NewHomePageModel
 	public IList<DisplayedNotification> notifications;
 	public IList<DisplayedNews> news;
 	public IList<User> users;
+	public IList<int> friends;
 	public string[] usernameList;
 	public User player;
 	public int notificationSystemIndex;
@@ -34,6 +35,7 @@ public class NewHomePageModel
 		this.competitions = new List<Competition> ();
 		this.player = new User();
 		this.users = new List<User> ();
+		this.friends = new List<int> ();
 		this.notificationSystemIndex = -1;
 		
 		WWWForm form = new WWWForm(); 											// Création de la connexion
@@ -50,16 +52,17 @@ public class NewHomePageModel
 		{
 			string[] data=w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
 			this.player = parsePlayer(data[0].Split(new string[] { "//" }, System.StringSplitOptions.None));
-			this.users = parseUsers(data[10].Split(new string[] { "#U#"  }, System.StringSplitOptions.None));
+			this.users = parseUsers(data[11].Split(new string[] { "#U#"  }, System.StringSplitOptions.None));
 			this.decks = this.parseDecks(data[1].Split(new string[] { "#DECK#" }, System.StringSplitOptions.None));
 			this.notifications=parseNotifications(data[2].Split(new string[] { "#N#" }, System.StringSplitOptions.None));
-			this.news=this.filterNews(parseNews(data[3].Split(new string[] { "#N#" }, System.StringSplitOptions.None)),this.player.Id);
-			this.currentDivision=parseDivision(data[4].Split(new string[] { "//" }, System.StringSplitOptions.None));
-			this.currentCup=parseCup(data[5].Split(new string[] { "//" }, System.StringSplitOptions.None));
-			this.packs=parsePacks(data[6].Split(new string[] { "#PACK#" }, System.StringSplitOptions.None));
-			this.cardTypeList = data[7].Split(new string[] { "//" }, System.StringSplitOptions.None);
-			this.skillsList = data[8].Split(new string[] { "//" }, System.StringSplitOptions.None);
-			this.currentFriendlyGame = this.parseFriendlyGame(data[9].Split(new string[] { "//" }, System.StringSplitOptions.None));
+			this.friends=parseFriends(data[3].Split(new string[] { "//" }, System.StringSplitOptions.None));
+			this.news=this.filterNews(parseNews(data[4].Split(new string[] { "#N#" }, System.StringSplitOptions.None)),this.player.Id);
+			this.currentDivision=parseDivision(data[5].Split(new string[] { "//" }, System.StringSplitOptions.None));
+			this.currentCup=parseCup(data[6].Split(new string[] { "//" }, System.StringSplitOptions.None));
+			this.packs=parsePacks(data[7].Split(new string[] { "#PACK#" }, System.StringSplitOptions.None));
+			this.cardTypeList = data[8].Split(new string[] { "//" }, System.StringSplitOptions.None);
+			this.skillsList = data[9].Split(new string[] { "//" }, System.StringSplitOptions.None);
+			this.currentFriendlyGame = this.parseFriendlyGame(data[10].Split(new string[] { "//" }, System.StringSplitOptions.None));
 
 			this.lookForNonReadSystemNotification();
 			this.competitions.Add (this.currentDivision);
@@ -367,6 +370,15 @@ public class NewHomePageModel
 			decks[i].NbCards=System.Convert.ToInt32(deckInformation[2]);
 		}
 		return decks;
+	}
+	private List<int> parseFriends(string[] friendsData)
+	{
+		List<int> friends = new List<int> ();
+		for(int i=0;i<friendsData.Length-1;i++)
+		{
+			friends.Add (this.returnUsersIndex(System.Convert.ToInt32(friendsData[i])));
+		}
+		return friends;
 	}
 	private int returnUsersIndex(int id)
 	{

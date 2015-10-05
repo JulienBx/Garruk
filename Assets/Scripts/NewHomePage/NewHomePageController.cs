@@ -31,6 +31,7 @@ public class NewHomePageController : Photon.MonoBehaviour
 	private GameObject competitionsBlock;
 	private GameObject statsBlock;
 	private GameObject newsBlock;
+	private GameObject friendsBlock;
 	private GameObject popUp;
 
 	private GameObject loadingScreen;
@@ -41,6 +42,7 @@ public class NewHomePageController : Photon.MonoBehaviour
 	private GameObject notificationsTitle;
 	private GameObject competitionsTitle;
 	private GameObject connectedPlayersTitle;
+	private GameObject friendsTitle;
 	private GameObject statsTitle;
 	private GameObject deckBoard;
 	private GameObject deckBlock;
@@ -49,10 +51,12 @@ public class NewHomePageController : Photon.MonoBehaviour
 	private GameObject cleanCardsButton;
 	private GameObject[] news;
 	private GameObject[] notifications;
+	private GameObject[] friends;
 	private GameObject[] packs;
 	private GameObject[] competitions;
 	private GameObject[] paginationButtonsNotifications;
 	private GameObject[] paginationButtonsNews;
+	private GameObject[] paginationButtonsFriends;
 	private GameObject[] deckCards;
 
 	private GameObject transparentBackground;
@@ -71,6 +75,9 @@ public class NewHomePageController : Photon.MonoBehaviour
 	private IList<int> newsDisplayed;
 	private IList<int> notificationsDisplayed;
 	private IList<int> packsDisplayed;
+	private IList<int> friendsDisplayed;
+
+	private IList<int> friendsOnline;
 	
 	private int nbPagesNotifications;
 	private int nbPaginationButtonsLimitNotifications;
@@ -85,6 +92,13 @@ public class NewHomePageController : Photon.MonoBehaviour
 	private int chosenPageNews;
 	private int pageDebutNews;
 	private int activePaginationButtonIdNews;
+
+	private int nbPagesFriends;
+	private int nbPaginationButtonsLimitFriends;
+	private int elementsPerPageFriends;
+	private int chosenPageFriends;
+	private int pageDebutFriends;
+	private int activePaginationButtonIdFriends;
 
 	private int nbPagesPacks;
 	private int chosenPagePacks;
@@ -134,6 +148,7 @@ public class NewHomePageController : Photon.MonoBehaviour
 
 	private bool areNewsPicturesLoading;
 	private bool areNotificationsPicturesLoading;
+	private bool areFriendsPicturesLoading;
 	private bool arePacksPicturesLoading;
 	private bool areCompetitionsPicturesLoading;
 
@@ -267,6 +282,26 @@ public class NewHomePageController : Photon.MonoBehaviour
 				}
 			}
 		}
+		if(areFriendsPicturesLoading)
+		{
+			bool allPicturesLoaded=true;
+			for(int i=0;i<friendsDisplayed.Count;i++)
+			{
+				if(!model.users[this.friendsDisplayed[i]].isThumbPictureLoaded)
+				{
+					allPicturesLoaded=false;
+					break;
+				}
+			}
+			if(allPicturesLoaded)
+			{
+				this.areFriendsPicturesLoading=false;
+				for(int i=0;i<friendsDisplayed.Count;i++)
+				{
+					this.friends[i].GetComponent<OnlineFriendController>().setPicture(model.users[this.friendsDisplayed[i]].texture);
+				}
+			}
+		}
 		if(arePacksPicturesLoading)
 		{
 			bool allPicturesLoaded=true;
@@ -315,7 +350,8 @@ public class NewHomePageController : Photon.MonoBehaviour
 		this.heightScreen = Screen.height;
 		this.pixelPerUnit = 108f;
 		this.elementsPerPageNotifications = 3;
-		this.elementsPerPageNews = 6;
+		this.elementsPerPageNews = 3;
+		this.elementsPerPageFriends = 3;
 		this.countPlayers = 0;
 		this.initializeScene ();
 	}
@@ -386,6 +422,13 @@ public class NewHomePageController : Photon.MonoBehaviour
 		this.drawPaginationNews();
 		this.drawNews ();
 	}
+	private void initializeFriends()
+	{
+		this.chosenPageFriends = 0;
+		this.pageDebutFriends = 0 ;
+		this.drawPaginationFriends();
+		this.drawFriends ();
+	}
 	private void initializePacks()
 	{
 		this.chosenPagePacks = 0;
@@ -408,10 +451,12 @@ public class NewHomePageController : Photon.MonoBehaviour
 	{
 		menu = GameObject.Find ("newMenu");
 		menu.GetComponent<newMenuController> ().setCurrentPage (0);
+		this.friendsOnline = new List<int> ();
 		this.newsBlock = Instantiate(this.blockObject) as GameObject;
 		this.statsBlock = Instantiate(this.blockObject) as GameObject;
 		this.deckBlock = Instantiate(this.blockObject) as GameObject;
 		this.storeBlock = Instantiate(this.blockObject) as GameObject;
+		this.friendsBlock = Instantiate (this.blockObject) as GameObject;
 		this.notificationsBlock = Instantiate(this.blockObject) as GameObject;
 		this.competitionsBlock = Instantiate(this.blockObject) as GameObject;
 		this.deckBoard = GameObject.Find ("deckBoard");
@@ -422,12 +467,15 @@ public class NewHomePageController : Photon.MonoBehaviour
 		this.newsTitle.GetComponent<TextMeshPro> ().text = "Fil d'actualités";
 		this.notificationsTitle = GameObject.Find ("NotificationsTitle");
 		this.notificationsTitle.GetComponent<TextMeshPro> ().text = "Notifications";
+		this.friendsTitle = GameObject.Find ("FriendsTitle");
+		this.friendsTitle.GetComponent<TextMeshPro> ().text = "Amis en ligne";
 		this.competitionsTitle = GameObject.Find ("CompetitionsTitle");
 		this.connectedPlayersTitle = GameObject.Find ("ConnectedPlayers");
 		this.competitionsTitle.GetComponent<TextMeshPro> ().text = "Jouer";
 		this.stats = GameObject.Find ("Stats");
 		this.paginationButtonsNotifications = new GameObject[0];
 		this.paginationButtonsNews = new GameObject[0];
+		this.paginationButtonsFriends = new GameObject[0];
 		this.packs=new GameObject[0];
 		this.notifications=new GameObject[3];
 		for(int i=0;i<this.notifications.Length;i++)
@@ -441,12 +489,19 @@ public class NewHomePageController : Photon.MonoBehaviour
 		{
 			this.competitions[i]=GameObject.Find ("Competition"+i);
 		}
-		this.news=new GameObject[6];
+		this.news=new GameObject[3];
 		for(int i=0;i<this.news.Length;i++)
 		{
 			this.news[i]=GameObject.Find ("News"+i);
 			this.news[i].GetComponent<NewsController>().setId(i);
 			this.news[i].SetActive(false);
+		}
+		this.friends=new GameObject[3];
+		for(int i=0;i<this.friends.Length;i++)
+		{
+			this.friends[i]=GameObject.Find ("Friend"+i);
+			this.friends[i].GetComponent<OnlineFriendController>().setId(i);
+			this.friends[i].SetActive(false);
 		}
 		this.deckBoard.transform.FindChild("deckList").FindChild ("Title").GetComponent<TextMeshPro> ().text = "Mes decks";
 		this.deckBoard.transform.FindChild("deckList").FindChild("currentDeck").FindChild("deckName").GetComponent<TextMeshPro> ().text="Aucune équipe";
@@ -556,7 +611,7 @@ public class NewHomePageController : Photon.MonoBehaviour
 		float newsBlockLeftMargin = this.worldWidth-2.8f;
 		float newsBlockRightMargin = 0f;
 		float newsBlockUpMargin = 4.1f;
-		float newsBlockDownMargin = 0.2f;
+		float newsBlockDownMargin = 2.6f;
 		
 		float newsBlockHeight = worldHeight - newsBlockUpMargin-newsBlockDownMargin;
 		float newsBlockWidth = worldWidth-newsBlockLeftMargin-newsBlockRightMargin;
@@ -576,6 +631,18 @@ public class NewHomePageController : Photon.MonoBehaviour
 		
 		this.notificationsBlock.GetComponent<BlockController> ().resize(new Rect(notificationsBlockOrigin.x,notificationsBlockOrigin.y,notificationsBlockWidth,notificationsBlockHeight));
 		this.notificationsTitle.transform.position = new Vector3 (notificationsBlockOrigin.x, notificationsBlockOrigin.y+notificationsBlockHeight/2f-0.3f, 0);
+
+		float friendsBlockLeftMargin = this.worldWidth-2.8f;
+		float friendsBlockRightMargin = 0f;
+		float friendsBlockUpMargin = 7.6f;
+		float friendsBlockDownMargin = 0.2f;
+		
+		float friendsBlockHeight = worldHeight - friendsBlockUpMargin-friendsBlockDownMargin;
+		float friendsBlockWidth = worldWidth-friendsBlockLeftMargin-friendsBlockRightMargin;
+		Vector2 friendsBlockOrigin = new Vector3 (-worldWidth/2f+friendsBlockLeftMargin+friendsBlockWidth/2f, -worldHeight / 2f + friendsBlockDownMargin + friendsBlockHeight / 2,0f);
+		
+		this.friendsBlock.GetComponent<BlockController> ().resize(new Rect(friendsBlockOrigin.x,friendsBlockOrigin.y,friendsBlockWidth,friendsBlockHeight));
+		this.friendsTitle.transform.position = new Vector3 (friendsBlockOrigin.x, friendsBlockOrigin.y+friendsBlockHeight/2f-0.3f, 0);
 
 		float packScale = 0.84f;
 		
@@ -652,6 +719,11 @@ public class NewHomePageController : Photon.MonoBehaviour
 		for(int i=0;i<this.news.Length;i++)
 		{
 			this.news[i].transform.position=new Vector3(newsBlockOrigin.x-0.2f,newsBlockOrigin.y+newsBlockHeight/2f-0.85f-i*0.77f,0);
+		}
+
+		for(int i=0;i<this.friends.Length;i++)
+		{
+			this.friends[i].transform.position=new Vector3(friendsBlockOrigin.x-0.2f,friendsBlockOrigin.y+friendsBlockHeight/2f-0.85f-i*0.5f,0); 
 		}
 
 		this.deckCardsPosition=new Vector3[4];
@@ -797,6 +869,12 @@ public class NewHomePageController : Photon.MonoBehaviour
 		{
 			this.notifications[i].SetActive(value);
 		}
+		this.friendsBlock.GetComponent<BlockController>().display(value);
+		this.friendsTitle.SetActive (value);
+		for(int i=0;i<this.friendsDisplayed.Count;i++)
+		{
+			this.friends[i].SetActive(value);
+		}
 		this.storeBlock.GetComponent<BlockController>().display(value);
 		this.storeAssetsTitle.SetActive (value);
 		for(int i=0;i<this.packs.Length;i++)
@@ -822,6 +900,10 @@ public class NewHomePageController : Photon.MonoBehaviour
 		for(int i=0;i<this.paginationButtonsNotifications.Length;i++)
 		{
 			this.paginationButtonsNotifications[i].SetActive(value);
+		}
+		for(int i=0;i<this.paginationButtonsFriends.Length;i++)
+		{
+			this.paginationButtonsFriends[i].SetActive(value);
 		}
 	}
 	public void selectDeck(int id)
@@ -1086,6 +1168,39 @@ public class NewHomePageController : Photon.MonoBehaviour
 			this.areNewsPicturesLoading=true;
 		}
 	}
+	public void drawFriends()
+	{
+		this.friendsDisplayed = new List<int> ();
+		int tempInt = this.elementsPerPageFriends;
+		if(this.chosenPageFriends*(elementsPerPageFriends)+elementsPerPageFriends>this.friendsOnline.Count)
+		{
+			tempInt=model.news.Count-this.chosenPageFriends*(elementsPerPageFriends);
+		}
+		bool allPicturesLoaded = true;
+		for(int i =0;i<elementsPerPageFriends;i++)
+		{
+			if(this.chosenPageFriends*this.elementsPerPageFriends+i<this.friendsOnline.Count)
+			{
+				if(!model.users[this.friendsOnline[this.chosenPageFriends*this.elementsPerPageFriends+i]].isThumbPictureLoaded)
+				{
+					StartCoroutine(model.users[this.friendsOnline[this.chosenPageFriends*this.elementsPerPageFriends+i]].setThumbProfilePicture());
+					allPicturesLoaded=false;
+				}
+				this.friendsDisplayed.Add (this.chosenPageFriends*this.elementsPerPageFriends+i);
+				this.friends[i].GetComponent<OnlineFriendController>().u=model.users[this.friendsOnline[this.chosenPageFriends*this.elementsPerPageFriends+i]];
+				this.friends[i].GetComponent<OnlineFriendController>().show();
+				this.friends[i].SetActive(true);
+			}
+			else
+			{
+				this.friends[i].SetActive(false);
+			}
+		}
+		if(!allPicturesLoaded)
+		{
+			this.areFriendsPicturesLoading=true;
+		}
+	}
 	public void drawPacks()
 	{
 		this.packsDisplayed = new List<int> ();
@@ -1282,7 +1397,7 @@ public class NewHomePageController : Photon.MonoBehaviour
 			{
 				this.paginationButtonsNews[i] = Instantiate(this.paginationButtonObject) as GameObject;
 				this.paginationButtonsNews[i].AddComponent<HomePageNewsPaginationController>();
-				this.paginationButtonsNews[i].transform.position=new Vector3(this.worldWidth/2f-2.9f/2f+(0.5f+i-nbButtonsToDraw/2f)*(paginationButtonWidth+gapBetweenPaginationButton),-4.55f,0f);
+				this.paginationButtonsNews[i].transform.position=new Vector3(this.worldWidth/2f-2.9f/2f+(0.5f+i-nbButtonsToDraw/2f)*(paginationButtonWidth+gapBetweenPaginationButton),-2.15f,0f);
 				this.paginationButtonsNews[i].name="PaginationNews"+i.ToString();
 			}
 			for(int i=System.Convert.ToInt32(drawBackButton);i<nbButtonsToDraw-System.Convert.ToInt32(drawNextButton);i++)
@@ -1328,6 +1443,89 @@ public class NewHomePageController : Photon.MonoBehaviour
 			this.activePaginationButtonIdNews=id;
 			this.chosenPageNews=this.pageDebutNews-System.Convert.ToInt32(this.pageDebutNews!=0)+id;
 			this.drawNews();
+		}
+	}
+	private void drawPaginationFriends()
+	{
+		for(int i=0;i<this.paginationButtonsFriends.Length;i++)
+		{
+			Destroy (this.paginationButtonsFriends[i]);
+		}
+		this.paginationButtonsFriends = new GameObject[0];
+		this.activePaginationButtonIdFriends = -1;
+		float paginationButtonWidth = 0.34f;
+		float gapBetweenPaginationButton = 0.2f * paginationButtonWidth;
+		this.nbPagesFriends = Mathf.CeilToInt((float)this.friendsOnline.Count / ((float)this.elementsPerPageFriends));
+		if(this.nbPagesFriends>1)
+		{
+			this.nbPaginationButtonsLimitFriends = Mathf.CeilToInt((2.9f)/(paginationButtonWidth+gapBetweenPaginationButton));
+			int nbButtonsToDraw=0;
+			bool drawBackButton=false;
+			if (this.pageDebutFriends !=0)
+			{
+				drawBackButton=true;
+			}
+			bool drawNextButton=false;
+			if (this.pageDebutFriends+nbPaginationButtonsLimitFriends-System.Convert.ToInt32(drawBackButton)<this.nbPagesFriends-1)
+			{
+				drawNextButton=true;
+				nbButtonsToDraw=nbPaginationButtonsLimitFriends;
+			}
+			else
+			{
+				nbButtonsToDraw=this.nbPagesFriends-this.pageDebutFriends;
+			}
+			this.paginationButtonsFriends = new GameObject[nbButtonsToDraw];
+			for(int i =0;i<nbButtonsToDraw;i++)
+			{
+				this.paginationButtonsFriends[i] = Instantiate(this.paginationButtonObject) as GameObject;
+				this.paginationButtonsFriends[i].AddComponent<HomePageFriendsPaginationController>();
+				this.paginationButtonsFriends[i].transform.position=new Vector3(this.worldWidth/2f-2.9f/2f+(0.5f+i-nbButtonsToDraw/2f)*(paginationButtonWidth+gapBetweenPaginationButton),-4.55f,0f);
+				this.paginationButtonsFriends[i].name="PaginationFriends"+i.ToString();
+			}
+			for(int i=System.Convert.ToInt32(drawBackButton);i<nbButtonsToDraw-System.Convert.ToInt32(drawNextButton);i++)
+			{
+				this.paginationButtonsFriends[i].transform.FindChild("Title").GetComponent<TextMeshPro>().text=(this.pageDebutFriends+i-System.Convert.ToInt32(drawBackButton)).ToString();
+				this.paginationButtonsFriends[i].GetComponent<HomePageFriendsPaginationController>().setId(i);
+				if(this.pageDebutFriends+i-System.Convert.ToInt32(drawBackButton)==this.chosenPageFriends)
+				{
+					this.paginationButtonsFriends[i].GetComponent<HomePageFriendsPaginationController>().setActive(true);
+					this.activePaginationButtonIdFriends=i;
+				}
+			}
+			if(drawBackButton)
+			{
+				this.paginationButtonsFriends[0].GetComponent<HomePageFriendsPaginationController>().setId(-2);
+				this.paginationButtonsFriends[0].transform.FindChild("Title").GetComponent<TextMeshPro>().text="...";
+			}
+			if(drawNextButton)
+			{
+				this.paginationButtonsFriends[nbButtonsToDraw-1].GetComponent<HomePageFriendsPaginationController>().setId(-1);
+				this.paginationButtonsFriends[nbButtonsToDraw-1].transform.FindChild("Title").GetComponent<TextMeshPro>().text="...";
+			}
+		}
+	}
+	public void paginationHandlerFriends(int id)
+	{
+		if(id==-2)
+		{
+			this.pageDebutFriends=this.pageDebutFriends-this.nbPaginationButtonsLimitFriends+1+System.Convert.ToInt32(this.pageDebutFriends-this.nbPaginationButtonsLimitFriends+1!=0);
+			this.drawPaginationFriends();
+		}
+		else if(id==-1)
+		{
+			this.pageDebutFriends=this.pageDebutFriends+this.nbPaginationButtonsLimitFriends-1-System.Convert.ToInt32(this.pageDebutFriends!=0);
+			this.drawPaginationFriends();
+		}
+		else
+		{
+			if(activePaginationButtonIdFriends!=-1)
+			{
+				this.paginationButtonsFriends[this.activePaginationButtonIdFriends].GetComponent<HomePageFriendsPaginationController>().setActive(false);
+			}
+			this.activePaginationButtonIdNews=id;
+			this.chosenPageFriends=this.pageDebutFriends-System.Convert.ToInt32(this.pageDebutFriends!=0)+id;
+			this.drawFriends();
 		}
 	}
 	public void buyPackHandler(int id)
@@ -1668,6 +1866,7 @@ public class NewHomePageController : Photon.MonoBehaviour
 	}
 	public void OnUpdatedFriendList()
 	{
+		bool hasChanged = false;
 		for(int i=0;i<PhotonNetwork.Friends.Count;i++)
 		{
 			for(int j=0;j<model.users.Count;j++)
@@ -1677,10 +1876,26 @@ public class NewHomePageController : Photon.MonoBehaviour
 					if(PhotonNetwork.Friends[i].IsInRoom)
 					{
 						model.users[j].OnlineStatus=2;
+						if(model.friends.Contains(model.users[j].Id))
+						{
+							if(!this.friendsOnline.Contains(model.users[j].Id))
+							{
+								this.friendsOnline.Insert(0,model.users[j].Id);
+								hasChanged=true;
+							}
+						}
 					}
 					else if(PhotonNetwork.Friends[i].IsOnline)
 					{
 						model.users[j].OnlineStatus=1;
+						if(model.friends.Contains(model.users[j].Id))
+						{
+							if(!this.friendsOnline.Contains(model.users[j].Id))
+							{
+								this.friendsOnline.Insert(0,model.users[j].Id);
+								hasChanged=true;
+							}
+						}
 					}
 					else
 					{
@@ -1690,13 +1905,9 @@ public class NewHomePageController : Photon.MonoBehaviour
 				}
 			}
 		}
-		for(int i=0;i<this.newsDisplayed.Count;i++)
+		if(hasChanged && this.chosenPageFriends == 0)
 		{
-			this.news[i].GetComponent<NewsController>().setOnlineStatus();
-		}
-		for(int i=0;i<this.notificationsDisplayed.Count;i++)
-		{
-			this.notifications[i].GetComponent<NotificationController>().setOnlineStatus();
+			this.initializeFriends();
 		}
 	}
 }
