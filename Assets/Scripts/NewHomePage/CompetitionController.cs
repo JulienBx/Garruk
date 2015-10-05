@@ -41,7 +41,7 @@ public class CompetitionController : MonoBehaviour
 	}
 	public void OnMouseDown()
 	{
-		NewHomePageController.instance.joinGame(this.id);	
+		NewHomePageController.instance.joinGameHandler(this.id);	
 	}
 	public void show(string title)
 	{

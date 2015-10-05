@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using TMPro;
 
-public class PlayPopUpController : Photon.MonoBehaviour 
+public class PlayPopUpController : MonoBehaviour 
 {
 	public GameObject loadingScreenObject;
 	public GameObject deckListObject;
@@ -211,10 +211,6 @@ public class PlayPopUpController : Photon.MonoBehaviour
 		{
 			TutorialObjectController.instance.actionIsDone();
 		}
-		else if(Application.loadedLevelName=="NewHomePage")
-		{
-			PhotonNetwork.Disconnect();
-		}
 		else
 		{
 			this.joinGame();
@@ -224,18 +220,12 @@ public class PlayPopUpController : Photon.MonoBehaviour
 	{
 		if(ApplicationModel.gameType==0)
 		{
-			Application.LoadLevel("Game");
+			this.loadingScreen.GetComponent<LoadingScreenController> ().changeLoadingScreenLabel ("En attente de joueurs ...");
+			newMenuController.instance.joinRandomRoom();
 		}
 		else
 		{
 			Application.LoadLevel("NewLobby");
-		}
-	}
-	void OnDisconnectedFromPhoton()
-	{
-		if (attemptToPlay)
-		{
-			this.joinGame();
 		}
 	}
 	public void quitPopUp()

@@ -209,7 +209,7 @@ public class EndSceneController : MonoBehaviour
 	}
 	public void quitEndSceneHandler()
 	{
-		GameController.instance.disconnect ();
+		//GameController.instance.disconnect ();
 		ApplicationModel.launchEndGameSequence=true;
 		if(ApplicationModel.gameType==0)
 		{

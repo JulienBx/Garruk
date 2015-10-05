@@ -618,7 +618,8 @@ public class NewLobbyController : MonoBehaviour
 		}
 		else
 		{
-			Application.LoadLevel("Game");
+			this.loadingScreen.GetComponent<LoadingScreenController> ().changeLoadingScreenLabel ("En attente de joueurs ...");
+			newMenuController.instance.joinRandomRoom();
 		}
 	}
 	public void drawGauge()
