@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 using System;
 using System.Collections;
@@ -928,11 +928,9 @@ public class GameView : MonoBehaviour
 					this.clearDestinations();
 					this.isDisplayedItsDestinations = true ;
 					if (this.getIsMine(c)){
-						print ("Je set my destinations");
 						this.setDestinations(c, false);
 					}
 					else{
-						print ("Je set his destinations");
 						this.setHisDestinations(c, false);
 					}
 				}
@@ -1369,9 +1367,11 @@ public class GameView : MonoBehaviour
 		for (int i = 0 ; i < GameView.instance.boardWidth ; i++){
 			for (int j = 0 ; j < GameView.instance.boardHeight ; j++){
 				if(this.tileHandlers[i,j].activeSelf){
-					this.tileHandlers[i, j].GetComponent<TileHandlerController>().changeType(0);
-					this.tileHandlers[i, j].GetComponent<TileHandlerController>().setText("");
-					this.tileHandlers[i, j].SetActive(false);
+					if(this.tileHandlers[i,j].GetComponent<TileHandlerController>().getTypeNumber()!=6){
+						this.tileHandlers[i, j].GetComponent<TileHandlerController>().changeType(0);
+						this.tileHandlers[i, j].GetComponent<TileHandlerController>().setText("");
+						this.tileHandlers[i, j].SetActive(false);
+					}
 				}
 			}
 		}

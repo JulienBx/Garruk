@@ -24,22 +24,6 @@ public class MyHoveredCardController : MonoBehaviour
 			this.myPosition.x = (-0.5f*this.realwidth-5f)+(Mathf.Min(1,this.timer/this.animationTime))*(0.5f*realwidth-3f);
 			gameObject.transform.localPosition = this.myPosition ;
 			
-			this.myPosition = GameObject.Find("MySpecialiteBackground").transform.localPosition;	
-			this.myPosition.x = -realwidth/2f-(realwidth/2f-3f)/2f+(Mathf.Min(1,this.timer/this.animationTime))*(0.5f*realwidth-3f);
-			GameObject.Find("MySpecialiteBackground").transform.localPosition = this.myPosition ;
-			
-			this.myPosition = GameObject.Find("MySkill1Background").transform.localPosition;	
-			this.myPosition.x = -realwidth/2f-(realwidth/2f-3f)/2f+(Mathf.Min(1,this.timer/this.animationTime))*(0.5f*realwidth-3f);
-			GameObject.Find("MySkill1Background").transform.localPosition = this.myPosition ;
-			
-			this.myPosition = GameObject.Find("MySkill2Background").transform.localPosition;	
-			this.myPosition.x = -realwidth/2f-(realwidth/2f-3f)/2f+(Mathf.Min(1,this.timer/this.animationTime))*(0.5f*realwidth-3f);
-			GameObject.Find("MySkill2Background").transform.localPosition = this.myPosition ;
-			
-			this.myPosition = GameObject.Find("MySkill3Background").transform.localPosition;	
-			this.myPosition.x = -realwidth/2f-(realwidth/2f-3f)/2f+(Mathf.Min(1,this.timer/this.animationTime))*(0.5f*realwidth-3f);
-			GameObject.Find("MySkill3Background").transform.localPosition = this.myPosition ;
-			
 			if (this.timer>this.animationTime){
 				this.status = 0 ;
 				this.isDisplayed = true ;
@@ -57,22 +41,6 @@ public class MyHoveredCardController : MonoBehaviour
 			this.myPosition = gameObject.transform.localPosition;
 			this.myPosition.x = (-8f)-(Mathf.Min(1,this.timer/this.animationTime))*(0.5f*realwidth-3f);
 			gameObject.transform.localPosition = this.myPosition ;
-			
-			this.myPosition = GameObject.Find("MySpecialiteBackground").transform.localPosition;	
-			this.myPosition.x = -realwidth/2f+(realwidth/2f-3f)/2f-(Mathf.Min(1,this.timer/this.animationTime))*(0.5f*realwidth-3f);
-			GameObject.Find("MySpecialiteBackground").transform.localPosition = this.myPosition ;
-			
-			this.myPosition = GameObject.Find("MySkill1Background").transform.localPosition;	
-			this.myPosition.x = -realwidth/2f+(realwidth/2f-3f)/2f-(Mathf.Min(1,this.timer/this.animationTime))*(0.5f*realwidth-3f);
-			GameObject.Find("MySkill1Background").transform.localPosition = this.myPosition ;
-			
-			this.myPosition = GameObject.Find("MySkill2Background").transform.localPosition;	
-			this.myPosition.x = -realwidth/2f+(realwidth/2f-3f)/2f-(Mathf.Min(1,this.timer/this.animationTime))*(0.5f*realwidth-3f);
-			GameObject.Find("MySkill2Background").transform.localPosition = this.myPosition ;
-			
-			this.myPosition = GameObject.Find("MySkill3Background").transform.localPosition;	
-			this.myPosition.x = -realwidth/2f+(realwidth/2f-3f)/2f-(Mathf.Min(1,this.timer/this.animationTime))*(0.5f*realwidth-3f);
-			GameObject.Find("MySkill3Background").transform.localPosition = this.myPosition ;
 			
 			if (this.timer>this.animationTime){
 				this.status = 0 ;
@@ -137,46 +105,6 @@ public class MyHoveredCardController : MonoBehaviour
 		position = tempTransform.localPosition ;
 		position.x = -5f+(realwidth/2f-3f)/2f;
 		tempTransform.localPosition = position;
-		
-		tempGO = GameObject.Find("MySpecialiteBackground");
-		position = tempGO.transform.localPosition ;
-		position.x = -realwidth/2f-(realwidth/2f-3f)/2f;
-		tempGO.transform.localPosition = position;
-		
-		tempGO = GameObject.Find("MySpecialiteBackground");
-		scale = tempGO.transform.localScale ;
-		scale.x = (95f/100f)*(realwidth/10f)/(16f/9f);
-		tempGO.transform.localScale = scale;
-		
-		tempGO = GameObject.Find("MySkill1Background");
-		position = tempGO.transform.localPosition ;
-		position.x = -realwidth/2f-(realwidth/2f-3f)/2f;
-		tempGO.transform.localPosition = position;
-		
-		tempGO = GameObject.Find("MySkill1Background");
-		scale = tempGO.transform.localScale ;
-		scale.x = (95f/100f)*(realwidth/10f)/(16f/9f);
-		tempGO.transform.localScale = scale;
-		
-		tempGO = GameObject.Find("MySkill2Background");
-		position = tempGO.transform.localPosition ;
-		position.x = -realwidth/2f-(realwidth/2f-3f)/2f;
-		tempGO.transform.localPosition = position;
-		
-		tempGO = GameObject.Find("MySkill2Background");
-		scale = tempGO.transform.localScale ;
-		scale.x = (95f/100f)*(realwidth/10f)/(16f/9f);
-		tempGO.transform.localScale = scale;
-		
-		tempGO = GameObject.Find("MySkill3Background");
-		position = tempGO.transform.localPosition ;
-		position.x = -realwidth/2f-(realwidth/2f-3f)/2f;
-		tempGO.transform.localPosition = position;
-		
-		tempGO = GameObject.Find("MySkill3Background");
-		scale = tempGO.transform.localScale ;
-		scale.x = (95f/100f)*(realwidth/10f)/(16f/9f);
-		tempGO.transform.localScale = scale;
 		
 		tempTransform = gameObject.transform.FindChild("MyPassiveSkill");
 		position = tempTransform.localPosition ;
