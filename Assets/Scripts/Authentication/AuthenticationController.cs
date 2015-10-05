@@ -65,15 +65,23 @@ public class AuthenticationController : Photon.MonoBehaviour
 	}
 	private IEnumerator initialization()
 	{
+		this.displayLoadingScreen();
 		yield return StartCoroutine(ApplicationModel.permanentConnexion ());
 		if(ApplicationModel.username!=""&& !ApplicationModel.toDeconnect)
 		{
-			this.loadLevels();
+			this.connectToPhoton();
 		}
 		else
 		{
-			view.authenticationVM.guiEnabled=true;
+			this.hideLoadingScreen();
 		}
+	}
+	private void connectToPhoton()
+	{
+		this.loadingScreen.GetComponent<LoadingScreenController> ().changeLoadingScreenLabel ("Connexion au lobby ...");
+		PhotonNetwork.playerName = ApplicationModel.username;
+		PhotonNetwork.ConnectUsingSettings(ApplicationModel.photonSettings);
+		PhotonNetwork.autoCleanUpPlayerObjects = false;
 	}
 	public IEnumerator login()
 	{
@@ -91,10 +99,7 @@ public class AuthenticationController : Photon.MonoBehaviour
 			                                                   this.view.authenticationVM.toMemorize));
 			if(ApplicationModel.username!=""&& !ApplicationModel.toDeconnect)
 			{
-				this.loadingScreen.GetComponent<LoadingScreenController> ().changeLoadingScreenLabel ("Connexion au lobby ...");
-				PhotonNetwork.playerName = ApplicationModel.username;
-				PhotonNetwork.ConnectUsingSettings(ApplicationModel.photonSettings);
-				PhotonNetwork.autoCleanUpPlayerObjects = false;
+				this.connectToPhoton();
 			}
 			else
 			{
