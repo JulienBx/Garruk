@@ -20,7 +20,7 @@ public class OnlineFriendController : MonoBehaviour
 		if(!isHovering)
 		{
 			this.isHovering=true;
-			//NewHomePageController.instance.startHoveringNotification (this.Id);
+			NewHomePageController.instance.startHoveringFriend (this.Id);
 			gameObject.transform.FindChild("PictureBorder").GetComponent<SpriteRenderer>().color=new Color(155f/255f,220f/255f,1f);
 			gameObject.transform.FindChild("Username").GetComponent<TextMeshPro>().color=new Color(155f/255f,220f/255f,1f);
 		}
@@ -30,7 +30,7 @@ public class OnlineFriendController : MonoBehaviour
 		if(isHovering)
 		{
 			this.isHovering=false;
-			//NewHomePageController.instance.endHoveringNotification ();
+			NewHomePageController.instance.endHoveringFriend ();
 			this.setOnlineStatus ();
 			gameObject.transform.FindChild("Username").GetComponent<TextMeshPro>().color=new Color(1f,1f,1f);
 		}

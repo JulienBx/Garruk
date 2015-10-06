@@ -27,6 +27,10 @@ public class LoadingScreenController : MonoBehaviour
 	{
 		this.gameObject.transform.FindChild ("title").GetComponent<TextMeshPro> ().text = label;
 	}
+	public void displayButton(bool value)
+	{
+		this.gameObject.transform.FindChild ("button").gameObject.SetActive (value);
+	}
 }
 
 

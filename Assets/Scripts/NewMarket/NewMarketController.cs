@@ -10,7 +10,6 @@ public class NewMarketController : MonoBehaviour
 	public static NewMarketController instance;
 	private NewMarketModel model;
 	
-	public GameObject loadingScreenObject;
 	public GameObject cardObject;
 	public GameObject skillListObject;
 	public GameObject paginationButtonObject;
@@ -20,7 +19,6 @@ public class NewMarketController : MonoBehaviour
 	public int totalNbResultLimit;
 	public int refreshInterval;
 
-	private GameObject loadingScreen;
 	private GameObject menu;
 	private GameObject tutorial;
 	private GameObject filters;
@@ -92,7 +90,6 @@ public class NewMarketController : MonoBehaviour
 	private bool areNewCardsAvailable;
 
 	private bool isTutorialLaunched;
-	private bool isLoadingScreenDisplayed;
 
 	void Update()
 	{	
@@ -195,12 +192,12 @@ public class NewMarketController : MonoBehaviour
 	}
 	void Awake()
 	{
-		this.displayLoadingScreen ();
 		this.widthScreen = Screen.width;
 		this.heightScreen = Screen.height;
 		this.pixelPerUnit = 108f;
 		this.sortingOrder = -1;
 		this.initializeScene ();
+		newMenuController.instance.displayLoadingScreen ();
 	}
 	void Start()
 	{
@@ -214,7 +211,7 @@ public class NewMarketController : MonoBehaviour
 		yield return StartCoroutine (model.initializeMarket (this.totalNbResultLimit));
 		this.initializeFilters ();
 		this.initializeCards ();
-		this.hideLoadingScreen ();
+		newMenuController.instance.hideLoadingScreen ();
 		this.isSceneLoaded = true;
 		this.money = ApplicationModel.credits;
 		if(!model.player.MarketTutorial)
@@ -1159,21 +1156,5 @@ public class NewMarketController : MonoBehaviour
 	public Vector3 getCardsPosition(int id)
 	{
 		return cards[id].transform.position;
-	}
-	public void displayLoadingScreen()
-	{
-		if(!isLoadingScreenDisplayed)
-		{
-			this.loadingScreen=Instantiate(this.loadingScreenObject) as GameObject;
-			this.isLoadingScreenDisplayed=true;
-		}
-	}
-	public void hideLoadingScreen()
-	{
-		if(isLoadingScreenDisplayed)
-		{
-			Destroy (this.loadingScreen);
-			this.isLoadingScreenDisplayed=false;
-		}
 	}
 }

@@ -8,11 +8,13 @@ using TMPro;
 
 public class newMenuController : Photon.MonoBehaviour 
 {
+	public GameObject loadingScreenObject;
 	public int totalNbResultLimit;
 	public int refreshInterval;
 	public bool isTutorialLaunched;
 	public GameObject playPopUpObject;
 	public GameObject transparentBackgroundObject;
+	public GameObject invitationPopUpObject;
 	public float startButtonPosition;
 	public float endButtonPosition;
 	public float speed;
@@ -27,15 +29,20 @@ public class newMenuController : Photon.MonoBehaviour
 	private bool toMoveBackButtons;
 	private Vector3 currentButtonPosition;
 	private GameObject playPopUp;
+	private GameObject invitationPopUp;
 	private GameObject transparentBackground;
 	private bool isPlayPopUpDisplayed;
+	private bool isInvitationPopUpDisplayed;
 	private Rect centralWindow;
+	private GameObject loadingScreen;
 
 	private bool isDisconnectedViewDisplayed;
 	private NewMenuDisconnectedPopUpView disconnectedView;
 
 	public const string roomNamePrefix = "GarrukGame";
 	private int nbPlayers;
+
+	private bool isLoadingScreenDisplayed;
 
 
 	void Awake()
@@ -111,6 +118,30 @@ public class newMenuController : Photon.MonoBehaviour
 		this.setCurrentPage (5);
 		this.isPlayPopUpDisplayed = true;
 	}
+	public void displayInvitationPopUp()
+	{
+		this.transparentBackground=Instantiate(this.transparentBackgroundObject) as GameObject;
+		this.transparentBackground.transform.position = new Vector3 (0, 0, -1f);
+		this.invitationPopUp=Instantiate(this.invitationPopUpObject) as GameObject;
+		this.invitationPopUp.transform.position = new Vector3 (0f, 0f, -2f);
+		this.invitationPopUp.transform.FindChild ("user").GetComponent<InvitationPopUpUserController> ().show (model.invitation.SendingUser);
+		this.invitationPopUp.transform.FindChild("description").GetComponent<TextMeshPro>().text="vous a lancé un défi";
+		this.invitationPopUp.transform.FindChild("acceptButton").FindChild("Title").GetComponent<TextMeshPro>().text="Accepter";
+		this.invitationPopUp.transform.FindChild("declineButton").FindChild("Title").GetComponent<TextMeshPro>().text="Refuser";
+		StartCoroutine (setSendingUserPicture ());
+		this.isInvitationPopUpDisplayed = true;
+	}
+	public IEnumerator setSendingUserPicture()
+	{
+		yield return StartCoroutine (model.invitation.SendingUser.setThumbProfilePicture ());
+		this.invitationPopUp.transform.FindChild("user").transform.Find ("picture").GetComponent<SpriteRenderer> ().sprite = model.invitation.SendingUser.texture;
+	}
+	public void hideInvitationPopUp()
+	{
+		Destroy (this.invitationPopUp);
+		Destroy (this.transparentBackground);
+		this.isInvitationPopUpDisplayed = false;
+	}
 	public void hidePlayPopUp()
 	{
 		Destroy (this.playPopUp);
@@ -172,6 +203,14 @@ public class newMenuController : Photon.MonoBehaviour
 		}
 		ApplicationModel.credits = model.player.Money;
 		this.refreshMenuObject ();
+		if(model.isInvited && !this.isInvitationPopUpDisplayed)
+		{
+			if(this.isPlayPopUpDisplayed)
+			{
+				this.hidePlayPopUp();
+			}
+			this.displayInvitationPopUp();
+		}
 	}
 	public IEnumerator initialization()
 	{
@@ -334,6 +373,10 @@ public class newMenuController : Photon.MonoBehaviour
 		{
 			return true;
 		}
+		if(isInvitationPopUpDisplayed)
+		{
+			return true;
+		}
 		return false;
 	}
 	public void returnPressed()
@@ -342,6 +385,10 @@ public class newMenuController : Photon.MonoBehaviour
 		{
 			this.logOutLink();
 		}
+		else if(isInvitationPopUpDisplayed)
+		{
+			this.acceptInvitationHandler();
+		}
 	}
 	public void escapePressed()
 	{
@@ -349,9 +396,13 @@ public class newMenuController : Photon.MonoBehaviour
 		{
 			this.hidePlayPopUp();
 		}
-		if(isDisconnectedViewDisplayed)
+		else if(isDisconnectedViewDisplayed)
 		{
 			this.hideDisconnectedPopUp();
+		}
+		else if(isInvitationPopUpDisplayed)
+		{
+			this.declineInvitationHandler();
 		}
 	}
 	public Vector3 getButtonPosition(int id)
@@ -378,8 +429,22 @@ public class newMenuController : Photon.MonoBehaviour
 		Destroy (this.disconnectedView);
 		this.isDisconnectedViewDisplayed = false;
 	}
+	public void leaveRandomRoom()
+	{
+		this.hideLoadingScreen ();
+		PhotonNetwork.LeaveRoom ();
+		if(ApplicationModel.gameType>2)
+		{
+			Invitation invitation = new Invitation ();
+			invitation.Id = ApplicationModel.gameType-2;
+			invitation.changeStatus(-1);
+		}
+	}
 	public void joinRandomRoom()
 	{
+		this.displayLoadingScreen ();
+		this.loadingScreen.GetComponent<LoadingScreenController> ().changeLoadingScreenLabel ("En attente de joueurs ...");
+		this.loadingScreen.GetComponent<LoadingScreenController> ().displayButton (true);
 		this.nbPlayers = 0;
 		TypedLobby sqlLobby = new TypedLobby("rankedGame", LobbyType.SqlLobby);    
 		string sqlLobbyFilter = "C0 = " + ApplicationModel.gameType;
@@ -388,6 +453,13 @@ public class newMenuController : Photon.MonoBehaviour
 	void OnPhotonRandomJoinFailed()
 	{
 		Debug.Log("Can't join random room! - creating a new room");
+		if(ApplicationModel.gameType>2)
+		{
+			this.CreateNewRoom ();
+		}
+	}
+	void CreateNewRoom()
+	{
 		RoomOptions newRoomOptions = new RoomOptions();
 		newRoomOptions.isOpen = true;
 		newRoomOptions.isVisible = true;
@@ -441,6 +513,45 @@ public class newMenuController : Photon.MonoBehaviour
 	void OnDisconnectedFromPhoton()
 	{
 		Application.LoadLevel("Authentication");
+	}
+	public IEnumerator sendInvitation(User invitedUser, User sendingUser)
+	{
+		Invitation invitation = new Invitation ();
+		invitation.InvitedUser = invitedUser;
+		invitation.SendingUser = sendingUser;
+		this.displayLoadingScreen ();
+		yield return StartCoroutine (invitation.add ());
+		this.loadingScreen.GetComponent<LoadingScreenController> ().changeLoadingScreenLabel ("En attente de la réponse de votre ami ...");
+		this.loadingScreen.GetComponent<LoadingScreenController> ().displayButton (true);
+		ApplicationModel.gameType = 2+invitation.Id;
+		newMenuController.instance.CreateNewRoom();
+	}
+	public void displayLoadingScreen()
+	{
+		if(!isLoadingScreenDisplayed)
+		{
+			this.loadingScreen=Instantiate(this.loadingScreenObject) as GameObject;
+			this.isLoadingScreenDisplayed=true;
+		}
+	}
+	public void hideLoadingScreen()
+	{
+		if(isLoadingScreenDisplayed)
+		{
+			Destroy (this.loadingScreen);
+			this.isLoadingScreenDisplayed=false;
+		}
+	}
+	public void acceptInvitationHandler()
+	{
+		ApplicationModel.gameType = 2 + model.invitation.Id;
+		this.joinRandomRoom ();
+		this.hideInvitationPopUp ();
+
+	}
+	public void declineInvitationHandler()
+	{
+		this.hideInvitationPopUp ();
 	}
 }
 

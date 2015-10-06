@@ -19,6 +19,7 @@ public class PopUpNotificationHomePageController : PopUpController
 	}
 	public void show(DisplayedNotification n)
 	{
+		gameObject.transform.FindChild ("date").gameObject.SetActive (true);
 		gameObject.transform.FindChild ("date").GetComponent<TextMeshPro> ().text = n.Notification.Date.ToString ();
 		gameObject.transform.FindChild ("content").GetComponent<TextMeshPro> ().text = n.Content;
 		gameObject.transform.FindChild ("user").GetComponent<PopUpUserController> ().show (n.SendingUser);

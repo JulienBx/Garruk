@@ -10,8 +10,7 @@ public class NewHomePageController : Photon.MonoBehaviour
 {
 	public static NewHomePageController instance;
 	private NewHomePageModel model;
-
-	public GameObject loadingScreenObject;
+	
 	public GameObject tutorialObject;
 	public GameObject blockObject;
 	public GameObject paginationButtonObject;
@@ -33,8 +32,7 @@ public class NewHomePageController : Photon.MonoBehaviour
 	private GameObject newsBlock;
 	private GameObject friendsBlock;
 	private GameObject popUp;
-
-	private GameObject loadingScreen;
+	
 	private GameObject menu;
 	private GameObject tutorial;
 	private GameObject storeAssetsTitle;
@@ -136,11 +134,13 @@ public class NewHomePageController : Photon.MonoBehaviour
 	private bool isHoveringNotification;
 	private bool isHoveringNews;
 	private bool isHoveringCompetition;
+	private bool isHoveringFriend;
 	private bool isHoveringPopUp;
 	private bool isPopUpDisplayed;
 	private int idNotificationHovered;
 	private int idNewsHovered;
 	private int idCompetitionHovered;
+	private int idFriendHovered;
 	private bool toDestroyPopUp;
 	private float popUpDestroyInterval;
 
@@ -155,13 +155,13 @@ public class NewHomePageController : Photon.MonoBehaviour
 	private NewHomePageConnectionBonusPopUpView connectionBonusView;
 	private bool isConnectionBonusViewDisplayed;
 
-	public int countPlayers;
-	private const string roomName="GarrukLobby";
-
 	private bool isTutorialLaunched;
 	private bool isEndGamePopUpDisplayed;
 	private bool isLoadingScreenDisplayed;
 	private bool isInRoom;
+
+	private NewHomePageErrorPopUpView errorView;
+	private bool errorViewDisplayed;
 	
 	void Update()
 	{	
@@ -287,7 +287,7 @@ public class NewHomePageController : Photon.MonoBehaviour
 			bool allPicturesLoaded=true;
 			for(int i=0;i<friendsDisplayed.Count;i++)
 			{
-				if(!model.users[this.friendsDisplayed[i]].isThumbPictureLoaded)
+				if(!model.users[this.friendsOnline[this.friendsDisplayed[i]]].isThumbPictureLoaded)
 				{
 					allPicturesLoaded=false;
 					break;
@@ -298,7 +298,7 @@ public class NewHomePageController : Photon.MonoBehaviour
 				this.areFriendsPicturesLoading=false;
 				for(int i=0;i<friendsDisplayed.Count;i++)
 				{
-					this.friends[i].GetComponent<OnlineFriendController>().setPicture(model.users[this.friendsDisplayed[i]].texture);
+					this.friends[i].GetComponent<OnlineFriendController>().setPicture(model.users[this.friendsOnline[this.friendsDisplayed[i]]].texture);
 				}
 			}
 		}
@@ -345,15 +345,14 @@ public class NewHomePageController : Photon.MonoBehaviour
 	}
 	void Awake()
 	{
-		this.displayLoadingScreen ();
 		this.widthScreen = Screen.width;
 		this.heightScreen = Screen.height;
 		this.pixelPerUnit = 108f;
 		this.elementsPerPageNotifications = 3;
 		this.elementsPerPageNews = 3;
-		this.elementsPerPageFriends = 3;
-		this.countPlayers = 0;
+		this.elementsPerPageFriends = 2;
 		this.initializeScene ();
+		newMenuController.instance.displayLoadingScreen ();
 	}
 	void Start()
 	{
@@ -496,7 +495,7 @@ public class NewHomePageController : Photon.MonoBehaviour
 			this.news[i].GetComponent<NewsController>().setId(i);
 			this.news[i].SetActive(false);
 		}
-		this.friends=new GameObject[3];
+		this.friends=new GameObject[2];
 		for(int i=0;i<this.friends.Length;i++)
 		{
 			this.friends[i]=GameObject.Find ("Friend"+i);
@@ -723,7 +722,7 @@ public class NewHomePageController : Photon.MonoBehaviour
 
 		for(int i=0;i<this.friends.Length;i++)
 		{
-			this.friends[i].transform.position=new Vector3(friendsBlockOrigin.x-0.2f,friendsBlockOrigin.y+friendsBlockHeight/2f-0.85f-i*0.5f,0); 
+			this.friends[i].transform.position=new Vector3(friendsBlockOrigin.x-0.2f,friendsBlockOrigin.y+friendsBlockHeight/2f-0.75f-i*0.65f,0); 
 		}
 
 		this.deckCardsPosition=new Vector3[4];
@@ -794,7 +793,7 @@ public class NewHomePageController : Photon.MonoBehaviour
 	}
 	public IEnumerator drawDeckCards()
 	{
-		this.displayLoadingScreen();
+		newMenuController.instance.displayLoadingScreen ();
 		this.deckCardsDisplayed = new int[]{-1,-1,-1,-1};
 		if(this.deckDisplayed!=-1)
 		{	
@@ -826,7 +825,7 @@ public class NewHomePageController : Photon.MonoBehaviour
 				this.deckCards[i].SetActive(false);
 			}
 		}
-		this.hideLoadingScreen();
+		newMenuController.instance.hideLoadingScreen ();
 	}
 	public void showCardFocused()
 	{
@@ -969,6 +968,10 @@ public class NewHomePageController : Photon.MonoBehaviour
 		{
 			this.hideEndGamePopUp();
 		}
+		else if(errorViewDisplayed)
+		{
+			this.hideErrorPopUp();
+		}
 	}
 	public void escapePressed()
 	{
@@ -983,6 +986,10 @@ public class NewHomePageController : Photon.MonoBehaviour
 		else if(isEndGamePopUpDisplayed)
 		{
 			this.hideEndGamePopUp();
+		}
+		else if(errorViewDisplayed)
+		{
+			this.hideErrorPopUp();
 		}
 	}
 	public void leftClickedHandler(int id)
@@ -1104,11 +1111,6 @@ public class NewHomePageController : Photon.MonoBehaviour
 	public void drawNotifications(bool firstLoad=false)
 	{
 		this.notificationsDisplayed = new List<int> ();
-		int tempInt = this.elementsPerPageNotifications;
-		if(this.chosenPageNotifications*(elementsPerPageNotifications)+elementsPerPageNotifications>this.model.notifications.Count)
-		{
-			tempInt=model.notifications.Count-this.chosenPageNotifications*(elementsPerPageNotifications);
-		}
 		bool allPicturesLoaded = true;
 		for(int i =0;i<elementsPerPageNotifications;i++)
 		{
@@ -1116,7 +1118,10 @@ public class NewHomePageController : Photon.MonoBehaviour
 			{
 				if(!model.notifications[this.chosenPageNotifications*this.elementsPerPageNotifications+i].SendingUser.isThumbPictureLoaded)
 				{
-					StartCoroutine(model.notifications[this.chosenPageNotifications*this.elementsPerPageNotifications+i].SendingUser.setThumbProfilePicture());
+					if(!model.notifications[this.chosenPageNotifications*this.elementsPerPageNotifications+i].SendingUser.isThumbPictureLoading)
+					{
+						StartCoroutine(model.notifications[this.chosenPageNotifications*this.elementsPerPageNotifications+i].SendingUser.setThumbProfilePicture());
+					}
 					allPicturesLoaded=false;
 				}
 				this.notificationsDisplayed.Add (this.chosenPageNotifications*this.elementsPerPageNotifications+i);
@@ -1138,11 +1143,6 @@ public class NewHomePageController : Photon.MonoBehaviour
 	public void drawNews()
 	{
 		this.newsDisplayed = new List<int> ();
-		int tempInt = this.elementsPerPageNews;
-		if(this.chosenPageNews*(elementsPerPageNews)+elementsPerPageNews>this.model.news.Count)
-		{
-			tempInt=model.news.Count-this.chosenPageNews*(elementsPerPageNews);
-		}
 		bool allPicturesLoaded = true;
 		for(int i =0;i<elementsPerPageNews;i++)
 		{
@@ -1150,7 +1150,10 @@ public class NewHomePageController : Photon.MonoBehaviour
 			{
 				if(!model.news[this.chosenPageNews*this.elementsPerPageNews+i].User.isThumbPictureLoaded)
 				{
-					StartCoroutine(model.news[this.chosenPageNews*this.elementsPerPageNews+i].User.setThumbProfilePicture());
+					if(!model.news[this.chosenPageNews*this.elementsPerPageNews+i].User.isThumbPictureLoading)
+					{
+						StartCoroutine(model.news[this.chosenPageNews*this.elementsPerPageNews+i].User.setThumbProfilePicture());
+					}
 					allPicturesLoaded=false;
 				}
 				this.newsDisplayed.Add (this.chosenPageNews*this.elementsPerPageNews+i);
@@ -1171,11 +1174,6 @@ public class NewHomePageController : Photon.MonoBehaviour
 	public void drawFriends()
 	{
 		this.friendsDisplayed = new List<int> ();
-		int tempInt = this.elementsPerPageFriends;
-		if(this.chosenPageFriends*(elementsPerPageFriends)+elementsPerPageFriends>this.friendsOnline.Count)
-		{
-			tempInt=model.news.Count-this.chosenPageFriends*(elementsPerPageFriends);
-		}
 		bool allPicturesLoaded = true;
 		for(int i =0;i<elementsPerPageFriends;i++)
 		{
@@ -1183,13 +1181,23 @@ public class NewHomePageController : Photon.MonoBehaviour
 			{
 				if(!model.users[this.friendsOnline[this.chosenPageFriends*this.elementsPerPageFriends+i]].isThumbPictureLoaded)
 				{
-					StartCoroutine(model.users[this.friendsOnline[this.chosenPageFriends*this.elementsPerPageFriends+i]].setThumbProfilePicture());
+					if(!model.users[this.friendsOnline[this.chosenPageFriends*this.elementsPerPageFriends+i]].isThumbPictureLoading)
+					{
+						StartCoroutine(model.users[this.friendsOnline[this.chosenPageFriends*this.elementsPerPageFriends+i]].setThumbProfilePicture());
+					}
 					allPicturesLoaded=false;
 				}
 				this.friendsDisplayed.Add (this.chosenPageFriends*this.elementsPerPageFriends+i);
 				this.friends[i].GetComponent<OnlineFriendController>().u=model.users[this.friendsOnline[this.chosenPageFriends*this.elementsPerPageFriends+i]];
 				this.friends[i].GetComponent<OnlineFriendController>().show();
-				this.friends[i].SetActive(true);
+				if(!this.isCardFocusedDisplayed)
+				{
+					this.friends[i].SetActive(true);
+				}
+				else
+				{
+					this.friends[i].SetActive(false);
+				}
 			}
 			else
 			{
@@ -1545,7 +1553,7 @@ public class NewHomePageController : Photon.MonoBehaviour
 	}
 	private IEnumerator cleanCards()
 	{
-		this.displayLoadingScreen ();
+		newMenuController.instance.displayLoadingScreen ();
 		yield return StartCoroutine (model.player.cleanCards ());
 		StartCoroutine(this.initialization ());
 	}
@@ -1624,6 +1632,27 @@ public class NewHomePageController : Photon.MonoBehaviour
 			this.showPopUpCompetition();
 		}
 	}
+	public void startHoveringFriend (int id)
+	{
+		this.idFriendHovered=id;
+		this.isHoveringFriend = true;
+		if(this.isPopUpDisplayed && this.popUp.GetComponent<PopUpController>().getIsFriend())
+		{
+			if(this.popUp.GetComponent<PopUpFriendHomePageController>().getId()!=this.idFriendHovered);
+			{
+				this.hidePopUp();
+				this.showPopUpFriend();
+			}
+		}
+		else
+		{
+			if(this.isPopUpDisplayed)
+			{
+				this.hidePopUp();
+			}
+			this.showPopUpFriend();
+		}
+	}
 	public void endHoveringNotification ()
 	{
 		this.isHoveringNotification = false;
@@ -1639,6 +1668,12 @@ public class NewHomePageController : Photon.MonoBehaviour
 	public void endHoveringCompetition ()
 	{
 		this.isHoveringCompetition = false;
+		this.toDestroyPopUp = true;
+		this.popUpDestroyInterval = 0f;
+	}
+	public void endHoveringFriend ()
+	{
+		this.isHoveringNews = false;
 		this.toDestroyPopUp = true;
 		this.popUpDestroyInterval = 0f;
 	}
@@ -1660,6 +1695,16 @@ public class NewHomePageController : Photon.MonoBehaviour
 		this.popUp.GetComponent<PopUpNewsHomePageController> ().setIsNews (true);
 		this.popUp.GetComponent<PopUpNewsHomePageController> ().setId (this.idNewsHovered);
 		this.popUp.GetComponent<PopUpNewsHomePageController> ().show (model.news [this.newsDisplayed [this.idNewsHovered]]);
+		this.isPopUpDisplayed=true;
+	}
+	public void showPopUpFriend()
+	{
+		this.popUp = Instantiate(this.popUpObject) as GameObject;
+		this.popUp.transform.position=new Vector3(this.friends[this.idFriendHovered].transform.position.x-3.1f,this.friends[this.idFriendHovered].transform.position.y,-1f);
+		this.popUp.AddComponent<PopUpFriendHomePageController>();
+		this.popUp.GetComponent<PopUpFriendHomePageController> ().setIsFriend (true);
+		this.popUp.GetComponent<PopUpFriendHomePageController> ().setId (this.idFriendHovered);
+		this.popUp.GetComponent<PopUpFriendHomePageController> ().show (model.users [this.friendsOnline[this.friendsDisplayed[this.idFriendHovered]]]);
 		this.isPopUpDisplayed=true;
 	}
 	public void showPopUpCompetition()
@@ -1773,32 +1818,36 @@ public class NewHomePageController : Photon.MonoBehaviour
 		//PhotonNetwork.Disconnect();
 		if(TutorialObjectController.instance.getSequenceID()==1)
 		{
-			this.displayLoadingScreen();
+			newMenuController.instance.displayLoadingScreen();
 			yield return StartCoroutine (model.player.setTutorialStep (2));
 			Application.LoadLevel ("newMyGame");
 		}
 		else if(TutorialObjectController.instance.getSequenceID()==3)
 		{
-			this.displayLoadingScreen();
+			newMenuController.instance.displayLoadingScreen();
 			yield return StartCoroutine (model.player.setTutorialStep (5));
 			Application.LoadLevel ("newStore");
 		}
 	}
 	public void joinGameHandler(int id)
 	{
-		if(this.deckDisplayed!=-1)
+		if(this.deckDisplayed==-1)
+		{
+			this.displayErrorPopUp("Vous ne pouvez lancer de match sans avoir au préalable créé un deck");
+		}
+		else
 		{
 			ApplicationModel.gameType = id;
 			StartCoroutine (this.joinGame ());
 		}
 	}
-	private IEnumerator joinGame()
+	public IEnumerator joinGame()
 	{
-		this.displayLoadingScreen ();
+		newMenuController.instance.displayLoadingScreen ();
 		yield return StartCoroutine (model.player.SetSelectedDeck (model.decks [this.deckDisplayed].Id));
 		if(ApplicationModel.gameType==0)
 		{
-			this.loadingScreen.GetComponent<LoadingScreenController> ().changeLoadingScreenLabel ("En attente de joueurs ...");
+
 			newMenuController.instance.joinRandomRoom();
 		}
 		else
@@ -1840,32 +1889,19 @@ public class NewHomePageController : Photon.MonoBehaviour
 	{
 		return this.endGamePopUp.transform.FindChild ("Button").position;
 	}
-	public void displayLoadingScreen()
-	{
-		if(!isLoadingScreenDisplayed)
-		{
-			this.loadingScreen=Instantiate(this.loadingScreenObject) as GameObject;
-			this.isLoadingScreenDisplayed=true;
-		}
-	}
-	public void hideLoadingScreen()
-	{
-		if(isLoadingScreenDisplayed)
-		{
-			Destroy (this.loadingScreen);
-			this.isLoadingScreenDisplayed=false;
-		}
-	}
 	public void checkFriendsOnlineStatus()
 	{
 		if(PhotonNetwork.insideLobby)
 		{
 			PhotonNetwork.FindFriends (model.usernameList);
+<<<<<<< Updated upstream
+=======
+			//print ("toto");
+>>>>>>> Stashed changes
 		}
 	}
 	public void OnUpdatedFriendList()
 	{
-		bool hasChanged = false;
 		for(int i=0;i<PhotonNetwork.Friends.Count;i++)
 		{
 			for(int j=0;j<model.users.Count;j++)
@@ -1875,24 +1911,22 @@ public class NewHomePageController : Photon.MonoBehaviour
 					if(PhotonNetwork.Friends[i].IsInRoom)
 					{
 						model.users[j].OnlineStatus=2;
-						if(model.friends.Contains(model.users[j].Id))
+						if(model.friends.Contains(j))
 						{
-							if(!this.friendsOnline.Contains(model.users[j].Id))
+							if(!this.friendsOnline.Contains(j))
 							{
-								this.friendsOnline.Insert(0,model.users[j].Id);
-								hasChanged=true;
+								this.friendsOnline.Insert(0,j);
 							}
 						}
 					}
 					else if(PhotonNetwork.Friends[i].IsOnline)
 					{
 						model.users[j].OnlineStatus=1;
-						if(model.friends.Contains(model.users[j].Id))
+						if(model.friends.Contains(j))
 						{
-							if(!this.friendsOnline.Contains(model.users[j].Id))
+							if(!this.friendsOnline.Contains(j))
 							{
-								this.friendsOnline.Insert(0,model.users[j].Id);
-								hasChanged=true;
+								this.friendsOnline.Insert(0,j);
 							}
 						}
 					}
@@ -1904,9 +1938,51 @@ public class NewHomePageController : Photon.MonoBehaviour
 				}
 			}
 		}
-		if(hasChanged && this.chosenPageFriends == 0)
+		if(this.chosenPageFriends == 0)
 		{
 			this.initializeFriends();
 		}
+	}
+	public void sendInvitationHandler()
+	{
+		if(this.deckDisplayed==-1)
+		{
+			this.displayErrorPopUp("Vous ne pouvez lancer de match sans avoir au préalable créé un deck");
+		}
+		else if(model.users [this.friendsOnline [this.friendsDisplayed [this.idFriendHovered]]].OnlineStatus!=1)
+		{
+			this.displayErrorPopUp("Votre adversaire n'est plus disponible");
+		}
+		else
+		{
+			StartCoroutine (this.sendInvitation ());
+		}
+	}
+	public IEnumerator sendInvitation()
+	{
+		newMenuController.instance.displayLoadingScreen ();
+		yield return StartCoroutine (model.player.SetSelectedDeck (model.decks [this.deckDisplayed].Id));
+		StartCoroutine (newMenuController.instance.sendInvitation (model.users [this.friendsOnline [this.friendsDisplayed [this.idFriendHovered]]], model.player));
+	}
+	public void errorPopUpResize()
+	{
+		errorView.popUpVM.centralWindow = this.centralWindow;
+		errorView.popUpVM.resize ();
+	}
+	public void displayErrorPopUp(string error)
+	{
+		this.errorViewDisplayed = true;
+		this.errorView = Camera.main.gameObject.AddComponent <NewHomePageErrorPopUpView>();
+		errorView.errorPopUpVM.error = error;
+		errorView.popUpVM.centralWindowStyle = new GUIStyle(this.popUpSkin.customStyles[3]);
+		errorView.popUpVM.centralWindowTitleStyle = new GUIStyle (this.popUpSkin.customStyles [0]);
+		errorView.popUpVM.centralWindowButtonStyle = new GUIStyle (this.popUpSkin.button);
+		errorView.popUpVM.transparentStyle = new GUIStyle (this.popUpSkin.customStyles [2]);
+		this.errorPopUpResize ();
+	}
+	public void hideErrorPopUp()
+	{
+		Destroy (this.errorView);
+		this.errorViewDisplayed = false;
 	}
 }

@@ -10,7 +10,6 @@ public class NewLobbyController : MonoBehaviour
 	public static NewLobbyController instance;
 	private NewLobbyModel model;
 	
-	public GameObject loadingScreenObject;
 	public GameObject tutorialObject;
 	public GameObject blockObject;
 	public GameObject paginationButtonObject;
@@ -25,7 +24,6 @@ public class NewLobbyController : MonoBehaviour
 	private GameObject statsBlockTitle;
 	private GameObject popUp;
 	private GameObject profilePopUp;
-	private GameObject loadingScreen;
 	private GameObject menu;
 	private GameObject tutorial;
 	private GameObject[] results;
@@ -66,7 +64,6 @@ public class NewLobbyController : MonoBehaviour
 
 	private bool isTutorialLaunched;
 	private bool isPopUpDisplayed;
-	private bool isLoadingScreenDisplayed;
 
 	private bool isDivisionLobby;
 	private bool isEndGameLobby;
@@ -152,7 +149,6 @@ public class NewLobbyController : MonoBehaviour
 	}
 	void Awake()
 	{
-		this.displayLoadingScreen ();
 		if(ApplicationModel.gameType==1)
 		{
 			this.isDivisionLobby=true;
@@ -173,6 +169,7 @@ public class NewLobbyController : MonoBehaviour
 		this.elementsPerPage = 6;
 		this.timer = 0f;
 		this.initializeScene ();
+		newMenuController.instance.displayLoadingScreen ();
 	}
 	void Start()
 	{
@@ -201,7 +198,7 @@ public class NewLobbyController : MonoBehaviour
 		}
 		this.initializePlayButton ();
 		this.isSceneLoaded = true;
-		this.hideLoadingScreen ();
+		newMenuController.instance.hideLoadingScreen ();
 	}
 	private void initializeResults()
 	{
@@ -594,22 +591,6 @@ public class NewLobbyController : MonoBehaviour
 		this.popUp.SetActive (false);
 		this.transparentBackground.SetActive (false);
 	}
-	public void displayLoadingScreen()
-	{
-		if(!isLoadingScreenDisplayed)
-		{
-			this.loadingScreen=Instantiate(this.loadingScreenObject) as GameObject;
-			this.isLoadingScreenDisplayed=true;
-		}
-	}
-	public void hideLoadingScreen()
-	{
-		if(isLoadingScreenDisplayed)
-		{
-			Destroy (this.loadingScreen);
-			this.isLoadingScreenDisplayed=false;
-		}
-	}
 	public void playHandler()
 	{
 		if(this.isEndCompetition)
@@ -618,7 +599,6 @@ public class NewLobbyController : MonoBehaviour
 		}
 		else
 		{
-			this.loadingScreen.GetComponent<LoadingScreenController> ().changeLoadingScreenLabel ("En attente de joueurs ...");
 			newMenuController.instance.joinRandomRoom();
 		}
 	}

@@ -11,7 +11,6 @@ public class NewStoreController : MonoBehaviour
 {
 	public static NewStoreController instance;
 
-	public GameObject loadingScreenObject;
 	public GameObject CardObject;
 	public GameObject PackObject;
 	public GameObject BlockObject;
@@ -19,7 +18,6 @@ public class NewStoreController : MonoBehaviour
 	public GameObject tutorialObject;
 	public GUISkin popUpSkin;
 
-	private GameObject loadingScreen;
 	private GameObject menu;
 	private GameObject tutorial;
 	private GameObject focusedCard;
@@ -90,15 +88,13 @@ public class NewStoreController : MonoBehaviour
 	private bool isTutorialLaunched;
 
 	private bool toResizeBackUI;
-
-	private bool isLoadingScreenDisplayed;
 	
+
 	public NewStoreController ()
 	{
 	}
 	void Awake()
 	{
-		this.displayLoadingScreen ();
 		this.widthScreen = Screen.width;
 		this.heightScreen = Screen.height;
 		this.pixelPerUnit = 108;
@@ -106,6 +102,7 @@ public class NewStoreController : MonoBehaviour
 		this.packsBoardLeftMargin = 2.9f;
 		this.packsBoardRightMargin = 0.5f;
 		this.initializeScene ();
+		newMenuController.instance.displayLoadingScreen ();
 	}
 	void Start()
 	{
@@ -222,7 +219,7 @@ public class NewStoreController : MonoBehaviour
 		yield return(StartCoroutine(this.model.initializeStore()));
 		this.money = ApplicationModel.credits;
 		this.createPacks ();
-		this.hideLoadingScreen ();
+		newMenuController.instance.hideLoadingScreen ();
 		this.isSceneLoaded = true;
 		if(ApplicationModel.packToBuy!=-1)
 		{
@@ -864,10 +861,10 @@ public class NewStoreController : MonoBehaviour
 	public IEnumerator addCredits(int value)
 	{
 		this.hideAddCreditsPopUp ();
-		this.displayLoadingScreen ();
+		newMenuController.instance.displayLoadingScreen ();
 		yield return StartCoroutine (this.model.player.addMoney (value));
 		this.refreshCredits ();
-		this.hideLoadingScreen ();
+		newMenuController.instance.hideLoadingScreen ();
 	}
 	public int addCreditsSyntaxCheck()
 	{
@@ -911,21 +908,5 @@ public class NewStoreController : MonoBehaviour
 	public bool getIsTutorialLaunched()
 	{
 		return isTutorialLaunched;
-	}
-	public void displayLoadingScreen()
-	{
-		if(!isLoadingScreenDisplayed)
-		{
-			this.loadingScreen=Instantiate(this.loadingScreenObject) as GameObject;
-			this.isLoadingScreenDisplayed=true;
-		}
-	}
-	public void hideLoadingScreen()
-	{
-		if(isLoadingScreenDisplayed)
-		{
-			Destroy (this.loadingScreen);
-			this.isLoadingScreenDisplayed=false;
-		}
 	}
 }

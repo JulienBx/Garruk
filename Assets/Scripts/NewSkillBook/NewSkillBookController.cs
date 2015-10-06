@@ -10,7 +10,6 @@ public class NewSkillBookController : MonoBehaviour
 	public static NewSkillBookController instance;
 	private NewSkillBookModel model;
 	
-	public GameObject loadingScreenObject;
 	public GameObject blockObject;
 	public GameObject paginationButtonObject;
 	public GameObject skillObject;
@@ -18,7 +17,6 @@ public class NewSkillBookController : MonoBehaviour
 	public Sprite[] cardTypesPictos;
 	public Sprite[] starsPictos;
 
-	private GameObject loadingScreen;
 	private GameObject menu;
 	private GameObject tutorial;
 	private GameObject starsBlock;
@@ -59,7 +57,6 @@ public class NewSkillBookController : MonoBehaviour
 	private int globalPercentage;
 
 	private bool isTutorialLaunched;
-	private bool isLoadingScreenDisplayed;
 	
 	void Update()
 	{	
@@ -80,13 +77,13 @@ public class NewSkillBookController : MonoBehaviour
 	}
 	void Awake()
 	{
-		this.displayLoadingScreen ();
 		this.widthScreen = Screen.width;
 		this.heightScreen = Screen.height;
 		this.pixelPerUnit = 108f;
 		this.elementsPerPage= 5;
 		this.selectedCardTypeId = 0;
 		this.initializeScene ();
+		newMenuController.instance.displayLoadingScreen ();
 	}
 	void Start()
 	{
@@ -101,7 +98,7 @@ public class NewSkillBookController : MonoBehaviour
 		this.computeIndicators ();
 		this.drawCollectionLevel ();
 		this.loadSkills ();
-		this.hideLoadingScreen ();
+		newMenuController.instance.hideLoadingScreen ();
 		if(!model.player.SkillBookTutorial)
 		{
 			this.tutorial = Instantiate(this.tutorialObject) as GameObject;
@@ -586,21 +583,5 @@ public class NewSkillBookController : MonoBehaviour
 			yield return StartCoroutine (model.player.setSkillBookTutorial(true));
 		}
 		yield break;
-	}
-	public void displayLoadingScreen()
-	{
-		if(!isLoadingScreenDisplayed)
-		{
-			this.loadingScreen=Instantiate(this.loadingScreenObject) as GameObject;
-			this.isLoadingScreenDisplayed=true;
-		}
-	}
-	public void hideLoadingScreen()
-	{
-		if(isLoadingScreenDisplayed)
-		{
-			Destroy (this.loadingScreen);
-			this.isLoadingScreenDisplayed=false;
-		}
 	}
 }

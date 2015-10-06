@@ -6,6 +6,7 @@ TextureImporter:
   fileIDToRecycleName:
     21300000: loadingBar
     21300002: transparentBackground
+    21300004: buttonBorder
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -51,6 +52,16 @@ TextureImporter:
   buildTargetSettings: []
   spriteSheet:
     sprites:
+    - name: buttonBorder
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 390
+        width: 425
+        height: 105
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: loadingBar
       rect:
         serializedVersion: 2

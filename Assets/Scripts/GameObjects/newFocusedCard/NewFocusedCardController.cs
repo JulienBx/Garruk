@@ -1018,11 +1018,13 @@ public class NewFocusedCardController : MonoBehaviour
 	{
 		return this.ressources.skills [id];
 	}
-	public virtual void displayLoadingScreen()
+	public void displayLoadingScreen()
 	{
+		newMenuController.instance.displayLoadingScreen ();
 	}
-	public virtual void hideLoadingScreen()
+	public void hideLoadingScreen()
 	{
+		newMenuController.instance.hideLoadingScreen ();
 	}
 	public void setIsXpBeingUpdated(bool value)
 	{

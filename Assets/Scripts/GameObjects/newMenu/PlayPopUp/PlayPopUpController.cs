@@ -8,13 +8,11 @@ using TMPro;
 
 public class PlayPopUpController : MonoBehaviour 
 {
-	public GameObject loadingScreenObject;
 	public GameObject deckListObject;
 
 	public static PlayPopUpController instance;
 	private PlayPopUpModel model;
-
-	private GameObject loadingScreen;
+	
 	private IList<int> decksDisplayed;
 	private int deckDisplayed;
 	private bool arePicturesLoading;
@@ -46,7 +44,7 @@ public class PlayPopUpController : MonoBehaviour
 	}
 	void Awake()
 	{
-		this.displayLoadingScreen ();
+		newMenuController.instance.displayLoadingScreen ();
 	}
 	void Start () 
 	{	
@@ -61,7 +59,7 @@ public class PlayPopUpController : MonoBehaviour
 		this.retrieveDefaultDeck ();
 		this.retrieveDecksList ();
 		this.drawDeck ();
-		this.hideLoadingScreen ();
+		newMenuController.instance.hideLoadingScreen ();
 		this.show ();
 		if(newMenuController.instance.getIsTutorialLaunched())
 		{
@@ -204,7 +202,7 @@ public class PlayPopUpController : MonoBehaviour
 	}
 	private IEnumerator setSelectedDeck()
 	{
-		this.displayLoadingScreen ();
+		newMenuController.instance.hideLoadingScreen ();
 		yield return StartCoroutine(model.player.SetSelectedDeck(model.decks[this.deckDisplayed].Id));
 		attemptToPlay = true;
 		if(newMenuController.instance.getIsTutorialLaunched())
@@ -220,7 +218,6 @@ public class PlayPopUpController : MonoBehaviour
 	{
 		if(ApplicationModel.gameType==0)
 		{
-			this.loadingScreen.GetComponent<LoadingScreenController> ().changeLoadingScreenLabel ("En attente de joueurs ...");
 			newMenuController.instance.joinRandomRoom();
 		}
 		else
@@ -239,22 +236,6 @@ public class PlayPopUpController : MonoBehaviour
 	public Vector3 getFriendlyGameButtonPosition()
 	{
 		return gameObject.transform.FindChild ("Button0").position;
-	}
-	public void displayLoadingScreen()
-	{
-		if(!isLoadingScreenDisplayed)
-		{
-			this.loadingScreen=Instantiate(this.loadingScreenObject) as GameObject;
-			this.isLoadingScreenDisplayed=true;
-		}
-	}
-	public void hideLoadingScreen()
-	{
-		if(isLoadingScreenDisplayed)
-		{
-			Destroy (this.loadingScreen);
-			this.isLoadingScreenDisplayed=false;
-		}
 	}
 }
 

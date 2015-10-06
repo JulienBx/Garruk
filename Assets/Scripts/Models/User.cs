@@ -27,6 +27,7 @@ public class User
 	private string URLSetDivisionLobbyTutorial = ApplicationModel.host + "set_divisionLobbyTutorial.php";
 	private string URLSetCupLobbyTutorial = ApplicationModel.host + "set_cupLobbyTutorial.php";
 	private string URLUpdateEndGameData = ApplicationModel.host + "get_end_game_data.php";
+	private string URLInvitePlayer = ApplicationModel.host + "invite_player.php";
 
 	private string ServerDirectory          = "img/profile/";
 	
@@ -626,6 +627,7 @@ public class User
 			Debug.Log(w.error); 										// donne l'erreur eventuelle
 		} 
 	}
+
 }
 
 

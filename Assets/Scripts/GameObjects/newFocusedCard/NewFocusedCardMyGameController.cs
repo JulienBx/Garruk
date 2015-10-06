@@ -93,13 +93,5 @@ public class NewFocusedCardMyGameController : NewFocusedCardController
 			break;
 		}
 	}
-	public override void displayLoadingScreen()
-	{
-		newMyGameController.instance.displayLoadingScreen ();
-	}
-	public override void hideLoadingScreen()
-	{
-		newMyGameController.instance.hideLoadingScreen ();
-	}
 }
 

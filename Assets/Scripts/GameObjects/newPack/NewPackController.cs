@@ -314,11 +314,13 @@ public class NewPackController : MonoBehaviour
 	public virtual void refreshCredits()
 	{
 	}
-	public virtual void displayLoadingScreen()
+	public void displayLoadingScreen()
 	{
+		newMenuController.instance.displayLoadingScreen ();
 	}
-	public virtual void hideLoadingScreen()
+	public void hideLoadingScreen()
 	{
+		newMenuController.instance.hideLoadingScreen ();
 	}
 }
 
