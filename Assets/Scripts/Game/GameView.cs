@@ -652,6 +652,7 @@ public class GameView : MonoBehaviour
 		if (GameController.instance.hasGameStarted() && this.getIsMine(GameController.instance.getCurrentPlayingCard())){
 			this.checkSkillsLaunchability();
 		}
+		this.moveCard(c, true);
 	}
 	
 	public void hideTrap(int x, int y){
@@ -822,21 +823,26 @@ public class GameView : MonoBehaviour
 				if (GameController.instance.getCurrentPlayingCard()!=c){
 					this.clearDestinations();
 					this.isDisplayedItsDestinations = true ;
-					if (this.getIsMine(c)){
-						this.setDestinations(c, false);
-					}
-					else{
-						this.setHisDestinations(c, false);
+					if(!this.hasMoved(GameController.instance.getCurrentPlayingCard())){
+						if (this.getIsMine(c)){
+							this.setDestinations(c, false);
+						}
+						else{
+							this.setHisDestinations(c, false);
+						}
 					}
 				}
 				else{
 					if(this.isDisplayedItsDestinations){
 						this.clearDestinations();
-						if (this.getIsMine(GameController.instance.getCurrentPlayingCard())){
-							this.setDestinations(GameController.instance.getCurrentPlayingCard(), true);
-						}
-						else{
-							this.setHisDestinations(GameController.instance.getCurrentPlayingCard(), true);
+						if(!this.hasMoved(GameController.instance.getCurrentPlayingCard())){
+							if (this.getIsMine(GameController.instance.getCurrentPlayingCard())){
+						
+								this.setDestinations(GameController.instance.getCurrentPlayingCard(), true);
+							}
+							else{
+								this.setHisDestinations(GameController.instance.getCurrentPlayingCard(), true);
+							}
 						}
 						this.isDisplayedItsDestinations=false;
 					}
@@ -908,11 +914,13 @@ public class GameView : MonoBehaviour
 		else{
 			if(GameController.instance.getCurrentPlayingCard()!=-1){
 				this.clearDestinations();
-				if (this.getIsMine(GameController.instance.getCurrentPlayingCard())){
-					this.setDestinations(GameController.instance.getCurrentPlayingCard(), true);
-				}
-				else{
-					this.setHisDestinations(GameController.instance.getCurrentPlayingCard(), true);
+				if(!this.hasMoved(GameController.instance.getCurrentPlayingCard())){
+					if (this.getIsMine(GameController.instance.getCurrentPlayingCard())){
+						this.setDestinations(GameController.instance.getCurrentPlayingCard(), true);
+					}
+					else{
+						this.setHisDestinations(GameController.instance.getCurrentPlayingCard(), true);
+					}
 				}
 				this.isDisplayedItsDestinations=false;
 			}
@@ -1122,6 +1130,7 @@ public class GameView : MonoBehaviour
 	}
 	
 	public void setDestinations(int i, bool b){
+		print ("Je set ");
 		bool[,] hasBeenPassages = new bool[this.boardWidth, this.boardHeight];
 		bool[,] isDestination = new bool[this.boardWidth, this.boardHeight];
 		
