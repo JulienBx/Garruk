@@ -1861,7 +1861,6 @@ public class NewHomePageController : Photon.MonoBehaviour
 		if(PhotonNetwork.insideLobby)
 		{
 			PhotonNetwork.FindFriends (model.usernameList);
-			print ("toto");
 		}
 	}
 	public void OnUpdatedFriendList()

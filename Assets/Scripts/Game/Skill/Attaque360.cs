@@ -16,7 +16,7 @@ public class Attaque360 : GameSkill
 	public override void resolve(List<int> targetsPCC)
 	{	
 		List<Tile> tempTiles;
-		Tile t = GameView.instance.getPlayingCardTile(GameView.instance.getGC().getCurrentPlayingCard());
+		Tile t = GameView.instance.getPlayingCardTile(GameController.instance.getCurrentPlayingCard());
 		tempTiles = t.getImmediateNeighbourTiles();
 		
 		bool isLaunchable = false ;
@@ -32,10 +32,10 @@ public class Attaque360 : GameSkill
 				{
 					if (Random.Range(1,101) > GameView.instance.getCard(tempInt).GetEsquive())
 					{                             
-						GameView.instance.getGC().addTarget(tempInt,1);
+						GameController.instance.addTarget(tempInt,1);
 					}
 					else{
-						GameView.instance.getGC().addTarget(tempInt,0);
+						GameController.instance.addTarget(tempInt,0);
 					}
 					
 					if (base.card.isGiant()){
@@ -47,10 +47,10 @@ public class Attaque360 : GameSkill
 								
 								if (Random.Range(1,101) > GameView.instance.getCard(tempInt).GetMagicalEsquive())
 								{
-									GameView.instance.getGC().addTarget(tempInt,3);
+									GameController.instance.addTarget(tempInt,3);
 								}
 								else{
-									GameView.instance.getGC().addTarget(tempInt,2);
+									GameController.instance.addTarget(tempInt,2);
 								}
 							}
 						}
@@ -60,7 +60,7 @@ public class Attaque360 : GameSkill
 			i++;
 		}
 		
-		GameView.instance.getGC().play();
+		GameController.instance.play();
 	}
 	
 	public override void applyOn(){
@@ -89,13 +89,13 @@ public class Attaque360 : GameSkill
 			else{
 				amount = Mathf.Min(targetCard.GetLife(),(base.card.GetAttack()*base.skill.ManaCost/100)*(1-(targetCard.GetBouclier()/100)));
 				if (base.card.isLache()){
-					if(GameView.instance.getGC().getIsFirstPlayer()==GameView.instance.getIsMine(GameView.instance.getGC().getCurrentPlayingCard())){
-						if(GameView.instance.getPlayingCardTile(target).y==GameView.instance.getPlayingCardTile(GameView.instance.getGC().getCurrentPlayingCard()).y-1){
+					if(GameController.instance.getIsFirstPlayer()==GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
+						if(GameView.instance.getPlayingCardTile(target).y==GameView.instance.getPlayingCardTile(GameController.instance.getCurrentPlayingCard()).y-1){
 							amount = (100+base.card.getPassiveManacost())*amount/100;
 						}
 					}
 					else{
-						if(GameView.instance.getPlayingCardTile(target).y-1==GameView.instance.getPlayingCardTile(GameView.instance.getGC().getCurrentPlayingCard()).y){
+						if(GameView.instance.getPlayingCardTile(target).y-1==GameView.instance.getPlayingCardTile(GameController.instance.getCurrentPlayingCard()).y){
 							amount = (100+base.card.getPassiveManacost())*amount/100;
 						}
 					}
@@ -114,12 +114,12 @@ public class Attaque360 : GameSkill
 				}
 				receiversTexts.Add (text);
 				
-				GameView.instance.getGC().addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
+				GameController.instance.addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
 				
 				GameView.instance.displaySkillEffect(target, text, 5);
 			}	
 		}
-		if(!GameView.instance.getIsMine(GameView.instance.getGC().getCurrentPlayingCard())){
+		if(!GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
 			GameView.instance.setSkillPopUp("lance <b>Attaque Circulaire</b>...", base.card, receivers, receiversTexts);
 		}
 	}

@@ -9,13 +9,13 @@ public class Attack : GameSkill
 	
 	public override void launch()
 	{
-		GameView.instance.getGC().initPCCTargetHandler(numberOfExpectedTargets);
+		GameController.instance.initPCCTargetHandler(numberOfExpectedTargets);
 		GameView.instance.displayAdjacentOpponentsTargets();
 	}
 	
 	public override void resolve(List<int> targetsPCC)
 	{	
-		if (GameView.instance.getIsMine(GameView.instance.getGC().getCurrentPlayingCard())){
+		if (GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
 			GameView.instance.hideTargets();
 		}
 		
@@ -23,10 +23,10 @@ public class Attack : GameSkill
 		
 		if (Random.Range(1,101) > GameView.instance.getCard(target).GetEsquive())
 		{                             
-			GameView.instance.getGC().addTarget(target,1);
+			GameController.instance.addTarget(target,1);
 		}
 		else{
-			GameView.instance.getGC().addTarget(target,0);
+			GameController.instance.addTarget(target,0);
 		}
 		
 		if (base.card.isGiant()){
@@ -38,16 +38,16 @@ public class Attack : GameSkill
 					
 					if (Random.Range(1,101) > GameView.instance.getCard(target).GetEsquive())
 					{
-						GameView.instance.getGC().addTarget(target,3);
+						GameController.instance.addTarget(target,3);
 					}
 					else{
-						GameView.instance.getGC().addTarget(target,2);
+						GameController.instance.addTarget(target,2);
 					}
 				}
 			}
 		}
 		
-		GameView.instance.getGC().play();
+		GameController.instance.play();
 	}
 	
 	public override void applyOn(){
@@ -77,13 +77,13 @@ public class Attack : GameSkill
 			else{
 				amount = Mathf.Min(targetCard.GetLife(),base.card.GetAttack()*(1-(targetCard.GetBouclier()/100)));
 				if (base.card.isLache()){
-					if(GameView.instance.getGC().getIsFirstPlayer()==GameView.instance.getIsMine(GameView.instance.getGC().getCurrentPlayingCard())){
-						if(GameView.instance.getPlayingCardTile(target).y==GameView.instance.getPlayingCardTile(GameView.instance.getGC().getCurrentPlayingCard()).y-1){
+					if(GameController.instance.getIsFirstPlayer()==GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
+						if(GameView.instance.getPlayingCardTile(target).y==GameView.instance.getPlayingCardTile(GameController.instance.getCurrentPlayingCard()).y-1){
 							amount = (100+base.card.getPassiveManacost())*amount/100;
 						}
 					}
 					else{
-						if(GameView.instance.getPlayingCardTile(target).y-1==GameView.instance.getPlayingCardTile(GameView.instance.getGC().getCurrentPlayingCard()).y){
+						if(GameView.instance.getPlayingCardTile(target).y-1==GameView.instance.getPlayingCardTile(GameController.instance.getCurrentPlayingCard()).y){
 							amount = (100+base.card.getPassiveManacost())*amount/100;
 						}
 					}
@@ -104,12 +104,12 @@ public class Attack : GameSkill
 				Debug.Log ("J'ajoute aux receiversTexts "+text);
 				
 				
-				GameView.instance.getGC().addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
+				GameController.instance.addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
 				
 				GameView.instance.displaySkillEffect(target, text, 5);
 			}	
 		}
-		if(!GameView.instance.getIsMine(GameView.instance.getGC().getCurrentPlayingCard())){
+		if(!GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
 			GameView.instance.setSkillPopUp("lance <b>Attaque</b>...", base.card, receivers, receiversTexts);
 		}
 	}
@@ -129,14 +129,14 @@ public class Attack : GameSkill
 		string text = "";
 		
 		if (base.card.isLache()){
-			if(GameView.instance.getGC().getIsFirstPlayer()==GameView.instance.getIsMine(GameView.instance.getGC().getCurrentPlayingCard())){
-				if(GameView.instance.getPlayingCardTile(target).y==GameView.instance.getPlayingCardTile(GameView.instance.getGC().getCurrentPlayingCard()).y-1){
+			if(GameController.instance.getIsFirstPlayer()==GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
+				if(GameView.instance.getPlayingCardTile(target).y==GameView.instance.getPlayingCardTile(GameController.instance.getCurrentPlayingCard()).y-1){
 					amount = (100+base.card.getPassiveManacost())*amount/100;
 					text="LACHE\n";
 				}
 			}
 			else{
-				if(GameView.instance.getPlayingCardTile(target).y-1==GameView.instance.getPlayingCardTile(GameView.instance.getGC().getCurrentPlayingCard()).y){
+				if(GameView.instance.getPlayingCardTile(target).y-1==GameView.instance.getPlayingCardTile(GameController.instance.getCurrentPlayingCard()).y){
 					amount = (100+base.card.getPassiveManacost())*amount/100;
 					text="LACHE\n";
 				}

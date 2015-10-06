@@ -20,14 +20,14 @@ public class EnergieQuantique : GameSkill
 		for(int i = 0 ; i < targets.Count ; i++){
 			if (Random.Range(1,101) > GameView.instance.getCard(targets[i]).GetMagicalEsquive())
 			{
-				GameView.instance.getGC().applyOn(targets[i]);
+				GameController.instance.applyOn(targets[i]);
 			}
 			else{
-				GameView.instance.getGC().failedToCastOnSkill(targets[i], 0);
+				GameController.instance.failedToCastOnSkill(targets[i], 0);
 			}
 		}
 		
-		GameView.instance.getGC().play();
+		GameController.instance.play();
 	}
 	
 	public override void applyOn(){

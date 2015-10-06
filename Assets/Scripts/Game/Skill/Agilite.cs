@@ -15,16 +15,16 @@ public class Agilite : GameSkill
 	
 	public override void resolve(List<int> targetsPCC)
 	{	                     
-		GameView.instance.getGC().play();
+		GameController.instance.play();
 	}
 	
 	public override void applyOn(){
 		int esquive = base.skill.ManaCost;
-		int target = GameView.instance.getGC().getCurrentPlayingCard();
+		int target = GameController.instance.getCurrentPlayingCard();
 		List<Card> receivers =  new List<Card>();
 		List<string> receiversTexts =  new List<string>();
 		
-		GameView.instance.getGC().addCardModifier(target, esquive, ModifierType.Type_EsquivePercentage, ModifierStat.Stat_No, -1, 1, "Esquive", esquive+"% de chances d'esquiver les attaques. Permanent", "Permanent");
+		GameController.instance.addCardModifier(target, esquive, ModifierType.Type_EsquivePercentage, ModifierStat.Stat_No, -1, 1, "Esquive", esquive+"% de chances d'esquiver les attaques. Permanent", "Permanent");
 		
 		string text = "+"+esquive+"% esquive";
 		GameView.instance.displaySkillEffect(target, text, 4);
@@ -32,7 +32,7 @@ public class Agilite : GameSkill
 		receivers.Add (GameView.instance.getCard(target));
 		receiversTexts.Add(text);
 		
-		if(!GameView.instance.getIsMine(GameView.instance.getGC().getCurrentPlayingCard())){
+		if(!GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
 			GameView.instance.setSkillPopUp("lance <b>Agilité</b>...", base.card, receivers, receiversTexts);
 		}
 	}

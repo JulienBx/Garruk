@@ -67,13 +67,13 @@ public class TileController : GameObjectController
 				targets[0] = this.characterID;
 				int[] args = new int[1];
 				args[0] = this.tile.statModifier.Amount ;
-				GameView.instance.getGC().activateTrap(15, targets, args);
+				GameController.instance.activateTrap(15, targets, args);
 				
 				int[] t = new int[2];
 				t[0] = this.tile.x;
 				t[1] = this.tile.y;
 				
-				GameView.instance.getGC().hideTrap(t);
+				GameController.instance.hideTrap(t);
 			}
 			else if (this.tile.statModifier.Type == ModifierType.Type_SleepingTrap)
 			{
@@ -83,13 +83,13 @@ public class TileController : GameObjectController
 				targets[0] = this.characterID;
 				int[] args = new int[1];
 				args[0] = this.tile.statModifier.Amount ;
-				GameView.instance.getGC().activateTrap(61, targets, args);
+				GameController.instance.activateTrap(61, targets, args);
 				
 				int[] t = new int[2];
 				t[0] = this.tile.x;
 				t[1] = this.tile.y;
 				
-				GameView.instance.getGC().hideTrap(t);
+				GameController.instance.hideTrap(t);
 			}
 			else if (this.tile.statModifier.Type == ModifierType.Type_WeakeningTrap)
 			{
@@ -97,13 +97,13 @@ public class TileController : GameObjectController
 				targets[0] = this.characterID;
 				int[] args = new int[1];
 				args[0] = this.tile.statModifier.Amount ;
-				GameView.instance.getGC().activateTrap(60, targets, args);
+				GameController.instance.activateTrap(60, targets, args);
 				
 				int[] t = new int[2];
 				t[0] = this.tile.x;
 				t[1] = this.tile.y;
 				
-				GameView.instance.getGC().hideTrap(t);
+				GameController.instance.hideTrap(t);
 			}
 		}
 	}

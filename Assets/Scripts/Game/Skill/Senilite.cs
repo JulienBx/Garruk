@@ -10,13 +10,13 @@ public class Senilite : GameSkill
 	
 	public override void launch()
 	{
-		GameView.instance.getGC().initPCCTargetHandler(numberOfExpectedTargets);
+		GameController.instance.initPCCTargetHandler(numberOfExpectedTargets);
 		GameView.instance.displayOpponentsTargets();
 	}
 	
 	public override void resolve(List<int> targetsPCC)
 	{	
-		if (GameView.instance.getIsMine(GameView.instance.getGC().getCurrentPlayingCard())){
+		if (GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
 			GameView.instance.hideTargets();
 		}
 		
@@ -25,10 +25,10 @@ public class Senilite : GameSkill
 		if (Random.Range(1,101) > GameView.instance.getCard(target).GetMagicalEsquive())
 		{                             
 			int arg = Random.Range(1,base.skill.ManaCost+1);
-			GameView.instance.getGC().addTarget(target,1,arg);
+			GameController.instance.addTarget(target,1,arg);
 		}
 		else{
-			GameView.instance.getGC().addTarget(target,0,0);
+			GameController.instance.addTarget(target,0,0);
 		}
 		
 		if (base.card.isGenerous()){
@@ -41,16 +41,16 @@ public class Senilite : GameSkill
 					if (Random.Range(1,101) > GameView.instance.getCard(target).GetMagicalEsquive())
 					{
 						int arg = Random.Range(1,base.skill.ManaCost+1);
-						GameView.instance.getGC().addTarget(target,3,arg);
+						GameController.instance.addTarget(target,3,arg);
 					}
 					else{
-						GameView.instance.getGC().addTarget(target,2,0);
+						GameController.instance.addTarget(target,2,0);
 					}
 				}
 			}
 		}
 		
-		GameView.instance.getGC().play();
+		GameController.instance.play();
 	}
 	
 	public override void applyOn(){
@@ -88,12 +88,12 @@ public class Senilite : GameSkill
 				text+="-"+amount+" ATK";
 				receiversTexts.Add (text);
 				
-				GameView.instance.getGC().addCardModifier(target, -1*amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, -1, 5, "Affaibli", "-"+amount+" ATK. Permanent", "Permanent");
+				GameController.instance.addCardModifier(target, -1*amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, -1, 5, "Affaibli", "-"+amount+" ATK. Permanent", "Permanent");
 				
 				GameView.instance.displaySkillEffect(target, text, 5);
 			}	
 		}
-		if(!GameView.instance.getIsMine(GameView.instance.getGC().getCurrentPlayingCard())){
+		if(!GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
 			GameView.instance.setSkillPopUp("lance <b>Sénilité</b>...", base.card, receivers, receiversTexts);
 		}
 	}

@@ -225,7 +225,7 @@ public class PlayingCardController : GameObjectController
 	}
 	
 	public void OnMouseDown(){
-		GameView.instance.getGC().clickPlayingCard(this.id, this.tile);
+		GameController.instance.clickPlayingCard(this.id, this.tile);
 		if(GameView.instance.getIsTutorialLaunched())
 		{
 			TutorialObjectController.instance.actionIsDone();

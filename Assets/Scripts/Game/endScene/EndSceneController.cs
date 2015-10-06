@@ -80,7 +80,7 @@ public class EndSceneController : MonoBehaviour
 	public void displayEndScene(bool hasWon)
 	{
 		this.retrieveBonus (hasWon);
-		this.player.Username = GameView.instance.getGC().getMyPlayerName ();
+		this.player.Username = GameController.instance.getMyPlayerName ();
 		this.endGamePanel = Instantiate(endGamePanelObject) as GameObject;
 		this.endGamePanel.transform.FindChild ("Button").gameObject.SetActive (false); 
 		this.endGamePanel.transform.position = new Vector3 (0f, 0f, -8f);
@@ -90,7 +90,7 @@ public class EndSceneController : MonoBehaviour
 			cards[i]=Instantiate(cardObject) as GameObject;
 			cards[i].transform.position=new Vector3(-4.5f+i*3f,0f,-8f);
 			cards[i].AddComponent<NewCardEndSceneController>();
-			cards[i].GetComponent<NewCardController>().c=GameView.instance.getGC().myDeck.Cards[i];
+			cards[i].GetComponent<NewCardController>().c=GameController.instance.myDeck.Cards[i];
 			cards[i].GetComponent<NewCardEndSceneController>().show();
 			cards[i].GetComponent<NewCardEndSceneController>().changeLayer(11,"UIA");
 			cards[i].transform.localScale=new Vector3(0.3108f,0.3108f,0.3108f);
@@ -162,19 +162,19 @@ public class EndSceneController : MonoBehaviour
 	}
 	public IEnumerator addXp()
 	{
-		yield return StartCoroutine(GameView.instance.getGC().myDeck.addXpToDeck (earnXp));
-		this.collectionPoints = GameView.instance.getGC().myDeck.CollectionPoints;
-		this.collectionPointsRanking = GameView.instance.getGC().myDeck.CollectionPointsRanking;
-		if(GameView.instance.getGC().myDeck.NewSkills.Count>0)
+		yield return StartCoroutine(GameController.instance.myDeck.addXpToDeck (earnXp));
+		this.collectionPoints = GameController.instance.myDeck.CollectionPoints;
+		this.collectionPointsRanking = GameController.instance.myDeck.CollectionPointsRanking;
+		if(GameController.instance.myDeck.NewSkills.Count>0)
 		{
-			for(int i=0;i<GameView.instance.getGC().myDeck.NewSkills.Count;i++)
+			for(int i=0;i<GameController.instance.myDeck.NewSkills.Count;i++)
 			{
-				this.newSkills.Add (GameView.instance.getGC().myDeck.NewSkills[i].Name);
+				this.newSkills.Add (GameController.instance.myDeck.NewSkills[i].Name);
 			}
 		}
-		if(GameView.instance.getGC().myDeck.NewCardType!="")
+		if(GameController.instance.myDeck.NewCardType!="")
 		{
-			this.newCardType=GameView.instance.getGC().myDeck.NewCardType;
+			this.newCardType=GameController.instance.myDeck.NewCardType;
 		}
 		this.toStartExperienceUpdate = true;
 		this.xpDrawn = 0;

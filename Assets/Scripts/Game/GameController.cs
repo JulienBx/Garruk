@@ -5,6 +5,8 @@ using System.Collections.Generic;
 
 public class GameController : Photon.MonoBehaviour
 {	
+	public static GameController instance;
+	
 	private float timePerTurn = 30 ;
 	
 	//URL pour les appels en BDD
@@ -31,18 +33,14 @@ public class GameController : Photon.MonoBehaviour
 	string myPlayerName;
 	string hisPlayerName;
 	
-	void Awake()
-	{
+	public void launchGC(){
 		this.currentPlayingCard = -1;
 		
-		//PhotonNetwork.autoCleanUpPlayerObjects = false;
-		//PhotonNetwork.ConnectUsingSettings(ApplicationModel.photonSettings);
-		
 		this.playingCardTurnsToWait = new List<int>();
-
+		
 		this.isFirstPlayer = ApplicationModel.isFirstPlayer;
 		ApplicationModel.isFirstPlayer = false;
-
+		
 		this.myPlayerName = ApplicationModel.myPlayerName;
 		this.hisPlayerName = ApplicationModel.hisPlayerName;
 		
@@ -60,9 +58,18 @@ public class GameController : Photon.MonoBehaviour
 		{
 			this.initGrid();
 		}
-		StartCoroutine(this.loadMyDeck());
-
 	}
+	
+	[RPC]
+	public void launchCardCreationRPC(){
+		StartCoroutine(this.loadMyDeck());
+	}
+	
+	void Awake()
+	{
+		instance = this;
+	}
+	
 	public void moveToDestination(Tile t){
 		int characterToMove = this.currentPlayingCard;
 		if (characterToMove==-1){
@@ -319,8 +326,8 @@ public class GameController : Photon.MonoBehaviour
 		
 		if(enemy!=-1){
 			this.startPlayingSkill(-1);
-			GameView.instance.getGC().addTarget(enemy,1);
-			GameView.instance.getGC().play();
+			GameController.instance.addTarget(enemy,1);
+			GameController.instance.play();
 		}
 	}
 	
@@ -456,6 +463,7 @@ public class GameController : Photon.MonoBehaviour
 						isRock = true;
 					}
 				}
+				
 				if (!isRock)
 				{
 					photonView.RPC("AddTileToBoard", PhotonTargets.AllBuffered, x, y, 0);	
@@ -463,9 +471,13 @@ public class GameController : Photon.MonoBehaviour
 				else{
 					photonView.RPC("AddTileToBoard", PhotonTargets.AllBuffered, x, y, 1);
 				}
+				if(x==w-1 && y==h-1){
+					photonView.RPC("launchCardCreationRPC", PhotonTargets.AllBuffered);
+				}
 			}
 		}
 	}
+	
 	public IEnumerator loadMyDeck()
 	{
 		Deck myDeck = new Deck(ApplicationModel.username);
@@ -1214,14 +1226,14 @@ public class GameController : Photon.MonoBehaviour
 			idskill = 0 ;
 			Skill s = new Skill();
 			GameSkills.instance.getSkill(0).init(GameView.instance.getCard(this.currentPlayingCard), s);
-			if (GameView.instance.getGC().isMyCharacterPlaying()){
+			if (GameController.instance.isMyCharacterPlaying()){
 				GameSkills.instance.getSkill(0).launch ();
 			}
 		}
 		else{
 			Skill s = GameView.instance.getCard(this.currentPlayingCard).getSkills()[idskill];
 			GameSkills.instance.getSkill(s.Id).init(GameView.instance.getCard(this.currentPlayingCard), s);	
-			if (GameView.instance.getGC().isMyCharacterPlaying()){
+			if (GameController.instance.isMyCharacterPlaying()){
 				GameSkills.instance.getSkill(s.Id).launch ();
 			}
 		}

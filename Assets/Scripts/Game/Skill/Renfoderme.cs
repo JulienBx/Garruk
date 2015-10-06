@@ -10,13 +10,13 @@ public class Renfoderme : GameSkill
 	
 	public override void launch()
 	{
-		GameView.instance.getGC().initPCCTargetHandler(numberOfExpectedTargets);
+		GameController.instance.initPCCTargetHandler(numberOfExpectedTargets);
 		GameView.instance.displayAllysButMeTargets();
 	}
 	
 	public override void resolve(List<int> targetsPCC)
 	{	
-		if (GameView.instance.getIsMine(GameView.instance.getGC().getCurrentPlayingCard())){
+		if (GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
 			GameView.instance.hideTargets();
 		}
 		
@@ -24,10 +24,10 @@ public class Renfoderme : GameSkill
 		
 		if (Random.Range(1,101) > GameView.instance.getCard(target).GetMagicalEsquive())
 		{                             
-			GameView.instance.getGC().addTarget(target,1);
+			GameController.instance.addTarget(target,1);
 		}
 		else{
-			GameView.instance.getGC().addTarget(target,0);
+			GameController.instance.addTarget(target,0);
 		}
 		
 		if (base.card.isGenerous()){
@@ -46,16 +46,16 @@ public class Renfoderme : GameSkill
 					
 					if (Random.Range(1,101) > GameView.instance.getCard(target).GetMagicalEsquive())
 					{
-						GameView.instance.getGC().addTarget(target,3);
+						GameController.instance.addTarget(target,3);
 					}
 					else{
-						GameView.instance.getGC().addTarget(target,2);
+						GameController.instance.addTarget(target,2);
 					}
 				}
 			}
 		}
 		
-		GameView.instance.getGC().play();
+		GameController.instance.play();
 	}
 	
 	public override void applyOn(){
@@ -92,12 +92,12 @@ public class Renfoderme : GameSkill
 				text+="Renforcé";
 				receiversTexts.Add (text);
 				
-				GameView.instance.getGC().addCardModifier(target, amount, ModifierType.Type_Bouclier, ModifierStat.Stat_No, -1, 10, "Bouclier", "Dommages subis : -"+amount+"%", "Permanent");
+				GameController.instance.addCardModifier(target, amount, ModifierType.Type_Bouclier, ModifierStat.Stat_No, -1, 10, "Bouclier", "Dommages subis : -"+amount+"%", "Permanent");
 				
 				GameView.instance.displaySkillEffect(target, text, 5);
 			}	
 		}
-		if(!GameView.instance.getIsMine(GameView.instance.getGC().getCurrentPlayingCard())){
+		if(!GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
 			GameView.instance.setSkillPopUp("lance <b>Renfoderme</b>...", base.card, receivers, receiversTexts);
 		}
 	}

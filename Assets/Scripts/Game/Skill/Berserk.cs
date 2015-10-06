@@ -9,13 +9,13 @@ public class Berserk : GameSkill
 	
 	public override void launch()
 	{
-		GameView.instance.getGC().initPCCTargetHandler(numberOfExpectedTargets);
+		GameController.instance.initPCCTargetHandler(numberOfExpectedTargets);
 		GameView.instance.displayAdjacentOpponentsTargets();
 	}
 	
 	public override void resolve(List<int> targetsPCC)
 	{	
-		if (GameView.instance.getIsMine(GameView.instance.getGC().getCurrentPlayingCard())){
+		if (GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
 			GameView.instance.hideTargets();
 		}
 		
@@ -23,10 +23,10 @@ public class Berserk : GameSkill
 		
 		if (Random.Range(1,101) > GameView.instance.getCard(target).GetEsquive())
 		{                             
-			GameView.instance.getGC().addTarget(target,1);
+			GameController.instance.addTarget(target,1);
 		}
 		else{
-			GameView.instance.getGC().addTarget(target,0);
+			GameController.instance.addTarget(target,0);
 		}
 		
 		if (base.card.isGiant()){
@@ -38,15 +38,15 @@ public class Berserk : GameSkill
 					
 					if (Random.Range(1,101) > GameView.instance.getCard(target).GetEsquive())
 					{
-						GameView.instance.getGC().addTarget(target,3);
+						GameController.instance.addTarget(target,3);
 					}
 					else{
-						GameView.instance.getGC().addTarget(target,2);
+						GameController.instance.addTarget(target,2);
 					}
 				}
 			}
 		}
-		GameView.instance.getGC().play();
+		GameController.instance.play();
 		
 	}
 	
@@ -91,13 +91,13 @@ public class Berserk : GameSkill
 				}
 				receiversTexts.Add (text);
 				
-				GameView.instance.getGC().addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
+				GameController.instance.addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
 				
 				GameView.instance.displaySkillEffect(target, text, 5);
 			}	
 		}
 		
-		targetCard = GameView.instance.getCard(GameView.instance.getGC().getCurrentPlayingCard());
+		targetCard = GameView.instance.getCard(GameController.instance.getCurrentPlayingCard());
 		amount2=Mathf.Min(targetCard.GetLife(),base.skill.ManaCost);
 		receivers.Add (targetCard);
 		text="S'inflige "+amount2+" dégats";
@@ -106,10 +106,10 @@ public class Berserk : GameSkill
 		}
 		receiversTexts.Add (text);
 		
-		GameView.instance.getGC().addCardModifier(GameView.instance.getGC().getCurrentPlayingCard(), amount2, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
-		GameView.instance.displaySkillEffect(GameView.instance.getGC().getCurrentPlayingCard(), text, 5);
+		GameController.instance.addCardModifier(GameController.instance.getCurrentPlayingCard(), amount2, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
+		GameView.instance.displaySkillEffect(GameController.instance.getCurrentPlayingCard(), text, 5);
 		
-		if(!GameView.instance.getIsMine(GameView.instance.getGC().getCurrentPlayingCard())){
+		if(!GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
 			GameView.instance.setSkillPopUp("lance <b>Berserk</b>...", base.card, receivers, receiversTexts);
 		}
 	}

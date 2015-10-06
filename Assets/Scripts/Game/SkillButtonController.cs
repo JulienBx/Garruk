@@ -20,22 +20,22 @@ public class SkillButtonController : MonoBehaviour
 	
 	public void checkLaunchability(){
 		if(this.skill.Id!=-99){
-			if(GameView.instance.getCard(GameView.instance.getGC().getCurrentPlayingCard()).isFurious()){
+			if(GameView.instance.getCard(GameController.instance.getCurrentPlayingCard()).isFurious()){
 				this.launchabilityText = "Le personnage est furieux et ne peut plus etre controlé";
 				gameObject.GetComponent<SpriteRenderer>().color=new Color(255/255f,120f/255f,120f/255f, 1f);
 				this.isLaunchable = false ;
 			}
-			else if(GameView.instance.getCard(GameView.instance.getGC().getCurrentPlayingCard()).isParalyzed() && this.id!=-2){
+			else if(GameView.instance.getCard(GameController.instance.getCurrentPlayingCard()).isParalyzed() && this.id!=-2){
 				this.launchabilityText = "Le personnage est paralysé";
 				gameObject.GetComponent<SpriteRenderer>().color=new Color(255/255f,120f/255f,120f/255f, 1f);
 				this.isLaunchable = false ;
 			}
-			else if(GameView.instance.getCard(GameView.instance.getGC().getCurrentPlayingCard()).isSleeping() && this.id!=-2){
+			else if(GameView.instance.getCard(GameController.instance.getCurrentPlayingCard()).isSleeping() && this.id!=-2){
 				this.launchabilityText = "Le personnage est endormi";
 				gameObject.GetComponent<SpriteRenderer>().color=new Color(255/255f,120f/255f,120f/255f, 1f);
 				this.isLaunchable = false ;
 			}
-			else if(this.skill.Id==1 || !GameView.instance.hasPlayed(GameView.instance.getGC().getCurrentPlayingCard())){
+			else if(this.skill.Id==1 || !GameView.instance.hasPlayed(GameController.instance.getCurrentPlayingCard())){
 				this.launchabilityText = GameSkills.instance.getSkill(this.skill.Id).isLaunchable();
 				if (this.launchabilityText.Length<4){
 					gameObject.GetComponent<SpriteRenderer>().color=new Color(1f, 1f, 1f, 1f);
@@ -62,7 +62,7 @@ public class SkillButtonController : MonoBehaviour
 	}
 	
 	public void OnMouseEnter(){
-		if (!isHovered && !GameView.instance.getGC().getIsRunningSkill()){
+		if (!isHovered && !GameController.instance.getIsRunningSkill()){
 			if(this.isLaunchable){
 				gameObject.GetComponent<SpriteRenderer>().color=new Color(120/255f,120f/255f,1f, 1f);
 				Vector3 position = gameObject.transform.position;
@@ -80,7 +80,7 @@ public class SkillButtonController : MonoBehaviour
 	}
 	
 	public void OnMouseExit(){
-		if (isHovered && !GameView.instance.getGC().getIsRunningSkill()){
+		if (isHovered && !GameController.instance.getIsRunningSkill()){
 			if(this.isLaunchable){
 				GameView.instance.hidePopUp();
 				this.isHovered = false ;
@@ -97,13 +97,13 @@ public class SkillButtonController : MonoBehaviour
 	public void OnMouseDown(){
 		if(this.isLaunched){
 			gameObject.GetComponent<SpriteRenderer>().color=new Color(1f, 1f, 1f, 1f);
-			GameView.instance.getGC().cancelSkill();
+			GameController.instance.cancelSkill();
 			this.isLaunched = false ;
 		}
 		else{
-			if (!GameView.instance.getGC().getIsRunningSkill() && this.isLaunchable){
+			if (!GameController.instance.getIsRunningSkill() && this.isLaunchable){
 				gameObject.GetComponent<SpriteRenderer>().color=new Color(120f/255f,255f/255f,120f/255f, 1f);
-				GameView.instance.getGC().launchSkill(this.id);
+				GameController.instance.launchSkill(this.id);
 				this.isLaunched = true ;
 				this.isHovered = false ;
 				GameView.instance.hidePopUp();

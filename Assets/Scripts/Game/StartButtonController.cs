@@ -24,7 +24,7 @@ public class StartButtonController : MonoBehaviour
 			this.isPushed = true ;
 			gameObject.GetComponent<TextMeshPro>().text="En attente du joueur 2";
 			gameObject.GetComponent<TextMeshPro>().color=new Color(1f,1f,1f, 1f);
-			GameView.instance.getGC().playerReady();
+			GameController.instance.playerReady();
 			if(GameView.instance.getIsTutorialLaunched())
 			{
 				print (TutorialObjectController.instance.getSequenceID());

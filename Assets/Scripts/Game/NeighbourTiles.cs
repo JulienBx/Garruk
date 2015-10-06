@@ -55,7 +55,7 @@ public class NeighbourTiles
 			if (characterTiles [temp.x, temp.y] < 5)
 			{
 				if(GameView.instance.getTile(temp.x, temp.y).isStatModifier){
-					StatModifier stm = GameView.instance.getGC().getTile(temp.x, temp.y).getTile ().statModifier;
+					StatModifier stm = GameController.instance.getTile(temp.x, temp.y).getTile ().statModifier;
 					if (stm.Stat == ModifierStat.Stat_Move && stm.Type == ModifierType.Type_Multiplier)
 					{
 						newRemaining = newRemaining + (stm.Amount) / 100f;

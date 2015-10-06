@@ -149,10 +149,10 @@ public class GameTutorialController : TutorialObjectController
 		case 9:
 			if(!isResizing)
 			{
-				StartCoroutine(GameView.instance.getGC().moveCharacterRPC(1,6,4));
-				StartCoroutine(GameView.instance.getGC().moveCharacterRPC(2,6,5));
-				StartCoroutine(GameView.instance.getGC().moveCharacterRPC(4,6,6));
-				StartCoroutine(GameView.instance.getGC().moveCharacterRPC(5,6,7));
+				StartCoroutine(GameController.instance.moveCharacterRPC(1,6,4));
+				StartCoroutine(GameController.instance.moveCharacterRPC(2,6,5));
+				StartCoroutine(GameController.instance.moveCharacterRPC(4,6,6));
+				StartCoroutine(GameController.instance.moveCharacterRPC(5,6,7));
 				this.displayPopUp(0);
 				this.setDownArrow();
 				this.displayNextButton(false);
@@ -337,7 +337,7 @@ public class GameTutorialController : TutorialObjectController
 			if(!isResizing)
 			{
 				yield return new WaitForSeconds(3);
-				StartCoroutine(GameView.instance.getGC().moveCharacterRPC(2,4,4));
+				StartCoroutine(GameController.instance.moveCharacterRPC(2,4,4));
 				this.displayPopUp(0);
 				this.displayNextButton(true);
 			}
@@ -383,7 +383,7 @@ public class GameTutorialController : TutorialObjectController
 		case 23:
 			if(!isResizing)
 			{
-				GameView.instance.getGC().resolvePass();
+				GameController.instance.resolvePass();
 				this.displayPopUp(-1);
 				this.displayArrow(false);
 				//this.setUpArrow();
@@ -400,7 +400,7 @@ public class GameTutorialController : TutorialObjectController
 			if(!isResizing)
 			{
 				yield return new WaitForSeconds(2);
-				StartCoroutine(GameView.instance.getGC().moveCharacterRPC(5,4,7));
+				StartCoroutine(GameController.instance.moveCharacterRPC(5,4,7));
 				this.displayPopUp(0);
 				this.displayNextButton(true);
 			}
@@ -447,7 +447,7 @@ public class GameTutorialController : TutorialObjectController
 		case 26:
 			if(!isResizing)
 			{
-				GameView.instance.getGC().resolvePass();
+				GameController.instance.resolvePass();
 				this.displayPopUp(0);
 				this.setDownArrow();
 				this.displayNextButton(true);
@@ -549,7 +549,7 @@ public class GameTutorialController : TutorialObjectController
 			if(!isResizing)
 			{
 				yield return new WaitForSeconds(2);
-				StartCoroutine(GameView.instance.getGC().moveCharacterRPC(4,4,6));
+				StartCoroutine(GameController.instance.moveCharacterRPC(4,4,6));
 				this.displayPopUp(0);
 				this.displayNextButton(true);
 			}
@@ -594,7 +594,7 @@ public class GameTutorialController : TutorialObjectController
 		case 34:
 			if(!isResizing)
 			{
-				GameView.instance.getGC().resolvePass();
+				GameController.instance.resolvePass();
 				this.displayPopUp(1);
 				this.setDownArrow();
 				this.displayNextButton(true);
@@ -681,7 +681,7 @@ public class GameTutorialController : TutorialObjectController
 			if(!isResizing)
 			{
 				yield return new WaitForSeconds(2);
-				StartCoroutine(GameView.instance.getGC().moveCharacterRPC(1,4,5));
+				StartCoroutine(GameController.instance.moveCharacterRPC(1,4,5));
 				this.displayPopUp(0);
 				this.displayNextButton(true);
 			}
@@ -726,7 +726,7 @@ public class GameTutorialController : TutorialObjectController
 		case 42:
 			if(!isResizing)
 			{
-				GameView.instance.getGC().resolvePass();
+				GameController.instance.resolvePass();
 				this.displayPopUp(0);
 				this.setDownArrow();
 				this.displayNextButton(true);
@@ -966,7 +966,7 @@ public class GameTutorialController : TutorialObjectController
 		case 56:
 			if(!isResizing)
 			{
-				StartCoroutine(GameView.instance.getGC().quitGame()); 
+				StartCoroutine(GameController.instance.quitGame()); 
 				this.displayArrow(false);
 				this.displayPopUp(1);
 				this.displayNextButton(false);
@@ -1014,7 +1014,7 @@ public class GameTutorialController : TutorialObjectController
 			this.displayNextButton(true);
 			break;
 		case 301:
-			StartCoroutine(GameView.instance.getGC().endTutorial());
+			StartCoroutine(GameController.instance.endTutorial());
 			break;
 		}
 	}

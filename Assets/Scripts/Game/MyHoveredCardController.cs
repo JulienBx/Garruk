@@ -89,11 +89,9 @@ public class MyHoveredCardController : MonoBehaviour
 	
 	public void resize(float realwidth, float tileScale){
 		Vector3 position;
-		Vector3 scale;
 		
 		this.realwidth = realwidth ;
 		
-		GameObject tempGO ; 
 		Transform tempTransform ;
 		
 		tempTransform = gameObject.transform;
@@ -101,127 +99,117 @@ public class MyHoveredCardController : MonoBehaviour
 		position.x = -0.50f*realwidth-5f;
 		tempTransform.localPosition = position;	
 		
-		tempTransform = gameObject.transform.FindChild("MyPassiveSkill");
+		tempTransform = gameObject.transform.FindChild("MyMainDescription").FindChild("MyPassiveSkill");
 		position = tempTransform.localPosition ;
 		position.x = -5f+(realwidth/2f-3f)/2f;
 		tempTransform.localPosition = position;
 		
-		tempTransform = gameObject.transform.FindChild("MyPassiveSkill");
+		tempTransform = gameObject.transform.FindChild("MyMainDescription").FindChild("MySkill1");
+		position = tempTransform.localPosition ;
+		position.x = -5f+(realwidth/2f-3f)/2f;
+		tempTransform.localPosition = position;	
+		
+		tempTransform = gameObject.transform.FindChild("MyMainDescription").FindChild("MySkill2");
 		position = tempTransform.localPosition ;
 		position.x = -5f+(realwidth/2f-3f)/2f;
 		tempTransform.localPosition = position;
 		
-		tempTransform = gameObject.transform.FindChild("MyPassiveSkill");
+		tempTransform = gameObject.transform.FindChild("MyMainDescription").FindChild("MySkill3");
 		position = tempTransform.localPosition ;
 		position.x = -5f+(realwidth/2f-3f)/2f;
 		tempTransform.localPosition = position;
 		
-		tempTransform = gameObject.transform.FindChild("MySkill1");
+		tempTransform = gameObject.transform.FindChild("MyMainDescription").FindChild("MySkill1").FindChild("MySkill1Cristal");
 		position = tempTransform.localPosition ;
-		position.x = -5f+(realwidth/2f-3f)/2f;
+		position.x = ((realwidth/2f-3f)/2f)*(85f/100f);
 		tempTransform.localPosition = position;	
 		
-		tempTransform = gameObject.transform.FindChild("MySkill2");
+		tempTransform = gameObject.transform.FindChild("MyMainDescription").FindChild("MySkill2").FindChild("MySkill2Cristal");
 		position = tempTransform.localPosition ;
-		position.x = -5f+(realwidth/2f-3f)/2f;
+		position.x = ((realwidth/2f-3f)/2f)*(85f/100f);
+		tempTransform.localPosition = position;	
+		
+		tempTransform = gameObject.transform.FindChild("MyMainDescription").FindChild("MySkill3").FindChild("MySkill3Cristal");
+		position = tempTransform.localPosition ;
+		position.x = ((realwidth/2f-3f)/2f)*(85f/100f);
+		tempTransform.localPosition = position;	
+		
+		tempTransform = gameObject.transform.FindChild("MyMainDescription").FindChild("MyPassiveSkill").FindChild("MySpecialiteCristal");
+		position = tempTransform.localPosition ;
+		position.x = ((realwidth/2f-3f)/2f)*(85f/100f);
+		tempTransform.localPosition = position;	
+		
+		tempTransform = gameObject.transform.FindChild("MyMainDescription").FindChild("MySkill1").FindChild("MySkill1Title");
+		position = tempTransform.localPosition ;
+		position.x = ((realwidth/2f-3f)/2f)*(70f/100f);
+		tempTransform.localPosition = position;	
+		
+		tempTransform = gameObject.transform.FindChild("MyMainDescription").FindChild("MySkill2").FindChild("MySkill2Title");
+		position = tempTransform.localPosition ;
+		position.x = ((realwidth/2f-3f)/2f)*(70f/100f);
 		tempTransform.localPosition = position;
 		
-		tempTransform = gameObject.transform.FindChild("MySkill3");
+		tempTransform = gameObject.transform.FindChild("MyMainDescription").FindChild("MySkill3").FindChild("MySkill3Title");
 		position = tempTransform.localPosition ;
-		position.x = -5f+(realwidth/2f-3f)/2f;
+		position.x = ((realwidth/2f-3f)/2f)*(70f/100f);
+		tempTransform.localPosition = position;	
+		
+		tempTransform = gameObject.transform.FindChild("MyMainDescription").FindChild("MyPassiveSkill").FindChild("MySpecialite");
+		position = tempTransform.localPosition ;
+		position.x = ((realwidth/2f-3f)/2f)*(70f/100f);
+		tempTransform.localPosition = position;	
+		
+		tempTransform = gameObject.transform.FindChild("MyMainDescription").FindChild("MySkill1").FindChild("MySkill1Description");
+		position = tempTransform.localPosition ;
+		position.x = ((realwidth/2f-3f)/2f)*(70f/100f);
+		tempTransform.localPosition = position;	
+		
+		tempTransform = gameObject.transform.FindChild("MyMainDescription").FindChild("MySkill2").FindChild("MySkill2Description");
+		position = tempTransform.localPosition ;
+		position.x = ((realwidth/2f-3f)/2f)*(70f/100f);
+		tempTransform.localPosition = position;	
+		
+		tempTransform = gameObject.transform.FindChild("MyMainDescription").FindChild("MySkill3").FindChild("MySkill3Description");
+		position = tempTransform.localPosition ;
+		position.x = ((realwidth/2f-3f)/2f)*(70f/100f);
+		tempTransform.localPosition = position;	
+		
+		tempTransform = gameObject.transform.FindChild("MyMainDescription").FindChild("MyPassiveSkill").FindChild("MySpecialiteDescription");
+		position = tempTransform.localPosition ;
+		position.x = ((realwidth/2f-3f)/2f)*(70f/100f);
 		tempTransform.localPosition = position;
 		
-		tempTransform = gameObject.transform.FindChild("MySkill1");
-		position = tempTransform.localPosition ;
-		position.x = -5f+(realwidth/2f-3f)/2f;
-		tempTransform.localPosition = position;	
+		gameObject.transform.FindChild("MyMainDescription").FindChild("MySkill1").FindChild("MySkill1Description").GetComponent<TextContainer>().width=((realwidth/2f-3f))*(70f/100f);
+		gameObject.transform.FindChild("MyMainDescription").FindChild("MySkill2").FindChild("MySkill2Description").GetComponent<TextContainer>().width=((realwidth/2f-3f))*(70f/100f);
+		gameObject.transform.FindChild("MyMainDescription").FindChild("MySkill3").FindChild("MySkill3Description").GetComponent<TextContainer>().width=((realwidth/2f-3f))*(70f/100f);
+		gameObject.transform.FindChild("MyMainDescription").FindChild("MyPassiveSkill").FindChild("MySpecialiteDescription").GetComponent<TextContainer>().width=((realwidth/2f-3f))*(70f/100f);
 		
-		tempTransform = gameObject.transform.FindChild("MySkill1").FindChild("MySkill1Cristal");
-		position = tempTransform.localPosition ;
-		position.x = ((realwidth/2f-3f)/2f)*(68f/100f);
-		tempTransform.localPosition = position;	
-		
-		tempTransform = gameObject.transform.FindChild("MySkill2").FindChild("MySkill2Cristal");
-		position = tempTransform.localPosition ;
-		position.x = ((realwidth/2f-3f)/2f)*(68f/100f);
-		tempTransform.localPosition = position;	
-		
-		tempTransform = gameObject.transform.FindChild("MySkill3").FindChild("MySkill3Cristal");
-		position = tempTransform.localPosition ;
-		position.x = ((realwidth/2f-3f)/2f)*(68f/100f);
-		tempTransform.localPosition = position;	
-		
-		tempTransform = gameObject.transform.FindChild("MyPassiveSkill").FindChild("MySpecialiteCristal");
-		position = tempTransform.localPosition ;
-		position.x = ((realwidth/2f-3f)/2f)*(68f/100f);
-		tempTransform.localPosition = position;	
-		
-		tempTransform = gameObject.transform.FindChild("MySkill1").FindChild("MySkill1Title");
-		position = tempTransform.localPosition ;
-		position.x = ((realwidth/2f-3f)/2f)*(55f/100f);
-		tempTransform.localPosition = position;	
-		
-		tempTransform = gameObject.transform.FindChild("MySkill2").FindChild("MySkill2Title");
-		position = tempTransform.localPosition ;
-		position.x = ((realwidth/2f-3f)/2f)*(55f/100f);
-		tempTransform.localPosition = position;	
-		
-		tempTransform = gameObject.transform.FindChild("MySkill3").FindChild("MySkill3Title");
-		position = tempTransform.localPosition ;
-		position.x = ((realwidth/2f-3f)/2f)*(55f/100f);
-		tempTransform.localPosition = position;	
-		
-		tempTransform = gameObject.transform.FindChild("MyPassiveSkill").FindChild("MySpecialite");
-		position = tempTransform.localPosition ;
-		position.x = ((realwidth/2f-3f)/2f)*(55f/100f);
-		tempTransform.localPosition = position;	
-		
-		tempTransform = gameObject.transform.FindChild("MySkill1").FindChild("MySkill1Description");
-		position = tempTransform.localPosition ;
-		position.x = ((realwidth/2f-3f)/2f)*(55f/100f);
-		tempTransform.localPosition = position;	
-		
-		tempTransform = gameObject.transform.FindChild("MySkill2").FindChild("MySkill2Description");
-		position = tempTransform.localPosition ;
-		position.x = ((realwidth/2f-3f)/2f)*(55f/100f);
-		tempTransform.localPosition = position;	
-		
-		tempTransform = gameObject.transform.FindChild("MySkill3").FindChild("MySkill3Description");
-		position = tempTransform.localPosition ;
-		position.x = ((realwidth/2f-3f)/2f)*(55f/100f);
-		tempTransform.localPosition = position;	
-		
-		tempTransform = gameObject.transform.FindChild("MyPassiveSkill").FindChild("MySpecialiteDescription");
-		position = tempTransform.localPosition ;
-		position.x = ((realwidth/2f-3f)/2f)*(55f/100f);
-		tempTransform.localPosition = position;	
-		
-		tempTransform = gameObject.transform.FindChild("MyCarac").FindChild("MyAttackPicto");
+		tempTransform = gameObject.transform.FindChild("MyMainDescription").FindChild("MyCarac").FindChild("MyAttackPicto");
 		position = tempTransform.localPosition ;
 		position.x = -(5-(realwidth/2f-3f))-(realwidth/2f-3f)*(10f/100f);
 		tempTransform.localPosition = position;
 		
-		tempTransform = gameObject.transform.FindChild("MyCarac").FindChild("MyAttackText");
+		tempTransform = gameObject.transform.FindChild("MyMainDescription").FindChild("MyCarac").FindChild("MyAttackText");
 		position = tempTransform.localPosition ;
 		position.x = -(5-(realwidth/2f-3f))-(realwidth/2f-3f)*(22f/100f);
 		tempTransform.localPosition = position;	
 		
-		tempTransform = gameObject.transform.FindChild("MyCarac").FindChild("MyLifePicto");
+		tempTransform = gameObject.transform.FindChild("MyMainDescription").FindChild("MyCarac").FindChild("MyLifePicto");
 		position = tempTransform.localPosition ;
-		position.x = -(5-(realwidth/2f-3f))-(realwidth/2f-3f)*(40f/100f);
+		position.x = -(5-(realwidth/2f-3f))-(realwidth/2f-3f)*(39f/100f);
 		tempTransform.localPosition = position;
 		
-		tempTransform = gameObject.transform.FindChild("MyCarac").FindChild("MyLifeText");
+		tempTransform = gameObject.transform.FindChild("MyMainDescription").FindChild("MyCarac").FindChild("MyLifeText");
 		position = tempTransform.localPosition ;
-		position.x = -(5-(realwidth/2f-3f))-(realwidth/2f-3f)*(52f/100f);
+		position.x = -(5-(realwidth/2f-3f))-(realwidth/2f-3f)*(53f/100f);
 		tempTransform.localPosition = position;
 		
-		tempTransform = gameObject.transform.FindChild("MyCarac").FindChild("MyHastePicto");
+		tempTransform = gameObject.transform.FindChild("MyMainDescription").FindChild("MyCarac").FindChild("MyHastePicto");
 		position = tempTransform.localPosition ;
 		position.x = -(5-(realwidth/2f-3f))-(realwidth/2f-3f)*(70f/100f);
 		tempTransform.localPosition = position;
 		
-		tempTransform = gameObject.transform.FindChild("MyCarac").FindChild("MyHasteText");
+		tempTransform = gameObject.transform.FindChild("MyMainDescription").FindChild("MyCarac").FindChild("MyHasteText");
 		position = tempTransform.localPosition ;
 		position.x = -(5-(realwidth/2f-3f))-(realwidth/2f-3f)*(82f/100f);
 		tempTransform.localPosition = position;
@@ -231,42 +219,47 @@ public class MyHoveredCardController : MonoBehaviour
 		gameObject.GetComponent<SpriteRenderer>().sprite = GameView.instance.getSprite(c.ArtIndex);
 		
 		gameObject.transform.FindChild("MyMainDescription").FindChild("MyTitle").GetComponent<TextMeshPro>().text = c.Title;
-		gameObject.transform.FindChild("MyPassiveSkill").FindChild("MySpecialite").GetComponent<TextMeshPro>().text = c.getSkills()[0].Name;
-		gameObject.transform.FindChild("MyPassiveSkill").FindChild("MySpecialiteDescription").GetComponent<TextMeshPro>().text = c.getSkills()[0].Description;
+		gameObject.transform.FindChild("MyMainDescription").FindChild("MyPassiveSkill").FindChild("MySpecialite").GetComponent<TextMeshPro>().text = c.getSkills()[0].Name;
+		gameObject.transform.FindChild("MyMainDescription").FindChild("MyPassiveSkill").FindChild("MySpecialiteDescription").GetComponent<TextMeshPro>().text = c.getSkills()[0].Description;
 		
-		gameObject.transform.FindChild("MyCarac").FindChild("MyAttackText").GetComponent<TextMeshPro>().text = ""+c.GetAttack();
-		gameObject.transform.FindChild("MyCarac").FindChild("MyLifeText").GetComponent<TextMeshPro>().text = ""+c.GetLife();
-		gameObject.transform.FindChild("MyCarac").FindChild("MyHasteText").GetComponent<TextMeshPro>().text = ""+c.GetSpeed();
+		gameObject.transform.FindChild("MyMainDescription").FindChild("MyCarac").FindChild("MyAttackText").GetComponent<TextMeshPro>().text = ""+c.GetAttackString();
+		gameObject.transform.FindChild("MyMainDescription").FindChild("MyCarac").FindChild("MyLifeText").GetComponent<TextMeshPro>().text = ""+c.GetLifeString();
+		gameObject.transform.FindChild("MyMainDescription").FindChild("MyCarac").FindChild("MyHasteText").GetComponent<TextMeshPro>().text = ""+c.GetSpeedString();
 		
 		if(c.getSkills()[0].Level==1){
-			gameObject.transform.FindChild("MyPassiveSkill").FindChild("MySpecialiteCristal").GetComponent<SpriteRenderer>().color=new Color(255f/255f,255f/255f,255f/255f, 1f);
+			gameObject.transform.FindChild("MyMainDescription").FindChild("MyPassiveSkill").FindChild("MySpecialiteCristal").GetComponent<SpriteRenderer>().color=new Color(255f/255f,255f/255f,255f/255f, 1f);
 		}
 		else if(c.getSkills()[0].Level==2){
-			gameObject.transform.FindChild("MyPassiveSkill").FindChild("MySpecialiteCristal").GetComponent<SpriteRenderer>().color=new Color(76f/255f,163f/255f,174f/255f, 1f);
+			gameObject.transform.FindChild("MyMainDescription").FindChild("MyPassiveSkill").FindChild("MySpecialiteCristal").GetComponent<SpriteRenderer>().color=new Color(71f/255f,150f/255f,189f/255f, 1f);
 		}
 		else{
-			gameObject.transform.FindChild("MyPassiveSkill").FindChild("MySpecialiteCristal").GetComponent<SpriteRenderer>().color=new Color(218f/255f,70f/255f,70f/255f, 1f);
+			gameObject.transform.FindChild("MyMainDescription").FindChild("MyPassiveSkill").FindChild("MySpecialiteCristal").GetComponent<SpriteRenderer>().color=new Color(210f/255f,3f/255f,64f/255f, 1f);
 		}
 		
 		for (int i = 1 ; i < c.getSkills().Count ; i++){
-			gameObject.transform.FindChild("MySkill"+i).FindChild("MySkill"+i+"Cristal").GetComponent<SpriteRenderer>().enabled=true;
-			gameObject.transform.FindChild("MySkill"+i).FindChild("MySkill"+(i)+"Title").GetComponent<TextMeshPro>().text = c.getSkills()[i].Name;
-			gameObject.transform.FindChild("MySkill"+i).FindChild(("MySkill"+(i)+"Description")).GetComponent<TextMeshPro>().text = c.getSkills()[i].Description;
+			gameObject.transform.FindChild("MyMainDescription").FindChild("MySkill"+i).FindChild("MySkill"+i+"Cristal").GetComponent<SpriteRenderer>().enabled=true;
+			gameObject.transform.FindChild("MyMainDescription").FindChild("MySkill"+i).FindChild("MySkill"+i+"Title").GetComponent<MeshRenderer>().enabled=true;
+			gameObject.transform.FindChild("MyMainDescription").FindChild("MySkill"+i).FindChild("MySkill"+i+"Description").GetComponent<MeshRenderer>().enabled=true;
+			gameObject.transform.FindChild("MyMainDescription").FindChild("MySkill"+i+"Background").GetComponent<SpriteRenderer>().enabled=true;
+			
+			gameObject.transform.FindChild("MyMainDescription").FindChild("MySkill"+i).FindChild("MySkill"+(i)+"Title").GetComponent<TextMeshPro>().text = c.getSkills()[i].Name;
+			gameObject.transform.FindChild("MyMainDescription").FindChild("MySkill"+i).FindChild(("MySkill"+(i)+"Description")).GetComponent<TextMeshPro>().text = c.getSkills()[i].Description;
 			if(c.getSkills()[i].Level==1){
-				gameObject.transform.FindChild("MySkill"+i).FindChild("MySkill"+i+"Cristal").GetComponent<SpriteRenderer>().color=new Color(255f/255f,255f/255f,255f/255f, 1f);
+				gameObject.transform.FindChild("MyMainDescription").FindChild("MySkill"+i).FindChild("MySkill"+i+"Cristal").GetComponent<SpriteRenderer>().color=new Color(255f/255f,255f/255f,255f/255f, 1f);
 			}
 			else if(c.getSkills()[i].Level==2){
-				gameObject.transform.FindChild("MySkill"+i).FindChild("MySkill"+i+"Cristal").GetComponent<SpriteRenderer>().color=new Color(76f/255f,163f/255f,174f/255f, 1f);
+				gameObject.transform.FindChild("MyMainDescription").FindChild("MySkill"+i).FindChild("MySkill"+i+"Cristal").GetComponent<SpriteRenderer>().color=new Color(71f/255f,150f/255f,189f/255f, 1f);
 			}
 			else{
-				gameObject.transform.FindChild("MySkill"+i).FindChild("MySkill"+i+"Cristal").GetComponent<SpriteRenderer>().color=new Color(218f/255f,70f/255f,70f/255f, 1f);
+				gameObject.transform.FindChild("MyMainDescription").FindChild("MySkill"+i).FindChild("MySkill"+i+"Cristal").GetComponent<SpriteRenderer>().color=new Color(210f/255f,3f/255f,64f/255f, 1f);
 			}
 		}
 		
 		for (int i = c.getSkills().Count ; i < 4 ; i++){
-			gameObject.transform.FindChild("MySkill"+i).FindChild("MySkill"+(i)+"Title").GetComponent<TextMeshPro>().text = "?????";
-			gameObject.transform.FindChild("MySkill"+i).FindChild(("MySkill"+(i)+"Description")).GetComponent<TextMeshPro>().text = "Faites progresser l'unité pour débloquer cette compétence";
-			gameObject.transform.FindChild("MySkill"+i).FindChild("MySkill"+i+"Cristal").GetComponent<SpriteRenderer>().enabled=false;
+			gameObject.transform.FindChild("MyMainDescription").FindChild("MySkill"+i+"Background").GetComponent<SpriteRenderer>().enabled=false;
+			gameObject.transform.FindChild("MyMainDescription").FindChild("MySkill"+i).FindChild("MySkill"+i+"Cristal").GetComponent<SpriteRenderer>().enabled=false;
+			gameObject.transform.FindChild("MyMainDescription").FindChild("MySkill"+i).FindChild("MySkill"+i+"Title").GetComponent<MeshRenderer>().enabled=false;
+			gameObject.transform.FindChild("MyMainDescription").FindChild("MySkill"+i).FindChild("MySkill"+i+"Description").GetComponent<MeshRenderer>().enabled=false;
 		}
 	}
 }

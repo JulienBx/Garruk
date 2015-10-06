@@ -489,6 +489,17 @@ public class Card
 		}
 	}
 	
+	public string GetSpeedString()
+	{
+		int speed = this.GetSpeed();
+		if (speed<10){
+			return ("0"+speed);
+		}
+		else{
+			return speed.ToString();
+		}
+	}
+	
 	public int GetBouclier()
 	{
 		int bouclier = 0;
