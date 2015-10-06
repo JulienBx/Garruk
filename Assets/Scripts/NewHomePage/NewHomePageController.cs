@@ -1894,10 +1894,6 @@ public class NewHomePageController : Photon.MonoBehaviour
 		if(PhotonNetwork.insideLobby)
 		{
 			PhotonNetwork.FindFriends (model.usernameList);
-<<<<<<< Updated upstream
-=======
-			//print ("toto");
->>>>>>> Stashed changes
 		}
 	}
 	public void OnUpdatedFriendList()
