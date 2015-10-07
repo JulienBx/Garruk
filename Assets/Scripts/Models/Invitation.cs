@@ -38,7 +38,7 @@ public class Invitation
 		}
 		else
 		{
-			Debug.Log(w.text);
+			//Debug.Log(w.text);
 			this.Id=System.Convert.ToInt32(w.text);
 		}
 	}

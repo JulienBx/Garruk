@@ -15,12 +15,12 @@ public class InvitationPopUpUserController : MonoBehaviour
 		if(!isHovering)
 		{
 			this.isHovering=true;
-			gameObject.transform.GetComponent<SpriteRenderer>().color=new Color(155f/255f,220f/255f,1f);
-			gameObject.transform.FindChild("username").GetComponent<TextMeshPro>().color=new Color(155f/255f,220f/255f,1f);
-			gameObject.transform.FindChild("nbWins").FindChild("Title").GetComponent<TextMeshPro>().color=new Color(155f/255f,220f/255f,1f);
-			gameObject.transform.FindChild("nbLooses").FindChild("Title").GetComponent<TextMeshPro>().color=new Color(155f/255f,220f/255f,1f);
-			gameObject.transform.FindChild("ranking").FindChild("Title").GetComponent<TextMeshPro>().color=new Color(155f/255f,220f/255f,1f);
-			gameObject.transform.FindChild("collection").FindChild("Title").GetComponent<TextMeshPro>().color=new Color(155f/255f,220f/255f,1f);
+//			gameObject.transform.GetComponent<SpriteRenderer>().color=new Color(155f/255f,220f/255f,1f);
+//			gameObject.transform.FindChild("username").GetComponent<TextMeshPro>().color=new Color(155f/255f,220f/255f,1f);
+//			gameObject.transform.FindChild("nbWins").FindChild("Title").GetComponent<TextMeshPro>().color=new Color(155f/255f,220f/255f,1f);
+//			gameObject.transform.FindChild("nbLooses").FindChild("Title").GetComponent<TextMeshPro>().color=new Color(155f/255f,220f/255f,1f);
+//			gameObject.transform.FindChild("ranking").FindChild("Title").GetComponent<TextMeshPro>().color=new Color(155f/255f,220f/255f,1f);
+//			gameObject.transform.FindChild("collection").FindChild("Title").GetComponent<TextMeshPro>().color=new Color(155f/255f,220f/255f,1f);
 		}
 	}
 	void OnMouseExit()
@@ -28,12 +28,12 @@ public class InvitationPopUpUserController : MonoBehaviour
 		if(isHovering)
 		{
 			this.isHovering=false;
-			gameObject.transform.GetComponent<SpriteRenderer>().color=new Color(1f,1f,1f);
-			gameObject.transform.FindChild("username").GetComponent<TextMeshPro>().color=new Color(1f,1f,1f);
-			gameObject.transform.FindChild("nbWins").FindChild("Title").GetComponent<TextMeshPro>().color=new Color(1f,1f,1f);
-			gameObject.transform.FindChild("nbLooses").FindChild("Title").GetComponent<TextMeshPro>().color=new Color(1f,1f,1f);
-			gameObject.transform.FindChild("ranking").FindChild("Title").GetComponent<TextMeshPro>().color=new Color(1f,1f,1f);
-			gameObject.transform.FindChild("collection").FindChild("Title").GetComponent<TextMeshPro>().color=new Color(1f,1f,1f);
+//			gameObject.transform.GetComponent<SpriteRenderer>().color=new Color(1f,1f,1f);
+//			gameObject.transform.FindChild("username").GetComponent<TextMeshPro>().color=new Color(1f,1f,1f);
+//			gameObject.transform.FindChild("nbWins").FindChild("Title").GetComponent<TextMeshPro>().color=new Color(1f,1f,1f);
+//			gameObject.transform.FindChild("nbLooses").FindChild("Title").GetComponent<TextMeshPro>().color=new Color(1f,1f,1f);
+//			gameObject.transform.FindChild("ranking").FindChild("Title").GetComponent<TextMeshPro>().color=new Color(1f,1f,1f);
+//			gameObject.transform.FindChild("collection").FindChild("Title").GetComponent<TextMeshPro>().color=new Color(1f,1f,1f);
 		}
 	}
 	void OnMouseDown()

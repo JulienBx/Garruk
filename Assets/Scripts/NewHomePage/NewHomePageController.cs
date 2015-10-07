@@ -1845,7 +1845,7 @@ public class NewHomePageController : Photon.MonoBehaviour
 		if(ApplicationModel.gameType==0)
 		{
 
-			newMenuController.instance.joinRandomRoom();
+			newMenuController.instance.joinRandomRoomHandler();
 		}
 		else
 		{

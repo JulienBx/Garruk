@@ -30,7 +30,7 @@ public class LoadingScreenButtonController : MonoBehaviour
 	}
 	void OnMouseDown()
 	{
-		newMenuController.instance.leaveRandomRoom ();
+		newMenuController.instance.leaveRandomRoomHandler ();
 	}
 	public bool getIsHovering()
 	{

@@ -596,7 +596,7 @@ public class NewLobbyController : MonoBehaviour
 		}
 		else
 		{
-			newMenuController.instance.joinRandomRoom();
+			newMenuController.instance.joinRandomRoomHandler();
 		}
 	}
 	public void drawGauge()

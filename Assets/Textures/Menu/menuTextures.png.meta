@@ -21,6 +21,7 @@ TextureImporter:
     21300028: deckListHover
     21300030: buttonBorder
     21300032: invitationPopUpBackground
+    21300034: statsPopUpBorder
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -70,7 +71,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 927
-        y: 1947
+        y: 923
         width: 39
         height: 39
       alignment: 0
@@ -80,7 +81,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 754
-        y: 1845
+        y: 821
         width: 39
         height: 39
       alignment: 0
@@ -90,7 +91,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 969
-        y: 1947
+        y: 923
         width: 46
         height: 48
       alignment: 0
@@ -100,19 +101,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 856
-        y: 1867
+        y: 843
         width: 46
         height: 48
-      alignment: 0
-      pivot: {x: .5, y: .5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-    - name: buttonBorder
-      rect:
-        serializedVersion: 2
-        x: 443
-        y: 787
-        width: 425
-        height: 105
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -120,7 +111,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 2
-        y: 809
+        y: 100
         width: 439
         height: 83
       alignment: 0
@@ -130,7 +121,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 969
-        y: 1997
+        y: 973
         width: 52
         height: 49
       alignment: 9
@@ -140,7 +131,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 754
-        y: 2018
+        y: 994
         width: 213
         height: 28
       alignment: 0
@@ -150,7 +141,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 754
-        y: 1988
+        y: 964
         width: 213
         height: 28
       alignment: 0
@@ -160,27 +151,17 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 795
-        y: 1848
+        y: 824
         width: 36
         height: 36
-      alignment: 0
-      pivot: {x: .5, y: .5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-    - name: invitationPopUpBackground
-      rect:
-        serializedVersion: 2
-        x: 2
-        y: 894
-        width: 640
-        height: 400
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: mainLogo
       rect:
         serializedVersion: 2
-        x: 644
-        y: 1209
+        x: 2
+        y: 185
         width: 321
         height: 85
       alignment: 9
@@ -190,7 +171,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 2
-        y: 1296
+        y: 272
         width: 750
         height: 750
       alignment: 0
@@ -200,7 +181,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 856
-        y: 1917
+        y: 893
         width: 69
         height: 69
       alignment: 0
@@ -210,7 +191,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 927
-        y: 1876
+        y: 852
         width: 69
         height: 69
       alignment: 0
@@ -220,7 +201,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 754
-        y: 1886
+        y: 862
         width: 100
         height: 100
       alignment: 0

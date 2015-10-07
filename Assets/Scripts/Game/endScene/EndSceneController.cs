@@ -211,13 +211,13 @@ public class EndSceneController : MonoBehaviour
 	{
 		//GameController.instance.disconnect ();
 		ApplicationModel.launchEndGameSequence=true;
-		if(ApplicationModel.gameType==0)
+		if(ApplicationModel.gameType==1 || ApplicationModel.gameType==2)
 		{
-			Application.LoadLevel("NewHomePage");
+			Application.LoadLevel("NewLobby");
 		}
 		else
 		{
-			Application.LoadLevel("NewLobby");
+			Application.LoadLevel("NewHomePage");
 		}
 	}
 	public Vector3 getQuitButtonPosition()

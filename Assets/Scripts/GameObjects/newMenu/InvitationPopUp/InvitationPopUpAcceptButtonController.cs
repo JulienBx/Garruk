@@ -25,7 +25,7 @@ public class InvitationPopUpAcceptButtonController : MonoBehaviour
 	}
 	public void OnMouseDown()
 	{
-		newMenuController.instance.acceptInvitationHandler ();
+		InvitationPopUpController.instance.acceptInvitationHandler ();
 	}
 }
 

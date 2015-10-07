@@ -4,23 +4,21 @@
 # To import these sprites into your Unity project, download "TexturePackerImporter":
 # http://www.codeandweb.com/texturepacker/unity
 #
-# Sprite sheet: menuTextures.png (1024 x 2048)
-# $TexturePacker:SmartUpdate:38e119d1fff323d49be560bd77f2e83d:871366fade93b9193cb4629b2c17feba:dd4db01fe50b9156da70f581c8e9a025$
+# Sprite sheet: menuTextures.png (1024 x 1024)
+# $TexturePacker:SmartUpdate:e339bfaf73f29bde0f09bdb48f740d88:51a2476d1c8c6c5c19c78e697c2f28ba:dd4db01fe50b9156da70f581c8e9a025$
 #
 
-admin;927;1947;39;39;0.5;0.5
-adminHover;754;1845;39;39;0.5;0.5
-bell_icon;969;1947;46;48;0.5;0.5
-bell_icon_hover;856;1867;46;48;0.5;0.5
-buttonBorder;443;787;425;105;0.5;0.5
-buttonTexture;2;809;439;83;0.5;0.5
-cristalblue;969;1997;52;49;0.5;0.5102040816326531
-deckList;754;2018;213;28;0.5;0.5
-deckListHover;754;1988;213;28;0.5;0.5
-disconnect;795;1848;36;36;0.5;0.5
-invitationPopUpBackground;2;894;640;400;0.5;0.5
-mainLogo;644;1209;321;85;0.5031152647975078;0.49411764705882355
-playPopUpBackground;2;1296;750;750;0.5;0.5
-thumbBorder;856;1917;69;69;0.5;0.5
-thumbBorder2;927;1876;69;69;0.5;0.5
-transparentBackGround;754;1886;100;100;0.5;0.5
+admin;927;923;39;39;0.5;0.5
+adminHover;754;821;39;39;0.5;0.5
+bell_icon;969;923;46;48;0.5;0.5
+bell_icon_hover;856;843;46;48;0.5;0.5
+buttonTexture;2;100;439;83;0.5;0.5
+cristalblue;969;973;52;49;0.5;0.5102040816326531
+deckList;754;994;213;28;0.5;0.5
+deckListHover;754;964;213;28;0.5;0.5
+disconnect;795;824;36;36;0.5;0.5
+mainLogo;2;185;321;85;0.5031152647975078;0.49411764705882355
+playPopUpBackground;2;272;750;750;0.5;0.5
+thumbBorder;856;893;69;69;0.5;0.5
+thumbBorder2;927;852;69;69;0.5;0.5
+transparentBackGround;754;862;100;100;0.5;0.5

@@ -388,7 +388,7 @@ public class AuthenticationController : Photon.MonoBehaviour
 	{
 		//TypedLobby sqlLobby = new TypedLobby("lobby", LobbyType.SqlLobby);    
 		this.loadLevels();
-		print (PhotonNetwork.connectionState);
+		//print (PhotonNetwork.connectionState);
 	}
 	public void displayLoadingScreen()
 	{

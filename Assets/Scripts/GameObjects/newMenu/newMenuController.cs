@@ -6,11 +6,12 @@ using System.Collections.Generic;
 using System.Reflection;
 using TMPro;
 
-public class newMenuController : Photon.MonoBehaviour 
+public class newMenuController : MonoBehaviour 
 {
 	public static newMenuController instance;
 	private newMenuModel model;
 	private newMenuRessources ressources;
+	private newMenuPhotonController photon;
 	private int currentPage;
 	private int pageHovered;
 	private float timer;
@@ -28,12 +29,13 @@ public class newMenuController : Photon.MonoBehaviour
 	private bool isDisconnectedViewDisplayed;
 	private NewMenuDisconnectedPopUpView disconnectedView;
 
-	public const string roomNamePrefix = "GarrukGame";
-	private int nbPlayers;
-
 	private bool isLoadingScreenDisplayed;
 	public bool isTutorialLaunched;
 
+	private bool isInviting;
+
+	private newMenuErrorPopUpView errorView;
+	private bool errorViewDisplayed;
 
 	void Awake()
 	{
@@ -41,6 +43,7 @@ public class newMenuController : Photon.MonoBehaviour
 		this.toMoveButtons = false;
 		this.model = new newMenuModel ();
 		this.ressources = this.gameObject.GetComponent<newMenuRessources> ();
+		this.photon = this.gameObject.GetComponent<newMenuPhotonController> ();
 	}
 	public virtual void Start () 
 	{	
@@ -100,6 +103,17 @@ public class newMenuController : Photon.MonoBehaviour
 			}
 		}
 	}
+	public void displayErrorPopUp(string error)
+	{
+		this.errorViewDisplayed = true;
+		this.errorView = Camera.main.gameObject.AddComponent <newMenuErrorPopUpView>();
+		errorView.errorPopUpVM.error = error;
+		errorView.popUpVM.centralWindowStyle = new GUIStyle(ressources.popUpSkin.customStyles[3]);
+		errorView.popUpVM.centralWindowTitleStyle = new GUIStyle (ressources.popUpSkin.customStyles [0]);
+		errorView.popUpVM.centralWindowButtonStyle = new GUIStyle (ressources.popUpSkin.button);
+		errorView.popUpVM.transparentStyle = new GUIStyle (ressources.popUpSkin.customStyles [2]);
+		this.errorPopUpResize ();
+	}
 	public void displayPlayPopUp()
 	{
 		this.transparentBackground=Instantiate(this.ressources.transparentBackgroundObject) as GameObject;
@@ -115,17 +129,17 @@ public class newMenuController : Photon.MonoBehaviour
 		this.transparentBackground.transform.position = new Vector3 (0, 0, -1f);
 		this.invitationPopUp=Instantiate(this.ressources.invitationPopUpObject) as GameObject;
 		this.invitationPopUp.transform.position = new Vector3 (0f, 0f, -2f);
-		this.invitationPopUp.transform.FindChild ("user").GetComponent<InvitationPopUpUserController> ().show (model.invitation.SendingUser);
-		this.invitationPopUp.transform.FindChild("description").GetComponent<TextMeshPro>().text="vous a lancé un défi";
-		this.invitationPopUp.transform.FindChild("acceptButton").FindChild("Title").GetComponent<TextMeshPro>().text="Accepter";
-		this.invitationPopUp.transform.FindChild("declineButton").FindChild("Title").GetComponent<TextMeshPro>().text="Refuser";
-		StartCoroutine (setSendingUserPicture ());
 		this.isInvitationPopUpDisplayed = true;
 	}
-	public IEnumerator setSendingUserPicture()
+	public void errorPopUpResize()
 	{
-		yield return StartCoroutine (model.invitation.SendingUser.setThumbProfilePicture ());
-		this.invitationPopUp.transform.FindChild("user").transform.Find ("picture").GetComponent<SpriteRenderer> ().sprite = model.invitation.SendingUser.texture;
+		errorView.popUpVM.centralWindow = this.centralWindow;
+		errorView.popUpVM.resize ();
+	}
+	public void hideErrorPopUp()
+	{
+		Destroy (this.errorView);
+		this.errorViewDisplayed = false;
 	}
 	public void hideInvitationPopUp()
 	{
@@ -187,20 +201,27 @@ public class newMenuController : Photon.MonoBehaviour
 	}
 	public IEnumerator getUserData()
 	{
-		yield return StartCoroutine (model.refreshUserData (this.ressources.totalNbResultLimit));
+		yield return StartCoroutine (model.refreshUserData (this.ressources.totalNbResultLimit, this.isInviting));
 		if(Application.loadedLevelName!="NewHomePage")
 		{
 			ApplicationModel.nbNotificationsNonRead = model.player.nonReadNotifications;
 		}
 		ApplicationModel.credits = model.player.Money;
 		this.refreshMenuObject ();
-		if(model.isInvited && !this.isInvitationPopUpDisplayed)
+		if(model.isInvited && !this.isInvitationPopUpDisplayed && !this.isInviting)
 		{
 			if(this.isPlayPopUpDisplayed)
 			{
 				this.hidePlayPopUp();
 			}
 			this.displayInvitationPopUp();
+		}
+		if(this.isInviting && model.invitationError!="")
+		{
+			newMenuController.instance.hideLoadingScreen ();
+			photon.leaveRoom();
+			this.isInviting=false;
+			this.displayErrorPopUp(model.invitationError);
 		}
 	}
 	public IEnumerator initialization()
@@ -368,22 +389,34 @@ public class newMenuController : Photon.MonoBehaviour
 		{
 			return true;
 		}
+		if(errorViewDisplayed)
+		{
+			return true;
+		}
 		return false;
 	}
 	public void returnPressed()
 	{
-		if(isDisconnectedViewDisplayed)
+		if(errorViewDisplayed)
+		{
+			this.hideErrorPopUp();
+		}
+		else if(isDisconnectedViewDisplayed)
 		{
 			this.logOutLink();
 		}
 		else if(isInvitationPopUpDisplayed)
 		{
-			this.acceptInvitationHandler();
+			InvitationPopUpController.instance.acceptInvitationHandler();
 		}
 	}
 	public void escapePressed()
 	{
-		if(isPlayPopUpDisplayed)
+		if(errorViewDisplayed)
+		{
+			this.hideErrorPopUp();
+		}
+		else if(isPlayPopUpDisplayed)
 		{
 			if(!isLoadingScreenDisplayed)
 			{
@@ -396,7 +429,7 @@ public class newMenuController : Photon.MonoBehaviour
 		}
 		else if(isInvitationPopUpDisplayed)
 		{
-			this.declineInvitationHandler();
+			InvitationPopUpController.instance.declineInvitationHandler();
 		}
 	}
 	public Vector3 getButtonPosition(int id)
@@ -423,103 +456,7 @@ public class newMenuController : Photon.MonoBehaviour
 		Destroy (this.disconnectedView);
 		this.isDisconnectedViewDisplayed = false;
 	}
-	public void leaveRandomRoom()
-	{
-		this.hideLoadingScreen ();
-		PhotonNetwork.LeaveRoom ();
-		if(ApplicationModel.gameType>2)
-		{
-			Invitation invitation = new Invitation ();
-			invitation.Id = ApplicationModel.gameType-2;
-			invitation.changeStatus(-1);
-		}
-	}
-	public void joinRandomRoom()
-	{
-		this.displayLoadingScreen ();
-		this.loadingScreen.GetComponent<LoadingScreenController> ().changeLoadingScreenLabel ("En attente de joueurs ...");
-		this.loadingScreen.GetComponent<LoadingScreenController> ().displayButton (true);
-		this.nbPlayers = 0;
-		TypedLobby sqlLobby = new TypedLobby("rankedGame", LobbyType.SqlLobby);    
-		string sqlLobbyFilter = "C0 = " + ApplicationModel.gameType;
-		PhotonNetwork.JoinRandomRoom(null, 0, MatchmakingMode.FillRoom, sqlLobby, sqlLobbyFilter);
-	}
-	void OnPhotonRandomJoinFailed()
-	{
-		Debug.Log("Can't join random room! - creating a new room");
-		if(ApplicationModel.gameType>2)
-		{
-			this.CreateNewRoom ();
-		}
-	}
-	void CreateNewRoom()
-	{
-		RoomOptions newRoomOptions = new RoomOptions();
-		newRoomOptions.isOpen = true;
-		newRoomOptions.isVisible = true;
-		newRoomOptions.maxPlayers = 2;
-		newRoomOptions.customRoomProperties = new ExitGames.Client.Photon.Hashtable() { { "C0", ApplicationModel.gameType } }; // CO pour une partie simple
-		newRoomOptions.customRoomPropertiesForLobby = new string[] { "C0" }; // C0 est récupérable dans le lobby
-		
-		TypedLobby sqlLobby = new TypedLobby("rankedGame", LobbyType.SqlLobby);
-		PhotonNetwork.CreateRoom(roomNamePrefix + Guid.NewGuid().ToString("N"), newRoomOptions, sqlLobby);
-		ApplicationModel.isFirstPlayer = true;
-	}
-	void OnJoinedRoom()
-	{
-		photonView.RPC("AddPlayerToList", PhotonTargets.AllBuffered, PhotonNetwork.player.ID, ApplicationModel.username);
-		if (ApplicationModel.launchGameTutorial)
-		{
-			photonView.RPC("AddPlayerToList", PhotonTargets.AllBuffered, PhotonNetwork.player.ID + 1, "Garruk");
-			PhotonNetwork.room.open = false;
-			Application.LoadLevel("Game");
-		}
-	}
-
-	[RPC]
-	void AddPlayerToList(int id, string loginName)
-	{
-		print(loginName+" se connecte");
-		
-		if (ApplicationModel.username == loginName)
-		{
-			//GameView.instance.setMyPlayerName(loginName);
-			ApplicationModel.myPlayerName=loginName;
-			//print (myPlayerName);
-		} 
-		else
-		{
-			//GameView.instance.setHisPlayerName(loginName);
-			ApplicationModel.hisPlayerName=loginName;
-			//print (hisPlayerName);
-		}
-		
-		this.nbPlayers++;
-		if(this.nbPlayers==2)
-		{
-			if(ApplicationModel.isFirstPlayer==true)
-			{
-				PhotonNetwork.room.open = false;
-			}
-			Application.LoadLevel("Game");
-		}
-	}
-	void OnDisconnectedFromPhoton()
-	{
-		Application.LoadLevel("Authentication");
-	}
-	public IEnumerator sendInvitation(User invitedUser, User sendingUser)
-	{
-		Invitation invitation = new Invitation ();
-		invitation.InvitedUser = invitedUser;
-		invitation.SendingUser = sendingUser;
-		this.displayLoadingScreen ();
-		yield return StartCoroutine (invitation.add ());
-		this.loadingScreen.GetComponent<LoadingScreenController> ().changeLoadingScreenLabel ("En attente de la réponse de votre ami ...");
-		this.loadingScreen.GetComponent<LoadingScreenController> ().displayButton (true);
-		ApplicationModel.gameType = 2+invitation.Id;
-		newMenuController.instance.CreateNewRoom();
-	}
+	
 	public void displayLoadingScreen()
 	{
 		if(!isLoadingScreenDisplayed)
@@ -535,17 +472,66 @@ public class newMenuController : Photon.MonoBehaviour
 			Destroy (this.loadingScreen);
 			this.isLoadingScreenDisplayed=false;
 		}
+		if(this.isInviting)
+		{
+			this.isInviting=false;
+		}
 	}
-	public void acceptInvitationHandler()
+	public void changeLoadingScreenLabel(string label)
 	{
-		ApplicationModel.gameType = 2 + model.invitation.Id;
-		this.joinRandomRoom ();
-		this.hideInvitationPopUp ();
-
+		if(isLoadingScreenDisplayed)
+		{
+			this.loadingScreen.GetComponent<LoadingScreenController> ().changeLoadingScreenLabel (label);
+		}
 	}
-	public void declineInvitationHandler()
+	public void displayLoadingScreenButton(bool value)
 	{
-		this.hideInvitationPopUp ();
+		if(isLoadingScreenDisplayed)
+		{
+			this.loadingScreen.GetComponent<LoadingScreenController> ().displayButton (value);
+		}
+	}
+	public IEnumerator sendInvitation(User invitedUser, User sendingUser)
+	{
+		Invitation invitation = new Invitation ();
+		invitation.InvitedUser = invitedUser;
+		invitation.SendingUser = sendingUser;
+		newMenuController.instance.displayLoadingScreen ();
+		yield return StartCoroutine (invitation.add ());
+		newMenuController.instance.changeLoadingScreenLabel("En attente de la réponse de votre ami ...");
+		newMenuController.instance.displayLoadingScreenButton (true);
+		ApplicationModel.gameType = 2+invitation.Id;
+		photon.CreateNewRoom();
+		this.isInviting = true;
+	}
+	public void leaveRandomRoomHandler()
+	{
+		newMenuController.instance.hideLoadingScreen ();
+		photon.leaveRoom ();
+		if(ApplicationModel.gameType>2)
+		{
+			Invitation invitation = new Invitation ();
+			invitation.Id = ApplicationModel.gameType-2;
+			StartCoroutine(invitation.changeStatus(-1));
+		}
+	}
+	public void joinRandomRoomHandler()
+	{
+		this.displayLoadingScreen ();
+		if(ApplicationModel.gameType<=2)
+		{
+			this.displayLoadingScreenButton (true);
+			this.changeLoadingScreenLabel ("En attente de joueurs ...");
+		}
+		photon.joinRandomRoom ();
+	}
+	public void joinInvitationRoomFailed()
+	{
+		this.hideLoadingScreen ();
+		this.displayErrorPopUp ("Votre ami a annulé le défi");
+		Invitation invitation = new Invitation ();
+		invitation.Id = ApplicationModel.gameType-2;
+		StartCoroutine(invitation.changeStatus(-1));
 	}
 }
 

@@ -25,7 +25,7 @@ public class InvitationPopUpDeclineButtonController : MonoBehaviour
 	}
 	public void OnMouseDown()
 	{
-		newMenuController.instance.declineInvitationHandler ();
+		InvitationPopUpController.instance.declineInvitationHandler ();
 	}
 }
 
