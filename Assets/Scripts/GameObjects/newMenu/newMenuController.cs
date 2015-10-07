@@ -8,20 +8,9 @@ using TMPro;
 
 public class newMenuController : Photon.MonoBehaviour 
 {
-	public GameObject loadingScreenObject;
-	public int totalNbResultLimit;
-	public int refreshInterval;
-	public bool isTutorialLaunched;
-	public GameObject playPopUpObject;
-	public GameObject transparentBackgroundObject;
-	public GameObject invitationPopUpObject;
-	public float startButtonPosition;
-	public float endButtonPosition;
-	public float speed;
-	public GUISkin popUpSkin;
-	
 	public static newMenuController instance;
 	private newMenuModel model;
+	private newMenuRessources ressources;
 	private int currentPage;
 	private int pageHovered;
 	private float timer;
@@ -43,6 +32,7 @@ public class newMenuController : Photon.MonoBehaviour
 	private int nbPlayers;
 
 	private bool isLoadingScreenDisplayed;
+	public bool isTutorialLaunched;
 
 
 	void Awake()
@@ -50,8 +40,9 @@ public class newMenuController : Photon.MonoBehaviour
 		instance = this;
 		this.toMoveButtons = false;
 		this.model = new newMenuModel ();
+		this.ressources = this.gameObject.GetComponent<newMenuRessources> ();
 	}
-	void Start () 
+	public virtual void Start () 
 	{	
 		StartCoroutine (this.initialization());
 	}
@@ -59,9 +50,9 @@ public class newMenuController : Photon.MonoBehaviour
 	{
 		timer += Time.deltaTime;
 
-		if (timer > refreshInterval) 
+		if (timer > this.ressources.refreshInterval) 
 		{
-			timer=timer-refreshInterval;
+			timer=timer-this.ressources.refreshInterval;
 			StartCoroutine (this.getUserData());
 		}
 		if(toMoveButtons)
@@ -70,12 +61,12 @@ public class newMenuController : Photon.MonoBehaviour
 			for(int i=0;i<6;i++)
 			{
 				this.currentButtonPosition= gameObject.transform.Find("Button"+i).localPosition;
-				if(i!=this.pageHovered && this.currentButtonPosition.x!=this.startButtonPosition)
+				if(i!=this.pageHovered && this.currentButtonPosition.x!=this.ressources.startButtonPosition)
 				{
-					this.currentButtonPosition.x-= this.speed * Time.deltaTime;
-					if(this.currentButtonPosition.x<this.startButtonPosition)
+					this.currentButtonPosition.x-= this.ressources.speed * Time.deltaTime;
+					if(this.currentButtonPosition.x<this.ressources.startButtonPosition)
 					{
-						this.currentButtonPosition.x=this.startButtonPosition;
+						this.currentButtonPosition.x=this.ressources.startButtonPosition;
 
 					}
 					else
@@ -84,12 +75,12 @@ public class newMenuController : Photon.MonoBehaviour
 					}
 					gameObject.transform.Find("Button"+i).localPosition=this.currentButtonPosition;
 				}
-				else if(i==this.pageHovered && this.currentButtonPosition.x!=this.endButtonPosition)
+				else if(i==this.pageHovered && this.currentButtonPosition.x!=this.ressources.endButtonPosition)
 				{
-					this.currentButtonPosition.x+= this.speed * Time.deltaTime;
-					if(this.currentButtonPosition.x>this.endButtonPosition)
+					this.currentButtonPosition.x+= this.ressources.speed * Time.deltaTime;
+					if(this.currentButtonPosition.x>this.ressources.endButtonPosition)
 					{
-						this.currentButtonPosition.x=this.endButtonPosition;
+						this.currentButtonPosition.x=this.ressources.endButtonPosition;
 					}
 					else
 					{
@@ -111,18 +102,18 @@ public class newMenuController : Photon.MonoBehaviour
 	}
 	public void displayPlayPopUp()
 	{
-		this.transparentBackground=Instantiate(this.transparentBackgroundObject) as GameObject;
+		this.transparentBackground=Instantiate(this.ressources.transparentBackgroundObject) as GameObject;
 		this.transparentBackground.transform.position = new Vector3 (0, 0, -1f);
-		this.playPopUp=Instantiate(this.playPopUpObject) as GameObject;
+		this.playPopUp=Instantiate(this.ressources.playPopUpObject) as GameObject;
 		this.playPopUp.transform.position = new Vector3 (0f, 0f, -2f);
 		this.setCurrentPage (5);
 		this.isPlayPopUpDisplayed = true;
 	}
 	public void displayInvitationPopUp()
 	{
-		this.transparentBackground=Instantiate(this.transparentBackgroundObject) as GameObject;
+		this.transparentBackground=Instantiate(this.ressources.transparentBackgroundObject) as GameObject;
 		this.transparentBackground.transform.position = new Vector3 (0, 0, -1f);
-		this.invitationPopUp=Instantiate(this.invitationPopUpObject) as GameObject;
+		this.invitationPopUp=Instantiate(this.ressources.invitationPopUpObject) as GameObject;
 		this.invitationPopUp.transform.position = new Vector3 (0f, 0f, -2f);
 		this.invitationPopUp.transform.FindChild ("user").GetComponent<InvitationPopUpUserController> ().show (model.invitation.SendingUser);
 		this.invitationPopUp.transform.FindChild("description").GetComponent<TextMeshPro>().text="vous a lancé un défi";
@@ -159,7 +150,7 @@ public class newMenuController : Photon.MonoBehaviour
 		{
 			this.setCurrentPage (3);
 		}
-		else if(Application.loadedLevelName=="NewSkillBook")
+		else if(Application.loadedLevelName=="newSkillBook")
 		{
 			this.setCurrentPage (4);
 		}
@@ -169,7 +160,7 @@ public class newMenuController : Photon.MonoBehaviour
 		}
 		Vector3 tempPosition;
 		tempPosition= gameObject.transform.Find("Button"+5).localPosition;
-		tempPosition.x = this.startButtonPosition;
+		tempPosition.x = this.ressources.startButtonPosition;
 		gameObject.transform.Find("Button"+5).localPosition=tempPosition;
 	}
 	public void moveButton(int value)
@@ -186,7 +177,7 @@ public class newMenuController : Photon.MonoBehaviour
 		this.currentPage = i;
 		Vector3 tempPosition;
 		tempPosition= gameObject.transform.Find("Button"+i).localPosition;
-		tempPosition.x = this.endButtonPosition;
+		tempPosition.x = this.ressources.endButtonPosition;
 		gameObject.transform.Find("Button"+i).localPosition=tempPosition;
 	}
 	public void setNbNotificationsNonRead(int value)
@@ -196,7 +187,7 @@ public class newMenuController : Photon.MonoBehaviour
 	}
 	public IEnumerator getUserData()
 	{
-		yield return StartCoroutine (model.refreshUserData (this.totalNbResultLimit));
+		yield return StartCoroutine (model.refreshUserData (this.ressources.totalNbResultLimit));
 		if(Application.loadedLevelName!="NewHomePage")
 		{
 			ApplicationModel.nbNotificationsNonRead = model.player.nonReadNotifications;
@@ -214,7 +205,7 @@ public class newMenuController : Photon.MonoBehaviour
 	}
 	public IEnumerator initialization()
 	{
-		yield return StartCoroutine (model.loadUserData (this.totalNbResultLimit));
+		yield return StartCoroutine (model.loadUserData (this.ressources.totalNbResultLimit));
 		if(Application.loadedLevelName!="NewHomePage")
 		{
 			ApplicationModel.nbNotificationsNonRead = model.player.nonReadNotifications;
@@ -394,7 +385,10 @@ public class newMenuController : Photon.MonoBehaviour
 	{
 		if(isPlayPopUpDisplayed)
 		{
-			this.hidePlayPopUp();
+			if(!isLoadingScreenDisplayed)
+			{
+				this.hidePlayPopUp();
+			}
 		}
 		else if(isDisconnectedViewDisplayed)
 		{
@@ -413,10 +407,10 @@ public class newMenuController : Photon.MonoBehaviour
 	{
 		this.isDisconnectedViewDisplayed = true;
 		this.disconnectedView = Camera.main.gameObject.AddComponent <NewMenuDisconnectedPopUpView>();
-		disconnectedView.popUpVM.centralWindowStyle = new GUIStyle(this.popUpSkin.window);
-		disconnectedView.popUpVM.centralWindowTitleStyle = new GUIStyle (this.popUpSkin.customStyles [0]);
-		disconnectedView.popUpVM.centralWindowButtonStyle = new GUIStyle (this.popUpSkin.button);
-		disconnectedView.popUpVM.transparentStyle = new GUIStyle (this.popUpSkin.customStyles [2]);
+		disconnectedView.popUpVM.centralWindowStyle = new GUIStyle(this.ressources.popUpSkin.window);
+		disconnectedView.popUpVM.centralWindowTitleStyle = new GUIStyle (this.ressources.popUpSkin.customStyles [0]);
+		disconnectedView.popUpVM.centralWindowButtonStyle = new GUIStyle (this.ressources.popUpSkin.button);
+		disconnectedView.popUpVM.transparentStyle = new GUIStyle (this.ressources.popUpSkin.customStyles [2]);
 		this.disconnectedPopUpResize ();
 	}
 	public void disconnectedPopUpResize()
@@ -530,7 +524,7 @@ public class newMenuController : Photon.MonoBehaviour
 	{
 		if(!isLoadingScreenDisplayed)
 		{
-			this.loadingScreen=Instantiate(this.loadingScreenObject) as GameObject;
+			this.loadingScreen=Instantiate(this.ressources.loadingScreenObject) as GameObject;
 			this.isLoadingScreenDisplayed=true;
 		}
 	}

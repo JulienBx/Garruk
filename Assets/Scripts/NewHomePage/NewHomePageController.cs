@@ -345,6 +345,8 @@ public class NewHomePageController : Photon.MonoBehaviour
 	}
 	void Awake()
 	{
+		instance = this;
+		this.model = new NewHomePageModel ();
 		this.widthScreen = Screen.width;
 		this.heightScreen = Screen.height;
 		this.pixelPerUnit = 108f;
@@ -352,17 +354,11 @@ public class NewHomePageController : Photon.MonoBehaviour
 		this.elementsPerPageNews = 3;
 		this.elementsPerPageFriends = 2;
 		this.initializeScene ();
-		newMenuController.instance.displayLoadingScreen ();
-	}
-	void Start()
-	{
-		instance = this;
-		this.model = new NewHomePageModel ();
 		this.resize ();
-		StartCoroutine (this.initialization ());
 	}
-	private IEnumerator initialization()
+	public IEnumerator initialization()
 	{
+		newMenuController.instance.displayLoadingScreen ();
 		if(ApplicationModel.launchEndGameSequence)
 		{
 			this.launchEndGameSequence(ApplicationModel.hasWonLastGame);
@@ -449,6 +445,7 @@ public class NewHomePageController : Photon.MonoBehaviour
 	public void initializeScene()
 	{
 		menu = GameObject.Find ("newMenu");
+		menu.AddComponent<newHomePageMenuController> ();
 		menu.GetComponent<newMenuController> ().setCurrentPage (0);
 		this.friendsOnline = new List<int> ();
 		this.newsBlock = Instantiate(this.blockObject) as GameObject;

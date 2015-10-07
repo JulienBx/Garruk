@@ -149,6 +149,8 @@ public class NewLobbyController : MonoBehaviour
 	}
 	void Awake()
 	{
+		instance = this;
+		this.model = new NewLobbyModel ();
 		if(ApplicationModel.gameType==1)
 		{
 			this.isDivisionLobby=true;
@@ -169,17 +171,11 @@ public class NewLobbyController : MonoBehaviour
 		this.elementsPerPage = 6;
 		this.timer = 0f;
 		this.initializeScene ();
-		newMenuController.instance.displayLoadingScreen ();
-	}
-	void Start()
-	{
-		instance = this;
-		this.model = new NewLobbyModel ();
 		this.resize ();
-		StartCoroutine (this.initialization ());
 	}
-	private IEnumerator initialization()
+	public IEnumerator initialization()
 	{
+		newMenuController.instance.displayLoadingScreen ();
 		yield return StartCoroutine(model.getLobbyData(this.isDivisionLobby,this.isEndGameLobby));
 		this.initializeResults ();
 		this.initializeCompetitions ();
@@ -218,6 +214,7 @@ public class NewLobbyController : MonoBehaviour
 	public void initializeScene()
 	{
 		menu = GameObject.Find ("newMenu");
+		menu.AddComponent<newLobbyMenuController> ();
 		menu.GetComponent<newMenuController> ().setCurrentPage (5);
 		this.mainBlock = Instantiate(this.blockObject) as GameObject;
 		this.mainBlockTitle = GameObject.Find ("MainBlockTitle");

@@ -95,6 +95,8 @@ public class NewStoreController : MonoBehaviour
 	}
 	void Awake()
 	{
+		instance = this;
+		this.model = new NewStoreModel ();
 		this.widthScreen = Screen.width;
 		this.heightScreen = Screen.height;
 		this.pixelPerUnit = 108;
@@ -102,14 +104,8 @@ public class NewStoreController : MonoBehaviour
 		this.packsBoardLeftMargin = 2.9f;
 		this.packsBoardRightMargin = 0.5f;
 		this.initializeScene ();
-		newMenuController.instance.displayLoadingScreen ();
-	}
-	void Start()
-	{
-		instance = this;
-		this.model = new NewStoreModel ();
 		this.resize ();
-		StartCoroutine (this.initialization ());
+
 	}
 	void Update () 
 	{
@@ -214,8 +210,9 @@ public class NewStoreController : MonoBehaviour
 			}
 		}
 	}
-	private IEnumerator initialization()
+	public IEnumerator initialization()
 	{
+		newMenuController.instance.displayLoadingScreen ();
 		yield return(StartCoroutine(this.model.initializeStore()));
 		this.money = ApplicationModel.credits;
 		this.createPacks ();
@@ -249,6 +246,7 @@ public class NewStoreController : MonoBehaviour
 	public void initializeScene()
 	{
 		menu = GameObject.Find ("newMenu");
+		menu.AddComponent<newStoreMenuController> ();
 		menu.GetComponent<newMenuController> ().setCurrentPage (2);
 		this.paginationButtons = new GameObject[0];
 		this.focusedCard = GameObject.Find ("FocusedCard");

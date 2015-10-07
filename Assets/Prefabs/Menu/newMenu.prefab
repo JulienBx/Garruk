@@ -167,8 +167,8 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 434568}
-  - 114: {fileID: 11461032}
   - 114: {fileID: 11485150}
+  - 114: {fileID: 11409998}
   m_Layer: 0
   m_Name: newMenu
   m_TagString: Untagged
@@ -1162,6 +1162,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 178ba9608ff6e4e7aa600e6c06eb4b11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &11409998
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 158684}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24f7c77daddc94ae8a812b6b5c95390d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  loadingScreenObject: {fileID: 142260, guid: 176cf68df92cb427b84ce1324381ee24, type: 2}
+  totalNbResultLimit: 100
+  refreshInterval: 5
+  playPopUpObject: {fileID: 189314, guid: 8fe97dd726eec47f581ab750441248f2, type: 2}
+  transparentBackgroundObject: {fileID: 156154, guid: aad2bd4f953b34f068977d17f460f61f,
+    type: 2}
+  invitationPopUpObject: {fileID: 163458, guid: 326ea8bdc70234c2a951a4e199e1b03e,
+    type: 2}
+  startButtonPosition: -1.5625
+  endButtonPosition: -1
+  speed: 15
+  popUpSkin: {fileID: 11400000, guid: 6346424849e084205bcebcf25bed265c, type: 2}
 --- !u!114 &11417618
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1666,30 +1689,6 @@ MonoBehaviour:
   - {fileID: 0}
   m_maskType: 0
   m_enableAutoSizing: 0
---- !u!114 &11461032
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 158684}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a53810f3a2bd34aa4a8c80d0a0e4a51a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  loadingScreenObject: {fileID: 142260, guid: 176cf68df92cb427b84ce1324381ee24, type: 2}
-  totalNbResultLimit: 100
-  refreshInterval: 5
-  isTutorialLaunched: 0
-  playPopUpObject: {fileID: 189314, guid: 8fe97dd726eec47f581ab750441248f2, type: 2}
-  transparentBackgroundObject: {fileID: 156154, guid: aad2bd4f953b34f068977d17f460f61f,
-    type: 2}
-  invitationPopUpObject: {fileID: 163458, guid: 326ea8bdc70234c2a951a4e199e1b03e,
-    type: 2}
-  startButtonPosition: -1.5625
-  endButtonPosition: -1
-  speed: 15
-  popUpSkin: {fileID: 11400000, guid: 6346424849e084205bcebcf25bed265c, type: 2}
 --- !u!114 &11463570
 MonoBehaviour:
   m_ObjectHideFlags: 1

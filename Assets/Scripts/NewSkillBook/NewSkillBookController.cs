@@ -77,23 +77,20 @@ public class NewSkillBookController : MonoBehaviour
 	}
 	void Awake()
 	{
+		instance = this;
+		this.model = new NewSkillBookModel ();
 		this.widthScreen = Screen.width;
 		this.heightScreen = Screen.height;
 		this.pixelPerUnit = 108f;
 		this.elementsPerPage= 5;
 		this.selectedCardTypeId = 0;
 		this.initializeScene ();
-		newMenuController.instance.displayLoadingScreen ();
-	}
-	void Start()
-	{
-		instance = this;
-		this.model = new NewSkillBookModel ();
 		this.resize ();
-		StartCoroutine (this.initialization ());
+
 	}
-	private IEnumerator initialization()
+	public IEnumerator initialization()
 	{
+		newMenuController.instance.displayLoadingScreen ();
 		yield return StartCoroutine (model.getSkillBookData ());
 		this.computeIndicators ();
 		this.drawCollectionLevel ();
@@ -111,6 +108,7 @@ public class NewSkillBookController : MonoBehaviour
 	public void initializeScene()
 	{
 		menu = GameObject.Find ("newMenu");
+		menu.AddComponent<newSkillBookMenuController> ();
 		menu.GetComponent<newMenuController> ().setCurrentPage (4);
 		this.mainBlock = Instantiate(this.blockObject) as GameObject;
 		this.cardTypesBlock = Instantiate(this.blockObject) as GameObject;

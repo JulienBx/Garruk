@@ -10,7 +10,6 @@ public class newMyGameController : MonoBehaviour
 	public static newMyGameController instance;
 	private NewMyGameModel model;
 
-	public GameObject loadingScreenObject;
 	public GameObject tutorialObject;
 	public GameObject blockObject;
 	public GameObject cardObject;
@@ -21,7 +20,6 @@ public class newMyGameController : MonoBehaviour
 	public GUISkin popUpSkin;
 	public int refreshInterval;
 
-	private GameObject loadingScreen;
 	private GameObject menu;
 	private GameObject tutorial;
 	private GameObject deckBoard;
@@ -221,22 +219,18 @@ public class newMyGameController : MonoBehaviour
 	}
 	void Awake()
 	{
-		this.displayLoadingScreen ();
+		instance = this;
+		this.model = new NewMyGameModel ();
 		this.widthScreen = Screen.width;
 		this.heightScreen = Screen.height;
 		this.pixelPerUnit = 108f;
 		this.sortingOrder = -1;
 		this.initializeScene ();
-	}
-	void Start()
-	{
-		instance = this;
-		this.model = new NewMyGameModel ();
 		this.resize ();
-		StartCoroutine (this.initialization ());
 	}
-	private IEnumerator initialization()
+	public IEnumerator initialization()
 	{
+		newMenuController.instance.displayLoadingScreen ();
 		yield return StartCoroutine (model.initializeMyGame ());
 		this.retrieveDefaultDeck ();
 		this.initializeFilters ();
@@ -255,7 +249,7 @@ public class newMyGameController : MonoBehaviour
 		   	ApplicationModel.cardTypeChosen=-1;
 		}
 		this.applyFilters ();
-		this.hideLoadingScreen ();
+		newMenuController.instance.hideLoadingScreen ();
 		this.isSceneLoaded = true;
 		this.money = ApplicationModel.credits;
 		if(model.player.TutorialStep==2 || model.player.TutorialStep==3)
@@ -302,6 +296,7 @@ public class newMyGameController : MonoBehaviour
 	public void initializeScene()
 	{
 		menu = GameObject.Find ("newMenu");
+		menu.AddComponent<newMyGameMenuController> ();
 		menu.GetComponent<newMenuController> ().setCurrentPage (1);
 		this.cardsBlock = Instantiate(this.blockObject) as GameObject;
 		this.deckBlock = Instantiate(this.blockObject) as GameObject;
@@ -1315,7 +1310,7 @@ public class newMyGameController : MonoBehaviour
 		if(newDeckView.newDeckPopUpVM.error=="")
 		{
 			this.hideNewDeckPopUp();
-			this.displayLoadingScreen();
+			newMenuController.instance.displayLoadingScreen();
 			this.newDeckView.popUpVM.guiEnabled=false;
 			model.decks.Add(new Deck());
 			yield return StartCoroutine(model.decks[model.decks.Count-1].create(newDeckView.newDeckPopUpVM.name));
@@ -1326,7 +1321,7 @@ public class newMyGameController : MonoBehaviour
 			{
 				TutorialObjectController.instance.actionIsDone();
 			}
-			this.hideLoadingScreen();
+			newMenuController.instance.hideLoadingScreen();
 		}
 	}
 	public void editDeckHandler()
@@ -1340,11 +1335,11 @@ public class newMyGameController : MonoBehaviour
 			editDeckView.editDeckPopUpVM.error=checkDeckName(editDeckView.editDeckPopUpVM.newName);
 			if(editDeckView.editDeckPopUpVM.error=="")
 			{
-				this.displayLoadingScreen();
+				newMenuController.instance.displayLoadingScreen();
 				this.hideEditDeckPopUp();
 				yield return StartCoroutine(model.decks[this.deckDisplayed].edit(editDeckView.editDeckPopUpVM.newName));
 				this.deckBoard.transform.FindChild("deckList").FindChild("currentDeck").FindChild("deckName").GetComponent<TextMeshPro> ().text = model.decks[this.deckDisplayed].Name;
-				this.hideLoadingScreen();
+				newMenuController.instance.hideLoadingScreen();
 			}
 		}
 		else
@@ -1359,7 +1354,7 @@ public class newMyGameController : MonoBehaviour
 	public IEnumerator deleteDeck()
 	{
 		this.hideDeleteDeckPopUp();
-		this.displayLoadingScreen ();
+		newMenuController.instance.displayLoadingScreen ();
 		yield return StartCoroutine(model.decks[this.deckDisplayed].delete());
 		this.removeDeckFromAllCards (model.decks[this.deckDisplayed].Id);
 		model.decks.RemoveAt (this.deckDisplayed);
@@ -1367,7 +1362,7 @@ public class newMyGameController : MonoBehaviour
 		this.initializeDecks ();
 		//this.drawCards ();
 		this.initializeCards ();
-		this.hideLoadingScreen ();
+		newMenuController.instance.hideLoadingScreen ();
 	}
 	public void removeDeckFromAllCards(int id)
 	{
@@ -1868,27 +1863,11 @@ public class newMyGameController : MonoBehaviour
 	}
 	public IEnumerator endTutorial()
 	{
-		this.displayLoadingScreen();
+		newMenuController.instance.displayLoadingScreen ();
 		yield return StartCoroutine (model.player.setTutorialStep (3));
 		newMenuController.instance.setTutorialLaunched (false);
 		ApplicationModel.launchGameTutorial = true;
 		ApplicationModel.gameType = 0;
 		Application.LoadLevel ("Game");
-	}
-	public void displayLoadingScreen()
-	{
-		if(!isLoadingScreenDisplayed)
-		{
-			this.loadingScreen=Instantiate(this.loadingScreenObject) as GameObject;
-			this.isLoadingScreenDisplayed=true;
-		}
-	}
-	public void hideLoadingScreen()
-	{
-		if(isLoadingScreenDisplayed)
-		{
-			Destroy (this.loadingScreen);
-			this.isLoadingScreenDisplayed=false;
-		}
 	}
 }

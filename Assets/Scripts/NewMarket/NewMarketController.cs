@@ -192,22 +192,18 @@ public class NewMarketController : MonoBehaviour
 	}
 	void Awake()
 	{
+		instance = this;
+		this.model = new NewMarketModel ();
 		this.widthScreen = Screen.width;
 		this.heightScreen = Screen.height;
 		this.pixelPerUnit = 108f;
 		this.sortingOrder = -1;
 		this.initializeScene ();
-		newMenuController.instance.displayLoadingScreen ();
-	}
-	void Start()
-	{
-		instance = this;
-		this.model = new NewMarketModel ();
 		this.resize ();
-		StartCoroutine (this.initialization ());
 	}
-	private IEnumerator initialization()
+	public IEnumerator initialization()
 	{
+		newMenuController.instance.displayLoadingScreen ();
 		yield return StartCoroutine (model.initializeMarket (this.totalNbResultLimit));
 		this.initializeFilters ();
 		this.initializeCards ();
@@ -246,6 +242,7 @@ public class NewMarketController : MonoBehaviour
 	public void initializeScene()
 	{
 		menu = GameObject.Find ("newMenu");
+		menu.AddComponent<newMarketMenuController> ();
 		menu.GetComponent<newMenuController> ().setCurrentPage (3);
 		this.filters = GameObject.Find ("marketFilters");
 		this.filtersBlock = Instantiate(this.blockObject) as GameObject;
