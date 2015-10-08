@@ -45,11 +45,6 @@ public class PlayingCardController : GameObjectController
 		t.FindChild("LifeBar").FindChild("PV").GetComponent<MeshRenderer>().enabled = false ;
 		t.FindChild("LifeBar").FindChild("PVValue").GetComponent<MeshRenderer>().enabled = false ;
 		t.FindChild("Icon0").GetComponent<SpriteRenderer>().enabled = false ;
-		t.FindChild("Icon1").GetComponent<SpriteRenderer>().enabled = false ;
-		t.FindChild("Icon2").GetComponent<SpriteRenderer>().enabled = false ;
-		t.FindChild("Icon3").GetComponent<SpriteRenderer>().enabled = false ;
-		t.FindChild("Icon3").GetComponent<SpriteRenderer>().enabled = false ;
-		t.FindChild("Icon3").GetComponent<SpriteRenderer>().enabled = false ;
 		t.FindChild("PictoTR").GetComponent<SpriteRenderer>().enabled = false ;
 		t.FindChild("WaitTime").GetComponent<MeshRenderer>().enabled = false ;
 		
@@ -80,9 +75,6 @@ public class PlayingCardController : GameObjectController
 		t.FindChild("LifeBar").FindChild("PV").GetComponent<MeshRenderer>().enabled = true ;
 		t.FindChild("LifeBar").FindChild("PVValue").GetComponent<MeshRenderer>().enabled = true ;
 		t.FindChild("Icon0").GetComponent<SpriteRenderer>().enabled = true ;
-		t.FindChild("Icon1").GetComponent<SpriteRenderer>().enabled = true ;
-		t.FindChild("Icon2").GetComponent<SpriteRenderer>().enabled = true ;
-		t.FindChild("Icon3").GetComponent<SpriteRenderer>().enabled = true ;
 		t.Find("AttackZone").FindChild("AttackValue").GetComponent<MeshRenderer>().enabled = true ;
 		
 		gameObject.GetComponent<BoxCollider>().enabled = true ;
@@ -97,9 +89,6 @@ public class PlayingCardController : GameObjectController
 		
 		transform.Find("Life").GetComponent<SpriteRenderer>().sprite = this.lifebarSprites[1];
 		transform.Find("Icon0").GetComponent<SpriteRenderer>().sprite = this.iconSprites[0];
-		transform.Find("Icon1").GetComponent<SpriteRenderer>().sprite = this.iconSprites[0];
-		transform.Find("Icon2").GetComponent<SpriteRenderer>().sprite = this.iconSprites[0];
-		transform.Find("Icon3").GetComponent<SpriteRenderer>().sprite = this.iconSprites[0];
 		
 		if (c.isMine){
 			transform.Find("Art").GetComponent<SpriteRenderer>().sprite = this.backgroundSprites[this.card.ArtIndex];
@@ -135,9 +124,6 @@ public class PlayingCardController : GameObjectController
 		t.FindChild("LifeBar").FindChild("PVValue").GetComponent<MeshRenderer>().sortingOrder = 14 ;
 		
 		t.FindChild("Icon0").GetComponent<SpriteRenderer>().sortingOrder = 11 ;
-		t.FindChild("Icon1").GetComponent<SpriteRenderer>().sortingOrder = 11 ;
-		t.FindChild("Icon2").GetComponent<SpriteRenderer>().sortingOrder = 11 ;
-		t.FindChild("Icon3").GetComponent<SpriteRenderer>().sortingOrder = 11 ;
 		t.Find("AttackZone").FindChild("AttackValue").GetComponent<MeshRenderer>().sortingOrder = 14 ;
 		
 	}
@@ -156,9 +142,6 @@ public class PlayingCardController : GameObjectController
 		t.FindChild("LifeBar").FindChild("PVValue").GetComponent<MeshRenderer>().sortingOrder = 4 ;
 		
 		t.FindChild("Icon0").GetComponent<SpriteRenderer>().sortingOrder = 2 ;
-		t.FindChild("Icon1").GetComponent<SpriteRenderer>().sortingOrder = 2 ;
-		t.FindChild("Icon2").GetComponent<SpriteRenderer>().sortingOrder = 2 ;
-		t.FindChild("Icon3").GetComponent<SpriteRenderer>().sortingOrder = 2 ;
 		t.Find("AttackZone").FindChild("AttackValue").GetComponent<MeshRenderer>().sortingOrder = 4 ;
 	}
 	
@@ -267,7 +250,7 @@ public class PlayingCardController : GameObjectController
 		
 		int compteurIcones = 0;
 		
-		for (int i = 0; i < this.card.modifiers.Count && compteurIcones < 4; i++)
+		for (int i = 0; i < this.card.modifiers.Count && compteurIcones < 1; i++)
 		{
 			if (this.card.modifiers [i].idIcon > -1)
 			{
@@ -275,12 +258,6 @@ public class PlayingCardController : GameObjectController
 				gameObject.transform.FindChild("Icon"+compteurIcones).GetComponent<IconController>().setInformation(this.card.modifiers [i].title, this.card.modifiers [i].description, this.card.modifiers [i].additionnalInfo);
 				compteurIcones++;
 			}
-		}
-		
-		for (int i = compteurIcones; i < 4; i++)
-		{
-			gameObject.transform.FindChild("Icon"+i).GetComponent<SpriteRenderer>().sprite = this.iconSprites[0];
-			gameObject.transform.FindChild("Icon"+i).GetComponent<IconController>().resetInformation();
 		}
 		
 		this.showTR(showTR);

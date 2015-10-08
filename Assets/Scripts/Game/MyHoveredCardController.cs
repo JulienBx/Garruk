@@ -224,7 +224,7 @@ public class MyHoveredCardController : MonoBehaviour
 		
 		gameObject.transform.FindChild("MyMainDescription").FindChild("MyCarac").FindChild("MyAttackText").GetComponent<TextMeshPro>().text = ""+c.GetAttackString();
 		gameObject.transform.FindChild("MyMainDescription").FindChild("MyCarac").FindChild("MyLifeText").GetComponent<TextMeshPro>().text = ""+c.GetLifeString();
-		gameObject.transform.FindChild("MyMainDescription").FindChild("MyCarac").FindChild("MyHasteText").GetComponent<TextMeshPro>().text = ""+c.GetSpeedString();
+		gameObject.transform.FindChild("MyMainDescription").FindChild("MyCarac").FindChild("MyHasteText").GetComponent<TextMeshPro>().text = ""+c.GetMoveString();
 		
 		if(c.getSkills()[0].Level==1){
 			gameObject.transform.FindChild("MyMainDescription").FindChild("MyPassiveSkill").FindChild("MySpecialiteCristal").GetComponent<SpriteRenderer>().color=new Color(255f/255f,255f/255f,255f/255f, 1f);
