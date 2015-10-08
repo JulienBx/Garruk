@@ -56,7 +56,7 @@ public class newMenuPhotonController : Photon.MonoBehaviour
 		{
 			photonView.RPC("AddPlayerToList", PhotonTargets.AllBuffered, PhotonNetwork.player.ID + 1, "Garruk");
 			PhotonNetwork.room.open = false;
-			Application.LoadLevel("Game");
+			//Application.LoadLevel("Game");
 		}
 	}
 	
@@ -67,15 +67,11 @@ public class newMenuPhotonController : Photon.MonoBehaviour
 		
 		if (ApplicationModel.username == loginName)
 		{
-			//GameView.instance.setMyPlayerName(loginName);
 			ApplicationModel.myPlayerName=loginName;
-			//print (myPlayerName);
 		} 
 		else
 		{
-			//GameView.instance.setHisPlayerName(loginName);
 			ApplicationModel.hisPlayerName=loginName;
-			//print (hisPlayerName);
 		}
 		
 		this.nbPlayers++;

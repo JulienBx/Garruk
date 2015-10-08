@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 using TMPro;
 using System.Linq;
 
-public class NewHomePageController : Photon.MonoBehaviour
+public class NewHomePageController : MonoBehaviour
 {
 	public static NewHomePageController instance;
 	private NewHomePageModel model;
@@ -74,6 +74,7 @@ public class NewHomePageController : Photon.MonoBehaviour
 	private IList<int> notificationsDisplayed;
 	private IList<int> packsDisplayed;
 	private IList<int> friendsDisplayed;
+	private IList<int> friendsToBeDisplayed;
 
 	private IList<int> friendsOnline;
 	
@@ -287,7 +288,7 @@ public class NewHomePageController : Photon.MonoBehaviour
 			bool allPicturesLoaded=true;
 			for(int i=0;i<friendsDisplayed.Count;i++)
 			{
-				if(!model.users[this.friendsOnline[this.friendsDisplayed[i]]].isThumbPictureLoaded)
+				if(!model.users[this.friendsToBeDisplayed[this.friendsDisplayed[i]]].isThumbPictureLoaded)
 				{
 					allPicturesLoaded=false;
 					break;
@@ -298,7 +299,7 @@ public class NewHomePageController : Photon.MonoBehaviour
 				this.areFriendsPicturesLoading=false;
 				for(int i=0;i<friendsDisplayed.Count;i++)
 				{
-					this.friends[i].GetComponent<OnlineFriendController>().setPicture(model.users[this.friendsOnline[this.friendsDisplayed[i]]].texture);
+					this.friends[i].GetComponent<OnlineFriendController>().setPicture(model.users[this.friendsToBeDisplayed[this.friendsDisplayed[i]]].texture);
 				}
 			}
 		}
@@ -421,6 +422,7 @@ public class NewHomePageController : Photon.MonoBehaviour
 	{
 		this.chosenPageFriends = 0;
 		this.pageDebutFriends = 0 ;
+		this.sortFriendsList ();
 		this.drawPaginationFriends();
 		this.drawFriends ();
 	}
@@ -1174,18 +1176,18 @@ public class NewHomePageController : Photon.MonoBehaviour
 		bool allPicturesLoaded = true;
 		for(int i =0;i<elementsPerPageFriends;i++)
 		{
-			if(this.chosenPageFriends*this.elementsPerPageFriends+i<this.friendsOnline.Count)
+			if(this.chosenPageFriends*this.elementsPerPageFriends+i<this.friendsToBeDisplayed.Count)
 			{
-				if(!model.users[this.friendsOnline[this.chosenPageFriends*this.elementsPerPageFriends+i]].isThumbPictureLoaded)
+				if(!model.users[this.friendsToBeDisplayed[this.chosenPageFriends*this.elementsPerPageFriends+i]].isThumbPictureLoaded)
 				{
-					if(!model.users[this.friendsOnline[this.chosenPageFriends*this.elementsPerPageFriends+i]].isThumbPictureLoading)
+					if(!model.users[this.friendsToBeDisplayed[this.chosenPageFriends*this.elementsPerPageFriends+i]].isThumbPictureLoading)
 					{
-						StartCoroutine(model.users[this.friendsOnline[this.chosenPageFriends*this.elementsPerPageFriends+i]].setThumbProfilePicture());
+						StartCoroutine(model.users[this.friendsToBeDisplayed[this.chosenPageFriends*this.elementsPerPageFriends+i]].setThumbProfilePicture());
 					}
 					allPicturesLoaded=false;
 				}
 				this.friendsDisplayed.Add (this.chosenPageFriends*this.elementsPerPageFriends+i);
-				this.friends[i].GetComponent<OnlineFriendController>().u=model.users[this.friendsOnline[this.chosenPageFriends*this.elementsPerPageFriends+i]];
+				this.friends[i].GetComponent<OnlineFriendController>().u=model.users[this.friendsToBeDisplayed[this.chosenPageFriends*this.elementsPerPageFriends+i]];
 				this.friends[i].GetComponent<OnlineFriendController>().show();
 				if(!this.isCardFocusedDisplayed)
 				{
@@ -1297,7 +1299,7 @@ public class NewHomePageController : Photon.MonoBehaviour
 		this.nbPagesNotifications = Mathf.CeilToInt((float)model.notifications.Count / ((float)this.elementsPerPageNotifications));
 		if(this.nbPagesNotifications>1)
 		{
-			this.nbPaginationButtonsLimitNotifications = Mathf.CeilToInt((2.9f)/(paginationButtonWidth+gapBetweenPaginationButton));
+			this.nbPaginationButtonsLimitNotifications = Mathf.CeilToInt((2.4f)/(paginationButtonWidth+gapBetweenPaginationButton));
 			int nbButtonsToDraw=0;
 			bool drawBackButton=false;
 			if (this.pageDebutNotifications !=0)
@@ -1380,7 +1382,7 @@ public class NewHomePageController : Photon.MonoBehaviour
 		this.nbPagesNews = Mathf.CeilToInt((float)model.news.Count / ((float)this.elementsPerPageNews));
 		if(this.nbPagesNews>1)
 		{
-			this.nbPaginationButtonsLimitNews = Mathf.CeilToInt((2.9f)/(paginationButtonWidth+gapBetweenPaginationButton));
+			this.nbPaginationButtonsLimitNews = Mathf.CeilToInt((2.4f)/(paginationButtonWidth+gapBetweenPaginationButton));
 			int nbButtonsToDraw=0;
 			bool drawBackButton=false;
 			if (this.pageDebutNews !=0)
@@ -1460,10 +1462,10 @@ public class NewHomePageController : Photon.MonoBehaviour
 		this.activePaginationButtonIdFriends = -1;
 		float paginationButtonWidth = 0.34f;
 		float gapBetweenPaginationButton = 0.2f * paginationButtonWidth;
-		this.nbPagesFriends = Mathf.CeilToInt((float)this.friendsOnline.Count / ((float)this.elementsPerPageFriends));
+		this.nbPagesFriends = Mathf.CeilToInt((float)this.friendsToBeDisplayed.Count / ((float)this.elementsPerPageFriends));
 		if(this.nbPagesFriends>1)
 		{
-			this.nbPaginationButtonsLimitFriends = Mathf.CeilToInt((2.9f)/(paginationButtonWidth+gapBetweenPaginationButton));
+			this.nbPaginationButtonsLimitFriends = Mathf.CeilToInt((2.4f)/(paginationButtonWidth+gapBetweenPaginationButton));
 			int nbButtonsToDraw=0;
 			bool drawBackButton=false;
 			if (this.pageDebutFriends !=0)
@@ -1528,7 +1530,7 @@ public class NewHomePageController : Photon.MonoBehaviour
 			{
 				this.paginationButtonsFriends[this.activePaginationButtonIdFriends].GetComponent<HomePageFriendsPaginationController>().setActive(false);
 			}
-			this.activePaginationButtonIdNews=id;
+			this.activePaginationButtonIdFriends=id;
 			this.chosenPageFriends=this.pageDebutFriends-System.Convert.ToInt32(this.pageDebutFriends!=0)+id;
 			this.drawFriends();
 		}
@@ -1701,7 +1703,7 @@ public class NewHomePageController : Photon.MonoBehaviour
 		this.popUp.AddComponent<PopUpFriendHomePageController>();
 		this.popUp.GetComponent<PopUpFriendHomePageController> ().setIsFriend (true);
 		this.popUp.GetComponent<PopUpFriendHomePageController> ().setId (this.idFriendHovered);
-		this.popUp.GetComponent<PopUpFriendHomePageController> ().show (model.users [this.friendsOnline[this.friendsDisplayed[this.idFriendHovered]]]);
+		this.popUp.GetComponent<PopUpFriendHomePageController> ().show (model.users [this.friendsToBeDisplayed[this.friendsDisplayed[this.idFriendHovered]]]);
 		this.isPopUpDisplayed=true;
 	}
 	public void showPopUpCompetition()
@@ -1903,23 +1905,35 @@ public class NewHomePageController : Photon.MonoBehaviour
 				{
 					if(PhotonNetwork.Friends[i].IsInRoom)
 					{
-						model.users[j].OnlineStatus=2;
 						if(model.friends.Contains(j))
 						{
 							if(!this.friendsOnline.Contains(j))
 							{
 								this.friendsOnline.Insert(0,j);
+								model.users[j].OnlineStatus=2;
+							}
+							else if(model.users[j].OnlineStatus!=2)
+							{
+								this.friendsOnline.Remove(j);
+								this.friendsOnline.Insert(0,j);
+								model.users[j].OnlineStatus=2;
 							}
 						}
 					}
 					else if(PhotonNetwork.Friends[i].IsOnline)
 					{
-						model.users[j].OnlineStatus=1;
 						if(model.friends.Contains(j))
 						{
 							if(!this.friendsOnline.Contains(j))
 							{
 								this.friendsOnline.Insert(0,j);
+								model.users[j].OnlineStatus=1;
+							}
+							else if(model.users[j].OnlineStatus!=1)
+							{
+								this.friendsOnline.Remove(j);
+								this.friendsOnline.Insert(0,j);
+								model.users[j].OnlineStatus=1;
 							}
 						}
 					}
@@ -1931,9 +1945,24 @@ public class NewHomePageController : Photon.MonoBehaviour
 				}
 			}
 		}
-		if(this.chosenPageFriends == 0)
+		if(this.chosenPageFriends == 0 && !this.isCardFocusedDisplayed)
 		{
 			this.initializeFriends();
+		}
+	}
+	public void sortFriendsList()
+	{
+		this.friendsToBeDisplayed = new List<int> ();
+		for(int i=0;i<this.friendsOnline.Count;i++)
+		{
+			this.friendsToBeDisplayed.Add (this.friendsOnline[i]);
+		}
+		for(int i=0;i<model.friends.Count;i++)
+		{
+			if(!this.friendsToBeDisplayed.Contains(model.friends[i]))
+			{
+				this.friendsToBeDisplayed.Add(model.friends[i]);
+			}
 		}
 	}
 	public void sendInvitationHandler()
@@ -1942,7 +1971,7 @@ public class NewHomePageController : Photon.MonoBehaviour
 		{
 			this.displayErrorPopUp("Vous ne pouvez lancer de match sans avoir au préalable créé un deck");
 		}
-		else if(model.users [this.friendsOnline [this.friendsDisplayed [this.idFriendHovered]]].OnlineStatus!=1)
+		else if(model.users [this.friendsToBeDisplayed[this.friendsDisplayed[this.idFriendHovered]]].OnlineStatus!=1)
 		{
 			this.displayErrorPopUp("Votre adversaire n'est plus disponible");
 		}
@@ -1955,7 +1984,7 @@ public class NewHomePageController : Photon.MonoBehaviour
 	{
 		newMenuController.instance.displayLoadingScreen ();
 		yield return StartCoroutine (model.player.SetSelectedDeck (model.decks [this.deckDisplayed].Id));
-		StartCoroutine (newMenuController.instance.sendInvitation (model.users [this.friendsOnline [this.friendsDisplayed [this.idFriendHovered]]], model.player));
+		StartCoroutine (newMenuController.instance.sendInvitation (model.users [this.friendsToBeDisplayed[this.friendsDisplayed[this.idFriendHovered]]], model.player));
 	}
 	public void errorPopUpResize()
 	{
