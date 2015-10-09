@@ -518,7 +518,7 @@ public class newMenuController : MonoBehaviour
 	public void joinRandomRoomHandler()
 	{
 		this.displayLoadingScreen ();
-		if(ApplicationModel.gameType<=2)
+		if(ApplicationModel.gameType<=2 && !this.isTutorialLaunched)
 		{
 			this.displayLoadingScreenButton (true);
 			this.changeLoadingScreenLabel ("En attente de joueurs ...");

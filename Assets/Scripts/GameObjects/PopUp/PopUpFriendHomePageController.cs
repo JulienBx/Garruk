@@ -22,7 +22,7 @@ public class PopUpFriendHomePageController : PopUpController
 		if(u.OnlineStatus==0)
 		{
 			gameObject.transform.FindChild("invitationButton").gameObject.SetActive(false);
-			gameObject.transform.FindChild ("content").GetComponent<TextMeshPro> ().text = "n'est plus en ligne";
+			gameObject.transform.FindChild ("content").GetComponent<TextMeshPro> ().text = "n'est pas en ligne";
 		}
 		else if(u.OnlineStatus==1)
 		{

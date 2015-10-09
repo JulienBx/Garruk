@@ -1865,9 +1865,9 @@ public class newMyGameController : MonoBehaviour
 	{
 		newMenuController.instance.displayLoadingScreen ();
 		yield return StartCoroutine (model.player.setTutorialStep (3));
-		newMenuController.instance.setTutorialLaunched (false);
+		//newMenuController.instance.setTutorialLaunched (false);
 		ApplicationModel.launchGameTutorial = true;
 		ApplicationModel.gameType = 0;
-		Application.LoadLevel ("Game");
+		newMenuController.instance.joinRandomRoomHandler();
 	}
 }

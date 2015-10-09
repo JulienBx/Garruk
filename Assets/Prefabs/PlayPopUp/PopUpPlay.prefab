@@ -1790,7 +1790,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -669901963
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300022, guid: 4a716028edd7d465c8d29843d43b320a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!212 &21204708
@@ -1817,7 +1817,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -669901963
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300030, guid: 01c29fae0f15e4304959e90eb0ff2d05, type: 3}
+  m_Sprite: {fileID: 21300002, guid: f87f45bfff66c48dfbc370b7caf3e0c8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!212 &21214082
 SpriteRenderer:
@@ -1842,7 +1842,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -669901963
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300024, guid: 4a716028edd7d465c8d29843d43b320a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!212 &21215310
@@ -1869,7 +1869,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -669901963
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300030, guid: 01c29fae0f15e4304959e90eb0ff2d05, type: 3}
+  m_Sprite: {fileID: 21300002, guid: f87f45bfff66c48dfbc370b7caf3e0c8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!212 &21220830
 SpriteRenderer:
@@ -1895,7 +1895,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -669901963
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300030, guid: 01c29fae0f15e4304959e90eb0ff2d05, type: 3}
+  m_Sprite: {fileID: 21300002, guid: f87f45bfff66c48dfbc370b7caf3e0c8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!212 &21244946
 SpriteRenderer:
@@ -1947,7 +1947,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -669901963
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300030, guid: 01c29fae0f15e4304959e90eb0ff2d05, type: 3}
+  m_Sprite: {fileID: 21300002, guid: f87f45bfff66c48dfbc370b7caf3e0c8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!212 &21286456
 SpriteRenderer:
