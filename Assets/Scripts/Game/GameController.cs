@@ -196,7 +196,7 @@ public class GameController : Photon.MonoBehaviour
 				int amount = GameView.instance.getCard(this.currentPlayingCard).getPassiveManacost();
 				int amountAttack = Mathf.CeilToInt(GameView.instance.getCard(this.currentPlayingCard).GetAttack()*amount / 100f);
 				
-				GameView.instance.getCard(this.currentPlayingCard).addModifier(amountAttack, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, -1, 13, "Frénétique", "Permanent, +"+amountAttack+" ATK", "Permanent");
+				GameView.instance.getCard(this.currentPlayingCard).addModifier(amountAttack, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, -1, 20, "FRENESIE", "+"+amount+" ATK. Permanent.", "Permanent");
 				GameView.instance.show(this.currentPlayingCard, false);
 			}
 		}

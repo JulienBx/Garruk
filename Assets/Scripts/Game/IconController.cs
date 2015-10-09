@@ -40,7 +40,7 @@ public class IconController : GameObjectController
 		if(this.isActive){
 			if (!this.isHovered){	
 				Vector3 position = gameObject.transform.position;
-				position.y += 0.45f;
+				position.x -= 2.2f;
 				GameView.instance.displayPopUp(this.description, position, this.title);
 				this.isHovered = true ;
 			}

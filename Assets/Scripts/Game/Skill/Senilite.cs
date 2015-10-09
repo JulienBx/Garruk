@@ -88,7 +88,7 @@ public class Senilite : GameSkill
 				text+="-"+amount+" ATK";
 				receiversTexts.Add (text);
 				
-				GameController.instance.addCardModifier(target, -1*amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, -1, 5, "Affaibli", "-"+amount+" ATK. Permanent", "Permanent");
+				GameController.instance.addCardModifier(target, -1*amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, -1, 23, "SENILITE", "-"+amount+" ATK. Permanent", "Permanent");
 				
 				GameView.instance.displaySkillEffect(target, text, 5);
 			}	

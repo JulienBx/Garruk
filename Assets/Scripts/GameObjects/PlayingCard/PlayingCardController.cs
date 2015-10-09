@@ -44,7 +44,13 @@ public class PlayingCardController : GameObjectController
 		t.FindChild("LifeBar").GetComponent<SpriteRenderer>().enabled = false ;
 		t.FindChild("LifeBar").FindChild("PV").GetComponent<MeshRenderer>().enabled = false ;
 		t.FindChild("LifeBar").FindChild("PVValue").GetComponent<MeshRenderer>().enabled = false ;
-		t.FindChild("Icon0").GetComponent<SpriteRenderer>().enabled = false ;
+		t.FindChild("Icon1").GetComponent<SpriteRenderer>().enabled = false ;
+		t.FindChild("Icon1").FindChild("Effect1").GetComponent<SpriteRenderer>().enabled = false ;
+		t.FindChild("Icon2").GetComponent<SpriteRenderer>().enabled = false ;
+		t.FindChild("Icon2").FindChild("Effect2").GetComponent<SpriteRenderer>().enabled = false ;
+		t.FindChild("Icon3").GetComponent<SpriteRenderer>().enabled = false ;
+		t.FindChild("Icon3").FindChild("Effect3").GetComponent<SpriteRenderer>().enabled = false ;
+		
 		t.FindChild("PictoTR").GetComponent<SpriteRenderer>().enabled = false ;
 		t.FindChild("WaitTime").GetComponent<MeshRenderer>().enabled = false ;
 		
@@ -74,7 +80,12 @@ public class PlayingCardController : GameObjectController
 		t.FindChild("LifeBar").GetComponent<SpriteRenderer>().enabled = true ;
 		t.FindChild("LifeBar").FindChild("PV").GetComponent<MeshRenderer>().enabled = true ;
 		t.FindChild("LifeBar").FindChild("PVValue").GetComponent<MeshRenderer>().enabled = true ;
-		t.FindChild("Icon0").GetComponent<SpriteRenderer>().enabled = true ;
+		t.FindChild("Icon1").GetComponent<SpriteRenderer>().enabled = true ;
+		t.FindChild("Icon1").FindChild("Effect1").GetComponent<SpriteRenderer>().enabled = true ;
+		t.FindChild("Icon2").GetComponent<SpriteRenderer>().enabled = true ;
+		t.FindChild("Icon2").FindChild("Effect2").GetComponent<SpriteRenderer>().enabled = true ;
+		t.FindChild("Icon3").GetComponent<SpriteRenderer>().enabled = true ;
+		t.FindChild("Icon3").FindChild("Effect3").GetComponent<SpriteRenderer>().enabled = true ;
 		t.Find("AttackZone").FindChild("AttackValue").GetComponent<MeshRenderer>().enabled = true ;
 		
 		gameObject.GetComponent<BoxCollider>().enabled = true ;
@@ -88,14 +99,6 @@ public class PlayingCardController : GameObjectController
 		transform.FindChild("LifeBar").FindChild("PVValue").GetComponent<TextMeshPro>().text = c.GetLife()+"/"+c.Life;
 		
 		transform.Find("Life").GetComponent<SpriteRenderer>().sprite = this.lifebarSprites[1];
-		transform.Find("Icon0").GetComponent<SpriteRenderer>().sprite = this.iconSprites[0];
-		
-		if (c.isMine){
-			transform.Find("Art").GetComponent<SpriteRenderer>().sprite = this.backgroundSprites[this.card.ArtIndex];
-		}
-		else{
-			transform.Find("Art").GetComponent<SpriteRenderer>().sprite = this.backgroundSprites[this.card.ArtIndex+10];
-		}
 	}
 	
 	public void addTime(float t){
@@ -123,7 +126,15 @@ public class PlayingCardController : GameObjectController
 		t.FindChild("LifeBar").FindChild("PV").GetComponent<MeshRenderer>().sortingOrder = 14 ;
 		t.FindChild("LifeBar").FindChild("PVValue").GetComponent<MeshRenderer>().sortingOrder = 14 ;
 		
-		t.FindChild("Icon0").GetComponent<SpriteRenderer>().sortingOrder = 11 ;
+		t.FindChild("Icon1").GetComponent<SpriteRenderer>().sortingOrder = 11 ;
+		t.FindChild("Icon1").FindChild("Effect1").GetComponent<SpriteRenderer>().sortingOrder = 12 ;
+		
+		t.FindChild("Icon2").GetComponent<SpriteRenderer>().sortingOrder = 11 ;
+		t.FindChild("Icon2").FindChild("Effect2").GetComponent<SpriteRenderer>().sortingOrder = 12 ;
+		
+		t.FindChild("Icon3").GetComponent<SpriteRenderer>().sortingOrder = 11 ;
+		t.FindChild("Icon3").FindChild("Effect3").GetComponent<SpriteRenderer>().sortingOrder = 12 ;
+		
 		t.Find("AttackZone").FindChild("AttackValue").GetComponent<MeshRenderer>().sortingOrder = 14 ;
 		
 	}
@@ -141,7 +152,13 @@ public class PlayingCardController : GameObjectController
 		t.FindChild("LifeBar").FindChild("PV").GetComponent<MeshRenderer>().sortingOrder = 4 ;
 		t.FindChild("LifeBar").FindChild("PVValue").GetComponent<MeshRenderer>().sortingOrder = 4 ;
 		
-		t.FindChild("Icon0").GetComponent<SpriteRenderer>().sortingOrder = 2 ;
+		t.FindChild("Icon1").GetComponent<SpriteRenderer>().sortingOrder = 2 ;
+		t.FindChild("Icon1").FindChild("Effect1").GetComponent<SpriteRenderer>().sortingOrder = 2 ;
+		
+		t.FindChild("Icon2").GetComponent<SpriteRenderer>().sortingOrder = 2 ;
+		t.FindChild("Icon2").FindChild("Effect2").GetComponent<SpriteRenderer>().sortingOrder = 2 ;
+		t.FindChild("Icon3").GetComponent<SpriteRenderer>().sortingOrder = 2 ;
+		t.FindChild("Icon3").FindChild("Effect3").GetComponent<SpriteRenderer>().sortingOrder = 2 ;
 		t.Find("AttackZone").FindChild("AttackValue").GetComponent<MeshRenderer>().sortingOrder = 4 ;
 	}
 	
@@ -197,10 +214,19 @@ public class PlayingCardController : GameObjectController
 		
 		if (b){
 			transform.Find("Art").GetComponent<SpriteRenderer>().sprite = this.backgroundSprites[this.card.ArtIndex];
+			transform.FindChild("Icon1").GetComponent<SpriteRenderer>().sprite = this.iconSprites[1];
+			transform.FindChild("Icon2").GetComponent<SpriteRenderer>().sprite = this.iconSprites[1];
+			transform.FindChild("Icon3").GetComponent<SpriteRenderer>().sprite = this.iconSprites[1];
 		}
 		else{
 			transform.Find("Art").GetComponent<SpriteRenderer>().sprite = this.backgroundSprites[this.card.ArtIndex+10];
+			transform.FindChild("Icon1").GetComponent<SpriteRenderer>().sprite = this.iconSprites[2];
+			transform.FindChild("Icon2").GetComponent<SpriteRenderer>().sprite = this.iconSprites[2];
+			transform.FindChild("Icon3").GetComponent<SpriteRenderer>().sprite = this.iconSprites[2];
 		}
+		transform.FindChild("Icon1").GetComponent<SpriteRenderer>().enabled=false;
+		transform.FindChild("Icon2").GetComponent<SpriteRenderer>().enabled=false;
+		transform.FindChild("Icon3").GetComponent<SpriteRenderer>().enabled=false;
 	}
 	
 	public void OnMouseEnter(){
@@ -248,16 +274,67 @@ public class PlayingCardController : GameObjectController
 		this.updateAttack();
 		this.updateLife();
 		
-		int compteurIcones = 0;
+		int compteurIcones = 1;
 		
-		for (int i = 0; i < this.card.modifiers.Count && compteurIcones < 1; i++)
-		{
-			if (this.card.modifiers [i].idIcon > -1)
-			{
-				gameObject.transform.FindChild("Icon"+compteurIcones).GetComponent<SpriteRenderer>().sprite = this.iconSprites[this.card.modifiers [i].idIcon];
-				gameObject.transform.FindChild("Icon"+compteurIcones).GetComponent<IconController>().setInformation(this.card.modifiers [i].title, this.card.modifiers [i].description, this.card.modifiers [i].additionnalInfo);
-				compteurIcones++;
+		List<string> listeTextes = new List<string>();
+		string description = "";
+		int idIcon ;
+		
+		listeTextes = new List<string>();
+		idIcon = this.card.getIdIconEffect();
+		listeTextes = this.card.getIconEffect();
+		description = "";
+		if(listeTextes.Count>0){
+			gameObject.transform.FindChild("Icon"+compteurIcones).GetComponent<SpriteRenderer>().enabled = true;
+			gameObject.transform.FindChild("Icon"+compteurIcones).FindChild("Effect"+compteurIcones).GetComponent<SpriteRenderer>().enabled = true;
+			gameObject.transform.FindChild("Icon"+compteurIcones).FindChild("Effect"+compteurIcones).GetComponent<SpriteRenderer>().sprite = this.iconSprites[idIcon];
+			
+			gameObject.transform.FindChild("Icon"+compteurIcones).GetComponent<IconController>().setInformation(listeTextes[0], listeTextes[1], "");
+			compteurIcones++;
+		}
+		
+		listeTextes = new List<string>();
+		listeTextes = this.card.getIconMove();
+		if(listeTextes.Count>0){
+			description = "Déplacement de base : "+this.card.Move+"\n";
+			gameObject.transform.FindChild("Icon"+compteurIcones).GetComponent<SpriteRenderer>().enabled = true;
+			gameObject.transform.FindChild("Icon"+compteurIcones).FindChild("Effect"+compteurIcones).GetComponent<SpriteRenderer>().enabled = true;
+			gameObject.transform.FindChild("Icon"+compteurIcones).FindChild("Effect"+compteurIcones).GetComponent<SpriteRenderer>().sprite = this.iconSprites[11];
+			
+			for(int i = 0 ; i < listeTextes.Count ; i++){
+				description += "<b>"+listeTextes[i]+" : "+"</b>";
+				i++;
+				description += listeTextes[i]+"\n";
 			}
+			if (listeTextes.Count>0){
+				description += "---> TOTAL : "+this.card.GetMove();
+			}
+			gameObject.transform.FindChild("Icon"+compteurIcones).GetComponent<IconController>().setInformation("Déplacement", description, "");
+			compteurIcones++;
+		}
+		
+		listeTextes = new List<string>();
+		listeTextes = this.card.getIconShield();
+		description = "";
+		if(listeTextes.Count>0){
+			gameObject.transform.FindChild("Icon"+compteurIcones).GetComponent<SpriteRenderer>().enabled = true;
+			gameObject.transform.FindChild("Icon"+compteurIcones).FindChild("Effect"+compteurIcones).GetComponent<SpriteRenderer>().enabled = true;
+			
+			gameObject.transform.FindChild("Icon"+compteurIcones).FindChild("Effect"+compteurIcones).GetComponent<SpriteRenderer>().sprite = this.iconSprites[10];
+			
+			for(int i = 0 ; i < listeTextes.Count ; i++){
+				description += "<b>"+listeTextes[i]+" : "+"</b>";
+				i++;
+				description += listeTextes[i]+"\n";
+			}
+			gameObject.transform.FindChild("Icon"+compteurIcones).GetComponent<IconController>().setInformation("Protection", description, "");
+			compteurIcones++;
+		}
+		
+		for (int i = compteurIcones+1; i < 4 ; i++)
+		{
+			gameObject.transform.FindChild("Icon"+i).FindChild("Effect"+i).GetComponent<SpriteRenderer>().enabled = false;
+			gameObject.transform.FindChild("Icon"+i).GetComponent<SpriteRenderer>().enabled = false;
 		}
 		
 		this.showTR(showTR);
@@ -346,10 +423,20 @@ public class PlayingCardController : GameObjectController
 		
 		for (int i = this.card.modifiers.Count-1; i >= 0; i--)
 		{
+			if (this.card.modifiers [i].Duration > 1)
+			{
+				if(this.card.modifiers [i].Duration > 2){
+					this.card.modifiers [i].description.Replace(this.card.modifiers [i].Duration+" tours", (this.card.modifiers [i].Duration-1)+" tours");
+				}
+				else{
+					this.card.modifiers [i].description.Replace(this.card.modifiers [i].Duration+" tours", "1 tour");
+				}
+			}
 			if (this.card.modifiers [i].Duration > 0)
 			{
 				this.card.modifiers [i].Duration--;
 			}
+			
 			else if (this.card.modifiers [i].Duration == -2){
 				this.card.modifiers [i].Duration = 1;
 			}

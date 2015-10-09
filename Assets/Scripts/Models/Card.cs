@@ -225,6 +225,7 @@ public class Card
 	
 	#region Modifiers
 	public void addModifier(int amount, ModifierType type, ModifierStat stat, int duration, int idIcon, string t, string d, string a){
+		bool found ;
 		if (stat == ModifierStat.Stat_Dommage){
 			int i ;
 			for (i = 0 ; i < this.modifiers.Count ; i++){
@@ -242,6 +243,167 @@ public class Card
 					modifiers[this.modifiers.Count-1].Amount=0;
 				}
 			}
+		}
+		else if (idIcon == 1){
+			for (int j = this.modifiers.Count-1 ; j >= 0 ; j--){
+				if (modifiers[j].idIcon==1){
+					modifiers.RemoveAt(j) ; 
+				}
+			}
+			this.modifiers.Add(new StatModifier(amount, type, stat, duration, idIcon, t, d, a));
+		}
+		else if (idIcon == 2){
+			for (int j = this.modifiers.Count-1 ; j >= 0 ; j--){
+				if (modifiers[j].idIcon==2){
+					modifiers.RemoveAt(j) ; 
+				}
+			}
+			this.modifiers.Add(new StatModifier(amount, type, stat, duration, idIcon, t, d, a));
+		}
+		else if (idIcon == 13){
+			for (int j = this.modifiers.Count-1 ; j >= 0 ; j--){
+				if (modifiers[j].idIcon==13){
+					amount += modifiers[j].Amount;
+					modifiers.RemoveAt(j) ; 
+				}
+			}
+			this.modifiers.Add(new StatModifier(amount, type, stat, duration, idIcon, t, "+"+amount+" MOV. Permanent", a));
+		}
+		else if (idIcon == 14){
+			for (int j = this.modifiers.Count-1 ; j >= 0 ; j--){
+				if (modifiers[j].idIcon==14){
+					amount += modifiers[j].Amount;
+					modifiers.RemoveAt(j) ; 
+				}
+			}
+			this.modifiers.Add(new StatModifier(amount, type, stat, duration, idIcon, t, "-"+amount+" MOV. Permanent", a));
+		}
+		else if (idIcon == 15){
+			for (int j = this.modifiers.Count-1 ; j >= 0 ; j--){
+				if (modifiers[j].idIcon==15){
+					amount += modifiers[j].Amount;
+					modifiers.RemoveAt(j) ; 
+				}
+			}
+			this.modifiers.Add(new StatModifier(amount, type, stat, duration, idIcon, t, "+"+amount+" ATK. Permanent", a));
+		}
+		else if (idIcon == 16){
+			for (int j = this.modifiers.Count-1 ; j >= 0 ; j--){
+				if (modifiers[j].idIcon==16){
+					amount += modifiers[j].Amount;
+					modifiers.RemoveAt(j) ; 
+				}
+			}
+			this.modifiers.Add(new StatModifier(amount, type, stat, duration, idIcon, t, "+"+amount+" ATK. Permanent", a));
+		}
+		else if (idIcon == 17){
+			for (int j = this.modifiers.Count-1 ; j >= 0 ; j--){
+				if (modifiers[j].idIcon==17){
+					amount += modifiers[j].Amount;
+					modifiers.RemoveAt(j) ; 
+				}
+			}
+			this.modifiers.Add(new StatModifier(amount, type, stat, duration, idIcon, t, "+"+amount+" PV. Actif tant que le leader est en vie", a));
+		}
+		
+		else if (idIcon == 20){
+			for (int j = this.modifiers.Count-1 ; j >= 0 ; j--){
+				if (modifiers[j].idIcon==20){
+					amount += modifiers[j].Amount;
+					modifiers.RemoveAt(j) ; 
+				}
+			}
+			this.modifiers.Add(new StatModifier(amount, type, stat, duration, idIcon, t, "+"+amount+" ATK. Permanent", a));
+		}
+		
+		else if (idIcon == 22){
+			for (int j = this.modifiers.Count-1 ; j >= 0 ; j--){
+				if (modifiers[j].idIcon==22){
+					amount += modifiers[j].Amount;
+					modifiers.RemoveAt(j) ; 
+				}
+			}
+			this.modifiers.Add(new StatModifier(amount, type, stat, duration, idIcon, t, "-"+amount+" ATK. Permanent", a));
+		}
+		
+		else if (idIcon == 23){
+			for (int j = this.modifiers.Count-1 ; j >= 0 ; j--){
+				if (modifiers[j].idIcon==23){
+					amount += modifiers[j].Amount;
+					modifiers.RemoveAt(j) ; 
+				}
+			}
+			this.modifiers.Add(new StatModifier(amount, type, stat, duration, idIcon, t, "-"+amount+" ATK. Permanent", a));
+		}
+		else if (idIcon == 24){
+			for (int j = this.modifiers.Count-1 ; j >= 0 ; j--){
+				if (modifiers[j].idIcon==24){
+					amount += modifiers[j].Amount;
+					modifiers.RemoveAt(j) ; 
+				}
+			}
+			this.modifiers.Add(new StatModifier(amount, type, stat, duration, idIcon, t, "-"+amount+" ATK. Permanent", a));
+		}
+		else if (idIcon == 25){
+			for (int j = this.modifiers.Count-1 ; j >= 0 ; j--){
+				if (modifiers[j].idIcon==25){
+					amount += modifiers[j].Amount;
+					modifiers.RemoveAt(j) ; 
+				}
+			}
+			this.modifiers.Add(new StatModifier(amount, type, stat, duration, idIcon, t, "+"+amount+" ATK. Permanent", a));
+		}
+		else if (idIcon == 26){
+			for (int j = this.modifiers.Count-1 ; j >= 0 ; j--){
+				if (modifiers[j].idIcon==26){
+					amount += modifiers[j].Amount;
+					modifiers.RemoveAt(j) ; 
+				}
+			}
+			this.modifiers.Add(new StatModifier(amount, type, stat, duration, idIcon, t, "-"+amount+" ATK. Permanent", a));
+		}
+		else if (idIcon == 27){
+			for (int j = this.modifiers.Count-1 ; j >= 0 ; j--){
+				if (modifiers[j].idIcon==27){
+					amount += modifiers[j].Amount;
+					modifiers.RemoveAt(j) ; 
+				}
+			}
+			this.modifiers.Add(new StatModifier(amount, type, stat, duration, idIcon, t, "+"+amount+" ATK. Permanent", a));
+		}
+		else if (idIcon == 28){
+			for (int j = this.modifiers.Count-1 ; j >= 0 ; j--){
+				if (modifiers[j].idIcon==28){
+					modifiers.RemoveAt(j) ; 
+				}
+			}
+			this.modifiers.Add(new StatModifier(amount, type, stat, duration, idIcon, t, "+"+amount+" ATK. Actif tant que le leader est en vie", a));
+		}
+		else if (idIcon == 30){
+			for (int j = this.modifiers.Count-1 ; j >= 0 ; j--){
+				if (modifiers[j].idIcon==30){
+					amount += modifiers[j].Amount;
+					modifiers.RemoveAt(j) ; 
+				}
+			}
+			this.modifiers.Add(new StatModifier(amount, type, stat, duration, idIcon, t, "+"+amount+" PV. Permanent", a));
+		}
+		else if (idIcon == 31){
+			for (int j = this.modifiers.Count-1 ; j >= 0 ; j--){
+				if (modifiers[j].idIcon==31){
+					amount += modifiers[j].Amount;
+					modifiers.RemoveAt(j) ; 
+				}
+			}
+			this.modifiers.Add(new StatModifier(amount, type, stat, duration, idIcon, t, "+"+amount+" PV. Permanent", a));
+		}
+		else if (idIcon == 51 || idIcon == 52 || idIcon == 53 || idIcon == 54){
+			for (int j = this.modifiers.Count-1 ; j >= 0 ; j--){
+				if (modifiers[j].idIcon==51 || modifiers[j].idIcon==52 || modifiers[j].idIcon==53 || modifiers[j].idIcon==54){
+					modifiers.RemoveAt(j) ; 
+				}
+			}
+			this.modifiers.Add(new StatModifier(amount, type, stat, duration, idIcon, t, "+"+amount+" PV. Permanent", a));
 		}
 		else if(stat == ModifierStat.Stat_Speed || stat == ModifierStat.Stat_Move){
 			if(type==ModifierType.Type_BonusMalus && duration == -1 && idIcon!=4){
@@ -603,6 +765,101 @@ public class Card
 			i++;
 		}
 		return isParalyzed;
+	}
+	
+	public List<string> getIconAttack()
+	{
+		List<string> iconAttackTexts = new List<string>();
+		int i = 0;
+		while (i < this.modifiers.Count)
+		{
+			if (this.modifiers [i].idIcon == 16 || this.modifiers [i].idIcon == 18 || this.modifiers [i].idIcon == 19 || this.modifiers [i].idIcon == 20 || this.modifiers [i].idIcon == 22 || this.modifiers [i].idIcon == 23 || this.modifiers [i].idIcon == 24 || this.modifiers [i].idIcon == 25 || this.modifiers [i].idIcon == 26 || this.modifiers [i].idIcon == 27 || this.modifiers [i].idIcon == 28)
+			{
+				iconAttackTexts.Add(this.modifiers [i].title);
+				iconAttackTexts.Add(this.modifiers [i].description);
+			}
+			i++;
+		}
+		return iconAttackTexts;
+	}
+	
+	public List<string> getIconLife()
+	{
+		List<string> iconLifeTexts = new List<string>();
+		int i = 0;
+		while (i < this.modifiers.Count)
+		{
+			if (this.modifiers [i].idIcon == 30 || this.modifiers [i].idIcon == 31 || this.modifiers [i].idIcon == 17)
+			{
+				iconLifeTexts.Add(this.modifiers [i].title);
+				iconLifeTexts.Add(this.modifiers [i].description);
+			}
+			i++;
+		}
+		return iconLifeTexts;
+	}
+	
+	public List<string> getIconMove()
+	{
+		List<string> iconMoveTexts = new List<string>();
+		int i = 0;
+		while (i < this.modifiers.Count)
+		{
+			if (this.modifiers [i].idIcon == 11 || this.modifiers [i].idIcon == 12 || this.modifiers [i].idIcon == 13 || this.modifiers [i].idIcon == 14 || this.modifiers [i].idIcon == 15 || this.modifiers [i].idIcon == 16)
+			{
+				iconMoveTexts.Add(this.modifiers [i].title);
+				iconMoveTexts.Add(this.modifiers [i].description);
+			}
+			i++;
+		}
+		return iconMoveTexts;
+	}
+	
+	public List<string> getIconShield()
+	{
+		List<string> iconMoveTexts = new List<string>();
+		int i = 0;
+		while (i < this.modifiers.Count)
+		{
+			if (this.modifiers [i].idIcon == 1 || this.modifiers [i].idIcon == 2)
+			{
+				iconMoveTexts.Add(this.modifiers [i].title);
+				iconMoveTexts.Add(this.modifiers [i].description);
+			}
+			i++;
+		}
+		return iconMoveTexts;
+	}
+	
+	public List<string> getIconEffect()
+	{
+		List<string> iconMoveTexts = new List<string>();
+		int i = 0;
+		while (i < this.modifiers.Count)
+		{
+			if (this.modifiers [i].idIcon == 51 || this.modifiers [i].idIcon == 52 || this.modifiers [i].idIcon == 53 || this.modifiers [i].idIcon == 54)
+			{
+				iconMoveTexts.Add(this.modifiers [i].title);
+				iconMoveTexts.Add(this.modifiers [i].description);
+			}
+			i++;
+		}
+		return iconMoveTexts;
+	}
+	
+	public int getIdIconEffect()
+	{
+		int idIcon = -1 ;
+		int i = 0;
+		while (i < this.modifiers.Count)
+		{
+			if (this.modifiers [i].idIcon == 0)
+			{
+				idIcon = this.modifiers [i].idIcon;
+			}
+			i++;
+		}
+		return idIcon;
 	}
 	
 	public bool isFurious()

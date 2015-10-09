@@ -11,8 +11,18 @@ public class PVPictoController : MonoBehaviour
 	public void OnMouseEnter(){
 		if (!isHovered){
 			Vector3 position = gameObject.transform.position;
-			position.x -= 1.2f;
-			GameView.instance.displayPopUp("Le héros meurt quand son total de PV atteint 0", position, "Points de vie");
+			position.x -= 2f;
+			string description = "PV de base : "+GameView.instance.getCard(this.idCard).Life+"\n";
+			List<string> textes = GameView.instance.getCard(this.idCard).getIconLife();
+			for(int i = 0 ; i < textes.Count ; i++){
+				description += "<b>"+textes[i]+" : "+"</b>";
+				i++;
+				description += textes[i]+"\n";
+			}
+			if (textes.Count>0){
+				description += "---> TOTAL : "+GameView.instance.getCard(this.idCard).GetTotalLife();
+			}
+			GameView.instance.displayPopUp(description, position, "Points de vie");
 			this.isHovered = true ;
 		}
 	}

@@ -47,7 +47,7 @@ public class PiegeAffaiblissant : GameSkill
 	
 	public override void activateTrap(int[] targets, int[] args){
 		int amount = args[0]*GameView.instance.getCard(targets[0]).GetAttack()/100;
-		GameController.instance.addCardModifier(targets[0], -1*amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, 2, 5, "Parapiège", "Attaque diminuée de "+amount, "Actif 2 tours");
+		GameController.instance.addCardModifier(targets[0], -1*amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, 2, 19, "AFFAIBLISSEMENT", "-"+amount+" ATK. Actif 2 tours", "Actif 2 tours");
 		GameView.instance.displaySkillEffect(targets[0], "PIEGE\n-"+amount+" ATK", 5);
 	}
 	

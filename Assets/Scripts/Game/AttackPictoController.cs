@@ -11,8 +11,19 @@ public class AttackPictoController : MonoBehaviour
 	public void OnMouseEnter(){
 		if (!isHovered){
 			Vector3 position = gameObject.transform.position;
-			position.y += 0.65f;
-			GameView.instance.displayPopUp("Le héros inflige "+GameView.instance.getCard(idCard).GetAttack()+" dégats de base à chaque attaque", position, "Attaque");
+			position.x -= 2f;
+			string description = "Attaque de base : "+GameView.instance.getCard(this.idCard).Attack+"\n";
+			List<string> textes = GameView.instance.getCard(this.idCard).getIconAttack();
+			for(int i = 0 ; i < textes.Count ; i++){
+				description += "<b>"+textes[i]+" : "+"</b>";
+				i++;
+				description += textes[i]+"\n";
+			}
+			if (textes.Count>0){
+				description += "---> TOTAL : "+GameView.instance.getCard(this.idCard).GetAttack();
+			}
+			
+			GameView.instance.displayPopUp(description, position, "Attaque");
 			this.isHovered = true ;
 		}
 	}

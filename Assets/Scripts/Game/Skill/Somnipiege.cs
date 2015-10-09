@@ -46,7 +46,7 @@ public class Somnipiege : GameSkill
 	}
 	
 	public override void activateTrap(int[] targets, int[] args){
-		GameController.instance.addCardModifier(targets[0], args[0], ModifierType.Type_Sleeping, ModifierStat.Stat_No, -1, 12, "Endormi", "Le héros ne peut ni se déplacer ni agir", args[0]+"% réveil / tour");
+		GameController.instance.addCardModifier(targets[0], args[0], ModifierType.Type_Sleeping, ModifierStat.Stat_No, -1, 53, "ENDORMI", "Le héros est endormi et possède "+args[0]+"% de chances de se réveiller à chaque tour", "");
 		GameView.instance.displaySkillEffect(targets[0], "PIEGE\nS'endort", 5);
 	}
 	

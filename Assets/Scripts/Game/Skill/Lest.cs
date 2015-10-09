@@ -88,7 +88,7 @@ public class Lest : GameSkill
 				text="-"+amount+" MOV";
 				receiversTexts.Add (text);
 				
-				GameController.instance.addCardModifier(target, -1*amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Move, 1, 8, "Lenteur", "-"+amount+" MOV pour 1 tour", "Actif 1 tour");
+				GameController.instance.addCardModifier(target, -1*amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Move, 1, 12, "LEST", "-"+amount+" MOV. Actif 1 tour", "");
 				
 				GameView.instance.displaySkillEffect(target, text, 5);
 			}	

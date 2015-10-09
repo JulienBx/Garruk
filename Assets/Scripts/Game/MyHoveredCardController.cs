@@ -226,6 +226,36 @@ public class MyHoveredCardController : MonoBehaviour
 		gameObject.transform.FindChild("MyMainDescription").FindChild("MyCarac").FindChild("MyLifeText").GetComponent<TextMeshPro>().text = ""+c.GetLifeString();
 		gameObject.transform.FindChild("MyMainDescription").FindChild("MyCarac").FindChild("MyHasteText").GetComponent<TextMeshPro>().text = ""+c.GetMoveString();
 		
+		if(c.GetMove()>c.Move){
+			gameObject.transform.FindChild("MyMainDescription").FindChild("MyCarac").FindChild("MyHasteText").GetComponent<TextMeshPro>().color = Color.green;
+		}
+		else if(c.GetMove()<c.Move){
+			gameObject.transform.FindChild("MyMainDescription").FindChild("MyCarac").FindChild("MyHasteText").GetComponent<TextMeshPro>().color = Color.red;
+		}
+		else{
+			gameObject.transform.FindChild("MyMainDescription").FindChild("MyCarac").FindChild("MyHasteText").GetComponent<TextMeshPro>().color = Color.white;
+		}
+		
+		if(c.GetAttack()>c.Attack){
+			gameObject.transform.FindChild("MyMainDescription").FindChild("MyCarac").FindChild("MyAttackText").GetComponent<TextMeshPro>().color = Color.green;
+		}
+		else if(c.GetAttack()<c.Attack){
+			gameObject.transform.FindChild("MyMainDescription").FindChild("MyCarac").FindChild("MyAttackText").GetComponent<TextMeshPro>().color = Color.red;
+		}
+		else{
+			gameObject.transform.FindChild("MyMainDescription").FindChild("MyCarac").FindChild("MyAttackText").GetComponent<TextMeshPro>().color = Color.white;
+		}
+		
+		if(c.GetLife()>c.Life){
+			gameObject.transform.FindChild("MyMainDescription").FindChild("MyCarac").FindChild("MyLifeText").GetComponent<TextMeshPro>().color = Color.green;
+		}
+		else if(c.GetLife()<c.Life){
+			gameObject.transform.FindChild("MyMainDescription").FindChild("MyCarac").FindChild("MyLifeText").GetComponent<TextMeshPro>().color = Color.red;
+		}
+		else{
+			gameObject.transform.FindChild("MyMainDescription").FindChild("MyCarac").FindChild("MyLifeText").GetComponent<TextMeshPro>().color = Color.white;
+		}
+		
 		if(c.getSkills()[0].Level==1){
 			gameObject.transform.FindChild("MyMainDescription").FindChild("MyPassiveSkill").FindChild("MySpecialiteCristal").GetComponent<SpriteRenderer>().color=new Color(255f/255f,255f/255f,255f/255f, 1f);
 		}

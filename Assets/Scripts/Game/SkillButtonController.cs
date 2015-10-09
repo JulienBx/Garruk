@@ -66,13 +66,13 @@ public class SkillButtonController : MonoBehaviour
 			if(this.isLaunchable){
 				gameObject.GetComponent<SpriteRenderer>().color=new Color(120/255f,120f/255f,1f, 1f);
 				Vector3 position = gameObject.transform.position;
-				position.y += 0.65f;
+				position.y += 1.65f;
 				GameView.instance.displayPopUp(this.skill.Description, position, this.skill.Name);
 				this.isHovered = true ;
 			}
 			else{
 				Vector3 position = gameObject.transform.position;
-				position.y += 0.65f;
+				position.y += 1.65f;
 				GameView.instance.displayPopUp(this.launchabilityText, position, "Indisponible");
 				this.isHovered = true ;
 			}

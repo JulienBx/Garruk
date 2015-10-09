@@ -100,7 +100,7 @@ public class Adrenaline : GameSkill
 				
 				receiversTexts.Add (text);
 				
-				GameController.instance.addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Move, 1, 11, "Rapidité", "+"+amount+" MOV pour 1 tour", "Actif 1 tour");
+				GameController.instance.addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Move, 1, 11, "ADRENALINE", "+"+amount+" MOV pour 1 tour", "Actif 1 tour");
 				
 				GameView.instance.displaySkillEffect(target, text, 5);
 			}	

@@ -224,7 +224,38 @@ public class HisHoveredCardController : MonoBehaviour
 		
 		gameObject.transform.FindChild("HisMainDescription").FindChild("HisCarac").FindChild("HisAttackText").GetComponent<TextMeshPro>().text = ""+c.GetAttackString();
 		gameObject.transform.FindChild("HisMainDescription").FindChild("HisCarac").FindChild("HisLifeText").GetComponent<TextMeshPro>().text = ""+c.GetLifeString();
-		gameObject.transform.FindChild("HisMainDescription").FindChild("HisCarac").FindChild("HisHasteText").GetComponent<TextMeshPro>().text = ""+c.GetSpeedString();
+		
+		gameObject.transform.FindChild("HisMainDescription").FindChild("HisCarac").FindChild("HisHasteText").GetComponent<TextMeshPro>().text = ""+c.GetMoveString();
+		
+		if(c.GetMove()>c.Move){
+			gameObject.transform.FindChild("HisMainDescription").FindChild("HisCarac").FindChild("HisHasteText").GetComponent<TextMeshPro>().color = Color.green;
+		}
+		else if(c.GetMove()<c.Move){
+			gameObject.transform.FindChild("HisMainDescription").FindChild("HisCarac").FindChild("HisHasteText").GetComponent<TextMeshPro>().color = Color.red;
+		}
+		else{
+			gameObject.transform.FindChild("HisMainDescription").FindChild("HisCarac").FindChild("HisHasteText").GetComponent<TextMeshPro>().color = Color.white;
+		}
+		
+		if(c.GetAttack()>c.Attack){
+			gameObject.transform.FindChild("HisMainDescription").FindChild("HisCarac").FindChild("HisAttackText").GetComponent<TextMeshPro>().color = Color.green;
+		}
+		else if(c.GetAttack()<c.Attack){
+			gameObject.transform.FindChild("HisMainDescription").FindChild("HisCarac").FindChild("HisAttackText").GetComponent<TextMeshPro>().color = Color.red;
+		}
+		else{
+			gameObject.transform.FindChild("HisMainDescription").FindChild("HisCarac").FindChild("HisAttackText").GetComponent<TextMeshPro>().color = Color.white;
+		}
+		
+		if(c.GetLife()>c.Life){
+			gameObject.transform.FindChild("HisMainDescription").FindChild("HisCarac").FindChild("HisLifeText").GetComponent<TextMeshPro>().color = Color.green;
+		}
+		else if(c.GetLife()<c.Life){
+			gameObject.transform.FindChild("HisMainDescription").FindChild("HisCarac").FindChild("HisLifeText").GetComponent<TextMeshPro>().color = Color.red;
+		}
+		else{
+			gameObject.transform.FindChild("HisMainDescription").FindChild("HisCarac").FindChild("HisLifeText").GetComponent<TextMeshPro>().color = Color.white;
+		}
 		
 		if(c.getSkills()[0].Level==1){
 			gameObject.transform.FindChild("HisMainDescription").FindChild("HisPassiveSkill").FindChild("HisSpecialiteCristal").GetComponent<SpriteRenderer>().color=new Color(255f/255f,255f/255f,255f/255f, 1f);

@@ -564,15 +564,15 @@ public class GameView : MonoBehaviour
 			int amountLife = Mathf.CeilToInt(this.getCard(index).GetLife()*amount / 100f);
 			int amountAttack = Mathf.CeilToInt(amount * this.getCard(index).GetAttack() / 100f);
 			
-			this.getCard(index).addModifier(1*amountLife, ModifierType.Type_BonusMalus, ModifierStat.Stat_Life, -1, -1, "", "", "");
-			this.getCard(index).addModifier(-1*amountAttack, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, -1, 3, "Pacifiste", "+"+amountLife+" PV MAX\n-"+amountAttack+" ATK", "Permanent");
+			this.getCard(index).addModifier(1*amountLife, ModifierType.Type_BonusMalus, ModifierStat.Stat_Life, -1, 31, "PACIFISTE", "+"+amountLife+" PV. Permanent.", "");
+			this.getCard(index).addModifier(-1*amountAttack, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, -1, 24, "PACIFISTE", "-"+amountAttack+" ATK. Permanent.", "");
 			this.playingCards [index].GetComponentInChildren<PlayingCardController>().show(false);
 		}
 		else if(this.getCard(index).isAguerri()){
 			int amount = this.getCard(index).getPassiveManacost();
 			int amountAttack = Mathf.CeilToInt(this.getCard(index).GetAttack()*amount / 100f);
 			
-			this.getCard(index).addModifier(amountAttack, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, -1, 9, "Aguerri", "Permanent, +"+amountAttack+" ATK", "Permanent");
+			this.getCard(index).addModifier(amountAttack, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, -1, 25, "AGUERRI", "+"+amountAttack+" ATK. Permanent.", "");
 			this.playingCards [index].GetComponentInChildren<PlayingCardController>().show(false);
 		}
 		else if(this.getCard(index).isRapide()){
@@ -580,8 +580,8 @@ public class GameView : MonoBehaviour
 			int amountMove = Mathf.CeilToInt(this.getCard(index).GetMove()*amount / 100f);
 			int amountAttack = Mathf.CeilToInt(this.getCard(index).GetAttack()*amount / 100f);
 			
-			this.getCard(index).addModifier(-1*amountAttack, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, -1, 11, "Rapide", "Permanent, +"+amountMove+" MOV et -"+amountAttack+" ATK", "Permanent");
-			this.getCard(index).addModifier(amountMove, ModifierType.Type_BonusMalus, ModifierStat.Stat_Move, -1, -1, "", "", "");
+			this.getCard(index).addModifier(-1*amountAttack, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, -1, 26, "RAPIDE", "-"+amountAttack+" ATK. Permanent.", "");
+			this.getCard(index).addModifier(amountMove, ModifierType.Type_BonusMalus, ModifierStat.Stat_Move, -1, 13, "RAPIDE", "+"+amountMove+" ATK. Permanent.", "");
 			
 			this.playingCards [index].GetComponentInChildren<PlayingCardController>().show(false);
 		}
@@ -590,8 +590,8 @@ public class GameView : MonoBehaviour
 			int amountMove = Mathf.CeilToInt(this.getCard(index).GetMove()*amount / 100f);
 			int amountAttack = Mathf.CeilToInt(this.getCard(index).GetAttack()*amount / 100f);
 			
-			this.getCard(index).addModifier(amountAttack, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, -1, 11, "Robuste", "Permanent, -"+amountMove+" MOV et +"+amountAttack+" ATK", "Permanent");
-			this.getCard(index).addModifier(-amountMove, ModifierType.Type_BonusMalus, ModifierStat.Stat_Move, -1, -1, "", "", "");
+			this.getCard(index).addModifier(amountAttack, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, -1, 27, "RAPIDE", "+"+amountAttack+" ATK. Permanent.", "Permanent");
+			this.getCard(index).addModifier(-amountMove, ModifierType.Type_BonusMalus, ModifierStat.Stat_Move, -1, 14, "RAPIDE", "-"+amountMove+" MOV. Permanent.", "");
 			
 			this.playingCards [index].GetComponentInChildren<PlayingCardController>().show(false);
 		}
@@ -616,7 +616,7 @@ public class GameView : MonoBehaviour
 		}
 		else if(this.getCard(index).isAgile()){
 			int amount = this.getCard(index).getPassiveManacost();
-			this.getCard(index).addModifier(amount, ModifierType.Type_EsquivePercentage, ModifierStat.Stat_No, -1, 1, "Esquive", amount+"% de chances d'esquiver les attaques au contact", "Permanent");
+			this.getCard(index).addModifier(amount, ModifierType.Type_EsquivePercentage, ModifierStat.Stat_No, -1, 1, "AGILITE", "Peut esquiver les dégats, Probabilité : "+amount+"%. Permanent.", "Permanent");
 			this.playingCards [index].GetComponentInChildren<PlayingCardController>().show(false);
 		}
 	}
@@ -1130,7 +1130,6 @@ public class GameView : MonoBehaviour
 	}
 	
 	public void setDestinations(int i, bool b){
-		print ("Je set ");
 		bool[,] hasBeenPassages = new bool[this.boardWidth, this.boardHeight];
 		bool[,] isDestination = new bool[this.boardWidth, this.boardHeight];
 		
@@ -1950,8 +1949,8 @@ public class GameView : MonoBehaviour
 							if (this.getIsMine(j)==mine){
 								int amountLife = Mathf.CeilToInt(amount*this.getCard(j).GetTotalLife()/100f);
 								int amountAttack = Mathf.CeilToInt(amount*this.getCard(j).GetAttack()/100f);
-								this.getCard(j).addModifier(amountLife, ModifierType.Type_BonusMalus, ModifierStat.Stat_Life, -1, -4, "", "", "");
-								this.getCard(j).addModifier(amountAttack, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, -1, 4, "Leader actif", "Le leader confère +"+amountAttack+" ATK et +"+amountLife+" PV au héros", "Jusqu'à la mort du leader");
+								this.getCard(j).addModifier(amountLife, ModifierType.Type_BonusMalus, ModifierStat.Stat_Life, -1, 17, "LEADER ACTIF", "+"+amountLife+"PV. Tant que le leader est en vie.", "");
+								this.getCard(j).addModifier(amountAttack, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, -1, 28, "LEADER ACTIF", "+"+amountAttack+"ATK. Tant que le leader est en vie.", "");
 								this.show (j, false);
 							}
 						}

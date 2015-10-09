@@ -68,8 +68,8 @@ public class Cannibale : GameSkill
 				GameView.instance.displaySkillEffect(target, text, 5);
 				
 				targetCard = GameView.instance.getCard(GameController.instance.getCurrentPlayingCard());
-				GameController.instance.addCardModifier(GameController.instance.getCurrentPlayingCard(), amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Life, -1, -1, "", "", "");
-				GameController.instance.addCardModifier(GameController.instance.getCurrentPlayingCard(), amount2, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, -1, -1, "", "", "");
+				GameController.instance.addCardModifier(GameController.instance.getCurrentPlayingCard(), amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Life, -1, 30, "CANNIBALE", "Ajoute"+amount+" PV. Permanent", "");
+				GameController.instance.addCardModifier(GameController.instance.getCurrentPlayingCard(), amount2, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, -1, 16, "CANNIBALE", "Ajoute"+amount2+" ATK. Permanent", "");
 				receivers.Add (targetCard);
 				text="+"+amount+" PV\n+"+amount2+" ATK";
 				receiversTexts.Add (text);

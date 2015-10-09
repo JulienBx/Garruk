@@ -24,7 +24,7 @@ public class Agilite : GameSkill
 		List<Card> receivers =  new List<Card>();
 		List<string> receiversTexts =  new List<string>();
 		
-		GameController.instance.addCardModifier(target, esquive, ModifierType.Type_EsquivePercentage, ModifierStat.Stat_No, -1, 1, "Esquive", esquive+"% de chances d'esquiver les attaques. Permanent", "Permanent");
+		GameController.instance.addCardModifier(target, esquive, ModifierType.Type_EsquivePercentage, ModifierStat.Stat_No, -1, 1, "AGILITE", "Peut esquiver les dégats, Probabilité : "+esquive+"%. Permanent.", "Permanent");
 		
 		string text = "+"+esquive+"% esquive";
 		GameView.instance.displaySkillEffect(target, text, 4);

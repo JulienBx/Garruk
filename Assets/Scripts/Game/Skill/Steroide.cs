@@ -89,7 +89,7 @@ public class Steroide : GameSkill
 				text+="+"+amount+" ATK";
 				receiversTexts.Add (text);
 				
-				GameController.instance.addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, -1, 5, "Renforcé", "+"+amount+" ATK. Permanent", "Permanent");
+				GameController.instance.addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, -1, 22, "STEROIDE", "+"+amount+" ATK. Permanent", "Permanent");
 				
 				GameView.instance.displaySkillEffect(target, text, 5);
 			}	

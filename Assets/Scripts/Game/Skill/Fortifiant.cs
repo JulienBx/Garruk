@@ -92,7 +92,7 @@ public class Fortifiant : GameSkill
 				text+="+"+amount+" ATK";
 				receiversTexts.Add (text);
 				
-				GameController.instance.addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, 1, 9, "Renforcé", "+"+amount+" ATK pour 1 tour", "Actif 1 tour");
+				GameController.instance.addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, 1, 18, "FORTIFIE", "+"+amount+" ATK. Actif 1 tour", "Actif 1 tour");
 				
 				GameView.instance.displaySkillEffect(target, text, 5);
 			}	

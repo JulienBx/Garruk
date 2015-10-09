@@ -92,7 +92,7 @@ public class Renfoderme : GameSkill
 				text+="Renforcé";
 				receiversTexts.Add (text);
 				
-				GameController.instance.addCardModifier(target, amount, ModifierType.Type_Bouclier, ModifierStat.Stat_No, -1, 10, "Bouclier", "Dommages subis : -"+amount+"%", "Permanent");
+				GameController.instance.addCardModifier(target, amount, ModifierType.Type_Bouclier, ModifierStat.Stat_No, -1, 2, "BOUCLIER", "Protège de "+amount+"% des débats subis. Permanent.", "Permanent");
 				
 				GameView.instance.displaySkillEffect(target, text, 5);
 			}	

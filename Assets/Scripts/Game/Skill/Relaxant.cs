@@ -85,7 +85,7 @@ public class Relaxant : GameSkill
 				text+="-"+amount+" ATK";
 				receiversTexts.Add (text);
 				
-				GameController.instance.addCardModifier(target, -1*amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, 1, 5, "Affaibli", "-"+amount+" ATK pour 1 tour", "Actif 1 tour");
+				GameController.instance.addCardModifier(target, -1*amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, 1, 19, "AFFAIBLISSEMENT", "-"+amount+" ATK. Actif 1 tour", "");
 				
 				GameView.instance.displaySkillEffect(target, text, 5);
 			}	

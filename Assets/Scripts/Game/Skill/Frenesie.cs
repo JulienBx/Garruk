@@ -28,7 +28,7 @@ public class Frenesie : GameSkill
 		List<string> receiversTexts = new List<string>();
 		
 		GameController.instance.addCardModifier(target, amount2, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
-		GameController.instance.addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, -1, 9, "Frénésie", "+"+amount+" ATK", "Permanent");
+		GameController.instance.addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, -1, 20, "FRENESIE", "+"+amount+" ATK. Permanent.", "Permanent");
 		
 		string text = "+"+amount+" ATK\n-"+amount+" PV";
 		if(GameView.instance.getCard(target).GetLife()==amount2){

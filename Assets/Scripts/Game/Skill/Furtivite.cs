@@ -25,8 +25,8 @@ public class Furtivite : GameSkill
 		List<string> receiversTexts =  new List<string>();
 		string text = "Invisible\n+"+attackBonus+" ATK";
 		
-		GameController.instance.addCardModifier(target, 0, ModifierType.Type_Intouchable, ModifierStat.Stat_No, 2, 20, "Invisible", "Ne peut pas etre ciblé par une attaque ou compétence", "Actif 2 tours");
-		GameController.instance.addCardModifier(target, attackBonus, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, 2, 9, "Renforcement", "Attaque augmentée de "+attackBonus+" pour un tour", "Actif 2 tours");
+		GameController.instance.addCardModifier(target, 0, ModifierType.Type_Intouchable, ModifierStat.Stat_No, 2, 52, "INTOUCHABLE", "Ne peut pas etre ciblé par une attaque ou compétence", "Actif 2 tours");
+		GameController.instance.addCardModifier(target, attackBonus, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, 2, 18, "FORTIFIE", "+"+attackBonus+" ATK. Actif 2 tours", "");
 		
 		receivers.Add(GameView.instance.getCard(GameController.instance.getCurrentPlayingCard()));
 		receiversTexts.Add(text);
