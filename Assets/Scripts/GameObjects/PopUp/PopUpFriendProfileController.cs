@@ -6,16 +6,16 @@ using System.Collections.Generic;
 using System.Reflection;
 using TMPro;
 
-public class PopUpFriendHomePageController : PopUpFriendController
+public class PopUpFriendProfileController : PopUpFriendController
 {
 	
 	public override void startHoveringPopUp()
 	{
-		NewHomePageController.instance.startHoveringPopUp();
+		NewProfileController.instance.startHoveringPopUp();
 	}
 	public override void endHoveringPopUp()
 	{
-		NewHomePageController.instance.endHoveringPopUp();
+		NewProfileController.instance.endHoveringPopUp();
 	}
 }
 

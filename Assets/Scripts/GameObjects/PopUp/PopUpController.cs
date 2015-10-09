@@ -16,6 +16,7 @@ public class PopUpController : MonoBehaviour
 	private bool isCompetition;
 	private bool isResult;
 	private bool isFriend;
+	private bool isFriendsRequest;
 	
 	
 	void Awake()
@@ -61,6 +62,10 @@ public class PopUpController : MonoBehaviour
 	{
 		return isNews;
 	}
+	public bool getIsFriend()
+	{
+		return isFriend;
+	}
 	public void setIsFriend(bool value)
 	{
 		this.isFriend = value;
@@ -81,9 +86,13 @@ public class PopUpController : MonoBehaviour
 	{
 		return isResult;
 	}
-	public bool getIsFriend()
+	public void setIsFriendsRequest(bool value)
 	{
-		return isFriend;
+		this.isFriendsRequest = value;
+	}
+	public bool getIsFriendsRequest()
+	{
+		return isFriendsRequest;
 	}
 	public void setId(int Id)
 	{

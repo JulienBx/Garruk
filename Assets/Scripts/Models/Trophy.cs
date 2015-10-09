@@ -6,23 +6,12 @@ using System.Linq;
 
 public class Trophy 
 {
+	public User User;
 	public int Id;
-	public int UserId;
-	public int TrophyType;
-	public int TrophyNumber;
+	public Competition competition;
 	public DateTime Date;
 	
-	public Trophy(int userid, int trophytype, int trophynumber)
+	public Trophy()
 	{
-		this.UserId = userid;
-		this.TrophyType = trophytype;
-		this.TrophyNumber = trophynumber;
-	}
-	public Trophy(int userid, int trophytype, int trophynumber, DateTime date)
-	{
-		this.UserId = userid;
-		this.TrophyType = trophytype;
-		this.TrophyNumber = trophynumber;
-		this.Date = date;
 	}
 }

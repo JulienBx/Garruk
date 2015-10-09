@@ -10,8 +10,8 @@ public class OnlineFriendController : MonoBehaviour
 {
 	
 	public User u;
-	
-	private int Id;
+	public int Id;
+
 	private bool isHovering;
 	
 	
@@ -25,6 +25,9 @@ public class OnlineFriendController : MonoBehaviour
 			gameObject.transform.FindChild("Username").GetComponent<TextMeshPro>().color=new Color(155f/255f,220f/255f,1f);
 		}
 	}
+	public virtual void startHovering()
+	{
+	}
 	void OnMouseExit()
 	{
 		if(isHovering)
@@ -34,6 +37,9 @@ public class OnlineFriendController : MonoBehaviour
 			this.setOnlineStatus ();
 			gameObject.transform.FindChild("Username").GetComponent<TextMeshPro>().color=new Color(1f,1f,1f);
 		}
+	}
+	public virtual void endHovering()
+	{
 	}
 	void OnMouseDown()
 	{

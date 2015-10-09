@@ -158,8 +158,6 @@ public class NewHomePageController : MonoBehaviour
 
 	private bool isTutorialLaunched;
 	private bool isEndGamePopUpDisplayed;
-	private bool isLoadingScreenDisplayed;
-	private bool isInRoom;
 
 	private NewHomePageErrorPopUpView errorView;
 	private bool errorViewDisplayed;
@@ -179,6 +177,7 @@ public class NewHomePageController : MonoBehaviour
 			this.resize();
 			this.drawPaginationNews();
 			this.drawPaginationNotifications();
+			this.drawPaginationFriends();
 			this.initializePacks();
 		}
 		if(this.sliderTimer>this.sliderRefreshInterval)
@@ -299,7 +298,7 @@ public class NewHomePageController : MonoBehaviour
 				this.areFriendsPicturesLoading=false;
 				for(int i=0;i<friendsDisplayed.Count;i++)
 				{
-					this.friends[i].GetComponent<OnlineFriendController>().setPicture(model.users[this.friendsToBeDisplayed[this.friendsDisplayed[i]]].texture);
+					this.friends[i].GetComponent<HomePageOnlineFriendController>().setPicture(model.users[this.friendsToBeDisplayed[this.friendsDisplayed[i]]].texture);
 				}
 			}
 		}
@@ -498,7 +497,7 @@ public class NewHomePageController : MonoBehaviour
 		for(int i=0;i<this.friends.Length;i++)
 		{
 			this.friends[i]=GameObject.Find ("Friend"+i);
-			this.friends[i].GetComponent<OnlineFriendController>().setId(i);
+			this.friends[i].GetComponent<HomePageOnlineFriendController>().setId(i);
 			this.friends[i].SetActive(false);
 		}
 		this.deckBoard.transform.FindChild("deckList").FindChild ("Title").GetComponent<TextMeshPro> ().text = "Mes decks";
@@ -1187,8 +1186,8 @@ public class NewHomePageController : MonoBehaviour
 					allPicturesLoaded=false;
 				}
 				this.friendsDisplayed.Add (this.chosenPageFriends*this.elementsPerPageFriends+i);
-				this.friends[i].GetComponent<OnlineFriendController>().u=model.users[this.friendsToBeDisplayed[this.chosenPageFriends*this.elementsPerPageFriends+i]];
-				this.friends[i].GetComponent<OnlineFriendController>().show();
+				this.friends[i].GetComponent<HomePageOnlineFriendController>().u=model.users[this.friendsToBeDisplayed[this.chosenPageFriends*this.elementsPerPageFriends+i]];
+				this.friends[i].GetComponent<HomePageOnlineFriendController>().show();
 				if(!this.isCardFocusedDisplayed)
 				{
 					this.friends[i].SetActive(true);
@@ -1672,7 +1671,7 @@ public class NewHomePageController : MonoBehaviour
 	}
 	public void endHoveringFriend ()
 	{
-		this.isHoveringNews = false;
+		this.isHoveringFriend = false;
 		this.toDestroyPopUp = true;
 		this.popUpDestroyInterval = 0f;
 	}

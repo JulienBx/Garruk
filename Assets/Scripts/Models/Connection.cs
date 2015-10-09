@@ -15,6 +15,10 @@ public class Connection
 	public string Error="";
 
 
+	public Connection()
+	{
+
+	}
 	public Connection(int id, int iduser1, int iduser2, bool isaccepted)
 	{
 		this.Id = id;
