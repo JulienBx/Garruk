@@ -13,8 +13,10 @@ public class PlayingCardController : GameObjectController
 	int id = -1 ;
 	bool isDead ;
 	
-	bool hasMoved ;
-	bool hasPlayed ;
+	bool hasMoved = false ;
+	bool hasPlayed = false ;
+	
+	bool isHidden = false ; 
 
 	Tile tile ;
 
@@ -34,6 +36,8 @@ public class PlayingCardController : GameObjectController
 	
 	public void hide()
 	{
+		this.isHidden = true ;
+		print ("Je hide "+this.id);
 		Transform t = gameObject.transform;
 		t.Find("AttackZone").FindChild("AttackPicto").GetComponent<SpriteRenderer>().enabled = false ;
 		t.Find("AttackZone").GetComponent<BoxCollider>().enabled = false ;
@@ -69,6 +73,8 @@ public class PlayingCardController : GameObjectController
 	
 	public void display(bool toDisplaySkills)
 	{
+		this.isHidden = false ;
+		
 		Transform t = gameObject.transform;
 		t.Find("AttackZone").FindChild("AttackPicto").GetComponent<SpriteRenderer>().enabled = true ;
 		t.Find("AttackZone").GetComponent<BoxCollider>().enabled = true ;
@@ -80,15 +86,9 @@ public class PlayingCardController : GameObjectController
 		t.FindChild("LifeBar").GetComponent<SpriteRenderer>().enabled = true ;
 		t.FindChild("LifeBar").FindChild("PV").GetComponent<MeshRenderer>().enabled = true ;
 		t.FindChild("LifeBar").FindChild("PVValue").GetComponent<MeshRenderer>().enabled = true ;
-		t.FindChild("Icon1").GetComponent<SpriteRenderer>().enabled = true ;
-		t.FindChild("Icon1").FindChild("Effect1").GetComponent<SpriteRenderer>().enabled = true ;
-		t.FindChild("Icon2").GetComponent<SpriteRenderer>().enabled = true ;
-		t.FindChild("Icon2").FindChild("Effect2").GetComponent<SpriteRenderer>().enabled = true ;
-		t.FindChild("Icon3").GetComponent<SpriteRenderer>().enabled = true ;
-		t.FindChild("Icon3").FindChild("Effect3").GetComponent<SpriteRenderer>().enabled = true ;
 		t.Find("AttackZone").FindChild("AttackValue").GetComponent<MeshRenderer>().enabled = true ;
-		
 		gameObject.GetComponent<BoxCollider>().enabled = true ;
+		this.show(true);
 	}
 	
 	public void setCard(Card c)
@@ -248,96 +248,98 @@ public class PlayingCardController : GameObjectController
 
 	public void show(bool showTR)
 	{
-		float percentage = 1.0f*this.card.GetLife()/this.card.GetTotalLife();
-		
-		Transform tempGO = gameObject.transform.FindChild("Life");
-		
-		if (percentage>(2f/3f)){
-			tempGO.GetComponent<SpriteRenderer>().sprite = this.lifebarSprites[1];
-		}
-		else if(percentage>(1f/3f)){
-			tempGO.GetComponent<SpriteRenderer>().sprite = this.lifebarSprites[2];
-		}
-		else{
-			tempGO.GetComponent<SpriteRenderer>().sprite = this.lifebarSprites[3];
-		}
-		
-		Vector3 position = tempGO.transform.localPosition;
-		Vector3 scale = tempGO.transform.localScale;
-		
-		position.x = -0.25f*(1f-percentage)*1.75f;
-		scale.x = percentage*0.25f;
-		
-		tempGO.transform.localPosition = position;
-		tempGO.transform.localScale = scale;
-		
-		this.updateAttack();
-		this.updateLife();
-		
-		int compteurIcones = 1;
-		
-		List<string> listeTextes = new List<string>();
-		string description = "";
-		int idIcon ;
-		
-		listeTextes = new List<string>();
-		idIcon = this.card.getIdIconEffect();
-		listeTextes = this.card.getIconEffect();
-		description = "";
-		if(listeTextes.Count>0){
-			gameObject.transform.FindChild("Icon"+compteurIcones).GetComponent<SpriteRenderer>().enabled = true;
-			gameObject.transform.FindChild("Icon"+compteurIcones).FindChild("Effect"+compteurIcones).GetComponent<SpriteRenderer>().enabled = true;
-			gameObject.transform.FindChild("Icon"+compteurIcones).FindChild("Effect"+compteurIcones).GetComponent<SpriteRenderer>().sprite = this.iconSprites[idIcon];
+		if(!this.isHidden){
+			float percentage = 1.0f*this.card.GetLife()/this.card.GetTotalLife();
 			
-			gameObject.transform.FindChild("Icon"+compteurIcones).GetComponent<IconController>().setInformation(listeTextes[0], listeTextes[1], "");
-			compteurIcones++;
-		}
-		
-		listeTextes = new List<string>();
-		listeTextes = this.card.getIconMove();
-		if(listeTextes.Count>0){
-			description = "Déplacement de base : "+this.card.Move+"\n";
-			gameObject.transform.FindChild("Icon"+compteurIcones).GetComponent<SpriteRenderer>().enabled = true;
-			gameObject.transform.FindChild("Icon"+compteurIcones).FindChild("Effect"+compteurIcones).GetComponent<SpriteRenderer>().enabled = true;
-			gameObject.transform.FindChild("Icon"+compteurIcones).FindChild("Effect"+compteurIcones).GetComponent<SpriteRenderer>().sprite = this.iconSprites[11];
+			Transform tempGO = gameObject.transform.FindChild("Life");
 			
-			for(int i = 0 ; i < listeTextes.Count ; i++){
-				description += "<b>"+listeTextes[i]+" : "+"</b>";
-				i++;
-				description += listeTextes[i]+"\n";
+			if (percentage>(2f/3f)){
+				tempGO.GetComponent<SpriteRenderer>().sprite = this.lifebarSprites[1];
 			}
-			if (listeTextes.Count>0){
-				description += "---> TOTAL : "+this.card.GetMove();
+			else if(percentage>(1f/3f)){
+				tempGO.GetComponent<SpriteRenderer>().sprite = this.lifebarSprites[2];
 			}
-			gameObject.transform.FindChild("Icon"+compteurIcones).GetComponent<IconController>().setInformation("Déplacement", description, "");
-			compteurIcones++;
-		}
-		
-		listeTextes = new List<string>();
-		listeTextes = this.card.getIconShield();
-		description = "";
-		if(listeTextes.Count>0){
-			gameObject.transform.FindChild("Icon"+compteurIcones).GetComponent<SpriteRenderer>().enabled = true;
-			gameObject.transform.FindChild("Icon"+compteurIcones).FindChild("Effect"+compteurIcones).GetComponent<SpriteRenderer>().enabled = true;
-			
-			gameObject.transform.FindChild("Icon"+compteurIcones).FindChild("Effect"+compteurIcones).GetComponent<SpriteRenderer>().sprite = this.iconSprites[10];
-			
-			for(int i = 0 ; i < listeTextes.Count ; i++){
-				description += "<b>"+listeTextes[i]+" : "+"</b>";
-				i++;
-				description += listeTextes[i]+"\n";
+			else{
+				tempGO.GetComponent<SpriteRenderer>().sprite = this.lifebarSprites[3];
 			}
-			gameObject.transform.FindChild("Icon"+compteurIcones).GetComponent<IconController>().setInformation("Protection", description, "");
-			compteurIcones++;
+			
+			Vector3 position = tempGO.transform.localPosition;
+			Vector3 scale = tempGO.transform.localScale;
+			
+			position.x = -0.25f*(1f-percentage)*1.75f;
+			scale.x = percentage*0.25f;
+			
+			tempGO.transform.localPosition = position;
+			tempGO.transform.localScale = scale;
+			
+			this.updateAttack();
+			this.updateLife();
+			
+			int compteurIcones = 1;
+			
+			List<string> listeTextes = new List<string>();
+			string description = "";
+			int idIcon ;
+			
+			listeTextes = new List<string>();
+			idIcon = this.card.getIdIconEffect();
+			listeTextes = this.card.getIconEffect();
+			description = "";
+			if(listeTextes.Count>0){
+				gameObject.transform.FindChild("Icon"+compteurIcones).GetComponent<SpriteRenderer>().enabled = true;
+				gameObject.transform.FindChild("Icon"+compteurIcones).FindChild("Effect"+compteurIcones).GetComponent<SpriteRenderer>().enabled = true;
+				gameObject.transform.FindChild("Icon"+compteurIcones).FindChild("Effect"+compteurIcones).GetComponent<SpriteRenderer>().sprite = this.iconSprites[idIcon];
+				
+				gameObject.transform.FindChild("Icon"+compteurIcones).GetComponent<IconController>().setInformation(listeTextes[0], listeTextes[1], "");
+				compteurIcones++;
+			}
+			
+			listeTextes = new List<string>();
+			listeTextes = this.card.getIconMove();
+			if(listeTextes.Count>0){
+				description = "Déplacement de base : "+this.card.Move+"\n";
+				gameObject.transform.FindChild("Icon"+compteurIcones).GetComponent<SpriteRenderer>().enabled = true;
+				gameObject.transform.FindChild("Icon"+compteurIcones).FindChild("Effect"+compteurIcones).GetComponent<SpriteRenderer>().enabled = true;
+				gameObject.transform.FindChild("Icon"+compteurIcones).FindChild("Effect"+compteurIcones).GetComponent<SpriteRenderer>().sprite = this.iconSprites[11];
+				
+				for(int i = 0 ; i < listeTextes.Count ; i++){
+					description += "<b>"+listeTextes[i]+" : "+"</b>";
+					i++;
+					description += listeTextes[i]+"\n";
+				}
+				if (listeTextes.Count>0){
+					description += "---> TOTAL : "+this.card.GetMove();
+				}
+				gameObject.transform.FindChild("Icon"+compteurIcones).GetComponent<IconController>().setInformation("Déplacement", description, "");
+				compteurIcones++;
+			}
+			
+			listeTextes = new List<string>();
+			listeTextes = this.card.getIconShield();
+			description = "";
+			if(listeTextes.Count>0){
+				gameObject.transform.FindChild("Icon"+compteurIcones).GetComponent<SpriteRenderer>().enabled = true;
+				gameObject.transform.FindChild("Icon"+compteurIcones).FindChild("Effect"+compteurIcones).GetComponent<SpriteRenderer>().enabled = true;
+				
+				gameObject.transform.FindChild("Icon"+compteurIcones).FindChild("Effect"+compteurIcones).GetComponent<SpriteRenderer>().sprite = this.iconSprites[10];
+				
+				for(int i = 0 ; i < listeTextes.Count ; i++){
+					description += "<b>"+listeTextes[i]+" : "+"</b>";
+					i++;
+					description += listeTextes[i]+"\n";
+				}
+				gameObject.transform.FindChild("Icon"+compteurIcones).GetComponent<IconController>().setInformation("Protection", description, "");
+				compteurIcones++;
+			}
+			
+			for (int i = compteurIcones+1; i < 4 ; i++)
+			{
+				gameObject.transform.FindChild("Icon"+i).FindChild("Effect"+i).GetComponent<SpriteRenderer>().enabled = false;
+				gameObject.transform.FindChild("Icon"+i).GetComponent<SpriteRenderer>().enabled = false;
+			}
+			
+			this.showTR(showTR);
 		}
-		
-		for (int i = compteurIcones+1; i < 4 ; i++)
-		{
-			gameObject.transform.FindChild("Icon"+i).FindChild("Effect"+i).GetComponent<SpriteRenderer>().enabled = false;
-			gameObject.transform.FindChild("Icon"+i).GetComponent<SpriteRenderer>().enabled = false;
-		}
-		
-		this.showTR(showTR);
 	}
 
 	public void setTile(Tile t, Vector3 p)
@@ -362,7 +364,7 @@ public class PlayingCardController : GameObjectController
 		int attackBase = this.card.Attack ;
 		int attack = this.card.GetAttack();
 		if(attackBase>attack){
-			gameObject.transform.FindChild("AttackZone").FindChild("AttackValue").GetComponent<TextMeshPro>().color = Color.red;
+			gameObject.transform.FindChild("AttackZone").FindChild("AttackValue").GetComponent<TextMeshPro>().color = Color.yellow;
 		}
 		else if(attackBase<attack){
 			gameObject.transform.FindChild("AttackZone").FindChild("AttackValue").GetComponent<TextMeshPro>().color = Color.green;
@@ -382,7 +384,7 @@ public class PlayingCardController : GameObjectController
 			gameObject.transform.FindChild("LifeBar").FindChild("PVValue").GetComponent<TextMeshPro>().color = Color.green;
 		}
 		else if(lifeBase<this.card.Life){
-			gameObject.transform.FindChild("LifeBar").FindChild("PVValue").GetComponent<TextMeshPro>().color = Color.red;
+			gameObject.transform.FindChild("LifeBar").FindChild("PVValue").GetComponent<TextMeshPro>().color = Color.yellow;
 		}
 		else{
 			gameObject.transform.FindChild("LifeBar").FindChild("PVValue").GetComponent<TextMeshPro>().color = Color.white;

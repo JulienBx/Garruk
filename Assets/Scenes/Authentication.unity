@@ -173,8 +173,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 0
-  havePropertiesChanged: 0
+  isInputParsingRequired: 1
+  havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_inputSource: 0
@@ -1390,8 +1390,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 0
-  havePropertiesChanged: 0
+  isInputParsingRequired: 1
+  havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_inputSource: 0

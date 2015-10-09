@@ -283,7 +283,7 @@ public class GameController : Photon.MonoBehaviour
 			if (GameView.instance.getCard(id).isParalyzed()){
 				GameView.instance.moveCard(id, false);
 			}
-			if (GameView.instance.getCard(id).isSleeping()){
+			else if (GameView.instance.getCard(id).isSleeping()){
 				int sleepingPercentage = GameView.instance.getCard(id).getSleepingPercentage();
 				if(UnityEngine.Random.Range(1,101)<sleepingPercentage){
 					this.displaySkillEffect(id, "SE REVEILLE", 4);
@@ -296,7 +296,9 @@ public class GameController : Photon.MonoBehaviour
 			else{
 				GameView.instance.playCard(id, false);
 				GameView.instance.moveCard(id, false);
+				print ("Je mets move à false pour "+id);
 			}
+			
 			this.changePlayingCard(id);
 			if(!GameView.instance.hasMoved(id)){
 				this.calculateDestinations();

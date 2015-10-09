@@ -231,7 +231,7 @@ public class HisHoveredCardController : MonoBehaviour
 			gameObject.transform.FindChild("HisMainDescription").FindChild("HisCarac").FindChild("HisHasteText").GetComponent<TextMeshPro>().color = Color.green;
 		}
 		else if(c.GetMove()<c.Move){
-			gameObject.transform.FindChild("HisMainDescription").FindChild("HisCarac").FindChild("HisHasteText").GetComponent<TextMeshPro>().color = Color.red;
+			gameObject.transform.FindChild("HisMainDescription").FindChild("HisCarac").FindChild("HisHasteText").GetComponent<TextMeshPro>().color = Color.yellow;
 		}
 		else{
 			gameObject.transform.FindChild("HisMainDescription").FindChild("HisCarac").FindChild("HisHasteText").GetComponent<TextMeshPro>().color = Color.white;
@@ -241,7 +241,7 @@ public class HisHoveredCardController : MonoBehaviour
 			gameObject.transform.FindChild("HisMainDescription").FindChild("HisCarac").FindChild("HisAttackText").GetComponent<TextMeshPro>().color = Color.green;
 		}
 		else if(c.GetAttack()<c.Attack){
-			gameObject.transform.FindChild("HisMainDescription").FindChild("HisCarac").FindChild("HisAttackText").GetComponent<TextMeshPro>().color = Color.red;
+			gameObject.transform.FindChild("HisMainDescription").FindChild("HisCarac").FindChild("HisAttackText").GetComponent<TextMeshPro>().color = Color.yellow;
 		}
 		else{
 			gameObject.transform.FindChild("HisMainDescription").FindChild("HisCarac").FindChild("HisAttackText").GetComponent<TextMeshPro>().color = Color.white;
@@ -251,7 +251,7 @@ public class HisHoveredCardController : MonoBehaviour
 			gameObject.transform.FindChild("HisMainDescription").FindChild("HisCarac").FindChild("HisLifeText").GetComponent<TextMeshPro>().color = Color.green;
 		}
 		else if(c.GetLife()<c.Life){
-			gameObject.transform.FindChild("HisMainDescription").FindChild("HisCarac").FindChild("HisLifeText").GetComponent<TextMeshPro>().color = Color.red;
+			gameObject.transform.FindChild("HisMainDescription").FindChild("HisCarac").FindChild("HisLifeText").GetComponent<TextMeshPro>().color = Color.yellow;
 		}
 		else{
 			gameObject.transform.FindChild("HisMainDescription").FindChild("HisCarac").FindChild("HisLifeText").GetComponent<TextMeshPro>().color = Color.white;

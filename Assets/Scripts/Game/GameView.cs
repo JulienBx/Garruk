@@ -653,6 +653,7 @@ public class GameView : MonoBehaviour
 			this.checkSkillsLaunchability();
 		}
 		this.moveCard(c, true);
+		print ("Je mets move à true pour "+c);
 	}
 	
 	public void hideTrap(int x, int y){
@@ -822,12 +823,16 @@ public class GameView : MonoBehaviour
 			if(GameController.instance.getCurrentPlayingCard()!=-1){		
 				if (GameController.instance.getCurrentPlayingCard()!=c){
 					this.clearDestinations();
+					print("Je clear");
+					
 					this.isDisplayedItsDestinations = true ;
 					if(!this.hasMoved(GameController.instance.getCurrentPlayingCard())){
 						if (this.getIsMine(c)){
+							print("Je set my destinations en false");
 							this.setDestinations(c, false);
 						}
 						else{
+							print("Je set his destinations en false");
 							this.setHisDestinations(c, false);
 						}
 					}
@@ -914,13 +919,19 @@ public class GameView : MonoBehaviour
 		else{
 			if(GameController.instance.getCurrentPlayingCard()!=-1){
 				this.clearDestinations();
+				print("Je clear");
 				if(!this.hasMoved(GameController.instance.getCurrentPlayingCard())){
 					if (this.getIsMine(GameController.instance.getCurrentPlayingCard())){
+						print("Je set my destinations en true");
 						this.setDestinations(GameController.instance.getCurrentPlayingCard(), true);
 					}
 					else{
+						print("Je set his destinations en true");
 						this.setHisDestinations(GameController.instance.getCurrentPlayingCard(), true);
 					}
+				}
+				else{
+					print("Le joueur a bougé");
 				}
 				this.isDisplayedItsDestinations=false;
 			}
