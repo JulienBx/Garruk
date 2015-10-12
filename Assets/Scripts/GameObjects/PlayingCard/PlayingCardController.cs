@@ -36,8 +36,9 @@ public class PlayingCardController : GameObjectController
 	
 	public void hide()
 	{
-		this.isHidden = true ;
 		print ("Je hide "+this.id);
+		
+		this.isHidden = true ;
 		Transform t = gameObject.transform;
 		t.Find("AttackZone").FindChild("AttackPicto").GetComponent<SpriteRenderer>().enabled = false ;
 		t.Find("AttackZone").GetComponent<BoxCollider>().enabled = false ;
@@ -63,6 +64,7 @@ public class PlayingCardController : GameObjectController
 	
 	public void showTR(bool b)
 	{
+		print ("Je showTR "+this.id+" - "+b);
 		Transform t = gameObject.transform;
 		t.FindChild("WaitTime").GetComponent<TextMeshPro>().text = ""+this.card.nbTurnsToWait;
 		
@@ -71,8 +73,10 @@ public class PlayingCardController : GameObjectController
 		t.FindChild("PictoTR").GetComponent<BoxCollider>().enabled = b ;
 	}
 	
-	public void display(bool toDisplaySkills)
+	public void display()
 	{
+		print ("Je display "+this.id);
+		
 		this.isHidden = false ;
 		
 		Transform t = gameObject.transform;
@@ -88,12 +92,19 @@ public class PlayingCardController : GameObjectController
 		t.FindChild("LifeBar").FindChild("PVValue").GetComponent<MeshRenderer>().enabled = true ;
 		t.Find("AttackZone").FindChild("AttackValue").GetComponent<MeshRenderer>().enabled = true ;
 		gameObject.GetComponent<BoxCollider>().enabled = true ;
-		this.show(true);
+		
 	}
 	
 	public void setCard(Card c)
 	{
 		this.card = c ;
+		if (c.isMine){
+			transform.Find("Art").GetComponent<SpriteRenderer>().sprite = this.backgroundSprites[this.card.ArtIndex];
+		}
+		else {
+			transform.Find("Art").GetComponent<SpriteRenderer>().sprite = this.backgroundSprites[this.card.ArtIndex+10];
+		}
+		
 		transform.Find("AttackZone").FindChild("AttackValue").GetComponent<TextMeshPro>().text = c.GetAttackString();
 		transform.Find("LifeBar").GetComponent<SpriteRenderer>().sprite = this.lifebarSprites[0];
 		transform.FindChild("LifeBar").FindChild("PVValue").GetComponent<TextMeshPro>().text = c.GetLife()+"/"+c.Life;
@@ -213,20 +224,19 @@ public class PlayingCardController : GameObjectController
 		this.card.isMine = b ;
 		
 		if (b){
+			this.display ();
 			transform.Find("Art").GetComponent<SpriteRenderer>().sprite = this.backgroundSprites[this.card.ArtIndex];
 			transform.FindChild("Icon1").GetComponent<SpriteRenderer>().sprite = this.iconSprites[1];
 			transform.FindChild("Icon2").GetComponent<SpriteRenderer>().sprite = this.iconSprites[1];
 			transform.FindChild("Icon3").GetComponent<SpriteRenderer>().sprite = this.iconSprites[1];
 		}
 		else{
+			this.hide ();
 			transform.Find("Art").GetComponent<SpriteRenderer>().sprite = this.backgroundSprites[this.card.ArtIndex+10];
 			transform.FindChild("Icon1").GetComponent<SpriteRenderer>().sprite = this.iconSprites[2];
 			transform.FindChild("Icon2").GetComponent<SpriteRenderer>().sprite = this.iconSprites[2];
 			transform.FindChild("Icon3").GetComponent<SpriteRenderer>().sprite = this.iconSprites[2];
 		}
-		transform.FindChild("Icon1").GetComponent<SpriteRenderer>().enabled=false;
-		transform.FindChild("Icon2").GetComponent<SpriteRenderer>().enabled=false;
-		transform.FindChild("Icon3").GetComponent<SpriteRenderer>().enabled=false;
 	}
 	
 	public void OnMouseEnter(){
@@ -332,7 +342,7 @@ public class PlayingCardController : GameObjectController
 				compteurIcones++;
 			}
 			
-			for (int i = compteurIcones+1; i < 4 ; i++)
+			for (int i = compteurIcones; i < 4 ; i++)
 			{
 				gameObject.transform.FindChild("Icon"+i).FindChild("Effect"+i).GetComponent<SpriteRenderer>().enabled = false;
 				gameObject.transform.FindChild("Icon"+i).GetComponent<SpriteRenderer>().enabled = false;
@@ -348,7 +358,7 @@ public class PlayingCardController : GameObjectController
 		p.z = -0.5f;
 		gameObject.transform.position = p ;
 		gameObject.transform.localScale = new Vector3(1f, 1f, 1f);
-		this.hasMoved = true ;
+		this.hasMoved = false ;
 	}
 
 	public void changeTile(Tile t, Vector3 position)

@@ -930,6 +930,51 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 21300136, guid: 075994fcb3c9ef54e9ee86a9f415b94e, type: 3}
+  - {fileID: 21300050, guid: 075994fcb3c9ef54e9ee86a9f415b94e, type: 3}
+  - {fileID: 21300044, guid: 075994fcb3c9ef54e9ee86a9f415b94e, type: 3}
+  - {fileID: 21300056, guid: 075994fcb3c9ef54e9ee86a9f415b94e, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!114 &11440648
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1658,6 +1703,10 @@ Prefab:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 0}
+      propertyPath: iconSprites.Array.size
+      value: 70
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
       propertyPath: iconSprites.Array.data[4]
       value: 
       objectReference: {fileID: 21300028, guid: 075994fcb3c9ef54e9ee86a9f415b94e,
@@ -1723,6 +1772,26 @@ Prefab:
       propertyPath: m_LocalScale.y
       value: .100000001
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: iconSprites.Array.data[51]
+      value: 
+      objectReference: {fileID: 21300136, guid: 075994fcb3c9ef54e9ee86a9f415b94e,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: iconSprites.Array.data[53]
+      value: 
+      objectReference: {fileID: 21300044, guid: 075994fcb3c9ef54e9ee86a9f415b94e,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: iconSprites.Array.data[54]
+      value: 
+      objectReference: {fileID: 21300056, guid: 075994fcb3c9ef54e9ee86a9f415b94e,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: iconSprites.Array.data[52]
+      value: 
+      objectReference: {fileID: 21300050, guid: 075994fcb3c9ef54e9ee86a9f415b94e,
+        type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 123124}

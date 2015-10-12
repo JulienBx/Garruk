@@ -20,7 +20,7 @@ Platform assembly: C:\Users\user\Documents\Garruk\garruk_Data\Managed\UnityEngin
 Loading C:\Users\user\Documents\Garruk\garruk_Data\Managed\UnityEngine.Analytics.dll into Unity Child Domain
 Platform assembly: C:\Users\user\Documents\Garruk\garruk_Data\Managed\Photon3Unity3D.dll (this message is harmless)
 Loading C:\Users\user\Documents\Garruk\garruk_Data\Managed\Photon3Unity3D.dll into Unity Child Domain
-- Completed reload, in  0.103 seconds
+- Completed reload, in  0.108 seconds
 desktop: 1600x900 60Hz; virtual: 3200x900 at -1600,0
 <RI> Initializing input.
 <RI> Input initialized.

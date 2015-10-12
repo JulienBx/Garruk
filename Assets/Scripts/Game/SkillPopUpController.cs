@@ -58,7 +58,7 @@ public class SkillPopUpController : MonoBehaviour
 		gameObject.GetComponent<SpriteRenderer>().enabled=true;
 		
 		gameObject.transform.FindChild("Launcher").GetComponent<PlayingCardController>().setCard(launcher);
-		gameObject.transform.FindChild("Launcher").GetComponent<PlayingCardController>().display(true);
+		gameObject.transform.FindChild("Launcher").GetComponent<PlayingCardController>().display();
 		gameObject.transform.FindChild("Launcher").GetComponent<PlayingCardController>().show(false);
 		gameObject.transform.FindChild("LauncherText").GetComponent<TextMeshPro>().text=texte;
 		gameObject.transform.FindChild("LauncherText").GetComponent<MeshRenderer>().enabled=true;
@@ -68,19 +68,19 @@ public class SkillPopUpController : MonoBehaviour
 		}
 		if(receivers.Count==1){
 			gameObject.transform.FindChild(("Receiver2")).GetComponent<PlayingCardController>().setCard(receivers[0]);
-			gameObject.transform.FindChild(("Receiver2")).GetComponent<PlayingCardController>().display(true);
+			gameObject.transform.FindChild(("Receiver2")).GetComponent<PlayingCardController>().display();
 			gameObject.transform.FindChild(("Receiver2")).GetComponent<PlayingCardController>().show(false);
 			gameObject.transform.FindChild("Receiver2Text").GetComponent<TextMeshPro>().text=textsReceivers[0];
 			gameObject.transform.FindChild("Receiver2Text").GetComponent<MeshRenderer>().enabled=true;
 		}
 		else if(receivers.Count==2){
 			gameObject.transform.FindChild(("Receiver1")).GetComponent<PlayingCardController>().setCard(receivers[0]);
-			gameObject.transform.FindChild(("Receiver1")).GetComponent<PlayingCardController>().display(true);
+			gameObject.transform.FindChild(("Receiver1")).GetComponent<PlayingCardController>().display();
 			gameObject.transform.FindChild(("Receiver1")).GetComponent<PlayingCardController>().show(false);
 			gameObject.transform.FindChild("Receiver1Text").GetComponent<TextMeshPro>().text=textsReceivers[0];
 			gameObject.transform.FindChild("Receiver1Text").GetComponent<MeshRenderer>().enabled=true;
 			gameObject.transform.FindChild(("Receiver3")).GetComponent<PlayingCardController>().setCard(receivers[1]);
-			gameObject.transform.FindChild(("Receiver3")).GetComponent<PlayingCardController>().display(true);
+			gameObject.transform.FindChild(("Receiver3")).GetComponent<PlayingCardController>().display();
 			gameObject.transform.FindChild(("Receiver3")).GetComponent<PlayingCardController>().show(false);
 			
 			gameObject.transform.FindChild("Receiver3Text").GetComponent<TextMeshPro>().text=textsReceivers[1];
@@ -88,21 +88,21 @@ public class SkillPopUpController : MonoBehaviour
 		}
 		else if(receivers.Count==3){
 			gameObject.transform.FindChild(("Receiver1")).GetComponent<PlayingCardController>().setCard(receivers[0]);
-			gameObject.transform.FindChild(("Receiver1")).GetComponent<PlayingCardController>().display(true);
+			gameObject.transform.FindChild(("Receiver1")).GetComponent<PlayingCardController>().display();
 			gameObject.transform.FindChild(("Receiver1")).GetComponent<PlayingCardController>().show(false);
 			
 			gameObject.transform.FindChild("Receiver1Text").GetComponent<TextMeshPro>().text=textsReceivers[0];
 			gameObject.transform.FindChild("Receiver1Text").GetComponent<MeshRenderer>().enabled=true;
 			
 			gameObject.transform.FindChild(("Receiver2")).GetComponent<PlayingCardController>().setCard(receivers[1]);
-			gameObject.transform.FindChild(("Receiver2")).GetComponent<PlayingCardController>().display(true);
+			gameObject.transform.FindChild(("Receiver2")).GetComponent<PlayingCardController>().display();
 			gameObject.transform.FindChild(("Receiver2")).GetComponent<PlayingCardController>().show(false);
 			
 			gameObject.transform.FindChild("Receiver2Text").GetComponent<TextMeshPro>().text=textsReceivers[1];
 			gameObject.transform.FindChild("Receiver2Text").GetComponent<MeshRenderer>().enabled=true;
 			
 			gameObject.transform.FindChild(("Receiver3")).GetComponent<PlayingCardController>().setCard(receivers[2]);
-			gameObject.transform.FindChild(("Receiver3")).GetComponent<PlayingCardController>().display(true);
+			gameObject.transform.FindChild(("Receiver3")).GetComponent<PlayingCardController>().display();
 			gameObject.transform.FindChild(("Receiver3")).GetComponent<PlayingCardController>().show(false);
 			
 			gameObject.transform.FindChild("Receiver3Text").GetComponent<TextMeshPro>().text=textsReceivers[2];
@@ -111,25 +111,25 @@ public class SkillPopUpController : MonoBehaviour
 		}
 		else if(receivers.Count==4){
 			gameObject.transform.FindChild(("Receiver0")).GetComponent<PlayingCardController>().setCard(receivers[0]);
-			gameObject.transform.FindChild(("Receiver0")).GetComponent<PlayingCardController>().display(true);
+			gameObject.transform.FindChild(("Receiver0")).GetComponent<PlayingCardController>().display();
 			gameObject.transform.FindChild(("Receiver0")).GetComponent<PlayingCardController>().show(false);
 			
 			gameObject.transform.FindChild("Receiver0Text").GetComponent<TextMeshPro>().text=textsReceivers[0];
 			gameObject.transform.FindChild("Receiver0Text").GetComponent<MeshRenderer>().enabled=true;
 			gameObject.transform.FindChild(("Receiver1")).GetComponent<PlayingCardController>().setCard(receivers[1]);
-			gameObject.transform.FindChild(("Receiver1")).GetComponent<PlayingCardController>().display(true);
+			gameObject.transform.FindChild(("Receiver1")).GetComponent<PlayingCardController>().display();
 			gameObject.transform.FindChild(("Receiver1")).GetComponent<PlayingCardController>().show(false);
 			
 			gameObject.transform.FindChild("Receiver1Text").GetComponent<TextMeshPro>().text=textsReceivers[1];
 			gameObject.transform.FindChild("Receiver1Text").GetComponent<MeshRenderer>().enabled=true;
 			gameObject.transform.FindChild(("Receiver3")).GetComponent<PlayingCardController>().setCard(receivers[2]);
-			gameObject.transform.FindChild(("Receiver3")).GetComponent<PlayingCardController>().display(true);
+			gameObject.transform.FindChild(("Receiver3")).GetComponent<PlayingCardController>().display();
 			gameObject.transform.FindChild(("Receiver3")).GetComponent<PlayingCardController>().show(false);
 			
 			gameObject.transform.FindChild("Receiver3Text").GetComponent<TextMeshPro>().text=textsReceivers[2];
 			gameObject.transform.FindChild("Receiver3Text").GetComponent<MeshRenderer>().enabled=true;
 			gameObject.transform.FindChild(("Receiver4")).GetComponent<PlayingCardController>().setCard(receivers[3]);
-			gameObject.transform.FindChild(("Receiver4")).GetComponent<PlayingCardController>().display(true);
+			gameObject.transform.FindChild(("Receiver4")).GetComponent<PlayingCardController>().display();
 			gameObject.transform.FindChild(("Receiver4")).GetComponent<PlayingCardController>().show(false);
 			
 			gameObject.transform.FindChild("Receiver4Text").GetComponent<TextMeshPro>().text=textsReceivers[3];
@@ -137,7 +137,7 @@ public class SkillPopUpController : MonoBehaviour
 		}
 		else if(receivers.Count>4){
 			gameObject.transform.FindChild(("Receiver0")).GetComponent<PlayingCardController>().setCard(receivers[0]);
-			gameObject.transform.FindChild(("Receiver0")).GetComponent<PlayingCardController>().display(true);
+			gameObject.transform.FindChild(("Receiver0")).GetComponent<PlayingCardController>().display();
 			gameObject.transform.FindChild(("Receiver0")).GetComponent<PlayingCardController>().show(false);
 			
 			gameObject.transform.FindChild("Receiver0Text").GetComponent<TextMeshPro>().text=textsReceivers[0];
@@ -145,21 +145,21 @@ public class SkillPopUpController : MonoBehaviour
 			gameObject.transform.FindChild(("Receiver1")).GetComponent<PlayingCardController>().setCard(receivers[1]);
 			gameObject.transform.FindChild("Receiver1Text").GetComponent<TextMeshPro>().text=textsReceivers[1];
 			gameObject.transform.FindChild("Receiver1Text").GetComponent<MeshRenderer>().enabled=true;
-			gameObject.transform.FindChild(("Receiver1")).GetComponent<PlayingCardController>().display(true);
+			gameObject.transform.FindChild(("Receiver1")).GetComponent<PlayingCardController>().display();
 			gameObject.transform.FindChild(("Receiver1")).GetComponent<PlayingCardController>().show(false);
 			
 			gameObject.transform.FindChild(("Receiver2")).GetComponent<PlayingCardController>().setCard(receivers[2]);
-			gameObject.transform.FindChild(("Receiver2")).GetComponent<PlayingCardController>().display(true);
+			gameObject.transform.FindChild(("Receiver2")).GetComponent<PlayingCardController>().display();
 			gameObject.transform.FindChild("Receiver2Text").GetComponent<TextMeshPro>().text=textsReceivers[2];
 			gameObject.transform.FindChild("Receiver2Text").GetComponent<MeshRenderer>().enabled=true;
 			gameObject.transform.FindChild(("Receiver3")).GetComponent<PlayingCardController>().setCard(receivers[3]);
-			gameObject.transform.FindChild(("Receiver3")).GetComponent<PlayingCardController>().display(true);
+			gameObject.transform.FindChild(("Receiver3")).GetComponent<PlayingCardController>().display();
 			gameObject.transform.FindChild(("Receiver3")).GetComponent<PlayingCardController>().show(false);
 			
 			gameObject.transform.FindChild("Receiver3Text").GetComponent<TextMeshPro>().text=textsReceivers[3];
 			gameObject.transform.FindChild("Receiver3Text").GetComponent<MeshRenderer>().enabled=true;
 			gameObject.transform.FindChild(("Receiver4")).GetComponent<PlayingCardController>().setCard(receivers[4]);
-			gameObject.transform.FindChild(("Receiver4")).GetComponent<PlayingCardController>().display(true);
+			gameObject.transform.FindChild(("Receiver4")).GetComponent<PlayingCardController>().display();
 			gameObject.transform.FindChild(("Receiver4")).GetComponent<PlayingCardController>().show(false);
 			
 			gameObject.transform.FindChild("Receiver4Text").GetComponent<TextMeshPro>().text=textsReceivers[4];

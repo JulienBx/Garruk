@@ -536,10 +536,6 @@ public class GameView : MonoBehaviour
 		}
 		this.playingCards.Add((GameObject)Instantiate(this.playingCardModel));
 		int index = this.playingCards.Count-1;
-		if (isFirstP != isFirstPlayer)
-		{
-			this.playingCards [index].GetComponentInChildren<PlayingCardController>().hide();
-		} 
 		
 		this.playingCards [index].GetComponentInChildren<PlayingCardController>().setCard(c);
 		this.playingCards [index].GetComponentInChildren<PlayingCardController>().setIsMine(isFirstP==isFirstPlayer);
@@ -548,7 +544,6 @@ public class GameView : MonoBehaviour
 		this.playingCards [index].transform.FindChild("AttackZone").GetComponent<AttackPictoController>().setIDCard(index);
 		this.playingCards [index].transform.FindChild("LifeBar").transform.FindChild("PV").GetComponent<PVPictoController>().setIDCard(index);
 		this.playingCards [index].transform.FindChild("PictoTR").GetComponent<TRPictoController>().setIDCard(index);
-		this.playingCards [index].GetComponent<PlayingCardController>().showTR(false);
 		
 		if (isFirstP){
 			this.playingCards [index].GetComponentInChildren<PlayingCardController>().setTile(new Tile(c.deckOrder + 1, hauteur), tiles [c.deckOrder + 1, hauteur].GetComponent<TileController>().getPosition());
@@ -566,14 +561,12 @@ public class GameView : MonoBehaviour
 			
 			this.getCard(index).addModifier(1*amountLife, ModifierType.Type_BonusMalus, ModifierStat.Stat_Life, -1, 31, "PACIFISTE", "+"+amountLife+" PV. Permanent.", "");
 			this.getCard(index).addModifier(-1*amountAttack, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, -1, 24, "PACIFISTE", "-"+amountAttack+" ATK. Permanent.", "");
-			this.playingCards [index].GetComponentInChildren<PlayingCardController>().show(false);
 		}
 		else if(this.getCard(index).isAguerri()){
 			int amount = this.getCard(index).getPassiveManacost();
 			int amountAttack = Mathf.CeilToInt(this.getCard(index).GetAttack()*amount / 100f);
 			
 			this.getCard(index).addModifier(amountAttack, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, -1, 25, "AGUERRI", "+"+amountAttack+" ATK. Permanent.", "");
-			this.playingCards [index].GetComponentInChildren<PlayingCardController>().show(false);
 		}
 		else if(this.getCard(index).isRapide()){
 			int amount = this.getCard(index).getPassiveManacost();
@@ -582,8 +575,6 @@ public class GameView : MonoBehaviour
 			
 			this.getCard(index).addModifier(-1*amountAttack, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, -1, 26, "RAPIDE", "-"+amountAttack+" ATK. Permanent.", "");
 			this.getCard(index).addModifier(amountMove, ModifierType.Type_BonusMalus, ModifierStat.Stat_Move, -1, 13, "RAPIDE", "+"+amountMove+" ATK. Permanent.", "");
-			
-			this.playingCards [index].GetComponentInChildren<PlayingCardController>().show(false);
 		}
 		else if(this.getCard(index).isRobuste()){
 			int amount = this.getCard(index).getPassiveManacost();
@@ -592,8 +583,6 @@ public class GameView : MonoBehaviour
 			
 			this.getCard(index).addModifier(amountAttack, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, -1, 27, "RAPIDE", "+"+amountAttack+" ATK. Permanent.", "Permanent");
 			this.getCard(index).addModifier(-amountMove, ModifierType.Type_BonusMalus, ModifierStat.Stat_Move, -1, 14, "RAPIDE", "-"+amountMove+" MOV. Permanent.", "");
-			
-			this.playingCards [index].GetComponentInChildren<PlayingCardController>().show(false);
 		}
 		else if(this.getCard(index).isPiegeur()){
 			if (isFirstP == isFirstPlayer)
@@ -617,8 +606,8 @@ public class GameView : MonoBehaviour
 		else if(this.getCard(index).isAgile()){
 			int amount = this.getCard(index).getPassiveManacost();
 			this.getCard(index).addModifier(amount, ModifierType.Type_EsquivePercentage, ModifierStat.Stat_No, -1, 1, "AGILITE", "Peut esquiver les dégats, Probabilité : "+amount+"%. Permanent.", "Permanent");
-			this.playingCards [index].GetComponentInChildren<PlayingCardController>().show(false);
 		}
+		this.playingCards [index].GetComponentInChildren<PlayingCardController>().show(false);
 	}
 	
 	public List<Tile> getFreeCenterTiles(){
@@ -687,7 +676,8 @@ public class GameView : MonoBehaviour
 				
 		for (int i = debut; i < debut+this.nbCardsPerPlayer; i++)
 		{
-			this.playingCards [i].GetComponentInChildren<PlayingCardController>().display(false);
+			this.playingCards [i].GetComponentInChildren<PlayingCardController>().display();
+			this.playingCards [i].GetComponentInChildren<PlayingCardController>().show (true);
 		}
 	}
 	
@@ -823,18 +813,16 @@ public class GameView : MonoBehaviour
 			if(GameController.instance.getCurrentPlayingCard()!=-1){		
 				if (GameController.instance.getCurrentPlayingCard()!=c){
 					this.clearDestinations();
-					print("Je clear");
 					
 					this.isDisplayedItsDestinations = true ;
 					if(!this.hasMoved(GameController.instance.getCurrentPlayingCard())){
 						if (this.getIsMine(c)){
-							print("Je set my destinations en false");
 							this.setDestinations(c, false);
 						}
 						else{
-							print("Je set his destinations en false");
 							this.setHisDestinations(c, false);
 						}
+						this.isDisplayedItsDestinations=false;
 					}
 				}
 				else{
@@ -918,22 +906,20 @@ public class GameView : MonoBehaviour
 		}
 		else{
 			if(GameController.instance.getCurrentPlayingCard()!=-1){
-				this.clearDestinations();
-				print("Je clear");
-				if(!this.hasMoved(GameController.instance.getCurrentPlayingCard())){
-					if (this.getIsMine(GameController.instance.getCurrentPlayingCard())){
-						print("Je set my destinations en true");
-						this.setDestinations(GameController.instance.getCurrentPlayingCard(), true);
-					}
-					else{
-						print("Je set his destinations en true");
-						this.setHisDestinations(GameController.instance.getCurrentPlayingCard(), true);
+				if(!this.isDisplayedItsDestinations){
+					this.clearDestinations();
+					print("Je clear");
+					if(!this.hasMoved(GameController.instance.getCurrentPlayingCard())){
+						if (this.getIsMine(GameController.instance.getCurrentPlayingCard())){
+							this.setDestinations(GameController.instance.getCurrentPlayingCard(), true);
+							this.isDisplayedItsDestinations=true;
+						}
+						else{
+							this.setHisDestinations(GameController.instance.getCurrentPlayingCard(), true);
+							this.isDisplayedItsDestinations=true;
+						}
 					}
 				}
-				else{
-					print("Le joueur a bougé");
-				}
-				this.isDisplayedItsDestinations=false;
 			}
 			if(currentPlayingCard!=-1){
 				if(this.getIsMine(currentPlayingCard)){
@@ -986,7 +972,7 @@ public class GameView : MonoBehaviour
 							if(this.getHisHoveredCardController().getStatus()==-1){
 								this.getHisHoveredCardController().setNextDisplayedCharacter(currentPlayingCard) ;
 							}
-							else{
+							else if(currentPlayingCard!=this.getHisHoveredCardController().getCurrentCharacter()){
 								this.getHisHoveredCardController().hide();
 								this.getHisHoveredCardController().setNextDisplayedCharacter(currentPlayingCard) ;
 							}
@@ -1137,6 +1123,7 @@ public class GameView : MonoBehaviour
 	}
 	
 	public void moveCard(int i, bool b){
+		print ("MoveCard "+i+" - "+b);
 		this.playingCards[i].GetComponent<PlayingCardController>().move(b);
 	}
 	
