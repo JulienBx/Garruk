@@ -853,7 +853,7 @@ public class Card
 		int i = 0;
 		while (i < this.modifiers.Count)
 		{
-			if (this.modifiers [i].idIcon == 0)
+			if (this.modifiers [i].idIcon == 51 || this.modifiers [i].idIcon == 51 || this.modifiers [i].idIcon == 51 || this.modifiers [i].idIcon == 51)
 			{
 				idIcon = this.modifiers [i].idIcon;
 			}

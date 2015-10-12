@@ -631,6 +631,7 @@ public class GameView : MonoBehaviour
 	{
 		Tile t = this.playingCards [c].GetComponentInChildren<PlayingCardController>().getTile();
 		this.tiles[t.x, t.y].GetComponentInChildren<TileController>().setCharacterID(-1);
+		this.tileHandlers[t.x, t.y].GetComponentInChildren<TileHandlerController>().setCharacterID(-1);
 		this.playingCards [c].GetComponentInChildren<PlayingCardController>().setTile(new Tile(x,y), this.tiles[x,y].GetComponentInChildren<TileController>().getPosition());
 		this.tiles[x, y].GetComponentInChildren<TileController>().setCharacterID(c);
 		
