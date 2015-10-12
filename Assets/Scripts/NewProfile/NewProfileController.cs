@@ -309,12 +309,19 @@ public class NewProfileController : MonoBehaviour
 		this.searchBlock = Instantiate(this.blockObject) as GameObject;
 		this.challengesRecordsBlock = Instantiate(this.blockObject) as GameObject;
 		this.profileTitle = GameObject.Find ("ProfileTitle");
+		this.profileTitle.GetComponent<TextMeshPro> ().text = "Mon profil";
 		this.friendsRequestsTitle = GameObject.Find ("FriendsRequestsTitle");
+		this.friendsRequestsTitle.GetComponent<TextMeshPro> ().text = "Mes invitations";
 		this.challengesRecordsTitle = GameObject.Find ("challengesRecordsTitle");
+		this.challengesRecordsTitle.GetComponent<TextMeshPro> ().text = "Amis défiés";
 		this.statsTitle = GameObject.Find ("StatsTitle");
+		this.statsTitle.GetComponent<TextMeshPro> ().text = "Statistiques";
 		this.friendsTitle = GameObject.Find ("FriendsTitle");
+		this.friendsTitle.GetComponent<TextMeshPro> ().text = "Amis en ligne";
 		this.searchTitle = GameObject.Find ("SearchTitle");
+		this.searchTitle.GetComponent<TextMeshPro> ().text = "Recherche un ami";
 		this.trophiesTitle = GameObject.Find ("TrophiesTitle");
+		this.trophiesTitle.GetComponent<TextMeshPro> ().text = "Mes trophées";
 		this.stats = GameObject.Find ("Stats");
 		this.paginationButtonsFriendsRequests = new GameObject[0];
 		this.paginationButtonsChallengesRecords = new GameObject[0];
@@ -323,7 +330,7 @@ public class NewProfileController : MonoBehaviour
 		this.challengesRecords=new GameObject[2];
 		for(int i=0;i<this.challengesRecords.Length;i++)
 		{
-			this.challengesRecords[i]=GameObject.Find ("Challenge"+i);
+			this.challengesRecords[i]=GameObject.Find ("ChallengesRecord"+i);
 			this.challengesRecords[i].GetComponent<ChallengesRecordController>().setId(i);
 			this.challengesRecords[i].SetActive(false);
 		}
@@ -337,14 +344,14 @@ public class NewProfileController : MonoBehaviour
 		this.friendsRequests=new GameObject[2];
 		for(int i=0;i<this.friendsRequests.Length;i++)
 		{
-			this.friendsRequests[i]=GameObject.Find ("FriendsRequests"+i);
+			this.friendsRequests[i]=GameObject.Find ("FriendsRequest"+i);
 			this.friendsRequests[i].GetComponent<FriendsRequestController>().setId(i);
 			this.friendsRequests[i].SetActive(false);
 		}
 		this.trophies=new GameObject[2];
 		for(int i=0;i<this.trophies.Length;i++)
 		{
-			this.trophies[i]=GameObject.Find ("FriendsRequests"+i);
+			this.trophies[i]=GameObject.Find ("Trophy"+i);
 			this.trophies[i].GetComponent<TrophyController>().setId(i);
 			this.trophies[i].SetActive(false);
 		}

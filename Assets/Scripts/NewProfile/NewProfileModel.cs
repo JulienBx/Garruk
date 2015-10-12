@@ -45,9 +45,9 @@ public class NewProfileModel
 			this.player = parsePlayer(data[0].Split(new string[] { "//" }, System.StringSplitOptions.None));
 			this.users = parseUsers(data[6].Split(new string[] { "#U#"  }, System.StringSplitOptions.None));
 			this.friends=parseFriends(data[1].Split(new string[] { "//" }, System.StringSplitOptions.None));
-			this.friendsRequests=parseFriendsRequests(data[2].Split(new string[] {"//"}, System.StringSplitOptions.None));
-			this.trophies=parseTrophies(data[3].Split(new string[] {"//"},System.StringSplitOptions.None));
-			this.challengesRecords=parseChallengesRecords(data[4].Split(new string[] {"//"},System.StringSplitOptions.None));
+			this.friendsRequests=parseFriendsRequests(data[2].Split(new string[] {"#FR#"}, System.StringSplitOptions.None));
+			this.trophies=parseTrophies(data[3].Split(new string[] {"#TROPHY#"},System.StringSplitOptions.None));
+			this.challengesRecords=parseChallengesRecords(data[4].Split(new string[] {"#CR#"},System.StringSplitOptions.None));
 			this.hasDeck=System.Convert.ToBoolean(System.Convert.ToInt32(data[5]));
 			
 			usernameList=new string[this.users.Count];
