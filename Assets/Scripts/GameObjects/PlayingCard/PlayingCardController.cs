@@ -137,14 +137,14 @@ public class PlayingCardController : GameObjectController
 		t.FindChild("LifeBar").FindChild("PV").GetComponent<MeshRenderer>().sortingOrder = 14 ;
 		t.FindChild("LifeBar").FindChild("PVValue").GetComponent<MeshRenderer>().sortingOrder = 14 ;
 		
-		t.FindChild("Icon1").GetComponent<SpriteRenderer>().sortingOrder = 11 ;
-		t.FindChild("Icon1").FindChild("Effect1").GetComponent<SpriteRenderer>().sortingOrder = 12 ;
+		t.FindChild("Icon1").GetComponent<SpriteRenderer>().sortingOrder = 12 ;
+		t.FindChild("Icon1").FindChild("Effect1").GetComponent<SpriteRenderer>().sortingOrder = 13 ;
 		
-		t.FindChild("Icon2").GetComponent<SpriteRenderer>().sortingOrder = 11 ;
-		t.FindChild("Icon2").FindChild("Effect2").GetComponent<SpriteRenderer>().sortingOrder = 12 ;
+		t.FindChild("Icon2").GetComponent<SpriteRenderer>().sortingOrder = 12 ;
+		t.FindChild("Icon2").FindChild("Effect2").GetComponent<SpriteRenderer>().sortingOrder = 13 ;
 		
-		t.FindChild("Icon3").GetComponent<SpriteRenderer>().sortingOrder = 11 ;
-		t.FindChild("Icon3").FindChild("Effect3").GetComponent<SpriteRenderer>().sortingOrder = 12 ;
+		t.FindChild("Icon3").GetComponent<SpriteRenderer>().sortingOrder = 12 ;
+		t.FindChild("Icon3").FindChild("Effect3").GetComponent<SpriteRenderer>().sortingOrder = 13 ;
 		
 		t.Find("AttackZone").FindChild("AttackValue").GetComponent<MeshRenderer>().sortingOrder = 14 ;
 		
@@ -164,12 +164,12 @@ public class PlayingCardController : GameObjectController
 		t.FindChild("LifeBar").FindChild("PVValue").GetComponent<MeshRenderer>().sortingOrder = 4 ;
 		
 		t.FindChild("Icon1").GetComponent<SpriteRenderer>().sortingOrder = 2 ;
-		t.FindChild("Icon1").FindChild("Effect1").GetComponent<SpriteRenderer>().sortingOrder = 2 ;
+		t.FindChild("Icon1").FindChild("Effect1").GetComponent<SpriteRenderer>().sortingOrder = 3 ;
 		
 		t.FindChild("Icon2").GetComponent<SpriteRenderer>().sortingOrder = 2 ;
-		t.FindChild("Icon2").FindChild("Effect2").GetComponent<SpriteRenderer>().sortingOrder = 2 ;
+		t.FindChild("Icon2").FindChild("Effect2").GetComponent<SpriteRenderer>().sortingOrder = 3 ;
 		t.FindChild("Icon3").GetComponent<SpriteRenderer>().sortingOrder = 2 ;
-		t.FindChild("Icon3").FindChild("Effect3").GetComponent<SpriteRenderer>().sortingOrder = 2 ;
+		t.FindChild("Icon3").FindChild("Effect3").GetComponent<SpriteRenderer>().sortingOrder = 3 ;
 		t.Find("AttackZone").FindChild("AttackValue").GetComponent<MeshRenderer>().sortingOrder = 4 ;
 	}
 	
