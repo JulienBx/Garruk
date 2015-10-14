@@ -90,7 +90,7 @@ public class newMenuModel {
 		User player = new User ();
 		player.Money=System.Convert.ToInt32(array[0]);
 		player.nonReadNotifications= System.Convert.ToInt32(array[1]);
-		player.ThumbPicture = array [2];
+		player.idProfilePicture = System.Convert.ToInt32(array [2]);
 		return player;
 	}
 }

@@ -46,7 +46,7 @@ public class NewsController : MonoBehaviour
 	{
 		gameObject.transform.FindChild ("Username").GetComponent<TextMeshPro> ().text = this.n.User.Username;
 		gameObject.transform.FindChild ("News").GetComponent<TextMeshPro> ().text = this.n.News.Description;
-		gameObject.transform.FindChild ("Picture").GetComponent<SpriteRenderer> ().sprite = this.n.User.texture;
+		gameObject.transform.FindChild ("Picture").GetComponent<SpriteRenderer> ().sprite = newMenuController.instance.returnThumbPicture(this.n.User.idProfilePicture);
 		//this.setOnlineStatus ();
 	}
 	public void setPicture(Sprite picture)

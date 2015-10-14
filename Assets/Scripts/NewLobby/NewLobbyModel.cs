@@ -119,15 +119,16 @@ public class NewLobbyModel
 		{
 			
 			string[] resultData=array[i].Split (new string[] {"//"}, System.StringSplitOptions.None);
-
-			results.Add (new PlayerResult(System.Convert.ToBoolean(System.Convert.ToInt32(resultData[0])),
-			                                       System.DateTime.ParseExact(resultData[1], "yyyy-MM-dd HH:mm:ss", null),
-			                                       new User(resultData[2],
-			         resultData[3],
-			         System.Convert.ToInt32(resultData[4]),
-			         System.Convert.ToInt32(resultData[5]),
-			         System.Convert.ToInt32(resultData[6]),
-			         System.Convert.ToInt32(resultData[7])))); //total Nblooses
+			results.Add(new PlayerResult());
+			results[i].HasWon=System.Convert.ToBoolean(System.Convert.ToInt32(resultData[0]));
+			results[i].Date = System.DateTime.ParseExact(resultData[1], "yyyy-MM-dd HH:mm:ss", null);
+			results[i].Opponent=new User();
+			results[i].Opponent.Username=resultData[2];
+			results[i].Opponent.idProfilePicture=System.Convert.ToInt32(resultData[3]);
+			results[i].Opponent.Ranking=System.Convert.ToInt32(resultData[4]);
+			results[i].Opponent.CollectionRanking=System.Convert.ToInt32(resultData[5]);
+			results[i].Opponent.TotalNbWins=System.Convert.ToInt32(resultData[6]);
+			results[i].Opponent.TotalNbLooses=System.Convert.ToInt32(resultData[7]);
 
 		}
 		

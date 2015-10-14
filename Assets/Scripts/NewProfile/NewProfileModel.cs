@@ -60,6 +60,7 @@ public class NewProfileModel
 
 	private User parsePlayer(string[] array)
 	{
+
 		User player = new User ();
 		player.Id= System.Convert.ToInt32(array[0]);
 		player.Ranking = System.Convert.ToInt32 (array [1]);
@@ -71,7 +72,7 @@ public class NewProfileModel
 		player.FirstName = array [7];
 		player.Surname = array [8];
 		player.Mail = array [9];
-		player.Picture = array [10];
+		player.idProfilePicture = System.Convert.ToInt32(array [10]);
 		return player;
 	}
 	private IList<User> parseUsers(string[] array)
@@ -85,7 +86,7 @@ public class NewProfileModel
 			users.Add (new User());
 			users[i].Id= System.Convert.ToInt32(userData[0]);
 			users[i].Username= userData[1];
-			users[i].ThumbPicture= userData[2];
+			users[i].idProfilePicture= System.Convert.ToInt32(userData[2]);
 			users[i].CollectionRanking = System.Convert.ToInt32 (userData [3]);
 			users[i].RankingPoints = System.Convert.ToInt32 (userData [4]);
 			users[i].Ranking = System.Convert.ToInt32 (userData [5]);
@@ -110,6 +111,7 @@ public class NewProfileModel
 		for (int i=0; i<friendsRequestsData.Length-1;i++)
 		{
 			string[] friendsRequestData =friendsRequestsData[i].Split(new string[] { "//" }, System.StringSplitOptions.None);
+			friendsRequests.Add (new FriendsRequest());
 			friendsRequests[i].Connection = new Connection();
 			friendsRequests[i].User= this.users[returnUsersIndex(System.Convert.ToInt32(friendsRequestData[0]))];
 			friendsRequests[i].IsInvitingPlayer=System.Convert.ToBoolean(System.Convert.ToInt32(friendsRequestData[1]));

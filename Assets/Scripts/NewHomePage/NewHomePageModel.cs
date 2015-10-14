@@ -151,7 +151,7 @@ public class NewHomePageModel
 			users.Add (new User());
 			users[i].Id= System.Convert.ToInt32(userData[0]);
 			users[i].Username= userData[1];
-			users[i].ThumbPicture= userData[2];
+			users[i].idProfilePicture= System.Convert.ToInt32(userData[2]);
 			users[i].CollectionRanking = System.Convert.ToInt32 (userData [3]);
 			users[i].RankingPoints = System.Convert.ToInt32 (userData [4]);
 			users[i].Ranking = System.Convert.ToInt32 (userData [5]);

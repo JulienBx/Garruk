@@ -70,7 +70,7 @@ public class InvitationPopUpModel {
 		invitation.SendingUser=new User();
 		invitation.Id = System.Convert.ToInt32 (array [0]);
 		invitation.SendingUser.Username = array [1];
-		invitation.SendingUser.ThumbPicture = array [2];
+		invitation.SendingUser.idProfilePicture = System.Convert.ToInt32(array [2]);
 		invitation.SendingUser.CollectionRanking = System.Convert.ToInt32 (array [3]);
 		invitation.SendingUser.RankingPoints = System.Convert.ToInt32 (array [4]);
 		invitation.SendingUser.Ranking = System.Convert.ToInt32 (array [5]);

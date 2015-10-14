@@ -98,26 +98,6 @@ public class NewLobbyController : MonoBehaviour
 		{
 			this.escapePressed();
 		}
-		if(this.areResultsPicturesLoading)
-		{
-			bool allPicturesLoaded=true;
-			for(int i=0;i<this.resultsDisplayed.Count;i++)
-			{
-				if(!model.lastResults[this.resultsDisplayed[i]].Opponent.isThumbPictureLoaded)
-				{
-					allPicturesLoaded=false;
-					break;
-				}
-			}
-			if(allPicturesLoaded)
-			{
-				this.areResultsPicturesLoading=false;
-				for(int i=0;i<resultsDisplayed.Count;i++)
-				{
-					this.results[i].GetComponent<ResultController>().setPicture(model.lastResults[this.resultsDisplayed[i]].Opponent.texture);
-				}
-			}
-		}
 		if(this.isCompetitionPictureLoading)
 		{
 			if(this.isDivisionLobby)
@@ -377,16 +357,10 @@ public class NewLobbyController : MonoBehaviour
 		{
 			tempInt=model.lastResults.Count-this.chosenPage*(elementsPerPage);
 		}
-		bool allPicturesLoaded = true;
 		for(int i =0;i<elementsPerPage;i++)
 		{
 			if(this.chosenPage*this.elementsPerPage+i<model.lastResults.Count)
 			{
-				if(!model.lastResults[this.chosenPage*this.elementsPerPage+i].Opponent.isThumbPictureLoaded)
-				{
-					StartCoroutine(model.lastResults[this.chosenPage*this.elementsPerPage+i].Opponent.setThumbProfilePicture());
-					allPicturesLoaded=false;
-				}
 				this.resultsDisplayed.Add (this.chosenPage*this.elementsPerPage+i);
 				this.results[i].GetComponent<ResultController>().setResult(model.lastResults[this.chosenPage*this.elementsPerPage+i]);
 				this.results[i].GetComponent<ResultController>().show();
@@ -396,10 +370,6 @@ public class NewLobbyController : MonoBehaviour
 			{
 				this.results[i].SetActive(false);
 			}
-		}
-		if(!allPicturesLoaded)
-		{
-			this.areResultsPicturesLoading=true;
 		}
 	}
 	public void drawStats()

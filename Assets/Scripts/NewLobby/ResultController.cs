@@ -48,7 +48,7 @@ public class ResultController : MonoBehaviour
 	public void show()
 	{
 		gameObject.transform.FindChild ("Username").GetComponent<TextMeshPro> ().text = this.pR.Opponent.Username;
-		gameObject.transform.FindChild ("Picture").GetComponent<SpriteRenderer> ().sprite = this.pR.Opponent.texture;
+		gameObject.transform.FindChild ("Picture").GetComponent<SpriteRenderer> ().sprite = newMenuController.instance.returnThumbPicture(this.pR.Opponent.idProfilePicture);
 		Color tempColor = new Color ();
 		if(this.pR.HasWon)
 		{

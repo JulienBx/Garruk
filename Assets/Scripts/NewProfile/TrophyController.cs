@@ -19,9 +19,6 @@ public class TrophyController : MonoBehaviour
 		if(!isHovering)
 		{
 			this.isHovering=true;
-			//NewProfileController.instance.startHoveringFriendsRequest (this.Id);
-			//gameObject.transform.FindChild("PictureBorder").GetComponent<SpriteRenderer>().color=new Color(155f/255f,220f/255f,1f);
-			//gameObject.transform.FindChild("Username").GetComponent<TextMeshPro>().color=new Color(155f/255f,220f/255f,1f);
 		}
 	}
 	void OnMouseExit()
@@ -29,8 +26,6 @@ public class TrophyController : MonoBehaviour
 		if(isHovering)
 		{
 			this.isHovering=false;
-			//NewProfileController.instance.endHoveringFriend ();
-			//gameObject.transform.FindChild("Username").GetComponent<TextMeshPro>().color=new Color(1f,1f,1f);
 		}
 	}
 	void OnMouseDown()
@@ -39,8 +34,9 @@ public class TrophyController : MonoBehaviour
 	}
 	public void show()
 	{
-		//gameObject.transform.FindChild ("Username").GetComponent<TextMeshPro> ().text = this.u.Username;
-		//gameObject.transform.FindChild ("Picture").GetComponent<SpriteRenderer> ().sprite = this.u.texture;
+		gameObject.transform.FindChild ("Name").GetComponent<TextMeshPro> ().text = this.t.competition.Name;
+		gameObject.transform.FindChild ("Date").GetComponent<TextMeshPro> ().text = "Le " + this.t.Date.ToString("dd/MM/yyyy");
+		gameObject.transform.FindChild ("Picture").GetComponent<SpriteRenderer> ().sprite = this.t.competition.texture;
 	}
 	public void setPicture(Sprite picture)
 	{

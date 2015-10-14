@@ -18,7 +18,7 @@ public class MenuUserDataController : MonoBehaviour
 	}
 	void OnMouseDown()
 	{
-		//newMenuController.instance.profileLink ();
+		newMenuController.instance.profileLink ();
 	}
 }
 

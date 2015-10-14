@@ -146,10 +146,7 @@ public class NewHomePageController : MonoBehaviour
 	private float popUpDestroyInterval;
 
 	private int nbNonReadNotifications;
-
-	private bool areNewsPicturesLoading;
-	private bool areNotificationsPicturesLoading;
-	private bool areFriendsPicturesLoading;
+	
 	private bool arePacksPicturesLoading;
 	private bool areCompetitionsPicturesLoading;
 
@@ -241,66 +238,6 @@ public class NewHomePageController : MonoBehaviour
 				}
 			}
 			this.money=ApplicationModel.credits;
-		}
-		if(areNewsPicturesLoading)
-		{
-			bool allPicturesLoaded=true;
-			for(int i=0;i<newsDisplayed.Count;i++)
-			{
-				if(!model.news[this.newsDisplayed[i]].User.isThumbPictureLoaded)
-				{
-					allPicturesLoaded=false;
-					break;
-				}
-			}
-			if(allPicturesLoaded)
-			{
-				this.areNewsPicturesLoading=false;
-				for(int i=0;i<newsDisplayed.Count;i++)
-				{
-					this.news[i].GetComponent<NewsController>().setPicture(model.news[this.newsDisplayed[i]].User.texture);
-				}
-			}
-		}
-		if(areNotificationsPicturesLoading)
-		{
-			bool allPicturesLoaded=true;
-			for(int i=0;i<notificationsDisplayed.Count;i++)
-			{
-				if(!model.notifications[this.notificationsDisplayed[i]].SendingUser.isThumbPictureLoaded)
-				{
-					allPicturesLoaded=false;
-					break;
-				}
-			}
-			if(allPicturesLoaded)
-			{
-				this.areNotificationsPicturesLoading=false;
-				for(int i=0;i<notificationsDisplayed.Count;i++)
-				{
-					this.notifications[i].GetComponent<NotificationController>().setPicture(model.notifications[this.notificationsDisplayed[i]].SendingUser.texture);
-				}
-			}
-		}
-		if(areFriendsPicturesLoading)
-		{
-			bool allPicturesLoaded=true;
-			for(int i=0;i<friendsDisplayed.Count;i++)
-			{
-				if(!model.users[this.friendsToBeDisplayed[this.friendsDisplayed[i]]].isThumbPictureLoaded)
-				{
-					allPicturesLoaded=false;
-					break;
-				}
-			}
-			if(allPicturesLoaded)
-			{
-				this.areFriendsPicturesLoading=false;
-				for(int i=0;i<friendsDisplayed.Count;i++)
-				{
-					this.friends[i].GetComponent<HomePageOnlineFriendController>().setPicture(model.users[this.friendsToBeDisplayed[this.friendsDisplayed[i]]].texture);
-				}
-			}
 		}
 		if(arePacksPicturesLoading)
 		{
@@ -465,7 +402,7 @@ public class NewHomePageController : MonoBehaviour
 		this.notificationsTitle = GameObject.Find ("NotificationsTitle");
 		this.notificationsTitle.GetComponent<TextMeshPro> ().text = "Notifications";
 		this.friendsTitle = GameObject.Find ("FriendsTitle");
-		this.friendsTitle.GetComponent<TextMeshPro> ().text = "Amis en ligne";
+		this.friendsTitle.GetComponent<TextMeshPro> ().text = "Amis";
 		this.competitionsTitle = GameObject.Find ("CompetitionsTitle");
 		this.connectedPlayersTitle = GameObject.Find ("ConnectedPlayers");
 		this.competitionsTitle.GetComponent<TextMeshPro> ().text = "Jouer";
@@ -1109,19 +1046,10 @@ public class NewHomePageController : MonoBehaviour
 	public void drawNotifications(bool firstLoad=false)
 	{
 		this.notificationsDisplayed = new List<int> ();
-		bool allPicturesLoaded = true;
 		for(int i =0;i<elementsPerPageNotifications;i++)
 		{
 			if(this.chosenPageNotifications*this.elementsPerPageNotifications+i<model.notifications.Count)
 			{
-				if(!model.notifications[this.chosenPageNotifications*this.elementsPerPageNotifications+i].SendingUser.isThumbPictureLoaded)
-				{
-					if(!model.notifications[this.chosenPageNotifications*this.elementsPerPageNotifications+i].SendingUser.isThumbPictureLoading)
-					{
-						StartCoroutine(model.notifications[this.chosenPageNotifications*this.elementsPerPageNotifications+i].SendingUser.setThumbProfilePicture());
-					}
-					allPicturesLoaded=false;
-				}
 				this.notificationsDisplayed.Add (this.chosenPageNotifications*this.elementsPerPageNotifications+i);
 				this.notifications[i].GetComponent<NotificationController>().n=model.notifications[this.chosenPageNotifications*this.elementsPerPageNotifications+i];
 				this.notifications[i].GetComponent<NotificationController>().show();
@@ -1132,28 +1060,15 @@ public class NewHomePageController : MonoBehaviour
 				this.notifications[i].SetActive(false);
 			}
 		}
-		if(!allPicturesLoaded)
-		{
-			this.areNotificationsPicturesLoading=true;
-		}
 		this.manageNonReadsNotifications (firstLoad);
 	}
 	public void drawNews()
 	{
 		this.newsDisplayed = new List<int> ();
-		bool allPicturesLoaded = true;
 		for(int i =0;i<elementsPerPageNews;i++)
 		{
 			if(this.chosenPageNews*this.elementsPerPageNews+i<model.news.Count)
 			{
-				if(!model.news[this.chosenPageNews*this.elementsPerPageNews+i].User.isThumbPictureLoaded)
-				{
-					if(!model.news[this.chosenPageNews*this.elementsPerPageNews+i].User.isThumbPictureLoading)
-					{
-						StartCoroutine(model.news[this.chosenPageNews*this.elementsPerPageNews+i].User.setThumbProfilePicture());
-					}
-					allPicturesLoaded=false;
-				}
 				this.newsDisplayed.Add (this.chosenPageNews*this.elementsPerPageNews+i);
 				this.news[i].GetComponent<NewsController>().n=model.news[this.chosenPageNews*this.elementsPerPageNews+i];
 				this.news[i].GetComponent<NewsController>().show();
@@ -1164,27 +1079,14 @@ public class NewHomePageController : MonoBehaviour
 				this.news[i].SetActive(false);
 			}
 		}
-		if(!allPicturesLoaded)
-		{
-			this.areNewsPicturesLoading=true;
-		}
 	}
 	public void drawFriends()
 	{
 		this.friendsDisplayed = new List<int> ();
-		bool allPicturesLoaded = true;
 		for(int i =0;i<elementsPerPageFriends;i++)
 		{
 			if(this.chosenPageFriends*this.elementsPerPageFriends+i<this.friendsToBeDisplayed.Count)
 			{
-				if(!model.users[this.friendsToBeDisplayed[this.chosenPageFriends*this.elementsPerPageFriends+i]].isThumbPictureLoaded)
-				{
-					if(!model.users[this.friendsToBeDisplayed[this.chosenPageFriends*this.elementsPerPageFriends+i]].isThumbPictureLoading)
-					{
-						StartCoroutine(model.users[this.friendsToBeDisplayed[this.chosenPageFriends*this.elementsPerPageFriends+i]].setThumbProfilePicture());
-					}
-					allPicturesLoaded=false;
-				}
 				this.friendsDisplayed.Add (this.chosenPageFriends*this.elementsPerPageFriends+i);
 				this.friends[i].GetComponent<HomePageOnlineFriendController>().u=model.users[this.friendsToBeDisplayed[this.chosenPageFriends*this.elementsPerPageFriends+i]];
 				this.friends[i].GetComponent<HomePageOnlineFriendController>().show();
@@ -1201,10 +1103,6 @@ public class NewHomePageController : MonoBehaviour
 			{
 				this.friends[i].SetActive(false);
 			}
-		}
-		if(!allPicturesLoaded)
-		{
-			this.areFriendsPicturesLoading=true;
 		}
 	}
 	public void drawPacks()

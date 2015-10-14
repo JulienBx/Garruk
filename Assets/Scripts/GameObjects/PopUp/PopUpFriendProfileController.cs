@@ -17,5 +17,9 @@ public class PopUpFriendProfileController : PopUpFriendController
 	{
 		NewProfileController.instance.endHoveringPopUp();
 	}
+	public override void setButtonController()
+	{
+		gameObject.transform.FindChild ("Button").gameObject.AddComponent <PopUpFriendButtonProfileController>();
+	}
 }
 

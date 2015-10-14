@@ -38,8 +38,8 @@ public class User
 	public string FirstName;
 	public string Surname;
 
-	public string Picture;
-	public string ThumbPicture;
+	//public string Picture;
+	//public string ThumbPicture;
 	public int Money;
 	public List<Connection> Connections;
 	public int Division;
@@ -50,7 +50,7 @@ public class User
 	public int RankingPoints;
 	public int TotalNbWins;
 	public int TotalNbLooses;
-	public Sprite texture;
+	//public Sprite texture;
 	public int NbGamesDivision;
 	public bool readnotificationsystem;
 	public int nonReadNotifications;
@@ -69,130 +69,129 @@ public class User
 	public bool DivisionLobbyTutorial;
 	public bool CupLobbyTutorial;
 	public int ConnectionBonus;
-	public bool isProfilePictureLoaded;
-	public bool isThumbPictureLoaded;
-	public bool isThumbPictureLoading;
+//	public bool isProfilePictureLoaded;
+//	public bool isThumbPictureLoaded;
+//	public bool isThumbPictureLoading;
+	public int idProfilePicture;
 
 	public User()
 	{
 		this.Username = "";
-		this.Picture = "";
-		this.texture = Sprite.Create (new Texture2D (1, 1, TextureFormat.ARGB32, false), new Rect (0, 0, 1, 1), new Vector2 (0.5f, 0.5f));
 	}
-	public User(int id)
-	{
-		this.Id = id;
-		this.texture = Sprite.Create (new Texture2D (1, 1, TextureFormat.ARGB32, false), new Rect (0, 0, 1, 1), new Vector2 (0.5f, 0.5f));
-	}
-	public User(string username)
-	{
-		this.Username = username;
-		this.texture = Sprite.Create (new Texture2D (1, 1, TextureFormat.ARGB32, false), new Rect (0, 0, 1, 1), new Vector2 (0.5f, 0.5f));
-	}
+//	public User(int id)
+//	{
+//		this.Id = id;
+//		this.texture = Sprite.Create (new Texture2D (1, 1, TextureFormat.ARGB32, false), new Rect (0, 0, 1, 1), new Vector2 (0.5f, 0.5f));
+//	}
+//	public User(string username)
+//	{
+//		this.Username = username;
+//		this.texture = Sprite.Create (new Texture2D (1, 1, TextureFormat.ARGB32, false), new Rect (0, 0, 1, 1), new Vector2 (0.5f, 0.5f));
+//	}
+//
+//	public User(string username, string picture)
+//	{
+//		this.Username = username;
+//		this.Picture = picture;
+//		this.texture = Sprite.Create (new Texture2D (1, 1, TextureFormat.ARGB32, false), new Rect (0, 0, 1, 1), new Vector2 (0.5f, 0.5f));
+//	}
 
-	public User(string username, string picture)
-	{
-		this.Username = username;
-		this.Picture = picture;
-		this.texture = Sprite.Create (new Texture2D (1, 1, TextureFormat.ARGB32, false), new Rect (0, 0, 1, 1), new Vector2 (0.5f, 0.5f));
-	}
-
-	public User(string username, string mail, int money, string firstname, string surname, string picture)
-	{
-		this.Username = username;
-		this.Mail = mail;
-		this.Money = money;
-		this.FirstName = firstname;
-		this.Surname = surname;
-		this.Picture = picture;
-		this.texture = Sprite.Create (new Texture2D (1, 1, TextureFormat.ARGB32, false), new Rect (0, 0, 1, 1), new Vector2 (0.5f, 0.5f));
-	}
+//	public User(string username, string mail, int money, string firstname, string surname, string picture)
+//	{
+//		this.Username = username;
+//		this.Mail = mail;
+//		this.Money = money;
+//		this.FirstName = firstname;
+//		this.Surname = surname;
+//		this.Picture = picture;
+//		this.texture = Sprite.Create (new Texture2D (1, 1, TextureFormat.ARGB32, false), new Rect (0, 0, 1, 1), new Vector2 (0.5f, 0.5f));
+//	}
 
 	public User(List<Connection> connections)
 	{
 		this.Connections = connections;
 	}
-	public User(int id, 
-	            string username, 
-	            string mail, 
-	            int money, 
-	            string firstname, 
-	            string surname, 
-	            string picture, 
-	            int division, 
-	            int rankingpoints, 
-	            int ranking,  
-	            int totalnbwins, 
-	            int totalnblooses)
-	{
-		this.Id = id;
-		this.Username = username;
-		this.Mail = mail;
-		this.Money = money;
-		this.FirstName = firstname;
-		this.Surname = surname;
-		this.Picture = picture;
-		this.Division = division;
-		this.RankingPoints = rankingpoints;
-		this.Ranking = ranking;
-		this.TotalNbWins = totalnbwins;
-		this.TotalNbLooses = totalnblooses;
-		this.texture = Sprite.Create (new Texture2D (1, 1, TextureFormat.ARGB32, false), new Rect (0, 0, 1, 1), new Vector2 (0.5f, 0.5f));
-	}
-	public User(int id, 
-	            string username, 
-	            string thumbPicture, 
-	            int collectionRanking, 
-	            int rankingpoints, 
-	            int ranking,  
-	            int totalnbwins, 
-	            int totalnblooses)
-	{
-		this.Id = id;
-		this.Username = username;
-		this.ThumbPicture = thumbPicture;
-		this.CollectionRanking = collectionRanking;
-		this.RankingPoints = rankingpoints;
-		this.Ranking = ranking;
-		this.TotalNbWins = totalnbwins;
-		this.TotalNbLooses = totalnblooses;
-		this.texture = Sprite.Create (new Texture2D (1, 1, TextureFormat.ARGB32, false), new Rect (0, 0, 1, 1), new Vector2 (0.5f, 0.5f));
-	}
-	public User(int id, int money, int division, int nbgamesdivision, int cup, int nbgamescup, int rankingpoints,int ranking,  int totalnbwins, int totalnblooses)
-	{
-		this.Id = id;
-		this.Money = money;
-		this.Division = division;
-		this.NbGamesDivision = nbgamesdivision;
-		this.Cup = cup;
-		this.NbGamesCup = nbgamescup;
-		this.RankingPoints = rankingpoints;
-		this.Ranking = ranking;
-		this.TotalNbWins = totalnbwins;
-		this.TotalNbLooses = totalnblooses;
-		this.texture = Sprite.Create (new Texture2D (1, 1, TextureFormat.ARGB32, false), new Rect (0, 0, 1, 1), new Vector2 (0.5f, 0.5f));
-	}
-	public User(string username, string picture, int division, int rankingpoints,int ranking,  int totalnbwins, int totalnblooses)
-	{
-		this.Username = username;
-		this.Picture = picture;
-		this.Division = division;
-		this.RankingPoints = rankingpoints;
-		this.Ranking = ranking;
-		this.TotalNbWins = totalnbwins;
-		this.TotalNbLooses = totalnblooses;
-		this.texture = Sprite.Create (new Texture2D (1, 1, TextureFormat.ARGB32, false), new Rect (0, 0, 1, 1), new Vector2 (0.5f, 0.5f));
-	}
-	public User(string username, string thumbpicture, int ranking, int collectionRanking,  int totalnbwins, int totalnblooses)
-	{
-		this.Username = username;
-		this.ThumbPicture = thumbpicture;
-		this.CollectionRanking = collectionRanking;
-		this.Ranking = ranking;
-		this.TotalNbWins = totalnbwins;
-		this.TotalNbLooses = totalnblooses;
-		this.texture = Sprite.Create (new Texture2D (1, 1, TextureFormat.ARGB32, false), new Rect (0, 0, 1, 1), new Vector2 (0.5f, 0.5f));
-	}
+//	public User(int id, 
+//	            string username, 
+//	            string mail, 
+//	            int money, 
+//	            string firstname, 
+//	            string surname, 
+//	            string picture, 
+//	            int division, 
+//	            int rankingpoints, 
+//	            int ranking,  
+//	            int totalnbwins, 
+//	            int totalnblooses)
+//	{
+//		this.Id = id;
+//		this.Username = username;
+//		this.Mail = mail;
+//		this.Money = money;
+//		this.FirstName = firstname;
+//		this.Surname = surname;
+//		this.Picture = picture;
+//		this.Division = division;
+//		this.RankingPoints = rankingpoints;
+//		this.Ranking = ranking;
+//		this.TotalNbWins = totalnbwins;
+//		this.TotalNbLooses = totalnblooses;
+//		this.texture = Sprite.Create (new Texture2D (1, 1, TextureFormat.ARGB32, false), new Rect (0, 0, 1, 1), new Vector2 (0.5f, 0.5f));
+//	}
+//	public User(int id, 
+//	            string username, 
+//	            string thumbPicture, 
+//	            int collectionRanking, 
+//	            int rankingpoints, 
+//	            int ranking,  
+//	            int totalnbwins, 
+//	            int totalnblooses)
+//	{
+//		this.Id = id;
+//		this.Username = username;
+//		this.ThumbPicture = thumbPicture;
+//		this.CollectionRanking = collectionRanking;
+//		this.RankingPoints = rankingpoints;
+//		this.Ranking = ranking;
+//		this.TotalNbWins = totalnbwins;
+//		this.TotalNbLooses = totalnblooses;
+//		this.texture = Sprite.Create (new Texture2D (1, 1, TextureFormat.ARGB32, false), new Rect (0, 0, 1, 1), new Vector2 (0.5f, 0.5f));
+//	}
+//	public User(int id, int money, int division, int nbgamesdivision, int cup, int nbgamescup, int rankingpoints,int ranking,  int totalnbwins, int totalnblooses)
+//	{
+//		this.Id = id;
+//		this.Money = money;
+//		this.Division = division;
+//		this.NbGamesDivision = nbgamesdivision;
+//		this.Cup = cup;
+//		this.NbGamesCup = nbgamescup;
+//		this.RankingPoints = rankingpoints;
+//		this.Ranking = ranking;
+//		this.TotalNbWins = totalnbwins;
+//		this.TotalNbLooses = totalnblooses;
+//		this.texture = Sprite.Create (new Texture2D (1, 1, TextureFormat.ARGB32, false), new Rect (0, 0, 1, 1), new Vector2 (0.5f, 0.5f));
+//	}
+//	public User(string username, string picture, int division, int rankingpoints,int ranking,  int totalnbwins, int totalnblooses)
+//	{
+//		this.Username = username;
+//		this.Picture = picture;
+//		this.Division = division;
+//		this.RankingPoints = rankingpoints;
+//		this.Ranking = ranking;
+//		this.TotalNbWins = totalnbwins;
+//		this.TotalNbLooses = totalnblooses;
+//		this.texture = Sprite.Create (new Texture2D (1, 1, TextureFormat.ARGB32, false), new Rect (0, 0, 1, 1), new Vector2 (0.5f, 0.5f));
+//	}
+//	public User(string username, string thumbpicture, int ranking, int collectionRanking,  int totalnbwins, int totalnblooses)
+//	{
+//		this.Username = username;
+//		this.ThumbPicture = thumbpicture;
+//		this.CollectionRanking = collectionRanking;
+//		this.Ranking = ranking;
+//		this.TotalNbWins = totalnbwins;
+//		this.TotalNbLooses = totalnblooses;
+//		this.texture = Sprite.Create (new Texture2D (1, 1, TextureFormat.ARGB32, false), new Rect (0, 0, 1, 1), new Vector2 (0.5f, 0.5f));
+//	}
 	public IEnumerator updateInformations(){
 
 		WWWForm form = new WWWForm(); 											// Création de la connexion
@@ -208,89 +207,89 @@ public class User
 			Debug.Log (w.error); 
 		}
 	}
-	public IEnumerator updateProfilePicture(File2 file)
-	{
-		WWWForm form = new WWWForm(); 											// Création de la connexion
-		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_nick", ApplicationModel.username);
-		form.AddBinaryData("myform_file",file.LocalFile.bytes, ApplicationModel.username+file.FileExtension);
-		
-		WWW w = new WWW(URLUpdateProfilePicture, form); 				 // On envoie le formulaire à l'url sur le serveur 
-		yield return w;
-		if (w.error != null) 
-			Debug.Log (w.error); 
-		else 
-		{
-			if(w.text==""){
-				this.Picture=this.ServerDirectory + this.Username + file.FileExtension;
-			}
-			else	
-			{
-				this.Error =w.text;
-				yield break;
-			}
-		}
-	}
-	public IEnumerator retrievePicture(){
-		
-		WWWForm form = new WWWForm(); 											 //Création de la connexion
-		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_nick", this.Username);
-			
-		WWW w = new WWW(URLGetUserGameProfile, form); 				// On envoie le formulaire à l'url sur le serveur 
-		yield return w;
-		if (w.error != null){ 
-			Debug.Log (w.error); 
-		}
-		else{
-			//Debug.Log(w.text); 											// donne le retour
-			this.Picture=w.text;
-		}
-	}
-	public IEnumerator setProfilePicture(){
-		
-		if (this.Picture.StartsWith(ServerDirectory)){
-			var www = new WWW(ApplicationModel.host+this.Picture);
-			yield return www;
-			Texture2D tempTexture=new Texture2D (1, 1, TextureFormat.ARGB32, false);
-			www.LoadImageIntoTexture(tempTexture);
-			this.texture=Sprite.Create (tempTexture, new Rect (0, 0, tempTexture.width, tempTexture.height), new Vector2 (0.5f, 0.5f));
-		}
-		else {
-			var www = new WWW(URLDefaultProfilePicture);
-			yield return www;
-			Texture2D tempTexture=new Texture2D (1, 1, TextureFormat.ARGB32, false);
-			www.LoadImageIntoTexture(tempTexture);
-			this.texture=Sprite.Create (tempTexture, new Rect (0, 0, tempTexture.width, tempTexture.height), new Vector2 (0.5f, 0.5f));
-		}
-		this.isProfilePictureLoaded = true;
-	}
-
-	public IEnumerator setThumbProfilePicture(){
-		
-		if(!this.isThumbPictureLoading)
-		{
-			this.isThumbPictureLoading=true;
-			if (this.ThumbPicture.StartsWith(ServerDirectory))
-			{
-				var www = new WWW(ApplicationModel.host+this.ThumbPicture);
-				yield return www;
-				Texture2D tempTexture=new Texture2D (1, 1, TextureFormat.ARGB32, false);
-				www.LoadImageIntoTexture(tempTexture);
-				this.texture=Sprite.Create (tempTexture, new Rect (0, 0, tempTexture.width, tempTexture.height), new Vector2 (0.5f, 0.5f));
-			}
-			else 
-			{
-				var www = new WWW(URLDefaultThumbProfilePicture);
-				yield return www;
-				Texture2D tempTexture=new Texture2D (1, 1, TextureFormat.ARGB32, false);
-				www.LoadImageIntoTexture(tempTexture);
-				this.texture=Sprite.Create (tempTexture, new Rect (0, 0, tempTexture.width, tempTexture.height), new Vector2 (0.5f, 0.5f));
-			}
-			this.isThumbPictureLoaded = true;
-			this.isThumbPictureLoading=false;
-		}
-	}
+//	public IEnumerator updateProfilePicture(File2 file)
+//	{
+//		WWWForm form = new WWWForm(); 											// Création de la connexion
+//		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
+//		form.AddField("myform_nick", ApplicationModel.username);
+//		form.AddBinaryData("myform_file",file.LocalFile.bytes, ApplicationModel.username+file.FileExtension);
+//		
+//		WWW w = new WWW(URLUpdateProfilePicture, form); 				 // On envoie le formulaire à l'url sur le serveur 
+//		yield return w;
+//		if (w.error != null) 
+//			Debug.Log (w.error); 
+//		else 
+//		{
+//			if(w.text==""){
+//				this.Picture=this.ServerDirectory + this.Username + file.FileExtension;
+//			}
+//			else	
+//			{
+//				this.Error =w.text;
+//				yield break;
+//			}
+//		}
+//	}
+//	public IEnumerator retrievePicture(){
+//		
+//		WWWForm form = new WWWForm(); 											 //Création de la connexion
+//		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
+//		form.AddField("myform_nick", this.Username);
+//			
+//		WWW w = new WWW(URLGetUserGameProfile, form); 				// On envoie le formulaire à l'url sur le serveur 
+//		yield return w;
+//		if (w.error != null){ 
+//			Debug.Log (w.error); 
+//		}
+//		else{
+//			//Debug.Log(w.text); 											// donne le retour
+//			this.Picture=w.text;
+//		}
+//	}
+//	public IEnumerator setProfilePicture(){
+//		
+//		if (this.Picture.StartsWith(ServerDirectory)){
+//			var www = new WWW(ApplicationModel.host+this.Picture);
+//			yield return www;
+//			Texture2D tempTexture=new Texture2D (1, 1, TextureFormat.ARGB32, false);
+//			www.LoadImageIntoTexture(tempTexture);
+//			this.texture=Sprite.Create (tempTexture, new Rect (0, 0, tempTexture.width, tempTexture.height), new Vector2 (0.5f, 0.5f));
+//		}
+//		else {
+//			var www = new WWW(URLDefaultProfilePicture);
+//			yield return www;
+//			Texture2D tempTexture=new Texture2D (1, 1, TextureFormat.ARGB32, false);
+//			www.LoadImageIntoTexture(tempTexture);
+//			this.texture=Sprite.Create (tempTexture, new Rect (0, 0, tempTexture.width, tempTexture.height), new Vector2 (0.5f, 0.5f));
+//		}
+//		this.isProfilePictureLoaded = true;
+//	}
+//
+//	public IEnumerator setThumbProfilePicture(){
+//		
+//		if(!this.isThumbPictureLoading)
+//		{
+//			this.isThumbPictureLoading=true;
+//			if (this.ThumbPicture.StartsWith(ServerDirectory))
+//			{
+//				var www = new WWW(ApplicationModel.host+this.ThumbPicture);
+//				yield return www;
+//				Texture2D tempTexture=new Texture2D (1, 1, TextureFormat.ARGB32, false);
+//				www.LoadImageIntoTexture(tempTexture);
+//				this.texture=Sprite.Create (tempTexture, new Rect (0, 0, tempTexture.width, tempTexture.height), new Vector2 (0.5f, 0.5f));
+//			}
+//			else 
+//			{
+//				var www = new WWW(URLDefaultThumbProfilePicture);
+//				yield return www;
+//				Texture2D tempTexture=new Texture2D (1, 1, TextureFormat.ARGB32, false);
+//				www.LoadImageIntoTexture(tempTexture);
+//				this.texture=Sprite.Create (tempTexture, new Rect (0, 0, tempTexture.width, tempTexture.height), new Vector2 (0.5f, 0.5f));
+//			}
+//			this.isThumbPictureLoaded = true;
+//			this.isThumbPictureLoading=false;
+//		}
+//	}
 
 	public IEnumerator getCards(Action<string> callback)
 	{

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using TMPro;
 
-public class PopUpInvitationButtonController : MonoBehaviour 
+public class PopUpButtonController : MonoBehaviour 
 {
 	private bool isHovering;
 	
@@ -29,10 +29,13 @@ public class PopUpInvitationButtonController : MonoBehaviour
 			gameObject.transform.FindChild("Title").GetComponent<TextMeshPro>().color=new Color(1f,1f,1f);
 		}
 	}
-	void OnMouseDown()
+	public void OnMouseDown()
 	{
-		NewHomePageController.instance.sendInvitationHandler ();
 		gameObject.transform.parent.GetComponent<PopUpController>().OnMouseExit();
+		this.clickHandler ();
+	}
+	public virtual void clickHandler()
+	{
 	}
 	public bool getIsHovering()
 	{

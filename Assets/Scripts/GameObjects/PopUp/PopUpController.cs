@@ -17,6 +17,7 @@ public class PopUpController : MonoBehaviour
 	private bool isResult;
 	private bool isFriend;
 	private bool isFriendsRequest;
+	private bool isChallengesRecord;
 	
 	
 	void Awake()
@@ -93,6 +94,14 @@ public class PopUpController : MonoBehaviour
 	public bool getIsFriendsRequest()
 	{
 		return isFriendsRequest;
+	}
+	public void setIsChallengesRecord(bool value)
+	{
+		this.isChallengesRecord = value;
+	}
+	public bool getIsChallengesRecord()
+	{
+		return isChallengesRecord;
 	}
 	public void setId(int Id)
 	{

@@ -31,6 +31,7 @@ public class FriendsRequestController : MonoBehaviour
 		{
 			this.isHovering=false;
 			NewProfileController.instance.endHoveringFriend ();
+			gameObject.transform.FindChild("PictureBorder").GetComponent<SpriteRenderer>().color=new Color(1f,1f,1f);
 			gameObject.transform.FindChild("Username").GetComponent<TextMeshPro>().color=new Color(1f,1f,1f);
 		}
 	}
@@ -41,7 +42,15 @@ public class FriendsRequestController : MonoBehaviour
 	public void show()
 	{
 		gameObject.transform.FindChild ("Username").GetComponent<TextMeshPro> ().text = this.f.User.Username;
-		gameObject.transform.FindChild ("Picture").GetComponent<SpriteRenderer> ().sprite = this.f.User.texture;
+		gameObject.transform.FindChild ("Picture").GetComponent<SpriteRenderer> ().sprite = newMenuController.instance.returnThumbPicture(this.f.User.idProfilePicture);
+		if(this.f.IsInvitingPlayer)
+		{
+			gameObject.transform.FindChild ("Description").GetComponent<TextMeshPro> ().text = "Vous a invité";
+		}
+		else
+		{
+			gameObject.transform.FindChild ("Description").GetComponent<TextMeshPro> ().text = "en attente";
+		}
 	}
 	public void setPicture(Sprite picture)
 	{

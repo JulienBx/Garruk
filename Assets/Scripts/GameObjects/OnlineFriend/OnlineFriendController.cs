@@ -20,7 +20,7 @@ public class OnlineFriendController : MonoBehaviour
 		if(!isHovering)
 		{
 			this.isHovering=true;
-			NewHomePageController.instance.startHoveringFriend (this.Id);
+			this.startHovering();
 			gameObject.transform.FindChild("PictureBorder").GetComponent<SpriteRenderer>().color=new Color(155f/255f,220f/255f,1f);
 			gameObject.transform.FindChild("Username").GetComponent<TextMeshPro>().color=new Color(155f/255f,220f/255f,1f);
 		}
@@ -33,7 +33,7 @@ public class OnlineFriendController : MonoBehaviour
 		if(isHovering)
 		{
 			this.isHovering=false;
-			NewHomePageController.instance.endHoveringFriend ();
+			this.endHovering();
 			this.setOnlineStatus ();
 			gameObject.transform.FindChild("Username").GetComponent<TextMeshPro>().color=new Color(1f,1f,1f);
 		}
@@ -48,7 +48,7 @@ public class OnlineFriendController : MonoBehaviour
 	public void show()
 	{
 		gameObject.transform.FindChild ("Username").GetComponent<TextMeshPro> ().text = this.u.Username;
-		gameObject.transform.FindChild ("Picture").GetComponent<SpriteRenderer> ().sprite = this.u.texture;
+		gameObject.transform.FindChild ("Picture").GetComponent<SpriteRenderer> ().sprite = newMenuController.instance.returnThumbPicture(this.u.idProfilePicture);
 		this.setOnlineStatus ();
 	}
 	public void setPicture(Sprite picture)

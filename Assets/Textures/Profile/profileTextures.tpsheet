@@ -4,10 +4,21 @@
 # To import these sprites into your Unity project, download "TexturePackerImporter":
 # http://www.codeandweb.com/texturepacker/unity
 #
-# Sprite sheet: profileTextures.png (512 x 256)
-# $TexturePacker:SmartUpdate:73d208193694bf79a3f78a96560ad5db:5be8743bf7d854850173644ee9d5bcd9:5bb600da8967b6a395048ea38310583c$
+# Sprite sheet: profileTextures.png (1024 x 1024)
+# $TexturePacker:SmartUpdate:09d710faa6cacbfcfc9580ec152f8e06:14cc5f5e21ba255ba4e96c3d8337567e:5bb600da8967b6a395048ea38310583c$
 #
 
-buttonBorder;2;149;425;105;0.5;0.5
-pagination;2;53;94;94;0.5;0.5
-paginationHover;98;53;94;94;0.5;0.5
+assassin;429;832;190;190;0.5;0.5
+buttonBorder;2;917;425;105;0.5;0.5
+drogueur;621;832;190;190;0.5;0.5
+drone;813;832;190;190;0.5;0.5
+editPictureButton;2;725;190;190;0.5;0.5
+geomancienne;194;725;190;190;0.5;0.5
+invocateur;386;640;190;190;0.5;0.5
+mentaliste;2;533;190;190;0.5;0.5
+mitrailleur;194;533;190;190;0.5;0.5
+pagination;2;245;94;94;0.5;0.5
+paginationHover;2;149;94;94;0.5;0.5
+polymorphe;578;640;190;190;0.5;0.5
+predateur;770;640;190;190;0.5;0.5
+pretresse;2;341;190;190;0.5;0.5

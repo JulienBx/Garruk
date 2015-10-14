@@ -67,12 +67,7 @@ public class InvitationPopUpController : MonoBehaviour
 	public void show()
 	{
 		gameObject.transform.FindChild ("user").GetComponent<InvitationPopUpUserController> ().show (model.invitation.SendingUser);
-		StartCoroutine (this.setSendingUserPicture ());
-	}
-	public IEnumerator setSendingUserPicture()
-	{
-		yield return StartCoroutine (model.invitation.SendingUser.setThumbProfilePicture ());
-		gameObject.transform.FindChild("user").transform.Find ("picture").GetComponent<SpriteRenderer> ().sprite = model.invitation.SendingUser.texture;
+		gameObject.transform.FindChild ("user").transform.FindChild ("picture").GetComponent<SpriteRenderer> ().sprite = newMenuController.instance.returnThumbPicture (model.invitation.SendingUser.idProfilePicture);
 	}
 	public void selectDeck(int id)
 	{

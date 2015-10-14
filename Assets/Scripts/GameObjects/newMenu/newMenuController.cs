@@ -235,12 +235,7 @@ public class newMenuController : MonoBehaviour
 
 		this.initializeMenuObject ();
 		this.refreshMenuObject ();
-		StartCoroutine (setUsersPicture ());
-	}
-	public IEnumerator setUsersPicture()
-	{
-		yield return StartCoroutine (model.player.setThumbProfilePicture ());
-		gameObject.transform.Find ("Picture").GetComponent<SpriteRenderer> ().sprite = model.player.texture;
+		gameObject.transform.FindChild ("Picture").GetComponent<SpriteRenderer> ().sprite = this.returnThumbPicture (model.player.idProfilePicture);
 	}
 	public void initializeMenuObject()
 	{
@@ -316,7 +311,7 @@ public class newMenuController : MonoBehaviour
 	}
 	public void profileLink() 
 	{
-		Application.LoadLevel("Profile");
+		Application.LoadLevel("NewProfile");
 	}
 	public void myGameLink() 
 	{
@@ -532,6 +527,10 @@ public class newMenuController : MonoBehaviour
 		Invitation invitation = new Invitation ();
 		invitation.Id = ApplicationModel.gameType-2;
 		StartCoroutine(invitation.changeStatus(-1));
+	}
+	public Sprite returnThumbPicture(int id)
+	{
+		return ressources.profilePictures [id];
 	}
 }
 

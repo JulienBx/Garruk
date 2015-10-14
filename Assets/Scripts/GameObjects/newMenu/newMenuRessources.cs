@@ -18,6 +18,6 @@ public class newMenuRessources : MonoBehaviour
 	public float endButtonPosition;
 	public float speed;
 	public GUISkin popUpSkin;
-	
+	public Sprite[] profilePictures;
 }
 

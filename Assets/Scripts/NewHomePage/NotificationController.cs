@@ -46,7 +46,7 @@ public class NotificationController : MonoBehaviour
 	{
 		gameObject.transform.FindChild ("Username").GetComponent<TextMeshPro> ().text = this.n.SendingUser.Username;
 		gameObject.transform.FindChild ("Notification").GetComponent<TextMeshPro> ().text = this.n.Notification.Description;
-		gameObject.transform.FindChild ("Picture").GetComponent<SpriteRenderer> ().sprite = this.n.SendingUser.texture;
+		gameObject.transform.FindChild ("Picture").GetComponent<SpriteRenderer> ().sprite = newMenuController.instance.returnThumbPicture(this.n.SendingUser.idProfilePicture);
 		//this.setOnlineStatus ();
 
 		if(!this.n.Notification.IsRead)

@@ -16,6 +16,7 @@ public class NewProfileController : MonoBehaviour
 	public GameObject paginationButtonObject;
 	public GameObject popUpObject;
 	public GUISkin popUpSkin;
+	public Sprite[] profilePictures;
 	
 	private GameObject searchBlock;
 	private GameObject friendsBlock;
@@ -104,20 +105,21 @@ public class NewProfileController : MonoBehaviour
 	
 	private bool isHoveringFriendsRequest;
 	private bool isHoveringFriend;
+	private bool isHoveringChallengesRecord;
 	private bool isHoveringPopUp;
 	private bool isPopUpDisplayed;
 	private int idFriendsRequestHovered;
 	private int idFriendHovered;
+	private int idChallengesRecordHovered;
 
 	private bool toDestroyPopUp;
 	private float popUpDestroyInterval;
-	
-	private bool areFriendsRequestsPicturesLoading;
-	private bool areFriendsPicturesLoading;
+
 	private bool areTrophiesPicturesLoading;
-	private bool areChallengesRecordsPicturesLoading;
 	
 	private bool isTutorialLaunched;
+
+	private bool isProfilePictureHovered;
 
 	public int friendsRefreshInterval;
 	private float friendsCheckTimer;
@@ -136,6 +138,7 @@ public class NewProfileController : MonoBehaviour
 			this.drawPaginationChallengesRecords();
 			this.drawPaginationFriendsRequests();
 			this.drawPaginationFriends();
+			this.drawPaginationTrophies();
 		}
 		if(toDestroyPopUp)
 		{
@@ -154,72 +157,12 @@ public class NewProfileController : MonoBehaviour
 		{
 			this.escapePressed();
 		}
-		if(areFriendsRequestsPicturesLoading)
-		{
-			bool allPicturesLoaded=true;
-			for(int i=0;i<friendsRequestsDisplayed.Count;i++)
-			{
-				if(!model.friendsRequests[this.friendsRequestsDisplayed[i]].User.isThumbPictureLoaded)
-				{
-					allPicturesLoaded=false;
-					break;
-				}
-			}
-			if(allPicturesLoaded)
-			{
-				this.areFriendsRequestsPicturesLoading=false;
-				for(int i=0;i<friendsRequestsDisplayed.Count;i++)
-				{
-					this.friendsRequests[i].GetComponent<FriendsRequestController>().setPicture(model.friendsRequests[this.friendsRequestsDisplayed[i]].User.texture);
-				}
-			}
-		}
-		if(areFriendsPicturesLoading)
-		{
-			bool allPicturesLoaded=true;
-			for(int i=0;i<friendsDisplayed.Count;i++)
-			{
-				if(!model.users[this.friendsToBeDisplayed[this.friendsDisplayed[i]]].isThumbPictureLoaded)
-				{
-					allPicturesLoaded=false;
-					break;
-				}
-			}
-			if(allPicturesLoaded)
-			{
-				this.areFriendsPicturesLoading=false;
-				for(int i=0;i<friendsDisplayed.Count;i++)
-				{
-					this.friends[i].GetComponent<ProfileOnlineFriendController>().setPicture(model.users[this.friendsToBeDisplayed[this.friendsDisplayed[i]]].texture);
-				}
-			}
-		}
-		if(areChallengesRecordsPicturesLoading)
-		{
-			bool allPicturesLoaded=true;
-			for(int i=0;i<challengesRecordsDisplayed.Count;i++)
-			{
-				if(!model.challengesRecords[this.challengesRecordsDisplayed[i]].Friend.isThumbPictureLoaded)
-				{
-					allPicturesLoaded=false;
-					break;
-				}
-			}
-			if(allPicturesLoaded)
-			{
-				this.areChallengesRecordsPicturesLoading=false;
-				for(int i=0;i<challengesRecordsDisplayed.Count;i++)
-				{
-					this.challengesRecords[i].GetComponent<ChallengesRecordController>().setPicture(model.challengesRecords[this.challengesRecordsDisplayed[i]].Friend.texture);
-				}
-			}
-		}
 		if(areTrophiesPicturesLoading)
 		{
 			bool allPicturesLoaded=true;
 			for(int i=0;i<trophiesDisplayed.Count;i++)
 			{
-				if(!model.trophies[i].competition.isTextureLoaded)
+				if(!model.trophies[this.trophiesDisplayed[i]].competition.isTextureLoaded)
 				{
 					allPicturesLoaded=false;
 					break;
@@ -230,7 +173,7 @@ public class NewProfileController : MonoBehaviour
 				this.areTrophiesPicturesLoading=false;
 				for(int i=0;i<this.trophiesDisplayed.Count;i++)
 				{
-					this.trophies[i+1].GetComponent<TrophyController>().setPicture(model.trophies[i].competition.texture);
+					this.trophies[i].GetComponent<TrophyController>().setPicture(model.trophies[this.trophiesDisplayed[i]].competition.texture);
 				}
 			}
 		}
@@ -242,10 +185,10 @@ public class NewProfileController : MonoBehaviour
 		this.widthScreen = Screen.width;
 		this.heightScreen = Screen.height;
 		this.pixelPerUnit = 108f;
-		this.elementsPerPageFriends = 5;
+		this.elementsPerPageFriends = 7;
 		this.elementsPerPageFriendsRequests = 2;
-		this.elementsPerPageTrophies = 4;
-		this.elementsPerPageChallengesRecords = 4;
+		this.elementsPerPageTrophies = 3;
+		this.elementsPerPageChallengesRecords = 3;
 		this.initializeScene ();
 		this.resize ();
 	}
@@ -258,7 +201,9 @@ public class NewProfileController : MonoBehaviour
 		this.initializeChallengesRecords ();
 		this.initializeTrophies ();
 		this.initializeStats ();
+		this.initializeProfile ();
 		this.checkFriendsOnlineStatus ();
+		newMenuController.instance.hideLoadingScreen ();
 		this.isSceneLoaded = true;
 	}
 	private void initializeFriendsRequests()
@@ -295,6 +240,10 @@ public class NewProfileController : MonoBehaviour
 	{
 		this.drawStats ();
 	}
+	private void initializeProfile()
+	{
+		this.drawProfile ();
+	}
 	public void initializeScene()
 	{
 		menu = GameObject.Find ("newMenu");
@@ -308,18 +257,20 @@ public class NewProfileController : MonoBehaviour
 		this.friendsBlock = Instantiate (this.blockObject) as GameObject;
 		this.searchBlock = Instantiate(this.blockObject) as GameObject;
 		this.challengesRecordsBlock = Instantiate(this.blockObject) as GameObject;
+		this.profile = GameObject.Find ("Profile");
 		this.profileTitle = GameObject.Find ("ProfileTitle");
-		this.profileTitle.GetComponent<TextMeshPro> ().text = "Mon profil";
+		this.profileTitle.SetActive (false);
+		//this.profileTitle.GetComponent<TextMeshPro> ().text = "Mon profil";
 		this.friendsRequestsTitle = GameObject.Find ("FriendsRequestsTitle");
 		this.friendsRequestsTitle.GetComponent<TextMeshPro> ().text = "Mes invitations";
-		this.challengesRecordsTitle = GameObject.Find ("challengesRecordsTitle");
+		this.challengesRecordsTitle = GameObject.Find ("ChallengesRecordsTitle");
 		this.challengesRecordsTitle.GetComponent<TextMeshPro> ().text = "Amis défiés";
 		this.statsTitle = GameObject.Find ("StatsTitle");
 		this.statsTitle.GetComponent<TextMeshPro> ().text = "Statistiques";
 		this.friendsTitle = GameObject.Find ("FriendsTitle");
-		this.friendsTitle.GetComponent<TextMeshPro> ().text = "Amis en ligne";
+		this.friendsTitle.GetComponent<TextMeshPro> ().text = "Amis";
 		this.searchTitle = GameObject.Find ("SearchTitle");
-		this.searchTitle.GetComponent<TextMeshPro> ().text = "Recherche un ami";
+		this.searchTitle.GetComponent<TextMeshPro> ().text = "Trouver un ami";
 		this.trophiesTitle = GameObject.Find ("TrophiesTitle");
 		this.trophiesTitle.GetComponent<TextMeshPro> ().text = "Mes trophées";
 		this.stats = GameObject.Find ("Stats");
@@ -327,14 +278,14 @@ public class NewProfileController : MonoBehaviour
 		this.paginationButtonsChallengesRecords = new GameObject[0];
 		this.paginationButtonsFriends = new GameObject[0];
 		this.paginationButtonsTrophies = new GameObject[0];
-		this.challengesRecords=new GameObject[2];
+		this.challengesRecords=new GameObject[3];
 		for(int i=0;i<this.challengesRecords.Length;i++)
 		{
 			this.challengesRecords[i]=GameObject.Find ("ChallengesRecord"+i);
 			this.challengesRecords[i].GetComponent<ChallengesRecordController>().setId(i);
 			this.challengesRecords[i].SetActive(false);
 		}
-		this.friends=new GameObject[2];
+		this.friends=new GameObject[7];
 		for(int i=0;i<this.friends.Length;i++)
 		{
 			this.friends[i]=GameObject.Find ("Friend"+i);
@@ -348,7 +299,7 @@ public class NewProfileController : MonoBehaviour
 			this.friendsRequests[i].GetComponent<FriendsRequestController>().setId(i);
 			this.friendsRequests[i].SetActive(false);
 		}
-		this.trophies=new GameObject[2];
+		this.trophies=new GameObject[3];
 		for(int i=0;i<this.trophies.Length;i++)
 		{
 			this.trophies[i]=GameObject.Find ("Trophy"+i);
@@ -431,11 +382,12 @@ public class NewProfileController : MonoBehaviour
 		Vector2 profileBlockOrigin = new Vector3 (-worldWidth/2f+profileBlockLeftMargin+profileBlockWidth/2f, -worldHeight / 2f + profileBlockDownMargin + profileBlockHeight / 2,0f);
 		
 		this.profileBlock.GetComponent<BlockController> ().resize(new Rect(profileBlockOrigin.x,profileBlockOrigin.y,profileBlockWidth,profileBlockHeight));
-		this.profileTitle.transform.position = new Vector3 (statsBlockOrigin.x, statsBlockOrigin.y+statsBlockHeight/2f-0.3f, 0);
+		this.profileTitle.transform.position = new Vector3 (profileBlockOrigin.x, profileBlockOrigin.y+profileBlockHeight/2f-0.3f, 0);
+		this.profile.transform.position = new Vector3 (1f, 3.12f, 0f);
 		
 		float friendsBlockLeftMargin = this.worldWidth-2.8f;
 		float friendsBlockRightMargin = 0f;
-		float friendsBlockUpMargin = 4.1f;
+		float friendsBlockUpMargin = 2f;
 		float friendsBlockDownMargin = 2.6f;
 		
 		float friendsBlockHeight = worldHeight - friendsBlockUpMargin-friendsBlockDownMargin;
@@ -448,7 +400,7 @@ public class NewProfileController : MonoBehaviour
 		float searchBlockLeftMargin = this.worldWidth-2.8f;
 		float searchBlockRightMargin = 0f;
 		float searchBlockUpMargin = 0.6f;
-		float searchBlockDownMargin = 6.1f;
+		float searchBlockDownMargin = 8.2f;
 		
 		float searchBlockHeight = worldHeight - searchBlockUpMargin-searchBlockDownMargin;
 		float searchBlockWidth = worldWidth-searchBlockLeftMargin-searchBlockRightMargin;
@@ -471,17 +423,17 @@ public class NewProfileController : MonoBehaviour
 		
 		for(int i=0;i<this.trophies.Length;i++)
 		{
-			this.trophies[i].transform.position=new Vector3(trophiesBlockOrigin.x-0.2f,trophiesBlockOrigin.y+trophiesBlockHeight/2f-0.85f-i*0.77f,0);
+			this.trophies[i].transform.position=new Vector3(trophiesBlockOrigin.x-0.45f,trophiesBlockOrigin.y+trophiesBlockHeight/2f-1f-i*0.85f,0);
 		}
 
 		for(int i=0;i<this.challengesRecords.Length;i++)
 		{
-			this.challengesRecords[i].transform.position=new Vector3(challengesRecordsBlockOrigin.x-0.2f,challengesRecordsBlockOrigin.y+challengesRecordsBlockHeight/2f-0.85f-i*0.77f,0);
+			this.challengesRecords[i].transform.position=new Vector3(challengesRecordsBlockOrigin.x,challengesRecordsBlockOrigin.y+challengesRecordsBlockHeight/2f-1f-i*0.85f,0);
 		}
 
 		for(int i=0;i<this.friendsRequests.Length;i++)
 		{
-			this.friendsRequests[i].transform.position=new Vector3(friendsRequestsBlockOrigin.x-0.2f,friendsRequestsBlockOrigin.y+friendsRequestsBlockHeight/2f-0.85f-i*0.77f,0);
+			this.friendsRequests[i].transform.position=new Vector3(friendsRequestsBlockOrigin.x-0.2f,friendsRequestsBlockOrigin.y+friendsRequestsBlockHeight/2f-0.85f-i*0.65f,0);
 		}
 		
 		for(int i=0;i<this.friends.Length;i++)
@@ -514,19 +466,10 @@ public class NewProfileController : MonoBehaviour
 	public void drawChallengesRecords()
 	{
 		this.challengesRecordsDisplayed = new List<int> ();
-		bool allPicturesLoaded = true;
 		for(int i =0;i<elementsPerPageChallengesRecords;i++)
 		{
 			if(this.chosenPageChallengesRecords*this.elementsPerPageChallengesRecords+i<model.challengesRecords.Count)
 			{
-				if(!model.challengesRecords[this.chosenPageChallengesRecords*this.elementsPerPageChallengesRecords+i].Friend.isThumbPictureLoaded)
-				{
-					if(!model.challengesRecords[this.chosenPageChallengesRecords*this.elementsPerPageChallengesRecords+i].Friend.isThumbPictureLoading)
-					{
-						StartCoroutine(model.challengesRecords[this.chosenPageChallengesRecords*this.elementsPerPageChallengesRecords+i].Friend.setThumbProfilePicture());
-					}
-					allPicturesLoaded=false;
-				}
 				this.challengesRecordsDisplayed.Add (this.chosenPageChallengesRecords*this.elementsPerPageChallengesRecords+i);
 				this.challengesRecords[i].GetComponent<ChallengesRecordController>().c=model.challengesRecords[this.chosenPageChallengesRecords*this.elementsPerPageChallengesRecords+i];
 				this.challengesRecords[i].GetComponent<ChallengesRecordController>().show();
@@ -537,27 +480,14 @@ public class NewProfileController : MonoBehaviour
 				this.challengesRecords[i].SetActive(false);
 			}
 		}
-		if(!allPicturesLoaded)
-		{
-			this.areChallengesRecordsPicturesLoading=true;
-		}
 	}
 	public void drawFriendsRequests()
 	{
 		this.friendsRequestsDisplayed = new List<int> ();
-		bool allPicturesLoaded = true;
 		for(int i =0;i<elementsPerPageFriendsRequests;i++)
 		{
 			if(this.chosenPageFriendsRequests*this.elementsPerPageFriendsRequests+i<model.friendsRequests.Count)
 			{
-				if(!model.friendsRequests[this.chosenPageFriendsRequests*this.elementsPerPageFriendsRequests+i].User.isThumbPictureLoaded)
-				{
-					if(!model.friendsRequests[this.chosenPageFriendsRequests*this.elementsPerPageFriendsRequests+i].User.isThumbPictureLoading)
-					{
-						StartCoroutine(model.friendsRequests[this.chosenPageFriendsRequests*this.elementsPerPageFriendsRequests+i].User.setThumbProfilePicture());
-					}
-					allPicturesLoaded=false;
-				}
 				this.friendsRequestsDisplayed.Add (this.chosenPageFriendsRequests*this.elementsPerPageFriendsRequests+i);
 				this.friendsRequests[i].GetComponent<FriendsRequestController>().f=model.friendsRequests[this.chosenPageFriendsRequests*this.elementsPerPageFriendsRequests+i];
 				this.friendsRequests[i].GetComponent<FriendsRequestController>().show();
@@ -568,27 +498,14 @@ public class NewProfileController : MonoBehaviour
 				this.friendsRequests[i].SetActive(false);
 			}
 		}
-		if(!allPicturesLoaded)
-		{
-			this.areFriendsRequestsPicturesLoading=true;
-		}
 	}
 	public void drawFriends()
 	{
 		this.friendsDisplayed = new List<int> ();
-		bool allPicturesLoaded = true;
 		for(int i =0;i<elementsPerPageFriends;i++)
 		{
 			if(this.chosenPageFriends*this.elementsPerPageFriends+i<this.friendsToBeDisplayed.Count)
 			{
-				if(!model.users[this.friendsToBeDisplayed[this.chosenPageFriends*this.elementsPerPageFriends+i]].isThumbPictureLoaded)
-				{
-					if(!model.users[this.friendsToBeDisplayed[this.chosenPageFriends*this.elementsPerPageFriends+i]].isThumbPictureLoading)
-					{
-						StartCoroutine(model.users[this.friendsToBeDisplayed[this.chosenPageFriends*this.elementsPerPageFriends+i]].setThumbProfilePicture());
-					}
-					allPicturesLoaded=false;
-				}
 				this.friendsDisplayed.Add (this.chosenPageFriends*this.elementsPerPageFriends+i);
 				this.friends[i].GetComponent<ProfileOnlineFriendController>().u=model.users[this.friendsToBeDisplayed[this.chosenPageFriends*this.elementsPerPageFriends+i]];
 				this.friends[i].GetComponent<ProfileOnlineFriendController>().show();
@@ -599,10 +516,6 @@ public class NewProfileController : MonoBehaviour
 				this.friends[i].SetActive(false);
 			}
 		}
-		if(!allPicturesLoaded)
-		{
-			this.areFriendsPicturesLoading=true;
-		}
 	}
 	public void drawTrophies()
 	{
@@ -612,12 +525,9 @@ public class NewProfileController : MonoBehaviour
 		{
 			if(this.chosenPageTrophies*this.elementsPerPageTrophies+i<model.trophies.Count)
 			{
-				if(!model.trophies[this.chosenPageTrophies*this.elementsPerPageTrophies+i].User.isThumbPictureLoaded)
+				if(!model.trophies[this.chosenPageTrophies*this.elementsPerPageTrophies+i].competition.isTextureLoaded)
 				{
-					if(!model.trophies[this.chosenPageTrophies*this.elementsPerPageTrophies+i].User.isThumbPictureLoading)
-					{
-						StartCoroutine(model.trophies[this.chosenPageTrophies*this.elementsPerPageTrophies+i].User.setThumbProfilePicture());
-					}
+					StartCoroutine(model.trophies[this.chosenPageTrophies*this.elementsPerPageTrophies+i].competition.setPicture());
 					allPicturesLoaded=false;
 				}
 				this.trophiesDisplayed.Add (this.chosenPageTrophies*this.elementsPerPageTrophies+i);
@@ -647,6 +557,12 @@ public class NewProfileController : MonoBehaviour
 		this.stats.transform.FindChild ("collectionPoints").FindChild ("Title").GetComponent<TextMeshPro> ().text = "Classement collectionneur";
 		this.stats.transform.FindChild ("collectionPoints").FindChild ("Value").GetComponent<TextMeshPro> ().text = model.player.CollectionRanking.ToString ();
 		this.stats.transform.FindChild ("collectionPoints").FindChild ("Title2").GetComponent<TextMeshPro> ().text = "("+model.player.CollectionPoints.ToString()+" pts)";
+	}
+	private void drawProfile()
+	{
+		this.profile.transform.FindChild ("Username").GetComponent<TextMeshPro> ().text = ApplicationModel.username;
+		this.profile.transform.FindChild ("Informations").GetComponent<TextMeshPro> ().text = "prénom : " + model.player.FirstName + "\nnom : " + model.player.Surname + "\nemail : " + model.player.Mail;
+		this.profile.transform.FindChild ("Picture").GetComponent<SpriteRenderer> ().sprite = this.profilePictures[model.player.idProfilePicture];
 	}
 	private void drawPaginationChallengesRecords()
 	{
@@ -683,8 +599,8 @@ public class NewProfileController : MonoBehaviour
 			{
 				this.paginationButtonsChallengesRecords[i] = Instantiate(this.paginationButtonObject) as GameObject;
 				this.paginationButtonsChallengesRecords[i].AddComponent<ProfileChallengesRecordsPaginationController>();
-				this.paginationButtonsChallengesRecords[i].transform.position=new Vector3(this.worldWidth/2f-2.9f/2f+(0.5f+i-nbButtonsToDraw/2f)*(paginationButtonWidth+gapBetweenPaginationButton),1.35f,0f);
-				this.paginationButtonsChallengesRecords[i].name="PaginationNotification"+i.ToString();
+				this.paginationButtonsChallengesRecords[i].transform.position=new Vector3(this.challengesRecordsBlock.transform.position.x+(0.5f+i-nbButtonsToDraw/2f)*(paginationButtonWidth+gapBetweenPaginationButton),-4.55f,0f);
+				this.paginationButtonsChallengesRecords[i].name="PaginationChallengesRecord"+i.ToString();
 			}
 			for(int i=System.Convert.ToInt32(drawBackButton);i<nbButtonsToDraw-System.Convert.ToInt32(drawNextButton);i++)
 			{
@@ -766,8 +682,8 @@ public class NewProfileController : MonoBehaviour
 			{
 				this.paginationButtonsFriendsRequests[i] = Instantiate(this.paginationButtonObject) as GameObject;
 				this.paginationButtonsFriendsRequests[i].AddComponent<ProfileFriendsRequestsPaginationController>();
-				this.paginationButtonsFriendsRequests[i].transform.position=new Vector3(this.worldWidth/2f-2.9f/2f+(0.5f+i-nbButtonsToDraw/2f)*(paginationButtonWidth+gapBetweenPaginationButton),1.35f,0f);
-				this.paginationButtonsFriendsRequests[i].name="PaginationNotification"+i.ToString();
+				this.paginationButtonsFriendsRequests[i].transform.position=new Vector3(this.worldWidth/2f-2.9f/2f+(0.5f+i-nbButtonsToDraw/2f)*(paginationButtonWidth+gapBetweenPaginationButton),-4.55f,0f);
+				this.paginationButtonsFriendsRequests[i].name="PaginationFriends"+i.ToString();
 			}
 			for(int i=System.Convert.ToInt32(drawBackButton);i<nbButtonsToDraw-System.Convert.ToInt32(drawNextButton);i++)
 			{
@@ -849,8 +765,8 @@ public class NewProfileController : MonoBehaviour
 			{
 				this.paginationButtonsTrophies[i] = Instantiate(this.paginationButtonObject) as GameObject;
 				this.paginationButtonsTrophies[i].AddComponent<ProfileTrophiesPaginationController>();
-				this.paginationButtonsTrophies[i].transform.position=new Vector3(this.worldWidth/2f-2.9f/2f+(0.5f+i-nbButtonsToDraw/2f)*(paginationButtonWidth+gapBetweenPaginationButton),1.35f,0f);
-				this.paginationButtonsTrophies[i].name="PaginationNotification"+i.ToString();
+				this.paginationButtonsTrophies[i].transform.position=new Vector3(this.trophiesBlock.transform.position.x+(0.5f+i-nbButtonsToDraw/2f)*(paginationButtonWidth+gapBetweenPaginationButton),-4.55f,0f);
+				this.paginationButtonsTrophies[i].name="PaginationTrophies"+i.ToString();
 			}
 			for(int i=System.Convert.ToInt32(drawBackButton);i<nbButtonsToDraw-System.Convert.ToInt32(drawNextButton);i++)
 			{
@@ -931,28 +847,28 @@ public class NewProfileController : MonoBehaviour
 			for(int i =0;i<nbButtonsToDraw;i++)
 			{
 				this.paginationButtonsFriends[i] = Instantiate(this.paginationButtonObject) as GameObject;
-				this.paginationButtonsFriends[i].AddComponent<HomePageFriendsPaginationController>();
-				this.paginationButtonsFriends[i].transform.position=new Vector3(this.worldWidth/2f-2.9f/2f+(0.5f+i-nbButtonsToDraw/2f)*(paginationButtonWidth+gapBetweenPaginationButton),-4.55f,0f);
+				this.paginationButtonsFriends[i].AddComponent<ProfileFriendsPaginationController>();
+				this.paginationButtonsFriends[i].transform.position=new Vector3(this.worldWidth/2f-2.9f/2f+(0.5f+i-nbButtonsToDraw/2f)*(paginationButtonWidth+gapBetweenPaginationButton),-2.15f,0f);
 				this.paginationButtonsFriends[i].name="PaginationFriends"+i.ToString();
 			}
 			for(int i=System.Convert.ToInt32(drawBackButton);i<nbButtonsToDraw-System.Convert.ToInt32(drawNextButton);i++)
 			{
 				this.paginationButtonsFriends[i].transform.FindChild("Title").GetComponent<TextMeshPro>().text=(this.pageDebutFriends+i-System.Convert.ToInt32(drawBackButton)).ToString();
-				this.paginationButtonsFriends[i].GetComponent<HomePageFriendsPaginationController>().setId(i);
+				this.paginationButtonsFriends[i].GetComponent<ProfileFriendsPaginationController>().setId(i);
 				if(this.pageDebutFriends+i-System.Convert.ToInt32(drawBackButton)==this.chosenPageFriends)
 				{
-					this.paginationButtonsFriends[i].GetComponent<HomePageFriendsPaginationController>().setActive(true);
+					this.paginationButtonsFriends[i].GetComponent<ProfileFriendsPaginationController>().setActive(true);
 					this.activePaginationButtonIdFriends=i;
 				}
 			}
 			if(drawBackButton)
 			{
-				this.paginationButtonsFriends[0].GetComponent<HomePageFriendsPaginationController>().setId(-2);
+				this.paginationButtonsFriends[0].GetComponent<ProfileFriendsPaginationController>().setId(-2);
 				this.paginationButtonsFriends[0].transform.FindChild("Title").GetComponent<TextMeshPro>().text="...";
 			}
 			if(drawNextButton)
 			{
-				this.paginationButtonsFriends[nbButtonsToDraw-1].GetComponent<HomePageFriendsPaginationController>().setId(-1);
+				this.paginationButtonsFriends[nbButtonsToDraw-1].GetComponent<ProfileFriendsPaginationController>().setId(-1);
 				this.paginationButtonsFriends[nbButtonsToDraw-1].transform.FindChild("Title").GetComponent<TextMeshPro>().text="...";
 			}
 		}
@@ -973,7 +889,7 @@ public class NewProfileController : MonoBehaviour
 		{
 			if(activePaginationButtonIdFriends!=-1)
 			{
-				this.paginationButtonsFriends[this.activePaginationButtonIdFriends].GetComponent<HomePageFriendsPaginationController>().setActive(false);
+				this.paginationButtonsFriends[this.activePaginationButtonIdFriends].GetComponent<ProfileFriendsPaginationController>().setActive(false);
 			}
 			this.activePaginationButtonIdFriends=id;
 			this.chosenPageFriends=this.pageDebutFriends-System.Convert.ToInt32(this.pageDebutFriends!=0)+id;
@@ -1019,7 +935,7 @@ public class NewProfileController : MonoBehaviour
 		this.isHoveringFriend = true;
 		if(this.isPopUpDisplayed && this.popUp.GetComponent<PopUpController>().getIsFriend())
 		{
-			if(this.popUp.GetComponent<PopUpFriendHomePageController>().getId()!=this.idFriendHovered);
+			if(this.popUp.GetComponent<PopUpFriendProfileController>().getId()!=this.idFriendHovered);
 			{
 				this.hidePopUp();
 				this.showPopUpFriend();
@@ -1034,6 +950,27 @@ public class NewProfileController : MonoBehaviour
 			this.showPopUpFriend();
 		}
 	}
+	public void startHoveringChallengesRecord (int id)
+	{
+		this.idChallengesRecordHovered=id;
+		this.isHoveringChallengesRecord = true;
+		if(this.isPopUpDisplayed && this.popUp.GetComponent<PopUpController>().getIsChallengesRecord())
+		{
+			if(this.popUp.GetComponent<PopUpChallengesRecordProfileController>().getId()!=this.idChallengesRecordHovered);
+			{
+				this.hidePopUp();
+				this.showPopUpChallengesRecord();
+			}
+		}
+		else
+		{
+			if(this.isPopUpDisplayed)
+			{
+				this.hidePopUp();
+			}
+			this.showPopUpChallengesRecord();
+		}
+	}
 	public void endHoveringFriendsRequest ()
 	{
 		this.isHoveringFriendsRequest = false;
@@ -1043,6 +980,12 @@ public class NewProfileController : MonoBehaviour
 	public void endHoveringFriend ()
 	{
 		this.isHoveringFriend = false;
+		this.toDestroyPopUp = true;
+		this.popUpDestroyInterval = 0f;
+	}
+	public void endHoveringChallengesRecord ()
+	{
+		this.isHoveringChallengesRecord = false;
 		this.toDestroyPopUp = true;
 		this.popUpDestroyInterval = 0f;
 	}
@@ -1061,9 +1004,19 @@ public class NewProfileController : MonoBehaviour
 		this.popUp = Instantiate(this.popUpObject) as GameObject;
 		this.popUp.transform.position=new Vector3(this.friends[this.idFriendHovered].transform.position.x-3.1f,this.friends[this.idFriendHovered].transform.position.y,-1f);
 		this.popUp.AddComponent<PopUpFriendProfileController>();
-		this.popUp.GetComponent<PopUpFriendProfileController> ().setIsNews (true);
+		this.popUp.GetComponent<PopUpFriendProfileController> ().setIsFriend (true);
 		this.popUp.GetComponent<PopUpFriendProfileController> ().setId (this.idFriendHovered);
 		this.popUp.GetComponent<PopUpFriendProfileController> ().show (model.users [this.friendsDisplayed [this.idFriendHovered]]);
+		this.isPopUpDisplayed=true;
+	}
+	public void showPopUpChallengesRecord()
+	{
+		this.popUp = Instantiate(this.popUpObject) as GameObject;
+		this.popUp.transform.position=new Vector3(this.challengesRecords[this.idChallengesRecordHovered].transform.position.x-3.1f,this.challengesRecords[this.idChallengesRecordHovered].transform.position.y,-1f);
+		this.popUp.AddComponent<PopUpChallengesRecordProfileController>();
+		this.popUp.GetComponent<PopUpChallengesRecordProfileController> ().setIsChallengesRecord (true);
+		this.popUp.GetComponent<PopUpChallengesRecordProfileController> ().setId (this.idChallengesRecordHovered);
+		this.popUp.GetComponent<PopUpChallengesRecordProfileController> ().show (model.challengesRecords [this.challengesRecordsDisplayed [this.idChallengesRecordHovered]]);
 		this.isPopUpDisplayed=true;
 	}
 	public void hidePopUp()
@@ -1171,5 +1124,28 @@ public class NewProfileController : MonoBehaviour
 		// yield return StartCoroutine (model.player.SetSelectedDeck (model.decks [this.deckDisplayed].Id));
 		StartCoroutine (newMenuController.instance.sendInvitation (model.users [this.friendsToBeDisplayed[this.friendsDisplayed[this.idFriendHovered]]], model.player));
 		yield break;
+	}
+	public void acceptFriendsRequestHandler()
+	{
+	}
+	public void declineFriendsRequestHandler()
+	{
+	}
+	public void cancelFriendsRequestHandler()
+	{
+	}
+	public void startHoveringProfilePicture()
+	{
+		this.isProfilePictureHovered = true;
+		this.profile.transform.FindChild ("PictureButton").gameObject.SetActive (true);
+	}
+	public void endHoveringProfilePicture()
+	{
+		this.isProfilePictureHovered = false;
+		this.profile.transform.FindChild ("PictureButton").gameObject.SetActive (false);
+	}
+	public void editProfilePictureHandler()
+	{
+		print ("modifie la photo");
 	}
 }

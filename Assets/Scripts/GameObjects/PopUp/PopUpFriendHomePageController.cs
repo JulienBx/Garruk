@@ -17,5 +17,9 @@ public class PopUpFriendHomePageController : PopUpFriendController
 	{
 		NewHomePageController.instance.endHoveringPopUp();
 	}
+	public override void setButtonController()
+	{
+		gameObject.transform.FindChild ("Button").gameObject.AddComponent <PopUpFriendButtonHomePageController>();
+	}
 }
 

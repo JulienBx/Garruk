@@ -1197,6 +1197,17 @@ MonoBehaviour:
   endButtonPosition: -1
   speed: 15
   popUpSkin: {fileID: 11400000, guid: 6346424849e084205bcebcf25bed265c, type: 2}
+  profilePictures:
+  - {fileID: 21300044, guid: 01c29fae0f15e4304959e90eb0ff2d05, type: 3}
+  - {fileID: 21300038, guid: 01c29fae0f15e4304959e90eb0ff2d05, type: 3}
+  - {fileID: 21300040, guid: 01c29fae0f15e4304959e90eb0ff2d05, type: 3}
+  - {fileID: 21300042, guid: 01c29fae0f15e4304959e90eb0ff2d05, type: 3}
+  - {fileID: 21300036, guid: 01c29fae0f15e4304959e90eb0ff2d05, type: 3}
+  - {fileID: 21300046, guid: 01c29fae0f15e4304959e90eb0ff2d05, type: 3}
+  - {fileID: 21300048, guid: 01c29fae0f15e4304959e90eb0ff2d05, type: 3}
+  - {fileID: 21300050, guid: 01c29fae0f15e4304959e90eb0ff2d05, type: 3}
+  - {fileID: 21300052, guid: 01c29fae0f15e4304959e90eb0ff2d05, type: 3}
+  - {fileID: 21300054, guid: 01c29fae0f15e4304959e90eb0ff2d05, type: 3}
 --- !u!114 &11417618
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2602,6 +2613,10 @@ Prefab:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 0}
+      propertyPath: profilePictures.Array.size
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
       propertyPath: transparentBackgroundObject
       value: 
       objectReference: {fileID: 156154, guid: aad2bd4f953b34f068977d17f460f61f, type: 2}
@@ -2614,6 +2629,56 @@ Prefab:
       propertyPath: loadingScreenObject
       value: 
       objectReference: {fileID: 142260, guid: 176cf68df92cb427b84ce1324381ee24, type: 2}
+    - target: {fileID: 0}
+      propertyPath: profilePictures.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300044, guid: 01c29fae0f15e4304959e90eb0ff2d05,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: profilePictures.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300038, guid: 01c29fae0f15e4304959e90eb0ff2d05,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: profilePictures.Array.data[2]
+      value: 
+      objectReference: {fileID: 21300040, guid: 01c29fae0f15e4304959e90eb0ff2d05,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: profilePictures.Array.data[3]
+      value: 
+      objectReference: {fileID: 21300042, guid: 01c29fae0f15e4304959e90eb0ff2d05,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: profilePictures.Array.data[4]
+      value: 
+      objectReference: {fileID: 21300036, guid: 01c29fae0f15e4304959e90eb0ff2d05,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: profilePictures.Array.data[5]
+      value: 
+      objectReference: {fileID: 21300046, guid: 01c29fae0f15e4304959e90eb0ff2d05,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: profilePictures.Array.data[6]
+      value: 
+      objectReference: {fileID: 21300048, guid: 01c29fae0f15e4304959e90eb0ff2d05,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: profilePictures.Array.data[7]
+      value: 
+      objectReference: {fileID: 21300050, guid: 01c29fae0f15e4304959e90eb0ff2d05,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: profilePictures.Array.data[8]
+      value: 
+      objectReference: {fileID: 21300052, guid: 01c29fae0f15e4304959e90eb0ff2d05,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: profilePictures.Array.data[9]
+      value: 
+      objectReference: {fileID: 21300054, guid: 01c29fae0f15e4304959e90eb0ff2d05,
+        type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 158684}

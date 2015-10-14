@@ -22,6 +22,16 @@ TextureImporter:
     21300030: buttonBorder
     21300032: invitationPopUpBackground
     21300034: statsPopUpBorder
+    21300036: thumb_assassin
+    21300038: thumb_drogueur
+    21300040: thumb_drone
+    21300042: thumb_geomancienne
+    21300044: thumb_invocateur
+    21300046: thumb_mentaliste
+    21300048: thumb_mitrailleur
+    21300050: thumb_polymorphe
+    21300052: thumb_predateur
+    21300054: thumb_pretresse
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -81,7 +91,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 754
-        y: 821
+        y: 626
         width: 39
         height: 39
       alignment: 0
@@ -100,8 +110,8 @@ TextureImporter:
     - name: bell_icon_hover
       rect:
         serializedVersion: 2
-        x: 856
-        y: 843
+        x: 819
+        y: 648
         width: 46
         height: 48
       alignment: 0
@@ -150,8 +160,8 @@ TextureImporter:
     - name: disconnect
       rect:
         serializedVersion: 2
-        x: 795
-        y: 824
+        x: 986
+        y: 814
         width: 36
         height: 36
       alignment: 0
@@ -194,6 +204,106 @@ TextureImporter:
         y: 852
         width: 69
         height: 69
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: thumb_assassin
+      rect:
+        serializedVersion: 2
+        x: 856
+        y: 828
+        width: 63
+        height: 63
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: thumb_drogueur
+      rect:
+        serializedVersion: 2
+        x: 754
+        y: 797
+        width: 63
+        height: 63
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: thumb_drone
+      rect:
+        serializedVersion: 2
+        x: 921
+        y: 787
+        width: 63
+        height: 63
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: thumb_geomancienne
+      rect:
+        serializedVersion: 2
+        x: 819
+        y: 763
+        width: 63
+        height: 63
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: thumb_invocateur
+      rect:
+        serializedVersion: 2
+        x: 754
+        y: 732
+        width: 63
+        height: 63
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: thumb_mentaliste
+      rect:
+        serializedVersion: 2
+        x: 884
+        y: 722
+        width: 63
+        height: 63
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: thumb_mitrailleur
+      rect:
+        serializedVersion: 2
+        x: 819
+        y: 698
+        width: 63
+        height: 63
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: thumb_polymorphe
+      rect:
+        serializedVersion: 2
+        x: 754
+        y: 667
+        width: 63
+        height: 63
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: thumb_predateur
+      rect:
+        serializedVersion: 2
+        x: 949
+        y: 722
+        width: 63
+        height: 63
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: thumb_pretresse
+      rect:
+        serializedVersion: 2
+        x: 884
+        y: 657
+        width: 63
+        height: 63
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
