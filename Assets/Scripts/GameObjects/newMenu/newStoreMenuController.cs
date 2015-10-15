@@ -14,6 +14,17 @@ public class newStoreMenuController : newMenuController
 		StartCoroutine (NewStoreController.instance.initialization ());
 		base.Start ();
 	}
-	
+	public override void sceneReturnPressed()
+	{
+		NewStoreController.instance.returnPressed ();
+	}
+	public override void sceneEscapePressed()
+	{
+		NewStoreController.instance.escapePressed ();
+	}
+	public override void sceneCloseAllPopUp()
+	{
+		NewStoreController.instance.closeAllPopUp ();
+	}
 }
 

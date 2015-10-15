@@ -90,14 +90,6 @@ public class NewLobbyController : MonoBehaviour
 				this.hideProfilePopUp();
 			}
 		}
-		if(Input.GetKeyDown(KeyCode.Return)) 
-		{
-			this.returnPressed();
-		}
-		if(Input.GetKeyDown(KeyCode.Escape) && !isTutorialLaunched) 
-		{
-			this.escapePressed();
-		}
 		if(this.isCompetitionPictureLoading)
 		{
 			if(this.isDivisionLobby)
@@ -329,22 +321,21 @@ public class NewLobbyController : MonoBehaviour
 	}
 	public void returnPressed()
 	{
-		if(newMenuController.instance.isAPopUpDisplayed())
-		{
-			newMenuController.instance.returnPressed();
-		}
-		else if(this.isPopUpDisplayed)
+		if(this.isPopUpDisplayed)
 		{
 			this.hidePopUp();
 		}
 	}
 	public void escapePressed()
 	{
-		if(newMenuController.instance.isAPopUpDisplayed())
+		if(this.isPopUpDisplayed)
 		{
-			newMenuController.instance.escapePressed();
+			this.hidePopUp();
 		}
-		else if(this.isPopUpDisplayed)
+	}
+	public void closeAllPopUp()
+	{
+		if(this.isPopUpDisplayed)
 		{
 			this.hidePopUp();
 		}

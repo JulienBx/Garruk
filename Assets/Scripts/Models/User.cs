@@ -28,6 +28,7 @@ public class User
 	private string URLSetCupLobbyTutorial = ApplicationModel.host + "set_cupLobbyTutorial.php";
 	private string URLUpdateEndGameData = ApplicationModel.host + "get_end_game_data.php";
 	private string URLInvitePlayer = ApplicationModel.host + "invite_player.php";
+	private string URLSetProfilePicture = ApplicationModel.host + "set_profile_picture.php";
 
 	private string ServerDirectory          = "img/profile/";
 	
@@ -205,6 +206,32 @@ public class User
 		yield return w;
 		if (w.error != null){ 
 			Debug.Log (w.error); 
+		}
+	}
+	public IEnumerator setProfilePicture(int idprofilepicture)
+	{
+		WWWForm form = new WWWForm (); 								// Création de la connexion
+		form.AddField ("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
+		form.AddField ("myform_nick", ApplicationModel.username); 	// Pseudo de l'utilisateur connecté
+		form.AddField("myform_idprofilepicture", idprofilepicture.ToString()); 
+		
+		WWW w = new WWW (URLSetProfilePicture, form); 								// On envoie le formulaire à l'url sur le serveur 
+		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
+		if (w.error != null) 
+		{
+			Debug.Log (w.error); 										// donne l'erreur eventuelle
+		} 
+		else 
+		{
+			if(w.text.Contains("#ERROR#"))
+			{
+				string[] errors = w.text.Split(new string[] { "#ERROR#" }, System.StringSplitOptions.None);
+				Debug.Log (errors[1]);
+			}
+			else
+			{
+				this.idProfilePicture=idprofilepicture;
+			}
 		}
 	}
 //	public IEnumerator updateProfilePicture(File2 file)

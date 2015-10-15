@@ -197,14 +197,6 @@ public class newMyGameController : MonoBehaviour
 				this.cleanDeckList();
 			}
 		}
-		if(Input.GetKeyDown(KeyCode.Return)) 
-		{
-			this.returnPressed();
-		}
-		if(Input.GetKeyDown(KeyCode.Escape) && !isTutorialLaunched) 
-		{
-			this.escapePressed();
-		}
 		if(money!=ApplicationModel.credits)
 		{
 			if(isSceneLoaded)
@@ -1701,11 +1693,7 @@ public class newMyGameController : MonoBehaviour
 	}
 	public void returnPressed()
 	{
-		if(newMenuController.instance.isAPopUpDisplayed())
-		{
-			newMenuController.instance.returnPressed();
-		}
-		else if(isCardFocusedDisplayed)
+		if(isCardFocusedDisplayed)
 		{
 			this.focusedCard.GetComponent<NewFocusedCardController>().returnPressed();
 		}
@@ -1728,11 +1716,7 @@ public class newMyGameController : MonoBehaviour
 	}
 	public void escapePressed()
 	{
-		if(newMenuController.instance.isAPopUpDisplayed())
-		{
-			newMenuController.instance.escapePressed();
-		}
-		else if(isCardFocusedDisplayed)
+		if(isCardFocusedDisplayed)
 		{
 			this.focusedCard.GetComponent<NewFocusedCardController>().escapePressed();
 		}
@@ -1749,6 +1733,25 @@ public class newMyGameController : MonoBehaviour
 			this.hideDeleteDeckPopUp();
 		}
 		else if(this.errorViewDisplayed)
+		{
+			this.hideErrorPopUp();
+		}
+	}
+	public void closeAllPopUp()
+	{
+		if(this.newDeckViewDisplayed)
+		{
+			this.hideNewDeckPopUp();
+		}
+		if(this.editDeckView)
+		{
+			this.hideEditDeckPopUp();
+		}
+		if(this.deleteDeckViewDisplayed)
+		{
+			this.hideDeleteDeckPopUp();
+		}
+		if(this.errorViewDisplayed)
 		{
 			this.hideErrorPopUp();
 		}

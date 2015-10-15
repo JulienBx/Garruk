@@ -22,7 +22,7 @@ public class AuthenticationWindowPopUpView : MonoBehaviour
 				GUILayout.Label("Renseignez le formulaire suivant :",popUpVM.centralWindowTitleStyle,GUILayout.Height(popUpVM.centralWindow.height*4/100));
 				GUILayout.Space(popUpVM.centralWindow.height*4/100);
 				GUILayout.Label("Pseudo",popUpVM.centralWindowTitleStyle,GUILayout.Height(popUpVM.centralWindow.height*4/100));
-				authenticationWindowPopUpVM.username=GUILayout.TextField(authenticationWindowPopUpVM.username,14,popUpVM.centralWindowTextfieldStyle,GUILayout.Height(popUpVM.centralWindow.height*5/100));
+				authenticationWindowPopUpVM.username=GUILayout.TextField(authenticationWindowPopUpVM.username,12,popUpVM.centralWindowTextfieldStyle,GUILayout.Height(popUpVM.centralWindow.height*5/100));
 				GUILayout.Label ("le pseudo doit comporter doit comprendre au moins 3 caractères, vous pouvez utiliser des chiffres, des lettres et l'underscore",popUpVM.instructionsStyle);
 				if(authenticationWindowPopUpVM.usernameError!="")
 				{

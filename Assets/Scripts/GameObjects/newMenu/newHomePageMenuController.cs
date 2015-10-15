@@ -14,6 +14,17 @@ public class newHomePageMenuController : newMenuController
 		StartCoroutine (NewHomePageController.instance.initialization ());
 		base.Start ();
 	}
-
+	public override void sceneReturnPressed()
+	{
+		NewHomePageController.instance.returnPressed ();
+	}
+	public override void sceneEscapePressed()
+	{
+		NewHomePageController.instance.escapePressed ();
+	}
+	public override void sceneCloseAllPopUp()
+	{
+		NewHomePageController.instance.closeAllPopUp ();
+	}
 }
 

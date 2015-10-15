@@ -4,21 +4,25 @@
 # To import these sprites into your Unity project, download "TexturePackerImporter":
 # http://www.codeandweb.com/texturepacker/unity
 #
-# Sprite sheet: profileTextures.png (1024 x 1024)
-# $TexturePacker:SmartUpdate:09d710faa6cacbfcfc9580ec152f8e06:14cc5f5e21ba255ba4e96c3d8337567e:5bb600da8967b6a395048ea38310583c$
+# Sprite sheet: profileTextures.png (1024 x 2048)
+# $TexturePacker:SmartUpdate:9c9bcd17641d51d6b0582f66c52bcd4d:8b75ad311738ad6510b64fa9a7ea5cae:5bb600da8967b6a395048ea38310583c$
 #
 
-assassin;429;832;190;190;0.5;0.5
-buttonBorder;2;917;425;105;0.5;0.5
-drogueur;621;832;190;190;0.5;0.5
-drone;813;832;190;190;0.5;0.5
-editPictureButton;2;725;190;190;0.5;0.5
-geomancienne;194;725;190;190;0.5;0.5
-invocateur;386;640;190;190;0.5;0.5
-mentaliste;2;533;190;190;0.5;0.5
-mitrailleur;194;533;190;190;0.5;0.5
-pagination;2;245;94;94;0.5;0.5
-paginationHover;2;149;94;94;0.5;0.5
-polymorphe;578;640;190;190;0.5;0.5
-predateur;770;640;190;190;0.5;0.5
-pretresse;2;341;190;190;0.5;0.5
+assassin;754;1801;190;190;0.5;0.5
+buttonBorder;504;1247;425;105;0.5;0.5
+drogueur;754;1609;190;190;0.5;0.5
+drone;754;1417;190;190;0.5;0.5
+editPictureButton;504;1354;190;190;0.5;0.5
+geomancienne;504;1055;190;190;0.5;0.5
+invocateur;696;1055;190;190;0.5;0.5
+mentaliste;504;863;190;190;0.5;0.5
+mitrailleur;696;863;190;190;0.5;0.5
+pagination;888;1151;94;94;0.5;0.5
+paginationHover;888;1055;94;94;0.5;0.5
+polymorphe;2;852;190;190;0.5;0.5
+predateur;194;852;190;190;0.5;0.5
+pretresse;386;671;190;190;0.5;0.5
+profilePicturesPopUp;2;1546;750;500;0.5;0.5
+searchBar;754;1993;248;53;0.5;0.5
+searchPopUp;2;1044;500;500;0.5;0.5
+thumbBorder;946;1922;69;69;0.5;0.5

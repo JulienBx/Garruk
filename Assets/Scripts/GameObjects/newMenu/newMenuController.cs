@@ -23,6 +23,7 @@ public class newMenuController : MonoBehaviour
 	private GameObject transparentBackground;
 	private bool isPlayPopUpDisplayed;
 	private bool isInvitationPopUpDisplayed;
+	private bool isTransparentBackgroundDisplayed;
 	private Rect centralWindow;
 	private GameObject loadingScreen;
 
@@ -57,6 +58,14 @@ public class newMenuController : MonoBehaviour
 		{
 			timer=timer-this.ressources.refreshInterval;
 			StartCoroutine (this.getUserData());
+		}
+		if(Input.GetKeyDown(KeyCode.Return)) 
+		{
+			this.returnPressed();
+		}
+		if(Input.GetKeyDown(KeyCode.Escape) && !isTutorialLaunched) 
+		{
+			this.escapePressed();
 		}
 		if(toMoveButtons)
 		{
@@ -116,17 +125,25 @@ public class newMenuController : MonoBehaviour
 	}
 	public void displayPlayPopUp()
 	{
-		this.transparentBackground=Instantiate(this.ressources.transparentBackgroundObject) as GameObject;
-		this.transparentBackground.transform.position = new Vector3 (0, 0, -1f);
+		this.displayTransparentBackground ();
 		this.playPopUp=Instantiate(this.ressources.playPopUpObject) as GameObject;
 		this.playPopUp.transform.position = new Vector3 (0f, 0f, -2f);
 		this.setCurrentPage (5);
 		this.isPlayPopUpDisplayed = true;
 	}
+	public void displayTransparentBackground()
+	{
+		if(!this.isTransparentBackgroundDisplayed)
+		{
+			this.isTransparentBackgroundDisplayed = true;
+			this.transparentBackground=Instantiate(this.ressources.transparentBackgroundObject) as GameObject;
+			this.transparentBackground.transform.position = new Vector3 (0, 0, -1f);
+		}
+	}
 	public void displayInvitationPopUp()
 	{
-		this.transparentBackground=Instantiate(this.ressources.transparentBackgroundObject) as GameObject;
-		this.transparentBackground.transform.position = new Vector3 (0, 0, -1f);
+		this.closeAllPopUp ();
+		this.displayTransparentBackground ();
 		this.invitationPopUp=Instantiate(this.ressources.invitationPopUpObject) as GameObject;
 		this.invitationPopUp.transform.position = new Vector3 (0f, 0f, -2f);
 		this.isInvitationPopUpDisplayed = true;
@@ -144,13 +161,13 @@ public class newMenuController : MonoBehaviour
 	public void hideInvitationPopUp()
 	{
 		Destroy (this.invitationPopUp);
-		Destroy (this.transparentBackground);
+		this.hideTransparentBackground ();
 		this.isInvitationPopUpDisplayed = false;
 	}
 	public void hidePlayPopUp()
 	{
 		Destroy (this.playPopUp);
-		Destroy (this.transparentBackground);
+		this.hideTransparentBackground ();
 		this.isPlayPopUpDisplayed = false;
 		if(Application.loadedLevelName=="newMyGame")
 		{
@@ -176,6 +193,14 @@ public class newMenuController : MonoBehaviour
 		tempPosition= gameObject.transform.Find("Button"+5).localPosition;
 		tempPosition.x = this.ressources.startButtonPosition;
 		gameObject.transform.Find("Button"+5).localPosition=tempPosition;
+	}
+	public void hideTransparentBackground()
+	{
+		if(this.isTransparentBackgroundDisplayed)
+		{
+			this.isTransparentBackgroundDisplayed = false;
+			Destroy (this.transparentBackground);
+		}
 	}
 	public void moveButton(int value)
 	{
@@ -370,26 +395,6 @@ public class newMenuController : MonoBehaviour
 	{
 		return isTutorialLaunched;
 	}
-	public bool isAPopUpDisplayed()
-	{
-		if(isPlayPopUpDisplayed)
-		{
-			return true;
-		}
-		if(isDisconnectedViewDisplayed)
-		{
-			return true;
-		}
-		if(isInvitationPopUpDisplayed)
-		{
-			return true;
-		}
-		if(errorViewDisplayed)
-		{
-			return true;
-		}
-		return false;
-	}
 	public void returnPressed()
 	{
 		if(errorViewDisplayed)
@@ -404,6 +409,13 @@ public class newMenuController : MonoBehaviour
 		{
 			InvitationPopUpController.instance.acceptInvitationHandler();
 		}
+		else
+		{
+			this.sceneReturnPressed();
+		}
+	}
+	public virtual void sceneReturnPressed()
+	{
 	}
 	public void escapePressed()
 	{
@@ -426,6 +438,35 @@ public class newMenuController : MonoBehaviour
 		{
 			InvitationPopUpController.instance.declineInvitationHandler();
 		}
+		else
+		{
+			this.sceneEscapePressed();
+		}
+	}
+	public virtual void sceneEscapePressed()
+	{
+	}
+	public void closeAllPopUp()
+	{
+		if(errorViewDisplayed)
+		{
+			this.hideErrorPopUp();
+		}
+		if(isPlayPopUpDisplayed)
+		{
+			if(!isLoadingScreenDisplayed)
+			{
+				this.hidePlayPopUp();
+			}
+		}
+		if(isDisconnectedViewDisplayed)
+		{
+			this.hideDisconnectedPopUp();
+		}
+		this.sceneCloseAllPopUp ();
+	}
+	public virtual void sceneCloseAllPopUp()
+	{
 	}
 	public Vector3 getButtonPosition(int id)
 	{
@@ -531,6 +572,11 @@ public class newMenuController : MonoBehaviour
 	public Sprite returnThumbPicture(int id)
 	{
 		return ressources.profilePictures [id];
+	}
+	public void changeThumbPicture(int id)
+	{
+		model.player.idProfilePicture = id;
+		gameObject.transform.FindChild ("Picture").GetComponent<SpriteRenderer> ().sprite = this.returnThumbPicture (model.player.idProfilePicture);
 	}
 }
 

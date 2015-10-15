@@ -43,6 +43,14 @@ public class Connection
 		{
 			Debug.Log (w.error); 
 		}
+		else
+		{
+			if(w.text.Contains("#ERROR#"))
+			{
+				string[] errors = w.text.Split(new string[] { "#ERROR#" }, System.StringSplitOptions.None);
+				this.Error=errors[1];
+			}
+		}
 	}
 	public IEnumerator confirm()
 	{
@@ -58,7 +66,11 @@ public class Connection
 		}
 		else
 		{
-			this.Error=w.text;
+			if(w.text.Contains("#ERROR#"))
+			{
+				string[] errors = w.text.Split(new string[] { "#ERROR#" }, System.StringSplitOptions.None);
+				this.Error=errors[1];
+			}
 		}
 	}
 	public IEnumerator add()
@@ -77,11 +89,14 @@ public class Connection
 		}
 		else
 		{
-			string[] data=w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
-			this.Error=data[0];
-			if(this.Error=="")
+			if(w.text.Contains("#ERROR#"))
 			{
-				this.Id=System.Convert.ToInt32(data[1]);
+				string[] errors = w.text.Split(new string[] { "#ERROR#" }, System.StringSplitOptions.None);
+				this.Error=errors[1];
+			}
+			else
+			{
+				this.Id=System.Convert.ToInt32(w.text);
 			}
 		}
 	}

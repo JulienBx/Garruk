@@ -18,6 +18,10 @@ TextureImporter:
     21300022: polymorphe
     21300024: predateur
     21300026: pretresse
+    21300028: profilePicturesPopUp
+    21300030: searchBar
+    21300032: thumbBorder
+    21300034: searchPopUp
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -66,8 +70,8 @@ TextureImporter:
     - name: assassin
       rect:
         serializedVersion: 2
-        x: 429
-        y: 832
+        x: 754
+        y: 1801
         width: 190
         height: 190
       alignment: 0
@@ -76,8 +80,8 @@ TextureImporter:
     - name: buttonBorder
       rect:
         serializedVersion: 2
-        x: 2
-        y: 917
+        x: 504
+        y: 1247
         width: 425
         height: 105
       alignment: 0
@@ -86,8 +90,8 @@ TextureImporter:
     - name: drogueur
       rect:
         serializedVersion: 2
-        x: 621
-        y: 832
+        x: 754
+        y: 1609
         width: 190
         height: 190
       alignment: 0
@@ -96,8 +100,8 @@ TextureImporter:
     - name: drone
       rect:
         serializedVersion: 2
-        x: 813
-        y: 832
+        x: 754
+        y: 1417
         width: 190
         height: 190
       alignment: 0
@@ -106,8 +110,8 @@ TextureImporter:
     - name: editPictureButton
       rect:
         serializedVersion: 2
-        x: 2
-        y: 725
+        x: 504
+        y: 1354
         width: 190
         height: 190
       alignment: 0
@@ -116,8 +120,8 @@ TextureImporter:
     - name: geomancienne
       rect:
         serializedVersion: 2
-        x: 194
-        y: 725
+        x: 504
+        y: 1055
         width: 190
         height: 190
       alignment: 0
@@ -126,8 +130,8 @@ TextureImporter:
     - name: invocateur
       rect:
         serializedVersion: 2
-        x: 386
-        y: 640
+        x: 696
+        y: 1055
         width: 190
         height: 190
       alignment: 0
@@ -136,8 +140,8 @@ TextureImporter:
     - name: mentaliste
       rect:
         serializedVersion: 2
-        x: 2
-        y: 533
+        x: 504
+        y: 863
         width: 190
         height: 190
       alignment: 0
@@ -146,8 +150,8 @@ TextureImporter:
     - name: mitrailleur
       rect:
         serializedVersion: 2
-        x: 194
-        y: 533
+        x: 696
+        y: 863
         width: 190
         height: 190
       alignment: 0
@@ -156,8 +160,8 @@ TextureImporter:
     - name: pagination
       rect:
         serializedVersion: 2
-        x: 2
-        y: 245
+        x: 888
+        y: 1151
         width: 94
         height: 94
       alignment: 0
@@ -166,8 +170,8 @@ TextureImporter:
     - name: paginationHover
       rect:
         serializedVersion: 2
-        x: 2
-        y: 149
+        x: 888
+        y: 1055
         width: 94
         height: 94
       alignment: 0
@@ -176,8 +180,8 @@ TextureImporter:
     - name: polymorphe
       rect:
         serializedVersion: 2
-        x: 578
-        y: 640
+        x: 2
+        y: 852
         width: 190
         height: 190
       alignment: 0
@@ -186,8 +190,8 @@ TextureImporter:
     - name: predateur
       rect:
         serializedVersion: 2
-        x: 770
-        y: 640
+        x: 194
+        y: 852
         width: 190
         height: 190
       alignment: 0
@@ -196,10 +200,50 @@ TextureImporter:
     - name: pretresse
       rect:
         serializedVersion: 2
-        x: 2
-        y: 341
+        x: 386
+        y: 671
         width: 190
         height: 190
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: profilePicturesPopUp
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 1546
+        width: 750
+        height: 500
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: searchBar
+      rect:
+        serializedVersion: 2
+        x: 754
+        y: 1993
+        width: 248
+        height: 53
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: searchPopUp
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 1044
+        width: 500
+        height: 500
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: thumbBorder
+      rect:
+        serializedVersion: 2
+        x: 946
+        y: 1922
+        width: 69
+        height: 69
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}

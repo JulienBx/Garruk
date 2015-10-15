@@ -14,9 +14,9 @@ public class NewProfileModel
 	public string[] usernameList;
 	public User player;
 	public bool hasDeck;
-
 	
 	private string URLGetProfileData = ApplicationModel.host+"get_profile_data.php";
+	private string URLSearchUsers = ApplicationModel.host + "search_users.php";
 	
 	public NewProfileModel()
 	{
@@ -57,7 +57,6 @@ public class NewProfileModel
 			}
 		}
 	}
-
 	private User parsePlayer(string[] array)
 	{
 
@@ -161,6 +160,11 @@ public class NewProfileModel
 			}
 		}
 		return index;
+	}
+	public void moveToFriend(int id)
+	{
+		this.friends.Add (this.returnUsersIndex(this.friendsRequests[id].User.Id));
+		this.friendsRequests.RemoveAt(id);
 	}
 }
 

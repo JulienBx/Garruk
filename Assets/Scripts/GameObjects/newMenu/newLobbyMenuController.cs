@@ -14,6 +14,17 @@ public class newLobbyMenuController : newMenuController
 		StartCoroutine (NewLobbyController.instance.initialization ());
 		base.Start ();
 	}
-	
+	public override void sceneReturnPressed()
+	{
+		NewLobbyController.instance.returnPressed ();
+	}
+	public override void sceneEscapePressed()
+	{
+		NewLobbyController.instance.escapePressed ();
+	}
+	public override void sceneCloseAllPopUp()
+	{
+		NewLobbyController.instance.closeAllPopUp ();
+	}
 }
 

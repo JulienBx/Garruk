@@ -220,14 +220,6 @@ public class NewHomePageController : MonoBehaviour
 				this.cleanDeckList();
 			}
 		}
-		if(Input.GetKeyDown(KeyCode.Return)) 
-		{
-			this.returnPressed();
-		}
-		if(Input.GetKeyDown(KeyCode.Escape) && !isTutorialLaunched) 
-		{
-			this.escapePressed();
-		}
 		if(money!=ApplicationModel.credits)
 		{
 			if(isSceneLoaded)
@@ -891,11 +883,7 @@ public class NewHomePageController : MonoBehaviour
 	}
 	public void returnPressed()
 	{
-		if(newMenuController.instance.isAPopUpDisplayed())
-		{
-			newMenuController.instance.returnPressed();
-		}
-		else if(isCardFocusedDisplayed)
+		if(isCardFocusedDisplayed)
 		{
 			this.focusedCard.GetComponent<NewFocusedCardController>().returnPressed();
 		}
@@ -910,11 +898,7 @@ public class NewHomePageController : MonoBehaviour
 	}
 	public void escapePressed()
 	{
-		if(newMenuController.instance.isAPopUpDisplayed())
-		{
-			newMenuController.instance.escapePressed();
-		}
-		else if(isCardFocusedDisplayed)
+		if(isCardFocusedDisplayed)
 		{
 			this.focusedCard.GetComponent<NewFocusedCardController>().escapePressed();
 		}
@@ -923,6 +907,17 @@ public class NewHomePageController : MonoBehaviour
 			this.hideEndGamePopUp();
 		}
 		else if(errorViewDisplayed)
+		{
+			this.hideErrorPopUp();
+		}
+	}
+	public void closeAllPopUp()
+	{
+		if(isEndGamePopUpDisplayed)
+		{
+			this.hideEndGamePopUp();
+		}
+		if(errorViewDisplayed)
 		{
 			this.hideErrorPopUp();
 		}

@@ -17,6 +17,8 @@ public class NewProfileController : MonoBehaviour
 	public GameObject popUpObject;
 	public GUISkin popUpSkin;
 	public Sprite[] profilePictures;
+	public GameObject selectPicturePopUpObject;
+	public GameObject searchUsersPopUpObject;
 	
 	private GameObject searchBlock;
 	private GameObject friendsBlock;
@@ -55,12 +57,16 @@ public class NewProfileController : MonoBehaviour
 	private GameObject[] paginationButtonsChallengesRecords;
 	private GameObject[] paginationButtonsTrophies;
 
+	private GameObject selectPicturePopUp;
+	private GameObject searchUsersPopUp;
+
 	private int widthScreen;
 	private int heightScreen;
 	private float worldWidth;
 	private float worldHeight;
 	private float pixelPerUnit;
 	private Rect centralWindow;
+	private Rect centralWindowEditInformations;
 	
 	private IList<int> friendsRequestsDisplayed;
 	private IList<int> challengesRecordsDisplayed;
@@ -100,9 +106,6 @@ public class NewProfileController : MonoBehaviour
 	
 	private bool isSceneLoaded;
 	
-	private bool isSearchingDeck;
-	private bool isMouseOnSelectDeckButton;
-	
 	private bool isHoveringFriendsRequest;
 	private bool isHoveringFriend;
 	private bool isHoveringChallengesRecord;
@@ -121,8 +124,24 @@ public class NewProfileController : MonoBehaviour
 
 	private bool isProfilePictureHovered;
 
+	private bool isSelectPicturePopUpDisplayed;
+	private bool isSearchUsersPopUpDisplayed;
+
 	public int friendsRefreshInterval;
 	private float friendsCheckTimer;
+
+	private ProfileCheckPasswordPopUpView checkPasswordView;
+	private bool isCheckPasswordViewDisplayed;
+
+	private ProfileChangePasswordPopUpView changePasswordView;
+	private bool isChangePasswordViewDisplayed;
+
+	private ProfileEditInformationsPopUpView editInformationsView;
+	private bool isEditInformationsViewDisplayed;
+
+	private bool isSearchingUsers;
+	private string searchValue;
+	private bool isMouseOnSearchBar;
 	
 	void Update()
 	{	
@@ -149,14 +168,6 @@ public class NewProfileController : MonoBehaviour
 				this.hidePopUp();
 			}
 		}
-		if(Input.GetKeyDown(KeyCode.Return)) 
-		{
-			this.returnPressed();
-		}
-		if(Input.GetKeyDown(KeyCode.Escape) && !isTutorialLaunched) 
-		{
-			this.escapePressed();
-		}
 		if(areTrophiesPicturesLoading)
 		{
 			bool allPicturesLoaded=true;
@@ -177,6 +188,53 @@ public class NewProfileController : MonoBehaviour
 				}
 			}
 		}
+		if(isSearchingUsers)
+		{
+			if(!Input.GetKey(KeyCode.Delete))
+			{
+				foreach (char c in Input.inputString) 
+				{
+					if(c==(char)KeyCode.Backspace && this.searchValue.Length>0)
+					{
+						this.searchValue = this.searchValue.Remove(this.searchValue.Length - 1);
+						this.search.transform.FindChild ("SearchBar").FindChild("Text").GetComponent<TextMeshPro>().text = this.searchValue;
+						if(this.searchValue.Length==0)
+						{
+							this.isSearchingUsers=false;
+							this.search.transform.FindChild ("SearchBar").FindChild("Text").GetComponent<TextMeshPro>().text ="Rechercher";
+						}
+					}
+					else if (c == "\b"[0])
+					{
+						if (searchValue.Length != 0)
+						{
+							searchValue= searchValue.Substring(0, searchValue.Length - 1);
+						}
+					}
+					else
+					{
+						if (c == "\n"[0] || c == "\r"[0])
+						{
+							this.searchUsersHandler();	
+						}
+						else if(this.searchValue.Length<12)
+						{
+							this.searchValue += c;
+							this.searchValue=this.searchValue.ToLower();
+							this.search.transform.FindChild ("SearchBar").FindChild("Text").GetComponent<TextMeshPro>().text = this.searchValue;
+						}
+					}
+				}
+			}
+			if((Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))&& !this.isMouseOnSearchBar)
+			{
+				this.isSearchingUsers=false;
+				if(this.searchValue=="")
+				{
+					this.search.transform.FindChild ("SearchBar").FindChild("Text").GetComponent<TextMeshPro>().text ="Rechercher";
+				}
+			}
+		}
 	}
 	void Awake()
 	{
@@ -189,6 +247,7 @@ public class NewProfileController : MonoBehaviour
 		this.elementsPerPageFriendsRequests = 2;
 		this.elementsPerPageTrophies = 3;
 		this.elementsPerPageChallengesRecords = 3;
+		this.searchValue = "";
 		this.initializeScene ();
 		this.resize ();
 	}
@@ -257,6 +316,9 @@ public class NewProfileController : MonoBehaviour
 		this.friendsBlock = Instantiate (this.blockObject) as GameObject;
 		this.searchBlock = Instantiate(this.blockObject) as GameObject;
 		this.challengesRecordsBlock = Instantiate(this.blockObject) as GameObject;
+		this.search = GameObject.Find ("Search");
+		this.search.transform.FindChild ("SearchBar").transform.FindChild ("Text").GetComponent<TextMeshPro> ().text = "Rechercher";
+		this.search.transform.FindChild ("SearchButton").transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "OK";
 		this.profile = GameObject.Find ("Profile");
 		this.profileTitle = GameObject.Find ("ProfileTitle");
 		this.profileTitle.SetActive (false);
@@ -322,7 +384,7 @@ public class NewProfileController : MonoBehaviour
 		this.widthScreen=Screen.width;
 		this.heightScreen=Screen.height;
 		this.centralWindow = new Rect (this.widthScreen * 0.25f, 0.12f * this.heightScreen, this.widthScreen * 0.50f, 0.25f * this.heightScreen);
-		this.centralWindow = new Rect (this.widthScreen * 0.25f, 0.12f * this.heightScreen, this.widthScreen * 0.50f, 0.25f * this.heightScreen);
+		this.centralWindowEditInformations = new Rect (this.widthScreen * 0.25f, 0.12f * this.heightScreen, this.widthScreen * 0.50f, 0.35f * this.heightScreen);
 		this.worldHeight = 2f*Camera.main.GetComponent<Camera>().orthographicSize;
 		this.worldWidth = ((float)Screen.width/(float)Screen.height) * worldHeight;
 		float screenRatio = (float)this.widthScreen / (float)this.heightScreen;
@@ -408,6 +470,7 @@ public class NewProfileController : MonoBehaviour
 		
 		this.searchBlock.GetComponent<BlockController> ().resize(new Rect(searchBlockOrigin.x,searchBlockOrigin.y,searchBlockWidth,searchBlockHeight));
 		this.searchTitle.transform.position = new Vector3 (searchBlockOrigin.x, searchBlockOrigin.y+searchBlockHeight/2f-0.3f, 0);
+		this.search.transform.position = new Vector3 (searchBlockOrigin.x, searchBlockOrigin.y - 0.25f, 0);
 		
 		float friendsRequestsBlockLeftMargin = this.worldWidth-2.8f;
 		float friendsRequestsBlockRightMargin = 0f;
@@ -445,24 +508,81 @@ public class NewProfileController : MonoBehaviour
 		{
 			this.tutorial.GetComponent<TutorialObjectController>().resize();
 		}
-	}
-	
 
+		if(this.isCheckPasswordViewDisplayed)
+		{
+			this.checkPasswordViewResize();
+		}
+		else if(this.isChangePasswordViewDisplayed)
+		{
+			this.changePasswordViewResize();
+		}
+		else if(this.isEditInformationsViewDisplayed)
+		{
+			this.editInformationsViewResize();
+		}
+	}
 	public void returnPressed()
 	{
-		if(newMenuController.instance.isAPopUpDisplayed())
+		if(this.isCheckPasswordViewDisplayed)
 		{
-			newMenuController.instance.returnPressed();
+			this.checkPasswordHandler(checkPasswordView.checkPasswordPopUpVM.tempOldPassword);
+		}
+		else if(this.isChangePasswordViewDisplayed)
+		{
+			this.editPasswordHandler();
+		}
+		else if(this.isEditInformationsViewDisplayed)
+		{
+			this.updateUserInformationsHandler();
 		}
 	}
 	public void escapePressed()
 	{
-		if(newMenuController.instance.isAPopUpDisplayed())
+		if(this.isSelectPicturePopUpDisplayed)
 		{
-			newMenuController.instance.escapePressed();
+			this.hideSelectPicturePopUp();
+		}
+		else if(this.isCheckPasswordViewDisplayed)
+		{
+			this.hideCheckPasswordPopUp();
+		}
+		else if(this.isChangePasswordViewDisplayed)
+		{
+			this.hideChangePasswordPopUp();
+		}
+		else if(this.isEditInformationsViewDisplayed)
+		{
+			this.hideEditInformationsPopUp();
+		}
+		else if(this.isSearchUsersPopUpDisplayed)
+		{
+			this.hideSearchUsersPopUp();
 		}
 	}
-	
+	public void closeAllPopUp()
+	{
+		if(this.isSelectPicturePopUpDisplayed)
+		{
+			this.hideSelectPicturePopUp();
+		}
+		if(this.isCheckPasswordViewDisplayed)
+		{
+			this.hideCheckPasswordPopUp();
+		}
+		if(this.isChangePasswordViewDisplayed)
+		{
+			this.hideChangePasswordPopUp();
+		}
+		if(this.isEditInformationsViewDisplayed)
+		{
+			this.hideEditInformationsPopUp();
+		}
+		if(this.isSearchUsersPopUpDisplayed)
+		{
+			this.hideSearchUsersPopUp();
+		}
+	}
 	public void drawChallengesRecords()
 	{
 		this.challengesRecordsDisplayed = new List<int> ();
@@ -561,7 +681,15 @@ public class NewProfileController : MonoBehaviour
 	private void drawProfile()
 	{
 		this.profile.transform.FindChild ("Username").GetComponent<TextMeshPro> ().text = ApplicationModel.username;
-		this.profile.transform.FindChild ("Informations").GetComponent<TextMeshPro> ().text = "prénom : " + model.player.FirstName + "\nnom : " + model.player.Surname + "\nemail : " + model.player.Mail;
+		this.drawPersonalInformations ();
+		this.drawProfilePicture ();
+	}
+	private void drawPersonalInformations()
+	{
+		this.profile.transform.FindChild ("Informations").GetComponent<TextMeshPro> ().text = "Prénom : " + model.player.FirstName + "\nNom : " + model.player.Surname + "\neMail : " + model.player.Mail;
+	}
+	private void drawProfilePicture()
+	{
 		this.profile.transform.FindChild ("Picture").GetComponent<SpriteRenderer> ().sprite = this.profilePictures[model.player.idProfilePicture];
 	}
 	private void drawPaginationChallengesRecords()
@@ -1006,7 +1134,7 @@ public class NewProfileController : MonoBehaviour
 		this.popUp.AddComponent<PopUpFriendProfileController>();
 		this.popUp.GetComponent<PopUpFriendProfileController> ().setIsFriend (true);
 		this.popUp.GetComponent<PopUpFriendProfileController> ().setId (this.idFriendHovered);
-		this.popUp.GetComponent<PopUpFriendProfileController> ().show (model.users [this.friendsDisplayed [this.idFriendHovered]]);
+		this.popUp.GetComponent<PopUpFriendProfileController> ().show (model.users [this.friendsToBeDisplayed[this.friendsDisplayed[this.idFriendHovered]]]);
 		this.isPopUpDisplayed=true;
 	}
 	public void showPopUpChallengesRecord()
@@ -1127,12 +1255,18 @@ public class NewProfileController : MonoBehaviour
 	}
 	public void acceptFriendsRequestHandler()
 	{
+		this.hidePopUp ();
+		StartCoroutine (this.confirmFriendRequest (this.friendsRequestsDisplayed [this.idFriendsRequestHovered]));
 	}
 	public void declineFriendsRequestHandler()
 	{
+		this.hidePopUp ();
+		StartCoroutine (this.removeFriendRequest (this.friendsRequestsDisplayed [this.idFriendsRequestHovered]));
 	}
 	public void cancelFriendsRequestHandler()
 	{
+		this.hidePopUp ();
+		StartCoroutine (this.removeFriendRequest (this.friendsRequestsDisplayed [this.idFriendsRequestHovered]));
 	}
 	public void startHoveringProfilePicture()
 	{
@@ -1146,6 +1280,302 @@ public class NewProfileController : MonoBehaviour
 	}
 	public void editProfilePictureHandler()
 	{
-		print ("modifie la photo");
+		this.displaySelectPicturePopUp ();
+	}
+	private void displaySelectPicturePopUp()
+	{
+		newMenuController.instance.displayTransparentBackground ();
+		this.selectPicturePopUp=Instantiate(this.selectPicturePopUpObject) as GameObject;
+		this.selectPicturePopUp.transform.position = new Vector3 (0f, 0f, -2f);
+		this.selectPicturePopUp.GetComponent<SelectPicturePopUpController> ().selectPicture (model.player.idProfilePicture);
+		this.isSelectPicturePopUpDisplayed = true;
+	}
+	public void hideSelectPicturePopUp()
+	{
+		Destroy (this.selectPicturePopUp);
+		newMenuController.instance.hideTransparentBackground ();
+		this.isSelectPicturePopUpDisplayed = false;
+	}
+	public void changeUserPictureHandler(int id)
+	{
+		this.hideSelectPicturePopUp ();
+		if(id!=model.player.idProfilePicture)
+		{
+			StartCoroutine(this.changeUserPicture(id));
+		}
+	}
+	public IEnumerator changeUserPicture(int id)
+	{
+		newMenuController.instance.displayLoadingScreen();
+		yield return StartCoroutine(model.player.setProfilePicture(id));
+		this.drawProfilePicture ();
+		newMenuController.instance.changeThumbPicture (id);
+		newMenuController.instance.hideLoadingScreen();
+	}
+	public void displayCheckPasswordPopUp()
+	{
+		this.checkPasswordView = gameObject.AddComponent<ProfileCheckPasswordPopUpView> ();
+		this.isCheckPasswordViewDisplayed = true;
+		checkPasswordView.popUpVM.centralWindowStyle = new GUIStyle(this.popUpSkin.window);
+		checkPasswordView.popUpVM.centralWindowTitleStyle = new GUIStyle (this.popUpSkin.customStyles [0]);
+		checkPasswordView.popUpVM.centralWindowButtonStyle = new GUIStyle (this.popUpSkin.button);
+		checkPasswordView.popUpVM.centralWindowTextfieldStyle = new GUIStyle (this.popUpSkin.textField);
+		checkPasswordView.popUpVM.centralWindowErrorStyle = new GUIStyle (this.popUpSkin.customStyles [1]);
+		checkPasswordView.popUpVM.transparentStyle = new GUIStyle (this.popUpSkin.customStyles [2]);
+		this.checkPasswordViewResize ();
+	}
+	public void displayChangePasswordPopUp()
+	{
+		this.changePasswordView = gameObject.AddComponent<ProfileChangePasswordPopUpView> ();
+		this.isChangePasswordViewDisplayed = true;
+		changePasswordView.popUpVM.centralWindowStyle = new GUIStyle(this.popUpSkin.window);
+		changePasswordView.popUpVM.centralWindowTitleStyle = new GUIStyle (this.popUpSkin.customStyles [0]);
+		changePasswordView.popUpVM.centralWindowButtonStyle = new GUIStyle (this.popUpSkin.button);
+		changePasswordView.popUpVM.centralWindowTextfieldStyle = new GUIStyle (this.popUpSkin.textField);
+		changePasswordView.popUpVM.centralWindowErrorStyle = new GUIStyle (this.popUpSkin.customStyles [1]);
+		changePasswordView.popUpVM.transparentStyle = new GUIStyle (this.popUpSkin.customStyles [2]);
+		this.changePasswordViewResize ();
+	}
+	public void displayEditInformationsPopUp()
+	{
+		this.editInformationsView = gameObject.AddComponent<ProfileEditInformationsPopUpView> ();
+		this.isEditInformationsViewDisplayed = true;
+		editInformationsView.popUpVM.centralWindowStyle = new GUIStyle(this.popUpSkin.window);
+		editInformationsView.popUpVM.centralWindowTitleStyle = new GUIStyle (this.popUpSkin.customStyles [0]);
+		editInformationsView.popUpVM.centralWindowButtonStyle = new GUIStyle (this.popUpSkin.button);
+		editInformationsView.popUpVM.centralWindowTextfieldStyle = new GUIStyle (this.popUpSkin.textField);
+		editInformationsView.popUpVM.centralWindowErrorStyle = new GUIStyle (this.popUpSkin.customStyles [1]);
+		editInformationsView.popUpVM.transparentStyle = new GUIStyle (this.popUpSkin.customStyles [2]);
+		editInformationsView.editInformationsPopUpVM.tempFirstName = model.player.FirstName;
+		editInformationsView.editInformationsPopUpVM.tempSurname = model.player.Surname;
+		editInformationsView.editInformationsPopUpVM.tempMail = model.player.Mail;
+		this.editInformationsViewResize ();
+	}
+	public void checkPasswordViewResize()
+	{
+		checkPasswordView.popUpVM.centralWindow = this.centralWindow;
+		checkPasswordView.popUpVM.resize ();
+	}
+	public void changePasswordViewResize()
+	{
+		changePasswordView.popUpVM.centralWindow = this.centralWindow;
+		changePasswordView.popUpVM.resize ();
+	}
+	public void editInformationsViewResize()
+	{
+		editInformationsView.popUpVM.centralWindow = this.centralWindowEditInformations;
+		editInformationsView.popUpVM.resize ();
+	}
+	public void hideCheckPasswordPopUp()
+	{
+		Destroy (this.checkPasswordView);
+		this.isCheckPasswordViewDisplayed = false;
+	}
+	public void hideChangePasswordPopUp()
+	{
+		Destroy (this.changePasswordView);
+		this.isChangePasswordViewDisplayed = false;
+	}
+	public void hideEditInformationsPopUp()
+	{
+		Destroy (this.editInformationsView);
+		this.isEditInformationsViewDisplayed = false;
+	}
+	public void checkPasswordHandler(string password)
+	{
+		StartCoroutine (checkPassword (password));
+	}
+	private IEnumerator checkPassword(string password)
+	{
+		checkPasswordView.checkPasswordPopUpVM.error = this.checkPasswordComplexity (password);
+		if(checkPasswordView.checkPasswordPopUpVM.error=="")
+		{
+			checkPasswordView.popUpVM.guiEnabled = false;
+			yield return StartCoroutine(ApplicationModel.checkPassword(password));
+			if(ApplicationModel.error=="")
+			{
+				this.hideCheckPasswordPopUp();
+				this.displayChangePasswordPopUp();
+			}
+			else
+			{
+				checkPasswordView.checkPasswordPopUpVM.error=ApplicationModel.error;
+				ApplicationModel.error="";
+			}
+			checkPasswordView.popUpVM.guiEnabled = true;
+		}
+	}
+	public string checkPasswordComplexity(string password)
+	{
+		if(password.Length<5)
+		{
+			return "Le mot de passe doit comporter au moins 5 caractères";
+		}
+		else if(!Regex.IsMatch(password, @"^[a-zA-Z0-9_.@]+$"))
+		{
+			return "Le mot de passe ne peut comporter de caractères spéciaux hormis @ _ et .";
+		} 
+		return "";
+	}
+	public void editPasswordHandler()
+	{
+		changePasswordView.changePasswordPopUpVM.passwordsCheck = this.checkPasswordEgality (changePasswordView.changePasswordPopUpVM.tempNewPassword, changePasswordView.changePasswordPopUpVM.tempNewPassword2);
+		if(changePasswordView.changePasswordPopUpVM.passwordsCheck=="")
+		{
+			changePasswordView.changePasswordPopUpVM.passwordsCheck=this.checkPasswordComplexity(changePasswordView.changePasswordPopUpVM.tempNewPassword);
+		}
+		if(changePasswordView.changePasswordPopUpVM.passwordsCheck=="")
+		{
+			StartCoroutine(this.editPassword(changePasswordView.changePasswordPopUpVM.tempNewPassword));
+			changePasswordView.changePasswordPopUpVM.tempNewPassword="";
+			changePasswordView.changePasswordPopUpVM.tempNewPassword2="";
+		}
+	}
+	private IEnumerator editPassword(string password)
+	{
+		changePasswordView.popUpVM.guiEnabled = false;
+		yield return StartCoroutine(ApplicationModel.editPassword(password));
+		changePasswordView.popUpVM.guiEnabled = true;
+		this.hideChangePasswordPopUp ();
+	}
+	public string checkPasswordEgality (string password1, string password2)
+	{
+		if(password1=="")
+		{
+			return "Veuillez saisir un mot de passe";
+		}
+		else if(password2=="")
+		{
+			return "Veuillez confirmer votre mot de passe";
+		}
+		else if(password1!=password2)
+		{
+			return "Les deux mots de passes doivent être identiques";
+		}
+		return "";
+	}
+	public void updateUserInformationsHandler()
+	{
+		editInformationsView.editInformationsPopUpVM.error = this.checkname (editInformationsView.editInformationsPopUpVM.tempSurname);
+		if(editInformationsView.editInformationsPopUpVM.error=="")
+		{
+			editInformationsView.editInformationsPopUpVM.error = this.checkname (editInformationsView.editInformationsPopUpVM.tempFirstName);
+		}
+		if(editInformationsView.editInformationsPopUpVM.error=="")
+		{
+			editInformationsView.editInformationsPopUpVM.error = this.checkEmail (editInformationsView.editInformationsPopUpVM.tempMail);
+		}
+		if(editInformationsView.editInformationsPopUpVM.error=="")
+		{
+			StartCoroutine(updateUserInformations(editInformationsView.editInformationsPopUpVM.tempFirstName,editInformationsView.editInformationsPopUpVM.tempSurname,editInformationsView.editInformationsPopUpVM.tempMail));
+		}
+	}
+	private IEnumerator updateUserInformations(string firstname, string surname, string mail)
+	{
+		editInformationsView.popUpVM.guiEnabled = false;
+		model.player.FirstName = firstname;
+		model.player.Surname = surname;
+		model.player.Mail = mail;
+		yield return StartCoroutine (model.player.updateInformations ());
+		this.drawPersonalInformations ();
+		editInformationsView.popUpVM.guiEnabled = true;
+		this.hideEditInformationsPopUp ();
+	}
+	public string checkname(string name)
+	{
+		if(!Regex.IsMatch(name, @"^[a-zA-Z0-9_]+$"))
+		{
+			return "Vous ne pouvez pas utiliser de caractères spéciaux";
+		}   
+		return "";
+	}
+	public string checkEmail(string email)
+	{
+		if(!Regex.IsMatch(email, @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z", RegexOptions.IgnoreCase))
+		{
+			return "Veuillez saisir une adresse email valide";
+		}
+		return "";
+	}
+	public void mouseOnSearchBar(bool value)
+	{
+		this.isMouseOnSearchBar = value;
+	}
+	public void searchingUsers()
+	{
+		if(this.searchValue=="")
+		{
+			this.isSearchingUsers = true;
+			this.search.transform.FindChild ("SearchBar").FindChild("Text").GetComponent<TextMeshPro>().text = this.searchValue;
+		}
+	}
+	public void searchUsersHandler()
+	{
+		if(this.searchValue.Length>2)
+		{
+			this.isSearchingUsers = false;
+			this.displaySearchUsersPopUp(this.searchValue);
+			this.searchValue = "";
+			this.search.transform.FindChild ("SearchBar").FindChild("Text").GetComponent<TextMeshPro>().text ="Rechercher";
+		}
+	}
+	private void displaySearchUsersPopUp(string searchValue)
+	{
+		newMenuController.instance.displayTransparentBackground ();
+		this.searchUsersPopUp=Instantiate(this.searchUsersPopUpObject) as GameObject;
+		this.searchUsersPopUp.transform.position = new Vector3 (0f, 0f, -2f);
+		this.searchUsersPopUp.GetComponent<SearchUsersPopUpController> ().launch (searchValue);
+		this.isSearchUsersPopUpDisplayed = true;
+	}
+	public void hideSearchUsersPopUp()
+	{
+		Destroy (this.searchUsersPopUp);
+		newMenuController.instance.hideTransparentBackground ();
+		this.isSearchUsersPopUpDisplayed = false;
+	}
+	public IEnumerator confirmFriendRequest(int index)
+	{
+		newMenuController.instance.displayLoadingScreen ();
+		yield return StartCoroutine(model.friendsRequests [index].Connection.confirm ());
+		if(model.friendsRequests [index].Connection.Error=="")
+		{
+			Notification tempNotification1 = new Notification(model.friendsRequests [index].User.Id,model.player.Id,false,3);
+			StartCoroutine(tempNotification1.add ());
+			Notification tempNotification2 = new Notification(model.player.Id,model.friendsRequests [index].User.Id,false,4);
+			StartCoroutine(tempNotification2.remove ());
+			News tempNews1=new News(model.player.Id, 1,model.friendsRequests [index].User.Id.ToString());
+			StartCoroutine(tempNews1.add ());
+			News tempNews2=new News(model.friendsRequests [index].User.Id, 1,model.player.Id.ToString());
+			StartCoroutine(tempNews2.add ());
+			model.moveToFriend(index);
+			this.initializeFriendsRequests();
+			this.initializeFriends();
+		}
+		else
+		{
+			model.friendsRequests.RemoveAt(index);
+			newMenuController.instance.displayErrorPopUp(model.friendsRequests [index].Connection.Error);
+			model.friendsRequests [index].Connection.Error="";
+		}
+		newMenuController.instance.hideLoadingScreen ();
+	}
+	public IEnumerator removeFriendRequest(int index)
+	{
+		newMenuController.instance.displayLoadingScreen ();
+		yield return StartCoroutine(model.friendsRequests [index].Connection.remove ());
+		if(model.friendsRequests[index].Connection.Error=="")
+		{
+			Notification tempNotification = new Notification ();
+			tempNotification = new Notification(model.friendsRequests [index].User.Id,model.player.Id,false,4);
+			StartCoroutine(tempNotification.remove ());
+			model.friendsRequests.RemoveAt(index);
+			this.initializeFriendsRequests();
+		}
+		else
+		{
+			newMenuController.instance.displayErrorPopUp(model.friendsRequests [index].Connection.Error);
+			model.friendsRequests [index].Connection.Error="";
+		}
+		newMenuController.instance.hideLoadingScreen ();
 	}
 }

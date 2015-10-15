@@ -137,14 +137,6 @@ public class NewStoreController : MonoBehaviour
 			}
 			this.money=ApplicationModel.credits;
 		}
-		if(Input.GetKeyDown(KeyCode.Return)) 
-		{
-			this.returnPressed();
-		}
-		if(Input.GetKeyDown(KeyCode.Escape) && !isTutorialLaunched) 
-		{
-			this.escapePressed();
-		}
 		if (this.startRotation)
 		{
 			for(int i=0;i<this.randomCards.Length;i++)
@@ -750,11 +742,7 @@ public class NewStoreController : MonoBehaviour
 	}
 	public void returnPressed()
 	{
-		if(newMenuController.instance.isAPopUpDisplayed())
-		{
-			newMenuController.instance.returnPressed();
-		}
-		else if(isCardFocusedDisplayed)
+		if(isCardFocusedDisplayed)
 		{
 			this.focusedCard.GetComponent<NewFocusedCardStoreController>().returnPressed();
 		}
@@ -769,11 +757,7 @@ public class NewStoreController : MonoBehaviour
 	}
 	public void escapePressed()
 	{
-		if(newMenuController.instance.isAPopUpDisplayed())
-		{
-			newMenuController.instance.escapePressed();
-		}
-		else if(isCardFocusedDisplayed)
+		if(isCardFocusedDisplayed)
 		{
 			this.focusedCard.GetComponent<NewFocusedCardStoreController>().escapePressed();
 		}
@@ -786,6 +770,17 @@ public class NewStoreController : MonoBehaviour
 			this.hideErrorPopUp();
 		}
 		else if(this.isAddCreditsViewDisplayed)
+		{
+			this.hideAddCreditsPopUp();
+		}
+	}
+	public void closeAllPopUp()
+	{
+		if(this.isErrorViewDisplayed)
+		{
+			this.hideErrorPopUp();
+		}
+		if(this.isAddCreditsViewDisplayed)
 		{
 			this.hideAddCreditsPopUp();
 		}

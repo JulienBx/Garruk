@@ -14,6 +14,18 @@ public class newMarketMenuController : newMenuController
 		StartCoroutine (NewMarketController.instance.initialization ());
 		base.Start ();
 	}
+	public override void sceneReturnPressed()
+	{
+		NewMarketController.instance.returnPressed ();
+	}
+	public override void sceneEscapePressed()
+	{
+		NewMarketController.instance.escapePressed ();
+	}
+	public override void sceneCloseAllPopUp()
+	{
+		NewMarketController.instance.closeAllPopUp ();
+	}
 	
 }
 

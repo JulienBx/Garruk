@@ -169,14 +169,6 @@ public class NewMarketController : MonoBehaviour
 				this.filters.transform.FindChild("skillSearch").FindChild ("SearchBar").FindChild("Text").GetComponent<TextMeshPro>().text ="Rechercher";
 			}
 		}
-		if(Input.GetKeyDown(KeyCode.Return)) 
-		{
-			this.returnPressed();
-		}
-		if(Input.GetKeyDown(KeyCode.Escape) && !isTutorialLaunched) 
-		{
-			this.escapePressed();
-		}
 		if(this.areNewCardsAvailable)
 		{
 			if(!this.isCardFocusedDisplayed)
@@ -1033,11 +1025,7 @@ public class NewMarketController : MonoBehaviour
 	}
 	public void returnPressed()
 	{
-		if(newMenuController.instance.isAPopUpDisplayed())
-		{
-			newMenuController.instance.returnPressed();
-		}
-		else if(isCardFocusedDisplayed)
+		if(isCardFocusedDisplayed)
 		{
 			this.focusedCard.GetComponent<NewFocusedCardController>().returnPressed();
 		}
@@ -1052,11 +1040,7 @@ public class NewMarketController : MonoBehaviour
 	}
 	public void escapePressed()
 	{
-		if(newMenuController.instance.isAPopUpDisplayed())
-		{
-			newMenuController.instance.escapePressed();
-		}
-		else if(isCardFocusedDisplayed)
+		if(isCardFocusedDisplayed)
 		{
 			this.focusedCard.GetComponent<NewFocusedCardController>().escapePressed();
 		}
@@ -1068,6 +1052,14 @@ public class NewMarketController : MonoBehaviour
 		{
 			this.cards[this.idCardClicked].GetComponent<NewCardController>().escapePressed();
 		}
+	}
+	public void closeAllPopUp()
+	{
+		if(this.errorViewDisplayed)
+		{
+			this.hideErrorPopUp();
+		}
+		this.cards[this.idCardClicked].GetComponent<NewCardController>().escapePressed();
 	}
 	public void updateCardsMarketFeatures()
 	{

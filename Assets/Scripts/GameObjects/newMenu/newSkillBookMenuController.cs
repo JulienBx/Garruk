@@ -14,6 +14,18 @@ public class newSkillBookMenuController : newMenuController
 		StartCoroutine (NewSkillBookController.instance.initialization ());
 		base.Start ();
 	}
+	public override void sceneReturnPressed()
+	{
+		NewSkillBookController.instance.returnPressed ();
+	}
+	public override void sceneEscapePressed()
+	{
+		NewSkillBookController.instance.escapePressed ();
+	}
+	public override void sceneCloseAllPopUp()
+	{
+		NewSkillBookController.instance.closeAllPopUp ();
+	}
 	
 }
 

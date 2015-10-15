@@ -66,14 +66,6 @@ public class NewSkillBookController : MonoBehaviour
 			this.drawSkills();
 			this.drawPagination();
 		}
-		if(Input.GetKeyDown(KeyCode.Escape)) 
-		{
-			this.escapePressed();
-		}
-		if(Input.GetKeyDown(KeyCode.Return))
-		{
-			this.returnPressed();
-		}
 	}
 	void Awake()
 	{
@@ -559,17 +551,12 @@ public class NewSkillBookController : MonoBehaviour
 	}
 	public void returnPressed()
 	{
-		if(newMenuController.instance.isAPopUpDisplayed())
-		{
-			newMenuController.instance.returnPressed();
-		}
 	}
 	public void escapePressed()
 	{
-		if(newMenuController.instance.isAPopUpDisplayed())
-		{
-			newMenuController.instance.escapePressed();
-		}
+	}
+	public void closeAllPopUp()
+	{
 	}
 	public IEnumerator endTutorial(bool toUpdate)
 	{
