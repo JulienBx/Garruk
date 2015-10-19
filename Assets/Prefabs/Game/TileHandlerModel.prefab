@@ -125,7 +125,7 @@ MonoBehaviour:
   - {fileID: 21300010, guid: 7e1b4151ad140b74da11c36c23719857, type: 3}
   - {fileID: 21300012, guid: 7e1b4151ad140b74da11c36c23719857, type: 3}
   - {fileID: 21300014, guid: 7e1b4151ad140b74da11c36c23719857, type: 3}
-  - {fileID: 21300006, guid: 7e1b4151ad140b74da11c36c23719857, type: 3}
+  - {fileID: 21300030, guid: 7e1b4151ad140b74da11c36c23719857, type: 3}
   - {fileID: 21300016, guid: 7e1b4151ad140b74da11c36c23719857, type: 3}
   - {fileID: 21300018, guid: 7e1b4151ad140b74da11c36c23719857, type: 3}
   - {fileID: 21300014, guid: 7a21bed42c055b84085efde435b9c407, type: 3}
@@ -317,7 +317,7 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: sprites.Array.data[6]
       value: 
-      objectReference: {fileID: 21300006, guid: 7e1b4151ad140b74da11c36c23719857,
+      objectReference: {fileID: 21300030, guid: 7e1b4151ad140b74da11c36c23719857,
         type: 3}
     - target: {fileID: 0}
       propertyPath: m_SortingLayerID

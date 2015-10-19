@@ -51,23 +51,32 @@ public class TileHandlerController : GameObjectController
 	public bool isOccupied(){
 		return (characterID!=-1);
 	}
-	
+		
 	void OnMouseEnter(){
 		if(type==6){
 			GameView.instance.hoverTileHandler(characterID, this.tile);
+			this.enable();
 		}
 		else{
-			GameView.instance.hoverTile(characterID, this.tile, true);
+			GameView.instance.hoverTile(characterID, this.tile);
 		}
-		gameObject.GetComponent<SpriteRenderer>().enabled = true ;
 		this.isHovered = true ;
 	}
 	
 	void OnMouseExit(){
+		this.isHovered = false ;
 		if(type==2){
-			this.isHovered = false ;
-			type=6;
-			this.GetComponentInChildren<TextMeshPro>().text = "";
+			if(GameView.instance.getIsTargeting()){
+				this.changeType(6);
+				this.setText("");
+				
+				if(GameView.instance.getIsTargetingHaloOn()){
+					this.enable();
+				}
+				else{
+					this.disable();
+				}
+			}
 		}
 	}
 	
@@ -82,6 +91,13 @@ public class TileHandlerController : GameObjectController
 			}
 			else{
 				GameController.instance.hitTarget(this.characterID);
+			}
+		}
+		else{
+			GameController.instance.clickPlayingCard(this.characterID, this.tile);
+			if(GameView.instance.getIsTutorialLaunched())
+			{
+				TutorialObjectController.instance.actionIsDone();
 			}
 		}
 		if(GameView.instance.getIsTutorialLaunched())
@@ -101,13 +117,13 @@ public class TileHandlerController : GameObjectController
 	public void disable(){
 		this.GetComponent<SpriteRenderer>().enabled = false ;
 		Transform tempGO = gameObject.transform.FindChild("TileHandlerText");
-		tempGO.GetComponent<TextMeshPro>().enabled = false ;
+		tempGO.GetComponent<MeshRenderer>().enabled = false ;
 	}
 	
 	public void enable(){
 		this.GetComponent<SpriteRenderer>().enabled = true ;
 		Transform tempGO = gameObject.transform.FindChild("TileHandlerText");
-		tempGO.GetComponent<TextMeshPro>().enabled = true ;
+		tempGO.GetComponent<MeshRenderer>().enabled = true ;
 	}
 	
 }

@@ -45,10 +45,6 @@ public class TileController : GameObjectController
 		return (type!=1 && characterID==-1);
 	}
 	
-	public void OnMouseEnter(){
-		GameView.instance.hoverTile(-1, this.tile, true);
-	}
-	
 	public void setCharacterID(int i){
 		this.characterID = i ;
 	}

@@ -25,6 +25,8 @@ public class PlayingCardController : GameObjectController
 	float timerSelection = 0 ;
 	float selectionTime = 0.5f ;
 	bool isGettingBigger = true ;
+	
+	public List<Tile> destinations ;
 
 	void Awake()
 	{
@@ -34,10 +36,18 @@ public class PlayingCardController : GameObjectController
 		Transform t = gameObject.transform;
 	}
 	
+	public void setDestinations(List<Tile> l)
+	{
+		this.destinations = l;
+	}
+	
+	public List<Tile> getDestinations()
+	{
+		return this.destinations;
+	}
+	
 	public void hide()
 	{
-		print ("Je hide "+this.id);
-		
 		this.isHidden = true ;
 		Transform t = gameObject.transform;
 		t.Find("AttackZone").FindChild("AttackPicto").GetComponent<SpriteRenderer>().enabled = false ;
@@ -58,13 +68,10 @@ public class PlayingCardController : GameObjectController
 		
 		t.FindChild("PictoTR").GetComponent<SpriteRenderer>().enabled = false ;
 		t.FindChild("WaitTime").GetComponent<MeshRenderer>().enabled = false ;
-		
-		gameObject.GetComponent<BoxCollider>().enabled = false ;
 	}
 	
 	public void showTR(bool b)
 	{
-		print ("Je showTR "+this.id+" - "+b);
 		Transform t = gameObject.transform;
 		t.FindChild("WaitTime").GetComponent<TextMeshPro>().text = ""+this.card.nbTurnsToWait;
 		
@@ -75,8 +82,6 @@ public class PlayingCardController : GameObjectController
 	
 	public void display()
 	{
-		print ("Je display "+this.id);
-		
 		this.isHidden = false ;
 		
 		Transform t = gameObject.transform;
@@ -91,8 +96,6 @@ public class PlayingCardController : GameObjectController
 		t.FindChild("LifeBar").FindChild("PV").GetComponent<MeshRenderer>().enabled = true ;
 		t.FindChild("LifeBar").FindChild("PVValue").GetComponent<MeshRenderer>().enabled = true ;
 		t.Find("AttackZone").FindChild("AttackValue").GetComponent<MeshRenderer>().enabled = true ;
-		gameObject.GetComponent<BoxCollider>().enabled = true ;
-		
 	}
 	
 	public void setCard(Card c)
@@ -236,18 +239,6 @@ public class PlayingCardController : GameObjectController
 			transform.FindChild("Icon1").GetComponent<SpriteRenderer>().sprite = this.iconSprites[2];
 			transform.FindChild("Icon2").GetComponent<SpriteRenderer>().sprite = this.iconSprites[2];
 			transform.FindChild("Icon3").GetComponent<SpriteRenderer>().sprite = this.iconSprites[2];
-		}
-	}
-	
-	public void OnMouseEnter(){
-		GameView.instance.hoverTile(this.id, this.tile, true);
-	}
-	
-	public void OnMouseDown(){
-		GameController.instance.clickPlayingCard(this.id, this.tile);
-		if(GameView.instance.getIsTutorialLaunched())
-		{
-			TutorialObjectController.instance.actionIsDone();
 		}
 	}
 

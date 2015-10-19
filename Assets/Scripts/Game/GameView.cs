@@ -75,8 +75,6 @@ public class GameView : MonoBehaviour
 	
 	Skill currentHoveredSkill = new Skill(-1) ;
 
-	bool toDisplayPopUp = false ;
-	
 	public bool isTargeting = false ;
 	List<Tile> targets ;
 	float timerTargeting ;
@@ -95,8 +93,6 @@ public class GameView : MonoBehaviour
 	List<int> displayedSE ;
 	List<float> displayedSETimer ;
 	
-	List<Tile> destinations ;
-
 	bool isTutorialLaunched = false;
 	bool isLoadingScreenDisplayed;
 		
@@ -222,7 +218,7 @@ public class GameView : MonoBehaviour
 				if(this.isTargetingHaloOn){
 					for (int i = 0 ; i < this.targets.Count ; i++){	
 						t = this.targets[i];
-						if (!this.tileHandlers[t.x, t.y].GetComponent<TileHandlerController>().getIsHovered()){
+						if(!this.tileHandlers[t.x, t.y].GetComponent<TileHandlerController>().getIsHovered()){
 							this.tileHandlers[t.x, t.y].GetComponent<TileHandlerController>().disable() ;
 						}
 					}
@@ -230,11 +226,13 @@ public class GameView : MonoBehaviour
 				else{
 					for (int i = 0 ; i < this.targets.Count ; i++){	
 						t = this.targets[i];
-						this.tileHandlers[t.x, t.y].GetComponent<TileHandlerController>().enable() ;
+						if(!this.tileHandlers[t.x, t.y].GetComponent<TileHandlerController>().getIsHovered()){
+							this.tileHandlers[t.x, t.y].GetComponent<TileHandlerController>().enable() ;
+						}
 					}
 				}
 				this.isTargetingHaloOn = !this.isTargetingHaloOn;
-				this.timerTargeting=0;
+				this.timerTargeting = 0;
 			}
 		}
 		
@@ -244,18 +242,12 @@ public class GameView : MonoBehaviour
 				if (this.displayedDeadsTimer[i]<=0f){
 					Tile t = this.getPlayingCardTile(this.displayedDeads[i]);
 					this.disappear(this.displayedDeads[i]);
-					this.tileHandlers[t.x, t.y].SetActive(false);
+					this.tileHandlers[t.x, t.y].GetComponent<TileHandlerController>().setCharacterID(-1);
+					this.tileHandlers[t.x, t.y].GetComponent<TileHandlerController>().disable();
+					this.recalculateDestinations();
+					this.displayDestinations(GameController.instance.getCurrentPlayingCard());
 					this.displayedDeads.RemoveAt(i);
 					this.displayedDeadsTimer.RemoveAt(i);
-					if(!this.hasMoved(GameController.instance.getCurrentPlayingCard())){
-						this.removeDestinations();
-						if(this.getIsMine(GameController.instance.getCurrentPlayingCard())){
-							this.setDestinations(GameController.instance.getCurrentPlayingCard(), true);
-						}
-						else{
-							this.setHisDestinations(GameController.instance.getCurrentPlayingCard(), true);
-						}
-					}
 				}
 			}
 			if (this.displayedDeads.Count==0){
@@ -269,19 +261,9 @@ public class GameView : MonoBehaviour
 				if (this.displayedSETimer[i]<=0f){
 					Tile t = this.getPlayingCardTile(this.displayedSE[i]);
 					this.tileHandlers[t.x, t.y].GetComponent<TileHandlerController>().moveBack();
-					this.tileHandlers[t.x, t.y].SetActive(false);
+					this.tileHandlers[t.x, t.y].GetComponent<TileHandlerController>().disable();
 					this.displayedSE.RemoveAt(i);
 					this.displayedSETimer.RemoveAt(i);
-					if(!this.hasMoved(GameController.instance.getCurrentPlayingCard())){
-						this.removeDestinations();
-						
-						if(this.getIsMine(GameController.instance.getCurrentPlayingCard())){
-							this.setDestinations(GameController.instance.getCurrentPlayingCard(), true);
-						}
-						else{
-							this.setHisDestinations(GameController.instance.getCurrentPlayingCard(), true);
-						}
-					}
 				}
 			}
 			if (this.displayedSE.Count==0){
@@ -289,6 +271,15 @@ public class GameView : MonoBehaviour
 			}
 		}
 	}
+	
+	public bool getIsTargetingHaloOn(){
+		return this.isTargetingHaloOn ;
+	}
+	
+	public bool getIsTargeting(){
+		return this.isTargeting ;
+	}
+	
 	
 	public void setSkillPopUp(string texte, Card launcher, List<Card> receivers, List<string> textsReceivers){
 		this.skillPopUp.GetComponent<SkillPopUpController>().setPopUp(texte, launcher, receivers, textsReceivers);
@@ -333,7 +324,7 @@ public class GameView : MonoBehaviour
 	
 	public void unClickPC(int p){
 		Tile t = this.getPlayingCardTile(p);
-		this.tileHandlers[t.x,t.y].SetActive(false);
+		this.tileHandlers[t.x, t.y].GetComponent<TileHandlerController>().disable();
 	}
 	
 	public MyHoveredCardController getMyHoveredCardController(){
@@ -466,12 +457,12 @@ public class GameView : MonoBehaviour
 		
 		position.z = -1 ;
 		tileHandlers [x, y].GetComponent<TileHandlerController>().resize(position, scale);
-		tileHandlers [x, y].SetActive(false);
+		this.tileHandlers[x, y].GetComponent<TileHandlerController>().disable();
 	}
 	
 	public void setInitialDestinations(bool isFirstP)
 	{
-		this.destinations = new List<Tile>();
+		List<Tile> destinations = new List<Tile>();
 		int debut = 0 ;
 		if (!isFirstP){
 			debut = this.boardHeight-this.nbFreeRowsAtBeginning;
@@ -479,11 +470,15 @@ public class GameView : MonoBehaviour
 		for (int i = debut ; i < debut + this.nbFreeRowsAtBeginning; i++){
 			for (int j = 0 ; j < this.boardWidth; j++){
 				if (tiles[j,i].GetComponent<TileController>().canBeDestination()){
-					this.destinations.Add(new Tile(j,i));
+					destinations.Add(new Tile(j,i));
 				}
 			}
 		}
-		this.displayDestinations(true);
+		foreach (Tile t in destinations)
+		{
+			this.tileHandlers[t.x, t.y].GetComponent<TileHandlerController>().changeType(1);
+			this.tileHandlers[t.x, t.y].GetComponent<TileHandlerController>().enable();
+		}
 	}
 	
 	public void displayPopUp(string s, Vector3 position, string t){
@@ -491,8 +486,6 @@ public class GameView : MonoBehaviour
 		this.popUpTitle.GetComponent<TextMeshPro>().text = t ;
 		
 		this.popUp.transform.position = position;
-		
-		this.toDisplayPopUp = true ;
 	}
 	
 	public void hidePopUp(){
@@ -520,7 +513,7 @@ public class GameView : MonoBehaviour
 			for (int j = 0; j < this.boardHeight; j++)
 			{
 				if(this.tileHandlers [i, j].GetComponent<TileHandlerController>().getTypeNumber()==1 || this.tileHandlers [i, j].GetComponent<TileHandlerController>().getTypeNumber()==9){
-					this.tileHandlers [i, j].SetActive(false);
+					this.tileHandlers[i, j].GetComponent<TileHandlerController>().disable();
 				}
 			}
 		}
@@ -528,7 +521,6 @@ public class GameView : MonoBehaviour
 	
 	public void createPlayingCard(Card c, bool isFirstP, bool isFirstPlayer)
 	{
-		int debut = 0 ;
 		int hauteur = 0 ;
 
 		if (!isFirstP){
@@ -548,10 +540,12 @@ public class GameView : MonoBehaviour
 		if (isFirstP){
 			this.playingCards [index].GetComponentInChildren<PlayingCardController>().setTile(new Tile(c.deckOrder + 1, hauteur), tiles [c.deckOrder + 1, hauteur].GetComponent<TileController>().getPosition());
 			this.tiles [c.deckOrder + 1, hauteur].GetComponent<TileController>().setCharacterID(index);
+			this.tileHandlers [c.deckOrder + 1, hauteur].GetComponent<TileHandlerController>().setCharacterID(index);
 		}
 		else{
 			this.playingCards [index].GetComponentInChildren<PlayingCardController>().setTile(new Tile(4-c.deckOrder, hauteur), tiles [4-c.deckOrder, hauteur].GetComponent<TileController>().getPosition());
 			this.tiles [4-c.deckOrder, hauteur].GetComponent<TileController>().setCharacterID(index);
+			this.tileHandlers [4-c.deckOrder, hauteur].GetComponent<TileHandlerController>().setCharacterID(index);
 		}
 		
 		if(this.getCard(index).isPacifiste()){
@@ -631,10 +625,10 @@ public class GameView : MonoBehaviour
 	{
 		Tile t = this.playingCards [c].GetComponentInChildren<PlayingCardController>().getTile();
 		this.tiles[t.x, t.y].GetComponentInChildren<TileController>().setCharacterID(-1);
-		this.tileHandlers[t.x, t.y].SetActive(true);
 		this.tileHandlers[t.x, t.y].GetComponentInChildren<TileHandlerController>().setCharacterID(-1);
 		this.playingCards [c].GetComponentInChildren<PlayingCardController>().setTile(new Tile(x,y), this.tiles[x,y].GetComponentInChildren<TileController>().getPosition());
 		this.tiles[x, y].GetComponentInChildren<TileController>().setCharacterID(c);
+		this.tileHandlers[x, y].GetComponentInChildren<TileHandlerController>().setCharacterID(c);
 		
 		if(this.getIsMine(c)){
 			this.tiles[x, y].GetComponentInChildren<TileController>().checkTrap(c);
@@ -644,7 +638,7 @@ public class GameView : MonoBehaviour
 			this.checkSkillsLaunchability();
 		}
 		this.moveCard(c, true);
-		print ("Je mets move à true pour "+c);
+		this.recalculateDestinations();
 	}
 	
 	public void hideTrap(int x, int y){
@@ -800,46 +794,37 @@ public class GameView : MonoBehaviour
 		this.getHisHoveredCardController().resize(realwidth, tileScale);
 	}
 	
-	public void hoverTile(int c, Tile t, bool toCheckSkills){
-		
-		int currentPlayingCard = GameController.instance.getCurrentPlayingCard();
-		
+	public void hoverTargetTile(int c, Tile t){
 		if (this.isTargeting && this.currentTargetingTileHandler!=-1 && this.currentTargetingTileHandler!=c){	
 			Tile tile = this.getPlayingCardTile(currentTargetingTileHandler);
 			this.tileHandlers[tile.x, tile.y].GetComponent<TileHandlerController>().changeType(6);
 			this.tileHandlers[tile.x, tile.y].GetComponentInChildren<TextMeshPro>().text = "";
 			this.currentTargetingTileHandler = -1 ;
 		}
+	}
+	
+	public void hoverTile(int c, Tile t){
+		
+		int currentPlayingCard = GameController.instance.getCurrentPlayingCard();
 		
 		if(c!=-1){
 			if(GameController.instance.getCurrentPlayingCard()!=-1){		
 				if (GameController.instance.getCurrentPlayingCard()!=c){
 					this.clearDestinations();
-					
 					this.isDisplayedItsDestinations = true ;
-					if(!this.hasMoved(GameController.instance.getCurrentPlayingCard())){
-						if (this.getIsMine(c)){
-							this.setDestinations(c, false);
-						}
-						else{
-							this.setHisDestinations(c, false);
-						}
-						this.isDisplayedItsDestinations=false;
-					}
+					this.displayDestinations(c);	
 				}
 				else{
 					if(this.isDisplayedItsDestinations){
 						this.clearDestinations();
-						if(!this.hasMoved(GameController.instance.getCurrentPlayingCard())){
-							if (this.getIsMine(GameController.instance.getCurrentPlayingCard())){
+					}
 						
-								this.setDestinations(GameController.instance.getCurrentPlayingCard(), true);
-							}
-							else{
-								this.setHisDestinations(GameController.instance.getCurrentPlayingCard(), true);
-							}
-						}
+					this.displayDestinations(GameController.instance.getCurrentPlayingCard());
+					if(!hasMoved(currentPlayingCard)){
 						this.isDisplayedItsDestinations=false;
+					}
+					else{
+						this.isDisplayedItsDestinations=true;
 					}
 				}
 			}
@@ -908,19 +893,13 @@ public class GameView : MonoBehaviour
 		}
 		else{
 			if(GameController.instance.getCurrentPlayingCard()!=-1){
-				if(!this.isDisplayedItsDestinations){
+				if(this.isDisplayedItsDestinations){
 					this.clearDestinations();
-					print("Je clear");
-					if(!this.hasMoved(GameController.instance.getCurrentPlayingCard())){
-						if (this.getIsMine(GameController.instance.getCurrentPlayingCard())){
-							this.setDestinations(GameController.instance.getCurrentPlayingCard(), true);
-							this.isDisplayedItsDestinations=true;
-						}
-						else{
-							this.setHisDestinations(GameController.instance.getCurrentPlayingCard(), true);
-							this.isDisplayedItsDestinations=true;
-						}
+					
+					if(!hasMoved(GameController.instance.getCurrentPlayingCard())){
+						this.displayDestinations(GameController.instance.getCurrentPlayingCard());	
 					}
+					this.isDisplayedItsDestinations=false;
 				}
 			}
 			if(currentPlayingCard!=-1){
@@ -1048,14 +1027,14 @@ public class GameView : MonoBehaviour
 			this.loadClickedPC();
 		}
 		this.playingCards[c].GetComponent<PlayingCardController>().moveForward();
-		this.hoverTile(c, t, false);
+		this.hoverTile(c, t);
 	}
 	
 	public void changeClickedCard(int c){
 		Tile t = this.getPlayingCardTile(c);
-		this.tileHandlers[t.x,t.y].SetActive(true);
 		this.tileHandlers[t.x,t.y].GetComponent<TileHandlerController>().setCharacterID(c);
 		this.tileHandlers[t.x,t.y].GetComponent<TileHandlerController>().changeType(7);
+		this.tileHandlers[t.x,t.y].GetComponent<TileHandlerController>().enable();
 	}
 	
 	public void loadPlayInformation(){
@@ -1067,12 +1046,8 @@ public class GameView : MonoBehaviour
 	
 	public void hoverTileHandler(int c, Tile t){
 		
-		this.hoverTile(c,t,true);
+		this.hoverTile(c,t);
 		
-		if (this.currentTargetingTileHandler !=c && this.currentTargetingTileHandler!=-1){
-			this.tileHandlers[this.getPlayingCardTile(currentTargetingTileHandler).x, this.getPlayingCardTile(currentTargetingTileHandler).y].GetComponent<TileHandlerController>().changeType(6);
-			this.tileHandlers[this.getPlayingCardTile(currentTargetingTileHandler).x,this.getPlayingCardTile(currentTargetingTileHandler).y].GetComponentInChildren<TextMeshPro>().text = "";
-		}
 		this.tileHandlers[t.x,t.y].GetComponent<TileHandlerController>().changeType(2);
 		if(c==-1){
 			this.tileHandlers[t.x,t.y].GetComponentInChildren<TextMeshPro>().text = GameSkills.instance.getCurrentGameSkill().getTargetText(-1, new Card());
@@ -1082,6 +1057,21 @@ public class GameView : MonoBehaviour
 		}
 		
 		this.currentTargetingTileHandler = c ;
+	}
+	
+	public void hitExternalCollider(){
+		GameObject tempGO = GameObject.Find("Hover");
+		tempGO.transform.position = new Vector3(-10, -10, 1) ;
+		
+		if(GameController.instance.getCurrentPlayingCard()!=-1){
+			if(this.isDisplayedItsDestinations){
+				this.clearDestinations();
+				if(!this.hasMoved(GameController.instance.getCurrentPlayingCard())){
+					this.displayDestinations(GameController.instance.getCurrentPlayingCard());
+					this.isDisplayedItsDestinations=false;
+				}
+			}
+		}
 	}
 	
 	public int getNbPlayingCards(){
@@ -1125,22 +1115,19 @@ public class GameView : MonoBehaviour
 	}
 	
 	public void moveCard(int i, bool b){
-		print ("MoveCard "+i+" - "+b);
 		this.playingCards[i].GetComponent<PlayingCardController>().move(b);
 	}
 	
-	public void setDestinations(int i, bool b){
+	public void calculateDestinations(int i){
 		bool[,] hasBeenPassages = new bool[this.boardWidth, this.boardHeight];
 		bool[,] isDestination = new bool[this.boardWidth, this.boardHeight];
-		
 		for(int l = 0 ; l < this.boardWidth ; l++){
 			for(int k = 0 ; k < this.boardHeight ; k++){
 				hasBeenPassages[l,k]=false;
 				isDestination[l,k]=false;
 			}
 		}
-		
-		this.destinations = new List<Tile>();
+		List<Tile> destinations = new List<Tile>();
 		List<Tile> baseTiles = new List<Tile>();
 		List<Tile> tempTiles = new List<Tile>();
 		List<Tile> tempNeighbours ;
@@ -1148,78 +1135,68 @@ public class GameView : MonoBehaviour
 		int move = this.getCard(i).GetMove();
 		
 		int j = 0 ;
-		while (j < move){
-			tempTiles = new List<Tile>();
-			
-			for(int k = 0 ; k < baseTiles.Count ; k++){
-				tempNeighbours = this.getDestinationImmediateNeighbours(baseTiles[k]);
-				for(int l = 0 ; l < tempNeighbours.Count ; l++){
-					
-					if(!hasBeenPassages[tempNeighbours[l].x, tempNeighbours[l].y]){
-						tempTiles.Add(tempNeighbours[l]);
-						hasBeenPassages[tempNeighbours[l].x, tempNeighbours[l].y]=true;
-					}
-					if(this.tiles[tempNeighbours[l].x, tempNeighbours[l].y].GetComponent<TileController>().getCharacterID()==-1){
-						if(!isDestination[tempNeighbours[l].x, tempNeighbours[l].y]){
-							destinations.Add(tempNeighbours[l]);
-							isDestination[tempNeighbours[l].x, tempNeighbours[l].y]=true;
+		
+		if(this.getIsMine(i)){		
+			while (j < move){
+				tempTiles = new List<Tile>();
+				
+				for(int k = 0 ; k < baseTiles.Count ; k++){
+					tempNeighbours = this.getDestinationImmediateNeighbours(baseTiles[k]);
+					for(int l = 0 ; l < tempNeighbours.Count ; l++){
+						
+						if(!hasBeenPassages[tempNeighbours[l].x, tempNeighbours[l].y]){
+							tempTiles.Add(tempNeighbours[l]);
+							hasBeenPassages[tempNeighbours[l].x, tempNeighbours[l].y]=true;
 						}
-					}
-				}	
+						if(this.tiles[tempNeighbours[l].x, tempNeighbours[l].y].GetComponent<TileController>().getCharacterID()==-1){
+							if(!isDestination[tempNeighbours[l].x, tempNeighbours[l].y]){
+								destinations.Add(tempNeighbours[l]);
+								isDestination[tempNeighbours[l].x, tempNeighbours[l].y]=true;
+							}
+						}
+					}	
+				}
+				baseTiles = new List<Tile>();
+				for(int l = 0 ; l < tempTiles.Count ; l++){
+					baseTiles.Add(tempTiles[l]);
+				}
+				j++;
 			}
-			baseTiles = new List<Tile>();
-			for(int l = 0 ; l < tempTiles.Count ; l++){
-				baseTiles.Add(tempTiles[l]);
-			}
-			j++;
 		}
-		this.displayDestinations(b);
+		else{
+			while (j < move){
+				tempTiles = new List<Tile>();
+				
+				for(int k = 0 ; k < baseTiles.Count ; k++){
+					tempNeighbours = this.getDestinationHisImmediateNeighbours(baseTiles[k]);
+					for(int l = 0 ; l < tempNeighbours.Count ; l++){
+						if(!hasBeenPassages[tempNeighbours[l].x, tempNeighbours[l].y]){
+							tempTiles.Add(tempNeighbours[l]);
+							hasBeenPassages[tempNeighbours[l].x, tempNeighbours[l].y]=true;
+						}
+						if(this.tiles[tempNeighbours[l].x, tempNeighbours[l].y].GetComponent<TileController>().getCharacterID()==-1){
+							if(!isDestination[tempNeighbours[l].x, tempNeighbours[l].y]){
+								destinations.Add(tempNeighbours[l]);
+								isDestination[tempNeighbours[l].x, tempNeighbours[l].y]=true;
+							}
+						}
+					}	
+				}
+				baseTiles = new List<Tile>();
+				for(int l = 0 ; l < tempTiles.Count ; l++){
+					baseTiles.Add(tempTiles[l]);
+				}
+				j++;
+			}
+		}
+		
+		this.playingCards[i].GetComponent<PlayingCardController>().setDestinations(destinations);
 	}
 	
-	public void setHisDestinations(int i, bool b){
-		bool[,] hasBeenPassages = new bool[this.boardWidth, this.boardHeight];
-		bool[,] isDestination = new bool[this.boardWidth, this.boardHeight];
-		
-		for(int l = 0 ; l < this.boardWidth ; l++){
-			for(int k = 0 ; k < this.boardHeight ; k++){
-				hasBeenPassages[l,k]=false;
-				isDestination[l,k]=false;
-			}
+	public void recalculateDestinations(){
+		for (int i = 0 ; i < playingCards.Count ; i++){
+			this.calculateDestinations(i);
 		}
-		
-		this.destinations = new List<Tile>();
-		List<Tile> baseTiles = new List<Tile>();
-		List<Tile> tempTiles = new List<Tile>();
-		List<Tile> tempNeighbours ;
-		baseTiles.Add(this.getPlayingCardTile(i));
-		int move = this.getCard(i).GetMove();
-		
-		int j = 0 ;
-		while (j < move){
-			tempTiles = new List<Tile>();
-			
-			for(int k = 0 ; k < baseTiles.Count ; k++){
-				tempNeighbours = this.getDestinationHisImmediateNeighbours(baseTiles[k]);
-				for(int l = 0 ; l < tempNeighbours.Count ; l++){
-					if(!hasBeenPassages[tempNeighbours[l].x, tempNeighbours[l].y]){
-						tempTiles.Add(tempNeighbours[l]);
-						hasBeenPassages[tempNeighbours[l].x, tempNeighbours[l].y]=true;
-					}
-					if(this.tiles[tempNeighbours[l].x, tempNeighbours[l].y].GetComponent<TileController>().getCharacterID()==-1){
-						if(!isDestination[tempNeighbours[l].x, tempNeighbours[l].y]){
-							destinations.Add(tempNeighbours[l]);
-							isDestination[tempNeighbours[l].x, tempNeighbours[l].y]=true;
-						}
-					}
-				}	
-			}
-			baseTiles = new List<Tile>();
-			for(int l = 0 ; l < tempTiles.Count ; l++){
-				baseTiles.Add(tempTiles[l]);
-			}
-			j++;
-		}
-		this.displayHisDestinations(b);
 	}
 	
 	public bool isDead(int i){
@@ -1263,40 +1240,31 @@ public class GameView : MonoBehaviour
 			for (int j = 0 ; j < GameView.instance.boardHeight ; j++){
 				if(this.tileHandlers[i,j].activeSelf){
 					if(this.tileHandlers[i,j].GetComponent<TileHandlerController>().getTypeNumber()!=6){
-						this.tileHandlers[i, j].GetComponent<TileHandlerController>().changeType(0);
-						this.tileHandlers[i, j].GetComponent<TileHandlerController>().setText("");
-						this.tileHandlers[i, j].SetActive(false);
+						this.tileHandlers[i, j].GetComponent<TileHandlerController>().disable();
 					}
 				}
 			}
 		}
 	}
 	
-	public void displayDestinations(bool b)
+	public void displayDestinations(int c)
 	{
-		int i = 10;
-		if(b){
-			i = 1;
+		int i = -1;
+		if(GameController.instance.getCurrentPlayingCard()==c && !this.hasMoved(GameController.instance.getCurrentPlayingCard())){
+			if(this.getIsMine(c)){
+				i = 1 ;
+			}
+			else{
+				i = 9;
+			}
+		}
+		else{
+			i = 10 ;
 		}
 		
+		List<Tile> destinations = this.playingCards[c].GetComponent<PlayingCardController>().getDestinations();
 		foreach (Tile t in destinations)
 		{
-			this.tileHandlers[t.x, t.y].SetActive(true);
-			this.tileHandlers[t.x, t.y].GetComponent<TileHandlerController>().changeType(i);
-			this.tileHandlers[t.x, t.y].GetComponent<TileHandlerController>().enable();
-		}
-	}
-	
-	public void displayHisDestinations(bool b)
-	{
-		int i = 10;
-		if(b){
-			i = 9;
-		}
-		
-		foreach (Tile t in destinations)
-		{
-			this.tileHandlers[t.x, t.y].SetActive(true);
 			this.tileHandlers[t.x, t.y].GetComponent<TileHandlerController>().changeType(i);
 			this.tileHandlers[t.x, t.y].GetComponent<TileHandlerController>().enable();
 		}
@@ -1329,10 +1297,11 @@ public class GameView : MonoBehaviour
 				{
 					tile = this.getPlayingCardTile(playerID);
 					this.targets.Add(tile);
-					this.tileHandlers[tile.x, tile.y].SetActive(true);
+					
 					this.tileHandlers[tile.x, tile.y].GetComponent<TileHandlerController>().changeType(6);
 					this.tileHandlers[tile.x, tile.y].GetComponent<TileHandlerController>().setText("");
 					this.tileHandlers[tile.x, tile.y].GetComponent<TileHandlerController>().setCharacterID(playerID);
+					this.tileHandlers[tile.x, tile.y].GetComponent<TileHandlerController>().enable();
 				}
 			}
 		}
@@ -1354,10 +1323,10 @@ public class GameView : MonoBehaviour
 					{
 						tile = this.getPlayingCardTile(playerID);
 						this.targets.Add(tile);
-						this.tileHandlers[tile.x, tile.y].SetActive(true);
 						this.tileHandlers[tile.x, tile.y].GetComponent<TileHandlerController>().changeType(6);
 						this.tileHandlers[tile.x, tile.y].GetComponent<TileHandlerController>().setText("");
 						this.tileHandlers[tile.x, tile.y].GetComponent<TileHandlerController>().setCharacterID(playerID);
+						this.tileHandlers[tile.x, tile.y].GetComponent<TileHandlerController>().enable();
 					}
 				}
 			}
@@ -1371,10 +1340,10 @@ public class GameView : MonoBehaviour
 					{
 						tile = this.getPlayingCardTile(playerID);
 						this.targets.Add(tile);
-						this.tileHandlers[tile.x, tile.y].SetActive(true);
 						this.tileHandlers[tile.x, tile.y].GetComponent<TileHandlerController>().changeType(6);
 						this.tileHandlers[tile.x, tile.y].GetComponent<TileHandlerController>().setText("");
 						this.tileHandlers[tile.x, tile.y].GetComponent<TileHandlerController>().setCharacterID(playerID);
+						this.tileHandlers[tile.x, tile.y].GetComponent<TileHandlerController>().enable();
 					}
 				}
 			}
@@ -1388,10 +1357,10 @@ public class GameView : MonoBehaviour
 					{
 						tile = this.getPlayingCardTile(playerID);
 						this.targets.Add(tile);
-						this.tileHandlers[tile.x, tile.y].SetActive(true);
 						this.tileHandlers[tile.x, tile.y].GetComponent<TileHandlerController>().changeType(6);
 						this.tileHandlers[tile.x, tile.y].GetComponent<TileHandlerController>().setText("");
 						this.tileHandlers[tile.x, tile.y].GetComponent<TileHandlerController>().setCharacterID(playerID);
+						this.tileHandlers[tile.x, tile.y].GetComponent<TileHandlerController>().enable();
 					}
 				}
 			}
@@ -1405,10 +1374,10 @@ public class GameView : MonoBehaviour
 					{
 						tile = this.getPlayingCardTile(playerID);
 						this.targets.Add(tile);
-						this.tileHandlers[tile.x, tile.y].SetActive(true);
 						this.tileHandlers[tile.x, tile.y].GetComponent<TileHandlerController>().changeType(6);
 						this.tileHandlers[tile.x, tile.y].GetComponent<TileHandlerController>().setText("");
 						this.tileHandlers[tile.x, tile.y].GetComponent<TileHandlerController>().setCharacterID(playerID);
+						this.tileHandlers[tile.x, tile.y].GetComponent<TileHandlerController>().enable();
 					}
 				}
 			}
@@ -1493,10 +1462,10 @@ public class GameView : MonoBehaviour
 				{
 					tile = this.getPlayingCardTile(playerID);
 					this.targets.Add(tile);
-					this.tileHandlers[tile.x, tile.y].SetActive(true);
 					this.tileHandlers[tile.x, tile.y].GetComponent<TileHandlerController>().changeType(6);
 					this.tileHandlers[tile.x, tile.y].GetComponent<TileHandlerController>().setText("");
 					this.tileHandlers[tile.x, tile.y].GetComponent<TileHandlerController>().setCharacterID(playerID);
+					this.tileHandlers[tile.x, tile.y].GetComponent<TileHandlerController>().enable();
 				}
 			}
 		}
@@ -1512,10 +1481,10 @@ public class GameView : MonoBehaviour
 		
 		foreach (Tile t in neighbourTiles){
 			this.targets.Add(t);
-			this.tileHandlers[t.x, t.y].SetActive(true);
 			this.tileHandlers[t.x, t.y].GetComponent<TileHandlerController>().changeType(6);
 			this.tileHandlers[t.x, t.y].GetComponent<TileHandlerController>().setText("");
 			this.tileHandlers[t.x, t.y].GetComponent<TileHandlerController>().setCharacterID(-1);
+			this.tileHandlers[t.x, t.y].GetComponent<TileHandlerController>().enable();
 		}
 		this.isTargeting = true ;
 	}
@@ -1533,10 +1502,10 @@ public class GameView : MonoBehaviour
 			{
 				tile = this.getPlayingCardTile(i);
 				this.targets.Add(tile);
-				this.tileHandlers[tile.x, tile.y].SetActive(true);
 				this.tileHandlers[tile.x, tile.y].GetComponent<TileHandlerController>().changeType(6);
 				this.tileHandlers[tile.x, tile.y].GetComponent<TileHandlerController>().setText("");
 				this.tileHandlers[tile.x, tile.y].GetComponent<TileHandlerController>().setCharacterID(i);
+				this.tileHandlers[tile.x, tile.y].GetComponent<TileHandlerController>().enable();
 			}
 		}		
 	}
@@ -1554,10 +1523,10 @@ public class GameView : MonoBehaviour
 			{
 				tile = this.getPlayingCardTile(i);
 				this.targets.Add(tile);
-				this.tileHandlers[tile.x, tile.y].SetActive(true);
 				this.tileHandlers[tile.x, tile.y].GetComponent<TileHandlerController>().changeType(6);
 				this.tileHandlers[tile.x, tile.y].GetComponent<TileHandlerController>().setText("");
 				this.tileHandlers[tile.x, tile.y].GetComponent<TileHandlerController>().setCharacterID(i);
+				this.tileHandlers[tile.x, tile.y].GetComponent<TileHandlerController>().enable();
 			}
 		}
 		this.timerTargeting = 0 ;
@@ -1578,10 +1547,10 @@ public class GameView : MonoBehaviour
 			{
 				tile = this.getPlayingCardTile(i);
 				this.targets.Add(tile);
-				this.tileHandlers[tile.x, tile.y].SetActive(true);
 				this.tileHandlers[tile.x, tile.y].GetComponent<TileHandlerController>().changeType(6);
 				this.tileHandlers[tile.x, tile.y].GetComponent<TileHandlerController>().setText("");
 				this.tileHandlers[tile.x, tile.y].GetComponent<TileHandlerController>().setCharacterID(i);
+				this.tileHandlers[tile.x, tile.y].GetComponent<TileHandlerController>().enable();
 			}
 		}
 		this.timerTargeting = 0 ;
@@ -1597,10 +1566,7 @@ public class GameView : MonoBehaviour
 		this.isTargeting = false ;
 		this.currentTargetingTileHandler = -1;
 		for (int i = 0 ; i < this.targets.Count ; i++){
-			this.tileHandlers[this.targets[i].x, this.targets[i].y].SetActive(false);
-		}
-		if(!hasMoved(GameController.instance.getCurrentPlayingCard())){
-			this.displayDestinations(true);
+			this.tileHandlers[this.targets[i].x, this.targets[i].y].GetComponent<TileHandlerController>().disable();
 		}
 	}
 	
@@ -1664,7 +1630,6 @@ public class GameView : MonoBehaviour
 		
 		PlayingCardController pcc;
 		this.targets = new List<Tile>();
-		Tile tile ;
 		
 		for (int i = 0; i < this.playingCards.Count; i++)
 		{
@@ -1746,9 +1711,9 @@ public class GameView : MonoBehaviour
 		Tile t = this.getPlayingCardTile(target);
 		this.emptyTile(t.x, t.y);
 		
-		this.tileHandlers[t.x, t.y].SetActive(true);
 		this.tileHandlers[t.x, t.y].GetComponent<TileHandlerController>().setText("");
 		this.tileHandlers[t.x, t.y].GetComponent<TileHandlerController>().changeType(3);
+		this.tileHandlers[t.x, t.y].GetComponent<TileHandlerController>().enable();
 		this.displayedDeads.Add(target);
 		this.displayedDeadsTimer.Add(1);
 		
@@ -1762,7 +1727,6 @@ public class GameView : MonoBehaviour
 			}
 			
 		}	
-		
 		this.toDisplayDeadHalos = true ;
 	}
 	
@@ -1777,12 +1741,12 @@ public class GameView : MonoBehaviour
 	
 	public void displaySkillEffect(int target, string text, int type){
 		Tile t = this.getPlayingCardTile(target);
-		this.tileHandlers[t.x, t.y].SetActive(true);
 		this.tileHandlers[t.x, t.y].GetComponent<TileHandlerController>().enable();
 		this.tileHandlers[t.x, t.y].GetComponent<TileHandlerController>().changeType(type);
 		this.tileHandlers[t.x, t.y].GetComponent<TileHandlerController>().setText(text);
-		
 		this.tileHandlers[t.x, t.y].GetComponent<TileHandlerController>().moveForward();
+		this.tileHandlers[t.x, t.y].GetComponent<TileHandlerController>().enable();
+		
 		this.displayedSE.Add(target);
 		this.displayedSETimer.Add(2);
 		
@@ -1882,7 +1846,7 @@ public class GameView : MonoBehaviour
 	public void removeClickedCard(int c){
 		if(c!=-1){
 			Tile t = this.getPlayingCardTile(c);
-			this.tileHandlers[t.x, t.y].SetActive(false);
+			this.tileHandlers[t.x, t.y].GetComponent<TileHandlerController>().disable();
 		}
 	}
 	
@@ -2049,7 +2013,7 @@ public class GameView : MonoBehaviour
 		
 		int move = this.getCard(GameController.instance.getCurrentPlayingCard()).GetMove();
 		
-		this.destinations = new List<Tile>();
+		List<Tile> destinations = new List<Tile>();
 		List<Tile> baseTiles = new List<Tile>();
 		List<Tile> tempTiles = new List<Tile>();
 		List<Tile> tempNeighbours = new List<Tile>();

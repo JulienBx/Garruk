@@ -112,8 +112,13 @@ public class GameController : Photon.MonoBehaviour
 	}
 
 	public void clickPlayingCard(int c, Tile t){
-		if (c!=this.currentClickedCard && !this.havIStarted()){
-			this.changeClickedCard(c);
+		if (!this.havIStarted()){
+			if (c!=this.currentClickedCard){
+				this.changeClickedCard(c);
+			}
+			else{
+				this.removeClickedCard();
+			}
 		}
 	}
 	
@@ -125,6 +130,11 @@ public class GameController : Photon.MonoBehaviour
 		GameView.instance.changeClickedCard(c);
 	}
 	
+	public void removeClickedCard(){
+		GameView.instance.removeClickedCard(this.currentClickedCard);
+		this.currentClickedCard = -1 ;
+	}
+		
 	public void changePlayingCard(int c){
 		if(this.currentPlayingCard!=-1){
 			GameView.instance.unSelectPC (this.currentPlayingCard);
@@ -230,6 +240,7 @@ public class GameController : Photon.MonoBehaviour
 			i2++;
 		}
 		
+		GameView.instance.recalculateDestinations();
 		this.initPlayer(nextPlayingCard);
 	}
 	
@@ -296,27 +307,21 @@ public class GameController : Photon.MonoBehaviour
 			else{
 				GameView.instance.playCard(id, false);
 				GameView.instance.moveCard(id, false);
-				print ("Je mets move à false pour "+id);
 			}
 			
 			this.changePlayingCard(id);
-			if(!GameView.instance.hasMoved(id)){
-				this.calculateDestinations();
+			
+			if(GameView.instance.getCard(this.currentPlayingCard).isFurious()){
+				StartCoroutine(launchFury());
 			}
 		}
 		else{
 			this.changePlayingCard(id);
-			this.calculateHisDestinations();
+		}
+		if(!GameView.instance.hasMoved(id)){
+			GameView.instance.displayDestinations(this.currentPlayingCard);
 		}
 		this.isRunningSkill = false ;
-	}
-	
-	public void calculateDestinations(){
-		GameView.instance.setDestinations(this.currentPlayingCard, true);
-		
-		if(GameView.instance.getCard(this.currentPlayingCard).isFurious()){
-			StartCoroutine(launchFury());
-		}
 	}
 	
 	IEnumerator launchFury(){
@@ -331,10 +336,6 @@ public class GameController : Photon.MonoBehaviour
 			GameController.instance.addTarget(enemy,1);
 			GameController.instance.play();
 		}
-	}
-	
-	public void calculateHisDestinations(){
-		GameView.instance.setHisDestinations(this.currentPlayingCard, true);
 	}
 
 	public void initPlayer(int id)
@@ -1198,9 +1199,8 @@ public class GameController : Photon.MonoBehaviour
 		}
 		else{
 			GameView.instance.playCard(this.currentPlayingCard, true);
-			if (!GameView.instance.isDead(this.currentPlayingCard)){
-				GameView.instance.displayDestinations(true);
-			}
+			GameView.instance.displayDestinations(this.currentPlayingCard);
+			
 			GameView.instance.checkSkillsLaunchability();
 			this.isRunningSkill = false ;
 		}
@@ -1612,7 +1612,6 @@ public class GameController : Photon.MonoBehaviour
 				GameView.instance.removeDestinations();
 			}
 			this.isRunningSkill = true ;
-			print ("je lance "+id);
 			this.startPlayingSkill(id);
 		}
 		else{
@@ -1622,7 +1621,7 @@ public class GameController : Photon.MonoBehaviour
 	
 	public void cancelSkill(){
 		if (!GameView.instance.hasMoved(this.currentPlayingCard)){
-			GameView.instance.displayDestinations(true);
+			GameView.instance.displayDestinations(this.currentPlayingCard);
 		}
 		GameView.instance.checkSkillsLaunchability();
 		GameView.instance.hideTargets();
