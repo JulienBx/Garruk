@@ -53,6 +53,7 @@ public class NewHomePageModel
 			string[] data=w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
 			this.player = parsePlayer(data[0].Split(new string[] { "//" }, System.StringSplitOptions.None));
 			this.users = parseUsers(data[11].Split(new string[] { "#U#"  }, System.StringSplitOptions.None));
+			this.users.Add(player);
 			this.decks = this.parseDecks(data[1].Split(new string[] { "#DECK#" }, System.StringSplitOptions.None));
 			this.notifications=parseNotifications(data[2].Split(new string[] { "#N#" }, System.StringSplitOptions.None));
 			this.friends=parseFriends(data[3].Split(new string[] { "//" }, System.StringSplitOptions.None));

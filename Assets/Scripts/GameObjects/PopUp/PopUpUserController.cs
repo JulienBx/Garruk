@@ -39,8 +39,8 @@ public class PopUpUserController : MonoBehaviour
 	}
 	void OnMouseDown()
 	{
-		//ApplicationModel.profileChosen = gameObject.transform.FindChild ("username").GetComponent<TextMeshPro> ().text;
-		//Application.LoadLevel ("Profile");
+		ApplicationModel.profileChosen = gameObject.transform.FindChild ("username").GetComponent<TextMeshPro> ().text;
+		Application.LoadLevel ("NewProfile");
 	}
 	public void show (User u)
 	{

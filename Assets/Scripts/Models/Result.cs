@@ -10,6 +10,9 @@ public class Result
 	public DateTime Date;
 	public int GameType;
 	
+	public Result()
+	{
+	}
 	public Result(int idwinner, int idlooser, DateTime date, int gametype)
 	{
 		this.IdWinner = idwinner;

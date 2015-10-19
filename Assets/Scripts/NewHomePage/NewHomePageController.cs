@@ -1207,6 +1207,10 @@ public class NewHomePageController : MonoBehaviour
 			else
 			{
 				nbButtonsToDraw=this.nbPagesNotifications-this.pageDebutNotifications;
+				if(drawBackButton)
+				{
+					nbButtonsToDraw++;
+				}
 			}
 			this.paginationButtonsNotifications = new GameObject[nbButtonsToDraw];
 			for(int i =0;i<nbButtonsToDraw;i++)
@@ -1290,6 +1294,10 @@ public class NewHomePageController : MonoBehaviour
 			else
 			{
 				nbButtonsToDraw=this.nbPagesNews-this.pageDebutNews;
+				if(drawBackButton)
+				{
+					nbButtonsToDraw++;
+				}
 			}
 			this.paginationButtonsNews = new GameObject[nbButtonsToDraw];
 			for(int i =0;i<nbButtonsToDraw;i++)
@@ -1355,6 +1363,7 @@ public class NewHomePageController : MonoBehaviour
 		float paginationButtonWidth = 0.34f;
 		float gapBetweenPaginationButton = 0.2f * paginationButtonWidth;
 		this.nbPagesFriends = Mathf.CeilToInt((float)this.friendsToBeDisplayed.Count / ((float)this.elementsPerPageFriends));
+		print (nbPagesFriends);
 		if(this.nbPagesFriends>1)
 		{
 			this.nbPaginationButtonsLimitFriends = Mathf.CeilToInt((2.4f)/(paginationButtonWidth+gapBetweenPaginationButton));
@@ -1373,6 +1382,10 @@ public class NewHomePageController : MonoBehaviour
 			else
 			{
 				nbButtonsToDraw=this.nbPagesFriends-this.pageDebutFriends;
+				if(drawBackButton)
+				{
+					nbButtonsToDraw++;
+				}
 			}
 			this.paginationButtonsFriends = new GameObject[nbButtonsToDraw];
 			for(int i =0;i<nbButtonsToDraw;i++)

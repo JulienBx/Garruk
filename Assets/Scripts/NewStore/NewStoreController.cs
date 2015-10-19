@@ -623,6 +623,10 @@ public class NewStoreController : MonoBehaviour
 			else
 			{
 				nbButtonsToDraw=this.nbPages-this.pageDebut;
+				if(drawBackButton)
+				{
+					nbButtonsToDraw++;
+				}
 			}
 			this.paginationButtons = new GameObject[nbButtonsToDraw];
 			for(int i =0;i<nbButtonsToDraw;i++)

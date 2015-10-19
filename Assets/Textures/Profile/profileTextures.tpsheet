@@ -5,14 +5,17 @@
 # http://www.codeandweb.com/texturepacker/unity
 #
 # Sprite sheet: profileTextures.png (1024 x 2048)
-# $TexturePacker:SmartUpdate:9c9bcd17641d51d6b0582f66c52bcd4d:8b75ad311738ad6510b64fa9a7ea5cae:5bb600da8967b6a395048ea38310583c$
+# $TexturePacker:SmartUpdate:f9ca0ecc343d9cb23f36479137176639:b901aedf6083d9a17f03e6cd40e0e575:5bb600da8967b6a395048ea38310583c$
 #
 
 assassin;754;1801;190;190;0.5;0.5
 buttonBorder;504;1247;425;105;0.5;0.5
+cupPicto;946;1753;47;60;0.5;0.5083333333333333
+divisionPicto;946;1870;63;50;0.5;0.53
 drogueur;754;1609;190;190;0.5;0.5
 drone;754;1417;190;190;0.5;0.5
 editPictureButton;504;1354;190;190;0.5;0.5
+friendlyGame;946;1815;53;53;0.5;0.5
 geomancienne;504;1055;190;190;0.5;0.5
 invocateur;696;1055;190;190;0.5;0.5
 mentaliste;504;863;190;190;0.5;0.5

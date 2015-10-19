@@ -11,9 +11,13 @@ public class NewProfileModel
 	public IList<int> friends;
 	public IList<FriendsRequest> friendsRequests;
 	public IList<Trophy> trophies;
+	public IList<Result> confrontations;
 	public string[] usernameList;
 	public User player;
 	public bool hasDeck;
+	public bool isConnectedToMe;
+	public Connection connectionWithMe;
+	public int activePlayerId;
 	
 	private string URLGetProfileData = ApplicationModel.host+"get_profile_data.php";
 	private string URLSearchUsers = ApplicationModel.host + "search_users.php";
@@ -21,19 +25,32 @@ public class NewProfileModel
 	public NewProfileModel()
 	{
 	}
-	public IEnumerator getData(){
-		
-		this.challengesRecords= new List<ChallengesRecord>();
+	public IEnumerator getData(bool isMyProfile, string profileChosen){
+
 		this.friendsRequests = new List<FriendsRequest> ();
 		this.trophies = new List<Trophy> ();
 		this.player = new User();
 		this.users = new List<User> ();
 		this.friends = new List<int> ();
-		
+
+		string isMyProfileString;
+		if(isMyProfile)
+		{
+			this.challengesRecords= new List<ChallengesRecord>();
+			isMyProfileString="1";
+		}
+		else
+		{
+			this.confrontations=new List<Result>();
+			isMyProfileString="0";
+		}
+
 		WWWForm form = new WWWForm(); 											// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_nick", ApplicationModel.username);
-
+		form.AddField("myform_nick", profileChosen);
+		form.AddField("myform_activeuser", ApplicationModel.username);
+		form.AddField("myform_nbcardsbydeck", ApplicationModel.nbCardsByDeck);
+		form.AddField("myform_ismyprofile", isMyProfileString);
 		
 		WWW w = new WWW(URLGetProfileData, form); 				// On envoie le formulaire à l'url sur le serveur 
 		yield return w;
@@ -42,14 +59,33 @@ public class NewProfileModel
 		else 
 		{
 			string[] data=w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
-			this.player = parsePlayer(data[0].Split(new string[] { "//" }, System.StringSplitOptions.None));
+			this.player = parsePlayer(data[0].Split(new string[] { "//" }, System.StringSplitOptions.None),isMyProfile);
 			this.users = parseUsers(data[6].Split(new string[] { "#U#"  }, System.StringSplitOptions.None));
-			this.friends=parseFriends(data[1].Split(new string[] { "//" }, System.StringSplitOptions.None));
-			this.friendsRequests=parseFriendsRequests(data[2].Split(new string[] {"#FR#"}, System.StringSplitOptions.None));
-			this.trophies=parseTrophies(data[3].Split(new string[] {"#TROPHY#"},System.StringSplitOptions.None));
-			this.challengesRecords=parseChallengesRecords(data[4].Split(new string[] {"#CR#"},System.StringSplitOptions.None));
-			this.hasDeck=System.Convert.ToBoolean(System.Convert.ToInt32(data[5]));
-			
+			this.users.Add(player);
+			this.trophies=parseTrophies(data[1].Split(new string[] {"#TROPHY#"},System.StringSplitOptions.None));
+			this.friends=parseFriends(data[2].Split(new string[] { "//" }, System.StringSplitOptions.None));
+
+			if(isMyProfile)
+			{
+				this.friendsRequests=parseFriendsRequests(data[3].Split(new string[] {"#FR#"}, System.StringSplitOptions.None));
+				this.challengesRecords=parseChallengesRecords(data[4].Split(new string[] {"#CR#"},System.StringSplitOptions.None));
+				this.hasDeck=System.Convert.ToBoolean(System.Convert.ToInt32(data[5]));
+				this.activePlayerId=this.player.Id;
+			}
+			else
+			{
+				if(data[3]!="")
+				{
+					this.isConnectedToMe=true;
+					this.connectionWithMe=parseConnection(data[3].Split(new string[] {"//"}, System.StringSplitOptions.None));
+				}
+				else
+				{
+					this.isConnectedToMe=false;
+				}
+				this.confrontations=parseConfrontations(data[4].Split(new string[] {"#CF#"},System.StringSplitOptions.None));
+				this.activePlayerId=System.Convert.ToInt32(data[5]);
+			}
 			usernameList=new string[this.users.Count];
 			for(int i=0;i<this.users.Count;i++)
 			{
@@ -57,21 +93,25 @@ public class NewProfileModel
 			}
 		}
 	}
-	private User parsePlayer(string[] array)
+	private User parsePlayer(string[] array, bool isMyProfile)
 	{
 
 		User player = new User ();
 		player.Id= System.Convert.ToInt32(array[0]);
-		player.Ranking = System.Convert.ToInt32 (array [1]);
-		player.RankingPoints = System.Convert.ToInt32 (array [2]);
-		player.TotalNbWins = System.Convert.ToInt32 (array [3]);
-		player.TotalNbLooses = System.Convert.ToInt32 (array [4]);
-		player.CollectionPoints = System.Convert.ToInt32 (array [5]);
-		player.CollectionRanking = System.Convert.ToInt32 (array [6]);
-		player.FirstName = array [7];
-		player.Surname = array [8];
-		player.Mail = array [9];
-		player.idProfilePicture = System.Convert.ToInt32(array [10]);
+		player.Username = array [1];
+		player.Ranking = System.Convert.ToInt32 (array [2]);
+		player.RankingPoints = System.Convert.ToInt32 (array [3]);
+		player.TotalNbWins = System.Convert.ToInt32 (array [4]);
+		player.TotalNbLooses = System.Convert.ToInt32 (array [5]);
+		player.CollectionPoints = System.Convert.ToInt32 (array [6]);
+		player.CollectionRanking = System.Convert.ToInt32 (array [7]);
+		player.idProfilePicture = System.Convert.ToInt32(array [8]);
+		if(isMyProfile)
+		{
+			player.FirstName = array [9];
+			player.Surname = array [10];
+			player.Mail = array [11];
+		}
 		return player;
 	}
 	private IList<User> parseUsers(string[] array)
@@ -119,6 +159,15 @@ public class NewProfileModel
 		}
 		return friendsRequests;
 	}
+	private Connection parseConnection(string[] connectionData)
+	{
+		Connection connection = new Connection ();
+		connection.Id = System.Convert.ToInt32 (connectionData [0]);
+		connection.IdUser1 = System.Convert.ToInt32 (connectionData [1]);
+		connection.IdUser2 = System.Convert.ToInt32 (connectionData [2]);
+		connection.IsAccepted = System.Convert.ToBoolean(System.Convert.ToInt32 (connectionData [3]));
+		return connection;
+	}
 	private List<Trophy> parseTrophies(string[] trophiesData)
 	{
 		List<Trophy> trophies = new List<Trophy> ();
@@ -147,6 +196,20 @@ public class NewProfileModel
 			challengesRecords[i].NbLooses=System.Convert.ToInt32(challengesRecordData[2]);
 		}
 		return challengesRecords;
+	}
+	private List<Result> parseConfrontations(string[] confrontationsData)
+	{
+		List<Result> confrontations = new List<Result> ();
+		
+		for (int i=0; i<confrontationsData.Length-1;i++)
+		{
+			string[] confrontationData = confrontationsData[i].Split(new string[] { "//" }, System.StringSplitOptions.None);
+			confrontations.Add (new Result());
+			confrontations[i].IdWinner= System.Convert.ToInt32(confrontationData[0]);
+			confrontations[i].GameType= System.Convert.ToInt32(confrontationData[1]);
+			confrontations[i].Date=DateTime.ParseExact(confrontationData[2], "yyyy-MM-dd HH:mm:ss", null);
+		}
+		return confrontations;
 	}
 	private int returnUsersIndex(int id)
 	{

@@ -71,6 +71,7 @@ public class Connection
 				string[] errors = w.text.Split(new string[] { "#ERROR#" }, System.StringSplitOptions.None);
 				this.Error=errors[1];
 			}
+			this.IsAccepted=true;
 		}
 	}
 	public IEnumerator add()

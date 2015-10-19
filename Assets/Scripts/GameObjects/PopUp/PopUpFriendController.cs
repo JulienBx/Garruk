@@ -34,6 +34,12 @@ public class PopUpFriendController : PopUpController
 		}
 		gameObject.transform.FindChild ("user").GetComponent<PopUpUserController> ().show (u);
 	}
+	public void show2(User u)
+	{
+		gameObject.transform.FindChild("Button").gameObject.SetActive(false);
+		gameObject.transform.FindChild("Button2").gameObject.SetActive(false);
+		gameObject.transform.FindChild ("user").GetComponent<PopUpUserController> ().show (u);
+	}
 	public virtual void setButtonController()
 	{
 	}

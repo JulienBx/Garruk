@@ -114,6 +114,10 @@ public class SearchUsersPopUpController : MonoBehaviour
 			else
 			{
 				nbButtonsToDraw=this.nbPagesUsers-this.pageDebutUsers;
+				if(drawBackButton)
+				{
+					nbButtonsToDraw++;
+				}
 			}
 			this.paginationButtonsUsers = new GameObject[nbButtonsToDraw];
 			for(int i =0;i<nbButtonsToDraw;i++)
