@@ -66,7 +66,7 @@ public class Card
 	
 	public Card()
 	{
-	
+		this.Skills = new List<Skill>();
 	}
 	
 	public Card(string title)
@@ -1049,6 +1049,28 @@ public class Card
 			i++;
 		}
 		return b;
+	}
+	
+	public string getSkillText(int i){
+		string s = this.Skills[i].Name;
+		int index ;
+		int percentage ;
+		string tempstring ;
+		if (s.Contains("%ATK")){
+			index = s.IndexOf("%ATK");
+			tempstring = s.Substring(index-3,index+3);
+			Debug.Log(tempstring);
+			percentage = Mathf.CeilToInt(Int32.Parse(tempstring)*this.GetAttack()/100f);
+			s = s.Substring(0,index-4)+" "+percentage+" "+s.Substring(0,index+3);
+		}
+		if (s.Contains("%PV")){
+			index = s.IndexOf("%PV");
+			tempstring = s.Substring(index-3,index+3);
+			Debug.Log(tempstring);
+			percentage = Mathf.CeilToInt(Int32.Parse(tempstring)*this.GetLife()/100f);
+			s = s.Substring(0,index-4)+" "+percentage+" "+s.Substring(0,index+3);
+		}
+		return s;
 	}
 	
 	public bool verifyC(float minPower, float maxPower, float minLife, float maxLife, float minAttack, float maxAttack, float minQuickness, float maxQuickness)

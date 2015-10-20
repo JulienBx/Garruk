@@ -219,7 +219,7 @@ public class MyHoveredCardController : MonoBehaviour
 		gameObject.GetComponent<SpriteRenderer>().sprite = GameView.instance.getSprite(c.ArtIndex);
 		
 		gameObject.transform.FindChild("MyMainDescription").FindChild("MyTitle").GetComponent<TextMeshPro>().text = c.Title;
-		gameObject.transform.FindChild("MyMainDescription").FindChild("MyPassiveSkill").FindChild("MySpecialite").GetComponent<TextMeshPro>().text = c.getSkills()[0].Name;
+		gameObject.transform.FindChild("MyMainDescription").FindChild("MyPassiveSkill").FindChild("MySpecialite").GetComponent<TextMeshPro>().text = c.getSkillText(0);
 		gameObject.transform.FindChild("MyMainDescription").FindChild("MyPassiveSkill").FindChild("MySpecialiteDescription").GetComponent<TextMeshPro>().text = c.getSkills()[0].Description;
 		
 		gameObject.transform.FindChild("MyMainDescription").FindChild("MyCarac").FindChild("MyAttackText").GetComponent<TextMeshPro>().text = ""+c.GetAttackString();
@@ -272,7 +272,7 @@ public class MyHoveredCardController : MonoBehaviour
 			gameObject.transform.FindChild("MyMainDescription").FindChild("MySkill"+i).FindChild("MySkill"+i+"Description").GetComponent<MeshRenderer>().enabled=true;
 			gameObject.transform.FindChild("MyMainDescription").FindChild("MySkill"+i+"Background").GetComponent<SpriteRenderer>().enabled=true;
 			
-			gameObject.transform.FindChild("MyMainDescription").FindChild("MySkill"+i).FindChild("MySkill"+(i)+"Title").GetComponent<TextMeshPro>().text = c.getSkills()[i].Name;
+			gameObject.transform.FindChild("MyMainDescription").FindChild("MySkill"+i).FindChild("MySkill"+(i)+"Title").GetComponent<TextMeshPro>().text = c.getSkillText(i);
 			gameObject.transform.FindChild("MyMainDescription").FindChild("MySkill"+i).FindChild(("MySkill"+(i)+"Description")).GetComponent<TextMeshPro>().text = c.getSkills()[i].Description;
 			if(c.getSkills()[i].Level==1){
 				gameObject.transform.FindChild("MyMainDescription").FindChild("MySkill"+i).FindChild("MySkill"+i+"Cristal").GetComponent<SpriteRenderer>().color=new Color(255f/255f,255f/255f,255f/255f, 1f);

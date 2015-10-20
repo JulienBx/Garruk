@@ -8,8 +8,11 @@ public class Skill
 	public int IsActivated;
 	public int Level;
 	public int Power;
+	public int proba;
 	public int ManaCost;
+	public int nextProba;
 	public string Description;
+	public string nextDescription;
 	public string ResourceName;
 	public float Ponderation;
 	public int XMin;
@@ -19,6 +22,7 @@ public class Skill
 	public Texture2D texture;
 	public string Picture;
 	public bool IsNew;
+	public int cible ;
 	
 	public Skill(string name, string description, int id)
 	{
