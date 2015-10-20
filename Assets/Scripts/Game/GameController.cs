@@ -34,30 +34,36 @@ public class GameController : Photon.MonoBehaviour
 	string hisPlayerName;
 	
 	public void launchGC(){
-		this.currentPlayingCard = -1;
 		
-		this.playingCardTurnsToWait = new List<int>();
+		Cards c = new Cards();
+		StartCoroutine(c.getCards());
 		
-		this.isFirstPlayer = ApplicationModel.isFirstPlayer;
-		ApplicationModel.isFirstPlayer = false;
+//		this.currentPlayingCard = -1;
+//		this.playingCardTurnsToWait = new List<int>();
+//		
+//		this.isFirstPlayer = ApplicationModel.isFirstPlayer;
+//		ApplicationModel.isFirstPlayer = false;
+//		
+//		this.myPlayerName = ApplicationModel.myPlayerName;
+//		this.hisPlayerName = ApplicationModel.hisPlayerName;
+//		
+//		if (ApplicationModel.launchGameTutorial)
+//		{
+//			GameView.instance.setIsTutorialLaunched(true);
+//			ApplicationModel.launchGameTutorial=false;
+//			GameView.instance.launchTuto();
+//		}
+//		else{
+//			GameView.instance.setIsTutorialLaunched(false);
+//		}
+//		
+//		if (this.isFirstPlayer)
+//		{
+//			this.initGrid();
+//		}
 		
-		this.myPlayerName = ApplicationModel.myPlayerName;
-		this.hisPlayerName = ApplicationModel.hisPlayerName;
 		
-		if (ApplicationModel.launchGameTutorial)
-		{
-			GameView.instance.setIsTutorialLaunched(true);
-			ApplicationModel.launchGameTutorial=false;
-			GameView.instance.launchTuto();
-		}
-		else{
-			GameView.instance.setIsTutorialLaunched(false);
-		}
 		
-		if (this.isFirstPlayer)
-		{
-			this.initGrid();
-		}
 	}
 	
 	[RPC]
