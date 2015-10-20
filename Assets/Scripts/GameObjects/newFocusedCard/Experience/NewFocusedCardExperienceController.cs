@@ -57,7 +57,7 @@ public class NewFocusedCardExperienceController : MonoBehaviour
 			else 
 			{	
 				this.setToUpdateXp(false);
-				gameObject.transform.parent.GetComponent<NewFocusedCardController>().endUpdatingXp ();
+				gameObject.transform.parent.GetComponent<NewFocusedCardController>().endUpdatingXp (this.hasLevelChanged);
 			}
 		}
 	}
@@ -74,6 +74,7 @@ public class NewFocusedCardExperienceController : MonoBehaviour
 	}
 	public virtual void startUpdatingXp(int endLevel, int endPercentage)
 	{
+		this.hasLevelChanged = false;
 		this.startLevel = this.currentLevel;
 		this.startPercentage = this.currentPercentage;
 		this.endLevel = endLevel;

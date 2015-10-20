@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-public class Card
+public class Card 
 {
 	private string URLAddXpLevel = ApplicationModel.host + "add_xplevel_to_card.php"; 
 	private string URLSellCard = ApplicationModel.host + "sellCard.php";
@@ -14,6 +14,7 @@ public class Card
 	private string URLRenameCard = ApplicationModel.host + "renameCard.php";
 	private string URLBuyCard = ApplicationModel.host + "buyCard.php";
 	private string URLBuyRandomCard = ApplicationModel.host + "buyRandomCard.php";
+	private string URLUpgradeCardAttribute = ApplicationModel.host + "upgrade_card_attribute.php";
 
 	public int Id; 												// Id unique de la carte
 	public string Art; 									    	// Nom du dessin à appliquer à la carte
@@ -61,7 +62,10 @@ public class Card
 	public bool GetNewSkill;
 	public int nbTurnsToWait ;
 	public bool isMine;
-	public int nextAttack ; 
+	public List<Skill> UpgradedSkills;
+	public int UpgradedAttack;
+	public int UpgradedLife;
+	public int UpgradedSpeed;
 
 	public static bool xpDone = false;
 	
@@ -1127,7 +1131,6 @@ public class Card
 	}
 	public IEnumerator addXpLevel()
 	{
-
 		WWWForm form = new WWWForm(); 								// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_idcard", this.Id.ToString());
@@ -1139,69 +1142,69 @@ public class Card
 		if (w.error != null)
 		{
 			this.Error = w.error; 										// donne l'erreur eventuelle
-		} else
+		} 
+		else
 		{
 			if (w.text.Contains("#ERROR#"))
 			{
 				string[] errors = w.text.Split(new string[] { "#ERROR#" }, System.StringSplitOptions.None);
 				this.Error = errors [1];
-			} else
+			} 
+			else
 			{
 				this.Error = "";
 				string [] cardData = w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
-				string [] cardInformations = cardData [0].Split(new string[] { "#S#" }, System.StringSplitOptions.None);
+				string [] experienceData = cardData[0].Split(new string[] {"#EXPERIENCEDATA#"},System.StringSplitOptions.None);
+				this.parseCard(experienceData[0]);
+				this.GetNewSkill=System.Convert.ToBoolean(System.Convert.ToInt32(experienceData[1]));
+				this.Skills[Skills.Count-1].IsNew=System.Convert.ToBoolean(System.Convert.ToInt32(experienceData[2]));
+				this.NewSkills=new List<Skill>();
+				if(this.Skills[this.Skills.Count-1].IsNew)
+				{
+					this.NewSkills.Add (this.Skills[this.Skills.Count-1]);
+				}
 				this.CollectionPoints = System.Convert.ToInt32(cardData [1]);
 				this.CollectionPointsRanking=System.Convert.ToInt32(cardData[2]);
-				for (int j = 0; j < cardInformations.Length-1; j++)
-				{
-					string[] cardInfo = cardInformations [j].Split(new string[] { "\\" }, System.StringSplitOptions.None); 
-					if (j == 0)
-					{
-
-						this.Life = System.Convert.ToInt32(cardInfo [0]);
-						this.Attack = System.Convert.ToInt32(cardInfo [1]);
-						this.Speed = System.Convert.ToInt32(cardInfo [2]);
-						this.Move = System.Convert.ToInt32(cardInfo [3]);
-						this.LifeLevel = System.Convert.ToInt32(cardInfo [4]);
-						this.MoveLevel = System.Convert.ToInt32(cardInfo [5]);
-						this.SpeedLevel = System.Convert.ToInt32(cardInfo [6]);
-						this.AttackLevel = System.Convert.ToInt32(cardInfo [7]);
-						this.Experience = System.Convert.ToInt32(cardInfo [8]);
-						this.ExperienceLevel = System.Convert.ToInt32(cardInfo [9]);
-						this.NextLevelPrice = System.Convert.ToInt32(cardInfo [10]);
-						this.PercentageToNextLevel = System.Convert.ToInt32(cardInfo [11]);
-						this.IdCardTypeUnlocked = System.Convert.ToInt32(cardInfo [12]);
-						this.TitleCardTypeUnlocked = cardInfo[13];
-						this.destructionPrice=System.Convert.ToInt32(cardInfo[14]);
-						this.Power=System.Convert.ToInt32(cardInfo[15]);
-						this.GetNewSkill=System.Convert.ToBoolean(System.Convert.ToInt32(cardInfo[16]));
-						this.CaracteristicUpgraded=System.Convert.ToInt32(cardInfo[17]);
-						this.CaracteristicIncrease=System.Convert.ToInt32(cardInfo[18]);
-						this.PowerLevel=System.Convert.ToInt32(cardInfo[19]);
-						this.NewSkills=new List<Skill>();
-						this.Skills=new List<Skill>();
-					} 
-					else
-					{
-						this.Skills.Add(new Skill());
-						this.Skills[this.Skills.Count-1].Id=System.Convert.ToInt32(cardInfo[0]);
-						this.Skills[this.Skills.Count-1].Name=cardInfo[1];
-						this.Skills[this.Skills.Count-1].IsActivated=System.Convert.ToInt32(cardInfo[2]);
-						this.Skills[this.Skills.Count-1].Level=System.Convert.ToInt32(cardInfo[3]);
-						this.Skills[this.Skills.Count-1].Power=System.Convert.ToInt32(cardInfo[4]);
-						this.Skills[this.Skills.Count-1].Description=cardInfo[5];
-						this.Skills[this.Skills.Count-1].ManaCost=System.Convert.ToInt32(cardInfo[6]);
-						this.Skills[this.Skills.Count-1].IsNew=System.Convert.ToBoolean(System.Convert.ToInt32(cardInfo[7]));
-						if(this.Skills[this.Skills.Count-1].IsNew)
-						{
-							this.NewSkills.Add (this.Skills[this.Skills.Count-1]);
-						}
-					}
-				}
 			}
 		}
 	}
-
+	public IEnumerator upgradeCardAttribute(int attributeToUpgrade)
+	{
+		WWWForm form = new WWWForm(); 								// Création de la connexion
+		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
+		form.AddField("myform_idcard", this.Id.ToString());
+		form.AddField("myform_nick", ApplicationModel.username);
+		form.AddField ("myform_attribute", attributeToUpgrade);
+		
+		WWW w = new WWW(URLUpgradeCardAttribute, form); 								// On envoie le formulaire à l'url sur le serveur 
+		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
+		
+		if (w.error != null)
+		{
+			this.Error = w.error; 										// donne l'erreur eventuelle
+		} 
+		else
+		{
+			if (w.text.Contains("#ERROR#"))
+			{
+				string[] errors = w.text.Split(new string[] { "#ERROR#" }, System.StringSplitOptions.None);
+				this.Error = errors [1];
+			} 
+			else
+			{
+				this.Error = "";
+				string [] cardData = w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
+				string [] experienceData = cardData[0].Split(new string[] {"#EXPERIENCEDATA#"},System.StringSplitOptions.None);
+				this.parseCard(experienceData[0]);
+				this.IdCardTypeUnlocked=System.Convert.ToInt32(experienceData[1]);
+				this.TitleCardTypeUnlocked=experienceData[2];
+				this.CaracteristicUpgraded=System.Convert.ToInt32(experienceData[3]);
+				this.CaracteristicIncrease=System.Convert.ToInt32(experienceData[4]);
+				this.CollectionPoints = System.Convert.ToInt32(cardData [1]);
+				this.CollectionPointsRanking=System.Convert.ToInt32(cardData[2]);
+			}
+		}
+	}
 	public IEnumerator sellCard()
 	{
 		WWWForm form = new WWWForm(); 											// Création de la connexion
@@ -1359,5 +1362,64 @@ public class Card
 				}
 			}
 		}
+	}
+	public void parseCard(string s)
+	{
+		string[] cardData = null;
+		string[] cardInfo = null;
+
+		cardData = s.Split(new string[] { "#SKILL#" }, System.StringSplitOptions.None);
+		for(int j = 0 ; j < cardData.Length-1 ; j++)
+		{	
+			cardInfo = cardData[j].Split(new string[] { "\\" }, System.StringSplitOptions.None); 
+			if (j==0)
+			{
+				this.Id=System.Convert.ToInt32(cardInfo[0]);
+				this.Title=cardInfo[1];
+				this.Life=System.Convert.ToInt32(cardInfo[2]);
+				this.Attack=System.Convert.ToInt32(cardInfo[3]);
+				this.Speed=System.Convert.ToInt32(cardInfo[4]);
+				this.Move=System.Convert.ToInt32(cardInfo[5]);
+				this.IdOWner=System.Convert.ToInt32(cardInfo[6]);
+				this.UsernameOwner=cardInfo[7];
+				this.IdClass=System.Convert.ToInt32(cardInfo[8]);
+				this.PowerLevel=System.Convert.ToInt32(cardInfo[9]);
+				this.LifeLevel=System.Convert.ToInt32(cardInfo[10]);
+				this.AttackLevel=System.Convert.ToInt32(cardInfo[11]);
+				this.MoveLevel=System.Convert.ToInt32(cardInfo[12]);
+				this.SpeedLevel=System.Convert.ToInt32(cardInfo[13]);
+				this.Experience=System.Convert.ToInt32(cardInfo[14]);
+				this.ExperienceLevel=System.Convert.ToInt32(cardInfo[15]);
+				this.PercentageToNextLevel=System.Convert.ToInt32(cardInfo[16]);
+				this.NextLevelPrice=System.Convert.ToInt32(cardInfo[17]);
+				this.onSale=System.Convert.ToInt32(cardInfo[18]);
+				this.Price=System.Convert.ToInt32(cardInfo[19]);
+				//this.cards[i].OnSaleDate=new DateTime(cardInfo[20]);
+				this.nbWin=System.Convert.ToInt32(cardInfo[21]);
+				this.nbLoose=System.Convert.ToInt32(cardInfo[22]);
+				this.destructionPrice=System.Convert.ToInt32(cardInfo[23]);
+				this.Power=System.Convert.ToInt32(cardInfo[24]);
+			}
+			else
+			{
+				this.Skills.Add(new Skill ());
+				this.Skills[j-1].Name=cardInfo[1];
+				this.Skills[j-1].Id=System.Convert.ToInt32(cardInfo[0]);
+				this.Skills[j-1].cible=System.Convert.ToInt32(cardInfo[2]);
+				this.Skills[j-1].IsActivated=System.Convert.ToInt32(cardInfo[3]);
+				this.Skills[j-1].Level=System.Convert.ToInt32(cardInfo[4]);
+				this.Skills[j-1].Power=System.Convert.ToInt32(cardInfo[5]);
+				this.Skills[j-1].Upgrades=System.Convert.ToInt32(cardInfo[6]);
+				this.Skills[j-1].Description=cardInfo[7];
+				this.Skills[j-1].proba=System.Convert.ToInt32(cardInfo[8]);
+				this.Skills[j-1].nextDescription=cardInfo[9];
+				this.Skills[j-1].proba=System.Convert.ToInt32(cardInfo[10]);
+				
+				if (this.Skills[j-1].Id==9){
+					this.Skills[j-1].nbLeft = 1 ;
+				}
+			}
+		}
+
 	}
 }

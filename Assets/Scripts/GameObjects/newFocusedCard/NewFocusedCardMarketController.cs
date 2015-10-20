@@ -38,6 +38,7 @@ public class NewFocusedCardMarketController : NewFocusedCardController
 		}
 		this.gameObject.transform.FindChild("FocusFeature4").transform.GetComponent<TextMeshPro>().text=this.c.nbWin+" Victoires \n" + this.c.nbLoose+" Défaites";
 		this.gameObject.transform.FindChild("FocusFeature5").transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Retour";
+		this.gameObject.transform.FindChild("FocusFeature5").transform.GetComponent<NewFocusedFeaturesController>().setIsClickable(true);
 	}
 	public override void refreshCredits()
 	{

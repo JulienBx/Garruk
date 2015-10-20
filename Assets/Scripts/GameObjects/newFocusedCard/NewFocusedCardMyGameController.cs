@@ -9,6 +9,7 @@ public class NewFocusedCardMyGameController : NewFocusedCardController
 	public override void updateFocusFeatures()
 	{
 		this.gameObject.transform.FindChild("FocusFeature0").FindChild("Title").GetComponent<TextMeshPro>().text="Bannir \n( +"+this.c.destructionPrice+" cristaux)";
+		this.gameObject.transform.FindChild("FocusFeature0").GetComponent<NewFocusedFeaturesController>().setIsClickable(true);
 		if(this.c.ExperienceLevel!=10)
 		{
 			this.gameObject.transform.FindChild("FocusFeature1").FindChild("Title").GetComponent<TextMeshPro>().text="Passer l'unité au niveau suivant \n( -"+this.c.NextLevelPrice+ " cristaux)";
@@ -20,6 +21,7 @@ public class NewFocusedCardMyGameController : NewFocusedCardController
 			this.gameObject.transform.FindChild("FocusFeature1").transform.GetComponent<NewFocusedFeaturesController>().setIsClickable(false);
 		}
 		this.gameObject.transform.FindChild("FocusFeature2").transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Renommer l'unité \n( -" + this.c.RenameCost + " cristaux)";
+		this.gameObject.transform.FindChild("FocusFeature2").GetComponent<NewFocusedFeaturesController>().setIsClickable(true);
 		if(this.c.Decks.Count>0)
 		{
 			this.gameObject.transform.FindChild("FocusFeature3").transform.FindChild("Title").GetComponent<TextMeshPro>().text="Unité attachée à une équipe, ne pouvant être mise en vente";
@@ -38,6 +40,7 @@ public class NewFocusedCardMyGameController : NewFocusedCardController
 		}
 		this.gameObject.transform.FindChild("FocusFeature4").transform.GetComponent<TextMeshPro>().text=this.c.nbWin+" Victoires \n" + this.c.nbLoose+" Défaites";
 		this.gameObject.transform.FindChild("FocusFeature5").transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Retour";
+		this.gameObject.transform.FindChild("FocusFeature5").GetComponent<NewFocusedFeaturesController>().setIsClickable(true);
 	}
 	public override void refreshCredits()
 	{

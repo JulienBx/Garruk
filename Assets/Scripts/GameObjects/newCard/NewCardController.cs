@@ -215,7 +215,7 @@ public class NewCardController : NewFocusedCardController
 	{
 		this.experience.GetComponent<NewCardExperienceController>().startUpdatingXp(c.ExperienceLevel,c.PercentageToNextLevel);
 	}
-	public override void endUpdatingXp()
+	public override void endUpdatingXp(bool hasChangedLevel)
 	{
 		this.show ();
 		if(this.c.CaracteristicUpgraded>-1&&this.c.CaracteristicIncrease>0)

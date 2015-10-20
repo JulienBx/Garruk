@@ -14,6 +14,8 @@ public class NewFocusedCardController : MonoBehaviour
 	public GameObject experience;
 	public GameObject cardUpgrade;
 	public GameObject panelSold;
+	public GameObject nextLevelLabel;
+	public GameObject nextLevelPopUp;
 	
 	private Rect centralWindow;
 	private Rect collectionPointsWindow;
@@ -54,6 +56,9 @@ public class NewFocusedCardController : MonoBehaviour
 	private float timerCollectionPoints;
 	private float timerCardUpgrade;
 	private float timerSkillHighlighted;
+
+	private bool isCardBeingUpgradedToNextLevel;
+	private bool isNextLevelPopUpDisplayed;
 	
 	public virtual void Update ()
 	{
@@ -98,6 +103,9 @@ public class NewFocusedCardController : MonoBehaviour
 		this.experience = this.gameObject.transform.FindChild ("Experience").gameObject;
 		this.cardUpgrade = this.gameObject.transform.FindChild ("CardUpgrade").gameObject;
 		this.panelSold = this.gameObject.transform.FindChild ("PanelSold").gameObject;
+		this.nextLevelLabel = this.gameObject.transform.FindChild ("NewLevelLabel").gameObject;
+		this.nextLevelLabel.GetComponent<TextMeshPro> ().text = "NOUVEAU NIVEAU !\nCliquez sur l'attribut que vous souhaitez faire progresser";
+		this.nextLevelPopUp = this.gameObject.transform.FindChild ("UpgradeDescriptionPopUp").gameObject;
 		this.initializeFocusFeatures ();
 		for(int i=0;i<this.skills.Length;i++)
 		{
@@ -170,17 +178,38 @@ public class NewFocusedCardController : MonoBehaviour
 		this.panelSold.SetActive (false);
 		this.isPanelSoldIsDisplayed=false;
 	}
-	public virtual void endUpdatingXp()
+	public virtual void endUpdatingXp(bool hasChangedLevel)
+	{
+		if(hasChangedLevel)
+		{
+			this.show ();
+			if(this.c.CollectionPoints>0)
+			{
+				this.displayCollectionPointsPopUp();
+			}
+			if(this.c.NewSkills.Count>0)
+			{
+				this.displayNewSkillsPopUp();
+			}
+			if(this.c.GetNewSkill)
+			{
+				this.setHighlightedSkills();
+			}
+			this.isCardBeingUpgradedToNextLevel=true;
+			this.displayNextLevelLabel();
+			this.disableAllFocusFeatures();
+		}
+		this.setIsXpBeingUpdated (false);
+	}
+	public void endUpdatingCardToNextLevel()
 	{
 		this.show ();
 		this.updateFocus ();
+		this.hideNextLevelLabel ();
+		this.isCardBeingUpgradedToNextLevel = false;
 		if(this.c.CollectionPoints>0)
 		{
 			this.displayCollectionPointsPopUp();
-		}
-		if(this.c.NewSkills.Count>0)
-		{
-			this.displayNewSkillsPopUp();
 		}
 		if(this.c.IdCardTypeUnlocked!=-1)
 		{
@@ -190,11 +219,6 @@ public class NewFocusedCardController : MonoBehaviour
 		{
 			this.setCardUpgrade();
 		}
-		if(this.c.GetNewSkill)
-		{
-			this.setHighlightedSkills();
-		}
-		this.setIsXpBeingUpdated (false);
 	}
 	public void setCentralWindow(Rect centralWindow)
 	{
@@ -542,6 +566,24 @@ public class NewFocusedCardController : MonoBehaviour
 			StartCoroutine(this.renameCard(tempString));
 		}
 	}
+	public IEnumerator upgradeCardAttribute(int attributeToUpgrade)
+	{
+		if(this.isNextLevelPopUpDisplayed)
+		{
+			this.hideNextLevelPopUp();
+		}
+		this.displayLoadingScreen ();
+		yield return StartCoroutine (this.c.upgradeCardAttribute (attributeToUpgrade));
+		if(this.c.Error=="")
+		{
+			this.endUpdatingCardToNextLevel();
+		}
+		else
+		{
+			this.displayErrorPopUp();
+		}
+		this.hideLoadingScreen ();
+	}
 	public IEnumerator renameCard(string newName)
 	{
 		this.hideRenamePopUp ();
@@ -755,6 +797,15 @@ public class NewFocusedCardController : MonoBehaviour
 		{
 			this.experience.GetComponent<NewFocusedCardExperienceController>().setToUpdateXp(false);
 			this.setIsXpBeingUpdated(false);
+		}
+		if(this.isNextLevelPopUpDisplayed)
+		{
+			this.hideNextLevelPopUp();
+		}
+		if(this.isCardBeingUpgradedToNextLevel)
+		{
+			this.hideNextLevelLabel();
+			this.isCardBeingUpgradedToNextLevel=false;
 		}
 	}
 	public virtual void focusFeaturesHandler (int type)
@@ -1033,6 +1084,246 @@ public class NewFocusedCardController : MonoBehaviour
 	public bool getIsXpBeingUpdated()
 	{
 		return this.isXpBeingUpdated;
+	}
+	public void startHoveringAttribute(int index)
+	{
+		if(this.isCardBeingUpgradedToNextLevel)
+		{
+			this.displayNextLevelPopUp();
+			string popUpText="";
+			Vector3 cardSize=new Vector3(gameObject.transform.FindChild("Face").GetComponent<MeshRenderer> ().bounds.size.x,gameObject.transform.FindChild("Face").GetComponent<MeshRenderer> ().bounds.size.y,gameObject.transform.FindChild("Face").GetComponent<MeshRenderer> ().bounds.size.z);
+			Vector3 cardOrigin = new Vector3(gameObject.transform.FindChild("Face").position.x,gameObject.transform.FindChild("Face").position.y,gameObject.transform.FindChild("Face").position.z);
+
+			switch(index)
+			{
+			case 0: // Attack
+
+				gameObject.transform.FindChild("Attack").GetComponent<NewFocusedCardAttributeController>().highlightAttribute(true);
+				this.nextLevelPopUp.transform.position=cardOrigin+new Vector3(-0.3f*cardSize.x,-0.2f*cardSize.y,1f*cardSize.z);
+				if(c.Attack!=c.UpgradedAttack)
+				{
+					popUpText="Augmentation de "+(this.c.UpgradedAttack-this.c.Attack)+" points";
+				}
+				else
+				{
+					popUpText="Niveau maximum atteint";
+				}
+				break;
+			case 1: // Life
+
+				gameObject.transform.FindChild("Life").GetComponent<NewFocusedCardAttributeController>().highlightAttribute(true);
+				this.nextLevelPopUp.transform.position=cardOrigin+new Vector3(0f*cardSize.x,-0.2f*cardSize.y,1f*cardSize.z);
+				if(c.Life!=this.c.UpgradedLife)
+				{
+					popUpText="Augmentation de "+(this.c.UpgradedLife-this.c.Life)+" points";
+				}
+				else
+				{
+					popUpText="Niveau maximum atteint";
+				}
+				break;
+			case 2: // Quickness
+
+				gameObject.transform.FindChild("Quickness").GetComponent<NewFocusedCardAttributeController>().highlightAttribute(true);
+				this.nextLevelPopUp.transform.position=cardOrigin+new Vector3(0.3f*cardSize.x,-0.2f*cardSize.y,1f*cardSize.z);
+				if(c.Speed!=this.c.UpgradedSpeed)
+				{
+					popUpText="Augmentation de "+(this.c.UpgradedSpeed-this.c.Speed)+" points";
+				}
+				else
+				{
+					popUpText="Niveau maximum atteint";
+				}
+				break;
+			case 3: // Skill 0
+
+				gameObject.transform.FindChild("Skill0").GetComponent<NewFocusedCardSkillController>().highlightSkill(true);
+				this.nextLevelPopUp.transform.position=cardOrigin+new Vector3(0f*cardSize.x,0.2f*cardSize.y,1f*cardSize.z);
+				if(c.Skills[0].Power!=10 && c.Skills[0].Upgrades<3)
+				{
+					popUpText="Compétence renforcée : \n"+this.c.UpgradedSkills[0].Description;
+				}
+				else
+				{
+					popUpText="Vous ne pouvez plus améliorer cette compétence ! (3 améliorations possibles, jusqu'au niveau 10)";
+				}
+				break;
+			case 4: // Skill 1
+
+				gameObject.transform.FindChild("Skill1").GetComponent<NewFocusedCardSkillController>().highlightSkill(true);
+				this.nextLevelPopUp.transform.position=cardOrigin+new Vector3(0f*cardSize.x,-0.1f*cardSize.y,1f*cardSize.z);
+				if(c.Skills[1].Power!=10 && c.Skills[1].Upgrades<3)
+				{
+					popUpText="Compétence renforcée : \n"+this.c.UpgradedSkills[1].Description;
+				}
+				else
+				{
+					popUpText="Vous ne pouvez plus améliorer cette compétence ! (3 améliorations possibles, jusqu'au niveau 10)";
+				}
+				break;
+			case 5: // Skill 2
+
+				gameObject.transform.FindChild("Skill2").GetComponent<NewFocusedCardSkillController>().highlightSkill(true);
+				this.nextLevelPopUp.transform.position=cardOrigin+new Vector3(0f*cardSize.x,0f*cardSize.y,1f*cardSize.z);
+				if(c.Skills[2].Power!=10 && c.Skills[2].Upgrades<3)
+				{
+					popUpText="Compétence renforcée : \n"+this.c.UpgradedSkills[2].Description;
+				}
+				else
+				{
+					popUpText="Vous ne pouvez plus améliorer cette compétence ! (3 améliorations possibles, jusqu'au niveau 10)";
+				}
+				break;
+			case 6: // Skill 3
+
+				gameObject.transform.FindChild("Skill3").GetComponent<NewFocusedCardSkillController>().highlightSkill(true);
+				this.nextLevelPopUp.transform.position=cardOrigin+new Vector3(0f*cardSize.x,0.1f*cardSize.y,1f*cardSize.z);
+				if(c.Skills[3].Power!=10 && c.Skills[3].Upgrades<3)
+				{
+					popUpText="Compétence renforcée : \n"+this.c.UpgradedSkills[3].Description;
+				}
+				else
+				{
+					popUpText="Vous ne pouvez plus améliorer cette compétence ! (3 améliorations possibles, jusqu'au niveau 10)";
+				}
+				break;
+			}
+			this.nextLevelPopUp.transform.FindChild("Description").GetComponent<TextMeshPro>().text=popUpText;
+		}
+	}
+	public void endHoveringAttribute(int index)
+	{
+		if(this.isCardBeingUpgradedToNextLevel)
+		{
+			this.hideNextLevelPopUp();
+
+			switch(index)
+			{
+			case 0: // Attack
+				
+				gameObject.transform.FindChild("Attack").GetComponent<NewFocusedCardAttributeController>().highlightAttribute(false);
+				break;
+			case 1: // Life
+				
+				gameObject.transform.FindChild("Life").GetComponent<NewFocusedCardAttributeController>().highlightAttribute(false);
+				break;
+			case 2: // Quickness
+				
+				gameObject.transform.FindChild("Quickness").GetComponent<NewFocusedCardAttributeController>().highlightAttribute(false);
+				break;
+			case 3: // Skill 0
+				
+				gameObject.transform.FindChild("Skill0").GetComponent<NewFocusedCardSkillController>().highlightSkill(false);
+				break;
+			case 4: // Skill 1
+				
+				gameObject.transform.FindChild("Skill1").GetComponent<NewFocusedCardSkillController>().highlightSkill(false);
+				break;
+			case 5: // Skill 2
+				
+				gameObject.transform.FindChild("Skill2").GetComponent<NewFocusedCardSkillController>().highlightSkill(false);
+				break;
+			case 6: // Skill 3
+				
+				gameObject.transform.FindChild("Skill3").GetComponent<NewFocusedCardSkillController>().highlightSkill(false);
+				break;
+			}
+		}
+	}
+	public void clickOnAttribute(int index)
+	{
+		if(this.isCardBeingUpgradedToNextLevel)
+		{
+			bool isClicked=false;
+			this.cardUpgrade.SetActive(false);
+			
+			switch(index)
+			{
+			case 0: // Attack
+				if(c.Attack!=this.c.UpgradedAttack)
+				{
+					gameObject.transform.FindChild("Attack").GetComponent<NewFocusedCardAttributeController>().highlightAttribute(false);
+					isClicked=true;
+				}
+				break;
+			case 1: // Life
+				if(c.Life!=this.c.UpgradedLife)
+				{
+					gameObject.transform.FindChild("Life").GetComponent<NewFocusedCardAttributeController>().highlightAttribute(false);
+					isClicked=true;
+				}
+				break;
+			case 2: // Quickness
+				if(c.Speed!=this.c.UpgradedSpeed)
+				{
+					gameObject.transform.FindChild("Quickness").GetComponent<NewFocusedCardAttributeController>().highlightAttribute(false);
+					isClicked=true;
+				}
+				break;
+			case 3: // Skill 0
+				if(c.Skills[0].Power!=10 && c.Skills[0].Upgrades<3)
+				{
+					gameObject.transform.FindChild("Skill0").GetComponent<NewFocusedCardSkillController>().highlightSkill(false);
+					isClicked=true;
+				}
+				break;
+			case 4: // Skill 1
+				if(c.Skills[1].Power!=10 && c.Skills[1].Upgrades<3)
+				{
+					gameObject.transform.FindChild("Skill1").GetComponent<NewFocusedCardSkillController>().highlightSkill(false);
+					isClicked=true;
+				}
+				break;
+			case 5: // Skill 2
+				if(c.Skills[2].Power!=10 && c.Skills[2].Upgrades<3)
+				{
+					gameObject.transform.FindChild("Skill2").GetComponent<NewFocusedCardSkillController>().highlightSkill(false);
+					isClicked=true;
+				}
+				break;
+			case 6: // Skill 3
+				if(c.Skills[3].Power!=10 && c.Skills[3].Upgrades<3)
+				{
+					gameObject.transform.FindChild("Skill3").GetComponent<NewFocusedCardSkillController>().highlightSkill(false);
+					isClicked=true;
+				}
+				break;
+			}
+			if(isClicked)
+			{
+				StartCoroutine(this.upgradeCardAttribute(index));
+			}
+		}
+	}
+	public void displayNextLevelLabel()
+	{
+		this.nextLevelLabel.SetActive (true);
+		gameObject.transform.FindChild ("Face").GetComponent<SpriteRenderer> ().color = new Color (98f / 255f, 98f / 255f, 98f / 255f);
+		gameObject.transform.FindChild ("Caracter").GetComponent<SpriteRenderer> ().color = new Color (98f / 255f, 98f / 255f, 98f / 255f);
+	}
+	public void hideNextLevelLabel()
+	{
+		this.nextLevelLabel.SetActive (false);
+		gameObject.transform.FindChild ("Face").GetComponent<SpriteRenderer> ().color = new Color (1f,1f,1f);
+		gameObject.transform.FindChild ("Caracter").GetComponent<SpriteRenderer> ().color = new Color (1f,1f,1f);
+	}
+	public void disableAllFocusFeatures()
+	{
+		for(int i=0;i<4;i++)
+		{
+			this.gameObject.transform.FindChild("FocusFeature"+i).GetComponent<NewFocusedFeaturesController>().setIsClickable(false);
+		}
+		this.gameObject.transform.FindChild("FocusFeature5").GetComponent<NewFocusedFeaturesController>().setIsClickable(false);
+	}
+	public void displayNextLevelPopUp()
+	{
+		this.nextLevelPopUp.SetActive(true);
+		this.isNextLevelPopUpDisplayed=true;
+	}
+	public void hideNextLevelPopUp()
+	{
+		this.nextLevelPopUp.SetActive(false);
+		this.isNextLevelPopUpDisplayed=false;
 	}
 }
 

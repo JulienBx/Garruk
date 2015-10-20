@@ -5,6 +5,8 @@ public class NewFocusedCardSkillController : MonoBehaviour
 {
 
 	public Skill s;
+	public int attributeIndex;
+	private bool isHovered;
 	
 	public virtual void show()
 	{
@@ -32,6 +34,26 @@ public class NewFocusedCardSkillController : MonoBehaviour
 			this.gameObject.transform.FindChild ("Power").GetComponent<TextMeshPro> ().color=new Color(1f, 1f, 1f);
 			this.gameObject.transform.FindChild("Description").GetComponent<TextMeshPro>().color=new Color(1f, 1f, 1f);
 		}
+	}
+	void OnMouseOver()
+	{
+		if(!this.isHovered)
+		{
+			this.gameObject.transform.parent.GetComponent<NewFocusedCardController>().startHoveringAttribute(this.attributeIndex);
+			this.isHovered=true;
+		}
+	}
+	void OnMouseExit()
+	{
+		if(this.isHovered)
+		{
+			this.gameObject.transform.parent.GetComponent<NewFocusedCardController>().endHoveringAttribute(this.attributeIndex);
+			this.isHovered=false;
+		}
+	}
+	void OnMouseDown()
+	{
+		this.gameObject.transform.parent.GetComponent<NewFocusedCardController>().clickOnAttribute(this.attributeIndex);			
 	}
 }
 

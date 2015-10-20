@@ -607,7 +607,7 @@ public class newMyGameController : MonoBehaviour
 				if(this.chosenPage*(this.nbLines*this.cardsPerLine)+j*(cardsPerLine)+i<this.cardsToBeDisplayed.Count)
 				{
 					this.cardsDisplayed.Add (this.cardsToBeDisplayed[this.chosenPage*(this.nbLines*this.cardsPerLine)+j*(cardsPerLine)+i]);
-					this.cards[j*(cardsPerLine)+i].transform.GetComponent<NewCardController>().c=model.cards[this.cardsDisplayed[j*(cardsPerLine)+i]];
+					this.cards[j*(cardsPerLine)+i].transform.GetComponent<NewCardController>().c=model.cards.getCard(this.cardsDisplayed[j*(cardsPerLine)+i]);
 					this.cards[j*(cardsPerLine)+i].transform.GetComponent<NewCardController>().show();
 					this.cards[j*(cardsPerLine)+i].SetActive(true);
 				}
@@ -627,9 +627,9 @@ public class newMyGameController : MonoBehaviour
 			{
 				int deckOrder = model.decks[this.deckDisplayed].Cards[i].deckOrder;
 				int cardId=model.decks[this.deckDisplayed].Cards[i].Id;
-				for(int j=0;j<model.cards.Count;j++)
+				for(int j=0;j<model.cards.getCount();j++)
 				{
-					if(model.cards[j].Id==cardId)
+					if(model.cards.getCard(j).Id==cardId)
 					{
 						this.deckCardsDisplayed[deckOrder]=j;
 						break;
@@ -652,7 +652,7 @@ public class newMyGameController : MonoBehaviour
 		{
 			if(this.deckCardsDisplayed[i]!=-1)
 			{
-				this.deckCards[i].transform.GetComponent<NewCardController>().c=model.cards[this.deckCardsDisplayed[i]];
+				this.deckCards[i].transform.GetComponent<NewCardController>().c=model.cards.getCard(this.deckCardsDisplayed[i]);
 				this.deckCards[i].transform.GetComponent<NewCardController>().show();
 				this.deckCards[i].SetActive(true);
 			}
@@ -678,7 +678,7 @@ public class newMyGameController : MonoBehaviour
 		{
 			this.focusedCardIndex=this.cardsDisplayed[this.idCardClicked];
 		}
-		this.focusedCard.GetComponent<NewFocusedCardController>().c=model.cards[this.focusedCardIndex];
+		this.focusedCard.GetComponent<NewFocusedCardController>().c=model.cards.getCard(this.focusedCardIndex);
 		this.focusedCard.GetComponent<NewFocusedCardController> ().show ();
 	}
 	public void hideCardFocused()
@@ -967,20 +967,20 @@ public class newMyGameController : MonoBehaviour
 	{
 		this.cardsToBeDisplayed=new List<int>();
 		int nbFilters = this.filtersCardType.Count;
-		int max = model.cards.Count;
+		int max = model.cards.getCount();
 
 		for(int i=0;i<max;i++)
 		{
 
-			if(this.isOnSaleFilterOn && model.cards [i].onSale == 1)
+			if(this.isOnSaleFilterOn && model.cards.getCard(i).onSale == 1)
 			{
 				continue;
 			}
-			if(this.isNotOnSaleFilterOn && model.cards [i].onSale == 0)
+			if(this.isNotOnSaleFilterOn && model.cards.getCard(i).onSale == 0)
 			{
 				continue;
 			}
-			if(this.isSkillChosen && !model.cards [i].hasSkill(this.valueSkill))
+			if(this.isSkillChosen && !model.cards.getCard(i).hasSkill(this.valueSkill))
 			{
 				continue;
 			}
@@ -989,7 +989,7 @@ public class newMyGameController : MonoBehaviour
 				bool testCardTypes=false;
 				for(int j=0;j<nbFilters;j++)
 				{
-					if (model.cards [i].IdClass == this.filtersCardType [j])
+					if (model.cards.getCard(i).IdClass == this.filtersCardType [j])
 					{
 						testCardTypes=true;
 						break;
@@ -1012,10 +1012,10 @@ public class newMyGameController : MonoBehaviour
 			{
 				continue;
 			}
-			if(model.cards[i].PowerLevel-1>=this.powerVal&&
-			   model.cards[i].AttackLevel-1>=this.attackVal&&
-			   model.cards[i].LifeLevel-1>=this.lifeVal&&
-			   model.cards[i].SpeedLevel-1>=this.quicknessVal)
+			if(model.cards.getCard(i).PowerLevel-1>=this.powerVal&&
+			   model.cards.getCard(i).AttackLevel-1>=this.attackVal&&
+			   model.cards.getCard(i).LifeLevel-1>=this.lifeVal&&
+			   model.cards.getCard(i).SpeedLevel-1>=this.quicknessVal)
 			{
 				this.cardsToBeDisplayed.Add(i);
 			}
@@ -1033,36 +1033,36 @@ public class newMyGameController : MonoBehaviour
 					switch (this.sortingOrder)
 					{
 					case 0:
-						tempA = model.cards[this.cardsToBeDisplayed[i]].Power;
-						tempB = model.cards[this.cardsToBeDisplayed[j]].Power;
+						tempA = model.cards.getCard(this.cardsToBeDisplayed[i]).Power;
+						tempB = model.cards.getCard(this.cardsToBeDisplayed[j]).Power;
 						break;
 					case 1:
-						tempB = model.cards[this.cardsToBeDisplayed[i]].Power;
-						tempA = model.cards[this.cardsToBeDisplayed[j]].Power;
+						tempB = model.cards.getCard(this.cardsToBeDisplayed[i]).Power;
+						tempA = model.cards.getCard(this.cardsToBeDisplayed[j]).Power;
 						break;
 					case 2:
-						tempA = model.cards[this.cardsToBeDisplayed[i]].Life;
-						tempB = model.cards[this.cardsToBeDisplayed[j]].Life;
+						tempA = model.cards.getCard(this.cardsToBeDisplayed[i]).Life;
+						tempB = model.cards.getCard(this.cardsToBeDisplayed[j]).Life;
 						break;
 					case 3:
-						tempB = model.cards[this.cardsToBeDisplayed[i]].Life;
-						tempA = model.cards[this.cardsToBeDisplayed[j]].Life;
+						tempB = model.cards.getCard(this.cardsToBeDisplayed[i]).Life;
+						tempA = model.cards.getCard(this.cardsToBeDisplayed[j]).Life;
 						break;
 					case 4:
-						tempA = model.cards[this.cardsToBeDisplayed[i]].Attack;
-						tempB = model.cards[this.cardsToBeDisplayed[j]].Attack;
+						tempA = model.cards.getCard(this.cardsToBeDisplayed[i]).Attack;
+						tempB = model.cards.getCard(this.cardsToBeDisplayed[j]).Attack;
 						break;
 					case 5:
-						tempB = model.cards[this.cardsToBeDisplayed[i]].Attack;
-						tempA = model.cards[this.cardsToBeDisplayed[j]].Attack;
+						tempB = model.cards.getCard(this.cardsToBeDisplayed[i]).Attack;
+						tempA = model.cards.getCard(this.cardsToBeDisplayed[j]).Attack;
 						break;
 					case 6:
-						tempA = model.cards[this.cardsToBeDisplayed[i]].Speed;
-						tempB = model.cards[this.cardsToBeDisplayed[j]].Speed;
+						tempA = model.cards.getCard(this.cardsToBeDisplayed[i]).Speed;
+						tempB = model.cards.getCard(this.cardsToBeDisplayed[j]).Speed;
 						break;
 					case 7:
-						tempB = model.cards[this.cardsToBeDisplayed[i]].Speed;
-						tempA = model.cards[this.cardsToBeDisplayed[j]].Speed;
+						tempB = model.cards.getCard(this.cardsToBeDisplayed[i]).Speed;
+						tempA = model.cards.getCard(this.cardsToBeDisplayed[j]).Speed;
 						break;
 					default:
 						break;
@@ -1362,13 +1362,13 @@ public class newMyGameController : MonoBehaviour
 	}
 	public void removeDeckFromAllCards(int id)
 	{
-		for(int i=0;i<model.cards.Count;i++)
+		for(int i=0;i<model.cards.getCount();i++)
 		{
-			for(int j=0;j<model.cards[i].Decks.Count;j++)
+			for(int j=0;j<model.cards.getCard(i).Decks.Count;j++)
 			{
-				if(model.cards[i].Decks[j]==id)
+				if(model.cards.getCard(i).Decks[j]==id)
 				{
-					model.cards[i].Decks.RemoveAt(j);
+					model.cards.getCard(i).Decks.RemoveAt(j);
 					break;
 				}
 			}
@@ -1457,13 +1457,13 @@ public class newMyGameController : MonoBehaviour
 			int idOwner;
 			if(this.isDeckCardClicked)
 			{
-				onSale=System.Convert.ToBoolean(model.cards[this.deckCardsDisplayed[this.idCardClicked]].onSale);
-				idOwner=model.cards[this.deckCardsDisplayed[this.idCardClicked]].onSale;
+				onSale=System.Convert.ToBoolean(model.cards.getCard(this.deckCardsDisplayed[this.idCardClicked]).onSale);
+				idOwner=model.cards.getCard(this.deckCardsDisplayed[this.idCardClicked]).onSale;
 			}
 			else
 			{
-				onSale=System.Convert.ToBoolean(model.cards[this.cardsDisplayed[this.idCardClicked]].onSale);
-				idOwner = model.cards[this.cardsDisplayed[this.idCardClicked]].IdOWner;
+				onSale=System.Convert.ToBoolean(model.cards.getCard(this.cardsDisplayed[this.idCardClicked]).onSale);
+				idOwner = model.cards.getCard(this.cardsDisplayed[this.idCardClicked]).IdOWner;
 			}
 			if(idOwner==-1)
 			{
@@ -1494,13 +1494,13 @@ public class newMyGameController : MonoBehaviour
 		int idOwner;
 		if(this.isDeckCardClicked)
 		{
-			onSale=System.Convert.ToBoolean(model.cards[this.deckCardsDisplayed[this.idCardClicked]].onSale);
-			idOwner=model.cards[this.deckCardsDisplayed[this.idCardClicked]].onSale;
+			onSale=System.Convert.ToBoolean(model.cards.getCard(this.deckCardsDisplayed[this.idCardClicked]).onSale);
+			idOwner=model.cards.getCard(this.deckCardsDisplayed[this.idCardClicked]).onSale;
 		}
 		else
 		{
-			onSale=System.Convert.ToBoolean(model.cards[this.cardsDisplayed[this.idCardClicked]].onSale);
-			idOwner = model.cards[this.cardsDisplayed[this.idCardClicked]].IdOWner;
+			onSale=System.Convert.ToBoolean(model.cards.getCard(this.cardsDisplayed[this.idCardClicked]).onSale);
+			idOwner = model.cards.getCard(this.cardsDisplayed[this.idCardClicked]).IdOWner;
 		}
 
 		if(this.deckDisplayed==-1)
@@ -1566,25 +1566,25 @@ public class newMyGameController : MonoBehaviour
 				StartCoroutine(removeCardFromDeck(position));
 			}
 			this.deckCards[position].SetActive(true);
-			this.deckCards[position].GetComponent<NewCardController>().c=model.cards[this.cardsDisplayed[this.idCardClicked]];
+			this.deckCards[position].GetComponent<NewCardController>().c=model.cards.getCard(this.cardsDisplayed[this.idCardClicked]);
 			this.deckCards[position].GetComponent<NewCardController>().show();
 			this.deckCardsDisplayed[position]=this.cardsDisplayed[this.idCardClicked];
 			this.applyFilters();
 		}
 		else
 		{
-			int idCard1=model.cards[deckCardsDisplayed[this.idCardClicked]].Id;
+			int idCard1=model.cards.getCard(deckCardsDisplayed[this.idCardClicked]).Id;
 			this.deckCards[position].SetActive(true);
-			this.deckCards[position].GetComponent<NewCardController>().c=model.cards[this.deckCardsDisplayed[this.idCardClicked]];
+			this.deckCards[position].GetComponent<NewCardController>().c=model.cards.getCard(this.deckCardsDisplayed[this.idCardClicked]);
 			this.deckCards[position].GetComponent<NewCardController>().show();
 			if(this.deckCardsDisplayed[position]!=-1)
 			{
 				int indexCard2=this.deckCardsDisplayed[position];
-				int idCard2=model.cards[indexCard2].Id;
-				this.deckCards[position].GetComponent<NewCardController>().c=model.cards[this.deckCardsDisplayed[this.idCardClicked]];
+				int idCard2=model.cards.getCard(indexCard2).Id;
+				this.deckCards[position].GetComponent<NewCardController>().c=model.cards.getCard(this.deckCardsDisplayed[this.idCardClicked]);
 				this.deckCards[position].GetComponent<NewCardController>().show ();
 				this.deckCardsDisplayed[position]=this.deckCardsDisplayed[this.idCardClicked];
-				this.deckCards[this.idCardClicked].GetComponent<NewCardController>().c=model.cards[indexCard2];
+				this.deckCards[this.idCardClicked].GetComponent<NewCardController>().c=model.cards.getCard(indexCard2);
 				this.deckCards[this.idCardClicked].GetComponent<NewCardController>().show ();
 				this.deckCardsDisplayed[this.idCardClicked]=indexCard2;
 				StartCoroutine(this.changeDeckCardsOrder(idCard1,position,idCard2,this.idCardClicked));
@@ -1601,14 +1601,14 @@ public class newMyGameController : MonoBehaviour
 	public IEnumerator removeCardFromDeck(int cardPosition)
 	{
 		int cardIndex = deckCardsDisplayed[cardPosition];
-		model.cards[cardIndex].Decks.Remove(model.decks[this.deckDisplayed].Id);
-		yield return StartCoroutine(model.decks[this.deckDisplayed].removeCard(model.cards[cardIndex].Id));
+		model.cards.getCard(cardIndex).Decks.Remove(model.decks[this.deckDisplayed].Id);
+		yield return StartCoroutine(model.decks[this.deckDisplayed].removeCard(model.cards.getCard(cardIndex).Id));
 	}
 	public IEnumerator addCardToDeck(int cardPosition, int deckOrder)
 	{
 		int cardIndex = this.cardsDisplayed [cardPosition];
-		model.cards[cardIndex].Decks.Add(model.decks[this.deckDisplayed].Id);
-		yield return StartCoroutine(model.decks[this.deckDisplayed].addCard(model.cards[cardIndex].Id,deckOrder));
+		model.cards.getCard(cardIndex).Decks.Add(model.decks[this.deckDisplayed].Id);
+		yield return StartCoroutine(model.decks[this.deckDisplayed].addCard(model.cards.getCard(cardIndex).Id,deckOrder));
 	}
 	public IEnumerator changeDeckCardsOrder(int idCard1, int deckOrder1, int idCard2, int deckOrder2)
 	{
@@ -1690,8 +1690,8 @@ public class newMyGameController : MonoBehaviour
 	public void deleteCard()
 	{
 		this.hideCardFocused ();
-		this.removeCardFromAllDecks(model.cards[this.focusedCardIndex].Id);
-		model.cards.RemoveAt(this.focusedCardIndex);
+		this.removeCardFromAllDecks(model.cards.getCard(this.focusedCardIndex).Id);
+		model.cards.cards.RemoveAt(this.focusedCardIndex);
 		this.drawDeckCards ();
 		this.initializeCards ();
 	}
@@ -1764,7 +1764,7 @@ public class newMyGameController : MonoBehaviour
 	{
 		yield return StartCoroutine(model.refreshMyGame ());
 		int index;
-		if(isCardFocusedDisplayed && model.cards[this.focusedCardIndex].IdOWner==-1)
+		if(isCardFocusedDisplayed && model.cards.getCard(this.focusedCardIndex).IdOWner==-1)
 		{
 			this.focusedCard.GetComponent<NewFocusedCardController>().setCardSold();
 		}
@@ -1772,7 +1772,7 @@ public class newMyGameController : MonoBehaviour
 		{
 			for(int i = 0 ; i < this.cardsDisplayed.Count ; i++)
 			{
-				if(model.cards[this.cardsDisplayed[i]].IdOWner==-1)
+				if(model.cards.getCard(this.cardsDisplayed[i]).IdOWner==-1)
 				{
 					this.cards[i].GetComponent<NewCardController>().displayPanelSold();
 				}

@@ -23,6 +23,7 @@ public class Skill
 	public string Picture;
 	public bool IsNew;
 	public int cible ;
+	public int Upgrades;
 	
 	public Skill(string name, string description, int id)
 	{
