@@ -50,7 +50,7 @@ public class Cards
 		string[] cardsData;
 		
 		cardsData=s.Split(new string[] { "#CARD#" }, System.StringSplitOptions.None);
-		for(int i=0;i<cardsData.Length-1;i++)
+		for(int i=0;i<cardsData.Length;i++)
 		{
 			this.cards.Add(new Card());
 			this.cards[i].parseCard(cardsData[i]);

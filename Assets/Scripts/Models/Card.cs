@@ -62,7 +62,6 @@ public class Card
 	public bool GetNewSkill;
 	public int nbTurnsToWait ;
 	public bool isMine;
-	public List<Skill> UpgradedSkills;
 	public int UpgradedAttack;
 	public int UpgradedLife;
 	public int UpgradedSpeed;
@@ -1196,8 +1195,9 @@ public class Card
 				string [] cardData = w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
 				string [] experienceData = cardData[0].Split(new string[] {"#EXPERIENCEDATA#"},System.StringSplitOptions.None);
 				this.parseCard(experienceData[0]);
-				this.IdCardTypeUnlocked=System.Convert.ToInt32(experienceData[1]);
-				this.TitleCardTypeUnlocked=experienceData[2];
+				Debug.Log (experienceData[1]);
+				this.TitleCardTypeUnlocked=experienceData[1];
+				this.IdCardTypeUnlocked=System.Convert.ToInt32(experienceData[2]);
 				this.CaracteristicUpgraded=System.Convert.ToInt32(experienceData[3]);
 				this.CaracteristicIncrease=System.Convert.ToInt32(experienceData[4]);
 				this.CollectionPoints = System.Convert.ToInt32(cardData [1]);
@@ -1399,6 +1399,7 @@ public class Card
 				this.nbLoose=System.Convert.ToInt32(cardInfo[22]);
 				this.destructionPrice=System.Convert.ToInt32(cardInfo[23]);
 				this.Power=System.Convert.ToInt32(cardInfo[24]);
+				this.Skills=new List<Skill>();
 			}
 			else
 			{
