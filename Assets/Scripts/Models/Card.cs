@@ -61,6 +61,7 @@ public class Card
 	public bool GetNewSkill;
 	public int nbTurnsToWait ;
 	public bool isMine;
+	public int nextAttack ; 
 
 	public static bool xpDone = false;
 	
