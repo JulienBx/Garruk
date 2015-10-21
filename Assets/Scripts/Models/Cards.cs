@@ -55,5 +55,10 @@ public class Cards
 			this.cards.Add(new Card());
 			this.cards[i].parseCard(cardsData[i]);
 		}
+		
+		Debug.Log("----------------");
+		Debug.Log("Att : "+this.cards[0].Attack);
+		Debug.Log("Next : "+this.cards[0].UpgradedAttack);
+		
 	}
 }
