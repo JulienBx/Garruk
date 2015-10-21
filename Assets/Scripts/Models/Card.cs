@@ -1408,8 +1408,8 @@ public class Card
 				this.destructionPrice=System.Convert.ToInt32(cardInfo[23]);
 				this.Power=System.Convert.ToInt32(cardInfo[24]);
 				this.UpgradedLife=System.Convert.ToInt32(cardInfo[25]);
-				this.UpgradedAttack=System.Convert.ToInt32(cardInfo[25]);
-				this.UpgradedSpeed=System.Convert.ToInt32(cardInfo[25]);
+				this.UpgradedAttack=System.Convert.ToInt32(cardInfo[26]);
+				this.UpgradedSpeed=System.Convert.ToInt32(cardInfo[27]);
 				this.Skills=new List<Skill>();
 			}
 			else

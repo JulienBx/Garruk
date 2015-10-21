@@ -126,9 +126,7 @@ public class Pack
 					cards[i].Skills[j-1].IsActivated=System.Convert.ToInt32(cardInformation [2]);
 					cards[i].Skills[j-1].Level=System.Convert.ToInt32(cardInformation [3]);
 					cards[i].Skills[j-1].Power=System.Convert.ToInt32(cardInformation [4]);
-					cards[i].Skills[j-1].ManaCost=System.Convert.ToInt32(cardInformation [5]);
-					cards[i].Skills[j-1].Description=cardInformation [6];
-					cards[i].Skills[j-1].IsNew=System.Convert.ToBoolean(System.Convert.ToInt32(cardInformation [7]));
+					cards[i].Skills[j-1].IsNew=System.Convert.ToBoolean(System.Convert.ToInt32(cardInformation [5]));
 				}
 			}
 		}
