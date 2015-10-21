@@ -1363,7 +1363,6 @@ public class NewHomePageController : MonoBehaviour
 		float paginationButtonWidth = 0.34f;
 		float gapBetweenPaginationButton = 0.2f * paginationButtonWidth;
 		this.nbPagesFriends = Mathf.CeilToInt((float)this.friendsToBeDisplayed.Count / ((float)this.elementsPerPageFriends));
-		print (nbPagesFriends);
 		if(this.nbPagesFriends>1)
 		{
 			this.nbPaginationButtonsLimitFriends = Mathf.CeilToInt((2.4f)/(paginationButtonWidth+gapBetweenPaginationButton));

@@ -103,9 +103,9 @@ public class NewFocusedCardController : MonoBehaviour
 		this.experience = this.gameObject.transform.FindChild ("Experience").gameObject;
 		this.cardUpgrade = this.gameObject.transform.FindChild ("CardUpgrade").gameObject;
 		this.panelSold = this.gameObject.transform.FindChild ("PanelSold").gameObject;
-		this.nextLevelLabel = this.gameObject.transform.FindChild ("NewLevelLabel").gameObject;
-		this.nextLevelLabel.GetComponent<TextMeshPro> ().text = "NOUVEAU NIVEAU !\nCliquez sur l'attribut que vous souhaitez faire progresser";
-		this.nextLevelPopUp = this.gameObject.transform.FindChild ("UpgradeDescriptionPopUp").gameObject;
+//		this.nextLevelLabel = this.gameObject.transform.FindChild ("NewLevelLabel").gameObject;
+//		this.nextLevelLabel.GetComponent<TextMeshPro> ().text = "NOUVEAU NIVEAU !\nCliquez sur l'attribut que vous souhaitez faire progresser";
+//		this.nextLevelPopUp = this.gameObject.transform.FindChild ("UpgradeDescriptionPopUp").gameObject;
 		this.initializeFocusFeatures ();
 		for(int i=0;i<this.skills.Length;i++)
 		{

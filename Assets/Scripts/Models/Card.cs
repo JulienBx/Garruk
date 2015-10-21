@@ -65,6 +65,7 @@ public class Card
 	public int UpgradedAttack;
 	public int UpgradedLife;
 	public int UpgradedSpeed;
+	public Skill[] UpgradedSkills;
 
 	public static bool xpDone = false;
 	
@@ -1056,20 +1057,25 @@ public class Card
 	}
 	
 	public string getSkillText(int i){
-		string s = this.Skills[i].Name;
+		string s = this.Skills[i].Description;
 		int index ;
 		int percentage ;
 		string tempstring ;
 		if (s.Contains("%ATK")){
+			Debug.Log("COUNTATK : "+s.Length);
 			index = s.IndexOf("%ATK");
-			tempstring = s.Substring(index-3,index+3);
+			Debug.Log("INDEXATK : "+index);
+			
+			tempstring = s.Substring(index-3,3);
 			Debug.Log(tempstring);
 			percentage = Mathf.CeilToInt(Int32.Parse(tempstring)*this.GetAttack()/100f);
 			s = s.Substring(0,index-4)+" "+percentage+" "+s.Substring(0,index+3);
 		}
 		if (s.Contains("%PV")){
+			Debug.Log("COUNTPV : "+s.Length);
 			index = s.IndexOf("%PV");
-			tempstring = s.Substring(index-3,index+3);
+			Debug.Log("INDEXPV : "+index);
+			tempstring = s.Substring(index-3,3);
 			Debug.Log(tempstring);
 			percentage = Mathf.CeilToInt(Int32.Parse(tempstring)*this.GetLife()/100f);
 			s = s.Substring(0,index-4)+" "+percentage+" "+s.Substring(0,index+3);
@@ -1369,7 +1375,7 @@ public class Card
 		string[] cardInfo = null;
 
 		cardData = s.Split(new string[] { "#SKILL#" }, System.StringSplitOptions.None);
-		for(int j = 0 ; j < cardData.Length-1 ; j++)
+		for(int j = 0 ; j < cardData.Length ; j++)
 		{	
 			cardInfo = cardData[j].Split(new string[] { "\\" }, System.StringSplitOptions.None); 
 			if (j==0)
@@ -1399,6 +1405,9 @@ public class Card
 				this.nbLoose=System.Convert.ToInt32(cardInfo[22]);
 				this.destructionPrice=System.Convert.ToInt32(cardInfo[23]);
 				this.Power=System.Convert.ToInt32(cardInfo[24]);
+				this.UpgradedLife=System.Convert.ToInt32(cardInfo[25]);
+				this.UpgradedAttack=System.Convert.ToInt32(cardInfo[25]);
+				this.UpgradedSpeed=System.Convert.ToInt32(cardInfo[25]);
 				this.Skills=new List<Skill>();
 			}
 			else
