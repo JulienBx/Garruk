@@ -55,15 +55,5 @@ public class Cards
 			this.cards.Add(new Card());
 			this.cards[i].parseCard(cardsData[i]);
 		}
-		Debug.Log("----------");
-		Debug.Log(this.getCard(0).getSkillText(0));
-		Debug.Log(this.getCard(0).getSkillText(1));
-		Debug.Log(this.getCard(0).getSkillText(2));
-		Debug.Log(this.getCard(0).getSkillText(3));
-		Debug.Log(this.getCard(1).getSkillText(0));
-		Debug.Log(this.getCard(1).getSkillText(1));
-		Debug.Log(this.getCard(1).getSkillText(2));
-		Debug.Log(this.getCard(1).getSkillText(3));
-		
 	}
 }

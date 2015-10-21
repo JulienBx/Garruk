@@ -1062,23 +1062,25 @@ public class Card
 		int percentage ;
 		string tempstring ;
 		if (s.Contains("%ATK")){
-			Debug.Log("COUNTATK : "+s.Length);
 			index = s.IndexOf("%ATK");
-			Debug.Log("INDEXATK : "+index);
-			
 			tempstring = s.Substring(index-3,3);
 			Debug.Log(tempstring);
 			percentage = Mathf.CeilToInt(Int32.Parse(tempstring)*this.GetAttack()/100f);
-			s = s.Substring(0,index-4)+" "+percentage+" "+s.Substring(0,index+3);
+			s = s.Substring(0,index-4)+" "+percentage+" "+s.Substring(index+5, s.Length-(index+5));
 		}
 		if (s.Contains("%PV")){
-			Debug.Log("COUNTPV : "+s.Length);
 			index = s.IndexOf("%PV");
-			Debug.Log("INDEXPV : "+index);
 			tempstring = s.Substring(index-3,3);
 			Debug.Log(tempstring);
 			percentage = Mathf.CeilToInt(Int32.Parse(tempstring)*this.GetLife()/100f);
-			s = s.Substring(0,index-4)+" "+percentage+" "+s.Substring(0,index+3);
+			s = s.Substring(0,index-4)+" "+percentage+" "+s.Substring(index+4, s.Length-(index+4));
+		}
+		if (s.Contains("%MOV")){
+			index = s.IndexOf("%MOV");
+			tempstring = s.Substring(index-3,3);
+			Debug.Log(tempstring);
+			percentage = Mathf.CeilToInt(Int32.Parse(tempstring)*this.GetLife()/100f);
+			s = s.Substring(0,index-4)+" "+percentage+" "+s.Substring(index+4, s.Length-(index+4));
 		}
 		return s;
 	}
