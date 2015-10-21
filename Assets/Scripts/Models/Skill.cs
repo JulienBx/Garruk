@@ -67,6 +67,7 @@ public class Skill
 	public Skill()
 	{
 		this.texture = new Texture2D(1, 1, TextureFormat.ARGB32, false);
+		this.Description = "";
 	}
 	
 	public IEnumerator setPicture()
@@ -80,7 +81,6 @@ public class Skill
 		nbLeft--;
 		this.Description = this.Description.Substring(0, this.Description.Length - 12) + nbLeft + " restant(s)";
 	}
-
 }
 
 

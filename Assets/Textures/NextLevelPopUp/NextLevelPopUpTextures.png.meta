@@ -1,0 +1,143 @@
+fileFormatVersion: 2
+guid: 7b86c1d0b689347bc89ed81312ec7310
+timeCreated: 1445434200
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: cristal
+    21300002: cristal1
+    21300004: cristal2
+    21300006: nexLevelPopUp
+    21300008: rightArrow
+    21300010: atkicon
+    21300012: lifeicon
+    21300014: speedicon
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 8
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 4096
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 108
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: atkicon
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 580
+        width: 95
+        height: 120
+      alignment: 9
+      pivot: {x: .452631593, y: .491666675}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: cristal
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 726
+        width: 52
+        height: 49
+      alignment: 9
+      pivot: {x: .5, y: .510204077}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: cristal1
+      rect:
+        serializedVersion: 2
+        x: 114
+        y: 945
+        width: 52
+        height: 49
+      alignment: 9
+      pivot: {x: .5, y: .510204077}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: cristal2
+      rect:
+        serializedVersion: 2
+        x: 114
+        y: 894
+        width: 52
+        height: 49
+      alignment: 9
+      pivot: {x: .5, y: .510204077}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: lifeicon
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 829
+        width: 110
+        height: 165
+      alignment: 9
+      pivot: {x: .481818169, y: .5090909}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: nexLevelPopUp
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 996
+        width: 1100
+        height: 1050
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: rightArrow
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 777
+        width: 100
+        height: 50
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: speedicon
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 702
+        width: 78
+        height: 125
+      alignment: 9
+      pivot: {x: .5, y: .536000013}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -38,6 +38,8 @@ public class newMenuController : MonoBehaviour
 	private newMenuErrorPopUpView errorView;
 	private bool errorViewDisplayed;
 
+	private bool isUserBusy;
+
 	void Awake()
 	{
 		instance = this;
@@ -63,7 +65,7 @@ public class newMenuController : MonoBehaviour
 		{
 			this.returnPressed();
 		}
-		if(Input.GetKeyDown(KeyCode.Escape) && !isTutorialLaunched) 
+		if(Input.GetKeyDown(KeyCode.Escape) && !isUserBusy) 
 		{
 			this.escapePressed();
 		}
@@ -233,7 +235,7 @@ public class newMenuController : MonoBehaviour
 		}
 		ApplicationModel.credits = model.player.Money;
 		this.refreshMenuObject ();
-		if(model.isInvited && !this.isInvitationPopUpDisplayed && !this.isInviting)
+		if(model.isInvited && !this.isInvitationPopUpDisplayed && !this.isInviting && !this.isUserBusy)
 		{
 			if(this.isPlayPopUpDisplayed)
 			{
@@ -390,6 +392,7 @@ public class newMenuController : MonoBehaviour
 	public void setTutorialLaunched(bool value)
 	{
 		this.isTutorialLaunched = value;
+		this.setIsUserBusy (value);
 	}
 	public bool getIsTutorialLaunched()
 	{
@@ -577,6 +580,10 @@ public class newMenuController : MonoBehaviour
 	{
 		model.player.idProfilePicture = id;
 		gameObject.transform.FindChild ("Picture").GetComponent<SpriteRenderer> ().sprite = this.returnThumbPicture (model.player.idProfilePicture);
+	}
+	public void setIsUserBusy(bool value)
+	{
+		this.isUserBusy = value;
 	}
 }
 

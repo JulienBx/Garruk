@@ -42,9 +42,10 @@ public class NewCardController : NewFocusedCardController
 
 		for(int i=0;i<this.skills.Length;i++)
 		{
-			if(i<this.c.Skills.Count)
+			if(i<c.Skills.Count && c.Skills[i].IsActivated==1)
 			{
 				this.skills[i].transform.GetComponent<NewCardSkillController>().setSkill(c.Skills[i]);
+				this.skills[i].transform.GetComponent<NewCardSkillController>().setDescription(c.getSkillText(i));
 				this.skills[i].SetActive(true);
 			}
 			else
@@ -124,7 +125,7 @@ public class NewCardController : NewFocusedCardController
 		if(!Input.GetMouseButton(0))
 		{
 			int newSkillHovered = this.skillHovered();
-			if(newSkillHovered>-1 && newSkillHovered<this.c.Skills.Count)
+			if(newSkillHovered>-1 && newSkillHovered<this.c.Skills.Count && this.c.Skills[newSkillHovered].IsActivated==1)
 			{
 				if(newSkillHovered!=skillDisplayed)
 				{
@@ -145,7 +146,7 @@ public class NewCardController : NewFocusedCardController
 						this.skillPopUp.transform.position=new Vector3(gameObject.transform.position.x,gameObject.transform.position.y+0.8f+(-0.6f+(newSkillHovered-1f)*0.24f)*(0.5f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y),-1f);
 					}
 					this.skillPopUp.transform.FindChild("title").GetComponent<TextMeshPro>().text=c.Skills[skillDisplayed].Name;
-					this.skillPopUp.transform.FindChild("description").GetComponent<TextMeshPro>().text=c.Skills[skillDisplayed].Description;
+					this.skillPopUp.transform.FindChild("description").GetComponent<TextMeshPro>().text=c.getSkillText(skillDisplayed);
 				}
 			}
 			else

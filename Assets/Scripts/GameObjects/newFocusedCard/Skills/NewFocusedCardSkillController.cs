@@ -5,6 +5,7 @@ public class NewFocusedCardSkillController : MonoBehaviour
 {
 
 	public Skill s;
+	public string d;
 	public int attributeIndex;
 	private bool isHovered;
 	
@@ -12,13 +13,22 @@ public class NewFocusedCardSkillController : MonoBehaviour
 	{
 		this.gameObject.transform.FindChild ("Picto").GetComponent<SpriteRenderer> ().sprite = gameObject.transform.parent.GetComponent<NewFocusedCardController>().getSkillSprite(this.s.Level - 1);
 		this.gameObject.transform.FindChild ("Name").GetComponent<TextMeshPro> ().text = this.s.Name;
-		this.gameObject.transform.FindChild ("Power").GetComponent<TextMeshPro> ().text = this.s.Power.ToString();
-		this.gameObject.transform.FindChild ("Description").GetComponent<TextMeshPro> ().text = this.s.Description;
+		this.gameObject.transform.FindChild ("Power").GetComponent<TextMeshPro> ().text = "Niv "+this.s.Power.ToString();
+		//this.gameObject.transform.FindChild ("Description").GetComponent<TextMeshPro> ().text = this.s.Description;
 	}
 	public virtual void setSkill(Skill s)
 	{
 		this.s = s;
 		this.show ();
+	}
+	public virtual void setDescription(string d)
+	{
+		this.d = d;
+		this.showDescription ();
+	}
+	public virtual void showDescription()
+	{
+		this.gameObject.transform.FindChild ("Description").GetComponent<TextMeshPro> ().text = this.d;
 	}
 	public virtual void highlightSkill(bool value)
 	{
@@ -34,26 +44,6 @@ public class NewFocusedCardSkillController : MonoBehaviour
 			this.gameObject.transform.FindChild ("Power").GetComponent<TextMeshPro> ().color=new Color(1f, 1f, 1f);
 			this.gameObject.transform.FindChild("Description").GetComponent<TextMeshPro>().color=new Color(1f, 1f, 1f);
 		}
-	}
-	void OnMouseOver()
-	{
-		if(!this.isHovered)
-		{
-			this.gameObject.transform.parent.GetComponent<NewFocusedCardController>().startHoveringAttribute(this.attributeIndex);
-			this.isHovered=true;
-		}
-	}
-	void OnMouseExit()
-	{
-		if(this.isHovered)
-		{
-			this.gameObject.transform.parent.GetComponent<NewFocusedCardController>().endHoveringAttribute(this.attributeIndex);
-			this.isHovered=false;
-		}
-	}
-	void OnMouseDown()
-	{
-		this.gameObject.transform.parent.GetComponent<NewFocusedCardController>().clickOnAttribute(this.attributeIndex);			
 	}
 }
 
