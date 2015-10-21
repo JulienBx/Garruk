@@ -2911,7 +2911,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a1578b9753d2604f98d608cb4239e2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_text: 99
+  m_text: Niv 1
   m_fontAsset: {fileID: 11400000, guid: bbc845773694540939bde240858219f5, type: 2}
   m_fontStyle: 0
   m_isOverlay: 0
@@ -2931,10 +2931,10 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 8
+  m_fontSize: 3.75
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontSizeBase: 8
+  m_fontSizeBase: 3.75
   m_charSpacingMax: 0
   m_lineSpacingMax: 0
   m_charWidthMaxAdj: 0
@@ -3383,6 +3383,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4edfc023c89046b1a62b631bea456e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  d: 
   attributeIndex: 5
 --- !u!114 &11435586
 MonoBehaviour:
@@ -3435,7 +3436,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a1578b9753d2604f98d608cb4239e2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_text: 99
+  m_text: Niv 1
   m_fontAsset: {fileID: 11400000, guid: bbc845773694540939bde240858219f5, type: 2}
   m_fontStyle: 0
   m_isOverlay: 0
@@ -3455,10 +3456,10 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 8
+  m_fontSize: 3.75
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontSizeBase: 8
+  m_fontSizeBase: 3.75
   m_charSpacingMax: 0
   m_lineSpacingMax: 0
   m_charWidthMaxAdj: 0
@@ -3539,6 +3540,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4edfc023c89046b1a62b631bea456e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  d: 
   attributeIndex: 3
 --- !u!114 &11446006
 MonoBehaviour:
@@ -3710,7 +3712,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a1578b9753d2604f98d608cb4239e2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_text: 99
+  m_text: Niv 1
   m_fontAsset: {fileID: 11400000, guid: bbc845773694540939bde240858219f5, type: 2}
   m_fontStyle: 0
   m_isOverlay: 0
@@ -3730,10 +3732,10 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 8
+  m_fontSize: 3.75
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontSizeBase: 8
+  m_fontSizeBase: 3.75
   m_charSpacingMax: 0
   m_lineSpacingMax: 0
   m_charWidthMaxAdj: 0
@@ -4161,6 +4163,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4edfc023c89046b1a62b631bea456e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  d: 
   attributeIndex: 4
 --- !u!114 &11468166
 MonoBehaviour:
@@ -4309,7 +4312,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a1578b9753d2604f98d608cb4239e2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_text: 99
+  m_text: Niv 1
   m_fontAsset: {fileID: 11400000, guid: bbc845773694540939bde240858219f5, type: 2}
   m_fontStyle: 0
   m_isOverlay: 0
@@ -4329,10 +4332,10 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 8
+  m_fontSize: 3.75
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontSizeBase: 8
+  m_fontSizeBase: 3.75
   m_charSpacingMax: 0
   m_lineSpacingMax: 0
   m_charWidthMaxAdj: 0
@@ -4581,6 +4584,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4edfc023c89046b1a62b631bea456e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  d: 
   attributeIndex: 6
 --- !u!114 &11486548
 MonoBehaviour:
