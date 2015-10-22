@@ -65,6 +65,9 @@ public class Card
 	public int UpgradedAttack;
 	public int UpgradedLife;
 	public int UpgradedSpeed;
+	public int UpgradedAttackLevel;
+	public int UpgradedLifeLevel;
+	public int UpgradedSpeedLevel;
 	public Skill[] UpgradedSkills;
 	public int RemainingUpgrades;
 
@@ -1417,6 +1420,9 @@ public class Card
 				this.UpgradedLife=System.Convert.ToInt32(cardInfo[25]);
 				this.UpgradedAttack=System.Convert.ToInt32(cardInfo[26]);
 				this.UpgradedSpeed=System.Convert.ToInt32(cardInfo[27]);
+				this.UpgradedLifeLevel=System.Convert.ToInt32(cardInfo[28]);
+				this.UpgradedAttackLevel=System.Convert.ToInt32(cardInfo[29]);
+				this.UpgradedSpeedLevel=System.Convert.ToInt32(cardInfo[30]);
 				this.Skills=new List<Skill>();
 			}
 			else
@@ -1432,7 +1438,7 @@ public class Card
 				this.Skills[j-1].Description=cardInfo[7];
 				this.Skills[j-1].proba=System.Convert.ToInt32(cardInfo[8]);
 				this.Skills[j-1].nextDescription=cardInfo[9];
-				this.Skills[j-1].proba=System.Convert.ToInt32(cardInfo[10]);
+				this.Skills[j-1].nextProba=System.Convert.ToInt32(cardInfo[10]);
 				this.Skills[j-1].nextLevel=System.Convert.ToInt32(cardInfo[11]);
 				
 				if (this.Skills[j-1].Id==9){
