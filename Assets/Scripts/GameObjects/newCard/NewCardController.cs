@@ -219,13 +219,21 @@ public class NewCardController : NewFocusedCardController
 	public override void endUpdatingXp(bool hasChangedLevel)
 	{
 		this.show ();
-		if(this.c.CaracteristicUpgraded>-1&&this.c.CaracteristicIncrease>0)
-		{
-			base.setCardUpgrade();
-		}
 		if(this.c.GetNewSkill)
 		{
 			base.setHighlightedSkills();
+		}
+	}
+	public void endUpdatingCardToNextLevel()
+	{
+		this.hideNextLevelPopUp ();
+		if(this.c.GetNewSkill)
+		{
+			this.c.GetNewSkill=false;
+		}
+		if(this.c.CaracteristicUpgraded>-1&&this.c.CaracteristicIncrease>0)
+		{
+			base.setCardUpgrade();
 		}
 	}
 	public override Color getColors(int id)

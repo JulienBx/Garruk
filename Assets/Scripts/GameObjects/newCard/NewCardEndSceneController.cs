@@ -3,7 +3,7 @@ using TMPro;
 
 public class NewCardEndSceneController : NewCardController
 {
-	//private int id;
+	private int id;
 	
 	public override void Awake()
 	{
@@ -32,10 +32,10 @@ public class NewCardEndSceneController : NewCardController
 	{
 
 	}
-//	public void setId(int value, bool isDeckCard)
-//	{
-//		this.id = value;
-//	}
+	public void setId(int value)
+	{
+		this.id = value;
+	}
 	public override void show()
 	{
 		base.show ();
@@ -44,7 +44,7 @@ public class NewCardEndSceneController : NewCardController
 	public override void endUpdatingXp(bool hasChangedLevel)
 	{
 		base.endUpdatingXp (hasChangedLevel);
-		EndSceneController.instance.incrementXpDrawn ();
+		EndSceneController.instance.incrementXpDrawn (hasChangedLevel,this.id);
 	}
 }
 

@@ -36,7 +36,7 @@ public class NewSkillBookSkillController : MonoBehaviour
 	}
 	public void setPercentage(int percentage)
 	{
-		this.gameObject.transform.FindChild ("JaugeDescription").GetComponent<TextMeshPro> ().text = "Niveau Max atteint : "+percentage;
+		this.gameObject.transform.FindChild ("JaugeDescription").GetComponent<TextMeshPro> ().text = "Niveau Max atteint : "+percentage/10f;
 		Vector3 tempPosition = this.gameObject.transform.FindChild ("Jauge").transform.localPosition;
 		tempPosition.x = -1.84f + percentage * 0.01f * 1.13f;
 		this.gameObject.transform.FindChild ("Jauge").transform.localPosition = tempPosition;

@@ -357,51 +357,22 @@ public class Deck
 			this.CollectionPointsRanking=System.Convert.ToInt32(cardsData[cardsData.Length-1]);
 			for(int i=0;i<ApplicationModel.nbCardsByDeck;i++)
 			{
-				string [] cardData =  cardsData[i].Split(new string[] { "#S#" }, System.StringSplitOptions.None);
-				for(int j = 0 ; j < cardData.Length-1 ; j++)
+				string [] experienceData = cardsData[i].Split(new string[] {"#EXPERIENCEDATA#"},System.StringSplitOptions.None);
+				this.Cards[i].parseCard(experienceData[0]);
+				this.Cards[i].GetNewSkill=System.Convert.ToBoolean(System.Convert.ToInt32(experienceData[1]));
+				this.Cards[i].NewSkills=new List<Skill>();
+				if(this.Cards[i].GetNewSkill)
 				{
-					string[] cardInfo = cardData[j].Split(new string[] { "\\" }, System.StringSplitOptions.None); 
-					if (j==0)
+					for(int j=0;j<this.Cards[i].Skills.Count;i++)
 					{
-						this.Cards[i].Life=System.Convert.ToInt32(cardInfo[0]);
-						this.Cards[i].Attack=System.Convert.ToInt32(cardInfo[1]);
-						this.Cards[i].Speed=System.Convert.ToInt32(cardInfo[2]);
-						this.Cards[i].Move=System.Convert.ToInt32(cardInfo[3]);
-						this.Cards[i].LifeLevel=System.Convert.ToInt32(cardInfo[4]);
-						this.Cards[i].MoveLevel=System.Convert.ToInt32(cardInfo[5]);
-						this.Cards[i].SpeedLevel=System.Convert.ToInt32(cardInfo[6]);
-						this.Cards[i].AttackLevel=System.Convert.ToInt32(cardInfo[7]);
-						this.Cards[i].Experience=System.Convert.ToInt32(cardInfo[8]);
-						this.Cards[i].ExperienceLevel=System.Convert.ToInt32(cardInfo[9]);
-						this.Cards[i].NextLevelPrice=System.Convert.ToInt32(cardInfo[10]);
-						this.Cards[i].PercentageToNextLevel=System.Convert.ToInt32(cardInfo[11]);
-						this.Cards[i].IdCardTypeUnlocked=System.Convert.ToInt32(cardInfo[12]);
-						this.Cards[i].TitleCardTypeUnlocked=cardInfo[13];
-						this.Cards[i].destructionPrice=System.Convert.ToInt32(cardInfo[14]);
-						this.Cards[i].Power=System.Convert.ToInt32(cardInfo[15]);
-						this.Cards[i].GetNewSkill=System.Convert.ToBoolean(System.Convert.ToInt32(cardInfo[16]));
-						this.Cards[i].CaracteristicUpgraded=System.Convert.ToInt32(cardInfo[17]);
-						this.Cards[i].CaracteristicIncrease=System.Convert.ToInt32(cardInfo[18]);
-						if(this.Cards[i].TitleCardTypeUnlocked!="")
+						if(this.Cards[i].Skills[this.Cards[i].Skills.Count-j-1].IsActivated==1)
 						{
-							this.NewCardType=this.Cards[i].TitleCardTypeUnlocked;
-						}
-						this.Cards[i].Skills=new List<Skill>();
-					}
-					else
-					{
-						this.Cards[i].Skills.Add(new Skill());
-						this.Cards[i].Skills[this.Cards[i].Skills.Count-1].Id=System.Convert.ToInt32(cardInfo[0]);
-						this.Cards[i].Skills[this.Cards[i].Skills.Count-1].Name=cardInfo[1];
-						this.Cards[i].Skills[this.Cards[i].Skills.Count-1].IsActivated=System.Convert.ToInt32(cardInfo[2]);
-						this.Cards[i].Skills[this.Cards[i].Skills.Count-1].Level=System.Convert.ToInt32(cardInfo[3]);
-						this.Cards[i].Skills[this.Cards[i].Skills.Count-1].Power=System.Convert.ToInt32(cardInfo[4]);
-						this.Cards[i].Skills[this.Cards[i].Skills.Count-1].Description=cardInfo[5];
-						this.Cards[i].Skills[this.Cards[i].Skills.Count-1].ManaCost=System.Convert.ToInt32(cardInfo[6]);
-						this.Cards[i].Skills[this.Cards[i].Skills.Count-1].IsNew=System.Convert.ToBoolean(System.Convert.ToInt32(cardInfo[7]));
-						if(this.Cards[i].Skills[this.Cards[i].Skills.Count-1].IsNew)
-						{
-							this.NewSkills.Add (this.Cards[i].Skills[this.Cards[i].Skills.Count-1]);
+							if(System.Convert.ToBoolean(System.Convert.ToInt32(experienceData[2])))
+							{
+								this.NewSkills.Add (this.Cards[i].Skills[this.Cards[i].Skills.Count-j-1]);
+								this.Cards[i].Skills[this.Cards[i].Skills.Count-j-1].IsNew=true;
+							}
+							break;
 						}
 					}
 				}

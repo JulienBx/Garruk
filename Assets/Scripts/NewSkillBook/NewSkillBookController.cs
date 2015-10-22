@@ -417,9 +417,9 @@ public class NewSkillBookController : MonoBehaviour
 						idCards.Add (model.cardIdsList[j]);
 					}
 					this.skillsNbCards[i]++;
-					if(this.skillsPercentages[i]<model.ownSkillsList[j].Power)
+					if(this.skillsPercentages[i]<model.ownSkillsList[j].Power*10)
 					{
-						this.skillsPercentages[i]=model.ownSkillsList[j].Power;
+						this.skillsPercentages[i]=model.ownSkillsList[j].Power*10;
 					}
 				}
 			}

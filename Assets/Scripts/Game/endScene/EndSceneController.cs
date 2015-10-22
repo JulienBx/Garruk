@@ -12,8 +12,10 @@ public class EndSceneController : MonoBehaviour
 
 	public GameObject endGamePanelObject;
 	public GameObject cardObject;
+	public GameObject nextLevelPopUpObject;
 
 	private GameObject endGamePanel;
+	private GameObject nextLevelPopUp;
 	private GameObject[] cards;
 
 	private bool toUpdateCredits;
@@ -37,7 +39,12 @@ public class EndSceneController : MonoBehaviour
 	private int collectionPoints;
 	private int collectionPointsRanking;
 	private string newCardType;
-	public IList<string> newSkills;
+	private IList<string> newSkills;
+
+	private IList<int> idCardsToNextLevel;
+
+	private bool isNextLevelPopUpDisplayed;
+	
 
 	void Awake()
 	{
@@ -49,6 +56,7 @@ public class EndSceneController : MonoBehaviour
 		this.areCreditsUpdated = false;
 		this.player = new User ();
 		this.newSkills = new List<string> ();
+		this.idCardsToNextLevel = new List<int> ();
 		this.newCardType = "";
 	}
 	void Update () 
@@ -93,6 +101,7 @@ public class EndSceneController : MonoBehaviour
 			cards[i].GetComponent<NewCardController>().c=GameController.instance.myDeck.Cards[i];
 			cards[i].GetComponent<NewCardEndSceneController>().show();
 			cards[i].GetComponent<NewCardEndSceneController>().changeLayer(11,"UIA");
+			cards[i].GetComponent<NewCardEndSceneController>().setId(i);
 			cards[i].transform.localScale=new Vector3(0.3108f,0.3108f,0.3108f);
 		}
 
@@ -179,31 +188,22 @@ public class EndSceneController : MonoBehaviour
 		this.toStartExperienceUpdate = true;
 		this.xpDrawn = 0;
 	}
-	public void incrementXpDrawn()
+	public void incrementXpDrawn(bool hasChangedLevel, int id)
 	{
 		this.xpDrawn++;
+		if(hasChangedLevel)
+		{
+			this.idCardsToNextLevel.Add (id);
+		}
 		if(xpDrawn==this.cards.Length)
 		{
-			this.endGamePanel.transform.FindChild("Button").gameObject.SetActive(true);
-			if(GameView.instance.getIsTutorialLaunched())
+			if(this.idCardsToNextLevel.Count>0)
 			{
-				TutorialObjectController.instance.actionIsDone();
+				this.displayNextLevelPopUp(this.idCardsToNextLevel[0]);
 			}
-			if(this.collectionPoints>0)
+			else
 			{
-				this.endGamePanel.transform.FindChild("Credits").GetComponent<TextMeshPro>().text =this.endGamePanel.transform.FindChild("Credits").GetComponent<TextMeshPro>().text+"\n et "+this.collectionPoints+" points de collection (classement : "+this.collectionPointsRanking+")";
-			}
-			if(this.newCardType!="")
-			{
-				this.endGamePanel.transform.FindChild("NewCardType").GetComponent<TextMeshPro>().text="Bravo ! Vous venez d'acquérir la classe : "+this.newCardType;
-			}
-			if(this.newSkills.Count>0)
-			{
-				this.endGamePanel.transform.FindChild("Skills").GetComponent<TextMeshPro>().text="Vous débloquez : ";
-				for(int i =0;i<this.newSkills.Count;i++)
-				{
-					this.endGamePanel.transform.FindChild("Skills").GetComponent<TextMeshPro>().text=this.endGamePanel.transform.FindChild("Skills").GetComponent<TextMeshPro>().text+"\n- "+this.newSkills[i];
-				}
+				this.showEndButton();	
 			}
 		}
 	}
@@ -223,6 +223,84 @@ public class EndSceneController : MonoBehaviour
 	public Vector3 getQuitButtonPosition()
 	{
 		return this.endGamePanel.transform.FindChild ("Button").gameObject.transform.position;
+	}
+	public void showEndButton()
+	{
+		this.endGamePanel.transform.FindChild("Button").gameObject.SetActive(true);
+		if(GameView.instance.getIsTutorialLaunched())
+		{
+			TutorialObjectController.instance.actionIsDone();
+		}
+	}
+	public void displayNextLevelPopUp(int indexCard)
+	{
+		this.nextLevelPopUp = Instantiate(this.nextLevelPopUpObject) as GameObject;
+		this.nextLevelPopUp.transform.parent=this.gameObject.transform;
+		this.nextLevelPopUp.transform.position = new Vector3 (gameObject.transform.position.x, 0, -2f);
+		this.nextLevelPopUp.AddComponent<NextLevelPopUpControllerEndSceneGame> ();
+		this.nextLevelPopUp.transform.GetComponent<NextLevelPopUpController> ().initialize (GameController.instance.myDeck.Cards[indexCard]);
+		this.isNextLevelPopUpDisplayed=true;
+	}
+	public void hideNextLevelPopUp()
+	{
+		this.idCardsToNextLevel.RemoveAt(0);
+		Destroy (this.nextLevelPopUp);
+		this.isNextLevelPopUpDisplayed=false;
+		if(this.idCardsToNextLevel.Count>0)
+		{
+			this.displayNextLevelPopUp(this.idCardsToNextLevel[0]);
+		}
+		else
+		{
+			this.showEndButton();
+			for(int i=0;i<this.cards.Length;i++)
+			{
+				this.cards[i].GetComponent<NewCardEndSceneController>().endUpdatingCardToNextLevel();
+			}
+			if(this.collectionPoints>0)
+			{
+				this.endGamePanel.transform.FindChild("Credits").GetComponent<TextMeshPro>().text =this.endGamePanel.transform.FindChild("Credits").GetComponent<TextMeshPro>().text+"\n et "+this.collectionPoints+" points de collection (classement : "+this.collectionPointsRanking+")";
+			}
+			if(this.newCardType!="")
+			{
+				this.endGamePanel.transform.FindChild("NewCardType").GetComponent<TextMeshPro>().text="Bravo ! Vous venez d'acquérir la classe : "+this.newCardType;
+			}
+			if(this.newSkills.Count>0)
+			{
+				this.endGamePanel.transform.FindChild("Skills").GetComponent<TextMeshPro>().text="Vous débloquez : ";
+				for(int i =0;i<this.newSkills.Count;i++)
+				{
+					this.endGamePanel.transform.FindChild("Skills").GetComponent<TextMeshPro>().text=this.endGamePanel.transform.FindChild("Skills").GetComponent<TextMeshPro>().text+"\n- "+this.newSkills[i];
+				}
+			}
+		}
+	}
+	public IEnumerator upgradeCardAttribute(int attributeToUpgrade, int newPower, int newLevel)
+	{
+		GameView.instance.displayLoadingScreen ();
+		yield return StartCoroutine (GameController.instance.myDeck.Cards[this.idCardsToNextLevel[0]].upgradeCardAttribute (attributeToUpgrade, newPower, newLevel));
+		if(GameController.instance.myDeck.Cards[this.idCardsToNextLevel[0]].Error=="")
+		{
+			this.collectionPoints=this.collectionPoints+GameController.instance.myDeck.Cards[this.idCardsToNextLevel[0]].CollectionPoints;
+			this.collectionPointsRanking=GameController.instance.myDeck.Cards[this.idCardsToNextLevel[0]].CollectionPointsRanking;
+			if(GameController.instance.myDeck.Cards[this.idCardsToNextLevel[0]].IdCardTypeUnlocked!=-1)
+			{
+				this.newCardType=GameController.instance.myDeck.Cards[this.idCardsToNextLevel[0]].TitleCardTypeUnlocked;
+			}
+			if(GameController.instance.myDeck.Cards[this.idCardsToNextLevel[0]].NewSkills.Count>0)
+			{
+				for(int i=0;i<GameController.instance.myDeck.Cards[this.idCardsToNextLevel[0]].NewSkills.Count;i++)
+				{
+					this.newSkills.Add (GameController.instance.myDeck.Cards[this.idCardsToNextLevel[0]].NewSkills[i].Name);
+				}
+			}
+			this.hideNextLevelPopUp();
+		}
+		else
+		{
+			this.cards[this.idCardsToNextLevel[0]].GetComponent<NewCardController>().displayErrorPopUp();
+		}
+		GameView.instance.hideLoadingScreen ();
 	}
 }
 
