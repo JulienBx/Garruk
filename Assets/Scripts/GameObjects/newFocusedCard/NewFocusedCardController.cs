@@ -563,10 +563,10 @@ public class NewFocusedCardController : MonoBehaviour
 			StartCoroutine(this.renameCard(tempString));
 		}
 	}
-	public IEnumerator upgradeCardAttribute(int attributeToUpgrade)
+	public IEnumerator upgradeCardAttribute(int attributeToUpgrade, int newPower, int newLevel)
 	{
 		this.displayLoadingScreen ();
-		yield return StartCoroutine (this.c.upgradeCardAttribute (attributeToUpgrade));
+		yield return StartCoroutine (this.c.upgradeCardAttribute (attributeToUpgrade, newPower, newLevel));
 		if(this.c.Error=="")
 		{
 			this.endUpdatingCardToNextLevel();
@@ -1092,7 +1092,7 @@ public class NewFocusedCardController : MonoBehaviour
 		this.nextLevelPopUp.transform.parent=this.gameObject.transform;
 		this.nextLevelPopUp.transform.position = new Vector3 (gameObject.transform.position.x, 0, -2f);
 		this.nextLevelPopUp.AddComponent<NextLevelPopUpControllerNewFocusedCard> ();
-		this.nextLevelPopUp.transform.GetComponent<NextLevelPopUpController> ().show (this.c);
+		this.nextLevelPopUp.transform.GetComponent<NextLevelPopUpController> ().initialize (this.c);
 		this.isNextLevelPopUpDisplayed=true;
 	}
 	public void hideNextLevelPopUp()
@@ -1102,9 +1102,9 @@ public class NewFocusedCardController : MonoBehaviour
 		Destroy (this.nextLevelPopUp);
 		this.isNextLevelPopUpDisplayed=false;
 	}
-	public void clickOnAttribute(int index)
+	public void clickOnAttribute(int index, int newPower, int newLevel)
 	{
-		StartCoroutine(this.upgradeCardAttribute(index));
+		StartCoroutine(this.upgradeCardAttribute(index, newPower, newLevel));
 	}
 }
 

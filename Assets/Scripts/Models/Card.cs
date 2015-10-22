@@ -68,9 +68,6 @@ public class Card
 	public int UpgradedAttackLevel;
 	public int UpgradedLifeLevel;
 	public int UpgradedSpeedLevel;
-	public Skill[] UpgradedSkills;
-	public int RemainingUpgrades;
-
 	public static bool xpDone = false;
 	
 	public Card()
@@ -1185,13 +1182,15 @@ public class Card
 			}
 		}
 	}
-	public IEnumerator upgradeCardAttribute(int attributeToUpgrade)
+	public IEnumerator upgradeCardAttribute(int attributeToUpgrade, int newPower, int newLevel)
 	{
 		WWWForm form = new WWWForm(); 								// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_idcard", this.Id.ToString());
 		form.AddField("myform_nick", ApplicationModel.username);
 		form.AddField ("myform_attribute", attributeToUpgrade);
+		form.AddField ("myform_newpower", newPower);
+		form.AddField ("myform_newlevel", newLevel);
 		
 		WWW w = new WWW(URLUpgradeCardAttribute, form); 								// On envoie le formulaire à l'url sur le serveur 
 		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
@@ -1412,7 +1411,7 @@ public class Card
 				this.NextLevelPrice=System.Convert.ToInt32(cardInfo[17]);
 				this.onSale=System.Convert.ToInt32(cardInfo[18]);
 				this.Price=System.Convert.ToInt32(cardInfo[19]);
-				//this.cards[i].OnSaleDate=new DateTime(cardInfo[20]);
+				this.OnSaleDate=DateTime.ParseExact(cardInfo[20], "yyyy-MM-dd HH:mm:ss", null);
 				this.nbWin=System.Convert.ToInt32(cardInfo[21]);
 				this.nbLoose=System.Convert.ToInt32(cardInfo[22]);
 				this.destructionPrice=System.Convert.ToInt32(cardInfo[23]);
