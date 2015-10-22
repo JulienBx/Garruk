@@ -24,6 +24,7 @@ public class Skill
 	public bool IsNew;
 	public int cible ;
 	public int Upgrades;
+	public int nextLevel;
 	
 	public Skill(string name, string description, int id)
 	{

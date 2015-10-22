@@ -57,8 +57,33 @@ public class Cards
 		}
 		
 		Debug.Log("----------------");
+		Debug.Log("Lif : "+this.cards[0].Life);
+		Debug.Log("Next : "+this.cards[0].UpgradedLife);
 		Debug.Log("Att : "+this.cards[0].Attack);
 		Debug.Log("Next : "+this.cards[0].UpgradedAttack);
+		Debug.Log("Speed : "+this.cards[0].Speed);
+		Debug.Log("Next : "+this.cards[0].UpgradedSpeed);
+		Debug.Log("----------------");
+		Debug.Log("Lif : "+this.cards[1].Life);
+		Debug.Log("Next : "+this.cards[1].UpgradedLife);
+		Debug.Log("Att : "+this.cards[1].Attack);
+		Debug.Log("Next : "+this.cards[1].UpgradedAttack);
+		Debug.Log("Speed : "+this.cards[1].Speed);
+		Debug.Log("Next : "+this.cards[1].UpgradedSpeed);
+		Debug.Log("----------------");
+		Debug.Log("Lif : "+this.cards[2].Life);
+		Debug.Log("Next : "+this.cards[2].UpgradedLife);
+		Debug.Log("Att : "+this.cards[2].Attack);
+		Debug.Log("Next : "+this.cards[2].UpgradedAttack);
+		Debug.Log("Speed : "+this.cards[2].Speed);
+		Debug.Log("Next : "+this.cards[2].UpgradedSpeed);
+		Debug.Log("----------------");
+		Debug.Log("Lif : "+this.cards[3].Life);
+		Debug.Log("Next : "+this.cards[3].UpgradedLife);
+		Debug.Log("Att : "+this.cards[3].Attack);
+		Debug.Log("Next : "+this.cards[3].UpgradedAttack);
+		Debug.Log("Speed : "+this.cards[3].Speed);
+		Debug.Log("Next : "+this.cards[3].UpgradedSpeed);
 		
 	}
 }

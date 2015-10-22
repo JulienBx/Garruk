@@ -1426,6 +1426,7 @@ public class Card
 				this.Skills[j-1].proba=System.Convert.ToInt32(cardInfo[8]);
 				this.Skills[j-1].nextDescription=cardInfo[9];
 				this.Skills[j-1].proba=System.Convert.ToInt32(cardInfo[10]);
+				this.Skills[j-1].nextLevel=System.Convert.ToInt32(cardInfo[11]);
 				
 				if (this.Skills[j-1].Id==9){
 					this.Skills[j-1].nbLeft = 1 ;
