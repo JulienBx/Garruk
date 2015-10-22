@@ -24,8 +24,8 @@ public class NextLevelPopUpController : MonoBehaviour
 		}
 		else
 		{
-			this.gameObject.transform.FindChild("Attack").gameObject.SetActive(true);
-			this.gameObject.transform.FindChild("AttackLimit").gameObject.SetActive(false);
+			this.gameObject.transform.FindChild("Attack").gameObject.SetActive(false);
+			this.gameObject.transform.FindChild("AttackLimit").gameObject.SetActive(true);
 			this.gameObject.transform.FindChild("AttackLimit").GetComponent<TextMeshPro>().text="Niveau d'attaque maximum atteint";
 		}
 		if(c.UpgradedLife>c.Life)
@@ -39,8 +39,8 @@ public class NextLevelPopUpController : MonoBehaviour
 		}
 		else
 		{
-			this.gameObject.transform.FindChild("Life").gameObject.SetActive(true);
-			this.gameObject.transform.FindChild("LifeLimit").gameObject.SetActive(false);
+			this.gameObject.transform.FindChild("Life").gameObject.SetActive(false);
+			this.gameObject.transform.FindChild("LifeLimit").gameObject.SetActive(true);
 			this.gameObject.transform.FindChild("LifeLimit").GetComponent<TextMeshPro>().text="Niveau de vie maximum atteint";
 		}
 		if(c.UpgradedSpeed>c.Speed)
@@ -54,8 +54,8 @@ public class NextLevelPopUpController : MonoBehaviour
 		}
 		else
 		{
-			this.gameObject.transform.FindChild("Quickness").gameObject.SetActive(true);
-			this.gameObject.transform.FindChild("QuicknessLimit").gameObject.SetActive(false);
+			this.gameObject.transform.FindChild("Quickness").gameObject.SetActive(false);
+			this.gameObject.transform.FindChild("QuicknessLimit").gameObject.SetActive(true);
 			this.gameObject.transform.FindChild("QuicknessLimit").GetComponent<TextMeshPro>().text="Niveau de rapidité maximum atteint";
 		}
 		for(int i=0;i<4;i++)
@@ -67,7 +67,7 @@ public class NextLevelPopUpController : MonoBehaviour
 					gameObject.transform.FindChild("Skill"+i).gameObject.SetActive(true);
 					gameObject.transform.FindChild("Skill"+i+"Limit").gameObject.SetActive(false);
 					gameObject.transform.FindChild("Skill"+i).FindChild("Name").GetComponent<TextMeshPro>().text=c.Skills[i].Name;
-					gameObject.transform.FindChild("Skill"+i).FindChild("Text").GetComponent<TextMeshPro>().text=c.getSkillText(i);
+					gameObject.transform.FindChild("Skill"+i).FindChild("Text").GetComponent<TextMeshPro>().text=c.getSkillText(c.Skills[i].Description);
 					gameObject.transform.FindChild("Skill"+i).FindChild("Picto").GetComponent<SpriteRenderer>().sprite = this.getSkillSprite(c.Skills[i].Level - 1);
 					if(c.GetNewSkill)
 					{
@@ -85,10 +85,10 @@ public class NextLevelPopUpController : MonoBehaviour
 					{
 						gameObject.transform.FindChild("Skill"+i).FindChild("New").gameObject.SetActive(false);
 					}
-					//gameObject.transform.FindChild("Skill"+i).FindChild("Name2").GetComponent<TextMeshPro>().text=c.UpgradedSkills[i].Name;
+					gameObject.transform.FindChild("Skill"+i).FindChild("Name2").GetComponent<TextMeshPro>().text=c.UpgradedSkills[i].Name;
 					gameObject.transform.FindChild("Skill"+i).FindChild("Name2").GetComponent<TextMeshPro>().text=c.Skills[i].Name;
-					//gameObject.transform.FindChild("Skill"+i).FindChild("Text2").GetComponent<TextMeshPro>().text=c.getUpgradedSkillText(i);
-					gameObject.transform.FindChild("Skill"+i).FindChild("Text2").GetComponent<TextMeshPro>().text=c.getSkillText(i);
+					gameObject.transform.FindChild("Skill"+i).FindChild("Text2").GetComponent<TextMeshPro>().text=c.getSkillText(c.Skills[i].nextDescription);
+					gameObject.transform.FindChild("Skill"+i).FindChild("Text2").GetComponent<TextMeshPro>().text=c.getSkillText(c.Skills[i].Description);
 					//gameObject.transform.FindChild("Skill"+i).FindChild("Picto2").GetComponent<SpriteRenderer>().sprite = this.getSkillSprite(c.UpgradedSkills[i].Level - 1);
 					gameObject.transform.FindChild("Skill"+i).FindChild("Picto").GetComponent<SpriteRenderer>().sprite = this.getSkillSprite(c.Skills[i].Level - 1);
 					

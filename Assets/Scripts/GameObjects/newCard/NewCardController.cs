@@ -45,7 +45,7 @@ public class NewCardController : NewFocusedCardController
 			if(i<c.Skills.Count && c.Skills[i].IsActivated==1)
 			{
 				this.skills[i].transform.GetComponent<NewCardSkillController>().setSkill(c.Skills[i]);
-				this.skills[i].transform.GetComponent<NewCardSkillController>().setDescription(c.getSkillText(i));
+				this.skills[i].transform.GetComponent<NewCardSkillController>().setDescription(c.getSkillText(c.Skills[i].Description));
 				this.skills[i].SetActive(true);
 			}
 			else
@@ -146,7 +146,7 @@ public class NewCardController : NewFocusedCardController
 						this.skillPopUp.transform.position=new Vector3(gameObject.transform.position.x,gameObject.transform.position.y+0.8f+(-0.6f+(newSkillHovered-1f)*0.24f)*(0.5f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y),-1f);
 					}
 					this.skillPopUp.transform.FindChild("title").GetComponent<TextMeshPro>().text=c.Skills[skillDisplayed].Name;
-					this.skillPopUp.transform.FindChild("description").GetComponent<TextMeshPro>().text=c.getSkillText(skillDisplayed);
+					this.skillPopUp.transform.FindChild("description").GetComponent<TextMeshPro>().text=c.getSkillText(c.Skills[skillDisplayed].Description);
 				}
 			}
 			else

@@ -1057,34 +1057,7 @@ public class Card
 		return b;
 	}
 	
-	public string getSkillText(int i){
-		string s = this.Skills[i].Description;
-		int index ;
-		int percentage ;
-		string tempstring ;
-		if (s.Contains("%ATK")){
-			Debug.Log("COUNTATK : "+s.Length);
-			index = s.IndexOf("%ATK");
-			Debug.Log("INDEXATK : "+index);
-			
-			tempstring = s.Substring(index-3,3);
-			Debug.Log(tempstring);
-			percentage = Mathf.CeilToInt(Int32.Parse(tempstring)*this.GetAttack()/100f);
-			s = s.Substring(0,index-4)+" "+percentage+" "+s.Substring(0,index+3);
-		}
-		if (s.Contains("%PV")){
-			Debug.Log("COUNTPV : "+s.Length);
-			index = s.IndexOf("%PV");
-			Debug.Log("INDEXPV : "+index);
-			tempstring = s.Substring(index-3,3);
-			Debug.Log(tempstring);
-			percentage = Mathf.CeilToInt(Int32.Parse(tempstring)*this.GetLife()/100f);
-			s = s.Substring(0,index-4)+" "+percentage+" "+s.Substring(0,index+3);
-		}
-		return s;
-	}
-	public string getUpgradedSkillText(int i){
-		string s = this.UpgradedSkills[i].Description;
+	public string getSkillText(string s){
 		int index ;
 		int percentage ;
 		string tempstring ;
@@ -1442,8 +1415,8 @@ public class Card
 				this.destructionPrice=System.Convert.ToInt32(cardInfo[23]);
 				this.Power=System.Convert.ToInt32(cardInfo[24]);
 				this.UpgradedLife=System.Convert.ToInt32(cardInfo[25]);
-				this.UpgradedAttack=System.Convert.ToInt32(cardInfo[25]);
-				this.UpgradedSpeed=System.Convert.ToInt32(cardInfo[25]);
+				this.UpgradedAttack=System.Convert.ToInt32(cardInfo[26]);
+				this.UpgradedSpeed=System.Convert.ToInt32(cardInfo[27]);
 				this.Skills=new List<Skill>();
 			}
 			else
