@@ -39,7 +39,7 @@ public class NewCardEndSceneController : NewCardController
 	public override void show()
 	{
 		base.show ();
-		base.experience.GetComponent<NewCardExperienceController> ().setExperience (this.c.ExperienceLevel, this.c.PercentageToNextLevel);
+		base.setExperience ();
 	}
 	public override void endUpdatingXp(bool hasChangedLevel)
 	{

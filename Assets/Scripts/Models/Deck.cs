@@ -15,7 +15,6 @@ public class Deck
 	private static string URLAddCardToDeck = ApplicationModel.host + "add_card_to_deck_by_user.php";
 	private static string URLRemoveCardFromDeck = ApplicationModel.host + "remove_card_from_deck_by_user.php";
 	private static string URLGetCardsByDeck = ApplicationModel.host + "get_cards_by_deck.php";
-	private static string URLAddXpToDeck = ApplicationModel.host + "add_xp_to_deck.php";
 	private static string URLChangeCardsOrder = ApplicationModel.host + "change_cards_order.php"; 
 
 	public int Id; 												// Id unique de la carte
@@ -23,10 +22,6 @@ public class Deck
 	public int NbCards = 0; 										// Nombre de cartes présentes dans le deck
 	public List<Card> Cards;									// Liste de carte du deck
 	public string OwnerUsername;                                // Username de la personne possédant le deck
-	public int CollectionPoints;
-	public int CollectionPointsRanking;
-	public IList<Skill> NewSkills;
-	public string NewCardType;
 
 	public Deck()
 	{
@@ -322,60 +317,6 @@ public class Deck
 				this.NbCards = i + 1;
 
 				NbCards = i + 1;
-			}
-		}
-	}
-	public IEnumerator addXpToDeck(int earnXp)
-	{
-		this.NewSkills = new List<Skill> ();
-		this.NewCardType = "";
-		string idCards = "";
-
-		for (int i=0; i<ApplicationModel.nbCardsByDeck; i++)
-		{
-			idCards = idCards + this.Cards [i].Id.ToString() + "SEPARATOR";
-		}
-
-		WWWForm form = new WWWForm(); 								// Création de la connexion
-		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_idcard", idCards);
-		form.AddField("myform_xp", earnXp);
-		form.AddField("myform_nick", ApplicationModel.username); 
-		form.AddField ("myform_nbcardsbydeck", ApplicationModel.nbCardsByDeck);
-		
-		WWW w = new WWW(URLAddXpToDeck, form); 								// On envoie le formulaire à l'url sur le serveur 
-		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
-		
-		if (w.error != null)
-		{
-			Debug.Log(w.error); 											// donne l'erreur eventuelle
-		}
-		else
-		{
-			string [] cardsData = w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
-			this.CollectionPoints=System.Convert.ToInt32(cardsData[cardsData.Length-2]);
-			this.CollectionPointsRanking=System.Convert.ToInt32(cardsData[cardsData.Length-1]);
-			for(int i=0;i<ApplicationModel.nbCardsByDeck;i++)
-			{
-				string [] experienceData = cardsData[i].Split(new string[] {"#EXPERIENCEDATA#"},System.StringSplitOptions.None);
-				this.Cards[i].parseCard(experienceData[0]);
-				this.Cards[i].GetNewSkill=System.Convert.ToBoolean(System.Convert.ToInt32(experienceData[1]));
-				this.Cards[i].NewSkills=new List<Skill>();
-				if(this.Cards[i].GetNewSkill)
-				{
-					for(int j=0;j<this.Cards[i].Skills.Count;i++)
-					{
-						if(this.Cards[i].Skills[this.Cards[i].Skills.Count-j-1].IsActivated==1)
-						{
-							if(System.Convert.ToBoolean(System.Convert.ToInt32(experienceData[2])))
-							{
-								this.NewSkills.Add (this.Cards[i].Skills[this.Cards[i].Skills.Count-j-1]);
-								this.Cards[i].Skills[this.Cards[i].Skills.Count-j-1].IsNew=true;
-							}
-							break;
-						}
-					}
-				}
 			}
 		}
 	}

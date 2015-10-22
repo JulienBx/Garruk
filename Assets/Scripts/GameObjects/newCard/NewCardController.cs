@@ -42,10 +42,10 @@ public class NewCardController : NewFocusedCardController
 
 		for(int i=0;i<this.skills.Length;i++)
 		{
-			if(i<c.Skills.Count && c.Skills[i].IsActivated==1)
+			if(i<this.c.Skills.Count && this.c.Skills[i].IsActivated==1)
 			{
-				this.skills[i].transform.GetComponent<NewCardSkillController>().setSkill(c.Skills[i]);
-				this.skills[i].transform.GetComponent<NewCardSkillController>().setDescription(c.getSkillText(c.Skills[i].Description));
+				this.skills[i].transform.GetComponent<NewCardSkillController>().setSkill(this.c.Skills[i]);
+				this.skills[i].transform.GetComponent<NewCardSkillController>().setDescription(this.c.getSkillText(this.c.Skills[i].Description));
 				this.skills[i].SetActive(true);
 			}
 			else
@@ -53,6 +53,10 @@ public class NewCardController : NewFocusedCardController
 				this.skills[i].SetActive(false);
 			}
 		}
+	}
+	public override void setExperience()
+	{
+		this.experience.GetComponent<NewCardExperienceController> ().setExperience (this.c.ExperienceLevel, this.c.PercentageToNextLevel);
 	}
 	public override void applyFrontTexture()
 	{
@@ -145,8 +149,8 @@ public class NewCardController : NewFocusedCardController
 					{
 						this.skillPopUp.transform.position=new Vector3(gameObject.transform.position.x,gameObject.transform.position.y+0.8f+(-0.6f+(newSkillHovered-1f)*0.24f)*(0.5f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y),-1f);
 					}
-					this.skillPopUp.transform.FindChild("title").GetComponent<TextMeshPro>().text=c.Skills[skillDisplayed].Name;
-					this.skillPopUp.transform.FindChild("description").GetComponent<TextMeshPro>().text=c.getSkillText(c.Skills[skillDisplayed].Description);
+					this.skillPopUp.transform.FindChild("title").GetComponent<TextMeshPro>().text=this.c.Skills[skillDisplayed].Name;
+					this.skillPopUp.transform.FindChild("description").GetComponent<TextMeshPro>().text=this.c.getSkillText(this.c.Skills[skillDisplayed].Description);
 				}
 			}
 			else
@@ -214,7 +218,7 @@ public class NewCardController : NewFocusedCardController
 	}
 	public override void animateExperience()
 	{
-		this.experience.GetComponent<NewCardExperienceController>().startUpdatingXp(c.ExperienceLevel,c.PercentageToNextLevel);
+		this.experience.GetComponent<NewCardExperienceController>().startUpdatingXp(this.c.ExperienceLevel,this.c.PercentageToNextLevel);
 	}
 	public override void endUpdatingXp(bool hasChangedLevel)
 	{
@@ -231,7 +235,7 @@ public class NewCardController : NewFocusedCardController
 		{
 			this.c.GetNewSkill=false;
 		}
-		if(this.c.CaracteristicUpgraded>-1&&this.c.CaracteristicIncrease>0)
+		if(this.caracteristicUpgraded>-1&&this.caracteristicIncrease>0)
 		{
 			base.setCardUpgrade();
 		}

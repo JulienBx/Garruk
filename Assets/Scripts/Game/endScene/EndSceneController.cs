@@ -36,14 +36,18 @@ public class EndSceneController : MonoBehaviour
 
 	private User player;
 
-	private int collectionPoints;
-	private int collectionPointsRanking;
-	private string newCardType;
-	private IList<string> newSkills;
+	public int collectionPointsEarned;
+	public int newCollectionRanking;
+	public int idCardTypeUnlocked;
+	public string titleCardTypeUnlocked;
+	public List<Skill> skillsUnlocked;
 
 	private IList<int> idCardsToNextLevel;
 
 	private bool isNextLevelPopUpDisplayed;
+
+	private string urlAddXpToDeck = ApplicationModel.host + "add_xp_to_deck.php";
+	private string urlUpgradeCardAttribute = ApplicationModel.host + "upgrade_card_attribute.php";
 	
 
 	void Awake()
@@ -55,9 +59,7 @@ public class EndSceneController : MonoBehaviour
 		this.toStartExperienceUpdate = false;
 		this.areCreditsUpdated = false;
 		this.player = new User ();
-		this.newSkills = new List<string> ();
 		this.idCardsToNextLevel = new List<int> ();
-		this.newCardType = "";
 	}
 	void Update () 
 	{
@@ -171,19 +173,56 @@ public class EndSceneController : MonoBehaviour
 	}
 	public IEnumerator addXp()
 	{
-		yield return StartCoroutine(GameController.instance.myDeck.addXpToDeck (earnXp));
-		this.collectionPoints = GameController.instance.myDeck.CollectionPoints;
-		this.collectionPointsRanking = GameController.instance.myDeck.CollectionPointsRanking;
-		if(GameController.instance.myDeck.NewSkills.Count>0)
+		this.skillsUnlocked = new List<Skill> ();
+		this.titleCardTypeUnlocked = "";
+		string idCards = "";
+		
+		for (int i=0; i<ApplicationModel.nbCardsByDeck; i++)
 		{
-			for(int i=0;i<GameController.instance.myDeck.NewSkills.Count;i++)
-			{
-				this.newSkills.Add (GameController.instance.myDeck.NewSkills[i].Name);
-			}
+			idCards = idCards + GameController.instance.myDeck.Cards [i].Id.ToString() + "SEPARATOR";
 		}
-		if(GameController.instance.myDeck.NewCardType!="")
+		
+		WWWForm form = new WWWForm(); 								// Création de la connexion
+		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
+		form.AddField("myform_idcard", idCards);
+		form.AddField("myform_xp", this.earnXp);
+		form.AddField("myform_nick", ApplicationModel.username); 
+		form.AddField ("myform_nbcardsbydeck", ApplicationModel.nbCardsByDeck);
+		
+		WWW w = new WWW(urlAddXpToDeck, form); 								// On envoie le formulaire à l'url sur le serveur 
+		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
+		
+		if (w.error != null)
 		{
-			this.newCardType=GameController.instance.myDeck.NewCardType;
+			Debug.Log(w.error); 											// donne l'erreur eventuelle
+		}
+		else
+		{
+			string [] cardsData = w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
+			this.collectionPointsEarned=System.Convert.ToInt32(cardsData[cardsData.Length-2]);
+			this.newCollectionRanking=System.Convert.ToInt32(cardsData[cardsData.Length-1]);
+			for(int i=0;i<ApplicationModel.nbCardsByDeck;i++)
+			{
+				string [] experienceData = cardsData[i].Split(new string[] {"#EXPERIENCEDATA#"},System.StringSplitOptions.None);
+				GameController.instance.myDeck.Cards[i].parseCard(experienceData[0]);
+				GameController.instance.myDeck.Cards[i].GetNewSkill=System.Convert.ToBoolean(System.Convert.ToInt32(experienceData[1]));
+				//this.Cards[i].NewSkills=new List<Skill>();
+				if(GameController.instance.myDeck.Cards[i].GetNewSkill)
+				{
+					for(int j=0;j<GameController.instance.myDeck.Cards[i].Skills.Count;i++)
+					{
+						if(GameController.instance.myDeck.Cards[i].Skills[GameController.instance.myDeck.Cards[i].Skills.Count-j-1].IsActivated==1)
+						{
+							if(System.Convert.ToBoolean(System.Convert.ToInt32(experienceData[2])))
+							{
+								this.skillsUnlocked.Add (GameController.instance.myDeck.Cards[i].Skills[GameController.instance.myDeck.Cards[i].Skills.Count-j-1]);
+								GameController.instance.myDeck.Cards[i].Skills[GameController.instance.myDeck.Cards[i].Skills.Count-j-1].IsNew=true;
+							}
+							break;
+						}
+					}
+				}
+			}
 		}
 		this.toStartExperienceUpdate = true;
 		this.xpDrawn = 0;
@@ -257,20 +296,20 @@ public class EndSceneController : MonoBehaviour
 			{
 				this.cards[i].GetComponent<NewCardEndSceneController>().endUpdatingCardToNextLevel();
 			}
-			if(this.collectionPoints>0)
+			if(this.collectionPointsEarned>0)
 			{
-				this.endGamePanel.transform.FindChild("Credits").GetComponent<TextMeshPro>().text =this.endGamePanel.transform.FindChild("Credits").GetComponent<TextMeshPro>().text+"\n et "+this.collectionPoints+" points de collection (classement : "+this.collectionPointsRanking+")";
+				this.endGamePanel.transform.FindChild("Credits").GetComponent<TextMeshPro>().text =this.endGamePanel.transform.FindChild("Credits").GetComponent<TextMeshPro>().text+"\n et "+this.collectionPointsEarned+" points de collection (classement : "+this.newCollectionRanking+")";
 			}
-			if(this.newCardType!="")
+			if(this.titleCardTypeUnlocked!="")
 			{
-				this.endGamePanel.transform.FindChild("NewCardType").GetComponent<TextMeshPro>().text="Bravo ! Vous venez d'acquérir la classe : "+this.newCardType;
+				this.endGamePanel.transform.FindChild("NewCardType").GetComponent<TextMeshPro>().text="Bravo ! Vous venez d'acquérir la classe : "+this.titleCardTypeUnlocked;
 			}
-			if(this.newSkills.Count>0)
+			if(this.skillsUnlocked.Count>0)
 			{
 				this.endGamePanel.transform.FindChild("Skills").GetComponent<TextMeshPro>().text="Vous débloquez : ";
-				for(int i =0;i<this.newSkills.Count;i++)
+				for(int i =0;i<this.skillsUnlocked.Count;i++)
 				{
-					this.endGamePanel.transform.FindChild("Skills").GetComponent<TextMeshPro>().text=this.endGamePanel.transform.FindChild("Skills").GetComponent<TextMeshPro>().text+"\n- "+this.newSkills[i];
+					this.endGamePanel.transform.FindChild("Skills").GetComponent<TextMeshPro>().text=this.endGamePanel.transform.FindChild("Skills").GetComponent<TextMeshPro>().text+"\n- "+this.skillsUnlocked[i];
 				}
 			}
 		}
@@ -278,27 +317,42 @@ public class EndSceneController : MonoBehaviour
 	public IEnumerator upgradeCardAttribute(int attributeToUpgrade, int newPower, int newLevel)
 	{
 		GameView.instance.displayLoadingScreen ();
-		yield return StartCoroutine (GameController.instance.myDeck.Cards[this.idCardsToNextLevel[0]].upgradeCardAttribute (attributeToUpgrade, newPower, newLevel));
-		if(GameController.instance.myDeck.Cards[this.idCardsToNextLevel[0]].Error=="")
+
+		WWWForm form = new WWWForm(); 								
+		form.AddField("myform_hash", ApplicationModel.hash); 		
+		form.AddField("myform_idcard", GameController.instance.myDeck.Cards[this.idCardsToNextLevel[0]].Id.ToString());
+		form.AddField("myform_nick", ApplicationModel.username);
+		form.AddField ("myform_attribute", attributeToUpgrade);
+		form.AddField ("myform_newpower", newPower);
+		form.AddField ("myform_newlevel", newLevel);
+		
+		WWW w = new WWW(urlUpgradeCardAttribute, form); 								
+		yield return w; 											
+		
+		if (w.error != null)
 		{
-			this.collectionPoints=this.collectionPoints+GameController.instance.myDeck.Cards[this.idCardsToNextLevel[0]].CollectionPoints;
-			this.collectionPointsRanking=GameController.instance.myDeck.Cards[this.idCardsToNextLevel[0]].CollectionPointsRanking;
-			if(GameController.instance.myDeck.Cards[this.idCardsToNextLevel[0]].IdCardTypeUnlocked!=-1)
-			{
-				this.newCardType=GameController.instance.myDeck.Cards[this.idCardsToNextLevel[0]].TitleCardTypeUnlocked;
-			}
-			if(GameController.instance.myDeck.Cards[this.idCardsToNextLevel[0]].NewSkills.Count>0)
-			{
-				for(int i=0;i<GameController.instance.myDeck.Cards[this.idCardsToNextLevel[0]].NewSkills.Count;i++)
-				{
-					this.newSkills.Add (GameController.instance.myDeck.Cards[this.idCardsToNextLevel[0]].NewSkills[i].Name);
-				}
-			}
-			this.hideNextLevelPopUp();
-		}
+			this.cards[this.idCardsToNextLevel[0]].GetComponent<NewCardController>().displayErrorPopUp(w.error);									
+		} 
 		else
 		{
-			this.cards[this.idCardsToNextLevel[0]].GetComponent<NewCardController>().displayErrorPopUp();
+			if (w.text.Contains("#ERROR#"))
+			{
+				string[] errors = w.text.Split(new string[] { "#ERROR#" }, System.StringSplitOptions.None);
+				this.cards[this.idCardsToNextLevel[0]].GetComponent<NewCardController>().displayErrorPopUp(errors[1]);
+			} 
+			else
+			{
+				string [] cardData = w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
+				string [] experienceData = cardData[0].Split(new string[] {"#EXPERIENCEDATA#"},System.StringSplitOptions.None);
+				GameController.instance.myDeck.Cards[this.idCardsToNextLevel[0]].parseCard(experienceData[0]);
+				this.titleCardTypeUnlocked=experienceData[1];
+				this.idCardTypeUnlocked=System.Convert.ToInt32(experienceData[2]);
+				this.cards[this.idCardsToNextLevel[0]].GetComponent<NewCardController>().caracteristicUpgraded=System.Convert.ToInt32(experienceData[3]);
+				this.cards[this.idCardsToNextLevel[0]].GetComponent<NewCardController>().caracteristicIncrease=System.Convert.ToInt32(experienceData[4]);
+				this.collectionPointsEarned=this.collectionPointsEarned+ System.Convert.ToInt32(cardData [1]);
+				this.newCollectionRanking=System.Convert.ToInt32(cardData[2]);
+				this.hideNextLevelPopUp();
+			}
 		}
 		GameView.instance.hideLoadingScreen ();
 	}
