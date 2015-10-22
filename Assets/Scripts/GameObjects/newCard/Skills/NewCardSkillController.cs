@@ -14,6 +14,13 @@ public class NewCardSkillController : NewFocusedCardSkillController
 	{
 		base.setSkill (s);
 	}
+	public override void setDescription(string d)
+	{
+		base.setDescription (d);
+	}
+	public override void showDescription()
+	{
+	}
 	public void changeLayer(int layerVariation, int sortingLayerId)
 	{
 		this.gameObject.transform.GetComponent<SpriteRenderer> ().sortingOrder +=layerVariation;

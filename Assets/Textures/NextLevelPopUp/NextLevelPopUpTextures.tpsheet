@@ -1,0 +1,18 @@
+#
+# Sprite sheet data for Unity.
+#
+# To import these sprites into your Unity project, download "TexturePackerImporter":
+# http://www.codeandweb.com/texturepacker/unity
+#
+# Sprite sheet: NextLevelPopUpTextures.png (2048 x 2048)
+# $TexturePacker:SmartUpdate:dfe69f094bbe0fdc20b581abd605de1c:8ad9f6f4a9e1988e7b4a1ca0068f6742:b07d73be1854219cce799ba777e03bcf$
+#
+
+atkicon;2;580;95;120;0.45263157894736844;0.4916666666666667
+cristal;82;726;52;49;0.5;0.5102040816326531
+cristal1;114;945;52;49;0.5;0.5102040816326531
+cristal2;114;894;52;49;0.5;0.5102040816326531
+lifeicon;2;829;110;165;0.4818181818181818;0.509090909090909
+nexLevelPopUp;2;996;1100;1050;0.5;0.5
+rightArrow;82;777;100;50;0.5;0.5
+speedicon;2;702;78;125;0.5;0.536

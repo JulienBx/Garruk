@@ -219,7 +219,7 @@ public class HisHoveredCardController : MonoBehaviour
 		gameObject.GetComponent<SpriteRenderer>().sprite = GameView.instance.getSprite(c.ArtIndex);
 		
 		gameObject.transform.FindChild("HisMainDescription").FindChild("HisTitle").GetComponent<TextMeshPro>().text = c.Title;
-		gameObject.transform.FindChild("HisMainDescription").FindChild("HisPassiveSkill").FindChild("HisSpecialite").GetComponent<TextMeshPro>().text = c.getSkillText(0);
+		gameObject.transform.FindChild("HisMainDescription").FindChild("HisPassiveSkill").FindChild("HisSpecialite").GetComponent<TextMeshPro>().text = c.getSkillText(c.Skills[0].Description);
 		gameObject.transform.FindChild("HisMainDescription").FindChild("HisPassiveSkill").FindChild("HisSpecialiteDescription").GetComponent<TextMeshPro>().text = c.getSkills()[0].Description;
 		
 		gameObject.transform.FindChild("HisMainDescription").FindChild("HisCarac").FindChild("HisAttackText").GetComponent<TextMeshPro>().text = ""+c.GetAttackString();
@@ -273,7 +273,7 @@ public class HisHoveredCardController : MonoBehaviour
 			gameObject.transform.FindChild("HisMainDescription").FindChild("HisSkill"+i).FindChild("HisSkill"+i+"Description").GetComponent<MeshRenderer>().enabled=true;
 			gameObject.transform.FindChild("HisMainDescription").FindChild("HisSkill"+i+"Background").GetComponent<SpriteRenderer>().enabled=true;
 			
-			gameObject.transform.FindChild("HisMainDescription").FindChild("HisSkill"+i).FindChild("HisSkill"+(i)+"Title").GetComponent<TextMeshPro>().text = c.getSkillText(i);
+			gameObject.transform.FindChild("HisMainDescription").FindChild("HisSkill"+i).FindChild("HisSkill"+(i)+"Title").GetComponent<TextMeshPro>().text = c.getSkillText(c.Skills[i].Description);
 			gameObject.transform.FindChild("HisMainDescription").FindChild("HisSkill"+i).FindChild(("HisSkill"+(i)+"Description")).GetComponent<TextMeshPro>().text = c.getSkills()[i].Description;
 			if(c.getSkills()[i].Level==1){
 				gameObject.transform.FindChild("HisMainDescription").FindChild("HisSkill"+i).FindChild("HisSkill"+i+"Cristal").GetComponent<SpriteRenderer>().color=new Color(255f/255f,255f/255f,255f/255f, 1f);

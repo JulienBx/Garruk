@@ -50,14 +50,13 @@ public class NewFocusedCardStoreController : NewFocusedCardController
 		base.exitFocus ();
 		NewStoreController.instance.deleteCard ();
 	}
-	public override void exitFocus()
+	public override void goBackToScene()
 	{
-		base.exitFocus ();
 		NewStoreController.instance.hideCardFocused ();
 	}
-	public override void focusFeaturesHandler(int id)
+	public override void selectAFeature(int feature)
 	{
-		switch(id)
+		switch(feature)
 		{
 		case 0:
 			base.displaySellCardPopUp();

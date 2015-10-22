@@ -8,5 +8,6 @@ public class NewFocusedCardRessources : MonoBehaviour
 	public Color[] colors;
 	public Sprite backFace;
 	public Sprite[] skills;
+	public GameObject nextLevelPopUpObject;
 }
 

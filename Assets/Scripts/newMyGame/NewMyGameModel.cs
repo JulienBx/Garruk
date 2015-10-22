@@ -91,6 +91,10 @@ public class NewMyGameModel
 	}
 	private void retrieveCardsDeck()
 	{
+		for(int i=0;i<this.cards.getCount();i++)
+		{
+			this.cards.getCard(i).Decks=new List<int>();
+		}
 		for (int i=0;i<this.decks.Count;i++)
 		{
 			for(int j=0;j<this.decks[i].Cards.Count;j++)

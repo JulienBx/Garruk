@@ -66,6 +66,7 @@ public class Card
 	public int UpgradedLife;
 	public int UpgradedSpeed;
 	public Skill[] UpgradedSkills;
+	public int RemainingUpgrades;
 
 	public static bool xpDone = false;
 	
@@ -1056,35 +1057,31 @@ public class Card
 		return b;
 	}
 	
-	public string getSkillText(int i){
-		string s = this.Skills[i].Description;
+	public string getSkillText(string s){
 		int index ;
 		int percentage ;
 		string tempstring ;
 		if (s.Contains("%ATK")){
+			Debug.Log("COUNTATK : "+s.Length);
 			index = s.IndexOf("%ATK");
+			Debug.Log("INDEXATK : "+index);
+			
 			tempstring = s.Substring(index-3,3);
 			Debug.Log(tempstring);
 			percentage = Mathf.CeilToInt(Int32.Parse(tempstring)*this.GetAttack()/100f);
-			s = s.Substring(0,index-4)+" "+percentage+" "+s.Substring(index+5, s.Length-(index+5));
+			s = s.Substring(0,index-4)+" "+percentage+" "+s.Substring(0,index+3);
 		}
 		if (s.Contains("%PV")){
+			Debug.Log("COUNTPV : "+s.Length);
 			index = s.IndexOf("%PV");
+			Debug.Log("INDEXPV : "+index);
 			tempstring = s.Substring(index-3,3);
 			Debug.Log(tempstring);
 			percentage = Mathf.CeilToInt(Int32.Parse(tempstring)*this.GetLife()/100f);
-			s = s.Substring(0,index-4)+" "+percentage+" "+s.Substring(index+4, s.Length-(index+4));
-		}
-		if (s.Contains("%MOV")){
-			index = s.IndexOf("%MOV");
-			tempstring = s.Substring(index-3,3);
-			Debug.Log(tempstring);
-			percentage = Mathf.CeilToInt(Int32.Parse(tempstring)*this.GetLife()/100f);
-			s = s.Substring(0,index-4)+" "+percentage+" "+s.Substring(index+4, s.Length-(index+4));
+			s = s.Substring(0,index-4)+" "+percentage+" "+s.Substring(0,index+3);
 		}
 		return s;
 	}
-	
 	public bool verifyC(float minPower, float maxPower, float minLife, float maxLife, float minAttack, float maxAttack, float minQuickness, float maxQuickness)
 	{
 		if (minPower > this.Power || maxPower < this.Power)
@@ -1164,11 +1161,21 @@ public class Card
 				string [] experienceData = cardData[0].Split(new string[] {"#EXPERIENCEDATA#"},System.StringSplitOptions.None);
 				this.parseCard(experienceData[0]);
 				this.GetNewSkill=System.Convert.ToBoolean(System.Convert.ToInt32(experienceData[1]));
-				this.Skills[Skills.Count-1].IsNew=System.Convert.ToBoolean(System.Convert.ToInt32(experienceData[2]));
 				this.NewSkills=new List<Skill>();
-				if(this.Skills[this.Skills.Count-1].IsNew)
+				if(this.GetNewSkill)
 				{
-					this.NewSkills.Add (this.Skills[this.Skills.Count-1]);
+					for(int i=0;i<this.Skills.Count;i++)
+					{
+						if(this.Skills[this.Skills.Count-i-1].IsActivated==1)
+						{
+							if(System.Convert.ToBoolean(System.Convert.ToInt32(experienceData[2])))
+							{
+								this.NewSkills.Add (this.Skills[this.Skills.Count-i-1]);
+								this.Skills[this.Skills.Count-i-1].IsNew=true;
+							}
+							break;
+						}
+					}
 				}
 				this.CollectionPoints = System.Convert.ToInt32(cardData [1]);
 				this.CollectionPointsRanking=System.Convert.ToInt32(cardData[2]);
