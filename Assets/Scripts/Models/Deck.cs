@@ -3,7 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-public class Deck
+public class Deck : Cards 
 {
 	//Interconnexion BDD
 	private string URLCards = ApplicationModel.host + "get_cards_by_deck_by_user.php";
@@ -20,50 +20,41 @@ public class Deck
 
 	public int Id; 												// Id unique de la carte
 	public string Name; 										// Nom du deck
-	public int NbCards = 0; 										// Nombre de cartes présentes dans le deck
-	public List<Card> Cards;									// Liste de carte du deck
 	public string OwnerUsername;                                // Username de la personne possédant le deck
 	public int CollectionPoints;
 	public int CollectionPointsRanking;
 	public IList<Skill> NewSkills;
 	public string NewCardType;
+	public int NbCards;
 
 	public Deck()
 	{
+	
 	}
+	
 	public Deck(int id)
 	{
 		this.Id = id;
-		this.Cards = new List<Card>();
+		this.cards = new List<Card>();
 	}
 
 	public Deck(string username)
 	{
 		OwnerUsername = username;
-		this.Cards = new List<Card>();
+		this.cards = new List<Card>();
 	}
 
 	public Deck(int id, string name)
 	{
 		this.Id = id;
 		this.Name = name;
-		this.NbCards = 0;
-		this.Cards = new List<Card>();
+		this.cards = new List<Card>();
 	}
 
-	public Deck(int id, string name, int nbCards)
-	{
-		this.Id = id;
-		this.Name = name;
-		this.NbCards = nbCards;
-		this.Cards = new List<Card>();
-	}
-
-	public Deck(int id, string name, int nbCards, List<Card> cards)
+	public Deck(int id, string name, List<Card> cards)
 	{
 		this.Name = name;
-		this.NbCards = nbCards;
-		this.Cards = cards;
+		this.cards = cards;
 	}
 
 	public IEnumerator addCard(int idCard, int deckOrder)
@@ -83,9 +74,8 @@ public class Deck
 		} 
 		else
 		{
-			this.NbCards++;
-			this.Cards.Add(new Card(idCard));
-			this.Cards[this.Cards.Count-1].deckOrder=deckOrder;
+			this.cards.Add(new Card(idCard));
+			this.cards[this.cards.Count-1].deckOrder=deckOrder;
 		}
 	}
 	public IEnumerator changeCardsOrder(int idCard1, int deckOrder1, int idCard2, int deckOrder2)
@@ -107,22 +97,22 @@ public class Deck
 		} 
 		else
 		{
-			for (int i =0;i<this.Cards.Count;i++)
+			for (int i =0;i<this.cards.Count;i++)
 			{
-				if(this.Cards[i].Id==idCard1)
+				if(this.cards[i].Id==idCard1)
 				{
-					this.Cards[i].deckOrder=deckOrder1;
+					this.cards[i].deckOrder=deckOrder1;
 				}
-				if(this.Cards[i].Id==idCard2)
+				if(this.cards[i].Id==idCard2)
 				{
-					this.Cards[i].deckOrder=deckOrder2;
+					this.cards[i].deckOrder=deckOrder2;
 				}
 			}
 		}
 	}
 	public void addCard(Card c)
 	{
-		this.Cards.Add(c);
+		this.cards.Add(c);
 	}
 
 	public IEnumerator removeCard(int idCard)
@@ -141,11 +131,11 @@ public class Deck
 		} else
 		{
 			this.NbCards--;
-			for (int i=0; i<this.Cards.Count; i++)
+			for (int i=0; i<this.cards.Count; i++)
 			{
-				if (this.Cards [i].Id == idCard)
+				if (this.cards [i].Id == idCard)
 				{
-					this.Cards.RemoveAt(i);
+					this.cards.RemoveAt(i);
 					break;
 				}
 			}
@@ -169,7 +159,7 @@ public class Deck
 			this.Id = System.Convert.ToInt32(w.text);
 			this.Name = decksName;
 			this.NbCards = 0;
-			this.Cards = new List<Card>();
+			this.cards = new List<Card>();
 		}
 	}
 	public IEnumerator delete()
@@ -231,10 +221,9 @@ public class Deck
 
 	public IEnumerator RetrieveCards()
 	{
-		this.Cards = new List<Card> ();
+		this.cards = new List<Card> ();
 		string[] cardsData;
-		string[] cardData = null;
-		string[] cardInfo = null;
+		
 		WWWForm form = new WWWForm(); 								// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_deck", this.Id);							// Id du	 deck
@@ -244,59 +233,14 @@ public class Deck
 		if (w.error != null)
 		{
 			Debug.Log(w.error); 									// donne l'erreur eventuelle
-		} else
+		} 
+		else
 		{
-			cardsData=w.text.Split(new string[] { "#CARD#" }, System.StringSplitOptions.None);
-			for(int i=0;i<cardsData.Length-1;i++)
-			{
-				cardData = cardsData[i].Split(new string[] { "#SKILL#" }, System.StringSplitOptions.None);
-				for(int j = 0 ; j < cardData.Length-1 ; j++)
-				{
-					cardInfo = cardData[j].Split(new string[] { "//" }, System.StringSplitOptions.None); 
-					if (j==0)
-					{
-						this.Cards.Add(new Card());
-						this.Cards[i].Id=System.Convert.ToInt32(cardInfo[0]);
-						this.Cards[i].Title=cardInfo[1];
-						this.Cards[i].Life=System.Convert.ToInt32(cardInfo[2]);
-						this.Cards[i].Attack=System.Convert.ToInt32(cardInfo[3]);
-						this.Cards[i].Speed=System.Convert.ToInt32(cardInfo[4]);
-						this.Cards[i].Move=System.Convert.ToInt32(cardInfo[5]);
-						this.Cards[i].ArtIndex=System.Convert.ToInt32(cardInfo[6]);
-						this.Cards[i].IdClass=System.Convert.ToInt32(cardInfo[7]);
-						this.Cards[i].TitleClass=cardInfo[8];
-						this.Cards[i].LifeLevel=System.Convert.ToInt32(cardInfo[9]);
-						this.Cards[i].MoveLevel=System.Convert.ToInt32(cardInfo[10]);
-						this.Cards[i].SpeedLevel=System.Convert.ToInt32(cardInfo[11]);
-						this.Cards[i].AttackLevel=System.Convert.ToInt32(cardInfo[12]);
-						this.Cards[i].Experience=System.Convert.ToInt32(cardInfo[13]);
-						this.Cards[i].nbWin=System.Convert.ToInt32(cardInfo[14]);
-						this.Cards[i].nbLoose=System.Convert.ToInt32(cardInfo[15]);
-						this.Cards[i].ExperienceLevel=System.Convert.ToInt32(cardInfo[16]);
-						this.Cards[i].PercentageToNextLevel=System.Convert.ToInt32(cardInfo[17]);
-						this.Cards[i].NextLevelPrice=System.Convert.ToInt32(cardInfo[18]);
-						this.Cards[i].deckOrder=System.Convert.ToInt32(cardInfo[19]);
-						this.Cards[i].destructionPrice=System.Convert.ToInt32(cardInfo[20]);
-						this.Cards[i].Power=System.Convert.ToInt32(cardInfo[21]);
-						this.Cards[i].PowerLevel=System.Convert.ToInt32(cardInfo[22]);
-						this.Cards[i].Skills = new List<Skill>();
-					}
-					else
-					{
-						this.Cards[i].Skills.Add(new Skill ());
-						this.Cards[i].Skills[j-1].Name=cardInfo[0];
-						this.Cards[i].Skills[j-1].Id=System.Convert.ToInt32(cardInfo[1])+2;
-						this.Cards[i].Skills[j-1].IsActivated=System.Convert.ToInt32(cardInfo[2]);
-						this.Cards[i].Skills[j-1].Level=System.Convert.ToInt32(cardInfo[3]);
-						this.Cards[i].Skills[j-1].Power=System.Convert.ToInt32(cardInfo[4]);
-						this.Cards[i].Skills[j-1].ManaCost=System.Convert.ToInt32(cardInfo[5]);
-						this.Cards[i].Skills[j-1].Description=cardInfo[6];
-						this.Cards[i].Skills[j-1].Action=cardInfo[7];
-						if (this.Cards[i].Skills[j-1].Id==11){
-							this.Cards[i].Skills[j-1].nbLeft = 1 ;
-						}
-					}
-				}
+			cardsData = w.text.Split(new string[] { "#CARD#" }, System.StringSplitOptions.None);
+			for(int i = 0 ; i < cardsData.Length ; i++){
+				this.cards.Add(new Card());
+				this.cards[i].parseCard(cardsData[i]);
+				this.cards[i].deckOrder=i;
 			}
 		}
 	}
@@ -319,9 +263,6 @@ public class Deck
 			for (int i = 0; i < cardEntries.Length - 1; i++)
 			{
 				this.addCard(new Card(System.Convert.ToInt32(cardEntries [i])));
-				this.NbCards = i + 1;
-
-				NbCards = i + 1;
 			}
 		}
 	}
@@ -333,7 +274,7 @@ public class Deck
 
 		for (int i=0; i<ApplicationModel.nbCardsByDeck; i++)
 		{
-			idCards = idCards + this.Cards [i].Id.ToString() + "SEPARATOR";
+			idCards = idCards + this.cards [i].Id.ToString() + "SEPARATOR";
 		}
 
 		WWWForm form = new WWWForm(); 								// Création de la connexion
@@ -363,45 +304,45 @@ public class Deck
 					string[] cardInfo = cardData[j].Split(new string[] { "\\" }, System.StringSplitOptions.None); 
 					if (j==0)
 					{
-						this.Cards[i].Life=System.Convert.ToInt32(cardInfo[0]);
-						this.Cards[i].Attack=System.Convert.ToInt32(cardInfo[1]);
-						this.Cards[i].Speed=System.Convert.ToInt32(cardInfo[2]);
-						this.Cards[i].Move=System.Convert.ToInt32(cardInfo[3]);
-						this.Cards[i].LifeLevel=System.Convert.ToInt32(cardInfo[4]);
-						this.Cards[i].MoveLevel=System.Convert.ToInt32(cardInfo[5]);
-						this.Cards[i].SpeedLevel=System.Convert.ToInt32(cardInfo[6]);
-						this.Cards[i].AttackLevel=System.Convert.ToInt32(cardInfo[7]);
-						this.Cards[i].Experience=System.Convert.ToInt32(cardInfo[8]);
-						this.Cards[i].ExperienceLevel=System.Convert.ToInt32(cardInfo[9]);
-						this.Cards[i].NextLevelPrice=System.Convert.ToInt32(cardInfo[10]);
-						this.Cards[i].PercentageToNextLevel=System.Convert.ToInt32(cardInfo[11]);
-						this.Cards[i].IdCardTypeUnlocked=System.Convert.ToInt32(cardInfo[12]);
-						this.Cards[i].TitleCardTypeUnlocked=cardInfo[13];
-						this.Cards[i].destructionPrice=System.Convert.ToInt32(cardInfo[14]);
-						this.Cards[i].Power=System.Convert.ToInt32(cardInfo[15]);
-						this.Cards[i].GetNewSkill=System.Convert.ToBoolean(System.Convert.ToInt32(cardInfo[16]));
-						this.Cards[i].CaracteristicUpgraded=System.Convert.ToInt32(cardInfo[17]);
-						this.Cards[i].CaracteristicIncrease=System.Convert.ToInt32(cardInfo[18]);
-						if(this.Cards[i].TitleCardTypeUnlocked!="")
+						this.cards[i].Life=System.Convert.ToInt32(cardInfo[0]);
+						this.cards[i].Attack=System.Convert.ToInt32(cardInfo[1]);
+						this.cards[i].Speed=System.Convert.ToInt32(cardInfo[2]);
+						this.cards[i].Move=System.Convert.ToInt32(cardInfo[3]);
+						this.cards[i].LifeLevel=System.Convert.ToInt32(cardInfo[4]);
+						this.cards[i].MoveLevel=System.Convert.ToInt32(cardInfo[5]);
+						this.cards[i].SpeedLevel=System.Convert.ToInt32(cardInfo[6]);
+						this.cards[i].AttackLevel=System.Convert.ToInt32(cardInfo[7]);
+						this.cards[i].Experience=System.Convert.ToInt32(cardInfo[8]);
+						this.cards[i].ExperienceLevel=System.Convert.ToInt32(cardInfo[9]);
+						this.cards[i].NextLevelPrice=System.Convert.ToInt32(cardInfo[10]);
+						this.cards[i].PercentageToNextLevel=System.Convert.ToInt32(cardInfo[11]);
+						this.cards[i].IdCardTypeUnlocked=System.Convert.ToInt32(cardInfo[12]);
+						this.cards[i].TitleCardTypeUnlocked=cardInfo[13];
+						this.cards[i].destructionPrice=System.Convert.ToInt32(cardInfo[14]);
+						this.cards[i].Power=System.Convert.ToInt32(cardInfo[15]);
+						this.cards[i].GetNewSkill=System.Convert.ToBoolean(System.Convert.ToInt32(cardInfo[16]));
+						this.cards[i].CaracteristicUpgraded=System.Convert.ToInt32(cardInfo[17]);
+						this.cards[i].CaracteristicIncrease=System.Convert.ToInt32(cardInfo[18]);
+						if(this.cards[i].TitleCardTypeUnlocked!="")
 						{
-							this.NewCardType=this.Cards[i].TitleCardTypeUnlocked;
+							this.NewCardType=this.cards[i].TitleCardTypeUnlocked;
 						}
-						this.Cards[i].Skills=new List<Skill>();
+						this.cards[i].Skills=new List<Skill>();
 					}
 					else
 					{
-						this.Cards[i].Skills.Add(new Skill());
-						this.Cards[i].Skills[this.Cards[i].Skills.Count-1].Id=System.Convert.ToInt32(cardInfo[0]);
-						this.Cards[i].Skills[this.Cards[i].Skills.Count-1].Name=cardInfo[1];
-						this.Cards[i].Skills[this.Cards[i].Skills.Count-1].IsActivated=System.Convert.ToInt32(cardInfo[2]);
-						this.Cards[i].Skills[this.Cards[i].Skills.Count-1].Level=System.Convert.ToInt32(cardInfo[3]);
-						this.Cards[i].Skills[this.Cards[i].Skills.Count-1].Power=System.Convert.ToInt32(cardInfo[4]);
-						this.Cards[i].Skills[this.Cards[i].Skills.Count-1].Description=cardInfo[5];
-						this.Cards[i].Skills[this.Cards[i].Skills.Count-1].ManaCost=System.Convert.ToInt32(cardInfo[6]);
-						this.Cards[i].Skills[this.Cards[i].Skills.Count-1].IsNew=System.Convert.ToBoolean(System.Convert.ToInt32(cardInfo[7]));
-						if(this.Cards[i].Skills[this.Cards[i].Skills.Count-1].IsNew)
+						this.cards[i].Skills.Add(new Skill());
+						this.cards[i].Skills[this.cards[i].Skills.Count-1].Id=System.Convert.ToInt32(cardInfo[0]);
+						this.cards[i].Skills[this.cards[i].Skills.Count-1].Name=cardInfo[1];
+						this.cards[i].Skills[this.cards[i].Skills.Count-1].IsActivated=System.Convert.ToInt32(cardInfo[2]);
+						this.cards[i].Skills[this.cards[i].Skills.Count-1].Level=System.Convert.ToInt32(cardInfo[3]);
+						this.cards[i].Skills[this.cards[i].Skills.Count-1].Power=System.Convert.ToInt32(cardInfo[4]);
+						this.cards[i].Skills[this.cards[i].Skills.Count-1].Description=cardInfo[5];
+						this.cards[i].Skills[this.cards[i].Skills.Count-1].ManaCost=System.Convert.ToInt32(cardInfo[6]);
+						this.cards[i].Skills[this.cards[i].Skills.Count-1].IsNew=System.Convert.ToBoolean(System.Convert.ToInt32(cardInfo[7]));
+						if(this.cards[i].Skills[this.cards[i].Skills.Count-1].IsNew)
 						{
-							this.NewSkills.Add (this.Cards[i].Skills[this.Cards[i].Skills.Count-1]);
+							this.NewSkills.Add (this.cards[i].Skills[this.cards[i].Skills.Count-1]);
 						}
 					}
 				}

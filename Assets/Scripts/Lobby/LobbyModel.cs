@@ -50,7 +50,7 @@ public class LobbyModel
 			this.decks = this.parseDecks(data[3].Split(new string[] { "#DECK#" }, System.StringSplitOptions.None));
 			if(this.decks.Count>0)
 			{
-				this.decks[0].Cards=this.parseCards(data[4].Split(new string[] { "#CARD#" }, System.StringSplitOptions.None));
+				this.decks[0].cards=this.parseCards(data[4].Split(new string[] { "#CARD#" }, System.StringSplitOptions.None));
 			}
 			this.currentDivision = this.parseDivision(data[5].Split(new string[] { "//" }, System.StringSplitOptions.None));
 			this.currentCup = this.parseCup(data[6].Split(new string[] { "//" }, System.StringSplitOptions.None));

@@ -726,9 +726,9 @@ public class NewHomePageController : MonoBehaviour
 		{	
 			yield return StartCoroutine(model.decks[this.deckDisplayed].RetrieveCards());
 			
-			for(int i=0;i<model.decks[this.deckDisplayed].Cards.Count;i++)
+			for(int i=0;i<model.decks[this.deckDisplayed].cards.Count;i++)
 			{
-				int deckOrder = model.decks[this.deckDisplayed].Cards[i].deckOrder;
+				int deckOrder = model.decks[this.deckDisplayed].cards[i].deckOrder;
 				this.deckCardsDisplayed[deckOrder]=i;
 			}
 			this.deckBoard.transform.FindChild("deckList").FindChild("currentDeck").FindChild("deckName").GetComponent<TextMeshPro> ().text = model.decks[this.deckDisplayed].Name;
@@ -743,7 +743,7 @@ public class NewHomePageController : MonoBehaviour
 		{
 			if(this.deckCardsDisplayed[i]!=-1)
 			{
-				this.deckCards[i].transform.GetComponent<NewCardController>().c=model.decks[this.deckDisplayed].Cards[this.deckCardsDisplayed[i]];
+				this.deckCards[i].transform.GetComponent<NewCardController>().c=model.decks[this.deckDisplayed].cards[this.deckCardsDisplayed[i]];
 				this.deckCards[i].transform.GetComponent<NewCardController>().show();
 				this.deckCards[i].SetActive(true);
 			}
@@ -762,7 +762,7 @@ public class NewHomePageController : MonoBehaviour
 		this.displayBackUI (false);
 		this.focusedCard.SetActive (true);
 		this.focusedCardIndex=this.deckCardsDisplayed[this.idCardClicked];
-		this.focusedCard.GetComponent<NewFocusedCardController>().c=model.decks[this.deckDisplayed].Cards[this.deckCardsDisplayed[this.idCardClicked]];
+		this.focusedCard.GetComponent<NewFocusedCardController>().c=model.decks[this.deckDisplayed].cards[this.deckCardsDisplayed[this.idCardClicked]];
 		this.focusedCard.GetComponent<NewFocusedCardController> ().show ();
 	}
 	public void hideCardFocused()
@@ -1010,18 +1010,18 @@ public class NewHomePageController : MonoBehaviour
 	public void moveToDeckCards(int position)
 	{
 		
-		int idCard1 = model.decks [this.deckDisplayed].Cards [this.deckCardsDisplayed [this.idCardClicked]].Id;
+		int idCard1 = model.decks [this.deckDisplayed].cards [this.deckCardsDisplayed [this.idCardClicked]].Id;
 		this.deckCards[position].SetActive(true);
-		this.deckCards[position].GetComponent<NewCardController>().c=model.decks [this.deckDisplayed].Cards [this.deckCardsDisplayed [this.idCardClicked]];
+		this.deckCards[position].GetComponent<NewCardController>().c=model.decks [this.deckDisplayed].cards [this.deckCardsDisplayed [this.idCardClicked]];
 		this.deckCards[position].GetComponent<NewCardController>().show();
 		if(this.deckCardsDisplayed[position]!=-1)
 		{
 			int indexCard2=this.deckCardsDisplayed[position];
-			int idCard2=model.decks [this.deckDisplayed].Cards [indexCard2].Id;
-			this.deckCards[position].GetComponent<NewCardController>().c=model.decks [this.deckDisplayed].Cards [this.deckCardsDisplayed [this.idCardClicked]];
+			int idCard2=model.decks [this.deckDisplayed].cards [indexCard2].Id;
+			this.deckCards[position].GetComponent<NewCardController>().c=model.decks [this.deckDisplayed].cards [this.deckCardsDisplayed [this.idCardClicked]];
 			this.deckCards[position].GetComponent<NewCardController>().show ();
 			this.deckCardsDisplayed[position]=this.deckCardsDisplayed[this.idCardClicked];
-			this.deckCards[this.idCardClicked].GetComponent<NewCardController>().c=model.decks [this.deckDisplayed].Cards [indexCard2];
+			this.deckCards[this.idCardClicked].GetComponent<NewCardController>().c=model.decks [this.deckDisplayed].cards [indexCard2];
 			this.deckCards[this.idCardClicked].GetComponent<NewCardController>().show ();
 			this.deckCardsDisplayed[this.idCardClicked]=indexCard2;
 			StartCoroutine(this.changeDeckCardsOrder(idCard1,position,idCard2,this.idCardClicked));

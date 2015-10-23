@@ -121,14 +121,14 @@ public class LobbyController : Photon.MonoBehaviour
 		int indexCardToMove=0;
 		indexClickedCard = view.decksCardVM.displayedCards [deckOrder2];
 		indexCardToMove = view.decksCardVM.displayedCards [deckOrder1];
-		model.decks[deckIndex].Cards[indexClickedCard].deckOrder =deckOrder1;
-		this.displayedDeckCards[deckOrder1].GetComponent<CardLobbyController>().resetLobbyCard(model.decks[deckIndex].Cards[indexClickedCard]);
+		model.decks[deckIndex].getCard(indexClickedCard).deckOrder =deckOrder1;
+		this.displayedDeckCards[deckOrder1].GetComponent<CardLobbyController>().resetLobbyCard(model.decks[deckIndex].getCard(indexClickedCard));
 		this.displayedDeckCards[deckOrder1].GetComponent<CardController>().setDeckOrderFeatures(deckOrder1);
-		int idCard1 = model.decks[deckIndex].Cards[indexClickedCard].Id;
-		model.decks[deckIndex].Cards[indexCardToMove].deckOrder = deckOrder2;
-		this.displayedDeckCards[deckOrder2].GetComponent<CardLobbyController>().resetLobbyCard(model.decks[deckIndex].Cards[indexCardToMove]);
+		int idCard1 = model.decks[deckIndex].getCard(indexClickedCard).Id;
+		model.decks[deckIndex].getCard(indexCardToMove).deckOrder = deckOrder2;
+		this.displayedDeckCards[deckOrder2].GetComponent<CardLobbyController>().resetLobbyCard(model.decks[deckIndex].getCard(indexCardToMove));
 		this.displayedDeckCards[deckOrder2].GetComponent<CardController>().setDeckOrderFeatures(deckOrder2);
-		int idCard2 = model.decks[deckIndex].Cards[indexCardToMove].Id;
+		int idCard2 = model.decks[deckIndex].getCard(indexCardToMove).Id;
 		view.decksCardVM.displayedCards [deckOrder2]=indexCardToMove;
 		view.decksCardVM.displayedCards [deckOrder1]=indexClickedCard;
 		yield return StartCoroutine(model.decks[deckIndex].changeCardsOrder(idCard1,deckOrder1,idCard2,deckOrder2));
@@ -146,52 +146,52 @@ public class LobbyController : Photon.MonoBehaviour
 	{
 		int cardIndex = view.decksCardVM.displayedCards[System.Convert.ToInt32(gameobject.name.Substring(4))];
 		int deckIndex = view.decksVM.decksToBeDisplayed [view.decksVM.chosenDeck];
-		yield return StartCoroutine(model.decks [deckIndex].Cards[cardIndex].addXpLevel());
+		yield return StartCoroutine(model.decks [deckIndex].getCard(cardIndex).addXpLevel());
 		this.refreshCredits();
-		if(model.decks [deckIndex].Cards[cardIndex].Error=="")
+		if(model.decks [deckIndex].getCard(cardIndex).Error=="")
 		{
 			this.setGUI (true);
-			this.cardFocused.GetComponent<CardController>().animateExperience (model.decks [deckIndex].Cards[cardIndex]);
-			if(model.decks[deckIndex].Cards[cardIndex].CollectionPoints>0)
+			this.cardFocused.GetComponent<CardController>().animateExperience (model.decks [deckIndex].getCard(cardIndex));
+			if(model.decks[deckIndex].getCard(cardIndex).CollectionPoints>0)
 			{
 				StartCoroutine(this.cardFocused.GetComponent<CardController>().displayCollectionPointsPopUp());
 			}
-			if(model.decks[deckIndex].Cards[cardIndex].NewSkills.Count>0)
+			if(model.decks[deckIndex].getCard(cardIndex).NewSkills.Count>0)
 			{
 				StartCoroutine(this.cardFocused.GetComponent<CardController>().displayNewSkillsPopUp());
 			}
-			if(model.decks[deckIndex].Cards[cardIndex].IdCardTypeUnlocked!=-1)
+			if(model.decks[deckIndex].getCard(cardIndex).IdCardTypeUnlocked!=-1)
 			{
 				this.cardFocused.GetComponent<CardController>().displayNewCardTypePopUp();
 			}
 		}
 		else
 		{
-			this.cardFocused.GetComponent<CardLobbyController>().resetFocusedLobbyCard(model.decks [deckIndex].Cards[cardIndex]);
+			this.cardFocused.GetComponent<CardLobbyController>().resetFocusedLobbyCard(model.decks [deckIndex].getCard(cardIndex));
 			this.cardFocused.GetComponent<CardController>().setError();
-			model.decks [deckIndex].Cards[cardIndex].Error="";
+			model.decks [deckIndex].getCard(cardIndex).Error="";
 		}
-		this.displayedDeckCards [cardIndex].GetComponent<CardLobbyController> ().resetLobbyCard (model.decks [deckIndex].Cards[cardIndex]);
+		this.displayedDeckCards [cardIndex].GetComponent<CardLobbyController> ().resetLobbyCard (model.decks [deckIndex].getCard(cardIndex));
 		this.displayedDeckCards[cardIndex].GetComponent<CardController>().setDeckOrderFeatures(System.Convert.ToInt32(gameobject.name.Substring(4)));
 	}
 	public IEnumerator renameCard(string value, GameObject gameobject)
 	{
 		int cardIndex = view.decksCardVM.displayedCards[System.Convert.ToInt32(gameobject.name.Substring(4))];
 		int deckIndex = view.decksVM.decksToBeDisplayed [view.decksVM.chosenDeck];
-		int tempPrice = model.decks [deckIndex].Cards[cardIndex].RenameCost;
-		yield return StartCoroutine(model.decks [deckIndex].Cards[cardIndex].renameCard(value,tempPrice));
-		this.displayedDeckCards [cardIndex].GetComponent<CardLobbyController> ().resetLobbyCard (model.decks [deckIndex].Cards[cardIndex]);
+		int tempPrice = model.decks [deckIndex].getCard(cardIndex).RenameCost;
+		yield return StartCoroutine(model.decks [deckIndex].getCard(cardIndex).renameCard(value,tempPrice));
+		this.displayedDeckCards [cardIndex].GetComponent<CardLobbyController> ().resetLobbyCard (model.decks [deckIndex].getCard(cardIndex));
 		this.displayedDeckCards[cardIndex].GetComponent<CardController>().setDeckOrderFeatures(System.Convert.ToInt32(gameobject.name.Substring(4)));
-		this.cardFocused.GetComponent<CardLobbyController> ().resetFocusedLobbyCard (model.decks [deckIndex].Cards[cardIndex]);
+		this.cardFocused.GetComponent<CardLobbyController> ().resetFocusedLobbyCard (model.decks [deckIndex].getCard(cardIndex));
 		this.refreshCredits();
-		if(model.decks [deckIndex].Cards[cardIndex].Error=="")
+		if(model.decks [deckIndex].getCard(cardIndex).Error=="")
 		{
 			this.setGUI (true);
 		}
 		else
 		{
 			this.cardFocused.GetComponent<CardController>().setError();
-			model.decks [deckIndex].Cards[cardIndex].Error="";
+			model.decks [deckIndex].getCard(cardIndex).Error="";
 		}
 	}
 	private void initVM()
@@ -343,9 +343,9 @@ public class LobbyController : Photon.MonoBehaviour
 
 		for(int i=0;i<ApplicationModel.nbCardsByDeck;i++)
 		{
-			this.displayedDeckCards[model.decks[view.decksVM.decksToBeDisplayed[view.decksVM.chosenDeck]].Cards[i].deckOrder].GetComponent<CardLobbyController>().resetLobbyCard(model.decks[view.decksVM.decksToBeDisplayed[view.decksVM.chosenDeck]].Cards[i]);
-			this.displayedDeckCards[model.decks[view.decksVM.decksToBeDisplayed[view.decksVM.chosenDeck]].Cards[i].deckOrder].GetComponent<CardController>().setDeckOrderFeatures(model.decks[view.decksVM.decksToBeDisplayed[view.decksVM.chosenDeck]].Cards[i].deckOrder);
-			view.decksCardVM.displayedCards[model.decks[view.decksVM.decksToBeDisplayed[view.decksVM.chosenDeck]].Cards[i].deckOrder]=i;
+			this.displayedDeckCards[model.decks[view.decksVM.decksToBeDisplayed[view.decksVM.chosenDeck]].getCard(i).deckOrder].GetComponent<CardLobbyController>().resetLobbyCard(model.decks[view.decksVM.decksToBeDisplayed[view.decksVM.chosenDeck]].getCard(i));
+			this.displayedDeckCards[model.decks[view.decksVM.decksToBeDisplayed[view.decksVM.chosenDeck]].getCard(i).deckOrder].GetComponent<CardController>().setDeckOrderFeatures(model.decks[view.decksVM.decksToBeDisplayed[view.decksVM.chosenDeck]].getCard(i).deckOrder);
+			view.decksCardVM.displayedCards[model.decks[view.decksVM.decksToBeDisplayed[view.decksVM.chosenDeck]].getCard(i).deckOrder]=i;
 		}
 	}
 	private void initStyles()

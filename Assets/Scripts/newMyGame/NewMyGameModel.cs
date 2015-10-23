@@ -97,11 +97,11 @@ public class NewMyGameModel
 		}
 		for (int i=0;i<this.decks.Count;i++)
 		{
-			for(int j=0;j<this.decks[i].Cards.Count;j++)
+			for(int j=0;j<this.decks[i].cards.Count;j++)
 			{
 				for(int k=0;k<this.cards.getCount();k++)
 				{
-					if(this.cards.getCard(k).Id==decks[i].Cards[j].Id)
+					if(this.cards.getCard(k).Id==decks[i].cards[j].Id)
 					{
 						this.cards.getCard(k).Decks.Add (decks[i].Id);
 					}
@@ -148,13 +148,13 @@ public class NewMyGameModel
 					decks[i].Name=deckInfo [1];
 					decks[i].NbCards=System.Convert.ToInt32(deckInfo [2]);
 					
-					decks[i].Cards = new List<Card>();
+					decks[i].cards = new List<Card>();
 				}
 				else
 				{
-					decks[i].Cards.Add(new Card ());
-					decks[i].Cards[j-1].Id=System.Convert.ToInt32(deckInfo [0]);
-					decks[i].Cards[j-1].deckOrder=System.Convert.ToInt32(deckInfo[1]);
+					decks[i].cards.Add(new Card ());
+					decks[i].cards[j-1].Id=System.Convert.ToInt32(deckInfo [0]);
+					decks[i].cards[j-1].deckOrder=System.Convert.ToInt32(deckInfo[1]);
 				}
 			}	                     
 		}

@@ -623,10 +623,10 @@ public class newMyGameController : MonoBehaviour
 		this.deckCardsDisplayed = new int[]{-1,-1,-1,-1};
 		if(this.deckDisplayed!=-1)
 		{	
-			for(int i=0;i<model.decks[this.deckDisplayed].Cards.Count;i++)
+			for(int i=0;i<model.decks[this.deckDisplayed].cards.Count;i++)
 			{
-				int deckOrder = model.decks[this.deckDisplayed].Cards[i].deckOrder;
-				int cardId=model.decks[this.deckDisplayed].Cards[i].Id;
+				int deckOrder = model.decks[this.deckDisplayed].cards[i].deckOrder;
+				int cardId=model.decks[this.deckDisplayed].cards[i].Id;
 				for(int j=0;j<model.cards.getCount();j++)
 				{
 					if(model.cards.getCard(j).Id==cardId)
@@ -1378,12 +1378,12 @@ public class newMyGameController : MonoBehaviour
 	{
 		for(int i=0;i<model.decks.Count;i++)
 		{
-			for(int j=0;j<model.decks[i].Cards.Count;j++)
+			for(int j=0;j<model.decks[i].cards.Count;j++)
 			{
-				if(model.decks[i].Cards[j].Id==id)
+				if(model.decks[i].cards[j].Id==id)
 				{
 					model.decks[i].NbCards--;
-					model.decks[i].Cards.RemoveAt(j);
+					model.decks[i].cards.RemoveAt(j);
 					break;
 				}
 			}

@@ -90,7 +90,7 @@ public class EndSceneController : MonoBehaviour
 			cards[i]=Instantiate(cardObject) as GameObject;
 			cards[i].transform.position=new Vector3(-4.5f+i*3f,0f,-8f);
 			cards[i].AddComponent<NewCardEndSceneController>();
-			cards[i].GetComponent<NewCardController>().c=GameController.instance.myDeck.Cards[i];
+			cards[i].GetComponent<NewCardController>().c=GameController.instance.myDeck.cards[i];
 			cards[i].GetComponent<NewCardEndSceneController>().show();
 			cards[i].GetComponent<NewCardEndSceneController>().changeLayer(11,"UIA");
 			cards[i].transform.localScale=new Vector3(0.3108f,0.3108f,0.3108f);

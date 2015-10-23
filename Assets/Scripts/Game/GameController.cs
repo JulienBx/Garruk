@@ -35,35 +35,29 @@ public class GameController : Photon.MonoBehaviour
 	
 	public void launchGC(){
 		
-		Cards c = new Cards();
-		StartCoroutine(c.getCards());
+		this.currentPlayingCard = -1;
+		this.playingCardTurnsToWait = new List<int>();
 		
-//		this.currentPlayingCard = -1;
-//		this.playingCardTurnsToWait = new List<int>();
-//		
-//		this.isFirstPlayer = ApplicationModel.isFirstPlayer;
-//		ApplicationModel.isFirstPlayer = false;
-//		
-//		this.myPlayerName = ApplicationModel.myPlayerName;
-//		this.hisPlayerName = ApplicationModel.hisPlayerName;
-//		
-//		if (ApplicationModel.launchGameTutorial)
-//		{
-//			GameView.instance.setIsTutorialLaunched(true);
-//			ApplicationModel.launchGameTutorial=false;
-//			GameView.instance.launchTuto();
-//		}
-//		else{
-//			GameView.instance.setIsTutorialLaunched(false);
-//		}
-//		
-//		if (this.isFirstPlayer)
-//		{
-//			this.initGrid();
-//		}
+		this.isFirstPlayer = ApplicationModel.isFirstPlayer;
+		ApplicationModel.isFirstPlayer = false;
 		
+		this.myPlayerName = ApplicationModel.myPlayerName;
+		this.hisPlayerName = ApplicationModel.hisPlayerName;
 		
+		if (ApplicationModel.launchGameTutorial)
+		{
+			GameView.instance.setIsTutorialLaunched(true);
+			ApplicationModel.launchGameTutorial=false;
+			GameView.instance.launchTuto();
+		}
+		else{
+			GameView.instance.setIsTutorialLaunched(false);
+		}
 		
+		if (this.isFirstPlayer)
+		{
+			this.initGrid();
+		}
 	}
 	
 	[RPC]
@@ -548,7 +542,9 @@ public class GameController : Photon.MonoBehaviour
 
 		for (int i = 0; i < ApplicationModel.nbCardsByDeck; i++)
 		{
-			GameView.instance.createPlayingCard(deck.Cards [i], isFirstP, this.isFirstPlayer);
+			print("------------");
+			print (deck.cards.Count);
+			GameView.instance.createPlayingCard(deck.cards [i], isFirstP, this.isFirstPlayer);
 		}
 		
 		if (isFirstP == this.isFirstPlayer)
