@@ -3,8 +3,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-public class Cards
-{
+public class Cards{
+
 	public List<Card> cards ;
 	
 	public Cards()

@@ -6,16 +6,6 @@ using System.Linq;
 
 public class Card 
 {
-	private string URLAddXpLevel = ApplicationModel.host + "add_xplevel_to_card.php"; 
-	private string URLSellCard = ApplicationModel.host + "sellCard.php";
-	private string URLPutOnMarket = ApplicationModel.host + "putonmarket.php";
-	private string URLRemoveFromMarket = ApplicationModel.host + "removeFromMarket.php";
-	private string URLChangeMarketPrice = ApplicationModel.host + "changeMarketPrice.php";
-	private string URLRenameCard = ApplicationModel.host + "renameCard.php";
-	private string URLBuyCard = ApplicationModel.host + "buyCard.php";
-	private string URLBuyRandomCard = ApplicationModel.host + "buyRandomCard.php";
-	private string URLUpgradeCardAttribute = ApplicationModel.host + "upgrade_card_attribute.php";
-
 	public int Id; 												// Id unique de la carte
 	public string Art; 									    	// Nom du dessin à appliquer à la carte
 	public string Title; 										// Titre unique de la carte
@@ -48,17 +38,10 @@ public class Card
 	public int RenameCost = 5;
 	public string Error;
 	public List<int> Decks;
-	public IList<Skill> NewSkills;
-	public int CollectionPoints;
-	public int CollectionPointsRanking;
-	public int IdCardTypeUnlocked;
-	public string TitleCardTypeUnlocked;
 	public int deckOrder;
 	public int destructionPrice;
 	public int Power;
 	public int PowerLevel;
-	public int CaracteristicUpgraded;
-	public int CaracteristicIncrease;
 	public bool GetNewSkill;
 	public int nbTurnsToWait ;
 	public bool isMine;
@@ -68,9 +51,6 @@ public class Card
 	public int UpgradedAttackLevel;
 	public int UpgradedLifeLevel;
 	public int UpgradedSpeedLevel;
-	public Skill[] UpgradedSkills;
-	public int RemainingUpgrades;
-
 	public static bool xpDone = false;
 	
 	public Card()
@@ -1136,251 +1116,7 @@ public class Card
 			return true;
 		}
 	}
-	public IEnumerator addXpLevel()
-	{
-		WWWForm form = new WWWForm(); 								// Création de la connexion
-		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_idcard", this.Id.ToString());
-		form.AddField("myform_nick", ApplicationModel.username);
-		
-		WWW w = new WWW(URLAddXpLevel, form); 								// On envoie le formulaire à l'url sur le serveur 
-		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
-		
-		if (w.error != null)
-		{
-			this.Error = w.error; 										// donne l'erreur eventuelle
-		} 
-		else
-		{
-			if (w.text.Contains("#ERROR#"))
-			{
-				string[] errors = w.text.Split(new string[] { "#ERROR#" }, System.StringSplitOptions.None);
-				this.Error = errors [1];
-			} 
-			else
-			{
-				this.Error = "";
-				string [] cardData = w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
-				string [] experienceData = cardData[0].Split(new string[] {"#EXPERIENCEDATA#"},System.StringSplitOptions.None);
-				this.parseCard(experienceData[0]);
-				this.GetNewSkill=System.Convert.ToBoolean(System.Convert.ToInt32(experienceData[1]));
-				this.NewSkills=new List<Skill>();
-				if(this.GetNewSkill)
-				{
-					for(int i=0;i<this.Skills.Count;i++)
-					{
-						if(this.Skills[this.Skills.Count-i-1].IsActivated==1)
-						{
-							if(System.Convert.ToBoolean(System.Convert.ToInt32(experienceData[2])))
-							{
-								this.NewSkills.Add (this.Skills[this.Skills.Count-i-1]);
-								this.Skills[this.Skills.Count-i-1].IsNew=true;
-							}
-							break;
-						}
-					}
-				}
-				this.CollectionPoints = System.Convert.ToInt32(cardData [1]);
-				this.CollectionPointsRanking=System.Convert.ToInt32(cardData[2]);
-			}
-		}
-	}
-	public IEnumerator upgradeCardAttribute(int attributeToUpgrade)
-	{
-		WWWForm form = new WWWForm(); 								// Création de la connexion
-		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_idcard", this.Id.ToString());
-		form.AddField("myform_nick", ApplicationModel.username);
-		form.AddField ("myform_attribute", attributeToUpgrade);
-		
-		WWW w = new WWW(URLUpgradeCardAttribute, form); 								// On envoie le formulaire à l'url sur le serveur 
-		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
-		
-		if (w.error != null)
-		{
-			this.Error = w.error; 										// donne l'erreur eventuelle
-		} 
-		else
-		{
-			if (w.text.Contains("#ERROR#"))
-			{
-				string[] errors = w.text.Split(new string[] { "#ERROR#" }, System.StringSplitOptions.None);
-				this.Error = errors [1];
-			} 
-			else
-			{
-				this.Error = "";
-				string [] cardData = w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
-				string [] experienceData = cardData[0].Split(new string[] {"#EXPERIENCEDATA#"},System.StringSplitOptions.None);
-				this.parseCard(experienceData[0]);
-				Debug.Log (experienceData[1]);
-				this.TitleCardTypeUnlocked=experienceData[1];
-				this.IdCardTypeUnlocked=System.Convert.ToInt32(experienceData[2]);
-				this.CaracteristicUpgraded=System.Convert.ToInt32(experienceData[3]);
-				this.CaracteristicIncrease=System.Convert.ToInt32(experienceData[4]);
-				this.CollectionPoints = System.Convert.ToInt32(cardData [1]);
-				this.CollectionPointsRanking=System.Convert.ToInt32(cardData[2]);
-			}
-		}
-	}
-	public IEnumerator sellCard()
-	{
-		WWWForm form = new WWWForm(); 											// Création de la connexion
-		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_nick", ApplicationModel.username);
-		form.AddField("myform_idcard", this.Id);		
-		WWW w = new WWW(URLSellCard, form); 				// On envoie le formulaire à l'url sur le serveur 
-		yield return w;
-		if (w.error != null)
-		{
-			this.Error = w.error;
-		} else
-		{
-			this.Error = w.text;
-		}
-	}
-	public IEnumerator toSell(int price)
-	{
-		WWWForm form = new WWWForm(); 											// Création de la connexion
-		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_nick", ApplicationModel.username);
-		form.AddField("myform_idcard", Id);
-		form.AddField("myform_price", price);	
-		WWW w = new WWW(URLPutOnMarket, form); 				// On envoie le formulaire à l'url sur le serveur 
-		yield return w;
-		
-		if (w.error != null)
-		{
-			this.Error = w.error;
-		} else
-		{
-			this.Error = w.text;
-			if (this.Error == "")
-			{
-				this.onSale = 1;
-				this.Price = price;
-			}
-		}
-	}
-	public IEnumerator notToSell()
-	{
-		WWWForm form = new WWWForm(); 											// Création de la connexion
-		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_nick", ApplicationModel.username);
-		form.AddField("myform_idcard", Id);
-		WWW w = new WWW(URLRemoveFromMarket, form);             				// On envoie le formulaire à l'url sur le serveur 
-		yield return w;
-		
-		if (w.error != null)
-		{
-			this.Error = w.error;
-		} else
-		{
-			this.Error = w.text;
-			if (this.Error == "")
-			{
-				this.onSale = 0;
-			}
-		}
-	}
-	
-	public IEnumerator changePriceCard(int price)
-	{
-		WWWForm form = new WWWForm(); 											// Création de la connexion
-		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_nick", ApplicationModel.username);
-		form.AddField("myform_idcard", Id);
-		form.AddField("myform_price", price);
-		WWW w = new WWW(URLChangeMarketPrice, form); 				            // On envoie le formulaire à l'url sur le serveur 
-		yield return w;
-		
-		if (w.error != null)
-		{
-			this.Error = w.error;
-		} else
-		{
-			this.Error = w.text;
-			if (this.Error == "")
-			{
-				this.Price = price;
-			}
-		}
-	}
-	
-	public IEnumerator renameCard(string newName, int renameCost)
-	{
-		WWWForm form = new WWWForm(); 											// Création de la connexion
-		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_nick", ApplicationModel.username);
-		form.AddField("myform_idcard", Id);
-		form.AddField("myform_title", newName);
-		form.AddField("myform_cost", renameCost);
-		
-		WWW w = new WWW(URLRenameCard, form); 				// On envoie le formulaire à l'url sur le serveur 
-		yield return w;
-		
-		if (w.error != null)
-		{
-			this.Error = w.error;
-		} else
-		{
-			this.Error = w.text;
-			if (this.Error == "")
-			{
-				this.Title = newName;
-			}
-		}
-	}
-	public IEnumerator buyCard()
-	{
-		this.NewSkills = new List<Skill>();
-		WWWForm form = new WWWForm(); 											// Création de la connexion
-		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_nick", ApplicationModel.username);
-		form.AddField("myform_idcard", this.Id);
-		form.AddField ("myform_price", this.Price);
-		
-		WWW w = new WWW(URLBuyCard, form); 				// On envoie le formulaire à l'url sur le serveur 
-		yield return w;
-		
-		if (w.error != null)
-		{
-			this.Error = w.error;
-		} else
-		{
-			if (w.text.Contains("#ERROR#"))
-			{
-				string[] errors = w.text.Split(new string[] { "#ERROR#" }, System.StringSplitOptions.None);
-				this.Error = errors [1];
-				if (w.text.Contains("#SOLD#"))
-				{
-					this.onSale = 0;
-					this.IdOWner=-1;
-				}
-				else if (w.text.Contains("#PRICECHANGED#"))
-				{
-					string[] newPrice = w.text.Split(new string[] { "#PRICECHANGED#" }, System.StringSplitOptions.None);
-					this.Price=System.Convert.ToInt32(newPrice[0]);
-				}
-			}
-			else
-			{
-				this.Error = "";
-				this.onSale = 0;
-				string[] data = w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
-				string[] cardData = data [0].Split(new string[] { "//" }, System.StringSplitOptions.None);
-				this.CollectionPoints = System.Convert.ToInt32(cardData [0]);
-				this.IdCardTypeUnlocked=System.Convert.ToInt32(cardData[1]);
-				this.TitleCardTypeUnlocked=cardData[2];
-				string[] newSkills = data [1].Split(new string[] { "//" }, System.StringSplitOptions.None);
-				for (int i=0; i<newSkills.Length-1; i++)
-				{
-					this.NewSkills.Add(new Skill());
-					this.NewSkills [i].Name = newSkills [i];
-				}
-			}
-		}
-	}
+
 	public void parseCard(string s)
 	{
 		string[] cardData = null;
@@ -1412,7 +1148,7 @@ public class Card
 				this.NextLevelPrice=System.Convert.ToInt32(cardInfo[17]);
 				this.onSale=System.Convert.ToInt32(cardInfo[18]);
 				this.Price=System.Convert.ToInt32(cardInfo[19]);
-				//this.cards[i].OnSaleDate=new DateTime(cardInfo[20]);
+				this.OnSaleDate=DateTime.ParseExact(cardInfo[20], "yyyy-MM-dd HH:mm:ss", null);
 				this.nbWin=System.Convert.ToInt32(cardInfo[21]);
 				this.nbLoose=System.Convert.ToInt32(cardInfo[22]);
 				this.destructionPrice=System.Convert.ToInt32(cardInfo[23]);

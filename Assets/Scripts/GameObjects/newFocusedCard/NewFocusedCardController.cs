@@ -9,12 +9,31 @@ public class NewFocusedCardController : MonoBehaviour
 {
 	private NewFocusedCardRessources ressources;
 	public NewPopUpRessources popUpRessources;
-	public Card c;
 	public GameObject[] skills;
 	public GameObject experience;
 	public GameObject cardUpgrade;
 	public GameObject panelSold;
 	public GameObject nextLevelPopUp;
+
+	public Card c;
+	public int collectionPointsEarned;
+	public int newCollectionRanking;
+	public int idCardTypeUnlocked;
+	public string titleCardTypeUnlocked;
+	public List<Skill> skillsUnlocked;
+	public bool getNewSkill;
+	public int caracteristicUpgraded;
+	public int caracteristicIncrease;
+
+	private string urlAddXpLevel = ApplicationModel.host + "add_xplevel_to_card.php"; 
+	private string urlUpgradeCardAttribute = ApplicationModel.host + "upgrade_card_attribute.php";
+	private string urlBuyCard = ApplicationModel.host + "buyCard.php";
+	private string urlChangeMarketPrice = ApplicationModel.host + "changeMarketPrice.php";
+	private string urlRenameCard = ApplicationModel.host + "renameCard.php";
+	private string urlRemoveFromMarket = ApplicationModel.host + "removeFromMarket.php";
+	private string urlSellCard = ApplicationModel.host + "sellCard.php";
+	private string urlPutOnMarket = ApplicationModel.host + "putonmarket.php";
+	private string urlBuyRandomCard = ApplicationModel.host + "buyRandomCard.php";
 	
 	private Rect centralWindow;
 	private Rect collectionPointsWindow;
@@ -23,8 +42,6 @@ public class NewFocusedCardController : MonoBehaviour
 
 	private NewFocusedCardSellPopUpView sellView;
 	private bool isSellViewDisplayed;
-	private NewFocusedCardErrorPopUpView errorView;
-	private bool isErrorViewDisplayed;
 	private NewFocusedCardRenamePopUpView renameView;
 	private bool isRenameViewDisplayed;
 	private NewFocusedCardBuyPopUpView buyView;
@@ -45,6 +62,8 @@ public class NewFocusedCardController : MonoBehaviour
 	private bool isNewCardTypeViewDisplayed;
 	private NewFocusedCardSoldPopUpView soldCardView;
 	private bool isSoldCardViewDisplayed;
+	private NewFocusedCardErrorPopUpView errorView;
+	private bool isErrorViewDisplayed;
 
 	private bool isCardUpgradeDisplayed;
 	private bool isSkillHighlighted;
@@ -58,6 +77,7 @@ public class NewFocusedCardController : MonoBehaviour
 	
 	private bool isNextLevelPopUpDisplayed;
 	
+
 	public virtual void Update ()
 	{
 		if(isCollectionPointsViewDisplayed)
@@ -135,10 +155,10 @@ public class NewFocusedCardController : MonoBehaviour
 
 		for(int i=0;i<this.skills.Length;i++)
 		{
-			if(i<c.Skills.Count && c.Skills[i].IsActivated==1)
+			if(i<this.c.Skills.Count && this.c.Skills[i].IsActivated==1)
 			{
-				this.skills[i].transform.GetComponent<NewFocusedCardSkillController>().setSkill(c.Skills[i]);
-				this.skills[i].transform.GetComponent<NewFocusedCardSkillController>().setDescription(c.getSkillText(c.Skills[i].Description));
+				this.skills[i].transform.GetComponent<NewFocusedCardSkillController>().setSkill(this.c.Skills[i]);
+				this.skills[i].transform.GetComponent<NewFocusedCardSkillController>().setDescription(this.c.getSkillText(this.c.Skills[i].Description));
 				this.skills[i].SetActive(true);
 			}
 			else
@@ -146,8 +166,12 @@ public class NewFocusedCardController : MonoBehaviour
 				this.skills[i].SetActive(false);
 			}
 		}
-		this.experience.GetComponent<NewFocusedCardExperienceController> ().setExperience (this.c.ExperienceLevel, this.c.PercentageToNextLevel);
+		this.setExperience ();
 		this.updateFocusFeatures ();
+	}
+	public virtual void setExperience()
+	{
+		this.experience.GetComponent<NewFocusedCardExperienceController> ().setExperience (this.c.ExperienceLevel, this.c.PercentageToNextLevel);
 	}
 	public virtual void applyFrontTexture()
 	{
@@ -178,11 +202,11 @@ public class NewFocusedCardController : MonoBehaviour
 		if(hasChangedLevel)
 		{
 			this.show ();
-			if(this.c.CollectionPoints>0)
+			if(this.collectionPointsEarned>0)
 			{
 				this.displayCollectionPointsPopUp();
 			}
-			if(this.c.NewSkills.Count>0)
+			if(this.skillsUnlocked.Count>0)
 			{
 				this.displayNewSkillsPopUp();
 			}
@@ -207,15 +231,15 @@ public class NewFocusedCardController : MonoBehaviour
 		}
 		this.show ();
 		this.updateFocus ();
-		if(this.c.CollectionPoints>0)
+		if(this.collectionPointsEarned>0)
 		{
 			this.displayCollectionPointsPopUp();
 		}
-		if(this.c.IdCardTypeUnlocked!=-1)
+		if(this.idCardTypeUnlocked!=-1)
 		{
 			this.displayNewCardTypePopUp();
 		}
-		if(this.c.CaracteristicUpgraded>-1&&this.c.CaracteristicIncrease>0)
+		if(this.caracteristicUpgraded>-1&&this.caracteristicIncrease>0)
 		{
 			this.setCardUpgrade();
 		}
@@ -255,18 +279,6 @@ public class NewFocusedCardController : MonoBehaviour
 		sellView.popUpVM.centralWindowButtonStyle = new GUIStyle (popUpRessources.popUpSkin.button);
 		sellView.popUpVM.transparentStyle = new GUIStyle (popUpRessources.popUpSkin.customStyles [2]);
 		this.sellPopUpResize ();
-	}
-	public void displayErrorPopUp()
-	{
-		this.errorView = gameObject.AddComponent<NewFocusedCardErrorPopUpView> ();
-		this.isErrorViewDisplayed = true;
-		errorView.errorPopUpVM.error = this.c.Error;
-		this.c.Error = "";
-		errorView.popUpVM.centralWindowStyle = new GUIStyle(popUpRessources.popUpSkin.customStyles[3]);
-		errorView.popUpVM.centralWindowTitleStyle = new GUIStyle (popUpRessources.popUpSkin.customStyles [0]);
-		errorView.popUpVM.centralWindowButtonStyle = new GUIStyle (popUpRessources.popUpSkin.button);
-		errorView.popUpVM.transparentStyle = new GUIStyle (popUpRessources.popUpSkin.customStyles [2]);
-		this.errorPopUpResize ();
 	}
 	public void displayRenameCardPopUp()
 	{
@@ -359,8 +371,8 @@ public class NewFocusedCardController : MonoBehaviour
 		this.isCollectionPointsViewDisplayed = true;
 		this.timerCollectionPoints = 0f;
 		collectionPointsView.popUpVM.centralWindow = this.collectionPointsWindow;
-		collectionPointsView.cardCollectionPointsPopUpVM.collectionPoints = this.c.CollectionPoints;
-		collectionPointsView.cardCollectionPointsPopUpVM.collectionPointsRanking = this.c.CollectionPointsRanking;
+		collectionPointsView.cardCollectionPointsPopUpVM.collectionPoints = this.collectionPointsEarned;
+		collectionPointsView.cardCollectionPointsPopUpVM.collectionPointsRanking = this.newCollectionRanking;
 		collectionPointsView.popUpVM.centralWindowStyle = new GUIStyle(popUpRessources.popUpSkin.window);
 		collectionPointsView.popUpVM.centralWindowTitleStyle = new GUIStyle (popUpRessources.popUpSkin.customStyles [0]);
 		this.collectionPointsPopUpResize ();
@@ -374,15 +386,15 @@ public class NewFocusedCardController : MonoBehaviour
 		this.newSkillsView = gameObject.AddComponent<NewSkillsPopUpView>();
 		this.isNewSkillsViewDisplayed = true;
 		newSkillsView.popUpVM.centralWindow = this.newSkillsWindow;
-		for(int i=0;i<this.c.NewSkills.Count;i++)
+		for(int i=0;i<this.skillsUnlocked.Count;i++)
 		{
-			newSkillsView.cardNewSkillsPopUpVM.skills.Add (this.c.NewSkills[i].Name);
+			newSkillsView.cardNewSkillsPopUpVM.skills.Add (this.skillsUnlocked[i].Name);
 		}
-		if(this.c.NewSkills.Count>1)
+		if(this.skillsUnlocked.Count>1)
 		{
 			newSkillsView.cardNewSkillsPopUpVM.title="Nouvelles compétences :";
 		}
-		else if(this.c.NewSkills.Count==1)
+		else if(this.skillsUnlocked.Count==1)
 		{
 			newSkillsView.cardNewSkillsPopUpVM.title="Nouvelle compétence :";
 		}
@@ -395,7 +407,7 @@ public class NewFocusedCardController : MonoBehaviour
 		newCardTypeView = gameObject.AddComponent<NewFocusedCardNewCardTypePopUpView>();
 		this.isNewCardTypeViewDisplayed = true;
 		newCardTypeView.popUpVM.centralWindow = this.newCardTypeWindow;
-		newCardTypeView.cardNewCardTypePopUpVM.newCardType = this.c.TitleCardTypeUnlocked;
+		newCardTypeView.cardNewCardTypePopUpVM.newCardType = this.titleCardTypeUnlocked;
 		newCardTypeView.popUpVM.centralWindowStyle = new GUIStyle(popUpRessources.popUpSkin.window);
 		newCardTypeView.popUpVM.centralWindowTitleStyle = new GUIStyle (popUpRessources.popUpSkin.customStyles [0]);
 		newCardTypeView.popUpVM.centralWindowButtonStyle = new GUIStyle (popUpRessources.popUpSkin.button);
@@ -412,15 +424,21 @@ public class NewFocusedCardController : MonoBehaviour
 		soldCardView.popUpVM.transparentStyle = new GUIStyle (popUpRessources.popUpSkin.customStyles [2]);
 		this.soldCardPopUpResize ();
 	}
+	public void displayErrorPopUp(string error)
+	{
+		this.errorView = gameObject.AddComponent<NewFocusedCardErrorPopUpView> ();
+		this.isErrorViewDisplayed = true;
+		errorView.errorPopUpVM.error = error;
+		errorView.popUpVM.centralWindowStyle = new GUIStyle(popUpRessources.popUpSkin.customStyles[3]);
+		errorView.popUpVM.centralWindowTitleStyle = new GUIStyle (popUpRessources.popUpSkin.customStyles [0]);
+		errorView.popUpVM.centralWindowButtonStyle = new GUIStyle (popUpRessources.popUpSkin.button);
+		errorView.popUpVM.transparentStyle = new GUIStyle (popUpRessources.popUpSkin.customStyles [2]);
+		this.errorPopUpResize ();
+	}
 	private void sellPopUpResize()
 	{
 		sellView.popUpVM.centralWindow = this.centralWindow;
 		sellView.popUpVM.resize ();
-	}
-	private void errorPopUpResize()
-	{
-		errorView.popUpVM.centralWindow = this.centralWindow;
-		errorView.popUpVM.resize ();
 	}
 	private void renamePopUpResize()
 	{
@@ -472,15 +490,15 @@ public class NewFocusedCardController : MonoBehaviour
 		soldCardView.popUpVM.centralWindow = this.centralWindow;
 		soldCardView.popUpVM.resize ();
 	}
+	private void errorPopUpResize()
+	{
+		errorView.popUpVM.centralWindow = this.centralWindow;
+		errorView.popUpVM.resize ();
+	}
 	public void hideSellPopUp()
 	{
 		Destroy (this.sellView);
 		this.isSellViewDisplayed = false;
-	}
-	public void hideErrorPopUp()
-	{
-		Destroy (this.errorView);
-		this.isErrorViewDisplayed = false;
 	}
 	public void hideRenamePopUp()
 	{
@@ -532,6 +550,11 @@ public class NewFocusedCardController : MonoBehaviour
 		Destroy (this.soldCardView);
 		this.isSoldCardViewDisplayed = false;
 	}
+	public void hideErrorPopUp()
+	{
+		Destroy (this.errorView);
+		this.isErrorViewDisplayed = false;
+	}
 	public void sellCardHandler()
 	{
 		this.StartCoroutine (sellCard ());
@@ -540,16 +563,29 @@ public class NewFocusedCardController : MonoBehaviour
 	{
 		this.hideSellPopUp ();
 		this.displayLoadingScreen ();
-		yield return StartCoroutine (this.c.sellCard());
-		this.refreshCredits();
-		if(this.c.Error=="")
+
+		WWWForm form = new WWWForm(); 											// Création de la connexion
+		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
+		form.AddField("myform_nick", ApplicationModel.username);
+		form.AddField("myform_idcard", this.c.Id);		
+		WWW w = new WWW(urlSellCard, form); 				// On envoie le formulaire à l'url sur le serveur 
+		yield return w;
+		if (w.error != null)
 		{
-			this.deleteCard();
-		}
+			this.displayErrorPopUp(w.error);
+		} 
 		else
 		{
-			this.displayErrorPopUp();
+			if(w.text=="")
+			{
+				this.deleteCard();
+			}
+			else
+			{
+				this.displayErrorPopUp(w.text);
+			}
 		}
+		this.refreshCredits();
 		this.hideLoadingScreen ();
 	}
 	public virtual void deleteCard()
@@ -563,17 +599,45 @@ public class NewFocusedCardController : MonoBehaviour
 			StartCoroutine(this.renameCard(tempString));
 		}
 	}
-	public IEnumerator upgradeCardAttribute(int attributeToUpgrade)
+	public IEnumerator upgradeCardAttribute(int attributeToUpgrade, int newPower, int newLevel)
 	{
 		this.displayLoadingScreen ();
-		yield return StartCoroutine (this.c.upgradeCardAttribute (attributeToUpgrade));
-		if(this.c.Error=="")
+
+		WWWForm form = new WWWForm(); 								// Création de la connexion
+		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
+		form.AddField("myform_idcard", this.c.Id.ToString());
+		form.AddField("myform_nick", ApplicationModel.username);
+		form.AddField ("myform_attribute", attributeToUpgrade);
+		form.AddField ("myform_newpower", newPower);
+		form.AddField ("myform_newlevel", newLevel);
+		
+		WWW w = new WWW(urlUpgradeCardAttribute, form); 								// On envoie le formulaire à l'url sur le serveur 
+		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
+		
+		if (w.error != null)
 		{
-			this.endUpdatingCardToNextLevel();
-		}
+			this.displayErrorPopUp(w.error);									// donne l'erreur eventuelle
+		} 
 		else
 		{
-			this.displayErrorPopUp();
+			if (w.text.Contains("#ERROR#"))
+			{
+				string[] errors = w.text.Split(new string[] { "#ERROR#" }, System.StringSplitOptions.None);
+				this.displayErrorPopUp(errors[1]);
+			} 
+			else
+			{
+				string [] cardData = w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
+				string [] experienceData = cardData[0].Split(new string[] {"#EXPERIENCEDATA#"},System.StringSplitOptions.None);
+				this.c.parseCard(experienceData[0]);
+				this.titleCardTypeUnlocked=experienceData[1];
+				this.idCardTypeUnlocked=System.Convert.ToInt32(experienceData[2]);
+				this.caracteristicUpgraded=System.Convert.ToInt32(experienceData[3]);
+				this.caracteristicIncrease=System.Convert.ToInt32(experienceData[4]);
+				this.collectionPointsEarned = System.Convert.ToInt32(cardData [1]);
+				this.newCollectionRanking=System.Convert.ToInt32(cardData[2]);
+				this.endUpdatingCardToNextLevel();
+			}
 		}
 		this.hideLoadingScreen ();
 	}
@@ -581,8 +645,32 @@ public class NewFocusedCardController : MonoBehaviour
 	{
 		this.hideRenamePopUp ();
 		this.displayLoadingScreen ();
-		yield return StartCoroutine(this.c.renameCard(newName,this.c.RenameCost));
-		gameObject.transform.FindChild ("Name").GetComponent<TextMeshPro> ().text = this.c.Title.ToUpper();
+		WWWForm form = new WWWForm(); 											// Création de la connexion
+		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
+		form.AddField("myform_nick", ApplicationModel.username);
+		form.AddField("myform_idcard", this.c.Id);
+		form.AddField("myform_title", newName);
+		form.AddField("myform_cost", this.c.RenameCost);
+		
+		WWW w = new WWW(urlRenameCard, form); 				// On envoie le formulaire à l'url sur le serveur 
+		yield return w;
+		
+		if (w.error != null)
+		{
+			this.displayErrorPopUp(w.error);
+		} 
+		else
+		{
+			if (w.text == "")
+			{
+				this.c.Title = newName;
+				gameObject.transform.FindChild ("Name").GetComponent<TextMeshPro> ().text = this.c.Title.ToUpper();
+			}
+			else
+			{
+				this.displayErrorPopUp(w.text);
+			}
+		}
 		this.updateFocus ();
 		this.hideLoadingScreen ();
 	}
@@ -594,16 +682,54 @@ public class NewFocusedCardController : MonoBehaviour
 	{
 		this.hideBuyXpPopUp();
 		this.displayLoadingScreen ();
-		yield return StartCoroutine(this.c.addXpLevel());
-		this.refreshCredits();
-		if(this.c.Error=="")
+
+		WWWForm form = new WWWForm(); 								// Création de la connexion
+		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
+		form.AddField("myform_idcard", this.c.Id.ToString());
+		form.AddField("myform_nick", ApplicationModel.username);
+		
+		WWW w = new WWW(urlAddXpLevel, form); 								// On envoie le formulaire à l'url sur le serveur 
+		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
+		
+		if (w.error != null)
 		{
-			this.animateExperience();
-		}
+			this.displayErrorPopUp(w.error); 										// donne l'erreur eventuelle
+		} 
 		else
 		{
-			this.displayErrorPopUp();
+			if (w.text.Contains("#ERROR#"))
+			{
+				string[] errors = w.text.Split(new string[] { "#ERROR#" }, System.StringSplitOptions.None);
+				this.displayErrorPopUp(errors [1]);
+			} 
+			else
+			{
+				string [] cardData = w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
+				string [] experienceData = cardData[0].Split(new string[] {"#EXPERIENCEDATA#"},System.StringSplitOptions.None);
+				this.c.parseCard(experienceData[0]);
+				this.getNewSkill=System.Convert.ToBoolean(System.Convert.ToInt32(experienceData[1]));
+				this.skillsUnlocked=new List<Skill>();
+				if(this.getNewSkill)
+				{
+					for(int i=0;i<this.c.Skills.Count;i++)
+					{
+						if(this.c.Skills[this.c.Skills.Count-i-1].IsActivated==1)
+						{
+							if(System.Convert.ToBoolean(System.Convert.ToInt32(experienceData[2])))
+							{
+								this.skillsUnlocked.Add (this.c.Skills[this.c.Skills.Count-i-1]);
+								this.c.Skills[this.c.Skills.Count-i-1].IsNew=true;
+							}
+							break;
+						}
+					}
+				}
+				this.collectionPointsEarned = System.Convert.ToInt32(cardData [1]);
+				this.newCollectionRanking=System.Convert.ToInt32(cardData[2]);
+				this.animateExperience();
+			}
 		}
+		this.refreshCredits();
 		this.hideLoadingScreen ();
 	}
 	public void buyCardHandler()
@@ -614,44 +740,75 @@ public class NewFocusedCardController : MonoBehaviour
 	{
 		this.hideBuyPopUp ();
 		this.displayLoadingScreen ();
+
 		int oldPrice = this.c.Price;
-		yield return StartCoroutine(this.c.buyCard());
-		this.refreshCredits ();
-		if(this.c.Error=="")
+		this.skillsUnlocked = new List<Skill>();
+
+		WWWForm form = new WWWForm(); 											// Création de la connexion
+		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
+		form.AddField("myform_nick", ApplicationModel.username);
+		form.AddField("myform_idcard", this.c.Id);
+		form.AddField ("myform_price", this.c.Price);
+		
+		WWW w = new WWW(urlBuyCard, form); 				// On envoie le formulaire à l'url sur le serveur 
+		yield return w;
+		
+		if (w.error != null)
 		{
-			this.displayPanelSold();
-			this.updateFocusFeatures ();
-			if(this.c.CollectionPoints>0)
-			{
-				this.displayCollectionPointsPopUp();
-			}
-			if(this.c.NewSkills.Count>0)
-			{
-				this.displayNewSkillsPopUp();
-			}
-			if(this.c.IdCardTypeUnlocked!=-1)
-			{
-				this.displayNewCardTypePopUp();
-			}
-		}
-		else
+			this.displayErrorPopUp(w.error);
+		} else
 		{
-			if(this.c.onSale==0)
+			if (w.text.Contains("#ERROR#"))
 			{
-				this.c.Error="";
-				this.setCardSold();
-			}
-			else if(this.c.Price!=oldPrice)
-			{
-				this.actualizePrice();
-				this.displayErrorPopUp();
+				string[] errors = w.text.Split(new string[] { "#ERROR#" }, System.StringSplitOptions.None);
+				if (w.text.Contains("#SOLD#"))
+				{
+					this.c.onSale = 0;
+					this.c.IdOWner=-1;
+					this.setCardSold();
+				}
+				else if (w.text.Contains("#PRICECHANGED#"))
+				{
+					string[] newPrice = w.text.Split(new string[] { "#PRICECHANGED#" }, System.StringSplitOptions.None);
+					this.c.Price=System.Convert.ToInt32(newPrice[0]);
+					this.actualizePrice();
+					this.displayErrorPopUp(errors [1]);
+				}
+				else
+				{
+					this.displayErrorPopUp(errors [1]);
+				}
 			}
 			else
 			{
-				this.displayErrorPopUp();
+				this.c.onSale = 0;
+				string[] data = w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
+				string[] cardData = data [0].Split(new string[] { "//" }, System.StringSplitOptions.None);
+				this.collectionPointsEarned = System.Convert.ToInt32(cardData [0]);
+				this.idCardTypeUnlocked=System.Convert.ToInt32(cardData[1]);
+				this.titleCardTypeUnlocked=cardData[2];
+				string[] newSkills = data [1].Split(new string[] { "//" }, System.StringSplitOptions.None);
+				for (int i=0; i<newSkills.Length-1; i++)
+				{
+					this.skillsUnlocked.Add(new Skill());
+					this.skillsUnlocked [i].Name = newSkills [i];
+				}
+				this.displayPanelSold();
+				this.updateFocusFeatures ();
+				if(this.collectionPointsEarned>0)
+				{
+					this.displayCollectionPointsPopUp();
+				}
+				if(this.skillsUnlocked.Count>0)
+				{
+					this.displayNewSkillsPopUp();
+				}
+				if(this.idCardTypeUnlocked!=-1)
+				{
+					this.displayNewCardTypePopUp();
+				}
 			}
 		}
-		this.hideLoadingScreen ();
 	}
 	public virtual void actualizePrice()
 	{
@@ -668,8 +825,30 @@ public class NewFocusedCardController : MonoBehaviour
 	{
 		this.hideEditSellPricePopUp ();
 		this.displayLoadingScreen ();
-		yield return StartCoroutine (this.c.changePriceCard (newPrice));
-		this.updateFocus ();
+		WWWForm form = new WWWForm(); 											// Création de la connexion
+		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
+		form.AddField("myform_nick", ApplicationModel.username);
+		form.AddField("myform_idcard", this.c.Id);
+		form.AddField("myform_price", newPrice);
+		WWW w = new WWW(urlChangeMarketPrice, form); 				            // On envoie le formulaire à l'url sur le serveur 
+		yield return w;
+		
+		if (w.error != null)
+		{
+			this.displayErrorPopUp(w.error);
+		} 
+		else
+		{
+			if (w.text == "")
+			{
+				this.c.Price = newPrice;
+				this.updateFocus ();
+			}
+			else
+			{
+				this.displayErrorPopUp(w.text);
+			}
+		}
 		this.hideLoadingScreen ();
 	}
 	public void unsellCardHandler()
@@ -680,7 +859,29 @@ public class NewFocusedCardController : MonoBehaviour
 	{
 		this.hideEditSellPopUp ();
 		this.displayLoadingScreen ();
-		yield return StartCoroutine (this.c.notToSell ());
+
+		WWWForm form = new WWWForm(); 											// Création de la connexion
+		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
+		form.AddField("myform_nick", ApplicationModel.username);
+		form.AddField("myform_idcard", this.c.Id);
+		WWW w = new WWW(urlRemoveFromMarket, form);             				// On envoie le formulaire à l'url sur le serveur 
+		yield return w;
+		
+		if (w.error != null)
+		{
+			this.displayErrorPopUp(w.error);
+		} 
+		else
+		{
+			if (w.text == "")
+			{
+				this.c.onSale = 0;
+			}
+			else
+			{
+				this.displayErrorPopUp(w.text);
+			}
+		}
 		this.updateFocus ();
 		this.hideLoadingScreen ();
 	}
@@ -696,7 +897,31 @@ public class NewFocusedCardController : MonoBehaviour
 	{
 		this.hidePutOnMarketPopUp ();
 		this.displayLoadingScreen ();
-		yield return StartCoroutine (this.c.toSell (price));
+
+		WWWForm form = new WWWForm(); 											// Création de la connexion
+		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
+		form.AddField("myform_nick", ApplicationModel.username);
+		form.AddField("myform_idcard", this.c.Id);
+		form.AddField("myform_price", price);	
+		WWW w = new WWW(urlPutOnMarket, form); 				// On envoie le formulaire à l'url sur le serveur 
+		yield return w;
+		
+		if (w.error != null)
+		{
+			this.displayErrorPopUp(w.error);
+		} 
+		else
+		{
+			if (w.text == "")
+			{
+				this.c.onSale = 1;
+				this.c.Price = price;
+			}
+			else
+			{
+				this.displayErrorPopUp(w.text);
+			}
+		}
 		this.updateFocus ();
 		this.hideLoadingScreen ();
 	}
@@ -795,6 +1020,10 @@ public class NewFocusedCardController : MonoBehaviour
 		{
 			this.hideNextLevelPopUp();
 		}
+		if(this.isErrorViewDisplayed)
+		{
+			this.hideErrorPopUp();
+		}
 	}
 	public void exitFocus()
 	{
@@ -816,13 +1045,8 @@ public class NewFocusedCardController : MonoBehaviour
 	}
 	public void updateFocus()
 	{
-		//this.show ();
 		this.updateFocusFeatures ();
 		this.refreshCredits();
-		if(this.c.Error!="")
-		{
-			this.displayErrorPopUp();
-		}
 	}
 	public void resize()
 	{
@@ -833,10 +1057,6 @@ public class NewFocusedCardController : MonoBehaviour
 		else if(isSellViewDisplayed)
 		{
 			this.sellPopUpResize();
-		}
-		else if(isErrorViewDisplayed)
-		{
-			this.errorPopUpResize();
 		}
 		else if(isRenameViewDisplayed)
 		{
@@ -870,6 +1090,10 @@ public class NewFocusedCardController : MonoBehaviour
 		{
 			this.soldCardPopUpResize();
 		}
+		else if(this.isErrorViewDisplayed)
+		{
+			this.hideErrorPopUp();
+		}
 		if(isCollectionPointsViewDisplayed)
 		{
 			this.collectionPointsPopUpResize();
@@ -888,10 +1112,6 @@ public class NewFocusedCardController : MonoBehaviour
 		else if(isSellViewDisplayed)
 		{
 			this.sellCardHandler();
-		}
-		else if(isErrorViewDisplayed)
-		{
-			this.hideErrorPopUp();
 		}
 		else if(isRenameViewDisplayed)
 		{
@@ -921,6 +1141,10 @@ public class NewFocusedCardController : MonoBehaviour
 		{
 			this.hideNewCardTypePopUp();
 		}
+		else if(this.isErrorViewDisplayed)
+		{
+			this.hideErrorPopUp();
+		}
 		else if(isSoldCardViewDisplayed)
 		{
 			this.exitFocus();
@@ -935,10 +1159,6 @@ public class NewFocusedCardController : MonoBehaviour
 		else if(isSellViewDisplayed)
 		{
 			this.hideSellPopUp();
-		}
-		else if(isErrorViewDisplayed)
-		{
-			this.hideErrorPopUp();
 		}
 		else if(isRenameViewDisplayed)
 		{
@@ -968,6 +1188,10 @@ public class NewFocusedCardController : MonoBehaviour
 		{
 			this.hideNewCardTypePopUp();
 		}
+		else if(this.isErrorViewDisplayed)
+		{
+			this.hideErrorPopUp();
+		}
 		else
 		{
 			return false;
@@ -987,8 +1211,8 @@ public class NewFocusedCardController : MonoBehaviour
 	public void setCardUpgrade()
 	{
 		this.cardUpgrade.SetActive(true);
-		this.cardUpgrade.GetComponent<NewCardUpgradeController> ().setCardUpgrade (this.c.CaracteristicIncrease);
-		this.cardUpgrade.transform.position = this.getCardUpgradePosition (this.c.CaracteristicUpgraded);
+		this.cardUpgrade.GetComponent<NewCardUpgradeController> ().setCardUpgrade (this.caracteristicIncrease);
+		this.cardUpgrade.transform.position = this.getCardUpgradePosition (this.caracteristicUpgraded);
 		this.timerCardUpgrade = 0;
 		this.isCardUpgradeDisplayed = true;
 	}
@@ -996,13 +1220,13 @@ public class NewFocusedCardController : MonoBehaviour
 	{
 		if(isSkillHighlighted)
 		{
-			this.skills[c.Skills.Count-2].GetComponent<NewFocusedCardSkillController>().highlightSkill(false);
+			this.skills[this.c.Skills.Count-2].GetComponent<NewFocusedCardSkillController>().highlightSkill(false);
 		}
 		else
 		{
 			this.isSkillHighlighted=true;
 		}
-		this.skills[c.Skills.Count-1].GetComponent<NewFocusedCardSkillController>().highlightSkill(true);
+		this.skills[this.c.Skills.Count-1].GetComponent<NewFocusedCardSkillController>().highlightSkill(true);
 		this.timerSkillHighlighted=0;
 	}
 	public virtual Vector3 getCardUpgradePosition (int caracteristicUpgraded)
@@ -1059,7 +1283,7 @@ public class NewFocusedCardController : MonoBehaviour
 	{
 		this.setIsXpBeingUpdated (true);
 		newMenuController.instance.setIsUserBusy (true);
-		this.experience.GetComponent<NewFocusedCardExperienceController>().startUpdatingXp(c.ExperienceLevel,c.PercentageToNextLevel);
+		this.experience.GetComponent<NewFocusedCardExperienceController>().startUpdatingXp(this.c.ExperienceLevel,this.c.PercentageToNextLevel);
 	}
 	public virtual Color getColors(int id)
 	{
@@ -1092,7 +1316,7 @@ public class NewFocusedCardController : MonoBehaviour
 		this.nextLevelPopUp.transform.parent=this.gameObject.transform;
 		this.nextLevelPopUp.transform.position = new Vector3 (gameObject.transform.position.x, 0, -2f);
 		this.nextLevelPopUp.AddComponent<NextLevelPopUpControllerNewFocusedCard> ();
-		this.nextLevelPopUp.transform.GetComponent<NextLevelPopUpController> ().show (this.c);
+		this.nextLevelPopUp.transform.GetComponent<NextLevelPopUpController> ().initialize (this.c);
 		this.isNextLevelPopUpDisplayed=true;
 	}
 	public void hideNextLevelPopUp()
@@ -1102,9 +1326,9 @@ public class NewFocusedCardController : MonoBehaviour
 		Destroy (this.nextLevelPopUp);
 		this.isNextLevelPopUpDisplayed=false;
 	}
-	public void clickOnAttribute(int index)
+	public void clickOnAttribute(int index, int newPower, int newLevel)
 	{
-		StartCoroutine(this.upgradeCardAttribute(index));
+		StartCoroutine(this.upgradeCardAttribute(index, newPower, newLevel));
 	}
 }
 

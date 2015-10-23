@@ -542,7 +542,7 @@ public class NewStoreController : MonoBehaviour
 				this.randomCards [i].AddComponent<NewCardStoreController>();
 				this.randomCards [i].name=name;
 				this.randomCards[i].GetComponent<NewCardStoreController>().setId(i);
-				this.randomCards[i].GetComponent<NewCardStoreController>().c=model.packList[this.selectedPackIndex+chosenPage*nbPages].Cards[i];
+				this.randomCards[i].GetComponent<NewCardStoreController>().c=model.packList[this.selectedPackIndex+chosenPage*nbPages].Cards.getCard(i);
 				this.randomCards[i].GetComponent<NewCardStoreController>().show();
 				this.randomCards[i].GetComponent<NewCardStoreController>().setBackFace(true);
 				this.randomCards[i].transform.rotation=Quaternion.Euler(0, 180, 0);
@@ -559,7 +559,7 @@ public class NewStoreController : MonoBehaviour
 			this.randomCardsDisplayed[0]=true;
 			this.focusedCard.SetActive(true);
 			this.focusedCard.GetComponent<NewFocusedCardStoreController>().displayFocusFeatures(false);
-			this.focusedCard.GetComponent<NewFocusedCardStoreController>().c=model.packList[this.selectedPackIndex+chosenPage*nbPages].Cards[0];
+			this.focusedCard.GetComponent<NewFocusedCardStoreController>().c=model.packList[this.selectedPackIndex+chosenPage*nbPages].Cards.getCard(0);
 			this.focusedCard.GetComponent<NewFocusedCardStoreController>().show ();
 			this.focusedCard.GetComponent<NewFocusedCardStoreController>().setBackFace(true);
 			this.focusedCard.GetComponent<NewFocusedCardStoreController>().transform.rotation=Quaternion.Euler(0, 180, 0);
@@ -692,7 +692,7 @@ public class NewStoreController : MonoBehaviour
 		this.isCardFocusedDisplayed = true;
 		this.displayRandomCards (false);
 		this.buyCreditsButton.SetActive (false);
-		this.focusedCard.GetComponent<NewFocusedCardStoreController> ().c = model.packList [this.selectedPackIndex].Cards [this.clickedCardId];
+		this.focusedCard.GetComponent<NewFocusedCardStoreController> ().c = model.packList [this.selectedPackIndex].Cards.getCard (this.clickedCardId);
 		this.focusedCard.GetComponent<NewFocusedCardController> ().show ();
 	}
 	public void displayRandomCards(bool value)

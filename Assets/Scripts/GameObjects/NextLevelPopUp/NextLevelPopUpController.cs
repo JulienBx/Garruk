@@ -5,10 +5,10 @@ public class NextLevelPopUpController : MonoBehaviour
 {
 	private NextLevelPopUpRessources ressources;
 
-	public virtual void clickOnAttribute(int index)
+	public virtual void clickOnAttribute(int index, int newPower, int newLevel)
 	{
 	}
-	public void show(Card c)
+	public void initialize(Card c)
 	{
 		this.ressources = this.gameObject.GetComponent<NextLevelPopUpRessources> ();
 		this.gameObject.transform.FindChild ("Text").GetComponent<TextMeshPro> ().text = "NOUVEAU NIVEAU !\nSélectionnez la caractéristique à améliorer";
@@ -20,7 +20,8 @@ public class NextLevelPopUpController : MonoBehaviour
 			this.gameObject.transform.FindChild("Attack").FindChild("Text").GetComponent<TextMeshPro>().text = c.Attack.ToString();
 			this.gameObject.transform.FindChild("Attack").FindChild("Picto").GetComponent<SpriteRenderer> ().color = ressources.colors [c.AttackLevel - 1];
 			this.gameObject.transform.FindChild("Attack").FindChild("Text2").GetComponent<TextMeshPro>().text = c.UpgradedAttack.ToString();
-			this.gameObject.transform.FindChild("Attack").FindChild("Picto2").GetComponent<SpriteRenderer> ().color = ressources.colors [c.AttackLevel - 1];
+			this.gameObject.transform.FindChild("Attack").FindChild("Picto2").GetComponent<SpriteRenderer> ().color = ressources.colors [c.UpgradedAttackLevel - 1];
+			this.gameObject.transform.FindChild("Attack").GetComponent<NextLevelPopUpAttributeController> ().initialize (0, c.UpgradedAttack, c.UpgradedAttackLevel);
 		}
 		else
 		{
@@ -35,7 +36,8 @@ public class NextLevelPopUpController : MonoBehaviour
 			this.gameObject.transform.FindChild("Life").FindChild("Text").GetComponent<TextMeshPro>().text = c.Life.ToString();
 			this.gameObject.transform.FindChild("Life").FindChild("Picto").GetComponent<SpriteRenderer> ().color = ressources.colors [c.LifeLevel - 1];
 			this.gameObject.transform.FindChild("Life").FindChild("Text2").GetComponent<TextMeshPro>().text = c.UpgradedLife.ToString();
-			this.gameObject.transform.FindChild("Life").FindChild("Picto2").GetComponent<SpriteRenderer> ().color = ressources.colors [c.LifeLevel - 1];
+			this.gameObject.transform.FindChild("Life").FindChild("Picto2").GetComponent<SpriteRenderer> ().color = ressources.colors [c.UpgradedLifeLevel - 1];
+			this.gameObject.transform.FindChild("Life").GetComponent<NextLevelPopUpAttributeController> ().initialize (1, c.UpgradedLife,c.UpgradedLifeLevel);
 		}
 		else
 		{
@@ -50,7 +52,8 @@ public class NextLevelPopUpController : MonoBehaviour
 			this.gameObject.transform.FindChild("Quickness").FindChild("Text").GetComponent<TextMeshPro>().text = c.Speed.ToString();
 			this.gameObject.transform.FindChild("Quickness").FindChild("Picto").GetComponent<SpriteRenderer> ().color = ressources.colors [c.SpeedLevel - 1];
 			this.gameObject.transform.FindChild("Quickness").FindChild("Text2").GetComponent<TextMeshPro>().text = c.UpgradedSpeed.ToString();
-			this.gameObject.transform.FindChild("Quickness").FindChild("Picto2").GetComponent<SpriteRenderer> ().color = ressources.colors [c.SpeedLevel - 1];
+			this.gameObject.transform.FindChild("Quickness").FindChild("Picto2").GetComponent<SpriteRenderer> ().color = ressources.colors [c.UpgradedSpeedLevel - 1];
+			this.gameObject.transform.FindChild("Quickness").GetComponent<NextLevelPopUpAttributeController> ().initialize (2, c.UpgradedSpeed, c.UpgradedSpeedLevel);
 		}
 		else
 		{
@@ -85,13 +88,10 @@ public class NextLevelPopUpController : MonoBehaviour
 					{
 						gameObject.transform.FindChild("Skill"+i).FindChild("New").gameObject.SetActive(false);
 					}
-					gameObject.transform.FindChild("Skill"+i).FindChild("Name2").GetComponent<TextMeshPro>().text=c.UpgradedSkills[i].Name;
 					gameObject.transform.FindChild("Skill"+i).FindChild("Name2").GetComponent<TextMeshPro>().text=c.Skills[i].Name;
 					gameObject.transform.FindChild("Skill"+i).FindChild("Text2").GetComponent<TextMeshPro>().text=c.getSkillText(c.Skills[i].nextDescription);
-					gameObject.transform.FindChild("Skill"+i).FindChild("Text2").GetComponent<TextMeshPro>().text=c.getSkillText(c.Skills[i].Description);
-					//gameObject.transform.FindChild("Skill"+i).FindChild("Picto2").GetComponent<SpriteRenderer>().sprite = this.getSkillSprite(c.UpgradedSkills[i].Level - 1);
-					gameObject.transform.FindChild("Skill"+i).FindChild("Picto").GetComponent<SpriteRenderer>().sprite = this.getSkillSprite(c.Skills[i].Level - 1);
-					
+					gameObject.transform.FindChild("Skill"+i).FindChild("Picto2").GetComponent<SpriteRenderer>().sprite = this.getSkillSprite(c.Skills[i].nextLevel - 1);
+					gameObject.transform.FindChild("Skill"+i).GetComponent<NextLevelPopUpAttributeController> ().initialize (i+3, c.Skills[i].Power+1, c.Skills[i].nextLevel);
 				}
 				else
 				{

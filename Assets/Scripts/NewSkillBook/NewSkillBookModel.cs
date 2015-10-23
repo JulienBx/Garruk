@@ -54,7 +54,6 @@ public class NewSkillBookModel
 			skills[i].Name=skillInformation[1];
 			skills[i].CardType=System.Convert.ToInt32(skillInformation[2]);
 			skills[i].Description=skillInformation[3];
-			skills[i].Picture=skillInformation[4];
 		}
 		return skills;
 	}
