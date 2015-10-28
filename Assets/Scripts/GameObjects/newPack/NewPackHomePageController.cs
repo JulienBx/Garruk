@@ -24,7 +24,7 @@ public class NewPackHomePageController : NewPackController
 	}
 	public override void OnMouseDown()
 	{
-		NewHomePageController.instance.buyPackHandler (this.Id);
+		//NewHomePageController.instance.buyPackHandler (this.Id);
 	}
 }
 

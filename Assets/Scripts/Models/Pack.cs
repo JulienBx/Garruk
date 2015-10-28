@@ -19,6 +19,7 @@ public class Pack
 	public IList<Skill> NewSkills;
 	public int CollectionPoints;
 	public int CollectionPointsRanking;
+	public int IdPicture;
 
 	private string URLBuyPack = ApplicationModel.host + "buyPack.php";
 

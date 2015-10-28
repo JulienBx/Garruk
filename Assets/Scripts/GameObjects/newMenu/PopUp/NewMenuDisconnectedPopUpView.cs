@@ -32,12 +32,12 @@ public class NewMenuDisconnectedPopUpView : MonoBehaviour
 					GUILayout.Space(0.03f * popUpVM.centralWindow.width);
 					if (GUILayout.Button("Confirmer", popUpVM.centralWindowButtonStyle))
 					{
-						newMenuController.instance.logOutLink();
+						MenuController.instance.logOutLink();
 					}
 					GUILayout.Space(0.04f * popUpVM.centralWindow.width);
 					if (GUILayout.Button("Annuler", popUpVM.centralWindowButtonStyle))
 					{
-						newMenuController.instance.hideDisconnectedPopUp();
+						MenuController.instance.hideDisconnectedPopUp();
 					}
 					GUILayout.Space(0.03f * popUpVM.centralWindow.width);
 				}

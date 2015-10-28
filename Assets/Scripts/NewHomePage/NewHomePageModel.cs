@@ -92,6 +92,7 @@ public class NewHomePageModel
 			packs[i].New= System.Convert.ToBoolean(System.Convert.ToInt32(packData[2]));
 			packs[i].Picture=packData[3];
 			packs[i].Price=System.Convert.ToInt32(packData[4]);
+			packs[i].IdPicture=System.Convert.ToInt32(packData[5]);
 		}
 		return packs;
 	}

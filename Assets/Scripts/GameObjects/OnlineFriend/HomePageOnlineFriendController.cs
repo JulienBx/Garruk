@@ -11,11 +11,11 @@ public class HomePageOnlineFriendController : OnlineFriendController
 
 	public override void startHovering()
 	{
-		NewHomePageController.instance.startHoveringFriend (base.Id);
+		//NewHomePageController.instance.startHoveringFriend (base.Id);
 	}
 	public override void endHovering()
 	{
-		NewHomePageController.instance.endHoveringFriend ();
+		//NewHomePageController.instance.endHoveringFriend ();
 	}
 }
 

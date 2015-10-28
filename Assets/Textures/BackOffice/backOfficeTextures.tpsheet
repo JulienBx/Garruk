@@ -1,0 +1,52 @@
+#
+# Sprite sheet data for Unity.
+#
+# To import these sprites into your Unity project, download "TexturePackerImporter":
+# http://www.codeandweb.com/texturepacker/unity
+#
+# Sprite sheet: backOfficeTextures.png (2048 x 4096)
+# $TexturePacker:SmartUpdate:f686e0b3e5b4b32f769cce1655ab04b6:df5f0fd18f0e1f9621aafe1dfeb0d444:bc88af7fd1853b38e6f4b3774171c499$
+#
+
+BlockBackground;1924;3994;100;100;0.5;0.5
+Button;1423;2014;300;70;0.5;0.5
+ButtonsBorder;2;2912;1500;100;0.5;0.5
+Cup;1821;2160;224;294;0.49776785714285715;0.5017006802721089
+DarkBlockBackground;1924;3892;100;100;0.5;0.5
+Pack0;1462;2658;375;200;0.5;0.5
+Pack3;754;2537;375;200;0.5;0.5
+activetab;1458;2329;361;125;0.5;0.5
+admin;1989;3452;39;39;0.5;0.5
+backOfficeBackground;2;3014;1920;1080;0.5;0.5
+bell_icon;1989;3493;46;48;0.5;0.5
+button11;754;1977;356;356;0.5;0.5
+button62;1454;2207;357;120;0.5;0.5
+button71;1504;2860;415;90;0.5;0.5
+button91;1504;2952;533;60;0.5;0.5
+cristalblue;1989;3543;52;49;0.5;0.5102040816326531
+disconnect;1989;3414;36;36;0.5;0.5
+divisionTexture;1112;2083;309;240;0.4967637540453074;0.53125
+friendly;1131;2412;325;325;0.5;0.5
+line;2;2908;1500;2;0.5;0.5
+logoBackground;766;2739;694;167;0.5;0.5
+mainLogo;1131;2325;321;85;0.5031152647975078;0.49411764705882355
+pack1;754;2335;375;200;0.5;0.5
+pack2;1458;2456;375;200;0.5;0.5
+pagination0;1921;2824;125;126;0.5;0.5
+pagination1;1839;2696;126;126;0.5;0.5
+playPopUpBackground;2;1989;750;750;0.5;0.5
+tab;1423;2086;355;119;0.5;0.5
+thumbBorder;1924;3719;69;69;0.5;0.5
+thumb_assassin;1924;3654;63;63;0.5;0.5
+thumb_drogueur;1924;3589;63;63;0.5;0.5
+thumb_drone;1924;3524;63;63;0.5;0.5
+thumb_geomancienne;1924;3459;63;63;0.5;0.5
+thumb_invocateur;1924;3394;63;63;0.5;0.5
+thumb_mentaliste;1924;3329;63;63;0.5;0.5
+thumb_mitrailleur;1924;3264;63;63;0.5;0.5
+thumb_polymorphe;1924;3199;63;63;0.5;0.5
+thumb_predateur;1924;3134;63;63;0.5;0.5
+thumb_pretresse;1924;3069;63;63;0.5;0.5
+transparentBackGround;1924;3790;100;100;0.5;0.5
+userBackground;2;2741;762;165;0.5;0.5
+vertical border;2026;3594;2;500;0.5;0.5

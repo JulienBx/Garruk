@@ -12,7 +12,7 @@ public class PopUpFriendButtonHomePageController : PopUpButtonController
 	
 	public override void clickHandler()
 	{
-		NewHomePageController.instance.sendInvitationHandler ();
+		//NewHomePageController.instance.sendInvitationHandler ();
 	}
 }
 

@@ -4,7 +4,7 @@ public class NewHomePageErrorPopUpView : NewErrorPopUpView
 {
 	public override void hideErrorPopUp()
 	{
-		NewHomePageController.instance.hideErrorPopUp();
+		//NewHomePageController.instance.hideErrorPopUp();
 	}
 }
 

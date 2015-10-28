@@ -1,0 +1,518 @@
+fileFormatVersion: 2
+guid: ec8fe55bfa35c4d46ba7d026602e8928
+timeCreated: 1445590106
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: ButtonsBorder
+    21300002: HoveredButton
+    21300004: admin
+    21300006: backOfficeBackground
+    21300008: bell_icon
+    21300010: cristalblue
+    21300012: disconnect
+    21300014: mainLogo
+    21300016: playPopUpBackground
+    21300018: thumbBorder
+    21300020: thumb_assassin
+    21300022: thumb_drogueur
+    21300024: thumb_drone
+    21300026: thumb_geomancienne
+    21300028: thumb_invocateur
+    21300030: thumb_mentaliste
+    21300032: thumb_mitrailleur
+    21300034: thumb_polymorphe
+    21300036: thumb_predateur
+    21300038: thumb_pretresse
+    21300040: transparentBackGround
+    21300042: Button
+    21300044: BlockBackground
+    21300046: userBackground
+    21300048: logoBackground
+    21300050: button62
+    21300052: Cup
+    21300054: DarkBlockBackground
+    21300056: divisionTexture
+    21300058: friendly
+    21300060: vertical border
+    21300062: button11
+    21300064: pack1
+    21300066: activetab
+    21300068: tab
+    21300070: line
+    21300072: pagination0
+    21300074: pagination1
+    21300076: button91
+    21300078: button71
+    21300080: Pack0
+    21300082: Pack3
+    21300084: pack2
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 8
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 4096
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 108
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: BlockBackground
+      rect:
+        serializedVersion: 2
+        x: 1924
+        y: 3994
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Button
+      rect:
+        serializedVersion: 2
+        x: 1423
+        y: 2014
+        width: 300
+        height: 70
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: ButtonsBorder
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 2912
+        width: 1500
+        height: 100
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Cup
+      rect:
+        serializedVersion: 2
+        x: 1821
+        y: 2160
+        width: 224
+        height: 294
+      alignment: 9
+      pivot: {x: .497767866, y: .501700699}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: DarkBlockBackground
+      rect:
+        serializedVersion: 2
+        x: 1924
+        y: 3892
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Pack0
+      rect:
+        serializedVersion: 2
+        x: 1462
+        y: 2658
+        width: 375
+        height: 200
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Pack3
+      rect:
+        serializedVersion: 2
+        x: 754
+        y: 2537
+        width: 375
+        height: 200
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: activetab
+      rect:
+        serializedVersion: 2
+        x: 1458
+        y: 2329
+        width: 361
+        height: 125
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: admin
+      rect:
+        serializedVersion: 2
+        x: 1989
+        y: 3452
+        width: 39
+        height: 39
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: backOfficeBackground
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 3014
+        width: 1920
+        height: 1080
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: bell_icon
+      rect:
+        serializedVersion: 2
+        x: 1989
+        y: 3493
+        width: 46
+        height: 48
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: button11
+      rect:
+        serializedVersion: 2
+        x: 754
+        y: 1977
+        width: 356
+        height: 356
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: button62
+      rect:
+        serializedVersion: 2
+        x: 1454
+        y: 2207
+        width: 357
+        height: 120
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: button71
+      rect:
+        serializedVersion: 2
+        x: 1504
+        y: 2860
+        width: 415
+        height: 90
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: button91
+      rect:
+        serializedVersion: 2
+        x: 1504
+        y: 2952
+        width: 533
+        height: 60
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: cristalblue
+      rect:
+        serializedVersion: 2
+        x: 1989
+        y: 3543
+        width: 52
+        height: 49
+      alignment: 9
+      pivot: {x: .5, y: .510204077}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: disconnect
+      rect:
+        serializedVersion: 2
+        x: 1989
+        y: 3414
+        width: 36
+        height: 36
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: divisionTexture
+      rect:
+        serializedVersion: 2
+        x: 1112
+        y: 2083
+        width: 309
+        height: 240
+      alignment: 9
+      pivot: {x: .496763766, y: .53125}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: friendly
+      rect:
+        serializedVersion: 2
+        x: 1131
+        y: 2412
+        width: 325
+        height: 325
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: line
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 2908
+        width: 1500
+        height: 2
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: logoBackground
+      rect:
+        serializedVersion: 2
+        x: 766
+        y: 2739
+        width: 694
+        height: 167
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: mainLogo
+      rect:
+        serializedVersion: 2
+        x: 1131
+        y: 2325
+        width: 321
+        height: 85
+      alignment: 9
+      pivot: {x: .503115237, y: .494117647}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: pack1
+      rect:
+        serializedVersion: 2
+        x: 754
+        y: 2335
+        width: 375
+        height: 200
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: pack2
+      rect:
+        serializedVersion: 2
+        x: 1458
+        y: 2456
+        width: 375
+        height: 200
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: pagination0
+      rect:
+        serializedVersion: 2
+        x: 1921
+        y: 2824
+        width: 125
+        height: 126
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: pagination1
+      rect:
+        serializedVersion: 2
+        x: 1839
+        y: 2696
+        width: 126
+        height: 126
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: playPopUpBackground
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 1989
+        width: 750
+        height: 750
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: tab
+      rect:
+        serializedVersion: 2
+        x: 1423
+        y: 2086
+        width: 355
+        height: 119
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: thumbBorder
+      rect:
+        serializedVersion: 2
+        x: 1924
+        y: 3719
+        width: 69
+        height: 69
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: thumb_assassin
+      rect:
+        serializedVersion: 2
+        x: 1924
+        y: 3654
+        width: 63
+        height: 63
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: thumb_drogueur
+      rect:
+        serializedVersion: 2
+        x: 1924
+        y: 3589
+        width: 63
+        height: 63
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: thumb_drone
+      rect:
+        serializedVersion: 2
+        x: 1924
+        y: 3524
+        width: 63
+        height: 63
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: thumb_geomancienne
+      rect:
+        serializedVersion: 2
+        x: 1924
+        y: 3459
+        width: 63
+        height: 63
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: thumb_invocateur
+      rect:
+        serializedVersion: 2
+        x: 1924
+        y: 3394
+        width: 63
+        height: 63
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: thumb_mentaliste
+      rect:
+        serializedVersion: 2
+        x: 1924
+        y: 3329
+        width: 63
+        height: 63
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: thumb_mitrailleur
+      rect:
+        serializedVersion: 2
+        x: 1924
+        y: 3264
+        width: 63
+        height: 63
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: thumb_polymorphe
+      rect:
+        serializedVersion: 2
+        x: 1924
+        y: 3199
+        width: 63
+        height: 63
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: thumb_predateur
+      rect:
+        serializedVersion: 2
+        x: 1924
+        y: 3134
+        width: 63
+        height: 63
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: thumb_pretresse
+      rect:
+        serializedVersion: 2
+        x: 1924
+        y: 3069
+        width: 63
+        height: 63
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: transparentBackGround
+      rect:
+        serializedVersion: 2
+        x: 1924
+        y: 3790
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: userBackground
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 2741
+        width: 762
+        height: 165
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: vertical border
+      rect:
+        serializedVersion: 2
+        x: 2026
+        y: 3594
+        width: 2
+        height: 500
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

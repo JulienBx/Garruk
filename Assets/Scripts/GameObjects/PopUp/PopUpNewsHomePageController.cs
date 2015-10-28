@@ -11,11 +11,11 @@ public class PopUpNewsHomePageController : PopUpController
 	
 	public override void startHoveringPopUp()
 	{
-		NewHomePageController.instance.startHoveringPopUp();
+		//NewHomePageController.instance.startHoveringPopUp();
 	}
 	public override void endHoveringPopUp()
 	{
-		NewHomePageController.instance.endHoveringPopUp();
+		//NewHomePageController.instance.endHoveringPopUp();
 	}
 	public void show(DisplayedNews n)
 	{
