@@ -44,7 +44,7 @@ public class NewFocusedCardMyGameController : NewFocusedCardController
 	}
 	public override void refreshCredits()
 	{
-		newMyGameController.instance.refreshCredits ();
+		StartCoroutine(MenuController.instance.getUserData ());
 	}
 	public override void buyXpCardHandler()
 	{

@@ -8,12 +8,6 @@ using TMPro;
 
 public class MarketMenuController : MenuController
 {
-	
-	public override void Start ()
-	{
-		StartCoroutine (NewMarketController.instance.initialization ());
-		base.Start ();
-	}
 	public override void sceneReturnPressed()
 	{
 		NewMarketController.instance.returnPressed ();
@@ -26,6 +20,13 @@ public class MarketMenuController : MenuController
 	{
 		NewMarketController.instance.closeAllPopUp ();
 	}
-	
+	public override void moneyUpdate()
+	{
+		NewMarketController.instance.moneyUpdate ();
+	}
+	public override void initializeScene ()
+	{
+		StartCoroutine (NewMarketController.instance.initialization ());
+	}
 }
 

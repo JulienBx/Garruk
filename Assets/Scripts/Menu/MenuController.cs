@@ -36,17 +36,6 @@ public class MenuController : MonoBehaviour
 	
 	private bool isUserBusy;
 
-	public int widthScreen;
-	public int heightScreen;
-	public float worldWidth;
-	public float worldHeight;
-	public float pixelPerUnit;
-	public float screenRatio;
-	public float leftMargin;
-	public float rightMargin;
-	public float upMargin;
-	public float downMargin;
-	public float gapBetweenBlocks;
 	
 	void Awake()
 	{
@@ -54,14 +43,11 @@ public class MenuController : MonoBehaviour
 		this.model = new MenuModel ();
 		this.ressources = this.gameObject.GetComponent<MenuRessources> ();
 		this.photon = this.gameObject.GetComponent<MenuPhotonController> ();
-		this.pixelPerUnit = 108f;
-		this.leftMargin = 0.5f;
-		this.rightMargin = 0.5f;
-		this.upMargin = 1.9f;
-		this.downMargin = 0.2f;
-		this.gapBetweenBlocks = 0.05f;
+		ApplicationDesignRules.widthScreen = Screen.width;
+		ApplicationDesignRules.heightScreen = Screen.height;
+
 	}
-	public virtual void Start () 
+	void Start () 
 	{	
 		StartCoroutine (this.initialization());
 	}
@@ -82,7 +68,7 @@ public class MenuController : MonoBehaviour
 		{
 			this.escapePressed();
 		}
-		if (Screen.width != this.widthScreen || Screen.height != this.heightScreen) 
+		if (Screen.width != ApplicationDesignRules.widthScreen || Screen.height!=ApplicationDesignRules.heightScreen) 
 		{
 			this.resizeAll();
 		}
@@ -180,7 +166,8 @@ public class MenuController : MonoBehaviour
 	public void setCurrentPage(int i)
 	{
 		this.currentPage = i;
-		gameObject.transform.Find ("Button" + i).GetComponent<MenuButtonController> ().setActive (true);
+		gameObject.transform.Find ("Button" + i).GetComponent<MenuButtonController> ().setIsSelected(true);
+		gameObject.transform.Find ("Button" + i).FindChild ("Title").GetComponent<TextMeshPro> ().color = ApplicationDesignRules.blueColor;
 	}
 	public void setNbNotificationsNonRead(int value)
 	{
@@ -194,7 +181,11 @@ public class MenuController : MonoBehaviour
 		{
 			ApplicationModel.nbNotificationsNonRead = model.player.nonReadNotifications;
 		}
-		ApplicationModel.credits = model.player.Money;
+		if(model.player.Money!=ApplicationModel.credits)
+		{
+			ApplicationModel.credits = model.player.Money;
+			this.moneyUpdate();
+		}
 		this.refreshMenuObject ();
 		if(model.isInvited && !this.isInvitationPopUpDisplayed && !this.isInviting && !this.isUserBusy)
 		{
@@ -214,52 +205,63 @@ public class MenuController : MonoBehaviour
 	}
 	public IEnumerator initialization()
 	{
+		this.displayLoadingScreen ();
+		this.initializeMenuObject ();
+		this.resize ();
+		this.initializeScene ();
 		yield return StartCoroutine (model.loadUserData (this.ressources.totalNbResultLimit));
 		if(Application.loadedLevelName!="NewHomePage")
 		{
 			ApplicationModel.nbNotificationsNonRead = model.player.nonReadNotifications;
 		}
 		ApplicationModel.credits = model.player.Money;
-		
-		this.initializeMenuObject ();
 		this.refreshMenuObject ();
-		gameObject.transform.FindChild("UserBlock").FindChild ("Picture").GetComponent<SpriteRenderer> ().sprite = this.returnThumbPicture (model.player.idProfilePicture);
+	}
+	public virtual void initializeScene()
+	{
 	}
 	public void initializeMenuObject()
 	{
+		this.gameObject.transform.Find ("LogoBlock").FindChild ("AdminButton").gameObject.AddComponent<MenuAdminController> ();
+		this.gameObject.transform.Find ("LogoBlock").FindChild ("DisconnectButton").gameObject.AddComponent<MenuDisconnectController> ();
+		this.gameObject.transform.FindChild ("UserBlock").FindChild ("Username").gameObject.AddComponent<MenuUserUsernameController> ();
+		this.gameObject.transform.FindChild ("UserBlock").FindChild ("Picture").gameObject.AddComponent<MenuUserPictureController> ();
+		this.gameObject.transform.FindChild ("UserBlock").FindChild ("Bell").gameObject.AddComponent<MenuNotificationsController> ();
+		this.gameObject.transform.FindChild ("UserBlock").FindChild ("Credits").gameObject.GetComponent<TextMeshPro> ().color = ApplicationDesignRules.whiteTextColor;
+
 		if(ApplicationModel.isAdmin)
 		{
 			this.gameObject.transform.Find("LogoBlock").FindChild("AdminButton").gameObject.SetActive(true);
-			this.gameObject.transform.FindChild("LogoBlock").FindChild("AdminButton").transform.localPosition=new Vector3(-2.73f,-0.3f,0f);
-			this.gameObject.transform.FindChild("LogoBlock").FindChild("DisconnectButton").transform.localPosition=new Vector3(-2.73f,0.3f,0f);
+			this.gameObject.transform.Find("LogoBlock").FindChild("AdminButton").transform.localPosition=new Vector3(-2.73f,-0.3f,0f);
+			this.gameObject.transform.Find("LogoBlock").FindChild("DisconnectButton").transform.localPosition=new Vector3(-2.73f,0.3f,0f);
 		}
 		else
 		{
 			this.gameObject.transform.Find("LogoBlock").FindChild("AdminButton").gameObject.SetActive(false);
-			this.gameObject.transform.FindChild("LogoBlock").FindChild("DisconnectButton").transform.localPosition=new Vector3(-2.73f,0f,0f);
+			this.gameObject.transform.Find("LogoBlock").FindChild("DisconnectButton").transform.localPosition=new Vector3(-2.73f,0f,0f);
 		}
 		
 		for (int i=0;i<6;i++)
 		{
-			this.gameObject.transform.FindChild("Button"+i).FindChild("Text").GetComponent<TextMeshPro>().text=model.buttonsLabels[i].ToUpper();
+			this.gameObject.transform.FindChild("Button"+i).FindChild("Title").GetComponent<TextMeshPro>().text=model.buttonsLabels[i].ToUpper();
+			this.gameObject.transform.FindChild("Button"+i).gameObject.AddComponent<MenuButtonController>();
+			this.gameObject.transform.FindChild("Button"+i).GetComponent<MenuButtonController>().setId(i);
 		}
 		
 		this.gameObject.transform.FindChild("UserBlock").FindChild("Username").GetComponent<TextMeshPro>().text=ApplicationModel.username;
+		gameObject.transform.FindChild("UserBlock").FindChild ("Picture").GetComponent<SpriteRenderer> ().sprite = this.returnThumbPicture (model.player.idProfilePicture);
 	}
 	public virtual void resizeAll()
 	{
 	}
 	public void resize()
 	{
-		this.widthScreen=Screen.width;
-		this.heightScreen=Screen.height;
-		this.centralWindow = new Rect (this.widthScreen * 0.25f, 0.12f * this.heightScreen,this.widthScreen * 0.50f, 0.40f * this.heightScreen);
-		this.worldHeight = 2f*Camera.main.GetComponent<Camera>().orthographicSize;
-		this.worldWidth = ((float)Screen.width/(float)Screen.height) * worldHeight;
-		this.screenRatio = (float)this.widthScreen / (float)this.heightScreen;
+		ApplicationDesignRules.computeDesignRules ();
+
+		this.centralWindow = new Rect (ApplicationDesignRules.widthScreen * 0.25f, 0.12f * ApplicationDesignRules.heightScreen,ApplicationDesignRules.widthScreen * 0.50f, 0.40f * ApplicationDesignRules.heightScreen);
 
 		float buttonsBorderWidth = 1500f;
-		float buttonsWorldScaleX = (this.worldWidth-this.leftMargin-this.rightMargin)/(buttonsBorderWidth / this.pixelPerUnit);
+		float buttonsWorldScaleX = (ApplicationDesignRules.worldWidth-ApplicationDesignRules.leftMargin-ApplicationDesignRules.rightMargin)/(buttonsBorderWidth / ApplicationDesignRules.pixelPerUnit);
 		gameObject.transform.FindChild ("ButtonsBorder").localScale = new Vector3 (buttonsWorldScaleX, 0.63f, 1f);
 
 		float buttonsTotalSize=0f;
@@ -268,45 +270,45 @@ public class MenuController : MonoBehaviour
 		float fontSize = 2.5f;
 		for(int i=0;i<6;i++)
 		{
-			this.gameObject.transform.FindChild("Button"+i).FindChild("Text").GetComponent<TextMeshPro>().fontSize=textRatio*fontSize;
-			buttonsTotalSize=buttonsTotalSize+this.gameObject.transform.FindChild("Button"+i).FindChild("Text").GetComponent<TextMeshPro>().bounds.size.x;
+			this.gameObject.transform.FindChild("Button"+i).FindChild("Title").GetComponent<TextMeshPro>().fontSize=textRatio*fontSize;
+			buttonsTotalSize=buttonsTotalSize+this.gameObject.transform.FindChild("Button"+i).FindChild("Title").GetComponent<TextMeshPro>().bounds.size.x;
 		}
-		if((worldWidth-1.5f-this.rightMargin-this.leftMargin)<buttonsTotalSize)
+		if((ApplicationDesignRules.worldWidth-1.5f-ApplicationDesignRules.rightMargin-ApplicationDesignRules.leftMargin)<buttonsTotalSize)
 		{
-			textRatio=(worldWidth-1.5f-this.rightMargin-this.leftMargin)/buttonsTotalSize;
+			textRatio=(ApplicationDesignRules.worldWidth-1.5f-ApplicationDesignRules.rightMargin-ApplicationDesignRules.leftMargin)/buttonsTotalSize;
 		}
 		buttonsTotalSize = 0f;
 		for(int i=0;i<6;i++)
 		{
-			this.gameObject.transform.FindChild("Button"+i).FindChild("Text").GetComponent<TextMeshPro>().fontSize=textRatio*fontSize;
-			buttonsTotalSize=buttonsTotalSize+this.gameObject.transform.FindChild("Button"+i).FindChild("Text").GetComponent<TextMeshPro>().bounds.size.x;
+			this.gameObject.transform.FindChild("Button"+i).FindChild("Title").GetComponent<TextMeshPro>().fontSize=textRatio*fontSize;
+			buttonsTotalSize=buttonsTotalSize+this.gameObject.transform.FindChild("Button"+i).FindChild("Title").GetComponent<TextMeshPro>().bounds.size.x;
 		}
-		buttonsGap = (worldWidth - this.leftMargin-this.rightMargin- buttonsTotalSize) / 6f;
+		buttonsGap = (ApplicationDesignRules.worldWidth - ApplicationDesignRules.leftMargin-ApplicationDesignRules.rightMargin- buttonsTotalSize) / 6f;
 
 		for(int i=0;i<6;i++)
 		{
 			float previousButtonsTotalSize=0f;
 			for(int j=0;j<i;j++)
 			{
-				previousButtonsTotalSize=previousButtonsTotalSize+this.gameObject.transform.FindChild("Button"+j).FindChild("Text").GetComponent<TextMeshPro>().bounds.size.x;
+				previousButtonsTotalSize=previousButtonsTotalSize+this.gameObject.transform.FindChild("Button"+j).FindChild("Title").GetComponent<TextMeshPro>().bounds.size.x;
 			}
 			Vector3 buttonPosition=gameObject.transform.FindChild("Button"+i).transform.position;
-			buttonPosition.x=buttonsGap/2f+(-this.worldWidth / 2f)+this.leftMargin+(i)*(buttonsGap)+this.gameObject.transform.FindChild("Button"+i).FindChild("Text").GetComponent<TextMeshPro>().bounds.size.x/2f+previousButtonsTotalSize;
+			buttonPosition.x=buttonsGap/2f+(-ApplicationDesignRules.worldWidth / 2f)+ApplicationDesignRules.leftMargin+(i)*(buttonsGap)+this.gameObject.transform.FindChild("Button"+i).FindChild("Title").GetComponent<TextMeshPro>().bounds.size.x/2f+previousButtonsTotalSize;
 			gameObject.transform.FindChild("Button"+i).transform.position=buttonPosition;
 		}	                                                                 
 
 		float logoBlockWidth = 693f;
 		float logoBlockScale = 0.7f;
-		float logoBlockWorldWidth = (logoBlockWidth / this.pixelPerUnit)*logoBlockScale;
+		float logoBlockWorldWidth = (logoBlockWidth / ApplicationDesignRules.pixelPerUnit)*logoBlockScale;
 		Vector3 logoBlockPosition = gameObject.transform.FindChild ("LogoBlock").transform.position;
-		logoBlockPosition.x = (-this.worldWidth / 2f) + this.leftMargin + logoBlockWorldWidth / 2f;
+		logoBlockPosition.x = (-ApplicationDesignRules.worldWidth / 2f) + ApplicationDesignRules.leftMargin + logoBlockWorldWidth / 2f;
 		gameObject.transform.FindChild ("LogoBlock").transform.position = logoBlockPosition;
 
 		float userBlockWidth = 766f;
 		float userBlockScale = 0.7f;
-		float userBlockWorldWidth = userBlockWidth / this.pixelPerUnit*logoBlockScale;
+		float userBlockWorldWidth = userBlockWidth / ApplicationDesignRules.pixelPerUnit*logoBlockScale;
 		Vector3 userBlockPosition = gameObject.transform.FindChild ("UserBlock").transform.position;
-		userBlockPosition.x = (this.worldWidth / 2f) - this.rightMargin - userBlockWorldWidth / 2f;
+		userBlockPosition.x = (ApplicationDesignRules.worldWidth / 2f) - ApplicationDesignRules.rightMargin - userBlockWorldWidth / 2f;
 		gameObject.transform.FindChild ("UserBlock").transform.position = userBlockPosition;
 
 	}
@@ -315,13 +317,14 @@ public class MenuController : MonoBehaviour
 		this.gameObject.transform.FindChild("UserBlock").FindChild("Credits").GetComponent<TextMeshPro>().text=ApplicationModel.credits.ToString();
 		if(ApplicationModel.nbNotificationsNonRead>0)
 		{
-			this.gameObject.transform.FindChild("UserBlock").FindChild("Bell").GetComponent<MenuNotificationsController>().setIsActive(true);
+			this.gameObject.transform.FindChild("UserBlock").FindChild("Bell").GetComponent<MenuNotificationsController>().reset();
 			this.gameObject.transform.FindChild("UserBlock").FindChild("Notifications").gameObject.SetActive(true);
 			this.gameObject.transform.FindChild("UserBlock").FindChild("Notifications").GetComponent<TextMeshPro>().text=ApplicationModel.nbNotificationsNonRead.ToString();
 		}
 		else
 		{
 			this.gameObject.transform.FindChild("UserBlock").FindChild("Bell").GetComponent<MenuNotificationsController>().setIsActive(false);
+			this.gameObject.transform.FindChild("UserBlock").FindChild("Bell").GetComponent<SpriteRenderer>().color=ApplicationDesignRules.greySpriteColor;
 			this.gameObject.transform.FindChild("UserBlock").FindChild("Notifications").gameObject.SetActive(false);
 		}
 	}
@@ -620,6 +623,9 @@ public class MenuController : MonoBehaviour
 	public void setIsUserBusy(bool value)
 	{
 		this.isUserBusy = value;
+	}
+	public virtual void moneyUpdate()
+	{
 	}
 }
 

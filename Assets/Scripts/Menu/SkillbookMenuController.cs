@@ -9,11 +9,6 @@ using TMPro;
 public class SkillBookMenuController : MenuController
 {
 	
-	public override void Start ()
-	{
-		StartCoroutine (NewSkillBookController.instance.initialization ());
-		base.Start ();
-	}
 	public override void sceneReturnPressed()
 	{
 		NewSkillBookController.instance.returnPressed ();
@@ -25,6 +20,10 @@ public class SkillBookMenuController : MenuController
 	public override void sceneCloseAllPopUp()
 	{
 		NewSkillBookController.instance.closeAllPopUp ();
+	}
+	public override void initializeScene()
+	{
+		StartCoroutine (NewSkillBookController.instance.initialization ());
 	}
 	
 }

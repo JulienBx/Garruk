@@ -391,7 +391,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &155208
 GameObject:
   m_ObjectHideFlags: 1
@@ -526,7 +526,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &186232
 GameObject:
   m_ObjectHideFlags: 1
@@ -663,8 +663,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 190900}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.04930055, y: 9.09362793, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -1.25092554, y: .100000143, z: 0}
+  m_LocalScale: {x: .269444466, y: .269444466, z: .269444466}
   m_Children:
   - {fileID: 487878}
   - {fileID: 468618}
@@ -1630,7 +1630,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a1578b9753d2604f98d608cb4239e2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_text: 99
+  m_text: 23
   m_fontAsset: {fileID: 11400000, guid: bbc845773694540939bde240858219f5, type: 2}
   m_fontStyle: 0
   m_isOverlay: 0
@@ -2066,7 +2066,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a1578b9753d2604f98d608cb4239e2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_text: 99
+  m_text: 64
   m_fontAsset: {fileID: 11400000, guid: bbc845773694540939bde240858219f5, type: 2}
   m_fontStyle: 0
   m_isOverlay: 0
@@ -2150,7 +2150,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a1578b9753d2604f98d608cb4239e2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_text: "Pi\xE9geur"
+  m_text: "Cuirass\xE9"
   m_fontAsset: {fileID: 11400000, guid: bbc845773694540939bde240858219f5, type: 2}
   m_fontStyle: 0
   m_isOverlay: 0
@@ -2369,6 +2369,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 767e8d9a7499846129330ca98af0d429, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  d: Inflige [1 26 Inflige [1-110%AT
+  attributeIndex: 0
 --- !u!114 &11464346
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2530,7 +2532,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a1578b9753d2604f98d608cb4239e2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_text: Rugissement
+  m_text: Massue
   m_fontAsset: {fileID: 11400000, guid: bbc845773694540939bde240858219f5, type: 2}
   m_fontStyle: 0
   m_isOverlay: 0
@@ -2614,6 +2616,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 767e8d9a7499846129330ca98af0d429, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  d: "Est \xE9quip\xE9 d'un bouclier absorbant 30% des d\xE9gats subis"
+  attributeIndex: 0
 --- !u!114 &11486466
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2645,7 +2649,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a1578b9753d2604f98d608cb4239e2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_text: 99
+  m_text: 11
   m_fontAsset: {fileID: 11400000, guid: bbc845773694540939bde240858219f5, type: 2}
   m_fontStyle: 0
   m_isOverlay: 0
@@ -2760,7 +2764,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a1578b9753d2604f98d608cb4239e2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_text: MITRAILLEUR
+  m_text: PREDATEUR
   m_fontAsset: {fileID: 11400000, guid: bbc845773694540939bde240858219f5, type: 2}
   m_fontStyle: 0
   m_isOverlay: 0
@@ -2844,6 +2848,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 767e8d9a7499846129330ca98af0d429, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  d: 
+  attributeIndex: 0
 --- !u!114 &11497400
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2855,6 +2861,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 767e8d9a7499846129330ca98af0d429, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  d: 
+  attributeIndex: 0
 --- !u!212 &21206806
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -2879,7 +2887,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -483395861
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300006, guid: 93aa04ff847cf4287b8b32a81c753a46, type: 3}
+  m_Sprite: {fileID: 21300022, guid: 93aa04ff847cf4287b8b32a81c753a46, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!212 &21209066
 SpriteRenderer:
@@ -3113,7 +3121,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -483395861
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300032, guid: 93aa04ff847cf4287b8b32a81c753a46, type: 3}
+  m_Sprite: {fileID: 21300034, guid: 93aa04ff847cf4287b8b32a81c753a46, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!212 &21269808
 SpriteRenderer:
@@ -3270,7 +3278,7 @@ SpriteRenderer:
   m_SortingLayerID: -483395861
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300026, guid: 93aa04ff847cf4287b8b32a81c753a46, type: 3}
-  m_Color: {r: .662745118, g: .670588255, b: .674509823, a: 1}
+  m_Color: {r: .670588255, g: .670588255, b: .670588255, a: 1}
 --- !u!212 &21293334
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -3322,7 +3330,7 @@ SpriteRenderer:
   m_SortingLayerID: -483395861
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300014, guid: 93aa04ff847cf4287b8b32a81c753a46, type: 3}
-  m_Color: {r: .669117689, g: .669117689, b: .669117689, a: 1}
+  m_Color: {r: .294117659, g: .639215708, b: .68235296, a: 1}
 --- !u!212 &21298620
 SpriteRenderer:
   m_ObjectHideFlags: 1

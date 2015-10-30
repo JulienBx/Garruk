@@ -18,7 +18,7 @@ public class MyGameSkillListController : MonoBehaviour
 	}
 	void OnMouseDown()
 	{
-		newMyGameController.instance.filterASkill (gameObject.transform.FindChild("Title").GetComponent<TextMeshPro>().text);
+		//newMyGameController.instance.filterASkill (gameObject.transform.FindChild("Title").GetComponent<TextMeshPro>().text);
 	}
 }
 

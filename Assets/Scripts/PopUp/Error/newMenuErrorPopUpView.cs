@@ -4,7 +4,7 @@ public class newMenuErrorPopUpView : NewErrorPopUpView
 {
 	public override void hideErrorPopUp()
 	{
-		newMenuController.instance.hideErrorPopUp();
+		MenuController.instance.hideErrorPopUp();
 	}
 }
 

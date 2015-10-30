@@ -8,12 +8,7 @@ using TMPro;
 
 public class MyGameMenuController : MenuController
 {
-	
-	public override void Start ()
-	{
-		StartCoroutine (newMyGameController.instance.initialization ());
-		base.Start ();
-	}
+
 	public override void sceneReturnPressed()
 	{
 		newMyGameController.instance.returnPressed ();
@@ -26,6 +21,19 @@ public class MyGameMenuController : MenuController
 	{
 		newMyGameController.instance.closeAllPopUp ();
 	}
-	
+	public override void resizeAll()
+	{
+		base.resize ();
+		newMyGameController.instance.resize ();
+	}
+	public override void moneyUpdate()
+	{
+		newMyGameController.instance.moneyUpdate ();
+	}
+	public override void initializeScene()
+	{
+		base.setCurrentPage (1);
+		StartCoroutine (newMyGameController.instance.initialization ());
+	}
 }
 

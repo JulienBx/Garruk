@@ -8,11 +8,7 @@ using TMPro;
 
 public class MenuMakerMenuController : MenuController
 {
-	
-	public override void Start ()
-	{
-		base.Start ();
-	}
+
 	public override void sceneReturnPressed()
 	{
 		//NewSkillBookController.instance.returnPressed ();

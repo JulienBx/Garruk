@@ -8,12 +8,7 @@ using TMPro;
 
 public class HomePageMenuController : MenuController
 {
-	
-	public override void Start ()
-	{
-		StartCoroutine (NewHomePageController.instance.initialization ());
-		base.Start ();
-	}
+
 	public override void sceneReturnPressed()
 	{
 		NewHomePageController.instance.returnPressed ();
@@ -30,6 +25,15 @@ public class HomePageMenuController : MenuController
 	{
 		base.resize ();
 		NewHomePageController.instance.resize ();
+	}
+	public override void moneyUpdate()
+	{
+		NewHomePageController.instance.moneyUpdate ();
+	}
+	public override void initializeScene()
+	{
+		base.setCurrentPage (0);
+		StartCoroutine (NewHomePageController.instance.initialization ());
 	}
 }
 

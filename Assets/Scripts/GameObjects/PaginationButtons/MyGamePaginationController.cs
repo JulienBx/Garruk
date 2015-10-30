@@ -6,7 +6,7 @@ public class MyGamePaginationController : PaginationController
 	{
 		this.isActive=!this.isActive;
 		base.setSprite ();
-		newMyGameController.instance.paginationHandler (this.id);
+		//newMyGameController.instance.paginationHandler (this.id);
 	}
 }
 

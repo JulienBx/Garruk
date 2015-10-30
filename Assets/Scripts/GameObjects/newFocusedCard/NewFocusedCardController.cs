@@ -218,7 +218,7 @@ public class NewFocusedCardController : MonoBehaviour
 		}
 		else
 		{
-			newMenuController.instance.setIsUserBusy (false);
+			MenuController.instance.setIsUserBusy (false);
 		}
 		this.setIsXpBeingUpdated (false);
 	}
@@ -1282,7 +1282,7 @@ public class NewFocusedCardController : MonoBehaviour
 	public virtual void animateExperience()
 	{
 		this.setIsXpBeingUpdated (true);
-		newMenuController.instance.setIsUserBusy (true);
+		MenuController.instance.setIsUserBusy (true);
 		this.experience.GetComponent<NewFocusedCardExperienceController>().startUpdatingXp(this.c.ExperienceLevel,this.c.PercentageToNextLevel);
 	}
 	public virtual Color getColors(int id)
@@ -1295,11 +1295,11 @@ public class NewFocusedCardController : MonoBehaviour
 	}
 	public void displayLoadingScreen()
 	{
-		newMenuController.instance.displayLoadingScreen ();
+		MenuController.instance.displayLoadingScreen ();
 	}
 	public void hideLoadingScreen()
 	{
-		newMenuController.instance.hideLoadingScreen ();
+		MenuController.instance.hideLoadingScreen ();
 	}
 	public void setIsXpBeingUpdated(bool value)
 	{
@@ -1311,7 +1311,7 @@ public class NewFocusedCardController : MonoBehaviour
 	}
 	public void displayNextLevelPopUp()
 	{
-		newMenuController.instance.displayTransparentBackground ();
+		MenuController.instance.displayTransparentBackground ();
 		this.nextLevelPopUp = Instantiate(ressources.nextLevelPopUpObject) as GameObject;
 		this.nextLevelPopUp.transform.parent=this.gameObject.transform;
 		this.nextLevelPopUp.transform.position = new Vector3 (gameObject.transform.position.x, 0, -2f);
@@ -1321,8 +1321,8 @@ public class NewFocusedCardController : MonoBehaviour
 	}
 	public void hideNextLevelPopUp()
 	{
-		newMenuController.instance.hideTransparentBackground ();
-		newMenuController.instance.setIsUserBusy (false);
+		MenuController.instance.hideTransparentBackground ();
+		MenuController.instance.setIsUserBusy (false);
 		Destroy (this.nextLevelPopUp);
 		this.isNextLevelPopUpDisplayed=false;
 	}

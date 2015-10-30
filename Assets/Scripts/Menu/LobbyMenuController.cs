@@ -8,12 +8,7 @@ using TMPro;
 
 public class LobbyMenuController : MenuController
 {
-	
-	public override void Start ()
-	{
-		StartCoroutine (NewLobbyController.instance.initialization ());
-		base.Start ();
-	}
+
 	public override void sceneReturnPressed()
 	{
 		NewLobbyController.instance.returnPressed ();
@@ -25,6 +20,10 @@ public class LobbyMenuController : MenuController
 	public override void sceneCloseAllPopUp()
 	{
 		NewLobbyController.instance.closeAllPopUp ();
+	}
+	public override void initializeScene()
+	{
+		StartCoroutine (NewLobbyController.instance.initialization ());
 	}
 }
 

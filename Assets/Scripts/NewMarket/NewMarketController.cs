@@ -1150,4 +1150,14 @@ public class NewMarketController : MonoBehaviour
 	{
 		return cards[id].transform.position;
 	}
+	public void moneyUpdate()
+	{
+		if(isSceneLoaded)
+		{
+			if(this.isCardFocusedDisplayed)
+			{
+				this.focusedCard.GetComponent<NewFocusedCardMyGameController>().updateFocusFeatures();
+			}
+		}
+	}
 }

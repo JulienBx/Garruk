@@ -18,7 +18,7 @@ public class MyGameFiltersSortController : MonoBehaviour
 	void OnMouseDown()
 	{
 		this.isActive=!this.isActive;
-		newMyGameController.instance.changeSort (System.Convert.ToInt32(gameObject.name.Substring (4)));
+		//newMyGameController.instance.changeSort (System.Convert.ToInt32(gameObject.name.Substring (4)));
 		this.setColor ();
 	}
 	private void setColor()

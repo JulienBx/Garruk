@@ -906,4 +906,14 @@ public class NewStoreController : MonoBehaviour
 	{
 		return isTutorialLaunched;
 	}
+	public void moneyUpdate()
+	{
+		if(isSceneLoaded)
+		{
+			if(this.isCardFocusedDisplayed)
+			{
+				this.focusedCard.GetComponent<NewFocusedCardMyGameController>().updateFocusFeatures();
+			}
+		}
+	}
 }

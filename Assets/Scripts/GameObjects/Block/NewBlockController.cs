@@ -12,12 +12,12 @@ public class NewBlockController : MonoBehaviour
 	public void resize(float leftMargin, float rightMargin, float upMargin, float downMargin)
 	{
 
-		float blockHeight = MenuController.instance.worldHeight - upMargin-downMargin;
-		float blockWidth = MenuController.instance.worldWidth-leftMargin-rightMargin;
-		Vector2 blockOrigin = new Vector3 (-MenuController.instance.worldWidth/2f+leftMargin+blockWidth/2f, -MenuController.instance.worldHeight / 2f + downMargin + blockHeight / 2,0f);
+		float blockHeight = ApplicationDesignRules.worldHeight - upMargin-downMargin;
+		float blockWidth = ApplicationDesignRules.worldWidth-leftMargin-rightMargin;
+		Vector2 blockOrigin = new Vector3 (-ApplicationDesignRules.worldWidth/2f+leftMargin+blockWidth/2f, -ApplicationDesignRules.worldHeight / 2f + downMargin + blockHeight / 2,0f);
 
 		float blockSize = 100f;
-		float blockWorldSize = 100f / (MenuController.instance.pixelPerUnit);
+		float blockWorldSize = 100f / (ApplicationDesignRules.pixelPerUnit);
 		float blockScaleX = blockWidth / (blockWorldSize);
 		float blockScaleY = blockHeight / (blockWorldSize);
 
@@ -55,6 +55,10 @@ public class NewBlockController : MonoBehaviour
 		lowerLeftCornerPosition.y = gameObject.transform.GetComponent<SpriteRenderer> ().bounds.min.y;
 		lowerLeftCornerPosition.z = gameObject.transform.position.z;
 		return lowerLeftCornerPosition;
+	}
+	public Vector3 getOriginPosition()
+	{
+		return gameObject.transform.position;
 	}
 	public Vector2 getSize()
 	{

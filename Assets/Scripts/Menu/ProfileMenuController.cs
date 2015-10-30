@@ -8,12 +8,6 @@ using TMPro;
 
 public class ProfileMenuController : MenuController
 {
-	
-	public override void Start ()
-	{
-		StartCoroutine (NewProfileController.instance.initialization ());
-		base.Start ();
-	}
 	public override void sceneReturnPressed()
 	{
 		NewProfileController.instance.returnPressed ();
@@ -25,6 +19,10 @@ public class ProfileMenuController : MenuController
 	public override void sceneCloseAllPopUp()
 	{
 		NewProfileController.instance.closeAllPopUp ();
+	}
+	public override void initializeScene()
+	{
+		StartCoroutine (NewProfileController.instance.initialization ());
 	}
 	
 }

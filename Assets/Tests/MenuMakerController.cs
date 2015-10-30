@@ -52,21 +52,21 @@ public class MenuMakerController : MonoBehaviour
 		this.heightScreen = Screen.height;
 		menu.GetComponent<MenuController> ().resize ();
 
-		float blockLeftMargin = MenuController.instance.leftMargin;
-		float blockRightMargin = MenuController.instance.worldWidth/2f+0.025f;
+		float blockLeftMargin = ApplicationDesignRules.leftMargin;
+		float blockRightMargin = ApplicationDesignRules.worldWidth/2f+0.025f;
 		float blockUpMargin = 1.9f;
 		float blockDownMargin = 0.2f;
 
 		this.block.GetComponent<NewBlockController> ().resize(blockLeftMargin,blockRightMargin,blockUpMargin,blockDownMargin);
-		this.blockTitle.transform.position = new Vector3 (-MenuController.instance.worldWidth / 2f + blockLeftMargin + 0.3f, MenuController.instance.worldHeight / 2f - blockUpMargin - 0.3f, 0f);
+		this.blockTitle.transform.position = new Vector3 (-ApplicationDesignRules.worldWidth / 2f + blockLeftMargin + 0.3f, ApplicationDesignRules.worldHeight / 2f - blockUpMargin - 0.3f, 0f);
 
-		float block2LeftMargin = MenuController.instance.worldWidth/2f+0.025f;
-		float block2RightMargin = MenuController.instance.rightMargin;
+		float block2LeftMargin = ApplicationDesignRules.worldWidth/2f+0.025f;
+		float block2RightMargin = ApplicationDesignRules.rightMargin;
 		float block2UpMargin = 1.9f;
 		float block2DownMargin = 0.2f;
 		
 		this.block2.GetComponent<NewBlockController> ().resize(block2LeftMargin,block2RightMargin,block2UpMargin,block2DownMargin);
-		this.blockTitle2.transform.position = new Vector3 (-MenuController.instance.worldWidth / 2f + block2LeftMargin + 0.3f, MenuController.instance.worldHeight / 2f - block2UpMargin - 0.3f, 0f);
+		this.blockTitle2.transform.position = new Vector3 (-ApplicationDesignRules.worldWidth / 2f + block2LeftMargin + 0.3f, ApplicationDesignRules.worldHeight / 2f - block2UpMargin - 0.3f, 0f);
 
 
 

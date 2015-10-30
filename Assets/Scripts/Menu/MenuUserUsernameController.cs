@@ -1,20 +1,19 @@
 using UnityEngine;
 using TMPro;
 
-public class MenuUserUsernameController : MonoBehaviour 
+public class MenuUserUsernameController : TextButtonController 
 {
-	
-	void OnMouseOver()
+	public override void setHoveredState()
 	{
-		gameObject.GetComponent<TextMeshPro>().color=new Color(75f/255f,163f/255f,174f/255f);
-		gameObject.transform.parent.gameObject.transform.FindChild("Picture").GetComponent<SpriteRenderer>().color=new Color(75f/255f,163f/255f,174f/255f);
+		base.setHoveredState ();
+		gameObject.transform.parent.gameObject.transform.FindChild("Picture").GetComponent<SpriteRenderer>().color=ApplicationDesignRules.blueColor;
 	}
-	void OnMouseExit()
+	public override void setInitialState()
 	{
-		gameObject.GetComponent<TextMeshPro>().color=new Color(228f/255f,228f/255f,228f/255f);
-		gameObject.transform.parent.gameObject.transform.FindChild("Picture").GetComponent<SpriteRenderer>().color=new Color(1f,1f,1f);
+		base.setInitialState ();
+		gameObject.transform.parent.gameObject.transform.FindChild("Picture").GetComponent<SpriteRenderer>().color=ApplicationDesignRules.whiteSpriteColor;
 	}
-	void OnMouseDown()
+	public override void OnMouseDown()
 	{
 		MenuController.instance.profileLink ();
 	}

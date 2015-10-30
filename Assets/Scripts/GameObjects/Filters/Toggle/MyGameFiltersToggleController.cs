@@ -25,7 +25,7 @@ public class MyGameFiltersToggleController : MonoBehaviour
 	{
 		this.isActive=!this.isActive;
 		int cursorId = System.Convert.ToInt32 (gameObject.name.Substring (6));
-		newMyGameController.instance.changeToggle (cursorId);
+		//newMyGameController.instance.changeToggle (cursorId);
 		this.setColor ();
 	}
 	private void setColor()
