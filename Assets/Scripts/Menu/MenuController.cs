@@ -21,6 +21,9 @@ public class MenuController : MonoBehaviour
 	private bool isInvitationPopUpDisplayed;
 	private bool isTransparentBackgroundDisplayed;
 	private Rect centralWindow;
+	private Rect collectionPointsWindow;
+	private Rect newSkillsWindow;
+	private Rect newCardTypeWindow;
 	private GameObject loadingScreen;
 	
 	private bool isDisconnectedViewDisplayed;
@@ -33,6 +36,13 @@ public class MenuController : MonoBehaviour
 	
 	private newMenuErrorPopUpView errorView;
 	private bool errorViewDisplayed;
+	private NewCollectionPointsPopUpView collectionPointsView;
+	private bool isCollectionPointsViewDisplayed;
+	private NewSkillsPopUpView newSkillsView;
+	private bool isNewSkillsViewDisplayed;
+
+	private float speed;
+	private float timerCollectionPoints;
 	
 	private bool isUserBusy;
 
@@ -43,6 +53,7 @@ public class MenuController : MonoBehaviour
 		this.model = new MenuModel ();
 		this.ressources = this.gameObject.GetComponent<MenuRessources> ();
 		this.photon = this.gameObject.GetComponent<MenuPhotonController> ();
+		this.speed = 5f;
 		ApplicationDesignRules.widthScreen = Screen.width;
 		ApplicationDesignRules.heightScreen = Screen.height;
 
@@ -72,6 +83,19 @@ public class MenuController : MonoBehaviour
 		{
 			this.resizeAll();
 		}
+		if(isCollectionPointsViewDisplayed)
+		{
+			timerCollectionPoints = timerCollectionPoints + speed * Time.deltaTime;
+			if(timerCollectionPoints>15f)
+			{
+				timerCollectionPoints=0f;
+				this.hideCollectionPointsPopUp();
+				if(isNewSkillsViewDisplayed)
+				{
+					this.hideNewSkillsPopUp();
+				}
+			}
+		}
 	}
 	public void displayErrorPopUp(string error)
 	{
@@ -91,6 +115,47 @@ public class MenuController : MonoBehaviour
 		this.playPopUp.transform.position = new Vector3 (0f, 0f, -2f);
 		this.setCurrentPage (5);
 		this.isPlayPopUpDisplayed = true;
+	}
+	public void displayCollectionPointsPopUp(int collectionPoints, int collectionPointsRanking)
+	{
+		if(this.isCollectionPointsViewDisplayed)
+		{
+			this.hideCollectionPointsPopUp();
+		}
+		collectionPointsView = gameObject.AddComponent<NewCollectionPointsPopUpView>();
+		this.isCollectionPointsViewDisplayed = true;
+		this.timerCollectionPoints = 0f;
+		collectionPointsView.popUpVM.centralWindow = this.collectionPointsWindow;
+		collectionPointsView.cardCollectionPointsPopUpVM.collectionPoints = collectionPoints;
+		collectionPointsView.cardCollectionPointsPopUpVM.collectionPointsRanking = collectionPointsRanking;
+		collectionPointsView.popUpVM.centralWindowStyle = new GUIStyle(ressources.popUpSkin.window);
+		collectionPointsView.popUpVM.centralWindowTitleStyle = new GUIStyle (ressources.popUpSkin.customStyles [0]);
+		this.collectionPointsPopUpResize ();
+	}
+	public void displayNewSkillsPopUp(IList<Skill> newSkills)
+	{
+		if(this.isNewSkillsViewDisplayed)
+		{
+			this.hideNewSkillsPopUp();
+		}
+		this.newSkillsView = gameObject.AddComponent<NewSkillsPopUpView>();
+		this.isNewSkillsViewDisplayed = true;
+		newSkillsView.popUpVM.centralWindow = this.newSkillsWindow;
+		for(int i=0;i<newSkills.Count;i++)
+		{
+			newSkillsView.cardNewSkillsPopUpVM.skills.Add (newSkills[i].Name);
+		}
+		if(newSkills.Count>1)
+		{
+			newSkillsView.cardNewSkillsPopUpVM.title="Nouvelles compétences :";
+		}
+		else if(newSkills.Count==1)
+		{
+			newSkillsView.cardNewSkillsPopUpVM.title="Nouvelle compétence :";
+		}
+		newSkillsView.popUpVM.centralWindowStyle = new GUIStyle(ressources.popUpSkin.window);
+		newSkillsView.popUpVM.centralWindowTitleStyle = new GUIStyle (ressources.popUpSkin.customStyles [0]);
+		this.newSkillsPopUpResize ();
 	}
 	public void displayTransparentBackground()
 	{
@@ -113,6 +178,26 @@ public class MenuController : MonoBehaviour
 	{
 		errorView.popUpVM.centralWindow = this.centralWindow;
 		errorView.popUpVM.resize ();
+	}
+	private void collectionPointsPopUpResize()
+	{
+		collectionPointsView.popUpVM.centralWindow = this.collectionPointsWindow;
+		collectionPointsView.popUpVM.resize ();
+	}
+	private void newSkillsPopUpResize()
+	{
+		newSkillsView.popUpVM.centralWindow = this.newSkillsWindow;
+		newSkillsView.popUpVM.resize ();
+	}
+	public void hideCollectionPointsPopUp()
+	{
+		Destroy (this.collectionPointsView);
+		this.isCollectionPointsViewDisplayed = false;
+	}
+	public void hideNewSkillsPopUp()
+	{
+		Destroy (this.newSkillsView);
+		this.isNewSkillsViewDisplayed = false;
 	}
 	public void hideErrorPopUp()
 	{
@@ -265,6 +350,9 @@ public class MenuController : MonoBehaviour
 		ApplicationDesignRules.computeDesignRules ();
 
 		this.centralWindow = new Rect (ApplicationDesignRules.widthScreen * 0.25f, 0.12f * ApplicationDesignRules.heightScreen,ApplicationDesignRules.widthScreen * 0.50f, 0.40f * ApplicationDesignRules.heightScreen);
+		this.collectionPointsWindow=new Rect(ApplicationDesignRules.widthScreen - ApplicationDesignRules.widthScreen * 0.17f-5,0.1f * ApplicationDesignRules.heightScreen+5,ApplicationDesignRules.widthScreen * 0.17f,ApplicationDesignRules.heightScreen * 0.1f);
+		this.newSkillsWindow = new Rect (this.collectionPointsWindow.xMin, this.collectionPointsWindow.yMax + 5,this.collectionPointsWindow.width,ApplicationDesignRules.heightScreen - 0.1f * ApplicationDesignRules.heightScreen - 2 * 5 - this.collectionPointsWindow.height);
+		this.newCardTypeWindow = new Rect (ApplicationDesignRules.widthScreen * 0.25f, 0.12f * ApplicationDesignRules.heightScreen, ApplicationDesignRules.widthScreen * 0.50f, 0.25f * ApplicationDesignRules.heightScreen);
 
 		float buttonsBorderWidth = 1500f;
 		float buttonsWorldScaleX = (ApplicationDesignRules.worldWidth-ApplicationDesignRules.leftMargin-ApplicationDesignRules.rightMargin)/(buttonsBorderWidth / ApplicationDesignRules.pixelPerUnit);

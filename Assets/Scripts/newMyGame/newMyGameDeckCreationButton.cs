@@ -3,7 +3,7 @@ using TMPro;
 
 public class newMyGameDeckCreatioButtonController : SimpleButtonController
 {	
-	public override void OnMouseDown()
+	public override void mainInstruction()
 	{
 		newMyGameController.instance.displayNewDeckPopUp();
 	}

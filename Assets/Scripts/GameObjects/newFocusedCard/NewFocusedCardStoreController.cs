@@ -43,7 +43,7 @@ public class NewFocusedCardStoreController : NewFocusedCardController
 	}
 	public override void refreshCredits()
 	{
-		NewStoreController.instance.refreshCredits ();
+		StartCoroutine(MenuController.instance.getUserData ());
 	}
 	public override void deleteCard ()
 	{

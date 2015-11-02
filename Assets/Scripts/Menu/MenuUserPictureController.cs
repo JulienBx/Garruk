@@ -14,7 +14,7 @@ public class MenuUserPictureController : SpriteButtonController
 		base.setInitialState ();
 		gameObject.transform.parent.gameObject.transform.FindChild("Username").GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
 	}
-	public override void OnMouseDown()
+	public override void mainInstruction()
 	{
 		MenuController.instance.profileLink ();
 	}

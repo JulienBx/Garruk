@@ -153,7 +153,7 @@ MonoBehaviour:
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
   checkPaddingRequired: 1
-  m_enableWordWrapping: 0
+  m_enableWordWrapping: 1
   m_overflowMode: 0
   m_wordWrappingRatios: .400000006
   m_horizontalMapping: 0
@@ -245,6 +245,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_text
       value: TITLE
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_enableWordWrapping
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

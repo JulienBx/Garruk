@@ -3,7 +3,7 @@ using TMPro;
 
 public class NewMarketCardTypeFilterController : SpriteButtonController
 {	
-	public override void OnMouseDown()
+	public override void mainInstruction()
 	{
 		NewMarketController.instance.cardTypeFilterHandler (base.getId());	
 	}

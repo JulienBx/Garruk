@@ -588,7 +588,6 @@ public class NewFocusedCardController : MonoBehaviour
 				this.displayErrorPopUp(w.text);
 			}
 		}
-		this.refreshCredits();
 		this.hideLoadingScreen ();
 	}
 	public virtual void deleteCard()

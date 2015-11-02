@@ -3,7 +3,7 @@ using TMPro;
 
 public class NewHomePageCompetitionController : SimpleButtonController 
 {	
-	public override void OnMouseDown()
+	public override void mainInstruction()
 	{
 		NewHomePageController.instance.joinGameHandler(base.getId());	
 	}

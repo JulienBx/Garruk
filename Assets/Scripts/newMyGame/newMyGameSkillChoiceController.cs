@@ -3,7 +3,7 @@ using TMPro;
 
 public class newMyGameSkillChoiceController : SimpleButtonController 
 {
-	public override void OnMouseDown()
+	public override void mainInstruction()
 	{
 		newMyGameController.instance.filterASkill (base.getId());	
 	}

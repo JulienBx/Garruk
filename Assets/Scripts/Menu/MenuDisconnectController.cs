@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class MenuDisconnectController : SpriteButtonController
 {
-	public override void OnMouseDown()
+	public override void mainInstruction()
 	{
 		MenuController.instance.displayDisconnectedPopUp ();
 	}

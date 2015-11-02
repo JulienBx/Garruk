@@ -8,7 +8,7 @@ using TMPro;
 
 public class newMyGameSkillSearchBarController : InputTextController
 {	
-	public override void OnMouseDown()
+	public override void mainInstruction()
 	{
 		newMyGameController.instance.searchingSkill ();
 	}

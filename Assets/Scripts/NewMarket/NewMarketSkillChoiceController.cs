@@ -3,7 +3,7 @@ using TMPro;
 
 public class NewMarketSkillChoiceController : SimpleButtonController 
 {
-	public override void OnMouseDown()
+	public override void mainInstruction()
 	{
 		NewMarketController.instance.filterASkill (base.getId());	
 	}

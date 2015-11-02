@@ -163,4 +163,8 @@ public class ApplicationDesignRules : MonoBehaviour
 		float scale = (worldSize * pixelPerUnit) / originalSize ;
 		return scale;
 	}
+	static public Vector2 getCardOriginalSize()
+	{
+		return cardSize;
+	}
 }

@@ -3,7 +3,7 @@ using TMPro;
 
 public class newMyGameDeckDeletionButtonController : SimpleButtonController
 {	
-	public override void OnMouseDown()
+	public override void mainInstruction()
 	{
 		newMyGameController.instance.displayDeleteDeckPopUp ();
 	}

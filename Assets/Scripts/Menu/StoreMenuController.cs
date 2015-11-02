@@ -8,7 +8,6 @@ using TMPro;
 
 public class StoreMenuController : MenuController
 {
-
 	public override void sceneReturnPressed()
 	{
 		NewStoreController.instance.returnPressed ();
@@ -21,12 +20,18 @@ public class StoreMenuController : MenuController
 	{
 		NewStoreController.instance.closeAllPopUp ();
 	}
+	public override void resizeAll()
+	{
+		base.resize ();
+		NewStoreController.instance.resize ();
+	}
 	public override void moneyUpdate()
 	{
 		NewStoreController.instance.moneyUpdate ();
 	}
-	public override void initializeScene()
+	public override void initializeScene ()
 	{
+		base.setCurrentPage (2);
 		StartCoroutine (NewStoreController.instance.initialization ());
 	}
 }

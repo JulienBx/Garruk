@@ -8,7 +8,7 @@ using TMPro;
 
 public class NewMarketSkillSearchBarController : InputTextController
 {	
-	public override void OnMouseDown()
+	public override void mainInstruction()
 	{
 		NewMarketController.instance.searchingSkill ();
 	}

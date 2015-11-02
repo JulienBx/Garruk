@@ -3,7 +3,7 @@ using TMPro;
 
 public class NewHomePageDeckChoiceController : SimpleButtonController 
 {
-	public override void OnMouseDown()
+	public override void mainInstruction()
 	{
 		NewHomePageController.instance.selectDeck (base.getId());	
 	}

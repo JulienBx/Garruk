@@ -3,7 +3,7 @@ using TMPro;
 
 public class NewHomePagePaginationButtonController : SpriteButtonController
 {	
-	public override void OnMouseDown()
+	public override void mainInstruction()
 	{
 		NewHomePageController.instance.paginationHandler (base.getId());	
 	}

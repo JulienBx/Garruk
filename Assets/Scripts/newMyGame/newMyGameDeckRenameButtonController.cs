@@ -3,7 +3,7 @@ using TMPro;
 
 public class newMyGameDeckRenameButtonController : SimpleButtonController
 {	
-	public override void OnMouseDown()
+	public override void mainInstruction()
 	{
 		newMyGameController.instance.displayEditDeckPopUp ();
 	}

@@ -52,8 +52,19 @@ public class InterfaceController : MonoBehaviour
 			}
 		}
 	}
-	public virtual void OnMouseDown()
+	public void OnMouseDown()
 	{
+		if(isActive)
+		{
+			if(!isSelected)
+			{
+				this.mainInstruction();
+			}
+		}
+	}
+	public virtual void mainInstruction()
+	{
+
 	}
 	public virtual void setIsHovered(bool value)
 	{
@@ -65,6 +76,9 @@ public class InterfaceController : MonoBehaviour
 	public virtual void setInitialState()
 	{
 	}
+	public virtual void setForbiddenState()
+	{
+	}
 	public void setId(int id)
 	{
 		this.id = id;
@@ -73,7 +87,7 @@ public class InterfaceController : MonoBehaviour
 	{
 		return this.id;
 	}
-	public void setIsActive(bool value)
+	public virtual void setIsActive(bool value)
 	{
 		this.isActive = value;
 	}

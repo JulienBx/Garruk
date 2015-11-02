@@ -13,7 +13,7 @@ public class MenuUserUsernameController : TextButtonController
 		base.setInitialState ();
 		gameObject.transform.parent.gameObject.transform.FindChild("Picture").GetComponent<SpriteRenderer>().color=ApplicationDesignRules.whiteSpriteColor;
 	}
-	public override void OnMouseDown()
+	public override void mainInstruction()
 	{
 		MenuController.instance.profileLink ();
 	}

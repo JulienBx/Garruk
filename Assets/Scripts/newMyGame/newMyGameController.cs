@@ -1835,6 +1835,7 @@ public class newMyGameController : MonoBehaviour
 	}
 	public void deleteCard()
 	{
+		StartCoroutine(MenuController.instance.getUserData ());
 		this.hideCardFocused ();
 		this.removeCardFromAllDecks(model.cards.getCard(this.focusedCardIndex).Id);
 		model.cards.cards.RemoveAt(this.focusedCardIndex);

@@ -1,15 +1,15 @@
 using UnityEngine;
 
-public class NewPackSelectCardTypePopUpView : MonoBehaviour
+public class NewStoreSelectCardTypePopUpView : MonoBehaviour
 {
 	
 	public NewPopUpViewModel popUpVM;
-	public NewPackSelectCardTypePopUpViewModel selectCardTypePopUpVM;
+	public NewStoreSelectCardTypePopUpViewModel selectCardTypePopUpVM;
 	
-	public NewPackSelectCardTypePopUpView ()
+	public NewStoreSelectCardTypePopUpView ()
 	{
 		this.popUpVM = new NewPopUpViewModel ();
-		this.selectCardTypePopUpVM = new NewPackSelectCardTypePopUpViewModel ();
+		this.selectCardTypePopUpVM = new NewStoreSelectCardTypePopUpViewModel ();
 	}
 	
 	void OnGUI()
@@ -45,12 +45,12 @@ public class NewPackSelectCardTypePopUpView : MonoBehaviour
 					GUILayout.FlexibleSpace();
 					if (GUILayout.Button("OK",popUpVM.centralWindowButtonStyle,GUILayout.Width (popUpVM.centralWindow.width*0.3f)))
 					{
-						gameObject.GetComponent<NewPackController>().buyPackWidthCardTypeHandler();
+						NewStoreController.instance.buyPackWidthCardTypeHandler();
 					}
 					GUILayout.FlexibleSpace();
 					if (GUILayout.Button("Annuler",popUpVM.centralWindowButtonStyle,GUILayout.Width (popUpVM.centralWindow.width*0.3f)))
 					{
-						gameObject.GetComponent<NewPackController>().hideSelectCardPopUp();
+						NewStoreController.instance.hideSelectCardPopUp();
 					}
 					GUILayout.FlexibleSpace();
 				}

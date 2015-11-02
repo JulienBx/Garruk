@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class NewPackSelectCardTypePopUpViewModel
+public class NewStoreSelectCardTypePopUpViewModel
 {	
 	
 	public bool guiEnabled;
@@ -8,7 +8,7 @@ public class NewPackSelectCardTypePopUpViewModel
 	public int cardTypeSelected;
 	public string error;
 	
-	public NewPackSelectCardTypePopUpViewModel ()
+	public NewStoreSelectCardTypePopUpViewModel ()
 	{
 		this.guiEnabled = true;
 		this.cardTypes=new string[0];

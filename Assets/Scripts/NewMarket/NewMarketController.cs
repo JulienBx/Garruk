@@ -168,8 +168,8 @@ public class NewMarketController : MonoBehaviour
 		this.model = new NewMarketModel ();
 		this.cardsPerLine = 4;
 		this.nbLines = 2;
-		this.initializeScene ();
 		this.sortingOrder = -1;
+		this.initializeScene ();
 	}
 	public IEnumerator initialization()
 	{
@@ -554,7 +554,6 @@ public class NewMarketController : MonoBehaviour
 			{
 				this.cards[j*(cardsPerLine)+i].transform.localScale= ApplicationDesignRules.cardScale;
 				this.cards[j*(cardsPerLine)+i].transform.position=new Vector3(cardsBlockUpperLeftPosition.x+0.3f+ApplicationDesignRules.cardHaloWorldSize.x/2f+i*(gapBetweenCardsHalo+ApplicationDesignRules.cardHaloWorldSize.x),firstLineY-j*(gapBetweenCardsLine+ApplicationDesignRules.cardHaloWorldSize.y),0f);
-				this.cards[j*(this.cardsPerLine)+i].transform.name="Card"+(j*(this.cardsPerLine)+i);
 				this.cards[j*(this.cardsPerLine)+i].transform.GetComponent<NewCardController> ().setCentralWindow (this.centralWindow);
 			}
 		}
@@ -1246,6 +1245,10 @@ public class NewMarketController : MonoBehaviour
 			if(this.isCardFocusedDisplayed)
 			{
 				this.focusedCard.GetComponent<NewFocusedCardMarketController>().updateFocusFeatures();
+			}
+			else
+			{
+				this.updateCardsMarketFeatures();
 			}
 		}
 	}
