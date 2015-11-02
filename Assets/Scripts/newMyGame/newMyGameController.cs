@@ -12,7 +12,6 @@ public class newMyGameController : MonoBehaviour
 
 	public GameObject tutorialObject;
 	public GameObject blockObject;
-	public GameObject cardObject;
 	public Texture2D[] cursorTextures;
 	public GUISkin popUpSkin;
 	public int refreshInterval;
@@ -29,8 +28,10 @@ public class newMyGameController : MonoBehaviour
 	private GameObject[] deckCards;
 	private GameObject[] cardsHalos;
 	private GameObject[] deckChoices;
+
 	private GameObject cardsBlock;
 	private GameObject cardsBlockTitle;
+	private GameObject[] cards;
 	private GameObject[] cardsPagination;
 	private GameObject cardsPaginationLine;
 	private GameObject cardsNumberTitle;
@@ -46,11 +47,11 @@ public class newMyGameController : MonoBehaviour
 	private GameObject[] availableFilters;
 	private GameObject availabilityFilterTitle;
 	private GameObject cardTypeFilterTitle;
-
-	private GameObject[] cards;
 	private GameObject[] cursors;
 	private GameObject[] sortButtons;
+
 	private GameObject focusedCard;
+
 	private int focusedCardIndex;
 	private bool isCardFocusedDisplayed;
 
@@ -257,7 +258,6 @@ public class newMyGameController : MonoBehaviour
 		int carteDebut = 0;
 		int carteFin = 0;
 		int carteTotal = this.cardsToBeDisplayed.Count;
-
 
 		if(this.chosenPage==0)
 		{
@@ -495,7 +495,8 @@ public class newMyGameController : MonoBehaviour
 		this.skillSearchBar.transform.FindChild ("Title").GetComponent<TextMeshPro>().text ="Rechercher";
 		if(this.sortingOrder!=-1)
 		{
-			this.sortButtons[this.sortingOrder].GetComponent<MyGameFiltersSortController>().setActive(false);
+			this.sortButtons[this.sortingOrder].GetComponent<newMyGameSortButtonController>().setIsSelected(false);
+			this.sortButtons[this.sortingOrder].GetComponent<newMyGameSortButtonController>().reset ();
 			this.sortingOrder = -1;
 		}
 	}
@@ -697,6 +698,7 @@ public class newMyGameController : MonoBehaviour
 		this.cardsBlockTitle.transform.position = new Vector3 (cardsBlockUpperLeftPosition.x + 0.3f, cardsBlockUpperLeftPosition.y - 0.2f, 0f);
 		this.cardsBlockTitle.transform.localScale = ApplicationDesignRules.mainTitleScale;
 		this.cardsNumberTitle.transform.position = new Vector3 (cardsBlockUpperLeftPosition.x + 0.3f, cardsBlockUpperLeftPosition.y - 1.2f, 0f);
+		this.cardsNumberTitle.transform.localScale = ApplicationDesignRules.subMainTitleScale;
 
 		float gapBetweenCardsLine = 0.25f;
 		float gapBetweenCard = gapBetweenCardsHalo;
@@ -902,7 +904,7 @@ public class newMyGameController : MonoBehaviour
 			this.deckDeletionButton.SetActive (false);
 			this.deckRenameButton.SetActive(false);
 		}
-		for (int i=0;i<4;i++)
+		for (int i=0;i<this.deckCards.Length;i++)
 		{
 			if(this.deckCardsDisplayed[i]!=-1)
 			{
@@ -918,7 +920,14 @@ public class newMyGameController : MonoBehaviour
 		this.cardsNumberTitle.SetActive (value);
 		for (int i=0;i<this.cards.Length;i++)
 		{
-			this.cards[i].SetActive(value);
+			if(i<this.cardsDisplayed.Count)
+			{
+				this.cards[i].SetActive(value);
+			}
+			else
+			{
+				this.cards[i].SetActive(false);
+			}
 		}
 		if(value)
 		{

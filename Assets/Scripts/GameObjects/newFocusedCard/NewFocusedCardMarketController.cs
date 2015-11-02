@@ -33,7 +33,14 @@ public class NewFocusedCardMarketController : NewFocusedCardController
 		}
 		else
 		{
-			this.gameObject.transform.FindChild("FocusFeature0").transform.FindChild("Title").GetComponent<TextMeshPro>().text="Cette unité n'est plus en vente";
+			if(this.c.isMine)
+			{
+				this.gameObject.transform.FindChild("FocusFeature0").transform.FindChild("Title").GetComponent<TextMeshPro>().text="Vous avez déjà acheté cette carte";
+			}
+			else
+			{
+				this.gameObject.transform.FindChild("FocusFeature0").transform.FindChild("Title").GetComponent<TextMeshPro>().text="Cette unité n'est plus en vente";
+			}
 			this.gameObject.transform.FindChild("FocusFeature0").transform.GetComponent<NewFocusedFeaturesController>().setIsClickable(false);
 		}
 		this.gameObject.transform.FindChild("FocusFeature4").transform.GetComponent<TextMeshPro>().text=this.c.nbWin+" Victoires \n" + this.c.nbLoose+" Défaites";

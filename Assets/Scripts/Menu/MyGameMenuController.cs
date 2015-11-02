@@ -8,7 +8,6 @@ using TMPro;
 
 public class MyGameMenuController : MenuController
 {
-
 	public override void sceneReturnPressed()
 	{
 		newMyGameController.instance.returnPressed ();

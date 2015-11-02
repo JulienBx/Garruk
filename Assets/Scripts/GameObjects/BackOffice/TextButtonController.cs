@@ -11,5 +11,6 @@ public class TextButtonController : InterfaceController
 	{
 		this.gameObject.transform.GetComponent<TextMeshPro> ().color = ApplicationDesignRules.whiteTextColor;
 	}
+
 }
 

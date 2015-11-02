@@ -75,6 +75,10 @@ public class ApplicationDesignRules : MonoBehaviour
 	static public Vector3 inputTextScale;
 	static private Vector3 valueFilterOriginalScale = new Vector3 (1f, 1f, 1f);
 	static public Vector3 valueFilterScale;
+	static private Vector2 cursorSize=new Vector2(78f,78f);
+	static public Vector2 cursorWorldSize;
+	static private Vector3 cursorOriginalScale=new Vector3(0.3f,0.3f,0.3f);
+	static public Vector3 cursorScale;
 
 	static private Vector3 mainTitleOriginalScale=new Vector3(1f,1f,1f);
 	static public Vector3 mainTitleScale;
@@ -129,6 +133,9 @@ public class ApplicationDesignRules : MonoBehaviour
 		mainTitleScale = toNewScale (mainTitleOriginalScale);
 
 		valueFilterScale = toNewScale (valueFilterOriginalScale);
+
+		cursorScale = toNewScale (cursorOriginalScale);
+		cursorWorldSize = toWorldSize (cursorSize, cursorScale);
 
 		cardFocusedWorldSize.y = worldHeight - upMargin - downMargin;
 		float focusedCardScale = cardFocusedWorldSize.y / (cardFocusedSize.y / pixelPerUnit);

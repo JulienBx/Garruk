@@ -37,7 +37,7 @@ public class NewMarketModel
 		form.AddField("myform_nick", ApplicationModel.username);
 		form.AddField ("myform_totalnbresultlimit", totalNbResultLimit.ToString());
 		
-		WWW w = new WWW(URLGetMarketData, form); 				// On envoie le formulaire à l'url sur le serveur 
+		WWW w = new WWW(URLGetMarketData, form);				// On envoie le formulaire à l'url sur le serveur 
 		yield return w;
 		if (w.error != null) 
 		{
@@ -48,7 +48,10 @@ public class NewMarketModel
 			string[] data=w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
 			this.cardTypeList = data[0].Split(new string[] { "\\" }, System.StringSplitOptions.None);
 			this.skillsList=parseSkills(data[1].Split(new string[] { "#SK#" }, System.StringSplitOptions.None));
-			this.cards.parseCards(data[2]);
+			if(data[2]!="")
+			{
+				this.cards.parseCards(data[2]);
+			}
 			this.player=parsePlayer(data[3].Split(new string[] { "\\" }, System.StringSplitOptions.None));
 			if(cards.getCount()>0)
 			{
@@ -115,7 +118,19 @@ public class NewMarketModel
 			}
 			for(int i=0;i<newCards.getCount();i++)
 			{
-				this.newCards.cards.Insert(i,newCards.getCard(i));
+				bool existing=false;
+				for(int j=0;j<this.cards.getCount();j++)
+				{
+					if(this.cards.getCard(j).Id==newCards.getCard(i).Id)
+					{
+						existing=true;
+						break;
+					}
+				}
+				if(!existing)
+				{
+					this.newCards.cards.Insert(i,newCards.getCard(i));
+				}
 			}
 			if(this.newCards.getCount()>0)
 			{

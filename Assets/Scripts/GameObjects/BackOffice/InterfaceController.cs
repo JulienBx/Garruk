@@ -85,5 +85,9 @@ public class InterfaceController : MonoBehaviour
 	{
 		return this.isSelected;
 	}
+	public bool getIsHovered()
+	{
+		return this.isHovered;
+	}
 }
 

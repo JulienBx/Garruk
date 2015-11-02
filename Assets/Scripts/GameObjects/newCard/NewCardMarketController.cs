@@ -66,7 +66,7 @@ public class NewCardMarketController : NewCardController
 			this.panelMarket.GetComponent<NewCardPanelMarketController>().setClickable(false);
 		}
 	}
-	public void hidePanelMarket()
+	public override void hidePanelMarket()
 	{
 		this.panelMarket.SetActive (false);
 	}

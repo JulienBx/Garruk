@@ -197,6 +197,9 @@ public class NewFocusedCardController : MonoBehaviour
 		this.panelSold.SetActive (false);
 		this.isPanelSoldIsDisplayed=false;
 	}
+	public virtual void hidePanelMarket()
+	{
+	}
 	public virtual void endUpdatingXp(bool hasChangedLevel)
 	{
 		if(hasChangedLevel)
@@ -782,6 +785,7 @@ public class NewFocusedCardController : MonoBehaviour
 			else
 			{
 				this.c.onSale = 0;
+				this.c.isMine=true;
 				string[] data = w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
 				string[] cardData = data [0].Split(new string[] { "//" }, System.StringSplitOptions.None);
 				this.collectionPointsEarned = System.Convert.ToInt32(cardData [0]);
@@ -794,6 +798,7 @@ public class NewFocusedCardController : MonoBehaviour
 					this.skillsUnlocked [i].Name = newSkills [i];
 				}
 				this.displayPanelSold();
+				this.hidePanelMarket();
 				this.updateFocusFeatures ();
 				if(this.collectionPointsEarned>0)
 				{
@@ -809,6 +814,7 @@ public class NewFocusedCardController : MonoBehaviour
 				}
 			}
 		}
+		this.hideLoadingScreen ();
 	}
 	public virtual void actualizePrice()
 	{

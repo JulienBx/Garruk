@@ -208,13 +208,19 @@ public class MenuController : MonoBehaviour
 		this.displayLoadingScreen ();
 		this.initializeMenuObject ();
 		this.resize ();
-		this.initializeScene ();
-		yield return StartCoroutine (model.loadUserData (this.ressources.totalNbResultLimit));
 		if(Application.loadedLevelName!="NewHomePage")
 		{
+			this.initializeScene ();
+			yield return StartCoroutine (model.loadUserData (this.ressources.totalNbResultLimit));
 			ApplicationModel.nbNotificationsNonRead = model.player.nonReadNotifications;
+			ApplicationModel.credits = model.player.Money;
 		}
-		ApplicationModel.credits = model.player.Money;
+		else
+		{
+			yield return StartCoroutine (model.loadUserData (this.ressources.totalNbResultLimit));
+			ApplicationModel.credits = model.player.Money;
+			this.initializeScene();
+		}
 		this.refreshMenuObject ();
 	}
 	public virtual void initializeScene()

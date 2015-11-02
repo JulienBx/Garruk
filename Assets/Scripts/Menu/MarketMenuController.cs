@@ -20,12 +20,18 @@ public class MarketMenuController : MenuController
 	{
 		NewMarketController.instance.closeAllPopUp ();
 	}
+	public override void resizeAll()
+	{
+		base.resize ();
+		NewMarketController.instance.resize ();
+	}
 	public override void moneyUpdate()
 	{
 		NewMarketController.instance.moneyUpdate ();
 	}
 	public override void initializeScene ()
 	{
+		base.setCurrentPage (3);
 		StartCoroutine (NewMarketController.instance.initialization ());
 	}
 }
