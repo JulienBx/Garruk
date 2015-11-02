@@ -56,10 +56,7 @@ public class InterfaceController : MonoBehaviour
 	{
 		if(isActive)
 		{
-			if(!isSelected)
-			{
-				this.mainInstruction();
-			}
+			this.mainInstruction();
 		}
 	}
 	public virtual void mainInstruction()
