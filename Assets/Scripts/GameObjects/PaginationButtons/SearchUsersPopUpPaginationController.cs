@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class SearchUsersPopUpPaginationController : PaginationController
+public class SearchUsersPopUpPaginationController : OldPaginationController
 {
 	void OnMouseDown()
 	{

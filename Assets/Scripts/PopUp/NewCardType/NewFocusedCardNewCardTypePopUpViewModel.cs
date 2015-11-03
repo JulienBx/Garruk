@@ -1,13 +1,13 @@
 using UnityEngine;
 
-public class NewFocusedCardNewCardTypePopUpViewModel
+public class NewCardTypePopUpViewModel
 {	
 	
 	public string newCardType;
 	public int guiDepth;
 
 	
-	public NewFocusedCardNewCardTypePopUpViewModel ()
+	public NewCardTypePopUpViewModel ()
 	{
 		this.newCardType = "";
 	}

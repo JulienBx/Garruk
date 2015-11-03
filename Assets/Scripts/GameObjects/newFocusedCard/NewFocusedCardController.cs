@@ -54,12 +54,6 @@ public class NewFocusedCardController : MonoBehaviour
 	private bool isEditSellPriceViewDisplayed;
 	private NewFocusedCardPutOnMarketPopUpView putOnMarketView;
 	private bool isPutOnMarketViewDisplayed;
-	private NewCollectionPointsPopUpView collectionPointsView;
-	private bool isCollectionPointsViewDisplayed;
-	private NewSkillsPopUpView newSkillsView;
-	private bool isNewSkillsViewDisplayed;
-	private NewFocusedCardNewCardTypePopUpView newCardTypeView;
-	private bool isNewCardTypeViewDisplayed;
 	private NewFocusedCardSoldPopUpView soldCardView;
 	private bool isSoldCardViewDisplayed;
 	private NewFocusedCardErrorPopUpView errorView;
@@ -80,19 +74,6 @@ public class NewFocusedCardController : MonoBehaviour
 
 	public virtual void Update ()
 	{
-		if(isCollectionPointsViewDisplayed)
-		{
-			timerCollectionPoints = timerCollectionPoints + speed * Time.deltaTime;
-			if(timerCollectionPoints>15f)
-			{
-				timerCollectionPoints=0f;
-				this.hideCollectionPointsPopUp();
-				if(isNewSkillsViewDisplayed)
-				{
-					this.hideNewSkillsPopUp();
-				}
-			}
-		}
 		if(isCardUpgradeDisplayed)
 		{
 			timerCardUpgrade = timerCardUpgrade + speed * Time.deltaTime;
@@ -207,11 +188,11 @@ public class NewFocusedCardController : MonoBehaviour
 			this.show ();
 			if(this.collectionPointsEarned>0)
 			{
-				this.displayCollectionPointsPopUp();
+				MenuController.instance.displayCollectionPointsPopUp(this.collectionPointsEarned,this.newCollectionRanking);
 			}
 			if(this.skillsUnlocked.Count>0)
 			{
-				this.displayNewSkillsPopUp();
+				MenuController.instance.displayNewSkillsPopUp(this.skillsUnlocked);
 			}
 			if(this.c.GetNewSkill)
 			{
@@ -236,11 +217,11 @@ public class NewFocusedCardController : MonoBehaviour
 		this.updateFocus ();
 		if(this.collectionPointsEarned>0)
 		{
-			this.displayCollectionPointsPopUp();
+			MenuController.instance.displayCollectionPointsPopUp(this.collectionPointsEarned,this.newCollectionRanking);
 		}
 		if(this.idCardTypeUnlocked!=-1)
 		{
-			this.displayNewCardTypePopUp();
+			MenuController.instance.displayNewCardTypePopUp(this.titleCardTypeUnlocked);
 		}
 		if(this.caracteristicUpgraded>-1&&this.caracteristicIncrease>0)
 		{
@@ -364,58 +345,6 @@ public class NewFocusedCardController : MonoBehaviour
 		putOnMarketView.popUpVM.transparentStyle = new GUIStyle (popUpRessources.popUpSkin.customStyles [2]);
 		this.putOnMarketPopUpResize ();
 	}
-	public void displayCollectionPointsPopUp()
-	{
-		if(this.isCollectionPointsViewDisplayed)
-		{
-			this.hideCollectionPointsPopUp();
-		}
-		collectionPointsView = gameObject.AddComponent<NewCollectionPointsPopUpView>();
-		this.isCollectionPointsViewDisplayed = true;
-		this.timerCollectionPoints = 0f;
-		collectionPointsView.popUpVM.centralWindow = this.collectionPointsWindow;
-		collectionPointsView.cardCollectionPointsPopUpVM.collectionPoints = this.collectionPointsEarned;
-		collectionPointsView.cardCollectionPointsPopUpVM.collectionPointsRanking = this.newCollectionRanking;
-		collectionPointsView.popUpVM.centralWindowStyle = new GUIStyle(popUpRessources.popUpSkin.window);
-		collectionPointsView.popUpVM.centralWindowTitleStyle = new GUIStyle (popUpRessources.popUpSkin.customStyles [0]);
-		this.collectionPointsPopUpResize ();
-	}
-	public void displayNewSkillsPopUp()
-	{
-		if(this.isNewSkillsViewDisplayed)
-		{
-			this.hideNewSkillsPopUp();
-		}
-		this.newSkillsView = gameObject.AddComponent<NewSkillsPopUpView>();
-		this.isNewSkillsViewDisplayed = true;
-		newSkillsView.popUpVM.centralWindow = this.newSkillsWindow;
-		for(int i=0;i<this.skillsUnlocked.Count;i++)
-		{
-			newSkillsView.cardNewSkillsPopUpVM.skills.Add (this.skillsUnlocked[i].Name);
-		}
-		if(this.skillsUnlocked.Count>1)
-		{
-			newSkillsView.cardNewSkillsPopUpVM.title="Nouvelles compétences :";
-		}
-		else if(this.skillsUnlocked.Count==1)
-		{
-			newSkillsView.cardNewSkillsPopUpVM.title="Nouvelle compétence :";
-		}
-		newSkillsView.popUpVM.centralWindowStyle = new GUIStyle(popUpRessources.popUpSkin.window);
-		newSkillsView.popUpVM.centralWindowTitleStyle = new GUIStyle (popUpRessources.popUpSkin.customStyles [0]);
-		this.newSkillsPopUpResize ();
-	}
-	public void displayNewCardTypePopUp()
-	{
-		newCardTypeView = gameObject.AddComponent<NewFocusedCardNewCardTypePopUpView>();
-		this.isNewCardTypeViewDisplayed = true;
-		newCardTypeView.popUpVM.centralWindow = this.newCardTypeWindow;
-		newCardTypeView.cardNewCardTypePopUpVM.newCardType = this.titleCardTypeUnlocked;
-		newCardTypeView.popUpVM.centralWindowStyle = new GUIStyle(popUpRessources.popUpSkin.window);
-		newCardTypeView.popUpVM.centralWindowTitleStyle = new GUIStyle (popUpRessources.popUpSkin.customStyles [0]);
-		newCardTypeView.popUpVM.centralWindowButtonStyle = new GUIStyle (popUpRessources.popUpSkin.button);
-		this.newCardTypePopUpResize ();
-	}
 	public void displaySoldPopUp()
 	{
 		this.soldCardView = gameObject.AddComponent<NewFocusedCardSoldPopUpView> ();
@@ -473,21 +402,6 @@ public class NewFocusedCardController : MonoBehaviour
 		putOnMarketView.popUpVM.centralWindow = this.centralWindow;
 		putOnMarketView.popUpVM.resize ();
 	}
-	private void collectionPointsPopUpResize()
-	{
-		collectionPointsView.popUpVM.centralWindow = this.collectionPointsWindow;
-		collectionPointsView.popUpVM.resize ();
-	}
-	private void newCardTypePopUpResize()
-	{
-		newCardTypeView.popUpVM.centralWindow = this.newCardTypeWindow;
-		newCardTypeView.popUpVM.resize ();
-	}
-	private void newSkillsPopUpResize()
-	{
-		newSkillsView.popUpVM.centralWindow = this.newSkillsWindow;
-		newSkillsView.popUpVM.resize ();
-	}
 	private void soldCardPopUpResize()
 	{
 		soldCardView.popUpVM.centralWindow = this.centralWindow;
@@ -532,21 +446,6 @@ public class NewFocusedCardController : MonoBehaviour
 	{
 		Destroy (this.putOnMarketView);
 		this.isPutOnMarketViewDisplayed = false;
-	}
-	public void hideCollectionPointsPopUp()
-	{
-		Destroy (this.collectionPointsView);
-		this.isCollectionPointsViewDisplayed = false;
-	}
-	public void hideNewCardTypePopUp()
-	{
-		Destroy (this.newCardTypeView);
-		this.isNewCardTypeViewDisplayed = false;
-	}
-	public void hideNewSkillsPopUp()
-	{
-		Destroy (this.newSkillsView);
-		this.isNewSkillsViewDisplayed = false;
 	}
 	public void hideSoldCardPopUp()
 	{
@@ -801,15 +700,15 @@ public class NewFocusedCardController : MonoBehaviour
 				this.updateFocusFeatures ();
 				if(this.collectionPointsEarned>0)
 				{
-					this.displayCollectionPointsPopUp();
+					MenuController.instance.displayCollectionPointsPopUp(this.collectionPointsEarned,this.newCollectionRanking);
 				}
 				if(this.skillsUnlocked.Count>0)
 				{
-					this.displayNewSkillsPopUp();
+					MenuController.instance.displayNewSkillsPopUp(this.skillsUnlocked);
 				}
 				if(this.idCardTypeUnlocked!=-1)
 				{
-					this.displayNewCardTypePopUp();
+					MenuController.instance.displayNewCardTypePopUp(this.titleCardTypeUnlocked);
 				}
 			}
 		}
@@ -990,14 +889,6 @@ public class NewFocusedCardController : MonoBehaviour
 	}
 	public void cleanFocus()
 	{
-		if(this.isCollectionPointsViewDisplayed)
-		{
-			this.hideCollectionPointsPopUp();
-		}
-		if(this.isNewSkillsViewDisplayed)
-		{
-			this.hideNewSkillsPopUp();
-		}
 		if(this.isCardUpgradeDisplayed)
 		{
 			this.isCardUpgradeDisplayed=false;
@@ -1087,10 +978,6 @@ public class NewFocusedCardController : MonoBehaviour
 		{
 			this.putOnMarketPopUpResize();
 		}
-		else if(isNewCardTypeViewDisplayed)
-		{
-			this.newCardTypePopUpResize();
-		}
 		else if(isSoldCardViewDisplayed)
 		{
 			this.soldCardPopUpResize();
@@ -1098,14 +985,6 @@ public class NewFocusedCardController : MonoBehaviour
 		else if(this.isErrorViewDisplayed)
 		{
 			this.hideErrorPopUp();
-		}
-		if(isCollectionPointsViewDisplayed)
-		{
-			this.collectionPointsPopUpResize();
-		}
-		if(isNewSkillsViewDisplayed)
-		{
-			this.newSkillsPopUpResize();
 		}
 	}
 	public void returnPressed()
@@ -1141,10 +1020,6 @@ public class NewFocusedCardController : MonoBehaviour
 		else if(isPutOnMarketViewDisplayed)
 		{
 			this.putOnMarketCardHandler();
-		}
-		else if(isNewCardTypeViewDisplayed)
-		{
-			this.hideNewCardTypePopUp();
 		}
 		else if(this.isErrorViewDisplayed)
 		{
@@ -1188,10 +1063,6 @@ public class NewFocusedCardController : MonoBehaviour
 		else if(isPutOnMarketViewDisplayed)
 		{
 			this.hidePutOnMarketPopUp();
-		}
-		else if(isNewCardTypeViewDisplayed)
-		{
-			this.hideNewCardTypePopUp();
 		}
 		else if(this.isErrorViewDisplayed)
 		{

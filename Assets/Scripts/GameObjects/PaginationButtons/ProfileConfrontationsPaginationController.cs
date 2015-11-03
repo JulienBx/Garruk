@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ProfileConfrontationsPaginationController : PaginationController
+public class ProfileConfrontationsPaginationController : OldPaginationController
 {
 	void OnMouseDown()
 	{

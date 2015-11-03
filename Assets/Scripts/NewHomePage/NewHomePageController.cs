@@ -43,7 +43,7 @@ public class NewHomePageController : MonoBehaviour
 	private GameObject[] tabs;
 	private GameObject[] contents;
 	private GameObject[] challengeButtons;
-	private GameObject[] newsfeedPagination;
+	private GameObject newsfeedPaginationButtons;
 	private GameObject[] deckChoices;
 	private GameObject[] cardsHalos;
 	private GameObject popUp;
@@ -69,9 +69,7 @@ public class NewHomePageController : MonoBehaviour
 
 	private IList<int> friendsOnline;
 	
-	private int nbPages;
-	private int elementsPerPage;
-	private int chosenPage;
+	private Pagination newsfeedPagination;
 
 	private int nbPacks;
 	private int displayedPack;
@@ -173,7 +171,8 @@ public class NewHomePageController : MonoBehaviour
 		instance = this;
 		this.activeTab = 0;
 		this.model = new NewHomePageModel ();
-		this.elementsPerPage = 3;
+		this.newsfeedPagination = new Pagination ();
+		this.newsfeedPagination.nbElementsPerPage= 3;
 		this.friendsOnline = new List<int> ();
 		this.initializeScene ();
 	}
@@ -258,9 +257,10 @@ public class NewHomePageController : MonoBehaviour
 	}
 	private void initializeNotifications()
 	{
-		this.chosenPage = 0;
-		this.nbPages = Mathf.CeilToInt((float) model.notifications.Count / ((float)this.elementsPerPage));
-		this.setPagination ();
+		this.newsfeedPagination.chosenPage = 0;
+		this.newsfeedPagination.totalElements= model.notifications.Count;
+		this.newsfeedPaginationButtons.GetComponent<NewHomePagePaginationController> ().p = this.newsfeedPagination;
+		this.newsfeedPaginationButtons.GetComponent<NewHomePagePaginationController> ().setPagination ();
 		for(int i=0;i<this.contents.Length;i++)
 		{
 			this.challengeButtons[i].SetActive(false);
@@ -270,9 +270,10 @@ public class NewHomePageController : MonoBehaviour
 	}
 	private void initializeNews()
 	{
-		this.chosenPage = 0;
-		this.nbPages = Mathf.CeilToInt((float) model.news.Count / ((float)this.elementsPerPage));
-		this.setPagination ();
+		this.newsfeedPagination.chosenPage = 0;
+		this.newsfeedPagination.totalElements= model.news.Count;
+		this.newsfeedPaginationButtons.GetComponent<NewHomePagePaginationController> ().p = this.newsfeedPagination;
+		this.newsfeedPaginationButtons.GetComponent<NewHomePagePaginationController> ().setPagination ();
 		for(int i=0;i<this.contents.Length;i++)
 		{
 			this.challengeButtons[i].SetActive(false);
@@ -283,10 +284,11 @@ public class NewHomePageController : MonoBehaviour
 	}
 	private void initializeFriends()
 	{
-		this.chosenPage = 0;
 		this.sortFriendsList ();
-		this.nbPages = Mathf.CeilToInt((float) model.friends.Count / ((float)this.elementsPerPage));
-		this.setPagination ();
+		this.newsfeedPagination.chosenPage = 0;
+		this.newsfeedPagination.totalElements= model.friends.Count;
+		this.newsfeedPaginationButtons.GetComponent<NewHomePagePaginationController> ().p = this.newsfeedPagination;
+		this.newsfeedPaginationButtons.GetComponent<NewHomePagePaginationController> ().setPagination ();
 		for(int i=0;i<this.contents.Length;i++)
 		{
 			this.contents[i].transform.FindChild("new").gameObject.SetActive(false);
@@ -300,17 +302,8 @@ public class NewHomePageController : MonoBehaviour
 		this.displayedPack = 0;
 		this.drawPack ();
 	}
-	public void paginationHandler(int id)
+	public void paginationHandler()
 	{
-		if(id==0)
-		{
-			this.chosenPage--;
-		}
-		else
-		{
-			this.chosenPage++;
-		}
-		this.setPagination ();
 		switch(this.activeTab)
 		{
 		case 0:
@@ -322,27 +315,6 @@ public class NewHomePageController : MonoBehaviour
 		case 2:
 			this.drawFriends();
 			break;
-		}
-	}
-	private void setPagination()
-	{
-		if(this.chosenPage==0)
-		{
-			this.newsfeedPagination[0].GetComponent<NewHomePagePaginationButtonController>().reset();
-			this.newsfeedPagination[0].SetActive(false);
-		}
-		else
-		{
-			this.newsfeedPagination[0].SetActive(true);
-		}
-		if(this.nbPages>1 && this.chosenPage!=this.nbPages-1)
-		{
-			this.newsfeedPagination[1].SetActive(true);
-		}
-		else
-		{
-			this.newsfeedPagination[1].GetComponent<NewHomePagePaginationButtonController>().reset ();
-			this.newsfeedPagination[1].SetActive(false);
 		}
 	}
 	private void initializeCompetitions()
@@ -448,13 +420,9 @@ public class NewHomePageController : MonoBehaviour
 		{
 			this.challengeButtons[i]=GameObject.Find("ChallengeButton"+i);
 		}
-		this.newsfeedPagination = new GameObject[2];
-		for(int i=0;i<this.newsfeedPagination.Length;i++)
-		{
-			this.newsfeedPagination[i]=GameObject.Find("NewsfeedPagination"+i);
-			this.newsfeedPagination[i].AddComponent<NewHomePagePaginationButtonController>();
-			this.newsfeedPagination[i].GetComponent<NewHomePagePaginationButtonController>().setId(i);
-		}
+		this.newsfeedPaginationButtons = GameObject.Find("Pagination");
+		this.newsfeedPaginationButtons.AddComponent<NewHomePagePaginationController> ();
+		this.newsfeedPaginationButtons.GetComponent<NewHomePagePaginationController> ().initialize ();
 
 		this.focusedCard = GameObject.Find ("FocusedCard");
 		this.focusedCard.AddComponent<NewFocusedCardHomePageController> ();
@@ -624,12 +592,8 @@ public class NewHomePageController : MonoBehaviour
 			this.challengeButtons[i].transform.position=new Vector3(newsfeedBlockUpperRightPosition.x-0.3f-ApplicationDesignRules.button62WorldSize.x/2f,newsfeedBlockUpperRightPosition.y-0.3f-(i+0.5f)*contentBlockSize.y,0f);
 		}
 
-		this.newsfeedPagination [0].transform.localScale = ApplicationDesignRules.paginationButtonScale;
-		this.newsfeedPagination [1].transform.localScale = ApplicationDesignRules.paginationButtonScale;
-
-		this.newsfeedPagination [0].transform.position = new Vector3 (newsfeedBlockLowerLeftPosition.x + newsfeedBlockSize.x / 2 - 0.05f - ApplicationDesignRules.paginationButtonWorldSize.x / 2f, newsfeedBlockLowerLeftPosition.y + 0.3f, 0f);
-		this.newsfeedPagination [1].transform.position = new Vector3 (newsfeedBlockLowerLeftPosition.x + newsfeedBlockSize.x / 2 + 0.05f + ApplicationDesignRules.paginationButtonWorldSize.x / 2f, newsfeedBlockLowerLeftPosition.y + 0.3f, 0f);
-
+		this.newsfeedPaginationButtons.transform.localPosition=new Vector3 (newsfeedBlockLowerLeftPosition.x + newsfeedBlockSize.x / 2, newsfeedBlockLowerLeftPosition.y + 0.3f, 0f);
+		this.newsfeedPaginationButtons.GetComponent<NewHomePagePaginationController> ().resize ();
 
 		this.focusedCard.transform.localScale = ApplicationDesignRules.cardFocusedScale;
 		this.focusedCard.transform.position = new Vector3 (0f, -ApplicationDesignRules.worldHeight/2f+ApplicationDesignRules.downMargin+ApplicationDesignRules.cardFocusedWorldSize.y/2f-0.22f, 0f);
@@ -819,14 +783,11 @@ public class NewHomePageController : MonoBehaviour
 		}
 		if(value)
 		{
-			this.setPagination();
+			this.newsfeedPaginationButtons.GetComponent<NewHomePagePaginationController>().setPagination();
 		}
 		else
 		{
-			for(int i=0;i<this.newsfeedPagination.Length;i++)
-			{
-				this.newsfeedPagination[i].SetActive(false);
-			}
+			this.newsfeedPaginationButtons.GetComponent<NewHomePagePaginationController>().setVisible(false);
 		}
 	}
 	public void selectDeck(int id)
@@ -1047,17 +1008,17 @@ public class NewHomePageController : MonoBehaviour
 	{
 		print (model.notifications.Count);
 		this.notificationsDisplayed = new List<int> ();
-		for(int i =0;i<elementsPerPage;i++)
+		for(int i =0;i<this.newsfeedPagination.nbElementsPerPage;i++)
 		{
-			if(this.chosenPage*this.elementsPerPage+i<model.notifications.Count)
+			if(this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i<model.notifications.Count)
 			{
-				this.notificationsDisplayed.Add (this.chosenPage*this.elementsPerPage+i);
+				this.notificationsDisplayed.Add (this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i);
 				this.contents[i].SetActive(true);
-				this.contents[i].transform.FindChild("description").GetComponent<TextMeshPro>().text=model.notifications[this.chosenPage*this.elementsPerPage+i].Content;
-				this.contents[i].transform.FindChild("picture").GetComponent<SpriteRenderer>().sprite=MenuController.instance.returnThumbPicture(model.notifications[this.chosenPage*this.elementsPerPage+i].SendingUser.idProfilePicture);
-				this.contents[i].transform.FindChild("date").GetComponent<TextMeshPro>().text=model.notifications[this.chosenPage*this.elementsPerPage+i].Notification.Date.ToString("dd/MM/yyyy");
-				this.contents[i].transform.FindChild("username").GetComponent<TextMeshPro>().text=model.notifications[this.chosenPage*this.elementsPerPage+i].SendingUser.Username;
-				if(!model.notifications[this.chosenPage*this.elementsPerPage+i].Notification.IsRead)
+				this.contents[i].transform.FindChild("description").GetComponent<TextMeshPro>().text=model.notifications[this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i].Content;
+				this.contents[i].transform.FindChild("picture").GetComponent<SpriteRenderer>().sprite=MenuController.instance.returnThumbPicture(model.notifications[this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i].SendingUser.idProfilePicture);
+				this.contents[i].transform.FindChild("date").GetComponent<TextMeshPro>().text=model.notifications[this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i].Notification.Date.ToString("dd/MM/yyyy");
+				this.contents[i].transform.FindChild("username").GetComponent<TextMeshPro>().text=model.notifications[this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i].SendingUser.Username;
+				if(!model.notifications[this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i].Notification.IsRead)
 				{
 					this.contents[i].transform.FindChild("new").gameObject.SetActive(true);
 				}
@@ -1076,16 +1037,16 @@ public class NewHomePageController : MonoBehaviour
 	public void drawNews()
 	{
 		this.newsDisplayed = new List<int> ();
-		for(int i =0;i<elementsPerPage;i++)
+		for(int i =0;i<this.newsfeedPagination.nbElementsPerPage;i++)
 		{
-			if(this.chosenPage*this.elementsPerPage+i<model.news.Count)
+			if(this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i<model.news.Count)
 			{
-				this.newsDisplayed.Add (this.chosenPage*this.elementsPerPage+i);
+				this.newsDisplayed.Add (this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i);
 				this.contents[i].SetActive(true);
-				this.contents[i].transform.FindChild("description").GetComponent<TextMeshPro>().text=model.news[this.chosenPage*this.elementsPerPage+i].Content;
-				this.contents[i].transform.FindChild("picture").GetComponent<SpriteRenderer>().sprite=MenuController.instance.returnThumbPicture(model.news[this.chosenPage*this.elementsPerPage+i].User.idProfilePicture);
-				this.contents[i].transform.FindChild("date").GetComponent<TextMeshPro>().text=model.news[this.chosenPage*this.elementsPerPage+i].News.Date.ToString("dd/MM/yyyy");
-				this.contents[i].transform.FindChild("username").GetComponent<TextMeshPro>().text=model.news[this.chosenPage*this.elementsPerPage+i].User.Username;
+				this.contents[i].transform.FindChild("description").GetComponent<TextMeshPro>().text=model.news[this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i].Content;
+				this.contents[i].transform.FindChild("picture").GetComponent<SpriteRenderer>().sprite=MenuController.instance.returnThumbPicture(model.news[this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i].User.idProfilePicture);
+				this.contents[i].transform.FindChild("date").GetComponent<TextMeshPro>().text=model.news[this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i].News.Date.ToString("dd/MM/yyyy");
+				this.contents[i].transform.FindChild("username").GetComponent<TextMeshPro>().text=model.news[this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i].User.Username;
 
 			}
 			else
@@ -1097,15 +1058,15 @@ public class NewHomePageController : MonoBehaviour
 	public void drawFriends()
 	{
 		this.friendsDisplayed = new List<int> ();
-		for(int i =0;i<elementsPerPage;i++)
+		for(int i =0;i<this.newsfeedPagination.nbElementsPerPage;i++)
 		{
-			if(this.chosenPage*this.elementsPerPage+i<this.friendsToBeDisplayed.Count)
+			if(this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i<this.friendsToBeDisplayed.Count)
 			{
-				this.friendsDisplayed.Add (this.chosenPage*this.elementsPerPage+i);
+				this.friendsDisplayed.Add (this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i);
 				this.contents[i].SetActive(true);
 				string connectionState="";
 				Color connectionStateColor=new Color();
-				switch(model.users[this.friendsToBeDisplayed[this.chosenPage*this.elementsPerPage+i]].OnlineStatus)
+				switch(model.users[this.friendsToBeDisplayed[this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i]].OnlineStatus)
 				{
 				case 0:
 					connectionState = "n'est pas en ligne";
@@ -1122,8 +1083,8 @@ public class NewHomePageController : MonoBehaviour
 				}
 				this.contents[i].transform.FindChild("description").GetComponent<TextMeshPro>().text=connectionState;
 				this.contents[i].transform.FindChild("description").GetComponent<TextMeshPro>().color=connectionStateColor;
-				this.contents[i].transform.FindChild("picture").GetComponent<SpriteRenderer>().sprite=MenuController.instance.returnThumbPicture(model.users[this.friendsToBeDisplayed[this.chosenPage*this.elementsPerPage+i]].idProfilePicture);
-				this.contents[i].transform.FindChild("username").GetComponent<TextMeshPro>().text=model.users[this.friendsToBeDisplayed[this.chosenPage*this.elementsPerPage+i]].Username;
+				this.contents[i].transform.FindChild("picture").GetComponent<SpriteRenderer>().sprite=MenuController.instance.returnThumbPicture(model.users[this.friendsToBeDisplayed[this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i]].idProfilePicture);
+				this.contents[i].transform.FindChild("username").GetComponent<TextMeshPro>().text=model.users[this.friendsToBeDisplayed[this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i]].Username;
 			}
 			else
 			{
@@ -1389,7 +1350,7 @@ public class NewHomePageController : MonoBehaviour
 				}
 			}
 		}
-		if(this.activeTab == 2 && !this.isCardFocusedDisplayed && this.chosenPage==0)
+		if(this.activeTab == 2 && !this.isCardFocusedDisplayed && this.newsfeedPagination.chosenPage==0)
 		{
 			this.initializeFriends();
 		}

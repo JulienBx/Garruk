@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class MyGamePaginationController : PaginationController
+public class MyGamePaginationController : OldPaginationController
 {
 	void OnMouseDown()
 	{

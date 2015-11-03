@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PaginationController : MonoBehaviour 
+public class OldPaginationController : MonoBehaviour 
 {
 	public bool isActive;
 	public int id;

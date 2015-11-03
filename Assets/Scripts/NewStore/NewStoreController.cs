@@ -27,7 +27,7 @@ public class NewStoreController : MonoBehaviour
 	private GameObject[] packsPicture;
 	private GameObject[] packsButton;
 	private GameObject[] separationLines;
-	private GameObject[] packsPagination;
+	private GameObject packsPaginationButtons;
 	private GameObject packsPaginationLine;
 	private GameObject packsNumberTitle;
 
@@ -51,10 +51,7 @@ public class NewStoreController : MonoBehaviour
 	private NewStoreSelectCardTypePopUpView selectCardTypeView;
 	private bool isSelectCardTypeViewDisplayed;
 
-	private int nbPages;
-	private int chosenPage;
-
-	private int nbLines;
+	private Pagination packsPagination;
 
 	private Rect centralWindow;
 	private Rect collectionPointsWindow;
@@ -134,7 +131,8 @@ public class NewStoreController : MonoBehaviour
 		instance = this;
 		this.model = new NewStoreModel ();
 		this.speed = 300.0f;
-		this.nbLines = 2;
+		this.packsPagination = new Pagination ();
+		this.packsPagination.nbElementsPerPage = 2;
 		this.initializeScene ();
 	}
 	public IEnumerator initialization()
@@ -162,9 +160,11 @@ public class NewStoreController : MonoBehaviour
 	}
 	private void initializePacks()
 	{
-		this.chosenPage = 0;
-		this.nbPages = Mathf.CeilToInt((float) model.packList.Count / ((float)this.nbLines));
-		this.setPagination ();
+		this.packsPagination.chosenPage = 0;
+		this.packsPagination.totalElements = model.packList.Count;
+		this.packsPaginationButtons.GetComponent<NewStorePaginationController> ().p = packsPagination;
+		this.packsPaginationButtons.GetComponent<NewStorePaginationController> ().setPagination ();
+		this.drawPaginationNumber ();
 		this.drawPacks ();
 	}
 	private void initializeBuyCreditsButton()
@@ -178,67 +178,20 @@ public class NewStoreController : MonoBehaviour
 			this.buyCreditsButton.GetComponent<NewStoreBuyCreditsButtonController>().setIsActive(true);
 		}
 	}
-	private void setPagination()
+	public void drawPaginationNumber()
 	{
-		int packDebut = 0;
-		int packFin = 0;
-		int packTotal = model.packList.Count;
-		
-		if(this.chosenPage==0)
+		if(packsPagination.totalElements>0)
 		{
-			packDebut=1;
-			this.packsPagination[0].GetComponent<NewStorePaginationButtonController>().reset();
-			this.packsPagination[0].SetActive(false);
-			if(this.nbPages>1)
-			{
-				this.packsPagination[1].SetActive(true);
-				packFin=nbLines;
-				this.packsNumberTitle.GetComponent<TextMeshPro>().text=("pack " +packDebut+" à "+packFin+" sur "+packTotal ).ToUpper();
-			}
-			else
-			{
-				this.packsPagination[1].GetComponent<NewStorePaginationButtonController>().reset ();
-				this.packsPagination[1].SetActive(false);
-				if(packTotal==0)
-				{
-					this.packsNumberTitle.GetComponent<TextMeshPro>().text=("pack " +packDebut+" à "+packFin+" sur "+packTotal ).ToUpper();
-				}
-				else
-				{
-					packFin=packTotal;
-					this.packsNumberTitle.GetComponent<TextMeshPro>().text=("pack " +packDebut+" à "+packFin+" sur "+packTotal ).ToUpper();
-				}
-			}
+			this.packsNumberTitle.GetComponent<TextMeshPro>().text=("pack " +this.packsPagination.elementDebut+" à "+this.packsPagination.elementFin+" sur "+this.packsPagination.totalElements ).ToUpper();
 		}
 		else
 		{
-			packDebut=this.chosenPage*this.nbLines+1;
-			this.packsPagination[0].SetActive(true);
-			if(this.chosenPage!=this.nbPages-1)
-			{
-				packFin=packDebut+this.nbLines-1;
-				this.packsPagination[1].SetActive(true);
-			}
-			else
-			{
-				packFin=packTotal;
-				this.packsPagination[1].GetComponent<NewStorePaginationButtonController>().reset ();
-				this.packsPagination[1].SetActive(false);
-			}
-			this.packsNumberTitle.GetComponent<TextMeshPro>().text=("pack " +packDebut+" à "+packFin+" sur "+packTotal ).ToUpper();
+			this.packsNumberTitle.GetComponent<TextMeshPro>().text="aucun pack à afficher".ToUpper();
 		}
 	}
-	public void paginationHandler(int id)
+	public void paginationHandler()
 	{
-		if(id==0)
-		{
-			this.chosenPage--;
-		}
-		else
-		{
-			this.chosenPage++;
-		}
-		this.setPagination ();
+		this.drawPaginationNumber ();
 		this.drawPacks ();
 	}
 	public void initializeScene()
@@ -252,7 +205,7 @@ public class NewStoreController : MonoBehaviour
 		this.packsBlockTitle.GetComponent<TextMeshPro> ().text = "Acheter";
 		this.packsNumberTitle = GameObject.Find ("PacksNumberTitle");
 		this.packsNumberTitle.GetComponent<TextMeshPro> ().color = ApplicationDesignRules.whiteTextColor;
-		this.packs=new GameObject[this.nbLines];
+		this.packs=new GameObject[packsPagination.nbElementsPerPage];
 		this.packsButton = new GameObject[this.packs.Length];
 		this.packsTitle = new GameObject[this.packs.Length];
 		this.packsPicture = new GameObject[this.packs.Length];
@@ -266,19 +219,15 @@ public class NewStoreController : MonoBehaviour
 			this.packs[i].transform.FindChild("Button").GetComponent<NewStoreBuyPackButtonController>().setId(i);
 			this.packs[i].SetActive(false);
 		}
-		this.separationLines = new GameObject[this.nbLines];
+		this.separationLines = new GameObject[packsPagination.nbElementsPerPage];
 		for(int i=0;i<this.separationLines.Length;i++)
 		{
 			this.separationLines[i]=GameObject.Find ("SeparationLine"+i);
 			this.separationLines[i].SetActive(false);
 		}
-		this.packsPagination = new GameObject[2];
-		for(int i=0;i<this.packsPagination.Length;i++)
-		{
-			this.packsPagination[i]=GameObject.Find("PacksPagination"+i);
-			this.packsPagination[i].AddComponent<NewStorePaginationButtonController>();
-			this.packsPagination[i].GetComponent<NewStorePaginationButtonController>().setId(i);
-		}
+		this.packsPaginationButtons = GameObject.Find("Pagination");
+		this.packsPaginationButtons.AddComponent<NewStorePaginationController> ();
+		this.packsPaginationButtons.GetComponent<NewStorePaginationController> ().initialize ();
 		this.packsPaginationLine = GameObject.Find ("PacksPaginationLine");
 		this.packsPaginationLine.GetComponent<SpriteRenderer> ().color = ApplicationDesignRules.whiteSpriteColor;
 
@@ -346,7 +295,7 @@ public class NewStoreController : MonoBehaviour
 		float packPictureWorldWidth = packPictureScale * (packPictureWidth / ApplicationDesignRules.pixelPerUnit);
 		float packPictureWorldHeight = packPictureWorldWidth * (packPictureHeight / packPictureWidth);
 		
-		for(int i=0;i<this.nbLines;i++)
+		for(int i=0;i<this.packsPagination.nbElementsPerPage;i++)
 		{
 			this.separationLines[i].transform.localScale=new Vector3(lineScale,1f,1f);
 			this.separationLines[i].transform.position=new Vector3(packsBlockUpperLeftPosition.x+packsBlockSize.x/2f,packsBlockUpperLeftPosition.y-upperMargin-i*packBlockSize.y,0f);
@@ -358,11 +307,8 @@ public class NewStoreController : MonoBehaviour
 			this.packsPicture[i].transform.position=new Vector3(packsBlockUpperRightPosition.x-0.3f-packPictureWorldWidth/2f,packsBlockUpperRightPosition.y-upperMargin-packBlockSize.y+packPictureWorldHeight/2f+0.05f-i*(packBlockSize.y),0f);
 		}
 
-		this.packsPagination [0].transform.localScale = ApplicationDesignRules.paginationButtonScale;
-		this.packsPagination [1].transform.localScale = ApplicationDesignRules.paginationButtonScale;
-		
-		this.packsPagination [0].transform.position = new Vector3 (packsBlockLowerLeftPosition.x + packsBlockSize.x / 2 - 0.05f - ApplicationDesignRules.paginationButtonWorldSize.x / 2f, packsBlockLowerLeftPosition.y + 0.3f, 0f);
-		this.packsPagination [1].transform.position = new Vector3 (packsBlockLowerLeftPosition.x + packsBlockSize.x / 2 + 0.05f + ApplicationDesignRules.paginationButtonWorldSize.x / 2f, packsBlockLowerLeftPosition.y + 0.3f, 0f);
+		this.packsPaginationButtons.transform.localPosition=new Vector3(packsBlockLowerLeftPosition.x+packsBlockSize.x/2f, packsBlockLowerLeftPosition.y + 0.3f, 0f);
+		this.packsPaginationButtons.transform.GetComponent<NewStorePaginationController> ().resize ();
 
 		this.packsPaginationLine.transform.localScale = new Vector3 (lineScale, 1f, 1f);
 		this.packsPaginationLine.transform.position = new Vector3 (packsBlockLowerLeftPosition.x + packsBlockSize.x / 2, packsBlockLowerLeftPosition.y + 0.6f, 0f);
@@ -536,14 +482,11 @@ public class NewStoreController : MonoBehaviour
 		this.packsNumberTitle.SetActive (value);
 		if(value)
 		{
-			this.setPagination();
+			this.packsPaginationButtons.GetComponent<NewStorePaginationController>().setPagination();
 		}
 		else
 		{
-			for(int i=0;i<this.packsPagination.Length;i++)
-			{
-				this.packsPagination[i].SetActive(false);
-			}
+			this.packsPaginationButtons.GetComponent<NewStorePaginationController>().setVisible(false);
 		}
 		this.packsPaginationLine.SetActive (value);
 		this.storeBlock.SetActive (value);
@@ -576,11 +519,11 @@ public class NewStoreController : MonoBehaviour
 	{
 		this.packsDisplayed = new List<int> ();
 		
-		for(int i=0;i<this.nbLines;i++)
+		for(int i=0;i<this.packsPagination.nbElementsPerPage;i++)
 		{
-			if(this.chosenPage*(this.nbLines)+i<model.packList.Count)
+			if(this.packsPagination.chosenPage*(this.packsPagination.nbElementsPerPage)+i<model.packList.Count)
 			{
-				this.packsDisplayed.Add (this.chosenPage*(this.nbLines)+i);
+				this.packsDisplayed.Add (this.packsPagination.chosenPage*(this.packsPagination.nbElementsPerPage)+i);
 				this.packs[i].transform.FindChild("Button").FindChild("Title").GetComponent<TextMeshPro>().text=model.packList[this.packsDisplayed[i]].Price.ToString();
 				this.packs[i].transform.FindChild("Name").GetComponent<TextMeshPro>().text=model.packList[this.packsDisplayed[i]].Name;
 				this.packs[i].transform.FindChild("Picture").GetComponent<SpriteRenderer>().sprite=MenuController.instance.returnPackPicture (model.packList[this.packsDisplayed[i]].IdPicture);
@@ -647,6 +590,7 @@ public class NewStoreController : MonoBehaviour
 			this.toRotate=new bool[model.packList [this.selectedPackIndex].NbCards];
 			if(model.packList[this.selectedPackIndex].NbCards>1)
 			{
+				this.backButton.SetActive(true);
 				this.createRandomCards();
 				this.resizeRandomCards();
 				this.rotateRandomCards();

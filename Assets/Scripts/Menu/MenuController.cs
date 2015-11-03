@@ -40,6 +40,8 @@ public class MenuController : MonoBehaviour
 	private bool isCollectionPointsViewDisplayed;
 	private NewSkillsPopUpView newSkillsView;
 	private bool isNewSkillsViewDisplayed;
+	private NewCardTypePopUpView newCardTypeView;
+	private bool isNewCardTypeViewDisplayed;
 
 	private float speed;
 	private float timerCollectionPoints;
@@ -157,6 +159,17 @@ public class MenuController : MonoBehaviour
 		newSkillsView.popUpVM.centralWindowTitleStyle = new GUIStyle (ressources.popUpSkin.customStyles [0]);
 		this.newSkillsPopUpResize ();
 	}
+	public void displayNewCardTypePopUp(string titleCardTypeUnlocked)
+	{
+		newCardTypeView = gameObject.AddComponent<NewCardTypePopUpView>();
+		this.isNewCardTypeViewDisplayed = true;
+		newCardTypeView.popUpVM.centralWindow = this.newCardTypeWindow;
+		newCardTypeView.cardNewCardTypePopUpVM.newCardType = titleCardTypeUnlocked;
+		newCardTypeView.popUpVM.centralWindowStyle = new GUIStyle(ressources.popUpSkin.window);
+		newCardTypeView.popUpVM.centralWindowTitleStyle = new GUIStyle (ressources.popUpSkin.customStyles [0]);
+		newCardTypeView.popUpVM.centralWindowButtonStyle = new GUIStyle (ressources.popUpSkin.button);
+		this.newCardTypePopUpResize ();
+	}
 	public void displayTransparentBackground()
 	{
 		if(!this.isTransparentBackgroundDisplayed)
@@ -189,10 +202,20 @@ public class MenuController : MonoBehaviour
 		newSkillsView.popUpVM.centralWindow = this.newSkillsWindow;
 		newSkillsView.popUpVM.resize ();
 	}
+	private void newCardTypePopUpResize()
+	{
+		newCardTypeView.popUpVM.centralWindow = this.newCardTypeWindow;
+		newCardTypeView.popUpVM.resize ();
+	}
 	public void hideCollectionPointsPopUp()
 	{
 		Destroy (this.collectionPointsView);
 		this.isCollectionPointsViewDisplayed = false;
+	}
+	public void hideNewCardTypePopUp()
+	{
+		Destroy (this.newCardTypeView);
+		this.isNewCardTypeViewDisplayed = false;
 	}
 	public void hideNewSkillsPopUp()
 	{
@@ -533,6 +556,10 @@ public class MenuController : MonoBehaviour
 		{
 			this.logOutLink();
 		}
+		else if(isNewCardTypeViewDisplayed)
+		{
+			this.hideNewCardTypePopUp();
+		}
 		else if(isInvitationPopUpDisplayed)
 		{
 			InvitationPopUpController.instance.acceptInvitationHandler();
@@ -562,6 +589,10 @@ public class MenuController : MonoBehaviour
 		{
 			this.hideDisconnectedPopUp();
 		}
+		else if(isNewCardTypeViewDisplayed)
+		{
+			this.hideNewCardTypePopUp();
+		}
 		else if(isInvitationPopUpDisplayed)
 		{
 			InvitationPopUpController.instance.declineInvitationHandler();
@@ -586,6 +617,10 @@ public class MenuController : MonoBehaviour
 			{
 				this.hidePlayPopUp();
 			}
+		}
+		if(isNewCardTypeViewDisplayed)
+		{
+			this.hideNewCardTypePopUp();
 		}
 		if(isDisconnectedViewDisplayed)
 		{

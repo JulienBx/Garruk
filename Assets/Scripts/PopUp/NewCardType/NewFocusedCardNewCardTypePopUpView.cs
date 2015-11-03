@@ -1,14 +1,14 @@
 using UnityEngine;
 
-public class NewFocusedCardNewCardTypePopUpView : MonoBehaviour
+public class NewCardTypePopUpView : MonoBehaviour
 {
 	
-	public NewFocusedCardNewCardTypePopUpViewModel cardNewCardTypePopUpVM;
+	public NewCardTypePopUpViewModel cardNewCardTypePopUpVM;
 	public NewPopUpViewModel popUpVM;
 	
-	public NewFocusedCardNewCardTypePopUpView ()
+	public NewCardTypePopUpView ()
 	{
-		this.cardNewCardTypePopUpVM = new NewFocusedCardNewCardTypePopUpViewModel ();
+		this.cardNewCardTypePopUpVM = new NewCardTypePopUpViewModel ();
 		this.popUpVM = new NewPopUpViewModel ();
 	}
 	void OnGUI()
@@ -25,7 +25,7 @@ public class NewFocusedCardNewCardTypePopUpView : MonoBehaviour
 				GUILayout.FlexibleSpace();
 				if(GUILayout.Button("OK",popUpVM.centralWindowButtonStyle,GUILayout.Width(popUpVM.centralWindow.width/3f)))
 				{
-					gameObject.GetComponent<NewFocusedCardController>().hideNewCardTypePopUp();
+					MenuController.instance.hideNewCardTypePopUp();
 				}
 				GUILayout.FlexibleSpace();
 			}

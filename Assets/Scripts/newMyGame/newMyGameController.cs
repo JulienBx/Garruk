@@ -32,7 +32,7 @@ public class newMyGameController : MonoBehaviour
 	private GameObject cardsBlock;
 	private GameObject cardsBlockTitle;
 	private GameObject[] cards;
-	private GameObject[] cardsPagination;
+	private GameObject cardsPaginationButtons;
 	private GameObject cardsPaginationLine;
 	private GameObject cardsNumberTitle;
 
@@ -83,11 +83,10 @@ public class newMyGameController : MonoBehaviour
 	private IList<int> decksDisplayed;
 	private int[] deckCardsDisplayed;
 	private int deckDisplayed;
-
-	private int nbPages;
+	
 	private int nbLines;
 	private int cardsPerLine;
-	private int chosenPage;
+	private Pagination cardsPagination;
 
 	private NewMyGameNewDeckPopUpView newDeckView;
 	private bool newDeckViewDisplayed;
@@ -194,8 +193,11 @@ public class newMyGameController : MonoBehaviour
 		this.model = new NewMyGameModel ();
 		this.cardsPerLine = 4;
 		this.nbLines = 2;
-		this.initializeScene ();
 		this.sortingOrder = -1;
+		this.cardsPagination = new Pagination ();
+		this.cardsPagination.chosenPage = 0;
+		this.cardsPagination.nbElementsPerPage = this.cardsPerLine * this.nbLines;
+		this.initializeScene ();
 	}
 	public IEnumerator initialization()
 	{
@@ -243,77 +245,32 @@ public class newMyGameController : MonoBehaviour
 	private void initializeCards()
 	{
 		this.resetFiltersValue ();
+		this.cardsPagination.chosenPage = 0;
 		this.applyFilters ();
 	}
 	private void applyFilters()
 	{
 		this.computeFilters ();
-		this.chosenPage = 0;
-		this.nbPages = Mathf.CeilToInt((float) this.cardsToBeDisplayed.Count / ((float)this.nbLines*(float)this.cardsPerLine));
-		this.setPagination ();
+		this.cardsPagination.totalElements= this.cardsToBeDisplayed.Count;
+		this.cardsPaginationButtons.GetComponent<newMyGamePaginationController> ().p = cardsPagination;
+		this.cardsPaginationButtons.GetComponent<newMyGamePaginationController> ().setPagination ();
+		this.drawPaginationNumber ();
 		this.drawCards ();
 	}
-	private void setPagination()
+	public void drawPaginationNumber()
 	{
-		int carteDebut = 0;
-		int carteFin = 0;
-		int carteTotal = this.cardsToBeDisplayed.Count;
-
-		if(this.chosenPage==0)
+		if(cardsPagination.totalElements>0)
 		{
-			carteDebut=1;
-			this.cardsPagination[0].GetComponent<newMyGamePaginationButtonController>().reset();
-			this.cardsPagination[0].SetActive(false);
-			if(this.nbPages>1)
-			{
-				this.cardsPagination[1].SetActive(true);
-				carteFin=nbLines*cardsPerLine;
-				this.cardsNumberTitle.GetComponent<TextMeshPro>().text=("cartes " +carteDebut+" à "+carteFin+" sur "+carteTotal ).ToUpper();
-			}
-			else
-			{
-				this.cardsPagination[1].GetComponent<newMyGamePaginationButtonController>().reset ();
-				this.cardsPagination[1].SetActive(false);
-				if(carteTotal==0)
-				{
-					this.cardsNumberTitle.GetComponent<TextMeshPro>().text="Aucune carte à afficher".ToUpper();
-				}
-				else
-				{
-					carteFin=carteTotal;
-					this.cardsNumberTitle.GetComponent<TextMeshPro>().text=("cartes " +carteDebut+" à "+carteFin+" sur "+carteTotal).ToUpper();
-				}
-			}
+			this.cardsNumberTitle.GetComponent<TextMeshPro>().text=("carte " +this.cardsPagination.elementDebut+" à "+this.cardsPagination.elementFin+" sur "+this.cardsPagination.totalElements ).ToUpper();
 		}
 		else
 		{
-			carteDebut=this.chosenPage*this.nbLines*this.cardsPerLine+1;
-			this.cardsPagination[0].SetActive(true);
-			if(this.chosenPage!=this.nbPages-1)
-			{
-				carteFin=carteDebut+this.nbLines*this.cardsPerLine-1;
-				this.cardsPagination[1].SetActive(true);
-			}
-			else
-			{
-				carteFin=carteTotal;
-				this.cardsPagination[1].GetComponent<newMyGamePaginationButtonController>().reset ();
-				this.cardsPagination[1].SetActive(false);
-			}
-			this.cardsNumberTitle.GetComponent<TextMeshPro>().text=("cartes " +carteDebut+" à "+carteFin+" sur "+carteTotal).ToUpper();
+			this.cardsNumberTitle.GetComponent<TextMeshPro>().text="aucune carte à afficher".ToUpper();
 		}
 	}
-	public void paginationHandler(int id)
+	public void paginationHandler()
 	{
-		if(id==0)
-		{
-			this.chosenPage--;
-		}
-		else
-		{
-			this.chosenPage++;
-		}
-		this.setPagination ();
+		this.drawPaginationNumber ();
 		this.drawCards ();
 	}
 	public void initializeScene()
@@ -373,13 +330,9 @@ public class newMyGameController : MonoBehaviour
 			this.cards[i].transform.GetComponent<NewCardMyGameController>().setId(i,false);
 			this.cards[i].SetActive(false);
 		}
-		this.cardsPagination = new GameObject[2];
-		for(int i=0;i<this.cardsPagination.Length;i++)
-		{
-			this.cardsPagination[i]=GameObject.Find("CardsPagination"+i);
-			this.cardsPagination[i].AddComponent<newMyGamePaginationButtonController>();
-			this.cardsPagination[i].GetComponent<newMyGamePaginationButtonController>().setId(i);
-		}
+		this.cardsPaginationButtons = GameObject.Find("Pagination");
+		this.cardsPaginationButtons.AddComponent<newMyGamePaginationController> ();
+		this.cardsPaginationButtons.GetComponent<newMyGamePaginationController> ().initialize ();
 		this.cardsPaginationLine = GameObject.Find ("CardsPaginationLine");
 		this.cardsPaginationLine.GetComponent<SpriteRenderer> ().color = ApplicationDesignRules.whiteSpriteColor;
 
@@ -719,11 +672,8 @@ public class newMyGameController : MonoBehaviour
 			}
 		}
 		
-		this.cardsPagination [0].transform.localScale = ApplicationDesignRules.paginationButtonScale;
-		this.cardsPagination [1].transform.localScale = ApplicationDesignRules.paginationButtonScale;
-		
-		this.cardsPagination [0].transform.position = new Vector3 (cardsBlockLowerLeftPosition.x + cardsBlockSize.x / 2 - 0.05f - ApplicationDesignRules.paginationButtonWorldSize.x / 2f, cardsBlockLowerLeftPosition.y + 0.3f, 0f);
-		this.cardsPagination [1].transform.position = new Vector3 (cardsBlockLowerLeftPosition.x + cardsBlockSize.x / 2 + 0.05f + ApplicationDesignRules.paginationButtonWorldSize.x / 2f, cardsBlockLowerLeftPosition.y + 0.3f, 0f);
+		this.cardsPaginationButtons.transform.localPosition=new Vector3(cardsBlockLowerLeftPosition.x+cardsBlockSize.x/2f, cardsBlockLowerLeftPosition.y + 0.3f, 0f);
+		this.cardsPaginationButtons.transform.GetComponent<newMyGamePaginationController> ().resize ();
 
 		float lineScale = ApplicationDesignRules.getLineScale (cardsBlockSize.x - 0.6f);
 		this.cardsPaginationLine.transform.localScale = new Vector3 (lineScale, 1f, 1f);
@@ -761,9 +711,9 @@ public class newMyGameController : MonoBehaviour
 		{
 			for(int i =0;i<cardsPerLine;i++)
 			{
-				if(this.chosenPage*(this.nbLines*this.cardsPerLine)+j*(cardsPerLine)+i<this.cardsToBeDisplayed.Count)
+				if(this.cardsPagination.chosenPage*(this.nbLines*this.cardsPerLine)+j*(cardsPerLine)+i<this.cardsToBeDisplayed.Count)
 				{
-					this.cardsDisplayed.Add (this.cardsToBeDisplayed[this.chosenPage*(this.nbLines*this.cardsPerLine)+j*(cardsPerLine)+i]);
+					this.cardsDisplayed.Add (this.cardsToBeDisplayed[this.cardsPagination.chosenPage*(this.nbLines*this.cardsPerLine)+j*(cardsPerLine)+i]);
 					this.cards[j*(cardsPerLine)+i].transform.GetComponent<NewCardController>().c=model.cards.getCard(this.cardsDisplayed[j*(cardsPerLine)+i]);
 					this.cards[j*(cardsPerLine)+i].transform.GetComponent<NewCardController>().show();
 					this.cards[j*(cardsPerLine)+i].SetActive(true);
@@ -856,7 +806,7 @@ public class newMyGameController : MonoBehaviour
 		}
 		else
 		{
-			this.cards[this.idCardClicked].GetComponent<NewCardController>().show();
+			this.applyFilters ();
 		}
 	}
 	public void displayBackUI(bool value)
@@ -931,14 +881,11 @@ public class newMyGameController : MonoBehaviour
 		}
 		if(value)
 		{
-			this.setPagination();
+			this.cardsPaginationButtons.GetComponent<newMyGamePaginationController>().setPagination();
 		}
 		else
 		{
-			for(int i=0;i<this.cardsPagination.Length;i++)
-			{
-				this.cardsPagination[i].SetActive(false);
-			}
+			this.cardsPaginationButtons.GetComponent<newMyGamePaginationController>().setVisible(false);
 		}
 		this.cardsPaginationLine.SetActive (value);
 		this.filtersBlock.SetActive (value);
@@ -1027,6 +974,7 @@ public class newMyGameController : MonoBehaviour
 		if(isSkillChosen)
 		{
 			this.isSkillChosen=false;
+			this.cardsPagination.chosenPage = 0;
 			this.applyFilters();
 		}
 		this.cleanSkillAutocompletion();
@@ -1049,6 +997,7 @@ public class newMyGameController : MonoBehaviour
 			this.cardsTypeFilters[id].GetComponent<newMyGameCardTypeFilterController>().setIsSelected(true);
 			this.cardsTypeFilters[id].GetComponent<newMyGameCardTypeFilterController>().setHoveredState();
 		}
+		this.cardsPagination.chosenPage = 0;
 		this.applyFilters ();
 	}
 	public void availabilityFilterHandler(int id)
@@ -1091,6 +1040,7 @@ public class newMyGameController : MonoBehaviour
 				this.availableFilters[1].GetComponent<newMyGameAvailabilityFilterController>().setHoveredState();
 			}
 		}
+		this.cardsPagination.chosenPage = 0;
 		this.applyFilters ();
 	}
 	public void sortButtonHandler(int id)
@@ -1113,6 +1063,7 @@ public class newMyGameController : MonoBehaviour
 			this.sortButtons[id].GetComponent<newMyGameSortButtonController>().setIsSelected(true);
 			this.sortButtons[id].GetComponent<newMyGameSortButtonController>().setHoveredState();
 		}
+		this.cardsPagination.chosenPage = 0;
 		this.applyFilters ();
 	}
 	public void moveCursors(int cursorId)
@@ -1211,6 +1162,7 @@ public class newMyGameController : MonoBehaviour
 				this.valueFilters[3].transform.FindChild("Icon").GetComponent<SpriteRenderer>().color=getColorFilterIcon(quicknessVal);
 				break;
 			}
+			this.cardsPagination.chosenPage = 0;
 			this.applyFilters();
 		}
 	}
@@ -1396,6 +1348,7 @@ public class newMyGameController : MonoBehaviour
 		this.isSkillChosen = true;
 		this.skillSearchBar.transform.FindChild("Title").GetComponent<TextMeshPro>().text =valueSkill;
 		this.cleanSkillAutocompletion ();
+		this.cardsPagination.chosenPage = 0;
 		this.applyFilters ();
 	}
 	public void mouseOnSearchBar(bool value)
@@ -1799,7 +1752,6 @@ public class newMyGameController : MonoBehaviour
 				print (deckCardsArea[i]);
 				if(this.deckCardsArea[i].Contains(cursorPosition))
 				{
-					print ("toto");
 					this.moveToDeckCards(i);
 					break;
 				}
