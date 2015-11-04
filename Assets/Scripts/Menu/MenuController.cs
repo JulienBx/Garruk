@@ -258,10 +258,6 @@ public class MenuController : MonoBehaviour
 		{
 			this.setCurrentPage (0);
 		}
-		Vector3 tempPosition;
-		tempPosition= gameObject.transform.Find("Button"+5).localPosition;
-		tempPosition.x = this.ressources.startButtonPosition;
-		gameObject.transform.Find("Button"+5).localPosition=tempPosition;
 	}
 	public void hideTransparentBackground()
 	{
@@ -743,6 +739,10 @@ public class MenuController : MonoBehaviour
 	public Sprite returnTabPicture(int id)
 	{
 		return ressources.tabsPictures [id];
+	}
+	public Sprite returnCompetitionPicture(int id)
+	{
+		return ressources.competitionsPictures [id];
 	}
 	public void changeThumbPicture(int id)
 	{

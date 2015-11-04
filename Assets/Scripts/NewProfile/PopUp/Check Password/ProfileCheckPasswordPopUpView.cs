@@ -44,13 +44,13 @@ public class ProfileCheckPasswordPopUpView : MonoBehaviour
 					GUILayout.FlexibleSpace();
 					if (GUILayout.Button("OK",popUpVM.centralWindowButtonStyle,GUILayout.Width (popUpVM.centralWindow.width*0.3f)))
 					{
-						NewProfileController.instance.checkPasswordHandler(checkPasswordPopUpVM.tempOldPassword);
+						//NewProfileController.instance.checkPasswordHandler(checkPasswordPopUpVM.tempOldPassword);
 						
 					}
 					GUILayout.FlexibleSpace();
 					if (GUILayout.Button("Quitter",popUpVM.centralWindowButtonStyle,GUILayout.Width (popUpVM.centralWindow.width*0.3f)))
 					{
-						NewProfileController.instance.hideCheckPasswordPopUp();
+						//NewProfileController.instance.hideCheckPasswordPopUp();
 					}
 					GUILayout.FlexibleSpace();
 				}

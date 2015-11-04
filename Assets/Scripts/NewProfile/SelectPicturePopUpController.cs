@@ -35,7 +35,7 @@ public class SelectPicturePopUpController : MonoBehaviour
 	}
 	public void confirmPicture()
 	{
-		NewProfileController.instance.changeUserPictureHandler(this.activeButton);
+		//NewProfileController.instance.changeUserPictureHandler(this.activeButton);
 	}
 }
 

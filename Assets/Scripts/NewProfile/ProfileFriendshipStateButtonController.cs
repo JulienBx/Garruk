@@ -18,7 +18,7 @@ public class ProfileFriendshipStateButtonController : MonoBehaviour
 	}
 	void OnMouseDown()
 	{
-		NewProfileController.instance.friendshipStateHandler (this.Id);
+		//NewProfileController.instance.friendshipStateHandler (this.Id);
 	}
 }
 

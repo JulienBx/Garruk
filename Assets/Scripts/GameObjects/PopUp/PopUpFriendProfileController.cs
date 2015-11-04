@@ -1,25 +1,25 @@
-using UnityEngine;
-using UnityEngine.UI;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Reflection;
-using TMPro;
-
-public class PopUpFriendProfileController : PopUpFriendController
-{
-	
-	public override void startHoveringPopUp()
-	{
-		NewProfileController.instance.startHoveringPopUp();
-	}
-	public override void endHoveringPopUp()
-	{
-		NewProfileController.instance.endHoveringPopUp();
-	}
-	public override void setButtonController()
-	{
-		gameObject.transform.FindChild ("Button").gameObject.AddComponent <PopUpFriendButtonProfileController>();
-	}
-}
-
+//using UnityEngine;
+//using UnityEngine.UI;
+//using System;
+//using System.Collections;
+//using System.Collections.Generic;
+//using System.Reflection;
+//using TMPro;
+//
+//public class PopUpFriendProfileController : PopUpFriendController
+//{
+//	
+//	public override void startHoveringPopUp()
+//	{
+//		NewProfileController.instance.startHoveringPopUp();
+//	}
+//	public override void endHoveringPopUp()
+//	{
+//		NewProfileController.instance.endHoveringPopUp();
+//	}
+//	public override void setButtonController()
+//	{
+//		gameObject.transform.FindChild ("Button").gameObject.AddComponent <PopUpFriendButtonProfileController>();
+//	}
+//}
+//

@@ -64,7 +64,7 @@ public class PlayPopUpModel {
 	{
 		Cup cup = new Cup ();
 		cup.Name= array[0];
-		cup.Picture= array[1];
+		cup.IdPicture= System.Convert.ToInt32(array[1]);
 		cup.NbRounds = System.Convert.ToInt32(array [2]);
 		cup.CupPrize = System.Convert.ToInt32(array [3]);
 		cup.EarnXp_W = System.Convert.ToInt32 (array [4]);
@@ -77,7 +77,7 @@ public class PlayPopUpModel {
 	{
 		Division division = new Division ();
 		division.Name= array[0];
-		division.Picture= array[1];
+		division.IdPicture= System.Convert.ToInt32(array[1]);
 		division.NbGames = System.Convert.ToInt32(array [2]);
 		division.TitlePrize = System.Convert.ToInt32(array [3]);
 		division.EarnXp_W = System.Convert.ToInt32 (array [4]);

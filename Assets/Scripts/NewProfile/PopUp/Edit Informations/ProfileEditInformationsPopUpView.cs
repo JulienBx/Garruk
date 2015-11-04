@@ -64,13 +64,13 @@ public class ProfileEditInformationsPopUpView : MonoBehaviour
 					GUILayout.FlexibleSpace();
 					if (GUILayout.Button("OK",popUpVM.centralWindowButtonStyle,GUILayout.Width (popUpVM.centralWindow.width*0.3f)))
 					{
-						NewProfileController.instance.updateUserInformationsHandler();
+						//NewProfileController.instance.updateUserInformationsHandler();
 						
 					}
 					GUILayout.FlexibleSpace();
 					if (GUILayout.Button("Quitter",popUpVM.centralWindowButtonStyle,GUILayout.Width (popUpVM.centralWindow.width*0.3f)))
 					{
-						NewProfileController.instance.hideEditInformationsPopUp();
+						//NewProfileController.instance.hideEditInformationsPopUp();
 					}
 					GUILayout.FlexibleSpace();
 				}

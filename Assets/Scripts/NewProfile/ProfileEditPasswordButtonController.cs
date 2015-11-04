@@ -16,7 +16,7 @@ public class ProfileEditPasswordButtonController : MonoBehaviour
 	}
 	void OnMouseDown()
 	{
-		NewProfileController.instance.displayCheckPasswordPopUp ();
+		//NewProfileController.instance.displayCheckPasswordPopUp ();
 	}
 }
 

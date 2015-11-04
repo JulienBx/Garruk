@@ -140,7 +140,7 @@ public class LobbyModel
 	{
 		Division division = new Division ();
 		division.Name = divisionData [0];
-		division.Picture = divisionData [1];
+		division.IdPicture = System.Convert.ToInt32 (divisionData [1]);
 		division.TitlePrize = System.Convert.ToInt32 (divisionData [2]);
 		division.NbGames = System.Convert.ToInt32 (divisionData [3]);
 		return division;
@@ -149,7 +149,7 @@ public class LobbyModel
 	{
 		Cup cup=new Cup();
 		cup.Name = cupData [0];
-		cup.Picture = cupData [1];
+		cup.IdPicture = System.Convert.ToInt32 (cupData [1]);
 		cup.CupPrize = System.Convert.ToInt32 (cupData [2]);
 		cup.NbRounds = System.Convert.ToInt32 (cupData [3]);
 		return cup;

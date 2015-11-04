@@ -36,9 +36,6 @@ public class NewFocusedCardController : MonoBehaviour
 	private string urlBuyRandomCard = ApplicationModel.host + "buyRandomCard.php";
 	
 	private Rect centralWindow;
-	private Rect collectionPointsWindow;
-	private Rect newSkillsWindow;
-	private Rect newCardTypeWindow;
 
 	private NewFocusedCardSellPopUpView sellView;
 	private bool isSellViewDisplayed;
@@ -231,18 +228,6 @@ public class NewFocusedCardController : MonoBehaviour
 	public void setCentralWindow(Rect centralWindow)
 	{
 		this.centralWindow = centralWindow;
-	}
-	public void setCollectionPointsWindow(Rect collectionPointsWindowRect)
-	{
-		this.collectionPointsWindow = collectionPointsWindowRect;
-	}
-	public void setNewSkillsWindow(Rect newSkillsWindowRect)
-	{
-		this.newSkillsWindow = newSkillsWindowRect;
-	}
-	public void setNewCardTypeWindow(Rect newCardTypeWindowRect)
-	{
-		this.newCardTypeWindow = newCardTypeWindowRect;
 	}
 	public virtual void initializeFocusFeatures()
 	{

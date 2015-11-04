@@ -21,5 +21,6 @@ public class MenuRessources : MonoBehaviour
 	public Sprite[] profilePictures;
 	public Sprite[] packPictures;
 	public Sprite[] tabsPictures;
+	public Sprite[] competitionsPictures;
 }
 

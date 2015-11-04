@@ -16,7 +16,7 @@ public class ProfileEditInformationsButtonController : MonoBehaviour
 	}
 	void OnMouseDown()
 	{
-		NewProfileController.instance.displayEditInformationsPopUp ();	
+		//NewProfileController.instance.displayEditInformationsPopUp ();	
 	}
 }
 

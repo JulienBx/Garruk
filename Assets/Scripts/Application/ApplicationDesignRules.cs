@@ -58,6 +58,10 @@ public class ApplicationDesignRules : MonoBehaviour
 	static public Vector2 thumbWorldSize;
 	static private Vector3 thumbOriginalScale=new Vector3(1.2f,1.2f,1.2f);
 	static public Vector3 thumbScale;
+	static private Vector2 profilePictureSize = new Vector2(63f,63f);
+	static public Vector2 profilePictureWorldSize;
+	static private Vector3 profilePictureOriginalScale=new Vector3(1.2f,1.2f,1.2f);
+	static public Vector3 profilePictureScale;
 	static private Vector2 paginationButtonSize = new Vector2(125f,125f);
 	static public Vector2 paginationButtonWorldSize;
 	static private Vector3 paginationButtonOriginalScale=new Vector3(0.3f,0.3f,0.3f);
@@ -119,6 +123,9 @@ public class ApplicationDesignRules : MonoBehaviour
 
 		thumbScale = toNewScale (thumbOriginalScale);
 		thumbWorldSize = toWorldSize (thumbSize, thumbScale);
+
+		profilePictureScale = toNewScale (profilePictureOriginalScale);
+		profilePictureWorldSize = toWorldSize (profilePictureSize, profilePictureScale);
 
 		paginationButtonScale = toNewScale (paginationButtonOriginalScale);
 		paginationButtonWorldSize = toWorldSize (paginationButtonSize, paginationButtonScale);

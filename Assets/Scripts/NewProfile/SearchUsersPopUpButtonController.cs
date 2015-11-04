@@ -22,7 +22,7 @@ public class SearchUsersPopUpButtonController: MonoBehaviour
 	}
 	void OnMouseDown()
 	{
-		NewProfileController.instance.hideSearchUsersPopUp ();	
+		//NewProfileController.instance.hideSearchUsersPopUp ();	
 	}
 }
 

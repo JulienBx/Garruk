@@ -59,9 +59,6 @@ public class NewLobbyController : MonoBehaviour
 	private bool toDestroyPopUp;
 	private float popUpDestroyInterval;
 
-	private bool areResultsPicturesLoading;
-	private bool isCompetitionPictureLoading;
-
 	private bool isTutorialLaunched;
 	private bool isPopUpDisplayed;
 
@@ -88,25 +85,6 @@ public class NewLobbyController : MonoBehaviour
 			{
 				this.toDestroyPopUp=false;
 				this.hideProfilePopUp();
-			}
-		}
-		if(this.isCompetitionPictureLoading)
-		{
-			if(this.isDivisionLobby)
-			{
-				if(model.currentDivision.isTextureLoaded)
-				{
-					this.competition.transform.FindChild("Picture").GetComponent<SpriteRenderer>().sprite=model.currentDivision.texture;
-					this.isCompetitionPictureLoading=false;
-				}
-			}
-			else
-			{
-				if(model.currentCup.isTextureLoaded)
-				{
-					this.competition.transform.FindChild("Picture").GetComponent<SpriteRenderer>().sprite=model.currentCup.texture;
-					this.isCompetitionPictureLoading=false;
-				}
 			}
 		}
 		if(this.waitForPopUp)
@@ -387,16 +365,15 @@ public class NewLobbyController : MonoBehaviour
 				description=description+"\n Promotion : "+model.currentDivision.PromotionPrize.ToString()+" cristaux";
 			}
 			this.competition.transform.FindChild("Description").GetComponent<TextMeshPro>().text=description;
-			StartCoroutine(model.currentDivision.setPicture());
+			this.competition.transform.FindChild("Picture").GetComponent<SpriteRenderer>().sprite=MenuController.instance.returnCompetitionPicture(model.currentDivision.IdPicture);
 		}
 		else
 		{
 			this.competitionBlockTitle.GetComponent<TextMeshPro>().text=model.currentCup.Name;
 			string description="Victoire : "+model.currentCup.CupPrize.ToString()+" cristaux";
 			this.competition.transform.FindChild("Description").GetComponent<TextMeshPro>().text=description;
-			StartCoroutine(model.currentCup.setPicture());
+			this.competition.transform.FindChild("Picture").GetComponent<SpriteRenderer>().sprite=MenuController.instance.returnCompetitionPicture(model.currentCup.IdPicture);
 		}
-		this.isCompetitionPictureLoading = true;
 	}
 	private void drawPagination()
 	{

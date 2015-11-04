@@ -15,7 +15,6 @@ public class PlayPopUpController : MonoBehaviour
 	
 	private IList<int> decksDisplayed;
 	private int deckDisplayed;
-	private bool arePicturesLoading;
 	private bool isSearchingDeck;
 	private bool isMouseOnSelectDeckButton;
 	private IList<GameObject> deckList;
@@ -25,14 +24,6 @@ public class PlayPopUpController : MonoBehaviour
 	
 	void Update ()
 	{
-		if(arePicturesLoading)
-		{
-			if(checkIfPicturesAreLoaded())
-			{
-				this.setPictures();
-				this.arePicturesLoading=false;
-			}
-		}
 		if(this.isSearchingDeck)
 		{
 			if((Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))&& !this.isMouseOnSelectDeckButton)
@@ -44,7 +35,7 @@ public class PlayPopUpController : MonoBehaviour
 	}
 	void Awake()
 	{
-		newMenuController.instance.displayLoadingScreen ();
+		MenuController.instance.displayLoadingScreen ();
 	}
 	void Start () 
 	{	
@@ -59,9 +50,9 @@ public class PlayPopUpController : MonoBehaviour
 		this.retrieveDefaultDeck ();
 		this.retrieveDecksList ();
 		this.drawDeck ();
-		newMenuController.instance.hideLoadingScreen ();
+		MenuController.instance.hideLoadingScreen ();
 		this.show ();
-		if(newMenuController.instance.getIsTutorialLaunched())
+		if(MenuController.instance.getIsTutorialLaunched())
 		{
 			TutorialObjectController.instance.actionIsDone();
 		}
@@ -83,9 +74,8 @@ public class PlayPopUpController : MonoBehaviour
 	{
 		gameObject.transform.FindChild ("Button1").FindChild ("Title").GetComponent<TextMeshPro> ().text = model.currentDivision.Name;
 		gameObject.transform.FindChild ("Button2").FindChild ("Title").GetComponent<TextMeshPro> ().text = model.currentCup.Name;
-		StartCoroutine (model.currentDivision.setPicture ());
-		StartCoroutine (model.currentCup.setPicture ());
-		this.arePicturesLoading=true;
+		gameObject.transform.FindChild ("Button1").FindChild ("Picture").GetComponent<SpriteRenderer> ().sprite = MenuController.instance.returnCompetitionPicture(model.currentDivision.IdPicture);
+		gameObject.transform.FindChild ("Button2").FindChild ("Picture").GetComponent<SpriteRenderer> ().sprite = MenuController.instance.returnCompetitionPicture(model.currentCup.IdPicture);
 	}
 	public void selectDeck(int id)
 	{
@@ -175,23 +165,6 @@ public class PlayPopUpController : MonoBehaviour
 			this.deckList[this.deckList.Count-1].GetComponent<DeckBoardDeckListPlayPopUpController>().setId(i);
 		}
 	}
-	private bool checkIfPicturesAreLoaded()
-	{
-		if(!model.currentDivision.isTextureLoaded)
-		{
-			return false;
-		}
-		if(!model.currentCup.isTextureLoaded)
-		{
-			return false;
-		}
-		return true;
-	}
-	private void setPictures()
-	{
-		gameObject.transform.FindChild ("Button1").FindChild ("Picture").GetComponent<SpriteRenderer> ().sprite = model.currentDivision.texture;
-		gameObject.transform.FindChild ("Button2").FindChild ("Picture").GetComponent<SpriteRenderer> ().sprite = model.currentCup.texture;
-	}
 	public void selectGame(int id)
 	{
 		if(deckDisplayed!=-1)
@@ -202,10 +175,10 @@ public class PlayPopUpController : MonoBehaviour
 	}
 	private IEnumerator setSelectedDeck()
 	{
-		newMenuController.instance.displayLoadingScreen ();
+		MenuController.instance.displayLoadingScreen ();
 		yield return StartCoroutine(model.player.SetSelectedDeck(model.decks[this.deckDisplayed].Id));
 		attemptToPlay = true;
-		if(newMenuController.instance.getIsTutorialLaunched())
+		if(MenuController.instance.getIsTutorialLaunched())
 		{
 			TutorialObjectController.instance.actionIsDone();
 		}
@@ -218,7 +191,7 @@ public class PlayPopUpController : MonoBehaviour
 	{
 		if(ApplicationModel.gameType==0)
 		{
-			newMenuController.instance.joinRandomRoomHandler();
+			MenuController.instance.joinRandomRoomHandler();
 		}
 		else
 		{
@@ -227,7 +200,7 @@ public class PlayPopUpController : MonoBehaviour
 	}
 	public void quitPopUp()
 	{
-		newMenuController.instance.hidePlayPopUp ();
+		MenuController.instance.hidePlayPopUp ();
 	}
 	public void mouseOnSelectDeckButton(bool value)
 	{
