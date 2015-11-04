@@ -41,7 +41,7 @@ public class SearchUsersPopUpUserController : MonoBehaviour
 	public void show()
 	{
 		gameObject.transform.FindChild ("Username").GetComponent<TextMeshPro> ().text = this.u.Username;
-		gameObject.transform.FindChild ("Picture").GetComponent<SpriteRenderer> ().sprite = newMenuController.instance.returnThumbPicture(this.u.idProfilePicture);
+		gameObject.transform.FindChild ("Picture").GetComponent<SpriteRenderer> ().sprite = MenuController.instance.returnThumbPicture(this.u.idProfilePicture);
 	}
 	public void setId(int Id)
 	{

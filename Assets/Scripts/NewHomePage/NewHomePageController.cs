@@ -412,6 +412,10 @@ public class NewHomePageController : MonoBehaviour
 			this.contents[i].transform.FindChild("new").GetComponent<TextMeshPro>().color=ApplicationDesignRules.redColor;
 			this.contents[i].transform.FindChild("description").GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
 			this.contents[i].transform.FindChild("username").GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
+			this.contents[i].transform.FindChild("username").gameObject.AddComponent<NewHomePageContentUsernameController>();
+			this.contents[i].transform.FindChild("username").GetComponent<NewHomePageContentUsernameController>().setId(i);
+			this.contents[i].transform.FindChild("picture").gameObject.AddComponent<NewHomePageContentPictureController>();
+			this.contents[i].transform.FindChild("picture").GetComponent<NewHomePageContentPictureController>().setId(i);
 			this.contents[i].transform.FindChild("date").GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
 			this.contents[i].transform.FindChild("line").GetComponent<SpriteRenderer>().color = ApplicationDesignRules.whiteSpriteColor;
 		}
@@ -419,6 +423,9 @@ public class NewHomePageController : MonoBehaviour
 		for(int i=0;i<this.challengeButtons.Length;i++)
 		{
 			this.challengeButtons[i]=GameObject.Find("ChallengeButton"+i);
+			this.challengeButtons[i].AddComponent<NewHomePageChallengeButtonController>();
+			this.challengeButtons[i].GetComponent<NewHomePageChallengeButtonController>().setId(i);
+			this.challengeButtons[i].transform.FindChild("Title").GetComponent<TextMeshPro>().text="Défier";
 		}
 		this.newsfeedPaginationButtons = GameObject.Find("Pagination");
 		this.newsfeedPaginationButtons.AddComponent<NewHomePagePaginationController> ();
@@ -1071,6 +1078,7 @@ public class NewHomePageController : MonoBehaviour
 				case 1:
 					connectionState = "est disponible pour un défi !";
 					connectionStateColor=ApplicationDesignRules.blueColor;
+					this.challengeButtons[i].SetActive(true);
 					break;
 				case 2:
 					connectionState = "est entrain de jouer";
@@ -1085,6 +1093,7 @@ public class NewHomePageController : MonoBehaviour
 			else
 			{
 				this.contents[i].SetActive(false);
+				this.challengeButtons[i].SetActive(false);
 			}
 		}
 	}
@@ -1360,7 +1369,16 @@ public class NewHomePageController : MonoBehaviour
 		}
 		for(int i=0;i<model.friends.Count;i++)
 		{
-			if(!this.friendsToBeDisplayed.Contains(model.friends[i]))
+			bool exists =false;
+			for(int j=0;j<this.friendsToBeDisplayed.Count;j++)
+			{
+				if(this.friendsToBeDisplayed[j]==model.friends[i])
+				{
+					exists=true;
+					break;
+				}
+			}
+			if(!exists)
 			{
 				this.friendsToBeDisplayed.Add(model.friends[i]);
 			}
@@ -1396,5 +1414,10 @@ public class NewHomePageController : MonoBehaviour
 				this.focusedCard.GetComponent<NewFocusedCardMyGameController>().updateFocusFeatures();
 			}
 		}
+	}
+	public void clickOnContentProfile(int id)
+	{
+		ApplicationModel.profileChosen = this.contents [id].transform.FindChild ("username").GetComponent<TextMeshPro> ().text;
+		Application.LoadLevel("NewProfile");
 	}
 }

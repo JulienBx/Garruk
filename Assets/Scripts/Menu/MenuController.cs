@@ -740,6 +740,10 @@ public class MenuController : MonoBehaviour
 	{
 		return ressources.tabsPictures [id];
 	}
+	public Sprite returnLargeProfilePicture(int id)
+	{
+		return ressources.largeProfilePictures [id];
+	}
 	public Sprite returnCompetitionPicture(int id)
 	{
 		return ressources.competitionsPictures [id];
@@ -747,7 +751,7 @@ public class MenuController : MonoBehaviour
 	public void changeThumbPicture(int id)
 	{
 		model.player.idProfilePicture = id;
-		gameObject.transform.FindChild ("Picture").GetComponent<SpriteRenderer> ().sprite = this.returnThumbPicture (model.player.idProfilePicture);
+		gameObject.transform.FindChild("UserBlock").FindChild ("Picture").GetComponent<SpriteRenderer> ().sprite = this.returnThumbPicture (model.player.idProfilePicture);
 	}
 	public void setIsUserBusy(bool value)
 	{

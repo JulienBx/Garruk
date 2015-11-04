@@ -34,7 +34,7 @@ public class SearchUsersPopUpController : MonoBehaviour
 	}
 	private IEnumerator initialization(string search)
 	{
-		newMenuController.instance.displayLoadingScreen ();
+		MenuController.instance.displayLoadingScreen ();
 		yield return StartCoroutine (model.searchForUsers (search));
 		if(model.users.Count>0)
 		{
@@ -45,7 +45,7 @@ public class SearchUsersPopUpController : MonoBehaviour
 			this.gameObject.transform.FindChild("NoResults").gameObject.SetActive(true);
 			this.gameObject.transform.FindChild("NoResults").GetComponent<TextMeshPro>().text="Désolé, aucun résultat ne correspond à votre recherche !";
 		}
-		newMenuController.instance.hideLoadingScreen ();
+		MenuController.instance.hideLoadingScreen ();
 	}
 	private void initializeUsers()
 	{

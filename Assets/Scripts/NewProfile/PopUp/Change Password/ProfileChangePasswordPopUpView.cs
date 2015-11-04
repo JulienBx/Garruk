@@ -54,12 +54,12 @@ public class ProfileChangePasswordPopUpView : MonoBehaviour
 					GUILayout.FlexibleSpace();
 					if (GUILayout.Button("OK",popUpVM.centralWindowButtonStyle,GUILayout.Width (popUpVM.centralWindow.width*0.3f)))
 					{
-						//NewProfileController.instance.editPasswordHandler();
+						NewProfileController.instance.editPasswordHandler();
 					}
 					GUILayout.FlexibleSpace();
 					if (GUILayout.Button("Quitter",popUpVM.centralWindowButtonStyle,GUILayout.Width (popUpVM.centralWindow.width*0.3f)))
 					{
-						//NewProfileController.instance.hideChangePasswordPopUp();
+						NewProfileController.instance.hideChangePasswordPopUp();
 					}
 					GUILayout.FlexibleSpace();
 				}

@@ -38,6 +38,10 @@ public class ApplicationDesignRules : MonoBehaviour
 	static public Vector2 button61WorldSize;
 	static private Vector3 button61OriginalScale=new Vector3(0.6f,0.6f,0.6f);
 	static public Vector3 button61Scale;
+	static private Vector2 button51Size = new Vector2 (298f, 62f);
+	static public Vector2 button51WorldSize;
+	static private Vector3 button51OriginalScale=new Vector3(0.6f,0.6f,0.6f);
+	static public Vector3 button51Scale;
 	static private Vector2 listElementSize = new Vector2 (415f, 90f);
 	static public Vector2 listElementWorldSize;
 	static private Vector3 listElementOriginalScale=new Vector3(0.6f,0.6f,0.6f);
@@ -58,9 +62,9 @@ public class ApplicationDesignRules : MonoBehaviour
 	static public Vector2 thumbWorldSize;
 	static private Vector3 thumbOriginalScale=new Vector3(1.2f,1.2f,1.2f);
 	static public Vector3 thumbScale;
-	static private Vector2 profilePictureSize = new Vector2(63f,63f);
+	static private Vector2 profilePictureSize = new Vector2(190f,190f);
 	static public Vector2 profilePictureWorldSize;
-	static private Vector3 profilePictureOriginalScale=new Vector3(1.2f,1.2f,1.2f);
+	static private Vector3 profilePictureOriginalScale=new Vector3(1f,1f,1f);
 	static public Vector3 profilePictureScale;
 	static private Vector2 paginationButtonSize = new Vector2(125f,125f);
 	static public Vector2 paginationButtonWorldSize;
@@ -77,6 +81,10 @@ public class ApplicationDesignRules : MonoBehaviour
 	static public Vector2 inputTextWorldSize;
 	static private Vector3 inputTextOriginalScale=new Vector3(0.6f,0.6f,0.6f);
 	static public Vector3 inputTextScale;
+	static private Vector2 largeInputTextSize = new Vector2(711f,62f);
+	static public Vector2 largeInputTextWorldSize;
+	static private Vector3 largeInputTextOriginalScale=new Vector3(0.6f,0.6f,0.6f);
+	static public Vector3 largeInputTextScale;
 	static private Vector3 valueFilterOriginalScale = new Vector3 (1f, 1f, 1f);
 	static public Vector3 valueFilterScale;
 	static private Vector2 cursorSize=new Vector2(78f,78f);
@@ -112,6 +120,9 @@ public class ApplicationDesignRules : MonoBehaviour
 		button61Scale = toNewScale (button61OriginalScale);
 		button61WorldSize = toWorldSize (button61Size, button61Scale);
 
+		button51Scale = toNewScale (button51OriginalScale);
+		button51WorldSize = toWorldSize (button51Size, button51Scale);
+
 		listElementScale = toNewScale (listElementOriginalScale);
 		listElementWorldSize = toWorldSize (listElementSize, listElementScale);
 
@@ -135,6 +146,9 @@ public class ApplicationDesignRules : MonoBehaviour
 
 		inputTextScale = toNewScale (inputTextOriginalScale);
 		inputTextWorldSize = toWorldSize (inputTextSize, inputTextScale);
+
+		largeInputTextScale = toNewScale (largeInputTextOriginalScale);
+		largeInputTextWorldSize = toWorldSize (largeInputTextSize, largeInputTextScale);
 
 		subMainTitleScale = toNewScale (subMainTitleOriginalScale);
 		mainTitleScale = toNewScale (mainTitleOriginalScale);

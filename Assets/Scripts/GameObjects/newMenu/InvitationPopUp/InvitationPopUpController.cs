@@ -32,7 +32,7 @@ public class InvitationPopUpController : MonoBehaviour
 	}
 	void Awake()
 	{
-		newMenuController.instance.displayLoadingScreen ();
+		MenuController.instance.displayLoadingScreen ();
 		instance = this;
 		this.model = new InvitationPopUpModel ();
 		this.initializePopUp ();
@@ -47,12 +47,12 @@ public class InvitationPopUpController : MonoBehaviour
 			this.retrieveDecksList ();
 			this.drawDeck ();
 			this.show ();
-			newMenuController.instance.hideLoadingScreen ();
+			MenuController.instance.hideLoadingScreen ();
 		}
 		else
 		{
-			newMenuController.instance.hideLoadingScreen ();
-			newMenuController.instance.hideInvitationPopUp();
+			MenuController.instance.hideLoadingScreen ();
+			MenuController.instance.hideInvitationPopUp();
 		}
 	}
 	private void initializePopUp()
@@ -67,7 +67,7 @@ public class InvitationPopUpController : MonoBehaviour
 	public void show()
 	{
 		gameObject.transform.FindChild ("user").GetComponent<InvitationPopUpUserController> ().show (model.invitation.SendingUser);
-		gameObject.transform.FindChild ("user").transform.FindChild ("picture").GetComponent<SpriteRenderer> ().sprite = newMenuController.instance.returnThumbPicture (model.invitation.SendingUser.idProfilePicture);
+		gameObject.transform.FindChild ("user").transform.FindChild ("picture").GetComponent<SpriteRenderer> ().sprite = MenuController.instance.returnThumbPicture (model.invitation.SendingUser.idProfilePicture);
 	}
 	public void selectDeck(int id)
 	{
@@ -159,7 +159,7 @@ public class InvitationPopUpController : MonoBehaviour
 	}
 	public void quitPopUp()
 	{
-		newMenuController.instance.hideInvitationPopUp ();
+		MenuController.instance.hideInvitationPopUp ();
 	}
 	public void mouseOnSelectDeckButton(bool value)
 	{
@@ -171,16 +171,16 @@ public class InvitationPopUpController : MonoBehaviour
 	}
 	private IEnumerator acceptInvitation()
 	{
-		newMenuController.instance.displayLoadingScreen ();
+		MenuController.instance.displayLoadingScreen ();
 		yield return StartCoroutine(model.player.SetSelectedDeck(model.decks[this.deckDisplayed].Id));
 		ApplicationModel.gameType = 2 + model.invitation.Id;
-		newMenuController.instance.joinRandomRoomHandler ();
-		newMenuController.instance.hideInvitationPopUp ();
+		MenuController.instance.joinRandomRoomHandler ();
+		MenuController.instance.hideInvitationPopUp ();
 		StartCoroutine(model.invitation.changeStatus(2));
 	}
 	public void declineInvitationHandler()
 	{
-		newMenuController.instance.hideInvitationPopUp ();
+		MenuController.instance.hideInvitationPopUp ();
 		StartCoroutine(model.invitation.changeStatus(-1));
 	}
 }

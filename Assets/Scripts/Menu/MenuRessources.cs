@@ -19,6 +19,7 @@ public class MenuRessources : MonoBehaviour
 	public float speed;
 	public GUISkin popUpSkin;
 	public Sprite[] profilePictures;
+	public Sprite[] largeProfilePictures;
 	public Sprite[] packPictures;
 	public Sprite[] tabsPictures;
 	public Sprite[] competitionsPictures;

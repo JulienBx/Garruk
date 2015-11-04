@@ -66,6 +66,23 @@ TextureImporter:
     21300118: lifeicon
     21300120: picon
     21300122: speedicon
+    21300124: assassin
+    21300126: drogueur
+    21300128: drone
+    21300130: geomancienne
+    21300132: invocateur
+    21300134: mentaliste
+    21300136: mitrailleur
+    21300138: polymorphe
+    21300140: predateur
+    21300142: pretresse
+    21300144: editPictureButton
+    21300146: button22
+    21300148: button51
+    21300150: largeInputText
+    21300152: thumb_Cup
+    21300154: thumb_division
+    21300156: thumb_friendly
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -115,7 +132,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1924
-        y: 3827
+        y: 3705
         width: 100
         height: 100
       alignment: 0
@@ -124,8 +141,8 @@ TextureImporter:
     - name: Button
       rect:
         serializedVersion: 2
-        x: 1142
-        y: 2223
+        x: 1136
+        y: 1680
         width: 300
         height: 70
       alignment: 0
@@ -144,8 +161,8 @@ TextureImporter:
     - name: Cup
       rect:
         serializedVersion: 2
-        x: 1142
-        y: 1927
+        x: 1136
+        y: 1320
         width: 224
         height: 294
       alignment: 9
@@ -155,7 +172,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1924
-        y: 3725
+        y: 3603
         width: 100
         height: 100
       alignment: 0
@@ -165,7 +182,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1142
-        y: 2295
+        y: 1752
         width: 300
         height: 200
       alignment: 0
@@ -184,8 +201,8 @@ TextureImporter:
     - name: Pack3
       rect:
         serializedVersion: 2
-        x: 2
-        y: 811
+        x: 1362
+        y: 1140
         width: 375
         height: 200
       alignment: 0
@@ -205,7 +222,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 2004
-        y: 3460
+        y: 3338
         width: 39
         height: 39
       alignment: 0
@@ -215,9 +232,19 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1924
-        y: 3218
+        y: 3096
         width: 74
         height: 74
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: assassin
+      rect:
+        serializedVersion: 2
+        x: 1841
+        y: 1924
+        width: 190
+        height: 190
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -225,7 +252,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1924
-        y: 3501
+        y: 3379
         width: 95
         height: 120
       alignment: 9
@@ -245,7 +272,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 2000
-        y: 3244
+        y: 3122
         width: 46
         height: 48
       alignment: 0
@@ -258,6 +285,26 @@ TextureImporter:
         y: 1318
         width: 356
         height: 356
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: button22
+      rect:
+        serializedVersion: 2
+        x: 1924
+        y: 3974
+        width: 121
+        height: 120
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: button51
+      rect:
+        serializedVersion: 2
+        x: 1136
+        y: 1616
+        width: 298
+        height: 62
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -294,8 +341,8 @@ TextureImporter:
     - name: button91
       rect:
         serializedVersion: 2
-        x: 1462
-        y: 2762
+        x: 754
+        y: 2613
         width: 533
         height: 60
       alignment: 0
@@ -304,8 +351,8 @@ TextureImporter:
     - name: cristalblue
       rect:
         serializedVersion: 2
-        x: 1989
-        y: 3022
+        x: 1419
+        y: 2624
         width: 52
         height: 49
       alignment: 9
@@ -315,7 +362,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1924
-        y: 3294
+        y: 3172
         width: 78
         height: 78
       alignment: 0
@@ -325,7 +372,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 2004
-        y: 3422
+        y: 3300
         width: 36
         height: 36
       alignment: 0
@@ -335,11 +382,41 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1142
-        y: 2497
+        y: 1954
         width: 309
         height: 240
       alignment: 9
       pivot: {x: .496763766, y: .53125}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: drogueur
+      rect:
+        serializedVersion: 2
+        x: 1841
+        y: 1732
+        width: 190
+        height: 190
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: drone
+      rect:
+        serializedVersion: 2
+        x: 1841
+        y: 1540
+        width: 190
+        height: 190
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: editPictureButton
+      rect:
+        serializedVersion: 2
+        x: 1825
+        y: 1348
+        width: 190
+        height: 190
+      alignment: 0
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: filterBar
       rect:
@@ -354,19 +431,49 @@ TextureImporter:
     - name: friendly
       rect:
         serializedVersion: 2
-        x: 379
-        y: 870
+        x: 1142
+        y: 2283
         width: 325
         height: 325
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: geomancienne
+      rect:
+        serializedVersion: 2
+        x: 1825
+        y: 1156
+        width: 190
+        height: 190
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: inputText
       rect:
         serializedVersion: 2
-        x: 753
-        y: 1901
+        x: 749
+        y: 1775
         width: 386
+        height: 62
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: invocateur
+      rect:
+        serializedVersion: 2
+        x: 1135
+        y: 1128
+        width: 190
+        height: 190
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: largeInputText
+      rect:
+        serializedVersion: 2
+        x: 766
+        y: 2844
+        width: 711
         height: 62
       alignment: 0
       pivot: {x: .5, y: .5}
@@ -375,7 +482,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1924
-        y: 3929
+        y: 3807
         width: 110
         height: 165
       alignment: 9
@@ -395,7 +502,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 766
-        y: 2739
+        y: 2675
         width: 694
         height: 167
       alignment: 0
@@ -404,18 +511,38 @@ TextureImporter:
     - name: mainLogo
       rect:
         serializedVersion: 2
-        x: 1135
-        y: 1127
+        x: 1142
+        y: 2196
         width: 321
         height: 85
       alignment: 9
       pivot: {x: .503115237, y: .494117647}
       border: {x: 0, y: 0, z: 0, w: 0}
+    - name: mentaliste
+      rect:
+        serializedVersion: 2
+        x: 1739
+        y: 964
+        width: 190
+        height: 190
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: mitrailleur
+      rect:
+        serializedVersion: 2
+        x: 1135
+        y: 936
+        width: 190
+        height: 190
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: pack1
       rect:
         serializedVersion: 2
-        x: 1527
-        y: 1399
+        x: 1327
+        y: 938
         width: 375
         height: 200
       alignment: 0
@@ -424,8 +551,8 @@ TextureImporter:
     - name: pack2
       rect:
         serializedVersion: 2
-        x: 1527
-        y: 1197
+        x: 1327
+        y: 736
         width: 375
         height: 200
       alignment: 0
@@ -435,7 +562,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1921
-        y: 2824
+        y: 2807
         width: 125
         height: 126
       alignment: 0
@@ -444,8 +571,8 @@ TextureImporter:
     - name: pagination1
       rect:
         serializedVersion: 2
-        x: 1852
-        y: 2634
+        x: 1869
+        y: 2679
         width: 126
         height: 126
       alignment: 0
@@ -455,7 +582,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1989
-        y: 3073
+        y: 2935
         width: 55
         height: 72
       alignment: 9
@@ -471,11 +598,41 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
+    - name: polymorphe
+      rect:
+        serializedVersion: 2
+        x: 1704
+        y: 772
+        width: 190
+        height: 190
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: predateur
+      rect:
+        serializedVersion: 2
+        x: 1704
+        y: 580
+        width: 190
+        height: 190
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: pretresse
+      rect:
+        serializedVersion: 2
+        x: 379
+        y: 1005
+        width: 190
+        height: 190
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: speedicon
       rect:
         serializedVersion: 2
         x: 1924
-        y: 3374
+        y: 3252
         width: 78
         height: 125
       alignment: 9
@@ -485,7 +642,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 754
-        y: 2352
+        y: 2226
         width: 386
         height: 385
       alignment: 9
@@ -494,8 +651,8 @@ TextureImporter:
     - name: square_bersek
       rect:
         serializedVersion: 2
-        x: 754
-        y: 1965
+        x: 1469
+        y: 2116
         width: 386
         height: 385
       alignment: 9
@@ -504,8 +661,8 @@ TextureImporter:
     - name: square_droid
       rect:
         serializedVersion: 2
-        x: 753
-        y: 1514
+        x: 749
+        y: 1388
         width: 385
         height: 385
       alignment: 9
@@ -514,8 +671,8 @@ TextureImporter:
     - name: square_enchanteur
       rect:
         serializedVersion: 2
-        x: 1444
-        y: 1988
+        x: 754
+        y: 1839
         width: 386
         height: 385
       alignment: 9
@@ -534,8 +691,8 @@ TextureImporter:
     - name: square_invocateur
       rect:
         serializedVersion: 2
-        x: 1368
-        y: 1601
+        x: 1453
+        y: 1729
         width: 386
         height: 385
       alignment: 9
@@ -554,8 +711,8 @@ TextureImporter:
     - name: square_polymorphe
       rect:
         serializedVersion: 2
-        x: 1462
-        y: 2375
+        x: 1479
+        y: 2503
         width: 388
         height: 385
       alignment: 9
@@ -564,8 +721,8 @@ TextureImporter:
     - name: square_pretresse
       rect:
         serializedVersion: 2
-        x: 1140
-        y: 1214
+        x: 1438
+        y: 1342
         width: 385
         height: 385
       alignment: 9
@@ -575,7 +732,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 748
-        y: 1127
+        y: 1001
         width: 385
         height: 385
       alignment: 9
@@ -595,9 +752,19 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1924
-        y: 3147
+        y: 3025
         width: 69
         height: 69
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: thumb_Cup
+      rect:
+        serializedVersion: 2
+        x: 2000
+        y: 3061
+        width: 45
+        height: 59
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -605,17 +772,27 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1924
-        y: 3082
+        y: 2960
         width: 63
         height: 63
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
+    - name: thumb_division
+      rect:
+        serializedVersion: 2
+        x: 1922
+        y: 2434
+        width: 61
+        height: 48
+      alignment: 9
+      pivot: {x: .5, y: .53125}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: thumb_drogueur
       rect:
         serializedVersion: 2
-        x: 1924
-        y: 3017
+        x: 1869
+        y: 2614
         width: 63
         height: 63
       alignment: 0
@@ -624,18 +801,28 @@ TextureImporter:
     - name: thumb_drone
       rect:
         serializedVersion: 2
-        x: 1924
-        y: 2952
+        x: 1934
+        y: 2614
         width: 63
         height: 63
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
+    - name: thumb_friendly
+      rect:
+        serializedVersion: 2
+        x: 1995
+        y: 3009
+        width: 50
+        height: 50
+      alignment: 9
+      pivot: {x: .50999999, y: .49000001}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: thumb_geomancienne
       rect:
         serializedVersion: 2
-        x: 1462
-        y: 2825
+        x: 1869
+        y: 2549
         width: 63
         height: 63
       alignment: 0
@@ -644,8 +831,8 @@ TextureImporter:
     - name: thumb_invocateur
       rect:
         serializedVersion: 2
-        x: 1527
-        y: 2825
+        x: 1934
+        y: 2549
         width: 63
         height: 63
       alignment: 0
@@ -654,8 +841,8 @@ TextureImporter:
     - name: thumb_mentaliste
       rect:
         serializedVersion: 2
-        x: 1592
-        y: 2825
+        x: 1869
+        y: 2484
         width: 63
         height: 63
       alignment: 0
@@ -664,8 +851,8 @@ TextureImporter:
     - name: thumb_mitrailleur
       rect:
         serializedVersion: 2
-        x: 1657
-        y: 2825
+        x: 1934
+        y: 2484
         width: 63
         height: 63
       alignment: 0
@@ -674,8 +861,8 @@ TextureImporter:
     - name: thumb_polymorphe
       rect:
         serializedVersion: 2
-        x: 1722
-        y: 2825
+        x: 1289
+        y: 2610
         width: 63
         height: 63
       alignment: 0
@@ -684,8 +871,8 @@ TextureImporter:
     - name: thumb_predateur
       rect:
         serializedVersion: 2
-        x: 1787
-        y: 2825
+        x: 1354
+        y: 2610
         width: 63
         height: 63
       alignment: 0
@@ -694,8 +881,8 @@ TextureImporter:
     - name: thumb_pretresse
       rect:
         serializedVersion: 2
-        x: 1852
-        y: 2825
+        x: 1857
+        y: 2419
         width: 63
         height: 63
       alignment: 0
@@ -705,7 +892,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1924
-        y: 3623
+        y: 3501
         width: 100
         height: 100
       alignment: 0
@@ -725,7 +912,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 2036
-        y: 3594
+        y: 3472
         width: 2
         height: 500
       alignment: 0
