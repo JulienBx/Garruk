@@ -1369,16 +1369,7 @@ public class NewHomePageController : MonoBehaviour
 		}
 		for(int i=0;i<model.friends.Count;i++)
 		{
-			bool exists =false;
-			for(int j=0;j<this.friendsToBeDisplayed.Count;j++)
-			{
-				if(this.friendsToBeDisplayed[j]==model.friends[i])
-				{
-					exists=true;
-					break;
-				}
-			}
-			if(!exists)
+			if(!this.friendsToBeDisplayed.Contains(model.friends[i]))
 			{
 				this.friendsToBeDisplayed.Add(model.friends[i]);
 			}
