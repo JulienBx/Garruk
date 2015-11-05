@@ -25,6 +25,9 @@ public class Skill
 	public int cible ;
 	public int Upgrades;
 	public int nextLevel;
+	public string[] AllDescriptions;
+	public int[] AllProbas;
+	public SkillType SkillType;
 	
 	public Skill(string name, string description, int id)
 	{

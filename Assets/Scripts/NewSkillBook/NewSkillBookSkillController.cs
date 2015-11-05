@@ -67,7 +67,7 @@ public class NewSkillBookSkillController : MonoBehaviour
 	public void show()
 	{
 		this.gameObject.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = this.s.Name;
-		this.gameObject.transform.FindChild ("Description").GetComponent<TextMeshPro> ().text = this.s.Description;
+		this.gameObject.transform.FindChild ("Description").GetComponent<TextMeshPro> ().text = this.s.AllDescriptions[0];
 	}
 
 }

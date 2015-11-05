@@ -365,16 +365,6 @@ public class GameController : Photon.MonoBehaviour
 		GameView.instance.show(id, false);
 	}
 
-	[RPC]
-	public void addPassEvent()
-	{
-		GameEventType ge = new PassType();
-		addGameEvent(ge, "");
-		//nbActionPlayed = 0;
-		changeGameEvents();
-		fillTimeline();
-	}
-	
 	private IEnumerator returnToLobby()
 	{
 //		if (gameView.MyPlayerNumber == 1)
@@ -863,53 +853,9 @@ public class GameController : Photon.MonoBehaviour
 		}
 		PhotonNetwork.LeaveRoom ();
 	}
-	public void addGameEvent(GameEventType type, string targetName)
-	{
-		setGameEvent(type);
-		if (targetName != "")
-		{
-//			int midTimeline = (int)Math.Floor((double)eventMax / 2);
-//			gameEvents [midTimeline].GetComponent<GameEventController>().setTarget(targetName);
-		}
-	}
-
 	public void addGameEvent(string action, string targetName)
 	{
 		photonView.RPC("addGameEventRPC", PhotonTargets.AllBuffered, action, targetName);
-	}
-	
-	[RPC]
-	public void addGameEventRPC(string action, string targetName)
-	{
-		setGameEvent(new SkillType(action));
-		if (targetName != "")
-		{
-//			int midTimeline = (int)Math.Floor((double)eventMax / 2);
-//			gameEvents [midTimeline].GetComponent<GameEventController>().setTarget(targetName);
-		}
-	}
-	
-	GameObject setGameEvent(GameEventType type)
-	{
-//		int midTimeline = (int)Math.Floor((double)eventMax / 2);
-//		GameObject go;
-//		if (nbActionPlayed == 0)
-//		{ 
-//			go = gameEvents [midTimeline];
-//			go.GetComponent<GameEventController>().setAction(type.toString());
-//			nbActionPlayed++;
-//		} else if (nbActionPlayed < 2)
-//		{
-//			go = gameEvents [midTimeline];
-//			go.GetComponent<GameEventController>().addAction(type.toString());
-//			nbActionPlayed++;
-//		} else
-//		{
-//			go = gameEvents [0];
-//		}
-
-		//return go;
-		return null;
 	}
 
 	void fillTimeline()

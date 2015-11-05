@@ -13,6 +13,7 @@ public class NewSkillBookModel
 	public IList<Skill> ownSkillsList;
 	public IList<string> cardTypesList;
 	public IList<int> cardIdsList;
+	public IList<SkillType> skillTypesList;
 	public User player;
 	private string URLGetSkillBookData = ApplicationModel.host + "get_skillbook_data.php";
 	
@@ -41,6 +42,8 @@ public class NewSkillBookModel
 			this.ownSkillsList = parseOwnSkills(data[2].Split(new string[] { "#SKILL#" }, System.StringSplitOptions.None));
 			this.cardIdsList = parseCards(data[3].Split(new string[] { "//" }, System.StringSplitOptions.None));
 			this.player.SkillBookTutorial=System.Convert.ToBoolean(System.Convert.ToInt32(data[4]));
+			this.skillTypesList = parseSkillTypes(data[5].Split(new string[] {"#SKILLTYPE#"},System.StringSplitOptions.None));
+			this.affectSkillTypes();
 		}
 	}
 	private IList<Skill> parseSkills(string[] array)
@@ -53,7 +56,17 @@ public class NewSkillBookModel
 			skills[i].Id=System.Convert.ToInt32(skillInformation[0]);
 			skills[i].Name=skillInformation[1];
 			skills[i].CardType=System.Convert.ToInt32(skillInformation[2]);
-			skills[i].Description=skillInformation[3];
+			skills[i].cible=System.Convert.ToInt32(skillInformation[3]);
+			skills[i].AllDescriptions=new string[10];
+			for(int j=0;j<skills[i].AllDescriptions.Length;j++)
+			{
+				skills[i].AllDescriptions[j]=skillInformation[4+j];
+			}
+			skills[i].AllProbas=new int[10];
+			for(int j=0;j<skills[i].AllProbas.Length;j++)
+			{
+				skills[i].AllProbas[j]=System.Convert.ToInt32(skillInformation[14+j]);
+			}
 		}
 		return skills;
 	}
@@ -77,6 +90,33 @@ public class NewSkillBookModel
 			cards.Add (System.Convert.ToInt32(array[i]));
 		}
 		return cards;
+	}
+	private IList<SkillType> parseSkillTypes(string[] array)
+	{
+		IList<SkillType> skillTypes = new List<SkillType> ();
+		for(int i=0;i<array.Length-1;i++)
+		{
+			string[] skillTypeInformation = array[i].Split(new string[] { "//" }, System.StringSplitOptions.None);
+			skillTypes.Add (new SkillType());
+			skillTypes[i].Id=System.Convert.ToInt32(skillTypeInformation[0]);
+			skillTypes[i].Name=skillTypeInformation[1];
+			skillTypes[i].Description=skillTypeInformation[2];
+		}
+		return skillTypes;
+	}
+	private void affectSkillTypes()
+	{
+		for(int i=0;i<this.skillsList.Count;i++)
+		{
+			for(int j=0;j<this.skillTypesList.Count;j++)
+			{
+				if(this.skillsList[i].cible==this.skillTypesList[j].Id)
+				{
+					this.skillsList[i].SkillType=this.skillTypesList[j];
+					break;
+				}
+			}
+		}
 	}
 }
 
