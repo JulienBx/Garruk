@@ -22,6 +22,7 @@ public class ApplicationDesignRules : MonoBehaviour
 	static public float upMargin=1.9f;
 	static public float downMargin=0.2f;
 	static public float gapBetweenBlocks=0.05f;
+	static public Color blackColor=new Color(0f,0f,0f);
 	static public Color blueColor=new Color(75f/255f,163f/255f,174f/255f);
 	static public Color redColor = new Color (218f / 255f, 70f / 255f, 70f / 255f);
 	static public Color whiteTextColor = new Color(218f/255f,218f/255f,218f/255f);
@@ -58,6 +59,10 @@ public class ApplicationDesignRules : MonoBehaviour
 	static public Vector2 lineWorldSize;
 	static private Vector3 lineOriginalScale=new Vector3(1f,1f,1f);
 	static public Vector3 contentLineScale;
+	static private Vector2 competitionSize = new Vector2(325f,325f);
+	static public Vector2 competitionWorldSize;
+	static private Vector3 competitionOriginalScale=new Vector3(0.5f,0.5f,0.5f);
+	static public Vector3 competitionScale;
 	static private Vector2 thumbSize = new Vector2(63f,63f);
 	static public Vector2 thumbWorldSize;
 	static private Vector3 thumbOriginalScale=new Vector3(1.2f,1.2f,1.2f);
@@ -143,6 +148,9 @@ public class ApplicationDesignRules : MonoBehaviour
 
 		cardScale = toNewScale (cardOriginalScale);
 		cardWorldSize = toWorldSize (cardSize, cardScale);
+
+		competitionScale = toNewScale (competitionOriginalScale);
+		competitionWorldSize = toWorldSize (competitionSize, competitionScale);
 
 		thumbScale = toNewScale (thumbOriginalScale);
 		thumbWorldSize = toWorldSize (thumbSize, thumbScale);

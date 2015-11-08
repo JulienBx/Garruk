@@ -115,7 +115,6 @@ public class MenuController : MonoBehaviour
 		this.displayTransparentBackground ();
 		this.playPopUp=Instantiate(this.ressources.playPopUpObject) as GameObject;
 		this.playPopUp.transform.position = new Vector3 (0f, 0f, -2f);
-		this.setCurrentPage (5);
 		this.isPlayPopUpDisplayed = true;
 	}
 	public void displayCollectionPointsPopUp(int collectionPoints, int collectionPointsRanking)
@@ -238,26 +237,6 @@ public class MenuController : MonoBehaviour
 		Destroy (this.playPopUp);
 		this.hideTransparentBackground ();
 		this.isPlayPopUpDisplayed = false;
-		if(Application.loadedLevelName=="newMyGame")
-		{
-			this.setCurrentPage (1);
-		}
-		else if(Application.loadedLevelName=="newStore")
-		{
-			this.setCurrentPage (2);
-		}
-		else if(Application.loadedLevelName=="newMarket")
-		{
-			this.setCurrentPage (3);
-		}
-		else if(Application.loadedLevelName=="newSkillBook")
-		{
-			this.setCurrentPage (4);
-		}
-		else
-		{
-			this.setCurrentPage (0);
-		}
 	}
 	public void hideTransparentBackground()
 	{
@@ -747,6 +726,10 @@ public class MenuController : MonoBehaviour
 	public Sprite returnCompetitionPicture(int id)
 	{
 		return ressources.competitionsPictures [id];
+	}
+	public Sprite returnLargeCompetitionPicture(int id)
+	{
+		return ressources.largeCompetitionsPictures [id];
 	}
 	public Sprite returnSkillTypePicture(int id)
 	{

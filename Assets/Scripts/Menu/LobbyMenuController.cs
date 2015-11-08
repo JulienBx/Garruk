@@ -8,7 +8,6 @@ using TMPro;
 
 public class LobbyMenuController : MenuController
 {
-
 	public override void sceneReturnPressed()
 	{
 		NewLobbyController.instance.returnPressed ();
@@ -21,8 +20,14 @@ public class LobbyMenuController : MenuController
 	{
 		NewLobbyController.instance.closeAllPopUp ();
 	}
+	public override void resizeAll()
+	{
+		base.resize ();
+		NewLobbyController.instance.resize ();
+	}
 	public override void initializeScene()
 	{
+		base.setCurrentPage (5);
 		StartCoroutine (NewLobbyController.instance.initialization ());
 	}
 }

@@ -5,7 +5,7 @@ public class NewProfileCollectionButtonController : TextButtonController
 {
 	public override void mainInstruction()
 	{
-		//NewHomePageController.instance.selectDeck (base.getId());	
+		NewProfileController.instance.collectionButtonHandler ();
 	}
 }
 

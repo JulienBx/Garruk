@@ -5,7 +5,7 @@ public class NewProfileCleanCardsButtonController : TextButtonController
 {
 	public override void mainInstruction()
 	{
-		//NewHomePageController.instance.selectDeck (base.getId());	
+		NewProfileController.instance.cleanCardsHandler ();
 	}
 }
 

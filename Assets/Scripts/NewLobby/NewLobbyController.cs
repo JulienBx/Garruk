@@ -12,7 +12,6 @@ public class NewLobbyController : MonoBehaviour
 	
 	public GameObject tutorialObject;
 	public GameObject blockObject;
-	public GameObject paginationButtonObject;
 	
 	private GameObject mainBlock;
 	private GameObject mainBlockTitle;
@@ -27,37 +26,19 @@ public class NewLobbyController : MonoBehaviour
 	private GameObject menu;
 	private GameObject tutorial;
 	private GameObject[] results;
-	private GameObject stats;
-	private GameObject[] paginationButtons;
-	private GameObject transparentBackground;
-	private GameObject competition;
+	private GameObject[] stats;
+	private GameObject competitionPicture;
+	private GameObject competitionDescription;
 	private GameObject playButton;
 	private GameObject divisionProgression;
 	private GameObject cupProgression;
-	
-	private int widthScreen;
-	private int heightScreen;
-	private float worldWidth;
-	private float worldHeight;
-	private float pixelPerUnit;
+	private GameObject paginationButtons;
 	
 	private IList<int> resultsDisplayed;
 	
-	private int nbPages;
-	private int nbPaginationButtonsLimit;
-	private int elementsPerPage;
-	private int chosenPage;
-	private int pageDebut;
-	private int activePaginationButtonId;
+	private Pagination pagination;
 
 	private bool isSceneLoaded;
-
-	private bool isHoveringResult;
-	private bool isHoveringPopUp;
-	private bool isProfilePopUpDisplayed;
-	private int idResultHovered;
-	private bool toDestroyPopUp;
-	private float popUpDestroyInterval;
 
 	private bool isTutorialLaunched;
 	private bool isPopUpDisplayed;
@@ -73,20 +54,6 @@ public class NewLobbyController : MonoBehaviour
 	
 	void Update()
 	{	
-
-		if (Screen.width != this.widthScreen || Screen.height != this.heightScreen) 
-		{
-			this.resize();
-		}
-		if(toDestroyPopUp)
-		{
-			this.popUpDestroyInterval=this.popUpDestroyInterval+Time.deltaTime;
-			if(this.popUpDestroyInterval>0.5f)
-			{
-				this.toDestroyPopUp=false;
-				this.hideProfilePopUp();
-			}
-		}
 		if(this.waitForPopUp)
 		{
 			this.timer=timer+Time.deltaTime;
@@ -115,17 +82,15 @@ public class NewLobbyController : MonoBehaviour
 			this.hasWonLastGame=true;
 			ApplicationModel.hasWonLastGame=false;
 		}
-		this.widthScreen = Screen.width;
-		this.heightScreen = Screen.height;
-		this.pixelPerUnit = 108f;
-		this.elementsPerPage = 6;
 		this.timer = 0f;
+		this.pagination = new Pagination ();
+		this.pagination.nbElementsPerPage= 3;
 		this.initializeScene ();
-		this.resize ();
 	}
 	public IEnumerator initialization()
 	{
-		newMenuController.instance.displayLoadingScreen ();
+		this.resize ();
+		MenuController.instance.displayLoadingScreen ();
 		yield return StartCoroutine(model.getLobbyData(this.isDivisionLobby,this.isEndGameLobby));
 		this.initializeResults ();
 		this.initializeCompetitions ();
@@ -144,13 +109,18 @@ public class NewLobbyController : MonoBehaviour
 		}
 		this.initializePlayButton ();
 		this.isSceneLoaded = true;
-		newMenuController.instance.hideLoadingScreen ();
+		MenuController.instance.hideLoadingScreen ();
 	}
 	private void initializeResults()
 	{
-		this.chosenPage = 0;
-		this.pageDebut = 0 ;
-		this.drawPagination();
+		this.pagination.chosenPage = 0;
+		this.pagination.totalElements= model.lastResults.Count;
+		this.paginationButtons.GetComponent<NewLobbyPaginationController> ().p = this.pagination;
+		this.paginationButtons.GetComponent<NewLobbyPaginationController> ().setPagination ();
+		this.drawResults ();
+	}
+	public void paginationHandler()
+	{
 		this.drawResults ();
 	}
 	private void initializeCompetitions()
@@ -163,138 +133,201 @@ public class NewLobbyController : MonoBehaviour
 	}
 	public void initializeScene()
 	{
-		menu = GameObject.Find ("newMenu");
-		menu.AddComponent<newLobbyMenuController> ();
-		menu.GetComponent<newMenuController> ().setCurrentPage (5);
+		menu = GameObject.Find ("Menu");
+		menu.AddComponent<LobbyMenuController> ();
 		this.mainBlock = Instantiate(this.blockObject) as GameObject;
 		this.mainBlockTitle = GameObject.Find ("MainBlockTitle");
+		this.mainBlockTitle.GetComponent<TextMeshPro> ().color = ApplicationDesignRules.whiteTextColor;
 		this.mainBlockTitle.GetComponent<TextMeshPro> ().text = "Progression";
-		this.playButton = GameObject.Find ("playButton");
+		this.playButton = GameObject.Find ("PlayButton");
+		this.playButton.AddComponent<NewLobbyPlayButtonController> ();
 		this.statsBlock = Instantiate(this.blockObject) as GameObject;
 		this.statsBlockTitle = GameObject.Find ("StatsBlockTitle");
 		this.statsBlockTitle.GetComponent<TextMeshPro> ().text = "Statistiques";
+		this.statsBlockTitle.GetComponent<TextMeshPro> ().color = ApplicationDesignRules.whiteTextColor;
 		this.lastResultsBlock = Instantiate(this.blockObject) as GameObject;
 		this.lastResultsBlockTitle = GameObject.Find ("LastResultsBlockTitle");
 		this.lastResultsBlockTitle.GetComponent<TextMeshPro> ().text = "Résultats";
+		this.lastResultsBlockTitle.GetComponent<TextMeshPro> ().color = ApplicationDesignRules.whiteTextColor;
 		this.competitionBlock = Instantiate(this.blockObject) as GameObject;
 		this.competitionBlockTitle = GameObject.Find ("CompetitionBlockTitle");
-		this.paginationButtons = new GameObject[0];
-		this.results=new GameObject[6];
+		this.competitionBlockTitle.GetComponent<TextMeshPro> ().color = ApplicationDesignRules.whiteTextColor;
+		this.paginationButtons = GameObject.Find ("Pagination");
+		this.paginationButtons.AddComponent<NewLobbyPaginationController> ();
+		this.paginationButtons.GetComponent<NewLobbyPaginationController> ().initialize ();
+		this.results=new GameObject[3];
 		for(int i=0;i<this.results.Length;i++)
 		{
 			this.results[i]=GameObject.Find ("Result"+i);
-			this.results[i].GetComponent<ResultController>().setId(i);
+			this.results[i].transform.FindChild("description").GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
+			this.results[i].transform.FindChild("username").GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
+			this.results[i].transform.FindChild("username").gameObject.AddComponent<NewLobbyResultsUsernameController>();
+			this.results[i].transform.FindChild("username").GetComponent<NewLobbyResultsUsernameController>().setId(i);
+			this.results[i].transform.FindChild("picture").gameObject.AddComponent<NewLobbyResultsPictureController>();
+			this.results[i].transform.FindChild("picture").GetComponent<NewLobbyResultsPictureController>().setId(i);
+			this.results[i].transform.FindChild("line").GetComponent<SpriteRenderer>().color = ApplicationDesignRules.whiteSpriteColor;
 			this.results[i].SetActive(false);
 		}
-		this.transparentBackground = GameObject.Find ("TransparentBackGround");
-		this.transparentBackground.SetActive (false);
+		this.stats = new GameObject[4];
+		for(int i=0;i<this.stats.Length;i++)
+		{
+			this.stats[i]=GameObject.Find ("Stat"+i);
+			this.stats[i].transform.FindChild("Title").GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
+		}
+		this.stats[0].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text= "Victoires";
+		this.stats[0].transform.FindChild ("Subvalue").gameObject.SetActive (false);
+		this.stats[1].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text= "Défaites";
+		this.stats[1].transform.FindChild ("Subvalue").gameObject.SetActive (false);
+		this.stats[2].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text= "Classement combattant";
+		this.stats[3].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text= "Classement collectionneur";
 		this.popUp = GameObject.Find ("PopUp");
 		this.popUp.transform.FindChild ("Button").FindChild ("Title").GetComponent<TextMeshPro> ().text = "Continuer";
 		this.popUp.SetActive (false);
 		this.profilePopUp = GameObject.Find ("ProfilePopUp");
 		this.profilePopUp.SetActive (false);
-		this.stats = GameObject.Find ("Stats");
-		this.competition = GameObject.Find ("Competition");
+		this.competitionPicture = GameObject.Find ("CompetitionPicture");
+		this.competitionPicture.GetComponent<SpriteRenderer> ().color = ApplicationDesignRules.whiteSpriteColor;
+		this.competitionDescription = GameObject.Find ("CompetitionDescription");
+		this.competitionDescription.GetComponent<TextMeshPro> ().color = ApplicationDesignRules.whiteTextColor;
 		this.divisionProgression = GameObject.Find ("DivisionProgression");
 		this.cupProgression = GameObject.Find ("CupProgression");
 		if(this.isDivisionLobby)
 		{
 			this.divisionProgression.SetActive(true);
 			this.cupProgression.SetActive (false);
-
+			this.divisionProgression.transform.FindChild("NbWins").GetComponent<TextMeshPro>().color=ApplicationDesignRules.blackColor;
+			this.divisionProgression.transform.FindChild("RelegationNbWins").GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
+			this.divisionProgression.transform.FindChild("PromotionNbWins").GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
+			this.divisionProgression.transform.FindChild("TitleNbWins").GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
+			this.divisionProgression.transform.FindChild("RemainingGames").GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
+			this.divisionProgression.transform.FindChild("Status").GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
 		}
 		else
 		{
 			this.divisionProgression.SetActive(false);
 			this.cupProgression.SetActive(true);
+			this.cupProgression.transform.FindChild("RemainingRounds").GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
+			this.cupProgression.transform.FindChild("Status").GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
 		}
 		
 	}
 	public void resize()
 	{
-		this.widthScreen=Screen.width;
-		this.heightScreen=Screen.height;
-		this.worldHeight = 2f*Camera.main.GetComponent<Camera>().orthographicSize;
-		this.worldWidth = ((float)Screen.width/(float)Screen.height) * worldHeight;
-		float screenRatio = (float)this.widthScreen / (float)this.heightScreen;
-		menu.GetComponent<newMenuController> ().resizeMeunObject (worldHeight,worldWidth);
-		
-		float mainBlockLeftMargin =3f;
-		float mainBlockRightMargin = 3f;
-		float mainBlockUpMargin = 0.2f;
-		float mainBlockDownMargin = 2.7f;
-		
-		float mainBlockHeight = worldHeight - mainBlockUpMargin-mainBlockDownMargin;
-		float mainBlockWidth = worldWidth-mainBlockLeftMargin-mainBlockRightMargin;
-		Vector2 mainBlockOrigin = new Vector3 (-worldWidth/2f+mainBlockLeftMargin+mainBlockWidth/2f, -worldHeight / 2f + mainBlockDownMargin + mainBlockHeight / 2,0f);
-		
-		this.mainBlock.GetComponent<BlockController> ().resize(new Rect(mainBlockOrigin.x,mainBlockOrigin.y,mainBlockWidth,mainBlockHeight));
-		this.mainBlockTitle.transform.position = new Vector3 (mainBlockOrigin.x, mainBlockOrigin.y+mainBlockHeight/2f-0.3f, 0);
-		this.playButton.transform.position = new Vector3 (mainBlockOrigin.x, mainBlockOrigin.y - mainBlockHeight / 2f + 0.5f, 0f);
 
-		float competitionBlockLeftMargin =this.worldWidth-2.8f;
-		float competitionBlockRightMargin = 0f;
-		float competitionBlockUpMargin = 0.6f;
-		float competitionBlockDownMargin = 5.9f;
-		
-		float competitionBlockHeight = worldHeight - competitionBlockUpMargin-competitionBlockDownMargin;
-		float competitionBlockWidth = worldWidth-competitionBlockLeftMargin-competitionBlockRightMargin;
-		Vector2 competitionBlockOrigin = new Vector3 (-worldWidth/2f+competitionBlockLeftMargin+competitionBlockWidth/2f, -worldHeight / 2f + competitionBlockDownMargin + competitionBlockHeight / 2,0f);
-		
-		this.competitionBlock.GetComponent<BlockController> ().resize(new Rect(competitionBlockOrigin.x,competitionBlockOrigin.y,competitionBlockWidth,competitionBlockHeight));
-		this.competitionBlockTitle.transform.position = new Vector3 (competitionBlockOrigin.x, competitionBlockOrigin.y+competitionBlockHeight/2f-0.3f, 0);
-		this.competition.transform.position = new Vector3 (competitionBlockOrigin.x, competitionBlockOrigin.y, 0f);
+		float mainBlockLeftMargin = ApplicationDesignRules.leftMargin;
+		float mainBlockRightMargin =ApplicationDesignRules.gapBetweenBlocks+ApplicationDesignRules.rightMargin+(ApplicationDesignRules.worldWidth-ApplicationDesignRules.leftMargin-ApplicationDesignRules.rightMargin-ApplicationDesignRules.gapBetweenBlocks)/2f;
+		float mainBlockUpMargin = ApplicationDesignRules.upMargin;
+		float mainBlockDownMargin = ApplicationDesignRules.worldHeight-6.45f+ApplicationDesignRules.gapBetweenBlocks;	
+
+		this.mainBlock.GetComponent<NewBlockController> ().resize(mainBlockLeftMargin,mainBlockRightMargin,mainBlockUpMargin,mainBlockDownMargin);
+		Vector3 mainBlockUpperLeftPosition = this.mainBlock.GetComponent<NewBlockController> ().getUpperLeftCornerPosition ();
+		Vector3 mainBlockUpperRightPosition = this.mainBlock.GetComponent<NewBlockController> ().getUpperRightCornerPosition ();
+		Vector2 mainBlockLowerLeftPosition = this.mainBlock.GetComponent<NewBlockController> ().getLowerLeftCornerPosition ();
+		Vector2 mainBlockLowerRightPosition = this.mainBlock.GetComponent<NewBlockController> ().getLowerRightCornerPosition ();
+		Vector2 mainBlockOriginPosition = this.mainBlock.GetComponent<NewBlockController> ().getOriginPosition ();
+		Vector2 mainBlockSize = this.mainBlock.GetComponent<NewBlockController> ().getSize ();
+
+		this.mainBlockTitle.transform.position = new Vector3 (mainBlockUpperLeftPosition.x + 0.3f, mainBlockUpperLeftPosition.y - 0.2f, 0f);
+		this.mainBlockTitle.transform.localScale = ApplicationDesignRules.mainTitleScale;
+
+		this.playButton.transform.localScale = ApplicationDesignRules.button62Scale;
+		this.playButton.transform.localPosition = new Vector3 (mainBlockLowerLeftPosition.x + mainBlockSize.x / 2f, mainBlockLowerLeftPosition.y + 0.1f + ApplicationDesignRules.button62WorldSize.y / 2f, 0f);
 
 
-		float statsBlockLeftMargin =3f;
-		float statsBlockRightMargin = 3f;
-		float statsBlockUpMargin = 7.5f;
-		float statsBlockDownMargin = 0.2f;
+		float competitionBlockLeftMargin =  ApplicationDesignRules.gapBetweenBlocks+ApplicationDesignRules.leftMargin+(ApplicationDesignRules.worldWidth-ApplicationDesignRules.rightMargin-ApplicationDesignRules.leftMargin-ApplicationDesignRules.gapBetweenBlocks)/2f;
+		float competitionBlockRightMargin = ApplicationDesignRules.rightMargin;
+		float competitionBlockUpMargin = 6.45f;
+		float competitionBlockDownMargin = ApplicationDesignRules.downMargin;
 		
-		float statsBlockHeight = worldHeight - statsBlockUpMargin-statsBlockDownMargin;
-		float statsBlockWidth = worldWidth-statsBlockLeftMargin-statsBlockRightMargin;
-		Vector2 statsBlockOrigin = new Vector3 (-worldWidth/2f+statsBlockLeftMargin+statsBlockWidth/2f, -worldHeight / 2f + statsBlockDownMargin + statsBlockHeight / 2,0f);
-		
-		this.statsBlock.GetComponent<BlockController> ().resize(new Rect(statsBlockOrigin.x,statsBlockOrigin.y,statsBlockWidth,statsBlockHeight));
-		this.statsBlockTitle.transform.position = new Vector3 (statsBlockOrigin.x, statsBlockOrigin.y+statsBlockHeight/2f-0.3f, 0);
-		this.stats.transform.position = new Vector3 (statsBlockOrigin.x, statsBlockOrigin.y, 0);
-		this.stats.transform.FindChild ("nbWins").localPosition = new Vector3 (-1.5f * statsBlockWidth / 5f, 0f, 0);
-		this.stats.transform.FindChild ("nbLooses").localPosition = new Vector3 (-0.5f * statsBlockWidth / 5f, 0f, 0);
-		this.stats.transform.FindChild ("ranking").localPosition = new Vector3 (0.5f * statsBlockWidth / 5f, 0f, 0);
-		this.stats.transform.FindChild ("collectionPoints").localPosition = new Vector3 (1.5f * statsBlockWidth / 5f, 0f, 0);
+		this.competitionBlock.GetComponent<NewBlockController> ().resize(competitionBlockLeftMargin,competitionBlockRightMargin,competitionBlockUpMargin,competitionBlockDownMargin);
+		Vector3 competitionBlockUpperLeftPosition = this.competitionBlock.GetComponent<NewBlockController> ().getUpperLeftCornerPosition ();
+		Vector3 competitionBlockUpperRightPosition = this.competitionBlock.GetComponent<NewBlockController> ().getUpperRightCornerPosition ();
+		Vector2 competitionBlockLowerLeftPosition = this.competitionBlock.GetComponent<NewBlockController> ().getLowerLeftCornerPosition ();
+		Vector2 competitionBlockLowerRightPosition = this.competitionBlock.GetComponent<NewBlockController> ().getLowerRightCornerPosition ();
+		Vector2 competitionBlockSize = this.competitionBlock.GetComponent<NewBlockController> ().getSize ();
 
-		float lastResultsBlockLeftMargin =this.worldWidth-2.8f;
-		float lastResultsBlockRightMargin = 0f;
-		float lastResultsBlockUpMargin = 4.3f; 
-		float lastResultsBlockDownMargin = 0.2f; 
-		
-		float lastResultsBlockHeight = worldHeight - lastResultsBlockUpMargin-lastResultsBlockDownMargin;
-		float lastResultsBlockWidth = worldWidth-lastResultsBlockLeftMargin-lastResultsBlockRightMargin;
-		Vector2 lastResultsBlockOrigin = new Vector3 (-worldWidth/2f+lastResultsBlockLeftMargin+lastResultsBlockWidth/2f, -worldHeight / 2f + lastResultsBlockDownMargin + lastResultsBlockHeight / 2,0f);
-		
-		this.lastResultsBlock.GetComponent<BlockController> ().resize(new Rect(lastResultsBlockOrigin.x,lastResultsBlockOrigin.y,lastResultsBlockWidth,lastResultsBlockHeight));
-		this.lastResultsBlockTitle.transform.position = new Vector3 (lastResultsBlockOrigin.x, lastResultsBlockOrigin.y+lastResultsBlockHeight/2f-0.3f, 0);
+		this.competitionBlockTitle.transform.position = new Vector3 (competitionBlockUpperLeftPosition.x + 0.3f, competitionBlockUpperLeftPosition.y - 0.2f, 0f);
+		this.competitionBlockTitle.transform.localScale = ApplicationDesignRules.mainTitleScale;
 
+		this.competitionPicture.transform.localScale = ApplicationDesignRules.competitionScale;
+		this.competitionPicture.transform.position = new Vector3 (competitionBlockUpperLeftPosition.x + 0.3f + ApplicationDesignRules.competitionWorldSize.x / 2f, competitionBlockUpperLeftPosition.y - 2f, 0f);
+
+		this.competitionDescription.transform.localScale = ApplicationDesignRules.subMainTitleScale;
+		this.competitionDescription.transform.position = new Vector3 (competitionBlockLowerLeftPosition.x + 0.3f + ApplicationDesignRules.competitionWorldSize.x + 0.1f, this.competitionPicture.transform.position.y, 0f);
+		this.competitionDescription.GetComponent<TextContainer> ().width = (competitionBlockSize.x - 0.6f - 0.1f - ApplicationDesignRules.competitionWorldSize.x)*1/(ApplicationDesignRules.reductionRatio);
+
+
+		float statsBlockLeftMargin = ApplicationDesignRules.leftMargin;
+		float statsBlockRightMargin = ApplicationDesignRules.gapBetweenBlocks+ApplicationDesignRules.rightMargin+(ApplicationDesignRules.worldWidth-ApplicationDesignRules.leftMargin-ApplicationDesignRules.rightMargin-ApplicationDesignRules.gapBetweenBlocks)/2f;
+		float statsBlockUpMargin = 6.45f;
+		float statsBlockDownMargin = ApplicationDesignRules.downMargin;
+		
+		this.statsBlock.GetComponent<NewBlockController> ().resize(statsBlockLeftMargin,statsBlockRightMargin,statsBlockUpMargin,statsBlockDownMargin);
+		Vector3 statsBlockUpperLeftPosition = this.statsBlock.GetComponent<NewBlockController> ().getUpperLeftCornerPosition ();
+		Vector3 statsBlockLowerLeftPosition = this.statsBlock.GetComponent<NewBlockController> ().getLowerLeftCornerPosition ();
+		Vector3 statsBlockUpperRightPosition = this.statsBlock.GetComponent<NewBlockController> ().getUpperRightCornerPosition ();
+		Vector2 statsBlockSize = this.statsBlock.GetComponent<NewBlockController> ().getSize ();
+		Vector3 statsOrigin = this.statsBlock.GetComponent<NewBlockController> ().getOriginPosition ();
+		this.statsBlockTitle.transform.position = new Vector3 (statsBlockUpperLeftPosition.x + 0.3f, statsBlockUpperLeftPosition.y - 0.2f, 0f);
+		this.statsBlockTitle.transform.localScale = ApplicationDesignRules.mainTitleScale;
+
+		Vector3 statsScale = new Vector3 (1f, 1f, 1f);
+		Vector2 statBlockSize = new Vector2 ((statsBlockSize.x - 0.6f) / 4f, statsBlockSize.y - 0.5f);
+		
+		for(int i=0;i<this.stats.Length;i++)
+		{
+			this.stats[i].transform.position=new Vector3(statsBlockLowerLeftPosition.x+0.3f+statBlockSize.x/2f+i*statBlockSize.x,statsBlockUpperLeftPosition.y-0.8f-statBlockSize.y/2f);
+			this.stats[i].transform.localScale= ApplicationDesignRules.reductionRatio*statsScale;
+			this.stats[i].transform.FindChild("Title").GetComponent<TextContainer>().width=statBlockSize.x;
+		}
+
+		float lastResultsBlockLeftMargin = ApplicationDesignRules.gapBetweenBlocks+ApplicationDesignRules.leftMargin+(ApplicationDesignRules.worldWidth-ApplicationDesignRules.rightMargin-ApplicationDesignRules.leftMargin-ApplicationDesignRules.gapBetweenBlocks)/2f;;
+		float lastResultsBlockRightMargin = ApplicationDesignRules.rightMargin;
+		float lastResultsBlockUpMargin = ApplicationDesignRules.upMargin;
+		float lastResultsBlockDownMargin = ApplicationDesignRules.worldHeight-6.45f+ApplicationDesignRules.gapBetweenBlocks;
+		
+		this.lastResultsBlock.GetComponent<NewBlockController> ().resize(lastResultsBlockLeftMargin,lastResultsBlockRightMargin,lastResultsBlockUpMargin,lastResultsBlockDownMargin);
+		Vector3 lastResultsBlockUpperLeftPosition = this.lastResultsBlock.GetComponent<NewBlockController> ().getUpperLeftCornerPosition ();
+		Vector3 lastResultsBlockLowerLeftPosition = this.lastResultsBlock.GetComponent<NewBlockController> ().getLowerLeftCornerPosition ();
+		Vector3 lastResultsBlockUpperRightPosition = this.lastResultsBlock.GetComponent<NewBlockController> ().getUpperRightCornerPosition ();
+		Vector2 lastResultsBlockSize = this.lastResultsBlock.GetComponent<NewBlockController> ().getSize ();
+		this.lastResultsBlockTitle.transform.position = new Vector3 (lastResultsBlockUpperLeftPosition.x + 0.3f, lastResultsBlockUpperLeftPosition.y - 0.2f, 0f);
+		this.lastResultsBlockTitle.transform.localScale = ApplicationDesignRules.mainTitleScale;
+		
+
+		Vector2 lastResultBlockSize = new Vector2 (lastResultsBlockSize.x - 0.6f, (lastResultsBlockSize.y - 1f - 0.6f)/this.results.Length);
+		float resultsLineScale = ApplicationDesignRules.getLineScale (lastResultsBlockSize.x);
+		
 		for(int i=0;i<this.results.Length;i++)
 		{
-			this.results[i].transform.position=new Vector3(lastResultsBlockOrigin.x-0.1f,lastResultsBlockOrigin.y+lastResultsBlockHeight/2f-0.85f-i*0.77f,0);
+			this.results[i].transform.position=new Vector3(lastResultsBlockUpperLeftPosition.x+0.3f+lastResultBlockSize.x/2f,lastResultsBlockUpperLeftPosition.y-1f-(i+1)*lastResultBlockSize.y,0f);
+			this.results[i].transform.FindChild("line").localScale=new Vector3(resultsLineScale,1f,1f);
+			this.results[i].transform.FindChild("picture").localScale=ApplicationDesignRules.thumbScale;
+			this.results[i].transform.FindChild("picture").localPosition=new Vector3(-lastResultBlockSize.x/2f+ApplicationDesignRules.thumbWorldSize.x/2f,(lastResultBlockSize.y-ApplicationDesignRules.thumbWorldSize.y)/2f+ApplicationDesignRules.thumbWorldSize.y/2f,0f);
+			this.results[i].transform.FindChild("username").localScale=new Vector3(ApplicationDesignRules.reductionRatio,ApplicationDesignRules.reductionRatio,ApplicationDesignRules.reductionRatio);
+			this.results[i].transform.FindChild("username").GetComponent<TextMeshPro>().textContainer.width=(lastResultBlockSize.x/2f)-0.1f-ApplicationDesignRules.thumbWorldSize.x;
+			this.results[i].transform.FindChild("username").localPosition=new Vector3(-lastResultBlockSize.x/2f+ApplicationDesignRules.thumbWorldSize.x+0.1f,lastResultBlockSize.y-(lastResultBlockSize.y-ApplicationDesignRules.thumbWorldSize.y)/2f,0f);
+			this.results[i].transform.FindChild("description").localScale=new Vector3(ApplicationDesignRules.reductionRatio,ApplicationDesignRules.reductionRatio,ApplicationDesignRules.reductionRatio);
+			this.results[i].transform.FindChild("description").GetComponent<TextMeshPro>().textContainer.width=0.75f*lastResultBlockSize.x-0.1f-ApplicationDesignRules.thumbWorldSize.x;
+			this.results[i].transform.FindChild("description").localPosition=new Vector3(-lastResultBlockSize.x/2f+ApplicationDesignRules.thumbWorldSize.x+0.1f,lastResultBlockSize.y/2f,0f);
 		}
+
+		this.paginationButtons.transform.localPosition=new Vector3 (lastResultsBlockLowerLeftPosition.x + lastResultBlockSize.x / 2, lastResultsBlockLowerLeftPosition.y + 0.3f, 0f);
+		this.paginationButtons.GetComponent<NewLobbyPaginationController> ().resize ();
 
 		if(this.isTutorialLaunched)
 		{
 			this.tutorial.GetComponent<TutorialObjectController>().resize();
 		}
-		
-		this.transparentBackground.transform.position = new Vector3 (0, 0, -2f);
 		this.popUp.transform.position = new Vector3 (0, 2f, -3f);
 
 		if(this.isDivisionLobby)
 		{
-			this.divisionProgression.GetComponent<DivisionProgressionController>().resize(new Rect(mainBlockOrigin.x,mainBlockOrigin.y,mainBlockWidth,mainBlockHeight));
+			this.divisionProgression.GetComponent<DivisionProgressionController>().resize(new Rect(mainBlockOriginPosition.x,mainBlockOriginPosition.y,mainBlockSize.x,mainBlockSize.y));
 		}
 		else
 		{
-			this.cupProgression.GetComponent<CupProgressionController>().resize(new Rect(mainBlockOrigin.x,mainBlockOrigin.y,mainBlockWidth,mainBlockHeight));
+			this.cupProgression.GetComponent<CupProgressionController>().resize(new Rect(mainBlockOriginPosition.x,mainBlockOriginPosition.y,mainBlockSize.x,mainBlockSize.y));
 		}
 	}
 	public void returnPressed()
@@ -321,19 +354,33 @@ public class NewLobbyController : MonoBehaviour
 	public void drawResults()
 	{
 		this.resultsDisplayed = new List<int> ();
-		int tempInt = this.elementsPerPage;
-		if(this.chosenPage*(elementsPerPage)+elementsPerPage>this.model.lastResults.Count)
+		for(int i =0;i<this.pagination.nbElementsPerPage;i++)
 		{
-			tempInt=model.lastResults.Count-this.chosenPage*(elementsPerPage);
-		}
-		for(int i =0;i<elementsPerPage;i++)
-		{
-			if(this.chosenPage*this.elementsPerPage+i<model.lastResults.Count)
+			if(this.pagination.chosenPage*this.pagination.nbElementsPerPage+i<model.lastResults.Count)
 			{
-				this.resultsDisplayed.Add (this.chosenPage*this.elementsPerPage+i);
-				this.results[i].GetComponent<ResultController>().setResult(model.lastResults[this.chosenPage*this.elementsPerPage+i]);
-				this.results[i].GetComponent<ResultController>().show();
+				this.resultsDisplayed.Add (this.pagination.chosenPage*this.pagination.nbElementsPerPage+i);
 				this.results[i].SetActive(true);
+
+
+				string description="";
+				Color textColor=new Color();
+				if(model.lastResults[this.pagination.chosenPage*this.pagination.nbElementsPerPage+i].HasWon)
+				{
+					description="Victoire le "+model.lastResults[this.pagination.chosenPage*this.pagination.nbElementsPerPage+i].Date.ToString("dd/MM/yyyy");
+					textColor=ApplicationDesignRules.blueColor;
+				}
+				else
+				{
+					description="Défaite le "+model.lastResults[this.pagination.chosenPage*this.pagination.nbElementsPerPage+i].Date.ToString("dd/MM/yyyy");
+					textColor=ApplicationDesignRules.redColor;
+				}
+
+
+				this.results[i].transform.FindChild("description").GetComponent<TextMeshPro>().text=description;
+				this.results[i].transform.FindChild("description").GetComponent<TextMeshPro>().color=textColor;
+				this.results[i].transform.FindChild("picture").GetComponent<SpriteRenderer>().sprite=MenuController.instance.returnThumbPicture(model.lastResults[this.pagination.chosenPage*this.pagination.nbElementsPerPage+i].Opponent.idProfilePicture);
+				this.results[i].transform.FindChild("username").GetComponent<TextMeshPro>().text=model.lastResults[this.pagination.chosenPage*this.pagination.nbElementsPerPage+i].Opponent.Username;
+				
 			}
 			else
 			{
@@ -343,16 +390,12 @@ public class NewLobbyController : MonoBehaviour
 	}
 	public void drawStats()
 	{
-		this.stats.transform.FindChild ("nbWins").FindChild ("Value").GetComponent<TextMeshPro> ().text = model.player.TotalNbWins.ToString ();
-		this.stats.transform.FindChild ("nbWins").FindChild ("Title").GetComponent<TextMeshPro> ().text = "Victoires";
-		this.stats.transform.FindChild ("nbLooses").FindChild ("Value").GetComponent<TextMeshPro> ().text = model.player.TotalNbLooses.ToString ();
-		this.stats.transform.FindChild ("nbLooses").FindChild ("Title").GetComponent<TextMeshPro> ().text = "Défaites";
-		this.stats.transform.FindChild ("ranking").FindChild ("Title").GetComponent<TextMeshPro> ().text = "Classement combattant";
-		this.stats.transform.FindChild ("ranking").FindChild ("Value").GetComponent<TextMeshPro> ().text = model.player.Ranking.ToString ();
-		this.stats.transform.FindChild ("ranking").FindChild ("Title2").GetComponent<TextMeshPro> ().text = "("+model.player.RankingPoints.ToString()+" pts)";
-		this.stats.transform.FindChild ("collectionPoints").FindChild ("Title").GetComponent<TextMeshPro> ().text = "Classement collectionneur";
-		this.stats.transform.FindChild ("collectionPoints").FindChild ("Value").GetComponent<TextMeshPro> ().text = model.player.Ranking.ToString ();
-		this.stats.transform.FindChild ("collectionPoints").FindChild ("Title2").GetComponent<TextMeshPro> ().text = "("+model.player.CollectionPoints.ToString()+" pts)";
+		this.stats[0].transform.FindChild ("Value").GetComponent<TextMeshPro> ().text= model.player.TotalNbWins.ToString ();
+		this.stats[1].transform.FindChild ("Value").GetComponent<TextMeshPro> ().text= model.player.TotalNbLooses.ToString ();
+		this.stats[2].transform.FindChild ("Value").GetComponent<TextMeshPro> ().text= model.player.Ranking.ToString ();
+		this.stats[2].transform.FindChild ("Subvalue").GetComponent<TextMeshPro> ().text= "("+model.player.RankingPoints.ToString()+" pts)";
+		this.stats[3].transform.FindChild ("Value").GetComponent<TextMeshPro> ().text= model.player.CollectionRanking.ToString ();
+		this.stats[3].transform.FindChild ("Subvalue").GetComponent<TextMeshPro> ().text= "("+model.player.CollectionPoints.ToString()+" pts)";	
 	}
 	public void drawCompetition()
 	{
@@ -362,173 +405,30 @@ public class NewLobbyController : MonoBehaviour
 			string description="Montée : "+model.currentDivision.TitlePrize.ToString()+" cristaux";
 			if(model.currentDivision.NbWinsForPromotion!=-1)
 			{
-				description=description+"\n Promotion : "+model.currentDivision.PromotionPrize.ToString()+" cristaux";
+				description=description+"\nPromotion : "+model.currentDivision.PromotionPrize.ToString()+" cristaux";
 			}
-			this.competition.transform.FindChild("Description").GetComponent<TextMeshPro>().text=description;
-			this.competition.transform.FindChild("Picture").GetComponent<SpriteRenderer>().sprite=MenuController.instance.returnCompetitionPicture(model.currentDivision.IdPicture);
+			this.competitionDescription.GetComponent<TextMeshPro>().text=description;
+			this.competitionPicture.GetComponent<SpriteRenderer>().sprite=MenuController.instance.returnLargeCompetitionPicture(model.currentDivision.IdPicture);
 		}
 		else
 		{
 			this.competitionBlockTitle.GetComponent<TextMeshPro>().text=model.currentCup.Name;
 			string description="Victoire : "+model.currentCup.CupPrize.ToString()+" cristaux";
-			this.competition.transform.FindChild("Description").GetComponent<TextMeshPro>().text=description;
-			this.competition.transform.FindChild("Picture").GetComponent<SpriteRenderer>().sprite=MenuController.instance.returnCompetitionPicture(model.currentCup.IdPicture);
+			this.competitionDescription.GetComponent<TextMeshPro>().text=description;
+			this.competitionPicture.GetComponent<SpriteRenderer>().sprite=MenuController.instance.returnLargeCompetitionPicture(model.currentCup.IdPicture);
 		}
-	}
-	private void drawPagination()
-	{
-		for(int i=0;i<this.paginationButtons.Length;i++)
-		{
-			Destroy (this.paginationButtons[i]);
-		}
-		this.paginationButtons = new GameObject[0];
-		this.activePaginationButtonId = -1;
-		float paginationButtonWidth = 0.34f;
-		float gapBetweenPaginationButton = 0.2f * paginationButtonWidth;
-		this.nbPages = Mathf.CeilToInt((float)model.lastResults.Count / ((float)this.elementsPerPage));
-		if(this.nbPages>1)
-		{
-			this.nbPaginationButtonsLimit = Mathf.CeilToInt((2.9f)/(paginationButtonWidth+gapBetweenPaginationButton));
-			int nbButtonsToDraw=0;
-			bool drawBackButton=false;
-			if (this.pageDebut !=0)
-			{
-				drawBackButton=true;
-			}
-			bool drawNextButton=false;
-			if (this.pageDebut+nbPaginationButtonsLimit-System.Convert.ToInt32(drawBackButton)<this.nbPages-1)
-			{
-				drawNextButton=true;
-				nbButtonsToDraw=nbPaginationButtonsLimit;
-			}
-			else
-			{
-				nbButtonsToDraw=this.nbPages-this.pageDebut;
-				if(drawBackButton)
-				{
-					nbButtonsToDraw++;
-				}
-			}
-			this.paginationButtons = new GameObject[nbButtonsToDraw];
-			for(int i =0;i<nbButtonsToDraw;i++)
-			{
-				this.paginationButtons[i] = Instantiate(this.paginationButtonObject) as GameObject;
-				this.paginationButtons[i].AddComponent<LobbyPaginationController>();
-				this.paginationButtons[i].transform.position=new Vector3(this.worldWidth/2f-2.9f/2f+(0.5f+i-nbButtonsToDraw/2f)*(paginationButtonWidth+gapBetweenPaginationButton),-4.55f,0f);
-				this.paginationButtons[i].name="Pagination"+i.ToString();
-			}
-			for(int i=System.Convert.ToInt32(drawBackButton);i<nbButtonsToDraw-System.Convert.ToInt32(drawNextButton);i++)
-			{
-				this.paginationButtons[i].transform.FindChild("Title").GetComponent<TextMeshPro>().text=(this.pageDebut+i-System.Convert.ToInt32(drawBackButton)).ToString();
-				this.paginationButtons[i].GetComponent<LobbyPaginationController>().setId(i);
-				if(this.pageDebut+i-System.Convert.ToInt32(drawBackButton)==this.chosenPage)
-				{
-					this.paginationButtons[i].GetComponent<LobbyPaginationController>().setActive(true);
-					this.activePaginationButtonId=i;
-				}
-			}
-			if(drawBackButton)
-			{
-				this.paginationButtons[0].GetComponent<LobbyPaginationController>().setId(-2);
-				this.paginationButtons[0].transform.FindChild("Title").GetComponent<TextMeshPro>().text="...";
-			}
-			if(drawNextButton)
-			{
-				this.paginationButtons[nbButtonsToDraw-1].GetComponent<LobbyPaginationController>().setId(-1);
-				this.paginationButtons[nbButtonsToDraw-1].transform.FindChild("Title").GetComponent<TextMeshPro>().text="...";
-			}
-		}
-	}
-	public void paginationHandler(int id)
-	{
-		if(id==-2)
-		{
-			this.pageDebut=this.pageDebut-this.nbPaginationButtonsLimit+1+System.Convert.ToInt32(this.pageDebut-this.nbPaginationButtonsLimit+1!=0);
-			this.drawPagination();
-		}
-		else if(id==-1)
-		{
-			this.pageDebut=this.pageDebut+this.nbPaginationButtonsLimit-1-System.Convert.ToInt32(this.pageDebut!=0);
-			this.drawPagination();
-		}
-		else
-		{
-			if(activePaginationButtonId!=-1)
-			{
-				this.paginationButtons[this.activePaginationButtonId].GetComponent<LobbyPaginationController>().setActive(false);
-			}
-			this.activePaginationButtonId=id;
-			this.chosenPage=this.pageDebut-System.Convert.ToInt32(this.pageDebut!=0)+id;
-			this.drawResults();
-		}
-	}
-	public void startHoveringPopUp()
-	{
-		this.isHoveringPopUp = true;
-		this.toDestroyPopUp = false;
-		this.popUpDestroyInterval = 0f;
-	}
-	public void endHoveringPopUp()
-	{
-		this.isHoveringPopUp = false;
-		this.toDestroyPopUp = true;
-		this.popUpDestroyInterval = 0f;
-	}
-	public void startHoveringResult (int id)
-	{
-		this.idResultHovered=id;
-		this.isHoveringResult = true;
-		if(this.isProfilePopUpDisplayed && this.profilePopUp.GetComponent<PopUpController>().getIsResult())
-		{
-			if(this.profilePopUp.GetComponent<PopUpResultLobbyController>().getId()!=this.idResultHovered);
-			{
-				this.hideProfilePopUp();
-				this.showProfilePopUp();
-			}
-		}
-		else
-		{
-			if(this.isProfilePopUpDisplayed)
-			{
-				this.hideProfilePopUp();
-			}
-			this.showProfilePopUp();
-		}
-	}
-	public void endHoveringResult ()
-	{
-		this.isHoveringResult = false;
-		this.toDestroyPopUp = true;
-		this.popUpDestroyInterval = 0f;
-	}
-	public void showProfilePopUp()
-	{
-		this.profilePopUp.SetActive (true);
-		this.profilePopUp.transform.position=new Vector3(this.results[this.idResultHovered].transform.position.x-3.1f,this.results[this.idResultHovered].transform.position.y,-1f);
-		this.profilePopUp.AddComponent<PopUpResultLobbyController>();
-		this.profilePopUp.GetComponent<PopUpResultLobbyController> ().setIsResult (true);
-		this.profilePopUp.GetComponent<PopUpResultLobbyController> ().setId (this.idResultHovered);
-		this.profilePopUp.GetComponent<PopUpResultLobbyController> ().show (model.lastResults [this.resultsDisplayed [this.idResultHovered]]);
-		this.isPopUpDisplayed=true;
-	}
-	public void hideProfilePopUp()
-	{
-		this.toDestroyPopUp = false;
-		this.popUpDestroyInterval = 0f;
-		this.profilePopUp.SetActive (false);
-		this.isPopUpDisplayed=false;
 	}
 	private void displayPopUp()
 	{
 		this.isPopUpDisplayed = true;
 		this.popUp.SetActive (true);
-		this.transparentBackground.SetActive (true);
+		MenuController.instance.displayTransparentBackground ();
 	}
 	public void hidePopUp()
 	{
 		this.isPopUpDisplayed = false;
 		this.popUp.SetActive (false);
-		this.transparentBackground.SetActive (false);
+		MenuController.instance.hideTransparentBackground ();
 	}
 	public void playHandler()
 	{
@@ -538,7 +438,7 @@ public class NewLobbyController : MonoBehaviour
 		}
 		else
 		{
-			newMenuController.instance.joinRandomRoomHandler();
+			MenuController.instance.joinRandomRoomHandler();
 		}
 	}
 	public void drawGauge()
@@ -691,5 +591,10 @@ public class NewLobbyController : MonoBehaviour
 		{
 			this.playButton.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Jouer";
 		}
+	}
+	public void clickOnResultsProfile(int id)
+	{
+		ApplicationModel.profileChosen = this.results [id].transform.FindChild ("username").GetComponent<TextMeshPro> ().text;
+		Application.LoadLevel("NewProfile");
 	}
 }

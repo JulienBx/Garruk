@@ -1105,7 +1105,7 @@ public class NewHomePageController : MonoBehaviour
 		this.friendlyGameButton.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Jouer".ToUpper ();
 
 		string divisionState;
-		if(model.currentDivision.GamesPlayed>0)
+		if(model.player.NbGamesDivision>0)
 		{
 			divisionState="Rejoindre";
 		}
@@ -1116,7 +1116,7 @@ public class NewHomePageController : MonoBehaviour
 		this.divisionGameButton.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = divisionState.ToUpper ();
 
 		string cupState;
-		if(model.currentCup.GamesPlayed>0)
+		if(model.player.NbGamesCup>0)
 		{
 			divisionState="Rejoindre";
 		}

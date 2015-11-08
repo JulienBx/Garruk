@@ -57,7 +57,6 @@ public class NewSkillBookSkillController : MonoBehaviour
 		float originalWorldWidth = skillScale*(skillBackgroundWidth / ApplicationDesignRules.pixelPerUnit);
 		float scale = (worldWidth /originalWorldWidth);
 		float worldIncrease = worldWidth-originalWorldWidth;
-		print (worldIncrease);
 
 		this.background.transform.localScale =new Vector3(scale, 1f, 1f);
 

@@ -1613,6 +1613,20 @@ public class NewProfileController : MonoBehaviour
 			StartCoroutine(this.addConnection());
 		}
 	}
+	public void collectionButtonHandler()
+	{
+		Application.LoadLevel("NewSkillBook");
+	}
+	public void cleanCardsHandler()
+	{
+		StartCoroutine (this.cleanCards ());
+	}
+	public IEnumerator cleanCards()
+	{
+		MenuController.instance.displayLoadingScreen ();
+		yield return StartCoroutine(model.player.cleanCards ());
+		MenuController.instance.hideLoadingScreen ();
+	}
 	public void clickOnFriendsContentProfile(int id)
 	{
 		ApplicationModel.profileChosen = this.friendsContents [id].transform.FindChild ("username").GetComponent<TextMeshPro> ().text;

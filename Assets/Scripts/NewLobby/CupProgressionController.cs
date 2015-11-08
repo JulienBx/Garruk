@@ -12,7 +12,6 @@ public class CupProgressionController : MonoBehaviour
 	private GameObject[] rounds;
 	private float roundXScale;
 	private float blockHeight;
-	private float blockYOrigin;
 	
 	
 	void Awake()
@@ -21,6 +20,7 @@ public class CupProgressionController : MonoBehaviour
 	}
 	public void resize(Rect parentBlock)
 	{
+		gameObject.transform.position = new Vector3 (parentBlock.x, parentBlock.y, 0f);
 		float pixelPerUnit = 108f;
 		float roundWidth = 59f;
 		float roundWorldWidth = roundWidth / pixelPerUnit;
@@ -31,7 +31,6 @@ public class CupProgressionController : MonoBehaviour
 			this.roundXScale=maxXScale;
 		}
 		this.blockHeight = parentBlock.height;
-		this.blockYOrigin = parentBlock.y;
 
 		for(int i=0;i<rounds.Length;i++)
 		{
@@ -39,7 +38,6 @@ public class CupProgressionController : MonoBehaviour
 			roundScale.x = roundXScale;
 			rounds[i].transform.FindChild ("Background").transform.localScale=roundScale;
 		}
-		this.gameObject.transform.localPosition = new Vector3 (parentBlock.x, parentBlock.y, 0f);
 		
 	}
 	public void drawCup(Cup c, bool hasWon)
@@ -73,7 +71,7 @@ public class CupProgressionController : MonoBehaviour
 			gameObject.transform.FindChild ("RemainingRounds").GetComponent<TextMeshPro>().text="Fin de la coupe";
 		}
 		gameObject.transform.FindChild ("RemainingRounds").localScale = new Vector3 (policeScale, policeScale, policeScale);
-		gameObject.transform.FindChild("RemainingRounds").position=new Vector3(0f,this.blockYOrigin+0.15f+((float)c.NbRounds/2f)*(roundWorldHeight+0.1f)+0.25f*(roundWorldHeight+0.1f),0f);
+		gameObject.transform.FindChild("RemainingRounds").localPosition=new Vector3(0f,((float)c.NbRounds/2f)*(roundWorldHeight+0.1f)+0.25f*(roundWorldHeight+0.1f),0f);
 
 		if(c.NbWins==c.NbRounds)
 		{
@@ -92,14 +90,14 @@ public class CupProgressionController : MonoBehaviour
 			gameObject.transform.FindChild ("Status").GetComponent<TextMeshPro>().text="Statut actuel : éliminé";
 		}
 		gameObject.transform.FindChild ("Status").localScale = new Vector3 (policeScale, policeScale, policeScale);
-		gameObject.transform.FindChild("Status").position=new Vector3(0f,this.blockYOrigin+0.15f-((float)c.NbRounds/2f)*(roundWorldHeight+0.1f)-0.25f*(roundWorldHeight+0.1f),0f);
+		gameObject.transform.FindChild("Status").localPosition=new Vector3(0f,-((float)c.NbRounds/2f)*(roundWorldHeight+0.1f)-0.25f*(roundWorldHeight+0.1f),0f);
 
 		this.rounds=new GameObject[c.NbRounds];
 		for(int i =0;i<c.NbRounds;i++)
 		{
 			this.rounds[i] = Instantiate(this.roundObject) as GameObject;
 			this.rounds[i].gameObject.transform.parent=this.gameObject.transform;
-			this.rounds[i].transform.position=new Vector3(0f,this.blockYOrigin+0.15f+((float)c.NbRounds/2f)*(roundWorldHeight+0.1f)-(i+0.5f)*(roundWorldHeight+0.1f),0f);
+			this.rounds[i].transform.localPosition=new Vector3(0f,((float)c.NbRounds/2f)*(roundWorldHeight+0.1f)-(i+0.5f)*(roundWorldHeight+0.1f),0f);
 			this.rounds[i].transform.localScale=new Vector3(1f,1f,1f);
 			this.rounds[i].transform.FindChild("Background").localScale=new Vector3(this.roundXScale,roundYScale,1f);
 			this.rounds[i].transform.FindChild("Title").localScale=new Vector3(policeScale,policeScale,policeScale);

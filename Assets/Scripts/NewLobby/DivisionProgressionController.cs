@@ -30,7 +30,7 @@ public class DivisionProgressionController : MonoBehaviour
 	}
 	public void resize(Rect parentBlock)
 	{
-		float pixelPerUnit = 108f;
+		float pixelPerUnit = ApplicationDesignRules.pixelPerUnit;
 		float gaugeWidth = 402f;
 		float gaugeWorldWidth = gaugeWidth / pixelPerUnit;
 		float gaugeXScale = (parentBlock.width - 2f) / gaugeWorldWidth;

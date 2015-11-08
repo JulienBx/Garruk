@@ -372,6 +372,7 @@ public class NewSkillBookController : MonoBehaviour
 		for(int i=0;i<this.helpContents.Length;i++)
 		{
 			this.helpContents[i]=GameObject.Find("HelpContent"+i);
+			this.helpContents[i].transform.FindChild("Title").GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
 		}
 		this.helpContents [0].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Discipline associé à la compétence.";
 		this.helpContents [1].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Faction associé à la compétence. ";
@@ -782,7 +783,7 @@ public class NewSkillBookController : MonoBehaviour
 			if(isNotOwnFilterOn)
 			{
 				isNotOwnFilterOn=false;
-				this.availableFilters[1].GetComponent<NewSkillBookAvailabilityFilterController>().reset();
+				this.availableFilters[0].GetComponent<NewSkillBookAvailabilityFilterController>().reset();
 			}
 			else
 			{
@@ -790,10 +791,10 @@ public class NewSkillBookController : MonoBehaviour
 				if(isOwnFilterOn)
 				{
 					isOwnFilterOn=false;
-					this.availableFilters[0].GetComponent<NewSkillBookAvailabilityFilterController>().reset();
+					this.availableFilters[1].GetComponent<NewSkillBookAvailabilityFilterController>().reset();
 				}
-				this.availableFilters[1].GetComponent<NewSkillBookAvailabilityFilterController>().setIsSelected(true);
-				this.availableFilters[1].GetComponent<NewSkillBookAvailabilityFilterController>().setHoveredState();
+				this.availableFilters[0].GetComponent<NewSkillBookAvailabilityFilterController>().setIsSelected(true);
+				this.availableFilters[0].GetComponent<NewSkillBookAvailabilityFilterController>().setHoveredState();
 			}
 		}
 		else if(id==1)
@@ -801,7 +802,7 @@ public class NewSkillBookController : MonoBehaviour
 			if(isOwnFilterOn)
 			{
 				isOwnFilterOn=false;
-				this.availableFilters[0].GetComponent<NewSkillBookAvailabilityFilterController>().reset();
+				this.availableFilters[1].GetComponent<NewSkillBookAvailabilityFilterController>().reset();
 			}
 			else
 			{
@@ -809,10 +810,10 @@ public class NewSkillBookController : MonoBehaviour
 				if(isNotOwnFilterOn)
 				{
 					isNotOwnFilterOn=false;
-					this.availableFilters[1].GetComponent<NewSkillBookAvailabilityFilterController>().reset();
+					this.availableFilters[0].GetComponent<NewSkillBookAvailabilityFilterController>().reset();
 				}
-				this.availableFilters[0].GetComponent<NewSkillBookAvailabilityFilterController>().setIsSelected(true);
-				this.availableFilters[0].GetComponent<NewSkillBookAvailabilityFilterController>().setHoveredState();
+				this.availableFilters[1].GetComponent<NewSkillBookAvailabilityFilterController>().setIsSelected(true);
+				this.availableFilters[1].GetComponent<NewSkillBookAvailabilityFilterController>().setHoveredState();
 			}
 		}
 		this.skillsPagination.chosenPage = 0;
