@@ -24,8 +24,6 @@ public class ApplicationModel : MonoBehaviour
 	static public Cup currentCup;
 	static public Division currentDivision;
 	static public string error = "";
-	static public string skillChosen = "";
-	static public int cardTypeChosen = -1;
 	static public int tutorialStep;
 	static public bool isAdmin = true;
 	static public int nbCardsByDeck = 4;

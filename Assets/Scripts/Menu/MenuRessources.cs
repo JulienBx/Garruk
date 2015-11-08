@@ -23,5 +23,8 @@ public class MenuRessources : MonoBehaviour
 	public Sprite[] packPictures;
 	public Sprite[] tabsPictures;
 	public Sprite[] competitionsPictures;
+	public Sprite[] skillsTypePictures;
+	public Sprite[] cardsTypePictures;
+	public Sprite[] skillsPictures;
 }
 

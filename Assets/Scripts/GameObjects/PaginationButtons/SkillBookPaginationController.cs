@@ -1,12 +1,12 @@
-using UnityEngine;
-
-public class SkillBookPaginationController : OldPaginationController
-{
-	void OnMouseDown()
-	{
-		this.isActive=!this.isActive;
-		base.setSprite ();
-		NewSkillBookController.instance.paginationHandler (this.id);
-	}
-}
-
+//using UnityEngine;
+//
+//public class SkillBookPaginationController : OldPaginationController
+//{
+//	void OnMouseDown()
+//	{
+//		this.isActive=!this.isActive;
+//		base.setSprite ();
+//		NewSkillBookController.instance.paginationSkillHandler (this.id);
+//	}
+//}
+//

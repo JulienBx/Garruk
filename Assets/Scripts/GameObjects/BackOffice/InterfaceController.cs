@@ -17,7 +17,7 @@ public class InterfaceController : MonoBehaviour
 	{
 		this.reset ();
 	}
-	public void reset()
+	public virtual void reset()
 	{
 		this.isHovered = false;
 		this.isActive = true;

@@ -17,14 +17,19 @@ public class SkillBookMenuController : MenuController
 	{
 		NewSkillBookController.instance.escapePressed ();
 	}
+	public override void resizeAll()
+	{
+		base.resize ();
+		NewSkillBookController.instance.resize ();
+	}
 	public override void sceneCloseAllPopUp()
 	{
 		NewSkillBookController.instance.closeAllPopUp ();
 	}
 	public override void initializeScene()
 	{
+		base.setCurrentPage (4);
 		StartCoroutine (NewSkillBookController.instance.initialization ());
 	}
-	
 }
 

@@ -56,9 +56,6 @@ public class newMyGameController : MonoBehaviour
 	private bool isCardFocusedDisplayed;
 
 	private Rect centralWindow;
-	private Rect collectionPointsWindow;
-	private Rect newSkillsWindow;
-	private Rect newCardTypeWindow;
 
 	private bool isSearchingSkill;
 	private bool isSearchingDeck;
@@ -206,18 +203,6 @@ public class newMyGameController : MonoBehaviour
 		this.retrieveDefaultDeck ();
 		this.initializeDecks ();
 		this.resetFiltersValue ();
-		if(ApplicationModel.skillChosen!="")
-		{
-			this.isSkillChosen=true;
-			this.valueSkill=ApplicationModel.skillChosen.ToLower();
-			this.skillSearchBar.transform.FindChild ("Title").GetComponent<TextMeshPro>().text =valueSkill;
-		   	ApplicationModel.skillChosen="";
-		}
-		if(ApplicationModel.cardTypeChosen!=-1)
-		{
-			this.filtersCardType.Add (ApplicationModel.cardTypeChosen);
-		   	ApplicationModel.cardTypeChosen=-1;
-		}
 		this.applyFilters ();
 		MenuController.instance.hideLoadingScreen ();
 		this.isSceneLoaded = true;
@@ -576,15 +561,12 @@ public class newMyGameController : MonoBehaviour
 
 		for(int i=0;i<this.availableFilters.Length;i++)
 		{
-			this.availableFilters[i].transform.localScale=ApplicationDesignRules.button62Scale;
-			this.availableFilters[i].transform.position=new Vector3(availabilityFilterTitle.transform.position.x, filtersBlockUpperLeftPosition.y-2.65f-i*0.45f,0f);
+			this.availableFilters[i].transform.localScale=ApplicationDesignRules.button61Scale;
+			this.availableFilters[i].transform.position=new Vector3(availabilityFilterTitle.transform.position.x, filtersBlockUpperLeftPosition.y-2.65f-i*i*(ApplicationDesignRules.button61WorldSize.y+0.05f),0f);
 		}
 
 		this.centralWindow = new Rect (ApplicationDesignRules.widthScreen * 0.25f, 0.12f * ApplicationDesignRules.heightScreen, ApplicationDesignRules.widthScreen * 0.50f, 0.25f * ApplicationDesignRules.heightScreen);
-		this.collectionPointsWindow=new Rect(ApplicationDesignRules.widthScreen -  ApplicationDesignRules.widthScreen * 0.17f-5,0.1f * ApplicationDesignRules.heightScreen+5,ApplicationDesignRules.widthScreen * 0.17f,ApplicationDesignRules.heightScreen * 0.1f);
-		this.newSkillsWindow = new Rect (this.collectionPointsWindow.xMin, this.collectionPointsWindow.yMax + 5,this.collectionPointsWindow.width,ApplicationDesignRules.heightScreen - 0.1f * ApplicationDesignRules.heightScreen - 2 * 5 - this.collectionPointsWindow.height);
-		this.newCardTypeWindow = new Rect (ApplicationDesignRules.widthScreen * 0.25f, 0.12f * ApplicationDesignRules.heightScreen, ApplicationDesignRules.widthScreen * 0.50f, 0.25f * ApplicationDesignRules.heightScreen);
-
+	
 		float deckBlockLeftMargin = ApplicationDesignRules.gapBetweenBlocks+ApplicationDesignRules.leftMargin+(ApplicationDesignRules.worldWidth-ApplicationDesignRules.rightMargin-ApplicationDesignRules.leftMargin-ApplicationDesignRules.gapBetweenBlocks)/2f;;
 		float deckBlockRightMargin = ApplicationDesignRules.rightMargin;
 		float deckBlockUpMargin = ApplicationDesignRules.upMargin;

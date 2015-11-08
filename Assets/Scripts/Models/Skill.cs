@@ -18,7 +18,7 @@ public class Skill
 	public int XMin;
 	public string Action;
 	public int nbLeft = 1;
-	public int CardType;
+	public int IdCardType;
 	public Texture2D texture;
 	public string Picture;
 	public bool IsNew;
@@ -28,6 +28,8 @@ public class Skill
 	public string[] AllDescriptions;
 	public int[] AllProbas;
 	public SkillType SkillType;
+	public CardType CardType;
+	public int IdPicture;
 	
 	public Skill(string name, string description, int id)
 	{

@@ -748,6 +748,18 @@ public class MenuController : MonoBehaviour
 	{
 		return ressources.competitionsPictures [id];
 	}
+	public Sprite returnSkillTypePicture(int id)
+	{
+		return ressources.skillsTypePictures [id];
+	}
+	public Sprite returnCardTypePicture(int id)
+	{
+		return ressources.cardsTypePictures [id];
+	}
+	public Sprite returnSkillPicture(int id)
+	{
+		return ressources.skillsPictures [id];
+	}
 	public void changeThumbPicture(int id)
 	{
 		model.player.idProfilePicture = id;

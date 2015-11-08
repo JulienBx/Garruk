@@ -62,6 +62,14 @@ public class ApplicationDesignRules : MonoBehaviour
 	static public Vector2 thumbWorldSize;
 	static private Vector3 thumbOriginalScale=new Vector3(1.2f,1.2f,1.2f);
 	static public Vector3 thumbScale;
+	static private Vector2 cardTypeThumbSize = new Vector2(386f,386f);
+	static public Vector2 cardTypeThumbWorldSize;
+	static private Vector3 cardTypeThumbOriginalScale=new Vector3(0.19f,0.19f,0.19f);
+	static public Vector3 cardTypeThumbScale;
+	static private Vector2 skillTypeThumbSize = new Vector2(101f,101f);
+	static public Vector2 skillTypeThumbWorldSize;
+	static private Vector3 skillTypeThumbOriginalScale=new Vector3(0.75f,0.75f,0.75f);
+	static public Vector3 skillTypeThumbScale;
 	static private Vector2 profilePictureSize = new Vector2(190f,190f);
 	static public Vector2 profilePictureWorldSize;
 	static private Vector3 profilePictureOriginalScale=new Vector3(1f,1f,1f);
@@ -77,6 +85,10 @@ public class ApplicationDesignRules : MonoBehaviour
 	static public Vector2 cardTypeFilterWorldSize;
 	static private Vector3 cardTypeFilterOriginalScale=new Vector3(0.17f,0.17f,0.17f);
 	static public Vector3 cardTypeFilterScale;
+	static private Vector2 skillTypeFilterSize = new Vector2(101f,101f);
+	static public Vector2 skillTypeFilterWorldSize;
+	static private Vector3 skillTypeFilterOriginalScale=new Vector3(0.7f,0.7f,0.7f);
+	static public Vector3 skillTypeFilterScale;
 	static private Vector2 inputTextSize = new Vector2(386f,62f);
 	static public Vector2 inputTextWorldSize;
 	static private Vector3 inputTextOriginalScale=new Vector3(0.6f,0.6f,0.6f);
@@ -135,6 +147,12 @@ public class ApplicationDesignRules : MonoBehaviour
 		thumbScale = toNewScale (thumbOriginalScale);
 		thumbWorldSize = toWorldSize (thumbSize, thumbScale);
 
+		cardTypeThumbScale = toNewScale (cardTypeThumbOriginalScale);
+		cardTypeThumbWorldSize = toWorldSize (cardTypeThumbSize, cardTypeThumbScale);
+
+		skillTypeThumbScale = toNewScale (skillTypeThumbOriginalScale);
+		skillTypeThumbWorldSize = toWorldSize (skillTypeThumbSize, skillTypeThumbScale);
+
 		profilePictureScale = toNewScale (profilePictureOriginalScale);
 		profilePictureWorldSize = toWorldSize (profilePictureSize, profilePictureScale);
 
@@ -143,6 +161,9 @@ public class ApplicationDesignRules : MonoBehaviour
 
 		cardTypeFilterScale = toNewScale (cardTypeFilterOriginalScale);
 		cardTypeFilterWorldSize = toWorldSize (cardTypeFilterSize, cardTypeFilterScale);
+
+		skillTypeFilterScale = toNewScale (skillTypeFilterOriginalScale);
+		skillTypeFilterWorldSize = toWorldSize (skillTypeFilterSize, skillTypeFilterScale);
 
 		inputTextScale = toNewScale (inputTextOriginalScale);
 		inputTextWorldSize = toWorldSize (inputTextSize, inputTextScale);

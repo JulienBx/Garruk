@@ -6,6 +6,7 @@ public class SkillType
 	public string Name;
 	public int Id;
 	public string Description;
+	public int IdPicture;
 	
 	public SkillType()
 	{
