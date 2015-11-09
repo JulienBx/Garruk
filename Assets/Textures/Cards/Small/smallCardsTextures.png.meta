@@ -34,6 +34,13 @@ TextureImporter:
     21300054: upgradeDescriptionPopUp
     21300056: nexLevelPopUp
     21300058: rightArrow
+    21300060: probaPicto
+    21300062: skillTypeAuto
+    21300064: skillTypeCombat
+    21300066: skillTypeDegenerescence
+    21300068: skillTypePiege
+    21300070: skillTypeSoutien
+    21300072: skillTypeTir
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -82,8 +89,8 @@ TextureImporter:
     - name: assassin
       rect:
         serializedVersion: 2
-        x: 2000
-        y: 2020
+        x: 797
+        y: 2393
         width: 559
         height: 654
       alignment: 9
@@ -112,8 +119,8 @@ TextureImporter:
     - name: buttonBorder
       rect:
         serializedVersion: 2
-        x: 314
-        y: 21
+        x: 2503
+        y: 2624
         width: 219
         height: 50
       alignment: 0
@@ -132,8 +139,8 @@ TextureImporter:
     - name: cardupgrade
       rect:
         serializedVersion: 2
-        x: 314
-        y: 73
+        x: 3970
+        y: 3018
         width: 90
         height: 69
       alignment: 0
@@ -142,8 +149,8 @@ TextureImporter:
     - name: cristal
       rect:
         serializedVersion: 2
-        x: 406
-        y: 93
+        x: 2733
+        y: 3382
         width: 52
         height: 49
       alignment: 9
@@ -152,8 +159,8 @@ TextureImporter:
     - name: cristal1
       rect:
         serializedVersion: 2
-        x: 460
-        y: 93
+        x: 2733
+        y: 3331
         width: 52
         height: 49
       alignment: 9
@@ -162,8 +169,8 @@ TextureImporter:
     - name: cristal2
       rect:
         serializedVersion: 2
-        x: 514
-        y: 93
+        x: 2733
+        y: 3280
         width: 52
         height: 49
       alignment: 9
@@ -172,8 +179,8 @@ TextureImporter:
     - name: drogueur
       rect:
         serializedVersion: 2
-        x: 2733
-        y: 2669
+        x: 1395
+        y: 2398
         width: 561
         height: 690
       alignment: 9
@@ -182,8 +189,8 @@ TextureImporter:
     - name: droid
       rect:
         serializedVersion: 2
-        x: 1300
-        y: 1695
+        x: 1958
+        y: 2038
         width: 543
         height: 636
       alignment: 9
@@ -252,8 +259,8 @@ TextureImporter:
     - name: lifeicon
       rect:
         serializedVersion: 2
-        x: 2000
-        y: 2923
+        x: 3970
+        y: 3186
         width: 110
         height: 165
       alignment: 9
@@ -262,8 +269,8 @@ TextureImporter:
     - name: mentaliste
       rect:
         serializedVersion: 2
-        x: 1395
-        y: 2333
+        x: 2787
+        y: 2604
         width: 603
         height: 755
       alignment: 0
@@ -272,8 +279,8 @@ TextureImporter:
     - name: mitrailleur
       rect:
         serializedVersion: 2
-        x: 724
-        y: 1580
+        x: 3392
+        y: 1884
         width: 574
         height: 755
       alignment: 9
@@ -292,8 +299,8 @@ TextureImporter:
     - name: popUp
       rect:
         serializedVersion: 2
-        x: 3296
-        y: 3201
+        x: 1358
+        y: 2246
         width: 350
         height: 150
       alignment: 0
@@ -312,18 +319,88 @@ TextureImporter:
     - name: pretresse
       rect:
         serializedVersion: 2
-        x: 724
-        y: 2337
+        x: 3392
+        y: 2641
         width: 576
         height: 710
       alignment: 9
       pivot: {x: .483506948, y: .531690121}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: soldPanel
+    - name: probaPicto
+      rect:
+        serializedVersion: 2
+        x: 3970
+        y: 3089
+        width: 103
+        height: 95
+      alignment: 9
+      pivot: {x: .504854381, y: .50526315}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skillTypeAuto
       rect:
         serializedVersion: 2
         x: 179
-        y: 42
+        y: 41
+        width: 101
+        height: 101
+      alignment: 9
+      pivot: {x: .495049506, y: .495049506}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skillTypeCombat
+      rect:
+        serializedVersion: 2
+        x: 282
+        y: 41
+        width: 101
+        height: 101
+      alignment: 9
+      pivot: {x: .495049506, y: .495049506}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skillTypeDegenerescence
+      rect:
+        serializedVersion: 2
+        x: 385
+        y: 41
+        width: 101
+        height: 101
+      alignment: 9
+      pivot: {x: .495049506, y: .495049506}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skillTypePiege
+      rect:
+        serializedVersion: 2
+        x: 488
+        y: 41
+        width: 101
+        height: 101
+      alignment: 9
+      pivot: {x: .495049506, y: .495049506}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skillTypeSoutien
+      rect:
+        serializedVersion: 2
+        x: 591
+        y: 41
+        width: 101
+        height: 101
+      alignment: 9
+      pivot: {x: .495049506, y: .495049506}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skillTypeTir
+      rect:
+        serializedVersion: 2
+        x: 694
+        y: 41
+        width: 101
+        height: 101
+      alignment: 9
+      pivot: {x: .495049506, y: .495049506}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: soldPanel
+      rect:
+        serializedVersion: 2
+        x: 1958
+        y: 2988
         width: 133
         height: 100
       alignment: 0

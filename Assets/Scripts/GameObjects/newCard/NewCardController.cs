@@ -3,7 +3,6 @@ using TMPro;
 
 public class NewCardController : NewFocusedCardController 
 {
-	private GameObject skillPopUp;
 	private NewCardRessources ressources;
 	private bool isSkillPopUpDisplayed;
 	private int skillDisplayed;
@@ -19,7 +18,6 @@ public class NewCardController : NewFocusedCardController
 	{
 		base.Awake ();
 		this.skillDisplayed = -1;
-		this.skillPopUp = this.gameObject.transform.FindChild ("SkillPopUp").gameObject;
 	}
 	public override void getRessources()
 	{

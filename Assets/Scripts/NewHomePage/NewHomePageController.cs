@@ -1395,7 +1395,7 @@ public class NewHomePageController : MonoBehaviour
 		{
 			if(this.isCardFocusedDisplayed)
 			{
-				this.focusedCard.GetComponent<NewFocusedCardMyGameController>().updateFocusFeatures();
+				this.focusedCard.GetComponent<NewFocusedCardHomePageController>().updateFocusFeatures();
 			}
 		}
 	}

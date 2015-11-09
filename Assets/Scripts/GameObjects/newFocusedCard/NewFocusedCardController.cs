@@ -13,6 +13,7 @@ public class NewFocusedCardController : MonoBehaviour
 	public GameObject experience;
 	public GameObject cardUpgrade;
 	public GameObject panelSold;
+	public GameObject skillPopUp;
 	public GameObject nextLevelPopUp;
 
 	public Card c;
@@ -60,6 +61,7 @@ public class NewFocusedCardController : MonoBehaviour
 	private bool isSkillHighlighted;
 	private bool isPanelSoldIsDisplayed;
 	private bool isXpBeingUpdated;
+	private bool isSkillPopUpDisplayed;
 
 	private float speed;
 	private float timerCollectionPoints;
@@ -99,6 +101,7 @@ public class NewFocusedCardController : MonoBehaviour
 		this.experience = this.gameObject.transform.FindChild ("Experience").gameObject;
 		this.cardUpgrade = this.gameObject.transform.FindChild ("CardUpgrade").gameObject;
 		this.panelSold = this.gameObject.transform.FindChild ("PanelSold").gameObject;
+		this.skillPopUp = this.gameObject.transform.FindChild ("SkillPopUp").gameObject;
 		this.initializeFocusFeatures ();
 		for(int i=0;i<this.skills.Length;i++)
 		{
@@ -879,6 +882,10 @@ public class NewFocusedCardController : MonoBehaviour
 			this.isCardUpgradeDisplayed=false;
 			this.cardUpgrade.SetActive(false);
 		}
+		if(this.isSkillPopUpDisplayed)
+		{
+			this.hideSkillPopUp();
+		}
 		if(this.isSkillHighlighted)
 		{
 			this.isSkillHighlighted=false;
@@ -1154,6 +1161,10 @@ public class NewFocusedCardController : MonoBehaviour
 	{
 		return this.ressources.skills [id];
 	}
+	public Sprite getSkillTypeSprite(int id)
+	{
+		return this.ressources.skillTypes [id];
+	}
 	public void displayLoadingScreen()
 	{
 		MenuController.instance.displayLoadingScreen ();
@@ -1190,6 +1201,27 @@ public class NewFocusedCardController : MonoBehaviour
 	public void clickOnAttribute(int index, int newPower, int newLevel)
 	{
 		StartCoroutine(this.upgradeCardAttribute(index, newPower, newLevel));
+	}
+	public void showSkillTypePopUp(int id)
+	{
+		this.skillPopUp.SetActive (true);
+		this.isSkillPopUpDisplayed = true;
+		this.skillPopUp.transform.FindChild ("title").GetComponent<TextMeshPro> ().text = this.c.Skills [id].SkillType.Name;
+		this.skillPopUp.transform.FindChild ("description").GetComponent<TextMeshPro> ().text = this.c.Skills [id].SkillType.Description;
+		this.skillPopUp.transform.position = new Vector3 (gameObject.transform.FindChild ("Skill" + id).transform.FindChild ("SkillType").position.x, gameObject.transform.FindChild ("Skill" + id).transform.FindChild ("SkillType").position.y+1f, 0f);
+	}
+	public void hideSkillPopUp()
+	{
+		this.skillPopUp.SetActive (false);
+		this.isSkillPopUpDisplayed = false;
+	}
+	public void showSkillProbaPopUp(int id)
+	{
+		this.skillPopUp.SetActive (true);
+		this.isSkillPopUpDisplayed = true;
+		this.skillPopUp.transform.FindChild ("title").GetComponent<TextMeshPro> ().text = "Probabilité de succès";
+		this.skillPopUp.transform.FindChild ("description").GetComponent<TextMeshPro> ().text = "Cette compétence a un taux de réussite de : "+this.c.Skills[id].proba+" %.";
+		this.skillPopUp.transform.position = new Vector3 (gameObject.transform.FindChild ("Skill" + id).transform.FindChild ("Proba").position.x, gameObject.transform.FindChild ("Skill" + id).transform.FindChild ("Proba").position.y+1f, 0f);
 	}
 }
 
