@@ -277,7 +277,7 @@ public class MyGameTutorialController : TutorialObjectController
 				this.displayBackground(true);
 				
 			}
-			Vector3 buttonPosition = newMenuController.instance.getButtonPosition(5);
+			Vector3 buttonPosition = MenuController.instance.getButtonPosition(5);
 			this.resizeBackground(new Rect(buttonPosition.x+1f,buttonPosition.y,3f,2f),1f,0.45f);
 			this.drawLeftArrow();
 			break;

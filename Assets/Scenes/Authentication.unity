@@ -1118,7 +1118,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 439262, guid: c923d8f2d01374f43a26081e9906c97a, type: 2}
       propertyPath: m_RootOrder
-      value: 6
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3392256, guid: c923d8f2d01374f43a26081e9906c97a, type: 2}
       propertyPath: m_Mesh
@@ -1289,7 +1289,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 439262, guid: c923d8f2d01374f43a26081e9906c97a, type: 2}
       propertyPath: m_RootOrder
-      value: 7
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3392256, guid: c923d8f2d01374f43a26081e9906c97a, type: 2}
       propertyPath: m_Mesh

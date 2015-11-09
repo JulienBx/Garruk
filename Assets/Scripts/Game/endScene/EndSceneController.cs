@@ -102,7 +102,7 @@ public class EndSceneController : MonoBehaviour
 			cards[i].AddComponent<NewCardEndSceneController>();
 			cards[i].GetComponent<NewCardController>().c=GameController.instance.myDeck.cards[i];
 			cards[i].GetComponent<NewCardEndSceneController>().show();
-			cards[i].GetComponent<NewCardEndSceneController>().changeLayer(11,"UIA");
+			cards[i].GetComponent<NewCardEndSceneController>().changeLayer(11,"UI");
 			cards[i].GetComponent<NewCardEndSceneController>().setId(i);
 			cards[i].transform.localScale=new Vector3(0.3108f,0.3108f,0.3108f);
 		}
@@ -274,8 +274,8 @@ public class EndSceneController : MonoBehaviour
 	public void displayNextLevelPopUp(int indexCard)
 	{
 		this.nextLevelPopUp = Instantiate(this.nextLevelPopUpObject) as GameObject;
-		this.nextLevelPopUp.transform.parent=this.gameObject.transform;
-		this.nextLevelPopUp.transform.position = new Vector3 (gameObject.transform.position.x, 0, -2f);
+		this.nextLevelPopUp.transform.parent=this.endGamePanel.transform;
+		this.nextLevelPopUp.transform.localPosition = new Vector3 (0, 0, -1f);
 		this.nextLevelPopUp.AddComponent<NextLevelPopUpControllerEndSceneGame> ();
 		this.nextLevelPopUp.transform.GetComponent<NextLevelPopUpController> ().initialize (GameController.instance.myDeck.cards[indexCard]);
 		this.isNextLevelPopUpDisplayed=true;

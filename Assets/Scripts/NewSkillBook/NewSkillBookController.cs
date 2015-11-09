@@ -157,7 +157,7 @@ public class NewSkillBookController : MonoBehaviour
 			this.tutorial = Instantiate(this.tutorialObject) as GameObject;
 			this.tutorial.AddComponent<SkillBookTutorialController>();
 			StartCoroutine(this.tutorial.GetComponent<SkillBookTutorialController>().launchSequence(0));
-			this.menu.GetComponent<newMenuController>().setTutorialLaunched(true);
+			this.menu.GetComponent<MenuController>().setTutorialLaunched(true);
 			this.isTutorialLaunched=true;
 		} 
 	}
@@ -959,7 +959,7 @@ public class NewSkillBookController : MonoBehaviour
 	{
 		Destroy (this.tutorial);
 		this.isTutorialLaunched = false;
-		newMenuController.instance.setTutorialLaunched (false);
+		MenuController.instance.setTutorialLaunched (false);
 		if(toUpdate)
 		{
 			yield return StartCoroutine (model.player.setSkillBookTutorial(true));

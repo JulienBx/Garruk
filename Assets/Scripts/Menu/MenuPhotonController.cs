@@ -32,7 +32,7 @@ public class MenuPhotonController : Photon.MonoBehaviour
 		}
 		else
 		{
-			newMenuController.instance.joinInvitationRoomFailed();
+			MenuController.instance.joinInvitationRoomFailed();
 		}
 	}
 	public void CreateNewRoom()

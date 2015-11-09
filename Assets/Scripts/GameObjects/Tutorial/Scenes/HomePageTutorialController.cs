@@ -40,7 +40,7 @@ public class HomePageTutorialController : TutorialObjectController
 				this.displayBackground(true);
 
 			}
-			Vector3 buttonPosition1 = newMenuController.instance.getButtonPosition(1);
+			Vector3 buttonPosition1 = MenuController.instance.getButtonPosition(1);
 			this.resizeBackground(new Rect(buttonPosition1.x+1f,buttonPosition1.y,3f,2f),1f,0.45f);
 			this.drawLeftArrow();
 			break;
@@ -62,7 +62,7 @@ public class HomePageTutorialController : TutorialObjectController
 				this.displayBackground(true);
 				
 			}
-			Vector3 buttonPosition2 = newMenuController.instance.getButtonPosition(2);
+			Vector3 buttonPosition2 = MenuController.instance.getButtonPosition(2);
 			this.resizeBackground(new Rect(buttonPosition2.x+1f,buttonPosition2.y,3f,2f),1f,0.45f);
 			this.drawLeftArrow();
 			break;
