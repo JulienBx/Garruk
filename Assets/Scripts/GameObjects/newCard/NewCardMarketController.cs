@@ -42,7 +42,7 @@ public class NewCardMarketController : NewCardController
 	}
 	public void setMarketFeatures()
 	{
-		if(this.c.onSale==0)
+		if(this.c.onSale==0 && this.c.IdOWner!=NewMarketController.instance.returnUserId())
 		{
 			base.displayPanelSold ();
 			this.hidePanelMarket ();
@@ -56,27 +56,64 @@ public class NewCardMarketController : NewCardController
 	public void displayPanelMarket()
 	{
 		this.panelMarket.SetActive (true);
-		this.panelMarket.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = this.c.Price.ToString();
-		if(this.c.Price<=ApplicationModel.credits)
+		if(this.c.onSale==0)
 		{
 			this.panelMarket.GetComponent<NewCardPanelMarketController>().setClickable(true);
+			this.panelMarket.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Vendre";
+			this.panelMarket.transform.FindChild("Cristal").gameObject.SetActive(false);
+		}
+		else 
+		{
+			this.panelMarket.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = this.c.Price.ToString();
+			this.panelMarket.transform.FindChild("Cristal").gameObject.SetActive(true);
+			if(this.c.IdOWner!=NewMarketController.instance.returnUserId())
+			{
+				if(this.c.Price<=ApplicationModel.credits)
+				{
+					this.panelMarket.GetComponent<NewCardPanelMarketController>().setClickable(true);
+				}
+				else
+				{
+					this.panelMarket.GetComponent<NewCardPanelMarketController>().setClickable(false);
+				}
+			}
+			else
+			{
+				this.panelMarket.GetComponent<NewCardPanelMarketController>().setClickable(true);
+			}
+		}
+	}
+	public void panelMarketHandler()
+	{
+		NewMarketController.instance.communicateCardIndex (this.id);
+		if(this.c.onSale==0)
+		{
+			base.displayputOnMarketCardPopUp();
+		}
+		else if(this.c.IdOWner!=NewMarketController.instance.returnUserId())
+		{
+			base.displayBuyCardPopUp();
 		}
 		else
 		{
-			this.panelMarket.GetComponent<NewCardPanelMarketController>().setClickable(false);
+			base.displayEditSellCardPopUp();
 		}
 	}
 	public override void hidePanelMarket()
 	{
 		this.panelMarket.SetActive (false);
 	}
-	public void communicateIdCard()
-	{
-		NewMarketController.instance.retrieveIdCardClicked (this.id);
-	}
 	public override void actualizePrice()
 	{
 		this.setMarketFeatures ();
+	}
+	public override void updateScene()
+	{
+		NewMarketController.instance.updateScene ();
+	}
+	public override void deleteCard()
+	{
+		NewMarketController.instance.deleteCard ();
 	}
 }
 

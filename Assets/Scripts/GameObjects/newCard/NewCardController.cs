@@ -168,6 +168,9 @@ public class NewCardController : NewFocusedCardController
 	{
 		this.hideSkillPopUp ();
 	}
+	public override void exitCard ()
+	{
+	}
 	private void hideSkillPopUp()
 	{
 		if(isSkillPopUpDisplayed)

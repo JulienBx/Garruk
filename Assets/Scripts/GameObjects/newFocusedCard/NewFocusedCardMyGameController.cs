@@ -56,7 +56,7 @@ public class NewFocusedCardMyGameController : NewFocusedCardController
 	}
 	public override void deleteCard ()
 	{
-		base.exitFocus ();
+		base.exitCard ();
 		newMyGameController.instance.deleteCard ();
 	}
 	public override void goBackToScene()
@@ -91,7 +91,7 @@ public class NewFocusedCardMyGameController : NewFocusedCardController
 			{
 				TutorialObjectController.instance.actionIsDone();
 			}
-			this.exitFocus();
+			this.exitCard();
 			break;
 		}
 	}

@@ -45,7 +45,7 @@ public class NewFocusedCardHomePageController : NewFocusedCardController
 			base.displayRenameCardPopUp();
 			break;
 		case 5:
-			this.exitFocus();
+			this.exitCard();
 			break;
 		}
 	}

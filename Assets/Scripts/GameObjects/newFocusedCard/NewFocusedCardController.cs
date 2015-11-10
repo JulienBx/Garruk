@@ -477,9 +477,6 @@ public class NewFocusedCardController : MonoBehaviour
 		}
 		this.hideLoadingScreen ();
 	}
-	public virtual void deleteCard()
-	{
-	}
 	public void renameCardHandler()
 	{
 		string tempString = this.renameCardSyntaxCheck ();
@@ -683,9 +680,11 @@ public class NewFocusedCardController : MonoBehaviour
 					this.skillsUnlocked.Add(new Skill());
 					this.skillsUnlocked [i].Name = newSkills [i];
 				}
-				this.displayPanelSold();
-				this.hidePanelMarket();
-				this.updateFocusFeatures ();
+				int newIdOwner = System.Convert.ToInt32(data[2]);
+				Notification tempNotification = new Notification(c.IdOWner,newIdOwner,false,2,c.Id.ToString(),c.Price.ToString());
+				StartCoroutine(tempNotification.add ());
+				this.c.IdOWner=newIdOwner;
+
 				if(this.collectionPointsEarned>0)
 				{
 					MenuController.instance.displayCollectionPointsPopUp(this.collectionPointsEarned,this.newCollectionRanking);
@@ -698,11 +697,18 @@ public class NewFocusedCardController : MonoBehaviour
 				{
 					MenuController.instance.displayNewCardTypePopUp(this.titleCardTypeUnlocked);
 				}
+				this.deleteCard();
 			}
 		}
 		this.hideLoadingScreen ();
 	}
 	public virtual void actualizePrice()
+	{
+	}
+	public virtual void deleteCard()
+	{
+	}
+	public virtual void updateScene()
 	{
 	}
 	public void editSellPriceCardHandler()
@@ -735,6 +741,7 @@ public class NewFocusedCardController : MonoBehaviour
 			{
 				this.c.Price = newPrice;
 				this.updateFocus ();
+				this.updateScene();
 			}
 			else
 			{
@@ -775,6 +782,7 @@ public class NewFocusedCardController : MonoBehaviour
 			}
 		}
 		this.updateFocus ();
+		this.updateScene ();
 		this.hideLoadingScreen ();
 	}
 	public void putOnMarketCardHandler()
@@ -815,6 +823,7 @@ public class NewFocusedCardController : MonoBehaviour
 			}
 		}
 		this.updateFocus ();
+		this.updateScene ();
 		this.hideLoadingScreen ();
 	}
 	public string renameCardSyntaxCheck()
@@ -913,7 +922,7 @@ public class NewFocusedCardController : MonoBehaviour
 			this.hideErrorPopUp();
 		}
 	}
-	public void exitFocus()
+	public virtual void exitCard()
 	{
 		this.cleanFocus();
 		this.goBackToScene();
@@ -1019,7 +1028,7 @@ public class NewFocusedCardController : MonoBehaviour
 		}
 		else if(isSoldCardViewDisplayed)
 		{
-			this.exitFocus();
+			this.exitCard();
 		}
 	}
 	public bool closePopUps()
@@ -1073,7 +1082,7 @@ public class NewFocusedCardController : MonoBehaviour
 		}
 		else
 		{
-			this.exitFocus();
+			this.exitCard();
 		}
 	}
 	public void setCardUpgrade()

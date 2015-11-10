@@ -49,8 +49,7 @@ public class NewCardPanelMarketController : MonoBehaviour
 	{
 		if(isClickable)
 		{
-			this.gameObject.transform.parent.GetComponent<NewCardController>().displayBuyCardPopUp();
-			this.gameObject.transform.parent.GetComponent<NewCardMarketController>().communicateIdCard();
+			this.gameObject.transform.parent.GetComponent<NewCardMarketController>().panelMarketHandler();
 		}
 	}
 }

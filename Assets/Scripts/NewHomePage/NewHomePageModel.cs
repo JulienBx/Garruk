@@ -50,6 +50,7 @@ public class NewHomePageModel
 			Debug.Log (w.error); 
 		else 
 		{
+			Debug.Log (w.text);
 			string[] data=w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
 			this.player = parsePlayer(data[0].Split(new string[] { "//" }, System.StringSplitOptions.None));
 			this.users = parseUsers(data[11].Split(new string[] { "#U#"  }, System.StringSplitOptions.None));

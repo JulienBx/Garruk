@@ -17,6 +17,7 @@ public class NewMarketModel
 	public User player;
 	private string URLGetMarketData = ApplicationModel.host + "get_market_data.php";
 	private string URLRefreshMarket = ApplicationModel.host + "refresh_market.php";
+	private string URLRefreshMyGame = ApplicationModel.host + "refresh_mygame.php";
 	private DateTime newCardsTimeLimit;
 	private DateTime oldCardsTimeLimit;
 	
@@ -25,9 +26,15 @@ public class NewMarketModel
 		this.newCardsTimeLimit = new DateTime (1900,1,1,1,1,1);
 		this.oldCardsTimeLimit = new DateTime (1900,1,1,1,1,1);
 	}
-	public IEnumerator initializeMarket (int totalNbResultLimit) 
+	public IEnumerator initializeMarket (int totalNbResultLimit, int activeTab, bool firstLoad) 
 	{
-		
+		string firstLoadString="0";
+		if(firstLoad)
+		{
+			firstLoadString="1";
+		}
+		else
+
 		this.skillsList = new List<string> ();
 		this.cards = new Cards();
 		this.newCards = new Cards ();
@@ -36,6 +43,8 @@ public class NewMarketModel
 		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_nick", ApplicationModel.username);
 		form.AddField ("myform_totalnbresultlimit", totalNbResultLimit.ToString());
+		form.AddField ("myform_activetab", activeTab.ToString ());
+		form.AddField ("myform_firstload", firstLoadString);
 		
 		WWW w = new WWW(URLGetMarketData, form);				// On envoie le formulaire à l'url sur le serveur 
 		yield return w;
@@ -51,9 +60,29 @@ public class NewMarketModel
 			if(data[2]!="")
 			{
 				this.cards.parseCards(data[2]);
+				if(activeTab==2)
+				{
+					if(data[3]!="")
+					{
+						string[] cardsInDecksID=data[3].Split(new string[] { "#CARD#" }, System.StringSplitOptions.None);
+						for(int i=0;i<cardsInDecksID.Length-1;i++)
+						{
+							for(int j=0;j<this.cards.getCount();j++)
+							{
+								if(System.Convert.ToInt32(cardsInDecksID[i])==this.cards.getCard(j).Id)
+								{
+									this.cards.cards.RemoveAt(j);
+								}
+							}
+						}
+					}
+				}
 			}
-			this.player=parsePlayer(data[3].Split(new string[] { "\\" }, System.StringSplitOptions.None));
-			if(cards.getCount()>0)
+			if(firstLoad)
+			{
+				this.player=parsePlayer(data[3].Split(new string[] { "\\" }, System.StringSplitOptions.None));
+			}
+			if(activeTab==0 && cards.getCount()>0)
 			{
 				this.newCardsTimeLimit = cards.getCard(0).OnSaleDate;
 				this.oldCardsTimeLimit = cards.getCard(cards.getCount()-1).OnSaleDate;
@@ -135,6 +164,46 @@ public class NewMarketModel
 			if(this.newCards.getCount()>0)
 			{
 				this.newCardsTimeLimit = this.newCards.getCard(0).OnSaleDate;
+			}
+		}
+	}
+	public IEnumerator refreshMyGame()
+	{
+		this.cardsSold = new List<int> ();
+		
+		WWWForm form = new WWWForm(); 											// Création de la connexion
+		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
+		form.AddField("myform_nick", ApplicationModel.username);
+		
+		WWW w = new WWW(URLRefreshMyGame, form); 				// On envoie le formulaire à l'url sur le serveur 
+		yield return w;
+		if (w.error != null) 
+		{
+			Debug.Log (w.error); 										// donne l'erreur eventuelle
+		} 
+		else 
+		{
+			int id;
+			bool stillExists;
+			string[] data=w.text.Split(new string[] { "#ID#" }, System.StringSplitOptions.None);
+			for(int i=0;i<this.cards.getCount();i++)
+			{
+				id = this.cards.getCard(i).Id;
+				stillExists=false;
+				for(int j =0;j<data.Length-1;j++)
+				{
+					if(id==System.Convert.ToInt32(data[j]))
+					{
+						stillExists=true;
+						break;
+					}
+				}
+				if(!stillExists)
+				{
+					this.cardsSold.Add (id);
+					this.cards.getCard(i).IdOWner=-1;
+					this.cards.getCard(i).onSale=0;
+				}
 			}
 		}
 	}

@@ -21,11 +21,16 @@ public class NewMarketController : MonoBehaviour
 	private GameObject refreshMarketButton;
 
 	private GameObject cardsBlock;
-	private GameObject cardsBlockTitle;
 	private GameObject[] cards;
 	private GameObject cardsPaginationButtons;
 	private GameObject cardsPaginationLine;
 	private GameObject cardsNumberTitle;
+
+	private GameObject[] tabs;
+
+	private GameObject marketBlock;
+	private GameObject marketBlockTitle;
+	private GameObject marketSubtitle;
 	
 	private GameObject filtersBlock;
 	private GameObject filtersBlockTitle;
@@ -44,8 +49,9 @@ public class NewMarketController : MonoBehaviour
 	
 	private GameObject focusedCard;
 	
-	private int focusedCardIndex;
 	private bool isCardFocusedDisplayed;
+
+	private int activeTab;
 
 	private Rect centralWindow;
 	private Rect collectionPointsWindow;
@@ -98,7 +104,14 @@ public class NewMarketController : MonoBehaviour
 		if (this.timer > this.refreshInterval) 
 		{	
 			this.timer=this.timer-this.refreshInterval;
-			StartCoroutine(this.refreshMarket());
+			if(this.activeTab==0)
+			{
+				StartCoroutine(this.refreshMarket());
+			}
+			else
+			{
+				StartCoroutine(this.refreshMyCards());
+			}
 		}
 		if(isSearchingSkill)
 		{
@@ -171,23 +184,13 @@ public class NewMarketController : MonoBehaviour
 		this.cardsPagination = new Pagination ();
 		this.cardsPagination.chosenPage = 0;
 		this.cardsPagination.nbElementsPerPage = this.cardsPerLine * this.nbLines;
+		this.activeTab = 0;
 		this.initializeScene ();
 	}
-	public IEnumerator initialization()
+	public void initialization()
 	{
 		this.resize ();
-		yield return StartCoroutine (model.initializeMarket (this.totalNbResultLimit));
-		this.initializeCards ();
-		MenuController.instance.hideLoadingScreen ();
-		this.isSceneLoaded = true;
-		if(!model.player.MarketTutorial)
-		{
-			this.tutorial = Instantiate(this.tutorialObject) as GameObject;
-			this.tutorial.AddComponent<MarketTutorialController>();
-			StartCoroutine(this.tutorial.GetComponent<MarketTutorialController>().launchSequence(0));
-			this.menu.GetComponent<MenuController>().setTutorialLaunched(true);
-			this.isTutorialLaunched=true;
-		} 
+		StartCoroutine(this.selectATab (true));
 	}
 	private void initializeCards()
 	{
@@ -220,15 +223,62 @@ public class NewMarketController : MonoBehaviour
 		this.drawPaginationNumber ();
 		this.drawCards ();
 	}
+	public void selectATabHandler(int idTab)
+	{
+		this.activeTab = idTab;
+		StartCoroutine(this.selectATab ());
+	}
+	private IEnumerator selectATab(bool firstLoad=false)
+	{
+		for(int i=0;i<this.tabs.Length;i++)
+		{
+			if(i==this.activeTab)
+			{
+				this.tabs[i].GetComponent<SpriteRenderer>().sprite=MenuController.instance.returnTabPicture(1);
+				this.tabs[i].GetComponent<NewMarketTabController>().setIsSelected(true);
+				this.tabs[i].transform.FindChild("Title").GetComponent<TextMeshPro>().color=ApplicationDesignRules.blueColor;
+			}
+			else
+			{
+				this.tabs[i].GetComponent<SpriteRenderer>().sprite=MenuController.instance.returnTabPicture(0);
+				this.tabs[i].GetComponent<NewMarketTabController>().reset();
+			}
+		}
+		MenuController.instance.displayLoadingScreen ();
+		this.isSceneLoaded = false;
+		yield return StartCoroutine (model.initializeMarket (this.totalNbResultLimit,this.activeTab,firstLoad));
+		this.initializeCards ();
+		this.isSceneLoaded = true;
+		MenuController.instance.hideLoadingScreen ();
+		if(firstLoad)
+		{
+			if(!model.player.MarketTutorial)
+			{
+				this.tutorial = Instantiate(this.tutorialObject) as GameObject;
+				this.tutorial.AddComponent<MarketTutorialController>();
+				StartCoroutine(this.tutorial.GetComponent<MarketTutorialController>().launchSequence(0));
+				this.menu.GetComponent<MenuController>().setTutorialLaunched(true);
+				this.isTutorialLaunched=true;
+			} 
+		}
+		switch(this.activeTab)
+		{
+		case 0: case 1:
+			this.priceFilterTitle.SetActive(true);
+			this.priceFilter.SetActive(true);
+			break;
+		case 2:
+			this.priceFilterTitle.SetActive(false);
+			this.priceFilter.SetActive(false);
+			break;
+		}
+	}
 	public void initializeScene()
 	{
 		menu = GameObject.Find ("Menu");
 		menu.AddComponent<MarketMenuController> ();
 
 		this.cardsBlock = Instantiate (this.blockObject) as GameObject;
-		this.cardsBlockTitle = GameObject.Find ("CardsBlockTitle");
-		this.cardsBlockTitle.GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
-		this.cardsBlockTitle.GetComponent<TextMeshPro> ().text = "En vente";
 		this.cardsNumberTitle = GameObject.Find ("CardsNumberTitle");
 		this.cardsNumberTitle.GetComponent<TextMeshPro> ().color = ApplicationDesignRules.whiteTextColor;
 		this.cards=new GameObject[this.nbLines*this.cardsPerLine];
@@ -254,6 +304,18 @@ public class NewMarketController : MonoBehaviour
 		this.filtersBlockTitle = GameObject.Find ("FiltersBlockTitle");
 		this.filtersBlockTitle.GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
 		this.filtersBlockTitle.GetComponent<TextMeshPro> ().text = "Filtrer";
+
+		this.tabs=new GameObject[3];
+		for(int i=0;i<this.tabs.Length;i++)
+		{
+			this.tabs[i]=GameObject.Find ("Tab"+i);
+			this.tabs[i].AddComponent<NewMarketTabController>();
+			this.tabs[i].GetComponent<NewMarketTabController>().setId(i);
+		}
+		this.tabs[0].transform.FindChild("Title").GetComponent<TextMeshPro> ().text = ("En vente");
+		this.tabs[1].transform.FindChild("Title").GetComponent<TextMeshPro> ().text = ("Mes ventes");
+		this.tabs[2].transform.FindChild("Title").GetComponent<TextMeshPro> ().text = ("En réserve");
+	
 		this.cardsTypeFilters = new GameObject[10];
 		for(int i=0;i<this.cardsTypeFilters.Length;i++)
 		{
@@ -320,6 +382,15 @@ public class NewMarketController : MonoBehaviour
 			this.sortButtons[i].AddComponent<NewMarketSortButtonController>();
 			this.sortButtons[i].GetComponent<NewMarketSortButtonController>().setId(i);
 		}
+		this.marketBlock = Instantiate (this.blockObject) as GameObject;
+		this.marketBlockTitle = GameObject.Find ("MarketBlockTitle");
+		this.marketBlockTitle.GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
+		this.marketBlockTitle.GetComponent<TextMeshPro> ().text = "Le marché";
+		this.marketSubtitle = GameObject.Find ("MarketSubtitle");
+		this.marketSubtitle.GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
+		this.marketSubtitle.GetComponent<TextMeshPro> ().text = "Bienvenue sur le marché. Vous pouvez ici acheter des cartes à d'autres joueurs et vendre vos cartes. Attention seules les cartes qui ne sont pas déjà ratachées à une équipe peuvent être mises en vente";
+
+
 		this.focusedCard = GameObject.Find ("FocusedCard");
 		this.focusedCard.AddComponent<NewFocusedCardMarketController> ();
 		this.focusedCard.SetActive (false);
@@ -481,25 +552,30 @@ public class NewMarketController : MonoBehaviour
 		
 		float cardsBlockLeftMargin = ApplicationDesignRules.leftMargin;
 		float cardsBlockRightMargin = ApplicationDesignRules.gapBetweenBlocks+ApplicationDesignRules.rightMargin+(ApplicationDesignRules.worldWidth-ApplicationDesignRules.rightMargin-ApplicationDesignRules.leftMargin-ApplicationDesignRules.gapBetweenBlocks)/2f;
-		float cardsBlockUpMargin = ApplicationDesignRules.upMargin;
+		float cardsBlockUpMargin = ApplicationDesignRules.upMargin+ApplicationDesignRules.button62WorldSize.y;
 		float cardsBlockDownMargin = ApplicationDesignRules.downMargin;
-		
+
 		this.cardsBlock.GetComponent<NewBlockController> ().resize(cardsBlockLeftMargin,cardsBlockRightMargin,cardsBlockUpMargin,cardsBlockDownMargin);
 		Vector3 cardsBlockUpperLeftPosition = this.cardsBlock.GetComponent<NewBlockController> ().getUpperLeftCornerPosition ();
 		Vector3 cardsBlockLowerLeftPosition = this.cardsBlock.GetComponent<NewBlockController> ().getLowerLeftCornerPosition ();
 		Vector3 cardsBlockUpperRightPosition = this.cardsBlock.GetComponent<NewBlockController> ().getUpperRightCornerPosition ();
 		Vector2 cardsBlockSize = this.cardsBlock.GetComponent<NewBlockController> ().getSize ();
 		Vector3 cardsBlockOrigin = this.cardsBlock.GetComponent<NewBlockController> ().getOriginPosition ();
-		this.cardsBlockTitle.transform.position = new Vector3 (cardsBlockUpperLeftPosition.x + 0.3f, cardsBlockUpperLeftPosition.y - 0.2f, 0f);
-		this.cardsBlockTitle.transform.localScale = ApplicationDesignRules.mainTitleScale;
-		this.cardsNumberTitle.transform.position = new Vector3 (cardsBlockUpperRightPosition.x - 0.3f, cardsBlockUpperRightPosition.y - 0.2f, 0f);
+		this.cardsNumberTitle.transform.position = new Vector3 (cardsBlockUpperLeftPosition.x + 0.3f, cardsBlockUpperLeftPosition.y - 0.1f, 0f);
 		this.cardsNumberTitle.transform.localScale = ApplicationDesignRules.subMainTitleScale;
-		this.refreshMarketButton.transform.position=new Vector3 (cardsBlockUpperRightPosition.x - 0.3f, cardsBlockUpperRightPosition.y - 0.55f, 0f);
+		this.refreshMarketButton.transform.position=new Vector3 (cardsBlockUpperRightPosition.x - 0.3f, cardsBlockUpperRightPosition.y - 0.1f, 0f);
 		this.refreshMarketButton.transform.localScale= ApplicationDesignRules.subMainTitleScale;
-		
+
+		float gapBetweenSelectionsButtons = 0.02f;
+		for(int i=0;i<this.tabs.Length;i++)
+		{
+			this.tabs[i].transform.localScale = ApplicationDesignRules.button62Scale;
+			this.tabs[i].transform.position = new Vector3 (cardsBlockUpperLeftPosition.x + ApplicationDesignRules.button62WorldSize.x / 2f+ i*(ApplicationDesignRules.button62WorldSize.x+gapBetweenSelectionsButtons), cardsBlockUpperLeftPosition.y+ApplicationDesignRules.button62WorldSize.y/2f,0f);
+		}
+
 		float gapBetweenCardsLine = 0.55f;
 		float gapBetweenCardsHalo = (cardsBlockSize.x - 0.6f - 4f * ApplicationDesignRules.cardWorldSize.x) / 3f;
-		float firstLineY = cardsBlockUpperRightPosition.y - 2.35f;
+		float firstLineY = cardsBlockUpperRightPosition.y - 1.85f;
 		
 		for(int j=0;j<this.nbLines;j++)
 		{
@@ -511,16 +587,32 @@ public class NewMarketController : MonoBehaviour
 			}
 		}
 		
-		this.cardsPaginationButtons.transform.localPosition=new Vector3(cardsBlockLowerLeftPosition.x+cardsBlockSize.x/2f, cardsBlockLowerLeftPosition.y + 0.3f, 0f);
+		this.cardsPaginationButtons.transform.localPosition=new Vector3(cardsBlockLowerLeftPosition.x+cardsBlockSize.x/2f, cardsBlockLowerLeftPosition.y + 0.2f, 0f);
 		this.cardsPaginationButtons.transform.GetComponent<NewMarketPaginationController> ().resize ();
 
 		float lineScale = ApplicationDesignRules.getLineScale (cardsBlockSize.x - 0.6f);
 		this.cardsPaginationLine.transform.localScale = new Vector3 (lineScale, 1f, 1f);
-		this.cardsPaginationLine.transform.position = new Vector3 (cardsBlockLowerLeftPosition.x + cardsBlockSize.x / 2, cardsBlockLowerLeftPosition.y + 0.6f, 0f);
+		this.cardsPaginationLine.transform.position = new Vector3 (cardsBlockLowerLeftPosition.x + cardsBlockSize.x / 2, cardsBlockLowerLeftPosition.y + 0.45f, 0f);
 		
 		this.focusedCard.transform.localScale = ApplicationDesignRules.cardFocusedScale;
 		this.focusedCard.transform.position = new Vector3 (0f, -ApplicationDesignRules.worldHeight/2f+ApplicationDesignRules.downMargin+ApplicationDesignRules.cardFocusedWorldSize.y/2f-0.22f, 0f);
 		this.focusedCard.transform.GetComponent<NewFocusedCardController> ().setCentralWindow (this.centralWindow);
+
+		float marketBlockLeftMargin = ApplicationDesignRules.gapBetweenBlocks+ApplicationDesignRules.leftMargin+(ApplicationDesignRules.worldWidth-ApplicationDesignRules.rightMargin-ApplicationDesignRules.leftMargin-ApplicationDesignRules.gapBetweenBlocks)/2f;;
+		float marketBlockRightMargin = ApplicationDesignRules.rightMargin;
+		float marketBlockUpMargin = ApplicationDesignRules.upMargin;
+		float marketBlockDownMargin = ApplicationDesignRules.worldHeight-6.45f+ApplicationDesignRules.gapBetweenBlocks;
+
+		this.marketBlock.GetComponent<NewBlockController> ().resize(marketBlockLeftMargin,marketBlockRightMargin,marketBlockUpMargin,marketBlockDownMargin);
+		Vector3 marketBlockUpperLeftPosition = this.marketBlock.GetComponent<NewBlockController> ().getUpperLeftCornerPosition ();
+		Vector3 marketBlockUpperRightPosition = this.marketBlock.GetComponent<NewBlockController> ().getUpperRightCornerPosition ();
+		Vector2 marketBlockSize = this.marketBlock.GetComponent<NewBlockController> ().getSize ();
+		this.marketBlockTitle.transform.position = new Vector3 (marketBlockUpperLeftPosition.x + 0.3f, marketBlockUpperLeftPosition.y - 0.2f, 0f);
+		this.marketBlockTitle.transform.localScale = ApplicationDesignRules.mainTitleScale;
+		this.marketSubtitle.transform.position = new Vector3 (marketBlockUpperLeftPosition.x + 0.3f, marketBlockUpperLeftPosition.y - 1.2f, 0f);
+		this.marketSubtitle.transform.GetComponent<TextContainer>().width=marketBlockSize.x-0.6f;
+		this.marketSubtitle.transform.localScale = ApplicationDesignRules.subMainTitleScale;
+
 
 		if(this.isTutorialLaunched)
 		{
@@ -556,8 +648,7 @@ public class NewMarketController : MonoBehaviour
 		this.displayBackUI (false);
 		this.focusedCard.SetActive (true);
 		Cursor.SetCursor (null, Vector2.zero, CursorMode.Auto);
-		this.focusedCardIndex=this.cardsDisplayed[this.idCardClicked];
-		this.focusedCard.GetComponent<NewFocusedCardController>().c=model.cards.getCard(this.focusedCardIndex);
+		this.focusedCard.GetComponent<NewFocusedCardController>().c=model.cards.getCard(this.cardsDisplayed[this.idCardClicked]);
 		this.focusedCard.GetComponent<NewFocusedCardController> ().show ();
 	}
 	public void hideCardFocused()
@@ -565,17 +656,18 @@ public class NewMarketController : MonoBehaviour
 		this.isCardFocusedDisplayed = false;
 		this.displayBackUI (true);
 		this.focusedCard.SetActive (false);
-		this.cards[this.idCardClicked].GetComponent<NewCardController>().show();
-		if(toUpdateCardsMarketFeatures)
-		{
-			this.updateCardsMarketFeatures();
-		}
 	}
 	public void displayBackUI(bool value)
 	{
 		this.cardsBlock.SetActive (value);
-		this.cardsBlockTitle.SetActive (value);
+		this.marketBlock.SetActive (value);
+		this.marketBlockTitle.SetActive (value);
+		this.marketSubtitle.SetActive (value);
 		this.cardsNumberTitle.SetActive (value);
+		for(int i=0;i<this.tabs.Length;i++)
+		{
+			this.tabs[i].SetActive(value);
+		}
 		for (int i=0;i<this.cards.Length;i++)
 		{
 			if(i<this.cardsDisplayed.Count)
@@ -606,8 +698,6 @@ public class NewMarketController : MonoBehaviour
 		{
 			this.valueFilters[i].SetActive(value);
 		}
-		this.priceFilterTitle.SetActive (value);
-		this.priceFilter.SetActive (value);
 		this.skillSearchBar.SetActive (value);
 		this.skillSearchBarTitle.SetActive (value);
 		if(isSearchingSkill&&value)
@@ -636,6 +726,7 @@ public class NewMarketController : MonoBehaviour
 		if(this.areNewCardsAvailable && value)
 		{
 			this.refreshMarketButton.SetActive(true);
+			this.refreshMarketButton.GetComponent<NewMarketRefreshButtonController>().reset();
 		}
 		else
 		{
@@ -644,6 +735,16 @@ public class NewMarketController : MonoBehaviour
 		if(value && toUpdateCardsMarketFeatures)
 		{
 			this.updateCardsMarketFeatures();
+		}
+		if(value && this.activeTab!=2)
+		{
+			this.priceFilterTitle.SetActive(true);
+			this.priceFilter.SetActive(true);
+		}
+		else
+		{
+			this.priceFilterTitle.SetActive(false);
+			this.priceFilter.SetActive(false);
 		}
 	}
 	public void searchingSkill()
@@ -1060,9 +1161,9 @@ public class NewMarketController : MonoBehaviour
 	}
 	public void leftClickedHandler(int id)
 	{
-		this.idCardClicked = id;
-		bool onSale=System.Convert.ToBoolean(model.cards.getCard(this.cardsDisplayed[id]).onSale);
-		bool isMine = model.cards.getCard (this.cardsDisplayed [id]).isMine;
+		this.idCardClicked=id;
+		bool onSale=System.Convert.ToBoolean(model.cards.getCard(this.cardsDisplayed[this.idCardClicked]).onSale);
+		bool isMine = model.cards.getCard (this.cardsDisplayed[this.idCardClicked]).isMine;
 		int idOwner=model.cards.getCard(this.cardsDisplayed[this.idCardClicked]).IdOWner;
 		if(idOwner!=-1 || isMine)
 		{
@@ -1111,33 +1212,83 @@ public class NewMarketController : MonoBehaviour
 			this.cards[i].GetComponent<NewCardMarketController>().setMarketFeatures();
 		}
 	}
-	public void retrieveIdCardClicked(int id)
+	public void communicateCardIndex(int id)
 	{
 		this.idCardClicked = id;
+	}
+	public void deleteCard()
+	{
+		StartCoroutine(MenuController.instance.getUserData ());
+		if(this.isCardFocusedDisplayed)
+		{
+			this.hideCardFocused ();
+		}
+		model.cards.cards.RemoveAt(this.cardsDisplayed[this.idCardClicked]);
+		this.initializeCards ();
+	}
+	public void updateScene()
+	{
+		if(this.activeTab==1 && model.cards.getCard(this.cardsDisplayed[this.idCardClicked]).onSale==0)
+		{
+			this.deleteCard();
+		}
+		else if(this.activeTab==2 && model.cards.getCard(this.cardsDisplayed[this.idCardClicked]).onSale==1)
+		{
+			this.deleteCard();
+		}
+		else
+		{
+			StartCoroutine(MenuController.instance.getUserData ());
+			this.cards[this.idCardClicked].GetComponent<NewCardController>().show();
+			if(toUpdateCardsMarketFeatures)
+			{
+				this.updateCardsMarketFeatures();
+			}
+		}
 	}
 	public IEnumerator refreshMarket()
 	{
 		yield return StartCoroutine(model.refreshMarket (this.totalNbResultLimit));
-		if(isCardFocusedDisplayed)
+		if(this.activeTab==0)
 		{
-			if(model.cards.getCard(this.focusedCardIndex).IdOWner==-1 && !model.cards.getCard(this.focusedCardIndex).isMine)
+			if(isCardFocusedDisplayed)
 			{
-				this.focusedCard.GetComponent<NewFocusedCardMarketController>().setCardSold();
+				if(model.cards.getCard(this.cardsDisplayed[this.idCardClicked]).IdOWner==-1 && !model.cards.getCard(this.cardsDisplayed[this.idCardClicked]).isMine)
+				{
+					this.focusedCard.GetComponent<NewFocusedCardMarketController>().setCardSold();
+				}
+				this.toUpdateCardsMarketFeatures=true;
 			}
-			this.toUpdateCardsMarketFeatures=true;
-		}
-		else
-		{
-			this.updateCardsMarketFeatures();
-		}
-		if(model.newCards.getCount()>0)
-		{
-			if(!isCardFocusedDisplayed)
+			else
 			{
-				this.refreshMarketButton.SetActive(true);
+				this.updateCardsMarketFeatures();
 			}
-			this.areNewCardsAvailable=true;
-			this.refreshMarketButtonTimer=0;
+			if(model.newCards.getCount()>0)
+			{
+				if(!isCardFocusedDisplayed)
+				{
+					this.refreshMarketButton.SetActive(true);
+					this.refreshMarketButton.GetComponent<NewMarketRefreshButtonController>().reset();
+				}
+				this.areNewCardsAvailable=true;
+				this.refreshMarketButtonTimer=0;
+			}
+		}
+	}
+	public IEnumerator refreshMyCards()
+	{
+		yield return StartCoroutine(model.refreshMyGame());
+		if(this.activeTab!=0)
+		{
+			int index;
+			if(isCardFocusedDisplayed && model.cards.getCard(this.cardsDisplayed[this.idCardClicked]).IdOWner==-1)
+			{
+				this.focusedCard.GetComponent<NewFocusedCardController>().setCardSold();
+			}
+			else if(this.isSceneLoaded)
+			{
+				this.updateCardsMarketFeatures();
+			}
 		}
 	}
 	public void displayNewCards()
@@ -1156,8 +1307,7 @@ public class NewMarketController : MonoBehaviour
 				model.cards.cards.RemoveAt(model.cards.getCount()-i-1);
 			}
 		}
-		this.cardsPagination.chosenPage = 0;
-		this.applyFilters ();
+		this.initializeCards ();
 	}
 	public bool areSomeCardsDisplayed()
 	{
@@ -1202,5 +1352,9 @@ public class NewMarketController : MonoBehaviour
 				this.updateCardsMarketFeatures();
 			}
 		}
+	}
+	public int returnUserId()
+	{
+		return model.player.Id;
 	}
 }
