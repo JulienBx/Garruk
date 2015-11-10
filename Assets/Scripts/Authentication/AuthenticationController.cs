@@ -368,22 +368,10 @@ public class AuthenticationController : Photon.MonoBehaviour
 		switch(ApplicationModel.tutorialStep)
 		{
 		case 0:
-			Application.LoadLevel("Tutorial");	
-			break;
-		case 1:
-			Application.LoadLevel("NewHomePage");
-			break;
-		case 2:
-			Application.LoadLevel("NewMyGame");
-			break;
-		case 3:
-			Application.LoadLevel("NewMyGame");
-			break;
-		case 4:
-			Application.LoadLevel("NewHomePage");
+			Application.LoadLevel("NewStore");	
 			break;
 		default:
-			Application.LoadLevel("NewHomePage");	
+			Application.LoadLevel("NewHomePage");
 			break;
 		}
 	}

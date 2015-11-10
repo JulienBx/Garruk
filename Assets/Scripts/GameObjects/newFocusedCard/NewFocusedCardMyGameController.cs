@@ -6,6 +6,10 @@ using TMPro;
 
 public class NewFocusedCardMyGameController : NewFocusedCardController
 {
+	public override void initializeFocusFeatures()
+	{
+		this.gameObject.transform.FindChild("FocusFeature3").gameObject.SetActive(false);
+	}
 	public override void updateFocusFeatures()
 	{
 		this.gameObject.transform.FindChild("FocusFeature0").FindChild("Title").GetComponent<TextMeshPro>().text="Bannir \n( +"+this.c.destructionPrice+" cristaux)";
@@ -22,22 +26,6 @@ public class NewFocusedCardMyGameController : NewFocusedCardController
 		}
 		this.gameObject.transform.FindChild("FocusFeature2").transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Renommer l'unité \n( -" + this.c.RenameCost + " cristaux)";
 		this.gameObject.transform.FindChild("FocusFeature2").GetComponent<NewFocusedFeaturesController>().setIsClickable(true);
-		if(this.c.Decks.Count>0)
-		{
-			this.gameObject.transform.FindChild("FocusFeature3").transform.FindChild("Title").GetComponent<TextMeshPro>().text="Unité attachée à une équipe, ne pouvant être mise en vente";
-			this.gameObject.transform.FindChild("FocusFeature3").transform.GetComponent<NewFocusedFeaturesController>().setIsClickable(false);
-			
-		}
-		else if(this.c.onSale==1)
-		{
-			this.gameObject.transform.FindChild("FocusFeature3").transform.FindChild("Title").GetComponent<TextMeshPro>().text="Unité en vente sur le marché pour "+this.c.Price+" cristaux. \nModifier ?";
-			this.gameObject.transform.FindChild("FocusFeature3").transform.GetComponent<NewFocusedFeaturesController>().setIsClickable(true);
-		}
-		else
-		{
-			this.gameObject.transform.FindChild("FocusFeature3").transform.FindChild("Title").GetComponent<TextMeshPro>().text="Mettre l'unité en vente sur le marché";
-			this.gameObject.transform.FindChild("FocusFeature3").transform.GetComponent<NewFocusedFeaturesController>().setIsClickable(true);
-		}
 		this.gameObject.transform.FindChild("FocusFeature4").transform.GetComponent<TextMeshPro>().text=this.c.nbWin+" Victoires \n" + this.c.nbLoose+" Défaites";
 		this.gameObject.transform.FindChild("FocusFeature5").transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Retour";
 		this.gameObject.transform.FindChild("FocusFeature5").GetComponent<NewFocusedFeaturesController>().setIsClickable(true);
@@ -75,16 +63,6 @@ public class NewFocusedCardMyGameController : NewFocusedCardController
 			break;
 		case 2:
 			base.displayRenameCardPopUp();
-			break;
-		case 3:
-			if(c.onSale==1)
-			{
-				base.displayEditSellCardPopUp();
-			}
-			else
-			{
-				base.displayputOnMarketCardPopUp();
-			}
 			break;
 		case 5:
 			if(newMyGameController.instance.getIsTutorialLaunched())

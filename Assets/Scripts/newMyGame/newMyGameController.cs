@@ -14,7 +14,6 @@ public class newMyGameController : MonoBehaviour
 	public GameObject blockObject;
 	public Texture2D[] cursorTextures;
 	public GUISkin popUpSkin;
-	public int refreshInterval;
 
 	private GameObject menu;
 	private GameObject tutorial;
@@ -44,8 +43,6 @@ public class newMyGameController : MonoBehaviour
 	private GameObject[] skillChoices;
 	private GameObject valueFilterTitle;
 	private GameObject[] valueFilters;
-	private GameObject[] availableFilters;
-	private GameObject availabilityFilterTitle;
 	private GameObject cardTypeFilterTitle;
 	private GameObject[] cursors;
 	private GameObject[] sortButtons;
@@ -62,8 +59,6 @@ public class newMyGameController : MonoBehaviour
 	private bool isMouseOnSelectDeckButton;
 	private bool isSkillChosen;
 	private bool isMouseOnSearchBar;
-	private bool isOnSaleFilterOn;
-	private bool isNotOnSaleFilterOn;
 	private string valueSkill;
 	private IList<int> skillsDisplayed;
 	
@@ -103,21 +98,13 @@ public class newMyGameController : MonoBehaviour
 	private Rect[] deckCardsArea;
 	private Rect cardsArea;
 	private Texture2D cursorTexture;
-
-	private float timer;
+	
 	private bool isSceneLoaded;
 
 	private bool isTutorialLaunched;
 
 	void Update()
 	{	
-		this.timer += Time.deltaTime;
-		
-		if (this.timer > this.refreshInterval) 
-		{	
-			this.timer=this.timer-this.refreshInterval;
-			StartCoroutine(this.refreshMyGame());
-		}
 		if(isLeftClicked)
 		{
 			this.clickInterval=this.clickInterval+Time.deltaTime*10f;
@@ -337,16 +324,6 @@ public class newMyGameController : MonoBehaviour
 		{
 			this.valueFilters[i]=GameObject.Find ("ValueFilter"+i);
 		}
-		this.availableFilters = new GameObject[2];
-		for (int i=0; i<this.availableFilters.Length; i++) 
-		{
-			this.availableFilters[i]=GameObject.Find("AvailableFilter"+i);
-			this.availableFilters[i].transform.FindChild("Title").GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
-			this.availableFilters[i].AddComponent<newMyGameAvailabilityFilterController>();
-			this.availableFilters[i].GetComponent<newMyGameAvailabilityFilterController>().setId(i);
-		}
-		this.availableFilters [0].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "disponibles".ToUpper ();
-		this.availableFilters [1].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "en vente".ToUpper();
 		this.skillSearchBarTitle = GameObject.Find ("SkillSearchTitle");
 		this.skillSearchBarTitle.GetComponent<TextMeshPro> ().color = ApplicationDesignRules.whiteTextColor;
 		this.skillSearchBarTitle.GetComponent<TextMeshPro> ().text = "Compétence".ToUpper ();
@@ -367,9 +344,6 @@ public class newMyGameController : MonoBehaviour
 		this.valueFilterTitle = GameObject.Find ("ValueFilterTitle");
 		this.valueFilterTitle.GetComponent<TextMeshPro> ().color = ApplicationDesignRules.whiteTextColor;
 		this.valueFilterTitle.GetComponent<TextMeshPro> ().text = "Attribut".ToUpper ();
-		this.availabilityFilterTitle = GameObject.Find ("AvailabilityFilterTitle");
-		this.availabilityFilterTitle.GetComponent<TextMeshPro> ().text = "Disponibilité".ToUpper ();
-		this.availabilityFilterTitle.GetComponent<TextMeshPro> ().color = ApplicationDesignRules.whiteTextColor;
 
 		this.cursors=new GameObject[this.valueFilters.Length];
 		for (int i=0;i<this.valueFilters.Length;i++)
@@ -422,12 +396,6 @@ public class newMyGameController : MonoBehaviour
 		}
 		this.valueSkill = "";
 		this.isSkillChosen = false;
-		this.isOnSaleFilterOn = false;
-		this.isNotOnSaleFilterOn = false;
-		for(int i=0;i<this.availableFilters.Length;i++)
-		{
-			this.availableFilters[i].GetComponent<newMyGameAvailabilityFilterController>().reset();
-		}
 
 		this.cleanSkillAutocompletion ();
 		this.skillSearchBar.transform.FindChild ("Title").GetComponent<TextMeshPro>().text ="Rechercher";
@@ -547,9 +515,6 @@ public class newMyGameController : MonoBehaviour
 			this.skillChoices[i].transform.position=new Vector3(this.skillSearchBar.transform.position.x,this.skillSearchBar.transform.position.y-ApplicationDesignRules.inputTextWorldSize.y/2f-(i+0.5f)*ApplicationDesignRules.listElementWorldSize.y+i*0.02f,-1f);
 		}
 
-		this.availabilityFilterTitle.transform.localScale = ApplicationDesignRules.subMainTitleScale;
-		this.availabilityFilterTitle.transform.position=new Vector3 (0.3f+filtersBlockUpperLeftPosition.x + filtersSubBlockSize / 2f + 2f*(filtersSubBlockSize+gapBetweenSubFiltersBlock), filtersBlockUpperLeftPosition.y - 2.25f, 0f);
-
 		this.valueFilterTitle.transform.localScale = ApplicationDesignRules.subMainTitleScale;
 		this.valueFilterTitle.transform.position=new Vector3 (0.3f+filtersBlockUpperLeftPosition.x + filtersSubBlockSize / 2f + 1f*(filtersSubBlockSize+gapBetweenSubFiltersBlock), filtersBlockUpperLeftPosition.y - 1.2f, 0f);
 
@@ -557,12 +522,6 @@ public class newMyGameController : MonoBehaviour
 		{
 			this.valueFilters[i].transform.localScale=ApplicationDesignRules.valueFilterScale;
 			this.valueFilters[i].transform.position=new Vector3(valueFilterTitle.transform.position.x,filtersBlockUpperLeftPosition.y - 1.6f-i*0.5f,0f);
-		}
-
-		for(int i=0;i<this.availableFilters.Length;i++)
-		{
-			this.availableFilters[i].transform.localScale=ApplicationDesignRules.button61Scale;
-			this.availableFilters[i].transform.position=new Vector3(availabilityFilterTitle.transform.position.x, filtersBlockUpperLeftPosition.y-2.65f-i*i*(ApplicationDesignRules.button61WorldSize.y+0.05f),0f);
 		}
 
 		this.centralWindow = new Rect (ApplicationDesignRules.widthScreen * 0.25f, 0.12f * ApplicationDesignRules.heightScreen, ApplicationDesignRules.widthScreen * 0.50f, 0.25f * ApplicationDesignRules.heightScreen);
@@ -877,10 +836,6 @@ public class newMyGameController : MonoBehaviour
 		{
 			this.valueFilters[i].SetActive(value);
 		}
-		for (int i=0; i<this.availableFilters.Length; i++) 
-		{
-			this.availableFilters[i].SetActive(value);
-		}
 		this.skillSearchBar.SetActive (value);
 		this.skillSearchBarTitle.SetActive (value);
 		if(isSearchingSkill&&value)
@@ -906,7 +861,6 @@ public class newMyGameController : MonoBehaviour
 		}
 		this.cardTypeFilterTitle.SetActive(value);
 		this.valueFilterTitle.SetActive(value);
-		this.availabilityFilterTitle.SetActive(value);
 	}
 	public void selectDeck(int id)
 	{
@@ -975,49 +929,6 @@ public class newMyGameController : MonoBehaviour
 			this.filtersCardType.Add (id);
 			this.cardsTypeFilters[id].GetComponent<newMyGameCardTypeFilterController>().setIsSelected(true);
 			this.cardsTypeFilters[id].GetComponent<newMyGameCardTypeFilterController>().setHoveredState();
-		}
-		this.cardsPagination.chosenPage = 0;
-		this.applyFilters ();
-	}
-	public void availabilityFilterHandler(int id)
-	{
-		if(id==0)
-		{
-			if(isOnSaleFilterOn)
-			{
-				isOnSaleFilterOn=false;
-				this.availableFilters[0].GetComponent<newMyGameAvailabilityFilterController>().reset();
-			}
-			else
-			{
-				isOnSaleFilterOn=true;
-				if(isNotOnSaleFilterOn)
-				{
-					isNotOnSaleFilterOn=false;
-					this.availableFilters[1].GetComponent<newMyGameAvailabilityFilterController>().reset();
-				}
-				this.availableFilters[0].GetComponent<newMyGameAvailabilityFilterController>().setIsSelected(true);
-				this.availableFilters[0].GetComponent<newMyGameAvailabilityFilterController>().setHoveredState();
-			}
-		}
-		else if(id==1)
-		{
-			if(isNotOnSaleFilterOn)
-			{
-				isNotOnSaleFilterOn=false;
-				this.availableFilters[1].GetComponent<newMyGameAvailabilityFilterController>().reset();
-			}
-			else
-			{
-				isNotOnSaleFilterOn=true;
-				if(isOnSaleFilterOn)
-				{
-					isOnSaleFilterOn=false;
-					this.availableFilters[0].GetComponent<newMyGameAvailabilityFilterController>().reset();
-				}
-				this.availableFilters[1].GetComponent<newMyGameAvailabilityFilterController>().setIsSelected(true);
-				this.availableFilters[1].GetComponent<newMyGameAvailabilityFilterController>().setHoveredState();
-			}
 		}
 		this.cardsPagination.chosenPage = 0;
 		this.applyFilters ();
@@ -1183,15 +1094,6 @@ public class newMyGameController : MonoBehaviour
 
 		for(int i=0;i<max;i++)
 		{
-
-			if(this.isOnSaleFilterOn && model.cards.getCard(i).onSale == 1)
-			{
-				continue;
-			}
-			if(this.isNotOnSaleFilterOn && model.cards.getCard(i).onSale == 0)
-			{
-				continue;
-			}
 			if(this.isSkillChosen && !model.cards.getCard(i).hasSkill(this.valueSkill))
 			{
 				continue;
@@ -1529,23 +1431,7 @@ public class newMyGameController : MonoBehaviour
 		if(isLeftClicked)
 		{
 			this.isLeftClicked=false;
-			bool onSale;
-			int idOwner;
-			if(this.isDeckCardClicked)
-			{
-				onSale=System.Convert.ToBoolean(model.cards.getCard(this.deckCardsDisplayed[this.idCardClicked]).onSale);
-				idOwner=model.cards.getCard(this.deckCardsDisplayed[this.idCardClicked]).onSale;
-			}
-			else
-			{
-				onSale=System.Convert.ToBoolean(model.cards.getCard(this.cardsDisplayed[this.idCardClicked]).onSale);
-				idOwner = model.cards.getCard(this.cardsDisplayed[this.idCardClicked]).IdOWner;
-			}
-			if(idOwner==-1)
-			{
-				MenuController.instance.displayErrorPopUp("Cette carte a été vendue, vous ne pouvez plus la consulter");
-			}
-			else if(isTutorialLaunched)
+			if(isTutorialLaunched)
 			{
 				if(TutorialObjectController.instance.getSequenceID()==1)
 				{
@@ -1566,32 +1452,9 @@ public class newMyGameController : MonoBehaviour
 	public void startDragging()
 	{
 	
-		bool onSale;
-		int idOwner;
-		if(this.isDeckCardClicked)
-		{
-			onSale=System.Convert.ToBoolean(model.cards.getCard(this.deckCardsDisplayed[this.idCardClicked]).onSale);
-			idOwner=model.cards.getCard(this.deckCardsDisplayed[this.idCardClicked]).onSale;
-		}
-		else
-		{
-			onSale=System.Convert.ToBoolean(model.cards.getCard(this.cardsDisplayed[this.idCardClicked]).onSale);
-			idOwner = model.cards.getCard(this.cardsDisplayed[this.idCardClicked]).IdOWner;
-		}
-
 		if(this.deckDisplayed==-1)
 		{
 			MenuController.instance.displayErrorPopUp("Vous devez créer un deck avant de sélectionner une carte");
-			this.isLeftClicked=false;
-		}
-		else if(onSale)
-		{
-			MenuController.instance.displayErrorPopUp("Vous ne pouvez pas ajouter à votre deck une carte qui est en vente");
-			this.isLeftClicked=false;
-		}
-		else if(idOwner==-1)
-		{
-			MenuController.instance.displayErrorPopUp("Cette carte a été vendue, vous ne pouvez plus l'ajouter");
 			this.isLeftClicked=false;
 		}
 		else if(!this.isTutorialLaunched || TutorialObjectController.instance.getSequenceID()==13)
@@ -1824,25 +1687,6 @@ public class newMyGameController : MonoBehaviour
 		if(this.deleteDeckViewDisplayed)
 		{
 			this.hideDeleteDeckPopUp();
-		}
-	}
-	private IEnumerator refreshMyGame()
-	{
-		yield return StartCoroutine(model.refreshMyGame ());
-		int index;
-		if(isCardFocusedDisplayed && model.cards.getCard(this.focusedCardIndex).IdOWner==-1)
-		{
-			this.focusedCard.GetComponent<NewFocusedCardController>().setCardSold();
-		}
-		else if(this.isSceneLoaded)
-		{
-			for(int i = 0 ; i < this.cardsDisplayed.Count ; i++)
-			{
-				if(model.cards.getCard(this.cardsDisplayed[i]).IdOWner==-1)
-				{
-					this.cards[i].GetComponent<NewCardController>().displayPanelSold();
-				}
-			}
 		}
 	}
 	public bool getIsTutorialLaunched()

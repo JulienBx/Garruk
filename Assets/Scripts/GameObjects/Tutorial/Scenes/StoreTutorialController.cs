@@ -20,8 +20,8 @@ public class StoreTutorialController : TutorialObjectController
 				this.displayArrow(false);
 				this.displayPopUp(2);
 				this.displayNextButton(true);
-				this.setPopUpTitle("Centre de recrutement");
-				this.setPopUpDescription("Le centre de recrutement vous permet de recruter de nouveaux Cristaliens. Les unités se présentent spontanément au centre de recrutement et sont uniques!\n\nElles ne peuvent pas etre consultées avant de les recruter, il vous faudra donc recruter beaucoup de Cristaliens avant de trouver des perles rares.\n\nMoyennant un prix plus élevé, les responsables du centre pourront sélectionner des candidats selon leur faction, facilitant votre travail de recrutement.");
+				this.setPopUpTitle("Bienvenue dans Techtical Wars");
+				this.setPopUpDescription("A compléter");
 				this.displayBackground(true);
 				
 			}
@@ -31,83 +31,84 @@ public class StoreTutorialController : TutorialObjectController
 		case 1:
 			if(!isResizing)
 			{
-				this.displayPopUp(0);
+				this.displayPopUp(-1);
 				this.setLeftArrow();
 				this.displayNextButton(false);
-				this.setPopUpTitle("Première recrue");
-				this.setPopUpDescription("le Cristal obtenu lors de votre combat face à Garruk vous permet de recruter un Cristalien. <i>Cliquez sur le Cristalien</i>");
+				this.setPopUpTitle("Recruter des Cristaliens");
+				this.setPopUpDescription("A compléter");
 				this.displayBackground(true);
+				
 			}
-			Vector3 packPosition = NewStoreController.instance.getFirstPackPosition();
-			this.resizeBackground(new Rect(packPosition.x,packPosition.y,4.5f,5f),0.7f,0.7f);
+			Vector3 buyPackButtonPosition = NewStoreController.instance.returnBuyPackButtonPosition(1);
+			this.resizeBackground(new Rect(buyPackButtonPosition.x,buyPackButtonPosition.y,2f,2f),0.8f,0.8f);
 			this.drawLeftArrow();
 			break;
-		case 2:
-			if(!isResizing)
-			{
-				this.displayPopUp(-1);
-				this.displayBackground(false);
-				this.displayArrow(false);
-			}
-			break;
-		case 3:
-			if(!isResizing)
-			{
-				this.displayPopUp(0);
-				this.displayArrow(false);
-				this.displayNextButton(true);
-				this.setPopUpTitle("Bravo !");
-				this.setPopUpDescription("Vous venez d'acheter votre première carte ! Selon leur puissance les Cristaliens sont affichés sur un fond argenté (les moins puissants), bleu (puissantes), et rouges (très puissantes)");
-				this.displayBackground(true);
-			}
-			Vector3 focusedCardPosition = NewStoreController.instance.getFocusedCardPosition();
-			this.resizeBackground(new Rect(focusedCardPosition.x,focusedCardPosition.y,8f,9f),0f,0f);
-			this.resizePopUp(new Vector3(focusedCardPosition.x+3f,focusedCardPosition.y+1,-9.5f));
-			break;
-		case 4:
-			if(!isResizing)
-			{
-				this.displayPopUp(0);
-				this.setDownArrow();
-				this.displayNextButton(false);
-				this.setPopUpTitle("Retour");
-				this.setPopUpDescription("Retournons au centre de recrutement");
-				this.displayBackground(true);
-			}
-			Vector3 feature5Position = NewStoreController.instance.getFocusedCardFeaturePosition(5);
-			this.resizeBackground(new Rect(feature5Position.x,feature5Position.y,3f,2f),0.8f,0.6f);
-			this.drawDownArrow();
-			break;
-		case 5:
-			if(!isResizing)
-			{
-				this.displayPopUp(0);
-				this.setDownArrow();
-				this.displayNextButton(true);
-				this.setPopUpTitle("Des crédits supplémentaires");
-				this.setPopUpDescription("Même si les gains en match vous permettront d'acquérir n'importe quelle carte, n'oubliez pas que vous avez toujours la possibilité d'alimenter votre portefeuille");
-				this.displayBackground(true);
-			}
-			Vector3 buyCreditsButtonPosition = NewStoreController.instance.getBuyCreditsButtonPosition();
-			this.resizeBackground(new Rect(buyCreditsButtonPosition.x,buyCreditsButtonPosition.y,5f,2f),0f,0f);
-			this.drawDownArrow();
-			break;
-		case 6:
-			if(!isResizing)
-			{
-				this.displayArrow(false);
-				this.displayPopUp(1);
-				this.displayNextButton(true);
-				this.setPopUpTitle("Félicitations");
-				this.setPopUpDescription("Vous avez terminé ce premier tutoriel");
-				this.displayBackground(true);
-			}
-			this.resizeBackground(new Rect(0,10,5,5),0f,0f);
-			this.resizePopUp(new Vector3(0,0,-9.5f));
-			break;
-		case 7:
-			NewStoreController.instance.endTutorial();
-			break;
+//		case 2:
+//			if(!isResizing)
+//			{
+//				this.displayPopUp(-1);
+//				this.displayBackground(false);
+//				this.displayArrow(false);
+//			}
+//			break;
+//		case 3:
+//			if(!isResizing)
+//			{
+//				this.displayPopUp(0);
+//				this.displayArrow(false);
+//				this.displayNextButton(true);
+//				this.setPopUpTitle("Bravo !");
+//				this.setPopUpDescription("Vous venez d'acheter votre première carte ! Selon leur puissance les Cristaliens sont affichés sur un fond argenté (les moins puissants), bleu (puissantes), et rouges (très puissantes)");
+//				this.displayBackground(true);
+//			}
+//			Vector3 focusedCardPosition = NewStoreController.instance.getFocusedCardPosition();
+//			this.resizeBackground(new Rect(focusedCardPosition.x,focusedCardPosition.y,8f,9f),0f,0f);
+//			this.resizePopUp(new Vector3(focusedCardPosition.x+3f,focusedCardPosition.y+1,-9.5f));
+//			break;
+//		case 4:
+//			if(!isResizing)
+//			{
+//				this.displayPopUp(0);
+//				this.setDownArrow();
+//				this.displayNextButton(false);
+//				this.setPopUpTitle("Retour");
+//				this.setPopUpDescription("Retournons au centre de recrutement");
+//				this.displayBackground(true);
+//			}
+//			Vector3 feature5Position = NewStoreController.instance.getFocusedCardFeaturePosition(5);
+//			this.resizeBackground(new Rect(feature5Position.x,feature5Position.y,3f,2f),0.8f,0.6f);
+//			this.drawDownArrow();
+//			break;
+//		case 5:
+//			if(!isResizing)
+//			{
+//				this.displayPopUp(0);
+//				this.setDownArrow();
+//				this.displayNextButton(true);
+//				this.setPopUpTitle("Des crédits supplémentaires");
+//				this.setPopUpDescription("Même si les gains en match vous permettront d'acquérir n'importe quelle carte, n'oubliez pas que vous avez toujours la possibilité d'alimenter votre portefeuille");
+//				this.displayBackground(true);
+//			}
+//			Vector3 buyCreditsButtonPosition = NewStoreController.instance.getBuyCreditsButtonPosition();
+//			this.resizeBackground(new Rect(buyCreditsButtonPosition.x,buyCreditsButtonPosition.y,5f,2f),0f,0f);
+//			this.drawDownArrow();
+//			break;
+//		case 6:
+//			if(!isResizing)
+//			{
+//				this.displayArrow(false);
+//				this.displayPopUp(1);
+//				this.displayNextButton(true);
+//				this.setPopUpTitle("Félicitations");
+//				this.setPopUpDescription("Vous avez terminé ce premier tutoriel");
+//				this.displayBackground(true);
+//			}
+//			this.resizeBackground(new Rect(0,10,5,5),0f,0f);
+//			this.resizePopUp(new Vector3(0,0,-9.5f));
+//			break;
+//		case 7:
+//			NewStoreController.instance.endTutorial();
+//			break;
 		}
 		yield break;
 	}
@@ -119,8 +120,8 @@ public class StoreTutorialController : TutorialObjectController
 			StartCoroutine(this.launchSequence(this.sequenceID+1));
 			break;
 		case 2:
-			NewStoreController.instance.setTutorialStep();
-			StartCoroutine(this.launchSequence(this.sequenceID+1));
+			//NewStoreController.instance.setTutorialStep();
+			//StartCoroutine(this.launchSequence(this.sequenceID+1));
 			break;
 		}
 	}

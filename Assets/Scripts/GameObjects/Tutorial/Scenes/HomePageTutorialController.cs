@@ -21,8 +21,8 @@ public class HomePageTutorialController : TutorialObjectController
 				this.displayArrow(false);
 				this.displayPopUp(2);
 				this.displayNextButton(true);
-				this.setPopUpTitle("Bienvenue sur le tableau de bord");
-				this.setPopUpDescription("Cet écran d'accueil vous permettra d'accéder rapidement aux combats, au marché ou au centre de recrutement, ainsi qu'à toutes les informations utiles.\n\nAu centre, vos classements de combattant et de collectionneur vous permettent de mesurer votre progression, et vous pouvez également accéder à droite aux actualités de Cristalia et de ses habitants.");
+				this.setPopUpTitle("Bienvenue dans Techtical Wars");
+				this.setPopUpDescription("A compléter");
 				this.displayBackground(true);
 
 			}
@@ -33,16 +33,16 @@ public class HomePageTutorialController : TutorialObjectController
 			if(!isResizing)
 			{
 				this.displayPopUp(1);
-				this.setLeftArrow();
+				this.setUpArrow();
 				this.displayNextButton(false);
 				this.setPopUpTitle("Recruter des Cristaliens");
-				this.setPopUpDescription("4 Cristaliens recrutés depuis la Terre vous attendent déjà. Allons les rencontrer et découvrir leur compétences.\n\n<b>Cliquez sur le bouton 'Mon armée'</b>");
+				this.setPopUpDescription("A compléter");
 				this.displayBackground(true);
 
 			}
-			Vector3 buttonPosition1 = MenuController.instance.getButtonPosition(1);
-			this.resizeBackground(new Rect(buttonPosition1.x+1f,buttonPosition1.y,3f,2f),1f,0.45f);
-			this.drawLeftArrow();
+			Vector3 buttonPosition1 = MenuController.instance.getButtonPosition(3);
+			this.resizeBackground(new Rect(buttonPosition1.x,buttonPosition1.y,3f,3f),1f,0.45f);
+			this.drawUpArrow();
 			break;
 		case 2:
 			if(!isResizing)

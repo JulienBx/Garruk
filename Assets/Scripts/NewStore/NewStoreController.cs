@@ -146,7 +146,7 @@ public class NewStoreController : MonoBehaviour
 			this.buyPackHandler(ApplicationModel.packToBuy,true);
 			ApplicationModel.packToBuy=-1;
 		}
-		else if(model.player.TutorialStep==5)
+		else if(model.player.TutorialStep==0)
 		{
 			this.tutorial = Instantiate(this.tutorialObject) as GameObject;
 			this.tutorial.AddComponent<StoreTutorialController>();
@@ -878,5 +878,9 @@ public class NewStoreController : MonoBehaviour
 				this.updatePackPrices();
 			}
 		}
+	}
+	public Vector3 returnBuyPackButtonPosition(int id)
+	{
+		return this.packsButton [id].transform.position;
 	}
 }

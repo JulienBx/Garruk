@@ -103,6 +103,7 @@ public class ApplicationModel : MonoBehaviour
 				username = data [0];
 				tutorialStep = System.Convert.ToInt32(data [1]);
 				isAdmin = System.Convert.ToBoolean(System.Convert.ToInt32(data [2]));
+				credits = System.Convert.ToInt32(data [3]);
 			}		
 		}
 	}
@@ -143,6 +144,7 @@ public class ApplicationModel : MonoBehaviour
 				username = data [0];
 				tutorialStep = System.Convert.ToInt32(data [1]);
 				isAdmin = System.Convert.ToBoolean(System.Convert.ToInt32(data [2]));
+				credits = System.Convert.ToInt32(data [3]);
 			}											
 		}
 	}
