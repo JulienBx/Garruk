@@ -1925,8 +1925,8 @@ public class GameView : MonoBehaviour
 	}
 	public void launchTuto(){
 		this.tutorial = Instantiate(this.TutorialObject) as GameObject;
-		this.tutorial.AddComponent<GameTutorialController>();
-		StartCoroutine(this.tutorial.GetComponent<GameTutorialController>().launchSequence(0));
+		//this.tutorial.AddComponent<GameTutorialController>();
+		//StartCoroutine(this.tutorial.GetComponent<GameTutorialController>().launchSequence(0));
 	}
 	public bool getIsTutorialLaunched()
 	{

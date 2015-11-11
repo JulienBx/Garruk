@@ -25,6 +25,7 @@ public class MenuController : MonoBehaviour
 	private Rect newSkillsWindow;
 	private Rect newCardTypeWindow;
 	private GameObject loadingScreen;
+	private GameObject tutorial;
 	
 	private bool isDisconnectedViewDisplayed;
 	private NewMenuDisconnectedPopUpView disconnectedView;
@@ -48,6 +49,9 @@ public class MenuController : MonoBehaviour
 	
 	private bool isUserBusy;
 
+	private float helpSpeed;
+	private float helpTimer;
+	private bool isHelpFlashing;
 	
 	void Awake()
 	{
@@ -56,6 +60,7 @@ public class MenuController : MonoBehaviour
 		this.ressources = this.gameObject.GetComponent<MenuRessources> ();
 		this.photon = this.gameObject.GetComponent<MenuPhotonController> ();
 		this.speed = 5f;
+		this.helpSpeed = 1f;
 		ApplicationDesignRules.widthScreen = Screen.width;
 		ApplicationDesignRules.heightScreen = Screen.height;
 
@@ -72,6 +77,15 @@ public class MenuController : MonoBehaviour
 		{
 			timer=timer-this.ressources.refreshInterval;
 			StartCoroutine (this.getUserData());
+		}
+		if(isHelpFlashing)
+		{
+			this.helpTimer += Time.deltaTime;
+			if(this.helpTimer>0.5f)
+			{
+				this.helpTimer=0f;
+				gameObject.transform.FindChild("UserBlock").FindChild("Help").GetComponent<MenuHelpController>().changeColor();
+			}
 		}
 		if(Input.GetKeyDown(KeyCode.Return)) 
 		{
@@ -291,18 +305,11 @@ public class MenuController : MonoBehaviour
 		this.displayLoadingScreen ();
 		this.initializeMenuObject ();
 		this.resize ();
+		this.initializeScene ();
+		yield return StartCoroutine (model.loadUserData (this.ressources.totalNbResultLimit));
 		if(Application.loadedLevelName!="NewHomePage")
 		{
-			this.initializeScene ();
-			yield return StartCoroutine (model.loadUserData (this.ressources.totalNbResultLimit));
 			ApplicationModel.nbNotificationsNonRead = model.player.nonReadNotifications;
-			ApplicationModel.credits = model.player.Money;
-		}
-		else
-		{
-			yield return StartCoroutine (model.loadUserData (this.ressources.totalNbResultLimit));
-			ApplicationModel.credits = model.player.Money;
-			this.initializeScene();
 		}
 		this.refreshMenuObject ();
 	}
@@ -311,6 +318,7 @@ public class MenuController : MonoBehaviour
 	}
 	public void initializeMenuObject()
 	{
+		this.tutorial = GameObject.Find("Tutorial");
 		this.gameObject.transform.Find ("LogoBlock").FindChild ("AdminButton").gameObject.AddComponent<MenuAdminController> ();
 		this.gameObject.transform.Find ("LogoBlock").FindChild ("DisconnectButton").gameObject.AddComponent<MenuDisconnectController> ();
 		this.gameObject.transform.FindChild ("UserBlock").FindChild ("Username").gameObject.AddComponent<MenuUserUsernameController> ();
@@ -402,6 +410,11 @@ public class MenuController : MonoBehaviour
 		Vector3 userBlockPosition = gameObject.transform.FindChild ("UserBlock").transform.position;
 		userBlockPosition.x = (ApplicationDesignRules.worldWidth / 2f) - ApplicationDesignRules.rightMargin - userBlockWorldWidth / 2f;
 		gameObject.transform.FindChild ("UserBlock").transform.position = userBlockPosition;
+
+		if(this.isTutorialLaunched)
+		{
+			this.tutorial.GetComponent<TutorialObjectController>().resize();
+		}
 
 	}
 	public void refreshMenuObject()
@@ -755,5 +768,26 @@ public class MenuController : MonoBehaviour
 	public virtual void moneyUpdate()
 	{
 	}
+
+	#region TUTORIAL FUNCTIONS
+	
+	public void helpHandler()
+	{
+		TutorialObjectController.instance.helpClicked ();
+	}
+	public void setFlashingHelp(bool value)
+	{
+		this.isHelpFlashing=value;
+		if(!value)
+		{
+			gameObject.transform.FindChild("UserBlock").FindChild("Help").GetComponent<MenuHelpController>().reset();
+		}
+	}
+	public Vector3 returnButtonPosition(int id)
+	{
+		return gameObject.transform.FindChild("Button"+id).transform.position;
+	}
+
+	#endregion
 }
 

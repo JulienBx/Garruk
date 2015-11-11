@@ -5,7 +5,10 @@ public class NewStoreBuyPackButtonController : SimpleButtonController
 {	
 	public override void mainInstruction()
 	{
-		NewStoreController.instance.buyPackHandler (getId());
+		if(TutorialObjectController.instance.canAccess(1))
+		{
+			NewStoreController.instance.buyPackHandler (getId());
+		}
 	}
 	public override void setIsActive(bool value)
 	{

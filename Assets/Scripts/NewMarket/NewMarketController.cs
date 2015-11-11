@@ -255,8 +255,8 @@ public class NewMarketController : MonoBehaviour
 			if(!model.player.MarketTutorial)
 			{
 				this.tutorial = Instantiate(this.tutorialObject) as GameObject;
-				this.tutorial.AddComponent<MarketTutorialController>();
-				StartCoroutine(this.tutorial.GetComponent<MarketTutorialController>().launchSequence(0));
+				//this.tutorial.AddComponent<MarketTutorialController>();
+				//StartCoroutine(this.tutorial.GetComponent<MarketTutorialController>().launchSequence(0));
 				this.menu.GetComponent<MenuController>().setTutorialLaunched(true);
 				this.isTutorialLaunched=true;
 			} 

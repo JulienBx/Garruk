@@ -31,7 +31,7 @@ public class MyHoveredCardController : MonoBehaviour
 				{
 					if(TutorialObjectController.instance.getSequenceID()==1)
 					{
-						StartCoroutine(TutorialObjectController.instance.launchSequence(2));
+						//StartCoroutine(TutorialObjectController.instance.launchSequence(2));
 					}
 				}
 			}

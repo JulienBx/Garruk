@@ -134,12 +134,13 @@ public class NewHomePageModel
 		player.CollectionPoints = System.Convert.ToInt32 (array [6]);
 		player.CollectionRanking = System.Convert.ToInt32 (array [7]);
 		player.TutorialStep = System.Convert.ToInt32 (array [8]);
-		player.SelectedDeckId = System.Convert.ToInt32 (array [9]);
-		player.ConnectionBonus = System.Convert.ToInt32 (array [10]);
-		player.Division = System.Convert.ToInt32 (array [11]);
-		player.NbGamesDivision = System.Convert.ToInt32 (array [12]);
-		player.Cup = System.Convert.ToInt32 (array [13]);
-		player.NbGamesCup = System.Convert.ToInt32 (array [14]);
+		player.displayTutorial=System.Convert.ToBoolean(System.Convert.ToInt32(array[9]));
+		player.SelectedDeckId = System.Convert.ToInt32 (array [10]);
+		player.ConnectionBonus = System.Convert.ToInt32 (array [11]);
+		player.Division = System.Convert.ToInt32 (array [12]);
+		player.NbGamesDivision = System.Convert.ToInt32 (array [13]);
+		player.Cup = System.Convert.ToInt32 (array [14]);
+		player.NbGamesCup = System.Convert.ToInt32 (array [15]);
 		return player;
 	}
 	private IList<User> parseUsers(string[] array)

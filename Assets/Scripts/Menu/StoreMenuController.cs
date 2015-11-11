@@ -32,7 +32,7 @@ public class StoreMenuController : MenuController
 	public override void initializeScene ()
 	{
 		base.setCurrentPage (2);
-		StartCoroutine (NewStoreController.instance.initialization ());
+		NewStoreController.instance.endMenuInitialization ();
 	}
 }
 

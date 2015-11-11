@@ -33,7 +33,7 @@ public class HomePageMenuController : MenuController
 	public override void initializeScene()
 	{
 		base.setCurrentPage (0);
-		StartCoroutine (NewHomePageController.instance.initialization ());
+		NewHomePageController.instance.endMenuInitialization ();
 	}
 }
 

@@ -37,10 +37,6 @@ public class NewFocusedCardMyGameController : NewFocusedCardController
 	public override void buyXpCardHandler()
 	{
 		base.buyXpCardHandler ();
-		if(newMyGameController.instance.getIsTutorialLaunched())
-		{
-			TutorialObjectController.instance.actionIsDone();
-		}
 	}
 	public override void deleteCard ()
 	{
@@ -65,10 +61,6 @@ public class NewFocusedCardMyGameController : NewFocusedCardController
 			base.displayRenameCardPopUp();
 			break;
 		case 5:
-			if(newMyGameController.instance.getIsTutorialLaunched())
-			{
-				TutorialObjectController.instance.actionIsDone();
-			}
 			this.exitCard();
 			break;
 		}

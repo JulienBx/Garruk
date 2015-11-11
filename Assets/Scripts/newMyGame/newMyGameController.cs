@@ -10,7 +10,6 @@ public class newMyGameController : MonoBehaviour
 	public static newMyGameController instance;
 	private NewMyGameModel model;
 
-	public GameObject tutorialObject;
 	public GameObject blockObject;
 	public Texture2D[] cursorTextures;
 	public GUISkin popUpSkin;
@@ -101,8 +100,6 @@ public class newMyGameController : MonoBehaviour
 	
 	private bool isSceneLoaded;
 
-	private bool isTutorialLaunched;
-
 	void Update()
 	{	
 		if(isLeftClicked)
@@ -182,6 +179,25 @@ public class newMyGameController : MonoBehaviour
 		this.cardsPagination.chosenPage = 0;
 		this.cardsPagination.nbElementsPerPage = this.cardsPerLine * this.nbLines;
 		this.initializeScene ();
+		this.startMenuInitialization ();
+	}
+	private void startMenuInitialization()
+	{
+		this.menu = GameObject.Find ("Menu");
+		this.menu.AddComponent<MyGameMenuController> ();
+	}
+	public void endMenuInitialization()
+	{
+		this.startTutorialInitialization ();
+	}
+	private void startTutorialInitialization()
+	{
+		this.tutorial = GameObject.Find ("Tutorial");
+		this.tutorial.AddComponent<MyGameTutorialController>();
+	}
+	public void endTutorialInitialization()
+	{
+		StartCoroutine (this.initialization ());
 	}
 	public IEnumerator initialization()
 	{
@@ -193,21 +209,10 @@ public class newMyGameController : MonoBehaviour
 		this.applyFilters ();
 		MenuController.instance.hideLoadingScreen ();
 		this.isSceneLoaded = true;
-		if(model.player.TutorialStep==2 || model.player.TutorialStep==3)
+		if(model.player.TutorialStep!=-1)
 		{
-			this.tutorial = Instantiate(this.tutorialObject) as GameObject;
-			this.tutorial.AddComponent<MyGameTutorialController>();
-			this.menu.GetComponent<MenuController>().setTutorialLaunched(true);
-			if(model.player.TutorialStep==2)
-			{
-				StartCoroutine(this.tutorial.GetComponent<MyGameTutorialController>().launchSequence(0));
-			}
-			else if(model.player.TutorialStep==3)
-			{
-				StartCoroutine(this.tutorial.GetComponent<MyGameTutorialController>().launchSequence(18));
-			}
-			this.isTutorialLaunched=true;
-		} 
+			TutorialObjectController.instance.startTutorial(model.player.TutorialStep,model.player.displayTutorial);
+		}
 	}
 	private void initializeDecks()
 	{
@@ -247,9 +252,6 @@ public class newMyGameController : MonoBehaviour
 	}
 	public void initializeScene()
 	{
-		menu = GameObject.Find ("Menu");
-		menu.AddComponent<MyGameMenuController> ();
-
 		this.deckBlock = Instantiate (this.blockObject) as GameObject;
 		this.deckBlockTitle = GameObject.Find ("DeckBlockTitle");
 		this.deckBlockTitle.GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
@@ -636,10 +638,7 @@ public class newMyGameController : MonoBehaviour
 		{
 			this.deleteDeckPopUpResize();
 		}
-		if(this.isTutorialLaunched)
-		{
-			this.tutorial.GetComponent<TutorialObjectController>().resize();
-		}
+		TutorialObjectController.instance.resize ();
 	}
 	public void drawCards()
 	{
@@ -1325,10 +1324,6 @@ public class newMyGameController : MonoBehaviour
 			this.deckDisplayed=model.decks.Count-1;
 			this.initializeDecks();
 			this.initializeCards();
-			if(this.isTutorialLaunched)
-			{
-				TutorialObjectController.instance.actionIsDone();
-			}
 			MenuController.instance.hideLoadingScreen();
 		}
 	}
@@ -1431,18 +1426,7 @@ public class newMyGameController : MonoBehaviour
 		if(isLeftClicked)
 		{
 			this.isLeftClicked=false;
-			if(isTutorialLaunched)
-			{
-				if(TutorialObjectController.instance.getSequenceID()==1)
-				{
-					this.showCardFocused();
-					TutorialObjectController.instance.actionIsDone();
-				}
-			}
-			else
-			{
-				this.showCardFocused ();
-			}
+			this.showCardFocused ();
 		}
 		else if(isDragging)
 		{
@@ -1457,7 +1441,7 @@ public class newMyGameController : MonoBehaviour
 			MenuController.instance.displayErrorPopUp("Vous devez créer un deck avant de sélectionner une carte");
 			this.isLeftClicked=false;
 		}
-		else if(!this.isTutorialLaunched || TutorialObjectController.instance.getSequenceID()==13)
+		else
 		{
 			this.isDragging=true;
 			Cursor.SetCursor (this.cursorTextures[1], new Vector2(this.cursorTextures[1].width/2f,this.cursorTextures[1].width/2f), CursorMode.Auto);
@@ -1599,10 +1583,6 @@ public class newMyGameController : MonoBehaviour
 				}
 			}
 		}
-		if(this.isTutorialLaunched)
-		{
-			TutorialObjectController.instance.actionIsDone();
-		}
 	}
 	public void isHoveringCard()
 	{
@@ -1689,10 +1669,6 @@ public class newMyGameController : MonoBehaviour
 			this.hideDeleteDeckPopUp();
 		}
 	}
-	public bool getIsTutorialLaunched()
-	{
-		return isTutorialLaunched;
-	}
 	public Vector3 getCardsPosition(int id)
 	{
 		return cards[id].transform.position;
@@ -1775,15 +1751,6 @@ public class newMyGameController : MonoBehaviour
 		this.deckSelectionButton.GetComponent<BoxCollider2D> ().enabled = value;
 		this.deckDeletionButton.GetComponent<BoxCollider2D> ().enabled = value;
 		this.deckRenameButton.GetComponent<BoxCollider2D> ().enabled = value;
-	}
-	public IEnumerator endTutorial()
-	{
-		MenuController.instance.displayLoadingScreen ();
-		yield return StartCoroutine (model.player.setTutorialStep (3));
-		//MenuController.instance.setTutorialLaunched (false);
-		ApplicationModel.launchGameTutorial = true;
-		ApplicationModel.gameType = 0;
-		MenuController.instance.joinRandomRoomHandler();
 	}
 	public void moneyUpdate()
 	{

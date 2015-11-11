@@ -11,7 +11,6 @@ public class NewHomePageController : MonoBehaviour
 	public static NewHomePageController instance;
 	private NewHomePageModel model;
 	
-	public GameObject tutorialObject;
 	public GameObject blockObject;
 	public GUISkin popUpSkin;
 	public Texture2D[] cursorTextures;
@@ -104,7 +103,6 @@ public class NewHomePageController : MonoBehaviour
 	private NewHomePageConnectionBonusPopUpView connectionBonusView;
 	private bool isConnectionBonusViewDisplayed;
 
-	private bool isTutorialLaunched;
 	private bool isEndGamePopUpDisplayed;
 
 	void Update()
@@ -172,6 +170,25 @@ public class NewHomePageController : MonoBehaviour
 		this.newsfeedPagination.nbElementsPerPage= 3;
 		this.friendsOnline = new List<int> ();
 		this.initializeScene ();
+		this.startMenuInitialization ();
+	}
+	private void startMenuInitialization()
+	{
+		this.menu = GameObject.Find ("Menu");
+		this.menu.AddComponent<HomePageMenuController> ();
+	}
+	public void endMenuInitialization()
+	{
+		this.startTutorialInitialization ();
+	}
+	private void startTutorialInitialization()
+	{
+		this.tutorial = GameObject.Find ("Tutorial");
+		this.tutorial.AddComponent<HomePageTutorialController>();
+	}
+	public void endTutorialInitialization()
+	{
+		StartCoroutine (this.initialization ());
 	}
 	public IEnumerator initialization()
 	{
@@ -190,28 +207,9 @@ public class NewHomePageController : MonoBehaviour
 		this.initializeCompetitions ();
 		this.checkFriendsOnlineStatus ();
 		this.isSceneLoaded = true;
-		if(model.player.TutorialStep==1 || model.player.TutorialStep==4)
+		if(model.player.TutorialStep!=-1)
 		{
-			this.tutorial = Instantiate(this.tutorialObject) as GameObject;
-			this.tutorial.AddComponent<HomePageTutorialController>();
-			this.menu.GetComponent<MenuController>().setTutorialLaunched(true);
-			this.isTutorialLaunched=true;
-
-			if(model.player.TutorialStep==1)
-			{
-				StartCoroutine(this.tutorial.GetComponent<HomePageTutorialController>().launchSequence(0));
-			}
-			else if(model.player.TutorialStep==4)
-			{
-				if(this.isEndGamePopUpDisplayed)
-				{
-					StartCoroutine(this.tutorial.GetComponent<HomePageTutorialController>().launchSequence(2));
-				}
-				else
-				{
-					StartCoroutine(this.tutorial.GetComponent<HomePageTutorialController>().launchSequence(3));
-				}
-			}
+			TutorialObjectController.instance.startTutorial(model.player.TutorialStep,model.player.displayTutorial);
 		}
 		else if(model.player.ConnectionBonus>0)
 		{
@@ -325,8 +323,6 @@ public class NewHomePageController : MonoBehaviour
 	}
 	public void initializeScene()
 	{
-		menu = GameObject.Find ("Menu");
-		menu.AddComponent<HomePageMenuController> ();
 		this.deckBlock = Instantiate (this.blockObject) as GameObject;
 		this.deckBlockTitle = GameObject.Find ("DeckBlockTitle");
 		this.deckBlockTitle.GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
@@ -599,10 +595,7 @@ public class NewHomePageController : MonoBehaviour
 		this.focusedCard.transform.position = new Vector3 (0f, -ApplicationDesignRules.worldHeight/2f+ApplicationDesignRules.downMargin+ApplicationDesignRules.cardFocusedWorldSize.y/2f-0.22f, 0f);
 		this.focusedCard.transform.GetComponent<NewFocusedCardController> ().setCentralWindow (this.centralWindow);
 
-		if(this.isTutorialLaunched)
-		{
-			this.tutorial.GetComponent<TutorialObjectController>().resize();
-		}
+		TutorialObjectController.instance.resize();
 
 		this.endGamePopUp.transform.position = new Vector3 (0, 2f, -3f);
 	}
@@ -1214,23 +1207,6 @@ public class NewHomePageController : MonoBehaviour
 		connectionBonusView.popUpVM.centralWindow = this.centralWindow;
 		connectionBonusView.popUpVM.resize ();
 	}
-	public IEnumerator endTutorial()
-	{
-		MenuController.instance.setTutorialLaunched (false);
-		//PhotonNetwork.Disconnect();
-		if(TutorialObjectController.instance.getSequenceID()==1)
-		{
-			MenuController.instance.displayLoadingScreen();
-			yield return StartCoroutine (model.player.setTutorialStep (2));
-			Application.LoadLevel ("newMyGame");
-		}
-		else if(TutorialObjectController.instance.getSequenceID()==3)
-		{
-			MenuController.instance.displayLoadingScreen();
-			yield return StartCoroutine (model.player.setTutorialStep (5));
-			Application.LoadLevel ("newStore");
-		}
-	}
 	public void joinGameHandler(int id)
 	{
 		if(this.deckDisplayed==-1)
@@ -1282,10 +1258,6 @@ public class NewHomePageController : MonoBehaviour
 		this.isEndGamePopUpDisplayed = false;
 		this.endGamePopUp.SetActive (false);
 		MenuController.instance.hideTransparentBackground ();
-		if(this.isTutorialLaunched)
-		{
-			TutorialObjectController.instance.actionIsDone();
-		}
 	}
 	public Vector3 getEndGamePopUpButtonPosition()
 	{

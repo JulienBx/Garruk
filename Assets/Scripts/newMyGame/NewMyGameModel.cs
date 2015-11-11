@@ -82,6 +82,7 @@ public class NewMyGameModel
 		User user = new User ();
 		user.SelectedDeckId = System.Convert.ToInt32 (array [0]);
 		user.TutorialStep = System.Convert.ToInt32 (array [1]);
+		user.displayTutorial=System.Convert.ToBoolean(System.Convert.ToInt32(array[2]));
 		return user;
 	}
 	public List<Deck> parseDecks(string[] decksIds)

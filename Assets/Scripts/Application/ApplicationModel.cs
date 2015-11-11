@@ -25,6 +25,7 @@ public class ApplicationModel : MonoBehaviour
 	static public Division currentDivision;
 	static public string error = "";
 	static public int tutorialStep;
+	static public bool displayTutorial;
 	static public bool isAdmin = true;
 	static public int nbCardsByDeck = 4;
 	static public int packToBuy = -1;
@@ -104,6 +105,7 @@ public class ApplicationModel : MonoBehaviour
 				tutorialStep = System.Convert.ToInt32(data [1]);
 				isAdmin = System.Convert.ToBoolean(System.Convert.ToInt32(data [2]));
 				credits = System.Convert.ToInt32(data [3]);
+				displayTutorial = System.Convert.ToBoolean(System.Convert.ToInt32(data [4]));
 			}		
 		}
 	}
@@ -145,6 +147,7 @@ public class ApplicationModel : MonoBehaviour
 				tutorialStep = System.Convert.ToInt32(data [1]);
 				isAdmin = System.Convert.ToBoolean(System.Convert.ToInt32(data [2]));
 				credits = System.Convert.ToInt32(data [3]);
+				displayTutorial = System.Convert.ToBoolean(System.Convert.ToInt32(data [4]));
 			}											
 		}
 	}

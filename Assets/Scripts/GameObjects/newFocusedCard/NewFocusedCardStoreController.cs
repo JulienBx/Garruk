@@ -5,11 +5,23 @@ public class NewFocusedCardStoreController : NewFocusedCardController
 {
 	public void displayFocusFeatures(bool value)
 	{
-		this.gameObject.transform.FindChild ("FocusFeature0").gameObject.SetActive (value);
-		this.gameObject.transform.FindChild ("FocusFeature1").gameObject.SetActive (value);
-		this.gameObject.transform.FindChild ("FocusFeature2").gameObject.SetActive (value);
-		this.gameObject.transform.FindChild ("FocusFeature4").gameObject.SetActive (value);
-		this.gameObject.transform.FindChild ("FocusFeature5").gameObject.SetActive (value);
+		if(!value)
+		{
+			this.gameObject.transform.FindChild ("FocusFeature0").gameObject.SetActive (value);
+			this.gameObject.transform.FindChild ("FocusFeature1").gameObject.SetActive (value);
+			this.gameObject.transform.FindChild ("FocusFeature2").gameObject.SetActive (value);
+			this.gameObject.transform.FindChild ("FocusFeature4").gameObject.SetActive (value);
+			this.gameObject.transform.FindChild ("FocusFeature5").gameObject.SetActive (value);
+		}
+		else
+		{
+			this.gameObject.transform.FindChild ("FocusFeature0").gameObject.SetActive (true);
+			this.gameObject.transform.FindChild ("FocusFeature1").gameObject.SetActive (true);
+			this.gameObject.transform.FindChild ("FocusFeature2").gameObject.SetActive (true);
+			this.gameObject.transform.FindChild ("FocusFeature3").gameObject.SetActive (false);
+			this.gameObject.transform.FindChild ("FocusFeature4").gameObject.SetActive (true);
+			this.gameObject.transform.FindChild ("FocusFeature5").gameObject.SetActive (true);
+		}
 	}
 	public override void updateFocusFeatures()
 	{
@@ -27,7 +39,6 @@ public class NewFocusedCardStoreController : NewFocusedCardController
 		}
 		this.gameObject.transform.FindChild("FocusFeature2").transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Renommer l'unité \n( -" + this.c.RenameCost + " cristaux)";
 		this.gameObject.transform.FindChild("FocusFeature2").GetComponent<NewFocusedFeaturesController>().setIsClickable(true);
-		this.gameObject.transform.FindChild ("FocusFeature3").gameObject.SetActive (false);
 		this.gameObject.transform.FindChild("FocusFeature5").transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Retour";
 		this.gameObject.transform.FindChild("FocusFeature5").GetComponent<NewFocusedFeaturesController>().setIsClickable(true);
 	}
@@ -58,10 +69,6 @@ public class NewFocusedCardStoreController : NewFocusedCardController
 			base.displayRenameCardPopUp();
 			break;
 		case 5:
-			if(NewStoreController.instance.getIsTutorialLaunched())
-			{
-				TutorialObjectController.instance.actionIsDone();
-			}
 			this.exitCard();
 			break;
 		}

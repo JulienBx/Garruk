@@ -365,14 +365,21 @@ public class AuthenticationController : Photon.MonoBehaviour
 	}
 	private void loadLevels()
 	{
-		switch(ApplicationModel.tutorialStep)
+		if(ApplicationModel.displayTutorial)
 		{
-		case 0:
-			Application.LoadLevel("NewStore");	
-			break;
-		default:
+			switch(ApplicationModel.tutorialStep)
+			{
+			case 0:
+				Application.LoadLevel("NewStore");	
+				break;
+			default:
+				Application.LoadLevel("NewHomePage");
+				break;
+			}
+		}
+		else
+		{
 			Application.LoadLevel("NewHomePage");
-			break;
 		}
 	}
 	void OnJoinedLobby()

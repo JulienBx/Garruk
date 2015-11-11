@@ -51,7 +51,8 @@ public class NewStoreModel
 		player.CardTypesAllowed=new List<int>();
 		player.IsAdmin=System.Convert.ToBoolean(System.Convert.ToInt32(array[0]));
 		player.TutorialStep=System.Convert.ToInt32(array[1]);
-		for(int i = 2 ; i < array.Length-1 ; i++)
+		player.displayTutorial = System.Convert.ToBoolean (System.Convert.ToInt32 (array [2]));
+		for(int i = 3 ; i < array.Length-1 ; i++)
 		{
 			player.CardTypesAllowed.Add (System.Convert.ToInt32(array[i]));
 		}
@@ -75,8 +76,14 @@ public class NewStoreModel
 		}
 		return packList;
 	}
-	public IEnumerator buyPack(int packId, int cardType=-1)
+	public IEnumerator buyPack(int packId, int cardType=-1, bool isTutorialPack=false)
 	{
+		string isTutorialPackToString = "0";
+		if(isTutorialPack)
+		{
+			isTutorialPackToString="1";
+		}
+
 		this.packList[packId].Cards = new Cards ();
 		this.NewSkills = new List<Skill> ();
 		this.CollectionPointsEarned = -1;
@@ -88,6 +95,7 @@ public class NewStoreModel
 		form.AddField("myform_nick", ApplicationModel.username);
 		form.AddField("myform_Id", this.packList[packId].Id.ToString());	
 		form.AddField("myform_cardtype", cardType.ToString());	
+		form.AddField("myform_istutorialpack", isTutorialPackToString);
 		
 		WWW w = new WWW(URLBuyPack, form); 				// On envoie le formulaire à l'url sur le serveur 
 		yield return w;

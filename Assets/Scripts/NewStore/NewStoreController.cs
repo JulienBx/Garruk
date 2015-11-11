@@ -14,7 +14,6 @@ public class NewStoreController : MonoBehaviour
 
 	public GameObject cardObject;
 	public GameObject blockObject;
-	public GameObject tutorialObject;
 	public GUISkin popUpSkin;
 
 	private GameObject menu;
@@ -74,7 +73,6 @@ public class NewStoreController : MonoBehaviour
 	private bool isSceneLoaded;
 
 	private bool toUpdatePackPrices;
-	private bool isTutorialLaunched;
 	
 	void Update () 
 	{
@@ -111,10 +109,7 @@ public class NewStoreController : MonoBehaviour
 							{
 								this.randomCards[i].GetComponent<NewFocusedCardStoreController>().displayFocusFeatures(true);
 							}
-							if(this.isTutorialLaunched)
-							{
-								TutorialObjectController.instance.actionIsDone();
-							}
+							TutorialObjectController.instance.tutorialTrackPoint();
 						}
 					}
 					this.target = Quaternion.Euler(0, this.angle, 0);
@@ -131,71 +126,33 @@ public class NewStoreController : MonoBehaviour
 		this.packsPagination = new Pagination ();
 		this.packsPagination.nbElementsPerPage = 2;
 		this.initializeScene ();
-	}
-	public IEnumerator initialization()
-	{
-		this.resize ();
-		MenuController.instance.displayLoadingScreen ();
-		yield return(StartCoroutine(this.model.initializeStore()));
-		this.initializePacks ();
-		this.initializeBuyCreditsButton ();
-		MenuController.instance.hideLoadingScreen ();
-		this.isSceneLoaded = true;
-		if(ApplicationModel.packToBuy!=-1)
-		{
-			this.buyPackHandler(ApplicationModel.packToBuy,true);
-			ApplicationModel.packToBuy=-1;
-		}
-		else if(model.player.TutorialStep==0)
-		{
-			this.tutorial = Instantiate(this.tutorialObject) as GameObject;
-			this.tutorial.AddComponent<StoreTutorialController>();
-			this.menu.GetComponent<MenuController>().setTutorialLaunched(true);
-			StartCoroutine(this.tutorial.GetComponent<StoreTutorialController>().launchSequence(0));
-			this.isTutorialLaunched=true;
-		}
-	}
-	private void initializePacks()
-	{
-		this.packsPagination.chosenPage = 0;
-		this.packsPagination.totalElements = model.packList.Count;
-		this.packsPaginationButtons.GetComponent<NewStorePaginationController> ().p = packsPagination;
-		this.packsPaginationButtons.GetComponent<NewStorePaginationController> ().setPagination ();
-		this.drawPaginationNumber ();
-		this.drawPacks ();
-	}
-	private void initializeBuyCreditsButton()
-	{
-		if(!ApplicationModel.isAdmin)
-		{
-			this.buyCreditsButton.GetComponent<NewStoreBuyCreditsButtonController>().setIsActive(false);
-		}
-		else
-		{
-			this.buyCreditsButton.GetComponent<NewStoreBuyCreditsButtonController>().setIsActive(true);
-		}
-	}
-	public void drawPaginationNumber()
-	{
-		if(packsPagination.totalElements>0)
-		{
-			this.packsNumberTitle.GetComponent<TextMeshPro>().text=("pack " +this.packsPagination.elementDebut+" à "+this.packsPagination.elementFin+" sur "+this.packsPagination.totalElements ).ToUpper();
-		}
-		else
-		{
-			this.packsNumberTitle.GetComponent<TextMeshPro>().text="aucun pack à afficher".ToUpper();
-		}
+		this.startMenuInitialization ();
 	}
 	public void paginationHandler()
 	{
 		this.drawPaginationNumber ();
 		this.drawPacks ();
 	}
-	public void initializeScene()
+	private void startMenuInitialization()
 	{
-		menu = GameObject.Find ("Menu");
-		menu.AddComponent<StoreMenuController> ();
-		
+		this.menu = GameObject.Find ("Menu");
+		this.menu.AddComponent<StoreMenuController> ();
+	}
+	public void endMenuInitialization()
+	{
+		this.startTutorialInitialization ();
+	}
+	private void startTutorialInitialization()
+	{
+		this.tutorial = GameObject.Find ("Tutorial");
+		this.tutorial.AddComponent<StoreTutorialController>();
+	}
+	public void endTutorialInitialization()
+	{
+		StartCoroutine (this.initialization ());
+	}
+	private void initializeScene()
+	{
 		this.packsBlock = Instantiate (this.blockObject) as GameObject;
 		this.packsBlockTitle = GameObject.Find ("PacksBlockTitle");
 		this.packsBlockTitle.GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
@@ -255,7 +212,56 @@ public class NewStoreController : MonoBehaviour
 		this.focusedCard = GameObject.Find ("FocusedCard");
 		this.focusedCard.AddComponent<NewFocusedCardStoreController> ();
 		this.focusedCard.SetActive (false);
-
+	}
+	private IEnumerator initialization()
+	{
+		this.resize ();
+		MenuController.instance.displayLoadingScreen ();
+		yield return(StartCoroutine(this.model.initializeStore()));
+		this.initializePacks ();
+		this.initializeBuyCreditsButton ();
+		MenuController.instance.hideLoadingScreen ();
+		this.isSceneLoaded = true;
+		if(ApplicationModel.packToBuy!=-1)
+		{
+			this.buyPackHandler(ApplicationModel.packToBuy,true);
+			ApplicationModel.packToBuy=-1;
+		}
+		else if(model.player.TutorialStep!=-1)
+		{
+			TutorialObjectController.instance.startTutorial(model.player.TutorialStep,model.player.displayTutorial);
+		}
+	}
+	private void initializePacks()
+	{
+		this.packsPagination.chosenPage = 0;
+		this.packsPagination.totalElements = model.packList.Count;
+		this.packsPaginationButtons.GetComponent<NewStorePaginationController> ().p = packsPagination;
+		this.packsPaginationButtons.GetComponent<NewStorePaginationController> ().setPagination ();
+		this.drawPaginationNumber ();
+		this.drawPacks ();
+	}
+	private void initializeBuyCreditsButton()
+	{
+		if(!ApplicationModel.isAdmin)
+		{
+			this.buyCreditsButton.GetComponent<NewStoreBuyCreditsButtonController>().setIsActive(false);
+		}
+		else
+		{
+			this.buyCreditsButton.GetComponent<NewStoreBuyCreditsButtonController>().setIsActive(true);
+		}
+	}
+	public void drawPaginationNumber()
+	{
+		if(packsPagination.totalElements>0)
+		{
+			this.packsNumberTitle.GetComponent<TextMeshPro>().text=("pack " +this.packsPagination.elementDebut+" à "+this.packsPagination.elementFin+" sur "+this.packsPagination.totalElements ).ToUpper();
+		}
+		else
+		{
+			this.packsNumberTitle.GetComponent<TextMeshPro>().text="aucun pack à afficher".ToUpper();
+		}
 	}
 	public void resize()
 	{
@@ -362,10 +368,7 @@ public class NewStoreController : MonoBehaviour
 		{
 			this.addCreditsPopUpResize();
 		}
-		if(this.isTutorialLaunched)
-		{
-			this.tutorial.GetComponent<TutorialObjectController>().resize();
-		}
+		TutorialObjectController.instance.resize();
 	}
 	public void createRandomCards()
 	{
@@ -492,7 +495,7 @@ public class NewStoreController : MonoBehaviour
 		{
 			this.updatePackPrices();
 		}
-		if(!value && areRandomCardsGenerated)
+		if(!value && areRandomCardsGenerated && !TutorialObjectController.instance.getIsTutorialLaunched())
 		{
 			this.backButton.SetActive (true);
 			this.backButton.GetComponent<NewStoreBackButtonController>().reset();
@@ -571,7 +574,7 @@ public class NewStoreController : MonoBehaviour
 	public IEnumerator buyPack()
 	{
 		MenuController.instance.displayLoadingScreen ();
-		yield return StartCoroutine(model.buyPack (this.selectedPackIndex, this.selectedCardType));
+		yield return StartCoroutine(model.buyPack (this.selectedPackIndex, this.selectedCardType, TutorialObjectController.instance.getIsTutorialLaunched()));
 		MenuController.instance.hideLoadingScreen ();
 		if(model.Error=="")
 		{
@@ -593,6 +596,7 @@ public class NewStoreController : MonoBehaviour
 				{
 					MenuController.instance.displayNewSkillsPopUp(model.NewSkills);
 				}
+				TutorialObjectController.instance.tutorialTrackPoint ();
 			}
 			else
 			{
@@ -630,6 +634,7 @@ public class NewStoreController : MonoBehaviour
 		this.isCardFocusedDisplayed = true;
 		this.displayRandomCards (false);
 		this.buyCreditsButton.SetActive (false);
+		this.focusedCard.GetComponent<NewFocusedCardStoreController> ().displayFocusFeatures (true);
 		this.focusedCard.GetComponent<NewFocusedCardStoreController> ().c = model.packList [this.selectedPackIndex].Cards.getCard (this.clickedCardId);
 		this.focusedCard.GetComponent<NewFocusedCardController> ().show ();
 	}
@@ -835,35 +840,6 @@ public class NewStoreController : MonoBehaviour
 		addCreditsView.addCreditsPopUpVM.error="Merci de bien vouloir saisir une valeur";
 		return -1;
 	}
-	public Vector3 getFirstPackPosition()
-	{
-		return this.packs[0].transform.FindChild("PackPicture").position;
-	}
-	public Vector3 getFocusedCardFeaturePosition(int id)
-	{
-		return this.focusedCard.transform.FindChild ("FocusFeature"+id).position;
-	}
-	public Vector3 getBuyCreditsButtonPosition()
-	{
-		return this.buyCreditsButton.transform.position;
-	}
-	public Vector3 getFocusedCardPosition()
-	{
-		return this.focusedCard.transform.FindChild("Face").position;
-	}
-	public void endTutorial()
-	{
-		MenuController.instance.setTutorialLaunched (false);
-		Application.LoadLevel ("NewHomePage");
-	}
-	public void setTutorialStep()
-	{
-		StartCoroutine (model.player.setTutorialStep (-1));
-	}
-	public bool getIsTutorialLaunched()
-	{
-		return isTutorialLaunched;
-	}
 	public void moneyUpdate()
 	{
 		if(isSceneLoaded)
@@ -879,8 +855,13 @@ public class NewStoreController : MonoBehaviour
 			}
 		}
 	}
+
+	#region TUTORIAL FUNCTIONS
+
 	public Vector3 returnBuyPackButtonPosition(int id)
 	{
 		return this.packsButton [id].transform.position;
 	}
+
+	#endregion
 }

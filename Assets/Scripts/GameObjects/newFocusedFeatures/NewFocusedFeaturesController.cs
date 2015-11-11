@@ -32,7 +32,10 @@ public class NewFocusedFeaturesController : MonoBehaviour
 	{
 		if(this.isClickable)
 		{
-			this.gameObject.transform.parent.GetComponent<NewFocusedCardController>().focusFeaturesHandler(this.id);
+			if(this.id==5 || TutorialObjectController.instance.canAccess())
+			{
+				this.gameObject.transform.parent.GetComponent<NewFocusedCardController>().focusFeaturesHandler(this.id);
+			}
 			gameObject.GetComponent<SpriteRenderer>().color=new Color(1f,1f,1f);
 			gameObject.transform.FindChild("Title").GetComponent<TextMeshPro>().color=new Color(1f,1f,1f);
 		}

@@ -31,7 +31,7 @@ public class HisHoveredCardController : MonoBehaviour
 				{
 					if(TutorialObjectController.instance.getSequenceID()==10)
 					{
-						StartCoroutine(TutorialObjectController.instance.launchSequence(11));
+						//StartCoroutine(TutorialObjectController.instance.launchSequence(11));
 					}
 				}
 			}

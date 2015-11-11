@@ -9,8 +9,7 @@ using TMPro;
 public class TutorialObjectController : MonoBehaviour 
 {
 	public static TutorialObjectController instance;
-	public TutorialObjectView view;
-	private TutorialObjectRessources ressources;
+	private User player;
 	public int sequenceID;
 	private float startTranslation;
 	private float currentTranslation;
@@ -38,13 +37,17 @@ public class TutorialObjectController : MonoBehaviour
 	private GameObject background;
 	private GameObject popUpNextButton;
 	private GameObject popUp;
+	private GameObject exitButton;
 
 	private Rect backgroundRect;
 	private float popUpHalfHeight;
 
+	private bool isTutorialLaunched;
+	private bool isTutorialDisplayed;
+	private bool isHelpLaunched;
+
 	void Update()
 	{
-		
 		if(this.move)
 		{
 			if(!moveBack)
@@ -84,16 +87,62 @@ public class TutorialObjectController : MonoBehaviour
 	void Awake () 
 	{
 		instance = this;
+		this.player = new User ();
 		this.isResizing = false;
-		this.ressources = gameObject.GetComponent<TutorialObjectRessources> ();
 		this.sequenceID = -1;
 		this.speed = 2f;
 		this.arrow = gameObject.transform.FindChild ("Arrow").gameObject;
 		this.background = gameObject.transform.FindChild ("Background").gameObject;
+		this.exitButton = gameObject.transform.FindChild ("ExitButton").gameObject;
+		this.exitButton.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Quitter le tutoriel";
+		this.popUp = gameObject.transform.FindChild ("PopUp").gameObject;
+		this.popUpTitle = this.popUp.transform.FindChild ("Title").gameObject;
+		this.popUpDescription = this.popUp.transform.FindChild ("Description").gameObject;
+		this.popUpNextButton= this.popUp.transform.FindChild ("NextButton").gameObject;
+	}
+	void Start () 
+	{	
+		this.endInitialization ();
+	}
+	public virtual void endInitialization()
+	{
+	}
+	public virtual void startTutorial(int tutorialStep, bool isDisplayed)
+	{
+		this.isTutorialLaunched = true;
+		this.isTutorialDisplayed = isDisplayed;
+		if(!isDisplayed)
+		{
+			MenuController.instance.setFlashingHelp(true);
+		}
+	}
+	public bool getIsTutorialLaunched()
+	{
+		return this.isTutorialLaunched;
+	}
+	public bool getIsTutorialDisplayed()
+	{
+		return this.isTutorialDisplayed;
+	}
+	public void setTutorialStep(int id)
+	{
+		StartCoroutine (this.player.setTutorialStep (id));
 	}
 	public void displayBackground(bool value)
 	{
+		if(!this.isTutorialDisplayed)
+		{
+			value=false;
+		}
 		this.background.SetActive (value);
+	}
+	public void displayExitButton(bool value)
+	{
+		if(!this.isTutorialDisplayed)
+		{
+			value=false;
+		}
+		this.exitButton.SetActive (value);
 	}
 	public void resizeBackground(Rect rect, float clickableSectionXRatio, float clickableSectionYRatio)
 	{
@@ -123,10 +172,18 @@ public class TutorialObjectController : MonoBehaviour
 	}
 	public void displayNextButton(bool value)
 	{
+		if(!this.isTutorialDisplayed)
+		{
+			value=false;
+		}
 		this.popUpNextButton.SetActive (value);
 	}
 	public void displayPopUp(int value)
 	{
+		if(!this.isTutorialDisplayed)
+		{
+			value=-1;
+		}
 		if(value==-1)
 		{
 			this.gameObject.transform.FindChild ("PopUp").gameObject.SetActive(false);
@@ -168,25 +225,45 @@ public class TutorialObjectController : MonoBehaviour
 		}
 
 	}
-//	public void initStyles()
-//	{
-//		view.VM.buttonStyle = ressources.styles.button;
-//		view.VM.windowStyle = ressources.styles.window;
-//		view.VM.labelStyle = ressources.styles.label;
-//		view.VM.titleStyle = ressources.styles.customStyles[0];
-//	}
 	public void nextStepHandler()
 	{
-		StartCoroutine(this.launchSequence (this.sequenceID + 1));
+		this.actionIsDone ();
 	}
-	public virtual IEnumerator launchSequence(int sequenceID)
+	public virtual void launchSequence(int sequenceID)
 	{
-		yield break;
+		Vector3 gameObjectPosition = new Vector3 ();
+		this.sequenceID = sequenceID;
+		switch(this.sequenceID)
+		{
+		case 100:
+			if(!isResizing)
+			{
+				this.displayPopUp(0);
+				this.setUpArrow();
+				this.displayNextButton(false);
+				this.setPopUpTitle("Allons créer une équipe");
+				this.setPopUpDescription("A compléter");
+				this.displayBackground(true);
+				this.displayExitButton(true);
+				
+			}
+			gameObjectPosition = MenuController.instance.getButtonPosition(1);
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2.5f,0.75f),0.8f,0.8f);
+			this.drawUpArrow();
+			break;
+		}
 	}
 	public void resize()
 	{
 		this.isResizing = true;
-		StartCoroutine(this.launchSequence(sequenceID));
+		Vector2 exitButtonSize = new Vector2(425f,105f);
+		float exitButtonScale = 0.49f;
+		Vector2 exitButtonWorldSize = (exitButtonSize / ApplicationDesignRules.pixelPerUnit) * exitButtonScale;
+		this.exitButton.transform.position=new Vector3(ApplicationDesignRules.worldWidth/2f-0.3f-exitButtonWorldSize.x/2f, -ApplicationDesignRules.worldHeight/2f+0.3f+exitButtonWorldSize.y/2f,-9.5f);
+		if(this.isTutorialLaunched)
+		{
+			this.launchSequence(sequenceID);
+		}
 		this.isResizing = false;
 	}
 	public void setUpArrow()
@@ -257,16 +334,12 @@ public class TutorialObjectController : MonoBehaviour
 		this.currentTranslation=0f;
 		this.moveBack=false;
 	}
-	public float computePopUpHeight()
+	public void tutorialTrackPoint()
 	{
-		float height=0;
-//		float width = this.popUpWidth - view.VM.windowStyle.padding.left - view.VM.windowStyle.padding.right;
-//		height=2f*System.Convert.ToInt32(view.VM.displayNextButton)*view.VM.buttonStyle.CalcHeight(new GUIContent(view.VM.nextButtonLabel),width)
-//			+ view.VM.titleStyle.CalcHeight(new GUIContent(view.VM.title),width)
-//				+view.VM.labelStyle.CalcHeight(new GUIContent(view.VM.description),width)
-//				+0.05f*Screen.height;
-//		height = height + view.VM.windowStyle.padding.top + view.VM.windowStyle.padding.bottom;
-		return height;
+		if(this.isTutorialLaunched)
+		{
+			this.actionIsDone();
+		}
 	}
 	public virtual void actionIsDone()
 	{
@@ -275,10 +348,66 @@ public class TutorialObjectController : MonoBehaviour
 	{
 		return this.sequenceID;
 	}
-	public void setNextButtonDisplaying(bool value)
+	public bool canAccess(int sequenceId=-1)
 	{
-//		view.VM.displayNextButton = value;
-//		this.resize ();
+		if(this.isTutorialLaunched)
+		{
+			if(this.sequenceID==sequenceId)
+			{
+				return true;
+			}
+			else
+			{
+				this.displayCantAccessPopUp();
+				return false;
+			}
+		}
+		else
+		{
+			return true;
+		}
+	}
+	public virtual void helpClicked()
+	{
+		if(this.isTutorialLaunched)
+		{
+			if(!this.isTutorialDisplayed)
+			{
+				MenuController.instance.setFlashingHelp(false);
+				this.isTutorialDisplayed=true;
+				this.launchSequence(this.sequenceID);
+				StartCoroutine (player.setDisplayTutorial (true));
+			}
+		}
+		else
+		{
+		}
+	}
+	public void displayCantAccessPopUp ()
+	{
+		MenuController.instance.displayErrorPopUp ("Vous êtes encore en apprentissage !  \n Attendez d'avoir disputé votre premier match pour pouvoir ensuite réaliser cette action");
+	}
+	public virtual void hideTutorial()
+	{
+		MenuController.instance.setFlashingHelp(true);
+		this.isTutorialDisplayed = false;
+		this.exitButton.SetActive (false);
+		this.launchSequence (this.sequenceID);
+		StartCoroutine (player.setDisplayTutorial (false));
+	}
+	public virtual int getStartSequenceId(int tutorialStep)
+	{
+		switch(tutorialStep)
+		{
+		case 2:
+			return 100; 
+			break;
+		}
+		return 0;
+	}
+	public void quitButtonHandler()
+	{
+		this.hideTutorial ();
 	}
 }
 

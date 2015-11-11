@@ -32,7 +32,7 @@ public class MyGameMenuController : MenuController
 	public override void initializeScene()
 	{
 		base.setCurrentPage (1);
-		StartCoroutine (newMyGameController.instance.initialization ());
+		newMyGameController.instance.endMenuInitialization ();
 	}
 }
 

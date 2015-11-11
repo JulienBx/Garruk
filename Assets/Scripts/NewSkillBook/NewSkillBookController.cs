@@ -155,8 +155,8 @@ public class NewSkillBookController : MonoBehaviour
 		if(!model.player.SkillBookTutorial)
 		{
 			this.tutorial = Instantiate(this.tutorialObject) as GameObject;
-			this.tutorial.AddComponent<SkillBookTutorialController>();
-			StartCoroutine(this.tutorial.GetComponent<SkillBookTutorialController>().launchSequence(0));
+			//this.tutorial.AddComponent<SkillBookTutorialController>();
+			//StartCoroutine(this.tutorial.GetComponent<SkillBookTutorialController>().launchSequence(0));
 			this.menu.GetComponent<MenuController>().setTutorialLaunched(true);
 			this.isTutorialLaunched=true;
 		} 
