@@ -134,6 +134,21 @@ public class MyHoveredCardController : MonoBehaviour
 		position.x = ((realwidth/2f-3f)/2f)*(85f/100f);
 		tempTransform.localPosition = position;	
 		
+		tempTransform = gameObject.transform.FindChild("MyMainDescription").FindChild("MySkill1").FindChild("MySkill1Picto");
+		position = tempTransform.localPosition ;
+		position.x = -((realwidth/2f-3f)/2f)*(60f/100f);
+		tempTransform.localPosition = position;	
+		
+		tempTransform = gameObject.transform.FindChild("MyMainDescription").FindChild("MySkill2").FindChild("MySkill2Picto");
+		position = tempTransform.localPosition ;
+		position.x = -((realwidth/2f-3f)/2f)*(60f/100f);
+		tempTransform.localPosition = position;	
+		
+		tempTransform = gameObject.transform.FindChild("MyMainDescription").FindChild("MySkill3").FindChild("MySkill3Picto");
+		position = tempTransform.localPosition ;
+		position.x = -((realwidth/2f-3f)/2f)*(60f/100f);
+		tempTransform.localPosition = position;	
+		
 		tempTransform = gameObject.transform.FindChild("MyMainDescription").FindChild("MyPassiveSkill").FindChild("MySpecialiteCristal");
 		position = tempTransform.localPosition ;
 		position.x = ((realwidth/2f-3f)/2f)*(85f/100f);
@@ -159,10 +174,15 @@ public class MyHoveredCardController : MonoBehaviour
 		position.x = ((realwidth/2f-3f)/2f)*(70f/100f);
 		tempTransform.localPosition = position;	
 		
+		GameObject.Find("MySkill1Description").GetComponent<TextContainer>().width = (realwidth/2f-3f)*55f/100f;
+		GameObject.Find("MySkill2Description").GetComponent<TextContainer>().width = (realwidth/2f-3f)*55f/100f;
+		GameObject.Find("MySkill3Description").GetComponent<TextContainer>().width = (realwidth/2f-3f)*55f/100f;
+		GameObject.Find("MySpecialiteDescription").GetComponent<TextContainer>().width = (realwidth/2f-3f)*55f/100f;
+		
 		tempTransform = gameObject.transform.FindChild("MyMainDescription").FindChild("MySkill1").FindChild("MySkill1Description");
 		position = tempTransform.localPosition ;
 		position.x = ((realwidth/2f-3f)/2f)*(70f/100f);
-		tempTransform.localPosition = position;	
+		tempTransform.localPosition = position;
 		
 		tempTransform = gameObject.transform.FindChild("MyMainDescription").FindChild("MySkill2").FindChild("MySkill2Description");
 		position = tempTransform.localPosition ;
@@ -178,11 +198,6 @@ public class MyHoveredCardController : MonoBehaviour
 		position = tempTransform.localPosition ;
 		position.x = ((realwidth/2f-3f)/2f)*(70f/100f);
 		tempTransform.localPosition = position;
-		
-		gameObject.transform.FindChild("MyMainDescription").FindChild("MySkill1").FindChild("MySkill1Description").GetComponent<TextContainer>().width=((realwidth/2f-3f))*(70f/100f);
-		gameObject.transform.FindChild("MyMainDescription").FindChild("MySkill2").FindChild("MySkill2Description").GetComponent<TextContainer>().width=((realwidth/2f-3f))*(70f/100f);
-		gameObject.transform.FindChild("MyMainDescription").FindChild("MySkill3").FindChild("MySkill3Description").GetComponent<TextContainer>().width=((realwidth/2f-3f))*(70f/100f);
-		gameObject.transform.FindChild("MyMainDescription").FindChild("MyPassiveSkill").FindChild("MySpecialiteDescription").GetComponent<TextContainer>().width=((realwidth/2f-3f))*(70f/100f);
 		
 		tempTransform = gameObject.transform.FindChild("MyMainDescription").FindChild("MyCarac").FindChild("MyAttackPicto");
 		position = tempTransform.localPosition ;
@@ -216,11 +231,13 @@ public class MyHoveredCardController : MonoBehaviour
 	}
 	
 	public void setCard(Card c){
+		int proba ;
+		string type ; 
 		gameObject.GetComponent<SpriteRenderer>().sprite = GameView.instance.getSprite(c.ArtIndex);
 		
 		gameObject.transform.FindChild("MyMainDescription").FindChild("MyTitle").GetComponent<TextMeshPro>().text = c.Title;
-		gameObject.transform.FindChild("MyMainDescription").FindChild("MyPassiveSkill").FindChild("MySpecialite").GetComponent<TextMeshPro>().text = c.getSkillText(c.Skills[0].Description);
-		gameObject.transform.FindChild("MyMainDescription").FindChild("MyPassiveSkill").FindChild("MySpecialiteDescription").GetComponent<TextMeshPro>().text = c.getSkills()[0].Description;
+		gameObject.transform.FindChild("MyMainDescription").FindChild("MyPassiveSkill").FindChild("MySpecialite").GetComponent<TextMeshPro>().text = c.Skills[0].Name+" Niv."+c.Skills[0].Power;
+		gameObject.transform.FindChild("MyMainDescription").FindChild("MyPassiveSkill").FindChild("MySpecialiteDescription").GetComponent<TextMeshPro>().text = c.getSkillText(c.Skills[0].Description);
 		
 		gameObject.transform.FindChild("MyMainDescription").FindChild("MyCarac").FindChild("MyAttackText").GetComponent<TextMeshPro>().text = ""+c.GetAttackString();
 		gameObject.transform.FindChild("MyMainDescription").FindChild("MyCarac").FindChild("MyLifeText").GetComponent<TextMeshPro>().text = ""+c.GetLifeString();
@@ -272,8 +289,8 @@ public class MyHoveredCardController : MonoBehaviour
 			gameObject.transform.FindChild("MyMainDescription").FindChild("MySkill"+i).FindChild("MySkill"+i+"Description").GetComponent<MeshRenderer>().enabled=true;
 			gameObject.transform.FindChild("MyMainDescription").FindChild("MySkill"+i+"Background").GetComponent<SpriteRenderer>().enabled=true;
 			
-			gameObject.transform.FindChild("MyMainDescription").FindChild("MySkill"+i).FindChild("MySkill"+(i)+"Title").GetComponent<TextMeshPro>().text = c.getSkillText(c.Skills[i].Description);
-			gameObject.transform.FindChild("MyMainDescription").FindChild("MySkill"+i).FindChild(("MySkill"+(i)+"Description")).GetComponent<TextMeshPro>().text = c.getSkills()[i].Description;
+			gameObject.transform.FindChild("MyMainDescription").FindChild("MySkill"+i).FindChild("MySkill"+(i)+"Title").GetComponent<TextMeshPro>().text = c.Skills[i].Name+" Niv."+c.Skills[i].Power;
+			gameObject.transform.FindChild("MyMainDescription").FindChild("MySkill"+i).FindChild(("MySkill"+(i)+"Description")).GetComponent<TextMeshPro>().text = c.getSkillText(c.Skills[i].Description);
 			if(c.getSkills()[i].Level==1){
 				gameObject.transform.FindChild("MyMainDescription").FindChild("MySkill"+i).FindChild("MySkill"+i+"Cristal").GetComponent<SpriteRenderer>().color=new Color(255f/255f,255f/255f,255f/255f, 1f);
 			}
@@ -283,6 +300,44 @@ public class MyHoveredCardController : MonoBehaviour
 			else{
 				gameObject.transform.FindChild("MyMainDescription").FindChild("MySkill"+i).FindChild("MySkill"+i+"Cristal").GetComponent<SpriteRenderer>().color=new Color(210f/255f,3f/255f,64f/255f, 1f);
 			}
+			proba = c.Skills[i].proba;
+			gameObject.transform.FindChild("MyMainDescription").FindChild("MySkill"+i).FindChild("MySkill"+(i)+"Picto").FindChild("MySkill"+(i)+"Proba").FindChild("MySkill"+(i)+"ProbaValue").GetComponent<TextMeshPro>().text = c.Skills[i].getProbaText();
+			if(proba==100){
+				gameObject.transform.FindChild("MyMainDescription").FindChild("MySkill"+i).FindChild("MySkill"+(i)+"Picto").FindChild("MySkill"+(i)+"Proba").GetComponent<SpriteRenderer>().color=Color.green;
+			}
+			else if(proba>70){
+				gameObject.transform.FindChild("MyMainDescription").FindChild("MySkill"+i).FindChild("MySkill"+(i)+"Picto").FindChild("MySkill"+(i)+"Proba").GetComponent<SpriteRenderer>().color=Color.yellow;
+			}
+			else if(proba>45){
+				gameObject.transform.FindChild("MyMainDescription").FindChild("MySkill"+i).FindChild("MySkill"+(i)+"Picto").FindChild("MySkill"+(i)+"Proba").GetComponent<SpriteRenderer>().color=new Color(250f/255f,168f/255f,63f/255f, 1f);;
+			}
+			else{
+				gameObject.transform.FindChild("MyMainDescription").FindChild("MySkill"+i).FindChild("MySkill"+(i)+"Picto").FindChild("MySkill"+(i)+"Proba").GetComponent<SpriteRenderer>().color=Color.red;
+			}
+			
+			gameObject.transform.FindChild("MyMainDescription").FindChild("MySkill"+i).FindChild("MySkill"+(i)+"Picto").FindChild("MySkill"+(i)+"Type").GetComponent<SpriteRenderer>().sprite = GameView.instance.getSkillTypeSprite(c.Skills[i].cible);
+			if (c.Skills[i].cible==1){
+				type = "C";
+			}
+			else if (c.Skills[i].cible==2){
+				type = "T";
+			}
+			else if (c.Skills[i].cible==3){
+				type = "S";
+			}
+			else if (c.Skills[i].cible==4){
+				type = "D";
+			}
+			else if (c.Skills[i].cible==5){
+				type = "A";
+			}
+			else if (c.Skills[i].cible==6){
+				type = "P";
+			}
+			else {
+				type = ""+c.Skills[i].cible;
+			}
+			gameObject.transform.FindChild("MyMainDescription").FindChild("MySkill"+i).FindChild("MySkill"+(i)+"Picto").FindChild("MySkill"+(i)+"Type").FindChild("MySkill"+(i)+"TypeDescription").GetComponent<TextMeshPro>().text = type;
 		}
 		
 		for (int i = c.getSkills().Count ; i < 4 ; i++){

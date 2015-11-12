@@ -22,37 +22,33 @@ public class Fortifiant : GameSkill
 		
 		int target = targetsPCC[0];
 		
-		if (Random.Range(1,101) > GameView.instance.getCard(target).GetMagicalEsquive())
-		{                             
-			GameController.instance.addTarget(target,1);
-		}
-		else{
-			GameController.instance.addTarget(target,0);
-		}
-		
-		if (base.card.isGenerous()){
-			if (Random.Range(1,101) <= base.card.getPassiveManacost()){
-				List<int> allys = GameView.instance.getAllys();
-				for (int i = 0 ; i < allys.Count ; i++){
-					Debug.Log("Allys "+allys[i]);
-				}
-				if(allys.Count>1){
-					allys.Remove(target);
-					for (int i = 0 ; i < allys.Count ; i++){
-						Debug.Log("Allys2 "+allys[i]);
-					}
-					
-					target = allys[Random.Range(0,allys.Count)];
-					
-					if (Random.Range(1,101) > GameView.instance.getCard(target).GetMagicalEsquive())
-					{
-						GameController.instance.addTarget(target,3);
-					}
-					else{
-						GameController.instance.addTarget(target,2);
+		if (Random.Range(1,101) < base.skill.proba){
+			if (Random.Range(1,101) > GameView.instance.getCard(target).GetMagicalEsquive()){                             
+				GameController.instance.addTarget(target,1);
+				if (base.card.isGenerous()){
+					List<int> allys = GameView.instance.getAllys();
+					if(allys.Count>1){
+						allys.Remove(target);
+						for (int i = 0 ; i < allys.Count ; i++){
+							target = allys[Random.Range(0,allys.Count)];
+							
+							if (Random.Range(1,101) > GameView.instance.getCard(target).GetMagicalEsquive())
+							{
+								GameController.instance.addTarget(target,3);
+							}
+							else{
+								GameController.instance.addTarget(target,2);
+							}
+						}
 					}
 				}
 			}
+			else{
+				GameController.instance.addTarget(target,0);
+			}
+		}
+		else{
+			GameController.instance.addTarget(target,4);
 		}
 		
 		GameController.instance.play();
@@ -81,7 +77,7 @@ public class Fortifiant : GameSkill
 				receiversTexts.Add (text);
 			}
 			else{
-				amount = base.skill.ManaCost;
+				amount = base.skill.Level;
 				if(base.results[i]==3){
 					text = "Bonus Généreux\n";
 				}
@@ -94,12 +90,10 @@ public class Fortifiant : GameSkill
 				
 				GameController.instance.addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, 1, 18, "FORTIFIE", "+"+amount+" ATK. Actif 1 tour", "Actif 1 tour");
 				
-				GameView.instance.displaySkillEffect(target, text, 5);
+				GameView.instance.displaySkillEffect(target, text, 4);
 			}	
 		}
-		if(!GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
-			GameView.instance.setSkillPopUp("lance <b>Fortifiant</b>...", base.card, receivers, receiversTexts);
-		}
+		GameView.instance.setSkillPopUp("lance <b>Fortifiant</b>...", base.card, receivers, receiversTexts);
 	}
 	
 	public override string isLaunchable(){
@@ -108,7 +102,7 @@ public class Fortifiant : GameSkill
 	
 	public override string getTargetText(int id, Card targetCard){
 		
-		int amount = base.skill.ManaCost;
+		int amount = base.skill.Level;
 		int attack = targetCard.GetAttack();
 		string text;
 		

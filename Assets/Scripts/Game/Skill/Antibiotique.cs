@@ -22,44 +22,33 @@ public class Antibiotique : GameSkill
 		
 		int target = targetsPCC[0];
 		
-		int successChances = base.skill.ManaCost;
-		
-		if (Random.Range(1,101) > GameView.instance.getCard(target).GetMagicalEsquive())
-		{                             
-			if (Random.Range(1,101) <= successChances)
-			{ 
+		if (Random.Range(1,101) < base.skill.proba){
+			if (Random.Range(1,101) > GameView.instance.getCard(target).GetMagicalEsquive())
+			{                             
 				GameController.instance.addTarget(target,1);
-			}
-			else{
-				GameController.instance.addTarget(target,2);
-			}
-		}
-		else{
-			GameController.instance.addTarget(target,0);
-		}
-		
-		if (base.card.isGenerous()){
-			if (Random.Range(1,101) <= base.card.getPassiveManacost()){
-				List<int> allys = GameView.instance.getEveryoneButMe();
-				if(allys.Count>1){
-					allys.Remove(target);
-					target = allys[Random.Range(0,allys.Count)];
-					
-					if (Random.Range(1,101) <= successChances)
-					{
+				if (base.card.isGenerous()){
+					List<int> allys = GameView.instance.getEveryoneButMe();
+					if(allys.Count>1){
+						allys.Remove(target);
+						
+						target = allys[Random.Range(0,allys.Count)];
+						
 						if (Random.Range(1,101) > GameView.instance.getCard(target).GetMagicalEsquive())
 						{
-							GameController.instance.addTarget(target,4);
+							GameController.instance.addTarget(target,3);
 						}
 						else{
-							GameController.instance.addTarget(target,5);
+							GameController.instance.addTarget(target,2);
 						}
-					}
-					else{
-						GameController.instance.addTarget(target,3);
 					}
 				}
 			}
+			else{
+				GameController.instance.addTarget(target,0);
+			}
+		}
+		else{
+			GameController.instance.addTarget(target,4);
 		}
 		
 		GameController.instance.play();
@@ -73,8 +62,6 @@ public class Antibiotique : GameSkill
 		List<Card> receivers =  new List<Card>();
 		List<string> receiversTexts =  new List<string>();
 		
-		int amount ; 
-		
 		for(int i = 0 ; i < base.targets.Count ; i++){
 			target = base.targets[i];
 			targetCard = GameView.instance.getCard(target);
@@ -85,21 +72,25 @@ public class Antibiotique : GameSkill
 				receiversTexts.Add (text);
 			}
 			else if (base.results[i]==2){
-				text = "Echec";
-				GameView.instance.displaySkillEffect(target, text, 4);
-				receiversTexts.Add (text);
-			}
-			else if (base.results[i]==3){
 				text = "Bonus 'Généreux'\nEsquive";
 				GameView.instance.displaySkillEffect(target, text, 4);
 				receiversTexts.Add (text);
 			}
-			else if (base.results[i]==5){
-				text = "Bonus 'Généreux'\nEchec";
+			else if (base.results[i]==4){
+				text = "Echec";
 				GameView.instance.displaySkillEffect(target, text, 4);
 				receiversTexts.Add (text);
 			}
 			else{
+				if(base.results[i]==3){
+					text = "Bonus Généreux\n";
+				}
+				else{
+					text = "";
+				}
+				text+="Effets dissipés";
+				
+				receiversTexts.Add (text);
 				GameView.instance.getCard(target).emptyModifiers();
 				if(target!=GameController.instance.getCurrentPlayingCard()){
 					GameView.instance.show(target, true);
@@ -107,24 +98,10 @@ public class Antibiotique : GameSkill
 				else{
 					GameView.instance.show(target, false);
 				}
-				
-				if(base.results[i]==4){
-					text = "Bonus Généreux\n";
-				}
-				else{
-					text="";
-				}
-				
-				text+="Effets dissipés";
-				
-				receiversTexts.Add (text);
-				
 				GameView.instance.displaySkillEffect(target, text, 5);
 			}	
 		}
-		if(!GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
-			GameView.instance.setSkillPopUp("lance <b>Antibiotique</b>...", base.card, receivers, receiversTexts);
-		}
+		GameView.instance.setSkillPopUp(" lance <b>Antibiotique</b>...", base.card, receivers, receiversTexts);	
 	}
 	
 	public override string isLaunchable()
@@ -134,16 +111,15 @@ public class Antibiotique : GameSkill
 	
 	public override string getTargetText(int id, Card targetCard){
 		
-		int amount = base.skill.ManaCost;
+		int amount = base.skill.proba;
 		int attack = base.card.GetAttack();
 		string text;
 		
 		text = "Dissipe les effets\n";
 		
-		
 		int probaEsquive = targetCard.GetMagicalEsquive();
 		int probaHit = Mathf.Max(0,(amount*(100-probaEsquive)/100)) ;
-		
+	
 		text += "HIT% : "+probaHit;
 		
 		return text ;

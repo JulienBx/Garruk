@@ -19,7 +19,7 @@ public class Furtivite : GameSkill
 	}
 	
 	public override void applyOn(){
-		int attackBonus = this.skill.ManaCost;
+		int attackBonus = base.skill.Level;
 		int target = GameController.instance.getCurrentPlayingCard() ;
 		List<Card> receivers =  new List<Card>();
 		List<string> receiversTexts =  new List<string>();

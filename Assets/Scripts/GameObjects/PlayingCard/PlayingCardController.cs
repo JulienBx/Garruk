@@ -229,9 +229,7 @@ public class PlayingCardController : GameObjectController
 		if (b){
 			this.display ();
 			transform.Find("Art").GetComponent<SpriteRenderer>().sprite = this.backgroundSprites[this.card.ArtIndex];
-			transform.FindChild("Icon1").GetComponent<SpriteRenderer>().sprite = this.iconSprites[1];
-			transform.FindChild("Icon2").GetComponent<SpriteRenderer>().sprite = this.iconSprites[1];
-			transform.FindChild("Icon3").GetComponent<SpriteRenderer>().sprite = this.iconSprites[1];
+			
 		}
 		else{
 			this.hide ();
@@ -286,12 +284,19 @@ public class PlayingCardController : GameObjectController
 			idIcon = this.card.getIdIconEffect();
 			listeTextes = this.card.getIconEffect();
 			description = "";
+			
 			if(listeTextes.Count>0){
 				gameObject.transform.FindChild("Icon"+compteurIcones).GetComponent<SpriteRenderer>().enabled = true;
 				gameObject.transform.FindChild("Icon"+compteurIcones).FindChild("Effect"+compteurIcones).GetComponent<SpriteRenderer>().enabled = true;
 				gameObject.transform.FindChild("Icon"+compteurIcones).FindChild("Effect"+compteurIcones).GetComponent<SpriteRenderer>().sprite = this.iconSprites[idIcon];
 				
 				gameObject.transform.FindChild("Icon"+compteurIcones).GetComponent<IconController>().setInformation(listeTextes[0], listeTextes[1], "");
+				if(listeTextes[2]=="BONUS"){
+					gameObject.transform.FindChild("Icon"+compteurIcones).GetComponent<SpriteRenderer>().sprite = this.iconSprites[2];
+				}
+				else{
+					gameObject.transform.FindChild("Icon"+compteurIcones).GetComponent<SpriteRenderer>().sprite = this.iconSprites[1];
+				}
 				compteurIcones++;
 			}
 			
@@ -312,6 +317,12 @@ public class PlayingCardController : GameObjectController
 					description += "---> TOTAL : "+this.card.GetMove();
 				}
 				gameObject.transform.FindChild("Icon"+compteurIcones).GetComponent<IconController>().setInformation("Déplacement", description, "");
+				if(this.card.GetMove()>=this.card.Move){
+					gameObject.transform.FindChild("Icon"+compteurIcones).GetComponent<SpriteRenderer>().sprite = this.iconSprites[2];
+				}
+				else{
+					gameObject.transform.FindChild("Icon"+compteurIcones).GetComponent<SpriteRenderer>().sprite = this.iconSprites[1];
+				}
 				compteurIcones++;
 			}
 			
@@ -330,6 +341,7 @@ public class PlayingCardController : GameObjectController
 					description += listeTextes[i]+"\n";
 				}
 				gameObject.transform.FindChild("Icon"+compteurIcones).GetComponent<IconController>().setInformation("Protection", description, "");
+				gameObject.transform.FindChild("Icon"+compteurIcones).GetComponent<SpriteRenderer>().sprite = this.iconSprites[2];
 				compteurIcones++;
 			}
 			

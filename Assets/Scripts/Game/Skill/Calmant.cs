@@ -22,37 +22,32 @@ public class Calmant : GameSkill
 		
 		int target = targetsPCC[0];
 		
-		if (Random.Range(1,101) > GameView.instance.getCard(target).GetMagicalEsquive())
-		{                             
-			GameController.instance.addTarget(target,1);
-		}
-		else{
-			GameController.instance.addTarget(target,0);
-		}
-		
-		if (base.card.isGenerous()){
-			if (Random.Range(1,101) <= base.card.getPassiveManacost()){
-				List<int> allys = GameView.instance.getOpponents();
-				for (int i = 0 ; i < allys.Count ; i++){
-					Debug.Log("Allys "+allys[i]);
-				}
-				if(allys.Count>1){
-					allys.Remove(target);
-					for (int i = 0 ; i < allys.Count ; i++){
-						Debug.Log("Allys2 "+allys[i]);
-					}
-					
-					target = allys[Random.Range(0,allys.Count)];
-					
-					if (Random.Range(1,101) > GameView.instance.getCard(target).GetMagicalEsquive())
-					{
-						GameController.instance.addTarget(target,3);
-					}
-					else{
-						GameController.instance.addTarget(target,2);
+		if (Random.Range(1,101) < base.skill.proba){
+			if (Random.Range(1,101) > GameView.instance.getCard(target).GetMagicalEsquive())
+			{                             
+				GameController.instance.addTarget(target,1);
+				if (base.card.isGenerous()){
+					List<int> allys = GameView.instance.getOpponents();
+					if(allys.Count>1){
+						allys.Remove(target);
+						target = allys[Random.Range(0,allys.Count)];
+						
+						if (Random.Range(1,101) > GameView.instance.getCard(target).GetMagicalEsquive())
+						{
+							GameController.instance.addTarget(target,3);
+						}
+						else{
+							GameController.instance.addTarget(target,2);
+						}
 					}
 				}
 			}
+			else{
+				GameController.instance.addTarget(target,0);
+			}
+		}
+		else{
+			GameController.instance.addTarget(target,4);
 		}
 		
 		GameController.instance.play();
@@ -79,6 +74,11 @@ public class Calmant : GameSkill
 				GameView.instance.displaySkillEffect(target, text, 4);
 				receiversTexts.Add (text);
 			}
+			else if (base.results[i]==4){
+				text = "Echec";
+				GameView.instance.displaySkillEffect(target, text, 4);
+				receiversTexts.Add (text);
+			}
 			else{
 				if(base.results[i]==3){
 					text = "Bonus Généreux\n";
@@ -87,18 +87,16 @@ public class Calmant : GameSkill
 					text="";
 				}
 				
-				text+="Attente\n+"+base.skill.ManaCost+" tours";
+				text+="Jouera en dernier";
 				
 				receiversTexts.Add (text);
 				
-				GameController.instance.backTurns(target, base.skill.ManaCost);
+				GameController.instance.backTurns(target);
 				
 				GameView.instance.displaySkillEffect(target, text, 5);
 			}	
 		}
-		if(!GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
-			GameView.instance.setSkillPopUp("lance <b>Calmant</b>...", base.card, receivers, receiversTexts);
-		}
+		GameView.instance.setSkillPopUp(" lance <b>Calmant</b>...", base.card, receivers, receiversTexts);
 	}
 	
 	public override string isLaunchable(){
@@ -107,13 +105,13 @@ public class Calmant : GameSkill
 	
 	public override string getTargetText(int id, Card targetCard){
 		
-		int amount = base.skill.ManaCost;
+		int amount = base.skill.proba;
 		string text;
 		
-		text = "Temps d'attente : +"+amount+" tours\n";
+		text = "Jouera en dernier\n";
 		
 		int probaEsquive = targetCard.GetMagicalEsquive();
-		int probaHit = Mathf.Max(0,100-probaEsquive) ;
+		int probaHit = Mathf.Max(0,amount*(100-probaEsquive)/100) ;
 		
 		text += "HIT% : "+probaHit;
 		

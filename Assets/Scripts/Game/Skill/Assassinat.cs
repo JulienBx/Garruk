@@ -21,21 +21,18 @@ public class Assassinat : GameSkill
 		
 		int target = targetsPCC[0];
 		
-		int successChances = base.skill.ManaCost;
-		
-		if (Random.Range(1,101) > GameView.instance.getCard(target).GetEsquive())
-		{                             
-			if (Random.Range(1,101) <= successChances)
-			{ 
+		if (Random.Range(1,101) < base.skill.proba){
+			if (Random.Range(1,101) > GameView.instance.getCard(target).GetEsquive()){                             
 				GameController.instance.addTarget(target,1);
 			}
 			else{
-				GameController.instance.addTarget(target,2);
+				GameController.instance.addTarget(target,0);
 			}
 		}
 		else{
-			GameController.instance.addTarget(target,0);
+			GameController.instance.addTarget(target,4);
 		}
+		
 		GameController.instance.play();
 	}
 	
@@ -58,7 +55,7 @@ public class Assassinat : GameSkill
 				GameView.instance.displaySkillEffect(target, text, 4);
 				receiversTexts.Add (text);
 			}
-			else if (base.results[i]==2){
+			else if (base.results[i]==4){
 				text = "Echec";
 				GameView.instance.displaySkillEffect(target, text, 4);
 				receiversTexts.Add (text);
@@ -72,9 +69,7 @@ public class Assassinat : GameSkill
 				GameController.instance.addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
 			}	
 		}
-		if(!GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
-			GameView.instance.setSkillPopUp("lance <b>Assassinat</b>...", base.card, receivers, receiversTexts);
-		}
+		GameView.instance.setSkillPopUp("lance <b>Assassinat</b>...", base.card, receivers, receiversTexts);
 	}
 	
 	public override string isLaunchable(){
@@ -83,7 +78,7 @@ public class Assassinat : GameSkill
 	
 	public override string getTargetText(int id, Card targetCard){
 		
-		int chances = base.skill.ManaCost;
+		int chances = base.skill.proba;
 		
 		int probaEsquive = targetCard.GetEsquive();
 		int proba = (chances)*(100-probaEsquive)/100;

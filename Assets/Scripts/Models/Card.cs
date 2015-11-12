@@ -830,6 +830,12 @@ public class Card
 			{
 				iconMoveTexts.Add(this.modifiers [i].title);
 				iconMoveTexts.Add(this.modifiers [i].description);
+				if (this.modifiers [i].idIcon == 51 || this.modifiers [i].idIcon == 52){
+					iconMoveTexts.Add("Bonus");
+				}
+				else{
+					iconMoveTexts.Add("Malus");
+				}
 			}
 			i++;
 		}
@@ -842,7 +848,7 @@ public class Card
 		int i = 0;
 		while (i < this.modifiers.Count)
 		{
-			if (this.modifiers [i].idIcon == 51 || this.modifiers [i].idIcon == 51 || this.modifiers [i].idIcon == 51 || this.modifiers [i].idIcon == 51)
+			if (this.modifiers [i].idIcon == 51 || this.modifiers [i].idIcon == 52 || this.modifiers [i].idIcon == 53 || this.modifiers [i].idIcon == 54)
 			{
 				idIcon = this.modifiers [i].idIcon;
 			}
@@ -881,7 +887,13 @@ public class Card
 	
 	public bool isGenerous()
 	{
-		return (this.Skills[0].Id == 74);
+		bool b = false ;
+		if (this.Skills[0].Id == 74){
+			if(UnityEngine.Random.Range(1,101)<this.Skills[0].proba){
+				b = true ;
+			}
+		}
+		return b;
 	}
 	
 	public bool isGiant()
@@ -1045,21 +1057,15 @@ public class Card
 		int percentage ;
 		string tempstring ;
 		if (s.Contains("%ATK")){
-			Debug.Log("COUNTATK : "+s.Length);
 			index = s.IndexOf("%ATK");
-			Debug.Log("INDEXATK : "+index);
 			
 			tempstring = s.Substring(index-3,3);
-			Debug.Log(tempstring);
 			percentage = Mathf.CeilToInt(Int32.Parse(tempstring)*this.GetAttack()/100f);
 			s = s.Substring(0,index-4)+" "+percentage+" "+s.Substring(0,index+3);
 		}
 		if (s.Contains("%PV")){
-			Debug.Log("COUNTPV : "+s.Length);
 			index = s.IndexOf("%PV");
-			Debug.Log("INDEXPV : "+index);
 			tempstring = s.Substring(index-3,3);
-			Debug.Log(tempstring);
 			percentage = Mathf.CeilToInt(Int32.Parse(tempstring)*this.GetLife()/100f);
 			s = s.Substring(0,index-4)+" "+percentage+" "+s.Substring(0,index+3);
 		}

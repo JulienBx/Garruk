@@ -19,14 +19,14 @@ public class Agilite : GameSkill
 	}
 	
 	public override void applyOn(){
-		int esquive = base.skill.ManaCost;
+		int esquive = base.skill.Level*5;
 		int target = GameController.instance.getCurrentPlayingCard();
 		List<Card> receivers =  new List<Card>();
 		List<string> receiversTexts =  new List<string>();
 		
 		GameController.instance.addCardModifier(target, esquive, ModifierType.Type_EsquivePercentage, ModifierStat.Stat_No, -1, 1, "AGILITE", "Peut esquiver les dégats, Probabilité : "+esquive+"%. Permanent.", "Permanent");
 		
-		string text = "+"+esquive+"% esquive";
+		string text = "Esquive : "+esquive+"%";
 		GameView.instance.displaySkillEffect(target, text, 4);
 		
 		receivers.Add (GameView.instance.getCard(target));

@@ -55,7 +55,9 @@ public class Attack : GameSkill
 		int target ;
 		string text ;
 		List<Card> receivers =  new List<Card>();
-		List<string> receiversTexts =  new List<string>();
+		List<string> upTexts =  new List<string>();
+		List<string> downTexts =  new List<string>();
+		List<int> status =  new List<int>();
 		
 		int amount ; 
 		
@@ -65,14 +67,16 @@ public class Attack : GameSkill
 			receivers.Add (targetCard);
 			Debug.Log ("J'ajoute aux receivers "+target);
 			if (base.results[i]==0){
-				text = "Esquive";
-				GameView.instance.displaySkillEffect(target, text, 4);
-				receiversTexts.Add (text);
+				GameView.instance.displaySkillEffect(target, "Esquive", 4);
+				upTexts.Add ("");
+				downTexts.Add ("");
+				status.Add (2);
 			}
 			else if (base.results[i]==2){
-				text = "Bonus 'Géant'\nEsquive";
-				GameView.instance.displaySkillEffect(target, text, 4);
-				receiversTexts.Add (text);
+				GameView.instance.displaySkillEffect(target, "Esquive", 4);
+				upTexts.Add ("");
+				downTexts.Add ("");
+				status.Add (4);
 			}
 			else{
 				amount = Mathf.Min(targetCard.GetLife(),base.card.GetAttack()*(1-(targetCard.GetBouclier()/100)));
@@ -89,29 +93,22 @@ public class Attack : GameSkill
 					}
 				}
 				if(base.results[i]==3){
-					text = "Bonus Géant\n";
+					status.Add (5);
+					GameView.instance.displaySkillEffect(target, "Bonus Géant\nSuccès", 5);
 				}
 				else{
-					text="";
+					status.Add (0);
+					GameView.instance.displaySkillEffect(target, "Succès", 5);
 				}
 				
-				text+="-"+amount+" PV";
-				
-				if(targetCard.GetLife()==amount){
-					text+="\nMORT";
-				}
-				receiversTexts.Add (text);
-				Debug.Log ("J'ajoute aux receiversTexts "+text);
-				
+				text="-"+amount+" PV";
+				upTexts.Add ("");
+				downTexts.Add (text);
 				
 				GameController.instance.addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
-				
-				GameView.instance.displaySkillEffect(target, text, 5);
 			}	
 		}
-		if(!GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
-			GameView.instance.setSkillPopUp("lance <b>Attaque</b>...", base.card, receivers, receiversTexts);
-		}
+		GameView.instance.setSkillPopUp("Attaque", base.card, receivers, upTexts, downTexts, status);
 	}
 	
 	public override string isLaunchable(){

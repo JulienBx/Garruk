@@ -24,7 +24,7 @@ public class Massue : GameSkill
 		
 		if (Random.Range(1,101) > GameView.instance.getCard(target).GetEsquive())
 		{   
-			int arg = Random.Range(1,base.skill.ManaCost+1)*GameView.instance.getCard(GameController.instance.getCurrentPlayingCard()).GetAttack()/100;
+			int arg = Random.Range(1,(base.skill.Level*10+100)+1)*GameView.instance.getCard(GameController.instance.getCurrentPlayingCard()).GetAttack()/100;
 			GameController.instance.addTarget(target,1,arg);
 		}
 		else{
@@ -121,8 +121,9 @@ public class Massue : GameSkill
 	public override string getTargetText(int id, Card targetCard){
 		
 		int currentLife = targetCard.GetLife();
+		int arg = (base.skill.Level*10+100)*GameView.instance.getCard(GameController.instance.getCurrentPlayingCard()).GetAttack()/100;
 		
-		string text = "PV : "+currentLife+"->"+(currentLife-1)+"-"+(Mathf.Max(0,currentLife-base.skill.ManaCost))+"\n";
+		string text = "PV : "+currentLife+"->"+(currentLife-1)+"-"+(Mathf.Max(0,currentLife-arg))+"\n";
 	
 		int probaEsquive = targetCard.GetEsquive();
 		int probaHit = Mathf.Max(0,100-probaEsquive) ;

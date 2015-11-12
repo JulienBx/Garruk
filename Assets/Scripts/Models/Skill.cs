@@ -87,6 +87,15 @@ public class Skill
 		nbLeft--;
 		this.Description = this.Description.Substring(0, this.Description.Length - 12) + nbLeft + " restant(s)";
 	}
+	public string getProbaText()
+	{
+		if(this.proba<10){
+			return ("0"+proba);
+		}
+		else{
+			return ""+proba;
+		}
+	}
 }
 
 

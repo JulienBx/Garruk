@@ -22,37 +22,32 @@ public class Excitant : GameSkill
 		
 		int target = targetsPCC[0];
 		
-		if (Random.Range(1,101) > GameView.instance.getCard(target).GetMagicalEsquive())
-		{                             
-			GameController.instance.addTarget(target,1);
-		}
-		else{
-			GameController.instance.addTarget(target,0);
-		}
-		
-		if (base.card.isGenerous()){
-			if (Random.Range(1,101) <= base.card.getPassiveManacost()){
-				List<int> allys = GameView.instance.getAllys();
-				for (int i = 0 ; i < allys.Count ; i++){
-					Debug.Log("Allys "+allys[i]);
-				}
-				if(allys.Count>1){
-					allys.Remove(target);
-					for (int i = 0 ; i < allys.Count ; i++){
-						Debug.Log("Allys2 "+allys[i]);
-					}
-					
-					target = allys[Random.Range(0,allys.Count)];
-					
-					if (Random.Range(1,101) > GameView.instance.getCard(target).GetMagicalEsquive())
-					{
-						GameController.instance.addTarget(target,3);
-					}
-					else{
-						GameController.instance.addTarget(target,2);
+		if (Random.Range(1,101) < base.skill.proba){
+			if (Random.Range(1,101) > GameView.instance.getCard(target).GetMagicalEsquive())
+			{                             
+				GameController.instance.addTarget(target,1);
+				if (base.card.isGenerous()){
+					List<int> allys = GameView.instance.getAllys();
+					if(allys.Count>1){
+						allys.Remove(target);
+						target = allys[Random.Range(0,allys.Count)];
+						
+						if (Random.Range(1,101) > GameView.instance.getCard(target).GetMagicalEsquive())
+						{
+							GameController.instance.addTarget(target,3);
+						}
+						else{
+							GameController.instance.addTarget(target,2);
+						}
 					}
 				}
 			}
+			else{
+				GameController.instance.addTarget(target,0);
+			}
+		}
+		else{
+			GameController.instance.addTarget(target,4);
 		}
 		
 		GameController.instance.play();
@@ -62,6 +57,7 @@ public class Excitant : GameSkill
 		Card targetCard ;
 		int target ;
 		string text ;
+		List<int> status =  new List<int>();
 		List<Card> receivers =  new List<Card>();
 		List<string> receiversTexts =  new List<string>();
 		
@@ -70,14 +66,19 @@ public class Excitant : GameSkill
 			targetCard = GameView.instance.getCard(target);
 			receivers.Add (targetCard);
 			if (base.results[i]==0){
-				text = "Esquive";
-				GameView.instance.displaySkillEffect(target, text, 4);
-				receiversTexts.Add (text);
+				GameView.instance.displaySkillEffect(target, "Esquive", 4);
+				status.Add (2);
+				//receiversTexts.Add (text);
 			}
 			else if (base.results[i]==2){
-				text = "Bonus 'Généreux'\nEsquive";
-				GameView.instance.displaySkillEffect(target, text, 4);
-				receiversTexts.Add (text);
+				GameView.instance.displaySkillEffect(target, "Esquive", 4);
+				//receiversTexts.Add (text);
+				status.Add (3);
+			}
+			else if (base.results[i]==4){
+				text = "Echec";
+				GameView.instance.displaySkillEffect(target, "Echec", 4);
+				//receiversTexts.Add (text);
 			}
 			else{
 				if(base.results[i]==3){
@@ -87,19 +88,17 @@ public class Excitant : GameSkill
 					text="";
 				}
 				
-				text+="Attente\n-"+base.skill.ManaCost+" tours";
+				text+="Jouera au prochain tour";
 				
-				receiversTexts.Add (text);
+				//receiversTexts.Add (text);
 				
-				GameController.instance.advanceTurns(target, base.skill.ManaCost);
+				GameController.instance.advanceTurns(target);
 				
-				GameView.instance.displaySkillEffect(target, text, 5);
+				GameView.instance.displaySkillEffect(target, text, 4);
 			}	
 		}
-		if(!GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
-			GameView.instance.setSkillPopUp("lance <b>Excitant</b>...", base.card, receivers, receiversTexts);
-		}
-	}	
+		//GameView.instance.setSkillPopUp("Excitant", base.card, receivers, List<string> textsUpReceivers, List<string> textsDownReceivers);
+	}
 
 	public override string isLaunchable(){
 		return GameView.instance.canLaunchOpponentsTargets();
@@ -107,13 +106,13 @@ public class Excitant : GameSkill
 	
 	public override string getTargetText(int id, Card targetCard){
 		
-		int amount = base.skill.ManaCost;
+		int amount = base.skill.proba;
 		string text;
 		
-		text = "Attente : -"+amount+" tours\n";
+		text = "Joue au prochain tour\n";
 		
 		int probaEsquive = targetCard.GetMagicalEsquive();
-		int probaHit = Mathf.Max(0,100-probaEsquive) ;
+		int probaHit = Mathf.Max(0,amount*(100-probaEsquive)/100) ;
 		
 		text += "HIT% : "+probaHit;
 		

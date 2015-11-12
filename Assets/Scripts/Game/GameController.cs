@@ -532,8 +532,6 @@ public class GameController : Photon.MonoBehaviour
 
 		for (int i = 0; i < ApplicationModel.nbCardsByDeck; i++)
 		{
-			print("------------");
-			print (deck.cards.Count);
 			GameView.instance.createPlayingCard(deck.cards [i], isFirstP, this.isFirstPlayer);
 		}
 		
@@ -644,12 +642,12 @@ public class GameController : Photon.MonoBehaviour
 		photonView.RPC("addRankedCharacter", PhotonTargets.AllBuffered, length-1, this.playingCardTurnsToWait[length-1]);
 	}
 	
-	public void advanceTurns(int idToRank, int nbTurns)
+	public void advanceTurns(int idToRank)
 	{
 		int i = 0;
 		int length = this.playingCardTurnsToWait.Count;
 		int firstRank = this.playingCardTurnsToWait[idToRank];
-		int nextRank = Mathf.Max(1,this.playingCardTurnsToWait[idToRank]-nbTurns);
+		int nextRank = 1;
 		
 		while (i<length)
 		{
@@ -663,7 +661,7 @@ public class GameController : Photon.MonoBehaviour
 			i++;
 		}
 		
-		this.playingCardTurnsToWait[idToRank]=Mathf.Max(1, this.playingCardTurnsToWait[idToRank]-nbTurns) ;
+		this.playingCardTurnsToWait[idToRank]=nextRank ;
 		
 		for (int j = 0 ; j < length ; j++){
 			GameView.instance.getCard(j).nbTurnsToWait = this.playingCardTurnsToWait[j];
@@ -676,26 +674,26 @@ public class GameController : Photon.MonoBehaviour
 		}
 	}
 	
-	public void backTurns(int idToRank, int nbTurns)
+	public void backTurns(int idToRank)
 	{
 		int i = 0;
 		int length = this.playingCardTurnsToWait.Count;
 		int firstRank = this.playingCardTurnsToWait[idToRank];
-		int nextRank = Mathf.Min(length,this.playingCardTurnsToWait[idToRank]+nbTurns);
+		int nextRank = GameView.instance.countAlive();
 		
 		while (i<length)
 		{
 			if(i==idToRank){
 				
 			}
-			else if (this.playingCardTurnsToWait[i]>firstRank && this.playingCardTurnsToWait[i]<=nextRank)
+			else if (this.playingCardTurnsToWait[i]>firstRank)
 			{
 				this.playingCardTurnsToWait[i]--;
 			}
 			i++;
 		}
 		
-		this.playingCardTurnsToWait[idToRank] = Mathf.Min (8, this.playingCardTurnsToWait[idToRank]+nbTurns) ;
+		this.playingCardTurnsToWait[idToRank] = nextRank ;
 		
 		for (int j = 0 ; j < length ; j++){
 			GameView.instance.getCard(j).nbTurnsToWait = this.playingCardTurnsToWait[j];
@@ -1395,32 +1393,6 @@ public class GameController : Photon.MonoBehaviour
 	public void failedToCastOnSkillRPC(int target, int failure)
 	{
 		//GameSkills.instance.getCurrentGameSkill().failedToCastOn(target, failure);
-	}
-	
-	public int nbMyPlayersAlive()
-	{
-		int compteur = 0;
-//		for (int i = 0; i < this.playingCards.Length; i++)
-//		{
-//			if (!this.getPCC(i).isDead && i != this.currentPlayingCard && this.getPCC(i).isMine)
-//			{
-//				compteur++;
-//			}
-//		}
-		return compteur;
-	}
-	
-	public int nbOtherPlayersAlive()
-	{
-		int compteur = 0;
-//		for (int i = 0; i < this.playingCards.Length; i++)
-//		{
-//			if (!this.getPCC(i).isDead && i != this.currentPlayingCard && !this.getPCC(i).isMine)
-//			{
-//				compteur++;
-//			}
-//		}
-		return compteur;
 	}
 	
 	public int getNbPlayingCards()

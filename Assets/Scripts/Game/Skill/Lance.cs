@@ -83,7 +83,8 @@ public class Lance : GameSkill
 				receiversTexts.Add (text);
 			}
 			else{
-				amount = Mathf.Min(targetCard.GetLife(),(base.card.GetAttack()*base.skill.ManaCost/100)*(1-(targetCard.GetBouclier()/100)));
+				amount = (int)Mathf.Min(targetCard.GetLife(),Mathf.Floor((base.card.GetAttack()*(50f+5f*base.skill.Level)/100f)*(1f-(targetCard.GetBouclier()/100f))));
+				
 				if (base.card.isLache()){
 					if(GameController.instance.getIsFirstPlayer()==GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
 						if(GameView.instance.getPlayingCardTile(target).y==GameView.instance.getPlayingCardTile(GameController.instance.getCurrentPlayingCard()).y-1){
@@ -130,8 +131,8 @@ public class Lance : GameSkill
 		int damageBonusPercentage = this.card.GetDamagesPercentageBonus(targetCard);
 		
 		int bouclier = targetCard.GetBouclier();
-		int amount = (this.card.GetAttack()*base.skill.ManaCost/100)*(100+damageBonusPercentage)/100;
-		amount = Mathf.Min(currentLife, amount-(bouclier*amount/100));
+		int amount = (int)Mathf.Min(targetCard.GetLife(),Mathf.Floor((base.card.GetAttack()*(50f+5f*base.skill.Level)/100f)*(1f-(targetCard.GetBouclier()/100f))));
+		
 		
 		string text = "PV : "+currentLife+"->"+(currentLife-amount)+"\n";
 		int probaEsquive = targetCard.GetEsquive();

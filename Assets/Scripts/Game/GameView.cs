@@ -19,6 +19,7 @@ public class GameView : MonoBehaviour
 	public GameObject TutorialObject;
 	public Sprite[] sprites;
 	public Sprite[] skillSprites;
+	public Sprite[] skillTypeSprites;
 	public GameObject loadingScreenObject;
 	
 	bool isDisplayedItsDestinations = false ;
@@ -42,7 +43,9 @@ public class GameView : MonoBehaviour
 	GameObject hisHoveredRPC ;
 	GameObject skillRPC ;
 	GameObject tutorial;
-	GameObject skillPopUp;
+	GameObject SkillWindowLeft;
+	GameObject SkillWindowRight;
+	GameObject Thunder;
 	GameObject popUp;
 	GameObject popUpText;
 	GameObject popUpTitle;
@@ -122,8 +125,9 @@ public class GameView : MonoBehaviour
 		this.skillRPC = GameObject.Find("SkillDescription");
 		this.popUp = GameObject.Find("PopUp");
 		this.popUpText = GameObject.Find("PopUpText");
-		this.skillPopUp = GameObject.Find("SkillPopUp");
-		this.skillPopUp.GetComponent<SkillPopUpController>().hide ();
+		this.SkillWindowLeft = GameObject.Find("SkillWindowLeft");
+		this.SkillWindowRight = GameObject.Find("SkillWindowRight");
+		this.Thunder = GameObject.Find("SkillThunder");
 		this.popUpTitle = GameObject.Find("PopUpTitle");
 		this.timerGO = GameObject.Find("Timer");
 		this.targets = new List<Tile>();
@@ -154,8 +158,14 @@ public class GameView : MonoBehaviour
 			this.playingCards[GameController.instance.getCurrentPlayingCard()].GetComponent<PlayingCardController>().addTime(Time.deltaTime);
 		}
 		
-		if(this.skillPopUp.GetComponent<SkillPopUpController>().getTimeToDisplay()!=0){
-			this.skillPopUp.GetComponent<SkillPopUpController>().addTime(Time.deltaTime);
+		if(this.SkillWindowLeft.GetComponent<SkillWindowLeft>().getTimeToDisplay()!=0){
+			this.SkillWindowLeft.GetComponent<SkillWindowLeft>().addTime(Time.deltaTime);
+		}
+		if(this.SkillWindowRight.GetComponent<SkillWindowRight>().getTimeToDisplay()!=0){
+			this.SkillWindowRight.GetComponent<SkillWindowRight>().addTime(Time.deltaTime);
+		}
+		if(this.Thunder.GetComponent<SkillThunder>().getTimeToDisplay()!=0){
+			this.Thunder.GetComponent<SkillThunder>().addTime(Time.deltaTime);
 		}
 		
 		if(timerTurn>0){
@@ -282,8 +292,37 @@ public class GameView : MonoBehaviour
 	
 	
 	public void setSkillPopUp(string texte, Card launcher, List<Card> receivers, List<string> textsReceivers){
-		this.skillPopUp.GetComponent<SkillPopUpController>().setPopUp(texte, launcher, receivers, textsReceivers);
-		this.skillPopUp.GetComponent<SkillPopUpController>().setTimeToDisplay(3f);
+		if(launcher.isMine){
+			this.SkillWindowLeft.GetComponent<SkillWindowLeft>().setLauncher(launcher.Title+" Niv."+launcher.ExperienceLevel+texte, this.getCharacterSprite(launcher.IdClass));
+		}
+		else{
+		
+		}
+		this.SkillWindowLeft.GetComponent<SkillWindowLeft>().setTimeToDisplay(7f);
+		this.SkillWindowRight.GetComponent<SkillWindowRight>().setTimeToDisplay(7f);
+		this.Thunder.GetComponent<SkillThunder>().setTimeToDisplay(7f);
+		this.Thunder.GetComponent<SkillThunder>().show();
+		
+		//this.skillPopUp.GetComponent<SkillPopUpController>().setPopUp(texte, launcher, receivers, textsReceivers);
+		
+	}
+	
+	public void setSkillPopUp(string texte, Card launcher, List<Card> receivers, List<string> textsUpReceivers, List<string> textsDownReceivers, List<int> status){
+		if(launcher.isMine){
+			this.SkillWindowLeft.GetComponent<SkillWindowLeft>().setLauncher(launcher.Title+" lance...", this.getCharacterSprite(launcher.IdClass));
+			this.SkillWindowRight.GetComponent<SkillWindowRight>().setReceivers(receivers, textsUpReceivers, textsDownReceivers, status);
+		}
+		else{
+			this.SkillWindowRight.GetComponent<SkillWindowRight>().setLauncher(launcher.Title+" lance...", this.getCharacterSprite(launcher.IdClass));
+			this.SkillWindowLeft.GetComponent<SkillWindowLeft>().setReceivers(receivers, textsUpReceivers, textsDownReceivers, status);
+		}
+		this.SkillWindowLeft.GetComponent<SkillWindowLeft>().setTimeToDisplay(7f);
+		this.SkillWindowRight.GetComponent<SkillWindowRight>().setTimeToDisplay(7f);
+		this.Thunder.GetComponent<SkillThunder>().setTimeToDisplay(7f);
+		this.Thunder.GetComponent<SkillThunder>().show();
+		
+		//this.skillPopUp.GetComponent<SkillPopUpController>().setPopUp(texte, launcher, receivers, textsReceivers);
+		
 	}
 	
 	public void displaySkills(bool b){
@@ -2099,6 +2138,14 @@ public class GameView : MonoBehaviour
 			Destroy (this.loadingScreen);
 			this.isLoadingScreenDisplayed=false;
 		}
+	}
+	
+	public Sprite getSkillTypeSprite(int i){
+		return this.skillTypeSprites[i];
+	}
+	
+	public Sprite getCharacterSprite(int i){
+		return this.sprites[i];
 	}
 	
 }

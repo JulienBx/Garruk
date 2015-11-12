@@ -22,30 +22,33 @@ public class Lest : GameSkill
 		
 		int target = targetsPCC[0];
 		
-		if (Random.Range(1,101) > GameView.instance.getCard(target).GetMagicalEsquive())
-		{                             
-			GameController.instance.addTarget(target,1);
-		}
-		else{
-			GameController.instance.addTarget(target,0);
-		}
-		
-		if (base.card.isGenerous()){
-			if (Random.Range(1,101) <= base.card.getPassiveManacost()){
-				List<int> allys = GameView.instance.getOpponents();
-				if(allys.Count>1){
-					allys.Remove(target);
-					target = allys[Random.Range(0,allys.Count)];
-					
-					if (Random.Range(1,101) > GameView.instance.getCard(target).GetMagicalEsquive())
-					{
-						GameController.instance.addTarget(target,3);
-					}
-					else{
-						GameController.instance.addTarget(target,2);
+		if (Random.Range(1,101) < base.skill.proba){
+			if (Random.Range(1,101) > GameView.instance.getCard(target).GetMagicalEsquive()){                             
+				GameController.instance.addTarget(target,1);
+				if (base.card.isGenerous()){
+					List<int> allys = GameView.instance.getAllys();
+					if(allys.Count>1){
+						allys.Remove(target);
+						for (int i = 0 ; i < allys.Count ; i++){
+							target = allys[Random.Range(0,allys.Count)];
+							
+							if (Random.Range(1,101) > GameView.instance.getCard(target).GetMagicalEsquive())
+							{
+								GameController.instance.addTarget(target,3);
+							}
+							else{
+								GameController.instance.addTarget(target,2);
+							}
+						}
 					}
 				}
 			}
+			else{
+				GameController.instance.addTarget(target,0);
+			}
+		}
+		else{
+			GameController.instance.addTarget(target,4);
 		}
 		
 		GameController.instance.play();
@@ -57,8 +60,6 @@ public class Lest : GameSkill
 		string text ;
 		List<Card> receivers =  new List<Card>();
 		List<string> receiversTexts =  new List<string>();
-		
-		int amount ; 
 		
 		for(int i = 0 ; i < base.targets.Count ; i++){
 			target = base.targets[i];
@@ -74,10 +75,12 @@ public class Lest : GameSkill
 				GameView.instance.displaySkillEffect(target, text, 4);
 				receiversTexts.Add (text);
 			}
+			else if (base.results[i]==4){
+				text = "Echec";
+				GameView.instance.displaySkillEffect(target, text, 4);
+				receiversTexts.Add (text);
+			}
 			else{
-				int deplacement = targetCard.GetMove();	
-				amount = Mathf.Min (deplacement-1, Mathf.CeilToInt(base.skill.ManaCost*deplacement/100));
-				
 				if(base.results[i]==3){
 					text = "Bonus Généreux\n";
 				}
@@ -85,17 +88,34 @@ public class Lest : GameSkill
 					text="";
 				}
 				
-				text="-"+amount+" MOV";
-				receiversTexts.Add (text);
+				if(base.skill.Level<=2){
+					text+="-1 MOV pendant un tour";
+					GameController.instance.addCardModifier(target, -1, ModifierType.Type_BonusMalus, ModifierStat.Stat_Move, 1, 12, "LEST",  text, "");
+				}
+				else if(base.skill.Level<=4){
+					text+="-2 MOV pendant un tour";
+					GameController.instance.addCardModifier(target, -2, ModifierType.Type_BonusMalus, ModifierStat.Stat_Move, 1, 12, "LEST",  text, "");
+				}
+				else if(base.skill.Level<=6){
+					text+="-3 MOV pendant un tour";
+					GameController.instance.addCardModifier(target, -3, ModifierType.Type_BonusMalus, ModifierStat.Stat_Move, 1, 12, "LEST",  text, "");
+				}
+				else if(base.skill.Level<=8){
+					text+="-3 MOV pendant deux tours";
+					GameController.instance.addCardModifier(target, -3, ModifierType.Type_BonusMalus, ModifierStat.Stat_Move, 2, 12, "LEST",  text, "");
+				}
+				else if(base.skill.Level<=10){
+					text+="-4 MOV pendant deux tours";
+					GameController.instance.addCardModifier(target, -4, ModifierType.Type_BonusMalus, ModifierStat.Stat_Move, 2, 12, "LEST",  text, "");
+				}
 				
-				GameController.instance.addCardModifier(target, -1*amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Move, 1, 12, "LEST", "-"+amount+" MOV. Actif 1 tour", "");
+				receiversTexts.Add (text);
 				
 				GameView.instance.displaySkillEffect(target, text, 5);
 			}	
-		}
-		if(!GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
-			GameView.instance.setSkillPopUp("lance <b>Lest</b>...", base.card, receivers, receiversTexts);
-		}
+		}		
+		
+		GameView.instance.setSkillPopUp("lance <b>Lest</b>...", base.card, receivers, receiversTexts);
 	}
 	
 	public override string isLaunchable(){

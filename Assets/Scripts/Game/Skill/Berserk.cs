@@ -75,7 +75,21 @@ public class Berserk : GameSkill
 				receiversTexts.Add (text);
 			}
 			else{
-				amount = Mathf.Min(targetCard.GetLife(),(base.card.GetAttack()*125/100)*(1-(targetCard.GetBouclier()/100)));
+				if(base.skill.Level<=3){
+					amount = (int)Mathf.Min(targetCard.GetLife(),Mathf.Floor((base.card.GetAttack()*110f/100f)*(1f-(targetCard.GetBouclier()/100f))));
+				}
+				else if(base.skill.Level<=5){
+					amount = (int)Mathf.Min(targetCard.GetLife(),Mathf.Floor((base.card.GetAttack()*120f/100f)*(1f-(targetCard.GetBouclier()/100f))));
+				}
+				else if(base.skill.Level<=7){
+					amount = (int)Mathf.Min(targetCard.GetLife(),Mathf.Floor((base.card.GetAttack()*130f/100f)*(1f-(targetCard.GetBouclier()/100f))));
+				}
+				else if(base.skill.Level<=9){
+					amount = (int)Mathf.Min(targetCard.GetLife(),Mathf.Floor((base.card.GetAttack()*140f/100f)*(1f-(targetCard.GetBouclier()/100f))));
+				}
+				else {
+					amount = (int)Mathf.Min(targetCard.GetLife(),Mathf.Floor((base.card.GetAttack()*150f/100f)*(1f-(targetCard.GetBouclier()/100f))));
+				}
 				
 				if(base.results[i]==3){
 					text = "Bonus Géant\n";
@@ -98,7 +112,26 @@ public class Berserk : GameSkill
 		}
 		
 		targetCard = GameView.instance.getCard(GameController.instance.getCurrentPlayingCard());
-		amount2=Mathf.Min(targetCard.GetLife(),base.skill.ManaCost);
+		
+		if(base.skill.Level<=1){
+			amount2 = (int)Mathf.Min(targetCard.GetLife(),Mathf.Floor((base.card.GetLife()*40f/100f)*(1f-(targetCard.GetBouclier()/100f))));
+		}
+		else if(base.skill.Level<=2){
+			amount2 = (int)Mathf.Min(targetCard.GetLife(),Mathf.Floor((base.card.GetLife()*35f/100f)*(1f-(targetCard.GetBouclier()/100f))));
+		}
+		else if(base.skill.Level<=4){
+			amount2 = (int)Mathf.Min(targetCard.GetLife(),Mathf.Floor((base.card.GetLife()*30f/100f)*(1f-(targetCard.GetBouclier()/100f))));
+		}
+		else if(base.skill.Level<=6){
+			amount2 = (int)Mathf.Min(targetCard.GetLife(),Mathf.Floor((base.card.GetLife()*25f/100f)*(1f-(targetCard.GetBouclier()/100f))));
+		}
+		else if(base.skill.Level<=8){
+			amount2 = (int)Mathf.Min(targetCard.GetLife(),Mathf.Floor((base.card.GetLife()*20f/100f)*(1f-(targetCard.GetBouclier()/100f))));
+		}
+		else {
+			amount2 = (int)Mathf.Min(targetCard.GetLife(),Mathf.Floor((base.card.GetLife()*15f/100f)*(1f-(targetCard.GetBouclier()/100f))));
+		}
+		
 		receivers.Add (targetCard);
 		text="S'inflige "+amount2+" dégats";
 		if(targetCard.GetLife()==amount2){
@@ -109,9 +142,8 @@ public class Berserk : GameSkill
 		GameController.instance.addCardModifier(GameController.instance.getCurrentPlayingCard(), amount2, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
 		GameView.instance.displaySkillEffect(GameController.instance.getCurrentPlayingCard(), text, 5);
 		
-		if(!GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
-			GameView.instance.setSkillPopUp("lance <b>Berserk</b>...", base.card, receivers, receiversTexts);
-		}
+		GameView.instance.setSkillPopUp("lance <b>Berserk</b>...", base.card, receivers, receiversTexts);
+		
 	}
 	
 	public override string isLaunchable(){
@@ -125,8 +157,23 @@ public class Berserk : GameSkill
 		
 		int myBouclier = base.card.GetBouclier();
 		int bouclier = targetCard.GetBouclier();
+		int amount ;
 		
-		int amount = Mathf.CeilToInt(base.card.GetAttack()*125f/100f);
+		if(base.skill.Level<=3){
+			amount = (int)Mathf.Min(targetCard.GetLife(),Mathf.Floor((base.card.GetAttack()*110f/100f)*(1f-(targetCard.GetBouclier()/100f))));
+		}
+		else if(base.skill.Level<=5){
+			amount = (int)Mathf.Min(targetCard.GetLife(),Mathf.Floor((base.card.GetAttack()*120f/100f)*(1f-(targetCard.GetBouclier()/100f))));
+		}
+		else if(base.skill.Level<=7){
+			amount = (int)Mathf.Min(targetCard.GetLife(),Mathf.Floor((base.card.GetAttack()*130f/100f)*(1f-(targetCard.GetBouclier()/100f))));
+		}
+		else if(base.skill.Level<=9){
+			amount = (int)Mathf.Min(targetCard.GetLife(),Mathf.Floor((base.card.GetAttack()*140f/100f)*(1f-(targetCard.GetBouclier()/100f))));
+		}
+		else {
+			amount = (int)Mathf.Min(targetCard.GetLife(),Mathf.Floor((base.card.GetAttack()*150f/100f)*(1f-(targetCard.GetBouclier()/100f))));
+		}
 		
 		int damageBonusPercentage = base.card.GetDamagesPercentageBonus(targetCard);
 		amount = Mathf.Min(currentLife,amount-(bouclier*amount/100));
