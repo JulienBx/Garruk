@@ -1,85 +1,138 @@
-//using UnityEngine;
-//using UnityEngine.UI;
-//using System;
-//using System.Collections;
-//using System.Collections.Generic;
-//using System.Reflection;
-//
-//public class ProfileTutorialController : TutorialObjectController 
-//{
-//	public static ProfileTutorialController instance;
-//	
-//	public override IEnumerator launchSequence(int sequenceID)
-//	{
-//		this.sequenceID = sequenceID;
-//		switch(this.sequenceID)
-//		{
-//		case 0:
-//			if(!isResizing)
-//			{
-//				MenuController.instance.setButtonsGui(false);
-//				ProfileController.instance.setButtonsGui(false);
-//				view.VM.displayArrow=false;
-//				view.VM.displayNextButton=true;
-//				view.VM.title="Le profil d'un joueur";
-//				view.VM.description="En consultant le profil d'un autre joueur vous accédez à ces statistiques ainsi qu'à la liste de ses amis";
-//			}
-//			popUpWidth=0.3f*Screen.width;
-//			popUpHeight=this.computePopUpHeight();
-//			popUpX=0.35f*Screen.width;
-//			popUpY=0.35f*Screen.height;
-//			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
-//			break;
-//		case 1:
-//			if(!isResizing)
-//			{
-//				view.VM.displayArrow=true;
-//				view.VM.displayNextButton=true;
-//				view.VM.title="Ajouter un ami";
-//				view.VM.description="Pour ajouter ou retirer le joueur de vos amis, des boutons sont disponibles en haut à droite du profil";
-//				this.setRightArrow();
-//			}
-//			arrowHeight=(2f/3f)*0.1f*Screen.height;
-//			arrowWidth=(3f/2f)*arrowHeight;
-//			if(Screen.height/3>180)
-//			{
-//				arrowX=Screen.width-185f-arrowWidth;
-//			}
-//			else
-//			{
-//				arrowX = Screen.width-(Screen.height/3f+5f)-arrowWidth;
-//			}
-//			arrowY=0.15f*Screen.height-(arrowHeight/2f);
-//			view.VM.arrowRect= new Rect (arrowX,arrowY,arrowWidth,arrowHeight);
-//			this.drawRightArrow();
-//			popUpWidth=0.35f*Screen.width;
-//			popUpHeight=this.computePopUpHeight();
-//			popUpX=arrowX-0.01f*Screen.width-popUpWidth;
-//			popUpY=arrowY+arrowHeight/2f-popUpHeight/2f;
-//			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
-//			break;
-//		case 2:
-//			if(!isResizing)
-//			{
-//				view.VM.displayArrow=false;
-//				view.VM.displayNextButton=true;
-//				view.VM.title="A vous de jouer";
-//				view.VM.description="Consulter les profils de vos adversaires et tenez vous informé de leur progression";
-//			}
-//			popUpWidth=0.3f*Screen.width;
-//			popUpHeight=this.computePopUpHeight();
-//			popUpX=0.35f*Screen.width;
-//			popUpY=0.35f*Screen.height;
-//			view.VM.popUpRect= new Rect (popUpX,popUpY,popUpWidth,popUpHeight);
-//			break;
-//		case 3:
-//			StartCoroutine(ProfileController.instance.endTutorial());
-//			break;
-//		}
-//		yield break;
-//	}
-//	public override void actionIsDone()
-//	{
-//	}
-//}
-//
+using UnityEngine;
+using UnityEngine.UI;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Reflection;
+
+public class ProfileTutorialController : TutorialObjectController 
+{
+	public static ProfileTutorialController instance;
+	
+	public override void endInitialization()
+	{
+		NewProfileController.instance.endTutorialInitialization ();
+	}
+	public override void startTutorial(int tutorialStep, bool isDisplayed)
+	{
+		base.startTutorial (tutorialStep, isDisplayed);
+		MenuController.instance.setIsUserBusy (true);
+		this.launchSequence (getStartSequenceId(tutorialStep));
+	}
+	public override void launchSequence(int sequenceID)
+	{
+		Vector3 gameObjectPosition = new Vector3 ();
+		this.sequenceID = sequenceID;
+		switch(this.sequenceID)
+		{
+			//		case 0:
+			//			if(!isResizing)
+			//			{
+			//				this.displayArrow(false);
+			//				this.displayPopUp(2);
+			//				this.displayNextButton(true);
+			//				this.setPopUpTitle("Bienvenue dans Techtical Wars");
+			//				this.setPopUpDescription("A compléter");
+			//				this.displayBackground(true);
+			//				this.displayExitButton(false);
+			//				
+			//			}
+			//			this.resizeBackground(new Rect(0,10,5,5),0f,0f);
+			//			this.resizePopUp(new Vector3(0,0,-9.5f));
+			//			break;
+			//		case 1:
+			//			if(!isResizing)
+			//			{
+			//				this.displayPopUp(-1);
+			//				this.setLeftArrow();
+			//				this.displayNextButton(false);
+			//				this.displayBackground(true);
+			//				this.displayExitButton(false);
+			//				
+			//			}
+			//			gameObjectPosition = NewMyGameController.instance.returnBuyPackButtonPosition(1);
+			//			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2.5f,1f),0.8f,0.8f);
+			//			this.drawLeftArrow();
+			//			break;
+			//		case 2:
+			//			if(!isResizing)
+			//			{
+			//				this.displayArrow(false);
+			//				this.displayPopUp(-1);
+			//				this.displayNextButton(false);
+			//				this.displayBackground(true);
+			//				this.displayExitButton(false);
+			//			}
+			//			this.resizeBackground(new Rect(0,0,ApplicationDesignRules.worldWidth+2,5),0f,0f);
+			//			break;
+			//		case 3:
+			//			if(this.getIsTutorialDisplayed())
+			//			{
+			//				if(!isResizing)
+			//				{
+			//					this.displayArrow(false);
+			//					this.displayPopUp(0);
+			//					this.displayNextButton(true);
+			//					this.setPopUpTitle("Bravo voici vos premières recrues");
+			//					this.setPopUpDescription("A compléter");
+			//					this.displayBackground(true);
+			//					this.displayExitButton(true);
+			//					
+			//				}
+			//				this.resizeBackground(new Rect(0,0,ApplicationDesignRules.worldWidth+2,5),0f,0f);
+			//				this.resizePopUp(new Vector3(0,-3.5f,-9.5f));
+			//			}
+			//			else
+			//			{
+			//				this.sequenceID=100;
+			//				goto case 100;
+			//			}
+			//			break;
+			//		case 4:
+			//			if(this.getIsTutorialDisplayed())
+			//			{
+			//				if(!isResizing)
+			//				{
+			//					this.displayPopUp(-1);
+			//					this.setUpArrow();
+			//					this.displayNextButton(false);
+			//					this.displayBackground(true);
+			//					
+			//				}
+			//				gameObjectPosition = MenuController.instance.getButtonPosition(1);
+			//				this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2.5f,0.75f),0.8f,0.8f);
+			//				this.drawUpArrow();
+			//			}
+			//			else
+			//			{
+			//				this.sequenceID=100;
+			//				goto case 100;
+			//			}
+			//			break;
+		default:
+			base.launchSequence(this.sequenceID);
+			break;
+		}
+	}
+	public override void actionIsDone()
+	{
+		switch(this.sequenceID)
+		{
+			//		case 1: case 2: 
+			//			this.launchSequence(this.sequenceID+1);
+			//			break;
+		}
+	}
+	public override int getStartSequenceId(int tutorialStep)
+	{
+		switch(tutorialStep)
+		{
+		default:
+			return base.getStartSequenceId(tutorialStep);
+			break;
+		}
+		return 0;
+	}
+	
+}
+

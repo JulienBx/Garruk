@@ -32,7 +32,7 @@ public class MarketMenuController : MenuController
 	public override void initializeScene ()
 	{
 		base.setCurrentPage (3);
-		NewMarketController.instance.initialization ();
+		NewMarketController.instance.endMenuInitialization ();
 	}
 }
 

@@ -29,7 +29,7 @@ public class SkillBookMenuController : MenuController
 	public override void initializeScene()
 	{
 		base.setCurrentPage (4);
-		StartCoroutine (NewSkillBookController.instance.initialization ());
+		NewSkillBookController.instance.endMenuInitialization();
 	}
 }
 

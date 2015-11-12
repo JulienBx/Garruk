@@ -18,6 +18,8 @@ public class NewProfileModel
 	public bool isConnectedToMe;
 	public Connection connectionWithMe;
 	public int activePlayerId;
+	public int tutorialStep;
+	public bool displayTutorial;
 	
 	private string URLGetProfileData = ApplicationModel.host+"get_profile_data.php";
 	private string URLSearchUsers = ApplicationModel.host + "search_users.php";
@@ -60,7 +62,7 @@ public class NewProfileModel
 		{
 			string[] data=w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
 			this.player = parsePlayer(data[0].Split(new string[] { "//" }, System.StringSplitOptions.None),isMyProfile);
-			this.users = parseUsers(data[6].Split(new string[] { "#U#"  }, System.StringSplitOptions.None));
+			this.users = parseUsers(data[8].Split(new string[] { "#U#"  }, System.StringSplitOptions.None));
 			this.users.Add(player);
 			this.trophies=parseTrophies(data[1].Split(new string[] {"#TROPHY#"},System.StringSplitOptions.None));
 			this.friends=parseFriends(data[2].Split(new string[] { "//" }, System.StringSplitOptions.None));
@@ -86,6 +88,8 @@ public class NewProfileModel
 				this.confrontations=parseConfrontations(data[4].Split(new string[] {"#CF#"},System.StringSplitOptions.None));
 				this.activePlayerId=System.Convert.ToInt32(data[5]);
 			}
+			this.tutorialStep=System.Convert.ToInt32(data[6]);
+			this.displayTutorial=System.Convert.ToBoolean(System.Convert.ToInt32(data[7]));
 			usernameList=new string[this.users.Count];
 			for(int i=0;i<this.users.Count;i++)
 			{

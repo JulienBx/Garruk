@@ -11,7 +11,6 @@ public class NewSkillBookController : MonoBehaviour
 	private NewSkillBookModel model;
 	
 	public GameObject blockObject;
-	public GameObject tutorialObject;
 
 	private GameObject menu;
 	private GameObject tutorial;
@@ -73,7 +72,6 @@ public class NewSkillBookController : MonoBehaviour
 	private int[] cardTypesNbSkills;
 	private int[] cardTypesNbCards;
 
-	private bool isTutorialLaunched;
 	private bool isSceneLoaded;
 
 	void Update()
@@ -140,6 +138,25 @@ public class NewSkillBookController : MonoBehaviour
 		this.helpPagination.nbElementsPerPage = 3;
 		this.selectedCardTypeId = 0;
 		this.initializeScene ();
+		this.startMenuInitialization ();
+	}
+	private void startMenuInitialization()
+	{
+		this.menu = GameObject.Find ("Menu");
+		this.menu.AddComponent<SkillBookMenuController> ();
+	}
+	public void endMenuInitialization()
+	{
+		this.startTutorialInitialization ();
+	}
+	private void startTutorialInitialization()
+	{
+		this.tutorial = GameObject.Find ("Tutorial");
+		this.tutorial.AddComponent<SkillBookTutorialController>();
+	}
+	public void endTutorialInitialization()
+	{
+		StartCoroutine(this.initialization ());
 	}
 	public IEnumerator initialization()
 	{
@@ -152,14 +169,10 @@ public class NewSkillBookController : MonoBehaviour
 		this.initializeSkills ();
 		MenuController.instance.hideLoadingScreen ();
 		this.isSceneLoaded = true;
-		if(!model.player.SkillBookTutorial)
+		if(model.player.TutorialStep!=-1)
 		{
-			this.tutorial = Instantiate(this.tutorialObject) as GameObject;
-			//this.tutorial.AddComponent<SkillBookTutorialController>();
-			//StartCoroutine(this.tutorial.GetComponent<SkillBookTutorialController>().launchSequence(0));
-			this.menu.GetComponent<MenuController>().setTutorialLaunched(true);
-			this.isTutorialLaunched=true;
-		} 
+			TutorialObjectController.instance.startTutorial(model.player.TutorialStep,model.player.displayTutorial);
+		}
 	}
 	public void selectATabHandler(int idTab)
 	{
@@ -327,9 +340,6 @@ public class NewSkillBookController : MonoBehaviour
 	}
 	public void initializeScene()
 	{
-		menu = GameObject.Find ("Menu");
-		menu.AddComponent<SkillBookMenuController> ();
-
 		this.skillsBlock = Instantiate (this.blockObject) as GameObject;
 		this.skillsBlockTitle = GameObject.Find ("SkillsBlockTitle");
 		this.skillsBlockTitle.GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
@@ -656,10 +666,7 @@ public class NewSkillBookController : MonoBehaviour
 			this.stats[i].transform.FindChild("Title").GetComponent<TextContainer>().width=statsBlockSize.x;
 		}
 
-		if(this.isTutorialLaunched)
-		{
-			this.tutorial.GetComponent<TutorialObjectController>().resize();
-		}
+		TutorialObjectController.instance.resize ();
 	}
 	public void cardTypeFilterHandler(int id)
 	{
@@ -954,17 +961,6 @@ public class NewSkillBookController : MonoBehaviour
 	}
 	public void closeAllPopUp()
 	{
-	}
-	public IEnumerator endTutorial(bool toUpdate)
-	{
-		Destroy (this.tutorial);
-		this.isTutorialLaunched = false;
-		MenuController.instance.setTutorialLaunched (false);
-		if(toUpdate)
-		{
-			yield return StartCoroutine (model.player.setSkillBookTutorial(true));
-		}
-		yield break;
 	}
 	public void searchingSkill()
 	{

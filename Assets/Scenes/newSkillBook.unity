@@ -180,7 +180,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 0
+  checkPaddingRequired: 1
   m_enableWordWrapping: 0
   m_overflowMode: 0
   m_wordWrappingRatios: .400000006
@@ -188,8 +188,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 0
-  havePropertiesChanged: 0
+  isInputParsingRequired: 1
+  havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_inputSource: 0
@@ -308,7 +308,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 404348, guid: 5339a47b0097045b486ef51f1d6832cf, type: 2}
       propertyPath: m_RootOrder
-      value: 41
+      value: 42
       objectReference: {fileID: 0}
     - target: {fileID: 196790, guid: 5339a47b0097045b486ef51f1d6832cf, type: 2}
       propertyPath: m_Name
@@ -359,7 +359,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 498474, guid: cf2298cd4387e46cdb6aef3b52c57ac0, type: 2}
       propertyPath: m_RootOrder
-      value: 23
+      value: 24
       objectReference: {fileID: 0}
     - target: {fileID: 167542, guid: cf2298cd4387e46cdb6aef3b52c57ac0, type: 2}
       propertyPath: m_Name
@@ -421,7 +421,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 414012, guid: bf83046e5988445a0a28e4e32a0854ea, type: 2}
       propertyPath: m_RootOrder
-      value: 10
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 142820, guid: bf83046e5988445a0a28e4e32a0854ea, type: 2}
       propertyPath: m_Name
@@ -471,7 +471,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 446648, guid: 3a54e958571a0453d9dd93e642146ae4, type: 2}
       propertyPath: m_RootOrder
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 11429126, guid: 3a54e958571a0453d9dd93e642146ae4, type: 2}
       propertyPath: checkPaddingRequired
@@ -527,7 +527,7 @@ Transform:
   - {fileID: 671647274}
   - {fileID: 204118654}
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 12
 --- !u!1 &204118653
 GameObject:
   m_ObjectHideFlags: 0
@@ -621,7 +621,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 0
+  checkPaddingRequired: 1
   m_enableWordWrapping: 0
   m_overflowMode: 0
   m_wordWrappingRatios: .400000006
@@ -629,8 +629,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 0
-  havePropertiesChanged: 0
+  isInputParsingRequired: 1
+  havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_inputSource: 0
@@ -778,7 +778,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 0
+  checkPaddingRequired: 1
   m_enableWordWrapping: 0
   m_overflowMode: 0
   m_wordWrappingRatios: .400000006
@@ -786,8 +786,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 0
-  havePropertiesChanged: 0
+  isInputParsingRequired: 1
+  havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_inputSource: 0
@@ -915,7 +915,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 445138, guid: 5e7882f02b2a04765aca54f98581be4d, type: 2}
       propertyPath: m_RootOrder
-      value: 31
+      value: 32
       objectReference: {fileID: 0}
     - target: {fileID: 11489876, guid: 5e7882f02b2a04765aca54f98581be4d, type: 2}
       propertyPath: checkPaddingRequired
@@ -1033,7 +1033,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 0
+  checkPaddingRequired: 1
   m_enableWordWrapping: 0
   m_overflowMode: 0
   m_wordWrappingRatios: .400000006
@@ -1041,8 +1041,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 0
-  havePropertiesChanged: 0
+  isInputParsingRequired: 1
+  havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_inputSource: 0
@@ -1161,7 +1161,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 488078, guid: 298412a952f2f411fa9db637bb01264c, type: 2}
       propertyPath: m_RootOrder
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 155134, guid: 298412a952f2f411fa9db637bb01264c, type: 2}
       propertyPath: m_Name
@@ -1207,7 +1207,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 404348, guid: 5339a47b0097045b486ef51f1d6832cf, type: 2}
       propertyPath: m_RootOrder
-      value: 36
+      value: 37
       objectReference: {fileID: 0}
     - target: {fileID: 196790, guid: 5339a47b0097045b486ef51f1d6832cf, type: 2}
       propertyPath: m_Name
@@ -1258,7 +1258,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 465062, guid: afd6678f3f33e468ebebbe78ea5720e9, type: 2}
       propertyPath: m_RootOrder
-      value: 19
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 11471258, guid: afd6678f3f33e468ebebbe78ea5720e9, type: 2}
       propertyPath: checkPaddingRequired
@@ -1552,7 +1552,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 0
+  checkPaddingRequired: 1
   m_enableWordWrapping: 0
   m_overflowMode: 0
   m_wordWrappingRatios: .400000006
@@ -1560,8 +1560,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 0
-  havePropertiesChanged: 0
+  isInputParsingRequired: 1
+  havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_inputSource: 0
@@ -1677,7 +1677,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 486234, guid: 2a5b40150cfc442b58eccf15ac421d58, type: 2}
       propertyPath: m_RootOrder
-      value: 51
+      value: 52
       objectReference: {fileID: 0}
     - target: {fileID: 11495520, guid: 2a5b40150cfc442b58eccf15ac421d58, type: 2}
       propertyPath: checkPaddingRequired
@@ -1849,7 +1849,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 0
+  checkPaddingRequired: 1
   m_enableWordWrapping: 1
   m_overflowMode: 0
   m_wordWrappingRatios: .400000006
@@ -1857,8 +1857,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 0
-  havePropertiesChanged: 0
+  isInputParsingRequired: 1
+  havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_inputSource: 0
@@ -1968,7 +1968,7 @@ Transform:
   - {fileID: 553976495}
   - {fileID: 188992}
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 14
 --- !u!1 &671647273
 GameObject:
   m_ObjectHideFlags: 0
@@ -2075,7 +2075,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400406, guid: 63a6b5148d8b34c288199ad82641727b, type: 2}
       propertyPath: m_RootOrder
-      value: 53
+      value: 54
       objectReference: {fileID: 0}
     - target: {fileID: 11489720, guid: 63a6b5148d8b34c288199ad82641727b, type: 2}
       propertyPath: checkPaddingRequired
@@ -2353,7 +2353,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 404348, guid: 5339a47b0097045b486ef51f1d6832cf, type: 2}
       propertyPath: m_RootOrder
-      value: 38
+      value: 39
       objectReference: {fileID: 0}
     - target: {fileID: 196790, guid: 5339a47b0097045b486ef51f1d6832cf, type: 2}
       propertyPath: m_Name
@@ -2538,7 +2538,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 480038, guid: d520f894529f84042a0351d5d585d990, type: 2}
       propertyPath: m_RootOrder
-      value: 29
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 159040, guid: d520f894529f84042a0351d5d585d990, type: 2}
       propertyPath: m_Name
@@ -2600,7 +2600,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 411862, guid: aaa0893bce5d74a3d95e65784e0fa0e8, type: 2}
       propertyPath: m_RootOrder
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3373522, guid: aaa0893bce5d74a3d95e65784e0fa0e8, type: 2}
       propertyPath: m_Mesh
@@ -2770,7 +2770,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 493804, guid: b381e9eb1d6c74c07aa10627ed9f5864, type: 2}
       propertyPath: m_RootOrder
-      value: 30
+      value: 31
       objectReference: {fileID: 0}
     - target: {fileID: 197800, guid: b381e9eb1d6c74c07aa10627ed9f5864, type: 2}
       propertyPath: m_Name
@@ -2844,7 +2844,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 486234, guid: 2a5b40150cfc442b58eccf15ac421d58, type: 2}
       propertyPath: m_RootOrder
-      value: 49
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 11495520, guid: 2a5b40150cfc442b58eccf15ac421d58, type: 2}
       propertyPath: checkPaddingRequired
@@ -2906,7 +2906,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 445138, guid: 5e7882f02b2a04765aca54f98581be4d, type: 2}
       propertyPath: m_RootOrder
-      value: 32
+      value: 33
       objectReference: {fileID: 0}
     - target: {fileID: 11489876, guid: 5e7882f02b2a04765aca54f98581be4d, type: 2}
       propertyPath: checkPaddingRequired
@@ -2959,7 +2959,7 @@ Transform:
   - {fileID: 1925542736}
   - {fileID: 1415474470}
   m_Father: {fileID: 0}
-  m_RootOrder: 16
+  m_RootOrder: 17
 --- !u!1 &843752275
 GameObject:
   m_ObjectHideFlags: 0
@@ -3052,7 +3052,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 414012, guid: bf83046e5988445a0a28e4e32a0854ea, type: 2}
       propertyPath: m_RootOrder
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 142820, guid: bf83046e5988445a0a28e4e32a0854ea, type: 2}
       propertyPath: m_Name
@@ -3144,7 +3144,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 0
+  checkPaddingRequired: 1
   m_enableWordWrapping: 1
   m_overflowMode: 0
   m_wordWrappingRatios: .400000006
@@ -3152,8 +3152,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 0
-  havePropertiesChanged: 0
+  isInputParsingRequired: 1
+  havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_inputSource: 0
@@ -3301,7 +3301,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 0
+  checkPaddingRequired: 1
   m_enableWordWrapping: 0
   m_overflowMode: 0
   m_wordWrappingRatios: .400000006
@@ -3309,8 +3309,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 0
-  havePropertiesChanged: 0
+  isInputParsingRequired: 1
+  havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_inputSource: 0
@@ -3492,7 +3492,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 486234, guid: 2a5b40150cfc442b58eccf15ac421d58, type: 2}
       propertyPath: m_RootOrder
-      value: 47
+      value: 48
       objectReference: {fileID: 0}
     - target: {fileID: 11495520, guid: 2a5b40150cfc442b58eccf15ac421d58, type: 2}
       propertyPath: checkPaddingRequired
@@ -3554,7 +3554,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 480038, guid: d520f894529f84042a0351d5d585d990, type: 2}
       propertyPath: m_RootOrder
-      value: 27
+      value: 28
       objectReference: {fileID: 0}
     - target: {fileID: 11454126, guid: d520f894529f84042a0351d5d585d990, type: 2}
       propertyPath: checkPaddingRequired
@@ -3616,7 +3616,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 446648, guid: 3a54e958571a0453d9dd93e642146ae4, type: 2}
       propertyPath: m_RootOrder
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 161356, guid: 3a54e958571a0453d9dd93e642146ae4, type: 2}
       propertyPath: m_Name
@@ -3707,7 +3707,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 0
+  checkPaddingRequired: 1
   m_enableWordWrapping: 1
   m_overflowMode: 0
   m_wordWrappingRatios: .400000006
@@ -3715,8 +3715,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 0
-  havePropertiesChanged: 0
+  isInputParsingRequired: 1
+  havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_inputSource: 0
@@ -3892,7 +3892,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
 --- !u!114 &1121143177
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3905,7 +3905,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blockObject: {fileID: 141336, guid: e04d94d41eac54d0ca5a7a7c20151863, type: 2}
-  tutorialObject: {fileID: 180340, guid: 1474ad9f863d24afcaf1180c03ae5275, type: 2}
 --- !u!1001 &1144188219
 Prefab:
   m_ObjectHideFlags: 0
@@ -3943,7 +3942,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 404348, guid: 5339a47b0097045b486ef51f1d6832cf, type: 2}
       propertyPath: m_RootOrder
-      value: 42
+      value: 43
       objectReference: {fileID: 0}
     - target: {fileID: 196790, guid: 5339a47b0097045b486ef51f1d6832cf, type: 2}
       propertyPath: m_Name
@@ -3994,7 +3993,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 465062, guid: afd6678f3f33e468ebebbe78ea5720e9, type: 2}
       propertyPath: m_RootOrder
-      value: 20
+      value: 21
       objectReference: {fileID: 0}
     - target: {fileID: 11471258, guid: afd6678f3f33e468ebebbe78ea5720e9, type: 2}
       propertyPath: checkPaddingRequired
@@ -4262,7 +4261,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 490260, guid: 0f9678f621c624a228fd9b0e378e0d40, type: 2}
       propertyPath: m_RootOrder
-      value: 26
+      value: 27
       objectReference: {fileID: 0}
     - target: {fileID: 11459308, guid: 0f9678f621c624a228fd9b0e378e0d40, type: 2}
       propertyPath: checkPaddingRequired
@@ -4336,7 +4335,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 493804, guid: b381e9eb1d6c74c07aa10627ed9f5864, type: 2}
       propertyPath: m_RootOrder
-      value: 34
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 197800, guid: b381e9eb1d6c74c07aa10627ed9f5864, type: 2}
       propertyPath: m_Name
@@ -4401,7 +4400,7 @@ Transform:
   - {fileID: 1766085221}
   - {fileID: 2041265267}
   m_Father: {fileID: 0}
-  m_RootOrder: 17
+  m_RootOrder: 18
 --- !u!1001 &1363003666
 Prefab:
   m_ObjectHideFlags: 0
@@ -4439,7 +4438,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 404348, guid: 5339a47b0097045b486ef51f1d6832cf, type: 2}
       propertyPath: m_RootOrder
-      value: 40
+      value: 41
       objectReference: {fileID: 0}
     - target: {fileID: 196790, guid: 5339a47b0097045b486ef51f1d6832cf, type: 2}
       propertyPath: m_Name
@@ -4490,7 +4489,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 404348, guid: 5339a47b0097045b486ef51f1d6832cf, type: 2}
       propertyPath: m_RootOrder
-      value: 43
+      value: 44
       objectReference: {fileID: 0}
     - target: {fileID: 196790, guid: 5339a47b0097045b486ef51f1d6832cf, type: 2}
       propertyPath: m_Name
@@ -4541,7 +4540,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 488078, guid: 298412a952f2f411fa9db637bb01264c, type: 2}
       propertyPath: m_RootOrder
-      value: 18
+      value: 19
       objectReference: {fileID: 0}
     - target: {fileID: 155134, guid: 298412a952f2f411fa9db637bb01264c, type: 2}
       propertyPath: m_Name
@@ -4628,7 +4627,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 0
+  checkPaddingRequired: 1
   m_enableWordWrapping: 0
   m_overflowMode: 0
   m_wordWrappingRatios: .400000006
@@ -4636,8 +4635,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 0
-  havePropertiesChanged: 0
+  isInputParsingRequired: 1
+  havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_inputSource: 0
@@ -4794,7 +4793,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 0
+  checkPaddingRequired: 1
   m_enableWordWrapping: 1
   m_overflowMode: 0
   m_wordWrappingRatios: .400000006
@@ -4802,8 +4801,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 0
-  havePropertiesChanged: 0
+  isInputParsingRequired: 1
+  havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_inputSource: 0
@@ -4919,7 +4918,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 493804, guid: b381e9eb1d6c74c07aa10627ed9f5864, type: 2}
       propertyPath: m_RootOrder
-      value: 45
+      value: 46
       objectReference: {fileID: 0}
     - target: {fileID: 197800, guid: b381e9eb1d6c74c07aa10627ed9f5864, type: 2}
       propertyPath: m_Name
@@ -4993,7 +4992,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400406, guid: 63a6b5148d8b34c288199ad82641727b, type: 2}
       propertyPath: m_RootOrder
-      value: 54
+      value: 55
       objectReference: {fileID: 0}
     - target: {fileID: 11489720, guid: 63a6b5148d8b34c288199ad82641727b, type: 2}
       propertyPath: checkPaddingRequired
@@ -5287,7 +5286,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 404348, guid: 5339a47b0097045b486ef51f1d6832cf, type: 2}
       propertyPath: m_RootOrder
-      value: 35
+      value: 36
       objectReference: {fileID: 0}
     - target: {fileID: 196790, guid: 5339a47b0097045b486ef51f1d6832cf, type: 2}
       propertyPath: m_Name
@@ -5338,7 +5337,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 486234, guid: 2a5b40150cfc442b58eccf15ac421d58, type: 2}
       propertyPath: m_RootOrder
-      value: 46
+      value: 47
       objectReference: {fileID: 0}
     - target: {fileID: 11495520, guid: 2a5b40150cfc442b58eccf15ac421d58, type: 2}
       propertyPath: checkPaddingRequired
@@ -5400,7 +5399,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 486234, guid: 2a5b40150cfc442b58eccf15ac421d58, type: 2}
       propertyPath: m_RootOrder
-      value: 48
+      value: 49
       objectReference: {fileID: 0}
     - target: {fileID: 11495520, guid: 2a5b40150cfc442b58eccf15ac421d58, type: 2}
       propertyPath: checkPaddingRequired
@@ -5453,7 +5452,7 @@ Transform:
   - {fileID: 981658448}
   - {fileID: 1036138483}
   m_Father: {fileID: 0}
-  m_RootOrder: 15
+  m_RootOrder: 16
 --- !u!1001 &1698675363
 Prefab:
   m_ObjectHideFlags: 0
@@ -5491,7 +5490,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 471120, guid: b41b47b6ff0234dbaa774ee3cffc1eb0, type: 2}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b41b47b6ff0234dbaa774ee3cffc1eb0, type: 2}
@@ -5533,7 +5532,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 404348, guid: 5339a47b0097045b486ef51f1d6832cf, type: 2}
       propertyPath: m_RootOrder
-      value: 44
+      value: 45
       objectReference: {fileID: 0}
     - target: {fileID: 196790, guid: 5339a47b0097045b486ef51f1d6832cf, type: 2}
       propertyPath: m_Name
@@ -5584,7 +5583,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 446648, guid: 3a54e958571a0453d9dd93e642146ae4, type: 2}
       propertyPath: m_RootOrder
-      value: 8
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 161356, guid: 3a54e958571a0453d9dd93e642146ae4, type: 2}
       propertyPath: m_Name
@@ -5701,7 +5700,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 404348, guid: 5339a47b0097045b486ef51f1d6832cf, type: 2}
       propertyPath: m_RootOrder
-      value: 39
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 196790, guid: 5339a47b0097045b486ef51f1d6832cf, type: 2}
       propertyPath: m_Name
@@ -5807,7 +5806,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 498474, guid: cf2298cd4387e46cdb6aef3b52c57ac0, type: 2}
       propertyPath: m_RootOrder
-      value: 24
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 167542, guid: cf2298cd4387e46cdb6aef3b52c57ac0, type: 2}
       propertyPath: m_Name
@@ -5869,7 +5868,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 486234, guid: 2a5b40150cfc442b58eccf15ac421d58, type: 2}
       propertyPath: m_RootOrder
-      value: 50
+      value: 51
       objectReference: {fileID: 0}
     - target: {fileID: 11495520, guid: 2a5b40150cfc442b58eccf15ac421d58, type: 2}
       propertyPath: checkPaddingRequired
@@ -5931,7 +5930,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 465062, guid: afd6678f3f33e468ebebbe78ea5720e9, type: 2}
       propertyPath: m_RootOrder
-      value: 21
+      value: 22
       objectReference: {fileID: 0}
     - target: {fileID: 11471258, guid: afd6678f3f33e468ebebbe78ea5720e9, type: 2}
       propertyPath: checkPaddingRequired
@@ -6129,7 +6128,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 493804, guid: b381e9eb1d6c74c07aa10627ed9f5864, type: 2}
       propertyPath: m_RootOrder
-      value: 33
+      value: 34
       objectReference: {fileID: 0}
     - target: {fileID: 197800, guid: b381e9eb1d6c74c07aa10627ed9f5864, type: 2}
       propertyPath: m_Name
@@ -6197,7 +6196,7 @@ Transform:
   - {fileID: 752339338}
   - {fileID: 317898225}
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 13
 --- !u!1 &1846111101
 GameObject:
   m_ObjectHideFlags: 0
@@ -6276,7 +6275,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 0
+  checkPaddingRequired: 1
   m_enableWordWrapping: 0
   m_overflowMode: 0
   m_wordWrappingRatios: .400000006
@@ -6284,8 +6283,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 0
-  havePropertiesChanged: 0
+  isInputParsingRequired: 1
+  havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_inputSource: 0
@@ -6443,7 +6442,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 0
+  checkPaddingRequired: 1
   m_enableWordWrapping: 1
   m_overflowMode: 0
   m_wordWrappingRatios: .400000006
@@ -6451,8 +6450,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 0
-  havePropertiesChanged: 0
+  isInputParsingRequired: 1
+  havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_inputSource: 0
@@ -6571,7 +6570,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 404348, guid: 5339a47b0097045b486ef51f1d6832cf, type: 2}
       propertyPath: m_RootOrder
-      value: 37
+      value: 38
       objectReference: {fileID: 0}
     - target: {fileID: 196790, guid: 5339a47b0097045b486ef51f1d6832cf, type: 2}
       propertyPath: m_Name
@@ -6677,7 +6676,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 465062, guid: afd6678f3f33e468ebebbe78ea5720e9, type: 2}
       propertyPath: m_RootOrder
-      value: 22
+      value: 23
       objectReference: {fileID: 0}
     - target: {fileID: 11471258, guid: afd6678f3f33e468ebebbe78ea5720e9, type: 2}
       propertyPath: checkPaddingRequired
@@ -6875,7 +6874,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 480038, guid: d520f894529f84042a0351d5d585d990, type: 2}
       propertyPath: m_RootOrder
-      value: 28
+      value: 29
       objectReference: {fileID: 0}
     - target: {fileID: 11454126, guid: d520f894529f84042a0351d5d585d990, type: 2}
       propertyPath: checkPaddingRequired
@@ -6928,7 +6927,7 @@ Transform:
   - {fileID: 2091413967}
   - {fileID: 610548830}
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 15
 --- !u!1 &1996819277
 GameObject:
   m_ObjectHideFlags: 0
@@ -7008,7 +7007,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 0
+  checkPaddingRequired: 1
   m_enableWordWrapping: 1
   m_overflowMode: 0
   m_wordWrappingRatios: .400000006
@@ -7016,8 +7015,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 0
-  havePropertiesChanged: 0
+  isInputParsingRequired: 1
+  havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_inputSource: 0
@@ -7136,7 +7135,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400406, guid: 63a6b5148d8b34c288199ad82641727b, type: 2}
       propertyPath: m_RootOrder
-      value: 55
+      value: 56
       objectReference: {fileID: 0}
     - target: {fileID: 11489720, guid: 63a6b5148d8b34c288199ad82641727b, type: 2}
       propertyPath: checkPaddingRequired
@@ -7471,7 +7470,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 0
+  checkPaddingRequired: 1
   m_enableWordWrapping: 1
   m_overflowMode: 0
   m_wordWrappingRatios: .400000006
@@ -7479,8 +7478,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 0
-  havePropertiesChanged: 0
+  isInputParsingRequired: 1
+  havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_inputSource: 0
@@ -7666,7 +7665,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 493804, guid: b381e9eb1d6c74c07aa10627ed9f5864, type: 2}
       propertyPath: m_RootOrder
-      value: 9
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 197800, guid: b381e9eb1d6c74c07aa10627ed9f5864, type: 2}
       propertyPath: m_Name
@@ -7748,7 +7747,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 493804, guid: b381e9eb1d6c74c07aa10627ed9f5864, type: 2}
       propertyPath: m_RootOrder
-      value: 52
+      value: 53
       objectReference: {fileID: 0}
     - target: {fileID: 197800, guid: b381e9eb1d6c74c07aa10627ed9f5864, type: 2}
       propertyPath: m_Name
@@ -7865,7 +7864,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 493804, guid: b381e9eb1d6c74c07aa10627ed9f5864, type: 2}
       propertyPath: m_RootOrder
-      value: 25
+      value: 26
       objectReference: {fileID: 0}
     - target: {fileID: 197800, guid: b381e9eb1d6c74c07aa10627ed9f5864, type: 2}
       propertyPath: m_Name
@@ -7939,7 +7938,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 446648, guid: 3a54e958571a0453d9dd93e642146ae4, type: 2}
       propertyPath: m_RootOrder
-      value: 6
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 161356, guid: 3a54e958571a0453d9dd93e642146ae4, type: 2}
       propertyPath: m_Name
@@ -7963,6 +7962,48 @@ Prefab:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3a54e958571a0453d9dd93e642146ae4, type: 2}
+  m_IsPrefabParent: 0
+--- !u!1001 &2142705509
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 480340, guid: 1474ad9f863d24afcaf1180c03ae5275, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 4.16917038
+      objectReference: {fileID: 0}
+    - target: {fileID: 480340, guid: 1474ad9f863d24afcaf1180c03ae5275, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: -.213683307
+      objectReference: {fileID: 0}
+    - target: {fileID: 480340, guid: 1474ad9f863d24afcaf1180c03ae5275, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 480340, guid: 1474ad9f863d24afcaf1180c03ae5275, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 480340, guid: 1474ad9f863d24afcaf1180c03ae5275, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 480340, guid: 1474ad9f863d24afcaf1180c03ae5275, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 480340, guid: 1474ad9f863d24afcaf1180c03ae5275, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 480340, guid: 1474ad9f863d24afcaf1180c03ae5275, type: 2}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 1474ad9f863d24afcaf1180c03ae5275, type: 2}
   m_IsPrefabParent: 0
 --- !u!1 &2143526533
 GameObject:
@@ -8042,7 +8083,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 0
+  checkPaddingRequired: 1
   m_enableWordWrapping: 0
   m_overflowMode: 0
   m_wordWrappingRatios: .400000006
@@ -8050,8 +8091,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 0
-  havePropertiesChanged: 0
+  isInputParsingRequired: 1
+  havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_inputSource: 0

@@ -11,7 +11,6 @@ public class NewProfileController : MonoBehaviour
 	public static NewProfileController instance;
 	private NewProfileModel model;
 	
-	public GameObject tutorialObject;
 	public GameObject blockObject;
 	public GUISkin popUpSkin;
 
@@ -73,7 +72,6 @@ public class NewProfileController : MonoBehaviour
 	private Pagination resultsPagination;
 	private Pagination friendsPagination;
 
-	private bool isTutorialLaunched;
 	private bool isSceneLoaded;
 	private bool isProfilePictureHovered;
 
@@ -178,6 +176,25 @@ public class NewProfileController : MonoBehaviour
 		this.searchValue = "";
 		this.friendsOnline = new List<int> ();
 		this.initializeScene ();
+		this.startMenuInitialization ();
+	}
+	private void startMenuInitialization()
+	{
+		this.menu = GameObject.Find ("Menu");
+		this.menu.AddComponent<ProfileMenuController> ();
+	}
+	public void endMenuInitialization()
+	{
+		this.startTutorialInitialization ();
+	}
+	private void startTutorialInitialization()
+	{
+		this.tutorial = GameObject.Find ("Tutorial");
+		this.tutorial.AddComponent<ProfileTutorialController>();
+	}
+	public void endTutorialInitialization()
+	{
+		StartCoroutine(this.initialization ());
 	}
 	public IEnumerator initialization()
 	{
@@ -193,6 +210,10 @@ public class NewProfileController : MonoBehaviour
 		this.checkFriendsOnlineStatus ();
 		MenuController.instance.hideLoadingScreen ();
 		this.isSceneLoaded = true;
+		if(model.tutorialStep!=-1)
+		{
+			TutorialObjectController.instance.startTutorial(model.tutorialStep,model.displayTutorial);
+		}
 	}
 	private void initializeFriendsRequests()
 	{
@@ -372,8 +393,6 @@ public class NewProfileController : MonoBehaviour
 	}
 	public void initializeScene()
 	{
-		menu = GameObject.Find ("Menu");
-		menu.AddComponent<ProfileMenuController> ();
 		this.profileBlock = Instantiate(this.blockObject) as GameObject;
 		this.profileBlockTitle = GameObject.Find ("ProfileTitle");
 		this.profileBlockTitle.GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
@@ -733,11 +752,8 @@ public class NewProfileController : MonoBehaviour
 		this.resultsPaginationButtons.transform.position=new Vector3 (resultsBlockLowerLeftPosition.x + resultsBlockSize.x / 2, resultsBlockLowerLeftPosition.y + 0.3f, 0f);
 		this.resultsPaginationButtons.GetComponent<NewProfileResultsPaginationController> ().resize ();
 
-		
-		if(this.isTutorialLaunched)
-		{
-			this.tutorial.GetComponent<TutorialObjectController>().resize();
-		}
+		TutorialObjectController.instance.resize ();
+
 		if(this.isCheckPasswordViewDisplayed)
 		{
 			this.checkPasswordViewResize();

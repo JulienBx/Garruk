@@ -10,7 +10,6 @@ public class NewLobbyController : MonoBehaviour
 	public static NewLobbyController instance;
 	private NewLobbyModel model;
 	
-	public GameObject tutorialObject;
 	public GameObject blockObject;
 	
 	private GameObject mainBlock;
@@ -40,7 +39,6 @@ public class NewLobbyController : MonoBehaviour
 
 	private bool isSceneLoaded;
 
-	private bool isTutorialLaunched;
 	private bool isPopUpDisplayed;
 
 	private bool isDivisionLobby;
@@ -86,6 +84,25 @@ public class NewLobbyController : MonoBehaviour
 		this.pagination = new Pagination ();
 		this.pagination.nbElementsPerPage= 3;
 		this.initializeScene ();
+		this.startMenuInitialization ();
+	}
+	private void startMenuInitialization()
+	{
+		this.menu = GameObject.Find ("Menu");
+		this.menu.AddComponent<LobbyMenuController> ();
+	}
+	public void endMenuInitialization()
+	{
+		this.startTutorialInitialization ();
+	}
+	private void startTutorialInitialization()
+	{
+		this.tutorial = GameObject.Find ("Tutorial");
+		this.tutorial.AddComponent<LobbyTutorialController>();
+	}
+	public void endTutorialInitialization()
+	{
+		StartCoroutine(this.initialization ());
 	}
 	public IEnumerator initialization()
 	{
@@ -110,6 +127,10 @@ public class NewLobbyController : MonoBehaviour
 		this.initializePlayButton ();
 		this.isSceneLoaded = true;
 		MenuController.instance.hideLoadingScreen ();
+		if(model.player.TutorialStep!=-1)
+		{
+			TutorialObjectController.instance.startTutorial(model.player.TutorialStep,model.player.displayTutorial);
+		}
 	}
 	private void initializeResults()
 	{
@@ -133,8 +154,6 @@ public class NewLobbyController : MonoBehaviour
 	}
 	public void initializeScene()
 	{
-		menu = GameObject.Find ("Menu");
-		menu.AddComponent<LobbyMenuController> ();
 		this.mainBlock = Instantiate(this.blockObject) as GameObject;
 		this.mainBlockTitle = GameObject.Find ("MainBlockTitle");
 		this.mainBlockTitle.GetComponent<TextMeshPro> ().color = ApplicationDesignRules.whiteTextColor;
@@ -315,11 +334,9 @@ public class NewLobbyController : MonoBehaviour
 		this.paginationButtons.transform.localPosition=new Vector3 (lastResultsBlockLowerLeftPosition.x + lastResultBlockSize.x / 2, lastResultsBlockLowerLeftPosition.y + 0.3f, 0f);
 		this.paginationButtons.GetComponent<NewLobbyPaginationController> ().resize ();
 
-		if(this.isTutorialLaunched)
-		{
-			this.tutorial.GetComponent<TutorialObjectController>().resize();
-		}
 		this.popUp.transform.position = new Vector3 (0, 2f, -3f);
+
+		TutorialObjectController.instance.resize ();
 
 		if(this.isDivisionLobby)
 		{

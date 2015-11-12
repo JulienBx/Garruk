@@ -144,7 +144,8 @@ public class NewSkillBookModel
 		User player = new User ();
 		player.CollectionPoints = System.Convert.ToInt32 (array [0]);
 		player.CollectionRanking = System.Convert.ToInt32 (array [1]);
-		player.SkillBookTutorial = System.Convert.ToBoolean(System.Convert.ToInt32(array [2]));
+		player.TutorialStep = System.Convert.ToInt32(array [2]);
+		player.displayTutorial= System.Convert.ToBoolean(System.Convert.ToInt32(array [3]));
 		return player;
 	}
 	private void affectSkillTypes()

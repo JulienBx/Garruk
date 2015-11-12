@@ -11,7 +11,6 @@ public class NewMarketController : MonoBehaviour
 	private NewMarketModel model;
 
 	public GameObject blockObject;
-	public GameObject tutorialObject;
 	public GUISkin popUpSkin;
 	public int totalNbResultLimit;
 	public int refreshInterval;
@@ -94,8 +93,6 @@ public class NewMarketController : MonoBehaviour
 
 	private bool toUpdateCardsMarketFeatures;
 	private bool areNewCardsAvailable;
-
-	private bool isTutorialLaunched;
 
 	void Update()
 	{	
@@ -186,6 +183,25 @@ public class NewMarketController : MonoBehaviour
 		this.cardsPagination.nbElementsPerPage = this.cardsPerLine * this.nbLines;
 		this.activeTab = 0;
 		this.initializeScene ();
+		this.startMenuInitialization ();
+	}
+	private void startMenuInitialization()
+	{
+		this.menu = GameObject.Find ("Menu");
+		this.menu.AddComponent<MarketMenuController> ();
+	}
+	public void endMenuInitialization()
+	{
+		this.startTutorialInitialization ();
+	}
+	private void startTutorialInitialization()
+	{
+		this.tutorial = GameObject.Find ("Tutorial");
+		this.tutorial.AddComponent<MarketTutorialController>();
+	}
+	public void endTutorialInitialization()
+	{
+		this.initialization ();
 	}
 	public void initialization()
 	{
@@ -252,14 +268,10 @@ public class NewMarketController : MonoBehaviour
 		MenuController.instance.hideLoadingScreen ();
 		if(firstLoad)
 		{
-			if(!model.player.MarketTutorial)
+			if(model.player.TutorialStep!=-1)
 			{
-				this.tutorial = Instantiate(this.tutorialObject) as GameObject;
-				//this.tutorial.AddComponent<MarketTutorialController>();
-				//StartCoroutine(this.tutorial.GetComponent<MarketTutorialController>().launchSequence(0));
-				this.menu.GetComponent<MenuController>().setTutorialLaunched(true);
-				this.isTutorialLaunched=true;
-			} 
+				TutorialObjectController.instance.startTutorial(model.player.TutorialStep,model.player.displayTutorial);
+			}
 		}
 		switch(this.activeTab)
 		{
@@ -275,9 +287,6 @@ public class NewMarketController : MonoBehaviour
 	}
 	public void initializeScene()
 	{
-		menu = GameObject.Find ("Menu");
-		menu.AddComponent<MarketMenuController> ();
-
 		this.cardsBlock = Instantiate (this.blockObject) as GameObject;
 		this.cardsNumberTitle = GameObject.Find ("CardsNumberTitle");
 		this.cardsNumberTitle.GetComponent<TextMeshPro> ().color = ApplicationDesignRules.whiteTextColor;
@@ -613,11 +622,8 @@ public class NewMarketController : MonoBehaviour
 		this.marketSubtitle.transform.GetComponent<TextContainer>().width=marketBlockSize.x-0.6f;
 		this.marketSubtitle.transform.localScale = ApplicationDesignRules.subMainTitleScale;
 
+		 TutorialObjectController.instance.resize ();
 
-		if(this.isTutorialLaunched)
-		{
-			this.tutorial.GetComponent<TutorialObjectController>().resize();
-		}
 	}
 	public void drawCards()
 	{
@@ -1323,17 +1329,6 @@ public class NewMarketController : MonoBehaviour
 	public Vector3 getFiltersPosition()
 	{
 		return this.filtersBlock.transform.position;
-	}
-	public IEnumerator endTutorial(bool toUpdate)
-	{
-		Destroy (this.tutorial);
-		this.isTutorialLaunched = false;
-		MenuController.instance.setTutorialLaunched (false);
-		if(toUpdate)
-		{
-			yield return StartCoroutine (model.player.setMarketTutorial(true));
-		}
-		yield break;
 	}
 	public Vector3 getCardsPosition(int id)
 	{

@@ -109,6 +109,8 @@ public class NewLobbyModel
 		player.CollectionRanking = System.Convert.ToInt32 (array [3]);
 		player.TotalNbWins = System.Convert.ToInt32 (array [4]);
 		player.TotalNbLooses = System.Convert.ToInt32 (array [5]);
+		player.TutorialStep = System.Convert.ToInt32 (array [6]);
+		player.displayTutorial=System.Convert.ToBoolean(System.Convert.ToInt32(array[7]));
 		return player;
 	}
 	public IList<PlayerResult> parseResults(string[] array)

@@ -28,7 +28,7 @@ public class LobbyMenuController : MenuController
 	public override void initializeScene()
 	{
 		base.setCurrentPage (5);
-		StartCoroutine (NewLobbyController.instance.initialization ());
+		NewLobbyController.instance.endMenuInitialization ();
 	}
 }
 

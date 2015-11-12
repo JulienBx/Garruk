@@ -27,7 +27,7 @@ public class ProfileMenuController : MenuController
 	}
 	public override void initializeScene()
 	{
-		StartCoroutine (NewProfileController.instance.initialization ());
+		NewProfileController.instance.endMenuInitialization ();
 	}
 	
 }
