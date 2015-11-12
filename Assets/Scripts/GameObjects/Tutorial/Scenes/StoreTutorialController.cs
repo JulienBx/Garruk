@@ -118,7 +118,7 @@ public class StoreTutorialController : TutorialObjectController
 	{
 		switch(this.sequenceID)
 		{
-		case 1: case 2: case 3:
+		case 0: case 1: case 2: case 3:
 			this.launchSequence(this.sequenceID+1);
 			break;
 		}
