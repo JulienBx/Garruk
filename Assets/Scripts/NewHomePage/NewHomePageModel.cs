@@ -72,6 +72,15 @@ public class NewHomePageModel
 			ApplicationModel.currentDivision=this.currentDivision;
 			ApplicationModel.currentCup=this.currentCup;
 
+			if(this.decks.Count>0)
+			{
+				ApplicationModel.hasDeck=true;
+			}
+			else
+			{
+				ApplicationModel.hasDeck=false;
+			}
+
 			usernameList=new string[this.users.Count];
 			for(int i=0;i<this.users.Count;i++)
 			{

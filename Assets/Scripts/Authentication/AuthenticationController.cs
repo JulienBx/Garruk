@@ -365,12 +365,21 @@ public class AuthenticationController : Photon.MonoBehaviour
 	}
 	private void loadLevels()
 	{
-		if(ApplicationModel.displayTutorial)
+		if(ApplicationModel.tutorialStep!=-1)
 		{
 			switch(ApplicationModel.tutorialStep)
 			{
 			case 0:
+				Application.LoadLevel("Tutorial");	
+				break;
+			case 1:
 				Application.LoadLevel("NewStore");	
+				break;
+			case 2:
+				Application.LoadLevel("newMyGame");	
+				break;
+			case 3:case 4:
+				Application.LoadLevel("NewHomePage");
 				break;
 			default:
 				Application.LoadLevel("NewHomePage");

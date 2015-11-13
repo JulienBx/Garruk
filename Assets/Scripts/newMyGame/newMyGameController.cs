@@ -430,6 +430,7 @@ public class newMyGameController : MonoBehaviour
 	}
 	private void retrieveDecksList()
 	{
+		bool isADeckCompleted = false;
 		this.decksDisplayed=new List<int>();
 		if(this.deckDisplayed!=-1)
 		{
@@ -439,8 +440,13 @@ public class newMyGameController : MonoBehaviour
 				{
 					this.decksDisplayed.Add (i);
 				}
+				if(model.decks[i].cards.Count==ApplicationModel.nbCardsByDeck)
+				{
+					isADeckCompleted=true;
+				}
 			}
 		}
+		ApplicationModel.hasDeck = isADeckCompleted;
 	}
 	public void resize()
 	{
@@ -1325,6 +1331,7 @@ public class newMyGameController : MonoBehaviour
 			this.initializeDecks();
 			this.initializeCards();
 			MenuController.instance.hideLoadingScreen();
+			TutorialObjectController.instance.tutorialTrackPoint();
 		}
 	}
 	public void editDeckHandler()
@@ -1365,6 +1372,7 @@ public class newMyGameController : MonoBehaviour
 		this.initializeDecks ();
 		this.initializeCards ();
 		MenuController.instance.hideLoadingScreen ();
+		TutorialObjectController.instance.tutorialTrackPoint ();
 	}
 	public void removeDeckFromAllCards(int id)
 	{
@@ -1480,6 +1488,21 @@ public class newMyGameController : MonoBehaviour
 		this.deckCards[this.idCardClicked].SetActive(false);
 		this.deckCardsDisplayed[this.idCardClicked]=-1;
 		this.applyFilters();
+		if(ApplicationModel.hasDeck)
+		{
+			print ("toto");
+			bool isADeckCompleted = false;
+			for(int i=0;i<model.decks.Count;i++)
+			{
+				if(model.decks[i].cards.Count==ApplicationModel.nbCardsByDeck && i!=this.deckDisplayed)
+				{
+					isADeckCompleted=true;
+					break;
+				}
+			}
+			ApplicationModel.hasDeck=isADeckCompleted;
+			TutorialObjectController.instance.tutorialTrackPoint();
+		}
 	}
 	public void moveToDeckCards(int position)
 	{
@@ -1495,6 +1518,24 @@ public class newMyGameController : MonoBehaviour
 			this.deckCards[position].GetComponent<NewCardController>().show();
 			this.deckCardsDisplayed[position]=this.cardsDisplayed[this.idCardClicked];
 			this.applyFilters();
+			if(!ApplicationModel.hasDeck)
+			{
+				bool isDeckCompleted=true;
+				for(int i=0;i<this.deckCardsDisplayed.Length;i++)
+				{
+					if(this.deckCardsDisplayed[i]!=-1)
+					{
+						continue;
+					}
+					else
+					{
+						isDeckCompleted=false;
+						break;
+					}
+				}
+				ApplicationModel.hasDeck = isDeckCompleted;
+				TutorialObjectController.instance.tutorialTrackPoint();
+			}
 		}
 		else
 		{
@@ -1572,10 +1613,8 @@ public class newMyGameController : MonoBehaviour
 		}
 		else
 		{
-			print(cursorPosition);
 			for(int i=0;i<deckCardsArea.Length;i++)
 			{
-				print (deckCardsArea[i]);
 				if(this.deckCardsArea[i].Contains(cursorPosition))
 				{
 					this.moveToDeckCards(i);
@@ -1669,6 +1708,52 @@ public class newMyGameController : MonoBehaviour
 			this.hideDeleteDeckPopUp();
 		}
 	}
+
+	public bool isDeckCompleted()
+	{
+		for(int i=0;i<this.deckCardsDisplayed.Length;i++)
+		{
+			if(this.deckCardsDisplayed[i]==-1)
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+	public void setDeckListColliders(bool value)
+	{
+		this.deckCreationButton.GetComponent<BoxCollider2D> ().enabled = value;
+		this.deckSelectionButton.GetComponent<BoxCollider2D> ().enabled = value;
+		this.deckDeletionButton.GetComponent<BoxCollider2D> ().enabled = value;
+		this.deckRenameButton.GetComponent<BoxCollider2D> ().enabled = value;
+	}
+	public void moneyUpdate()
+	{
+		if(isSceneLoaded)
+		{
+			if(this.isCardFocusedDisplayed)
+			{
+				this.focusedCard.GetComponent<NewFocusedCardMyGameController>().updateFocusFeatures();
+			}
+		}
+	}
+	#region TUTORIAL FUNCTIONS
+
+	public bool isADeckCurrentlySelected()
+	{
+		if(this.deckDisplayed!=-1)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	public Vector3 getNewDeckButtonPosition()
+	{
+		return this.deckCreationButton.transform.position;
+	}
 	public Vector3 getCardsPosition(int id)
 	{
 		return cards[id].transform.position;
@@ -1719,47 +1804,17 @@ public class newMyGameController : MonoBehaviour
 	public Vector3 getFocusedCardExperienceGaugePosition()
 	{
 		return new Vector3(this.focusedCard.transform.FindChild ("Face").position.x,
-		                    this.focusedCard.transform.FindChild ("Experience").FindChild("ExperienceGauge").position.y,
-		                    this.focusedCard.transform.FindChild ("Experience").FindChild("ExperienceGauge").position.z);
+		                   this.focusedCard.transform.FindChild ("Experience").FindChild("ExperienceGauge").position.y,
+		                   this.focusedCard.transform.FindChild ("Experience").FindChild("ExperienceGauge").position.z);
 	}
 	public Vector3 getFocusedCardFeaturePosition(int id)
 	{
 		return this.focusedCard.transform.FindChild ("FocusFeature"+id).position;
 	}
-	public Vector3 getNewDeckButtonPosition()
-	{
-		return this.deckCreationButton.transform.position;
-	}
 	public Vector3 getFiltersPosition()
 	{
 		return this.filtersBlock.transform.position;
 	}
-	public bool isDeckCompleted()
-	{
-		for(int i=0;i<this.deckCardsDisplayed.Length;i++)
-		{
-			if(this.deckCardsDisplayed[i]==-1)
-			{
-				return false;
-			}
-		}
-		return true;
-	}
-	public void setDeckListColliders(bool value)
-	{
-		this.deckCreationButton.GetComponent<BoxCollider2D> ().enabled = value;
-		this.deckSelectionButton.GetComponent<BoxCollider2D> ().enabled = value;
-		this.deckDeletionButton.GetComponent<BoxCollider2D> ().enabled = value;
-		this.deckRenameButton.GetComponent<BoxCollider2D> ().enabled = value;
-	}
-	public void moneyUpdate()
-	{
-		if(isSceneLoaded)
-		{
-			if(this.isCardFocusedDisplayed)
-			{
-				this.focusedCard.GetComponent<NewFocusedCardMyGameController>().updateFocusFeatures();
-			}
-		}
-	}
+	
+	#endregion
 }

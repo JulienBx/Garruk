@@ -13,12 +13,6 @@ public class SkillBookTutorialController : TutorialObjectController
 	{
 		NewSkillBookController.instance.endTutorialInitialization ();
 	}
-	public override void startTutorial(int tutorialStep, bool isDisplayed)
-	{
-		base.startTutorial (tutorialStep, isDisplayed);
-		MenuController.instance.setIsUserBusy (true);
-		this.launchSequence (getStartSequenceId(tutorialStep));
-	}
 	public override void launchSequence(int sequenceID)
 	{
 		Vector3 gameObjectPosition = new Vector3 ();
@@ -121,6 +115,9 @@ public class SkillBookTutorialController : TutorialObjectController
 			//		case 1: case 2: 
 			//			this.launchSequence(this.sequenceID+1);
 			//			break;
+		default:
+			base.actionIsDone();
+			break;
 		}
 	}
 	public override int getStartSequenceId(int tutorialStep)

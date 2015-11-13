@@ -10,6 +10,10 @@ TextureImporter:
     21300006: buttonBorder
     21300008: popUpBackgroundLarge
     21300010: popUpBackgroundSmall
+    21300012: drag0
+    21300014: drag1
+    21300016: drag2
+    21300018: drag3
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -69,11 +73,51 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1541
-        y: 2907
-        width: 425
-        height: 105
+        y: 2905
+        width: 427
+        height: 107
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: drag0
+      rect:
+        serializedVersion: 2
+        x: 1924
+        y: 3985
+        width: 86
+        height: 109
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: drag1
+      rect:
+        serializedVersion: 2
+        x: 1773
+        y: 2875
+        width: 160
+        height: 28
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: drag2
+      rect:
+        serializedVersion: 2
+        x: 1924
+        y: 3874
+        width: 86
+        height: 109
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: drag3
+      rect:
+        serializedVersion: 2
+        x: 1541
+        y: 2617
+        width: 230
+        height: 286
+      alignment: 9
+      pivot: {x: .497826099, y: .517482519}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: popUpBackground
       rect:

@@ -18,8 +18,6 @@ public class TutorialObjectController : MonoBehaviour
 	public float arrowHeight;
 	public float arrowX;
 	public float arrowY;
-	public float popUpWidth;
-	public float popUpHeight;
 	public float popUpX;
 	public float popUpY;
 	public Vector2 GOPosition;
@@ -38,9 +36,11 @@ public class TutorialObjectController : MonoBehaviour
 	private GameObject popUpNextButton;
 	private GameObject popUp;
 	private GameObject exitButton;
+	private GameObject dragHelp;
 
 	private Rect backgroundRect;
 	private float popUpHalfHeight;
+	private float popUpHalfWidth;
 
 	private bool isTutorialLaunched;
 	private bool isTutorialDisplayed;
@@ -99,6 +99,7 @@ public class TutorialObjectController : MonoBehaviour
 		this.popUpTitle = this.popUp.transform.FindChild ("Title").gameObject;
 		this.popUpDescription = this.popUp.transform.FindChild ("Description").gameObject;
 		this.popUpNextButton= this.popUp.transform.FindChild ("NextButton").gameObject;
+		this.dragHelp = gameObject.transform.FindChild ("DragHelp").gameObject;
 	}
 	void Start () 
 	{	
@@ -111,6 +112,8 @@ public class TutorialObjectController : MonoBehaviour
 	{
 		this.isTutorialLaunched = true;
 		this.isTutorialDisplayed = isDisplayed;
+		MenuController.instance.setIsUserBusy (true);
+		this.launchSequence (getStartSequenceId(tutorialStep));
 		if(!isDisplayed)
 		{
 			MenuController.instance.setFlashingHelp(true);
@@ -127,6 +130,10 @@ public class TutorialObjectController : MonoBehaviour
 	public void setTutorialStep(int id)
 	{
 		StartCoroutine (this.player.setTutorialStep (id));
+	}
+	public void displayDragHelp(bool value)
+	{
+		this.dragHelp.SetActive (value);
 	}
 	public void displayBackground(bool value)
 	{
@@ -162,12 +169,20 @@ public class TutorialObjectController : MonoBehaviour
 		this.arrow.SetActive (value);
 		this.move = false;
 	}
+	public void resizeDragHelp(Vector3 position)
+	{
+		this.dragHelp.transform.position = position;
+	}
 	public void resizeArrow(Vector3 position)
 	{
 		this.arrow.transform.position = position;
 	}
 	public void resizePopUp(Vector3 position)
 	{
+		if(ApplicationDesignRules.worldWidth/2f-position.x<this.popUpHalfWidth)
+		{
+			position.x=ApplicationDesignRules.worldWidth/2f-this.popUpHalfWidth;
+		}
 		this.popUp.transform.position = position;
 	}
 	public void displayNextButton(bool value)
@@ -199,6 +214,7 @@ public class TutorialObjectController : MonoBehaviour
 				this.gameObject.transform.FindChild ("PopUpLarge").gameObject.SetActive(false);
 				this.popUp=this.gameObject.transform.FindChild("PopUpSmall").gameObject;
 				this.popUpHalfHeight=2.75f;
+				this.popUpHalfWidth=2.75f;
 			}
 			else if(value==1)
 			{
@@ -207,6 +223,7 @@ public class TutorialObjectController : MonoBehaviour
 				this.gameObject.transform.FindChild ("PopUpLarge").gameObject.SetActive(false);
 				this.popUp=this.gameObject.transform.FindChild("PopUp").gameObject;
 				this.popUpHalfHeight=3.375f;
+				this.popUpHalfWidth=2.75f;
 			}
 			else if(value==2)
 			{
@@ -215,6 +232,7 @@ public class TutorialObjectController : MonoBehaviour
 				this.gameObject.transform.FindChild ("PopUpLarge").gameObject.SetActive(true);
 				this.popUp=this.gameObject.transform.FindChild("PopUpLarge").gameObject;
 				this.popUpHalfHeight=4f;
+				this.popUpHalfWidth=2.75f;
 
 			}
 			this.popUpTitle = this.popUp.transform.FindChild ("Title").gameObject;
@@ -249,6 +267,36 @@ public class TutorialObjectController : MonoBehaviour
 			}
 			gameObjectPosition = MenuController.instance.getButtonPosition(1);
 			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2.5f,0.75f),0.8f,0.8f);
+			this.drawUpArrow();
+			break;
+		case 101:
+			if(!isResizing)
+			{
+				this.displayPopUp(0);
+				this.setRightArrow();
+				this.displayNextButton(false);
+				this.setPopUpTitle("Prêt pour notre premier match !");
+				this.setPopUpDescription("A compléter");
+				this.displayBackground(true);
+				this.displayExitButton(true);
+				this.displayDragHelp(false);
+			}
+			gameObjectPosition = MenuController.instance.getButtonPosition(5);
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2.5f,0.75f),0.8f,0.8f);
+			this.drawRightArrow();
+			break;
+		case 102:
+			if(!isResizing)
+			{
+				this.displayPopUp(-1);
+				this.setUpArrow();
+				this.displayNextButton(false);
+				this.displayBackground(true);
+				this.displayExitButton(true);
+				this.displayDragHelp(false);
+			}
+			gameObjectPosition = PlayPopUpController.instance.getFriendlyGameButtonPosition();
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,4f,1.5f),0.8f,0.8f);
 			this.drawUpArrow();
 			break;
 		}
@@ -343,6 +391,23 @@ public class TutorialObjectController : MonoBehaviour
 	}
 	public virtual void actionIsDone()
 	{
+		switch(this.sequenceID)
+		{
+		case 101:
+			if(MenuController.instance.getIsPlayPopUpDisplayed())
+			{
+				this.sequenceID=102;
+				this.launchSequence(this.sequenceID);
+			}
+			break;
+		case 102:
+			if(!MenuController.instance.getIsPlayPopUpDisplayed())
+			{
+				this.sequenceID=101;
+				this.launchSequence(this.sequenceID);
+			}
+			break;
+		}
 	}
 	public int getSequenceID()
 	{
@@ -367,7 +432,7 @@ public class TutorialObjectController : MonoBehaviour
 			return true;
 		}
 	}
-	public virtual void helpClicked()
+	public void helpClicked()
 	{
 		if(this.isTutorialLaunched)
 		{
@@ -379,13 +444,10 @@ public class TutorialObjectController : MonoBehaviour
 				StartCoroutine (player.setDisplayTutorial (true));
 			}
 		}
-		else
-		{
-		}
 	}
 	public void displayCantAccessPopUp ()
 	{
-		MenuController.instance.displayErrorPopUp ("Vous êtes encore en apprentissage !  \n Attendez d'avoir disputé votre premier match pour pouvoir ensuite réaliser cette action");
+		MenuController.instance.displayErrorPopUp ("Vous êtes encore en apprentissage !  \n Attendez d'avoir disputé votre premier match \npour pouvoir ensuite réaliser cette action");
 	}
 	public virtual void hideTutorial()
 	{
@@ -400,7 +462,14 @@ public class TutorialObjectController : MonoBehaviour
 		switch(tutorialStep)
 		{
 		case 2:
-			return 100; 
+			if(ApplicationModel.hasDeck)
+			{
+				return 101;
+			}
+			else
+			{
+				return 100;
+			}
 			break;
 		}
 		return 0;
@@ -408,6 +477,18 @@ public class TutorialObjectController : MonoBehaviour
 	public void quitButtonHandler()
 	{
 		this.hideTutorial ();
+	}
+	public IEnumerator endTutorial()
+	{
+		MenuController.instance.displayLoadingScreen ();
+		yield return StartCoroutine(this.player.setTutorialStep(-1));
+		this.isTutorialLaunched = false;
+		this.displayBackground (false);
+		this.displayPopUp (-1);
+		this.displayArrow (false);
+		this.displayDragHelp (false);
+		this.displayExitButton (false);
+		MenuController.instance.hideLoadingScreen ();
 	}
 }
 

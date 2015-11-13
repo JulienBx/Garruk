@@ -4,12 +4,18 @@
 # To import these sprites into your Unity project, download "TexturePackerImporter":
 # http://www.codeandweb.com/texturepacker/unity
 #
-# Sprite sheet: tutorialObjectTextures2.png (2048 x 4096)
-# $TexturePacker:SmartUpdate:1f5b18e41e60b16403983bcd05dcb878:72734694667493a5d76d64d6c6c7e0eb:77c5a0974b80c22c384dd7dbba54a65d$
+# $TexturePacker:SmartUpdate:c322fa2daa9b8c68150e6134869853da:f7c247805374dae63fbf0fa981bc5438:77c5a0974b80c22c384dd7dbba54a65d$
 #
+:format=40000
+:texture=tutorialObjectTextures2.png
+:size=2048x4096
 
 arrowBackground;2;2110;1537;902;0.5;0.5
-buttonBorder;1541;2907;425;105;0.5;0.5
+buttonBorder;1541;2905;427;107;0.5;0.5
+drag0;1924;3985;86;109;0.5;0.5
+drag1;1773;2875;160;28;0.5;0.5
+drag2;1924;3874;86;109;0.5;0.5
+drag3;1541;2617;230;286;0.49782608695652175;0.5174825174825175
 popUpBackground;814;1498;810;610;0.5;0.5
 popUpBackgroundLarge;2;1298;810;810;0.5;0.5
 popUpBackgroundSmall;814;1086;810;410;0.5;0.5

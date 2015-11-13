@@ -18,8 +18,6 @@ public class PlayPopUpController : MonoBehaviour
 	private bool isSearchingDeck;
 	private bool isMouseOnSelectDeckButton;
 	private IList<GameObject> deckList;
-	private bool attemptToPlay;
-
 	private bool isLoadingScreenDisplayed;
 	
 	void Update ()
@@ -52,10 +50,7 @@ public class PlayPopUpController : MonoBehaviour
 		this.drawDeck ();
 		MenuController.instance.hideLoadingScreen ();
 		this.show ();
-		if(MenuController.instance.getIsTutorialLaunched())
-		{
-			TutorialObjectController.instance.actionIsDone();
-		}
+		TutorialObjectController.instance.tutorialTrackPoint ();
 	}
 	private void initializePopUp()
 	{
@@ -169,6 +164,10 @@ public class PlayPopUpController : MonoBehaviour
 	{
 		if(deckDisplayed!=-1)
 		{
+			if(TutorialObjectController.instance.getIsTutorialLaunched())
+			{
+				ApplicationModel.launchGameTutorial=true;
+			}
 			ApplicationModel.gameType = id;
 			StartCoroutine (this.setSelectedDeck ());
 		}
@@ -177,15 +176,7 @@ public class PlayPopUpController : MonoBehaviour
 	{
 		MenuController.instance.displayLoadingScreen ();
 		yield return StartCoroutine(model.player.SetSelectedDeck(model.decks[this.deckDisplayed].Id));
-		attemptToPlay = true;
-		if(MenuController.instance.getIsTutorialLaunched())
-		{
-			TutorialObjectController.instance.actionIsDone();
-		}
-		else
-		{
-			this.joinGame();
-		}
+		this.joinGame();
 	}
 	public void joinGame()
 	{
@@ -206,9 +197,14 @@ public class PlayPopUpController : MonoBehaviour
 	{
 		this.isMouseOnSelectDeckButton = value;
 	}
+
+	#region TUTORIAL FUNCTIONS
+
 	public Vector3 getFriendlyGameButtonPosition()
 	{
 		return gameObject.transform.FindChild ("Button0").position;
 	}
+
+	#endregion
 }
 

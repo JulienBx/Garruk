@@ -192,12 +192,6 @@ public class NewHomePageController : MonoBehaviour
 	}
 	public IEnumerator initialization()
 	{
-		if(ApplicationModel.launchEndGameSequence)
-		{
-			this.launchEndGameSequence(ApplicationModel.hasWonLastGame);
-			ApplicationModel.launchEndGameSequence=false;
-			ApplicationModel.hasWonLastGame=false;
-		}
 		yield return StartCoroutine (model.getData (this.totalNbResultLimit));
 		this.resize ();
 		this.selectATab ();
@@ -207,6 +201,15 @@ public class NewHomePageController : MonoBehaviour
 		this.initializeCompetitions ();
 		this.checkFriendsOnlineStatus ();
 		this.isSceneLoaded = true;
+		if(ApplicationModel.launchEndGameSequence)
+		{
+			if(model.player.TutorialStep==-1)
+			{
+				this.launchEndGameSequence(ApplicationModel.hasWonLastGame);
+			}
+			ApplicationModel.launchEndGameSequence=false;
+			ApplicationModel.hasWonLastGame=false;
+		}
 		if(model.player.TutorialStep!=-1)
 		{
 			TutorialObjectController.instance.startTutorial(model.player.TutorialStep,model.player.displayTutorial);

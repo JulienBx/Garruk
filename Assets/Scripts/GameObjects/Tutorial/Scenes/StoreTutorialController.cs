@@ -13,12 +13,6 @@ public class StoreTutorialController : TutorialObjectController
 	{
 		NewStoreController.instance.endTutorialInitialization ();
 	}
-	public override void startTutorial(int tutorialStep, bool isDisplayed)
-	{
-		base.startTutorial (tutorialStep, isDisplayed);
-		MenuController.instance.setIsUserBusy (true);
-		this.launchSequence (getStartSequenceId(tutorialStep));
-	}
 	public override void launchSequence(int sequenceID)
 	{
 		Vector3 gameObjectPosition = new Vector3 ();
@@ -63,7 +57,7 @@ public class StoreTutorialController : TutorialObjectController
 				this.displayBackground(true);
 				this.displayExitButton(false);
 			}
-			this.resizeBackground(new Rect(0,0,ApplicationDesignRules.worldWidth+2,5),0f,0f);
+			this.resizeBackground(new Rect(0,0,ApplicationDesignRules.worldWidth+6,7),1f,0.4f);
 			break;
 		case 3:
 			if(this.getIsTutorialDisplayed())
@@ -79,29 +73,8 @@ public class StoreTutorialController : TutorialObjectController
 					this.displayExitButton(true);
 					
 				}
-				this.resizeBackground(new Rect(0,0,ApplicationDesignRules.worldWidth+2,5),0f,0f);
+				this.resizeBackground(new Rect(0,0,ApplicationDesignRules.worldWidth+6,8),0f,0f);
 				this.resizePopUp(new Vector3(0,-3.5f,-9.5f));
-			}
-			else
-			{
-				this.sequenceID=100;
-				goto default;
-			}
-			break;
-		case 4:
-			if(this.getIsTutorialDisplayed())
-			{
-				if(!isResizing)
-				{
-					this.displayPopUp(-1);
-					this.setUpArrow();
-					this.displayNextButton(false);
-					this.displayBackground(true);
-					
-				}
-				gameObjectPosition = MenuController.instance.getButtonPosition(1);
-				this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2.5f,0.75f),0.8f,0.8f);
-				this.drawUpArrow();
 			}
 			else
 			{
@@ -118,8 +91,12 @@ public class StoreTutorialController : TutorialObjectController
 	{
 		switch(this.sequenceID)
 		{
-		case 0: case 1: case 2: case 3:
+		case 0: case 1: case 2: 
 			this.launchSequence(this.sequenceID+1);
+			break;
+		case 3:
+			this.sequenceID=100;
+			this.launchSequence(this.sequenceID);
 			break;
 		}
 	}

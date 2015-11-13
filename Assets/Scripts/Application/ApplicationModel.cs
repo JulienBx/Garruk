@@ -35,6 +35,7 @@ public class ApplicationModel : MonoBehaviour
 	static public bool isFirstPlayer=false;
 	static public string hisPlayerName = "";
 	static public string myPlayerName="";
+	static public bool hasDeck = false;
 
 	static private string URLCheckPassword = host + "check_password.php";
 	static private string URLEditPassword = host + "edit_password.php";

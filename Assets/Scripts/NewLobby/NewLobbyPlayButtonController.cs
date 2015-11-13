@@ -5,7 +5,10 @@ public class NewLobbyPlayButtonController : SimpleButtonController
 {	
 	public override void mainInstruction()
 	{
-		NewLobbyController.instance.playHandler ();
+		if(TutorialObjectController.instance.canAccess())
+		{
+			NewLobbyController.instance.playHandler ();
+		}
 	}
 }
 

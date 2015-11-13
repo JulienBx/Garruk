@@ -16,7 +16,7 @@ public class TutorialPreviousButtonController : MonoBehaviour
 	}
 	void OnMouseDown()
 	{
-		TutorialController.instance.previousButtonHandler ();
+		//TutorialController.instance.previousButtonHandler ();
 	}
 	
 }

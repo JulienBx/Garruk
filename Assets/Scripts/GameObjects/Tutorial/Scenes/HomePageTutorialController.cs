@@ -9,15 +9,20 @@ public class HomePageTutorialController : TutorialObjectController
 {
 	public static HomePageTutorialController instance;
 	
+	public override void startTutorial(int tutorialStep, bool isDisplayed)
+	{
+		if(tutorialStep==3 || tutorialStep ==4)
+		{
+			base.startTutorial(tutorialStep,true);
+		}
+		else
+		{
+			base.startTutorial(tutorialStep,isDisplayed);
+		}
+	}
 	public override void endInitialization()
 	{
 		NewHomePageController.instance.endTutorialInitialization ();
-	}
-	public override void startTutorial(int tutorialStep, bool isDisplayed)
-	{
-		base.startTutorial (tutorialStep, isDisplayed);
-		MenuController.instance.setIsUserBusy (true);
-		this.launchSequence (getStartSequenceId(tutorialStep));
 	}
 	public override void launchSequence(int sequenceID)
 	{
@@ -25,90 +30,52 @@ public class HomePageTutorialController : TutorialObjectController
 		this.sequenceID = sequenceID;
 		switch(this.sequenceID)
 		{
-//		case 0:
-//			if(!isResizing)
-//			{
-//				this.displayArrow(false);
-//				this.displayPopUp(2);
-//				this.displayNextButton(true);
-//				this.setPopUpTitle("Bienvenue dans Techtical Wars");
-//				this.setPopUpDescription("A compléter");
-//				this.displayBackground(true);
-//				this.displayExitButton(false);
-//				
-//			}
-//			this.resizeBackground(new Rect(0,10,5,5),0f,0f);
-//			this.resizePopUp(new Vector3(0,0,-9.5f));
-//			break;
-//		case 1:
-//			if(!isResizing)
-//			{
-//				this.displayPopUp(-1);
-//				this.setLeftArrow();
-//				this.displayNextButton(false);
-//				this.displayBackground(true);
-//				this.displayExitButton(false);
-//				
-//			}
-//			gameObjectPosition = NewHomePageController.instance.returnBuyPackButtonPosition(1);
-//			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2.5f,1f),0.8f,0.8f);
-//			this.drawLeftArrow();
-//			break;
-//		case 2:
-//			if(!isResizing)
-//			{
-//				this.displayArrow(false);
-//				this.displayPopUp(-1);
-//				this.displayNextButton(false);
-//				this.displayBackground(true);
-//				this.displayExitButton(false);
-//			}
-//			this.resizeBackground(new Rect(0,0,ApplicationDesignRules.worldWidth+2,5),0f,0f);
-//			break;
-//		case 3:
-//			if(this.getIsTutorialDisplayed())
-//			{
-//				if(!isResizing)
-//				{
-//					this.displayArrow(false);
-//					this.displayPopUp(0);
-//					this.displayNextButton(true);
-//					this.setPopUpTitle("Bravo voici vos premières recrues");
-//					this.setPopUpDescription("A compléter");
-//					this.displayBackground(true);
-//					this.displayExitButton(true);
-//					
-//				}
-//				this.resizeBackground(new Rect(0,0,ApplicationDesignRules.worldWidth+2,5),0f,0f);
-//				this.resizePopUp(new Vector3(0,-3.5f,-9.5f));
-//			}
-//			else
-//			{
-//				this.sequenceID=100;
-//				goto case 100;
-//			}
-//			break;
-//		case 4:
-//			if(this.getIsTutorialDisplayed())
-//			{
-//				if(!isResizing)
-//				{
-//					this.displayPopUp(-1);
-//					this.setUpArrow();
-//					this.displayNextButton(false);
-//					this.displayBackground(true);
-//					
-//				}
-//				gameObjectPosition = MenuController.instance.getButtonPosition(1);
-//				this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2.5f,0.75f),0.8f,0.8f);
-//				this.drawUpArrow();
-//			}
-//			else
-//			{
-//				this.sequenceID=100;
-//				goto case 100;
-//			}
-//			break;
+		case 0: // Présentation de l'écran de gestion des cartes
+			if(!isResizing)
+			{
+				this.displayArrow(false);
+				this.displayPopUp(1);
+				this.displayNextButton(true);
+				this.setPopUpTitle("Bravo vous avez gagné !");
+				this.setPopUpDescription("A compléter");
+				this.displayBackground(true);
+				this.displayExitButton(false);
+				this.displayDragHelp(false);
+			}
+			this.resizeBackground(new Rect(0,10,5,5),0f,0f);
+			this.resizePopUp(new Vector3(0,0,-9.5f));
+			break;
+		case 1: // Demande à l'utilisateur de créer un deck
+			if(!isResizing)
+			{
+				this.displayArrow(false);
+				this.displayPopUp(1);
+				this.displayNextButton(true);
+				this.setPopUpTitle("Dommage vous avez perdu !");
+				this.setPopUpDescription("A compléter");
+				this.displayBackground(true);
+				this.displayExitButton(false);
+				this.displayDragHelp(false);
+			}
+			this.resizeBackground(new Rect(0,10,5,5),0f,0f);
+			this.resizePopUp(new Vector3(0,0,-9.5f));
+			break;
+		case 2: // Demande à l'utilisateur de sélectionner des cartes
+			if(!isResizing)
+			{
+				this.displayPopUp(0);
+				this.setUpArrow();
+				this.displayNextButton(true);
+				this.setPopUpTitle("L'aide est toujours là");
+				this.setPopUpDescription("A compléter");
+				this.displayBackground(true);
+				this.displayExitButton(false);
+				this.displayDragHelp(false);
+			}
+			gameObjectPosition = MenuController.instance.getHelpButtonPosition();
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,1.5f,1.5f),0f,0f);
+			this.drawUpArrow();
+			break;
 		default:
 			base.launchSequence(this.sequenceID);
 			break;
@@ -118,8 +85,15 @@ public class HomePageTutorialController : TutorialObjectController
 	{
 		switch(this.sequenceID)
 		{
-		case 1: case 2: 
-			this.launchSequence(this.sequenceID+1);
+		case 0: case 1:
+			this.sequenceID=2;
+			launchSequence(this.sequenceID);
+			break;
+		case 2:
+			StartCoroutine(this.endTutorial());
+			break;
+		default:
+			base.actionIsDone();
 			break;
 		}
 	}
@@ -127,6 +101,12 @@ public class HomePageTutorialController : TutorialObjectController
 	{
 		switch(tutorialStep)
 		{
+		case 3:
+			return 0;
+			break;
+		case 4:
+			return 1;
+			break;
 		default:
 			return base.getStartSequenceId(tutorialStep);
 			break;

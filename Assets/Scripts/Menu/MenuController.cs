@@ -31,7 +31,6 @@ public class MenuController : MonoBehaviour
 	private NewMenuDisconnectedPopUpView disconnectedView;
 	
 	private bool isLoadingScreenDisplayed;
-	public bool isTutorialLaunched;
 	
 	private bool isInviting;
 	
@@ -251,6 +250,7 @@ public class MenuController : MonoBehaviour
 		Destroy (this.playPopUp);
 		this.hideTransparentBackground ();
 		this.isPlayPopUpDisplayed = false;
+		TutorialObjectController.instance.tutorialTrackPoint ();
 	}
 	public void hideTransparentBackground()
 	{
@@ -411,11 +411,6 @@ public class MenuController : MonoBehaviour
 		userBlockPosition.x = (ApplicationDesignRules.worldWidth / 2f) - ApplicationDesignRules.rightMargin - userBlockWorldWidth / 2f;
 		gameObject.transform.FindChild ("UserBlock").transform.position = userBlockPosition;
 
-		if(this.isTutorialLaunched)
-		{
-			this.tutorial.GetComponent<TutorialObjectController>().resize();
-		}
-
 	}
 	public void refreshMenuObject()
 	{
@@ -478,14 +473,7 @@ public class MenuController : MonoBehaviour
 	}
 	public void myGameLink() 
 	{
-		if(this.isTutorialLaunched)
-		{
-			TutorialObjectController.instance.actionIsDone();
-		}
-		else
-		{
-			Application.LoadLevel("newMyGame");
-		}
+		Application.LoadLevel("newMyGame");
 	}
 	public void marketLink() 
 	{
@@ -497,14 +485,7 @@ public class MenuController : MonoBehaviour
 	}
 	public void storeLink() 
 	{
-		if(this.isTutorialLaunched)
-		{
-			TutorialObjectController.instance.actionIsDone();
-		}
-		else
-		{
-			Application.LoadLevel("newStore");
-		}
+		Application.LoadLevel("newStore");
 	}
 	public void playLink() 
 	{
@@ -524,15 +505,6 @@ public class MenuController : MonoBehaviour
 	public void setButtonGui(int index, bool value)
 	{
 		//		view.menuVM.buttonsEnabled[index]=value;
-	}
-	public void setTutorialLaunched(bool value)
-	{
-		this.isTutorialLaunched = value;
-		this.setIsUserBusy (value);
-	}
-	public bool getIsTutorialLaunched()
-	{
-		return isTutorialLaunched;
 	}
 	public void returnPressed()
 	{
@@ -705,7 +677,7 @@ public class MenuController : MonoBehaviour
 	public void joinRandomRoomHandler()
 	{
 		this.displayLoadingScreen ();
-		if(ApplicationModel.gameType<=2 && !this.isTutorialLaunched)
+		if(ApplicationModel.gameType<=2 && !TutorialObjectController.instance.getIsTutorialLaunched())
 		{
 			this.displayLoadingScreenButton (true);
 			this.changeLoadingScreenLabel ("En attente de joueurs ...");
@@ -770,7 +742,7 @@ public class MenuController : MonoBehaviour
 	}
 
 	#region TUTORIAL FUNCTIONS
-	
+
 	public void helpHandler()
 	{
 		TutorialObjectController.instance.helpClicked ();
@@ -787,7 +759,14 @@ public class MenuController : MonoBehaviour
 	{
 		return gameObject.transform.FindChild("Button"+id).transform.position;
 	}
-
+	public bool getIsPlayPopUpDisplayed()
+	{
+		return this.isPlayPopUpDisplayed;
+	}
+	public Vector3 getHelpButtonPosition()
+	{
+		return gameObject.transform.FindChild ("UserBlock").FindChild ("Help").position;
+	}
 	#endregion
 }
 
