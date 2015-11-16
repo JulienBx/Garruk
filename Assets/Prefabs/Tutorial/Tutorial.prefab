@@ -1514,6 +1514,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab69874d06dc64bb98369d70970bc4f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  backgrounds:
+  - {fileID: 21300000, guid: 7ec6291a5f00a47b6a60aa7291b04a9f, type: 3}
+  - {fileID: 21300000, guid: 7d62a6126408746b0a21073cc3d2d1c5, type: 3}
   topColliderSize: {x: 0, y: 0}
   topColliderOffset: {x: 0, y: 0}
   bottomColliderSize: {x: 0, y: 0}
@@ -2344,7 +2347,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1945406385
   m_SortingOrder: 100
-  m_Sprite: {fileID: 21300010, guid: 38697c873431044308afea252510cb7a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7ec6291a5f00a47b6a60aa7291b04a9f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!212 &21212486
 SpriteRenderer:

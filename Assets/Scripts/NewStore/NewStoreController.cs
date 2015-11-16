@@ -862,6 +862,34 @@ public class NewStoreController : MonoBehaviour
 	{
 		return this.packsButton [id].transform.position;
 	}
+	public bool getIsCardFocusedDisplayed()
+	{
+		return isCardFocusedDisplayed;
+	}
+	public Vector3 getBuyCreditsBlockOrigin()
+	{
+		return this.buyCreditsBlock.GetComponent<NewBlockController> ().getOriginPosition ();
+	}
+	public Vector2 getBuyCreditsBlockSize()
+	{
+		return this.buyCreditsBlock.GetComponent<NewBlockController> ().getSize ();
+	}
+	public Vector3 getPacksBlockOrigin()
+	{
+		return this.packsBlock.GetComponent<NewBlockController> ().getOriginPosition ();
+	}
+	public Vector2 getPacksBlockSize()
+	{
+		return this.packsBlock.GetComponent<NewBlockController> ().getSize ();
+	}
+	public Vector3 getStoreBlockOrigin()
+	{
+		return this.storeBlock.GetComponent<NewBlockController> ().getOriginPosition ();
+	}
+	public GameObject returnCardFocused()
+	{
+		return this.focusedCard;
+	}
 
 	#endregion
 }

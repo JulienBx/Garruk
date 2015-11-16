@@ -19,90 +19,6 @@ public class LobbyTutorialController : TutorialObjectController
 		this.sequenceID = sequenceID;
 		switch(this.sequenceID)
 		{
-			//		case 0:
-			//			if(!isResizing)
-			//			{
-			//				this.displayArrow(false);
-			//				this.displayPopUp(2);
-			//				this.displayNextButton(true);
-			//				this.setPopUpTitle("Bienvenue dans Techtical Wars");
-			//				this.setPopUpDescription("A compléter");
-			//				this.displayBackground(true);
-			//				this.displayExitButton(false);
-			//				
-			//			}
-			//			this.resizeBackground(new Rect(0,10,5,5),0f,0f);
-			//			this.resizePopUp(new Vector3(0,0,-9.5f));
-			//			break;
-			//		case 1:
-			//			if(!isResizing)
-			//			{
-			//				this.displayPopUp(-1);
-			//				this.setLeftArrow();
-			//				this.displayNextButton(false);
-			//				this.displayBackground(true);
-			//				this.displayExitButton(false);
-			//				
-			//			}
-			//			gameObjectPosition = NewMyGameController.instance.returnBuyPackButtonPosition(1);
-			//			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2.5f,1f),0.8f,0.8f);
-			//			this.drawLeftArrow();
-			//			break;
-			//		case 2:
-			//			if(!isResizing)
-			//			{
-			//				this.displayArrow(false);
-			//				this.displayPopUp(-1);
-			//				this.displayNextButton(false);
-			//				this.displayBackground(true);
-			//				this.displayExitButton(false);
-			//			}
-			//			this.resizeBackground(new Rect(0,0,ApplicationDesignRules.worldWidth+2,5),0f,0f);
-			//			break;
-			//		case 3:
-			//			if(this.getIsTutorialDisplayed())
-			//			{
-			//				if(!isResizing)
-			//				{
-			//					this.displayArrow(false);
-			//					this.displayPopUp(0);
-			//					this.displayNextButton(true);
-			//					this.setPopUpTitle("Bravo voici vos premières recrues");
-			//					this.setPopUpDescription("A compléter");
-			//					this.displayBackground(true);
-			//					this.displayExitButton(true);
-			//					
-			//				}
-			//				this.resizeBackground(new Rect(0,0,ApplicationDesignRules.worldWidth+2,5),0f,0f);
-			//				this.resizePopUp(new Vector3(0,-3.5f,-9.5f));
-			//			}
-			//			else
-			//			{
-			//				this.sequenceID=100;
-			//				goto case 100;
-			//			}
-			//			break;
-			//		case 4:
-			//			if(this.getIsTutorialDisplayed())
-			//			{
-			//				if(!isResizing)
-			//				{
-			//					this.displayPopUp(-1);
-			//					this.setUpArrow();
-			//					this.displayNextButton(false);
-			//					this.displayBackground(true);
-			//					
-			//				}
-			//				gameObjectPosition = MenuController.instance.getButtonPosition(1);
-			//				this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2.5f,0.75f),0.8f,0.8f);
-			//				this.drawUpArrow();
-			//			}
-			//			else
-			//			{
-			//				this.sequenceID=100;
-			//				goto case 100;
-			//			}
-			//			break;
 		default:
 			base.launchSequence(this.sequenceID);
 			break;
@@ -112,9 +28,6 @@ public class LobbyTutorialController : TutorialObjectController
 	{
 		switch(this.sequenceID)
 		{
-			//		case 1: case 2: 
-			//			this.launchSequence(this.sequenceID+1);
-			//			break;
 		default:
 			base.actionIsDone();
 			break;
@@ -130,6 +43,100 @@ public class LobbyTutorialController : TutorialObjectController
 		}
 		return 0;
 	}
+
+	#region HELP SEQUENCES
 	
+	public override void launchHelpSequence(int sequenceID)
+	{
+		Vector3 gameObjectPosition = new Vector3 ();
+		Vector3 gameObjectPosition2 = new Vector3 ();
+		Vector2 gameObjectSize = new Vector2 ();
+		this.sequenceID = sequenceID;
+		switch(this.sequenceID)
+		{
+		case 0: // Présentation de l'écran de gestion des cartes
+			if(!isResizing)
+			{
+				this.displayArrow(false);
+				this.displayPopUp(1);
+				this.displayNextButton(true);
+				this.setPopUpTitle("La compétition");
+				this.setPopUpDescription("A compléter");
+				this.displaySquareBackground(true);
+				this.displayExitButton(true);
+				this.displayDragHelp(false);
+			}
+			
+			gameObjectPosition=NewLobbyController.instance.getMainBlockOrigin();
+			gameObjectPosition2=NewLobbyController.instance.getLastResultsBlockOrigin();
+			gameObjectSize=NewLobbyController.instance.getMainBlockSize();
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
+			this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition2.y,-9.5f));
+			break;
+		case 1: // Présentation de l'écran de gestion des cartes
+			if(!isResizing)
+			{
+				this.displayArrow(false);
+				this.displayPopUp(1);
+				this.displayNextButton(true);
+				this.setPopUpTitle("Le trophée");
+				this.setPopUpDescription("A compléter");
+				this.displaySquareBackground(true);
+				this.displayExitButton(true);
+				this.displayDragHelp(false);
+			}
+			gameObjectPosition=NewLobbyController.instance.getCompetitionBlockOrigin();
+			gameObjectPosition2=NewLobbyController.instance.getLastResultsBlockOrigin();
+			gameObjectSize=NewLobbyController.instance.getCompetitionBlockSize();
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
+			this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition2.y,-9.5f));
+			break;
+		case 2: // Présentation de l'écran de gestion des cartes
+			if(!isResizing)
+			{
+				this.displayArrow(false);
+				this.displayPopUp(1);
+				this.displayNextButton(true);
+				this.setPopUpTitle("Les derniers résultats");
+				this.setPopUpDescription("A compléter");
+				this.displaySquareBackground(true);
+				this.displayExitButton(true);
+				this.displayDragHelp(false);
+			}
+			gameObjectPosition=NewLobbyController.instance.getLastResultsBlockOrigin();
+			gameObjectPosition2=NewLobbyController.instance.getMainBlockOrigin();
+			gameObjectSize=NewLobbyController.instance.getLastResultsBlockSize();
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
+			this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition2.y,-9.5f));
+			break;
+		case 3: // Présentation de l'écran de gestion des cartes
+			if(!isResizing)
+			{
+				this.displayArrow(false);
+				this.displayPopUp(1);
+				this.displayNextButton(true);
+				this.setPopUpTitle("Mes statistiques");
+				this.setPopUpDescription("A compléter");
+				this.displaySquareBackground(true);
+				this.displayExitButton(true);
+				this.displayDragHelp(false);
+			}
+			gameObjectPosition=NewLobbyController.instance.getStatsBlockOrigin();
+			gameObjectPosition2=NewLobbyController.instance.getMainBlockOrigin();
+			gameObjectSize=NewLobbyController.instance.getStatsBlockSize();
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
+			this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition2.y,-9.5f));
+			break;
+		case 4: // Demande à l'utilisateur de sélectionner des cartes
+			this.endHelp();
+			break;
+		default:
+			base.launchHelpSequence(this.sequenceID);
+			break;
+		}
+	}
+	
+	#endregion
+
 }
 

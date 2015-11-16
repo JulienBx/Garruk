@@ -113,6 +113,109 @@ public class HomePageTutorialController : TutorialObjectController
 		}
 		return 0;
 	}
+
+	#region HELP SEQUENCES
+
+	public override void launchHelpSequence(int sequenceID)
+	{
+		Vector3 gameObjectPosition = new Vector3 ();
+		Vector3 gameObjectPosition2 = new Vector3 ();
+		Vector2 gameObjectSize = new Vector2 ();
+		this.sequenceID = sequenceID;
+		switch(this.sequenceID)
+		{
+		case 0: // Présentation de l'écran de gestion des cartes
+			if(NewHomePageController.instance.getIsCardFocusedDisplayed())
+			{
+				this.sequenceID=100;
+				goto default;
+			}
+			if(!isResizing)
+			{
+				this.displayArrow(false);
+				this.displayPopUp(1);
+				this.displayNextButton(true);
+				this.setPopUpTitle("Mon équipe");
+				this.setPopUpDescription("A compléter");
+				this.displaySquareBackground(true);
+				this.displayExitButton(true);
+				this.displayDragHelp(false);
+			}
 	
+			gameObjectPosition=NewHomePageController.instance.getDeckBlockOrigin();
+			gameObjectPosition2=NewHomePageController.instance.getNewsfeedBlockOrigin();
+			gameObjectSize=NewHomePageController.instance.getDeckBlockSize();
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
+			this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition2.y,-9.5f));
+			break;
+		case 1: // Présentation de l'écran de gestion des cartes
+			if(!isResizing)
+			{
+				this.displayArrow(false);
+				this.displayPopUp(1);
+				this.displayNextButton(true);
+				this.setPopUpTitle("Les packs");
+				this.setPopUpDescription("A compléter");
+				this.displaySquareBackground(true);
+				this.displayExitButton(true);
+				this.displayDragHelp(false);
+			}
+			gameObjectPosition=NewHomePageController.instance.getStoreBlockOrigin();
+			gameObjectPosition2=NewHomePageController.instance.getNewsfeedBlockOrigin();
+			gameObjectSize=NewHomePageController.instance.getStoreBlockSize();
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
+			this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition2.y,-9.5f));
+			break;
+		case 2: // Présentation de l'écran de gestion des cartes
+			if(!isResizing)
+			{
+				this.displayArrow(false);
+				this.displayPopUp(1);
+				this.displayNextButton(true);
+				this.setPopUpTitle("Mes alertes");
+				this.setPopUpDescription("A compléter");
+				this.displaySquareBackground(true);
+				this.displayExitButton(true);
+				this.displayDragHelp(false);
+			}
+			gameObjectPosition=NewHomePageController.instance.getNewsfeedBlockOrigin();
+			gameObjectPosition2=NewHomePageController.instance.getDeckBlockOrigin();
+			gameObjectSize=NewHomePageController.instance.getNewsfeedBlockSize();
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
+			this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition2.y,-9.5f));
+			break;
+		case 3: // Présentation de l'écran de gestion des cartes
+			if(!isResizing)
+			{
+				this.displayArrow(false);
+				this.displayPopUp(1);
+				this.displayNextButton(true);
+				this.setPopUpTitle("Les modes de match");
+				this.setPopUpDescription("A compléter");
+				this.displaySquareBackground(true);
+				this.displayExitButton(true);
+				this.displayDragHelp(false);
+			}
+			gameObjectPosition=NewHomePageController.instance.getPlayBlockOrigin();
+			gameObjectPosition2=NewHomePageController.instance.getDeckBlockOrigin();
+			gameObjectSize=NewHomePageController.instance.getPlayBlockSize();
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
+			this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition2.y,-9.5f));
+			break;
+		case 4: // Demande à l'utilisateur de sélectionner des cartes
+			this.endHelp();
+			break;
+		default:
+			base.launchHelpSequence(this.sequenceID);
+			break;
+		}
+	}
+
+	public override GameObject getCardFocused()
+	{
+		return NewHomePageController.instance.returnCardFocused ();
+	}
+
+	#endregion
 }
 

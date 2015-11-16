@@ -1352,4 +1352,40 @@ public class NewMarketController : MonoBehaviour
 	{
 		return model.player.Id;
 	}
+	#region TUTORIAL FUNCTIONS
+	
+	public bool getIsCardFocusedDisplayed()
+	{
+		return isCardFocusedDisplayed;
+	}
+	public Vector3 getFiltersBlockOrigin()
+	{
+		return this.filtersBlock.GetComponent<NewBlockController> ().getOriginPosition ();
+	}
+	public Vector2 getFiltersBlockSize()
+	{
+		return this.filtersBlock.GetComponent<NewBlockController> ().getSize ();
+	}
+	public Vector3 getCardsBlockOrigin()
+	{
+		Vector3 blockOrigin = this.cardsBlock.GetComponent<NewBlockController> ().getOriginPosition ();
+		blockOrigin.y = blockOrigin.y + ApplicationDesignRules.button62WorldSize.y / 2f;
+		return blockOrigin;
+	}
+	public Vector2 getCardsBlockSize()
+	{
+		Vector2 blockSize=this.cardsBlock.GetComponent<NewBlockController> ().getSize ();
+		blockSize.y = blockSize.y + ApplicationDesignRules.button62WorldSize.y;
+		return blockSize;
+	}
+	public Vector3 getMarketBlockOrigin()
+	{
+		return this.marketBlock.GetComponent<NewBlockController> ().getOriginPosition ();
+	}
+	public GameObject returnCardFocused()
+	{
+		return this.focusedCard;
+	}
+	
+	#endregion
 }

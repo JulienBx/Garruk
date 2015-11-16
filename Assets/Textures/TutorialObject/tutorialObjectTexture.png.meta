@@ -1,19 +1,13 @@
 fileFormatVersion: 2
-guid: 38697c873431044308afea252510cb7a
-timeCreated: 1441204419
+guid: 7ec6291a5f00a47b6a60aa7291b04a9f
+timeCreated: 1447448528
 licenseType: Free
 TextureImporter:
-  fileIDToRecycleName:
-    21300000: transparentBackground
-    21300002: transparentBackgroundCircle
-    21300004: arrowBackground
-    21300006: popUpBackground
-    21300008: transparentWhiteBackground
-    21300010: tutorialObjectTexture
+  fileIDToRecycleName: {}
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
-    enableMipMap: 0
+    enableMipMap: 1
     linearTexture: 0
     correctGamma: 0
     fadeOut: 0
@@ -33,9 +27,9 @@ TextureImporter:
   cubemapConvolutionExponent: 1.5
   seamlessCubemap: 0
   textureFormat: -1
-  maxTextureSize: 4096
+  maxTextureSize: 1024
   textureSettings:
-    filterMode: 0
+    filterMode: -1
     aniso: 16
     mipBias: -1
     wrapMode: 1
@@ -43,7 +37,7 @@ TextureImporter:
   lightmap: 0
   rGBM: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -54,17 +48,7 @@ TextureImporter:
   textureType: 8
   buildTargetSettings: []
   spriteSheet:
-    sprites:
-    - name: tutorialObjectTexture
-      rect:
-        serializedVersion: 2
-        x: 2
-        y: 3190
-        width: 5000
-        height: 5000
-      alignment: 0
-      pivot: {x: .5, y: .5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+    sprites: []
   spritePackingTag: 
   userData: 
   assetBundleName: 

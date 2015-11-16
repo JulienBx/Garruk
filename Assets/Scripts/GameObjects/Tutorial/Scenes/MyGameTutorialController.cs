@@ -50,14 +50,14 @@ public class MyGameTutorialController : TutorialObjectController
 				this.displayPopUp(-1);
 				this.setRightArrow();
 				this.displayNextButton(false);
-				this.displayBackground(true);
+				this.displaySquareBackground(true);
 				this.displayExitButton(false);
 				this.displayDragHelp(false);
 				this.displayExitButton(true);
 				
 			}
 			gameObjectPosition = newMyGameController.instance.getNewDeckButtonPosition();
-			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2.5f,1f),0.8f,0.8f);
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,ApplicationDesignRules.button61WorldSize.x+0.3f,ApplicationDesignRules.button61WorldSize.y+0.3f),1f,1f);
 			this.drawRightArrow();
 			break;
 		case 2: // Demande à l'utilisateur de sélectionner des cartes
@@ -67,13 +67,13 @@ public class MyGameTutorialController : TutorialObjectController
 				this.displayDragHelp(true);
 				this.displayPopUp(0);
 				this.displayNextButton(false);
-				this.displayBackground(true);
+				this.displaySquareBackground(true);
 				this.displayExitButton(false);
 				this.setPopUpTitle("Déplacer les cartes");
 				this.setPopUpDescription("A compléter");
 				this.displayExitButton(true);
 			}
-			this.resizeBackground(new Rect(0,0,ApplicationDesignRules.worldWidth+6,7),1f,0.4f);
+			this.resizeBackground(new Rect(0,-1.25f,ApplicationDesignRules.worldWidth+1,6),1f,0.9f);
 			this.resizeDragHelp(new Vector3(0f,0f,0f));
 			this.resizePopUp(new Vector3(0,-3f,-9.5f));
 			break;
@@ -147,6 +147,91 @@ public class MyGameTutorialController : TutorialObjectController
 		}
 		return 0;
 	}
+
+	#region HELP SEQUENCES
 	
+	public override void launchHelpSequence(int sequenceID)
+	{
+		Vector3 gameObjectPosition = new Vector3 ();
+		Vector3 gameObjectPosition2 = new Vector3 ();
+		Vector2 gameObjectSize = new Vector2 ();
+		this.sequenceID = sequenceID;
+		switch(this.sequenceID)
+		{
+		case 0: // Présentation de l'écran de gestion des cartes
+			if(newMyGameController.instance.getIsCardFocusedDisplayed())
+			{
+				this.sequenceID=100;
+				goto default;
+			}
+			if(!isResizing)
+			{
+				this.displayArrow(false);
+				this.displayPopUp(1);
+				this.displayNextButton(true);
+				this.setPopUpTitle("Mes cartes");
+				this.setPopUpDescription("A compléter");
+				this.displaySquareBackground(true);
+				this.displayExitButton(true);
+				this.displayDragHelp(false);
+			}
+			
+			gameObjectPosition=newMyGameController.instance.getCardsBlockOrigin();
+			gameObjectPosition2=newMyGameController.instance.getDeckBlockOrigin();
+			gameObjectSize=newMyGameController.instance.getCardsBlockSize();
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
+			this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition.y,-9.5f));
+			break;
+		case 1: // Présentation de l'écran de gestion des cartes
+			if(!isResizing)
+			{
+				this.displayArrow(false);
+				this.displayPopUp(1);
+				this.displayNextButton(true);
+				this.setPopUpTitle("Mon équipe");
+				this.setPopUpDescription("A compléter");
+				this.displaySquareBackground(true);
+				this.displayExitButton(true);
+				this.displayDragHelp(false);
+			}
+			gameObjectPosition=newMyGameController.instance.getDeckBlockOrigin();
+			gameObjectPosition2=newMyGameController.instance.getCardsBlockOrigin();
+			gameObjectSize=newMyGameController.instance.getDeckBlockSize();
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
+			this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition2.y,-9.5f));
+			break;
+		case 2: // Présentation de l'écran de gestion des cartes
+			if(!isResizing)
+			{
+				this.displayArrow(false);
+				this.displayPopUp(1);
+				this.displayNextButton(true);
+				this.setPopUpTitle("Les filtres");
+				this.setPopUpDescription("A compléter");
+				this.displaySquareBackground(true);
+				this.displayExitButton(true);
+				this.displayDragHelp(false);
+			}
+			gameObjectPosition=newMyGameController.instance.getFiltersBlockOrigin();
+			gameObjectPosition2=newMyGameController.instance.getCardsBlockOrigin();
+			gameObjectSize=newMyGameController.instance.getFiltersBlockSize();
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
+			this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition2.y,-9.5f));
+			break;
+		case 3: // Demande à l'utilisateur de sélectionner des cartes
+			this.endHelp();
+			break;
+		default:
+			base.launchHelpSequence(this.sequenceID);
+			break;
+		}
+	}
+	
+	public override GameObject getCardFocused()
+	{
+		return newMyGameController.instance.returnCardFocused ();
+	}
+	
+	#endregion
 }
 

@@ -94,7 +94,6 @@ public class TutorialObjectController : MonoBehaviour
 		this.arrow = gameObject.transform.FindChild ("Arrow").gameObject;
 		this.background = gameObject.transform.FindChild ("Background").gameObject;
 		this.exitButton = gameObject.transform.FindChild ("ExitButton").gameObject;
-		this.exitButton.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Quitter le tutoriel";
 		this.popUp = gameObject.transform.FindChild ("PopUp").gameObject;
 		this.popUpTitle = this.popUp.transform.FindChild ("Title").gameObject;
 		this.popUpDescription = this.popUp.transform.FindChild ("Description").gameObject;
@@ -112,12 +111,20 @@ public class TutorialObjectController : MonoBehaviour
 	{
 		this.isTutorialLaunched = true;
 		this.isTutorialDisplayed = isDisplayed;
+		this.exitButton.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Quitter le tutoriel";
 		MenuController.instance.setIsUserBusy (true);
 		this.launchSequence (getStartSequenceId(tutorialStep));
 		if(!isDisplayed)
 		{
 			MenuController.instance.setFlashingHelp(true);
 		}
+	}
+	public void startHelp()
+	{
+		this.isHelpLaunched = true;
+		this.exitButton.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Quitter l'aide";
+		MenuController.instance.setIsUserBusy (true);
+		this.launchHelpSequence(0);
 	}
 	public bool getIsTutorialLaunched()
 	{
@@ -137,19 +144,30 @@ public class TutorialObjectController : MonoBehaviour
 	}
 	public void displayBackground(bool value)
 	{
-		if(!this.isTutorialDisplayed)
+		if(!this.isTutorialDisplayed && !this.isHelpLaunched)
 		{
 			value=false;
 		}
 		this.background.SetActive (value);
+		this.background.GetComponent<TutorialBackgroundController> ().setSprite (0);
+	}
+	public void displaySquareBackground(bool value)
+	{
+		if(!this.isTutorialDisplayed && !this.isHelpLaunched)
+		{
+			value=false;
+		}
+		this.background.SetActive (value);
+		this.background.GetComponent<TutorialBackgroundController> ().setSprite (1);
 	}
 	public void displayExitButton(bool value)
 	{
-		if(!this.isTutorialDisplayed)
+		if(!this.isTutorialDisplayed&& !this.isHelpLaunched)
 		{
 			value=false;
 		}
 		this.exitButton.SetActive (value);
+		this.exitButton.GetComponent<TutorialObjectQuitButtonController>().reset();
 	}
 	public void resizeBackground(Rect rect, float clickableSectionXRatio, float clickableSectionYRatio)
 	{
@@ -187,7 +205,7 @@ public class TutorialObjectController : MonoBehaviour
 	}
 	public void displayNextButton(bool value)
 	{
-		if(!this.isTutorialDisplayed)
+		if(!this.isTutorialDisplayed&& !this.isHelpLaunched)
 		{
 			value=false;
 		}
@@ -195,7 +213,7 @@ public class TutorialObjectController : MonoBehaviour
 	}
 	public void displayPopUp(int value)
 	{
-		if(!this.isTutorialDisplayed)
+		if(!this.isTutorialDisplayed&& !this.isHelpLaunched)
 		{
 			value=-1;
 		}
@@ -245,7 +263,14 @@ public class TutorialObjectController : MonoBehaviour
 	}
 	public void nextStepHandler()
 	{
-		this.actionIsDone ();
+		if(this.isTutorialLaunched)
+		{
+			this.actionIsDone ();
+		}
+		else if(this.isHelpLaunched)
+		{
+			this.launchHelpSequence(this.sequenceID+1);
+		}
 	}
 	public virtual void launchSequence(int sequenceID)
 	{
@@ -291,13 +316,74 @@ public class TutorialObjectController : MonoBehaviour
 				this.displayPopUp(-1);
 				this.setUpArrow();
 				this.displayNextButton(false);
-				this.displayBackground(true);
+				this.displaySquareBackground(true);
 				this.displayExitButton(true);
 				this.displayDragHelp(false);
 			}
 			gameObjectPosition = PlayPopUpController.instance.getFriendlyGameButtonPosition();
-			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,4f,1.5f),0.8f,0.8f);
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,3.5f,1f),0.8f,0.8f);
 			this.drawUpArrow();
+			break;
+		}
+	}
+	public virtual void launchHelpSequence(int sequenceID)
+	{
+		Vector3 gameObjectPosition = new Vector3 ();
+		Vector3 gameObjectPosition2 = new Vector3 ();
+		Vector2 gameObjectSize = new Vector2 ();
+		this.sequenceID = sequenceID;
+		switch(this.sequenceID)
+		{
+		case 100: // Présentation de l'écran de gestion des cartes
+			if(!isResizing)
+			{
+				this.setUpArrow();
+				this.displayPopUp(1);
+				this.displayNextButton(true);
+				this.setPopUpTitle("Description de carte");
+				this.setPopUpDescription("A compléter");
+				this.displaySquareBackground(true);
+				this.displayExitButton(true);
+				this.displayDragHelp(false);
+			}
+			gameObjectPosition=getCardFocused().transform.FindChild("Name").position;
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y-0.6f,5.35f,2f),0f,0f);
+			this.drawUpArrow();
+			break;
+		case 101: // Présentation de l'écran de gestion des cartes
+			if(!isResizing)
+			{
+				this.setDownArrow();
+				this.displayPopUp(1);
+				this.displayNextButton(true);
+				this.setPopUpTitle("Description de carte");
+				this.setPopUpDescription("A compléter");
+				this.displaySquareBackground(true);
+				this.displayExitButton(true);
+				this.displayDragHelp(false);
+			}
+			gameObjectPosition=getCardFocused().transform.FindChild("Skill2").position;
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,5.35f,3f),0f,0f);
+			this.drawDownArrow();
+			break;
+		case 102: // Présentation de l'écran de gestion des cartes
+			if(!isResizing)
+			{
+				this.setDownArrow();
+				this.displayPopUp(1);
+				this.displayNextButton(true);
+				this.setPopUpTitle("Description de carte");
+				this.setPopUpDescription("A compléter");
+				this.displaySquareBackground(true);
+				this.displayExitButton(true);
+				this.displayDragHelp(false);
+			}
+			gameObjectPosition=getCardFocused().transform.FindChild("Life").position;
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,5.35f,1f),0f,0f);
+			this.drawDownArrow();
+			break;
+		case 103: // Demande à l'utilisateur de sélectionner des cartes
+			this.endHelp();
 			break;
 		}
 	}
@@ -444,6 +530,10 @@ public class TutorialObjectController : MonoBehaviour
 				StartCoroutine (player.setDisplayTutorial (true));
 			}
 		}
+		else
+		{
+			this.startHelp();
+		}
 	}
 	public void displayCantAccessPopUp ()
 	{
@@ -476,19 +566,40 @@ public class TutorialObjectController : MonoBehaviour
 	}
 	public void quitButtonHandler()
 	{
-		this.hideTutorial ();
+		if(this.isTutorialLaunched)
+		{
+			this.hideTutorial ();
+		}
+		else if(this.isHelpLaunched)
+		{
+			this.endHelp();
+		}
 	}
 	public IEnumerator endTutorial()
 	{
 		MenuController.instance.displayLoadingScreen ();
 		yield return StartCoroutine(this.player.setTutorialStep(-1));
 		this.isTutorialLaunched = false;
+		this.disableTutorial ();
+		MenuController.instance.hideLoadingScreen ();
+	}
+	public void disableTutorial()
+	{
 		this.displayBackground (false);
 		this.displayPopUp (-1);
 		this.displayArrow (false);
 		this.displayDragHelp (false);
 		this.displayExitButton (false);
-		MenuController.instance.hideLoadingScreen ();
+	}
+	public void endHelp()
+	{
+		this.isHelpLaunched = false;
+		MenuController.instance.setIsUserBusy (false);
+		this.disableTutorial ();
+	}
+	public virtual GameObject getCardFocused()
+	{
+		return new GameObject ();
 	}
 }
 

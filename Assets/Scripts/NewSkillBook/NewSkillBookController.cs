@@ -1021,4 +1021,29 @@ public class NewSkillBookController : MonoBehaviour
 			this.skillChoices[i].SetActive(false);
 		}
 	}
+
+	#region TUTORIAL FUNCTIONS
+	
+	public Vector3 getFiltersBlockOrigin()
+	{
+		return this.filtersBlock.GetComponent<NewBlockController> ().getOriginPosition ();
+	}
+	public Vector2 getFiltersBlockSize()
+	{
+		return this.filtersBlock.GetComponent<NewBlockController> ().getSize ();
+	}
+	public Vector3 getSkillsBlockOrigin()
+	{
+		return this.skillsBlock.GetComponent<NewBlockController> ().getOriginPosition ();
+	}
+	public Vector2 getSkillsBlockSize()
+	{
+		return this.skillsBlock.GetComponent<NewBlockController> ().getSize ();
+	}
+	public Vector3 getHelpBlockOrigin()
+	{
+		return this.helpBlock.GetComponent<NewBlockController> ().getOriginPosition ();
+	}
+	
+	#endregion
 }

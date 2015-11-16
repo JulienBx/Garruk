@@ -614,4 +614,41 @@ public class NewLobbyController : MonoBehaviour
 		ApplicationModel.profileChosen = this.results [id].transform.FindChild ("username").GetComponent<TextMeshPro> ().text;
 		Application.LoadLevel("NewProfile");
 	}
+
+	#region TUTORIAL FUNCTIONS
+	
+	public Vector3 getMainBlockOrigin()
+	{
+		return this.mainBlock.GetComponent<NewBlockController> ().getOriginPosition ();
+	}
+	public Vector2 getMainBlockSize()
+	{
+		return this.mainBlock.GetComponent<NewBlockController> ().getSize ();
+	}
+	public Vector3 getStatsBlockOrigin()
+	{
+		return this.statsBlock.GetComponent<NewBlockController> ().getOriginPosition ();
+	}
+	public Vector2 getStatsBlockSize()
+	{
+		return this.statsBlock.GetComponent<NewBlockController> ().getSize ();
+	}
+	public Vector3 getLastResultsBlockOrigin()
+	{
+		return this.lastResultsBlock.GetComponent<NewBlockController> ().getOriginPosition ();
+	}
+	public Vector2 getLastResultsBlockSize()
+	{
+		return this.lastResultsBlock.GetComponent<NewBlockController> ().getSize ();
+	}
+	public Vector3 getCompetitionBlockOrigin()
+	{
+		return this.competitionBlock.GetComponent<NewBlockController> ().getOriginPosition ();
+	}
+	public Vector2 getCompetitionBlockSize()
+	{
+		return this.competitionBlock.GetComponent<NewBlockController> ().getSize ();
+	}
+	
+	#endregion
 }

@@ -1739,6 +1739,10 @@ public class newMyGameController : MonoBehaviour
 	}
 	#region TUTORIAL FUNCTIONS
 
+	public bool getIsCardFocusedDisplayed()
+	{
+		return isCardFocusedDisplayed;
+	}
 	public bool isADeckCurrentlySelected()
 	{
 		if(this.deckDisplayed!=-1)
@@ -1759,61 +1763,33 @@ public class newMyGameController : MonoBehaviour
 		return cards[id].transform.position;
 		return new Vector3 ();
 	}
-	public Vector3 getFocusedCardHealthPointsPosition()
+	public Vector3 getFiltersBlockOrigin()
 	{
-		return new Vector3((this.focusedCard.transform.FindChild ("Life").FindChild ("Picto").position.x+this.focusedCard.transform.FindChild ("Life").FindChild ("Text").position.x)/2f,
-		                   this.focusedCard.transform.FindChild ("Life").FindChild ("Text").position.y,
-		                   this.focusedCard.transform.FindChild ("Life").FindChild ("Text").position.z);
+		return this.filtersBlock.GetComponent<NewBlockController> ().getOriginPosition ();
 	}
-	public Vector3 getFocusedCardAttackPointsPosition()
+	public Vector2 getFiltersBlockSize()
 	{
-		return new Vector3((this.focusedCard.transform.FindChild ("Attack").FindChild ("Picto").position.x+this.focusedCard.transform.FindChild ("Attack").FindChild ("Text").position.x)/2f,
-		                   this.focusedCard.transform.FindChild ("Attack").FindChild ("Text").position.y,
-		                   this.focusedCard.transform.FindChild ("Attack").FindChild ("Text").position.z);
+		return this.filtersBlock.GetComponent<NewBlockController> ().getSize ();
 	}
-	public Vector3 getFocusedCardQuicknessPointsPosition()
+	public Vector3 getCardsBlockOrigin()
 	{
-		return new Vector3((this.focusedCard.transform.FindChild ("Quickness").FindChild ("Picto").position.x+this.focusedCard.transform.FindChild ("Quickness").FindChild ("Text").position.x)/2f,
-		                   this.focusedCard.transform.FindChild ("Quickness").FindChild ("Text").position.y,
-		                   this.focusedCard.transform.FindChild ("Quickness").FindChild ("Text").position.z);
+		return this.cardsBlock.GetComponent<NewBlockController> ().getOriginPosition ();
 	}
-	public Vector3 getFocusedCardMovePointsPosition()
+	public Vector2 getCardsBlockSize()
 	{
-		return new Vector3(this.focusedCard.transform.FindChild ("Move").FindChild ("Text").position.x,
-		                   (this.focusedCard.transform.FindChild ("Move").FindChild ("Picto").position.y+this.focusedCard.transform.FindChild ("Move").FindChild ("Text").position.y)/2f,
-		                   this.focusedCard.transform.FindChild ("Move").FindChild ("Text").position.z);
+		return this.cardsBlock.GetComponent<NewBlockController> ().getSize ();
 	}
-	public Vector3 getFocusedCardSkill1Position()
+	public Vector3 getDeckBlockOrigin()
 	{
-		return new Vector3(this.focusedCard.transform.FindChild ("Face").position.x,
-		                   this.focusedCard.transform.FindChild ("Skill1").FindChild("Description").position.y,
-		                   this.focusedCard.transform.FindChild ("Skill1").position.z);
+		return this.deckBlock.GetComponent<NewBlockController> ().getOriginPosition ();
 	}
-	public Vector3 getFocusedCardSkill0Position()
+	public Vector2 getDeckBlockSize()
 	{
-		return new Vector3(this.focusedCard.transform.FindChild ("Face").position.x,
-		                   this.focusedCard.transform.FindChild ("Skill0").FindChild("Description").position.y,
-		                   this.focusedCard.transform.FindChild ("Skill0").position.z);
+		return this.deckBlock.GetComponent<NewBlockController> ().getSize ();
 	}
-	public Vector3 getFocusedCardExperienceLevelPosition()
+	public GameObject returnCardFocused()
 	{
-		return new Vector3(this.focusedCard.transform.FindChild ("Experience").FindChild("ExperienceLevel").position.x,
-		                   this.focusedCard.transform.FindChild ("Experience").FindChild("ExperienceLevel").position.y,
-		                   this.focusedCard.transform.FindChild ("Experience").FindChild("ExperienceLevel").position.z);
-	}
-	public Vector3 getFocusedCardExperienceGaugePosition()
-	{
-		return new Vector3(this.focusedCard.transform.FindChild ("Face").position.x,
-		                   this.focusedCard.transform.FindChild ("Experience").FindChild("ExperienceGauge").position.y,
-		                   this.focusedCard.transform.FindChild ("Experience").FindChild("ExperienceGauge").position.z);
-	}
-	public Vector3 getFocusedCardFeaturePosition(int id)
-	{
-		return this.focusedCard.transform.FindChild ("FocusFeature"+id).position;
-	}
-	public Vector3 getFiltersPosition()
-	{
-		return this.filtersBlock.transform.position;
+		return this.focusedCard;
 	}
 	
 	#endregion

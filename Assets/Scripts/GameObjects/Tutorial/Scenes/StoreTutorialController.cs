@@ -40,12 +40,12 @@ public class StoreTutorialController : TutorialObjectController
 				this.displayPopUp(-1);
 				this.setLeftArrow();
 				this.displayNextButton(false);
-				this.displayBackground(true);
+				this.displaySquareBackground(true);
 				this.displayExitButton(false);
 				
 			}
 			gameObjectPosition = NewStoreController.instance.returnBuyPackButtonPosition(1);
-			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2.5f,1f),0.8f,0.8f);
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,ApplicationDesignRules.button62WorldSize.x+0.15f,ApplicationDesignRules.button62WorldSize.y+0.15f),1f,1f);
 			this.drawLeftArrow();
 			break;
 		case 2:
@@ -54,10 +54,10 @@ public class StoreTutorialController : TutorialObjectController
 				this.displayArrow(false);
 				this.displayPopUp(-1);
 				this.displayNextButton(false);
-				this.displayBackground(true);
+				this.displaySquareBackground(true);
 				this.displayExitButton(false);
 			}
-			this.resizeBackground(new Rect(0,0,ApplicationDesignRules.worldWidth+6,7),1f,0.4f);
+			this.resizeBackground(new Rect(0,0,ApplicationDesignRules.worldWidth+1,4),0f,0f);
 			break;
 		case 3:
 			if(this.getIsTutorialDisplayed())
@@ -69,11 +69,11 @@ public class StoreTutorialController : TutorialObjectController
 					this.displayNextButton(true);
 					this.setPopUpTitle("Bravo voici vos premières recrues");
 					this.setPopUpDescription("A compléter");
-					this.displayBackground(true);
+					this.displaySquareBackground(true);
 					this.displayExitButton(true);
 					
 				}
-				this.resizeBackground(new Rect(0,0,ApplicationDesignRules.worldWidth+6,8),0f,0f);
+				this.resizeBackground(new Rect(0,0,ApplicationDesignRules.worldWidth+1,4),0f,0f);
 				this.resizePopUp(new Vector3(0,-3.5f,-9.5f));
 			}
 			else
@@ -114,5 +114,72 @@ public class StoreTutorialController : TutorialObjectController
 		return 0;
 	}
 
+	#region HELP SEQUENCES
+	
+	public override void launchHelpSequence(int sequenceID)
+	{
+		Vector3 gameObjectPosition = new Vector3 ();
+		Vector3 gameObjectPosition2 = new Vector3 ();
+		Vector2 gameObjectSize = new Vector2 ();
+		this.sequenceID = sequenceID;
+		switch(this.sequenceID)
+		{
+		case 0: // Présentation de l'écran de gestion des cartes
+			if(NewStoreController.instance.getIsCardFocusedDisplayed())
+			{
+				this.sequenceID=100;
+				goto default;
+			}
+			if(!isResizing)
+			{
+				this.displayArrow(false);
+				this.displayPopUp(1);
+				this.displayNextButton(true);
+				this.setPopUpTitle("Les packs");
+				this.setPopUpDescription("A compléter");
+				this.displaySquareBackground(true);
+				this.displayExitButton(true);
+				this.displayDragHelp(false);
+			}
+			
+			gameObjectPosition=NewStoreController.instance.getPacksBlockOrigin();
+			gameObjectPosition2=NewStoreController.instance.getStoreBlockOrigin();
+			gameObjectSize=NewStoreController.instance.getPacksBlockSize();
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
+			this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition.y,-9.5f));
+			break;
+		case 1: // Présentation de l'écran de gestion des cartes
+			if(!isResizing)
+			{
+				this.displayArrow(false);
+				this.displayPopUp(1);
+				this.displayNextButton(true);
+				this.setPopUpTitle("Acheter des crédits");
+				this.setPopUpDescription("A compléter");
+				this.displaySquareBackground(true);
+				this.displayExitButton(true);
+				this.displayDragHelp(false);
+			}
+			gameObjectPosition=NewStoreController.instance.getBuyCreditsBlockOrigin();
+			gameObjectPosition2=NewStoreController.instance.getPacksBlockOrigin();
+			gameObjectSize=NewStoreController.instance.getBuyCreditsBlockSize();
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
+			this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition2.y,-9.5f));
+			break;
+		case 2: // Demande à l'utilisateur de sélectionner des cartes
+			this.endHelp();
+			break;
+		default:
+			base.launchHelpSequence(this.sequenceID);
+			break;
+		}
+	}
+	
+	public override GameObject getCardFocused()
+	{
+		return NewStoreController.instance.returnCardFocused ();
+	}
+	
+	#endregion
 }
 
