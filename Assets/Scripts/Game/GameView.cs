@@ -378,7 +378,9 @@ public class GameView : MonoBehaviour
 	}
 	
 	public void hoverCharacter(int characterID){
-		
+		if (this.getPlayingCardController().getIsMine()){
+			this.getMyHoveredCardController().setNextDisplayedCharacter(characterID, this.getCard(characterID));
+		}
 	}
 	
 	public void setNextPlayer(){

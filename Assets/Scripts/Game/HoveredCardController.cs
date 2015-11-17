@@ -14,9 +14,14 @@ public class HoveredCardController : MonoBehaviour
 	public int status = 0;
 	public bool isDisplayed = false ;
 	
-	public Card nextDisplayedCard ;
+	public GameCard nextDisplayedCard ;
 	public int nextDisplayedCharacter ;
 	public int currentCharacter = -1;
+	
+	public void setNextDisplayedCharacter(int i, GameCard c){
+		this.nextDisplayedCharacter = i;
+		this.nextDisplayedCard = c;
+	}
 }
 
 
