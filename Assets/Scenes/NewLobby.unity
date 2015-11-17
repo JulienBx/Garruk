@@ -824,7 +824,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1296038883
   m_SortingOrder: 3
-  m_Sprite: {fileID: 21300214, guid: e37287fc8ab0942d6b572e39b1ae71a3, type: 3}
+  m_Sprite: {fileID: 21300218, guid: ec8fe55bfa35c4d46ba7d026602e8928, type: 3}
   m_Color: {r: .392156869, g: .392156869, b: .392156869, a: 1}
 --- !u!4 &378371500
 Transform:
@@ -1532,7 +1532,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1296038883
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300214, guid: e37287fc8ab0942d6b572e39b1ae71a3, type: 3}
+  m_Sprite: {fileID: 21300218, guid: ec8fe55bfa35c4d46ba7d026602e8928, type: 3}
   m_Color: {r: .854901969, g: .274509817, b: .274509817, a: 1}
 --- !u!1 &724267499
 GameObject:
@@ -1895,7 +1895,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1296038883
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300214, guid: e37287fc8ab0942d6b572e39b1ae71a3, type: 3}
+  m_Sprite: {fileID: 21300218, guid: ec8fe55bfa35c4d46ba7d026602e8928, type: 3}
   m_Color: {r: .294117659, g: .639215708, b: .68235296, a: 1}
 --- !u!4 &780254527
 Transform:
@@ -3932,7 +3932,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1296038883
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300214, guid: e37287fc8ab0942d6b572e39b1ae71a3, type: 3}
+  m_Sprite: {fileID: 21300218, guid: ec8fe55bfa35c4d46ba7d026602e8928, type: 3}
   m_Color: {r: .992156863, g: .980392158, b: .403921574, a: 1}
 --- !u!1 &1400830209
 GameObject:
@@ -4156,7 +4156,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1296038883
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300216, guid: e37287fc8ab0942d6b572e39b1ae71a3, type: 3}
+  m_Sprite: {fileID: 21300220, guid: ec8fe55bfa35c4d46ba7d026602e8928, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1001 &1450067330
 Prefab:
@@ -4750,7 +4750,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1296038883
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300214, guid: e37287fc8ab0942d6b572e39b1ae71a3, type: 3}
+  m_Sprite: {fileID: 21300218, guid: ec8fe55bfa35c4d46ba7d026602e8928, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &1651332813
 GameObject:

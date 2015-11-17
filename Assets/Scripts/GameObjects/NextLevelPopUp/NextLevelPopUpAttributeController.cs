@@ -1,7 +1,7 @@
 using UnityEngine;
 using TMPro;
 
-public class NextLevelPopUpAttributeController : MonoBehaviour 
+public class NextLevelPopUpAttributeController : SimpleButtonController
 {
 
 	private int index;
@@ -16,34 +16,39 @@ public class NextLevelPopUpAttributeController : MonoBehaviour
 		this.newLevel = newLevel;
 	}
 
-	void OnMouseOver()
+	public override void setIsHovered (bool value)
 	{
-		if(!this.isHovering)
+		base.setIsHovered (value);
+		if(value)
 		{
-			this.isHovering=true;
-			gameObject.transform.FindChild("Text").GetComponent<TextMeshPro>().color=new Color(155f/255f,220f/255f,1f);
-			gameObject.transform.FindChild("Text2").GetComponent<TextMeshPro>().color=new Color(155f/255f,220f/255f,1f);
-			gameObject.transform.FindChild("rightArrow").GetComponent<SpriteRenderer>().color=new Color(155f/255f,220f/255f,1f);
-			if(this.index>2)
+			if(index<3)
 			{
-				gameObject.transform.FindChild("Name").GetComponent<TextMeshPro>().color=new Color(155f/255f,220f/255f,1f);
-				gameObject.transform.FindChild("Name2").GetComponent<TextMeshPro>().color=new Color(155f/255f,220f/255f,1f);
+				gameObject.transform.parent.GetComponent<NextLevelPopUpController> ().displayAttributePopUp(index);
+			}
+			else
+			{
+				gameObject.transform.parent.GetComponent<NextLevelPopUpController> ().displaySkillPopUp(index);
+			}
+		}
+		else
+		{
+			if(index<3)
+			{
+				gameObject.transform.parent.GetComponent<NextLevelPopUpController> ().hideAttributePopUp();
+			}
+			else
+			{
+				gameObject.transform.parent.GetComponent<NextLevelPopUpController> ().hideSkillPopUp();
 			}
 		}
 	}
-	void OnMouseExit()
+	public override void setIsActive (bool value)
 	{
-		if(this.isHovering)
+		base.setIsActive (value);
+		if(!value)
 		{
-			this.isHovering=false;
-			gameObject.transform.FindChild("Text").GetComponent<TextMeshPro>().color=new Color(1f,1f,1f);
-			gameObject.transform.FindChild("Text2").GetComponent<TextMeshPro>().color=new Color(1f,1f,1f);
-			gameObject.transform.FindChild("rightArrow").GetComponent<SpriteRenderer>().color=new Color(1f,1f,1f);
-			if(this.index>2)
-			{
-				gameObject.transform.FindChild("Name").GetComponent<TextMeshPro>().color=new Color(1f,1f,1f);
-				gameObject.transform.FindChild("Name2").GetComponent<TextMeshPro>().color=new Color(1f,1f,1f);
-			}
+			gameObject.transform.FindChild("Limit").GetComponent<TextMeshPro>().color=ApplicationDesignRules.redColor;
+			gameObject.transform.GetComponent<SpriteRenderer>().color=ApplicationDesignRules.redColor;
 		}
 	}
 	void OnMouseDown()

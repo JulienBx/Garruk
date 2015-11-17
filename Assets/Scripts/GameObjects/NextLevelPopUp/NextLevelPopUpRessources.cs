@@ -5,5 +5,7 @@ public class NextLevelPopUpRessources : MonoBehaviour
 {
 	public Color[] colors;
 	public Sprite[] skillsSprites;
+	public Sprite[] cardTypesSprites;
+	public Sprite[] attributesSprites;
 }
 

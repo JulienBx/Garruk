@@ -78,7 +78,7 @@ public class MarketTutorialController : TutorialObjectController
 			gameObjectPosition2=NewMarketController.instance.getMarketBlockOrigin();
 			gameObjectSize=NewMarketController.instance.getCardsBlockSize();
 			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
-			this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition2.y,-9.5f));
+			this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition.y,-9.5f));
 			break;
 		case 1: // Présentation de l'écran de gestion des cartes
 			if(!isResizing)

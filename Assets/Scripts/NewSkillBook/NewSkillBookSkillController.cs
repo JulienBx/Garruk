@@ -163,9 +163,12 @@ public class NewSkillBookSkillController : MonoBehaviour
 	}
 	public void selectPowerHandler(int id)
 	{
-		this.applyColorLevel (this.selectedPower);
-		this.selectedPower = id;
-		this.showDescription ();
+		if(id!=this.selectedPower)
+		{
+			this.applyColorLevel (this.selectedPower);
+			this.selectedPower = id;
+			this.showDescription ();
+		}
 	}
 	public void startHoverPowerHandler(int id)
 	{

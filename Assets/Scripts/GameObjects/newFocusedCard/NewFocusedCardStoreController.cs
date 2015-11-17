@@ -5,23 +5,12 @@ public class NewFocusedCardStoreController : NewFocusedCardController
 {
 	public void displayFocusFeatures(bool value)
 	{
-		if(!value)
-		{
-			this.gameObject.transform.FindChild ("FocusFeature0").gameObject.SetActive (value);
-			this.gameObject.transform.FindChild ("FocusFeature1").gameObject.SetActive (value);
-			this.gameObject.transform.FindChild ("FocusFeature2").gameObject.SetActive (value);
-			this.gameObject.transform.FindChild ("FocusFeature4").gameObject.SetActive (value);
-			this.gameObject.transform.FindChild ("FocusFeature5").gameObject.SetActive (value);
-		}
-		else
-		{
-			this.gameObject.transform.FindChild ("FocusFeature0").gameObject.SetActive (true);
-			this.gameObject.transform.FindChild ("FocusFeature1").gameObject.SetActive (true);
-			this.gameObject.transform.FindChild ("FocusFeature2").gameObject.SetActive (true);
-			this.gameObject.transform.FindChild ("FocusFeature3").gameObject.SetActive (false);
-			this.gameObject.transform.FindChild ("FocusFeature4").gameObject.SetActive (true);
-			this.gameObject.transform.FindChild ("FocusFeature5").gameObject.SetActive (true);
-		}
+		this.gameObject.transform.FindChild ("FocusFeature3").gameObject.SetActive (false);
+		this.gameObject.transform.FindChild ("FocusFeature0").gameObject.SetActive (value);
+		this.gameObject.transform.FindChild ("FocusFeature1").gameObject.SetActive (value);
+		this.gameObject.transform.FindChild ("FocusFeature2").gameObject.SetActive (value);
+		this.gameObject.transform.FindChild ("FocusFeature4").gameObject.SetActive (value);
+		this.gameObject.transform.FindChild ("FocusFeature5").gameObject.SetActive (value);
 	}
 	public override void updateFocusFeatures()
 	{
