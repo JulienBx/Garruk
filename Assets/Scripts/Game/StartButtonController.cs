@@ -6,32 +6,48 @@ using TMPro;
 public class StartButtonController : MonoBehaviour
 {	
 	bool isPushed = false ;
+	float time ;
+	float timeToSwitch = 0.5f;
+	bool isVisible ; 
 	
 	public void OnMouseEnter(){
 		if (!isPushed){
-			gameObject.GetComponent<TextMeshPro>().color=new Color(155f/255f,220f/255f,1f, 1f);
+			gameObject.transform.FindChild("StartButton").GetComponent<TextMeshPro>().color=new Color(71f/255f,150f/255f,189f/255f, 1f);
 		}
 	}
 	
 	public void OnMouseExit(){
 		if (!isPushed){
-			gameObject.GetComponent<TextMeshPro>().color=new Color(1f, 1f, 1f, 1f);
+			gameObject.transform.FindChild("StartButton").GetComponent<TextMeshPro>().color=new Color(1f, 1f, 1f, 1f);
 		}
 	}
 	
 	public void OnMouseDown(){
 		if(this.isPushed==false){
 			this.isPushed = true ;
-			gameObject.GetComponent<TextMeshPro>().text="En attente du joueur 2";
-			gameObject.GetComponent<TextMeshPro>().color=new Color(1f,1f,1f, 1f);
+			gameObject.GetComponent<SpriteRenderer>().enabled = false;
+			gameObject.transform.FindChild("StartButton").GetComponent<TextMeshPro>().text="En attente du joueur 2";
+			gameObject.transform.FindChild("StartButton").GetComponent<TextMeshPro>().color=new Color(1f, 1f, 1f, 1f);
+			this.isVisible = true ;
 			GameController.instance.playerReady();
-			if(GameView.instance.getIsTutorialLaunched())
-			{
-				print (TutorialObjectController.instance.getSequenceID());
-				TutorialObjectController.instance.actionIsDone();
-			}
 		}
 	}
+	
+	public void show(bool b){
+		gameObject.GetComponent<SpriteRenderer>().enabled = b ;
+		gameObject.transform.FindChild("StartButton").GetComponent<MeshRenderer>().enabled = b ;
+	}
+	
+	public void addTime(float f){
+		this.time += f ;
+		if(this.time>this.timeToSwitch){
+			gameObject.transform.FindChild("StartButton").GetComponent<MeshRenderer>().enabled = !this.isVisible;
+			this.time = 0f;
+			this.isVisible=!this.isVisible ;
+		}
+	}	
+	
+	public bool getIsPushed(){
+		return this.isPushed ;
+	}
 }
-
-

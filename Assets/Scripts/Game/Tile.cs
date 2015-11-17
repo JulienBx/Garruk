@@ -9,15 +9,12 @@ public class Tile
 	public int x;
 	public int y;
 	public int distance;
-	public StatModifier statModifier ;
-	public bool isStatModifier = false;
 	
 	public Tile(int x, int y, int distance)
 	{
 		this.x = x;
 		this.y = y;
 		this.distance = distance;
-		this.isStatModifier = false;
 	}
 
 	public Tile(int x, int y)
@@ -50,10 +47,5 @@ public class Tile
 		}
 		
 		return tempTiles;
-	}
-	
-	public void setModifier(int amount, ModifierType type, ModifierStat stat, int duration, int idIcon, string t, string d, string a, bool b){
-		this.statModifier = new StatModifier(amount, type, stat, duration, idIcon, t, d, a, b);
-		this.isStatModifier = true ;
 	}
 }

@@ -32,8 +32,6 @@ public class Card
 	public int NextLevelPrice;
 	public int PercentageToNextLevel;
 	public DateTime OnSaleDate;
-	public List<StatModifier> modifiers = new List<StatModifier>();
-	public List<StatModifier> TileModifiers = new List<StatModifier>();
 	public int onSale ;
 	public int RenameCost = 5;
 	public string Error;
@@ -43,8 +41,6 @@ public class Card
 	public int Power;
 	public int PowerLevel;
 	public bool GetNewSkill;
-	public int nbTurnsToWait ;
-	public bool isMine;
 	public int UpgradedAttack;
 	public int UpgradedLife;
 	public int UpgradedSpeed;
@@ -52,6 +48,7 @@ public class Card
 	public int UpgradedLifeLevel;
 	public int UpgradedSpeedLevel;
 	public static bool xpDone = false;
+	public bool isMine ;
 	
 	public Card()
 	{
@@ -212,235 +209,30 @@ public class Card
 		return obj != null && obj.Id == this.Id;
 	}
 	
-	#region Modifiers
-	public void addModifier(int amount, ModifierType type, ModifierStat stat, int duration, int idIcon, string t, string d, string a){
-		bool found ;
-		if (stat == ModifierStat.Stat_Dommage){
-			int i ;
-			for (i = 0 ; i < this.modifiers.Count ; i++){
-				if (modifiers[i].Stat==ModifierStat.Stat_Dommage){
-					modifiers[i].Amount += amount ; 
-					if(modifiers[i].Amount<0){
-						modifiers[i].Amount=0;
-					}
-					i = this.modifiers.Count+1; 
-				}
-			}
-			if (i==this.modifiers.Count){
-				this.modifiers.Add(new StatModifier(amount, type, stat, duration, idIcon, t, d, a));
-				if(modifiers[this.modifiers.Count-1].Amount<0){
-					modifiers[this.modifiers.Count-1].Amount=0;
-				}
-			}
-		}
-		else if (idIcon == 1){
-			for (int j = this.modifiers.Count-1 ; j >= 0 ; j--){
-				if (modifiers[j].idIcon==1){
-					modifiers.RemoveAt(j) ; 
-				}
-			}
-			this.modifiers.Add(new StatModifier(amount, type, stat, duration, idIcon, t, d, a));
-		}
-		else if (idIcon == 2){
-			for (int j = this.modifiers.Count-1 ; j >= 0 ; j--){
-				if (modifiers[j].idIcon==2){
-					modifiers.RemoveAt(j) ; 
-				}
-			}
-			this.modifiers.Add(new StatModifier(amount, type, stat, duration, idIcon, t, d, a));
-		}
-		else if (idIcon == 13){
-			for (int j = this.modifiers.Count-1 ; j >= 0 ; j--){
-				if (modifiers[j].idIcon==13){
-					amount += modifiers[j].Amount;
-					modifiers.RemoveAt(j) ; 
-				}
-			}
-			this.modifiers.Add(new StatModifier(amount, type, stat, duration, idIcon, t, "+"+amount+" MOV. Permanent", a));
-		}
-		else if (idIcon == 14){
-			for (int j = this.modifiers.Count-1 ; j >= 0 ; j--){
-				if (modifiers[j].idIcon==14){
-					amount += modifiers[j].Amount;
-					modifiers.RemoveAt(j) ; 
-				}
-			}
-			this.modifiers.Add(new StatModifier(amount, type, stat, duration, idIcon, t, "-"+amount+" MOV. Permanent", a));
-		}
-		else if (idIcon == 15){
-			for (int j = this.modifiers.Count-1 ; j >= 0 ; j--){
-				if (modifiers[j].idIcon==15){
-					amount += modifiers[j].Amount;
-					modifiers.RemoveAt(j) ; 
-				}
-			}
-			this.modifiers.Add(new StatModifier(amount, type, stat, duration, idIcon, t, "+"+amount+" ATK. Permanent", a));
-		}
-		else if (idIcon == 16){
-			for (int j = this.modifiers.Count-1 ; j >= 0 ; j--){
-				if (modifiers[j].idIcon==16){
-					amount += modifiers[j].Amount;
-					modifiers.RemoveAt(j) ; 
-				}
-			}
-			this.modifiers.Add(new StatModifier(amount, type, stat, duration, idIcon, t, "+"+amount+" ATK. Permanent", a));
-		}
-		else if (idIcon == 17){
-			for (int j = this.modifiers.Count-1 ; j >= 0 ; j--){
-				if (modifiers[j].idIcon==17){
-					amount += modifiers[j].Amount;
-					modifiers.RemoveAt(j) ; 
-				}
-			}
-			this.modifiers.Add(new StatModifier(amount, type, stat, duration, idIcon, t, "+"+amount+" PV. Actif tant que le leader est en vie", a));
-		}
-		
-		else if (idIcon == 20){
-			for (int j = this.modifiers.Count-1 ; j >= 0 ; j--){
-				if (modifiers[j].idIcon==20){
-					amount += modifiers[j].Amount;
-					modifiers.RemoveAt(j) ; 
-				}
-			}
-			this.modifiers.Add(new StatModifier(amount, type, stat, duration, idIcon, t, "+"+amount+" ATK. Permanent", a));
-		}
-		
-		else if (idIcon == 22){
-			for (int j = this.modifiers.Count-1 ; j >= 0 ; j--){
-				if (modifiers[j].idIcon==22){
-					amount += modifiers[j].Amount;
-					modifiers.RemoveAt(j) ; 
-				}
-			}
-			this.modifiers.Add(new StatModifier(amount, type, stat, duration, idIcon, t, "-"+amount+" ATK. Permanent", a));
-		}
-		
-		else if (idIcon == 23){
-			for (int j = this.modifiers.Count-1 ; j >= 0 ; j--){
-				if (modifiers[j].idIcon==23){
-					amount += modifiers[j].Amount;
-					modifiers.RemoveAt(j) ; 
-				}
-			}
-			this.modifiers.Add(new StatModifier(amount, type, stat, duration, idIcon, t, "-"+amount+" ATK. Permanent", a));
-		}
-		else if (idIcon == 24){
-			for (int j = this.modifiers.Count-1 ; j >= 0 ; j--){
-				if (modifiers[j].idIcon==24){
-					amount += modifiers[j].Amount;
-					modifiers.RemoveAt(j) ; 
-				}
-			}
-			this.modifiers.Add(new StatModifier(amount, type, stat, duration, idIcon, t, "-"+amount+" ATK. Permanent", a));
-		}
-		else if (idIcon == 25){
-			for (int j = this.modifiers.Count-1 ; j >= 0 ; j--){
-				if (modifiers[j].idIcon==25){
-					amount += modifiers[j].Amount;
-					modifiers.RemoveAt(j) ; 
-				}
-			}
-			this.modifiers.Add(new StatModifier(amount, type, stat, duration, idIcon, t, "+"+amount+" ATK. Permanent", a));
-		}
-		else if (idIcon == 26){
-			for (int j = this.modifiers.Count-1 ; j >= 0 ; j--){
-				if (modifiers[j].idIcon==26){
-					amount += modifiers[j].Amount;
-					modifiers.RemoveAt(j) ; 
-				}
-			}
-			this.modifiers.Add(new StatModifier(amount, type, stat, duration, idIcon, t, "-"+amount+" ATK. Permanent", a));
-		}
-		else if (idIcon == 27){
-			for (int j = this.modifiers.Count-1 ; j >= 0 ; j--){
-				if (modifiers[j].idIcon==27){
-					amount += modifiers[j].Amount;
-					modifiers.RemoveAt(j) ; 
-				}
-			}
-			this.modifiers.Add(new StatModifier(amount, type, stat, duration, idIcon, t, "+"+amount+" ATK. Permanent", a));
-		}
-		else if (idIcon == 28){
-			for (int j = this.modifiers.Count-1 ; j >= 0 ; j--){
-				if (modifiers[j].idIcon==28){
-					modifiers.RemoveAt(j) ; 
-				}
-			}
-			this.modifiers.Add(new StatModifier(amount, type, stat, duration, idIcon, t, "+"+amount+" ATK. Actif tant que le leader est en vie", a));
-		}
-		else if (idIcon == 30){
-			for (int j = this.modifiers.Count-1 ; j >= 0 ; j--){
-				if (modifiers[j].idIcon==30){
-					amount += modifiers[j].Amount;
-					modifiers.RemoveAt(j) ; 
-				}
-			}
-			this.modifiers.Add(new StatModifier(amount, type, stat, duration, idIcon, t, "+"+amount+" PV. Permanent", a));
-		}
-		else if (idIcon == 31){
-			for (int j = this.modifiers.Count-1 ; j >= 0 ; j--){
-				if (modifiers[j].idIcon==31){
-					amount += modifiers[j].Amount;
-					modifiers.RemoveAt(j) ; 
-				}
-			}
-			this.modifiers.Add(new StatModifier(amount, type, stat, duration, idIcon, t, "+"+amount+" PV. Permanent", a));
-		}
-		else if (idIcon == 51 || idIcon == 52 || idIcon == 53 || idIcon == 54){
-			for (int j = this.modifiers.Count-1 ; j >= 0 ; j--){
-				if (modifiers[j].idIcon==51 || modifiers[j].idIcon==52 || modifiers[j].idIcon==53 || modifiers[j].idIcon==54){
-					modifiers.RemoveAt(j) ; 
-				}
-			}
-			this.modifiers.Add(new StatModifier(amount, type, stat, duration, idIcon, t, "+"+amount+" PV. Permanent", a));
-		}
-		else if(stat == ModifierStat.Stat_Speed || stat == ModifierStat.Stat_Move){
-			if(type==ModifierType.Type_BonusMalus && duration == -1 && idIcon!=4){
-				for (int j = this.modifiers.Count-1 ; j >= 0 ; j--){
-					if (modifiers[j].Stat==stat && type==ModifierType.Type_BonusMalus && duration == -1){
-						modifiers.RemoveAt(j) ; 
-					}
-				}
-			}
-			this.modifiers.Add(new StatModifier(amount, type, stat, duration, idIcon, t, d, a));
-		}
-		else if(type==ModifierType.Type_Paralized || type==ModifierType.Type_Bouclier || type==ModifierType.Type_EsquivePercentage || type==ModifierType.Type_MagicalEsquivePercentage){
-			for (int j = this.modifiers.Count-1 ; j >= 0 ; j--){
-				if (modifiers[j].Type==type){
-					modifiers.RemoveAt(j);
-				}
-			}
-			this.modifiers.Add(new StatModifier(amount, type, stat, duration, idIcon, t, d, a));
-		}
-		else{
-			this.modifiers.Add(new StatModifier(amount, type, stat, duration, idIcon, t, d, a));
-		}
-	}
-	
 	public int GetEsquive()
 	{
 		int esquive = 0;
-		foreach (StatModifier modifier in modifiers)
-		{
-			if (modifier.Type == ModifierType.Type_EsquivePercentage)
-			{
-				esquive = modifier.Amount;
-			}
-		}
-		
+//		foreach (StatModifier modifier in modifiers)
+//		{
+//			if (modifier.Type == ModifierType.Type_EsquivePercentage)
+//			{
+//				esquive = modifier.Amount;
+//			}
+//		}
+//		
 		return esquive;
 	}
 	
 	public int GetMagicalEsquive()
 	{
 		int esquive = 0;
-		foreach (StatModifier modifier in modifiers)
-		{
-			if (modifier.Type == ModifierType.Type_MagicalEsquivePercentage)
-			{
-				esquive = modifier.Amount;
-			}
-		}
+//		foreach (StatModifier modifier in modifiers)
+//		{
+//			if (modifier.Type == ModifierType.Type_MagicalEsquivePercentage)
+//			{
+//				esquive = modifier.Amount;
+//			}
+//		}
 		
 		return esquive;
 	}
@@ -448,13 +240,13 @@ public class Card
 	public int GetDamagesPercentageBonus(Card c)
 	{
 		int damagePercentageBonus = 0;
-		foreach (StatModifier modifier in modifiers)
-		{
-			if (modifier.Type == ModifierType.Type_DommagePercentage)
-			{
-				damagePercentageBonus += modifier.Amount;
-			}
-		}
+//		foreach (StatModifier modifier in modifiers)
+//		{
+//			if (modifier.Type == ModifierType.Type_DommagePercentage)
+//			{
+//				damagePercentageBonus += modifier.Amount;
+//			}
+//		}
 		
 		damagePercentageBonus += this.GetDamagesPercentageBonusAgainst(c.ArtIndex);
 		
@@ -464,13 +256,13 @@ public class Card
 	public int GetDamagesPercentageBonusAgainst(int type)
 	{
 		int damagePercentageBonus = 0;
-		foreach (StatModifier modifier in modifiers)
-		{
-			if ((int)modifier.Type-6 == type)
-			{
-				damagePercentageBonus += modifier.Amount;
-			}
-		}
+//		foreach (StatModifier modifier in modifiers)
+//		{
+//			if ((int)modifier.Type-6 == type)
+//			{
+//				damagePercentageBonus += modifier.Amount;
+//			}
+//		}
 		return damagePercentageBonus;
 	}
 	
@@ -478,15 +270,15 @@ public class Card
 	{
 		bool isIntouchable = false;
 		int i = 0 ;
-		int max = modifiers.Count ;
-		while (i<max && !isIntouchable)
-		{
-			if (modifiers[i].Type == ModifierType.Type_Intouchable)
-			{
-				isIntouchable = true ;
-			}
-			i++;
-		}
+//		int max = modifiers.Count ;
+//		while (i<max && !isIntouchable)
+//		{
+//			if (modifiers[i].Type == ModifierType.Type_Intouchable)
+//			{
+//				isIntouchable = true ;
+//			}
+//			i++;
+//		}
 		return isIntouchable;
 	}
 	
@@ -494,15 +286,15 @@ public class Card
 	{
 		bool isSleeping = false;
 		int i = 0 ;
-		int max = modifiers.Count ;
-		while (i<max && !isSleeping)
-		{
-			if (modifiers[i].Type == ModifierType.Type_Sleeping)
-			{
-				isSleeping = true ;
-			}
-			i++;
-		}
+//		int max = modifiers.Count ;
+//		while (i<max && !isSleeping)
+//		{
+//			if (modifiers[i].Type == ModifierType.Type_Sleeping)
+//			{
+//				isSleeping = true ;
+//			}
+//			i++;
+//		}
 		return isSleeping;
 	}
 	
@@ -511,16 +303,16 @@ public class Card
 		bool isSleeping = false;
 		int percentage = 0 ;
 		int i = 0 ;
-		int max = modifiers.Count ;
-		while (i<max && !isSleeping)
-		{
-			if (modifiers[i].Type == ModifierType.Type_Sleeping)
-			{
-				isSleeping = true ;
-				percentage = modifiers[i].Amount ;
-			}
-			i++;
-		}
+//		int max = modifiers.Count ;
+//		while (i<max && !isSleeping)
+//		{
+//			if (modifiers[i].Type == ModifierType.Type_Sleeping)
+//			{
+//				isSleeping = true ;
+//				percentage = modifiers[i].Amount ;
+//			}
+//			i++;
+//		}
 		return percentage;
 	}
 	
@@ -533,73 +325,53 @@ public class Card
 	{
 		bool isSleeping = false;
 		int i = 0 ;
-		int max = modifiers.Count ;
-		while (i<max && !isSleeping)
-		{
-			if (modifiers[i].Type == ModifierType.Type_Sleeping)
-			{
-				isSleeping = true ;
-				this.modifiers.RemoveAt(i);
-			}
-			i++;
-		}
+//		int max = modifiers.Count ;
+//		while (i<max && !isSleeping)
+//		{
+//			if (modifiers[i].Type == ModifierType.Type_Sleeping)
+//			{
+//				isSleeping = true ;
+//				this.modifiers.RemoveAt(i);
+//			}
+//			i++;
+//		}
 	}
 	
 	public void emptyModifiers()
 	{
-		for (int i = modifiers.Count-1 ; i >= 0 ; i--)
-		{
-			if (modifiers[i].Stat != ModifierStat.Stat_Dommage)
-			{
-				modifiers.RemoveAt(i);
-			}
-		}
-		
-		if(this.GetLife()<0){
-			this.addModifier(this.GetTotalLife()-1,ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
-		}
+//		for (int i = modifiers.Count-1 ; i >= 0 ; i--)
+//		{
+//			if (modifiers[i].Stat != ModifierStat.Stat_Dommage)
+//			{
+//				modifiers.RemoveAt(i);
+//			}
+//		}
+//		
+//		if(this.GetLife()<0){
+//			this.addModifier(this.GetTotalLife()-1,ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
+//		}
 	}
 	
 	public void removeLeaderEffect(){
-		for (int i = modifiers.Count-1 ; i >= 0 ; i--)
-		{
-			if(modifiers[i].idIcon==-4 ||modifiers[i].idIcon==4){
-				modifiers.RemoveAt(i);
-			}
-		}
+//		for (int i = modifiers.Count-1 ; i >= 0 ; i--)
+//		{
+//			if(modifiers[i].idIcon==-4 ||modifiers[i].idIcon==4){
+//				modifiers.RemoveAt(i);
+//			}
+//		}
 	}
 	
 	public bool hasModifiers()
 	{
 		bool hasModifiers = false;
-		for (int i = modifiers.Count-1 ; i >= 0 && !hasModifiers ; i--)
-		{
-			if (modifiers[i].Stat != ModifierStat.Stat_Dommage)
-			{
-				hasModifiers = true ;
-			}
-		}
+//		for (int i = modifiers.Count-1 ; i >= 0 && !hasModifiers ; i--)
+//		{
+//			if (modifiers[i].Stat != ModifierStat.Stat_Dommage)
+//			{
+//				hasModifiers = true ;
+//			}
+//		}
 		return hasModifiers ;
-	}
-	
-	public int GetAttack()
-	{
-		int attack = Attack;
-		foreach (StatModifier modifier in modifiers)
-		{
-			if (modifier.Stat==ModifierStat.Stat_Attack){
-				attack += modifier.Amount;
-			}
-		}
-		foreach (StatModifier modifier in TileModifiers)
-		{
-			attack = modifier.modifyAttack(attack);
-		}
-		if (attack < 0)
-		{
-			return 0;
-		}
-		return attack;
 	}
 	
 	public string GetAttackString()
@@ -611,6 +383,10 @@ public class Card
 		else{
 			return attack.ToString();
 		}
+	}
+	
+	public int getPassiveSkillLevel(){
+		return this.Skills[0].Level;
 	}
 	
 	public Skill GetAttackSkill()
@@ -654,16 +430,16 @@ public class Card
 	public int GetBouclier()
 	{
 		int bouclier = 0;
-		foreach (StatModifier modifier in modifiers)
-		{
-			if (modifier.Type==ModifierType.Type_Bouclier){
-				bouclier += modifier.Amount;
-			}
-		}
-		if (bouclier > 100)
-		{
-			return 100;
-		}
+//		foreach (StatModifier modifier in modifiers)
+//		{
+//			if (modifier.Type==ModifierType.Type_Bouclier){
+//				bouclier += modifier.Amount;
+//			}
+//		}
+//		if (bouclier > 100)
+//		{
+//			return 100;
+//		}
 		return bouclier;
 	}
 	
@@ -671,88 +447,48 @@ public class Card
 	{
 		int life = this.Life;
 		
-		foreach (StatModifier modifier in modifiers)
-		{
-			if (modifier.Stat == ModifierStat.Stat_Life)
-			{
-				life += modifier.Amount;
-			}
-		}
+//		foreach (StatModifier modifier in modifiers)
+//		{
+//			if (modifier.Stat == ModifierStat.Stat_Life)
+//			{
+//				life += modifier.Amount;
+//			}
+//		}
 		return life ;
 	}
 	
 	public int GetLife()
 	{
-		int life = this.Life;
-		
-		foreach (StatModifier modifier in modifiers)
-		{
-			if (modifier.Stat == ModifierStat.Stat_Life)
-			{
-				life += modifier.Amount;
-			}
-		}
-		
-		foreach (StatModifier modifier in modifiers)
-		{
-			if (modifier.Stat == ModifierStat.Stat_Dommage)
-			{
-				life -= modifier.Amount;
-			}
-		}
-		
-		return life ;
+		return this.Life ;
 	}
 	
-	public int GetSpeed()
+	public int GetAttack()
 	{
-		int speed = Speed;
-		foreach (StatModifier modifier in modifiers)
-		{
-			speed = modifier.modifySpeed(speed);
-		}
-		foreach (StatModifier modifier in TileModifiers)
-		{
-			speed = modifier.modifySpeed(speed);
-		}
-
-		if (speed < 0)
-		{
-			return 0;
-		}
-		return speed;
+		return this.Attack ;
 	}
 	
 	public int GetMove()
 	{
-		int move = Move;
-		foreach (StatModifier modifier in modifiers)
-		{
-			move = modifier.modifyMove(move);
-		}
-		foreach (StatModifier modifier in TileModifiers)
-		{
-			move = modifier.modifyMove(move);
-		}
-		if (move < 0)
-		{
-			return 0;
-		}
-		return move;
+		return this.Move ;
+	}
+	
+	public int GetSpeed()
+	{
+		return this.Speed ;
 	}
 	
 	public bool isParalyzed()
 	{
 		bool isParalyzed = false;
 		int i = 0;
-		while (i < this.modifiers.Count && !isParalyzed)
-		{
-			if (this.modifiers [i].Type == ModifierType.Type_Paralized && this.modifiers[i].Duration>0)
-			{
-				isParalyzed = true;
-			}
-			i++;
-		}
+//		while (i < this.modifiers.Count && !isParalyzed)
+//		{
+//			if (this.modifiers [i].Type == ModifierType.Type_Paralized && this.modifiers[i].Duration>0)
+//			{
+//				isParalyzed = true;
+//			}
+//			i++;
+//		}
 		return isParalyzed;
 	}
 	
@@ -760,15 +496,15 @@ public class Card
 	{
 		List<string> iconAttackTexts = new List<string>();
 		int i = 0;
-		while (i < this.modifiers.Count)
-		{
-			if (this.modifiers [i].idIcon == 16 || this.modifiers [i].idIcon == 18 || this.modifiers [i].idIcon == 19 || this.modifiers [i].idIcon == 20 || this.modifiers [i].idIcon == 22 || this.modifiers [i].idIcon == 23 || this.modifiers [i].idIcon == 24 || this.modifiers [i].idIcon == 25 || this.modifiers [i].idIcon == 26 || this.modifiers [i].idIcon == 27 || this.modifiers [i].idIcon == 28)
-			{
-				iconAttackTexts.Add(this.modifiers [i].title);
-				iconAttackTexts.Add(this.modifiers [i].description);
-			}
-			i++;
-		}
+//		while (i < this.modifiers.Count)
+//		{
+//			if (this.modifiers [i].idIcon == 16 || this.modifiers [i].idIcon == 18 || this.modifiers [i].idIcon == 19 || this.modifiers [i].idIcon == 20 || this.modifiers [i].idIcon == 22 || this.modifiers [i].idIcon == 23 || this.modifiers [i].idIcon == 24 || this.modifiers [i].idIcon == 25 || this.modifiers [i].idIcon == 26 || this.modifiers [i].idIcon == 27 || this.modifiers [i].idIcon == 28)
+//			{
+//				iconAttackTexts.Add(this.modifiers [i].title);
+//				iconAttackTexts.Add(this.modifiers [i].description);
+//			}
+//			i++;
+//		}
 		return iconAttackTexts;
 	}
 	
@@ -776,15 +512,15 @@ public class Card
 	{
 		List<string> iconLifeTexts = new List<string>();
 		int i = 0;
-		while (i < this.modifiers.Count)
-		{
-			if (this.modifiers [i].idIcon == 30 || this.modifiers [i].idIcon == 31 || this.modifiers [i].idIcon == 17)
-			{
-				iconLifeTexts.Add(this.modifiers [i].title);
-				iconLifeTexts.Add(this.modifiers [i].description);
-			}
-			i++;
-		}
+//		while (i < this.modifiers.Count)
+//		{
+//			if (this.modifiers [i].idIcon == 30 || this.modifiers [i].idIcon == 31 || this.modifiers [i].idIcon == 17)
+//			{
+//				iconLifeTexts.Add(this.modifiers [i].title);
+//				iconLifeTexts.Add(this.modifiers [i].description);
+//			}
+//			i++;
+//		}
 		return iconLifeTexts;
 	}
 	
@@ -792,15 +528,15 @@ public class Card
 	{
 		List<string> iconMoveTexts = new List<string>();
 		int i = 0;
-		while (i < this.modifiers.Count)
-		{
-			if (this.modifiers [i].idIcon == 11 || this.modifiers [i].idIcon == 12 || this.modifiers [i].idIcon == 13 || this.modifiers [i].idIcon == 14 || this.modifiers [i].idIcon == 15 || this.modifiers [i].idIcon == 16)
-			{
-				iconMoveTexts.Add(this.modifiers [i].title);
-				iconMoveTexts.Add(this.modifiers [i].description);
-			}
-			i++;
-		}
+//		while (i < this.modifiers.Count)
+//		{
+//			if (this.modifiers [i].idIcon == 11 || this.modifiers [i].idIcon == 12 || this.modifiers [i].idIcon == 13 || this.modifiers [i].idIcon == 14 || this.modifiers [i].idIcon == 15 || this.modifiers [i].idIcon == 16)
+//			{
+//				iconMoveTexts.Add(this.modifiers [i].title);
+//				iconMoveTexts.Add(this.modifiers [i].description);
+//			}
+//			i++;
+//		}
 		return iconMoveTexts;
 	}
 	
@@ -808,15 +544,15 @@ public class Card
 	{
 		List<string> iconMoveTexts = new List<string>();
 		int i = 0;
-		while (i < this.modifiers.Count)
-		{
-			if (this.modifiers [i].idIcon == 1 || this.modifiers [i].idIcon == 2)
-			{
-				iconMoveTexts.Add(this.modifiers [i].title);
-				iconMoveTexts.Add(this.modifiers [i].description);
-			}
-			i++;
-		}
+//		while (i < this.modifiers.Count)
+//		{
+//			if (this.modifiers [i].idIcon == 1 || this.modifiers [i].idIcon == 2)
+//			{
+//				iconMoveTexts.Add(this.modifiers [i].title);
+//				iconMoveTexts.Add(this.modifiers [i].description);
+//			}
+//			i++;
+//		}
 		return iconMoveTexts;
 	}
 	
@@ -824,21 +560,21 @@ public class Card
 	{
 		List<string> iconMoveTexts = new List<string>();
 		int i = 0;
-		while (i < this.modifiers.Count)
-		{
-			if (this.modifiers [i].idIcon == 51 || this.modifiers [i].idIcon == 52 || this.modifiers [i].idIcon == 53 || this.modifiers [i].idIcon == 54)
-			{
-				iconMoveTexts.Add(this.modifiers [i].title);
-				iconMoveTexts.Add(this.modifiers [i].description);
-				if (this.modifiers [i].idIcon == 51 || this.modifiers [i].idIcon == 52){
-					iconMoveTexts.Add("Bonus");
-				}
-				else{
-					iconMoveTexts.Add("Malus");
-				}
-			}
-			i++;
-		}
+//		while (i < this.modifiers.Count)
+//		{
+//			if (this.modifiers [i].idIcon == 51 || this.modifiers [i].idIcon == 52 || this.modifiers [i].idIcon == 53 || this.modifiers [i].idIcon == 54)
+//			{
+//				iconMoveTexts.Add(this.modifiers [i].title);
+//				iconMoveTexts.Add(this.modifiers [i].description);
+//				if (this.modifiers [i].idIcon == 51 || this.modifiers [i].idIcon == 52){
+//					iconMoveTexts.Add("Bonus");
+//				}
+//				else{
+//					iconMoveTexts.Add("Malus");
+//				}
+//			}
+//			i++;
+//		}
 		return iconMoveTexts;
 	}
 	
@@ -846,14 +582,14 @@ public class Card
 	{
 		int idIcon = -1 ;
 		int i = 0;
-		while (i < this.modifiers.Count)
-		{
-			if (this.modifiers [i].idIcon == 51 || this.modifiers [i].idIcon == 52 || this.modifiers [i].idIcon == 53 || this.modifiers [i].idIcon == 54)
-			{
-				idIcon = this.modifiers [i].idIcon;
-			}
-			i++;
-		}
+//		while (i < this.modifiers.Count)
+//		{
+//			if (this.modifiers [i].idIcon == 51 || this.modifiers [i].idIcon == 52 || this.modifiers [i].idIcon == 53 || this.modifiers [i].idIcon == 54)
+//			{
+//				idIcon = this.modifiers [i].idIcon;
+//			}
+//			i++;
+//		}
 		return idIcon;
 	}
 	
@@ -861,28 +597,28 @@ public class Card
 	{
 		bool isCrazy = false;
 		int i = 0;
-		while (i < this.modifiers.Count && !isCrazy)
-		{
-			if (this.modifiers [i].Type == ModifierType.Type_Crazy)
-			{
-				isCrazy = true;
-			}
-			i++;
-		}
+//		while (i < this.modifiers.Count && !isCrazy)
+//		{
+//			if (this.modifiers [i].Type == ModifierType.Type_Crazy)
+//			{
+//				isCrazy = true;
+//			}
+//			i++;
+//		}
 		return isCrazy;
 	}
 
 	public void clearBuffs()
 	{
-		List<StatModifier> temp = new List<StatModifier>();
-		for (int i = 0; i < modifiers.Count; i++)
-		{
-			if (modifiers [i].Stat == ModifierStat.Stat_Dommage)
-			{
-				temp.Add(modifiers [i]);
-			}
-		}
-		modifiers = temp;
+//		List<StatModifier> temp = new List<StatModifier>();
+//		for (int i = 0; i < modifiers.Count; i++)
+//		{
+//			if (modifiers [i].Stat == ModifierStat.Stat_Dommage)
+//			{
+//				temp.Add(modifiers [i]);
+//			}
+//		}
+//		modifiers = temp;
 	}
 	
 	public bool isGenerous()
@@ -894,66 +630,6 @@ public class Card
 			}
 		}
 		return b;
-	}
-	
-	public bool isGiant()
-	{
-		return (this.Skills[0].Id == 72);
-	}
-	
-	public bool isPacifiste()
-	{
-		return (this.Skills[0].Id == 75);
-	}
-	
-	public bool isNurse()
-	{
-		return (this.Skills[0].Id == 77);
-	}
-	
-	public bool isLeader()
-	{
-		return (this.Skills[0].Id == 78);
-	}
-	
-	public bool isAguerri()
-	{
-		return (this.Skills[0].Id == 70);
-	}
-	
-	public bool isFrenetique()
-	{
-		return (this.Skills[0].Id == 71);
-	}
-	
-	public bool isGeant()
-	{
-		return (this.Skills[0].Id == 72);
-	}
-	
-	public bool isRapide()
-	{
-		return (this.Skills[0].Id == 73);
-	}
-	
-	public bool isRobuste()
-	{
-		return (this.Skills[0].Id == 69);
-	}
-	
-	public bool isLache()
-	{
-		return (this.Skills[0].Id == 67);
-	}
-	
-	public bool isPiegeur()
-	{
-		return (this.Skills[0].Id == 66);
-	}
-	
-	public bool isAgile()
-	{
-		return (this.Skills[0].Id == 68);
 	}
 	
 	public int getPassiveManacost()
@@ -1031,7 +707,6 @@ public class Card
 	{
 		return GetMove() - Move;
 	}
-	#endregion
 	
 	public bool hasSkill(string s)
 	{

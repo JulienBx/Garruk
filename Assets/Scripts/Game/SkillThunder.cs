@@ -43,10 +43,8 @@ public class SkillThunder : MonoBehaviour
 			this.timeToDisplay=0;
 		}
 		else if(this.actualTime>this.timeToDisplay-1){
-			rotation = Quaternion.Euler(rotation.x, rotation.y, 720f*(1f-(this.actualTime-this.timeToDisplay+1)));
 			
 			Vector3 scale = new Vector3(1f-(this.actualTime-this.timeToDisplay+1),1f-(this.actualTime-this.timeToDisplay+1),1f-(this.actualTime-this.timeToDisplay+1));
-			gameObject.transform.rotation = rotation ;
 			gameObject.transform.localScale = scale ;
 		}
 	}

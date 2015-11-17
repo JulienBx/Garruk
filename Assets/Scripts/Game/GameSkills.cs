@@ -76,7 +76,7 @@ public class GameSkills : MonoBehaviour
 		this.skills [61] = new GameSkill();
 		this.skills [62] = new GameSkill();
 		this.skills [63] = new Massue();
-		this.skills [64] = new GameSkill();
+		this.skills [64] = new Piegeur();
 		this.skills [65] = new GameSkill();
 		this.skills [66] = new GameSkill();
 		this.skills [67] = new GameSkill();

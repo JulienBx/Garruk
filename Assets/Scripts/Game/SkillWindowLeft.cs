@@ -35,7 +35,7 @@ public class SkillWindowLeft : MonoBehaviour
 		this.actualTime += delta;
 		Vector3 position = gameObject.transform.localPosition ;
 		if(this.actualTime<=1){
-			position.x = -13.9f+this.actualTime*(10f);
+			position.x = -14.2f+this.actualTime*(10f);
 			gameObject.transform.localPosition = position ;
 		}
 		else if(this.actualTime>this.timeToDisplay){
@@ -59,10 +59,11 @@ public class SkillWindowLeft : MonoBehaviour
 	public void hideReceivers(){
 		for (int i = 0 ; i < 1 ; i++){
 			gameObject.transform.FindChild("HitMan"+i).GetComponent<SpriteRenderer>().enabled=false;
-			gameObject.transform.FindChild("HitMan"+i).FindChild("UpgradeBox").GetComponent<SpriteRenderer>().enabled=false;
-			gameObject.transform.FindChild("HitMan"+i).FindChild("DowngradeBox").GetComponent<SpriteRenderer>().enabled=false;
-			gameObject.transform.FindChild("HitMan"+i).FindChild("UpgradeBox").FindChild("BoxText").GetComponent<MeshRenderer>().enabled=false;
-			gameObject.transform.FindChild("HitMan"+i).FindChild("DowngradeBox").FindChild("BoxText").GetComponent<MeshRenderer>().enabled=false;
+//			gameObject.transform.FindChild("HitMan"+i).FindChild("PVBox").GetComponent<SpriteRenderer>().enabled=false;
+//			gameObject.transform.FindChild("HitMan"+i).FindChild("PVBox").FindChild("BoxText").GetComponent<MeshRenderer>().enabled=false;
+//			gameObject.transform.FindChild("HitMan"+i).FindChild("PV").GetComponent<MeshRenderer>().enabled=false;
+//			gameObject.transform.FindChild("HitMan"+i).FindChild("Attack").GetComponent<MeshRenderer>().enabled=false;
+//			gameObject.transform.FindChild("HitMan"+i).FindChild("Move").GetComponent<MeshRenderer>().enabled=false;
 			gameObject.transform.FindChild("HitMan"+i).FindChild("TextStatus").GetComponent<MeshRenderer>().enabled=false;
 		}
 	}
@@ -94,20 +95,20 @@ public class SkillWindowLeft : MonoBehaviour
 		}
 	}
 	
-	public void setReceivers(List<Card> receivers, List<string> textesUp, List<string> textesDown, List<int> status){
+	public void setReceivers(List<Card> receivers, List<string> textesPV, List<string> textesAttack, List<string> textesMove, List<string> textesEffect, List<int> status){
 		this.nbReceivers = receivers.Count;
 		string text ; 
 		Color color ; 
 		
 		for (int i = 0 ; i < this.nbReceivers ; i++){
-			gameObject.transform.FindChild("HitMan"+i).GetComponent<SpriteRenderer>().enabled=false;
-			gameObject.transform.FindChild("HitMan"+i).FindChild("UpgradeBox").GetComponent<SpriteRenderer>().enabled=false;
-			gameObject.transform.FindChild("HitMan"+i).FindChild("DowngradeBox").GetComponent<SpriteRenderer>().enabled=false;
+			gameObject.transform.FindChild("HitMan"+i).GetComponent<SpriteRenderer>().enabled=true;
+			gameObject.transform.FindChild("HitMan"+i).FindChild("PVBox").GetComponent<SpriteRenderer>().enabled=false;
+			gameObject.transform.FindChild("HitMan"+i).FindChild("PVBox").FindChild("BoxText").GetComponent<MeshRenderer>().enabled=false;
 			gameObject.transform.FindChild("HitMan"+i).FindChild("UpgradeBox").FindChild("BoxText").GetComponent<MeshRenderer>().enabled=false;
 			gameObject.transform.FindChild("HitMan"+i).FindChild("DowngradeBox").FindChild("BoxText").GetComponent<MeshRenderer>().enabled=false;
 			
-			gameObject.transform.FindChild("HitMan"+i).FindChild("UpgradeBox").FindChild("BoxText").GetComponent<TextMeshPro>().text = textesUp[i];
-			gameObject.transform.FindChild("HitMan"+i).FindChild("DowngradeBox").FindChild("BoxText").GetComponent<TextMeshPro>().text = textesDown[i];
+			//gameObject.transform.FindChild("HitMan"+i).FindChild("UpgradeBox").FindChild("BoxText").GetComponent<TextMeshPro>().text = textesUp[i];
+			//gameObject.transform.FindChild("HitMan"+i).FindChild("DowngradeBox").FindChild("BoxText").GetComponent<TextMeshPro>().text = textesDown[i];
 			
 			gameObject.transform.FindChild("HitMan"+i).FindChild("characterBackground").GetComponent<SpriteRenderer>().sprite = GameView.instance.getCharacterSprite(receivers[i].IdClass);
 			if(status[i]==0){

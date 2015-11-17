@@ -12,7 +12,7 @@ public class TRPictoController : MonoBehaviour
 		if (!isHovered){
 			Vector3 position = gameObject.transform.position;
 			position.x -= 2f;
-			GameView.instance.displayPopUp("Il reste "+GameView.instance.getCard(idCard).nbTurnsToWait+" tour(s) avant que le héros joue", position, "Tours");
+			//GameView.instance.displayPopUp("Il reste "+GameView.instance.getCard(idCard).nbTurnsToWait+" tour(s) avant que le héros joue", position, "Tours");
 			this.isHovered = true ;
 		}
 	}

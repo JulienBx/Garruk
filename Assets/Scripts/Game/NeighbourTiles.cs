@@ -28,43 +28,43 @@ public class NeighbourTiles
 
 	void findWay(Tile t, float moveRemaining, int distance)
 	{
-		if (moveRemaining < 0)
-		{
-			return;
-		}
-		int uidtemp = t.y * GameView.instance.getBoardWidth() + t.x;
-		if (UID.ContainsKey(uidtemp))
-		{
-			if (UID [uidtemp] > moveRemaining)
-			{
-				return;
-			} else
-			{
-				UID [uidtemp] = moveRemaining;
-				tiles.Find(e => e.x == t.x && e.y == t.y).distance = distance;
-			}
-		} else
-		{
-			UID.Add(uidtemp, moveRemaining);
-			tiles.Add(new Tile(t.x, t.y, distance));
-		}
-
-		foreach (Tile temp in getImmediateNeighbours(t.x, t.y))
-		{
-			float newRemaining = moveRemaining;
-			if (characterTiles [temp.x, temp.y] < 5)
-			{
-				if(GameView.instance.getTile(temp.x, temp.y).isStatModifier){
-					StatModifier stm = GameController.instance.getTile(temp.x, temp.y).getTile ().statModifier;
-					if (stm.Stat == ModifierStat.Stat_Move && stm.Type == ModifierType.Type_Multiplier)
-					{
-						newRemaining = newRemaining + (stm.Amount) / 100f;
-					}
-				}
-				
-				findWay(temp, (newRemaining - 1), (distance + 1));
-			}
-		}
+//		if (moveRemaining < 0)
+//		{
+//			return;
+//		}
+//		int uidtemp = t.y * GameView.instance.getBoardWidth() + t.x;
+//		if (UID.ContainsKey(uidtemp))
+//		{
+//			if (UID [uidtemp] > moveRemaining)
+//			{
+//				return;
+//			} else
+//			{
+//				UID [uidtemp] = moveRemaining;
+//				tiles.Find(e => e.x == t.x && e.y == t.y).distance = distance;
+//			}
+//		} else
+//		{
+//			UID.Add(uidtemp, moveRemaining);
+//			tiles.Add(new Tile(t.x, t.y, distance));
+//		}
+//
+//		foreach (Tile temp in getImmediateNeighbours(t.x, t.y))
+//		{
+//			float newRemaining = moveRemaining;
+//			if (characterTiles [temp.x, temp.y] < 5)
+//			{
+//				if(GameView.instance.getTile(temp.x, temp.y).isStatModifier){
+//					StatModifier stm = GameController.instance.getTile(temp.x, temp.y).getTile ().statModifier;
+//					if (stm.Stat == ModifierStat.Stat_Move && stm.Type == ModifierType.Type_Multiplier)
+//					{
+//						newRemaining = newRemaining + (stm.Amount) / 100f;
+//					}
+//				}
+//				
+//				findWay(temp, (newRemaining - 1), (distance + 1));
+//			}
+//		}
 	}
 
 

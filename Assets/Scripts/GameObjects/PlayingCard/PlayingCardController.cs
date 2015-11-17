@@ -9,7 +9,7 @@ public class PlayingCardController : GameObjectController
 	public Sprite[] lifebarSprites;
 	public Sprite[] iconSprites;
 	 
-	Card card ;
+	GameCard card ;
 	int id = -1 ;
 	bool isDead ;
 	
@@ -73,7 +73,7 @@ public class PlayingCardController : GameObjectController
 	public void showTR(bool b)
 	{
 		Transform t = gameObject.transform;
-		t.FindChild("WaitTime").GetComponent<TextMeshPro>().text = ""+this.card.nbTurnsToWait;
+		//t.FindChild("WaitTime").GetComponent<TextMeshPro>().text = ""+this.card.nbTurnsToWait;
 		
 		t.FindChild("WaitTime").GetComponent<MeshRenderer>().enabled = b ;
 		t.FindChild("PictoTR").GetComponent<SpriteRenderer>().enabled = b ;
@@ -98,7 +98,7 @@ public class PlayingCardController : GameObjectController
 		t.Find("AttackZone").FindChild("AttackValue").GetComponent<MeshRenderer>().enabled = true ;
 	}
 	
-	public void setCard(Card c)
+	public void setCard(GameCard c, bool b, int i)
 	{
 		this.card = c ;
 		if (c.isMine){
@@ -113,6 +113,29 @@ public class PlayingCardController : GameObjectController
 		transform.FindChild("LifeBar").FindChild("PVValue").GetComponent<TextMeshPro>().text = c.GetLife()+"/"+c.Life;
 		
 		transform.Find("Life").GetComponent<SpriteRenderer>().sprite = this.lifebarSprites[1];
+		
+		this.card.isMine = b ;
+		
+		if (b){
+			this.display ();
+			transform.Find("Art").GetComponent<SpriteRenderer>().sprite = this.backgroundSprites[this.card.ArtIndex];
+			
+		}
+		else{
+			this.hide ();
+			transform.Find("Art").GetComponent<SpriteRenderer>().sprite = this.backgroundSprites[this.card.ArtIndex+10];
+			transform.FindChild("Icon1").GetComponent<SpriteRenderer>().sprite = this.iconSprites[2];
+			transform.FindChild("Icon2").GetComponent<SpriteRenderer>().sprite = this.iconSprites[2];
+			transform.FindChild("Icon3").GetComponent<SpriteRenderer>().sprite = this.iconSprites[2];
+		}
+		
+		this.id = i ;
+		gameObject.name = "Card"+(i);
+		
+		gameObject.transform.FindChild("AttackZone").GetComponent<AttackPictoController>().setIDCard(i);
+		gameObject.transform.FindChild("LifeBar").transform.FindChild("PV").GetComponent<PVPictoController>().setIDCard(i);
+		gameObject.transform.FindChild("PictoTR").GetComponent<TRPictoController>().setIDCard(i);
+		
 	}
 	
 	public void addTime(float t){
@@ -176,12 +199,6 @@ public class PlayingCardController : GameObjectController
 		t.Find("AttackZone").FindChild("AttackValue").GetComponent<MeshRenderer>().sortingOrder = 4 ;
 	}
 	
-	
-	public void setIDCharacter(int i)
-	{
-		this.id = i ;
-	}
-	
 	public Tile getTile()
 	{
 		return this.tile ;
@@ -217,27 +234,9 @@ public class PlayingCardController : GameObjectController
 		this.hasMoved = b ;
 	}
 	
-	public Card getCard()
+	public GameCard getCard()
 	{
 		return this.card ;
-	}
-	
-	public void setIsMine(bool b)
-	{
-		this.card.isMine = b ;
-		
-		if (b){
-			this.display ();
-			transform.Find("Art").GetComponent<SpriteRenderer>().sprite = this.backgroundSprites[this.card.ArtIndex];
-			
-		}
-		else{
-			this.hide ();
-			transform.Find("Art").GetComponent<SpriteRenderer>().sprite = this.backgroundSprites[this.card.ArtIndex+10];
-			transform.FindChild("Icon1").GetComponent<SpriteRenderer>().sprite = this.iconSprites[2];
-			transform.FindChild("Icon2").GetComponent<SpriteRenderer>().sprite = this.iconSprites[2];
-			transform.FindChild("Icon3").GetComponent<SpriteRenderer>().sprite = this.iconSprites[2];
-		}
 	}
 
 	public void setActive(bool b)
@@ -433,75 +432,75 @@ public class PlayingCardController : GameObjectController
 	
 	public void checkModyfiers()
 	{
-		List<int> modifiersToSuppress = new List<int>();
-		List<int> tileModifiersToSuppress = new List<int>();
-		
-		for (int i = this.card.modifiers.Count-1; i >= 0; i--)
-		{
-			if (this.card.modifiers [i].Duration > 1)
-			{
-				if(this.card.modifiers [i].Duration > 2){
-					this.card.modifiers [i].description.Replace(this.card.modifiers [i].Duration+" tours", (this.card.modifiers [i].Duration-1)+" tours");
-				}
-				else{
-					this.card.modifiers [i].description.Replace(this.card.modifiers [i].Duration+" tours", "1 tour");
-				}
-			}
-			if (this.card.modifiers [i].Duration > 0)
-			{
-				this.card.modifiers [i].Duration--;
-			}
-			
-			else if (this.card.modifiers [i].Duration == -2){
-				this.card.modifiers [i].Duration = 1;
-			}
-			
-			if (this.card.modifiers [i].Duration == 0)
-			{
-				this.card.modifiers.RemoveAt(i);
-			}
-			else if (this.card.modifiers [i].Duration > 0)
-			{
-				this.card.modifiers [i].additionnalInfo = "Actif " + this.card.modifiers [i].Duration + " tour";
-				if (this.card.modifiers [i].Duration > 1)
-				{
-					this.card.modifiers [i].additionnalInfo += "s";
-				}
-			}
-		}
-
-		for (int i = 0; i < this.card.TileModifiers.Count; i++)
-		{
-			if (this.card.TileModifiers [i].Duration > 0)
-			{
-				this.card.TileModifiers [i].Duration--;
-			}
-			
-			if (this.card.TileModifiers [i].Duration == 0)
-			{
-				tileModifiersToSuppress.Add(i);
-				if (this.card.TileModifiers [i].Stat == ModifierStat.Stat_Attack || this.card.TileModifiers [i].Stat == ModifierStat.Stat_Move)
-				{
-					this.show(true);
-				}
-			}
-		}
-		for (int i = 0; i < tileModifiersToSuppress.Count; i++)
-		{
-			this.card.TileModifiers.RemoveAt(tileModifiersToSuppress [i]);
-		}
-		this.show(true);
+//		List<int> modifiersToSuppress = new List<int>();
+//		List<int> tileModifiersToSuppress = new List<int>();
+//		
+//		for (int i = this.card.modifiers.Count-1; i >= 0; i--)
+//		{
+//			if (this.card.modifiers [i].Duration > 1)
+//			{
+//				if(this.card.modifiers [i].Duration > 2){
+//					this.card.modifiers [i].description.Replace(this.card.modifiers [i].Duration+" tours", (this.card.modifiers [i].Duration-1)+" tours");
+//				}
+//				else{
+//					this.card.modifiers [i].description.Replace(this.card.modifiers [i].Duration+" tours", "1 tour");
+//				}
+//			}
+//			if (this.card.modifiers [i].Duration > 0)
+//			{
+//				this.card.modifiers [i].Duration--;
+//			}
+//			
+//			else if (this.card.modifiers [i].Duration == -2){
+//				this.card.modifiers [i].Duration = 1;
+//			}
+//			
+//			if (this.card.modifiers [i].Duration == 0)
+//			{
+//				this.card.modifiers.RemoveAt(i);
+//			}
+//			else if (this.card.modifiers [i].Duration > 0)
+//			{
+//				this.card.modifiers [i].additionnalInfo = "Actif " + this.card.modifiers [i].Duration + " tour";
+//				if (this.card.modifiers [i].Duration > 1)
+//				{
+//					this.card.modifiers [i].additionnalInfo += "s";
+//				}
+//			}
+//		}
+//
+//		for (int i = 0; i < this.card.TileModifiers.Count; i++)
+//		{
+//			if (this.card.TileModifiers [i].Duration > 0)
+//			{
+//				this.card.TileModifiers [i].Duration--;
+//			}
+//			
+//			if (this.card.TileModifiers [i].Duration == 0)
+//			{
+//				tileModifiersToSuppress.Add(i);
+//				if (this.card.TileModifiers [i].Stat == ModifierStat.Stat_Attack || this.card.TileModifiers [i].Stat == ModifierStat.Stat_Move)
+//				{
+//					this.show(true);
+//				}
+//			}
+//		}
+//		for (int i = 0; i < tileModifiersToSuppress.Count; i++)
+//		{
+//			this.card.TileModifiers.RemoveAt(tileModifiersToSuppress [i]);
+//		}
+//		this.show(true);
 	}
 	
 	public void activateSleepingModifiers()
 	{
-		for (int i = 0; i < this.card.modifiers.Count; i++)
-		{
-			if (this.card.modifiers [i].Duration == -10)
-			{
-				this.card.modifiers [i].Duration = 1;	
-			}
-		}
+//		for (int i = 0; i < this.card.modifiers.Count; i++)
+//		{
+//			if (this.card.modifiers [i].Duration == -10)
+//			{
+//				this.card.modifiers [i].Duration = 1;	
+//			}
+//		}
 	}
 	
 	public bool canBeTargeted()

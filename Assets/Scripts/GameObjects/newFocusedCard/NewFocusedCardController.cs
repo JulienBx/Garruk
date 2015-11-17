@@ -1233,4 +1233,3 @@ public class NewFocusedCardController : MonoBehaviour
 		this.skillPopUp.transform.position = new Vector3 (gameObject.transform.FindChild ("Skill" + id).transform.FindChild ("Proba").position.x, gameObject.transform.FindChild ("Skill" + id).transform.FindChild ("Proba").position.y+1f, 0f);
 	}
 }
-

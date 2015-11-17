@@ -2,25 +2,46 @@
 
 public class Trap
 {
-	public int amount;
-	public int type; //0 = piège à loups
-	public bool isVisible;
+	int amount;
+	int type;
+	bool isVisible;
+	Tile tile;
+	
+	public string title;
+	public string description;
 
-	public Trap(int a, int t, bool v)
+	public Trap(int a, int t, bool v, string ti, string d)
 	{
 		this.amount = a;
 		this.type = t;
 		this.isVisible = v;
+		this.title = ti;
+		this.description = d;
 	}
-
-	public void activate(int target)
+	
+	public Trap(Tile t, int a, int ty, bool v, string ti, string d)
 	{
-		if (type==0){
-			string message = GameView.instance.getCard(target).Title+" déclenche piège à loups";
-			message += "\n"+GameView.instance.getCard(target).Title+" subit "+amount+" dégats";
-			
-			//GameController.instance.addModifier(target, amount, (int)ModifierType.Type_BonusMalus, (int)ModifierStat.Stat_Dommage);	
-			GameController.instance.play();	
-		}
+		this.tile = t ;
+		this.amount = a;
+		this.type = ty;
+		this.isVisible = v;
+		this.title = ti;
+		this.description = d;
+	}
+	
+	public void setTile(Tile t){
+		this.tile = t ;
+	}
+	
+	public void setVisible(bool b){
+		this.isVisible = b ;
+	}
+	
+	public Tile getTile(){
+		return this.tile ;
+	}
+	
+	public int getType(){
+		return this.type ;
 	}
 }

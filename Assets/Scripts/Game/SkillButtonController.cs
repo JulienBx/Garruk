@@ -11,6 +11,10 @@ public class SkillButtonController : MonoBehaviour
 	public int id ; 
 	bool isHovered = false ;
 	
+	void Awake(){
+		this.show(false);
+	}
+	
 	public void setSkill(Skill s, Sprite sprite){
 		this.skill = s  ;
 		this.checkLaunchability() ;
@@ -18,47 +22,53 @@ public class SkillButtonController : MonoBehaviour
 		gameObject.GetComponent<SpriteRenderer>().sprite = sprite;
 	}
 	
+	public void show(bool b){
+		gameObject.GetComponent<SpriteRenderer>().enabled = b ;
+		gameObject.transform.FindChild("SkillTextZone").GetComponent<SpriteRenderer>().enabled = b ;
+		gameObject.transform.FindChild("SkillTextZone").FindChild("Description").GetComponent<MeshRenderer>().enabled = b ;
+	}
+	
 	public void checkLaunchability(){
-		if(this.skill.Id!=-99){
-			if(GameView.instance.getCard(GameController.instance.getCurrentPlayingCard()).isFurious()){
-				this.launchabilityText = "Le personnage est furieux et ne peut plus etre controlé";
-				gameObject.GetComponent<SpriteRenderer>().color=new Color(255/255f,120f/255f,120f/255f, 1f);
-				this.isLaunchable = false ;
-			}
-			else if(GameView.instance.getCard(GameController.instance.getCurrentPlayingCard()).isParalyzed() && this.id!=-2){
-				this.launchabilityText = "Le personnage est paralysé";
-				gameObject.GetComponent<SpriteRenderer>().color=new Color(255/255f,120f/255f,120f/255f, 1f);
-				this.isLaunchable = false ;
-			}
-			else if(GameView.instance.getCard(GameController.instance.getCurrentPlayingCard()).isSleeping() && this.id!=-2){
-				this.launchabilityText = "Le personnage est endormi";
-				gameObject.GetComponent<SpriteRenderer>().color=new Color(255/255f,120f/255f,120f/255f, 1f);
-				this.isLaunchable = false ;
-			}
-			else if(this.skill.Id==1 || !GameView.instance.hasPlayed(GameController.instance.getCurrentPlayingCard())){
-				this.launchabilityText = GameSkills.instance.getSkill(this.skill.Id).isLaunchable();
-				if (this.launchabilityText.Length<4){
-					gameObject.GetComponent<SpriteRenderer>().color=new Color(1f, 1f, 1f, 1f);
-					this.isLaunchable = true ;
-					this.launchabilityText = "";
-				}
-				else{
-					gameObject.GetComponent<SpriteRenderer>().color=new Color(255/255f,120f/255f,120f/255f, 1f);
-					this.isLaunchable = false ;
-				}
-			}
-			else{
-				this.launchabilityText = "Le personnage a déjà joué";
-				gameObject.GetComponent<SpriteRenderer>().color=new Color(255/255f,120f/255f,120f/255f, 1f);
-				this.isLaunchable = false ;
-			}
-		}
-		else{
-			this.launchabilityText = "Compétence non débloquée";
-			gameObject.GetComponent<SpriteRenderer>().color=new Color(255/255f,120f/255f,120f/255f, 1f);
-			
-			this.isLaunchable = false ;
-		}
+//		if(this.skill.Id!=-99){
+//			if(GameView.instance.getCard(GameController.instance.getCurrentPlayingCard()).isFurious()){
+//				this.launchabilityText = "Le personnage est furieux et ne peut plus etre controlé";
+//				gameObject.GetComponent<SpriteRenderer>().color=new Color(255/255f,120f/255f,120f/255f, 1f);
+//				this.isLaunchable = false ;
+//			}
+//			else if(GameView.instance.getCard(GameController.instance.getCurrentPlayingCard()).isParalyzed() && this.id!=-2){
+//				this.launchabilityText = "Le personnage est paralysé";
+//				gameObject.GetComponent<SpriteRenderer>().color=new Color(255/255f,120f/255f,120f/255f, 1f);
+//				this.isLaunchable = false ;
+//			}
+//			else if(GameView.instance.getCard(GameController.instance.getCurrentPlayingCard()).isSleeping() && this.id!=-2){
+//				this.launchabilityText = "Le personnage est endormi";
+//				gameObject.GetComponent<SpriteRenderer>().color=new Color(255/255f,120f/255f,120f/255f, 1f);
+//				this.isLaunchable = false ;
+//			}
+//			else if(this.skill.Id==1 || !GameView.instance.hasPlayed(GameController.instance.getCurrentPlayingCard())){
+//				this.launchabilityText = GameSkills.instance.getSkill(this.skill.Id).isLaunchable();
+//				if (this.launchabilityText.Length<4){
+//					gameObject.GetComponent<SpriteRenderer>().color=new Color(1f, 1f, 1f, 1f);
+//					this.isLaunchable = true ;
+//					this.launchabilityText = "";
+//				}
+//				else{
+//					gameObject.GetComponent<SpriteRenderer>().color=new Color(255/255f,120f/255f,120f/255f, 1f);
+//					this.isLaunchable = false ;
+//				}
+//			}
+//			else{
+//				this.launchabilityText = "Le personnage a déjà joué";
+//				gameObject.GetComponent<SpriteRenderer>().color=new Color(255/255f,120f/255f,120f/255f, 1f);
+//				this.isLaunchable = false ;
+//			}
+//		}
+//		else{
+//			this.launchabilityText = "Compétence non débloquée";
+//			gameObject.GetComponent<SpriteRenderer>().color=new Color(255/255f,120f/255f,120f/255f, 1f);
+//			
+//			this.isLaunchable = false ;
+//		}
 	}
 	
 	public void OnMouseEnter(){

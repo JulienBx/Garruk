@@ -17,6 +17,11 @@ public class Cards{
 		return this.cards [index];
 	}
 	
+	public virtual GameCard getGameCard(int index)
+	{
+		return new GameCard(this.cards [index]);
+	}
+	
 	public int getCount()
 	{
 		return this.cards.Count;

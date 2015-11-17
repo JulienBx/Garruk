@@ -90,17 +90,19 @@ public class EndSceneController : MonoBehaviour
 	public void displayEndScene(bool hasWon)
 	{
 		this.retrieveBonus (hasWon);
-		this.player.Username = GameController.instance.getMyPlayerName ();
+		this.player.Username = ApplicationModel.username;
 		this.endGamePanel = Instantiate(endGamePanelObject) as GameObject;
 		this.endGamePanel.transform.FindChild ("Button").gameObject.SetActive (false); 
 		this.endGamePanel.transform.position = new Vector3 (0f, 0f, -8f);
 		this.cards=new GameObject[ApplicationModel.nbCardsByDeck];
+		Deck myDeck = GameView.instance.getMyDeck();
+		
 		for(int i=0;i<ApplicationModel.nbCardsByDeck;i++)
 		{
 			cards[i]=Instantiate(cardObject) as GameObject;
 			cards[i].transform.position=new Vector3(-4.5f+i*3f,0f,-8f);
 			cards[i].AddComponent<NewCardEndSceneController>();
-			cards[i].GetComponent<NewCardController>().c=GameController.instance.myDeck.cards[i];
+			cards[i].GetComponent<NewCardController>().c = myDeck.cards[i];
 			cards[i].GetComponent<NewCardEndSceneController>().show();
 			cards[i].GetComponent<NewCardEndSceneController>().changeLayer(11,"UI");
 			cards[i].GetComponent<NewCardEndSceneController>().setId(i);
@@ -176,10 +178,11 @@ public class EndSceneController : MonoBehaviour
 		this.skillsUnlocked = new List<Skill> ();
 		this.titleCardTypeUnlocked = "";
 		string idCards = "";
+		Deck myDeck = GameView.instance.getMyDeck();
 		
 		for (int i=0; i<ApplicationModel.nbCardsByDeck; i++)
 		{
-			idCards = idCards + GameController.instance.myDeck.cards [i].Id.ToString() + "SEPARATOR";
+			idCards = idCards + myDeck.cards [i].Id.ToString() + "SEPARATOR";
 		}
 		
 		WWWForm form = new WWWForm(); 								// Création de la connexion
@@ -204,19 +207,19 @@ public class EndSceneController : MonoBehaviour
 			for(int i=0;i<ApplicationModel.nbCardsByDeck;i++)
 			{
 				string [] experienceData = cardsData[i].Split(new string[] {"#EXPERIENCEDATA#"},System.StringSplitOptions.None);
-				GameController.instance.myDeck.cards[i].parseCard(experienceData[0]);
-				GameController.instance.myDeck.cards[i].GetNewSkill=System.Convert.ToBoolean(System.Convert.ToInt32(experienceData[1]));
+				myDeck.cards[i].parseCard(experienceData[0]);
+				myDeck.cards[i].GetNewSkill=System.Convert.ToBoolean(System.Convert.ToInt32(experienceData[1]));
 				//this.Cards[i].NewSkills=new List<Skill>();
-				if(GameController.instance.myDeck.cards[i].GetNewSkill)
+				if(myDeck.cards[i].GetNewSkill)
 				{
-					for(int j=0;j<GameController.instance.myDeck.cards[i].Skills.Count;i++)
+					for(int j=0;j<myDeck.cards[i].Skills.Count;i++)
 					{
-						if(GameController.instance.myDeck.cards[i].Skills[GameController.instance.myDeck.cards[i].Skills.Count-j-1].IsActivated==1)
+						if(myDeck.cards[i].Skills[myDeck.cards[i].Skills.Count-j-1].IsActivated==1)
 						{
 							if(System.Convert.ToBoolean(System.Convert.ToInt32(experienceData[2])))
 							{
-								this.skillsUnlocked.Add (GameController.instance.myDeck.cards[i].Skills[GameController.instance.myDeck.cards[i].Skills.Count-j-1]);
-								GameController.instance.myDeck.cards[i].Skills[GameController.instance.myDeck.cards[i].Skills.Count-j-1].IsNew=true;
+								this.skillsUnlocked.Add (myDeck.cards[i].Skills[myDeck.cards[i].Skills.Count-j-1]);
+								myDeck.cards[i].Skills[myDeck.cards[i].Skills.Count-j-1].IsNew=true;
 							}
 							break;
 						}
@@ -273,11 +276,13 @@ public class EndSceneController : MonoBehaviour
 	}
 	public void displayNextLevelPopUp(int indexCard)
 	{
+		Deck myDeck = GameView.instance.getMyDeck();
+		
 		this.nextLevelPopUp = Instantiate(this.nextLevelPopUpObject) as GameObject;
 		this.nextLevelPopUp.transform.parent=this.endGamePanel.transform;
 		this.nextLevelPopUp.transform.localPosition = new Vector3 (0, 0, -1f);
 		this.nextLevelPopUp.AddComponent<NextLevelPopUpControllerEndSceneGame> ();
-		this.nextLevelPopUp.transform.GetComponent<NextLevelPopUpController> ().initialize (GameController.instance.myDeck.cards[indexCard]);
+		this.nextLevelPopUp.transform.GetComponent<NextLevelPopUpController> ().initialize (myDeck.cards[indexCard]);
 		this.isNextLevelPopUpDisplayed=true;
 	}
 	public void hideNextLevelPopUp()
@@ -317,10 +322,11 @@ public class EndSceneController : MonoBehaviour
 	public IEnumerator upgradeCardAttribute(int attributeToUpgrade, int newPower, int newLevel)
 	{
 		GameView.instance.displayLoadingScreen ();
-
+		Deck myDeck = GameView.instance.getMyDeck();
+		
 		WWWForm form = new WWWForm(); 								
 		form.AddField("myform_hash", ApplicationModel.hash); 		
-		form.AddField("myform_idcard", GameController.instance.myDeck.cards[this.idCardsToNextLevel[0]].Id.ToString());
+		form.AddField("myform_idcard", myDeck.cards[this.idCardsToNextLevel[0]].Id.ToString());
 		form.AddField("myform_nick", ApplicationModel.username);
 		form.AddField ("myform_attribute", attributeToUpgrade);
 		form.AddField ("myform_newpower", newPower);
@@ -344,7 +350,7 @@ public class EndSceneController : MonoBehaviour
 			{
 				string [] cardData = w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
 				string [] experienceData = cardData[0].Split(new string[] {"#EXPERIENCEDATA#"},System.StringSplitOptions.None);
-				GameController.instance.myDeck.cards[this.idCardsToNextLevel[0]].parseCard(experienceData[0]);
+				myDeck.cards[this.idCardsToNextLevel[0]].parseCard(experienceData[0]);
 				this.titleCardTypeUnlocked=experienceData[1];
 				this.idCardTypeUnlocked=System.Convert.ToInt32(experienceData[2]);
 				this.cards[this.idCardsToNextLevel[0]].GetComponent<NewCardController>().caracteristicUpgraded=System.Convert.ToInt32(experienceData[3]);
