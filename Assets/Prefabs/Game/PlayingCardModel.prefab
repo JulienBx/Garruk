@@ -95,6 +95,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 437318}
   - 114: {fileID: 11440186}
+  - 65: {fileID: 6549742}
   m_Layer: 0
   m_Name: PlayingCardModel
   m_TagString: Untagged
@@ -716,6 +717,18 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 5}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!65 &6549742
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 123124}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!65 &6563932
 BoxCollider:
