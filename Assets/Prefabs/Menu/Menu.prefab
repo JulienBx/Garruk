@@ -12,7 +12,7 @@ GameObject:
   - 23: {fileID: 2337582}
   - 114: {fileID: 11466600}
   - 114: {fileID: 11414910}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Title
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -30,7 +30,7 @@ GameObject:
   - 212: {fileID: 21229404}
   - 61: {fileID: 6167204}
   - 114: {fileID: 11496874}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Help
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47,7 +47,7 @@ GameObject:
   - 4: {fileID: 477224}
   - 212: {fileID: 21244062}
   - 61: {fileID: 6168456}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: DisconnectButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -66,7 +66,7 @@ GameObject:
   - 23: {fileID: 2370596}
   - 114: {fileID: 11477358}
   - 114: {fileID: 11449710}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Title
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -84,7 +84,7 @@ GameObject:
   - 114: {fileID: 11490602}
   - 114: {fileID: 11442164}
   - 114: {fileID: 11409476}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Menu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -103,7 +103,7 @@ GameObject:
   - 23: {fileID: 2332986}
   - 114: {fileID: 11490436}
   - 114: {fileID: 11420306}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Title
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -120,7 +120,7 @@ GameObject:
   - 4: {fileID: 422768}
   - 212: {fileID: 21209830}
   - 61: {fileID: 6139062}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Button5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -139,7 +139,7 @@ GameObject:
   - 23: {fileID: 2399756}
   - 114: {fileID: 11442424}
   - 114: {fileID: 11409592}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Notifications
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -156,7 +156,7 @@ GameObject:
   - 4: {fileID: 405548}
   - 212: {fileID: 21279336}
   - 61: {fileID: 6149542}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Button0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -175,7 +175,7 @@ GameObject:
   - 23: {fileID: 2311892}
   - 114: {fileID: 11452478}
   - 114: {fileID: 11406106}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Title
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -191,7 +191,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 479482}
   - 212: {fileID: 21255188}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: ButtonsBorder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -208,7 +208,7 @@ GameObject:
   - 4: {fileID: 467202}
   - 212: {fileID: 21225494}
   - 61: {fileID: 6197782}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Button3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -224,7 +224,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 487166}
   - 212: {fileID: 21267900}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Cristal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -241,7 +241,7 @@ GameObject:
   - 4: {fileID: 454166}
   - 212: {fileID: 21273198}
   - 61: {fileID: 6160460}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Button1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -260,7 +260,7 @@ GameObject:
   - 23: {fileID: 2314896}
   - 114: {fileID: 11491708}
   - 114: {fileID: 11408800}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Title
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -276,7 +276,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 468244}
   - 212: {fileID: 21207742}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: LogoBlock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -292,7 +292,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 427998}
   - 212: {fileID: 21218630}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: UserBlock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -308,7 +308,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 441740}
   - 212: {fileID: 21212878}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Logo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -325,7 +325,7 @@ GameObject:
   - 4: {fileID: 435422}
   - 212: {fileID: 21238542}
   - 61: {fileID: 6148422}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Button4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -342,7 +342,7 @@ GameObject:
   - 4: {fileID: 453762}
   - 212: {fileID: 21291146}
   - 61: {fileID: 6124000}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Button2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -362,7 +362,7 @@ GameObject:
   - 114: {fileID: 11435226}
   - 114: {fileID: 11452792}
   - 61: {fileID: 6109762}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Username
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -379,7 +379,7 @@ GameObject:
   - 4: {fileID: 474310}
   - 212: {fileID: 21237790}
   - 61: {fileID: 6197730}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Bell
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -398,7 +398,7 @@ GameObject:
   - 23: {fileID: 2357194}
   - 114: {fileID: 11459090}
   - 114: {fileID: 11441840}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Title
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -415,7 +415,7 @@ GameObject:
   - 4: {fileID: 424338}
   - 212: {fileID: 21270196}
   - 61: {fileID: 6129142}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: AdminButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -434,7 +434,7 @@ GameObject:
   - 23: {fileID: 2355280}
   - 114: {fileID: 11470038}
   - 114: {fileID: 11486954}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Credits
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -451,8 +451,24 @@ GameObject:
   - 4: {fileID: 481620}
   - 212: {fileID: 21205754}
   - 61: {fileID: 6184382}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Picture
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &198740
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 470560}
+  - 212: {fileID: 21258656}
+  m_Layer: 5
+  m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -502,7 +518,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 110356}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 40, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 405548}
@@ -514,6 +530,7 @@ Transform:
   - {fileID: 479482}
   - {fileID: 427998}
   - {fileID: 468244}
+  - {fileID: 470560}
   m_Father: {fileID: 0}
   m_RootOrder: 0
 --- !u!4 &412232
@@ -711,6 +728,18 @@ Transform:
   - {fileID: 441740}
   m_Father: {fileID: 411862}
   m_RootOrder: 8
+--- !u!4 &470560
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 198740}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 4.03999996, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 411862}
+  m_RootOrder: 9
 --- !u!4 &474310
 Transform:
   m_ObjectHideFlags: 1
@@ -1776,7 +1805,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2035a4b297cd6470e9af66b2522ce0ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loadingScreenObject: {fileID: 142260, guid: 176cf68df92cb427b84ce1324381ee24, type: 2}
+  loadingScreenObject: {fileID: 176248, guid: 176cf68df92cb427b84ce1324381ee24, type: 2}
   totalNbResultLimit: 100
   refreshInterval: 5
   playPopUpObject: {fileID: 189314, guid: 8fe97dd726eec47f581ab750441248f2, type: 2}
@@ -2578,6 +2607,32 @@ SpriteRenderer:
   m_SortingLayerID: -1296038883
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: ec8fe55bfa35c4d46ba7d026602e8928, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+--- !u!212 &21258656
+SpriteRenderer:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 198740}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000e000000000000000, type: 0}
+  m_SubsetIndices: 
+  m_StaticBatchRoot: {fileID: 0}
+  m_UseLightProbes: 1
+  m_ReflectionProbeUsage: 1
+  m_ProbeAnchor: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_ImportantGI: 0
+  m_AutoUVMaxDistance: .5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: -273193745
+  m_SortingOrder: 1
+  m_Sprite: {fileID: 21300226, guid: ec8fe55bfa35c4d46ba7d026602e8928, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!212 &21267900
 SpriteRenderer:

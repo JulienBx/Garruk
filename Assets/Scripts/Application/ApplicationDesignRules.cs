@@ -16,11 +16,19 @@ public class ApplicationDesignRules : MonoBehaviour
 	static public float pixelPerUnit=108f;
 	static public float screenRatio;
 	static public float optimalScreenRatio=1.77f;
+	static public float mobileScreenRatio =1.5f;
+	static public float cameraSize=5f;
+	static public float backgroundCameraSize=5f;
+	static public bool isMobileScreen;
 	static public float reductionRatio;
 	static public float leftMargin=0.5f;
 	static public float rightMargin=0.5f;
 	static public float upMargin=1.9f;
 	static public float downMargin=0.2f;
+	static public float blockWidth;
+	static public float largeBlockHeight;
+	static public float mediumBlockHeight;
+	static public float smallBlockHeight;
 	static public float gapBetweenBlocks=0.05f;
 	static public Color blackColor=new Color(0f,0f,0f);
 	static public Color blueColor=new Color(75f/255f,163f/255f,174f/255f);
@@ -114,22 +122,56 @@ public class ApplicationDesignRules : MonoBehaviour
 	static private Vector3 subMainTitleOriginalScale = new Vector3(1f,1f,1f);
 	static public Vector3 subMainTitleScale;
 
+	static public Vector3 menuPosition = new Vector3(0f,40f,0f);
+	static public Vector3 tutorialPosition = new Vector3(0f,100f,0f);
+	static public Vector3 backgroundPosition = new Vector3(0f,20f,0f);
+
 	static public void computeDesignRules()
 	{
 		widthScreen=Screen.width;
 		heightScreen=Screen.height;
 		screenRatio = (float)widthScreen/(float)heightScreen;
-		if(screenRatio>=optimalScreenRatio)
+
+		if(screenRatio<1f)
 		{
-			reductionRatio=1f;
+			cameraSize=5f*((float)heightScreen/(float)widthScreen);
 		}
 		else
 		{
-			reductionRatio=1f-(optimalScreenRatio-screenRatio)/optimalScreenRatio;
+			cameraSize=5f;
 		}
-		worldHeight = 2f*Camera.main.GetComponent<Camera>().orthographicSize;
+
+		worldHeight = 2f*cameraSize;
 		worldWidth = ((float)Screen.width/(float)Screen.height) * worldHeight;
-		screenRatio = (float)widthScreen / (float)heightScreen;
+
+		largeBlockHeight = 10f - upMargin - downMargin;
+		mediumBlockHeight = (10f-upMargin-downMargin-gapBetweenBlocks)*(2.8f/5f);
+		smallBlockHeight = (10f-upMargin-downMargin-gapBetweenBlocks)*(2.2f/5f);
+
+		if(screenRatio<=mobileScreenRatio)
+		{
+			reductionRatio=1f;
+			isMobileScreen=true;
+			leftMargin = (worldWidth-10f)/2f;
+			rightMargin = leftMargin;
+			blockWidth=worldWidth-leftMargin-rightMargin;
+
+		}
+		else
+		{
+			isMobileScreen=false;
+			leftMargin = worldWidth / 80f;
+			rightMargin = leftMargin;
+			blockWidth=(worldWidth-leftMargin-rightMargin-gapBetweenBlocks)/2f;
+			if(screenRatio>=optimalScreenRatio)
+			{
+				reductionRatio=1f;
+			}
+			else 
+			{
+				reductionRatio=1f-(optimalScreenRatio-screenRatio)/optimalScreenRatio;
+			}
+		}
 
 		button62Scale = toNewScale (button62OriginalScale);
 		button62WorldSize = toWorldSize (button62Size, button62Scale);

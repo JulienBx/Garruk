@@ -302,9 +302,9 @@ public class MenuController : MonoBehaviour
 	}
 	public IEnumerator initialization()
 	{
+		this.resize ();
 		this.displayLoadingScreen ();
 		this.initializeMenuObject ();
-		this.resize ();
 		this.initializeScene ();
 		yield return StartCoroutine (model.loadUserData (this.ressources.totalNbResultLimit));
 		if(Application.loadedLevelName!="NewHomePage")
@@ -354,6 +354,8 @@ public class MenuController : MonoBehaviour
 	public void resize()
 	{
 		ApplicationDesignRules.computeDesignRules ();
+
+		gameObject.transform.position = new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y + ApplicationDesignRules.worldHeight / 2f - 5f, 0f);
 
 		this.centralWindow = new Rect (ApplicationDesignRules.widthScreen * 0.25f, 0.12f * ApplicationDesignRules.heightScreen,ApplicationDesignRules.widthScreen * 0.50f, 0.40f * ApplicationDesignRules.heightScreen);
 		this.collectionPointsWindow=new Rect(ApplicationDesignRules.widthScreen - ApplicationDesignRules.widthScreen * 0.17f-5,0.1f * ApplicationDesignRules.heightScreen+5,ApplicationDesignRules.widthScreen * 0.17f,ApplicationDesignRules.heightScreen * 0.1f);

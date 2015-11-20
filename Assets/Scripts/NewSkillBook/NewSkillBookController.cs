@@ -43,6 +43,11 @@ public class NewSkillBookController : MonoBehaviour
 	private GameObject skillSearchBarTitle;
 	private GameObject skillSearchBar;
 	private GameObject[] skillChoices;
+
+	private GameObject mainCamera;
+	private GameObject menuCamera;
+	private GameObject tutorialCamera;
+	private GameObject backgroundCamera;
 	
 	private IList<int> skillsDisplayed;
 	private IList<int> skillsToBeDisplayed;
@@ -455,17 +460,58 @@ public class NewSkillBookController : MonoBehaviour
 		this.availabilityFilterTitle = GameObject.Find ("AvailabilityFilterTitle");
 		this.availabilityFilterTitle.GetComponent<TextMeshPro> ().text = "Disponibilité".ToUpper ();
 		this.availabilityFilterTitle.GetComponent<TextMeshPro> ().color = ApplicationDesignRules.whiteTextColor;
-
+		this.mainCamera = gameObject;
+		this.menuCamera = GameObject.Find ("MenuCamera");
+		this.tutorialCamera = GameObject.Find ("TutorialCamera");
+		this.backgroundCamera = GameObject.Find ("BackgroundCamera");
 	}
 	public void resize()
 	{
+		this.mainCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
+		this.menuCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
+		this.tutorialCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
+		this.backgroundCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.backgroundCameraSize;
 
-		float filtersBlockLeftMargin =  ApplicationDesignRules.gapBetweenBlocks+ApplicationDesignRules.leftMargin+(ApplicationDesignRules.worldWidth-ApplicationDesignRules.rightMargin-ApplicationDesignRules.leftMargin-ApplicationDesignRules.gapBetweenBlocks)/2f;
-		float filtersBlockRightMargin = ApplicationDesignRules.rightMargin;
-		float filtersBlockUpMargin = 6.45f;
-		float filtersBlockDownMargin = ApplicationDesignRules.downMargin;
+		float skillsBlockLeftMargin;
+		float skillsBlockUpMargin;
+		float skillsBlockHeight;
 		
-		this.filtersBlock.GetComponent<NewBlockController> ().resize(filtersBlockLeftMargin,filtersBlockRightMargin,filtersBlockUpMargin,filtersBlockDownMargin);
+		float helpBlockLeftMargin;
+		float helpBlockUpMargin;
+		float helpBlockHeight;
+		
+		float filtersBlockLeftMargin;
+		float filtersBlockUpMargin;
+		float filtersBlockHeight;
+		
+		skillsBlockHeight=ApplicationDesignRules.largeBlockHeight;
+		helpBlockHeight=ApplicationDesignRules.mediumBlockHeight-ApplicationDesignRules.button62WorldSize.y;
+		filtersBlockHeight=ApplicationDesignRules.smallBlockHeight;
+		
+		if(ApplicationDesignRules.isMobileScreen)
+		{
+			helpBlockLeftMargin=ApplicationDesignRules.leftMargin;
+			helpBlockUpMargin=ApplicationDesignRules.upMargin+ApplicationDesignRules.button62WorldSize.y;
+			
+			skillsBlockLeftMargin=ApplicationDesignRules.leftMargin;
+			skillsBlockUpMargin=helpBlockUpMargin+ApplicationDesignRules.gapBetweenBlocks+helpBlockHeight;
+			
+			filtersBlockLeftMargin=ApplicationDesignRules.leftMargin;
+			filtersBlockUpMargin=skillsBlockUpMargin+ApplicationDesignRules.gapBetweenBlocks+skillsBlockHeight;
+		}
+		else
+		{
+			helpBlockLeftMargin=ApplicationDesignRules.leftMargin+ApplicationDesignRules.gapBetweenBlocks+ApplicationDesignRules.blockWidth;
+			helpBlockUpMargin=ApplicationDesignRules.upMargin+ApplicationDesignRules.button62WorldSize.y;
+			
+			filtersBlockLeftMargin=ApplicationDesignRules.leftMargin+ApplicationDesignRules.gapBetweenBlocks+ApplicationDesignRules.blockWidth;
+			filtersBlockUpMargin=helpBlockUpMargin+ApplicationDesignRules.gapBetweenBlocks+helpBlockHeight;
+			
+			skillsBlockLeftMargin=ApplicationDesignRules.leftMargin;
+			skillsBlockUpMargin=ApplicationDesignRules.upMargin;
+		}
+
+		this.filtersBlock.GetComponent<NewBlockController> ().resize(filtersBlockLeftMargin,filtersBlockUpMargin,ApplicationDesignRules.blockWidth,filtersBlockHeight);
 		Vector3 filtersBlockUpperLeftPosition = this.filtersBlock.GetComponent<NewBlockController> ().getUpperLeftCornerPosition ();
 		Vector3 filtersBlockUpperRightPosition = this.filtersBlock.GetComponent<NewBlockController> ().getUpperRightCornerPosition ();
 		Vector2 filtersBlockSize = this.filtersBlock.GetComponent<NewBlockController> ().getSize ();
@@ -557,12 +603,7 @@ public class NewSkillBookController : MonoBehaviour
 			this.availableFilters[i].transform.position=new Vector3(availabilityFilterTitle.transform.position.x, filtersBlockUpperLeftPosition.y-2.65f-i*(ApplicationDesignRules.button61WorldSize.y+0.05f),0f);
 		}
 
-		float skillsBlockLeftMargin = ApplicationDesignRules.leftMargin;
-		float skillsBlockRightMargin = ApplicationDesignRules.gapBetweenBlocks+ApplicationDesignRules.rightMargin+(ApplicationDesignRules.worldWidth-ApplicationDesignRules.rightMargin-ApplicationDesignRules.leftMargin-ApplicationDesignRules.gapBetweenBlocks)/2f;
-		float skillsBlockUpMargin = ApplicationDesignRules.upMargin;
-		float skillsBlockDownMargin = ApplicationDesignRules.downMargin;
-		
-		this.skillsBlock.GetComponent<NewBlockController> ().resize(skillsBlockLeftMargin,skillsBlockRightMargin,skillsBlockUpMargin,skillsBlockDownMargin);
+		this.skillsBlock.GetComponent<NewBlockController> ().resize(skillsBlockLeftMargin,skillsBlockUpMargin,ApplicationDesignRules.blockWidth,skillsBlockHeight);
 		Vector3 skillsBlockUpperLeftPosition = this.skillsBlock.GetComponent<NewBlockController> ().getUpperLeftCornerPosition ();
 		Vector3 skillsBlockLowerLeftPosition = this.skillsBlock.GetComponent<NewBlockController> ().getLowerLeftCornerPosition ();
 		Vector3 skillsBlockUpperRightPosition = this.skillsBlock.GetComponent<NewBlockController> ().getUpperRightCornerPosition ();
@@ -592,13 +633,7 @@ public class NewSkillBookController : MonoBehaviour
 		this.skillsPaginationLine.transform.localScale = new Vector3 (lineScale, 1f, 1f);
 		this.skillsPaginationLine.transform.position = new Vector3 (skillsBlockLowerLeftPosition.x + skillsBlockSize.x / 2, skillsBlockLowerLeftPosition.y + 0.6f, 0f);
 
-
-		float helpBlockLeftMargin = ApplicationDesignRules.gapBetweenBlocks+ApplicationDesignRules.leftMargin+(ApplicationDesignRules.worldWidth-ApplicationDesignRules.rightMargin-ApplicationDesignRules.leftMargin-ApplicationDesignRules.gapBetweenBlocks)/2f;;
-		float helpBlockRightMargin = ApplicationDesignRules.rightMargin;
-		float helpBlockUpMargin = ApplicationDesignRules.upMargin+ApplicationDesignRules.button62WorldSize.y;
-		float helpBlockDownMargin = ApplicationDesignRules.worldHeight-6.45f+ApplicationDesignRules.gapBetweenBlocks;
-
-		this.helpBlock.GetComponent<NewBlockController> ().resize(helpBlockLeftMargin,helpBlockRightMargin,helpBlockUpMargin,helpBlockDownMargin);
+		this.helpBlock.GetComponent<NewBlockController> ().resize(helpBlockLeftMargin,helpBlockUpMargin, ApplicationDesignRules.blockWidth,helpBlockHeight);
 		Vector3 helpBlockUpperLeftPosition = this.helpBlock.GetComponent<NewBlockController> ().getUpperLeftCornerPosition ();
 		Vector3 helpBlockUpperRightPosition = this.helpBlock.GetComponent<NewBlockController> ().getUpperRightCornerPosition ();
 		Vector2 helpBlockLowerLeftPosition = this.helpBlock.GetComponent<NewBlockController> ().getLowerLeftCornerPosition ();

@@ -43,6 +43,11 @@ public class NewStoreController : MonoBehaviour
 	private GameObject focusedCard;
 	private GameObject backButton;
 
+	private GameObject mainCamera;
+	private GameObject menuCamera;
+	private GameObject tutorialCamera;
+	private GameObject backgroundCamera;
+
 	private IList<int> packsDisplayed;
 	
 	private NewStoreAddCreditsPopUpView addCreditsView;
@@ -212,6 +217,10 @@ public class NewStoreController : MonoBehaviour
 		this.focusedCard = GameObject.Find ("FocusedCard");
 		this.focusedCard.AddComponent<NewFocusedCardStoreController> ();
 		this.focusedCard.SetActive (false);
+		this.mainCamera = gameObject;
+		this.menuCamera = GameObject.Find ("MenuCamera");
+		this.tutorialCamera = GameObject.Find ("TutorialCamera");
+		this.backgroundCamera = GameObject.Find ("BackgroundCamera");
 	}
 	private IEnumerator initialization()
 	{
@@ -265,15 +274,54 @@ public class NewStoreController : MonoBehaviour
 	}
 	public void resize()
 	{
+		this.mainCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
+		this.menuCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
+		this.tutorialCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
+		this.backgroundCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.backgroundCameraSize;
+
+		float packsBlockLeftMargin;
+		float packsBlockUpMargin;
+		float packsBlockHeight;
+		
+		float storeBlockLeftMargin;
+		float storeBlockUpMargin;
+		float storeBlockHeight;
+		
+		float buyCreditsBlockLeftMargin;
+		float buyCreditsBlockUpMargin;
+		float buyCreditsBlockHeight;
+		
+		packsBlockHeight=ApplicationDesignRules.largeBlockHeight;
+		storeBlockHeight=ApplicationDesignRules.mediumBlockHeight;
+		buyCreditsBlockHeight=ApplicationDesignRules.smallBlockHeight;
+		
+		if(ApplicationDesignRules.isMobileScreen)
+		{
+			storeBlockLeftMargin=ApplicationDesignRules.leftMargin;
+			storeBlockUpMargin=ApplicationDesignRules.upMargin;
+			
+			packsBlockLeftMargin=ApplicationDesignRules.leftMargin;
+			packsBlockUpMargin=storeBlockUpMargin+ApplicationDesignRules.gapBetweenBlocks+storeBlockHeight;
+			
+			buyCreditsBlockLeftMargin=ApplicationDesignRules.leftMargin;
+			buyCreditsBlockUpMargin=packsBlockUpMargin+ApplicationDesignRules.gapBetweenBlocks+packsBlockHeight;
+		}
+		else
+		{
+			storeBlockLeftMargin=ApplicationDesignRules.leftMargin+ApplicationDesignRules.gapBetweenBlocks+ApplicationDesignRules.blockWidth;
+			storeBlockUpMargin=ApplicationDesignRules.upMargin;
+			
+			buyCreditsBlockLeftMargin=ApplicationDesignRules.leftMargin+ApplicationDesignRules.gapBetweenBlocks+ApplicationDesignRules.blockWidth;
+			buyCreditsBlockUpMargin=storeBlockUpMargin+ApplicationDesignRules.gapBetweenBlocks+storeBlockHeight;
+			
+			packsBlockLeftMargin=ApplicationDesignRules.leftMargin;
+			packsBlockUpMargin=ApplicationDesignRules.upMargin;
+		}
+
 		this.centralWindow = new Rect (ApplicationDesignRules.widthScreen * 0.25f, 0.12f * ApplicationDesignRules.heightScreen, ApplicationDesignRules.widthScreen * 0.50f, 0.40f * ApplicationDesignRules.heightScreen);
 		this.selectCardTypeWindow = new Rect (ApplicationDesignRules.widthScreen * 0.25f, 0.12f * ApplicationDesignRules.heightScreen, ApplicationDesignRules.widthScreen * 0.50f, 0.50f * ApplicationDesignRules.heightScreen);
-	
-		float packsBlockLeftMargin = ApplicationDesignRules.leftMargin;
-		float packsBlockRightMargin = ApplicationDesignRules.gapBetweenBlocks+ApplicationDesignRules.rightMargin+(ApplicationDesignRules.worldWidth-ApplicationDesignRules.rightMargin-ApplicationDesignRules.leftMargin-ApplicationDesignRules.gapBetweenBlocks)/2f;
-		float packsBlockUpMargin = ApplicationDesignRules.upMargin;
-		float packsBlockDownMargin = ApplicationDesignRules.downMargin;
 		
-		this.packsBlock.GetComponent<NewBlockController> ().resize(packsBlockLeftMargin,packsBlockRightMargin,packsBlockUpMargin,packsBlockDownMargin);
+		this.packsBlock.GetComponent<NewBlockController> ().resize(packsBlockLeftMargin,packsBlockUpMargin,ApplicationDesignRules.blockWidth,packsBlockHeight);
 		Vector3 packsBlockUpperLeftPosition = this.packsBlock.GetComponent<NewBlockController> ().getUpperLeftCornerPosition ();
 		Vector3 packsBlockLowerLeftPosition = this.packsBlock.GetComponent<NewBlockController> ().getLowerLeftCornerPosition ();
 		Vector3 packsBlockUpperRightPosition = this.packsBlock.GetComponent<NewBlockController> ().getUpperRightCornerPosition ();
@@ -316,13 +364,8 @@ public class NewStoreController : MonoBehaviour
 		this.focusedCard.transform.localScale = ApplicationDesignRules.cardFocusedScale;
 		this.focusedCard.transform.position = new Vector3 (0f, -ApplicationDesignRules.worldHeight/2f+ApplicationDesignRules.downMargin+ApplicationDesignRules.cardFocusedWorldSize.y/2f-0.22f, 0f);
 		this.focusedCard.transform.GetComponent<NewFocusedCardController> ().setCentralWindow (this.centralWindow);
-
-		float storeBlockLeftMargin = ApplicationDesignRules.gapBetweenBlocks+ApplicationDesignRules.leftMargin+(ApplicationDesignRules.worldWidth-ApplicationDesignRules.rightMargin-ApplicationDesignRules.leftMargin-ApplicationDesignRules.gapBetweenBlocks)/2f;;
-		float storeBlockRightMargin = ApplicationDesignRules.rightMargin;
-		float storeBlockUpMargin = ApplicationDesignRules.upMargin;
-		float storeBlockDownMargin = ApplicationDesignRules.worldHeight-6.45f+ApplicationDesignRules.gapBetweenBlocks;
 		
-		this.storeBlock.GetComponent<NewBlockController> ().resize(storeBlockLeftMargin,storeBlockRightMargin,storeBlockUpMargin,storeBlockDownMargin);
+		this.storeBlock.GetComponent<NewBlockController> ().resize(storeBlockLeftMargin,storeBlockUpMargin,ApplicationDesignRules.blockWidth,storeBlockHeight);
 		Vector3 storeBlockUpperLeftPosition = this.storeBlock.GetComponent<NewBlockController> ().getUpperLeftCornerPosition ();
 		Vector3 storeBlockUpperRightPosition = this.storeBlock.GetComponent<NewBlockController> ().getUpperRightCornerPosition ();
 		Vector2 storeBlockSize = this.storeBlock.GetComponent<NewBlockController> ().getSize ();
@@ -332,17 +375,12 @@ public class NewStoreController : MonoBehaviour
 		this.storeSubtitle.transform.position = new Vector3 (storeBlockUpperLeftPosition.x + 0.3f, storeBlockUpperLeftPosition.y - 1.2f, 0f);
 		this.storeSubtitle.transform.GetComponent<TextContainer>().width=storeBlockSize.x-0.6f;
 		this.storeSubtitle.transform.localScale = ApplicationDesignRules.subMainTitleScale;
-
-		float buyCreditsBlockLeftMargin =  ApplicationDesignRules.gapBetweenBlocks+ApplicationDesignRules.leftMargin+(ApplicationDesignRules.worldWidth-ApplicationDesignRules.rightMargin-ApplicationDesignRules.leftMargin-ApplicationDesignRules.gapBetweenBlocks)/2f;
-		float buyCreditsBlockRightMargin = ApplicationDesignRules.rightMargin;
-		float buyCreditsBlockUpMargin = 6.45f;
-		float buyCreditsBlockDownMargin = ApplicationDesignRules.downMargin;
 		
-		this.buyCreditsBlock.GetComponent<NewBlockController> ().resize(buyCreditsBlockLeftMargin,buyCreditsBlockRightMargin,buyCreditsBlockUpMargin,buyCreditsBlockDownMargin);
+		this.buyCreditsBlock.GetComponent<NewBlockController> ().resize(buyCreditsBlockLeftMargin,buyCreditsBlockUpMargin,ApplicationDesignRules.blockWidth,buyCreditsBlockHeight);
 		Vector3 buyCreditsBlockUpperLeftPosition = this.buyCreditsBlock.GetComponent<NewBlockController> ().getUpperLeftCornerPosition ();
-		Vector3 buyCreditsBlockUpperRightPosition = this.buyCreditsBlock.GetComponent<NewBlockController> ().getUpperRightCornerPosition ();
 		Vector2 buyCreditsBlockSize = this.buyCreditsBlock.GetComponent<NewBlockController> ().getSize ();
 		Vector3 buyCreditsOrigin = this.buyCreditsBlock.GetComponent<NewBlockController> ().getOriginPosition ();
+
 		this.buyCreditsBlockTitle.transform.position = new Vector3 (buyCreditsBlockUpperLeftPosition.x + 0.3f, buyCreditsBlockUpperLeftPosition.y - 0.2f, 0f);
 		this.buyCreditsBlockTitle.transform.localScale = ApplicationDesignRules.mainTitleScale;
 
@@ -865,6 +903,10 @@ public class NewStoreController : MonoBehaviour
 	public bool getIsCardFocusedDisplayed()
 	{
 		return isCardFocusedDisplayed;
+	}
+	public bool getAreRandomCardsDisplayed()
+	{
+		return areRandomCardsGenerated;
 	}
 	public Vector3 getBuyCreditsBlockOrigin()
 	{

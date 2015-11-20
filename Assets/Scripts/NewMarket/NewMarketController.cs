@@ -47,6 +47,11 @@ public class NewMarketController : MonoBehaviour
 	private GameObject[] priceCursors;
 	
 	private GameObject focusedCard;
+
+	private GameObject mainCamera;
+	private GameObject menuCamera;
+	private GameObject tutorialCamera;
+	private GameObject backgroundCamera;
 	
 	private bool isCardFocusedDisplayed;
 
@@ -403,6 +408,10 @@ public class NewMarketController : MonoBehaviour
 		this.focusedCard = GameObject.Find ("FocusedCard");
 		this.focusedCard.AddComponent<NewFocusedCardMarketController> ();
 		this.focusedCard.SetActive (false);
+		this.mainCamera = gameObject;
+		this.menuCamera = GameObject.Find ("MenuCamera");
+		this.tutorialCamera = GameObject.Find ("TutorialCamera");
+		this.backgroundCamera = GameObject.Find ("BackgroundCamera");
 
 	}
 	private void resetFiltersValue()
@@ -467,12 +476,51 @@ public class NewMarketController : MonoBehaviour
 	}
 	public void resize()
 	{
-		float filtersBlockLeftMargin =  ApplicationDesignRules.gapBetweenBlocks+ApplicationDesignRules.leftMargin+(ApplicationDesignRules.worldWidth-ApplicationDesignRules.rightMargin-ApplicationDesignRules.leftMargin-ApplicationDesignRules.gapBetweenBlocks)/2f;
-		float filtersBlockRightMargin = ApplicationDesignRules.rightMargin;
-		float filtersBlockUpMargin = 6.45f;
-		float filtersBlockDownMargin = ApplicationDesignRules.downMargin;
+		this.mainCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
+		this.menuCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
+		this.tutorialCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
+		this.backgroundCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.backgroundCameraSize;
+
+		float cardsBlockLeftMargin;
+		float cardsBlockUpMargin;
+		float cardsBlockHeight;
 		
-		this.filtersBlock.GetComponent<NewBlockController> ().resize(filtersBlockLeftMargin,filtersBlockRightMargin,filtersBlockUpMargin,filtersBlockDownMargin);
+		float marketBlockLeftMargin;
+		float marketBlockUpMargin;
+		float marketBlockHeight;
+		
+		float filtersBlockLeftMargin;
+		float filtersBlockUpMargin;
+		float filtersBlockHeight;
+		
+		cardsBlockHeight=ApplicationDesignRules.largeBlockHeight-ApplicationDesignRules.button62WorldSize.y;
+		marketBlockHeight=ApplicationDesignRules.mediumBlockHeight;
+		filtersBlockHeight=ApplicationDesignRules.smallBlockHeight;
+		
+		if(ApplicationDesignRules.isMobileScreen)
+		{
+			marketBlockLeftMargin=ApplicationDesignRules.leftMargin;
+			marketBlockUpMargin=ApplicationDesignRules.upMargin;
+			
+			cardsBlockLeftMargin=ApplicationDesignRules.leftMargin;
+			cardsBlockUpMargin=marketBlockUpMargin+ApplicationDesignRules.gapBetweenBlocks+marketBlockHeight+ApplicationDesignRules.button62WorldSize.y;
+			
+			filtersBlockLeftMargin=ApplicationDesignRules.leftMargin;
+			filtersBlockUpMargin=cardsBlockUpMargin+ApplicationDesignRules.gapBetweenBlocks+cardsBlockHeight;
+		}
+		else
+		{
+			marketBlockLeftMargin=ApplicationDesignRules.leftMargin+ApplicationDesignRules.gapBetweenBlocks+ApplicationDesignRules.blockWidth;
+			marketBlockUpMargin=ApplicationDesignRules.upMargin;
+			
+			filtersBlockLeftMargin=ApplicationDesignRules.leftMargin+ApplicationDesignRules.gapBetweenBlocks+ApplicationDesignRules.blockWidth;
+			filtersBlockUpMargin=marketBlockUpMargin+ApplicationDesignRules.gapBetweenBlocks+marketBlockHeight;
+			
+			cardsBlockLeftMargin=ApplicationDesignRules.leftMargin;
+			cardsBlockUpMargin=ApplicationDesignRules.upMargin+ApplicationDesignRules.button62WorldSize.y;
+		}
+		
+		this.filtersBlock.GetComponent<NewBlockController> ().resize(filtersBlockLeftMargin,filtersBlockUpMargin,ApplicationDesignRules.blockWidth,filtersBlockHeight);
 		Vector3 filtersBlockUpperLeftPosition = this.filtersBlock.GetComponent<NewBlockController> ().getUpperLeftCornerPosition ();
 		Vector3 filtersBlockUpperRightPosition = this.filtersBlock.GetComponent<NewBlockController> ().getUpperRightCornerPosition ();
 		Vector2 filtersBlockSize = this.filtersBlock.GetComponent<NewBlockController> ().getSize ();
@@ -558,13 +606,8 @@ public class NewMarketController : MonoBehaviour
 		this.collectionPointsWindow=new Rect(ApplicationDesignRules.widthScreen -  ApplicationDesignRules.widthScreen * 0.17f-5,0.1f * ApplicationDesignRules.heightScreen+5,ApplicationDesignRules.widthScreen * 0.17f,ApplicationDesignRules.heightScreen * 0.1f);
 		this.newSkillsWindow = new Rect (this.collectionPointsWindow.xMin, this.collectionPointsWindow.yMax + 5,this.collectionPointsWindow.width,ApplicationDesignRules.heightScreen - 0.1f * ApplicationDesignRules.heightScreen - 2 * 5 - this.collectionPointsWindow.height);
 		this.newCardTypeWindow = new Rect (ApplicationDesignRules.widthScreen * 0.25f, 0.12f * ApplicationDesignRules.heightScreen, ApplicationDesignRules.widthScreen * 0.50f, 0.25f * ApplicationDesignRules.heightScreen);
-		
-		float cardsBlockLeftMargin = ApplicationDesignRules.leftMargin;
-		float cardsBlockRightMargin = ApplicationDesignRules.gapBetweenBlocks+ApplicationDesignRules.rightMargin+(ApplicationDesignRules.worldWidth-ApplicationDesignRules.rightMargin-ApplicationDesignRules.leftMargin-ApplicationDesignRules.gapBetweenBlocks)/2f;
-		float cardsBlockUpMargin = ApplicationDesignRules.upMargin+ApplicationDesignRules.button62WorldSize.y;
-		float cardsBlockDownMargin = ApplicationDesignRules.downMargin;
 
-		this.cardsBlock.GetComponent<NewBlockController> ().resize(cardsBlockLeftMargin,cardsBlockRightMargin,cardsBlockUpMargin,cardsBlockDownMargin);
+		this.cardsBlock.GetComponent<NewBlockController> ().resize(cardsBlockLeftMargin,cardsBlockUpMargin,ApplicationDesignRules.blockWidth,cardsBlockHeight);
 		Vector3 cardsBlockUpperLeftPosition = this.cardsBlock.GetComponent<NewBlockController> ().getUpperLeftCornerPosition ();
 		Vector3 cardsBlockLowerLeftPosition = this.cardsBlock.GetComponent<NewBlockController> ().getLowerLeftCornerPosition ();
 		Vector3 cardsBlockUpperRightPosition = this.cardsBlock.GetComponent<NewBlockController> ().getUpperRightCornerPosition ();
@@ -607,12 +650,7 @@ public class NewMarketController : MonoBehaviour
 		this.focusedCard.transform.position = new Vector3 (0f, -ApplicationDesignRules.worldHeight/2f+ApplicationDesignRules.downMargin+ApplicationDesignRules.cardFocusedWorldSize.y/2f-0.22f, 0f);
 		this.focusedCard.transform.GetComponent<NewFocusedCardController> ().setCentralWindow (this.centralWindow);
 
-		float marketBlockLeftMargin = ApplicationDesignRules.gapBetweenBlocks+ApplicationDesignRules.leftMargin+(ApplicationDesignRules.worldWidth-ApplicationDesignRules.rightMargin-ApplicationDesignRules.leftMargin-ApplicationDesignRules.gapBetweenBlocks)/2f;;
-		float marketBlockRightMargin = ApplicationDesignRules.rightMargin;
-		float marketBlockUpMargin = ApplicationDesignRules.upMargin;
-		float marketBlockDownMargin = ApplicationDesignRules.worldHeight-6.45f+ApplicationDesignRules.gapBetweenBlocks;
-
-		this.marketBlock.GetComponent<NewBlockController> ().resize(marketBlockLeftMargin,marketBlockRightMargin,marketBlockUpMargin,marketBlockDownMargin);
+		this.marketBlock.GetComponent<NewBlockController> ().resize(marketBlockLeftMargin,marketBlockUpMargin,ApplicationDesignRules.blockWidth,marketBlockHeight);
 		Vector3 marketBlockUpperLeftPosition = this.marketBlock.GetComponent<NewBlockController> ().getUpperLeftCornerPosition ();
 		Vector3 marketBlockUpperRightPosition = this.marketBlock.GetComponent<NewBlockController> ().getUpperRightCornerPosition ();
 		Vector2 marketBlockSize = this.marketBlock.GetComponent<NewBlockController> ().getSize ();

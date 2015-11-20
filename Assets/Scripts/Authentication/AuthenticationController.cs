@@ -24,15 +24,10 @@ public class AuthenticationController : Photon.MonoBehaviour
 	private GameObject transparentBackground;
 	private GameObject connectionButton;
 	private GameObject inscriptionButton;
+	private GameObject menuCamera;
 
 	private AuthenticationErrorPopUpView errorView;
 	private AuthenticationAccountCreatedPopUpView accountCreatedView;
-
-	private int widthScreen;
-	private int heightScreen;
-
-	private float worldHeight;
-	private float worldWidth;
 
 	private Rect centralWindow;
 	private Rect messageWindow;
@@ -50,7 +45,7 @@ public class AuthenticationController : Photon.MonoBehaviour
 	}
 	void Update()
 	{
-		if (Screen.width != this.widthScreen || Screen.height != this.heightScreen) 
+		if (Screen.width != ApplicationDesignRules.widthScreen || Screen.height != ApplicationDesignRules.heightScreen) 
 		{
 			this.resize();
 		}
@@ -205,17 +200,26 @@ public class AuthenticationController : Photon.MonoBehaviour
 		this.connectionButton.AddComponent<AuthenticationConnectionButtonController> ();
 		this.inscriptionButton.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Connexion";
 		this.connectionButton.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Inscription";
-
+		this.menuCamera = GameObject.Find ("MenuCamera");
 	}
 	public void resize()
 	{
-		this.widthScreen=Screen.width;
-		this.heightScreen=Screen.height;
-		this.worldHeight = 2f*Camera.main.GetComponent<Camera>().orthographicSize;
-		this.worldWidth = ((float)Screen.width/(float)Screen.height) * worldHeight;
-		this.centralWindow = new Rect (this.widthScreen * 0.25f, 0.12f * this.heightScreen, this.widthScreen * 0.50f, 0.70f * this.heightScreen);
-		this.messageWindow = new Rect (this.widthScreen * 0.25f, 0.2f * this.heightScreen, this.widthScreen * 0.50f, 0.25f * this.heightScreen);
-		view.authenticationVM.resize (this.heightScreen);
+		ApplicationDesignRules.widthScreen=Screen.width;
+		ApplicationDesignRules.heightScreen=Screen.height;
+		ApplicationDesignRules.worldHeight = 2f*Camera.main.GetComponent<Camera>().orthographicSize;
+		ApplicationDesignRules.worldWidth = ((float)Screen.width/(float)Screen.height) * ApplicationDesignRules.worldHeight;
+		if((float)ApplicationDesignRules.widthScreen/(float)ApplicationDesignRules.heightScreen<1f)
+		{
+			this.menuCamera.GetComponent<Camera> ().orthographicSize=5f*((float)ApplicationDesignRules.heightScreen/(float)ApplicationDesignRules.widthScreen);
+		}
+		else
+		{
+			this.menuCamera.GetComponent<Camera> ().orthographicSize=5f;
+		}
+
+		this.centralWindow = new Rect (ApplicationDesignRules.widthScreen * 0.25f, 0.12f * ApplicationDesignRules.heightScreen, ApplicationDesignRules.widthScreen * 0.50f, 0.70f * ApplicationDesignRules.heightScreen);
+		this.messageWindow = new Rect (ApplicationDesignRules.widthScreen * 0.25f, 0.2f * ApplicationDesignRules.heightScreen, ApplicationDesignRules.widthScreen * 0.50f, 0.25f * ApplicationDesignRules.heightScreen);
+		view.authenticationVM.resize (ApplicationDesignRules.heightScreen);
 		if(this.authenticationWindowView!=null)
 		{
 			this.authenticationWindowPopUpResize();
@@ -229,22 +233,27 @@ public class AuthenticationController : Photon.MonoBehaviour
 			this.accountCreatedPopUpResize();
 		}
 		
-		float mainBlockWidth = 8f;
-		float mainBlockLeftMargin = (worldWidth-mainBlockWidth)/2f;
+		float mainBlockWidth = ApplicationDesignRules.worldWidth-1f;
+		if(mainBlockWidth>8f)
+		{
+			mainBlockWidth=8f;
+		}
+		float mainBlockLeftMargin = (ApplicationDesignRules.worldWidth-mainBlockWidth)/2f;
 		float mainBlockRightMargin = mainBlockLeftMargin;
 		float mainBlockUpMargin = 3f;
 		float mainBlockDownMargin = 2f;
+		float mainBlockHeight = ApplicationDesignRules.worldHeight - mainBlockUpMargin - mainBlockDownMargin;
 
-		this.mainBlock.GetComponent<NewBlockController> ().resize(mainBlockLeftMargin,mainBlockRightMargin,mainBlockUpMargin,mainBlockDownMargin);
+		this.mainBlock.GetComponent<NewBlockController> ().resize(mainBlockLeftMargin,mainBlockUpMargin,mainBlockWidth,mainBlockHeight);
 
 		Vector2 mainBlockSize = this.mainBlock.GetComponent<NewBlockController> ().getSize ();
 		Vector2 mainBlockOrigin = this.mainBlock.GetComponent<NewBlockController> ().getOriginPosition ();
 		Vector2 mainBlockUpperLeft = this.mainBlock.GetComponent<NewBlockController> ().getUpperLeftCornerPosition ();
 
-		float mainBlockGUIWidth = ((mainBlockSize.x-1f) / (2f * Camera.main.GetComponent<Camera> ().orthographicSize)) * heightScreen;
-		float mainBlockGUIHeight = ((mainBlockSize.y-1f)/(2f * Camera.main.GetComponent<Camera> ().orthographicSize))* heightScreen;
-		float mainBlockGUIXOrigin = 0.5f * widthScreen-mainBlockGUIWidth/2f;
-		float mainBlockGUIYOrigin = ((worldHeight / 2f-(mainBlockOrigin.y + 0.5f+ (mainBlockSize.y-1f) / 2f)) / worldHeight) * heightScreen;
+		float mainBlockGUIWidth = ((mainBlockSize.x-1f) / (2f * Camera.main.GetComponent<Camera> ().orthographicSize)) * ApplicationDesignRules.heightScreen;
+		float mainBlockGUIHeight = ((mainBlockSize.y-1f)/(2f * Camera.main.GetComponent<Camera> ().orthographicSize))* ApplicationDesignRules.heightScreen;
+		float mainBlockGUIXOrigin = 0.5f * ApplicationDesignRules.widthScreen-mainBlockGUIWidth/2f;
+		float mainBlockGUIYOrigin = ((ApplicationDesignRules.worldHeight / 2f-(mainBlockOrigin.y + 0.5f+ (mainBlockSize.y-1f) / 2f)) / ApplicationDesignRules.worldHeight) * ApplicationDesignRules.heightScreen;
 
 		view.authenticationScreenVM.setMainBlock(new Rect(mainBlockGUIXOrigin,mainBlockGUIYOrigin,mainBlockGUIWidth,mainBlockGUIHeight));
 	}

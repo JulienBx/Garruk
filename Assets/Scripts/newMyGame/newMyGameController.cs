@@ -48,6 +48,11 @@ public class newMyGameController : MonoBehaviour
 
 	private GameObject focusedCard;
 
+	private GameObject mainCamera;
+	private GameObject menuCamera;
+	private GameObject tutorialCamera;
+	private GameObject backgroundCamera;
+
 	private int focusedCardIndex;
 	private bool isCardFocusedDisplayed;
 
@@ -368,6 +373,10 @@ public class newMyGameController : MonoBehaviour
 		this.focusedCard = GameObject.Find ("FocusedCard");
 		this.focusedCard.AddComponent<NewFocusedCardMyGameController> ();
 		this.focusedCard.SetActive (false);
+		this.mainCamera = gameObject;
+		this.menuCamera = GameObject.Find ("MenuCamera");
+		this.tutorialCamera = GameObject.Find ("TutorialCamera");
+		this.backgroundCamera = GameObject.Find ("BackgroundCamera");
 	}
 	private void resetFiltersValue()
 	{
@@ -450,13 +459,51 @@ public class newMyGameController : MonoBehaviour
 	}
 	public void resize()
 	{
+		this.mainCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
+		this.menuCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
+		this.tutorialCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
+		this.backgroundCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.backgroundCameraSize;
 
-		float filtersBlockLeftMargin =  ApplicationDesignRules.gapBetweenBlocks+ApplicationDesignRules.leftMargin+(ApplicationDesignRules.worldWidth-ApplicationDesignRules.rightMargin-ApplicationDesignRules.leftMargin-ApplicationDesignRules.gapBetweenBlocks)/2f;
-		float filtersBlockRightMargin = ApplicationDesignRules.rightMargin;
-		float filtersBlockUpMargin = 6.45f;
-		float filtersBlockDownMargin = ApplicationDesignRules.downMargin;
+		float cardsBlockLeftMargin;
+		float cardsBlockUpMargin;
+		float cardsBlockHeight;
 		
-		this.filtersBlock.GetComponent<NewBlockController> ().resize(filtersBlockLeftMargin,filtersBlockRightMargin,filtersBlockUpMargin,filtersBlockDownMargin);
+		float deckBlockLeftMargin;
+		float deckBlockUpMargin;
+		float deckBlockHeight;
+		
+		float filtersBlockLeftMargin;
+		float filtersBlockUpMargin;
+		float filtersBlockHeight;
+		
+		cardsBlockHeight=ApplicationDesignRules.largeBlockHeight;
+		deckBlockHeight=ApplicationDesignRules.mediumBlockHeight;
+		filtersBlockHeight=ApplicationDesignRules.smallBlockHeight;
+		
+		if(ApplicationDesignRules.isMobileScreen)
+		{
+			deckBlockLeftMargin=ApplicationDesignRules.leftMargin;
+			deckBlockUpMargin=ApplicationDesignRules.upMargin;
+			
+			cardsBlockLeftMargin=ApplicationDesignRules.leftMargin;
+			cardsBlockUpMargin=deckBlockUpMargin+ApplicationDesignRules.gapBetweenBlocks+deckBlockHeight;
+			
+			filtersBlockLeftMargin=ApplicationDesignRules.leftMargin;
+			filtersBlockUpMargin=cardsBlockUpMargin+ApplicationDesignRules.gapBetweenBlocks+cardsBlockHeight;
+		}
+		else
+		{
+			deckBlockLeftMargin=ApplicationDesignRules.leftMargin+ApplicationDesignRules.gapBetweenBlocks+ApplicationDesignRules.blockWidth;
+			deckBlockUpMargin=ApplicationDesignRules.upMargin;
+
+			filtersBlockLeftMargin=ApplicationDesignRules.leftMargin+ApplicationDesignRules.gapBetweenBlocks+ApplicationDesignRules.blockWidth;
+			filtersBlockUpMargin=deckBlockUpMargin+ApplicationDesignRules.gapBetweenBlocks+deckBlockHeight;
+			
+			cardsBlockLeftMargin=ApplicationDesignRules.leftMargin;
+			cardsBlockUpMargin=ApplicationDesignRules.upMargin;
+		}
+		
+		this.filtersBlock.GetComponent<NewBlockController> ().resize(filtersBlockLeftMargin,filtersBlockUpMargin,ApplicationDesignRules.blockWidth,filtersBlockHeight);
 		Vector3 filtersBlockUpperLeftPosition = this.filtersBlock.GetComponent<NewBlockController> ().getUpperLeftCornerPosition ();
 		Vector3 filtersBlockUpperRightPosition = this.filtersBlock.GetComponent<NewBlockController> ().getUpperRightCornerPosition ();
 		Vector2 filtersBlockSize = this.filtersBlock.GetComponent<NewBlockController> ().getSize ();
@@ -534,12 +581,7 @@ public class newMyGameController : MonoBehaviour
 
 		this.centralWindow = new Rect (ApplicationDesignRules.widthScreen * 0.25f, 0.12f * ApplicationDesignRules.heightScreen, ApplicationDesignRules.widthScreen * 0.50f, 0.25f * ApplicationDesignRules.heightScreen);
 	
-		float deckBlockLeftMargin = ApplicationDesignRules.gapBetweenBlocks+ApplicationDesignRules.leftMargin+(ApplicationDesignRules.worldWidth-ApplicationDesignRules.rightMargin-ApplicationDesignRules.leftMargin-ApplicationDesignRules.gapBetweenBlocks)/2f;;
-		float deckBlockRightMargin = ApplicationDesignRules.rightMargin;
-		float deckBlockUpMargin = ApplicationDesignRules.upMargin;
-		float deckBlockDownMargin = ApplicationDesignRules.worldHeight-6.45f+ApplicationDesignRules.gapBetweenBlocks;
-
-		this.deckBlock.GetComponent<NewBlockController> ().resize(deckBlockLeftMargin,deckBlockRightMargin,deckBlockUpMargin,deckBlockDownMargin);
+		this.deckBlock.GetComponent<NewBlockController> ().resize(deckBlockLeftMargin,deckBlockUpMargin,ApplicationDesignRules.blockWidth,deckBlockHeight);
 		Vector3 deckBlockUpperLeftPosition = this.deckBlock.GetComponent<NewBlockController> ().getUpperLeftCornerPosition ();
 		Vector3 deckBlockUpperRightPosition = this.deckBlock.GetComponent<NewBlockController> ().getUpperRightCornerPosition ();
 		Vector2 deckBlockSize = this.deckBlock.GetComponent<NewBlockController> ().getSize ();
@@ -586,12 +628,7 @@ public class newMyGameController : MonoBehaviour
 			this.deckCards[i].transform.GetComponent<NewCardMyGameController>().setId(i,true);
 		}
 
-		float cardsBlockLeftMargin = ApplicationDesignRules.leftMargin;
-		float cardsBlockRightMargin = ApplicationDesignRules.gapBetweenBlocks+ApplicationDesignRules.rightMargin+(ApplicationDesignRules.worldWidth-ApplicationDesignRules.rightMargin-ApplicationDesignRules.leftMargin-ApplicationDesignRules.gapBetweenBlocks)/2f;
-		float cardsBlockUpMargin = ApplicationDesignRules.upMargin;
-		float cardsBlockDownMargin = ApplicationDesignRules.downMargin;
-		
-		this.cardsBlock.GetComponent<NewBlockController> ().resize(cardsBlockLeftMargin,cardsBlockRightMargin,cardsBlockUpMargin,cardsBlockDownMargin);
+		this.cardsBlock.GetComponent<NewBlockController> ().resize(cardsBlockLeftMargin,cardsBlockUpMargin,ApplicationDesignRules.blockWidth,cardsBlockHeight);
 		Vector3 cardsBlockUpperLeftPosition = this.cardsBlock.GetComponent<NewBlockController> ().getUpperLeftCornerPosition ();
 		Vector3 cardsBlockLowerLeftPosition = this.cardsBlock.GetComponent<NewBlockController> ().getLowerLeftCornerPosition ();
 		Vector3 cardsBlockUpperRightPosition = this.cardsBlock.GetComponent<NewBlockController> ().getUpperRightCornerPosition ();
@@ -604,7 +641,7 @@ public class newMyGameController : MonoBehaviour
 
 		float gapBetweenCardsLine = 0.25f;
 		float gapBetweenCard = gapBetweenCardsHalo;
-		float firstLineY = deckCardsPosition [0].y;
+		float firstLineY = cardsBlockUpperRightPosition.y - 3f;
 
 		this.cardsArea = new Rect (cardsBlockUpperLeftPosition.x,cardsBlockLowerLeftPosition.y,cardsBlockSize.x,cardsBlockSize.y);
 

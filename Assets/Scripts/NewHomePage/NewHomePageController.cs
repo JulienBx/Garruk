@@ -46,7 +46,11 @@ public class NewHomePageController : MonoBehaviour
 	private GameObject[] deckChoices;
 	private GameObject[] cardsHalos;
 	private GameObject popUp;
-	
+	private GameObject mainCamera;
+	private GameObject menuCamera;
+	private GameObject tutorialCamera;
+	private GameObject backgroundCamera;
+
 	private GameObject menu;
 	private GameObject tutorial;
 	private GameObject[] deckCards;
@@ -104,6 +108,7 @@ public class NewHomePageController : MonoBehaviour
 	private bool isConnectionBonusViewDisplayed;
 
 	private bool isEndGamePopUpDisplayed;
+	private bool isScrolling;
 
 	void Update()
 	{	
@@ -160,6 +165,10 @@ public class NewHomePageController : MonoBehaviour
 			}
 			this.money=ApplicationModel.credits;
 		}
+		if(ApplicationDesignRules.isMobileScreen && this.isSceneLoaded)
+		{
+			isScrolling = this.mainCamera.GetComponent<ScrollingController>().ScrollController();
+		}
 	}
 	void Awake()
 	{
@@ -192,8 +201,8 @@ public class NewHomePageController : MonoBehaviour
 	}
 	public IEnumerator initialization()
 	{
-		yield return StartCoroutine (model.getData (this.totalNbResultLimit));
 		this.resize ();
+		yield return StartCoroutine (model.getData (this.totalNbResultLimit));
 		this.selectATab ();
 		this.initializePacks ();
 		this.retrieveDefaultDeck ();
@@ -433,18 +442,76 @@ public class NewHomePageController : MonoBehaviour
 
 		this.endGamePopUp = GameObject.Find ("EndGamePopUp");
 		this.endGamePopUp.SetActive (false);
+
+		this.mainCamera = gameObject;
+		this.mainCamera.AddComponent<ScrollingController> ();
+		this.menuCamera = GameObject.Find ("MenuCamera");
+		this.tutorialCamera = GameObject.Find ("TutorialCamera");
+		this.backgroundCamera = GameObject.Find ("BackgroundCamera");
 	}
 	public void resize()
 	{
+		this.mainCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
+		this.menuCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
+		this.tutorialCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
+		this.backgroundCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.backgroundCameraSize;
+
+		float playBlockLeftMargin;
+		float playBlockUpMargin;
+		float playBlockHeight;
+
+		float deckBlockLeftMargin;
+		float deckBlockUpMargin;
+		float deckBlockHeight;
+
+		float storeBlockLeftMargin;
+		float storeBlockUpMargin;
+		float storeBlockHeight;
+
+		float newsfeedBlockLeftMargin;
+		float newsfeedBlockUpMargin;
+		float newsfeedBlockHeight;
+
+		playBlockHeight=ApplicationDesignRules.smallBlockHeight;
+		deckBlockHeight=ApplicationDesignRules.mediumBlockHeight;
+		storeBlockHeight=ApplicationDesignRules.smallBlockHeight;
+		newsfeedBlockHeight=ApplicationDesignRules.mediumBlockHeight-ApplicationDesignRules.button62WorldSize.y;
+
+		if(ApplicationDesignRules.isMobileScreen)
+		{
+			playBlockLeftMargin=ApplicationDesignRules.leftMargin;
+			playBlockUpMargin=ApplicationDesignRules.upMargin;
+
+			deckBlockLeftMargin=ApplicationDesignRules.leftMargin;
+			deckBlockUpMargin=playBlockUpMargin+ApplicationDesignRules.gapBetweenBlocks+playBlockHeight;
+
+			storeBlockLeftMargin=ApplicationDesignRules.leftMargin;
+			storeBlockUpMargin=deckBlockUpMargin+ApplicationDesignRules.gapBetweenBlocks+deckBlockHeight;
+
+			newsfeedBlockLeftMargin=ApplicationDesignRules.leftMargin;
+			newsfeedBlockUpMargin=storeBlockUpMargin+storeBlockHeight+ApplicationDesignRules.gapBetweenBlocks+ApplicationDesignRules.button62WorldSize.y;
+		}
+		else
+		{
+			deckBlockLeftMargin=ApplicationDesignRules.leftMargin;
+			deckBlockUpMargin=ApplicationDesignRules.upMargin;
+
+			playBlockLeftMargin=ApplicationDesignRules.leftMargin;
+			playBlockUpMargin=deckBlockUpMargin+ApplicationDesignRules.gapBetweenBlocks+deckBlockHeight;
+			
+			newsfeedBlockLeftMargin=ApplicationDesignRules.leftMargin+ApplicationDesignRules.gapBetweenBlocks+ApplicationDesignRules.blockWidth;
+			newsfeedBlockUpMargin=deckBlockUpMargin+ApplicationDesignRules.button62WorldSize.y;
+			
+			storeBlockLeftMargin=ApplicationDesignRules.leftMargin+ApplicationDesignRules.gapBetweenBlocks+ApplicationDesignRules.blockWidth;
+			storeBlockUpMargin=newsfeedBlockUpMargin+ApplicationDesignRules.gapBetweenBlocks+newsfeedBlockHeight;
+		}
+
+		this.mainCamera.GetComponent<ScrollingController> ().setViewHeight(2f * (this.mainCamera.GetComponent<Camera> ().orthographicSize));
+		this.mainCamera.GetComponent<ScrollingController> ().setContentHeight(ApplicationDesignRules.upMargin + playBlockHeight + deckBlockHeight + storeBlockHeight + newsfeedBlockHeight + 3f * ApplicationDesignRules.gapBetweenBlocks + ApplicationDesignRules.button62WorldSize.y);
 
 		this.centralWindow = new Rect (ApplicationDesignRules.widthScreen * 0.25f, 0.12f * ApplicationDesignRules.heightScreen, ApplicationDesignRules.widthScreen * 0.50f, 0.25f * ApplicationDesignRules.heightScreen);
-
-		float playBlockLeftMargin = ApplicationDesignRules.leftMargin;
-		float playBlockRightMargin = ApplicationDesignRules.gapBetweenBlocks+ApplicationDesignRules.rightMargin+(ApplicationDesignRules.worldWidth-ApplicationDesignRules.leftMargin-ApplicationDesignRules.rightMargin-ApplicationDesignRules.gapBetweenBlocks)/2f;
-		float playBlockUpMargin = 6.45f;
-		float playBlockDownMargin = ApplicationDesignRules.downMargin;
 		
-		this.playBlock.GetComponent<NewBlockController> ().resize(playBlockLeftMargin,playBlockRightMargin,playBlockUpMargin,playBlockDownMargin);
+		this.playBlock.GetComponent<NewBlockController> ().resize(playBlockLeftMargin,playBlockUpMargin,ApplicationDesignRules.blockWidth,playBlockHeight);
 		Vector3 playBlockUpperLeftPosition = this.playBlock.GetComponent<NewBlockController> ().getUpperLeftCornerPosition ();
 		Vector3 playBlockUpperRightPosition = this.playBlock.GetComponent<NewBlockController> ().getUpperRightCornerPosition ();
 		Vector2 playBlockSize = this.playBlock.GetComponent<NewBlockController> ().getSize ();
@@ -474,13 +541,8 @@ public class NewHomePageController : MonoBehaviour
 		this.friendlyGameButton.transform.localScale = ApplicationDesignRules.button62Scale;
 		this.divisionGameButton.transform.localScale = ApplicationDesignRules.button62Scale;
 		this.cupGameButton.transform.localScale = ApplicationDesignRules.button62Scale;
-
-		float deckBlockLeftMargin = playBlockLeftMargin;
-		float deckBlockRightMargin =playBlockRightMargin;
-		float deckBlockUpMargin = ApplicationDesignRules.upMargin;
-		float deckBlockDownMargin = ApplicationDesignRules.worldHeight-playBlockUpMargin+ApplicationDesignRules.gapBetweenBlocks;
 		
-		this.deckBlock.GetComponent<NewBlockController> ().resize(deckBlockLeftMargin,deckBlockRightMargin,deckBlockUpMargin,deckBlockDownMargin);
+		this.deckBlock.GetComponent<NewBlockController> ().resize(deckBlockLeftMargin,deckBlockUpMargin,ApplicationDesignRules.blockWidth,deckBlockHeight);
 		Vector3 deckBlockUpperLeftPosition = this.deckBlock.GetComponent<NewBlockController> ().getUpperLeftCornerPosition ();
 		Vector3 deckBlockUpperRightPosition = this.deckBlock.GetComponent<NewBlockController> ().getUpperRightCornerPosition ();
 		Vector2 deckBlockSize = this.deckBlock.GetComponent<NewBlockController> ().getSize ();
@@ -514,13 +576,8 @@ public class NewHomePageController : MonoBehaviour
 			this.deckCards[i].transform.localScale=ApplicationDesignRules.cardScale;
 			this.deckCards[i].transform.GetComponent<NewCardHomePageController>().setId(i);
 		}
-
-		float storeBlockLeftMargin = playBlockRightMargin;
-		float storeBlockRightMargin = playBlockLeftMargin;
-		float storeBlockUpMargin = playBlockUpMargin;
-		float storeBlockDownMargin = playBlockDownMargin;
 		
-		this.storeBlock.GetComponent<NewBlockController> ().resize(storeBlockLeftMargin,storeBlockRightMargin,storeBlockUpMargin,storeBlockDownMargin);
+		this.storeBlock.GetComponent<NewBlockController> ().resize(storeBlockLeftMargin,storeBlockUpMargin,ApplicationDesignRules.blockWidth,storeBlockHeight);
 		Vector3 storeBlockUpperLeftPosition = this.storeBlock.GetComponent<NewBlockController> ().getUpperLeftCornerPosition ();
 		Vector3 storeBlockUpperRightPosition = this.storeBlock.GetComponent<NewBlockController> ().getUpperRightCornerPosition ();
 		Vector2 storeBlockLowerRightPosition = this.storeBlock.GetComponent<NewBlockController> ().getLowerRightCornerPosition ();
@@ -543,12 +600,7 @@ public class NewHomePageController : MonoBehaviour
 		this.packTitle.transform.localScale = ApplicationDesignRules.subMainTitleScale;
 		this.packTitle.transform.GetComponent<TextMeshPro> ().textContainer.width = storeBlockSize.x / 2f;
 
-		float newsfeedBlockLeftMargin = storeBlockLeftMargin;
-		float newsfeedBlockRightMargin = storeBlockRightMargin;
-		float newsfeedBlockUpMargin = deckBlockUpMargin+ApplicationDesignRules.button62WorldSize.y;
-		float newsfeedBlockDownMargin = deckBlockDownMargin;
-
-		this.newsfeedBlock.GetComponent<NewBlockController> ().resize(newsfeedBlockLeftMargin,newsfeedBlockRightMargin,newsfeedBlockUpMargin,newsfeedBlockDownMargin);
+		this.newsfeedBlock.GetComponent<NewBlockController> ().resize(newsfeedBlockLeftMargin,newsfeedBlockUpMargin,ApplicationDesignRules.blockWidth,newsfeedBlockHeight);
 		Vector3 newsfeedBlockUpperLeftPosition = this.newsfeedBlock.GetComponent<NewBlockController> ().getUpperLeftCornerPosition ();
 		Vector3 newsfeedBlockUpperRightPosition = this.newsfeedBlock.GetComponent<NewBlockController> ().getUpperRightCornerPosition ();
 		Vector2 newsfeedBlockLowerLeftPosition = this.newsfeedBlock.GetComponent<NewBlockController> ().getLowerLeftCornerPosition ();

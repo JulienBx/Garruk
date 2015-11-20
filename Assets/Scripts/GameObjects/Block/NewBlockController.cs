@@ -9,17 +9,14 @@ using System.Reflection;
 public class NewBlockController : MonoBehaviour 
 {
 	
-	public void resize(float leftMargin, float rightMargin, float upMargin, float downMargin)
+	public void resize(float leftMargin, float upMargin, float width, float height)
 	{
-
-		float blockHeight = ApplicationDesignRules.worldHeight - upMargin-downMargin;
-		float blockWidth = ApplicationDesignRules.worldWidth-leftMargin-rightMargin;
-		Vector2 blockOrigin = new Vector3 (-ApplicationDesignRules.worldWidth/2f+leftMargin+blockWidth/2f, -ApplicationDesignRules.worldHeight / 2f + downMargin + blockHeight / 2,0f);
+		Vector2 blockOrigin = new Vector3 (-ApplicationDesignRules.worldWidth/2f+leftMargin+width/2f, ApplicationDesignRules.worldHeight / 2f - upMargin - height / 2,0f);
 
 		float blockSize = 100f;
 		float blockWorldSize = 100f / (ApplicationDesignRules.pixelPerUnit);
-		float blockScaleX = blockWidth / (blockWorldSize);
-		float blockScaleY = blockHeight / (blockWorldSize);
+		float blockScaleX = width / (blockWorldSize);
+		float blockScaleY = height / (blockWorldSize);
 
 		gameObject.transform.localScale=new Vector3(blockScaleX,blockScaleY,1f);
 		gameObject.transform.position = new Vector3 (blockOrigin.x, blockOrigin.y);

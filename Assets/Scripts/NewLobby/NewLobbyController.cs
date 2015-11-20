@@ -32,6 +32,10 @@ public class NewLobbyController : MonoBehaviour
 	private GameObject divisionProgression;
 	private GameObject cupProgression;
 	private GameObject paginationButtons;
+	private GameObject mainCamera;
+	private GameObject menuCamera;
+	private GameObject tutorialCamera;
+	private GameObject backgroundCamera;
 	
 	private IList<int> resultsDisplayed;
 	
@@ -228,17 +232,70 @@ public class NewLobbyController : MonoBehaviour
 			this.cupProgression.transform.FindChild("RemainingRounds").GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
 			this.cupProgression.transform.FindChild("Status").GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
 		}
-		
+
+		this.mainCamera = gameObject;
+		this.menuCamera = GameObject.Find ("MenuCamera");
+		this.tutorialCamera = GameObject.Find ("TutorialCamera");
+		this.backgroundCamera = GameObject.Find ("BackgroundCamera");
 	}
 	public void resize()
 	{
+		this.mainCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
+		this.menuCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
+		this.tutorialCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
+		this.backgroundCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.backgroundCameraSize;
 
-		float mainBlockLeftMargin = ApplicationDesignRules.leftMargin;
-		float mainBlockRightMargin =ApplicationDesignRules.gapBetweenBlocks+ApplicationDesignRules.rightMargin+(ApplicationDesignRules.worldWidth-ApplicationDesignRules.leftMargin-ApplicationDesignRules.rightMargin-ApplicationDesignRules.gapBetweenBlocks)/2f;
-		float mainBlockUpMargin = ApplicationDesignRules.upMargin;
-		float mainBlockDownMargin = ApplicationDesignRules.worldHeight-6.45f+ApplicationDesignRules.gapBetweenBlocks;	
+		float mainBlockLeftMargin;
+		float mainBlockUpMargin;
+		float mainBlockHeight;
+		
+		float statsBlockLeftMargin;
+		float statsBlockUpMargin;
+		float statsBlockHeight;
+		
+		float lastResultsBlockLeftMargin;
+		float lastResultsBlockUpMargin;
+		float lastResultsBlockHeight;
+		
+		float competitionBlockLeftMargin;
+		float competitionBlockUpMargin;
+		float competitionBlockHeight;
+		
+		mainBlockHeight=ApplicationDesignRules.mediumBlockHeight;
+		statsBlockHeight=ApplicationDesignRules.smallBlockHeight;
+		lastResultsBlockHeight=ApplicationDesignRules.mediumBlockHeight;
+		competitionBlockHeight=ApplicationDesignRules.smallBlockHeight;
+		
+		if(ApplicationDesignRules.isMobileScreen)
+		{
+			mainBlockLeftMargin=ApplicationDesignRules.leftMargin;
+			mainBlockUpMargin=ApplicationDesignRules.upMargin;
+			
+			statsBlockLeftMargin=ApplicationDesignRules.leftMargin;
+			statsBlockUpMargin=mainBlockUpMargin+ApplicationDesignRules.gapBetweenBlocks+mainBlockHeight;
+			
+			lastResultsBlockLeftMargin=ApplicationDesignRules.leftMargin;
+			lastResultsBlockUpMargin=statsBlockUpMargin+ApplicationDesignRules.gapBetweenBlocks+statsBlockHeight;
+			
+			competitionBlockLeftMargin=ApplicationDesignRules.leftMargin;
+			competitionBlockUpMargin=lastResultsBlockUpMargin+lastResultsBlockHeight;
+		}
+		else
+		{
+			mainBlockLeftMargin=ApplicationDesignRules.leftMargin;
+			mainBlockUpMargin=ApplicationDesignRules.upMargin;
+			
+			statsBlockLeftMargin=ApplicationDesignRules.leftMargin;
+			statsBlockUpMargin=mainBlockUpMargin+ApplicationDesignRules.gapBetweenBlocks+mainBlockHeight;
+			
+			lastResultsBlockLeftMargin=ApplicationDesignRules.leftMargin+ApplicationDesignRules.gapBetweenBlocks+ApplicationDesignRules.blockWidth;
+			lastResultsBlockUpMargin=ApplicationDesignRules.upMargin;
+			
+			competitionBlockLeftMargin=ApplicationDesignRules.leftMargin+ApplicationDesignRules.gapBetweenBlocks+ApplicationDesignRules.blockWidth;
+			competitionBlockUpMargin=lastResultsBlockUpMargin+ApplicationDesignRules.gapBetweenBlocks+lastResultsBlockHeight;
+		}
 
-		this.mainBlock.GetComponent<NewBlockController> ().resize(mainBlockLeftMargin,mainBlockRightMargin,mainBlockUpMargin,mainBlockDownMargin);
+		this.mainBlock.GetComponent<NewBlockController> ().resize(mainBlockLeftMargin,mainBlockUpMargin,ApplicationDesignRules.blockWidth,mainBlockHeight);
 		Vector3 mainBlockUpperLeftPosition = this.mainBlock.GetComponent<NewBlockController> ().getUpperLeftCornerPosition ();
 		Vector3 mainBlockUpperRightPosition = this.mainBlock.GetComponent<NewBlockController> ().getUpperRightCornerPosition ();
 		Vector2 mainBlockLowerLeftPosition = this.mainBlock.GetComponent<NewBlockController> ().getLowerLeftCornerPosition ();
@@ -253,12 +310,7 @@ public class NewLobbyController : MonoBehaviour
 		this.playButton.transform.localPosition = new Vector3 (mainBlockLowerLeftPosition.x + mainBlockSize.x / 2f, mainBlockLowerLeftPosition.y + 0.1f + ApplicationDesignRules.button62WorldSize.y / 2f, 0f);
 
 
-		float competitionBlockLeftMargin =  ApplicationDesignRules.gapBetweenBlocks+ApplicationDesignRules.leftMargin+(ApplicationDesignRules.worldWidth-ApplicationDesignRules.rightMargin-ApplicationDesignRules.leftMargin-ApplicationDesignRules.gapBetweenBlocks)/2f;
-		float competitionBlockRightMargin = ApplicationDesignRules.rightMargin;
-		float competitionBlockUpMargin = 6.45f;
-		float competitionBlockDownMargin = ApplicationDesignRules.downMargin;
-		
-		this.competitionBlock.GetComponent<NewBlockController> ().resize(competitionBlockLeftMargin,competitionBlockRightMargin,competitionBlockUpMargin,competitionBlockDownMargin);
+		this.competitionBlock.GetComponent<NewBlockController> ().resize(competitionBlockLeftMargin,competitionBlockUpMargin,ApplicationDesignRules.blockWidth,competitionBlockHeight);
 		Vector3 competitionBlockUpperLeftPosition = this.competitionBlock.GetComponent<NewBlockController> ().getUpperLeftCornerPosition ();
 		Vector3 competitionBlockUpperRightPosition = this.competitionBlock.GetComponent<NewBlockController> ().getUpperRightCornerPosition ();
 		Vector2 competitionBlockLowerLeftPosition = this.competitionBlock.GetComponent<NewBlockController> ().getLowerLeftCornerPosition ();
@@ -275,13 +327,7 @@ public class NewLobbyController : MonoBehaviour
 		this.competitionDescription.transform.position = new Vector3 (competitionBlockLowerLeftPosition.x + 0.3f + ApplicationDesignRules.competitionWorldSize.x + 0.1f, this.competitionPicture.transform.position.y, 0f);
 		this.competitionDescription.GetComponent<TextContainer> ().width = (competitionBlockSize.x - 0.6f - 0.1f - ApplicationDesignRules.competitionWorldSize.x)*1/(ApplicationDesignRules.reductionRatio);
 
-
-		float statsBlockLeftMargin = ApplicationDesignRules.leftMargin;
-		float statsBlockRightMargin = ApplicationDesignRules.gapBetweenBlocks+ApplicationDesignRules.rightMargin+(ApplicationDesignRules.worldWidth-ApplicationDesignRules.leftMargin-ApplicationDesignRules.rightMargin-ApplicationDesignRules.gapBetweenBlocks)/2f;
-		float statsBlockUpMargin = 6.45f;
-		float statsBlockDownMargin = ApplicationDesignRules.downMargin;
-		
-		this.statsBlock.GetComponent<NewBlockController> ().resize(statsBlockLeftMargin,statsBlockRightMargin,statsBlockUpMargin,statsBlockDownMargin);
+		this.statsBlock.GetComponent<NewBlockController> ().resize(statsBlockLeftMargin,statsBlockUpMargin,ApplicationDesignRules.blockWidth,competitionBlockHeight);
 		Vector3 statsBlockUpperLeftPosition = this.statsBlock.GetComponent<NewBlockController> ().getUpperLeftCornerPosition ();
 		Vector3 statsBlockLowerLeftPosition = this.statsBlock.GetComponent<NewBlockController> ().getLowerLeftCornerPosition ();
 		Vector3 statsBlockUpperRightPosition = this.statsBlock.GetComponent<NewBlockController> ().getUpperRightCornerPosition ();
@@ -300,12 +346,7 @@ public class NewLobbyController : MonoBehaviour
 			this.stats[i].transform.FindChild("Title").GetComponent<TextContainer>().width=statBlockSize.x;
 		}
 
-		float lastResultsBlockLeftMargin = ApplicationDesignRules.gapBetweenBlocks+ApplicationDesignRules.leftMargin+(ApplicationDesignRules.worldWidth-ApplicationDesignRules.rightMargin-ApplicationDesignRules.leftMargin-ApplicationDesignRules.gapBetweenBlocks)/2f;;
-		float lastResultsBlockRightMargin = ApplicationDesignRules.rightMargin;
-		float lastResultsBlockUpMargin = ApplicationDesignRules.upMargin;
-		float lastResultsBlockDownMargin = ApplicationDesignRules.worldHeight-6.45f+ApplicationDesignRules.gapBetweenBlocks;
-		
-		this.lastResultsBlock.GetComponent<NewBlockController> ().resize(lastResultsBlockLeftMargin,lastResultsBlockRightMargin,lastResultsBlockUpMargin,lastResultsBlockDownMargin);
+		this.lastResultsBlock.GetComponent<NewBlockController> ().resize(lastResultsBlockLeftMargin,lastResultsBlockUpMargin,ApplicationDesignRules.blockWidth,lastResultsBlockHeight);
 		Vector3 lastResultsBlockUpperLeftPosition = this.lastResultsBlock.GetComponent<NewBlockController> ().getUpperLeftCornerPosition ();
 		Vector3 lastResultsBlockLowerLeftPosition = this.lastResultsBlock.GetComponent<NewBlockController> ().getLowerLeftCornerPosition ();
 		Vector3 lastResultsBlockUpperRightPosition = this.lastResultsBlock.GetComponent<NewBlockController> ().getUpperRightCornerPosition ();

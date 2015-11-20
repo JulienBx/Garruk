@@ -189,11 +189,11 @@ public class TutorialObjectController : MonoBehaviour
 	}
 	public void resizeDragHelp(Vector3 position)
 	{
-		this.dragHelp.transform.position = position;
+		this.dragHelp.transform.localPosition = position;
 	}
 	public void resizeArrow(Vector3 position)
 	{
-		this.arrow.transform.position = position;
+		this.arrow.transform.localPosition = position;
 	}
 	public void resizePopUp(Vector3 position)
 	{
@@ -201,7 +201,7 @@ public class TutorialObjectController : MonoBehaviour
 		{
 			position.x=ApplicationDesignRules.worldWidth/2f-this.popUpHalfWidth;
 		}
-		this.popUp.transform.position = position;
+		this.popUp.transform.localPosition = position;
 	}
 	public void displayNextButton(bool value)
 	{
@@ -393,7 +393,7 @@ public class TutorialObjectController : MonoBehaviour
 		Vector2 exitButtonSize = new Vector2(425f,105f);
 		float exitButtonScale = 0.49f;
 		Vector2 exitButtonWorldSize = (exitButtonSize / ApplicationDesignRules.pixelPerUnit) * exitButtonScale;
-		this.exitButton.transform.position=new Vector3(ApplicationDesignRules.worldWidth/2f-0.3f-exitButtonWorldSize.x/2f, -ApplicationDesignRules.worldHeight/2f+0.3f+exitButtonWorldSize.y/2f,-9.5f);
+		this.exitButton.transform.localPosition=new Vector3(ApplicationDesignRules.worldWidth/2f-0.3f-exitButtonWorldSize.x/2f, -ApplicationDesignRules.worldHeight/2f+0.3f+exitButtonWorldSize.y/2f,-9.5f);
 		if(this.isTutorialLaunched)
 		{
 			this.launchSequence(sequenceID);
@@ -428,7 +428,7 @@ public class TutorialObjectController : MonoBehaviour
 	{
 		this.resizeArrow(new Vector3(backgroundRect.x,backgroundRect.y+0.3f-backgroundRect.height/2f,-9.5f));
 		this.startTranslation=backgroundRect.y-0.8f-backgroundRect.height/2f;
-		Vector3 popUpPosition = this.arrow.transform.position;
+		Vector3 popUpPosition = this.arrow.transform.localPosition;
 		popUpPosition.y = this.startTranslation +0.5f- this.popUpHalfHeight;
 		this.resizePopUp (popUpPosition);
 		this.move=true;
@@ -439,7 +439,7 @@ public class TutorialObjectController : MonoBehaviour
 	{
 		this.resizeArrow(new Vector3(backgroundRect.x,backgroundRect.y+0.3f+backgroundRect.height/2f,-9.5f));
 		this.startTranslation=backgroundRect.y+0.3f+backgroundRect.height/2f;
-		Vector3 popUpPosition = this.arrow.transform.position;
+		Vector3 popUpPosition = this.arrow.transform.localPosition;
 		popUpPosition.y = this.startTranslation + this.popUpHalfHeight;
 		this.resizePopUp (popUpPosition);
 		this.move=true;
@@ -450,7 +450,7 @@ public class TutorialObjectController : MonoBehaviour
 	{
 		this.resizeArrow(new Vector3(backgroundRect.x-0.3f-backgroundRect.width/2f,backgroundRect.y,-9.5f));
 		this.startTranslation=backgroundRect.x-0.8f-backgroundRect.width/2f;
-		Vector3 popUpPosition = this.arrow.transform.position;
+		Vector3 popUpPosition = this.arrow.transform.localPosition;
 		popUpPosition.x = this.startTranslation+0.5f - 4f;
 		this.resizePopUp (popUpPosition);
 		this.move=true;
@@ -461,7 +461,7 @@ public class TutorialObjectController : MonoBehaviour
 	{
 		this.resizeArrow(new Vector3(backgroundRect.x+0.3f+backgroundRect.width/2f,backgroundRect.y,-9.5f));
 		this.startTranslation=backgroundRect.x+0.3f+backgroundRect.width/2f;
-		Vector3 popUpPosition = this.arrow.transform.position;
+		Vector3 popUpPosition = this.arrow.transform.localPosition;
 		popUpPosition.x = this.startTranslation + 4f;
 		this.resizePopUp (popUpPosition);
 		this.move=true;

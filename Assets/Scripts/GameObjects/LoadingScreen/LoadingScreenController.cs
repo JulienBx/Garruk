@@ -13,7 +13,7 @@ public class LoadingScreenController : MonoBehaviour
 	void Awake()
 	{
 		this.gameObject.transform.FindChild ("title").GetComponent<TextMeshPro> ().text = "Chargement ...";
-		this.gameObject.transform.position = new Vector3 (0f, 0f, -9f);
+		this.gameObject.transform.position = new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y, -9f);
 		this.speed = 300.0f;
 		this.angle = 0f;
 	}
