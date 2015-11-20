@@ -11,7 +11,14 @@ public class GameCard : Card
 	public List<Modifyer> attackModifyers = new List<Modifyer>();
 	public List<Modifyer> moveModifyers = new List<Modifyer>();
 	public List<Modifyer> esquiveModifyers = new List<Modifyer>();
+	public Modifyer state ;
 	public int nbTurnsToWait ;
+	public bool isDead;
+	public bool hasMoved;
+	public bool hasPlayed;
+	
+	public GameCard(){
+	}
 	
 	public GameCard(Card c){
 		base.Title = c.Title; 									    
@@ -29,6 +36,8 @@ public class GameCard : Card
 		base.SpeedLevel = c.SpeedLevel;
 		base.deckOrder = c.deckOrder;
 		base.PowerLevel = c.PowerLevel;
+		this.isDead=false;
+		this.state = new Modifyer();
 	}
 	
 	public void checkPassiveSkills()
@@ -52,15 +61,41 @@ public class GameCard : Card
 		return base.Speed;
 	}
 	
+	public bool getHasMoved(){
+		return this.hasMoved;
+	}
+	
+	public bool getHasPlayed(){
+		return this.hasPlayed;
+	}
+	
+	public void setHasMoved(bool b){
+		this.hasMoved = b ;
+	}
+	
+	public void setHasPlayed(bool b){
+		this.hasPlayed = b ;
+	}
+	
 	public bool isPiegeur()
 	{
 		return (base.Skills[0].Id == 64);
+	}
+	
+	public bool isLeader()
+	{
+		return (base.Skills[0].Id == 76);
 	}
 	
 	public bool isNurse()
 	{
 		return (base.Skills[0].Id == 75);
 	}
+	
+	public bool isFrenetique()
+	{
+		return (base.Skills[0].Id == 69);
+	}	
 	
 	public void checkPacifiste(){
 		if((base.Skills[0].Id == 73)){
@@ -108,10 +143,10 @@ public class GameCard : Card
 				malusAttack = 0.2f;
 			}
 			
-			int amountLife = Mathf.CeilToInt(base.GetLife()*bonusLife);
+			int amountLife = Mathf.CeilToInt(base.getLife()*bonusLife);
 			this.pvModifyers.Add (new Modifyer(amountLife, 0, 0, "Pacifisme", "Bonus permanent de "+bonusLife+" PV"));
 			
-			int amountAttack = -1*Mathf.CeilToInt(base.GetAttack()*malusAttack);
+			int amountAttack = -1*Mathf.CeilToInt(base.getAttack()*malusAttack);
 			this.attackModifyers.Add (new Modifyer(amountAttack, 0, 0, "Pacifisme", "Malus permanent de "+bonusLife+" ATK"));
 		}
 	}
@@ -232,5 +267,218 @@ public class GameCard : Card
 						
 			this.esquiveModifyers.Add(new Modifyer(esquive, 0, 0, "Agile", "Esquive aux attaques de type combat : "+esquive+"%"));
 		}
+	}
+	
+	public void checkModifyers(){
+		List<int> modifiersToSuppress = new List<int>();
+		
+		for (int i = this.attackModifyers.Count-1 ; i >=0 ; i--){
+			if (this.attackModifyers [i].duration > 2){
+				this.attackModifyers [i].description.Replace(this.attackModifyers [i].duration+" tours", (this.attackModifyers [i].duration-1)+" tours");
+			}
+			else if (this.attackModifyers [i].duration > 1){
+				this.attackModifyers [i].description.Replace(this.attackModifyers [i].duration+" tours", "1 tour");
+			}
+			
+			if (this.attackModifyers [i].duration > 0)
+			{
+				this.attackModifyers[i].duration--;
+			}
+			else if (this.attackModifyers [i].duration == -2){
+				this.attackModifyers [i].duration = 1;
+			}
+			
+			if (this.attackModifyers [i].duration == 0)
+			{
+				this.attackModifyers.RemoveAt(i);
+			}
+		}
+		
+		for (int i = this.moveModifyers.Count-1 ; i >=0 ; i--){
+			if (this.moveModifyers [i].duration > 2){
+				this.moveModifyers [i].description.Replace(this.moveModifyers [i].duration+" tours", (this.moveModifyers [i].duration-1)+" tours");
+			}
+			else if (this.moveModifyers [i].duration > 1){
+				this.moveModifyers [i].description.Replace(this.moveModifyers [i].duration+" tours", "1 tour");
+			}
+			
+			if (this.moveModifyers [i].duration > 0)
+			{
+				this.moveModifyers[i].duration--;
+			}
+			else if (this.moveModifyers [i].duration == -2){
+				this.moveModifyers [i].duration = 1;
+			}
+			
+			if (this.moveModifyers [i].duration == 0)
+			{
+				this.moveModifyers.RemoveAt(i);
+			}
+		}
+		
+		for (int i = this.damagesModifyers.Count-1 ; i >=0 ; i--){
+			if (this.damagesModifyers [i].duration > 2){
+				this.damagesModifyers [i].description.Replace(this.damagesModifyers [i].duration+" tours", (this.damagesModifyers [i].duration-1)+" tours");
+			}
+			else if (this.damagesModifyers [i].duration > 1){
+				this.damagesModifyers [i].description.Replace(this.damagesModifyers [i].duration+" tours", "1 tour");
+			}
+			
+			if (this.damagesModifyers [i].duration > 0)
+			{
+				this.damagesModifyers[i].duration--;
+			}
+			else if (this.damagesModifyers [i].duration == -2){
+				this.damagesModifyers [i].duration = 1;
+			}
+			
+			if (this.damagesModifyers [i].duration == 0)
+			{
+				this.damagesModifyers.RemoveAt(i);
+			}
+		}
+		
+		for (int i = this.pvModifyers.Count-1 ; i >=0 ; i--){
+			if (this.pvModifyers [i].duration > 2){
+				this.pvModifyers [i].description.Replace(this.pvModifyers [i].duration+" tours", (this.pvModifyers [i].duration-1)+" tours");
+			}
+			else if (this.damagesModifyers [i].duration > 1){
+				this.pvModifyers [i].description.Replace(this.pvModifyers [i].duration+" tours", "1 tour");
+			}
+			
+			if (this.pvModifyers [i].duration > 0)
+			{
+				this.pvModifyers[i].duration--;
+			}
+			else if (this.pvModifyers [i].duration == -2){
+				this.pvModifyers [i].duration = 1;
+			}
+			
+			if (this.pvModifyers [i].duration == 0)
+			{
+				this.pvModifyers.RemoveAt(i);
+			}
+		}
+		
+		for (int i = this.esquiveModifyers.Count-1 ; i >=0 ; i--){
+			if (this.esquiveModifyers [i].duration > 2){
+				this.esquiveModifyers [i].description.Replace(this.esquiveModifyers [i].duration+" tours", (this.esquiveModifyers [i].duration-1)+" tours");
+			}
+			else if (this.esquiveModifyers [i].duration > 1){
+				this.esquiveModifyers [i].description.Replace(this.esquiveModifyers [i].duration+" tours", "1 tour");
+			}
+			
+			if (this.esquiveModifyers [i].duration > 0)
+			{
+				this.esquiveModifyers[i].duration--;
+			}
+			else if (this.esquiveModifyers [i].duration == -2){
+				this.esquiveModifyers [i].duration = 1;
+			}
+			
+			if (this.esquiveModifyers [i].duration == 0)
+			{
+				this.esquiveModifyers.RemoveAt(i);
+			}
+		}
+		
+		if (state.duration > 2){
+			state.description.Replace(state.duration+" tours", (state.duration-1)+" tours");
+		}
+		else if (state.duration > 1){
+			state.description.Replace(state.duration+" tours", "1 tour");
+		}
+		
+		if (state.duration > 0)
+		{
+			state.duration--;
+		}
+		else if (state.duration == -2){
+			state.duration = 1;
+		}
+		
+		if (state.duration == 0)
+		{
+			this.state = new Modifyer();
+		}
+	}
+	
+	public int getSleepingPercentage(){
+		if(this.state.type==101){
+			return this.state.amount;
+		}
+		else{
+			return -1;
+		}
+	}
+	
+	public void removeSleeping()
+	{
+		this.state = new Modifyer();
+	}
+	
+	public bool isParalyzed(){
+		return(this.state.type==102);
+	}
+	
+	public List<string> getIconAttack()
+	{
+		List<string> iconAttackTexts = new List<string>();
+		int i = 0;
+		while (i < this.attackModifyers.Count)
+		{			
+			iconAttackTexts.Add(this.attackModifyers [i].title);
+			iconAttackTexts.Add(this.attackModifyers [i].description);
+			i++;
+		}
+		return iconAttackTexts;
+	}
+	
+	public List<string> getIconLife()
+	{
+		List<string> iconLifeTexts = new List<string>();
+		int i = 0;
+		if(this.getLife()!=base.Life){
+		
+		}
+		while (i < this.pvModifyers.Count)
+		{
+			iconLifeTexts.Add(this.pvModifyers [i].title);
+			iconLifeTexts.Add(this.pvModifyers [i].description);
+			i++;
+		}
+		return iconLifeTexts;
+	}
+	
+	public override int getLife(){
+		int l = base.Life ;
+		for(int i = 0 ; i < this.pvModifyers.Count ; i++){
+			l+=this.pvModifyers[i].amount;
+		}
+		for(int i = 0 ; i < this.damagesModifyers.Count ; i++){
+			l-=this.damagesModifyers[i].amount;
+		}
+		return Mathf.Max (0,l);
+	}
+	
+	public override int getMove(){
+		int m = base.Move ;
+		for(int i = 0 ; i < this.moveModifyers.Count ; i++){
+			m+=this.moveModifyers[i].amount;
+		}
+		return Mathf.Max (0,m);
+	}
+	
+	public override int getAttack(){
+		int a = base.Attack ;
+		for(int i = 0 ; i < this.attackModifyers.Count ; i++){
+			a+=this.attackModifyers[i].amount;
+		}
+		return Mathf.Max (0,a);
+	}
+	
+	public Skill GetAttackSkill()
+	{
+		return new Skill("Attaque", "Inflige "+this.getAttack()+" dégats au contact",0,1,100);
 	}
 }

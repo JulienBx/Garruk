@@ -79,9 +79,9 @@ public class Piegeur : GameSkill
 					if(x==tiles[j].x && y==tiles[j].y){
 						isNewTrap = false;
 					}
-					else if(GameView.instance.getTileController(x,y).isRock()){
-						isNewTrap = false;
-					}
+				}
+				if(GameView.instance.getTileController(x,y).isRock() || GameView.instance.getTileController(x,y).getIsTrapped()){
+					isNewTrap = false;
 				}
 			}
 			tiles.Add (new Tile(x,y));

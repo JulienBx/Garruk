@@ -9,17 +9,14 @@ public class SkillButtonController : MonoBehaviour
 	public bool isLaunchable = false ;
 	public string launchabilityText ;
 	public int id ; 
-	bool isHovered = false ;
 	
 	void Awake(){
-		this.show(false);
+		
 	}
 	
-	public void setSkill(Skill s, Sprite sprite){
+	public void setSkill(Skill s){
 		this.skill = s  ;
 		this.checkLaunchability() ;
-		this.isLaunched = false ;
-		gameObject.GetComponent<SpriteRenderer>().sprite = sprite;
 	}
 	
 	public void show(bool b){
@@ -71,60 +68,60 @@ public class SkillButtonController : MonoBehaviour
 //		}
 	}
 	
-	public void OnMouseEnter(){
-		if (!isHovered && !GameController.instance.getIsRunningSkill()){
-			if(this.isLaunchable){
-				gameObject.GetComponent<SpriteRenderer>().color=new Color(120/255f,120f/255f,1f, 1f);
-				Vector3 position = gameObject.transform.position;
-				position.y += 1.65f;
-				GameView.instance.displayPopUp(this.skill.Description, position, this.skill.Name);
-				this.isHovered = true ;
-			}
-			else{
-				Vector3 position = gameObject.transform.position;
-				position.y += 1.65f;
-				GameView.instance.displayPopUp(this.launchabilityText, position, "Indisponible");
-				this.isHovered = true ;
-			}
-		}
-	}
+//	public void OnMouseEnter(){
+//		if (!isHovered && !GameController.instance.getIsRunningSkill()){
+//			if(this.isLaunchable){
+//				gameObject.GetComponent<SpriteRenderer>().color=new Color(120/255f,120f/255f,1f, 1f);
+//				Vector3 position = gameObject.transform.position;
+//				position.y += 1.65f;
+//				GameView.instance.displayPopUp(this.skill.Description, position, this.skill.Name);
+//				this.isHovered = true ;
+//			}
+//			else{
+//				Vector3 position = gameObject.transform.position;
+//				position.y += 1.65f;
+//				GameView.instance.displayPopUp(this.launchabilityText, position, "Indisponible");
+//				this.isHovered = true ;
+//			}
+//		}
+//	}
 	
-	public void OnMouseExit(){
-		if (isHovered && !GameController.instance.getIsRunningSkill()){
-			if(this.isLaunchable){
-				GameView.instance.hidePopUp();
-				this.isHovered = false ;
-				gameObject.GetComponent<SpriteRenderer>().color=new Color(1f, 1f, 1f, 1f);
-			}
-			else{
-				GameView.instance.hidePopUp();
-				this.isHovered = false ;
-				gameObject.GetComponent<SpriteRenderer>().color=new Color(255/255f,120f/255f,120f/255f, 1f);
-			}
-		}
-	}
-	
-	public void OnMouseDown(){
-		if(this.isLaunched){
-			gameObject.GetComponent<SpriteRenderer>().color=new Color(1f, 1f, 1f, 1f);
-			GameController.instance.cancelSkill();
-			this.isLaunched = false ;
-		}
-		else{
-			if (!GameController.instance.getIsRunningSkill() && this.isLaunchable){
-				gameObject.GetComponent<SpriteRenderer>().color=new Color(120f/255f,255f/255f,120f/255f, 1f);
-				GameController.instance.launchSkill(this.id);
-				this.isLaunched = true ;
-				this.isHovered = false ;
-				GameView.instance.hidePopUp();
-				
-			}
-		}
-		if(GameView.instance.getIsTutorialLaunched())
-		{
-			TutorialObjectController.instance.actionIsDone();
-		}
-	}
+//	public void OnMouseExit(){
+//		if (isHovered && !GameController.instance.getIsRunningSkill()){
+//			if(this.isLaunchable){
+//				GameView.instance.hidePopUp();
+//				this.isHovered = false ;
+//				gameObject.GetComponent<SpriteRenderer>().color=new Color(1f, 1f, 1f, 1f);
+//			}
+//			else{
+//				GameView.instance.hidePopUp();
+//				this.isHovered = false ;
+//				gameObject.GetComponent<SpriteRenderer>().color=new Color(255/255f,120f/255f,120f/255f, 1f);
+//			}
+//		}
+//	}
+//	
+//	public void OnMouseDown(){
+//		if(this.isLaunched){
+//			gameObject.GetComponent<SpriteRenderer>().color=new Color(1f, 1f, 1f, 1f);
+//			GameController.instance.cancelSkill();
+//			this.isLaunched = false ;
+//		}
+//		else{
+//			if (!GameController.instance.getIsRunningSkill() && this.isLaunchable){
+//				gameObject.GetComponent<SpriteRenderer>().color=new Color(120f/255f,255f/255f,120f/255f, 1f);
+//				GameController.instance.launchSkill(this.id);
+//				this.isLaunched = true ;
+//				this.isHovered = false ;
+//				GameView.instance.hidePopUp();
+//				
+//			}
+//		}
+//		if(GameView.instance.getIsTutorialLaunched())
+//		{
+//			TutorialObjectController.instance.actionIsDone();
+//		}
+//	}
 }
 
 

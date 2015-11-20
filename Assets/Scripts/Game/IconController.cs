@@ -4,14 +4,11 @@ using TMPro;
 
 public class IconController : GameObjectController
 {
-	public int id ; 
+	public int cardId ; 
+	public int iconId ;
 	
 	string title;
 	string description;
-	string additionnalInfo;
-	
-	bool isActive = false;
-	bool isHovered = false ;
 	
 	void Awake()
 	{
@@ -23,48 +20,24 @@ public class IconController : GameObjectController
 		gameObject.GetComponent<BoxCollider>().enabled=false;
 	}
 	
-	public void setInformation(string t, string d, string i){
+	public void setInformation(string t, string d){
 		this.title = t ;
 		this.description = d ; 
-		this.additionnalInfo = i ; 
-		this.isActive = true ;
 		gameObject.GetComponent<BoxCollider>().enabled=true;
+		gameObject.transform.FindChild("DescriptionBox").FindChild("TitleText").GetComponent<TextMeshPro>().text = this.title;
+		gameObject.transform.FindChild("DescriptionBox").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = this.description;
 	}
 	
 	public void resetInformation(){
 		gameObject.GetComponent<BoxCollider>().enabled=false;
-		this.isActive = false ;
 	}
 	
 	public void OnMouseEnter(){
-		if(this.isActive){
-			if (!this.isHovered){	
-				Vector3 position = gameObject.transform.position;
-				position.x -= 2.2f;
-				GameView.instance.displayPopUp(this.description, position, this.title);
-				this.isHovered = true ;
-			}
-		}
-	}
-	
-	public void OnMouseDown(){
-//		if(!this.isActive){
-//			GameController.instance.clickPlayingCard(this.id, this.tile);
-//			if(GameView.instance.getIsTutorialLaunched())
-//			{
-//				TutorialObjectController.instance.actionIsDone();
-//			}
-//		}
+		GameView.instance.getPlayingCardController(this.cardId).showDescriptionIcon(this.iconId, true);
 	}
 	
 	public void OnMouseExit(){
-		if(this.isActive){
-			if (this.isHovered){	
-				GameView.instance.hidePopUp();
-				this.isHovered = false ;
-			}
-		}
+		GameView.instance.getPlayingCardController(this.cardId).showDescriptionIcon(this.iconId, false);
 	}
-	
 }
 

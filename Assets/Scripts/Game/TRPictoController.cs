@@ -5,23 +5,24 @@ using TMPro;
 
 public class TRPictoController : MonoBehaviour
 {	
-	bool isHovered = false ;
-	int idCard = 2 ;
+	int idCard ;
+	
+	string title ; 
+	string description ;
+	
+	public void setTexts(string t, string d){
+		this.title = t;
+		this.description = d;
+		gameObject.transform.FindChild("DescriptionBox").FindChild("TitleText").GetComponent<TextMeshPro>().text = this.title;
+		gameObject.transform.FindChild("DescriptionBox").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = this.description;
+	}
 	
 	public void OnMouseEnter(){
-		if (!isHovered){
-			Vector3 position = gameObject.transform.position;
-			position.x -= 2f;
-			//GameView.instance.displayPopUp("Il reste "+GameView.instance.getCard(idCard).nbTurnsToWait+" tour(s) avant que le héros joue", position, "Tours");
-			this.isHovered = true ;
-		}
+		GameView.instance.getPlayingCardController(this.idCard).showDescriptionTurns(true);
 	}
 	
 	public void OnMouseExit(){
-		if (isHovered){
-			GameView.instance.hidePopUp();
-			this.isHovered = false ;
-		}
+		GameView.instance.getPlayingCardController(this.idCard).showDescriptionTurns(false);
 	}
 	
 	public void setIDCard(int i){

@@ -7,28 +7,28 @@ public class Attack : GameSkill
 		this.numberOfExpectedTargets = 1 ; 
 	}
 	
-//	public override void launch()
-//	{
-//		GameController.instance.initPCCTargetHandler(numberOfExpectedTargets);
-//		GameView.instance.displayAdjacentOpponentsTargets();
-//	}
-//	
-//	public override void resolve(List<int> targetsPCC)
-//	{	
+	public override void launch()
+	{
+		GameController.instance.initPCCTargetHandler(numberOfExpectedTargets);
+		GameView.instance.displayAdjacentOpponentsTargets();
+	}
+	
+	public override void resolve(List<int> targetsPCC)
+	{	
 //		if (GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
 //			GameView.instance.hideTargets();
 //		}
-//		
-//		int target = targetsPCC[0];
-//		
-//		if (Random.Range(1,101) > GameView.instance.getCard(target).GetEsquive())
-//		{                             
-//			GameController.instance.addTarget(target,1);
-//		}
-//		else{
-//			GameController.instance.addTarget(target,0);
-//		}
-//		
+		
+		int target = targetsPCC[0];
+		
+		if (Random.Range(1,101) > GameView.instance.getCard(target).GetEsquive())
+		{                             
+			GameController.instance.addTarget(target,1);
+		}
+		else{
+			GameController.instance.addTarget(target,0);
+		}
+		
 //		if (base.card.isGiant()){
 //			if (Random.Range(1,101) <= base.card.getPassiveManacost()){
 //				List<Tile> opponents = GameView.instance.getOpponentImmediateNeighbours(GameView.instance.getPlayingCardTile(target));
@@ -46,9 +46,9 @@ public class Attack : GameSkill
 //				}
 //			}
 //		}
-//		
-//		GameController.instance.play();
-//	}
+		
+		GameController.instance.play();
+	}
 //	
 //	public override void applyOn(){
 //		Card targetCard ;

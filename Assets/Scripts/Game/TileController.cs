@@ -39,7 +39,8 @@ public class TileController : GameObjectController
 	public void setTrap(Trap t){
 		this.trap = t ;
 		isTrapped = true ;
-		this.showTrap (true);
+			
+		this.showTrap (this.trap.getIsVisible());
 	}
 	
 	public int getIsDestination(){
@@ -64,6 +65,10 @@ public class TileController : GameObjectController
 		return (this.type==1);
 	}
 	
+	public bool getIsTrapped(){
+		return (this.isTrapped);
+	}
+	
 	public Vector3 getPosition()
 	{
 		return gameObject.transform.position;
@@ -81,6 +86,7 @@ public class TileController : GameObjectController
 	
 	public void setCharacterID(int i){
 		this.characterID = i ;
+		gameObject.transform.FindChild("HoverLayer").GetComponent<SpriteRenderer>().enabled = false ;
 	}
 	
 	public int getCharacterID(){
@@ -171,19 +177,62 @@ public class TileController : GameObjectController
 		if(this.characterID==-1){
 			gameObject.transform.FindChild("HoverLayer").GetComponent<SpriteRenderer>().enabled = true ;
 			if(this.type==1){
-				gameObject.transform.FindChild("DescriptionBox").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = "Case infranchissable";
+				gameObject.transform.FindChild("DescriptionBox").FindChild("TitleText").GetComponent<TextMeshPro>().text = "Case infranchissable";
+				gameObject.transform.FindChild("DescriptionBox").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = "Les unités ne peuvent pas s'arreter sur cette case";
 				gameObject.transform.FindChild("DescriptionBox").GetComponent<SpriteRenderer>().enabled = true;
 				gameObject.transform.FindChild("DescriptionBox").FindChild("DescriptionText").GetComponent<MeshRenderer>().enabled=true;
-				
+				gameObject.transform.FindChild("DescriptionBox").FindChild("TitleText").GetComponent<MeshRenderer>().enabled=true;
 			}
 			else if (this.isTrapped){
-				gameObject.transform.FindChild("DescriptionBox").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = "<b>"+this.trap.title+"</b>\n"+this.trap.description;
-				gameObject.transform.FindChild("DescriptionBox").GetComponent<SpriteRenderer>().enabled = true;
-				gameObject.transform.FindChild("DescriptionBox").FindChild("DescriptionText").GetComponent<MeshRenderer>().enabled=true;
+				if(this.trap.getIsVisible()){
+					gameObject.transform.FindChild("DescriptionBox").FindChild("TitleText").GetComponent<TextMeshPro>().text = this.trap.title;
+					gameObject.transform.FindChild("DescriptionBox").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = this.trap.description;
+					gameObject.transform.FindChild("DescriptionBox").GetComponent<SpriteRenderer>().enabled = true;
+					gameObject.transform.FindChild("DescriptionBox").FindChild("TitleText").GetComponent<MeshRenderer>().enabled=true;
+					gameObject.transform.FindChild("DescriptionBox").FindChild("DescriptionText").GetComponent<MeshRenderer>().enabled=true;
+				}
 			}
+			GameView.instance.hoverTile();
 		}
 		else{
-			GameView.instance.hoverCharacter(this.characterID);
+			if(!GameView.instance.getPlayingCardController(this.characterID).getIsHidden()){
+				GameView.instance.hoverCharacter(this.characterID);
+			}
+			else{
+				gameObject.transform.FindChild("HoverLayer").GetComponent<SpriteRenderer>().enabled = true ;
+				if(this.type==1){
+					gameObject.transform.FindChild("DescriptionBox").FindChild("TitleText").GetComponent<TextMeshPro>().text = "Case infranchissable";
+					gameObject.transform.FindChild("DescriptionBox").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = "Les unités ne peuvent pas s'arreter sur cette case";
+					gameObject.transform.FindChild("DescriptionBox").GetComponent<SpriteRenderer>().enabled = true;
+					gameObject.transform.FindChild("DescriptionBox").FindChild("DescriptionText").GetComponent<MeshRenderer>().enabled=true;
+					gameObject.transform.FindChild("DescriptionBox").FindChild("TitleText").GetComponent<MeshRenderer>().enabled=true;
+				}
+				else if (this.isTrapped){
+					if(this.trap.getIsVisible()){
+						gameObject.transform.FindChild("DescriptionBox").FindChild("TitleText").GetComponent<TextMeshPro>().text = this.trap.title;
+						gameObject.transform.FindChild("DescriptionBox").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = this.trap.description;
+						gameObject.transform.FindChild("DescriptionBox").GetComponent<SpriteRenderer>().enabled = true;
+						gameObject.transform.FindChild("DescriptionBox").FindChild("TitleText").GetComponent<MeshRenderer>().enabled=true;
+						gameObject.transform.FindChild("DescriptionBox").FindChild("DescriptionText").GetComponent<MeshRenderer>().enabled=true;
+					}
+				}
+				GameView.instance.hoverTile();
+			}
+		}
+	}
+	
+	public void OnMouseDown()
+	{
+		if(this.characterID!=-1){
+			GameView.instance.clickCharacter(this.characterID);
+		}
+		else{
+			if(this.isDestination!=0 && this.isDestination!=1){
+				GameView.instance.clickEmpty();
+			}
+			else{
+				GameController.instance.clickDestination(this.tile);
+			}
 		}
 	}
 	
@@ -192,6 +241,13 @@ public class TileController : GameObjectController
 		if(this.characterID==-1){
 			gameObject.transform.FindChild("HoverLayer").GetComponent<SpriteRenderer>().enabled = false ;
 		}
+		else if(GameView.instance.getPlayingCardController(this.characterID).getIsHidden()){
+			gameObject.transform.FindChild("HoverLayer").GetComponent<SpriteRenderer>().enabled = false ;	
+		}
+		else{
+			GameView.instance.getPlayingCardController(characterID).showHover(false);
+		}
+		
 		if(this.type==1 || this.isTrapped){
 			this.hideDescription();
 		}
@@ -200,6 +256,7 @@ public class TileController : GameObjectController
 	public void hideDescription(){
 		gameObject.transform.FindChild("DescriptionBox").GetComponent<SpriteRenderer>().enabled = false;
 		gameObject.transform.FindChild("DescriptionBox").FindChild("DescriptionText").GetComponent<MeshRenderer>().enabled=false;
+		gameObject.transform.FindChild("DescriptionBox").FindChild("TitleText").GetComponent<MeshRenderer>().enabled=false;
 	}
 }
 

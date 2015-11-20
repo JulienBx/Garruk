@@ -41,6 +41,10 @@ public class Trap
 		return this.tile ;
 	}
 	
+	public bool getIsVisible(){
+		return this.isVisible ;
+	}
+	
 	public int getType(){
 		return this.type ;
 	}

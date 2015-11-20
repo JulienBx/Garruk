@@ -298,43 +298,9 @@ public class Card
 		return isSleeping;
 	}
 	
-	public int getSleepingPercentage()
-	{
-		bool isSleeping = false;
-		int percentage = 0 ;
-		int i = 0 ;
-//		int max = modifiers.Count ;
-//		while (i<max && !isSleeping)
-//		{
-//			if (modifiers[i].Type == ModifierType.Type_Sleeping)
-//			{
-//				isSleeping = true ;
-//				percentage = modifiers[i].Amount ;
-//			}
-//			i++;
-//		}
-		return percentage;
-	}
-	
 	public List<Skill> getSkills()
 	{
 		return this.Skills;
-	}
-	
-	public void removeSleeping()
-	{
-		bool isSleeping = false;
-		int i = 0 ;
-//		int max = modifiers.Count ;
-//		while (i<max && !isSleeping)
-//		{
-//			if (modifiers[i].Type == ModifierType.Type_Sleeping)
-//			{
-//				isSleeping = true ;
-//				this.modifiers.RemoveAt(i);
-//			}
-//			i++;
-//		}
 	}
 	
 	public void emptyModifiers()
@@ -374,9 +340,21 @@ public class Card
 		return hasModifiers ;
 	}
 	
+	public virtual int getAttack (){
+		return this.Attack;
+	}
+	
+	public virtual int getLife (){
+		return this.Life;
+	}
+	
+	public virtual int getMove (){
+		return this.Move;
+	}
+	
 	public string GetAttackString()
 	{
-		int attack = this.GetAttack();
+		int attack = this.getAttack();
 		if (attack<10){
 			return ("0"+attack);
 		}
@@ -389,14 +367,9 @@ public class Card
 		return this.Skills[0].Level;
 	}
 	
-	public Skill GetAttackSkill()
-	{
-		return new Skill("Attaque", "Inflige "+this.GetAttack()+" dégats au contact",0);
-	}
-	
 	public string GetMoveString()
 	{
-		int move = this.GetMove();
+		int move = this.getMove();
 		if (move<10){
 			return ("0"+move);
 		}
@@ -407,23 +380,12 @@ public class Card
 	
 	public string GetLifeString()
 	{
-		int life = this.GetLife();
+		int life = this.getLife();
 		if (life<10){
 			return ("0"+life);
 		}
 		else{
 			return life.ToString();
-		}
-	}
-	
-	public string GetSpeedString()
-	{
-		int speed = this.GetSpeed();
-		if (speed<10){
-			return ("0"+speed);
-		}
-		else{
-			return speed.ToString();
 		}
 	}
 	
@@ -455,73 +417,6 @@ public class Card
 //			}
 //		}
 		return life ;
-	}
-	
-	public int GetLife()
-	{
-		return this.Life ;
-	}
-	
-	public int GetAttack()
-	{
-		return this.Attack ;
-	}
-	
-	public int GetMove()
-	{
-		return this.Move ;
-	}
-	
-	public int GetSpeed()
-	{
-		return this.Speed ;
-	}
-	
-	public bool isParalyzed()
-	{
-		bool isParalyzed = false;
-		int i = 0;
-//		while (i < this.modifiers.Count && !isParalyzed)
-//		{
-//			if (this.modifiers [i].Type == ModifierType.Type_Paralized && this.modifiers[i].Duration>0)
-//			{
-//				isParalyzed = true;
-//			}
-//			i++;
-//		}
-		return isParalyzed;
-	}
-	
-	public List<string> getIconAttack()
-	{
-		List<string> iconAttackTexts = new List<string>();
-		int i = 0;
-//		while (i < this.modifiers.Count)
-//		{
-//			if (this.modifiers [i].idIcon == 16 || this.modifiers [i].idIcon == 18 || this.modifiers [i].idIcon == 19 || this.modifiers [i].idIcon == 20 || this.modifiers [i].idIcon == 22 || this.modifiers [i].idIcon == 23 || this.modifiers [i].idIcon == 24 || this.modifiers [i].idIcon == 25 || this.modifiers [i].idIcon == 26 || this.modifiers [i].idIcon == 27 || this.modifiers [i].idIcon == 28)
-//			{
-//				iconAttackTexts.Add(this.modifiers [i].title);
-//				iconAttackTexts.Add(this.modifiers [i].description);
-//			}
-//			i++;
-//		}
-		return iconAttackTexts;
-	}
-	
-	public List<string> getIconLife()
-	{
-		List<string> iconLifeTexts = new List<string>();
-		int i = 0;
-//		while (i < this.modifiers.Count)
-//		{
-//			if (this.modifiers [i].idIcon == 30 || this.modifiers [i].idIcon == 31 || this.modifiers [i].idIcon == 17)
-//			{
-//				iconLifeTexts.Add(this.modifiers [i].title);
-//				iconLifeTexts.Add(this.modifiers [i].description);
-//			}
-//			i++;
-//		}
-		return iconLifeTexts;
 	}
 	
 	public List<string> getIconMove()
@@ -671,42 +566,6 @@ public class Card
 //		}
 //		TileModifiers = temp;
 //	}
-
-	/// <summary>
-	/// Determines whether this instance has attack modifier.
-	/// </summary>
-	/// <returns><c>positive or negative value</c> if this instance has positive of negative attack modifier; otherwise, <c>0</c>.</returns>
-	public int HasAttackModifier()
-	{
-		return GetAttack() - Attack;
-	}
-	
-	/// <summary>
-	/// Determines whether this instance has life modifier.
-	/// </summary>
-	/// <returns><c>positive or negative value</c> if this instance has positive of negative life modifier; otherwise, <c>0</c>.</returns>
-	public int HasLifeModifier()
-	{
-		return GetLife() - Life;
-	}
-	
-	/// <summary>
-	/// Determines whether this instance has speed modifier.
-	/// </summary>
-	/// <returns><c>positive or negative value</c> if this instance has positive of negative speed modifier; otherwise, <c>0</c>.</returns>
-	public int HasSpeedModifier()
-	{
-		return GetSpeed() - Speed;
-	}
-	
-	/// <summary>
-	/// Determines whether this instance has move modifier.
-	/// </summary>
-	/// <returns><c>positive or negative value</c> if this instance has positive of negative move modifier; otherwise, <c>0</c>.</returns>
-	public int HasMoveModifier()
-	{
-		return GetMove() - Move;
-	}
 	
 	public bool hasSkill(string s)
 	{
@@ -735,13 +594,13 @@ public class Card
 			index = s.IndexOf("%ATK");
 			
 			tempstring = s.Substring(index-3,3);
-			percentage = Mathf.CeilToInt(Int32.Parse(tempstring)*this.GetAttack()/100f);
+			percentage = Mathf.CeilToInt(Int32.Parse(tempstring)*this.getAttack()/100f);
 			s = s.Substring(0,index-4)+" "+percentage+" "+s.Substring(0,index+3);
 		}
 		if (s.Contains("%PV")){
 			index = s.IndexOf("%PV");
 			tempstring = s.Substring(index-3,3);
-			percentage = Mathf.CeilToInt(Int32.Parse(tempstring)*this.GetLife()/100f);
+			percentage = Mathf.CeilToInt(Int32.Parse(tempstring)*this.getLife()/100f);
 			s = s.Substring(0,index-4)+" "+percentage+" "+s.Substring(0,index+3);
 		}
 		return s;

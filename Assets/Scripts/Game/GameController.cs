@@ -64,8 +64,8 @@ public class GameController : Photon.MonoBehaviour
 		GameView.instance.loadDeck(deck, isFirstP);
 	}
 	
-	public void addPiegeurTrap(Tile t, int level){
-		photonView.RPC("addPiegeurTrapRPC", PhotonTargets.AllBuffered, t.x, t.y, GameView.instance.getIsFirstPlayer(), level);
+	public void addPiegeurTrap(Tile t, int level, bool isFirstP){
+		photonView.RPC("addPiegeurTrapRPC", PhotonTargets.AllBuffered, t.x, t.y, isFirstP, level);
 	}
 	
 	[RPC]
@@ -89,7 +89,11 @@ public class GameController : Photon.MonoBehaviour
 		photonView.RPC("addRankedCharacterRPC", PhotonTargets.AllBuffered, id, rank);
 	}
 	
-	
+	[RPC]
+	public void addRankedCharacterRPC(int id, int rank)
+	{	
+		GameView.instance.setTurn(id, rank);
+	}
 
 	public void findNextPlayer()
 	{
@@ -102,14 +106,28 @@ public class GameController : Photon.MonoBehaviour
 		GameView.instance.setNextPlayer();
 	}
 	
+	public void wakeUp(int id)
+	{
+		photonView.RPC("wakeUpRPC", PhotonTargets.AllBuffered, id);
+	}
 	
-		
+	[RPC]
+	public void wakeUpRPC(int id)
+	{
+		GameView.instance.getCard(id).removeSleeping();
+		GameView.instance.getPlayingCardController(id).showIcons();
+	}
 	
+	public void clickDestination(Tile t)
+	{
+		photonView.RPC("clickDestinationRPC", PhotonTargets.AllBuffered, t.x, t.y);
+	}
 	
-	
-	
-	
-	
+	[RPC]
+	public void clickDestinationRPC(int x, int y)
+	{
+		GameView.instance.clickDestination(new Tile(x,y));
+	}
 	
 	public void moveToDestination(Tile t){
 //		int characterToMove = this.currentPlayingCard;
@@ -150,25 +168,6 @@ public class GameController : Photon.MonoBehaviour
 //		}
 //			
 		yield break ;
-	}
-
-	public void clickPlayingCard(int c, Tile t){
-		if (!this.havIStarted()){
-			if (c!=this.currentClickedCard){
-				this.changeClickedCard(c);
-			}
-			else{
-				this.removeClickedCard();
-			}
-		}
-	}
-	
-	public void changeClickedCard(int c){
-		if(this.currentClickedCard!=-1){
-			GameView.instance.unClickPC (this.currentClickedCard);
-		}
-		this.currentClickedCard = c ;
-		GameView.instance.changeClickedCard(c);
 	}
 	
 	public void removeClickedCard(){
@@ -257,54 +256,6 @@ public class GameController : Photon.MonoBehaviour
 	public void displaySkillEffectRPC(int id, string text, int color){
 		GameView.instance.displaySkillEffect(id, text, color);
 	}
-
-	IEnumerator setPlayer(float time, int id){
-		yield return new WaitForSeconds(time);
-		
-		this.displayTR();
-		
-//		int length = this.playingCardTurnsToWait.Count;
-//		
-//		if (this.currentPlayingCard != -1)
-//		{
-//			GameView.instance.checkModifyers(this.currentPlayingCard);
-//		}
-	
-		GameView.instance.removeDestinations();
-		
-		if(this.turnsToWait==0){
-			if (GameView.instance.getCard(id).isParalyzed()){
-				GameView.instance.moveCard(id, false);
-			}
-			else if (GameView.instance.getCard(id).isSleeping()){
-				int sleepingPercentage = GameView.instance.getCard(id).getSleepingPercentage();
-				if(UnityEngine.Random.Range(1,101)<sleepingPercentage){
-					this.displaySkillEffect(id, "SE REVEILLE", 4);
-					this.wakeUp(id);
-				}
-				else{
-					this.displaySkillEffect(id, "RESTE ENDORMI", 5);
-				}
-			}
-			else{
-				GameView.instance.playCard(id, false);
-				GameView.instance.moveCard(id, false);
-			}
-			
-			this.changePlayingCard(id);
-			
-//			if(GameView.instance.getCard(this.currentPlayingCard).isFurious()){
-//				StartCoroutine(launchFury());
-//			}
-		}
-		else{
-			this.changePlayingCard(id);
-		}
-//		if(!GameView.instance.hasMoved(id)){
-//			GameView.instance.displayDestinations(this.currentPlayingCard);
-//		}
-		this.isRunningSkill = false ;
-	}
 	
 	IEnumerator launchFury(){
 		yield return new WaitForSeconds(1);
@@ -320,32 +271,7 @@ public class GameController : Photon.MonoBehaviour
 		}
 	}
 
-	public void initPlayer(int id)
-	{
-//		if(this.currentPlayingCard!=-1){
-//			if(!GameView.instance.getIsMine(this.currentPlayingCard)){
-//				GameView.instance.unSelectSkill();
-//			}
-//		}
-//		StartCoroutine(setPlayer(1, id));
-	}
-
-	public void resolvePass()
-	{	
-		photonView.RPC("findNextPlayer", PhotonTargets.AllBuffered);
-	}
 	
-	public void wakeUp(int id)
-	{
-		photonView.RPC("wakeUpRPC", PhotonTargets.AllBuffered, id);
-	}
-	
-	[RPC]
-	public void wakeUpRPC(int id)
-	{
-		GameView.instance.getCard(id).removeSleeping();
-		GameView.instance.show(id, false);
-	}
 
 	private IEnumerator returnToLobby()
 	{
@@ -419,26 +345,7 @@ public class GameController : Photon.MonoBehaviour
 //				PhotonNetwork.room.open = false;
 //			}
 //		}
-//	}
-
-	
-
-	
-
-	
-	
-	
-
-	public void reloadSortedList()
-	{
-//		if (this.isFirstPlayer)
-//		{
-//			this.sortAllCards();
-//			photonView.RPC("reloadTimeline", PhotonTargets.AllBuffered);
-//		}
-	}
-	
-	
+//	}	
 	
 	public void advanceTurns(int idToRank)
 	{

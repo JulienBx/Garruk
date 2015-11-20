@@ -17,7 +17,6 @@ public class TargetPCCHandler
 		if (this.targetsPCC.Count==this.numberOfExpectedTargets){
 			GameView.instance.hideTargets();
 			GameSkills.instance.getCurrentSkill().resolve(this.targetsPCC);
-			//GameController.instance.callTutorial();
 		}
 	}	
 }

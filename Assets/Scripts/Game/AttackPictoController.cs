@@ -5,34 +5,24 @@ using TMPro;
 
 public class AttackPictoController : MonoBehaviour
 {	
-	bool isHovered = false ;
-	int idCard = 2 ;
+	int idCard ;
+	
+	string title ; 
+	string description ;
+	
+	public void setTexts(string t, string d){
+		this.title = t;
+		this.description = d;
+		gameObject.transform.FindChild("DescriptionBox").FindChild("TitleText").GetComponent<TextMeshPro>().text = this.title;
+		gameObject.transform.FindChild("DescriptionBox").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = this.description;
+	}
 	
 	public void OnMouseEnter(){
-		if (!isHovered){
-			Vector3 position = gameObject.transform.position;
-			position.x -= 2f;
-			string description = "Attaque de base : "+GameView.instance.getCard(this.idCard).Attack+"\n";
-			List<string> textes = GameView.instance.getCard(this.idCard).getIconAttack();
-			for(int i = 0 ; i < textes.Count ; i++){
-				description += "<b>"+textes[i]+" : "+"</b>";
-				i++;
-				description += textes[i]+"\n";
-			}
-			if (textes.Count>0){
-				description += "---> TOTAL : "+GameView.instance.getCard(this.idCard).GetAttack();
-			}
-			
-			GameView.instance.displayPopUp(description, position, "Attaque");
-			this.isHovered = true ;
-		}
+		GameView.instance.getPlayingCardController(this.idCard).showDescriptionAttack(true);
 	}
 	
 	public void OnMouseExit(){
-		if (isHovered){
-			GameView.instance.hidePopUp();
-			this.isHovered = false ;
-		}
+		GameView.instance.getPlayingCardController(this.idCard).showDescriptionAttack(false);
 	}
 	
 	public void setIDCard(int i){

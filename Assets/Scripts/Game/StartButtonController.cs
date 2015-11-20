@@ -36,6 +36,16 @@ public class StartButtonController : MonoBehaviour
 	public void show(bool b){
 		gameObject.GetComponent<SpriteRenderer>().enabled = b ;
 		gameObject.transform.FindChild("StartButton").GetComponent<MeshRenderer>().enabled = b ;
+		this.isPushed = false ;
+	}
+	
+	public void showText(bool b){
+		gameObject.GetComponent<BoxCollider>().enabled = false ;
+		gameObject.transform.FindChild("StartButton").GetComponent<MeshRenderer>().enabled = b ;
+		this.isPushed = true ;
+		if(!b){
+			this.isPushed=false;
+		}
 	}
 	
 	public void addTime(float f){
@@ -49,5 +59,9 @@ public class StartButtonController : MonoBehaviour
 	
 	public bool getIsPushed(){
 		return this.isPushed ;
+	}
+	
+	public void setText(string s){
+		gameObject.transform.FindChild("StartButton").GetComponent<TextMeshPro>().text=s;
 	}
 }

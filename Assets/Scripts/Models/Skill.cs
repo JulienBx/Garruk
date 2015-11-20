@@ -31,11 +31,13 @@ public class Skill
 	public CardType CardType;
 	public int IdPicture;
 	
-	public Skill(string name, string description, int id)
+	public Skill(string name, string description, int id, int c, int p)
 	{
 		this.Name = name;
 		this.Description = description;
 		this.Id = id ;
+		this.cible = c ;
+		this.proba = p ;
 	}
 
 	public Skill(string name, int id, int isactivated, int level, int power, int manaCost, string description, string action) : this(name, id, isactivated, level, power, manaCost, description)
