@@ -480,7 +480,7 @@ public class NewHomePageController : MonoBehaviour
 		if(ApplicationDesignRules.isMobileScreen)
 		{
 			playBlockLeftMargin=ApplicationDesignRules.leftMargin;
-			playBlockUpMargin=ApplicationDesignRules.upMargin;
+			playBlockUpMargin=0f;
 
 			deckBlockLeftMargin=ApplicationDesignRules.leftMargin;
 			deckBlockUpMargin=playBlockUpMargin+ApplicationDesignRules.gapBetweenBlocks+playBlockHeight;
@@ -506,8 +506,10 @@ public class NewHomePageController : MonoBehaviour
 			storeBlockUpMargin=newsfeedBlockUpMargin+ApplicationDesignRules.gapBetweenBlocks+newsfeedBlockHeight;
 		}
 
-		this.mainCamera.GetComponent<ScrollingController> ().setViewHeight(2f * (this.mainCamera.GetComponent<Camera> ().orthographicSize));
-		this.mainCamera.GetComponent<ScrollingController> ().setContentHeight(ApplicationDesignRules.upMargin + playBlockHeight + deckBlockHeight + storeBlockHeight + newsfeedBlockHeight + 3f * ApplicationDesignRules.gapBetweenBlocks + ApplicationDesignRules.button62WorldSize.y);
+		this.mainCamera.GetComponent<ScrollingController> ().setViewHeight(ApplicationDesignRules.viewHeight);
+		this.mainCamera.GetComponent<ScrollingController> ().setContentHeight(playBlockHeight + deckBlockHeight + storeBlockHeight + newsfeedBlockHeight + 3f * ApplicationDesignRules.gapBetweenBlocks + ApplicationDesignRules.button62WorldSize.y);
+		this.mainCamera.transform.position = ApplicationDesignRules.mainCameraStartPosition;
+		this.mainCamera.GetComponent<ScrollingController> ().setStartPositionY (ApplicationDesignRules.mainCameraStartPosition.y);
 
 		this.centralWindow = new Rect (ApplicationDesignRules.widthScreen * 0.25f, 0.12f * ApplicationDesignRules.heightScreen, ApplicationDesignRules.widthScreen * 0.50f, 0.25f * ApplicationDesignRules.heightScreen);
 		

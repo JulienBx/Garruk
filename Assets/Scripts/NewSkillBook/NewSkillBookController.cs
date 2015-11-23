@@ -78,6 +78,7 @@ public class NewSkillBookController : MonoBehaviour
 	private int[] cardTypesNbCards;
 
 	private bool isSceneLoaded;
+	private bool isScrolling;
 
 	void Update()
 	{
@@ -128,6 +129,10 @@ public class NewSkillBookController : MonoBehaviour
 				this.skillSearchBar.transform.FindChild ("Title").GetComponent<TextMeshPro>().text = "Rechercher";
 				this.skillSearchBar.GetComponent<NewSkillBookSkillSearchBarController>().reset();
 			}
+		}
+		if(ApplicationDesignRules.isMobileScreen && this.isSceneLoaded)
+		{
+			isScrolling = this.mainCamera.GetComponent<ScrollingController>().ScrollController();
 		}
 	}
 	void Awake()
@@ -461,6 +466,7 @@ public class NewSkillBookController : MonoBehaviour
 		this.availabilityFilterTitle.GetComponent<TextMeshPro> ().text = "Disponibilité".ToUpper ();
 		this.availabilityFilterTitle.GetComponent<TextMeshPro> ().color = ApplicationDesignRules.whiteTextColor;
 		this.mainCamera = gameObject;
+		this.mainCamera.AddComponent<ScrollingController> ();
 		this.menuCamera = GameObject.Find ("MenuCamera");
 		this.tutorialCamera = GameObject.Find ("TutorialCamera");
 		this.backgroundCamera = GameObject.Find ("BackgroundCamera");
@@ -491,7 +497,7 @@ public class NewSkillBookController : MonoBehaviour
 		if(ApplicationDesignRules.isMobileScreen)
 		{
 			helpBlockLeftMargin=ApplicationDesignRules.leftMargin;
-			helpBlockUpMargin=ApplicationDesignRules.upMargin+ApplicationDesignRules.button62WorldSize.y;
+			helpBlockUpMargin=0f+ApplicationDesignRules.button62WorldSize.y;
 			
 			skillsBlockLeftMargin=ApplicationDesignRules.leftMargin;
 			skillsBlockUpMargin=helpBlockUpMargin+ApplicationDesignRules.gapBetweenBlocks+helpBlockHeight;
@@ -510,6 +516,11 @@ public class NewSkillBookController : MonoBehaviour
 			skillsBlockLeftMargin=ApplicationDesignRules.leftMargin;
 			skillsBlockUpMargin=ApplicationDesignRules.upMargin;
 		}
+
+		this.mainCamera.GetComponent<ScrollingController> ().setViewHeight(ApplicationDesignRules.viewHeight);
+		this.mainCamera.GetComponent<ScrollingController> ().setContentHeight(helpBlockHeight + skillsBlockHeight + filtersBlockHeight + 2f * ApplicationDesignRules.gapBetweenBlocks + ApplicationDesignRules.button62WorldSize.y);
+		this.mainCamera.transform.position = ApplicationDesignRules.mainCameraStartPosition;
+		this.mainCamera.GetComponent<ScrollingController> ().setStartPositionY (ApplicationDesignRules.mainCameraStartPosition.y);
 
 		this.filtersBlock.GetComponent<NewBlockController> ().resize(filtersBlockLeftMargin,filtersBlockUpMargin,ApplicationDesignRules.blockWidth,filtersBlockHeight);
 		Vector3 filtersBlockUpperLeftPosition = this.filtersBlock.GetComponent<NewBlockController> ().getUpperLeftCornerPosition ();

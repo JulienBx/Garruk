@@ -53,6 +53,7 @@ public class NewLobbyController : MonoBehaviour
 	private float timer;
 
 	private bool isEndCompetition;
+	private bool isScrolling;
 	
 	void Update()
 	{	
@@ -64,6 +65,10 @@ public class NewLobbyController : MonoBehaviour
 				this.waitForPopUp=false;
 				this.displayPopUp();
 			}
+		}
+		if(ApplicationDesignRules.isMobileScreen && this.isSceneLoaded)
+		{
+			isScrolling = this.mainCamera.GetComponent<ScrollingController>().ScrollController();
 		}
 	}
 	void Awake()
@@ -234,6 +239,7 @@ public class NewLobbyController : MonoBehaviour
 		}
 
 		this.mainCamera = gameObject;
+		this.mainCamera.AddComponent<ScrollingController> ();
 		this.menuCamera = GameObject.Find ("MenuCamera");
 		this.tutorialCamera = GameObject.Find ("TutorialCamera");
 		this.backgroundCamera = GameObject.Find ("BackgroundCamera");
@@ -269,7 +275,7 @@ public class NewLobbyController : MonoBehaviour
 		if(ApplicationDesignRules.isMobileScreen)
 		{
 			mainBlockLeftMargin=ApplicationDesignRules.leftMargin;
-			mainBlockUpMargin=ApplicationDesignRules.upMargin;
+			mainBlockUpMargin=0f;
 			
 			statsBlockLeftMargin=ApplicationDesignRules.leftMargin;
 			statsBlockUpMargin=mainBlockUpMargin+ApplicationDesignRules.gapBetweenBlocks+mainBlockHeight;
@@ -294,6 +300,11 @@ public class NewLobbyController : MonoBehaviour
 			competitionBlockLeftMargin=ApplicationDesignRules.leftMargin+ApplicationDesignRules.gapBetweenBlocks+ApplicationDesignRules.blockWidth;
 			competitionBlockUpMargin=lastResultsBlockUpMargin+ApplicationDesignRules.gapBetweenBlocks+lastResultsBlockHeight;
 		}
+
+		this.mainCamera.GetComponent<ScrollingController> ().setViewHeight(ApplicationDesignRules.viewHeight);
+		this.mainCamera.GetComponent<ScrollingController> ().setContentHeight(mainBlockHeight + statsBlockHeight + lastResultsBlockHeight + competitionBlockHeight + 3f * ApplicationDesignRules.gapBetweenBlocks);
+		this.mainCamera.transform.position = ApplicationDesignRules.mainCameraStartPosition;
+		this.mainCamera.GetComponent<ScrollingController> ().setStartPositionY (ApplicationDesignRules.mainCameraStartPosition.y);
 
 		this.mainBlock.GetComponent<NewBlockController> ().resize(mainBlockLeftMargin,mainBlockUpMargin,ApplicationDesignRules.blockWidth,mainBlockHeight);
 		Vector3 mainBlockUpperLeftPosition = this.mainBlock.GetComponent<NewBlockController> ().getUpperLeftCornerPosition ();

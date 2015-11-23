@@ -8,6 +8,8 @@ using TMPro;
 
 public class MenuRessources : MonoBehaviour
 {
+	public Sprite logoBackground;
+	public Sprite userBackground;
 	public GameObject loadingScreenObject;
 	public int totalNbResultLimit;
 	public int refreshInterval;

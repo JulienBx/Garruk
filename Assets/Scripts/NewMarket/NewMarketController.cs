@@ -98,6 +98,7 @@ public class NewMarketController : MonoBehaviour
 
 	private bool toUpdateCardsMarketFeatures;
 	private bool areNewCardsAvailable;
+	private bool isScrolling;
 
 	void Update()
 	{	
@@ -174,6 +175,10 @@ public class NewMarketController : MonoBehaviour
 					this.refreshMarketButton.GetComponent<NewMarketRefreshButtonController>().changeColor();
 				}
 			}
+		}
+		if(ApplicationDesignRules.isMobileScreen && this.isSceneLoaded)
+		{
+			isScrolling = this.mainCamera.GetComponent<ScrollingController>().ScrollController();
 		}
 	}
 	void Awake()
@@ -409,6 +414,7 @@ public class NewMarketController : MonoBehaviour
 		this.focusedCard.AddComponent<NewFocusedCardMarketController> ();
 		this.focusedCard.SetActive (false);
 		this.mainCamera = gameObject;
+		this.mainCamera.AddComponent<ScrollingController> ();
 		this.menuCamera = GameObject.Find ("MenuCamera");
 		this.tutorialCamera = GameObject.Find ("TutorialCamera");
 		this.backgroundCamera = GameObject.Find ("BackgroundCamera");
@@ -500,7 +506,7 @@ public class NewMarketController : MonoBehaviour
 		if(ApplicationDesignRules.isMobileScreen)
 		{
 			marketBlockLeftMargin=ApplicationDesignRules.leftMargin;
-			marketBlockUpMargin=ApplicationDesignRules.upMargin;
+			marketBlockUpMargin=0f;
 			
 			cardsBlockLeftMargin=ApplicationDesignRules.leftMargin;
 			cardsBlockUpMargin=marketBlockUpMargin+ApplicationDesignRules.gapBetweenBlocks+marketBlockHeight+ApplicationDesignRules.button62WorldSize.y;
@@ -519,7 +525,12 @@ public class NewMarketController : MonoBehaviour
 			cardsBlockLeftMargin=ApplicationDesignRules.leftMargin;
 			cardsBlockUpMargin=ApplicationDesignRules.upMargin+ApplicationDesignRules.button62WorldSize.y;
 		}
-		
+
+		this.mainCamera.GetComponent<ScrollingController> ().setViewHeight(ApplicationDesignRules.viewHeight);
+		this.mainCamera.GetComponent<ScrollingController> ().setContentHeight(cardsBlockHeight + marketBlockHeight + filtersBlockHeight +2f * ApplicationDesignRules.gapBetweenBlocks + ApplicationDesignRules.button62WorldSize.y);
+		this.mainCamera.transform.position = ApplicationDesignRules.mainCameraStartPosition;
+		this.mainCamera.GetComponent<ScrollingController> ().setStartPositionY (ApplicationDesignRules.mainCameraStartPosition.y);
+
 		this.filtersBlock.GetComponent<NewBlockController> ().resize(filtersBlockLeftMargin,filtersBlockUpMargin,ApplicationDesignRules.blockWidth,filtersBlockHeight);
 		Vector3 filtersBlockUpperLeftPosition = this.filtersBlock.GetComponent<NewBlockController> ().getUpperLeftCornerPosition ();
 		Vector3 filtersBlockUpperRightPosition = this.filtersBlock.GetComponent<NewBlockController> ().getUpperRightCornerPosition ();

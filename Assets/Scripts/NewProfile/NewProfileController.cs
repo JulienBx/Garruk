@@ -98,6 +98,7 @@ public class NewProfileController : MonoBehaviour
 	private bool isSearchingUsers;
 	private string searchValue;
 	private bool isMouseOnSearchBar;
+	private bool isScrolling;
 
 	void Update()
 	{	
@@ -153,6 +154,10 @@ public class NewProfileController : MonoBehaviour
 					this.searchBar.transform.FindChild ("Title").GetComponent<TextMeshPro>().text ="Entrez un pseudo";
 				}
 			}
+		}
+		if(ApplicationDesignRules.isMobileScreen && this.isSceneLoaded)
+		{
+			isScrolling = this.mainCamera.GetComponent<ScrollingController>().ScrollController();
 		}
 	}
 	void Awake()
@@ -555,8 +560,11 @@ public class NewProfileController : MonoBehaviour
 			this.friendsContents[i].transform.FindChild("username").GetComponent<NewProfileFriendsContentUsernameController>().setId(i);
 		}
 		this.searchUsersPopUp = GameObject.Find ("searchPopUp");
+		this.searchUsersPopUp.SetActive (false);
 		this.selectPicturePopUp = GameObject.Find ("profilePicturesPopUp");
+		this.selectPicturePopUp.SetActive (false);
 		this.mainCamera = gameObject;
+		this.mainCamera.AddComponent<ScrollingController> ();
 		this.menuCamera = GameObject.Find ("MenuCamera");
 		this.tutorialCamera = GameObject.Find ("TutorialCamera");
 		this.backgroundCamera = GameObject.Find ("BackgroundCamera");
@@ -592,7 +600,7 @@ public class NewProfileController : MonoBehaviour
 		if(ApplicationDesignRules.isMobileScreen)
 		{
 			profileBlockLeftMargin=ApplicationDesignRules.leftMargin;
-			profileBlockUpMargin=ApplicationDesignRules.upMargin;
+			profileBlockUpMargin=0f;
 			
 			searchBlockLeftMargin=ApplicationDesignRules.leftMargin;
 			searchBlockUpMargin=profileBlockUpMargin+ApplicationDesignRules.gapBetweenBlocks+profileBlockHeight;
@@ -617,6 +625,11 @@ public class NewProfileController : MonoBehaviour
 			resultsBlockLeftMargin=ApplicationDesignRules.leftMargin+ApplicationDesignRules.gapBetweenBlocks+ApplicationDesignRules.blockWidth;
 			resultsBlockUpMargin=friendsBlockUpMargin+ApplicationDesignRules.gapBetweenBlocks+friendsBlockHeight+ApplicationDesignRules.button62WorldSize.y;
 		}
+
+		this.mainCamera.GetComponent<ScrollingController> ().setViewHeight(ApplicationDesignRules.viewHeight);
+		this.mainCamera.GetComponent<ScrollingController> ().setContentHeight(profileBlockHeight + searchBlockHeight + friendsBlockHeight + resultsBlockHeight + 3f * ApplicationDesignRules.gapBetweenBlocks + 2f*ApplicationDesignRules.button62WorldSize.y);
+		this.mainCamera.transform.position = ApplicationDesignRules.mainCameraStartPosition;
+		this.mainCamera.GetComponent<ScrollingController> ().setStartPositionY (ApplicationDesignRules.mainCameraStartPosition.y);
 
 		this.centralWindow = new Rect (ApplicationDesignRules.widthScreen * 0.25f, 0.12f * ApplicationDesignRules.heightScreen,ApplicationDesignRules.widthScreen * 0.50f, 0.40f * ApplicationDesignRules.heightScreen);
 		this.centralWindowEditInformations=new Rect(ApplicationDesignRules.widthScreen * 0.25f, 0.12f * ApplicationDesignRules.heightScreen,ApplicationDesignRules.widthScreen * 0.50f, 0.50f * ApplicationDesignRules.heightScreen);

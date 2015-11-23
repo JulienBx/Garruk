@@ -78,6 +78,7 @@ public class NewStoreController : MonoBehaviour
 	private bool isSceneLoaded;
 
 	private bool toUpdatePackPrices;
+	private bool isScrolling;
 	
 	void Update () 
 	{
@@ -121,6 +122,10 @@ public class NewStoreController : MonoBehaviour
 					this.randomCards[i].transform.rotation = target;
 				}
 			}
+		}
+		if(ApplicationDesignRules.isMobileScreen && this.isSceneLoaded)
+		{
+			isScrolling = this.mainCamera.GetComponent<ScrollingController>().ScrollController();
 		}
 	}
 	void Awake()
@@ -218,6 +223,7 @@ public class NewStoreController : MonoBehaviour
 		this.focusedCard.AddComponent<NewFocusedCardStoreController> ();
 		this.focusedCard.SetActive (false);
 		this.mainCamera = gameObject;
+		this.mainCamera.AddComponent<ScrollingController> ();
 		this.menuCamera = GameObject.Find ("MenuCamera");
 		this.tutorialCamera = GameObject.Find ("TutorialCamera");
 		this.backgroundCamera = GameObject.Find ("BackgroundCamera");
@@ -298,7 +304,7 @@ public class NewStoreController : MonoBehaviour
 		if(ApplicationDesignRules.isMobileScreen)
 		{
 			storeBlockLeftMargin=ApplicationDesignRules.leftMargin;
-			storeBlockUpMargin=ApplicationDesignRules.upMargin;
+			storeBlockUpMargin=0f;
 			
 			packsBlockLeftMargin=ApplicationDesignRules.leftMargin;
 			packsBlockUpMargin=storeBlockUpMargin+ApplicationDesignRules.gapBetweenBlocks+storeBlockHeight;
@@ -317,6 +323,11 @@ public class NewStoreController : MonoBehaviour
 			packsBlockLeftMargin=ApplicationDesignRules.leftMargin;
 			packsBlockUpMargin=ApplicationDesignRules.upMargin;
 		}
+
+		this.mainCamera.GetComponent<ScrollingController> ().setViewHeight(ApplicationDesignRules.viewHeight);
+		this.mainCamera.GetComponent<ScrollingController> ().setContentHeight(storeBlockHeight + packsBlockHeight + buyCreditsBlockHeight + 2f * ApplicationDesignRules.gapBetweenBlocks);
+		this.mainCamera.transform.position = ApplicationDesignRules.mainCameraStartPosition;
+		this.mainCamera.GetComponent<ScrollingController> ().setStartPositionY (ApplicationDesignRules.mainCameraStartPosition.y);
 
 		this.centralWindow = new Rect (ApplicationDesignRules.widthScreen * 0.25f, 0.12f * ApplicationDesignRules.heightScreen, ApplicationDesignRules.widthScreen * 0.50f, 0.40f * ApplicationDesignRules.heightScreen);
 		this.selectCardTypeWindow = new Rect (ApplicationDesignRules.widthScreen * 0.25f, 0.12f * ApplicationDesignRules.heightScreen, ApplicationDesignRules.widthScreen * 0.50f, 0.50f * ApplicationDesignRules.heightScreen);

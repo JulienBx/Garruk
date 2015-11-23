@@ -263,8 +263,16 @@ public class MenuController : MonoBehaviour
 	public void setCurrentPage(int i)
 	{
 		this.currentPage = i;
-		gameObject.transform.Find ("Button" + i).GetComponent<MenuButtonController> ().setIsSelected(true);
-		gameObject.transform.Find ("Button" + i).FindChild ("Title").GetComponent<TextMeshPro> ().color = ApplicationDesignRules.blueColor;
+		if(!ApplicationDesignRules.isMobileScreen)
+		{
+			gameObject.transform.Find ("Button" + i).GetComponent<MenuButtonController> ().setIsSelected(true);
+			gameObject.transform.Find ("Button" + i).GetComponent<MenuButtonController> ().setHoveredState();
+		}
+		else
+		{
+			gameObject.transform.FindChild("BottomBar").FindChild ("Button" + i).GetComponent<MenuButtonController> ().setIsSelected(true);
+			gameObject.transform.FindChild("BottomBar").FindChild ("Button" + i).GetComponent<MenuButtonController> ().setHoveredState();
+		}
 	}
 	public void setNbNotificationsNonRead(int value)
 	{
@@ -341,8 +349,11 @@ public class MenuController : MonoBehaviour
 		for (int i=0;i<6;i++)
 		{
 			this.gameObject.transform.FindChild("Button"+i).FindChild("Title").GetComponent<TextMeshPro>().text=model.buttonsLabels[i].ToUpper();
+			this.gameObject.transform.FindChild("BottomBar").FindChild("Button"+i).FindChild("Title").GetComponent<TextMeshPro>().text=model.buttonsLabels[i];
 			this.gameObject.transform.FindChild("Button"+i).gameObject.AddComponent<MenuButtonController>();
+			this.gameObject.transform.FindChild("BottomBar").FindChild("Button"+i).gameObject.AddComponent<MenuButtonController>();
 			this.gameObject.transform.FindChild("Button"+i).GetComponent<MenuButtonController>().setId(i);
+			this.gameObject.transform.FindChild("BottomBar").FindChild("Button"+i).GetComponent<MenuButtonController>().setId(i);
 		}
 		
 		this.gameObject.transform.FindChild("UserBlock").FindChild("Username").GetComponent<TextMeshPro>().text=ApplicationModel.username;
@@ -362,56 +373,98 @@ public class MenuController : MonoBehaviour
 		this.newSkillsWindow = new Rect (this.collectionPointsWindow.xMin, this.collectionPointsWindow.yMax + 5,this.collectionPointsWindow.width,ApplicationDesignRules.heightScreen - 0.1f * ApplicationDesignRules.heightScreen - 2 * 5 - this.collectionPointsWindow.height);
 		this.newCardTypeWindow = new Rect (ApplicationDesignRules.widthScreen * 0.25f, 0.12f * ApplicationDesignRules.heightScreen, ApplicationDesignRules.widthScreen * 0.50f, 0.25f * ApplicationDesignRules.heightScreen);
 
-		float buttonsBorderWidth = 1500f;
-		float buttonsWorldScaleX = (ApplicationDesignRules.worldWidth-ApplicationDesignRules.leftMargin-ApplicationDesignRules.rightMargin)/(buttonsBorderWidth / ApplicationDesignRules.pixelPerUnit);
-		gameObject.transform.FindChild ("ButtonsBorder").localScale = new Vector3 (buttonsWorldScaleX, 0.63f, 1f);
 
-		float buttonsTotalSize=0f;
-		float buttonsGap=0f;
-		float textRatio=1f;
-		float fontSize = 2.5f;
-		for(int i=0;i<6;i++)
+		if(!ApplicationDesignRules.isMobileScreen)
 		{
-			this.gameObject.transform.FindChild("Button"+i).FindChild("Title").GetComponent<TextMeshPro>().fontSize=textRatio*fontSize;
-			buttonsTotalSize=buttonsTotalSize+this.gameObject.transform.FindChild("Button"+i).FindChild("Title").GetComponent<TextMeshPro>().bounds.size.x;
-		}
-		if((ApplicationDesignRules.worldWidth-1.5f-ApplicationDesignRules.rightMargin-ApplicationDesignRules.leftMargin)<buttonsTotalSize)
-		{
-			textRatio=(ApplicationDesignRules.worldWidth-1.5f-ApplicationDesignRules.rightMargin-ApplicationDesignRules.leftMargin)/buttonsTotalSize;
-		}
-		buttonsTotalSize = 0f;
-		for(int i=0;i<6;i++)
-		{
-			this.gameObject.transform.FindChild("Button"+i).FindChild("Title").GetComponent<TextMeshPro>().fontSize=textRatio*fontSize;
-			buttonsTotalSize=buttonsTotalSize+this.gameObject.transform.FindChild("Button"+i).FindChild("Title").GetComponent<TextMeshPro>().bounds.size.x;
-		}
-		buttonsGap = (ApplicationDesignRules.worldWidth - ApplicationDesignRules.leftMargin-ApplicationDesignRules.rightMargin- buttonsTotalSize) / 6f;
+			gameObject.transform.FindChild("LogoBlock").GetComponent<SpriteRenderer>().sprite=ressources.logoBackground;
+			gameObject.transform.FindChild("UserBlock").GetComponent<SpriteRenderer>().sprite=ressources.userBackground;
+			gameObject.transform.FindChild("TopBar").gameObject.SetActive(false);
+			gameObject.transform.FindChild("BottomBar").gameObject.SetActive(false);
 
-		for(int i=0;i<6;i++)
-		{
-			float previousButtonsTotalSize=0f;
-			for(int j=0;j<i;j++)
+			float buttonsBorderWidth = 1500f;
+			float buttonsWorldScaleX = (ApplicationDesignRules.worldWidth-ApplicationDesignRules.leftMargin-ApplicationDesignRules.rightMargin)/(buttonsBorderWidth / ApplicationDesignRules.pixelPerUnit);
+			gameObject.transform.FindChild ("ButtonsBorder").localScale = new Vector3 (buttonsWorldScaleX, 0.63f, 1f);
+			
+			float buttonsTotalSize=0f;
+			float buttonsGap=0f;
+			float textRatio=1f;
+			float fontSize = 2.5f;
+			gameObject.transform.FindChild("ButtonsBorder").gameObject.SetActive(true);
+			for(int i=0;i<6;i++)
 			{
-				previousButtonsTotalSize=previousButtonsTotalSize+this.gameObject.transform.FindChild("Button"+j).FindChild("Title").GetComponent<TextMeshPro>().bounds.size.x;
+				this.gameObject.transform.FindChild("Button"+i).gameObject.SetActive(true);
+				this.gameObject.transform.FindChild("Button"+i).FindChild("Title").GetComponent<TextMeshPro>().fontSize=textRatio*fontSize;
+				buttonsTotalSize=buttonsTotalSize+this.gameObject.transform.FindChild("Button"+i).FindChild("Title").GetComponent<TextMeshPro>().bounds.size.x;
 			}
-			Vector3 buttonPosition=gameObject.transform.FindChild("Button"+i).transform.position;
-			buttonPosition.x=buttonsGap/2f+(-ApplicationDesignRules.worldWidth / 2f)+ApplicationDesignRules.leftMargin+(i)*(buttonsGap)+this.gameObject.transform.FindChild("Button"+i).FindChild("Title").GetComponent<TextMeshPro>().bounds.size.x/2f+previousButtonsTotalSize;
-			gameObject.transform.FindChild("Button"+i).transform.position=buttonPosition;
-		}	                                                                 
+			if((ApplicationDesignRules.worldWidth-1.5f-ApplicationDesignRules.rightMargin-ApplicationDesignRules.leftMargin)<buttonsTotalSize)
+			{
+				textRatio=(ApplicationDesignRules.worldWidth-1.5f-ApplicationDesignRules.rightMargin-ApplicationDesignRules.leftMargin)/buttonsTotalSize;
+			}
+			buttonsTotalSize = 0f;
+			for(int i=0;i<6;i++)
+			{
+				this.gameObject.transform.FindChild("Button"+i).FindChild("Title").GetComponent<TextMeshPro>().fontSize=textRatio*fontSize;
+				buttonsTotalSize=buttonsTotalSize+this.gameObject.transform.FindChild("Button"+i).FindChild("Title").GetComponent<TextMeshPro>().bounds.size.x;
+			}
+			buttonsGap = (ApplicationDesignRules.worldWidth - ApplicationDesignRules.leftMargin-ApplicationDesignRules.rightMargin- buttonsTotalSize) / 6f;
+			
+			for(int i=0;i<6;i++)
+			{
+				float previousButtonsTotalSize=0f;
+				for(int j=0;j<i;j++)
+				{
+					previousButtonsTotalSize=previousButtonsTotalSize+this.gameObject.transform.FindChild("Button"+j).FindChild("Title").GetComponent<TextMeshPro>().bounds.size.x;
+				}
+				Vector3 buttonPosition=gameObject.transform.FindChild("Button"+i).transform.position;
+				buttonPosition.x=buttonsGap/2f+(-ApplicationDesignRules.worldWidth / 2f)+ApplicationDesignRules.leftMargin+(i)*(buttonsGap)+this.gameObject.transform.FindChild("Button"+i).FindChild("Title").GetComponent<TextMeshPro>().bounds.size.x/2f+previousButtonsTotalSize;
+				gameObject.transform.FindChild("Button"+i).transform.position=buttonPosition;
+			}	                    
+
+
+		}
+		else
+		{
+			gameObject.transform.FindChild("LogoBlock").GetComponent<SpriteRenderer>().sprite=null;
+			gameObject.transform.FindChild("UserBlock").GetComponent<SpriteRenderer>().sprite=null;
+			gameObject.transform.FindChild("TopBar").gameObject.SetActive(true);
+			gameObject.transform.FindChild("TopBar").position=new Vector3(ApplicationDesignRules.menuPosition.x,ApplicationDesignRules.menuPosition.y+ApplicationDesignRules.worldHeight/2f-ApplicationDesignRules.topBarWorldSize.y/2f+0.05f,0f);
+			gameObject.transform.FindChild("BottomBar").gameObject.SetActive(true);
+			gameObject.transform.FindChild("BottomBar").position=new Vector3(ApplicationDesignRules.menuPosition.x,ApplicationDesignRules.menuPosition.y-ApplicationDesignRules.worldHeight/2f+ApplicationDesignRules.bottomBarWorldSize.y/2f-0.05f,0f);
+			gameObject.transform.FindChild("ButtonsBorder").gameObject.SetActive(false);
+			for(int i=0;i<6;i++)
+			{
+				this.gameObject.transform.FindChild("Button"+i).gameObject.SetActive(false);
+			}
+		}
+
 
 		float logoBlockWidth = 693f;
 		float logoBlockScale = 0.7f;
 		float logoBlockWorldWidth = (logoBlockWidth / ApplicationDesignRules.pixelPerUnit)*logoBlockScale;
 		Vector3 logoBlockPosition = gameObject.transform.FindChild ("LogoBlock").transform.position;
 		logoBlockPosition.x = (-ApplicationDesignRules.worldWidth / 2f) + ApplicationDesignRules.leftMargin + logoBlockWorldWidth / 2f;
+		if(ApplicationDesignRules.isMobileScreen)
+		{
+			logoBlockPosition.y = gameObject.transform.FindChild("TopBar").position.y+0.05f;
+		}
 		gameObject.transform.FindChild ("LogoBlock").transform.position = logoBlockPosition;
-
+		
 		float userBlockWidth = 766f;
 		float userBlockScale = 0.7f;
 		float userBlockWorldWidth = userBlockWidth / ApplicationDesignRules.pixelPerUnit*logoBlockScale;
 		Vector3 userBlockPosition = gameObject.transform.FindChild ("UserBlock").transform.position;
 		userBlockPosition.x = (ApplicationDesignRules.worldWidth / 2f) - ApplicationDesignRules.rightMargin - userBlockWorldWidth / 2f;
+		if(ApplicationDesignRules.isMobileScreen)
+		{
+			userBlockPosition.y = gameObject.transform.FindChild("TopBar").position.y+0.05f;
+		}
 		gameObject.transform.FindChild ("UserBlock").transform.position = userBlockPosition;
+
+
+
+		                                             
+
+
 
 	}
 	public void refreshMenuObject()

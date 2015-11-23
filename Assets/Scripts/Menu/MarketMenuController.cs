@@ -23,6 +23,7 @@ public class MarketMenuController : MenuController
 	public override void resizeAll()
 	{
 		base.resize ();
+		base.setCurrentPage (3);
 		NewMarketController.instance.resize ();
 	}
 	public override void moneyUpdate()

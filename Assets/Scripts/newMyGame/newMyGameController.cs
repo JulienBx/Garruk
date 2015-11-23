@@ -104,6 +104,7 @@ public class newMyGameController : MonoBehaviour
 	private Texture2D cursorTexture;
 	
 	private bool isSceneLoaded;
+	private bool isScrolling;
 
 	void Update()
 	{	
@@ -171,6 +172,10 @@ public class newMyGameController : MonoBehaviour
 				this.isSearchingDeck=false;
 				this.cleanDeckList();
 			}
+		}
+		if(ApplicationDesignRules.isMobileScreen && this.isSceneLoaded)
+		{
+			isScrolling = this.mainCamera.GetComponent<ScrollingController>().ScrollController();
 		}
 	}
 	void Awake()
@@ -374,6 +379,7 @@ public class newMyGameController : MonoBehaviour
 		this.focusedCard.AddComponent<NewFocusedCardMyGameController> ();
 		this.focusedCard.SetActive (false);
 		this.mainCamera = gameObject;
+		this.mainCamera.AddComponent<ScrollingController> ();
 		this.menuCamera = GameObject.Find ("MenuCamera");
 		this.tutorialCamera = GameObject.Find ("TutorialCamera");
 		this.backgroundCamera = GameObject.Find ("BackgroundCamera");
@@ -483,7 +489,7 @@ public class newMyGameController : MonoBehaviour
 		if(ApplicationDesignRules.isMobileScreen)
 		{
 			deckBlockLeftMargin=ApplicationDesignRules.leftMargin;
-			deckBlockUpMargin=ApplicationDesignRules.upMargin;
+			deckBlockUpMargin=0f;
 			
 			cardsBlockLeftMargin=ApplicationDesignRules.leftMargin;
 			cardsBlockUpMargin=deckBlockUpMargin+ApplicationDesignRules.gapBetweenBlocks+deckBlockHeight;
@@ -502,7 +508,12 @@ public class newMyGameController : MonoBehaviour
 			cardsBlockLeftMargin=ApplicationDesignRules.leftMargin;
 			cardsBlockUpMargin=ApplicationDesignRules.upMargin;
 		}
-		
+
+		this.mainCamera.GetComponent<ScrollingController> ().setViewHeight(ApplicationDesignRules.viewHeight);
+		this.mainCamera.GetComponent<ScrollingController> ().setContentHeight(deckBlockHeight + cardsBlockHeight + filtersBlockHeight + 2f * ApplicationDesignRules.gapBetweenBlocks);
+		this.mainCamera.transform.position = ApplicationDesignRules.mainCameraStartPosition;
+		this.mainCamera.GetComponent<ScrollingController> ().setStartPositionY (ApplicationDesignRules.mainCameraStartPosition.y);
+
 		this.filtersBlock.GetComponent<NewBlockController> ().resize(filtersBlockLeftMargin,filtersBlockUpMargin,ApplicationDesignRules.blockWidth,filtersBlockHeight);
 		Vector3 filtersBlockUpperLeftPosition = this.filtersBlock.GetComponent<NewBlockController> ().getUpperLeftCornerPosition ();
 		Vector3 filtersBlockUpperRightPosition = this.filtersBlock.GetComponent<NewBlockController> ().getUpperRightCornerPosition ();

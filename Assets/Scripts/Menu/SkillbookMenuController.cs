@@ -20,6 +20,7 @@ public class SkillBookMenuController : MenuController
 	public override void resizeAll()
 	{
 		base.resize ();
+		base.setCurrentPage (4);
 		NewSkillBookController.instance.resize ();
 	}
 	public override void sceneCloseAllPopUp()

@@ -20,11 +20,12 @@ public class ApplicationDesignRules : MonoBehaviour
 	static public float cameraSize=5f;
 	static public float backgroundCameraSize=5f;
 	static public bool isMobileScreen;
+	static public float viewHeight;
 	static public float reductionRatio;
 	static public float leftMargin=0.5f;
 	static public float rightMargin=0.5f;
-	static public float upMargin=1.9f;
-	static public float downMargin=0.2f;
+	static public float upMargin;
+	static public float downMargin;
 	static public float blockWidth;
 	static public float largeBlockHeight;
 	static public float mediumBlockHeight;
@@ -126,6 +127,17 @@ public class ApplicationDesignRules : MonoBehaviour
 	static public Vector3 tutorialPosition = new Vector3(0f,100f,0f);
 	static public Vector3 backgroundPosition = new Vector3(0f,20f,0f);
 
+	static public Vector3 mainCameraStartPosition = new Vector3 (0f, 0f, -10f);
+
+	static private Vector2 topBarSize = new Vector2(1454f,181f);
+	static private Vector3 topBarScale = new Vector3(0.7443f,0.7443f,0.7443f);
+	static public Vector2 topBarWorldSize;
+
+	static private Vector2 bottomBarSize = new Vector3(1599f,199f);
+	static private Vector3 bottomBarScale = new Vector3(0.676f,0.676f,0.7443f);
+	static public Vector2 bottomBarWorldSize;
+
+
 	static public void computeDesignRules()
 	{
 		widthScreen=Screen.width;
@@ -144,9 +156,8 @@ public class ApplicationDesignRules : MonoBehaviour
 		worldHeight = 2f*cameraSize;
 		worldWidth = ((float)Screen.width/(float)Screen.height) * worldHeight;
 
-		largeBlockHeight = 10f - upMargin - downMargin;
-		mediumBlockHeight = (10f-upMargin-downMargin-gapBetweenBlocks)*(2.8f/5f);
-		smallBlockHeight = (10f-upMargin-downMargin-gapBetweenBlocks)*(2.2f/5f);
+		topBarWorldSize = toWorldSize (topBarSize, topBarScale);
+		bottomBarWorldSize = toWorldSize (bottomBarSize, bottomBarScale);
 
 		if(screenRatio<=mobileScreenRatio)
 		{
@@ -154,7 +165,14 @@ public class ApplicationDesignRules : MonoBehaviour
 			isMobileScreen=true;
 			leftMargin = (worldWidth-10f)/2f;
 			rightMargin = leftMargin;
+			upMargin=topBarWorldSize.y-0.1f;
+			downMargin=bottomBarWorldSize.y-0.05f;
 			blockWidth=worldWidth-leftMargin-rightMargin;
+
+			largeBlockHeight = 10f - 2.1f;
+			mediumBlockHeight = (10f-2.1f-gapBetweenBlocks)*(2.8f/5f);
+			smallBlockHeight = (10f-2.1f-gapBetweenBlocks)*(2.2f/5f);
+			mainCameraStartPosition=new Vector3(0f,(upMargin + downMargin)/2f,-10f);
 
 		}
 		else
@@ -162,6 +180,8 @@ public class ApplicationDesignRules : MonoBehaviour
 			isMobileScreen=false;
 			leftMargin = worldWidth / 80f;
 			rightMargin = leftMargin;
+			upMargin=1.9f;
+			downMargin=0.2f;
 			blockWidth=(worldWidth-leftMargin-rightMargin-gapBetweenBlocks)/2f;
 			if(screenRatio>=optimalScreenRatio)
 			{
@@ -171,7 +191,14 @@ public class ApplicationDesignRules : MonoBehaviour
 			{
 				reductionRatio=1f-(optimalScreenRatio-screenRatio)/optimalScreenRatio;
 			}
+
+			largeBlockHeight = 10f - upMargin - downMargin;
+			mediumBlockHeight = (10f-upMargin-downMargin-gapBetweenBlocks)*(2.8f/5f);
+			smallBlockHeight = (10f-upMargin-downMargin-gapBetweenBlocks)*(2.2f/5f);
+			mainCameraStartPosition=new Vector3(0f,0f,-10f);
 		}
+
+		viewHeight = worldHeight - upMargin - downMargin;
 
 		button62Scale = toNewScale (button62OriginalScale);
 		button62WorldSize = toWorldSize (button62Size, button62Scale);
