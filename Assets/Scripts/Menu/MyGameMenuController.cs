@@ -24,7 +24,9 @@ public class MyGameMenuController : MenuController
 	{
 		base.resize ();
 		base.setCurrentPage (1);
+		newMyGameController.instance.cleanCards ();
 		newMyGameController.instance.resize ();
+		newMyGameController.instance.initializeCards ();
 	}
 	public override void moneyUpdate()
 	{

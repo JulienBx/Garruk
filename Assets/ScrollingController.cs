@@ -26,7 +26,30 @@ public class ScrollingController : MonoBehaviour
 	public void setStartPositionY(float startPositionY)
 	{
 		this.startPositionY = startPositionY;
+		this.currentPositionY = this.startPositionY;
 		this.endPositionY = startPositionY - (contentHeight - viewHeight) ;
+	}
+	public bool isEndPosition()
+	{
+		if(this.currentPositionY==this.endPositionY)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	public bool isStartPosition()
+	{
+		if(this.currentPositionY==this.startPositionY)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 
 	public bool ScrollController()

@@ -130,11 +130,11 @@ public class ApplicationDesignRules : MonoBehaviour
 	static public Vector3 mainCameraStartPosition = new Vector3 (0f, 0f, -10f);
 
 	static private Vector2 topBarSize = new Vector2(1454f,181f);
-	static private Vector3 topBarScale = new Vector3(0.7443f,0.7443f,0.7443f);
+	static private Vector3 topBarScale = new Vector3(0.75f,0.75f,0.75f);
 	static public Vector2 topBarWorldSize;
 
 	static private Vector2 bottomBarSize = new Vector3(1599f,199f);
-	static private Vector3 bottomBarScale = new Vector3(0.676f,0.676f,0.7443f);
+	static private Vector3 bottomBarScale = new Vector3(0.68f,0.68f,0.68f);
 	static public Vector2 bottomBarWorldSize;
 
 
@@ -163,9 +163,9 @@ public class ApplicationDesignRules : MonoBehaviour
 		{
 			reductionRatio=1f;
 			isMobileScreen=true;
-			leftMargin = (worldWidth-10f)/2f;
+			leftMargin = (worldWidth-10.1f)/2f;
 			rightMargin = leftMargin;
-			upMargin=topBarWorldSize.y-0.1f;
+			upMargin=topBarWorldSize.y-0.3f;
 			downMargin=bottomBarWorldSize.y-0.05f;
 			blockWidth=worldWidth-leftMargin-rightMargin;
 

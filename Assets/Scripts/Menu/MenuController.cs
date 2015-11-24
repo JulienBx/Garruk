@@ -460,12 +460,6 @@ public class MenuController : MonoBehaviour
 		}
 		gameObject.transform.FindChild ("UserBlock").transform.position = userBlockPosition;
 
-
-
-		                                             
-
-
-
 	}
 	public void refreshMenuObject()
 	{
