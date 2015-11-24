@@ -19,9 +19,17 @@ public class ScrollingController : MonoBehaviour
 	{
 		this.viewHeight = viewHeight;
 	}
+	public float getViewHeight()
+	{
+		return viewHeight;
+	}
 	public void setContentHeight(float contentHeight)
 	{
 		this.contentHeight = contentHeight;
+	}
+	public float getContentHeight()
+	{
+		return contentHeight;
 	}
 	public void setStartPositionY(float startPositionY)
 	{

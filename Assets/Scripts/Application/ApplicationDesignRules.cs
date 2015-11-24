@@ -166,7 +166,7 @@ public class ApplicationDesignRules : MonoBehaviour
 			leftMargin = (worldWidth-10.1f)/2f;
 			rightMargin = leftMargin;
 			upMargin=topBarWorldSize.y-0.3f;
-			downMargin=bottomBarWorldSize.y-0.05f;
+			downMargin=bottomBarWorldSize.y-0.1f;
 			blockWidth=worldWidth-leftMargin-rightMargin;
 
 			largeBlockHeight = 10f - 2.1f;
