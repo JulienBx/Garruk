@@ -27,6 +27,10 @@ public class NewCardMarketController : NewCardController
 	{
 		NewMarketController.instance.leftClickedHandler (this.id);
 	}
+	void OnMouseUp()
+	{
+		NewMarketController.instance.leftClickReleaseHandler ();
+	}
 	public override void OnMouseExit()
 	{
 		base.OnMouseExit ();

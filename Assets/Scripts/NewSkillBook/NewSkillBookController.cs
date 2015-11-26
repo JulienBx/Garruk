@@ -11,6 +11,7 @@ public class NewSkillBookController : MonoBehaviour
 	private NewSkillBookModel model;
 	
 	public GameObject blockObject;
+	public GameObject skillObject;
 
 	private GameObject menu;
 	private GameObject tutorial;
@@ -19,6 +20,7 @@ public class NewSkillBookController : MonoBehaviour
 	private GameObject skillsBlockTitle;
 	private GameObject[] skills;
 	private GameObject skillsNumberTitle;
+	private GameObject skillsScrollLine;
 	private GameObject skillsPaginationLine;
 	private GameObject skillsPaginationButtons;
 	
@@ -45,6 +47,7 @@ public class NewSkillBookController : MonoBehaviour
 	private GameObject[] skillChoices;
 
 	private GameObject mainCamera;
+	private GameObject skillsCamera;
 	private GameObject menuCamera;
 	private GameObject tutorialCamera;
 	private GameObject backgroundCamera;
@@ -79,6 +82,7 @@ public class NewSkillBookController : MonoBehaviour
 
 	private bool isSceneLoaded;
 	private bool isScrolling;
+	private float scrollIntersection;
 
 	void Update()
 	{
@@ -132,7 +136,7 @@ public class NewSkillBookController : MonoBehaviour
 		}
 		if(ApplicationDesignRules.isMobileScreen && this.isSceneLoaded)
 		{
-			isScrolling = this.mainCamera.GetComponent<ScrollingController>().ScrollController();
+			isScrolling = this.skillsCamera.GetComponent<ScrollingController>().ScrollController();
 		}
 	}
 	void Awake()
@@ -140,13 +144,11 @@ public class NewSkillBookController : MonoBehaviour
 		instance = this;
 		this.activeTab = 0;
 		this.model = new NewSkillBookModel ();
-		this.skillsPagination = new Pagination ();
-		this.skillsPagination.chosenPage = 0;
-		this.skillsPagination.nbElementsPerPage = 3;
 		this.helpPagination = new Pagination ();
 		this.helpPagination.chosenPage = 0;
 		this.helpPagination.nbElementsPerPage = 3;
 		this.selectedCardTypeId = 0;
+		this.scrollIntersection = 1.5f;
 		this.initializeScene ();
 		this.startMenuInitialization ();
 	}
@@ -237,6 +239,12 @@ public class NewSkillBookController : MonoBehaviour
 	{
 		this.drawSkillsPaginationNumber ();
 		this.drawSkills ();
+		if(ApplicationDesignRules.isMobileScreen)
+		{
+			Vector3 cardsCameraPosition = this.skillsCamera.transform.position;
+			cardsCameraPosition.y=this.skillsCamera.GetComponent<ScrollingController>().getStartPositionY();
+			this.skillsCamera.transform.position=cardsCameraPosition;
+		}
 	}
 	private void initializeHelp()
 	{
@@ -314,7 +322,7 @@ public class NewSkillBookController : MonoBehaviour
 		this.helpLine.SetActive (false);
 		this.drawCardsTypes ();
 	}
-	private void initializeSkills()
+	public void initializeSkills()
 	{
 		this.resetFiltersValue ();
 		this.skillsPagination.chosenPage = 0;
@@ -354,12 +362,7 @@ public class NewSkillBookController : MonoBehaviour
 		this.skillsBlockTitle = GameObject.Find ("SkillsBlockTitle");
 		this.skillsBlockTitle.GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
 		this.skillsBlockTitle.GetComponent<TextMeshPro> ().text = "Compétences";
-		this.skills=new GameObject[this.skillsPagination.nbElementsPerPage];
-		for(int i=0;i<this.skills.Length;i++)
-		{
-			this.skills[i]=GameObject.Find ("Skill"+i);
-			this.skills[i].GetComponent<NewSkillBookSkillController>().initialize();
-		}
+		this.skills=new GameObject[0];
 		this.skillsPaginationButtons = GameObject.Find ("SkillsPagination");
 		this.skillsPaginationButtons.AddComponent<NewSkillBookSkillsPaginationController> ();
 		this.skillsPaginationButtons.GetComponent<NewSkillBookSkillsPaginationController> ().initialize ();
@@ -367,6 +370,8 @@ public class NewSkillBookController : MonoBehaviour
 		this.skillsPaginationLine.GetComponent<SpriteRenderer> ().color = ApplicationDesignRules.whiteSpriteColor;
 		this.skillsNumberTitle = GameObject.Find ("SkillsNumberTitle");
 		this.skillsNumberTitle.GetComponent<TextMeshPro> ().color = ApplicationDesignRules.whiteTextColor;
+		this.skillsScrollLine = GameObject.Find ("SkillsScrollLine");
+		this.skillsScrollLine.GetComponent<SpriteRenderer> ().color = ApplicationDesignRules.whiteSpriteColor;
 
 		this.helpBlock = Instantiate (this.blockObject) as GameObject;
 		this.helpLine = GameObject.Find ("HelpLine");
@@ -470,10 +475,11 @@ public class NewSkillBookController : MonoBehaviour
 		this.menuCamera = GameObject.Find ("MenuCamera");
 		this.tutorialCamera = GameObject.Find ("TutorialCamera");
 		this.backgroundCamera = GameObject.Find ("BackgroundCamera");
+		this.skillsCamera = GameObject.Find ("SkillsCamera");
+		this.skillsCamera.AddComponent<ScrollingController> ();
 	}
 	public void resize()
 	{
-		this.mainCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
 		this.menuCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
 		this.tutorialCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
 		this.backgroundCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.backgroundCameraSize;
@@ -489,13 +495,24 @@ public class NewSkillBookController : MonoBehaviour
 		float filtersBlockLeftMargin;
 		float filtersBlockUpMargin;
 		float filtersBlockHeight;
+
+		float skillScale = 0.53f;
+		float skillBackgroundHeight = 351f;
+		float skillWorldHeight = skillScale*(skillBackgroundHeight / ApplicationDesignRules.pixelPerUnit);
+		float gapBetweenSkills = 0.2f;
 		
-		skillsBlockHeight=ApplicationDesignRules.largeBlockHeight;
 		helpBlockHeight=ApplicationDesignRules.mediumBlockHeight-ApplicationDesignRules.button62WorldSize.y;
 		filtersBlockHeight=ApplicationDesignRules.smallBlockHeight;
+
+		this.skillsPagination = new Pagination ();
+		this.skillsPagination.chosenPage = 0;
 		
 		if(ApplicationDesignRules.isMobileScreen)
 		{
+			this.skillsPagination.nbElementsPerPage = 50;
+			this.skillsScrollLine.SetActive(true);
+			skillsBlockHeight=2.1f+this.skillsPagination.nbElementsPerPage*(skillWorldHeight+gapBetweenSkills);
+
 			helpBlockLeftMargin=ApplicationDesignRules.leftMargin;
 			helpBlockUpMargin=0f+ApplicationDesignRules.button62WorldSize.y;
 			
@@ -507,6 +524,15 @@ public class NewSkillBookController : MonoBehaviour
 		}
 		else
 		{
+			this.skillsPagination.nbElementsPerPage = 3;
+			this.skillsScrollLine.SetActive(false);
+			skillsBlockHeight=ApplicationDesignRules.largeBlockHeight;
+
+			this.skillsCamera.SetActive(false);
+			this.mainCamera.GetComponent<Camera>().rect=new Rect(0f,0f,1f,1f);
+			this.mainCamera.transform.position=ApplicationDesignRules.mainCameraStartPosition;
+			this.mainCamera.GetComponent<Camera>().orthographicSize=ApplicationDesignRules.cameraSize;
+
 			helpBlockLeftMargin=ApplicationDesignRules.leftMargin+ApplicationDesignRules.gapBetweenBlocks+ApplicationDesignRules.blockWidth;
 			helpBlockUpMargin=ApplicationDesignRules.upMargin+ApplicationDesignRules.button62WorldSize.y;
 			
@@ -625,15 +651,16 @@ public class NewSkillBookController : MonoBehaviour
 		this.skillsNumberTitle.transform.position = new Vector3 (skillsBlockUpperLeftPosition.x + 0.3f, skillsBlockUpperLeftPosition.y - 1.2f, 0f);
 		this.skillsNumberTitle.transform.localScale = ApplicationDesignRules.subMainTitleScale;
 
-		float skillScale = 0.53f;
-		float skillBackgroundHeight = 351f;
-		float skillWorldHeight = skillScale*(skillBackgroundHeight / ApplicationDesignRules.pixelPerUnit);
+		this.skills=new GameObject[this.skillsPagination.nbElementsPerPage];
+
 		float skillWorldWidth = skillsBlockSize.x - 0.6f;
-		float gapBetweenSkills = 0.2f;
 		float lineScale = ApplicationDesignRules.getLineScale (skillsBlockSize.x - 0.6f);
-		
+
+
 		for(int i=0;i<this.skills.Length;i++)
 		{
+			this.skills[i]=Instantiate (this.skillObject) as GameObject;
+			this.skills[i].GetComponent<NewSkillBookSkillController>().initialize();
 			this.skills[i].transform.position=new Vector3(skillsBlockUpperLeftPosition.x+0.3f+skillWorldWidth/2f,skillsBlockUpperLeftPosition.y-2.35f-i*(skillWorldHeight+gapBetweenSkills),0f);
 			this.skills[i].transform.GetComponent<NewSkillBookSkillController>().resize(skillWorldWidth);
 		}
@@ -643,6 +670,10 @@ public class NewSkillBookController : MonoBehaviour
 
 		this.skillsPaginationLine.transform.localScale = new Vector3 (lineScale, 1f, 1f);
 		this.skillsPaginationLine.transform.position = new Vector3 (skillsBlockLowerLeftPosition.x + skillsBlockSize.x / 2, skillsBlockLowerLeftPosition.y + 0.6f, 0f);
+		this.skillsScrollLine.transform.localScale = new Vector3 (lineScale, 1f, 1f);
+		this.skillsScrollLine.transform.position = new Vector3 (skillsBlockLowerLeftPosition.x + skillsBlockSize.x / 2, skillsBlockUpperLeftPosition.y-this.scrollIntersection+0.03f+ApplicationDesignRules.gapBetweenBlocks, 0f);
+
+
 
 		this.helpBlock.GetComponent<NewBlockController> ().resize(helpBlockLeftMargin,helpBlockUpMargin, ApplicationDesignRules.blockWidth,helpBlockHeight);
 		Vector3 helpBlockUpperLeftPosition = this.helpBlock.GetComponent<NewBlockController> ().getUpperLeftCornerPosition ();
@@ -712,6 +743,21 @@ public class NewSkillBookController : MonoBehaviour
 			this.stats[i].transform.FindChild("Title").GetComponent<TextContainer>().width=statsBlockSize.x;
 		}
 
+		if(ApplicationDesignRules.isMobileScreen)
+		{
+			this.mainCamera.GetComponent<Camera> ().rect = new Rect (0f,(ApplicationDesignRules.worldHeight-ApplicationDesignRules.upMargin-this.scrollIntersection)/ApplicationDesignRules.worldHeight,1f,(this.scrollIntersection)/ApplicationDesignRules.worldHeight);
+			this.mainCamera.GetComponent<Camera> ().orthographicSize = this.scrollIntersection/2f;
+			this.mainCamera.transform.position = new Vector3 (0f, skillsBlockUpperLeftPosition.y-(this.scrollIntersection/2f) + ApplicationDesignRules.gapBetweenBlocks, -10f);
+			
+			this.skillsCamera.SetActive(true);
+			this.skillsCamera.GetComponent<Camera> ().rect = new Rect (0f,(ApplicationDesignRules.downMargin)/ApplicationDesignRules.worldHeight,1f,(ApplicationDesignRules.viewHeight-this.scrollIntersection)/ApplicationDesignRules.worldHeight);
+			this.skillsCamera.GetComponent<Camera> ().orthographicSize = (ApplicationDesignRules.viewHeight-this.scrollIntersection)/2f;
+			this.skillsCamera.GetComponent<ScrollingController> ().setViewHeight(ApplicationDesignRules.viewHeight-this.scrollIntersection);
+			this.skillsCamera.GetComponent<ScrollingController> ().setContentHeight(skillsBlockHeight-this.scrollIntersection+0.05f);
+			this.skillsCamera.transform.position = new Vector3 (0f, skillsBlockUpperLeftPosition.y-(this.scrollIntersection/2f)+ApplicationDesignRules.gapBetweenBlocks-this.scrollIntersection/2f-(ApplicationDesignRules.viewHeight-this.scrollIntersection)/2f, -10f);
+			this.skillsCamera.GetComponent<ScrollingController> ().setStartPositionY (this.skillsCamera.transform.position.y);
+		}
+
 		TutorialObjectController.instance.resize ();
 	}
 	public void cardTypeFilterHandler(int id)
@@ -763,6 +809,13 @@ public class NewSkillBookController : MonoBehaviour
 			{
 				this.skills[i].SetActive(false);
 			}
+		}
+	}
+	public void cleanSkills()
+	{
+		for(int i=0;i<this.skills.Length;i++)
+		{
+			Destroy(this.skills[i]);
 		}
 	}
 	public void drawCardsTypes()

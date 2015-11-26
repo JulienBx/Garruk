@@ -11,6 +11,7 @@ public class NewMarketController : MonoBehaviour
 	private NewMarketModel model;
 
 	public GameObject blockObject;
+	public GameObject cardObject;
 	public GUISkin popUpSkin;
 	public int totalNbResultLimit;
 	public int refreshInterval;
@@ -23,6 +24,7 @@ public class NewMarketController : MonoBehaviour
 	private GameObject[] cards;
 	private GameObject cardsPaginationButtons;
 	private GameObject cardsPaginationLine;
+	private GameObject cardsScrollLine;
 	private GameObject cardsNumberTitle;
 
 	private GameObject[] tabs;
@@ -50,6 +52,7 @@ public class NewMarketController : MonoBehaviour
 
 	private GameObject mainCamera;
 	private GameObject menuCamera;
+	private GameObject cardsCamera;
 	private GameObject tutorialCamera;
 	private GameObject backgroundCamera;
 	
@@ -99,11 +102,23 @@ public class NewMarketController : MonoBehaviour
 	private bool toUpdateCardsMarketFeatures;
 	private bool areNewCardsAvailable;
 	private bool isScrolling;
+	private float scrollIntersection;
+
+	private bool isLeftClicked;
+	private float clickInterval;
 
 	void Update()
 	{	
 		this.timer += Time.deltaTime;
 		
+		if(isLeftClicked)
+		{
+			this.clickInterval=this.clickInterval+Time.deltaTime*10f;
+			if (Input.touchCount == 1 && Mathf.Abs(Input.touches[0].deltaPosition.y)>1f) 
+			{
+				this.isLeftClicked=false;
+			}
+		}
 		if (this.timer > this.refreshInterval) 
 		{	
 			this.timer=this.timer-this.refreshInterval;
@@ -176,22 +191,18 @@ public class NewMarketController : MonoBehaviour
 				}
 			}
 		}
-		if(ApplicationDesignRules.isMobileScreen && this.isSceneLoaded)
+		if(ApplicationDesignRules.isMobileScreen && this.isSceneLoaded && !this.isLeftClicked)
 		{
-			isScrolling = this.mainCamera.GetComponent<ScrollingController>().ScrollController();
+			isScrolling = this.cardsCamera.GetComponent<ScrollingController>().ScrollController();
 		}
 	}
 	void Awake()
 	{
 		instance = this;
 		this.model = new NewMarketModel ();
-		this.cardsPerLine = 4;
-		this.nbLines = 2;
 		this.sortingOrder = -1;
-		this.cardsPagination = new Pagination ();
-		this.cardsPagination.chosenPage = 0;
-		this.cardsPagination.nbElementsPerPage = this.cardsPerLine * this.nbLines;
 		this.activeTab = 0;
+		this.scrollIntersection = 1.2f;
 		this.initializeScene ();
 		this.startMenuInitialization ();
 	}
@@ -218,7 +229,7 @@ public class NewMarketController : MonoBehaviour
 		this.resize ();
 		StartCoroutine(this.selectATab (true));
 	}
-	private void initializeCards()
+	public void initializeCards()
 	{
 		this.resetFiltersValue ();
 		this.cardsPagination.chosenPage = 0;
@@ -248,6 +259,12 @@ public class NewMarketController : MonoBehaviour
 	{
 		this.drawPaginationNumber ();
 		this.drawCards ();
+		if(ApplicationDesignRules.isMobileScreen)
+		{
+			Vector3 cardsCameraPosition = this.cardsCamera.transform.position;
+			cardsCameraPosition.y=this.cardsCamera.GetComponent<ScrollingController>().getStartPositionY();
+			this.cardsCamera.transform.position=cardsCameraPosition;
+		}
 	}
 	public void selectATabHandler(int idTab)
 	{
@@ -300,19 +317,14 @@ public class NewMarketController : MonoBehaviour
 		this.cardsBlock = Instantiate (this.blockObject) as GameObject;
 		this.cardsNumberTitle = GameObject.Find ("CardsNumberTitle");
 		this.cardsNumberTitle.GetComponent<TextMeshPro> ().color = ApplicationDesignRules.whiteTextColor;
-		this.cards=new GameObject[this.nbLines*this.cardsPerLine];
-		for (int i=0;i<this.cards.Length;i++)
-		{
-			this.cards[i]=GameObject.Find("Card"+i);
-			this.cards[i].AddComponent<NewCardMarketController>();
-			this.cards[i].transform.GetComponent<NewCardMarketController>().setId(i);
-			this.cards[i].SetActive(false);
-		}
 		this.cardsPaginationButtons = GameObject.Find("Pagination");
 		this.cardsPaginationButtons.AddComponent<NewMarketPaginationController> ();
 		this.cardsPaginationButtons.GetComponent<NewMarketPaginationController> ().initialize ();
 		this.cardsPaginationLine = GameObject.Find ("CardsPaginationLine");
 		this.cardsPaginationLine.GetComponent<SpriteRenderer> ().color = ApplicationDesignRules.whiteSpriteColor;
+		this.cardsScrollLine = GameObject.Find ("CardsScrollLine");
+		this.cardsScrollLine.GetComponent<SpriteRenderer> ().color = ApplicationDesignRules.whiteSpriteColor;
+		this.cards=new GameObject[0];
 		this.refreshMarketButton = GameObject.Find ("RefreshMarketButton");
 		this.refreshMarketButton.GetComponent<TextMeshPro> ().text = "Actualiser".ToUpper();
 		this.refreshMarketButton.AddComponent<NewMarketRefreshButtonController> ();
@@ -414,10 +426,11 @@ public class NewMarketController : MonoBehaviour
 		this.focusedCard.AddComponent<NewFocusedCardMarketController> ();
 		this.focusedCard.SetActive (false);
 		this.mainCamera = gameObject;
-		this.mainCamera.AddComponent<ScrollingController> ();
 		this.menuCamera = GameObject.Find ("MenuCamera");
 		this.tutorialCamera = GameObject.Find ("TutorialCamera");
 		this.backgroundCamera = GameObject.Find ("BackgroundCamera");
+		this.cardsCamera = GameObject.Find ("CardsCamera");
+		this.cardsCamera.AddComponent<ScrollingController> ();
 
 	}
 	private void resetFiltersValue()
@@ -482,7 +495,6 @@ public class NewMarketController : MonoBehaviour
 	}
 	public void resize()
 	{
-		this.mainCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
 		this.menuCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
 		this.tutorialCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
 		this.backgroundCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.backgroundCameraSize;
@@ -498,24 +510,43 @@ public class NewMarketController : MonoBehaviour
 		float filtersBlockLeftMargin;
 		float filtersBlockUpMargin;
 		float filtersBlockHeight;
-		
-		cardsBlockHeight=ApplicationDesignRules.largeBlockHeight-ApplicationDesignRules.button62WorldSize.y;
+
+		float gapBetweenCardsLine = 0.55f;
+
 		marketBlockHeight=ApplicationDesignRules.mediumBlockHeight;
 		filtersBlockHeight=ApplicationDesignRules.smallBlockHeight;
 		
 		if(ApplicationDesignRules.isMobileScreen)
 		{
+			this.cardsPerLine = 4;
+			this.nbLines = 25;
+			this.cardsScrollLine.SetActive(true);
+
+			cardsBlockHeight=3f+this.nbLines*(ApplicationDesignRules.cardWorldSize.y+gapBetweenCardsLine);
+
 			marketBlockLeftMargin=ApplicationDesignRules.leftMargin;
 			marketBlockUpMargin=0f;
 			
 			cardsBlockLeftMargin=ApplicationDesignRules.leftMargin;
 			cardsBlockUpMargin=marketBlockUpMargin+ApplicationDesignRules.gapBetweenBlocks+marketBlockHeight+ApplicationDesignRules.button62WorldSize.y;
 			
-			filtersBlockLeftMargin=ApplicationDesignRules.leftMargin;
+			filtersBlockLeftMargin=20f;
 			filtersBlockUpMargin=cardsBlockUpMargin+ApplicationDesignRules.gapBetweenBlocks+cardsBlockHeight;
 		}
 		else
 		{
+
+			this.cardsPerLine = 4;
+			this.nbLines = 2;
+			this.cardsScrollLine.SetActive(false);
+			
+			this.cardsCamera.SetActive(false);
+			this.mainCamera.GetComponent<Camera>().rect=new Rect(0f,0f,1f,1f);
+			this.mainCamera.transform.position=ApplicationDesignRules.mainCameraStartPosition;
+			this.mainCamera.GetComponent<Camera>().orthographicSize=ApplicationDesignRules.cameraSize;
+
+			cardsBlockHeight=ApplicationDesignRules.largeBlockHeight-ApplicationDesignRules.button62WorldSize.y;
+
 			marketBlockLeftMargin=ApplicationDesignRules.leftMargin+ApplicationDesignRules.gapBetweenBlocks+ApplicationDesignRules.blockWidth;
 			marketBlockUpMargin=ApplicationDesignRules.upMargin;
 			
@@ -526,10 +557,9 @@ public class NewMarketController : MonoBehaviour
 			cardsBlockUpMargin=ApplicationDesignRules.upMargin+ApplicationDesignRules.button62WorldSize.y;
 		}
 
-		this.mainCamera.GetComponent<ScrollingController> ().setViewHeight(ApplicationDesignRules.viewHeight);
-		this.mainCamera.GetComponent<ScrollingController> ().setContentHeight(cardsBlockHeight + marketBlockHeight + filtersBlockHeight +2f * ApplicationDesignRules.gapBetweenBlocks + ApplicationDesignRules.button62WorldSize.y);
-		this.mainCamera.transform.position = ApplicationDesignRules.mainCameraStartPosition;
-		this.mainCamera.GetComponent<ScrollingController> ().setStartPositionY (ApplicationDesignRules.mainCameraStartPosition.y);
+		this.cardsPagination = new Pagination ();
+		this.cardsPagination.chosenPage = 0;
+		this.cardsPagination.nbElementsPerPage = this.cardsPerLine * this.nbLines;
 
 		this.filtersBlock.GetComponent<NewBlockController> ().resize(filtersBlockLeftMargin,filtersBlockUpMargin,ApplicationDesignRules.blockWidth,filtersBlockHeight);
 		Vector3 filtersBlockUpperLeftPosition = this.filtersBlock.GetComponent<NewBlockController> ().getUpperLeftCornerPosition ();
@@ -636,16 +666,20 @@ public class NewMarketController : MonoBehaviour
 			this.tabs[i].transform.position = new Vector3 (cardsBlockUpperLeftPosition.x + ApplicationDesignRules.button62WorldSize.x / 2f+ i*(ApplicationDesignRules.button62WorldSize.x+gapBetweenSelectionsButtons), cardsBlockUpperLeftPosition.y+ApplicationDesignRules.button62WorldSize.y/2f,0f);
 		}
 
-		float gapBetweenCardsLine = 0.55f;
-		float gapBetweenCardsHalo = (cardsBlockSize.x - 0.6f - 4f * ApplicationDesignRules.cardWorldSize.x) / 3f;
+		float gapBetweenCards = (cardsBlockSize.x - 0.6f - 4f * ApplicationDesignRules.cardWorldSize.x) / 3f;
 		float firstLineY = cardsBlockUpperRightPosition.y - 1.85f;
-		
+
+		this.cards=new GameObject[this.cardsPerLine*this.nbLines];
+
 		for(int j=0;j<this.nbLines;j++)
 		{
 			for(int i =0;i<this.cardsPerLine;i++)
 			{
+				this.cards[j*(cardsPerLine)+i]=Instantiate (this.cardObject) as GameObject;
+				this.cards[j*(cardsPerLine)+i].AddComponent<NewCardMarketController>();
+				this.cards[j*(cardsPerLine)+i].transform.GetComponent<NewCardMarketController>().setId(j*(cardsPerLine)+i);
 				this.cards[j*(cardsPerLine)+i].transform.localScale= ApplicationDesignRules.cardScale;
-				this.cards[j*(cardsPerLine)+i].transform.position=new Vector3(cardsBlockUpperLeftPosition.x+0.3f+ApplicationDesignRules.cardHaloWorldSize.x/2f+i*(gapBetweenCardsHalo+ApplicationDesignRules.cardHaloWorldSize.x),firstLineY-j*(gapBetweenCardsLine+ApplicationDesignRules.cardHaloWorldSize.y),0f);
+				this.cards[j*(cardsPerLine)+i].transform.position=new Vector3(cardsBlockUpperLeftPosition.x+0.3f+ApplicationDesignRules.cardWorldSize.x/2f+i*(gapBetweenCards+ApplicationDesignRules.cardWorldSize.x),firstLineY-j*(gapBetweenCardsLine+ApplicationDesignRules.cardHaloWorldSize.y),0f);
 				this.cards[j*(this.cardsPerLine)+i].transform.GetComponent<NewCardController> ().setCentralWindow (this.centralWindow);
 			}
 		}
@@ -656,7 +690,9 @@ public class NewMarketController : MonoBehaviour
 		float lineScale = ApplicationDesignRules.getLineScale (cardsBlockSize.x - 0.6f);
 		this.cardsPaginationLine.transform.localScale = new Vector3 (lineScale, 1f, 1f);
 		this.cardsPaginationLine.transform.position = new Vector3 (cardsBlockLowerLeftPosition.x + cardsBlockSize.x / 2, cardsBlockLowerLeftPosition.y + 0.45f, 0f);
-		
+		this.cardsScrollLine.transform.localScale = new Vector3 (lineScale, 1f, 1f);
+		this.cardsScrollLine.transform.position = new Vector3 (cardsBlockLowerLeftPosition.x + cardsBlockSize.x / 2, cardsBlockUpperLeftPosition.y+ApplicationDesignRules.button62WorldSize.y-this.scrollIntersection+0.03f+ApplicationDesignRules.gapBetweenBlocks, 0f);
+
 		this.focusedCard.transform.localScale = ApplicationDesignRules.cardFocusedScale;
 		this.focusedCard.transform.position = new Vector3 (0f, -ApplicationDesignRules.worldHeight/2f+ApplicationDesignRules.downMargin+ApplicationDesignRules.cardFocusedWorldSize.y/2f-0.22f, 0f);
 		this.focusedCard.transform.GetComponent<NewFocusedCardController> ().setCentralWindow (this.centralWindow);
@@ -671,7 +707,22 @@ public class NewMarketController : MonoBehaviour
 		this.marketSubtitle.transform.GetComponent<TextContainer>().width=marketBlockSize.x-0.6f;
 		this.marketSubtitle.transform.localScale = ApplicationDesignRules.subMainTitleScale;
 
-		 TutorialObjectController.instance.resize ();
+		if(ApplicationDesignRules.isMobileScreen)
+		{
+			this.mainCamera.GetComponent<Camera> ().rect = new Rect (0f,(ApplicationDesignRules.worldHeight-ApplicationDesignRules.upMargin-this.scrollIntersection)/ApplicationDesignRules.worldHeight,1f,(this.scrollIntersection)/ApplicationDesignRules.worldHeight);
+			this.mainCamera.GetComponent<Camera> ().orthographicSize = this.scrollIntersection/2f;
+			this.mainCamera.transform.position = new Vector3 (0f, cardsBlockUpperLeftPosition.y-(this.scrollIntersection/2f)+ApplicationDesignRules.button62WorldSize.y + ApplicationDesignRules.gapBetweenBlocks, -10f);
+
+			this.cardsCamera.SetActive(true);
+			this.cardsCamera.GetComponent<Camera> ().rect = new Rect (0f,(ApplicationDesignRules.downMargin)/ApplicationDesignRules.worldHeight,1f,(ApplicationDesignRules.viewHeight-this.scrollIntersection)/ApplicationDesignRules.worldHeight);
+			this.cardsCamera.GetComponent<Camera> ().orthographicSize = (ApplicationDesignRules.viewHeight-this.scrollIntersection)/2f;
+			this.cardsCamera.GetComponent<ScrollingController> ().setViewHeight(ApplicationDesignRules.viewHeight-this.scrollIntersection);
+			this.cardsCamera.GetComponent<ScrollingController> ().setContentHeight(cardsBlockHeight-this.scrollIntersection+ApplicationDesignRules.button62WorldSize.y+0.05f);
+			this.cardsCamera.transform.position = new Vector3 (0f, cardsBlockUpperLeftPosition.y-(this.scrollIntersection/2f)+ApplicationDesignRules.button62WorldSize.y+ApplicationDesignRules.gapBetweenBlocks-this.scrollIntersection/2f-(ApplicationDesignRules.viewHeight-this.scrollIntersection)/2f, -10f);
+			this.cardsCamera.GetComponent<ScrollingController> ().setStartPositionY (this.cardsCamera.transform.position.y);
+		}
+
+		TutorialObjectController.instance.resize ();
 
 	}
 	public void drawCards()
@@ -696,6 +747,13 @@ public class NewMarketController : MonoBehaviour
 			}
 		}
 		this.updateCardsMarketFeatures ();
+	}
+	public void cleanCards()
+	{
+		for(int i=0;i<this.cards.Length;i++)
+		{
+			Destroy(this.cards[i]);
+		}
 	}
 	public void showCardFocused()
 	{
@@ -1216,17 +1274,29 @@ public class NewMarketController : MonoBehaviour
 	}
 	public void leftClickedHandler(int id)
 	{
-		this.idCardClicked=id;
-		bool onSale=System.Convert.ToBoolean(model.cards.getCard(this.cardsDisplayed[this.idCardClicked]).onSale);
-		bool isMine = model.cards.getCard (this.cardsDisplayed[this.idCardClicked]).isMine;
-		int idOwner=model.cards.getCard(this.cardsDisplayed[this.idCardClicked]).IdOWner;
-		if(idOwner!=-1 || isMine)
+		if(!this.isScrolling)
 		{
-			this.showCardFocused ();
+			this.idCardClicked = id;
+			this.isLeftClicked = true;
+			this.clickInterval = 0f;
 		}
-		else
+	}
+	public void leftClickReleaseHandler()
+	{
+		if(isLeftClicked)
 		{
-			MenuController.instance.displayErrorPopUp("Cette carte a été vendue, vous ne pouvez plus la consulter");
+			this.isLeftClicked=false;
+			bool onSale=System.Convert.ToBoolean(model.cards.getCard(this.cardsDisplayed[this.idCardClicked]).onSale);
+			bool isMine = model.cards.getCard (this.cardsDisplayed[this.idCardClicked]).isMine;
+			int idOwner=model.cards.getCard(this.cardsDisplayed[this.idCardClicked]).IdOWner;
+			if(idOwner!=-1 || isMine)
+			{
+				this.showCardFocused ();
+			}
+			else
+			{
+				MenuController.instance.displayErrorPopUp("Cette carte a été vendue, vous ne pouvez plus la consulter");
+			}
 		}
 	}
 	public void refreshCredits()

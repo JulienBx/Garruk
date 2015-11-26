@@ -287,6 +287,12 @@ public class newMyGameController : MonoBehaviour
 	{
 		this.drawPaginationNumber ();
 		this.drawCards ();
+		if(ApplicationDesignRules.isMobileScreen)
+		{
+			Vector3 cardsCameraPosition = this.cardsCamera.transform.position;
+			cardsCameraPosition.y=this.cardsCameraIntermediatePosition;
+			this.cardsCamera.transform.position=cardsCameraPosition;
+		}
 	}
 	public void initializeScene()
 	{

@@ -13,6 +13,7 @@ public class NewStoreController : MonoBehaviour
 	private NewStoreModel model;
 
 	public GameObject cardObject;
+	public GameObject packObject;
 	public GameObject blockObject;
 	public GUISkin popUpSkin;
 
@@ -29,6 +30,7 @@ public class NewStoreController : MonoBehaviour
 	private GameObject packsPaginationButtons;
 	private GameObject packsPaginationLine;
 	private GameObject packsNumberTitle;
+	private GameObject packsScrollLine;
 
 	private GameObject storeBlock;
 	private GameObject storeBlockTitle;
@@ -44,7 +46,9 @@ public class NewStoreController : MonoBehaviour
 	private GameObject backButton;
 
 	private GameObject mainCamera;
+	private GameObject packsCamera;
 	private GameObject menuCamera;
+	private GameObject buyCreditsCamera;
 	private GameObject tutorialCamera;
 	private GameObject backgroundCamera;
 
@@ -79,6 +83,8 @@ public class NewStoreController : MonoBehaviour
 
 	private bool toUpdatePackPrices;
 	private bool isScrolling;
+	private float scrollIntersection;
+	private float packsCameraIntermediatePosition;
 	
 	void Update () 
 	{
@@ -125,7 +131,7 @@ public class NewStoreController : MonoBehaviour
 		}
 		if(ApplicationDesignRules.isMobileScreen && this.isSceneLoaded)
 		{
-			isScrolling = this.mainCamera.GetComponent<ScrollingController>().ScrollController();
+			isScrolling = this.packsCamera.GetComponent<ScrollingController>().ScrollController();
 		}
 	}
 	void Awake()
@@ -133,8 +139,7 @@ public class NewStoreController : MonoBehaviour
 		instance = this;
 		this.model = new NewStoreModel ();
 		this.speed = 300.0f;
-		this.packsPagination = new Pagination ();
-		this.packsPagination.nbElementsPerPage = 2;
+		this.scrollIntersection = 1.4f;
 		this.initializeScene ();
 		this.startMenuInitialization ();
 	}
@@ -169,31 +174,20 @@ public class NewStoreController : MonoBehaviour
 		this.packsBlockTitle.GetComponent<TextMeshPro> ().text = "Acheter";
 		this.packsNumberTitle = GameObject.Find ("PacksNumberTitle");
 		this.packsNumberTitle.GetComponent<TextMeshPro> ().color = ApplicationDesignRules.whiteTextColor;
-		this.packs=new GameObject[packsPagination.nbElementsPerPage];
-		this.packsButton = new GameObject[this.packs.Length];
-		this.packsTitle = new GameObject[this.packs.Length];
-		this.packsPicture = new GameObject[this.packs.Length];
-		for (int i=0;i<this.packs.Length;i++)
-		{
-			this.packs[i]=GameObject.Find("Pack"+i);
-			this.packsButton[i]=this.packs[i].transform.FindChild("Button").gameObject;
-			this.packsTitle[i]=this.packs[i].transform.FindChild("Name").gameObject;
-			this.packsPicture[i]=this.packs[i].transform.FindChild("Picture").gameObject;
-			this.packs[i].transform.FindChild("Button").gameObject.AddComponent<NewStoreBuyPackButtonController>();
-			this.packs[i].transform.FindChild("Button").GetComponent<NewStoreBuyPackButtonController>().setId(i);
-			this.packs[i].SetActive(false);
-		}
-		this.separationLines = new GameObject[packsPagination.nbElementsPerPage];
-		for(int i=0;i<this.separationLines.Length;i++)
-		{
-			this.separationLines[i]=GameObject.Find ("SeparationLine"+i);
-			this.separationLines[i].SetActive(false);
-		}
+
+		this.packs = new GameObject[0];
+		this.packsButton = new GameObject[0];
+		this.packsTitle = new GameObject[0];
+		this.packsPicture=new GameObject[0];
+		this.separationLines = new GameObject[0];
+
 		this.packsPaginationButtons = GameObject.Find("Pagination");
 		this.packsPaginationButtons.AddComponent<NewStorePaginationController> ();
 		this.packsPaginationButtons.GetComponent<NewStorePaginationController> ().initialize ();
 		this.packsPaginationLine = GameObject.Find ("PacksPaginationLine");
 		this.packsPaginationLine.GetComponent<SpriteRenderer> ().color = ApplicationDesignRules.whiteSpriteColor;
+		this.packsScrollLine = GameObject.Find ("PacksScrollLine");
+		this.packsScrollLine.GetComponent<SpriteRenderer> ().color = ApplicationDesignRules.whiteSpriteColor;
 
 		this.backButton = GameObject.Find ("BackButton");
 		this.backButton.transform.FindChild("Title").GetComponent<TextMeshPro> ().text = "Retour à la boutique".ToUpper();
@@ -223,10 +217,12 @@ public class NewStoreController : MonoBehaviour
 		this.focusedCard.AddComponent<NewFocusedCardStoreController> ();
 		this.focusedCard.SetActive (false);
 		this.mainCamera = gameObject;
-		this.mainCamera.AddComponent<ScrollingController> ();
 		this.menuCamera = GameObject.Find ("MenuCamera");
 		this.tutorialCamera = GameObject.Find ("TutorialCamera");
 		this.backgroundCamera = GameObject.Find ("BackgroundCamera");
+		this.packsCamera = GameObject.Find ("PacksCamera");
+		this.packsCamera.AddComponent<ScrollingController> ();
+		this.buyCreditsCamera = GameObject.Find ("BuyCreditsCamera");
 	}
 	private IEnumerator initialization()
 	{
@@ -247,7 +243,7 @@ public class NewStoreController : MonoBehaviour
 			TutorialObjectController.instance.startTutorial(model.player.TutorialStep,model.player.displayTutorial);
 		}
 	}
-	private void initializePacks()
+	public void initializePacks()
 	{
 		this.packsPagination.chosenPage = 0;
 		this.packsPagination.totalElements = model.packList.Count;
@@ -280,7 +276,6 @@ public class NewStoreController : MonoBehaviour
 	}
 	public void resize()
 	{
-		this.mainCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
 		this.menuCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
 		this.tutorialCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
 		this.backgroundCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.backgroundCameraSize;
@@ -297,12 +292,18 @@ public class NewStoreController : MonoBehaviour
 		float buyCreditsBlockUpMargin;
 		float buyCreditsBlockHeight;
 		
-		packsBlockHeight=ApplicationDesignRules.largeBlockHeight;
 		storeBlockHeight=ApplicationDesignRules.mediumBlockHeight;
 		buyCreditsBlockHeight=ApplicationDesignRules.smallBlockHeight;
+
+		this.packsPagination = new Pagination ();
 		
 		if(ApplicationDesignRules.isMobileScreen)
 		{
+			this.packsScrollLine.SetActive(true);
+			this.packsPagination.nbElementsPerPage = 4;
+
+			packsBlockHeight=3f+this.packsPagination.nbElementsPerPage*(ApplicationDesignRules.cardWorldSize.y);
+
 			storeBlockLeftMargin=ApplicationDesignRules.leftMargin;
 			storeBlockUpMargin=0f;
 			
@@ -314,6 +315,17 @@ public class NewStoreController : MonoBehaviour
 		}
 		else
 		{
+			this.packsScrollLine.SetActive(false);
+			this.packsPagination.nbElementsPerPage = 2;
+
+			this.packsCamera.SetActive(false);
+			this.buyCreditsCamera.SetActive(false);
+			this.mainCamera.GetComponent<Camera>().rect=new Rect(0f,0f,1f,1f);
+			this.mainCamera.transform.position=ApplicationDesignRules.mainCameraStartPosition;
+			this.mainCamera.GetComponent<Camera>().orthographicSize=ApplicationDesignRules.cameraSize;
+
+			packsBlockHeight=ApplicationDesignRules.largeBlockHeight;
+
 			storeBlockLeftMargin=ApplicationDesignRules.leftMargin+ApplicationDesignRules.gapBetweenBlocks+ApplicationDesignRules.blockWidth;
 			storeBlockUpMargin=ApplicationDesignRules.upMargin;
 			
@@ -323,11 +335,6 @@ public class NewStoreController : MonoBehaviour
 			packsBlockLeftMargin=ApplicationDesignRules.leftMargin;
 			packsBlockUpMargin=ApplicationDesignRules.upMargin;
 		}
-
-		this.mainCamera.GetComponent<ScrollingController> ().setViewHeight(ApplicationDesignRules.viewHeight);
-		this.mainCamera.GetComponent<ScrollingController> ().setContentHeight(storeBlockHeight + packsBlockHeight + buyCreditsBlockHeight + 2f * ApplicationDesignRules.gapBetweenBlocks);
-		this.mainCamera.transform.position = ApplicationDesignRules.mainCameraStartPosition;
-		this.mainCamera.GetComponent<ScrollingController> ().setStartPositionY (ApplicationDesignRules.mainCameraStartPosition.y);
 
 		this.centralWindow = new Rect (ApplicationDesignRules.widthScreen * 0.25f, 0.12f * ApplicationDesignRules.heightScreen, ApplicationDesignRules.widthScreen * 0.50f, 0.40f * ApplicationDesignRules.heightScreen);
 		this.selectCardTypeWindow = new Rect (ApplicationDesignRules.widthScreen * 0.25f, 0.12f * ApplicationDesignRules.heightScreen, ApplicationDesignRules.widthScreen * 0.50f, 0.50f * ApplicationDesignRules.heightScreen);
@@ -343,9 +350,15 @@ public class NewStoreController : MonoBehaviour
 		this.packsNumberTitle.transform.position = new Vector3 (packsBlockUpperLeftPosition.x + 0.3f, packsBlockUpperLeftPosition.y - 1.2f, 0f);
 		this.packsNumberTitle.transform.localScale = ApplicationDesignRules.subMainTitleScale;
 
+		this.packs = new GameObject[packsPagination.nbElementsPerPage];
+		this.packsButton = new GameObject[packsPagination.nbElementsPerPage];
+		this.packsPicture = new GameObject[packsPagination.nbElementsPerPage];
+		this.packsTitle = new GameObject[packsPagination.nbElementsPerPage];
+		this.separationLines = new GameObject[packsPagination.nbElementsPerPage];
+
 		float upperMargin = 1.6f;
 		float lowerMargin = 0.6f;
-		Vector2 packBlockSize = new Vector2 (packsBlockSize.x - 0.6f, (packsBlockSize.y - lowerMargin-upperMargin)/this.packs.Length);
+		Vector2 packBlockSize = new Vector2 (packsBlockSize.x - 0.6f, (packsBlockSize.y - lowerMargin-upperMargin)/this.packsPagination.nbElementsPerPage);
 		float lineScale = ApplicationDesignRules.getLineScale (packsBlockSize.x - 0.6f);
 
 		float packPictureWidth = 375f;
@@ -353,9 +366,16 @@ public class NewStoreController : MonoBehaviour
 		float packPictureScale = 1.3f * ApplicationDesignRules.reductionRatio;
 		float packPictureWorldWidth = packPictureScale * (packPictureWidth / ApplicationDesignRules.pixelPerUnit);
 		float packPictureWorldHeight = packPictureWorldWidth * (packPictureHeight / packPictureWidth);
-		
+
 		for(int i=0;i<this.packsPagination.nbElementsPerPage;i++)
 		{
+			this.packs[i]=Instantiate (this.packObject) as GameObject;
+			this.packsButton[i]=this.packs[i].transform.FindChild("Button").gameObject;
+			this.packsTitle[i]=this.packs[i].transform.FindChild("Name").gameObject;
+			this.packsPicture[i]=this.packs[i].transform.FindChild("Picture").gameObject;
+			this.separationLines[i]=this.packs[i].transform.FindChild("SeparationLine").gameObject;
+			this.packs[i].transform.FindChild("Button").gameObject.AddComponent<NewStoreBuyPackButtonController>();
+			this.packs[i].transform.FindChild("Button").GetComponent<NewStoreBuyPackButtonController>().setId(i);
 			this.separationLines[i].transform.localScale=new Vector3(lineScale,1f,1f);
 			this.separationLines[i].transform.position=new Vector3(packsBlockUpperLeftPosition.x+packsBlockSize.x/2f,packsBlockUpperLeftPosition.y-upperMargin-i*packBlockSize.y,0f);
 			this.packsTitle[i].transform.localScale=ApplicationDesignRules.subMainTitleScale;
@@ -371,7 +391,7 @@ public class NewStoreController : MonoBehaviour
 
 		this.packsPaginationLine.transform.localScale = new Vector3 (lineScale, 1f, 1f);
 		this.packsPaginationLine.transform.position = new Vector3 (packsBlockLowerLeftPosition.x + packsBlockSize.x / 2, packsBlockLowerLeftPosition.y + 0.6f, 0f);
-		
+
 		this.focusedCard.transform.localScale = ApplicationDesignRules.cardFocusedScale;
 		this.focusedCard.transform.position = new Vector3 (0f, -ApplicationDesignRules.worldHeight/2f+ApplicationDesignRules.downMargin+ApplicationDesignRules.cardFocusedWorldSize.y/2f-0.22f, 0f);
 		this.focusedCard.transform.GetComponent<NewFocusedCardController> ().setCentralWindow (this.centralWindow);
@@ -404,7 +424,30 @@ public class NewStoreController : MonoBehaviour
 
 		this.backButton.transform.position = new Vector3 (0, -3f, 0f);
 		this.backButton.transform.localScale = ApplicationDesignRules.button62Scale;
-		
+
+		this.packsScrollLine.transform.localScale = new Vector3 (lineScale, 1f, 1f);
+		this.packsScrollLine.transform.position = new Vector3 (buyCreditsBlockUpperLeftPosition.x + buyCreditsBlockSize.x / 2, buyCreditsBlockUpperLeftPosition.y-0.03f, 0f);
+
+		if(ApplicationDesignRules.isMobileScreen)
+		{
+			this.mainCamera.GetComponent<Camera> ().rect = new Rect (0f,(ApplicationDesignRules.worldHeight-ApplicationDesignRules.upMargin-this.scrollIntersection)/ApplicationDesignRules.worldHeight,1f,(this.scrollIntersection)/ApplicationDesignRules.worldHeight);
+			this.mainCamera.GetComponent<Camera> ().orthographicSize = this.scrollIntersection/2f;
+			this.mainCamera.transform.position = new Vector3 (0f, packsBlockUpperLeftPosition.y-(this.scrollIntersection/2f), -10f);
+			
+			this.packsCamera.SetActive(true);
+			this.packsCamera.GetComponent<Camera> ().rect = new Rect (0f,(ApplicationDesignRules.downMargin+buyCreditsBlockHeight)/ApplicationDesignRules.worldHeight,1f,(ApplicationDesignRules.viewHeight-this.scrollIntersection-buyCreditsBlockHeight)/ApplicationDesignRules.worldHeight);
+			this.packsCamera.GetComponent<Camera> ().orthographicSize = (ApplicationDesignRules.viewHeight-this.scrollIntersection-buyCreditsBlockHeight)/2f;
+			this.packsCamera.GetComponent<ScrollingController> ().setViewHeight(ApplicationDesignRules.viewHeight-this.scrollIntersection-buyCreditsBlockHeight);
+			this.packsCamera.GetComponent<ScrollingController> ().setContentHeight(packsBlockHeight-this.scrollIntersection-0.1f);
+			this.packsCamera.transform.position = new Vector3 (0f, packsBlockUpperLeftPosition.y-(this.scrollIntersection/2f)-this.scrollIntersection/2f-(ApplicationDesignRules.viewHeight-this.scrollIntersection-buyCreditsBlockHeight)/2f, -10f);
+			this.packsCamera.GetComponent<ScrollingController> ().setStartPositionY (this.packsCamera.transform.position.y);
+
+			this.buyCreditsCamera.SetActive(true);
+			this.buyCreditsCamera.GetComponent<Camera>().rect=new Rect(0f,(ApplicationDesignRules.downMargin)/ApplicationDesignRules.worldHeight,1f,(buyCreditsBlockHeight)/ApplicationDesignRules.worldHeight);
+			this.buyCreditsCamera.GetComponent<Camera> ().orthographicSize = (buyCreditsBlockHeight)/2f;
+			this.buyCreditsCamera.transform.position=new Vector3(0f,buyCreditsOrigin.y,-10f);
+		}
+
 		if(areRandomCardsGenerated)
 		{
 			this.resizeRandomCards();
@@ -580,6 +623,13 @@ public class NewStoreController : MonoBehaviour
 			}
 		}
 		this.updatePackPrices ();
+	}
+	public void cleanPacks()
+	{
+		for(int i=0;i<this.packs.Length;i++)
+		{
+			Destroy(this.packs[i]);
+		}
 	}
 	public void buyPackHandler(int id, bool fromHome=false)
 	{
