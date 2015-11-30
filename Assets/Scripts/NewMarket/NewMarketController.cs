@@ -107,10 +107,84 @@ public class NewMarketController : MonoBehaviour
 	private bool isLeftClicked;
 	private float clickInterval;
 
+	private bool toSlideLeft;
+	private bool toSlideRight;
+	private bool filtersDisplayed;
+	private bool mainContentDisplayed;
+	private bool marketContentDisplayed;
+	
+	private float filtersPositionX;
+	private float mainContentPositionX;
+	private float marketContentPositionX;
+	private float targetContentPositionX;
+
 	void Update()
 	{	
 		this.timer += Time.deltaTime;
-		
+
+		if (Input.touchCount == 1 && this.isSceneLoaded) 
+		{
+			if(Mathf.Abs(Input.touches[0].deltaPosition.y)>1f && Mathf.Abs(Input.touches[0].deltaPosition.y)>Mathf.Abs(Input.touches[0].deltaPosition.x))
+			{
+				this.isLeftClicked=false;
+			}
+			else if(Input.touches[0].deltaPosition.x<-15f)
+			{
+				this.isLeftClicked=false;
+				if(this.marketContentDisplayed || this.mainContentDisplayed || this.toSlideLeft)
+				{
+					if(this.mainContentDisplayed)
+					{
+						this.cardsCamera.GetComponent<ScrollingController>().reset();
+						this.mainContentDisplayed=false;
+						this.targetContentPositionX=this.filtersPositionX;
+					}
+					else if(this.marketContentDisplayed)
+					{
+						this.marketContentDisplayed=false;
+						this.targetContentPositionX=this.mainContentPositionX;
+					}
+					else if(this.targetContentPositionX==mainContentPositionX)
+					{
+						this.targetContentPositionX=this.filtersPositionX;
+					}
+					else if(this.targetContentPositionX==marketContentPositionX)
+					{
+						this.targetContentPositionX=this.mainContentPositionX;
+					}
+					this.toSlideRight=true;
+					this.toSlideLeft=false;
+				}
+			}
+			else if(Input.touches[0].deltaPosition.x>15f)
+			{
+				this.isLeftClicked=false;
+				if(this.mainContentDisplayed || this.filtersDisplayed || this.toSlideRight)
+				{
+					if(this.mainContentDisplayed)
+					{
+						this.cardsCamera.GetComponent<ScrollingController>().reset();
+						this.mainContentDisplayed=false;
+						this.targetContentPositionX=this.marketContentPositionX;
+					}
+					else if(this.filtersDisplayed)
+					{
+						this.filtersDisplayed=false;
+						this.targetContentPositionX=this.mainContentPositionX;
+					}
+					else if(this.targetContentPositionX==mainContentPositionX)
+					{
+						this.targetContentPositionX=this.marketContentPositionX;
+					}
+					else if(this.targetContentPositionX==filtersPositionX)
+					{
+						this.targetContentPositionX=this.mainContentPositionX;
+					}
+					this.toSlideRight=false;
+					this.toSlideLeft=true;
+				}
+			}
+		}
 		if(isLeftClicked)
 		{
 			this.clickInterval=this.clickInterval+Time.deltaTime*10f;
@@ -191,7 +265,51 @@ public class NewMarketController : MonoBehaviour
 				}
 			}
 		}
-		if(ApplicationDesignRules.isMobileScreen && this.isSceneLoaded && !this.isLeftClicked)
+		if(toSlideRight || toSlideLeft)
+		{
+			Vector3 mainCameraPosition = this.mainCamera.transform.position;
+			Vector3 cardsCameraPosition = this.cardsCamera.transform.position;
+			float camerasXPosition = mainCameraPosition.x;
+			if(toSlideRight)
+			{
+				camerasXPosition=camerasXPosition+Time.deltaTime*40f;
+				if(camerasXPosition>this.targetContentPositionX)
+				{
+					camerasXPosition=this.targetContentPositionX;
+					this.toSlideRight=false;
+					if(camerasXPosition==this.filtersPositionX)
+					{
+						this.filtersDisplayed=true;
+					}
+					else if(camerasXPosition==this.mainContentPositionX)
+					{
+						this.mainContentDisplayed=true;
+					}
+				}
+			}
+			else if(toSlideLeft)
+			{
+				camerasXPosition=camerasXPosition-Time.deltaTime*40f;
+				if(camerasXPosition<this.targetContentPositionX)
+				{
+					camerasXPosition=this.targetContentPositionX;
+					this.toSlideLeft=false;
+					if(camerasXPosition==this.marketContentPositionX)
+					{
+						this.marketContentDisplayed=true;
+					}
+					else if(camerasXPosition==this.mainContentPositionX)
+					{
+						this.mainContentDisplayed=true;
+					}
+				}
+			}
+			mainCameraPosition.x=camerasXPosition;
+			cardsCameraPosition.x=camerasXPosition;
+			this.mainCamera.transform.position=mainCameraPosition;
+			this.cardsCamera.transform.position=cardsCameraPosition;
+		}
+		if(ApplicationDesignRules.isMobileScreen && this.isSceneLoaded && !this.isLeftClicked && this.mainContentDisplayed)
 		{
 			isScrolling = this.cardsCamera.GetComponent<ScrollingController>().ScrollController();
 		}
@@ -203,6 +321,7 @@ public class NewMarketController : MonoBehaviour
 		this.sortingOrder = -1;
 		this.activeTab = 0;
 		this.scrollIntersection = 1.2f;
+		this.mainContentDisplayed = true;
 		this.initializeScene ();
 		this.startMenuInitialization ();
 	}
@@ -524,18 +643,17 @@ public class NewMarketController : MonoBehaviour
 
 			cardsBlockHeight=3f+this.nbLines*(ApplicationDesignRules.cardWorldSize.y+gapBetweenCardsLine);
 
-			marketBlockLeftMargin=ApplicationDesignRules.leftMargin;
+			marketBlockLeftMargin=-ApplicationDesignRules.worldWidth;
 			marketBlockUpMargin=0f;
 			
 			cardsBlockLeftMargin=ApplicationDesignRules.leftMargin;
-			cardsBlockUpMargin=marketBlockUpMargin+ApplicationDesignRules.gapBetweenBlocks+marketBlockHeight+ApplicationDesignRules.button62WorldSize.y;
+			cardsBlockUpMargin=ApplicationDesignRules.button62WorldSize.y;
 			
-			filtersBlockLeftMargin=20f;
-			filtersBlockUpMargin=cardsBlockUpMargin+ApplicationDesignRules.gapBetweenBlocks+cardsBlockHeight;
+			filtersBlockLeftMargin=ApplicationDesignRules.worldWidth;
+			filtersBlockUpMargin=0f;
 		}
 		else
 		{
-
 			this.cardsPerLine = 4;
 			this.nbLines = 2;
 			this.cardsScrollLine.SetActive(false);
@@ -565,6 +683,7 @@ public class NewMarketController : MonoBehaviour
 		Vector3 filtersBlockUpperLeftPosition = this.filtersBlock.GetComponent<NewBlockController> ().getUpperLeftCornerPosition ();
 		Vector3 filtersBlockUpperRightPosition = this.filtersBlock.GetComponent<NewBlockController> ().getUpperRightCornerPosition ();
 		Vector2 filtersBlockSize = this.filtersBlock.GetComponent<NewBlockController> ().getSize ();
+		Vector2 filtersBlockOrigin = this.filtersBlock.GetComponent<NewBlockController> ().getOriginPosition ();
 		
 		float gapBetweenSubFiltersBlock = 0.05f;
 		float filtersSubBlockSize = (filtersBlockSize.x - 0.6f - 2f * gapBetweenSubFiltersBlock) / 3f;
@@ -701,6 +820,7 @@ public class NewMarketController : MonoBehaviour
 		Vector3 marketBlockUpperLeftPosition = this.marketBlock.GetComponent<NewBlockController> ().getUpperLeftCornerPosition ();
 		Vector3 marketBlockUpperRightPosition = this.marketBlock.GetComponent<NewBlockController> ().getUpperRightCornerPosition ();
 		Vector2 marketBlockSize = this.marketBlock.GetComponent<NewBlockController> ().getSize ();
+		Vector2 marketBlockOrigin = this.marketBlock.GetComponent<NewBlockController> ().getOriginPosition ();
 		this.marketBlockTitle.transform.position = new Vector3 (marketBlockUpperLeftPosition.x + 0.3f, marketBlockUpperLeftPosition.y - 0.2f, 0f);
 		this.marketBlockTitle.transform.localScale = ApplicationDesignRules.mainTitleScale;
 		this.marketSubtitle.transform.position = new Vector3 (marketBlockUpperLeftPosition.x + 0.3f, marketBlockUpperLeftPosition.y - 1.2f, 0f);
@@ -712,6 +832,9 @@ public class NewMarketController : MonoBehaviour
 			this.mainCamera.GetComponent<Camera> ().rect = new Rect (0f,(ApplicationDesignRules.worldHeight-ApplicationDesignRules.upMargin-this.scrollIntersection)/ApplicationDesignRules.worldHeight,1f,(this.scrollIntersection)/ApplicationDesignRules.worldHeight);
 			this.mainCamera.GetComponent<Camera> ().orthographicSize = this.scrollIntersection/2f;
 			this.mainCamera.transform.position = new Vector3 (0f, cardsBlockUpperLeftPosition.y-(this.scrollIntersection/2f)+ApplicationDesignRules.button62WorldSize.y + ApplicationDesignRules.gapBetweenBlocks, -10f);
+			this.mainContentPositionX = cardsBlockOrigin.x;
+			this.marketContentPositionX=marketBlockOrigin.x;
+			this.filtersPositionX = filtersBlockOrigin.x;
 
 			this.cardsCamera.SetActive(true);
 			this.cardsCamera.GetComponent<Camera> ().rect = new Rect (0f,(ApplicationDesignRules.downMargin)/ApplicationDesignRules.worldHeight,1f,(ApplicationDesignRules.viewHeight-this.scrollIntersection)/ApplicationDesignRules.worldHeight);
@@ -920,7 +1043,6 @@ public class NewMarketController : MonoBehaviour
 		float mousePositionX=mousePosition.x;
 		Vector3 cursorPosition = this.cursors [cursorId].transform.localPosition;
 		float offset = mousePositionX-this.cursors [cursorId].transform.position.x;
-		print (offset);
 		
 		int value = -1;
 		string label = "";
@@ -1273,7 +1395,7 @@ public class NewMarketController : MonoBehaviour
 		this.isMouseOnSearchBar = value;
 	}
 	public void leftClickedHandler(int id)
-	{
+	{ 
 		if(!this.isScrolling)
 		{
 			this.idCardClicked = id;
@@ -1340,6 +1462,17 @@ public class NewMarketController : MonoBehaviour
 	public void communicateCardIndex(int id)
 	{
 		this.idCardClicked = id;
+	}
+	public bool canClick()
+	{
+		if (!toSlideLeft && !toSlideRight && !isScrolling) 
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 	public void deleteCard()
 	{

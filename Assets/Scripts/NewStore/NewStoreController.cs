@@ -85,9 +85,42 @@ public class NewStoreController : MonoBehaviour
 	private bool isScrolling;
 	private float scrollIntersection;
 	private float packsCameraIntermediatePosition;
+
+	private bool toSlideRight;
+	private bool toSlideLeft;
+	private bool storeDisplayed;
+	private bool mainContentDisplayed;
+	
+	private float storePositionX;
+	private float mainContentPositionX;
 	
 	void Update () 
 	{
+		if (Input.touchCount == 1 && this.isSceneLoaded) 
+		{
+			if(Input.touches[0].deltaPosition.x<-15f && Mathf.Abs(Input.touches[0].deltaPosition.y)<Mathf.Abs(Input.touches[0].deltaPosition.x))
+			{
+				if(this.storeDisplayed || this.toSlideLeft)
+				{
+					this.toSlideRight=true;
+					this.toSlideLeft=false;
+					this.storeDisplayed=false;
+				}
+			}
+			else if(Input.touches[0].deltaPosition.x>15f && Mathf.Abs(Input.touches[0].deltaPosition.y)<Mathf.Abs(Input.touches[0].deltaPosition.x))
+			{
+				if(this.mainContentDisplayed || this.toSlideRight)
+				{
+					if(this.mainContentDisplayed)
+					{
+						this.packsCamera.GetComponent<ScrollingController>().reset();
+					}
+					this.toSlideLeft=true;
+					this.toSlideRight=false;
+					this.mainContentDisplayed=false;
+				}
+			}
+		}
 		if (this.startRotation)
 		{
 			for(int i=0;i<this.randomCards.Length;i++)
@@ -129,7 +162,40 @@ public class NewStoreController : MonoBehaviour
 				}
 			}
 		}
-		if(ApplicationDesignRules.isMobileScreen && this.isSceneLoaded)
+		if(toSlideRight || toSlideLeft)
+		{
+			Vector3 mainCameraPosition = this.mainCamera.transform.position;
+			Vector3 packsCameraPosition = this.packsCamera.transform.position;
+			Vector3 buyCameraPosition = this.buyCreditsCamera.transform.position;
+			float camerasXPosition = mainCameraPosition.x;
+			if(toSlideRight)
+			{
+				camerasXPosition=camerasXPosition+Time.deltaTime*40f;
+				if(camerasXPosition>this.mainContentPositionX)
+				{
+					camerasXPosition=this.mainContentPositionX;
+					this.toSlideRight=false;
+					this.mainContentDisplayed=true;
+				}
+			}
+			else if(toSlideLeft)
+			{
+				camerasXPosition=camerasXPosition-Time.deltaTime*40f;
+				if(camerasXPosition<this.storePositionX)
+				{
+					camerasXPosition=this.storePositionX;
+					this.toSlideLeft=false;
+					this.storeDisplayed=true;
+				}
+			}
+			buyCameraPosition.x=camerasXPosition;
+			mainCameraPosition.x=camerasXPosition;
+			packsCameraPosition.x=camerasXPosition;
+			this.mainCamera.transform.position=mainCameraPosition;
+			this.packsCamera.transform.position=packsCameraPosition;
+			this.buyCreditsCamera.transform.position=buyCameraPosition;
+		}
+		if(ApplicationDesignRules.isMobileScreen && this.isSceneLoaded && this.mainContentDisplayed)
 		{
 			isScrolling = this.packsCamera.GetComponent<ScrollingController>().ScrollController();
 		}
@@ -140,6 +206,7 @@ public class NewStoreController : MonoBehaviour
 		this.model = new NewStoreModel ();
 		this.speed = 300.0f;
 		this.scrollIntersection = 1.4f;
+		this.mainContentDisplayed = true;
 		this.initializeScene ();
 		this.startMenuInitialization ();
 	}
@@ -304,11 +371,11 @@ public class NewStoreController : MonoBehaviour
 
 			packsBlockHeight=3f+this.packsPagination.nbElementsPerPage*(ApplicationDesignRules.cardWorldSize.y);
 
-			storeBlockLeftMargin=ApplicationDesignRules.leftMargin;
+			storeBlockLeftMargin=-ApplicationDesignRules.worldWidth;
 			storeBlockUpMargin=0f;
 			
 			packsBlockLeftMargin=ApplicationDesignRules.leftMargin;
-			packsBlockUpMargin=storeBlockUpMargin+ApplicationDesignRules.gapBetweenBlocks+storeBlockHeight;
+			packsBlockUpMargin=0f;
 			
 			buyCreditsBlockLeftMargin=ApplicationDesignRules.leftMargin;
 			buyCreditsBlockUpMargin=packsBlockUpMargin+ApplicationDesignRules.gapBetweenBlocks+packsBlockHeight;
@@ -400,6 +467,7 @@ public class NewStoreController : MonoBehaviour
 		Vector3 storeBlockUpperLeftPosition = this.storeBlock.GetComponent<NewBlockController> ().getUpperLeftCornerPosition ();
 		Vector3 storeBlockUpperRightPosition = this.storeBlock.GetComponent<NewBlockController> ().getUpperRightCornerPosition ();
 		Vector2 storeBlockSize = this.storeBlock.GetComponent<NewBlockController> ().getSize ();
+		Vector2 storeBlockOrigin = this.storeBlock.GetComponent<NewBlockController> ().getOriginPosition ();
 		this.storeBlockTitle.transform.position = new Vector3 (storeBlockUpperLeftPosition.x + 0.3f, storeBlockUpperLeftPosition.y - 0.2f, 0f);
 		this.storeBlockTitle.transform.localScale = ApplicationDesignRules.mainTitleScale;
 
@@ -446,6 +514,9 @@ public class NewStoreController : MonoBehaviour
 			this.buyCreditsCamera.GetComponent<Camera>().rect=new Rect(0f,(ApplicationDesignRules.downMargin)/ApplicationDesignRules.worldHeight,1f,(buyCreditsBlockHeight)/ApplicationDesignRules.worldHeight);
 			this.buyCreditsCamera.GetComponent<Camera> ().orthographicSize = (buyCreditsBlockHeight)/2f;
 			this.buyCreditsCamera.transform.position=new Vector3(0f,buyCreditsOrigin.y,-10f);
+
+			this.mainContentPositionX = packsBlockOrigin.x;
+			this.storePositionX=storeBlockOrigin.x;
 		}
 
 		if(areRandomCardsGenerated)

@@ -111,16 +111,53 @@ public class newMyGameController : MonoBehaviour
 	private bool toScrollCards;
 	private float cardsCameraIntermediatePosition;
 
+	private bool toSlideRight;
+	private bool toSlideLeft;
+	private bool filtersDisplayed;
+	private bool mainContentDisplayed;
+
+	private float filtersPositionX;
+	private float mainContentPositionX;
+
 	void Update()
 	{	
-		if(isLeftClicked)
+		if (Input.touchCount == 1 && this.isSceneLoaded) 
 		{
-			this.clickInterval=this.clickInterval+Time.deltaTime*10f;
-			if (Input.touchCount == 1 && Mathf.Abs(Input.touches[0].deltaPosition.y)>1f) 
+			if(Mathf.Abs(Input.touches[0].deltaPosition.y)>1f && Mathf.Abs(Input.touches[0].deltaPosition.y)>Mathf.Abs(Input.touches[0].deltaPosition.x))
 			{
 				this.isLeftClicked=false;
 			}
-			else if(this.clickInterval>2f)
+			else if(Input.touches[0].deltaPosition.x<-15f)
+			{
+				this.isLeftClicked=false;
+				if(this.mainContentDisplayed || this.toSlideLeft)
+				{
+					if(this.mainContentDisplayed)
+					{
+						this.mainCamera.GetComponent<ScrollingController>().reset();
+						this.cardsCamera.GetComponent<ScrollingController>().reset();
+						this.toScrollCards=false;
+					}
+					this.toSlideRight=true;
+					this.toSlideLeft=false;
+					this.mainContentDisplayed=false;
+				}
+			}
+			else if(Input.touches[0].deltaPosition.x>15f)
+			{
+				this.isLeftClicked=false;
+				if(this.filtersDisplayed || this.toSlideRight)
+				{
+					this.toSlideLeft=true;
+					this.toSlideRight=false;
+					this.filtersDisplayed=false;
+				}
+			}
+		}
+		if(isLeftClicked)
+		{
+			this.clickInterval=this.clickInterval+Time.deltaTime*10f;
+			if(this.clickInterval>2f)
 			{
 				this.isLeftClicked=false;
 				this.startDragging();
@@ -182,7 +219,7 @@ public class newMyGameController : MonoBehaviour
 				this.cleanDeckList();
 			}
 		}
-		if(ApplicationDesignRules.isMobileScreen && this.isSceneLoaded && !this.isLeftClicked && !this.isDragging)
+		if(ApplicationDesignRules.isMobileScreen && this.isSceneLoaded && !this.isLeftClicked && !this.isDragging && this.mainContentDisplayed)
 		{
 			if(!toScrollCards)
 			{
@@ -211,12 +248,43 @@ public class newMyGameController : MonoBehaviour
 				}
 			}
 		}
+		if(toSlideRight || toSlideLeft)
+		{
+			Vector3 mainCameraPosition = this.mainCamera.transform.position;
+			Vector3 cardsCameraPosition = this.cardsCamera.transform.position;
+			float camerasXPosition = mainCameraPosition.x;
+			if(toSlideRight)
+			{
+				camerasXPosition=camerasXPosition+Time.deltaTime*40f;
+				if(camerasXPosition>this.filtersPositionX)
+				{
+					camerasXPosition=this.filtersPositionX;
+					this.toSlideRight=false;
+					this.filtersDisplayed=true;
+				}
+			}
+			else if(toSlideLeft)
+			{
+				camerasXPosition=camerasXPosition-Time.deltaTime*40f;
+				if(camerasXPosition<this.mainContentPositionX)
+				{
+					camerasXPosition=this.mainContentPositionX;
+					this.toSlideLeft=false;
+					this.mainContentDisplayed=true;
+				}
+			}
+			mainCameraPosition.x=camerasXPosition;
+			cardsCameraPosition.x=camerasXPosition;
+			this.mainCamera.transform.position=mainCameraPosition;
+			this.cardsCamera.transform.position=cardsCameraPosition;
+		}
 	}
 	void Awake()
 	{
 		instance = this;
 		this.model = new NewMyGameModel ();
 		this.sortingOrder = -1;
+		this.mainContentDisplayed = true;
 		this.initializeScene ();
 		this.startMenuInitialization ();
 	}
@@ -533,8 +601,8 @@ public class newMyGameController : MonoBehaviour
 			cardsBlockLeftMargin=ApplicationDesignRules.leftMargin;
 			cardsBlockUpMargin=deckBlockUpMargin+ApplicationDesignRules.gapBetweenBlocks+deckBlockHeight;
 			
-			filtersBlockLeftMargin=20;
-			filtersBlockUpMargin=cardsBlockUpMargin+ApplicationDesignRules.gapBetweenBlocks+cardsBlockHeight;
+			filtersBlockLeftMargin=ApplicationDesignRules.worldWidth;
+			filtersBlockUpMargin=0f;
 
 		}
 		else
@@ -567,6 +635,7 @@ public class newMyGameController : MonoBehaviour
 		Vector3 filtersBlockUpperLeftPosition = this.filtersBlock.GetComponent<NewBlockController> ().getUpperLeftCornerPosition ();
 		Vector3 filtersBlockUpperRightPosition = this.filtersBlock.GetComponent<NewBlockController> ().getUpperRightCornerPosition ();
 		Vector2 filtersBlockSize = this.filtersBlock.GetComponent<NewBlockController> ().getSize ();
+		Vector2 filtersBlockOrigin = this.filtersBlock.GetComponent<NewBlockController> ().getOriginPosition ();
 
 		float gapBetweenSubFiltersBlock = 0.05f;
 		float filtersSubBlockSize = (filtersBlockSize.x - 0.6f - 2f * gapBetweenSubFiltersBlock) / 3f;
@@ -657,6 +726,8 @@ public class newMyGameController : MonoBehaviour
 			this.mainCamera.GetComponent<ScrollingController> ().setContentHeight(deckBlockHeight + deckBlockHeight - ApplicationDesignRules.cardWorldSize.y - 0.45f);
 			this.mainCamera.transform.position = new Vector3 (0f, deckBlockOrigin.y, -10f);
 			this.mainCamera.GetComponent<ScrollingController> ().setStartPositionY (this.mainCamera.transform.position.y);
+			this.mainContentPositionX = deckBlockOrigin.x;
+			this.filtersPositionX = filtersBlockOrigin.x;
 		}
 
 		float gapBetweenDecksButton = 0.1f;

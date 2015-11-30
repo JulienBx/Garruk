@@ -41,6 +41,13 @@ public class ScrollingController : MonoBehaviour
 	{
 		return this.startPositionY;
 	}
+	public void reset()
+	{
+		this.setStartPositionY (this.startPositionY);
+		Vector3 cameraPosition = gameObject.transform.position;
+		cameraPosition.y = this.currentPositionY;
+		gameObject.transform.position = cameraPosition;
+	}
 	public bool isEndPosition()
 	{
 		if(this.currentPositionY==this.endPositionY)
