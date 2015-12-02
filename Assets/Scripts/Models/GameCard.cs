@@ -631,7 +631,7 @@ public class GameCard : Card
 			index = s.IndexOf("%PV");
 			tempstring = s.Substring(index-3,3);
 			percentage = Mathf.CeilToInt(Int32.Parse(tempstring)*this.getLife()/100f);
-			s = s.Substring(0,index-4)+" "+percentage+" "+s.Substring(0,index+3);
+			s = s.Substring(0,index-4)+" "+percentage+" "+s.Substring(index+3,s.Length-index-3);
 		}
 		return s;
 	}
