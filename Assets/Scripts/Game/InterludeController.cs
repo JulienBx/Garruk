@@ -56,9 +56,17 @@ public class InterludeController : MonoBehaviour
 			gameObject.transform.FindChild("Bar2").GetComponent<SpriteRenderer>().sprite = this.sprites[4];
 			gameObject.transform.FindChild("Bar3").GetComponent<SpriteRenderer>().sprite = this.sprites[5];
 		}
-		gameObject.transform.FindChild("Bar1").GetComponent<SpriteRenderer>().enabled = true ;
-		gameObject.transform.FindChild("Bar2").GetComponent<SpriteRenderer>().enabled = true ;
-		gameObject.transform.FindChild("Bar3").GetComponent<SpriteRenderer>().enabled = true ;
+		if(displayCharacter){
+			gameObject.transform.FindChild("Character").GetComponent<SpriteRenderer>().sprite = this.characterSprites[GameView.instance.getCurrentCard().IdClass];
+			gameObject.transform.FindChild("Bar1").GetComponent<SpriteRenderer>().enabled = true;
+			gameObject.transform.FindChild("Bar2").GetComponent<SpriteRenderer>().enabled = true;
+			gameObject.transform.FindChild("Bar3").GetComponent<SpriteRenderer>().enabled = true ;
+		}
+		else{
+			gameObject.transform.FindChild("Bar1").GetComponent<SpriteRenderer>().enabled = false;
+			gameObject.transform.FindChild("Bar2").GetComponent<SpriteRenderer>().enabled = false;
+			gameObject.transform.FindChild("Bar3").GetComponent<SpriteRenderer>().enabled = false ;
+		}
 		
 		gameObject.transform.FindChild("Text").GetComponent<TextMeshPro>().text = s ;
 		gameObject.transform.FindChild("Text").GetComponent<MeshRenderer>().enabled = true ;
