@@ -3294,11 +3294,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11431600, guid: b381e9eb1d6c74c07aa10627ed9f5864, type: 2}
       propertyPath: checkPaddingRequired
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 11431600, guid: b381e9eb1d6c74c07aa10627ed9f5864, type: 2}
       propertyPath: isInputParsingRequired
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 11431600, guid: b381e9eb1d6c74c07aa10627ed9f5864, type: 2}
       propertyPath: havePropertiesChanged
@@ -3307,6 +3307,26 @@ Prefab:
     - target: {fileID: 3381188, guid: b381e9eb1d6c74c07aa10627ed9f5864, type: 2}
       propertyPath: m_Mesh
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 11414588, guid: b381e9eb1d6c74c07aa10627ed9f5864, type: 2}
+      propertyPath: m_rect.width
+      value: 4.30000019
+      objectReference: {fileID: 0}
+    - target: {fileID: 11431600, guid: b381e9eb1d6c74c07aa10627ed9f5864, type: 2}
+      propertyPath: m_enableAutoSizing
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11431600, guid: b381e9eb1d6c74c07aa10627ed9f5864, type: 2}
+      propertyPath: m_fontSize
+      value: 2.79999995
+      objectReference: {fileID: 0}
+    - target: {fileID: 11431600, guid: b381e9eb1d6c74c07aa10627ed9f5864, type: 2}
+      propertyPath: m_fontSizeMin
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11431600, guid: b381e9eb1d6c74c07aa10627ed9f5864, type: 2}
+      propertyPath: m_fontSizeMax
+      value: 2.79999995
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b381e9eb1d6c74c07aa10627ed9f5864, type: 2}

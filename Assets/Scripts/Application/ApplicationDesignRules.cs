@@ -137,6 +137,9 @@ public class ApplicationDesignRules : MonoBehaviour
 	static private Vector3 bottomBarScale = new Vector3(0.68f,0.68f,0.68f);
 	static public Vector2 bottomBarWorldSize;
 
+	static public float gapBetweenCardsLine = 0.25f;
+	static public float gapBetweenMarketCardsLine = 0.55f;
+
 
 	static public void computeDesignRules()
 	{
