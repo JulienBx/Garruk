@@ -127,6 +127,9 @@ public class NewCardController : NewFocusedCardController
 		if(!Input.GetMouseButton(0))
 		{
 			int newSkillHovered = this.skillHovered();
+			float skillPopUpSize=350f;
+			float skillPopUpWorldSize=0f;
+			float skillPopUpXPosition=0f;
 			if(newSkillHovered>-1 && newSkillHovered<this.c.Skills.Count && this.c.Skills[newSkillHovered].IsActivated==1)
 			{
 				if(newSkillHovered!=skillDisplayed)
@@ -138,17 +141,32 @@ public class NewCardController : NewFocusedCardController
 						this.skillPopUp.SetActive(true);
 						Vector3 popUpScale = new Vector3(1f/this.gameObject.transform.localScale.x,1f/this.gameObject.transform.localScale.y,1f/this.gameObject.transform.localScale.z);
 						this.skillPopUp.transform.localScale=popUpScale;
+						skillPopUpWorldSize=(skillPopUpSize/ApplicationDesignRules.pixelPerUnit)*(popUpScale.x*this.gameObject.transform.localScale.x);
+						if(this.gameObject.transform.position.x-skillPopUpWorldSize/2f<-ApplicationDesignRules.worldWidth/2f)
+						{
+							skillPopUpXPosition=this.gameObject.transform.position.x-(this.gameObject.transform.position.x-skillPopUpWorldSize/2f+ApplicationDesignRules.worldWidth/2f);
+						}
+						else if(this.gameObject.transform.position.x+skillPopUpWorldSize/2f>ApplicationDesignRules.worldWidth/2f)
+						{
+							skillPopUpXPosition=this.gameObject.transform.position.x-(this.gameObject.transform.position.x+skillPopUpWorldSize/2f-ApplicationDesignRules.worldWidth/2f);
+						}
+						else
+						{
+							skillPopUpXPosition=this.gameObject.transform.position.x;
+						}
 					}
+					
+					this.skillPopUp.transform.FindChild("description").GetComponent<TextMeshPro>().text=this.c.getSkillText(this.c.Skills[skillDisplayed].Description);
 					if(newSkillHovered==0)
 					{
-						this.skillPopUp.transform.position=new Vector3(gameObject.transform.position.x,gameObject.transform.position.y-0.8f+(+0.6f)*(0.5f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y),-1f);
+						this.skillPopUp.transform.position=new Vector3(skillPopUpXPosition,gameObject.transform.position.y-0.8f+(+0.6f)*(0.5f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y),-1f);
 					}
 					else
 					{
-						this.skillPopUp.transform.position=new Vector3(gameObject.transform.position.x,gameObject.transform.position.y+0.8f+(-0.6f+(newSkillHovered-1f)*0.24f)*(0.5f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y),-1f);
+						this.skillPopUp.transform.position=new Vector3(skillPopUpXPosition,gameObject.transform.position.y+0.8f+(-0.6f+(newSkillHovered-1f)*0.24f)*(0.5f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y),-1f);
+						this.skillPopUp.transform.FindChild("description").GetComponent<TextMeshPro>().text+=(". P : "+this.c.Skills[skillDisplayed].proba+"%");
 					}
 					this.skillPopUp.transform.FindChild("title").GetComponent<TextMeshPro>().text=this.c.Skills[skillDisplayed].Name;
-					this.skillPopUp.transform.FindChild("description").GetComponent<TextMeshPro>().text=this.c.getSkillText(this.c.Skills[skillDisplayed].Description);
 				}
 			}
 			else
@@ -258,21 +276,18 @@ public class NewCardController : NewFocusedCardController
 			refObject=transform.FindChild("Life").FindChild("Text").gameObject.gameObject;
 			break;
 		case 2:
-			refObject=transform.FindChild("Move").FindChild("Text").gameObject.gameObject;
-			break;
-		case 3:
 			refObject=transform.FindChild("Quickness").FindChild("Text").gameObject.gameObject;
 			break;
-		case 4:
+		case 3:
 			refObject=transform.FindChild("Skill0").FindChild ("Name").gameObject;
 			break;
-		case 5:
+		case 4:
 			refObject=transform.FindChild("Skill1").FindChild ("Name").gameObject;
 			break;
-		case 6:
+		case 5:
 			refObject=transform.FindChild("Skill2").FindChild ("Name").gameObject;
 			break;
-		case 7:
+		case 6:
 			refObject=transform.FindChild("Skill3").FindChild ("Name").gameObject;
 			break;
 		}
