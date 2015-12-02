@@ -136,15 +136,15 @@ public class GameController : Photon.MonoBehaviour
 		GameView.instance.getPlayingCardController(id).showIcons();
 	}
 	
-	public void clickDestination(Tile t)
+	public void clickDestination(Tile t, int c)
 	{
-		photonView.RPC("clickDestinationRPC", PhotonTargets.AllBuffered, t.x, t.y);
+		photonView.RPC("clickDestinationRPC", PhotonTargets.AllBuffered, t.x, t.y, c);
 	}
 	
 	[RPC]
-	public void clickDestinationRPC(int x, int y)
+	public void clickDestinationRPC(int x, int y, int c)
 	{
-		GameView.instance.clickDestination(new Tile(x,y));
+		GameView.instance.clickDestination(new Tile(x,y), c);
 	}
 	
 	public void setChosenSkill(int target, int result)
