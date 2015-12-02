@@ -522,7 +522,7 @@ public class GameView : MonoBehaviour
 	public void clickDestination(Tile destination, int c){
 		Tile origine = this.getPlayingCardController(c).getTile();
 		this.tiles[origine.x, origine.y].GetComponentInChildren<TileController>().setCharacterID(-1);
-		this.getPlayingCardController(this.currentPlayingCard).changeTile(new Tile(destination.x,destination.y), this.tiles[destination.x,destination.y].GetComponentInChildren<TileController>().getPosition());
+		this.getPlayingCardController(c).changeTile(new Tile(destination.x,destination.y), this.tiles[destination.x,destination.y].GetComponentInChildren<TileController>().getPosition());
 		this.tiles[destination.x, destination.y].GetComponentInChildren<TileController>().setCharacterID(c);
 		if(this.hasFightStarted){
 			this.getCard(this.currentPlayingCard).setHasMoved(true);

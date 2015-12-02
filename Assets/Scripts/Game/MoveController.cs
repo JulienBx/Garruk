@@ -44,7 +44,14 @@ public class MoveController : MonoBehaviour
 			gameObject.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 1f) ;
 			gameObject.transform.FindChild("Picto").GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 1f) ;
 			gameObject.transform.FindChild("Text").GetComponent<TextMeshPro>().color = new Color(1f, 1f, 1f, 1f) ;
-			gameObject.transform.FindChild("Text").GetComponent<TextMeshPro>().text = "Déplacer l'unité";
+			gameObject.transform.FindChild("Text").GetComponent<TextMeshPro>().text = "L'unité ne s'est pas encore déplacée";
+			
+			GameView.instance.displayCurrentMove();
+			GameView.instance.hideSkillButtons();
+			this.toStop=true;
+			gameObject.transform.FindChild("Picto").GetComponent<SpriteRenderer>().color = new Color(71f/255f,150f/255f,189f/255f, 1f);
+			GameView.instance.isDisplayedMyDestination = true ;
+			GameView.instance.isPushedMyDestination = true ;
 			this.isAnimated = true;
 		}
 	}
@@ -87,13 +94,7 @@ public class MoveController : MonoBehaviour
 	
 	public void OnMouseDown(){
 		if(this.isAnimated){
-			GameView.instance.displayCurrentMove();
-			GameView.instance.hideSkillButtons();
-			this.toStop=true;
-			gameObject.transform.FindChild("Picto").GetComponent<SpriteRenderer>().color = new Color(71f/255f,150f/255f,189f/255f, 1f);
-			gameObject.transform.FindChild("Text").GetComponent<TextMeshPro>().text = "Déplacer l'unité sur une case bleue";
-			GameView.instance.isDisplayedMyDestination = true ;
-			GameView.instance.isPushedMyDestination = true ;
+			
 		}
 		else{
 		

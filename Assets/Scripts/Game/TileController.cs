@@ -159,55 +159,6 @@ public class TileController : GameObjectController
 			this.showTrap(false);
 			this.hideDescription();
 		}
-		
-
-//		if (this.trapID!=-1)
-//		{
-//			if (this.tile.statModifier.Type == ModifierType.Type_Wolftrap)
-//			{
-//				int[] targets = new int[1];
-//				targets[0] = this.characterID;
-//				int[] args = new int[1];
-//				args[0] = this.tile.statModifier.Amount ;
-//				GameController.instance.activateTrap(15, targets, args);
-//				
-//				int[] t = new int[2];
-//				t[0] = this.tile.x;
-//				t[1] = this.tile.y;
-//				
-//				GameController.instance.hideTrap(t);
-//			}
-//			else if (this.tile.statModifier.Type == ModifierType.Type_SleepingTrap)
-//			{
-//				print("Je check sleep "+this.trapID);
-//				
-//				int[] targets = new int[1];
-//				targets[0] = this.characterID;
-//				int[] args = new int[1];
-//				args[0] = this.tile.statModifier.Amount ;
-//				GameController.instance.activateTrap(61, targets, args);
-//				
-//				int[] t = new int[2];
-//				t[0] = this.tile.x;
-//				t[1] = this.tile.y;
-//				
-//				GameController.instance.hideTrap(t);
-//			}
-//			else if (this.tile.statModifier.Type == ModifierType.Type_WeakeningTrap)
-//			{
-//				int[] targets = new int[1];
-//				targets[0] = this.characterID;
-//				int[] args = new int[1];
-//				args[0] = this.tile.statModifier.Amount ;
-//				GameController.instance.activateTrap(60, targets, args);
-//				
-//				int[] t = new int[2];
-//				t[0] = this.tile.x;
-//				t[1] = this.tile.y;
-//				
-//				GameController.instance.hideTrap(t);
-//			}
-//		}
 	}
 	
 	public void removeTrap()
@@ -315,7 +266,6 @@ public class TileController : GameObjectController
 				GameView.instance.clickEmpty();
 			}
 			else{
-				print (this.characterID);
 				GameController.instance.clickDestination(this.tile, GameView.instance.getCurrentPlayingCard());
 			}
 		}
