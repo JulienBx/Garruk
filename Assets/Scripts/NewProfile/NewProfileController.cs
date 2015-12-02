@@ -52,6 +52,11 @@ public class NewProfileController : MonoBehaviour
 	private GameObject selectPicturePopUp;
 	private GameObject searchUsersPopUp;
 
+	private GameObject mainCamera;
+	private GameObject menuCamera;
+	private GameObject tutorialCamera;
+	private GameObject backgroundCamera;
+
 	private bool isMyProfile;
 	private string profileChosen;
 	
@@ -93,6 +98,7 @@ public class NewProfileController : MonoBehaviour
 	private bool isSearchingUsers;
 	private string searchValue;
 	private bool isMouseOnSearchBar;
+	private bool isScrolling;
 
 	void Update()
 	{	
@@ -148,6 +154,10 @@ public class NewProfileController : MonoBehaviour
 					this.searchBar.transform.FindChild ("Title").GetComponent<TextMeshPro>().text ="Entrez un pseudo";
 				}
 			}
+		}
+		if(ApplicationDesignRules.isMobileScreen && this.isSceneLoaded)
+		{
+			isScrolling = this.mainCamera.GetComponent<ScrollingController>().ScrollController();
 		}
 	}
 	void Awake()
@@ -550,19 +560,81 @@ public class NewProfileController : MonoBehaviour
 			this.friendsContents[i].transform.FindChild("username").GetComponent<NewProfileFriendsContentUsernameController>().setId(i);
 		}
 		this.searchUsersPopUp = GameObject.Find ("searchPopUp");
+		this.searchUsersPopUp.SetActive (false);
 		this.selectPicturePopUp = GameObject.Find ("profilePicturesPopUp");
+		this.selectPicturePopUp.SetActive (false);
+		this.mainCamera = gameObject;
+		this.mainCamera.AddComponent<ScrollingController> ();
+		this.menuCamera = GameObject.Find ("MenuCamera");
+		this.tutorialCamera = GameObject.Find ("TutorialCamera");
+		this.backgroundCamera = GameObject.Find ("BackgroundCamera");
 	}
 	public void resize()
 	{
+		this.mainCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
+		this.menuCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
+		this.tutorialCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
+		this.backgroundCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.backgroundCameraSize;
+
+		float profileBlockLeftMargin;
+		float profileBlockUpMargin;
+		float profileBlockHeight;
+		
+		float searchBlockLeftMargin;
+		float searchBlockUpMargin;
+		float searchBlockHeight;
+		
+		float friendsBlockLeftMargin;
+		float friendsBlockUpMargin;
+		float friendsBlockHeight;
+		
+		float resultsBlockLeftMargin;
+		float resultsBlockUpMargin;
+		float resultsBlockHeight;
+		
+		profileBlockHeight=ApplicationDesignRules.mediumBlockHeight;
+		searchBlockHeight=ApplicationDesignRules.smallBlockHeight;
+		friendsBlockHeight=ApplicationDesignRules.mediumBlockHeight-ApplicationDesignRules.button62WorldSize.y;
+		resultsBlockHeight=ApplicationDesignRules.smallBlockHeight-ApplicationDesignRules.button62WorldSize.y;
+		
+		if(ApplicationDesignRules.isMobileScreen)
+		{
+			profileBlockLeftMargin=ApplicationDesignRules.leftMargin;
+			profileBlockUpMargin=0f;
+			
+			searchBlockLeftMargin=ApplicationDesignRules.leftMargin;
+			searchBlockUpMargin=profileBlockUpMargin+ApplicationDesignRules.gapBetweenBlocks+profileBlockHeight;
+			
+			friendsBlockLeftMargin=ApplicationDesignRules.leftMargin;
+			friendsBlockUpMargin=searchBlockUpMargin+ApplicationDesignRules.gapBetweenBlocks+searchBlockHeight+ApplicationDesignRules.button62WorldSize.y;
+			
+			resultsBlockLeftMargin=ApplicationDesignRules.leftMargin;
+			resultsBlockUpMargin=friendsBlockUpMargin+ApplicationDesignRules.gapBetweenBlocks+friendsBlockHeight+ApplicationDesignRules.button62WorldSize.y;
+		}
+		else
+		{
+			profileBlockLeftMargin=ApplicationDesignRules.leftMargin;
+			profileBlockUpMargin=ApplicationDesignRules.upMargin;
+			
+			searchBlockLeftMargin=ApplicationDesignRules.leftMargin;
+			searchBlockUpMargin=profileBlockUpMargin+ApplicationDesignRules.gapBetweenBlocks+profileBlockHeight;
+			
+			friendsBlockLeftMargin=ApplicationDesignRules.leftMargin+ApplicationDesignRules.gapBetweenBlocks+ApplicationDesignRules.blockWidth;
+			friendsBlockUpMargin=ApplicationDesignRules.upMargin+ApplicationDesignRules.button62WorldSize.y;
+			
+			resultsBlockLeftMargin=ApplicationDesignRules.leftMargin+ApplicationDesignRules.gapBetweenBlocks+ApplicationDesignRules.blockWidth;
+			resultsBlockUpMargin=friendsBlockUpMargin+ApplicationDesignRules.gapBetweenBlocks+friendsBlockHeight+ApplicationDesignRules.button62WorldSize.y;
+		}
+
+		this.mainCamera.GetComponent<ScrollingController> ().setViewHeight(ApplicationDesignRules.viewHeight);
+		this.mainCamera.GetComponent<ScrollingController> ().setContentHeight(profileBlockHeight + searchBlockHeight + friendsBlockHeight + resultsBlockHeight + 3f * ApplicationDesignRules.gapBetweenBlocks + 2f*ApplicationDesignRules.button62WorldSize.y);
+		this.mainCamera.transform.position = ApplicationDesignRules.mainCameraStartPosition;
+		this.mainCamera.GetComponent<ScrollingController> ().setStartPositionY (ApplicationDesignRules.mainCameraStartPosition.y);
+
 		this.centralWindow = new Rect (ApplicationDesignRules.widthScreen * 0.25f, 0.12f * ApplicationDesignRules.heightScreen,ApplicationDesignRules.widthScreen * 0.50f, 0.40f * ApplicationDesignRules.heightScreen);
 		this.centralWindowEditInformations=new Rect(ApplicationDesignRules.widthScreen * 0.25f, 0.12f * ApplicationDesignRules.heightScreen,ApplicationDesignRules.widthScreen * 0.50f, 0.50f * ApplicationDesignRules.heightScreen);
 
-		float profileBlockLeftMargin = ApplicationDesignRules.leftMargin;
-		float profileBlockRightMargin =ApplicationDesignRules.gapBetweenBlocks+ApplicationDesignRules.rightMargin+(ApplicationDesignRules.worldWidth-ApplicationDesignRules.leftMargin-ApplicationDesignRules.rightMargin-ApplicationDesignRules.gapBetweenBlocks)/2f;
-		float profileBlockUpMargin = ApplicationDesignRules.upMargin;
-		float profileBlockDownMargin = ApplicationDesignRules.worldHeight-6.45f+ApplicationDesignRules.gapBetweenBlocks;
-		
-		this.profileBlock.GetComponent<NewBlockController> ().resize(profileBlockLeftMargin,profileBlockRightMargin,profileBlockUpMargin,profileBlockDownMargin);
+		this.profileBlock.GetComponent<NewBlockController> ().resize(profileBlockLeftMargin,profileBlockUpMargin,ApplicationDesignRules.blockWidth,profileBlockHeight);
 		Vector3 profileBlockUpperLeftPosition = this.profileBlock.GetComponent<NewBlockController> ().getUpperLeftCornerPosition ();
 		Vector3 profileBlockUpperRightPosition = this.profileBlock.GetComponent<NewBlockController> ().getUpperRightCornerPosition ();
 		Vector2 profileBlockLowerLeftPosition = this.profileBlock.GetComponent<NewBlockController> ().getLowerLeftCornerPosition ();
@@ -622,13 +694,7 @@ public class NewProfileController : MonoBehaviour
 		this.collectionButton.transform.position =  new Vector3 (this.profileStats[3].transform.position.x, profileBlockLowerRightPosition.y + ApplicationDesignRules.button61WorldSize.y/2f+0.3f, 0f);
 		this.collectionButton.transform.localScale = ApplicationDesignRules.button51Scale;
 
-		
-		float searchBlockLeftMargin = ApplicationDesignRules.leftMargin;
-		float searchBlockRightMargin = ApplicationDesignRules.gapBetweenBlocks+ApplicationDesignRules.rightMargin+(ApplicationDesignRules.worldWidth-ApplicationDesignRules.leftMargin-ApplicationDesignRules.rightMargin-ApplicationDesignRules.gapBetweenBlocks)/2f;
-		float searchBlockUpMargin = 6.45f;
-		float searchBlockDownMargin = ApplicationDesignRules.downMargin;
-		
-		this.searchBlock.GetComponent<NewBlockController> ().resize(searchBlockLeftMargin,searchBlockRightMargin,searchBlockUpMargin,searchBlockDownMargin);
+		this.searchBlock.GetComponent<NewBlockController> ().resize(searchBlockLeftMargin,searchBlockUpMargin,ApplicationDesignRules.blockWidth,searchBlockHeight);
 		Vector3 searchBlockUpperLeftPosition = this.searchBlock.GetComponent<NewBlockController> ().getUpperLeftCornerPosition ();
 		Vector3 searchBlockUpperRightPosition = this.searchBlock.GetComponent<NewBlockController> ().getUpperRightCornerPosition ();
 		Vector2 searchBlockSize = this.searchBlock.GetComponent<NewBlockController> ().getSize ();
@@ -648,12 +714,7 @@ public class NewProfileController : MonoBehaviour
 		this.searchButton.transform.position = new Vector3(searchBlockUpperRightPosition.x-searchMargin-ApplicationDesignRules.button62WorldSize.x/2f,searchOrigin.y-0.7f,searchOrigin.z);
 		this.searchButton.transform.localScale = ApplicationDesignRules.largeInputTextScale;
 
-		float friendsBlockLeftMargin = ApplicationDesignRules.gapBetweenBlocks+ApplicationDesignRules.leftMargin+(ApplicationDesignRules.worldWidth-ApplicationDesignRules.rightMargin-ApplicationDesignRules.leftMargin-ApplicationDesignRules.gapBetweenBlocks)/2f;;
-		float friendsBlockRightMargin = ApplicationDesignRules.rightMargin;
-		float friendsBlockUpMargin = ApplicationDesignRules.upMargin+ApplicationDesignRules.button62WorldSize.y;
-		float friendsBlockDownMargin = ApplicationDesignRules.worldHeight-6.45f+ApplicationDesignRules.gapBetweenBlocks;
-
-		this.friendsBlock.GetComponent<NewBlockController> ().resize(friendsBlockLeftMargin,friendsBlockRightMargin,friendsBlockUpMargin,friendsBlockDownMargin);
+		this.friendsBlock.GetComponent<NewBlockController> ().resize(friendsBlockLeftMargin,friendsBlockUpMargin,ApplicationDesignRules.blockWidth,friendsBlockHeight);
 		Vector3 friendsBlockUpperLeftPosition = this.friendsBlock.GetComponent<NewBlockController> ().getUpperLeftCornerPosition ();
 		Vector3 friendsBlockUpperRightPosition = this.friendsBlock.GetComponent<NewBlockController> ().getUpperRightCornerPosition ();
 		Vector2 friendsBlockLowerLeftPosition = this.friendsBlock.GetComponent<NewBlockController> ().getLowerLeftCornerPosition ();
@@ -707,12 +768,7 @@ public class NewProfileController : MonoBehaviour
 		this.friendsPaginationButtons.transform.position=new Vector3 (friendsBlockLowerLeftPosition.x + friendsBlockSize.x / 2, friendsBlockLowerLeftPosition.y + 0.3f, 0f);
 		this.friendsPaginationButtons.GetComponent<NewProfileFriendsPaginationController> ().resize ();
 
-		float resultsBlockLeftMargin =  ApplicationDesignRules.gapBetweenBlocks+ApplicationDesignRules.leftMargin+(ApplicationDesignRules.worldWidth-ApplicationDesignRules.rightMargin-ApplicationDesignRules.leftMargin-ApplicationDesignRules.gapBetweenBlocks)/2f;
-		float resultsBlockRightMargin = ApplicationDesignRules.rightMargin;
-		float resultsBlockUpMargin = 6.45f+ApplicationDesignRules.button62WorldSize.y;
-		float resultsBlockDownMargin = ApplicationDesignRules.downMargin;
-
-		this.resultsBlock.GetComponent<NewBlockController> ().resize(resultsBlockLeftMargin,resultsBlockRightMargin,resultsBlockUpMargin,resultsBlockDownMargin);
+		this.resultsBlock.GetComponent<NewBlockController> ().resize(resultsBlockLeftMargin,resultsBlockUpMargin,ApplicationDesignRules.blockWidth,resultsBlockHeight);
 		Vector3 resultsBlockUpperLeftPosition = this.resultsBlock.GetComponent<NewBlockController> ().getUpperLeftCornerPosition ();
 		Vector3 resultsBlockUpperRightPosition = this.resultsBlock.GetComponent<NewBlockController> ().getUpperRightCornerPosition ();
 		Vector2 resultsBlockLowerLeftPosition = this.resultsBlock.GetComponent<NewBlockController> ().getLowerLeftCornerPosition ();

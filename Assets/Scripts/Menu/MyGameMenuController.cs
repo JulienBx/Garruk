@@ -23,7 +23,10 @@ public class MyGameMenuController : MenuController
 	public override void resizeAll()
 	{
 		base.resize ();
+		base.setCurrentPage (1);
+		newMyGameController.instance.cleanCards ();
 		newMyGameController.instance.resize ();
+		newMyGameController.instance.initializeCards ();
 	}
 	public override void moneyUpdate()
 	{

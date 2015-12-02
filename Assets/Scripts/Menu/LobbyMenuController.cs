@@ -23,6 +23,7 @@ public class LobbyMenuController : MenuController
 	public override void resizeAll()
 	{
 		base.resize ();
+		base.setCurrentPage (5);
 		NewLobbyController.instance.resize ();
 	}
 	public override void initializeScene()

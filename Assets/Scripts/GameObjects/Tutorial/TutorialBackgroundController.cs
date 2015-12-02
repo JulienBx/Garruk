@@ -47,7 +47,7 @@ public class TutorialBackgroundController : MonoBehaviour
 
 		Vector3 scale = new Vector3 (rect.width / circleBackgroundWorldSizeX, rect.height / circleBackgroundWorldSizeY, 1f);
 
-		gameObject.transform.position=new Vector3(rect.x,rect.y,-9f);
+		gameObject.transform.localPosition=new Vector3(rect.x,rect.y,-9f);
 		gameObject.transform.localScale = scale;
 
 

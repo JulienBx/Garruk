@@ -74,6 +74,7 @@ TextureImporter:
   lightmap: 0
   rGBM: 0
   compressionQuality: 50
+  allowsAlphaSplitting: 0
   spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
@@ -89,27 +90,27 @@ TextureImporter:
     - name: assassin
       rect:
         serializedVersion: 2
-        x: 797
-        y: 2393
-        width: 559
-        height: 654
+        x: 813
+        y: 2389
+        width: 561
+        height: 655
       alignment: 9
-      pivot: {x: .542933822, y: .577217102}
+      pivot: {x: .542780757, y: .576335907}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: atkicon
       rect:
         serializedVersion: 2
-        x: 82
-        y: 22
-        width: 95
-        height: 120
+        x: 84
+        y: 18
+        width: 97
+        height: 122
       alignment: 9
-      pivot: {x: .452631593, y: .491666675}
+      pivot: {x: .453608245, y: .491803288}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: backCard
       rect:
         serializedVersion: 2
-        x: 1406
+        x: 1408
         y: 3090
         width: 720
         height: 1004
@@ -119,8 +120,8 @@ TextureImporter:
     - name: buttonBorder
       rect:
         serializedVersion: 2
-        x: 2503
-        y: 2624
+        x: 2509
+        y: 2623
         width: 219
         height: 50
       alignment: 0
@@ -130,17 +131,17 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 2
-        y: 3162
-        width: 1402
-        height: 932
+        y: 3160
+        width: 1404
+        height: 934
       alignment: 9
-      pivot: {x: .500713289, y: .498927027}
+      pivot: {x: .500712276, y: .498929322}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: cardupgrade
       rect:
         serializedVersion: 2
-        x: 3970
-        y: 3018
+        x: 3978
+        y: 3013
         width: 90
         height: 69
       alignment: 0
@@ -149,58 +150,58 @@ TextureImporter:
     - name: cristal
       rect:
         serializedVersion: 2
-        x: 2733
-        y: 3382
+        x: 2737
+        y: 3379
         width: 52
-        height: 49
+        height: 51
       alignment: 9
-      pivot: {x: .5, y: .510204077}
+      pivot: {x: .5, y: .509803951}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: cristal1
       rect:
         serializedVersion: 2
-        x: 2733
-        y: 3331
+        x: 2737
+        y: 3326
         width: 52
-        height: 49
+        height: 51
       alignment: 9
-      pivot: {x: .5, y: .510204077}
+      pivot: {x: .5, y: .509803951}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: cristal2
       rect:
         serializedVersion: 2
-        x: 2733
-        y: 3280
+        x: 2737
+        y: 3273
         width: 52
-        height: 49
+        height: 51
       alignment: 9
-      pivot: {x: .5, y: .510204077}
+      pivot: {x: .5, y: .509803951}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: drogueur
       rect:
         serializedVersion: 2
-        x: 1395
-        y: 2398
-        width: 561
-        height: 690
+        x: 1397
+        y: 2397
+        width: 563
+        height: 691
       alignment: 9
-      pivot: {x: .514260232, y: .547101438}
+      pivot: {x: .514209569, y: .54630971}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: droid
       rect:
         serializedVersion: 2
-        x: 1958
-        y: 2038
-        width: 543
-        height: 636
+        x: 1962
+        y: 2036
+        width: 545
+        height: 637
       alignment: 9
-      pivot: {x: .494475126, y: .593553483}
+      pivot: {x: .494495422, y: .592621684}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: expcomplete
       rect:
         serializedVersion: 2
         x: 2
-        y: 12
+        y: 8
         width: 100
         height: 3
       alignment: 0
@@ -210,7 +211,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 2
-        y: 2156
+        y: 2154
         width: 720
         height: 1004
       alignment: 0
@@ -220,7 +221,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 2
-        y: 1150
+        y: 1148
         width: 720
         height: 1004
       alignment: 0
@@ -230,7 +231,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 2
-        y: 144
+        y: 142
         width: 720
         height: 1004
       alignment: 0
@@ -239,39 +240,39 @@ TextureImporter:
     - name: geomancienne
       rect:
         serializedVersion: 2
-        x: 3476
-        y: 3353
-        width: 610
-        height: 741
+        x: 3480
+        y: 3352
+        width: 612
+        height: 742
       alignment: 9
-      pivot: {x: .497540981, y: .509446681}
+      pivot: {x: .497549027, y: .508760095}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: invocateur
       rect:
         serializedVersion: 2
-        x: 2128
-        y: 2676
-        width: 603
+        x: 2130
+        y: 2675
+        width: 605
         height: 755
       alignment: 9
-      pivot: {x: .50497514, y: .5}
+      pivot: {x: .504958689, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: lifeicon
       rect:
         serializedVersion: 2
-        x: 3970
-        y: 3186
-        width: 110
-        height: 165
+        x: 3978
+        y: 3183
+        width: 112
+        height: 167
       alignment: 9
-      pivot: {x: .481818169, y: .5090909}
+      pivot: {x: .482142866, y: .508982062}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: mentaliste
       rect:
         serializedVersion: 2
-        x: 2787
-        y: 2604
-        width: 603
+        x: 2791
+        y: 2603
+        width: 605
         height: 755
       alignment: 0
       pivot: {x: .5, y: .5}
@@ -279,28 +280,28 @@ TextureImporter:
     - name: mitrailleur
       rect:
         serializedVersion: 2
-        x: 3392
-        y: 1884
-        width: 574
+        x: 3398
+        y: 1882
+        width: 576
         height: 755
       alignment: 9
-      pivot: {x: .507839739, y: .5}
+      pivot: {x: .5078125, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: polymorphe
       rect:
         serializedVersion: 2
-        x: 2819
-        y: 3361
-        width: 655
-        height: 733
+        x: 2821
+        y: 3360
+        width: 657
+        height: 734
       alignment: 9
-      pivot: {x: .506106853, y: .51500684}
+      pivot: {x: .506088257, y: .514305174}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: popUp
       rect:
         serializedVersion: 2
-        x: 1358
-        y: 2246
+        x: 1376
+        y: 2245
         width: 350
         height: 150
       alignment: 0
@@ -309,97 +310,97 @@ TextureImporter:
     - name: predateur
       rect:
         serializedVersion: 2
-        x: 2128
-        y: 3433
+        x: 2130
+        y: 3432
         width: 689
-        height: 661
+        height: 662
       alignment: 9
-      pivot: {x: .5, y: .571104407}
+      pivot: {x: .5, y: .57024169}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: pretresse
       rect:
         serializedVersion: 2
-        x: 3392
-        y: 2641
-        width: 576
-        height: 710
+        x: 3398
+        y: 2639
+        width: 578
+        height: 711
       alignment: 9
-      pivot: {x: .483506948, y: .531690121}
+      pivot: {x: .483564019, y: .530942321}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: probaPicto
       rect:
         serializedVersion: 2
-        x: 3970
-        y: 3089
-        width: 103
-        height: 95
+        x: 3978
+        y: 3084
+        width: 105
+        height: 97
       alignment: 9
-      pivot: {x: .504854381, y: .50526315}
+      pivot: {x: .504761934, y: .50515461}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: skillTypeAuto
       rect:
         serializedVersion: 2
-        x: 179
-        y: 41
-        width: 101
-        height: 101
+        x: 183
+        y: 37
+        width: 103
+        height: 103
       alignment: 9
-      pivot: {x: .495049506, y: .495049506}
+      pivot: {x: .495145619, y: .495145619}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: skillTypeCombat
       rect:
         serializedVersion: 2
-        x: 282
-        y: 41
-        width: 101
-        height: 101
+        x: 288
+        y: 37
+        width: 103
+        height: 103
       alignment: 9
-      pivot: {x: .495049506, y: .495049506}
+      pivot: {x: .495145619, y: .495145619}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: skillTypeDegenerescence
       rect:
         serializedVersion: 2
-        x: 385
-        y: 41
-        width: 101
-        height: 101
+        x: 393
+        y: 37
+        width: 103
+        height: 103
       alignment: 9
-      pivot: {x: .495049506, y: .495049506}
+      pivot: {x: .495145619, y: .495145619}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: skillTypePiege
       rect:
         serializedVersion: 2
-        x: 488
-        y: 41
-        width: 101
-        height: 101
+        x: 498
+        y: 37
+        width: 103
+        height: 103
       alignment: 9
-      pivot: {x: .495049506, y: .495049506}
+      pivot: {x: .495145619, y: .495145619}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: skillTypeSoutien
       rect:
         serializedVersion: 2
-        x: 591
-        y: 41
-        width: 101
-        height: 101
+        x: 603
+        y: 37
+        width: 103
+        height: 103
       alignment: 9
-      pivot: {x: .495049506, y: .495049506}
+      pivot: {x: .495145619, y: .495145619}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: skillTypeTir
       rect:
         serializedVersion: 2
-        x: 694
-        y: 41
-        width: 101
-        height: 101
+        x: 708
+        y: 37
+        width: 103
+        height: 103
       alignment: 9
-      pivot: {x: .495049506, y: .495049506}
+      pivot: {x: .495145619, y: .495145619}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: soldPanel
       rect:
         serializedVersion: 2
-        x: 1958
+        x: 1962
         y: 2988
         width: 133
         height: 100
@@ -410,21 +411,21 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 2
-        y: 17
-        width: 78
-        height: 125
+        y: 13
+        width: 80
+        height: 127
       alignment: 9
-      pivot: {x: .5, y: .536000013}
+      pivot: {x: .5, y: .535433054}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: stone
       rect:
         serializedVersion: 2
         x: 724
-        y: 3049
-        width: 669
-        height: 111
+        y: 3046
+        width: 671
+        height: 112
       alignment: 9
-      pivot: {x: .500747383, y: .509009004}
+      pivot: {x: .500745177, y: .504464269}
       border: {x: 0, y: 0, z: 0, w: 0}
   spritePackingTag: 
   userData: 

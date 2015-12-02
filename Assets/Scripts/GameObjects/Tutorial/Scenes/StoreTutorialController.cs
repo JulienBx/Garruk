@@ -130,6 +130,11 @@ public class StoreTutorialController : TutorialObjectController
 				this.sequenceID=100;
 				goto default;
 			}
+			else if(NewStoreController.instance.getAreRandomCardsDisplayed())
+			{
+				this.sequenceID=3;
+				goto case 3;
+			}
 			if(!isResizing)
 			{
 				this.displayArrow(false);
@@ -167,6 +172,24 @@ public class StoreTutorialController : TutorialObjectController
 			this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition2.y,-9.5f));
 			break;
 		case 2: // Demande à l'utilisateur de sélectionner des cartes
+			this.endHelp();
+			break;
+		case 3:
+			if(!isResizing)
+			{
+				this.displayArrow(false);
+				this.displayPopUp(2);
+				this.displayNextButton(true);
+				this.setPopUpTitle("Les cartes achetées");
+				this.setPopUpDescription("A compléter");
+				this.displayBackground(true);
+				this.displayExitButton(false);
+				
+			}
+			this.resizeBackground(new Rect(0,10,5,5),0f,0f);
+			this.resizePopUp(new Vector3(0,0,-9.5f));
+			break;
+		case 4:
 			this.endHelp();
 			break;
 		default:

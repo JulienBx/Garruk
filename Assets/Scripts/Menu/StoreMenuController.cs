@@ -23,7 +23,10 @@ public class StoreMenuController : MenuController
 	public override void resizeAll()
 	{
 		base.resize ();
+		base.setCurrentPage (2);
+		NewStoreController.instance.cleanPacks ();
 		NewStoreController.instance.resize ();
+		NewStoreController.instance.initializePacks ();
 	}
 	public override void moneyUpdate()
 	{

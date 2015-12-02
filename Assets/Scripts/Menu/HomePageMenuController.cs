@@ -24,6 +24,7 @@ public class HomePageMenuController : MenuController
 	public override void resizeAll()
 	{
 		base.resize ();
+		base.setCurrentPage (0);
 		NewHomePageController.instance.resize ();
 	}
 	public override void moneyUpdate()

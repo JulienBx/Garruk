@@ -1195,7 +1195,7 @@ public class NewFocusedCardController : MonoBehaviour
 		MenuController.instance.displayTransparentBackground ();
 		this.nextLevelPopUp = Instantiate(ressources.nextLevelPopUpObject) as GameObject;
 		this.nextLevelPopUp.transform.parent=this.gameObject.transform;
-		this.nextLevelPopUp.transform.position = new Vector3 (gameObject.transform.position.x, 0, -2f);
+		this.nextLevelPopUp.transform.position = new Vector3 (gameObject.transform.position.x+ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y, -2f);
 		this.nextLevelPopUp.AddComponent<NextLevelPopUpControllerNewFocusedCard> ();
 		this.nextLevelPopUp.transform.GetComponent<NextLevelPopUpController> ().initialize (this.c);
 		this.isNextLevelPopUpDisplayed=true;
@@ -1217,7 +1217,7 @@ public class NewFocusedCardController : MonoBehaviour
 		this.isSkillPopUpDisplayed = true;
 		this.skillPopUp.transform.FindChild ("title").GetComponent<TextMeshPro> ().text = this.c.Skills [id].SkillType.Name;
 		this.skillPopUp.transform.FindChild ("description").GetComponent<TextMeshPro> ().text = this.c.Skills [id].SkillType.Description;
-		this.skillPopUp.transform.position = new Vector3 (gameObject.transform.FindChild ("Skill" + id).transform.FindChild ("SkillType").position.x, gameObject.transform.FindChild ("Skill" + id).transform.FindChild ("SkillType").position.y+1f, 0f);
+		this.skillPopUp.transform.position = new Vector3 (gameObject.transform.FindChild ("Skill" + id).transform.FindChild ("SkillType").position.x, gameObject.transform.FindChild ("Skill" + id).transform.FindChild ("SkillType").position.y-System.Convert.ToInt32(id==0)*1f+System.Convert.ToInt32(id>0)*1f, 0f);
 	}
 	public void hideSkillPopUp()
 	{

@@ -16,11 +16,20 @@ public class ApplicationDesignRules : MonoBehaviour
 	static public float pixelPerUnit=108f;
 	static public float screenRatio;
 	static public float optimalScreenRatio=1.77f;
+	static public float mobileScreenRatio =1.5f;
+	static public float cameraSize=5f;
+	static public float backgroundCameraSize=5f;
+	static public bool isMobileScreen;
+	static public float viewHeight;
 	static public float reductionRatio;
 	static public float leftMargin=0.5f;
 	static public float rightMargin=0.5f;
-	static public float upMargin=1.9f;
-	static public float downMargin=0.2f;
+	static public float upMargin;
+	static public float downMargin;
+	static public float blockWidth;
+	static public float largeBlockHeight;
+	static public float mediumBlockHeight;
+	static public float smallBlockHeight;
 	static public float gapBetweenBlocks=0.05f;
 	static public Color blackColor=new Color(0f,0f,0f);
 	static public Color blueColor=new Color(75f/255f,163f/255f,174f/255f);
@@ -114,22 +123,85 @@ public class ApplicationDesignRules : MonoBehaviour
 	static private Vector3 subMainTitleOriginalScale = new Vector3(1f,1f,1f);
 	static public Vector3 subMainTitleScale;
 
+	static public Vector3 menuPosition = new Vector3(0f,40f,0f);
+	static public Vector3 tutorialPosition = new Vector3(0f,100f,0f);
+	static public Vector3 backgroundPosition = new Vector3(0f,20f,0f);
+
+	static public Vector3 mainCameraStartPosition = new Vector3 (0f, 0f, -10f);
+
+	static private Vector2 topBarSize = new Vector2(1454f,181f);
+	static private Vector3 topBarScale = new Vector3(0.75f,0.75f,0.75f);
+	static public Vector2 topBarWorldSize;
+
+	static private Vector2 bottomBarSize = new Vector3(1599f,199f);
+	static private Vector3 bottomBarScale = new Vector3(0.68f,0.68f,0.68f);
+	static public Vector2 bottomBarWorldSize;
+
+	static public float gapBetweenCardsLine = 0.25f;
+	static public float gapBetweenMarketCardsLine = 0.55f;
+
+
 	static public void computeDesignRules()
 	{
 		widthScreen=Screen.width;
 		heightScreen=Screen.height;
 		screenRatio = (float)widthScreen/(float)heightScreen;
-		if(screenRatio>=optimalScreenRatio)
+
+		if(screenRatio<1f)
 		{
-			reductionRatio=1f;
+			cameraSize=5f*((float)heightScreen/(float)widthScreen);
 		}
 		else
 		{
-			reductionRatio=1f-(optimalScreenRatio-screenRatio)/optimalScreenRatio;
+			cameraSize=5f;
 		}
-		worldHeight = 2f*Camera.main.GetComponent<Camera>().orthographicSize;
+
+		worldHeight = 2f*cameraSize;
 		worldWidth = ((float)Screen.width/(float)Screen.height) * worldHeight;
-		screenRatio = (float)widthScreen / (float)heightScreen;
+
+		topBarWorldSize = toWorldSize (topBarSize, topBarScale);
+		bottomBarWorldSize = toWorldSize (bottomBarSize, bottomBarScale);
+
+		if(screenRatio<=mobileScreenRatio)
+		{
+			reductionRatio=1f;
+			isMobileScreen=true;
+			leftMargin = (worldWidth-10.1f)/2f;
+			rightMargin = leftMargin;
+			upMargin=topBarWorldSize.y-0.3f;
+			downMargin=bottomBarWorldSize.y-0.1f;
+			blockWidth=worldWidth-leftMargin-rightMargin;
+
+			largeBlockHeight = 10f - 2.1f;
+			mediumBlockHeight = (10f-2.1f-gapBetweenBlocks)*(2.8f/5f);
+			smallBlockHeight = (10f-2.1f-gapBetweenBlocks)*(2.2f/5f);
+			mainCameraStartPosition=new Vector3(0f,(upMargin + downMargin)/2f,-10f);
+
+		}
+		else
+		{
+			isMobileScreen=false;
+			leftMargin = worldWidth / 80f;
+			rightMargin = leftMargin;
+			upMargin=1.9f;
+			downMargin=0.2f;
+			blockWidth=(worldWidth-leftMargin-rightMargin-gapBetweenBlocks)/2f;
+			if(screenRatio>=optimalScreenRatio)
+			{
+				reductionRatio=1f;
+			}
+			else 
+			{
+				reductionRatio=1f-(optimalScreenRatio-screenRatio)/optimalScreenRatio;
+			}
+
+			largeBlockHeight = 10f - upMargin - downMargin;
+			mediumBlockHeight = (10f-upMargin-downMargin-gapBetweenBlocks)*(2.8f/5f);
+			smallBlockHeight = (10f-upMargin-downMargin-gapBetweenBlocks)*(2.2f/5f);
+			mainCameraStartPosition=new Vector3(0f,0f,-10f);
+		}
+
+		viewHeight = worldHeight - upMargin - downMargin;
 
 		button62Scale = toNewScale (button62OriginalScale);
 		button62WorldSize = toWorldSize (button62Size, button62Scale);

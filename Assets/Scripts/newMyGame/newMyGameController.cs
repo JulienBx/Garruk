@@ -11,6 +11,7 @@ public class newMyGameController : MonoBehaviour
 	private NewMyGameModel model;
 
 	public GameObject blockObject;
+	public GameObject cardObject;
 	public Texture2D[] cursorTextures;
 	public GUISkin popUpSkin;
 
@@ -32,6 +33,7 @@ public class newMyGameController : MonoBehaviour
 	private GameObject[] cards;
 	private GameObject cardsPaginationButtons;
 	private GameObject cardsPaginationLine;
+	private GameObject cardsScrollLine;
 	private GameObject cardsNumberTitle;
 
 	private GameObject filtersBlock;
@@ -47,6 +49,12 @@ public class newMyGameController : MonoBehaviour
 	private GameObject[] sortButtons;
 
 	private GameObject focusedCard;
+
+	private GameObject mainCamera;
+	private GameObject menuCamera;
+	private GameObject cardsCamera;
+	private GameObject tutorialCamera;
+	private GameObject backgroundCamera;
 
 	private int focusedCardIndex;
 	private bool isCardFocusedDisplayed;
@@ -99,9 +107,54 @@ public class newMyGameController : MonoBehaviour
 	private Texture2D cursorTexture;
 	
 	private bool isSceneLoaded;
+	private bool isScrolling;
+	private bool toScrollCards;
+	private float cardsCameraIntermediatePosition;
+
+	private bool toSlideRight;
+	private bool toSlideLeft;
+	private bool filtersDisplayed;
+	private bool mainContentDisplayed;
+	private float scrollIntersection;
+
+	private float filtersPositionX;
+	private float mainContentPositionX;
 
 	void Update()
 	{	
+		if (Input.touchCount == 1 && this.isSceneLoaded) 
+		{
+			if(Mathf.Abs(Input.touches[0].deltaPosition.y)>1f && Mathf.Abs(Input.touches[0].deltaPosition.y)>Mathf.Abs(Input.touches[0].deltaPosition.x))
+			{
+				this.isLeftClicked=false;
+			}
+			else if(Input.touches[0].deltaPosition.x<-15f)
+			{
+				this.isLeftClicked=false;
+				if(this.mainContentDisplayed || this.toSlideLeft)
+				{
+					if(this.mainContentDisplayed)
+					{
+						this.mainCamera.GetComponent<ScrollingController>().reset();
+						this.cardsCamera.GetComponent<ScrollingController>().reset();
+						this.toScrollCards=false;
+					}
+					this.toSlideRight=true;
+					this.toSlideLeft=false;
+					this.mainContentDisplayed=false;
+				}
+			}
+			else if(Input.touches[0].deltaPosition.x>15f)
+			{
+				this.isLeftClicked=false;
+				if(this.filtersDisplayed || this.toSlideRight)
+				{
+					this.toSlideLeft=true;
+					this.toSlideRight=false;
+					this.filtersDisplayed=false;
+				}
+			}
+		}
 		if(isLeftClicked)
 		{
 			this.clickInterval=this.clickInterval+Time.deltaTime*10f;
@@ -167,17 +220,73 @@ public class newMyGameController : MonoBehaviour
 				this.cleanDeckList();
 			}
 		}
+		if(ApplicationDesignRules.isMobileScreen && this.isSceneLoaded && !this.isLeftClicked && !this.isDragging && this.mainContentDisplayed)
+		{
+			if(!toScrollCards)
+			{
+				isScrolling = this.mainCamera.GetComponent<ScrollingController>().ScrollController();
+				isScrolling = this.cardsCamera.GetComponent<ScrollingController>().ScrollController();
+
+				if(this.mainCamera.GetComponent<ScrollingController>().isEndPosition())
+				{
+					Vector3 cardsCameraPosition = this.cardsCamera.transform.position;
+					cardsCameraPosition.y=this.cardsCameraIntermediatePosition;
+					this.cardsCamera.transform.position=cardsCameraPosition;
+					this.toScrollCards=true;
+					this.cardsScrollLine.SetActive(true);
+				}
+			}
+			else
+			{
+				isScrolling = this.cardsCamera.GetComponent<ScrollingController>().ScrollController();
+				if(this.cardsCamera.transform.position.y>this.cardsCameraIntermediatePosition)
+				{
+					Vector3 cardsCameraPosition = this.cardsCamera.transform.position;
+					cardsCameraPosition.y=this.cardsCameraIntermediatePosition;
+					this.cardsCamera.transform.position=cardsCameraPosition;
+					this.toScrollCards=false;
+					this.cardsScrollLine.SetActive(false);
+				}
+			}
+		}
+		if(toSlideRight || toSlideLeft)
+		{
+			Vector3 mainCameraPosition = this.mainCamera.transform.position;
+			Vector3 cardsCameraPosition = this.cardsCamera.transform.position;
+			float camerasXPosition = mainCameraPosition.x;
+			if(toSlideRight)
+			{
+				camerasXPosition=camerasXPosition+Time.deltaTime*40f;
+				if(camerasXPosition>this.filtersPositionX)
+				{
+					camerasXPosition=this.filtersPositionX;
+					this.toSlideRight=false;
+					this.filtersDisplayed=true;
+				}
+			}
+			else if(toSlideLeft)
+			{
+				camerasXPosition=camerasXPosition-Time.deltaTime*40f;
+				if(camerasXPosition<this.mainContentPositionX)
+				{
+					camerasXPosition=this.mainContentPositionX;
+					this.toSlideLeft=false;
+					this.mainContentDisplayed=true;
+				}
+			}
+			mainCameraPosition.x=camerasXPosition;
+			cardsCameraPosition.x=camerasXPosition;
+			this.mainCamera.transform.position=mainCameraPosition;
+			this.cardsCamera.transform.position=cardsCameraPosition;
+		}
 	}
 	void Awake()
 	{
 		instance = this;
 		this.model = new NewMyGameModel ();
-		this.cardsPerLine = 4;
-		this.nbLines = 2;
 		this.sortingOrder = -1;
-		this.cardsPagination = new Pagination ();
-		this.cardsPagination.chosenPage = 0;
-		this.cardsPagination.nbElementsPerPage = this.cardsPerLine * this.nbLines;
+		this.scrollIntersection = 5.3f;
+		this.mainContentDisplayed = true;
 		this.initializeScene ();
 		this.startMenuInitialization ();
 	}
@@ -205,8 +314,7 @@ public class newMyGameController : MonoBehaviour
 		yield return StartCoroutine (model.initializeMyGame ());
 		this.retrieveDefaultDeck ();
 		this.initializeDecks ();
-		this.resetFiltersValue ();
-		this.applyFilters ();
+		this.initializeCards ();
 		MenuController.instance.hideLoadingScreen ();
 		this.isSceneLoaded = true;
 		if(model.player.TutorialStep!=-1)
@@ -219,7 +327,7 @@ public class newMyGameController : MonoBehaviour
 		this.retrieveDecksList ();
 		this.drawDeckCards ();
 	}
-	private void initializeCards()
+	public void initializeCards()
 	{
 		this.resetFiltersValue ();
 		this.cardsPagination.chosenPage = 0;
@@ -249,6 +357,12 @@ public class newMyGameController : MonoBehaviour
 	{
 		this.drawPaginationNumber ();
 		this.drawCards ();
+		if(ApplicationDesignRules.isMobileScreen && toScrollCards)
+		{
+			Vector3 cardsCameraPosition = this.cardsCamera.transform.position;
+			cardsCameraPosition.y=this.cardsCameraIntermediatePosition;
+			this.cardsCamera.transform.position=cardsCameraPosition;
+		}
 	}
 	public void initializeScene()
 	{
@@ -296,19 +410,15 @@ public class newMyGameController : MonoBehaviour
 		this.cardsBlockTitle.GetComponent<TextMeshPro> ().text = "Mes cartes";
 		this.cardsNumberTitle = GameObject.Find ("CardsNumberTitle");
 		this.cardsNumberTitle.GetComponent<TextMeshPro> ().color = ApplicationDesignRules.whiteTextColor;
-		this.cards=new GameObject[this.nbLines*this.cardsPerLine];
-		for (int i=0;i<this.cards.Length;i++)
-		{
-			this.cards[i]=GameObject.Find("Card"+i);
-			this.cards[i].AddComponent<NewCardMyGameController>();
-			this.cards[i].transform.GetComponent<NewCardMyGameController>().setId(i,false);
-			this.cards[i].SetActive(false);
-		}
+		this.cards=new GameObject[0];
+
 		this.cardsPaginationButtons = GameObject.Find("Pagination");
 		this.cardsPaginationButtons.AddComponent<newMyGamePaginationController> ();
 		this.cardsPaginationButtons.GetComponent<newMyGamePaginationController> ().initialize ();
 		this.cardsPaginationLine = GameObject.Find ("CardsPaginationLine");
 		this.cardsPaginationLine.GetComponent<SpriteRenderer> ().color = ApplicationDesignRules.whiteSpriteColor;
+		this.cardsScrollLine = GameObject.Find ("CardsScrollLine");
+		this.cardsScrollLine.GetComponent<SpriteRenderer> ().color = ApplicationDesignRules.whiteSpriteColor;
 
 		this.filtersBlock = Instantiate (this.blockObject) as GameObject;
 		this.filtersBlockTitle = GameObject.Find ("FiltersBlockTitle");
@@ -368,6 +478,13 @@ public class newMyGameController : MonoBehaviour
 		this.focusedCard = GameObject.Find ("FocusedCard");
 		this.focusedCard.AddComponent<NewFocusedCardMyGameController> ();
 		this.focusedCard.SetActive (false);
+		this.mainCamera = gameObject;
+		this.mainCamera.AddComponent<ScrollingController> ();
+		this.cardsCamera = GameObject.Find ("CardsCamera");
+		this.cardsCamera.AddComponent<ScrollingController> ();
+		this.menuCamera = GameObject.Find ("MenuCamera");
+		this.tutorialCamera = GameObject.Find ("TutorialCamera");
+		this.backgroundCamera = GameObject.Find ("BackgroundCamera");
 	}
 	private void resetFiltersValue()
 	{
@@ -450,16 +567,75 @@ public class newMyGameController : MonoBehaviour
 	}
 	public void resize()
 	{
+		this.cardsScrollLine.SetActive(false);
+		this.menuCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
+		this.tutorialCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
+		this.backgroundCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.backgroundCameraSize;
 
-		float filtersBlockLeftMargin =  ApplicationDesignRules.gapBetweenBlocks+ApplicationDesignRules.leftMargin+(ApplicationDesignRules.worldWidth-ApplicationDesignRules.rightMargin-ApplicationDesignRules.leftMargin-ApplicationDesignRules.gapBetweenBlocks)/2f;
-		float filtersBlockRightMargin = ApplicationDesignRules.rightMargin;
-		float filtersBlockUpMargin = 6.45f;
-		float filtersBlockDownMargin = ApplicationDesignRules.downMargin;
+		float cardsBlockLeftMargin;
+		float cardsBlockUpMargin;
+		float cardsBlockHeight;
 		
-		this.filtersBlock.GetComponent<NewBlockController> ().resize(filtersBlockLeftMargin,filtersBlockRightMargin,filtersBlockUpMargin,filtersBlockDownMargin);
+		float deckBlockLeftMargin;
+		float deckBlockUpMargin;
+		float deckBlockHeight;
+		
+		float filtersBlockLeftMargin;
+		float filtersBlockUpMargin;
+		float filtersBlockHeight;
+		
+
+		deckBlockHeight=ApplicationDesignRules.mediumBlockHeight;
+		filtersBlockHeight=ApplicationDesignRules.smallBlockHeight;
+		
+		if(ApplicationDesignRules.isMobileScreen)
+		{
+			this.cardsPerLine = 4;
+			this.nbLines = 25;
+
+			cardsBlockHeight=2f+this.nbLines*(ApplicationDesignRules.cardWorldSize.y+ApplicationDesignRules.gapBetweenCardsLine);
+
+			deckBlockLeftMargin=ApplicationDesignRules.leftMargin;
+			deckBlockUpMargin=0f;
+			
+			cardsBlockLeftMargin=ApplicationDesignRules.leftMargin;
+			cardsBlockUpMargin=deckBlockUpMargin+ApplicationDesignRules.gapBetweenBlocks+deckBlockHeight;
+			
+			filtersBlockLeftMargin=ApplicationDesignRules.worldWidth;
+			filtersBlockUpMargin=0f;
+
+		}
+		else
+		{
+			this.cardsPerLine = 4;
+			this.nbLines = 2;
+
+			this.cardsCamera.SetActive(false);
+			this.mainCamera.GetComponent<Camera>().rect=new Rect(0f,0f,1f,1f);
+			this.mainCamera.transform.position=ApplicationDesignRules.mainCameraStartPosition;
+			this.mainCamera.GetComponent<Camera>().orthographicSize=ApplicationDesignRules.cameraSize;
+
+			cardsBlockHeight=ApplicationDesignRules.largeBlockHeight;
+
+			deckBlockLeftMargin=ApplicationDesignRules.leftMargin+ApplicationDesignRules.gapBetweenBlocks+ApplicationDesignRules.blockWidth;
+			deckBlockUpMargin=ApplicationDesignRules.upMargin;
+
+			filtersBlockLeftMargin=ApplicationDesignRules.leftMargin+ApplicationDesignRules.gapBetweenBlocks+ApplicationDesignRules.blockWidth;
+			filtersBlockUpMargin=deckBlockUpMargin+ApplicationDesignRules.gapBetweenBlocks+deckBlockHeight;
+			
+			cardsBlockLeftMargin=ApplicationDesignRules.leftMargin;
+			cardsBlockUpMargin=ApplicationDesignRules.upMargin;
+		}
+
+		this.cardsPagination = new Pagination ();
+		this.cardsPagination.chosenPage = 0;
+		this.cardsPagination.nbElementsPerPage = this.cardsPerLine * this.nbLines;
+
+		this.filtersBlock.GetComponent<NewBlockController> ().resize(filtersBlockLeftMargin,filtersBlockUpMargin,ApplicationDesignRules.blockWidth,filtersBlockHeight);
 		Vector3 filtersBlockUpperLeftPosition = this.filtersBlock.GetComponent<NewBlockController> ().getUpperLeftCornerPosition ();
 		Vector3 filtersBlockUpperRightPosition = this.filtersBlock.GetComponent<NewBlockController> ().getUpperRightCornerPosition ();
 		Vector2 filtersBlockSize = this.filtersBlock.GetComponent<NewBlockController> ().getSize ();
+		Vector2 filtersBlockOrigin = this.filtersBlock.GetComponent<NewBlockController> ().getOriginPosition ();
 
 		float gapBetweenSubFiltersBlock = 0.05f;
 		float filtersSubBlockSize = (filtersBlockSize.x - 0.6f - 2f * gapBetweenSubFiltersBlock) / 3f;
@@ -534,18 +710,14 @@ public class newMyGameController : MonoBehaviour
 
 		this.centralWindow = new Rect (ApplicationDesignRules.widthScreen * 0.25f, 0.12f * ApplicationDesignRules.heightScreen, ApplicationDesignRules.widthScreen * 0.50f, 0.25f * ApplicationDesignRules.heightScreen);
 	
-		float deckBlockLeftMargin = ApplicationDesignRules.gapBetweenBlocks+ApplicationDesignRules.leftMargin+(ApplicationDesignRules.worldWidth-ApplicationDesignRules.rightMargin-ApplicationDesignRules.leftMargin-ApplicationDesignRules.gapBetweenBlocks)/2f;;
-		float deckBlockRightMargin = ApplicationDesignRules.rightMargin;
-		float deckBlockUpMargin = ApplicationDesignRules.upMargin;
-		float deckBlockDownMargin = ApplicationDesignRules.worldHeight-6.45f+ApplicationDesignRules.gapBetweenBlocks;
-
-		this.deckBlock.GetComponent<NewBlockController> ().resize(deckBlockLeftMargin,deckBlockRightMargin,deckBlockUpMargin,deckBlockDownMargin);
+		this.deckBlock.GetComponent<NewBlockController> ().resize(deckBlockLeftMargin,deckBlockUpMargin,ApplicationDesignRules.blockWidth,deckBlockHeight);
 		Vector3 deckBlockUpperLeftPosition = this.deckBlock.GetComponent<NewBlockController> ().getUpperLeftCornerPosition ();
 		Vector3 deckBlockUpperRightPosition = this.deckBlock.GetComponent<NewBlockController> ().getUpperRightCornerPosition ();
 		Vector2 deckBlockSize = this.deckBlock.GetComponent<NewBlockController> ().getSize ();
+		Vector2 deckBlockOrigin = this.deckBlock.GetComponent<NewBlockController> ().getOriginPosition ();
 		this.deckBlockTitle.transform.position = new Vector3 (deckBlockUpperLeftPosition.x + 0.3f, deckBlockUpperLeftPosition.y - 0.2f, 0f);
 		this.deckBlockTitle.transform.localScale = ApplicationDesignRules.mainTitleScale;
-		
+
 		float gapBetweenDecksButton = 0.1f;
 
 		this.deckCreationButton.transform.position = new Vector3 (deckBlockUpperRightPosition.x - 0.3f - ApplicationDesignRules.button61WorldSize.x / 2f, deckBlockUpperRightPosition.y - 0.3f - 0.5f*ApplicationDesignRules.button61WorldSize.y/2f, 0f);
@@ -586,12 +758,7 @@ public class newMyGameController : MonoBehaviour
 			this.deckCards[i].transform.GetComponent<NewCardMyGameController>().setId(i,true);
 		}
 
-		float cardsBlockLeftMargin = ApplicationDesignRules.leftMargin;
-		float cardsBlockRightMargin = ApplicationDesignRules.gapBetweenBlocks+ApplicationDesignRules.rightMargin+(ApplicationDesignRules.worldWidth-ApplicationDesignRules.rightMargin-ApplicationDesignRules.leftMargin-ApplicationDesignRules.gapBetweenBlocks)/2f;
-		float cardsBlockUpMargin = ApplicationDesignRules.upMargin;
-		float cardsBlockDownMargin = ApplicationDesignRules.downMargin;
-		
-		this.cardsBlock.GetComponent<NewBlockController> ().resize(cardsBlockLeftMargin,cardsBlockRightMargin,cardsBlockUpMargin,cardsBlockDownMargin);
+		this.cardsBlock.GetComponent<NewBlockController> ().resize(cardsBlockLeftMargin,cardsBlockUpMargin,ApplicationDesignRules.blockWidth,cardsBlockHeight);
 		Vector3 cardsBlockUpperLeftPosition = this.cardsBlock.GetComponent<NewBlockController> ().getUpperLeftCornerPosition ();
 		Vector3 cardsBlockLowerLeftPosition = this.cardsBlock.GetComponent<NewBlockController> ().getLowerLeftCornerPosition ();
 		Vector3 cardsBlockUpperRightPosition = this.cardsBlock.GetComponent<NewBlockController> ().getUpperRightCornerPosition ();
@@ -602,31 +769,69 @@ public class newMyGameController : MonoBehaviour
 		this.cardsNumberTitle.transform.position = new Vector3 (cardsBlockUpperLeftPosition.x + 0.3f, cardsBlockUpperLeftPosition.y - 1.2f, 0f);
 		this.cardsNumberTitle.transform.localScale = ApplicationDesignRules.subMainTitleScale;
 
-		float gapBetweenCardsLine = 0.25f;
+		if(ApplicationDesignRules.isMobileScreen)
+		{
+			this.mainCamera.GetComponent<Camera> ().rect = new Rect (0f,(ApplicationDesignRules.worldHeight-ApplicationDesignRules.upMargin-this.scrollIntersection)/ApplicationDesignRules.worldHeight,1f,(this.scrollIntersection)/ApplicationDesignRules.worldHeight);
+			this.mainCamera.GetComponent<Camera> ().orthographicSize = this.scrollIntersection/2f;
+			this.mainCamera.GetComponent<ScrollingController> ().setViewHeight(this.scrollIntersection);
+			this.mainCamera.GetComponent<ScrollingController> ().setContentHeight(this.scrollIntersection+0.7f);
+			this.mainCamera.transform.position = new Vector3 (0f, deckBlockUpperLeftPosition.y-this.scrollIntersection/2f, -10f);
+			this.mainCamera.GetComponent<ScrollingController> ().setStartPositionY (this.mainCamera.transform.position.y);
+			this.mainCamera.GetComponent<ScrollingController>().setEndPositionY();
+			this.mainContentPositionX = deckBlockOrigin.x;
+			this.filtersPositionX = filtersBlockOrigin.x;
+
+			this.cardsCamera.SetActive(true);
+			this.toScrollCards=false;
+			this.cardsCamera.GetComponent<Camera> ().rect = new Rect (0f,(ApplicationDesignRules.downMargin)/ApplicationDesignRules.worldHeight,1f,(ApplicationDesignRules.viewHeight-this.scrollIntersection)/ApplicationDesignRules.worldHeight);
+			this.cardsCamera.GetComponent<Camera> ().orthographicSize = (ApplicationDesignRules.viewHeight-this.scrollIntersection)/2f;
+			this.cardsCamera.GetComponent<ScrollingController> ().setViewHeight(ApplicationDesignRules.viewHeight-this.scrollIntersection);
+			this.cardsCamera.transform.position = new Vector3 (0f, deckBlockUpperLeftPosition.y-this.scrollIntersection-(ApplicationDesignRules.viewHeight-this.scrollIntersection)/2f, -10f);
+			this.cardsCameraIntermediatePosition=this.cardsCamera.transform.position.y-(this.mainCamera.GetComponent<ScrollingController>().getContentHeight()-this.mainCamera.GetComponent<ScrollingController>().getViewHeight());
+			this.cardsCamera.GetComponent<ScrollingController>().setStartPositionY(this.cardsCamera.transform.position.y);
+		}
+
 		float gapBetweenCard = gapBetweenCardsHalo;
-		float firstLineY = deckCardsPosition [0].y;
+		float firstLineY = cardsBlockUpperRightPosition.y - 3f;
 
 		this.cardsArea = new Rect (cardsBlockUpperLeftPosition.x,cardsBlockLowerLeftPosition.y,cardsBlockSize.x,cardsBlockSize.y);
-
 		this.cardsPosition=new Vector3[this.cardsPerLine*this.nbLines];
-		
+		this.cards=new GameObject[this.cardsPerLine*this.nbLines];
+
 		for(int j=0;j<this.nbLines;j++)
 		{
 			for(int i =0;i<this.cardsPerLine;i++)
 			{
+				this.cards[j*(cardsPerLine)+i]=Instantiate (this.cardObject) as GameObject;
+				this.cards[j*(cardsPerLine)+i].AddComponent<NewCardMyGameController>();
+				this.cards[j*(cardsPerLine)+i].transform.GetComponent<NewCardMyGameController>().setId(j*(cardsPerLine)+i,false);
 				this.cards[j*(cardsPerLine)+i].transform.localScale= ApplicationDesignRules.cardScale;
-				this.cardsPosition[j*(this.cardsPerLine)+i]=new Vector3(cardsBlockUpperLeftPosition.x+0.3f+ApplicationDesignRules.cardHaloWorldSize.x/2f+i*(gapBetweenCardsHalo+ApplicationDesignRules.cardHaloWorldSize.x),firstLineY-j*(gapBetweenCardsLine+ApplicationDesignRules.cardHaloWorldSize.y),0f);
+				this.cardsPosition[j*(this.cardsPerLine)+i]=new Vector3(cardsBlockUpperLeftPosition.x+0.3f+ApplicationDesignRules.cardWorldSize.x/2f+i*(gapBetweenCardsHalo+ApplicationDesignRules.cardWorldSize.x),firstLineY-j*(ApplicationDesignRules.gapBetweenCardsLine+ApplicationDesignRules.cardWorldSize.y),0f);
 				this.cards[j*(cardsPerLine)+i].transform.position=this.cardsPosition[j*(this.cardsPerLine)+i];
 				this.cards[j*(this.cardsPerLine)+i].transform.name="Card"+(j*(this.cardsPerLine)+i);
 			}
 		}
-		
-		this.cardsPaginationButtons.transform.localPosition=new Vector3(cardsBlockLowerLeftPosition.x+cardsBlockSize.x/2f, cardsBlockLowerLeftPosition.y + 0.3f, 0f);
-		this.cardsPaginationButtons.transform.GetComponent<newMyGamePaginationController> ().resize ();
 
 		float lineScale = ApplicationDesignRules.getLineScale (cardsBlockSize.x - 0.6f);
-		this.cardsPaginationLine.transform.localScale = new Vector3 (lineScale, 1f, 1f);
-		this.cardsPaginationLine.transform.position = new Vector3 (cardsBlockLowerLeftPosition.x + cardsBlockSize.x / 2, cardsBlockLowerLeftPosition.y + 0.6f, 0f);
+
+		if(ApplicationDesignRules.isMobileScreen)
+		{
+			this.cardsPaginationLine.SetActive(false);
+			this.cardsScrollLine.SetActive(true);
+			this.cardsScrollLine.transform.localScale = new Vector3 (lineScale, 1f, 1f);
+			this.cardsScrollLine.transform.position = new Vector3 (cardsBlockLowerLeftPosition.x + cardsBlockSize.x / 2, cardsBlockUpperLeftPosition.y - 1.5f, 0f);
+			this.cardsPaginationButtons.transform.localPosition=new Vector3(cardsBlockUpperLeftPosition.x+cardsBlockSize.x/2f, cardsBlockUpperLeftPosition.y - 1.2f, 0f);
+		}
+		else
+		{
+			this.cardsScrollLine.SetActive(false);
+			this.cardsPaginationLine.SetActive(true);
+			this.cardsPaginationLine.transform.localScale = new Vector3 (lineScale, 1f, 1f);
+			this.cardsPaginationLine.transform.position = new Vector3 (cardsBlockLowerLeftPosition.x + cardsBlockSize.x / 2, cardsBlockLowerLeftPosition.y + 0.6f, 0f);
+			this.cardsPaginationButtons.transform.localPosition=new Vector3(cardsBlockLowerLeftPosition.x+cardsBlockSize.x/2f, cardsBlockLowerLeftPosition.y + 0.3f, 0f);
+		}
+
+		this.cardsPaginationButtons.transform.GetComponent<newMyGamePaginationController> ().resize ();
 
 		this.focusedCard.transform.localScale = ApplicationDesignRules.cardFocusedScale;
 		this.focusedCard.transform.position = new Vector3 (0f, -ApplicationDesignRules.worldHeight/2f+ApplicationDesignRules.downMargin+ApplicationDesignRules.cardFocusedWorldSize.y/2f-0.22f, 0f);
@@ -666,6 +871,24 @@ public class newMyGameController : MonoBehaviour
 					this.cards[j*(cardsPerLine)+i].SetActive(false);
 				}
 			}
+		}
+		if(ApplicationDesignRules.isMobileScreen)
+		{
+			int nbLinesToDisplay = Mathf.CeilToInt ((float)this.cardsDisplayed.Count / (float)this.cardsPerLine);
+			float contentHeight = 2f+nbLinesToDisplay*(ApplicationDesignRules.cardWorldSize.y+ApplicationDesignRules.gapBetweenCardsLine)-1f;
+			if(this.cardsCamera.GetComponent<ScrollingController>().getViewHeight()>contentHeight)
+			{
+				contentHeight=this.cardsCamera.GetComponent<ScrollingController>().getViewHeight()+0.7f;
+			}
+			this.cardsCamera.GetComponent<ScrollingController> ().setContentHeight(contentHeight);
+			this.cardsCamera.GetComponent<ScrollingController>().setEndPositionY();
+		}
+	}
+	public void cleanCards()
+	{
+		for(int i=0;i<this.cards.Length;i++)
+		{
+			Destroy(this.cards[i]);
 		}
 	}
 	public void drawDeckCards()
@@ -967,8 +1190,7 @@ public class newMyGameController : MonoBehaviour
 		float mousePositionX=mousePosition.x;
 		Vector3 cursorPosition = this.cursors [cursorId].transform.localPosition;
 		float offset = mousePositionX-this.cursors [cursorId].transform.position.x;
-		print (offset);
-
+	
 		int value = -1;
 		string label = "";
 
@@ -1424,10 +1646,13 @@ public class newMyGameController : MonoBehaviour
 	}
 	public void leftClickedHandler(int id, bool isDeckCard)
 	{
-		this.idCardClicked = id;
-		this.isDeckCardClicked = isDeckCard;
-		this.isLeftClicked = true;
-		this.clickInterval = 0f;
+		if(!this.isScrolling)
+		{
+			this.idCardClicked = id;
+			this.isDeckCardClicked = isDeckCard;
+			this.isLeftClicked = true;
+			this.clickInterval = 0f;
+		}
 	}
 	public void leftClickReleaseHandler()
 	{
@@ -1474,11 +1699,11 @@ public class newMyGameController : MonoBehaviour
 			Vector3 mousePosition = Camera.main.ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, Input.mousePosition.z));
 			if(!isDeckCardClicked)
 			{
-				this.cards[this.idCardClicked].transform.position=new Vector3(mousePosition.x,mousePosition.y,0f);
+				this.cards[this.idCardClicked].transform.position=new Vector3(mousePosition.x+ApplicationDesignRules.menuPosition.x,mousePosition.y+ApplicationDesignRules.menuPosition.y,0f);
 			}
 			else
 			{
-				this.deckCards[this.idCardClicked].transform.position=new Vector3(mousePosition.x,mousePosition.y,0f);
+				this.deckCards[this.idCardClicked].transform.position=new Vector3(mousePosition.x+ApplicationDesignRules.menuPosition.x,mousePosition.y+ApplicationDesignRules.menuPosition.y,0f);
 			}
 		}
 	}

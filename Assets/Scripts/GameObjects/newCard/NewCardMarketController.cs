@@ -1,4 +1,8 @@
 using UnityEngine;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using TMPro;
 
 public class NewCardMarketController : NewCardController
@@ -26,6 +30,10 @@ public class NewCardMarketController : NewCardController
 	void OnMouseDown()
 	{
 		NewMarketController.instance.leftClickedHandler (this.id);
+	}
+	void OnMouseUp()
+	{
+		NewMarketController.instance.leftClickReleaseHandler ();
 	}
 	public override void OnMouseExit()
 	{
@@ -85,18 +93,26 @@ public class NewCardMarketController : NewCardController
 	}
 	public void panelMarketHandler()
 	{
-		NewMarketController.instance.communicateCardIndex (this.id);
-		if(this.c.onSale==0)
+		StartCoroutine (panelMarketFunction());
+	}
+	private IEnumerator panelMarketFunction()
+	{
+		yield return new WaitForSeconds (0.1f);
+		if(NewMarketController.instance.canClick())
 		{
-			base.displayputOnMarketCardPopUp();
-		}
-		else if(this.c.IdOWner!=NewMarketController.instance.returnUserId())
-		{
-			base.displayBuyCardPopUp();
-		}
-		else
-		{
-			base.displayEditSellCardPopUp();
+			NewMarketController.instance.communicateCardIndex (this.id);
+			if(this.c.onSale==0)
+			{
+				base.displayputOnMarketCardPopUp();
+			}
+			else if(this.c.IdOWner!=NewMarketController.instance.returnUserId())
+			{
+				base.displayBuyCardPopUp();
+			}
+			else
+			{
+				base.displayEditSellCardPopUp();
+			}
 		}
 	}
 	public override void hidePanelMarket()
