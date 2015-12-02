@@ -4,8 +4,7 @@ public class GameSkills : MonoBehaviour
 {	
 	public static GameSkills instance;
 	GameSkill[] skills ;
-	Skill currentSkill ;
-
+	
 	void Awake()
 	{
 		instance = this;
@@ -13,7 +12,6 @@ public class GameSkills : MonoBehaviour
 		this.skills = new GameSkill[96];
 		this.skills [0] = new Attack();
 		this.skills [1] = new Pass();
-		this.skills [94] = new Excitant();
 		this.skills [2] = new Calmant();
 		this.skills [3] = new Fortifiant();
 		this.skills [4] = new Relaxant();
@@ -70,8 +68,8 @@ public class GameSkills : MonoBehaviour
 		this.skills [55] = new GameSkill();
 		this.skills [56] = new Steroide();
 		this.skills [57] = new Senilite();
-		this.skills [58] = new CoupPrecis();
-		this.skills [59] = new Somnipiege();
+		this.skills [58] = new Somnipiege();
+		this.skills [59] = new CoupPrecis();
 		this.skills [60] = new GameSkill();
 		this.skills [61] = new GameSkill();
 		this.skills [62] = new GameSkill();
@@ -106,7 +104,7 @@ public class GameSkills : MonoBehaviour
 		this.skills [91] = new Lance();
 		this.skills [92] = new ToutDonner();
 		this.skills [93] = new Furie();
-		
+		this.skills [94] = new Excitant();
 	}
 
 	public GameSkill getSkill(int i)
@@ -116,21 +114,7 @@ public class GameSkills : MonoBehaviour
 	
 	public GameSkill getCurrentGameSkill()
 	{
-		return this.skills[this.currentSkill.Id];
-	}
-	
-	public GameSkill getCurrentSkill()
-	{
-		return this.skills[this.currentSkill.Id];
-	}
-	
-	public int getCurrentSkillId()
-	{
-		return this.currentSkill.Id;
-	}
-	
-	public void setCurrentSkill(Skill s){
-		this.currentSkill = s ;
+		return this.skills[GameView.instance.runningSkill];
 	}
 }
 

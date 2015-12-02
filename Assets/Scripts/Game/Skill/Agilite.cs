@@ -5,39 +5,29 @@ public class Agilite : GameSkill
 {
 	public Agilite()
 	{
-		this.numberOfExpectedTargets = 0 ; 
+		this.numberOfExpectedTargets = 0 ;
+		base.name = "Agilité";
+		base.ciblage = 0 ;
 	}
 	
-//	public override void launch()
-//	{
-//		this.resolve(new List<int>());
-//	}
-//	
-//	public override void resolve(List<int> targetsPCC)
-//	{	                     
-//		GameController.instance.play();
-//	}
-//	
-//	public override void applyOn(){
-//		int esquive = base.skill.Level*5;
-//		int target = GameController.instance.getCurrentPlayingCard();
-//		List<Card> receivers =  new List<Card>();
-//		List<string> receiversTexts =  new List<string>();
-//		
-//		GameController.instance.addCardModifier(target, esquive, ModifierType.Type_EsquivePercentage, ModifierStat.Stat_No, -1, 1, "AGILITE", "Peut esquiver les dégats, Probabilité : "+esquive+"%. Permanent.", "Permanent");
-//		
-//		string text = "Esquive : "+esquive+"%";
-//		GameView.instance.displaySkillEffect(target, text, 4);
-//		
-//		receivers.Add (GameView.instance.getCard(target));
-//		receiversTexts.Add(text);
-//		
-//		if(!GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
-//			GameView.instance.setSkillPopUp("lance <b>Agilité</b>...", base.card, receivers, receiversTexts);
-//		}
-//	}
-//	
-//	public override string isLaunchable(){
-//		return "" ;
-//	}
+	public override void launch()
+	{
+		this.resolve(new List<int>());
+	}
+	
+	public override void resolve(List<int> targetsPCC)
+	{	                     
+		GameController.instance.play(GameView.instance.runningSkill);
+		GameController.instance.applyOn(-1);
+	}
+	
+	public override void applyOn(int target){
+		string text = base.name;
+		int esquive = GameView.instance.getCurrentSkill().Power*5;
+		text += "\nEsquive : "+esquive+"%";
+		
+		GameView.instance.getCurrentCard().addEsquiveModifyer(new Modifyer(esquive, -1, 14, base.name, text));
+		GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).showIcons();
+		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name+"\n"+text, 0);
+	}
 }

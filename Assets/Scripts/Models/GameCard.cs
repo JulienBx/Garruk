@@ -11,13 +11,17 @@ public class GameCard : Card
 	public List<Modifyer> attackModifyers = new List<Modifyer>();
 	public List<Modifyer> moveModifyers = new List<Modifyer>();
 	public List<Modifyer> esquiveModifyers = new List<Modifyer>();
+	public List<Modifyer> magicalEsquiveModifyers = new List<Modifyer>();
+	public List<Modifyer> bouclierModifyers = new List<Modifyer>();
 	public Modifyer state ;
+	public bool isStateModifyed;
 	public int nbTurnsToWait ;
 	public bool isDead;
 	public bool hasMoved;
 	public bool hasPlayed;
 	
 	public GameCard(){
+	
 	}
 	
 	public GameCard(Card c){
@@ -38,6 +42,12 @@ public class GameCard : Card
 		base.PowerLevel = c.PowerLevel;
 		this.isDead=false;
 		this.state = new Modifyer();
+		this.isStateModifyed = false;
+	}
+	
+	public void setState(Modifyer m){
+		this.isStateModifyed = true ;
+		this.state = m;
 	}
 	
 	public void checkPassiveSkills()
@@ -47,6 +57,7 @@ public class GameCard : Card
 		this.checkRapide();
 		this.checkRobuste();
 		this.checkAgile();
+		this.checkCuirasse();
 	}
 	
 	public int getNbTurnsToWait(){
@@ -87,6 +98,11 @@ public class GameCard : Card
 		return (base.Skills[0].Id == 76);
 	}
 	
+	public bool isLache()
+	{
+		return (base.Skills[0].Id == 65);
+	}
+	
 	public bool isNurse()
 	{
 		return (base.Skills[0].Id == 75);
@@ -97,9 +113,20 @@ public class GameCard : Card
 		return (base.Skills[0].Id == 69);
 	}	
 	
+	public bool isGenerous()
+	{
+		bool b = false ;
+		if (this.Skills[0].Id == 72){
+			if(UnityEngine.Random.Range(1,101)<this.Skills[0].Power*3){
+				b = true ;
+			}
+		}
+		return b;
+	}
+	
 	public void checkPacifiste(){
 		if((base.Skills[0].Id == 73)){
-			int level = base.Skills[0].Level;
+			int level = base.Skills[0].Power;
 			float bonusLife = 0f ;
 			float malusAttack = 0f;
 			if (level==1){
@@ -144,23 +171,30 @@ public class GameCard : Card
 			}
 			
 			int amountLife = Mathf.CeilToInt(base.getLife()*bonusLife);
-			this.pvModifyers.Add (new Modifyer(amountLife, 0, 0, "Pacifisme", "Bonus permanent de "+bonusLife+" PV"));
+			this.pvModifyers.Add (new Modifyer(amountLife, -1, 0, "Pacifisme", "Bonus permanent de "+amountLife+" PV"));
 			
 			int amountAttack = -1*Mathf.CeilToInt(base.getAttack()*malusAttack);
-			this.attackModifyers.Add (new Modifyer(amountAttack, 0, 0, "Pacifisme", "Malus permanent de "+bonusLife+" ATK"));
+			this.attackModifyers.Add (new Modifyer(amountAttack, -1, 0, "Pacifisme", "Malus permanent de "+amountAttack+" ATK"));
 		}
 	}
 	
 	public void checkAguerri(){
 		if((base.Skills[0].Id == 68)){
-			int bonusAttack = base.Skills[0].Level;
-			this.attackModifyers.Add (new Modifyer(bonusAttack, 0, 0, "Aguerri", "Bonus permanent de "+bonusAttack+" ATK"));
+			int bonusAttack = base.Skills[0].Power;
+			this.attackModifyers.Add (new Modifyer(bonusAttack, -1, 0, "Aguerri", "Bonus permanent de "+bonusAttack+" ATK"));
+		}
+	}
+	
+	public void checkCuirasse(){
+		if((base.Skills[0].Id == 70)){
+			int bonusShield = base.Skills[0].Power*4;
+			this.bouclierModifyers.Add (new Modifyer(bonusShield, -1, 70, "Cuirassé", "Bouclier permanent : "+bonusShield+"%"));
 		}
 	}
 	
 	public void checkRapide(){
 		if((base.Skills[0].Id == 71)){
-			int level = base.Skills[0].Level;
+			int level = base.Skills[0].Power;
 			int bonusMove = 0 ;
 			int malusAttack = 0;
 			if (level==1){
@@ -204,14 +238,14 @@ public class GameCard : Card
 				malusAttack = -2;
 			}
 			
-			this.moveModifyers.Add (new Modifyer(bonusMove, 0, 0, "Rapide", "Bonus permanent de "+bonusMove+" MOV"));
-			this.attackModifyers.Add (new Modifyer(malusAttack, 0, 0, "Rapide", "Malus permanent de "+malusAttack+" ATK"));
+			this.moveModifyers.Add (new Modifyer(bonusMove, -1, 0, "Rapide", "Bonus permanent de "+bonusMove+" MOV"));
+			this.attackModifyers.Add (new Modifyer(malusAttack, -1, 0, "Rapide", "Malus permanent de "+malusAttack+" ATK"));
 		}
 	}
 	
 	public void checkRobuste(){
 		if((base.Skills[0].Id == 67)){
-			int level = base.Skills[0].Level;
+			int level = base.Skills[0].Power;
 			int bonusAttack = 0;
 			int malusMove = 0;
 			if (level==1){
@@ -255,17 +289,18 @@ public class GameCard : Card
 				malusMove = -1;
 			}
 			
-			this.attackModifyers.Add (new Modifyer(bonusAttack, 0, 0, "Robuste", "Bonus permanent de "+bonusAttack+" ATK"));
-			this.moveModifyers.Add (new Modifyer(malusMove, 0, 0, "Robuste", "Malus permanent de "+malusMove+" MOV"));
+			this.attackModifyers.Add (new Modifyer(bonusAttack, -1, 0, "Robuste", "Bonus permanent de "+bonusAttack+" ATK"));
+			this.moveModifyers.Add (new Modifyer(malusMove, -1, 0, "Robuste", "Malus permanent de "+malusMove+" MOV"));
+			
 		}
 	}
 	
 	public void checkAgile(){
 		if((base.Skills[0].Id == 66)){
-			int level = base.Skills[0].Level;
+			int level = base.Skills[0].Power;
 			int esquive = level * 5;
 						
-			this.esquiveModifyers.Add(new Modifyer(esquive, 0, 0, "Agile", "Esquive aux attaques de type combat : "+esquive+"%"));
+			this.esquiveModifyers.Add(new Modifyer(esquive, -1, 66, "Agilité", "Esquive aux compétences combat : "+esquive+"%"));
 		}
 	}
 	
@@ -342,7 +377,7 @@ public class GameCard : Card
 			if (this.pvModifyers [i].duration > 2){
 				this.pvModifyers [i].description.Replace(this.pvModifyers [i].duration+" tours", (this.pvModifyers [i].duration-1)+" tours");
 			}
-			else if (this.damagesModifyers [i].duration > 1){
+			else if (this.pvModifyers [i].duration > 1){
 				this.pvModifyers [i].description.Replace(this.pvModifyers [i].duration+" tours", "1 tour");
 			}
 			
@@ -400,6 +435,7 @@ public class GameCard : Card
 		if (state.duration == 0)
 		{
 			this.state = new Modifyer();
+			this.isStateModifyed=false;
 		}
 	}
 	
@@ -418,7 +454,7 @@ public class GameCard : Card
 	}
 	
 	public bool isParalyzed(){
-		return(this.state.type==102);
+		return(this.state.type==4);
 	}
 	
 	public List<string> getIconAttack()
@@ -450,6 +486,21 @@ public class GameCard : Card
 		return iconLifeTexts;
 	}
 	
+	public void removeLeaderEffect(){
+		for (int i = attackModifyers.Count-1 ; i >= 0 ; i--)
+		{
+			if(attackModifyers[i].type==76){
+				attackModifyers.RemoveAt(i);
+			}
+		}
+		for (int i = pvModifyers.Count-1 ; i >= 0 ; i--)
+		{
+			if(pvModifyers[i].type==76){
+				pvModifyers.RemoveAt(i);
+			}
+		}
+	}
+	
 	public override int getLife(){
 		int l = base.Life ;
 		for(int i = 0 ; i < this.pvModifyers.Count ; i++){
@@ -477,8 +528,142 @@ public class GameCard : Card
 		return Mathf.Max (0,a);
 	}
 	
+	public int GetTotalLife()
+	{
+		int l = base.Life ;
+		for(int i = 0 ; i < this.pvModifyers.Count ; i++){
+			l+=this.pvModifyers[i].amount;
+		}
+		return Mathf.Max (0,l);
+	}
+	
+	public int getBouclier(){
+		int b = 0 ;
+		for(int i = 0 ; i < this.bouclierModifyers.Count ; i++){
+			b+=this.bouclierModifyers[i].amount;
+		}
+		return b;
+	}
+	
 	public Skill GetAttackSkill()
 	{
 		return new Skill("Attaque", "Inflige "+this.getAttack()+" dégats au contact",0,1,100);
+	}
+	
+	public int getDamagesAgainst(GameCard g){
+		int amount = Mathf.FloorToInt(this.getAttack()*(1f-(g.getBouclier()/100f)));
+		amount = Mathf.Min(g.getLife(), amount);
+		return amount ;
+	}
+	
+	public int getDamagesAgainst(GameCard g, int percentage){
+		int amount = Mathf.FloorToInt(percentage*this.getAttack()*(1f-(g.getBouclier()/100f))/100f);
+		amount = Mathf.Min(g.getLife(), amount);
+		return amount ;
+	}
+	
+	public int getDamagesAgainstWS(GameCard g){
+		int amount = this.getAttack();
+		amount = Mathf.Min(g.getLife(), amount);
+		return amount ;
+	}
+	
+	public int getEsquive(){
+		int esquive = 0 ; 
+		for(int i = 0 ; i < this.esquiveModifyers.Count ; i++){
+			esquive+=this.esquiveModifyers[i].amount;
+		}
+		return esquive ;
+	}
+	
+	public int getMagicalEsquive(){
+		int esquive = 0 ; 
+		for(int i = 0 ; i < this.magicalEsquiveModifyers.Count ; i++){
+			esquive+=this.magicalEsquiveModifyers[i].amount;
+		}
+		return esquive ;
+	}
+	
+	public List<string> getEsquiveIcon(){
+		List<string> textes = new List<string>();
+		for (int i = 0 ; i < this.esquiveModifyers.Count ; i++){
+			textes.Add (esquiveModifyers[i].title);
+			textes.Add (esquiveModifyers[i].description);
+		}
+		for (int i = 0 ; i < this.bouclierModifyers.Count ; i++){
+			textes.Add (bouclierModifyers[i].title);
+			textes.Add (bouclierModifyers[i].description);
+		}
+		return textes;
+	}
+	
+	public List<string> getMoveIcon(){
+		List<string> textes = new List<string>();
+		for (int i = 0 ; i < this.moveModifyers.Count ; i++){
+			textes.Add (moveModifyers[i].title);
+			textes.Add (moveModifyers[i].description);
+		}
+		return textes;
+	}
+	
+	public Skill findSkill(int j){
+		Skill s = new Skill();
+		for(int i = 0; i < this.Skills.Count;i++){
+			if (this.Skills[i].Id==j){
+				s = this.Skills[i];
+			}
+		}
+		return s ;
+	}
+	
+	public override string getSkillText(string s){
+		int index ;
+		int percentage ;
+		string tempstring ;
+		if (s.Contains("%ATK")){
+			index = s.IndexOf("%ATK");
+			
+			tempstring = s.Substring(index-3,3);
+			percentage = Mathf.CeilToInt(Int32.Parse(tempstring)*this.getAttack()/100f);
+			s = s.Substring(0,index-4)+" "+percentage+" "+s.Substring(index+5,s.Length-index-5);
+		}
+		if (s.Contains("%PV")){
+			index = s.IndexOf("%PV");
+			tempstring = s.Substring(index-3,3);
+			percentage = Mathf.CeilToInt(Int32.Parse(tempstring)*this.getLife()/100f);
+			s = s.Substring(0,index-4)+" "+percentage+" "+s.Substring(0,index+3);
+		}
+		return s;
+	}
+	
+	public void addEsquiveModifyer(Modifyer m){
+		if(m.type==14){
+			this.esquiveModifyers = new List<Modifyer>();
+		}
+		this.esquiveModifyers.Add (m);
+	}
+	
+	public void addShieldModifyer(Modifyer m){
+		if(m.type==39){
+			this.bouclierModifyers = new List<Modifyer>();
+		}
+		this.bouclierModifyers.Add (m);
+	}
+	
+	public void emptyModifiers()
+	{
+		this.pvModifyers = new List<Modifyer>();
+		this.attackModifyers = new List<Modifyer>();
+		this.moveModifyers = new List<Modifyer>();
+		this.esquiveModifyers = new List<Modifyer>();
+		this.magicalEsquiveModifyers = new List<Modifyer>();
+		this.bouclierModifyers = new List<Modifyer>();
+		this.isStateModifyed = false ;
+		this.state = new Modifyer();
+	}
+	
+	public bool isIntouchable()
+	{
+		return (this.state.type==2);
 	}
 }

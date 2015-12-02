@@ -19,17 +19,17 @@ public class TempeteEnergie : GameSkill
 		int arg;
 		
 		for(int i = 0 ; i < targets.Count ; i++){
-			if (Random.Range(1,101) > GameView.instance.getCard(targets[i]).GetMagicalEsquive())
+			if (Random.Range(1,101) > GameView.instance.getCard(targets[i]).getMagicalEsquive())
 			{
-				arg = Random.Range(3,base.skill.ManaCost);
-				GameController.instance.applyOn(targets[i], arg);
+				//arg = Random.Range(3,base.skill.ManaCost);
+				//GameController.instance.applyOn(targets[i], arg);
 			}
 			else{
 				GameController.instance.failedToCastOnSkill(targets[i], 0);
 			}
 		}
 		
-		GameController.instance.play();
+		//GameController.instance.play();
 	}
 	
 //	public override void applyOn(int target, int arg){

@@ -5,116 +5,99 @@ public class Renfoderme : GameSkill
 {
 	public Renfoderme()
 	{
-		this.numberOfExpectedTargets = 1 ; 
+		this.numberOfExpectedTargets = 1 ;
+		base.name = "Renfoderme";
+		base.ciblage = 4 ;
 	}
 	
-//	public override void launch()
-//	{
-//		GameController.instance.initPCCTargetHandler(numberOfExpectedTargets);
-//		GameView.instance.displayAllysButMeTargets();
-//	}
-//	
-//	public override void resolve(List<int> targetsPCC)
-//	{	
-//		if (GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
-//			GameView.instance.hideTargets();
-//		}
-//		
-//		int target = targetsPCC[0];
-//		
-//		if (Random.Range(1,101) > GameView.instance.getCard(target).GetMagicalEsquive())
-//		{                             
-//			GameController.instance.addTarget(target,1);
-//		}
-//		else{
-//			GameController.instance.addTarget(target,0);
-//		}
-//		
-//		if (base.card.isGenerous()){
-//			if (Random.Range(1,101) <= base.card.getPassiveManacost()){
-//				List<int> allys = GameView.instance.getAllys();
-//				for (int i = 0 ; i < allys.Count ; i++){
-//					Debug.Log("Allys "+allys[i]);
-//				}
-//				if(allys.Count>1){
-//					allys.Remove(target);
-//					for (int i = 0 ; i < allys.Count ; i++){
-//						Debug.Log("Allys2 "+allys[i]);
-//					}
-//					
-//					target = allys[Random.Range(0,allys.Count)];
-//					
-//					if (Random.Range(1,101) > GameView.instance.getCard(target).GetMagicalEsquive())
-//					{
-//						GameController.instance.addTarget(target,3);
-//					}
-//					else{
-//						GameController.instance.addTarget(target,2);
-//					}
-//				}
-//			}
-//		}
-//		
-//		GameController.instance.play();
-//	}
-//	
-//	public override void applyOn(){
-//		Card targetCard ;
-//		int target ;
-//		string text ;
-//		List<Card> receivers =  new List<Card>();
-//		List<string> receiversTexts =  new List<string>();
-//		int amount ; 
-//		
-//		for(int i = 0 ; i < base.targets.Count ; i++){
-//			target = base.targets[i];
-//			targetCard = GameView.instance.getCard(target);
-//			receivers.Add (targetCard);
-//			if (base.results[i]==0){
-//				text = "Esquive";
-//				GameView.instance.displaySkillEffect(target, text, 4);
-//				receiversTexts.Add (text);
-//			}
-//			else if (base.results[i]==2){
-//				text = "Bonus 'Généreux'\nEsquive";
-//				GameView.instance.displaySkillEffect(target, text, 4);
-//				receiversTexts.Add (text);
-//			}
-//			else{
-//				amount = base.skill.ManaCost;
-//				if(base.results[i]==3){
-//					text = "Bonus Généreux\n";
-//				}
-//				else{
-//					text="";
-//				}
-//				
-//				text+="Renforcé";
-//				receiversTexts.Add (text);
-//				
-//				GameController.instance.addCardModifier(target, amount, ModifierType.Type_Bouclier, ModifierStat.Stat_No, -1, 2, "BOUCLIER", "Protège de "+amount+"% des débats subis. Permanent.", "Permanent");
-//				
-//				GameView.instance.displaySkillEffect(target, text, 5);
-//			}	
-//		}
-//		if(!GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
-//			GameView.instance.setSkillPopUp("lance <b>Renfoderme</b>...", base.card, receivers, receiversTexts);
-//		}
-//	}
-//	
-//	public override string isLaunchable(){
-//		return GameView.instance.canLaunchAllysButMeTargets();
-//	}
-//	
-//	public override string getTargetText(int i, Card targetCard){
-//		
-//		string text = "Ajoute un bouclier\n";
-//		
-//		int probaEsquive = targetCard.GetMagicalEsquive();
-//		int probaHit = Mathf.Max(0,100-probaEsquive) ;
-//		
-//		text += "HIT% : "+probaHit;
-//		
-//		return text ;
-//	}
+	public override void launch()
+	{
+		GameView.instance.initPCCTargetHandler(numberOfExpectedTargets);
+		GameView.instance.displayAllysButMeTargets();
+	}
+
+	public override void resolve(List<int> targetsPCC)
+	{	
+		GameController.instance.play(GameView.instance.runningSkill);
+		int target = targetsPCC[0];
+		int proba = GameView.instance.getCurrentSkill().proba;
+		
+		if (Random.Range(1,101) < GameView.instance.getCard(target).getMagicalEsquive()){
+			GameController.instance.esquive(target,1);
+		}
+		else{
+			if (Random.Range(1,101) < proba){
+				GameController.instance.applyOn(target);
+			}
+			else{
+				GameController.instance.esquive(target,39);
+			}
+		}
+		
+		if(GameView.instance.getCurrentCard().isGenerous()){
+			List<int> targets = GameView.instance.getAllys();
+			targets.Remove(target);
+			target = targets[Random.Range(0,targets.Count)];
+			GameController.instance.applyOn(target);	
+		}
+		
+		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 0);
+	}
+	
+	public int getShieldBonus(int level){
+		int shield = -1;
+		if(level<2){
+			shield = 5;
+		}
+		else if(level<4){
+			shield = 10;
+		}
+		else if(level<5){
+			shield = 15;
+		}
+		else if(level<7){
+			shield = 20;
+		}
+		else if(level<8){
+			shield = 25;
+		}
+		else if(level<10){
+			shield = 30;
+		}
+		else{
+			shield = 35;
+		}
+		return shield;
+	}
+
+	public override void applyOn(int target){
+		string text = base.name;
+		GameCard targetCard = GameView.instance.getCard(target);
+		GameCard currentCard = GameView.instance.getCurrentCard();
+		int level = GameView.instance.getCurrentSkill().Power;
+		
+		int bonusShield = this.getShieldBonus(level);
+		
+		GameView.instance.getCard(target).addShieldModifyer(new Modifyer(bonusShield, -1, 39, text, "Bouclier : "+bonusShield+"%. Permanent"));
+		GameView.instance.displaySkillEffect(target, base.name+"\nBouclier : "+bonusShield+"%. Permanent", 1);
+		GameView.instance.getPlayingCardController(target).showIcons();
+	}	
+
+	public override string getTargetText(int target){
+		
+		string text = base.name;
+		GameCard targetCard = GameView.instance.getCard(target);
+		GameCard currentCard = GameView.instance.getCurrentCard();
+		int level = GameView.instance.getCurrentSkill().Power;
+		int bonusShield = this.getShieldBonus(level);
+		
+		text += "\nAjoute un bouclier "+bonusShield+"%";
+		
+		int amount = GameView.instance.getCurrentSkill().proba;
+		int probaEsquive = targetCard.getMagicalEsquive();
+		int probaHit = Mathf.Max(0,amount*(100-probaEsquive)/100) ;
+		text += "\nHIT% : "+probaHit;
+		
+		return text ;
+	}
 }

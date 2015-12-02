@@ -5,126 +5,128 @@ public class Estoc : GameSkill
 {
 	public Estoc(){
 		this.numberOfExpectedTargets = 1 ; 
+		base.name = "Estoc";
+		base.ciblage = 1 ; 
 	}
 	
-//	public override void launch()
-//	{
-//		GameController.instance.initPCCTargetHandler(numberOfExpectedTargets);
-//		GameView.instance.displayAdjacentOpponentsTargets();
-//	}
-//	
-//	public override void resolve(List<int> targetsPCC)
-//	{	
-//		if (GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
-//			GameView.instance.hideTargets();
-//		}
-//		
-//		int target = targetsPCC[0];
-//		
-//		if (Random.Range(1,101) > GameView.instance.getCard(target).GetEsquive())
-//		{                             
-//			GameController.instance.addTarget(target,1);
-//		}
-//		else{
-//			GameController.instance.addTarget(target,0);
-//		}
-//		GameController.instance.play();
-//	}
-//	
-//	public override void applyOn(){
-//		Card targetCard ;
-//		int target ;
-//		string text ;
-//		List<Card> receivers =  new List<Card>();
-//		List<string> receiversTexts =  new List<string>();
-//		
-//		int amount, amount2 ; 
-//		
-//		for(int i = 0 ; i < base.targets.Count ; i++){
-//			target = base.targets[i];
-//			targetCard = GameView.instance.getCard(target);
-//			receivers.Add (targetCard);
-//			if (base.results[i]==0){
-//				text = "Esquive";
-//				GameView.instance.displaySkillEffect(target, text, 4);
-//				receiversTexts.Add (text);
-//			}
-//			else{
-//				amount = (base.card.GetAttack()/2)*(100+base.card.GetDamagesPercentageBonus(targetCard))/100;
-//				amount2 = base.skill.ManaCost ;
-//				if (base.card.isLache()){
-//					if(GameController.instance.getIsFirstPlayer()==GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
-//						if(GameView.instance.getPlayingCardTile(target).y==GameView.instance.getPlayingCardTile(GameController.instance.getCurrentPlayingCard()).y-1){
-//							amount = (100+base.card.getPassiveManacost())*amount/100;
-//						}
-//					}
-//					else{
-//						if(GameView.instance.getPlayingCardTile(target).y-1==GameView.instance.getPlayingCardTile(GameController.instance.getCurrentPlayingCard()).y){
-//							amount = (100+base.card.getPassiveManacost())*amount/100;
-//						}
-//					}
-//				}
-//				
-//				text="-"+amount+" PV";
-//				if(targetCard.GetLife()==amount){
-//					text+="\nMORT";
-//				}
-//				else{
-//					text+="\n-"+amount2+" ATK";
-//				}
-//				receiversTexts.Add (text);
-//				
-//				GameController.instance.addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
-//				GameController.instance.addCardModifier(target, -1*amount2, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, 1, 19, "AFFAIBLISSEMENT", "-"+amount2+" ATK. Actif 1 tour", "");
-//				
-//				GameView.instance.displaySkillEffect(target, text, 5);
-//			}	
-//		}
-//		if(!GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
-//			GameView.instance.setSkillPopUp("lance <b>Estoc</b>...", base.card, receivers, receiversTexts);
-//		}
-//	}
-//	
-//	public override string isLaunchable(){
-//		return GameView.instance.canLaunchAdjacentOpponents();
-//	}
-//	
-//	public override string getTargetText(int id, Card targetCard){
-//		
-//		int currentLife = targetCard.GetLife();
-//		int damageBonusPercentage = this.card.GetDamagesPercentageBonus(targetCard);
-//		int currentAttack = targetCard.GetAttack();
-//		int bonusAttack = base.skill.ManaCost;
-//		
-//		int bouclier = targetCard.GetBouclier();
-//		int amount = (base.card.GetAttack()/2)*(100+damageBonusPercentage)/100;
-//		
-//		string text = "";
-//		if (base.card.isLache()){
-//			if(GameController.instance.getIsFirstPlayer()==GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
-//				if(GameView.instance.getPlayingCardTile(id).y==GameView.instance.getPlayingCardTile(GameController.instance.getCurrentPlayingCard()).y-1){
-//					amount = (100+base.card.getPassiveManacost())*amount/100;
-//					text="LACHE\n";
-//				}
-//			}
-//			else{
-//				if(GameView.instance.getPlayingCardTile(id).y-1==GameView.instance.getPlayingCardTile(GameController.instance.getCurrentPlayingCard()).y){
-//					amount = (100+base.card.getPassiveManacost())*amount/100;
-//					text="LACHE\n";
-//				}
-//			}
-//		}
-//		
-//		amount = Mathf.Min(currentLife,amount-(bouclier*amount/100));
-//		
-//		text += "PV : "+currentLife+"->"+(currentLife-amount)+"\n";
-//		text += "ATK : "+currentAttack+"->"+Mathf.Max(0,currentAttack-bonusAttack)+"\n";
-//		
-//		int probaEsquive = targetCard.GetEsquive();
-//		int probaHit = Mathf.Max(0,100-probaEsquive) ;
-//		
-//		text += "HIT% : "+probaHit;
-//		
-//		return text ;
-//	}
+	public override void launch()
+	{
+		GameView.instance.initPCCTargetHandler(numberOfExpectedTargets);
+		GameView.instance.displayAdjacentOpponentsTargets();
+	}
+	
+	public override void resolve(List<int> targetsPCC)
+	{	
+		GameController.instance.play(GameView.instance.runningSkill);
+		int target = targetsPCC[0];
+		int proba = GameView.instance.getCurrentSkill().proba;
+		
+		if (Random.Range(1,101) < GameView.instance.getCard(target).getEsquive()){
+			GameController.instance.esquive(target,1);
+		}
+		else{
+			if (Random.Range(1,101) < proba){
+				GameController.instance.applyOn(target);
+			}
+			else{
+				GameController.instance.esquive(target,11);
+			}
+		}
+		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 0);
+	}
+	
+	public override void applyOn(int target){
+		string text = base.name;
+		GameCard targetCard = GameView.instance.getCard(target);
+		GameCard currentCard = GameView.instance.getCurrentCard();
+		int level = GameView.instance.getCurrentSkill().Power;
+		
+		int percentage = this.getPercentage(level);
+		int malusAttack = this.getMalusAttack(level);
+		int damages = currentCard.getDamagesAgainst(targetCard, percentage);
+		
+		if (currentCard.isLache()){
+			if(GameView.instance.getIsFirstPlayer() == currentCard.isMine){
+				if (GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).getTile().y-1==GameView.instance.getPlayingCardController(target).getTile().y){
+					damages = Mathf.Min(targetCard.getLife(), currentCard.getSkills()[0].Power+damages);
+					text+="\nBonus lache";
+				}
+			}
+			else{
+				if (GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).getTile().y==GameView.instance.getPlayingCardController(target).getTile().y-1){
+					damages = Mathf.Min(targetCard.getLife(), currentCard.getSkills()[0].Power+damages);
+					text+="\nBonus lache";
+				}
+			}
+		}
+		
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 0, text, "-"+damages+" PV\n"+malusAttack+" ATK pour 1 tour"));
+		GameView.instance.getCard(target).attackModifyers.Add(new Modifyer(malusAttack, 1, 11, text, malusAttack+" ATK pour 1 tour"));
+		GameView.instance.getPlayingCardController(target).updateLife();
+		GameView.instance.getPlayingCardController(target).updateAttack();
+	}
+	
+	public int getPercentage(int level){
+		int percentage = -1;
+		if(level<4){
+			percentage = 30;
+		}
+		else if(level<8){
+			percentage = 40;
+		}
+		else{
+			percentage = 50;
+		}
+		return percentage;
+	}
+	
+	public int getMalusAttack(int level){
+		int malusAttack = -1;
+		if(level<2){
+			malusAttack = -3;
+		}
+		else if(level<3){
+			malusAttack = -4;
+		}
+		else if(level<5){
+			malusAttack = -5;
+		}
+		else if(level<6){
+			malusAttack = -6;
+		}
+		else if(level<7){
+			malusAttack = -7;
+		}
+		else if(level<9){
+			malusAttack = -8;
+		}
+		else if(level<10){
+			malusAttack = -9;
+		}
+		else{
+			malusAttack = -10;
+		}
+		return malusAttack;
+	}
+	
+	public override string getTargetText(int target){
+		string text = base.name;
+		GameCard targetCard = GameView.instance.getCard(target);
+		GameCard currentCard = GameView.instance.getCurrentCard();
+		int level = GameView.instance.getCurrentSkill().Power;
+		
+		int percentage = this.getPercentage(level);
+		int malusAttack = this.getMalusAttack(level);
+		int damages = currentCard.getDamagesAgainst(targetCard, percentage);
+		
+		text += "\nPV : "+targetCard.getLife()+" -> "+(targetCard.getLife()-damages+"\n"+malusAttack+" ATK pour 1 tour");
+		
+		int amount = GameView.instance.getCurrentSkill().proba;
+		int probaEsquive = targetCard.getMagicalEsquive();
+		int probaHit = Mathf.Max(0,amount*(100-probaEsquive)/100) ;
+		
+		text += "\nHIT% : "+probaHit;
+		
+		return text ;
+	}
 }

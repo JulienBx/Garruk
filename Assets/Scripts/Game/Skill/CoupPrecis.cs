@@ -5,61 +5,74 @@ public class CoupPrecis : GameSkill
 {
 	public CoupPrecis(){
 		this.numberOfExpectedTargets = 1 ; 
+		base.name = "Coup précis";
+		base.ciblage = 1 ;
 	}
 	
-//	public override void launch()
-//	{
-//		GameController.instance.initTileTargetHandler(numberOfExpectedTargets);
-//		GameView.instance.displayAdjacentTileTargets();
-//	}
-//	
-//	public override void resolve(List<Tile> targetsTile)
-//	{	
-//		if (GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
-//			GameView.instance.hideTargets();
-//		}
-//		
-//		GameController.instance.addTargetTile(targetsTile[0].x, targetsTile[0].y, 1);
-//		GameController.instance.play();
-//	}
-//	
-//	public override void applyOn(){
-//		Tile target ;
-//		string text ;
-//		List<Card> receivers =  new List<Card>();
-//		List<string> receiversTexts =  new List<string>();
-//		
-//		int amount ; 
-//		
-//		for(int i = 0 ; i < base.tileTargets.Count ; i++){
-//			target = base.tileTargets[i];	
-//			amount = base.skill.ManaCost;
-//			
-//			text="Piège posé";
-//			
-//			GameController.instance.addTileModifier(target, amount, ModifierType.Type_WeakeningTrap, ModifierStat.Stat_No, -1, 3, "Piège affaiblissant", "Réduit de "+amount+"% l'attaque du héros touché pendant 2 tours", "Permanent. Non visible du joueur adverse");
-//			GameView.instance.displaySkillEffect(GameController.instance.getCurrentPlayingCard(), text, 4);
-//		}
-//		if(!GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
-//			GameView.instance.setSkillPopUp("pose un <b>piège affaiblissant</b>...", base.card, receivers, receiversTexts);
-//		}
-//	}
-//	
-//	public override void activateTrap(int[] targets, int[] args){
-//		int amount = args[0]*GameView.instance.getCard(targets[0]).GetAttack()/100;
-//		GameController.instance.addCardModifier(targets[0], -1*amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, 2, 19, "AFFAIBLISSEMENT", "-"+amount+" ATK. Actif 2 tours", "Actif 2 tours");
-//		GameView.instance.displaySkillEffect(targets[0], "PIEGE\n-"+amount+" ATK", 5);
-//	}
-//	
-//	public override string isLaunchable(){
-//		return GameView.instance.canLaunchAdjacentTileTargets();
-//	}
-//	
-//	public override string getTargetText(int i, Card c){
-//		
-//		int amount = base.skill.ManaCost;
-//		string s = "Pose un piège\n-"+amount+"% ATK";
-//		
-//		return s ;
-//	}
+	public override void launch()
+	{
+		GameView.instance.initPCCTargetHandler(numberOfExpectedTargets);
+		GameView.instance.displayAdjacentOpponentsTargets();
+	}
+	
+	public override void resolve(List<int> targetsPCC)
+	{	
+		GameController.instance.play(GameView.instance.runningSkill);
+		int target = targetsPCC[0];
+		GameController.instance.applyOn(target);
+		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 0);
+	}
+	
+	public override void applyOn(int target){
+		string text = base.name;
+		
+		GameCard targetCard = GameView.instance.getCard(target);
+		GameCard currentCard = GameView.instance.getCurrentCard();
+		int damages = Mathf.FloorToInt((50+5*GameView.instance.getCurrentSkill().Power)*currentCard.getDamagesAgainstWS(targetCard)/100);
+		
+		if (currentCard.isLache()){
+			if(GameView.instance.getIsFirstPlayer() == currentCard.isMine){
+				if (GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).getTile().y==GameView.instance.getPlayingCardController(target).getTile().y-1){
+					damages = Mathf.Min(targetCard.getLife(), currentCard.getSkills()[0].Level+damages);
+					text+="\nBonus lache";
+				}
+			}
+			else{
+				if (GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).getTile().y-1==GameView.instance.getPlayingCardController(target).getTile().y){
+					damages = Mathf.Min(targetCard.getLife(), currentCard.getSkills()[0].Level+damages);
+					text+="\nBonus lache";
+				}
+			}
+		}
+		
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 0, text, damages+" dégats subis"));
+		GameView.instance.getPlayingCardController(target).updateLife();
+	}
+	
+	public override string getTargetText(int target){
+		string text = base.name;
+		GameCard targetCard = GameView.instance.getCard(target);
+		GameCard currentCard = GameView.instance.getCurrentCard();
+		int damages = Mathf.FloorToInt((50+5*GameView.instance.getCurrentSkill().Power)*currentCard.getDamagesAgainstWS(targetCard)/100);
+		
+		if (currentCard.isLache()){
+			if(GameView.instance.getIsFirstPlayer() == currentCard.isMine){
+				if (GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).getTile().y==GameView.instance.getPlayingCardController(target).getTile().y-1){
+					damages = Mathf.Min(targetCard.getLife(), currentCard.getSkills()[0].Level+damages);
+					text+="\nBonus lache";
+				}
+			}
+			else{
+				if (GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).getTile().y-1==GameView.instance.getPlayingCardController(target).getTile().y){
+					damages = Mathf.Min(targetCard.getLife(), currentCard.getSkills()[0].Level+damages);
+					text+="\nBonus lache";
+				}
+			}
+		}
+		
+		text += "\nPV : "+targetCard.getLife()+" -> "+(targetCard.getLife()-damages);	
+		text += "\nHIT% : 100";
+		
+		return text ;
+	}
 }

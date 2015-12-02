@@ -33,11 +33,16 @@ public class IconController : GameObjectController
 	}
 	
 	public void OnMouseEnter(){
-		GameView.instance.getPlayingCardController(this.cardId).showDescriptionIcon(this.iconId, true);
+		gameObject.transform.FindChild("DescriptionBox").GetComponent<SpriteRenderer>().enabled = true;
+		gameObject.transform.FindChild("DescriptionBox").FindChild("TitleText").GetComponent<MeshRenderer>().enabled = true;
+		gameObject.transform.FindChild("DescriptionBox").FindChild("DescriptionText").GetComponent<MeshRenderer>().enabled = true;
+		
 	}
 	
 	public void OnMouseExit(){
-		GameView.instance.getPlayingCardController(this.cardId).showDescriptionIcon(this.iconId, false);
+		gameObject.transform.FindChild("DescriptionBox").GetComponent<SpriteRenderer>().enabled = false;
+		gameObject.transform.FindChild("DescriptionBox").FindChild("TitleText").GetComponent<MeshRenderer>().enabled = false;
+		gameObject.transform.FindChild("DescriptionBox").FindChild("DescriptionText").GetComponent<MeshRenderer>().enabled = false;
 	}
 }
 

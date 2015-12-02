@@ -18,7 +18,7 @@ public class EnergieQuantique : GameSkill
 		List<int> targets = GameView.instance.getAllys();
 		
 		for(int i = 0 ; i < targets.Count ; i++){
-			if (Random.Range(1,101) > GameView.instance.getCard(targets[i]).GetMagicalEsquive())
+			if (Random.Range(1,101) > GameView.instance.getCard(targets[i]).getMagicalEsquive())
 			{
 				GameController.instance.applyOn(targets[i]);
 			}
@@ -27,7 +27,7 @@ public class EnergieQuantique : GameSkill
 			}
 		}
 		
-		GameController.instance.play();
+		//GameController.instance.play();
 	}
 	
 	public override void applyOn(){

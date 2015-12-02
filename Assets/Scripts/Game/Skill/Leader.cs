@@ -39,22 +39,22 @@ public class Leader : GameSkill
 		string title = "Bonus Leader";
 		
 		if(level<=1){
-			amount = 0;
-		}
-		else if(level<=3){
 			amount = 1;
 		}
-		else if(level<=5){
+		else if(level<=3){
 			amount = 2;
 		}
-		else if(level<=7){
+		else if(level<=5){
 			amount = 3;
 		}
-		else if(level<=9){
+		else if(level<=7){
 			amount = 4;
 		}
-		else{
+		else if(level<=9){
 			amount = 5;
+		}
+		else{
+			amount = 6;
 		}
 		
 		string description = "+"+amount+" PV\n<i>Tant que le leader est en vie</i>" ;

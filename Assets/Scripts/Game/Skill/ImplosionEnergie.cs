@@ -50,7 +50,7 @@ public class ImplosionEnergie : GameSkill
 		GameController.instance.applyOn(targets);
 		
 		//GameController.instance.playSkill();
-		GameController.instance.play();
+		//GameController.instance.play();
 	}
 	
 //	public override void applyOn(int[] targets){

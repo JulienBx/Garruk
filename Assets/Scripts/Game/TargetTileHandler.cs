@@ -14,10 +14,9 @@ public class TargetTileHandler
 	public void addTargetTile(Tile targetTile)
 	{
 		this.targetsTile.Add(targetTile);
-		if (this.targetsTile.Count>=this.numberOfExpectedTargets){
+		if (this.targetsTile.Count==this.numberOfExpectedTargets){
 			GameView.instance.hideTargets();
-			GameSkills.instance.getCurrentSkill().resolve(this.targetsTile);
-			//GameController.instance.getCurrentGameSkill().resolve (targetsTile);
+			GameSkills.instance.getCurrentGameSkill().resolve(this.targetsTile);
 		}
 	}	
 }

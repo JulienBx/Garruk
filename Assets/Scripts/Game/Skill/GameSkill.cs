@@ -4,16 +4,16 @@ using System.Collections.Generic;
 public class GameSkill
 {
 	public int numberOfExpectedTargets ; 
-	public Card card ;
-	public Skill skill ;
 	public List<int> targets;
 	public List<int> results;
 	public List<int> values;
 	public List<Tile> tileTargets;
 	
-	public virtual void init(Card c, Skill s){
-		this.card = c ;
-		this.skill = s ;
+	public string name ;
+	
+	public int ciblage ;
+	
+	public virtual void init(Skill s){
 		this.targets = new List<int>();
 		this.results = new List<int>();
 		this.values = new List<int>();
@@ -54,6 +54,21 @@ public class GameSkill
 		this.results.Add(b);
 	}
 	
+	public virtual void applyOn(Tile t)
+	{ 
+		Debug.Log("Skill non implémenté");
+	}
+	
+	public virtual void applyOn(int target)
+	{ 
+		Debug.Log("Skill non implémenté");
+	}
+	
+	public virtual void applyOn(int target, int value)
+	{ 
+		Debug.Log("Skill non implémenté");
+	}
+	
 	public virtual void applyOn()
 	{ 
 		Debug.Log("Skill non implémenté");
@@ -66,7 +81,44 @@ public class GameSkill
 
 	public virtual string isLaunchable()
 	{
-		return "";
+		GameCard gc = GameView.instance.getCurrentCard();
+		string launchability = "" ;
+		if(gc.hasPlayed){
+			launchability = "Le personnage a déjà joué";
+		}
+		else if(gc.isFurious()){
+			launchability = "Furie : les compétences sont indisponibles";
+		}
+		else if(gc.isParalyzed()){
+			launchability = "Paralysé : Ne peut utiliser ses compétences";
+		}
+		else if(gc.isSleeping()){
+			launchability = "Sommeil : le personnage ne peut pas agir";
+		}
+		else{
+			if(this.ciblage==1){
+				launchability = GameView.instance.canLaunchAdjacentOpponents();
+			}
+			else if(this.ciblage==2){
+				launchability = GameView.instance.canLaunchAdjacentAllys();
+			}
+			else if(this.ciblage==3){
+				launchability = GameView.instance.canLaunchOpponentsTargets();
+			}
+			else if(this.ciblage==4){
+				launchability = GameView.instance.canLaunchAllysButMeTargets();
+			}
+			else if(this.ciblage==6){
+				launchability = GameView.instance.canLaunchAdjacentTileTargets();
+			}
+			else if(this.ciblage==7){
+				launchability = GameView.instance.canLaunchAllButMeTargets();
+			}
+			else{
+				launchability = "";
+			}
+		}
+		return launchability ;
 	}
 	
 	public virtual HaloTarget getTargetPCCText(Card c)
@@ -74,7 +126,7 @@ public class GameSkill
 		return null;
 	}
 	
-	public virtual string getTargetText(int id, Card targetCard)
+	public virtual string getTargetText(int id)
 	{
 		return null;
 	}
@@ -86,5 +138,57 @@ public class GameSkill
 
 	public virtual string getTimelineText(){
 		return "" ;
+	}
+	
+	public virtual void esquive(int target, int result)
+	{ 
+		string text = "";
+		int type = 1 ; 
+		if(result==1){
+			text = "Esquive";
+		}
+		else if(result==2){
+			text = "Echec Calmant";
+		}
+		else if(result==3){
+			text = "Echec Fortifiant";
+		}
+		else if(result==5){
+			text = "Echec Relaxant";
+		}
+		else if(result==5){
+			text = "Echec Lest";
+		}
+		else if(result==6){
+			text = "Echec Adrénaline";
+		}
+		else if(result==7){
+			text = "Echec Antibiotique";
+		}
+		else if(result==10){
+			text = "Echec Assassinat";
+		}
+		else if(result==10){
+			text = "Echec Coupe-Jambes";
+		}
+		else if(result==11){
+			text = "Echec Estoc";
+		}
+		else if(result==19){
+			text = "Echec Cri de rage";
+		}
+		else if(result==20){
+			text = "Echec Terreur";
+		}
+		else if(result==39){
+			text = "Echec Renfoderme";
+		}
+		else if(result==56){
+			text = "Echec Stéroide";
+		}
+		else if(result==94){
+			text = "Echec Excitant";
+		}
+		GameView.instance.displaySkillEffect(target, text, type);
 	}
 }

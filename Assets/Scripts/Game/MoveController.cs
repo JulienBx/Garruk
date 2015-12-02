@@ -29,6 +29,7 @@ public class MoveController : MonoBehaviour
 			gameObject.transform.FindChild("Text").GetComponent<MeshRenderer>().enabled = false ;
 		}
 		gameObject.GetComponent<BoxCollider>().enabled = b;
+		
 	}
 	
 	public void updateButtonStatus(GameCard g){
@@ -44,7 +45,6 @@ public class MoveController : MonoBehaviour
 			gameObject.transform.FindChild("Picto").GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 1f) ;
 			gameObject.transform.FindChild("Text").GetComponent<TextMeshPro>().color = new Color(1f, 1f, 1f, 1f) ;
 			gameObject.transform.FindChild("Text").GetComponent<TextMeshPro>().text = "Déplacer l'unité";
-			
 			this.isAnimated = true;
 		}
 	}
@@ -55,6 +55,7 @@ public class MoveController : MonoBehaviour
 			this.isGettingBigger=!this.isGettingBigger;
 			if(!this.isGettingBigger && this.toStop){
 				this.isAnimated=false;
+				this.toStop = false;
 			}
 			this.timer=0f;
 		}
@@ -71,22 +72,33 @@ public class MoveController : MonoBehaviour
 	}
 	
 	public void OnMouseEnter(){
-		gameObject.transform.FindChild("Picto").GetComponent<SpriteRenderer>().enabled = false ;
-		gameObject.transform.FindChild("Text").GetComponent<MeshRenderer>().enabled = true ;
+		if(gameObject.transform.FindChild("Picto").GetComponent<SpriteRenderer>().enabled){
+			gameObject.transform.FindChild("Picto").GetComponent<SpriteRenderer>().enabled = false ;
+			gameObject.transform.FindChild("Text").GetComponent<MeshRenderer>().enabled = true ;
+		}
 	}
 	
 	public void OnMouseExit(){
-		gameObject.transform.FindChild("Picto").GetComponent<SpriteRenderer>().enabled = true ;
-		gameObject.transform.FindChild("Text").GetComponent<MeshRenderer>().enabled = false ;
+		if(gameObject.transform.FindChild("Text").GetComponent<MeshRenderer>().enabled){
+			gameObject.transform.FindChild("Picto").GetComponent<SpriteRenderer>().enabled = true ;
+			gameObject.transform.FindChild("Text").GetComponent<MeshRenderer>().enabled = false ;
+		}
 	}
 	
 	public void OnMouseDown(){
-		GameView.instance.displayCurrentMove();
-		this.toStop=true;
-		gameObject.transform.FindChild("Picto").GetComponent<SpriteRenderer>().color = new Color(71f/255f,150f/255f,189f/255f, 1f);
-		gameObject.transform.FindChild("Text").GetComponent<TextMeshPro>().text = "Déplacer l'unité sur une case bleue";
-		GameView.instance.isDisplayedMyDestination = true ;
-		GameView.instance.isPushedMyDestination = true ;
+		print ("DOWN "+this.isAnimated);
+		if(this.isAnimated){
+			GameView.instance.displayCurrentMove();
+			GameView.instance.hideSkillButtons();
+			this.toStop=true;
+			gameObject.transform.FindChild("Picto").GetComponent<SpriteRenderer>().color = new Color(71f/255f,150f/255f,189f/255f, 1f);
+			gameObject.transform.FindChild("Text").GetComponent<TextMeshPro>().text = "Déplacer l'unité sur une case bleue";
+			GameView.instance.isDisplayedMyDestination = true ;
+			GameView.instance.isPushedMyDestination = true ;
+		}
+		else{
+		
+		}
 	}
 }
 

@@ -5,65 +5,86 @@ public class Rugissement : GameSkill
 {
 	public Rugissement()
 	{
-		this.numberOfExpectedTargets = 0 ; 
+		this.numberOfExpectedTargets = 0 ;
+		base.name = "Cri de rage";
+		base.ciblage = 4 ;
 	}
 	
-//	public override void launch()
-//	{
-//		this.resolve(new List<int>());
-//	}
-//	
-//	public override void resolve(List<int> targetsPCC)
-//	{	
-//		List<int> targets = GameView.instance.getAllys();
-//		 
-//		for(int i = 0 ; i < targets.Count ; i++){
-//			if (Random.Range(1,101) > GameView.instance.getCard(targets[i]).GetMagicalEsquive())
-//			{
-//				GameController.instance.addTarget(targets[i],1);
-//			}
-//			else{
-//				GameController.instance.addTarget(targets[i],0);
-//			}
-//		}
-//		
-//		GameController.instance.play();
-//	}
-//	
-//	public override void applyOn(){
-//		Card targetCard ;
-//		int target ;
-//		string text ;
-//		List<Card> receivers =  new List<Card>();
-//		List<string> receiversTexts =  new List<string>();
-//		int amount ; 
-//		
-//		for(int i = 0 ; i < base.targets.Count ; i++){
-//			target = base.targets[i];
-//			targetCard = GameView.instance.getCard(target);
-//			receivers.Add (targetCard);
-//			if (base.results[i]==0){
-//				text = "Esquive";
-//				GameView.instance.displaySkillEffect(target, text, 4);
-//				receiversTexts.Add (text);
-//			}
-//			else{
-//				amount = base.skill.ManaCost;
-//				
-//				text="+"+amount+" ATK";
-//				receiversTexts.Add (text);
-//				
-//				GameController.instance.addCardModifier(target, amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, 1, 18, "FORTIFIE", "+"+amount+" ATK. Actif 1 tour", "");
-//				
-//				GameView.instance.displaySkillEffect(target, text, 5);
-//			}	
-//		}
-//		if(!GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
-//			GameView.instance.setSkillPopUp("lance <b>Cri de rage</b>...", base.card, receivers, receiversTexts);
-//		}
-//	}
-//	
-//	public override string isLaunchable(){
-//		return GameView.instance.canLaunchAllysButMeTargets();
-//	}
+	public override void launch()
+	{
+		this.resolve(new List<int>());
+	}
+	
+	public override void resolve(List<int> targetsPCC)
+	{	
+		GameController.instance.play(GameView.instance.runningSkill);
+		List<int> targets = GameView.instance.getAllys();
+		int proba = GameView.instance.getCurrentSkill().proba;
+		int level = GameView.instance.getCurrentSkill().Power;
+		int numberOfTargets = this.getNumberOfTargets(level);
+		int target;
+		
+		for(int i = 0 ; i < numberOfTargets; i++){
+			target = targets[Random.Range(0,targets.Count)];
+			if (Random.Range(1,101) < GameView.instance.getCard(target).getMagicalEsquive()){
+				GameController.instance.esquive(target,1);
+			}
+			else{
+				if (Random.Range(1,101) < proba){
+					GameController.instance.applyOn(target);
+				}
+				else{
+					GameController.instance.esquive(target,19);
+				}
+			}
+			targets.Remove(target);
+		}
+		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 0);
+	}
+	
+	public int getNumberOfTargets(int level){
+		int numberOfTargets = -1;
+		if(level<4){
+			numberOfTargets = 1;
+		}
+		else if(level<7){
+			numberOfTargets = 2;
+		}
+		else{
+			numberOfTargets = 3;
+		}
+		return numberOfTargets;
+	}
+	
+	public int getAttackBonus(int level){
+		int attackBonus = -1;
+		if(level<2){
+			attackBonus = 2;
+		}
+		else if(level<5){
+			attackBonus = 3;
+		}
+		else if(level<8){
+			attackBonus = 4;
+		}
+		else if(level<10){
+			attackBonus = 5;
+		}
+		else{
+			attackBonus = 6;
+		}
+		return attackBonus;
+	}
+	
+	public override void applyOn(int target){
+		string text = base.name;
+		GameCard targetCard = GameView.instance.getCard(target);
+		GameCard currentCard = GameView.instance.getCurrentCard();
+		int level = GameView.instance.getCurrentSkill().Power;
+		
+		int bonusAttack = this.getAttackBonus(level);
+		GameView.instance.getCard(target).attackModifyers.Add(new Modifyer(bonusAttack, 1, 19, text, "+"+bonusAttack+" ATK. Actif 1 tour"));
+		GameView.instance.getPlayingCardController(target).updateAttack();
+		GameView.instance.displaySkillEffect(target, base.name+"\n"+"+"+bonusAttack+" ATK. Actif 1 tour", 1);
+	}
 }

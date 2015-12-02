@@ -48,4 +48,8 @@ public class Trap
 	public int getType(){
 		return this.type ;
 	}
+	
+	public int getAmount(){
+		return this.amount ;
+	}
 }

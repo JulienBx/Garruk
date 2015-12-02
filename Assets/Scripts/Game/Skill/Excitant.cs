@@ -5,117 +5,67 @@ public class Excitant : GameSkill
 {
 	public Excitant()
 	{
-		this.numberOfExpectedTargets = 1 ; 
+		this.numberOfExpectedTargets = 1 ;
+		base.name = "Excitant";
+		base.ciblage = 4 ;
 	}
 	
-//	public override void launch()
-//	{
-//		GameController.instance.initPCCTargetHandler(numberOfExpectedTargets);
-//		GameView.instance.displayAllysButMeTargets();
-//	}
-//	
-//	public override void resolve(List<int> targetsPCC)
-//	{	
-//		if (GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
-//			GameView.instance.hideTargets();
-//		}
-//		
-//		int target = targetsPCC[0];
-//		
-//		if (Random.Range(1,101) < base.skill.proba){
-//			if (Random.Range(1,101) > GameView.instance.getCard(target).GetMagicalEsquive())
-//			{                             
-//				GameController.instance.addTarget(target,1);
-//				if (base.card.isGenerous()){
-//					List<int> allys = GameView.instance.getAllys();
-//					if(allys.Count>1){
-//						allys.Remove(target);
-//						target = allys[Random.Range(0,allys.Count)];
-//						
-//						if (Random.Range(1,101) > GameView.instance.getCard(target).GetMagicalEsquive())
-//						{
-//							GameController.instance.addTarget(target,3);
-//						}
-//						else{
-//							GameController.instance.addTarget(target,2);
-//						}
-//					}
-//				}
-//			}
-//			else{
-//				GameController.instance.addTarget(target,0);
-//			}
-//		}
-//		else{
-//			GameController.instance.addTarget(target,4);
-//		}
-//		
-//		GameController.instance.play();
-//	}
-//	
-//	public override void applyOn(){
-//		Card targetCard ;
-//		int target ;
-//		string text ;
-//		List<int> status =  new List<int>();
-//		List<Card> receivers =  new List<Card>();
-//		List<string> receiversTexts =  new List<string>();
-//		
-//		for(int i = 0 ; i < base.targets.Count ; i++){
-//			target = base.targets[i];
-//			targetCard = GameView.instance.getCard(target);
-//			receivers.Add (targetCard);
-//			if (base.results[i]==0){
-//				GameView.instance.displaySkillEffect(target, "Esquive", 4);
-//				status.Add (2);
-//				//receiversTexts.Add (text);
-//			}
-//			else if (base.results[i]==2){
-//				GameView.instance.displaySkillEffect(target, "Esquive", 4);
-//				//receiversTexts.Add (text);
-//				status.Add (3);
-//			}
-//			else if (base.results[i]==4){
-//				text = "Echec";
-//				GameView.instance.displaySkillEffect(target, "Echec", 4);
-//				//receiversTexts.Add (text);
-//			}
-//			else{
-//				if(base.results[i]==3){
-//					text = "Bonus Généreux\n";
-//				}
-//				else{
-//					text="";
-//				}
-//				
-//				text+="Jouera au prochain tour";
-//				
-//				//receiversTexts.Add (text);
-//				
-//				GameController.instance.advanceTurns(target);
-//				
-//				GameView.instance.displaySkillEffect(target, text, 4);
-//			}	
-//		}
-//		//GameView.instance.setSkillPopUp("Excitant", base.card, receivers, List<string> textsUpReceivers, List<string> textsDownReceivers);
-//	}
-//
-//	public override string isLaunchable(){
-//		return GameView.instance.canLaunchOpponentsTargets();
-//	}
-//	
-//	public override string getTargetText(int id, Card targetCard){
-//		
-//		int amount = base.skill.proba;
-//		string text;
-//		
-//		text = "Joue au prochain tour\n";
-//		
-//		int probaEsquive = targetCard.GetMagicalEsquive();
-//		int probaHit = Mathf.Max(0,amount*(100-probaEsquive)/100) ;
-//		
-//		text += "HIT% : "+probaHit;
-//		
-//		return text ;
-//	}
+	public override void launch()
+	{
+		GameView.instance.initPCCTargetHandler(numberOfExpectedTargets);
+		GameView.instance.displayAllysButMeTargets();
+	}
+	
+	public override void resolve(List<int> targetsPCC)
+	{	
+		GameController.instance.play(GameView.instance.runningSkill);
+		int target = targetsPCC[0];
+		int proba = GameView.instance.getCurrentSkill().proba;
+		
+		if (Random.Range(1,101) < GameView.instance.getCard(target).getMagicalEsquive()){
+			GameController.instance.esquive(target,1);
+		}
+		else{
+			if (Random.Range(1,101) < proba){
+				GameController.instance.applyOn(target);
+			}
+			else{
+				GameController.instance.esquive(target,94);
+			}
+		}
+		
+		if(GameView.instance.getCurrentCard().isGenerous()){
+			List<int> targets = GameView.instance.getAllys();
+			targets.Remove(target);
+			target = targets[Random.Range(0,targets.Count)];
+			GameController.instance.applyOn(target);	
+		}
+		
+		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 0);
+	}
+	
+	public override void applyOn(int target){
+		string text = base.name;
+		GameCard targetCard = GameView.instance.getCard(target);
+		GameCard currentCard = GameView.instance.getCurrentCard();
+		
+		GameView.instance.advanceTurns(target);
+		GameView.instance.displaySkillEffect(target, base.name+"\nSera le premier à jouer", 1);
+	}	
+	
+	public override string getTargetText(int target){
+		
+		string text = base.name;
+		GameCard targetCard = GameView.instance.getCard(target);
+		GameCard currentCard = GameView.instance.getCurrentCard();
+		
+		text += "\nSera le premier à jouer";
+		
+		int amount = GameView.instance.getCurrentSkill().proba;
+		int probaEsquive = targetCard.getMagicalEsquive();
+		int probaHit = Mathf.Max(0,amount*(100-probaEsquive)/100) ;
+		text += "\nHIT% : "+probaHit;
+		
+		return text ;
+	}
 }

@@ -64,13 +64,17 @@ public class PassController : MonoBehaviour
 	}
 	
 	public void OnMouseEnter(){
-		gameObject.transform.FindChild("Picto").GetComponent<SpriteRenderer>().enabled = false ;
-		gameObject.transform.FindChild("Text").GetComponent<MeshRenderer>().enabled = true ;
+		if(gameObject.transform.FindChild("Picto").GetComponent<SpriteRenderer>().enabled){
+			gameObject.transform.FindChild("Picto").GetComponent<SpriteRenderer>().enabled = false ;
+			gameObject.transform.FindChild("Text").GetComponent<MeshRenderer>().enabled = true ;
+		}
 	}
 	
 	public void OnMouseExit(){
-		gameObject.transform.FindChild("Picto").GetComponent<SpriteRenderer>().enabled = true ;
-		gameObject.transform.FindChild("Text").GetComponent<MeshRenderer>().enabled = false ;
+		if(gameObject.transform.FindChild("Text").GetComponent<MeshRenderer>().enabled){
+			gameObject.transform.FindChild("Picto").GetComponent<SpriteRenderer>().enabled = true ;
+			gameObject.transform.FindChild("Text").GetComponent<MeshRenderer>().enabled = false ;
+		}
 	}
 	
 	public void OnMouseDown(){

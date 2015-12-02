@@ -209,34 +209,6 @@ public class Card
 		return obj != null && obj.Id == this.Id;
 	}
 	
-	public int GetEsquive()
-	{
-		int esquive = 0;
-//		foreach (StatModifier modifier in modifiers)
-//		{
-//			if (modifier.Type == ModifierType.Type_EsquivePercentage)
-//			{
-//				esquive = modifier.Amount;
-//			}
-//		}
-//		
-		return esquive;
-	}
-	
-	public int GetMagicalEsquive()
-	{
-		int esquive = 0;
-//		foreach (StatModifier modifier in modifiers)
-//		{
-//			if (modifier.Type == ModifierType.Type_MagicalEsquivePercentage)
-//			{
-//				esquive = modifier.Amount;
-//			}
-//		}
-		
-		return esquive;
-	}
-	
 	public int GetDamagesPercentageBonus(Card c)
 	{
 		int damagePercentageBonus = 0;
@@ -266,22 +238,6 @@ public class Card
 		return damagePercentageBonus;
 	}
 	
-	public bool isIntouchable()
-	{
-		bool isIntouchable = false;
-		int i = 0 ;
-//		int max = modifiers.Count ;
-//		while (i<max && !isIntouchable)
-//		{
-//			if (modifiers[i].Type == ModifierType.Type_Intouchable)
-//			{
-//				isIntouchable = true ;
-//			}
-//			i++;
-//		}
-		return isIntouchable;
-	}
-	
 	public bool isSleeping()
 	{
 		bool isSleeping = false;
@@ -301,30 +257,6 @@ public class Card
 	public List<Skill> getSkills()
 	{
 		return this.Skills;
-	}
-	
-	public void emptyModifiers()
-	{
-//		for (int i = modifiers.Count-1 ; i >= 0 ; i--)
-//		{
-//			if (modifiers[i].Stat != ModifierStat.Stat_Dommage)
-//			{
-//				modifiers.RemoveAt(i);
-//			}
-//		}
-//		
-//		if(this.GetLife()<0){
-//			this.addModifier(this.GetTotalLife()-1,ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");
-//		}
-	}
-	
-	public void removeLeaderEffect(){
-//		for (int i = modifiers.Count-1 ; i >= 0 ; i--)
-//		{
-//			if(modifiers[i].idIcon==-4 ||modifiers[i].idIcon==4){
-//				modifiers.RemoveAt(i);
-//			}
-//		}
 	}
 	
 	public bool hasModifiers()
@@ -364,7 +296,7 @@ public class Card
 	}
 	
 	public int getPassiveSkillLevel(){
-		return this.Skills[0].Level;
+		return this.Skills[0].Power;
 	}
 	
 	public string GetMoveString()
@@ -405,20 +337,6 @@ public class Card
 		return bouclier;
 	}
 	
-	public int GetTotalLife()
-	{
-		int life = this.Life;
-		
-//		foreach (StatModifier modifier in modifiers)
-//		{
-//			if (modifier.Stat == ModifierStat.Stat_Life)
-//			{
-//				life += modifier.Amount;
-//			}
-//		}
-		return life ;
-	}
-	
 	public List<string> getIconMove()
 	{
 		List<string> iconMoveTexts = new List<string>();
@@ -451,43 +369,6 @@ public class Card
 		return iconMoveTexts;
 	}
 	
-	public List<string> getIconEffect()
-	{
-		List<string> iconMoveTexts = new List<string>();
-		int i = 0;
-//		while (i < this.modifiers.Count)
-//		{
-//			if (this.modifiers [i].idIcon == 51 || this.modifiers [i].idIcon == 52 || this.modifiers [i].idIcon == 53 || this.modifiers [i].idIcon == 54)
-//			{
-//				iconMoveTexts.Add(this.modifiers [i].title);
-//				iconMoveTexts.Add(this.modifiers [i].description);
-//				if (this.modifiers [i].idIcon == 51 || this.modifiers [i].idIcon == 52){
-//					iconMoveTexts.Add("Bonus");
-//				}
-//				else{
-//					iconMoveTexts.Add("Malus");
-//				}
-//			}
-//			i++;
-//		}
-		return iconMoveTexts;
-	}
-	
-	public int getIdIconEffect()
-	{
-		int idIcon = -1 ;
-		int i = 0;
-//		while (i < this.modifiers.Count)
-//		{
-//			if (this.modifiers [i].idIcon == 51 || this.modifiers [i].idIcon == 52 || this.modifiers [i].idIcon == 53 || this.modifiers [i].idIcon == 54)
-//			{
-//				idIcon = this.modifiers [i].idIcon;
-//			}
-//			i++;
-//		}
-		return idIcon;
-	}
-	
 	public bool isFurious()
 	{
 		bool isCrazy = false;
@@ -514,17 +395,6 @@ public class Card
 //			}
 //		}
 //		modifiers = temp;
-	}
-	
-	public bool isGenerous()
-	{
-		bool b = false ;
-		if (this.Skills[0].Id == 74){
-			if(UnityEngine.Random.Range(1,101)<this.Skills[0].proba){
-				b = true ;
-			}
-		}
-		return b;
 	}
 	
 	public int getPassiveManacost()
@@ -586,7 +456,7 @@ public class Card
 		return b;
 	}
 	
-	public string getSkillText(string s){
+	public virtual string getSkillText(string s){
 		int index ;
 		int percentage ;
 		string tempstring ;
@@ -605,6 +475,7 @@ public class Card
 		}
 		return s;
 	}
+	
 	public bool verifyC(float minPower, float maxPower, float minLife, float maxLife, float minAttack, float maxAttack, float minQuickness, float maxQuickness)
 	{
 		if (minPower > this.Power || maxPower < this.Power)

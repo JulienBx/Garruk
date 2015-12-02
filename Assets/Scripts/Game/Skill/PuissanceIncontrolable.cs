@@ -26,7 +26,7 @@ public class PuissanceIncontrolable : GameSkill
 		
 		int target = aliveCharacters[Random.Range(0, aliveCharacters.Count)];
 		
-		if (Random.Range(1,101) > GameView.instance.getCard(target).GetMagicalEsquive())
+		if (Random.Range(1,101) > GameView.instance.getCard(target).getMagicalEsquive())
 		{                             
 			GameController.instance.applyOn(target);
 			success = 1 ;
@@ -35,7 +35,7 @@ public class PuissanceIncontrolable : GameSkill
 			GameController.instance.failedToCastOnSkill(target, 1);
 		}
 		
-		GameController.instance.play();
+		//GameController.instance.play();
 	
 	}
 	
