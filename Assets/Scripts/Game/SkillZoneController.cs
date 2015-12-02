@@ -91,12 +91,12 @@ public class SkillZoneController : MonoBehaviour
 			}
 			else{
 				if(this.isGettingBigger){
-					float rapport = 0.65f+(0.2f*this.timer/this.animationTime);
-					gameObject.transform.FindChild("Picto").localScale = new Vector3(rapport, rapport, rapport);
+					//float rapport = 0.65f+(0.2f*this.timer/this.animationTime);
+					//gameObject.transform.FindChild("Picto").localScale = new Vector3(rapport, rapport, rapport);
 				}
 				else{
-					float rapport = 0.85f-(0.2f*this.timer/this.animationTime);
-					gameObject.transform.FindChild("Picto").localScale = new Vector3(rapport, rapport, rapport);
+					//float rapport = 0.85f-(0.2f*this.timer/this.animationTime);
+					//gameObject.transform.FindChild("Picto").localScale = new Vector3(rapport, rapport, rapport);
 				}
 			}
 		}

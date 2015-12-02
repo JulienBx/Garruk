@@ -61,12 +61,12 @@ public class MoveController : MonoBehaviour
 		}
 		else{
 			if(this.isGettingBigger){
-				float rapport = 0.4f+(0.2f*this.timer/this.animationTime);
-				gameObject.transform.FindChild("Picto").localScale = new Vector3(rapport, rapport, rapport);
+				//float rapport = 0.4f+(0.2f*this.timer/this.animationTime);
+				//gameObject.transform.FindChild("Picto").localScale = new Vector3(rapport, rapport, rapport);
 			}
 			else{
 				float rapport = 0.6f-(0.2f*this.timer/this.animationTime);
-				gameObject.transform.FindChild("Picto").localScale = new Vector3(rapport, rapport, rapport);
+				//gameObject.transform.FindChild("Picto").localScale = new Vector3(rapport, rapport, rapport);
 			}
 		}
 	}
@@ -86,7 +86,6 @@ public class MoveController : MonoBehaviour
 	}
 	
 	public void OnMouseDown(){
-		print ("DOWN "+this.isAnimated);
 		if(this.isAnimated){
 			GameView.instance.displayCurrentMove();
 			GameView.instance.hideSkillButtons();

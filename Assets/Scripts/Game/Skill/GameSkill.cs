@@ -153,7 +153,7 @@ public class GameSkill
 		else if(result==3){
 			text = "Echec Fortifiant";
 		}
-		else if(result==5){
+		else if(result==4){
 			text = "Echec Relaxant";
 		}
 		else if(result==5){
