@@ -315,7 +315,8 @@ public class TileController : GameObjectController
 				GameView.instance.clickEmpty();
 			}
 			else{
-				GameController.instance.clickDestination(this.tile, this.characterID);
+				print (this.characterID);
+				GameController.instance.clickDestination(this.tile, GameView.instance.getCurrentPlayingCard());
 			}
 		}
 	}
