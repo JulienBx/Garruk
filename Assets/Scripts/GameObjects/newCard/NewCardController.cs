@@ -252,10 +252,10 @@ public class NewCardController : NewFocusedCardController
 		switch(caracteristicUpgraded)
 		{
 		case 0:
-			refObject = transform.FindChild("Life").FindChild("Text").gameObject;
+			refObject = transform.FindChild("Attack").FindChild("Text").gameObject;
 			break;
 		case 1:
-			refObject=transform.FindChild("Attack").FindChild("Text").gameObject.gameObject;
+			refObject=transform.FindChild("Life").FindChild("Text").gameObject.gameObject;
 			break;
 		case 2:
 			refObject=transform.FindChild("Move").FindChild("Text").gameObject.gameObject;
