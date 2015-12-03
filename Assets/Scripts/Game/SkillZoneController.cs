@@ -147,6 +147,9 @@ public class SkillZoneController : MonoBehaviour
 	}
 	
 	public void OnMouseDown(){
+		if(ApplicationModel.launchGameTutorial){
+			GameView.instance.hideTuto();
+		}
 		if(this.isRunningSkill){
 			this.isRunningSkill = false ;
 			GameView.instance.runningSkill=-1;

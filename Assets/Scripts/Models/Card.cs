@@ -81,6 +81,7 @@ public class Card
 		this.Title = title;
 		this.Life = life;
 		this.ArtIndex = artIndex;
+		this.IdClass = artIndex;
 		this.Speed = speed;
 		this.Move = move;
 		this.Attack = attack;

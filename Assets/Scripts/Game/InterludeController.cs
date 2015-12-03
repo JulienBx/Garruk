@@ -12,6 +12,8 @@ public class InterludeController : MonoBehaviour
 	public bool isDisplayedCharacter;
 	public Sprite[] sprites ;
 	public Sprite[] characterSprites ;
+	
+	bool isPaused ;
 		
 	void Awake(){
 		this.isRunning = false ;
@@ -21,6 +23,7 @@ public class InterludeController : MonoBehaviour
 		gameObject.transform.FindChild("Bar3").GetComponent<SpriteRenderer>().enabled = false ;
 		gameObject.transform.FindChild("Text").GetComponent<MeshRenderer>().enabled = false ;
 		gameObject.transform.FindChild("Character").GetComponent<SpriteRenderer>().enabled = false ;
+		this.isPaused = false ;
 	}
 	
 	public void resize(float realwidth){
@@ -28,9 +31,24 @@ public class InterludeController : MonoBehaviour
 	}
 	
 	public void OnMouseDown(){
-		if(this.time>1*this.animationTime){
-			this.time=5*this.animationTime;
+		
+		if(this.isPaused){
+			this.isPaused=false ;
 		}
+		else{
+			if(this.time>1*this.animationTime){
+				this.time=5*this.animationTime;
+			}
+		}
+		
+	}
+	
+	public void pause(){
+		this.isPaused = true;
+	}
+	
+	public void unPause(){
+		this.isPaused = false;
 	}
 	
 	public void set(string s, bool isMine, bool displayCharacter){
@@ -95,7 +113,10 @@ public class InterludeController : MonoBehaviour
 	}
 	
 	public void addTime(float f){
-		this.time += f ;
+		if(!isPaused){
+			this.time += f ;
+		}
+		
 		if(this.time>4f*this.animationTime){
 			gameObject.GetComponent<SpriteRenderer>().enabled = false ;
 			gameObject.transform.FindChild("Bar1").GetComponent<SpriteRenderer>().enabled = false ;
@@ -104,6 +125,13 @@ public class InterludeController : MonoBehaviour
 			gameObject.transform.FindChild("Text").GetComponent<MeshRenderer>().enabled = false ;
 			
 			if(GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).isMine){
+				if(ApplicationModel.launchGameTutorial){
+					if(!GameView.instance.hasStep2){
+						GameView.instance.launchTutoStep(2);
+						GameView.instance.hasStep2 = true ;
+					}
+				}
+				
 				GameView.instance.SB.GetComponent<StartButtonController>().showText(false);
 				GameView.instance.getSkillZoneController().isRunningSkill = false ;
 				GameView.instance.updateActionStatus();

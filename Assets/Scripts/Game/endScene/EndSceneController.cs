@@ -269,10 +269,6 @@ public class EndSceneController : MonoBehaviour
 	public void showEndButton()
 	{
 		this.endGamePanel.transform.FindChild("Button").gameObject.SetActive(true);
-		if(GameView.instance.getIsTutorialLaunched())
-		{
-			TutorialObjectController.instance.actionIsDone();
-		}
 	}
 	public void displayNextLevelPopUp(int indexCard)
 	{

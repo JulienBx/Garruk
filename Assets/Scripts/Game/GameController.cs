@@ -282,22 +282,6 @@ public class GameController : Photon.MonoBehaviour
 		GameView.instance.displaySkillEffect(id, text, color);
 	}
 	
-	IEnumerator launchFury(){
-		yield return new WaitForSeconds(1);
-		
-		int enemy = GameView.instance.attackClosestEnnemy();
-		
-		yield return new WaitForSeconds(1);
-		
-		if(enemy!=-1){
-			this.startPlayingSkill(-1);
-			//GameController.instance.addTarget(enemy,1);
-			//GameController.instance.play();
-		}
-	}
-
-	
-
 	private IEnumerator returnToLobby()
 	{
 //		if (gameView.MyPlayerNumber == 1)
@@ -951,18 +935,7 @@ public class GameController : Photon.MonoBehaviour
 		//return this.skillsObjects [index].GetComponent<SkillObjectController>().getGOScreenSize(this.skillsObjects [index]);
 		return new Vector2();
 	}
-	
-	public void callTutorial()
-	{
-		if (GameView.instance.getIsTutorialLaunched())
-		{
-			//this.tutorial.GetComponent<GameTutorialController>().actionIsDone();
-		}
-	}
-	public bool getIsTutorialLaunched()
-	{
-		return GameView.instance.getIsTutorialLaunched();
-	}
+
 	public void setEndSceneControllerGUI(bool value)
 	{
 		//EndSceneController.instance.setGUI (value);

@@ -29,7 +29,6 @@ public class GameView : MonoBehaviour
 	public int turnTime ;
 	
 	bool isLoadingScreenDisplayed = false ;
-	bool isTutorialLaunched = false;
 	
 	GameObject loadingScreen;
 	GameObject[,] tiles ;
@@ -79,8 +78,11 @@ public class GameView : MonoBehaviour
 	public bool amIReadyToFight= false ;
 	public bool isHeReadyToFight= false ;
 	
-	int lastMyPlayingCardDeckOrder = 4 ; 
-	int lastHisPlayingCardDeckOrder = 4 ; 
+	int lastMyPlayingCardDeckOrder = 3 ; 
+	int lastHisPlayingCardDeckOrder = 3 ; 
+	
+	public bool hasStep3 ;
+	public bool hasStep2 ;
 	
 	void Awake()
 	{
@@ -104,6 +106,7 @@ public class GameView : MonoBehaviour
 		this.moveZone = GameObject.Find("MoveZone");
 		this.skillZone = GameObject.Find("SkillZone");
 		this.popUp = GameObject.Find("PopUp");
+		this.popUp.GetComponent<PopUpGameController>().show (false);
 		
 		this.SB.GetComponent<StartButtonController>().show(false);
 		this.audioEndTurn = GetComponent<AudioSource>();
@@ -113,17 +116,8 @@ public class GameView : MonoBehaviour
 		this.runningSkill=-1;
 		this.createBackground();
 		this.targets = new List<Tile>();
-		this.lastMyPlayingCardDeckOrder = 4 ; 
-		this.lastHisPlayingCardDeckOrder = 4 ; 
-		
-		if (ApplicationModel.launchGameTutorial)
-		{
-			this.isTutorialLaunched = true ;
-			ApplicationModel.launchGameTutorial=false;
-		}
-		else{
-			this.isTutorialLaunched = false ;
-		}
+		this.lastMyPlayingCardDeckOrder = 3 ; 
+		this.lastHisPlayingCardDeckOrder = 3 ; 
 		
 		if (this.isFirstPlayer)
 		{
@@ -223,6 +217,9 @@ public class GameView : MonoBehaviour
 		
 		GameController.instance.spawnCharacter(myDeck.Id);
 		GameView.instance.hideLoadingScreen ();
+		if(ApplicationModel.launchGameTutorial){
+			this.launchTutoStep(1);
+		}
 	}
 	
 	public void createTile(int x, int y, int type, bool isFirstP)
@@ -379,6 +376,62 @@ public class GameView : MonoBehaviour
 		if(this.isFirstPlayer==b){
 			this.myTimerGO.GetComponent<TimerController>().setIsMyTurn(false);
 			this.amIReadyToFight = true;
+			if(ApplicationModel.launchGameTutorial){
+				this.hideTuto();
+				
+				List<Skill> skills = new List<Skill>();
+				skills.Add (new Skill("Aguerri", 68, 1, 1, 2, 0, "", 0, 0));
+				skills.Add (new Skill("Frénésie", 18, 1, 2, 6, 0, "", 0, 80));
+				skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
+				skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
+				Card c1 = new Card(-1, "Predator", 35, 2, 0, 3, 12, skills);
+				c1.deckOrder=0;
+				GameCard g1 = new GameCard(c1);
+				g1.LifeLevel=1;
+				g1.AttackLevel=1;
+				this.createPlayingCard(g1, false);
+				
+				skills = new List<Skill>();
+				skills.Add (new Skill("Agile", 66, 1, 1, 3, 0, "", 0, 0));
+				skills.Add (new Skill("Estoc", 11, 1, 1, 1, 0, "", 0, 80));
+				skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
+				skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
+				c1 = new Card(-1, "Flash", 24, 1, 0, 6, 14, skills);
+				c1.deckOrder=1;
+				g1 = new GameCard(c1);
+				g1.LifeLevel=2;
+				g1.AttackLevel=3;
+				this.createPlayingCard(g1, false);
+				
+				skills = new List<Skill>();
+				skills.Add (new Skill("Rapide", 71, 1, 1, 4, 0, "", 0, 0));
+				skills.Add (new Skill("Massue", 63, 1, 1, 1, 0, "", 0, 100));
+				skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
+				skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
+				c1 = new Card(-1, "Alien", 52, 2, 0, 3, 30, skills);
+				c1.deckOrder=2;
+				g1 = new GameCard(c1);
+				g1.LifeLevel=2;
+				g1.AttackLevel=1;
+				this.createPlayingCard(g1, false);
+				
+				skills = new List<Skill>();
+				skills.Add (new Skill("Aguerri", 68, 1, 1, 2, 0, "", 0, 0));
+				skills.Add (new Skill("Fortifiant", 3, 1, 2, 6, 0, "", 0, 80));
+				skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
+				skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
+				c1 = new Card(-1, "Dr. House", 45, 0, 0, 2, 10, skills);
+				c1.deckOrder=3;
+				g1 = new GameCard(c1);
+				g1.LifeLevel=2;
+				g1.AttackLevel=1;
+				this.createPlayingCard(g1, false);
+				
+				this.SB.GetComponent<StartButtonController>().show(false);
+				this.removeDestinations();
+				this.displayOpponentCards();
+				this.StartFight();
+			}
 		}
 		else{
 			this.hisTimerGO.GetComponent<TimerController>().setIsMyTurn(false);
@@ -489,8 +542,8 @@ public class GameView : MonoBehaviour
 			}
 		}
 		else{
-			if(this.getCard(characterID).isMine){
-				this.changeCurrentClickedCard(characterID);
+			if(this.currentPlayingCard==characterID && ApplicationModel.launchGameTutorial){
+				this.hideTuto();
 			}
 		}
 	}
@@ -620,8 +673,9 @@ public class GameView : MonoBehaviour
 	}
 	
 	public int findNextAlivePlayer(int o, bool isM){
+		print("J'essaye de find le perso avec un DO de "+o+" - "+isM);
 		int i = o ;
-		if(i==4){
+		if(i==3){
 			i=0;
 		}
 		else{
@@ -632,11 +686,11 @@ public class GameView : MonoBehaviour
 			if(!this.getCard(this.findCardWithDO(i,isM)).isDead){
 				card = this.findCardWithDO(i,isM) ; 
 			}
-			if(i==4){
+			if(i==3){
 				i=0;
 			}
 			else{
-				o++;
+				i++;
 			}
 			
 		}
@@ -650,11 +704,14 @@ public class GameView : MonoBehaviour
 		if(this.hasFightStarted){
 			if(this.getCurrentCard().isMine){
 				nextPlayingCard = this.findNextAlivePlayer(this.lastHisPlayingCardDeckOrder, false);
-				this.lastHisPlayingCardDeckOrder = nextPlayingCard;
+				print ("Je find HIS "+nextPlayingCard);
+				this.lastHisPlayingCardDeckOrder = this.getCard(nextPlayingCard).deckOrder;
 			}
 			else{
 				nextPlayingCard = this.findNextAlivePlayer(this.lastMyPlayingCardDeckOrder, true);
-				this.lastMyPlayingCardDeckOrder = nextPlayingCard;
+				print ("Je find MY "+nextPlayingCard);
+				
+				this.lastMyPlayingCardDeckOrder = this.getCard(nextPlayingCard).deckOrder;
 			}
 		}
 		else{
@@ -676,6 +733,13 @@ public class GameView : MonoBehaviour
 		}
 		else{
 			this.interlude.GetComponent<InterludeController>().set("Tour de l'adversaire !", false, false);
+			if(ApplicationModel.launchGameTutorial){
+				if(!this.hasStep3){
+					interlude.GetComponent<InterludeController>().pause();
+					this.launchTutoStep(3);
+					hasStep3 = true ;
+				}
+			}
 		}
 		
 		if(this.hasFightStarted){
@@ -695,10 +759,6 @@ public class GameView : MonoBehaviour
 						hasPlayed = true ;
 					}
 				}
-				
-				//			if(GameView.instance.getCard(this.currentPlayingCard).isFurious()){
-				//				StartCoroutine(launchFury());
-				//			}
 				
 				this.getCard(this.currentPlayingCard).setHasMoved(hasMoved);
 				this.getCard(this.currentPlayingCard).setHasPlayed(hasPlayed);
@@ -760,6 +820,36 @@ public class GameView : MonoBehaviour
 		else{
 			this.displayDestinations (this.currentPlayingCard);
 		}
+		
+		if(ApplicationModel.launchGameTutorial){
+			if(!this.getCurrentCard().isMine){
+				StartCoroutine(launchFury());
+			}
+		}
+	}
+	
+	IEnumerator launchFury(){
+		yield return new WaitForSeconds(4f);
+		
+		int enemy = GameView.instance.attackClosestEnnemy();
+		
+		yield return new WaitForSeconds(1.2f);
+		
+		if(enemy!=-1){
+			GameController.instance.play(0);
+			
+			if (UnityEngine.Random.Range(1,101) <= this.getCard(enemy).getEsquive())
+			{                             
+				GameController.instance.esquive(enemy,1);
+			}
+			else{
+				GameController.instance.applyOn(enemy);
+			}
+			GameView.instance.displaySkillEffect(this.currentPlayingCard, "Attaque", 0);
+			yield return new WaitForSeconds(3f);
+			
+		}
+		GameController.instance.findNextPlayer();
 	}
 	
 	public void emptyTile(int c){
@@ -1865,12 +1955,12 @@ public class GameView : MonoBehaviour
 	
 	public List<Tile> getCharacterImmediateNeighbours(Tile t){
 		List<Tile> freeNeighbours = new List<Tile>();
-//		List<Tile> neighbours = t.getImmediateNeighbourTiles();
-//		for (int i = 0 ; i < neighbours.Count ; i++){
-//			if(this.tiles[neighbours[i].x, neighbours[i].y].GetComponent<TileController>().getCharacterID()!=-1 && this.tiles[neighbours[i].x, neighbours[i].y].GetComponent<TileController>().getCharacterID()!=GameController.instance.getCurrentPlayingCard()){
-//				freeNeighbours.Add(neighbours[i]);
-//			}
-//		}
+		List<Tile> neighbours = t.getImmediateNeighbourTiles();
+		for (int i = 0 ; i < neighbours.Count ; i++){
+			if(this.tiles[neighbours[i].x, neighbours[i].y].GetComponent<TileController>().getCharacterID()!=-1 && this.getCard(this.tiles[neighbours[i].x, neighbours[i].y].GetComponent<TileController>().getCharacterID()).isMine){
+				freeNeighbours.Add(neighbours[i]);
+			}
+		}
 		return freeNeighbours ;
 	}
 	
@@ -1938,11 +2028,6 @@ public class GameView : MonoBehaviour
 		return compteur ;
 	}
 	
-	public bool getIsTutorialLaunched()
-	{
-		return isTutorialLaunched;
-	}
-	
 	public bool areAllMyPlayersDead(){
 		bool areMyPlayersDead = true ;
 		for (int i = 0 ; i < this.playingCards.Count ; i++){
@@ -1956,58 +2041,58 @@ public class GameView : MonoBehaviour
 	}
 	
 	public int attackClosestEnnemy(){
-//		bool[,] hasBeenPassages = new bool[this.boardWidth, this.boardHeight];
-//		bool hasFoundEnnemy = false ;
+		bool[,] hasBeenPassages = new bool[this.boardWidth, this.boardHeight];
+		bool hasFoundEnnemy = false ;
 		int idEnnemyToAttack = -1 ;
-//		Tile idPlaceToMoveTo = new Tile(-1,-1) ;
-//		for(int l = 0 ; l < this.boardWidth ; l++){
-//			for(int k = 0 ; k < this.boardHeight ; k++){
-//				hasBeenPassages[l,k]=false;
-//			}
-//		}
-//		
-//		int move = this.getCard(GameController.instance.getCurrentPlayingCard()).GetMove();
-//		
-//		List<Tile> destinations = new List<Tile>();
-//		List<Tile> baseTiles = new List<Tile>();
-//		List<Tile> tempTiles = new List<Tile>();
-//		List<Tile> tempNeighbours = new List<Tile>();
-//		baseTiles.Add(this.getPlayingCardTile(GameController.instance.getCurrentPlayingCard()));
-//		
-//		int j = 0 ;
-//		while (!hasFoundEnnemy && j<move){
-//			tempTiles = new List<Tile>();
-//			
-//			for(int k = 0 ; k < baseTiles.Count ; k++){
-//				tempNeighbours = this.getCharacterImmediateNeighbours(baseTiles[k]);
-//				if(tempNeighbours.Count>0){
-//					idEnnemyToAttack = GameView.instance.getTileCharacterID(tempNeighbours[0].x, tempNeighbours[0].y);
-//					idPlaceToMoveTo = baseTiles[k];
-//					hasFoundEnnemy = true ;
-//				}
-//				else{
-//					tempNeighbours = this.getDestinationImmediateNeighbours(baseTiles[k]);
-//					for(int l = 0 ; l < tempNeighbours.Count ; l++){
-//						if(!hasBeenPassages[tempNeighbours[l].x, tempNeighbours[l].y]){
-//							tempTiles.Add(tempNeighbours[l]);
-//							hasBeenPassages[tempNeighbours[l].x, tempNeighbours[l].y]=true;
-//						}
-//					}
-//				}
-//			}
-//			baseTiles = new List<Tile>();
-//			for(int l = 0 ; l < tempTiles.Count ; l++){
-//				baseTiles.Add(tempTiles[l]);
-//			}
-//			j++;
-//		}
-//		
-//		if(hasFoundEnnemy==false){
-//			GameController.instance.moveToDestination(baseTiles[0]);
-//		}
-//		else{
-//			GameController.instance.moveToDestination(idPlaceToMoveTo);
-//		}
+		Tile idPlaceToMoveTo = new Tile(-1,-1) ;
+		for(int l = 0 ; l < this.boardWidth ; l++){
+			for(int k = 0 ; k < this.boardHeight ; k++){
+				hasBeenPassages[l,k]=false;
+			}
+		}
+		
+		int move = this.getCard(this.currentPlayingCard).getMove();
+		
+		List<Tile> destinations = new List<Tile>();
+		List<Tile> baseTiles = new List<Tile>();
+		List<Tile> tempTiles = new List<Tile>();
+		List<Tile> tempNeighbours = new List<Tile>();
+		baseTiles.Add(this.getPlayingCardTile(this.currentPlayingCard));
+		
+		int j = 0 ;
+		while (!hasFoundEnnemy && j<move){
+			tempTiles = new List<Tile>();
+			
+			for(int k = 0 ; k < baseTiles.Count ; k++){
+				tempNeighbours = this.getCharacterImmediateNeighbours(baseTiles[k]);
+				if(tempNeighbours.Count>0){
+					idEnnemyToAttack = GameView.instance.getTileCharacterID(tempNeighbours[0].x, tempNeighbours[0].y);
+					idPlaceToMoveTo = baseTiles[k];
+					hasFoundEnnemy = true ;
+				}
+				else{
+					tempNeighbours = this.getDestinationImmediateNeighbours(baseTiles[k]);
+					for(int l = 0 ; l < tempNeighbours.Count ; l++){
+						if(!hasBeenPassages[tempNeighbours[l].x, tempNeighbours[l].y]){
+							tempTiles.Add(tempNeighbours[l]);
+							hasBeenPassages[tempNeighbours[l].x, tempNeighbours[l].y]=true;
+						}
+					}
+				}
+			}
+			baseTiles = new List<Tile>();
+			for(int l = 0 ; l < tempTiles.Count ; l++){
+				baseTiles.Add(tempTiles[l]);
+			}
+			j++;
+		}
+		
+		if(hasFoundEnnemy==false){
+			this.clickDestination(baseTiles[0], this.currentPlayingCard);
+		}
+		else{
+			this.clickDestination(idPlaceToMoveTo, this.currentPlayingCard);
+		}
 		
 		return idEnnemyToAttack;
 	}
@@ -2140,17 +2225,26 @@ public class GameView : MonoBehaviour
 	}
 	
 	public void launchTutoStep(int i){
-		if (i==0){
-			this.popUp.GetComponent<PopUpGameController>().setTexts("Bienvenue dans l'arène !", "Voici l'arène de combat de Cristalia. Elle est constituée de cases sur lesquelles les personnages peuvent se déplacer, ainsi que de cases infranchissables. Pensez vos déplacements pour ne jamais vous retrouver enfermé !");
-			this.popUp.GetComponent<PopUpGameController>().changePosition(new Vector3(0f, 0f, 0f));
+		if (i==1){
+			this.popUp.GetComponent<PopUpGameController>().setTexts("Etape 1 : L'arène", "Bienvenue dans l'arène de combat de Cristalia.\nChaque case peut etre normale, infranchissable, ou meme piégée. Prenez garde ou vous mettez vos pieds ! (ou plutot ceux de vos unités)\n\nVos unités sont disposées à l'entrée de l'arène, vous pouvez les déplacer avant le début du combat en cliquant dessus!");
+			this.popUp.GetComponent<PopUpGameController>().changePosition(new Vector3(-0.05f, 0f, 0f));
 			this.popUp.GetComponent<PopUpGameController>().show(true);
 		}
-		else if (i==1){
-			
+		else if (i==2){
+			this.popUp.GetComponent<PopUpGameController>().setTexts("Etape 2 : Chacun son tour", "Chaque colon joue à son tour, l'ordre des personnages étant déterminé par leur position dans l'équipe. Un personnage peut à chaque tour se déplacer et/ou utiliser une compétence, dans n'importe quel ordre.\n\nA vous de jouer désormais, profitez de votre tour pour vous rapprocher des unités du colon ennemi.");
+			this.popUp.GetComponent<PopUpGameController>().changePosition(new Vector3(-0.05f, 0f, 0f));
+			this.popUp.GetComponent<PopUpGameController>().show(true);
 		}
-		else if (i==1){
-			
+		else if (i==3){
+			this.popUp.GetComponent<PopUpGameController>().setTexts("Etape 3 : Règles du combat", "Félicitations, vous avez donné vos premiers ordres de chef de guerre. Mais la bataille n'est pas terminée !\n\nLe combat se termine quand un colon ne dispose plus d'unités pour se battre OU s'il a épuisé le temps mis à sa disposition. Je vous laisse désormais seul pour terminer le combat, bon courage !");
+			this.popUp.GetComponent<PopUpGameController>().changePosition(new Vector3(-0.05f, 0f, 0f));
+			this.popUp.GetComponent<PopUpGameController>().show(true);
 		}
+	}
+	
+	public void hideTuto(){
+		this.popUp.GetComponent<PopUpGameController>().show(false);
+		this.interlude.GetComponent<InterludeController>().unPause();
 	}
 }
 

@@ -93,11 +93,8 @@ public class MoveController : MonoBehaviour
 	}
 	
 	public void OnMouseDown(){
-		if(this.isAnimated){
-			
-		}
-		else{
-		
+		if(ApplicationModel.launchGameTutorial){
+			GameView.instance.hideTuto();
 		}
 	}
 }

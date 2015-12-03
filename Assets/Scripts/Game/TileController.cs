@@ -269,6 +269,9 @@ public class TileController : GameObjectController
 				GameController.instance.clickDestination(this.tile, GameView.instance.getCurrentPlayingCard());
 			}
 		}
+		if(ApplicationModel.launchGameTutorial){
+			GameView.instance.hideTuto();
+		}
 	}
 	
 	public void OnMouseExit()

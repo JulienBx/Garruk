@@ -54,6 +54,20 @@ public class Skill
 		this.ManaCost = manaCost;
 		this.Description = description;
 	}
+	
+	public Skill(string name, int id, int isactivated, int level, int power, int manaCost, string description, int c, int p)
+	{
+		this.Name = name;
+		this.Id = id;
+		this.IsActivated = isactivated;
+		this.Level = level;
+		this.Power = power;
+		this.ManaCost = manaCost;
+		this.Description = description;
+		this.cible = c;
+		this.proba = p;
+	}
+	
 	public Skill(string name, int id, int isactivated, int level, int power, int manaCost)
 	{
 		this.Name = name;
