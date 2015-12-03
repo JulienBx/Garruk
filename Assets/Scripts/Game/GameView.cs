@@ -702,6 +702,9 @@ public class GameView : MonoBehaviour
 			}
 			
 		}
+		if(i==o){
+			card = o;
+		}
 		return card ;
 	}
 	

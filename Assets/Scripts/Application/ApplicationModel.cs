@@ -29,7 +29,7 @@ public class ApplicationModel : MonoBehaviour
 	static public bool isAdmin = true;
 	static public int nbCardsByDeck = 4;
 	static public int packToBuy = -1;
-	static public bool launchGameTutorial = false;
+	static public bool launchGameTutorial = true;
 	static public bool launchEndGameSequence = false;
 	static public bool hasWonLastGame = false;
 	static public bool isFirstPlayer=false;
