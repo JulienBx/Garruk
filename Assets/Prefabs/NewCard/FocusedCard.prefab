@@ -861,7 +861,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &175258
 GameObject:
   m_ObjectHideFlags: 0
@@ -1479,7 +1479,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 181462}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.63043249, y: -3.80330944, z: 0}
+  m_LocalPosition: {x: -.200000003, y: -3.80330944, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 470088}
@@ -1863,7 +1863,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 198052}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.98043299, y: -3.80330944, z: 0}
+  m_LocalPosition: {x: -3.01999998, y: -3.80330944, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 437268}
@@ -2178,7 +2178,9 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -2202,7 +2204,9 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -2226,7 +2230,9 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -2250,7 +2256,9 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -2274,7 +2282,9 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -2298,7 +2308,9 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -2322,7 +2334,9 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -2346,7 +2360,9 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -2370,7 +2386,9 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -2394,7 +2412,9 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -2418,7 +2438,9 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -2442,7 +2464,9 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -2466,7 +2490,9 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -2490,7 +2516,9 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -2514,7 +2542,9 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -2538,7 +2568,9 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -2562,7 +2594,9 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -2586,7 +2620,9 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -2610,7 +2646,9 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -2634,7 +2672,9 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -2658,7 +2698,9 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -2682,7 +2724,9 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -2706,7 +2750,9 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -2730,7 +2776,9 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -2754,7 +2802,9 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -2778,7 +2828,9 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -2802,7 +2854,9 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -2826,7 +2880,9 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -2850,7 +2906,9 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -2874,7 +2932,9 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -2898,7 +2958,9 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -2922,7 +2984,9 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -2946,7 +3010,9 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -2970,7 +3036,9 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -3459,32 +3527,17 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 1
-  havePropertiesChanged: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isRightToLeft: 0
   m_inputSource: 0
   m_renderer: {fileID: 2341110}
   m_ignoreCulling: 1
   m_isOrthographic: 0
   m_isCullingEnabled: 0
   m_pageToDisplay: 1
-  m_fontAssetArray:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   m_maskType: 0
   m_enableAutoSizing: 0
 --- !u!114 &11401442
@@ -3543,32 +3596,17 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 1
-  havePropertiesChanged: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isRightToLeft: 0
   m_inputSource: 0
   m_renderer: {fileID: 2366984}
   m_ignoreCulling: 1
   m_isOrthographic: 0
   m_isCullingEnabled: 0
   m_pageToDisplay: 1
-  m_fontAssetArray:
-  - {fileID: 11400000, guid: 417116fc0b0e447faa47204a6eab148e, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   m_maskType: 0
   m_enableAutoSizing: 0
 --- !u!114 &11401646
@@ -3647,32 +3685,17 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 1
-  havePropertiesChanged: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isRightToLeft: 0
   m_inputSource: 0
   m_renderer: {fileID: 2344522}
   m_ignoreCulling: 1
   m_isOrthographic: 0
   m_isCullingEnabled: 0
   m_pageToDisplay: 1
-  m_fontAssetArray:
-  - {fileID: 11400000, guid: f179af0ea69274726baaefe1d3191113, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   m_maskType: 0
   m_enableAutoSizing: 0
 --- !u!114 &11404800
@@ -3803,32 +3826,17 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 1
-  havePropertiesChanged: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isRightToLeft: 0
   m_inputSource: 0
   m_renderer: {fileID: 2392686}
   m_ignoreCulling: 1
   m_isOrthographic: 0
   m_isCullingEnabled: 0
   m_pageToDisplay: 1
-  m_fontAssetArray:
-  - {fileID: 11400000, guid: 417116fc0b0e447faa47204a6eab148e, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   m_maskType: 0
   m_enableAutoSizing: 0
 --- !u!114 &11409198
@@ -3992,32 +4000,17 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 1
-  havePropertiesChanged: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isRightToLeft: 0
   m_inputSource: 0
   m_renderer: {fileID: 2315288}
   m_ignoreCulling: 1
   m_isOrthographic: 0
   m_isCullingEnabled: 0
   m_pageToDisplay: 1
-  m_fontAssetArray:
-  - {fileID: 11400000, guid: bbc845773694540939bde240858219f5, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   m_maskType: 0
   m_enableAutoSizing: 0
 --- !u!114 &11415648
@@ -4129,32 +4122,17 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 1
-  havePropertiesChanged: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isRightToLeft: 0
   m_inputSource: 0
   m_renderer: {fileID: 2360778}
   m_ignoreCulling: 1
   m_isOrthographic: 0
   m_isCullingEnabled: 0
   m_pageToDisplay: 1
-  m_fontAssetArray:
-  - {fileID: 11400000, guid: bbc845773694540939bde240858219f5, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   m_maskType: 0
   m_enableAutoSizing: 1
 --- !u!114 &11418694
@@ -4213,32 +4191,17 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 1
-  havePropertiesChanged: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isRightToLeft: 0
   m_inputSource: 0
   m_renderer: {fileID: 2340844}
   m_ignoreCulling: 1
   m_isOrthographic: 0
   m_isCullingEnabled: 0
   m_pageToDisplay: 1
-  m_fontAssetArray:
-  - {fileID: 11400000, guid: bbc845773694540939bde240858219f5, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   m_maskType: 0
   m_enableAutoSizing: 0
 --- !u!114 &11425140
@@ -4329,32 +4292,17 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 1
-  havePropertiesChanged: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isRightToLeft: 0
   m_inputSource: 0
   m_renderer: {fileID: 2382228}
   m_ignoreCulling: 1
   m_isOrthographic: 0
   m_isCullingEnabled: 0
   m_pageToDisplay: 1
-  m_fontAssetArray:
-  - {fileID: 11400000, guid: bbc845773694540939bde240858219f5, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   m_maskType: 0
   m_enableAutoSizing: 0
 --- !u!114 &11428590
@@ -4433,32 +4381,17 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 1
-  havePropertiesChanged: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isRightToLeft: 0
   m_inputSource: 0
   m_renderer: {fileID: 2361096}
   m_ignoreCulling: 1
   m_isOrthographic: 0
   m_isCullingEnabled: 0
   m_pageToDisplay: 1
-  m_fontAssetArray:
-  - {fileID: 11400000, guid: 417116fc0b0e447faa47204a6eab148e, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   m_maskType: 0
   m_enableAutoSizing: 0
 --- !u!114 &11429384
@@ -4537,32 +4470,17 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 1
-  havePropertiesChanged: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isRightToLeft: 0
   m_inputSource: 0
   m_renderer: {fileID: 2331514}
   m_ignoreCulling: 1
   m_isOrthographic: 0
   m_isCullingEnabled: 0
   m_pageToDisplay: 1
-  m_fontAssetArray:
-  - {fileID: 11400000, guid: bbc845773694540939bde240858219f5, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   m_maskType: 0
   m_enableAutoSizing: 0
 --- !u!114 &11430422
@@ -4621,32 +4539,17 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 1
-  havePropertiesChanged: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isRightToLeft: 0
   m_inputSource: 0
   m_renderer: {fileID: 2314178}
   m_ignoreCulling: 1
   m_isOrthographic: 0
   m_isCullingEnabled: 0
   m_pageToDisplay: 1
-  m_fontAssetArray:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   m_maskType: 0
   m_enableAutoSizing: 0
 --- !u!114 &11431342
@@ -4705,32 +4608,17 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 1
-  havePropertiesChanged: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isRightToLeft: 0
   m_inputSource: 0
   m_renderer: {fileID: 2347684}
   m_ignoreCulling: 1
   m_isOrthographic: 0
   m_isCullingEnabled: 0
   m_pageToDisplay: 1
-  m_fontAssetArray:
-  - {fileID: 11400000, guid: bbc845773694540939bde240858219f5, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   m_maskType: 0
   m_enableAutoSizing: 0
 --- !u!114 &11433426
@@ -4861,32 +4749,17 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 1
-  havePropertiesChanged: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isRightToLeft: 0
   m_inputSource: 0
   m_renderer: {fileID: 2338150}
   m_ignoreCulling: 1
   m_isOrthographic: 0
   m_isCullingEnabled: 0
   m_pageToDisplay: 1
-  m_fontAssetArray:
-  - {fileID: 11400000, guid: bbc845773694540939bde240858219f5, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   m_maskType: 0
   m_enableAutoSizing: 0
 --- !u!114 &11441616
@@ -4958,32 +4831,17 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 1
-  havePropertiesChanged: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isRightToLeft: 0
   m_inputSource: 0
   m_renderer: {fileID: 2311742}
   m_ignoreCulling: 1
   m_isOrthographic: 0
   m_isCullingEnabled: 0
   m_pageToDisplay: 1
-  m_fontAssetArray:
-  - {fileID: 11400000, guid: bbc845773694540939bde240858219f5, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   m_maskType: 0
   m_enableAutoSizing: 0
 --- !u!114 &11442256
@@ -5042,32 +4900,17 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 1
-  havePropertiesChanged: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isRightToLeft: 0
   m_inputSource: 0
   m_renderer: {fileID: 2335722}
   m_ignoreCulling: 1
   m_isOrthographic: 0
   m_isCullingEnabled: 0
   m_pageToDisplay: 1
-  m_fontAssetArray:
-  - {fileID: 11400000, guid: bbc845773694540939bde240858219f5, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   m_maskType: 0
   m_enableAutoSizing: 0
 --- !u!114 &11443104
@@ -5178,32 +5021,17 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 1
-  havePropertiesChanged: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isRightToLeft: 0
   m_inputSource: 0
   m_renderer: {fileID: 2332342}
   m_ignoreCulling: 1
   m_isOrthographic: 0
   m_isCullingEnabled: 0
   m_pageToDisplay: 1
-  m_fontAssetArray:
-  - {fileID: 11400000, guid: bbc845773694540939bde240858219f5, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   m_maskType: 0
   m_enableAutoSizing: 0
 --- !u!114 &11446006
@@ -5345,32 +5173,17 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 1
-  havePropertiesChanged: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isRightToLeft: 0
   m_inputSource: 0
   m_renderer: {fileID: 2385572}
   m_ignoreCulling: 1
   m_isOrthographic: 0
   m_isCullingEnabled: 0
   m_pageToDisplay: 1
-  m_fontAssetArray:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   m_maskType: 0
   m_enableAutoSizing: 0
 --- !u!114 &11453428
@@ -5441,32 +5254,17 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 1
-  havePropertiesChanged: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isRightToLeft: 0
   m_inputSource: 0
   m_renderer: {fileID: 2398996}
   m_ignoreCulling: 1
   m_isOrthographic: 0
   m_isCullingEnabled: 0
   m_pageToDisplay: 1
-  m_fontAssetArray:
-  - {fileID: 11400000, guid: 417116fc0b0e447faa47204a6eab148e, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   m_maskType: 0
   m_enableAutoSizing: 0
 --- !u!114 &11457012
@@ -5550,32 +5348,17 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 1
-  havePropertiesChanged: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isRightToLeft: 0
   m_inputSource: 0
   m_renderer: {fileID: 2382064}
   m_ignoreCulling: 1
   m_isOrthographic: 0
   m_isCullingEnabled: 0
   m_pageToDisplay: 1
-  m_fontAssetArray:
-  - {fileID: 11400000, guid: 417116fc0b0e447faa47204a6eab148e, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   m_maskType: 0
   m_enableAutoSizing: 0
 --- !u!114 &11460582
@@ -5657,32 +5440,17 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 1
-  havePropertiesChanged: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 0
+  m_parseCtrlCharacters: 1
+  m_isRightToLeft: 0
   m_inputSource: 0
   m_renderer: {fileID: 2394314}
   m_ignoreCulling: 1
   m_isOrthographic: 0
   m_isCullingEnabled: 0
   m_pageToDisplay: 1
-  m_fontAssetArray:
-  - {fileID: 11400000, guid: bbc845773694540939bde240858219f5, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   m_maskType: 0
   m_enableAutoSizing: 0
 --- !u!114 &11463654
@@ -5741,32 +5509,17 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 1
-  havePropertiesChanged: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isRightToLeft: 0
   m_inputSource: 0
   m_renderer: {fileID: 2356942}
   m_ignoreCulling: 1
   m_isOrthographic: 0
   m_isCullingEnabled: 0
   m_pageToDisplay: 1
-  m_fontAssetArray:
-  - {fileID: 11400000, guid: bbc845773694540939bde240858219f5, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   m_maskType: 0
   m_enableAutoSizing: 0
 --- !u!114 &11465064
@@ -5825,32 +5578,17 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 1
-  havePropertiesChanged: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isRightToLeft: 0
   m_inputSource: 0
   m_renderer: {fileID: 2332072}
   m_ignoreCulling: 1
   m_isOrthographic: 0
   m_isCullingEnabled: 0
   m_pageToDisplay: 1
-  m_fontAssetArray:
-  - {fileID: 11400000, guid: bbc845773694540939bde240858219f5, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   m_maskType: 0
   m_enableAutoSizing: 0
 --- !u!114 &11465306
@@ -5909,32 +5647,17 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 1
-  havePropertiesChanged: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isRightToLeft: 0
   m_inputSource: 0
   m_renderer: {fileID: 2365854}
   m_ignoreCulling: 1
   m_isOrthographic: 0
   m_isCullingEnabled: 0
   m_pageToDisplay: 1
-  m_fontAssetArray:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   m_maskType: 0
   m_enableAutoSizing: 0
 --- !u!114 &11465330
@@ -5993,32 +5716,17 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 1
-  havePropertiesChanged: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isRightToLeft: 0
   m_inputSource: 0
   m_renderer: {fileID: 2354588}
   m_ignoreCulling: 1
   m_isOrthographic: 0
   m_isCullingEnabled: 0
   m_pageToDisplay: 1
-  m_fontAssetArray:
-  - {fileID: 11400000, guid: bbc845773694540939bde240858219f5, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   m_maskType: 0
   m_enableAutoSizing: 0
 --- !u!114 &11465372
@@ -6077,32 +5785,17 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 1
-  havePropertiesChanged: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isRightToLeft: 0
   m_inputSource: 0
   m_renderer: {fileID: 2310896}
   m_ignoreCulling: 1
   m_isOrthographic: 0
   m_isCullingEnabled: 0
   m_pageToDisplay: 1
-  m_fontAssetArray:
-  - {fileID: 11400000, guid: 417116fc0b0e447faa47204a6eab148e, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   m_maskType: 0
   m_enableAutoSizing: 0
 --- !u!114 &11467392
@@ -6181,32 +5874,17 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 1
-  havePropertiesChanged: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isRightToLeft: 0
   m_inputSource: 0
   m_renderer: {fileID: 2330356}
   m_ignoreCulling: 1
   m_isOrthographic: 0
   m_isCullingEnabled: 0
   m_pageToDisplay: 1
-  m_fontAssetArray:
-  - {fileID: 11400000, guid: bbc845773694540939bde240858219f5, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   m_maskType: 0
   m_enableAutoSizing: 0
 --- !u!114 &11469092
@@ -6305,32 +5983,17 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 1
-  havePropertiesChanged: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isRightToLeft: 0
   m_inputSource: 0
   m_renderer: {fileID: 2352996}
   m_ignoreCulling: 1
   m_isOrthographic: 0
   m_isCullingEnabled: 0
   m_pageToDisplay: 1
-  m_fontAssetArray:
-  - {fileID: 11400000, guid: bbc845773694540939bde240858219f5, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   m_maskType: 0
   m_enableAutoSizing: 0
 --- !u!114 &11470266
@@ -6461,32 +6124,17 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 1
-  havePropertiesChanged: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isRightToLeft: 0
   m_inputSource: 0
   m_renderer: {fileID: 2375992}
   m_ignoreCulling: 1
   m_isOrthographic: 0
   m_isCullingEnabled: 0
   m_pageToDisplay: 1
-  m_fontAssetArray:
-  - {fileID: 11400000, guid: bbc845773694540939bde240858219f5, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   m_maskType: 0
   m_enableAutoSizing: 0
 --- !u!114 &11483576
@@ -6545,32 +6193,17 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 1
-  havePropertiesChanged: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isRightToLeft: 0
   m_inputSource: 0
   m_renderer: {fileID: 2301038}
   m_ignoreCulling: 1
   m_isOrthographic: 0
   m_isCullingEnabled: 0
   m_pageToDisplay: 1
-  m_fontAssetArray:
-  - {fileID: 11400000, guid: 417116fc0b0e447faa47204a6eab148e, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   m_maskType: 0
   m_enableAutoSizing: 0
 --- !u!114 &11486548
@@ -6649,32 +6282,17 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 1
-  havePropertiesChanged: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isRightToLeft: 0
   m_inputSource: 0
   m_renderer: {fileID: 2374822}
   m_ignoreCulling: 1
   m_isOrthographic: 0
   m_isCullingEnabled: 0
   m_pageToDisplay: 1
-  m_fontAssetArray:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   m_maskType: 0
   m_enableAutoSizing: 0
 --- !u!114 &11486800
@@ -6733,32 +6351,17 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 1
-  havePropertiesChanged: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isRightToLeft: 0
   m_inputSource: 0
   m_renderer: {fileID: 2391332}
   m_ignoreCulling: 1
   m_isOrthographic: 0
   m_isCullingEnabled: 0
   m_pageToDisplay: 1
-  m_fontAssetArray:
-  - {fileID: 11400000, guid: 417116fc0b0e447faa47204a6eab148e, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   m_maskType: 0
   m_enableAutoSizing: 0
 --- !u!114 &11486940
@@ -6881,32 +6484,17 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 1
-  havePropertiesChanged: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isRightToLeft: 0
   m_inputSource: 0
   m_renderer: {fileID: 2351408}
   m_ignoreCulling: 1
   m_isOrthographic: 0
   m_isCullingEnabled: 0
   m_pageToDisplay: 1
-  m_fontAssetArray:
-  - {fileID: 11400000, guid: 417116fc0b0e447faa47204a6eab148e, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   m_maskType: 0
   m_enableAutoSizing: 0
 --- !u!114 &11489778
@@ -7092,32 +6680,17 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 1
-  havePropertiesChanged: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isRightToLeft: 0
   m_inputSource: 0
   m_renderer: {fileID: 2326214}
   m_ignoreCulling: 1
   m_isOrthographic: 0
   m_isCullingEnabled: 0
   m_pageToDisplay: 1
-  m_fontAssetArray:
-  - {fileID: 11400000, guid: bbc845773694540939bde240858219f5, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   m_maskType: 0
   m_enableAutoSizing: 0
 --- !u!114 &11497100
@@ -7176,32 +6749,17 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 1
-  havePropertiesChanged: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isRightToLeft: 0
   m_inputSource: 0
   m_renderer: {fileID: 2302374}
   m_ignoreCulling: 1
   m_isOrthographic: 0
   m_isCullingEnabled: 0
   m_pageToDisplay: 1
-  m_fontAssetArray:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   m_maskType: 0
   m_enableAutoSizing: 0
 --- !u!212 &21200940
@@ -7222,7 +6780,9 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -7248,7 +6808,9 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -7274,7 +6836,9 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -7300,7 +6864,9 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -7326,7 +6892,9 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -7352,7 +6920,9 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -7378,7 +6948,9 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -7404,7 +6976,9 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -7430,7 +7004,9 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -7456,7 +7032,9 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -7482,7 +7060,9 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -7508,7 +7088,9 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -7534,7 +7116,9 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -7560,7 +7144,9 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -7586,7 +7172,9 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -7612,7 +7200,9 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -7638,7 +7228,9 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -7664,7 +7256,9 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -7690,7 +7284,9 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -7716,7 +7312,9 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -7742,7 +7340,9 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -7768,7 +7368,9 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -7794,7 +7396,9 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -7820,7 +7424,9 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -7846,7 +7452,9 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -7872,7 +7480,9 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -7898,7 +7508,9 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -7924,7 +7536,9 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -7950,7 +7564,9 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -7976,7 +7592,9 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -8002,7 +7620,9 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
