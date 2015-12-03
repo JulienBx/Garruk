@@ -7010,7 +7010,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f822e4acd0445434bb7d610121a0e32f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  globalTime: 300
+  globalTime: 480
 --- !u!1 &1354704618
 GameObject:
   m_ObjectHideFlags: 0
@@ -10471,7 +10471,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f822e4acd0445434bb7d610121a0e32f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  globalTime: 300
+  globalTime: 480
 --- !u!1 &2027855914
 GameObject:
   m_ObjectHideFlags: 0

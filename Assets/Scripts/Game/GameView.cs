@@ -703,7 +703,7 @@ public class GameView : MonoBehaviour
 			
 		}
 		if(i==o){
-			card = o;
+			card = this.findCardWithDO(o, isM);
 		}
 		return card ;
 	}
