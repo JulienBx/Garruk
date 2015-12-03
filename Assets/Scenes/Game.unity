@@ -2090,6 +2090,9 @@ MonoBehaviour:
   runningSkill: 0
   amIReadyToFight: 0
   isHeReadyToFight: 0
+  hasStep3: 0
+  hasStep2: 0
+  blockFury: 0
 --- !u!114 &481987443
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2545,7 +2548,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.96296299, y: 1.8425926, z: .200000003}
+  m_Size: {x: 1.96296299, y: 1.8425926, z: 3}
   m_Center: {x: .00925928354, y: .00462961197, z: 0}
 --- !u!1 &524531230
 GameObject:
