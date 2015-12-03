@@ -140,6 +140,10 @@ public class MyGameTutorialController : TutorialObjectController
 		{
 			this.sequenceID=2;
 		}
+		else if(this.sequenceID==0)
+		{
+			this.sequenceID=1;
+		}
 		else
 		{
 			this.sequenceID=0;
