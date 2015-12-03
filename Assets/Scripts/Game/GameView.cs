@@ -1896,7 +1896,7 @@ public class GameView : MonoBehaviour
 	public IEnumerator quitGame()
 	{
 		if(ApplicationModel.launchGameTutorial){
-			if(this.getPercentageLifeMyPlayer()==0){
+			if(this.getPercentageLifeMyPlayer()<10){
 				yield return (StartCoroutine(this.sendStat(ApplicationModel.myPlayerName, "Garruk", true)));
 			}
 			else
