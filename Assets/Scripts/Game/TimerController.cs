@@ -4,7 +4,7 @@ using TMPro ;
 
 public class TimerController : MonoBehaviour
 {
-	public float globalTime = 300 ;
+	public float globalTime = 480 ;
 	
 	float timer ;
 	int timerMinuts ;
@@ -42,10 +42,10 @@ public class TimerController : MonoBehaviour
 	
 	public void displayTime(){
 		this.timerGO.GetComponent<TextMeshPro>().text = timerMinuts+":"+this.getSeconds();
-		if(this.timer>180){
+		if(this.timer>300){
 			gameObject.GetComponent<TextMeshPro>().color = Color.green ;
 		}
-		else if(this.timer>60){
+		else if(this.timer>120){
 			gameObject.GetComponent<TextMeshPro>().color = Color.yellow ;
 		}
 		else{
@@ -78,6 +78,9 @@ public class TimerController : MonoBehaviour
 			if(this.timerDisplay>this.displayTiming){
 				this.display(!this.isDisplayed);
 			}
+		}
+		else{
+			GameController.instance.quitGameHandler();
 		}
 	}
 }

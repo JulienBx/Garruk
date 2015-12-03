@@ -439,7 +439,7 @@ public class PlayingCardController : GameObjectController
 		this.timerSE += t ;
 		if (this.timerSE>this.SETime){
 			if(!GameView.instance.getTileController(this.id).isDisplayingTarget){
-				this.switchSE();
+				//this.switchSE();
 			}
 			this.timerSE = 0f;
 		}
@@ -629,6 +629,7 @@ public class PlayingCardController : GameObjectController
 	public void displaySkillEffect(bool b){
 		gameObject.transform.FindChild("SkillEffect").GetComponent<SpriteRenderer>().enabled = b ;
 		gameObject.transform.FindChild("SkillEffect").FindChild("Text").GetComponent<MeshRenderer>().enabled = b ;
+		
 		this.isDisplayingSkillEffect = b;
 		this.timerSE = 0f;
 		this.isShowingSE = true ;
