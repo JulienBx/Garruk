@@ -808,6 +808,7 @@ public class GameView : MonoBehaviour
 			this.hasFightStarted = true ;
 		}
 		
+		this.removeSkillEffects();
 		this.changeCurrentClickedCard(nextPlayingCard) ;
 		
 		if (this.getCard(currentPlayingCard).isMine){
@@ -1888,16 +1889,29 @@ public class GameView : MonoBehaviour
 		yield break;
 	}
 	
+	
 	public IEnumerator quitGame()
 	{
-		if(isFirstPlayer)
-		{
-			yield return (StartCoroutine(this.sendStat(ApplicationModel.hisPlayerName, ApplicationModel.myPlayerName, false)));
-		} 
-		else
-		{
-			yield return (StartCoroutine(this.sendStat(ApplicationModel.hisPlayerName, ApplicationModel.myPlayerName, false)));
+		if(ApplicationModel.launchGameTutorial){
+			if(this.getPercentageLifeMyPlayer()==0){
+				yield return (StartCoroutine(this.sendStat(ApplicationModel.myPlayerName, "Garruk", true)));
+			}
+			else
+			{
+				yield return (StartCoroutine(this.sendStat(ApplicationModel.myPlayerName, ApplicationModel.myPlayerName, true)));
+			}
 		}
+		else{
+			if(isFirstPlayer)
+			{
+				yield return (StartCoroutine(this.sendStat(ApplicationModel.hisPlayerName, ApplicationModel.myPlayerName, false)));
+			} 
+			else
+			{
+				yield return (StartCoroutine(this.sendStat(ApplicationModel.hisPlayerName, ApplicationModel.myPlayerName, false)));
+			}
+		}
+		
 		GameController.instance.quitGameHandler();
 		
 		yield break;
@@ -2046,10 +2060,33 @@ public class GameView : MonoBehaviour
 	
 	public bool areAllMyPlayersDead(){
 		bool areMyPlayersDead = true ;
-		for (int i = 0 ; i < this.playingCards.Count ; i++){
-			if (this.getCard(i).isMine){
-				if (!this.getCard(i).isDead){
-					areMyPlayersDead = false ;
+		if(ApplicationModel.launchGameTutorial){
+			areMyPlayersDead = false ;
+			for (int i = 0 ; i < this.playingCards.Count ; i++){
+				if (this.getCard(i).isMine){
+					if (!this.getCard(i).isDead){
+						areMyPlayersDead = false ;
+					}
+				}
+			}
+			if(!areMyPlayersDead){
+				areMyPlayersDead = true ;
+				for (int i = 0 ; i < this.playingCards.Count ; i++){
+					if (!this.getCard(i).isMine){
+						if (!this.getCard(i).isDead){
+							areMyPlayersDead = false ;
+						}
+					}
+				}
+			}
+		}
+		else{
+			areMyPlayersDead = true ;
+			for (int i = 0 ; i < this.playingCards.Count ; i++){
+				if (this.getCard(i).isMine){
+					if (!this.getCard(i).isDead){
+						areMyPlayersDead = false ;
+					}
 				}
 			}
 		}
