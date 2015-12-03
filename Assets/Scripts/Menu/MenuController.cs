@@ -727,10 +727,10 @@ public class MenuController : MonoBehaviour
 			this.displayLoadingScreenButton (true);
 			this.changeLoadingScreenLabel ("En attente de joueurs ...");
 		}
-		else if(TutorialObjectController.instance.getIsTutorialLaunched())
-		{
-			ApplicationModel.launchGameTutorial=true;
-		}
+//		else if(TutorialObjectController.instance.getIsTutorialLaunched())
+//		{
+//			ApplicationModel.launchGameTutorial=true;
+//		}
 		photon.joinRandomRoom ();
 	}
 	public void joinInvitationRoomFailed()
