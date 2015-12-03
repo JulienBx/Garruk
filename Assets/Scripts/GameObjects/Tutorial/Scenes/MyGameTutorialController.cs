@@ -30,8 +30,8 @@ public class MyGameTutorialController : TutorialObjectController
 					this.displayArrow(false);
 					this.displayPopUp(2);
 					this.displayNextButton(true);
-					this.setPopUpTitle("Bienvenue sur l'écran de gestion des cartes");
-					this.setPopUpDescription("A compléter");
+					this.setPopUpTitle("Mon armée");
+					this.setPopUpDescription("La meilleure manière de s'enrichir à Cristalia est de combattre d'autres colons ! Vous constituer une armée puissante sera donc cruciale pour survivre sur la planète. Vous pouvez ici consulter vos unités, et les organiser en équipes pretes à combattre pour acquérir de nouvelles ressources");
 					this.displayBackground(true);
 					this.displayExitButton(false);
 					this.displayDragHelp(false);
@@ -72,8 +72,8 @@ public class MyGameTutorialController : TutorialObjectController
 				this.displayNextButton(false);
 				this.displaySquareBackground(true);
 				this.displayExitButton(false);
-				this.setPopUpTitle("Déplacer les cartes");
-				this.setPopUpDescription("A compléter");
+				this.setPopUpTitle("Créer une équipe");
+				this.setPopUpDescription("A cause de massacres fréquents menaçant la survie de l'espèce humaine sur Cristalia, les combats sont depuis peu règlementés et opposent des équipes de 4 unités. Créer votre équipe en choisissant vos meilleures unités!");
 				this.displayExitButton(true);
 			}
 			this.resizeBackground(new Rect(0,-1.25f,ApplicationDesignRules.worldWidth+1,6),1f,0.9f);
@@ -174,8 +174,8 @@ public class MyGameTutorialController : TutorialObjectController
 				this.displayArrow(false);
 				this.displayPopUp(1);
 				this.displayNextButton(true);
-				this.setPopUpTitle("Mes cartes");
-				this.setPopUpDescription("A compléter");
+				this.setPopUpTitle("Mes unités");
+				this.setPopUpDescription("Accédez à l'ensemble de vos unités, et n'hésitez pas à cliquer sur une unité pour accéder au détail de ses compétences");
 				this.displaySquareBackground(true);
 				this.displayExitButton(true);
 				this.displayDragHelp(false);
@@ -193,8 +193,8 @@ public class MyGameTutorialController : TutorialObjectController
 				this.displayArrow(false);
 				this.displayPopUp(1);
 				this.displayNextButton(true);
-				this.setPopUpTitle("Mon équipe");
-				this.setPopUpDescription("A compléter");
+				this.setPopUpTitle("Mes équipes");
+				this.setPopUpDescription("Organisez vos unités en équipes de 4 pretes à combattre. N'oubliez jamais que l'ordre des unités dans l'équipe se retrouve également dans l'ordre de jeu en combat.");
 				this.displaySquareBackground(true);
 				this.displayExitButton(true);
 				this.displayDragHelp(false);
@@ -212,7 +212,7 @@ public class MyGameTutorialController : TutorialObjectController
 				this.displayPopUp(1);
 				this.displayNextButton(true);
 				this.setPopUpTitle("Les filtres");
-				this.setPopUpDescription("A compléter");
+				this.setPopUpDescription("Plus vous posséderez d'unités, plus il sera difficile de bien toutes les connaitre. Les filtres vous permettront de trouver rapidement des unités répondant à des critères spécifiques");
 				this.displaySquareBackground(true);
 				this.displayExitButton(true);
 				this.displayDragHelp(false);

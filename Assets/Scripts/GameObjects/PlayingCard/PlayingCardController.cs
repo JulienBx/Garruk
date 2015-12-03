@@ -138,9 +138,9 @@ public class PlayingCardController : GameObjectController
 		}
 		Transform t = gameObject.transform;
 		t.FindChild("WaitTime").GetComponent<TextMeshPro>().text = ""+this.card.getNbTurnsToWait();
-		t.FindChild("WaitTime").GetComponent<MeshRenderer>().enabled = b ;
-		t.FindChild("PictoTR").GetComponent<SpriteRenderer>().enabled = b ;
-		t.FindChild("PictoTR").GetComponent<BoxCollider>().enabled = b ;
+		t.FindChild("WaitTime").GetComponent<MeshRenderer>().enabled = false ;
+		t.FindChild("PictoTR").GetComponent<SpriteRenderer>().enabled = false ;
+		t.FindChild("PictoTR").GetComponent<BoxCollider>().enabled = false ;
 	}
 	
 	public void display()

@@ -103,7 +103,7 @@ public class InterludeController : MonoBehaviour
 			gameObject.transform.FindChild("Bar3").GetComponent<SpriteRenderer>().enabled = false ;
 			gameObject.transform.FindChild("Text").GetComponent<MeshRenderer>().enabled = false ;
 			
-			if(GameView.instance.getCurrentCard().isMine){
+			if(GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).isMine){
 				GameView.instance.SB.GetComponent<StartButtonController>().showText(false);
 				GameView.instance.getSkillZoneController().isRunningSkill = false ;
 				GameView.instance.updateActionStatus();

@@ -61,7 +61,7 @@ public class SkillBookTutorialController : TutorialObjectController
 				this.displayPopUp(1);
 				this.displayNextButton(true);
 				this.setPopUpTitle("Les compétences");
-				this.setPopUpDescription("A compléter");
+				this.setPopUpDescription("Le cristal a entrainé des mutations inhabituelles sur les habitants de la planète, conférant à certains d'entre eux des compétences spécifiques. Bien connaitre ses compétences est la clé du succès dans ce monde, et la Cristalopedia vous permettra de vous documenter sur celles-ci.");
 				this.displaySquareBackground(true);
 				this.displayExitButton(true);
 				this.displayDragHelp(false);
@@ -79,8 +79,8 @@ public class SkillBookTutorialController : TutorialObjectController
 				this.displayArrow(false);
 				this.displayPopUp(1);
 				this.displayNextButton(true);
-				this.setPopUpTitle("Les filtres");
-				this.setPopUpDescription("A compléter");
+				this.setPopUpTitle("Rechercher une compétence");
+				this.setPopUpDescription("Plus de 150 compétences étant disponibles, des filtres sont à votre disposition pour vous permettre de rechercher des compétences précises");
 				this.displaySquareBackground(true);
 				this.displayExitButton(true);
 				this.displayDragHelp(false);

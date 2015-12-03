@@ -60,8 +60,8 @@ public class LobbyTutorialController : TutorialObjectController
 				this.displayArrow(false);
 				this.displayPopUp(1);
 				this.displayNextButton(true);
-				this.setPopUpTitle("La compétition");
-				this.setPopUpDescription("A compléter");
+				this.setPopUpTitle("Conquérir un satellite");
+				this.setPopUpDescription("La conquete des satellites de Cristalia vous permettra de gagner de plus en plus de cristal. Pour conquérir un satellite, il vous faudra défier de nombreux colons et les vaincre. Vous pouvez ici consulter l'état de la guerre sur le satellite sur lequel vous vous trouvez");
 				this.displaySquareBackground(true);
 				this.displayExitButton(true);
 				this.displayDragHelp(false);
@@ -79,8 +79,8 @@ public class LobbyTutorialController : TutorialObjectController
 				this.displayArrow(false);
 				this.displayPopUp(1);
 				this.displayNextButton(true);
-				this.setPopUpTitle("Le trophée");
-				this.setPopUpDescription("A compléter");
+				this.setPopUpTitle("Mon satellite");
+				this.setPopUpDescription("La guerre fait rage sur les satellites de Cristalia. Plus vous deviendrez fort, plus vous pourrez accéder à des satellites riches en ressources. Consultez ici la richesse du satellite et les conditions d'accès au suivant");
 				this.displaySquareBackground(true);
 				this.displayExitButton(true);
 				this.displayDragHelp(false);
@@ -97,8 +97,8 @@ public class LobbyTutorialController : TutorialObjectController
 				this.displayArrow(false);
 				this.displayPopUp(1);
 				this.displayNextButton(true);
-				this.setPopUpTitle("Les derniers résultats");
-				this.setPopUpDescription("A compléter");
+				this.setPopUpTitle("Mes derniers combats");
+				this.setPopUpDescription("Accédez ici à un compte-rendu de vos derniers combats sur le satellite");
 				this.displaySquareBackground(true);
 				this.displayExitButton(true);
 				this.displayDragHelp(false);
@@ -116,7 +116,7 @@ public class LobbyTutorialController : TutorialObjectController
 				this.displayPopUp(1);
 				this.displayNextButton(true);
 				this.setPopUpTitle("Mes statistiques");
-				this.setPopUpDescription("A compléter");
+				this.setPopUpDescription("Ces statistiques vous permettront d'évaluer l'état de la conquete du satellite et votre niveau par rapport aux autres colons");
 				this.displaySquareBackground(true);
 				this.displayExitButton(true);
 				this.displayDragHelp(false);

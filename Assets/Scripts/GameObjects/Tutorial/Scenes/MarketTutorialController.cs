@@ -67,8 +67,8 @@ public class MarketTutorialController : TutorialObjectController
 				this.displayArrow(false);
 				this.displayPopUp(1);
 				this.displayNextButton(true);
-				this.setPopUpTitle("Les cartes");
-				this.setPopUpDescription("A compléter");
+				this.setPopUpTitle("Recruter sur le marché");
+				this.setPopUpDescription("Les colons peuvent acquérir des unités appartenant à leurs confrères, moyennant une compensation décidée par le vendeur. Les unités disponibles sur ce marché sont toutes visibles ici");
 				this.displaySquareBackground(true);
 				this.displayExitButton(true);
 				this.displayDragHelp(false);
@@ -86,8 +86,8 @@ public class MarketTutorialController : TutorialObjectController
 				this.displayArrow(false);
 				this.displayPopUp(1);
 				this.displayNextButton(true);
-				this.setPopUpTitle("Les filtres");
-				this.setPopUpDescription("A compléter");
+				this.setPopUpTitle("Se repérer sur le marché");
+				this.setPopUpDescription("Le marché est immense, mais ces filtres vous permettront de mettre la main sur l'unité idéale pour vos équipes !");
 				this.displaySquareBackground(true);
 				this.displayExitButton(true);
 				this.displayDragHelp(false);

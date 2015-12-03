@@ -63,12 +63,12 @@ public class ProfileTutorialController : TutorialObjectController
 				if(NewProfileController.instance.getIsMyProfile())
 				{
 					this.setPopUpTitle("Mon profil");
-					this.setPopUpDescription("A compléter");
+					this.setPopUpDescription("Votre vie de colon sur Cristalia vous permettra de rencontrer d'autres colons. Ce profil est votre carte d'identité accessible de tous sur la Cristalosphère.");
 				}
 				else
 				{
-					this.setPopUpTitle("Le profil");
-					this.setPopUpDescription("A compléter");
+					this.setPopUpTitle("Profil d'un colon");
+					this.setPopUpDescription("Vous pouvez accéder ici au profil d'un colon, et rentrer en relation avec lui. Ce système de mise en relation vous permettra notamment de vous entrainer face à lui dans les arènes privatisées de Cristalia");
 				}
 				this.displaySquareBackground(true);
 				this.displayExitButton(true);
@@ -89,13 +89,13 @@ public class ProfileTutorialController : TutorialObjectController
 				this.displayNextButton(true);
 				if(NewProfileController.instance.getIsMyProfile())
 				{
-					this.setPopUpTitle("Mes trophés et challenges");
-					this.setPopUpDescription("A compléter");
+					this.setPopUpTitle("Trophées et challenges");
+					this.setPopUpDescription("De nombreux trophées sillonneront votre présence sur Cristalia, récompensant votre aptitude au combat, vos connaissances du Cristal ou votre activité sur la planète");
 				}
 				else
 				{
-					this.setPopUpTitle("Mes confrontations");
-					this.setPopUpDescription("A compléter");
+					this.setPopUpTitle("Derniers combats");
+					this.setPopUpDescription("Vous pourrez également accéder à la liste des derniers combats du colon, et consulter ainsi l'état de forme de ses équipes");
 				}
 				this.displaySquareBackground(true);
 				this.displayExitButton(true);
@@ -116,12 +116,12 @@ public class ProfileTutorialController : TutorialObjectController
 				if(NewProfileController.instance.getIsMyProfile())
 				{
 					this.setPopUpTitle("Mes amis");
-					this.setPopUpDescription("A compléter");
+					this.setPopUpDescription("Vous créer une vie sociale sur Cristalia vous permettra d'entrainer vos équipes à plusieurs, et de rompre avec la solitude du combattant, mal fréquent chez les colons fraichement débarqués.");
 				}
 				else
 				{
 					this.setPopUpTitle("Les amis");
-					this.setPopUpDescription("A compléter");
+					this.setPopUpDescription("Vous pouvez ici consulter la liste des amis du colon");
 				}
 				this.displaySquareBackground(true);
 				this.displayExitButton(true);
@@ -139,8 +139,8 @@ public class ProfileTutorialController : TutorialObjectController
 				this.displayArrow(false);
 				this.displayPopUp(1);
 				this.displayNextButton(true);
-				this.setPopUpTitle("La recherche");
-				this.setPopUpDescription("A compléter");
+				this.setPopUpTitle("Rechercher un colon");
+				this.setPopUpDescription("Recherchez ici un colon en inscrivant sur son nom!");
 				this.displaySquareBackground(true);
 				this.displayExitButton(true);
 				this.displayDragHelp(false);

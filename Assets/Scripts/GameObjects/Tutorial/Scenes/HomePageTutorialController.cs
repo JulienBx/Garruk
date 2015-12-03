@@ -39,8 +39,8 @@ public class HomePageTutorialController : TutorialObjectController
 				this.displayArrow(false);
 				this.displayPopUp(1);
 				this.displayNextButton(true);
-				this.setPopUpTitle("Bravo vous avez gagné !");
-				this.setPopUpDescription("A compléter");
+				this.setPopUpTitle("Bravo !");
+				this.setPopUpDescription("Vous avez gagné votre premier combat. Défiez de nouveaux colons pour tester l'étendue de vos capacités, et continuez à améliorer votre équipe pour pouvoir triompher de tous types d'ennemis");
 				this.displayBackground(true);
 				this.displayExitButton(false);
 				this.displayDragHelp(false);
@@ -54,8 +54,8 @@ public class HomePageTutorialController : TutorialObjectController
 				this.displayArrow(false);
 				this.displayPopUp(1);
 				this.displayNextButton(true);
-				this.setPopUpTitle("Dommage vous avez perdu !");
-				this.setPopUpDescription("A compléter");
+				this.setPopUpTitle("Défaite !");
+				this.setPopUpDescription("Vos unités se sont bien débrouillées pour leur premier combat, mais l'adversaire était trop fort ! Continuez à entrainer vos troupes pour les préparer aux combats qui les attendent !");
 				this.displayBackground(true);
 				this.displayExitButton(false);
 				this.displayDragHelp(false);
@@ -69,8 +69,8 @@ public class HomePageTutorialController : TutorialObjectController
 				this.displayPopUp(0);
 				this.setUpArrow();
 				this.displayNextButton(true);
-				this.setPopUpTitle("L'aide est toujours là");
-				this.setPopUpDescription("A compléter");
+				this.setPopUpTitle("Aidez-moi !");
+				this.setPopUpDescription("Quelque soit l'endroit ou vous vous trouvez sur Cristalia, je reste à votre disposition si vous avez une question ou que vous vous sentez perdus ! Cliquez sur l'aide pour me convoquer");
 				this.displayBackground(true);
 				this.displayExitButton(false);
 				this.displayDragHelp(false);
@@ -141,7 +141,7 @@ public class HomePageTutorialController : TutorialObjectController
 				this.displayPopUp(1);
 				this.displayNextButton(true);
 				this.setPopUpTitle("Mon équipe");
-				this.setPopUpDescription("A compléter");
+				this.setPopUpDescription("Les combats de Cristalia opposent des équipes de 4 joueurs. Vous pouvez ici constituer une ou plusieurs équipes. L'ordre des unités dans l'équipe détermine l'ordre dans lequel elle agiront en combat, donc ne mettez pas vos meilleures unités en dernier !");
 				this.displaySquareBackground(true);
 				this.displayExitButton(true);
 				this.displayDragHelp(false);
@@ -159,8 +159,8 @@ public class HomePageTutorialController : TutorialObjectController
 				this.displayArrow(false);
 				this.displayPopUp(1);
 				this.displayNextButton(true);
-				this.setPopUpTitle("Les packs");
-				this.setPopUpDescription("A compléter");
+				this.setPopUpTitle("Recruter des unités");
+				this.setPopUpDescription("Vous pourrez trouver ici les dernières promotions du centre de recrutement pour renforcer vos équipes. De nouvelles offres apparaissent régulièrement !");
 				this.displaySquareBackground(true);
 				this.displayExitButton(true);
 				this.displayDragHelp(false);
@@ -177,8 +177,8 @@ public class HomePageTutorialController : TutorialObjectController
 				this.displayArrow(false);
 				this.displayPopUp(1);
 				this.displayNextButton(true);
-				this.setPopUpTitle("Mes alertes");
-				this.setPopUpDescription("A compléter");
+				this.setPopUpTitle("Mon tableau de bord");
+				this.setPopUpDescription("Ce tableau de bord offert à tous les colons fraichement débarqués sur Cristalia permet d'accéder aux actualités de la planète, et de communiquer avec d'autres colons");
 				this.displaySquareBackground(true);
 				this.displayExitButton(true);
 				this.displayDragHelp(false);
@@ -195,8 +195,8 @@ public class HomePageTutorialController : TutorialObjectController
 				this.displayArrow(false);
 				this.displayPopUp(1);
 				this.displayNextButton(true);
-				this.setPopUpTitle("Les modes de match");
-				this.setPopUpDescription("A compléter");
+				this.setPopUpTitle("Combattre");
+				this.setPopUpDescription("La meilleure manière de s'enrichir reste de combattre d'autres colons ! Choisissez soigneusement votre combat et vos unités pour affronter d'autres colons et piller leur cristal");
 				this.displaySquareBackground(true);
 				this.displayExitButton(true);
 				this.displayDragHelp(false);

@@ -54,9 +54,8 @@ public class MenuPhotonController : Photon.MonoBehaviour
 		photonView.RPC("AddPlayerToList", PhotonTargets.AllBuffered, PhotonNetwork.player.ID, ApplicationModel.username);
 		if (ApplicationModel.launchGameTutorial)
 		{
-			photonView.RPC("AddPlayerToList", PhotonTargets.AllBuffered, PhotonNetwork.player.ID + 1, "Garruk");
 			PhotonNetwork.room.open = false;
-			//Application.LoadLevel("Game");
+			Application.LoadLevel("Game");
 		}
 	}
 	
