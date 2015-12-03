@@ -24,13 +24,16 @@ public class HomePageTutorialController : TutorialObjectController
 	{
 		NewHomePageController.instance.endTutorialInitialization ();
 	}
+
+	#region TUTORIAL SEQUENCES
+
 	public override void launchSequence(int sequenceID)
 	{
 		Vector3 gameObjectPosition = new Vector3 ();
 		this.sequenceID = sequenceID;
 		switch(this.sequenceID)
 		{
-		case 0: // Présentation de l'écran de gestion des cartes
+		case 0: // Texte de clôture du tutorial en cas de victoire
 			if(!isResizing)
 			{
 				this.displayArrow(false);
@@ -45,7 +48,7 @@ public class HomePageTutorialController : TutorialObjectController
 			this.resizeBackground(new Rect(0,10,5,5),0f,0f);
 			this.resizePopUp(new Vector3(0,0,-9.5f));
 			break;
-		case 1: // Demande à l'utilisateur de créer un deck
+		case 1: // Texte de clôture du tutorial en cas de défaite
 			if(!isResizing)
 			{
 				this.displayArrow(false);
@@ -60,7 +63,7 @@ public class HomePageTutorialController : TutorialObjectController
 			this.resizeBackground(new Rect(0,10,5,5),0f,0f);
 			this.resizePopUp(new Vector3(0,0,-9.5f));
 			break;
-		case 2: // Demande à l'utilisateur de sélectionner des cartes
+		case 2: // Texte pour expliquer que l'aide est toujours disponible
 			if(!isResizing)
 			{
 				this.displayPopUp(0);
@@ -114,6 +117,8 @@ public class HomePageTutorialController : TutorialObjectController
 		return 0;
 	}
 
+	#endregion
+
 	#region HELP SEQUENCES
 
 	public override void launchHelpSequence(int sequenceID)
@@ -124,7 +129,7 @@ public class HomePageTutorialController : TutorialObjectController
 		this.sequenceID = sequenceID;
 		switch(this.sequenceID)
 		{
-		case 0: // Présentation de l'écran de gestion des cartes
+		case 0: // Encart "mon équipe"
 			if(NewHomePageController.instance.getIsCardFocusedDisplayed())
 			{
 				this.sequenceID=100;
@@ -148,7 +153,7 @@ public class HomePageTutorialController : TutorialObjectController
 			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
 			this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition2.y,-9.5f));
 			break;
-		case 1: // Présentation de l'écran de gestion des cartes
+		case 1: // Encart "boutique"
 			if(!isResizing)
 			{
 				this.displayArrow(false);
@@ -166,7 +171,7 @@ public class HomePageTutorialController : TutorialObjectController
 			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
 			this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition2.y,-9.5f));
 			break;
-		case 2: // Présentation de l'écran de gestion des cartes
+		case 2: // Encart "Réseau social"
 			if(!isResizing)
 			{
 				this.displayArrow(false);
@@ -184,7 +189,7 @@ public class HomePageTutorialController : TutorialObjectController
 			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
 			this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition2.y,-9.5f));
 			break;
-		case 3: // Présentation de l'écran de gestion des cartes
+		case 3: // Encart "jouer"
 			if(!isResizing)
 			{
 				this.displayArrow(false);
@@ -202,7 +207,7 @@ public class HomePageTutorialController : TutorialObjectController
 			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
 			this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition2.y,-9.5f));
 			break;
-		case 4: // Demande à l'utilisateur de sélectionner des cartes
+		case 4: 
 			this.endHelp();
 			break;
 		default:

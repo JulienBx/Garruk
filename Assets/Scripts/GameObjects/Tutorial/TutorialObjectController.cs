@@ -272,13 +272,16 @@ public class TutorialObjectController : MonoBehaviour
 			this.launchHelpSequence(this.sequenceID+1);
 		}
 	}
+
+	#region TUTORIAL SEQUENCES
+
 	public virtual void launchSequence(int sequenceID)
 	{
 		Vector3 gameObjectPosition = new Vector3 ();
 		this.sequenceID = sequenceID;
 		switch(this.sequenceID)
 		{
-		case 100:
+		case 100: // Texte pour indiquer au joueur qu'il doit se rendre sur my Game pour créer une équipe
 			if(!isResizing)
 			{
 				this.displayPopUp(0);
@@ -294,7 +297,7 @@ public class TutorialObjectController : MonoBehaviour
 			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2.5f,0.75f),0.8f,0.8f);
 			this.drawUpArrow();
 			break;
-		case 101:
+		case 101: // Texte pour indiquer au joueur qu'il doit cliquer sur "Jouer" pour faire un premier match
 			if(!isResizing)
 			{
 				this.displayPopUp(0);
@@ -310,7 +313,7 @@ public class TutorialObjectController : MonoBehaviour
 			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2.5f,0.75f),0.8f,0.8f);
 			this.drawRightArrow();
 			break;
-		case 102:
+		case 102: // Pas de texte, séquence pour cliquer sur le bouton match amical
 			if(!isResizing)
 			{
 				this.displayPopUp(-1);
@@ -326,6 +329,11 @@ public class TutorialObjectController : MonoBehaviour
 			break;
 		}
 	}
+
+	#endregion
+
+	#region HELP SEQUENCES
+
 	public virtual void launchHelpSequence(int sequenceID)
 	{
 		Vector3 gameObjectPosition = new Vector3 ();
@@ -334,7 +342,7 @@ public class TutorialObjectController : MonoBehaviour
 		this.sequenceID = sequenceID;
 		switch(this.sequenceID)
 		{
-		case 100: // Présentation de l'écran de gestion des cartes
+		case 100: // Description du haut de la carte, nom, compétence passive, xp
 			if(!isResizing)
 			{
 				this.setUpArrow();
@@ -350,7 +358,7 @@ public class TutorialObjectController : MonoBehaviour
 			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y-0.6f,5.35f,2f),0f,0f);
 			this.drawUpArrow();
 			break;
-		case 101: // Présentation de l'écran de gestion des cartes
+		case 101: // Description des compétences de la carte
 			if(!isResizing)
 			{
 				this.setDownArrow();
@@ -366,7 +374,7 @@ public class TutorialObjectController : MonoBehaviour
 			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,5.35f,3f),0f,0f);
 			this.drawDownArrow();
 			break;
-		case 102: // Présentation de l'écran de gestion des cartes
+		case 102: // Description des caractèristiques de la carte "vie, attaque"
 			if(!isResizing)
 			{
 				this.setDownArrow();
@@ -387,6 +395,9 @@ public class TutorialObjectController : MonoBehaviour
 			break;
 		}
 	}
+
+	#endregion
+
 	public void resize()
 	{
 		this.isResizing = true;

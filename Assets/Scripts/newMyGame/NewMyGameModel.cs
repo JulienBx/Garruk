@@ -41,7 +41,10 @@ public class NewMyGameModel
 			string[] data=w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
 			this.cardTypeList = data[0].Split(new string[] { "\\" }, System.StringSplitOptions.None);
 			this.skillsList=parseSkills(data[1].Split(new string[] { "#SK#" }, System.StringSplitOptions.None));
-			this.cards.parseCards(data[2]);
+			if(data[2]!="")
+			{
+				this.cards.parseCards(data[2]);
+			}
 			this.decks=parseDecks(data[3].Split(new string[] { "#D#" }, System.StringSplitOptions.None));
 			this.player=parseUser(data[4].Split(new string[] { "\\" }, System.StringSplitOptions.None));
 			this.retrieveCardsDeck();

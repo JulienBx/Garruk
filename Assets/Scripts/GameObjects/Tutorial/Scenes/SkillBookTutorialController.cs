@@ -54,7 +54,7 @@ public class SkillBookTutorialController : TutorialObjectController
 		this.sequenceID = sequenceID;
 		switch(this.sequenceID)
 		{
-		case 0: // Présentation de l'écran de gestion des cartes
+		case 0: // Encart les compétences
 			if(!isResizing)
 			{
 				this.displayArrow(false);
@@ -73,7 +73,7 @@ public class SkillBookTutorialController : TutorialObjectController
 			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
 			this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition.y,-9.5f));
 			break;
-		case 1: // Présentation de l'écran de gestion des cartes
+		case 1: // Encart les filtres
 			if(!isResizing)
 			{
 				this.displayArrow(false);
@@ -91,7 +91,7 @@ public class SkillBookTutorialController : TutorialObjectController
 			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
 			this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition2.y,-9.5f));
 			break;
-		case 2: // Demande à l'utilisateur de sélectionner des cartes
+		case 2: 
 			this.endHelp();
 			break;
 		default:

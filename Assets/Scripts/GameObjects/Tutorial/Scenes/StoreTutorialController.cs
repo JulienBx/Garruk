@@ -13,13 +13,16 @@ public class StoreTutorialController : TutorialObjectController
 	{
 		NewStoreController.instance.endTutorialInitialization ();
 	}
+
+	#region TUTORIAL SEQUENCES
+
 	public override void launchSequence(int sequenceID)
 	{
 		Vector3 gameObjectPosition = new Vector3 ();
 		this.sequenceID = sequenceID;
 		switch(this.sequenceID)
 		{
-		case 0:
+		case 0: // Arrivée dans le store après le premier écran d'introduction
 			if(!isResizing)
 			{
 				this.displayArrow(false);
@@ -34,7 +37,7 @@ public class StoreTutorialController : TutorialObjectController
 			this.resizeBackground(new Rect(0,10,5,5),0f,0f);
 			this.resizePopUp(new Vector3(0,0,-9.5f));
 			break;
-		case 1:
+		case 1: // On achète un pack (pas de texte)
 			if(!isResizing)
 			{
 				this.displayPopUp(-1);
@@ -48,7 +51,7 @@ public class StoreTutorialController : TutorialObjectController
 			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,ApplicationDesignRules.button62WorldSize.x+0.15f,ApplicationDesignRules.button62WorldSize.y+0.15f),1f,1f);
 			this.drawLeftArrow();
 			break;
-		case 2:
+		case 2: // Achat du pack (pas de texte)
 			if(!isResizing)
 			{
 				this.displayArrow(false);
@@ -59,7 +62,7 @@ public class StoreTutorialController : TutorialObjectController
 			}
 			this.resizeBackground(new Rect(0,0,ApplicationDesignRules.worldWidth+1,4),0f,0f);
 			break;
-		case 3:
+		case 3: // Affichage des premières recrues
 			if(this.getIsTutorialDisplayed())
 			{
 				if(!isResizing)
@@ -114,6 +117,8 @@ public class StoreTutorialController : TutorialObjectController
 		return 0;
 	}
 
+	#endregion
+
 	#region HELP SEQUENCES
 	
 	public override void launchHelpSequence(int sequenceID)
@@ -124,7 +129,7 @@ public class StoreTutorialController : TutorialObjectController
 		this.sequenceID = sequenceID;
 		switch(this.sequenceID)
 		{
-		case 0: // Présentation de l'écran de gestion des cartes
+		case 0: // Encart les packs
 			if(NewStoreController.instance.getIsCardFocusedDisplayed())
 			{
 				this.sequenceID=100;
@@ -153,7 +158,7 @@ public class StoreTutorialController : TutorialObjectController
 			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
 			this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition.y,-9.5f));
 			break;
-		case 1: // Présentation de l'écran de gestion des cartes
+		case 1: // Encart acheter des crédits
 			if(!isResizing)
 			{
 				this.displayArrow(false);
@@ -171,10 +176,10 @@ public class StoreTutorialController : TutorialObjectController
 			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
 			this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition2.y,-9.5f));
 			break;
-		case 2: // Demande à l'utilisateur de sélectionner des cartes
+		case 2: 
 			this.endHelp();
 			break;
-		case 3:
+		case 3: // Aide qui s'affiche lorsque le joueur à acheter plusieurs cartes (on peut cliquer sur une carte pour avoir le détail)
 			if(!isResizing)
 			{
 				this.displayArrow(false);

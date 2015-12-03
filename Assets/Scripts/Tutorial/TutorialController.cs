@@ -90,7 +90,7 @@ public class TutorialController : MonoBehaviour
 		float mainBlockWidth = worldWidth-mainBlockLeftMargin-mainBlockRightMargin;
 		Vector2 mainBlockOrigin = new Vector3 (-worldWidth/2f+mainBlockLeftMargin+mainBlockWidth/2f, -worldHeight / 2f + mainBlockDownMargin + mainBlockHeight / 2,0f);
 		
-		this.mainBlock.GetComponent<NewBlockController> ().resize(mainBlockLeftMargin,mainBlockRightMargin,mainBlockUpMargin,mainBlockDownMargin);
+		this.mainBlock.GetComponent<NewBlockController> ().resize(mainBlockLeftMargin,mainBlockUpMargin,mainBlockWidth,mainBlockHeight);
 
 		this.description.GetComponent<TextContainer> ().width = mainBlockWidth - 0.4f;
 		this.description.GetComponent<TextContainer> ().height = mainBlockHeight - 1f;

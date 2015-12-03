@@ -13,6 +13,9 @@ public class MyGameTutorialController : TutorialObjectController
 	{
 		newMyGameController.instance.endTutorialInitialization ();
 	}
+
+	#region TUTORIAL SEQUENCES
+
 	public override void launchSequence(int sequenceID)
 	{
 		Vector3 gameObjectPosition = new Vector3 ();
@@ -44,7 +47,7 @@ public class MyGameTutorialController : TutorialObjectController
 				goto case 1;
 			}
 			break;
-		case 1: // Demande à l'utilisateur de créer un deck
+		case 1: // Demande à l'utilisateur de créer un deck (pas de texte)
 			if(!isResizing)
 			{
 				this.displayPopUp(-1);
@@ -148,6 +151,8 @@ public class MyGameTutorialController : TutorialObjectController
 		return 0;
 	}
 
+	#endregion
+
 	#region HELP SEQUENCES
 	
 	public override void launchHelpSequence(int sequenceID)
@@ -158,7 +163,7 @@ public class MyGameTutorialController : TutorialObjectController
 		this.sequenceID = sequenceID;
 		switch(this.sequenceID)
 		{
-		case 0: // Présentation de l'écran de gestion des cartes
+		case 0: // Encart mes cartes
 			if(newMyGameController.instance.getIsCardFocusedDisplayed())
 			{
 				this.sequenceID=100;
@@ -182,7 +187,7 @@ public class MyGameTutorialController : TutorialObjectController
 			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
 			this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition.y,-9.5f));
 			break;
-		case 1: // Présentation de l'écran de gestion des cartes
+		case 1: // Encart mon équipe
 			if(!isResizing)
 			{
 				this.displayArrow(false);
@@ -200,7 +205,7 @@ public class MyGameTutorialController : TutorialObjectController
 			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
 			this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition2.y,-9.5f));
 			break;
-		case 2: // Présentation de l'écran de gestion des cartes
+		case 2: // Encart les filtres
 			if(!isResizing)
 			{
 				this.displayArrow(false);
@@ -218,7 +223,7 @@ public class MyGameTutorialController : TutorialObjectController
 			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
 			this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition2.y,-9.5f));
 			break;
-		case 3: // Demande à l'utilisateur de sélectionner des cartes
+		case 3: 
 			this.endHelp();
 			break;
 		default:

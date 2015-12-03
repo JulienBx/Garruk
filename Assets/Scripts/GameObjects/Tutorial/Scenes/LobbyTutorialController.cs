@@ -54,7 +54,7 @@ public class LobbyTutorialController : TutorialObjectController
 		this.sequenceID = sequenceID;
 		switch(this.sequenceID)
 		{
-		case 0: // Présentation de l'écran de gestion des cartes
+		case 0: // Encart de présentation de l'avancement dans la compétition "coupe ou division"
 			if(!isResizing)
 			{
 				this.displayArrow(false);
@@ -73,7 +73,7 @@ public class LobbyTutorialController : TutorialObjectController
 			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
 			this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition2.y,-9.5f));
 			break;
-		case 1: // Présentation de l'écran de gestion des cartes
+		case 1: // Encart de présentation de la compétition, récompenses, etc.
 			if(!isResizing)
 			{
 				this.displayArrow(false);
@@ -91,7 +91,7 @@ public class LobbyTutorialController : TutorialObjectController
 			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
 			this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition2.y,-9.5f));
 			break;
-		case 2: // Présentation de l'écran de gestion des cartes
+		case 2: // Encart d'affichage des derniers résutats au sein de la compétition
 			if(!isResizing)
 			{
 				this.displayArrow(false);
@@ -109,7 +109,7 @@ public class LobbyTutorialController : TutorialObjectController
 			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
 			this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition2.y,-9.5f));
 			break;
-		case 3: // Présentation de l'écran de gestion des cartes
+		case 3: // Encart d'affichage des statistiques de l'utilisateur (sur l'ensemble des matchs classés)
 			if(!isResizing)
 			{
 				this.displayArrow(false);
@@ -127,7 +127,7 @@ public class LobbyTutorialController : TutorialObjectController
 			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
 			this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition2.y,-9.5f));
 			break;
-		case 4: // Demande à l'utilisateur de sélectionner des cartes
+		case 4: 
 			this.endHelp();
 			break;
 		default:
