@@ -28,8 +28,8 @@ public class StoreTutorialController : TutorialObjectController
 				this.displayArrow(false);
 				this.displayPopUp(2);
 				this.displayNextButton(true);
-				this.setPopUpTitle("Bienvenue dans Techtical Wars");
-				this.setPopUpDescription("A compléter");
+				this.setPopUpTitle("Bienvenue au centre de recrutement");
+				this.setPopUpDescription("Dès leur arrivée sur Cristalia, les colons sont emmenés au centre de recrutement. Mieux vaut en effet ne pas se promener seul sur la planète... Votre pays vous a remis une somme d'argent que vous avez pu échanger contre la monnaie locale (le Cristal). Ceci devrait vous permettre de recruter quelques Cristaliens prets à se battre pour vous");
 				this.displayBackground(true);
 				this.displayExitButton(false);
 				
@@ -70,8 +70,8 @@ public class StoreTutorialController : TutorialObjectController
 					this.displayArrow(false);
 					this.displayPopUp(0);
 					this.displayNextButton(true);
-					this.setPopUpTitle("Bravo voici vos premières recrues");
-					this.setPopUpDescription("A compléter");
+					this.setPopUpTitle("Vos premières unités");
+					this.setPopUpDescription("Vos premières recrues sont pretes ! Consultez-les attentivement pour comprendre leurs forces et faiblesses. Il est maintenant temps d'organiser vos troupes pour disputer votre premier combat");
 					this.displaySquareBackground(true);
 					this.displayExitButton(true);
 					
@@ -145,8 +145,8 @@ public class StoreTutorialController : TutorialObjectController
 				this.displayArrow(false);
 				this.displayPopUp(1);
 				this.displayNextButton(true);
-				this.setPopUpTitle("Les packs");
-				this.setPopUpDescription("A compléter");
+				this.setPopUpTitle("Les groupes");
+				this.setPopUpDescription("Certains cristaliens s'entrainent ensemble depuis leur enfance et peuvent etre recrutés à des tarifs intéressants");
 				this.displaySquareBackground(true);
 				this.displayExitButton(true);
 				this.displayDragHelp(false);
@@ -164,8 +164,8 @@ public class StoreTutorialController : TutorialObjectController
 				this.displayArrow(false);
 				this.displayPopUp(1);
 				this.displayNextButton(true);
-				this.setPopUpTitle("Acheter des crédits");
-				this.setPopUpDescription("A compléter");
+				this.setPopUpTitle("Acheter du Cristal");
+				this.setPopUpDescription("Pour investir sur de nouvelles unités et progresser plus rapidement");
 				this.displaySquareBackground(true);
 				this.displayExitButton(true);
 				this.displayDragHelp(false);
@@ -185,8 +185,8 @@ public class StoreTutorialController : TutorialObjectController
 				this.displayArrow(false);
 				this.displayPopUp(2);
 				this.displayNextButton(true);
-				this.setPopUpTitle("Les cartes achetées");
-				this.setPopUpDescription("A compléter");
+				this.setPopUpTitle("Les unités");
+				this.setPopUpDescription("Voici les unités que vous avez acquises au centre de recrutement. Elles sont directement transférées vers votre armée");
 				this.displayBackground(true);
 				this.displayExitButton(false);
 				

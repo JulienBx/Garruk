@@ -287,8 +287,8 @@ public class TutorialObjectController : MonoBehaviour
 				this.displayPopUp(0);
 				this.setUpArrow();
 				this.displayNextButton(false);
-				this.setPopUpTitle("Allons créer une équipe");
-				this.setPopUpDescription("A compléter");
+				this.setPopUpTitle("Une équipe, vite !");
+				this.setPopUpDescription("Avant de pouvoir aller plus loin, il vous faut créer une équipe de combattants prete à vous défendre dans cet environnement hostile");
 				this.displayBackground(true);
 				this.displayExitButton(true);
 				this.displayDragHelp(false);
@@ -303,8 +303,8 @@ public class TutorialObjectController : MonoBehaviour
 				this.displayPopUp(0);
 				this.setRightArrow();
 				this.displayNextButton(false);
-				this.setPopUpTitle("Prêt pour notre premier match !");
-				this.setPopUpDescription("A compléter");
+				this.setPopUpTitle("Premier combat");
+				this.setPopUpDescription("Il est temps de participer à votre premier combat, votre adversaire vous attend dans l'arène");
 				this.displayBackground(true);
 				this.displayExitButton(true);
 				this.displayDragHelp(false);
@@ -348,8 +348,8 @@ public class TutorialObjectController : MonoBehaviour
 				this.setUpArrow();
 				this.displayPopUp(1);
 				this.displayNextButton(true);
-				this.setPopUpTitle("Description de carte");
-				this.setPopUpDescription("A compléter");
+				this.setPopUpTitle("Classe d'unité");
+				this.setPopUpDescription("Les cristaliens se divisent en dix classes d'unités, chacune possédant ses propres compétences. L'unité prend de base le nom de sa classe et peut etre renommée par son colon.\n\nLa première compétence de l'unité est sa compétence passive, lui conférant des bonus permanents. Les compétences passives permettent de distinguer différents types d'unités au sein d'une meme classe.\n\nEnfin l'expérience de l'unité lui permet d'acquérir de nouvelles compétences et de faire progresser ses caractéristiques");
 				this.displaySquareBackground(true);
 				this.displayExitButton(true);
 				this.displayDragHelp(false);
@@ -364,8 +364,8 @@ public class TutorialObjectController : MonoBehaviour
 				this.setDownArrow();
 				this.displayPopUp(1);
 				this.displayNextButton(true);
-				this.setPopUpTitle("Description de carte");
-				this.setPopUpDescription("A compléter");
+				this.setPopUpTitle("Compétences");
+				this.setPopUpDescription("Chaque Cristalien a développé des compétences uniques au contact du Cristal (plus de 150 découvertes à ce jour). Chaque cristalien peut posséder 3 compétences en plus de sa compétence passive.");
 				this.displaySquareBackground(true);
 				this.displayExitButton(true);
 				this.displayDragHelp(false);
@@ -380,8 +380,8 @@ public class TutorialObjectController : MonoBehaviour
 				this.setDownArrow();
 				this.displayPopUp(1);
 				this.displayNextButton(true);
-				this.setPopUpTitle("Description de carte");
-				this.setPopUpDescription("A compléter");
+				this.setPopUpTitle("Caractéristiques");
+				this.setPopUpDescription("Les caractéristiques déterminent la force et la santé de l'unité. Dépendantes de la classe, elles peuvent etre améliorées avec l'expérience. La santé se régènère à la fin de chaque combat, les blessures létales ayant été abolies il y a quelques années");
 				this.displaySquareBackground(true);
 				this.displayExitButton(true);
 				this.displayDragHelp(false);
