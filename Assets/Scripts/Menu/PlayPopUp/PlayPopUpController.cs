@@ -202,7 +202,17 @@ public class PlayPopUpController : MonoBehaviour
 
 	public Vector3 getFriendlyGameButtonPosition()
 	{
-		return gameObject.transform.FindChild ("Button0").position;
+		Vector3 buttonPosition = gameObject.transform.FindChild ("Button0").position;
+		buttonPosition.x = buttonPosition.x - ApplicationDesignRules.menuPosition.x;
+		buttonPosition.y = buttonPosition.y - ApplicationDesignRules.menuPosition.y;
+		return buttonPosition;
+	}
+	public Vector3 getQuitPopUpButtonPosition()
+	{
+		Vector3 buttonPosition = gameObject.transform.FindChild ("quitButton").position;
+		buttonPosition.x = buttonPosition.x - ApplicationDesignRules.menuPosition.x;
+		buttonPosition.y = buttonPosition.y - ApplicationDesignRules.menuPosition.y;
+		return buttonPosition;
 	}
 
 	#endregion

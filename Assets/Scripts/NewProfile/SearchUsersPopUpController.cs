@@ -17,7 +17,7 @@ public class SearchUsersPopUpController : MonoBehaviour
 	
 	private Pagination pagination;
 
-	public void launch(string search)
+	public void launch()
 	{
 		instance = this;
 		this.model = new SearchUsersPopUpModel ();
@@ -25,9 +25,8 @@ public class SearchUsersPopUpController : MonoBehaviour
 		this.pagination.nbElementsPerPage= 3;
 		this.initializePopUp ();
 		this.paginationButtons.GetComponent<SearchUsersPopUpPaginationController> ().resize ();
-		StartCoroutine (initialization (search));
 	}
-	private IEnumerator initialization(string search)
+	public IEnumerator initialization(string search)
 	{
 		MenuController.instance.displayLoadingScreen ();
 		yield return StartCoroutine (model.searchForUsers (search));

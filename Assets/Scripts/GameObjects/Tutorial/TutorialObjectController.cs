@@ -72,15 +72,15 @@ public class TutorialObjectController : MonoBehaviour
 			}
 			if(moveHorizontal)
 			{
-				Vector3 arrowPosition = gameObject.transform.FindChild("Arrow").position;
+				Vector3 arrowPosition = gameObject.transform.FindChild("Arrow").localPosition;
 				arrowPosition.x=this.startTranslation+this.currentTranslation;
-				gameObject.transform.FindChild("Arrow").position=arrowPosition;
+				gameObject.transform.FindChild("Arrow").localPosition=arrowPosition;
 			}
 			else
 			{
-				Vector3 arrowPosition = gameObject.transform.FindChild("Arrow").position;
+				Vector3 arrowPosition = gameObject.transform.FindChild("Arrow").localPosition;
 				arrowPosition.y=this.startTranslation+this.currentTranslation;
-				gameObject.transform.FindChild("Arrow").position=arrowPosition;
+				gameObject.transform.FindChild("Arrow").localPosition=arrowPosition;
 			}
 		}
 	}
@@ -291,7 +291,7 @@ public class TutorialObjectController : MonoBehaviour
 				this.setPopUpDescription("A compléter");
 				this.displayBackground(true);
 				this.displayExitButton(true);
-				
+				this.displayDragHelp(false);
 			}
 			gameObjectPosition = MenuController.instance.getButtonPosition(1);
 			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2.5f,0.75f),0.8f,0.8f);

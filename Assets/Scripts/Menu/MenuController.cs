@@ -127,7 +127,7 @@ public class MenuController : MonoBehaviour
 	{
 		this.displayTransparentBackground ();
 		this.playPopUp=Instantiate(this.ressources.playPopUpObject) as GameObject;
-		this.playPopUp.transform.position = new Vector3 (0f, 0f, -2f);
+		this.playPopUp.transform.position = new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y, -2f);
 		this.isPlayPopUpDisplayed = true;
 	}
 	public void displayCollectionPointsPopUp(int collectionPoints, int collectionPointsRanking)
@@ -188,7 +188,7 @@ public class MenuController : MonoBehaviour
 		{
 			this.isTransparentBackgroundDisplayed = true;
 			this.transparentBackground=Instantiate(this.ressources.transparentBackgroundObject) as GameObject;
-			this.transparentBackground.transform.position = new Vector3 (0, 0, -1f);
+			this.transparentBackground.transform.position = new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y, -1f);
 		}
 	}
 	public void displayInvitationPopUp()
@@ -196,7 +196,7 @@ public class MenuController : MonoBehaviour
 		this.closeAllPopUp ();
 		this.displayTransparentBackground ();
 		this.invitationPopUp=Instantiate(this.ressources.invitationPopUpObject) as GameObject;
-		this.invitationPopUp.transform.position = new Vector3 (0f, 0f, -2f);
+		this.invitationPopUp.transform.position = new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y, -2f);
 		this.isInvitationPopUpDisplayed = true;
 	}
 	public void errorPopUpResize()
@@ -640,10 +640,6 @@ public class MenuController : MonoBehaviour
 	public virtual void sceneCloseAllPopUp()
 	{
 	}
-	public Vector3 getButtonPosition(int id)
-	{
-		return gameObject.transform.FindChild ("Button" + id).position;
-	}
 	public void displayDisconnectedPopUp()
 	{
 		this.isDisconnectedViewDisplayed = true;
@@ -731,6 +727,10 @@ public class MenuController : MonoBehaviour
 			this.displayLoadingScreenButton (true);
 			this.changeLoadingScreenLabel ("En attente de joueurs ...");
 		}
+		else if(TutorialObjectController.instance.getIsTutorialLaunched())
+		{
+			ApplicationModel.launchGameTutorial=true;
+		}
 		photon.joinRandomRoom ();
 	}
 	public void joinInvitationRoomFailed()
@@ -812,9 +812,19 @@ public class MenuController : MonoBehaviour
 	{
 		return this.isPlayPopUpDisplayed;
 	}
+	public Vector3 getButtonPosition(int id)
+	{
+		Vector3 buttonPosition = gameObject.transform.FindChild ("Button" + id).position;
+		buttonPosition.x = buttonPosition.x - ApplicationDesignRules.menuPosition.x;
+		buttonPosition.y = buttonPosition.y - ApplicationDesignRules.menuPosition.y;
+		return buttonPosition;
+	}
 	public Vector3 getHelpButtonPosition()
 	{
-		return gameObject.transform.FindChild ("UserBlock").FindChild ("Help").position;
+		Vector3 helpButtonPosition = gameObject.transform.FindChild ("UserBlock").FindChild ("Help").position;
+		helpButtonPosition.x = helpButtonPosition.x - ApplicationDesignRules.menuPosition.x;
+		helpButtonPosition.y = helpButtonPosition.y - ApplicationDesignRules.menuPosition.y;
+		return helpButtonPosition;
 	}
 	#endregion
 }

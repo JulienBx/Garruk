@@ -560,6 +560,7 @@ public class NewProfileController : MonoBehaviour
 			this.friendsContents[i].transform.FindChild("username").GetComponent<NewProfileFriendsContentUsernameController>().setId(i);
 		}
 		this.searchUsersPopUp = GameObject.Find ("searchPopUp");
+		this.searchUsersPopUp.GetComponent<SearchUsersPopUpController> ().launch ();
 		this.searchUsersPopUp.SetActive (false);
 		this.selectPicturePopUp = GameObject.Find ("profilePicturesPopUp");
 		this.selectPicturePopUp.SetActive (false);
@@ -1245,7 +1246,7 @@ public class NewProfileController : MonoBehaviour
 	{
 		MenuController.instance.displayTransparentBackground ();
 		this.selectPicturePopUp.SetActive (true);
-		this.selectPicturePopUp.transform.position = new Vector3 (0f, 0f, -2f);
+		this.selectPicturePopUp.transform.position = new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y, -2f);
 		this.selectPicturePopUp.GetComponent<SelectPicturePopUpController> ().selectPicture (model.player.idProfilePicture);
 		this.isSelectPicturePopUpDisplayed = true;
 	}
@@ -1482,8 +1483,8 @@ public class NewProfileController : MonoBehaviour
 	{
 		MenuController.instance.displayTransparentBackground ();
 		this.searchUsersPopUp.SetActive (true);
-		this.searchUsersPopUp.transform.position = new Vector3 (0f, 0f, -2f);
-		this.searchUsersPopUp.GetComponent<SearchUsersPopUpController> ().launch (searchValue);
+		this.searchUsersPopUp.transform.position = new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y, -2f);
+		StartCoroutine(this.searchUsersPopUp.GetComponent<SearchUsersPopUpController> ().initialization (searchValue));
 		this.isSearchUsersPopUpDisplayed = true;
 	}
 	public void hideSearchUsersPopUp()

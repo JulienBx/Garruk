@@ -960,6 +960,7 @@ public class newMyGameController : MonoBehaviour
 		}
 		this.focusedCard.GetComponent<NewFocusedCardController>().c=model.cards.getCard(this.focusedCardIndex);
 		this.focusedCard.GetComponent<NewFocusedCardController> ().show ();
+		TutorialObjectController.instance.tutorialTrackPoint();
 	}
 	public void hideCardFocused()
 	{
@@ -974,6 +975,7 @@ public class newMyGameController : MonoBehaviour
 		{
 			this.applyFilters ();
 		}
+		TutorialObjectController.instance.tutorialTrackPoint();
 	}
 	public void displayBackUI(bool value)
 	{
@@ -1659,7 +1661,10 @@ public class newMyGameController : MonoBehaviour
 		if(isLeftClicked)
 		{
 			this.isLeftClicked=false;
-			this.showCardFocused ();
+			if(!TutorialObjectController.instance.getIsTutorialDisplayed())
+			{
+				this.showCardFocused ();
+			}
 		}
 		else if(isDragging)
 		{
@@ -1715,7 +1720,6 @@ public class newMyGameController : MonoBehaviour
 		this.applyFilters();
 		if(ApplicationModel.hasDeck)
 		{
-			print ("toto");
 			bool isADeckCompleted = false;
 			for(int i=0;i<model.decks.Count;i++)
 			{
@@ -2016,6 +2020,9 @@ public class newMyGameController : MonoBehaviour
 	{
 		return this.focusedCard;
 	}
-	
+	public bool getIsFocusedCardDisplayed()
+	{
+		return this.isCardFocusedDisplayed;
+	}
 	#endregion
 }

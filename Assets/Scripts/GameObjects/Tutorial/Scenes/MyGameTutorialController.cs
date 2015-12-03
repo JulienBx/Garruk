@@ -80,6 +80,36 @@ public class MyGameTutorialController : TutorialObjectController
 			this.resizeDragHelp(new Vector3(0f,0f,0f));
 			this.resizePopUp(new Vector3(0,-3f,-9.5f));
 			break;
+		case 3: 
+			if(!isResizing)
+			{
+				this.displayPopUp(-1);
+				this.setDownArrow();
+				this.displayNextButton(false);
+				this.displaySquareBackground(true);
+				this.displayExitButton(false);
+				this.displayDragHelp(false);
+				this.displayExitButton(true);
+			}
+			gameObjectPosition = this.getCardFocused().transform.FindChild("FocusFeature5").position;
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,1.6f*ApplicationDesignRules.button62WorldSize.x+0.3f,1.5f*ApplicationDesignRules.button62WorldSize.y+0.3f),1f,1f);
+			this.drawDownArrow();
+			break;
+		case 4: 
+			if(!isResizing)
+			{
+				this.displayPopUp(-1);
+				this.setDownArrow();
+				this.displayNextButton(false);
+				this.displaySquareBackground(true);
+				this.displayExitButton(false);
+				this.displayDragHelp(false);
+				this.displayExitButton(true);
+			}
+			gameObjectPosition = PlayPopUpController.instance.getQuitPopUpButtonPosition();
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,3.5f,1f),0.8f,0.8f);
+			this.drawDownArrow();
+			break;
 		default:
 			base.launchSequence(this.sequenceID);
 			break;
@@ -87,41 +117,34 @@ public class MyGameTutorialController : TutorialObjectController
 	}
 	public override void actionIsDone()
 	{
-		switch(this.sequenceID)
+		if(MenuController.instance.getIsPlayPopUpDisplayed())
 		{
-		case 0: case 1:
-			this.launchSequence(this.sequenceID+1);
-			break;
-		case 2:
 			if(ApplicationModel.hasDeck)
 			{
-				this.sequenceID=101;
-			}
-			else if(!newMyGameController.instance.isADeckCurrentlySelected())
-			{
-				this.sequenceID=0;
-			}
-			else
-			{
-				this.sequenceID=2;
-			}
-			this.launchSequence(this.sequenceID);
-			break;
-		case 101:
-			if(MenuController.instance.getIsPlayPopUpDisplayed())
-			{
 				this.sequenceID=102;
-				this.launchSequence(this.sequenceID);
 			}
 			else
 			{
-				goto case 2;
+				this.sequenceID=4;
 			}
-			break;
-		default:
-			base.actionIsDone();
-			break;
 		}
+		else if(newMyGameController.instance.getIsFocusedCardDisplayed())
+		{
+			this.sequenceID=3;
+		}
+		else if(ApplicationModel.hasDeck)
+		{
+			this.sequenceID=101;
+		}
+		else if(newMyGameController.instance.isADeckCurrentlySelected())
+		{
+			this.sequenceID=2;
+		}
+		else
+		{
+			this.sequenceID=0;
+		}
+		this.launchSequence (this.sequenceID);
 	}
 	public override int getStartSequenceId(int tutorialStep)
 	{
