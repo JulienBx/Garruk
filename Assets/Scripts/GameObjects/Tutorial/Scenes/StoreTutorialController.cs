@@ -28,7 +28,7 @@ public class StoreTutorialController : TutorialObjectController
 				this.displayArrow(false);
 				this.displayPopUp(2);
 				this.displayNextButton(true);
-				this.setPopUpTitle("Bienvenue au centre de recrutement");
+				this.setPopUpTitle("Centre de recrutement");
 				this.setPopUpDescription("Dès leur arrivée sur Cristalia, les colons sont emmenés au centre de recrutement. Mieux vaut en effet ne pas se promener seul sur la planète... Votre pays vous a remis une somme d'argent que vous avez pu échanger contre la monnaie locale (le Cristal). Ceci devrait vous permettre de recruter quelques Cristaliens prets à se battre pour vous");
 				this.displayBackground(true);
 				this.displayExitButton(false);
