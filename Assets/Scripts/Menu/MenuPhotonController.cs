@@ -21,6 +21,7 @@ public class MenuPhotonController : Photon.MonoBehaviour
 		this.nbPlayers = 0;
 		TypedLobby sqlLobby = new TypedLobby("rankedGame", LobbyType.SqlLobby);    
 		string sqlLobbyFilter = "C0 = " + ApplicationModel.gameType;
+		ApplicationModel.isFirstPlayer = false;
 		PhotonNetwork.JoinRandomRoom(null, 0, MatchmakingMode.FillRoom, sqlLobby, sqlLobbyFilter);
 	}
 	void OnPhotonRandomJoinFailed()
@@ -49,6 +50,7 @@ public class MenuPhotonController : Photon.MonoBehaviour
 		PhotonNetwork.CreateRoom(roomNamePrefix + Guid.NewGuid().ToString("N"), newRoomOptions, sqlLobby);
 		ApplicationModel.isFirstPlayer = true;
 	}
+	
 	void OnJoinedRoom()
 	{
 		photonView.RPC("AddPlayerToList", PhotonTargets.AllBuffered, PhotonNetwork.player.ID, ApplicationModel.username);
