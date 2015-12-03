@@ -33,7 +33,7 @@ public class InterludeController : MonoBehaviour
 	public void OnMouseDown(){
 		
 		if(this.isPaused){
-			this.isPaused=false ;
+			this.unPause();
 		}
 		else{
 			if(this.time>1*this.animationTime){
@@ -49,6 +49,7 @@ public class InterludeController : MonoBehaviour
 	
 	public void unPause(){
 		this.isPaused = false;
+		GameView.instance.blockFury = true ;
 	}
 	
 	public void set(string s, bool isMine, bool displayCharacter){

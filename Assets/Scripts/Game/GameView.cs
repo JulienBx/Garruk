@@ -83,6 +83,7 @@ public class GameView : MonoBehaviour
 	
 	public bool hasStep3 ;
 	public bool hasStep2 ;
+	public bool blockFury ;
 	
 	void Awake()
 	{
@@ -124,6 +125,9 @@ public class GameView : MonoBehaviour
 			this.initGrid();
 		}
 		this.hasFightStarted = false ;
+		this.hasStep3 = false ;
+		this.hasStep2 = false;
+		this.blockFury = false;
 	}
 	
 	public void displayLoadingScreen()
@@ -584,19 +588,23 @@ public class GameView : MonoBehaviour
 	}
 	
 	public void clickDestination(Tile destination, int c){
-		Tile origine = this.getPlayingCardController(c).getTile();
-		this.tiles[origine.x, origine.y].GetComponentInChildren<TileController>().setCharacterID(-1);
-		this.getPlayingCardController(c).changeTile(new Tile(destination.x,destination.y), this.tiles[destination.x,destination.y].GetComponentInChildren<TileController>().getPosition());
-		this.tiles[destination.x, destination.y].GetComponentInChildren<TileController>().setCharacterID(c);
-		if(this.hasFightStarted){
-			this.getCard(this.currentPlayingCard).setHasMoved(true);
-			this.updateActionStatus();
-			this.removeDestinations();
-			this.recalculateDestinations();
-			this.getTileController(destination.x, destination.y).checkTrap();
-		}
-		else{
-			this.setInitialDestinations(this.isFirstPlayer);
+		if(c!=-1){
+			Tile origine = this.getPlayingCardController(c).getTile();
+			this.tiles[origine.x, origine.y].GetComponentInChildren<TileController>().setCharacterID(-1);
+			this.getPlayingCardController(c).changeTile(new Tile(destination.x,destination.y), this.tiles[destination.x,destination.y].GetComponentInChildren<TileController>().getPosition());
+			this.tiles[destination.x, destination.y].GetComponentInChildren<TileController>().setCharacterID(c);
+			if(this.hasFightStarted){
+				this.getCard(this.currentPlayingCard).setHasMoved(true);
+				if(this.getCard(this.currentPlayingCard).isMine){
+					this.updateActionStatus();
+				}
+				this.removeDestinations();
+				this.recalculateDestinations();
+				this.getTileController(destination.x, destination.y).checkTrap();
+			}
+			else{
+				this.setInitialDestinations(this.isFirstPlayer);
+			}
 		}
 	}
 	
@@ -737,7 +745,8 @@ public class GameView : MonoBehaviour
 				if(!this.hasStep3){
 					interlude.GetComponent<InterludeController>().pause();
 					this.launchTutoStep(3);
-					hasStep3 = true ;
+					this.blockFury = false;
+					this.hasStep3 = true;
 				}
 			}
 		}
@@ -829,6 +838,13 @@ public class GameView : MonoBehaviour
 	}
 	
 	IEnumerator launchFury(){
+		
+		if(ApplicationModel.launchGameTutorial){
+			while(!this.blockFury){
+				print ("J'attends");
+				yield return new WaitForSeconds(1f);
+			}
+		}
 		yield return new WaitForSeconds(4f);
 		
 		int enemy = GameView.instance.attackClosestEnnemy();
