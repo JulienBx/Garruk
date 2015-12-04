@@ -40,6 +40,10 @@ public class ApplicationDesignRules : MonoBehaviour
 	static public Color greyTextColor = new Color(171/255f,171f/255f,171f/255f);
 	static public Color[] cardsColor = {new Color(75f/255f,163f/255f,174f/255f),new Color (196f/255f,196f/255f,196f/255f),new Color(171/255f,171f/255f,171f/255f)};
 
+	static private Vector2 button31Size=new Vector2(145f,50f);
+	static public Vector2 button31WorldSize;
+	static private Vector3 button31OriginalScale=new Vector3(0.6f,0.6f,0.6f);
+	static public Vector3 button31Scale;
 	static private Vector2 button62Size=new Vector2(357f,120f);
 	static public Vector2 button62WorldSize;
 	static private Vector3 button62OriginalScale=new Vector3(0.6f,0.6f,0.6f);
@@ -202,6 +206,9 @@ public class ApplicationDesignRules : MonoBehaviour
 		}
 
 		viewHeight = worldHeight - upMargin - downMargin;
+
+		button31Scale = toNewScale (button31OriginalScale);
+		button31WorldSize = toWorldSize (button31Size, button31Scale);
 
 		button62Scale = toNewScale (button62OriginalScale);
 		button62WorldSize = toWorldSize (button62Size, button62Scale);

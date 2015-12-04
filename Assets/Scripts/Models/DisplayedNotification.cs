@@ -15,15 +15,15 @@ public class DisplayedNotification
 	public IList<Trophy> Trophies;
 	public string Content;
 
-	public DisplayedNotification(Notification notification, User sendinguser)
+	public DisplayedNotification()
 	{
-		this.Notification = notification;
+		this.Notification = new Notification();
 		this.Users = new List<User> ();
 		this.Cards = new List<Card> ();
 		this.Values = new List<string> ();
 		this.Results = new List<Result> ();
 		this.Trophies = new List<Trophy> ();
-		this.SendingUser = sendinguser;
+		this.SendingUser = new User();
 	}
 }
 

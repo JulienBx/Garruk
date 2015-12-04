@@ -42,6 +42,7 @@ public class NewHomePageController : MonoBehaviour
 	private GameObject[] tabs;
 	private GameObject[] contents;
 	private GameObject[] challengeButtons;
+	private GameObject[] friendsStatusButtons;
 	private GameObject newsfeedPaginationButtons;
 	private GameObject[] deckChoices;
 	private GameObject[] cardsHalos;
@@ -286,6 +287,8 @@ public class NewHomePageController : MonoBehaviour
 			this.challengeButtons[i].SetActive(false);
 			this.contents[i].transform.FindChild("new").gameObject.SetActive(false);
 			this.contents[i].transform.FindChild("description").GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
+			this.friendsStatusButtons[i*2].SetActive(false);
+			this.friendsStatusButtons[i*2+1].SetActive(false);
 		}
 		this.drawNews ();
 	}
@@ -300,6 +303,8 @@ public class NewHomePageController : MonoBehaviour
 		{
 			this.contents[i].transform.FindChild("new").gameObject.SetActive(false);
 			this.contents[i].transform.FindChild("date").gameObject.SetActive(false);
+			this.friendsStatusButtons[i*2].SetActive(false);
+			this.friendsStatusButtons[i*2+1].SetActive(false);
 		}
 		this.drawFriends ();
 	}
@@ -410,6 +415,7 @@ public class NewHomePageController : MonoBehaviour
 		this.tabs[1].transform.FindChild("Title").GetComponent<TextMeshPro> ().text = ("News");
 		this.tabs[2].transform.FindChild("Title").GetComponent<TextMeshPro> ().text = ("Amis");
 		this.contents = new GameObject[3];
+		this.friendsStatusButtons=new GameObject[this.contents.Length*2];
 		for(int i=0;i<this.contents.Length;i++)
 		{
 			this.contents[i]=GameObject.Find("Content"+i);
@@ -423,6 +429,16 @@ public class NewHomePageController : MonoBehaviour
 			this.contents[i].transform.FindChild("picture").GetComponent<NewHomePageContentPictureController>().setId(i);
 			this.contents[i].transform.FindChild("date").GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
 			this.contents[i].transform.FindChild("line").GetComponent<SpriteRenderer>().color = ApplicationDesignRules.whiteSpriteColor;
+			this.friendsStatusButtons[2*i]=GameObject.Find ("FriendsStatusButton"+(2*i));
+			this.friendsStatusButtons[2*i+1]=GameObject.Find ("FriendsStatusButton"+(2*i+1));
+			this.friendsStatusButtons[2*i].AddComponent<NewHomePageFriendsStatusAcceptButtonController>();
+			this.friendsStatusButtons[2*i].GetComponent<NewHomePageFriendsStatusAcceptButtonController>().setId(i);
+			this.friendsStatusButtons[2*i+1].AddComponent<NewHomePageFriendsStatusDeclineButtonController>();
+			this.friendsStatusButtons[2*i+1].GetComponent<NewHomePageFriendsStatusDeclineButtonController>().setId(i);
+			this.friendsStatusButtons[2*i].SetActive(false);
+			this.friendsStatusButtons[2*i+1].SetActive(false);
+			this.friendsStatusButtons[2*i].transform.FindChild("Title").GetComponent<TextMeshPro>().text="Oui";
+			this.friendsStatusButtons[2*i+1].transform.FindChild("Title").GetComponent<TextMeshPro>().text="Non";
 		}
 		this.challengeButtons = new GameObject[3];
 		for(int i=0;i<this.challengeButtons.Length;i++)
@@ -643,6 +659,14 @@ public class NewHomePageController : MonoBehaviour
 		{
 			this.challengeButtons[i].transform.localScale = ApplicationDesignRules.button62Scale;
 			this.challengeButtons[i].transform.position=new Vector3(newsfeedBlockUpperRightPosition.x-0.3f-ApplicationDesignRules.button62WorldSize.x/2f,newsfeedBlockUpperRightPosition.y-0.3f-(i+0.5f)*contentBlockSize.y,0f);
+		}
+
+		for(int i=0;i<this.contents.Length;i++)
+		{
+			this.friendsStatusButtons[i*2].transform.localScale = ApplicationDesignRules.button31Scale;
+			this.friendsStatusButtons[i*2+1].transform.localScale = ApplicationDesignRules.button31Scale;
+			this.friendsStatusButtons[i*2].transform.position=new Vector3(newsfeedBlockUpperRightPosition.x-0.3f-3*ApplicationDesignRules.button31WorldSize.x/2f-0.05f,newsfeedBlockUpperRightPosition.y-0.3f-(i+1f)*contentBlockSize.y+0.05f+ApplicationDesignRules.button31WorldSize.y/2f,0f);
+			this.friendsStatusButtons[i*2+1].transform.position=new Vector3(newsfeedBlockUpperRightPosition.x-0.3f-ApplicationDesignRules.button31WorldSize.x/2f,newsfeedBlockUpperRightPosition.y-0.3f-(i+1f)*contentBlockSize.y+0.05f+ApplicationDesignRules.button31WorldSize.y/2f,0f);
 		}
 
 		this.newsfeedPaginationButtons.transform.localPosition=new Vector3 (newsfeedBlockLowerLeftPosition.x + newsfeedBlockSize.x / 2, newsfeedBlockLowerLeftPosition.y + 0.3f, 0f);
@@ -1072,10 +1096,22 @@ public class NewHomePageController : MonoBehaviour
 				{
 					this.contents[i].transform.FindChild("new").gameObject.SetActive(false);
 				}
+				if(model.notifications[this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i].Notification.IdNotificationType==4)
+				{
+					this.friendsStatusButtons[2*i].SetActive(true);
+					this.friendsStatusButtons[2*i+1].SetActive(true);
+				}
+				else
+				{
+					this.friendsStatusButtons[2*i].SetActive(false);
+					this.friendsStatusButtons[2*i+1].SetActive(false);
+				}
 			}
 			else
 			{
 				this.contents[i].SetActive(false);
+				this.friendsStatusButtons[2*i].SetActive(false);
+				this.friendsStatusButtons[2*i+1].SetActive(false);
 			}
 		}
 		this.manageNonReadsNotifications (firstLoad);
@@ -1433,6 +1469,69 @@ public class NewHomePageController : MonoBehaviour
 		ApplicationModel.profileChosen = this.contents [id].transform.FindChild ("username").GetComponent<TextMeshPro> ().text;
 		Application.LoadLevel("NewProfile");
 	}
+	public void acceptFriendsRequestHandler(int id)
+	{
+		StartCoroutine (this.confirmFriendRequest (id));
+	}
+	public void declineFriendsRequestHandler(int id)
+	{
+		StartCoroutine (this.removeFriendRequest (id));
+	}
+	public IEnumerator confirmFriendRequest(int id)
+	{
+		MenuController.instance.displayLoadingScreen ();
+		Connection connection = new Connection ();
+		connection.Id = System.Convert.ToInt32(model.notifications [this.notificationsDisplayed [id]].Notification.HiddenParam);
+		yield return StartCoroutine (connection.confirm ());
+		if(connection.Error=="")
+		{
+			Notification tempNotification1 = new Notification(model.notifications [this.notificationsDisplayed [id]].SendingUser.Id,model.player.Id,false,3,connection.Id.ToString(),"","","");
+			StartCoroutine(tempNotification1.add ());
+			Notification tempNotification2 = new Notification(model.player.Id,model.notifications [this.notificationsDisplayed [id]].SendingUser.Id,false,4,"","","","");
+			StartCoroutine(tempNotification2.remove ());
+			News tempNews1=new News(model.player.Id, 1,model.notifications [this.notificationsDisplayed [id]].SendingUser.Id.ToString());
+			StartCoroutine(tempNews1.add ());
+			News tempNews2=new News(model.notifications [this.notificationsDisplayed [id]].SendingUser.Id, 1,model.player.Id.ToString());
+			StartCoroutine(tempNews2.add ());
+			model.moveToFriend(this.notificationsDisplayed[id]);
+			this.initializeNotifications();
+		}
+		else
+		{
+			MenuController.instance.displayErrorPopUp(connection.Error);
+		}
+		MenuController.instance.hideLoadingScreen ();
+	}
+	public IEnumerator removeFriendRequest(int id)
+	{
+		MenuController.instance.displayLoadingScreen ();
+		Connection connection = new Connection ();
+		connection.Id = System.Convert.ToInt32(model.notifications [this.notificationsDisplayed [id]].Notification.HiddenParam);
+		yield return StartCoroutine(connection.remove ());
+		if(connection.Error=="")
+		{
+			Notification tempNotification = new Notification ();
+			tempNotification = new Notification(model.notifications [this.notificationsDisplayed [id]].SendingUser.Id,model.player.Id,false,4,"","","","");
+			StartCoroutine(tempNotification.remove ());
+			Notification tempNotification2 = new Notification ();
+			tempNotification2 = new Notification(model.player.Id,model.notifications [this.notificationsDisplayed [id]].SendingUser.Id,false,4,"","","","");
+			StartCoroutine(tempNotification2.remove ());
+			Notification tempNotification3 = new Notification ();
+			tempNotification3 = new Notification(model.notifications [this.notificationsDisplayed [id]].SendingUser.Id,model.player.Id,false,3,"","","","");
+			StartCoroutine(tempNotification3.remove ());
+			Notification tempNotification4 = new Notification ();
+			tempNotification4 = new Notification(model.player.Id,model.notifications [this.notificationsDisplayed [id]].SendingUser.Id,false,3,"","","","");
+			StartCoroutine(tempNotification4.remove ());
+			model.notifications.RemoveAt(this.notificationsDisplayed[id]);
+			this.initializeNotifications();
+		}
+		else
+		{
+			MenuController.instance.displayErrorPopUp(connection.Error);
+		}
+		MenuController.instance.hideLoadingScreen ();
+	}
+
 
 	#region TUTORIAL FUNCTIONS
 

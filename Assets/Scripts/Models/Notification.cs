@@ -13,6 +13,7 @@ public class Notification
 	public int IdSendingUser;
 	public int IdNotificationType;
 	public string Description;
+	public string HiddenParam;
 	public string Param1;
 	public string Param2;
 	public string Param3;
@@ -23,26 +24,19 @@ public class Notification
 	public Notification()
 	{
 	}
-	public Notification(int id, DateTime date, bool isread, int idnotificationtype, string description)
-	{
-		this.Id = id;
-		this.Date = date;
-		this.IsRead = isread;
-		this.IdNotificationType = idnotificationtype;
-		this.Description = description;
-	}
 	public Notification(int iduser, int idsendinguser, int idnotificationtype)
 	{
 		this.IdUser = iduser;
 		this.IdSendingUser = idsendinguser;
 		this.IdNotificationType = idnotificationtype;
 	}
-	public Notification(int iduser, int idsendinguser, bool isread, int idnotificationtype, string param1="", string param2="", string param3="")
+	public Notification(int iduser, int idsendinguser, bool isread, int idnotificationtype,string hiddenparam,string param1, string param2, string param3)
 	{
 		this.IdUser = iduser;
 		this.IdSendingUser = idsendinguser;
 		this.IsRead = isread;
 		this.IdNotificationType = idnotificationtype;
+		this.HiddenParam = hiddenparam;
 		this.Param1 = param1;
 		this.Param2 = param2;
 		this.Param3 = param3;
@@ -55,6 +49,7 @@ public class Notification
 		form.AddField("myform_idsendinguser",this.IdSendingUser.ToString());
 		form.AddField("myform_isread",System.Convert.ToInt32(this.IsRead).ToString());
 		form.AddField("myform_idnotificationtype", this.IdNotificationType.ToString ());
+		form.AddField("myform_hiddenparam", this.HiddenParam); 	
 		form.AddField("myform_param1", this.Param1); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_param2", this.Param2);
 		form.AddField("myform_param3", this.Param3);

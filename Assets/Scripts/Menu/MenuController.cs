@@ -315,6 +315,7 @@ public class MenuController : MonoBehaviour
 		this.initializeMenuObject ();
 		this.initializeScene ();
 		yield return StartCoroutine (model.loadUserData (this.ressources.totalNbResultLimit));
+		gameObject.transform.FindChild("UserBlock").FindChild ("Picture").GetComponent<SpriteRenderer> ().sprite = this.returnThumbPicture (model.player.idProfilePicture);
 		if(Application.loadedLevelName!="NewHomePage")
 		{
 			ApplicationModel.nbNotificationsNonRead = model.player.nonReadNotifications;
@@ -357,7 +358,6 @@ public class MenuController : MonoBehaviour
 		}
 		
 		this.gameObject.transform.FindChild("UserBlock").FindChild("Username").GetComponent<TextMeshPro>().text=ApplicationModel.username;
-		gameObject.transform.FindChild("UserBlock").FindChild ("Picture").GetComponent<SpriteRenderer> ().sprite = this.returnThumbPicture (model.player.idProfilePicture);
 	}
 	public virtual void resizeAll()
 	{

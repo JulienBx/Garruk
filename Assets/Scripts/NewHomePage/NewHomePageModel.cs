@@ -225,14 +225,15 @@ public class NewHomePageModel
 		{
 			string[] notificationData =array[i].Split(new string[] { "//" }, System.StringSplitOptions.None);
 			
-			notifications.Add(new DisplayedNotification(new Notification(System.Convert.ToInt32(notificationData[0]),
-			                                                             DateTime.ParseExact(notificationData[2], "yyyy-MM-dd HH:mm:ss", null),
-			                                                             System.Convert.ToBoolean(System.Convert.ToInt32(notificationData[3])),
-			                                                             System.Convert.ToInt32(notificationData[4]),
-			                                                             notificationData[5]),
-			                                            new User()));
+			notifications.Add(new DisplayedNotification());
 
-			notifications[i].SendingUser=this.users[returnUsersIndex(System.Convert.ToInt32(notificationData[6]))];
+			notifications[i].Notification.Id=System.Convert.ToInt32(notificationData[0]);
+			notifications[i].Notification.Date=DateTime.ParseExact(notificationData[2], "yyyy-MM-dd HH:mm:ss", null);
+			notifications[i].Notification.IsRead=System.Convert.ToBoolean(System.Convert.ToInt32(notificationData[3]));
+			notifications[i].Notification.IdNotificationType=System.Convert.ToInt32(notificationData[4]);
+			notifications[i].Notification.Description= notificationData[5];
+			notifications[i].Notification.HiddenParam= notificationData[6];
+			notifications[i].SendingUser=this.users[returnUsersIndex(System.Convert.ToInt32(notificationData[7]))];
 
 			if(this.player.readnotificationsystem && notifications[i].Notification.IdNotificationType==1)
 			{
@@ -240,7 +241,7 @@ public class NewHomePageModel
 			}
 			
 			string tempContent=notificationData[1];
-			for(int j=7;j<notificationData.Length-1;j++)
+			for(int j=8;j<notificationData.Length-1;j++)
 			{
 				string[] notificationObjectData = notificationData[j].Split (new char[] {':'},System.StringSplitOptions.None);
 				switch (notificationObjectData[0])
@@ -404,6 +405,11 @@ public class NewHomePageModel
 			}
 		}
 		return index;
+	}
+	public void moveToFriend(int id)
+	{
+		this.friends.Add (this.returnUsersIndex(this.notifications[id].SendingUser.Id));
+		this.notifications.RemoveAt(id);
 	}
 }
 

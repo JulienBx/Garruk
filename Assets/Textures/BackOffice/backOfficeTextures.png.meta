@@ -126,6 +126,7 @@ TextureImporter:
     21300238: buttonMyGame
     21300240: buttonPlay
     21300242: buttonStore
+    21300244: button31
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -356,9 +357,19 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 3915
-        y: 2508
+        y: 2456
         width: 121
         height: 120
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: button31
+      rect:
+        serializedVersion: 2
+        x: 3922
+        y: 3496
+        width: 145
+        height: 50
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -476,7 +487,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1518
-        y: 2267
+        y: 2276
         width: 100
         height: 56
       alignment: 0
@@ -586,7 +597,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1611
-        y: 1450
+        y: 1389
         width: 59
         height: 59
       alignment: 0
@@ -616,7 +627,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 3917
-        y: 3150
+        y: 3098
         width: 128
         height: 128
       alignment: 0
@@ -625,8 +636,8 @@ TextureImporter:
     - name: hoverlevelblack
       rect:
         serializedVersion: 2
-        x: 3922
-        y: 3481
+        x: 3917
+        y: 3429
         width: 131
         height: 65
       alignment: 0
@@ -636,7 +647,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 3917
-        y: 3414
+        y: 3362
         width: 131
         height: 65
       alignment: 0
@@ -646,7 +657,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 3917
-        y: 3347
+        y: 3295
         width: 131
         height: 65
       alignment: 0
@@ -656,7 +667,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 3917
-        y: 3280
+        y: 3228
         width: 131
         height: 65
       alignment: 0
@@ -696,7 +707,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 3915
-        y: 2447
+        y: 2395
         width: 120
         height: 59
       alignment: 0
@@ -706,7 +717,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 3915
-        y: 2386
+        y: 2334
         width: 120
         height: 59
       alignment: 0
@@ -715,8 +726,8 @@ TextureImporter:
     - name: levelgrey
       rect:
         serializedVersion: 2
-        x: 3915
-        y: 2325
+        x: 1458
+        y: 2521
         width: 120
         height: 59
       alignment: 0
@@ -725,8 +736,8 @@ TextureImporter:
     - name: levelred
       rect:
         serializedVersion: 2
-        x: 1458
-        y: 2521
+        x: 1611
+        y: 1450
         width: 120
         height: 59
       alignment: 0
@@ -816,7 +827,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 3915
-        y: 2894
+        y: 2842
         width: 125
         height: 126
       alignment: 0
@@ -825,8 +836,8 @@ TextureImporter:
     - name: pagination1
       rect:
         serializedVersion: 2
-        x: 3917
-        y: 3022
+        x: 3915
+        y: 2970
         width: 126
         height: 126
       alignment: 0
@@ -1116,7 +1127,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 3915
-        y: 2828
+        y: 2776
         width: 125
         height: 64
       alignment: 0
@@ -1126,7 +1137,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 3915
-        y: 2762
+        y: 2710
         width: 125
         height: 64
       alignment: 0
@@ -1136,7 +1147,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 3915
-        y: 2696
+        y: 2644
         width: 125
         height: 64
       alignment: 0
@@ -1146,7 +1157,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 3915
-        y: 2630
+        y: 2578
         width: 125
         height: 64
       alignment: 0
@@ -1156,7 +1167,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1611
-        y: 1390
+        y: 1329
         width: 119
         height: 58
       alignment: 0
@@ -1165,8 +1176,8 @@ TextureImporter:
     - name: startlevelblue
       rect:
         serializedVersion: 2
-        x: 1672
-        y: 1451
+        x: 1611
+        y: 1269
         width: 119
         height: 58
       alignment: 0
@@ -1175,8 +1186,8 @@ TextureImporter:
     - name: startlevelgrey
       rect:
         serializedVersion: 2
-        x: 1611
-        y: 1330
+        x: 1672
+        y: 1390
         width: 119
         height: 58
       alignment: 0
@@ -1185,8 +1196,8 @@ TextureImporter:
     - name: startlevelred
       rect:
         serializedVersion: 2
-        x: 1611
-        y: 1270
+        x: 1733
+        y: 1451
         width: 119
         height: 58
       alignment: 0

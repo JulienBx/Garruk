@@ -127,7 +127,6 @@ public class NewCardController : NewFocusedCardController
 		if(!Input.GetMouseButton(0))
 		{
 			int newSkillHovered = this.skillHovered();
-			float skillPopUpSize=350f;
 			float skillPopUpWorldSize=0f;
 			float skillPopUpXPosition=0f;
 			if(newSkillHovered>-1 && newSkillHovered<this.c.Skills.Count && this.c.Skills[newSkillHovered].IsActivated==1)
@@ -141,21 +140,23 @@ public class NewCardController : NewFocusedCardController
 						this.skillPopUp.SetActive(true);
 						Vector3 popUpScale = new Vector3(1f/this.gameObject.transform.localScale.x,1f/this.gameObject.transform.localScale.y,1f/this.gameObject.transform.localScale.z);
 						this.skillPopUp.transform.localScale=popUpScale;
-						skillPopUpWorldSize=(skillPopUpSize/ApplicationDesignRules.pixelPerUnit)*(popUpScale.x*this.gameObject.transform.localScale.x);
-						if(this.gameObject.transform.position.x-skillPopUpWorldSize/2f<-ApplicationDesignRules.worldWidth/2f)
-						{
-							skillPopUpXPosition=this.gameObject.transform.position.x-(this.gameObject.transform.position.x-skillPopUpWorldSize/2f+ApplicationDesignRules.worldWidth/2f);
-						}
-						else if(this.gameObject.transform.position.x+skillPopUpWorldSize/2f>ApplicationDesignRules.worldWidth/2f)
-						{
-							skillPopUpXPosition=this.gameObject.transform.position.x-(this.gameObject.transform.position.x+skillPopUpWorldSize/2f-ApplicationDesignRules.worldWidth/2f);
-						}
-						else
-						{
-							skillPopUpXPosition=this.gameObject.transform.position.x;
-						}
 					}
-					
+
+					skillPopUpWorldSize=this.skillPopUp.GetComponent<SpriteRenderer>().bounds.size.x;
+
+					if(this.gameObject.transform.position.x-skillPopUpWorldSize/2f<-ApplicationDesignRules.worldWidth/2f)
+					{
+						skillPopUpXPosition=this.gameObject.transform.position.x-(this.gameObject.transform.position.x-skillPopUpWorldSize/2f+ApplicationDesignRules.worldWidth/2f);
+					}
+					else if(this.gameObject.transform.position.x+skillPopUpWorldSize/2f>ApplicationDesignRules.worldWidth/2f)
+					{
+						skillPopUpXPosition=this.gameObject.transform.position.x-(this.gameObject.transform.position.x+skillPopUpWorldSize/2f-ApplicationDesignRules.worldWidth/2f);
+					}
+					else
+					{
+						skillPopUpXPosition=this.gameObject.transform.position.x;
+					}
+
 					this.skillPopUp.transform.FindChild("description").GetComponent<TextMeshPro>().text=this.c.getSkillText(this.c.Skills[skillDisplayed].Description);
 					if(newSkillHovered==0)
 					{
