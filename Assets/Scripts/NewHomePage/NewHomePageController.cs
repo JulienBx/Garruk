@@ -1485,14 +1485,6 @@ public class NewHomePageController : MonoBehaviour
 		yield return StartCoroutine (connection.confirm ());
 		if(connection.Error=="")
 		{
-			Notification tempNotification1 = new Notification(model.notifications [this.notificationsDisplayed [id]].SendingUser.Id,model.player.Id,false,3,connection.Id.ToString(),"","","");
-			StartCoroutine(tempNotification1.add ());
-			Notification tempNotification2 = new Notification(model.player.Id,model.notifications [this.notificationsDisplayed [id]].SendingUser.Id,false,4,"","","","");
-			StartCoroutine(tempNotification2.remove ());
-			News tempNews1=new News(model.player.Id, 1,model.notifications [this.notificationsDisplayed [id]].SendingUser.Id.ToString());
-			StartCoroutine(tempNews1.add ());
-			News tempNews2=new News(model.notifications [this.notificationsDisplayed [id]].SendingUser.Id, 1,model.player.Id.ToString());
-			StartCoroutine(tempNews2.add ());
 			model.moveToFriend(this.notificationsDisplayed[id]);
 			this.initializeNotifications();
 		}
@@ -1510,18 +1502,6 @@ public class NewHomePageController : MonoBehaviour
 		yield return StartCoroutine(connection.remove ());
 		if(connection.Error=="")
 		{
-			Notification tempNotification = new Notification ();
-			tempNotification = new Notification(model.notifications [this.notificationsDisplayed [id]].SendingUser.Id,model.player.Id,false,4,"","","","");
-			StartCoroutine(tempNotification.remove ());
-			Notification tempNotification2 = new Notification ();
-			tempNotification2 = new Notification(model.player.Id,model.notifications [this.notificationsDisplayed [id]].SendingUser.Id,false,4,"","","","");
-			StartCoroutine(tempNotification2.remove ());
-			Notification tempNotification3 = new Notification ();
-			tempNotification3 = new Notification(model.notifications [this.notificationsDisplayed [id]].SendingUser.Id,model.player.Id,false,3,"","","","");
-			StartCoroutine(tempNotification3.remove ());
-			Notification tempNotification4 = new Notification ();
-			tempNotification4 = new Notification(model.player.Id,model.notifications [this.notificationsDisplayed [id]].SendingUser.Id,false,3,"","","","");
-			StartCoroutine(tempNotification4.remove ());
 			model.notifications.RemoveAt(this.notificationsDisplayed[id]);
 			this.initializeNotifications();
 		}
@@ -1531,7 +1511,6 @@ public class NewHomePageController : MonoBehaviour
 		}
 		MenuController.instance.hideLoadingScreen ();
 	}
-
 
 	#region TUTORIAL FUNCTIONS
 

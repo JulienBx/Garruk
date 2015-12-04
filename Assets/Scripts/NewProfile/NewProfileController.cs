@@ -1499,17 +1499,8 @@ public class NewProfileController : MonoBehaviour
 		yield return StartCoroutine(model.friendsRequests [this.friendsRequestsDisplayed[id]].Connection.confirm ());
 		if(model.friendsRequests [this.friendsRequestsDisplayed[id]].Connection.Error=="")
 		{
-			Notification tempNotification1 = new Notification(model.friendsRequests [this.friendsRequestsDisplayed[id]].User.Id,model.activePlayerId,false,3,model.friendsRequests [this.friendsRequestsDisplayed[id]].Connection.Id.ToString(),"","","");
-			StartCoroutine(tempNotification1.add ());
-			Notification tempNotification2 = new Notification(model.activePlayerId,model.friendsRequests [this.friendsRequestsDisplayed[id]].User.Id,false,4,"","","","");
-			StartCoroutine(tempNotification2.remove ());
-			News tempNews1=new News(model.activePlayerId, 1,model.friendsRequests [this.friendsRequestsDisplayed[id]].User.Id.ToString());
-			StartCoroutine(tempNews1.add ());
-			News tempNews2=new News(model.friendsRequests [this.friendsRequestsDisplayed[id]].User.Id, 1,model.activePlayerId.ToString());
-			StartCoroutine(tempNews2.add ());
 			model.moveToFriend(this.friendsRequestsDisplayed[id]);
 			this.initializeFriendsRequests();
-			this.initializeFriends();
 		}
 		else
 		{
@@ -1524,14 +1515,6 @@ public class NewProfileController : MonoBehaviour
 		yield return StartCoroutine(model.connectionWithMe.confirm ());
 		if(model.connectionWithMe.Error=="")
 		{
-			Notification tempNotification1 = new Notification(model.player.Id,model.activePlayerId,false,3,model.connectionWithMe.Id.ToString(),"","","");
-			StartCoroutine(tempNotification1.add ());
-			Notification tempNotification2 = new Notification(model.activePlayerId,model.player.Id,false,4,"","","","");
-			StartCoroutine(tempNotification2.remove ());
-			News tempNews1=new News(model.activePlayerId, 1,model.player.Id.ToString());
-			StartCoroutine(tempNews1.add ());
-			News tempNews2=new News(model.player.Id, 1,model.activePlayerId.ToString());
-			StartCoroutine(tempNews2.add ());
 			this.initializeFriendshipState();
 			this.initializeFriends();
 		}
@@ -1548,18 +1531,6 @@ public class NewProfileController : MonoBehaviour
 		yield return StartCoroutine(model.friendsRequests [this.friendsRequestsDisplayed[id]].Connection.remove ());
 		if(model.friendsRequests [this.friendsRequestsDisplayed[id]].Connection.Error=="")
 		{
-			Notification tempNotification = new Notification ();
-			tempNotification = new Notification(model.friendsRequests[this.friendsRequestsDisplayed[id]].User.Id,model.activePlayerId,false,4,"","","","");
-			StartCoroutine(tempNotification.remove ());
-			Notification tempNotification2 = new Notification ();
-			tempNotification2 = new Notification(model.activePlayerId,model.friendsRequests[this.friendsRequestsDisplayed[id]].User.Id,false,4,"","","","");
-			StartCoroutine(tempNotification2.remove ());
-			Notification tempNotification3 = new Notification ();
-			tempNotification3 = new Notification(model.friendsRequests[this.friendsRequestsDisplayed[id]].User.Id,model.activePlayerId,false,3,"","","","");
-			StartCoroutine(tempNotification3.remove ());
-			Notification tempNotification4 = new Notification ();
-			tempNotification4 = new Notification(model.activePlayerId,model.friendsRequests[this.friendsRequestsDisplayed[id]].User.Id,false,3,"","","","");
-			StartCoroutine(tempNotification4.remove ());
 			model.friendsRequests.RemoveAt(this.friendsRequestsDisplayed[id]);
 			this.initializeFriendsRequests();
 		}
@@ -1576,18 +1547,6 @@ public class NewProfileController : MonoBehaviour
 		yield return StartCoroutine(model.connectionWithMe.remove ());
 		if(model.connectionWithMe.Error=="")
 		{
-			Notification tempNotification = new Notification ();
-			tempNotification = new Notification(model.player.Id,model.activePlayerId,false,4,"","","","");
-			StartCoroutine(tempNotification.remove ());
-			Notification tempNotification2 = new Notification ();
-			tempNotification2 = new Notification(model.activePlayerId,model.player.Id,false,4,"","","","");
-			StartCoroutine(tempNotification2.remove ());
-			Notification tempNotification3 = new Notification ();
-			tempNotification3 = new Notification(model.player.Id,model.activePlayerId,false,3,"","","","");
-			StartCoroutine(tempNotification3.remove ());
-			Notification tempNotification4 = new Notification ();
-			tempNotification4 = new Notification(model.activePlayerId,model.player.Id,false,3,"","","","");
-			StartCoroutine(tempNotification4.remove ());
 			model.isConnectedToMe=false;
 			this.initializeFriends();
 			this.initializeFriendshipState();
@@ -1610,8 +1569,6 @@ public class NewProfileController : MonoBehaviour
 		yield return StartCoroutine(connection.add ());
 		if(connection.Error=="")
 		{
-			Notification tempNotification = new Notification(model.player.Id,model.activePlayerId,false,4,connection.Id.ToString(),"","","");
-			StartCoroutine(tempNotification.add ());
 			model.isConnectedToMe=true;
 			model.connectionWithMe=connection;
 			this.initializeFriendshipState();
@@ -1653,7 +1610,7 @@ public class NewProfileController : MonoBehaviour
 		else
 		{
 			this.friendshipStatusButtons[0].SetActive(true);
-			this.friendshipStatusButtons[0].transform.FindChild("Title").GetComponent<TextMeshPro>().text="Ajouer";
+			this.friendshipStatusButtons[0].transform.FindChild("Title").GetComponent<TextMeshPro>().text="Ajouter";
 			this.friendshipStatusButtons[1].SetActive(false);
 			this.friendshipStatus.GetComponent<TextMeshPro>().text="ne fait pas partie de vos amis";
 		}
