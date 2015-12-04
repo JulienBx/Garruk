@@ -722,15 +722,12 @@ public class MenuController : MonoBehaviour
 	public void joinRandomRoomHandler()
 	{
 		this.displayLoadingScreen ();
-		if(ApplicationModel.gameType<=2 && !TutorialObjectController.instance.getIsTutorialLaunched())
+		ApplicationModel.launchGameTutorial=TutorialObjectController.instance.launchTutorialGame();
+		if(ApplicationModel.gameType<=2 && !ApplicationModel.launchGameTutorial)
 		{
 			this.displayLoadingScreenButton (true);
 			this.changeLoadingScreenLabel ("En attente de joueurs ...");
 		}
-//		else if(TutorialObjectController.instance.getIsTutorialLaunched())
-//		{
-//			ApplicationModel.launchGameTutorial=true;
-//		}
 		photon.joinRandomRoom ();
 	}
 	public void joinInvitationRoomFailed()

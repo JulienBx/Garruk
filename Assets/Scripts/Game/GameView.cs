@@ -1895,27 +1895,30 @@ public class GameView : MonoBehaviour
 	
 	public IEnumerator quitGame()
 	{
-		if(ApplicationModel.launchGameTutorial){
-			if(this.getPercentageLifeMyPlayer()<10){
-				yield return (StartCoroutine(this.sendStat(ApplicationModel.myPlayerName, "Garruk", true)));
-			}
-			else
+		bool hasFirstPlayerWon=false;
+
+		if(ApplicationModel.launchGameTutorial)
+		{
+			if(this.getPercentageLifeHisPlayer()<10)
 			{
+				hasFirstPlayerWon=true;
 				yield return (StartCoroutine(this.sendStat(ApplicationModel.myPlayerName, ApplicationModel.myPlayerName, true)));
 			}
-		}
-		else{
-			if(isFirstPlayer)
-			{
-				yield return (StartCoroutine(this.sendStat(ApplicationModel.hisPlayerName, ApplicationModel.myPlayerName, false)));
-			} 
 			else
 			{
-				yield return (StartCoroutine(this.sendStat(ApplicationModel.hisPlayerName, ApplicationModel.myPlayerName, false)));
+				yield return (StartCoroutine(this.sendStat(ApplicationModel.myPlayerName, "Garruk", true)));
 			}
 		}
+		else
+		{
+			if(!isFirstPlayer)
+			{
+				hasFirstPlayerWon=true;
+			}
+			yield return (StartCoroutine(this.sendStat(ApplicationModel.hisPlayerName, ApplicationModel.myPlayerName, false)));
+		}
 		
-		GameController.instance.quitGameHandler();
+		GameController.instance.quitGame(hasFirstPlayerWon);
 		
 		yield break;
 	}

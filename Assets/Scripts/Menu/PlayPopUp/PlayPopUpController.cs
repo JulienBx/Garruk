@@ -164,10 +164,6 @@ public class PlayPopUpController : MonoBehaviour
 	{
 		if(deckDisplayed!=-1)
 		{
-			if(TutorialObjectController.instance.getIsTutorialLaunched())
-			{
-				ApplicationModel.launchGameTutorial=true;
-			}
 			ApplicationModel.gameType = id;
 			StartCoroutine (this.setSelectedDeck ());
 		}

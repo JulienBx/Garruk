@@ -1464,7 +1464,6 @@ public class newMyGameController : MonoBehaviour
 	public void mouseOnSearchBar(bool value)
 	{
 		this.isMouseOnSearchBar = value;
-		print (value);
 	}
 	public void mouseOnSelectDeckButton(bool value)
 	{

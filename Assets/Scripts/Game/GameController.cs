@@ -425,18 +425,24 @@ public class GameController : Photon.MonoBehaviour
 
 	public void quitGameHandler()
 	{
-		photonView.RPC("quitGameRPC", PhotonTargets.AllBuffered, GameView.instance.getIsFirstPlayer());
+		StartCoroutine (GameView.instance.quitGame ());
+	}
+
+	public void quitGame(bool hasFirstPlayerWon)
+	{
+		photonView.RPC("quitGameRPC", PhotonTargets.AllBuffered, hasFirstPlayerWon);
 	}
 	
 	[RPC]
-	public void quitGameRPC(bool isFirstP)
+	public void quitGameRPC(bool hasFirstPlayerWon)
 	{
-		if (isFirstP == GameView.instance.getIsFirstPlayer())
-		{
-			EndSceneController.instance.displayEndScene(false);
-		} else
+		if (hasFirstPlayerWon == GameView.instance.getIsFirstPlayer())
 		{
 			EndSceneController.instance.displayEndScene(true);
+		} 
+		else
+		{
+			EndSceneController.instance.displayEndScene(false);
 		}
 		PhotonNetwork.LeaveRoom ();
 	}

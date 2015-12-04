@@ -612,5 +612,16 @@ public class TutorialObjectController : MonoBehaviour
 	{
 		return new GameObject ();
 	}
+	public bool launchTutorialGame()
+	{
+		if(this.isTutorialLaunched && this.sequenceID==102)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
 }
 

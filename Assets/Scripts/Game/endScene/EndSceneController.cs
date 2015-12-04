@@ -212,7 +212,7 @@ public class EndSceneController : MonoBehaviour
 				//this.Cards[i].NewSkills=new List<Skill>();
 				if(myDeck.cards[i].GetNewSkill)
 				{
-					for(int j=0;j<myDeck.cards[i].Skills.Count;i++)
+					for(int j=0;j<myDeck.cards[i].Skills.Count;j++)
 					{
 						if(myDeck.cards[i].Skills[myDeck.cards[i].Skills.Count-j-1].IsActivated==1)
 						{
@@ -310,7 +310,7 @@ public class EndSceneController : MonoBehaviour
 				this.endGamePanel.transform.FindChild("Skills").GetComponent<TextMeshPro>().text="Vous débloquez : ";
 				for(int i =0;i<this.skillsUnlocked.Count;i++)
 				{
-					this.endGamePanel.transform.FindChild("Skills").GetComponent<TextMeshPro>().text=this.endGamePanel.transform.FindChild("Skills").GetComponent<TextMeshPro>().text+"\n- "+this.skillsUnlocked[i];
+					this.endGamePanel.transform.FindChild("Skills").GetComponent<TextMeshPro>().text=this.endGamePanel.transform.FindChild("Skills").GetComponent<TextMeshPro>().text+"\n- "+this.skillsUnlocked[i].Name;
 				}
 			}
 		}
