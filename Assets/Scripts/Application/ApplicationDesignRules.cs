@@ -99,6 +99,9 @@ public class ApplicationDesignRules : MonoBehaviour
 	static private Vector2 cardFocusedSize = new Vector3 (932f * 0.7287152f, 1402f * 0.7287152f);
 	static public Vector2 cardFocusedWorldSize;
 	static public Vector3 cardFocusedScale;
+	static private Vector2 nextLevelPopUpSize = new Vector2 (720f, 1004f);
+	static public Vector2 nextLevelPopUpWorldSize;
+	static public Vector3 nextLevelPopUpScale;
 	static private Vector2 cardTypeFilterSize = new Vector2(386f,386f);
 	static public Vector2 cardTypeFilterWorldSize;
 	static private Vector3 cardTypeFilterOriginalScale=new Vector3(0.17f,0.17f,0.17f);
@@ -269,6 +272,10 @@ public class ApplicationDesignRules : MonoBehaviour
 		cardFocusedWorldSize.y = worldHeight - upMargin - downMargin;
 		float focusedCardScale = cardFocusedWorldSize.y / (cardFocusedSize.y / pixelPerUnit);
 		cardFocusedScale = new Vector3 (focusedCardScale, focusedCardScale, focusedCardScale);
+
+		nextLevelPopUpWorldSize.y = cardFocusedWorldSize.y;
+		float nextLevelPopUpYScale = (nextLevelPopUpWorldSize.y / (nextLevelPopUpSize.y / pixelPerUnit))*(1f/focusedCardScale);
+		nextLevelPopUpScale = new Vector3 (nextLevelPopUpYScale, nextLevelPopUpYScale, nextLevelPopUpYScale);
 	}
 	static private Vector2 toWorldSize(Vector2 originalSize, Vector3 scale)
 	{

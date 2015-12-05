@@ -7,15 +7,30 @@ public class NextLevelPopUpAttributeController : SimpleButtonController
 	private int index;
 	private int newPower;
 	private int newLevel;
-	private bool isHovering;
-
+	private bool isNotClickable;
+	
 	public void initialize(int index, int newPower, int newLevel)
 	{
 		this.index = index;
 		this.newPower = newPower;
 		this.newLevel = newLevel;
 	}
-
+	public override void setHoveredState()
+	{
+		if(!isNotClickable)
+		{
+			gameObject.transform.GetComponent<SpriteRenderer>().color=ApplicationDesignRules.blueColor;
+			gameObject.transform.FindChild("Title").GetComponent<TextMeshPro>().color=ApplicationDesignRules.blueColor;
+		}
+	}
+	public override void setInitialState()
+	{
+		if(!isNotClickable)
+		{
+			gameObject.transform.GetComponent<SpriteRenderer>().color=ApplicationDesignRules.whiteSpriteColor;
+			gameObject.transform.FindChild("Title").GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
+		}
+	}
 	public override void setIsHovered (bool value)
 	{
 		base.setIsHovered (value);
@@ -42,18 +57,19 @@ public class NextLevelPopUpAttributeController : SimpleButtonController
 			}
 		}
 	}
-	public override void setIsActive (bool value)
+	public void setIsNotClickable()
 	{
-		base.setIsActive (value);
-		if(!value)
-		{
-			gameObject.transform.FindChild("Limit").GetComponent<TextMeshPro>().color=ApplicationDesignRules.redColor;
-			gameObject.transform.GetComponent<SpriteRenderer>().color=ApplicationDesignRules.redColor;
-		}
+		gameObject.transform.GetComponent<SpriteRenderer>().color=ApplicationDesignRules.redColor;
+		gameObject.transform.FindChild("Picto").GetComponent<SpriteRenderer>().color=ApplicationDesignRules.redColor;
+		gameObject.transform.FindChild("Title").GetComponent<TextMeshPro>().color=ApplicationDesignRules.redColor;
+		this.isNotClickable = true;
 	}
 	void OnMouseDown()
 	{
-		gameObject.transform.parent.GetComponent<NextLevelPopUpController> ().clickOnAttribute (this.index, this.newPower, this.newLevel);
+		if(!this.isNotClickable)
+		{
+			gameObject.transform.parent.GetComponent<NextLevelPopUpController> ().clickOnAttribute (this.index, this.newPower, this.newLevel);
+		}
 	}
 }
 

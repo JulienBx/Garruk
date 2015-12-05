@@ -7,5 +7,9 @@ public class NextLevelPopUpControllerNewFocusedCard : NextLevelPopUpController
 	{
 		StartCoroutine(this.gameObject.transform.parent.GetComponent<NewFocusedCardController>().upgradeCardAttribute(index, newPower,newLevel));
 	}
+	public override void resize()
+	{
+		this.gameObject.transform.localScale = ApplicationDesignRules.nextLevelPopUpScale;
+	}
 }
 

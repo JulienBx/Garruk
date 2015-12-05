@@ -987,6 +987,10 @@ public class NewFocusedCardController : MonoBehaviour
 		{
 			this.hideErrorPopUp();
 		}
+		else if(this.isNextLevelPopUpDisplayed)
+		{
+			this.nextLevelPopUp.GetComponent<NextLevelPopUpController>().resize();
+		}
 	}
 	public void returnPressed()
 	{
@@ -1195,7 +1199,7 @@ public class NewFocusedCardController : MonoBehaviour
 		MenuController.instance.displayTransparentBackground ();
 		this.nextLevelPopUp = Instantiate(ressources.nextLevelPopUpObject) as GameObject;
 		this.nextLevelPopUp.transform.parent=this.gameObject.transform;
-		this.nextLevelPopUp.transform.position = new Vector3 (gameObject.transform.position.x+ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y, -2f);
+		this.nextLevelPopUp.transform.position = new Vector3(ApplicationDesignRules.menuPosition.x+this.gameObject.transform.FindChild ("Face").position.x,ApplicationDesignRules.menuPosition.y+this.gameObject.transform.FindChild ("Face").position.y,-2f);
 		this.nextLevelPopUp.AddComponent<NextLevelPopUpControllerNewFocusedCard> ();
 		this.nextLevelPopUp.transform.GetComponent<NextLevelPopUpController> ().initialize (this.c);
 		this.isNextLevelPopUpDisplayed=true;
