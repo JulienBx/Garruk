@@ -29,5 +29,9 @@ public class NewCardExperienceController : NewFocusedCardExperienceController
 		this.gameObject.transform.FindChild ("ExperienceGauge").localPosition = new Vector3 (-0.705f+currentPercentage*(0.705f), 0f, 0);
 		this.gameObject.transform.FindChild ("ExperienceGauge").localScale = new Vector3 (currentPercentage*1.53f, 1.25f, 1.25f);
 	}
+	public override void endUpdatingXp(bool hasLevelChanged)
+	{
+		gameObject.transform.parent.GetComponent<NewFocusedCardController>().endUpdatingXp (hasLevelChanged);
+	}
 }
 

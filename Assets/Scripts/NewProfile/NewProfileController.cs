@@ -861,6 +861,10 @@ public class NewProfileController : MonoBehaviour
 		{
 			this.hideSearchUsersPopUp();
 		}
+		else
+		{
+			MenuController.instance.leaveGame();
+		}
 	}
 	public void closeAllPopUp()
 	{

@@ -10,7 +10,7 @@ public class NewFocusedCardSkillSkillTypeController : MonoBehaviour
 	{
 		if(!isHovered)
 		{
-			gameObject.transform.parent.transform.parent.GetComponent<NewFocusedCardController>().showSkillTypePopUp(this.id);
+			gameObject.transform.parent.transform.parent.transform.parent.GetComponent<NewFocusedCardController>().showSkillTypePopUp(this.id);
 			this.isHovered=true;
 		}
 	}
@@ -18,7 +18,7 @@ public class NewFocusedCardSkillSkillTypeController : MonoBehaviour
 	{
 		if(isHovered)
 		{
-			gameObject.transform.parent.transform.parent.GetComponent<NewFocusedCardController>().hideSkillPopUp();
+			gameObject.transform.parent.transform.parent.transform.parent.GetComponent<NewFocusedCardController>().hideSkillPopUp();
 			this.isHovered=false;
 		}
 		

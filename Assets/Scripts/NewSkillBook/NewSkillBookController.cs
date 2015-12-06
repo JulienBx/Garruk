@@ -1174,6 +1174,7 @@ public class NewSkillBookController : MonoBehaviour
 	}
 	public void escapePressed()
 	{
+		MenuController.instance.leaveGame();
 	}
 	public void closeAllPopUp()
 	{

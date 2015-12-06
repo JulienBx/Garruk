@@ -412,6 +412,10 @@ public class NewLobbyController : MonoBehaviour
 		{
 			this.hidePopUp();
 		}
+		else
+		{
+			MenuController.instance.leaveGame();
+		}
 	}
 	public void closeAllPopUp()
 	{

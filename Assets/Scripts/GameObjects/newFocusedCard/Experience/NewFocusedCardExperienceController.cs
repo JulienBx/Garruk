@@ -57,9 +57,13 @@ public class NewFocusedCardExperienceController : MonoBehaviour
 			else 
 			{	
 				this.setToUpdateXp(false);
-				gameObject.transform.parent.GetComponent<NewFocusedCardController>().endUpdatingXp (this.hasLevelChanged);
+				this.endUpdatingXp(this.hasLevelChanged);
 			}
 		}
+	}
+	public virtual void endUpdatingXp(bool hasLevelChanged)
+	{
+		gameObject.transform.parent.transform.parent.GetComponent<NewFocusedCardController>().endUpdatingXp (hasLevelChanged);
 	}
 	public virtual void setExperience(int Level, int Percentage)
 	{
@@ -92,7 +96,7 @@ public class NewFocusedCardExperienceController : MonoBehaviour
 		{
 			this.nbIteration=10f-(float)this.startLevel-this.startPercentage;
 		}
-		this.scaleSpeed = 0.5f*nbIteration;
+		this.scaleSpeed = 1f*nbIteration;
 		this.setToUpdateXp(true);
 	}
 	public virtual void updateGauge(float currentPercentage)

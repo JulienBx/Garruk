@@ -945,6 +945,10 @@ public class NewHomePageController : MonoBehaviour
 		{
 			this.hideEndGamePopUp();
 		}
+		else
+		{
+			MenuController.instance.leaveGame();
+		}
 	}
 	public void closeAllPopUp()
 	{

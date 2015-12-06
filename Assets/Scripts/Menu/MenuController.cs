@@ -787,7 +787,10 @@ public class MenuController : MonoBehaviour
 	public virtual void moneyUpdate()
 	{
 	}
-
+	public void leaveGame()
+	{
+		this.displayDisconnectedPopUp ();
+	}
 	#region TUTORIAL FUNCTIONS
 
 	public void helpHandler()

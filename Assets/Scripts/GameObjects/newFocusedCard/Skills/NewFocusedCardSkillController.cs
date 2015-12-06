@@ -10,11 +10,11 @@ public class NewFocusedCardSkillController : MonoBehaviour
 	
 	public virtual void show()
 	{
-		this.gameObject.transform.FindChild ("Picto").GetComponent<SpriteRenderer> ().sprite = gameObject.transform.parent.GetComponent<NewFocusedCardController>().getSkillSprite(this.s.Level - 1);
-		this.gameObject.transform.FindChild ("Picto").GetComponent<SpriteRenderer> ().sprite = gameObject.transform.parent.GetComponent<NewFocusedCardController>().getSkillSprite(this.s.Level - 1);
+		this.gameObject.transform.FindChild ("Picto").GetComponent<SpriteRenderer> ().sprite = gameObject.transform.parent.transform.parent.GetComponent<NewFocusedCardController>().getSkillSprite(this.s.Level - 1);
+		this.gameObject.transform.FindChild ("Picto").GetComponent<SpriteRenderer> ().sprite = gameObject.transform.parent.transform.parent.GetComponent<NewFocusedCardController>().getSkillSprite(this.s.Level - 1);
 		this.gameObject.transform.FindChild ("Name").GetComponent<TextMeshPro> ().text = this.s.Name;
 		this.gameObject.transform.FindChild ("Power").GetComponent<TextMeshPro> ().text = "Niv "+this.s.Power.ToString();
-		this.gameObject.transform.FindChild ("SkillType").GetComponent<SpriteRenderer> ().sprite = gameObject.transform.parent.GetComponent<NewFocusedCardController>().getSkillTypeSprite(s.SkillType.Id);
+		this.gameObject.transform.FindChild ("SkillType").GetComponent<SpriteRenderer> ().sprite = gameObject.transform.parent.transform.parent.GetComponent<NewFocusedCardController>().getSkillTypeSprite(s.SkillType.Id);
 		//this.gameObject.transform.FindChild ("SkillType").FindChild ("Title").GetComponent<TextMeshPro> ().text = s.SkillType.Name.Substring (0, 1).ToUpper ();
 		this.gameObject.transform.FindChild ("Proba").FindChild ("Title").GetComponent<TextMeshPro> ().text = s.proba.ToString ();
 		Color probaColor = new Color ();

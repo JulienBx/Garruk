@@ -891,6 +891,10 @@ public class NewStoreController : MonoBehaviour
 		{
 			this.hideSelectCardPopUp();
 		}
+		else
+		{
+			MenuController.instance.leaveGame();
+		}
 	}
 	public void closeAllPopUp()
 	{

@@ -473,7 +473,7 @@ public class NewMarketController : MonoBehaviour
 			this.cardsTypeFilters[i].AddComponent<NewMarketCardTypeFilterController>();
 			this.cardsTypeFilters[i].GetComponent<NewMarketCardTypeFilterController>().setId(i);
 		}
-		this.valueFilters=new GameObject[4];
+		this.valueFilters=new GameObject[3];
 		for(int i=0;i<this.valueFilters.Length;i++)
 		{
 			this.valueFilters[i]=GameObject.Find ("ValueFilter"+i);
@@ -517,7 +517,7 @@ public class NewMarketController : MonoBehaviour
 			this.priceCursors[i].AddComponent<NewMarketPriceCursorController>();
 			this.priceCursors[i].GetComponent<NewMarketPriceCursorController>().setId(i);
 		}
-		this.sortButtons=new GameObject[10];
+		this.sortButtons=new GameObject[8];
 		for(int i=0;i<2;i++)
 		{
 			this.sortButtons[i]=this.priceFilter.transform.FindChild("Sort"+i).gameObject;
@@ -585,8 +585,8 @@ public class NewMarketController : MonoBehaviour
 		this.valueFilters[1].transform.FindChild("Icon").GetComponent<SpriteRenderer>().color=getColorFilterIcon(attackVal);
 		this.valueFilters[2].transform.FindChild ("Value").GetComponent<TextMeshPro>().text = getValueFilterLabel(lifeVal);
 		this.valueFilters[2].transform.FindChild("Icon").GetComponent<SpriteRenderer>().color=getColorFilterIcon(lifeVal);
-		this.valueFilters[3].transform.FindChild ("Value").GetComponent<TextMeshPro>().text = getValueFilterLabel(quicknessVal);
-		this.valueFilters[3].transform.FindChild("Icon").GetComponent<SpriteRenderer>().color=getColorFilterIcon(quicknessVal);
+		//this.valueFilters[3].transform.FindChild ("Value").GetComponent<TextMeshPro>().text = getValueFilterLabel(quicknessVal);
+		//this.valueFilters[3].transform.FindChild("Icon").GetComponent<SpriteRenderer>().color=getColorFilterIcon(quicknessVal);
 		
 		for(int i=0;i<this.cursors.Length;i++)
 		{
@@ -1325,29 +1325,29 @@ public class NewMarketController : MonoBehaviour
 						tempA = model.cards.getCard(this.cardsToBeDisplayed[j]).Power;
 						break;
 					case 4:
-						tempA = model.cards.getCard(this.cardsToBeDisplayed[i]).Life;
-						tempB = model.cards.getCard(this.cardsToBeDisplayed[j]).Life;
-						break;
-					case 5:
-						tempB = model.cards.getCard(this.cardsToBeDisplayed[i]).Life;
-						tempA = model.cards.getCard(this.cardsToBeDisplayed[j]).Life;
-						break;
-					case 6:
 						tempA = model.cards.getCard(this.cardsToBeDisplayed[i]).Attack;
 						tempB = model.cards.getCard(this.cardsToBeDisplayed[j]).Attack;
 						break;
-					case 7:
+					case 5:
 						tempB = model.cards.getCard(this.cardsToBeDisplayed[i]).Attack;
 						tempA = model.cards.getCard(this.cardsToBeDisplayed[j]).Attack;
 						break;
-					case 8:
-						tempA = model.cards.getCard(this.cardsToBeDisplayed[i]).Speed;
-						tempB = model.cards.getCard(this.cardsToBeDisplayed[j]).Speed;
+					case 6:
+						tempA = model.cards.getCard(this.cardsToBeDisplayed[i]).Life;
+						tempB = model.cards.getCard(this.cardsToBeDisplayed[j]).Life;
 						break;
-					case 9:
-						tempB = model.cards.getCard(this.cardsToBeDisplayed[i]).Speed;
-						tempA = model.cards.getCard(this.cardsToBeDisplayed[j]).Speed;
+					case 7:
+						tempB = model.cards.getCard(this.cardsToBeDisplayed[i]).Life;
+						tempA = model.cards.getCard(this.cardsToBeDisplayed[j]).Life;
 						break;
+//					case 8:
+//						tempA = model.cards.getCard(this.cardsToBeDisplayed[i]).Speed;
+//						tempB = model.cards.getCard(this.cardsToBeDisplayed[j]).Speed;
+//						break;
+//					case 9:
+//						tempB = model.cards.getCard(this.cardsToBeDisplayed[i]).Speed;
+//						tempA = model.cards.getCard(this.cardsToBeDisplayed[j]).Speed;
+//						break;
 					default:
 						break;
 					}
@@ -1456,9 +1456,9 @@ public class NewMarketController : MonoBehaviour
 		{
 			this.focusedCard.GetComponent<NewFocusedCardController>().escapePressed();
 		}
-		else
+		else if(!this.cards[this.idCardClicked].GetComponent<NewCardController>().closePopUps())
 		{
-			this.cards[this.idCardClicked].GetComponent<NewCardController>().escapePressed();
+			MenuController.instance.leaveGame();
 		}
 	}
 	public void closeAllPopUp()

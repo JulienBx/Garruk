@@ -9,12 +9,21 @@ public class NewFocusedCardController : MonoBehaviour
 {
 	private NewFocusedCardRessources ressources;
 	public NewPopUpRessources popUpRessources;
+
 	public GameObject[] skills;
 	public GameObject experience;
 	public GameObject cardUpgrade;
 	public GameObject panelSold;
 	public GameObject skillPopUp;
 	public GameObject nextLevelPopUp;
+	public GameObject attack;
+	public GameObject life;
+	public GameObject quickness;
+	public GameObject name;
+	public GameObject face;
+	public GameObject caracter;
+	public GameObject cardbox;
+	public GameObject card;
 
 	public Card c;
 	public int collectionPointsEarned;
@@ -69,6 +78,10 @@ public class NewFocusedCardController : MonoBehaviour
 	private float timerSkillHighlighted;
 	
 	private bool isNextLevelPopUpDisplayed;
+	private bool isNextLevelPopUpDisplaying;
+	private bool isNextLevelPopUpHiding;
+
+	private float angle;
 	
 
 	public virtual void Update ()
@@ -91,6 +104,57 @@ public class NewFocusedCardController : MonoBehaviour
 				this.isSkillHighlighted=false;
 			}
 		}
+		if(isNextLevelPopUpDisplaying)
+		{
+			this.angle = this.angle + 500f * Time.deltaTime;
+			if(this.angle>90)
+			{
+				if(!this.isNextLevelPopUpDisplayed)
+				{
+					this.displayNextLevelPopUp();
+				}
+				if(this.angle>180)
+				{
+					this.angle=180;
+					this.isNextLevelPopUpDisplaying=false;
+				}
+			}
+			Quaternion targetFocusedCard= Quaternion.Euler(0, this.angle, 0);
+			Quaternion targetNextLevelPopUp= Quaternion.Euler(0,this.angle+180,0);
+			this.card.transform.rotation = targetFocusedCard;
+			if(this.isNextLevelPopUpDisplayed)
+			{
+				this.nextLevelPopUp.transform.rotation=targetNextLevelPopUp;
+			}
+		}
+		if(isNextLevelPopUpHiding)
+		{
+			this.angle = this.angle - 500f * Time.deltaTime;
+			if(this.angle<90)
+			{
+				if(this.isNextLevelPopUpDisplayed)
+				{
+					this.hideNextLevelPopUp ();
+				}
+				if(this.angle<0)
+				{
+					this.angle=0;
+					this.isNextLevelPopUpHiding=false;
+				}
+			}
+			Quaternion targetFocusedCard= Quaternion.Euler(0, this.angle, 0);
+			Quaternion targetNextLevelPopUp= Quaternion.Euler(0,this.angle+180,0);
+			this.card.transform.rotation = targetFocusedCard;
+			if(this.isNextLevelPopUpDisplayed)
+			{
+				this.nextLevelPopUp.transform.rotation=targetNextLevelPopUp;
+			}
+			if(!this.isNextLevelPopUpHiding)
+			{
+				this.endUpdatingCardToNextLevel();
+				MenuController.instance.hideTransparentBackground ();
+			}
+		}
 	}
 	public virtual void Awake()
 	{
@@ -98,15 +162,27 @@ public class NewFocusedCardController : MonoBehaviour
 		this.getRessources ();
 		this.setPopUpRessources ();
 		this.setUpdateSpeed ();
-		this.experience = this.gameObject.transform.FindChild ("Experience").gameObject;
 		this.cardUpgrade = this.gameObject.transform.FindChild ("CardUpgrade").gameObject;
 		this.panelSold = this.gameObject.transform.FindChild ("PanelSold").gameObject;
 		this.skillPopUp = this.gameObject.transform.FindChild ("SkillPopUp").gameObject;
+		this.getCardsComponents ();
 		this.initializeFocusFeatures ();
+	}
+	public virtual void getCardsComponents()
+	{
+		this.experience = this.gameObject.transform.FindChild("Card").FindChild ("Experience").gameObject;
 		for(int i=0;i<this.skills.Length;i++)
 		{
-			this.skills[i]=this.gameObject.transform.FindChild("Skill"+i).gameObject;
+			this.skills[i]=this.gameObject.transform.FindChild("Card").FindChild("Skill"+i).gameObject;
 		}
+		this.name = this.gameObject.transform.FindChild ("Card").FindChild ("Name").gameObject;
+		this.attack = this.gameObject.transform.FindChild ("Card").FindChild ("Attack").gameObject;
+		this.life = this.gameObject.transform.FindChild ("Card").FindChild ("Life").gameObject;
+		this.quickness = this.gameObject.transform.FindChild ("Card").FindChild ("Quickness").gameObject;
+		this.cardbox = this.gameObject.transform.FindChild ("Card").FindChild ("cardbox").gameObject;
+		this.face = this.gameObject.transform.FindChild("Card").FindChild ("Face").gameObject;
+		this.caracter = this.gameObject.transform.FindChild("Card").FindChild ("Caracter").gameObject;
+		this.card = this.gameObject.transform.FindChild ("Card").gameObject;
 	}
 	public virtual void getRessources()
 	{
@@ -123,16 +199,16 @@ public class NewFocusedCardController : MonoBehaviour
 	public virtual void show()
 	{
 		this.applyFrontTexture ();
-		this.gameObject.transform.FindChild ("Name").GetComponent<TextMeshPro> ().text = this.c.Title.ToUpper();
+		this.name.GetComponent<TextMeshPro> ().text = this.c.Title.ToUpper();
 		//this.gameObject.transform.FindChild("Power").FindChild("Text").GetComponent<TextMeshPro>().text = this.c.Power.ToString();
 		//this.gameObject.transform.FindChild ("Power").FindChild ("Text").GetComponent<TextMeshPro> ().color = ressources.colors [this.c.PowerLevel - 1];
-		this.gameObject.transform.FindChild("Life").FindChild("Text").GetComponent<TextMeshPro>().text = this.c.Life.ToString();
-		this.gameObject.transform.FindChild ("Life").FindChild("Picto").GetComponent<SpriteRenderer> ().color = ressources.colors [this.c.LifeLevel - 1];
+		this.life.transform.FindChild("Text").GetComponent<TextMeshPro>().text = this.c.Life.ToString();
+		this.life.transform.FindChild("Picto").GetComponent<SpriteRenderer> ().color = ressources.colors [this.c.LifeLevel - 1];
 		//this.gameObject.transform.FindChild("Move").FindChild("Text").GetComponent<TextMeshPro>().text = this.c.Move.ToString();
-		this.gameObject.transform.FindChild("Attack").FindChild("Text").GetComponent<TextMeshPro>().text = this.c.Attack.ToString();
-		this.gameObject.transform.FindChild ("Attack").FindChild("Picto").GetComponent<SpriteRenderer> ().color = ressources.colors [this.c.AttackLevel - 1];
-		this.gameObject.transform.FindChild("Quickness").FindChild("Text").GetComponent<TextMeshPro>().text = this.c.Speed.ToString();
-		this.gameObject.transform.FindChild ("Quickness").FindChild("Picto").GetComponent<SpriteRenderer> ().color = ressources.colors [this.c.SpeedLevel - 1];
+		this.attack.transform.FindChild("Text").GetComponent<TextMeshPro>().text = this.c.Attack.ToString();
+		this.attack.transform.FindChild("Picto").GetComponent<SpriteRenderer> ().color = ressources.colors [this.c.AttackLevel - 1];
+		this.quickness.transform.FindChild("Text").GetComponent<TextMeshPro>().text = this.c.Speed.ToString();
+		this.quickness.transform.FindChild("Picto").GetComponent<SpriteRenderer> ().color = ressources.colors [this.c.SpeedLevel - 1];
 
 		for(int i=0;i<this.skills.Length;i++)
 		{
@@ -156,8 +232,8 @@ public class NewFocusedCardController : MonoBehaviour
 	}
 	public virtual void applyFrontTexture()
 	{
-		this.gameObject.transform.FindChild ("Caracter").GetComponent<SpriteRenderer> ().sprite = ressources.caracters[this.c.IdClass];
-		this.gameObject.transform.FindChild ("Face").GetComponent<SpriteRenderer> ().sprite = ressources.faces [this.c.PowerLevel - 1];
+		this.caracter.GetComponent<SpriteRenderer> ().sprite = ressources.caracters[this.c.IdClass];
+		this.face.GetComponent<SpriteRenderer> ().sprite = ressources.faces [this.c.PowerLevel - 1];
 	}
 	public void setCardSold()
 	{
@@ -198,7 +274,8 @@ public class NewFocusedCardController : MonoBehaviour
 			{
 				this.setHighlightedSkills();
 			}
-			this.displayNextLevelPopUp();
+			this.isNextLevelPopUpDisplaying=true;
+			MenuController.instance.displayTransparentBackground ();
 		}
 		else
 		{
@@ -208,7 +285,6 @@ public class NewFocusedCardController : MonoBehaviour
 	}
 	public void endUpdatingCardToNextLevel()
 	{
-		this.hideNextLevelPopUp ();
 		if(this.c.GetNewSkill)
 		{
 			this.c.GetNewSkill=false;
@@ -522,7 +598,7 @@ public class NewFocusedCardController : MonoBehaviour
 				this.caracteristicIncrease=System.Convert.ToInt32(experienceData[4]);
 				this.collectionPointsEarned = System.Convert.ToInt32(cardData [1]);
 				this.newCollectionRanking=System.Convert.ToInt32(cardData[2]);
-				this.endUpdatingCardToNextLevel();
+				this.isNextLevelPopUpHiding=true;
 			}
 		}
 		this.hideLoadingScreen ();
@@ -550,7 +626,7 @@ public class NewFocusedCardController : MonoBehaviour
 			if (w.text == "")
 			{
 				this.c.Title = newName;
-				gameObject.transform.FindChild ("Name").GetComponent<TextMeshPro> ().text = this.c.Title.ToUpper();
+				this.name.GetComponent<TextMeshPro> ().text = this.c.Title.ToUpper();
 			}
 			else
 			{
@@ -1117,25 +1193,25 @@ public class NewFocusedCardController : MonoBehaviour
 		switch(caracteristicUpgraded)
 		{
 		case 0:
-			refObject = transform.FindChild("Attack").FindChild("Text").gameObject;
+			refObject = this.attack.transform.FindChild("Text").gameObject;
 			break;
 		case 1:
-			refObject=transform.FindChild("Life").FindChild("Text").gameObject;
+			refObject=this.life.transform.FindChild("Text").gameObject;
 			break;
 		case 2:
-			refObject=transform.FindChild("Quickness").FindChild("Text").gameObject;
+			refObject=this.quickness.transform.FindChild("Text").gameObject;
 			break;
 		case 3:
-			refObject=transform.FindChild("Skill0").FindChild ("Power").gameObject;
+			refObject=this.skills[0].transform.FindChild ("Power").gameObject;
 			break;
 		case 4:
-			refObject=transform.FindChild("Skill1").FindChild ("Power").gameObject;
+			refObject=this.skills[1].transform.FindChild ("Power").gameObject;
 			break;
 		case 5:
-			refObject=transform.FindChild("Skill2").FindChild ("Power").gameObject;
+			refObject=this.skills[2].transform.FindChild ("Power").gameObject;
 			break;
 		case 6:
-			refObject=transform.FindChild("Skill3").FindChild ("Power").gameObject;
+			refObject=this.skills[3].transform.FindChild ("Power").gameObject;
 			break;
 		}
 		Vector3 refPosition =refObject.transform.position;
@@ -1147,18 +1223,18 @@ public class NewFocusedCardController : MonoBehaviour
 		if(value)
 		{
 			this.applyBackTexture();
-			this.gameObject.transform.FindChild ("Face").GetComponent<SpriteRenderer> ().sortingOrder = 10;
+			this.face.GetComponent<SpriteRenderer> ().sortingOrder = 10;
 		}
 		else
 		{
 			this.applyFrontTexture();
-			this.gameObject.transform.FindChild ("Face").GetComponent<SpriteRenderer> ().sortingOrder = 0;
+			this.face.GetComponent<SpriteRenderer> ().sortingOrder = 0;
 		}
 
 	}
 	public virtual void applyBackTexture()
 	{
-		this.gameObject.transform.FindChild ("Face").GetComponent<SpriteRenderer> ().sprite = ressources.backFace;
+		this.face.GetComponent<SpriteRenderer> ().sprite = ressources.backFace;
 	}
 	public virtual void animateExperience()
 	{
@@ -1196,17 +1272,15 @@ public class NewFocusedCardController : MonoBehaviour
 	}
 	public void displayNextLevelPopUp()
 	{
-		MenuController.instance.displayTransparentBackground ();
 		this.nextLevelPopUp = Instantiate(ressources.nextLevelPopUpObject) as GameObject;
 		this.nextLevelPopUp.transform.parent=this.gameObject.transform;
-		this.nextLevelPopUp.transform.position = new Vector3(ApplicationDesignRules.menuPosition.x+this.gameObject.transform.FindChild ("Face").position.x,ApplicationDesignRules.menuPosition.y+this.gameObject.transform.FindChild ("Face").position.y,-2f);
+		this.nextLevelPopUp.transform.position = new Vector3(ApplicationDesignRules.menuPosition.x+this.face.transform.position.x,ApplicationDesignRules.menuPosition.y+this.face.transform.position.y,-2f);
 		this.nextLevelPopUp.AddComponent<NextLevelPopUpControllerNewFocusedCard> ();
 		this.nextLevelPopUp.transform.GetComponent<NextLevelPopUpController> ().initialize (this.c);
 		this.isNextLevelPopUpDisplayed=true;
 	}
 	public void hideNextLevelPopUp()
 	{
-		MenuController.instance.hideTransparentBackground ();
 		MenuController.instance.setIsUserBusy (false);
 		Destroy (this.nextLevelPopUp);
 		this.isNextLevelPopUpDisplayed=false;
@@ -1221,7 +1295,7 @@ public class NewFocusedCardController : MonoBehaviour
 		this.isSkillPopUpDisplayed = true;
 		this.skillPopUp.transform.FindChild ("title").GetComponent<TextMeshPro> ().text = this.c.Skills [id].SkillType.Name;
 		this.skillPopUp.transform.FindChild ("description").GetComponent<TextMeshPro> ().text = this.c.Skills [id].SkillType.Description;
-		this.skillPopUp.transform.position = new Vector3 (gameObject.transform.FindChild ("Skill" + id).transform.FindChild ("SkillType").position.x, gameObject.transform.FindChild ("Skill" + id).transform.FindChild ("SkillType").position.y-System.Convert.ToInt32(id==0)*1f+System.Convert.ToInt32(id>0)*1f, 0f);
+		this.skillPopUp.transform.position = new Vector3 (this.skills[id].transform.FindChild ("SkillType").position.x, this.skills[id].transform.FindChild ("SkillType").position.y-System.Convert.ToInt32(id==0)*1f+System.Convert.ToInt32(id>0)*1f, 0f);
 	}
 	public void hideSkillPopUp()
 	{
@@ -1234,6 +1308,6 @@ public class NewFocusedCardController : MonoBehaviour
 		this.isSkillPopUpDisplayed = true;
 		this.skillPopUp.transform.FindChild ("title").GetComponent<TextMeshPro> ().text = "Probabilité de succès";
 		this.skillPopUp.transform.FindChild ("description").GetComponent<TextMeshPro> ().text = "Cette compétence a un taux de réussite de : "+this.c.Skills[id].proba+" %.";
-		this.skillPopUp.transform.position = new Vector3 (gameObject.transform.FindChild ("Skill" + id).transform.FindChild ("Proba").position.x, gameObject.transform.FindChild ("Skill" + id).transform.FindChild ("Proba").position.y+1f, 0f);
+		this.skillPopUp.transform.position = new Vector3 (this.skills[id].transform.FindChild ("Proba").position.x, this.skills[id].transform.FindChild ("Proba").position.y+1f, 0f);
 	}
 }
