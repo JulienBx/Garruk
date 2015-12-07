@@ -1272,12 +1272,12 @@ public class NewFocusedCardController : MonoBehaviour
 	}
 	public void displayNextLevelPopUp()
 	{
+		this.isNextLevelPopUpDisplayed=true;
 		this.nextLevelPopUp = Instantiate(ressources.nextLevelPopUpObject) as GameObject;
 		this.nextLevelPopUp.transform.parent=this.gameObject.transform;
 		this.nextLevelPopUp.transform.position = new Vector3(ApplicationDesignRules.menuPosition.x+this.face.transform.position.x,ApplicationDesignRules.menuPosition.y+this.face.transform.position.y,-2f);
 		this.nextLevelPopUp.AddComponent<NextLevelPopUpControllerNewFocusedCard> ();
 		this.nextLevelPopUp.transform.GetComponent<NextLevelPopUpController> ().initialize (this.c);
-		this.isNextLevelPopUpDisplayed=true;
 	}
 	public void hideNextLevelPopUp()
 	{

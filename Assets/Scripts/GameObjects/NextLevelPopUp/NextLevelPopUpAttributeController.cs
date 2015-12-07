@@ -1,13 +1,14 @@
 using UnityEngine;
 using TMPro;
 
-public class NextLevelPopUpAttributeController : SimpleButtonController
+public class NextLevelPopUpAttributeController :MonoBehaviour
 {
 
 	private int index;
 	private int newPower;
 	private int newLevel;
 	private bool isNotClickable;
+	private bool isHovered;
 	
 	public void initialize(int index, int newPower, int newLevel)
 	{
@@ -15,54 +16,55 @@ public class NextLevelPopUpAttributeController : SimpleButtonController
 		this.newPower = newPower;
 		this.newLevel = newLevel;
 	}
-	public override void setHoveredState()
+	public void setIsNotClickable()
 	{
-		if(!isNotClickable)
-		{
-			gameObject.transform.GetComponent<SpriteRenderer>().color=ApplicationDesignRules.blueColor;
-			gameObject.transform.FindChild("Title").GetComponent<TextMeshPro>().color=ApplicationDesignRules.blueColor;
-		}
+		this.isNotClickable = true;
 	}
-	public override void setInitialState()
+	void OnMouseOver()
 	{
-		if(!isNotClickable)
+		if(!this.isHovered)
 		{
-			gameObject.transform.GetComponent<SpriteRenderer>().color=ApplicationDesignRules.whiteSpriteColor;
-			gameObject.transform.FindChild("Title").GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
-		}
-	}
-	public override void setIsHovered (bool value)
-	{
-		base.setIsHovered (value);
-		if(value)
-		{
-			if(index<3)
+			this.isHovered=true;
+			if(this.index<3)
 			{
-				gameObject.transform.parent.GetComponent<NextLevelPopUpController> ().displayAttributePopUp(index);
+				if(!this.isNotClickable)
+				{
+					gameObject.transform.GetComponent<SpriteRenderer>().color=ApplicationDesignRules.blueColor;
+				}
+				gameObject.transform.parent.GetComponent<NextLevelPopUpController> ().displayAttributePopUp(this.index);
 			}
 			else
 			{
-				gameObject.transform.parent.GetComponent<NextLevelPopUpController> ().displaySkillPopUp(index);
+				if(!this.isNotClickable)
+				{
+					gameObject.transform.parent.transform.FindChild("SkillButton"+(this.index-3)).GetComponent<SpriteRenderer>().color=ApplicationDesignRules.blueColor;
+				}
+				gameObject.transform.parent.GetComponent<NextLevelPopUpController> ().displaySkillPopUp(this.index);
 			}
 		}
-		else
+	}
+	void OnMouseExit()
+	{
+		if(this.isHovered)
 		{
-			if(index<3)
+			this.isHovered=false;
+			if(this.index<3)
 			{
+				if(!this.isNotClickable)
+				{
+					gameObject.transform.GetComponent<SpriteRenderer>().color=ApplicationDesignRules.whiteSpriteColor;
+				}
 				gameObject.transform.parent.GetComponent<NextLevelPopUpController> ().hideAttributePopUp();
 			}
 			else
 			{
+				if(!this.isNotClickable)
+				{
+					gameObject.transform.parent.transform.FindChild("SkillButton"+(this.index-3)).GetComponent<SpriteRenderer>().color=ApplicationDesignRules.whiteSpriteColor;
+				}
 				gameObject.transform.parent.GetComponent<NextLevelPopUpController> ().hideSkillPopUp();
 			}
 		}
-	}
-	public void setIsNotClickable()
-	{
-		gameObject.transform.GetComponent<SpriteRenderer>().color=ApplicationDesignRules.redColor;
-		gameObject.transform.FindChild("Picto").GetComponent<SpriteRenderer>().color=ApplicationDesignRules.redColor;
-		gameObject.transform.FindChild("Title").GetComponent<TextMeshPro>().color=ApplicationDesignRules.redColor;
-		this.isNotClickable = true;
 	}
 	void OnMouseDown()
 	{

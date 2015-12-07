@@ -26,75 +26,83 @@ public class NextLevelPopUpController : MonoBehaviour
 		this.ressources = this.gameObject.GetComponent<NextLevelPopUpRessources> ();
 		this.gameObject.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "NOUVEAU NIVEAU !";
 		this.gameObject.transform.FindChild ("Title").GetComponent<TextMeshPro> ().color = ApplicationDesignRules.whiteTextColor;
-		this.gameObject.transform.FindChild ("Description").GetComponent<TextMeshPro> ().text = c.Title + " est passé au niveau " + c.ExperienceLevel;
+		this.gameObject.transform.FindChild ("Description").GetComponent<TextMeshPro> ().text = c.Title + " est passé au niveau " + c.ExperienceLevel +".\nChoisissez une caractéristique à augmenter";
 		this.gameObject.transform.FindChild ("Description").GetComponent<TextMeshPro> ().color = ApplicationDesignRules.whiteTextColor;
-		this.gameObject.transform.FindChild ("Description2").GetComponent<TextMeshPro> ().text = "Choisissez une caractéristique à augmenter";
-		this.gameObject.transform.FindChild ("Description2").GetComponent<TextMeshPro> ().color = ApplicationDesignRules.whiteTextColor;
 		this.gameObject.transform.FindChild ("Picto").GetComponent<SpriteRenderer> ().sprite = ressources.cardTypesSprites [c.IdClass];
 
-		this.gameObject.transform.FindChild("Attack").GetComponent<NextLevelPopUpAttributeController> ().initialize (0, c.UpgradedAttack, c.UpgradedAttackLevel);
-		this.gameObject.transform.FindChild("Life").GetComponent<NextLevelPopUpAttributeController> ().initialize (1, c.UpgradedLife, c.UpgradedLifeLevel);
-//		this.gameObject.transform.FindChild("Speed").GetComponent<NextLevelPopUpAttributeController> ().initialize (2, c.UpgradedSpeed, c.UpgradedSpeedLevel);
-		this.gameObject.transform.FindChild("Attack").FindChild("Title").GetComponent<TextMeshPro>().text = "Attaque";
+		this.gameObject.transform.FindChild("AttackButton").GetComponent<NextLevelPopUpAttributeController> ().initialize (0, c.UpgradedAttack, c.UpgradedAttackLevel);
+		this.gameObject.transform.FindChild("LifeButton").GetComponent<NextLevelPopUpAttributeController> ().initialize (1, c.UpgradedLife, c.UpgradedLifeLevel);
+		this.gameObject.transform.FindChild("Attack").FindChild("Title").GetComponent<TextMeshPro>().text = c.Attack.ToString();
 		this.gameObject.transform.FindChild("Attack").FindChild ("Title").GetComponent<TextMeshPro> ().color = ApplicationDesignRules.whiteTextColor;
 		this.gameObject.transform.FindChild("Attack").FindChild("Picto").GetComponent<SpriteRenderer> ().color = ressources.colors [c.AttackLevel - 1];
-		this.gameObject.transform.FindChild("Life").FindChild("Title").GetComponent<TextMeshPro>().text = "Vie";
+		this.gameObject.transform.FindChild("Life").FindChild("Title").GetComponent<TextMeshPro>().text = c.Life.ToString();
 		this.gameObject.transform.FindChild("Life").FindChild ("Title").GetComponent<TextMeshPro> ().color = ApplicationDesignRules.whiteTextColor;
-		this.gameObject.transform.FindChild("Life").FindChild("Picto").GetComponent<SpriteRenderer> ().color = ressources.colors [c.LifeLevel - 1];
-//		this.gameObject.transform.FindChild("Speed").FindChild("Title").GetComponent<TextMeshPro>().text = "Rapidité";
-//		this.gameObject.transform.FindChild("Speed").FindChild ("Title").GetComponent<TextMeshPro> ().color = ApplicationDesignRules.whiteTextColor;
-//		this.gameObject.transform.FindChild("Speed").FindChild("Picto").GetComponent<SpriteRenderer> ().color = ressources.colors [c.SpeedLevel - 1];
+		this.gameObject.transform.FindChild ("Life").FindChild ("Picto").GetComponent<SpriteRenderer> ().color = ressources.colors [c.LifeLevel - 1];
 
 
 		if(c.UpgradedAttack<=c.Attack)
 		{
-			this.gameObject.transform.FindChild("Attack").GetComponent<NextLevelPopUpAttributeController> ().setIsNotClickable();
+			this.gameObject.transform.FindChild("AttackButton").GetComponent<SpriteRenderer>().color=ApplicationDesignRules.redColor;
+			this.gameObject.transform.FindChild("AttackButton").GetComponent<NextLevelPopUpAttributeController> ().setIsNotClickable();
 		}
 		if(c.UpgradedLife<=c.Life)
 		{
-			this.gameObject.transform.FindChild("Life").GetComponent<NextLevelPopUpAttributeController> ().setIsNotClickable();
+			this.gameObject.transform.FindChild("LifeButton").GetComponent<SpriteRenderer>().color=ApplicationDesignRules.redColor;
+			this.gameObject.transform.FindChild("LifeButton").GetComponent<NextLevelPopUpAttributeController> ().setIsNotClickable();
 		}
-//		if(c.UpgradedSpeed<=c.Speed)
-//		{
-//			this.gameObject.transform.FindChild("Speed").GetComponent<NextLevelPopUpAttributeController> ().setIsActive(false);
-//		}
+
 		for(int i=0;i<4;i++)
 		{
 			if(i<c.Skills.Count && c.Skills[i].IsActivated==1)
 			{
-				gameObject.transform.FindChild("Skill"+i).FindChild("Title").GetComponent<TextMeshPro>().text=c.Skills[i].Name;
-				gameObject.transform.FindChild("Skill"+i).FindChild("Title").GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
-				gameObject.transform.FindChild("Skill"+i).FindChild("Picto").GetComponent<SpriteRenderer>().sprite = this.getSkillSprite(0);
-				gameObject.transform.FindChild("Skill"+i).FindChild("Picto").GetComponent<SpriteRenderer>().color=ressources.colors[c.Skills[i].Level-1];
-				if(c.Skills[i].Power!=10 && c.Skills[i].Upgrades<3)
+				gameObject.transform.FindChild("Skill"+i).gameObject.SetActive(true);
+				gameObject.transform.FindChild("SkillButton"+i).GetComponent<SpriteRenderer>().sprite=this.getContourSprite(0);
+				gameObject.transform.FindChild("SkillButton"+i).GetComponent<SpriteRenderer>().color=ApplicationDesignRules.whiteSpriteColor;
+				gameObject.transform.FindChild("Skill"+i).GetComponent<NextLevelPopUpAttributeController> ().initialize (i+3, c.Skills[i].Power+1, c.Skills[i].nextLevel);
+				gameObject.transform.FindChild("Skill"+i).FindChild ("Picto").GetComponent<SpriteRenderer> ().sprite = this.getSkillSprite(c.Skills[i].Level - 1);
+				gameObject.transform.FindChild("Skill"+i).FindChild ("Name").GetComponent<TextMeshPro> ().text = c.Skills[i].Name;
+				gameObject.transform.FindChild("Skill"+i).FindChild ("Power").GetComponent<TextMeshPro> ().text = "Niv "+c.Skills[i].Power.ToString();
+				gameObject.transform.FindChild("Skill"+i).FindChild ("SkillType").GetComponent<SpriteRenderer> ().sprite = this.getSkillTypeSprite(c.Skills[i].SkillType.Id);
+				//gameObject.transform.FindChild("Skill"+i).FindChild ("SkillType").FindChild ("Title").GetComponent<TextMeshPro> ().text = s.SkillType.Name.Substring (0, 1).ToUpper ();
+				gameObject.transform.FindChild("Skill"+i).FindChild ("Proba").FindChild ("Title").GetComponent<TextMeshPro> ().text = c.Skills[i].proba.ToString ();
+				gameObject.transform.FindChild("Skill"+i).FindChild ("Description").GetComponent<TextMeshPro> ().text = c.getSkillText(c.Skills[i].Description);
+				Color probaColor = new Color ();
+				if(c.Skills[i].proba<50)
 				{
-					if(c.ExperienceLevel==4 || c.ExperienceLevel==8)
-					{
-						if(i==(c.Skills.Count-1) || ((i+1)<c.Skills.Count && c.Skills[i+1].IsActivated!=1))
-						{
-							gameObject.transform.FindChild("Skill"+i).FindChild("New").gameObject.SetActive(true);
-							gameObject.transform.FindChild("Skill"+i).FindChild("New").GetComponent<TextMeshPro>().text="Nouveau !";
-							gameObject.transform.FindChild("Skill"+i).FindChild("New").GetComponent<TextMeshPro>().color=ApplicationDesignRules.redColor;
-						}
-						else
-						{
-							gameObject.transform.FindChild("Skill"+i).FindChild("New").GetComponent<TextMeshPro>().text="";
-						}
-					}
-					else
-					{
-						gameObject.transform.FindChild("Skill"+i).FindChild("New").GetComponent<TextMeshPro>().text="";
-					}
+					probaColor=ApplicationDesignRules.greyTextColor;
+				}
+				else if(c.Skills[i].proba<80)
+				{
+					probaColor=ApplicationDesignRules.blueColor;
 				}
 				else
 				{
-					this.gameObject.transform.FindChild("Skill" +i).GetComponent<NextLevelPopUpAttributeController> ().setIsNotClickable();
+					probaColor=ApplicationDesignRules.redColor;
 				}
-				gameObject.transform.FindChild("Skill"+i).GetComponent<NextLevelPopUpAttributeController> ().initialize (i+3, c.Skills[i].Power+1, c.Skills[i].nextLevel);
+				gameObject.transform.FindChild("Skill"+i).FindChild ("Proba").FindChild ("Title").GetComponent<TextMeshPro> ().color = probaColor;
+
+				if(c.Skills[i].Power==10 || c.Skills[i].Upgrades>=3)
+				{
+					gameObject.transform.FindChild("Skill"+i).GetComponent<NextLevelPopUpAttributeController> ().setIsNotClickable();
+					gameObject.transform.FindChild("SkillButton"+i).GetComponent<SpriteRenderer>().color=ApplicationDesignRules.redColor;
+				}
 			}
 			else
 			{
-				this.gameObject.transform.FindChild("Skill"+i).gameObject.SetActive(false);
+				gameObject.transform.FindChild("SkillButton"+i).GetComponent<SpriteRenderer>().sprite=this.getContourSprite(1);
+				gameObject.transform.FindChild("SkillButton"+i).GetComponent<SpriteRenderer>().color=ApplicationDesignRules.redColor;
+				gameObject.transform.FindChild("SkillButton"+i).FindChild("Title").GetComponent<TextMeshPro>().color=ApplicationDesignRules.redColor;
+				gameObject.transform.FindChild("Skill"+i).gameObject.SetActive(false);
+				if(i==2)
+				{
+					gameObject.transform.FindChild("SkillButton"+i).FindChild("Title").gameObject.SetActive(true);
+					gameObject.transform.FindChild("SkillButton"+i).FindChild("Title").GetComponent<TextMeshPro>().text="Cette compétence sera accessible à partir du niveau 4";
+				}
+				else if(i==3)
+				{
+					gameObject.transform.FindChild("SkillButton"+i).FindChild("Title").gameObject.SetActive(true);
+					gameObject.transform.FindChild("SkillButton"+i).FindChild("Title").GetComponent<TextMeshPro>().text="Cette compétence sera accessible à partir du niveau 8";
+				}
 			}
 		}
 	}
@@ -103,7 +111,7 @@ public class NextLevelPopUpController : MonoBehaviour
 		this.isSkillPopUpDisplayed = true;
 		this.skillPopUp.SetActive (true);
 		Vector3 popUpPosition = gameObject.transform.FindChild("Skill"+(id-3)).position;
-		popUpPosition.y=popUpPosition.y+1.5f*ApplicationDesignRules.nextLevelPopUpScale.x;
+		popUpPosition.y=popUpPosition.y+1.3f*ApplicationDesignRules.nextLevelPopUpScale.x;
 		this.skillPopUp.transform.position=popUpPosition;
 
 		if (c.Skills [id-3].Power != 10 && c.Skills [id-3].Upgrades < 3) 
@@ -113,11 +121,15 @@ public class NextLevelPopUpController : MonoBehaviour
 			this.skillPopUp.transform.FindChild ("Value").gameObject.SetActive(true);
 			this.skillPopUp.transform.FindChild ("Description").gameObject.SetActive(true);
 			this.skillPopUp.transform.FindChild ("Limit").gameObject.SetActive(false);
-			this.skillPopUp.transform.FindChild ("Picto").GetComponent<SpriteRenderer>().sprite = this.getSkillSprite(0);
+			this.skillPopUp.transform.FindChild ("Picto").GetComponent<SpriteRenderer>().sprite = this.getSkillSprite(c.Skills[id-3].nextLevel - 1);
 			this.skillPopUp.transform.FindChild ("Picto").GetComponent<SpriteRenderer> ().color = ressources.colors[this.c.Skills [id - 3].nextLevel-1];
 			this.skillPopUp.transform.FindChild ("Title").GetComponent<TextMeshPro>().text="Augmenter "+c.Skills[id-3].Name;
 			this.skillPopUp.transform.FindChild ("Value").GetComponent<TextMeshPro> ().text = "Passage au niveau " + (c.Skills [id - 3].Power + 1);
-			this.skillPopUp.transform.FindChild ("Description").GetComponent<TextMeshPro> ().text = this.c.Skills [id - 3].nextDescription;	
+			this.skillPopUp.transform.FindChild ("Description").GetComponent<TextMeshPro> ().text = c.getSkillText(this.c.Skills [id - 3].nextDescription);	
+			if(id-3!=0)
+			{
+				this.skillPopUp.transform.FindChild ("Description").GetComponent<TextMeshPro> ().text+=". P : "+this.c.Skills [id - 3].nextProba.ToString()+"%";
+			}
 			this.skillPopUp.GetComponent<SpriteRenderer>().color=ApplicationDesignRules.whiteSpriteColor;
 		}
 		else
@@ -227,7 +239,7 @@ public class NextLevelPopUpController : MonoBehaviour
 			this.attributePopUp.transform.FindChild("Limit").GetComponent<TextMeshPro>().color=ApplicationDesignRules.redColor;
 			this.attributePopUp.GetComponent<SpriteRenderer>().color=ApplicationDesignRules.redColor;
 		}
-		popUpPosition.y=popUpPosition.y+1.5f*ApplicationDesignRules.nextLevelPopUpScale.x;
+		popUpPosition.y=popUpPosition.y+1.25f*ApplicationDesignRules.nextLevelPopUpScale.x;
 		this.attributePopUp.transform.position=popUpPosition;
 	}
 	public void hideAttributePopUp()
@@ -239,9 +251,17 @@ public class NextLevelPopUpController : MonoBehaviour
 	{
 		return ressources.skillsSprites [id];
 	}
+	public Sprite getSkillTypeSprite(int id)
+	{
+		return ressources.skillsTypesSprites [id];
+	}
 	public Sprite getAttributeSprite(int id)
 	{
 		return ressources.attributesSprites [id];
+	}
+	public Sprite getContourSprite(int id)
+	{
+		return ressources.contours [id];
 	}
 }
 

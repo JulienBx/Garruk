@@ -3,8 +3,8 @@ using TMPro;
 
 public class NewCardController : NewFocusedCardController 
 {
-	private NewCardRessources ressources;
-	private bool isSkillPopUpDisplayed;
+	private NewCardRessources cardRessources;
+	private bool isCardSkillPopUpDisplayed;
 	private int skillDisplayed;
 
 	private int layerVariation;
@@ -36,21 +36,21 @@ public class NewCardController : NewFocusedCardController
 	}
 	public override void getRessources()
 	{
-		this.ressources = this.gameObject.GetComponent<NewCardRessources> ();
+		this.cardRessources = this.gameObject.GetComponent<NewCardRessources> ();
 	}
 	public override void show()
 	{
 		this.applyFrontTexture ();
 		this.name.transform.GetComponent<TextMeshPro> ().text = this.c.Title.ToUpper();
 		//this.gameObject.transform.FindChild("Power").FindChild("Text").GetComponent<TextMeshPro>().text = this.c.Power.ToString();
-		//this.gameObject.transform.FindChild ("Face").FindChild ("Text").GetComponent<TextMeshPro> ().color = ressources.colors [this.c.PowerLevel - 1];
+		//this.gameObject.transform.FindChild ("Face").FindChild ("Text").GetComponent<TextMeshPro> ().color = cardRessources.colors [this.c.PowerLevel - 1];
 		this.life.transform.FindChild("Text").GetComponent<TextMeshPro>().text = this.c.Life.ToString();
-		this.life.transform.FindChild ("Picto").GetComponent<SpriteRenderer> ().color = ressources.colors [this.c.LifeLevel - 1];
+		this.life.transform.FindChild ("Picto").GetComponent<SpriteRenderer> ().color = cardRessources.colors [this.c.LifeLevel - 1];
 		//this.gameObject.transform.FindChild("Move").FindChild("Text").GetComponent<TextMeshPro>().text = this.c.Move.ToString();
 		this.attack.transform.FindChild("Text").GetComponent<TextMeshPro>().text = this.c.Attack.ToString();
-		this.attack.transform.FindChild ("Picto").GetComponent<SpriteRenderer> ().color = ressources.colors [this.c.AttackLevel - 1];
+		this.attack.transform.FindChild ("Picto").GetComponent<SpriteRenderer> ().color = cardRessources.colors [this.c.AttackLevel - 1];
 		this.quickness.transform.FindChild("Text").GetComponent<TextMeshPro>().text = this.c.Speed.ToString();
-		this.quickness.transform.FindChild ("Picto").GetComponent<SpriteRenderer> ().color = ressources.colors [this.c.SpeedLevel - 1];
+		this.quickness.transform.FindChild ("Picto").GetComponent<SpriteRenderer> ().color = cardRessources.colors [this.c.SpeedLevel - 1];
 		//this.experience.GetComponent<NewCardExperienceController> ().setExperience (this.c.ExperienceLevel, this.c.PercentageToNextLevel);
 
 		for(int i=0;i<this.skills.Length;i++)
@@ -73,8 +73,8 @@ public class NewCardController : NewFocusedCardController
 	}
 	public override void applyFrontTexture()
 	{
-		this.caracter.GetComponent<SpriteRenderer> ().sprite = ressources.caracters[this.c.IdClass];
-		this.face.GetComponent<SpriteRenderer> ().sprite = ressources.faces [this.c.PowerLevel - 1];
+		this.caracter.GetComponent<SpriteRenderer> ().sprite = cardRessources.caracters[this.c.IdClass];
+		this.face.GetComponent<SpriteRenderer> ().sprite = cardRessources.faces [this.c.PowerLevel - 1];
 	}
 	public override void displayPanelSold()
 	{
@@ -135,7 +135,7 @@ public class NewCardController : NewFocusedCardController
 	} 
 	public override void applyBackTexture()
 	{
-		this.face.GetComponent<SpriteRenderer> ().sprite = ressources.backFace;
+		this.face.GetComponent<SpriteRenderer> ().sprite = cardRessources.backFace;
 	}
 	public virtual void OnMouseOver()
 	{
@@ -149,9 +149,9 @@ public class NewCardController : NewFocusedCardController
 				if(newSkillHovered!=skillDisplayed)
 				{
 					this.skillDisplayed=newSkillHovered;
-					if(!isSkillPopUpDisplayed)
+					if(!isCardSkillPopUpDisplayed)
 					{
-						this.isSkillPopUpDisplayed=true;
+						this.isCardSkillPopUpDisplayed=true;
 						this.skillPopUp.SetActive(true);
 						Vector3 popUpScale = new Vector3(1f/this.gameObject.transform.localScale.x,1f/this.gameObject.transform.localScale.y,1f/this.gameObject.transform.localScale.z);
 						this.skillPopUp.transform.localScale=popUpScale;
@@ -187,13 +187,13 @@ public class NewCardController : NewFocusedCardController
 			}
 			else
 			{
-				if(isSkillPopUpDisplayed)
+				if(isCardSkillPopUpDisplayed)
 				{
 					this.hideSkillPopUp();
 				}
 			}
 		}
-		else if(isSkillPopUpDisplayed)
+		else if(isCardSkillPopUpDisplayed)
 		{
 			this.hideSkillPopUp();
 		}
@@ -207,9 +207,9 @@ public class NewCardController : NewFocusedCardController
 	}
 	private void hideSkillPopUp()
 	{
-		if(isSkillPopUpDisplayed)
+		if(isCardSkillPopUpDisplayed)
 		{
-			this.isSkillPopUpDisplayed=false;
+			this.isCardSkillPopUpDisplayed=false;
 			this.skillPopUp.SetActive(false);
 			this.skillDisplayed=-1;
 		}
@@ -277,7 +277,7 @@ public class NewCardController : NewFocusedCardController
 	}
 	public override Color getColors(int id)
 	{
-		return this.ressources.colors[id];	
+		return this.cardRessources.colors[id];	
 	}
 	public override Vector3 getCardUpgradePosition (int caracteristicUpgraded)
 	{
@@ -313,7 +313,7 @@ public class NewCardController : NewFocusedCardController
 	}
 	public virtual Sprite getSkillSprite(int id)
 	{
-		return this.ressources.skills [id];
+		return this.cardRessources.skills [id];
 	}
 }
 
