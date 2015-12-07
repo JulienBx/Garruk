@@ -68,11 +68,8 @@ public class SkillButtonController : MonoBehaviour
 	public void OnMouseDown(){
 		if (this.launchabilityText.Length<2){
 			GameView.instance.runningSkill = this.skill.Id ;
-			GameView.instance.getSkillZoneController().hideSkillButtons();
-			GameView.instance.hideTargets();
 			GameView.instance.getSkillZoneController().isRunningSkill = true ;
 			GameView.instance.getSkillZoneController().updateButtonStatus(GameView.instance.getCurrentCard());
-			GameView.instance.getSkillZoneController().showText();
 			GameSkills.instance.getSkill(this.skill.Id).launch();
 			this.showDescription(false);
 		}

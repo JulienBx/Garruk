@@ -138,7 +138,8 @@ public class InterludeController : MonoBehaviour
 				GameView.instance.updateActionStatus();
 			}
 			else{
-				GameView.instance.skillZone.GetComponent<SkillZoneController>().show(false);
+				GameView.instance.skillZone.GetComponent<SkillZoneController>().showCancelButton(false);
+				GameView.instance.skillZone.GetComponent<SkillZoneController>().showSkillButtons(false);
 				GameView.instance.getMoveZoneController().show(false);
 				GameView.instance.getPassZoneController().show(false);
 				GameView.instance.SB.GetComponent<StartButtonController>().setText("En attente du joueur adverse");

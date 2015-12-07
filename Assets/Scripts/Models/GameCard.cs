@@ -19,6 +19,8 @@ public class GameCard : Card
 	public bool isDead;
 	public bool hasMoved;
 	public bool hasPlayed;
+	public bool canCancelMove;
+	public Tile previousTile;
 	
 	public GameCard(){
 	
