@@ -191,37 +191,27 @@ public class NextLevelPopUpController : MonoBehaviour
 		if(toShowNewValue)
 		{
 			this.attributePopUp.transform.FindChild("Title").gameObject.SetActive(true);
-			this.attributePopUp.transform.FindChild("OldPicto").gameObject.SetActive(true);
 			this.attributePopUp.transform.FindChild("NewPicto").gameObject.SetActive(true);
-			this.attributePopUp.transform.FindChild("OldValue").gameObject.SetActive(true);
 			this.attributePopUp.transform.FindChild("NewValue").gameObject.SetActive(true);
-			this.attributePopUp.transform.FindChild("RightArrow").gameObject.SetActive(true);
 			this.attributePopUp.transform.FindChild("Limit").gameObject.SetActive(false);
-			this.attributePopUp.transform.FindChild("OldPicto").GetComponent<SpriteRenderer>().sprite = this.getAttributeSprite(id);
 			this.attributePopUp.transform.FindChild("NewPicto").GetComponent<SpriteRenderer>().sprite = this.getAttributeSprite(id);
 			this.attributePopUp.GetComponent<SpriteRenderer>().color=ApplicationDesignRules.whiteSpriteColor;
 
 			if(id==0)
 			{
 				this.attributePopUp.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Augmenter l'attaque";
-				this.attributePopUp.transform.FindChild ("OldValue").GetComponent<TextMeshPro> ().text = this.c.Attack.ToString();
-				this.attributePopUp.transform.FindChild ("OldPicto").GetComponent<SpriteRenderer> ().color = ressources.colors[this.c.AttackLevel-1];
 				this.attributePopUp.transform.FindChild ("NewValue").GetComponent<TextMeshPro> ().text = this.c.UpgradedAttack.ToString();
 				this.attributePopUp.transform.FindChild ("NewPicto").GetComponent<SpriteRenderer> ().color = ressources.colors[this.c.UpgradedAttackLevel-1];
 			}
 			else if(id==1)
 			{
 				this.attributePopUp.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Augmenter la vie";
-				this.attributePopUp.transform.FindChild ("OldValue").GetComponent<TextMeshPro> ().text = this.c.Life.ToString();
-				this.attributePopUp.transform.FindChild ("OldPicto").GetComponent<SpriteRenderer> ().color = ressources.colors[this.c.LifeLevel-1];
 				this.attributePopUp.transform.FindChild ("NewValue").GetComponent<TextMeshPro> ().text = this.c.UpgradedLife.ToString();
 				this.attributePopUp.transform.FindChild ("NewPicto").GetComponent<SpriteRenderer> ().color = ressources.colors[this.c.UpgradedLifeLevel-1];
 			}
 			else if(id==2)
 			{
 				this.attributePopUp.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Augmenter la vitesse";
-				this.attributePopUp.transform.FindChild ("OldValue").GetComponent<TextMeshPro> ().text = this.c.Speed.ToString();
-				this.attributePopUp.transform.FindChild ("OldPicto").GetComponent<SpriteRenderer> ().color = ressources.colors[this.c.SpeedLevel-1];
 				this.attributePopUp.transform.FindChild ("NewValue").GetComponent<TextMeshPro> ().text = this.c.UpgradedSpeed.ToString();
 				this.attributePopUp.transform.FindChild ("NewPicto").GetComponent<SpriteRenderer> ().color = ressources.colors[this.c.UpgradedSpeedLevel-1];
 			}
@@ -229,11 +219,8 @@ public class NextLevelPopUpController : MonoBehaviour
 		else
 		{
 			this.attributePopUp.transform.FindChild("Title").gameObject.SetActive(false);
-			this.attributePopUp.transform.FindChild("OldPicto").gameObject.SetActive(false);
 			this.attributePopUp.transform.FindChild("NewPicto").gameObject.SetActive(false);
-			this.attributePopUp.transform.FindChild("OldValue").gameObject.SetActive(false);
 			this.attributePopUp.transform.FindChild("NewValue").gameObject.SetActive(false);
-			this.attributePopUp.transform.FindChild("RightArrow").gameObject.SetActive(false);
 			this.attributePopUp.transform.FindChild("Limit").gameObject.SetActive(true);
 			this.attributePopUp.transform.FindChild("Limit").GetComponent<TextMeshPro>().text="Niveau maximum atteint pour cette caractéristique";
 			this.attributePopUp.transform.FindChild("Limit").GetComponent<TextMeshPro>().color=ApplicationDesignRules.redColor;
