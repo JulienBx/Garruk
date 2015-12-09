@@ -37,5 +37,9 @@ public class MarketMenuController : MenuController
 		base.setCurrentPage (3);
 		NewMarketController.instance.endMenuInitialization ();
 	}
+	public override void clickOnBackOfficeBackground()
+	{
+		NewMarketController.instance.backOfficeBackgroundClicked ();
+	}
 }
 

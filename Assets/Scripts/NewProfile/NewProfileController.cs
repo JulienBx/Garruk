@@ -492,7 +492,7 @@ public class NewProfileController : MonoBehaviour
 			this.resultsTabs[i].AddComponent<NewProfileResultsTabController>();
 			this.resultsTabs[i].GetComponent<NewProfileResultsTabController>().setId(i);
 		}
-		this.resultsTabs[0].transform.FindChild("Title").GetComponent<TextMeshPro> ().text = ("Trophés");
+		this.resultsTabs[0].transform.FindChild("Title").GetComponent<TextMeshPro> ().text = ("Conquêtes");
 		if(this.isMyProfile)
 		{
 			this.resultsTabs[1].transform.FindChild("Title").GetComponent<TextMeshPro> ().text = ("Défis");
@@ -1024,7 +1024,7 @@ public class NewProfileController : MonoBehaviour
 				this.trophiesDisplayed.Add (this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i);
 				this.resultsContents[i].transform.FindChild("title").GetComponent<TextMeshPro>().text=model.trophies[this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i].competition.Name;
 				this.resultsContents[i].transform.FindChild("picture").GetComponent<SpriteRenderer>().sprite=MenuController.instance.returnCompetitionPicture(model.trophies[this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i].competition.IdPicture);
-				this.resultsContents[i].transform.FindChild("description").GetComponent<TextMeshPro>().text="Trophé remporté le "+model.trophies[this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i].Date.ToString("dd/MM/yyyy");
+				this.resultsContents[i].transform.FindChild("description").GetComponent<TextMeshPro>().text="Hégémonie atteinte le "+model.trophies[this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i].Date.ToString("dd/MM/yyyy");
 				this.resultsContents[i].SetActive(true);
 			}
 			else

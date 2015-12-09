@@ -681,7 +681,7 @@ public class NewStoreController : MonoBehaviour
 			if(this.packsPagination.chosenPage*(this.packsPagination.nbElementsPerPage)+i<model.packList.Count)
 			{
 				this.packsDisplayed.Add (this.packsPagination.chosenPage*(this.packsPagination.nbElementsPerPage)+i);
-				this.packs[i].transform.FindChild("Button").FindChild("Title").GetComponent<TextMeshPro>().text=model.packList[this.packsDisplayed[i]].Price.ToString();
+				this.packs[i].transform.FindChild("Button").FindChild("Title").GetComponent<TextMeshPro>().text="Payer "+model.packList[this.packsDisplayed[i]].Price.ToString();
 				this.packs[i].transform.FindChild("Name").GetComponent<TextMeshPro>().text=model.packList[this.packsDisplayed[i]].Name;
 				this.packs[i].transform.FindChild("Picture").GetComponent<SpriteRenderer>().sprite=MenuController.instance.returnPackPicture (model.packList[this.packsDisplayed[i]].IdPicture);
 				this.separationLines[i].SetActive(true);
@@ -860,6 +860,13 @@ public class NewStoreController : MonoBehaviour
 		{
 			this.randomCardsDisplayed[0]=false;
 			this.hideCardFocused();
+		}
+	}
+	public void backOfficeBackgroundClicked()
+	{
+		if(isCardFocusedDisplayed)
+		{
+			this.focusedCard.GetComponent<NewFocusedCardController>().escapePressed();
 		}
 	}
 	public void returnPressed()

@@ -105,8 +105,8 @@ public class NewLobbyModel
 		User player = new User ();
 		player.Ranking = System.Convert.ToInt32 (array [0]);
 		player.RankingPoints = System.Convert.ToInt32 (array [1]);
-		player.CollectionPoints = System.Convert.ToInt32 (array [2]);
-		player.CollectionRanking = System.Convert.ToInt32 (array [3]);
+		player.CollectionRanking = System.Convert.ToInt32 (array [2]);
+		player.CollectionPoints = System.Convert.ToInt32 (array [3]);
 		player.TotalNbWins = System.Convert.ToInt32 (array [4]);
 		player.TotalNbLooses = System.Convert.ToInt32 (array [5]);
 		player.TutorialStep = System.Convert.ToInt32 (array [6]);

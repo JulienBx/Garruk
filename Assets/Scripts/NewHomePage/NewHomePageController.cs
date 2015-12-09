@@ -35,9 +35,9 @@ public class NewHomePageController : MonoBehaviour
 	private GameObject divisionGameButton;
 	private GameObject divisionGamePicture;
 	private GameObject divisionGameTitle;
-	private GameObject cupGameButton;
-	private GameObject cupGameTitle;
-	private GameObject cupGamePicture;
+	//private GameObject cupGameButton;
+	//private GameObject cupGameTitle;
+	//private GameObject cupGamePicture;
 	private GameObject newsfeedBlock;
 	private GameObject[] tabs;
 	private GameObject[] contents;
@@ -83,6 +83,8 @@ public class NewHomePageController : MonoBehaviour
 
 	private Vector3[] deckCardsPosition;
 	private Rect[] deckCardsArea;
+	private bool[] deckCardsAreaHovered;
+	private bool isHoveringDeckArea;
 
 	private IList<int> decksDisplayed;
 	private int[] deckCardsDisplayed;
@@ -343,7 +345,7 @@ public class NewHomePageController : MonoBehaviour
 		this.deckBlock = Instantiate (this.blockObject) as GameObject;
 		this.deckBlockTitle = GameObject.Find ("DeckBlockTitle");
 		this.deckBlockTitle.GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
-		this.deckBlockTitle.GetComponent<TextMeshPro> ().text = "Mon équipe";
+		this.deckBlockTitle.GetComponent<TextMeshPro> ().text = "Mon armée";
 		this.deckSelectionButton = GameObject.Find ("DeckSelectionButton");
 		this.deckSelectionButton.AddComponent<NewHomePageDeckSelectionButtonController> ();
 		this.deckTitle = GameObject.Find ("DeckTitle");
@@ -367,7 +369,12 @@ public class NewHomePageController : MonoBehaviour
 		for(int i=0;i<this.cardsHalos.Length;i++)
 		{
 			this.cardsHalos[i]=GameObject.Find ("CardHalo"+i);
+			this.cardsHalos[i].transform.FindChild("Title").GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
 		}
+		this.cardsHalos [0].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "CAPITAINE \n1er à jouer";
+		this.cardsHalos [1].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "LIEUTENANT \n2ème à jouer";
+		this.cardsHalos [2].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "SERGENT \n3ème à jouer";
+		this.cardsHalos [3].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "SOLDAT \n4ème à jouer";
 		this.playBlock = Instantiate (this.blockObject) as GameObject;
 		this.playBlockTitle = GameObject.Find ("PlayBlockTitle");
 		this.playBlockTitle.GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
@@ -386,13 +393,13 @@ public class NewHomePageController : MonoBehaviour
 		this.divisionGamePicture.GetComponent<SpriteRenderer>().color = ApplicationDesignRules.whiteSpriteColor;
 		this.divisionGameTitle = GameObject.Find ("DivisionGameTitle");
 		this.divisionGameTitle.GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
-		this.cupGameButton = GameObject.Find ("CupGameButton");
-		this.cupGameButton.AddComponent<NewHomePageCompetitionController> ();
-		this.cupGameButton.GetComponent<NewHomePageCompetitionController> ().setId (2);
-		this.cupGamePicture = GameObject.Find ("CupGamePicture");
-		this.cupGamePicture.GetComponent<SpriteRenderer>().color = ApplicationDesignRules.whiteSpriteColor;
-		this.cupGameTitle = GameObject.Find ("CupGameTitle");
-		this.cupGameTitle.GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
+//		this.cupGameButton = GameObject.Find ("CupGameButton");
+//		this.cupGameButton.AddComponent<NewHomePageCompetitionController> ();
+//		this.cupGameButton.GetComponent<NewHomePageCompetitionController> ().setId (2);
+//		this.cupGamePicture = GameObject.Find ("CupGamePicture");
+//		this.cupGamePicture.GetComponent<SpriteRenderer>().color = ApplicationDesignRules.whiteSpriteColor;
+//		this.cupGameTitle = GameObject.Find ("CupGameTitle");
+//		this.cupGameTitle.GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
 		this.packButton = GameObject.Find ("PackButton");
 		this.packButton.AddComponent<NewHomePageBuyPackButtonController> ();
 		this.packTitle = GameObject.Find ("PackTitle");
@@ -535,30 +542,30 @@ public class NewHomePageController : MonoBehaviour
 		Vector2 playBlockSize = this.playBlock.GetComponent<NewBlockController> ().getSize ();
 		this.playBlockTitle.transform.position = new Vector3 (playBlockUpperLeftPosition.x + 0.3f, playBlockUpperLeftPosition.y - 0.2f, 0f);
 		
-		float gapBetweenCompetitionsBlock = 0.05f;
-		float competitionsBlockSize = (playBlockSize.x - 0.6f - 2f * gapBetweenCompetitionsBlock) / 3f;
+		float gapBetweenCompetitionsBlock = 0f;
+		float competitionsBlockSize = (playBlockSize.x - 1.2f - gapBetweenCompetitionsBlock) / 2f;
 
 		this.friendlyGameTitle.transform.localScale=ApplicationDesignRules.subMainTitleScale;
 		this.divisionGameTitle.transform.localScale=ApplicationDesignRules.subMainTitleScale;
-		this.cupGameTitle.transform.localScale=ApplicationDesignRules.subMainTitleScale;
+		//this.cupGameTitle.transform.localScale=ApplicationDesignRules.subMainTitleScale;
 
 		this.playBlockTitle.transform.localScale = ApplicationDesignRules.mainTitleScale;
 
-		this.friendlyGameTitle.transform.position = new Vector3 (0.3f+playBlockUpperLeftPosition.x + competitionsBlockSize / 2f, playBlockUpperLeftPosition.y - 1.2f, 0f);
-		this.divisionGameTitle.transform.position = new Vector3 (0.3f+playBlockUpperLeftPosition.x + competitionsBlockSize / 2f + 1f * (competitionsBlockSize + gapBetweenCompetitionsBlock), playBlockUpperLeftPosition.y - 1.2f, 0f);
-		this.cupGameTitle.transform.position = new Vector3 (0.3f+playBlockUpperLeftPosition.x + competitionsBlockSize / 2f + 2f * (competitionsBlockSize + gapBetweenCompetitionsBlock), playBlockUpperLeftPosition.y - 1.2f, 0f);
+		this.friendlyGameTitle.transform.position = new Vector3 (0.6f+playBlockUpperLeftPosition.x + competitionsBlockSize / 2f, playBlockUpperLeftPosition.y - 1.2f, 0f);
+		this.divisionGameTitle.transform.position = new Vector3 (0.6f+playBlockUpperLeftPosition.x + competitionsBlockSize / 2f + 1f * (competitionsBlockSize + gapBetweenCompetitionsBlock), playBlockUpperLeftPosition.y - 1.2f, 0f);
+		//this.cupGameTitle.transform.position = new Vector3 (0.3f+playBlockUpperLeftPosition.x + competitionsBlockSize / 2f + 2f * (competitionsBlockSize + gapBetweenCompetitionsBlock), playBlockUpperLeftPosition.y - 1.2f, 0f);
 		
-		this.friendlyGamePicture.transform.position = new Vector3 (0.3f + playBlockUpperLeftPosition.x + competitionsBlockSize / 2f, playBlockUpperLeftPosition.y - 1.95f, 0f);
-		this.divisionGamePicture.transform.position = new Vector3 (0.3f+playBlockUpperLeftPosition.x + competitionsBlockSize / 2f + 1f * (competitionsBlockSize + gapBetweenCompetitionsBlock), playBlockUpperLeftPosition.y - 1.95f, 0f);
-		this.cupGamePicture.transform.position = new Vector3 (0.3f+playBlockUpperLeftPosition.x + competitionsBlockSize / 2f + 2f * (competitionsBlockSize + gapBetweenCompetitionsBlock), playBlockUpperLeftPosition.y - 1.95f, 0f);
+		this.friendlyGamePicture.transform.position = new Vector3 (0.6f + playBlockUpperLeftPosition.x + competitionsBlockSize / 2f, playBlockUpperLeftPosition.y - 1.95f, 0f);
+		this.divisionGamePicture.transform.position = new Vector3 (0.6f+playBlockUpperLeftPosition.x + competitionsBlockSize / 2f + 1f * (competitionsBlockSize + gapBetweenCompetitionsBlock), playBlockUpperLeftPosition.y - 1.95f, 0f);
+		//this.cupGamePicture.transform.position = new Vector3 (0.3f+playBlockUpperLeftPosition.x + competitionsBlockSize / 2f + 2f * (competitionsBlockSize + gapBetweenCompetitionsBlock), playBlockUpperLeftPosition.y - 1.95f, 0f);
 		
-		this.friendlyGameButton.transform.position = new Vector3 (0.3f + playBlockUpperLeftPosition.x + competitionsBlockSize / 2f, playBlockUpperLeftPosition.y - 2.9f, 0f);
-		this.divisionGameButton.transform.position = new Vector3 (0.3f+playBlockUpperLeftPosition.x + competitionsBlockSize / 2f + 1f * (competitionsBlockSize + gapBetweenCompetitionsBlock), playBlockUpperLeftPosition.y - 2.9f, 0f);
-		this.cupGameButton.transform.position = new Vector3 (0.3f+playBlockUpperLeftPosition.x + competitionsBlockSize / 2f + 2f * (competitionsBlockSize + gapBetweenCompetitionsBlock), playBlockUpperLeftPosition.y - 2.9f, 0f);
+		this.friendlyGameButton.transform.position = new Vector3 (0.6f + playBlockUpperLeftPosition.x + competitionsBlockSize / 2f, playBlockUpperLeftPosition.y - 2.9f, 0f);
+		this.divisionGameButton.transform.position = new Vector3 (0.6f+playBlockUpperLeftPosition.x + competitionsBlockSize / 2f + 1f * (competitionsBlockSize + gapBetweenCompetitionsBlock), playBlockUpperLeftPosition.y - 2.9f, 0f);
+		//this.cupGameButton.transform.position = new Vector3 (0.3f+playBlockUpperLeftPosition.x + competitionsBlockSize / 2f + 2f * (competitionsBlockSize + gapBetweenCompetitionsBlock), playBlockUpperLeftPosition.y - 2.9f, 0f);
 		
 		this.friendlyGameButton.transform.localScale = ApplicationDesignRules.button62Scale;
 		this.divisionGameButton.transform.localScale = ApplicationDesignRules.button62Scale;
-		this.cupGameButton.transform.localScale = ApplicationDesignRules.button62Scale;
+		//this.cupGameButton.transform.localScale = ApplicationDesignRules.button62Scale;
 		
 		this.deckBlock.GetComponent<NewBlockController> ().resize(deckBlockLeftMargin,deckBlockUpMargin,ApplicationDesignRules.blockWidth,deckBlockHeight);
 		Vector3 deckBlockUpperLeftPosition = this.deckBlock.GetComponent<NewBlockController> ().getUpperLeftCornerPosition ();
@@ -583,16 +590,18 @@ public class NewHomePageController : MonoBehaviour
 
 		this.deckCardsPosition=new Vector3[this.cardsHalos.Length];
 		this.deckCardsArea=new Rect[this.cardsHalos.Length];
+		this.deckCardsAreaHovered=new bool[this.cardsHalos.Length];
 		
 		for(int i=0;i<this.cardsHalos.Length;i++)
 		{
 			this.cardsHalos[i].transform.localScale=ApplicationDesignRules.cardHaloScale;
 			this.cardsHalos[i].transform.position=new Vector3(deckBlockUpperLeftPosition.x+0.3f+ApplicationDesignRules.cardHaloWorldSize.x/2f+i*(gapBetweenCardsHalo+ApplicationDesignRules.cardHaloWorldSize.x),deckBlockUpperRightPosition.y - 3f,0);
 			this.deckCardsPosition[i]=this.cardsHalos[i].transform.position;
-			this.deckCardsArea[i]=new Rect(this.cardsHalos[i].transform.position.x-ApplicationDesignRules.cardHaloWorldSize.x/2f,this.cardsHalos[i].transform.position.y-ApplicationDesignRules.cardHaloWorldSize.y/2f,ApplicationDesignRules.cardHaloWorldSize.x,ApplicationDesignRules.cardHaloWorldSize.y);
+			this.deckCardsArea[i]=new Rect(this.cardsHalos[i].transform.position.x-ApplicationDesignRules.cardHaloWorldSize.x/2f-gapBetweenCardsHalo/2f,this.cardsHalos[i].transform.position.y-ApplicationDesignRules.cardHaloWorldSize.y/2f,ApplicationDesignRules.cardHaloWorldSize.x+gapBetweenCardsHalo,ApplicationDesignRules.cardHaloWorldSize.y);
 			this.deckCards[i].transform.position=this.deckCardsPosition[i];
 			this.deckCards[i].transform.localScale=ApplicationDesignRules.cardScale;
 			this.deckCards[i].transform.GetComponent<NewCardHomePageController>().setId(i);
+			this.deckCardsAreaHovered[i]=false;
 		}
 		
 		this.storeBlock.GetComponent<NewBlockController> ().resize(storeBlockLeftMargin,storeBlockUpMargin,ApplicationDesignRules.blockWidth,storeBlockHeight);
@@ -739,7 +748,7 @@ public class NewHomePageController : MonoBehaviour
 		}
 		else
 		{
-			this.deckTitle.GetComponent<TextMeshPro> ().text = ("Aucune équipe formée").ToUpper();
+			this.deckTitle.GetComponent<TextMeshPro> ().text = ("Aucune armée formée").ToUpper();
 			this.deckSelectionButton.transform.FindChild("Title").GetComponent<TextMeshPro>().text=("Créer").ToUpper();
 		}
 		for(int i=0;i<this.deckCards.Length;i++)
@@ -788,9 +797,9 @@ public class NewHomePageController : MonoBehaviour
 		this.divisionGameButton.SetActive(value);
 		this.divisionGamePicture.SetActive(value);
 		this.divisionGameTitle.SetActive(value);
-		this.cupGameButton.SetActive(value);
-		this.cupGamePicture.SetActive(value);
-		this.cupGameTitle.SetActive(value);
+		//this.cupGameButton.SetActive(value);
+		//this.cupGamePicture.SetActive(value);
+		//this.cupGameTitle.SetActive(value);
 		this.packButton.SetActive(value);
 		this.packTitle.SetActive(value);
 		this.packPicture.SetActive(value);
@@ -924,6 +933,13 @@ public class NewHomePageController : MonoBehaviour
 	{
 		StartCoroutine(this.menu.GetComponent<MenuController> ().getUserData ());
 	}
+	public void backOfficeBackgroundClicked()
+	{
+		if(isCardFocusedDisplayed)
+		{
+			this.focusedCard.GetComponent<NewFocusedCardController>().escapePressed();
+		}
+	}
 	public void returnPressed()
 	{
 		if(isCardFocusedDisplayed)
@@ -1006,10 +1022,7 @@ public class NewHomePageController : MonoBehaviour
 			this.isDragging=true;
 			Cursor.SetCursor (this.cursorTextures[1], new Vector2(this.cursorTextures[1].width/2f,this.cursorTextures[1].width/2f), CursorMode.Auto);
 			this.deckCards[this.idCardClicked].GetComponent<NewCardController>().changeLayer(10,"Foreground");
-			for(int i=0;i<this.cardsHalos.Length;i++)
-			{
-				this.cardsHalos[i].GetComponent<SpriteRenderer>().color=ApplicationDesignRules.blueColor;
-			}
+			this.isHoveringDeckArea=true;
 		}
 	}
 	public void endDragging()
@@ -1029,7 +1042,6 @@ public class NewHomePageController : MonoBehaviour
 		{
 			this.cardsHalos[i].GetComponent<SpriteRenderer>().color=ApplicationDesignRules.whiteSpriteColor;
 		}
-		
 		Vector3 cursorPosition = Camera.main.ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, Input.mousePosition.z));
 		for(int i=0;i<deckCardsArea.Length;i++)
 		{
@@ -1046,6 +1058,50 @@ public class NewHomePageController : MonoBehaviour
 		{
 			Vector3 mousePosition = Camera.main.ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, Input.mousePosition.z));
 			this.deckCards[this.idCardClicked].transform.position=new Vector3(mousePosition.x,mousePosition.y,0f);
+			bool isHoveringDeckCards=false;
+			for(int i=0;i<deckCardsArea.Length;i++)
+			{
+				if(this.deckCardsArea[i].Contains(mousePosition))
+				{
+					isHoveringDeckCards=true;
+					if(!this.deckCardsAreaHovered[i])
+					{
+						this.deckCardsAreaHovered[i]=true;
+						this.cardsHalos[i].GetComponent<SpriteRenderer>().color=ApplicationDesignRules.blueColor;
+						this.cardsHalos[i].transform.FindChild("Title").GetComponent<TextMeshPro>().color=ApplicationDesignRules.blueColor;
+					}
+				}
+				else
+				{
+					if(this.deckCardsAreaHovered[i])
+					{
+						this.deckCardsAreaHovered[i]=false;
+						this.cardsHalos[i].GetComponent<SpriteRenderer>().color=ApplicationDesignRules.whiteSpriteColor;
+						this.cardsHalos[i].transform.FindChild("Title").GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
+					}
+				}
+			}
+			if(!isHoveringDeckCards && this.isHoveringDeckArea)
+			{
+				this.isHoveringDeckArea=false;
+				for(int i=0;i<this.cardsHalos.Length;i++)
+				{
+					this.cardsHalos[i].GetComponent<SpriteRenderer>().color=ApplicationDesignRules.blueColor;
+					this.cardsHalos[i].transform.FindChild("Title").GetComponent<TextMeshPro>().color=ApplicationDesignRules.blueColor;
+				}
+			}
+			else if(isHoveringDeckCards && !this.isHoveringDeckArea)
+			{
+				this.isHoveringDeckArea=true;
+				for(int i=0;i<this.cardsHalos.Length;i++)
+				{
+					if(!this.deckCardsAreaHovered[i])
+					{
+						this.cardsHalos[i].GetComponent<SpriteRenderer>().color=ApplicationDesignRules.whiteSpriteColor;
+						this.cardsHalos[i].transform.FindChild("Title").GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
+					}
+				}
+			}
 		}
 	}
 	public void moveToDeckCards(int position)
@@ -1182,27 +1238,27 @@ public class NewHomePageController : MonoBehaviour
 	}
 	public void drawPack()
 	{
-		this.packButton.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = model.packs [this.displayedPack].Price.ToString ();
+		this.packButton.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Payer "+model.packs [this.displayedPack].Price.ToString ();
 		this.packPicture.transform.GetComponent<SpriteRenderer> ().sprite = MenuController.instance.returnPackPicture (model.packs [this.displayedPack].IdPicture);
 		this.packTitle.GetComponent<TextMeshPro> ().text = model.packs [this.displayedPack].Name;
 	}
 	public void drawCompetitions()
 	{	
 		this.friendlyGameTitle.GetComponent<TextMeshPro> ().text = "Entrainement".ToUpper ();
-		this.divisionGameTitle.GetComponent<TextMeshPro> ().text = model.currentDivision.Name.ToUpper ();
-		this.cupGameTitle.GetComponent<TextMeshPro> ().text = model.currentCup.Name.ToUpper ();
+		this.divisionGameTitle.GetComponent<TextMeshPro> ().text = "Conquête".ToUpper ();
+		//this.cupGameTitle.GetComponent<TextMeshPro> ().text = model.currentCup.Name.ToUpper ();
 
 		this.friendlyGameButton.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Jouer".ToUpper ();
 
-		string divisionState;
-		if(model.player.NbGamesDivision>0)
-		{
-			divisionState="Rejoindre";
-		}
-		else
-		{
-			divisionState="Démarrer";
-		}
+		string divisionState ="Continuer";
+//		if(model.player.NbGamesDivision>0)
+//		{
+//			divisionState="Rejoindre";
+//		}
+//		else
+//		{
+//			divisionState="Démarrer";
+//		}
 		this.divisionGameButton.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = divisionState.ToUpper ();
 
 		string cupState;
@@ -1214,7 +1270,7 @@ public class NewHomePageController : MonoBehaviour
 		{
 			divisionState="Démarrer";
 		}
-		this.cupGameButton.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = divisionState.ToUpper ();
+		//this.cupGameButton.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = divisionState.ToUpper ();
 
 	}
 	public void buyPackHandler()

@@ -286,6 +286,10 @@ Prefab:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 190900, guid: f775ae7416f404f6c88334f843071b57, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f775ae7416f404f6c88334f843071b57, type: 2}
   m_IsPrefabParent: 0
@@ -326,11 +330,15 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 436418, guid: 0aa37b69b9e9e444d9854cd4da148b90, type: 2}
       propertyPath: m_RootOrder
-      value: 34
+      value: 39
       objectReference: {fileID: 0}
     - target: {fileID: 155616, guid: 0aa37b69b9e9e444d9854cd4da148b90, type: 2}
       propertyPath: m_Name
       value: CardHalo3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3370706, guid: 0aa37b69b9e9e444d9854cd4da148b90, type: 2}
+      propertyPath: m_Mesh
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0aa37b69b9e9e444d9854cd4da148b90, type: 2}
@@ -1039,7 +1047,7 @@ Transform:
   m_LocalScale: {x: .270000011, y: .270000011, z: .270000011}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 26
+  m_RootOrder: 50
 --- !u!1001 &509370027
 Prefab:
   m_ObjectHideFlags: 0
@@ -1119,7 +1127,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 471120, guid: b41b47b6ff0234dbaa774ee3cffc1eb0, type: 2}
       propertyPath: m_RootOrder
-      value: 3
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b41b47b6ff0234dbaa774ee3cffc1eb0, type: 2}
@@ -1541,6 +1549,10 @@ Prefab:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 186170, guid: c923d8f2d01374f43a26081e9906c97a, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c923d8f2d01374f43a26081e9906c97a, type: 2}
   m_IsPrefabParent: 0
@@ -1574,7 +1586,7 @@ Transform:
   - {fileID: 349761251}
   - {fileID: 1332674304}
   m_Father: {fileID: 0}
-  m_RootOrder: 59
+  m_RootOrder: 61
 --- !u!212 &1071232348
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2287,6 +2299,10 @@ Prefab:
     - target: {fileID: 11414588, guid: b381e9eb1d6c74c07aa10627ed9f5864, type: 2}
       propertyPath: m_anchorPosition
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 197800, guid: b381e9eb1d6c74c07aa10627ed9f5864, type: 2}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b381e9eb1d6c74c07aa10627ed9f5864, type: 2}
@@ -3630,11 +3646,15 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 436418, guid: 0aa37b69b9e9e444d9854cd4da148b90, type: 2}
       propertyPath: m_RootOrder
-      value: 36
+      value: 42
       objectReference: {fileID: 0}
     - target: {fileID: 155616, guid: 0aa37b69b9e9e444d9854cd4da148b90, type: 2}
       propertyPath: m_Name
       value: CardHalo1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3370706, guid: 0aa37b69b9e9e444d9854cd4da148b90, type: 2}
+      propertyPath: m_Mesh
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0aa37b69b9e9e444d9854cd4da148b90, type: 2}
@@ -4884,7 +4904,23 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 436418, guid: 0aa37b69b9e9e444d9854cd4da148b90, type: 2}
       propertyPath: m_RootOrder
-      value: 37
+      value: 43
+      objectReference: {fileID: 0}
+    - target: {fileID: 11425186, guid: 0aa37b69b9e9e444d9854cd4da148b90, type: 2}
+      propertyPath: checkPaddingRequired
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11425186, guid: 0aa37b69b9e9e444d9854cd4da148b90, type: 2}
+      propertyPath: isInputParsingRequired
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11425186, guid: 0aa37b69b9e9e444d9854cd4da148b90, type: 2}
+      propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3370706, guid: 0aa37b69b9e9e444d9854cd4da148b90, type: 2}
+      propertyPath: m_Mesh
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 155616, guid: 0aa37b69b9e9e444d9854cd4da148b90, type: 2}
       propertyPath: m_Name
@@ -5211,11 +5247,15 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 436418, guid: 0aa37b69b9e9e444d9854cd4da148b90, type: 2}
       propertyPath: m_RootOrder
-      value: 35
+      value: 41
       objectReference: {fileID: 0}
     - target: {fileID: 155616, guid: 0aa37b69b9e9e444d9854cd4da148b90, type: 2}
       propertyPath: m_Name
       value: CardHalo2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3370706, guid: 0aa37b69b9e9e444d9854cd4da148b90, type: 2}
+      propertyPath: m_Mesh
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0aa37b69b9e9e444d9854cd4da148b90, type: 2}
@@ -5235,7 +5275,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &2087511286
 SpriteRenderer:
   m_ObjectHideFlags: 0

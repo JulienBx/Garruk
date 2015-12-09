@@ -791,6 +791,9 @@ public class MenuController : MonoBehaviour
 	{
 		this.displayDisconnectedPopUp ();
 	}
+	public virtual void clickOnBackOfficeBackground()
+	{
+	}
 	#region TUTORIAL FUNCTIONS
 
 	public void helpHandler()

@@ -20,7 +20,7 @@ public class MenuModel {
 		this.player = new User ();
 		this.buttonsLabels = new string[6];
 		this.buttonsLabels [0] = "Accueil";
-		this.buttonsLabels [1] = "Mon armée";
+		this.buttonsLabels [1] = "Mes unités";
 		this.buttonsLabels [2] = "Recruter";
 		this.buttonsLabels [3] = "Le marché";
 		this.buttonsLabels [4] = "Cristalopedia";

@@ -14,6 +14,7 @@ public class NewLobbyController : MonoBehaviour
 	
 	private GameObject mainBlock;
 	private GameObject mainBlockTitle;
+	private GameObject mainBlockSubTitle;
 	private GameObject competitionBlock;
 	private GameObject competitionBlockTitle;
 	private GameObject lastResultsBlock;
@@ -219,20 +220,19 @@ public class NewLobbyController : MonoBehaviour
 		this.competitionDescription.GetComponent<TextMeshPro> ().color = ApplicationDesignRules.whiteTextColor;
 		this.divisionProgression = GameObject.Find ("DivisionProgression");
 		this.cupProgression = GameObject.Find ("CupProgression");
+		this.mainBlockSubTitle=GameObject.Find ("MainBlockSubTitle");
 		if(this.isDivisionLobby)
 		{
 			this.divisionProgression.SetActive(true);
 			this.cupProgression.SetActive (false);
-			this.divisionProgression.transform.FindChild("NbWins").GetComponent<TextMeshPro>().color=ApplicationDesignRules.blackColor;
-			this.divisionProgression.transform.FindChild("RelegationNbWins").GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
-			this.divisionProgression.transform.FindChild("PromotionNbWins").GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
-			this.divisionProgression.transform.FindChild("TitleNbWins").GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
-			this.divisionProgression.transform.FindChild("RemainingGames").GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
-			this.divisionProgression.transform.FindChild("Status").GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
+			this.divisionProgression.GetComponent<DivisionProgressionController>().initialize();
+			this.mainBlockSubTitle.SetActive(true);
+			this.mainBlockSubTitle.GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
 		}
 		else
 		{
 			this.divisionProgression.SetActive(false);
+			this.mainBlockSubTitle.SetActive(false);
 			this.cupProgression.SetActive(true);
 			this.cupProgression.transform.FindChild("RemainingRounds").GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
 			this.cupProgression.transform.FindChild("Status").GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
@@ -317,8 +317,11 @@ public class NewLobbyController : MonoBehaviour
 		this.mainBlockTitle.transform.position = new Vector3 (mainBlockUpperLeftPosition.x + 0.3f, mainBlockUpperLeftPosition.y - 0.2f, 0f);
 		this.mainBlockTitle.transform.localScale = ApplicationDesignRules.mainTitleScale;
 
+		this.mainBlockSubTitle.transform.localScale=ApplicationDesignRules.subMainTitleScale;
+		this.mainBlockSubTitle.transform.position = new Vector3 (0.3f+mainBlockUpperLeftPosition.x, mainBlockUpperLeftPosition.y - 1.2f, 0f);
+
 		this.playButton.transform.localScale = ApplicationDesignRules.button62Scale;
-		this.playButton.transform.localPosition = new Vector3 (mainBlockLowerLeftPosition.x + mainBlockSize.x / 2f, mainBlockLowerLeftPosition.y + 0.1f + ApplicationDesignRules.button62WorldSize.y / 2f, 0f);
+		this.playButton.transform.position = new Vector3 (mainBlockUpperRightPosition.x -0.3f-ApplicationDesignRules.button62WorldSize.x/2f, mainBlockUpperLeftPosition.y - 0.3f - ApplicationDesignRules.button62WorldSize.y/2f, 0f);
 
 
 		this.competitionBlock.GetComponent<NewBlockController> ().resize(competitionBlockLeftMargin,competitionBlockUpMargin,ApplicationDesignRules.blockWidth,competitionBlockHeight);
@@ -386,7 +389,7 @@ public class NewLobbyController : MonoBehaviour
 		this.paginationButtons.transform.localPosition=new Vector3 (lastResultsBlockLowerLeftPosition.x + lastResultBlockSize.x / 2, lastResultsBlockLowerLeftPosition.y + 0.3f, 0f);
 		this.paginationButtons.GetComponent<NewLobbyPaginationController> ().resize ();
 
-		this.popUp.transform.position = new Vector3 (0, 2f, -3f);
+		this.popUp.transform.position = new Vector3 (ApplicationDesignRules.menuPosition.x+0, ApplicationDesignRules.menuPosition.y+2f, -3f);
 
 		TutorialObjectController.instance.resize ();
 
@@ -475,10 +478,10 @@ public class NewLobbyController : MonoBehaviour
 		if(this.isDivisionLobby)
 		{
 			this.competitionBlockTitle.GetComponent<TextMeshPro>().text=model.currentDivision.Name;
-			string description="Montée : "+model.currentDivision.TitlePrize.ToString()+" cristaux";
+			string description="Hégémonie : "+model.currentDivision.TitlePrize.ToString()+" cristaux";
 			if(model.currentDivision.NbWinsForPromotion!=-1)
 			{
-				description=description+"\nPromotion : "+model.currentDivision.PromotionPrize.ToString()+" cristaux";
+				description=description+"\nColonisation : "+model.currentDivision.PromotionPrize.ToString()+" cristaux";
 			}
 			this.competitionDescription.GetComponent<TextMeshPro>().text=description;
 			this.competitionPicture.GetComponent<SpriteRenderer>().sprite=MenuController.instance.returnLargeCompetitionPicture(model.currentDivision.IdPicture);
@@ -557,62 +560,62 @@ public class NewLobbyController : MonoBehaviour
 		{
 			if(model.currentDivision.Status==3) // Fin de saison + Promotion + Titre
 			{
-				title = "Fin de saison";
-				content ="Bravo ! Vous terminez champion ! Votre prochaine saison se déroulera en division supérieure.";
+				title = "Fin de l'exploration";
+				content ="Bravo ! Votre domination sur la planète est sans limite ! Commencez dès maintenant l'exploration d'une nouvelle planète !";
 				displayPopUp=true;
 				this.isEndCompetition=true;
 			}
 			else if(model.currentDivision.Status==30) // Fin de saison + Titre
 			{
-				title="Fin de saison";
-				content ="Bravo ! Vous terminez champion !";
+				title="Fin de l'exploration";
+				content ="Bravo ! Votre domination sur la planète est sans limite ! Prêt à recommencer ?";
 				displayPopUp=true;
 				this.isEndCompetition=true;
 			}
 			else if(model.currentDivision.Status==20) // Promotion obtenue au cours du match + Fin de saison
 			{
-				title = "Fin de saison";
-				content="Bravo ! Votre prochaine saison se déroulera en division supérieure";
+				title = "Fin de l'exploration";
+				content="Bravo ! Grâce à cette victoire, vous pouvez dès maintenant commencer l'exploration d'une nouvelle planète !";
 				displayPopUp=true;
 				this.isEndCompetition=true;
 			}
 			else if(model.currentDivision.Status==2) // Promotion + Fin de saison
 			{
-				title = "Fin de saison";
-				content="Bravo ! Votre prochaine saison se déroulera en division supérieure";
+				title = "Fin de l'exploration";
+				content="Bravo ! Vous pouvez dès maintenant commencer l'exploration d'une nouvelle planète !";
 				displayPopUp=true;
 				this.isEndCompetition=true;
 			}
 			else if(model.currentDivision.Status==21) // Promotion obtenue au cours du match
 			{
 				title="Félicitations";
-				content="Votre victoire vous donne accès à la division supérieure pour la saison suivante";
+				content="Vous pourrez prochainement explorer une nouvelle planète !";
 				displayPopUp=true;
 			}
 			else if(model.currentDivision.Status==10) // Maintien obtenu au cours du match + Fin de saison
 			{
-				title = "Fin de saison";
-				content="Vous jouerez la saison prochaine dans la même division";
+				title = "Fin de l'exploration";
+				content="Bravo grâce à cette victoire vous pourrez continuer l'exploration de cette planète !";
 				displayPopUp=true;
 				this.isEndCompetition=true;
 			}
 			else if(model.currentDivision.Status==1) // Maintien + Fin de saison
 			{
-				title = "Fin de saison";
-				content="Vous jouerez la saison prochaine dans la même division";
+				title = "Fin de l'exploration";
+				content="Vos efforts ont payé et vous permettent de maintenir votre présence sur cette planète !";
 				displayPopUp=true;
 				this.isEndCompetition=true;
 			}
 			else if(model.currentDivision.Status==11) // Maintien obtenu au cours du match
 			{
 				title="Félicitations";
-				content="Vous ne pouvez désormais plus descendre de division";
+				content="Votre victoire consolide votre présence sur cette planète !";
 				displayPopUp=true;
 			}
 			else if(model.currentDivision.Status==-1) // Relégation
 			{
-				title = "Fin de saison";
-				content="Malheureusement vous jouerez en division inférieure la saison prochaine";
+				title = "Fin de l'exploration";
+				content="Malheureusement vos efforts seront insuffisants pour vous maintenir.";
 				displayPopUp=true;
 			}
 		}
@@ -669,6 +672,10 @@ public class NewLobbyController : MonoBehaviour
 	{
 		ApplicationModel.profileChosen = this.results [id].transform.FindChild ("username").GetComponent<TextMeshPro> ().text;
 		Application.LoadLevel("NewProfile");
+	}
+	public void updateSubMainBlockTitle(string s)
+	{
+		this.mainBlockSubTitle.GetComponent<TextMeshPro> ().text = s.ToUpper();
 	}
 
 	#region TUTORIAL FUNCTIONS

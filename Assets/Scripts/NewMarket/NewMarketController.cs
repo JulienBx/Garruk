@@ -462,9 +462,9 @@ public class NewMarketController : MonoBehaviour
 			this.tabs[i].AddComponent<NewMarketTabController>();
 			this.tabs[i].GetComponent<NewMarketTabController>().setId(i);
 		}
-		this.tabs[0].transform.FindChild("Title").GetComponent<TextMeshPro> ().text = ("En vente");
+		this.tabs[0].transform.FindChild("Title").GetComponent<TextMeshPro> ().text = ("Offres");
 		this.tabs[1].transform.FindChild("Title").GetComponent<TextMeshPro> ().text = ("Mes ventes");
-		this.tabs[2].transform.FindChild("Title").GetComponent<TextMeshPro> ().text = ("En réserve");
+		this.tabs[2].transform.FindChild("Title").GetComponent<TextMeshPro> ().text = ("Mes Unités");
 	
 		this.cardsTypeFilters = new GameObject[10];
 		for(int i=0;i<this.cardsTypeFilters.Length;i++)
@@ -1438,6 +1438,13 @@ public class NewMarketController : MonoBehaviour
 	public void refreshCredits()
 	{
 		StartCoroutine(this.menu.GetComponent<MenuController> ().getUserData ());
+	}
+	public void backOfficeBackgroundClicked()
+	{
+		if(isCardFocusedDisplayed)
+		{
+			this.focusedCard.GetComponent<NewFocusedCardController>().escapePressed();
+		}
 	}
 	public void returnPressed()
 	{

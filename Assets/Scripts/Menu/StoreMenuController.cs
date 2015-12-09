@@ -37,5 +37,9 @@ public class StoreMenuController : MenuController
 		base.setCurrentPage (2);
 		NewStoreController.instance.endMenuInitialization ();
 	}
+	public override void clickOnBackOfficeBackground()
+	{
+		NewStoreController.instance.backOfficeBackgroundClicked ();
+	}
 }
 

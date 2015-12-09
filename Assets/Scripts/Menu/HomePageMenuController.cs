@@ -36,5 +36,9 @@ public class HomePageMenuController : MenuController
 		base.setCurrentPage (0);
 		NewHomePageController.instance.endMenuInitialization ();
 	}
+	public override void clickOnBackOfficeBackground()
+	{
+		NewHomePageController.instance.backOfficeBackgroundClicked ();
+	}
 }
 

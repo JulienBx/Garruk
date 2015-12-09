@@ -5,11 +5,13 @@ public class NewFocusedFeaturesController : MonoBehaviour
 {
 	private bool isClickable;
 	private bool isEnabled;
+	private bool isHovering;
 	public int id;
 
 	void Awake()
 	{
 		this.isClickable = true;
+		this.isHovering = false;
 	}
 	public void setIsClickable(bool value)
 	{
@@ -17,16 +19,24 @@ public class NewFocusedFeaturesController : MonoBehaviour
 	}
 	void OnMouseOver()
 	{
-		if(this.isClickable)
+		if(!this.isHovering)
 		{
-			gameObject.GetComponent<SpriteRenderer>().color=new Color(155f/255f,220f/255f,1f);
-			gameObject.transform.FindChild("Title").GetComponent<TextMeshPro>().color=new Color(155f/255f,220f/255f,1f);
+			this.isHovering=true;
+			if(this.isClickable)
+			{
+				gameObject.GetComponent<SpriteRenderer>().color=new Color(155f/255f,220f/255f,1f);
+				gameObject.transform.FindChild("Title").GetComponent<TextMeshPro>().color=new Color(155f/255f,220f/255f,1f);
+			}
 		}
 	}
 	void OnMouseExit()
 	{
-		gameObject.GetComponent<SpriteRenderer>().color=new Color(1f,1f,1f);
-		gameObject.transform.FindChild("Title").GetComponent<TextMeshPro>().color=new Color(1f,1f,1f);
+		if(this.isHovering)
+		{
+			this.isHovering=false;
+			gameObject.GetComponent<SpriteRenderer>().color=new Color(1f,1f,1f);
+			gameObject.transform.FindChild("Title").GetComponent<TextMeshPro>().color=new Color(1f,1f,1f);
+		}
 	}
 	void OnMouseDown()
 	{

@@ -37,5 +37,9 @@ public class MyGameMenuController : MenuController
 		base.setCurrentPage (1);
 		newMyGameController.instance.endMenuInitialization ();
 	}
+	public override void clickOnBackOfficeBackground()
+	{
+		newMyGameController.instance.backOfficeBackgroundClicked ();
+	}
 }
 

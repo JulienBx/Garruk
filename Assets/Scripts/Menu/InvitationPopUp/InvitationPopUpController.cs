@@ -57,8 +57,8 @@ public class InvitationPopUpController : MonoBehaviour
 	}
 	private void initializePopUp()
 	{
-		gameObject.transform.FindChild("deckList").FindChild("currentDeck").FindChild ("Title").GetComponent<TextMeshPro> ().text = "Equipe sélectionnée";
-		gameObject.transform.FindChild("deckList").FindChild("currentDeck").FindChild("deckName").GetComponent<TextMeshPro> ().text="Aucune équipe";
+		gameObject.transform.FindChild("deckList").FindChild("currentDeck").FindChild ("Title").GetComponent<TextMeshPro> ().text = "Armée sélectionnée";
+		gameObject.transform.FindChild("deckList").FindChild("currentDeck").FindChild("deckName").GetComponent<TextMeshPro> ().text="Aucune armée";
 		gameObject.transform.FindChild("description").GetComponent<TextMeshPro>().text="vous a lancé un défi";
 		gameObject.transform.FindChild("acceptButton").FindChild("Title").GetComponent<TextMeshPro>().text="Accepter";
 		gameObject.transform.FindChild("declineButton").FindChild("Title").GetComponent<TextMeshPro>().text="Refuser";

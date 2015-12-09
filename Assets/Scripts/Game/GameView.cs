@@ -1869,6 +1869,7 @@ public class GameView : MonoBehaviour
 	public IEnumerator quitGame()
 	{
 		bool hasFirstPlayerWon=false;
+		print ("toto");
 
 		if(ApplicationModel.launchGameTutorial)
 		{

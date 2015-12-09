@@ -103,6 +103,8 @@ public class newMyGameController : MonoBehaviour
 	private Vector3[] cardsPosition;
 	private Vector3[] deckCardsPosition;
 	private Rect[] deckCardsArea;
+	private bool[] deckCardsAreaHovered;
+	private bool isHoveringDeckArea;
 	private Rect cardsArea;
 	private Texture2D cursorTexture;
 	
@@ -369,7 +371,7 @@ public class newMyGameController : MonoBehaviour
 		this.deckBlock = Instantiate (this.blockObject) as GameObject;
 		this.deckBlockTitle = GameObject.Find ("DeckBlockTitle");
 		this.deckBlockTitle.GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
-		this.deckBlockTitle.GetComponent<TextMeshPro> ().text = "Mes équipes";
+		this.deckBlockTitle.GetComponent<TextMeshPro> ().text = "Mes armées";
 		this.deckSelectionButton = GameObject.Find ("DeckSelectionButton");
 		this.deckSelectionButton.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Changer".ToUpper ();
 		this.deckSelectionButton.AddComponent<newMyGameDeckSelectionButtonController> ();
@@ -403,11 +405,16 @@ public class newMyGameController : MonoBehaviour
 		for(int i=0;i<this.cardsHalos.Length;i++)
 		{
 			this.cardsHalos[i]=GameObject.Find ("CardHalo"+i);
+			this.cardsHalos[i].transform.FindChild("Title").GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
 		}
+		this.cardsHalos [0].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "CAPITAINE \n1er à jouer";
+		this.cardsHalos [1].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "LIEUTENANT \n2ème à jouer";
+		this.cardsHalos [2].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "SERGENT \n3ème à jouer";
+		this.cardsHalos [3].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "SOLDAT \n4ème à jouer";
 		this.cardsBlock = Instantiate (this.blockObject) as GameObject;
 		this.cardsBlockTitle = GameObject.Find ("CardsBlockTitle");
 		this.cardsBlockTitle.GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
-		this.cardsBlockTitle.GetComponent<TextMeshPro> ().text = "Mes cartes";
+		this.cardsBlockTitle.GetComponent<TextMeshPro> ().text = "Mes unités";
 		this.cardsNumberTitle = GameObject.Find ("CardsNumberTitle");
 		this.cardsNumberTitle.GetComponent<TextMeshPro> ().color = ApplicationDesignRules.whiteTextColor;
 		this.cards=new GameObject[0];
@@ -746,16 +753,18 @@ public class newMyGameController : MonoBehaviour
 
 		this.deckCardsPosition=new Vector3[this.cardsHalos.Length];
 		this.deckCardsArea=new Rect[this.cardsHalos.Length];
+		this.deckCardsAreaHovered=new bool[this.cardsHalos.Length];
 		
 		for(int i=0;i<this.cardsHalos.Length;i++)
 		{
 			this.cardsHalos[i].transform.localScale=ApplicationDesignRules.cardHaloScale;
 			this.cardsHalos[i].transform.position=new Vector3(deckBlockUpperLeftPosition.x+0.3f+ApplicationDesignRules.cardHaloWorldSize.x/2f+i*(gapBetweenCardsHalo+ApplicationDesignRules.cardHaloWorldSize.x),deckBlockUpperRightPosition.y - 3f,0);
 			this.deckCardsPosition[i]=this.cardsHalos[i].transform.position;
-			this.deckCardsArea[i]=new Rect(this.cardsHalos[i].transform.position.x-ApplicationDesignRules.cardHaloWorldSize.x/2f,this.cardsHalos[i].transform.position.y-ApplicationDesignRules.cardHaloWorldSize.y/2f,ApplicationDesignRules.cardHaloWorldSize.x,ApplicationDesignRules.cardHaloWorldSize.y);
+			this.deckCardsArea[i]=new Rect(this.cardsHalos[i].transform.position.x-ApplicationDesignRules.cardHaloWorldSize.x/2f-gapBetweenCardsHalo/2f,this.cardsHalos[i].transform.position.y-ApplicationDesignRules.cardHaloWorldSize.y/2f,ApplicationDesignRules.cardHaloWorldSize.x+gapBetweenCardsHalo,ApplicationDesignRules.cardHaloWorldSize.y);
 			this.deckCards[i].transform.position=this.deckCardsPosition[i];
 			this.deckCards[i].transform.localScale=ApplicationDesignRules.cardScale;
 			this.deckCards[i].transform.GetComponent<NewCardMyGameController>().setId(i,true);
+			this.deckCardsAreaHovered[i]=false;
 		}
 
 		this.cardsBlock.GetComponent<NewBlockController> ().resize(cardsBlockLeftMargin,cardsBlockUpMargin,ApplicationDesignRules.blockWidth,cardsBlockHeight);
@@ -923,7 +932,7 @@ public class newMyGameController : MonoBehaviour
 		}
 		else
 		{
-			this.deckTitle.GetComponent<TextMeshPro> ().text = "Aucune équipe créé pour le moment".ToUpper();
+			this.deckTitle.GetComponent<TextMeshPro> ().text = "Aucune armée créé pour le moment".ToUpper();
 			this.deckDeletionButton.gameObject.SetActive(false);
 			this.deckRenameButton.gameObject.SetActive(false);
 			this.deckSelectionButton.gameObject.SetActive(false);
@@ -1672,7 +1681,6 @@ public class newMyGameController : MonoBehaviour
 	}
 	public void startDragging()
 	{
-	
 		if(this.deckDisplayed==-1)
 		{
 			MenuController.instance.displayErrorPopUp("Vous devez créer un deck avant de sélectionner une carte");
@@ -1685,14 +1693,17 @@ public class newMyGameController : MonoBehaviour
 			if(!isDeckCardClicked)
 			{
 				this.cards[this.idCardClicked].GetComponent<NewCardController>().changeLayer(10,"Foreground");
+				this.isHoveringDeckArea=false;
+				for(int i=0;i<this.cardsHalos.Length;i++)
+				{
+					this.cardsHalos[i].GetComponent<SpriteRenderer>().color=ApplicationDesignRules.blueColor;
+					this.cardsHalos[i].transform.FindChild("Title").GetComponent<TextMeshPro>().color=ApplicationDesignRules.blueColor;
+				}
 			}
 			else
 			{
 				this.deckCards[this.idCardClicked].GetComponent<NewCardController>().changeLayer(10,"Foreground");
-			}
-			for(int i=0;i<this.cardsHalos.Length;i++)
-			{
-				this.cardsHalos[i].GetComponent<SpriteRenderer>().color=ApplicationDesignRules.blueColor;
+				this.isHoveringDeckArea=true;
 			}
 		}
 	}
@@ -1708,6 +1719,50 @@ public class newMyGameController : MonoBehaviour
 			else
 			{
 				this.deckCards[this.idCardClicked].transform.position=new Vector3(mousePosition.x+ApplicationDesignRules.menuPosition.x,mousePosition.y+ApplicationDesignRules.menuPosition.y,0f);
+			}
+			bool isHoveringDeckCards=false;
+			for(int i=0;i<deckCardsArea.Length;i++)
+			{
+				if(this.deckCardsArea[i].Contains(mousePosition))
+				{
+					isHoveringDeckCards=true;
+					if(!this.deckCardsAreaHovered[i])
+					{
+						this.deckCardsAreaHovered[i]=true;
+						this.cardsHalos[i].GetComponent<SpriteRenderer>().color=ApplicationDesignRules.blueColor;
+						this.cardsHalos[i].transform.FindChild("Title").GetComponent<TextMeshPro>().color=ApplicationDesignRules.blueColor;
+					}
+				}
+				else
+				{
+					if(this.deckCardsAreaHovered[i])
+					{
+						this.deckCardsAreaHovered[i]=false;
+						this.cardsHalos[i].GetComponent<SpriteRenderer>().color=ApplicationDesignRules.whiteSpriteColor;
+						this.cardsHalos[i].transform.FindChild("Title").GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
+					}
+				}
+			}
+			if(!isHoveringDeckCards && this.isHoveringDeckArea)
+			{
+				this.isHoveringDeckArea=false;
+				for(int i=0;i<this.cardsHalos.Length;i++)
+				{
+					this.cardsHalos[i].GetComponent<SpriteRenderer>().color=ApplicationDesignRules.blueColor;
+					this.cardsHalos[i].transform.FindChild("Title").GetComponent<TextMeshPro>().color=ApplicationDesignRules.blueColor;
+				}
+			}
+			else if(isHoveringDeckCards && !this.isHoveringDeckArea)
+			{
+				this.isHoveringDeckArea=true;
+				for(int i=0;i<this.cardsHalos.Length;i++)
+				{
+					if(!this.deckCardsAreaHovered[i])
+					{
+						this.cardsHalos[i].GetComponent<SpriteRenderer>().color=ApplicationDesignRules.whiteSpriteColor;
+						this.cardsHalos[i].transform.FindChild("Title").GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
+					}
+				}
 			}
 		}
 	}
@@ -1832,6 +1887,7 @@ public class newMyGameController : MonoBehaviour
 		for(int i=0;i<this.cardsHalos.Length;i++)
 		{
 			this.cardsHalos[i].GetComponent<SpriteRenderer>().color=ApplicationDesignRules.whiteSpriteColor;
+			this.cardsHalos[i].transform.FindChild("Title").GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteSpriteColor;
 		}
 
 		Vector3 cursorPosition = Camera.main.ScreenToWorldPoint (new Vector2 (Input.mousePosition.x, Input.mousePosition.y));
@@ -1882,6 +1938,13 @@ public class newMyGameController : MonoBehaviour
 		model.cards.cards.RemoveAt(this.focusedCardIndex);
 		this.drawDeckCards ();
 		this.initializeCards ();
+	}
+	public void backOfficeBackgroundClicked()
+	{
+		if(isCardFocusedDisplayed)
+		{
+			this.focusedCard.GetComponent<NewFocusedCardController>().escapePressed();
+		}
 	}
 	public void returnPressed()
 	{
