@@ -12,6 +12,7 @@ public class InterludeController : MonoBehaviour
 	public bool isDisplayedCharacter;
 	public Sprite[] sprites ;
 	public Sprite[] characterSprites ;
+	bool isEnabledUnderText = false ;
 	
 	bool isPaused ;
 		
@@ -21,8 +22,10 @@ public class InterludeController : MonoBehaviour
 		gameObject.transform.FindChild("Bar1").GetComponent<SpriteRenderer>().enabled = false ;
 		gameObject.transform.FindChild("Bar2").GetComponent<SpriteRenderer>().enabled = false ;
 		gameObject.transform.FindChild("Bar3").GetComponent<SpriteRenderer>().enabled = false ;
+		gameObject.transform.FindChild("UnderText").GetComponent<MeshRenderer>().enabled = false ;
 		gameObject.transform.FindChild("Text").GetComponent<MeshRenderer>().enabled = false ;
 		this.isPaused = false ;
+		isEnabledUnderText = false ;
 	}
 	
 	public void resize(float realwidth){
@@ -85,6 +88,8 @@ public class InterludeController : MonoBehaviour
 		
 		gameObject.transform.FindChild("Text").GetComponent<TextMeshPro>().text = s ;
 		gameObject.transform.FindChild("Text").GetComponent<MeshRenderer>().enabled = true ;
+		gameObject.transform.FindChild("UnderText").GetComponent<MeshRenderer>().enabled = false ;
+		isEnabledUnderText = false ;
 		
 		GameView.instance.getMyHoveredCardController().lowerCharacter();
 		GameView.instance.getHisHoveredCardController().lowerCharacter();
@@ -112,6 +117,8 @@ public class InterludeController : MonoBehaviour
 			gameObject.transform.FindChild("Bar2").GetComponent<SpriteRenderer>().enabled = false ;
 			gameObject.transform.FindChild("Bar3").GetComponent<SpriteRenderer>().enabled = false ;
 			gameObject.transform.FindChild("Text").GetComponent<MeshRenderer>().enabled = false ;
+			gameObject.transform.FindChild("UnderText").GetComponent<MeshRenderer>().enabled = false ;
+			isEnabledUnderText = false;
 			
 			if(GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).isMine){
 				if(ApplicationModel.launchGameTutorial){
@@ -165,9 +172,18 @@ public class InterludeController : MonoBehaviour
 			gameObject.transform.FindChild("Bar3").localPosition = position;
 			gameObject.transform.FindChild("Text").localScale=new Vector3(rapport, rapport, rapport);
 		}
+		else if(!isEnabledUnderText){
+			isEnabledUnderText = true ;
+			gameObject.transform.FindChild("UnderText").GetComponent<MeshRenderer>().enabled = true ;
+		}
 	}	
 	
 	public bool getIsRunning(){
 		return this.isRunning;
+	}
+	
+	public void setUnderText(string s){
+		gameObject.transform.FindChild("UnderText").GetComponent<TextMeshPro>().text = s ;
+		isEnabledUnderText = false ;
 	}
 }

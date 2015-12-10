@@ -2212,6 +2212,16 @@ public class GameView : MonoBehaviour
 		this.getMoveZoneController().updateButtonStatus(this.getCurrentCard());
 		this.getSkillZoneController().updateButtonStatus(this.getCurrentCard());
 	}
+	
+	public void showResult(bool isSuccess)
+	{
+		if(isSuccess){
+			this.interlude.GetComponent<InterludeController>().setUnderText("Succès !");
+		}
+		else{
+			this.interlude.GetComponent<InterludeController>().setUnderText("Echec !");
+		}
+	}
 }
 
 

@@ -7,22 +7,6 @@ public class GameController : Photon.MonoBehaviour
 {	
 	public static GameController instance;
 	
-	private float timePerTurn = 30 ;
-
-	//Variable Photon
-	const string roomNamePrefix = "GarrukGame";
-
-	//Variables de gestion
-	//bool isReconnecting = false ;
-	bool haveIStarted = false ;
-	bool isRunningSkill = false ;
-	bool bothPlayerLoaded = true ;
-	//int nbPlayers = 0 ;
-	int nbPlayersReadyToFight = 0; 
-	int currentClickedCard = -1;
-	
-	int turnsToWait ; 
-	
 	void Awake()
 	{
 		instance = this;
@@ -213,6 +197,17 @@ public class GameController : Photon.MonoBehaviour
 		StartCoroutine(GameView.instance.play(skill));
 	}
 	
+	public void showResult(bool isSuccess)
+	{
+		photonView.RPC("showResultRPC", PhotonTargets.AllBuffered, isSuccess);
+	}
+	
+	[RPC]
+	public void showResultRPC(bool isSuccess)
+	{
+		GameView.instance.showResult(isSuccess);
+	}
+	
 	public void displaySkillEffect(int id, string text, int color){
 		photonView.RPC("displaySkillEffectRPC", PhotonTargets.AllBuffered, id, text, color);
 	}
@@ -282,31 +277,6 @@ public class GameController : Photon.MonoBehaviour
 		temp.Apply();
 		
 		return temp;
-	}
-
-	public PlayingCardController getCurrentPCC()
-	{
-		//return this.playingCards [this.currentPlayingCard].GetComponent<PlayingCardController>();
-		return null ;
-	}
-
-	public TileController getTile(int x, int y)
-	{
-		//return this.tiles [x, y].GetComponent<TileController>();
-		return null;
-	}
-
-	public int getCurrentSkillID()
-	{
-//		if (this.clickedSkill == 4)
-//		{
-//			return 0;
-//		} else if (this.clickedSkill == 5)
-//		{
-//			return 1;
-//		}
-//		return this.playingCards [this.currentPlayingCard].GetComponent<PlayingCardController>().card.Skills [this.clickedSkill].Id;
-		return 0;
 	}
 	
 	public void startPlayingSkill(int id)
@@ -416,165 +386,6 @@ public class GameController : Photon.MonoBehaviour
 	public void failedToCastOnSkill(int target, int failure)
 	{
 		photonView.RPC("failedToCastOnSkillRPC", PhotonTargets.AllBuffered, target, failure);
-	}
-	
-	[RPC]
-	public void failedToCastOnSkillRPC(int target, int failure)
-	{
-		//GameSkills.instance.getCurrentGameSkill().failedToCastOn(target, failure);
-	}
-	
-	public int getNbPlayingCards()
-	{
-		//return (this.playingCards.Length);
-		return 0;
-	}
-
-	// Méthodes pour le tutoriel
-
-	public void setButtonsGUI(bool value)
-	{
-//		for (int i =0; i<gameView.gameScreenVM.buttonsEnabled.Length; i++)
-//		{
-//			gameView.gameScreenVM.buttonsEnabled [i] = value;
-//		}
-	}
-	public void setButtonGUI(int index, bool value)
-	{
-		//gameView.gameScreenVM.buttonsEnabled [index] = value;
-	}
-	public void activeSingleCharacter(int index)
-	{
-		//this.playingCards [index].GetComponent<PlayingCardController>().hideTargetHalo();
-	}
-	public void activeTargetingOnCharacter(int index)
-	{
-		//this.playingCards [index].GetComponent<PlayingCardController>().setIsDisable(false);
-	}
-	public void activeAllCharacters()
-	{
-//		for (int i=0; i<this.limitCharacterSide; i++)
-//		{
-//			//this.playingCards [i].GetComponent<PlayingCardController>().hideTargetHalo();
-//		}
-	}
-	public void disableAllCharacters()
-	{
-//		for (int i=0; i<this.playingCards.Length; i++)
-//		{
-//			this.playingCards [i].GetComponent<PlayingCardController>().setTargetHalo(new HaloTarget(1), true);
-//		}
-	}
-	public Vector2 getPlayingCardsPosition(int index)
-	{
-		//return this.playingCards [index].GetComponent<PlayingCardController>().getGOScreenPosition(this.playingCards [index]);
-		return new Vector2();
-	}
-	
-	public Vector2 getPlayingCardsSize(int index)
-	{
-		//return this.playingCards [index].GetComponent<PlayingCardController>().getGOScreenSize(this.playingCards [index]);
-		return new Vector2();
-	}
-	
-	public Vector2 getTilesPosition(int x, int y)
-	{
-		//return this.tiles [x, y].GetComponent<TileController>().getGOScreenPosition(this.tiles [x, y]);
-		return new Vector2();
-	}
-	
-	public Vector2 getTilesSize(int x, int y)
-	{
-		//return this.tiles [x, y].GetComponent<TileController>().getGOScreenSize(this.tiles [x, y]);
-		return new Vector2();
-	}
-	
-	public void addTileHalo(int x, int y, int haloIndex, bool isHaloDisabled)
-	{
-		//this.tiles [x, y].GetComponent<TileController>().setTargetHalo(new HaloTarget(haloIndex), isHaloDisabled);
-	}
-	public void hideTileHalo(int x, int y)
-	{
-		//this.tiles [x, y].GetComponent<TileController>().hideTargetHalo();
-	}
-	public void disableAllSkillObjects()
-	{
-//		for (int i=0; i<this.skillsObjects.Length; i++)
-//		{
-//			this.skillsObjects [i].GetComponent<SkillObjectController>().setControlActive(false);
-//		}
-	}
-	public void setAllSkillObjects(bool value)
-	{
-//		for (int i=0; i<this.skillsObjects.Length; i++)
-//		{
-//			this.skillsObjects [i].GetComponent<SkillObjectController>().setActive(value);
-//		}
-	}
-	public void activeSingleSkillObjects(int index)
-	{
-		//this.skillsObjects [index].GetComponent<SkillObjectController>().setControlActive(true);
-	}
-	public Vector2 getSkillObjectsPosition(int index)
-	{
-		//return this.skillsObjects [index].GetComponent<SkillObjectController>().getGOScreenPosition(this.skillsObjects [index]);
-		return new Vector2();
-	}
-	public Vector2 getSkillObjectsSize(int index)
-	{
-		//return this.skillsObjects [index].GetComponent<SkillObjectController>().getGOScreenSize(this.skillsObjects [index]);
-		return new Vector2();
-	}
-
-	public void setEndSceneControllerGUI(bool value)
-	{
-		//EndSceneController.instance.setGUI (value);
-	}
-	public IEnumerator endTutorial()
-	{
-//		this.setEndSceneControllerGUI (false);
-//		//yield return StartCoroutine (this.users[0].setTutorialStep (5));
-//		ApplicationModel.launchGameTutorial = false;
-//		Application.LoadLevel ("EndGame");
-	yield return 0 ;
-	}
-	
-	public void launchSkill(int id){
-//		if (id!=-2){
-//			if (!GameView.instance.hasMoved(this.currentPlayingCard)){
-//				GameView.instance.removeDestinations();
-//			}
-//			this.isRunningSkill = true ;
-//			this.startPlayingSkill(id);
-//		}
-//		else{
-//			this.resolvePass();
-//		}
-	}
-	
-	public void cancelSkill(){
-//		if (!GameView.instance.hasMoved(this.currentPlayingCard)){
-//			GameView.instance.displayDestinations(this.currentPlayingCard);
-//		}
-//		GameView.instance.checkSkillsLaunchability();
-//		GameView.instance.hideTargets();
-//		this.isRunningSkill = false ;
-	}
-	
-	public bool getIsRunningSkill(){
-		return this.isRunningSkill;
-	}
-	
-	public bool hasGameStarted(){
-		return (this.nbPlayersReadyToFight==2);
-	}
-	
-	public bool havIStarted(){
-		return (this.haveIStarted);
-	}
-	
-	public int getClickedCard(){
-		return this.currentClickedCard ;
 	}
 }
 
