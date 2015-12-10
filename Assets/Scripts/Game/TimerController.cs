@@ -4,7 +4,7 @@ using TMPro ;
 
 public class TimerController : MonoBehaviour
 {
-	public float globalTime = 480 ;
+	public float globalTime ;
 	
 	float timer ;
 	int timerMinuts ;
@@ -21,7 +21,6 @@ public class TimerController : MonoBehaviour
 	
 	void Awake(){
 		this.timerGO = gameObject;
-		this.timer = globalTime;
 		this.timerMinuts = Mathf.FloorToInt(globalTime/60);
 		this.timerSeconds = Mathf.FloorToInt(globalTime-timerMinuts*60);
 		this.displayTime();
@@ -32,6 +31,10 @@ public class TimerController : MonoBehaviour
 		if(ApplicationModel.launchGameTutorial){
 			this.globalTime = 1200;
 		}
+		else{
+			this.globalTime = 480;
+		}
+		this.timer = globalTime;
 	}
 	
 	public void setIsMyTurn(bool b){

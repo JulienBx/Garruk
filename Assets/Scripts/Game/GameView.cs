@@ -701,14 +701,21 @@ public class GameView : MonoBehaviour
 		}
 		int card = -1;
 		while(i != o && card==-1){ 
+			print ("Je cherche "+i);
 			if(!this.getCard(this.findCardWithDO(i,isM)).isDead){
 				card = this.findCardWithDO(i,isM) ; 
-			}
-			if(i==3){
-				i=0;
+				print ("Vivant");	
 			}
 			else{
-				i++;
+				print ("Mort");
+			}
+			if(card==-1){
+				if(i==3){
+					i=0;
+				}
+				else{
+					i++;
+				}
 			}
 			
 		}
@@ -2186,7 +2193,7 @@ public class GameView : MonoBehaviour
 	
 	public void launchTutoStep(int i){
 		if (i==1){
-			this.popUp.GetComponent<PopUpGameController>().setTexts("Etape 1 : L'arène", "Bienvenue dans l'arène de combat de Cristalia.\nChaque case peut etre normale, infranchissable, ou meme piégée. Prenez garde ou vous mettez vos pieds ! (ou plutot ceux de vos unités)\n\nVos unités sont disposées à l'entrée de l'arène, vous pouvez les déplacer avant le début du combat en cliquant dessus!");
+			this.popUp.GetComponent<PopUpGameController>().setTexts("Etape 1 : L'arène", "Bienvenue dans l'arène de combat de Cristalia.\nChaque case peut etre normale, infranchissable, ou meme piégée. Prenez garde où vous mettez vos pieds ! (ou plutot ceux de vos unités)\n\nVos unités sont disposées à l'entrée de l'arène, vous pouvez les déplacer avant le début du combat en cliquant dessus!");
 			this.popUp.GetComponent<PopUpGameController>().changePosition(new Vector3(-0.05f, 0f, 0f));
 			this.popUp.GetComponent<PopUpGameController>().show(true);
 		}

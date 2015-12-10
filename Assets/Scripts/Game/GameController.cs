@@ -256,10 +256,14 @@ public class GameController : Photon.MonoBehaviour
 	{
 		if (hasFirstPlayerWon == GameView.instance.getIsFirstPlayer())
 		{
+			GameView.instance.getMyHoveredCardController().lowerCharacter();
+			GameView.instance.getHisHoveredCardController().lowerCharacter();
 			EndSceneController.instance.displayEndScene(true);
 		} 
 		else
 		{
+			GameView.instance.getMyHoveredCardController().lowerCharacter();
+			GameView.instance.getHisHoveredCardController().lowerCharacter();
 			EndSceneController.instance.displayEndScene(false);
 		}
 		PhotonNetwork.LeaveRoom ();
