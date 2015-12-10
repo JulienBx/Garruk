@@ -37,8 +37,6 @@ public class TirALarc : GameSkill
 				GameController.instance.esquive(target,8);
 			}
 		}
-		
-		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 0);
 	}
 	
 	public int getValue(int level){
@@ -153,5 +151,6 @@ public class TirALarc : GameSkill
 		
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(value, -1, 0, text, "-"+value+" PV"));
 		GameView.instance.getPlayingCardController(target).updateLife();
+		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 0);
 	}
 }

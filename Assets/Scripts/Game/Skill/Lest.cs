@@ -40,8 +40,6 @@ public class Lest : GameSkill
 			target = targets[Random.Range(0,targets.Count)];
 			GameController.instance.applyOn(target);	
 		}
-		
-		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 0);
 	}
 	
 	public int getMoveBonus(int level){
@@ -90,6 +88,7 @@ public class Lest : GameSkill
 		GameView.instance.getPlayingCardController(target).showIcons();
 		GameView.instance.recalculateDestinations();
 		GameView.instance.displaySkillEffect(target, base.name+"\n"+bonusMove+" MOV. Actif 1 tour", 1);
+		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 0);
 	}	
 	
 	public override string getTargetText(int target){

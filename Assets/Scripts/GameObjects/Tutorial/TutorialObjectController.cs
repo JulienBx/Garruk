@@ -510,7 +510,27 @@ public class TutorialObjectController : MonoBehaviour
 	{
 		return this.sequenceID;
 	}
-	public bool canAccess(int sequenceId=-1)
+	public bool canAccess()
+	{
+		int sequenceId=-1;
+		if(this.isTutorialLaunched)
+		{
+			if(this.sequenceID==sequenceId)
+			{
+				return true;
+			}
+			else
+			{
+				this.displayCantAccessPopUp();
+				return false;
+			}
+		}
+		else
+		{
+			return true;
+		}
+	}
+	public bool canAccess(int sequenceId)
 	{
 		if(this.isTutorialLaunched)
 		{

@@ -19,12 +19,12 @@ public class Electropiege : GameSkill
 	{	
 		GameController.instance.play(GameView.instance.runningSkill);
 		GameController.instance.applyOnTile(targetsTile[0]);
-		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 0);
 	}
 	
 	public override void applyOn(Tile t){
 		int amount = 4+GameView.instance.getCurrentSkill().Power;
 		GameController.instance.addElectropiege(amount, t);
+		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 0);
 	}
 	
 	public override string getTargetText(int i){

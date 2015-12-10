@@ -15,6 +15,7 @@ public class TimerController : MonoBehaviour
 	
 	bool isMyTurn ;
 	bool isDisplayed ;
+	bool isMine ;
 	
 	GameObject timerGO;
 	
@@ -34,6 +35,10 @@ public class TimerController : MonoBehaviour
 		this.display(true);
 	}
 	
+	public void setIsMine(bool b){
+		this.isMine = b;
+	}
+	
 	public void display(bool b){
 		gameObject.GetComponent<MeshRenderer>().enabled = true ;
 		this.timerDisplay = 0f;
@@ -41,16 +46,7 @@ public class TimerController : MonoBehaviour
 	}
 	
 	public void displayTime(){
-		this.timerGO.GetComponent<TextMeshPro>().text = timerMinuts+":"+this.getSeconds();
-		if(this.timer>300){
-			gameObject.GetComponent<TextMeshPro>().color = Color.green ;
-		}
-		else if(this.timer>120){
-			gameObject.GetComponent<TextMeshPro>().color = Color.yellow ;
-		}
-		else{
-			gameObject.GetComponent<TextMeshPro>().color = Color.red ;
-		}
+		this.timerGO.GetComponent<TextMeshPro>().text = "O²:"+Mathf.FloorToInt(100.0f*this.timer/this.globalTime)+"%";
 	}
 	
 	public string getSeconds(){
@@ -70,9 +66,16 @@ public class TimerController : MonoBehaviour
 		if(timer>=0){
 			int newMinuts = Mathf.FloorToInt(this.timer/60);
 			int newSeconds = Mathf.FloorToInt(this.timer-timerMinuts*60);
+			if(this.isMine){
+				GameView.instance.updateMyTimeBar(100.0f*this.timer/globalTime);
+			}
+			else{
+				GameView.instance.updateHisTimeBar(100.0f*this.timer/globalTime);
+			}
 			if(timerSeconds!=newSeconds){
 				this.timerMinuts = newMinuts;
 				this.timerSeconds = newSeconds;
+				
 				this.displayTime();
 			}
 			if(this.timerDisplay>this.displayTiming){

@@ -27,7 +27,33 @@ public class News
 		this.Date = date;
 		this.Description = description;
 	}
-	public News(int iduser, int idnewstype, string param1="", string param2="", string param3="")
+	public News(int iduser, int idnewstype)
+	{
+		this.IdUser = iduser;
+		this.IdNewsType = idnewstype;
+		this.Param1 = "";
+		this.Param2 = "";
+		this.Param3 = "";
+	}
+	
+	public News(int iduser, int idnewstype, string param1)
+	{
+		this.IdUser = iduser;
+		this.IdNewsType = idnewstype;
+		this.Param1 = param1;
+		this.Param2 = "";
+		this.Param3 = "";
+	}
+	public News(int iduser, int idnewstype, string param1, string param2)
+	{
+		this.IdUser = iduser;
+		this.IdNewsType = idnewstype;
+		this.Param1 = param1;
+		this.Param2 = param2;
+		this.Param3 = "";
+	}
+	
+	public News(int iduser, int idnewstype, string param1, string param2, string param3)
 	{
 		this.IdUser = iduser;
 		this.IdNewsType = idnewstype;
@@ -35,6 +61,7 @@ public class News
 		this.Param2 = param2;
 		this.Param3 = param3;
 	}
+	
 	public IEnumerator add()
 	{
 		WWWForm form = new WWWForm(); 											// Création de la connexion

@@ -5,117 +5,69 @@ public class Senilite : GameSkill
 {
 	public Senilite()
 	{
-		this.numberOfExpectedTargets = 1 ; 
+		this.numberOfExpectedTargets = 1 ;
+		base.name = "Sénilité";
+		base.ciblage = 3 ; 
 	}
 	
-//	public override void launch()
-//	{
-//		GameController.instance.initPCCTargetHandler(numberOfExpectedTargets);
-//		GameView.instance.displayOpponentsTargets();
-//	}
-//	
-//	public override void resolve(List<int> targetsPCC)
-//	{	
-//		if (GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
-//			GameView.instance.hideTargets();
-//		}
-//		
-//		int target = targetsPCC[0];
-//		
-//		if (Random.Range(1,101) > GameView.instance.getCard(target).GetMagicalEsquive())
-//		{                             
-//			int arg = Random.Range(1,base.skill.ManaCost+1);
-//			GameController.instance.addTarget(target,1,arg);
-//		}
-//		else{
-//			GameController.instance.addTarget(target,0,0);
-//		}
-//		
-//		if (base.card.isGenerous()){
-//			if (Random.Range(1,101) <= base.card.getPassiveManacost()){
-//				List<int> allys = GameView.instance.getOpponents();
-//				if(allys.Count>1){
-//					allys.Remove(target);
-//					target = allys[Random.Range(0,allys.Count)];
-//					
-//					if (Random.Range(1,101) > GameView.instance.getCard(target).GetMagicalEsquive())
-//					{
-//						int arg = Random.Range(1,base.skill.ManaCost+1);
-//						GameController.instance.addTarget(target,3,arg);
-//					}
-//					else{
-//						GameController.instance.addTarget(target,2,0);
-//					}
-//				}
-//			}
-//		}
-//		
-//		GameController.instance.play();
-//	}
-//	
-//	public override void applyOn(){
-//		Card targetCard ;
-//		int target ;
-//		string text ;
-//		List<Card> receivers =  new List<Card>();
-//		List<string> receiversTexts =  new List<string>();
-//		
-//		int amount ; 
-//		
-//		for(int i = 0 ; i < base.targets.Count ; i++){
-//			target = base.targets[i];
-//			targetCard = GameView.instance.getCard(target);
-//			receivers.Add (targetCard);
-//			if (base.results[i]==0){
-//				text = "Esquive";
-//				GameView.instance.displaySkillEffect(target, text, 4);
-//				receiversTexts.Add (text);
-//			}
-//			else if (base.results[i]==2){
-//				text = "Bonus 'Généreux'\nEsquive";
-//				GameView.instance.displaySkillEffect(target, text, 4);
-//				receiversTexts.Add (text);
-//			}
-//			else{
-//				amount = base.values[i];
-//				if(base.results[i]==3){
-//					text = "Bonus Généreux\n";
-//				}
-//				else{
-//					text="";
-//				}
-//				
-//				text+="-"+amount+" ATK";
-//				receiversTexts.Add (text);
-//				
-//				GameController.instance.addCardModifier(target, -1*amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Attack, -1, 23, "SENILITE", "-"+amount+" ATK. Permanent", "Permanent");
-//				
-//				GameView.instance.displaySkillEffect(target, text, 5);
-//			}	
-//		}
-//		if(!GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
-//			GameView.instance.setSkillPopUp("lance <b>Sénilité</b>...", base.card, receivers, receiversTexts);
-//		}
-//	}
-//	
-//	public override string isLaunchable(){
-//		return GameView.instance.canLaunchAllysButMeTargets();
-//	}
-//	
-//	public override string getTargetText(int i, Card targetCard){
-//		
-//		int amount = base.skill.ManaCost;
-//		Debug.Log(amount);
-//		int attack = targetCard.GetAttack();
-//		string text;
-//		
-//		text = "ATK : "+attack+"->"+Mathf.Max(1,(attack-1))+"-"+Mathf.Max(1,(attack-amount))+"\n";
-//		
-//		int probaEsquive = targetCard.GetMagicalEsquive();
-//		int probaHit = Mathf.Max(0,100-probaEsquive) ;
-//		
-//		text += "HIT% : "+probaHit;
-//		
-//		return text ;
-//	}
+	public override void launch()
+	{
+		GameView.instance.initPCCTargetHandler(numberOfExpectedTargets);
+		GameView.instance.displayAllysButMeTargets();
+	}
+	
+	public override void resolve(List<int> targetsPCC)
+	{	
+		GameController.instance.play(GameView.instance.runningSkill);
+		int target = targetsPCC[0];
+		int proba = GameView.instance.getCurrentSkill().proba;
+		int level = GameView.instance.getCurrentSkill().Power;
+		
+		if (Random.Range(1,101) < GameView.instance.getCard(target).getMagicalEsquive()){
+			GameController.instance.esquive(target,1);
+		}
+		else{
+			if (Random.Range(1,101) < proba){
+				int value = -1*Random.Range(1,2+level);
+				GameController.instance.applyOn2(target,value);
+			}
+			else{
+				GameController.instance.esquive(target,56);
+			}
+		}
+		
+		if(GameView.instance.getCurrentCard().isGenerous()){
+			List<int> targets = GameView.instance.getAllys();
+			targets.Remove(target);
+			target = targets[Random.Range(0,targets.Count)];
+			GameController.instance.applyOn(target);	
+		}
+	}
+	
+	public override void applyOn(int target, int value){
+		string text = base.name;
+		GameCard targetCard = GameView.instance.getCard(target);
+		GameCard currentCard = GameView.instance.getCurrentCard();
+		
+		GameView.instance.getCard(target).attackModifyers.Add(new Modifyer(value, -1, 57, text, value+" ATK. Permanent"));
+		GameView.instance.getPlayingCardController(target).updateAttack();
+		GameView.instance.displaySkillEffect(target, base.name+"\n"+value+" ATK. Permanent", 1);
+		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 0);
+	}
+	
+	public override string getTargetText(int target){
+		string text = base.name;
+		GameCard targetCard = GameView.instance.getCard(target);
+		GameCard currentCard = GameView.instance.getCurrentCard();
+		int level = GameView.instance.getCurrentSkill().Power;
+		
+		text += "-[1-"+(level+1)+"] ATK. Permanent";
+		
+		int amount = GameView.instance.getCurrentSkill().proba;
+		int probaEsquive = targetCard.getMagicalEsquive();
+		int probaHit = Mathf.Max(0,amount*(100-probaEsquive)/100) ;
+		text += "\nHIT% : "+probaHit;
+		
+		return text ;
+	}
 }

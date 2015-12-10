@@ -40,8 +40,6 @@ public class Fortifiant : GameSkill
 			target = targets[Random.Range(0,targets.Count)];
 			GameController.instance.applyOn(target);	
 		}
-		
-		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 0);
 	}
 	
 	public override void applyOn(int target){
@@ -53,6 +51,7 @@ public class Fortifiant : GameSkill
 		GameView.instance.getCard(target).attackModifyers.Add(new Modifyer(level, 1, 3, text, "+"+level+" ATK. Actif 1 tour"));
 		GameView.instance.getPlayingCardController(target).updateAttack();
 		GameView.instance.displaySkillEffect(target, base.name+"\n"+"+"+level+" ATK. Actif 1 tour", 1);
+		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 0);
 	}	
 
 	public override string getTargetText(int target){

@@ -40,8 +40,6 @@ public class Renfoderme : GameSkill
 			target = targets[Random.Range(0,targets.Count)];
 			GameController.instance.applyOn(target);	
 		}
-		
-		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 0);
 	}
 	
 	public int getShieldBonus(int level){
@@ -81,6 +79,7 @@ public class Renfoderme : GameSkill
 		GameView.instance.getCard(target).addShieldModifyer(new Modifyer(bonusShield, -1, 39, text, "Bouclier : "+bonusShield+"%. Permanent"));
 		GameView.instance.displaySkillEffect(target, base.name+"\nBouclier : "+bonusShield+"%. Permanent", 1);
 		GameView.instance.getPlayingCardController(target).showIcons();
+		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 0);
 	}	
 
 	public override string getTargetText(int target){

@@ -32,7 +32,6 @@ public class CoupeJambes : GameSkill
 				GameController.instance.esquive(target,15);
 			}
 		}
-		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 0);
 	}
 	
 	public override void applyOn(int target){
@@ -65,6 +64,7 @@ public class CoupeJambes : GameSkill
 		GameView.instance.getPlayingCardController(target).updateLife();
 		GameView.instance.getPlayingCardController(target).showIcons();
 		GameView.instance.recalculateDestinations();
+		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 0);
 	}
 	
 	public int getPercentage(int level){

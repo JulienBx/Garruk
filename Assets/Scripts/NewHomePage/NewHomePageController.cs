@@ -1135,7 +1135,49 @@ public class NewHomePageController : MonoBehaviour
 	{
 		yield return StartCoroutine(model.decks[this.deckDisplayed].changeCardsOrder(idCard1,deckOrder1,idCard2,deckOrder2));
 	}
-	public void drawNotifications(bool firstLoad=false)
+	public void drawNotifications()
+	{
+		bool firstLoad=false;
+		this.notificationsDisplayed = new List<int> ();
+		for(int i =0;i<this.newsfeedPagination.nbElementsPerPage;i++)
+		{
+			if(this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i<model.notifications.Count)
+			{
+				this.notificationsDisplayed.Add (this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i);
+				this.contents[i].SetActive(true);
+				this.contents[i].transform.FindChild("description").GetComponent<TextMeshPro>().text=model.notifications[this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i].Content;
+				this.contents[i].transform.FindChild("picture").GetComponent<SpriteRenderer>().sprite=MenuController.instance.returnThumbPicture(model.notifications[this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i].SendingUser.idProfilePicture);
+				this.contents[i].transform.FindChild("date").GetComponent<TextMeshPro>().text=model.notifications[this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i].Notification.Date.ToString("dd/MM/yyyy");
+				this.contents[i].transform.FindChild("username").GetComponent<TextMeshPro>().text=model.notifications[this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i].SendingUser.Username;
+				if(!model.notifications[this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i].Notification.IsRead)
+				{
+					this.contents[i].transform.FindChild("new").gameObject.SetActive(true);
+				}
+				else
+				{
+					this.contents[i].transform.FindChild("new").gameObject.SetActive(false);
+				}
+				if(model.notifications[this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i].Notification.IdNotificationType==4)
+				{
+					this.friendsStatusButtons[2*i].SetActive(true);
+					this.friendsStatusButtons[2*i+1].SetActive(true);
+				}
+				else
+				{
+					this.friendsStatusButtons[2*i].SetActive(false);
+					this.friendsStatusButtons[2*i+1].SetActive(false);
+				}
+			}
+			else
+			{
+				this.contents[i].SetActive(false);
+				this.friendsStatusButtons[2*i].SetActive(false);
+				this.friendsStatusButtons[2*i+1].SetActive(false);
+			}
+		}
+		this.manageNonReadsNotifications (firstLoad);
+	}
+	public void drawNotifications(bool firstLoad)
 	{
 		this.notificationsDisplayed = new List<int> ();
 		for(int i =0;i<this.newsfeedPagination.nbElementsPerPage;i++)

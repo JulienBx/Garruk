@@ -702,8 +702,9 @@ public class NewStoreController : MonoBehaviour
 			Destroy(this.packs[i]);
 		}
 	}
-	public void buyPackHandler(int id, bool fromHome=false)
+	public void buyPackHandler(int id)
 	{
+		bool fromHome=false;
 		if(fromHome)
 		{
 			for(int i=0;i<model.packList.Count;i++)
@@ -714,6 +715,34 @@ public class NewStoreController : MonoBehaviour
 					break;
 				}
 
+			}
+		}
+		else
+		{
+			this.selectedPackIndex = this.packsDisplayed [id];
+		}
+		this.selectedCardType = model.packList [this.selectedPackIndex].CardType;
+		if(this.selectedCardType==-2)
+		{
+			this.displaySelectCardTypePopUp();
+		}
+		else
+		{
+			StartCoroutine (this.buyPack ());
+		}
+	}
+	public void buyPackHandler(int id, bool fromHome)
+	{
+		if(fromHome)
+		{
+			for(int i=0;i<model.packList.Count;i++)
+			{
+				if(model.packList[i].Id==id)
+				{
+					this.selectedPackIndex=i;
+					break;
+				}
+				
 			}
 		}
 		else

@@ -19,7 +19,12 @@ public class PassController : MonoBehaviour
 		gameObject.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 1f) ;
 		gameObject.transform.FindChild("Text").GetComponent<TextMeshPro>().color = new Color(1f, 1f, 1f, 1f) ;
 		gameObject.transform.FindChild("Text").GetComponent<TextMeshPro>().text = "Terminer mon tour";
-		this.show (true);
+		if(GameView.instance.getCurrentPlayingCard()!=-1){
+			this.show (!GameView.instance.getCurrentCard().hasPlayed || !GameView.instance.getCurrentCard().hasMoved);
+		}
+		else{
+			this.show (true);
+		}
 	}
 	
 	public void OnMouseEnter(){

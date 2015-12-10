@@ -13,8 +13,6 @@ public class TileController : GameObjectController
 	Trap trap ;
 	bool isTrapped ;
 	int isDestination = -1;
-	float timerSE;
-	float SETime = 0.5f;
 	
 	public bool isDisplayingTarget;
 	float timerTarget;
@@ -138,7 +136,6 @@ public class TileController : GameObjectController
 	
 	public void checkTrap()
 	{
-		
 		if(this.isTrapped){
 			if(this.trap.getType()==1){
 				GameView.instance.getPlayingCardController(this.characterID).addDamagesModifyer(new Modifyer(this.trap.getAmount(), -1, 0, "Electropiège", this.trap.getAmount()+" dégats subis"));
@@ -157,6 +154,7 @@ public class TileController : GameObjectController
 			}
 			this.isTrapped=false;
 			this.showTrap(false);
+			GameView.instance.getCard(this.characterID).canCancelMove = false;
 			this.hideDescription();
 		}
 	}

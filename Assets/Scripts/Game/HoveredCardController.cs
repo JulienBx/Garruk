@@ -173,6 +173,15 @@ public class HoveredCardController : MonoBehaviour
 			this.run (); 
 		}
 	}
+	
+	public void raiseCharacter(){
+		gameObject.transform.FindChild("Character").GetComponent<SpriteRenderer>().sortingOrder = 15;
+		print("Je raise ");
+	}
+	
+	public void lowerCharacter(){
+		gameObject.transform.FindChild("Character").GetComponent<SpriteRenderer>().sortingOrder = 1;
+	}
 }
 
 

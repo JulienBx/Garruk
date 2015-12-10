@@ -39,7 +39,6 @@ public class Rugissement : GameSkill
 			}
 			targets.Remove(target);
 		}
-		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 0);
 	}
 	
 	public int getNumberOfTargets(int level){
@@ -86,5 +85,6 @@ public class Rugissement : GameSkill
 		GameView.instance.getCard(target).attackModifyers.Add(new Modifyer(bonusAttack, 1, 19, text, "+"+bonusAttack+" ATK. Actif 1 tour"));
 		GameView.instance.getPlayingCardController(target).updateAttack();
 		GameView.instance.displaySkillEffect(target, base.name+"\n"+"+"+bonusAttack+" ATK. Actif 1 tour", 1);
+		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 0);
 	}
 }

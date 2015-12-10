@@ -31,8 +31,8 @@ public class PlayingCardController : GameObjectController
 	Vector3 finalP;
 	float timerDead;
 	float timerSE;
-	float deadTime = 5f;
-	float SETime = 0.5f;
+	float deadTime = 3f;
+	float SETime = 5f;
 	public bool isShowingDead;
 	public List<Tile> destinations ;
 	string skillEffectDescription ;
@@ -438,10 +438,9 @@ public class PlayingCardController : GameObjectController
 	public void addSETime(float t){
 		this.timerSE += t ;
 		if (this.timerSE>this.SETime){
-			if(!GameView.instance.getTileController(this.id).isDisplayingTarget){
-				//this.switchSE();
-			}
 			this.timerSE = 0f;
+			this.isShowingSE = false ;
+			this.displaySkillEffect(false);
 		}
 	}
 	

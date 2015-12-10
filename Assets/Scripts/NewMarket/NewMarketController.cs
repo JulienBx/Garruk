@@ -390,7 +390,49 @@ public class NewMarketController : MonoBehaviour
 		this.activeTab = idTab;
 		StartCoroutine(this.selectATab ());
 	}
-	private IEnumerator selectATab(bool firstLoad=false)
+	private IEnumerator selectATab()
+	{
+		bool firstLoad=false;
+		for(int i=0;i<this.tabs.Length;i++)
+		{
+			if(i==this.activeTab)
+			{
+				this.tabs[i].GetComponent<SpriteRenderer>().sprite=MenuController.instance.returnTabPicture(1);
+				this.tabs[i].GetComponent<NewMarketTabController>().setIsSelected(true);
+				this.tabs[i].transform.FindChild("Title").GetComponent<TextMeshPro>().color=ApplicationDesignRules.blueColor;
+			}
+			else
+			{
+				this.tabs[i].GetComponent<SpriteRenderer>().sprite=MenuController.instance.returnTabPicture(0);
+				this.tabs[i].GetComponent<NewMarketTabController>().reset();
+			}
+		}
+		MenuController.instance.displayLoadingScreen ();
+		this.isSceneLoaded = false;
+		yield return StartCoroutine (model.initializeMarket (this.totalNbResultLimit,this.activeTab,firstLoad));
+		this.initializeCards ();
+		this.isSceneLoaded = true;
+		MenuController.instance.hideLoadingScreen ();
+		if(firstLoad)
+		{
+			if(model.player.TutorialStep!=-1)
+			{
+				TutorialObjectController.instance.startTutorial(model.player.TutorialStep,model.player.displayTutorial);
+			}
+		}
+		switch(this.activeTab)
+		{
+		case 0: case 1:
+			this.priceFilterTitle.SetActive(true);
+			this.priceFilter.SetActive(true);
+			break;
+		case 2:
+			this.priceFilterTitle.SetActive(false);
+			this.priceFilter.SetActive(false);
+			break;
+		}
+	}
+	private IEnumerator selectATab(bool firstLoad)
 	{
 		for(int i=0;i<this.tabs.Length;i++)
 		{

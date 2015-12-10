@@ -32,7 +32,6 @@ public class Terreur : GameSkill
 				GameController.instance.esquive(target,20);
 			}
 		}
-		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 0);
 	}
 	
 	public override void applyOn(int target){
@@ -48,6 +47,7 @@ public class Terreur : GameSkill
 		GameView.instance.getCard(target).setState(new Modifyer(0, 1, 4, text, "Paralysé. Ne peut pas agir pendant 1 tour"));
 		GameView.instance.getPlayingCardController(target).updateLife();
 		GameView.instance.getPlayingCardController(target).showIcons();
+		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 0);
 	}
 	
 	public int getPercentage(int level){

@@ -42,9 +42,8 @@ public class Steroide : GameSkill
 			target = targets[Random.Range(0,targets.Count)];
 			GameController.instance.applyOn(target);	
 		}
-		
-		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 0);
 	}
+	
 	public override void applyOn(int target, int value){
 		string text = base.name;
 		GameCard targetCard = GameView.instance.getCard(target);
@@ -53,6 +52,7 @@ public class Steroide : GameSkill
 		GameView.instance.getCard(target).attackModifyers.Add(new Modifyer(value, -1, 56, text, "+"+value+" ATK. Permanent"));
 		GameView.instance.getPlayingCardController(target).updateAttack();
 		GameView.instance.displaySkillEffect(target, base.name+"\n"+"+"+value+" ATK. Permanent", 1);
+		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 0);
 	}
 
 	public override string getTargetText(int target){

@@ -40,9 +40,8 @@ public class Antibiotique : GameSkill
 			target = targets[Random.Range(0,targets.Count)];
 			GameController.instance.applyOn(target);	
 		}
-		
-		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 0);
 	}
+	
 	public override void applyOn(int target){
 		string text = base.name;
 		GameCard targetCard = GameView.instance.getCard(target);
@@ -51,6 +50,7 @@ public class Antibiotique : GameSkill
 		GameView.instance.getCard(target).emptyModifiers();
 		GameView.instance.getPlayingCardController(target).show(true);
 		GameView.instance.displaySkillEffect(target, base.name+"\nEffets dissipés", 1);
+		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 0);
 	}	
 	
 	public override string getTargetText(int target){

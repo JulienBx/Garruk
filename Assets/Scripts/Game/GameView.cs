@@ -97,7 +97,9 @@ public class GameView : MonoBehaviour
 		this.hisHoveredRPC = GameObject.Find("HisHoveredPlayingCard");
 		this.popUp = GameObject.Find("PopUp");
 		this.myTimerGO = GameObject.Find("MyTimer");
+		this.myTimerGO.GetComponent<TimerController>().setIsMine(true);
 		this.hisTimerGO = GameObject.Find("HisTimer");
+		this.hisTimerGO.GetComponent<TimerController>().setIsMine(false);
 		
 		this.SB = GameObject.Find("SB");
 		this.interlude = GameObject.Find("Interlude");
@@ -585,7 +587,7 @@ public class GameView : MonoBehaviour
 		}
 	}
 	
-	public void clickDestination(Tile destination, int c, bool cancel){
+	public IEnumerator clickDestination(Tile destination, int c, bool cancel){
 		if(c!=-1){
 			Tile origine = this.getPlayingCardController(c).getTile();
 			this.tiles[origine.x, origine.y].GetComponentInChildren<TileController>().setCharacterID(-1);
@@ -596,17 +598,31 @@ public class GameView : MonoBehaviour
 				this.getCard(c).canCancelMove = !cancel ;
 				this.getCard(c).hasMoved = !cancel ;
 				
+				this.removeDestinations();
+				this.recalculateDestinations();
+				
+				this.getTileController(destination.x, destination.y).checkTrap();
 				if(this.getCard(this.currentPlayingCard).isMine){
 					this.updateActionStatus();
 				}
-				this.removeDestinations();
-				this.recalculateDestinations();
-				this.getTileController(destination.x, destination.y).checkTrap();
+				
+				if(this.getCard(this.currentPlayingCard).hasPlayed && this.getCard(this.currentPlayingCard).hasMoved){
+					this.getPassZoneController().show(false);
+				}
+				
+				yield return new WaitForSeconds(1f);
+				
+				if(this.getCard(this.currentPlayingCard).isMine){
+					if(this.getCard(this.currentPlayingCard).hasPlayed && this.getCard(this.currentPlayingCard).hasMoved){
+						GameController.instance.findNextPlayer ();
+					}
+				}
 			}
 			else{
 				this.setInitialDestinations(this.isFirstPlayer);
 			}
 		}
+		yield break;
 	}
 	
 	public int getCurrentPlayingCard(){
@@ -806,7 +822,6 @@ public class GameView : MonoBehaviour
 			this.hasFightStarted = true ;
 		}
 		
-		this.removeSkillEffects();
 		this.changeCurrentClickedCard(nextPlayingCard) ;
 		
 		if (this.getCard(currentPlayingCard).isMine){
@@ -829,7 +844,7 @@ public class GameView : MonoBehaviour
 				StartCoroutine(launchFury());
 			}
 		}
-		
+		this.runningSkill = -1;
 		this.getCard(this.currentPlayingCard).previousTile = this.getPlayingCardTile(this.currentPlayingCard);
 		this.getCard(this.currentPlayingCard).canCancelMove = false ;
 	}
@@ -838,7 +853,6 @@ public class GameView : MonoBehaviour
 		
 		if(ApplicationModel.launchGameTutorial){
 			while(!this.blockFury){
-				print ("J'attends");
 				yield return new WaitForSeconds(1f);
 			}
 		}
@@ -997,15 +1011,6 @@ public class GameView : MonoBehaviour
 		
 	}
 	
-	public void changeOverloadText(string s){
-		//this.actionButtons.GetComponent<TextMeshPro>().text = s ;
-	}
-	
-	public void unClickPC(int p){
-		Tile t = this.getPlayingCardTile(p);
-		//this.tileHandlers[t.x, t.y].GetComponent<TileHandlerController>().disable();
-	}
-	
 	public MyHoveredCardController getMyHoveredCardController(){
 		return this.myHoveredRPC.GetComponent<MyHoveredCardController>();
 	}
@@ -1037,12 +1042,6 @@ public class GameView : MonoBehaviour
 		}
 	}
 	
-	public void loadSkill(){
-//		int currentPlayingCard = GameController.instance.getCurrentPlayingCard();
-//		GameObject.Find("TitleSD").GetComponent<TextMeshPro>().text = this.currentHoveredSkill.Name;
-//		GameObject.Find("DescriptionSD").GetComponent<TextMeshPro>().text = this.currentHoveredSkill.Description;
-	}
-	
 	public void createBackground()
 	{
 		for (int i = 0; i < this.verticalBorders.Length; i++)
@@ -1064,29 +1063,8 @@ public class GameView : MonoBehaviour
 		this.resize();
 	}
 	
-	public void displayPopUp(string s, Vector3 position, string t){
-//		this.popUpText.GetComponent<TextMeshPro>().text = s ;
-//		this.popUpTitle.GetComponent<TextMeshPro>().text = t ;
-//		
-//		this.popUp.transform.position = position;
-	}
-	
 	public void hidePopUp(){
 		this.popUp.transform.position = new Vector3(0, -10, 0);
-	}
-	
-	
-	public void displaySkill(){
-		
-//		if (!this.isDisplayedSkill){
-//			this.loadSkill();
-//			statusSkill = 1 ;
-//			this.timerSkill= 0 ;
-//		}
-//		else{
-//			statusSkill = -2 ;
-//			this.timerSkill = 0 ;
-//		}
 	}
 	
 	public List<Tile> getFreeCenterTiles(){
@@ -1105,14 +1083,6 @@ public class GameView : MonoBehaviour
 		this.tiles [x, y].GetComponent<TileController>().removeTrap();
 	}
 	
-	public void checkSkillsLaunchability(){
-//		List<Skill> skills = this.getCard(GameController.instance.getCurrentPlayingCard()).getSkills();
-//		this.skillButtons[0].GetComponentInChildren<SkillButtonController>().checkLaunchability();
-//		for (int i = 0 ; i < skills.Count ; i++){
-//			this.skillButtons[1+i].GetComponentInChildren<SkillButtonController>().checkLaunchability();
-//		}
-	}
-	
 	public void resize()
 	{
 		this.widthScreen = Screen.width ;
@@ -1123,44 +1093,31 @@ public class GameView : MonoBehaviour
 		}
 	}
 	
-	public void updateMyLifeBar(){
-//		GameObject llbr = GameObject.Find("LLBRight");
-//		llbr.transform.position = new Vector3(-1.2f, 4.5f, 0);
-//		
-//		GameObject leb = GameObject.Find("LLBRightEnd");
-//		leb.transform.position = new Vector3(-1.2f, 4.5f, 0);
-//		
-//		GameObject llbl = GameObject.Find("LLBLeft");
-//		llbl.transform.position = new Vector3(-this.realwidth/2f+0.25f, 4.5f, 0);
-//		
-//		GameObject lcb = GameObject.Find("LLBLeftEnd");
-//		lcb.transform.position = new Vector3(llbr.transform.position.x-0.5f+(this.getPercentageLifeMyPlayer())*(-llbr.transform.position.x+0.5f+(llbl.transform.position.x+0.1f))/100, 4.5f, 0);
-//		
-//		GameObject llbb = GameObject.Find("LLBBar");
-//		llbb.transform.position = new Vector3((leb.transform.position.x+lcb.transform.position.x)/2f, 4.5f, 0);
-//		llbb.transform.localScale = new Vector3((leb.transform.position.x-lcb.transform.position.x-0.49f)/10f, 0.5f, 0.5f);
+	public void updateMyTimeBar(float percentage){
+		GameObject llbr = GameObject.Find("LLBRight");	
+		GameObject leb = GameObject.Find("LLBRightEnd");
+		GameObject llbl = GameObject.Find("LLBLeft");	
+		GameObject lcb = GameObject.Find("LLBLeftEnd");
+		lcb.transform.position = new Vector3(llbr.transform.position.x-0.5f+(percentage)*(-llbr.transform.position.x+0.5f+(llbl.transform.position.x+0.1f))/100, 4.5f, 0);
+		
+		GameObject llbb = GameObject.Find("LLBBar");
+		llbb.transform.position = new Vector3((leb.transform.position.x+lcb.transform.position.x)/2f, 4.5f, 0);
+		llbb.transform.localScale = new Vector3((leb.transform.position.x-lcb.transform.position.x-0.49f)/10f, 0.5f, 0.5f);
 	}
 	
-	public void updateHisLifeBar(){
-//		GameObject rlbl = GameObject.Find("RLBLeft");
-//		rlbl.transform.position = new Vector3(1.2f, 4.5f, 0);
-//		
-//		GameObject rlbr = GameObject.Find("RLBRight");
-//		rlbr.transform.position = new Vector3(this.realwidth/2f-0.25f, 4.5f, 0);
-//		
-//		GameObject rlbc = GameObject.Find("RLBCenter");
-//		rlbc.transform.position = new Vector3((rlbl.transform.position.x+rlbr.transform.position.x)/2f, 4.5f, 0);
-//		rlbc.transform.localScale = new Vector3((-rlbl.transform.position.x+rlbr.transform.position.x-0.49f)/10f, 0.5f, 0.5f);
-//		
-//		GameObject reb = GameObject.Find("RLBRightEnd");
-//		reb.transform.position = new Vector3(rlbl.transform.position.x+0.5f+(this.getPercentageLifeHisPlayer())*(-rlbl.transform.position.x-0.5f+(rlbr.transform.position.x-0.1f))/100, 4.5f, 0);
-//		
-//		GameObject rcb = GameObject.Find("RLBLeftEnd");
-//		rcb.transform.position = new Vector3(1.20f, 4.5f, 0);
-//		
-//		GameObject rlbb = GameObject.Find("RLBBar");
-//		rlbb.transform.position = new Vector3((reb.transform.position.x+rcb.transform.position.x)/2f, 4.5f, 0);
-//		rlbb.transform.localScale = new Vector3((reb.transform.position.x-rcb.transform.position.x-0.49f)/10f, 0.5f, 0.5f);
+	public void updateHisTimeBar(float percentage){
+		GameObject rlbl = GameObject.Find("RLBLeft");
+		GameObject rlbr = GameObject.Find("RLBRight");
+		GameObject rlbc = GameObject.Find("RLBCenter");		
+		GameObject reb = GameObject.Find("RLBRightEnd");
+		reb.transform.position = new Vector3(rlbl.transform.position.x+0.5f+(percentage)*(-rlbl.transform.position.x-0.5f+(rlbr.transform.position.x-0.1f))/100, 4.5f, 0);
+		
+		GameObject rcb = GameObject.Find("RLBLeftEnd");
+		rcb.transform.position = new Vector3(1.20f, 4.5f, 0);
+		
+		GameObject rlbb = GameObject.Find("RLBBar");
+		rlbb.transform.position = new Vector3((reb.transform.position.x+rcb.transform.position.x)/2f, 4.5f, 0);
+		rlbb.transform.localScale = new Vector3((reb.transform.position.x-rcb.transform.position.x-0.49f)/10f, 0.5f, 0.5f);
 	}
 	
 	
@@ -1365,18 +1322,6 @@ public class GameView : MonoBehaviour
 			}
 		}
 		return tiles;
-	}
-	
-	public void clearDestinations(){
-//		for (int i = 0 ; i < GameView.instance.boardWidth ; i++){
-//			for (int j = 0 ; j < GameView.instance.boardHeight ; j++){
-//				if(this.tileHandlers[i,j].activeSelf){
-//					if(this.tileHandlers[i,j].GetComponent<TileHandlerController>().getTypeNumber()!=6){
-//						this.tileHandlers[i, j].GetComponent<TileHandlerController>().disable();
-//					}
-//				}
-//			}
-//		}
 	}
 	
 	public void displayDestinations(int c)
@@ -1650,7 +1595,6 @@ public class GameView : MonoBehaviour
 		this.targets = new List<Tile>();
 		this.getSkillZoneController().isRunningSkill = false ;
 		this.getSkillZoneController().updateButtonStatus(this.getCurrentCard());
-		this.runningSkill = -1;
 	}
 	
 	public string canLaunchAdjacentOpponents()
@@ -1827,15 +1771,6 @@ public class GameView : MonoBehaviour
 			}
 		}
 		this.getPlayingCardController(c).displayDead(true);
-		if(this.getCard(c).isLeader()){
-			bool isM = this.getCard(c).isMine;
-			for (int i = 0 ; i < this.playingCards.Count ; i++){
-				if(i!=c && this.getCard(i).isMine==isM){
-					this.getCard(i).removeLeaderEffect();
-					this.show(i,true);
-				}
-			}
-		}	
 	}
 	
 	IEnumerator sendStat(string user1, string user2, bool isTutorialGame)
@@ -1873,7 +1808,7 @@ public class GameView : MonoBehaviour
 
 		if(ApplicationModel.launchGameTutorial)
 		{
-			if(this.getPercentageLifeHisPlayer()<10)
+			if(this.areAllMyPlayersDead())
 			{
 				hasFirstPlayerWon=true;
 				yield return (StartCoroutine(this.sendStat(ApplicationModel.myPlayerName, ApplicationModel.myPlayerName, true)));
@@ -2121,41 +2056,13 @@ public class GameView : MonoBehaviour
 		}
 		
 		if(hasFoundEnnemy==false){
-			this.clickDestination(baseTiles[0], this.currentPlayingCard, false);
+			StartCoroutine(this.clickDestination(baseTiles[0], this.currentPlayingCard, false));
 		}
 		else{
-			this.clickDestination(idPlaceToMoveTo, this.currentPlayingCard, false);
+			StartCoroutine(this.clickDestination(idPlaceToMoveTo, this.currentPlayingCard, false));
 		}
 		
 		return idEnnemyToAttack;
-	}
-	
-	public float getPercentageLifeMyPlayer(){
-		float life = 0; 
-		float totalLife = 0;
-		for(int i = 0 ; i < this.playingCards.Count ; i++){
-			if(this.getCard(i).isMine){
-				totalLife += this.getCard(i).GetTotalLife();
-				if(!this.getCard(i).isDead){
-					life += this.getCard(i).getLife();
-				}
-			}
-		}
-		return (100f*(life/totalLife));
-	}
-	
-	public float getPercentageLifeHisPlayer(){
-		float life = 0; 
-		float totalLife = 0;
-		for(int i = 0 ; i < this.playingCards.Count ; i++){
-			if(!this.getCard(i).isMine){
-				totalLife += this.getCard(i).GetTotalLife();
-				if(!this.getCard(i).isDead){
-					life += this.getCard(i).getLife();
-				}
-			}
-		}
-		return (100f*(life/totalLife));
 	}
 	
 	public void hideLoadingScreen()
@@ -2175,7 +2082,7 @@ public class GameView : MonoBehaviour
 		return this.sprites[i];
 	}
 	
-	public void play(int r)
+	public IEnumerator play(int r)
 	{	
 		this.runningSkill = r ;
 		string s = GameSkills.instance.getSkill(this.runningSkill).name;
@@ -2183,9 +2090,27 @@ public class GameView : MonoBehaviour
 		this.getSkillZoneController().showCancelButton(false);
 		this.getSkillZoneController().showSkillButtons(false);
 		this.getMoveZoneController().show(false);
+		this.hoverTile();
 		this.interlude.GetComponent<InterludeController>().set(s, this.getCard(this.currentPlayingCard).isMine, true);
 		this.getCard(this.currentPlayingCard).hasPlayed = true ;
 		this.getCard(this.currentPlayingCard).canCancelMove = false;
+		
+		if(this.getCard(this.currentPlayingCard).hasPlayed && this.getCard(this.currentPlayingCard).hasMoved){
+			if(this.getCurrentCard().isMine){
+				this.getPassZoneController().show(false);
+				yield return new WaitForSeconds(3f);
+			}
+			else{
+				yield return new WaitForSeconds(3f);
+			}
+		}
+		yield return new WaitForSeconds(1f);
+		
+		if(this.getCard(this.currentPlayingCard).isMine){
+			if(this.getCard(this.currentPlayingCard).hasPlayed && this.getCard(this.currentPlayingCard).hasMoved){
+				GameController.instance.findNextPlayer ();
+			}
+		}
 	}
 	
 	public GameCard getCurrentCard(){

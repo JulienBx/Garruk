@@ -34,7 +34,6 @@ public class Assassinat : GameSkill
 				GameController.instance.esquive(target,10);
 			}
 		}
-		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 0);
 	}
 
 	public override void applyOn(int target){
@@ -46,6 +45,7 @@ public class Assassinat : GameSkill
 		
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 0, text, damages+" dégats subis"));
 		GameView.instance.getPlayingCardController(target).updateLife();
+		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 0);
 	}
 	
 	public override string getTargetText(int id){	

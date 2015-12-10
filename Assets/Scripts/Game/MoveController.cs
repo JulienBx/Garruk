@@ -13,7 +13,6 @@ public class MoveController : MonoBehaviour
 		gameObject.GetComponent<SpriteRenderer>().enabled = b ;
 		gameObject.transform.FindChild("Text").GetComponent<MeshRenderer>().enabled = b ;
 		gameObject.GetComponent<BoxCollider>().enabled = b;
-		
 	}
 	
 	public void updateButtonStatus(GameCard g){

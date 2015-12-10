@@ -7,7 +7,7 @@ public class Attaque360 : GameSkill
 	{
 		this.numberOfExpectedTargets = 0 ;
 		base.name = "Attaque 360";
-		base.ciblage = 0 ;
+		base.ciblage = 1 ;
 	}
 	
 	public override void launch()
@@ -44,7 +44,6 @@ public class Attaque360 : GameSkill
 			}
 			i++;
 		}
-		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 0);
 	}
 	
 	public override void applyOn(int target){
@@ -71,5 +70,6 @@ public class Attaque360 : GameSkill
 		
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 17, text, "-"+damages+" PV"));
 		GameView.instance.getPlayingCardController(target).updateLife();
+		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 0);
 	}
 }

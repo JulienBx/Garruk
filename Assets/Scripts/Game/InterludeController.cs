@@ -22,7 +22,6 @@ public class InterludeController : MonoBehaviour
 		gameObject.transform.FindChild("Bar2").GetComponent<SpriteRenderer>().enabled = false ;
 		gameObject.transform.FindChild("Bar3").GetComponent<SpriteRenderer>().enabled = false ;
 		gameObject.transform.FindChild("Text").GetComponent<MeshRenderer>().enabled = false ;
-		gameObject.transform.FindChild("Character").GetComponent<SpriteRenderer>().enabled = false ;
 		this.isPaused = false ;
 	}
 	
@@ -31,7 +30,6 @@ public class InterludeController : MonoBehaviour
 	}
 	
 	public void OnMouseDown(){
-		
 		if(this.isPaused){
 			this.unPause();
 		}
@@ -40,7 +38,6 @@ public class InterludeController : MonoBehaviour
 				this.time=5*this.animationTime;
 			}
 		}
-		
 	}
 	
 	public void pause(){
@@ -76,7 +73,6 @@ public class InterludeController : MonoBehaviour
 			gameObject.transform.FindChild("Bar3").GetComponent<SpriteRenderer>().sprite = this.sprites[5];
 		}
 		if(displayCharacter){
-			gameObject.transform.FindChild("Character").GetComponent<SpriteRenderer>().sprite = this.characterSprites[GameView.instance.getCurrentCard().IdClass];
 			gameObject.transform.FindChild("Bar1").GetComponent<SpriteRenderer>().enabled = true;
 			gameObject.transform.FindChild("Bar2").GetComponent<SpriteRenderer>().enabled = true;
 			gameObject.transform.FindChild("Bar3").GetComponent<SpriteRenderer>().enabled = true ;
@@ -90,23 +86,15 @@ public class InterludeController : MonoBehaviour
 		gameObject.transform.FindChild("Text").GetComponent<TextMeshPro>().text = s ;
 		gameObject.transform.FindChild("Text").GetComponent<MeshRenderer>().enabled = true ;
 		
+		GameView.instance.getMyHoveredCardController().lowerCharacter();
+		GameView.instance.getHisHoveredCardController().lowerCharacter();
 		if(displayCharacter){
-			if(isMine){
-				position = gameObject.transform.FindChild("Character").localPosition ;
-				position.x = -realwidth/2f-5f;
-				gameObject.transform.FindChild("Character").localPosition = position;
-				gameObject.transform.FindChild("Character").localScale=new Vector3(-1f,1f,1f);
+			if(GameView.instance.getCurrentCard().isMine){
+				GameView.instance.getMyHoveredCardController().raiseCharacter();
 			}
 			else{
-				position = gameObject.transform.FindChild("Character").localPosition ;
-				position.x = realwidth/2f+5f;
-				gameObject.transform.FindChild("Character").localPosition = position;
-				gameObject.transform.FindChild("Character").localScale=new Vector3(1f,1f,1f);
+				GameView.instance.getHisHoveredCardController().raiseCharacter();
 			}
-			gameObject.transform.FindChild("Character").GetComponent<SpriteRenderer>().enabled = true ;
-		}
-		else{
-			gameObject.transform.FindChild("Character").GetComponent<SpriteRenderer>().enabled = false ;
 		}
 		
 		this.time=0f;
@@ -136,6 +124,7 @@ public class InterludeController : MonoBehaviour
 				GameView.instance.SB.GetComponent<StartButtonController>().showText(false);
 				GameView.instance.getSkillZoneController().isRunningSkill = false ;
 				GameView.instance.updateActionStatus();
+				GameView.instance.getMyHoveredCardController().lowerCharacter();
 			}
 			else{
 				GameView.instance.skillZone.GetComponent<SkillZoneController>().showCancelButton(false);
@@ -144,6 +133,7 @@ public class InterludeController : MonoBehaviour
 				GameView.instance.getPassZoneController().show(false);
 				GameView.instance.SB.GetComponent<StartButtonController>().setText("En attente du joueur adverse");
 				GameView.instance.SB.GetComponent<StartButtonController>().showText(true);
+				GameView.instance.getHisHoveredCardController().lowerCharacter();
 			}
 			this.isRunning = false ;
 		}
@@ -160,15 +150,6 @@ public class InterludeController : MonoBehaviour
 			position.x = -realwidth/2f+10.5f-(realwidth-0.5f)*rapport;
 			gameObject.transform.FindChild("Bar3").localPosition = position;
 			gameObject.transform.FindChild("Text").localScale=new Vector3(1-rapport, 1-rapport, 1-rapport);
-			
-			position = gameObject.transform.FindChild("Character").localPosition ;
-			if(position.x<0){
-				position.x = -realwidth/2f-rapport*5f;
-			}
-			else{
-				position.x = realwidth/2f+rapport*5f;
-			}
-			gameObject.transform.FindChild("Character").localPosition = position;
 		}
 		else if(this.time<this.animationTime){
 			Vector3 position ;
@@ -183,15 +164,6 @@ public class InterludeController : MonoBehaviour
 			position.x = realwidth/2f+10f-(realwidth-0.5f)*rapport;
 			gameObject.transform.FindChild("Bar3").localPosition = position;
 			gameObject.transform.FindChild("Text").localScale=new Vector3(rapport, rapport, rapport);
-			
-			position = gameObject.transform.FindChild("Character").localPosition ;
-			if(position.x<0){
-				position.x = -realwidth/2f-5f+rapport*5f;
-			}
-			else{
-				position.x = realwidth/2f+5f-rapport*5f;
-			}
-			gameObject.transform.FindChild("Character").localPosition = position;
 		}
 	}	
 	
