@@ -19,7 +19,6 @@ public class TutorialController : MonoBehaviour
 
 	private User player;
 	public Sprite[] backgrounds;
-	public Sprite[] caracters;
 	public string[] titles;
 	public string[] descriptions;
 
@@ -99,8 +98,12 @@ public class TutorialController : MonoBehaviour
 		this.nextButton.transform.position = new Vector3 (mainBlockWidth / 2f + mainBlockOrigin.x - 1.5f, mainBlockOrigin.y - mainBlockHeight / 2f + 0.4f, 0f);
 		//this.previousButton.transform.position = new Vector3 (- mainBlockWidth / 2f + mainBlockOrigin.x + 1.5f, mainBlockOrigin.y - mainBlockHeight / 2f + 0.4f, 0f);
 
-		this.picture0.transform.position = new Vector3 (-5f*this.worldWidth / 16f, 0f, 0f);
-		this.picture1.transform.position = new Vector3 (5f*this.worldWidth / 16f, 0f, 0f);
+		Vector3 Picture0Position = this.picture0.transform.position;
+		Picture0Position.x = -5f * this.worldWidth / 16f;
+		this.picture0.transform.position = Picture0Position;
+		Vector3 Picture1Position = this.picture1.transform.position;
+		Picture1Position.x = 5f * this.worldWidth / 16f;
+		this.picture1.transform.position = Picture1Position;
 
 		//view.screenVM.resize ();
 		//view.tutorialVM.resize (view.screenVM.heightScreen);
@@ -112,8 +115,6 @@ public class TutorialController : MonoBehaviour
 		{
 			//this.previousButton.transform.gameObject.SetActive(false);
 			this.background.transform.GetComponent<SpriteRenderer>().sprite=this.backgrounds[0];
-			this.picture0.transform.GetComponent<SpriteRenderer>().sprite=this.caracters[0];
-			this.picture1.transform.GetComponent<SpriteRenderer>().sprite=this.caracters[1];
 			this.title.transform.GetComponent<TextMeshPro>().text=this.titles[0];
 			this.description.transform.GetComponent<TextMeshPro>().text=this.descriptions[0];
 		}

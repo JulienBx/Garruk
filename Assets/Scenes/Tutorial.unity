@@ -136,8 +136,8 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 26384853}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.94000006, y: .219999999, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 4.94000006, y: -.519999981, z: 0}
+  m_LocalScale: {x: 1.14999998, y: 1.14999998, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 5
@@ -318,10 +318,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   blockObject: {fileID: 141336, guid: e04d94d41eac54d0ca5a7a7c20151863, type: 2}
   backgrounds:
-  - {fileID: 21300006, guid: ec8fe55bfa35c4d46ba7d026602e8928, type: 3}
-  caracters:
-  - {fileID: 21300012, guid: f76b3d4b16c004212ad7b8195ad8eb22, type: 3}
-  - {fileID: 21300006, guid: f76b3d4b16c004212ad7b8195ad8eb22, type: 3}
+  - {fileID: 21300000, guid: 489a2d1c281d7ea4db4602816ac91fa5, type: 3}
   titles:
   - "Bienvenue \xE0 Cristalia !"
   descriptions:
@@ -920,7 +917,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300012, guid: f76b3d4b16c004212ad7b8195ad8eb22, type: 3}
+  m_Sprite: {fileID: 21300014, guid: f76b3d4b16c004212ad7b8195ad8eb22, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!4 &2044044713
 Transform:
@@ -929,8 +926,8 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2044044711}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.32999992, y: .270000011, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -5.63000011, y: 0, z: 0}
+  m_LocalScale: {x: 1.14999998, y: 1.14999998, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 4
@@ -976,7 +973,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300006, guid: ec8fe55bfa35c4d46ba7d026602e8928, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 489a2d1c281d7ea4db4602816ac91fa5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!4 &2138422384
 Transform:
