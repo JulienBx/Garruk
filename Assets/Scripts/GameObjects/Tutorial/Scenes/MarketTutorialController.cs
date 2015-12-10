@@ -45,7 +45,11 @@ public class MarketTutorialController : TutorialObjectController
 		}
 		return 0;
 	}
-
+	public override void endHelp()
+	{
+		StartCoroutine(NewMarketController.instance.endHelp ());
+		base.endHelp ();
+	}
 	#region HELP SEQUENCES
 	
 	public override void launchHelpSequence(int sequenceID)

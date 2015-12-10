@@ -43,7 +43,11 @@ public class LobbyTutorialController : TutorialObjectController
 		}
 		return 0;
 	}
-
+	public override void endHelp()
+	{
+		StartCoroutine(NewLobbyController.instance.endHelp ());
+		base.endHelp ();
+	}
 	#region HELP SEQUENCES
 	
 	public override void launchHelpSequence(int sequenceID)

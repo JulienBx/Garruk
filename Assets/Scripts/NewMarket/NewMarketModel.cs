@@ -95,6 +95,7 @@ public class NewMarketModel
 		player.Id = System.Convert.ToInt32 (array [0]);
 		player.TutorialStep = System.Convert.ToInt32 (array [1]);
 		player.displayTutorial = System.Convert.ToBoolean (System.Convert.ToInt32 (array [2]));
+		player.MarketTutorial = System.Convert.ToBoolean (System.Convert.ToInt32 (array [3]));
 		return player;
 	}
 	public IEnumerator refreshMarket (int totalNbResultLimit)

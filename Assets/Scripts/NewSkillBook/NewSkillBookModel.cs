@@ -146,6 +146,7 @@ public class NewSkillBookModel
 		player.CollectionRanking = System.Convert.ToInt32 (array [1]);
 		player.TutorialStep = System.Convert.ToInt32(array [2]);
 		player.displayTutorial= System.Convert.ToBoolean(System.Convert.ToInt32(array [3]));
+		player.SkillBookTutorial= System.Convert.ToBoolean(System.Convert.ToInt32(array [4]));
 		return player;
 	}
 	private void affectSkillTypes()

@@ -20,12 +20,9 @@ public class User
 	private string URLCleanCards = ApplicationModel.host + "clean_cards.php";
 	private string URLSetTutorialStep = ApplicationModel.host + "set_tutorialstep.php";
 	private string URLSetMarketTutorial = ApplicationModel.host + "set_marketTutorial.php";
-	private string URLSetMyProfileTutorial = ApplicationModel.host + "set_myProfileTutorial.php";
 	private string URLSetProfileTutorial = ApplicationModel.host + "set_profileTutorial.php";
 	private string URLSetSkillBookTutorial = ApplicationModel.host + "set_skillBookTutorial.php";
-	private string URLSetStoreTutorial = ApplicationModel.host + "set_storeTutorial.php";
-	private string URLSetDivisionLobbyTutorial = ApplicationModel.host + "set_divisionLobbyTutorial.php";
-	private string URLSetCupLobbyTutorial = ApplicationModel.host + "set_cupLobbyTutorial.php";
+	private string URLSetLobbyTutorial = ApplicationModel.host + "set_lobbyTutorial.php";
 	private string URLUpdateEndGameData = ApplicationModel.host + "get_end_game_data.php";
 	private string URLInvitePlayer = ApplicationModel.host + "invite_player.php";
 	private string URLSetProfilePicture = ApplicationModel.host + "set_profile_picture.php";
@@ -61,12 +58,9 @@ public class User
 	public int CollectionRanking;
 	public int TutorialStep;
 	public bool MarketTutorial;
-	public bool MyProfileTutorial;
 	public bool ProfileTutorial;
 	public bool SkillBookTutorial;
-	public bool StoreTutorial;
-	public bool DivisionLobbyTutorial;
-	public bool CupLobbyTutorial;
+	public bool LobbyTutorial;
 	public int ConnectionBonus;
 	public int idProfilePicture;
 	public bool displayTutorial;
@@ -339,33 +333,6 @@ public class User
 			this.MarketTutorial=step;
 		}
 	}
-	public IEnumerator setMyProfileTutorial(bool step)
-	{
-		string tempString;
-		if(step)
-		{
-			tempString="1";
-		}
-		else
-		{
-			tempString="0";
-		}
-		WWWForm form = new WWWForm (); 								// Création de la connexion
-		form.AddField ("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField ("myform_nick", ApplicationModel.username); 	// Pseudo de l'utilisateur connecté
-		form.AddField("myform_step", tempString);                 // Deck sélectionné
-		
-		WWW w = new WWW (URLSetMyProfileTutorial, form); 								// On envoie le formulaire à l'url sur le serveur 
-		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
-		if (w.error != null) 
-		{
-			Debug.Log (w.error); 										// donne l'erreur eventuelle
-		} 
-		else 
-		{
-			this.MyProfileTutorial=step;
-		}
-	}
 	public IEnumerator setProfileTutorial(bool step)
 	{
 		string tempString;
@@ -420,7 +387,7 @@ public class User
 			this.SkillBookTutorial=step;
 		}
 	}
-	public IEnumerator setDivisionLobbyTutorial(bool step)
+	public IEnumerator setLobbyTutorial(bool step)
 	{
 		string tempString;
 		if(step)
@@ -436,7 +403,7 @@ public class User
 		form.AddField ("myform_nick", ApplicationModel.username); 	// Pseudo de l'utilisateur connecté
 		form.AddField("myform_step", tempString);                 // Deck sélectionné
 		
-		WWW w = new WWW (URLSetDivisionLobbyTutorial, form); 								// On envoie le formulaire à l'url sur le serveur 
+		WWW w = new WWW (URLSetLobbyTutorial, form); 								// On envoie le formulaire à l'url sur le serveur 
 		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
 		if (w.error != null) 
 		{
@@ -444,34 +411,7 @@ public class User
 		} 
 		else 
 		{
-			this.DivisionLobbyTutorial=step;
-		}
-	}
-	public IEnumerator setCupLobbyTutorial(bool step)
-	{
-		string tempString;
-		if(step)
-		{
-			tempString="1";
-		}
-		else
-		{
-			tempString="0";
-		}
-		WWWForm form = new WWWForm (); 								// Création de la connexion
-		form.AddField ("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField ("myform_nick", ApplicationModel.username); 	// Pseudo de l'utilisateur connecté
-		form.AddField("myform_step", tempString);                 // Deck sélectionné
-		
-		WWW w = new WWW (URLSetCupLobbyTutorial, form); 								// On envoie le formulaire à l'url sur le serveur 
-		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
-		if (w.error != null) 
-		{
-			Debug.Log (w.error); 										// donne l'erreur eventuelle
-		} 
-		else 
-		{
-			this.CupLobbyTutorial=step;
+			this.LobbyTutorial=step;
 		}
 	}
 	public IEnumerator updateEndGameData()

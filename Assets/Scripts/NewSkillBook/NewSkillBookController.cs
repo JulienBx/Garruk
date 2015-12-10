@@ -298,6 +298,10 @@ public class NewSkillBookController : MonoBehaviour
 		{
 			TutorialObjectController.instance.startTutorial(model.player.TutorialStep,model.player.displayTutorial);
 		}
+		else if(model.player.displayTutorial&&!model.player.SkillBookTutorial)
+		{
+			TutorialObjectController.instance.startHelp();
+		}
 	}
 	public void selectATabHandler(int idTab)
 	{
@@ -1261,6 +1265,15 @@ public class NewSkillBookController : MonoBehaviour
 	{
 		return this.helpBlock.GetComponent<NewBlockController> ().getOriginPosition ();
 	}
-	
+	public IEnumerator endHelp()
+	{
+		if(!model.player.SkillBookTutorial)
+		{
+			MenuController.instance.displayLoadingScreen();
+			yield return StartCoroutine(model.player.setSkillBookTutorial(true));
+			MenuController.instance.hideLoadingScreen();
+		}
+		yield break;
+	}
 	#endregion
 }

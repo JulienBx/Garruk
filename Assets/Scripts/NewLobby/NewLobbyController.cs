@@ -141,6 +141,10 @@ public class NewLobbyController : MonoBehaviour
 		{
 			TutorialObjectController.instance.startTutorial(model.player.TutorialStep,model.player.displayTutorial);
 		}
+		else if(model.player.displayTutorial&&!model.player.LobbyTutorial)
+		{
+			TutorialObjectController.instance.startHelp();
+		}
 	}
 	private void initializeResults()
 	{
@@ -167,7 +171,6 @@ public class NewLobbyController : MonoBehaviour
 		this.mainBlock = Instantiate(this.blockObject) as GameObject;
 		this.mainBlockTitle = GameObject.Find ("MainBlockTitle");
 		this.mainBlockTitle.GetComponent<TextMeshPro> ().color = ApplicationDesignRules.whiteTextColor;
-		this.mainBlockTitle.GetComponent<TextMeshPro> ().text = "Progression";
 		this.playButton = GameObject.Find ("PlayButton");
 		this.playButton.AddComponent<NewLobbyPlayButtonController> ();
 		this.statsBlock = Instantiate(this.blockObject) as GameObject;
@@ -181,6 +184,7 @@ public class NewLobbyController : MonoBehaviour
 		this.competitionBlock = Instantiate(this.blockObject) as GameObject;
 		this.competitionBlockTitle = GameObject.Find ("CompetitionBlockTitle");
 		this.competitionBlockTitle.GetComponent<TextMeshPro> ().color = ApplicationDesignRules.whiteTextColor;
+		this.competitionBlockTitle.GetComponent<TextMeshPro>().text="Récompenses";
 		this.paginationButtons = GameObject.Find ("Pagination");
 		this.paginationButtons.AddComponent<NewLobbyPaginationController> ();
 		this.paginationButtons.GetComponent<NewLobbyPaginationController> ().initialize ();
@@ -477,7 +481,7 @@ public class NewLobbyController : MonoBehaviour
 	{
 		if(this.isDivisionLobby)
 		{
-			this.competitionBlockTitle.GetComponent<TextMeshPro>().text=model.currentDivision.Name;
+			this.mainBlockTitle.GetComponent<TextMeshPro>().text=model.currentDivision.Name;
 			string description="Hégémonie : "+model.currentDivision.TitlePrize.ToString()+" cristaux";
 			if(model.currentDivision.NbWinsForPromotion!=-1)
 			{
@@ -712,6 +716,14 @@ public class NewLobbyController : MonoBehaviour
 	{
 		return this.competitionBlock.GetComponent<NewBlockController> ().getSize ();
 	}
-	
+	public IEnumerator endHelp()
+	{
+		if(!model.player.LobbyTutorial)
+		{
+			MenuController.instance.displayLoadingScreen();
+			yield return StartCoroutine(model.player.setLobbyTutorial(true));
+			MenuController.instance.hideLoadingScreen();
+		}
+	}
 	#endregion
 }

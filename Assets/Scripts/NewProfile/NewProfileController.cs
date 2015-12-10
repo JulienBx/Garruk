@@ -224,6 +224,10 @@ public class NewProfileController : MonoBehaviour
 		{
 			TutorialObjectController.instance.startTutorial(model.tutorialStep,model.displayTutorial);
 		}
+		else if(model.displayTutorial&&!model.profileTutorial)
+		{
+			TutorialObjectController.instance.startHelp();
+		}
 	}
 	private void initializeFriendsRequests()
 	{
@@ -1719,6 +1723,14 @@ public class NewProfileController : MonoBehaviour
 	{
 		return this.searchBlock.GetComponent<NewBlockController> ().getSize ();
 	}
-
+	public IEnumerator endHelp()
+	{
+		if(!model.profileTutorial)
+		{
+			MenuController.instance.displayLoadingScreen();
+			yield return StartCoroutine(model.player.setProfileTutorial(true));
+			MenuController.instance.hideLoadingScreen();
+		}
+	}
 	#endregion
 }

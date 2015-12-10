@@ -43,7 +43,11 @@ public class SkillBookTutorialController : TutorialObjectController
 		}
 		return 0;
 	}
-	
+	public override void endHelp()
+	{
+		StartCoroutine(NewSkillBookController.instance.endHelp ());
+		base.endHelp ();
+	}
 	#region HELP SEQUENCES
 	
 	public override void launchHelpSequence(int sequenceID)

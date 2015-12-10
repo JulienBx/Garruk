@@ -43,6 +43,11 @@ public class ProfileTutorialController : TutorialObjectController
 		}
 		return 0;
 	}
+	public override void endHelp()
+	{
+		StartCoroutine(NewProfileController.instance.endHelp ());
+		base.endHelp ();
+	}
 
 	#region HELP SEQUENCES
 	

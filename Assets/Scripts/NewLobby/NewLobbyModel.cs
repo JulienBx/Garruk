@@ -111,6 +111,7 @@ public class NewLobbyModel
 		player.TotalNbLooses = System.Convert.ToInt32 (array [5]);
 		player.TutorialStep = System.Convert.ToInt32 (array [6]);
 		player.displayTutorial=System.Convert.ToBoolean(System.Convert.ToInt32(array[7]));
+		player.LobbyTutorial=System.Convert.ToBoolean(System.Convert.ToInt32(array[8]));
 		return player;
 	}
 	public IList<PlayerResult> parseResults(string[] array)

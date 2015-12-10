@@ -419,6 +419,10 @@ public class NewMarketController : MonoBehaviour
 			{
 				TutorialObjectController.instance.startTutorial(model.player.TutorialStep,model.player.displayTutorial);
 			}
+			else if(model.player.displayTutorial&&!model.player.MarketTutorial)
+			{
+				TutorialObjectController.instance.startHelp();
+			}
 		}
 		switch(this.activeTab)
 		{
@@ -459,6 +463,10 @@ public class NewMarketController : MonoBehaviour
 			if(model.player.TutorialStep!=-1)
 			{
 				TutorialObjectController.instance.startTutorial(model.player.TutorialStep,model.player.displayTutorial);
+			}
+			else if(model.player.displayTutorial&&!model.player.MarketTutorial)
+			{
+				TutorialObjectController.instance.startHelp();
 			}
 		}
 		switch(this.activeTab)
@@ -1701,6 +1709,14 @@ public class NewMarketController : MonoBehaviour
 	{
 		return this.focusedCard;
 	}
-	
+	public IEnumerator endHelp()
+	{
+		if(!model.player.MarketTutorial)
+		{
+			MenuController.instance.displayLoadingScreen();
+			yield return StartCoroutine(model.player.setMarketTutorial(true));
+			MenuController.instance.hideLoadingScreen();
+		}
+	}
 	#endregion
 }

@@ -622,7 +622,7 @@ public class TutorialObjectController : MonoBehaviour
 		this.displayDragHelp (false);
 		this.displayExitButton (false);
 	}
-	public void endHelp()
+	public virtual void endHelp()
 	{
 		this.isHelpLaunched = false;
 		MenuController.instance.setIsUserBusy (false);
