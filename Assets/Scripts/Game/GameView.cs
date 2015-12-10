@@ -775,25 +775,24 @@ public class GameView : MonoBehaviour
 			
 			hasMoved = false ;
 			hasPlayed = false ;
-			if(this.getCard(this.currentPlayingCard).isMine){
-				if (this.getCard(nextPlayingCard).isParalyzed()){
+			
+			if (this.getCard(nextPlayingCard).isParalyzed()){
+				hasPlayed = true ;
+			}
+			else if (this.getCard(nextPlayingCard).isSleeping()){
+				int sleepingPercentage = this.getCard(nextPlayingCard).getSleepingPercentage();
+				if(UnityEngine.Random.Range(1,101)<sleepingPercentage){
+					GameController.instance.wakeUp(nextPlayingCard);
+				}
+				else{
+					hasMoved = true ;
 					hasPlayed = true ;
 				}
-				else if (this.getCard(nextPlayingCard).isSleeping()){
-					int sleepingPercentage = this.getCard(nextPlayingCard).getSleepingPercentage();
-					if(UnityEngine.Random.Range(1,101)<sleepingPercentage){
-						GameController.instance.wakeUp(nextPlayingCard);
-					}
-					else{
-						hasMoved = true ;
-						hasPlayed = true ;
-					}
-				}
-				
-				this.getCard(this.currentPlayingCard).setHasMoved(hasMoved);
-				this.getCard(this.currentPlayingCard).setHasPlayed(hasPlayed);
-				this.getPlayingCardController(this.currentPlayingCard).checkModyfiers();
 			}
+			this.getPlayingCardController(this.currentPlayingCard).checkModyfiers();
+			this.getCard(this.currentPlayingCard).setHasMoved(hasMoved);
+			this.getCard(this.currentPlayingCard).setHasPlayed(hasPlayed);
+			
 			
 			if(this.getCard(this.currentPlayingCard).isNurse()){
 				int power = -1*this.getCurrentCard().Skills[0].Power;
@@ -811,6 +810,7 @@ public class GameView : MonoBehaviour
 						}
 					}
 				}
+				
 			}
 			else if(this.getCard(this.currentPlayingCard).isFrenetique()){
 				this.getCard(this.currentPlayingCard).attackModifyers.Add(new Modifyer(this.getCurrentCard().Skills[0].Power, -1, 69, "Frénétique", this.getCurrentCard().Skills[0].Power+" ATK. Permanent"));
