@@ -793,29 +793,29 @@ public class GameView : MonoBehaviour
 				this.getCard(this.currentPlayingCard).setHasMoved(hasMoved);
 				this.getCard(this.currentPlayingCard).setHasPlayed(hasPlayed);
 				this.getPlayingCardController(this.currentPlayingCard).checkModyfiers();
-				
-				if(this.getCard(this.currentPlayingCard).isNurse()){
-					int power = -1*this.getCurrentCard().Skills[0].Power;
-					List<Tile> neighbourTiles = this.getAllyImmediateNeighbours(this.getPlayingCardController(this.currentPlayingCard).getTile());
-					this.targets = new List<Tile>();
-					int playerID;
-					foreach (Tile t in neighbourTiles)
+			}
+			
+			if(this.getCard(this.currentPlayingCard).isNurse()){
+				int power = -1*this.getCurrentCard().Skills[0].Power;
+				List<Tile> neighbourTiles = this.getNeighbours(this.getPlayingCardController(this.currentPlayingCard).getTile());
+				this.targets = new List<Tile>();
+				int playerID;
+				foreach (Tile t in neighbourTiles)
+				{
+					playerID = this.getTileController(t.x, t.y).getCharacterID();
+					if (playerID != -1)
 					{
-						playerID = this.getTileController(t.x, t.y).getCharacterID();
-						if (playerID != -1)
-						{
-							if (this.getCard(playerID).isMine){
-								this.getPlayingCardController(playerID).addDamagesModifyer(new Modifyer(power, -1, 0, "Infirmier", (-1*power)+" PV soignés"));
-								this.getPlayingCardController(playerID).updateLife();
-							}
+						if (this.getCard(playerID).isMine==this.getCard(this.currentPlayingCard).isMine){
+							this.getPlayingCardController(playerID).addDamagesModifyer(new Modifyer(power, -1, 0, "Infirmier", (-1*power)+" PV soignés"));
+							this.getPlayingCardController(playerID).updateLife();
 						}
 					}
 				}
-				else if(this.getCard(this.currentPlayingCard).isFrenetique()){
-					this.getCard(this.currentPlayingCard).attackModifyers.Add(new Modifyer(this.getCurrentCard().Skills[0].Power, -1, 69, "Frénétique", this.getCurrentCard().Skills[0].Power+" ATK. Permanent"));
-					this.getPlayingCardController(this.currentPlayingCard).updateAttack();
-					GameView.instance.displaySkillEffect(this.currentPlayingCard, "Frénétique\n+"+this.getCurrentCard().Skills[0].Power+" ATK. Permanent", 1);
-				}
+			}
+			else if(this.getCard(this.currentPlayingCard).isFrenetique()){
+				this.getCard(this.currentPlayingCard).attackModifyers.Add(new Modifyer(this.getCurrentCard().Skills[0].Power, -1, 69, "Frénétique", this.getCurrentCard().Skills[0].Power+" ATK. Permanent"));
+				this.getPlayingCardController(this.currentPlayingCard).updateAttack();
+				GameView.instance.displaySkillEffect(this.currentPlayingCard, "Frénétique\n+"+this.getCurrentCard().Skills[0].Power+" ATK. Permanent", 1);
 			}
 			
 			if(this.getCurrentCard().isMine){
@@ -1923,6 +1923,17 @@ public class GameView : MonoBehaviour
 				if(this.getCard(this.tiles[neighbours[i].x, neighbours[i].y].GetComponent<TileController>().getCharacterID()).isMine){
 					freeNeighbours.Add(neighbours[i]);
 				}
+			}
+		}
+		return freeNeighbours ;
+	}
+	
+	public List<Tile> getNeighbours(Tile t){
+		List<Tile> freeNeighbours = new List<Tile>();
+		List<Tile> neighbours = t.getImmediateNeighbourTiles();
+		for (int i = 0 ; i < neighbours.Count ; i++){
+			if(this.tiles[neighbours[i].x, neighbours[i].y].GetComponent<TileController>().getCharacterID()!=-1){
+				freeNeighbours.Add(neighbours[i]);
 			}
 		}
 		return freeNeighbours ;
