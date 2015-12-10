@@ -277,7 +277,7 @@ public class NewStoreController : MonoBehaviour
 		this.buyCreditsBlockTitle.GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
 		this.buyCreditsBlockTitle.GetComponent<TextMeshPro> ().text = "Ajouter des crédits";
 		this.buyCreditsButton = GameObject.Find ("BuyCreditsButton");
-		this.buyCreditsButton.transform.FindChild("Title").GetComponent<TextMeshPro> ().text = "J'achète des crédits".ToUpper();
+		this.buyCreditsButton.transform.FindChild("Title").GetComponent<TextMeshPro> ().text = "Acheter des crédits";
 		this.buyCreditsButton.AddComponent<NewStoreBuyCreditsButtonController> ();
 
 		this.focusedCard = GameObject.Find ("FocusedCard");

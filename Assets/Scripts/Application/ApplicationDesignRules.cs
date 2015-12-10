@@ -40,23 +40,27 @@ public class ApplicationDesignRules : MonoBehaviour
 	static public Color greyTextColor = new Color(171/255f,171f/255f,171f/255f);
 	static public Color[] cardsColor = {new Color(75f/255f,163f/255f,174f/255f),new Color (196f/255f,196f/255f,196f/255f),new Color(171/255f,171f/255f,171f/255f)};
 
-	static private Vector2 button31Size=new Vector2(145f,50f);
+	static private Vector2 button31Size=new Vector2(199f,81f);
 	static public Vector2 button31WorldSize;
 	static private Vector3 button31OriginalScale=new Vector3(0.6f,0.6f,0.6f);
 	static public Vector3 button31Scale;
-	static private Vector2 button62Size=new Vector2(357f,120f);
+	static private Vector2 button62Size=new Vector2(376f,122f);
 	static public Vector2 button62WorldSize;
 	static private Vector3 button62OriginalScale=new Vector3(0.6f,0.6f,0.6f);
 	static public Vector3 button62Scale;
-	static private Vector2 button61Size = new Vector2 (357f, 62f);
+	static private Vector2 tabSize=new Vector2(355f,119f);
+	static public Vector2 tabWorldSize;
+	static private Vector3 tabOriginalScale=new Vector3(0.6f,0.6f,0.6f);
+	static public Vector3 tabScale;
+	static private Vector2 button61Size = new Vector2 (376f, 81f);
 	static public Vector2 button61WorldSize;
 	static private Vector3 button61OriginalScale=new Vector3(0.6f,0.6f,0.6f);
 	static public Vector3 button61Scale;
-	static private Vector2 button51Size = new Vector2 (298f, 62f);
+	static private Vector2 button51Size = new Vector2 (317f, 81f);
 	static public Vector2 button51WorldSize;
 	static private Vector3 button51OriginalScale=new Vector3(0.6f,0.6f,0.6f);
 	static public Vector3 button51Scale;
-	static private Vector2 listElementSize = new Vector2 (415f, 90f);
+	static private Vector2 listElementSize = new Vector2 (415f, 89f);
 	static public Vector2 listElementWorldSize;
 	static private Vector3 listElementOriginalScale=new Vector3(0.6f,0.6f,0.6f);
 	static public Vector3 listElementScale;
@@ -110,11 +114,11 @@ public class ApplicationDesignRules : MonoBehaviour
 	static public Vector2 skillTypeFilterWorldSize;
 	static private Vector3 skillTypeFilterOriginalScale=new Vector3(0.7f,0.7f,0.7f);
 	static public Vector3 skillTypeFilterScale;
-	static private Vector2 inputTextSize = new Vector2(386f,62f);
+	static private Vector2 inputTextSize = new Vector2(406f,80f);
 	static public Vector2 inputTextWorldSize;
 	static private Vector3 inputTextOriginalScale=new Vector3(0.6f,0.6f,0.6f);
 	static public Vector3 inputTextScale;
-	static private Vector2 largeInputTextSize = new Vector2(711f,62f);
+	static private Vector2 largeInputTextSize = new Vector2(731f,81f);
 	static public Vector2 largeInputTextWorldSize;
 	static private Vector3 largeInputTextOriginalScale=new Vector3(0.6f,0.6f,0.6f);
 	static public Vector3 largeInputTextScale;
@@ -215,6 +219,9 @@ public class ApplicationDesignRules : MonoBehaviour
 
 		button62Scale = toNewScale (button62OriginalScale);
 		button62WorldSize = toWorldSize (button62Size, button62Scale);
+
+		tabScale = toNewScale (tabOriginalScale);
+		tabWorldSize = toWorldSize (tabSize, tabScale);
 
 		button61Scale = toNewScale (button61OriginalScale);
 		button61WorldSize = toWorldSize (button61Size, button61Scale);

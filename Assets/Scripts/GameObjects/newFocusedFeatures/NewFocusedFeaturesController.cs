@@ -24,8 +24,8 @@ public class NewFocusedFeaturesController : MonoBehaviour
 			this.isHovering=true;
 			if(this.isClickable)
 			{
-				gameObject.GetComponent<SpriteRenderer>().color=new Color(155f/255f,220f/255f,1f);
-				gameObject.transform.FindChild("Title").GetComponent<TextMeshPro>().color=new Color(155f/255f,220f/255f,1f);
+				gameObject.GetComponent<SpriteRenderer>().color=ApplicationDesignRules.blueColor;
+				gameObject.transform.FindChild("Title").GetComponent<TextMeshPro>().color=ApplicationDesignRules.blueColor;
 			}
 		}
 	}
@@ -34,8 +34,8 @@ public class NewFocusedFeaturesController : MonoBehaviour
 		if(this.isHovering)
 		{
 			this.isHovering=false;
-			gameObject.GetComponent<SpriteRenderer>().color=new Color(1f,1f,1f);
-			gameObject.transform.FindChild("Title").GetComponent<TextMeshPro>().color=new Color(1f,1f,1f);
+			gameObject.GetComponent<SpriteRenderer>().color=ApplicationDesignRules.whiteSpriteColor;
+			gameObject.transform.FindChild("Title").GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
 		}
 	}
 	void OnMouseDown()
@@ -47,7 +47,8 @@ public class NewFocusedFeaturesController : MonoBehaviour
 				this.gameObject.transform.parent.GetComponent<NewFocusedCardController>().focusFeaturesHandler(this.id);
 			}
 			gameObject.GetComponent<SpriteRenderer>().color=new Color(1f,1f,1f);
-			gameObject.transform.FindChild("Title").GetComponent<TextMeshPro>().color=new Color(1f,1f,1f);
+			gameObject.transform.FindChild("Title").GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
+			this.isHovering=false;
 		}
 	}
 }

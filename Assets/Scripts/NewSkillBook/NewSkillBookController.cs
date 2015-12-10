@@ -562,8 +562,8 @@ public class NewSkillBookController : MonoBehaviour
 			this.availableFilters[i].AddComponent<NewSkillBookAvailabilityFilterController>();
 			this.availableFilters[i].GetComponent<NewSkillBookAvailabilityFilterController>().setId(i);
 		}
-		this.availableFilters [0].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "acquises".ToUpper ();
-		this.availableFilters [1].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "manquantes".ToUpper();
+		this.availableFilters [0].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Acquises";
+		this.availableFilters [1].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Manquantes";
 		this.skillSearchBarTitle = GameObject.Find ("SkillSearchTitle");
 		this.skillSearchBarTitle.GetComponent<TextMeshPro> ().color = ApplicationDesignRules.whiteTextColor;
 		this.skillSearchBarTitle.GetComponent<TextMeshPro> ().text = "Compétence".ToUpper ();
@@ -618,7 +618,7 @@ public class NewSkillBookController : MonoBehaviour
 		float skillWorldHeight = skillScale*(skillBackgroundHeight / ApplicationDesignRules.pixelPerUnit);
 		float gapBetweenSkills = 0.2f;
 		
-		helpBlockHeight=ApplicationDesignRules.mediumBlockHeight-ApplicationDesignRules.button62WorldSize.y;
+		helpBlockHeight=ApplicationDesignRules.mediumBlockHeight-ApplicationDesignRules.tabWorldSize.y;
 		filtersBlockHeight=ApplicationDesignRules.smallBlockHeight;
 
 		this.skillsPagination = new Pagination ();
@@ -631,7 +631,7 @@ public class NewSkillBookController : MonoBehaviour
 			skillsBlockHeight=2.1f+this.skillsPagination.nbElementsPerPage*(skillWorldHeight+gapBetweenSkills);
 
 			helpBlockLeftMargin=-ApplicationDesignRules.worldWidth;
-			helpBlockUpMargin=0f+ApplicationDesignRules.button62WorldSize.y;
+			helpBlockUpMargin=0f+ApplicationDesignRules.tabWorldSize.y;
 			
 			skillsBlockLeftMargin=ApplicationDesignRules.leftMargin;
 			skillsBlockUpMargin=0f;
@@ -651,7 +651,7 @@ public class NewSkillBookController : MonoBehaviour
 			this.mainCamera.GetComponent<Camera>().orthographicSize=ApplicationDesignRules.cameraSize;
 
 			helpBlockLeftMargin=ApplicationDesignRules.leftMargin+ApplicationDesignRules.gapBetweenBlocks+ApplicationDesignRules.blockWidth;
-			helpBlockUpMargin=ApplicationDesignRules.upMargin+ApplicationDesignRules.button62WorldSize.y;
+			helpBlockUpMargin=ApplicationDesignRules.upMargin+ApplicationDesignRules.tabWorldSize.y;
 			
 			filtersBlockLeftMargin=ApplicationDesignRules.leftMargin+ApplicationDesignRules.gapBetweenBlocks+ApplicationDesignRules.blockWidth;
 			filtersBlockUpMargin=helpBlockUpMargin+ApplicationDesignRules.gapBetweenBlocks+helpBlockHeight;
@@ -661,7 +661,7 @@ public class NewSkillBookController : MonoBehaviour
 		}
 
 		this.mainCamera.GetComponent<ScrollingController> ().setViewHeight(ApplicationDesignRules.viewHeight);
-		this.mainCamera.GetComponent<ScrollingController> ().setContentHeight(helpBlockHeight + skillsBlockHeight + filtersBlockHeight + 2f * ApplicationDesignRules.gapBetweenBlocks + ApplicationDesignRules.button62WorldSize.y);
+		this.mainCamera.GetComponent<ScrollingController> ().setContentHeight(helpBlockHeight + skillsBlockHeight + filtersBlockHeight + 2f * ApplicationDesignRules.gapBetweenBlocks + ApplicationDesignRules.tabWorldSize.y);
 		this.mainCamera.transform.position = ApplicationDesignRules.mainCameraStartPosition;
 		this.mainCamera.GetComponent<ScrollingController> ().setStartPositionY (ApplicationDesignRules.mainCameraStartPosition.y);
 
@@ -802,8 +802,8 @@ public class NewSkillBookController : MonoBehaviour
 		float gapBetweenSelectionsButtons = 0.02f;
 		for(int i=0;i<this.tabs.Length;i++)
 		{
-			this.tabs[i].transform.localScale = ApplicationDesignRules.button62Scale;
-			this.tabs[i].transform.position = new Vector3 (helpBlockUpperLeftPosition.x + ApplicationDesignRules.button62WorldSize.x / 2f+ i*(ApplicationDesignRules.button62WorldSize.x+gapBetweenSelectionsButtons), helpBlockUpperLeftPosition.y+ApplicationDesignRules.button62WorldSize.y/2f,0f);
+			this.tabs[i].transform.localScale = ApplicationDesignRules.tabScale;
+			this.tabs[i].transform.position = new Vector3 (helpBlockUpperLeftPosition.x + ApplicationDesignRules.tabWorldSize.x / 2f+ i*(ApplicationDesignRules.tabWorldSize.x+gapBetweenSelectionsButtons), helpBlockUpperLeftPosition.y+ApplicationDesignRules.tabWorldSize.y/2f,0f);
 		}
 		
 		Vector2 contentBlockSize = new Vector2 (helpBlockSize.x - 0.6f, (helpBlockSize.y - 0.3f - 0.6f)/this.contents.Length);

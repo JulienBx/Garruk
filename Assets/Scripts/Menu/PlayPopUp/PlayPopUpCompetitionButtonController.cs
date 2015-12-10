@@ -17,9 +17,9 @@ public class PlayPopUpCompetitionButtonController : MonoBehaviour
 	}
 	void OnMouseOver()
 	{
-		gameObject.transform.FindChild("Title").GetComponent<TextMeshPro>().color=new Color(155f/255f,220f/255f,1f);
-		gameObject.transform.FindChild("Border").GetComponent<SpriteRenderer>().color=new Color(155f/255f,220f/255f,1f);
-		gameObject.transform.FindChild("Picture").GetComponent<SpriteRenderer>().color=new Color(155f/255f,220f/255f,1f);
+		gameObject.transform.FindChild("Title").GetComponent<TextMeshPro>().color=ApplicationDesignRules.blueColor;
+		gameObject.transform.FindChild("Border").GetComponent<SpriteRenderer>().color=ApplicationDesignRules.blueColor;
+		gameObject.transform.FindChild("Picture").GetComponent<SpriteRenderer>().color=ApplicationDesignRules.blueColor;
 	}
 	void OnMouseExit()
 	{

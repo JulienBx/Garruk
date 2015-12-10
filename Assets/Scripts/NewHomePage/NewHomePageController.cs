@@ -498,7 +498,7 @@ public class NewHomePageController : MonoBehaviour
 		playBlockHeight=ApplicationDesignRules.smallBlockHeight;
 		deckBlockHeight=ApplicationDesignRules.mediumBlockHeight;
 		storeBlockHeight=ApplicationDesignRules.smallBlockHeight;
-		newsfeedBlockHeight=ApplicationDesignRules.mediumBlockHeight-ApplicationDesignRules.button62WorldSize.y;
+		newsfeedBlockHeight=ApplicationDesignRules.mediumBlockHeight-ApplicationDesignRules.tabWorldSize.y;
 
 		if(ApplicationDesignRules.isMobileScreen)
 		{
@@ -512,7 +512,7 @@ public class NewHomePageController : MonoBehaviour
 			storeBlockUpMargin=deckBlockUpMargin+ApplicationDesignRules.gapBetweenBlocks+deckBlockHeight;
 
 			newsfeedBlockLeftMargin=ApplicationDesignRules.leftMargin;
-			newsfeedBlockUpMargin=storeBlockUpMargin+storeBlockHeight+ApplicationDesignRules.gapBetweenBlocks+ApplicationDesignRules.button62WorldSize.y;
+			newsfeedBlockUpMargin=storeBlockUpMargin+storeBlockHeight+ApplicationDesignRules.gapBetweenBlocks+ApplicationDesignRules.tabWorldSize.y;
 		}
 		else
 		{
@@ -523,14 +523,14 @@ public class NewHomePageController : MonoBehaviour
 			playBlockUpMargin=deckBlockUpMargin+ApplicationDesignRules.gapBetweenBlocks+deckBlockHeight;
 			
 			newsfeedBlockLeftMargin=ApplicationDesignRules.leftMargin+ApplicationDesignRules.gapBetweenBlocks+ApplicationDesignRules.blockWidth;
-			newsfeedBlockUpMargin=deckBlockUpMargin+ApplicationDesignRules.button62WorldSize.y;
+			newsfeedBlockUpMargin=deckBlockUpMargin+ApplicationDesignRules.tabWorldSize.y;
 			
 			storeBlockLeftMargin=ApplicationDesignRules.leftMargin+ApplicationDesignRules.gapBetweenBlocks+ApplicationDesignRules.blockWidth;
 			storeBlockUpMargin=newsfeedBlockUpMargin+ApplicationDesignRules.gapBetweenBlocks+newsfeedBlockHeight;
 		}
 
 		this.mainCamera.GetComponent<ScrollingController> ().setViewHeight(ApplicationDesignRules.viewHeight);
-		this.mainCamera.GetComponent<ScrollingController> ().setContentHeight(playBlockHeight + deckBlockHeight + storeBlockHeight + newsfeedBlockHeight + 3f * ApplicationDesignRules.gapBetweenBlocks + ApplicationDesignRules.button62WorldSize.y);
+		this.mainCamera.GetComponent<ScrollingController> ().setContentHeight(playBlockHeight + deckBlockHeight + storeBlockHeight + newsfeedBlockHeight + 3f * ApplicationDesignRules.gapBetweenBlocks + ApplicationDesignRules.tabWorldSize.y);
 		this.mainCamera.transform.position = ApplicationDesignRules.mainCameraStartPosition;
 		this.mainCamera.GetComponent<ScrollingController> ().setStartPositionY (ApplicationDesignRules.mainCameraStartPosition.y);
 
@@ -637,8 +637,8 @@ public class NewHomePageController : MonoBehaviour
 		float gapBetweenSelectionsButtons = 0.02f;
 		for(int i=0;i<this.tabs.Length;i++)
 		{
-			this.tabs[i].transform.localScale = ApplicationDesignRules.button62Scale;
-			this.tabs[i].transform.position = new Vector3 (newsfeedBlockUpperLeftPosition.x + ApplicationDesignRules.button62WorldSize.x / 2f+ i*(ApplicationDesignRules.button62WorldSize.x+gapBetweenSelectionsButtons), newsfeedBlockUpperLeftPosition.y+ApplicationDesignRules.button62WorldSize.y/2f,0f);
+			this.tabs[i].transform.localScale = ApplicationDesignRules.tabScale;
+			this.tabs[i].transform.position = new Vector3 (newsfeedBlockUpperLeftPosition.x + ApplicationDesignRules.tabWorldSize.x / 2f+ i*(ApplicationDesignRules.tabWorldSize.x+gapBetweenSelectionsButtons), newsfeedBlockUpperLeftPosition.y+ApplicationDesignRules.tabWorldSize.y/2f,0f);
 		}
 
 		Vector2 contentBlockSize = new Vector2 (newsfeedBlockSize.x - 0.6f, (newsfeedBlockSize.y - 0.3f - 0.6f)/this.contents.Length);
@@ -674,8 +674,8 @@ public class NewHomePageController : MonoBehaviour
 		{
 			this.friendsStatusButtons[i*2].transform.localScale = ApplicationDesignRules.button31Scale;
 			this.friendsStatusButtons[i*2+1].transform.localScale = ApplicationDesignRules.button31Scale;
-			this.friendsStatusButtons[i*2].transform.position=new Vector3(newsfeedBlockUpperRightPosition.x-0.3f-3*ApplicationDesignRules.button31WorldSize.x/2f-0.05f,newsfeedBlockUpperRightPosition.y-0.3f-(i+1f)*contentBlockSize.y+0.05f+ApplicationDesignRules.button31WorldSize.y/2f,0f);
-			this.friendsStatusButtons[i*2+1].transform.position=new Vector3(newsfeedBlockUpperRightPosition.x-0.3f-ApplicationDesignRules.button31WorldSize.x/2f,newsfeedBlockUpperRightPosition.y-0.3f-(i+1f)*contentBlockSize.y+0.05f+ApplicationDesignRules.button31WorldSize.y/2f,0f);
+			this.friendsStatusButtons[i*2].transform.position=new Vector3(newsfeedBlockUpperRightPosition.x-0.3f-3*ApplicationDesignRules.button31WorldSize.x/2f,newsfeedBlockUpperRightPosition.y-0.3f-(i+1f)*contentBlockSize.y+ApplicationDesignRules.button31WorldSize.y/2f,0f);
+			this.friendsStatusButtons[i*2+1].transform.position=new Vector3(newsfeedBlockUpperRightPosition.x-0.3f-ApplicationDesignRules.button31WorldSize.x/2f,newsfeedBlockUpperRightPosition.y-0.3f-(i+1f)*contentBlockSize.y+ApplicationDesignRules.button31WorldSize.y/2f,0f);
 		}
 
 		this.newsfeedPaginationButtons.transform.localPosition=new Vector3 (newsfeedBlockLowerLeftPosition.x + newsfeedBlockSize.x / 2, newsfeedBlockLowerLeftPosition.y + 0.3f, 0f);
@@ -739,7 +739,7 @@ public class NewHomePageController : MonoBehaviour
 			if(model.decks.Count>1)
 			{
 				this.deckSelectionButton.SetActive(true);
-				this.deckSelectionButton.transform.FindChild("Title").GetComponent<TextMeshPro>().text=("Changer").ToUpper();
+				this.deckSelectionButton.transform.FindChild("Title").GetComponent<TextMeshPro>().text="Changer";
 			}
 			else
 			{
@@ -749,7 +749,7 @@ public class NewHomePageController : MonoBehaviour
 		else
 		{
 			this.deckTitle.GetComponent<TextMeshPro> ().text = ("Aucune armée formée").ToUpper();
-			this.deckSelectionButton.transform.FindChild("Title").GetComponent<TextMeshPro>().text=("Créer").ToUpper();
+			this.deckSelectionButton.transform.FindChild("Title").GetComponent<TextMeshPro>().text="Créer";
 		}
 		for(int i=0;i<this.deckCards.Length;i++)
 		{
@@ -1290,18 +1290,18 @@ public class NewHomePageController : MonoBehaviour
 		this.divisionGameTitle.GetComponent<TextMeshPro> ().text = "Conquête".ToUpper ();
 		//this.cupGameTitle.GetComponent<TextMeshPro> ().text = model.currentCup.Name.ToUpper ();
 
-		this.friendlyGameButton.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Jouer".ToUpper ();
+		this.friendlyGameButton.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Jouer";
 
-		string divisionState ="Continuer";
-//		if(model.player.NbGamesDivision>0)
-//		{
-//			divisionState="Rejoindre";
-//		}
-//		else
-//		{
-//			divisionState="Démarrer";
-//		}
-		this.divisionGameButton.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = divisionState.ToUpper ();
+		string divisionState;
+		if(model.player.NbGamesDivision>0)
+		{
+			divisionState="Continuer";
+		}
+		else
+		{
+			divisionState="Commencer";
+		}
+		this.divisionGameButton.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = divisionState;
 
 		string cupState;
 		if(model.player.NbGamesCup>0)
@@ -1631,13 +1631,13 @@ public class NewHomePageController : MonoBehaviour
 	public Vector3 getNewsfeedBlockOrigin()
 	{
 		Vector3 blockOrigin = this.newsfeedBlock.GetComponent<NewBlockController> ().getOriginPosition ();
-		blockOrigin.y = blockOrigin.y + ApplicationDesignRules.button62WorldSize.y / 2f;
+		blockOrigin.y = blockOrigin.y + ApplicationDesignRules.tabWorldSize.y / 2f;
 		return blockOrigin;
 	}
 	public Vector2 getNewsfeedBlockSize()
 	{
 		Vector2 blockSize=this.newsfeedBlock.GetComponent<NewBlockController> ().getSize ();
-		blockSize.y = blockSize.y + ApplicationDesignRules.button62WorldSize.y;
+		blockSize.y = blockSize.y + ApplicationDesignRules.tabWorldSize.y;
 		return blockSize;
 	}
 	public Vector3 getStoreBlockOrigin()

@@ -695,7 +695,7 @@ public class NewMarketController : MonoBehaviour
 			marketBlockUpMargin=0f;
 			
 			cardsBlockLeftMargin=ApplicationDesignRules.leftMargin;
-			cardsBlockUpMargin=ApplicationDesignRules.button62WorldSize.y;
+			cardsBlockUpMargin=ApplicationDesignRules.tabWorldSize.y;
 			
 			filtersBlockLeftMargin=ApplicationDesignRules.worldWidth;
 			filtersBlockUpMargin=0f;
@@ -711,7 +711,7 @@ public class NewMarketController : MonoBehaviour
 			this.mainCamera.transform.position=ApplicationDesignRules.mainCameraStartPosition;
 			this.mainCamera.GetComponent<Camera>().orthographicSize=ApplicationDesignRules.cameraSize;
 
-			cardsBlockHeight=ApplicationDesignRules.largeBlockHeight-ApplicationDesignRules.button62WorldSize.y;
+			cardsBlockHeight=ApplicationDesignRules.largeBlockHeight-ApplicationDesignRules.tabWorldSize.y;
 
 			marketBlockLeftMargin=ApplicationDesignRules.leftMargin+ApplicationDesignRules.gapBetweenBlocks+ApplicationDesignRules.blockWidth;
 			marketBlockUpMargin=ApplicationDesignRules.upMargin;
@@ -720,7 +720,7 @@ public class NewMarketController : MonoBehaviour
 			filtersBlockUpMargin=marketBlockUpMargin+ApplicationDesignRules.gapBetweenBlocks+marketBlockHeight;
 			
 			cardsBlockLeftMargin=ApplicationDesignRules.leftMargin;
-			cardsBlockUpMargin=ApplicationDesignRules.upMargin+ApplicationDesignRules.button62WorldSize.y;
+			cardsBlockUpMargin=ApplicationDesignRules.upMargin+ApplicationDesignRules.tabWorldSize.y;
 		}
 
 		this.cardsPagination = new Pagination ();
@@ -829,8 +829,8 @@ public class NewMarketController : MonoBehaviour
 		float gapBetweenSelectionsButtons = 0.02f;
 		for(int i=0;i<this.tabs.Length;i++)
 		{
-			this.tabs[i].transform.localScale = ApplicationDesignRules.button62Scale;
-			this.tabs[i].transform.position = new Vector3 (cardsBlockUpperLeftPosition.x + ApplicationDesignRules.button62WorldSize.x / 2f+ i*(ApplicationDesignRules.button62WorldSize.x+gapBetweenSelectionsButtons), cardsBlockUpperLeftPosition.y+ApplicationDesignRules.button62WorldSize.y/2f,0f);
+			this.tabs[i].transform.localScale = ApplicationDesignRules.tabScale;
+			this.tabs[i].transform.position = new Vector3 (cardsBlockUpperLeftPosition.x + ApplicationDesignRules.tabWorldSize.x / 2f+ i*(ApplicationDesignRules.tabWorldSize.x+gapBetweenSelectionsButtons), cardsBlockUpperLeftPosition.y+ApplicationDesignRules.tabWorldSize.y/2f,0f);
 		}
 
 		float gapBetweenCards = (cardsBlockSize.x - 0.6f - 4f * ApplicationDesignRules.cardWorldSize.x) / 3f;
@@ -872,7 +872,7 @@ public class NewMarketController : MonoBehaviour
 		{
 			this.mainCamera.GetComponent<Camera> ().rect = new Rect (0f,(ApplicationDesignRules.worldHeight-ApplicationDesignRules.upMargin-this.scrollIntersection)/ApplicationDesignRules.worldHeight,1f,(this.scrollIntersection)/ApplicationDesignRules.worldHeight);
 			this.mainCamera.GetComponent<Camera> ().orthographicSize = this.scrollIntersection/2f;
-			this.mainCamera.transform.position = new Vector3 (0f, cardsBlockUpperLeftPosition.y-(this.scrollIntersection/2f)+ApplicationDesignRules.button62WorldSize.y + ApplicationDesignRules.gapBetweenBlocks, -10f);
+			this.mainCamera.transform.position = new Vector3 (0f, cardsBlockUpperLeftPosition.y-(this.scrollIntersection/2f)+ApplicationDesignRules.tabWorldSize.y + ApplicationDesignRules.gapBetweenBlocks, -10f);
 			this.mainContentPositionX = cardsBlockOrigin.x;
 			this.marketContentPositionX=marketBlockOrigin.x;
 			this.filtersPositionX = filtersBlockOrigin.x;
@@ -881,14 +881,14 @@ public class NewMarketController : MonoBehaviour
 			this.cardsCamera.GetComponent<Camera> ().rect = new Rect (0f,(ApplicationDesignRules.downMargin)/ApplicationDesignRules.worldHeight,1f,(ApplicationDesignRules.viewHeight-this.scrollIntersection)/ApplicationDesignRules.worldHeight);
 			this.cardsCamera.GetComponent<Camera> ().orthographicSize = (ApplicationDesignRules.viewHeight-this.scrollIntersection)/2f;
 			this.cardsCamera.GetComponent<ScrollingController> ().setViewHeight(ApplicationDesignRules.viewHeight-this.scrollIntersection);
-			this.cardsCamera.GetComponent<ScrollingController> ().setContentHeight(cardsBlockHeight-this.scrollIntersection+ApplicationDesignRules.button62WorldSize.y+0.05f);
-			this.cardsCamera.transform.position = new Vector3 (0f, cardsBlockUpperLeftPosition.y-(this.scrollIntersection/2f)+ApplicationDesignRules.button62WorldSize.y+ApplicationDesignRules.gapBetweenBlocks-this.scrollIntersection/2f-(ApplicationDesignRules.viewHeight-this.scrollIntersection)/2f, -10f);
+			this.cardsCamera.GetComponent<ScrollingController> ().setContentHeight(cardsBlockHeight-this.scrollIntersection+ApplicationDesignRules.tabWorldSize.y+0.05f);
+			this.cardsCamera.transform.position = new Vector3 (0f, cardsBlockUpperLeftPosition.y-(this.scrollIntersection/2f)+ApplicationDesignRules.tabWorldSize.y+ApplicationDesignRules.gapBetweenBlocks-this.scrollIntersection/2f-(ApplicationDesignRules.viewHeight-this.scrollIntersection)/2f, -10f);
 			this.cardsCamera.GetComponent<ScrollingController> ().setStartPositionY (this.cardsCamera.transform.position.y);
 
 			this.cardsScrollLine.SetActive(true);
 			this.cardsPaginationLine.SetActive(false);
 			this.cardsScrollLine.transform.localScale = new Vector3 (lineScale, 1f, 1f);
-			this.cardsScrollLine.transform.position = new Vector3 (cardsBlockLowerLeftPosition.x + cardsBlockSize.x / 2, cardsBlockUpperLeftPosition.y+ApplicationDesignRules.button62WorldSize.y-this.scrollIntersection+0.03f+ApplicationDesignRules.gapBetweenBlocks, 0f);
+			this.cardsScrollLine.transform.position = new Vector3 (cardsBlockLowerLeftPosition.x + cardsBlockSize.x / 2, cardsBlockUpperLeftPosition.y+ApplicationDesignRules.tabWorldSize.y-this.scrollIntersection+0.03f+ApplicationDesignRules.gapBetweenBlocks, 0f);
 			this.cardsPaginationButtons.transform.localPosition=new Vector3(cardsBlockUpperLeftPosition.x + cardsBlockSize.x / 2, cardsBlockUpperLeftPosition.y - 0.25f, 0f);
 		}
 		else
@@ -1692,13 +1692,13 @@ public class NewMarketController : MonoBehaviour
 	public Vector3 getCardsBlockOrigin()
 	{
 		Vector3 blockOrigin = this.cardsBlock.GetComponent<NewBlockController> ().getOriginPosition ();
-		blockOrigin.y = blockOrigin.y + ApplicationDesignRules.button62WorldSize.y / 2f;
+		blockOrigin.y = blockOrigin.y + ApplicationDesignRules.tabWorldSize.y / 2f;
 		return blockOrigin;
 	}
 	public Vector2 getCardsBlockSize()
 	{
 		Vector2 blockSize=this.cardsBlock.GetComponent<NewBlockController> ().getSize ();
-		blockSize.y = blockSize.y + ApplicationDesignRules.button62WorldSize.y;
+		blockSize.y = blockSize.y + ApplicationDesignRules.tabWorldSize.y;
 		return blockSize;
 	}
 	public Vector3 getMarketBlockOrigin()

@@ -3510,8 +3510,8 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 3
-    height: 1
+    width: 2.79999995
+    height: .800000012
   m_margins: {x: 0, y: 0, z: 0, w: 0}
 --- !u!114 &11400806
 MonoBehaviour:
@@ -3789,8 +3789,8 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 3
-    height: 1
+    width: 2.79999995
+    height: .800000012
   m_margins: {x: 0, y: 0, z: 0, w: 0}
 --- !u!114 &11406730
 MonoBehaviour:
@@ -3943,8 +3943,8 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 3
-    height: 1
+    width: 2.79999995
+    height: .800000012
   m_margins: {x: 0, y: 0, z: 0, w: 0}
 --- !u!114 &11413304
 MonoBehaviour:
@@ -5946,8 +5946,8 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 3
-    height: 1
+    width: 2.79999995
+    height: .800000012
   m_margins: {x: 0, y: 0, z: 0, w: 0}
 --- !u!114 &11469276
 MonoBehaviour:
@@ -6556,8 +6556,8 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 3
-    height: 1
+    width: 2.79999995
+    height: .800000012
   m_margins: {x: 0, y: 0, z: 0, w: 0}
 --- !u!114 &11491074
 MonoBehaviour:

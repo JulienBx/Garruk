@@ -373,16 +373,16 @@ public class newMyGameController : MonoBehaviour
 		this.deckBlockTitle.GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
 		this.deckBlockTitle.GetComponent<TextMeshPro> ().text = "Mes armées";
 		this.deckSelectionButton = GameObject.Find ("DeckSelectionButton");
-		this.deckSelectionButton.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Changer".ToUpper ();
+		this.deckSelectionButton.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Changer";
 		this.deckSelectionButton.AddComponent<newMyGameDeckSelectionButtonController> ();
 		this.deckCreationButton = GameObject.Find ("DeckCreationButton");
-		this.deckCreationButton.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Nouveau".ToUpper ();
+		this.deckCreationButton.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Nouveau";
 		this.deckCreationButton.AddComponent<newMyGameDeckCreatioButtonController> ();
 		this.deckDeletionButton = GameObject.Find ("DeckDeletionButton");
-		this.deckDeletionButton.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Supprimer".ToUpper ();
+		this.deckDeletionButton.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Supprimer";
 		this.deckDeletionButton.AddComponent<newMyGameDeckDeletionButtonController> ();
 		this.deckRenameButton = GameObject.Find ("DeckRenameButton");
-		this.deckRenameButton.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Renommer".ToUpper ();
+		this.deckRenameButton.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Renommer";
 		this.deckRenameButton.AddComponent<newMyGameDeckRenameButtonController> ();
 		this.deckTitle = GameObject.Find ("DeckTitle");
 		this.deckTitle.GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
@@ -725,15 +725,15 @@ public class newMyGameController : MonoBehaviour
 		this.deckBlockTitle.transform.position = new Vector3 (deckBlockUpperLeftPosition.x + 0.3f, deckBlockUpperLeftPosition.y - 0.2f, 0f);
 		this.deckBlockTitle.transform.localScale = ApplicationDesignRules.mainTitleScale;
 
-		float gapBetweenDecksButton = 0.1f;
+		float gapBetweenDecksButton = 0.05f;
 
 		this.deckCreationButton.transform.position = new Vector3 (deckBlockUpperRightPosition.x - 0.3f - ApplicationDesignRules.button61WorldSize.x / 2f, deckBlockUpperRightPosition.y - 0.3f - 0.5f*ApplicationDesignRules.button61WorldSize.y/2f, 0f);
 		this.deckCreationButton.transform.localScale = ApplicationDesignRules.button61Scale;
 
-		this.deckSelectionButton.transform.position = new Vector3 (deckBlockUpperRightPosition.x - 0.3f - ApplicationDesignRules.button61WorldSize.x / 2f, deckBlockUpperRightPosition.y - 0.3f - 0.5f*ApplicationDesignRules.button61WorldSize.y/2f - (ApplicationDesignRules.button61WorldSize.y+gapBetweenDecksButton), 0f);
+		this.deckSelectionButton.transform.position = new Vector3 (deckBlockUpperRightPosition.x - 0.3f - ApplicationDesignRules.button61WorldSize.x / 2f, deckBlockUpperRightPosition.y - 0.3f - 0.5f*ApplicationDesignRules.button61WorldSize.y/2f - (ApplicationDesignRules.button61WorldSize.y), 0f);
 		this.deckSelectionButton.transform.localScale = ApplicationDesignRules.button61Scale;
 
-		this.deckRenameButton.transform.position = new Vector3 (deckBlockUpperRightPosition.x - 0.3f - ApplicationDesignRules.button61WorldSize.x / 2f, deckBlockUpperRightPosition.y - 0.3f - 0.5f*ApplicationDesignRules.button61WorldSize.y/2f - 2*(ApplicationDesignRules.button61WorldSize.y+gapBetweenDecksButton), 0f);
+		this.deckRenameButton.transform.position = new Vector3 (deckBlockUpperRightPosition.x - 0.3f - ApplicationDesignRules.button61WorldSize.x / 2f, deckBlockUpperRightPosition.y - 0.3f - 0.5f*ApplicationDesignRules.button61WorldSize.y/2f - 2*(ApplicationDesignRules.button61WorldSize.y), 0f);
 		this.deckRenameButton.transform.localScale = ApplicationDesignRules.button61Scale;
 
 		this.deckDeletionButton.transform.position = new Vector3 (this.deckRenameButton.transform.position.x - gapBetweenDecksButton - ApplicationDesignRules.button61WorldSize.x, this.deckRenameButton.transform.position.y, 0f);

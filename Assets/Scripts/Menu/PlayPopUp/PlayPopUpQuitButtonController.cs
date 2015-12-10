@@ -15,8 +15,8 @@ public class PlayPopUpQuitButtonController : MonoBehaviour
 	}
 	void OnMouseOver()
 	{
-		gameObject.transform.FindChild("Title").GetComponent<TextMeshPro>().color=new Color(155f/255f,220f/255f,1f);
-		gameObject.GetComponent<SpriteRenderer>().color=new Color(155f/255f,220f/255f,1f);
+		gameObject.transform.FindChild("Title").GetComponent<TextMeshPro>().color=ApplicationDesignRules.blueColor;
+		gameObject.GetComponent<SpriteRenderer>().color=ApplicationDesignRules.blueColor;
 	}
 	void OnMouseExit()
 	{

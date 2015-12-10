@@ -452,10 +452,10 @@ public class NewProfileController : MonoBehaviour
 		}
 		this.profileEditInformationsButton = GameObject.Find ("ProfileEditInformationsButton");
 		this.profileEditInformationsButton.AddComponent<NewProfileEditInformationsButtonController> ();
-		this.profileEditInformationsButton.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Modifier mon profil".ToUpper ();
+		this.profileEditInformationsButton.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Modifier mon profil";
 		this.profileEditInformationsButton.SetActive (this.isMyProfile);
 		this.profileEditPasswordButton = GameObject.Find ("ProfileEditPasswordButton");
-		this.profileEditPasswordButton.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "reset password".ToUpper ();
+		this.profileEditPasswordButton.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Changer le mot de passe";
 		this.profileEditPasswordButton.AddComponent<NewProfileEditPasswordButtonController> ();
 		this.profileEditPasswordButton.SetActive (this.isMyProfile);
 		this.profileStats = new GameObject[4];
@@ -599,8 +599,8 @@ public class NewProfileController : MonoBehaviour
 		
 		profileBlockHeight=ApplicationDesignRules.mediumBlockHeight;
 		searchBlockHeight=ApplicationDesignRules.smallBlockHeight;
-		friendsBlockHeight=ApplicationDesignRules.mediumBlockHeight-ApplicationDesignRules.button62WorldSize.y;
-		resultsBlockHeight=ApplicationDesignRules.smallBlockHeight-ApplicationDesignRules.button62WorldSize.y;
+		friendsBlockHeight=ApplicationDesignRules.mediumBlockHeight-ApplicationDesignRules.tabWorldSize.y;
+		resultsBlockHeight=ApplicationDesignRules.smallBlockHeight-ApplicationDesignRules.tabWorldSize.y;
 		
 		if(ApplicationDesignRules.isMobileScreen)
 		{
@@ -611,10 +611,10 @@ public class NewProfileController : MonoBehaviour
 			searchBlockUpMargin=profileBlockUpMargin+ApplicationDesignRules.gapBetweenBlocks+profileBlockHeight;
 			
 			friendsBlockLeftMargin=ApplicationDesignRules.leftMargin;
-			friendsBlockUpMargin=searchBlockUpMargin+ApplicationDesignRules.gapBetweenBlocks+searchBlockHeight+ApplicationDesignRules.button62WorldSize.y;
+			friendsBlockUpMargin=searchBlockUpMargin+ApplicationDesignRules.gapBetweenBlocks+searchBlockHeight+ApplicationDesignRules.tabWorldSize.y;
 			
 			resultsBlockLeftMargin=ApplicationDesignRules.leftMargin;
-			resultsBlockUpMargin=friendsBlockUpMargin+ApplicationDesignRules.gapBetweenBlocks+friendsBlockHeight+ApplicationDesignRules.button62WorldSize.y;
+			resultsBlockUpMargin=friendsBlockUpMargin+ApplicationDesignRules.gapBetweenBlocks+friendsBlockHeight+ApplicationDesignRules.tabWorldSize.y;
 		}
 		else
 		{
@@ -625,14 +625,14 @@ public class NewProfileController : MonoBehaviour
 			searchBlockUpMargin=profileBlockUpMargin+ApplicationDesignRules.gapBetweenBlocks+profileBlockHeight;
 			
 			friendsBlockLeftMargin=ApplicationDesignRules.leftMargin+ApplicationDesignRules.gapBetweenBlocks+ApplicationDesignRules.blockWidth;
-			friendsBlockUpMargin=ApplicationDesignRules.upMargin+ApplicationDesignRules.button62WorldSize.y;
+			friendsBlockUpMargin=ApplicationDesignRules.upMargin+ApplicationDesignRules.tabWorldSize.y;
 			
 			resultsBlockLeftMargin=ApplicationDesignRules.leftMargin+ApplicationDesignRules.gapBetweenBlocks+ApplicationDesignRules.blockWidth;
-			resultsBlockUpMargin=friendsBlockUpMargin+ApplicationDesignRules.gapBetweenBlocks+friendsBlockHeight+ApplicationDesignRules.button62WorldSize.y;
+			resultsBlockUpMargin=friendsBlockUpMargin+ApplicationDesignRules.gapBetweenBlocks+friendsBlockHeight+ApplicationDesignRules.tabWorldSize.y;
 		}
 
 		this.mainCamera.GetComponent<ScrollingController> ().setViewHeight(ApplicationDesignRules.viewHeight);
-		this.mainCamera.GetComponent<ScrollingController> ().setContentHeight(profileBlockHeight + searchBlockHeight + friendsBlockHeight + resultsBlockHeight + 3f * ApplicationDesignRules.gapBetweenBlocks + 2f*ApplicationDesignRules.button62WorldSize.y);
+		this.mainCamera.GetComponent<ScrollingController> ().setContentHeight(profileBlockHeight + searchBlockHeight + friendsBlockHeight + resultsBlockHeight + 3f * ApplicationDesignRules.gapBetweenBlocks + 2f*ApplicationDesignRules.tabWorldSize.y);
 		this.mainCamera.transform.position = ApplicationDesignRules.mainCameraStartPosition;
 		this.mainCamera.GetComponent<ScrollingController> ().setStartPositionY (ApplicationDesignRules.mainCameraStartPosition.y);
 
@@ -655,10 +655,10 @@ public class NewProfileController : MonoBehaviour
 		this.profileEditPictureButton.transform.position = new Vector3(this.profilePicture.transform.position.x,this.profilePicture.transform.position.y,-1f);
 		this.profileEditPictureButton.transform.localScale = this.profilePicture.transform.localScale;
 
-		this.profileEditInformationsButton.transform.position = new Vector3 (profileBlockUpperRightPosition.x - 0.3f - ApplicationDesignRules.button61WorldSize.x / 2f, profileBlockUpperLeftPosition.y - 0.2f -ApplicationDesignRules.profilePictureWorldSize.y + ApplicationDesignRules.button62WorldSize.y/2f, 0f);
-		this.profileEditInformationsButton.transform.localScale = ApplicationDesignRules.button61Scale;
+		this.profileEditInformationsButton.transform.position = new Vector3 (profileBlockUpperRightPosition.x - 0.3f - ApplicationDesignRules.button62WorldSize.x / 2f, profileBlockUpperLeftPosition.y - 0.2f -ApplicationDesignRules.profilePictureWorldSize.y + ApplicationDesignRules.button62WorldSize.y/2f, 0f);
+		this.profileEditInformationsButton.transform.localScale = ApplicationDesignRules.button62Scale;
 		
-		this.profileEditPasswordButton.transform.position  = new Vector3 (profileBlockUpperRightPosition.x - 0.3f - ApplicationDesignRules.button61WorldSize.x / 2f, profileBlockUpperLeftPosition.y - 0.2f - ApplicationDesignRules.profilePictureWorldSize.y+ ApplicationDesignRules.button62WorldSize.y/2f+1f*(ApplicationDesignRules.button62WorldSize.y+0.2f), 0f);
+		this.profileEditPasswordButton.transform.position  = new Vector3 (profileBlockUpperRightPosition.x - 0.3f - ApplicationDesignRules.button62WorldSize.x / 2f, profileBlockUpperLeftPosition.y - 0.2f - ApplicationDesignRules.profilePictureWorldSize.y+ ApplicationDesignRules.button62WorldSize.y/2f+1f*(ApplicationDesignRules.button62WorldSize.y+0.2f), 0f);
 		this.profileEditPasswordButton.transform.localScale = ApplicationDesignRules.button62Scale;
 
 		this.friendshipStatus.transform.localScale = ApplicationDesignRules.subMainTitleScale;
@@ -716,7 +716,7 @@ public class NewProfileController : MonoBehaviour
 		this.searchBar.transform.position = new Vector3(searchBlockUpperLeftPosition.x+searchMargin+ApplicationDesignRules.largeInputTextWorldSize.x/2f,searchOrigin.y-0.7f,searchOrigin.z);
 		this.searchBar.transform.localScale = ApplicationDesignRules.largeInputTextScale;
 
-		this.searchButton.transform.position = new Vector3(searchBlockUpperRightPosition.x-searchMargin-ApplicationDesignRules.button62WorldSize.x/2f,searchOrigin.y-0.7f,searchOrigin.z);
+		this.searchButton.transform.position = new Vector3(searchBlockUpperRightPosition.x-searchMargin-ApplicationDesignRules.button61WorldSize.x/2f,searchOrigin.y-0.7f,searchOrigin.z);
 		this.searchButton.transform.localScale = ApplicationDesignRules.largeInputTextScale;
 
 		this.friendsBlock.GetComponent<NewBlockController> ().resize(friendsBlockLeftMargin,friendsBlockUpMargin,ApplicationDesignRules.blockWidth,friendsBlockHeight);
@@ -729,8 +729,8 @@ public class NewProfileController : MonoBehaviour
 		float gapBetweenFriendsTab = 0.02f;
 		for(int i=0;i<this.friendsTabs.Length;i++)
 		{
-			this.friendsTabs[i].transform.localScale = ApplicationDesignRules.button62Scale;
-			this.friendsTabs[i].transform.position = new Vector3 (friendsBlockUpperLeftPosition.x + ApplicationDesignRules.button62WorldSize.x / 2f+ i*(ApplicationDesignRules.button62WorldSize.x+gapBetweenFriendsTab), friendsBlockUpperLeftPosition.y+ApplicationDesignRules.button62WorldSize.y/2f,0f);
+			this.friendsTabs[i].transform.localScale = ApplicationDesignRules.tabScale;
+			this.friendsTabs[i].transform.position = new Vector3 (friendsBlockUpperLeftPosition.x + ApplicationDesignRules.tabWorldSize.x / 2f+ i*(ApplicationDesignRules.tabWorldSize.x+gapBetweenFriendsTab), friendsBlockUpperLeftPosition.y+ApplicationDesignRules.tabWorldSize.y/2f,0f);
 		}
 		
 		Vector2 friendsContentBlockSize = new Vector2 (friendsBlockSize.x - 0.6f, (friendsBlockSize.y - 0.3f - 0.6f)/this.friendsContents.Length);
@@ -783,8 +783,8 @@ public class NewProfileController : MonoBehaviour
 		float gapBetweenResultsTab = 0.02f;
 		for(int i=0;i<this.resultsTabs.Length;i++)
 		{
-			this.resultsTabs[i].transform.localScale = ApplicationDesignRules.button62Scale;
-			this.resultsTabs[i].transform.position = new Vector3 (resultsBlockUpperLeftPosition.x + ApplicationDesignRules.button62WorldSize.x / 2f+ i*(ApplicationDesignRules.button62WorldSize.x+gapBetweenResultsTab), resultsBlockUpperLeftPosition.y+ApplicationDesignRules.button62WorldSize.y/2f,0f);
+			this.resultsTabs[i].transform.localScale = ApplicationDesignRules.tabScale;
+			this.resultsTabs[i].transform.position = new Vector3 (resultsBlockUpperLeftPosition.x + ApplicationDesignRules.tabWorldSize.x / 2f+ i*(ApplicationDesignRules.tabWorldSize.x+gapBetweenResultsTab), resultsBlockUpperLeftPosition.y+ApplicationDesignRules.tabWorldSize.y/2f,0f);
 		}
 		
 		Vector2 resultsContentBlockSize = new Vector2 (resultsBlockSize.x - 0.6f, (resultsBlockSize.y - 0.3f - 0.6f)/this.resultsContents.Length);
@@ -1694,25 +1694,25 @@ public class NewProfileController : MonoBehaviour
 	public Vector3 getResultsBlockOrigin()
 	{
 		Vector3 blockOrigin = this.resultsBlock.GetComponent<NewBlockController> ().getOriginPosition ();
-		blockOrigin.y = blockOrigin.y + ApplicationDesignRules.button62WorldSize.y / 2f;
+		blockOrigin.y = blockOrigin.y + ApplicationDesignRules.tabWorldSize.y / 2f;
 		return blockOrigin;
 	}
 	public Vector2 getResultsBlockSize()
 	{
 		Vector2 blockSize=this.resultsBlock.GetComponent<NewBlockController> ().getSize ();
-		blockSize.y = blockSize.y + ApplicationDesignRules.button62WorldSize.y;
+		blockSize.y = blockSize.y + ApplicationDesignRules.tabWorldSize.y;
 		return blockSize;
 	}
 	public Vector3 getFriendsBlockOrigin()
 	{
 		Vector3 blockOrigin = this.friendsBlock.GetComponent<NewBlockController> ().getOriginPosition ();
-		blockOrigin.y = blockOrigin.y + ApplicationDesignRules.button62WorldSize.y / 2f;
+		blockOrigin.y = blockOrigin.y + ApplicationDesignRules.tabWorldSize.y / 2f;
 		return blockOrigin;
 	}
 	public Vector2 getFriendsBlockSize()
 	{
 		Vector2 blockSize=this.friendsBlock.GetComponent<NewBlockController> ().getSize ();
-		blockSize.y = blockSize.y + ApplicationDesignRules.button62WorldSize.y;
+		blockSize.y = blockSize.y + ApplicationDesignRules.tabWorldSize.y;
 		return blockSize;
 	}
 	public Vector3 getSearchBlockOrigin()
