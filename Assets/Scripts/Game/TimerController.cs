@@ -28,6 +28,10 @@ public class TimerController : MonoBehaviour
 		
 		this.isMyTurn = false ;
 		this.isDisplayed = true ;
+		
+		if(ApplicationModel.launchGameTutorial){
+			this.globalTime = 1200;
+		}
 	}
 	
 	public void setIsMyTurn(bool b){

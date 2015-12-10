@@ -1804,8 +1804,7 @@ public class GameView : MonoBehaviour
 	public IEnumerator quitGame()
 	{
 		bool hasFirstPlayerWon=false;
-		print ("toto");
-
+		
 		if(ApplicationModel.launchGameTutorial)
 		{
 			if(this.areAllMyPlayersDead())
@@ -2192,7 +2191,7 @@ public class GameView : MonoBehaviour
 			this.popUp.GetComponent<PopUpGameController>().show(true);
 		}
 		else if (i==2){
-			this.popUp.GetComponent<PopUpGameController>().setTexts("Etape 2 : Chacun son tour", "Chaque colon joue à son tour, l'ordre des personnages étant déterminé par leur position dans l'équipe. Un personnage peut à chaque tour se déplacer et/ou utiliser une compétence, dans n'importe quel ordre.\n\nA vous de jouer désormais, profitez de votre tour pour vous rapprocher des unités du colon ennemi.");
+			this.popUp.GetComponent<PopUpGameController>().setTexts("Etape 2 : Chacun son tour", "Chaque colon joue à son tour, l'ordre des personnages étant déterminé par leur position dans l'équipe. Un personnage peut à chaque tour se déplacer et/ou utiliser une compétence, dans n'importe quel ordre.\n\nCristalia et ses lunes ne possèdent pas d'atmosphère, ce qui rend les combats difficiles : prenez bien garde à ne pas épuiser vos réserves d'oxygène ou vous unités perdront le combat !\n\nA vous de jouer désormais, profitez de votre tour pour vous rapprocher des unités du colon ennemi.");
 			this.popUp.GetComponent<PopUpGameController>().changePosition(new Vector3(-0.05f, 0f, 0f));
 			this.popUp.GetComponent<PopUpGameController>().show(true);
 		}
