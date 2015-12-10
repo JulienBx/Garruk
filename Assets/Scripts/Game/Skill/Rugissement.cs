@@ -17,6 +17,7 @@ public class Rugissement : GameSkill
 	
 	public override void resolve(List<int> targetsPCC)
 	{	
+		bool isSuccess = false ;
 		GameController.instance.play(GameView.instance.runningSkill);
 		List<int> targets = GameView.instance.getAllys();
 		int proba = GameView.instance.getCurrentSkill().proba;
@@ -32,6 +33,7 @@ public class Rugissement : GameSkill
 			else{
 				if (Random.Range(1,101) < proba){
 					GameController.instance.applyOn(target);
+					isSuccess = true;
 				}
 				else{
 					GameController.instance.esquive(target,19);
@@ -39,6 +41,8 @@ public class Rugissement : GameSkill
 			}
 			targets.Remove(target);
 		}
+		GameController.instance.showResult(isSuccess);
+		GameController.instance.endPlay();
 	}
 	
 	public int getNumberOfTargets(int level){

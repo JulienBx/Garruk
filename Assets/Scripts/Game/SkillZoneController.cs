@@ -44,7 +44,7 @@ public class SkillZoneController : MonoBehaviour
 		}
 		else if(g.hasPlayed){
 			this.showSkillButtons(false);
-			this.showCancelButton (true);
+			this.showCancelButton (false);
 		}
 		else{
 			this.showCancelButton (false);

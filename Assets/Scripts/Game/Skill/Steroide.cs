@@ -18,6 +18,7 @@ public class Steroide : GameSkill
 	
 	public override void resolve(List<int> targetsPCC)
 	{	
+		bool isSuccess = false ;
 		GameController.instance.play(GameView.instance.runningSkill);
 		int target = targetsPCC[0];
 		int proba = GameView.instance.getCurrentSkill().proba;
@@ -30,6 +31,7 @@ public class Steroide : GameSkill
 			if (Random.Range(1,101) < proba){
 				int value = Random.Range(1,2+level);
 				GameController.instance.applyOn2(target,value);
+				isSuccess = true;
 			}
 			else{
 				GameController.instance.esquive(target,56);
@@ -41,7 +43,10 @@ public class Steroide : GameSkill
 			targets.Remove(target);
 			target = targets[Random.Range(0,targets.Count)];
 			GameController.instance.applyOn(target);	
+			isSuccess = true ;
 		}
+		GameController.instance.showResult(isSuccess);
+		GameController.instance.endPlay();
 	}
 	
 	public override void applyOn(int target, int value){

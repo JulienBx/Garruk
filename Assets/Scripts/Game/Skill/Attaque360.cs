@@ -17,6 +17,7 @@ public class Attaque360 : GameSkill
 	
 	public override void resolve(List<int> targetsPCC)
 	{	
+		bool isSuccess = false ;
 		GameController.instance.play(GameView.instance.runningSkill);
 		
 		List<Tile> tempTiles;
@@ -39,11 +40,14 @@ public class Attaque360 : GameSkill
 					}
 					else{
 						GameController.instance.applyOn(tempInt);
+						isSuccess = true ;
 					}
 				}
 			}
 			i++;
 		}
+		GameController.instance.showResult(isSuccess);
+		GameController.instance.endPlay();
 	}
 	
 	public override void applyOn(int target){

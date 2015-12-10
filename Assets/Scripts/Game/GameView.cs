@@ -2082,7 +2082,7 @@ public class GameView : MonoBehaviour
 		return this.sprites[i];
 	}
 	
-	public IEnumerator play(int r)
+	public void play(int r)
 	{	
 		this.runningSkill = r ;
 		string s = GameSkills.instance.getSkill(this.runningSkill).name;
@@ -2092,25 +2092,27 @@ public class GameView : MonoBehaviour
 		this.getMoveZoneController().show(false);
 		this.hoverTile();
 		this.interlude.GetComponent<InterludeController>().set(s, this.getCard(this.currentPlayingCard).isMine, true);
+	}
+	
+	public IEnumerator endPlay()
+	{
 		this.getCard(this.currentPlayingCard).hasPlayed = true ;
 		this.getCard(this.currentPlayingCard).canCancelMove = false;
-		
-		if(this.getCard(this.currentPlayingCard).hasPlayed && this.getCard(this.currentPlayingCard).hasMoved){
-			if(this.getCurrentCard().isMine){
-				this.getPassZoneController().show(false);
-				yield return new WaitForSeconds(3f);
-			}
-			else{
-				yield return new WaitForSeconds(3f);
-			}
-		}
-		yield return new WaitForSeconds(1f);
-		
+		this.getSkillZoneController().isRunningSkill=false;
+		this.runningSkill = -1;
 		if(this.getCard(this.currentPlayingCard).isMine){
 			if(this.getCard(this.currentPlayingCard).hasPlayed && this.getCard(this.currentPlayingCard).hasMoved){
+				yield return new WaitForSeconds(3f);
 				GameController.instance.findNextPlayer ();
 			}
+			else{
+				this.updateActionStatus();
+			}
 		}
+		else{
+			this.updateActionStatus();
+		}
+		yield break;
 	}
 	
 	public GameCard getCurrentCard(){

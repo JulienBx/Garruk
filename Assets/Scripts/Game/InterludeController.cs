@@ -12,7 +12,7 @@ public class InterludeController : MonoBehaviour
 	public bool isDisplayedCharacter;
 	public Sprite[] sprites ;
 	public Sprite[] characterSprites ;
-	bool isEnabledUnderText = false ;
+	bool isEnabledUnderText ;
 	
 	bool isPaused ;
 		
@@ -25,7 +25,7 @@ public class InterludeController : MonoBehaviour
 		gameObject.transform.FindChild("UnderText").GetComponent<MeshRenderer>().enabled = false ;
 		gameObject.transform.FindChild("Text").GetComponent<MeshRenderer>().enabled = false ;
 		this.isPaused = false ;
-		isEnabledUnderText = false ;
+		isEnabledUnderText = true ;
 	}
 	
 	public void resize(float realwidth){
@@ -89,7 +89,7 @@ public class InterludeController : MonoBehaviour
 		gameObject.transform.FindChild("Text").GetComponent<TextMeshPro>().text = s ;
 		gameObject.transform.FindChild("Text").GetComponent<MeshRenderer>().enabled = true ;
 		gameObject.transform.FindChild("UnderText").GetComponent<MeshRenderer>().enabled = false ;
-		isEnabledUnderText = false ;
+		isEnabledUnderText = true ;
 		
 		GameView.instance.getMyHoveredCardController().lowerCharacter();
 		GameView.instance.getHisHoveredCardController().lowerCharacter();
@@ -118,7 +118,7 @@ public class InterludeController : MonoBehaviour
 			gameObject.transform.FindChild("Bar3").GetComponent<SpriteRenderer>().enabled = false ;
 			gameObject.transform.FindChild("Text").GetComponent<MeshRenderer>().enabled = false ;
 			gameObject.transform.FindChild("UnderText").GetComponent<MeshRenderer>().enabled = false ;
-			isEnabledUnderText = false;
+			isEnabledUnderText = true;
 			
 			if(GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).isMine){
 				if(ApplicationModel.launchGameTutorial){
@@ -129,7 +129,6 @@ public class InterludeController : MonoBehaviour
 				}
 				
 				GameView.instance.SB.GetComponent<StartButtonController>().showText(false);
-				GameView.instance.getSkillZoneController().isRunningSkill = false ;
 				GameView.instance.updateActionStatus();
 				GameView.instance.getMyHoveredCardController().lowerCharacter();
 			}

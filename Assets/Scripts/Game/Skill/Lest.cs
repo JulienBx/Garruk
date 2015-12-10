@@ -18,6 +18,7 @@ public class Lest : GameSkill
 	
 	public override void resolve(List<int> targetsPCC)
 	{	
+		bool isSuccess = false ;
 		GameController.instance.play(GameView.instance.runningSkill);
 		int target = targetsPCC[0];
 		int proba = GameView.instance.getCurrentSkill().proba;
@@ -28,6 +29,7 @@ public class Lest : GameSkill
 		else{
 			if (Random.Range(1,101) < proba){
 				GameController.instance.applyOn(target);
+				isSuccess = true ;
 			}
 			else{
 				GameController.instance.esquive(target,5);
@@ -39,7 +41,10 @@ public class Lest : GameSkill
 			targets.Remove(target);
 			target = targets[Random.Range(0,targets.Count)];
 			GameController.instance.applyOn(target);	
+			isSuccess = true ;
 		}
+		GameController.instance.showResult(isSuccess);
+		GameController.instance.endPlay();
 	}
 	
 	public int getMoveBonus(int level){

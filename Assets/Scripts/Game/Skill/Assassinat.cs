@@ -17,6 +17,7 @@ public class Assassinat : GameSkill
 	
 	public override void resolve(List<int> targetsPCC)
 	{	
+		bool isSuccess = false ;
 		GameController.instance.play(GameView.instance.runningSkill);
 		int target = targetsPCC[0];
 		
@@ -29,11 +30,14 @@ public class Assassinat : GameSkill
 			int proba = GameView.instance.getCurrentSkill().proba;
 			if(Random.Range(1,101)<=proba){
 				GameController.instance.applyOn(target);
+				isSuccess = true ;
 			}
 			else{
 				GameController.instance.esquive(target,10);
 			}
 		}
+		GameController.instance.showResult(isSuccess);
+		GameController.instance.endPlay();
 	}
 
 	public override void applyOn(int target){

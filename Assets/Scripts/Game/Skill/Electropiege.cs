@@ -19,6 +19,8 @@ public class Electropiege : GameSkill
 	{	
 		GameController.instance.play(GameView.instance.runningSkill);
 		GameController.instance.applyOnTile(targetsTile[0]);
+		GameController.instance.showResult(true);
+		GameController.instance.endPlay();
 	}
 	
 	public override void applyOn(Tile t){

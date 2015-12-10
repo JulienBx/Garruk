@@ -17,6 +17,7 @@ public class TirALarc : GameSkill
 	
 	public override void resolve(List<int> targetsPCC)
 	{	
+		bool isSuccess = false ;
 		GameController.instance.play(GameView.instance.runningSkill);
 		int proba = GameView.instance.getCurrentSkill().proba;
 		int level = GameView.instance.getCurrentSkill().Power;
@@ -32,11 +33,14 @@ public class TirALarc : GameSkill
 			if (Random.Range(1,101) < proba){
 				int value = this.getValue(level);
 				GameController.instance.applyOn2(target,value);
+				isSuccess = true ;
 			}
 			else{
 				GameController.instance.esquive(target,8);
 			}
 		}
+		GameController.instance.showResult(isSuccess);
+		GameController.instance.endPlay();
 	}
 	
 	public int getValue(int level){

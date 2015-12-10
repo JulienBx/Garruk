@@ -17,6 +17,7 @@ public class Estoc : GameSkill
 	
 	public override void resolve(List<int> targetsPCC)
 	{	
+		bool isSuccess = false ;
 		GameController.instance.play(GameView.instance.runningSkill);
 		int target = targetsPCC[0];
 		int proba = GameView.instance.getCurrentSkill().proba;
@@ -27,11 +28,14 @@ public class Estoc : GameSkill
 		else{
 			if (Random.Range(1,101) < proba){
 				GameController.instance.applyOn(target);
+				isSuccess = false ;
 			}
 			else{
 				GameController.instance.esquive(target,11);
 			}
 		}
+		GameController.instance.showResult(isSuccess);
+		GameController.instance.endPlay();
 	}
 	
 	public override void applyOn(int target){

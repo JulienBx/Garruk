@@ -20,6 +20,8 @@ public class CoupPrecis : GameSkill
 		GameController.instance.play(GameView.instance.runningSkill);
 		int target = targetsPCC[0];
 		GameController.instance.applyOn(target);
+		GameController.instance.showResult(true);
+		GameController.instance.endPlay();
 	}
 	
 	public override void applyOn(int target){

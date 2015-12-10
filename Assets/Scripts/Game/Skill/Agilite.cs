@@ -19,6 +19,8 @@ public class Agilite : GameSkill
 	{	                     
 		GameController.instance.play(GameView.instance.runningSkill);
 		GameController.instance.applyOn(-1);
+		GameController.instance.showResult(true);
+		GameController.instance.endPlay();
 	}
 	
 	public override void applyOn(int target){

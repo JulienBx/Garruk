@@ -17,6 +17,7 @@ public class Cannibale : GameSkill
 	
 	public override void resolve(List<int> targetsPCC)
 	{	
+		bool isSuccess = false ;
 		GameController.instance.play(GameView.instance.runningSkill);
 		int target = targetsPCC[0];
 		
@@ -26,7 +27,10 @@ public class Cannibale : GameSkill
 		}
 		else{
 			GameController.instance.applyOn(target);
+			isSuccess = true ;
 		}
+		GameController.instance.showResult(isSuccess);
+		GameController.instance.endPlay();
 	}
 	
 	public int getBonusPercentage(int level){

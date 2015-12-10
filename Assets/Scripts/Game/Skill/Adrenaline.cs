@@ -44,6 +44,7 @@ public class Adrenaline : GameSkill
 			isSuccess = true ;	
 		}
 		GameController.instance.showResult(isSuccess);
+		GameController.instance.endPlay();
 	}
 	
 	public int getMoveBonus(int level){

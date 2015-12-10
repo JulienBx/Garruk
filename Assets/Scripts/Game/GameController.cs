@@ -194,7 +194,18 @@ public class GameController : Photon.MonoBehaviour
 	[RPC]
 	public void playRPC(int skill)
 	{
-		StartCoroutine(GameView.instance.play(skill));
+		GameView.instance.play(skill);
+	}
+	
+	public void endPlay()
+	{
+		photonView.RPC("endPlayRPC", PhotonTargets.AllBuffered);
+	}
+	
+	[RPC]
+	public void endPlayRPC()
+	{
+		StartCoroutine(GameView.instance.endPlay());
 	}
 	
 	public void showResult(bool isSuccess)

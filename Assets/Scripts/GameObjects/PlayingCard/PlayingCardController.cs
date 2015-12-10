@@ -32,7 +32,7 @@ public class PlayingCardController : GameObjectController
 	float timerDead;
 	float timerSE;
 	float deadTime = 3f;
-	float SETime = 5f;
+	float SETime = 8f;
 	public bool isShowingDead;
 	public List<Tile> destinations ;
 	string skillEffectDescription ;

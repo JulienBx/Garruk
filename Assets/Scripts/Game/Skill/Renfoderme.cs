@@ -44,6 +44,7 @@ public class Renfoderme : GameSkill
 			isSuccess = true ;	
 		}
 		GameController.instance.showResult(isSuccess);
+		GameController.instance.endPlay();
 	}
 	
 	public int getShieldBonus(int level){

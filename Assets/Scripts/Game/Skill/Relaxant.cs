@@ -18,6 +18,7 @@ public class Relaxant : GameSkill
 	
 	public override void resolve(List<int> targetsPCC)
 	{	
+		bool isSuccess = false ;
 		GameController.instance.play(GameView.instance.runningSkill);
 		int target = targetsPCC[0];
 		int proba = GameView.instance.getCurrentSkill().proba;
@@ -28,6 +29,7 @@ public class Relaxant : GameSkill
 		else{
 			if (Random.Range(1,101) < proba){
 				GameController.instance.applyOn(target);
+				isSuccess = true;
 			}
 			else{
 				GameController.instance.esquive(target,4);
@@ -38,8 +40,11 @@ public class Relaxant : GameSkill
 			List<int> targets = GameView.instance.getOpponents();
 			targets.Remove(target);
 			target = targets[Random.Range(0,targets.Count)];
-			GameController.instance.applyOn(target);	
+			GameController.instance.applyOn(target);
+			isSuccess = true ;
 		}
+		GameController.instance.showResult(isSuccess);
+		GameController.instance.endPlay();
 	}
 	
 	public override void applyOn(int target){
