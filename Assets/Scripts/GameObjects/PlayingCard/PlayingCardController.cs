@@ -31,7 +31,7 @@ public class PlayingCardController : GameObjectController
 	Vector3 finalP;
 	float timerDead;
 	float timerSE;
-	float deadTime = 3f;
+	float deadTime = 0.5f;
 	float SETime = 8f;
 	public bool isShowingDead;
 	public List<Tile> destinations ;
