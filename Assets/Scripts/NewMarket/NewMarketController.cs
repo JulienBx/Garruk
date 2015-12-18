@@ -600,7 +600,6 @@ public class NewMarketController : MonoBehaviour
 		this.backgroundCamera = GameObject.Find ("BackgroundCamera");
 		this.cardsCamera = GameObject.Find ("CardsCamera");
 		this.cardsCamera.AddComponent<ScrollingController> ();
-
 	}
 	private void resetFiltersValue()
 	{

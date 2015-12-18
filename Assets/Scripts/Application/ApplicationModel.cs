@@ -26,7 +26,7 @@ public class ApplicationModel : MonoBehaviour
 	static public string error = "";
 	static public int tutorialStep;
 	static public bool displayTutorial;
-	static public bool isAdmin = true;
+	static public bool isAdmin = false;
 	static public int nbCardsByDeck = 4;
 	static public int packToBuy = -1;
 	static public bool launchGameTutorial = false;

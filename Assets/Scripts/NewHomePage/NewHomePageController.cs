@@ -26,9 +26,7 @@ public class NewHomePageController : MonoBehaviour
 	private GameObject playBlockTitle;
 	private GameObject storeBlock;
 	private GameObject storeBlockTitle;
-	private GameObject packTitle;
-	private GameObject packPicture;
-	private GameObject packButton;
+	private GameObject pack;
 	private GameObject friendlyGameTitle;
 	private GameObject friendlyGamePicture;
 	private GameObject friendlyGameButton;
@@ -400,16 +398,15 @@ public class NewHomePageController : MonoBehaviour
 //		this.cupGamePicture.GetComponent<SpriteRenderer>().color = ApplicationDesignRules.whiteSpriteColor;
 //		this.cupGameTitle = GameObject.Find ("CupGameTitle");
 //		this.cupGameTitle.GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
-		this.packButton = GameObject.Find ("PackButton");
-		this.packButton.AddComponent<NewHomePageBuyPackButtonController> ();
-		this.packTitle = GameObject.Find ("PackTitle");
-		this.packTitle.GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
-		this.packPicture = GameObject.Find ("PackPicture");
-		this.packPicture.GetComponent<SpriteRenderer>().color = ApplicationDesignRules.whiteSpriteColor;
+
+		this.pack = GameObject.Find ("Pack");
+		this.pack.AddComponent<NewPackHomePageController> ();
+		this.pack.GetComponent<NewPackHomePageController> ().initialize ();
+
 		this.storeBlock = Instantiate (this.blockObject) as GameObject;
 		this.storeBlockTitle = GameObject.Find ("StoreBlockTitle");
 		this.storeBlockTitle.GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
-		this.storeBlockTitle.GetComponent<TextMeshPro> ().text = "Acheter";
+		this.storeBlockTitle.GetComponent<TextMeshPro> ().text = "Recruter";
 		this.newsfeedBlock = Instantiate (this.blockObject) as GameObject;
 		this.tabs=new GameObject[3];
 		for(int i=0;i<this.tabs.Length;i++)
@@ -612,20 +609,8 @@ public class NewHomePageController : MonoBehaviour
 		this.storeBlockTitle.transform.position = new Vector3 (storeBlockUpperLeftPosition.x + 0.3f, storeBlockUpperLeftPosition.y - 0.2f, 0f);
 		this.storeBlockTitle.transform.localScale = ApplicationDesignRules.mainTitleScale;
 
-		float packPictureWidth = 375f;
-		float packPictureHeight = 200f;
-		float packPictureScale = 1.3f * ApplicationDesignRules.reductionRatio;
-		float packPictureWorldWidth = packPictureScale * (packPictureWidth / ApplicationDesignRules.pixelPerUnit);
-		float packPictureWorldHeight = packPictureWorldWidth * (packPictureHeight / packPictureWidth);
-
-		this.packPicture.transform.localScale = new Vector3 (packPictureScale,packPictureScale,packPictureScale);
-		this.packPicture.transform.position = new Vector3 (storeBlockLowerRightPosition.x - packPictureWorldWidth / 2f, storeBlockLowerRightPosition.y + packPictureWorldHeight/2f+0.25f, 0f);
-
-		this.packButton.transform.localScale = ApplicationDesignRules.button62Scale;
-		this.packButton.transform.position = new Vector3 (0.3f + storeBlockUpperLeftPosition.x+ApplicationDesignRules.button62WorldSize.x/2f, storeBlockUpperLeftPosition.y - 2.9f, 0f);
-		this.packTitle.transform.position = new Vector3 (storeBlockUpperLeftPosition.x + 0.3f, storeBlockUpperRightPosition.y - 1.2f, 0f);
-		this.packTitle.transform.localScale = ApplicationDesignRules.subMainTitleScale;
-		this.packTitle.transform.GetComponent<TextMeshPro> ().textContainer.width = storeBlockSize.x / 2f;
+		this.pack.transform.position = new Vector3 (storeBlockLowerRightPosition.x - 0.3f - ApplicationDesignRules.packWorldSize.x / 2f, storeBlockLowerRightPosition.y + 0.1f + ApplicationDesignRules.packWorldSize.y / 2f, 0f);
+		this.pack.GetComponent<NewPackHomePageController> ().resize ();
 
 		this.newsfeedBlock.GetComponent<NewBlockController> ().resize(newsfeedBlockLeftMargin,newsfeedBlockUpMargin,ApplicationDesignRules.blockWidth,newsfeedBlockHeight);
 		Vector3 newsfeedBlockUpperLeftPosition = this.newsfeedBlock.GetComponent<NewBlockController> ().getUpperLeftCornerPosition ();
@@ -800,9 +785,7 @@ public class NewHomePageController : MonoBehaviour
 		//this.cupGameButton.SetActive(value);
 		//this.cupGamePicture.SetActive(value);
 		//this.cupGameTitle.SetActive(value);
-		this.packButton.SetActive(value);
-		this.packTitle.SetActive(value);
-		this.packPicture.SetActive(value);
+		this.pack.SetActive(value);
 		this.storeBlock.SetActive(value);
 		this.storeBlockTitle.SetActive(value);
 		this.newsfeedBlock.SetActive(value);
@@ -1280,9 +1263,7 @@ public class NewHomePageController : MonoBehaviour
 	}
 	public void drawPack()
 	{
-		this.packButton.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Payer "+model.packs [this.displayedPack].Price.ToString ();
-		this.packPicture.transform.GetComponent<SpriteRenderer> ().sprite = MenuController.instance.returnPackPicture (model.packs [this.displayedPack].IdPicture);
-		this.packTitle.GetComponent<TextMeshPro> ().text = model.packs [this.displayedPack].Name;
+		this.pack.GetComponent<NewPackHomePageController> ().show (model.packs [displayedPack]);
 	}
 	public void drawCompetitions()
 	{	

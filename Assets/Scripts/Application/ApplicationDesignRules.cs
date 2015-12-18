@@ -128,6 +128,13 @@ public class ApplicationDesignRules : MonoBehaviour
 	static public Vector2 cursorWorldSize;
 	static private Vector3 cursorOriginalScale=new Vector3(0.3f,0.3f,0.3f);
 	static public Vector3 cursorScale;
+	static private Vector2 packSize=new Vector2(688f,242f);
+	static public Vector2 packWorldSize;
+	static public Vector3 packScale;
+	static public Vector2 packPictureSize = new Vector3 (375f, 200f);
+	static public Vector2 packPictureWorldSize;
+	static public Vector3 packPictureOriginalScale = new Vector3 (1.2f, 1.2f, 1.2f);
+	static public Vector3 packPictureScale;
 
 	static private Vector3 mainTitleOriginalScale=new Vector3(1f,1f,1f);
 	static public Vector3 mainTitleScale;
@@ -150,8 +157,7 @@ public class ApplicationDesignRules : MonoBehaviour
 
 	static public float gapBetweenCardsLine = 0.25f;
 	static public float gapBetweenMarketCardsLine = 0.55f;
-
-
+	
 	static public void computeDesignRules()
 	{
 		widthScreen=Screen.width;
@@ -271,6 +277,9 @@ public class ApplicationDesignRules : MonoBehaviour
 		subMainTitleScale = toNewScale (subMainTitleOriginalScale);
 		mainTitleScale = toNewScale (mainTitleOriginalScale);
 
+		packPictureScale = toNewScale (packPictureOriginalScale);
+		packPictureWorldSize = toWorldSize (packPictureSize,packPictureScale);
+
 		valueFilterScale = toNewScale (valueFilterOriginalScale);
 
 		cursorScale = toNewScale (cursorOriginalScale);
@@ -283,6 +292,11 @@ public class ApplicationDesignRules : MonoBehaviour
 		nextLevelPopUpWorldSize.y = cardFocusedWorldSize.y;
 		float nextLevelPopUpYScale = (nextLevelPopUpWorldSize.y / (nextLevelPopUpSize.y / pixelPerUnit))*(1f/focusedCardScale);
 		nextLevelPopUpScale = new Vector3 (nextLevelPopUpYScale, nextLevelPopUpYScale, nextLevelPopUpYScale);
+
+		packWorldSize.x = blockWidth - 2f * 0.3f;
+		packWorldSize.y = 2.5f;
+		packScale.x = packWorldSize.x/(packSize.x / ApplicationDesignRules.pixelPerUnit);
+		packScale.y = packWorldSize.y / (packSize.y / ApplicationDesignRules.pixelPerUnit);
 	}
 	static private Vector2 toWorldSize(Vector2 originalSize, Vector3 scale)
 	{

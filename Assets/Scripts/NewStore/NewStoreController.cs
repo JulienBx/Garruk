@@ -23,10 +23,6 @@ public class NewStoreController : MonoBehaviour
 	private GameObject packsBlock;
 	private GameObject packsBlockTitle;
 	private GameObject[] packs;
-	private GameObject[] packsTitle;
-	private GameObject[] packsPicture;
-	private GameObject[] packsButton;
-	private GameObject[] separationLines;
 	private GameObject packsPaginationButtons;
 	private GameObject packsPaginationLine;
 	private GameObject packsNumberTitle;
@@ -243,10 +239,6 @@ public class NewStoreController : MonoBehaviour
 		this.packsNumberTitle.GetComponent<TextMeshPro> ().color = ApplicationDesignRules.whiteTextColor;
 
 		this.packs = new GameObject[0];
-		this.packsButton = new GameObject[0];
-		this.packsTitle = new GameObject[0];
-		this.packsPicture=new GameObject[0];
-		this.separationLines = new GameObject[0];
 
 		this.packsPaginationButtons = GameObject.Find("Pagination");
 		this.packsPaginationButtons.AddComponent<NewStorePaginationController> ();
@@ -257,7 +249,7 @@ public class NewStoreController : MonoBehaviour
 		this.packsScrollLine.GetComponent<SpriteRenderer> ().color = ApplicationDesignRules.whiteSpriteColor;
 
 		this.backButton = GameObject.Find ("BackButton");
-		this.backButton.transform.FindChild("Title").GetComponent<TextMeshPro> ().text = "Retour à la boutique".ToUpper();
+		this.backButton.transform.FindChild("Title").GetComponent<TextMeshPro> ().text = "Retour aux packs";
 		this.backButton.AddComponent<NewStoreBackButtonController> ();
 		this.backButton.SetActive (false);
 
@@ -418,44 +410,32 @@ public class NewStoreController : MonoBehaviour
 		this.packsNumberTitle.transform.localScale = ApplicationDesignRules.subMainTitleScale;
 
 		this.packs = new GameObject[packsPagination.nbElementsPerPage];
-		this.packsButton = new GameObject[packsPagination.nbElementsPerPage];
-		this.packsPicture = new GameObject[packsPagination.nbElementsPerPage];
-		this.packsTitle = new GameObject[packsPagination.nbElementsPerPage];
-		this.separationLines = new GameObject[packsPagination.nbElementsPerPage];
 
 		float upperMargin = 1.6f;
-		float lowerMargin = 0.6f;
-		Vector2 packBlockSize = new Vector2 (packsBlockSize.x - 0.6f, (packsBlockSize.y - lowerMargin-upperMargin)/this.packsPagination.nbElementsPerPage);
+		float lowerMargin = 0.9f;
 		float lineScale = ApplicationDesignRules.getLineScale (packsBlockSize.x - 0.6f);
-
-		float packPictureWidth = 375f;
-		float packPictureHeight = 200f;
-		float packPictureScale = 1.3f * ApplicationDesignRules.reductionRatio;
-		float packPictureWorldWidth = packPictureScale * (packPictureWidth / ApplicationDesignRules.pixelPerUnit);
-		float packPictureWorldHeight = packPictureWorldWidth * (packPictureHeight / packPictureWidth);
+		float gapBetweenPacks;
+		if(ApplicationDesignRules.isMobileScreen)
+		{
+			gapBetweenPacks=0.2f;
+		}
+		else
+		{
+			gapBetweenPacks=(packsBlockSize.y-lowerMargin-upperMargin-this.packsPagination.nbElementsPerPage*ApplicationDesignRules.packWorldSize.y)/(this.packsPagination.nbElementsPerPage-1);
+		}
 
 		for(int i=0;i<this.packsPagination.nbElementsPerPage;i++)
 		{
 			this.packs[i]=Instantiate (this.packObject) as GameObject;
-			this.packsButton[i]=this.packs[i].transform.FindChild("Button").gameObject;
-			this.packsTitle[i]=this.packs[i].transform.FindChild("Name").gameObject;
-			this.packsPicture[i]=this.packs[i].transform.FindChild("Picture").gameObject;
-			this.separationLines[i]=this.packs[i].transform.FindChild("SeparationLine").gameObject;
-			this.packs[i].transform.FindChild("Button").gameObject.AddComponent<NewStoreBuyPackButtonController>();
-			this.packs[i].transform.FindChild("Button").GetComponent<NewStoreBuyPackButtonController>().setId(i);
-			this.separationLines[i].transform.localScale=new Vector3(lineScale,1f,1f);
-			this.separationLines[i].transform.position=new Vector3(packsBlockUpperLeftPosition.x+packsBlockSize.x/2f,packsBlockUpperLeftPosition.y-upperMargin-i*packBlockSize.y,0f);
-			this.packsTitle[i].transform.localScale=ApplicationDesignRules.subMainTitleScale;
-			this.packsTitle[i].transform.position=new Vector3(packsBlockUpperLeftPosition.x+0.3f,packsBlockUpperLeftPosition.y-upperMargin-0.2f-i*(packBlockSize.y),0f);
-			this.packsButton[i].transform.localScale=ApplicationDesignRules.button62Scale;
-			this.packsButton[i].transform.position=new Vector3(packsBlockUpperLeftPosition.x+0.3f+ApplicationDesignRules.button62WorldSize.x/2f,packsBlockUpperLeftPosition.y-upperMargin-packBlockSize.y+ApplicationDesignRules.button62WorldSize.y/2f+0.1f-i*(packBlockSize.y),0f);
-			this.packsPicture[i].transform.localScale=new Vector3(packPictureScale,packPictureScale,packPictureScale);
-			this.packsPicture[i].transform.position=new Vector3(packsBlockUpperRightPosition.x-0.3f-packPictureWorldWidth/2f,packsBlockUpperRightPosition.y-upperMargin-packBlockSize.y+packPictureWorldHeight/2f+0.05f-i*(packBlockSize.y),0f);
+			this.packs[i].transform.position=new Vector3(packsBlockOrigin.x,packsBlockUpperLeftPosition.y-upperMargin-ApplicationDesignRules.packWorldSize.y/2f-i*(ApplicationDesignRules.packWorldSize.y+gapBetweenPacks),0f);
+			this.packs[i].AddComponent<NewPackStoreController>();
+			this.packs[i].GetComponent<NewPackStoreController>().setId(i);
+			this.packs[i].GetComponent<NewPackStoreController>().resize();
 		}
 
 		this.packsPaginationButtons.transform.localPosition=new Vector3(packsBlockLowerLeftPosition.x+packsBlockSize.x/2f, packsBlockLowerLeftPosition.y + 0.3f, 0f);
 		this.packsPaginationButtons.transform.GetComponent<NewStorePaginationController> ().resize ();
-
+		
 		this.packsPaginationLine.transform.localScale = new Vector3 (lineScale, 1f, 1f);
 		this.packsPaginationLine.transform.position = new Vector3 (packsBlockLowerLeftPosition.x + packsBlockSize.x / 2, packsBlockLowerLeftPosition.y + 0.6f, 0f);
 
@@ -626,12 +606,10 @@ public class NewStoreController : MonoBehaviour
 			if(i<this.packsDisplayed.Count && value)
 			{
 				this.packs[i].SetActive(true);
-				this.separationLines[i].SetActive(true);
 			}
 			else
 			{
 				this.packs[i].SetActive(false);
-				this.separationLines[i].SetActive(false);
 			}
 		}
 		this.packsBlock.SetActive (value);
@@ -681,15 +659,11 @@ public class NewStoreController : MonoBehaviour
 			if(this.packsPagination.chosenPage*(this.packsPagination.nbElementsPerPage)+i<model.packList.Count)
 			{
 				this.packsDisplayed.Add (this.packsPagination.chosenPage*(this.packsPagination.nbElementsPerPage)+i);
-				this.packs[i].transform.FindChild("Button").FindChild("Title").GetComponent<TextMeshPro>().text="Payer "+model.packList[this.packsDisplayed[i]].Price.ToString();
-				this.packs[i].transform.FindChild("Name").GetComponent<TextMeshPro>().text=model.packList[this.packsDisplayed[i]].Name;
-				this.packs[i].transform.FindChild("Picture").GetComponent<SpriteRenderer>().sprite=MenuController.instance.returnPackPicture (model.packList[this.packsDisplayed[i]].IdPicture);
-				this.separationLines[i].SetActive(true);
+				this.packs[i].GetComponent<NewPackStoreController>().show(model.packList[this.packsDisplayed[i]]);
 				this.packs[i].SetActive(true);
 			}
 			else
 			{
-				this.separationLines[i].SetActive(false);
 				this.packs[i].SetActive(false);
 			}
 		}
@@ -950,11 +924,11 @@ public class NewStoreController : MonoBehaviour
 		{
 			if(ApplicationModel.credits<model.packList[this.packsDisplayed[i]].Price)
 			{
-				this.packs[i].transform.FindChild("Button").GetComponent<NewStoreBuyPackButtonController>().setIsActive(false);
+				this.packs[i].GetComponent<NewPackStoreController>().activeButton(false);
 			}
 			else
 			{
-				this.packs[i].transform.FindChild("Button").GetComponent<NewStoreBuyPackButtonController>().setIsActive(true);
+				this.packs[i].GetComponent<NewPackStoreController>().activeButton(true);
 			}
 		}
 	}
@@ -1070,7 +1044,7 @@ public class NewStoreController : MonoBehaviour
 
 	public Vector3 returnBuyPackButtonPosition(int id)
 	{
-		return this.packsButton [id].transform.position;
+		return this.packs [id].GetComponent<NewPackStoreController> ().getBuyButtonPosition ();
 	}
 	public bool getIsCardFocusedDisplayed()
 	{
