@@ -135,6 +135,10 @@ public class ApplicationDesignRules : MonoBehaviour
 	static public Vector2 packPictureWorldSize;
 	static public Vector3 packPictureOriginalScale = new Vector3 (1.2f, 1.2f, 1.2f);
 	static public Vector3 packPictureScale;
+	static private Vector2 skillSize=new Vector2(1599f,355f);
+	static public Vector2 skillWorldSize;
+	static private Vector3 skillOriginalScale=new Vector3(0.53f,0.53f,0.53f);
+	static public Vector3 skillScale;
 
 	static private Vector3 mainTitleOriginalScale=new Vector3(1f,1f,1f);
 	static public Vector3 mainTitleScale;
@@ -144,8 +148,14 @@ public class ApplicationDesignRules : MonoBehaviour
 	static public Vector3 menuPosition = new Vector3(0f,40f,0f);
 	static public Vector3 tutorialPosition = new Vector3(0f,100f,0f);
 	static public Vector3 backgroundPosition = new Vector3(0f,20f,0f);
+	static public Vector3 focusedCardPosition = new Vector3 (0f, -200f, 0f);
 
-	static public Vector3 mainCameraStartPosition = new Vector3 (0f, 0f, -10f);
+	static public Vector3 mainCameraPosition = new Vector3 (menuPosition.x, menuPosition.y, -10f);
+	static public Vector3 sceneCameraStandardPosition = new Vector3 (0f,0f, -10f);
+	static public Vector3 sceneCameraFocusedCardPosition = new Vector3 (focusedCardPosition.x, focusedCardPosition.y, -10f);
+	static public Vector3 scrollCameraStartPosition;
+	static public Vector3 tutorialCameraPositiion = new Vector3 (tutorialPosition.x, tutorialPosition.y, -10f);
+	static public Vector3 backgroundCameraPosition = new Vector3 (backgroundPosition.x, backgroundPosition.y, -10f);
 
 	static private Vector2 topBarSize = new Vector2(1454f,181f);
 	static private Vector3 topBarScale = new Vector3(0.75f,0.75f,0.75f);
@@ -157,6 +167,8 @@ public class ApplicationDesignRules : MonoBehaviour
 
 	static public float gapBetweenCardsLine = 0.25f;
 	static public float gapBetweenMarketCardsLine = 0.55f;
+	static public float gapBetweenPacksLine = 0.25f;
+	static public float gapBetweenSkillsLine = 0.25f;
 	
 	static public void computeDesignRules()
 	{
@@ -192,7 +204,12 @@ public class ApplicationDesignRules : MonoBehaviour
 			largeBlockHeight = 10f - 2.1f;
 			mediumBlockHeight = (10f-2.1f-gapBetweenBlocks)*(2.8f/5f);
 			smallBlockHeight = (10f-2.1f-gapBetweenBlocks)*(2.2f/5f);
-			mainCameraStartPosition=new Vector3(0f,(upMargin + downMargin)/2f,-10f);
+			scrollCameraStartPosition=new Vector3(0f,(upMargin + downMargin)/2f,-10f);
+
+
+			cardFocusedWorldSize.x = worldWidth - leftMargin - rightMargin;
+			float focusedCardScale = cardFocusedWorldSize.x / (1.2f*cardFocusedSize.y / pixelPerUnit);
+			cardFocusedScale = new Vector3 (focusedCardScale, focusedCardScale, focusedCardScale);
 
 		}
 		else
@@ -215,7 +232,12 @@ public class ApplicationDesignRules : MonoBehaviour
 			largeBlockHeight = 10f - upMargin - downMargin;
 			mediumBlockHeight = (10f-upMargin-downMargin-gapBetweenBlocks)*(2.8f/5f);
 			smallBlockHeight = (10f-upMargin-downMargin-gapBetweenBlocks)*(2.2f/5f);
-			mainCameraStartPosition=new Vector3(0f,0f,-10f);
+			scrollCameraStartPosition=new Vector3(0f,0f,-10f);
+
+			cardFocusedWorldSize.y = worldHeight - upMargin - downMargin;
+			float focusedCardScale = cardFocusedWorldSize.y / (cardFocusedSize.y / pixelPerUnit);
+			cardFocusedScale = new Vector3 (focusedCardScale, focusedCardScale, focusedCardScale);
+
 		}
 
 		viewHeight = worldHeight - upMargin - downMargin;
@@ -285,12 +307,11 @@ public class ApplicationDesignRules : MonoBehaviour
 		cursorScale = toNewScale (cursorOriginalScale);
 		cursorWorldSize = toWorldSize (cursorSize, cursorScale);
 
-		cardFocusedWorldSize.y = worldHeight - upMargin - downMargin;
-		float focusedCardScale = cardFocusedWorldSize.y / (cardFocusedSize.y / pixelPerUnit);
-		cardFocusedScale = new Vector3 (focusedCardScale, focusedCardScale, focusedCardScale);
+		skillScale = toNewScale (skillOriginalScale);
+		skillWorldSize = toWorldSize (skillSize, skillScale);
 
 		nextLevelPopUpWorldSize.y = cardFocusedWorldSize.y;
-		float nextLevelPopUpYScale = (nextLevelPopUpWorldSize.y / (nextLevelPopUpSize.y / pixelPerUnit))*(1f/focusedCardScale);
+		float nextLevelPopUpYScale = (nextLevelPopUpWorldSize.y / (nextLevelPopUpSize.y / pixelPerUnit))*(1f/cardFocusedScale.x);
 		nextLevelPopUpScale = new Vector3 (nextLevelPopUpYScale, nextLevelPopUpYScale, nextLevelPopUpYScale);
 
 		packWorldSize.x = blockWidth - 2f * 0.3f;

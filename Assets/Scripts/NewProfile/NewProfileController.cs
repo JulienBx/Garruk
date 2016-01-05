@@ -633,8 +633,9 @@ public class NewProfileController : MonoBehaviour
 
 		this.mainCamera.GetComponent<ScrollingController> ().setViewHeight(ApplicationDesignRules.viewHeight);
 		this.mainCamera.GetComponent<ScrollingController> ().setContentHeight(profileBlockHeight + searchBlockHeight + friendsBlockHeight + resultsBlockHeight + 3f * ApplicationDesignRules.gapBetweenBlocks + 2f*ApplicationDesignRules.tabWorldSize.y);
-		this.mainCamera.transform.position = ApplicationDesignRules.mainCameraStartPosition;
-		this.mainCamera.GetComponent<ScrollingController> ().setStartPositionY (ApplicationDesignRules.mainCameraStartPosition.y);
+		//this.mainCamera.transform.position = ApplicationDesignRules.mainCameraStartPosition;
+		//this.mainCamera.GetComponent<ScrollingController> ().setStartPositionY (ApplicationDesignRules.mainCameraStartPosition.y);
+		this.mainCamera.GetComponent<ScrollingController> ().setEndPositionY();
 
 		this.centralWindow = new Rect (ApplicationDesignRules.widthScreen * 0.25f, 0.12f * ApplicationDesignRules.heightScreen,ApplicationDesignRules.widthScreen * 0.50f, 0.40f * ApplicationDesignRules.heightScreen);
 		this.centralWindowEditInformations=new Rect(ApplicationDesignRules.widthScreen * 0.25f, 0.12f * ApplicationDesignRules.heightScreen,ApplicationDesignRules.widthScreen * 0.50f, 0.50f * ApplicationDesignRules.heightScreen);

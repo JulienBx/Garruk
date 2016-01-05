@@ -707,7 +707,7 @@ public class NewMarketController : MonoBehaviour
 			
 			this.cardsCamera.SetActive(false);
 			this.mainCamera.GetComponent<Camera>().rect=new Rect(0f,0f,1f,1f);
-			this.mainCamera.transform.position=ApplicationDesignRules.mainCameraStartPosition;
+			//this.mainCamera.transform.position=ApplicationDesignRules.mainCameraStartPosition;
 			this.mainCamera.GetComponent<Camera>().orthographicSize=ApplicationDesignRules.cameraSize;
 
 			cardsBlockHeight=ApplicationDesignRules.largeBlockHeight-ApplicationDesignRules.tabWorldSize.y;
@@ -929,7 +929,7 @@ public class NewMarketController : MonoBehaviour
 		if(ApplicationDesignRules.isMobileScreen)
 		{
 			int nbLinesToDisplay = Mathf.CeilToInt ((float)this.cardsDisplayed.Count / (float)this.cardsPerLine);
-			float contentHeight = 3f+nbLinesToDisplay*(ApplicationDesignRules.cardWorldSize.y+ApplicationDesignRules.gapBetweenMarketCardsLine)-1f;
+			float contentHeight = ApplicationDesignRules.gapBetweenMarketCardsLine+nbLinesToDisplay*(ApplicationDesignRules.cardWorldSize.y+ApplicationDesignRules.gapBetweenMarketCardsLine);
 			this.cardsCamera.GetComponent<ScrollingController> ().setContentHeight(contentHeight);
 			this.cardsCamera.GetComponent<ScrollingController>().setEndPositionY();
 		}

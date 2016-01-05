@@ -307,8 +307,9 @@ public class NewLobbyController : MonoBehaviour
 
 		this.mainCamera.GetComponent<ScrollingController> ().setViewHeight(ApplicationDesignRules.viewHeight);
 		this.mainCamera.GetComponent<ScrollingController> ().setContentHeight(mainBlockHeight + statsBlockHeight + lastResultsBlockHeight + competitionBlockHeight + 3f * ApplicationDesignRules.gapBetweenBlocks);
-		this.mainCamera.transform.position = ApplicationDesignRules.mainCameraStartPosition;
-		this.mainCamera.GetComponent<ScrollingController> ().setStartPositionY (ApplicationDesignRules.mainCameraStartPosition.y);
+		//this.mainCamera.transform.position = ApplicationDesignRules.mainCameraStartPosition;
+		//this.mainCamera.GetComponent<ScrollingController> ().setStartPositionY (ApplicationDesignRules.mainCameraStartPosition.y);
+		this.mainCamera.GetComponent<ScrollingController> ().setEndPositionY ();
 
 		this.mainBlock.GetComponent<NewBlockController> ().resize(mainBlockLeftMargin,mainBlockUpMargin,ApplicationDesignRules.blockWidth,mainBlockHeight);
 		Vector3 mainBlockUpperLeftPosition = this.mainBlock.GetComponent<NewBlockController> ().getUpperLeftCornerPosition ();

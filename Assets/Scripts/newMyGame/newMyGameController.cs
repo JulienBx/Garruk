@@ -619,7 +619,7 @@ public class newMyGameController : MonoBehaviour
 
 			this.cardsCamera.SetActive(false);
 			this.mainCamera.GetComponent<Camera>().rect=new Rect(0f,0f,1f,1f);
-			this.mainCamera.transform.position=ApplicationDesignRules.mainCameraStartPosition;
+			//this.mainCamera.transform.position=ApplicationDesignRules.mainCameraStartPosition;
 			this.mainCamera.GetComponent<Camera>().orthographicSize=ApplicationDesignRules.cameraSize;
 
 			cardsBlockHeight=ApplicationDesignRules.largeBlockHeight;

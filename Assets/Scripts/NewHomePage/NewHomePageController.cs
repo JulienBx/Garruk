@@ -45,8 +45,9 @@ public class NewHomePageController : MonoBehaviour
 	private GameObject[] deckChoices;
 	private GameObject[] cardsHalos;
 	private GameObject popUp;
+	private GameObject scrollCamera;
 	private GameObject mainCamera;
-	private GameObject menuCamera;
+	private GameObject sceneCamera;
 	private GameObject tutorialCamera;
 	private GameObject backgroundCamera;
 
@@ -166,9 +167,9 @@ public class NewHomePageController : MonoBehaviour
 			}
 			this.money=ApplicationModel.credits;
 		}
-		if(ApplicationDesignRules.isMobileScreen && this.isSceneLoaded)
+		if(ApplicationDesignRules.isMobileScreen && this.isSceneLoaded && !this.isCardFocusedDisplayed)
 		{
-			isScrolling = this.mainCamera.GetComponent<ScrollingController>().ScrollController();
+			isScrolling = this.scrollCamera.GetComponent<ScrollingController>().ScrollController();
 		}
 	}
 	void Awake()
@@ -464,17 +465,25 @@ public class NewHomePageController : MonoBehaviour
 		this.endGamePopUp.SetActive (false);
 
 		this.mainCamera = gameObject;
-		this.mainCamera.AddComponent<ScrollingController> ();
-		this.menuCamera = GameObject.Find ("MenuCamera");
+		this.scrollCamera = GameObject.Find ("ScrollCamera");
+		this.scrollCamera.AddComponent<ScrollingController> ();
+		this.sceneCamera = GameObject.Find ("sceneCamera");
 		this.tutorialCamera = GameObject.Find ("TutorialCamera");
 		this.backgroundCamera = GameObject.Find ("BackgroundCamera");
 	}
 	public void resize()
 	{
 		this.mainCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
-		this.menuCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
+		this.mainCamera.transform.position = ApplicationDesignRules.mainCameraPosition;
+
+		this.sceneCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
+		this.sceneCamera.transform.position = ApplicationDesignRules.sceneCameraStandardPosition;
+
 		this.tutorialCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
+		this.tutorialCamera.transform.position = ApplicationDesignRules.tutorialCameraPositiion;
+
 		this.backgroundCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.backgroundCameraSize;
+		this.backgroundCamera.transform.position = ApplicationDesignRules.backgroundCameraPosition;
 
 		float playBlockLeftMargin;
 		float playBlockUpMargin;
@@ -499,6 +508,13 @@ public class NewHomePageController : MonoBehaviour
 
 		if(ApplicationDesignRules.isMobileScreen)
 		{
+			this.scrollCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
+			this.scrollCamera.transform.position = ApplicationDesignRules.scrollCameraStartPosition;
+			this.scrollCamera.GetComponent<ScrollingController> ().setViewHeight(ApplicationDesignRules.viewHeight);
+			this.scrollCamera.GetComponent<ScrollingController> ().setContentHeight(playBlockHeight + deckBlockHeight + storeBlockHeight + newsfeedBlockHeight + 3f * ApplicationDesignRules.gapBetweenBlocks + ApplicationDesignRules.tabWorldSize.y);
+			this.scrollCamera.GetComponent<ScrollingController> ().setStartPositionY (ApplicationDesignRules.scrollCameraStartPosition.y);
+			this.scrollCamera.GetComponent<ScrollingController> ().setEndPositionY();
+
 			playBlockLeftMargin=ApplicationDesignRules.leftMargin;
 			playBlockUpMargin=0f;
 
@@ -510,9 +526,24 @@ public class NewHomePageController : MonoBehaviour
 
 			newsfeedBlockLeftMargin=ApplicationDesignRules.leftMargin;
 			newsfeedBlockUpMargin=storeBlockUpMargin+storeBlockHeight+ApplicationDesignRules.gapBetweenBlocks+ApplicationDesignRules.tabWorldSize.y;
+
+			if(isCardFocusedDisplayed)
+			{
+				this.scrollCamera.SetActive(false);
+				this.sceneCamera.SetActive(true);
+			}
+			else
+			{
+				this.scrollCamera.SetActive(true);
+				this.sceneCamera.SetActive(false);
+			}
+
 		}
 		else
 		{
+			this.sceneCamera.SetActive(true);
+			this.scrollCamera.SetActive(false);
+
 			deckBlockLeftMargin=ApplicationDesignRules.leftMargin;
 			deckBlockUpMargin=ApplicationDesignRules.upMargin;
 
@@ -524,12 +555,8 @@ public class NewHomePageController : MonoBehaviour
 			
 			storeBlockLeftMargin=ApplicationDesignRules.leftMargin+ApplicationDesignRules.gapBetweenBlocks+ApplicationDesignRules.blockWidth;
 			storeBlockUpMargin=newsfeedBlockUpMargin+ApplicationDesignRules.gapBetweenBlocks+newsfeedBlockHeight;
-		}
 
-		this.mainCamera.GetComponent<ScrollingController> ().setViewHeight(ApplicationDesignRules.viewHeight);
-		this.mainCamera.GetComponent<ScrollingController> ().setContentHeight(playBlockHeight + deckBlockHeight + storeBlockHeight + newsfeedBlockHeight + 3f * ApplicationDesignRules.gapBetweenBlocks + ApplicationDesignRules.tabWorldSize.y);
-		this.mainCamera.transform.position = ApplicationDesignRules.mainCameraStartPosition;
-		this.mainCamera.GetComponent<ScrollingController> ().setStartPositionY (ApplicationDesignRules.mainCameraStartPosition.y);
+		}
 
 		this.centralWindow = new Rect (ApplicationDesignRules.widthScreen * 0.25f, 0.12f * ApplicationDesignRules.heightScreen, ApplicationDesignRules.widthScreen * 0.50f, 0.25f * ApplicationDesignRules.heightScreen);
 		
@@ -667,12 +694,13 @@ public class NewHomePageController : MonoBehaviour
 		this.newsfeedPaginationButtons.GetComponent<NewHomePagePaginationController> ().resize ();
 
 		this.focusedCard.transform.localScale = ApplicationDesignRules.cardFocusedScale;
-		this.focusedCard.transform.position = new Vector3 (0f, -ApplicationDesignRules.worldHeight/2f+ApplicationDesignRules.downMargin+ApplicationDesignRules.cardFocusedWorldSize.y/2f-0.22f, 0f);
+		this.focusedCard.transform.position = ApplicationDesignRules.focusedCardPosition;
 		this.focusedCard.transform.GetComponent<NewFocusedCardController> ().setCentralWindow (this.centralWindow);
 
 		TutorialObjectController.instance.resize();
 
 		this.endGamePopUp.transform.position = new Vector3 (ApplicationDesignRules.menuPosition.x+0, ApplicationDesignRules.menuPosition.y+2f, -3f);
+
 	}
 	private void retrieveDefaultDeck()
 	{
@@ -771,86 +799,26 @@ public class NewHomePageController : MonoBehaviour
 	}
 	public void displayBackUI(bool value)
 	{
-		this.deckBlock.SetActive (value);
-		this.deckBlockTitle.SetActive(value);
-		this.deckTitle.SetActive(value);
-		this.playBlock.SetActive(value);
-		this.playBlockTitle.SetActive(value);
-		this.friendlyGameButton.SetActive(value);
-		this.friendlyGamePicture.SetActive(value);
-		this.friendlyGameTitle.SetActive(value);
-		this.divisionGameButton.SetActive(value);
-		this.divisionGamePicture.SetActive(value);
-		this.divisionGameTitle.SetActive(value);
-		//this.cupGameButton.SetActive(value);
-		//this.cupGamePicture.SetActive(value);
-		//this.cupGameTitle.SetActive(value);
-		this.pack.SetActive(value);
-		this.storeBlock.SetActive(value);
-		this.storeBlockTitle.SetActive(value);
-		this.newsfeedBlock.SetActive(value);
-		for(int i=0;i<this.tabs.Length;i++)
-		{
-			this.tabs[i].SetActive(value);
-		}
 		if(value)
 		{
-			this.selectATab();
-		}
-		else
-		{
-			for(int i=0;i<this.contents.Length;i++)
+			if(ApplicationDesignRules.isMobileScreen)
 			{
-				this.contents[i].SetActive(value);
+				this.scrollCamera.SetActive(true);
+				this.sceneCamera.SetActive(false);
 			}
-		}
-		for(int i=0;i<this.cardsHalos.Length;i++)
-		{
-			this.cardsHalos[i].SetActive(value);
-		}
-		for(int i=0;i<this.deckCardsDisplayed.Length;i++)
-		{
-			if(this.deckCardsDisplayed[i]!=-1)
+			else
 			{
-				this.deckCards[i].SetActive(value);
-			}
-		}
-		if(isSearchingDeck&&value)
-		{
-			for(int i=0;i<this.deckChoices.Length;i++)
-			{
-				if(i<this.decksDisplayed.Count)
-				{
-					this.deckChoices[i].SetActive(value);
-				}
-				else
-				{
-					this.deckChoices[i].SetActive(false);
-				}
+				this.sceneCamera.transform.position=ApplicationDesignRules.sceneCameraStandardPosition;
 			}
 		}
 		else
 		{
-			for(int i=0;i<this.deckChoices.Length;i++)
+			if(ApplicationDesignRules.isMobileScreen)
 			{
-				this.deckChoices[i].SetActive(false);
+				this.scrollCamera.SetActive(false);
+				this.sceneCamera.SetActive(true);
 			}
-		}
-		if(model.decks.Count>1 && value)
-		{
-			this.deckSelectionButton.SetActive(true);
-		}
-		else
-		{
-			this.deckSelectionButton.SetActive(false);
-		}
-		if(value)
-		{
-			this.newsfeedPaginationButtons.GetComponent<NewHomePagePaginationController>().setPagination();
-		}
-		else
-		{
-			this.newsfeedPaginationButtons.GetComponent<NewHomePagePaginationController>().setVisible(false);
+			this.sceneCamera.transform.position=ApplicationDesignRules.sceneCameraFocusedCardPosition;
 		}
 	}
 	public void selectDeck(int id)
