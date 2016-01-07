@@ -40,6 +40,10 @@ public class ApplicationDesignRules : MonoBehaviour
 	static public Color greyTextColor = new Color(171/255f,171f/255f,171f/255f);
 	static public Color[] cardsColor = {new Color(75f/255f,163f/255f,174f/255f),new Color (196f/255f,196f/255f,196f/255f),new Color(171/255f,171f/255f,171f/255f)};
 
+	static private Vector2 transparentBackgroundSize=new Vector2(1920f,1080f);
+	static public Vector2 transparentBackgroundWorldSize;
+	static private Vector3 transparentBackgroundOriginalScale=new Vector3(1f,1f,1f);
+	static public Vector3 transparentBackgroundScale;
 	static private Vector2 button31Size=new Vector2(199f,81f);
 	static public Vector2 button31WorldSize;
 	static private Vector3 button31OriginalScale=new Vector3(0.6f,0.6f,0.6f);
@@ -100,12 +104,12 @@ public class ApplicationDesignRules : MonoBehaviour
 	static public Vector2 paginationButtonWorldSize;
 	static private Vector3 paginationButtonOriginalScale=new Vector3(0.3f,0.3f,0.3f);
 	static public Vector3 paginationButtonScale;
-	static private Vector2 cardFocusedSize = new Vector3 (932f * 0.7287152f, 1402f * 0.7287152f);
+	static private Vector2 cardFocusedSize = new Vector3 (970f, 1060f);
 	static public Vector2 cardFocusedWorldSize;
 	static public Vector3 cardFocusedScale;
 	static private Vector2 nextLevelPopUpSize = new Vector2 (720f, 1004f);
 	static public Vector2 nextLevelPopUpWorldSize;
-	static public Vector3 nextLevelPopUpScale;
+	static public Vector3 nextLevelPopUpScale = new Vector3(1.014f, 1.014f,1.014f);
 	static private Vector2 cardTypeFilterSize = new Vector2(386f,386f);
 	static public Vector2 cardTypeFilterWorldSize;
 	static private Vector3 cardTypeFilterOriginalScale=new Vector3(0.17f,0.17f,0.17f);
@@ -148,11 +152,14 @@ public class ApplicationDesignRules : MonoBehaviour
 	static public Vector3 menuPosition = new Vector3(0f,40f,0f);
 	static public Vector3 tutorialPosition = new Vector3(0f,100f,0f);
 	static public Vector3 backgroundPosition = new Vector3(0f,20f,0f);
-	static public Vector3 focusedCardPosition = new Vector3 (0f, -200f, 0f);
+	static public Vector3 focusedCardPosition;
+	static public Vector3 nextLevelPopUpPosition;
+	static public Vector3 randomCardsPosition;
 
 	static public Vector3 mainCameraPosition = new Vector3 (menuPosition.x, menuPosition.y, -10f);
 	static public Vector3 sceneCameraStandardPosition = new Vector3 (0f,0f, -10f);
-	static public Vector3 sceneCameraFocusedCardPosition = new Vector3 (focusedCardPosition.x, focusedCardPosition.y, -10f);
+	static public Vector3 sceneCameraFocusedCardPosition;
+	static public Vector3 sceneCameraRandomCardsPosition;
 	static public Vector3 scrollCameraStartPosition;
 	static public Vector3 tutorialCameraPositiion = new Vector3 (tutorialPosition.x, tutorialPosition.y, -10f);
 	static public Vector3 backgroundCameraPosition = new Vector3 (backgroundPosition.x, backgroundPosition.y, -10f);
@@ -206,11 +213,6 @@ public class ApplicationDesignRules : MonoBehaviour
 			smallBlockHeight = (10f-2.1f-gapBetweenBlocks)*(2.2f/5f);
 			scrollCameraStartPosition=new Vector3(0f,(upMargin + downMargin)/2f,-10f);
 
-
-			cardFocusedWorldSize.x = worldWidth - leftMargin - rightMargin;
-			float focusedCardScale = cardFocusedWorldSize.x / (1.2f*cardFocusedSize.y / pixelPerUnit);
-			cardFocusedScale = new Vector3 (focusedCardScale, focusedCardScale, focusedCardScale);
-
 		}
 		else
 		{
@@ -233,12 +235,27 @@ public class ApplicationDesignRules : MonoBehaviour
 			mediumBlockHeight = (10f-upMargin-downMargin-gapBetweenBlocks)*(2.8f/5f);
 			smallBlockHeight = (10f-upMargin-downMargin-gapBetweenBlocks)*(2.2f/5f);
 			scrollCameraStartPosition=new Vector3(0f,0f,-10f);
-
-			cardFocusedWorldSize.y = worldHeight - upMargin - downMargin;
-			float focusedCardScale = cardFocusedWorldSize.y / (cardFocusedSize.y / pixelPerUnit);
-			cardFocusedScale = new Vector3 (focusedCardScale, focusedCardScale, focusedCardScale);
-
 		}
+
+		cardFocusedWorldSize.y = worldHeight - upMargin - downMargin;
+		float focusedCardScale = cardFocusedWorldSize.y / (cardFocusedSize.y / pixelPerUnit);
+		cardFocusedScale = new Vector3 (focusedCardScale, focusedCardScale, focusedCardScale);
+		if(worldWidth-leftMargin-rightMargin<focusedCardScale*(cardFocusedSize.x/pixelPerUnit))
+		{
+			cardFocusedWorldSize.x = worldWidth - leftMargin - rightMargin;
+			focusedCardScale = cardFocusedWorldSize.x / (cardFocusedSize.x / pixelPerUnit);
+			cardFocusedScale = new Vector3 (focusedCardScale, focusedCardScale, focusedCardScale);
+		}
+
+		focusedCardPosition = new Vector3 (0f, -200f - (upMargin - downMargin)/2f, 0f);
+		randomCardsPosition = new Vector3 (0f, -300f - (upMargin - downMargin) / 2f, 0f);
+		sceneCameraFocusedCardPosition = new Vector3 (0f, -200f, -10f);
+		sceneCameraRandomCardsPosition = new Vector3 (0f - 300f, -10f);
+
+		transparentBackgroundWorldSize.y = worldHeight;
+		float backgroundTransparentScale = transparentBackgroundWorldSize.y / (transparentBackgroundSize.y / pixelPerUnit);
+		transparentBackgroundScale = new Vector3 (backgroundTransparentScale, backgroundTransparentScale, backgroundTransparentScale);
+		transparentBackgroundWorldSize.x = backgroundTransparentScale * (transparentBackgroundSize.x / pixelPerUnit);
 
 		viewHeight = worldHeight - upMargin - downMargin;
 
@@ -310,10 +327,6 @@ public class ApplicationDesignRules : MonoBehaviour
 		skillScale = toNewScale (skillOriginalScale);
 		skillWorldSize = toWorldSize (skillSize, skillScale);
 
-		nextLevelPopUpWorldSize.y = cardFocusedWorldSize.y;
-		float nextLevelPopUpYScale = (nextLevelPopUpWorldSize.y / (nextLevelPopUpSize.y / pixelPerUnit))*(1f/cardFocusedScale.x);
-		nextLevelPopUpScale = new Vector3 (nextLevelPopUpYScale, nextLevelPopUpYScale, nextLevelPopUpYScale);
-
 		packWorldSize.x = blockWidth - 2f * 0.3f;
 		packWorldSize.y = 2.5f;
 		packScale.x = packWorldSize.x/(packSize.x / ApplicationDesignRules.pixelPerUnit);
@@ -344,5 +357,60 @@ public class ApplicationDesignRules : MonoBehaviour
 	static public Vector2 getCardOriginalSize()
 	{
 		return cardSize;
+	}
+	static public string priceToString(int price)
+	{
+		int divisionRest;
+		int unitNumber;
+		string priceToString;
+		if(price>1000000)
+		{
+			divisionRest=price%1000000;
+			unitNumber = (price-divisionRest)/1000000;
+			priceToString=unitNumber.ToString();
+			if(divisionRest>0 && unitNumber<100)
+			{
+				priceToString=priceToString+".";
+				for(int i=0;i<3-unitNumber.ToString().Length;i++)
+				{
+					if(divisionRest.ToString().Substring(i,1)!="0")
+					{
+						priceToString=priceToString+divisionRest.ToString().Substring(i,1);
+					}
+					else
+					{
+						break;
+					}
+				}
+			}
+			priceToString=priceToString+" M";
+		}
+		else if(price>1000)
+		{
+			divisionRest=price%1000;
+			unitNumber = (price-divisionRest)/1000;
+			priceToString=unitNumber.ToString();
+			if(divisionRest>0 && unitNumber<100)
+			{
+				priceToString=priceToString+".";
+				for(int i=0;i<3-unitNumber.ToString().Length;i++)
+				{
+					if(divisionRest.ToString().Substring(i,1)!="0")
+					{
+						priceToString=priceToString+divisionRest.ToString().Substring(i,1);
+					}
+					else
+					{
+						break;
+					}
+				}
+			}
+			priceToString=priceToString+" k";
+		}
+		else
+		{
+			priceToString=price.ToString();
+		}
+		return priceToString;
 	}
 }

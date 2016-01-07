@@ -217,7 +217,8 @@ public class NewCardController : NewFocusedCardController
 
 	public int skillHovered()
 	{
-		Vector3 cursorPosition = Camera.main.ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, Input.mousePosition.z));
+		Vector3 cursorPosition = this.getCurrentCamera().ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, Input.mousePosition.z));
+
 		if(cursorPosition.x>this.gameObject.transform.position.x-(0.45f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.x) && 
 		   cursorPosition.x<this.gameObject.transform.position.x+(0.45f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.x))
 		{
@@ -314,6 +315,10 @@ public class NewCardController : NewFocusedCardController
 	public virtual Sprite getSkillSprite(int id)
 	{
 		return this.cardRessources.skills [id];
+	}
+	public virtual Camera getCurrentCamera()
+	{
+		return new Camera();
 	}
 }
 

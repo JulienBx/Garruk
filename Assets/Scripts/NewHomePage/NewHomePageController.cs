@@ -117,6 +117,13 @@ public class NewHomePageController : MonoBehaviour
 		this.sliderTimer += Time.deltaTime;
 		this.notificationsTimer += Time.deltaTime;
 
+		if (Input.touchCount == 1 && this.isSceneLoaded) 
+		{
+			if(Mathf.Abs(Input.touches[0].deltaPosition.y)>1f && Mathf.Abs(Input.touches[0].deltaPosition.y)>Mathf.Abs(Input.touches[0].deltaPosition.x))
+			{
+				this.isLeftClicked=false;
+			}
+		}
 		if (notificationsTimer > refreshInterval && this.isSceneLoaded) 
 		{
 			StartCoroutine(this.refreshNonReadsNotifications());
@@ -167,7 +174,7 @@ public class NewHomePageController : MonoBehaviour
 			}
 			this.money=ApplicationModel.credits;
 		}
-		if(ApplicationDesignRules.isMobileScreen && this.isSceneLoaded && !this.isCardFocusedDisplayed)
+		if(ApplicationDesignRules.isMobileScreen && this.isSceneLoaded && !this.isCardFocusedDisplayed && !this.isLeftClicked && !this.isDragging)
 		{
 			isScrolling = this.scrollCamera.GetComponent<ScrollingController>().ScrollController();
 		}
@@ -473,18 +480,6 @@ public class NewHomePageController : MonoBehaviour
 	}
 	public void resize()
 	{
-		this.mainCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
-		this.mainCamera.transform.position = ApplicationDesignRules.mainCameraPosition;
-
-		this.sceneCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
-		this.sceneCamera.transform.position = ApplicationDesignRules.sceneCameraStandardPosition;
-
-		this.tutorialCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
-		this.tutorialCamera.transform.position = ApplicationDesignRules.tutorialCameraPositiion;
-
-		this.backgroundCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.backgroundCameraSize;
-		this.backgroundCamera.transform.position = ApplicationDesignRules.backgroundCameraPosition;
-
 		float playBlockLeftMargin;
 		float playBlockUpMargin;
 		float playBlockHeight;
@@ -506,15 +501,16 @@ public class NewHomePageController : MonoBehaviour
 		storeBlockHeight=ApplicationDesignRules.smallBlockHeight;
 		newsfeedBlockHeight=ApplicationDesignRules.mediumBlockHeight-ApplicationDesignRules.tabWorldSize.y;
 
+		this.mainCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
+		this.mainCamera.transform.position = ApplicationDesignRules.mainCameraPosition;
+		this.sceneCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
+		this.tutorialCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
+		this.tutorialCamera.transform.position = ApplicationDesignRules.tutorialCameraPositiion;
+		this.backgroundCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.backgroundCameraSize;
+		this.backgroundCamera.transform.position = ApplicationDesignRules.backgroundCameraPosition;
+
 		if(ApplicationDesignRules.isMobileScreen)
 		{
-			this.scrollCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
-			this.scrollCamera.transform.position = ApplicationDesignRules.scrollCameraStartPosition;
-			this.scrollCamera.GetComponent<ScrollingController> ().setViewHeight(ApplicationDesignRules.viewHeight);
-			this.scrollCamera.GetComponent<ScrollingController> ().setContentHeight(playBlockHeight + deckBlockHeight + storeBlockHeight + newsfeedBlockHeight + 3f * ApplicationDesignRules.gapBetweenBlocks + ApplicationDesignRules.tabWorldSize.y);
-			this.scrollCamera.GetComponent<ScrollingController> ().setStartPositionY (ApplicationDesignRules.scrollCameraStartPosition.y);
-			this.scrollCamera.GetComponent<ScrollingController> ().setEndPositionY();
-
 			playBlockLeftMargin=ApplicationDesignRules.leftMargin;
 			playBlockUpMargin=0f;
 
@@ -527,23 +523,28 @@ public class NewHomePageController : MonoBehaviour
 			newsfeedBlockLeftMargin=ApplicationDesignRules.leftMargin;
 			newsfeedBlockUpMargin=storeBlockUpMargin+storeBlockHeight+ApplicationDesignRules.gapBetweenBlocks+ApplicationDesignRules.tabWorldSize.y;
 
+			this.scrollCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
+			this.scrollCamera.transform.position = ApplicationDesignRules.scrollCameraStartPosition;
+			this.scrollCamera.GetComponent<ScrollingController> ().setViewHeight(ApplicationDesignRules.viewHeight);
+			this.scrollCamera.GetComponent<ScrollingController> ().setContentHeight(playBlockHeight + deckBlockHeight + storeBlockHeight + newsfeedBlockHeight + 3f * ApplicationDesignRules.gapBetweenBlocks + ApplicationDesignRules.tabWorldSize.y);
+			this.scrollCamera.GetComponent<ScrollingController> ().setStartPositionY (ApplicationDesignRules.scrollCameraStartPosition.y);
+			this.scrollCamera.GetComponent<ScrollingController> ().setEndPositionY();
+
 			if(isCardFocusedDisplayed)
 			{
 				this.scrollCamera.SetActive(false);
 				this.sceneCamera.SetActive(true);
+				this.sceneCamera.transform.position = ApplicationDesignRules.sceneCameraFocusedCardPosition;
 			}
 			else
 			{
 				this.scrollCamera.SetActive(true);
 				this.sceneCamera.SetActive(false);
+				this.sceneCamera.transform.position = ApplicationDesignRules.sceneCameraStandardPosition;
 			}
-
 		}
 		else
 		{
-			this.sceneCamera.SetActive(true);
-			this.scrollCamera.SetActive(false);
-
 			deckBlockLeftMargin=ApplicationDesignRules.leftMargin;
 			deckBlockUpMargin=ApplicationDesignRules.upMargin;
 
@@ -556,6 +557,17 @@ public class NewHomePageController : MonoBehaviour
 			storeBlockLeftMargin=ApplicationDesignRules.leftMargin+ApplicationDesignRules.gapBetweenBlocks+ApplicationDesignRules.blockWidth;
 			storeBlockUpMargin=newsfeedBlockUpMargin+ApplicationDesignRules.gapBetweenBlocks+newsfeedBlockHeight;
 
+			this.sceneCamera.SetActive(true);
+			this.scrollCamera.SetActive(false);
+
+			if(isCardFocusedDisplayed)
+			{
+				this.sceneCamera.transform.position = ApplicationDesignRules.sceneCameraFocusedCardPosition;
+			}
+			else
+			{
+				this.sceneCamera.transform.position = ApplicationDesignRules.sceneCameraStandardPosition;
+			}
 		}
 
 		this.centralWindow = new Rect (ApplicationDesignRules.widthScreen * 0.25f, 0.12f * ApplicationDesignRules.heightScreen, ApplicationDesignRules.widthScreen * 0.50f, 0.25f * ApplicationDesignRules.heightScreen);
@@ -695,6 +707,7 @@ public class NewHomePageController : MonoBehaviour
 
 		this.focusedCard.transform.localScale = ApplicationDesignRules.cardFocusedScale;
 		this.focusedCard.transform.position = ApplicationDesignRules.focusedCardPosition;
+		this.focusedCard.GetComponent<NewFocusedCardHomePageController> ().resize ();
 		this.focusedCard.transform.GetComponent<NewFocusedCardController> ().setCentralWindow (this.centralWindow);
 
 		TutorialObjectController.instance.resize();
@@ -806,10 +819,7 @@ public class NewHomePageController : MonoBehaviour
 				this.scrollCamera.SetActive(true);
 				this.sceneCamera.SetActive(false);
 			}
-			else
-			{
-				this.sceneCamera.transform.position=ApplicationDesignRules.sceneCameraStandardPosition;
-			}
+			this.sceneCamera.transform.position=ApplicationDesignRules.sceneCameraStandardPosition;
 		}
 		else
 		{
@@ -993,10 +1003,10 @@ public class NewHomePageController : MonoBehaviour
 		{
 			this.cardsHalos[i].GetComponent<SpriteRenderer>().color=ApplicationDesignRules.whiteSpriteColor;
 		}
-		Vector3 cursorPosition = Camera.main.ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, Input.mousePosition.z));
+		Vector3 cursorPosition = this.sceneCamera.GetComponent<Camera>().ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, Input.mousePosition.z));
 		for(int i=0;i<deckCardsArea.Length;i++)
 		{
-			if(this.deckCardsArea[i].Contains(Camera.main.ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, Input.mousePosition.z))))
+			if(this.deckCardsArea[i].Contains(cursorPosition))
 			{
 				this.moveToDeckCards(i);
 				break;
@@ -1007,8 +1017,8 @@ public class NewHomePageController : MonoBehaviour
 	{
 		if(isDragging)
 		{
-			Vector3 mousePosition = Camera.main.ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, Input.mousePosition.z));
-			this.deckCards[this.idCardClicked].transform.position=new Vector3(mousePosition.x,mousePosition.y,0f);
+			Vector3 mousePosition = this.sceneCamera.GetComponent<Camera>().ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, Input.mousePosition.z));
+			this.deckCards[this.idCardClicked].transform.position=new Vector3(mousePosition.x+ApplicationDesignRules.menuPosition.x,mousePosition.y+ApplicationDesignRules.menuPosition.y,0f);
 			bool isHoveringDeckCards=false;
 			for(int i=0;i<deckCardsArea.Length;i++)
 			{
@@ -1562,6 +1572,18 @@ public class NewHomePageController : MonoBehaviour
 		}
 		MenuController.instance.hideLoadingScreen ();
 	}
+	public Camera returnCurrentCamera()
+	{
+		if(!ApplicationDesignRules.isMobileScreen)
+		{
+			return this.sceneCamera.GetComponent<Camera>();
+		}
+		else
+		{
+			return this.scrollCamera.GetComponent<Camera>();
+		}
+	}
+
 
 	#region TUTORIAL FUNCTIONS
 

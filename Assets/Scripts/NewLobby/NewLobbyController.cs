@@ -34,7 +34,8 @@ public class NewLobbyController : MonoBehaviour
 	private GameObject cupProgression;
 	private GameObject paginationButtons;
 	private GameObject mainCamera;
-	private GameObject menuCamera;
+	private GameObject scrollCamera;
+	private GameObject sceneCamera;
 	private GameObject tutorialCamera;
 	private GameObject backgroundCamera;
 	
@@ -69,7 +70,7 @@ public class NewLobbyController : MonoBehaviour
 		}
 		if(ApplicationDesignRules.isMobileScreen && this.isSceneLoaded)
 		{
-			isScrolling = this.mainCamera.GetComponent<ScrollingController>().ScrollController();
+			isScrolling = this.scrollCamera.GetComponent<ScrollingController>().ScrollController();
 		}
 	}
 	void Awake()
@@ -243,18 +244,14 @@ public class NewLobbyController : MonoBehaviour
 		}
 
 		this.mainCamera = gameObject;
-		this.mainCamera.AddComponent<ScrollingController> ();
-		this.menuCamera = GameObject.Find ("MenuCamera");
+		this.scrollCamera = GameObject.Find ("ScrollCamera");
+		this.scrollCamera.AddComponent<ScrollingController> ();
+		this.sceneCamera = GameObject.Find ("sceneCamera");
 		this.tutorialCamera = GameObject.Find ("TutorialCamera");
 		this.backgroundCamera = GameObject.Find ("BackgroundCamera");
 	}
 	public void resize()
 	{
-		this.mainCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
-		this.menuCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
-		this.tutorialCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
-		this.backgroundCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.backgroundCameraSize;
-
 		float mainBlockLeftMargin;
 		float mainBlockUpMargin;
 		float mainBlockHeight;
@@ -275,6 +272,15 @@ public class NewLobbyController : MonoBehaviour
 		statsBlockHeight=ApplicationDesignRules.smallBlockHeight;
 		lastResultsBlockHeight=ApplicationDesignRules.mediumBlockHeight;
 		competitionBlockHeight=ApplicationDesignRules.smallBlockHeight;
+
+		this.mainCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
+		this.mainCamera.transform.position = ApplicationDesignRules.mainCameraPosition;
+		this.sceneCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
+		this.sceneCamera.transform.position = ApplicationDesignRules.sceneCameraStandardPosition;
+		this.tutorialCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
+		this.tutorialCamera.transform.position = ApplicationDesignRules.tutorialCameraPositiion;
+		this.backgroundCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.backgroundCameraSize;
+		this.backgroundCamera.transform.position = ApplicationDesignRules.backgroundCameraPosition;
 		
 		if(ApplicationDesignRules.isMobileScreen)
 		{
@@ -289,6 +295,16 @@ public class NewLobbyController : MonoBehaviour
 			
 			competitionBlockLeftMargin=ApplicationDesignRules.leftMargin;
 			competitionBlockUpMargin=lastResultsBlockUpMargin+lastResultsBlockHeight;
+
+			this.scrollCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
+			this.scrollCamera.transform.position = ApplicationDesignRules.scrollCameraStartPosition;
+			this.scrollCamera.GetComponent<ScrollingController> ().setViewHeight(ApplicationDesignRules.viewHeight);
+			this.scrollCamera.GetComponent<ScrollingController> ().setContentHeight(mainBlockHeight + statsBlockHeight + lastResultsBlockHeight + competitionBlockHeight + 3f * ApplicationDesignRules.gapBetweenBlocks);
+			this.scrollCamera.GetComponent<ScrollingController> ().setStartPositionY (ApplicationDesignRules.scrollCameraStartPosition.y);
+			this.scrollCamera.GetComponent<ScrollingController> ().setEndPositionY();
+			
+			this.scrollCamera.SetActive(true);
+			this.sceneCamera.SetActive(false);
 		}
 		else
 		{
@@ -303,13 +319,10 @@ public class NewLobbyController : MonoBehaviour
 			
 			competitionBlockLeftMargin=ApplicationDesignRules.leftMargin+ApplicationDesignRules.gapBetweenBlocks+ApplicationDesignRules.blockWidth;
 			competitionBlockUpMargin=lastResultsBlockUpMargin+ApplicationDesignRules.gapBetweenBlocks+lastResultsBlockHeight;
-		}
 
-		this.mainCamera.GetComponent<ScrollingController> ().setViewHeight(ApplicationDesignRules.viewHeight);
-		this.mainCamera.GetComponent<ScrollingController> ().setContentHeight(mainBlockHeight + statsBlockHeight + lastResultsBlockHeight + competitionBlockHeight + 3f * ApplicationDesignRules.gapBetweenBlocks);
-		//this.mainCamera.transform.position = ApplicationDesignRules.mainCameraStartPosition;
-		//this.mainCamera.GetComponent<ScrollingController> ().setStartPositionY (ApplicationDesignRules.mainCameraStartPosition.y);
-		this.mainCamera.GetComponent<ScrollingController> ().setEndPositionY ();
+			this.scrollCamera.SetActive(false);
+			this.sceneCamera.SetActive(true);
+		}
 
 		this.mainBlock.GetComponent<NewBlockController> ().resize(mainBlockLeftMargin,mainBlockUpMargin,ApplicationDesignRules.blockWidth,mainBlockHeight);
 		Vector3 mainBlockUpperLeftPosition = this.mainBlock.GetComponent<NewBlockController> ().getUpperLeftCornerPosition ();
@@ -327,7 +340,6 @@ public class NewLobbyController : MonoBehaviour
 
 		this.playButton.transform.localScale = ApplicationDesignRules.button62Scale;
 		this.playButton.transform.position = new Vector3 (mainBlockUpperRightPosition.x -0.3f-ApplicationDesignRules.button62WorldSize.x/2f, mainBlockUpperLeftPosition.y - 0.3f - ApplicationDesignRules.button62WorldSize.y/2f, 0f);
-
 
 		this.competitionBlock.GetComponent<NewBlockController> ().resize(competitionBlockLeftMargin,competitionBlockUpMargin,ApplicationDesignRules.blockWidth,competitionBlockHeight);
 		Vector3 competitionBlockUpperLeftPosition = this.competitionBlock.GetComponent<NewBlockController> ().getUpperLeftCornerPosition ();

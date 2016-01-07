@@ -53,7 +53,8 @@ public class NewProfileController : MonoBehaviour
 	private GameObject searchUsersPopUp;
 
 	private GameObject mainCamera;
-	private GameObject menuCamera;
+	private GameObject sceneCamera;
+	private GameObject scrollCamera;
 	private GameObject tutorialCamera;
 	private GameObject backgroundCamera;
 
@@ -157,7 +158,7 @@ public class NewProfileController : MonoBehaviour
 		}
 		if(ApplicationDesignRules.isMobileScreen && this.isSceneLoaded)
 		{
-			isScrolling = this.mainCamera.GetComponent<ScrollingController>().ScrollController();
+			isScrolling = this.scrollCamera.GetComponent<ScrollingController>().ScrollController();
 		}
 	}
 	void Awake()
@@ -569,18 +570,14 @@ public class NewProfileController : MonoBehaviour
 		this.selectPicturePopUp = GameObject.Find ("profilePicturesPopUp");
 		this.selectPicturePopUp.SetActive (false);
 		this.mainCamera = gameObject;
-		this.mainCamera.AddComponent<ScrollingController> ();
-		this.menuCamera = GameObject.Find ("MenuCamera");
+		this.scrollCamera = GameObject.Find ("ScrollCamera");
+		this.scrollCamera.AddComponent<ScrollingController> ();
+		this.sceneCamera = GameObject.Find ("sceneCamera");
 		this.tutorialCamera = GameObject.Find ("TutorialCamera");
 		this.backgroundCamera = GameObject.Find ("BackgroundCamera");
 	}
 	public void resize()
 	{
-		this.mainCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
-		this.menuCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
-		this.tutorialCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
-		this.backgroundCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.backgroundCameraSize;
-
 		float profileBlockLeftMargin;
 		float profileBlockUpMargin;
 		float profileBlockHeight;
@@ -601,6 +598,15 @@ public class NewProfileController : MonoBehaviour
 		searchBlockHeight=ApplicationDesignRules.smallBlockHeight;
 		friendsBlockHeight=ApplicationDesignRules.mediumBlockHeight-ApplicationDesignRules.tabWorldSize.y;
 		resultsBlockHeight=ApplicationDesignRules.smallBlockHeight-ApplicationDesignRules.tabWorldSize.y;
+
+		this.mainCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
+		this.mainCamera.transform.position = ApplicationDesignRules.mainCameraPosition;
+		this.sceneCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
+		this.sceneCamera.transform.position = ApplicationDesignRules.sceneCameraStandardPosition;
+		this.tutorialCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
+		this.tutorialCamera.transform.position = ApplicationDesignRules.tutorialCameraPositiion;
+		this.backgroundCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.backgroundCameraSize;
+		this.backgroundCamera.transform.position = ApplicationDesignRules.backgroundCameraPosition;
 		
 		if(ApplicationDesignRules.isMobileScreen)
 		{
@@ -615,6 +621,16 @@ public class NewProfileController : MonoBehaviour
 			
 			resultsBlockLeftMargin=ApplicationDesignRules.leftMargin;
 			resultsBlockUpMargin=friendsBlockUpMargin+ApplicationDesignRules.gapBetweenBlocks+friendsBlockHeight+ApplicationDesignRules.tabWorldSize.y;
+
+			this.scrollCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
+			this.scrollCamera.transform.position = ApplicationDesignRules.scrollCameraStartPosition;
+			this.scrollCamera.GetComponent<ScrollingController> ().setViewHeight(ApplicationDesignRules.viewHeight);
+			this.scrollCamera.GetComponent<ScrollingController> ().setContentHeight(profileBlockHeight + searchBlockHeight + friendsBlockHeight + resultsBlockHeight + 3f * ApplicationDesignRules.gapBetweenBlocks + 2f*ApplicationDesignRules.tabWorldSize.y);
+			this.scrollCamera.GetComponent<ScrollingController> ().setStartPositionY (ApplicationDesignRules.scrollCameraStartPosition.y);
+			this.scrollCamera.GetComponent<ScrollingController> ().setEndPositionY();
+			
+			this.scrollCamera.SetActive(true);
+			this.sceneCamera.SetActive(false);
 		}
 		else
 		{
@@ -629,13 +645,10 @@ public class NewProfileController : MonoBehaviour
 			
 			resultsBlockLeftMargin=ApplicationDesignRules.leftMargin+ApplicationDesignRules.gapBetweenBlocks+ApplicationDesignRules.blockWidth;
 			resultsBlockUpMargin=friendsBlockUpMargin+ApplicationDesignRules.gapBetweenBlocks+friendsBlockHeight+ApplicationDesignRules.tabWorldSize.y;
-		}
 
-		this.mainCamera.GetComponent<ScrollingController> ().setViewHeight(ApplicationDesignRules.viewHeight);
-		this.mainCamera.GetComponent<ScrollingController> ().setContentHeight(profileBlockHeight + searchBlockHeight + friendsBlockHeight + resultsBlockHeight + 3f * ApplicationDesignRules.gapBetweenBlocks + 2f*ApplicationDesignRules.tabWorldSize.y);
-		//this.mainCamera.transform.position = ApplicationDesignRules.mainCameraStartPosition;
-		//this.mainCamera.GetComponent<ScrollingController> ().setStartPositionY (ApplicationDesignRules.mainCameraStartPosition.y);
-		this.mainCamera.GetComponent<ScrollingController> ().setEndPositionY();
+			this.scrollCamera.SetActive(false);
+			this.sceneCamera.SetActive(true);
+		}
 
 		this.centralWindow = new Rect (ApplicationDesignRules.widthScreen * 0.25f, 0.12f * ApplicationDesignRules.heightScreen,ApplicationDesignRules.widthScreen * 0.50f, 0.40f * ApplicationDesignRules.heightScreen);
 		this.centralWindowEditInformations=new Rect(ApplicationDesignRules.widthScreen * 0.25f, 0.12f * ApplicationDesignRules.heightScreen,ApplicationDesignRules.widthScreen * 0.50f, 0.50f * ApplicationDesignRules.heightScreen);

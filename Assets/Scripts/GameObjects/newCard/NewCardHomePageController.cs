@@ -43,5 +43,9 @@ public class NewCardHomePageController : NewCardController
 	{
 		base.show ();
 	}
+	public override Camera getCurrentCamera()
+	{
+		return NewHomePageController.instance.returnCurrentCamera ();
+	}
 }
 

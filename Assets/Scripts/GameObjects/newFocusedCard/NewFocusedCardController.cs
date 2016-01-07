@@ -1275,7 +1275,6 @@ public class NewFocusedCardController : MonoBehaviour
 		this.isNextLevelPopUpDisplayed=true;
 		this.nextLevelPopUp = Instantiate(ressources.nextLevelPopUpObject) as GameObject;
 		this.nextLevelPopUp.transform.parent=this.gameObject.transform;
-		this.nextLevelPopUp.transform.position = new Vector3(ApplicationDesignRules.menuPosition.x+this.face.transform.position.x,ApplicationDesignRules.menuPosition.y+this.face.transform.position.y,-2f);
 		this.nextLevelPopUp.AddComponent<NextLevelPopUpControllerNewFocusedCard> ();
 		this.nextLevelPopUp.transform.GetComponent<NextLevelPopUpController> ().initialize (this.c);
 	}
@@ -1295,7 +1294,25 @@ public class NewFocusedCardController : MonoBehaviour
 		this.isSkillPopUpDisplayed = true;
 		this.skillPopUp.transform.FindChild ("title").GetComponent<TextMeshPro> ().text = this.c.Skills [id].SkillType.Name;
 		this.skillPopUp.transform.FindChild ("description").GetComponent<TextMeshPro> ().text = this.c.Skills [id].SkillType.Description;
-		this.skillPopUp.transform.position = new Vector3 (this.skills[id].transform.FindChild ("SkillType").position.x, this.skills[id].transform.FindChild ("SkillType").position.y-System.Convert.ToInt32(id==0)*1f+System.Convert.ToInt32(id>0)*1f, 0f);
+
+		float skillTypePopUpWorldSize=0f;
+		float skillTypePopUpXPosition=0f;
+
+		skillTypePopUpWorldSize=this.skillPopUp.GetComponent<SpriteRenderer>().bounds.size.x;
+		
+		if(this.skills[id].transform.FindChild ("SkillType").position.x-skillTypePopUpWorldSize/2f<-ApplicationDesignRules.worldWidth/2f)
+		{
+			skillTypePopUpXPosition=this.skills[id].transform.FindChild ("SkillType").position.x-(this.skills[id].transform.FindChild ("SkillType").position.x-skillTypePopUpWorldSize/2f+ApplicationDesignRules.worldWidth/2f);
+		}
+		else if(this.skills[id].transform.FindChild ("SkillType").position.x+skillTypePopUpWorldSize/2f>ApplicationDesignRules.worldWidth/2f)
+		{
+			skillTypePopUpXPosition=this.skills[id].transform.FindChild ("SkillType").position.x-(this.skills[id].transform.FindChild ("SkillType").position.x+skillTypePopUpWorldSize/2f-ApplicationDesignRules.worldWidth/2f);
+		}
+		else
+		{
+			skillTypePopUpXPosition=this.skills[id].transform.FindChild ("SkillType").position.x;
+		}
+		this.skillPopUp.transform.position = new Vector3 (skillTypePopUpXPosition, this.skills[id].transform.FindChild ("SkillType").position.y-System.Convert.ToInt32(id==0)*1f+System.Convert.ToInt32(id>0)*1f, 0f);
 	}
 	public void hideSkillPopUp()
 	{
@@ -1308,6 +1325,32 @@ public class NewFocusedCardController : MonoBehaviour
 		this.isSkillPopUpDisplayed = true;
 		this.skillPopUp.transform.FindChild ("title").GetComponent<TextMeshPro> ().text = "Probabilité de succès";
 		this.skillPopUp.transform.FindChild ("description").GetComponent<TextMeshPro> ().text = "Cette compétence a un taux de réussite de : "+this.c.Skills[id].proba+" %.";
-		this.skillPopUp.transform.position = new Vector3 (this.skills[id].transform.FindChild ("Proba").position.x, this.skills[id].transform.FindChild ("Proba").position.y+1f, 0f);
+
+		float skillProbaPopUpWorldSize=0f;
+		float skillProbaPopUpXPosition=0f;
+		
+		skillProbaPopUpWorldSize=this.skillPopUp.GetComponent<SpriteRenderer>().bounds.size.x;
+		
+		if(this.skills[id].transform.FindChild ("Proba").position.x-skillProbaPopUpWorldSize/2f<-ApplicationDesignRules.worldWidth/2f)
+		{
+			skillProbaPopUpXPosition=this.skills[id].transform.FindChild ("Proba").position.x-(this.skills[id].transform.FindChild ("Proba").position.x-skillProbaPopUpWorldSize/2f+ApplicationDesignRules.worldWidth/2f);
+		}
+		else if(this.skills[id].transform.FindChild ("Proba").position.x+skillProbaPopUpWorldSize/2f>ApplicationDesignRules.worldWidth/2f)
+		{
+			skillProbaPopUpXPosition=this.skills[id].transform.FindChild ("Proba").position.x-(this.skills[id].transform.FindChild ("Proba").position.x+skillProbaPopUpWorldSize/2f-ApplicationDesignRules.worldWidth/2f);
+		}
+		else
+		{
+			skillProbaPopUpXPosition=this.skills[id].transform.FindChild ("Proba").position.x;
+		}
+		this.skillPopUp.transform.position = new Vector3 (skillProbaPopUpXPosition, this.skills[id].transform.FindChild ("Proba").position.y+1f, 0f);
+	}
+	public Sprite returnFocusFeaturePicto (int id)
+	{
+		return this.ressources.focusPictos[id];
+	}
+	public Vector3 returnFacePosition()
+	{
+		return this.face.transform.position;
 	}
 }

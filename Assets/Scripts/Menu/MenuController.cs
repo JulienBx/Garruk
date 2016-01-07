@@ -188,7 +188,7 @@ public class MenuController : MonoBehaviour
 		{
 			this.isTransparentBackgroundDisplayed = true;
 			this.transparentBackground=Instantiate(this.ressources.transparentBackgroundObject) as GameObject;
-			this.transparentBackground.transform.position = new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y, -1f);
+			this.transparentBackgroundResize();
 		}
 	}
 	public void displayInvitationPopUp()
@@ -203,6 +203,11 @@ public class MenuController : MonoBehaviour
 	{
 		errorView.popUpVM.centralWindow = this.centralWindow;
 		errorView.popUpVM.resize ();
+	}
+	public void transparentBackgroundResize()
+	{
+		this.transparentBackground.transform.localScale=ApplicationDesignRules.transparentBackgroundScale;
+		this.transparentBackground.transform.position = new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y, -1f);
 	}
 	private void collectionPointsPopUpResize()
 	{
@@ -459,6 +464,15 @@ public class MenuController : MonoBehaviour
 			userBlockPosition.y = gameObject.transform.FindChild("TopBar").position.y+0.05f;
 		}
 		gameObject.transform.FindChild ("UserBlock").transform.position = userBlockPosition;
+
+		if(this.isTransparentBackgroundDisplayed)
+		{
+			this.transparentBackgroundResize();
+		}
+		if(this.errorViewDisplayed)
+		{
+			this.errorPopUpResize();
+		}
 
 	}
 	public void refreshMenuObject()
