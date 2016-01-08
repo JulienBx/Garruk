@@ -71,6 +71,11 @@ public class NewLobbyController : MonoBehaviour
 		if(ApplicationDesignRules.isMobileScreen && this.isSceneLoaded)
 		{
 			isScrolling = this.scrollCamera.GetComponent<ScrollingController>().ScrollController();
+			if(this.isDivisionLobby && isScrolling)
+			{
+				float currentRatio = this.divisionProgression.GetComponent<DivisionProgressionController>().getCurrentRatio();
+				this.divisionProgression.GetComponent<DivisionProgressionController>().setGaugeCamera(currentRatio);
+			}
 		}
 	}
 	void Awake()
@@ -694,7 +699,14 @@ public class NewLobbyController : MonoBehaviour
 	{
 		this.mainBlockSubTitle.GetComponent<TextMeshPro> ().text = s.ToUpper();
 	}
-
+	public float getScrollCameraDelta()
+	{
+		return this.scrollCamera.GetComponent<ScrollingController>().getStartPositionY()-this.scrollCamera.transform.position.y;
+	}
+	public float getScrollCameraInitialPosition()
+	{
+		return this.scrollCamera.GetComponent<ScrollingController>().getStartPositionY();
+	}
 	#region TUTORIAL FUNCTIONS
 	
 	public Vector3 getMainBlockOrigin()

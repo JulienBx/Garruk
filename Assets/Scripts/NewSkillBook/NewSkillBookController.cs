@@ -52,6 +52,11 @@ public class NewSkillBookController : MonoBehaviour
 	private GameObject sceneCamera;
 	private GameObject tutorialCamera;
 	private GameObject backgroundCamera;
+
+	private GameObject informationButton;
+	private GameObject filterButton;
+	private GameObject slideRightButton;
+	private GameObject slideLeftButton;
 	
 	private IList<int> skillsDisplayed;
 	private IList<int> skillsToBeDisplayed;
@@ -104,54 +109,14 @@ public class NewSkillBookController : MonoBehaviour
 			{
 				if(this.helpContentDisplayed || this.mainContentDisplayed || this.toSlideLeft)
 				{
-					if(this.mainContentDisplayed)
-					{
-						this.lowerScrollCamera.GetComponent<ScrollingController>().reset();
-						this.mainContentDisplayed=false;
-						this.targetContentPositionX=this.filtersPositionX;
-					}
-					else if(this.helpContentDisplayed)
-					{
-						this.helpContentDisplayed=false;
-						this.targetContentPositionX=this.mainContentPositionX;
-					}
-					else if(this.targetContentPositionX==mainContentPositionX)
-					{
-						this.targetContentPositionX=this.filtersPositionX;
-					}
-					else if(this.targetContentPositionX==helpContentPositionX)
-					{
-						this.targetContentPositionX=this.mainContentPositionX;
-					}
-					this.toSlideRight=true;
-					this.toSlideLeft=false;
+					slideRight();
 				}
 			}
 			else if(Input.touches[0].deltaPosition.x>15f && Mathf.Abs(Input.touches[0].deltaPosition.y)<Mathf.Abs(Input.touches[0].deltaPosition.x))
 			{
 				if(this.mainContentDisplayed || this.filtersDisplayed || this.toSlideRight)
 				{
-					if(this.mainContentDisplayed)
-					{
-						this.lowerScrollCamera.GetComponent<ScrollingController>().reset();
-						this.mainContentDisplayed=false;
-						this.targetContentPositionX=this.helpContentPositionX;
-					}
-					else if(this.filtersDisplayed)
-					{
-						this.filtersDisplayed=false;
-						this.targetContentPositionX=this.mainContentPositionX;
-					}
-					else if(this.targetContentPositionX==mainContentPositionX)
-					{
-						this.targetContentPositionX=this.helpContentPositionX;
-					}
-					else if(this.targetContentPositionX==filtersPositionX)
-					{
-						this.targetContentPositionX=this.mainContentPositionX;
-					}
-					this.toSlideRight=false;
-					this.toSlideLeft=true;
+					slideLeft();
 				}
 			}
 		}
@@ -595,6 +560,14 @@ public class NewSkillBookController : MonoBehaviour
 		this.upperScrollCamera = GameObject.Find ("UpperScrollCamera");
 		this.tutorialCamera = GameObject.Find ("TutorialCamera");
 		this.backgroundCamera = GameObject.Find ("BackgroundCamera");
+		this.filterButton = GameObject.Find ("FilterButton");
+		this.filterButton.AddComponent<NewSkillBookFilterButtonController> ();
+		this.informationButton = GameObject.Find ("InformationButton");
+		this.informationButton.AddComponent<NewSkillBookInformationButtonController> ();
+		this.slideLeftButton = GameObject.Find ("SlideLeftButton");
+		this.slideLeftButton.AddComponent<NewSkillBookSlideLeftButtonController> ();
+		this.slideRightButton = GameObject.Find ("SlideRightButton");
+		this.slideRightButton.AddComponent<NewSkillBookSlideRightButtonController> ();
 	}
 	public void resize()
 	{
@@ -609,9 +582,6 @@ public class NewSkillBookController : MonoBehaviour
 		float filtersBlockLeftMargin;
 		float filtersBlockUpMargin;
 		float filtersBlockHeight;
-		
-		helpBlockHeight=ApplicationDesignRules.mediumBlockHeight-ApplicationDesignRules.tabWorldSize.y;
-		filtersBlockHeight=ApplicationDesignRules.smallBlockHeight;
 
 		this.mainCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
 		this.mainCamera.transform.position = ApplicationDesignRules.mainCameraPosition;
@@ -630,14 +600,28 @@ public class NewSkillBookController : MonoBehaviour
 			this.skillsPagination.nbElementsPerPage = 50;
 			skillsBlockHeight=2.1f+this.skillsPagination.nbElementsPerPage*(ApplicationDesignRules.skillWorldSize.y+ApplicationDesignRules.gapBetweenSkillsLine);
 
+			helpBlockHeight=ApplicationDesignRules.viewHeight-ApplicationDesignRules.tabWorldSize.y;
 			helpBlockLeftMargin=-ApplicationDesignRules.worldWidth;
 			helpBlockUpMargin=0f+ApplicationDesignRules.tabWorldSize.y;
 			
 			skillsBlockLeftMargin=ApplicationDesignRules.leftMargin;
 			skillsBlockUpMargin=0f;
 			
+			filtersBlockHeight=ApplicationDesignRules.viewHeight;
 			filtersBlockLeftMargin=ApplicationDesignRules.worldWidth;
 			filtersBlockUpMargin=0f;
+
+			this.skillsScrollLine.SetActive(true);
+			this.sceneCamera.SetActive(false);
+			this.lowerScrollCamera.SetActive(true);
+			this.upperScrollCamera.SetActive(true);
+			this.toSlideLeft=false;
+			this.toSlideRight=false;
+			this.mainContentDisplayed=true;
+			this.filterButton.SetActive(true);
+			this.informationButton.SetActive(true);
+			this.slideLeftButton.SetActive(true);
+			this.slideRightButton.SetActive(true);
 
 			this.upperScrollCamera.GetComponent<Camera> ().rect = new Rect (0f,(ApplicationDesignRules.worldHeight-ApplicationDesignRules.upMargin-this.scrollIntersection)/ApplicationDesignRules.worldHeight,1f,(this.scrollIntersection)/ApplicationDesignRules.worldHeight);
 			this.upperScrollCamera.GetComponent<Camera> ().orthographicSize = this.scrollIntersection/2f;
@@ -648,19 +632,16 @@ public class NewSkillBookController : MonoBehaviour
 			this.lowerScrollCamera.GetComponent<ScrollingController> ().setViewHeight(ApplicationDesignRules.viewHeight-this.scrollIntersection);
 			this.lowerScrollCamera.transform.position = new Vector3 (0f, ApplicationDesignRules.worldHeight/2f-this.scrollIntersection-(ApplicationDesignRules.viewHeight-this.scrollIntersection)/2f, -10f);
 			this.lowerScrollCamera.GetComponent<ScrollingController> ().setStartPositionY (this.lowerScrollCamera.transform.position.y);
-			
-			this.skillsScrollLine.SetActive(true);
-			this.sceneCamera.SetActive(false);
-			this.lowerScrollCamera.SetActive(true);
-			this.upperScrollCamera.SetActive(true);
 		}
 		else
 		{
 			skillsBlockHeight=ApplicationDesignRules.largeBlockHeight;
 
+			helpBlockHeight=ApplicationDesignRules.mediumBlockHeight-ApplicationDesignRules.tabWorldSize.y;
 			helpBlockLeftMargin=ApplicationDesignRules.leftMargin+ApplicationDesignRules.gapBetweenBlocks+ApplicationDesignRules.blockWidth;
 			helpBlockUpMargin=ApplicationDesignRules.upMargin+ApplicationDesignRules.tabWorldSize.y;
 			
+			filtersBlockHeight=ApplicationDesignRules.smallBlockHeight;
 			filtersBlockLeftMargin=ApplicationDesignRules.leftMargin+ApplicationDesignRules.gapBetweenBlocks+ApplicationDesignRules.blockWidth;
 			filtersBlockUpMargin=helpBlockUpMargin+ApplicationDesignRules.gapBetweenBlocks+helpBlockHeight;
 			
@@ -674,11 +655,16 @@ public class NewSkillBookController : MonoBehaviour
 			this.lowerScrollCamera.SetActive(false);
 			this.upperScrollCamera.SetActive(false);
 			this.skillsPaginationLine.SetActive(true);
+			this.filterButton.SetActive(false);
+			this.informationButton.SetActive(false);
+			this.slideLeftButton.SetActive(false);
+			this.slideRightButton.SetActive(false);
 		}
 
 		this.filtersBlock.GetComponent<NewBlockController> ().resize(filtersBlockLeftMargin,filtersBlockUpMargin,ApplicationDesignRules.blockWidth,filtersBlockHeight);
 		Vector3 filtersBlockUpperLeftPosition = this.filtersBlock.GetComponent<NewBlockController> ().getUpperLeftCornerPosition ();
 		Vector3 filtersBlockUpperRightPosition = this.filtersBlock.GetComponent<NewBlockController> ().getUpperRightCornerPosition ();
+		Vector3 filtersBlockLowerLeftPosition = this.filtersBlock.GetComponent<NewBlockController> ().getLowerLeftCornerPosition ();
 		Vector2 filtersBlockSize = this.filtersBlock.GetComponent<NewBlockController> ().getSize ();
 		Vector2 filtersBlockOrigin = this.filtersBlock.GetComponent<NewBlockController> ().getOriginPosition ();
 		
@@ -780,6 +766,13 @@ public class NewSkillBookController : MonoBehaviour
 		this.skillsNumberTitle.transform.position = new Vector3 (skillsBlockUpperLeftPosition.x + 0.3f, skillsBlockUpperLeftPosition.y - 1.2f, 0f);
 		this.skillsNumberTitle.transform.localScale = ApplicationDesignRules.subMainTitleScale;
 
+		this.filterButton.transform.localScale = ApplicationDesignRules.roundButtonScale;
+		this.filterButton.transform.position = new Vector3 (skillsBlockUpperRightPosition.x - 0.3f - ApplicationDesignRules.roundButtonWorldSize.x / 2f, skillsBlockUpperRightPosition.y-0.3f-ApplicationDesignRules.roundButtonWorldSize.y/2f, 0f);
+		
+		this.informationButton.transform.localScale = ApplicationDesignRules.roundButtonScale;
+		this.informationButton.transform.position = new Vector3 (skillsBlockUpperRightPosition.x - 0.4f - 1.5f*ApplicationDesignRules.roundButtonWorldSize.x, skillsBlockUpperRightPosition.y-0.3f-ApplicationDesignRules.roundButtonWorldSize.y/2f, 0f);
+
+
 		this.skills=new GameObject[this.skillsPagination.nbElementsPerPage];
 
 		float skillWorldWidth = skillsBlockSize.x - 0.6f;
@@ -873,9 +866,16 @@ public class NewSkillBookController : MonoBehaviour
 		this.helpContentPositionX=helpBlockOrigin.x;
 		this.filtersPositionX = filtersBlockOrigin.x;
 
+		this.slideLeftButton.transform.localScale = ApplicationDesignRules.roundButtonScale;
+		this.slideLeftButton.transform.position = new Vector3 (filtersBlockLowerLeftPosition.x + filtersBlockSize.x / 2f, filtersBlockLowerLeftPosition.y + 0.1f + ApplicationDesignRules.roundButtonWorldSize.y / 2f, 0f);
+		
+		this.slideRightButton.transform.localScale = ApplicationDesignRules.roundButtonScale;
+		this.slideRightButton.transform.position = new Vector3 (helpBlockLowerLeftPosition.x + helpBlockSize.x / 2f, helpBlockLowerLeftPosition.y + 0.1f + ApplicationDesignRules.roundButtonWorldSize.y / 2f, 0f);
+
+
 		if(ApplicationDesignRules.isMobileScreen)
 		{
-			this.skillsPaginationButtons.transform.localPosition=new Vector3(skillsBlockUpperLeftPosition.x + skillsBlockSize.x / 2, skillsBlockUpperLeftPosition.y - 1.15f, 0f);
+			this.skillsPaginationButtons.transform.localPosition=new Vector3 (skillsBlockUpperRightPosition.x - 0.3f - 3.5f*ApplicationDesignRules.roundButtonWorldSize.x, skillsBlockUpperRightPosition.y-0.3f-ApplicationDesignRules.roundButtonWorldSize.y/2f, 0f);
 		}
 		else
 		{
@@ -1256,7 +1256,55 @@ public class NewSkillBookController : MonoBehaviour
 			this.skillChoices[i].SetActive(false);
 		}
 	}
-
+	public void slideLeft()
+	{
+		if(this.mainContentDisplayed)
+		{
+			this.lowerScrollCamera.GetComponent<ScrollingController>().reset();
+			this.mainContentDisplayed=false;
+			this.targetContentPositionX=this.helpContentPositionX;
+		}
+		else if(this.filtersDisplayed)
+		{
+			this.filtersDisplayed=false;
+			this.targetContentPositionX=this.mainContentPositionX;
+		}
+		else if(this.targetContentPositionX==mainContentPositionX)
+		{
+			this.targetContentPositionX=this.helpContentPositionX;
+		}
+		else if(this.targetContentPositionX==filtersPositionX)
+		{
+			this.targetContentPositionX=this.mainContentPositionX;
+		}
+		this.toSlideRight=false;
+		this.toSlideLeft=true;
+	}
+	public void slideRight()
+	{
+		if(this.mainContentDisplayed)
+		{
+			this.lowerScrollCamera.GetComponent<ScrollingController>().reset();
+			this.mainContentDisplayed=false;
+			this.targetContentPositionX=this.filtersPositionX;
+		}
+		else if(this.helpContentDisplayed)
+		{
+			this.helpContentDisplayed=false;
+			this.targetContentPositionX=this.mainContentPositionX;
+		}
+		else if(this.targetContentPositionX==mainContentPositionX)
+		{
+			this.targetContentPositionX=this.filtersPositionX;
+		}
+		else if(this.targetContentPositionX==helpContentPositionX)
+		{
+			this.targetContentPositionX=this.mainContentPositionX;
+		}
+		this.toSlideRight=true;
+		this.toSlideLeft=false;
+	}
+	
 	#region TUTORIAL FUNCTIONS
 	
 	public Vector3 getFiltersBlockOrigin()

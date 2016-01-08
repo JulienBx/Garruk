@@ -44,6 +44,10 @@ public class ApplicationDesignRules : MonoBehaviour
 	static public Vector2 transparentBackgroundWorldSize;
 	static private Vector3 transparentBackgroundOriginalScale=new Vector3(1f,1f,1f);
 	static public Vector3 transparentBackgroundScale;
+	static private Vector2 roundButtonSize=new Vector2(122f,122f);
+	static public Vector2 roundButtonWorldSize;
+	static private Vector3 roundButtonOriginalScale=new Vector3(0.85f,0.85f,0.85f);
+	static public Vector3 roundButtonScale;
 	static private Vector2 button31Size=new Vector2(199f,81f);
 	static public Vector2 button31WorldSize;
 	static private Vector3 button31OriginalScale=new Vector3(0.6f,0.6f,0.6f);
@@ -103,6 +107,7 @@ public class ApplicationDesignRules : MonoBehaviour
 	static private Vector2 paginationButtonSize = new Vector2(125f,125f);
 	static public Vector2 paginationButtonWorldSize;
 	static private Vector3 paginationButtonOriginalScale=new Vector3(0.3f,0.3f,0.3f);
+	static private Vector3 paginationButtonMobileScale = new Vector3 (0.85f, 0.85f, 0.85f);
 	static public Vector3 paginationButtonScale;
 	static private Vector2 cardFocusedSize = new Vector3 (970f, 1060f);
 	static public Vector2 cardFocusedWorldSize;
@@ -250,7 +255,7 @@ public class ApplicationDesignRules : MonoBehaviour
 		focusedCardPosition = new Vector3 (0f, -200f - (upMargin - downMargin)/2f, 0f);
 		randomCardsPosition = new Vector3 (0f, -300f - (upMargin - downMargin) / 2f, 0f);
 		sceneCameraFocusedCardPosition = new Vector3 (0f, -200f, -10f);
-		sceneCameraRandomCardsPosition = new Vector3 (0f - 300f, -10f);
+		sceneCameraRandomCardsPosition = new Vector3 (0f, -300f, -10f);
 
 		transparentBackgroundWorldSize.y = worldHeight;
 		float backgroundTransparentScale = transparentBackgroundWorldSize.y / (transparentBackgroundSize.y / pixelPerUnit);
@@ -259,72 +264,75 @@ public class ApplicationDesignRules : MonoBehaviour
 
 		viewHeight = worldHeight - upMargin - downMargin;
 
-		button31Scale = toNewScale (button31OriginalScale);
+		roundButtonScale = toNewScale (roundButtonOriginalScale, roundButtonOriginalScale);
+		roundButtonWorldSize = toWorldSize (roundButtonSize, roundButtonScale);
+
+		button31Scale = toNewScale (button31OriginalScale, button31OriginalScale);
 		button31WorldSize = toWorldSize (button31Size, button31Scale);
 
-		button62Scale = toNewScale (button62OriginalScale);
+		button62Scale = toNewScale (button62OriginalScale, button62OriginalScale);
 		button62WorldSize = toWorldSize (button62Size, button62Scale);
 
-		tabScale = toNewScale (tabOriginalScale);
+		tabScale = toNewScale (tabOriginalScale, tabOriginalScale);
 		tabWorldSize = toWorldSize (tabSize, tabScale);
 
-		button61Scale = toNewScale (button61OriginalScale);
+		button61Scale = toNewScale (button61OriginalScale, button61OriginalScale);
 		button61WorldSize = toWorldSize (button61Size, button61Scale);
 
-		button51Scale = toNewScale (button51OriginalScale);
+		button51Scale = toNewScale (button51OriginalScale,button51OriginalScale);
 		button51WorldSize = toWorldSize (button51Size, button51Scale);
 
-		listElementScale = toNewScale (listElementOriginalScale);
+		listElementScale = toNewScale (listElementOriginalScale,listElementOriginalScale);
 		listElementWorldSize = toWorldSize (listElementSize, listElementScale);
 
-		cardHaloScale = toNewScale (cardHaloOriginalScale);
+		cardHaloScale = toNewScale (cardHaloOriginalScale,cardHaloOriginalScale);
 		cardHaloWorldSize = toWorldSize (cardHaloSize, cardHaloScale);
 
-		cardScale = toNewScale (cardOriginalScale);
+		cardScale = toNewScale (cardOriginalScale,cardOriginalScale);
 		cardWorldSize = toWorldSize (cardSize, cardScale);
 
-		competitionScale = toNewScale (competitionOriginalScale);
+		competitionScale = toNewScale (competitionOriginalScale,competitionOriginalScale);
 		competitionWorldSize = toWorldSize (competitionSize, competitionScale);
 
-		thumbScale = toNewScale (thumbOriginalScale);
+		thumbScale = toNewScale (thumbOriginalScale,thumbOriginalScale);
 		thumbWorldSize = toWorldSize (thumbSize, thumbScale);
 
-		cardTypeThumbScale = toNewScale (cardTypeThumbOriginalScale);
+		cardTypeThumbScale = toNewScale (cardTypeThumbOriginalScale,cardTypeThumbOriginalScale);
 		cardTypeThumbWorldSize = toWorldSize (cardTypeThumbSize, cardTypeThumbScale);
 
-		skillTypeThumbScale = toNewScale (skillTypeThumbOriginalScale);
+		skillTypeThumbScale = toNewScale (skillTypeThumbOriginalScale,skillTypeThumbOriginalScale);
 		skillTypeThumbWorldSize = toWorldSize (skillTypeThumbSize, skillTypeThumbScale);
 
-		profilePictureScale = toNewScale (profilePictureOriginalScale);
+		profilePictureScale = toNewScale (profilePictureOriginalScale,profilePictureOriginalScale);
 		profilePictureWorldSize = toWorldSize (profilePictureSize, profilePictureScale);
 
-		paginationButtonScale = toNewScale (paginationButtonOriginalScale);
+		paginationButtonScale = toNewScale (paginationButtonOriginalScale,paginationButtonMobileScale);
 		paginationButtonWorldSize = toWorldSize (paginationButtonSize, paginationButtonScale);
 
-		cardTypeFilterScale = toNewScale (cardTypeFilterOriginalScale);
+		cardTypeFilterScale = toNewScale (cardTypeFilterOriginalScale,cardTypeFilterOriginalScale);
 		cardTypeFilterWorldSize = toWorldSize (cardTypeFilterSize, cardTypeFilterScale);
 
-		skillTypeFilterScale = toNewScale (skillTypeFilterOriginalScale);
+		skillTypeFilterScale = toNewScale (skillTypeFilterOriginalScale,skillTypeFilterOriginalScale);
 		skillTypeFilterWorldSize = toWorldSize (skillTypeFilterSize, skillTypeFilterScale);
 
-		inputTextScale = toNewScale (inputTextOriginalScale);
+		inputTextScale = toNewScale (inputTextOriginalScale,inputTextOriginalScale);
 		inputTextWorldSize = toWorldSize (inputTextSize, inputTextScale);
 
-		largeInputTextScale = toNewScale (largeInputTextOriginalScale);
+		largeInputTextScale = toNewScale (largeInputTextOriginalScale,largeInputTextOriginalScale);
 		largeInputTextWorldSize = toWorldSize (largeInputTextSize, largeInputTextScale);
 
-		subMainTitleScale = toNewScale (subMainTitleOriginalScale);
-		mainTitleScale = toNewScale (mainTitleOriginalScale);
+		subMainTitleScale = toNewScale (subMainTitleOriginalScale,subMainTitleOriginalScale);
+		mainTitleScale = toNewScale (mainTitleOriginalScale, mainTitleOriginalScale);
 
-		packPictureScale = toNewScale (packPictureOriginalScale);
+		packPictureScale = toNewScale (packPictureOriginalScale,packPictureOriginalScale);
 		packPictureWorldSize = toWorldSize (packPictureSize,packPictureScale);
 
-		valueFilterScale = toNewScale (valueFilterOriginalScale);
+		valueFilterScale = toNewScale (valueFilterOriginalScale,valueFilterOriginalScale);
 
-		cursorScale = toNewScale (cursorOriginalScale);
+		cursorScale = toNewScale (cursorOriginalScale,cursorOriginalScale);
 		cursorWorldSize = toWorldSize (cursorSize, cursorScale);
 
-		skillScale = toNewScale (skillOriginalScale);
+		skillScale = toNewScale (skillOriginalScale,skillOriginalScale);
 		skillWorldSize = toWorldSize (skillSize, skillScale);
 
 		packWorldSize.x = blockWidth - 2f * 0.3f;
@@ -339,9 +347,17 @@ public class ApplicationDesignRules : MonoBehaviour
 		toWorldSize.y=scale.y* (originalSize.y / pixelPerUnit);
 		return toWorldSize;
 	}
-	static private Vector3 toNewScale(Vector3 originalScale)
+	static private Vector3 toNewScale(Vector3 originalScale, Vector3 mobileScale)
 	{
-		Vector3 newScale=new Vector3(originalScale.x*reductionRatio,originalScale.y*reductionRatio,originalScale.z*reductionRatio);
+		Vector3 newScale = new Vector3 ();
+		if(isMobileScreen)
+		{
+			newScale=mobileScale;
+		}
+		else
+		{
+			newScale=new Vector3(originalScale.x*reductionRatio,originalScale.y*reductionRatio,originalScale.z*reductionRatio);
+		}
 		return newScale;
 	}
 	static public float getLineScale(float worldSize)

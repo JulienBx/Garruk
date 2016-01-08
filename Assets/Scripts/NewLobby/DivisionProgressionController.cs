@@ -43,6 +43,14 @@ public class DivisionProgressionController : MonoBehaviour
 		this.gameObject.transform.FindChild("Gauge").FindChild("Status").GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
 		this.currentRatio = 0f;
 	}
+	public float getGaugeDeltaPosition()
+	{
+		return NewLobbyController.instance.getScrollCameraDelta ();
+	}
+	public float getGaugeInitialPosition()
+	{
+		return NewLobbyController.instance.getScrollCameraInitialPosition ();
+	}
 	public void setGaugeCamera(float ratio)
 	{
 		Vector3 gaugeScale = this.gameObject.transform.FindChild("Gauge").localScale;
@@ -51,7 +59,7 @@ public class DivisionProgressionController : MonoBehaviour
 		Vector2 fullGaugeWorldSize = (fullGaugeSize / ApplicationDesignRules.pixelPerUnit) * gaugeScale.x;
 		Rect cameraRect = new Rect ();
 		cameraRect.x = (ApplicationDesignRules.worldWidth / 2f + gaugePosition.x - fullGaugeWorldSize.x / 2f) / ApplicationDesignRules.worldWidth;
-		cameraRect.y = (ApplicationDesignRules.worldHeight / 2f + gaugePosition.y - fullGaugeWorldSize.y / 2f) / ApplicationDesignRules.worldHeight;
+		cameraRect.y = (ApplicationDesignRules.worldHeight / 2f + gaugePosition.y - fullGaugeWorldSize.y / 2f+System.Convert.ToInt32(ApplicationDesignRules.isMobileScreen)*(this.getGaugeDeltaPosition()-this.getGaugeInitialPosition())) / ApplicationDesignRules.worldHeight;
 		cameraRect.width = fullGaugeWorldSize.x / ApplicationDesignRules.worldWidth;
 		cameraRect.height = ratio * (fullGaugeWorldSize.y / ApplicationDesignRules.worldHeight);
 
@@ -286,6 +294,10 @@ public class DivisionProgressionController : MonoBehaviour
 		float lineWorldSize = (lineSize / ApplicationDesignRules.pixelPerUnit) * scale;
 
 		return distance / lineWorldSize;
+	}
+	public float getCurrentRatio()
+	{
+		return this.currentRatio;
 	}
 }
 
