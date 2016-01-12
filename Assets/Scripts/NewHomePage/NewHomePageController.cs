@@ -106,8 +106,8 @@ public class NewHomePageController : MonoBehaviour
 
 	private int nbNonReadNotifications;
 
-	private NewHomePageConnectionBonusPopUpView connectionBonusView;
-	private bool isConnectionBonusViewDisplayed;
+	private GameObject connectionBonusPopUp;
+	private bool isConnectionBonusPopUpDisplayed;
 
 	private bool isEndGamePopUpDisplayed;
 	private bool isScrolling;
@@ -477,6 +477,8 @@ public class NewHomePageController : MonoBehaviour
 		this.sceneCamera = GameObject.Find ("sceneCamera");
 		this.tutorialCamera = GameObject.Find ("TutorialCamera");
 		this.backgroundCamera = GameObject.Find ("BackgroundCamera");
+		this.connectionBonusPopUp = GameObject.Find ("connectionBonusPopUp");
+		this.connectionBonusPopUp.SetActive (false);
 	}
 	public void resize()
 	{
@@ -714,6 +716,11 @@ public class NewHomePageController : MonoBehaviour
 
 		this.endGamePopUp.transform.position = new Vector3 (ApplicationDesignRules.menuPosition.x+0, ApplicationDesignRules.menuPosition.y+2f, -3f);
 
+		if(this.isConnectionBonusPopUpDisplayed)
+		{
+			this.connectionBonusPopUpResize();
+		}
+
 	}
 	private void retrieveDefaultDeck()
 	{
@@ -911,6 +918,10 @@ public class NewHomePageController : MonoBehaviour
 		{
 			this.hideEndGamePopUp();
 		}
+		else if(isConnectionBonusPopUpDisplayed)
+		{
+			this.hideConnectionBonusPopUp();
+		}
 	}
 	public void escapePressed()
 	{
@@ -922,6 +933,10 @@ public class NewHomePageController : MonoBehaviour
 		{
 			this.hideEndGamePopUp();
 		}
+		else if(isConnectionBonusPopUpDisplayed)
+		{
+			this.hideConnectionBonusPopUp();
+		}
 		else
 		{
 			MenuController.instance.leaveGame();
@@ -932,6 +947,10 @@ public class NewHomePageController : MonoBehaviour
 		if(isEndGamePopUpDisplayed)
 		{
 			this.hideEndGamePopUp();
+		}
+		else if(isConnectionBonusPopUpDisplayed)
+		{
+			this.hideConnectionBonusPopUp();
 		}
 	}
 	public void leftClickedHandler(int id)
@@ -1342,24 +1361,23 @@ public class NewHomePageController : MonoBehaviour
 	}
 	public void displayConnectionBonusPopUp(int connectionBonus)
 	{
-		this.isConnectionBonusViewDisplayed=true;
-		this.connectionBonusView= Camera.main.gameObject.AddComponent <NewHomePageConnectionBonusPopUpView>();
-		connectionBonusView.connectionBonusPopUpVM.bonus = connectionBonus.ToString();
-		connectionBonusView.popUpVM.centralWindowStyle = new GUIStyle(this.popUpSkin.window);
-		connectionBonusView.popUpVM.centralWindowTitleStyle = new GUIStyle (this.popUpSkin.customStyles [0]);
-		connectionBonusView.popUpVM.centralWindowButtonStyle = new GUIStyle (this.popUpSkin.button);
-		connectionBonusView.popUpVM.transparentStyle = new GUIStyle (this.popUpSkin.customStyles [2]);
-		this.connectionBonusPopUpResize ();
+		MenuController.instance.displayTransparentBackground ();
+		this.connectionBonusPopUp.transform.GetComponent<ConnectionBonusPopUpController> ().reset (connectionBonus);
+		this.isConnectionBonusPopUpDisplayed = true;
+		this.connectionBonusPopUp.SetActive (true);
+		this.connectionBonusPopUpResize();
 	}
 	public void hideConnectionBonusPopUp()
 	{
-		this.isConnectionBonusViewDisplayed = false;
-		Destroy (this.connectionBonusView);
+		this.connectionBonusPopUp.SetActive (false);
+		MenuController.instance.hideTransparentBackground();
+		this.isConnectionBonusPopUpDisplayed = false;
 	}
 	public void connectionBonusPopUpResize()
 	{
-		connectionBonusView.popUpVM.centralWindow = this.centralWindow;
-		connectionBonusView.popUpVM.resize ();
+		this.connectionBonusPopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y, -2f);
+		this.connectionBonusPopUp.transform.localScale = ApplicationDesignRules.popUpScale;
+		this.connectionBonusPopUp.GetComponent<ConnectionBonusPopUpController> ().resize ();
 	}
 	public void joinGameHandler(int id)
 	{

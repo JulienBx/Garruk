@@ -90,12 +90,12 @@ public class newMyGameController : MonoBehaviour
 	private int cardsPerLine;
 	private Pagination cardsPagination;
 
-	private NewMyGameNewDeckPopUpView newDeckView;
-	private bool newDeckViewDisplayed;
-	private NewMyGameEditDeckPopUpView editDeckView;
-	private bool editDeckViewDisplayed;
-	private NewMyGameDeleteDeckPopUpView deleteDeckView;
-	private bool deleteDeckViewDisplayed;
+	private GameObject newDeckPopUp;
+	private bool newDeckPopUpDisplayed;
+	private GameObject editDeckPopUp;
+	private bool editDeckPopUpDisplayed;
+	private GameObject deleteDeckPopUp;
+	private bool deleteDeckPopUpDisplayed;
 
 	private bool isDragging;
 	private bool isLeftClicked;
@@ -491,6 +491,12 @@ public class newMyGameController : MonoBehaviour
 		this.lowerScrollCamera.AddComponent<ScrollingController> ();
 		this.tutorialCamera = GameObject.Find ("TutorialCamera");
 		this.backgroundCamera = GameObject.Find ("BackgroundCamera");
+		this.newDeckPopUp = GameObject.Find ("newDeckPopUp");
+		this.newDeckPopUp.SetActive (false);
+		this.editDeckPopUp = GameObject.Find ("editDeckPopUp");
+		this.editDeckPopUp.SetActive (false);
+		this.deleteDeckPopUp = GameObject.Find ("deleteDeckPopUp");
+		this.deleteDeckPopUp.SetActive (false);
 	}
 	private void resetFiltersValue()
 	{
@@ -879,15 +885,15 @@ public class newMyGameController : MonoBehaviour
 		{
 			this.cardsPaginationButtons.transform.localPosition=new Vector3(cardsBlockLowerLeftPosition.x+cardsBlockSize.x/2f, cardsBlockLowerLeftPosition.y + 0.3f, 0f);
 		}
-		if(newDeckViewDisplayed)
+		if(newDeckPopUpDisplayed)
 		{
 			this.newDeckPopUpResize();
 		}
-		else if(editDeckViewDisplayed)
+		else if(editDeckPopUpDisplayed)
 		{
 			this.editDeckPopUpResize();
 		}
-		else if(deleteDeckViewDisplayed)
+		else if(deleteDeckPopUpDisplayed)
 		{
 			this.deleteDeckPopUpResize();
 		}
@@ -1421,70 +1427,63 @@ public class newMyGameController : MonoBehaviour
 	}
 	public void displayNewDeckPopUp()
 	{
-		this.newDeckViewDisplayed = true;
-		this.newDeckView = Camera.main.gameObject.AddComponent <NewMyGameNewDeckPopUpView>();
-		newDeckView.popUpVM.centralWindowStyle = new GUIStyle(this.popUpSkin.window);
-		newDeckView.popUpVM.centralWindowTitleStyle = new GUIStyle (this.popUpSkin.customStyles [0]);
-		newDeckView.popUpVM.centralWindowButtonStyle = new GUIStyle (this.popUpSkin.button);
-		newDeckView.popUpVM.centralWindowTextfieldStyle = new GUIStyle (this.popUpSkin.textField);
-		newDeckView.popUpVM.centralWindowErrorStyle = new GUIStyle (this.popUpSkin.customStyles [1]);
-		newDeckView.popUpVM.transparentStyle = new GUIStyle (this.popUpSkin.customStyles [2]);
+		MenuController.instance.displayTransparentBackground ();
+		this.newDeckPopUp.transform.GetComponent<NewDeckPopUpController> ().reset ();
+		this.newDeckPopUpDisplayed = true;
+		this.newDeckPopUp.SetActive (true);
 		this.newDeckPopUpResize ();
 	}
 	public void displayEditDeckPopUp()
 	{
-		this.editDeckViewDisplayed = true;
-		this.editDeckView = Camera.main.gameObject.AddComponent <NewMyGameEditDeckPopUpView>();
-		editDeckView.editDeckPopUpVM.oldName = model.decks[this.deckDisplayed].Name;
-		editDeckView.editDeckPopUpVM.newName = model.decks[this.deckDisplayed].Name;
-		editDeckView.popUpVM.centralWindowStyle = new GUIStyle(this.popUpSkin.window);
-		editDeckView.popUpVM.centralWindowTitleStyle = new GUIStyle (this.popUpSkin.customStyles [0]);
-		editDeckView.popUpVM.centralWindowButtonStyle = new GUIStyle (this.popUpSkin.button);
-		editDeckView.popUpVM.centralWindowTextfieldStyle = new GUIStyle (this.popUpSkin.textField);
-		editDeckView.popUpVM.centralWindowErrorStyle = new GUIStyle (this.popUpSkin.customStyles [1]);
-		editDeckView.popUpVM.transparentStyle = new GUIStyle (this.popUpSkin.customStyles [2]);
+		MenuController.instance.displayTransparentBackground ();
+		this.editDeckPopUp.transform.GetComponent<EditDeckPopUpController> ().reset (model.decks[this.deckDisplayed].Name);
+		this.editDeckPopUpDisplayed = true;
+		this.editDeckPopUp.SetActive (true);
 		this.editDeckPopUpResize ();
 	}
 	public void displayDeleteDeckPopUp()
 	{
-		this.deleteDeckViewDisplayed = true;
-		this.deleteDeckView = Camera.main.gameObject.AddComponent <NewMyGameDeleteDeckPopUpView>();
-		deleteDeckView.deleteDeckPopUpVM.name = model.decks[this.deckDisplayed].Name;
-		deleteDeckView.popUpVM.centralWindowStyle = new GUIStyle(this.popUpSkin.window);
-		deleteDeckView.popUpVM.centralWindowTitleStyle = new GUIStyle (this.popUpSkin.customStyles [0]);
-		deleteDeckView.popUpVM.centralWindowButtonStyle = new GUIStyle (this.popUpSkin.button);
-		deleteDeckView.popUpVM.transparentStyle = new GUIStyle (this.popUpSkin.customStyles [2]);
+		MenuController.instance.displayTransparentBackground ();
+		this.deleteDeckPopUp.transform.GetComponent<DeleteDeckPopUpController> ().reset (model.decks[this.deckDisplayed].Name);
+		this.deleteDeckPopUpDisplayed = true;
+		this.deleteDeckPopUp.SetActive (true);
 		this.deleteDeckPopUpResize ();
 	}
 	public void hideNewDeckPopUp()
 	{
-		Destroy (this.newDeckView);
-		this.newDeckViewDisplayed = false;
+		this.newDeckPopUp.SetActive (false);
+		MenuController.instance.hideTransparentBackground();
+		this.newDeckPopUpDisplayed = false;
 	}
 	public void hideEditDeckPopUp()
 	{
-		Destroy (this.editDeckView);
-		this.editDeckViewDisplayed = false;
+		this.editDeckPopUp.SetActive (false);
+		MenuController.instance.hideTransparentBackground();
+		this.editDeckPopUpDisplayed = false;
 	}
 	public void hideDeleteDeckPopUp()
 	{
-		Destroy (this.deleteDeckView);
-		this.deleteDeckViewDisplayed = false;
+		this.deleteDeckPopUp.SetActive (false);
+		MenuController.instance.hideTransparentBackground();
+		this.deleteDeckPopUpDisplayed = false;
 	}
 	public void newDeckPopUpResize()
 	{
-		newDeckView.popUpVM.centralWindow = this.centralWindow;
-		newDeckView.popUpVM.resize ();
+		this.newDeckPopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y, -2f);
+		this.newDeckPopUp.transform.localScale = ApplicationDesignRules.popUpScale;
+		this.newDeckPopUp.GetComponent<NewDeckPopUpController> ().resize ();
 	}
 	public void editDeckPopUpResize()
 	{
-		editDeckView.popUpVM.centralWindow = this.centralWindow;
-		editDeckView.popUpVM.resize ();
+		this.editDeckPopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y, -2f);
+		this.editDeckPopUp.transform.localScale = ApplicationDesignRules.popUpScale;
+		this.editDeckPopUp.GetComponent<EditDeckPopUpController> ().resize ();
 	}
 	public void deleteDeckPopUpResize()
 	{
-		deleteDeckView.popUpVM.centralWindow = this.centralWindow;
-		deleteDeckView.popUpVM.resize ();
+		this.deleteDeckPopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y, -2f);
+		this.deleteDeckPopUp.transform.localScale = ApplicationDesignRules.popUpScale;
+		this.deleteDeckPopUp.GetComponent<DeleteDeckPopUpController> ().resize ();
 	}
 	public void createNewDeckHandler()
 	{
@@ -1492,20 +1491,21 @@ public class newMyGameController : MonoBehaviour
 	}
 	private IEnumerator createNewDeck()
 	{
-		newDeckView.newDeckPopUpVM.error=this.checkDeckName(newDeckView.newDeckPopUpVM.name);
-		if(newDeckView.newDeckPopUpVM.error=="")
+		string name = this.newDeckPopUp.transform.GetComponent<NewDeckPopUpController> ().getInputText ();
+		string error = this.checkDeckName(name);
+		if(error=="")
 		{
 			this.hideNewDeckPopUp();
 			MenuController.instance.displayLoadingScreen();
-			this.newDeckView.popUpVM.guiEnabled=false;
 			model.decks.Add(new Deck());
-			yield return StartCoroutine(model.decks[model.decks.Count-1].create(newDeckView.newDeckPopUpVM.name));
+			yield return StartCoroutine(model.decks[model.decks.Count-1].create(name));
 			this.deckDisplayed=model.decks.Count-1;
 			this.initializeDecks();
 			this.initializeCards();
 			MenuController.instance.hideLoadingScreen();
 			TutorialObjectController.instance.tutorialTrackPoint();
 		}
+		this.newDeckPopUp.transform.GetComponent<NewDeckPopUpController> ().setError (error);
 	}
 	public void editDeckHandler()
 	{
@@ -1513,14 +1513,16 @@ public class newMyGameController : MonoBehaviour
 	}
 	public IEnumerator editDeck()
 	{
-		if(editDeckView.editDeckPopUpVM.newName!=editDeckView.editDeckPopUpVM.oldName)
+		string newName = this.editDeckPopUp.transform.GetComponent<EditDeckPopUpController> ().getInputText ();
+		if(model.decks[this.deckDisplayed].Name!=newName)
 		{
-			editDeckView.editDeckPopUpVM.error=checkDeckName(editDeckView.editDeckPopUpVM.newName);
-			if(editDeckView.editDeckPopUpVM.error=="")
+			string error=this.checkDeckName(newName);
+			this.editDeckPopUp.transform.GetComponent<EditDeckPopUpController>().setError(error);
+			if(error=="")
 			{
 				MenuController.instance.displayLoadingScreen();
 				this.hideEditDeckPopUp();
-				yield return StartCoroutine(model.decks[this.deckDisplayed].edit(editDeckView.editDeckPopUpVM.newName));
+				yield return StartCoroutine(model.decks[this.deckDisplayed].edit(newName));
 				this.deckTitle.GetComponent<TextMeshPro> ().text = model.decks[this.deckDisplayed].Name;
 				MenuController.instance.hideLoadingScreen();
 			}
@@ -1578,13 +1580,17 @@ public class newMyGameController : MonoBehaviour
 	}
 	public string checkDeckName(string name)
 	{
+		if(name.Length>12)
+		{
+			return "Le nom ne doit pas dépasser 12 caractères";
+		}
 		if(!Regex.IsMatch(name, @"^[a-zA-Z0-9_\s]+$"))
 		{
 			return "Vous ne pouvez pas utiliser de caractères spéciaux";
 		}
 		for(int i=0;i<model.decks.Count;i++)
 		{
-			if(model.decks[i].Name==name)
+			if(model.decks[i].Name==name && i!=this.deckDisplayed)
 			{
 				return "Nom déjà utilisé";
 			}
@@ -1893,15 +1899,15 @@ public class newMyGameController : MonoBehaviour
 		{
 			this.focusedCard.GetComponent<NewFocusedCardController>().returnPressed();
 		}
-		else if(this.newDeckViewDisplayed)
+		else if(this.newDeckPopUpDisplayed)
 		{
 			this.createNewDeckHandler();
 		}
-		else if(this.editDeckView)
+		else if(this.editDeckPopUp)
 		{
 			this.editDeckHandler();
 		}
-		else if(this.deleteDeckViewDisplayed)
+		else if(this.deleteDeckPopUpDisplayed)
 		{
 			this.deleteDeckHandler();
 		}
@@ -1912,15 +1918,15 @@ public class newMyGameController : MonoBehaviour
 		{
 			this.focusedCard.GetComponent<NewFocusedCardController>().escapePressed();
 		}
-		else if(this.newDeckViewDisplayed)
+		else if(this.newDeckPopUpDisplayed)
 		{
 			this.hideNewDeckPopUp();
 		}
-		else if(this.editDeckView)
+		else if(this.editDeckPopUp)
 		{
 			this.hideEditDeckPopUp();
 		}
-		else if(this.deleteDeckViewDisplayed)
+		else if(this.deleteDeckPopUpDisplayed)
 		{
 			this.hideDeleteDeckPopUp();
 		}
@@ -1931,15 +1937,15 @@ public class newMyGameController : MonoBehaviour
 	}
 	public void closeAllPopUp()
 	{
-		if(this.newDeckViewDisplayed)
+		if(this.newDeckPopUpDisplayed)
 		{
 			this.hideNewDeckPopUp();
 		}
-		if(this.editDeckView)
+		if(this.editDeckPopUp)
 		{
 			this.hideEditDeckPopUp();
 		}
-		if(this.deleteDeckViewDisplayed)
+		if(this.deleteDeckPopUpDisplayed)
 		{
 			this.hideDeleteDeckPopUp();
 		}
