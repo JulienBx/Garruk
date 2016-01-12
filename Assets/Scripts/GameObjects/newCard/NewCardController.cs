@@ -10,6 +10,8 @@ public class NewCardController : NewFocusedCardController
 	private int layerVariation;
 	private string layerName;
 
+	private GameObject buyPopUp;
+
 	public override void Update()
 	{
 		base.Update ();

@@ -970,6 +970,7 @@ public class NewMarketController : MonoBehaviour
 	{
 		for(int i=0;i<this.cards.Length;i++)
 		{
+			this.cards[i].GetComponent<NewFocusedCardController>().closePopUps();
 			Destroy(this.cards[i]);
 		}
 	}

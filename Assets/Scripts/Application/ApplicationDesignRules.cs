@@ -387,7 +387,7 @@ public class ApplicationDesignRules : MonoBehaviour
 		int divisionRest;
 		int unitNumber;
 		string priceToString;
-		if(price>1000000)
+		if(price>=1000000)
 		{
 			divisionRest=price%1000000;
 			unitNumber = (price-divisionRest)/1000000;
@@ -409,7 +409,7 @@ public class ApplicationDesignRules : MonoBehaviour
 			}
 			priceToString=priceToString+" M";
 		}
-		else if(price>1000)
+		else if(price>=1000)
 		{
 			divisionRest=price%1000;
 			unitNumber = (price-divisionRest)/1000;
