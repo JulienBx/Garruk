@@ -243,11 +243,12 @@ public class NewFocusedCardController : MonoBehaviour
 	}
 	public void setCardSold()
 	{
-		if(!isSoldCardPopUpDisplayed)
+		if(!isPanelSoldIsDisplayed)
 		{
 			this.displayPanelSold();
 			this.closePopUps ();
 			this.displaySoldPopUp ();
+			this.updateFocusFeatures();
 		}
 	}
 	public virtual void displayPanelSold()

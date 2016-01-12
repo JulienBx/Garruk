@@ -1,7 +1,7 @@
 using UnityEngine;
 using TMPro;
 
-public class SoldPopUpConfirmButtonController : SimpleButtonController
+public class SoldCardPopUpConfirmButtonController : SimpleButtonController
 {
 	public override void mainInstruction ()
 	{

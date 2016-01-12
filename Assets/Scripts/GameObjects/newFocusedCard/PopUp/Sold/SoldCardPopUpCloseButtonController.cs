@@ -1,7 +1,7 @@
 using UnityEngine;
 using TMPro;
 
-public class SoldPopUpCloseButtonController : SpriteButtonController
+public class SoldCardPopUpCloseButtonController : SpriteButtonController
 {
 	public override void mainInstruction ()
 	{

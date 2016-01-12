@@ -8,7 +8,6 @@ public class NewFocusedCardSkillSkillTypeController : MonoBehaviour
 	
 	public void OnMouseOver()
 	{
-		print ("toto");
 		if(!isHovered)
 		{
 			gameObject.transform.parent.transform.parent.transform.parent.GetComponent<NewFocusedCardController>().showSkillTypePopUp(this.id);

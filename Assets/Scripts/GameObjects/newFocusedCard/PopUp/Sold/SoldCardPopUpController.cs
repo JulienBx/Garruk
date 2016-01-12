@@ -12,8 +12,8 @@ public class SoldCardPopUpController : MonoBehaviour
 	{
 		gameObject.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Votre carte vient d'être vendue.";
 		gameObject.transform.FindChild ("Button").FindChild ("Title").GetComponent<TextMeshPro> ().text = "Quitter";
-		gameObject.transform.FindChild ("Button").GetComponent<SoldPopUpConfirmButtonController> ().reset ();
-		gameObject.transform.FindChild ("CloseButton").GetComponent<SoldPopUpCloseButtonController> ().reset ();
+		gameObject.transform.FindChild ("Button").GetComponent<SoldCardPopUpConfirmButtonController> ().reset ();
+		gameObject.transform.FindChild ("CloseButton").GetComponent<SoldCardPopUpCloseButtonController> ().reset ();
 	}
 	public void resize()
 	{
