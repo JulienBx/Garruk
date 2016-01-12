@@ -87,14 +87,14 @@ public class NewProfileController : MonoBehaviour
 	public int friendsRefreshInterval;
 	private float friendsCheckTimer;
 
-	private ProfileCheckPasswordPopUpView checkPasswordView;
-	private bool isCheckPasswordViewDisplayed;
+	private GameObject checkPasswordPopUp;
+	private bool isCheckPasswordPopUpDisplayed;
 
-	private ProfileChangePasswordPopUpView changePasswordView;
-	private bool isChangePasswordViewDisplayed;
+	private GameObject changePasswordPopUp;
+	private bool isChangePasswordPopUpDisplayed;
 
-	private ProfileEditInformationsPopUpView editInformationsView;
-	private bool isEditInformationsViewDisplayed;
+	private GameObject editInformationsPopUp;
+	private bool isEditInformationsPopUpDisplayed;
 
 	private bool isSearchingUsers;
 	private string searchValue;
@@ -569,6 +569,12 @@ public class NewProfileController : MonoBehaviour
 		this.searchUsersPopUp.SetActive (false);
 		this.selectPicturePopUp = GameObject.Find ("profilePicturesPopUp");
 		this.selectPicturePopUp.SetActive (false);
+		this.checkPasswordPopUp = GameObject.Find ("checkPasswordPopUp");
+		this.checkPasswordPopUp.SetActive (false);
+		this.changePasswordPopUp = GameObject.Find ("changePasswordPopUp");
+		this.changePasswordPopUp.SetActive (false);
+		this.editInformationsPopUp = GameObject.Find ("editInformationsPopUp");
+		this.editInformationsPopUp.SetActive (false);
 		this.mainCamera = gameObject;
 		this.scrollCamera = GameObject.Find ("ScrollCamera");
 		this.scrollCamera.AddComponent<ScrollingController> ();
@@ -829,30 +835,34 @@ public class NewProfileController : MonoBehaviour
 
 		TutorialObjectController.instance.resize ();
 
-		if(this.isCheckPasswordViewDisplayed)
+		if(this.isCheckPasswordPopUpDisplayed)
 		{
-			this.checkPasswordViewResize();
+			this.checkPasswordPopUpResize();
 		}
-		else if(this.isChangePasswordViewDisplayed)
+		else if(this.isChangePasswordPopUpDisplayed)
 		{
-			this.changePasswordViewResize();
+			this.changePasswordPopUpResize();
 		}
-		else if(this.isEditInformationsViewDisplayed)
+		else if(this.isEditInformationsPopUpDisplayed)
 		{
-			this.editInformationsViewResize();
+			this.editInformationsPopUpResize();
+		}
+		else if(this.isSelectPicturePopUpDisplayed)
+		{
+			this.selectPicturePopUpResize();
 		}
 	}
 	public void returnPressed()
 	{
-		if(this.isCheckPasswordViewDisplayed)
+		if(this.isCheckPasswordPopUpDisplayed)
 		{
-			this.checkPasswordHandler(checkPasswordView.checkPasswordPopUpVM.tempOldPassword);
+			this.checkPasswordPopUp.transform.GetComponent<CheckPasswordPopUpController>().checkPasswordHandler();
 		}
-		else if(this.isChangePasswordViewDisplayed)
+		else if(this.isChangePasswordPopUpDisplayed)
 		{
 			this.editPasswordHandler();
 		}
-		else if(this.isEditInformationsViewDisplayed)
+		else if(this.isEditInformationsPopUpDisplayed)
 		{
 			this.updateUserInformationsHandler();
 		}
@@ -863,15 +873,15 @@ public class NewProfileController : MonoBehaviour
 		{
 			this.hideSelectPicturePopUp();
 		}
-		else if(this.isCheckPasswordViewDisplayed)
+		else if(this.isCheckPasswordPopUpDisplayed)
 		{
 			this.hideCheckPasswordPopUp();
 		}
-		else if(this.isChangePasswordViewDisplayed)
+		else if(this.isChangePasswordPopUpDisplayed)
 		{
 			this.hideChangePasswordPopUp();
 		}
-		else if(this.isEditInformationsViewDisplayed)
+		else if(this.isEditInformationsPopUpDisplayed)
 		{
 			this.hideEditInformationsPopUp();
 		}
@@ -890,15 +900,15 @@ public class NewProfileController : MonoBehaviour
 		{
 			this.hideSelectPicturePopUp();
 		}
-		if(this.isCheckPasswordViewDisplayed)
+		if(this.isCheckPasswordPopUpDisplayed)
 		{
 			this.hideCheckPasswordPopUp();
 		}
-		if(this.isChangePasswordViewDisplayed)
+		if(this.isChangePasswordPopUpDisplayed)
 		{
 			this.hideChangePasswordPopUp();
 		}
-		if(this.isEditInformationsViewDisplayed)
+		if(this.isEditInformationsPopUpDisplayed)
 		{
 			this.hideEditInformationsPopUp();
 		}
@@ -1268,9 +1278,14 @@ public class NewProfileController : MonoBehaviour
 	{
 		MenuController.instance.displayTransparentBackground ();
 		this.selectPicturePopUp.SetActive (true);
-		this.selectPicturePopUp.transform.position = new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y, -2f);
 		this.selectPicturePopUp.GetComponent<SelectPicturePopUpController> ().selectPicture (model.player.idProfilePicture);
+		this.selectPicturePopUpResize ();
 		this.isSelectPicturePopUpDisplayed = true;
+	}
+	private void selectPicturePopUpResize()
+	{
+		this.selectPicturePopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y, -2f);
+		this.selectPicturePopUp.transform.localScale = ApplicationDesignRules.popUpScale;
 	}
 	public void hideSelectPicturePopUp()
 	{
@@ -1296,72 +1311,63 @@ public class NewProfileController : MonoBehaviour
 	}
 	public void displayCheckPasswordPopUp()
 	{
-		this.checkPasswordView = gameObject.AddComponent<ProfileCheckPasswordPopUpView> ();
-		this.isCheckPasswordViewDisplayed = true;
-		checkPasswordView.popUpVM.centralWindowStyle = new GUIStyle(this.popUpSkin.window);
-		checkPasswordView.popUpVM.centralWindowTitleStyle = new GUIStyle (this.popUpSkin.customStyles [0]);
-		checkPasswordView.popUpVM.centralWindowButtonStyle = new GUIStyle (this.popUpSkin.button);
-		checkPasswordView.popUpVM.centralWindowTextfieldStyle = new GUIStyle (this.popUpSkin.textField);
-		checkPasswordView.popUpVM.centralWindowErrorStyle = new GUIStyle (this.popUpSkin.customStyles [1]);
-		checkPasswordView.popUpVM.transparentStyle = new GUIStyle (this.popUpSkin.customStyles [2]);
-		this.checkPasswordViewResize ();
+		MenuController.instance.displayTransparentBackground ();
+		this.checkPasswordPopUp.transform.GetComponent<CheckPasswordPopUpController> ().reset ();
+		this.isCheckPasswordPopUpDisplayed = true;
+		this.checkPasswordPopUp.SetActive (true);
+		this.checkPasswordPopUpResize ();
 	}
 	public void displayChangePasswordPopUp()
 	{
-		this.changePasswordView = gameObject.AddComponent<ProfileChangePasswordPopUpView> ();
-		this.isChangePasswordViewDisplayed = true;
-		changePasswordView.popUpVM.centralWindowStyle = new GUIStyle(this.popUpSkin.window);
-		changePasswordView.popUpVM.centralWindowTitleStyle = new GUIStyle (this.popUpSkin.customStyles [0]);
-		changePasswordView.popUpVM.centralWindowButtonStyle = new GUIStyle (this.popUpSkin.button);
-		changePasswordView.popUpVM.centralWindowTextfieldStyle = new GUIStyle (this.popUpSkin.textField);
-		changePasswordView.popUpVM.centralWindowErrorStyle = new GUIStyle (this.popUpSkin.customStyles [1]);
-		changePasswordView.popUpVM.transparentStyle = new GUIStyle (this.popUpSkin.customStyles [2]);
-		this.changePasswordViewResize ();
+		MenuController.instance.displayTransparentBackground ();
+		this.changePasswordPopUp.transform.GetComponent<ChangePasswordPopUpController> ().reset ();
+		this.isChangePasswordPopUpDisplayed = true;
+		this.changePasswordPopUp.SetActive (true);
+		this.changePasswordPopUpResize ();
 	}
 	public void displayEditInformationsPopUp()
 	{
-		this.editInformationsView = gameObject.AddComponent<ProfileEditInformationsPopUpView> ();
-		this.isEditInformationsViewDisplayed = true;
-		editInformationsView.popUpVM.centralWindowStyle = new GUIStyle(this.popUpSkin.window);
-		editInformationsView.popUpVM.centralWindowTitleStyle = new GUIStyle (this.popUpSkin.customStyles [0]);
-		editInformationsView.popUpVM.centralWindowButtonStyle = new GUIStyle (this.popUpSkin.button);
-		editInformationsView.popUpVM.centralWindowTextfieldStyle = new GUIStyle (this.popUpSkin.textField);
-		editInformationsView.popUpVM.centralWindowErrorStyle = new GUIStyle (this.popUpSkin.customStyles [1]);
-		editInformationsView.popUpVM.transparentStyle = new GUIStyle (this.popUpSkin.customStyles [2]);
-		editInformationsView.editInformationsPopUpVM.tempFirstName = model.player.FirstName;
-		editInformationsView.editInformationsPopUpVM.tempSurname = model.player.Surname;
-		editInformationsView.editInformationsPopUpVM.tempMail = model.player.Mail;
-		this.editInformationsViewResize ();
+		MenuController.instance.displayTransparentBackground ();
+		this.editInformationsPopUp.transform.GetComponent<EditInformationsPopUpController> ().reset (model.player.FirstName,model.player.Surname,model.player.Mail);
+		this.isEditInformationsPopUpDisplayed = true;
+		this.editInformationsPopUp.SetActive (true);
+		this.editInformationsPopUpResize ();
 	}
-	public void checkPasswordViewResize()
+	public void checkPasswordPopUpResize()
 	{
-		checkPasswordView.popUpVM.centralWindow = this.centralWindow;
-		checkPasswordView.popUpVM.resize ();
+		this.checkPasswordPopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y, -2f);
+		this.checkPasswordPopUp.transform.localScale = ApplicationDesignRules.popUpScale;
+		this.checkPasswordPopUp.GetComponent<CheckPasswordPopUpController> ().resize ();
 	}
-	public void changePasswordViewResize()
+	public void changePasswordPopUpResize()
 	{
-		changePasswordView.popUpVM.centralWindow = this.centralWindow;
-		changePasswordView.popUpVM.resize ();
+		this.changePasswordPopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y, -2f);
+		this.changePasswordPopUp.transform.localScale = ApplicationDesignRules.popUpScale;
+		this.changePasswordPopUp.GetComponent<ChangePasswordPopUpController> ().resize ();
 	}
-	public void editInformationsViewResize()
+	public void editInformationsPopUpResize()
 	{
-		editInformationsView.popUpVM.centralWindow = this.centralWindowEditInformations;
-		editInformationsView.popUpVM.resize ();
+		this.editInformationsPopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y, -2f);
+		this.editInformationsPopUp.transform.localScale = ApplicationDesignRules.popUpScale;
+		this.editInformationsPopUp.GetComponent<EditInformationsPopUpController> ().resize ();
 	}
 	public void hideCheckPasswordPopUp()
 	{
-		Destroy (this.checkPasswordView);
-		this.isCheckPasswordViewDisplayed = false;
+		this.checkPasswordPopUp.SetActive (false);
+		MenuController.instance.hideTransparentBackground();
+		this.isCheckPasswordPopUpDisplayed = false;
 	}
 	public void hideChangePasswordPopUp()
 	{
-		Destroy (this.changePasswordView);
-		this.isChangePasswordViewDisplayed = false;
+		this.changePasswordPopUp.SetActive (false);
+		MenuController.instance.hideTransparentBackground();
+		this.isChangePasswordPopUpDisplayed = false;
 	}
 	public void hideEditInformationsPopUp()
 	{
-		Destroy (this.editInformationsView);
-		this.isEditInformationsViewDisplayed = false;
+		this.editInformationsPopUp.SetActive (false);
+		MenuController.instance.hideTransparentBackground();
+		this.isEditInformationsPopUpDisplayed = false;
 	}
 	public void checkPasswordHandler(string password)
 	{
@@ -1369,11 +1375,14 @@ public class NewProfileController : MonoBehaviour
 	}
 	private IEnumerator checkPassword(string password)
 	{
-		checkPasswordView.checkPasswordPopUpVM.error = this.checkPasswordComplexity (password);
-		if(checkPasswordView.checkPasswordPopUpVM.error=="")
+		string checkPassword = this.checkPasswordComplexity (password);
+		if(checkPassword=="")
 		{
-			checkPasswordView.popUpVM.guiEnabled = false;
+			MenuController.instance.displayLoadingScreen();
+			this.checkPasswordPopUp.SetActive(false);
 			yield return StartCoroutine(ApplicationModel.checkPassword(password));
+			MenuController.instance.hideLoadingScreen();
+			this.checkPasswordPopUp.SetActive(true);
 			if(ApplicationModel.error=="")
 			{
 				this.hideCheckPasswordPopUp();
@@ -1381,10 +1390,13 @@ public class NewProfileController : MonoBehaviour
 			}
 			else
 			{
-				checkPasswordView.checkPasswordPopUpVM.error=ApplicationModel.error;
+				this.checkPasswordPopUp.GetComponent<CheckPasswordPopUpController>().setError(ApplicationModel.error);
 				ApplicationModel.error="";
 			}
-			checkPasswordView.popUpVM.guiEnabled = true;
+		}
+		else
+		{
+			this.checkPasswordPopUp.GetComponent<CheckPasswordPopUpController>().setError(checkPassword);
 		}
 	}
 	public string checkPasswordComplexity(string password)
@@ -1401,24 +1413,26 @@ public class NewProfileController : MonoBehaviour
 	}
 	public void editPasswordHandler()
 	{
-		changePasswordView.changePasswordPopUpVM.passwordsCheck = this.checkPasswordEgality (changePasswordView.changePasswordPopUpVM.tempNewPassword, changePasswordView.changePasswordPopUpVM.tempNewPassword2);
-		if(changePasswordView.changePasswordPopUpVM.passwordsCheck=="")
+		string firstPassword = this.changePasswordPopUp.transform.GetComponent<ChangePasswordPopUpController>().getFirstPassword();
+		string secondPassword = this.changePasswordPopUp.transform.GetComponent<ChangePasswordPopUpController> ().getSecondPassword ();
+		string passwordCheck = this.checkPasswordEgality (firstPassword,secondPassword);
+		if(passwordCheck=="")
 		{
-			changePasswordView.changePasswordPopUpVM.passwordsCheck=this.checkPasswordComplexity(changePasswordView.changePasswordPopUpVM.tempNewPassword);
+			passwordCheck=this.checkPasswordComplexity(firstPassword);
+			if(passwordCheck=="")
+			{
+				StartCoroutine(this.editPassword(firstPassword));
+			}
 		}
-		if(changePasswordView.changePasswordPopUpVM.passwordsCheck=="")
-		{
-			StartCoroutine(this.editPassword(changePasswordView.changePasswordPopUpVM.tempNewPassword));
-			changePasswordView.changePasswordPopUpVM.tempNewPassword="";
-			changePasswordView.changePasswordPopUpVM.tempNewPassword2="";
-		}
+		this.changePasswordPopUp.transform.GetComponent<ChangePasswordPopUpController> ().setError (passwordCheck);
+
 	}
 	private IEnumerator editPassword(string password)
 	{
-		changePasswordView.popUpVM.guiEnabled = false;
-		yield return StartCoroutine(ApplicationModel.editPassword(password));
-		changePasswordView.popUpVM.guiEnabled = true;
 		this.hideChangePasswordPopUp ();
+		MenuController.instance.displayLoadingScreen ();
+		yield return StartCoroutine(ApplicationModel.editPassword(password));
+		MenuController.instance.hideLoadingScreen ();
 	}
 	public string checkPasswordEgality (string password1, string password2)
 	{
@@ -1438,30 +1452,35 @@ public class NewProfileController : MonoBehaviour
 	}
 	public void updateUserInformationsHandler()
 	{
-		editInformationsView.editInformationsPopUpVM.error = this.checkname (editInformationsView.editInformationsPopUpVM.tempSurname);
-		if(editInformationsView.editInformationsPopUpVM.error=="")
+		string firstname = this.editInformationsPopUp.transform.GetComponent<EditInformationsPopUpController> ().getFirstInput ();
+		string surname = this.editInformationsPopUp.transform.GetComponent<EditInformationsPopUpController> ().getSecondInput ();
+		string mail = this.editInformationsPopUp.transform.GetComponent<EditInformationsPopUpController> ().getThirdInput ();
+		string error = this.checkname (firstname);
+
+		if(error=="")
 		{
-			editInformationsView.editInformationsPopUpVM.error = this.checkname (editInformationsView.editInformationsPopUpVM.tempFirstName);
+			error = this.checkname (surname);
+			if(error=="")
+			{
+				error = this.checkEmail (mail);
+				if(error=="")
+				{
+					StartCoroutine(updateUserInformations(firstname,surname,mail));
+				}
+			}
 		}
-		if(editInformationsView.editInformationsPopUpVM.error=="")
-		{
-			editInformationsView.editInformationsPopUpVM.error = this.checkEmail (editInformationsView.editInformationsPopUpVM.tempMail);
-		}
-		if(editInformationsView.editInformationsPopUpVM.error=="")
-		{
-			StartCoroutine(updateUserInformations(editInformationsView.editInformationsPopUpVM.tempFirstName,editInformationsView.editInformationsPopUpVM.tempSurname,editInformationsView.editInformationsPopUpVM.tempMail));
-		}
+		this.editInformationsPopUp.transform.GetComponent<EditInformationsPopUpController> ().setError (error);
 	}
 	private IEnumerator updateUserInformations(string firstname, string surname, string mail)
 	{
-		editInformationsView.popUpVM.guiEnabled = false;
 		model.player.FirstName = firstname;
 		model.player.Surname = surname;
 		model.player.Mail = mail;
-		yield return StartCoroutine (model.player.updateInformations ());
-		this.drawPersonalInformations ();
-		editInformationsView.popUpVM.guiEnabled = true;
 		this.hideEditInformationsPopUp ();
+		MenuController.instance.displayLoadingScreen ();
+		yield return StartCoroutine (model.player.updateInformations ());
+		MenuController.instance.hideLoadingScreen ();
+		this.drawPersonalInformations ();
 	}
 	public string checkname(string name)
 	{

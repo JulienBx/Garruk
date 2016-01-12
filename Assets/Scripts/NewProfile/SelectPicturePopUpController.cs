@@ -37,5 +37,9 @@ public class SelectPicturePopUpController : MonoBehaviour
 	{
 		NewProfileController.instance.changeUserPictureHandler(this.activeButton);
 	}
+	public void exitPopUp()
+	{
+		NewProfileController.instance.hideSelectPicturePopUp ();
+	}
 }
 

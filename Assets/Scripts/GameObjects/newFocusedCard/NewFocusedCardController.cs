@@ -47,14 +47,14 @@ public class NewFocusedCardController : MonoBehaviour
 	
 	private Rect centralWindow;
 
-	private NewFocusedCardSellPopUpView sellView;
-	private bool isSellViewDisplayed;
-	private NewFocusedCardRenamePopUpView renameView;
-	private bool isRenameViewDisplayed;
+	private GameObject sellPopUp;
+	private bool isSellPopUpDisplayed;
+	private GameObject renamePopUp;
+	private bool isRenamePopUpDisplayed;
 	private NewFocusedCardBuyPopUpView buyView;
 	private bool isBuyViewDisplayed;
-	private NewFocusedCardBuyXpView buyXpView;
-	private bool isBuyXpViewDisplayed;
+	private GameObject buyXpPopUp;
+	private bool isBuyXpPopUpDisplayed;
 	private NewFocusedCardEditSellPopUpView editSellView;
 	private bool isEditSellViewDisplayed;
 	private NewFocusedCardEditSellPricePopUpView editSellPriceView;
@@ -183,6 +183,9 @@ public class NewFocusedCardController : MonoBehaviour
 		this.face = this.gameObject.transform.FindChild("Card").FindChild ("Face").gameObject;
 		this.caracter = this.gameObject.transform.FindChild("Card").FindChild ("Caracter").gameObject;
 		this.card = this.gameObject.transform.FindChild ("Card").gameObject;
+		this.sellPopUp = this.gameObject.transform.FindChild ("SellPopUp").gameObject;
+		this.renamePopUp = this.gameObject.transform.FindChild ("RenamePopUp").gameObject;
+		this.buyXpPopUp = this.gameObject.transform.FindChild ("BuyXpPopUp").gameObject;
 	}
 	public virtual void getRessources()
 	{
@@ -319,38 +322,26 @@ public class NewFocusedCardController : MonoBehaviour
 	}
 	public void displaySellCardPopUp()
 	{
-		this.sellView = gameObject.AddComponent<NewFocusedCardSellPopUpView> ();
-		this.isSellViewDisplayed = true;
-		sellView.sellPopUpVM.price = this.c.destructionPrice;
-		sellView.popUpVM.centralWindowStyle = new GUIStyle(popUpRessources.popUpSkin.window);
-		sellView.popUpVM.centralWindowTitleStyle = new GUIStyle (popUpRessources.popUpSkin.customStyles [0]);
-		sellView.popUpVM.centralWindowButtonStyle = new GUIStyle (popUpRessources.popUpSkin.button);
-		sellView.popUpVM.transparentStyle = new GUIStyle (popUpRessources.popUpSkin.customStyles [2]);
+		MenuController.instance.displayTransparentBackground ();
+		this.sellPopUp.transform.GetComponent<SellPopUpController> ().reset (this.c.destructionPrice);
+		this.isSellPopUpDisplayed = true;
+		this.sellPopUp.SetActive (true);
 		this.sellPopUpResize ();
 	}
 	public void displayRenameCardPopUp()
 	{
-		this.renameView = gameObject.AddComponent<NewFocusedCardRenamePopUpView> ();
-		this.isRenameViewDisplayed = true;
-		renameView.renamePopUpVM.price = this.c.RenameCost;
-		renameView.renamePopUpVM.newTitle = this.c.Title;
-		renameView.popUpVM.centralWindowStyle = new GUIStyle(popUpRessources.popUpSkin.window);
-		renameView.popUpVM.centralWindowTitleStyle = new GUIStyle (popUpRessources.popUpSkin.customStyles [0]);
-		renameView.popUpVM.centralWindowButtonStyle = new GUIStyle (popUpRessources.popUpSkin.button);
-		renameView.popUpVM.centralWindowTextfieldStyle = new GUIStyle (popUpRessources.popUpSkin.textField);
-		renameView.popUpVM.centralWindowErrorStyle = new GUIStyle (popUpRessources.popUpSkin.customStyles [1]);
-		renameView.popUpVM.transparentStyle = new GUIStyle (popUpRessources.popUpSkin.customStyles [2]);
+		MenuController.instance.displayTransparentBackground ();
+		this.renamePopUp.transform.GetComponent<RenamePopUpController> ().reset (this.c.RenameCost,this.c.Title);
+		this.isRenamePopUpDisplayed = true;
+		this.renamePopUp.SetActive (true);
 		this.renamePopUpResize ();
 	}
 	public void displayBuyXpCardPopUp()
 	{
-		this.buyXpView = gameObject.AddComponent<NewFocusedCardBuyXpView> ();
-		this.isBuyXpViewDisplayed = true;
-		buyXpView.buyXpPopUpVM.price = this.c.NextLevelPrice;
-		buyXpView.popUpVM.centralWindowStyle = new GUIStyle(popUpRessources.popUpSkin.window);
-		buyXpView.popUpVM.centralWindowTitleStyle = new GUIStyle (popUpRessources.popUpSkin.customStyles [0]);
-		buyXpView.popUpVM.centralWindowButtonStyle = new GUIStyle (popUpRessources.popUpSkin.button);
-		buyXpView.popUpVM.transparentStyle = new GUIStyle (popUpRessources.popUpSkin.customStyles [2]);
+		MenuController.instance.displayTransparentBackground ();
+		this.buyXpPopUp.transform.GetComponent<BuyXpPopUpController> ().reset (this.c.NextLevelPrice);
+		this.isBuyXpPopUpDisplayed = true;
+		this.buyXpPopUp.SetActive (true);
 		this.buyXpPopUpResize ();
 	}
 	public void displayBuyCardPopUp()
@@ -433,18 +424,21 @@ public class NewFocusedCardController : MonoBehaviour
 	}
 	private void sellPopUpResize()
 	{
-		sellView.popUpVM.centralWindow = this.centralWindow;
-		sellView.popUpVM.resize ();
+		this.sellPopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y, -2f);
+		this.sellPopUp.transform.localScale = ApplicationDesignRules.popUpScale*(1/ApplicationDesignRules.cardFocusedScale.x);
+		this.sellPopUp.GetComponent<SellPopUpController> ().resize ();
 	}
 	private void renamePopUpResize()
 	{
-		renameView.popUpVM.centralWindow = this.centralWindow;
-		renameView.popUpVM.resize ();
+		this.renamePopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y, -2f);
+		this.renamePopUp.transform.localScale = ApplicationDesignRules.popUpScale*(1/ApplicationDesignRules.cardFocusedScale.x);
+		this.renamePopUp.GetComponent<RenamePopUpController> ().resize ();
 	}
 	private void buyXpPopUpResize()
 	{
-		buyXpView.popUpVM.centralWindow = this.centralWindow;
-		buyXpView.popUpVM.resize ();
+		this.buyXpPopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y, -2f);
+		this.buyXpPopUp.transform.localScale = ApplicationDesignRules.popUpScale*(1/ApplicationDesignRules.cardFocusedScale.x);
+		this.buyXpPopUp.GetComponent<BuyXpPopUpController> ().resize ();
 	}
 	private void buyPopUpResize()
 	{
@@ -478,18 +472,21 @@ public class NewFocusedCardController : MonoBehaviour
 	}
 	public void hideSellPopUp()
 	{
-		Destroy (this.sellView);
-		this.isSellViewDisplayed = false;
+		this.sellPopUp.SetActive (false);
+		MenuController.instance.hideTransparentBackground();
+		this.isSellPopUpDisplayed = false;
 	}
 	public void hideRenamePopUp()
 	{
-		Destroy (this.renameView);
-		this.isRenameViewDisplayed = false;
+		this.renamePopUp.SetActive (false);
+		MenuController.instance.hideTransparentBackground();
+		this.isRenamePopUpDisplayed = false;
 	}
 	public void hideBuyXpPopUp()
 	{
-		Destroy (this.buyXpView);
-		this.isBuyXpViewDisplayed = false;
+		this.buyXpPopUp.SetActive (false);
+		MenuController.instance.hideTransparentBackground();
+		this.isBuyXpPopUpDisplayed = false;
 	}
 	public void hideBuyPopUp()
 	{
@@ -904,32 +901,34 @@ public class NewFocusedCardController : MonoBehaviour
 	}
 	public string renameCardSyntaxCheck()
 	{
-		string tempString = renameView.renamePopUpVM.newTitle;
+		string tempString = this.renamePopUp.transform.GetComponent<RenamePopUpController> ().getFirstInput ();;
+		string error="";
 		if(tempString=="")
 		{
-			renameView.renamePopUpVM.error="Merci de bien vouloir saisir un nom";
-			return "";
+			error="Merci de bien vouloir saisir un nom";
+			tempString="";
 		}
 		else if(tempString==this.c.Title)
 		{
-			renameView.renamePopUpVM.error="Le nom saisi est identique à l'ancien";
-			return "";
+			error="Le nom saisi est identique à l'ancien";
+			tempString="";
 		}
 		else if(tempString.Length<4 )
 		{
-			renameView.renamePopUpVM.error= "Le nom doit au moins comporter 4 caractères";
-			return "";
+			error= "Le nom doit au moins comporter 4 caractères";
+			tempString="";
 		}
 		else if(tempString.Length>11 )
 		{
-			renameView.renamePopUpVM.error="Le nom doit faire moins de 12 caractères";
-			return "";
+			error="Le nom doit faire moins de 12 caractères";
+			tempString="";
 		}
 		else if(!Regex.IsMatch(tempString, @"^[a-zA-Z0-9_]+$"))
 		{
-			renameView.renamePopUpVM.error="Vous ne pouvez pas utiliser de caractères spéciaux";
-			return "";
+			error="Vous ne pouvez pas utiliser de caractères spéciaux";
+			tempString="";
 		}
+		this.renamePopUp.transform.GetComponent<RenamePopUpController> ().setError (error);
 		return tempString;
 	}
 	public int editSellPriceSyntaxCheck()
@@ -1027,15 +1026,15 @@ public class NewFocusedCardController : MonoBehaviour
 		{
 			this.editSellPopUpResize();
 		}
-		else if(isSellViewDisplayed)
+		else if(isSellPopUpDisplayed)
 		{
 			this.sellPopUpResize();
 		}
-		else if(isRenameViewDisplayed)
+		else if(isRenamePopUpDisplayed)
 		{
 			this.renamePopUpResize();
 		}
-		else if(isBuyXpViewDisplayed)
+		else if(isBuyXpPopUpDisplayed)
 		{
 			this.buyXpPopUpResize();
 		}
@@ -1074,15 +1073,15 @@ public class NewFocusedCardController : MonoBehaviour
 		{
 			this.editSellPriceCardHandler();
 		}
-		else if(isSellViewDisplayed)
+		else if(isSellPopUpDisplayed)
 		{
 			this.sellCardHandler();
 		}
-		else if(isRenameViewDisplayed)
+		else if(isRenamePopUpDisplayed)
 		{
 			this.renameCardHandler();
 		}
-		else if(isBuyXpViewDisplayed)
+		else if(isBuyXpPopUpDisplayed)
 		{
 			this.buyXpCardHandler();
 		}
@@ -1117,15 +1116,15 @@ public class NewFocusedCardController : MonoBehaviour
 		{
 			this.hideEditSellPopUp();
 		}
-		else if(isSellViewDisplayed)
+		else if(isSellPopUpDisplayed)
 		{
 			this.hideSellPopUp();
 		}
-		else if(isRenameViewDisplayed)
+		else if(isRenamePopUpDisplayed)
 		{
 			this.hideRenamePopUp();
 		}
-		else if(isBuyXpViewDisplayed)
+		else if(isBuyXpPopUpDisplayed)
 		{
 			this.hideBuyXpPopUp();
 		}

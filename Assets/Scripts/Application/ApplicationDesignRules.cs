@@ -75,10 +75,12 @@ public class ApplicationDesignRules : MonoBehaviour
 	static private Vector2 cardHaloSize = new Vector2(200f,279f);
 	static public Vector2 cardHaloWorldSize;
 	static private Vector3 cardHaloOriginalScale=new Vector3(1f,1f,1f);
+	static private Vector3 cardHaloMobileScale = new Vector3 (1.2f, 1.2f, 1.2f);
 	static public Vector3 cardHaloScale;
 	static private Vector2 cardSize = new Vector2(720f,1004f);
 	static public Vector2 cardWorldSize;
 	static private Vector3 cardOriginalScale=new Vector3(0.2694445f,0.2694445f,0.2694445f);
+	static private Vector3 cardMobileScale = new Vector3 (0.34f, 0.34f, 0.34f);
 	static public Vector3 cardScale;
 	static private Vector2 lineSize = new Vector2 (1500f, 2f);
 	static public Vector2 lineWorldSize;
@@ -130,6 +132,7 @@ public class ApplicationDesignRules : MonoBehaviour
 	static private Vector2 largeInputTextSize = new Vector2(731f,81f);
 	static public Vector2 largeInputTextWorldSize;
 	static private Vector3 largeInputTextOriginalScale=new Vector3(0.6f,0.6f,0.6f);
+	static private Vector3 largeInputTextMobileScale = new Vector3 (1f, 1f, 1f);
 	static public Vector3 largeInputTextScale;
 	static private Vector3 valueFilterOriginalScale = new Vector3 (1f, 1f, 1f);
 	static public Vector3 valueFilterScale;
@@ -148,6 +151,9 @@ public class ApplicationDesignRules : MonoBehaviour
 	static public Vector2 skillWorldSize;
 	static private Vector3 skillOriginalScale=new Vector3(0.53f,0.53f,0.53f);
 	static public Vector3 skillScale;
+	static public Vector3 popUpScale;
+	static public Vector3 popUpOriginalScale = new Vector3 (0.7f, 0.7f, 0.7f);
+	static public Vector3 popUpMobileScale = new Vector3 (1f, 1f, 1f);
 
 	static private Vector3 mainTitleOriginalScale=new Vector3(1f,1f,1f);
 	static public Vector3 mainTitleScale;
@@ -318,7 +324,7 @@ public class ApplicationDesignRules : MonoBehaviour
 		inputTextScale = toNewScale (inputTextOriginalScale,inputTextOriginalScale);
 		inputTextWorldSize = toWorldSize (inputTextSize, inputTextScale);
 
-		largeInputTextScale = toNewScale (largeInputTextOriginalScale,largeInputTextOriginalScale);
+		largeInputTextScale = toNewScale (largeInputTextOriginalScale,largeInputTextMobileScale);
 		largeInputTextWorldSize = toWorldSize (largeInputTextSize, largeInputTextScale);
 
 		subMainTitleScale = toNewScale (subMainTitleOriginalScale,subMainTitleOriginalScale);
@@ -334,6 +340,8 @@ public class ApplicationDesignRules : MonoBehaviour
 
 		skillScale = toNewScale (skillOriginalScale,skillOriginalScale);
 		skillWorldSize = toWorldSize (skillSize, skillScale);
+
+		popUpScale = toNewScale (popUpOriginalScale, popUpMobileScale);
 
 		packWorldSize.x = blockWidth - 2f * 0.3f;
 		packWorldSize.y = 2.5f;
