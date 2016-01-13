@@ -14,12 +14,6 @@ public class MenuController : MonoBehaviour
 	private MenuPhotonController photon;
 	private int currentPage;
 	private float timer;
-	private GameObject playPopUp;
-	private GameObject invitationPopUp;
-	private GameObject transparentBackground;
-	private bool isPlayPopUpDisplayed;
-	private bool isInvitationPopUpDisplayed;
-	private bool isTransparentBackgroundDisplayed;
 	private Rect centralWindow;
 	private Rect collectionPointsWindow;
 	private Rect newSkillsWindow;
@@ -41,6 +35,12 @@ public class MenuController : MonoBehaviour
 	private bool areNewSkillsPopUpsDisplayed;
 	private GameObject newCardTypePopUp;
 	private bool isNewCardTypePopUpDisplayed;
+	private GameObject playPopUp;
+	private bool isPlayPopUpDisplayed;
+	private GameObject invitationPopUp;
+	private bool isInvitationPopUpDisplayed;
+	private GameObject transparentBackground;
+	private bool isTransparentBackgroundDisplayed;
 
 	private float speed;
 	private float timerCollectionPoints;
@@ -175,10 +175,11 @@ public class MenuController : MonoBehaviour
 	public void displayInvitationPopUp()
 	{
 		this.closeAllPopUp ();
-		this.displayTransparentBackground ();
+		MenuController.instance.displayTransparentBackground ();
 		this.invitationPopUp=Instantiate(this.ressources.invitationPopUpObject) as GameObject;
 		this.invitationPopUp.transform.position = new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y, -2f);
 		this.isInvitationPopUpDisplayed = true;
+		this.invitationPopUpResize ();
 	}
 	public void errorPopUpResize()
 	{
@@ -190,6 +191,11 @@ public class MenuController : MonoBehaviour
 	{
 		this.playPopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y, -2f);
 		this.playPopUp.transform.localScale = ApplicationDesignRules.popUpScale*(1f/this.gameObject.transform.localScale.x);
+	}
+	public void invitationPopUpResize()
+	{
+		this.invitationPopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y, -2f);
+		this.invitationPopUp.transform.localScale = ApplicationDesignRules.popUpScale*(1f/this.gameObject.transform.localScale.x);
 	}
 	public void transparentBackgroundResize()
 	{
@@ -492,6 +498,10 @@ public class MenuController : MonoBehaviour
 		if(this.isPlayPopUpDisplayed)
 		{
 			this.playPopUpResize();
+		}
+		if(this.isInvitationPopUpDisplayed)
+		{
+			this.invitationPopUpResize();
 		}
 	}
 	public void refreshMenuObject()

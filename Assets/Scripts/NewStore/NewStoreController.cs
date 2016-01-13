@@ -61,8 +61,8 @@ public class NewStoreController : MonoBehaviour
 	
 	private NewStoreAddCreditsPopUpView addCreditsView;
 	private bool isAddCreditsViewDisplayed;
-	private NewStoreSelectCardTypePopUpView selectCardTypeView;
-	private bool isSelectCardTypeViewDisplayed;
+	private GameObject selectCardTypePopUp;
+	private bool isSelectCardTypePopUpDisplayed;
 
 	private Pagination packsPagination;
 
@@ -295,6 +295,8 @@ public class NewStoreController : MonoBehaviour
 		this.mediumScrollCamera = GameObject.Find ("MediumScrollCamera");
 		this.mediumScrollCamera.AddComponent<ScrollingController> ();
 		this.upperScrollCamera = GameObject.Find ("UpperScrollCamera");
+		this.selectCardTypePopUp = GameObject.Find ("SelectCardTypePopUp");
+		this.selectCardTypePopUp.SetActive (false);
 	}
 	private IEnumerator initialization()
 	{
@@ -574,7 +576,7 @@ public class NewStoreController : MonoBehaviour
 		{
 			this.resizeRandomCards();
 		}
-		if(isSelectCardTypeViewDisplayed)
+		if(isSelectCardTypePopUpDisplayed)
 		{
 			this.selectCardPopUpResize();
 		}
@@ -822,16 +824,11 @@ public class NewStoreController : MonoBehaviour
 			StartCoroutine (this.buyPack ());
 		}
 	}
-	public void buyPackWidthCardTypeHandler()
+	public void buyPackWidthCardTypeHandler(int id)
 	{
-		if(isCardTypeSelected())
-		{
-			selectCardTypeView.selectCardTypePopUpVM.guiEnabled=false;
-			int cardType;
-			this.selectedCardType=this.getCardTypeId(selectCardTypeView.selectCardTypePopUpVM.cardTypeSelected);
-			this.hideSelectCardPopUp();
-			StartCoroutine(this.buyPack());	
-		}
+		this.selectedCardType=id;
+		this.hideSelectCardPopUp();
+		StartCoroutine(this.buyPack());	
 	}
 	public IEnumerator buyPack()
 	{
@@ -910,15 +907,6 @@ public class NewStoreController : MonoBehaviour
 	{
 		this.sceneCamera.transform.position=ApplicationDesignRules.sceneCameraRandomCardsPosition;
 	}
-	public List<string> getCardTypesAllowed()
-	{
-		List<string> cardTypesAllowed = new List<string> ();
-		for(int i=0;i<model.player.CardTypesAllowed.Count;i++)
-		{
-			cardTypesAllowed.Add(model.cardTypeList[model.player.CardTypesAllowed[i]]);
-		}
-		return cardTypesAllowed;
-	}
 	public int getCardTypeId(int value)
 	{
 		return model.player.CardTypesAllowed [value];
@@ -983,7 +971,7 @@ public class NewStoreController : MonoBehaviour
 		{
 			this.hideAddCreditsPopUp();
 		}
-		else if(this.isSelectCardTypeViewDisplayed)
+		else if(this.isSelectCardTypePopUpDisplayed)
 		{
 			this.hideSelectCardPopUp();
 		}
@@ -998,7 +986,7 @@ public class NewStoreController : MonoBehaviour
 		{
 			this.hideAddCreditsPopUp();
 		}
-		else if(this.isSelectCardTypeViewDisplayed)
+		else if(this.isSelectCardTypePopUpDisplayed)
 		{
 			this.hideSelectCardPopUp();
 		}
@@ -1032,33 +1020,11 @@ public class NewStoreController : MonoBehaviour
 	}
 	public void displaySelectCardTypePopUp()
 	{
-		this.selectCardTypeView = gameObject.AddComponent<NewStoreSelectCardTypePopUpView> ();
-		this.isSelectCardTypeViewDisplayed = true;
-		List<string> cardTypesAllowed = this.getCardTypesAllowed ();
-		selectCardTypeView.selectCardTypePopUpVM.cardTypes=new string[cardTypesAllowed.Count];
-		for(int i =0;i<cardTypesAllowed.Count;i++)
-		{
-			selectCardTypeView.selectCardTypePopUpVM.cardTypes[i]=cardTypesAllowed[i];
-		}
-		selectCardTypeView.popUpVM.centralWindowStyle = new GUIStyle(this.popUpSkin.window);
-		selectCardTypeView.popUpVM.centralWindowTitleStyle = new GUIStyle (this.popUpSkin.customStyles [0]);
-		selectCardTypeView.popUpVM.centralWindowButtonStyle = new GUIStyle (this.popUpSkin.button);
-		selectCardTypeView.popUpVM.centralWindowSelGridStyle = new GUIStyle (this.popUpSkin.toggle);
-		selectCardTypeView.popUpVM.transparentStyle = new GUIStyle (this.popUpSkin.customStyles [2]);
-		selectCardTypeView.popUpVM.centralWindowErrorStyle = new GUIStyle (this.popUpSkin.customStyles [1]);
+		MenuController.instance.displayTransparentBackground ();
+		this.selectCardTypePopUp.transform.GetComponent<SelectCardTypePopUpController> ().reset (model.player.CardTypesAllowed);
+		this.isSelectCardTypePopUpDisplayed = true;
+		this.selectCardTypePopUp.SetActive (true);
 		this.selectCardPopUpResize ();
-	}
-	private bool isCardTypeSelected()
-	{
-		if(selectCardTypeView.selectCardTypePopUpVM.cardTypeSelected!=-1)
-		{
-			return true;
-		}
-		else
-		{
-			selectCardTypeView.selectCardTypePopUpVM.error="Veuillez sélectionner une classe";
-			return false;
-		}
 	}
 	public void addCreditsPopUpResize()
 	{
@@ -1067,13 +1033,15 @@ public class NewStoreController : MonoBehaviour
 	}
 	private void selectCardPopUpResize()
 	{
-		selectCardTypeView.popUpVM.centralWindow = this.centralWindow;
-		selectCardTypeView.popUpVM.resize ();
+		this.selectCardTypePopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y, -2f);
+		this.selectCardTypePopUp.transform.localScale = ApplicationDesignRules.popUpScale;
+		this.selectCardTypePopUp.GetComponent<SelectCardTypePopUpController> ().resize ();
 	}
 	public void hideSelectCardPopUp()
 	{
-		Destroy (this.selectCardTypeView);
-		this.isSelectCardTypeViewDisplayed = false;
+		this.selectCardTypePopUp.SetActive (false);
+		MenuController.instance.hideTransparentBackground();
+		this.isSelectCardTypePopUpDisplayed = false;
 	}
 	public void hideAddCreditsPopUp()
 	{
