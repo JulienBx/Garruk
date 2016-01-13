@@ -27,19 +27,18 @@ public class MenuController : MonoBehaviour
 	private GameObject loadingScreen;
 	private GameObject tutorial;
 	
-	private bool isDisconnectedViewDisplayed;
-	private NewMenuDisconnectedPopUpView disconnectedView;
-	
 	private bool isLoadingScreenDisplayed;
 	
 	private bool isInviting;
 	
-	private newMenuErrorPopUpView errorView;
-	private bool errorViewDisplayed;
-	private NewCollectionPointsPopUpView collectionPointsView;
-	private bool isCollectionPointsViewDisplayed;
-	private NewSkillsPopUpView newSkillsView;
-	private bool isNewSkillsViewDisplayed;
+	private GameObject disconnectedPopUp;
+	private bool isDisconnectedPopUpDisplayed;
+	private GameObject errorPopUp;
+	private bool isErrorPopUpDisplayed;
+	private GameObject collectionPointsPopUp;
+	private bool isCollectionPointsPopUpDisplayed;
+	private GameObject[] newSkillsPopUps;
+	private bool areNewSkillsPopUpsDisplayed;
 	private NewCardTypePopUpView newCardTypeView;
 	private bool isNewCardTypeViewDisplayed;
 
@@ -98,30 +97,27 @@ public class MenuController : MonoBehaviour
 		{
 			this.resizeAll();
 		}
-		if(isCollectionPointsViewDisplayed)
+		if(isCollectionPointsPopUpDisplayed)
 		{
 			timerCollectionPoints = timerCollectionPoints + speed * Time.deltaTime;
 			if(timerCollectionPoints>15f)
 			{
 				timerCollectionPoints=0f;
 				this.hideCollectionPointsPopUp();
-				if(isNewSkillsViewDisplayed)
+				if(areNewSkillsPopUpsDisplayed)
 				{
-					this.hideNewSkillsPopUp();
+					this.hideNewSkillsPopUps();
 				}
 			}
 		}
 	}
 	public void displayErrorPopUp(string error)
 	{
-		this.errorViewDisplayed = true;
-		this.errorView = Camera.main.gameObject.AddComponent <newMenuErrorPopUpView>();
-		errorView.errorPopUpVM.error = error;
-		errorView.popUpVM.centralWindowStyle = new GUIStyle(ressources.popUpSkin.customStyles[3]);
-		errorView.popUpVM.centralWindowTitleStyle = new GUIStyle (ressources.popUpSkin.customStyles [0]);
-		errorView.popUpVM.centralWindowButtonStyle = new GUIStyle (ressources.popUpSkin.button);
-		errorView.popUpVM.transparentStyle = new GUIStyle (ressources.popUpSkin.customStyles [2]);
-		this.errorPopUpResize ();
+		MenuController.instance.displayTransparentBackground ();
+		this.errorPopUp.transform.GetComponent<ErrorPopUpController> ().reset (error);
+		this.isErrorPopUpDisplayed = true;
+		this.errorPopUp.SetActive (true);
+		this.errorPopUpResize();
 	}
 	public void displayPlayPopUp()
 	{
@@ -132,44 +128,31 @@ public class MenuController : MonoBehaviour
 	}
 	public void displayCollectionPointsPopUp(int collectionPoints, int collectionPointsRanking)
 	{
-		if(this.isCollectionPointsViewDisplayed)
+		if(this.isCollectionPointsPopUpDisplayed)
 		{
 			this.hideCollectionPointsPopUp();
 		}
-		collectionPointsView = gameObject.AddComponent<NewCollectionPointsPopUpView>();
-		this.isCollectionPointsViewDisplayed = true;
+		this.collectionPointsPopUp.SetActive (true);
+		this.isCollectionPointsPopUpDisplayed = true;
+		this.collectionPointsPopUp.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Collections Points : + " + collectionPoints.ToString () + "\nClassement : " + collectionPointsRanking.ToString ();
 		this.timerCollectionPoints = 0f;
-		collectionPointsView.popUpVM.centralWindow = this.collectionPointsWindow;
-		collectionPointsView.cardCollectionPointsPopUpVM.collectionPoints = collectionPoints;
-		collectionPointsView.cardCollectionPointsPopUpVM.collectionPointsRanking = collectionPointsRanking;
-		collectionPointsView.popUpVM.centralWindowStyle = new GUIStyle(ressources.popUpSkin.window);
-		collectionPointsView.popUpVM.centralWindowTitleStyle = new GUIStyle (ressources.popUpSkin.customStyles [0]);
 		this.collectionPointsPopUpResize ();
 	}
-	public void displayNewSkillsPopUp(IList<Skill> newSkills)
+	public void displayNewSkillsPopUps(IList<Skill> newSkills)
 	{
-		if(this.isNewSkillsViewDisplayed)
+		if(this.areNewSkillsPopUpsDisplayed)
 		{
-			this.hideNewSkillsPopUp();
+			this.hideNewSkillsPopUps();
 		}
-		this.newSkillsView = gameObject.AddComponent<NewSkillsPopUpView>();
-		this.isNewSkillsViewDisplayed = true;
-		newSkillsView.popUpVM.centralWindow = this.newSkillsWindow;
+		this.areNewSkillsPopUpsDisplayed = true;
+		this.newSkillsPopUps=new GameObject[newSkills.Count];
 		for(int i=0;i<newSkills.Count;i++)
 		{
-			newSkillsView.cardNewSkillsPopUpVM.skills.Add (newSkills[i].Name);
+			this.newSkillsPopUps[i]=Instantiate(this.ressources.newSkillPopUpObject) as GameObject;
+			this.newSkillsPopUps[i].transform.FindChild("Title").GetComponent<TextMeshPro>().text=newSkills[i].Name;
+			this.newSkillsPopUps[i].transform.FindChild("Picto").GetComponent<SpriteRenderer>().sprite=returnSkillPicture(newSkills[i].IdPicture);
 		}
-		if(newSkills.Count>1)
-		{
-			newSkillsView.cardNewSkillsPopUpVM.title="Nouvelles compétences :";
-		}
-		else if(newSkills.Count==1)
-		{
-			newSkillsView.cardNewSkillsPopUpVM.title="Nouvelle compétence :";
-		}
-		newSkillsView.popUpVM.centralWindowStyle = new GUIStyle(ressources.popUpSkin.window);
-		newSkillsView.popUpVM.centralWindowTitleStyle = new GUIStyle (ressources.popUpSkin.customStyles [0]);
-		this.newSkillsPopUpResize ();
+		this.newSkillsPopUpsResize ();
 	}
 	public void displayNewCardTypePopUp(string titleCardTypeUnlocked)
 	{
@@ -201,8 +184,9 @@ public class MenuController : MonoBehaviour
 	}
 	public void errorPopUpResize()
 	{
-		errorView.popUpVM.centralWindow = this.centralWindow;
-		errorView.popUpVM.resize ();
+		this.errorPopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y, -2f);
+		this.errorPopUp.transform.localScale = ApplicationDesignRules.popUpScale*(1f/this.gameObject.transform.localScale.x);
+		this.errorPopUp.GetComponent<ErrorPopUpController> ().resize ();
 	}
 	public void transparentBackgroundResize()
 	{
@@ -211,13 +195,18 @@ public class MenuController : MonoBehaviour
 	}
 	private void collectionPointsPopUpResize()
 	{
-		collectionPointsView.popUpVM.centralWindow = this.collectionPointsWindow;
-		collectionPointsView.popUpVM.resize ();
+		this.collectionPointsPopUp.transform.position = ApplicationDesignRules.collectionPopUpPosition;
+		this.collectionPointsPopUp.transform.localScale = ApplicationDesignRules.collectionPopUpScale*(1f/this.gameObject.transform.localScale.x);
 	}
-	private void newSkillsPopUpResize()
+	private void newSkillsPopUpsResize()
 	{
-		newSkillsView.popUpVM.centralWindow = this.newSkillsWindow;
-		newSkillsView.popUpVM.resize ();
+		Vector3 newSkillPopUpPosition=ApplicationDesignRules.collectionPopUpPosition;
+		for(int i=0;i<this.newSkillsPopUps.Length;i++)
+		{
+			this.newSkillsPopUps[i].transform.localScale=ApplicationDesignRules.newSkillsPopUpScale;
+			newSkillPopUpPosition.y=ApplicationDesignRules.collectionPopUpPosition.y-ApplicationDesignRules.collectionPopUpWorldSize.y/2f-0.025f-ApplicationDesignRules.newSkillsPopUpWorldSize.y/2f-i*(ApplicationDesignRules.newSkillsPopUpWorldSize.y+0.025f);
+			this.newSkillsPopUps[i].transform.position=newSkillPopUpPosition;
+		}
 	}
 	private void newCardTypePopUpResize()
 	{
@@ -226,23 +215,27 @@ public class MenuController : MonoBehaviour
 	}
 	public void hideCollectionPointsPopUp()
 	{
-		Destroy (this.collectionPointsView);
-		this.isCollectionPointsViewDisplayed = false;
+		this.collectionPointsPopUp.SetActive (false);
+		this.isCollectionPointsPopUpDisplayed = false;
 	}
 	public void hideNewCardTypePopUp()
 	{
 		Destroy (this.newCardTypeView);
 		this.isNewCardTypeViewDisplayed = false;
 	}
-	public void hideNewSkillsPopUp()
+	public void hideNewSkillsPopUps()
 	{
-		Destroy (this.newSkillsView);
-		this.isNewSkillsViewDisplayed = false;
+		for(int i=0;i<this.newSkillsPopUps.Length;i++)
+		{
+			Destroy (this.newSkillsPopUps[i]);
+		}
+		this.areNewSkillsPopUpsDisplayed = false;
 	}
 	public void hideErrorPopUp()
 	{
-		Destroy (this.errorView);
-		this.errorViewDisplayed = false;
+		this.errorPopUp.SetActive (false);
+		MenuController.instance.hideTransparentBackground();
+		this.isErrorPopUpDisplayed = false;
 	}
 	public void hideInvitationPopUp()
 	{
@@ -361,8 +354,10 @@ public class MenuController : MonoBehaviour
 			this.gameObject.transform.FindChild("Button"+i).GetComponent<MenuButtonController>().setId(i);
 			this.gameObject.transform.FindChild("BottomBar").FindChild("Button"+i).GetComponent<MenuButtonController>().setId(i);
 		}
-		
 		this.gameObject.transform.FindChild("UserBlock").FindChild("Username").GetComponent<TextMeshPro>().text=ApplicationModel.username;
+		this.disconnectedPopUp=this.gameObject.transform.FindChild("disconnectPopUp").gameObject;
+		this.errorPopUp = this.gameObject.transform.FindChild ("errorPopUp").gameObject;
+		this.collectionPointsPopUp = this.gameObject.transform.FindChild ("collectionPointsPopUp").gameObject;
 	}
 	public virtual void resizeAll()
 	{
@@ -442,7 +437,6 @@ public class MenuController : MonoBehaviour
 			}
 		}
 
-
 		float logoBlockWidth = 693f;
 		float logoBlockScale = 0.7f;
 		float logoBlockWorldWidth = (logoBlockWidth / ApplicationDesignRules.pixelPerUnit)*logoBlockScale;
@@ -465,15 +459,26 @@ public class MenuController : MonoBehaviour
 		}
 		gameObject.transform.FindChild ("UserBlock").transform.position = userBlockPosition;
 
+		if(this.isCollectionPointsPopUpDisplayed)
+		{
+			this.collectionPointsPopUpResize();
+		}
+		if(this.areNewSkillsPopUpsDisplayed)
+		{
+			this.newSkillsPopUpsResize();
+		}
 		if(this.isTransparentBackgroundDisplayed)
 		{
 			this.transparentBackgroundResize();
 		}
-		if(this.errorViewDisplayed)
+		if(this.isDisconnectedPopUpDisplayed)
+		{
+			this.disconnectedPopUpResize();
+		}
+		if(this.isErrorPopUpDisplayed)
 		{
 			this.errorPopUpResize();
 		}
-
 	}
 	public void refreshMenuObject()
 	{
@@ -518,7 +523,7 @@ public class MenuController : MonoBehaviour
 	}
 	public void logOutLink() 
 	{
-		if(isDisconnectedViewDisplayed)
+		if(isDisconnectedPopUpDisplayed)
 		{
 			this.hideDisconnectedPopUp();
 		}
@@ -572,11 +577,11 @@ public class MenuController : MonoBehaviour
 	}
 	public void returnPressed()
 	{
-		if(errorViewDisplayed)
+		if(isErrorPopUpDisplayed)
 		{
 			this.hideErrorPopUp();
 		}
-		else if(isDisconnectedViewDisplayed)
+		else if(isDisconnectedPopUpDisplayed)
 		{
 			this.logOutLink();
 		}
@@ -598,7 +603,7 @@ public class MenuController : MonoBehaviour
 	}
 	public void escapePressed()
 	{
-		if(errorViewDisplayed)
+		if(isErrorPopUpDisplayed)
 		{
 			this.hideErrorPopUp();
 		}
@@ -609,7 +614,7 @@ public class MenuController : MonoBehaviour
 				this.hidePlayPopUp();
 			}
 		}
-		else if(isDisconnectedViewDisplayed)
+		else if(isDisconnectedPopUpDisplayed)
 		{
 			this.hideDisconnectedPopUp();
 		}
@@ -631,7 +636,7 @@ public class MenuController : MonoBehaviour
 	}
 	public void closeAllPopUp()
 	{
-		if(errorViewDisplayed)
+		if(isErrorPopUpDisplayed)
 		{
 			this.hideErrorPopUp();
 		}
@@ -646,7 +651,7 @@ public class MenuController : MonoBehaviour
 		{
 			this.hideNewCardTypePopUp();
 		}
-		if(isDisconnectedViewDisplayed)
+		if(isDisconnectedPopUpDisplayed)
 		{
 			this.hideDisconnectedPopUp();
 		}
@@ -657,25 +662,24 @@ public class MenuController : MonoBehaviour
 	}
 	public void displayDisconnectedPopUp()
 	{
-		this.isDisconnectedViewDisplayed = true;
-		this.disconnectedView = Camera.main.gameObject.AddComponent <NewMenuDisconnectedPopUpView>();
-		disconnectedView.popUpVM.centralWindowStyle = new GUIStyle(this.ressources.popUpSkin.window);
-		disconnectedView.popUpVM.centralWindowTitleStyle = new GUIStyle (this.ressources.popUpSkin.customStyles [0]);
-		disconnectedView.popUpVM.centralWindowButtonStyle = new GUIStyle (this.ressources.popUpSkin.button);
-		disconnectedView.popUpVM.transparentStyle = new GUIStyle (this.ressources.popUpSkin.customStyles [2]);
-		this.disconnectedPopUpResize ();
+		MenuController.instance.displayTransparentBackground ();
+		this.disconnectedPopUp.transform.GetComponent<DisconnectPopUpController> ().reset ();
+		this.isDisconnectedPopUpDisplayed = true;
+		this.disconnectedPopUp.SetActive (true);
+		this.disconnectedPopUpResize();
 	}
 	public void disconnectedPopUpResize()
 	{
-		disconnectedView.popUpVM.centralWindow = this.centralWindow;
-		disconnectedView.popUpVM.resize ();
+		this.disconnectedPopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y, -2f);
+		this.disconnectedPopUp.transform.localScale = ApplicationDesignRules.popUpScale*(1f/this.gameObject.transform.localScale.x);
+		this.disconnectedPopUp.GetComponent<DisconnectPopUpController> ().resize ();
 	}
 	public void hideDisconnectedPopUp()
 	{
-		Destroy (this.disconnectedView);
-		this.isDisconnectedViewDisplayed = false;
+		this.disconnectedPopUp.SetActive (false);
+		MenuController.instance.hideTransparentBackground();
+		this.isDisconnectedPopUpDisplayed = false;
 	}
-	
 	public void displayLoadingScreen()
 	{
 		if(!isLoadingScreenDisplayed)

@@ -614,7 +614,7 @@ public class newMyGameController : MonoBehaviour
 			cardsBlockUpMargin=deckBlockUpMargin+ApplicationDesignRules.gapBetweenBlocks+deckBlockHeight;
 			
 			filtersBlockHeight=ApplicationDesignRules.viewHeight;
-			filtersBlockLeftMargin=ApplicationDesignRules.worldWidth;
+			filtersBlockLeftMargin=ApplicationDesignRules.worldWidth+ApplicationDesignRules.leftMargin;
 			filtersBlockUpMargin=0f;
 
 			this.upperScrollCamera.GetComponent<Camera> ().rect = new Rect (0f,(ApplicationDesignRules.worldHeight-ApplicationDesignRules.upMargin-this.scrollIntersection)/ApplicationDesignRules.worldHeight,1f,(this.scrollIntersection)/ApplicationDesignRules.worldHeight);this.upperScrollCamera.GetComponent<Camera> ().orthographicSize = this.scrollIntersection/2f;

@@ -381,7 +381,7 @@ public class NewStoreController : MonoBehaviour
 			storeBlockLeftMargin=-ApplicationDesignRules.worldWidth;
 			storeBlockUpMargin=0f;
 
-			buyCreditsBlockLeftMargin=ApplicationDesignRules.worldWidth;
+			buyCreditsBlockLeftMargin=ApplicationDesignRules.worldWidth+ApplicationDesignRules.leftMargin;
 			buyCreditsBlockUpMargin=0f;
 			
 			packsBlockLeftMargin=ApplicationDesignRules.leftMargin;
@@ -455,7 +455,7 @@ public class NewStoreController : MonoBehaviour
 
 			this.packsPaginationLine.SetActive(true);
 			this.topPacksScrollLine.SetActive(false);
-			this.bottomPacksScrollLine.SetActive(true);
+			this.bottomPacksScrollLine.SetActive(false);
 			this.packsPagination.nbElementsPerPage = 2;
 			this.lowerScrollCamera.SetActive(false);
 			this.upperScrollCamera.SetActive(false);
@@ -858,7 +858,7 @@ public class NewStoreController : MonoBehaviour
 				}
 				if(this.model.NewSkills.Count>0)
 				{
-					MenuController.instance.displayNewSkillsPopUp(model.NewSkills);
+					MenuController.instance.displayNewSkillsPopUps(model.NewSkills);
 				}
 				TutorialObjectController.instance.tutorialTrackPoint ();
 			}

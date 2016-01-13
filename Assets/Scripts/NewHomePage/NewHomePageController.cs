@@ -223,7 +223,7 @@ public class NewHomePageController : MonoBehaviour
 		{
 			if(model.player.TutorialStep==-1)
 			{
-				this.launchEndGameSequence(ApplicationModel.hasWonLastGame);
+				this.displayEndGamePopUp(ApplicationModel.hasWonLastGame);
 			}
 			ApplicationModel.launchEndGameSequence=false;
 			ApplicationModel.hasWonLastGame=false;
@@ -468,7 +468,7 @@ public class NewHomePageController : MonoBehaviour
 		this.focusedCard.AddComponent<NewFocusedCardHomePageController> ();
 		this.focusedCard.SetActive (false);
 
-		this.endGamePopUp = GameObject.Find ("EndGamePopUp");
+		this.endGamePopUp = GameObject.Find ("endGamePopUp");
 		this.endGamePopUp.SetActive (false);
 
 		this.mainCamera = gameObject;
@@ -720,7 +720,10 @@ public class NewHomePageController : MonoBehaviour
 		{
 			this.connectionBonusPopUpResize();
 		}
-
+		else if(isEndGamePopUpDisplayed)
+		{
+			this.endGamePopUpResize();
+		}
 	}
 	private void retrieveDefaultDeck()
 	{
@@ -1379,6 +1382,26 @@ public class NewHomePageController : MonoBehaviour
 		this.connectionBonusPopUp.transform.localScale = ApplicationDesignRules.popUpScale;
 		this.connectionBonusPopUp.GetComponent<ConnectionBonusPopUpController> ().resize ();
 	}
+	private void displayEndGamePopUp(bool hasWon)
+	{
+		MenuController.instance.displayTransparentBackground ();
+		this.endGamePopUp.transform.GetComponent<EndGamePopUpController> ().reset (hasWon);
+		this.isEndGamePopUpDisplayed = true;
+		this.endGamePopUp.SetActive (true);
+		this.endGamePopUpResize();
+	}
+	public void endGamePopUpResize()
+	{
+		this.endGamePopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y, -2f);
+		this.endGamePopUp.transform.localScale = ApplicationDesignRules.popUpScale;
+		this.endGamePopUp.GetComponent<EndGamePopUpController> ().resize ();
+	}
+	public void hideEndGamePopUp()
+	{
+		this.endGamePopUp.SetActive (false);
+		MenuController.instance.hideTransparentBackground();
+		this.isEndGamePopUpDisplayed = false;
+	}
 	public void joinGameHandler(int id)
 	{
 		if(this.deckDisplayed==-1)
@@ -1404,32 +1427,6 @@ public class NewHomePageController : MonoBehaviour
 		{
 			Application.LoadLevel("NewLobby");
 		}
-	}
-	private void launchEndGameSequence(bool hasWon)
-	{
-		if(hasWon)
-		{
-			this.endGamePopUp.transform.FindChild("Title").GetComponent<TextMeshPro>().text="BRAVO !";
-			this.endGamePopUp.transform.FindChild("Content").GetComponent<TextMeshPro>().text="Venez en match officiel vous mesurer aux meilleurs joueurs !";
-		}
-		else
-		{
-			this.endGamePopUp.transform.FindChild("Title").GetComponent<TextMeshPro>().text="DOMMAGE !";
-			this.endGamePopUp.transform.FindChild("Content").GetComponent<TextMeshPro>().text="C'est en s'entrainant qu'on progresse ! Courage !";
-		}
-		this.displayEndGamePopUp ();
-	}
-	private void displayEndGamePopUp()
-	{
-		this.isEndGamePopUpDisplayed = true;
-		this.endGamePopUp.SetActive (true);
-		MenuController.instance.displayTransparentBackground ();
-	}
-	public void hideEndGamePopUp()
-	{
-		this.isEndGamePopUpDisplayed = false;
-		this.endGamePopUp.SetActive (false);
-		MenuController.instance.hideTransparentBackground ();
 	}
 	public Vector3 getEndGamePopUpButtonPosition()
 	{

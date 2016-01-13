@@ -13,6 +13,7 @@ public class MenuRessources : MonoBehaviour
 	public GameObject loadingScreenObject;
 	public int totalNbResultLimit;
 	public int refreshInterval;
+	public GameObject newSkillPopUpObject;
 	public GameObject playPopUpObject;
 	public GameObject transparentBackgroundObject;
 	public GameObject invitationPopUpObject;

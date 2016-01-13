@@ -152,8 +152,19 @@ public class ApplicationDesignRules : MonoBehaviour
 	static private Vector3 skillOriginalScale=new Vector3(0.53f,0.53f,0.53f);
 	static public Vector3 skillScale;
 	static public Vector3 popUpScale;
-	static public Vector3 popUpOriginalScale = new Vector3 (0.7f, 0.7f, 0.7f);
-	static public Vector3 popUpMobileScale = new Vector3 (1f, 1f, 1f);
+	static private Vector3 popUpOriginalScale = new Vector3 (0.7f, 0.7f, 0.7f);
+	static private Vector3 popUpMobileScale = new Vector3 (1f, 1f, 1f);
+	static private Vector2 collectionPopUpSize=new Vector2(950f,240f);
+	static public Vector2 collectionPopUpWorldSize;
+	static public Vector3 collectionPopUpScale;
+	static private Vector3 collectionPopUpOriginalScale = new Vector3 (0.4f, 0.4f, 0.4f);
+	static private Vector3 collectionPopUpMobileScale = new Vector3 (0.6f, 0.6f, 0.6f);
+	static public Vector3 collectionPopUpPosition;
+	static private Vector2 newSkillsPopUpSize=new Vector2(950f,180f);
+	static public Vector2 newSkillsPopUpWorldSize;
+	static public Vector3 newSkillsPopUpScale;
+	static private Vector3 newSkillsPopUpOriginalScale = new Vector3 (0.4f, 0.4f, 0.4f);
+	static private Vector3 newSkillsPopUpMobileScale = new Vector3 (0.6f, 0.6f, 0.6f);
 
 	static private Vector3 mainTitleOriginalScale=new Vector3(1f,1f,1f);
 	static public Vector3 mainTitleScale;
@@ -342,6 +353,14 @@ public class ApplicationDesignRules : MonoBehaviour
 		skillWorldSize = toWorldSize (skillSize, skillScale);
 
 		popUpScale = toNewScale (popUpOriginalScale, popUpMobileScale);
+
+		collectionPopUpScale = toNewScale (collectionPopUpOriginalScale,collectionPopUpMobileScale);
+		collectionPopUpWorldSize = toWorldSize (collectionPopUpSize, collectionPopUpScale);
+
+		collectionPopUpPosition = new Vector3 (menuPosition.x+worldWidth / 2f - rightMargin - 0.1f- collectionPopUpWorldSize.x / 2f, menuPosition.y+worldHeight / 2f - upMargin -0.2f - collectionPopUpWorldSize.y / 2f, -2f);
+
+		newSkillsPopUpScale = toNewScale (newSkillsPopUpOriginalScale,newSkillsPopUpMobileScale);
+		newSkillsPopUpWorldSize = toWorldSize (newSkillsPopUpSize, newSkillsPopUpScale);
 
 		packWorldSize.x = blockWidth - 2f * 0.3f;
 		packWorldSize.y = 2.5f;

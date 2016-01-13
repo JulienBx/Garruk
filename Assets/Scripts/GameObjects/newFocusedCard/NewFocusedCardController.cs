@@ -275,7 +275,7 @@ public class NewFocusedCardController : MonoBehaviour
 			}
 			if(this.skillsUnlocked.Count>0)
 			{
-				MenuController.instance.displayNewSkillsPopUp(this.skillsUnlocked);
+				MenuController.instance.displayNewSkillsPopUps(this.skillsUnlocked);
 			}
 			if(this.c.GetNewSkill)
 			{
@@ -738,7 +738,7 @@ public class NewFocusedCardController : MonoBehaviour
 				}
 				if(this.skillsUnlocked.Count>0)
 				{
-					MenuController.instance.displayNewSkillsPopUp(this.skillsUnlocked);
+					MenuController.instance.displayNewSkillsPopUps(this.skillsUnlocked);
 				}
 				if(this.idCardTypeUnlocked!=-1)
 				{

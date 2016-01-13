@@ -608,7 +608,7 @@ public class NewSkillBookController : MonoBehaviour
 			skillsBlockUpMargin=0f;
 			
 			filtersBlockHeight=ApplicationDesignRules.viewHeight;
-			filtersBlockLeftMargin=ApplicationDesignRules.worldWidth;
+			filtersBlockLeftMargin=ApplicationDesignRules.worldWidth+ApplicationDesignRules.leftMargin;
 			filtersBlockUpMargin=0f;
 
 			this.skillsScrollLine.SetActive(true);
