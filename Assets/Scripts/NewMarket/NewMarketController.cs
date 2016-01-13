@@ -882,7 +882,6 @@ public class NewMarketController : MonoBehaviour
 				this.cards[j*(cardsPerLine)+i].transform.GetComponent<NewCardMarketController>().setId(j*(cardsPerLine)+i);
 				this.cards[j*(cardsPerLine)+i].transform.localScale= ApplicationDesignRules.cardScale;
 				this.cards[j*(cardsPerLine)+i].transform.position=new Vector3(cardsBlockUpperLeftPosition.x+0.3f+ApplicationDesignRules.cardWorldSize.x/2f+i*(gapBetweenCards+ApplicationDesignRules.cardWorldSize.x),cardsBlockUpperRightPosition.y-firstLineY-j*(ApplicationDesignRules.gapBetweenMarketCardsLine+ApplicationDesignRules.cardHaloWorldSize.y),0f);
-				this.cards[j*(this.cardsPerLine)+i].transform.GetComponent<NewCardController> ().setCentralWindow (this.centralWindow);
 			}
 		}
 
@@ -914,7 +913,6 @@ public class NewMarketController : MonoBehaviour
 		this.focusedCard.transform.localScale = ApplicationDesignRules.cardFocusedScale;
 		this.focusedCard.transform.position = ApplicationDesignRules.focusedCardPosition;
 		this.focusedCard.GetComponent<NewFocusedCardMarketController> ().resize ();
-		this.focusedCard.transform.GetComponent<NewFocusedCardController> ().setCentralWindow (this.centralWindow);
 
 		this.slideLeftButton.transform.localScale = ApplicationDesignRules.roundButtonScale;
 		this.slideLeftButton.transform.position = new Vector3 (filtersBlockLowerLeftPosition.x + filtersBlockSize.x / 2f, filtersBlockLowerLeftPosition.y + 0.1f + ApplicationDesignRules.roundButtonWorldSize.y / 2f, 0f);

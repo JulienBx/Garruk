@@ -710,7 +710,6 @@ public class NewHomePageController : MonoBehaviour
 		this.focusedCard.transform.localScale = ApplicationDesignRules.cardFocusedScale;
 		this.focusedCard.transform.position = ApplicationDesignRules.focusedCardPosition;
 		this.focusedCard.GetComponent<NewFocusedCardHomePageController> ().resize ();
-		this.focusedCard.transform.GetComponent<NewFocusedCardController> ().setCentralWindow (this.centralWindow);
 
 		TutorialObjectController.instance.resize();
 

@@ -561,7 +561,6 @@ public class NewStoreController : MonoBehaviour
 		this.focusedCard.transform.localScale = ApplicationDesignRules.cardFocusedScale;
 		this.focusedCard.transform.position = ApplicationDesignRules.focusedCardPosition;
 		this.focusedCard.GetComponent<NewFocusedCardStoreController> ().resize ();
-		this.focusedCard.transform.GetComponent<NewFocusedCardController> ().setCentralWindow (this.centralWindow);
 
 		if(ApplicationDesignRules.isMobileScreen)
 		{

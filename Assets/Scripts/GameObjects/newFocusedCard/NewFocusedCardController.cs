@@ -8,7 +8,6 @@ using TMPro;
 public class NewFocusedCardController : MonoBehaviour 
 {
 	private NewFocusedCardRessources ressources;
-	public NewPopUpRessources popUpRessources;
 
 	public GameObject[] skills;
 	public GameObject experience;
@@ -45,8 +44,6 @@ public class NewFocusedCardController : MonoBehaviour
 	private string urlPutOnMarket = ApplicationModel.host + "putonmarket.php";
 	private string urlBuyRandomCard = ApplicationModel.host + "buyRandomCard.php";
 	
-	private Rect centralWindow;
-
 	private GameObject sellPopUp;
 	private bool isSellPopUpDisplayed;
 	private GameObject renamePopUp;
@@ -149,8 +146,8 @@ public class NewFocusedCardController : MonoBehaviour
 			}
 			if(!this.isNextLevelPopUpHiding)
 			{
-				this.endUpdatingCardToNextLevel();
 				MenuController.instance.hideTransparentBackground ();
+				this.endUpdatingCardToNextLevel();
 			}
 		}
 	}
@@ -158,7 +155,6 @@ public class NewFocusedCardController : MonoBehaviour
 	{
 		this.skills=new GameObject[4];
 		this.getRessources ();
-		this.setPopUpRessources ();
 		this.setUpdateSpeed ();
 		this.cardUpgrade = this.gameObject.transform.FindChild ("CardUpgrade").gameObject;
 		this.panelSold = this.gameObject.transform.FindChild ("PanelSold").gameObject;
@@ -193,10 +189,6 @@ public class NewFocusedCardController : MonoBehaviour
 	public virtual void getRessources()
 	{
 		this.ressources = this.gameObject.GetComponent<NewFocusedCardRessources> ();
-	}
-	public void setPopUpRessources()
-	{
-		this.popUpRessources = this.gameObject.GetComponent<NewPopUpRessources> ();
 	}
 	public void setUpdateSpeed()
 	{
@@ -310,10 +302,6 @@ public class NewFocusedCardController : MonoBehaviour
 		{
 			this.setCardUpgrade();
 		}
-	}
-	public void setCentralWindow(Rect centralWindow)
-	{
-		this.centralWindow = centralWindow;
 	}
 	public virtual void initializeFocusFeatures()
 	{

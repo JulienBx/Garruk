@@ -39,8 +39,8 @@ public class MenuController : MonoBehaviour
 	private bool isCollectionPointsPopUpDisplayed;
 	private GameObject[] newSkillsPopUps;
 	private bool areNewSkillsPopUpsDisplayed;
-	private NewCardTypePopUpView newCardTypeView;
-	private bool isNewCardTypeViewDisplayed;
+	private GameObject newCardTypePopUp;
+	private bool isNewCardTypePopUpDisplayed;
 
 	private float speed;
 	private float timerCollectionPoints;
@@ -121,10 +121,11 @@ public class MenuController : MonoBehaviour
 	}
 	public void displayPlayPopUp()
 	{
-		this.displayTransparentBackground ();
+		MenuController.instance.displayTransparentBackground ();
 		this.playPopUp=Instantiate(this.ressources.playPopUpObject) as GameObject;
 		this.playPopUp.transform.position = new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y, -2f);
 		this.isPlayPopUpDisplayed = true;
+		this.playPopUpResize ();
 	}
 	public void displayCollectionPointsPopUp(int collectionPoints, int collectionPointsRanking)
 	{
@@ -156,14 +157,11 @@ public class MenuController : MonoBehaviour
 	}
 	public void displayNewCardTypePopUp(string titleCardTypeUnlocked)
 	{
-		newCardTypeView = gameObject.AddComponent<NewCardTypePopUpView>();
-		this.isNewCardTypeViewDisplayed = true;
-		newCardTypeView.popUpVM.centralWindow = this.newCardTypeWindow;
-		newCardTypeView.cardNewCardTypePopUpVM.newCardType = titleCardTypeUnlocked;
-		newCardTypeView.popUpVM.centralWindowStyle = new GUIStyle(ressources.popUpSkin.window);
-		newCardTypeView.popUpVM.centralWindowTitleStyle = new GUIStyle (ressources.popUpSkin.customStyles [0]);
-		newCardTypeView.popUpVM.centralWindowButtonStyle = new GUIStyle (ressources.popUpSkin.button);
-		this.newCardTypePopUpResize ();
+		MenuController.instance.displayTransparentBackground ();
+		this.newCardTypePopUp.transform.GetComponent<NewCardTypePopUpController> ().reset (titleCardTypeUnlocked);
+		this.isNewCardTypePopUpDisplayed = true;
+		this.newCardTypePopUp.SetActive (true);
+		this.newCardTypePopUpResize();
 	}
 	public void displayTransparentBackground()
 	{
@@ -188,6 +186,11 @@ public class MenuController : MonoBehaviour
 		this.errorPopUp.transform.localScale = ApplicationDesignRules.popUpScale*(1f/this.gameObject.transform.localScale.x);
 		this.errorPopUp.GetComponent<ErrorPopUpController> ().resize ();
 	}
+	public void playPopUpResize()
+	{
+		this.playPopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y, -2f);
+		this.playPopUp.transform.localScale = ApplicationDesignRules.popUpScale*(1f/this.gameObject.transform.localScale.x);
+	}
 	public void transparentBackgroundResize()
 	{
 		this.transparentBackground.transform.localScale=ApplicationDesignRules.transparentBackgroundScale;
@@ -210,8 +213,9 @@ public class MenuController : MonoBehaviour
 	}
 	private void newCardTypePopUpResize()
 	{
-		newCardTypeView.popUpVM.centralWindow = this.newCardTypeWindow;
-		newCardTypeView.popUpVM.resize ();
+		this.newCardTypePopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y, -2f);
+		this.newCardTypePopUp.transform.localScale = ApplicationDesignRules.popUpScale*(1f/this.gameObject.transform.localScale.x);
+		this.newCardTypePopUp.GetComponent<NewCardTypePopUpController> ().resize ();
 	}
 	public void hideCollectionPointsPopUp()
 	{
@@ -220,8 +224,9 @@ public class MenuController : MonoBehaviour
 	}
 	public void hideNewCardTypePopUp()
 	{
-		Destroy (this.newCardTypeView);
-		this.isNewCardTypeViewDisplayed = false;
+		this.newCardTypePopUp.SetActive (false);
+		MenuController.instance.hideTransparentBackground();
+		this.isNewCardTypePopUpDisplayed = false;
 	}
 	public void hideNewSkillsPopUps()
 	{
@@ -358,6 +363,7 @@ public class MenuController : MonoBehaviour
 		this.disconnectedPopUp=this.gameObject.transform.FindChild("disconnectPopUp").gameObject;
 		this.errorPopUp = this.gameObject.transform.FindChild ("errorPopUp").gameObject;
 		this.collectionPointsPopUp = this.gameObject.transform.FindChild ("collectionPointsPopUp").gameObject;
+		this.newCardTypePopUp = this.gameObject.transform.FindChild ("newCardTypePopUp").gameObject;
 	}
 	public virtual void resizeAll()
 	{
@@ -479,6 +485,14 @@ public class MenuController : MonoBehaviour
 		{
 			this.errorPopUpResize();
 		}
+		if(this.isNewCardTypePopUpDisplayed)
+		{
+			this.newCardTypePopUpResize();
+		}
+		if(this.isPlayPopUpDisplayed)
+		{
+			this.playPopUpResize();
+		}
 	}
 	public void refreshMenuObject()
 	{
@@ -585,7 +599,7 @@ public class MenuController : MonoBehaviour
 		{
 			this.logOutLink();
 		}
-		else if(isNewCardTypeViewDisplayed)
+		else if(isNewCardTypePopUpDisplayed)
 		{
 			this.hideNewCardTypePopUp();
 		}
@@ -618,7 +632,7 @@ public class MenuController : MonoBehaviour
 		{
 			this.hideDisconnectedPopUp();
 		}
-		else if(isNewCardTypeViewDisplayed)
+		else if(isNewCardTypePopUpDisplayed)
 		{
 			this.hideNewCardTypePopUp();
 		}
@@ -647,7 +661,7 @@ public class MenuController : MonoBehaviour
 				this.hidePlayPopUp();
 			}
 		}
-		if(isNewCardTypeViewDisplayed)
+		if(isNewCardTypePopUpDisplayed)
 		{
 			this.hideNewCardTypePopUp();
 		}
