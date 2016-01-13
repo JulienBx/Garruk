@@ -6,39 +6,31 @@ public class Furie : GameSkill
 	public Furie()
 	{
 		this.numberOfExpectedTargets = 0 ; 
+		base.name = "Furie";
+		base.ciblage = 0 ;
 	}
 	
-//	public override void launch()
-//	{
-//		this.resolve(new List<int>());
-//	}
-//	
-//	public override void resolve(List<int> targetsPCC)
-//	{	                     
-//		GameController.instance.play();
-//	}
-//	
-//	public override void applyOn(){
-//		int target = GameController.instance.getCurrentPlayingCard() ;
-//		string text = "Devient furieux!";
-//		int amount = (int)Mathf.Floor((5 * base.skill.Level * base.card.GetTotalLife()) / 100);
-//		
-//		List<Card> receivers =  new List<Card>();
-//		List<string> receiversTexts =  new List<string>();
-//		
-//		GameController.instance.addCardModifier(target, -1*amount, ModifierType.Type_BonusMalus, ModifierStat.Stat_Dommage, -1, -1, "", "", "");	
-//		GameController.instance.addCardModifier(target, 0, ModifierType.Type_Crazy, ModifierStat.Stat_No, -1, 51, "FURIE", "Incontrolable, de déplace et attaque à chaque tour. Permanent", "");	
-//		GameView.instance.displaySkillEffect(target, text, 5);
-//		
-//		receivers.Add(GameView.instance.getCard(GameController.instance.getCurrentPlayingCard()));
-//		receiversTexts.Add(text);
-//		
-//		if(!GameView.instance.getIsMine(GameController.instance.getCurrentPlayingCard())){
-//			GameView.instance.setSkillPopUp("lance <b>Furie</b>...", base.card, receivers, receiversTexts);
-//		}
-//	}
-//	
-//	public override string isLaunchable(){
-//		return "";
-//	}
+	public override void launch()
+	{
+		this.resolve(new List<int>());
+	}
+	
+	public override void resolve(List<int> targetsPCC)
+	{	                     
+		GameController.instance.play(GameView.instance.runningSkill);
+		GameController.instance.applyOn(-1);
+		GameController.instance.showResult(true);
+		GameController.instance.endPlay();
+	}
+	
+	public override void applyOn(int target){
+		string text = base.name;
+		GameCard currentCard = GameView.instance.getCurrentCard();
+		int level = GameView.instance.getCurrentSkill().Power;
+		int life =  -1*Mathf.Min(currentCard.GetTotalLife()-currentCard.getLife(),currentCard.GetTotalLife()*(20+5*level)/100);
+			
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(-1*life, -1, 0, text, "Furie\n+"+life+" PV"));
+		GameView.instance.getPlayingCardController(target).updateLife();
+		GameView.instance.getCard(target).setState(new Modifyer(0, 1, 93, text, "Furieux. Se déplace et attaque seul, ne peut plus etre controlé par son colon"));
+	}
 }

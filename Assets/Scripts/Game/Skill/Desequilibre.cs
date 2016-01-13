@@ -1,18 +1,19 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class Lance : GameSkill
+public class Desequilibre : GameSkill
 {
-	public Lance(){
-		this.numberOfExpectedTargets = 1 ;
-		base.name = "Lance";
-		base.ciblage = 8 ;
+	public Desequilibre()
+	{
+		this.numberOfExpectedTargets = 1 ; 
+		base.name = "Déséquilibre";
+		base.ciblage = 1 ;
 	}
 	
 	public override void launch()
 	{
 		GameView.instance.initPCCTargetHandler(numberOfExpectedTargets);
-		GameView.instance.display1TileAwayOpponentsTargets();
+		GameView.instance.displayAdjacentOpponentsTargets();
 	}
 	
 	public override void resolve(List<int> targetsPCC)
@@ -23,11 +24,18 @@ public class Lance : GameSkill
 		
 		if (Random.Range(1,101) <= GameView.instance.getCard(target).getEsquive())
 		{                             
+			Debug.Log("Esquive "+GameView.instance.getCard(target).getEsquive());
 			GameController.instance.esquive(target,1);
 		}
 		else{
-			GameController.instance.applyOn(target);
-			isSuccess = true ;
+			int proba = GameView.instance.getCurrentSkill().proba;
+			if(Random.Range(1,101)<=proba){
+				GameController.instance.applyOn(target);
+				isSuccess = true ;
+			}
+			else{
+				GameController.instance.esquive(target,92);
+			}
 		}
 		GameController.instance.showResult(isSuccess);
 		GameController.instance.endPlay();
@@ -43,8 +51,22 @@ public class Lance : GameSkill
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 0, text, "-"+damages+" PV"));
 		GameView.instance.getPlayingCardController(target).updateLife();
 		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 0);
+		
+		Tile targetTile;
+		targetTile = GameView.instance.getPlayingCardController(target).getTile();
+		Tile currentTile;
+		currentTile = GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).getTile();
+		Tile nextTile;
+		
+		if(!targetCard.isMine){
+			nextTile = new Tile(targetTile.x+(targetTile.x-currentTile.x),targetTile.y+(targetTile.y-currentTile.y));
+		}
+		else{
+			nextTile = new Tile(targetTile.x+(targetTile.x-currentTile.x),targetTile.y+(targetTile.y-currentTile.y));
+		}
+		GameView.instance.clickDestination(nextTile,target,false);
 	}
-
+	
 	public override string getTargetText(int target){
 		string text = base.name;
 		GameCard targetCard = GameView.instance.getCard(target);

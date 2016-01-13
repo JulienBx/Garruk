@@ -210,67 +210,9 @@ public class Card
 		return obj != null && obj.Id == this.Id;
 	}
 	
-	public int GetDamagesPercentageBonus(Card c)
-	{
-		int damagePercentageBonus = 0;
-//		foreach (StatModifier modifier in modifiers)
-//		{
-//			if (modifier.Type == ModifierType.Type_DommagePercentage)
-//			{
-//				damagePercentageBonus += modifier.Amount;
-//			}
-//		}
-		
-		damagePercentageBonus += this.GetDamagesPercentageBonusAgainst(c.ArtIndex);
-		
-		return damagePercentageBonus;
-	}
-	
-	public int GetDamagesPercentageBonusAgainst(int type)
-	{
-		int damagePercentageBonus = 0;
-//		foreach (StatModifier modifier in modifiers)
-//		{
-//			if ((int)modifier.Type-6 == type)
-//			{
-//				damagePercentageBonus += modifier.Amount;
-//			}
-//		}
-		return damagePercentageBonus;
-	}
-	
-	public bool isSleeping()
-	{
-		bool isSleeping = false;
-		int i = 0 ;
-//		int max = modifiers.Count ;
-//		while (i<max && !isSleeping)
-//		{
-//			if (modifiers[i].Type == ModifierType.Type_Sleeping)
-//			{
-//				isSleeping = true ;
-//			}
-//			i++;
-//		}
-		return isSleeping;
-	}
-	
 	public List<Skill> getSkills()
 	{
 		return this.Skills;
-	}
-	
-	public bool hasModifiers()
-	{
-		bool hasModifiers = false;
-//		for (int i = modifiers.Count-1 ; i >= 0 && !hasModifiers ; i--)
-//		{
-//			if (modifiers[i].Stat != ModifierStat.Stat_Dommage)
-//			{
-//				hasModifiers = true ;
-//			}
-//		}
-		return hasModifiers ;
 	}
 	
 	public virtual int getAttack (){
@@ -322,121 +264,10 @@ public class Card
 		}
 	}
 	
-	public int GetBouclier()
-	{
-		int bouclier = 0;
-//		foreach (StatModifier modifier in modifiers)
-//		{
-//			if (modifier.Type==ModifierType.Type_Bouclier){
-//				bouclier += modifier.Amount;
-//			}
-//		}
-//		if (bouclier > 100)
-//		{
-//			return 100;
-//		}
-		return bouclier;
-	}
-	
-	public List<string> getIconMove()
-	{
-		List<string> iconMoveTexts = new List<string>();
-		int i = 0;
-//		while (i < this.modifiers.Count)
-//		{
-//			if (this.modifiers [i].idIcon == 11 || this.modifiers [i].idIcon == 12 || this.modifiers [i].idIcon == 13 || this.modifiers [i].idIcon == 14 || this.modifiers [i].idIcon == 15 || this.modifiers [i].idIcon == 16)
-//			{
-//				iconMoveTexts.Add(this.modifiers [i].title);
-//				iconMoveTexts.Add(this.modifiers [i].description);
-//			}
-//			i++;
-//		}
-		return iconMoveTexts;
-	}
-	
-	public List<string> getIconShield()
-	{
-		List<string> iconMoveTexts = new List<string>();
-		int i = 0;
-//		while (i < this.modifiers.Count)
-//		{
-//			if (this.modifiers [i].idIcon == 1 || this.modifiers [i].idIcon == 2)
-//			{
-//				iconMoveTexts.Add(this.modifiers [i].title);
-//				iconMoveTexts.Add(this.modifiers [i].description);
-//			}
-//			i++;
-//		}
-		return iconMoveTexts;
-	}
-	
-	public bool isFurious()
-	{
-		bool isCrazy = false;
-		int i = 0;
-//		while (i < this.modifiers.Count && !isCrazy)
-//		{
-//			if (this.modifiers [i].Type == ModifierType.Type_Crazy)
-//			{
-//				isCrazy = true;
-//			}
-//			i++;
-//		}
-		return isCrazy;
-	}
-
-	public void clearBuffs()
-	{
-//		List<StatModifier> temp = new List<StatModifier>();
-//		for (int i = 0; i < modifiers.Count; i++)
-//		{
-//			if (modifiers [i].Stat == ModifierStat.Stat_Dommage)
-//			{
-//				temp.Add(modifiers [i]);
-//			}
-//		}
-//		modifiers = temp;
-	}
-	
 	public int getPassiveManacost()
 	{
 		return (this.Skills[0].ManaCost);
 	}
-
-//	public void changeModifiers()
-//	{
-//		List<StatModifier> temp = new List<StatModifier>();
-//		foreach (StatModifier modifier in modifiers)
-//		{
-//			if (!modifier.Active)
-//			{
-//				modifier.Active = true;
-//				modifier.Duration--;
-//				temp.Add(modifier);
-//			} else if (modifier.Duration != 0)
-//			{
-//				temp.Add(modifier);
-//				modifier.Duration--;
-//			}
-//		}
-//		modifiers = temp;
-//
-//		temp = new List<StatModifier>();
-//		foreach (StatModifier modifier in TileModifiers)
-//		{
-//			if (!modifier.Active)
-//			{
-//				modifier.Active = true;
-//				modifier.Duration--;
-//				temp.Add(modifier);
-//			} else if (modifier.Duration != 0)
-//			{
-//				temp.Add(modifier);
-//				modifier.Duration--;
-//			}
-//		}
-//		TileModifiers = temp;
-//	}
 	
 	public bool hasSkill(string s)
 	{
@@ -589,10 +420,6 @@ public class Card
 				this.Skills[j-1].nextDescription=cardInfo[9];
 				this.Skills[j-1].nextProba=System.Convert.ToInt32(cardInfo[10]);
 				this.Skills[j-1].nextLevel=System.Convert.ToInt32(cardInfo[11]);
-				
-				if (this.Skills[j-1].Id==9){
-					this.Skills[j-1].nbLeft = 1 ;
-				}
 			}
 		}
 

@@ -82,7 +82,11 @@ public class GameSkill
 	public virtual string isLaunchable()
 	{
 		GameCard gc = GameView.instance.getCurrentCard();
+		Skill s = GameView.instance.getCurrentSkill();
 		string launchability = "" ;
+		if (s.hasBeenPlayed){
+			launchability = "Compétence déjà utilisée!";
+		}
 		if(gc.hasPlayed){
 			launchability = "Le personnage a déjà joué";
 		}
@@ -91,9 +95,6 @@ public class GameSkill
 		}
 		else if(gc.isParalyzed()){
 			launchability = "Paralysé : Ne peut utiliser ses compétences";
-		}
-		else if(gc.isSleeping()){
-			launchability = "Sommeil : le personnage ne peut pas agir";
 		}
 		else{
 			if(this.ciblage==1){
@@ -113,6 +114,9 @@ public class GameSkill
 			}
 			else if(this.ciblage==7){
 				launchability = GameView.instance.canLaunchAllButMeTargets();
+			}
+			else if(this.ciblage==8){
+				launchability = GameView.instance.canLaunch1TileAwayOpponents();
 			}
 			else{
 				launchability = "";
@@ -148,7 +152,7 @@ public class GameSkill
 			text = "Esquive";
 		}
 		else if(result==2){
-			text = "Echec Calmant";
+			text = "Echec Soin";
 		}
 		else if(result==3){
 			text = "Echec Fortifiant";
@@ -165,10 +169,13 @@ public class GameSkill
 		else if(result==7){
 			text = "Echec Antibiotique";
 		}
+		else if(result==8){
+			text = "Echec Tir à l'arc";
+		}
 		else if(result==10){
 			text = "Echec Assassinat";
 		}
-		else if(result==10){
+		else if(result==15){
 			text = "Echec Coupe-Jambes";
 		}
 		else if(result==11){
@@ -186,8 +193,11 @@ public class GameSkill
 		else if(result==56){
 			text = "Echec Stéroide";
 		}
+		else if(result==92){
+			text = "Echec Déséquilibre";
+		}
 		else if(result==94){
-			text = "Echec Excitant";
+			text = "Echec Morphine";
 		}
 		GameView.instance.displaySkillEffect(target, text, type);
 	}

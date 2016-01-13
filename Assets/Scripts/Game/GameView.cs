@@ -732,15 +732,13 @@ public class GameView : MonoBehaviour
 		if(this.hasFightStarted){
 			if(this.getCurrentCard().isMine){
 				nextPlayingCard = this.findNextAlivePlayer(this.lastHisPlayingCardDeckOrder, false);
-				print ("Je find HIS "+nextPlayingCard);
 				this.lastHisPlayingCardDeckOrder = this.getCard(nextPlayingCard).deckOrder;
 			}
 			else{
 				nextPlayingCard = this.findNextAlivePlayer(this.lastMyPlayingCardDeckOrder, true);
-				print ("Je find MY "+nextPlayingCard);
-				
 				this.lastMyPlayingCardDeckOrder = this.getCard(nextPlayingCard).deckOrder;
 			}
+			this.checkField();
 		}
 		else{
 			nextPlayingCard = this.findCardWithDO(0, this.isFirstPlayer);
@@ -779,20 +777,14 @@ public class GameView : MonoBehaviour
 			if (this.getCard(nextPlayingCard).isParalyzed()){
 				hasPlayed = true ;
 			}
-			else if (this.getCard(nextPlayingCard).isSleeping()){
-				int sleepingPercentage = this.getCard(nextPlayingCard).getSleepingPercentage();
-				if(UnityEngine.Random.Range(1,101)<sleepingPercentage){
-					GameController.instance.wakeUp(nextPlayingCard);
-				}
-				else{
-					hasMoved = true ;
-					hasPlayed = true ;
-				}
+			else if (this.getCard(nextPlayingCard).isFurious()){
+				hasPlayed = true ;
+				hasMoved = true ;
 			}
+		
 			this.getPlayingCardController(this.currentPlayingCard).checkModyfiers();
 			this.getCard(this.currentPlayingCard).setHasMoved(hasMoved);
 			this.getCard(this.currentPlayingCard).setHasPlayed(hasPlayed);
-			
 			
 			if(this.getCard(this.currentPlayingCard).isNurse()){
 				int power = -1*this.getCurrentCard().Skills[0].Power;
@@ -845,15 +837,78 @@ public class GameView : MonoBehaviour
 		this.getMoveZoneController().show(false);
 		this.displayDestinations (this.currentPlayingCard);
 		
-		
 		if(ApplicationModel.launchGameTutorial){
 			if(!this.getCurrentCard().isMine){
 				StartCoroutine(launchFury());
 			}
 		}
+		else if(this.getCard(this.currentPlayingCard).isFurious()){
+			StartCoroutine(launchFury());
+		}
 		this.runningSkill = -1;
 		this.getCard(this.currentPlayingCard).previousTile = this.getPlayingCardTile(this.currentPlayingCard);
 		this.getCard(this.currentPlayingCard).canCancelMove = false ;
+		
+	}
+	
+	public void checkField(){
+		bool toDestroy = false ;
+		bool isDestroyed = true ;
+		int i = 0 ;
+		while(isDestroyed && !toDestroy){
+			isDestroyed = true ;
+			toDestroy = true ;
+			for(int j = 0 ; j < 6 ; j++){
+				if(this.getTileController(j,i).getTileType()!=1){
+					isDestroyed = false ;
+				}
+				if(this.getTileController(j,i).getCharacterID()!=-1){
+					toDestroy = false ;
+				}
+			}
+			print("Ligne "+i+" / ID:"+isDestroyed+"TD:"+toDestroy);
+			if(toDestroy){
+				this.getTileController(0,i).changeType(1);
+				this.getTileController(1,i).changeType(1);
+				this.getTileController(2,i).changeType(1);
+				this.getTileController(3,i).changeType(1);
+				this.getTileController(4,i).changeType(1);
+				this.getTileController(5,i).changeType(1);
+				isDestroyed = true;
+				toDestroy = false ;
+			}
+			i++;
+		}
+		i--;
+		
+		
+		toDestroy = false ;
+		isDestroyed = true ;
+		i = 7 ;
+		while(isDestroyed && !toDestroy){
+			isDestroyed = true ;
+			toDestroy = true ;
+			for(int j = 0 ; j < 6 ; j++){
+				if(this.getTileController(j,i).getTileType()!=1){
+					isDestroyed = false ;
+				}
+				if(this.getTileController(j,i).getCharacterID()!=-1){
+					toDestroy = false ;
+				}
+			}
+			if(toDestroy){
+				this.getTileController(0,i).changeType(1);
+				this.getTileController(1,i).changeType(1);
+				this.getTileController(2,i).changeType(1);
+				this.getTileController(3,i).changeType(1);
+				this.getTileController(4,i).changeType(1);
+				this.getTileController(5,i).changeType(1);
+				isDestroyed = true;
+				toDestroy = false ;
+			}
+			i--;
+		}
+		i++;	
 	}
 	
 	IEnumerator launchFury(){
@@ -1457,138 +1512,119 @@ public class GameView : MonoBehaviour
 	
 	public void display1TileAwayOpponentsTargets()
 	{
-//		int playerID;
-//		Tile tile = this.getPlayingCardTile(GameController.instance.getCurrentPlayingCard()) ;
-//		if(tile.x>1){
-//			playerID = this.tiles [tile.x-2, tile.y].GetComponent<TileController>().getCharacterID();
-//			if (playerID != -1)
-//			{
-//				if(!this.getIsMine(this.getTileCharacterID(tile.x-2, tile.y))){
-//					if (this.playingCards [playerID].GetComponent<PlayingCardController>().canBeTargeted() && !this.getIsMine(playerID))
-//					{
-//						tile = this.getPlayingCardTile(playerID);
-//						this.targets.Add(tile);
-//						this.tileHandlers[tile.x, tile.y].GetComponent<TileHandlerController>().changeType(6);
-//						this.tileHandlers[tile.x, tile.y].GetComponent<TileHandlerController>().setText("");
-//						this.tileHandlers[tile.x, tile.y].GetComponent<TileHandlerController>().setCharacterID(playerID);
-//						this.tileHandlers[tile.x, tile.y].GetComponent<TileHandlerController>().enable();
-//					}
-//				}
-//			}
-//		}
-//		if(tile.x<this.boardWidth-2){
-//			playerID = this.tiles [tile.x+2, tile.y].GetComponent<TileController>().getCharacterID();
-//			if (playerID != -1)
-//			{
-//				if(!this.getIsMine(this.getTileCharacterID(tile.x+2, tile.y))){
-//					if (this.playingCards [playerID].GetComponent<PlayingCardController>().canBeTargeted() && !this.getIsMine(playerID))
-//					{
-//						tile = this.getPlayingCardTile(playerID);
-//						this.targets.Add(tile);
-//						this.tileHandlers[tile.x, tile.y].GetComponent<TileHandlerController>().changeType(6);
-//						this.tileHandlers[tile.x, tile.y].GetComponent<TileHandlerController>().setText("");
-//						this.tileHandlers[tile.x, tile.y].GetComponent<TileHandlerController>().setCharacterID(playerID);
-//						this.tileHandlers[tile.x, tile.y].GetComponent<TileHandlerController>().enable();
-//					}
-//				}
-//			}
-//		}
-//		if(tile.y>1){
-//			playerID = this.tiles [tile.x, tile.y-2].GetComponent<TileController>().getCharacterID();
-//			if (playerID != -1)
-//			{
-//				if(!this.getIsMine(this.getTileCharacterID(tile.x, tile.y-2))){
-//					if (this.playingCards [playerID].GetComponent<PlayingCardController>().canBeTargeted() && !this.getIsMine(playerID))
-//					{
-//						tile = this.getPlayingCardTile(playerID);
-//						this.targets.Add(tile);
-//						this.tileHandlers[tile.x, tile.y].GetComponent<TileHandlerController>().changeType(6);
-//						this.tileHandlers[tile.x, tile.y].GetComponent<TileHandlerController>().setText("");
-//						this.tileHandlers[tile.x, tile.y].GetComponent<TileHandlerController>().setCharacterID(playerID);
-//						this.tileHandlers[tile.x, tile.y].GetComponent<TileHandlerController>().enable();
-//					}
-//				}
-//			}
-//		}
-//		if(tile.y<this.boardHeight-2){
-//			playerID = this.tiles [tile.x, tile.y+2].GetComponent<TileController>().getCharacterID();
-//			if (playerID != -1)
-//			{
-//				if(!this.getIsMine(this.getTileCharacterID(tile.x, tile.y+2))){
-//					if (this.playingCards [playerID].GetComponent<PlayingCardController>().canBeTargeted() && !this.getIsMine(playerID))
-//					{
-//						tile = this.getPlayingCardTile(playerID);
-//						this.targets.Add(tile);
-//						this.tileHandlers[tile.x, tile.y].GetComponent<TileHandlerController>().changeType(6);
-//						this.tileHandlers[tile.x, tile.y].GetComponent<TileHandlerController>().setText("");
-//						this.tileHandlers[tile.x, tile.y].GetComponent<TileHandlerController>().setCharacterID(playerID);
-//						this.tileHandlers[tile.x, tile.y].GetComponent<TileHandlerController>().enable();
-//					}
-//				}
-//			}
-//		}
-//		
-//		this.timerTargeting = 0 ;
-//		this.currentTargetingTileHandler = -1;
-//		this.isTargeting = true ;
+		int playerID;
+		Tile tile = this.getPlayingCardTile(this.currentPlayingCard) ;
+		this.targets = new List<Tile>();
+		
+		if(tile.x>1){
+			playerID = this.tiles [tile.x-2, tile.y].GetComponent<TileController>().getCharacterID();
+			if (playerID != -1)
+			{
+				if(!this.getCard(playerID).isMine){
+					if (this.playingCards [playerID].GetComponent<PlayingCardController>().canBeTargeted())
+					{
+						this.targets.Add(new Tile(tile.x-2, tile.y));
+						this.getTileController(tile.x-2, tile.y).displayTarget();
+					}
+				}
+			}
+		}
+		if(tile.x<this.boardWidth-2){
+			playerID = this.tiles [tile.x+2, tile.y].GetComponent<TileController>().getCharacterID();
+			if (playerID != -1)
+			{
+				if(!this.getCard(playerID).isMine){
+					if (this.playingCards [playerID].GetComponent<PlayingCardController>().canBeTargeted())
+					{
+						this.targets.Add(new Tile(tile.x+2, tile.y));
+						this.getTileController(tile.x+2, tile.y).displayTarget();
+					}
+				}
+			}
+		}
+		if(tile.y>1){
+			playerID = this.tiles [tile.x, tile.y-2].GetComponent<TileController>().getCharacterID();
+			if (playerID != -1)
+			{
+				if(!this.getCard(playerID).isMine){
+					if (this.playingCards [playerID].GetComponent<PlayingCardController>().canBeTargeted())
+					{
+						this.targets.Add(new Tile(tile.x, tile.y-2));
+						this.getTileController(tile.x, tile.y-2).displayTarget();
+					}
+				}
+			}
+		}
+		if(tile.y<this.boardHeight-2){
+			playerID = this.tiles [tile.x, tile.y+2].GetComponent<TileController>().getCharacterID();
+			if (playerID != -1)
+			{
+				if(!this.getCard(playerID).isMine){
+					if (this.playingCards [playerID].GetComponent<PlayingCardController>().canBeTargeted())
+					{
+						this.targets.Add(new Tile(tile.x, tile.y+2));
+						this.getTileController(tile.x, tile.y+2).displayTarget();
+					}
+				}
+			}
+		}
 	}
 	
 	public string canLaunch1TileAwayOpponents()
 	{
 		string isLaunchable = "Aucun ennemi à portée de lance";
-//		
-//		int playerID;
-//		Tile tile = this.getPlayingCardTile(GameController.instance.getCurrentPlayingCard()) ;
-//		
-//		if(tile.x>1){
-//			playerID = this.tiles [tile.x-2, tile.y].GetComponent<TileController>().getCharacterID();
-//			if (playerID != -1)
-//			{
-//				if(!this.getIsMine(this.getTileCharacterID(tile.x-2, tile.y))){
-//					if (this.playingCards [playerID].GetComponent<PlayingCardController>().canBeTargeted() && !this.getIsMine(playerID))
-//					{
-//						isLaunchable="";
-//					}
-//				}
-//			}
-//		}
-//		if(tile.x<this.boardWidth-2){
-//			playerID = this.tiles [tile.x+2, tile.y].GetComponent<TileController>().getCharacterID();
-//			if (playerID != -1)
-//			{
-//				if(!this.getIsMine(this.getTileCharacterID(tile.x+2, tile.y))){
-//					if (this.playingCards [playerID].GetComponent<PlayingCardController>().canBeTargeted() && !this.getIsMine(playerID))
-//					{
-//						isLaunchable="";
-//					}
-//				}
-//			}
-//		}
-//		if(tile.y>1){
-//			playerID = this.tiles [tile.x, tile.y-2].GetComponent<TileController>().getCharacterID();
-//			if (playerID != -1)
-//			{
-//				if(!this.getIsMine(this.getTileCharacterID(tile.x, tile.y-2))){
-//					if (this.playingCards [playerID].GetComponent<PlayingCardController>().canBeTargeted() && !this.getIsMine(playerID))
-//					{
-//						isLaunchable="";
-//					}
-//				}
-//			}
-//		}
-//		if(tile.y<this.boardHeight-2){
-//			playerID = this.tiles [tile.x, tile.y+2].GetComponent<TileController>().getCharacterID();
-//			if (playerID != -1)
-//			{
-//				if(!this.getIsMine(this.getTileCharacterID(tile.x, tile.y+2))){
-//					if (this.playingCards [playerID].GetComponent<PlayingCardController>().canBeTargeted() && !this.getIsMine(playerID))
-//					{
-//						isLaunchable="";
-//					}
-//				}
-//			}
-//		}
-//		
+		int playerID;
+		Tile tile = this.getPlayingCardTile(this.currentPlayingCard) ;
+		this.targets = new List<Tile>();
+		
+		if(tile.x>1){
+			playerID = this.tiles [tile.x-2, tile.y].GetComponent<TileController>().getCharacterID();
+			if (playerID != -1)
+			{
+				if(!this.getCard(playerID).isMine){
+					if (this.playingCards [playerID].GetComponent<PlayingCardController>().canBeTargeted())
+					{
+						isLaunchable="";
+					}
+				}
+			}
+		}
+		if(tile.x<this.boardWidth-2){
+			playerID = this.tiles [tile.x+2, tile.y].GetComponent<TileController>().getCharacterID();
+			if (playerID != -1)
+			{
+				if(!this.getCard(playerID).isMine){
+					if (this.playingCards [playerID].GetComponent<PlayingCardController>().canBeTargeted())
+					{
+						isLaunchable="";
+					}
+				}
+			}
+		}
+		if(tile.y>1){
+			playerID = this.tiles [tile.x, tile.y-2].GetComponent<TileController>().getCharacterID();
+			if (playerID != -1)
+			{
+				if(!this.getCard(playerID).isMine){
+					if (this.playingCards [playerID].GetComponent<PlayingCardController>().canBeTargeted())
+					{
+						isLaunchable="";
+					}
+				}
+			}
+		}
+		if(tile.y<this.boardHeight-2){
+			playerID = this.tiles [tile.x, tile.y+2].GetComponent<TileController>().getCharacterID();
+			if (playerID != -1)
+			{
+				if(!this.getCard(playerID).isMine){
+					if (this.playingCards [playerID].GetComponent<PlayingCardController>().canBeTargeted())
+					{
+						isLaunchable="";
+					}
+				}
+			}
+		}
 		return isLaunchable;
 	}
 	
@@ -2116,6 +2152,9 @@ public class GameView : MonoBehaviour
 		this.getCard(this.currentPlayingCard).hasPlayed = true ;
 		this.getCard(this.currentPlayingCard).canCancelMove = false;
 		this.getSkillZoneController().isRunningSkill=false;
+		if(this.runningSkill==9){
+			this.getCurrentSkill().hasBeenPlayed = true ;
+		}
 		this.runningSkill = -1;
 		if(this.getCard(this.currentPlayingCard).isMine){
 			if(this.getCard(this.currentPlayingCard).hasPlayed && this.getCard(this.currentPlayingCard).hasMoved){

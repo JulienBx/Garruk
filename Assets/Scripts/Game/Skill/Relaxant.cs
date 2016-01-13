@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 
 public class Relaxant : GameSkill
@@ -51,7 +51,7 @@ public class Relaxant : GameSkill
 		string text = base.name;
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
-		int level = -1*GameView.instance.getCurrentSkill().Power;
+		int level = -1*GameView.instance.getCurrentSkill().Power-2;
 		
 		GameView.instance.getCard(target).attackModifyers.Add(new Modifyer(level, 1, 3, text, level+" ATK. Actif 1 tour"));
 		GameView.instance.getPlayingCardController(target).updateAttack();
@@ -63,7 +63,7 @@ public class Relaxant : GameSkill
 		string text = base.name;
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
-		int level = -1*GameView.instance.getCurrentSkill().Power;
+		int level = -1*GameView.instance.getCurrentSkill().Power-2;
 		
 		text += "\n"+level+" ATK. Actif 1 tour";
 		

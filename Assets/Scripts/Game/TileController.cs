@@ -120,6 +120,14 @@ public class TileController : GameObjectController
 		return this.type;
 	}
 	
+	public void changeType(int a)
+	{
+		this.type = a;
+		if (this.type==1){
+			this.showRock();
+		}
+	}
+	
 	public Tile getTile()
 	{
 		return this.tile;
@@ -250,25 +258,27 @@ public class TileController : GameObjectController
 	
 	public void OnMouseDown()
 	{
-		if(this.characterID!=-1){
-			if(GameView.instance.getTileController(this.characterID).isDisplayingTarget){
-				GameView.instance.hitTarget(this.characterID);
-			}
-			GameView.instance.clickCharacter(this.characterID);
-		}
-		else{
-			if(this.isDisplayingTarget){
-				GameView.instance.hitTarget(this.tile);
-			}
-			else if(this.isDestination!=0 && this.isDestination!=1){
-				GameView.instance.clickEmpty();
+		if(this.type!=1){
+			if(this.characterID!=-1){
+				if(GameView.instance.getTileController(this.characterID).isDisplayingTarget){
+					GameView.instance.hitTarget(this.characterID);
+				}
+				GameView.instance.clickCharacter(this.characterID);
 			}
 			else{
-				GameController.instance.clickDestination(this.tile, GameView.instance.getCurrentPlayingCard(), false);
+				if(this.isDisplayingTarget){
+					GameView.instance.hitTarget(this.tile);
+				}
+				else if(this.isDestination!=0 && this.isDestination!=1){
+					GameView.instance.clickEmpty();
+				}
+				else{
+					GameController.instance.clickDestination(this.tile, GameView.instance.getCurrentPlayingCard(), false);
+				}
 			}
-		}
-		if(ApplicationModel.launchGameTutorial){
-			GameView.instance.hideTuto();
+			if(ApplicationModel.launchGameTutorial){
+				GameView.instance.hideTuto();
+			}
 		}
 	}
 	

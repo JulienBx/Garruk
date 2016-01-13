@@ -17,7 +17,6 @@ public class Skill
 	public float Ponderation;
 	public int XMin;
 	public string Action;
-	public int nbLeft = 1;
 	public int IdCardType;
 	public Texture2D texture;
 	public string Picture;
@@ -30,6 +29,7 @@ public class Skill
 	public SkillType SkillType;
 	public CardType CardType;
 	public int IdPicture;
+	public bool hasBeenPlayed ;
 	
 	public Skill(string name, string description, int id, int c, int p)
 	{
@@ -38,11 +38,13 @@ public class Skill
 		this.Id = id ;
 		this.cible = c ;
 		this.proba = p ;
+		this.hasBeenPlayed = false ;
 	}
 
 	public Skill(string name, int id, int isactivated, int level, int power, int manaCost, string description, string action) : this(name, id, isactivated, level, power, manaCost, description)
 	{
 		this.Action = action;
+		this.hasBeenPlayed = false ;
 	}
 	public Skill(string name, int id, int isactivated, int level, int power, int manaCost, string description)
 	{
@@ -53,6 +55,7 @@ public class Skill
 		this.Power = power;
 		this.ManaCost = manaCost;
 		this.Description = description;
+		this.hasBeenPlayed = false ;
 	}
 	
 	public Skill(string name, int id, int isactivated, int level, int power, int manaCost, string description, int c, int p)
@@ -66,6 +69,7 @@ public class Skill
 		this.Description = description;
 		this.cible = c;
 		this.proba = p;
+		this.hasBeenPlayed = false ;
 	}
 	
 	public Skill(string name, int id, int isactivated, int level, int power, int manaCost)
@@ -76,20 +80,24 @@ public class Skill
 		this.Level = level;
 		this.Power = power;
 		this.ManaCost = manaCost;
+		this.hasBeenPlayed = false ;
 	}
 	public Skill(string name)
 	{
 		this.Name = name;
+		this.hasBeenPlayed = false ;
 	}
 
 	public Skill(int id)
 	{
 		this.Id = id;
+		this.hasBeenPlayed = false ;
 	}
 	public Skill()
 	{
 		this.texture = new Texture2D(1, 1, TextureFormat.ARGB32, false);
 		this.Description = "";
+		this.hasBeenPlayed = false ;
 	}
 	
 	public IEnumerator setPicture()
@@ -98,11 +106,7 @@ public class Skill
 		yield return www;
 		www.LoadImageIntoTexture(this.texture);
 	}
-	public void lowerNbLeft()
-	{
-		nbLeft--;
-		this.Description = this.Description.Substring(0, this.Description.Length - 12) + nbLeft + " restant(s)";
-	}
+	
 	public string getProbaText()
 	{
 		if(this.proba<10){

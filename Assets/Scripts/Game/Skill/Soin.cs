@@ -1,23 +1,24 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class Calmant : GameSkill
+public class Soin : GameSkill
 {
-	public Calmant()
+	public Soin()
 	{
 		this.numberOfExpectedTargets = 1 ;
-		base.name = "Calmant";
-		base.ciblage = 3 ;
+		base.name = "Soin";
+		base.ciblage = 4 ;
 	}
 	
 	public override void launch()
 	{
 		GameView.instance.initPCCTargetHandler(numberOfExpectedTargets);
-		GameView.instance.displayOpponentsTargets();
+		GameView.instance.displayAllysButMeTargets();
 	}
 	
 	public override void resolve(List<int> targetsPCC)
 	{	
+		bool isSuccess = false ;
 		GameController.instance.play(GameView.instance.runningSkill);
 		int target = targetsPCC[0];
 		int proba = GameView.instance.getCurrentSkill().proba;
@@ -28,38 +29,44 @@ public class Calmant : GameSkill
 		else{
 			if (Random.Range(1,101) < proba){
 				GameController.instance.applyOn(target);
+				isSuccess = true;
 			}
 			else{
-				GameController.instance.esquive(target,2);
+				GameController.instance.esquive(target,6);
 			}
 		}
 		
 		if(GameView.instance.getCurrentCard().isGenerous()){
-			List<int> targets = GameView.instance.getOpponents();
+			List<int> targets = GameView.instance.getAllys();
 			targets.Remove(target);
 			target = targets[Random.Range(0,targets.Count)];
-			GameController.instance.applyOn(target);	
+			GameController.instance.applyOn(target);
+			isSuccess = true ;	
 		}
-		
-		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 0);
+		GameController.instance.showResult(isSuccess);
+		GameController.instance.endPlay();
 	}
 	
 	public override void applyOn(int target){
 		string text = base.name;
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
+		int level = GameView.instance.getCurrentSkill().Power;
+		int soin = Mathf.Min(2*level,targetCard.GetTotalLife()-targetCard.getLife());
 		
-		GameView.instance.backTurns(target);
-		GameView.instance.displaySkillEffect(target, base.name+"\nSera le dernier à jouer", 1);
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(-1*soin, -1, 0, text, "+"+soin+" PV"));
+		GameView.instance.getPlayingCardController(target).updateLife();
+		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 0);	
 	}	
 	
 	public override string getTargetText(int target){
-		
 		string text = base.name;
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
+		int level = GameView.instance.getCurrentSkill().Power;
+		int soin = 2*level;
 			
-		text += "\nSera le dernier à jouer";
+		text += "\nSoigne "+soin+" PV";
 		
 		int amount = GameView.instance.getCurrentSkill().proba;
 		int probaEsquive = targetCard.getMagicalEsquive();

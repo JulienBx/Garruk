@@ -459,6 +459,10 @@ public class GameCard : Card
 		return(this.state.type==4);
 	}
 	
+	public bool isFurious(){
+		return(this.state.type==93);
+	}
+	
 	public List<string> getIconAttack()
 	{
 		List<string> iconAttackTexts = new List<string>();

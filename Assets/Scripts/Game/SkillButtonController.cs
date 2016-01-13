@@ -25,9 +25,9 @@ public class SkillButtonController : MonoBehaviour
 	public void getLaunchability(){
 		this.launchabilityText = GameSkills.instance.getSkill(this.skill.Id).isLaunchable() ;
 		if(this.launchabilityText.Length>1){
-			gameObject.transform.FindChild("DescriptionZone").FindChild("LaunchabilityText").GetComponent<TextMeshPro>().color = Color.red ;
-			gameObject.transform.FindChild("DescriptionZone").FindChild("TitleText").GetComponent<TextMeshPro>().color = Color.red ;
-			gameObject.GetComponent<SpriteRenderer>().color = Color.red ;
+			gameObject.transform.FindChild("DescriptionZone").FindChild("LaunchabilityText").GetComponent<TextMeshPro>().color = new Color(231f/255f, 0f, 66f/255f, 1f) ;
+			gameObject.transform.FindChild("DescriptionZone").FindChild("TitleText").GetComponent<TextMeshPro>().color = new Color(231f/255f, 0f, 66f/255f, 1f) ;
+			gameObject.GetComponent<SpriteRenderer>().color = new Color(231f/255f, 0f, 66f/255f, 1f) ; ;
 		}
 		else{
 			gameObject.transform.FindChild("DescriptionZone").FindChild("LaunchabilityText").GetComponent<TextMeshPro>().color = new Color(71f/255f,150f/255f,189f/255f, 1f);
