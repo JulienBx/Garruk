@@ -1067,7 +1067,6 @@ GameObject:
   - 4: {fileID: 407260}
   - 61: {fileID: 6108260}
   - 114: {fileID: 11466996}
-  - 114: {fileID: 11406476}
   m_Layer: 0
   m_Name: newCard
   m_TagString: Untagged
@@ -1307,7 +1306,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 190900}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -22.510355, y: 7.60137224, z: 0}
+  m_LocalPosition: {x: 18.1815758, y: 9.04008865, z: 0}
   m_LocalScale: {x: .269444466, y: .269444466, z: .269444466}
   m_Children:
   - {fileID: 487878}
@@ -3205,18 +3204,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 610e2f32dc7b0406796ba89dbac82249, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &11406476
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 190900}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f28561f96f31943919d7a6fdf6e7eb18, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  popUpSkin: {fileID: 11400000, guid: 6346424849e084205bcebcf25bed265c, type: 2}
 --- !u!114 &11409358
 MonoBehaviour:
   m_ObjectHideFlags: 1

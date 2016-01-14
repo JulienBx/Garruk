@@ -59,8 +59,8 @@ public class NewStoreController : MonoBehaviour
 
 	private IList<int> packsDisplayed;
 	
-	private NewStoreAddCreditsPopUpView addCreditsView;
-	private bool isAddCreditsViewDisplayed;
+	private GameObject addCreditsPopUp;
+	private bool isAddCreditsPopUpDisplayed;
 	private GameObject selectCardTypePopUp;
 	private bool isSelectCardTypePopUpDisplayed;
 
@@ -297,6 +297,8 @@ public class NewStoreController : MonoBehaviour
 		this.upperScrollCamera = GameObject.Find ("UpperScrollCamera");
 		this.selectCardTypePopUp = GameObject.Find ("SelectCardTypePopUp");
 		this.selectCardTypePopUp.SetActive (false);
+		this.addCreditsPopUp = GameObject.Find ("AddCreditsPopUp");
+		this.addCreditsPopUp.SetActive (false);
 	}
 	private IEnumerator initialization()
 	{
@@ -580,7 +582,7 @@ public class NewStoreController : MonoBehaviour
 		{
 			this.selectCardPopUpResize();
 		}
-		if(isAddCreditsViewDisplayed)
+		if(isAddCreditsPopUpDisplayed)
 		{
 			this.addCreditsPopUpResize();
 		}
@@ -952,7 +954,7 @@ public class NewStoreController : MonoBehaviour
 		{
 			this.focusedCard.GetComponent<NewFocusedCardStoreController>().returnPressed();
 		}
-		else if(this.isAddCreditsViewDisplayed)
+		else if(this.isAddCreditsPopUpDisplayed)
 		{
 			this.addCreditsHandler();
 		}
@@ -967,7 +969,7 @@ public class NewStoreController : MonoBehaviour
 		{
 			this.displayBackUI(true);
 		}
-		else if(this.isAddCreditsViewDisplayed)
+		else if(this.isAddCreditsPopUpDisplayed)
 		{
 			this.hideAddCreditsPopUp();
 		}
@@ -982,7 +984,7 @@ public class NewStoreController : MonoBehaviour
 	}
 	public void closeAllPopUp()
 	{
-		if(this.isAddCreditsViewDisplayed)
+		if(this.isAddCreditsPopUpDisplayed)
 		{
 			this.hideAddCreditsPopUp();
 		}
@@ -1008,14 +1010,10 @@ public class NewStoreController : MonoBehaviour
 	}
 	public void displayAddCreditsPopUp()
 	{
-		this.addCreditsView = gameObject.AddComponent<NewStoreAddCreditsPopUpView> ();
-		this.isAddCreditsViewDisplayed = true;
-		addCreditsView.popUpVM.centralWindowStyle = new GUIStyle(this.popUpSkin.window);
-		addCreditsView.popUpVM.centralWindowTitleStyle = new GUIStyle (this.popUpSkin.customStyles [0]);
-		addCreditsView.popUpVM.centralWindowButtonStyle = new GUIStyle (this.popUpSkin.button);
-		addCreditsView.popUpVM.centralWindowTextfieldStyle = new GUIStyle (this.popUpSkin.textField);
-		addCreditsView.popUpVM.centralWindowErrorStyle = new GUIStyle (this.popUpSkin.customStyles [1]);
-		addCreditsView.popUpVM.transparentStyle = new GUIStyle (this.popUpSkin.customStyles [2]);
+		MenuController.instance.displayTransparentBackground ();
+		this.addCreditsPopUp.transform.GetComponent<AddCreditsPopUpController> ().reset ();
+		this.isAddCreditsPopUpDisplayed = true;
+		this.addCreditsPopUp.SetActive (true);
 		this.addCreditsPopUpResize ();
 	}
 	public void displaySelectCardTypePopUp()
@@ -1028,8 +1026,9 @@ public class NewStoreController : MonoBehaviour
 	}
 	public void addCreditsPopUpResize()
 	{
-		addCreditsView.popUpVM.centralWindow = this.centralWindow;
-		addCreditsView.popUpVM.resize ();
+		this.addCreditsPopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y, -2f);
+		this.addCreditsPopUp.transform.localScale = ApplicationDesignRules.popUpScale;
+		this.addCreditsPopUp.GetComponent<AddCreditsPopUpController> ().resize ();
 	}
 	private void selectCardPopUpResize()
 	{
@@ -1045,8 +1044,9 @@ public class NewStoreController : MonoBehaviour
 	}
 	public void hideAddCreditsPopUp()
 	{
-		Destroy (this.addCreditsView);
-		this.isAddCreditsViewDisplayed = false;
+		this.addCreditsPopUp.SetActive (false);
+		MenuController.instance.hideTransparentBackground();
+		this.isAddCreditsPopUpDisplayed = false;
 	}
 	public void addCreditsHandler()
 	{
@@ -1067,15 +1067,16 @@ public class NewStoreController : MonoBehaviour
 	public int addCreditsSyntaxCheck()
 	{
 		int n;
-		bool isNumeric = int.TryParse(addCreditsView.addCreditsPopUpVM.credits, out n);
-		if(addCreditsView.addCreditsPopUpVM.credits!="" && isNumeric)
+		string credits = this.addCreditsPopUp.transform.GetComponent<AddCreditsPopUpController> ().getFirstInput ();
+		bool isNumeric = int.TryParse(credits, out n);
+		if(credits!="" && isNumeric)
 		{
-			if(System.Convert.ToInt32(addCreditsView.addCreditsPopUpVM.credits)>0)
+			if(System.Convert.ToInt32(credits)>0)
 			{
-				return System.Convert.ToInt32(addCreditsView.addCreditsPopUpVM.credits);
+				return System.Convert.ToInt32(credits);
 			}
 		}
-		addCreditsView.addCreditsPopUpVM.error="Merci de bien vouloir saisir une valeur";
+		this.addCreditsPopUp.transform.GetComponent<AddCreditsPopUpController>().setError("Merci de bien vouloir saisir une valeur");
 		return -1;
 	}
 	public void moneyUpdate()
