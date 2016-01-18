@@ -613,6 +613,10 @@ public class NewProfileController : MonoBehaviour
 		this.tutorialCamera.transform.position = ApplicationDesignRules.tutorialCameraPositiion;
 		this.backgroundCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.backgroundCameraSize;
 		this.backgroundCamera.transform.position = ApplicationDesignRules.backgroundCameraPosition;
+		this.backgroundCamera.GetComponent<Camera> ().rect = new Rect (0f, 0f, 1f, 1f);
+		this.tutorialCamera.GetComponent<Camera> ().rect = new Rect (0f, 0f, 1f, 1f);
+		this.sceneCamera.GetComponent<Camera> ().rect = new Rect (0f,0f,1f,1f);
+		this.mainCamera.GetComponent<Camera>().rect= new Rect (0f,0f,1f,1f);
 		
 		if(ApplicationDesignRules.isMobileScreen)
 		{

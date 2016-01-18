@@ -5,10 +5,6 @@ public class NewSkillBookSkillController : MonoBehaviour
 {
 	public Skill s;
 	public Sprite[] backgrounds;
-	public Sprite[] startColorLevel;
-	public Sprite[] startHoverColorLevel;
-	public Sprite[] hoverColorLevel;
-	public Sprite[] colorLevel;
 
 
 	private int selectedPower;
@@ -19,10 +15,13 @@ public class NewSkillBookSkillController : MonoBehaviour
 	private GameObject title;
 	private GameObject skillType;
 	private GameObject proba;
-	private GameObject level;
 	private GameObject background;
-	private GameObject[] levels;
-	private GameObject[] levelsTitles;
+	//private GameObject cardTypeDescription;
+	//private GameObject skillTypeDescription;
+	private GameObject level;
+	private GameObject nextLevelButton;
+	private GameObject previousLevelButton;
+	private GameObject descriptionBackground;
 
 	public void initialize()
 	{
@@ -33,78 +32,66 @@ public class NewSkillBookSkillController : MonoBehaviour
 		this.title = gameObject.transform.FindChild ("Title").gameObject;
 		this.skillType = gameObject.transform.FindChild ("SkillType").gameObject;
 		this.proba = gameObject.transform.FindChild ("Proba").gameObject;
-		this.level = gameObject.transform.FindChild ("level").gameObject;
+		this.level = gameObject.transform.FindChild ("Level").gameObject;
 		this.background = gameObject.transform.FindChild ("Background").gameObject;
-		this.levels = new GameObject[10];
-		for(int i=0;i<this.levels.Length;i++)
-		{
-			this.levels[i]=gameObject.transform.FindChild("level"+i).gameObject;
-			this.levels[i].AddComponent<NewSkillBookSkillPowerSelectionButtonController>();
-			this.levels[i].GetComponent<NewSkillBookSkillPowerSelectionButtonController>().setId(i);
-		}
-		this.levelsTitles = new GameObject[10];
-		for(int i=0;i<this.levelsTitles.Length;i++)
-		{
-			this.levelsTitles[i]=gameObject.transform.FindChild("text"+i).gameObject;
-			this.levelsTitles[i].GetComponent<TextMeshPro>().text=(i+1).ToString();
-		}
+		this.descriptionBackground = gameObject.transform.FindChild ("DescriptionBackground").gameObject;
+		this.nextLevelButton = gameObject.transform.FindChild ("NextLevelButton").gameObject;
+		this.previousLevelButton = gameObject.transform.FindChild ("PreviousLevelButton").gameObject;
+		//this.cardTypeDescription = gameObject.transform.FindChild ("CardTypeDescription").gameObject;
+		//this.skillTypeDescription = gameObject.transform.FindChild ("SkillTypeDescription").gameObject;
 	}
 
 	public void resize(float worldWidth)
 	{
-		float skillScale = 0.53f;
-		float skillBackgroundWidth = 1600f;
+		float skillScale = 0.75f;
+		float skillBackgroundWidth = 931f;
 		float originalWorldWidth = skillScale*(skillBackgroundWidth / ApplicationDesignRules.pixelPerUnit);
 		float scale = (worldWidth /originalWorldWidth);
 		float worldIncrease = worldWidth-originalWorldWidth;
 
-		this.background.transform.localScale =new Vector3(scale, 1f, 1f);
+		this.background.transform.localScale =new Vector3(scale, 0.86f, 1f);
 
-		Vector3 pictoPosition = new Vector3 (-6.21f, 0.31f, 0f);
+		float descriptionBackgroundWorldWidth = worldWidth - 1f;
+		float descriptionBackgroundWidth = 1046f;
+		float descriptionOriginalWorldWidth = skillScale*(descriptionBackgroundWidth / ApplicationDesignRules.pixelPerUnit);
+		float descriptionScale = descriptionBackgroundWorldWidth / descriptionOriginalWorldWidth;
+
+		this.descriptionBackground.transform.localScale = new Vector3 (descriptionScale, 0.7584848f, 0.727804f);
+
+		Vector3 pictoPosition = new Vector3 (-3.7f, 0.99f, 0f);
 		pictoPosition.x = pictoPosition.x - (worldIncrease / 2f)*(1/skillScale);
 		this.picto.transform.localPosition = pictoPosition;
-		Vector3 cardTypePosition = new Vector3 (-4.7f, 0.86f, 0f);
-		cardTypePosition.x = cardTypePosition.x - (worldIncrease / 2f)*(1/skillScale);
+		Vector3 cardTypePosition = new Vector3 (2.89f, 1f, 0f);
+		cardTypePosition.x = cardTypePosition.x + (worldIncrease / 2f)*(1/skillScale);
 		this.cardType.transform.localPosition = cardTypePosition;
-		Vector3 descriptionPosition = new Vector3 (-5.26f, -0.35f, 0f);
+		Vector3 descriptionPosition = new Vector3 (-3f, -0.18f, 0f);
 		descriptionPosition.x = descriptionPosition.x - (worldIncrease / 2f)*(1/skillScale);
 		this.description.transform.localPosition = descriptionPosition;
-		Vector3 titlePosition = new Vector3 (-2.61f, 0.86f, 0f);
+		Vector3 titlePosition = new Vector3 (-2.97f, 1.17f, 0f);
 		titlePosition.x = titlePosition.x - (worldIncrease / 2f)*(1/skillScale);
 		this.title.transform.localPosition = titlePosition;
-		Vector3 skillTypePosition = new Vector3 (-3.44f, 0.86f, 0f);
-		skillTypePosition.x = skillTypePosition.x -(worldIncrease / 2f)*(1/skillScale);
+		Vector3 skillTypePosition = new Vector3 (3.67f, 0.97f, 0f);
+		skillTypePosition.x = skillTypePosition.x +(worldIncrease / 2f)*(1/skillScale);
 		this.skillType.transform.localPosition = skillTypePosition;
-		Vector3 probaPosition = new Vector3 (6.46f, 0f, 0f);
+		Vector3 probaPosition = new Vector3 (3.66f, -0.18f, 0f);
 		probaPosition.x = probaPosition.x + (worldIncrease / 2f)*(1/skillScale);
 		this.proba.transform.localPosition = probaPosition;
-		Vector3 levelPosition = new Vector3 (-7.02f, -1.15f, 0f);
+		Vector3 levelPosition = new Vector3 (-2.95f, 0.8f, 0f);
 		levelPosition.x = levelPosition.x - (worldIncrease / 2f)*(1/skillScale);
 		this.level.transform.localPosition = levelPosition;
+		Vector3 nextLevelButtonPosition = new Vector3 (-3.7f, 0.23f, 0f);
+		nextLevelButtonPosition.x = nextLevelButtonPosition.x - (worldIncrease / 2f)*(1/skillScale);
+		this.nextLevelButton.transform.localPosition = nextLevelButtonPosition;
+		Vector3 previousLevelButtonPosition = new Vector3 (-3.72f, -0.54f, 0f);
+		previousLevelButtonPosition.x = previousLevelButtonPosition.x - (worldIncrease / 2f)*(1/skillScale);
+		this.previousLevelButton.transform.localPosition = previousLevelButtonPosition;
+		Vector3 descriptionBackgroundPosition = this.descriptionBackground.transform.position;
+		descriptionBackgroundPosition.x = description.transform.position.x - 0.075f + descriptionBackgroundWorldWidth / 2f;
+		this.descriptionBackground.transform.position = descriptionBackgroundPosition;
 
-		this.description.transform.GetComponent<TextContainer> ().width = worldWidth - 2f * (worldWidth / 2f + descriptionPosition.x);
+		this.description.transform.GetComponent<TextContainer> ().width = 7.63f + worldIncrease;
 
-		float levelsSpace = worldWidth - 2f * (worldWidth / 2f + levelPosition.x) - this.level.GetComponent<TextContainer> ().width;
-		float origin = -worldWidth / 2f + this.level.GetComponent<TextContainer> ().width + (worldWidth / 2f + levelPosition.x)+0.1f;
 
-		float gapBetweenLevels = -0.15f;
-		float levelWidth = 118f;
-		float levelWorldWidth = (levelsSpace - 9f * gapBetweenLevels) / 10f;
-		float distanceBetweenLevels = gapBetweenLevels + levelWorldWidth;
-		float levelScale = (levelWorldWidth * ApplicationDesignRules.pixelPerUnit) / levelWidth;
-
-		for(int i=0;i<this.levels.Length;i++)
-		{
-			this.levels[i].transform.localScale=new Vector3(levelScale,1f,1f);
-			this.levels[i].transform.localPosition=new Vector3(origin+levelWorldWidth/2f+i*(distanceBetweenLevels),-1.15f,0f);
-			Vector2 ColliderSize = this.levels[i].GetComponent<BoxCollider2D>().size;
-			ColliderSize.x=levelWorldWidth*0.7f;
-			this.levels[i].GetComponent<BoxCollider2D>().size=ColliderSize;
-		}
-		for(int i=0;i<this.levelsTitles.Length;i++)
-		{
-			this.levelsTitles[i].transform.position=this.levels[i].transform.position;
-		}
 	}
 	public void show()
 	{
@@ -122,16 +109,13 @@ public class NewSkillBookSkillController : MonoBehaviour
 		{
 			this.selectedPower=0;
 		}
-		for(int i=0;i<this.levels.Length;i++)
+		if(s.Level==0)
 		{
-			if(i==selectedPower)
-			{
-				this.applyHoverColorLevel(i);
-			}
-			else
-			{
-				this.applyColorLevel(i);
-			}
+			this.level.transform.GetComponent<TextMeshPro>().text="Non acquise";
+		}
+		else
+		{
+			this.level.transform.GetComponent<TextMeshPro>().text="Acquise (niveau "+(s.Power).ToString()+")";
 		}
 		this.showDescription ();
 	}
@@ -147,7 +131,7 @@ public class NewSkillBookSkillController : MonoBehaviour
 			this.proba.SetActive(true);
 			this.proba.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = s.AllProbas[this.selectedPower].ToString();
 		}
-
+		this.drawButtons ();
 		if(s.AllProbas[this.selectedPower]<50)
 		{
 			this.proba.transform.FindChild("Title").GetComponent<TextMeshPro>().color=ApplicationDesignRules.greyTextColor;
@@ -161,63 +145,35 @@ public class NewSkillBookSkillController : MonoBehaviour
 			this.proba.transform.FindChild("Title").GetComponent<TextMeshPro>().color=ApplicationDesignRules.redColor;
 		}
 	}
-	public void selectPowerHandler(int id)
+	public void nextLevelHandler()
 	{
-		if(id!=this.selectedPower)
-		{
-			this.applyColorLevel (this.selectedPower);
-			this.selectedPower = id;
-			this.showDescription ();
-		}
+		this.selectedPower++;
+		this.showDescription ();
 	}
-	public void startHoverPowerHandler(int id)
+	public void previousLevelHandler()
 	{
-		if(this.selectedPower!=id)
-		{
-			this.applyHoverColorLevel(id);
-		}
+		this.selectedPower--;
+		this.showDescription ();
 	}
-	public void endHoverPowerHandler(int id)
+	public void drawButtons()
 	{
-		if (this.selectedPower != id) 
+		if(this.selectedPower<9)
 		{
-			this.applyColorLevel (id);
-		}
-	}
-	private void applyColorLevel(int id)
-	{
-		if(id==0)
-		{
-			this.levels [0].transform.GetComponent<SpriteRenderer> ().sprite=this.startColorLevel [s.Level];
+			this.nextLevelButton.SetActive(true);
+			this.nextLevelButton.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Nv " + this.selectedPower.ToString ()+2;
 		}
 		else
 		{
-			if(id<s.Power)
-			{
-				this.levels[id].transform.GetComponent<SpriteRenderer>().sprite=this.colorLevel[s.Level];
-			}
-			else
-			{
-				this.levels[id].transform.GetComponent<SpriteRenderer>().sprite=this.colorLevel[0];
-			}
+			this.nextLevelButton.SetActive(false);
 		}
-	}
-	private void applyHoverColorLevel(int id)
-	{
-		if(id==0)
+		if(this.selectedPower>0)
 		{
-			this.levels [0].transform.GetComponent<SpriteRenderer> ().sprite=this.startHoverColorLevel [s.Level];
+			this.previousLevelButton.SetActive(true);
+			this.previousLevelButton.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Nv " + this.selectedPower.ToString ();
 		}
 		else
 		{
-			if(id<this.s.Power)
-			{
-				this.levels[id].transform.GetComponent<SpriteRenderer>().sprite=this.hoverColorLevel[s.Level];
-			}
-			else
-			{
-				this.levels[id].transform.GetComponent<SpriteRenderer>().sprite=this.hoverColorLevel[0];
-			}
+			this.previousLevelButton.SetActive(false);
 		}
 	}
 }

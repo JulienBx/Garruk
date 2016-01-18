@@ -21,6 +21,7 @@ public class NewMarketController : MonoBehaviour
 	private GameObject refreshMarketButton;
 
 	private GameObject cardsBlock;
+	private GameObject cardsBlockTitle;
 	private GameObject[] cards;
 	private GameObject cardsPaginationButtons;
 	private GameObject cardsPaginationLine;
@@ -66,11 +67,6 @@ public class NewMarketController : MonoBehaviour
 
 	private int activeTab;
 
-	private Rect centralWindow;
-	private Rect collectionPointsWindow;
-	private Rect newSkillsWindow;
-	private Rect newCardTypeWindow;
-	
 	private bool isSearchingSkill;
 	private bool isSkillChosen;
 	private bool isMouseOnSearchBar;
@@ -115,6 +111,7 @@ public class NewMarketController : MonoBehaviour
 
 	private bool toSlideLeft;
 	private bool toSlideRight;
+	private bool isSlidingCursors;
 	private bool filtersDisplayed;
 	private bool mainContentDisplayed;
 	private bool marketContentDisplayed;
@@ -134,7 +131,7 @@ public class NewMarketController : MonoBehaviour
 			{
 				this.isLeftClicked=false;
 			}
-			else if(Input.touches[0].deltaPosition.x<-15f)
+			else if(Input.touches[0].deltaPosition.x<-15f && !isSlidingCursors)
 			{
 				this.isLeftClicked=false;
 				if(this.marketContentDisplayed || this.mainContentDisplayed || this.toSlideLeft)
@@ -142,7 +139,7 @@ public class NewMarketController : MonoBehaviour
 					this.slideRight();
 				}
 			}
-			else if(Input.touches[0].deltaPosition.x>15f)
+			else if(Input.touches[0].deltaPosition.x>15f && !isSlidingCursors)
 			{
 				this.isLeftClicked=false;
 				if(this.mainContentDisplayed || this.filtersDisplayed || this.toSlideRight)
@@ -286,7 +283,7 @@ public class NewMarketController : MonoBehaviour
 		this.model = new NewMarketModel ();
 		this.sortingOrder = -1;
 		this.activeTab = 0;
-		this.scrollIntersection = 1.8f;
+		this.scrollIntersection = 1.85f;
 		this.mainContentDisplayed = true;
 		this.initializeScene ();
 		this.startMenuInitialization ();
@@ -359,6 +356,10 @@ public class NewMarketController : MonoBehaviour
 	private IEnumerator selectATab()
 	{
 		bool firstLoad=false;
+		if(ApplicationDesignRules.isMobileScreen)
+		{
+			this.hideActiveTab();
+		}
 		for(int i=0;i<this.tabs.Length;i++)
 		{
 			if(i==this.activeTab)
@@ -450,6 +451,7 @@ public class NewMarketController : MonoBehaviour
 	public void initializeScene()
 	{
 		this.cardsBlock = Instantiate (this.blockObject) as GameObject;
+		this.cardsBlockTitle = GameObject.Find ("CardsBlockTitle");
 		this.cardsNumberTitle = GameObject.Find ("CardsNumberTitle");
 		this.cardsNumberTitle.GetComponent<TextMeshPro> ().color = ApplicationDesignRules.whiteTextColor;
 		this.cardsPaginationButtons = GameObject.Find("Pagination");
@@ -649,6 +651,7 @@ public class NewMarketController : MonoBehaviour
 		float filtersBlockHeight;
 
 		float firstLineY;
+		float gapBetweenSelectionsButtons = 0.02f;
 
 		this.mainCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
 		this.mainCamera.transform.position = ApplicationDesignRules.mainCameraPosition;
@@ -657,13 +660,17 @@ public class NewMarketController : MonoBehaviour
 		this.tutorialCamera.transform.position = ApplicationDesignRules.tutorialCameraPositiion;
 		this.backgroundCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.backgroundCameraSize;
 		this.backgroundCamera.transform.position = ApplicationDesignRules.backgroundCameraPosition;
+		this.backgroundCamera.GetComponent<Camera> ().rect = new Rect (0f, 0f, 1f, 1f);
+		this.tutorialCamera.GetComponent<Camera> ().rect = new Rect (0f, 0f, 1f, 1f);
+		this.sceneCamera.GetComponent<Camera> ().rect = new Rect (0f,0f,1f,1f);
+		this.mainCamera.GetComponent<Camera>().rect= new Rect (0f,0f,1f,1f);
 		
 		if(ApplicationDesignRules.isMobileScreen)
 		{
 			this.cardsPerLine = 4;
 			this.nbLines = 25;
 
-			firstLineY = 2.5f;
+			firstLineY = 2.2f;
 
 			cardsBlockHeight=5f+this.nbLines*(ApplicationDesignRules.cardWorldSize.y+ApplicationDesignRules.gapBetweenMarketCardsLine);
 
@@ -689,6 +696,7 @@ public class NewMarketController : MonoBehaviour
 			this.lowerScrollCamera.GetComponent<ScrollingController> ().setStartPositionY (this.lowerScrollCamera.transform.position.y);
 
 			this.cardsScrollLine.SetActive(true);
+			this.cardsBlockTitle.SetActive(true);
 			this.lowerScrollCamera.SetActive(true);
 			this.cardsPaginationLine.SetActive(false);
 			this.toSlideLeft=false;
@@ -734,6 +742,7 @@ public class NewMarketController : MonoBehaviour
 			this.cardsPerLine = 4;
 			this.nbLines = 2;
 			this.sceneCamera.SetActive(true);
+			this.cardsBlockTitle.SetActive(false);
 			this.cardsScrollLine.SetActive(false);
 			this.lowerScrollCamera.SetActive(false);
 			this.upperScrollCamera.SetActive(false);
@@ -765,87 +774,22 @@ public class NewMarketController : MonoBehaviour
 		Vector2 filtersBlockOrigin = this.filtersBlock.GetComponent<NewBlockController> ().getOriginPosition ();
 		
 		float gapBetweenSubFiltersBlock = 0.05f;
-		float filtersSubBlockSize = (filtersBlockSize.x - 0.6f - 2f * gapBetweenSubFiltersBlock) / 3f;
+		float filtersSubBlockSize = (filtersBlockSize.x - 2f*ApplicationDesignRules.blockHorizontalSpacing - 2f * gapBetweenSubFiltersBlock) / 3f;
 		
-		this.filtersBlockTitle.transform.position = new Vector3 (filtersBlockUpperLeftPosition.x + 0.3f, filtersBlockUpperLeftPosition.y - 0.2f, 0f);
+		this.filtersBlockTitle.transform.position = new Vector3 (filtersBlockUpperLeftPosition.x + ApplicationDesignRules.blockHorizontalSpacing, filtersBlockUpperLeftPosition.y - ApplicationDesignRules.mainTitleVerticalSpacing, 0f);
 		this.filtersBlockTitle.transform.localScale = ApplicationDesignRules.mainTitleScale;
 		
 		this.cardTypeFilterTitle.transform.localScale = ApplicationDesignRules.subMainTitleScale;
-		this.cardTypeFilterTitle.transform.position = new Vector3 (0.3f+filtersBlockUpperLeftPosition.x + filtersSubBlockSize / 2f, filtersBlockUpperLeftPosition.y - 1.2f, 0f);
-		
-		float gapBetweenCardTypesFilters = (filtersSubBlockSize - 4f * ApplicationDesignRules.cardTypeFilterWorldSize.x) / 3f;
-		float gapBetweenLines;
-		if(gapBetweenCardTypesFilters>0.05f)
-		{
-			gapBetweenLines=0.05f;
-		}
-		else
-		{
-			gapBetweenLines=gapBetweenCardTypesFilters;
-		}
-		for(int i=0;i<this.cardsTypeFilters.Length;i++)
-		{
-			int column=0;
-			int line=0;
-			Vector3 position=new Vector3();
-			if((i>=0 && i<3)||(i>=7))
-			{
-				if(i>=7)
-				{
-					column=i-7;
-					line=2;
-				}
-				else
-				{
-					column=i;
-					line=0;
-				}
-				position.x=filtersBlockUpperLeftPosition.x+0.3f+ApplicationDesignRules.cardTypeFilterWorldSize.x+column*(gapBetweenCardTypesFilters+ApplicationDesignRules.cardTypeFilterWorldSize.x);
-			}
-			else if(i>=3&& i<7)
-			{
-				column=i-3;
-				line=1;
-				position.x=filtersBlockUpperLeftPosition.x+0.3f+ApplicationDesignRules.cardTypeFilterWorldSize.x/2f+column*(gapBetweenCardTypesFilters+ApplicationDesignRules.cardTypeFilterWorldSize.x);
-			}
-			position.y=filtersBlockUpperLeftPosition.y-1.7f-line*(ApplicationDesignRules.cardTypeFilterWorldSize.y+gapBetweenLines);
-			position.z=0;
-			this.cardsTypeFilters[i].transform.localScale=ApplicationDesignRules.cardTypeFilterScale;
-			this.cardsTypeFilters[i].transform.position=position;
-		}
-		
-		this.skillSearchBarTitle.transform.localScale = ApplicationDesignRules.subMainTitleScale;
-		this.skillSearchBarTitle.transform.position = new Vector3 (0.3f+filtersBlockUpperLeftPosition.x + filtersSubBlockSize / 2f + 2f*(filtersSubBlockSize+gapBetweenSubFiltersBlock), filtersBlockUpperLeftPosition.y - 1.2f, 0f);
-		
-		this.skillSearchBar.transform.localScale = ApplicationDesignRules.inputTextScale;
-		this.skillSearchBar.transform.position = new Vector3 (this.skillSearchBarTitle.transform.position.x, filtersBlockUpperLeftPosition.y - 1.6f, 0f);
-		
-		for(int i=0;i<this.skillChoices.Length;i++)
-		{
-			this.skillChoices[i].transform.localScale=ApplicationDesignRules.listElementScale;
-			this.skillChoices[i].transform.position=new Vector3(this.skillSearchBar.transform.position.x,this.skillSearchBar.transform.position.y-ApplicationDesignRules.inputTextWorldSize.y/2f-(i+0.5f)*ApplicationDesignRules.listElementWorldSize.y+i*0.02f,-1f);
-		}
-		
+
 		this.valueFilterTitle.transform.localScale = ApplicationDesignRules.subMainTitleScale;
-		this.valueFilterTitle.transform.position=new Vector3 (0.3f+filtersBlockUpperLeftPosition.x + filtersSubBlockSize / 2f + 1f*(filtersSubBlockSize+gapBetweenSubFiltersBlock), filtersBlockUpperLeftPosition.y - 1.2f, 0f);
+
+		this.skillSearchBarTitle.transform.localScale = ApplicationDesignRules.subMainTitleScale;
+		this.skillSearchBar.transform.localScale = ApplicationDesignRules.inputTextScale;
 
 		this.priceFilterTitle.transform.localScale = ApplicationDesignRules.subMainTitleScale;
-		this.priceFilterTitle.transform.position=new Vector3 (0.3f+filtersBlockUpperLeftPosition.x + filtersSubBlockSize / 2f + 2f*(filtersSubBlockSize+gapBetweenSubFiltersBlock), filtersBlockUpperLeftPosition.y - 2.25f, 0f);
-
+	
 		this.priceFilter.transform.localScale=ApplicationDesignRules.valueFilterScale;
-		this.priceFilter.transform.position=new Vector3(priceFilterTitle.transform.position.x,filtersBlockUpperLeftPosition.y - 3f,0f);
 		
-		for(int i=0;i<this.valueFilters.Length;i++)
-		{
-			this.valueFilters[i].transform.localScale=ApplicationDesignRules.valueFilterScale;
-			this.valueFilters[i].transform.position=new Vector3(this.valueFilterTitle.transform.position.x,filtersBlockUpperLeftPosition.y - 1.6f-i*0.5f,0f);
-		}
-		
-		this.centralWindow = new Rect (ApplicationDesignRules.widthScreen * 0.25f, 0.12f * ApplicationDesignRules.heightScreen, ApplicationDesignRules.widthScreen * 0.50f, 0.25f * ApplicationDesignRules.heightScreen);
-		this.collectionPointsWindow=new Rect(ApplicationDesignRules.widthScreen -  ApplicationDesignRules.widthScreen * 0.17f-5,0.1f * ApplicationDesignRules.heightScreen+5,ApplicationDesignRules.widthScreen * 0.17f,ApplicationDesignRules.heightScreen * 0.1f);
-		this.newSkillsWindow = new Rect (this.collectionPointsWindow.xMin, this.collectionPointsWindow.yMax + 5,this.collectionPointsWindow.width,ApplicationDesignRules.heightScreen - 0.1f * ApplicationDesignRules.heightScreen - 2 * 5 - this.collectionPointsWindow.height);
-		this.newCardTypeWindow = new Rect (ApplicationDesignRules.widthScreen * 0.25f, 0.12f * ApplicationDesignRules.heightScreen, ApplicationDesignRules.widthScreen * 0.50f, 0.25f * ApplicationDesignRules.heightScreen);
-
 		this.cardsBlock.GetComponent<NewBlockController> ().resize(cardsBlockLeftMargin,cardsBlockUpMargin,ApplicationDesignRules.blockWidth,cardsBlockHeight);
 		Vector3 cardsBlockUpperLeftPosition = this.cardsBlock.GetComponent<NewBlockController> ().getUpperLeftCornerPosition ();
 		Vector3 cardsBlockLowerLeftPosition = this.cardsBlock.GetComponent<NewBlockController> ().getLowerLeftCornerPosition ();
@@ -853,23 +797,15 @@ public class NewMarketController : MonoBehaviour
 		Vector2 cardsBlockSize = this.cardsBlock.GetComponent<NewBlockController> ().getSize ();
 		Vector3 cardsBlockOrigin = this.cardsBlock.GetComponent<NewBlockController> ().getOriginPosition ();
 		this.cardsNumberTitle.transform.localScale = ApplicationDesignRules.subMainTitleScale;
-		this.refreshMarketButton.transform.position=new Vector3 (cardsBlockUpperRightPosition.x - 0.3f, cardsBlockUpperRightPosition.y - 0.25f, 0f);
 		this.refreshMarketButton.transform.localScale= ApplicationDesignRules.subMainTitleScale;
 
 		this.filterButton.transform.localScale = ApplicationDesignRules.roundButtonScale;
-		this.filterButton.transform.position = new Vector3 (cardsBlockUpperRightPosition.x - 0.3f - ApplicationDesignRules.roundButtonWorldSize.x / 2f, cardsBlockUpperRightPosition.y - 0.05f - ApplicationDesignRules.roundButtonWorldSize.y / 2f, 0f);
+		this.filterButton.transform.position = new Vector3 (cardsBlockUpperRightPosition.x - ApplicationDesignRules.blockHorizontalSpacing - ApplicationDesignRules.roundButtonWorldSize.x / 2f, cardsBlockUpperRightPosition.y - ApplicationDesignRules.buttonVerticalSpacing - ApplicationDesignRules.roundButtonWorldSize.y / 2f, 0f);
 
 		this.informationButton.transform.localScale = ApplicationDesignRules.roundButtonScale;
-		this.informationButton.transform.position = new Vector3 (cardsBlockUpperRightPosition.x - 0.4f - 1.5f*ApplicationDesignRules.roundButtonWorldSize.x, cardsBlockUpperRightPosition.y - 0.05f - ApplicationDesignRules.roundButtonWorldSize.y / 2f, 0f);
+		this.informationButton.transform.position = new Vector3 (cardsBlockUpperRightPosition.x - ApplicationDesignRules.blockHorizontalSpacing - 1.5f*ApplicationDesignRules.roundButtonWorldSize.x, cardsBlockUpperRightPosition.y - ApplicationDesignRules.buttonVerticalSpacing - ApplicationDesignRules.roundButtonWorldSize.y / 2f, 0f);
 
-		float gapBetweenSelectionsButtons = 0.02f;
-		for(int i=0;i<this.tabs.Length;i++)
-		{
-			this.tabs[i].transform.localScale = ApplicationDesignRules.tabScale;
-			this.tabs[i].transform.position = new Vector3 (cardsBlockUpperLeftPosition.x + ApplicationDesignRules.tabWorldSize.x / 2f+ i*(ApplicationDesignRules.tabWorldSize.x+gapBetweenSelectionsButtons), cardsBlockUpperLeftPosition.y+ApplicationDesignRules.tabWorldSize.y/2f,0f);
-		}
-
-		float gapBetweenCards = (cardsBlockSize.x - 0.6f - 4f * ApplicationDesignRules.cardWorldSize.x) / 3f;
+		float gapBetweenCards = (cardsBlockSize.x - 2f*ApplicationDesignRules.blockHorizontalSpacing - 4f * ApplicationDesignRules.cardWorldSize.x) / 3f;
 
 		this.cards=new GameObject[this.cardsPerLine*this.nbLines];
 
@@ -881,11 +817,11 @@ public class NewMarketController : MonoBehaviour
 				this.cards[j*(cardsPerLine)+i].AddComponent<NewCardMarketController>();
 				this.cards[j*(cardsPerLine)+i].transform.GetComponent<NewCardMarketController>().setId(j*(cardsPerLine)+i);
 				this.cards[j*(cardsPerLine)+i].transform.localScale= ApplicationDesignRules.cardScale;
-				this.cards[j*(cardsPerLine)+i].transform.position=new Vector3(cardsBlockUpperLeftPosition.x+0.3f+ApplicationDesignRules.cardWorldSize.x/2f+i*(gapBetweenCards+ApplicationDesignRules.cardWorldSize.x),cardsBlockUpperRightPosition.y-firstLineY-j*(ApplicationDesignRules.gapBetweenMarketCardsLine+ApplicationDesignRules.cardHaloWorldSize.y),0f);
+				this.cards[j*(cardsPerLine)+i].transform.position=new Vector3(cardsBlockUpperLeftPosition.x+ApplicationDesignRules.blockHorizontalSpacing+ApplicationDesignRules.cardWorldSize.x/2f+i*(gapBetweenCards+ApplicationDesignRules.cardWorldSize.x),cardsBlockUpperRightPosition.y-firstLineY-j*(ApplicationDesignRules.gapBetweenMarketCardsLine+ApplicationDesignRules.cardHaloWorldSize.y),0f);
 			}
 		}
 
-		float lineScale = ApplicationDesignRules.getLineScale (cardsBlockSize.x - 0.6f);
+		float lineScale = ApplicationDesignRules.getLineScale (cardsBlockSize.x - 2f*ApplicationDesignRules.blockHorizontalSpacing);
 
 		this.marketBlock.GetComponent<NewBlockController> ().resize(marketBlockLeftMargin,marketBlockUpMargin,ApplicationDesignRules.blockWidth,marketBlockHeight);
 		Vector3 marketBlockUpperLeftPosition = this.marketBlock.GetComponent<NewBlockController> ().getUpperLeftCornerPosition ();
@@ -893,10 +829,10 @@ public class NewMarketController : MonoBehaviour
 		Vector3 marketBlockLowerLeftPosition = this.marketBlock.GetComponent<NewBlockController> ().getLowerLeftCornerPosition ();
 		Vector2 marketBlockSize = this.marketBlock.GetComponent<NewBlockController> ().getSize ();
 		Vector2 marketBlockOrigin = this.marketBlock.GetComponent<NewBlockController> ().getOriginPosition ();
-		this.marketBlockTitle.transform.position = new Vector3 (marketBlockUpperLeftPosition.x + 0.3f, marketBlockUpperLeftPosition.y - 0.2f, 0f);
+		this.marketBlockTitle.transform.position = new Vector3 (marketBlockUpperLeftPosition.x + ApplicationDesignRules.blockHorizontalSpacing, marketBlockUpperLeftPosition.y - ApplicationDesignRules.mainTitleVerticalSpacing, 0f);
 		this.marketBlockTitle.transform.localScale = ApplicationDesignRules.mainTitleScale;
-		this.marketSubtitle.transform.position = new Vector3 (marketBlockUpperLeftPosition.x + 0.3f, marketBlockUpperLeftPosition.y - 1.2f, 0f);
-		this.marketSubtitle.transform.GetComponent<TextContainer>().width=marketBlockSize.x-0.6f;
+		this.marketSubtitle.transform.position = new Vector3 (marketBlockUpperLeftPosition.x + ApplicationDesignRules.blockHorizontalSpacing, marketBlockUpperLeftPosition.y - ApplicationDesignRules.subMainTitleVerticalSpacing, 0f);
+		this.marketSubtitle.transform.GetComponent<TextContainer>().width=marketBlockSize.x-2f*ApplicationDesignRules.blockHorizontalSpacing;
 		this.marketSubtitle.transform.localScale = ApplicationDesignRules.subMainTitleScale;
 
 		this.mainContentPositionX = cardsBlockOrigin.x;
@@ -904,7 +840,7 @@ public class NewMarketController : MonoBehaviour
 		this.filtersPositionX = filtersBlockOrigin.x;
 
 		this.cardsScrollLine.transform.localScale = new Vector3 (lineScale, 1f, 1f);
-		this.cardsScrollLine.transform.position = new Vector3 (cardsBlockLowerLeftPosition.x + cardsBlockSize.x / 2, cardsBlockUpperLeftPosition.y+ApplicationDesignRules.tabWorldSize.y-this.scrollIntersection+0.03f+ApplicationDesignRules.gapBetweenBlocks, 0f);
+		this.cardsScrollLine.transform.position = new Vector3 (cardsBlockLowerLeftPosition.x + cardsBlockSize.x / 2, cardsBlockUpperLeftPosition.y-1.15f, 0f);
 		this.cardsPaginationLine.transform.localScale = new Vector3 (lineScale, 1f, 1f);
 		this.cardsPaginationLine.transform.position = new Vector3 (cardsBlockLowerLeftPosition.x + cardsBlockSize.x / 2, cardsBlockLowerLeftPosition.y + 0.45f, 0f);
 
@@ -915,20 +851,173 @@ public class NewMarketController : MonoBehaviour
 		this.focusedCard.GetComponent<NewFocusedCardMarketController> ().resize ();
 
 		this.slideLeftButton.transform.localScale = ApplicationDesignRules.roundButtonScale;
-		this.slideLeftButton.transform.position = new Vector3 (filtersBlockLowerLeftPosition.x + filtersBlockSize.x / 2f, filtersBlockLowerLeftPosition.y + 0.1f + ApplicationDesignRules.roundButtonWorldSize.y / 2f, 0f);
+		this.slideLeftButton.transform.position = new Vector3 (filtersBlockUpperRightPosition.x - ApplicationDesignRules.blockHorizontalSpacing-ApplicationDesignRules.roundButtonWorldSize.x/2f, filtersBlockUpperRightPosition.y -ApplicationDesignRules.buttonVerticalSpacing- ApplicationDesignRules.roundButtonWorldSize.y / 2f, 0f);
 
 		this.slideRightButton.transform.localScale = ApplicationDesignRules.roundButtonScale;
-		this.slideRightButton.transform.position = new Vector3 (marketBlockLowerLeftPosition.x + marketBlockSize.x / 2f, marketBlockLowerLeftPosition.y + 0.1f + ApplicationDesignRules.roundButtonWorldSize.y / 2f, 0f);
+		this.slideRightButton.transform.position = new Vector3 (marketBlockUpperRightPosition.x -ApplicationDesignRules.blockHorizontalSpacing-ApplicationDesignRules.roundButtonWorldSize.x/2f, marketBlockUpperRightPosition.y - ApplicationDesignRules.buttonVerticalSpacing- ApplicationDesignRules.roundButtonWorldSize.y / 2f, 0f);
 
 		if(ApplicationDesignRules.isMobileScreen)
 		{
-			this.cardsPaginationButtons.transform.localPosition=new Vector3 (cardsBlockUpperRightPosition.x - 0.3f - 3.5f*ApplicationDesignRules.roundButtonWorldSize.x, cardsBlockUpperRightPosition.y - 0.05f - ApplicationDesignRules.roundButtonWorldSize.y / 2f, 0f);
-			this.cardsNumberTitle.transform.position = new Vector3 (cardsBlockUpperLeftPosition.x + 0.3f, cardsBlockUpperRightPosition.y - 0.05f - ApplicationDesignRules.roundButtonWorldSize.y / 2f, 0f);
+			this.cardsBlockTitle.transform.position = new Vector3 (cardsBlockUpperLeftPosition.x + ApplicationDesignRules.blockHorizontalSpacing, cardsBlockUpperLeftPosition.y - ApplicationDesignRules.mainTitleVerticalSpacing, 0f);
+			this.cardsBlockTitle.transform.localScale = ApplicationDesignRules.mainTitleScale;
+			this.cardsBlockTitle.transform.GetComponent<TextContainer>().width=ApplicationDesignRules.blockWidth-2f*ApplicationDesignRules.blockHorizontalSpacing-3f*ApplicationDesignRules.roundButtonWorldSize.x;
+			this.refreshMarketButton.transform.position=new Vector3 (cardsBlockUpperRightPosition.x - ApplicationDesignRules.blockHorizontalSpacing, cardsBlockUpperRightPosition.y - ApplicationDesignRules.subMainTitleVerticalSpacing, 0f);
+
+
+			this.cardsPaginationButtons.transform.localPosition=new Vector3 (cardsBlockUpperRightPosition.x - ApplicationDesignRules.blockHorizontalSpacing - 3f*ApplicationDesignRules.roundButtonWorldSize.x, cardsBlockUpperRightPosition.y - ApplicationDesignRules.buttonVerticalSpacing - ApplicationDesignRules.roundButtonWorldSize.y / 2f, 0f);
+			this.cardsNumberTitle.transform.position = new Vector3 (cardsBlockUpperLeftPosition.x + ApplicationDesignRules.blockHorizontalSpacing, cardsBlockUpperRightPosition.y - ApplicationDesignRules.subMainTitleVerticalSpacing, 0f);
+			for(int i=0;i<this.tabs.Length;i++)
+			{
+				this.tabs[i].transform.localScale = ApplicationDesignRules.tabScale;
+			}
+			this.tabs[0].transform.position = new Vector3 (cardsBlockUpperLeftPosition.x + ApplicationDesignRules.tabWorldSize.x / 2f, cardsBlockUpperLeftPosition.y+ApplicationDesignRules.tabWorldSize.y/2f,0f);
+			this.tabs[2].transform.position = new Vector3 (cardsBlockUpperLeftPosition.x + ApplicationDesignRules.tabWorldSize.x / 2f+ ApplicationDesignRules.tabWorldSize.x+gapBetweenSelectionsButtons, cardsBlockUpperLeftPosition.y+ApplicationDesignRules.tabWorldSize.y/2f,0f);
+			this.hideActiveTab();
+
+			this.cardTypeFilterTitle.GetComponent<TextContainer>().anchorPosition =  TextContainerAnchors.Left;
+			this.cardTypeFilterTitle.GetComponent<TextMeshPro>().alignment = TextAlignmentOptions.Left;
+			this.cardTypeFilterTitle.transform.position = new Vector3 (ApplicationDesignRules.blockHorizontalSpacing+filtersBlockUpperLeftPosition.x, filtersBlockUpperLeftPosition.y - ApplicationDesignRules.subMainTitleVerticalSpacing, 0f);
+			float gapBetweenCardTypesFilters = (filtersBlockSize.x-2f*ApplicationDesignRules.blockHorizontalSpacing-5f*ApplicationDesignRules.cardTypeFilterWorldSize.x)/4f;
+			for(int i = 0;i<this.cardsTypeFilters.Length;i++)
+			{
+				Vector3 cardTypeFilterPosition=new Vector3();
+				
+				if(i<5)
+				{
+					cardTypeFilterPosition.y=filtersBlockUpperLeftPosition.y-1.75f;
+					cardTypeFilterPosition.x=filtersBlockUpperLeftPosition.x+ApplicationDesignRules.blockHorizontalSpacing+0.5f*ApplicationDesignRules.cardTypeFilterWorldSize.x+i*(ApplicationDesignRules.cardTypeFilterWorldSize.x+gapBetweenCardTypesFilters);
+					
+				}
+				else
+				{
+					cardTypeFilterPosition.y=filtersBlockUpperLeftPosition.y-2.90f;
+					cardTypeFilterPosition.x=filtersBlockUpperLeftPosition.x+ApplicationDesignRules.blockHorizontalSpacing+0.5f*ApplicationDesignRules.cardTypeFilterWorldSize.x+(i-5)*(ApplicationDesignRules.cardTypeFilterWorldSize.x+gapBetweenCardTypesFilters);
+					
+				}
+				this.cardsTypeFilters[i].transform.position=cardTypeFilterPosition;
+				this.cardsTypeFilters[i].transform.localScale=ApplicationDesignRules.cardTypeFilterScale;
+			}
+			this.skillSearchBarTitle.GetComponent<TextContainer>().anchorPosition =  TextContainerAnchors.Left;
+			this.skillSearchBarTitle.GetComponent<TextMeshPro>().alignment = TextAlignmentOptions.Left;
+			this.skillSearchBarTitle.transform.position = new Vector3 (ApplicationDesignRules.blockHorizontalSpacing+filtersBlockUpperLeftPosition.x, filtersBlockUpperLeftPosition.y - 3.75f, 0f);
+			this.skillSearchBar.transform.position = new Vector3 (ApplicationDesignRules.blockHorizontalSpacing+filtersBlockUpperLeftPosition.x+ApplicationDesignRules.inputTextWorldSize.x/2f, filtersBlockUpperLeftPosition.y - 4.20f, 0f);
+			for(int i=0;i<this.skillChoices.Length;i++)
+			{
+				this.skillChoices[i].transform.localScale=ApplicationDesignRules.listElementScale;
+				this.skillChoices[i].transform.position=new Vector3(this.skillSearchBar.transform.position.x,this.skillSearchBar.transform.position.y-ApplicationDesignRules.inputTextWorldSize.y/2f-(i+0.5f)*ApplicationDesignRules.listElementWorldSize.y+i*0.02f,-1f);
+			}
+			this.valueFilterTitle.GetComponent<TextContainer>().anchorPosition =  TextContainerAnchors.Left;
+			this.valueFilterTitle.GetComponent<TextMeshPro>().alignment = TextAlignmentOptions.Left;
+			this.valueFilterTitle.transform.position=new Vector3 (ApplicationDesignRules.blockHorizontalSpacing+filtersBlockUpperLeftPosition.x, filtersBlockUpperLeftPosition.y - 4.65f, 0f);
+			for(int i=0;i<this.valueFilters.Length;i++)
+			{
+				this.valueFilters[i].transform.localScale=ApplicationDesignRules.valueFilterScale;
+				this.valueFilters[i].transform.position=new Vector3(filtersBlockUpperLeftPosition.x+ApplicationDesignRules.blockHorizontalSpacing+1.45f,filtersBlockUpperLeftPosition.y - 5.20f-i*0.6f,0f);
+				this.valueFilters[i].transform.FindChild("Sort0").localScale=new Vector3(0.55f,0.55f,0.55f);
+				this.valueFilters[i].transform.FindChild("Sort1").localScale=new Vector3(0.55f,0.55f,0.55f);
+				this.valueFilters[i].transform.FindChild("Sort0").localPosition=new Vector3(1.26f,0.135f,0f);
+				this.valueFilters[i].transform.FindChild("Sort1").localPosition=new Vector3(1.65f,0.135f,0f);
+			}
+
+			this.priceFilterTitle.GetComponent<TextContainer>().anchorPosition =  TextContainerAnchors.Left;
+			this.priceFilterTitle.GetComponent<TextMeshPro>().alignment = TextAlignmentOptions.Left;
+			this.priceFilterTitle.transform.position=new Vector3 (ApplicationDesignRules.blockHorizontalSpacing+filtersBlockUpperLeftPosition.x, filtersBlockUpperLeftPosition.y - 6.9f, 0f);
+			this.priceFilter.transform.position=new Vector3(filtersBlockUpperLeftPosition.x+ApplicationDesignRules.blockHorizontalSpacing+1.62f,filtersBlockUpperLeftPosition.y - 7.45f,0f);
+			this.priceFilter.transform.FindChild("Sort0").localScale=new Vector3(0.55f,0.55f,0.55f);
+			this.priceFilter.transform.FindChild("Sort1").localScale=new Vector3(0.55f,0.55f,0.55f);
+			this.priceFilter.transform.FindChild("Sort0").localPosition=new Vector3(1.14f,0.135f,0f);
+			this.priceFilter.transform.FindChild("Sort1").localPosition=new Vector3(1.53f,0.135f,0f);
 		}
 		else
 		{
 			this.cardsPaginationButtons.transform.localPosition=new Vector3(cardsBlockLowerLeftPosition.x+cardsBlockSize.x/2f, cardsBlockLowerLeftPosition.y + 0.2f, 0f);
-			this.cardsNumberTitle.transform.position = new Vector3 (cardsBlockUpperLeftPosition.x + 0.3f, cardsBlockUpperLeftPosition.y - 0.3f, 0f);
+			this.cardsNumberTitle.transform.position = new Vector3 (cardsBlockUpperLeftPosition.x + ApplicationDesignRules.blockHorizontalSpacing, cardsBlockUpperLeftPosition.y - 0.25f, 0f);
+			this.cardsBlockTitle.transform.GetComponent<TextContainer>().width=ApplicationDesignRules.blockWidth-2f;
+			this.refreshMarketButton.transform.position=new Vector3 (cardsBlockUpperRightPosition.x - ApplicationDesignRules.blockHorizontalSpacing, cardsBlockUpperRightPosition.y - 0.25f, 0f);
+
+
+			for(int i=0;i<this.tabs.Length;i++)
+			{
+				this.tabs[i].transform.localScale = ApplicationDesignRules.tabScale;
+				this.tabs[i].transform.position = new Vector3 (cardsBlockUpperLeftPosition.x + ApplicationDesignRules.tabWorldSize.x / 2f+ i*(ApplicationDesignRules.tabWorldSize.x+gapBetweenSelectionsButtons), cardsBlockUpperLeftPosition.y+ApplicationDesignRules.tabWorldSize.y/2f,0f);
+				this.tabs[i].SetActive(true);
+			}
+
+			this.cardTypeFilterTitle.GetComponent<TextContainer>().anchorPosition = TextContainerAnchors.Middle;
+			this.cardTypeFilterTitle.GetComponent<TextMeshPro>().alignment = TextAlignmentOptions.Center;
+			this.cardTypeFilterTitle.transform.position = new Vector3 (ApplicationDesignRules.blockHorizontalSpacing+filtersBlockUpperLeftPosition.x + filtersSubBlockSize / 2f, filtersBlockUpperLeftPosition.y - ApplicationDesignRules.subMainTitleVerticalSpacing, 0f);
+			float gapBetweenCardTypesFilters = (filtersSubBlockSize - 4f * ApplicationDesignRules.cardTypeFilterWorldSize.x) / 3f;
+			float gapBetweenLines;
+			if(gapBetweenCardTypesFilters>0.05f)
+			{
+				gapBetweenLines=0.05f;
+			}
+			else
+			{
+				gapBetweenLines=gapBetweenCardTypesFilters;
+			}
+			for(int i=0;i<this.cardsTypeFilters.Length;i++)
+			{
+				int column=0;
+				int line=0;
+				Vector3 position=new Vector3();
+				if((i>=0 && i<3)||(i>=7))
+				{
+					if(i>=7)
+					{
+						column=i-7;
+						line=2;
+					}
+					else
+					{
+						column=i;
+						line=0;
+					}
+					position.x=filtersBlockUpperLeftPosition.x+0.3f+ApplicationDesignRules.cardTypeFilterWorldSize.x+column*(gapBetweenCardTypesFilters+ApplicationDesignRules.cardTypeFilterWorldSize.x);
+				}
+				else if(i>=3&& i<7)
+				{
+					column=i-3;
+					line=1;
+					position.x=filtersBlockUpperLeftPosition.x+0.3f+ApplicationDesignRules.cardTypeFilterWorldSize.x/2f+column*(gapBetweenCardTypesFilters+ApplicationDesignRules.cardTypeFilterWorldSize.x);
+				}
+				position.y=filtersBlockUpperLeftPosition.y-1.7f-line*(ApplicationDesignRules.cardTypeFilterWorldSize.y+gapBetweenLines);
+				position.z=0;
+				this.cardsTypeFilters[i].transform.localScale=ApplicationDesignRules.cardTypeFilterScale;
+				this.cardsTypeFilters[i].transform.position=position;
+			}
+			this.skillSearchBarTitle.GetComponent<TextContainer>().anchorPosition =  TextContainerAnchors.Middle;
+			this.skillSearchBarTitle.GetComponent<TextMeshPro>().alignment = TextAlignmentOptions.Center;
+			this.skillSearchBarTitle.transform.position = new Vector3 (ApplicationDesignRules.blockHorizontalSpacing+filtersBlockUpperLeftPosition.x + filtersSubBlockSize / 2f + 2f*(filtersSubBlockSize+gapBetweenSubFiltersBlock), filtersBlockUpperLeftPosition.y - 1.2f, 0f);
+			this.skillSearchBar.transform.position = new Vector3 (this.skillSearchBarTitle.transform.position.x, filtersBlockUpperLeftPosition.y - 1.6f, 0f);
+			for(int i=0;i<this.skillChoices.Length;i++)
+			{
+				this.skillChoices[i].transform.localScale=ApplicationDesignRules.listElementScale;
+				this.skillChoices[i].transform.position=new Vector3(this.skillSearchBar.transform.position.x,this.skillSearchBar.transform.position.y-ApplicationDesignRules.inputTextWorldSize.y/2f-(i+0.5f)*ApplicationDesignRules.listElementWorldSize.y+i*0.02f,-1f);
+			}
+			this.skillSearchBarTitle.GetComponent<TextContainer>().anchorPosition =  TextContainerAnchors.Middle;
+			this.skillSearchBarTitle.GetComponent<TextMeshPro>().alignment = TextAlignmentOptions.Center;
+			this.valueFilterTitle.transform.position=new Vector3 (0.3f+filtersBlockUpperLeftPosition.x + filtersSubBlockSize / 2f + 1f*(filtersSubBlockSize+gapBetweenSubFiltersBlock), filtersBlockUpperLeftPosition.y - 1.2f, 0f);
+			for(int i=0;i<this.valueFilters.Length;i++)
+			{
+				this.valueFilters[i].transform.localScale=ApplicationDesignRules.valueFilterScale;
+				this.valueFilters[i].transform.position=new Vector3(valueFilterTitle.transform.position.x,filtersBlockUpperLeftPosition.y - 1.6f-i*0.5f,0f);
+				this.valueFilters[i].transform.FindChild("Sort0").localScale=new Vector3(0.32f,0.32f,0.32f);
+				this.valueFilters[i].transform.FindChild("Sort1").localScale=new Vector3(0.32f,0.32f,0.32f);
+				this.valueFilters[i].transform.FindChild("Sort0").localPosition=new Vector3(0.5594f,-0.0669f,0f);
+				this.valueFilters[i].transform.FindChild("Sort1").localPosition=new Vector3(0.8004f,-0.0669f,0f);
+			}
+
+			this.priceFilterTitle.GetComponent<TextContainer>().anchorPosition =  TextContainerAnchors.Middle;
+			this.priceFilterTitle.GetComponent<TextMeshPro>().alignment = TextAlignmentOptions.Center;
+			this.priceFilterTitle.transform.position=new Vector3 (ApplicationDesignRules.blockHorizontalSpacing+filtersBlockUpperLeftPosition.x + filtersSubBlockSize / 2f + 2f*(filtersSubBlockSize+gapBetweenSubFiltersBlock), filtersBlockUpperLeftPosition.y - 2.25f, 0f);
+
+			this.priceFilter.transform.position=new Vector3(priceFilterTitle.transform.position.x,filtersBlockUpperLeftPosition.y - 3f,0f);
+			this.priceFilter.transform.FindChild("Sort0").localScale=new Vector3(0.32f,0.32f,0.32f);
+			this.priceFilter.transform.FindChild("Sort1").localScale=new Vector3(0.32f,0.32f,0.32f);
+			this.priceFilter.transform.FindChild("Sort0").localPosition=new Vector3(0.5594f,0.38f,0f);
+			this.priceFilter.transform.FindChild("Sort1").localPosition=new Vector3(0.8004f,0.38f,0f);
+
 		}
 
 		TutorialObjectController.instance.resize ();
@@ -959,7 +1048,7 @@ public class NewMarketController : MonoBehaviour
 		if(ApplicationDesignRules.isMobileScreen)
 		{
 			int nbLinesToDisplay = Mathf.CeilToInt ((float)this.cardsDisplayed.Count / (float)this.cardsPerLine);
-			float contentHeight = 1.5f+ApplicationDesignRules.gapBetweenMarketCardsLine+nbLinesToDisplay*(ApplicationDesignRules.cardWorldSize.y+ApplicationDesignRules.gapBetweenMarketCardsLine);
+			float contentHeight = 1f+(nbLinesToDisplay-1)*(ApplicationDesignRules.cardWorldSize.y+ApplicationDesignRules.gapBetweenMarketCardsLine);
 			this.lowerScrollCamera.GetComponent<ScrollingController> ().setContentHeight(contentHeight);
 			this.lowerScrollCamera.GetComponent<ScrollingController>().setEndPositionY();
 		}
@@ -1067,7 +1156,19 @@ public class NewMarketController : MonoBehaviour
 	}
 	public void moveCursors(int cursorId)
 	{
-		Vector3 mousePosition = Camera.main.ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, Input.mousePosition.z));
+		this.isSlidingCursors=true;
+		float offsetStep = 0f;
+		Vector3 mousePosition = new Vector3 ();
+		if (ApplicationDesignRules.isMobileScreen) 
+		{
+			mousePosition = this.lowerScrollCamera.GetComponent<Camera>().ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, Input.mousePosition.z));
+			offsetStep=0.67f*1.5f;
+		}
+		else
+		{
+			mousePosition = this.sceneCamera.GetComponent<Camera>().ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, Input.mousePosition.z));
+			offsetStep=0.67f;
+		}
 		float mousePositionX=mousePosition.x;
 		Vector3 cursorPosition = this.cursors [cursorId].transform.localPosition;
 		float offset = mousePositionX-this.cursors [cursorId].transform.position.x;
@@ -1079,13 +1180,13 @@ public class NewMarketController : MonoBehaviour
 		
 		if(cursorPosition.x==-0.67f)
 		{
-			if(offset>0.67f)
+			if(offset>offsetStep)
 			{
 				value = 2;
 				cursorPosition.x=+0.67f;
 				this.cursors [cursorId].transform.localPosition = cursorPosition;
 			}
-			else if(offset>0.67/2f)
+			else if(offset>offsetStep/2f)
 			{
 				value = 1;
 				cursorPosition.x=0;
@@ -1098,13 +1199,13 @@ public class NewMarketController : MonoBehaviour
 		}
 		else if(cursorPosition.x==0)
 		{
-			if(offset>0.67f/2f)
+			if(offset>offsetStep/2f)
 			{
 				value =2;
 				cursorPosition.x=+0.67f;
 				this.cursors [cursorId].transform.localPosition = cursorPosition;
 			}
-			else if(offset<-0.67f/2f)
+			else if(offset<-offsetStep/2f)
 			{
 				value = 0;
 				cursorPosition.x=-0.67f;
@@ -1117,13 +1218,13 @@ public class NewMarketController : MonoBehaviour
 		}
 		else if(cursorPosition.x==0.67f)
 		{
-			if(offset<-0.67f)
+			if(offset<-offsetStep)
 			{
 				value = 0;
 				cursorPosition.x=-0.67f;
 				this.cursors [cursorId].transform.localPosition = cursorPosition;
 			}
-			else if(offset<-0.67/2f)
+			else if(offset<-offsetStep/2f)
 			{
 				value = 1;
 				cursorPosition.x=0;
@@ -1163,10 +1264,23 @@ public class NewMarketController : MonoBehaviour
 			this.cardsPagination.chosenPage = 0;
 			this.applyFilters();
 		}
+		this.isSlidingCursors = false;
 	}
 	public void moveMinMaxCursor(int cursorId)
 	{
-		Vector3 mousePosition = Camera.main.ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, Input.mousePosition.z));
+		this.isSlidingCursors = true;
+		float offsetStep = 0f;
+		Vector3 mousePosition = new Vector3 ();
+		if (ApplicationDesignRules.isMobileScreen) 
+		{
+			mousePosition = this.lowerScrollCamera.GetComponent<Camera>().ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, Input.mousePosition.z));
+			offsetStep=0.67f*1.5f;
+		}
+		else
+		{
+			mousePosition = this.sceneCamera.GetComponent<Camera>().ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, Input.mousePosition.z));
+			offsetStep=0.67f;
+		}
 		float mousePositionX=mousePosition.x;
 		Vector3 cursorPosition = this.priceCursors [cursorId].transform.position;
 		float sliderPositionX = this.priceCursors [cursorId].transform.parent.gameObject.transform.position.x;
@@ -1184,28 +1298,28 @@ public class NewMarketController : MonoBehaviour
 			{
 				cursorPosition.x=secondCursorPositionX-cursorSizeX;
 			}
-			else if(cursorPosition.x<-0.67f+sliderPositionX)
+			else if(cursorPosition.x<-offsetStep+sliderPositionX)
 			{
-				cursorPosition.x=-0.67f+sliderPositionX;
+				cursorPosition.x=-offsetStep+sliderPositionX;
 			}
-			distance = cursorPosition.x -(-0.67f+sliderPositionX);
+			distance = cursorPosition.x -(-offsetStep+sliderPositionX);
 		}
 		else
 		{
 			secondCursorId=cursorId-1;
 			secondCursorPositionX = this.priceCursors [secondCursorId].transform.position.x;
-			if(cursorPosition.x>0.67f+sliderPositionX)
+			if(cursorPosition.x>offsetStep+sliderPositionX)
 			{
-				cursorPosition.x=0.67f+sliderPositionX;
+				cursorPosition.x=offsetStep+sliderPositionX;
 			}
 			else if(cursorPosition.x<secondCursorPositionX+cursorSizeX)
 			{
 				cursorPosition.x=secondCursorPositionX+cursorSizeX;
 			}
-			distance = (0.67f+sliderPositionX)-cursorPosition.x;
+			distance = (offsetStep+sliderPositionX)-cursorPosition.x;
 		}
 		this.priceCursors [cursorId].transform.position = cursorPosition;
-		float maxDistance = 2 * 0.67f-cursorSizeX;
+		float maxDistance = 2 * offsetStep-cursorSizeX;
 		float ratio = distance / maxDistance;
 		if(ratio>0.99f)
 		{
@@ -1240,6 +1354,7 @@ public class NewMarketController : MonoBehaviour
 			this.cardsPagination.chosenPage = 0;
 			this.applyFilters();
 		}
+		this.isSlidingCursors = false;
 	}
 	public string getValueFilterLabel(int value)
 	{
@@ -1698,7 +1813,30 @@ public class NewMarketController : MonoBehaviour
 			return this.lowerScrollCamera.GetComponent<Camera>();
 		}
 	}
-
+	public void hideActiveTab()
+	{
+		this.cardsBlockTitle.GetComponent<TextMeshPro>().text=this.tabs[this.activeTab].transform.FindChild("Title").GetComponent<TextMeshPro>().text;
+		switch(this.activeTab)
+		{
+		case 0:
+			this.tabs[0].SetActive(false);
+			this.tabs[1].transform.position=this.tabs[0].transform.position;
+			this.tabs[1].SetActive(true);
+			this.tabs[2].SetActive(true);
+			break;
+		case 1:
+			this.tabs[0].SetActive(true);
+			this.tabs[1].SetActive(false);
+			this.tabs[2].SetActive(true);
+			break;
+		case 2:
+			this.tabs[0].SetActive(true);
+			this.tabs[1].transform.position=this.tabs[2].transform.position;
+			this.tabs[1].SetActive(true);
+			this.tabs[2].SetActive(false);
+			break;
+		}
+	}
 	#region TUTORIAL FUNCTIONS
 	
 	public bool getIsCardFocusedDisplayed()

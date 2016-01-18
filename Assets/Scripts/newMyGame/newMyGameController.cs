@@ -119,6 +119,7 @@ public class newMyGameController : MonoBehaviour
 	private bool toSlideRight;
 	private bool toSlideLeft;
 	private bool filtersDisplayed;
+	private bool isSlidingCursors;
 	private bool mainContentDisplayed;
 	private float scrollIntersection;
 
@@ -133,7 +134,7 @@ public class newMyGameController : MonoBehaviour
 			{
 				this.isLeftClicked=false;
 			}
-			else if(Input.touches[0].deltaPosition.x<-15f && !this.isCardFocusedDisplayed && !this.isDragging)
+			else if(Input.touches[0].deltaPosition.x<-15f && !this.isCardFocusedDisplayed && !this.isDragging && !this.isSlidingCursors)
 			{
 				this.isLeftClicked=false;
 				if(this.mainContentDisplayed || this.toSlideLeft)
@@ -141,7 +142,7 @@ public class newMyGameController : MonoBehaviour
 					this.slideRight();
 				}
 			}
-			else if(Input.touches[0].deltaPosition.x>15f && !this.isCardFocusedDisplayed && !this.isDragging)
+			else if(Input.touches[0].deltaPosition.x>15f && !this.isCardFocusedDisplayed && !this.isDragging && !this.isSlidingCursors)
 			{
 				this.isLeftClicked=false;
 				if(this.filtersDisplayed || this.toSlideRight)
@@ -280,7 +281,7 @@ public class newMyGameController : MonoBehaviour
 		instance = this;
 		this.model = new NewMyGameModel ();
 		this.sortingOrder = -1;
-		this.scrollIntersection = 5.3f;
+		this.scrollIntersection = 3.8f;
 		this.mainContentDisplayed = true;
 		this.initializeScene ();
 		this.startMenuInitialization ();
@@ -366,16 +367,12 @@ public class newMyGameController : MonoBehaviour
 		this.deckBlockTitle.GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
 		this.deckBlockTitle.GetComponent<TextMeshPro> ().text = "Mes armées";
 		this.deckSelectionButton = GameObject.Find ("DeckSelectionButton");
-		this.deckSelectionButton.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Changer";
 		this.deckSelectionButton.AddComponent<newMyGameDeckSelectionButtonController> ();
 		this.deckCreationButton = GameObject.Find ("DeckCreationButton");
-		this.deckCreationButton.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Nouveau";
 		this.deckCreationButton.AddComponent<newMyGameDeckCreatioButtonController> ();
 		this.deckDeletionButton = GameObject.Find ("DeckDeletionButton");
-		this.deckDeletionButton.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Supprimer";
 		this.deckDeletionButton.AddComponent<newMyGameDeckDeletionButtonController> ();
 		this.deckRenameButton = GameObject.Find ("DeckRenameButton");
-		this.deckRenameButton.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Renommer";
 		this.deckRenameButton.AddComponent<newMyGameDeckRenameButtonController> ();
 		this.deckTitle = GameObject.Find ("DeckTitle");
 		this.deckTitle.GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
@@ -591,7 +588,9 @@ public class newMyGameController : MonoBehaviour
 		float filtersBlockUpMargin;
 		float filtersBlockHeight;
 
-		deckBlockHeight=ApplicationDesignRules.mediumBlockHeight;
+		float deckCardsPositionY;
+		float firstLineCardsPositionY;
+
 
 		this.mainCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
 		this.mainCamera.transform.position = ApplicationDesignRules.mainCameraPosition;
@@ -600,6 +599,10 @@ public class newMyGameController : MonoBehaviour
 		this.tutorialCamera.transform.position = ApplicationDesignRules.tutorialCameraPositiion;
 		this.backgroundCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.backgroundCameraSize;
 		this.backgroundCamera.transform.position = ApplicationDesignRules.backgroundCameraPosition;
+		this.backgroundCamera.GetComponent<Camera> ().rect = new Rect (0f, 0f, 1f, 1f);
+		this.tutorialCamera.GetComponent<Camera> ().rect = new Rect (0f, 0f, 1f, 1f);
+		this.sceneCamera.GetComponent<Camera> ().rect = new Rect (0f,0f,1f,1f);
+		this.mainCamera.GetComponent<Camera>().rect= new Rect (0f,0f,1f,1f);
 		
 		if(ApplicationDesignRules.isMobileScreen)
 		{
@@ -607,9 +610,12 @@ public class newMyGameController : MonoBehaviour
 			this.nbLines = 25;
 			cardsBlockHeight=2f+this.nbLines*(ApplicationDesignRules.cardWorldSize.y+ApplicationDesignRules.gapBetweenCardsLine);
 
+			deckBlockHeight=3.3f;
 			deckBlockLeftMargin=ApplicationDesignRules.leftMargin;
 			deckBlockUpMargin=0f;
+			deckCardsPositionY = 2.2f;
 			
+			firstLineCardsPositionY=2.2f;
 			cardsBlockLeftMargin=ApplicationDesignRules.leftMargin;
 			cardsBlockUpMargin=deckBlockUpMargin+ApplicationDesignRules.gapBetweenBlocks+deckBlockHeight;
 			
@@ -659,13 +665,16 @@ public class newMyGameController : MonoBehaviour
 		{
 			cardsBlockHeight=ApplicationDesignRules.largeBlockHeight;
 
+			deckBlockHeight=ApplicationDesignRules.mediumBlockHeight;
 			deckBlockLeftMargin=ApplicationDesignRules.leftMargin+ApplicationDesignRules.gapBetweenBlocks+ApplicationDesignRules.blockWidth;
 			deckBlockUpMargin=ApplicationDesignRules.upMargin;
+			deckCardsPositionY = 3f;
 
 			filtersBlockHeight=ApplicationDesignRules.smallBlockHeight;
 			filtersBlockLeftMargin=ApplicationDesignRules.leftMargin+ApplicationDesignRules.gapBetweenBlocks+ApplicationDesignRules.blockWidth;
 			filtersBlockUpMargin=deckBlockUpMargin+ApplicationDesignRules.gapBetweenBlocks+deckBlockHeight;
-			
+
+			firstLineCardsPositionY=3f;
 			cardsBlockLeftMargin=ApplicationDesignRules.leftMargin;
 			cardsBlockUpMargin=ApplicationDesignRules.upMargin;
 
@@ -701,78 +710,20 @@ public class newMyGameController : MonoBehaviour
 		Vector2 filtersBlockOrigin = this.filtersBlock.GetComponent<NewBlockController> ().getOriginPosition ();
 
 		float gapBetweenSubFiltersBlock = 0.05f;
-		float filtersSubBlockSize = (filtersBlockSize.x - 0.6f - 2f * gapBetweenSubFiltersBlock) / 3f;
+		float filtersSubBlockSize = (filtersBlockSize.x - 2f*ApplicationDesignRules.blockHorizontalSpacing - 2f * gapBetweenSubFiltersBlock) / 3f;
 
-		this.filtersBlockTitle.transform.position = new Vector3 (filtersBlockUpperLeftPosition.x + 0.3f, filtersBlockUpperLeftPosition.y - 0.2f, 0f);
+		this.filtersBlockTitle.transform.position = new Vector3 (filtersBlockUpperLeftPosition.x + ApplicationDesignRules.blockHorizontalSpacing, filtersBlockUpperLeftPosition.y - ApplicationDesignRules.mainTitleVerticalSpacing, 0f);
 		this.filtersBlockTitle.transform.localScale = ApplicationDesignRules.mainTitleScale;
 
 		this.cardTypeFilterTitle.transform.localScale = ApplicationDesignRules.subMainTitleScale;
-		this.cardTypeFilterTitle.transform.position = new Vector3 (0.3f+filtersBlockUpperLeftPosition.x + filtersSubBlockSize / 2f, filtersBlockUpperLeftPosition.y - 1.2f, 0f);
-		
-		float gapBetweenCardTypesFilters = (filtersSubBlockSize - 4f * ApplicationDesignRules.cardTypeFilterWorldSize.x) / 3f;
-		float gapBetweenLines;
-		if(gapBetweenCardTypesFilters>0.05f)
-		{
-			gapBetweenLines=0.05f;
-		}
-		else
-		{
-			gapBetweenLines=gapBetweenCardTypesFilters;
-		}
-		for(int i=0;i<this.cardsTypeFilters.Length;i++)
-		{
-			int column=0;
-			int line=0;
-			Vector3 position=new Vector3();
-			if((i>=0 && i<3)||(i>=7))
-			{
-				if(i>=7)
-				{
-					column=i-7;
-					line=2;
-				}
-				else
-				{
-					column=i;
-					line=0;
-				}
-				position.x=filtersBlockUpperLeftPosition.x+0.3f+ApplicationDesignRules.cardTypeFilterWorldSize.x+column*(gapBetweenCardTypesFilters+ApplicationDesignRules.cardTypeFilterWorldSize.x);
-			}
-			else if(i>=3&& i<7)
-			{
-				column=i-3;
-				line=1;
-				position.x=filtersBlockUpperLeftPosition.x+0.3f+ApplicationDesignRules.cardTypeFilterWorldSize.x/2f+column*(gapBetweenCardTypesFilters+ApplicationDesignRules.cardTypeFilterWorldSize.x);
-			}
-			position.y=filtersBlockUpperLeftPosition.y-1.7f-line*(ApplicationDesignRules.cardTypeFilterWorldSize.y+gapBetweenLines);
-			position.z=0;
-			this.cardsTypeFilters[i].transform.localScale=ApplicationDesignRules.cardTypeFilterScale;
-			this.cardsTypeFilters[i].transform.position=position;
-		}
 
 		this.skillSearchBarTitle.transform.localScale = ApplicationDesignRules.subMainTitleScale;
-		this.skillSearchBarTitle.transform.position = new Vector3 (0.3f+filtersBlockUpperLeftPosition.x + filtersSubBlockSize / 2f + 2f*(filtersSubBlockSize+gapBetweenSubFiltersBlock), filtersBlockUpperLeftPosition.y - 1.2f, 0f);
-
 		this.skillSearchBar.transform.localScale = ApplicationDesignRules.inputTextScale;
-		this.skillSearchBar.transform.position = new Vector3 (this.skillSearchBarTitle.transform.position.x, filtersBlockUpperLeftPosition.y - 1.6f, 0f);
-
-		for(int i=0;i<this.skillChoices.Length;i++)
-		{
-			this.skillChoices[i].transform.localScale=ApplicationDesignRules.listElementScale;
-			this.skillChoices[i].transform.position=new Vector3(this.skillSearchBar.transform.position.x,this.skillSearchBar.transform.position.y-ApplicationDesignRules.inputTextWorldSize.y/2f-(i+0.5f)*ApplicationDesignRules.listElementWorldSize.y+i*0.02f,-1f);
-		}
 
 		this.valueFilterTitle.transform.localScale = ApplicationDesignRules.subMainTitleScale;
-		this.valueFilterTitle.transform.position=new Vector3 (0.3f+filtersBlockUpperLeftPosition.x + filtersSubBlockSize / 2f + 1f*(filtersSubBlockSize+gapBetweenSubFiltersBlock), filtersBlockUpperLeftPosition.y - 1.2f, 0f);
-
-		for(int i=0;i<this.valueFilters.Length;i++)
-		{
-			this.valueFilters[i].transform.localScale=ApplicationDesignRules.valueFilterScale;
-			this.valueFilters[i].transform.position=new Vector3(valueFilterTitle.transform.position.x,filtersBlockUpperLeftPosition.y - 1.6f-i*0.5f,0f);
-		}
 
 		this.slideLeftButton.transform.localScale = ApplicationDesignRules.roundButtonScale;
-		this.slideLeftButton.transform.position = new Vector3 (filtersBlockLowerLeftPosition.x + filtersBlockSize.x / 2f, filtersBlockLowerLeftPosition.y + 0.1f + ApplicationDesignRules.roundButtonWorldSize.y / 2f, 0f);
+		this.slideLeftButton.transform.position = new Vector3 (filtersBlockUpperRightPosition.x - ApplicationDesignRules.blockHorizontalSpacing-ApplicationDesignRules.roundButtonWorldSize.x/2f, filtersBlockUpperRightPosition.y - ApplicationDesignRules.buttonVerticalSpacing - ApplicationDesignRules.roundButtonWorldSize.y / 2f, 0f);
 
 		this.centralWindow = new Rect (ApplicationDesignRules.widthScreen * 0.25f, 0.12f * ApplicationDesignRules.heightScreen, ApplicationDesignRules.widthScreen * 0.50f, 0.25f * ApplicationDesignRules.heightScreen);
 	
@@ -781,22 +732,23 @@ public class newMyGameController : MonoBehaviour
 		Vector3 deckBlockUpperRightPosition = this.deckBlock.GetComponent<NewBlockController> ().getUpperRightCornerPosition ();
 		Vector2 deckBlockSize = this.deckBlock.GetComponent<NewBlockController> ().getSize ();
 		Vector2 deckBlockOrigin = this.deckBlock.GetComponent<NewBlockController> ().getOriginPosition ();
-		this.deckBlockTitle.transform.position = new Vector3 (deckBlockUpperLeftPosition.x + 0.3f, deckBlockUpperLeftPosition.y - 0.2f, 0f);
+		this.deckBlockTitle.transform.position = new Vector3 (deckBlockUpperLeftPosition.x + ApplicationDesignRules.blockHorizontalSpacing, deckBlockUpperLeftPosition.y - ApplicationDesignRules.mainTitleVerticalSpacing, 0f);
 		this.deckBlockTitle.transform.localScale = ApplicationDesignRules.mainTitleScale;
+		this.deckBlockTitle.GetComponent<TextContainer> ().width = deckBlockSize.x - 2f*ApplicationDesignRules.blockHorizontalSpacing-3f*ApplicationDesignRules.roundButtonWorldSize.x;
 
 		float gapBetweenDecksButton = 0.05f;
 
-		this.deckCreationButton.transform.position = new Vector3 (deckBlockUpperRightPosition.x - 0.3f - ApplicationDesignRules.button61WorldSize.x / 2f, deckBlockUpperRightPosition.y - 0.3f - 0.5f*ApplicationDesignRules.button61WorldSize.y/2f, 0f);
-		this.deckCreationButton.transform.localScale = ApplicationDesignRules.button61Scale;
+		this.deckCreationButton.transform.position = new Vector3 (deckBlockUpperRightPosition.x - ApplicationDesignRules.blockHorizontalSpacing - ApplicationDesignRules.roundButtonWorldSize.x / 2f, deckBlockUpperRightPosition.y - ApplicationDesignRules.buttonVerticalSpacing - ApplicationDesignRules.roundButtonWorldSize.y/2f, 0f);
+		this.deckCreationButton.transform.localScale = ApplicationDesignRules.roundButtonScale;
 
-		this.deckSelectionButton.transform.position = new Vector3 (deckBlockUpperRightPosition.x - 0.3f - ApplicationDesignRules.button61WorldSize.x / 2f, deckBlockUpperRightPosition.y - 0.3f - 0.5f*ApplicationDesignRules.button61WorldSize.y/2f - (ApplicationDesignRules.button61WorldSize.y), 0f);
-		this.deckSelectionButton.transform.localScale = ApplicationDesignRules.button61Scale;
+		this.deckSelectionButton.transform.position = new Vector3 (deckBlockUpperRightPosition.x - ApplicationDesignRules.blockHorizontalSpacing - 1.5f*ApplicationDesignRules.roundButtonWorldSize.x, deckBlockUpperRightPosition.y - ApplicationDesignRules.buttonVerticalSpacing - ApplicationDesignRules.roundButtonWorldSize.y/2f, 0f);
+		this.deckSelectionButton.transform.localScale = ApplicationDesignRules.roundButtonScale;
 
-		this.deckRenameButton.transform.position = new Vector3 (deckBlockUpperRightPosition.x - 0.3f - ApplicationDesignRules.button61WorldSize.x / 2f, deckBlockUpperRightPosition.y - 0.3f - 0.5f*ApplicationDesignRules.button61WorldSize.y/2f - 2*(ApplicationDesignRules.button61WorldSize.y), 0f);
-		this.deckRenameButton.transform.localScale = ApplicationDesignRules.button61Scale;
+		this.deckRenameButton.transform.position = new Vector3 (deckBlockUpperRightPosition.x - ApplicationDesignRules.blockHorizontalSpacing - 2.5f*ApplicationDesignRules.roundButtonWorldSize.x, deckBlockUpperRightPosition.y - ApplicationDesignRules.buttonVerticalSpacing - ApplicationDesignRules.roundButtonWorldSize.y/2f, 0f);
+		this.deckRenameButton.transform.localScale = ApplicationDesignRules.roundButtonScale;
 
-		this.deckDeletionButton.transform.position = new Vector3 (this.deckRenameButton.transform.position.x - gapBetweenDecksButton - ApplicationDesignRules.button61WorldSize.x, this.deckRenameButton.transform.position.y, 0f);
-		this.deckDeletionButton.transform.localScale = ApplicationDesignRules.button61Scale;
+		this.deckDeletionButton.transform.position = new Vector3 (deckBlockUpperRightPosition.x - ApplicationDesignRules.blockHorizontalSpacing - 3.5f*ApplicationDesignRules.roundButtonWorldSize.x, deckBlockUpperRightPosition.y - ApplicationDesignRules.buttonVerticalSpacing - ApplicationDesignRules.roundButtonWorldSize.y/2f, 0f);
+		this.deckDeletionButton.transform.localScale = ApplicationDesignRules.roundButtonScale;
 
 		for(int i=0;i<this.deckChoices.Length;i++)
 		{
@@ -804,25 +756,25 @@ public class newMyGameController : MonoBehaviour
 			this.deckChoices[i].transform.position=new Vector3(this.deckSelectionButton.transform.position.x,this.deckSelectionButton.transform.position.y-ApplicationDesignRules.button61WorldSize.y/2f-(i+0.5f)*ApplicationDesignRules.listElementWorldSize.y+i*0.02f,-1f);
 		}
 		
-		this.deckTitle.transform.position = new Vector3 (deckBlockUpperLeftPosition.x + 0.3f, deckBlockUpperLeftPosition.y - 1.2f, 0f);
-		this.deckTitle.GetComponent<TextContainer> ().width = deckBlockSize.x - 0.6f - gapBetweenDecksButton - 2f * ApplicationDesignRules.button61WorldSize.x;
+		this.deckTitle.transform.position = new Vector3 (deckBlockUpperLeftPosition.x + ApplicationDesignRules.blockHorizontalSpacing, deckBlockUpperLeftPosition.y - ApplicationDesignRules.subMainTitleVerticalSpacing, 0f);
+		this.deckTitle.GetComponent<TextContainer> ().width = deckBlockSize.x -2f*ApplicationDesignRules.blockHorizontalSpacing;
 		this.deckTitle.transform.localScale = ApplicationDesignRules.subMainTitleScale;
 
-		float gapBetweenCardsHalo = (deckBlockSize.x - 0.6f - 4f * ApplicationDesignRules.cardHaloWorldSize.x) / 3f;
+		float gapBetweenCards = (deckBlockSize.x - 2f*ApplicationDesignRules.blockHorizontalSpacing - 4f * ApplicationDesignRules.cardWorldSize.x) / 3f;
 
-		this.deckCardsPosition=new Vector3[this.cardsHalos.Length];
-		this.deckCardsArea=new Rect[this.cardsHalos.Length];
-		this.deckCardsAreaHovered=new bool[this.cardsHalos.Length];
+		this.deckCardsPosition=new Vector3[this.deckCards.Length];
+		this.deckCardsArea=new Rect[this.deckCards.Length];
+		this.deckCardsAreaHovered=new bool[this.deckCards.Length];
 		
 		for(int i=0;i<this.cardsHalos.Length;i++)
 		{
-			this.cardsHalos[i].transform.localScale=ApplicationDesignRules.cardHaloScale;
-			this.cardsHalos[i].transform.position=new Vector3(deckBlockUpperLeftPosition.x+0.3f+ApplicationDesignRules.cardHaloWorldSize.x/2f+i*(gapBetweenCardsHalo+ApplicationDesignRules.cardHaloWorldSize.x),deckBlockUpperRightPosition.y - 3f,0);
-			this.deckCardsPosition[i]=this.cardsHalos[i].transform.position;
-			this.deckCardsArea[i]=new Rect(this.cardsHalos[i].transform.position.x-ApplicationDesignRules.cardHaloWorldSize.x/2f-gapBetweenCardsHalo/2f,this.cardsHalos[i].transform.position.y-ApplicationDesignRules.cardHaloWorldSize.y/2f,ApplicationDesignRules.cardHaloWorldSize.x+gapBetweenCardsHalo,ApplicationDesignRules.cardHaloWorldSize.y);
+			this.deckCardsPosition[i]=new Vector3(deckBlockUpperLeftPosition.x+ApplicationDesignRules.blockHorizontalSpacing+ApplicationDesignRules.cardWorldSize.x/2f+i*(gapBetweenCards+ApplicationDesignRules.cardWorldSize.x),deckBlockUpperRightPosition.y - deckCardsPositionY,0);
 			this.deckCards[i].transform.position=this.deckCardsPosition[i];
 			this.deckCards[i].transform.localScale=ApplicationDesignRules.cardScale;
 			this.deckCards[i].transform.GetComponent<NewCardMyGameController>().setId(i,true);
+			this.cardsHalos[i].transform.position=this.deckCardsPosition[i];
+			this.cardsHalos[i].transform.localScale=ApplicationDesignRules.cardHaloScale;
+			this.deckCardsArea[i]=new Rect(this.cardsHalos[i].transform.position.x-ApplicationDesignRules.cardHaloWorldSize.x/2f-gapBetweenCards/2f,this.cardsHalos[i].transform.position.y-ApplicationDesignRules.cardHaloWorldSize.y/2f,ApplicationDesignRules.cardHaloWorldSize.x+gapBetweenCards,ApplicationDesignRules.cardHaloWorldSize.y);
 			this.deckCardsAreaHovered[i]=false;
 		}
 
@@ -832,19 +784,16 @@ public class newMyGameController : MonoBehaviour
 		Vector3 cardsBlockUpperRightPosition = this.cardsBlock.GetComponent<NewBlockController> ().getUpperRightCornerPosition ();
 		Vector2 cardsBlockSize = this.cardsBlock.GetComponent<NewBlockController> ().getSize ();
 		Vector3 cardsBlockOrigin = this.cardsBlock.GetComponent<NewBlockController> ().getOriginPosition ();
-		this.cardsBlockTitle.transform.position = new Vector3 (cardsBlockUpperLeftPosition.x + 0.3f, cardsBlockUpperLeftPosition.y - 0.2f, 0f);
+		this.cardsBlockTitle.transform.position = new Vector3 (cardsBlockUpperLeftPosition.x + ApplicationDesignRules.blockHorizontalSpacing, cardsBlockUpperLeftPosition.y - ApplicationDesignRules.mainTitleVerticalSpacing, 0f);
 		this.cardsBlockTitle.transform.localScale = ApplicationDesignRules.mainTitleScale;
-		this.cardsNumberTitle.transform.position = new Vector3 (cardsBlockUpperLeftPosition.x + 0.3f, cardsBlockUpperLeftPosition.y - 1.2f, 0f);
+		this.cardsNumberTitle.transform.position = new Vector3 (cardsBlockUpperLeftPosition.x + ApplicationDesignRules.blockHorizontalSpacing, cardsBlockUpperLeftPosition.y - ApplicationDesignRules.subMainTitleVerticalSpacing, 0f);
 		this.cardsNumberTitle.transform.localScale = ApplicationDesignRules.subMainTitleScale;
 		this.filterButton.transform.localScale = ApplicationDesignRules.roundButtonScale;
-		this.filterButton.transform.position = new Vector3 (cardsBlockUpperRightPosition.x - 0.3f - ApplicationDesignRules.roundButtonWorldSize.x / 2f, cardsBlockUpperRightPosition.y - 0.3f - ApplicationDesignRules.roundButtonWorldSize.y / 2f, 0f);
+		this.filterButton.transform.position = new Vector3 (cardsBlockUpperRightPosition.x - ApplicationDesignRules.blockHorizontalSpacing - ApplicationDesignRules.roundButtonWorldSize.x / 2f, cardsBlockUpperRightPosition.y - ApplicationDesignRules.buttonVerticalSpacing - ApplicationDesignRules.roundButtonWorldSize.y / 2f, 0f);
 
 		this.mainContentPositionX = deckBlockOrigin.x;
 		this.filtersPositionX = filtersBlockOrigin.x;
-
-		float gapBetweenCard = gapBetweenCardsHalo;
-		float firstLineY = cardsBlockUpperRightPosition.y - 3f;
-
+	
 		this.cardsArea = new Rect (cardsBlockUpperLeftPosition.x,cardsBlockLowerLeftPosition.y,cardsBlockSize.x,cardsBlockSize.y);
 		this.cardsPosition=new Vector3[this.cardsPerLine*this.nbLines];
 		this.cards=new GameObject[this.cardsPerLine*this.nbLines];
@@ -857,17 +806,17 @@ public class newMyGameController : MonoBehaviour
 				this.cards[j*(cardsPerLine)+i].AddComponent<NewCardMyGameController>();
 				this.cards[j*(cardsPerLine)+i].transform.GetComponent<NewCardMyGameController>().setId(j*(cardsPerLine)+i,false);
 				this.cards[j*(cardsPerLine)+i].transform.localScale= ApplicationDesignRules.cardScale;
-				this.cardsPosition[j*(this.cardsPerLine)+i]=new Vector3(cardsBlockUpperLeftPosition.x+0.3f+ApplicationDesignRules.cardWorldSize.x/2f+i*(gapBetweenCardsHalo+ApplicationDesignRules.cardWorldSize.x),firstLineY-j*(ApplicationDesignRules.gapBetweenCardsLine+ApplicationDesignRules.cardWorldSize.y),0f);
+				this.cardsPosition[j*(this.cardsPerLine)+i]=new Vector3(cardsBlockUpperLeftPosition.x+ApplicationDesignRules.blockHorizontalSpacing+ApplicationDesignRules.cardWorldSize.x/2f+i*(gapBetweenCards+ApplicationDesignRules.cardWorldSize.x),cardsBlockUpperRightPosition.y-firstLineCardsPositionY-j*(ApplicationDesignRules.gapBetweenCardsLine+ApplicationDesignRules.cardWorldSize.y),0f);
 				this.cards[j*(cardsPerLine)+i].transform.position=this.cardsPosition[j*(this.cardsPerLine)+i];
 				this.cards[j*(this.cardsPerLine)+i].transform.name="Card"+(j*(this.cardsPerLine)+i);
 			}
 		}
 
-		float lineScale = ApplicationDesignRules.getLineScale (cardsBlockSize.x - 0.6f);
+		float lineScale = ApplicationDesignRules.getLineScale (cardsBlockSize.x - 2f*ApplicationDesignRules.blockHorizontalSpacing);
 
 		this.cardsScrollLine.SetActive(false);
 		this.cardsScrollLine.transform.localScale = new Vector3 (lineScale, 1f, 1f);
-		this.cardsScrollLine.transform.position = new Vector3 (cardsBlockLowerLeftPosition.x + cardsBlockSize.x / 2, cardsBlockUpperLeftPosition.y - 1.5f, 0f);
+		this.cardsScrollLine.transform.position = new Vector3 (cardsBlockLowerLeftPosition.x + cardsBlockSize.x / 2, cardsBlockUpperLeftPosition.y - 1.15f, 0f);
 		this.cardsPaginationLine.transform.localScale = new Vector3 (lineScale, 1f, 1f);
 		this.cardsPaginationLine.transform.position = new Vector3 (cardsBlockLowerLeftPosition.x + cardsBlockSize.x / 2, cardsBlockLowerLeftPosition.y + 0.6f, 0f);
 		this.cardsPaginationButtons.transform.GetComponent<newMyGamePaginationController> ().resize ();
@@ -878,11 +827,121 @@ public class newMyGameController : MonoBehaviour
 
 		if(ApplicationDesignRules.isMobileScreen)
 		{
-			this.cardsPaginationButtons.transform.localPosition=new Vector3 (cardsBlockUpperRightPosition.x - 0.3f - 3.5f*ApplicationDesignRules.roundButtonWorldSize.x, cardsBlockUpperRightPosition.y - 0.3f - ApplicationDesignRules.roundButtonWorldSize.y / 2f, 0f);
+			this.cardsPaginationButtons.transform.localPosition=new Vector3 (cardsBlockUpperRightPosition.x - ApplicationDesignRules.blockHorizontalSpacing - 2.5f*ApplicationDesignRules.roundButtonWorldSize.x, cardsBlockUpperRightPosition.y - ApplicationDesignRules.buttonVerticalSpacing - ApplicationDesignRules.roundButtonWorldSize.y / 2f, 0f);
+			this.cardTypeFilterTitle.GetComponent<TextContainer>().anchorPosition =  TextContainerAnchors.Left;
+			this.cardTypeFilterTitle.GetComponent<TextMeshPro>().alignment = TextAlignmentOptions.Left;
+			this.cardTypeFilterTitle.transform.position = new Vector3 (ApplicationDesignRules.blockHorizontalSpacing+filtersBlockUpperLeftPosition.x, filtersBlockUpperLeftPosition.y - ApplicationDesignRules.subMainTitleVerticalSpacing, 0f);
+			float gapBetweenCardTypesFilters = (filtersBlockSize.x-2f*ApplicationDesignRules.blockHorizontalSpacing-5f*ApplicationDesignRules.cardTypeFilterWorldSize.x)/4f;
+			for(int i = 0;i<this.cardsTypeFilters.Length;i++)
+			{
+				Vector3 cardTypeFilterPosition=new Vector3();
+
+				if(i<5)
+				{
+					cardTypeFilterPosition.y=filtersBlockUpperLeftPosition.y-1.75f;
+					cardTypeFilterPosition.x=filtersBlockUpperLeftPosition.x+ApplicationDesignRules.blockHorizontalSpacing+0.5f*ApplicationDesignRules.cardTypeFilterWorldSize.x+i*(ApplicationDesignRules.cardTypeFilterWorldSize.x+gapBetweenCardTypesFilters);
+
+				}
+				else
+				{
+					cardTypeFilterPosition.y=filtersBlockUpperLeftPosition.y-2.90f;
+					cardTypeFilterPosition.x=filtersBlockUpperLeftPosition.x+ApplicationDesignRules.blockHorizontalSpacing+0.5f*ApplicationDesignRules.cardTypeFilterWorldSize.x+(i-5)*(ApplicationDesignRules.cardTypeFilterWorldSize.x+gapBetweenCardTypesFilters);
+
+				}
+				this.cardsTypeFilters[i].transform.position=cardTypeFilterPosition;
+				this.cardsTypeFilters[i].transform.localScale=ApplicationDesignRules.cardTypeFilterScale;
+			}
+			this.skillSearchBarTitle.GetComponent<TextContainer>().anchorPosition =  TextContainerAnchors.Left;
+			this.skillSearchBarTitle.GetComponent<TextMeshPro>().alignment = TextAlignmentOptions.Left;
+			this.skillSearchBarTitle.transform.position = new Vector3 (ApplicationDesignRules.blockHorizontalSpacing+filtersBlockUpperLeftPosition.x, filtersBlockUpperLeftPosition.y - 3.75f, 0f);
+			this.skillSearchBar.transform.position = new Vector3 (ApplicationDesignRules.blockHorizontalSpacing+filtersBlockUpperLeftPosition.x+ApplicationDesignRules.inputTextWorldSize.x/2f, filtersBlockUpperLeftPosition.y - 4.20f, 0f);
+			for(int i=0;i<this.skillChoices.Length;i++)
+			{
+				this.skillChoices[i].transform.localScale=ApplicationDesignRules.listElementScale;
+				this.skillChoices[i].transform.position=new Vector3(this.skillSearchBar.transform.position.x,this.skillSearchBar.transform.position.y-ApplicationDesignRules.inputTextWorldSize.y/2f-(i+0.5f)*ApplicationDesignRules.listElementWorldSize.y+i*0.02f,-1f);
+			}
+			this.valueFilterTitle.GetComponent<TextContainer>().anchorPosition =  TextContainerAnchors.Left;
+			this.valueFilterTitle.GetComponent<TextMeshPro>().alignment = TextAlignmentOptions.Left;
+			this.valueFilterTitle.transform.position=new Vector3 (ApplicationDesignRules.blockHorizontalSpacing+filtersBlockUpperLeftPosition.x, filtersBlockUpperLeftPosition.y - 4.65f, 0f);
+			for(int i=0;i<this.valueFilters.Length;i++)
+			{
+				this.valueFilters[i].transform.localScale=ApplicationDesignRules.valueFilterScale;
+				this.valueFilters[i].transform.position=new Vector3(filtersBlockUpperLeftPosition.x+ApplicationDesignRules.blockHorizontalSpacing+1.45f,filtersBlockUpperLeftPosition.y - 5.20f-i*0.6f,0f);
+				this.valueFilters[i].transform.FindChild("Sort0").localScale=new Vector3(0.55f,0.55f,0.55f);
+				this.valueFilters[i].transform.FindChild("Sort1").localScale=new Vector3(0.55f,0.55f,0.55f);
+				this.valueFilters[i].transform.FindChild("Sort0").localPosition=new Vector3(1.26f,0.135f,0f);
+				this.valueFilters[i].transform.FindChild("Sort1").localPosition=new Vector3(1.65f,0.135f,0f);
+			}
+
 		}
 		else
 		{
 			this.cardsPaginationButtons.transform.localPosition=new Vector3(cardsBlockLowerLeftPosition.x+cardsBlockSize.x/2f, cardsBlockLowerLeftPosition.y + 0.3f, 0f);
+			this.cardTypeFilterTitle.GetComponent<TextContainer>().anchorPosition = TextContainerAnchors.Middle;
+			this.cardTypeFilterTitle.GetComponent<TextMeshPro>().alignment = TextAlignmentOptions.Center;
+			this.cardTypeFilterTitle.transform.position = new Vector3 (ApplicationDesignRules.blockHorizontalSpacing+filtersBlockUpperLeftPosition.x + filtersSubBlockSize / 2f, filtersBlockUpperLeftPosition.y - ApplicationDesignRules.subMainTitleVerticalSpacing, 0f);
+			float gapBetweenCardTypesFilters = (filtersSubBlockSize - 4f * ApplicationDesignRules.cardTypeFilterWorldSize.x) / 3f;
+			float gapBetweenLines;
+			if(gapBetweenCardTypesFilters>0.05f)
+			{
+				gapBetweenLines=0.05f;
+			}
+			else
+			{
+				gapBetweenLines=gapBetweenCardTypesFilters;
+			}
+			for(int i=0;i<this.cardsTypeFilters.Length;i++)
+			{
+				int column=0;
+				int line=0;
+				Vector3 position=new Vector3();
+				if((i>=0 && i<3)||(i>=7))
+				{
+					if(i>=7)
+					{
+						column=i-7;
+						line=2;
+					}
+					else
+					{
+						column=i;
+						line=0;
+					}
+					position.x=filtersBlockUpperLeftPosition.x+0.3f+ApplicationDesignRules.cardTypeFilterWorldSize.x+column*(gapBetweenCardTypesFilters+ApplicationDesignRules.cardTypeFilterWorldSize.x);
+				}
+				else if(i>=3&& i<7)
+				{
+					column=i-3;
+					line=1;
+					position.x=filtersBlockUpperLeftPosition.x+0.3f+ApplicationDesignRules.cardTypeFilterWorldSize.x/2f+column*(gapBetweenCardTypesFilters+ApplicationDesignRules.cardTypeFilterWorldSize.x);
+				}
+				position.y=filtersBlockUpperLeftPosition.y-1.7f-line*(ApplicationDesignRules.cardTypeFilterWorldSize.y+gapBetweenLines);
+				position.z=0;
+				this.cardsTypeFilters[i].transform.localScale=ApplicationDesignRules.cardTypeFilterScale;
+				this.cardsTypeFilters[i].transform.position=position;
+			}
+			this.skillSearchBarTitle.GetComponent<TextContainer>().anchorPosition =  TextContainerAnchors.Middle;
+			this.skillSearchBarTitle.GetComponent<TextMeshPro>().alignment = TextAlignmentOptions.Center;
+			this.skillSearchBarTitle.transform.position = new Vector3 (ApplicationDesignRules.blockHorizontalSpacing+filtersBlockUpperLeftPosition.x + filtersSubBlockSize / 2f + 2f*(filtersSubBlockSize+gapBetweenSubFiltersBlock), filtersBlockUpperLeftPosition.y - 1.2f, 0f);
+			this.skillSearchBar.transform.position = new Vector3 (this.skillSearchBarTitle.transform.position.x, filtersBlockUpperLeftPosition.y - 1.6f, 0f);
+			for(int i=0;i<this.skillChoices.Length;i++)
+			{
+				this.skillChoices[i].transform.localScale=ApplicationDesignRules.listElementScale;
+				this.skillChoices[i].transform.position=new Vector3(this.skillSearchBar.transform.position.x,this.skillSearchBar.transform.position.y-ApplicationDesignRules.inputTextWorldSize.y/2f-(i+0.5f)*ApplicationDesignRules.listElementWorldSize.y+i*0.02f,-1f);
+			}
+			this.skillSearchBarTitle.GetComponent<TextContainer>().anchorPosition =  TextContainerAnchors.Middle;
+			this.skillSearchBarTitle.GetComponent<TextMeshPro>().alignment = TextAlignmentOptions.Center;
+			this.valueFilterTitle.transform.position=new Vector3 (0.3f+filtersBlockUpperLeftPosition.x + filtersSubBlockSize / 2f + 1f*(filtersSubBlockSize+gapBetweenSubFiltersBlock), filtersBlockUpperLeftPosition.y - 1.2f, 0f);
+			for(int i=0;i<this.valueFilters.Length;i++)
+			{
+				this.valueFilters[i].transform.localScale=ApplicationDesignRules.valueFilterScale;
+				this.valueFilters[i].transform.position=new Vector3(valueFilterTitle.transform.position.x,filtersBlockUpperLeftPosition.y - 1.6f-i*0.5f,0f);
+				this.valueFilters[i].transform.FindChild("Sort0").localScale=new Vector3(0.32f,0.32f,0.32f);
+				this.valueFilters[i].transform.FindChild("Sort1").localScale=new Vector3(0.32f,0.32f,0.32f);
+				this.valueFilters[i].transform.FindChild("Sort0").localPosition=new Vector3(0.5594f,-0.0669f,0f);
+				this.valueFilters[i].transform.FindChild("Sort1").localPosition=new Vector3(0.8004f,-0.0669f,0f);
+			}
+
 		}
 		if(newDeckPopUpDisplayed)
 		{
@@ -1143,7 +1202,19 @@ public class newMyGameController : MonoBehaviour
 	}
 	public void moveCursors(int cursorId)
 	{
-		Vector3 mousePosition = this.sceneCamera.GetComponent<Camera>().ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, Input.mousePosition.z));
+		this.isSlidingCursors = true;
+		float offsetStep = 0f;
+		Vector3 mousePosition = new Vector3 ();
+		if (ApplicationDesignRules.isMobileScreen) 
+		{
+			mousePosition = this.lowerScrollCamera.GetComponent<Camera>().ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, Input.mousePosition.z));
+			offsetStep=0.67f*1.5f;
+		}
+		else
+		{
+			mousePosition = this.sceneCamera.GetComponent<Camera>().ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, Input.mousePosition.z));
+			offsetStep=0.67f;
+		}
 		float mousePositionX=mousePosition.x;
 		Vector3 cursorPosition = this.cursors [cursorId].transform.localPosition;
 		float offset = mousePositionX-this.cursors [cursorId].transform.position.x;
@@ -1155,13 +1226,13 @@ public class newMyGameController : MonoBehaviour
 
 		if(cursorPosition.x==-0.67f)
 		{
-			if(offset>0.67f)
+			if(offset>offsetStep)
 			{
 				value = 2;
 				cursorPosition.x=+0.67f;
 				this.cursors [cursorId].transform.localPosition = cursorPosition;
 			}
-			else if(offset>0.67/2f)
+			else if(offset>offsetStep/2f)
 			{
 				value = 1;
 				cursorPosition.x=0;
@@ -1174,13 +1245,13 @@ public class newMyGameController : MonoBehaviour
 		}
 		else if(cursorPosition.x==0)
 		{
-			if(offset>0.67f/2f)
+			if(offset>offsetStep/2f)
 			{
 				value =2;
 				cursorPosition.x=+0.67f;
 				this.cursors [cursorId].transform.localPosition = cursorPosition;
 			}
-			else if(offset<-0.67f/2f)
+			else if(offset<-offsetStep/2f)
 			{
 				value = 0;
 				cursorPosition.x=-0.67f;
@@ -1193,13 +1264,13 @@ public class newMyGameController : MonoBehaviour
 		}
 		else if(cursorPosition.x==0.67f)
 		{
-			if(offset<-0.67f)
+			if(offset<-offsetStep)
 			{
 				value = 0;
 				cursorPosition.x=-0.67f;
 				this.cursors [cursorId].transform.localPosition = cursorPosition;
 			}
-			else if(offset<-0.67/2f)
+			else if(offset<-offsetStep/2f)
 			{
 				value = 1;
 				cursorPosition.x=0;
@@ -1239,6 +1310,7 @@ public class newMyGameController : MonoBehaviour
 			this.cardsPagination.chosenPage = 0;
 			this.applyFilters();
 		}
+		this.isSlidingCursors = false;
 	}
 	public string getValueFilterLabel(int value)
 	{
@@ -1658,15 +1730,25 @@ public class newMyGameController : MonoBehaviour
 		if(isDragging)
 		{
 			Vector3 mousePosition = this.sceneCamera.GetComponent<Camera>().ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, Input.mousePosition.z));
+			float correction=0f;
+			if(ApplicationDesignRules.isMobileScreen)
+			{
+				correction =-ApplicationDesignRules.upMargin;
+			}
+			Vector3 cardsPosition = new Vector3(mousePosition.x+ApplicationDesignRules.menuPosition.x,mousePosition.y+ApplicationDesignRules.menuPosition.y+correction,0f);
 			if(!isDeckCardClicked)
 			{
-				this.cards[this.idCardClicked].transform.position=new Vector3(mousePosition.x+ApplicationDesignRules.menuPosition.x,mousePosition.y+ApplicationDesignRules.menuPosition.y,0f);
+				this.cards[this.idCardClicked].transform.position=cardsPosition;
 			}
 			else
 			{
-				this.deckCards[this.idCardClicked].transform.position=new Vector3(mousePosition.x+ApplicationDesignRules.menuPosition.x,mousePosition.y+ApplicationDesignRules.menuPosition.y,0f);
+				this.deckCards[this.idCardClicked].transform.position=cardsPosition;
 			}
 			bool isHoveringDeckCards=false;
+			if(ApplicationDesignRules.isMobileScreen)
+			{
+				mousePosition.y=mousePosition.y+this.upperScrollCamera.GetComponent<ScrollingController>().getInterval();
+			}
 			for(int i=0;i<deckCardsArea.Length;i++)
 			{
 				if(this.deckCardsArea[i].Contains(mousePosition))
@@ -1837,6 +1919,10 @@ public class newMyGameController : MonoBehaviour
 		}
 
 		Vector3 cursorPosition = this.sceneCamera.GetComponent<Camera>().ScreenToWorldPoint (new Vector2 (Input.mousePosition.x, Input.mousePosition.y));
+		if(ApplicationDesignRules.isMobileScreen)
+		{
+			cursorPosition.y=cursorPosition.y+this.upperScrollCamera.GetComponent<ScrollingController>().getInterval();
+		}
 		if(this.cardsArea.Contains(cursorPosition) && isDeckCardClicked)
 		{
 			this.moveToCards();

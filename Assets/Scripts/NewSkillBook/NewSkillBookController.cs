@@ -591,6 +591,10 @@ public class NewSkillBookController : MonoBehaviour
 		this.tutorialCamera.transform.position = ApplicationDesignRules.tutorialCameraPositiion;
 		this.backgroundCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.backgroundCameraSize;
 		this.backgroundCamera.transform.position = ApplicationDesignRules.backgroundCameraPosition;
+		this.backgroundCamera.GetComponent<Camera> ().rect = new Rect (0f, 0f, 1f, 1f);
+		this.tutorialCamera.GetComponent<Camera> ().rect = new Rect (0f, 0f, 1f, 1f);
+		this.sceneCamera.GetComponent<Camera> ().rect = new Rect (0f,0f,1f,1f);
+		this.mainCamera.GetComponent<Camera>().rect= new Rect (0f,0f,1f,1f);
 
 		this.skillsPagination = new Pagination ();
 		this.skillsPagination.chosenPage = 0;
@@ -775,7 +779,7 @@ public class NewSkillBookController : MonoBehaviour
 
 		this.skills=new GameObject[this.skillsPagination.nbElementsPerPage];
 
-		float skillWorldWidth = skillsBlockSize.x - 0.6f;
+		float skillWorldWidth = skillsBlockSize.x - 2f*ApplicationDesignRules.blockHorizontalSpacing;
 		float lineScale = ApplicationDesignRules.getLineScale (skillsBlockSize.x - 0.6f);
 
 
@@ -783,7 +787,7 @@ public class NewSkillBookController : MonoBehaviour
 		{
 			this.skills[i]=Instantiate (this.skillObject) as GameObject;
 			this.skills[i].GetComponent<NewSkillBookSkillController>().initialize();
-			this.skills[i].transform.position=new Vector3(skillsBlockUpperLeftPosition.x+0.3f+skillWorldWidth/2f,skillsBlockUpperLeftPosition.y-2.35f-i*(ApplicationDesignRules.skillWorldSize.y+ApplicationDesignRules.gapBetweenSkillsLine),0f);
+			this.skills[i].transform.position=new Vector3(skillsBlockUpperLeftPosition.x+ApplicationDesignRules.blockHorizontalSpacing+skillWorldWidth/2f,skillsBlockUpperLeftPosition.y-2.35f-i*(ApplicationDesignRules.skillWorldSize.y+ApplicationDesignRules.gapBetweenSkillsLine),0f);
 			this.skills[i].transform.GetComponent<NewSkillBookSkillController>().resize(skillWorldWidth);
 		}
 

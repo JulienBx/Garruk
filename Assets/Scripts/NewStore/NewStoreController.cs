@@ -206,7 +206,7 @@ public class NewStoreController : MonoBehaviour
 		instance = this;
 		this.model = new NewStoreModel ();
 		this.speed = 300.0f;
-		this.scrollIntersection = 1.5f;
+		this.scrollIntersection = 1.2f;
 		this.mainContentDisplayed = true;
 		this.initializeScene ();
 		this.startMenuInitialization ();
@@ -261,7 +261,7 @@ public class NewStoreController : MonoBehaviour
 		this.slideRightButton.AddComponent<NewStoreSlideRightButtonController> ();
 
 		this.backButton = GameObject.Find ("BackButton");
-		this.backButton.transform.FindChild("Title").GetComponent<TextMeshPro> ().text = "Retour aux packs";
+		this.backButton.transform.FindChild("Title").GetComponent<TextMeshPro> ().text = "Retour";
 		this.backButton.AddComponent<NewStoreBackButtonController> ();
 		this.backButton.SetActive (false);
 
@@ -279,9 +279,9 @@ public class NewStoreController : MonoBehaviour
 		this.buyCreditsSubtitle.GetComponent<TextMeshPro> ().text = "Le meilleur moyen d'accéder aux cartes rares";
 		this.buyCreditsBlockTitle = GameObject.Find ("BuyCreditsBlockTitle");
 		this.buyCreditsBlockTitle.GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
-		this.buyCreditsBlockTitle.GetComponent<TextMeshPro> ().text = "Ajouter des crédits";
+		this.buyCreditsBlockTitle.GetComponent<TextMeshPro> ().text = "Gagner des crédits";
 		this.buyCreditsButton = GameObject.Find ("BuyCreditsButton");
-		this.buyCreditsButton.transform.FindChild("Title").GetComponent<TextMeshPro> ().text = "Acheter des crédits";
+		this.buyCreditsButton.transform.FindChild("Title").GetComponent<TextMeshPro> ().text = "J'y vais";
 		this.buyCreditsButton.AddComponent<NewStoreBuyCreditsButtonController> ();
 
 		this.focusedCard = GameObject.Find ("FocusedCard");
@@ -364,7 +364,7 @@ public class NewStoreController : MonoBehaviour
 		float buyCreditsBlockUpMargin;
 		float buyCreditsBlockHeight;
 
-		buyCreditsBlockHeight=ApplicationDesignRules.smallBlockHeight;
+
 
 		this.packsPagination = new Pagination ();
 
@@ -375,6 +375,10 @@ public class NewStoreController : MonoBehaviour
 		this.tutorialCamera.transform.position = ApplicationDesignRules.tutorialCameraPositiion;
 		this.backgroundCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.backgroundCameraSize;
 		this.backgroundCamera.transform.position = ApplicationDesignRules.backgroundCameraPosition;
+		this.backgroundCamera.GetComponent<Camera> ().rect = new Rect (0f, 0f, 1f, 1f);
+		this.tutorialCamera.GetComponent<Camera> ().rect = new Rect (0f, 0f, 1f, 1f);
+		this.sceneCamera.GetComponent<Camera> ().rect = new Rect (0f,0f,1f,1f);
+		this.mainCamera.GetComponent<Camera>().rect= new Rect (0f,0f,1f,1f);
 		
 		if(ApplicationDesignRules.isMobileScreen)
 		{
@@ -385,6 +389,7 @@ public class NewStoreController : MonoBehaviour
 			storeBlockLeftMargin=-ApplicationDesignRules.worldWidth;
 			storeBlockUpMargin=0f;
 
+			buyCreditsBlockHeight=2.5f;
 			buyCreditsBlockLeftMargin=ApplicationDesignRules.worldWidth+ApplicationDesignRules.leftMargin;
 			buyCreditsBlockUpMargin=0f;
 			
@@ -450,7 +455,8 @@ public class NewStoreController : MonoBehaviour
 			storeBlockHeight=ApplicationDesignRules.mediumBlockHeight;
 			storeBlockLeftMargin=ApplicationDesignRules.leftMargin+ApplicationDesignRules.gapBetweenBlocks+ApplicationDesignRules.blockWidth;
 			storeBlockUpMargin=ApplicationDesignRules.upMargin;
-			
+
+			buyCreditsBlockHeight=ApplicationDesignRules.smallBlockHeight;
 			buyCreditsBlockLeftMargin=ApplicationDesignRules.leftMargin+ApplicationDesignRules.gapBetweenBlocks+ApplicationDesignRules.blockWidth;
 			buyCreditsBlockUpMargin=storeBlockUpMargin+ApplicationDesignRules.gapBetweenBlocks+storeBlockHeight;
 			
@@ -491,22 +497,22 @@ public class NewStoreController : MonoBehaviour
 		Vector3 packsBlockUpperRightPosition = this.packsBlock.GetComponent<NewBlockController> ().getUpperRightCornerPosition ();
 		Vector2 packsBlockSize = this.packsBlock.GetComponent<NewBlockController> ().getSize ();
 		Vector3 packsBlockOrigin = this.packsBlock.GetComponent<NewBlockController> ().getOriginPosition ();
-		this.packsBlockTitle.transform.position = new Vector3 (packsBlockUpperLeftPosition.x + 0.3f, packsBlockUpperLeftPosition.y - 0.2f, 0f);
+		this.packsBlockTitle.transform.position = new Vector3 (packsBlockUpperLeftPosition.x + ApplicationDesignRules.blockHorizontalSpacing, packsBlockUpperLeftPosition.y - ApplicationDesignRules.mainTitleVerticalSpacing, 0f);
 		this.packsBlockTitle.transform.localScale = ApplicationDesignRules.mainTitleScale;
-		this.packsNumberTitle.transform.position = new Vector3 (packsBlockUpperLeftPosition.x + 0.3f, packsBlockUpperLeftPosition.y - 1.2f, 0f);
+		this.packsNumberTitle.transform.position = new Vector3 (packsBlockUpperLeftPosition.x + ApplicationDesignRules.blockHorizontalSpacing, packsBlockUpperLeftPosition.y - ApplicationDesignRules.subMainTitleVerticalSpacing, 0f);
 		this.packsNumberTitle.transform.localScale = ApplicationDesignRules.subMainTitleScale;
 
 		this.packs = new GameObject[packsPagination.nbElementsPerPage];
 
 		float upperMargin = 1.6f;
 		float lowerMargin = 0.9f;
-		float lineScale = ApplicationDesignRules.getLineScale (packsBlockSize.x - 0.6f);
+		float lineScale = ApplicationDesignRules.getLineScale (packsBlockSize.x - 2f*ApplicationDesignRules.blockHorizontalSpacing);
 		float gapBetweenPacks=ApplicationDesignRules.gapBetweenPacksLine;
 
 		for(int i=0;i<this.packsPagination.nbElementsPerPage;i++)
 		{
 			this.packs[i]=Instantiate (this.packObject) as GameObject;
-			this.packs[i].transform.position=new Vector3(packsBlockOrigin.x,packsBlockUpperLeftPosition.y-upperMargin-ApplicationDesignRules.packWorldSize.y/2f-i*(ApplicationDesignRules.packWorldSize.y+gapBetweenPacks),0f);
+			this.packs[i].transform.position=new Vector3(packsBlockOrigin.x,packsBlockUpperLeftPosition.y-ApplicationDesignRules.subMainTitleVerticalSpacing-0.4f-ApplicationDesignRules.packWorldSize.y/2f-i*(ApplicationDesignRules.packWorldSize.y+gapBetweenPacks),0f);
 			this.packs[i].AddComponent<NewPackStoreController>();
 			this.packs[i].GetComponent<NewPackStoreController>().setId(i);
 			this.packs[i].GetComponent<NewPackStoreController>().resize();
@@ -515,7 +521,7 @@ public class NewStoreController : MonoBehaviour
 		this.packsPaginationButtons.transform.GetComponent<NewStorePaginationController> ().resize ();
 
 		this.informationButton.transform.localScale = ApplicationDesignRules.roundButtonScale;
-		this.informationButton.transform.position = new Vector3 (packsBlockUpperRightPosition.x - 0.3f - ApplicationDesignRules.roundButtonWorldSize.x / 2f, packsBlockUpperRightPosition.y - 0.3f - ApplicationDesignRules.roundButtonWorldSize.y / 2f, 0f);
+		this.informationButton.transform.position = new Vector3 (packsBlockUpperRightPosition.x - ApplicationDesignRules.blockHorizontalSpacing - ApplicationDesignRules.roundButtonWorldSize.x / 2f, packsBlockUpperRightPosition.y - ApplicationDesignRules.buttonVerticalSpacing - ApplicationDesignRules.roundButtonWorldSize.y / 2f, 0f);
 
 		this.storeBlock.GetComponent<NewBlockController> ().resize(storeBlockLeftMargin,storeBlockUpMargin,ApplicationDesignRules.blockWidth,storeBlockHeight);
 		Vector3 storeBlockUpperLeftPosition = this.storeBlock.GetComponent<NewBlockController> ().getUpperLeftCornerPosition ();
@@ -523,26 +529,26 @@ public class NewStoreController : MonoBehaviour
 		Vector3 storeBlockLowerLeftPosition = this.storeBlock.GetComponent<NewBlockController> ().getLowerLeftCornerPosition ();
 		Vector2 storeBlockSize = this.storeBlock.GetComponent<NewBlockController> ().getSize ();
 		Vector2 storeBlockOrigin = this.storeBlock.GetComponent<NewBlockController> ().getOriginPosition ();
-		this.storeBlockTitle.transform.position = new Vector3 (storeBlockUpperLeftPosition.x + 0.3f, storeBlockUpperLeftPosition.y - 0.2f, 0f);
+		this.storeBlockTitle.transform.position = new Vector3 (storeBlockUpperLeftPosition.x + ApplicationDesignRules.blockHorizontalSpacing, storeBlockUpperLeftPosition.y - ApplicationDesignRules.mainTitleVerticalSpacing, 0f);
 		this.storeBlockTitle.transform.localScale = ApplicationDesignRules.mainTitleScale;
 
-		this.storeSubtitle.transform.position = new Vector3 (storeBlockUpperLeftPosition.x + 0.3f, storeBlockUpperLeftPosition.y - 1.2f, 0f);
-		this.storeSubtitle.transform.GetComponent<TextContainer>().width=storeBlockSize.x-0.6f;
+		this.storeSubtitle.transform.position = new Vector3 (storeBlockUpperLeftPosition.x + ApplicationDesignRules.blockHorizontalSpacing, storeBlockUpperLeftPosition.y - ApplicationDesignRules.subMainTitleVerticalSpacing, 0f);
+		this.storeSubtitle.transform.GetComponent<TextContainer>().width=storeBlockSize.x-2f*ApplicationDesignRules.blockHorizontalSpacing;
 		this.storeSubtitle.transform.localScale = ApplicationDesignRules.subMainTitleScale;
 
 		this.slideRightButton.transform.localScale = ApplicationDesignRules.roundButtonScale;
-		this.slideRightButton.transform.position = new Vector3 (storeBlockLowerLeftPosition.x + storeBlockSize.x / 2f, storeBlockLowerLeftPosition.y + 0.1f + ApplicationDesignRules.roundButtonWorldSize.y / 2f, 0f);
+		this.slideRightButton.transform.position = new Vector3 (storeBlockUpperRightPosition.x - ApplicationDesignRules.blockHorizontalSpacing - ApplicationDesignRules.roundButtonWorldSize.x/2f, storeBlockUpperRightPosition.y - ApplicationDesignRules.buttonVerticalSpacing - ApplicationDesignRules.roundButtonWorldSize.y / 2f, 0f);
 
 		this.buyCreditsBlock.GetComponent<NewBlockController> ().resize(buyCreditsBlockLeftMargin,buyCreditsBlockUpMargin,ApplicationDesignRules.blockWidth,buyCreditsBlockHeight);
 		Vector3 buyCreditsBlockUpperLeftPosition = this.buyCreditsBlock.GetComponent<NewBlockController> ().getUpperLeftCornerPosition ();
 		Vector2 buyCreditsBlockSize = this.buyCreditsBlock.GetComponent<NewBlockController> ().getSize ();
 		Vector3 buyCreditsOrigin = this.buyCreditsBlock.GetComponent<NewBlockController> ().getOriginPosition ();
 
-		this.buyCreditsBlockTitle.transform.position = new Vector3 (buyCreditsBlockUpperLeftPosition.x + 0.3f, buyCreditsBlockUpperLeftPosition.y - 0.2f, 0f);
+		this.buyCreditsBlockTitle.transform.position = new Vector3 (buyCreditsBlockUpperLeftPosition.x + ApplicationDesignRules.blockHorizontalSpacing, buyCreditsBlockUpperLeftPosition.y - ApplicationDesignRules.mainTitleVerticalSpacing, 0f);
 		this.buyCreditsBlockTitle.transform.localScale = ApplicationDesignRules.mainTitleScale;
 
-		this.buyCreditsSubtitle.transform.position = new Vector3 (buyCreditsBlockUpperLeftPosition.x + 0.3f, buyCreditsBlockUpperLeftPosition.y - 1.2f, 0f);
-		this.buyCreditsSubtitle.transform.GetComponent<TextContainer>().width=buyCreditsBlockSize.x-0.6f;
+		this.buyCreditsSubtitle.transform.position = new Vector3 (buyCreditsBlockUpperLeftPosition.x + ApplicationDesignRules.blockHorizontalSpacing, buyCreditsBlockUpperLeftPosition.y - ApplicationDesignRules.subMainTitleVerticalSpacing, 0f);
+		this.buyCreditsSubtitle.transform.GetComponent<TextContainer>().width=buyCreditsBlockSize.x-2f*ApplicationDesignRules.blockHorizontalSpacing;
 		this.buyCreditsSubtitle.transform.localScale = ApplicationDesignRules.subMainTitleScale;
 
 		this.buyCreditsButton.transform.position = new Vector3(buyCreditsOrigin.x,buyCreditsOrigin.y-0.5f,buyCreditsOrigin.z);
@@ -568,7 +574,7 @@ public class NewStoreController : MonoBehaviour
 
 		if(ApplicationDesignRules.isMobileScreen)
 		{
-			this.packsPaginationButtons.transform.localPosition= new Vector3 (packsBlockUpperRightPosition.x - 0.3f - 3.5f*ApplicationDesignRules.roundButtonWorldSize.x, packsBlockUpperRightPosition.y - 0.3f - ApplicationDesignRules.roundButtonWorldSize.y / 2f, 0f);
+			this.packsPaginationButtons.transform.localPosition=new Vector3 (packsBlockUpperRightPosition.x - ApplicationDesignRules.blockHorizontalSpacing - 2f*ApplicationDesignRules.roundButtonWorldSize.x, packsBlockUpperRightPosition.y - ApplicationDesignRules.buttonVerticalSpacing - ApplicationDesignRules.roundButtonWorldSize.y / 2f, 0f);
 		}
 		else
 		{
@@ -607,17 +613,17 @@ public class NewStoreController : MonoBehaviour
 	{
 		float width = ApplicationDesignRules.worldWidth-ApplicationDesignRules.leftMargin-ApplicationDesignRules.rightMargin;
 		float height = ApplicationDesignRules.worldHeight - ApplicationDesignRules.upMargin - ApplicationDesignRules.downMargin-2f*ApplicationDesignRules.button62WorldSize.y;
-		float gapBetweenCards = 0.2f;
-		float cardWorldWidth = 0;
-		float cardWorldHeight = 0;
-		float nbLines = 0;
+		float gapBetweenCards = 0.1f;
+		float cardWorldWidth = 0f;
+		float cardWorldHeight = 0f;
+		float nbLines = 0f;
 		int elementPerLine = model.packList [this.selectedPackIndex].NbCards;
 
 		while(cardWorldWidth<ApplicationDesignRules.cardWorldSize.x)
 		{
 			nbLines++;
 			elementPerLine=Mathf.CeilToInt((float)model.packList [this.selectedPackIndex].NbCards/(float)nbLines);
-			cardWorldWidth = (width-(((float)elementPerLine+1)*gapBetweenCards))/(float)elementPerLine;
+			cardWorldWidth = (width-(((float)elementPerLine+1f)*gapBetweenCards))/(float)elementPerLine;
 		}
 
 		cardWorldHeight = cardWorldWidth * (ApplicationDesignRules.getCardOriginalSize().y / ApplicationDesignRules.getCardOriginalSize().x);
