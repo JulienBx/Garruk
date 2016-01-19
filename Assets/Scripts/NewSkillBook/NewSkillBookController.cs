@@ -601,8 +601,8 @@ public class NewSkillBookController : MonoBehaviour
 		
 		if(ApplicationDesignRules.isMobileScreen)
 		{
-			this.skillsPagination.nbElementsPerPage = 50;
-			skillsBlockHeight=2.1f+this.skillsPagination.nbElementsPerPage*(ApplicationDesignRules.skillWorldSize.y+ApplicationDesignRules.gapBetweenSkillsLine);
+			this.skillsPagination.nbElementsPerPage = 100;
+			skillsBlockHeight=2.1f+this.skillsPagination.nbElementsPerPage*(0.85f+ApplicationDesignRules.gapBetweenSkillsLine);
 
 			helpBlockHeight=ApplicationDesignRules.viewHeight-ApplicationDesignRules.tabWorldSize.y;
 			helpBlockLeftMargin=-ApplicationDesignRules.worldWidth;
@@ -652,7 +652,7 @@ public class NewSkillBookController : MonoBehaviour
 			skillsBlockLeftMargin=ApplicationDesignRules.leftMargin;
 			skillsBlockUpMargin=ApplicationDesignRules.upMargin;
 
-			this.skillsPagination.nbElementsPerPage = 3;
+			this.skillsPagination.nbElementsPerPage = 5;
 			this.skillsScrollLine.SetActive(false);
 			
 			this.sceneCamera.SetActive(true);
@@ -787,7 +787,7 @@ public class NewSkillBookController : MonoBehaviour
 		{
 			this.skills[i]=Instantiate (this.skillObject) as GameObject;
 			this.skills[i].GetComponent<NewSkillBookSkillController>().initialize();
-			this.skills[i].transform.position=new Vector3(skillsBlockUpperLeftPosition.x+ApplicationDesignRules.blockHorizontalSpacing+skillWorldWidth/2f,skillsBlockUpperLeftPosition.y-2.35f-i*(ApplicationDesignRules.skillWorldSize.y+ApplicationDesignRules.gapBetweenSkillsLine),0f);
+			this.skills[i].transform.position=new Vector3(skillsBlockUpperLeftPosition.x+ApplicationDesignRules.blockHorizontalSpacing+skillWorldWidth/2f,skillsBlockUpperLeftPosition.y-2.1f-i*(0.85f+ApplicationDesignRules.gapBetweenSkillsLine),0f);
 			this.skills[i].transform.GetComponent<NewSkillBookSkillController>().resize(skillWorldWidth);
 		}
 
@@ -941,7 +941,7 @@ public class NewSkillBookController : MonoBehaviour
 		if(ApplicationDesignRules.isMobileScreen)
 		{
 			int nbLinesToDisplay = this.skillsDisplayed.Count;
-			float contentHeight = nbLinesToDisplay*(ApplicationDesignRules.skillWorldSize.y+ApplicationDesignRules.gapBetweenSkillsLine);
+			float contentHeight = 0.3f+nbLinesToDisplay*(0.85f+ApplicationDesignRules.gapBetweenSkillsLine);
 			if(this.lowerScrollCamera.GetComponent<ScrollingController>().getViewHeight()>contentHeight)
 			{
 				contentHeight=this.lowerScrollCamera.GetComponent<ScrollingController>().getViewHeight()+0.7f;
