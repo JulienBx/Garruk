@@ -1,7 +1,7 @@
 using UnityEngine;
 using TMPro;
 
-public class NewHomePageDeckSelectionButtonController : SimpleButtonController
+public class NewHomePageDeckSelectionButtonController : SpriteButtonController
 {	
 	public override void mainInstruction()
 	{

@@ -159,6 +159,7 @@ TextureImporter:
     21300304: myGameListButton
     21300306: skillbutton
     21300308: skilldescriptionback
+    21300310: socialButton
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -209,7 +210,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 2187
-        y: 1574
+        y: 1514
         width: 100
         height: 100
       alignment: 0
@@ -248,8 +249,8 @@ TextureImporter:
     - name: DarkBlockBackground
       rect:
         serializedVersion: 2
-        x: 2289
-        y: 1526
+        x: 2187
+        y: 1412
         width: 100
         height: 100
       alignment: 0
@@ -279,7 +280,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 391
-        y: 1235
+        y: 1233
         width: 375
         height: 200
       alignment: 0
@@ -329,7 +330,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 768
-        y: 1201
+        y: 1097
         width: 97
         height: 122
       alignment: 9
@@ -338,8 +339,8 @@ TextureImporter:
     - name: authenticationBackBlock
       rect:
         serializedVersion: 2
-        x: 2187
-        y: 1472
+        x: 768
+        y: 1323
         width: 100
         height: 100
       alignment: 0
@@ -388,8 +389,8 @@ TextureImporter:
     - name: button22
       rect:
         serializedVersion: 2
-        x: 653
-        y: 1437
+        x: 777
+        y: 1425
         width: 121
         height: 120
       alignment: 0
@@ -478,8 +479,8 @@ TextureImporter:
     - name: buttonCristalopedia
       rect:
         serializedVersion: 2
-        x: 3972
-        y: 3332
+        x: 653
+        y: 1931
         width: 122
         height: 122
       alignment: 9
@@ -488,8 +489,8 @@ TextureImporter:
     - name: buttonHome
       rect:
         serializedVersion: 2
-        x: 653
-        y: 1931
+        x: 1681
+        y: 2122
         width: 122
         height: 122
       alignment: 9
@@ -499,7 +500,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1681
-        y: 2122
+        y: 1998
         width: 122
         height: 122
       alignment: 9
@@ -508,8 +509,8 @@ TextureImporter:
     - name: buttonMyGame
       rect:
         serializedVersion: 2
-        x: 1681
-        y: 1998
+        x: 1677
+        y: 1874
         width: 122
         height: 122
       alignment: 0
@@ -518,8 +519,8 @@ TextureImporter:
     - name: buttonPlay
       rect:
         serializedVersion: 2
-        x: 1677
-        y: 1874
+        x: 777
+        y: 1919
         width: 122
         height: 122
       alignment: 9
@@ -528,8 +529,8 @@ TextureImporter:
     - name: buttonStore
       rect:
         serializedVersion: 2
-        x: 777
-        y: 1919
+        x: 653
+        y: 1807
         width: 122
         height: 122
       alignment: 9
@@ -538,8 +539,8 @@ TextureImporter:
     - name: closebutton
       rect:
         serializedVersion: 2
-        x: 653
-        y: 1807
+        x: 777
+        y: 1795
         width: 122
         height: 122
       alignment: 9
@@ -789,7 +790,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 3965
-        y: 3202
+        y: 3201
         width: 128
         height: 128
       alignment: 0
@@ -839,7 +840,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 2304
-        y: 1628
+        y: 1488
         width: 112
         height: 167
       alignment: 9
@@ -879,7 +880,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 391
-        y: 742
+        y: 740
         width: 323
         height: 87
       alignment: 9
@@ -909,7 +910,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 2187
-        y: 1676
+        y: 1616
         width: 115
         height: 119
       alignment: 0
@@ -938,8 +939,8 @@ TextureImporter:
     - name: myGameAddButton
       rect:
         serializedVersion: 2
-        x: 777
-        y: 1795
+        x: 653
+        y: 1683
         width: 122
         height: 122
       alignment: 9
@@ -948,8 +949,8 @@ TextureImporter:
     - name: myGameDeleteButton
       rect:
         serializedVersion: 2
-        x: 653
-        y: 1683
+        x: 777
+        y: 1671
         width: 122
         height: 122
       alignment: 9
@@ -958,8 +959,8 @@ TextureImporter:
     - name: myGameEditButton
       rect:
         serializedVersion: 2
-        x: 777
-        y: 1671
+        x: 653
+        y: 1559
         width: 122
         height: 122
       alignment: 9
@@ -968,8 +969,8 @@ TextureImporter:
     - name: myGameListButton
       rect:
         serializedVersion: 2
-        x: 653
-        y: 1559
+        x: 1673
+        y: 1750
         width: 122
         height: 122
       alignment: 9
@@ -989,7 +990,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 391
-        y: 1033
+        y: 1031
         width: 375
         height: 200
       alignment: 0
@@ -999,7 +1000,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 391
-        y: 831
+        y: 829
         width: 375
         height: 200
       alignment: 0
@@ -1019,7 +1020,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1673
-        y: 1750
+        y: 1626
         width: 122
         height: 122
       alignment: 9
@@ -1028,8 +1029,8 @@ TextureImporter:
     - name: pagination1
       rect:
         serializedVersion: 2
-        x: 1673
-        y: 1626
+        x: 1671
+        y: 1502
         width: 122
         height: 122
       alignment: 9
@@ -1108,8 +1109,8 @@ TextureImporter:
     - name: roundButton
       rect:
         serializedVersion: 2
-        x: 1671
-        y: 1502
+        x: 777
+        y: 1547
         width: 122
         height: 122
       alignment: 9
@@ -1118,8 +1119,8 @@ TextureImporter:
     - name: skillPicto
       rect:
         serializedVersion: 2
-        x: 1668
-        y: 1302
+        x: 2308
+        y: 1657
         width: 118
         height: 138
       alignment: 9
@@ -1208,8 +1209,8 @@ TextureImporter:
     - name: skillbutton
       rect:
         serializedVersion: 2
-        x: 777
-        y: 1547
+        x: 653
+        y: 1435
         width: 122
         height: 122
       alignment: 9
@@ -1274,6 +1275,16 @@ TextureImporter:
         height: 41
       alignment: 9
       pivot: {x: .491666675, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: socialButton
+      rect:
+        serializedVersion: 2
+        x: 3972
+        y: 3331
+        width: 122
+        height: 123
+      alignment: 0
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: speedicon
       rect:
@@ -1378,7 +1389,7 @@ TextureImporter:
     - name: square_roublard
       rect:
         serializedVersion: 2
-        x: 867
+        x: 870
         y: 928
         width: 387
         height: 387
@@ -1389,7 +1400,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 3948
-        y: 3136
+        y: 3135
         width: 125
         height: 64
       alignment: 0
@@ -1438,8 +1449,8 @@ TextureImporter:
     - name: startlevelblue
       rect:
         serializedVersion: 2
-        x: 776
-        y: 1487
+        x: 1668
+        y: 1442
         width: 119
         height: 58
       alignment: 0
@@ -1448,8 +1459,8 @@ TextureImporter:
     - name: startlevelgrey
       rect:
         serializedVersion: 2
-        x: 776
-        y: 1427
+        x: 1668
+        y: 1382
         width: 119
         height: 58
       alignment: 0
@@ -1458,8 +1469,8 @@ TextureImporter:
     - name: startlevelred
       rect:
         serializedVersion: 2
-        x: 1668
-        y: 1442
+        x: 2187
+        y: 1737
         width: 119
         height: 58
       alignment: 0
@@ -1639,7 +1650,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 768
-        y: 1325
+        y: 1221
         width: 100
         height: 100
       alignment: 0

@@ -26,7 +26,11 @@ public class HomePageMenuController : MenuController
 		base.resize ();
 		base.refreshMenuObject ();
 		base.setCurrentPage (0);
+		NewHomePageController.instance.cleanContents ();
+		NewHomePageController.instance.cleanChallengeButtons ();
+		NewHomePageController.instance.cleanFriendsStatusButtons ();
 		NewHomePageController.instance.resize ();
+		NewHomePageController.instance.initializeTabContent ();
 	}
 	public override void moneyUpdate()
 	{

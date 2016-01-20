@@ -614,6 +614,11 @@ public class MenuController : MonoBehaviour
 		PhotonNetwork.Disconnect();
 		Application.LoadLevel("Authentication");
 	}
+	public void notificationsLink()
+	{
+		ApplicationModel.goToNotfications = true;
+		this.homePageLink ();
+	}
 	public void homePageLink()
 	{
 		Application.LoadLevel("NewHomePage");

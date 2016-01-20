@@ -5,7 +5,7 @@ public class MenuNotificationsController : SpriteButtonController
 {
 	public override void mainInstruction()
 	{
-		MenuController.instance.homePageLink ();
+		MenuController.instance.notificationsLink ();
 	}
 	public override void setHoveredState()
 	{
