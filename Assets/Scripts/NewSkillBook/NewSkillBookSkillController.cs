@@ -15,7 +15,13 @@ public class NewSkillBookSkillController : MonoBehaviour
 	private GameObject contour1;
 	private GameObject level;
 
+	private bool isHovering;
+	private int id;
 
+	void Awake()
+	{
+		this.isHovering = false;
+	}
 	public void initialize()
 	{
 		this.background = gameObject.transform.FindChild ("Background").gameObject;
@@ -67,6 +73,10 @@ public class NewSkillBookSkillController : MonoBehaviour
 		levelPosition.x = levelPosition.x - (worldIncrease / 2f)*(1/skillScale);
 		this.level.transform.localPosition = levelPosition;
 	}
+	public void setId(int id)
+	{
+		this.id = id;
+	}
 	public void show()
 	{
 		this.title.GetComponent<TextMeshPro> ().text = s.Name.ToUpper();
@@ -79,6 +89,7 @@ public class NewSkillBookSkillController : MonoBehaviour
 			this.level.transform.GetComponent<TextMeshPro>().text="Non acquise";
 			//this.contour0.transform.GetComponent<SpriteRenderer>().color=new Color(0f,0f,0f);
 			this.contour1.SetActive(true);
+			this.contour1.GetComponent<SpriteRenderer>().color=ApplicationDesignRules.whiteSpriteColor;
 			this.contour0.SetActive(true);
 			//this.picto.GetComponent<SpriteRenderer> ().color = ApplicationDesignRules.whiteSpriteColor;
 			this.picto.GetComponent<SpriteRenderer>().sprite=this.skillsPictos[0];
@@ -87,6 +98,7 @@ public class NewSkillBookSkillController : MonoBehaviour
 		else
 		{
 			this.background.SetActive(true);
+			this.background.GetComponent<SpriteRenderer>().color=ApplicationDesignRules.whiteSpriteColor;
 			this.contour1.SetActive(false);
 			this.contour0.SetActive(false);
 			this.level.transform.GetComponent<TextMeshPro>().text="Acquise (niveau "+(s.Power).ToString()+")";
@@ -109,6 +121,45 @@ public class NewSkillBookSkillController : MonoBehaviour
 				this.picto.GetComponent<SpriteRenderer>().sprite=this.skillsPictos[0];
 			}
 		}
+	}
+	void OnMouseOver()
+	{
+		if(!this.isHovering)
+		{
+			this.isHovering=true;
+			if(s.Power==0)
+			{
+				this.contour1.GetComponent<SpriteRenderer>().color=ApplicationDesignRules.blueColor;
+			}
+			else
+			{
+				this.background.GetComponent<SpriteRenderer>().color=ApplicationDesignRules.blueColor;
+			}
+		}
+	}
+	void OnMouseExit()
+	{
+		if(this.isHovering)
+		{
+			this.isHovering=false;
+			if(s.Power==0)
+			{
+				this.contour1.GetComponent<SpriteRenderer>().color=ApplicationDesignRules.whiteSpriteColor;
+			}
+			else
+			{
+				this.background.GetComponent<SpriteRenderer>().color=ApplicationDesignRules.whiteSpriteColor;
+			}
+		}
+	}
+	void OnMouseDown()
+	{
+		this.isHovering=false;
+		NewSkillBookController.instance.leftClickHandler ();
+	}
+	void OnMouseUp()
+	{
+		NewSkillBookController.instance.leftClickReleaseHandler (this.id);
 	}
 }
 

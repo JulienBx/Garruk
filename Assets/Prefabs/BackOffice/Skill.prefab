@@ -28,6 +28,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 400406}
   - 114: {fileID: 11424632}
+  - 61: {fileID: 6105098}
   m_Layer: 0
   m_Name: Skill
   m_TagString: Untagged
@@ -176,7 +177,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 116964}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.35283279, y: -201.903259, z: 0}
+  m_LocalPosition: {x: -9.65834713, y: -194.291412, z: 0}
   m_LocalScale: {x: .899999976, y: .899999976, z: .899999976}
   m_Children:
   - {fileID: 478216}
@@ -397,6 +398,19 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 107108}
   m_Mesh: {fileID: 0}
+--- !u!61 &6105098
+BoxCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 116964}
+  m_Enabled: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_Offset: {x: -.00745667377, y: -.00745985284}
+  serializedVersion: 2
+  m_Size: {x: 6.29423809, y: 1.10439503}
 --- !u!114 &11424632
 MonoBehaviour:
   m_ObjectHideFlags: 1

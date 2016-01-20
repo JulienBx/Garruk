@@ -23,8 +23,10 @@ public class SkillBookMenuController : MenuController
 		base.refreshMenuObject ();
 		base.setCurrentPage (4);
 		NewSkillBookController.instance.cleanSkills ();
+		NewSkillBookController.instance.cleanContents ();
 		NewSkillBookController.instance.resize ();
 		NewSkillBookController.instance.initializeSkills ();
+		NewSkillBookController.instance.initializeTabContents ();
 	}
 	public override void sceneCloseAllPopUp()
 	{

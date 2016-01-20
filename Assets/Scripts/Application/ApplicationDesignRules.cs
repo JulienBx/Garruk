@@ -66,7 +66,7 @@ public class ApplicationDesignRules : MonoBehaviour
 	static private Vector2 tabSize=new Vector2(355f,119f);
 	static public Vector2 tabWorldSize;
 	static private Vector3 tabOriginalScale=new Vector3(0.6f,0.6f,0.6f);
-	static private Vector3 tabMobileScale = new Vector3 (0.6f, 0.6f, 0.6f);
+	static private Vector3 tabMobileScale = new Vector3 (0.575f, 0.575f, 0.575f);
 	static public Vector3 tabScale;
 
 	static private Vector2 button61Size = new Vector2 (376f, 81f);
@@ -145,6 +145,10 @@ public class ApplicationDesignRules : MonoBehaviour
 	static public Vector2 cardFocusedWorldSize;
 	static public Vector3 cardFocusedScale;
 
+	static private Vector2 focusedSkillSize = new Vector3 (750f, 1064f);
+	static public Vector2 focusedSkillWorldSize;
+	static public Vector3 focusedSkillScale;
+
 	static private Vector2 nextLevelPopUpSize = new Vector2 (720f, 1004f);
 	static public Vector2 nextLevelPopUpWorldSize;
 	static public Vector3 nextLevelPopUpScale = new Vector3(1.014f, 1.014f,1.014f);
@@ -158,7 +162,7 @@ public class ApplicationDesignRules : MonoBehaviour
 	static private Vector2 skillTypeFilterSize = new Vector2(101f,101f);
 	static public Vector2 skillTypeFilterWorldSize;
 	static private Vector3 skillTypeFilterOriginalScale=new Vector3(0.7f,0.7f,0.7f);
-	static private Vector3 skillTypeFilterMobileScale = new Vector3 (0.7f, 0.7f, 0.7f);
+	static private Vector3 skillTypeFilterMobileScale = new Vector3 (1f, 1f, 1f);
 	static public Vector3 skillTypeFilterScale;
 
 	static private Vector2 inputTextSize = new Vector2(406f,80f);
@@ -229,6 +233,7 @@ public class ApplicationDesignRules : MonoBehaviour
 	static public Vector3 backgroundPosition = new Vector3(0f,20f,0f);
 	static public Vector3 focusedCardPosition;
 	static public Vector3 nextLevelPopUpPosition;
+	static public Vector3 focusedSkillPosition;
 	static public Vector3 randomCardsPosition;
 
 	static public Vector3 mainCameraPosition = new Vector3 (menuPosition.x, menuPosition.y, -10f);
@@ -365,7 +370,18 @@ public class ApplicationDesignRules : MonoBehaviour
 			cardFocusedScale = new Vector3 (focusedCardScale, focusedCardScale, focusedCardScale);
 		}
 
+		focusedSkillWorldSize.y = worldHeight - upMargin - downMargin;
+		float skillFocusedScale = focusedSkillWorldSize.y / (focusedSkillSize.y / pixelPerUnit);
+		focusedSkillScale = new Vector3 (skillFocusedScale, skillFocusedScale, skillFocusedScale);
+		if(worldWidth-leftMargin-rightMargin<skillFocusedScale*(focusedSkillSize.x/pixelPerUnit))
+		{
+			focusedSkillWorldSize.x = worldWidth - leftMargin - rightMargin;
+			skillFocusedScale = focusedSkillWorldSize.x / (focusedSkillSize.x / pixelPerUnit);
+			focusedSkillScale = new Vector3 (skillFocusedScale, skillFocusedScale,skillFocusedScale);
+		}
+
 		focusedCardPosition = new Vector3 (0f, -200f - (upMargin - downMargin)/2f, 0f);
+		focusedSkillPosition = new Vector3 (0f, -200f - (upMargin - downMargin)/2f, 0f);
 		randomCardsPosition = new Vector3 (0f, -300f - (upMargin - downMargin) / 2f, 0f);
 		sceneCameraFocusedCardPosition = new Vector3 (0f, -200f, -10f);
 		sceneCameraRandomCardsPosition = new Vector3 (0f, -300f, -10f);

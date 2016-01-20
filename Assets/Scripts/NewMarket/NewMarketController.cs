@@ -863,7 +863,6 @@ public class NewMarketController : MonoBehaviour
 			this.cardsBlockTitle.transform.GetComponent<TextContainer>().width=ApplicationDesignRules.blockWidth-2f*ApplicationDesignRules.blockHorizontalSpacing-3f*ApplicationDesignRules.roundButtonWorldSize.x;
 			this.refreshMarketButton.transform.position=new Vector3 (cardsBlockUpperRightPosition.x - ApplicationDesignRules.blockHorizontalSpacing, cardsBlockUpperRightPosition.y - ApplicationDesignRules.subMainTitleVerticalSpacing, 0f);
 
-
 			this.cardsPaginationButtons.transform.localPosition=new Vector3 (cardsBlockUpperRightPosition.x - ApplicationDesignRules.blockHorizontalSpacing - 3f*ApplicationDesignRules.roundButtonWorldSize.x, cardsBlockUpperRightPosition.y - ApplicationDesignRules.buttonVerticalSpacing - ApplicationDesignRules.roundButtonWorldSize.y / 2f, 0f);
 			this.cardsNumberTitle.transform.position = new Vector3 (cardsBlockUpperLeftPosition.x + ApplicationDesignRules.blockHorizontalSpacing, cardsBlockUpperRightPosition.y - ApplicationDesignRules.subMainTitleVerticalSpacing, 0f);
 			for(int i=0;i<this.tabs.Length;i++)
