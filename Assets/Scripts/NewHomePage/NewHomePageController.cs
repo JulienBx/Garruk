@@ -570,7 +570,7 @@ public class NewHomePageController : MonoBehaviour
 
 		if(ApplicationDesignRules.isMobileScreen)
 		{
-			playBlockLeftMargin=0f;
+			playBlockLeftMargin=ApplicationDesignRules.leftMargin;
 			playBlockUpMargin=0f;
 			playBlockHeight=3.8f;
 
@@ -582,7 +582,7 @@ public class NewHomePageController : MonoBehaviour
 			storeBlockLeftMargin=ApplicationDesignRules.worldWidth+ApplicationDesignRules.leftMargin;
 			storeBlockUpMargin=0f;
 
-			newsfeedBlockLeftMargin=-ApplicationDesignRules.worldWidth;;
+			newsfeedBlockLeftMargin=-ApplicationDesignRules.worldWidth;
 			newsfeedBlockUpMargin=ApplicationDesignRules.tabWorldSize.y;
 			newsfeedBlockHeight=ApplicationDesignRules.viewHeight-ApplicationDesignRules.tabWorldSize.y;
 			contentHeight=1f;
@@ -707,7 +707,7 @@ public class NewHomePageController : MonoBehaviour
 		Vector3 storeBlockUpperRightPosition = this.storeBlock.GetComponent<NewBlockController> ().getUpperRightCornerPosition ();
 		Vector2 storeBlockLowerRightPosition = this.storeBlock.GetComponent<NewBlockController> ().getLowerRightCornerPosition ();
 		Vector2 storeBlockSize = this.storeBlock.GetComponent<NewBlockController> ().getSize ();
-		this.storeBlockTitle.transform.position = new Vector3 (storeBlockUpperLeftPosition.x + 0.3f, storeBlockUpperLeftPosition.y - 0.2f, 0f);
+		this.storeBlockTitle.transform.position = new Vector3 (storeBlockUpperLeftPosition.x + ApplicationDesignRules.blockHorizontalSpacing, storeBlockUpperLeftPosition.y - ApplicationDesignRules.mainTitleVerticalSpacing, 0f);
 		this.storeBlockTitle.transform.localScale = ApplicationDesignRules.mainTitleScale;
 
 		this.pack.transform.position = new Vector3 (storeBlockLowerRightPosition.x - ApplicationDesignRules.blockHorizontalSpacing - ApplicationDesignRules.packWorldSize.x / 2f, storeBlockLowerRightPosition.y + 0.1f + ApplicationDesignRules.packWorldSize.y / 2f, 0f);

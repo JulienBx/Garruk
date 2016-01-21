@@ -25,7 +25,9 @@ public class LobbyMenuController : MenuController
 		base.resize ();
 		base.refreshMenuObject ();
 		base.setCurrentPage (5);
+		NewLobbyController.instance.cleanLastResults ();
 		NewLobbyController.instance.resize ();
+		NewLobbyController.instance.initializeResults ();
 	}
 	public override void initializeScene()
 	{

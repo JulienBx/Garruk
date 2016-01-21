@@ -11,6 +11,7 @@ public class NewLobbyController : MonoBehaviour
 	private NewLobbyModel model;
 	
 	public GameObject blockObject;
+	public GameObject resultObject;
 	
 	private GameObject mainBlock;
 	private GameObject mainBlockTitle;
@@ -34,10 +35,13 @@ public class NewLobbyController : MonoBehaviour
 	private GameObject cupProgression;
 	private GameObject paginationButtons;
 	private GameObject mainCamera;
-	private GameObject scrollCamera;
 	private GameObject sceneCamera;
 	private GameObject tutorialCamera;
 	private GameObject backgroundCamera;
+	private GameObject slideLeftButton;
+	private GameObject slideRightButton;
+	private GameObject statsButton;
+	private GameObject lastResultsButton;
 	
 	private IList<int> resultsDisplayed;
 	
@@ -55,10 +59,81 @@ public class NewLobbyController : MonoBehaviour
 	private float timer;
 
 	private bool isEndCompetition;
-	private bool isScrolling;
+
+	private bool mainContentDisplayed;
+	private bool lastResultsDisplayed;
+	private bool statsDisplayed;
+
+	private bool toSlideLeft;
+	private bool toSlideRight;
+
+	private float mainContentPositionX;
+	private float lastResultsPositionX;
+	private float statsPositionX;
+	private float targetContentPositionX;
 	
 	void Update()
 	{	
+		if (Input.touchCount == 1 && this.isSceneLoaded) 
+		{
+			if(Input.touches[0].deltaPosition.x<-15f)
+			{
+				if(this.lastResultsDisplayed || this.mainContentDisplayed || this.toSlideLeft)
+				{
+					this.slideRight();
+				}
+			}
+			if(Input.touches[0].deltaPosition.x>15f)
+			{
+				if(this.mainContentDisplayed || this.statsDisplayed || this.toSlideRight)
+				{
+					this.slideLeft();
+				}
+			}
+		}
+		if(toSlideRight || toSlideLeft)
+		{
+			Vector3 sceneCameraPosition = this.sceneCamera.transform.position;
+			float camerasXPosition = sceneCameraPosition.x;
+			if(toSlideRight)
+			{
+				camerasXPosition=camerasXPosition+Time.deltaTime*40f;
+				if(camerasXPosition>this.targetContentPositionX)
+				{
+					camerasXPosition=this.targetContentPositionX;
+					this.toSlideRight=false;
+					if(camerasXPosition==this.statsPositionX)
+					{
+						this.statsDisplayed=true;
+					}
+					else if(camerasXPosition==this.mainContentPositionX)
+					{
+						this.mainContentDisplayed=true;
+						this.activeGaugeCamera(true);
+					}
+				}
+			}
+			else if(toSlideLeft)
+			{
+				camerasXPosition=camerasXPosition-Time.deltaTime*40f;
+				if(camerasXPosition<this.targetContentPositionX)
+				{
+					camerasXPosition=this.targetContentPositionX;
+					this.toSlideLeft=false;
+					if(camerasXPosition==this.lastResultsPositionX)
+					{
+						this.lastResultsDisplayed=true;
+					}
+					else if(camerasXPosition==this.mainContentPositionX)
+					{
+						this.mainContentDisplayed=true;
+						this.activeGaugeCamera(true);
+					}
+				}
+			}
+			sceneCameraPosition.x=camerasXPosition;
+			this.sceneCamera.transform.position=sceneCameraPosition;
+		}
 		if(this.waitForPopUp)
 		{
 			this.timer=timer+Time.deltaTime;
@@ -66,15 +141,6 @@ public class NewLobbyController : MonoBehaviour
 			{
 				this.waitForPopUp=false;
 				this.displayPopUp();
-			}
-		}
-		if(ApplicationDesignRules.isMobileScreen && this.isSceneLoaded)
-		{
-			isScrolling = this.scrollCamera.GetComponent<ScrollingController>().ScrollController();
-			if(this.isDivisionLobby && isScrolling)
-			{
-				float currentRatio = this.divisionProgression.GetComponent<DivisionProgressionController>().getCurrentRatio();
-				this.divisionProgression.GetComponent<DivisionProgressionController>().setGaugeCamera(currentRatio);
 			}
 		}
 	}
@@ -96,9 +162,8 @@ public class NewLobbyController : MonoBehaviour
 			this.hasWonLastGame=true;
 			ApplicationModel.hasWonLastGame=false;
 		}
+		this.mainContentDisplayed = true;
 		this.timer = 0f;
-		this.pagination = new Pagination ();
-		this.pagination.nbElementsPerPage= 3;
 		this.initializeScene ();
 		this.startMenuInitialization ();
 	}
@@ -152,9 +217,8 @@ public class NewLobbyController : MonoBehaviour
 			TutorialObjectController.instance.startHelp();
 		}
 	}
-	private void initializeResults()
+	public void initializeResults()
 	{
-		this.pagination.chosenPage = 0;
 		this.pagination.totalElements= model.lastResults.Count;
 		this.paginationButtons.GetComponent<NewLobbyPaginationController> ().p = this.pagination;
 		this.paginationButtons.GetComponent<NewLobbyPaginationController> ().setPagination ();
@@ -194,19 +258,7 @@ public class NewLobbyController : MonoBehaviour
 		this.paginationButtons = GameObject.Find ("Pagination");
 		this.paginationButtons.AddComponent<NewLobbyPaginationController> ();
 		this.paginationButtons.GetComponent<NewLobbyPaginationController> ().initialize ();
-		this.results=new GameObject[3];
-		for(int i=0;i<this.results.Length;i++)
-		{
-			this.results[i]=GameObject.Find ("Result"+i);
-			this.results[i].transform.FindChild("description").GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
-			this.results[i].transform.FindChild("username").GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
-			this.results[i].transform.FindChild("username").gameObject.AddComponent<NewLobbyResultsUsernameController>();
-			this.results[i].transform.FindChild("username").GetComponent<NewLobbyResultsUsernameController>().setId(i);
-			this.results[i].transform.FindChild("picture").gameObject.AddComponent<NewLobbyResultsPictureController>();
-			this.results[i].transform.FindChild("picture").GetComponent<NewLobbyResultsPictureController>().setId(i);
-			this.results[i].transform.FindChild("line").GetComponent<SpriteRenderer>().color = ApplicationDesignRules.whiteSpriteColor;
-			this.results[i].SetActive(false);
-		}
+		this.results=new GameObject[0];
 		this.stats = new GameObject[4];
 		for(int i=0;i<this.stats.Length;i++)
 		{
@@ -247,10 +299,16 @@ public class NewLobbyController : MonoBehaviour
 			this.cupProgression.transform.FindChild("RemainingRounds").GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
 			this.cupProgression.transform.FindChild("Status").GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
 		}
+		this.slideLeftButton = GameObject.Find ("SlideLeftButton");
+		this.slideLeftButton.AddComponent<NewLobbySlideLeftButtonController> ();
+		this.slideRightButton = GameObject.Find ("SlideRightButton");
+		this.slideRightButton.AddComponent<NewLobbySlideRightButtonController> ();
+		this.statsButton = GameObject.Find ("StatsButton");
+		this.statsButton.AddComponent<NewLobbyStatsButtonController> ();
+		this.lastResultsButton = GameObject.Find ("LastResultsButton");
+		this.lastResultsButton.AddComponent<NewLobbyLastResultsButtonController> ();
 
 		this.mainCamera = gameObject;
-		this.scrollCamera = GameObject.Find ("ScrollCamera");
-		this.scrollCamera.AddComponent<ScrollingController> ();
 		this.sceneCamera = GameObject.Find ("sceneCamera");
 		this.tutorialCamera = GameObject.Find ("TutorialCamera");
 		this.backgroundCamera = GameObject.Find ("BackgroundCamera");
@@ -268,15 +326,13 @@ public class NewLobbyController : MonoBehaviour
 		float lastResultsBlockLeftMargin;
 		float lastResultsBlockUpMargin;
 		float lastResultsBlockHeight;
-		
+		float lastResultHeight;
+		float lastResultFirstLineY;
+
+		float competitionContentFirstLineY;
 		float competitionBlockLeftMargin;
 		float competitionBlockUpMargin;
 		float competitionBlockHeight;
-		
-		mainBlockHeight=ApplicationDesignRules.mediumBlockHeight;
-		statsBlockHeight=ApplicationDesignRules.smallBlockHeight;
-		lastResultsBlockHeight=ApplicationDesignRules.mediumBlockHeight;
-		competitionBlockHeight=ApplicationDesignRules.smallBlockHeight;
 
 		this.mainCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
 		this.mainCamera.transform.position = ApplicationDesignRules.mainCameraPosition;
@@ -290,47 +346,64 @@ public class NewLobbyController : MonoBehaviour
 		this.tutorialCamera.GetComponent<Camera> ().rect = new Rect (0f, 0f, 1f, 1f);
 		this.sceneCamera.GetComponent<Camera> ().rect = new Rect (0f,0f,1f,1f);
 		this.mainCamera.GetComponent<Camera>().rect= new Rect (0f,0f,1f,1f);
+
+		this.pagination = new Pagination ();
+		this.pagination.chosenPage = 0;
 		
 		if(ApplicationDesignRules.isMobileScreen)
 		{
+			mainBlockHeight=5f;
 			mainBlockLeftMargin=ApplicationDesignRules.leftMargin;
 			mainBlockUpMargin=0f;
 			
-			statsBlockLeftMargin=ApplicationDesignRules.leftMargin;
-			statsBlockUpMargin=mainBlockUpMargin+ApplicationDesignRules.gapBetweenBlocks+mainBlockHeight;
+			statsBlockHeight=ApplicationDesignRules.viewHeight;
+			statsBlockLeftMargin=ApplicationDesignRules.worldWidth+ApplicationDesignRules.leftMargin;
+			statsBlockUpMargin=0f;
 			
-			lastResultsBlockLeftMargin=ApplicationDesignRules.leftMargin;
-			lastResultsBlockUpMargin=statsBlockUpMargin+ApplicationDesignRules.gapBetweenBlocks+statsBlockHeight;
+			lastResultsBlockHeight=ApplicationDesignRules.viewHeight;
+			lastResultsBlockLeftMargin=-ApplicationDesignRules.worldWidth;
+			lastResultsBlockUpMargin=0f;
+			lastResultHeight=1f;
+			lastResultFirstLineY=1f;
 			
+			competitionContentFirstLineY=1.65f;
+			competitionBlockHeight=3f;
 			competitionBlockLeftMargin=ApplicationDesignRules.leftMargin;
-			competitionBlockUpMargin=lastResultsBlockUpMargin+lastResultsBlockHeight;
+			competitionBlockUpMargin=mainBlockUpMargin+ApplicationDesignRules.gapBetweenBlocks+mainBlockHeight;
 
-			this.scrollCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
-			this.scrollCamera.transform.position = ApplicationDesignRules.scrollCameraStartPosition;
-			this.scrollCamera.GetComponent<ScrollingController> ().setViewHeight(ApplicationDesignRules.viewHeight);
-			this.scrollCamera.GetComponent<ScrollingController> ().setContentHeight(mainBlockHeight + statsBlockHeight + lastResultsBlockHeight + competitionBlockHeight + 3f * ApplicationDesignRules.gapBetweenBlocks);
-			this.scrollCamera.GetComponent<ScrollingController> ().setStartPositionY (ApplicationDesignRules.scrollCameraStartPosition.y);
-			this.scrollCamera.GetComponent<ScrollingController> ().setEndPositionY();
-			
-			this.scrollCamera.SetActive(true);
-			this.sceneCamera.SetActive(false);
+			this.pagination.nbElementsPerPage= 6;
+			this.slideLeftButton.SetActive(true);
+			this.slideRightButton.SetActive(true);
+			this.statsButton.SetActive(true);
+			this.lastResultsButton.SetActive(true);
 		}
 		else
 		{
+			mainBlockHeight=ApplicationDesignRules.mediumBlockHeight;
 			mainBlockLeftMargin=ApplicationDesignRules.leftMargin;
 			mainBlockUpMargin=ApplicationDesignRules.upMargin;
 			
+			statsBlockHeight=ApplicationDesignRules.smallBlockHeight;
 			statsBlockLeftMargin=ApplicationDesignRules.leftMargin;
 			statsBlockUpMargin=mainBlockUpMargin+ApplicationDesignRules.gapBetweenBlocks+mainBlockHeight;
 			
+			lastResultsBlockHeight=ApplicationDesignRules.mediumBlockHeight;
 			lastResultsBlockLeftMargin=ApplicationDesignRules.leftMargin+ApplicationDesignRules.gapBetweenBlocks+ApplicationDesignRules.blockWidth;
 			lastResultsBlockUpMargin=ApplicationDesignRules.upMargin;
+			lastResultHeight=0.9f;
+			lastResultFirstLineY=1f;
 			
+			competitionContentFirstLineY=2f;
+			competitionBlockHeight=ApplicationDesignRules.smallBlockHeight;
 			competitionBlockLeftMargin=ApplicationDesignRules.leftMargin+ApplicationDesignRules.gapBetweenBlocks+ApplicationDesignRules.blockWidth;
 			competitionBlockUpMargin=lastResultsBlockUpMargin+ApplicationDesignRules.gapBetweenBlocks+lastResultsBlockHeight;
 
-			this.scrollCamera.SetActive(false);
-			this.sceneCamera.SetActive(true);
+			this.pagination.nbElementsPerPage= 3;
+			this.slideLeftButton.SetActive(false);
+			this.slideRightButton.SetActive(false);
+			this.statsButton.SetActive(false);
+			this.lastResultsButton.SetActive(false);
+			this.activeGaugeCamera(true);
 		}
 
 		this.mainBlock.GetComponent<NewBlockController> ().resize(mainBlockLeftMargin,mainBlockUpMargin,ApplicationDesignRules.blockWidth,mainBlockHeight);
@@ -341,14 +414,14 @@ public class NewLobbyController : MonoBehaviour
 		Vector2 mainBlockOriginPosition = this.mainBlock.GetComponent<NewBlockController> ().getOriginPosition ();
 		Vector2 mainBlockSize = this.mainBlock.GetComponent<NewBlockController> ().getSize ();
 
-		this.mainBlockTitle.transform.position = new Vector3 (mainBlockUpperLeftPosition.x + 0.3f, mainBlockUpperLeftPosition.y - 0.2f, 0f);
+		this.mainBlockTitle.transform.position = new Vector3 (mainBlockUpperLeftPosition.x + ApplicationDesignRules.blockHorizontalSpacing, mainBlockUpperLeftPosition.y - ApplicationDesignRules.mainTitleVerticalSpacing, 0f);
 		this.mainBlockTitle.transform.localScale = ApplicationDesignRules.mainTitleScale;
 
 		this.mainBlockSubTitle.transform.localScale=ApplicationDesignRules.subMainTitleScale;
-		this.mainBlockSubTitle.transform.position = new Vector3 (0.3f+mainBlockUpperLeftPosition.x, mainBlockUpperLeftPosition.y - 1.2f, 0f);
+		this.mainBlockSubTitle.transform.position = new Vector3 (ApplicationDesignRules.blockHorizontalSpacing+mainBlockUpperLeftPosition.x, mainBlockUpperLeftPosition.y - ApplicationDesignRules.subMainTitleVerticalSpacing, 0f);
 
 		this.playButton.transform.localScale = ApplicationDesignRules.button62Scale;
-		this.playButton.transform.position = new Vector3 (mainBlockUpperRightPosition.x -0.3f-ApplicationDesignRules.button62WorldSize.x/2f, mainBlockUpperLeftPosition.y - 0.3f - ApplicationDesignRules.button62WorldSize.y/2f, 0f);
+		this.playButton.transform.position = new Vector3 (mainBlockUpperRightPosition.x -ApplicationDesignRules.blockHorizontalSpacing-ApplicationDesignRules.button62WorldSize.x/2f, mainBlockUpperLeftPosition.y - ApplicationDesignRules.button62WorldSize.y/2f - ApplicationDesignRules.buttonVerticalSpacing-System.Convert.ToInt32(ApplicationDesignRules.isMobileScreen)*(ApplicationDesignRules.roundButtonWorldSize.y +ApplicationDesignRules.buttonVerticalSpacing), 0f);
 
 		this.competitionBlock.GetComponent<NewBlockController> ().resize(competitionBlockLeftMargin,competitionBlockUpMargin,ApplicationDesignRules.blockWidth,competitionBlockHeight);
 		Vector3 competitionBlockUpperLeftPosition = this.competitionBlock.GetComponent<NewBlockController> ().getUpperLeftCornerPosition ();
@@ -357,65 +430,75 @@ public class NewLobbyController : MonoBehaviour
 		Vector2 competitionBlockLowerRightPosition = this.competitionBlock.GetComponent<NewBlockController> ().getLowerRightCornerPosition ();
 		Vector2 competitionBlockSize = this.competitionBlock.GetComponent<NewBlockController> ().getSize ();
 
-		this.competitionBlockTitle.transform.position = new Vector3 (competitionBlockUpperLeftPosition.x + 0.3f, competitionBlockUpperLeftPosition.y - 0.2f, 0f);
+		this.competitionBlockTitle.transform.position = new Vector3 (competitionBlockUpperLeftPosition.x + ApplicationDesignRules.blockHorizontalSpacing, competitionBlockUpperLeftPosition.y - ApplicationDesignRules.mainTitleVerticalSpacing, 0f);
 		this.competitionBlockTitle.transform.localScale = ApplicationDesignRules.mainTitleScale;
 
 		this.competitionPicture.transform.localScale = ApplicationDesignRules.competitionScale;
-		this.competitionPicture.transform.position = new Vector3 (competitionBlockUpperLeftPosition.x + 0.3f + ApplicationDesignRules.competitionWorldSize.x / 2f, competitionBlockUpperLeftPosition.y - 2f, 0f);
+		this.competitionPicture.transform.position = new Vector3 (competitionBlockUpperLeftPosition.x + ApplicationDesignRules.blockHorizontalSpacing + ApplicationDesignRules.competitionWorldSize.x / 2f, competitionBlockUpperLeftPosition.y - competitionContentFirstLineY, 0f);
 
 		this.competitionDescription.transform.localScale = ApplicationDesignRules.subMainTitleScale;
-		this.competitionDescription.transform.position = new Vector3 (competitionBlockLowerLeftPosition.x + 0.3f + ApplicationDesignRules.competitionWorldSize.x + 0.1f, this.competitionPicture.transform.position.y, 0f);
-		this.competitionDescription.GetComponent<TextContainer> ().width = (competitionBlockSize.x - 0.6f - 0.1f - ApplicationDesignRules.competitionWorldSize.x)*1/(ApplicationDesignRules.reductionRatio);
+		this.competitionDescription.transform.position = new Vector3 (competitionBlockLowerLeftPosition.x + ApplicationDesignRules.blockHorizontalSpacing + ApplicationDesignRules.competitionWorldSize.x + 0.1f, this.competitionPicture.transform.position.y, 0f);
+		this.competitionDescription.GetComponent<TextContainer> ().width = (competitionBlockSize.x - 2f*ApplicationDesignRules.blockHorizontalSpacing - 0.1f - ApplicationDesignRules.competitionWorldSize.x)*1/(ApplicationDesignRules.subMainTitleScale.x);
 
-		this.statsBlock.GetComponent<NewBlockController> ().resize(statsBlockLeftMargin,statsBlockUpMargin,ApplicationDesignRules.blockWidth,competitionBlockHeight);
+		this.statsBlock.GetComponent<NewBlockController> ().resize(statsBlockLeftMargin,statsBlockUpMargin,ApplicationDesignRules.blockWidth,statsBlockHeight);
 		Vector3 statsBlockUpperLeftPosition = this.statsBlock.GetComponent<NewBlockController> ().getUpperLeftCornerPosition ();
 		Vector3 statsBlockLowerLeftPosition = this.statsBlock.GetComponent<NewBlockController> ().getLowerLeftCornerPosition ();
 		Vector3 statsBlockUpperRightPosition = this.statsBlock.GetComponent<NewBlockController> ().getUpperRightCornerPosition ();
 		Vector2 statsBlockSize = this.statsBlock.GetComponent<NewBlockController> ().getSize ();
 		Vector3 statsOrigin = this.statsBlock.GetComponent<NewBlockController> ().getOriginPosition ();
-		this.statsBlockTitle.transform.position = new Vector3 (statsBlockUpperLeftPosition.x + 0.3f, statsBlockUpperLeftPosition.y - 0.2f, 0f);
+		this.statsBlockTitle.transform.position = new Vector3 (statsBlockUpperLeftPosition.x + ApplicationDesignRules.blockHorizontalSpacing, statsBlockUpperLeftPosition.y - ApplicationDesignRules.mainTitleVerticalSpacing, 0f);
 		this.statsBlockTitle.transform.localScale = ApplicationDesignRules.mainTitleScale;
-
-		Vector3 statsScale = new Vector3 (1f, 1f, 1f);
-		Vector2 statBlockSize = new Vector2 ((statsBlockSize.x - 0.6f) / 4f, statsBlockSize.y - 0.5f);
-		
-		for(int i=0;i<this.stats.Length;i++)
-		{
-			this.stats[i].transform.position=new Vector3(statsBlockLowerLeftPosition.x+0.3f+statBlockSize.x/2f+i*statBlockSize.x,statsBlockUpperLeftPosition.y-0.8f-statBlockSize.y/2f);
-			this.stats[i].transform.localScale= ApplicationDesignRules.reductionRatio*statsScale;
-			this.stats[i].transform.FindChild("Title").GetComponent<TextContainer>().width=statBlockSize.x;
-		}
 
 		this.lastResultsBlock.GetComponent<NewBlockController> ().resize(lastResultsBlockLeftMargin,lastResultsBlockUpMargin,ApplicationDesignRules.blockWidth,lastResultsBlockHeight);
 		Vector3 lastResultsBlockUpperLeftPosition = this.lastResultsBlock.GetComponent<NewBlockController> ().getUpperLeftCornerPosition ();
 		Vector3 lastResultsBlockLowerLeftPosition = this.lastResultsBlock.GetComponent<NewBlockController> ().getLowerLeftCornerPosition ();
 		Vector3 lastResultsBlockUpperRightPosition = this.lastResultsBlock.GetComponent<NewBlockController> ().getUpperRightCornerPosition ();
 		Vector2 lastResultsBlockSize = this.lastResultsBlock.GetComponent<NewBlockController> ().getSize ();
-		this.lastResultsBlockTitle.transform.position = new Vector3 (lastResultsBlockUpperLeftPosition.x + 0.3f, lastResultsBlockUpperLeftPosition.y - 0.2f, 0f);
+		Vector2 lastResultsBlockOrigin = this.lastResultsBlock.GetComponent<NewBlockController> ().getOriginPosition ();
+		this.lastResultsBlockTitle.transform.position = new Vector3 (lastResultsBlockUpperLeftPosition.x + ApplicationDesignRules.blockHorizontalSpacing, lastResultsBlockUpperLeftPosition.y - ApplicationDesignRules.mainTitleVerticalSpacing, 0f);
 		this.lastResultsBlockTitle.transform.localScale = ApplicationDesignRules.mainTitleScale;
-		
 
-		Vector2 lastResultBlockSize = new Vector2 (lastResultsBlockSize.x - 0.6f, (lastResultsBlockSize.y - 1f - 0.6f)/this.results.Length);
-		float resultsLineScale = ApplicationDesignRules.getLineScale (lastResultsBlockSize.x);
-		
+		float lastResultWidth = lastResultsBlockSize.x - 2f * ApplicationDesignRules.blockHorizontalSpacing;
+		float lastResultsLineScale = ApplicationDesignRules.getLineScale (lastResultWidth);
+		this.results=new GameObject[pagination.nbElementsPerPage];
+	
 		for(int i=0;i<this.results.Length;i++)
 		{
-			this.results[i].transform.position=new Vector3(lastResultsBlockUpperLeftPosition.x+0.3f+lastResultBlockSize.x/2f,lastResultsBlockUpperLeftPosition.y-1f-(i+1)*lastResultBlockSize.y,0f);
-			this.results[i].transform.FindChild("line").localScale=new Vector3(resultsLineScale,1f,1f);
+			this.results[i]=Instantiate (this.resultObject) as GameObject;
+			this.results[i].transform.position=new Vector3(lastResultsBlockOrigin.x,lastResultsBlockUpperLeftPosition.y-lastResultFirstLineY-(i+1)*lastResultHeight,0f);
+			this.results[i].transform.FindChild("line").localScale=new Vector3(lastResultsLineScale,1f,1f);
 			this.results[i].transform.FindChild("picture").localScale=ApplicationDesignRules.thumbScale;
-			this.results[i].transform.FindChild("picture").localPosition=new Vector3(-lastResultBlockSize.x/2f+ApplicationDesignRules.thumbWorldSize.x/2f,(lastResultBlockSize.y-ApplicationDesignRules.thumbWorldSize.y)/2f+ApplicationDesignRules.thumbWorldSize.y/2f,0f);
+			this.results[i].transform.FindChild("picture").localPosition=new Vector3(-lastResultWidth/2f+ApplicationDesignRules.thumbWorldSize.x/2f,(lastResultHeight-ApplicationDesignRules.thumbWorldSize.y)/2f+ApplicationDesignRules.thumbWorldSize.y/2f,0f);
 			this.results[i].transform.FindChild("username").localScale=new Vector3(ApplicationDesignRules.reductionRatio,ApplicationDesignRules.reductionRatio,ApplicationDesignRules.reductionRatio);
-			this.results[i].transform.FindChild("username").GetComponent<TextMeshPro>().textContainer.width=(lastResultBlockSize.x/2f)-0.1f-ApplicationDesignRules.thumbWorldSize.x;
-			this.results[i].transform.FindChild("username").localPosition=new Vector3(-lastResultBlockSize.x/2f+ApplicationDesignRules.thumbWorldSize.x+0.1f,lastResultBlockSize.y-(lastResultBlockSize.y-ApplicationDesignRules.thumbWorldSize.y)/2f,0f);
+			this.results[i].transform.FindChild("username").GetComponent<TextMeshPro>().textContainer.width=(lastResultWidth/2f)-0.1f-ApplicationDesignRules.thumbWorldSize.x;
+			this.results[i].transform.FindChild("username").localPosition=new Vector3(-lastResultWidth/2f+ApplicationDesignRules.thumbWorldSize.x+0.1f,lastResultHeight-(lastResultHeight-ApplicationDesignRules.thumbWorldSize.y)/2f,0f);
 			this.results[i].transform.FindChild("description").localScale=new Vector3(ApplicationDesignRules.reductionRatio,ApplicationDesignRules.reductionRatio,ApplicationDesignRules.reductionRatio);
-			this.results[i].transform.FindChild("description").GetComponent<TextMeshPro>().textContainer.width=0.75f*lastResultBlockSize.x-0.1f-ApplicationDesignRules.thumbWorldSize.x;
-			this.results[i].transform.FindChild("description").localPosition=new Vector3(-lastResultBlockSize.x/2f+ApplicationDesignRules.thumbWorldSize.x+0.1f,lastResultBlockSize.y/2f,0f);
+			this.results[i].transform.FindChild("description").GetComponent<TextMeshPro>().textContainer.width=0.75f*lastResultWidth-0.1f-ApplicationDesignRules.thumbWorldSize.x;
+			this.results[i].transform.FindChild("description").localPosition=new Vector3(-lastResultWidth/2f+ApplicationDesignRules.thumbWorldSize.x+0.1f,lastResultHeight/2f,0f);
 		}
 
-		this.paginationButtons.transform.localPosition=new Vector3 (lastResultsBlockLowerLeftPosition.x + lastResultBlockSize.x / 2, lastResultsBlockLowerLeftPosition.y + 0.3f, 0f);
+		this.setLastResults ();
+
+		this.paginationButtons.transform.localPosition=new Vector3 (lastResultsBlockLowerLeftPosition.x + lastResultWidth / 2, lastResultsBlockLowerLeftPosition.y + 0.3f, 0f);
 		this.paginationButtons.GetComponent<NewLobbyPaginationController> ().resize ();
 
 		this.popUp.transform.position = new Vector3 (ApplicationDesignRules.menuPosition.x+0, ApplicationDesignRules.menuPosition.y+2f, -3f);
+
+		this.slideLeftButton.transform.localScale = ApplicationDesignRules.roundButtonScale;
+		this.slideLeftButton.transform.position = new Vector3 (statsBlockUpperRightPosition.x - ApplicationDesignRules.blockHorizontalSpacing-ApplicationDesignRules.roundButtonWorldSize.x/2f, statsBlockUpperRightPosition.y -ApplicationDesignRules.buttonVerticalSpacing- ApplicationDesignRules.roundButtonWorldSize.y / 2f, 0f);
+		
+		this.slideRightButton.transform.localScale = ApplicationDesignRules.roundButtonScale;
+		this.slideRightButton.transform.position = new Vector3 (lastResultsBlockUpperRightPosition.x -ApplicationDesignRules.blockHorizontalSpacing-ApplicationDesignRules.roundButtonWorldSize.x/2f, lastResultsBlockUpperRightPosition.y - ApplicationDesignRules.buttonVerticalSpacing- ApplicationDesignRules.roundButtonWorldSize.y / 2f, 0f);
+
+		this.statsButton.transform.localScale = ApplicationDesignRules.roundButtonScale;
+		this.statsButton.transform.position = new Vector3 (mainBlockUpperRightPosition.x - ApplicationDesignRules.blockHorizontalSpacing - ApplicationDesignRules.roundButtonWorldSize.x / 2f, mainBlockUpperRightPosition.y - ApplicationDesignRules.buttonVerticalSpacing - ApplicationDesignRules.roundButtonWorldSize.y / 2f, 0f);
+		
+		this.lastResultsButton.transform.localScale = ApplicationDesignRules.roundButtonScale;
+		this.lastResultsButton.transform.position = new Vector3 (mainBlockUpperRightPosition.x - ApplicationDesignRules.blockHorizontalSpacing - 1.5f*ApplicationDesignRules.roundButtonWorldSize.x, mainBlockUpperRightPosition.y - ApplicationDesignRules.buttonVerticalSpacing - ApplicationDesignRules.roundButtonWorldSize.y / 2f, 0f);
+
+		this.mainContentPositionX = mainBlockOriginPosition.x;
+		this.statsPositionX=statsOrigin.x;
+		this.lastResultsPositionX = lastResultsBlockOrigin.x;
 
 		TutorialObjectController.instance.resize ();
 
@@ -426,6 +509,28 @@ public class NewLobbyController : MonoBehaviour
 		else
 		{
 			this.cupProgression.GetComponent<CupProgressionController>().resize(new Rect(mainBlockOriginPosition.x,mainBlockOriginPosition.y,mainBlockSize.x,mainBlockSize.y));
+		}
+
+		if(ApplicationDesignRules.isMobileScreen)
+		{
+			for(int i=0;i<this.stats.Length;i++)
+			{
+				this.stats[i].transform.position=new Vector3(statsBlockLowerLeftPosition.x+statsBlockSize.x/2f,statsBlockUpperLeftPosition.y-2f-i*1.5f);
+				this.stats[i].transform.localScale= new Vector3(1f,1f,1f);
+				this.stats[i].transform.FindChild("Title").GetComponent<TextContainer>().width=statsBlockSize.x-2f*ApplicationDesignRules.blockHorizontalSpacing;
+			}
+		}
+		else
+		{
+			Vector3 statsScale = new Vector3 (1f, 1f, 1f);
+			Vector2 statBlockSize = new Vector2 ((statsBlockSize.x - 2f*ApplicationDesignRules.blockHorizontalSpacing) / 4f, statsBlockSize.y - 0.5f);
+			
+			for(int i=0;i<this.stats.Length;i++)
+			{
+				this.stats[i].transform.position=new Vector3(statsBlockLowerLeftPosition.x+0.3f+statBlockSize.x/2f+i*statBlockSize.x,statsBlockUpperLeftPosition.y-0.8f-statBlockSize.y/2f);
+				this.stats[i].transform.localScale= ApplicationDesignRules.reductionRatio*statsScale;
+				this.stats[i].transform.FindChild("Title").GetComponent<TextContainer>().width=statBlockSize.x;
+			}
 		}
 	}
 	public void returnPressed()
@@ -703,13 +808,81 @@ public class NewLobbyController : MonoBehaviour
 	{
 		this.mainBlockSubTitle.GetComponent<TextMeshPro> ().text = s.ToUpper();
 	}
-	public float getScrollCameraDelta()
+	public void activeGaugeCamera(bool value)
 	{
-		return this.scrollCamera.GetComponent<ScrollingController>().getStartPositionY()-this.scrollCamera.transform.position.y;
+		if(this.isDivisionLobby)
+		{
+			this.divisionProgression.GetComponent<DivisionProgressionController>().activeGaugeCamera(value);
+		}
 	}
-	public float getScrollCameraInitialPosition()
+	public void slideRight()
 	{
-		return this.scrollCamera.GetComponent<ScrollingController>().getStartPositionY();
+		if(this.mainContentDisplayed)
+		{
+			this.activeGaugeCamera(false);
+			this.mainContentDisplayed=false;
+			this.targetContentPositionX=this.statsPositionX;
+		}
+		else if(this.lastResultsDisplayed)
+		{
+			this.lastResultsDisplayed=false;
+			this.targetContentPositionX=this.mainContentPositionX;
+		}
+		else if(this.targetContentPositionX==mainContentPositionX)
+		{
+			this.targetContentPositionX=this.statsPositionX;
+		}
+		else if(this.targetContentPositionX==lastResultsPositionX)
+		{
+			this.targetContentPositionX=this.mainContentPositionX;
+		}
+		this.toSlideRight=true;
+		this.toSlideLeft=false;
+	}
+	public void slideLeft()
+	{
+		if(this.mainContentDisplayed)
+		{
+			this.activeGaugeCamera(false);
+			this.mainContentDisplayed=false;
+			this.targetContentPositionX=this.lastResultsPositionX;
+		}
+		else if(this.statsDisplayed)
+		{
+			this.lastResultsDisplayed=false;
+			this.targetContentPositionX=this.mainContentPositionX;
+		}
+		else if(this.targetContentPositionX==mainContentPositionX)
+		{
+			this.targetContentPositionX=this.lastResultsPositionX;
+		}
+		else if(this.targetContentPositionX==statsPositionX)
+		{
+			this.targetContentPositionX=this.mainContentPositionX;
+		}
+		this.toSlideRight=false;
+		this.toSlideLeft=true;
+	}
+	public void cleanLastResults()
+	{
+		for(int i=0;i<this.results.Length;i++)
+		{
+			Destroy (this.results[i]);
+		}
+	}
+	public void setLastResults()
+	{
+		for(int i=0;i<this.results.Length;i++)
+		{
+			this.results[i].transform.FindChild("description").GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
+			this.results[i].transform.FindChild("username").GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
+			this.results[i].transform.FindChild("username").gameObject.AddComponent<NewLobbyResultsUsernameController>();
+			this.results[i].transform.FindChild("username").GetComponent<NewLobbyResultsUsernameController>().setId(i);
+			this.results[i].transform.FindChild("picture").gameObject.AddComponent<NewLobbyResultsPictureController>();
+			this.results[i].transform.FindChild("picture").GetComponent<NewLobbyResultsPictureController>().setId(i);
+			this.results[i].transform.FindChild("line").GetComponent<SpriteRenderer>().color = ApplicationDesignRules.whiteSpriteColor;
+			this.results[i].SetActive(false);
+		}
 	}
 	#region TUTORIAL FUNCTIONS
 	

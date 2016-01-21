@@ -105,7 +105,7 @@ public class ApplicationDesignRules : MonoBehaviour
 	static private Vector3 lineMobileScale = new Vector3 (1f, 1f, 1f);
 	static public Vector3 contentLineScale;
 
-	static private Vector2 competitionSize = new Vector2(325f,325f);
+	static private Vector2 competitionSize = new Vector2(294f,284f);
 	static public Vector2 competitionWorldSize;
 	static private Vector3 competitionOriginalScale=new Vector3(0.5f,0.5f,0.5f);
 	static private Vector3 competitionMobileScale = new Vector3 (0.5f, 0.5f, 0.5f);

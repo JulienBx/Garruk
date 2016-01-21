@@ -43,14 +43,6 @@ public class DivisionProgressionController : MonoBehaviour
 		this.gameObject.transform.FindChild("Gauge").FindChild("Status").GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
 		this.currentRatio = 0f;
 	}
-	public float getGaugeDeltaPosition()
-	{
-		return NewLobbyController.instance.getScrollCameraDelta ();
-	}
-	public float getGaugeInitialPosition()
-	{
-		return NewLobbyController.instance.getScrollCameraInitialPosition ();
-	}
 	public void setGaugeCamera(float ratio)
 	{
 		Vector3 gaugeScale = this.gameObject.transform.FindChild("Gauge").localScale;
@@ -59,7 +51,7 @@ public class DivisionProgressionController : MonoBehaviour
 		Vector2 fullGaugeWorldSize = (fullGaugeSize / ApplicationDesignRules.pixelPerUnit) * gaugeScale.x;
 		Rect cameraRect = new Rect ();
 		cameraRect.x = (ApplicationDesignRules.worldWidth / 2f + gaugePosition.x - fullGaugeWorldSize.x / 2f) / ApplicationDesignRules.worldWidth;
-		cameraRect.y = (ApplicationDesignRules.worldHeight / 2f + gaugePosition.y - fullGaugeWorldSize.y / 2f+System.Convert.ToInt32(ApplicationDesignRules.isMobileScreen)*(this.getGaugeDeltaPosition()-this.getGaugeInitialPosition())) / ApplicationDesignRules.worldHeight;
+		cameraRect.y = (ApplicationDesignRules.worldHeight / 2f + gaugePosition.y - fullGaugeWorldSize.y / 2f-System.Convert.ToInt32(ApplicationDesignRules.isMobileScreen)*(ApplicationDesignRules.topBarWorldSize.y-0.2f)) / ApplicationDesignRules.worldHeight;
 		cameraRect.width = fullGaugeWorldSize.x / ApplicationDesignRules.worldWidth;
 		cameraRect.height = ratio * (fullGaugeWorldSize.y / ApplicationDesignRules.worldHeight);
 
@@ -74,6 +66,13 @@ public class DivisionProgressionController : MonoBehaviour
 		float emptyGaugeWorldSizeY = (emptyGaugeSizeY / ApplicationDesignRules.pixelPerUnit) * emptyGaugeScale;
 		this.gameObject.transform.position = new Vector3 (parentBlock.x, parentBlock.y-(parentBlock.height-emptyGaugeWorldSizeY)/2f+0.05f, 0f);
 		this.setGaugeCamera (this.currentRatio);
+		this.gameObject.transform.FindChild ("Gauge").FindChild ("TitleTitle").GetComponent<TextContainer> ().width = 1f/emptyGaugeScale*Mathf.Abs(this.gameObject.transform.FindChild ("Gauge").FindChild ("TitleTitle").position.x - (parentBlock.x - parentBlock.width/2f+ApplicationDesignRules.blockHorizontalSpacing));
+		this.gameObject.transform.FindChild ("Gauge").FindChild ("RelegationNbWins").GetComponent<TextContainer> ().width = 1f/emptyGaugeScale*Mathf.Abs(this.gameObject.transform.FindChild ("Gauge").FindChild ("RelegationNbWins").transform.position.x - (parentBlock.x + parentBlock.width / 2f-ApplicationDesignRules.blockHorizontalSpacing));
+		this.gameObject.transform.FindChild ("Gauge").FindChild ("PromotionNbWins").GetComponent<TextContainer> ().width = 1f/emptyGaugeScale*Mathf.Abs(this.gameObject.transform.FindChild ("Gauge").FindChild ("PromotionNbWins").transform.position.x - (parentBlock.x + parentBlock.width / 2f-ApplicationDesignRules.blockHorizontalSpacing));
+		this.gameObject.transform.FindChild ("Gauge").FindChild ("TitleNbWins").GetComponent<TextContainer> ().width = 1f/emptyGaugeScale*Mathf.Abs (this.gameObject.transform.FindChild ("Gauge").FindChild ("TitleNbWins").position.x - (parentBlock.x + parentBlock.width/2f-ApplicationDesignRules.blockHorizontalSpacing));
+		this.gameObject.transform.FindChild ("Gauge").FindChild ("PromotionTitle").GetComponent<TextContainer> ().width = 1f/emptyGaugeScale*Mathf.Abs(this.gameObject.transform.FindChild ("Gauge").FindChild ("PromotionTitle").transform.position.x - (parentBlock.x - parentBlock.width / 2f+ApplicationDesignRules.blockHorizontalSpacing));
+		this.gameObject.transform.FindChild ("Gauge").FindChild ("RelegationTitle").GetComponent<TextContainer> ().width = 1f/emptyGaugeScale*Mathf.Abs(this.gameObject.transform.FindChild ("Gauge").FindChild ("RelegationTitle").transform.position.x - (parentBlock.x - parentBlock.width / 2f+ApplicationDesignRules.blockHorizontalSpacing));
+
 	}
 	public void drawGauge(Division d, bool showGaugeStateBeforeLastWin)
 	{
@@ -268,6 +267,10 @@ public class DivisionProgressionController : MonoBehaviour
 			NewLobbyController.instance.updateSubMainBlockTitle("Stabilisation en cours\n"+remainingGamesText+"\n"+nbWinsText);
 		}
 		this.setGaugeCamera (currentRatio);
+	}
+	public void activeGaugeCamera(bool value)
+	{
+		this.gameObject.transform.FindChild ("GaugeCamera").gameObject.SetActive (value);
 	}
 	public void animateGauge()
 	{
