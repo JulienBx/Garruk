@@ -23,7 +23,6 @@ public class NewLobbyController : MonoBehaviour
 	private GameObject statsBlock;
 	private GameObject statsBlockTitle;
 	private GameObject popUp;
-	private GameObject profilePopUp;
 	private GameObject menu;
 	private GameObject tutorial;
 	private GameObject[] results;
@@ -274,8 +273,6 @@ public class NewLobbyController : MonoBehaviour
 		this.popUp = GameObject.Find ("PopUp");
 		this.popUp.transform.FindChild ("Button").FindChild ("Title").GetComponent<TextMeshPro> ().text = "Continuer";
 		this.popUp.SetActive (false);
-		this.profilePopUp = GameObject.Find ("ProfilePopUp");
-		this.profilePopUp.SetActive (false);
 		this.competitionPicture = GameObject.Find ("CompetitionPicture");
 		this.competitionPicture.GetComponent<SpriteRenderer> ().color = ApplicationDesignRules.whiteSpriteColor;
 		this.competitionDescription = GameObject.Find ("CompetitionDescription");
@@ -482,7 +479,8 @@ public class NewLobbyController : MonoBehaviour
 		this.paginationButtons.transform.localPosition=new Vector3 (lastResultsBlockLowerLeftPosition.x + lastResultWidth / 2, lastResultsBlockLowerLeftPosition.y + 0.3f, 0f);
 		this.paginationButtons.GetComponent<NewLobbyPaginationController> ().resize ();
 
-		this.popUp.transform.position = new Vector3 (ApplicationDesignRules.menuPosition.x+0, ApplicationDesignRules.menuPosition.y+2f, -3f);
+		this.popUp.transform.position = new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y, -2f);
+		this.popUp.transform.localScale = ApplicationDesignRules.popUpScale;
 
 		this.slideLeftButton.transform.localScale = ApplicationDesignRules.roundButtonScale;
 		this.slideLeftButton.transform.position = new Vector3 (statsBlockUpperRightPosition.x - ApplicationDesignRules.blockHorizontalSpacing-ApplicationDesignRules.roundButtonWorldSize.x/2f, statsBlockUpperRightPosition.y -ApplicationDesignRules.buttonVerticalSpacing- ApplicationDesignRules.roundButtonWorldSize.y / 2f, 0f);
@@ -685,67 +683,57 @@ public class NewLobbyController : MonoBehaviour
 	public void initializePopUp()
 	{
 		bool displayPopUp = false;
-		string title = "";
 		string content = "";
 		if(this.isDivisionLobby)
 		{
 			if(model.currentDivision.Status==3) // Fin de saison + Promotion + Titre
 			{
-				title = "Fin de l'exploration";
 				content ="Bravo ! Votre domination sur la planète est sans limite ! Commencez dès maintenant l'exploration d'une nouvelle planète !";
 				displayPopUp=true;
 				this.isEndCompetition=true;
 			}
 			else if(model.currentDivision.Status==30) // Fin de saison + Titre
 			{
-				title="Fin de l'exploration";
 				content ="Bravo ! Votre domination sur la planète est sans limite ! Prêt à recommencer ?";
 				displayPopUp=true;
 				this.isEndCompetition=true;
 			}
 			else if(model.currentDivision.Status==20) // Promotion obtenue au cours du match + Fin de saison
 			{
-				title = "Fin de l'exploration";
 				content="Bravo ! Grâce à cette victoire, vous pouvez dès maintenant commencer l'exploration d'une nouvelle planète !";
 				displayPopUp=true;
 				this.isEndCompetition=true;
 			}
 			else if(model.currentDivision.Status==2) // Promotion + Fin de saison
 			{
-				title = "Fin de l'exploration";
 				content="Bravo ! Vous pouvez dès maintenant commencer l'exploration d'une nouvelle planète !";
 				displayPopUp=true;
 				this.isEndCompetition=true;
 			}
 			else if(model.currentDivision.Status==21) // Promotion obtenue au cours du match
 			{
-				title="Félicitations";
 				content="Vous pourrez prochainement explorer une nouvelle planète !";
 				displayPopUp=true;
 			}
 			else if(model.currentDivision.Status==10) // Maintien obtenu au cours du match + Fin de saison
 			{
-				title = "Fin de l'exploration";
 				content="Bravo grâce à cette victoire vous pourrez continuer l'exploration de cette planète !";
 				displayPopUp=true;
 				this.isEndCompetition=true;
 			}
 			else if(model.currentDivision.Status==1) // Maintien + Fin de saison
 			{
-				title = "Fin de l'exploration";
 				content="Vos efforts ont payé et vous permettent de maintenir votre présence sur cette planète !";
 				displayPopUp=true;
 				this.isEndCompetition=true;
 			}
 			else if(model.currentDivision.Status==11) // Maintien obtenu au cours du match
 			{
-				title="Félicitations";
 				content="Votre victoire consolide votre présence sur cette planète !";
 				displayPopUp=true;
 			}
 			else if(model.currentDivision.Status==-1) // Relégation
 			{
-				title = "Fin de l'exploration";
 				content="Malheureusement vos efforts seront insuffisants pour vous maintenir.";
 				displayPopUp=true;
 			}
@@ -754,28 +742,24 @@ public class NewLobbyController : MonoBehaviour
 		{
 			if(model.currentCup.Status==11) // Fin de saison + Promotion + Titre
 			{
-				title = "Félicitations";
 				content ="Bravo ! vous avez remporté la coupe ! Vos résultats en division vous permettent d'accéder à une nouvelle coupe.";
 				displayPopUp=true;
 				this.isEndCompetition=true;
 			}
 			else if(model.currentCup.Status==1) // Fin de saison + Titre
 			{
-				title = "Félicitations";
 				content ="Bravo ! vous avez remporté la coupe !";
 				displayPopUp=true;
 				this.isEndCompetition=true;
 			}
 			if(model.currentCup.Status==-11) // Fin de saison + Promotion + Titre
 			{
-				title = "Dommage";
 				content ="Vous êtes éliminé... Vos résultats en division vous permettent désormais d'accéder à une nouvelle coupe";
 				displayPopUp=true;
 				this.isEndCompetition=true;
 			}
 			else if(model.currentCup.Status==-1) // Fin de saison + Titre
 			{
-				title = "Dommage";
 				content ="Vous êtes élminé...";
 				displayPopUp=true;
 				this.isEndCompetition=true;
@@ -784,7 +768,6 @@ public class NewLobbyController : MonoBehaviour
 		if(displayPopUp)
 		{
 			this.waitForPopUp=true;
-			this.popUp.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = title;
 			this.popUp.transform.FindChild ("Content").GetComponent<TextMeshPro> ().text = content;
 		}
 	}

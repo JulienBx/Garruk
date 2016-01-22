@@ -785,7 +785,7 @@ public class NewHomePageController : MonoBehaviour
 
 		TutorialObjectController.instance.resize();
 
-		this.endGamePopUp.transform.position = new Vector3 (ApplicationDesignRules.menuPosition.x+0, ApplicationDesignRules.menuPosition.y+2f, -3f);
+		this.endGamePopUp.transform.position = new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y, -2f);
 
 		if(ApplicationDesignRules.isMobileScreen)
 		{

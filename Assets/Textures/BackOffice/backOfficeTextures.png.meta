@@ -162,6 +162,7 @@ TextureImporter:
     21300310: socialButton
     21300312: lastResultsButton
     21300314: statsButton
+    21300316: editPasswordButton
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -212,7 +213,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 768
-        y: 1031
+        y: 831
         width: 100
         height: 100
       alignment: 0
@@ -241,8 +242,8 @@ TextureImporter:
     - name: Cup
       rect:
         serializedVersion: 2
-        x: 391
-        y: 501
+        x: 2
+        y: 335
         width: 325
         height: 325
       alignment: 0
@@ -251,8 +252,8 @@ TextureImporter:
     - name: DarkBlockBackground
       rect:
         serializedVersion: 2
-        x: 768
-        y: 929
+        x: 490
+        y: 726
         width: 100
         height: 100
       alignment: 0
@@ -261,8 +262,8 @@ TextureImporter:
     - name: HoveredButton
       rect:
         serializedVersion: 2
-        x: 298
-        y: 133
+        x: 329
+        y: 174
         width: 300
         height: 200
       alignment: 0
@@ -331,8 +332,8 @@ TextureImporter:
     - name: atkicon
       rect:
         serializedVersion: 2
-        x: 298
-        y: 9
+        x: 391
+        y: 704
         width: 97
         height: 122
       alignment: 9
@@ -341,8 +342,8 @@ TextureImporter:
     - name: authenticationBackBlock
       rect:
         serializedVersion: 2
-        x: 768
-        y: 827
+        x: 592
+        y: 726
         width: 100
         height: 100
       alignment: 0
@@ -391,7 +392,7 @@ TextureImporter:
     - name: button22
       rect:
         serializedVersion: 2
-        x: 2187
+        x: 2311
         y: 1675
         width: 121
         height: 120
@@ -411,8 +412,8 @@ TextureImporter:
     - name: button51
       rect:
         serializedVersion: 2
-        x: 329
-        y: 419
+        x: 431
+        y: 3
         width: 317
         height: 80
       alignment: 0
@@ -591,8 +592,8 @@ TextureImporter:
     - name: divisionTexture
       rect:
         serializedVersion: 2
-        x: 2
-        y: 49
+        x: 329
+        y: 376
         width: 294
         height: 284
       alignment: 9
@@ -617,6 +618,16 @@ TextureImporter:
         height: 190
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: editPasswordButton
+      rect:
+        serializedVersion: 2
+        x: 653
+        y: 1558
+        width: 122
+        height: 122
+      alignment: 9
+      pivot: {x: .5, y: .504098356}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: editPictureButton
       rect:
@@ -732,7 +743,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 2
-        y: 335
+        y: 8
         width: 325
         height: 325
       alignment: 0
@@ -852,7 +863,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 768
-        y: 1133
+        y: 933
         width: 112
         height: 167
       alignment: 9
@@ -891,8 +902,8 @@ TextureImporter:
     - name: mainLogo
       rect:
         serializedVersion: 2
-        x: 499
-        y: 44
+        x: 431
+        y: 85
         width: 323
         height: 87
       alignment: 9
@@ -922,7 +933,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 768
-        y: 1302
+        y: 1102
         width: 115
         height: 119
       alignment: 0
@@ -951,8 +962,8 @@ TextureImporter:
     - name: myGameAddButton
       rect:
         serializedVersion: 2
-        x: 653
-        y: 1558
+        x: 1673
+        y: 1749
         width: 122
         height: 122
       alignment: 9
@@ -962,7 +973,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1673
-        y: 1749
+        y: 1625
         width: 122
         height: 122
       alignment: 9
@@ -971,8 +982,8 @@ TextureImporter:
     - name: myGameEditButton
       rect:
         serializedVersion: 2
-        x: 1673
-        y: 1625
+        x: 1671
+        y: 1501
         width: 122
         height: 122
       alignment: 9
@@ -981,8 +992,8 @@ TextureImporter:
     - name: myGameListButton
       rect:
         serializedVersion: 2
-        x: 1671
-        y: 1501
+        x: 777
+        y: 1547
         width: 122
         height: 122
       alignment: 9
@@ -1031,8 +1042,8 @@ TextureImporter:
     - name: pagination0
       rect:
         serializedVersion: 2
-        x: 777
-        y: 1547
+        x: 653
+        y: 1434
         width: 122
         height: 122
       alignment: 9
@@ -1041,8 +1052,8 @@ TextureImporter:
     - name: pagination1
       rect:
         serializedVersion: 2
-        x: 653
-        y: 1434
+        x: 777
+        y: 1423
         width: 122
         height: 122
       alignment: 9
@@ -1121,8 +1132,8 @@ TextureImporter:
     - name: roundButton
       rect:
         serializedVersion: 2
-        x: 777
-        y: 1423
+        x: 1668
+        y: 1377
         width: 122
         height: 122
       alignment: 9
@@ -1131,8 +1142,8 @@ TextureImporter:
     - name: skillPicto
       rect:
         serializedVersion: 2
-        x: 2187
-        y: 1535
+        x: 768
+        y: 1223
         width: 118
         height: 138
       alignment: 9
@@ -1221,8 +1232,8 @@ TextureImporter:
     - name: skillbutton
       rect:
         serializedVersion: 2
-        x: 1668
-        y: 1377
+        x: 2187
+        y: 1673
         width: 122
         height: 122
       alignment: 9
@@ -1391,8 +1402,8 @@ TextureImporter:
     - name: square_pretresse
       rect:
         serializedVersion: 2
-        x: 885
-        y: 928
+        x: 2
+        y: 662
         width: 387
         height: 387
       alignment: 9
@@ -1401,8 +1412,8 @@ TextureImporter:
     - name: square_roublard
       rect:
         serializedVersion: 2
-        x: 2
-        y: 662
+        x: 888
+        y: 928
         width: 387
         height: 387
       alignment: 9
@@ -1461,8 +1472,8 @@ TextureImporter:
     - name: startlevelblue
       rect:
         serializedVersion: 2
-        x: 2310
-        y: 1737
+        x: 2311
+        y: 1615
         width: 119
         height: 58
       alignment: 0
@@ -1471,8 +1482,8 @@ TextureImporter:
     - name: startlevelgrey
       rect:
         serializedVersion: 2
-        x: 2310
-        y: 1677
+        x: 2187
+        y: 1613
         width: 119
         height: 58
       alignment: 0
@@ -1481,8 +1492,8 @@ TextureImporter:
     - name: startlevelred
       rect:
         serializedVersion: 2
-        x: 2310
-        y: 1617
+        x: 768
+        y: 1363
         width: 119
         height: 58
       alignment: 0
@@ -1671,8 +1682,8 @@ TextureImporter:
     - name: transparentBackGround
       rect:
         serializedVersion: 2
-        x: 397
-        y: 31
+        x: 329
+        y: 72
         width: 100
         height: 100
       alignment: 0

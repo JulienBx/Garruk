@@ -24,7 +24,13 @@ public class ProfileMenuController : MenuController
 	{
 		base.resize ();
 		base.refreshMenuObject ();
+		NewProfileController.instance.cleanResultsContents ();
+		NewProfileController.instance.cleanFriendsContents ();
+		NewProfileController.instance.cleanChallengeButtons ();
+		NewProfileController.instance.cleanFriendsStatusButtons ();
 		NewProfileController.instance.resize ();
+		NewProfileController.instance.initializeFriendsTabContent ();
+		NewProfileController.instance.initializeResultsTabContent ();
 	}
 	public override void initializeScene()
 	{
