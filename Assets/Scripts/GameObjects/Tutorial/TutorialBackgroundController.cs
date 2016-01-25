@@ -30,8 +30,8 @@ public class TutorialBackgroundController : MonoBehaviour
 
 	public virtual void resize(Rect rect, float clickableSectionXRatio, float clickableSectionYRatio)
 	{
-		float worldHeight = 2f*Camera.main.GetComponent<Camera>().orthographicSize;
-		float worldWidth = ((float)Screen.width/(float)Screen.height) * worldHeight;
+		float worldHeight = ApplicationDesignRules.worldWidth;
+		float worldWidth = ApplicationDesignRules.worldHeight;
 		int backgroundSizeX = 5000;
 		int backgroundSizeY = 5000;
 		int circleBackgroundSizeX = 200;

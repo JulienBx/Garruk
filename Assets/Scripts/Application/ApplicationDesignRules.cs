@@ -233,7 +233,7 @@ public class ApplicationDesignRules : MonoBehaviour
 	static public Vector3 subMainTitleScale;
 
 	static public Vector3 menuPosition = new Vector3(0f,40f,0f);
-	static public Vector3 tutorialPosition = new Vector3(0f,100f,0f);
+	static public Vector3 tutorialPosition = new Vector3(0f,200f,0f);
 	static public Vector3 backgroundPosition = new Vector3(0f,20f,0f);
 	static public Vector3 focusedCardPosition;
 	static public Vector3 nextLevelPopUpPosition;

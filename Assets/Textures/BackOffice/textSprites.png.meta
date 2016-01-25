@@ -18,7 +18,7 @@ TextureImporter:
   bumpmap:
     convertToNormalMap: 0
     externalNormalMap: 0
-    heightScale: .25
+    heightScale: 0.25
     normalMapFilter: 0
   isReadable: 0
   grayScaleToAlpha: 0
@@ -43,7 +43,7 @@ TextureImporter:
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
-  spritePivot: {x: .5, y: .5}
+  spritePivot: {x: 0.5, y: 0.5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 100
   alphaIsTransparency: 1
@@ -59,8 +59,17 @@ TextureImporter:
         width: 52
         height: 51
       alignment: 9
-      pivot: {x: .5, y: .509803951}
+      pivot: {x: 0.5, y: 0.50980395}
       border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -22, y: 25}
+        - {x: -26, y: 11}
+        - {x: -26, y: -21}
+        - {x: -24, y: -26}
+        - {x: 26, y: -26}
+        - {x: 26, y: 13}
+        - {x: 15, y: 25}
+    outline: []
   spritePackingTag: 
   userData: 
   assetBundleName: 

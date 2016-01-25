@@ -14,6 +14,8 @@ TextureImporter:
     21300014: drag1
     21300016: drag2
     21300018: drag3
+    21300020: slideDown
+    21300022: slideUp
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -27,7 +29,7 @@ TextureImporter:
   bumpmap:
     convertToNormalMap: 0
     externalNormalMap: 0
-    heightScale: .25
+    heightScale: 0.25
     normalMapFilter: 0
   isReadable: 0
   grayScaleToAlpha: 0
@@ -47,11 +49,12 @@ TextureImporter:
   lightmap: 0
   rGBM: 0
   compressionQuality: 50
+  allowsAlphaSplitting: 0
   spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
-  spritePivot: {x: .5, y: .5}
+  spritePivot: {x: 0.5, y: 0.5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 108
   alphaIsTransparency: 1
@@ -67,8 +70,27 @@ TextureImporter:
         width: 1537
         height: 902
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 768.5, y: 11}
+        - {x: 328.5, y: 451}
+        - {x: 308.5, y: 451}
+        - {x: 304.5, y: 448}
+        - {x: 303.5, y: 445}
+        - {x: 303.5, y: 234}
+        - {x: -761.5, y: 234}
+        - {x: -766.5, y: 232}
+        - {x: -768.5, y: 230}
+        - {x: -768.5, y: -229}
+        - {x: -766.5, y: -232}
+        - {x: -761.5, y: -234}
+        - {x: 303.5, y: -234}
+        - {x: 303.5, y: -445}
+        - {x: 304.5, y: -448}
+        - {x: 308.5, y: -451}
+        - {x: 328.5, y: -451}
+        - {x: 768.5, y: -11}
     - name: buttonBorder
       rect:
         serializedVersion: 2
@@ -77,8 +99,21 @@ TextureImporter:
         width: 427
         height: 107
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -204.5, y: 53.5}
+        - {x: -213.5, y: 35.5}
+        - {x: -213.5, y: -34.5}
+        - {x: -192.5, y: -53.5}
+        - {x: 200.5, y: -53.5}
+        - {x: 213.5, y: -25.5}
+        - {x: 213.5, y: 34.5}
+        - {x: 198.5, y: 53.5}
+      - - {x: -163.5, y: 37.5}
+        - {x: 163.5, y: 37.5}
+        - {x: 163.5, y: -37.5}
+        - {x: -163.5, y: -37.5}
     - name: drag0
       rect:
         serializedVersion: 2
@@ -87,18 +122,24 @@ TextureImporter:
         width: 86
         height: 109
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -43, y: 54.5}
+        - {x: -43, y: -54.5}
+        - {x: 43, y: -54.5}
+        - {x: 43, y: 54.5}
     - name: drag1
       rect:
         serializedVersion: 2
-        x: 1773
+        x: 1862
         y: 2875
         width: 160
         height: 28
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
     - name: drag2
       rect:
         serializedVersion: 2
@@ -107,28 +148,94 @@ TextureImporter:
         width: 86
         height: 109
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -38, y: 54.5}
+        - {x: -43, y: 47.5}
+        - {x: -43, y: -54.5}
+        - {x: 43, y: -54.5}
+        - {x: 43, y: 48.5}
+        - {x: 37, y: 54.5}
     - name: drag3
       rect:
         serializedVersion: 2
         x: 1541
-        y: 2617
+        y: 1991
         width: 230
         height: 286
       alignment: 9
-      pivot: {x: .497826099, y: .517482519}
+      pivot: {x: 0.4978261, y: 0.5174825}
       border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 66.5, y: 63}
+        - {x: -3.5, y: 73}
+        - {x: -10.5, y: 137}
+        - {x: -12.5, y: 138}
+        - {x: -60.5, y: 138}
+        - {x: -74.5, y: 40}
+        - {x: -94.5, y: 30}
+        - {x: -114.5, y: 12}
+        - {x: -114.5, y: -11}
+        - {x: -79.5, y: -85}
+        - {x: -48.5, y: -148}
+        - {x: 76.5, y: -148}
+        - {x: 99.5, y: -115}
+        - {x: 115.5, y: -66}
+        - {x: 115.5, y: 28}
     - name: popUpBackground
       rect:
         serializedVersion: 2
         x: 814
-        y: 1498
+        y: 1379
         width: 810
         height: 610
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 397, y: -291}
+        - {x: 397, y: -290}
+        - {x: 400, y: -288}
+        - {x: 401, y: -285}
+        - {x: 403, y: -282}
+        - {x: 404, y: -278}
+        - {x: 405, y: -277}
+        - {x: 405, y: 277}
+        - {x: 400, y: 288}
+        - {x: 391, y: 297}
+        - {x: 390, y: 297}
+        - {x: 388, y: 300}
+        - {x: 385, y: 301}
+        - {x: 382, y: 303}
+        - {x: 378, y: 304}
+        - {x: 377, y: 305}
+        - {x: -377, y: 305}
+        - {x: -388, y: 300}
+        - {x: -390, y: 297}
+        - {x: -391, y: 297}
+        - {x: -397, y: 291}
+        - {x: -397, y: 290}
+        - {x: -400, y: 288}
+        - {x: -401, y: 285}
+        - {x: -403, y: 282}
+        - {x: -404, y: 278}
+        - {x: -405, y: 277}
+        - {x: -405, y: -277}
+        - {x: -400, y: -288}
+        - {x: -397, y: -290}
+        - {x: -397, y: -291}
+        - {x: -391, y: -297}
+        - {x: -390, y: -297}
+        - {x: -388, y: -300}
+        - {x: -385, y: -301}
+        - {x: -382, y: -303}
+        - {x: -378, y: -304}
+        - {x: -377, y: -305}
+        - {x: 377, y: -305}
+        - {x: 388, y: -300}
+        - {x: 390, y: -297}
+        - {x: 391, y: -297}
     - name: popUpBackgroundLarge
       rect:
         serializedVersion: 2
@@ -137,18 +244,165 @@ TextureImporter:
         width: 810
         height: 810
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 388, y: -398}
+        - {x: 389, y: -398}
+        - {x: 398, y: -390}
+        - {x: 405, y: -375}
+        - {x: 405, y: 376}
+        - {x: 400, y: 387}
+        - {x: 398, y: 389}
+        - {x: 390, y: 398}
+        - {x: 375, y: 405}
+        - {x: -376, y: 405}
+        - {x: -387, y: 400}
+        - {x: -388, y: 398}
+        - {x: -389, y: 398}
+        - {x: -398, y: 390}
+        - {x: -405, y: 375}
+        - {x: -405, y: -376}
+        - {x: -400, y: -387}
+        - {x: -398, y: -388}
+        - {x: -398, y: -389}
+        - {x: -390, y: -398}
+        - {x: -375, y: -405}
+        - {x: 376, y: -405}
+        - {x: 387, y: -400}
     - name: popUpBackgroundSmall
       rect:
         serializedVersion: 2
         x: 814
-        y: 1086
+        y: 967
         width: 810
         height: 410
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 388, y: -198}
+        - {x: 389, y: -198}
+        - {x: 398, y: -190}
+        - {x: 405, y: -175}
+        - {x: 405, y: 176}
+        - {x: 400, y: 187}
+        - {x: 398, y: 189}
+        - {x: 390, y: 198}
+        - {x: 375, y: 205}
+        - {x: -376, y: 205}
+        - {x: -387, y: 200}
+        - {x: -388, y: 198}
+        - {x: -389, y: 198}
+        - {x: -398, y: 190}
+        - {x: -405, y: 175}
+        - {x: -405, y: -176}
+        - {x: -400, y: -187}
+        - {x: -398, y: -188}
+        - {x: -398, y: -189}
+        - {x: -390, y: -198}
+        - {x: -375, y: -205}
+        - {x: 376, y: -205}
+        - {x: 387, y: -200}
+    - name: slideDown
+      rect:
+        serializedVersion: 2
+        x: 1541
+        y: 2648
+        width: 319
+        height: 255
+      alignment: 9
+      pivot: {x: 0.5031348, y: 0.5470588}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -93.5, y: -72.5}
+        - {x: -101.5, y: -70.5}
+        - {x: -142.5, y: -70.5}
+        - {x: -160.5, y: -98.5}
+        - {x: -160.5, y: -110.5}
+        - {x: -122.5, y: -139.5}
+        - {x: -113.5, y: -139.5}
+        - {x: -74.5, y: -106.5}
+        - {x: -74.5, y: -103.5}
+        - {x: -76.5, y: -101.5}
+      - - {x: 85.5, y: 115.5}
+        - {x: 28.5, y: 115.5}
+        - {x: -27.5, y: 94.5}
+        - {x: -46.5, y: 71.5}
+        - {x: -87.5, y: 108.5}
+        - {x: -116.5, y: 105.5}
+        - {x: -124.5, y: 94.5}
+        - {x: -124.5, y: 65.5}
+        - {x: -66.5, y: -1.5}
+        - {x: -93.5, y: -35.5}
+        - {x: -77.5, y: -68.5}
+        - {x: 28.5, y: -104.5}
+        - {x: 60.5, y: -114.5}
+        - {x: 80.5, y: -114.5}
+        - {x: 158.5, y: -48.5}
+        - {x: 158.5, y: 25.5}
+        - {x: 90.5, y: 110.5}
+      - - {x: -138.5, y: -28.5}
+        - {x: -138.5, y: -64.5}
+        - {x: -136.5, y: -64.5}
+        - {x: -111.5, y: -65.5}
+        - {x: -97.5, y: -65.5}
+        - {x: -95.5, y: -62.5}
+        - {x: -95.5, y: -29.5}
+        - {x: -100.5, y: -28.5}
+      - - {x: -138.5, y: 1.5}
+        - {x: -138.5, y: -22.5}
+        - {x: -132.5, y: -23.5}
+        - {x: -95.5, y: -23.5}
+        - {x: -95.5, y: 0.5}
+        - {x: -97.5, y: 1.5}
+    - name: slideUp
+      rect:
+        serializedVersion: 2
+        x: 1541
+        y: 2279
+        width: 306
+        height: 367
+      alignment: 9
+      pivot: {x: 0.49509802, y: 0.45640326}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 80.5, y: 62.5}
+        - {x: 32.5, y: 62.5}
+        - {x: 11.5, y: 54.5}
+        - {x: -50.5, y: 23.5}
+        - {x: -100.5, y: 62.5}
+        - {x: -103.5, y: 62.5}
+        - {x: -121.5, y: 51.5}
+        - {x: -128.5, y: 36.5}
+        - {x: -128.5, y: 13.5}
+        - {x: -123.5, y: 5.5}
+        - {x: -66.5, y: -54.5}
+        - {x: -91.5, y: -77.5}
+        - {x: -92.5, y: -115.5}
+        - {x: -2.5, y: -155.5}
+        - {x: 57.5, y: -167.5}
+        - {x: 86.5, y: -167.5}
+        - {x: 154.5, y: -97.5}
+        - {x: 154.5, y: -50.5}
+        - {x: 146.5, y: -7.5}
+      - - {x: -88.5, y: 60.5}
+        - {x: -88.5, y: 83.5}
+        - {x: -130.5, y: 83.5}
+        - {x: -130.5, y: 60.5}
+      - - {x: -130.5, y: 125.5}
+        - {x: -130.5, y: 90.5}
+        - {x: -88.5, y: 90.5}
+        - {x: -88.5, y: 125.5}
+      - - {x: -104.5, y: 199.5}
+        - {x: -114.5, y: 199.5}
+        - {x: -151.5, y: 173.5}
+        - {x: -151.5, y: 155.5}
+        - {x: -131.5, y: 132.5}
+        - {x: -87.5, y: 132.5}
+        - {x: -66.5, y: 161.5}
+        - {x: -65.5, y: 163.5}
+        - {x: -65.5, y: 167.5}
     - name: transparentWhiteBackground
       rect:
         serializedVersion: 2
@@ -157,8 +411,14 @@ TextureImporter:
         width: 1920
         height: 1080
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -960, y: 540}
+        - {x: -960, y: -540}
+        - {x: 960, y: -540}
+        - {x: 960, y: 540}
+    outline: []
   spritePackingTag: 
   userData: 
   assetBundleName: 

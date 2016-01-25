@@ -82,7 +82,14 @@ public class MenuController : MonoBehaviour
 			if(this.helpTimer>0.5f)
 			{
 				this.helpTimer=0f;
-				gameObject.transform.FindChild("UserBlock").FindChild("Help").GetComponent<MenuHelpController>().changeColor();
+				if(ApplicationDesignRules.isMobileScreen)
+				{
+					gameObject.transform.FindChild("UserBlock").FindChild("Help").GetComponent<MobileMenuHelpController>().changeColor();
+				}
+				else
+				{
+					gameObject.transform.FindChild("UserBlock").FindChild("Help").GetComponent<MenuHelpController>().changeColor();
+				}
 			}
 		}
 		if(Input.GetKeyDown(KeyCode.Return)) 
@@ -905,12 +912,19 @@ public class MenuController : MonoBehaviour
 	{
 		TutorialObjectController.instance.helpClicked ();
 	}
-	public void setFlashingHelp(bool value)
+	public void setFlashingHelp (bool value)
 	{
-		this.isHelpFlashing=value;
-		if(!value)
+		this.isHelpFlashing = value;
+		if (!value) 
 		{
-			gameObject.transform.FindChild("UserBlock").FindChild("Help").GetComponent<MenuHelpController>().reset();
+			if (ApplicationDesignRules.isMobileScreen) 
+			{
+				gameObject.transform.FindChild("MobileHelpButton").GetComponent<MobileMenuHelpController>().reset();	
+			}
+			else
+			{							
+				gameObject.transform.FindChild("UserBlock").FindChild("Help").GetComponent<MenuHelpController>().reset();
+			}
 		}
 	}
 	public Vector3 returnButtonPosition(int id)
