@@ -1159,6 +1159,10 @@ public class NewStoreController : MonoBehaviour
 	{
 		return this.focusedCard;
 	}
+	public Vector3 getMediumScrollCameraPosition()
+	{
+		return this.mediumScrollCamera.transform.position;
+	}
 
 	#endregion
 }

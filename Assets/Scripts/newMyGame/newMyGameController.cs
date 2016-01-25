@@ -1503,6 +1503,7 @@ public class newMyGameController : MonoBehaviour
 		this.newDeckPopUpDisplayed = true;
 		this.newDeckPopUp.SetActive (true);
 		this.newDeckPopUpResize ();
+		TutorialObjectController.instance.tutorialTrackPoint();
 	}
 	public void displayEditDeckPopUp()
 	{
@@ -1525,6 +1526,7 @@ public class newMyGameController : MonoBehaviour
 		this.newDeckPopUp.SetActive (false);
 		MenuController.instance.hideTransparentBackground();
 		this.newDeckPopUpDisplayed = false;
+		TutorialObjectController.instance.tutorialTrackPoint();
 	}
 	public void hideEditDeckPopUp()
 	{
@@ -2120,7 +2122,12 @@ public class newMyGameController : MonoBehaviour
 	}
 	public Vector3 getNewDeckButtonPosition()
 	{
-		return this.deckCreationButton.transform.position;
+		Vector3 deckCreationButtonPosition = this.deckCreationButton.transform.position;
+		if(ApplicationDesignRules.isMobileScreen)
+		{
+			deckCreationButtonPosition.y=deckCreationButtonPosition.y-ApplicationDesignRules.topBarWorldSize.y+0.2f-this.upperScrollCamera.GetComponent<ScrollingController>().getInterval();
+		}
+		return deckCreationButtonPosition;
 	}
 	public Vector3 getCardsPosition(int id)
 	{
@@ -2158,6 +2165,14 @@ public class newMyGameController : MonoBehaviour
 	public bool getIsFocusedCardDisplayed()
 	{
 		return this.isCardFocusedDisplayed;
+	}
+	public Vector3 getUpperScrollCameraPosition()
+	{
+		return this.upperScrollCamera.transform.position;
+	}
+	public bool getIsNewDeckPopUpDisplayed()
+	{
+		return this.newDeckPopUpDisplayed;
 	}
 	#endregion
 }

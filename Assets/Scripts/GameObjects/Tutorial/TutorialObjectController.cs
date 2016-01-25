@@ -37,6 +37,8 @@ public class TutorialObjectController : MonoBehaviour
 	private GameObject popUp;
 	private GameObject exitButton;
 	private GameObject dragHelp;
+	private GameObject scrollUpHelp;
+	private GameObject scrollDownHelp;
 
 	private Rect backgroundRect;
 	private float popUpHalfHeight;
@@ -45,6 +47,7 @@ public class TutorialObjectController : MonoBehaviour
 	private bool isTutorialLaunched;
 	private bool isTutorialDisplayed;
 	private bool isHelpLaunched;
+	private bool isScrolling;
 
 	void Update()
 	{
@@ -83,6 +86,13 @@ public class TutorialObjectController : MonoBehaviour
 				gameObject.transform.FindChild("Arrow").localPosition=arrowPosition;
 			}
 		}
+		if(isScrolling)
+		{
+			if(isTutorialLaunched)
+			{
+				this.scrollingExceptions();
+			}
+		}
 	}
 	void Awake () 
 	{
@@ -99,6 +109,8 @@ public class TutorialObjectController : MonoBehaviour
 		this.popUpDescription = this.popUp.transform.FindChild ("Description").gameObject;
 		this.popUpNextButton= this.popUp.transform.FindChild ("NextButton").gameObject;
 		this.dragHelp = gameObject.transform.FindChild ("DragHelp").gameObject;
+		this.scrollDownHelp = gameObject.transform.FindChild("ScrollDownHelp").gameObject;
+		this.scrollUpHelp=gameObject.transform.FindChild("ScrollUpHelp").gameObject;
 	}
 	void Start () 
 	{	
@@ -138,9 +150,25 @@ public class TutorialObjectController : MonoBehaviour
 	{
 		StartCoroutine (this.player.setTutorialStep (id));
 	}
-	public void displayDragHelp(bool value)
+	public void displayDragHelp(bool value, bool isHorizontal)
 	{
 		this.dragHelp.SetActive (value);
+		if(isHorizontal)
+		{
+			this.dragHelp.GetComponent<DragHelpController>().setHorizontalTranslation();
+		}
+		else
+		{
+			this.dragHelp.GetComponent<DragHelpController>().setVerticalTranslation();
+		}
+	}
+	public void displayScrollUpHelp(bool value)
+	{
+		this.scrollUpHelp.SetActive(value);
+	}
+	public void displayScrollDownHelp(bool value)
+	{
+		this.scrollDownHelp.SetActive(value);
 	}
 	public void displayBackground(bool value)
 	{
@@ -187,9 +215,36 @@ public class TutorialObjectController : MonoBehaviour
 		this.arrow.SetActive (value);
 		this.move = false;
 	}
+	public void setIsScrolling(bool value)
+	{
+		if(ApplicationDesignRules.isMobileScreen)
+		{	
+			this.isScrolling=value;
+		}
+		else
+		{
+			this.isScrolling=false;
+		}
+	}
+	public bool getIsMoving()
+	{
+		return move;
+	}
+	public bool getIsScrolling()
+	{
+		return isScrolling;
+	}
 	public void resizeDragHelp(Vector3 position)
 	{
 		this.dragHelp.transform.localPosition = position;
+	}
+	public void resizeScrollUpHelp(Vector3 position)
+	{
+		this.scrollUpHelp.transform.localPosition=position;
+	}
+	public void resizeScrollDownHelp(Vector3 position)
+	{	
+		this.scrollDownHelp.transform.localPosition=position;
 	}
 	public void resizeArrow(Vector3 position)
 	{
@@ -197,9 +252,17 @@ public class TutorialObjectController : MonoBehaviour
 	}
 	public void resizePopUp(Vector3 position)
 	{
-		if(ApplicationDesignRules.worldWidth/2f-position.x<this.popUpHalfWidth)
+		if(Mathf.Abs(ApplicationDesignRules.worldWidth/2f)-Mathf.Abs(position.x)<this.popUpHalfWidth)
 		{
-			position.x=ApplicationDesignRules.worldWidth/2f-this.popUpHalfWidth;
+			if(position.x>0)
+			{
+				position.x=ApplicationDesignRules.worldWidth/2f-this.popUpHalfWidth;
+			}
+			else
+			{
+				position.x=-ApplicationDesignRules.worldWidth/2f+this.popUpHalfWidth;
+			}
+
 		}
 		this.popUp.transform.localPosition = position;
 	}
@@ -285,33 +348,52 @@ public class TutorialObjectController : MonoBehaviour
 			if(!isResizing)
 			{
 				this.displayPopUp(0);
-				this.setUpArrow();
 				this.displayNextButton(false);
 				this.setPopUpTitle("Une équipe, vite !");
 				this.setPopUpDescription("Avant de pouvoir aller plus loin, il vous faut créer une équipe de combattants prete à vous défendre dans cet environnement hostile");
 				this.displayBackground(true);
 				this.displayExitButton(true);
-				this.displayDragHelp(false);
+				this.displayDragHelp(false,false);
 			}
 			gameObjectPosition = MenuController.instance.getButtonPosition(1);
-			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2.5f,0.75f),0.8f,0.8f);
-			this.drawUpArrow();
+			if(ApplicationDesignRules.isMobileScreen)
+			{
+				this.setDownArrow();
+				this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,1.5f,1.5f),0.6f,0.6f);
+				this.drawDownArrow();
+			}
+			else
+			{
+				this.setUpArrow();
+				this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2.5f,0.75f),0.8f,0.8f);
+				this.drawUpArrow();
+			}
 			break;
 		case 101: // Texte pour indiquer au joueur qu'il doit cliquer sur "Jouer" pour faire un premier match
 			if(!isResizing)
 			{
 				this.displayPopUp(0);
-				this.setRightArrow();
 				this.displayNextButton(false);
 				this.setPopUpTitle("Premier combat");
 				this.setPopUpDescription("Il est temps de participer à votre premier combat, votre adversaire vous attend dans l'arène");
 				this.displayBackground(true);
 				this.displayExitButton(true);
-				this.displayDragHelp(false);
+				this.displayDragHelp(false,false);
+				this.displayDragHelp(false,false);
 			}
 			gameObjectPosition = MenuController.instance.getButtonPosition(5);
-			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2.5f,0.75f),0.8f,0.8f);
-			this.drawRightArrow();
+			if(ApplicationDesignRules.isMobileScreen)
+			{
+				this.setDownArrow();
+				this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,1.5f,1.5f),0.6f,0.6f);
+				this.drawDownArrow();
+			}
+			else
+			{
+				this.setUpArrow();
+				this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,2.5f,0.75f),0.8f,0.8f);
+				this.drawUpArrow();
+			}
 			break;
 		case 102: // Pas de texte, séquence pour cliquer sur le bouton match amical
 			if(!isResizing)
@@ -319,15 +401,18 @@ public class TutorialObjectController : MonoBehaviour
 				this.displayPopUp(-1);
 				this.setUpArrow();
 				this.displayNextButton(false);
-				this.displaySquareBackground(true);
+				this.displayBackground(true);
 				this.displayExitButton(true);
-				this.displayDragHelp(false);
+				this.displayDragHelp(false,false);
 			}
 			gameObjectPosition = PlayPopUpController.instance.getFriendlyGameButtonPosition();
-			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,3.5f,1f),0.8f,0.8f);
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,5f,1f),0.8f,0.8f);
 			this.drawUpArrow();
 			break;
 		}
+	}
+	public virtual void scrollingExceptions()
+	{
 	}
 
 	#endregion
@@ -352,7 +437,7 @@ public class TutorialObjectController : MonoBehaviour
 				this.setPopUpDescription("Les cristaliens se divisent en dix classes d'unités, chacune possédant ses propres compétences. L'unité prend de base le nom de sa classe et peut etre renommée par son colon.\n\nLa première compétence de l'unité est sa compétence passive, lui conférant des bonus permanents. Les compétences passives permettent de distinguer différents types d'unités au sein d'une meme classe.\n\nEnfin l'expérience de l'unité lui permet d'acquérir de nouvelles compétences et de faire progresser ses caractéristiques");
 				this.displaySquareBackground(true);
 				this.displayExitButton(true);
-				this.displayDragHelp(false);
+				this.displayDragHelp(false,false);
 			}
 			gameObjectPosition=getCardFocused().transform.FindChild("Name").position;
 			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y-0.6f,5.35f,2f),0f,0f);
@@ -368,7 +453,7 @@ public class TutorialObjectController : MonoBehaviour
 				this.setPopUpDescription("Chaque Cristalien a développé des compétences uniques au contact du Cristal (plus de 150 découvertes à ce jour). Chaque cristalien peut posséder 3 compétences en plus de sa compétence passive.");
 				this.displaySquareBackground(true);
 				this.displayExitButton(true);
-				this.displayDragHelp(false);
+				this.displayDragHelp(false,false);
 			}
 			gameObjectPosition=getCardFocused().transform.FindChild("Skill2").position;
 			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,5.35f,3f),0f,0f);
@@ -384,7 +469,7 @@ public class TutorialObjectController : MonoBehaviour
 				this.setPopUpDescription("Les caractéristiques déterminent la force et la santé de l'unité. Dépendantes de la classe, elles peuvent etre améliorées avec l'expérience. La santé se régènère à la fin de chaque combat, les blessures létales ayant été abolies il y a quelques années");
 				this.displaySquareBackground(true);
 				this.displayExitButton(true);
-				this.displayDragHelp(false);
+				this.displayDragHelp(false,false);
 			}
 			gameObjectPosition=getCardFocused().transform.FindChild("Life").position;
 			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,5.35f,1f),0f,0f);
@@ -401,10 +486,15 @@ public class TutorialObjectController : MonoBehaviour
 	public void resize()
 	{
 		this.isResizing = true;
-		Vector2 exitButtonSize = new Vector2(425f,105f);
-		float exitButtonScale = 0.49f;
-		Vector2 exitButtonWorldSize = (exitButtonSize / ApplicationDesignRules.pixelPerUnit) * exitButtonScale;
-		this.exitButton.transform.localPosition=new Vector3(ApplicationDesignRules.worldWidth/2f-0.3f-exitButtonWorldSize.x/2f, -ApplicationDesignRules.worldHeight/2f+0.3f+exitButtonWorldSize.y/2f,-9.5f);
+		this.exitButton.transform.localScale=ApplicationDesignRules.button62Scale;
+		if(ApplicationDesignRules.isMobileScreen)
+		{
+			this.exitButton.transform.localPosition=new Vector3(ApplicationDesignRules.worldWidth/2f-ApplicationDesignRules.blockHorizontalSpacing-ApplicationDesignRules.button62WorldSize.x/2f, ApplicationDesignRules.worldHeight/2f-ApplicationDesignRules.topBarWorldSize.y/2f+0.05f,-9.5f);
+		}
+		else
+		{
+			this.exitButton.transform.localPosition=new Vector3(ApplicationDesignRules.worldWidth/2f-ApplicationDesignRules.blockHorizontalSpacing-ApplicationDesignRules.button62WorldSize.x/2f, -ApplicationDesignRules.worldHeight/2f+ApplicationDesignRules.buttonVerticalSpacing+ApplicationDesignRules.button62WorldSize.y/2f+ApplicationDesignRules.downMargin,-9.5f);
+		}
 		if(this.isTutorialLaunched)
 		{
 			this.launchSequence(sequenceID);
@@ -478,6 +568,36 @@ public class TutorialObjectController : MonoBehaviour
 		this.move=true;
 		this.currentTranslation=0f;
 		this.moveBack=false;
+	}
+	public void adjustUpArrowY(float correction)
+	{
+		Vector3 arrowLocalPosition = this.arrow.transform.localPosition;
+		arrowLocalPosition.y=correction+0.3f-backgroundRect.height/2f;
+		this.arrow.transform.localPosition=arrowLocalPosition;
+	}
+	public void adjustDownArrowY(float correction)
+	{
+		Vector3 arrowLocalPosition = this.arrow.transform.localPosition;
+		arrowLocalPosition.y=correction+0.3f+backgroundRect.height/2f;
+		this.arrow.transform.localPosition=arrowLocalPosition;
+	}
+	public void adjustLeftArrowY(float correction)
+	{
+		Vector3 arrowLocalPosition = this.arrow.transform.localPosition;
+		arrowLocalPosition.y=correction;
+		this.arrow.transform.localPosition=arrowLocalPosition;
+	}
+	public void adjustRightArrowY(float correction)
+	{
+		Vector3 arrowLocalPosition = this.arrow.transform.localPosition;
+		arrowLocalPosition.y=correction;
+		this.arrow.transform.localPosition=arrowLocalPosition;
+	}
+	public void adjustBackgroundY(float correction)
+	{
+		Vector3 backgroundLocalPosition = this.background.transform.localPosition;
+		backgroundLocalPosition.y=correction;
+		this.background.transform.localPosition=backgroundLocalPosition;
 	}
 	public void tutorialTrackPoint()
 	{
@@ -619,7 +739,7 @@ public class TutorialObjectController : MonoBehaviour
 		this.displayBackground (false);
 		this.displayPopUp (-1);
 		this.displayArrow (false);
-		this.displayDragHelp (false);
+		this.displayDragHelp (false,false);
 		this.displayExitButton (false);
 	}
 	public virtual void endHelp()

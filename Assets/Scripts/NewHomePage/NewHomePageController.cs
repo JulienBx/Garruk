@@ -876,8 +876,8 @@ public class NewHomePageController : MonoBehaviour
 		}
 		else
 		{
+			this.deckSelectionButton.SetActive(false);
 			this.deckTitle.GetComponent<TextMeshPro> ().text = ("Aucune armée formée").ToUpper();
-			this.deckSelectionButton.transform.FindChild("Title").GetComponent<TextMeshPro>().text="Créer";
 		}
 		for(int i=0;i<this.deckCards.Length;i++)
 		{

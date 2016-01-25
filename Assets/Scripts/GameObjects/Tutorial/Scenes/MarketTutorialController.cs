@@ -75,7 +75,7 @@ public class MarketTutorialController : TutorialObjectController
 				this.setPopUpDescription("Les colons peuvent acquérir des unités appartenant à leurs confrères, moyennant une compensation décidée par le vendeur. Les unités disponibles sur ce marché sont toutes visibles ici");
 				this.displaySquareBackground(true);
 				this.displayExitButton(true);
-				this.displayDragHelp(false);
+				this.displayDragHelp(false,false);
 			}
 			
 			gameObjectPosition=NewMarketController.instance.getCardsBlockOrigin();
@@ -94,7 +94,7 @@ public class MarketTutorialController : TutorialObjectController
 				this.setPopUpDescription("Le marché est immense, mais ces filtres vous permettront de mettre la main sur l'unité idéale pour vos équipes !");
 				this.displaySquareBackground(true);
 				this.displayExitButton(true);
-				this.displayDragHelp(false);
+				this.displayDragHelp(false,false);
 			}
 			gameObjectPosition=NewMarketController.instance.getFiltersBlockOrigin();
 			gameObjectPosition2=NewMarketController.instance.getCardsBlockOrigin();

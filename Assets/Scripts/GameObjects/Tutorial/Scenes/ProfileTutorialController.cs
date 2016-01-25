@@ -77,7 +77,7 @@ public class ProfileTutorialController : TutorialObjectController
 				}
 				this.displaySquareBackground(true);
 				this.displayExitButton(true);
-				this.displayDragHelp(false);
+				this.displayDragHelp(false,false);
 			}
 			
 			gameObjectPosition=NewProfileController.instance.getProfileBlockOrigin();
@@ -104,7 +104,7 @@ public class ProfileTutorialController : TutorialObjectController
 				}
 				this.displaySquareBackground(true);
 				this.displayExitButton(true);
-				this.displayDragHelp(false);
+				this.displayDragHelp(false,false);
 			}
 			gameObjectPosition=NewProfileController.instance.getResultsBlockOrigin();
 			gameObjectPosition2=NewProfileController.instance.getFriendsBlockOrigin();
@@ -130,7 +130,7 @@ public class ProfileTutorialController : TutorialObjectController
 				}
 				this.displaySquareBackground(true);
 				this.displayExitButton(true);
-				this.displayDragHelp(false);
+				this.displayDragHelp(false,false);
 			}
 			gameObjectPosition=NewProfileController.instance.getFriendsBlockOrigin();
 			gameObjectPosition2=NewProfileController.instance.getProfileBlockOrigin();
@@ -148,7 +148,7 @@ public class ProfileTutorialController : TutorialObjectController
 				this.setPopUpDescription("Recherchez ici un colon en inscrivant sur son nom!");
 				this.displaySquareBackground(true);
 				this.displayExitButton(true);
-				this.displayDragHelp(false);
+				this.displayDragHelp(false,false);
 			}
 			gameObjectPosition=NewProfileController.instance.getSearchBlockOrigin();
 			gameObjectPosition2=NewProfileController.instance.getProfileBlockOrigin();

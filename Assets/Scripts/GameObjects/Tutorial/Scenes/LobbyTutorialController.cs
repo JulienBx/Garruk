@@ -68,7 +68,7 @@ public class LobbyTutorialController : TutorialObjectController
 				this.setPopUpDescription("La conquete des satellites de Cristalia vous permettra de gagner de plus en plus de cristal. Pour conquérir un satellite, il vous faudra défier de nombreux colons et les vaincre. Vous pouvez ici consulter l'état de la guerre sur le satellite sur lequel vous vous trouvez");
 				this.displaySquareBackground(true);
 				this.displayExitButton(true);
-				this.displayDragHelp(false);
+				this.displayDragHelp(false,false);
 			}
 			
 			gameObjectPosition=NewLobbyController.instance.getMainBlockOrigin();
@@ -87,7 +87,7 @@ public class LobbyTutorialController : TutorialObjectController
 				this.setPopUpDescription("La guerre fait rage sur les satellites de Cristalia. Plus vous deviendrez fort, plus vous pourrez accéder à des satellites riches en ressources. Consultez ici la richesse du satellite et les conditions d'accès au suivant");
 				this.displaySquareBackground(true);
 				this.displayExitButton(true);
-				this.displayDragHelp(false);
+				this.displayDragHelp(false,false);
 			}
 			gameObjectPosition=NewLobbyController.instance.getCompetitionBlockOrigin();
 			gameObjectPosition2=NewLobbyController.instance.getLastResultsBlockOrigin();
@@ -105,7 +105,7 @@ public class LobbyTutorialController : TutorialObjectController
 				this.setPopUpDescription("Accédez ici à un compte-rendu de vos derniers combats sur le satellite");
 				this.displaySquareBackground(true);
 				this.displayExitButton(true);
-				this.displayDragHelp(false);
+				this.displayDragHelp(false,false);
 			}
 			gameObjectPosition=NewLobbyController.instance.getLastResultsBlockOrigin();
 			gameObjectPosition2=NewLobbyController.instance.getMainBlockOrigin();
@@ -123,7 +123,7 @@ public class LobbyTutorialController : TutorialObjectController
 				this.setPopUpDescription("Ces statistiques vous permettront d'évaluer l'état de la conquete du satellite et votre niveau par rapport aux autres colons");
 				this.displaySquareBackground(true);
 				this.displayExitButton(true);
-				this.displayDragHelp(false);
+				this.displayDragHelp(false,false);
 			}
 			gameObjectPosition=NewLobbyController.instance.getStatsBlockOrigin();
 			gameObjectPosition2=NewLobbyController.instance.getMainBlockOrigin();

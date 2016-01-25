@@ -84,7 +84,7 @@ public class MenuController : MonoBehaviour
 				this.helpTimer=0f;
 				if(ApplicationDesignRules.isMobileScreen)
 				{
-					gameObject.transform.FindChild("UserBlock").FindChild("Help").GetComponent<MobileMenuHelpController>().changeColor();
+					gameObject.transform.FindChild("MobileHelpButton").GetComponent<MobileMenuHelpController>().changeColor();
 				}
 				else
 				{
@@ -937,14 +937,30 @@ public class MenuController : MonoBehaviour
 	}
 	public Vector3 getButtonPosition(int id)
 	{
-		Vector3 buttonPosition = gameObject.transform.FindChild ("Button" + id).position;
+		Vector3 buttonPosition = new Vector3();
+		if(ApplicationDesignRules.isMobileScreen)
+		{
+			buttonPosition = gameObject.transform.FindChild ("MobileButton" + id).position;
+		}
+		else
+		{
+			buttonPosition = gameObject.transform.FindChild ("Button" + id).position;
+		}
 		buttonPosition.x = buttonPosition.x - ApplicationDesignRules.menuPosition.x;
 		buttonPosition.y = buttonPosition.y - ApplicationDesignRules.menuPosition.y;
 		return buttonPosition;
 	}
 	public Vector3 getHelpButtonPosition()
 	{
-		Vector3 helpButtonPosition = gameObject.transform.FindChild ("UserBlock").FindChild ("Help").position;
+		Vector3 helpButtonPosition = new Vector3();;
+		if(ApplicationDesignRules.isMobileScreen)
+		{
+			helpButtonPosition=gameObject.transform.FindChild ("MobileHelpButton").position;
+		}
+		else
+		{
+			helpButtonPosition=gameObject.transform.FindChild ("UserBlock").FindChild ("Help").position;	
+		}
 		helpButtonPosition.x = helpButtonPosition.x - ApplicationDesignRules.menuPosition.x;
 		helpButtonPosition.y = helpButtonPosition.y - ApplicationDesignRules.menuPosition.y;
 		return helpButtonPosition;
