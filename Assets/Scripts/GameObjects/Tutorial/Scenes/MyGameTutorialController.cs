@@ -65,7 +65,7 @@ public class MyGameTutorialController : TutorialObjectController
 			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,ApplicationDesignRules.roundButtonWorldSize.x+0.75f,ApplicationDesignRules.roundButtonWorldSize.y+0.75f),1f,1f);
 			this.drawRightArrow();
 			break;
-		case 2: // Demande à l'utilisateur de créer un deck (pas de texte)
+		case 2: // Affichage de la popup
 			if(!isResizing)
 			{
 				this.displayPopUp(-1);
@@ -136,6 +136,25 @@ public class MyGameTutorialController : TutorialObjectController
 			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,3.5f,1f),0.8f,0.8f);
 			this.drawDownArrow();
 			break;
+		case 6: 
+			if(ApplicationDesignRules.isMobileScreen)
+			{
+				gameObjectPosition = newMyGameController.instance.getSlideLeftButtonPosition();
+				this.displayPopUp(-1);
+				this.setRightArrow();
+				this.displayNextButton(false);
+				this.displayBackground(true);
+				this.displayExitButton(false);
+				this.displayDragHelp(false,false);
+				this.displayExitButton(true);
+				this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,ApplicationDesignRules.roundButtonWorldSize.x+0.75f,ApplicationDesignRules.roundButtonWorldSize.y+0.75f),1f,1f);
+				this.drawRightArrow();
+			}
+			else
+			{
+				this.actionIsDone();	
+			}
+			break;
 		default:
 			base.launchSequence(this.sequenceID);
 			break;
@@ -186,13 +205,17 @@ public class MyGameTutorialController : TutorialObjectController
 				this.sequenceID=5;
 			}
 		}
-		else if(newMyGameController.instance.getIsNewDeckPopUpDisplayed())
+		else if(newMyGameController.instance.isAPopUpDisplayed())
 		{
 			this.sequenceID=2;
 		}
 		else if(newMyGameController.instance.getIsFocusedCardDisplayed())
 		{
 			this.sequenceID=4;
+		}
+		else if(newMyGameController.instance.getFiltersDisplayed())
+		{
+			this.sequenceID=6;
 		}
 		else if(ApplicationModel.hasDeck)
 		{

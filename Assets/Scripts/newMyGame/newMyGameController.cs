@@ -258,6 +258,7 @@ public class newMyGameController : MonoBehaviour
 					camerasXPosition=this.filtersPositionX;
 					this.toSlideRight=false;
 					this.filtersDisplayed=true;
+					TutorialObjectController.instance.tutorialTrackPoint();
 				}
 			}
 			else if(toSlideLeft)
@@ -1512,6 +1513,7 @@ public class newMyGameController : MonoBehaviour
 		this.editDeckPopUpDisplayed = true;
 		this.editDeckPopUp.SetActive (true);
 		this.editDeckPopUpResize ();
+		TutorialObjectController.instance.tutorialTrackPoint();
 	}
 	public void displayDeleteDeckPopUp()
 	{
@@ -1520,6 +1522,7 @@ public class newMyGameController : MonoBehaviour
 		this.deleteDeckPopUpDisplayed = true;
 		this.deleteDeckPopUp.SetActive (true);
 		this.deleteDeckPopUpResize ();
+		TutorialObjectController.instance.tutorialTrackPoint();
 	}
 	public void hideNewDeckPopUp()
 	{
@@ -1533,12 +1536,14 @@ public class newMyGameController : MonoBehaviour
 		this.editDeckPopUp.SetActive (false);
 		MenuController.instance.hideTransparentBackground();
 		this.editDeckPopUpDisplayed = false;
+		TutorialObjectController.instance.tutorialTrackPoint();
 	}
 	public void hideDeleteDeckPopUp()
 	{
 		this.deleteDeckPopUp.SetActive (false);
 		MenuController.instance.hideTransparentBackground();
 		this.deleteDeckPopUpDisplayed = false;
+		TutorialObjectController.instance.tutorialTrackPoint();
 	}
 	public void newDeckPopUpResize()
 	{
@@ -2083,6 +2088,7 @@ public class newMyGameController : MonoBehaviour
 		this.toSlideLeft=true;
 		this.toSlideRight=false;
 		this.filtersDisplayed=false;
+		TutorialObjectController.instance.tutorialTrackPoint();
 	}
 	public Camera returnCurrentCamera(bool isDeckCard)
 	{
@@ -2170,9 +2176,32 @@ public class newMyGameController : MonoBehaviour
 	{
 		return this.upperScrollCamera.transform.position;
 	}
-	public bool getIsNewDeckPopUpDisplayed()
+	public Vector3 getSlideLeftButtonPosition()
 	{
-		return this.newDeckPopUpDisplayed;
+		Vector3 buttonPosition = this.slideLeftButton.transform.position;
+		buttonPosition.x=buttonPosition.x-ApplicationDesignRules.worldWidth;
+		buttonPosition.y=buttonPosition.y-ApplicationDesignRules.topBarWorldSize.y+0.2f;
+		return buttonPosition;
+	}
+	public bool getFiltersDisplayed()
+	{
+		return this.filtersDisplayed;
+	}
+	public bool isAPopUpDisplayed()
+	{
+		if(this.deleteDeckPopUpDisplayed)
+		{
+			return true;
+		}
+		else if(this.editDeckPopUpDisplayed)
+		{
+			return true;
+		}
+		else if(this.newDeckPopUpDisplayed)
+		{
+			return true;
+		}
+		return false;
 	}
 	#endregion
 }
