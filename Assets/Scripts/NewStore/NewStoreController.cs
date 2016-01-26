@@ -1163,6 +1163,13 @@ public class NewStoreController : MonoBehaviour
 	{
 		return this.mediumScrollCamera.transform.position;
 	}
-
+	public bool getIsMainContentDisplayed()
+	{
+		return this.mainContentDisplayed;
+	}
+	public void resetScrolling()
+	{
+		this.mediumScrollCamera.GetComponent<ScrollingController>().reset();	
+	}
 	#endregion
 }

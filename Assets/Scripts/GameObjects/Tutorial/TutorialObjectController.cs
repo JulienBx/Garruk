@@ -499,6 +499,10 @@ public class TutorialObjectController : MonoBehaviour
 		{
 			this.launchSequence(sequenceID);
 		}
+		else if(this.isHelpLaunched)
+		{
+			this.launchHelpSequence(sequenceID);
+		}
 		this.isResizing = false;
 	}
 	public void setUpArrow()

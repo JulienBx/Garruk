@@ -2203,5 +2203,15 @@ public class newMyGameController : MonoBehaviour
 		}
 		return false;
 	}
+	public bool getIsMainContentDisplayed()
+	{
+		return this.mainContentDisplayed;
+	}
+	public void resetScrolling()
+	{
+		this.upperScrollCamera.GetComponent<ScrollingController>().reset();
+		this.lowerScrollCamera.GetComponent<ScrollingController>().reset();
+		this.toScrollCards=false;
+	}
 	#endregion
 }

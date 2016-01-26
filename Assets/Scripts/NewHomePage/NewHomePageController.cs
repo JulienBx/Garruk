@@ -1821,5 +1821,9 @@ public class NewHomePageController : MonoBehaviour
 	{
 		return this.focusedCard;
 	}
+	public bool getIsMainContentDisplayed()
+	{
+		return this.mainContentDisplayed;
+	}
 	#endregion
 }

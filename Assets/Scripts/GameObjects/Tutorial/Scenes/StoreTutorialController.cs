@@ -203,7 +203,7 @@ public class StoreTutorialController : TutorialObjectController
 			if(!isResizing)
 			{
 				this.displayArrow(false);
-				this.displayPopUp(1);
+				this.displayPopUp(0);
 				this.displayNextButton(true);
 				this.setPopUpTitle("Les groupes");
 				this.setPopUpDescription("Certains cristaliens s'entrainent ensemble depuis leur enfance et peuvent etre recrutés à des tarifs intéressants");
@@ -211,18 +211,33 @@ public class StoreTutorialController : TutorialObjectController
 				this.displayExitButton(true);
 				this.displayDragHelp(false,false);
 			}
-			
 			gameObjectPosition=NewStoreController.instance.getPacksBlockOrigin();
 			gameObjectPosition2=NewStoreController.instance.getStoreBlockOrigin();
 			gameObjectSize=NewStoreController.instance.getPacksBlockSize();
-			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
-			this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition.y,-9.5f));
+			if(ApplicationDesignRules.isMobileScreen)
+			{
+				if(!NewStoreController.instance.getIsMainContentDisplayed())
+				{
+					NewStoreController.instance.slideRight();
+				}
+				else
+				{
+					NewStoreController.instance.resetScrolling();
+				}
+				this.resizeBackground(new Rect(0f,1.2f,gameObjectSize.x-0.03f,5.3f),0f,0f);
+				this.resizePopUp(new Vector3(0f,-3f,-9.5f));
+			}
+			else
+			{
+				this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
+				this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition.y,-9.5f));
+			}
 			break;
 		case 1: // Encart acheter des crédits
 			if(!isResizing)
 			{
 				this.displayArrow(false);
-				this.displayPopUp(1);
+				this.displayPopUp(0);
 				this.displayNextButton(true);
 				this.setPopUpTitle("Acheter du Cristal");
 				this.setPopUpDescription("Pour investir sur de nouvelles unités et progresser plus rapidement");
@@ -233,8 +248,16 @@ public class StoreTutorialController : TutorialObjectController
 			gameObjectPosition=NewStoreController.instance.getBuyCreditsBlockOrigin();
 			gameObjectPosition2=NewStoreController.instance.getPacksBlockOrigin();
 			gameObjectSize=NewStoreController.instance.getBuyCreditsBlockSize();
-			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
-			this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition2.y,-9.5f));
+			if(ApplicationDesignRules.isMobileScreen)
+			{
+				this.resizeBackground(new Rect(0f,-2.75f,gameObjectSize.x-0.03f,2.5f),0f,0f);
+				this.resizePopUp(new Vector3(0f,0.1f,-9.5f));
+			}
+			else
+			{
+				this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
+				this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition2.y,-9.5f));
+			}
 			break;
 		case 2: 
 			this.endHelp();
@@ -243,16 +266,24 @@ public class StoreTutorialController : TutorialObjectController
 			if(!isResizing)
 			{
 				this.displayArrow(false);
-				this.displayPopUp(2);
+				this.displayPopUp(0);
 				this.displayNextButton(true);
 				this.setPopUpTitle("Les unités");
 				this.setPopUpDescription("Voici les unités que vous avez acquises au centre de recrutement. Elles sont directement transférées vers votre armée");
-				this.displayBackground(true);
+				this.displaySquareBackground(true);
 				this.displayExitButton(false);
-				
+
 			}
-			this.resizeBackground(new Rect(0,10,5,5),0f,0f);
-			this.resizePopUp(new Vector3(0,0,-9.5f));
+			if(ApplicationDesignRules.isMobileScreen)
+			{
+				this.resizeBackground(new Rect(0,0.5f,1.5f*ApplicationDesignRules.worldWidth,6),0f,0f);
+				this.resizePopUp(new Vector3(0,-3.5f,-9.5f));
+			}
+			else
+			{
+				this.resizeBackground(new Rect(0,-0.5f,1.5f*ApplicationDesignRules.worldWidth,7),0f,0f);
+				this.resizePopUp(new Vector3(0,-3.5f,-9.5f));
+			}
 			break;
 		case 4:
 			this.endHelp();

@@ -271,7 +271,7 @@ public class MyGameTutorialController : TutorialObjectController
 		this.sequenceID = sequenceID;
 		switch(this.sequenceID)
 		{
-		case 0: // Encart mes cartes
+		case 0: // Encart mon équipe
 			if(newMyGameController.instance.getIsCardFocusedDisplayed())
 			{
 				this.sequenceID=100;
@@ -280,26 +280,7 @@ public class MyGameTutorialController : TutorialObjectController
 			if(!isResizing)
 			{
 				this.displayArrow(false);
-				this.displayPopUp(1);
-				this.displayNextButton(true);
-				this.setPopUpTitle("Mes unités");
-				this.setPopUpDescription("Accédez à l'ensemble de vos unités, et n'hésitez pas à cliquer sur une unité pour accéder au détail de ses compétences");
-				this.displaySquareBackground(true);
-				this.displayExitButton(true);
-				this.displayDragHelp(false,false);
-			}
-			
-			gameObjectPosition=newMyGameController.instance.getCardsBlockOrigin();
-			gameObjectPosition2=newMyGameController.instance.getDeckBlockOrigin();
-			gameObjectSize=newMyGameController.instance.getCardsBlockSize();
-			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
-			this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition.y,-9.5f));
-			break;
-		case 1: // Encart mon équipe
-			if(!isResizing)
-			{
-				this.displayArrow(false);
-				this.displayPopUp(1);
+				this.displayPopUp(0);
 				this.displayNextButton(true);
 				this.setPopUpTitle("Mes équipes");
 				this.setPopUpDescription("Organisez vos unités en équipes de 4 pretes à combattre. N'oubliez jamais que l'ordre des unités dans l'équipe se retrouve également dans l'ordre de jeu en combat.");
@@ -310,8 +291,50 @@ public class MyGameTutorialController : TutorialObjectController
 			gameObjectPosition=newMyGameController.instance.getDeckBlockOrigin();
 			gameObjectPosition2=newMyGameController.instance.getCardsBlockOrigin();
 			gameObjectSize=newMyGameController.instance.getDeckBlockSize();
-			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
-			this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition2.y,-9.5f));
+			if(ApplicationDesignRules.isMobileScreen)
+			{
+				if(!newMyGameController.instance.getIsMainContentDisplayed())
+				{
+					newMyGameController.instance.slideLeft();
+				}
+				else
+				{
+					newMyGameController.instance.resetScrolling();
+				}
+				this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y-ApplicationDesignRules.topBarWorldSize.y+0.2f,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
+				this.resizePopUp(new Vector3(0f,-1.5f,-9.5f));
+			}
+			else
+			{
+				this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
+				this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition2.y,-9.5f));
+			}
+			break;
+		case 1: // Encart mes cartes
+			if(!isResizing)
+			{
+				this.displayArrow(false);
+				this.displayPopUp(0);
+				this.displayNextButton(true);
+				this.setPopUpTitle("Mes unités");
+				this.setPopUpDescription("Accédez à l'ensemble de vos unités, et n'hésitez pas à cliquer sur une unité pour accéder au détail de ses compétences");
+				this.displaySquareBackground(true);
+				this.displayExitButton(true);
+				this.displayDragHelp(false,false);
+			}
+			gameObjectPosition=newMyGameController.instance.getCardsBlockOrigin();
+			gameObjectPosition2=newMyGameController.instance.getDeckBlockOrigin();
+			gameObjectSize=newMyGameController.instance.getCardsBlockSize();
+			if(ApplicationDesignRules.isMobileScreen)
+			{
+				this.resizeBackground(new Rect(gameObjectPosition.x,-1.75f,gameObjectSize.x-0.03f,4.5f),0f,0f);
+				this.resizePopUp(new Vector3(0f,2.25f,-9.5f));
+			}
+			else
+			{
+				this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
+				this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition.y,-9.5f));
+			}
 			break;
 		case 2: // Encart les filtres
 			if(!isResizing)
@@ -328,8 +351,17 @@ public class MyGameTutorialController : TutorialObjectController
 			gameObjectPosition=newMyGameController.instance.getFiltersBlockOrigin();
 			gameObjectPosition2=newMyGameController.instance.getCardsBlockOrigin();
 			gameObjectSize=newMyGameController.instance.getFiltersBlockSize();
-			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
-			this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition2.y,-9.5f));
+			if(ApplicationDesignRules.isMobileScreen)
+			{
+				newMyGameController.instance.slideRight();
+				this.resizeBackground(new Rect(0,gameObjectPosition.y-ApplicationDesignRules.topBarWorldSize.y+0.2f,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
+				this.resizePopUp(new Vector3(0f,-3f,-9.5f));
+			}
+			else
+			{
+				this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
+				this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition2.y,-9.5f));
+			}
 			break;
 		case 3: 
 			this.endHelp();
@@ -344,7 +376,14 @@ public class MyGameTutorialController : TutorialObjectController
 	{
 		return newMyGameController.instance.returnCardFocused ();
 	}
-	
+	public override void endHelp()
+	{
+		if(ApplicationDesignRules.isMobileScreen && !newMyGameController.instance.getIsMainContentDisplayed())
+		{
+			newMyGameController.instance.slideLeft();
+		}
+		base.endHelp();
+	}
 	#endregion
 }
 

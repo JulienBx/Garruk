@@ -129,12 +129,39 @@ public class HomePageTutorialController : TutorialObjectController
 		this.sequenceID = sequenceID;
 		switch(this.sequenceID)
 		{
-		case 0: // Encart "mon équipe"
+		case 0: // Encart "jouer"
 			if(NewHomePageController.instance.getIsCardFocusedDisplayed())
 			{
 				this.sequenceID=100;
 				goto default;
 			}
+			if(!isResizing)
+			{
+				this.displayArrow(false);
+				this.displayPopUp(1);
+				this.displayNextButton(true);
+				this.setPopUpTitle("Combattre");
+				this.setPopUpDescription("La meilleure manière de s'enrichir reste de combattre d'autres colons ! Choisissez soigneusement votre combat et vos unités pour affronter d'autres colons et piller leur cristal");
+				this.displaySquareBackground(true);
+				this.displayExitButton(true);
+				this.displayDragHelp(false,false);
+			}
+			gameObjectPosition=NewHomePageController.instance.getPlayBlockOrigin();
+			gameObjectPosition2=NewHomePageController.instance.getDeckBlockOrigin();
+			gameObjectSize=NewHomePageController.instance.getPlayBlockSize();
+			if(ApplicationDesignRules.isMobileScreen)
+			{
+				NewHomePageController.instance.slideRight();
+				this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y-ApplicationDesignRules.topBarWorldSize.y+0.2f,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
+				this.resizePopUp(new Vector3(0f,-3f,-9.5f));
+			}
+			else
+			{
+				this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
+				this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition2.y,-9.5f));
+			}
+			break;
+		case 1: // Encart "mon équipe"
 			if(!isResizing)
 			{
 				this.displayArrow(false);
@@ -146,14 +173,31 @@ public class HomePageTutorialController : TutorialObjectController
 				this.displayExitButton(true);
 				this.displayDragHelp(false,false);
 			}
-	
 			gameObjectPosition=NewHomePageController.instance.getDeckBlockOrigin();
 			gameObjectPosition2=NewHomePageController.instance.getNewsfeedBlockOrigin();
 			gameObjectSize=NewHomePageController.instance.getDeckBlockSize();
-			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
-			this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition2.y,-9.5f));
+			if(ApplicationDesignRules.isMobileScreen)
+			{
+				if(!NewHomePageController.instance.getIsMainContentDisplayed())
+				{
+					NewHomePageController.instance.slideRight();	
+				}
+				this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y-ApplicationDesignRules.topBarWorldSize.y+0.3f,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
+				this.resizePopUp(new Vector3(0f,2f,-9.5f));
+			}
+			else
+			{
+				this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
+				this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition2.y,-9.5f));	
+			}
+
 			break;
-		case 1: // Encart "boutique"
+		case 2: // Encart "boutique"
+			if(ApplicationDesignRules.isMobileScreen)
+			{
+				this.sequenceID=3;
+				goto case 3;
+			}
 			if(!isResizing)
 			{
 				this.displayArrow(false);
@@ -171,7 +215,7 @@ public class HomePageTutorialController : TutorialObjectController
 			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
 			this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition2.y,-9.5f));
 			break;
-		case 2: // Encart "Réseau social"
+		case 3: // Encart "Réseau social"
 			if(!isResizing)
 			{
 				this.displayArrow(false);
@@ -186,27 +230,19 @@ public class HomePageTutorialController : TutorialObjectController
 			gameObjectPosition=NewHomePageController.instance.getNewsfeedBlockOrigin();
 			gameObjectPosition2=NewHomePageController.instance.getDeckBlockOrigin();
 			gameObjectSize=NewHomePageController.instance.getNewsfeedBlockSize();
-			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
-			this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition2.y,-9.5f));
-			break;
-		case 3: // Encart "jouer"
-			if(!isResizing)
+			if(ApplicationDesignRules.isMobileScreen)
 			{
-				this.displayArrow(false);
-				this.displayPopUp(1);
-				this.displayNextButton(true);
-				this.setPopUpTitle("Combattre");
-				this.setPopUpDescription("La meilleure manière de s'enrichir reste de combattre d'autres colons ! Choisissez soigneusement votre combat et vos unités pour affronter d'autres colons et piller leur cristal");
-				this.displaySquareBackground(true);
-				this.displayExitButton(true);
-				this.displayDragHelp(false,false);
+				NewHomePageController.instance.slideLeft();
+				this.resizeBackground(new Rect(0,gameObjectPosition.y-ApplicationDesignRules.topBarWorldSize.y+0.2f,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
+				this.resizePopUp(new Vector3(0f,-3f,-9.5f));	
 			}
-			gameObjectPosition=NewHomePageController.instance.getPlayBlockOrigin();
-			gameObjectPosition2=NewHomePageController.instance.getDeckBlockOrigin();
-			gameObjectSize=NewHomePageController.instance.getPlayBlockSize();
-			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
-			this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition2.y,-9.5f));
+			else
+			{
+				this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
+				this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition2.y,-9.5f));
+			}
 			break;
+		
 		case 4: 
 			this.endHelp();
 			break;
@@ -218,9 +254,16 @@ public class HomePageTutorialController : TutorialObjectController
 
 	public override GameObject getCardFocused()
 	{
-		return NewHomePageController.instance.returnCardFocused ();
+		return NewHomePageController.instance.returnCardFocused();
 	}
-
+	public override void endHelp()
+	{
+		if(ApplicationDesignRules.isMobileScreen && !NewHomePageController.instance.getIsMainContentDisplayed())
+		{
+			NewHomePageController.instance.slideRight();
+		}
+		base.endHelp();
+	}
 	#endregion
 }
 

@@ -1876,5 +1876,17 @@ public class NewMarketController : MonoBehaviour
 			MenuController.instance.hideLoadingScreen();
 		}
 	}
+	public bool getAreFiltersDisplayed()
+	{	
+		return this.filtersDisplayed;
+	}
+	public bool getIsMarketContentDisplayed()
+	{
+		return this.marketContentDisplayed;
+	}
+	public void resetScrolling()
+	{
+		this.lowerScrollCamera.GetComponent<ScrollingController>().reset();
+	}
 	#endregion
 }

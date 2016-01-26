@@ -1574,5 +1574,17 @@ public class NewSkillBookController : MonoBehaviour
 		}
 		yield break;
 	}
+	public bool getAreFilersDisplayed()
+	{
+		return filtersDisplayed;
+	}
+	public bool getHelpDisplayed()
+	{
+		return helpContentDisplayed;
+	}
+	public void resetScrolling()
+	{
+		this.lowerScrollCamera.GetComponent<ScrollingController>().reset();
+	}
 	#endregion
 }

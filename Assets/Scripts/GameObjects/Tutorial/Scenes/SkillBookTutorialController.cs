@@ -70,12 +70,31 @@ public class SkillBookTutorialController : TutorialObjectController
 				this.displayExitButton(true);
 				this.displayDragHelp(false,false);
 			}
-			
 			gameObjectPosition=NewSkillBookController.instance.getSkillsBlockOrigin();
 			gameObjectPosition2=NewSkillBookController.instance.getHelpBlockOrigin();
 			gameObjectSize=NewSkillBookController.instance.getSkillsBlockSize();
-			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
-			this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition.y,-9.5f));
+			if(ApplicationDesignRules.isMobileScreen)
+			{
+				if(NewSkillBookController.instance.getAreFilersDisplayed())
+				{
+					NewSkillBookController.instance.slideLeft();
+				}
+				else if(NewSkillBookController.instance.getHelpDisplayed())
+				{
+					NewSkillBookController.instance.slideRight();
+				}
+				else
+				{
+					NewSkillBookController.instance.resetScrolling();
+				}
+				this.resizeBackground(new Rect(0f,0f,gameObjectSize.x-0.03f,7.5f),0f,0f);
+				this.resizePopUp(new Vector3(0f,-3f,-9.5f));
+			}
+			else
+			{
+				this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
+				this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition.y,-9.5f));
+			}
 			break;
 		case 1: // Encart les filtres
 			if(!isResizing)

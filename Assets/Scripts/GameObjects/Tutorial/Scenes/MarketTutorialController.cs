@@ -48,6 +48,10 @@ public class MarketTutorialController : TutorialObjectController
 	public override void endHelp()
 	{
 		StartCoroutine(NewMarketController.instance.endHelp ());
+		if(ApplicationDesignRules.isMobileScreen && NewMarketController.instance.getAreFiltersDisplayed())
+		{
+			NewMarketController.instance.slideLeft();
+		}
 		base.endHelp ();
 	}
 	#region HELP SEQUENCES
@@ -77,18 +81,37 @@ public class MarketTutorialController : TutorialObjectController
 				this.displayExitButton(true);
 				this.displayDragHelp(false,false);
 			}
-			
 			gameObjectPosition=NewMarketController.instance.getCardsBlockOrigin();
 			gameObjectPosition2=NewMarketController.instance.getMarketBlockOrigin();
 			gameObjectSize=NewMarketController.instance.getCardsBlockSize();
-			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
-			this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition.y,-9.5f));
+			if(ApplicationDesignRules.isMobileScreen)
+			{
+				if(NewMarketController.instance.getAreFiltersDisplayed())
+				{
+					NewMarketController.instance.slideLeft();
+				}
+				else if(NewMarketController.instance.getIsMarketContentDisplayed())
+				{
+					NewMarketController.instance.slideRight();
+				}
+				else
+				{
+					NewMarketController.instance.resetScrolling();
+				}
+				this.resizeBackground(new Rect(0f,0f,gameObjectSize.x-0.03f,7.5f),0f,0f);
+				this.resizePopUp(new Vector3(0f,-3f,-9.5f));
+			}
+			else
+			{
+				this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
+				this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition.y,-9.5f));
+			}
 			break;
 		case 1: // Encart de présentation des filtres
 			if(!isResizing)
 			{
 				this.displayArrow(false);
-				this.displayPopUp(1);
+				this.displayPopUp(0);
 				this.displayNextButton(true);
 				this.setPopUpTitle("Se repérer sur le marché");
 				this.setPopUpDescription("Le marché est immense, mais ces filtres vous permettront de mettre la main sur l'unité idéale pour vos équipes !");
@@ -99,8 +122,17 @@ public class MarketTutorialController : TutorialObjectController
 			gameObjectPosition=NewMarketController.instance.getFiltersBlockOrigin();
 			gameObjectPosition2=NewMarketController.instance.getCardsBlockOrigin();
 			gameObjectSize=NewMarketController.instance.getFiltersBlockSize();
-			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
-			this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition2.y,-9.5f));
+			if(ApplicationDesignRules.isMobileScreen)
+			{
+				NewMarketController.instance.slideRight();
+				this.resizeBackground(new Rect(0,gameObjectPosition.y-ApplicationDesignRules.topBarWorldSize.y+0.2f,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
+				this.resizePopUp(new Vector3(0f,-3.5f,-9.5f));
+			}
+			else
+			{
+				this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
+				this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition2.y,-9.5f));
+			}
 			break;
 		case 2:
 			this.endHelp();
@@ -115,7 +147,6 @@ public class MarketTutorialController : TutorialObjectController
 	{
 		return NewMarketController.instance.returnCardFocused ();
 	}
-	
 	#endregion
 }
 
