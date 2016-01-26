@@ -151,9 +151,12 @@ public class HomePageTutorialController : TutorialObjectController
 			gameObjectSize=NewHomePageController.instance.getPlayBlockSize();
 			if(ApplicationDesignRules.isMobileScreen)
 			{
-				NewHomePageController.instance.slideRight();
+				if(!NewHomePageController.instance.getIsMainContentDisplayed())
+				{
+					NewHomePageController.instance.slideRight();	
+				}
 				this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y-ApplicationDesignRules.topBarWorldSize.y+0.2f,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
-				this.resizePopUp(new Vector3(0f,-3f,-9.5f));
+				this.resizePopUp(new Vector3(0f,-2f,-9.5f));
 			}
 			else
 			{
@@ -178,10 +181,6 @@ public class HomePageTutorialController : TutorialObjectController
 			gameObjectSize=NewHomePageController.instance.getDeckBlockSize();
 			if(ApplicationDesignRules.isMobileScreen)
 			{
-				if(!NewHomePageController.instance.getIsMainContentDisplayed())
-				{
-					NewHomePageController.instance.slideRight();	
-				}
 				this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y-ApplicationDesignRules.topBarWorldSize.y+0.3f,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
 				this.resizePopUp(new Vector3(0f,2f,-9.5f));
 			}

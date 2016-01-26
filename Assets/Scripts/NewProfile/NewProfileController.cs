@@ -1922,7 +1922,7 @@ public class NewProfileController : MonoBehaviour
 		}
 		else if(this.resultsSliderDisplayed)
 		{
-			this.friendsSliderDisplayed=false;
+			this.resultsSliderDisplayed=false;
 			this.targetContentPositionX=this.mainContentPositionX;
 		}
 		else if(this.targetContentPositionX==mainContentPositionX)
@@ -2087,6 +2087,14 @@ public class NewProfileController : MonoBehaviour
 			yield return StartCoroutine(model.player.setProfileTutorial(true));
 			MenuController.instance.hideLoadingScreen();
 		}
+	}
+	public bool getIsFriendsSliderDisplayed()
+	{
+		return this.friendsSliderDisplayed;
+	}
+	public bool getIsResultsSliderDisplayed()
+	{
+		return this.resultsSliderDisplayed;
 	}
 	#endregion
 }

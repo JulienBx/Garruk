@@ -434,20 +434,20 @@ public class TutorialObjectController : MonoBehaviour
 				this.displayPopUp(1);
 				this.displayNextButton(true);
 				this.setPopUpTitle("Classe d'unité");
-				this.setPopUpDescription("Les cristaliens se divisent en dix classes d'unités, chacune possédant ses propres compétences. L'unité prend de base le nom de sa classe et peut etre renommée par son colon.\n\nLa première compétence de l'unité est sa compétence passive, lui conférant des bonus permanents. Les compétences passives permettent de distinguer différents types d'unités au sein d'une meme classe.\n\nEnfin l'expérience de l'unité lui permet d'acquérir de nouvelles compétences et de faire progresser ses caractéristiques");
+				this.setPopUpDescription("Les cristaliens se divisent en dix classes d'unités, chacune possédant ses propres compétences. \n\nLa première compétence de l'unité est sa compétence passive, lui conférant des bonus permanents.Enfin l'expérience de l'unité lui permet d'acquérir de nouvelles compétences et de faire progresser ses caractéristiques");
 				this.displaySquareBackground(true);
 				this.displayExitButton(true);
 				this.displayDragHelp(false,false);
 			}
-			gameObjectPosition=getCardFocused().transform.FindChild("Name").position;
-			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y-0.6f,5.35f,2f),0f,0f);
+			gameObjectPosition=getCardFocused().transform.FindChild("Card").FindChild("Name").position;
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y-0.6f-ApplicationDesignRules.focusedCardPosition.y-System.Convert.ToInt32(!ApplicationDesignRules.isMobileScreen)*ApplicationDesignRules.upMargin/2f,6.5f*ApplicationDesignRules.cardFocusedScale.x,2.75f*ApplicationDesignRules.cardFocusedScale.x),0f,0f);
 			this.drawUpArrow();
 			break;
 		case 101: // Description des compétences de la carte
 			if(!isResizing)
 			{
 				this.setDownArrow();
-				this.displayPopUp(1);
+				this.displayPopUp(0);
 				this.displayNextButton(true);
 				this.setPopUpTitle("Compétences");
 				this.setPopUpDescription("Chaque Cristalien a développé des compétences uniques au contact du Cristal (plus de 150 découvertes à ce jour). Chaque cristalien peut posséder 3 compétences en plus de sa compétence passive.");
@@ -455,8 +455,8 @@ public class TutorialObjectController : MonoBehaviour
 				this.displayExitButton(true);
 				this.displayDragHelp(false,false);
 			}
-			gameObjectPosition=getCardFocused().transform.FindChild("Skill2").position;
-			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,5.35f,3f),0f,0f);
+			gameObjectPosition=getCardFocused().transform.FindChild("Card").FindChild("Skill1").position;
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y+1f*ApplicationDesignRules.cardFocusedScale.x-ApplicationDesignRules.focusedCardPosition.y-System.Convert.ToInt32(!ApplicationDesignRules.isMobileScreen)*ApplicationDesignRules.upMargin/2f,6.5f*ApplicationDesignRules.cardFocusedScale.x,3f*ApplicationDesignRules.cardFocusedScale.x),0f,0f);
 			this.drawDownArrow();
 			break;
 		case 102: // Description des caractèristiques de la carte "vie, attaque"
@@ -471,8 +471,9 @@ public class TutorialObjectController : MonoBehaviour
 				this.displayExitButton(true);
 				this.displayDragHelp(false,false);
 			}
-			gameObjectPosition=getCardFocused().transform.FindChild("Life").position;
-			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,5.35f,1f),0f,0f);
+			gameObjectPosition=getCardFocused().transform.FindChild("Card").FindChild("Life").position;
+			gameObjectPosition2=getCardFocused().transform.FindChild("Card").FindChild("Skill0").position;
+			this.resizeBackground(new Rect(gameObjectPosition2.x,gameObjectPosition.y-ApplicationDesignRules.focusedCardPosition.y-System.Convert.ToInt32(!ApplicationDesignRules.isMobileScreen)*ApplicationDesignRules.upMargin/2f,6f*ApplicationDesignRules.cardFocusedScale.x,1.25f*ApplicationDesignRules.cardFocusedScale.x),0f,0f);
 			this.drawDownArrow();
 			break;
 		case 103: // Demande à l'utilisateur de sélectionner des cartes

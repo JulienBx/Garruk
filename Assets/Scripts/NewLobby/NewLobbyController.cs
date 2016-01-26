@@ -910,5 +910,13 @@ public class NewLobbyController : MonoBehaviour
 			MenuController.instance.hideLoadingScreen();
 		}
 	}
+	public bool getAreStatsDisplayed()
+	{
+		return statsDisplayed;
+	}
+	public bool getAreResultsDisplayed()
+	{
+		return lastResultsDisplayed;
+	}
 	#endregion
 }

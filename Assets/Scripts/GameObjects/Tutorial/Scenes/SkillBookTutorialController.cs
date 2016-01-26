@@ -46,6 +46,10 @@ public class SkillBookTutorialController : TutorialObjectController
 	public override void endHelp()
 	{
 		StartCoroutine(NewSkillBookController.instance.endHelp ());
+		if(ApplicationDesignRules.isMobileScreen && NewSkillBookController.instance.getAreFilersDisplayed())
+		{
+			NewSkillBookController.instance.slideLeft();
+		}
 		base.endHelp ();
 	}
 	#region HELP SEQUENCES
@@ -100,7 +104,7 @@ public class SkillBookTutorialController : TutorialObjectController
 			if(!isResizing)
 			{
 				this.displayArrow(false);
-				this.displayPopUp(1);
+				this.displayPopUp(0);
 				this.displayNextButton(true);
 				this.setPopUpTitle("Rechercher une compétence");
 				this.setPopUpDescription("Plus de 150 compétences étant disponibles, des filtres sont à votre disposition pour vous permettre de rechercher des compétences précises");
@@ -111,8 +115,17 @@ public class SkillBookTutorialController : TutorialObjectController
 			gameObjectPosition=NewSkillBookController.instance.getFiltersBlockOrigin();
 			gameObjectPosition2=NewSkillBookController.instance.getSkillsBlockOrigin();
 			gameObjectSize=NewSkillBookController.instance.getFiltersBlockSize();
-			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
-			this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition2.y,-9.5f));
+			if(ApplicationDesignRules.isMobileScreen)
+			{
+				NewSkillBookController.instance.slideRight();
+				this.resizeBackground(new Rect(0,gameObjectPosition.y-ApplicationDesignRules.topBarWorldSize.y+0.2f,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
+				this.resizePopUp(new Vector3(0f,-3.5f,-9.5f));
+			}
+			else
+			{
+				this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
+				this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition2.y,-9.5f));
+			}
 			break;
 		case 2: 
 			this.endHelp();

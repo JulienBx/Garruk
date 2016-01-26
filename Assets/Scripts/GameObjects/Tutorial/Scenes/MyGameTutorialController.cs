@@ -302,7 +302,7 @@ public class MyGameTutorialController : TutorialObjectController
 					newMyGameController.instance.resetScrolling();
 				}
 				this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y-ApplicationDesignRules.topBarWorldSize.y+0.2f,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
-				this.resizePopUp(new Vector3(0f,-1.5f,-9.5f));
+				this.resizePopUp(new Vector3(0f,-0.75f,-9.5f));
 			}
 			else
 			{
