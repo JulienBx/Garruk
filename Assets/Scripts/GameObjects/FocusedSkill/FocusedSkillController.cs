@@ -62,4 +62,12 @@ public class FocusedSkillController : MonoBehaviour
 	public virtual void exit()
 	{
 	}
+	public void highlightLevel(int level)
+	{
+		for(int i=0;i<10;i++)
+		{
+			gameObject.transform.FindChild("Skill"+i).FindChild("Stone").GetComponent<SpriteRenderer>().color=new Color(1f,1f,1f);
+		}
+		gameObject.transform.FindChild("Skill"+level).FindChild("Stone").GetComponent<SpriteRenderer>().color=ApplicationDesignRules.redColor;
+	}
 }

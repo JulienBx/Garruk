@@ -1318,6 +1318,7 @@ public class NewFocusedCardController : MonoBehaviour
 		this.skillFocused.transform.parent=this.gameObject.transform;
 		this.skillFocused.AddComponent<FocusedSkillControllerFocusedCard> ();
 		this.skillFocused.transform.GetComponent<FocusedSkillController>().show(this.c.Skills[idSkill]);
+		this.skillFocused.transform.GetComponent<FocusedSkillController>().highlightLevel(c.Skills[idSkill].Power-1);
 		this.resizeSkillFocused();
 	}
 	public void resizeSkillFocused()
