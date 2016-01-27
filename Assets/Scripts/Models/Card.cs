@@ -578,7 +578,7 @@ public class Card
 				this.Skills.Add(new Skill ());
 				this.Skills[j-1].Name=cardInfo[1];
 				this.Skills[j-1].Id=System.Convert.ToInt32(cardInfo[0]);
-				this.Skills[j-1].cible=System.Convert.ToInt32(cardInfo[2]);
+				this.Skills[j-1].IdSkillType=System.Convert.ToInt32(cardInfo[2]);
 				this.Skills[j-1].IsActivated=System.Convert.ToInt32(cardInfo[3]);
 				this.Skills[j-1].Level=System.Convert.ToInt32(cardInfo[4]);
 				this.Skills[j-1].Power=System.Convert.ToInt32(cardInfo[5]);
