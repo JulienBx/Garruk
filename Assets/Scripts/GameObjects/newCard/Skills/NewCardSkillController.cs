@@ -6,7 +6,7 @@ public class NewCardSkillController : NewFocusedCardSkillController
 
 	public override void show()
 	{
-		this.gameObject.transform.FindChild ("Name").GetComponent<TextMeshPro> ().text = this.s.Name;
+		this.gameObject.transform.FindChild ("Name").GetComponent<TextMeshPro> ().text = WordingSkills.getName(this.s.Id);
 		//this.gameObject.transform.FindChild ("Power").GetComponent<TextMeshPro> ().text = this.s.Power.ToString();
 		this.gameObject.transform.FindChild ("Picto").GetComponent<SpriteRenderer> ().sprite = gameObject.transform.parent.GetComponent<NewCardController>().getSkillSprite(this.s.Level - 1);
 	}

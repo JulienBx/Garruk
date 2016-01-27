@@ -9,11 +9,11 @@ public class WordingSkills
 	public static IList<string[]> names;
 	private static IList<int> idSkills;
 
-	public string getName(int idSkill)
+	public static string getName(int idSkill)
 	{
 		return names[idSkills.IndexOf(idSkill)][ApplicationModel.idLanguage];
 	}
-	public string getDescription(int idSkill, int idDescription)
+	public static string getDescription(int idSkill, int idDescription)
 	{
 		return descriptions[10*idSkills.IndexOf(idSkill)+idDescription][ApplicationModel.idLanguage];
 	}

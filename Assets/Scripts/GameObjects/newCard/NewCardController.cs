@@ -60,7 +60,7 @@ public class NewCardController : NewFocusedCardController
 			if(i<this.c.Skills.Count && this.c.Skills[i].IsActivated==1)
 			{
 				this.skills[i].transform.GetComponent<NewCardSkillController>().setSkill(this.c.Skills[i]);
-				this.skills[i].transform.GetComponent<NewCardSkillController>().setDescription(this.c.getSkillText(this.c.Skills[i].Description));
+				this.skills[i].transform.GetComponent<NewCardSkillController>().setDescription(this.c.getSkillText(WordingSkills.getDescription(this.c.Skills[i].Id,this.c.Skills[i].Level)));
 				this.skills[i].SetActive(true);
 			}
 			else
