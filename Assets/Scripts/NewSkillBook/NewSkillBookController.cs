@@ -1586,5 +1586,13 @@ public class NewSkillBookController : MonoBehaviour
 	{
 		this.lowerScrollCamera.GetComponent<ScrollingController>().reset();
 	}
+	public bool getIsFocusedSkillDisplayed()
+	{
+		return this.isFocusedSkillDisplayed;
+	}
+	public Vector3 getFocusedSkillPosition()
+	{
+		return this.focusedSkill.transform.position;
+	}
 	#endregion
 }

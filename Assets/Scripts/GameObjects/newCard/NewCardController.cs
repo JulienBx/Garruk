@@ -43,7 +43,14 @@ public class NewCardController : NewFocusedCardController
 	public override void show()
 	{
 		this.applyFrontTexture ();
-		this.name.transform.GetComponent<TextMeshPro> ().text = this.c.Title.ToUpper();
+		if(this.c.Title!="")
+		{
+			this.name.transform.GetComponent<TextMeshPro> ().text = this.c.Title.ToUpper();
+		}
+		else
+		{
+			this.name.transform.GetComponent<TextMeshPro>().text=WordingCardTypes.getName(this.c.IdClass);
+		}
 		//this.gameObject.transform.FindChild("Power").FindChild("Text").GetComponent<TextMeshPro>().text = this.c.Power.ToString();
 		//this.gameObject.transform.FindChild ("Face").FindChild ("Text").GetComponent<TextMeshPro> ().color = cardRessources.colors [this.c.PowerLevel - 1];
 		this.life.transform.FindChild("Text").GetComponent<TextMeshPro>().text = this.c.Life.ToString();

@@ -7,9 +7,12 @@ public class NewFocusedCardSkillController : MonoBehaviour
 	public Skill s;
 	public string d;
 	public int attributeIndex;
+	private bool isHovered;
 	
 	public virtual void show()
 	{
+		this.isHovered=false;
+		this.setStandardState();
 		this.gameObject.transform.FindChild ("Picto").GetComponent<SpriteRenderer> ().sprite = gameObject.transform.parent.transform.parent.GetComponent<NewFocusedCardController>().getSkillSprite(this.s.Level - 1);
 		this.gameObject.transform.FindChild ("Picto").GetComponent<SpriteRenderer> ().sprite = gameObject.transform.parent.transform.parent.GetComponent<NewFocusedCardController>().getSkillSprite(this.s.Level - 1);
 		this.gameObject.transform.FindChild ("Name").GetComponent<TextMeshPro> ().text = WordingSkills.getName(this.s.Id);
@@ -59,6 +62,41 @@ public class NewFocusedCardSkillController : MonoBehaviour
 			this.gameObject.transform.FindChild("Name").GetComponent<TextMeshPro>().color=new Color(1f, 1f, 1f);
 			this.gameObject.transform.FindChild ("Power").GetComponent<TextMeshPro> ().color=new Color(1f, 1f, 1f);
 			this.gameObject.transform.FindChild("Description").GetComponent<TextMeshPro>().color=new Color(1f, 1f, 1f);
+		}
+	}
+	private void OnMouseDown()
+	{
+		gameObject.transform.parent.parent.GetComponent<NewFocusedCardController>().displaySkillFocused(this.attributeIndex-3);
+	}
+	private void OnMouseOver()
+	{
+		if(!this.isHovered)
+		{
+			this.setHoveredState();
+			this.isHovered=true;
+		}
+	}
+	private void OnMouseExit()
+	{
+		if(this.isHovered)
+		{
+			this.setStandardState();
+			this.isHovered=false;
+		}
+	}
+	private void setHoveredState()
+	{
+		gameObject.transform.GetComponent<SpriteRenderer>().color=ApplicationDesignRules.blueColor;
+	}
+	private void setStandardState()
+	{
+		if(this.attributeIndex!=3)
+		{
+			gameObject.transform.GetComponent<SpriteRenderer>().color=new Color(1f,1f,1f);
+		}
+		else
+		{
+			gameObject.transform.GetComponent<SpriteRenderer>().color=new Color(0f,0f,0f);
 		}
 	}
 }

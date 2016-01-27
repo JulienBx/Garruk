@@ -63,6 +63,11 @@ public class SkillBookTutorialController : TutorialObjectController
 		switch(this.sequenceID)
 		{
 		case 0: // Encart les compétences
+			if(NewSkillBookController.instance.getIsFocusedSkillDisplayed())
+			{
+				this.sequenceID=100;
+				goto case 100;
+			}
 			if(!isResizing)
 			{
 				this.displayArrow(false);
@@ -128,6 +133,25 @@ public class SkillBookTutorialController : TutorialObjectController
 			}
 			break;
 		case 2: 
+			this.endHelp();
+			break;
+		case 100:
+			if(!isResizing)
+			{
+				this.displayArrow(false);
+				this.displayPopUp(0);
+				this.displayNextButton(true);
+				this.setPopUpTitle("Compétence");
+				this.setPopUpDescription("Le détail d'une compétence... bla bla bla bla");
+				this.displaySquareBackground(true);
+				this.displayExitButton(true);
+				this.displayDragHelp(false,false);
+			}
+			gameObjectPosition=NewSkillBookController.instance.getFocusedSkillPosition();
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y-ApplicationDesignRules.focusedSkillPosition.y-System.Convert.ToInt32(!ApplicationDesignRules.isMobileScreen)*ApplicationDesignRules.upMargin/2f,6.5f*ApplicationDesignRules.focusedSkillScale.x,10f*ApplicationDesignRules.focusedSkillScale.x),0f,0f);
+			this.resizePopUp(new Vector3(gameObjectPosition.x,-3.5f,-9.5f));
+			break;
+		case 101:
 			this.endHelp();
 			break;
 		default:

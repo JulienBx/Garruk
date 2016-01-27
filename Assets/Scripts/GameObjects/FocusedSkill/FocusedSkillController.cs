@@ -18,7 +18,7 @@ public class FocusedSkillController : MonoBehaviour
 		gameObject.transform.FindChild ("SkillTypeTitle").GetComponent<TextMeshPro> ().text = WordingSkillTypes.getName(s.IdSkillType);
 		for(int i=0;i<10;i++)
 		{
-			gameObject.transform.FindChild("Skill"+i).FindChild("Title").GetComponent<TextMeshPro>().text=WordingSkills.getDescription(s.Id,i);
+			gameObject.transform.FindChild("Skill"+i).FindChild("Title").GetComponent<TextMeshPro>().text=this.getDescription(s.Id,i);
 			if(s.AllProbas[i]>0)
 			{
 				gameObject.transform.FindChild("Skill"+i).FindChild("Proba").gameObject.SetActive(true);
@@ -54,6 +54,10 @@ public class FocusedSkillController : MonoBehaviour
 			}
 
 		}
+	}
+	public virtual string getDescription(int idSkill, int level)
+	{
+		return "";
 	}
 	public virtual void exit()
 	{

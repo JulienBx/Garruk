@@ -428,6 +428,11 @@ public class TutorialObjectController : MonoBehaviour
 		switch(this.sequenceID)
 		{
 		case 100: // Description du haut de la carte, nom, compétence passive, xp
+			if(this.getCardFocused().transform.GetComponent<NewFocusedCardController>().getIsSkillFocusedDisplayed())
+			{
+				this.sequenceID=200;
+				goto case 200;
+			}
 			if(!isResizing)
 			{
 				this.setUpArrow();
@@ -477,6 +482,25 @@ public class TutorialObjectController : MonoBehaviour
 			this.drawDownArrow();
 			break;
 		case 103: // Demande à l'utilisateur de sélectionner des cartes
+			this.endHelp();
+			break;
+		case 200: // Description des caractèristiques de la carte "vie, attaque"
+			if(!isResizing)
+			{
+				this.displayArrow(false);
+				this.displayPopUp(0);
+				this.displayNextButton(true);
+				this.setPopUpTitle("Compétence");
+				this.setPopUpDescription("Le détail d'une compétence... bla bla bla bla");
+				this.displaySquareBackground(true);
+				this.displayExitButton(true);
+				this.displayDragHelp(false,false);
+			}
+			gameObjectPosition=getCardFocused().transform.FindChild("Card").position;
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y-ApplicationDesignRules.focusedCardPosition.y-System.Convert.ToInt32(!ApplicationDesignRules.isMobileScreen)*ApplicationDesignRules.upMargin/2f,6.5f*ApplicationDesignRules.cardFocusedScale.x,10f*ApplicationDesignRules.cardFocusedScale.x),0f,0f);
+			this.resizePopUp(new Vector3(gameObjectPosition.x,-3.5f,-9.5f));
+			break;
+		case 201: // Demande à l'utilisateur de sélectionner des cartes
 			this.endHelp();
 			break;
 		}

@@ -11,4 +11,8 @@ public class FocusedSkillControllerSkillBook : FocusedSkillController
 	{
 		NewSkillBookController.instance.hideFocusedSkill ();
 	}
+	public override string getDescription(int idSkill, int level)
+	{
+		return WordingSkills.getDescription(idSkill,level);
+	}
 }

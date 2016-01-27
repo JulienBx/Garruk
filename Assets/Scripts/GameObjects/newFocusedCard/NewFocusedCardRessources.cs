@@ -11,5 +11,6 @@ public class NewFocusedCardRessources : MonoBehaviour
 	public Sprite[] skillTypes;
 	public GameObject nextLevelPopUpObject;
 	public Sprite[] focusPictos;
+	public GameObject skillFocusedObject;
 }
 

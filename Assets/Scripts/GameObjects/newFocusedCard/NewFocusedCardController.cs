@@ -76,6 +76,9 @@ public class NewFocusedCardController : MonoBehaviour
 	private bool isNextLevelPopUpDisplaying;
 	private bool isNextLevelPopUpHiding;
 
+	private GameObject skillFocused;
+	private bool isSkillFocusedDisplayed;
+
 	private float angle;
 	
 
@@ -321,6 +324,7 @@ public class NewFocusedCardController : MonoBehaviour
 	}
 	public void displaySellCardPopUp()
 	{
+		this.closePopUps();
 		MenuController.instance.displayTransparentBackground ();
 		this.sellPopUp.transform.GetComponent<SellPopUpController> ().reset (this.c.destructionPrice);
 		this.isSellPopUpDisplayed = true;
@@ -329,6 +333,7 @@ public class NewFocusedCardController : MonoBehaviour
 	}
 	public void displayRenameCardPopUp()
 	{
+		this.closePopUps();
 		MenuController.instance.displayTransparentBackground ();
 		this.renamePopUp.transform.GetComponent<RenamePopUpController> ().reset (this.c.RenameCost,this.c.Title);
 		this.isRenamePopUpDisplayed = true;
@@ -337,6 +342,7 @@ public class NewFocusedCardController : MonoBehaviour
 	}
 	public void displayBuyXpCardPopUp()
 	{
+		this.closePopUps();
 		MenuController.instance.displayTransparentBackground ();
 		this.buyXpPopUp.transform.GetComponent<BuyXpPopUpController> ().reset (this.c.NextLevelPrice);
 		this.isBuyXpPopUpDisplayed = true;
@@ -345,6 +351,7 @@ public class NewFocusedCardController : MonoBehaviour
 	}
 	public void displayBuyCardPopUp()
 	{
+		this.closePopUps();
 		MenuController.instance.displayTransparentBackground ();
 		this.buyPopUp.transform.GetComponent<BuyPopUpController> ().reset (this.c.Price);
 		this.isBuyPopUpDisplayed = true;
@@ -353,6 +360,7 @@ public class NewFocusedCardController : MonoBehaviour
 	}
 	public void displayEditSellCardPopUp()
 	{
+		this.closePopUps();
 		MenuController.instance.displayTransparentBackground ();
 		this.editSellPopUp.transform.GetComponent<EditSellPopUpController> ().reset (this.c.Price);
 		this.isEditSellPopUpDisplayed = true;
@@ -361,10 +369,7 @@ public class NewFocusedCardController : MonoBehaviour
 	}
 	public void displayEditSellPriceCardPopUp()
 	{
-		if(isEditSellPopUpDisplayed)
-		{
-			this.hideEditSellPopUp();
-		}
+		this.closePopUps();
 		MenuController.instance.displayTransparentBackground ();
 		this.editSellPricePopUp.transform.GetComponent<EditSellPricePopUpController> ().reset (this.c.Price);
 		this.isEditSellPricePopUpDisplayed = true;
@@ -373,10 +378,7 @@ public class NewFocusedCardController : MonoBehaviour
 	}
 	public void displayputOnMarketCardPopUp()
 	{
-		if(isEditSellPopUpDisplayed)
-		{
-			this.hideEditSellPopUp();
-		}
+		this.closePopUps();
 		MenuController.instance.displayTransparentBackground ();
 		this.putOnMarketPopUp.transform.GetComponent<PutOnMarketPopUpController> ().reset ();
 		this.isPutOnMarketPopUpDisplayed = true;
@@ -385,6 +387,7 @@ public class NewFocusedCardController : MonoBehaviour
 	}
 	public void displaySoldPopUp()
 	{
+		this.closePopUps();
 		MenuController.instance.displayTransparentBackground ();
 		this.soldCardPopUp.transform.GetComponent<SoldCardPopUpController> ().reset ();
 		this.isSoldCardPopUpDisplayed = true;
@@ -963,6 +966,10 @@ public class NewFocusedCardController : MonoBehaviour
 		{
 			this.hideNextLevelPopUp();
 		}
+		if(this.isSkillFocusedDisplayed)
+		{
+			this.hideSkillFocused();
+		}
 	}
 	public virtual void exitCard()
 	{
@@ -989,7 +996,11 @@ public class NewFocusedCardController : MonoBehaviour
 	}
 	public void resize()
 	{
-		if(isEditSellPopUpDisplayed)
+		if(isSkillFocusedDisplayed)
+		{
+			this.resizeSkillFocused();
+		}
+		else if(isEditSellPopUpDisplayed)
 		{
 			this.editSellPopUpResize();
 		}
@@ -1063,6 +1074,10 @@ public class NewFocusedCardController : MonoBehaviour
 	}
 	public bool closePopUps()
 	{
+		if(isSkillFocusedDisplayed)
+		{
+			this.hideSkillFocused();
+		}
 		if(isEditSellPopUpDisplayed)
 		{
 			this.hideEditSellPopUp();
@@ -1214,6 +1229,7 @@ public class NewFocusedCardController : MonoBehaviour
 	}
 	public void displayNextLevelPopUp()
 	{
+		this.closePopUps();
 		this.isNextLevelPopUpDisplayed=true;
 		this.nextLevelPopUp = Instantiate(ressources.nextLevelPopUpObject) as GameObject;
 		this.nextLevelPopUp.transform.parent=this.gameObject.transform;
@@ -1294,5 +1310,34 @@ public class NewFocusedCardController : MonoBehaviour
 	public Vector3 returnFacePosition()
 	{
 		return this.face.transform.position;
+	}
+	public void displaySkillFocused(int idSkill)
+	{
+		this.isSkillFocusedDisplayed=true;
+		this.skillFocused = Instantiate(ressources.skillFocusedObject) as GameObject;
+		this.skillFocused.transform.parent=this.gameObject.transform;
+		this.skillFocused.AddComponent<FocusedSkillControllerFocusedCard> ();
+		this.skillFocused.transform.GetComponent<FocusedSkillController>().show(this.c.Skills[idSkill]);
+		this.resizeSkillFocused();
+	}
+	public void resizeSkillFocused()
+	{
+		Vector3 cardsPosition = this.card.transform.localPosition;
+		cardsPosition.z=cardsPosition.z-1f;
+		this.skillFocused.transform.localPosition=cardsPosition;
+		this.skillFocused.transform.localScale=this.card.transform.localScale;
+	}
+	public void hideSkillFocused()
+	{
+		this.isSkillFocusedDisplayed=false;
+		Destroy(this.skillFocused);
+	}
+	public string getSkillFocusedDescription(int idSkill, int level)
+	{
+		return this.c.getSkillText(WordingSkills.getDescription(idSkill,level));	
+	}
+	public bool getIsSkillFocusedDisplayed()
+	{
+		return this.isSkillFocusedDisplayed;
 	}
 }
