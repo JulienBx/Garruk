@@ -8,23 +8,23 @@ public class WordingSkillTypes
 	public static IList<string[]> descriptions;
 	public static IList<string[]> names;
 
-	public string getName(int idSkillType)
+	public static string getName(int idSkillType)
 	{
 		return names[idSkillType][ApplicationModel.idLanguage];
 	}
-	public string getDescription(int idSkillType)
+	public static string getDescription(int idSkillType)
 	{
 		return descriptions[idSkillType][ApplicationModel.idLanguage];
 	}
 	static WordingSkillTypes()
 	{
 		names=new List<string[]>();
-		names.Add(new string[]{"Combat",""});
-		names.Add(new string[]{"Tir",""});
-		names.Add(new string[]{"Soutien",""});
-		names.Add(new string[]{"Dégénrescence",""});
-		names.Add(new string[]{"Auto",""});
-		names.Add(new string[]{"Piège",""});
+		names.Add(new string[]{"Combat","X"});
+		names.Add(new string[]{"Tir","X"});
+		names.Add(new string[]{"Soutien","X"});
+		names.Add(new string[]{"Dégénrescence","X"});
+		names.Add(new string[]{"Auto","X"});
+		names.Add(new string[]{"Piège","X"});
 
 		descriptions=new List<string[]>();
 		descriptions.Add(new string[]{"Compétence d'attaque directe (sur un personnage adjacent)",""});

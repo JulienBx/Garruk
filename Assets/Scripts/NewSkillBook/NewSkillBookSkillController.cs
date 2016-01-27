@@ -79,10 +79,10 @@ public class NewSkillBookSkillController : MonoBehaviour
 	}
 	public void show()
 	{
-		this.title.GetComponent<TextMeshPro> ().text = s.Name.ToUpper();
-		this.cardType.GetComponent<SpriteRenderer> ().sprite = MenuController.instance.returnCardTypePicture (s.CardType.IdPicture);
-		this.skillType.GetComponent<SpriteRenderer> ().sprite = MenuController.instance.returnSkillTypePicture (s.SkillType.IdPicture);
-		this.skillType.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = s.SkillType.Name.Substring (0, 1).ToUpper();
+		this.title.GetComponent<TextMeshPro> ().text = WordingSkills.getName(s.Id);
+		this.cardType.GetComponent<SpriteRenderer> ().sprite = MenuController.instance.returnCardTypePicture (s.IdCardType);
+		this.skillType.GetComponent<SpriteRenderer> ().sprite = MenuController.instance.returnSkillTypePicture (s.IdSkillType);
+		this.skillType.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingSkillTypes.getName(s.IdSkillType).Substring (0, 1).ToUpper();
 		//this.picto.GetComponent<SpriteRenderer> ().sprite = MenuController.instance.returnSkillPicture (s.IdPicture);
 		if(s.Power==0)
 		{

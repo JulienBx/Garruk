@@ -10,15 +10,15 @@ public class FocusedSkillController : MonoBehaviour
 	public void show(Skill s)
 	{
 		gameObject.transform.FindChild ("closebutton").GetComponent<FocusedSkillExitButtonController> ().reset ();
-		gameObject.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = s.Name;
-		gameObject.transform.FindChild("CardType").GetComponent<SpriteRenderer> ().sprite = MenuController.instance.returnCardTypePicture (s.CardType.IdPicture);
-		gameObject.transform.FindChild("SkillType").GetComponent<SpriteRenderer> ().sprite = MenuController.instance.returnSkillTypePicture (s.SkillType.IdPicture);
-		gameObject.transform.FindChild("SkillType").FindChild("Title").GetComponent<TextMeshPro> ().text = s.SkillType.Name.Substring (0, 1).ToUpper();
-		gameObject.transform.FindChild ("CardTypeTitle").GetComponent<TextMeshPro> ().text = s.CardType.Name;
-		gameObject.transform.FindChild ("SkillTypeTitle").GetComponent<TextMeshPro> ().text = s.SkillType.Name;
+		gameObject.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingSkills.getName(s.Id);
+		gameObject.transform.FindChild("CardType").GetComponent<SpriteRenderer> ().sprite = MenuController.instance.returnCardTypePicture (s.IdCardType);
+		gameObject.transform.FindChild("SkillType").GetComponent<SpriteRenderer> ().sprite = MenuController.instance.returnSkillTypePicture (s.IdSkillType);
+		gameObject.transform.FindChild("SkillType").FindChild("Title").GetComponent<TextMeshPro> ().text = WordingSkillTypes.getName(s.IdSkillType).Substring (0, 1).ToUpper();
+		gameObject.transform.FindChild ("CardTypeTitle").GetComponent<TextMeshPro> ().text =WordingCardTypes.getName(s.IdCardType);
+		gameObject.transform.FindChild ("SkillTypeTitle").GetComponent<TextMeshPro> ().text = WordingSkillTypes.getName(s.IdSkillType);
 		for(int i=0;i<10;i++)
 		{
-			gameObject.transform.FindChild("Skill"+i).FindChild("Title").GetComponent<TextMeshPro>().text=s.AllDescriptions[i];
+			gameObject.transform.FindChild("Skill"+i).FindChild("Title").GetComponent<TextMeshPro>().text=WordingSkills.getDescription(s.Id,i);
 			if(s.AllProbas[i]>0)
 			{
 				gameObject.transform.FindChild("Skill"+i).FindChild("Proba").gameObject.SetActive(true);

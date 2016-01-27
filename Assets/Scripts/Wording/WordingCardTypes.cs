@@ -8,11 +8,11 @@ public class WordingCardTypes
 	public static IList<string[]> descriptions;
 	public static IList<string[]> names;
 
-	public string getName(int idCardType)
+	public static string getName(int idCardType)
 	{
 		return names[idCardType][ApplicationModel.idLanguage];
 	}
-	public string getDescription(int idCardType)
+	public static string getDescription(int idCardType)
 	{
 		return descriptions[idCardType][ApplicationModel.idLanguage];
 	}

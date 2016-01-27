@@ -197,7 +197,14 @@ public class NewFocusedCardController : MonoBehaviour
 	public virtual void show()
 	{
 		this.applyFrontTexture ();
-		this.name.GetComponent<TextMeshPro> ().text = this.c.Title.ToUpper();
+		if(this.c.Title!="")
+		{
+			this.name.transform.GetComponent<TextMeshPro> ().text = this.c.Title.ToUpper();
+		}
+		else
+		{
+			this.name.transform.GetComponent<TextMeshPro>().text=WordingCardTypes.getName(this.c.IdClass);
+		}
 		//this.gameObject.transform.FindChild("Power").FindChild("Text").GetComponent<TextMeshPro>().text = this.c.Power.ToString();
 		//this.gameObject.transform.FindChild ("Power").FindChild ("Text").GetComponent<TextMeshPro> ().color = ressources.colors [this.c.PowerLevel - 1];
 		this.life.transform.FindChild("Text").GetComponent<TextMeshPro>().text = this.c.Life.ToString();
@@ -1227,8 +1234,8 @@ public class NewFocusedCardController : MonoBehaviour
 	{
 		this.skillPopUp.SetActive (true);
 		this.isSkillPopUpDisplayed = true;
-		this.skillPopUp.transform.FindChild ("title").GetComponent<TextMeshPro> ().text = this.c.Skills [id].SkillType.Name;
-		this.skillPopUp.transform.FindChild ("description").GetComponent<TextMeshPro> ().text = this.c.Skills [id].SkillType.Description;
+		this.skillPopUp.transform.FindChild ("title").GetComponent<TextMeshPro> ().text = WordingSkillTypes.getName(this.c.Skills [id].IdSkillType);
+		this.skillPopUp.transform.FindChild ("description").GetComponent<TextMeshPro> ().text =WordingSkillTypes.getDescription(this.c.Skills [id].IdSkillType);
 
 		float skillTypePopUpWorldSize=0f;
 		float skillTypePopUpXPosition=0f;
