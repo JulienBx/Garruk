@@ -13,7 +13,9 @@ public class MyGameTutorialController : TutorialObjectController
 	{
 		newMyGameController.instance.endTutorialInitialization ();
 	}
-
+	public override void setGUI(bool value)
+	{
+	}
 	#region TUTORIAL SEQUENCES
 
 	public override void launchSequence(int sequenceID)

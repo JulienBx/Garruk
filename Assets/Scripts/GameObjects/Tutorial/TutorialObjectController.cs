@@ -414,6 +414,9 @@ public class TutorialObjectController : MonoBehaviour
 	public virtual void scrollingExceptions()
 	{
 	}
+	public virtual void setGUI(bool value)
+	{
+	}
 
 	#endregion
 
