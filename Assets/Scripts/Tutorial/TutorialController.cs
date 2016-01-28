@@ -10,40 +10,22 @@ public class TutorialController : MonoBehaviour
 
 	private GameObject mainBlock;
 	private GameObject description;
-	private GameObject previousButton;
 	private GameObject nextButton;
 	private GameObject picture0;
 	private GameObject picture1;
 	private GameObject background;
 	private GameObject title;
+	private GameObject leftMargin;
+	private GameObject rightMargin;
 
 	private User player;
-	public Sprite[] backgrounds;
-	public string[] titles;
-	public string[] descriptions;
-
-	private int widthScreen;
-	private int heightScreen;
-	private float worldWidth;
-	private float worldHeight;
-	private float pixelPerUnit;
-
-	private int sequenceId;
 
 	void Update()
 	{
-		if (Screen.width != this.widthScreen || Screen.height != this.heightScreen) 
+		if (Screen.width != ApplicationDesignRules.widthScreen || Screen.height != ApplicationDesignRules.heightScreen) 
 		{
 			this.resize();
 		}
-	}
-	void Awake()
-	{
-		this.widthScreen = Screen.width;
-		this.heightScreen = Screen.height;
-		this.pixelPerUnit = 108f;
-		this.sequenceId = 0;
-		this.initializeScene ();
 	}
 	public void initializeScene()
 	{
@@ -53,18 +35,20 @@ public class TutorialController : MonoBehaviour
 		this.picture0 = GameObject.Find ("picture0");
 		this.picture1 = GameObject.Find ("picture1");
 		this.nextButton = GameObject.Find ("NextButton");
-		//this.previousButton = GameObject.Find ("PreviousButton");
 		this.title = GameObject.Find ("TitleLabel");
 		this.nextButton.transform.FindChild("Title").GetComponent<TextMeshPro> ().text = "Suivant";
-		//this.previousButton.transform.FindChild("Title").GetComponent<TextMeshPro> ().text = "Précédent";
+		this.title.transform.GetComponent<TextMeshPro>().text="Bienvenue à Cristalia !";
+		this.description.transform.GetComponent<TextMeshPro>().text="Après un long voyage de 17 années dans l'espace, vous voici enfin arrivé à Cristalia. La planète et ses satellites sont actuellement les proies de nombreuses convoitises. Vous êtes un colon missionné par votre pays pour amasser le plus de richesses et de connaissances sur ce fameux cristal. Cristal qui confèrerait aux habitants de la planète d'étranges capacités... Saurez-vous les mettre à profit pour triompher des colons ennemis ?";
+		this.leftMargin = GameObject.Find ("leftMargin");
+		this.rightMargin = GameObject.Find ("rightMargin");
 	}
 	void Start ()
 	{
 		instance = this;
+		this.initializeScene ();
 		this.resize ();
 		this.player = new User ();
 		this.player.Username = ApplicationModel.username;
-		this.selectSequence (0);
 	}
 	private IEnumerator quitTutorial()
 	{
@@ -73,86 +57,112 @@ public class TutorialController : MonoBehaviour
 	}
 	public void resize()
 	{
-		this.widthScreen=Screen.width;
-		this.heightScreen=Screen.height;
-		this.worldHeight = 2f*Camera.main.GetComponent<Camera>().orthographicSize;
-		ApplicationDesignRules.worldHeight = this.worldHeight;
-		this.worldWidth = ((float)Screen.width/(float)Screen.height) * worldHeight;
-		ApplicationDesignRules.worldWidth = this.worldWidth;
+		ApplicationDesignRules.computeDesignRules ();
 
-		float mainBlockLeftMargin = ApplicationDesignRules.leftMargin;
-		float mainBlockRightMargin = ApplicationDesignRules.rightMargin;
-		float mainBlockUpMargin = 7.5f;
-		float mainBlockDownMargin = ApplicationDesignRules.downMargin;
-		
-		float mainBlockHeight = worldHeight - mainBlockUpMargin-mainBlockDownMargin;
-		float mainBlockWidth = worldWidth-mainBlockLeftMargin-mainBlockRightMargin;
-		Vector2 mainBlockOrigin = new Vector3 (-worldWidth/2f+mainBlockLeftMargin+mainBlockWidth/2f, -worldHeight / 2f + mainBlockDownMargin + mainBlockHeight / 2,0f);
-		
+		float mainBlockLeftMargin;
+		float mainBlockUpMargin;
+		float mainBlockHeight;
+		float mainBlockWidth;
+
+		float caractersYPosition;
+
+		Vector2 backgroundSize = new Vector2 (1913f,1080f);
+		Vector2 backgroundWorldSize = new Vector2 ();
+		Vector3 backgroundScale = new Vector3 ();
+		float backgroundYScale;
+
+		Vector3 picture1Scale;
+		Vector3 picture0Scale;
+		Vector3 picture0Position;
+		Vector3 picture1Position;
+
+		if(ApplicationDesignRules.isMobileScreen)
+		{
+			mainBlockUpMargin=6f;
+			mainBlockHeight=4f;
+			mainBlockWidth=ApplicationDesignRules.blockWidth;
+			mainBlockLeftMargin=ApplicationDesignRules.leftMargin;
+			backgroundWorldSize.y=mainBlockUpMargin;
+			this.background.transform.position=new Vector3(0f,2f,0f);
+			picture0Scale=new Vector3(0.5f,0.5f,0.5f);
+			picture1Scale=new Vector3(0.45f,0.45f,0.45f);
+
+			picture0Position = this.picture0.transform.position;
+			picture0Position.x = -5f * mainBlockWidth / 16f;
+			picture0Position.y=1.2f;
+			
+			picture1Position = this.picture1.transform.position;
+			picture1Position.x = 5f * mainBlockWidth / 16f;
+			picture1Position.y=1.3f;
+
+			Vector2 marginObjectSize=new Vector2(100f,100f);
+
+			if(ApplicationDesignRules.leftMargin>0)
+			{
+				this.leftMargin.SetActive(true);
+				Vector2 leftMarginWorldSize=new Vector2(ApplicationDesignRules.leftMargin,ApplicationDesignRules.worldHeight);
+				Vector3 leftMarginScale = new Vector3(leftMarginWorldSize.x/(marginObjectSize.x / ApplicationDesignRules.pixelPerUnit),leftMarginWorldSize.y/(marginObjectSize.y / ApplicationDesignRules.pixelPerUnit),1f);
+				Vector3 leftMarginPosition = new Vector3(-ApplicationDesignRules.worldWidth/2f+ApplicationDesignRules.leftMargin/2f,0f,0f);
+				this.leftMargin.transform.localScale=leftMarginScale;
+				this.leftMargin.transform.position=leftMarginPosition;
+			}
+			else
+			{
+				this.leftMargin.SetActive(false);
+			}
+			if(ApplicationDesignRules.rightMargin>0)
+			{
+				this.rightMargin.SetActive(true);
+				Vector2 rightMarginWorldSize=new Vector2(ApplicationDesignRules.rightMargin,ApplicationDesignRules.worldHeight);
+				Vector3 rightMarginScale = new Vector3(rightMarginWorldSize.x/(marginObjectSize.x / ApplicationDesignRules.pixelPerUnit),rightMarginWorldSize.y/(marginObjectSize.y / ApplicationDesignRules.pixelPerUnit),1f);
+				Vector3 rightMarginPosition = new Vector3(ApplicationDesignRules.worldWidth/2f-ApplicationDesignRules.rightMargin/2f,0f,0f);
+				this.rightMargin.transform.localScale=rightMarginScale;
+				this.rightMargin.transform.position=rightMarginPosition;
+			}
+			else
+			{
+				this.rightMargin.SetActive(false);
+			}
+		}
+		else
+		{
+			this.leftMargin.SetActive(false);
+			this.rightMargin.SetActive(false);
+			mainBlockUpMargin=7.5f;
+			mainBlockHeight=2.5f;
+			mainBlockLeftMargin=0f;
+			mainBlockWidth=ApplicationDesignRules.worldWidth;
+			backgroundWorldSize.y=ApplicationDesignRules.worldHeight;
+			this.background.transform.position=new Vector3(0f,0f,0f);
+			picture0Scale=new Vector3(1f,1f,1f);
+			picture1Scale=new Vector3(1f,1f,1f);
+
+			picture0Position = this.picture0.transform.position;
+			picture0Position.x = -5f * mainBlockWidth / 16f;
+			picture0Position.y=0f;
+
+			picture1Position = this.picture1.transform.position;
+			picture1Position.x = 5f * mainBlockWidth / 16f;
+			picture1Position.y=-0.52f;
+		}
+
+		backgroundYScale = backgroundWorldSize.y/(backgroundSize.y / ApplicationDesignRules.pixelPerUnit);
+		backgroundWorldSize.x = backgroundWorldSize.y * (backgroundSize.x / backgroundSize.y);
+		backgroundScale = new Vector3 (backgroundYScale, backgroundYScale, backgroundYScale);
+		this.background.transform.localScale = backgroundScale;
 		this.mainBlock.GetComponent<NewBlockController> ().resize(mainBlockLeftMargin,mainBlockUpMargin,mainBlockWidth,mainBlockHeight);
-
-		this.description.GetComponent<TextContainer> ().width = mainBlockWidth - 0.4f;
+		Vector2 mainBlockOrigin = this.mainBlock.GetComponent<NewBlockController> ().getOriginPosition ();
+		this.description.GetComponent<TextContainer> ().width = mainBlockWidth - 2f*ApplicationDesignRules.blockHorizontalSpacing;
 		this.description.GetComponent<TextContainer> ().height = mainBlockHeight - 1f;
 		this.description.transform.position = new Vector3 (mainBlockOrigin.x, mainBlockOrigin.y + 0.3f, 0f);
-
-		this.nextButton.transform.position = new Vector3 (mainBlockWidth / 2f + mainBlockOrigin.x - 1.5f, mainBlockOrigin.y - mainBlockHeight / 2f + 0.4f, 0f);
-		//this.previousButton.transform.position = new Vector3 (- mainBlockWidth / 2f + mainBlockOrigin.x + 1.5f, mainBlockOrigin.y - mainBlockHeight / 2f + 0.4f, 0f);
-
-		Vector3 Picture0Position = this.picture0.transform.position;
-		Picture0Position.x = -5f * this.worldWidth / 16f;
-		this.picture0.transform.position = Picture0Position;
-		Vector3 Picture1Position = this.picture1.transform.position;
-		Picture1Position.x = 5f * this.worldWidth / 16f;
-		this.picture1.transform.position = Picture1Position;
-
-		//view.screenVM.resize ();
-		//view.tutorialVM.resize (view.screenVM.heightScreen);
-	}
-	public void selectSequence(int id)
-	{
-		this.sequenceId = id;
-		if(this.sequenceId==0)
-		{
-			//this.previousButton.transform.gameObject.SetActive(false);
-			this.background.transform.GetComponent<SpriteRenderer>().sprite=this.backgrounds[0];
-			this.title.transform.GetComponent<TextMeshPro>().text=this.titles[0];
-			this.description.transform.GetComponent<TextMeshPro>().text=this.descriptions[0];
-		}
-//		else if(this.sequenceId==1)
-//		{
-//			this.previousButton.transform.gameObject.SetActive(true);
-//			this.background.transform.GetComponent<SpriteRenderer>().sprite=this.backgrounds[1];
-//			this.picture0.transform.GetComponent<SpriteRenderer>().sprite=this.caracters[2];
-//			this.picture1.transform.GetComponent<SpriteRenderer>().sprite=this.caracters[3];
-//			this.title.transform.GetComponent<TextMeshPro>().text=this.titles[1];
-//			this.description.transform.GetComponent<TextMeshPro>().text=this.descriptions[1];
-//		}
-//		else if(this.sequenceId==2)
-//		{
-//			this.previousButton.transform.gameObject.SetActive(true);
-//			this.background.transform.GetComponent<SpriteRenderer>().sprite=this.backgrounds[0];
-//			this.picture0.transform.GetComponent<SpriteRenderer>().sprite=this.caracters[4];
-//			this.picture1.transform.GetComponent<SpriteRenderer>().sprite=this.caracters[5];
-//			this.title.transform.GetComponent<TextMeshPro>().text=this.titles[2];
-//			this.description.transform.GetComponent<TextMeshPro>().text=this.descriptions[2];
-//		}
+		this.nextButton.transform.position = new Vector3 (0f, -4.5f);
+		this.picture0.transform.position = picture0Position;
+		this.picture0.transform.localScale = picture0Scale;
+		this.picture1.transform.position = picture1Position;
+		this.picture1.transform.localScale = picture1Scale;
 	}
 	public void nextButtonHandler()
 	{
-		if(this.sequenceId==0)
-		{
-			StartCoroutine(this.quitTutorial());
-		}
+		StartCoroutine(this.quitTutorial());
 	}
-//	public void previousButtonHandler()
-//	{
-//		if(this.sequenceId==1)
-//		{
-//			this.selectSequence(0);
-//		}
-//		else if(this.sequenceId==2)
-//		{
-//			this.selectSequence(1);
-//		}
-//	}
 }

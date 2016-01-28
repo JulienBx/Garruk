@@ -62,7 +62,7 @@ public class NextLevelPopUpController : MonoBehaviour
 				gameObject.transform.FindChild("Skill"+i).FindChild ("Picto").GetComponent<SpriteRenderer> ().sprite = this.getSkillSprite(c.Skills[i].Level - 1);
 				gameObject.transform.FindChild("Skill"+i).FindChild ("Name").GetComponent<TextMeshPro> ().text = c.Skills[i].Name;
 				gameObject.transform.FindChild("Skill"+i).FindChild ("Power").GetComponent<TextMeshPro> ().text = "Niv "+c.Skills[i].Power.ToString();
-				gameObject.transform.FindChild("Skill"+i).FindChild ("SkillType").GetComponent<SpriteRenderer> ().sprite = this.getSkillTypeSprite(c.Skills[i].SkillType.Id);
+				gameObject.transform.FindChild("Skill"+i).FindChild ("SkillType").GetComponent<SpriteRenderer> ().sprite = this.getSkillTypeSprite(c.Skills[i].IdSkillType);
 				//gameObject.transform.FindChild("Skill"+i).FindChild ("SkillType").FindChild ("Title").GetComponent<TextMeshPro> ().text = s.SkillType.Name.Substring (0, 1).ToUpper ();
 				gameObject.transform.FindChild("Skill"+i).FindChild ("Proba").FindChild ("Title").GetComponent<TextMeshPro> ().text = c.Skills[i].proba.ToString ();
 				gameObject.transform.FindChild("Skill"+i).FindChild ("Description").GetComponent<TextMeshPro> ().text = c.getSkillText(c.Skills[i].Description);
@@ -111,7 +111,7 @@ public class NextLevelPopUpController : MonoBehaviour
 		this.isSkillPopUpDisplayed = true;
 		this.skillPopUp.SetActive (true);
 		Vector3 popUpPosition = gameObject.transform.FindChild("Skill"+(id-3)).position;
-		popUpPosition.y=popUpPosition.y+1.3f*ApplicationDesignRules.nextLevelPopUpScale.x;
+		popUpPosition.y=popUpPosition.y+1.6f*ApplicationDesignRules.cardFocusedScale.x;
 		this.skillPopUp.transform.position=popUpPosition;
 
 		if (c.Skills [id-3].Power != 10 && c.Skills [id-3].Upgrades < 3) 
@@ -226,7 +226,7 @@ public class NextLevelPopUpController : MonoBehaviour
 			this.attributePopUp.transform.FindChild("Limit").GetComponent<TextMeshPro>().color=ApplicationDesignRules.redColor;
 			this.attributePopUp.GetComponent<SpriteRenderer>().color=ApplicationDesignRules.redColor;
 		}
-		popUpPosition.y=popUpPosition.y+1.25f*ApplicationDesignRules.nextLevelPopUpScale.x;
+		popUpPosition.y=popUpPosition.y+1.55f*ApplicationDesignRules.cardFocusedScale.x;
 		this.attributePopUp.transform.position=popUpPosition;
 	}
 	public void hideAttributePopUp()

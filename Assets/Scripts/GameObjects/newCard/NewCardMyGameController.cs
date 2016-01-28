@@ -54,5 +54,9 @@ public class NewCardMyGameController : NewCardController
 			this.hidePanelSold();
 		}
 	}
+	public override Camera getCurrentCamera()
+	{
+		return newMyGameController.instance.returnCurrentCamera (this.isDeckCard);
+	}
 }
 

@@ -72,7 +72,7 @@ public class NewCardMarketController : NewCardController
 		}
 		else 
 		{
-			this.panelMarket.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = this.c.Price.ToString();
+			this.panelMarket.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = ApplicationDesignRules.priceToString(this.c.Price);
 			this.panelMarket.transform.FindChild("Cristal").gameObject.SetActive(true);
 			if(this.c.IdOWner!=NewMarketController.instance.returnUserId())
 			{
@@ -130,6 +130,10 @@ public class NewCardMarketController : NewCardController
 	public override void deleteCard()
 	{
 		NewMarketController.instance.deleteCard ();
+	}
+	public override Camera getCurrentCamera()
+	{
+		return NewMarketController.instance.returnCurrentCamera ();
 	}
 }
 

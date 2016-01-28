@@ -34,9 +34,9 @@ public class MyGameTutorialController : TutorialObjectController
 					this.setPopUpDescription("La meilleure manière de s'enrichir à Cristalia est de combattre d'autres colons ! Vous constituer une armée puissante sera donc cruciale pour survivre sur la planète. Vous pouvez ici consulter vos unités, et les organiser en équipes pretes à combattre pour acquérir de nouvelles ressources");
 					this.displayBackground(true);
 					this.displayExitButton(false);
-					this.displayDragHelp(false);
+					this.displayDragHelp(false,false);
 					this.displayExitButton(true);
-					
+
 				}
 				this.resizeBackground(new Rect(0,10,5,5),0f,0f);
 				this.resizePopUp(new Vector3(0,0,-9.5f));
@@ -51,23 +51,36 @@ public class MyGameTutorialController : TutorialObjectController
 			if(!isResizing)
 			{
 				this.displayPopUp(-1);
-				this.setRightArrow();
 				this.displayNextButton(false);
-				this.displaySquareBackground(true);
+				this.displayBackground(true);
 				this.displayExitButton(false);
-				this.displayDragHelp(false);
+				this.displayDragHelp(false,false);
 				this.displayExitButton(true);
-				
 			}
+			this.setIsScrolling(true);
+			this.setRightArrow();
+			this.displayScrollDownHelp(false);
+			this.displayScrollUpHelp(false);
 			gameObjectPosition = newMyGameController.instance.getNewDeckButtonPosition();
-			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,ApplicationDesignRules.button61WorldSize.x+0.3f,ApplicationDesignRules.button61WorldSize.y+0.3f),1f,1f);
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,ApplicationDesignRules.roundButtonWorldSize.x+0.75f,ApplicationDesignRules.roundButtonWorldSize.y+0.75f),1f,1f);
 			this.drawRightArrow();
 			break;
-		case 2: // Demande à l'utilisateur de sélectionner des cartes
+		case 2: // Affichage de la popup
+			if(!isResizing)
+			{
+				this.displayPopUp(-1);
+				this.displayArrow(false);
+				this.displayNextButton(false);
+				this.displayBackground(false);
+				this.displayExitButton(false);
+				this.displayDragHelp(false,false);
+				this.displayExitButton(true);
+			}
+			break;
+		case 3: // Demande à l'utilisateur de sélectionner des cartes
 			if(!isResizing)
 			{
 				this.displayArrow(false);
-				this.displayDragHelp(true);
 				this.displayPopUp(0);
 				this.displayNextButton(false);
 				this.displaySquareBackground(true);
@@ -75,25 +88,22 @@ public class MyGameTutorialController : TutorialObjectController
 				this.setPopUpTitle("Créer une équipe");
 				this.setPopUpDescription("A cause de massacres fréquents menaçant la survie de l'espèce humaine sur Cristalia, les combats sont depuis peu règlementés et opposent des équipes de 4 unités. Créer votre équipe en choisissant vos meilleures unités!");
 				this.displayExitButton(true);
+				this.setIsScrolling(false);
 			}
-			this.resizeBackground(new Rect(0,-1.25f,ApplicationDesignRules.worldWidth+1,6),1f,0.9f);
-			this.resizeDragHelp(new Vector3(0f,0f,0f));
-			this.resizePopUp(new Vector3(0,-3f,-9.5f));
-			break;
-		case 3: 
-			if(!isResizing)
+			if(ApplicationDesignRules.isMobileScreen)
 			{
-				this.displayPopUp(-1);
-				this.setDownArrow();
-				this.displayNextButton(false);
-				this.displaySquareBackground(true);
-				this.displayExitButton(false);
-				this.displayDragHelp(false);
-				this.displayExitButton(true);
+				this.displayDragHelp(true,false);
+				this.resizeBackground(new Rect(0,-0.5f,ApplicationDesignRules.worldWidth+1,7f),1f,0.9f);
+				this.resizePopUp(new Vector3(0,-3.6f,-9.5f));
 			}
-			gameObjectPosition = this.getCardFocused().transform.FindChild("FocusFeature5").position;
-			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,1.6f*ApplicationDesignRules.button62WorldSize.x+0.3f,1.5f*ApplicationDesignRules.button62WorldSize.y+0.3f),1f,1f);
-			this.drawDownArrow();
+			else
+			{
+				this.displayDragHelp(true,true);
+				this.resizeBackground(new Rect(0,-1.25f,ApplicationDesignRules.worldWidth+1,6),1f,0.9f);
+				this.resizePopUp(new Vector3(0,-3f,-9.5f));
+			}
+			this.resizeDragHelp(new Vector3(0f,0f,0f));
+
 			break;
 		case 4: 
 			if(!isResizing)
@@ -101,17 +111,84 @@ public class MyGameTutorialController : TutorialObjectController
 				this.displayPopUp(-1);
 				this.setDownArrow();
 				this.displayNextButton(false);
+				this.displayBackground(true);
+				this.displayExitButton(false);
+				this.displayDragHelp(false,false);
+				this.displayExitButton(true);
+			}
+			gameObjectPosition = this.getCardFocused().transform.FindChild("FocusFeature4").position;
+			gameObjectPosition=new Vector3(gameObjectPosition.x-ApplicationDesignRules.focusedCardPosition.x,gameObjectPosition.y-ApplicationDesignRules.focusedCardPosition.y-System.Convert.ToInt32(!ApplicationDesignRules.isMobileScreen)*ApplicationDesignRules.upMargin/2f,0f);
+			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,ApplicationDesignRules.roundButtonWorldSize.x+0.75f,ApplicationDesignRules.roundButtonWorldSize.y+0.75f),1f,1f);
+			this.drawDownArrow();
+			break;
+		case 5: 
+			if(!isResizing)
+			{
+				this.displayPopUp(-1);
+				this.setDownArrow();
+				this.displayNextButton(false);
 				this.displaySquareBackground(true);
 				this.displayExitButton(false);
-				this.displayDragHelp(false);
+				this.displayDragHelp(false,false);
 				this.displayExitButton(true);
 			}
 			gameObjectPosition = PlayPopUpController.instance.getQuitPopUpButtonPosition();
 			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,3.5f,1f),0.8f,0.8f);
 			this.drawDownArrow();
 			break;
+		case 6: 
+			if(ApplicationDesignRules.isMobileScreen)
+			{
+				gameObjectPosition = newMyGameController.instance.getSlideLeftButtonPosition();
+				this.displayPopUp(-1);
+				this.setRightArrow();
+				this.displayNextButton(false);
+				this.displayBackground(true);
+				this.displayExitButton(false);
+				this.displayDragHelp(false,false);
+				this.displayExitButton(true);
+				this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,ApplicationDesignRules.roundButtonWorldSize.x+0.75f,ApplicationDesignRules.roundButtonWorldSize.y+0.75f),1f,1f);
+				this.drawRightArrow();
+			}
+			else
+			{
+				this.actionIsDone();	
+			}
+			break;
 		default:
 			base.launchSequence(this.sequenceID);
+			break;
+		}
+	}
+	public override void scrollingExceptions()
+	{
+		Vector3 gameObjectPosition = new Vector3 ();
+		switch(this.sequenceID)
+		{
+		case 1:
+			float upperScrollCameraPositionY=newMyGameController.instance.getUpperScrollCameraPosition().y;
+			if(upperScrollCameraPositionY>2.65f)
+			{
+				gameObjectPosition = newMyGameController.instance.getNewDeckButtonPosition();
+				float yPosition = gameObjectPosition.y;
+				if(!this.getIsMoving())
+				{
+					this.displayScrollDownHelp(false);
+					this.displayScrollUpHelp(false);
+					this.setRightArrow();
+					this.resizeBackground(new Rect(gameObjectPosition.x,yPosition,ApplicationDesignRules.roundButtonWorldSize.x+0.75f,ApplicationDesignRules.roundButtonWorldSize.y+0.75f),1f,1f);
+					this.drawRightArrow();
+				}
+				this.adjustRightArrowY(yPosition);
+				this.adjustBackgroundY(yPosition);
+			}
+			else
+			{
+				this.displayScrollUpHelp(true);
+				this.displayScrollDownHelp(false);
+				this.displayArrow(false);
+				this.resizeBackground(new Rect(0,10,5,5),0f,0f);
+			}
 			break;
 		}
 	}
@@ -125,12 +202,20 @@ public class MyGameTutorialController : TutorialObjectController
 			}
 			else
 			{
-				this.sequenceID=4;
+				this.sequenceID=5;
 			}
+		}
+		else if(newMyGameController.instance.isAPopUpDisplayed())
+		{
+			this.sequenceID=2;
 		}
 		else if(newMyGameController.instance.getIsFocusedCardDisplayed())
 		{
-			this.sequenceID=3;
+			this.sequenceID=4;
+		}
+		else if(newMyGameController.instance.getFiltersDisplayed())
+		{
+			this.sequenceID=6;
 		}
 		else if(ApplicationModel.hasDeck)
 		{
@@ -138,15 +223,11 @@ public class MyGameTutorialController : TutorialObjectController
 		}
 		else if(newMyGameController.instance.isADeckCurrentlySelected())
 		{
-			this.sequenceID=2;
+			this.sequenceID=3;
 		}
-		else if(this.sequenceID==0)
+		else 
 		{
 			this.sequenceID=1;
-		}
-		else
-		{
-			this.sequenceID=0;
 		}
 		this.launchSequence (this.sequenceID);
 	}
@@ -159,7 +240,7 @@ public class MyGameTutorialController : TutorialObjectController
 			{
 				if(newMyGameController.instance.isADeckCurrentlySelected())
 				{
-					return 2;
+					return 3;
 				}
 				else
 				{
@@ -190,7 +271,7 @@ public class MyGameTutorialController : TutorialObjectController
 		this.sequenceID = sequenceID;
 		switch(this.sequenceID)
 		{
-		case 0: // Encart mes cartes
+		case 0: // Encart mon équipe
 			if(newMyGameController.instance.getIsCardFocusedDisplayed())
 			{
 				this.sequenceID=100;
@@ -199,38 +280,61 @@ public class MyGameTutorialController : TutorialObjectController
 			if(!isResizing)
 			{
 				this.displayArrow(false);
-				this.displayPopUp(1);
-				this.displayNextButton(true);
-				this.setPopUpTitle("Mes unités");
-				this.setPopUpDescription("Accédez à l'ensemble de vos unités, et n'hésitez pas à cliquer sur une unité pour accéder au détail de ses compétences");
-				this.displaySquareBackground(true);
-				this.displayExitButton(true);
-				this.displayDragHelp(false);
-			}
-			
-			gameObjectPosition=newMyGameController.instance.getCardsBlockOrigin();
-			gameObjectPosition2=newMyGameController.instance.getDeckBlockOrigin();
-			gameObjectSize=newMyGameController.instance.getCardsBlockSize();
-			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
-			this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition.y,-9.5f));
-			break;
-		case 1: // Encart mon équipe
-			if(!isResizing)
-			{
-				this.displayArrow(false);
-				this.displayPopUp(1);
+				this.displayPopUp(0);
 				this.displayNextButton(true);
 				this.setPopUpTitle("Mes équipes");
 				this.setPopUpDescription("Organisez vos unités en équipes de 4 pretes à combattre. N'oubliez jamais que l'ordre des unités dans l'équipe se retrouve également dans l'ordre de jeu en combat.");
 				this.displaySquareBackground(true);
 				this.displayExitButton(true);
-				this.displayDragHelp(false);
+				this.displayDragHelp(false,false);
 			}
 			gameObjectPosition=newMyGameController.instance.getDeckBlockOrigin();
 			gameObjectPosition2=newMyGameController.instance.getCardsBlockOrigin();
 			gameObjectSize=newMyGameController.instance.getDeckBlockSize();
-			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
-			this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition2.y,-9.5f));
+			if(ApplicationDesignRules.isMobileScreen)
+			{
+				if(!newMyGameController.instance.getIsMainContentDisplayed())
+				{
+					newMyGameController.instance.slideLeft();
+				}
+				else
+				{
+					newMyGameController.instance.resetScrolling();
+				}
+				this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y-ApplicationDesignRules.topBarWorldSize.y+0.2f,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
+				this.resizePopUp(new Vector3(0f,-0.75f,-9.5f));
+			}
+			else
+			{
+				this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
+				this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition2.y,-9.5f));
+			}
+			break;
+		case 1: // Encart mes cartes
+			if(!isResizing)
+			{
+				this.displayArrow(false);
+				this.displayPopUp(0);
+				this.displayNextButton(true);
+				this.setPopUpTitle("Mes unités");
+				this.setPopUpDescription("Accédez à l'ensemble de vos unités, et n'hésitez pas à cliquer sur une unité pour accéder au détail de ses compétences");
+				this.displaySquareBackground(true);
+				this.displayExitButton(true);
+				this.displayDragHelp(false,false);
+			}
+			gameObjectPosition=newMyGameController.instance.getCardsBlockOrigin();
+			gameObjectPosition2=newMyGameController.instance.getDeckBlockOrigin();
+			gameObjectSize=newMyGameController.instance.getCardsBlockSize();
+			if(ApplicationDesignRules.isMobileScreen)
+			{
+				this.resizeBackground(new Rect(gameObjectPosition.x,-1.75f,gameObjectSize.x-0.03f,4.5f),0f,0f);
+				this.resizePopUp(new Vector3(0f,2.25f,-9.5f));
+			}
+			else
+			{
+				this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
+				this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition.y,-9.5f));
+			}
 			break;
 		case 2: // Encart les filtres
 			if(!isResizing)
@@ -242,13 +346,22 @@ public class MyGameTutorialController : TutorialObjectController
 				this.setPopUpDescription("Plus vous posséderez d'unités, plus il sera difficile de bien toutes les connaitre. Les filtres vous permettront de trouver rapidement des unités répondant à des critères spécifiques");
 				this.displaySquareBackground(true);
 				this.displayExitButton(true);
-				this.displayDragHelp(false);
+				this.displayDragHelp(false,false);
 			}
 			gameObjectPosition=newMyGameController.instance.getFiltersBlockOrigin();
 			gameObjectPosition2=newMyGameController.instance.getCardsBlockOrigin();
 			gameObjectSize=newMyGameController.instance.getFiltersBlockSize();
-			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
-			this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition2.y,-9.5f));
+			if(ApplicationDesignRules.isMobileScreen)
+			{
+				newMyGameController.instance.slideRight();
+				this.resizeBackground(new Rect(0,gameObjectPosition.y-ApplicationDesignRules.topBarWorldSize.y+0.2f,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
+				this.resizePopUp(new Vector3(0f,-3f,-9.5f));
+			}
+			else
+			{
+				this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
+				this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition2.y,-9.5f));
+			}
 			break;
 		case 3: 
 			this.endHelp();
@@ -263,7 +376,14 @@ public class MyGameTutorialController : TutorialObjectController
 	{
 		return newMyGameController.instance.returnCardFocused ();
 	}
-	
+	public override void endHelp()
+	{
+		if(ApplicationDesignRules.isMobileScreen && !newMyGameController.instance.getIsMainContentDisplayed())
+		{
+			newMyGameController.instance.slideLeft();
+		}
+		base.endHelp();
+	}
 	#endregion
 }
 

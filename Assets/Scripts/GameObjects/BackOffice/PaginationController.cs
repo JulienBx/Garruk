@@ -27,8 +27,8 @@ public class PaginationController : MonoBehaviour
 		{
 			this.buttons[i].transform.localScale=ApplicationDesignRules.paginationButtonScale;
 		}
-		this.buttons[0].transform.localPosition=new Vector3 (- 0.05f - ApplicationDesignRules.paginationButtonWorldSize.x / 2f, 0f, 0f);
-		this.buttons[1].transform.localPosition=new Vector3 (0.05f + ApplicationDesignRules.paginationButtonWorldSize.x / 2f, 0f, 0f);
+		this.buttons[0].transform.localPosition=new Vector3 (-ApplicationDesignRules.paginationButtonWorldSize.x / 2f, 0f, 0f);
+		this.buttons[1].transform.localPosition=new Vector3 (ApplicationDesignRules.paginationButtonWorldSize.x / 2f, 0f, 0f);
 	}
 	public void setVisible(bool value)
 	{

@@ -22,7 +22,7 @@ public class NextLevelPopUpAttributeController :MonoBehaviour
 	}
 	void OnMouseOver()
 	{
-		if(!this.isHovered)
+		if(!this.isHovered && !ApplicationDesignRules.isMobileScreen)
 		{
 			this.isHovered=true;
 			if(this.index<3)
@@ -45,7 +45,7 @@ public class NextLevelPopUpAttributeController :MonoBehaviour
 	}
 	void OnMouseExit()
 	{
-		if(this.isHovered)
+		if(this.isHovered && !ApplicationDesignRules.isMobileScreen)
 		{
 			this.isHovered=false;
 			if(this.index<3)

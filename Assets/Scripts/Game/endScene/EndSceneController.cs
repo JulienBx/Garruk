@@ -331,18 +331,9 @@ public class EndSceneController : MonoBehaviour
 		WWW w = new WWW(urlUpgradeCardAttribute, form); 								
 		yield return w; 											
 		
-		if (w.error != null)
+		if (w.error == null)
 		{
-			this.cards[this.idCardsToNextLevel[0]].GetComponent<NewCardController>().displayErrorPopUp(w.error);									
-		} 
-		else
-		{
-			if (w.text.Contains("#ERROR#"))
-			{
-				string[] errors = w.text.Split(new string[] { "#ERROR#" }, System.StringSplitOptions.None);
-				this.cards[this.idCardsToNextLevel[0]].GetComponent<NewCardController>().displayErrorPopUp(errors[1]);
-			} 
-			else
+			if (!w.text.Contains("#ERROR#"))
 			{
 				string [] cardData = w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
 				string [] experienceData = cardData[0].Split(new string[] {"#EXPERIENCEDATA#"},System.StringSplitOptions.None);

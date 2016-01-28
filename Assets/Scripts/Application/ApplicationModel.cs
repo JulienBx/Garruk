@@ -26,7 +26,7 @@ public class ApplicationModel : MonoBehaviour
 	static public string error = "";
 	static public int tutorialStep;
 	static public bool displayTutorial;
-	static public bool isAdmin = true;
+	static public bool isAdmin = false;
 	static public int nbCardsByDeck = 4;
 	static public int packToBuy = -1;
 	static public bool launchGameTutorial = false;
@@ -36,6 +36,8 @@ public class ApplicationModel : MonoBehaviour
 	static public string hisPlayerName = "";
 	static public string myPlayerName="";
 	static public bool hasDeck = false;
+	static public bool goToNotfications = false;
+	static public int idLanguage=0;
 
 	static private string URLCheckPassword = host + "check_password.php";
 	static private string URLEditPassword = host + "edit_password.php";

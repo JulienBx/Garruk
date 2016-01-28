@@ -43,7 +43,7 @@ public class HomePageTutorialController : TutorialObjectController
 				this.setPopUpDescription("Vous avez gagné votre premier combat. Défiez de nouveaux colons pour tester l'étendue de vos capacités, et continuez à améliorer votre équipe pour pouvoir triompher de tous types d'ennemis");
 				this.displayBackground(true);
 				this.displayExitButton(false);
-				this.displayDragHelp(false);
+				this.displayDragHelp(false,false);
 			}
 			this.resizeBackground(new Rect(0,10,5,5),0f,0f);
 			this.resizePopUp(new Vector3(0,0,-9.5f));
@@ -58,7 +58,7 @@ public class HomePageTutorialController : TutorialObjectController
 				this.setPopUpDescription("Vos unités se sont bien débrouillées pour leur premier combat, mais l'adversaire était trop fort ! Continuez à entrainer vos troupes pour les préparer aux combats qui les attendent !");
 				this.displayBackground(true);
 				this.displayExitButton(false);
-				this.displayDragHelp(false);
+				this.displayDragHelp(false,false);
 			}
 			this.resizeBackground(new Rect(0,10,5,5),0f,0f);
 			this.resizePopUp(new Vector3(0,0,-9.5f));
@@ -73,7 +73,7 @@ public class HomePageTutorialController : TutorialObjectController
 				this.setPopUpDescription("Quelque soit l'endroit ou vous vous trouvez sur Cristalia, je reste à votre disposition si vous avez une question ou que vous vous sentez perdus ! Cliquez sur l'aide pour me convoquer");
 				this.displayBackground(true);
 				this.displayExitButton(false);
-				this.displayDragHelp(false);
+				this.displayDragHelp(false,false);
 			}
 			gameObjectPosition = MenuController.instance.getHelpButtonPosition();
 			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,1.5f,1.5f),0f,0f);
@@ -129,7 +129,7 @@ public class HomePageTutorialController : TutorialObjectController
 		this.sequenceID = sequenceID;
 		switch(this.sequenceID)
 		{
-		case 0: // Encart "mon équipe"
+		case 0: // Encart "jouer"
 			if(NewHomePageController.instance.getIsCardFocusedDisplayed())
 			{
 				this.sequenceID=100;
@@ -140,20 +140,63 @@ public class HomePageTutorialController : TutorialObjectController
 				this.displayArrow(false);
 				this.displayPopUp(1);
 				this.displayNextButton(true);
+				this.setPopUpTitle("Combattre");
+				this.setPopUpDescription("La meilleure manière de s'enrichir reste de combattre d'autres colons ! Choisissez soigneusement votre combat et vos unités pour affronter d'autres colons et piller leur cristal");
+				this.displaySquareBackground(true);
+				this.displayExitButton(true);
+				this.displayDragHelp(false,false);
+			}
+			gameObjectPosition=NewHomePageController.instance.getPlayBlockOrigin();
+			gameObjectPosition2=NewHomePageController.instance.getDeckBlockOrigin();
+			gameObjectSize=NewHomePageController.instance.getPlayBlockSize();
+			if(ApplicationDesignRules.isMobileScreen)
+			{
+				if(!NewHomePageController.instance.getIsMainContentDisplayed())
+				{
+					NewHomePageController.instance.slideRight();	
+				}
+				this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y-ApplicationDesignRules.topBarWorldSize.y+0.2f,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
+				this.resizePopUp(new Vector3(0f,-2f,-9.5f));
+			}
+			else
+			{
+				this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
+				this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition2.y,-9.5f));
+			}
+			break;
+		case 1: // Encart "mon équipe"
+			if(!isResizing)
+			{
+				this.displayArrow(false);
+				this.displayPopUp(1);
+				this.displayNextButton(true);
 				this.setPopUpTitle("Mon équipe");
 				this.setPopUpDescription("Les combats de Cristalia opposent des équipes de 4 joueurs. Vous pouvez ici constituer une ou plusieurs équipes. L'ordre des unités dans l'équipe détermine l'ordre dans lequel elle agiront en combat, donc ne mettez pas vos meilleures unités en dernier !");
 				this.displaySquareBackground(true);
 				this.displayExitButton(true);
-				this.displayDragHelp(false);
+				this.displayDragHelp(false,false);
 			}
-	
 			gameObjectPosition=NewHomePageController.instance.getDeckBlockOrigin();
 			gameObjectPosition2=NewHomePageController.instance.getNewsfeedBlockOrigin();
 			gameObjectSize=NewHomePageController.instance.getDeckBlockSize();
-			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
-			this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition2.y,-9.5f));
+			if(ApplicationDesignRules.isMobileScreen)
+			{
+				this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y-ApplicationDesignRules.topBarWorldSize.y+0.3f,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
+				this.resizePopUp(new Vector3(0f,2f,-9.5f));
+			}
+			else
+			{
+				this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
+				this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition2.y,-9.5f));	
+			}
+
 			break;
-		case 1: // Encart "boutique"
+		case 2: // Encart "boutique"
+			if(ApplicationDesignRules.isMobileScreen)
+			{
+				this.sequenceID=3;
+				goto case 3;
+			}
 			if(!isResizing)
 			{
 				this.displayArrow(false);
@@ -163,7 +206,7 @@ public class HomePageTutorialController : TutorialObjectController
 				this.setPopUpDescription("Vous pourrez trouver ici les dernières promotions du centre de recrutement pour renforcer vos équipes. De nouvelles offres apparaissent régulièrement !");
 				this.displaySquareBackground(true);
 				this.displayExitButton(true);
-				this.displayDragHelp(false);
+				this.displayDragHelp(false,false);
 			}
 			gameObjectPosition=NewHomePageController.instance.getStoreBlockOrigin();
 			gameObjectPosition2=NewHomePageController.instance.getNewsfeedBlockOrigin();
@@ -171,7 +214,7 @@ public class HomePageTutorialController : TutorialObjectController
 			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
 			this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition2.y,-9.5f));
 			break;
-		case 2: // Encart "Réseau social"
+		case 3: // Encart "Réseau social"
 			if(!isResizing)
 			{
 				this.displayArrow(false);
@@ -181,32 +224,24 @@ public class HomePageTutorialController : TutorialObjectController
 				this.setPopUpDescription("Ce tableau de bord offert à tous les colons fraichement débarqués sur Cristalia permet d'accéder aux actualités de la planète, et de communiquer avec d'autres colons");
 				this.displaySquareBackground(true);
 				this.displayExitButton(true);
-				this.displayDragHelp(false);
+				this.displayDragHelp(false,false);
 			}
 			gameObjectPosition=NewHomePageController.instance.getNewsfeedBlockOrigin();
 			gameObjectPosition2=NewHomePageController.instance.getDeckBlockOrigin();
 			gameObjectSize=NewHomePageController.instance.getNewsfeedBlockSize();
-			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
-			this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition2.y,-9.5f));
-			break;
-		case 3: // Encart "jouer"
-			if(!isResizing)
+			if(ApplicationDesignRules.isMobileScreen)
 			{
-				this.displayArrow(false);
-				this.displayPopUp(1);
-				this.displayNextButton(true);
-				this.setPopUpTitle("Combattre");
-				this.setPopUpDescription("La meilleure manière de s'enrichir reste de combattre d'autres colons ! Choisissez soigneusement votre combat et vos unités pour affronter d'autres colons et piller leur cristal");
-				this.displaySquareBackground(true);
-				this.displayExitButton(true);
-				this.displayDragHelp(false);
+				NewHomePageController.instance.slideLeft();
+				this.resizeBackground(new Rect(0,gameObjectPosition.y-ApplicationDesignRules.topBarWorldSize.y+0.2f,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
+				this.resizePopUp(new Vector3(0f,-3f,-9.5f));	
 			}
-			gameObjectPosition=NewHomePageController.instance.getPlayBlockOrigin();
-			gameObjectPosition2=NewHomePageController.instance.getDeckBlockOrigin();
-			gameObjectSize=NewHomePageController.instance.getPlayBlockSize();
-			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
-			this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition2.y,-9.5f));
+			else
+			{
+				this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
+				this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition2.y,-9.5f));
+			}
 			break;
+		
 		case 4: 
 			this.endHelp();
 			break;
@@ -218,9 +253,16 @@ public class HomePageTutorialController : TutorialObjectController
 
 	public override GameObject getCardFocused()
 	{
-		return NewHomePageController.instance.returnCardFocused ();
+		return NewHomePageController.instance.returnCardFocused();
 	}
-
+	public override void endHelp()
+	{
+		if(ApplicationDesignRules.isMobileScreen && !NewHomePageController.instance.getIsMainContentDisplayed())
+		{
+			NewHomePageController.instance.slideRight();
+		}
+		base.endHelp();
+	}
 	#endregion
 }
 

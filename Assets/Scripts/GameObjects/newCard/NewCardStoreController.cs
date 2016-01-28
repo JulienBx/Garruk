@@ -32,5 +32,9 @@ public class NewCardStoreController : NewCardController
 	{
 		base.show ();
 	}
+	public override Camera getCurrentCamera()
+	{
+		return NewStoreController.instance.returnCurrentCamera ();
+	}
 }
 

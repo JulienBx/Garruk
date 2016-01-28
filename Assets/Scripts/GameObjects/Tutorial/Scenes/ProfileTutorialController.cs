@@ -46,6 +46,17 @@ public class ProfileTutorialController : TutorialObjectController
 	public override void endHelp()
 	{
 		StartCoroutine(NewProfileController.instance.endHelp ());
+		if(ApplicationDesignRules.isMobileScreen)
+		{
+			if(NewProfileController.instance.getIsFriendsSliderDisplayed())
+			{
+				NewProfileController.instance.slideRight();
+			}
+			else if(NewProfileController.instance.getIsResultsSliderDisplayed())
+			{
+				NewProfileController.instance.slideLeft();
+			}
+		}
 		base.endHelp ();
 	}
 
@@ -63,7 +74,7 @@ public class ProfileTutorialController : TutorialObjectController
 			if(!isResizing)
 			{
 				this.displayArrow(false);
-				this.displayPopUp(1);
+				this.displayPopUp(0);
 				this.displayNextButton(true);
 				if(NewProfileController.instance.getIsMyProfile())
 				{
@@ -77,20 +88,36 @@ public class ProfileTutorialController : TutorialObjectController
 				}
 				this.displaySquareBackground(true);
 				this.displayExitButton(true);
-				this.displayDragHelp(false);
+				this.displayDragHelp(false,false);
 			}
-			
 			gameObjectPosition=NewProfileController.instance.getProfileBlockOrigin();
 			gameObjectPosition2=NewProfileController.instance.getFriendsBlockOrigin();
 			gameObjectSize=NewProfileController.instance.getProfileBlockSize();
-			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
-			this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition2.y,-9.5f));
+			if(ApplicationDesignRules.isMobileScreen)
+			{
+				if(NewProfileController.instance.getIsFriendsSliderDisplayed())
+				{
+					NewProfileController.instance.slideRight();
+				}
+				else if(NewProfileController.instance.getIsResultsSliderDisplayed())
+				{
+					NewProfileController.instance.slideLeft();
+				}
+				this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y-ApplicationDesignRules.topBarWorldSize.y+0.2f,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
+				this.resizePopUp(new Vector3(0f,-2.5f,-9.5f));
+			}
+			else
+			{
+				this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
+				this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition2.y,-9.5f));
+			}
+
 			break;
 		case 1: // Encart mes trophées et challenges ou mes confrontations (selon le profil)
 			if(!isResizing)
 			{
 				this.displayArrow(false);
-				this.displayPopUp(1);
+				this.displayPopUp(0);
 				this.displayNextButton(true);
 				if(NewProfileController.instance.getIsMyProfile())
 				{
@@ -104,19 +131,56 @@ public class ProfileTutorialController : TutorialObjectController
 				}
 				this.displaySquareBackground(true);
 				this.displayExitButton(true);
-				this.displayDragHelp(false);
+				this.displayDragHelp(false,false);
 			}
 			gameObjectPosition=NewProfileController.instance.getResultsBlockOrigin();
 			gameObjectPosition2=NewProfileController.instance.getFriendsBlockOrigin();
 			gameObjectSize=NewProfileController.instance.getResultsBlockSize();
-			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
-			this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition2.y,-9.5f));
+			if(ApplicationDesignRules.isMobileScreen)
+			{
+				NewProfileController.instance.slideLeft();
+				this.resizeBackground(new Rect(0,gameObjectPosition.y-ApplicationDesignRules.topBarWorldSize.y+0.2f,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
+				this.resizePopUp(new Vector3(0f,-3.5f,-9.5f));	
+			}
+			else
+			{
+				this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
+				this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition2.y,-9.5f));
+			}
 			break;
-		case 2: // Encart mes amis ou les amis du joueur (selon le profil)
+		case 2: // Encart recherche d'amis
 			if(!isResizing)
 			{
 				this.displayArrow(false);
-				this.displayPopUp(1);
+				this.displayPopUp(0);
+				this.displayNextButton(true);
+				this.setPopUpTitle("Rechercher un colon");
+				this.setPopUpDescription("Recherchez ici un colon en inscrivant sur son nom!");
+				this.displaySquareBackground(true);
+				this.displayExitButton(true);
+				this.displayDragHelp(false,false);
+			}
+			gameObjectPosition=NewProfileController.instance.getSearchBlockOrigin();
+			gameObjectPosition2=NewProfileController.instance.getProfileBlockOrigin();
+			gameObjectSize=NewProfileController.instance.getSearchBlockSize();
+
+			if(ApplicationDesignRules.isMobileScreen)
+			{
+				NewProfileController.instance.slideRight();
+				this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y-ApplicationDesignRules.topBarWorldSize.y+0.3f,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
+				this.resizePopUp(new Vector3(0f,0.5f,-9.5f));
+			}
+			else
+			{
+				this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
+				this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition2.y,-9.5f));
+			}
+			break;
+		case 3: // Encart mes amis ou les amis du joueur (selon le profil)
+			if(!isResizing)
+			{
+				this.displayArrow(false);
+				this.displayPopUp(0);
 				this.displayNextButton(true);
 				if(NewProfileController.instance.getIsMyProfile())
 				{
@@ -130,32 +194,24 @@ public class ProfileTutorialController : TutorialObjectController
 				}
 				this.displaySquareBackground(true);
 				this.displayExitButton(true);
-				this.displayDragHelp(false);
+				this.displayDragHelp(false,false);
 			}
 			gameObjectPosition=NewProfileController.instance.getFriendsBlockOrigin();
 			gameObjectPosition2=NewProfileController.instance.getProfileBlockOrigin();
 			gameObjectSize=NewProfileController.instance.getFriendsBlockSize();
-			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
-			this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition2.y,-9.5f));
-			break;
-		case 3: // Encart recherche d'amis
-			if(!isResizing)
+			if(ApplicationDesignRules.isMobileScreen)
 			{
-				this.displayArrow(false);
-				this.displayPopUp(1);
-				this.displayNextButton(true);
-				this.setPopUpTitle("Rechercher un colon");
-				this.setPopUpDescription("Recherchez ici un colon en inscrivant sur son nom!");
-				this.displaySquareBackground(true);
-				this.displayExitButton(true);
-				this.displayDragHelp(false);
+				NewProfileController.instance.slideRight();
+				this.resizeBackground(new Rect(0,gameObjectPosition.y-ApplicationDesignRules.topBarWorldSize.y+0.2f,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
+				this.resizePopUp(new Vector3(0f,-3.5f,-9.5f));
 			}
-			gameObjectPosition=NewProfileController.instance.getSearchBlockOrigin();
-			gameObjectPosition2=NewProfileController.instance.getProfileBlockOrigin();
-			gameObjectSize=NewProfileController.instance.getSearchBlockSize();
-			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
-			this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition2.y,-9.5f));
+			else
+			{
+				this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
+				this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition2.y,-9.5f));
+			}
 			break;
+		
 		case 4: 
 			this.endHelp();
 			break;

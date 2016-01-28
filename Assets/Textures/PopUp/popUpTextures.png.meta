@@ -22,7 +22,7 @@ TextureImporter:
   bumpmap:
     convertToNormalMap: 0
     externalNormalMap: 0
-    heightScale: .25
+    heightScale: 0.25
     normalMapFilter: 0
   isReadable: 0
   grayScaleToAlpha: 0
@@ -42,11 +42,12 @@ TextureImporter:
   lightmap: 0
   rGBM: 0
   compressionQuality: 50
+  allowsAlphaSplitting: 0
   spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
-  spritePivot: {x: .5, y: .5}
+  spritePivot: {x: 0.5, y: 0.5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 100
   alphaIsTransparency: 1
@@ -62,8 +63,13 @@ TextureImporter:
         width: 640
         height: 490
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -320, y: 245}
+        - {x: -320, y: -245}
+        - {x: 320, y: -245}
+        - {x: 320, y: 245}
     - name: popUpBackgroundError
       rect:
         serializedVersion: 2
@@ -72,8 +78,13 @@ TextureImporter:
         width: 640
         height: 490
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -320, y: 245}
+        - {x: -320, y: -245}
+        - {x: 320, y: -245}
+        - {x: 320, y: 245}
     - name: popUpButton
       rect:
         serializedVersion: 2
@@ -82,8 +93,17 @@ TextureImporter:
         width: 400
         height: 100
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -200, y: 50}
+        - {x: -200, y: -50}
+        - {x: 200, y: -50}
+        - {x: 200, y: 50}
+      - - {x: -192, y: 42}
+        - {x: 192, y: 42}
+        - {x: 192, y: -42}
+        - {x: -192, y: -42}
     - name: popUpButtonHover
       rect:
         serializedVersion: 2
@@ -92,8 +112,13 @@ TextureImporter:
         width: 400
         height: 100
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -200, y: 50}
+        - {x: -200, y: -50}
+        - {x: 200, y: -50}
+        - {x: 200, y: 50}
     - name: popUpButtonTextfield
       rect:
         serializedVersion: 2
@@ -102,8 +127,14 @@ TextureImporter:
         width: 400
         height: 100
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -200, y: 50}
+        - {x: -200, y: -50}
+        - {x: 200, y: -50}
+        - {x: 200, y: 50}
+    outline: []
   spritePackingTag: 
   userData: 
   assetBundleName: 

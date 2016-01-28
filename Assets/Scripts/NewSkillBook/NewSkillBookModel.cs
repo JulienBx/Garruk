@@ -45,8 +45,6 @@ public class NewSkillBookModel
 			this.cardIdsList = parseCards(data[3].Split(new string[] { "//" }, System.StringSplitOptions.None));
 			this.player=parsePlayer(data[4].Split (new string[]{"//"},System.StringSplitOptions.None));
 			this.skillTypesList = parseSkillTypes(data[5].Split(new string[] {"#SKILLTYPE#"},System.StringSplitOptions.None));
-			this.affectSkillTypes();
-			this.affectCardTypes();
 			this.affectUserSkills();
 		}
 	}
@@ -58,19 +56,13 @@ public class NewSkillBookModel
 			string[] skillInformation = array[i].Split(new string[] { "//" }, System.StringSplitOptions.None);
 			skills.Add (new Skill());
 			skills[i].Id=System.Convert.ToInt32(skillInformation[0]);
-			skills[i].Name=skillInformation[1];
-			skills[i].IdCardType=System.Convert.ToInt32(skillInformation[2]);
-			skills[i].cible=System.Convert.ToInt32(skillInformation[3]);
-			skills[i].IdPicture=System.Convert.ToInt32(skillInformation[4]);
-			skills[i].AllDescriptions=new string[10];
-			for(int j=0;j<skills[i].AllDescriptions.Length;j++)
-			{
-				skills[i].AllDescriptions[j]=skillInformation[5+j];
-			}
+			skills[i].IdCardType=System.Convert.ToInt32(skillInformation[1]);
+			skills[i].IdSkillType=System.Convert.ToInt32(skillInformation[2]);
+			skills[i].IdPicture=System.Convert.ToInt32(skillInformation[3]);
 			skills[i].AllProbas=new int[10];
 			for(int j=0;j<skills[i].AllProbas.Length;j++)
 			{
-				skills[i].AllProbas[j]=System.Convert.ToInt32(skillInformation[15+j]);
+				skills[i].AllProbas[j]=System.Convert.ToInt32(skillInformation[4+j]);
 			}
 		}
 		return skills;
@@ -148,34 +140,6 @@ public class NewSkillBookModel
 		player.displayTutorial= System.Convert.ToBoolean(System.Convert.ToInt32(array [3]));
 		player.SkillBookTutorial= System.Convert.ToBoolean(System.Convert.ToInt32(array [4]));
 		return player;
-	}
-	private void affectSkillTypes()
-	{
-		for(int i=0;i<this.skillsList.Count;i++)
-		{
-			for(int j=0;j<this.skillTypesList.Count;j++)
-			{
-				if(this.skillsList[i].cible==this.skillTypesList[j].Id)
-				{
-					this.skillsList[i].SkillType=this.skillTypesList[j];
-					break;
-				}
-			}
-		}
-	}
-	private void affectCardTypes()
-	{
-		for(int i=0;i<this.skillsList.Count;i++)
-		{
-			for(int j=0;j<this.cardTypesList.Count;j++)
-			{
-				if(this.skillsList[i].IdCardType==this.cardTypesList[j].Id)
-				{
-					this.skillsList[i].CardType=this.cardTypesList[j];
-					break;
-				}
-			}
-		}
 	}
 	private void affectUserSkills()
 	{

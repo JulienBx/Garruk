@@ -46,6 +46,17 @@ public class LobbyTutorialController : TutorialObjectController
 	public override void endHelp()
 	{
 		StartCoroutine(NewLobbyController.instance.endHelp ());
+		if(ApplicationDesignRules.isMobileScreen)
+		{
+			if(NewLobbyController.instance.getAreResultsDisplayed())
+			{
+				NewLobbyController.instance.slideRight();
+			}
+			else if(NewLobbyController.instance.getAreStatsDisplayed())
+			{
+				NewLobbyController.instance.slideLeft();
+			}
+		}
 		base.endHelp ();
 	}
 	#region HELP SEQUENCES
@@ -68,16 +79,58 @@ public class LobbyTutorialController : TutorialObjectController
 				this.setPopUpDescription("La conquete des satellites de Cristalia vous permettra de gagner de plus en plus de cristal. Pour conquérir un satellite, il vous faudra défier de nombreux colons et les vaincre. Vous pouvez ici consulter l'état de la guerre sur le satellite sur lequel vous vous trouvez");
 				this.displaySquareBackground(true);
 				this.displayExitButton(true);
-				this.displayDragHelp(false);
+				this.displayDragHelp(false,false);
 			}
-			
 			gameObjectPosition=NewLobbyController.instance.getMainBlockOrigin();
 			gameObjectPosition2=NewLobbyController.instance.getLastResultsBlockOrigin();
 			gameObjectSize=NewLobbyController.instance.getMainBlockSize();
-			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
-			this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition2.y,-9.5f));
+			if(ApplicationDesignRules.isMobileScreen)
+			{
+				if(NewLobbyController.instance.getAreResultsDisplayed())
+				{
+					NewLobbyController.instance.slideRight();
+				}
+				else if(NewLobbyController.instance.getAreStatsDisplayed())
+				{
+					NewLobbyController.instance.slideLeft();
+				}
+				this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y-ApplicationDesignRules.topBarWorldSize.y+0.2f,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
+				this.resizePopUp(new Vector3(0f,-3f,-9.5f));
+			}
+			else
+			{
+				this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
+				this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition2.y,-9.5f));
+			}
 			break;
-		case 1: // Encart de présentation de la compétition, récompenses, etc.
+		case 1: // Encart d'affichage des derniers résutats au sein de la compétition
+			if(!isResizing)
+			{
+				this.displayArrow(false);
+				this.displayPopUp(0);
+				this.displayNextButton(true);
+				this.setPopUpTitle("Mes derniers combats");
+				this.setPopUpDescription("Accédez ici à un compte-rendu de vos derniers combats sur le satellite");
+				this.displaySquareBackground(true);
+				this.displayExitButton(true);
+				this.displayDragHelp(false,false);
+			}
+			gameObjectPosition=NewLobbyController.instance.getLastResultsBlockOrigin();
+			gameObjectPosition2=NewLobbyController.instance.getMainBlockOrigin();
+			gameObjectSize=NewLobbyController.instance.getLastResultsBlockSize();
+			if(ApplicationDesignRules.isMobileScreen)
+			{
+				NewLobbyController.instance.slideLeft();
+				this.resizeBackground(new Rect(0,gameObjectPosition.y-ApplicationDesignRules.topBarWorldSize.y+0.2f,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
+				this.resizePopUp(new Vector3(0f,-3.5f,-9.5f));
+			}
+			else
+			{
+				this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
+				this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition2.y,-9.5f));	
+			}
+			break;
+		case 2: // Encart de présentation de la compétition, récompenses, etc.
 			if(!isResizing)
 			{
 				this.displayArrow(false);
@@ -87,49 +140,49 @@ public class LobbyTutorialController : TutorialObjectController
 				this.setPopUpDescription("La guerre fait rage sur les satellites de Cristalia. Plus vous deviendrez fort, plus vous pourrez accéder à des satellites riches en ressources. Consultez ici la richesse du satellite et les conditions d'accès au suivant");
 				this.displaySquareBackground(true);
 				this.displayExitButton(true);
-				this.displayDragHelp(false);
+				this.displayDragHelp(false,false);
 			}
 			gameObjectPosition=NewLobbyController.instance.getCompetitionBlockOrigin();
 			gameObjectPosition2=NewLobbyController.instance.getLastResultsBlockOrigin();
 			gameObjectSize=NewLobbyController.instance.getCompetitionBlockSize();
-			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
-			this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition2.y,-9.5f));
-			break;
-		case 2: // Encart d'affichage des derniers résutats au sein de la compétition
-			if(!isResizing)
+			if(ApplicationDesignRules.isMobileScreen)
 			{
-				this.displayArrow(false);
-				this.displayPopUp(1);
-				this.displayNextButton(true);
-				this.setPopUpTitle("Mes derniers combats");
-				this.setPopUpDescription("Accédez ici à un compte-rendu de vos derniers combats sur le satellite");
-				this.displaySquareBackground(true);
-				this.displayExitButton(true);
-				this.displayDragHelp(false);
+				NewLobbyController.instance.slideRight();
+				this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y-ApplicationDesignRules.topBarWorldSize.y+0.3f,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
+				this.resizePopUp(new Vector3(0f,1f,-9.5f));
 			}
-			gameObjectPosition=NewLobbyController.instance.getLastResultsBlockOrigin();
-			gameObjectPosition2=NewLobbyController.instance.getMainBlockOrigin();
-			gameObjectSize=NewLobbyController.instance.getLastResultsBlockSize();
-			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
-			this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition2.y,-9.5f));
+			else
+			{
+				this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
+				this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition2.y,-9.5f));
+			}
 			break;
 		case 3: // Encart d'affichage des statistiques de l'utilisateur (sur l'ensemble des matchs classés)
 			if(!isResizing)
 			{
 				this.displayArrow(false);
-				this.displayPopUp(1);
+				this.displayPopUp(0);
 				this.displayNextButton(true);
 				this.setPopUpTitle("Mes statistiques");
 				this.setPopUpDescription("Ces statistiques vous permettront d'évaluer l'état de la conquete du satellite et votre niveau par rapport aux autres colons");
 				this.displaySquareBackground(true);
 				this.displayExitButton(true);
-				this.displayDragHelp(false);
+				this.displayDragHelp(false,false);
 			}
 			gameObjectPosition=NewLobbyController.instance.getStatsBlockOrigin();
 			gameObjectPosition2=NewLobbyController.instance.getMainBlockOrigin();
 			gameObjectSize=NewLobbyController.instance.getStatsBlockSize();
-			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
-			this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition2.y,-9.5f));
+			if(ApplicationDesignRules.isMobileScreen)
+			{
+				NewLobbyController.instance.slideRight();
+				this.resizeBackground(new Rect(0,gameObjectPosition.y-ApplicationDesignRules.topBarWorldSize.y+0.2f,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
+				this.resizePopUp(new Vector3(0f,-3.5f,-9.5f));
+			}
+			else
+			{
+				this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
+				this.resizePopUp(new Vector3(gameObjectPosition2.x,gameObjectPosition2.y,-9.5f));
+			}
 			break;
 		case 4: 
 			this.endHelp();

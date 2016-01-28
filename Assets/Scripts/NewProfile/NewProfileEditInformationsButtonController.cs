@@ -1,7 +1,7 @@
 using UnityEngine;
 using TMPro;
 
-public class NewProfileEditInformationsButtonController : SimpleButtonController 
+public class NewProfileEditInformationsButtonController : SpriteButtonController 
 {
 	public override void mainInstruction()
 	{

@@ -12,7 +12,7 @@ public class LoadingScreenButtonController : MonoBehaviour
 	
 	void OnMouseOver()
 	{
-		if(!isHovering)
+		if(!isHovering && !ApplicationDesignRules.isMobileScreen)
 		{
 			this.isHovering=true;
 			gameObject.transform.GetComponent<SpriteRenderer>().color=new Color(155f/255f,220f/255f,1f);
@@ -21,7 +21,7 @@ public class LoadingScreenButtonController : MonoBehaviour
 	}
 	void OnMouseExit()
 	{
-		if(isHovering)
+		if(isHovering && !ApplicationDesignRules.isMobileScreen)
 		{
 			this.isHovering=false;
 			gameObject.transform.GetComponent<SpriteRenderer>().color=new Color(1f,1f,1f);

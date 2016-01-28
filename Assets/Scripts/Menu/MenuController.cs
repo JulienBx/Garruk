@@ -14,12 +14,6 @@ public class MenuController : MonoBehaviour
 	private MenuPhotonController photon;
 	private int currentPage;
 	private float timer;
-	private GameObject playPopUp;
-	private GameObject invitationPopUp;
-	private GameObject transparentBackground;
-	private bool isPlayPopUpDisplayed;
-	private bool isInvitationPopUpDisplayed;
-	private bool isTransparentBackgroundDisplayed;
 	private Rect centralWindow;
 	private Rect collectionPointsWindow;
 	private Rect newSkillsWindow;
@@ -27,21 +21,26 @@ public class MenuController : MonoBehaviour
 	private GameObject loadingScreen;
 	private GameObject tutorial;
 	
-	private bool isDisconnectedViewDisplayed;
-	private NewMenuDisconnectedPopUpView disconnectedView;
-	
 	private bool isLoadingScreenDisplayed;
 	
 	private bool isInviting;
 	
-	private newMenuErrorPopUpView errorView;
-	private bool errorViewDisplayed;
-	private NewCollectionPointsPopUpView collectionPointsView;
-	private bool isCollectionPointsViewDisplayed;
-	private NewSkillsPopUpView newSkillsView;
-	private bool isNewSkillsViewDisplayed;
-	private NewCardTypePopUpView newCardTypeView;
-	private bool isNewCardTypeViewDisplayed;
+	private GameObject disconnectedPopUp;
+	private bool isDisconnectedPopUpDisplayed;
+	private GameObject errorPopUp;
+	private bool isErrorPopUpDisplayed;
+	private GameObject collectionPointsPopUp;
+	private bool isCollectionPointsPopUpDisplayed;
+	private GameObject[] newSkillsPopUps;
+	private bool areNewSkillsPopUpsDisplayed;
+	private GameObject newCardTypePopUp;
+	private bool isNewCardTypePopUpDisplayed;
+	private GameObject playPopUp;
+	private bool isPlayPopUpDisplayed;
+	private GameObject invitationPopUp;
+	private bool isInvitationPopUpDisplayed;
+	private GameObject transparentBackground;
+	private bool isTransparentBackgroundDisplayed;
 
 	private float speed;
 	private float timerCollectionPoints;
@@ -83,7 +82,14 @@ public class MenuController : MonoBehaviour
 			if(this.helpTimer>0.5f)
 			{
 				this.helpTimer=0f;
-				gameObject.transform.FindChild("UserBlock").FindChild("Help").GetComponent<MenuHelpController>().changeColor();
+				if(ApplicationDesignRules.isMobileScreen)
+				{
+					gameObject.transform.FindChild("MobileHelpButton").GetComponent<MobileMenuHelpController>().changeColor();
+				}
+				else
+				{
+					gameObject.transform.FindChild("UserBlock").FindChild("Help").GetComponent<MenuHelpController>().changeColor();
+				}
 			}
 		}
 		if(Input.GetKeyDown(KeyCode.Return)) 
@@ -98,89 +104,71 @@ public class MenuController : MonoBehaviour
 		{
 			this.resizeAll();
 		}
-		if(isCollectionPointsViewDisplayed)
+		if(isCollectionPointsPopUpDisplayed)
 		{
 			timerCollectionPoints = timerCollectionPoints + speed * Time.deltaTime;
 			if(timerCollectionPoints>15f)
 			{
 				timerCollectionPoints=0f;
 				this.hideCollectionPointsPopUp();
-				if(isNewSkillsViewDisplayed)
+				if(areNewSkillsPopUpsDisplayed)
 				{
-					this.hideNewSkillsPopUp();
+					this.hideNewSkillsPopUps();
 				}
 			}
 		}
 	}
 	public void displayErrorPopUp(string error)
 	{
-		this.errorViewDisplayed = true;
-		this.errorView = Camera.main.gameObject.AddComponent <newMenuErrorPopUpView>();
-		errorView.errorPopUpVM.error = error;
-		errorView.popUpVM.centralWindowStyle = new GUIStyle(ressources.popUpSkin.customStyles[3]);
-		errorView.popUpVM.centralWindowTitleStyle = new GUIStyle (ressources.popUpSkin.customStyles [0]);
-		errorView.popUpVM.centralWindowButtonStyle = new GUIStyle (ressources.popUpSkin.button);
-		errorView.popUpVM.transparentStyle = new GUIStyle (ressources.popUpSkin.customStyles [2]);
-		this.errorPopUpResize ();
+		MenuController.instance.displayTransparentBackground ();
+		this.errorPopUp.transform.GetComponent<ErrorPopUpController> ().reset (error);
+		this.isErrorPopUpDisplayed = true;
+		this.errorPopUp.SetActive (true);
+		this.errorPopUpResize();
 	}
 	public void displayPlayPopUp()
 	{
-		this.displayTransparentBackground ();
+		MenuController.instance.displayTransparentBackground ();
 		this.playPopUp=Instantiate(this.ressources.playPopUpObject) as GameObject;
 		this.playPopUp.transform.position = new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y, -2f);
 		this.isPlayPopUpDisplayed = true;
+		this.playPopUpResize ();
 	}
 	public void displayCollectionPointsPopUp(int collectionPoints, int collectionPointsRanking)
 	{
-		if(this.isCollectionPointsViewDisplayed)
+		if(this.isCollectionPointsPopUpDisplayed)
 		{
 			this.hideCollectionPointsPopUp();
 		}
-		collectionPointsView = gameObject.AddComponent<NewCollectionPointsPopUpView>();
-		this.isCollectionPointsViewDisplayed = true;
+		this.collectionPointsPopUp.SetActive (true);
+		this.isCollectionPointsPopUpDisplayed = true;
+		this.collectionPointsPopUp.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Collections Points : + " + collectionPoints.ToString () + "\nClassement : " + collectionPointsRanking.ToString ();
 		this.timerCollectionPoints = 0f;
-		collectionPointsView.popUpVM.centralWindow = this.collectionPointsWindow;
-		collectionPointsView.cardCollectionPointsPopUpVM.collectionPoints = collectionPoints;
-		collectionPointsView.cardCollectionPointsPopUpVM.collectionPointsRanking = collectionPointsRanking;
-		collectionPointsView.popUpVM.centralWindowStyle = new GUIStyle(ressources.popUpSkin.window);
-		collectionPointsView.popUpVM.centralWindowTitleStyle = new GUIStyle (ressources.popUpSkin.customStyles [0]);
 		this.collectionPointsPopUpResize ();
 	}
-	public void displayNewSkillsPopUp(IList<Skill> newSkills)
+	public void displayNewSkillsPopUps(IList<Skill> newSkills)
 	{
-		if(this.isNewSkillsViewDisplayed)
+		if(this.areNewSkillsPopUpsDisplayed)
 		{
-			this.hideNewSkillsPopUp();
+			this.hideNewSkillsPopUps();
 		}
-		this.newSkillsView = gameObject.AddComponent<NewSkillsPopUpView>();
-		this.isNewSkillsViewDisplayed = true;
-		newSkillsView.popUpVM.centralWindow = this.newSkillsWindow;
+		this.areNewSkillsPopUpsDisplayed = true;
+		this.newSkillsPopUps=new GameObject[newSkills.Count];
 		for(int i=0;i<newSkills.Count;i++)
 		{
-			newSkillsView.cardNewSkillsPopUpVM.skills.Add (newSkills[i].Name);
+			this.newSkillsPopUps[i]=Instantiate(this.ressources.newSkillPopUpObject) as GameObject;
+			this.newSkillsPopUps[i].transform.FindChild("Title").GetComponent<TextMeshPro>().text=newSkills[i].Name;
+			this.newSkillsPopUps[i].transform.FindChild("Picto").GetComponent<SpriteRenderer>().sprite=returnSkillPicture(newSkills[i].IdPicture);
 		}
-		if(newSkills.Count>1)
-		{
-			newSkillsView.cardNewSkillsPopUpVM.title="Nouvelles compétences :";
-		}
-		else if(newSkills.Count==1)
-		{
-			newSkillsView.cardNewSkillsPopUpVM.title="Nouvelle compétence :";
-		}
-		newSkillsView.popUpVM.centralWindowStyle = new GUIStyle(ressources.popUpSkin.window);
-		newSkillsView.popUpVM.centralWindowTitleStyle = new GUIStyle (ressources.popUpSkin.customStyles [0]);
-		this.newSkillsPopUpResize ();
+		this.newSkillsPopUpsResize ();
 	}
 	public void displayNewCardTypePopUp(string titleCardTypeUnlocked)
 	{
-		newCardTypeView = gameObject.AddComponent<NewCardTypePopUpView>();
-		this.isNewCardTypeViewDisplayed = true;
-		newCardTypeView.popUpVM.centralWindow = this.newCardTypeWindow;
-		newCardTypeView.cardNewCardTypePopUpVM.newCardType = titleCardTypeUnlocked;
-		newCardTypeView.popUpVM.centralWindowStyle = new GUIStyle(ressources.popUpSkin.window);
-		newCardTypeView.popUpVM.centralWindowTitleStyle = new GUIStyle (ressources.popUpSkin.customStyles [0]);
-		newCardTypeView.popUpVM.centralWindowButtonStyle = new GUIStyle (ressources.popUpSkin.button);
-		this.newCardTypePopUpResize ();
+		MenuController.instance.displayTransparentBackground ();
+		this.newCardTypePopUp.transform.GetComponent<NewCardTypePopUpController> ().reset (titleCardTypeUnlocked);
+		this.isNewCardTypePopUpDisplayed = true;
+		this.newCardTypePopUp.SetActive (true);
+		this.newCardTypePopUpResize();
 	}
 	public void displayTransparentBackground()
 	{
@@ -188,56 +176,84 @@ public class MenuController : MonoBehaviour
 		{
 			this.isTransparentBackgroundDisplayed = true;
 			this.transparentBackground=Instantiate(this.ressources.transparentBackgroundObject) as GameObject;
-			this.transparentBackground.transform.position = new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y, -1f);
+			this.transparentBackgroundResize();
 		}
 	}
 	public void displayInvitationPopUp()
 	{
 		this.closeAllPopUp ();
-		this.displayTransparentBackground ();
+		MenuController.instance.displayTransparentBackground ();
 		this.invitationPopUp=Instantiate(this.ressources.invitationPopUpObject) as GameObject;
 		this.invitationPopUp.transform.position = new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y, -2f);
 		this.isInvitationPopUpDisplayed = true;
+		this.invitationPopUpResize ();
 	}
 	public void errorPopUpResize()
 	{
-		errorView.popUpVM.centralWindow = this.centralWindow;
-		errorView.popUpVM.resize ();
+		this.errorPopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y, -2f);
+		this.errorPopUp.transform.localScale = ApplicationDesignRules.popUpScale*(1f/this.gameObject.transform.localScale.x);
+		this.errorPopUp.GetComponent<ErrorPopUpController> ().resize ();
+	}
+	public void playPopUpResize()
+	{
+		this.playPopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y, -2f);
+		this.playPopUp.transform.localScale = ApplicationDesignRules.popUpScale*(1f/this.gameObject.transform.localScale.x);
+	}
+	public void invitationPopUpResize()
+	{
+		this.invitationPopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y, -2f);
+		this.invitationPopUp.transform.localScale = ApplicationDesignRules.popUpScale*(1f/this.gameObject.transform.localScale.x);
+	}
+	public void transparentBackgroundResize()
+	{
+		this.transparentBackground.transform.localScale=ApplicationDesignRules.transparentBackgroundScale;
+		this.transparentBackground.transform.position = new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y, -1f);
 	}
 	private void collectionPointsPopUpResize()
 	{
-		collectionPointsView.popUpVM.centralWindow = this.collectionPointsWindow;
-		collectionPointsView.popUpVM.resize ();
+		this.collectionPointsPopUp.transform.position = ApplicationDesignRules.collectionPopUpPosition;
+		this.collectionPointsPopUp.transform.localScale = ApplicationDesignRules.collectionPopUpScale*(1f/this.gameObject.transform.localScale.x);
 	}
-	private void newSkillsPopUpResize()
+	private void newSkillsPopUpsResize()
 	{
-		newSkillsView.popUpVM.centralWindow = this.newSkillsWindow;
-		newSkillsView.popUpVM.resize ();
+		Vector3 newSkillPopUpPosition=ApplicationDesignRules.collectionPopUpPosition;
+		for(int i=0;i<this.newSkillsPopUps.Length;i++)
+		{
+			this.newSkillsPopUps[i].transform.localScale=ApplicationDesignRules.newSkillsPopUpScale;
+			newSkillPopUpPosition.y=ApplicationDesignRules.collectionPopUpPosition.y-ApplicationDesignRules.collectionPopUpWorldSize.y/2f-0.025f-ApplicationDesignRules.newSkillsPopUpWorldSize.y/2f-i*(ApplicationDesignRules.newSkillsPopUpWorldSize.y+0.025f);
+			this.newSkillsPopUps[i].transform.position=newSkillPopUpPosition;
+		}
 	}
 	private void newCardTypePopUpResize()
 	{
-		newCardTypeView.popUpVM.centralWindow = this.newCardTypeWindow;
-		newCardTypeView.popUpVM.resize ();
+		this.newCardTypePopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y, -2f);
+		this.newCardTypePopUp.transform.localScale = ApplicationDesignRules.popUpScale*(1f/this.gameObject.transform.localScale.x);
+		this.newCardTypePopUp.GetComponent<NewCardTypePopUpController> ().resize ();
 	}
 	public void hideCollectionPointsPopUp()
 	{
-		Destroy (this.collectionPointsView);
-		this.isCollectionPointsViewDisplayed = false;
+		this.collectionPointsPopUp.SetActive (false);
+		this.isCollectionPointsPopUpDisplayed = false;
 	}
 	public void hideNewCardTypePopUp()
 	{
-		Destroy (this.newCardTypeView);
-		this.isNewCardTypeViewDisplayed = false;
+		this.newCardTypePopUp.SetActive (false);
+		MenuController.instance.hideTransparentBackground();
+		this.isNewCardTypePopUpDisplayed = false;
 	}
-	public void hideNewSkillsPopUp()
+	public void hideNewSkillsPopUps()
 	{
-		Destroy (this.newSkillsView);
-		this.isNewSkillsViewDisplayed = false;
+		for(int i=0;i<this.newSkillsPopUps.Length;i++)
+		{
+			Destroy (this.newSkillsPopUps[i]);
+		}
+		this.areNewSkillsPopUpsDisplayed = false;
 	}
 	public void hideErrorPopUp()
 	{
-		Destroy (this.errorView);
-		this.errorViewDisplayed = false;
+		this.errorPopUp.SetActive (false);
+		MenuController.instance.hideTransparentBackground();
+		this.isErrorPopUpDisplayed = false;
 	}
 	public void hideInvitationPopUp()
 	{
@@ -270,8 +286,8 @@ public class MenuController : MonoBehaviour
 		}
 		else
 		{
-			gameObject.transform.FindChild("BottomBar").FindChild ("Button" + i).GetComponent<MenuButtonController> ().setIsSelected(true);
-			gameObject.transform.FindChild("BottomBar").FindChild ("Button" + i).GetComponent<MenuButtonController> ().setHoveredState();
+			gameObject.transform.FindChild ("MobileButton" + i).GetComponent<MobileMenuButtonController> ().setIsSelected(true);
+			gameObject.transform.FindChild ("MobileButton" + i).GetComponent<MobileMenuButtonController> ().setHoveredState();
 		}
 	}
 	public void setNbNotificationsNonRead(int value)
@@ -331,9 +347,14 @@ public class MenuController : MonoBehaviour
 		this.gameObject.transform.Find ("LogoBlock").FindChild ("AdminButton").gameObject.AddComponent<MenuAdminController> ();
 		this.gameObject.transform.Find ("LogoBlock").FindChild ("DisconnectButton").gameObject.AddComponent<MenuDisconnectController> ();
 		this.gameObject.transform.FindChild ("UserBlock").FindChild ("Username").gameObject.AddComponent<MenuUserUsernameController> ();
+		this.gameObject.transform.FindChild ("MobileUsername").gameObject.AddComponent<MobileMenuUsernameController> ();
+		this.gameObject.transform.FindChild ("MobilePicture").gameObject.AddComponent<MobileMenuPictureController> ();
+		this.gameObject.transform.FindChild ("MobileNotificationsButton").gameObject.AddComponent<MobileMenuNotificationsController> ();
 		this.gameObject.transform.FindChild ("UserBlock").FindChild ("Picture").gameObject.AddComponent<MenuUserPictureController> ();
 		this.gameObject.transform.FindChild ("UserBlock").FindChild ("Bell").gameObject.AddComponent<MenuNotificationsController> ();
 		this.gameObject.transform.FindChild ("UserBlock").FindChild ("Credits").gameObject.GetComponent<TextMeshPro> ().color = ApplicationDesignRules.whiteTextColor;
+		this.gameObject.transform.FindChild ("UserBlock").FindChild ("Help").gameObject.AddComponent<MenuHelpController> ();
+		this.gameObject.transform.FindChild ("MobileHelpButton").gameObject.AddComponent<MobileMenuHelpController> ();
 
 		if(ApplicationModel.isAdmin)
 		{
@@ -350,14 +371,19 @@ public class MenuController : MonoBehaviour
 		for (int i=0;i<6;i++)
 		{
 			this.gameObject.transform.FindChild("Button"+i).FindChild("Title").GetComponent<TextMeshPro>().text=model.buttonsLabels[i].ToUpper();
-			this.gameObject.transform.FindChild("BottomBar").FindChild("Button"+i).FindChild("Title").GetComponent<TextMeshPro>().text=model.buttonsLabels[i];
+			this.gameObject.transform.FindChild("MobileButton"+i).FindChild("Title").GetComponent<TextMeshPro>().text=model.mobileButtonsLabels[i];
+			//this.gameObject.transform.FindChild("BottomBar").FindChild("Button"+i).FindChild("Title").GetComponent<TextMeshPro>().text=model.buttonsLabels[i];
 			this.gameObject.transform.FindChild("Button"+i).gameObject.AddComponent<MenuButtonController>();
-			this.gameObject.transform.FindChild("BottomBar").FindChild("Button"+i).gameObject.AddComponent<MenuButtonController>();
+			this.gameObject.transform.FindChild("MobileButton"+i).gameObject.AddComponent<MobileMenuButtonController>();
 			this.gameObject.transform.FindChild("Button"+i).GetComponent<MenuButtonController>().setId(i);
-			this.gameObject.transform.FindChild("BottomBar").FindChild("Button"+i).GetComponent<MenuButtonController>().setId(i);
+			this.gameObject.transform.FindChild("MobileButton"+i).GetComponent<MobileMenuButtonController>().setId(i);
 		}
-		
 		this.gameObject.transform.FindChild("UserBlock").FindChild("Username").GetComponent<TextMeshPro>().text=ApplicationModel.username;
+		this.gameObject.transform.FindChild ("MobileUsername").GetComponent<TextMeshPro> ().text = ApplicationModel.username;
+		this.disconnectedPopUp=this.gameObject.transform.FindChild("disconnectPopUp").gameObject;
+		this.errorPopUp = this.gameObject.transform.FindChild ("errorPopUp").gameObject;
+		this.collectionPointsPopUp = this.gameObject.transform.FindChild ("collectionPointsPopUp").gameObject;
+		this.newCardTypePopUp = this.gameObject.transform.FindChild ("newCardTypePopUp").gameObject;
 	}
 	public virtual void resizeAll()
 	{
@@ -376,10 +402,16 @@ public class MenuController : MonoBehaviour
 
 		if(!ApplicationDesignRules.isMobileScreen)
 		{
-			gameObject.transform.FindChild("LogoBlock").GetComponent<SpriteRenderer>().sprite=ressources.logoBackground;
-			gameObject.transform.FindChild("UserBlock").GetComponent<SpriteRenderer>().sprite=ressources.userBackground;
+			gameObject.transform.FindChild("LogoBlock").gameObject.SetActive(true);
+			gameObject.transform.FindChild("UserBlock").gameObject.SetActive(true);
+			gameObject.transform.FindChild("MobilePicture").gameObject.SetActive(false);
+			gameObject.transform.FindChild("MobileUsername").gameObject.SetActive(false);
 			gameObject.transform.FindChild("TopBar").gameObject.SetActive(false);
 			gameObject.transform.FindChild("BottomBar").gameObject.SetActive(false);
+			gameObject.transform.FindChild("MobileHelpButton").gameObject.SetActive(false);
+			gameObject.transform.FindChild("MobileNotificationsButton").gameObject.SetActive(false);
+			gameObject.transform.FindChild("MobileNotifications").gameObject.SetActive(false);
+			gameObject.transform.FindChild("MobileCristalsBar").gameObject.SetActive(false);
 
 			float buttonsBorderWidth = 1500f;
 			float buttonsWorldScaleX = (ApplicationDesignRules.worldWidth-ApplicationDesignRules.leftMargin-ApplicationDesignRules.rightMargin)/(buttonsBorderWidth / ApplicationDesignRules.pixelPerUnit);
@@ -410,6 +442,7 @@ public class MenuController : MonoBehaviour
 			
 			for(int i=0;i<6;i++)
 			{
+				this.gameObject.transform.FindChild("MobileButton"+i).gameObject.SetActive(false);
 				float previousButtonsTotalSize=0f;
 				for(int j=0;j<i;j++)
 				{
@@ -418,65 +451,140 @@ public class MenuController : MonoBehaviour
 				Vector3 buttonPosition=gameObject.transform.FindChild("Button"+i).transform.position;
 				buttonPosition.x=buttonsGap/2f+(-ApplicationDesignRules.worldWidth / 2f)+ApplicationDesignRules.leftMargin+(i)*(buttonsGap)+this.gameObject.transform.FindChild("Button"+i).FindChild("Title").GetComponent<TextMeshPro>().bounds.size.x/2f+previousButtonsTotalSize;
 				gameObject.transform.FindChild("Button"+i).transform.position=buttonPosition;
-			}	                    
+			}
 
+			float logoBlockWidth = 693f;
+			float logoBlockScale = 0.7f;
+			float logoBlockWorldWidth = (logoBlockWidth / ApplicationDesignRules.pixelPerUnit)*logoBlockScale;
+			Vector3 logoBlockPosition = gameObject.transform.FindChild ("LogoBlock").transform.position;
+			logoBlockPosition.x = (-ApplicationDesignRules.worldWidth / 2f) + ApplicationDesignRules.leftMargin + logoBlockWorldWidth / 2f;
+			gameObject.transform.FindChild ("LogoBlock").transform.position = logoBlockPosition;
+			
+			float userBlockWidth = 766f;
+			float userBlockScale = 0.7f;
+			float userBlockWorldWidth = userBlockWidth / ApplicationDesignRules.pixelPerUnit*logoBlockScale;
+			Vector3 userBlockPosition = gameObject.transform.FindChild ("UserBlock").transform.position;
+			userBlockPosition.x = (ApplicationDesignRules.worldWidth / 2f) - ApplicationDesignRules.rightMargin - userBlockWorldWidth / 2f;
+			gameObject.transform.FindChild ("UserBlock").transform.position = userBlockPosition;
 
 		}
 		else
 		{
-			gameObject.transform.FindChild("LogoBlock").GetComponent<SpriteRenderer>().sprite=null;
-			gameObject.transform.FindChild("UserBlock").GetComponent<SpriteRenderer>().sprite=null;
+			gameObject.transform.FindChild("LogoBlock").gameObject.SetActive(false);
+			gameObject.transform.FindChild("UserBlock").gameObject.SetActive(false);
+			gameObject.transform.FindChild("MobilePicture").gameObject.SetActive(true);
+			gameObject.transform.FindChild("MobileUsername").gameObject.SetActive(true);
+			gameObject.transform.FindChild("MobileHelpButton").gameObject.SetActive(true);
+			gameObject.transform.FindChild("MobileNotificationsButton").gameObject.SetActive(true);
+			gameObject.transform.FindChild("MobileCristalsBar").gameObject.SetActive(true);
 			gameObject.transform.FindChild("TopBar").gameObject.SetActive(true);
+			gameObject.transform.FindChild("TopBar").localScale=ApplicationDesignRules.topBarScale;
 			gameObject.transform.FindChild("TopBar").position=new Vector3(ApplicationDesignRules.menuPosition.x,ApplicationDesignRules.menuPosition.y+ApplicationDesignRules.worldHeight/2f-ApplicationDesignRules.topBarWorldSize.y/2f+0.05f,0f);
 			gameObject.transform.FindChild("BottomBar").gameObject.SetActive(true);
+			gameObject.transform.FindChild("BottomBar").localScale=ApplicationDesignRules.bottomBarScale;
 			gameObject.transform.FindChild("BottomBar").position=new Vector3(ApplicationDesignRules.menuPosition.x,ApplicationDesignRules.menuPosition.y-ApplicationDesignRules.worldHeight/2f+ApplicationDesignRules.bottomBarWorldSize.y/2f-0.05f,0f);
 			gameObject.transform.FindChild("ButtonsBorder").gameObject.SetActive(false);
+			gameObject.transform.FindChild("MobilePicture").transform.localScale=ApplicationDesignRules.thumbScale;
+			gameObject.transform.FindChild("MobilePicture").transform.position=new Vector3(gameObject.transform.FindChild("TopBar").position.x-ApplicationDesignRules.topBarWorldSize.x/2f+ApplicationDesignRules.blockHorizontalSpacing+ApplicationDesignRules.thumbWorldSize.x/2f,gameObject.transform.FindChild("TopBar").position.y,gameObject.transform.FindChild("TopBar").position.z);
+			gameObject.transform.FindChild("MobileCristalsBar").transform.localScale=ApplicationDesignRules.reductionRatio*new Vector3(0.35f,0.35f,0.35f);
+
+			Vector2 mobileCristalsWorldSize = new Vector2(gameObject.transform.FindChild("MobileCristalsBar").transform.localScale.y*(700f/ApplicationDesignRules.pixelPerUnit),gameObject.transform.FindChild("MobileCristalsBar").transform.localScale.y*(121f/ApplicationDesignRules.pixelPerUnit));
+			gameObject.transform.FindChild("MobileCristalsBar").transform.position=new Vector3(gameObject.transform.FindChild("MobilePicture").position.x+ApplicationDesignRules.thumbWorldSize.x/2f+mobileCristalsWorldSize.x/2f,gameObject.transform.FindChild("TopBar").position.y-ApplicationDesignRules.thumbWorldSize.y/2f+mobileCristalsWorldSize.y/2f,gameObject.transform.FindChild("TopBar").position.z);
+
+			gameObject.transform.FindChild("MobileUsername").transform.localScale=ApplicationDesignRules.reductionRatio*new Vector3(1f,1f,1f);
+			gameObject.transform.FindChild("MobileUsername").transform.position=new Vector3(gameObject.transform.FindChild("MobilePicture").position.x+ApplicationDesignRules.thumbWorldSize.x/2f+0.1f,gameObject.transform.FindChild("TopBar").position.y+ApplicationDesignRules.thumbWorldSize.y/2f-mobileCristalsWorldSize.y/2f,gameObject.transform.FindChild("TopBar").position.z);
+
+			gameObject.transform.FindChild("MobileHelpButton").transform.localScale=ApplicationDesignRules.reductionRatio*new Vector3(0.7f,0.7f,0.7f);
+			gameObject.transform.FindChild("MobileNotificationsButton").transform.localScale=ApplicationDesignRules.reductionRatio*new Vector3(0.7f,0.7f,0.7f);
+
+			Vector2 mobileButtonsWorldSize = new Vector2(gameObject.transform.FindChild("MobileHelpButton").transform.localScale.y*(120f/ApplicationDesignRules.pixelPerUnit),gameObject.transform.FindChild("MobileHelpButton").transform.localScale.y*(121f/ApplicationDesignRules.pixelPerUnit));
+			gameObject.transform.FindChild("MobileHelpButton").transform.position=new Vector3(gameObject.transform.FindChild("TopBar").position.x+ApplicationDesignRules.topBarWorldSize.x/2f-ApplicationDesignRules.blockHorizontalSpacing-mobileButtonsWorldSize.x/2f,gameObject.transform.FindChild("TopBar").position.y,0f);
+			gameObject.transform.FindChild("MobileNotificationsButton").transform.position=new Vector3(gameObject.transform.FindChild("TopBar").position.x+ApplicationDesignRules.topBarWorldSize.x/2f-0.1f-ApplicationDesignRules.blockHorizontalSpacing-1.5f*mobileButtonsWorldSize.x,gameObject.transform.FindChild("TopBar").position.y,0f);
+
+			gameObject.transform.FindChild("MobileNotifications").transform.localScale=ApplicationDesignRules.reductionRatio*new Vector3(1f,1f,1f);
+			gameObject.transform.FindChild("MobileNotifications").transform.position=new Vector3(gameObject.transform.FindChild("MobileNotificationsButton").position.x-0.25f*mobileButtonsWorldSize.x,gameObject.transform.FindChild("MobileNotificationsButton").position.y+0.25f*mobileButtonsWorldSize.x,gameObject.transform.FindChild("MobileNotificationsButton").position.z);
+
+
+			float gapBetweenButtons = (ApplicationDesignRules.bottomBarWorldSize.x-6f*ApplicationDesignRules.buttonMenuWorldSize.x - 2f*ApplicationDesignRules.blockHorizontalSpacing)/5f;
 			for(int i=0;i<6;i++)
 			{
 				this.gameObject.transform.FindChild("Button"+i).gameObject.SetActive(false);
+				this.gameObject.transform.FindChild("MobileButton"+i).gameObject.SetActive(true);
+				this.gameObject.transform.FindChild("MobileButton"+i).localScale=ApplicationDesignRules.buttonMenuScale;
+				this.gameObject.transform.FindChild("MobileButton"+i).position=new Vector3(this.gameObject.transform.FindChild("BottomBar").position.x-(2.5f-i)*(gapBetweenButtons+ApplicationDesignRules.buttonMenuWorldSize.x),this.gameObject.transform.FindChild("BottomBar").position.y,0f);
 			}
 		}
 
-
-		float logoBlockWidth = 693f;
-		float logoBlockScale = 0.7f;
-		float logoBlockWorldWidth = (logoBlockWidth / ApplicationDesignRules.pixelPerUnit)*logoBlockScale;
-		Vector3 logoBlockPosition = gameObject.transform.FindChild ("LogoBlock").transform.position;
-		logoBlockPosition.x = (-ApplicationDesignRules.worldWidth / 2f) + ApplicationDesignRules.leftMargin + logoBlockWorldWidth / 2f;
-		if(ApplicationDesignRules.isMobileScreen)
+		if(this.isCollectionPointsPopUpDisplayed)
 		{
-			logoBlockPosition.y = gameObject.transform.FindChild("TopBar").position.y+0.05f;
+			this.collectionPointsPopUpResize();
 		}
-		gameObject.transform.FindChild ("LogoBlock").transform.position = logoBlockPosition;
-		
-		float userBlockWidth = 766f;
-		float userBlockScale = 0.7f;
-		float userBlockWorldWidth = userBlockWidth / ApplicationDesignRules.pixelPerUnit*logoBlockScale;
-		Vector3 userBlockPosition = gameObject.transform.FindChild ("UserBlock").transform.position;
-		userBlockPosition.x = (ApplicationDesignRules.worldWidth / 2f) - ApplicationDesignRules.rightMargin - userBlockWorldWidth / 2f;
-		if(ApplicationDesignRules.isMobileScreen)
+		if(this.areNewSkillsPopUpsDisplayed)
 		{
-			userBlockPosition.y = gameObject.transform.FindChild("TopBar").position.y+0.05f;
+			this.newSkillsPopUpsResize();
 		}
-		gameObject.transform.FindChild ("UserBlock").transform.position = userBlockPosition;
-
+		if(this.isTransparentBackgroundDisplayed)
+		{
+			this.transparentBackgroundResize();
+		}
+		if(this.isDisconnectedPopUpDisplayed)
+		{
+			this.disconnectedPopUpResize();
+		}
+		if(this.isErrorPopUpDisplayed)
+		{
+			this.errorPopUpResize();
+		}
+		if(this.isNewCardTypePopUpDisplayed)
+		{
+			this.newCardTypePopUpResize();
+		}
+		if(this.isPlayPopUpDisplayed)
+		{
+			this.playPopUpResize();
+		}
+		if(this.isInvitationPopUpDisplayed)
+		{
+			this.invitationPopUpResize();
+		}
 	}
 	public void refreshMenuObject()
 	{
-		this.gameObject.transform.FindChild("UserBlock").FindChild("Credits").GetComponent<TextMeshPro>().text=ApplicationModel.credits.ToString();
-		if(ApplicationModel.nbNotificationsNonRead>0)
+		if(ApplicationDesignRules.isMobileScreen)
 		{
-			this.gameObject.transform.FindChild("UserBlock").FindChild("Bell").GetComponent<MenuNotificationsController>().reset();
-			this.gameObject.transform.FindChild("UserBlock").FindChild("Notifications").gameObject.SetActive(true);
-			this.gameObject.transform.FindChild("UserBlock").FindChild("Bell").GetComponent<SpriteRenderer>().color=ApplicationDesignRules.redColor;
-			this.gameObject.transform.FindChild("UserBlock").FindChild("Notifications").GetComponent<TextMeshPro>().text=ApplicationModel.nbNotificationsNonRead.ToString();
+			this.gameObject.transform.FindChild ("MobileCristalsBar").FindChild ("Title").GetComponent<TextMeshPro> ().text = model.player.Money.ToString ();
+			if(ApplicationModel.nbNotificationsNonRead>0)
+			{
+				this.gameObject.transform.FindChild("MobileNotificationsButton").GetComponent<MobileMenuNotificationsController>().reset();
+				this.gameObject.transform.FindChild("MobileNotifications").gameObject.SetActive(true);
+				this.gameObject.transform.FindChild("MobileNotificationsButton").GetComponent<SpriteRenderer>().color=ApplicationDesignRules.redColor;
+				this.gameObject.transform.FindChild("MobileNotifications").GetComponent<TextMeshPro>().text=ApplicationModel.nbNotificationsNonRead.ToString();
+			}
+			else
+			{
+				this.gameObject.transform.FindChild("MobileNotificationsButton").GetComponent<MobileMenuNotificationsController>().setIsActive(false);
+				this.gameObject.transform.FindChild("MobileNotificationsButton").GetComponent<SpriteRenderer>().color=ApplicationDesignRules.greySpriteColor;
+				this.gameObject.transform.FindChild("MobileNotifications").gameObject.SetActive(false);
+			}
 		}
 		else
 		{
-			this.gameObject.transform.FindChild("UserBlock").FindChild("Bell").GetComponent<MenuNotificationsController>().setIsActive(false);
-			this.gameObject.transform.FindChild("UserBlock").FindChild("Bell").GetComponent<SpriteRenderer>().color=ApplicationDesignRules.greySpriteColor;
-			this.gameObject.transform.FindChild("UserBlock").FindChild("Notifications").gameObject.SetActive(false);
+			this.gameObject.transform.FindChild("UserBlock").FindChild("Credits").GetComponent<TextMeshPro>().text=model.player.Money.ToString();
+			if(ApplicationModel.nbNotificationsNonRead>0)
+			{
+				this.gameObject.transform.FindChild("UserBlock").FindChild("Bell").GetComponent<MenuNotificationsController>().reset();
+				this.gameObject.transform.FindChild("UserBlock").FindChild("Notifications").gameObject.SetActive(true);
+				this.gameObject.transform.FindChild("UserBlock").FindChild("Bell").GetComponent<SpriteRenderer>().color=ApplicationDesignRules.redColor;
+				this.gameObject.transform.FindChild("UserBlock").FindChild("Notifications").GetComponent<TextMeshPro>().text=ApplicationModel.nbNotificationsNonRead.ToString();
+			}
+			else
+			{
+				this.gameObject.transform.FindChild("UserBlock").FindChild("Bell").GetComponent<MenuNotificationsController>().setIsActive(false);
+				this.gameObject.transform.FindChild("UserBlock").FindChild("Bell").GetComponent<SpriteRenderer>().color=ApplicationDesignRules.greySpriteColor;
+				this.gameObject.transform.FindChild("UserBlock").FindChild("Notifications").gameObject.SetActive(false);
+			}
 		}
+
 	}
 	public void changePage(int i)
 	{
@@ -504,7 +612,7 @@ public class MenuController : MonoBehaviour
 	}
 	public void logOutLink() 
 	{
-		if(isDisconnectedViewDisplayed)
+		if(isDisconnectedPopUpDisplayed)
 		{
 			this.hideDisconnectedPopUp();
 		}
@@ -512,6 +620,11 @@ public class MenuController : MonoBehaviour
 		ApplicationModel.toDeconnect = true;
 		PhotonNetwork.Disconnect();
 		Application.LoadLevel("Authentication");
+	}
+	public void notificationsLink()
+	{
+		ApplicationModel.goToNotfications = true;
+		this.homePageLink ();
 	}
 	public void homePageLink()
 	{
@@ -558,15 +671,15 @@ public class MenuController : MonoBehaviour
 	}
 	public void returnPressed()
 	{
-		if(errorViewDisplayed)
+		if(isErrorPopUpDisplayed)
 		{
 			this.hideErrorPopUp();
 		}
-		else if(isDisconnectedViewDisplayed)
+		else if(isDisconnectedPopUpDisplayed)
 		{
 			this.logOutLink();
 		}
-		else if(isNewCardTypeViewDisplayed)
+		else if(isNewCardTypePopUpDisplayed)
 		{
 			this.hideNewCardTypePopUp();
 		}
@@ -584,7 +697,7 @@ public class MenuController : MonoBehaviour
 	}
 	public void escapePressed()
 	{
-		if(errorViewDisplayed)
+		if(isErrorPopUpDisplayed)
 		{
 			this.hideErrorPopUp();
 		}
@@ -595,11 +708,11 @@ public class MenuController : MonoBehaviour
 				this.hidePlayPopUp();
 			}
 		}
-		else if(isDisconnectedViewDisplayed)
+		else if(isDisconnectedPopUpDisplayed)
 		{
 			this.hideDisconnectedPopUp();
 		}
-		else if(isNewCardTypeViewDisplayed)
+		else if(isNewCardTypePopUpDisplayed)
 		{
 			this.hideNewCardTypePopUp();
 		}
@@ -617,7 +730,7 @@ public class MenuController : MonoBehaviour
 	}
 	public void closeAllPopUp()
 	{
-		if(errorViewDisplayed)
+		if(isErrorPopUpDisplayed)
 		{
 			this.hideErrorPopUp();
 		}
@@ -628,11 +741,11 @@ public class MenuController : MonoBehaviour
 				this.hidePlayPopUp();
 			}
 		}
-		if(isNewCardTypeViewDisplayed)
+		if(isNewCardTypePopUpDisplayed)
 		{
 			this.hideNewCardTypePopUp();
 		}
-		if(isDisconnectedViewDisplayed)
+		if(isDisconnectedPopUpDisplayed)
 		{
 			this.hideDisconnectedPopUp();
 		}
@@ -643,25 +756,24 @@ public class MenuController : MonoBehaviour
 	}
 	public void displayDisconnectedPopUp()
 	{
-		this.isDisconnectedViewDisplayed = true;
-		this.disconnectedView = Camera.main.gameObject.AddComponent <NewMenuDisconnectedPopUpView>();
-		disconnectedView.popUpVM.centralWindowStyle = new GUIStyle(this.ressources.popUpSkin.window);
-		disconnectedView.popUpVM.centralWindowTitleStyle = new GUIStyle (this.ressources.popUpSkin.customStyles [0]);
-		disconnectedView.popUpVM.centralWindowButtonStyle = new GUIStyle (this.ressources.popUpSkin.button);
-		disconnectedView.popUpVM.transparentStyle = new GUIStyle (this.ressources.popUpSkin.customStyles [2]);
-		this.disconnectedPopUpResize ();
+		MenuController.instance.displayTransparentBackground ();
+		this.disconnectedPopUp.transform.GetComponent<DisconnectPopUpController> ().reset ();
+		this.isDisconnectedPopUpDisplayed = true;
+		this.disconnectedPopUp.SetActive (true);
+		this.disconnectedPopUpResize();
 	}
 	public void disconnectedPopUpResize()
 	{
-		disconnectedView.popUpVM.centralWindow = this.centralWindow;
-		disconnectedView.popUpVM.resize ();
+		this.disconnectedPopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y, -2f);
+		this.disconnectedPopUp.transform.localScale = ApplicationDesignRules.popUpScale*(1f/this.gameObject.transform.localScale.x);
+		this.disconnectedPopUp.GetComponent<DisconnectPopUpController> ().resize ();
 	}
 	public void hideDisconnectedPopUp()
 	{
-		Destroy (this.disconnectedView);
-		this.isDisconnectedViewDisplayed = false;
+		this.disconnectedPopUp.SetActive (false);
+		MenuController.instance.hideTransparentBackground();
+		this.isDisconnectedPopUpDisplayed = false;
 	}
-	
 	public void displayLoadingScreen()
 	{
 		if(!isLoadingScreenDisplayed)
@@ -800,12 +912,19 @@ public class MenuController : MonoBehaviour
 	{
 		TutorialObjectController.instance.helpClicked ();
 	}
-	public void setFlashingHelp(bool value)
+	public void setFlashingHelp (bool value)
 	{
-		this.isHelpFlashing=value;
-		if(!value)
+		this.isHelpFlashing = value;
+		if (!value) 
 		{
-			gameObject.transform.FindChild("UserBlock").FindChild("Help").GetComponent<MenuHelpController>().reset();
+			if (ApplicationDesignRules.isMobileScreen) 
+			{
+				gameObject.transform.FindChild("MobileHelpButton").GetComponent<MobileMenuHelpController>().reset();	
+			}
+			else
+			{							
+				gameObject.transform.FindChild("UserBlock").FindChild("Help").GetComponent<MenuHelpController>().reset();
+			}
 		}
 	}
 	public Vector3 returnButtonPosition(int id)
@@ -818,14 +937,30 @@ public class MenuController : MonoBehaviour
 	}
 	public Vector3 getButtonPosition(int id)
 	{
-		Vector3 buttonPosition = gameObject.transform.FindChild ("Button" + id).position;
+		Vector3 buttonPosition = new Vector3();
+		if(ApplicationDesignRules.isMobileScreen)
+		{
+			buttonPosition = gameObject.transform.FindChild ("MobileButton" + id).position;
+		}
+		else
+		{
+			buttonPosition = gameObject.transform.FindChild ("Button" + id).position;
+		}
 		buttonPosition.x = buttonPosition.x - ApplicationDesignRules.menuPosition.x;
 		buttonPosition.y = buttonPosition.y - ApplicationDesignRules.menuPosition.y;
 		return buttonPosition;
 	}
 	public Vector3 getHelpButtonPosition()
 	{
-		Vector3 helpButtonPosition = gameObject.transform.FindChild ("UserBlock").FindChild ("Help").position;
+		Vector3 helpButtonPosition = new Vector3();;
+		if(ApplicationDesignRules.isMobileScreen)
+		{
+			helpButtonPosition=gameObject.transform.FindChild ("MobileHelpButton").position;
+		}
+		else
+		{
+			helpButtonPosition=gameObject.transform.FindChild ("UserBlock").FindChild ("Help").position;	
+		}
 		helpButtonPosition.x = helpButtonPosition.x - ApplicationDesignRules.menuPosition.x;
 		helpButtonPosition.y = helpButtonPosition.y - ApplicationDesignRules.menuPosition.y;
 		return helpButtonPosition;

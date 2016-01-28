@@ -26,8 +26,7 @@ public class Skill
 	public int nextLevel;
 	public string[] AllDescriptions;
 	public int[] AllProbas;
-	public SkillType SkillType;
-	public CardType CardType;
+	public int IdSkillType;
 	public int IdPicture;
 	public bool hasBeenPlayed ;
 	

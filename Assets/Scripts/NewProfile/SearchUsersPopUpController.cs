@@ -24,11 +24,16 @@ public class SearchUsersPopUpController : MonoBehaviour
 		this.pagination = new Pagination ();
 		this.pagination.nbElementsPerPage= 3;
 		this.initializePopUp ();
+	}
+	public void resize()
+	{
 		this.paginationButtons.GetComponent<SearchUsersPopUpPaginationController> ().resize ();
 	}
 	public IEnumerator initialization(string search)
 	{
 		MenuController.instance.displayLoadingScreen ();
+		this.gameObject.transform.FindChild ("Button").GetComponent<SearchUsersPopUpButtonController> ().reset ();
+		this.gameObject.transform.FindChild ("CloseButton").GetComponent<SearchUsersPopUpCloseButtonController> ().reset ();
 		yield return StartCoroutine (model.searchForUsers (search));
 		this.initializeUsers ();
 		if(model.users.Count==0)
@@ -68,6 +73,10 @@ public class SearchUsersPopUpController : MonoBehaviour
 			this.users[i].GetComponent<SearchUsersPopUpUserController>().setId(i);
 			this.users[i].SetActive(false);
 		}
+	}
+	public void exitPopUp()
+	{
+		NewProfileController.instance.hideSearchUsersPopUp ();
 	}
 	public void drawUsers()
 	{

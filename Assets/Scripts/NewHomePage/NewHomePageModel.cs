@@ -19,8 +19,8 @@ public class NewHomePageModel
 	public IList<Pack> packs;
 	public IList<Competition> competitions;
 	public IList<Deck> decks;
-	public string[] cardTypeList;
-	public string[] skillsList;
+	//public string[] cardTypeList;
+	//public string[] skillsList;
 	
 	private string URLInitialize = ApplicationModel.host+"get_homepage_data.php";
 	private string URLUpdateReadNotifications = ApplicationModel.host+"update_read_notifications.php";
@@ -37,7 +37,7 @@ public class NewHomePageModel
 		this.users = new List<User> ();
 		this.friends = new List<int> ();
 		this.notificationSystemIndex = -1;
-		
+
 		WWWForm form = new WWWForm(); 											// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_nick", ApplicationModel.username);
@@ -52,7 +52,7 @@ public class NewHomePageModel
 		{
 			string[] data=w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
 			this.player = parsePlayer(data[0].Split(new string[] { "//" }, System.StringSplitOptions.None));
-			this.users = parseUsers(data[11].Split(new string[] { "#U#"  }, System.StringSplitOptions.None));
+			this.users = parseUsers(data[9].Split(new string[] { "#U#"  }, System.StringSplitOptions.None));
 			this.users.Add(player);
 			this.decks = this.parseDecks(data[1].Split(new string[] { "#DECK#" }, System.StringSplitOptions.None));
 			this.notifications=parseNotifications(data[2].Split(new string[] { "#N#" }, System.StringSplitOptions.None));
@@ -61,9 +61,7 @@ public class NewHomePageModel
 			this.currentDivision=parseDivision(data[5].Split(new string[] { "//" }, System.StringSplitOptions.None));
 			this.currentCup=parseCup(data[6].Split(new string[] { "//" }, System.StringSplitOptions.None));
 			this.packs=parsePacks(data[7].Split(new string[] { "#PACK#" }, System.StringSplitOptions.None));
-			this.cardTypeList = data[8].Split(new string[] { "//" }, System.StringSplitOptions.None);
-			this.skillsList = data[9].Split(new string[] { "//" }, System.StringSplitOptions.None);
-			this.currentFriendlyGame = this.parseFriendlyGame(data[10].Split(new string[] { "//" }, System.StringSplitOptions.None));
+			this.currentFriendlyGame = this.parseFriendlyGame(data[8].Split(new string[] { "//" }, System.StringSplitOptions.None));
 
 			this.lookForNonReadSystemNotification();
 			this.competitions.Add (this.currentDivision);

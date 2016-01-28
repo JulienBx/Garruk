@@ -10,6 +10,8 @@ public class NewCardController : NewFocusedCardController
 	private int layerVariation;
 	private string layerName;
 
+	private GameObject buyPopUp;
+
 	public override void Update()
 	{
 		base.Update ();
@@ -41,7 +43,14 @@ public class NewCardController : NewFocusedCardController
 	public override void show()
 	{
 		this.applyFrontTexture ();
-		this.name.transform.GetComponent<TextMeshPro> ().text = this.c.Title.ToUpper();
+		if(this.c.Title!="")
+		{
+			this.name.transform.GetComponent<TextMeshPro> ().text = this.c.Title.ToUpper();
+		}
+		else
+		{
+			this.name.transform.GetComponent<TextMeshPro>().text=WordingCardTypes.getName(this.c.IdClass);
+		}
 		//this.gameObject.transform.FindChild("Power").FindChild("Text").GetComponent<TextMeshPro>().text = this.c.Power.ToString();
 		//this.gameObject.transform.FindChild ("Face").FindChild ("Text").GetComponent<TextMeshPro> ().color = cardRessources.colors [this.c.PowerLevel - 1];
 		this.life.transform.FindChild("Text").GetComponent<TextMeshPro>().text = this.c.Life.ToString();
@@ -58,7 +67,7 @@ public class NewCardController : NewFocusedCardController
 			if(i<this.c.Skills.Count && this.c.Skills[i].IsActivated==1)
 			{
 				this.skills[i].transform.GetComponent<NewCardSkillController>().setSkill(this.c.Skills[i]);
-				this.skills[i].transform.GetComponent<NewCardSkillController>().setDescription(this.c.getSkillText(this.c.Skills[i].Description));
+				this.skills[i].transform.GetComponent<NewCardSkillController>().setDescription(this.c.getSkillText(WordingSkills.getDescription(this.c.Skills[i].Id,this.c.Skills[i].Level)));
 				this.skills[i].SetActive(true);
 			}
 			else
@@ -139,7 +148,7 @@ public class NewCardController : NewFocusedCardController
 	}
 	public virtual void OnMouseOver()
 	{
-		if(!Input.GetMouseButton(0))
+		if(!Input.GetMouseButton(0) && !ApplicationDesignRules.isMobileScreen)
 		{
 			int newSkillHovered = this.skillHovered();
 			float skillPopUpWorldSize=0f;
@@ -217,7 +226,8 @@ public class NewCardController : NewFocusedCardController
 
 	public int skillHovered()
 	{
-		Vector3 cursorPosition = Camera.main.ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, Input.mousePosition.z));
+		Vector3 cursorPosition = this.getCurrentCamera().ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, Input.mousePosition.z));
+
 		if(cursorPosition.x>this.gameObject.transform.position.x-(0.45f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.x) && 
 		   cursorPosition.x<this.gameObject.transform.position.x+(0.45f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.x))
 		{
@@ -314,6 +324,10 @@ public class NewCardController : NewFocusedCardController
 	public virtual Sprite getSkillSprite(int id)
 	{
 		return this.cardRessources.skills [id];
+	}
+	public virtual Camera getCurrentCamera()
+	{
+		return new Camera();
 	}
 }
 

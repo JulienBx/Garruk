@@ -9,6 +9,7 @@ public class MenuModel {
 	
 	public User player;
 	public string[] buttonsLabels;
+	public string[] mobileButtonsLabels;
 	public bool isInvited;
 	public string invitationError;
 	
@@ -25,6 +26,13 @@ public class MenuModel {
 		this.buttonsLabels [3] = "Le marché";
 		this.buttonsLabels [4] = "Cristalopedia";
 		this.buttonsLabels [5] = "Jouer";
+		this.mobileButtonsLabels = new string[6];
+		this.mobileButtonsLabels [0] = "Home";
+		this.mobileButtonsLabels [1] = "Units";
+		this.mobileButtonsLabels [2] = "Shop";
+		this.mobileButtonsLabels [3] = "Market";
+		this.mobileButtonsLabels [4] = "Wiki";
+		this.mobileButtonsLabels [5] = "Play";
 	}
 	
 	public IEnumerator loadUserData(int totalNbResultLimit){
@@ -89,6 +97,7 @@ public class MenuModel {
 	{
 		User player = new User ();
 		player.Money=System.Convert.ToInt32(array[0]);
+		ApplicationModel.credits = player.Money;
 		player.nonReadNotifications= System.Convert.ToInt32(array[1]);
 		player.idProfilePicture = System.Convert.ToInt32(array [2]);
 		return player;

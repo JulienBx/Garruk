@@ -9,11 +9,14 @@ public class SelectPicturePopUpPictureController : MonoBehaviour
 
 	void OnMouseOver()
 	{
-		gameObject.GetComponent<SpriteRenderer>().color=new Color(155f/255f,220f/255f,1f);
+		if(!ApplicationDesignRules.isMobileScreen)
+		{
+			gameObject.GetComponent<SpriteRenderer>().color=new Color(155f/255f,220f/255f,1f);
+		}
 	}
 	void OnMouseExit()
 	{
-		if(!isActive)
+		if(!isActive && !ApplicationDesignRules.isMobileScreen)
 		{
 			gameObject.GetComponent<SpriteRenderer>().color=new Color(1f,1f,1f);
 		}

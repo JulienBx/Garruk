@@ -9,6 +9,7 @@ public class NextLevelPopUpControllerNewFocusedCard : NextLevelPopUpController
 	}
 	public override void resize()
 	{
+		this.gameObject.transform.position = new Vector3(ApplicationDesignRules.menuPosition.x+this.gameObject.transform.parent.GetComponent<NewFocusedCardController>().returnFacePosition().x,ApplicationDesignRules.menuPosition.y-ApplicationDesignRules.sceneCameraFocusedCardPosition.y+ApplicationDesignRules.focusedCardPosition.y,-2f);
 		this.gameObject.transform.localScale = ApplicationDesignRules.nextLevelPopUpScale;
 	}
 }

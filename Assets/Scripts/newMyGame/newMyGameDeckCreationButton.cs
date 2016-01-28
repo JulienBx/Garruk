@@ -1,7 +1,7 @@
 using UnityEngine;
 using TMPro;
 
-public class newMyGameDeckCreatioButtonController : SimpleButtonController
+public class newMyGameDeckCreatioButtonController : SpriteButtonController
 {	
 	public override void mainInstruction()
 	{
