@@ -42,5 +42,9 @@ public class MarketMenuController : MenuController
 	{
 		NewMarketController.instance.backOfficeBackgroundClicked ();
 	}
+	public override void setGUI (bool value)
+	{
+		NewMarketController.instance.setGUI(value);
+	}
 }
 

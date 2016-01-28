@@ -49,6 +49,7 @@ public class PlayPopUpController : MonoBehaviour
 		this.retrieveDecksList ();
 		this.drawDeck ();
 		MenuController.instance.hideLoadingScreen ();
+		MenuController.instance.setGUI(false);
 		this.show ();
 		TutorialObjectController.instance.tutorialTrackPoint ();
 	}

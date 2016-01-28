@@ -18,34 +18,36 @@ public class newMyGameSkillSearchBarController : InterfaceController
 	public void resize()
 	{
 		float x = ((-System.Convert.ToInt32(ApplicationDesignRules.isMobileScreen)*(ApplicationDesignRules.worldWidth+ApplicationDesignRules.leftMargin)+gameObject.transform.position.x -ApplicationDesignRules.inputTextWorldSize.x/2f+0.15f + ApplicationDesignRules.worldWidth / 2f) / ApplicationDesignRules.worldWidth) * Screen.width;
-		float y = ((ApplicationDesignRules.worldHeight / 2f - this.gameObject.transform.position.y - ApplicationDesignRules.inputTextWorldSize.y / 2f) / ApplicationDesignRules.worldHeight) * Screen.height;
+		float y = ((System.Convert.ToInt32(ApplicationDesignRules.isMobileScreen)*(ApplicationDesignRules.topBarWorldSize.y-0.2f)+ApplicationDesignRules.worldHeight / 2f - this.gameObject.transform.position.y - ApplicationDesignRules.inputTextWorldSize.y / 2f) / ApplicationDesignRules.worldHeight) * Screen.height;
 		float width = ((ApplicationDesignRules.inputTextWorldSize.x-0.3f) / ApplicationDesignRules.worldWidth) * Screen.width;
 		float heigth = (ApplicationDesignRules.inputTextWorldSize.y / ApplicationDesignRules.worldHeight) * Screen.height;
 		this.rect = new Rect (x, y, width, heigth);
 	}
 	void OnGUI()
 	{
-		GUI.enabled=isGUIActive;
-		GUILayout.BeginArea (rect);
+		if(isGUIActive)
 		{
-			GUILayout.FlexibleSpace();
-			GUI.SetNextControlName("Textfield");
-			text = GUILayout.TextField(text,popUpGUISkin.textField);
-			if (GUI.GetNameOfFocusedControl() == "Textfield")
+			GUILayout.BeginArea (rect);
 			{
-				if(!isBeingUsed)
+				GUILayout.FlexibleSpace();
+				GUI.SetNextControlName("Textfield");
+				text = GUILayout.TextField(text,popUpGUISkin.textField);
+				if (GUI.GetNameOfFocusedControl() == "Textfield")
 				{
-					newMyGameController.instance.searchingSkill();
-					this.isBeingUsed=true;
+					if(!isBeingUsed)
+					{
+						newMyGameController.instance.searchingSkill();
+						this.isBeingUsed=true;
+					}
 				}
+				else
+				{
+					this.isBeingUsed=false;
+				}
+				GUILayout.FlexibleSpace();
 			}
-			else
-			{
-				this.isBeingUsed=false;
-			}
-			GUILayout.FlexibleSpace();
+			GUILayout.EndArea ();
 		}
-		GUILayout.EndArea ();
 	}
 	public void setGUI(bool value)
 	{

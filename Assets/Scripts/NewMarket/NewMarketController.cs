@@ -69,7 +69,6 @@ public class NewMarketController : MonoBehaviour
 
 	private bool isSearchingSkill;
 	private bool isSkillChosen;
-	private bool isMouseOnSearchBar;
 	private string valueSkill;
 	private IList<int> skillsDisplayed;
 
@@ -170,50 +169,17 @@ public class NewMarketController : MonoBehaviour
 		}
 		if(isSearchingSkill)
 		{
-			if(!Input.GetKey(KeyCode.Delete))
+			if(this.skillSearchBar.GetComponent<NewMarketSkillSearchBarController>().getText().ToLower()!=this.valueSkill.ToLower()	)
 			{
-				foreach (char c in Input.inputString) 
-				{
-					if(c==(char)KeyCode.Backspace && this.valueSkill.Length>0)
-					{
-						this.valueSkill = this.valueSkill.Remove(this.valueSkill.Length - 1);
-						this.skillSearchBar.transform.FindChild ("Title").GetComponent<TextMeshPro>().text = this.valueSkill;
-						this.setSkillAutocompletion();
-						if(this.valueSkill.Length==0)
-						{
-							this.isSearchingSkill=false;
-							this.skillSearchBar.transform.FindChild ("Title").GetComponent<TextMeshPro>().text = "Rechercher";
-							this.skillSearchBar.GetComponent<NewMarketSkillSearchBarController>().reset();
-						}
-					}
-					else if (c == "\b"[0])
-					{
-						if (valueSkill.Length != 0)
-						{
-							valueSkill= valueSkill.Substring(0, valueSkill.Length - 1);
-						}
-					}
-					else
-					{
-						if (c == "\n"[0] || c == "\r"[0])
-						{
-							
-						}
-						else if(this.valueSkill.Length<12)
-						{
-							this.valueSkill += c;
-							this.valueSkill=this.valueSkill.ToLower();
-							this.setSkillAutocompletion();
-						}
-					}
-				}
+				this.valueSkill=this.skillSearchBar.GetComponent<NewMarketSkillSearchBarController>().getText();
+				this.setSkillAutocompletion();
 			}
-			if((Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))&& !this.isMouseOnSearchBar)
+			if(!this.skillSearchBar.GetComponent<NewMarketSkillSearchBarController>().getIsBeingUsed())
 			{
-				this.isSearchingSkill=false;
-				this.cleanSkillAutocompletion();
-				this.skillSearchBar.transform.FindChild ("Title").GetComponent<TextMeshPro>().text = "Rechercher";
-				this.skillSearchBar.GetComponent<NewMarketSkillSearchBarController>().reset();
+					this.isSearchingSkill=false;
+					this.cleanSkillAutocompletion();
+					this.skillSearchBar.GetComponent<NewMarketSkillSearchBarController>().setText("Rechercher");
+					this.valueSkill="Rechercher";
 			}
 		}
 		if(this.areNewCardsAvailable)
@@ -243,6 +209,7 @@ public class NewMarketController : MonoBehaviour
 					if(camerasXPosition==this.filtersPositionX)
 					{
 						this.filtersDisplayed=true;
+						this.skillSearchBar.SetActive(true);
 					}
 					else if(camerasXPosition==this.mainContentPositionX)
 					{
@@ -281,6 +248,7 @@ public class NewMarketController : MonoBehaviour
 	{
 		instance = this;
 		this.model = new NewMarketModel ();
+		this.skillSearchBar = GameObject.Find ("SkillSearchBar");
 		this.sortingOrder = -1;
 		this.activeTab = 0;
 		this.scrollIntersection = 1.85f;
@@ -499,8 +467,6 @@ public class NewMarketController : MonoBehaviour
 		this.skillSearchBarTitle = GameObject.Find ("SkillSearchTitle");
 		this.skillSearchBarTitle.GetComponent<TextMeshPro> ().color = ApplicationDesignRules.whiteTextColor;
 		this.skillSearchBarTitle.GetComponent<TextMeshPro> ().text = "Compétence".ToUpper ();
-		this.skillSearchBar = GameObject.Find ("SkillSearchBar");
-		this.skillSearchBar.AddComponent<NewMarketSkillSearchBarController> ();
 		this.skillSearchBar.GetComponent<NewMarketSkillSearchBarController> ().setText ("Rechercher");
 		this.skillChoices=new GameObject[3];
 		for(int i=0;i<this.skillChoices.Length;i++)
@@ -628,7 +594,7 @@ public class NewMarketController : MonoBehaviour
 		this.isSkillChosen = false;
 		
 		this.cleanSkillAutocompletion ();
-		this.skillSearchBar.transform.FindChild ("Title").GetComponent<TextMeshPro>().text ="Rechercher";
+		this.skillSearchBar.GetComponent<NewMarketSkillSearchBarController>().setText("Rechercher");
 		if(this.sortingOrder!=-1)
 		{
 			this.sortButtons[this.sortingOrder].GetComponent<NewMarketSortButtonController>().setIsSelected(false);
@@ -706,6 +672,7 @@ public class NewMarketController : MonoBehaviour
 			this.informationButton.SetActive(true);
 			this.slideLeftButton.SetActive(true);
 			this.slideRightButton.SetActive(true);
+			this.skillSearchBar.SetActive(false);
 
 			if(isCardFocusedDisplayed)
 			{
@@ -751,6 +718,7 @@ public class NewMarketController : MonoBehaviour
 			this.informationButton.SetActive(false);
 			this.slideLeftButton.SetActive(false);
 			this.slideRightButton.SetActive(false);
+			this.skillSearchBar.SetActive(true);
 
 			if(isCardFocusedDisplayed)
 			{
@@ -991,8 +959,8 @@ public class NewMarketController : MonoBehaviour
 				this.skillChoices[i].transform.localScale=ApplicationDesignRules.listElementScale;
 				this.skillChoices[i].transform.position=new Vector3(this.skillSearchBar.transform.position.x,this.skillSearchBar.transform.position.y-ApplicationDesignRules.inputTextWorldSize.y/2f-(i+0.5f)*ApplicationDesignRules.listElementWorldSize.y+i*0.02f,-1f);
 			}
-			this.skillSearchBarTitle.GetComponent<TextContainer>().anchorPosition =  TextContainerAnchors.Middle;
-			this.skillSearchBarTitle.GetComponent<TextMeshPro>().alignment = TextAlignmentOptions.Center;
+			this.valueFilterTitle.GetComponent<TextContainer>().anchorPosition =  TextContainerAnchors.Middle;
+			this.valueFilterTitle.GetComponent<TextMeshPro>().alignment = TextAlignmentOptions.Center;
 			this.valueFilterTitle.transform.position=new Vector3 (0.3f+filtersBlockUpperLeftPosition.x + filtersSubBlockSize / 2f + 1f*(filtersSubBlockSize+gapBetweenSubFiltersBlock), filtersBlockUpperLeftPosition.y - 1.2f, 0f);
 			for(int i=0;i<this.valueFilters.Length;i++)
 			{
@@ -1015,7 +983,7 @@ public class NewMarketController : MonoBehaviour
 			this.priceFilter.transform.FindChild("Sort1").localPosition=new Vector3(0.8004f,0.38f,0f);
 
 		}
-
+		this.skillSearchBar.GetComponent<NewMarketSkillSearchBarController>().resize();
 		TutorialObjectController.instance.resize ();
 
 	}
@@ -1105,11 +1073,9 @@ public class NewMarketController : MonoBehaviour
 			this.applyFilters();
 		}
 		this.cleanSkillAutocompletion();
-		this.isSearchingSkill = true;
+		this.skillSearchBar.GetComponent<NewMarketSkillSearchBarController>().setText("");
 		this.valueSkill = "";
-		this.skillSearchBar.transform.FindChild("Title").GetComponent<TextMeshPro>().text = this.valueSkill;
-		this.skillSearchBar.transform.GetComponent<NewMarketSkillSearchBarController> ().setIsSelected (true);
-		this.skillSearchBar.transform.GetComponent<NewMarketSkillSearchBarController> ().setInitialState ();
+		this.isSearchingSkill = true;
 	}
 	public void cardTypeFilterHandler(int id)
 	{
@@ -1391,7 +1357,7 @@ public class NewMarketController : MonoBehaviour
 		for(int i=0;i<max;i++)
 		{
 
-			if(this.isSkillChosen && !model.cards.getCard (i).hasSkill(this.valueSkill))
+			if(this.isSkillChosen && !model.cards.getCard (i).hasSkill(this.valueSkill.ToLower()))
 			{
 				continue;
 			}
@@ -1493,12 +1459,12 @@ public class NewMarketController : MonoBehaviour
 	{
 		this.skillsDisplayed = new List<int> ();
 		this.cleanSkillAutocompletion ();
-		this.skillSearchBar.transform.FindChild("Title").GetComponent<TextMeshPro>().text = this.valueSkill;
+		this.skillSearchBar.GetComponent<NewMarketSkillSearchBarController>().setText(this.valueSkill);
 		if(this.valueSkill.Length>0)
 		{
 			for (int i = 0; i < model.skillsList.Count; i++) 
 			{  
-				if (model.skillsList [i].ToLower ().Contains (this.valueSkill)) 
+				if (model.skillsList [i].ToLower ().Contains (this.valueSkill.ToLower())) 
 				{
 					this.skillsDisplayed.Add (i);
 					this.skillChoices[this.skillsDisplayed.Count-1].SetActive(true);
@@ -1522,16 +1488,12 @@ public class NewMarketController : MonoBehaviour
 	public void filterASkill(int id)
 	{
 		this.isSearchingSkill = false;
-		this.valueSkill = this.skillChoices[id].transform.FindChild("Title").GetComponent<TextMeshPro>().text.ToLower();
+		this.valueSkill = this.skillChoices[id].transform.FindChild("Title").GetComponent<TextMeshPro>().text;
 		this.isSkillChosen = true;
-		this.skillSearchBar.transform.FindChild("Title").GetComponent<TextMeshPro>().text =valueSkill;
+		this.skillSearchBar.GetComponent<NewMarketSkillSearchBarController>().setText(this.valueSkill);
 		this.cleanSkillAutocompletion ();
 		this.cardsPagination.chosenPage = 0;
 		this.applyFilters ();
-	}
-	public void mouseOnSearchBar(bool value)
-	{
-		this.isMouseOnSearchBar = value;
 	}
 	public void leftClickedHandler(int id)
 	{ 
@@ -1786,6 +1748,7 @@ public class NewMarketController : MonoBehaviour
 		{
 			this.filtersDisplayed=false;
 			this.targetContentPositionX=this.mainContentPositionX;
+			this.skillSearchBar.SetActive(false);
 		}
 		else if(this.targetContentPositionX==mainContentPositionX)
 		{
@@ -1832,6 +1795,10 @@ public class NewMarketController : MonoBehaviour
 			this.tabs[2].SetActive(false);
 			break;
 		}
+	}
+	public void setGUI(bool value)
+	{
+		this.skillSearchBar.GetComponent<NewMarketSkillSearchBarController>().setGUI(value);
 	}
 	#region TUTORIAL FUNCTIONS
 	

@@ -15,6 +15,7 @@ public class MyGameTutorialController : TutorialObjectController
 	}
 	public override void setGUI(bool value)
 	{
+		newMyGameController.instance.setGUI(value);
 	}
 	#region TUTORIAL SEQUENCES
 

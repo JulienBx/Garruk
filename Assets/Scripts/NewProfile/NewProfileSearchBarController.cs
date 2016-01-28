@@ -6,32 +6,64 @@ using System.Collections.Generic;
 using System.Reflection;
 using TMPro;
 
-public class NewProfileSearchBarController : InputTextController
+public class NewProfileSearchBarController : InterfaceController
 {	
-	public override void mainInstruction()
+
+	public GUISkin popUpGUISkin;
+	private string text="";
+	private Rect rect;
+	private bool isBeingUsed;
+	private bool isGUIActive;
+
+	public void resize()
 	{
-		NewProfileController.instance.searchingUsers ();
+		float x = ((gameObject.transform.position.x -ApplicationDesignRules.largeInputTextWorldSize.x/2f+0.15f + ApplicationDesignRules.worldWidth / 2f) / ApplicationDesignRules.worldWidth) * Screen.width;
+		float y = ((System.Convert.ToInt32(ApplicationDesignRules.isMobileScreen)*(ApplicationDesignRules.topBarWorldSize.y-0.2f)+ApplicationDesignRules.worldHeight / 2f - this.gameObject.transform.position.y - ApplicationDesignRules.largeInputTextWorldSize.y / 2f) / ApplicationDesignRules.worldHeight) * Screen.height;
+		float width = ((ApplicationDesignRules.largeInputTextWorldSize.x-0.3f) / ApplicationDesignRules.worldWidth) * Screen.width;
+		float heigth = (ApplicationDesignRules.largeInputTextWorldSize.y / ApplicationDesignRules.worldHeight) * Screen.height;
+		this.rect = new Rect (x, y, width, heigth);
 	}
-	public override void setIsHovered(bool value)
+	void OnGUI()
 	{
-		base.setIsHovered (value);
-		NewProfileController.instance.mouseOnSearchBar (value);
-	}
-	public override void OnMouseOver()
-	{
-		if(!base.getIsSelected())
+		if(isGUIActive)
 		{
-			base.OnMouseOver();
+			GUILayout.BeginArea (rect);
+			{
+				GUILayout.FlexibleSpace();
+				GUI.SetNextControlName("Textfield");
+				text = GUILayout.TextField(text,popUpGUISkin.textField);
+				if (GUI.GetNameOfFocusedControl() == "Textfield")
+				{
+					if(!isBeingUsed)
+					{
+						this.isBeingUsed=true;
+						NewProfileController.instance.searchingUsers();
+					}
+				}
+				else
+				{
+					this.isBeingUsed=false;
+				}
+				GUILayout.FlexibleSpace();
+			}
+			GUILayout.EndArea ();
 		}
-		NewProfileController.instance.mouseOnSearchBar (true);
 	}
-	public override void OnMouseExit()
+	public void setGUI(bool value)
 	{
-		if(!base.getIsSelected())
-		{
-			base.OnMouseExit();
-		}
-		NewProfileController.instance.mouseOnSearchBar (false);
+		this.isGUIActive=value;
+	}
+	public void setText(string text)
+	{
+		this.text = text;
+	}
+	public string getText()
+	{
+		return text;
+	}
+	public bool getIsBeingUsed()
+	{
+		return this.isBeingUsed;
 	}
 }
 

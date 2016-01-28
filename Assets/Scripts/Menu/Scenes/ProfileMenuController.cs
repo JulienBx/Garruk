@@ -36,6 +36,9 @@ public class ProfileMenuController : MenuController
 	{
 		NewProfileController.instance.endMenuInitialization ();
 	}
-	
+	public override void setGUI (bool value)
+	{
+		NewProfileController.instance.setGUI(value);
+	}
 }
 

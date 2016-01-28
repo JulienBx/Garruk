@@ -101,9 +101,7 @@ public class NewProfileController : MonoBehaviour
 	private GameObject editInformationsPopUp;
 	private bool isEditInformationsPopUpDisplayed;
 
-	private bool isSearchingUsers;
 	private string searchValue;
-	private bool isMouseOnSearchBar;
 	private bool isScrolling;
 
 	private bool mainContentDisplayed;
@@ -157,6 +155,7 @@ public class NewProfileController : MonoBehaviour
 					else if(camerasXPosition==this.mainContentPositionX)
 					{
 						this.mainContentDisplayed=true;
+						this.searchBar.SetActive(true);
 					}
 				}
 			}
@@ -174,6 +173,7 @@ public class NewProfileController : MonoBehaviour
 					else if(camerasXPosition==this.mainContentPositionX)
 					{
 						this.mainContentDisplayed=true;
+						this.searchBar.SetActive(true);
 					}
 				}
 			}
@@ -184,58 +184,12 @@ public class NewProfileController : MonoBehaviour
 		{
 			this.checkFriendsOnlineStatus();
 		}
-		if(isSearchingUsers)
-		{
-			if(!Input.GetKey(KeyCode.Delete))
-			{
-				foreach (char c in Input.inputString) 
-				{
-					if(c==(char)KeyCode.Backspace && this.searchValue.Length>0)
-					{
-						this.searchValue = this.searchValue.Remove(this.searchValue.Length - 1);
-						this.searchBar.transform.FindChild ("Title").GetComponent<TextMeshPro>().text = this.searchValue;
-						if(this.searchValue.Length==0)
-						{
-							this.isSearchingUsers=false;
-							this.searchBar.transform.FindChild ("Title").GetComponent<TextMeshPro>().text ="Entrez un pseudo";
-						}
-					}
-					else if (c == "\b"[0])
-					{
-						if (searchValue.Length != 0)
-						{
-							searchValue= searchValue.Substring(0, searchValue.Length - 1);
-						}
-					}
-					else
-					{
-						if (c == "\n"[0] || c == "\r"[0])
-						{
-							this.searchUsersHandler();	
-						}
-						else if(this.searchValue.Length<12)
-						{
-							this.searchValue += c;
-							this.searchValue=this.searchValue.ToLower();
-							this.searchBar.transform.FindChild ("Title").GetComponent<TextMeshPro>().text = this.searchValue;
-						}
-					}
-				}
-			}
-			if((Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))&& !this.isMouseOnSearchBar)
-			{
-				this.isSearchingUsers=false;
-				if(this.searchValue=="")
-				{
-					this.searchBar.transform.FindChild ("Title").GetComponent<TextMeshPro>().text ="Entrez un pseudo";
-				}
-			}
-		}
 	}
 	void Awake()
 	{
 		instance = this;
 		this.model = new NewProfileModel ();
+		this.searchBar=GameObject.Find ("SearchBar");
 		if(ApplicationModel.profileChosen==""|| ApplicationModel.profileChosen==ApplicationModel.username)
 		{
 			this.isMyProfile=true;
@@ -557,8 +511,6 @@ public class NewProfileController : MonoBehaviour
 		this.searchSubtitle=GameObject.Find ("SearchSubtitle");
 		this.searchSubtitle.GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
 		this.searchSubtitle.GetComponent<TextMeshPro>().text="Trouver un ami à l'aide de son pseudo".ToUpper();
-		this.searchBar=GameObject.Find ("SearchBar");
-		this.searchBar.AddComponent<NewProfileSearchBarController>();
 		this.searchBar.GetComponent<NewProfileSearchBarController>().setText("Entrez un pseudo");
 		this.searchButton = GameObject.Find ("SearchButton");
 		this.searchButton.AddComponent<NewProfileSearchButtonController> ();
@@ -672,6 +624,8 @@ public class NewProfileController : MonoBehaviour
 
 		this.resultsPagination = new Pagination ();
 		this.resultsPagination.chosenPage = 0;
+
+		this.searchBar.SetActive(true);
 		
 		if(ApplicationDesignRules.isMobileScreen)
 		{
@@ -1018,7 +972,7 @@ public class NewProfileController : MonoBehaviour
 				this.friendshipStatusButtons[i].transform.localScale = ApplicationDesignRules.button62Scale;
 			}
 		}
-
+		this.searchBar.GetComponent<NewProfileSearchBarController>().resize();
 		TutorialObjectController.instance.resize ();
 
 		if(this.isCheckPasswordPopUpDisplayed)
@@ -1690,26 +1644,16 @@ public class NewProfileController : MonoBehaviour
 		}
 		return "";
 	}
-	public void mouseOnSearchBar(bool value)
-	{
-		this.isMouseOnSearchBar = value;
-	}
 	public void searchingUsers()
 	{
-		if(this.searchValue=="")
-		{
-			this.isSearchingUsers = true;
-			this.searchBar.transform.FindChild("Title").GetComponent<TextMeshPro>().text = this.searchValue;
-		}
+		this.searchBar.GetComponent<NewProfileSearchBarController>().setText("");
 	}
 	public void searchUsersHandler()
 	{
+		this.searchValue = this.searchBar.GetComponent<NewProfileSearchBarController>().getText();
 		if(this.searchValue.Length>2)
 		{
-			this.isSearchingUsers = false;
 			this.displaySearchUsersPopUp(this.searchValue);
-			this.searchValue = "";
-			this.searchBar.transform.FindChild("Title").GetComponent<TextMeshPro>().text ="Entrez un pseudo";
 		}
 	}
 	private void displaySearchUsersPopUp(string searchValue)
@@ -1902,6 +1846,7 @@ public class NewProfileController : MonoBehaviour
 		{
 			this.mainContentDisplayed=false;
 			this.targetContentPositionX=this.resultsPositionX;
+			this.searchBar.SetActive(false);
 		}
 		else if(this.friendsSliderDisplayed)
 		{
@@ -1925,6 +1870,7 @@ public class NewProfileController : MonoBehaviour
 		{
 			this.mainContentDisplayed=false;
 			this.targetContentPositionX=this.friendsPositionX;
+			this.searchBar.SetActive(false);
 		}
 		else if(this.resultsSliderDisplayed)
 		{
@@ -2038,6 +1984,10 @@ public class NewProfileController : MonoBehaviour
 			this.resultsContents[i].transform.FindChild("title").gameObject.AddComponent<NewProfileResultsContentUsernameController>();
 			this.resultsContents[i].transform.FindChild("title").GetComponent<NewProfileResultsContentUsernameController>().setId(i); 
 		}
+	}
+	public void setGUI(bool value)
+	{
+		this.searchBar.GetComponent<NewProfileSearchBarController>().setGUI(value);
 	}
 	#region TUTORIAL FUNCTIONS
 	

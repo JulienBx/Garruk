@@ -146,6 +146,10 @@ public class TutorialObjectController : MonoBehaviour
 	{
 		return this.isTutorialDisplayed;
 	}
+	public bool getIsHelpLaunched()
+	{
+		return this.isHelpLaunched;
+	}
 	public void setTutorialStep(int id)
 	{
 		StartCoroutine (this.player.setTutorialStep (id));
@@ -178,6 +182,7 @@ public class TutorialObjectController : MonoBehaviour
 		}
 		this.background.SetActive (value);
 		this.background.GetComponent<TutorialBackgroundController> ().setSprite (0);
+		this.setGUI(!value);
 	}
 	public void displaySquareBackground(bool value)
 	{
@@ -187,6 +192,7 @@ public class TutorialObjectController : MonoBehaviour
 		}
 		this.background.SetActive (value);
 		this.background.GetComponent<TutorialBackgroundController> ().setSprite (1);
+		this.setGUI(!value);
 	}
 	public void displayExitButton(bool value)
 	{
