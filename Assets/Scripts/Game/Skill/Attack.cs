@@ -29,7 +29,6 @@ public class Attack : GameSkill
 			GameController.instance.applyOn(target);
 			isSuccess = true ;
 		}
-		GameController.instance.showResult(isSuccess);
 		GameController.instance.endPlay();
 	}
 	
@@ -53,9 +52,8 @@ public class Attack : GameSkill
 				}
 			}
 		}
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 0, text, "-"+damages+" PV"));
 		GameView.instance.getPlayingCardController(target).updateLife();
-		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 0);
+		GameView.instance.addAnim(GameView.instance.getTile(target));
 	}
 
 	public override string getTargetText(int target){

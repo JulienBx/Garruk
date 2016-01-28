@@ -35,6 +35,7 @@ public class GameController : Photon.MonoBehaviour
 		photonView.RPC("SpawnCharacterRPC", PhotonTargets.AllBuffered, GameView.instance.getIsFirstPlayer(), idDeck);
 	}
 	
+	
 	[RPC]
 	IEnumerator SpawnCharacterRPC(bool isFirstP, int idDeck)
 	{
@@ -230,6 +231,7 @@ public class GameController : Photon.MonoBehaviour
 	
 	public IEnumerator loadTutorialDeck(bool isFirstPlayer, string name)
 	{
+		print ("Je load "+isFirstPlayer);
 		Deck tutorialDeck = new Deck(name);
 		yield return StartCoroutine(tutorialDeck.LoadDeck());
 

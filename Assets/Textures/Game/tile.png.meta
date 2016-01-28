@@ -45,6 +45,7 @@ TextureImporter:
   lightmap: 0
   rGBM: 0
   compressionQuality: 50
+  allowsAlphaSplitting: 0
   spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
@@ -60,38 +61,38 @@ TextureImporter:
     - name: 01
       rect:
         serializedVersion: 2
-        x: 436
-        y: 808
-        width: 370
-        height: 370
-      alignment: 0
-      pivot: {x: .5, y: .5}
+        x: 374
+        y: 545
+        width: 366
+        height: 409
+      alignment: 9
+      pivot: {x: .513661206, y: .496332526}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: 02
       rect:
         serializedVersion: 2
-        x: 436
-        y: 436
-        width: 370
-        height: 370
+        x: 1
+        y: 308
+        width: 372
+        height: 372
       alignment: 9
-      pivot: {x: .497297287, y: .502702713}
+      pivot: {x: .497311831, y: .502688169}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: 03
       rect:
         serializedVersion: 2
-        x: 870
-        y: 2045
+        x: 125
+        y: 344
         width: 1
         height: 1
-      alignment: 9
-      pivot: {x: 216, y: -215}
+      alignment: 0
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: 04
       rect:
         serializedVersion: 2
-        x: 2
-        y: 1614
+        x: 1
+        y: 1181
         width: 432
         height: 432
       alignment: 0
@@ -100,8 +101,8 @@ TextureImporter:
     - name: 05
       rect:
         serializedVersion: 2
-        x: 436
-        y: 1614
+        x: 435
+        y: 1615
         width: 432
         height: 432
       alignment: 0
@@ -110,8 +111,8 @@ TextureImporter:
     - name: 06
       rect:
         serializedVersion: 2
-        x: 2
-        y: 1180
+        x: 435
+        y: 1181
         width: 432
         height: 432
       alignment: 0
@@ -120,8 +121,8 @@ TextureImporter:
     - name: 07
       rect:
         serializedVersion: 2
-        x: 436
-        y: 1180
+        x: 1
+        y: 747
         width: 432
         height: 432
       alignment: 0
@@ -130,8 +131,8 @@ TextureImporter:
     - name: 08
       rect:
         serializedVersion: 2
-        x: 2
-        y: 746
+        x: 1
+        y: 1615
         width: 432
         height: 432
       alignment: 0

@@ -114,7 +114,13 @@ public class GameSkills : MonoBehaviour
 	
 	public GameSkill getCurrentGameSkill()
 	{
-		return this.skills[GameView.instance.runningSkill];
+		if(GameView.instance.runningSkill!=-1){
+			return this.skills[GameView.instance.runningSkill];
+		}
+		else{
+			print ("Pas de running skill");
+			return null;
+		}
 	}
 }
 

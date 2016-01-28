@@ -1346,3 +1346,113 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c923d8f2d01374f43a26081e9906c97a, type: 2}
   m_IsPrefabParent: 0
+--- !u!1001 &2024107180
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 400190, guid: f826cc62ca8bc0f4fb3b594132ae1b37, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -12.0734348
+      objectReference: {fileID: 0}
+    - target: {fileID: 400190, guid: f826cc62ca8bc0f4fb3b594132ae1b37, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: -3.70500135
+      objectReference: {fileID: 0}
+    - target: {fileID: 400190, guid: f826cc62ca8bc0f4fb3b594132ae1b37, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: -4.32648754
+      objectReference: {fileID: 0}
+    - target: {fileID: 400190, guid: f826cc62ca8bc0f4fb3b594132ae1b37, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400190, guid: f826cc62ca8bc0f4fb3b594132ae1b37, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400190, guid: f826cc62ca8bc0f4fb3b594132ae1b37, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400190, guid: f826cc62ca8bc0f4fb3b594132ae1b37, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 400190, guid: f826cc62ca8bc0f4fb3b594132ae1b37, type: 2}
+      propertyPath: m_RootOrder
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 11471102, guid: f826cc62ca8bc0f4fb3b594132ae1b37, type: 2}
+      propertyPath: checkPaddingRequired
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11471102, guid: f826cc62ca8bc0f4fb3b594132ae1b37, type: 2}
+      propertyPath: isInputParsingRequired
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11471102, guid: f826cc62ca8bc0f4fb3b594132ae1b37, type: 2}
+      propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3387752, guid: f826cc62ca8bc0f4fb3b594132ae1b37, type: 2}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3375272, guid: f826cc62ca8bc0f4fb3b594132ae1b37, type: 2}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 11458074, guid: f826cc62ca8bc0f4fb3b594132ae1b37, type: 2}
+      propertyPath: checkPaddingRequired
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11458074, guid: f826cc62ca8bc0f4fb3b594132ae1b37, type: 2}
+      propertyPath: isInputParsingRequired
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11458074, guid: f826cc62ca8bc0f4fb3b594132ae1b37, type: 2}
+      propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3368238, guid: f826cc62ca8bc0f4fb3b594132ae1b37, type: 2}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 11476312, guid: f826cc62ca8bc0f4fb3b594132ae1b37, type: 2}
+      propertyPath: checkPaddingRequired
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11476312, guid: f826cc62ca8bc0f4fb3b594132ae1b37, type: 2}
+      propertyPath: isInputParsingRequired
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11476312, guid: f826cc62ca8bc0f4fb3b594132ae1b37, type: 2}
+      propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11484598, guid: f826cc62ca8bc0f4fb3b594132ae1b37, type: 2}
+      propertyPath: checkPaddingRequired
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11484598, guid: f826cc62ca8bc0f4fb3b594132ae1b37, type: 2}
+      propertyPath: isInputParsingRequired
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11484598, guid: f826cc62ca8bc0f4fb3b594132ae1b37, type: 2}
+      propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3391276, guid: f826cc62ca8bc0f4fb3b594132ae1b37, type: 2}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 11484598, guid: f826cc62ca8bc0f4fb3b594132ae1b37, type: 2}
+      propertyPath: m_textAlignment
+      value: 5
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: f826cc62ca8bc0f4fb3b594132ae1b37, type: 2}
+  m_IsPrefabParent: 0

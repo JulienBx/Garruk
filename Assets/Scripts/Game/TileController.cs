@@ -6,6 +6,7 @@ public class TileController : GameObjectController
 {
 	public Sprite[] trapSprites ;
 	public Sprite[] destinationSprites ;
+	public Sprite[] targetSprites ;
 	
 	Tile tile ;
 	int type ;
@@ -17,42 +18,19 @@ public class TileController : GameObjectController
 	public bool isDisplayingTarget;
 	float timerTarget;
 	float targetTime = 0.5f;
-	bool isTargetGettingBigger;
+	bool isTargetDisplayed;
 	
-	public void displayTarget(){
-		this.isDisplayingTarget = true ;
-		this.isTargetGettingBigger = false ;
-		gameObject.transform.FindChild("TargetLayer").GetComponent<SpriteRenderer>().enabled = true ;
-		gameObject.transform.FindChild("TargetLayer").localScale = new Vector3(1f,1f,1f);
-	}
+	string skillEffectDescription ;
+	bool isDisplayingSkillEffect;
+	bool isShowingSE ;
+	float timerSE;
+	float SETime = 8f;
+	float timerAnim = 0 ;
+	float animTime = 0.08f ;
+	int animIndex;
 	
-	public void hideTarget(){
-		this.isDisplayingTarget = false ;
-		gameObject.transform.FindChild("TargetLayer").GetComponent<SpriteRenderer>().enabled = false ;
-	}
-	
-	public void addTargetTime(float f){
-		this.timerTarget += f ;
-		if (this.timerTarget>this.targetTime){
-			this.isTargetGettingBigger = !this.isTargetGettingBigger ;
-			this.timerTarget = 0f ;
-		}
-		else{
-			if (this.isTargetGettingBigger){
-				float f1 = 1f + 0.25f * (this.timerTarget/this.targetTime);
-				gameObject.transform.FindChild("TargetLayer").localScale = new Vector3(f1, f1, f1) ;
-			}
-			else {
-				float f1 = 1.25f - 0.25f * (this.timerTarget/this.targetTime);
-				gameObject.transform.FindChild("TargetLayer").localScale = new Vector3(f1, f1, f1) ;
-			}
-		}
-	}
-	
-	public void showTarget(bool b){
-		gameObject.transform.FindChild("TargetLayer").GetComponent<SpriteRenderer>().enabled = b ;
-		this.isDisplayingTarget = b ;
-	}
+	public Sprite[] skillEffectSprites;
+	public Sprite[] animSprites;
 	
 	void Awake()
 	{
@@ -61,6 +39,44 @@ public class TileController : GameObjectController
 		this.hideDescription();
 		gameObject.transform.FindChild("HoverLayer").GetComponent<SpriteRenderer>().enabled = false ;
 		this.showTarget(false);
+		this.showEffect(false);
+		this.displayAnim(false);
+	}
+	
+	public void displayTarget(bool b){
+		this.isDisplayingTarget = b ;
+		this.isTargetDisplayed = b ;
+		gameObject.transform.FindChild("TargetLayer").GetComponent<SpriteRenderer>().enabled = this.targetSprites[0] ;
+		gameObject.transform.FindChild("TargetLayer").GetComponent<SpriteRenderer>().enabled = b ;
+		gameObject.transform.FindChild("TargetLayer").FindChild("Text").GetComponent<MeshRenderer>().enabled = false ;
+		this.timerTarget=0f;
+	}
+	
+	public void addTargetTime(float f){
+		this.timerTarget += f ;
+		if (this.timerTarget>this.targetTime){
+			this.isTargetDisplayed = !this.isTargetDisplayed ;
+			if(this.isTargetDisplayed){
+				gameObject.transform.FindChild("TargetLayer").GetComponent<SpriteRenderer>().sprite = this.targetSprites[0] ;
+				gameObject.transform.FindChild("TargetLayer").FindChild("Text").GetComponent<MeshRenderer>().enabled = false ;
+			}
+			else{
+				gameObject.transform.FindChild("TargetLayer").GetComponent<SpriteRenderer>().sprite = this.targetSprites[1] ;
+				gameObject.transform.FindChild("TargetLayer").FindChild("Text").GetComponent<MeshRenderer>().enabled = true ;
+				
+			}
+			this.timerTarget = 0f ;
+		}
+	}
+	
+	public void setTargetText(string s){
+		gameObject.transform.FindChild("TargetLayer").FindChild("Text").GetComponent<TextMeshPro>().text = s ;
+	}
+	
+	public void showTarget(bool b){
+		gameObject.transform.FindChild("TargetLayer").GetComponent<SpriteRenderer>().enabled = b ;
+		gameObject.transform.FindChild("TargetLayer").FindChild("Text").GetComponent<MeshRenderer>().enabled = false ;
+		this.isDisplayingTarget = b ;
 	}
 	
 	public void initTileController(Tile t, int ty){
@@ -207,8 +223,8 @@ public class TileController : GameObjectController
 				gameObject.transform.FindChild("DescriptionBox").FindChild("TitleText").GetComponent<MeshRenderer>().enabled=true;
 			}
 			else if(this.type==1){
-				gameObject.transform.FindChild("DescriptionBox").FindChild("TitleText").GetComponent<TextMeshPro>().text = "Case infranchissable";
-				gameObject.transform.FindChild("DescriptionBox").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = "Les unités ne peuvent pas s'arreter sur cette case";
+				gameObject.transform.FindChild("DescriptionBox").FindChild("TitleText").GetComponent<TextMeshPro>().text = "Cristal";
+				gameObject.transform.FindChild("DescriptionBox").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = "Les unités ne peuvent pas se déplacer sur cette case";
 				gameObject.transform.FindChild("DescriptionBox").GetComponent<SpriteRenderer>().enabled = true;
 				gameObject.transform.FindChild("DescriptionBox").FindChild("DescriptionText").GetComponent<MeshRenderer>().enabled=true;
 				gameObject.transform.FindChild("DescriptionBox").FindChild("TitleText").GetComponent<MeshRenderer>().enabled=true;
@@ -225,33 +241,28 @@ public class TileController : GameObjectController
 			GameView.instance.hoverTile();
 		}
 		else{
-			if(GameView.instance.getTileController(this.characterID).isDisplayingTarget){
-				GameView.instance.displaySkillEffect(characterID, GameSkills.instance.getCurrentGameSkill().getTargetText(characterID), 1);
+			if(!GameView.instance.getPlayingCardController(this.characterID).getIsHidden()){
+				GameView.instance.hoverCharacter(this.characterID);
 			}
 			else{
-				if(!GameView.instance.getPlayingCardController(this.characterID).getIsHidden()){
-					GameView.instance.hoverCharacter(this.characterID);
+				gameObject.transform.FindChild("HoverLayer").GetComponent<SpriteRenderer>().enabled = true ;
+				if(this.type==1){
+					gameObject.transform.FindChild("DescriptionBox").FindChild("TitleText").GetComponent<TextMeshPro>().text = "Case infranchissable";
+					gameObject.transform.FindChild("DescriptionBox").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = "Les unités ne peuvent pas s'arreter sur cette case";
+					gameObject.transform.FindChild("DescriptionBox").GetComponent<SpriteRenderer>().enabled = true;
+					gameObject.transform.FindChild("DescriptionBox").FindChild("DescriptionText").GetComponent<MeshRenderer>().enabled=true;
+					gameObject.transform.FindChild("DescriptionBox").FindChild("TitleText").GetComponent<MeshRenderer>().enabled=true;
 				}
-				else{
-					gameObject.transform.FindChild("HoverLayer").GetComponent<SpriteRenderer>().enabled = true ;
-					if(this.type==1){
-						gameObject.transform.FindChild("DescriptionBox").FindChild("TitleText").GetComponent<TextMeshPro>().text = "Case infranchissable";
-						gameObject.transform.FindChild("DescriptionBox").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = "Les unités ne peuvent pas s'arreter sur cette case";
+				else if (this.isTrapped){
+					if(this.trap.getIsVisible()){
+						gameObject.transform.FindChild("DescriptionBox").FindChild("TitleText").GetComponent<TextMeshPro>().text = this.trap.title;
+						gameObject.transform.FindChild("DescriptionBox").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = this.trap.description;
 						gameObject.transform.FindChild("DescriptionBox").GetComponent<SpriteRenderer>().enabled = true;
-						gameObject.transform.FindChild("DescriptionBox").FindChild("DescriptionText").GetComponent<MeshRenderer>().enabled=true;
 						gameObject.transform.FindChild("DescriptionBox").FindChild("TitleText").GetComponent<MeshRenderer>().enabled=true;
+						gameObject.transform.FindChild("DescriptionBox").FindChild("DescriptionText").GetComponent<MeshRenderer>().enabled=true;
 					}
-					else if (this.isTrapped){
-						if(this.trap.getIsVisible()){
-							gameObject.transform.FindChild("DescriptionBox").FindChild("TitleText").GetComponent<TextMeshPro>().text = this.trap.title;
-							gameObject.transform.FindChild("DescriptionBox").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = this.trap.description;
-							gameObject.transform.FindChild("DescriptionBox").GetComponent<SpriteRenderer>().enabled = true;
-							gameObject.transform.FindChild("DescriptionBox").FindChild("TitleText").GetComponent<MeshRenderer>().enabled=true;
-							gameObject.transform.FindChild("DescriptionBox").FindChild("DescriptionText").GetComponent<MeshRenderer>().enabled=true;
-						}
-					}
-					GameView.instance.hoverTile();
 				}
+				GameView.instance.hoverTile();
 			}
 		}
 	}
@@ -293,7 +304,7 @@ public class TileController : GameObjectController
 			}
 		}
 		else if(GameView.instance.getTileController(this.characterID).isDisplayingTarget){
-			GameView.instance.getPlayingCardController(characterID).displaySkillEffect(false);
+			GameView.instance.getTileController(characterID).displaySkillEffect(false);
 		}
 		else if(GameView.instance.getPlayingCardController(this.characterID).getIsHidden()){
 			gameObject.transform.FindChild("HoverLayer").GetComponent<SpriteRenderer>().enabled = false ;	
@@ -311,6 +322,78 @@ public class TileController : GameObjectController
 		gameObject.transform.FindChild("DescriptionBox").GetComponent<SpriteRenderer>().enabled = false;
 		gameObject.transform.FindChild("DescriptionBox").FindChild("DescriptionText").GetComponent<MeshRenderer>().enabled=false;
 		gameObject.transform.FindChild("DescriptionBox").FindChild("TitleText").GetComponent<MeshRenderer>().enabled=false;
+	}
+	
+	public void displaySkillEffect(bool b){
+		gameObject.transform.FindChild("SkillEffect").GetComponent<SpriteRenderer>().enabled = b ;
+		gameObject.transform.FindChild("SkillEffect").FindChild("Text").GetComponent<MeshRenderer>().enabled = b ;
+		
+		if(!b){
+			gameObject.transform.FindChild("SkillEffect").FindChild("Text").GetComponent<TextMeshPro>().text = "";
+		}
+		
+		this.isDisplayingSkillEffect = b;
+		this.timerSE = 0f;
+		this.isShowingSE = true ;
+	}
+	
+	public void setSkillEffect(string s, int type){
+		print (type);
+		gameObject.transform.FindChild("SkillEffect").GetComponent<SpriteRenderer>().sprite = this.skillEffectSprites[type] ;
+		gameObject.transform.FindChild("SkillEffect").FindChild("Text").GetComponent<TextMeshPro>().text= s;
+			
+		gameObject.transform.FindChild("SkillEffect").FindChild("Text").GetComponent<TextMeshPro>().color = Color.white ;
+	}
+	
+	public void addSETime(float t){
+		this.timerSE += t ;
+		if (this.timerSE>this.SETime){
+			this.timerSE = 0f;
+			this.isShowingSE = false ;
+			this.displaySkillEffect(false);
+		}
+	}
+	
+	public void switchSE(){
+		if(this.isShowingSE){
+			gameObject.transform.FindChild("SkillEffect").GetComponent<SpriteRenderer>().enabled = false ;
+			gameObject.transform.FindChild("SkillEffect").FindChild("Text").GetComponent<MeshRenderer>().enabled = false ;
+		}
+		else{
+			gameObject.transform.FindChild("SkillEffect").GetComponent<SpriteRenderer>().enabled = true ;
+			gameObject.transform.FindChild("SkillEffect").FindChild("Text").GetComponent<MeshRenderer>().enabled = true ;
+		}
+		this.isShowingSE = !this.isShowingSE;
+	}
+	
+	public void addAnimTime(float t){
+		this.timerAnim += t ;
+		int newIndex = Mathf.FloorToInt(timerAnim/animTime);
+		if(newIndex!=animIndex){
+			animIndex = newIndex;
+			if(newIndex>9){
+				GameView.instance.removeAnim(this.tile);
+				this.displaySkillEffect(true);
+			}
+			else{
+				this.changeAnimSprite(animIndex);
+			}
+		}
+	}
+	
+	public void changeAnimSprite(int index){
+		gameObject.transform.FindChild("AnimLayer").GetComponent<SpriteRenderer>().sprite = this.animSprites[index] ;
+	}
+	
+	public void displayAnim(bool b){
+		gameObject.transform.FindChild("AnimLayer").GetComponent<SpriteRenderer>().enabled = b ;
+		this.timerAnim = 0f;
+		this.animIndex = 0;
+	}
+	
+	public void showEffect(bool b){
+		gameObject.transform.FindChild("SkillEffect").GetComponent<SpriteRenderer>().enabled = b ;
+		gameObject.transform.FindChild("SkillEffect").FindChild("Text").GetComponent<MeshRenderer>().enabled = b ;
 	}
 }
 

@@ -6199,7 +6199,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 1254536337}
   - 212: {fileID: 1254536336}
-  - 114: {fileID: 1254536335}
   m_Layer: 0
   m_Name: Background
   m_TagString: Untagged
@@ -6207,17 +6206,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1254536335
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1254536334}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00ccf4f718a19dc42bf7496304570b49, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!212 &1254536336
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -8306,7 +8294,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a1578b9753d2604f98d608cb4239e2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_text: Start
+  m_text: "D\xE9marrez le combat une fois vos unit\xE9s positionn\xE9es !"
   m_fontAsset: {fileID: 11400000, guid: bbc845773694540939bde240858219f5, type: 2}
   m_fontStyle: 1
   m_isOverlay: 0
@@ -8326,8 +8314,8 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 7.3499999
-  m_fontSizeMin: 4
+  m_fontSize: 2.95000005
+  m_fontSizeMin: 2
   m_fontSizeMax: 8
   m_fontSizeBase: 8
   m_charSpacingMax: 0
@@ -8343,7 +8331,7 @@ MonoBehaviour:
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
-  m_enableWordWrapping: 0
+  m_enableWordWrapping: 1
   m_overflowMode: 0
   m_wordWrappingRatios: .400000006
   m_horizontalMapping: 0
@@ -8416,7 +8404,7 @@ MonoBehaviour:
     y: 0
     width: 5
     height: .899999976
-  m_margins: {x: 0, y: 0, z: 0, w: 0}
+  m_margins: {x: .174187422, y: 0, z: .203216374, w: 0}
 --- !u!4 &1736148099
 Transform:
   m_ObjectHideFlags: 0

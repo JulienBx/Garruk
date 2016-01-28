@@ -54,11 +54,16 @@ public class MenuPhotonController : Photon.MonoBehaviour
 	void OnJoinedRoom()
 	{
 		photonView.RPC("AddPlayerToList", PhotonTargets.AllBuffered, PhotonNetwork.player.ID, ApplicationModel.username);
+		
+		//Forcer le tuto
+		ApplicationModel.launchGameTutorial = true ;
+		
 		if (ApplicationModel.launchGameTutorial)
 		{
 			print("Le tuto est lancé");
 			PhotonNetwork.room.open = false;
 			Application.LoadLevel("Game");
+			ApplicationModel.isFirstPlayer = true ;
 		}
 	}
 	

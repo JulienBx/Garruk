@@ -135,6 +135,11 @@ public class GameSkill
 		return null;
 	}
 	
+	public virtual string getTargetText()
+	{
+		return null;
+	}
+	
 	public virtual HaloTarget getTargetTileText()
 	{
 		return null;
