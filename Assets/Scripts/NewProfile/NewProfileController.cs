@@ -1418,7 +1418,10 @@ public class NewProfileController : MonoBehaviour
 	}
 	public void editProfilePictureHandler()
 	{
-		this.displaySelectPicturePopUp ();
+		if(this.isMyProfile)
+		{
+			this.displaySelectPicturePopUp ();
+		}
 	}
 	private void displaySelectPicturePopUp()
 	{
