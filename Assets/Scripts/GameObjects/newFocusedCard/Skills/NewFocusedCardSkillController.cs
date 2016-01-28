@@ -70,7 +70,7 @@ public class NewFocusedCardSkillController : MonoBehaviour
 	}
 	private void OnMouseOver()
 	{
-		if(!this.isHovered)
+		if(!this.isHovered && !ApplicationDesignRules.isMobileScreen)
 		{
 			this.setHoveredState();
 			this.isHovered=true;
@@ -78,7 +78,7 @@ public class NewFocusedCardSkillController : MonoBehaviour
 	}
 	private void OnMouseExit()
 	{
-		if(this.isHovered)
+		if(this.isHovered && !ApplicationDesignRules.isMobileScreen)
 		{
 			this.setStandardState();
 			this.isHovered=false;

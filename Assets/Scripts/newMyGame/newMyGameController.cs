@@ -1711,6 +1711,11 @@ public class newMyGameController : MonoBehaviour
 			MenuController.instance.displayErrorPopUp("Vous devez créer un deck avant de sélectionner une carte");
 			this.isLeftClicked=false;
 		}
+		else if(!isDeckCardClicked && this.checkForIdenticalSkills())
+		{
+			MenuController.instance.displayErrorPopUp("Vous ne pouvez pas posséder dans votre équipe 2 cartes ayant la même compétence passive");
+			this.isLeftClicked=false;
+		}
 		else
 		{
 			this.isDragging=true;
@@ -2108,7 +2113,20 @@ public class newMyGameController : MonoBehaviour
 			}
 		}
 	}
-
+	public bool checkForIdenticalSkills()
+	{
+		for(int i=0;i<this.deckCardsDisplayed.Length;i++)
+		{
+			if(this.deckCardsDisplayed[i]!=-1)
+			{
+				if(model.cards.getCard(this.cardsDisplayed[idCardClicked]).Skills[0].Id==model.cards.getCard(this.deckCardsDisplayed[i]).Skills[0].Id)
+				{
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 	#region TUTORIAL FUNCTIONS
 
 	public bool getIsCardFocusedDisplayed()

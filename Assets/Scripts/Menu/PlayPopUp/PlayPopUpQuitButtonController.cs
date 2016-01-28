@@ -15,13 +15,19 @@ public class PlayPopUpQuitButtonController : MonoBehaviour
 	}
 	void OnMouseOver()
 	{
-		gameObject.transform.FindChild("Title").GetComponent<TextMeshPro>().color=ApplicationDesignRules.blueColor;
-		gameObject.GetComponent<SpriteRenderer>().color=ApplicationDesignRules.blueColor;
+		if(!ApplicationDesignRules.isMobileScreen)
+		{
+			gameObject.transform.FindChild("Title").GetComponent<TextMeshPro>().color=ApplicationDesignRules.blueColor;
+			gameObject.GetComponent<SpriteRenderer>().color=ApplicationDesignRules.blueColor;
+		}
 	}
 	void OnMouseExit()
 	{
-		gameObject.transform.FindChild("Title").GetComponent<TextMeshPro>().color=new Color(1f,1f,1f);
-		gameObject.GetComponent<SpriteRenderer>().color=new Color(1f,1f,1f);
+		if(!ApplicationDesignRules.isMobileScreen)
+		{
+			gameObject.transform.FindChild("Title").GetComponent<TextMeshPro>().color=new Color(1f,1f,1f);
+			gameObject.GetComponent<SpriteRenderer>().color=new Color(1f,1f,1f);
+		}
 	}
 	public void OnMouseDown()
 	{

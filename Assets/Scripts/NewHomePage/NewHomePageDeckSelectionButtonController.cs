@@ -7,10 +7,41 @@ public class NewHomePageDeckSelectionButtonController : SpriteButtonController
 	{
 		NewHomePageController.instance.deckSelectionButtonHandler();	
 	}
-	public override void setIsHovered(bool value)
+	public override void OnMouseOver()
 	{
-		base.setIsHovered (value);
-		NewHomePageController.instance.mouseOnSelectDeckButton(value);
+		if(base.getIsActive())
+		{
+			if(!base.getIsSelected())
+			{
+				if(!base.getIsHovered())
+				{
+					if(!ApplicationDesignRules.isMobileScreen)
+					{
+						this.setHoveredState();
+					}
+					this.setIsHovered(true);
+					NewHomePageController.instance.mouseOnSelectDeckButton(true);
+				}
+			}
+		}
+	}
+	public override void OnMouseExit()
+	{
+		if(base.getIsActive())
+		{	
+			if(!base.getIsSelected())
+			{
+				if(base.getIsHovered())
+				{
+					if(!ApplicationDesignRules.isMobileScreen)
+					{
+						this.setInitialState();
+					}
+					this.setIsHovered(false);
+					NewHomePageController.instance.mouseOnSelectDeckButton(false);
+				}
+			}
+		}
 	}
 }
 

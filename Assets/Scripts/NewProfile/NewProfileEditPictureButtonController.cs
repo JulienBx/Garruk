@@ -18,8 +18,8 @@ public class NewProfileEditPictureButtonController : SimpleButtonController
 	{
 		if(base.getIsHovered())
 		{	
-			NewProfileController.instance.endHoveringProfilePicture ();
 			base.setIsHovered(false);
+			NewProfileController.instance.endHoveringProfilePicture ();
 		}
 	}
 }

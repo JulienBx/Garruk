@@ -1017,17 +1017,17 @@ public class NewStoreController : MonoBehaviour
 	public void displayAddCreditsPopUp()
 	{
 		MenuController.instance.displayTransparentBackground ();
-		this.addCreditsPopUp.transform.GetComponent<AddCreditsPopUpController> ().reset ();
 		this.isAddCreditsPopUpDisplayed = true;
 		this.addCreditsPopUp.SetActive (true);
+		this.addCreditsPopUp.transform.GetComponent<AddCreditsPopUpController> ().reset ();
 		this.addCreditsPopUpResize ();
 	}
 	public void displaySelectCardTypePopUp()
 	{
 		MenuController.instance.displayTransparentBackground ();
-		this.selectCardTypePopUp.transform.GetComponent<SelectCardTypePopUpController> ().reset (model.player.CardTypesAllowed);
 		this.isSelectCardTypePopUpDisplayed = true;
 		this.selectCardTypePopUp.SetActive (true);
+		this.selectCardTypePopUp.transform.GetComponent<SelectCardTypePopUpController> ().reset (model.player.CardTypesAllowed);
 		this.selectCardPopUpResize ();
 	}
 	public void addCreditsPopUpResize()

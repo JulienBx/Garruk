@@ -148,7 +148,7 @@ public class NewCardController : NewFocusedCardController
 	}
 	public virtual void OnMouseOver()
 	{
-		if(!Input.GetMouseButton(0))
+		if(!Input.GetMouseButton(0) && !ApplicationDesignRules.isMobileScreen)
 		{
 			int newSkillHovered = this.skillHovered();
 			float skillPopUpWorldSize=0f;

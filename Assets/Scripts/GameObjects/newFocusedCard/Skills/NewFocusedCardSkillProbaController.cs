@@ -8,7 +8,7 @@ public class NewFocusedCardSkillProbaController : MonoBehaviour
 
 	public void OnMouseOver()
 	{
-		if(!isHovered)
+		if(!isHovered && !ApplicationDesignRules.isMobileScreen)
 		{
 			gameObject.transform.parent.transform.parent.transform.parent.GetComponent<NewFocusedCardController>().showSkillProbaPopUp(this.id);
 			this.isHovered=true;
@@ -16,7 +16,7 @@ public class NewFocusedCardSkillProbaController : MonoBehaviour
 	}
 	public void OnMouseExit()
 	{
-		if(isHovered)
+		if(isHovered && !ApplicationDesignRules.isMobileScreen)
 		{
 			gameObject.transform.parent.transform.parent.transform.parent.GetComponent<NewFocusedCardController>().hideSkillPopUp();
 			this.isHovered=false;

@@ -18,5 +18,12 @@ public class NewProfilePictureButtonController : SpriteButtonController
 			base.setIsHovered(false);
 		}
 	}
+	public override void mainInstruction()
+	{
+		if(ApplicationDesignRules.isMobileScreen)
+		{
+			NewProfileController.instance.editProfilePictureHandler ();
+		}
+	}
 }
 

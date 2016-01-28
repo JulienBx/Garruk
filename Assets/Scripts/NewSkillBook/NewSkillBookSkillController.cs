@@ -124,7 +124,7 @@ public class NewSkillBookSkillController : MonoBehaviour
 	}
 	void OnMouseOver()
 	{
-		if(!this.isHovering)
+		if(!this.isHovering && !ApplicationDesignRules.isMobileScreen)
 		{
 			this.isHovering=true;
 			if(s.Power==0)
@@ -139,7 +139,7 @@ public class NewSkillBookSkillController : MonoBehaviour
 	}
 	void OnMouseExit()
 	{
-		if(this.isHovering)
+		if(this.isHovering && !ApplicationDesignRules.isMobileScreen)
 		{
 			this.isHovering=false;
 			if(s.Power==0)

@@ -1445,7 +1445,10 @@ public class NewProfileController : MonoBehaviour
 		if(this.isMyProfile)
 		{
 			this.isProfilePictureHovered = true;
-			this.profileEditPictureButton.SetActive (true);
+			if(!ApplicationDesignRules.isMobileScreen)
+			{
+				this.profileEditPictureButton.SetActive (true);
+			}
 		}	
 	}
 	public void endHoveringProfilePicture()
@@ -1453,7 +1456,10 @@ public class NewProfileController : MonoBehaviour
 		if(this.isMyProfile)
 		{
 			this.isProfilePictureHovered = false;
-			this.profileEditPictureButton.SetActive (false);
+			if(!ApplicationDesignRules.isMobileScreen)
+			{
+				this.profileEditPictureButton.SetActive (false);
+			}
 		}
 	}
 	public void editProfilePictureHandler()

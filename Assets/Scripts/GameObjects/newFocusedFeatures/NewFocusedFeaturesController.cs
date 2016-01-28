@@ -31,7 +31,7 @@ public class NewFocusedFeaturesController : MonoBehaviour
 	}
 	void OnMouseOver()
 	{
-		if(!this.isHovering)
+		if(!this.isHovering && !ApplicationDesignRules.isMobileScreen)
 		{
 			this.isHovering=true;
 			if(this.isClickable)
@@ -42,7 +42,7 @@ public class NewFocusedFeaturesController : MonoBehaviour
 	}
 	void OnMouseExit()
 	{
-		if(this.isHovering)
+		if(this.isHovering && !ApplicationDesignRules.isMobileScreen)
 		{
 			this.isHovering=false;
 			if(this.isClickable)

@@ -30,7 +30,7 @@ public class InterfaceController : MonoBehaviour
 		{
 			if(!isSelected)
 			{
-				if(!isHovered)
+				if(!isHovered && !ApplicationDesignRules.isMobileScreen)
 				{
 					this.setHoveredState();
 					this.setIsHovered(true);
@@ -44,7 +44,7 @@ public class InterfaceController : MonoBehaviour
 		{	
 			if(!isSelected)
 			{
-				if(isHovered)
+				if(isHovered && !ApplicationDesignRules.isMobileScreen)
 				{
 					this.setInitialState();
 					this.setIsHovered(false);
@@ -99,6 +99,10 @@ public class InterfaceController : MonoBehaviour
 	public bool getIsHovered()
 	{
 		return this.isHovered;
+	}
+	public bool getIsActive()
+	{
+		return this.isActive;
 	}
 }
 
