@@ -13,14 +13,14 @@ public class EndGamePopUpController : MonoBehaviour
 		string text = "";
 		if(hasWon)
 		{
-			text="BRAVO !\n\nVenez en match officiel vous mesurer aux meilleurs joueurs !";
+			text=WordingEndGamePopUp.getReference(0);
 		}
 		else
 		{
-			text="DOMMAGE !\n\nC'est en s'entrainant qu'on progresse ! Courage !";
+			text=WordingEndGamePopUp.getReference(1);
 		}
 		gameObject.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = text;
-		gameObject.transform.FindChild ("Button").FindChild ("Title").GetComponent<TextMeshPro> ().text = "Continuer";
+		gameObject.transform.FindChild ("Button").FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingEndGamePopUp.getReference(2);
 		gameObject.transform.FindChild ("Button").GetComponent<EndGamePopUpConfirmButtonController> ().reset ();
 		gameObject.transform.FindChild ("CloseButton").GetComponent<EndGamePopUpCloseButtonController> ().reset ();
 	}

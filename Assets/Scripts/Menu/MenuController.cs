@@ -142,7 +142,7 @@ public class MenuController : MonoBehaviour
 		}
 		this.collectionPointsPopUp.SetActive (true);
 		this.isCollectionPointsPopUpDisplayed = true;
-		this.collectionPointsPopUp.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Collections Points : + " + collectionPoints.ToString () + "\nClassement : " + collectionPointsRanking.ToString ();
+		this.collectionPointsPopUp.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingCollectionPointsPopUp.getReference(0) + collectionPoints.ToString () + WordingCollectionPointsPopUp.getReference(1) + collectionPointsRanking.ToString ();
 		this.timerCollectionPoints = 0f;
 		this.collectionPointsPopUpResize ();
 	}
@@ -660,17 +660,6 @@ public class MenuController : MonoBehaviour
 	{
 		Application.LoadLevel("AdminBoard");
 	}
-	public void setButtonsGui(bool value)
-	{
-		//		for(int i=0;i<view.menuVM.buttonsEnabled.Length;i++)
-		//		{
-		//			view.menuVM.buttonsEnabled[i]=value;
-		//		}
-	}
-	public void setButtonGui(int index, bool value)
-	{
-		//		view.menuVM.buttonsEnabled[index]=value;
-	}
 	public void returnPressed()
 	{
 		if(isErrorPopUpDisplayed)
@@ -819,7 +808,7 @@ public class MenuController : MonoBehaviour
 		invitation.SendingUser = sendingUser;
 		MenuController.instance.displayLoadingScreen ();
 		yield return StartCoroutine (invitation.add ());
-		MenuController.instance.changeLoadingScreenLabel("En attente de la réponse de votre ami ...");
+		MenuController.instance.changeLoadingScreenLabel(WordingSocial.getReference(6));
 		MenuController.instance.displayLoadingScreenButton (true);
 		ApplicationModel.gameType = 2+invitation.Id;
 		photon.CreateNewRoom();
@@ -843,14 +832,14 @@ public class MenuController : MonoBehaviour
 		if(ApplicationModel.gameType<=2 && !ApplicationModel.launchGameTutorial)
 		{
 			this.displayLoadingScreenButton (true);
-			this.changeLoadingScreenLabel ("En attente de joueurs ...");
+			this.changeLoadingScreenLabel (WordingGameModes.getReference(7));
 		}
 		photon.joinRandomRoom ();
 	}
 	public void joinInvitationRoomFailed()
 	{
 		this.hideLoadingScreen ();
-		this.displayErrorPopUp ("Votre ami a annulé le défi");
+		this.displayErrorPopUp (WordingSocial.getReference(7));
 		Invitation invitation = new Invitation ();
 		invitation.Id = ApplicationModel.gameType-2;
 		StartCoroutine(invitation.changeStatus(-1));

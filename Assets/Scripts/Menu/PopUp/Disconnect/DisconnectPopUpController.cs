@@ -10,10 +10,10 @@ public class DisconnectPopUpController : MonoBehaviour
 {
 	public void reset()
 	{
-		gameObject.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Souhaitez-vous quitter le jeu ?";
-		gameObject.transform.FindChild ("Button").FindChild ("Title").GetComponent<TextMeshPro> ().text = "Confirmer";
+		gameObject.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingDisconnectPopUp.getReference(0);
+		gameObject.transform.FindChild ("Button").FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingDisconnectPopUp.getReference(1);
 		gameObject.transform.FindChild ("Button").GetComponent<DisconnectPopUpConfirmButtonController> ().reset ();
-		gameObject.transform.FindChild ("Button2").FindChild ("Title").GetComponent<TextMeshPro> ().text = "Annuler";
+		gameObject.transform.FindChild ("Button2").FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingDisconnectPopUp.getReference(2);
 		gameObject.transform.FindChild ("Button2").GetComponent<DisconnectPopUpCancelButtonController> ().reset ();
 		gameObject.transform.FindChild ("CloseButton").GetComponent<DisconnectPopUpCloseButtonController> ().reset ();
 	}
