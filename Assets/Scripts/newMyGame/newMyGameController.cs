@@ -1450,12 +1450,12 @@ public class newMyGameController : MonoBehaviour
 		{
 			for (int i = 0; i < model.skillsList.Count; i++) 
 			{  
-				if (model.skillsList [i].ToLower ().Contains (this.valueSkill.ToLower())) 
+				if (WordingSkills.getName(model.skillsList [i].Id).ToLower ().Contains (this.valueSkill.ToLower())) 
 				{
 					this.skillsDisplayed.Add (i);
 					this.skillChoices[this.skillsDisplayed.Count-1].SetActive(true);
 					this.skillChoices[this.skillsDisplayed.Count-1].GetComponent<newMyGameSkillChoiceController>().reset();
-					this.skillChoices[this.skillsDisplayed.Count-1].transform.FindChild("Title").GetComponent<TextMeshPro>().text = model.skillsList [i];
+					this.skillChoices[this.skillsDisplayed.Count-1].transform.FindChild("Title").GetComponent<TextMeshPro>().text = WordingSkills.getName(model.skillsList [i].Id);
 				}
 				if(this.skillsDisplayed.Count==this.skillChoices.Length)
 				{
