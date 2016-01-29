@@ -88,6 +88,7 @@ public class NewProfileController : MonoBehaviour
 
 	private bool isSelectPicturePopUpDisplayed;
 	private bool isSearchUsersPopUpDisplayed;
+	private bool isSearchingUsers;
 
 	public int friendsRefreshInterval;
 	private float friendsCheckTimer;
@@ -135,6 +136,17 @@ public class NewProfileController : MonoBehaviour
 				{
 					this.slideLeft();
 				}
+			}
+		}
+		if(isSearchingUsers)
+		{
+			if(ApplicationDesignRules.isMobileDevice)
+			{
+				this.searchBar.GetComponent<NewProfileSearchBarController>().setText(this.searchBar.GetComponent<NewProfileSearchBarController>().getText());
+			}
+			if(!this.searchBar.GetComponent<NewProfileSearchBarController>().getIsBeingUsed())
+			{
+				this.isSearchingUsers=false;
 			}
 		}
 		if(toSlideRight || toSlideLeft)
@@ -1649,6 +1661,7 @@ public class NewProfileController : MonoBehaviour
 	}
 	public void searchingUsers()
 	{
+		this.isSearchingUsers=true;
 		this.searchBar.GetComponent<NewProfileSearchBarController>().setText("");
 	}
 	public void searchUsersHandler()

@@ -95,5 +95,10 @@ public class NewProfileSearchBarController : InterfaceController
 	{
 		return this.isBeingUsed;
 	}
+	public void closeKeyboard()
+	{
+		this.keyboard.active=false;
+		this.isBeingUsed=false;
+	}
 }
 
