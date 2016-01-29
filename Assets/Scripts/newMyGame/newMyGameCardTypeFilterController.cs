@@ -3,7 +3,7 @@ using TMPro;
 
 public class newMyGameCardTypeFilterController : SpriteButtonController
 {	
-	public override void mainInstruction()
+	public void OnMouseUp()
 	{
 		newMyGameController.instance.cardTypeFilterHandler (base.getId());	
 	}

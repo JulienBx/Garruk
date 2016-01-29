@@ -1049,6 +1049,11 @@ public class NewMarketController : MonoBehaviour
 				this.lowerScrollCamera.SetActive(true);
 				this.upperScrollCamera.SetActive(true);
 				this.sceneCamera.SetActive(false);
+				this.skillSearchBar.SetActive(false);
+			}
+			else
+			{
+				this.skillSearchBar.SetActive(true);
 			}
 			this.sceneCamera.transform.position=ApplicationDesignRules.sceneCameraStandardPosition;
 		}
@@ -1061,6 +1066,7 @@ public class NewMarketController : MonoBehaviour
 				this.sceneCamera.SetActive(true);
 			}
 			this.sceneCamera.transform.position=ApplicationDesignRules.sceneCameraFocusedCardPosition;
+			this.skillSearchBar.SetActive(false);
 		}
 
 	}

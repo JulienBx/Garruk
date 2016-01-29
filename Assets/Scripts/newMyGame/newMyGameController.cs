@@ -127,13 +127,13 @@ public class newMyGameController : MonoBehaviour
 
 	void Update()
 	{	
-		if (Input.touchCount == 1 && this.isSceneLoaded) 
+		if (Input.touchCount == 1 && this.isSceneLoaded && !this.isDragging && !this.isSlidingCursors && !this.isCardFocusedDisplayed ) 
 		{
 			if(Mathf.Abs(Input.touches[0].deltaPosition.y)>1f && Mathf.Abs(Input.touches[0].deltaPosition.y)>Mathf.Abs(Input.touches[0].deltaPosition.x))
 			{
 				this.isLeftClicked=false;
 			}
-			else if(Input.touches[0].deltaPosition.x<-15f && !this.isCardFocusedDisplayed && !this.isDragging && !this.isSlidingCursors)
+			else if(Input.touches[0].deltaPosition.x<-15f )
 			{
 				this.isLeftClicked=false;
 				if(this.mainContentDisplayed || this.toSlideLeft)
@@ -141,7 +141,7 @@ public class newMyGameController : MonoBehaviour
 					this.slideRight();
 				}
 			}
-			else if(Input.touches[0].deltaPosition.x>15f && !this.isCardFocusedDisplayed && !this.isDragging && !this.isSlidingCursors)
+			else if(Input.touches[0].deltaPosition.x>15f)
 			{
 				this.isLeftClicked=false;
 				if(this.filtersDisplayed || this.toSlideRight)
@@ -1068,6 +1068,11 @@ public class newMyGameController : MonoBehaviour
 				this.lowerScrollCamera.SetActive(true);
 				this.upperScrollCamera.SetActive(true);
 				this.sceneCamera.SetActive(false);
+				this.skillSearchBar.SetActive(false);
+			}
+			else
+			{
+				this.skillSearchBar.SetActive(true);
 			}
 			this.sceneCamera.transform.position=ApplicationDesignRules.sceneCameraStandardPosition;
 		}
@@ -1080,8 +1085,9 @@ public class newMyGameController : MonoBehaviour
 				this.sceneCamera.SetActive(true);
 			}
 			this.sceneCamera.transform.position=ApplicationDesignRules.sceneCameraFocusedCardPosition;
+			this.skillSearchBar.SetActive(false);
 		}
-		this.skillSearchBar.SetActive(value);
+
 	}
 	public void selectDeck(int id)
 	{
@@ -1138,46 +1144,55 @@ public class newMyGameController : MonoBehaviour
 	}
 	public void cardTypeFilterHandler(int id)
 	{
-		if(this.filtersCardType.Contains(id))
+		if(!ApplicationDesignRules.isMobileScreen || this.filtersDisplayed)
 		{
-			this.filtersCardType.Remove(id);
-			this.cardsTypeFilters[id].GetComponent<newMyGameCardTypeFilterController>().reset();
+			if(this.filtersCardType.Contains(id))
+			{
+				this.filtersCardType.Remove(id);
+				this.cardsTypeFilters[id].GetComponent<newMyGameCardTypeFilterController>().reset();
+			}
+			else
+			{
+				this.filtersCardType.Add (id);
+				this.cardsTypeFilters[id].GetComponent<newMyGameCardTypeFilterController>().setIsSelected(true);
+				this.cardsTypeFilters[id].GetComponent<newMyGameCardTypeFilterController>().setHoveredState();
+			}
+			this.cardsPagination.chosenPage = 0;
+			this.applyFilters ();
 		}
-		else
-		{
-			this.filtersCardType.Add (id);
-			this.cardsTypeFilters[id].GetComponent<newMyGameCardTypeFilterController>().setIsSelected(true);
-			this.cardsTypeFilters[id].GetComponent<newMyGameCardTypeFilterController>().setHoveredState();
-		}
-		this.cardsPagination.chosenPage = 0;
-		this.applyFilters ();
 	}
 	public void sortButtonHandler(int id)
 	{
-		if(this.sortingOrder==id)
+		if(!ApplicationDesignRules.isMobileScreen || this.filtersDisplayed)
 		{
-			this.sortingOrder = -1;
-			this.sortButtons[id].GetComponent<newMyGameSortButtonController>().reset();
+			if(this.sortingOrder==id)
+			{
+				this.sortingOrder = -1;
+				this.sortButtons[id].GetComponent<newMyGameSortButtonController>().reset();
+			}
+			else if(this.sortingOrder!=-1)
+			{
+				this.sortButtons[this.sortingOrder].GetComponent<newMyGameSortButtonController>().reset();
+				this.sortButtons[id].GetComponent<newMyGameSortButtonController>().setIsSelected(true);
+				this.sortButtons[id].GetComponent<newMyGameSortButtonController>().setHoveredState();
+				this.sortingOrder = id;
+			}
+			else
+			{
+				this.sortingOrder=id;
+				this.sortButtons[id].GetComponent<newMyGameSortButtonController>().setIsSelected(true);
+				this.sortButtons[id].GetComponent<newMyGameSortButtonController>().setHoveredState();
+			}
+			this.cardsPagination.chosenPage = 0;
+			this.applyFilters ();
 		}
-		else if(this.sortingOrder!=-1)
-		{
-			this.sortButtons[this.sortingOrder].GetComponent<newMyGameSortButtonController>().reset();
-			this.sortButtons[id].GetComponent<newMyGameSortButtonController>().setIsSelected(true);
-			this.sortButtons[id].GetComponent<newMyGameSortButtonController>().setHoveredState();
-			this.sortingOrder = id;
-		}
-		else
-		{
-			this.sortingOrder=id;
-			this.sortButtons[id].GetComponent<newMyGameSortButtonController>().setIsSelected(true);
-			this.sortButtons[id].GetComponent<newMyGameSortButtonController>().setHoveredState();
-		}
-		this.cardsPagination.chosenPage = 0;
-		this.applyFilters ();
+	}
+	public void startSlidingCursors()
+	{
+		this.isSlidingCursors=true;
 	}
 	public void moveCursors(int cursorId)
 	{
-		this.isSlidingCursors = true;
 		float offsetStep = 0f;
 		Vector3 mousePosition = new Vector3 ();
 		if (ApplicationDesignRules.isMobileScreen) 
@@ -1285,7 +1300,10 @@ public class newMyGameController : MonoBehaviour
 			this.cardsPagination.chosenPage = 0;
 			this.applyFilters();
 		}
-		this.isSlidingCursors = false;
+	}
+	public void endSlidingCursors()
+	{
+		this.isSlidingCursors=false;
 	}
 	public string getValueFilterLabel(int value)
 	{

@@ -3,7 +3,7 @@ using TMPro;
 
 public class newMyGameSortButtonController : SpriteButtonController
 {	
-	public override void mainInstruction()
+	public void OnMouseUp()
 	{
 		newMyGameController.instance.sortButtonHandler (base.getId());	
 	}

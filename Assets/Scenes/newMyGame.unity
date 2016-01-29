@@ -2252,6 +2252,14 @@ Prefab:
       propertyPath: m_Name
       value: Cursor
       objectReference: {fileID: 0}
+    - target: {fileID: 6167804, guid: 2d975155c53e441c9bdeec9f4f695c14, type: 2}
+      propertyPath: m_Size.x
+      value: 1.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6167804, guid: 2d975155c53e441c9bdeec9f4f695c14, type: 2}
+      propertyPath: m_Size.y
+      value: 1.3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2d975155c53e441c9bdeec9f4f695c14, type: 2}
   m_IsPrefabParent: 0
@@ -5921,6 +5929,14 @@ Prefab:
       propertyPath: havePropertiesChanged
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6167804, guid: 2d975155c53e441c9bdeec9f4f695c14, type: 2}
+      propertyPath: m_Size.x
+      value: 1.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6167804, guid: 2d975155c53e441c9bdeec9f4f695c14, type: 2}
+      propertyPath: m_Size.y
+      value: 1.3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2d975155c53e441c9bdeec9f4f695c14, type: 2}
   m_IsPrefabParent: 0
@@ -6841,6 +6857,14 @@ Prefab:
     - target: {fileID: 168182, guid: 2d975155c53e441c9bdeec9f4f695c14, type: 2}
       propertyPath: m_Name
       value: Cursor
+      objectReference: {fileID: 0}
+    - target: {fileID: 6167804, guid: 2d975155c53e441c9bdeec9f4f695c14, type: 2}
+      propertyPath: m_Size.x
+      value: 1.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6167804, guid: 2d975155c53e441c9bdeec9f4f695c14, type: 2}
+      propertyPath: m_Size.y
+      value: 1.3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2d975155c53e441c9bdeec9f4f695c14, type: 2}
