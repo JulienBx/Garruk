@@ -98,7 +98,7 @@ public class newMyGameSkillSearchBarController : InterfaceController
 	}
 	public void closeKeyboard()
 	{
-		this.keyboard=null;
+		this.keyboard.active=false;
 		this.isBeingUsed=false;
 	}
 }
