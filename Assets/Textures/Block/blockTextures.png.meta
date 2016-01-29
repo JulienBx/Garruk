@@ -21,7 +21,7 @@ TextureImporter:
   bumpmap:
     convertToNormalMap: 0
     externalNormalMap: 0
-    heightScale: .25
+    heightScale: 0.25
     normalMapFilter: 0
   isReadable: 0
   grayScaleToAlpha: 0
@@ -41,11 +41,12 @@ TextureImporter:
   lightmap: 0
   rGBM: 0
   compressionQuality: 50
+  allowsAlphaSplitting: 0
   spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
-  spritePivot: {x: .5, y: .5}
+  spritePivot: {x: 0.5, y: 0.5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 108
   alphaIsTransparency: 1
@@ -61,8 +62,13 @@ TextureImporter:
         width: 500
         height: 500
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -250, y: 250}
+        - {x: -250, y: -250}
+        - {x: 250, y: -250}
+        - {x: 250, y: 250}
     - name: corner
       rect:
         serializedVersion: 2
@@ -71,8 +77,20 @@ TextureImporter:
         width: 194
         height: 194
       alignment: 9
-      pivot: {x: .484536082, y: .484536082}
+      pivot: {x: 0.48453608, y: 0.48453608}
       border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -94, y: 100}
+        - {x: -94, y: 69}
+        - {x: -86, y: 35}
+        - {x: -68, y: 0}
+        - {x: -48, y: -26}
+        - {x: -20, y: -53}
+        - {x: 0, y: -68}
+        - {x: 41, y: -88}
+        - {x: 69, y: -94}
+        - {x: 100, y: -94}
+        - {x: 100, y: 100}
     - name: line
       rect:
         serializedVersion: 2
@@ -81,8 +99,9 @@ TextureImporter:
         width: 500
         height: 9
       alignment: 9
-      pivot: {x: .5, y: .444444448}
+      pivot: {x: 0.5, y: 0.44444445}
       border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
     - name: shadow
       rect:
         serializedVersion: 2
@@ -91,8 +110,14 @@ TextureImporter:
         width: 500
         height: 500
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -250, y: 250}
+        - {x: -250, y: -250}
+        - {x: 250, y: -250}
+        - {x: 250, y: 250}
+    outline: []
   spritePackingTag: 
   userData: 
   assetBundleName: 

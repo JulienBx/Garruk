@@ -14,6 +14,7 @@ public class newMyGameSkillSearchBarController : InterfaceController
 	private Rect rect;
 	private bool isBeingUsed;
 	private bool isGUIActive;
+	private TouchScreenKeyboard keyboard;
 
 	public void resize()
 	{
@@ -22,6 +23,17 @@ public class newMyGameSkillSearchBarController : InterfaceController
 		float width = ((ApplicationDesignRules.inputTextWorldSize.x-0.3f) / ApplicationDesignRules.worldWidth) * Screen.width;
 		float heigth = (ApplicationDesignRules.inputTextWorldSize.y / ApplicationDesignRules.worldHeight) * Screen.height;
 		this.rect = new Rect (x, y, width, heigth);
+		this.popUpGUISkin.textField.fontSize=(int)heigth*50/100;
+	}
+	void Update()
+	{
+		if(this.isBeingUsed && ApplicationDesignRules.isMobileDevice)
+		{
+			if(keyboard!=null && (keyboard.done || keyboard.wasCanceled))
+			{
+				this.isBeingUsed=false;
+			}	
+		}
 	}
 	void OnGUI()
 	{
@@ -30,19 +42,31 @@ public class newMyGameSkillSearchBarController : InterfaceController
 			GUILayout.BeginArea (rect);
 			{
 				GUILayout.FlexibleSpace();
-				GUI.SetNextControlName("Textfield");
-				text = GUILayout.TextField(text,popUpGUISkin.textField);
-				if (GUI.GetNameOfFocusedControl() == "Textfield")
+				if(ApplicationDesignRules.isMobileDevice)
 				{
-					if(!isBeingUsed)
-					{
+					if(GUILayout.Button (text,popUpGUISkin.textField))
+			        {
+			            keyboard = TouchScreenKeyboard.Open("", TouchScreenKeyboardType.Default,false);
 						newMyGameController.instance.searchingSkill();
 						this.isBeingUsed=true;
-					}
+			        }
 				}
 				else
 				{
-					this.isBeingUsed=false;
+					GUI.SetNextControlName("Textfield");
+					text = GUILayout.TextField(text,popUpGUISkin.textField);
+					if (GUI.GetNameOfFocusedControl() == "Textfield")
+					{
+						if(!isBeingUsed)
+						{
+							newMyGameController.instance.searchingSkill();
+							this.isBeingUsed=true;
+						}
+					}
+					else
+					{
+						this.isBeingUsed=false;
+					}
 				}
 				GUILayout.FlexibleSpace();
 			}
@@ -59,11 +83,23 @@ public class newMyGameSkillSearchBarController : InterfaceController
 	}
 	public string getText()
 	{
-		return text;
+		if(ApplicationDesignRules.isMobileDevice)
+		{
+			return keyboard.text;
+		}
+		else
+		{
+			return text;
+		}
 	}
 	public bool getIsBeingUsed()
 	{
 		return this.isBeingUsed;
+	}
+	public void closeKeyboard()
+	{
+		this.keyboard=null;
+		this.isBeingUsed=false;
 	}
 }
 

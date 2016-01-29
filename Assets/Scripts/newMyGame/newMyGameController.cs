@@ -161,6 +161,10 @@ public class newMyGameController : MonoBehaviour
 		}
 		if(isSearchingSkill)
 		{
+			if(ApplicationDesignRules.isMobileDevice)
+			{
+				this.skillSearchBar.GetComponent<newMyGameSkillSearchBarController>().setText(this.skillSearchBar.GetComponent<newMyGameSkillSearchBarController>().getText());
+			}
 			if(this.skillSearchBar.GetComponent<newMyGameSkillSearchBarController>().getText().ToLower()!=this.valueSkill.ToLower()	)
 			{
 				this.valueSkill=this.skillSearchBar.GetComponent<newMyGameSkillSearchBarController>().getText();
@@ -797,9 +801,18 @@ public class newMyGameController : MonoBehaviour
 		if(ApplicationDesignRules.isMobileScreen)
 		{
 			this.cardsPaginationButtons.transform.localPosition=new Vector3 (cardsBlockUpperRightPosition.x - ApplicationDesignRules.blockHorizontalSpacing - 2.5f*ApplicationDesignRules.roundButtonWorldSize.x, cardsBlockUpperRightPosition.y - ApplicationDesignRules.buttonVerticalSpacing - ApplicationDesignRules.roundButtonWorldSize.y / 2f, 0f);
+			this.skillSearchBarTitle.GetComponent<TextContainer>().anchorPosition =  TextContainerAnchors.Left;
+			this.skillSearchBarTitle.GetComponent<TextMeshPro>().alignment = TextAlignmentOptions.Left;
+			this.skillSearchBarTitle.transform.position = new Vector3 (ApplicationDesignRules.blockHorizontalSpacing+filtersBlockUpperLeftPosition.x, filtersBlockUpperLeftPosition.y - ApplicationDesignRules.subMainTitleVerticalSpacing, 0f);
+			this.skillSearchBar.transform.position = new Vector3 (ApplicationDesignRules.blockHorizontalSpacing+filtersBlockUpperLeftPosition.x+ApplicationDesignRules.inputTextWorldSize.x/2f, filtersBlockUpperLeftPosition.y - 1.375f, 0f);
+			for(int i=0;i<this.skillChoices.Length;i++)
+			{
+				this.skillChoices[i].transform.localScale=ApplicationDesignRules.listElementScale;
+				this.skillChoices[i].transform.position=new Vector3(this.skillSearchBar.transform.position.x,this.skillSearchBar.transform.position.y-ApplicationDesignRules.inputTextWorldSize.y/2f-(i+0.5f)*ApplicationDesignRules.listElementWorldSize.y+i*0.02f,-1f);
+			}
 			this.cardTypeFilterTitle.GetComponent<TextContainer>().anchorPosition =  TextContainerAnchors.Left;
 			this.cardTypeFilterTitle.GetComponent<TextMeshPro>().alignment = TextAlignmentOptions.Left;
-			this.cardTypeFilterTitle.transform.position = new Vector3 (ApplicationDesignRules.blockHorizontalSpacing+filtersBlockUpperLeftPosition.x, filtersBlockUpperLeftPosition.y - ApplicationDesignRules.subMainTitleVerticalSpacing, 0f);
+			this.cardTypeFilterTitle.transform.position = new Vector3 (ApplicationDesignRules.blockHorizontalSpacing+filtersBlockUpperLeftPosition.x, filtersBlockUpperLeftPosition.y - 1.9f, 0f);
 			float gapBetweenCardTypesFilters = (filtersBlockSize.x-2f*ApplicationDesignRules.blockHorizontalSpacing-5f*ApplicationDesignRules.cardTypeFilterWorldSize.x)/4f;
 			for(int i = 0;i<this.cardsTypeFilters.Length;i++)
 			{
@@ -807,28 +820,20 @@ public class newMyGameController : MonoBehaviour
 
 				if(i<5)
 				{
-					cardTypeFilterPosition.y=filtersBlockUpperLeftPosition.y-1.75f;
+					cardTypeFilterPosition.y=filtersBlockUpperLeftPosition.y-2.65f;
 					cardTypeFilterPosition.x=filtersBlockUpperLeftPosition.x+ApplicationDesignRules.blockHorizontalSpacing+0.5f*ApplicationDesignRules.cardTypeFilterWorldSize.x+i*(ApplicationDesignRules.cardTypeFilterWorldSize.x+gapBetweenCardTypesFilters);
 
 				}
 				else
 				{
-					cardTypeFilterPosition.y=filtersBlockUpperLeftPosition.y-2.90f;
+					cardTypeFilterPosition.y=filtersBlockUpperLeftPosition.y-3.8f;
 					cardTypeFilterPosition.x=filtersBlockUpperLeftPosition.x+ApplicationDesignRules.blockHorizontalSpacing+0.5f*ApplicationDesignRules.cardTypeFilterWorldSize.x+(i-5)*(ApplicationDesignRules.cardTypeFilterWorldSize.x+gapBetweenCardTypesFilters);
 
 				}
 				this.cardsTypeFilters[i].transform.position=cardTypeFilterPosition;
 				this.cardsTypeFilters[i].transform.localScale=ApplicationDesignRules.cardTypeFilterScale;
 			}
-			this.skillSearchBarTitle.GetComponent<TextContainer>().anchorPosition =  TextContainerAnchors.Left;
-			this.skillSearchBarTitle.GetComponent<TextMeshPro>().alignment = TextAlignmentOptions.Left;
-			this.skillSearchBarTitle.transform.position = new Vector3 (ApplicationDesignRules.blockHorizontalSpacing+filtersBlockUpperLeftPosition.x, filtersBlockUpperLeftPosition.y - 3.75f, 0f);
-			this.skillSearchBar.transform.position = new Vector3 (ApplicationDesignRules.blockHorizontalSpacing+filtersBlockUpperLeftPosition.x+ApplicationDesignRules.inputTextWorldSize.x/2f, filtersBlockUpperLeftPosition.y - 4.20f, 0f);
-			for(int i=0;i<this.skillChoices.Length;i++)
-			{
-				this.skillChoices[i].transform.localScale=ApplicationDesignRules.listElementScale;
-				this.skillChoices[i].transform.position=new Vector3(this.skillSearchBar.transform.position.x,this.skillSearchBar.transform.position.y-ApplicationDesignRules.inputTextWorldSize.y/2f-(i+0.5f)*ApplicationDesignRules.listElementWorldSize.y+i*0.02f,-1f);
-			}
+
 			this.valueFilterTitle.GetComponent<TextContainer>().anchorPosition =  TextContainerAnchors.Left;
 			this.valueFilterTitle.GetComponent<TextMeshPro>().alignment = TextAlignmentOptions.Left;
 			this.valueFilterTitle.transform.position=new Vector3 (ApplicationDesignRules.blockHorizontalSpacing+filtersBlockUpperLeftPosition.x, filtersBlockUpperLeftPosition.y - 4.65f, 0f);
@@ -1451,6 +1456,10 @@ public class newMyGameController : MonoBehaviour
 	public void filterASkill(int id)
 	{
 		this.isSearchingSkill = false;
+		if(ApplicationDesignRules.isMobileDevice)
+		{
+			this.skillSearchBar.GetComponent<newMyGameSkillSearchBarController>().closeKeyboard();
+		}
 		this.valueSkill = this.skillChoices[id].transform.FindChild("Title").GetComponent<TextMeshPro>().text;
 		this.isSkillChosen = true;
 		this.skillSearchBar.GetComponent<newMyGameSkillSearchBarController>().setText(this.valueSkill);

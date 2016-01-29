@@ -20,6 +20,7 @@ public class ApplicationDesignRules : MonoBehaviour
 	static public float cameraSize=5f;
 	static public float backgroundCameraSize=5f;
 	static public bool isMobileScreen;
+	static public bool isMobileDevice;
 	static public float viewHeight;
 	static public float reductionRatio;
 	static public float leftMargin=0.5f;
@@ -281,6 +282,15 @@ public class ApplicationDesignRules : MonoBehaviour
 		cameraSize=5f;
 		worldHeight = 2f*cameraSize;
 		worldWidth = ((float)Screen.width/(float)Screen.height) * worldHeight;
+
+		if(SystemInfo.deviceType==DeviceType.Handheld)
+		{
+			isMobileDevice=true;
+		}
+		else
+		{
+			isMobileDevice=false;
+		}
 
 		if(screenRatio<=mobileScreenRatio)
 		{
