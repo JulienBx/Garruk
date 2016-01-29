@@ -8,7 +8,6 @@ using TMPro;
 
 public class newMyGameSkillSearchBarController : InterfaceController
 {	
-
 	public GUISkin popUpGUISkin;
 	private string text="";
 	private Rect rect;

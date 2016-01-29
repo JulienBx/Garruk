@@ -13,6 +13,10 @@ public class SkillBookTutorialController : TutorialObjectController
 	{
 		NewSkillBookController.instance.endTutorialInitialization ();
 	}
+	public override void setGUI(bool value)
+	{
+		NewSkillBookController.instance.setGUI(value);
+	}
 	public override void launchSequence(int sequenceID)
 	{
 		Vector3 gameObjectPosition = new Vector3 ();

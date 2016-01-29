@@ -8,20 +8,31 @@ using TMPro;
 
 public class NewProfileSearchBarController : InterfaceController
 {	
-
 	public GUISkin popUpGUISkin;
 	private string text="";
 	private Rect rect;
 	private bool isBeingUsed;
 	private bool isGUIActive;
+	private TouchScreenKeyboard keyboard;
 
 	public void resize()
 	{
-		float x = ((gameObject.transform.position.x -ApplicationDesignRules.largeInputTextWorldSize.x/2f+0.15f + ApplicationDesignRules.worldWidth / 2f) / ApplicationDesignRules.worldWidth) * Screen.width;
-		float y = ((System.Convert.ToInt32(ApplicationDesignRules.isMobileScreen)*(ApplicationDesignRules.topBarWorldSize.y-0.2f)+ApplicationDesignRules.worldHeight / 2f - this.gameObject.transform.position.y - ApplicationDesignRules.largeInputTextWorldSize.y / 2f) / ApplicationDesignRules.worldHeight) * Screen.height;
-		float width = ((ApplicationDesignRules.largeInputTextWorldSize.x-0.3f) / ApplicationDesignRules.worldWidth) * Screen.width;
-		float heigth = (ApplicationDesignRules.largeInputTextWorldSize.y / ApplicationDesignRules.worldHeight) * Screen.height;
+		float x = ((gameObject.transform.position.x -ApplicationDesignRules.inputTextWorldSize.x/2f+0.15f + ApplicationDesignRules.worldWidth / 2f) / ApplicationDesignRules.worldWidth) * Screen.width;
+		float y = ((System.Convert.ToInt32(ApplicationDesignRules.isMobileScreen)*(ApplicationDesignRules.topBarWorldSize.y-0.2f)+ApplicationDesignRules.worldHeight / 2f - this.gameObject.transform.position.y - ApplicationDesignRules.inputTextWorldSize.y / 2f) / ApplicationDesignRules.worldHeight) * Screen.height;
+		float width = ((ApplicationDesignRules.inputTextWorldSize.x-0.3f) / ApplicationDesignRules.worldWidth) * Screen.width;
+		float heigth = (ApplicationDesignRules.inputTextWorldSize.y / ApplicationDesignRules.worldHeight) * Screen.height;
 		this.rect = new Rect (x, y, width, heigth);
+		this.popUpGUISkin.textField.fontSize=(int)heigth*50/100;
+	}
+	void Update()
+	{
+		if(this.isBeingUsed && ApplicationDesignRules.isMobileDevice)
+		{
+			if(keyboard!=null && (keyboard.done || keyboard.wasCanceled))
+			{
+				this.isBeingUsed=false;
+			}	
+		}
 	}
 	void OnGUI()
 	{
@@ -30,19 +41,31 @@ public class NewProfileSearchBarController : InterfaceController
 			GUILayout.BeginArea (rect);
 			{
 				GUILayout.FlexibleSpace();
-				GUI.SetNextControlName("Textfield");
-				text = GUILayout.TextField(text,popUpGUISkin.textField);
-				if (GUI.GetNameOfFocusedControl() == "Textfield")
+				if(ApplicationDesignRules.isMobileDevice)
 				{
-					if(!isBeingUsed)
-					{
-						this.isBeingUsed=true;
+					if(GUILayout.Button (text,popUpGUISkin.textField))
+			        {
+			            keyboard = TouchScreenKeyboard.Open("", TouchScreenKeyboardType.Default,false);
 						NewProfileController.instance.searchingUsers();
-					}
+						this.isBeingUsed=true;
+			        }
 				}
 				else
 				{
-					this.isBeingUsed=false;
+					GUI.SetNextControlName("Textfield");
+					text = GUILayout.TextField(text,popUpGUISkin.textField);
+					if (GUI.GetNameOfFocusedControl() == "Textfield")
+					{
+						if(!isBeingUsed)
+						{
+							NewProfileController.instance.searchingUsers();
+							this.isBeingUsed=true;
+						}
+					}
+					else
+					{
+						this.isBeingUsed=false;
+					}
 				}
 				GUILayout.FlexibleSpace();
 			}
@@ -59,7 +82,14 @@ public class NewProfileSearchBarController : InterfaceController
 	}
 	public string getText()
 	{
-		return text;
+		if(ApplicationDesignRules.isMobileDevice)
+		{
+			return keyboard.text;
+		}
+		else
+		{
+			return text;
+		}
 	}
 	public bool getIsBeingUsed()
 	{

@@ -25,6 +25,7 @@ public class StoreTutorialController : TutorialObjectController
 		case 0: // Arrivée dans le store après le premier écran d'introduction
 			if(!isResizing)
 			{
+				this.canScroll=false;
 				this.displayArrow(false);
 				this.displayPopUp(2);
 				this.displayNextButton(true);
@@ -39,6 +40,7 @@ public class StoreTutorialController : TutorialObjectController
 		case 1: // On achète un pack (pas de texte)
 			if(!isResizing)
 			{
+				this.canScroll=true;
 				this.displayPopUp(-1);
 				this.displayNextButton(false);
 				this.displayBackground(true);

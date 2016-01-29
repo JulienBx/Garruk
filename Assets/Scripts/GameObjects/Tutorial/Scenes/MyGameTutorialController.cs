@@ -53,6 +53,7 @@ public class MyGameTutorialController : TutorialObjectController
 		case 1: // Demande à l'utilisateur de créer un deck (pas de texte)
 			if(!isResizing)
 			{
+				this.canScroll=true;
 				this.displayPopUp(-1);
 				this.displayNextButton(false);
 				this.displayBackground(true);
@@ -83,6 +84,7 @@ public class MyGameTutorialController : TutorialObjectController
 		case 3: // Demande à l'utilisateur de sélectionner des cartes
 			if(!isResizing)
 			{
+				this.canScroll=true;
 				this.displayArrow(false);
 				this.displayPopUp(0);
 				this.displayNextButton(false);

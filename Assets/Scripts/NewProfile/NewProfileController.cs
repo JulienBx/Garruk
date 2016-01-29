@@ -120,7 +120,7 @@ public class NewProfileController : MonoBehaviour
 	{	
 		this.friendsCheckTimer += Time.deltaTime;
 		
-		if (Input.touchCount == 1 && this.isSceneLoaded) 
+		if (Input.touchCount == 1 && this.isSceneLoaded  && TutorialObjectController.instance.getCanSwipe() && MenuController.instance.getCanSwipeAndScroll()) 
 		{
 			if(Input.touches[0].deltaPosition.x<-15f)
 			{

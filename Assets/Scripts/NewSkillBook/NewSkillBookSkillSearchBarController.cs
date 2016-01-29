@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using System;
 using System.Collections;
@@ -6,9 +6,8 @@ using System.Collections.Generic;
 using System.Reflection;
 using TMPro;
 
-public class NewMarketSkillSearchBarController : InterfaceController
+public class NewSkillBookSkillSearchBarController : InterfaceController
 {	
-
 	public GUISkin popUpGUISkin;
 	private string text="";
 	private Rect rect;
@@ -47,7 +46,7 @@ public class NewMarketSkillSearchBarController : InterfaceController
 					if(GUILayout.Button (text,popUpGUISkin.textField))
 			        {
 			            keyboard = TouchScreenKeyboard.Open("", TouchScreenKeyboardType.Default,false);
-						NewMarketController.instance.searchingSkill();
+						NewSkillBookController.instance.searchingSkill();
 						this.isBeingUsed=true;
 			        }
 				}
@@ -59,7 +58,7 @@ public class NewMarketSkillSearchBarController : InterfaceController
 					{
 						if(!isBeingUsed)
 						{
-							NewMarketController.instance.searchingSkill();
+							NewSkillBookController.instance.searchingSkill();
 							this.isBeingUsed=true;
 						}
 					}

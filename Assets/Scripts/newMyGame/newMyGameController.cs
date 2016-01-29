@@ -127,7 +127,7 @@ public class newMyGameController : MonoBehaviour
 
 	void Update()
 	{	
-		if (Input.touchCount == 1 && this.isSceneLoaded && !this.isDragging && !this.isSlidingCursors && !this.isCardFocusedDisplayed ) 
+		if (Input.touchCount == 1 && this.isSceneLoaded && !this.isDragging && !this.isSlidingCursors && !this.isCardFocusedDisplayed && TutorialObjectController.instance.getCanSwipe() && MenuController.instance.getCanSwipeAndScroll()) 
 		{
 			if(Mathf.Abs(Input.touches[0].deltaPosition.y)>1f && Mathf.Abs(Input.touches[0].deltaPosition.y)>Mathf.Abs(Input.touches[0].deltaPosition.x))
 			{
@@ -186,7 +186,7 @@ public class newMyGameController : MonoBehaviour
 				this.cleanDeckList();
 			}
 		}
-		if(ApplicationDesignRules.isMobileScreen && this.isSceneLoaded && !this.isLeftClicked && !this.isDragging && this.mainContentDisplayed && !this.isCardFocusedDisplayed)
+		if(ApplicationDesignRules.isMobileScreen && this.isSceneLoaded && !this.isLeftClicked && !this.isDragging && this.mainContentDisplayed && !this.isCardFocusedDisplayed && TutorialObjectController.instance.getCanScroll() && MenuController.instance.getCanSwipeAndScroll())
 		{
 			if(!toScrollCards)
 			{

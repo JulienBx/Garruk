@@ -20,6 +20,7 @@ public class InputTextGuiController : InterfaceController
 		float width = ((ApplicationDesignRules.largeInputTextWorldSize.x-0.3f) / ApplicationDesignRules.worldWidth) * Screen.width;
 		float heigth = (ApplicationDesignRules.largeInputTextWorldSize.y / ApplicationDesignRules.worldHeight) * Screen.height;
 		this.rect = new Rect (x, y, width, heigth);
+		this.popUpGUISkin.textField.fontSize=(int)heigth*50/100;
 	}
 	void OnGUI()
 	{

@@ -37,5 +37,9 @@ public class SkillBookMenuController : MenuController
 		base.setCurrentPage (4);
 		NewSkillBookController.instance.endMenuInitialization();
 	}
+	public override void setGUI (bool value)
+	{
+		NewSkillBookController.instance.setGUI(value);
+	}
 }
 

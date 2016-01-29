@@ -130,7 +130,7 @@ public class NewHomePageController : MonoBehaviour
 		this.sliderTimer += Time.deltaTime;
 		this.notificationsTimer += Time.deltaTime;
 
-		if (Input.touchCount == 1 && this.isSceneLoaded) 
+		if (Input.touchCount == 1 && this.isSceneLoaded &&  TutorialObjectController.instance.getCanSwipe() && MenuController.instance.getCanSwipeAndScroll()) 
 		{
 			if(Mathf.Abs(Input.touches[0].deltaPosition.y)>1f && Mathf.Abs(Input.touches[0].deltaPosition.y)>Mathf.Abs(Input.touches[0].deltaPosition.x))
 			{

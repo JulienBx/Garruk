@@ -79,7 +79,6 @@ public class NewSkillBookController : MonoBehaviour
 	private bool isNotOwnFilterOn;
 	private bool isSearchingSkill;
 	private bool isSkillChosen;
-	private bool isMouseOnSearchBar;
 	private string valueSkill;
 	private IList<int> skillsChoiceDisplayed;
 
@@ -110,13 +109,13 @@ public class NewSkillBookController : MonoBehaviour
 
 	void Update()
 	{
-		if (Input.touchCount == 1 && this.isSceneLoaded) 
+		if (Input.touchCount == 1 && this.isSceneLoaded && !this.isFocusedSkillDisplayed && TutorialObjectController.instance.getCanSwipe() && MenuController.instance.getCanSwipeAndScroll()) 
 		{
 			if(Mathf.Abs(Input.touches[0].deltaPosition.y)>1f && Mathf.Abs(Input.touches[0].deltaPosition.y)>Mathf.Abs(Input.touches[0].deltaPosition.x))
 			{
 				this.isLeftClicked=false;
 			}
-			else if(Input.touches[0].deltaPosition.x<-15f && Mathf.Abs(Input.touches[0].deltaPosition.y)<Mathf.Abs(Input.touches[0].deltaPosition.x))
+			else if(Input.touches[0].deltaPosition.x<-15f )
 			{
 				this.isLeftClicked=false;
 				if(this.helpContentDisplayed || this.mainContentDisplayed || this.toSlideLeft)
@@ -124,7 +123,7 @@ public class NewSkillBookController : MonoBehaviour
 					slideRight();
 				}
 			}
-			else if(Input.touches[0].deltaPosition.x>15f && Mathf.Abs(Input.touches[0].deltaPosition.y)<Mathf.Abs(Input.touches[0].deltaPosition.x))
+			else if(Input.touches[0].deltaPosition.x>15f)
 			{
 				this.isLeftClicked=false;
 				if(this.mainContentDisplayed || this.filtersDisplayed || this.toSlideRight)
@@ -135,50 +134,21 @@ public class NewSkillBookController : MonoBehaviour
 		}
 		if(isSearchingSkill)
 		{
-			if(!Input.GetKey(KeyCode.Delete))
+			if(ApplicationDesignRules.isMobileDevice)
 			{
-				foreach (char c in Input.inputString) 
-				{
-					if(c==(char)KeyCode.Backspace && this.valueSkill.Length>0)
-					{
-						this.valueSkill = this.valueSkill.Remove(this.valueSkill.Length - 1);
-						this.skillSearchBar.transform.FindChild ("Title").GetComponent<TextMeshPro>().text = this.valueSkill;
-						this.setSkillAutocompletion();
-						if(this.valueSkill.Length==0)
-						{
-							this.isSearchingSkill=false;
-							this.skillSearchBar.transform.FindChild ("Title").GetComponent<TextMeshPro>().text = "Rechercher";
-							this.skillSearchBar.GetComponent<NewSkillBookSkillSearchBarController>().reset();
-						}
-					}
-					else if (c == "\b"[0])
-					{
-						if (valueSkill.Length != 0)
-						{
-							valueSkill= valueSkill.Substring(0, valueSkill.Length - 1);
-						}
-					}
-					else
-					{
-						if (c == "\n"[0] || c == "\r"[0])
-						{
-							
-						}
-						else if(this.valueSkill.Length<12)
-						{
-							this.valueSkill += c;
-							this.valueSkill=this.valueSkill.ToLower();
-							this.setSkillAutocompletion();
-						}
-					}
-				}
+				this.skillSearchBar.GetComponent<NewSkillBookSkillSearchBarController>().setText(this.skillSearchBar.GetComponent<NewSkillBookSkillSearchBarController>().getText());
 			}
-			if((Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))&& !this.isMouseOnSearchBar)
+			if(this.skillSearchBar.GetComponent<NewSkillBookSkillSearchBarController>().getText().ToLower()!=this.valueSkill.ToLower()	)
 			{
-				this.isSearchingSkill=false;
-				this.cleanSkillAutocompletion();
-				this.skillSearchBar.transform.FindChild ("Title").GetComponent<TextMeshPro>().text = "Rechercher";
-				this.skillSearchBar.GetComponent<NewSkillBookSkillSearchBarController>().reset();
+				this.valueSkill=this.skillSearchBar.GetComponent<NewSkillBookSkillSearchBarController>().getText();
+				this.setSkillAutocompletion();
+			}
+			if(!this.skillSearchBar.GetComponent<NewSkillBookSkillSearchBarController>().getIsBeingUsed())
+			{
+					this.isSearchingSkill=false;
+					this.cleanSkillAutocompletion();
+					this.skillSearchBar.GetComponent<NewSkillBookSkillSearchBarController>().setText("Rechercher");
+					this.valueSkill="Rechercher";
 			}
 		}
 		if(toSlideRight || toSlideLeft)
@@ -196,6 +166,7 @@ public class NewSkillBookController : MonoBehaviour
 					if(camerasXPosition==this.filtersPositionX)
 					{
 						this.filtersDisplayed=true;
+						this.skillSearchBar.SetActive(true);
 					}
 					else if(camerasXPosition==this.mainContentPositionX)
 					{
@@ -225,7 +196,7 @@ public class NewSkillBookController : MonoBehaviour
 			this.upperScrollCamera.transform.position=mainCameraPosition;
 			this.lowerScrollCamera.transform.position=cardsCameraPosition;
 		}
-		if(ApplicationDesignRules.isMobileScreen && this.isSceneLoaded && this.mainContentDisplayed && !this.isFocusedSkillDisplayed)
+		if(ApplicationDesignRules.isMobileScreen && this.isSceneLoaded && this.mainContentDisplayed && !this.isFocusedSkillDisplayed && TutorialObjectController.instance.getCanScroll() && MenuController.instance.getCanSwipeAndScroll())
 		{
 			isScrolling = this.lowerScrollCamera.GetComponent<ScrollingController>().ScrollController();
 		}
@@ -235,6 +206,7 @@ public class NewSkillBookController : MonoBehaviour
 		instance = this;
 		this.activeTab = 0;
 		this.model = new NewSkillBookModel ();
+		this.skillSearchBar = GameObject.Find ("SkillSearchBar");
 		this.selectedCardTypeId = 0;
 		this.scrollIntersection = 1.18f;
 		this.mainContentDisplayed = true;
@@ -549,8 +521,6 @@ public class NewSkillBookController : MonoBehaviour
 		this.skillSearchBarTitle = GameObject.Find ("SkillSearchTitle");
 		this.skillSearchBarTitle.GetComponent<TextMeshPro> ().color = ApplicationDesignRules.whiteTextColor;
 		this.skillSearchBarTitle.GetComponent<TextMeshPro> ().text = "Compétence".ToUpper ();
-		this.skillSearchBar = GameObject.Find ("SkillSearchBar");
-		this.skillSearchBar.AddComponent<NewSkillBookSkillSearchBarController> ();
 		this.skillSearchBar.GetComponent<NewSkillBookSkillSearchBarController> ().setText ("Rechercher");
 		this.skillChoices=new GameObject[3];
 		for(int i=0;i<this.skillChoices.Length;i++)
@@ -664,6 +634,7 @@ public class NewSkillBookController : MonoBehaviour
 			this.slideRightButton.SetActive(true);
 			this.skillsPaginationLine.SetActive(false);
 			this.helpBlockTitle.SetActive(true);
+			this.skillSearchBar.SetActive(false);
 
 			this.upperScrollCamera.GetComponent<Camera> ().rect = new Rect (0f,(ApplicationDesignRules.worldHeight-ApplicationDesignRules.upMargin-this.scrollIntersection)/ApplicationDesignRules.worldHeight,1f,(this.scrollIntersection)/ApplicationDesignRules.worldHeight);
 			this.upperScrollCamera.GetComponent<Camera> ().orthographicSize = this.scrollIntersection/2f;
@@ -724,6 +695,7 @@ public class NewSkillBookController : MonoBehaviour
 			this.slideLeftButton.SetActive(false);
 			this.slideRightButton.SetActive(false);
 			this.helpBlockTitle.SetActive(false);
+			this.skillSearchBar.SetActive(true);
 
 			if(isFocusedSkillDisplayed)
 			{
@@ -872,37 +844,37 @@ public class NewSkillBookController : MonoBehaviour
 			this.hideActiveTab();
 			this.skillsPaginationButtons.transform.localPosition=new Vector3 (skillsBlockUpperRightPosition.x - ApplicationDesignRules.blockHorizontalSpacing - 3f*ApplicationDesignRules.roundButtonWorldSize.x, skillsBlockUpperRightPosition.y - ApplicationDesignRules.buttonVerticalSpacing - ApplicationDesignRules.roundButtonWorldSize.y / 2f, 0f);
 			this.skillsBlockTitle.transform.GetComponent<TextContainer>().width=ApplicationDesignRules.blockWidth-2f*ApplicationDesignRules.blockHorizontalSpacing-1.5f*ApplicationDesignRules.roundButtonWorldSize.x;
-			this.cardTypeFilterTitle.GetComponent<TextContainer>().anchorPosition =  TextContainerAnchors.Left;
-			this.cardTypeFilterTitle.GetComponent<TextMeshPro>().alignment = TextAlignmentOptions.Left;
-			this.cardTypeFilterTitle.transform.position = new Vector3 (ApplicationDesignRules.blockHorizontalSpacing+filtersBlockUpperLeftPosition.x, filtersBlockUpperLeftPosition.y - ApplicationDesignRules.subMainTitleVerticalSpacing, 0f);
-			float gapBetweenCardTypesFilters = (filtersBlockSize.x-2f*ApplicationDesignRules.blockHorizontalSpacing-5f*ApplicationDesignRules.cardTypeFilterWorldSize.x)/4f;
-			for(int i = 0;i<this.cardsTypeFilters.Length;i++)
-			{
-				Vector3 cardTypeFilterPosition=new Vector3();
-				
-				if(i<5)
-				{
-					cardTypeFilterPosition.y=filtersBlockUpperLeftPosition.y-1.75f;
-					cardTypeFilterPosition.x=filtersBlockUpperLeftPosition.x+ApplicationDesignRules.blockHorizontalSpacing+0.5f*ApplicationDesignRules.cardTypeFilterWorldSize.x+i*(ApplicationDesignRules.cardTypeFilterWorldSize.x+gapBetweenCardTypesFilters);
-					
-				}
-				else
-				{
-					cardTypeFilterPosition.y=filtersBlockUpperLeftPosition.y-2.90f;
-					cardTypeFilterPosition.x=filtersBlockUpperLeftPosition.x+ApplicationDesignRules.blockHorizontalSpacing+0.5f*ApplicationDesignRules.cardTypeFilterWorldSize.x+(i-5)*(ApplicationDesignRules.cardTypeFilterWorldSize.x+gapBetweenCardTypesFilters);
-					
-				}
-				this.cardsTypeFilters[i].transform.position=cardTypeFilterPosition;
-				this.cardsTypeFilters[i].transform.localScale=ApplicationDesignRules.cardTypeFilterScale;
-			}
 			this.skillSearchBarTitle.GetComponent<TextContainer>().anchorPosition =  TextContainerAnchors.Left;
 			this.skillSearchBarTitle.GetComponent<TextMeshPro>().alignment = TextAlignmentOptions.Left;
-			this.skillSearchBarTitle.transform.position = new Vector3 (ApplicationDesignRules.blockHorizontalSpacing+filtersBlockUpperLeftPosition.x, filtersBlockUpperLeftPosition.y - 3.75f, 0f);
-			this.skillSearchBar.transform.position = new Vector3 (ApplicationDesignRules.blockHorizontalSpacing+filtersBlockUpperLeftPosition.x+ApplicationDesignRules.inputTextWorldSize.x/2f, filtersBlockUpperLeftPosition.y - 4.20f, 0f);
+			this.skillSearchBarTitle.transform.position = new Vector3 (ApplicationDesignRules.blockHorizontalSpacing+filtersBlockUpperLeftPosition.x, filtersBlockUpperLeftPosition.y - ApplicationDesignRules.subMainTitleVerticalSpacing, 0f);
+			this.skillSearchBar.transform.position = new Vector3 (ApplicationDesignRules.blockHorizontalSpacing+filtersBlockUpperLeftPosition.x+ApplicationDesignRules.inputTextWorldSize.x/2f, filtersBlockUpperLeftPosition.y - 1.375f, 0f);
 			for(int i=0;i<this.skillChoices.Length;i++)
 			{
 				this.skillChoices[i].transform.localScale=ApplicationDesignRules.listElementScale;
 				this.skillChoices[i].transform.position=new Vector3(this.skillSearchBar.transform.position.x,this.skillSearchBar.transform.position.y-ApplicationDesignRules.inputTextWorldSize.y/2f-(i+0.5f)*ApplicationDesignRules.listElementWorldSize.y+i*0.02f,-1f);
+			}
+			this.cardTypeFilterTitle.GetComponent<TextContainer>().anchorPosition =  TextContainerAnchors.Left;
+			this.cardTypeFilterTitle.GetComponent<TextMeshPro>().alignment = TextAlignmentOptions.Left;
+			this.cardTypeFilterTitle.transform.position = new Vector3 (ApplicationDesignRules.blockHorizontalSpacing+filtersBlockUpperLeftPosition.x, filtersBlockUpperLeftPosition.y - 1.9f, 0f);
+			float gapBetweenCardTypesFilters = (filtersBlockSize.x-2f*ApplicationDesignRules.blockHorizontalSpacing-5f*ApplicationDesignRules.cardTypeFilterWorldSize.x)/4f;
+			for(int i = 0;i<this.cardsTypeFilters.Length;i++)
+			{
+				Vector3 cardTypeFilterPosition=new Vector3();
+
+				if(i<5)
+				{
+					cardTypeFilterPosition.y=filtersBlockUpperLeftPosition.y-2.65f;
+					cardTypeFilterPosition.x=filtersBlockUpperLeftPosition.x+ApplicationDesignRules.blockHorizontalSpacing+0.5f*ApplicationDesignRules.cardTypeFilterWorldSize.x+i*(ApplicationDesignRules.cardTypeFilterWorldSize.x+gapBetweenCardTypesFilters);
+
+				}
+				else
+				{
+					cardTypeFilterPosition.y=filtersBlockUpperLeftPosition.y-3.8f;
+					cardTypeFilterPosition.x=filtersBlockUpperLeftPosition.x+ApplicationDesignRules.blockHorizontalSpacing+0.5f*ApplicationDesignRules.cardTypeFilterWorldSize.x+(i-5)*(ApplicationDesignRules.cardTypeFilterWorldSize.x+gapBetweenCardTypesFilters);
+
+				}
+				this.cardsTypeFilters[i].transform.position=cardTypeFilterPosition;
+				this.cardsTypeFilters[i].transform.localScale=ApplicationDesignRules.cardTypeFilterScale;
 			}
 
 			this.skillTypeFilterTitle.GetComponent<TextContainer>().anchorPosition =  TextContainerAnchors.Left;
@@ -1030,40 +1002,46 @@ public class NewSkillBookController : MonoBehaviour
 				this.stats[i].transform.FindChild("Title").GetComponent<TextContainer>().width=statsBlockSize.x;
 			}
 		}
-
+		this.skillSearchBar.GetComponent<NewSkillBookSkillSearchBarController>().resize();
 		TutorialObjectController.instance.resize ();
 	}
 	public void cardTypeFilterHandler(int id)
 	{
-		if(this.filtersCardType.Contains(id))
+		if(!ApplicationDesignRules.isMobileScreen || this.filtersDisplayed)
 		{
-			this.filtersCardType.Remove(id);
-			this.cardsTypeFilters[id].GetComponent<NewSkillBookCardTypeFilterController>().reset();
+			if(this.filtersCardType.Contains(id))
+			{
+				this.filtersCardType.Remove(id);
+				this.cardsTypeFilters[id].GetComponent<NewSkillBookCardTypeFilterController>().reset();
+			}
+			else
+			{
+				this.filtersCardType.Add (id);
+				this.cardsTypeFilters[id].GetComponent<NewSkillBookCardTypeFilterController>().setIsSelected(true);
+				this.cardsTypeFilters[id].GetComponent<NewSkillBookCardTypeFilterController>().setHoveredState();
+			}
+			this.skillsPagination.chosenPage = 0;
+			this.applyFilters ();
 		}
-		else
-		{
-			this.filtersCardType.Add (id);
-			this.cardsTypeFilters[id].GetComponent<NewSkillBookCardTypeFilterController>().setIsSelected(true);
-			this.cardsTypeFilters[id].GetComponent<NewSkillBookCardTypeFilterController>().setHoveredState();
-		}
-		this.skillsPagination.chosenPage = 0;
-		this.applyFilters ();
 	}
 	public void skillTypeFilterHandler(int id)
 	{
-		if(this.filtersSkillType.Contains(id))
+		if(!ApplicationDesignRules.isMobileScreen || this.filtersDisplayed)
 		{
-			this.filtersSkillType.Remove(id);
-			this.skillTypeFilters[id].GetComponent<NewSkillBookSkillTypeFilterController>().reset();
+			if(this.filtersSkillType.Contains(id))
+			{
+				this.filtersSkillType.Remove(id);
+				this.skillTypeFilters[id].GetComponent<NewSkillBookSkillTypeFilterController>().reset();
+			}
+			else
+			{
+				this.filtersSkillType.Add (id);
+				this.skillTypeFilters[id].GetComponent<NewSkillBookSkillTypeFilterController>().setIsSelected(true);
+				this.skillTypeFilters[id].GetComponent<NewSkillBookSkillTypeFilterController>().setHoveredState();
+			}
+			this.skillsPagination.chosenPage = 0;
+			this.applyFilters ();
 		}
-		else
-		{
-			this.filtersSkillType.Add (id);
-			this.skillTypeFilters[id].GetComponent<NewSkillBookSkillTypeFilterController>().setIsSelected(true);
-			this.skillTypeFilters[id].GetComponent<NewSkillBookSkillTypeFilterController>().setHoveredState();
-		}
-		this.skillsPagination.chosenPage = 0;
-		this.applyFilters ();
 	}
 	public void drawSkills()
 	{
@@ -1175,46 +1153,49 @@ public class NewSkillBookController : MonoBehaviour
 	}
 	public void availabilityFilterHandler(int id)
 	{
-		if(id==0)
+		if(!ApplicationDesignRules.isMobileScreen || this.filtersDisplayed)
 		{
-			if(isNotOwnFilterOn)
+			if(id==0)
 			{
-				isNotOwnFilterOn=false;
-				this.availableFilters[0].GetComponent<NewSkillBookAvailabilityFilterController>().reset();
-			}
-			else
-			{
-				isNotOwnFilterOn=true;
-				if(isOwnFilterOn)
-				{
-					isOwnFilterOn=false;
-					this.availableFilters[1].GetComponent<NewSkillBookAvailabilityFilterController>().reset();
-				}
-				this.availableFilters[0].GetComponent<NewSkillBookAvailabilityFilterController>().setIsSelected(true);
-				this.availableFilters[0].GetComponent<NewSkillBookAvailabilityFilterController>().setHoveredState();
-			}
-		}
-		else if(id==1)
-		{
-			if(isOwnFilterOn)
-			{
-				isOwnFilterOn=false;
-				this.availableFilters[1].GetComponent<NewSkillBookAvailabilityFilterController>().reset();
-			}
-			else
-			{
-				isOwnFilterOn=true;
 				if(isNotOwnFilterOn)
 				{
 					isNotOwnFilterOn=false;
 					this.availableFilters[0].GetComponent<NewSkillBookAvailabilityFilterController>().reset();
 				}
-				this.availableFilters[1].GetComponent<NewSkillBookAvailabilityFilterController>().setIsSelected(true);
-				this.availableFilters[1].GetComponent<NewSkillBookAvailabilityFilterController>().setHoveredState();
+				else
+				{
+					isNotOwnFilterOn=true;
+					if(isOwnFilterOn)
+					{
+						isOwnFilterOn=false;
+						this.availableFilters[1].GetComponent<NewSkillBookAvailabilityFilterController>().reset();
+					}
+					this.availableFilters[0].GetComponent<NewSkillBookAvailabilityFilterController>().setIsSelected(true);
+					this.availableFilters[0].GetComponent<NewSkillBookAvailabilityFilterController>().setHoveredState();
+				}
 			}
+			else if(id==1)
+			{
+				if(isOwnFilterOn)
+				{
+					isOwnFilterOn=false;
+					this.availableFilters[1].GetComponent<NewSkillBookAvailabilityFilterController>().reset();
+				}
+				else
+				{
+					isOwnFilterOn=true;
+					if(isNotOwnFilterOn)
+					{
+						isNotOwnFilterOn=false;
+						this.availableFilters[0].GetComponent<NewSkillBookAvailabilityFilterController>().reset();
+					}
+					this.availableFilters[1].GetComponent<NewSkillBookAvailabilityFilterController>().setIsSelected(true);
+					this.availableFilters[1].GetComponent<NewSkillBookAvailabilityFilterController>().setHoveredState();
+				}
+			}
+			this.skillsPagination.chosenPage = 0;
+			this.applyFilters ();
 		}
-		this.skillsPagination.chosenPage = 0;
-		this.applyFilters ();
 	}
 	private void resetFiltersValue()
 	{
@@ -1273,7 +1254,7 @@ public class NewSkillBookController : MonoBehaviour
 				bool testSkillTypes=false;
 				for(int j=0;j<nbSkillTypeFilters;j++)
 				{
-					if (model.skillsList[i].cible == this.filtersSkillType [j])
+					if (model.skillsList[i].IdSkillType == this.filtersSkillType [j])
 					{
 						testSkillTypes=true;
 						break;
@@ -1287,7 +1268,7 @@ public class NewSkillBookController : MonoBehaviour
 			if(this.isSkillChosen)
 			{
 				string valueSkillLower=this.valueSkill.ToLower();
-				if(model.skillsList[i].Name.ToLower()!=valueSkillLower)
+				if(WordingSkills.getName(model.skillsList[i].Id).ToLower()!=valueSkillLower)
 				{
 					continue;
 				}
@@ -1362,22 +1343,20 @@ public class NewSkillBookController : MonoBehaviour
 			this.applyFilters();
 		}
 		this.cleanSkillAutocompletion();
-		this.isSearchingSkill = true;
+		this.skillSearchBar.GetComponent<NewSkillBookSkillSearchBarController>().setText("");
 		this.valueSkill = "";
-		this.skillSearchBar.transform.FindChild("Title").GetComponent<TextMeshPro>().text = this.valueSkill;
-		this.skillSearchBar.transform.GetComponent<NewSkillBookSkillSearchBarController> ().setIsSelected (true);
-		this.skillSearchBar.transform.GetComponent<NewSkillBookSkillSearchBarController> ().setInitialState ();
-	}
-	public void mouseOnSearchBar(bool value)
-	{
-		this.isMouseOnSearchBar = value;
+		this.isSearchingSkill = true;
 	}
 	public void filterASkill(int id)
 	{
 		this.isSearchingSkill = false;
-		this.valueSkill = this.skillChoices[id].transform.FindChild("Title").GetComponent<TextMeshPro>().text.ToLower();
+		if(ApplicationDesignRules.isMobileDevice)
+		{
+			this.skillSearchBar.GetComponent<NewSkillBookSkillSearchBarController>().closeKeyboard();
+		}
+		this.valueSkill = this.skillChoices[id].transform.FindChild("Title").GetComponent<TextMeshPro>().text;
 		this.isSkillChosen = true;
-		this.skillSearchBar.transform.FindChild("Title").GetComponent<TextMeshPro>().text =valueSkill;
+		this.skillSearchBar.GetComponent<NewSkillBookSkillSearchBarController>().setText(this.valueSkill);
 		this.cleanSkillAutocompletion ();
 		this.skillsPagination.chosenPage = 0;
 		this.applyFilters ();
@@ -1386,17 +1365,17 @@ public class NewSkillBookController : MonoBehaviour
 	{
 		this.skillsDisplayed = new List<int> ();
 		this.cleanSkillAutocompletion ();
-		this.skillSearchBar.transform.FindChild("Title").GetComponent<TextMeshPro>().text = this.valueSkill;
+		this.skillSearchBar.GetComponent<NewSkillBookSkillSearchBarController>().setText(this.valueSkill);
 		if(this.valueSkill.Length>0)
 		{
 			for (int i = 0; i < model.skillsList.Count; i++) 
 			{  
-				if (model.skillsList [i].Name.ToLower ().Contains (this.valueSkill)) 
+				if (WordingSkills.getName(model.skillsList [i].Id).ToLower ().Contains (this.valueSkill.ToLower())) 
 				{
 					this.skillsDisplayed.Add (i);
 					this.skillChoices[this.skillsDisplayed.Count-1].SetActive(true);
 					this.skillChoices[this.skillsDisplayed.Count-1].GetComponent<NewSkillBookSkillChoiceController>().reset();
-					this.skillChoices[this.skillsDisplayed.Count-1].transform.FindChild("Title").GetComponent<TextMeshPro>().text = model.skillsList [i].Name;
+					this.skillChoices[this.skillsDisplayed.Count-1].transform.FindChild("Title").GetComponent<TextMeshPro>().text =WordingSkills.getName(model.skillsList [i].Id);
 				}
 				if(this.skillsDisplayed.Count==this.skillChoices.Length)
 				{
@@ -1423,6 +1402,7 @@ public class NewSkillBookController : MonoBehaviour
 		else if(this.filtersDisplayed)
 		{
 			this.filtersDisplayed=false;
+			this.skillSearchBar.SetActive(false);
 			this.targetContentPositionX=this.mainContentPositionX;
 		}
 		else if(this.targetContentPositionX==mainContentPositionX)
@@ -1486,6 +1466,11 @@ public class NewSkillBookController : MonoBehaviour
 				this.lowerScrollCamera.SetActive(true);
 				this.upperScrollCamera.SetActive(true);
 				this.sceneCamera.SetActive(false);
+				this.skillSearchBar.SetActive(false);
+			}
+			else
+			{
+				this.skillSearchBar.SetActive(false);
 			}
 			this.sceneCamera.transform.position=ApplicationDesignRules.sceneCameraStandardPosition;
 		}
@@ -1498,6 +1483,7 @@ public class NewSkillBookController : MonoBehaviour
 				this.sceneCamera.SetActive(true);
 			}
 			this.sceneCamera.transform.position=ApplicationDesignRules.sceneCameraFocusedCardPosition;
+			this.skillSearchBar.SetActive(false);
 		}
 	}
 	public void hideActiveTab()
@@ -1541,6 +1527,10 @@ public class NewSkillBookController : MonoBehaviour
 			this.showFocusedSkill(id);
 			this.isLeftClicked=false;
 		}
+	}
+	public void setGUI(bool value)
+	{
+		this.skillSearchBar.GetComponent<NewSkillBookSkillSearchBarController>().setGUI(value);
 	}
 	#region TUTORIAL FUNCTIONS
 	

@@ -913,6 +913,10 @@ public class MenuController : MonoBehaviour
 	public virtual void setGUI(bool value)
 	{
 	}
+	public bool getCanSwipeAndScroll()
+	{
+		return !this.isTransparentBackgroundDisplayed;
+	}
 	#region TUTORIAL FUNCTIONS
 
 	public void helpHandler()

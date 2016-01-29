@@ -101,7 +101,7 @@ public class NewStoreController : MonoBehaviour
 	
 	void Update () 
 	{
-		if (Input.touchCount == 1 && this.isSceneLoaded) 
+		if (Input.touchCount == 1 && this.isSceneLoaded  && TutorialObjectController.instance.getCanSwipe() && MenuController.instance.getCanSwipeAndScroll()) 
 		{
 			if(Input.touches[0].deltaPosition.x<-15f && Mathf.Abs(Input.touches[0].deltaPosition.y)<Mathf.Abs(Input.touches[0].deltaPosition.x))
 			{
@@ -196,7 +196,7 @@ public class NewStoreController : MonoBehaviour
 			this.mediumScrollCamera.transform.position=mediumCameraPosition;
 			this.lowerScrollCamera.transform.position=lowerCameraPosition;
 		}
-		if(ApplicationDesignRules.isMobileScreen && this.isSceneLoaded && this.mainContentDisplayed)
+		if(ApplicationDesignRules.isMobileScreen && this.isSceneLoaded && this.mainContentDisplayed && TutorialObjectController.instance.getCanScroll() && MenuController.instance.getCanSwipeAndScroll())
 		{
 			isScrolling = this.mediumScrollCamera.GetComponent<ScrollingController>().ScrollController();
 		}

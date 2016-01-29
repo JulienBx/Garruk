@@ -124,13 +124,13 @@ public class NewMarketController : MonoBehaviour
 	{	
 		this.timer += Time.deltaTime;
 
-		if (Input.touchCount == 1 && this.isSceneLoaded) 
+		if (Input.touchCount == 1 && this.isSceneLoaded && !this.isSlidingCursors && !this.isCardFocusedDisplayed && TutorialObjectController.instance.getCanSwipe() && MenuController.instance.getCanSwipeAndScroll()) 
 		{
 			if(Mathf.Abs(Input.touches[0].deltaPosition.y)>1f && Mathf.Abs(Input.touches[0].deltaPosition.y)>Mathf.Abs(Input.touches[0].deltaPosition.x))
 			{
 				this.isLeftClicked=false;
 			}
-			else if(Input.touches[0].deltaPosition.x<-15f && !isSlidingCursors)
+			else if(Input.touches[0].deltaPosition.x<-15f)
 			{
 				this.isLeftClicked=false;
 				if(this.marketContentDisplayed || this.mainContentDisplayed || this.toSlideLeft)
@@ -138,7 +138,7 @@ public class NewMarketController : MonoBehaviour
 					this.slideRight();
 				}
 			}
-			else if(Input.touches[0].deltaPosition.x>15f && !isSlidingCursors)
+			else if(Input.touches[0].deltaPosition.x>15f)
 			{
 				this.isLeftClicked=false;
 				if(this.mainContentDisplayed || this.filtersDisplayed || this.toSlideRight)
@@ -169,6 +169,10 @@ public class NewMarketController : MonoBehaviour
 		}
 		if(isSearchingSkill)
 		{
+			if(ApplicationDesignRules.isMobileDevice)
+			{
+				this.skillSearchBar.GetComponent<NewMarketSkillSearchBarController>().setText(this.skillSearchBar.GetComponent<NewMarketSkillSearchBarController>().getText());
+			}
 			if(this.skillSearchBar.GetComponent<NewMarketSkillSearchBarController>().getText().ToLower()!=this.valueSkill.ToLower()	)
 			{
 				this.valueSkill=this.skillSearchBar.GetComponent<NewMarketSkillSearchBarController>().getText();
@@ -239,7 +243,7 @@ public class NewMarketController : MonoBehaviour
 			this.upperScrollCamera.transform.position=mainCameraPosition;
 			this.lowerScrollCamera.transform.position=cardsCameraPosition;
 		}
-		if(ApplicationDesignRules.isMobileScreen && this.isSceneLoaded && !this.isLeftClicked && this.mainContentDisplayed)
+		if(ApplicationDesignRules.isMobileScreen && this.isSceneLoaded && !this.isLeftClicked && this.mainContentDisplayed && TutorialObjectController.instance.getCanScroll() && MenuController.instance.getCanSwipeAndScroll())
 		{
 			isScrolling = this.lowerScrollCamera.GetComponent<ScrollingController>().ScrollController();
 		}
@@ -841,9 +845,18 @@ public class NewMarketController : MonoBehaviour
 			this.tabs[2].transform.position = new Vector3 (cardsBlockUpperLeftPosition.x + ApplicationDesignRules.tabWorldSize.x / 2f+ ApplicationDesignRules.tabWorldSize.x+gapBetweenSelectionsButtons, cardsBlockUpperLeftPosition.y+ApplicationDesignRules.tabWorldSize.y/2f,0f);
 			this.hideActiveTab();
 
+			this.skillSearchBarTitle.GetComponent<TextContainer>().anchorPosition =  TextContainerAnchors.Left;
+			this.skillSearchBarTitle.GetComponent<TextMeshPro>().alignment = TextAlignmentOptions.Left;
+			this.skillSearchBarTitle.transform.position = new Vector3 (ApplicationDesignRules.blockHorizontalSpacing+filtersBlockUpperLeftPosition.x, filtersBlockUpperLeftPosition.y - ApplicationDesignRules.subMainTitleVerticalSpacing, 0f);
+			this.skillSearchBar.transform.position = new Vector3 (ApplicationDesignRules.blockHorizontalSpacing+filtersBlockUpperLeftPosition.x+ApplicationDesignRules.inputTextWorldSize.x/2f, filtersBlockUpperLeftPosition.y - 1.375f, 0f);
+			for(int i=0;i<this.skillChoices.Length;i++)
+			{
+				this.skillChoices[i].transform.localScale=ApplicationDesignRules.listElementScale;
+				this.skillChoices[i].transform.position=new Vector3(this.skillSearchBar.transform.position.x,this.skillSearchBar.transform.position.y-ApplicationDesignRules.inputTextWorldSize.y/2f-(i+0.5f)*ApplicationDesignRules.listElementWorldSize.y+i*0.02f,-1f);
+			}
 			this.cardTypeFilterTitle.GetComponent<TextContainer>().anchorPosition =  TextContainerAnchors.Left;
 			this.cardTypeFilterTitle.GetComponent<TextMeshPro>().alignment = TextAlignmentOptions.Left;
-			this.cardTypeFilterTitle.transform.position = new Vector3 (ApplicationDesignRules.blockHorizontalSpacing+filtersBlockUpperLeftPosition.x, filtersBlockUpperLeftPosition.y - ApplicationDesignRules.subMainTitleVerticalSpacing, 0f);
+			this.cardTypeFilterTitle.transform.position = new Vector3 (ApplicationDesignRules.blockHorizontalSpacing+filtersBlockUpperLeftPosition.x, filtersBlockUpperLeftPosition.y - 1.9f, 0f);
 			float gapBetweenCardTypesFilters = (filtersBlockSize.x-2f*ApplicationDesignRules.blockHorizontalSpacing-5f*ApplicationDesignRules.cardTypeFilterWorldSize.x)/4f;
 			for(int i = 0;i<this.cardsTypeFilters.Length;i++)
 			{
@@ -851,27 +864,18 @@ public class NewMarketController : MonoBehaviour
 				
 				if(i<5)
 				{
-					cardTypeFilterPosition.y=filtersBlockUpperLeftPosition.y-1.75f;
+					cardTypeFilterPosition.y=filtersBlockUpperLeftPosition.y-2.65f;
 					cardTypeFilterPosition.x=filtersBlockUpperLeftPosition.x+ApplicationDesignRules.blockHorizontalSpacing+0.5f*ApplicationDesignRules.cardTypeFilterWorldSize.x+i*(ApplicationDesignRules.cardTypeFilterWorldSize.x+gapBetweenCardTypesFilters);
 					
 				}
 				else
 				{
-					cardTypeFilterPosition.y=filtersBlockUpperLeftPosition.y-2.90f;
+					cardTypeFilterPosition.y=filtersBlockUpperLeftPosition.y-3.80f;
 					cardTypeFilterPosition.x=filtersBlockUpperLeftPosition.x+ApplicationDesignRules.blockHorizontalSpacing+0.5f*ApplicationDesignRules.cardTypeFilterWorldSize.x+(i-5)*(ApplicationDesignRules.cardTypeFilterWorldSize.x+gapBetweenCardTypesFilters);
 					
 				}
 				this.cardsTypeFilters[i].transform.position=cardTypeFilterPosition;
 				this.cardsTypeFilters[i].transform.localScale=ApplicationDesignRules.cardTypeFilterScale;
-			}
-			this.skillSearchBarTitle.GetComponent<TextContainer>().anchorPosition =  TextContainerAnchors.Left;
-			this.skillSearchBarTitle.GetComponent<TextMeshPro>().alignment = TextAlignmentOptions.Left;
-			this.skillSearchBarTitle.transform.position = new Vector3 (ApplicationDesignRules.blockHorizontalSpacing+filtersBlockUpperLeftPosition.x, filtersBlockUpperLeftPosition.y - 3.75f, 0f);
-			this.skillSearchBar.transform.position = new Vector3 (ApplicationDesignRules.blockHorizontalSpacing+filtersBlockUpperLeftPosition.x+ApplicationDesignRules.inputTextWorldSize.x/2f, filtersBlockUpperLeftPosition.y - 4.20f, 0f);
-			for(int i=0;i<this.skillChoices.Length;i++)
-			{
-				this.skillChoices[i].transform.localScale=ApplicationDesignRules.listElementScale;
-				this.skillChoices[i].transform.position=new Vector3(this.skillSearchBar.transform.position.x,this.skillSearchBar.transform.position.y-ApplicationDesignRules.inputTextWorldSize.y/2f-(i+0.5f)*ApplicationDesignRules.listElementWorldSize.y+i*0.02f,-1f);
 			}
 			this.valueFilterTitle.GetComponent<TextContainer>().anchorPosition =  TextContainerAnchors.Left;
 			this.valueFilterTitle.GetComponent<TextMeshPro>().alignment = TextAlignmentOptions.Left;
@@ -1085,42 +1089,52 @@ public class NewMarketController : MonoBehaviour
 	}
 	public void cardTypeFilterHandler(int id)
 	{
-		if(this.filtersCardType.Contains(id))
+		if(!ApplicationDesignRules.isMobileScreen || this.filtersDisplayed)
 		{
-			this.filtersCardType.Remove(id);
-			this.cardsTypeFilters[id].GetComponent<NewMarketCardTypeFilterController>().reset();
+			if(this.filtersCardType.Contains(id))
+			{
+				this.filtersCardType.Remove(id);
+				this.cardsTypeFilters[id].GetComponent<NewMarketCardTypeFilterController>().reset();
+			}
+			else
+			{
+				this.filtersCardType.Add (id);
+				this.cardsTypeFilters[id].GetComponent<NewMarketCardTypeFilterController>().setIsSelected(true);
+				this.cardsTypeFilters[id].GetComponent<NewMarketCardTypeFilterController>().setHoveredState();
+			}
+			this.cardsPagination.chosenPage = 0;
+			this.applyFilters ();
 		}
-		else
-		{
-			this.filtersCardType.Add (id);
-			this.cardsTypeFilters[id].GetComponent<NewMarketCardTypeFilterController>().setIsSelected(true);
-			this.cardsTypeFilters[id].GetComponent<NewMarketCardTypeFilterController>().setHoveredState();
-		}
-		this.cardsPagination.chosenPage = 0;
-		this.applyFilters ();
 	}
 	public void sortButtonHandler(int id)
 	{
-		if(this.sortingOrder==id)
+		if(!ApplicationDesignRules.isMobileScreen || this.filtersDisplayed)
 		{
-			this.sortingOrder = -1;
-			this.sortButtons[id].GetComponent<NewMarketSortButtonController>().reset();
+			if(this.sortingOrder==id)
+			{
+				this.sortingOrder = -1;
+				this.sortButtons[id].GetComponent<NewMarketSortButtonController>().reset();
+			}
+			else if(this.sortingOrder!=-1)
+			{
+				this.sortButtons[this.sortingOrder].GetComponent<NewMarketSortButtonController>().reset();
+				this.sortButtons[id].GetComponent<NewMarketSortButtonController>().setIsSelected(true);
+				this.sortButtons[id].GetComponent<NewMarketSortButtonController>().setHoveredState();
+				this.sortingOrder = id;
+			}
+			else
+			{
+				this.sortingOrder=id;
+				this.sortButtons[id].GetComponent<NewMarketSortButtonController>().setIsSelected(true);
+				this.sortButtons[id].GetComponent<NewMarketSortButtonController>().setHoveredState();
+			}
+			this.cardsPagination.chosenPage = 0;
+			this.applyFilters ();
 		}
-		else if(this.sortingOrder!=-1)
-		{
-			this.sortButtons[this.sortingOrder].GetComponent<NewMarketSortButtonController>().reset();
-			this.sortButtons[id].GetComponent<NewMarketSortButtonController>().setIsSelected(true);
-			this.sortButtons[id].GetComponent<NewMarketSortButtonController>().setHoveredState();
-			this.sortingOrder = id;
-		}
-		else
-		{
-			this.sortingOrder=id;
-			this.sortButtons[id].GetComponent<NewMarketSortButtonController>().setIsSelected(true);
-			this.sortButtons[id].GetComponent<NewMarketSortButtonController>().setHoveredState();
-		}
-		this.cardsPagination.chosenPage = 0;
-		this.applyFilters ();
+	}
+	public void startSlidingCursors()
+	{
+		this.isSlidingCursors=true;
 	}
 	public void moveCursors(int cursorId)
 	{
@@ -1232,11 +1246,13 @@ public class NewMarketController : MonoBehaviour
 			this.cardsPagination.chosenPage = 0;
 			this.applyFilters();
 		}
-		this.isSlidingCursors = false;
+	}
+	public void endSlidingCursors()
+	{
+		this.isSlidingCursors=false;
 	}
 	public void moveMinMaxCursor(int cursorId)
 	{
-		this.isSlidingCursors = true;
 		float offsetStep = 0f;
 		Vector3 mousePosition = new Vector3 ();
 		if (ApplicationDesignRules.isMobileScreen) 
@@ -1322,7 +1338,6 @@ public class NewMarketController : MonoBehaviour
 			this.cardsPagination.chosenPage = 0;
 			this.applyFilters();
 		}
-		this.isSlidingCursors = false;
 	}
 	public string getValueFilterLabel(int value)
 	{
@@ -1494,6 +1509,10 @@ public class NewMarketController : MonoBehaviour
 	public void filterASkill(int id)
 	{
 		this.isSearchingSkill = false;
+		if(ApplicationDesignRules.isMobileDevice)
+		{
+			this.skillSearchBar.GetComponent<NewMarketSkillSearchBarController>().closeKeyboard();
+		}
 		this.valueSkill = this.skillChoices[id].transform.FindChild("Title").GetComponent<TextMeshPro>().text;
 		this.isSkillChosen = true;
 		this.skillSearchBar.GetComponent<NewMarketSkillSearchBarController>().setText(this.valueSkill);

@@ -28,6 +28,7 @@ public class TutorialObjectController : MonoBehaviour
 	private bool moveHorizontal;
 	private bool inversedMove;
 	public bool isResizing;
+	public bool canScroll;
 
 	private GameObject arrow;
 	private GameObject popUpTitle;
@@ -378,6 +379,7 @@ public class TutorialObjectController : MonoBehaviour
 		case 101: // Texte pour indiquer au joueur qu'il doit cliquer sur "Jouer" pour faire un premier match
 			if(!isResizing)
 			{
+				this.canScroll=false;
 				this.displayPopUp(0);
 				this.displayNextButton(false);
 				this.setPopUpTitle("Premier combat");
@@ -799,6 +801,43 @@ public class TutorialObjectController : MonoBehaviour
 		else
 		{
 			return false;
+		}
+	}
+	public bool getCanSwipe()
+	{
+		if(isHelpLaunched)
+		{
+			return false;
+		}
+		else if(isTutorialLaunched && isTutorialDisplayed)
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
+	public bool getCanScroll()
+	{
+		if(isTutorialLaunched) 
+		{
+			if(!isTutorialDisplayed)
+			{
+				return true;
+			}
+			else
+			{
+				return canScroll;
+			}
+		}
+		else if(isHelpLaunched)
+		{
+			return false;
+		}
+		else
+		{
+			return true;
 		}
 	}
 }

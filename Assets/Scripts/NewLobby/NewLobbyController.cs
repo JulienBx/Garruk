@@ -73,7 +73,7 @@ public class NewLobbyController : MonoBehaviour
 	
 	void Update()
 	{	
-		if (Input.touchCount == 1 && this.isSceneLoaded) 
+		if (Input.touchCount == 1 && this.isSceneLoaded  && TutorialObjectController.instance.getCanSwipe() && MenuController.instance.getCanSwipeAndScroll()) 
 		{
 			if(Input.touches[0].deltaPosition.x<-15f)
 			{
