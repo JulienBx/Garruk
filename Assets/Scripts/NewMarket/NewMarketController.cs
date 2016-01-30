@@ -169,21 +169,10 @@ public class NewMarketController : MonoBehaviour
 		}
 		if(isSearchingSkill)
 		{
-			if(ApplicationDesignRules.isMobileDevice)
+			if(this.skillSearchBar.GetComponent<NewMarketSkillSearchBarController>().getInputText().ToLower()!=this.valueSkill.ToLower())
 			{
-				this.skillSearchBar.GetComponent<NewMarketSkillSearchBarController>().setText(this.skillSearchBar.GetComponent<NewMarketSkillSearchBarController>().getText());
-			}
-			if(this.skillSearchBar.GetComponent<NewMarketSkillSearchBarController>().getText().ToLower()!=this.valueSkill.ToLower()	)
-			{
-				this.valueSkill=this.skillSearchBar.GetComponent<NewMarketSkillSearchBarController>().getText();
+				this.valueSkill=this.skillSearchBar.GetComponent<NewMarketSkillSearchBarController>().getInputText();
 				this.setSkillAutocompletion();
-			}
-			if(!this.skillSearchBar.GetComponent<NewMarketSkillSearchBarController>().getIsBeingUsed())
-			{
-					this.isSearchingSkill=false;
-					this.cleanSkillAutocompletion();
-					this.skillSearchBar.GetComponent<NewMarketSkillSearchBarController>().setText("Rechercher");
-					this.valueSkill="Rechercher";
 			}
 		}
 		if(this.areNewCardsAvailable)
@@ -213,7 +202,6 @@ public class NewMarketController : MonoBehaviour
 					if(camerasXPosition==this.filtersPositionX)
 					{
 						this.filtersDisplayed=true;
-						this.skillSearchBar.SetActive(true);
 					}
 					else if(camerasXPosition==this.mainContentPositionX)
 					{
@@ -252,7 +240,6 @@ public class NewMarketController : MonoBehaviour
 	{
 		instance = this;
 		this.model = new NewMarketModel ();
-		this.skillSearchBar = GameObject.Find ("SkillSearchBar");
 		this.sortingOrder = -1;
 		this.activeTab = 0;
 		this.scrollIntersection = 1.85f;
@@ -471,7 +458,8 @@ public class NewMarketController : MonoBehaviour
 		this.skillSearchBarTitle = GameObject.Find ("SkillSearchTitle");
 		this.skillSearchBarTitle.GetComponent<TextMeshPro> ().color = ApplicationDesignRules.whiteTextColor;
 		this.skillSearchBarTitle.GetComponent<TextMeshPro> ().text = "Compétence".ToUpper ();
-		this.skillSearchBar.GetComponent<NewMarketSkillSearchBarController> ().setText ("Rechercher");
+		this.skillSearchBar = GameObject.Find ("SkillSearchBar");
+		this.skillSearchBar.GetComponent<NewMarketSkillSearchBarController> ().setButtonText ("Rechercher");
 		this.skillChoices=new GameObject[3];
 		for(int i=0;i<this.skillChoices.Length;i++)
 		{
@@ -598,7 +586,7 @@ public class NewMarketController : MonoBehaviour
 		this.isSkillChosen = false;
 		
 		this.cleanSkillAutocompletion ();
-		this.skillSearchBar.GetComponent<NewMarketSkillSearchBarController>().setText("Rechercher");
+		this.stopSearchingSkill();
 		if(this.sortingOrder!=-1)
 		{
 			this.sortButtons[this.sortingOrder].GetComponent<NewMarketSortButtonController>().setIsSelected(false);
@@ -676,7 +664,6 @@ public class NewMarketController : MonoBehaviour
 			this.informationButton.SetActive(true);
 			this.slideLeftButton.SetActive(true);
 			this.slideRightButton.SetActive(true);
-			this.skillSearchBar.SetActive(false);
 
 			if(isCardFocusedDisplayed)
 			{
@@ -722,7 +709,6 @@ public class NewMarketController : MonoBehaviour
 			this.informationButton.SetActive(false);
 			this.slideLeftButton.SetActive(false);
 			this.slideRightButton.SetActive(false);
-			this.skillSearchBar.SetActive(true);
 
 			if(isCardFocusedDisplayed)
 			{
@@ -1053,11 +1039,6 @@ public class NewMarketController : MonoBehaviour
 				this.lowerScrollCamera.SetActive(true);
 				this.upperScrollCamera.SetActive(true);
 				this.sceneCamera.SetActive(false);
-				this.skillSearchBar.SetActive(false);
-			}
-			else
-			{
-				this.skillSearchBar.SetActive(true);
 			}
 			this.sceneCamera.transform.position=ApplicationDesignRules.sceneCameraStandardPosition;
 		}
@@ -1070,7 +1051,6 @@ public class NewMarketController : MonoBehaviour
 				this.sceneCamera.SetActive(true);
 			}
 			this.sceneCamera.transform.position=ApplicationDesignRules.sceneCameraFocusedCardPosition;
-			this.skillSearchBar.SetActive(false);
 		}
 
 	}
@@ -1083,9 +1063,16 @@ public class NewMarketController : MonoBehaviour
 			this.applyFilters();
 		}
 		this.cleanSkillAutocompletion();
-		this.skillSearchBar.GetComponent<NewMarketSkillSearchBarController>().setText("");
 		this.valueSkill = "";
 		this.isSearchingSkill = true;
+	}
+	public void stopSearchingSkill()
+	{
+		this.isSearchingSkill=false;
+		this.cleanSkillAutocompletion();
+		this.skillSearchBar.GetComponent<NewMarketSkillSearchBarController>().resetSearchBar();
+		this.skillSearchBar.GetComponent<NewMarketSkillSearchBarController>().setButtonText("Rechercher");
+		this.valueSkill="Rechercher";
 	}
 	public void cardTypeFilterHandler(int id)
 	{
@@ -1480,7 +1467,7 @@ public class NewMarketController : MonoBehaviour
 	{
 		this.skillsDisplayed = new List<int> ();
 		this.cleanSkillAutocompletion ();
-		this.skillSearchBar.GetComponent<NewMarketSkillSearchBarController>().setText(this.valueSkill);
+		this.skillSearchBar.GetComponent<NewMarketSkillSearchBarController>().setButtonText(this.valueSkill);
 		if(this.valueSkill.Length>0)
 		{
 			for (int i = 0; i < model.skillsList.Count; i++) 
@@ -1509,13 +1496,10 @@ public class NewMarketController : MonoBehaviour
 	public void filterASkill(int id)
 	{
 		this.isSearchingSkill = false;
-		if(ApplicationDesignRules.isMobileDevice)
-		{
-			this.skillSearchBar.GetComponent<NewMarketSkillSearchBarController>().closeKeyboard();
-		}
 		this.valueSkill = this.skillChoices[id].transform.FindChild("Title").GetComponent<TextMeshPro>().text;
 		this.isSkillChosen = true;
-		this.skillSearchBar.GetComponent<NewMarketSkillSearchBarController>().setText(this.valueSkill);
+		this.skillSearchBar.GetComponent<NewMarketSkillSearchBarController>().resetSearchBar();
+		this.skillSearchBar.GetComponent<NewMarketSkillSearchBarController>().setButtonText(this.valueSkill);
 		this.cleanSkillAutocompletion ();
 		this.cardsPagination.chosenPage = 0;
 		this.applyFilters ();
@@ -1773,7 +1757,6 @@ public class NewMarketController : MonoBehaviour
 		{
 			this.filtersDisplayed=false;
 			this.targetContentPositionX=this.mainContentPositionX;
-			this.skillSearchBar.SetActive(false);
 		}
 		else if(this.targetContentPositionX==mainContentPositionX)
 		{
@@ -1820,10 +1803,6 @@ public class NewMarketController : MonoBehaviour
 			this.tabs[2].SetActive(false);
 			break;
 		}
-	}
-	public void setGUI(bool value)
-	{
-		this.skillSearchBar.GetComponent<NewMarketSkillSearchBarController>().setGUI(value);
 	}
 	#region TUTORIAL FUNCTIONS
 	

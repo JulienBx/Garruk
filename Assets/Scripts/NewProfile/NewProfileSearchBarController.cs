@@ -13,6 +13,7 @@ public class NewProfileSearchBarController : InterfaceController
 	private Rect rect;
 	private bool isBeingUsed;
 	private bool isGUIActive;
+	private bool toFocus;
 	private TouchScreenKeyboard keyboard;
 
 	public void resize()
@@ -26,45 +27,55 @@ public class NewProfileSearchBarController : InterfaceController
 	}
 	void Update()
 	{
-		if(this.isBeingUsed && ApplicationDesignRules.isMobileDevice)
+		if(this.isBeingUsed)
 		{
-			if(keyboard!=null && (keyboard.done || keyboard.wasCanceled))
+			if(ApplicationDesignRules.isMobileDevice)
 			{
-				this.isBeingUsed=false;
-			}	
+				text=keyboard.text;
+				if(keyboard!=null && (keyboard.done || keyboard.wasCanceled))
+				{
+					this.resetSearchBar();
+				}
+			}
 		}
+	}
+	public void resetSearchBar()
+	{
+		gameObject.transform.FindChild("Title").gameObject.SetActive(true);
+		gameObject.transform.FindChild("Title").GetComponent<TextMeshPro>().text=this.text;
+		this.isBeingUsed=false;
+		if(keyboard!=null)
+		{
+			keyboard.active=false;
+		}
+	}
+	void OnMouseUp()
+	{
+		this.startInput();
 	}
 	void OnGUI()
 	{
-		if(isGUIActive)
+		if(isBeingUsed)
 		{
 			GUILayout.BeginArea (rect);
 			{
 				GUILayout.FlexibleSpace();
 				if(ApplicationDesignRules.isMobileDevice)
 				{
-					if(GUILayout.Button (text,popUpGUISkin.textField))
-			        {
-			            keyboard = TouchScreenKeyboard.Open("", TouchScreenKeyboardType.Default,false);
-						NewProfileController.instance.searchingUsers();
-						this.isBeingUsed=true;
-			        }
+					GUILayout.Label (text,popUpGUISkin.textField);
 				}
 				else
 				{
 					GUI.SetNextControlName("Textfield");
 					text = GUILayout.TextField(text,popUpGUISkin.textField);
-					if (GUI.GetNameOfFocusedControl() == "Textfield")
+					if(toFocus)
 					{
-						if(!isBeingUsed)
-						{
-							NewProfileController.instance.searchingUsers();
-							this.isBeingUsed=true;
-						}
+						GUI.FocusControl("Textfield");
+						this.toFocus=false;
 					}
-					else
+					if (GUI.GetNameOfFocusedControl() != "Textfield")
 					{
-						this.isBeingUsed=false;
+						this.resetSearchBar();
 					}
 				}
 				GUILayout.FlexibleSpace();
@@ -72,15 +83,22 @@ public class NewProfileSearchBarController : InterfaceController
 			GUILayout.EndArea ();
 		}
 	}
-	public void setGUI(bool value)
+	public void startInput()
 	{
-		this.isGUIActive=value;
+		this.isBeingUsed=true;
+		this.toFocus=true;
+		this.text="";
+		if(ApplicationDesignRules.isMobileDevice)
+		{
+			keyboard = TouchScreenKeyboard.Open("", TouchScreenKeyboardType.Default,false);
+		}
+		gameObject.transform.FindChild("Title").gameObject.SetActive(false);
 	}
-	public void setText(string text)
+	public void setButtonText(string text)
 	{
-		this.text = text;
+		this.gameObject.transform.FindChild("Title").GetComponent<TextMeshPro>().text=text;
 	}
-	public string getText()
+	public string getInputText()
 	{
 		if(ApplicationDesignRules.isMobileDevice)
 		{
@@ -90,15 +108,6 @@ public class NewProfileSearchBarController : InterfaceController
 		{
 			return text;
 		}
-	}
-	public bool getIsBeingUsed()
-	{
-		return this.isBeingUsed;
-	}
-	public void closeKeyboard()
-	{
-		this.keyboard.active=false;
-		this.isBeingUsed=false;
 	}
 }
 

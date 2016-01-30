@@ -134,21 +134,10 @@ public class NewSkillBookController : MonoBehaviour
 		}
 		if(isSearchingSkill)
 		{
-			if(ApplicationDesignRules.isMobileDevice)
+			if(this.skillSearchBar.GetComponent<NewSkillBookSkillSearchBarController>().getInputText().ToLower()!=this.valueSkill.ToLower())
 			{
-				this.skillSearchBar.GetComponent<NewSkillBookSkillSearchBarController>().setText(this.skillSearchBar.GetComponent<NewSkillBookSkillSearchBarController>().getText());
-			}
-			if(this.skillSearchBar.GetComponent<NewSkillBookSkillSearchBarController>().getText().ToLower()!=this.valueSkill.ToLower()	)
-			{
-				this.valueSkill=this.skillSearchBar.GetComponent<NewSkillBookSkillSearchBarController>().getText();
+				this.valueSkill=this.skillSearchBar.GetComponent<NewSkillBookSkillSearchBarController>().getInputText();
 				this.setSkillAutocompletion();
-			}
-			if(!this.skillSearchBar.GetComponent<NewSkillBookSkillSearchBarController>().getIsBeingUsed())
-			{
-					this.isSearchingSkill=false;
-					this.cleanSkillAutocompletion();
-					this.skillSearchBar.GetComponent<NewSkillBookSkillSearchBarController>().setText("Rechercher");
-					this.valueSkill="Rechercher";
 			}
 		}
 		if(toSlideRight || toSlideLeft)
@@ -166,7 +155,6 @@ public class NewSkillBookController : MonoBehaviour
 					if(camerasXPosition==this.filtersPositionX)
 					{
 						this.filtersDisplayed=true;
-						this.skillSearchBar.SetActive(true);
 					}
 					else if(camerasXPosition==this.mainContentPositionX)
 					{
@@ -206,7 +194,6 @@ public class NewSkillBookController : MonoBehaviour
 		instance = this;
 		this.activeTab = 0;
 		this.model = new NewSkillBookModel ();
-		this.skillSearchBar = GameObject.Find ("SkillSearchBar");
 		this.selectedCardTypeId = 0;
 		this.scrollIntersection = 1.18f;
 		this.mainContentDisplayed = true;
@@ -521,7 +508,8 @@ public class NewSkillBookController : MonoBehaviour
 		this.skillSearchBarTitle = GameObject.Find ("SkillSearchTitle");
 		this.skillSearchBarTitle.GetComponent<TextMeshPro> ().color = ApplicationDesignRules.whiteTextColor;
 		this.skillSearchBarTitle.GetComponent<TextMeshPro> ().text = "Compétence".ToUpper ();
-		this.skillSearchBar.GetComponent<NewSkillBookSkillSearchBarController> ().setText ("Rechercher");
+		this.skillSearchBar = GameObject.Find ("SkillSearchBar");
+		this.skillSearchBar.GetComponent<NewSkillBookSkillSearchBarController> ().setButtonText ("Rechercher");
 		this.skillChoices=new GameObject[3];
 		for(int i=0;i<this.skillChoices.Length;i++)
 		{
@@ -634,7 +622,6 @@ public class NewSkillBookController : MonoBehaviour
 			this.slideRightButton.SetActive(true);
 			this.skillsPaginationLine.SetActive(false);
 			this.helpBlockTitle.SetActive(true);
-			this.skillSearchBar.SetActive(false);
 
 			this.upperScrollCamera.GetComponent<Camera> ().rect = new Rect (0f,(ApplicationDesignRules.worldHeight-ApplicationDesignRules.upMargin-this.scrollIntersection)/ApplicationDesignRules.worldHeight,1f,(this.scrollIntersection)/ApplicationDesignRules.worldHeight);
 			this.upperScrollCamera.GetComponent<Camera> ().orthographicSize = this.scrollIntersection/2f;
@@ -695,7 +682,6 @@ public class NewSkillBookController : MonoBehaviour
 			this.slideLeftButton.SetActive(false);
 			this.slideRightButton.SetActive(false);
 			this.helpBlockTitle.SetActive(false);
-			this.skillSearchBar.SetActive(true);
 
 			if(isFocusedSkillDisplayed)
 			{
@@ -1215,6 +1201,10 @@ public class NewSkillBookController : MonoBehaviour
 		{
 			this.availableFilters[i].GetComponent<NewSkillBookAvailabilityFilterController>().reset();
 		}
+		this.valueSkill = "";
+		this.isSkillChosen = false;
+		this.cleanSkillAutocompletion ();
+		this.stopSearchingSkill();
 	}
 	private void computeFilters() 
 	{
@@ -1343,20 +1333,24 @@ public class NewSkillBookController : MonoBehaviour
 			this.applyFilters();
 		}
 		this.cleanSkillAutocompletion();
-		this.skillSearchBar.GetComponent<NewSkillBookSkillSearchBarController>().setText("");
 		this.valueSkill = "";
 		this.isSearchingSkill = true;
+	}
+	public void stopSearchingSkill()
+	{
+		this.isSearchingSkill=false;
+		this.cleanSkillAutocompletion();
+		this.skillSearchBar.GetComponent<NewSkillBookSkillSearchBarController>().resetSearchBar();
+		this.skillSearchBar.GetComponent<NewSkillBookSkillSearchBarController>().setButtonText("Rechercher");
+		this.valueSkill="Rechercher";
 	}
 	public void filterASkill(int id)
 	{
 		this.isSearchingSkill = false;
-		if(ApplicationDesignRules.isMobileDevice)
-		{
-			this.skillSearchBar.GetComponent<NewSkillBookSkillSearchBarController>().closeKeyboard();
-		}
 		this.valueSkill = this.skillChoices[id].transform.FindChild("Title").GetComponent<TextMeshPro>().text;
 		this.isSkillChosen = true;
-		this.skillSearchBar.GetComponent<NewSkillBookSkillSearchBarController>().setText(this.valueSkill);
+		this.skillSearchBar.GetComponent<NewSkillBookSkillSearchBarController>().resetSearchBar();
+		this.skillSearchBar.GetComponent<NewSkillBookSkillSearchBarController>().setButtonText(this.valueSkill);
 		this.cleanSkillAutocompletion ();
 		this.skillsPagination.chosenPage = 0;
 		this.applyFilters ();
@@ -1365,7 +1359,7 @@ public class NewSkillBookController : MonoBehaviour
 	{
 		this.skillsDisplayed = new List<int> ();
 		this.cleanSkillAutocompletion ();
-		this.skillSearchBar.GetComponent<NewSkillBookSkillSearchBarController>().setText(this.valueSkill);
+		this.skillSearchBar.GetComponent<NewSkillBookSkillSearchBarController>().setButtonText(this.valueSkill);
 		if(this.valueSkill.Length>0)
 		{
 			for (int i = 0; i < model.skillsList.Count; i++) 
@@ -1402,7 +1396,6 @@ public class NewSkillBookController : MonoBehaviour
 		else if(this.filtersDisplayed)
 		{
 			this.filtersDisplayed=false;
-			this.skillSearchBar.SetActive(false);
 			this.targetContentPositionX=this.mainContentPositionX;
 		}
 		else if(this.targetContentPositionX==mainContentPositionX)
@@ -1466,11 +1459,6 @@ public class NewSkillBookController : MonoBehaviour
 				this.lowerScrollCamera.SetActive(true);
 				this.upperScrollCamera.SetActive(true);
 				this.sceneCamera.SetActive(false);
-				this.skillSearchBar.SetActive(false);
-			}
-			else
-			{
-				this.skillSearchBar.SetActive(false);
 			}
 			this.sceneCamera.transform.position=ApplicationDesignRules.sceneCameraStandardPosition;
 		}
@@ -1483,7 +1471,6 @@ public class NewSkillBookController : MonoBehaviour
 				this.sceneCamera.SetActive(true);
 			}
 			this.sceneCamera.transform.position=ApplicationDesignRules.sceneCameraFocusedCardPosition;
-			this.skillSearchBar.SetActive(false);
 		}
 	}
 	public void hideActiveTab()
@@ -1527,10 +1514,6 @@ public class NewSkillBookController : MonoBehaviour
 			this.showFocusedSkill(id);
 			this.isLeftClicked=false;
 		}
-	}
-	public void setGUI(bool value)
-	{
-		this.skillSearchBar.GetComponent<NewSkillBookSkillSearchBarController>().setGUI(value);
 	}
 	#region TUTORIAL FUNCTIONS
 	

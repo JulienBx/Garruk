@@ -177,7 +177,6 @@ public class MenuController : MonoBehaviour
 			this.isTransparentBackgroundDisplayed = true;
 			this.transparentBackground=Instantiate(this.ressources.transparentBackgroundObject) as GameObject;
 			this.transparentBackgroundResize();
-			this.setGUI(false);
 		}
 	}
 	public void displayInvitationPopUp()
@@ -275,7 +274,6 @@ public class MenuController : MonoBehaviour
 		{
 			this.isTransparentBackgroundDisplayed = false;
 			Destroy (this.transparentBackground);
-			this.setGUI(true);
 		}
 	}
 	public void setCurrentPage(int i)
@@ -771,7 +769,6 @@ public class MenuController : MonoBehaviour
 		{
 			this.loadingScreen=Instantiate(this.ressources.loadingScreenObject) as GameObject;
 			this.isLoadingScreenDisplayed=true;
-			this.setGUI(false);
 		}
 	}
 	public void hideLoadingScreen()
@@ -780,7 +777,6 @@ public class MenuController : MonoBehaviour
 		{
 			Destroy (this.loadingScreen);
 			this.isLoadingScreenDisplayed=false;
-			this.setGUI(true);
 		}
 		if(this.isInviting)
 		{
@@ -897,9 +893,6 @@ public class MenuController : MonoBehaviour
 		this.displayDisconnectedPopUp ();
 	}
 	public virtual void clickOnBackOfficeBackground()
-	{
-	}
-	public virtual void setGUI(bool value)
 	{
 	}
 	public bool getCanSwipeAndScroll()

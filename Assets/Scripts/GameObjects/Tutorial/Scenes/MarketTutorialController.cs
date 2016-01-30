@@ -13,10 +13,6 @@ public class MarketTutorialController : TutorialObjectController
 	{
 		NewMarketController.instance.endTutorialInitialization ();
 	}
-	public override void setGUI(bool value)
-	{
-		NewMarketController.instance.setGUI(value);
-	}
 	public override void launchSequence(int sequenceID)
 	{
 		Vector3 gameObjectPosition = new Vector3 ();

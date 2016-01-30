@@ -48,12 +48,10 @@ public class InvitationPopUpController : MonoBehaviour
 			this.drawDeck ();
 			this.show ();
 			MenuController.instance.hideLoadingScreen ();
-			MenuController.instance.setGUI(false);
 		}
 		else
 		{
 			MenuController.instance.hideLoadingScreen ();
-			MenuController.instance.setGUI(false);
 			MenuController.instance.hideInvitationPopUp();
 		}
 	}

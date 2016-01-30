@@ -88,7 +88,6 @@ public class NewProfileController : MonoBehaviour
 
 	private bool isSelectPicturePopUpDisplayed;
 	private bool isSearchUsersPopUpDisplayed;
-	private bool isSearchingUsers;
 
 	public int friendsRefreshInterval;
 	private float friendsCheckTimer;
@@ -138,17 +137,6 @@ public class NewProfileController : MonoBehaviour
 				}
 			}
 		}
-		if(isSearchingUsers)
-		{
-			if(ApplicationDesignRules.isMobileDevice)
-			{
-				this.searchBar.GetComponent<NewProfileSearchBarController>().setText(this.searchBar.GetComponent<NewProfileSearchBarController>().getText());
-			}
-			if(!this.searchBar.GetComponent<NewProfileSearchBarController>().getIsBeingUsed())
-			{
-				this.isSearchingUsers=false;
-			}
-		}
 		if(toSlideRight || toSlideLeft)
 		{
 			Vector3 sceneCameraPosition = this.sceneCamera.transform.position;
@@ -167,7 +155,6 @@ public class NewProfileController : MonoBehaviour
 					else if(camerasXPosition==this.mainContentPositionX)
 					{
 						this.mainContentDisplayed=true;
-						this.searchBar.SetActive(true);
 					}
 				}
 			}
@@ -185,7 +172,6 @@ public class NewProfileController : MonoBehaviour
 					else if(camerasXPosition==this.mainContentPositionX)
 					{
 						this.mainContentDisplayed=true;
-						this.searchBar.SetActive(true);
 					}
 				}
 			}
@@ -201,7 +187,6 @@ public class NewProfileController : MonoBehaviour
 	{
 		instance = this;
 		this.model = new NewProfileModel ();
-		this.searchBar=GameObject.Find ("SearchBar");
 		if(ApplicationModel.profileChosen==""|| ApplicationModel.profileChosen==ApplicationModel.username)
 		{
 			this.isMyProfile=true;
@@ -523,7 +508,8 @@ public class NewProfileController : MonoBehaviour
 		this.searchSubtitle=GameObject.Find ("SearchSubtitle");
 		this.searchSubtitle.GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
 		this.searchSubtitle.GetComponent<TextMeshPro>().text="Trouver un ami à l'aide de son pseudo".ToUpper();
-		this.searchBar.GetComponent<NewProfileSearchBarController>().setText("Entrez un pseudo");
+		this.searchBar=GameObject.Find ("SearchBar");
+		this.searchBar.GetComponent<NewProfileSearchBarController>().setButtonText("Entrez un pseudo");
 		this.searchButton = GameObject.Find ("SearchButton");
 		this.searchButton.AddComponent<NewProfileSearchButtonController> ();
 		this.searchButton.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Ok";
@@ -636,8 +622,6 @@ public class NewProfileController : MonoBehaviour
 
 		this.resultsPagination = new Pagination ();
 		this.resultsPagination.chosenPage = 0;
-
-		this.searchBar.SetActive(true);
 		
 		if(ApplicationDesignRules.isMobileScreen)
 		{
@@ -1659,14 +1643,9 @@ public class NewProfileController : MonoBehaviour
 		}
 		return "";
 	}
-	public void searchingUsers()
-	{
-		this.isSearchingUsers=true;
-		this.searchBar.GetComponent<NewProfileSearchBarController>().setText("");
-	}
 	public void searchUsersHandler()
 	{
-		this.searchValue = this.searchBar.GetComponent<NewProfileSearchBarController>().getText();
+		this.searchValue = this.searchBar.GetComponent<NewProfileSearchBarController>().getInputText();
 		if(this.searchValue.Length>2)
 		{
 			this.displaySearchUsersPopUp(this.searchValue);
@@ -1862,7 +1841,6 @@ public class NewProfileController : MonoBehaviour
 		{
 			this.mainContentDisplayed=false;
 			this.targetContentPositionX=this.resultsPositionX;
-			this.searchBar.SetActive(false);
 		}
 		else if(this.friendsSliderDisplayed)
 		{
@@ -1886,7 +1864,6 @@ public class NewProfileController : MonoBehaviour
 		{
 			this.mainContentDisplayed=false;
 			this.targetContentPositionX=this.friendsPositionX;
-			this.searchBar.SetActive(false);
 		}
 		else if(this.resultsSliderDisplayed)
 		{
@@ -2000,10 +1977,6 @@ public class NewProfileController : MonoBehaviour
 			this.resultsContents[i].transform.FindChild("title").gameObject.AddComponent<NewProfileResultsContentUsernameController>();
 			this.resultsContents[i].transform.FindChild("title").GetComponent<NewProfileResultsContentUsernameController>().setId(i); 
 		}
-	}
-	public void setGUI(bool value)
-	{
-		this.searchBar.GetComponent<NewProfileSearchBarController>().setGUI(value);
 	}
 	#region TUTORIAL FUNCTIONS
 	

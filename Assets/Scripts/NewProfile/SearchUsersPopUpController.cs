@@ -45,7 +45,6 @@ public class SearchUsersPopUpController : MonoBehaviour
 			this.gameObject.transform.FindChild("NoResults").gameObject.SetActive(false);
 		}
 		MenuController.instance.hideLoadingScreen ();
-		NewProfileController.instance.setGUI(false);
 	}
 	private void initializeUsers()
 	{

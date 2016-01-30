@@ -3179,8 +3179,8 @@ GameObject:
   m_Component:
   - 4: {fileID: 834704783}
   - 212: {fileID: 834704782}
-  - 114: {fileID: 834704781}
   - 61: {fileID: 834704780}
+  - 114: {fileID: 834704781}
   m_Layer: 0
   m_Name: SkillSearchBar
   m_TagString: Untagged

@@ -183,7 +183,6 @@ public class TutorialObjectController : MonoBehaviour
 		}
 		this.background.SetActive (value);
 		this.background.GetComponent<TutorialBackgroundController> ().setSprite (0);
-		this.setGUI(!value);
 	}
 	public void displaySquareBackground(bool value)
 	{
@@ -193,7 +192,6 @@ public class TutorialObjectController : MonoBehaviour
 		}
 		this.background.SetActive (value);
 		this.background.GetComponent<TutorialBackgroundController> ().setSprite (1);
-		this.setGUI(!value);
 	}
 	public void displayExitButton(bool value)
 	{
@@ -420,9 +418,6 @@ public class TutorialObjectController : MonoBehaviour
 		}
 	}
 	public virtual void scrollingExceptions()
-	{
-	}
-	public virtual void setGUI(bool value)
 	{
 	}
 

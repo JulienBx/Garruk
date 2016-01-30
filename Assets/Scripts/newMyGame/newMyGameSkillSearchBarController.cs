@@ -43,6 +43,10 @@ public class newMyGameSkillSearchBarController : InterfaceController
 	{
 		gameObject.transform.FindChild("Title").gameObject.SetActive(true);
 		this.isBeingUsed=false;
+		if(keyboard!=null)
+		{
+			keyboard.active=false;
+		}
 	}
 	void OnMouseUp()
 	{

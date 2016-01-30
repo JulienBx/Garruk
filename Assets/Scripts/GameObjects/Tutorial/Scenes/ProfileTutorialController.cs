@@ -13,10 +13,6 @@ public class ProfileTutorialController : TutorialObjectController
 	{
 		NewProfileController.instance.endTutorialInitialization ();
 	}
-	public override void setGUI(bool value)
-	{
-		NewProfileController.instance.setGUI(value);
-	}
 	public override void launchSequence(int sequenceID)
 	{
 		Vector3 gameObjectPosition = new Vector3 ();
