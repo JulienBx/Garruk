@@ -302,11 +302,11 @@ public class newMyGameController : MonoBehaviour
 	{
 		if(cardsPagination.totalElements>0)
 		{
-			this.cardsNumberTitle.GetComponent<TextMeshPro>().text=("carte " +this.cardsPagination.elementDebut+" à "+this.cardsPagination.elementFin+" sur "+this.cardsPagination.totalElements ).ToUpper();
+			this.cardsNumberTitle.GetComponent<TextMeshPro>().text=(WordingPagination.getReference(0) +this.cardsPagination.elementDebut+WordingPagination.getReference(1)+this.cardsPagination.elementFin+WordingPagination.getReference(2)+this.cardsPagination.totalElements ).ToUpper();
 		}
 		else
 		{
-			this.cardsNumberTitle.GetComponent<TextMeshPro>().text="aucune carte à afficher".ToUpper();
+			this.cardsNumberTitle.GetComponent<TextMeshPro>().text=WordingPagination.getReference(3).ToUpper();
 		}
 	}
 	public void paginationHandler()
@@ -325,7 +325,7 @@ public class newMyGameController : MonoBehaviour
 		this.deckBlock = Instantiate (this.blockObject) as GameObject;
 		this.deckBlockTitle = GameObject.Find ("DeckBlockTitle");
 		this.deckBlockTitle.GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
-		this.deckBlockTitle.GetComponent<TextMeshPro> ().text = "Mes armées";
+		this.deckBlockTitle.GetComponent<TextMeshPro> ().text = WordingMyGame.getReference(1);
 		this.deckSelectionButton = GameObject.Find ("DeckSelectionButton");
 		this.deckSelectionButton.AddComponent<newMyGameDeckSelectionButtonController> ();
 		this.deckCreationButton = GameObject.Find ("DeckCreationButton");
@@ -357,14 +357,14 @@ public class newMyGameController : MonoBehaviour
 			this.cardsHalos[i]=GameObject.Find ("CardHalo"+i);
 			this.cardsHalos[i].transform.FindChild("Title").GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
 		}
-		this.cardsHalos [0].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "CAPITAINE \n1er à jouer";
-		this.cardsHalos [1].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "LIEUTENANT \n2ème à jouer";
-		this.cardsHalos [2].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "SERGENT \n3ème à jouer";
-		this.cardsHalos [3].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "SOLDAT \n4ème à jouer";
+		this.cardsHalos [0].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingDeck.getReference(0);
+		this.cardsHalos [1].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingDeck.getReference(1);
+		this.cardsHalos [2].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingDeck.getReference(2);
+		this.cardsHalos [3].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingDeck.getReference(3);
 		this.cardsBlock = Instantiate (this.blockObject) as GameObject;
 		this.cardsBlockTitle = GameObject.Find ("CardsBlockTitle");
 		this.cardsBlockTitle.GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
-		this.cardsBlockTitle.GetComponent<TextMeshPro> ().text = "Mes unités";
+		this.cardsBlockTitle.GetComponent<TextMeshPro> ().text = WordingMyGame.getReference(0);
 		this.cardsNumberTitle = GameObject.Find ("CardsNumberTitle");
 		this.cardsNumberTitle.GetComponent<TextMeshPro> ().color = ApplicationDesignRules.whiteTextColor;
 		this.cards=new GameObject[0];
@@ -380,7 +380,7 @@ public class newMyGameController : MonoBehaviour
 		this.filtersBlock = Instantiate (this.blockObject) as GameObject;
 		this.filtersBlockTitle = GameObject.Find ("FiltersBlockTitle");
 		this.filtersBlockTitle.GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
-		this.filtersBlockTitle.GetComponent<TextMeshPro> ().text = "Filtrer";
+		this.filtersBlockTitle.GetComponent<TextMeshPro> ().text = WordingFilters.getReference(0);
 		this.cardsTypeFilters = new GameObject[10];
 		for(int i=0;i<this.cardsTypeFilters.Length;i++)
 		{
@@ -395,9 +395,9 @@ public class newMyGameController : MonoBehaviour
 		}
 		this.skillSearchBarTitle = GameObject.Find ("SkillSearchTitle");
 		this.skillSearchBarTitle.GetComponent<TextMeshPro> ().color = ApplicationDesignRules.whiteTextColor;
-		this.skillSearchBarTitle.GetComponent<TextMeshPro> ().text = "Compétence".ToUpper ();
+		this.skillSearchBarTitle.GetComponent<TextMeshPro> ().text = WordingFilters.getReference(1).ToUpper ();
 		this.skillSearchBar = GameObject.Find ("SkillSearchBar");
-		this.skillSearchBar.GetComponent<newMyGameSkillSearchBarController> ().setButtonText ("Rechercher");
+		this.skillSearchBar.GetComponent<newMyGameSkillSearchBarController> ().setButtonText (WordingFilters.getReference(2));
 		this.skillChoices=new GameObject[3];
 		for(int i=0;i<this.skillChoices.Length;i++)
 		{
@@ -408,10 +408,10 @@ public class newMyGameController : MonoBehaviour
 		}
 		this.cardTypeFilterTitle = GameObject.Find ("CardTypeFilterTitle");
 		this.cardTypeFilterTitle.GetComponent<TextMeshPro> ().color = ApplicationDesignRules.whiteTextColor;
-		this.cardTypeFilterTitle.GetComponent<TextMeshPro> ().text = "Faction".ToUpper ();
+		this.cardTypeFilterTitle.GetComponent<TextMeshPro> ().text = WordingFilters.getReference(3).ToUpper ();
 		this.valueFilterTitle = GameObject.Find ("ValueFilterTitle");
 		this.valueFilterTitle.GetComponent<TextMeshPro> ().color = ApplicationDesignRules.whiteTextColor;
-		this.valueFilterTitle.GetComponent<TextMeshPro> ().text = "Attribut".ToUpper ();
+		this.valueFilterTitle.GetComponent<TextMeshPro> ().text = WordingFilters.getReference(4).ToUpper ();
 
 		this.cursors=new GameObject[this.valueFilters.Length];
 		for (int i=0;i<this.valueFilters.Length;i++)
@@ -991,7 +991,7 @@ public class newMyGameController : MonoBehaviour
 		}
 		else
 		{
-			this.deckTitle.GetComponent<TextMeshPro> ().text = "Aucune armée créé pour le moment".ToUpper();
+			this.deckTitle.GetComponent<TextMeshPro> ().text = WordingDeck.getReference(4).ToUpper();
 			this.deckDeletionButton.gameObject.SetActive(false);
 			this.deckRenameButton.gameObject.SetActive(false);
 			this.deckSelectionButton.gameObject.SetActive(false);
@@ -1126,7 +1126,7 @@ public class newMyGameController : MonoBehaviour
 		this.isSearchingSkill=false;
 		this.cleanSkillAutocompletion();
 		this.skillSearchBar.GetComponent<newMyGameSkillSearchBarController>().resetSearchBar();
-		this.skillSearchBar.GetComponent<newMyGameSkillSearchBarController>().setButtonText("Rechercher");
+		this.skillSearchBar.GetComponent<newMyGameSkillSearchBarController>().setButtonText(WordingFilters.getReference(2));
 		this.valueSkill="Rechercher";
 	}
 	public void cardTypeFilterHandler(int id)
@@ -1296,15 +1296,15 @@ public class newMyGameController : MonoBehaviour
 	{
 		if(value==1)
 		{
-			return "Rares";
+			return WordingFilters.getReference(5);
 		}
 		else if(value==2)
 		{
-			return "Très rares";
+			return WordingFilters.getReference(6);
 		}
 		else
 		{
-			return "Toutes";
+			return WordingFilters.getReference(7);
 		}
 	}
 	public Color getColorFilterIcon(int value)
@@ -1636,22 +1636,22 @@ public class newMyGameController : MonoBehaviour
 	{
 		if(name.Length>12)
 		{
-			return "Le nom ne doit pas dépasser 12 caractères";
+			return WordingMyGame.getReference(7);
 		}
 		if(!Regex.IsMatch(name, @"^[a-zA-Z0-9_\s]+$"))
 		{
-			return "Vous ne pouvez pas utiliser de caractères spéciaux";
+			return WordingMyGame.getReference(8);
 		}
 		for(int i=0;i<model.decks.Count;i++)
 		{
 			if(model.decks[i].Name==name && i!=this.deckDisplayed)
 			{
-				return "Nom déjà utilisé";
+				return WordingMyGame.getReference(9);
 			}
 		}
 		if(name=="")
 		{
-			return "Veuillez saisir un nom";
+			return WordingMyGame.getReference(10);
 		}
 		return "";
 	}
@@ -1684,12 +1684,12 @@ public class newMyGameController : MonoBehaviour
 	{
 		if(this.deckDisplayed==-1)
 		{
-			MenuController.instance.displayErrorPopUp("Vous devez créer un deck avant de sélectionner une carte");
+			MenuController.instance.displayErrorPopUp(WordingDeck.getReference(11));
 			this.isLeftClicked=false;
 		}
 		else if(!isDeckCardClicked && this.checkForIdenticalSkills())
 		{
-			MenuController.instance.displayErrorPopUp("Vous ne pouvez pas posséder dans votre équipe 2 cartes ayant la même compétence passive");
+			MenuController.instance.displayErrorPopUp(WordingDeck.getReference(12));
 			this.isLeftClicked=false;
 		}
 		else

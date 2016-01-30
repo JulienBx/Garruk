@@ -10,7 +10,7 @@ public class SelectCardTypePopUpController : MonoBehaviour
 {
 	public void reset(List<int> cardTypesAllowed)
 	{
-		gameObject.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Choisissez la faction :";
+		gameObject.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingSelectCardTypePopUp.getReference(0);
 		for(int i=0;i<10;i++)
 		{
 			gameObject.transform.FindChild ("picture"+i).GetComponent<SelectCardTypePopUpPictureController> ().reset ();

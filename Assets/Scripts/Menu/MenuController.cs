@@ -769,6 +769,7 @@ public class MenuController : MonoBehaviour
 		{
 			this.loadingScreen=Instantiate(this.ressources.loadingScreenObject) as GameObject;
 			this.isLoadingScreenDisplayed=true;
+			this.changeLoadingScreenLabel(WordingLoadingScreen.getReference(0));
 		}
 	}
 	public void hideLoadingScreen()

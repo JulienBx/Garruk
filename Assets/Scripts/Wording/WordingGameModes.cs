@@ -22,5 +22,8 @@ public class WordingGameModes
 		references.Add(new string[]{"Vous ne pouvez lancer de match sans avoir au préalable créé un deck",""}); //5
 		references.Add(new string[]{"Votre adversaire n'est plus disponible",""}); //6
 		references.Add(new string[]{"En attente de joueurs",""}); //7
+		references.Add(new string[]{"Match de division",""}); //8
+		references.Add(new string[]{"Match amical",""}); //9
+
 	}
 }

@@ -409,11 +409,11 @@ public class NewSkillBookController : MonoBehaviour
 	{
 		if(skillsPagination.totalElements>0)
 		{
-			this.skillsNumberTitle.GetComponent<TextMeshPro>().text=("compétence " +this.skillsPagination.elementDebut+" à "+this.skillsPagination.elementFin+" sur "+this.skillsPagination.totalElements ).ToUpper();
+			this.skillsNumberTitle.GetComponent<TextMeshPro>().text=(WordingPagination.getReference(4) +this.skillsPagination.elementDebut+WordingPagination.getReference(1)+this.skillsPagination.elementFin+WordingPagination.getReference(2)+this.skillsPagination.totalElements ).ToUpper();
 		}
 		else
 		{
-			this.skillsNumberTitle.GetComponent<TextMeshPro>().text="aucune compétence à afficher".ToUpper();
+			this.skillsNumberTitle.GetComponent<TextMeshPro>().text=WordingPagination.getReference(5).ToUpper();
 		}
 	}
 	public void initializeScene()
@@ -421,7 +421,7 @@ public class NewSkillBookController : MonoBehaviour
 		this.skillsBlock = Instantiate (this.blockObject) as GameObject;
 		this.skillsBlockTitle = GameObject.Find ("SkillsBlockTitle");
 		this.skillsBlockTitle.GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
-		this.skillsBlockTitle.GetComponent<TextMeshPro> ().text = "Compétences";
+		this.skillsBlockTitle.GetComponent<TextMeshPro> ().text = WordingSkillBook.getReference(0);
 		this.skills=new GameObject[0];
 		this.skillsPaginationButtons = GameObject.Find ("SkillsPagination");
 		this.skillsPaginationButtons.AddComponent<NewSkillBookSkillsPaginationController> ();
@@ -442,10 +442,10 @@ public class NewSkillBookController : MonoBehaviour
 			this.tabs[i].AddComponent<NewSkillBookTabController>();
 			this.tabs[i].GetComponent<NewSkillBookTabController>().setId(i);
 		}
-		this.tabs[0].transform.FindChild("Title").GetComponent<TextMeshPro> ().text = ("Cristalopedia");
-		this.tabs[1].transform.FindChild("Title").GetComponent<TextMeshPro> ().text = ("Progression");
-		this.tabs[2].transform.FindChild("Title").GetComponent<TextMeshPro> ().text = ("Disciplines");
-		this.tabs[3].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = ("Factions");
+		this.tabs[0].transform.FindChild("Title").GetComponent<TextMeshPro> ().text = WordingSkillBook.getReference(1);
+		this.tabs[1].transform.FindChild("Title").GetComponent<TextMeshPro> ().text = WordingSkillBook.getReference(2);
+		this.tabs[2].transform.FindChild("Title").GetComponent<TextMeshPro> ().text = WordingSkillBook.getReference(3);
+		this.tabs[3].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingSkillBook.getReference(4);
 		this.helpBlockTitle = GameObject.Find ("HelpBlockTitle");
 		this.helpBlockTitle.GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
 		this.helpBlockTitle.GetComponent<TextMeshPro> ().text = "Compétences";
@@ -458,9 +458,9 @@ public class NewSkillBookController : MonoBehaviour
 			this.helpContents[i]=GameObject.Find("HelpContent"+i);
 			this.helpContents[i].transform.FindChild("Title").GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
 		}
-		this.helpContents [0].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Discipline associé à la compétence.";
-		this.helpContents [1].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Faction associé à la compétence. ";
-		this.helpContents [2].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Pourcentage de réussite lorsqu'une compétence est lancée.";
+		this.helpContents [0].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text =  WordingSkillBook.getReference(5);
+		this.helpContents [1].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text =  WordingSkillBook.getReference(6);
+		this.helpContents [2].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text =  WordingSkillBook.getReference(7);
 		this.helpPaginationButtons = GameObject.Find ("HelpPagination");
 		this.helpPaginationButtons.AddComponent<NewSkillBookHelpPaginationController> ();
 		this.helpPaginationButtons.GetComponent<NewSkillBookHelpPaginationController> ().initialize ();
@@ -472,15 +472,15 @@ public class NewSkillBookController : MonoBehaviour
 			this.stats[i].transform.FindChild("Title").GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
 			// A compléter !
 		}
-		this.stats[0].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text= "Compétences acquises";
-		this.stats[1].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text= "Niveau de la collection";
-		this.stats[2].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text= "Points de collection";
-		this.stats[3].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text= "Classement de la collection";
+		this.stats[0].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text=  WordingSkillBook.getReference(8);
+		this.stats[1].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text=  WordingSkillBook.getReference(9);
+		this.stats[2].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text=  WordingSkillBook.getReference(10);
+		this.stats[3].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text=  WordingSkillBook.getReference(11);
 
 		this.filtersBlock = Instantiate (this.blockObject) as GameObject;
 		this.filtersBlockTitle = GameObject.Find ("FiltersBlockTitle");
 		this.filtersBlockTitle.GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
-		this.filtersBlockTitle.GetComponent<TextMeshPro> ().text = "Filtrer";
+		this.filtersBlockTitle.GetComponent<TextMeshPro> ().text = WordingFilters.getReference(0);
 		this.cardsTypeFilters = new GameObject[10];
 		for(int i=0;i<this.cardsTypeFilters.Length;i++)
 		{
@@ -503,13 +503,13 @@ public class NewSkillBookController : MonoBehaviour
 			this.availableFilters[i].AddComponent<NewSkillBookAvailabilityFilterController>();
 			this.availableFilters[i].GetComponent<NewSkillBookAvailabilityFilterController>().setId(i);
 		}
-		this.availableFilters [0].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Acquises";
-		this.availableFilters [1].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Manquantes";
+		this.availableFilters [0].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text =  WordingFilters.getReference(9);
+		this.availableFilters [1].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text =  WordingFilters.getReference(10);
 		this.skillSearchBarTitle = GameObject.Find ("SkillSearchTitle");
 		this.skillSearchBarTitle.GetComponent<TextMeshPro> ().color = ApplicationDesignRules.whiteTextColor;
-		this.skillSearchBarTitle.GetComponent<TextMeshPro> ().text = "Compétence".ToUpper ();
+		this.skillSearchBarTitle.GetComponent<TextMeshPro> ().text =  WordingFilters.getReference(1).ToUpper ();
 		this.skillSearchBar = GameObject.Find ("SkillSearchBar");
-		this.skillSearchBar.GetComponent<NewSkillBookSkillSearchBarController> ().setButtonText ("Rechercher");
+		this.skillSearchBar.GetComponent<NewSkillBookSkillSearchBarController> ().setButtonText ( WordingFilters.getReference(2));
 		this.skillChoices=new GameObject[3];
 		for(int i=0;i<this.skillChoices.Length;i++)
 		{
@@ -520,12 +520,12 @@ public class NewSkillBookController : MonoBehaviour
 		}
 		this.cardTypeFilterTitle = GameObject.Find ("CardTypeFilterTitle");
 		this.cardTypeFilterTitle.GetComponent<TextMeshPro> ().color = ApplicationDesignRules.whiteTextColor;
-		this.cardTypeFilterTitle.GetComponent<TextMeshPro> ().text = "Faction".ToUpper ();
+		this.cardTypeFilterTitle.GetComponent<TextMeshPro> ().text =  WordingFilters.getReference(3).ToUpper ();
 		this.skillTypeFilterTitle = GameObject.Find ("SkillTypeFilterTitle");
 		this.skillTypeFilterTitle.GetComponent<TextMeshPro> ().color = ApplicationDesignRules.whiteTextColor;
-		this.skillTypeFilterTitle.GetComponent<TextMeshPro> ().text = "Discipline".ToUpper ();
+		this.skillTypeFilterTitle.GetComponent<TextMeshPro> ().text = WordingFilters.getReference(11).ToUpper ();
 		this.availabilityFilterTitle = GameObject.Find ("AvailabilityFilterTitle");
-		this.availabilityFilterTitle.GetComponent<TextMeshPro> ().text = "Disponibilité".ToUpper ();
+		this.availabilityFilterTitle.GetComponent<TextMeshPro> ().text = WordingFilters.getReference(12).ToUpper ();
 		this.availabilityFilterTitle.GetComponent<TextMeshPro> ().color = ApplicationDesignRules.whiteTextColor;
 		this.mainCamera = gameObject;
 		this.sceneCamera = GameObject.Find ("sceneCamera");
@@ -1117,7 +1117,7 @@ public class NewSkillBookController : MonoBehaviour
 	{
 		this.helpSubtitle.SetActive (true);
 		this.helpLine.SetActive (true);
-		this.helpSubtitle.transform.GetComponent<TextMeshPro> ().text = "Cristalopédia présente l'ensemble des compétences du jeu. Chaque compétence est caractérisée par un certain nombre d'informations";
+		this.helpSubtitle.transform.GetComponent<TextMeshPro> ().text = WordingSkillBook.getReference(12);
 		for(int i=0;i<this.helpContents.Length;i++)
 		{
 			this.helpContents[i].SetActive(true);
@@ -1131,7 +1131,7 @@ public class NewSkillBookController : MonoBehaviour
 		}
 		this.helpSubtitle.SetActive (true);
 		this.helpLine.SetActive (true);
-		this.helpSubtitle.transform.GetComponent<TextMeshPro> ().text = "Ces indicateurs mesurent votre progression dans l'acquisition des compétences. Essayez de toute les collectionner !";
+		this.helpSubtitle.transform.GetComponent<TextMeshPro> ().text = WordingSkillBook.getReference(13);
 		this.stats[0].transform.FindChild ("Value").GetComponent<TextMeshPro> ().text= model.ownSkillsIdList.Count.ToString();
 		this.stats[1].transform.FindChild ("Value").GetComponent<TextMeshPro> ().text= this.globalPercentage.ToString()+ " %";
 		this.stats[2].transform.FindChild ("Value").GetComponent<TextMeshPro> ().text= model.player.CollectionPoints.ToString ();
@@ -1341,7 +1341,7 @@ public class NewSkillBookController : MonoBehaviour
 		this.isSearchingSkill=false;
 		this.cleanSkillAutocompletion();
 		this.skillSearchBar.GetComponent<NewSkillBookSkillSearchBarController>().resetSearchBar();
-		this.skillSearchBar.GetComponent<NewSkillBookSkillSearchBarController>().setButtonText("Rechercher");
+		this.skillSearchBar.GetComponent<NewSkillBookSkillSearchBarController>().setButtonText(WordingSkillBook.getReference(2));
 		this.valueSkill="Rechercher";
 	}
 	public void filterASkill(int id)

@@ -10,9 +10,9 @@ public class CheckPasswordPopUpController : MonoBehaviour
 {
 	public void reset()
 	{
-		gameObject.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Saisissez votre mot de passe";
+		gameObject.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingCheckPasswordPopUp.getReference(0);
 		gameObject.transform.FindChild ("Error").GetComponent<TextMeshPro> ().text = "";
-		gameObject.transform.FindChild ("Button").FindChild ("Title").GetComponent<TextMeshPro> ().text = "Confirmer";
+		gameObject.transform.FindChild ("Button").FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingCheckPasswordPopUp.getReference(1);
 		gameObject.transform.FindChild ("Input").GetComponent<InputPasswordGuiController> ().setText ("");
 		gameObject.transform.FindChild ("Button").GetComponent<CheckPasswordPopUpConfirmButtonController> ().reset ();
 		gameObject.transform.FindChild ("CloseButton").GetComponent<CheckPasswordPopUpCloseButtonController> ().reset ();

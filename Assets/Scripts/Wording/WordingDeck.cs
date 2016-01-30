@@ -21,5 +21,11 @@ public class WordingDeck
 		references.Add(new string[]{"Aucune armée formée",""}); //4
 		references.Add(new string[]{"Aucune armée",""});//5 <-- libellé nécessairement court
 		references.Add(new string[]{"Armée sélectionnée",""}); //6
+		references.Add(new string[]{"Le nom ne doit pas dépasser 12 caractères",""}); //7
+		references.Add(new string[]{"Vous ne pouvez pas utiliser de caractères spéciaux",""}); //8
+		references.Add(new string[]{"Nom déjà utilisé",""}); //9
+		references.Add(new string[]{"Veuillez saisir un nom",""}); //10
+		references.Add(new string[]{"Vous devez créer un deck avant de sélectionner une carte",""}); //11
+		references.Add(new string[]{"Vous ne pouvez pas posséder dans votre équipe 2 cartes ayant la même compétence passive",""}); //12
 	}
 }

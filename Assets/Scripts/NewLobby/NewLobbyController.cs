@@ -244,16 +244,16 @@ public class NewLobbyController : MonoBehaviour
 		this.playButton.AddComponent<NewLobbyPlayButtonController> ();
 		this.statsBlock = Instantiate(this.blockObject) as GameObject;
 		this.statsBlockTitle = GameObject.Find ("StatsBlockTitle");
-		this.statsBlockTitle.GetComponent<TextMeshPro> ().text = "Statistiques";
+		this.statsBlockTitle.GetComponent<TextMeshPro> ().text = WordingLobby.getReference(0);
 		this.statsBlockTitle.GetComponent<TextMeshPro> ().color = ApplicationDesignRules.whiteTextColor;
 		this.lastResultsBlock = Instantiate(this.blockObject) as GameObject;
 		this.lastResultsBlockTitle = GameObject.Find ("LastResultsBlockTitle");
-		this.lastResultsBlockTitle.GetComponent<TextMeshPro> ().text = "Résultats";
+		this.lastResultsBlockTitle.GetComponent<TextMeshPro> ().text = WordingLobby.getReference(1);
 		this.lastResultsBlockTitle.GetComponent<TextMeshPro> ().color = ApplicationDesignRules.whiteTextColor;
 		this.competitionBlock = Instantiate(this.blockObject) as GameObject;
 		this.competitionBlockTitle = GameObject.Find ("CompetitionBlockTitle");
 		this.competitionBlockTitle.GetComponent<TextMeshPro> ().color = ApplicationDesignRules.whiteTextColor;
-		this.competitionBlockTitle.GetComponent<TextMeshPro>().text="Récompenses";
+		this.competitionBlockTitle.GetComponent<TextMeshPro>().text=WordingLobby.getReference(2);
 		this.paginationButtons = GameObject.Find ("Pagination");
 		this.paginationButtons.AddComponent<NewLobbyPaginationController> ();
 		this.paginationButtons.GetComponent<NewLobbyPaginationController> ().initialize ();
@@ -264,14 +264,14 @@ public class NewLobbyController : MonoBehaviour
 			this.stats[i]=GameObject.Find ("Stat"+i);
 			this.stats[i].transform.FindChild("Title").GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
 		}
-		this.stats[0].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text= "Victoires";
+		this.stats[0].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text=WordingLobby.getReference(3);
 		this.stats[0].transform.FindChild ("Subvalue").gameObject.SetActive (false);
-		this.stats[1].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text= "Défaites";
+		this.stats[1].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text= WordingLobby.getReference(4);
 		this.stats[1].transform.FindChild ("Subvalue").gameObject.SetActive (false);
-		this.stats[2].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text= "Classement combattant";
-		this.stats[3].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text= "Classement collectionneur";
+		this.stats[2].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text= WordingLobby.getReference(5);
+		this.stats[3].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text= WordingLobby.getReference(6);
 		this.popUp = GameObject.Find ("PopUp");
-		this.popUp.transform.FindChild ("Button").FindChild ("Title").GetComponent<TextMeshPro> ().text = "Continuer";
+		this.popUp.transform.FindChild ("Button").FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingLobby.getReference(7);
 		this.popUp.SetActive (false);
 		this.competitionPicture = GameObject.Find ("CompetitionPicture");
 		this.competitionPicture.GetComponent<SpriteRenderer> ().color = ApplicationDesignRules.whiteSpriteColor;
@@ -571,12 +571,12 @@ public class NewLobbyController : MonoBehaviour
 				Color textColor=new Color();
 				if(model.lastResults[this.pagination.chosenPage*this.pagination.nbElementsPerPage+i].HasWon)
 				{
-					description="Victoire le "+model.lastResults[this.pagination.chosenPage*this.pagination.nbElementsPerPage+i].Date.ToString("dd/MM/yyyy");
+					description=WordingLobby.getReference(10)+model.lastResults[this.pagination.chosenPage*this.pagination.nbElementsPerPage+i].Date.ToString(WordingDates.getDateFormat());
 					textColor=ApplicationDesignRules.blueColor;
 				}
 				else
 				{
-					description="Défaite le "+model.lastResults[this.pagination.chosenPage*this.pagination.nbElementsPerPage+i].Date.ToString("dd/MM/yyyy");
+					description=WordingLobby.getReference(11)+model.lastResults[this.pagination.chosenPage*this.pagination.nbElementsPerPage+i].Date.ToString(WordingDates.getDateFormat());
 					textColor=ApplicationDesignRules.redColor;
 				}
 
@@ -598,19 +598,19 @@ public class NewLobbyController : MonoBehaviour
 		this.stats[0].transform.FindChild ("Value").GetComponent<TextMeshPro> ().text= model.player.TotalNbWins.ToString ();
 		this.stats[1].transform.FindChild ("Value").GetComponent<TextMeshPro> ().text= model.player.TotalNbLooses.ToString ();
 		this.stats[2].transform.FindChild ("Value").GetComponent<TextMeshPro> ().text= model.player.Ranking.ToString ();
-		this.stats[2].transform.FindChild ("Subvalue").GetComponent<TextMeshPro> ().text= "("+model.player.RankingPoints.ToString()+" pts)";
+		this.stats[2].transform.FindChild ("Subvalue").GetComponent<TextMeshPro> ().text= WordingLobby.getReference(8)+model.player.RankingPoints.ToString()+WordingLobby.getReference(9);
 		this.stats[3].transform.FindChild ("Value").GetComponent<TextMeshPro> ().text= model.player.CollectionRanking.ToString ();
-		this.stats[3].transform.FindChild ("Subvalue").GetComponent<TextMeshPro> ().text= "("+model.player.CollectionPoints.ToString()+" pts)";	
+		this.stats[3].transform.FindChild ("Subvalue").GetComponent<TextMeshPro> ().text= WordingLobby.getReference(8)+model.player.CollectionPoints.ToString()+WordingLobby.getReference(9);	
 	}
 	public void drawCompetition()
 	{
 		if(this.isDivisionLobby)
 		{
 			this.mainBlockTitle.GetComponent<TextMeshPro>().text=model.currentDivision.Name;
-			string description="Hégémonie : "+model.currentDivision.TitlePrize.ToString()+" cristaux";
+			string description=WordingLobby.getReference(12)+model.currentDivision.TitlePrize.ToString()+WordingLobby.getReference(14);
 			if(model.currentDivision.NbWinsForPromotion!=-1)
 			{
-				description=description+"\nColonisation : "+model.currentDivision.PromotionPrize.ToString()+" cristaux";
+				description=description+WordingLobby.getReference(13)+model.currentDivision.PromotionPrize.ToString()+WordingLobby.getReference(14);
 			}
 			this.competitionDescription.GetComponent<TextMeshPro>().text=description;
 			this.competitionPicture.GetComponent<SpriteRenderer>().sprite=MenuController.instance.returnLargeCompetitionPicture(model.currentDivision.IdPicture);
@@ -618,7 +618,7 @@ public class NewLobbyController : MonoBehaviour
 		else
 		{
 			this.competitionBlockTitle.GetComponent<TextMeshPro>().text=model.currentCup.Name;
-			string description="Victoire : "+model.currentCup.CupPrize.ToString()+" cristaux";
+			string description=WordingLobby.getReference(15)+model.currentCup.CupPrize.ToString()+WordingLobby.getReference(14);
 			this.competitionDescription.GetComponent<TextMeshPro>().text=description;
 			this.competitionPicture.GetComponent<SpriteRenderer>().sprite=MenuController.instance.returnLargeCompetitionPicture(model.currentCup.IdPicture);
 		}
@@ -688,82 +688,82 @@ public class NewLobbyController : MonoBehaviour
 		{
 			if(model.currentDivision.Status==3) // Fin de saison + Promotion + Titre
 			{
-				content ="Bravo ! Votre domination sur la planète est sans limite ! Commencez dès maintenant l'exploration d'une nouvelle planète !";
+				content =WordingLobby.getReference(16);
 				displayPopUp=true;
 				this.isEndCompetition=true;
 			}
 			else if(model.currentDivision.Status==30) // Fin de saison + Titre
 			{
-				content ="Bravo ! Votre domination sur la planète est sans limite ! Prêt à recommencer ?";
+				content =WordingLobby.getReference(17);
 				displayPopUp=true;
 				this.isEndCompetition=true;
 			}
 			else if(model.currentDivision.Status==20) // Promotion obtenue au cours du match + Fin de saison
 			{
-				content="Bravo ! Grâce à cette victoire, vous pouvez dès maintenant commencer l'exploration d'une nouvelle planète !";
+				content=WordingLobby.getReference(18);
 				displayPopUp=true;
 				this.isEndCompetition=true;
 			}
 			else if(model.currentDivision.Status==2) // Promotion + Fin de saison
 			{
-				content="Bravo ! Vous pouvez dès maintenant commencer l'exploration d'une nouvelle planète !";
+				content=WordingLobby.getReference(19);
 				displayPopUp=true;
 				this.isEndCompetition=true;
 			}
 			else if(model.currentDivision.Status==21) // Promotion obtenue au cours du match
 			{
-				content="Vous pourrez prochainement explorer une nouvelle planète !";
+				content=WordingLobby.getReference(20);
 				displayPopUp=true;
 			}
 			else if(model.currentDivision.Status==10) // Maintien obtenu au cours du match + Fin de saison
 			{
-				content="Bravo grâce à cette victoire vous pourrez continuer l'exploration de cette planète !";
+				content=WordingLobby.getReference(21);
 				displayPopUp=true;
 				this.isEndCompetition=true;
 			}
 			else if(model.currentDivision.Status==1) // Maintien + Fin de saison
 			{
-				content="Vos efforts ont payé et vous permettent de maintenir votre présence sur cette planète !";
+				content=WordingLobby.getReference(22);
 				displayPopUp=true;
 				this.isEndCompetition=true;
 			}
 			else if(model.currentDivision.Status==11) // Maintien obtenu au cours du match
 			{
-				content="Votre victoire consolide votre présence sur cette planète !";
+				content=WordingLobby.getReference(23);
 				displayPopUp=true;
 			}
 			else if(model.currentDivision.Status==-1) // Relégation
 			{
-				content="Malheureusement vos efforts seront insuffisants pour vous maintenir.";
+				content=WordingLobby.getReference(24);
 				displayPopUp=true;
 			}
 		}
 		else
 		{
-			if(model.currentCup.Status==11) // Fin de saison + Promotion + Titre
-			{
-				content ="Bravo ! vous avez remporté la coupe ! Vos résultats en division vous permettent d'accéder à une nouvelle coupe.";
-				displayPopUp=true;
-				this.isEndCompetition=true;
-			}
-			else if(model.currentCup.Status==1) // Fin de saison + Titre
-			{
-				content ="Bravo ! vous avez remporté la coupe !";
-				displayPopUp=true;
-				this.isEndCompetition=true;
-			}
-			if(model.currentCup.Status==-11) // Fin de saison + Promotion + Titre
-			{
-				content ="Vous êtes éliminé... Vos résultats en division vous permettent désormais d'accéder à une nouvelle coupe";
-				displayPopUp=true;
-				this.isEndCompetition=true;
-			}
-			else if(model.currentCup.Status==-1) // Fin de saison + Titre
-			{
-				content ="Vous êtes élminé...";
-				displayPopUp=true;
-				this.isEndCompetition=true;
-			}
+//			if(model.currentCup.Status==11) // Fin de saison + Promotion + Titre
+//			{
+//				content ="Bravo ! vous avez remporté la coupe ! Vos résultats en division vous permettent d'accéder à une nouvelle coupe.";
+//				displayPopUp=true;
+//				this.isEndCompetition=true;
+//			}
+//			else if(model.currentCup.Status==1) // Fin de saison + Titre
+//			{
+//				content ="Bravo ! vous avez remporté la coupe !";
+//				displayPopUp=true;
+//				this.isEndCompetition=true;
+//			}
+//			if(model.currentCup.Status==-11) // Fin de saison + Promotion + Titre
+//			{
+//				content ="Vous êtes éliminé... Vos résultats en division vous permettent désormais d'accéder à une nouvelle coupe";
+//				displayPopUp=true;
+//				this.isEndCompetition=true;
+//			}
+//			else if(model.currentCup.Status==-1) // Fin de saison + Titre
+//			{
+//				content ="Vous êtes élminé...";
+//				displayPopUp=true;
+//				this.isEndCompetition=true;
+//			}
 		}
 		if(displayPopUp)
 		{
@@ -775,11 +775,11 @@ public class NewLobbyController : MonoBehaviour
 	{
 		if(this.isEndCompetition)
 		{
-			this.playButton.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Continuer";
+			this.playButton.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingLobby.getReference(25);
 		}
 		else
 		{
-			this.playButton.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Jouer";
+			this.playButton.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingLobby.getReference(26);
 		}
 	}
 	public void clickOnResultsProfile(int id)

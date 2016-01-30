@@ -10,11 +10,11 @@ public class EditInformationsPopUpController : MonoBehaviour
 {
 	public void reset(string input1, string input2, string input3)
 	{
-		gameObject.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Prénom";
-		gameObject.transform.FindChild ("Title2").GetComponent<TextMeshPro> ().text = "Nom";
-		gameObject.transform.FindChild ("Title3").GetComponent<TextMeshPro> ().text = "Mail";
+		gameObject.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingEditInformationsPopUp.getReference(0);
+		gameObject.transform.FindChild ("Title2").GetComponent<TextMeshPro> ().text =WordingEditInformationsPopUp.getReference(1);
+		gameObject.transform.FindChild ("Title3").GetComponent<TextMeshPro> ().text = WordingEditInformationsPopUp.getReference(2);
 		gameObject.transform.FindChild ("Error").GetComponent<TextMeshPro> ().text = "";
-		gameObject.transform.FindChild ("Button").FindChild ("Title").GetComponent<TextMeshPro> ().text = "Confirmer";
+		gameObject.transform.FindChild ("Button").FindChild ("Title").GetComponent<TextMeshPro> ().text =WordingEditInformationsPopUp.getReference(3);
 		gameObject.transform.FindChild ("Input").GetComponent<InputTextGuiController> ().setText (input1);
 		gameObject.transform.FindChild ("Input2").GetComponent<InputTextGuiController> ().setText (input2);
 		gameObject.transform.FindChild ("Input3").GetComponent<InputTextGuiController> ().setText (input3);

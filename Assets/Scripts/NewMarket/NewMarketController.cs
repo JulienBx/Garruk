@@ -289,11 +289,11 @@ public class NewMarketController : MonoBehaviour
 	{
 		if(cardsPagination.totalElements>0)
 		{
-			this.cardsNumberTitle.GetComponent<TextMeshPro>().text=("carte " +this.cardsPagination.elementDebut+" à "+this.cardsPagination.elementFin+" sur "+this.cardsPagination.totalElements ).ToUpper();
+			this.cardsNumberTitle.GetComponent<TextMeshPro>().text=(WordingPagination.getReference(0) +this.cardsPagination.elementDebut+WordingPagination.getReference(1)+this.cardsPagination.elementFin+WordingPagination.getReference(2)+this.cardsPagination.totalElements ).ToUpper();
 		}
 		else
 		{
-			this.cardsNumberTitle.GetComponent<TextMeshPro>().text="aucune carte à afficher".ToUpper();
+			this.cardsNumberTitle.GetComponent<TextMeshPro>().text=WordingPagination.getReference(3).ToUpper();
 		}
 	}
 	public void paginationHandler()
@@ -422,7 +422,7 @@ public class NewMarketController : MonoBehaviour
 		this.cardsScrollLine.GetComponent<SpriteRenderer> ().color = ApplicationDesignRules.whiteSpriteColor;
 		this.cards=new GameObject[0];
 		this.refreshMarketButton = GameObject.Find ("RefreshMarketButton");
-		this.refreshMarketButton.GetComponent<TextMeshPro> ().text = "Actualiser".ToUpper();
+		this.refreshMarketButton.GetComponent<TextMeshPro> ().text = WordingMarket.getReference(0).ToUpper();
 		this.refreshMarketButton.AddComponent<NewMarketRefreshButtonController> ();
 		this.refreshMarketButton.AddComponent<BoxCollider2D> ();
 		this.refreshMarketButton.SetActive (false);
@@ -430,7 +430,7 @@ public class NewMarketController : MonoBehaviour
 		this.filtersBlock = Instantiate (this.blockObject) as GameObject;
 		this.filtersBlockTitle = GameObject.Find ("FiltersBlockTitle");
 		this.filtersBlockTitle.GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
-		this.filtersBlockTitle.GetComponent<TextMeshPro> ().text = "Filtrer";
+		this.filtersBlockTitle.GetComponent<TextMeshPro> ().text = WordingFilters.getReference(0);
 
 		this.tabs=new GameObject[3];
 		for(int i=0;i<this.tabs.Length;i++)
@@ -439,9 +439,9 @@ public class NewMarketController : MonoBehaviour
 			this.tabs[i].AddComponent<NewMarketTabController>();
 			this.tabs[i].GetComponent<NewMarketTabController>().setId(i);
 		}
-		this.tabs[0].transform.FindChild("Title").GetComponent<TextMeshPro> ().text = ("Offres");
-		this.tabs[1].transform.FindChild("Title").GetComponent<TextMeshPro> ().text = ("Mes ventes");
-		this.tabs[2].transform.FindChild("Title").GetComponent<TextMeshPro> ().text = ("Mes Unités");
+		this.tabs[0].transform.FindChild("Title").GetComponent<TextMeshPro> ().text = (WordingMarket.getReference(0));
+		this.tabs[1].transform.FindChild("Title").GetComponent<TextMeshPro> ().text = (WordingMarket.getReference(1));
+		this.tabs[2].transform.FindChild("Title").GetComponent<TextMeshPro> ().text = (WordingMarket.getReference(2));
 	
 		this.cardsTypeFilters = new GameObject[10];
 		for(int i=0;i<this.cardsTypeFilters.Length;i++)
@@ -457,9 +457,9 @@ public class NewMarketController : MonoBehaviour
 		}
 		this.skillSearchBarTitle = GameObject.Find ("SkillSearchTitle");
 		this.skillSearchBarTitle.GetComponent<TextMeshPro> ().color = ApplicationDesignRules.whiteTextColor;
-		this.skillSearchBarTitle.GetComponent<TextMeshPro> ().text = "Compétence".ToUpper ();
+		this.skillSearchBarTitle.GetComponent<TextMeshPro> ().text = WordingFilters.getReference(1).ToUpper ();
 		this.skillSearchBar = GameObject.Find ("SkillSearchBar");
-		this.skillSearchBar.GetComponent<NewMarketSkillSearchBarController> ().setButtonText ("Rechercher");
+		this.skillSearchBar.GetComponent<NewMarketSkillSearchBarController> ().setButtonText (WordingFilters.getReference(2));
 		this.skillChoices=new GameObject[3];
 		for(int i=0;i<this.skillChoices.Length;i++)
 		{
@@ -470,13 +470,13 @@ public class NewMarketController : MonoBehaviour
 		}
 		this.cardTypeFilterTitle = GameObject.Find ("CardTypeFilterTitle");
 		this.cardTypeFilterTitle.GetComponent<TextMeshPro> ().color = ApplicationDesignRules.whiteTextColor;
-		this.cardTypeFilterTitle.GetComponent<TextMeshPro> ().text = "Faction".ToUpper ();
+		this.cardTypeFilterTitle.GetComponent<TextMeshPro> ().text = WordingFilters.getReference(3).ToUpper ();
 		this.valueFilterTitle = GameObject.Find ("ValueFilterTitle");
 		this.valueFilterTitle.GetComponent<TextMeshPro> ().color = ApplicationDesignRules.whiteTextColor;
-		this.valueFilterTitle.GetComponent<TextMeshPro> ().text = "Attribut".ToUpper ();
+		this.valueFilterTitle.GetComponent<TextMeshPro> ().text = WordingFilters.getReference(4).ToUpper ();
 		this.priceFilterTitle = GameObject.Find ("PriceFilterTitle");
 		this.priceFilterTitle.GetComponent<TextMeshPro> ().color = ApplicationDesignRules.whiteTextColor;
-		this.priceFilterTitle.GetComponent<TextMeshPro> ().text = "Prix".ToUpper ();
+		this.priceFilterTitle.GetComponent<TextMeshPro> ().text = WordingFilters.getReference(8).ToUpper ();
 		
 		this.cursors=new GameObject[this.valueFilters.Length];
 		for (int i=0;i<this.valueFilters.Length;i++)
@@ -511,10 +511,10 @@ public class NewMarketController : MonoBehaviour
 		this.marketBlock = Instantiate (this.blockObject) as GameObject;
 		this.marketBlockTitle = GameObject.Find ("MarketBlockTitle");
 		this.marketBlockTitle.GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
-		this.marketBlockTitle.GetComponent<TextMeshPro> ().text = "Le marché";
+		this.marketBlockTitle.GetComponent<TextMeshPro> ().text = WordingMarket.getReference(4);
 		this.marketSubtitle = GameObject.Find ("MarketSubtitle");
 		this.marketSubtitle.GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
-		this.marketSubtitle.GetComponent<TextMeshPro> ().text = "Bienvenue sur le marché. Vous pouvez ici acheter des cartes à d'autres joueurs et vendre vos cartes. Attention seules les cartes qui ne sont pas déjà ratachées à une équipe peuvent être mises en vente";
+		this.marketSubtitle.GetComponent<TextMeshPro> ().text =  WordingMarket.getReference(5);
 
 		this.filterButton = GameObject.Find ("FilterButton");
 		this.filterButton.AddComponent<NewMarketFiltersButtonController> ();
@@ -1071,7 +1071,7 @@ public class NewMarketController : MonoBehaviour
 		this.isSearchingSkill=false;
 		this.cleanSkillAutocompletion();
 		this.skillSearchBar.GetComponent<NewMarketSkillSearchBarController>().resetSearchBar();
-		this.skillSearchBar.GetComponent<NewMarketSkillSearchBarController>().setButtonText("Rechercher");
+		this.skillSearchBar.GetComponent<NewMarketSkillSearchBarController>().setButtonText(WordingFilters.getReference(2));
 		this.valueSkill="Rechercher";
 	}
 	public void cardTypeFilterHandler(int id)
@@ -1330,15 +1330,15 @@ public class NewMarketController : MonoBehaviour
 	{
 		if(value==1)
 		{
-			return "Rares";
+			return WordingFilters.getReference(5);
 		}
 		else if(value==2)
 		{
-			return "Très rares";
+			return  WordingFilters.getReference(6);
 		}
 		else
 		{
-			return "Toutes";
+			return  WordingFilters.getReference(7);
 		}
 	}
 	public Color getColorFilterIcon(int value)
@@ -1527,7 +1527,7 @@ public class NewMarketController : MonoBehaviour
 			}
 			else
 			{
-				MenuController.instance.displayErrorPopUp("Cette carte a été vendue, vous ne pouvez plus la consulter");
+				MenuController.instance.displayErrorPopUp(WordingMarket.getReference(6));
 			}
 		}
 	}

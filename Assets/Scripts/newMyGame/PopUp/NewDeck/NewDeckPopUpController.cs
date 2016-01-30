@@ -10,9 +10,9 @@ public class NewDeckPopUpController : MonoBehaviour
 {
 	public void reset()
 	{
-		gameObject.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Choisissez le nom de votre nouvelle équipe";
+		gameObject.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingNewDeckPopUp.getReference(0);
 		gameObject.transform.FindChild ("Error").GetComponent<TextMeshPro> ().text = "";
-		gameObject.transform.FindChild ("Button").FindChild ("Title").GetComponent<TextMeshPro> ().text = "Confirmer";
+		gameObject.transform.FindChild ("Button").FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingNewDeckPopUp.getReference(1);
 		gameObject.transform.FindChild ("Input").GetComponent<InputTextGuiController> ().setText ("");
 		gameObject.transform.FindChild ("Button").GetComponent<NewDeckPopUpConfirmButtonController> ().reset ();
 		gameObject.transform.FindChild ("CloseButton").GetComponent<NewDeckPopUpCloseButtonController> ().reset ();
