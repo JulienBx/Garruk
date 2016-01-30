@@ -161,21 +161,10 @@ public class newMyGameController : MonoBehaviour
 		}
 		if(isSearchingSkill)
 		{
-			if(ApplicationDesignRules.isMobileDevice)
+			if(this.skillSearchBar.GetComponent<newMyGameSkillSearchBarController>().getInputText().ToLower()!=this.valueSkill.ToLower())
 			{
-				this.skillSearchBar.GetComponent<newMyGameSkillSearchBarController>().setText(this.skillSearchBar.GetComponent<newMyGameSkillSearchBarController>().getText());
-			}
-			if(this.skillSearchBar.GetComponent<newMyGameSkillSearchBarController>().getText().ToLower()!=this.valueSkill.ToLower()	)
-			{
-				this.valueSkill=this.skillSearchBar.GetComponent<newMyGameSkillSearchBarController>().getText();
+				this.valueSkill=this.skillSearchBar.GetComponent<newMyGameSkillSearchBarController>().getInputText();
 				this.setSkillAutocompletion();
-			}
-			if(!this.skillSearchBar.GetComponent<newMyGameSkillSearchBarController>().getIsBeingUsed())
-			{
-					this.isSearchingSkill=false;
-					this.cleanSkillAutocompletion();
-					this.skillSearchBar.GetComponent<newMyGameSkillSearchBarController>().setText("Rechercher");
-					this.valueSkill="Rechercher";
 			}
 		}
 		if(this.isSearchingDeck)
@@ -228,7 +217,6 @@ public class newMyGameController : MonoBehaviour
 					camerasXPosition=this.filtersPositionX;
 					this.toSlideRight=false;
 					this.filtersDisplayed=true;
-					this.skillSearchBar.SetActive(true);
 					TutorialObjectController.instance.tutorialTrackPoint();
 				}
 			}
@@ -252,7 +240,6 @@ public class newMyGameController : MonoBehaviour
 	{
 		instance = this;
 		this.model = new NewMyGameModel ();
-		this.skillSearchBar = GameObject.Find ("SkillSearchBar");
 		this.sortingOrder = -1;
 		this.scrollIntersection = 3.8f;
 		this.mainContentDisplayed = true;
@@ -409,7 +396,8 @@ public class newMyGameController : MonoBehaviour
 		this.skillSearchBarTitle = GameObject.Find ("SkillSearchTitle");
 		this.skillSearchBarTitle.GetComponent<TextMeshPro> ().color = ApplicationDesignRules.whiteTextColor;
 		this.skillSearchBarTitle.GetComponent<TextMeshPro> ().text = "Compétence".ToUpper ();
-		this.skillSearchBar.GetComponent<newMyGameSkillSearchBarController> ().setText ("Rechercher");
+		this.skillSearchBar = GameObject.Find ("SkillSearchBar");
+		this.skillSearchBar.GetComponent<newMyGameSkillSearchBarController> ().setButtonText ("Rechercher");
 		this.skillChoices=new GameObject[3];
 		for(int i=0;i<this.skillChoices.Length;i++)
 		{
@@ -497,7 +485,7 @@ public class newMyGameController : MonoBehaviour
 		this.isSkillChosen = false;
 
 		this.cleanSkillAutocompletion ();
-		this.skillSearchBar.GetComponent<newMyGameSkillSearchBarController>().setText("Rechercher");
+		this.stopSearchingSkill();
 		if(this.sortingOrder!=-1)
 		{
 			this.sortButtons[this.sortingOrder].GetComponent<newMyGameSortButtonController>().setIsSelected(false);
@@ -616,7 +604,6 @@ public class newMyGameController : MonoBehaviour
 			this.toSlideLeft=false;
 			this.toSlideRight=false;
 			this.mainContentDisplayed=true;
-			this.skillSearchBar.SetActive(false);
 
 			if(isCardFocusedDisplayed)
 			{
@@ -659,7 +646,6 @@ public class newMyGameController : MonoBehaviour
 			this.lowerScrollCamera.SetActive(false);
 			this.upperScrollCamera.SetActive(false);
 			this.cardsPaginationLine.SetActive(true);
-			this.skillSearchBar.SetActive(true);
 
 			if(isCardFocusedDisplayed)
 			{
@@ -1068,11 +1054,6 @@ public class newMyGameController : MonoBehaviour
 				this.lowerScrollCamera.SetActive(true);
 				this.upperScrollCamera.SetActive(true);
 				this.sceneCamera.SetActive(false);
-				this.skillSearchBar.SetActive(false);
-			}
-			else
-			{
-				this.skillSearchBar.SetActive(true);
 			}
 			this.sceneCamera.transform.position=ApplicationDesignRules.sceneCameraStandardPosition;
 		}
@@ -1085,7 +1066,6 @@ public class newMyGameController : MonoBehaviour
 				this.sceneCamera.SetActive(true);
 			}
 			this.sceneCamera.transform.position=ApplicationDesignRules.sceneCameraFocusedCardPosition;
-			this.skillSearchBar.SetActive(false);
 		}
 
 	}
@@ -1138,9 +1118,16 @@ public class newMyGameController : MonoBehaviour
 			this.applyFilters();
 		}
 		this.cleanSkillAutocompletion();
-		this.skillSearchBar.GetComponent<newMyGameSkillSearchBarController>().setText("");
 		this.valueSkill = "";
 		this.isSearchingSkill = true;
+	}
+	public void stopSearchingSkill()
+	{
+		this.isSearchingSkill=false;
+		this.cleanSkillAutocompletion();
+		this.skillSearchBar.GetComponent<newMyGameSkillSearchBarController>().resetSearchBar();
+		this.skillSearchBar.GetComponent<newMyGameSkillSearchBarController>().setButtonText("Rechercher");
+		this.valueSkill="Rechercher";
 	}
 	public void cardTypeFilterHandler(int id)
 	{
@@ -1445,7 +1432,7 @@ public class newMyGameController : MonoBehaviour
 	{
 		this.skillsDisplayed = new List<int> ();
 		this.cleanSkillAutocompletion ();
-		this.skillSearchBar.GetComponent<newMyGameSkillSearchBarController>().setText(this.valueSkill);
+		this.skillSearchBar.GetComponent<newMyGameSkillSearchBarController>().setButtonText(this.valueSkill);
 		if(this.valueSkill.Length>0)
 		{
 			for (int i = 0; i < model.skillsList.Count; i++) 
@@ -1474,13 +1461,10 @@ public class newMyGameController : MonoBehaviour
 	public void filterASkill(int id)
 	{
 		this.isSearchingSkill = false;
-		if(ApplicationDesignRules.isMobileDevice)
-		{
-			this.skillSearchBar.GetComponent<newMyGameSkillSearchBarController>().closeKeyboard();
-		}
 		this.valueSkill = this.skillChoices[id].transform.FindChild("Title").GetComponent<TextMeshPro>().text;
 		this.isSkillChosen = true;
-		this.skillSearchBar.GetComponent<newMyGameSkillSearchBarController>().setText(this.valueSkill);
+		this.skillSearchBar.GetComponent<newMyGameSkillSearchBarController>().resetSearchBar();
+		this.skillSearchBar.GetComponent<newMyGameSkillSearchBarController>().setButtonText(this.valueSkill);
 		this.cleanSkillAutocompletion ();
 		this.cardsPagination.chosenPage = 0;
 		this.applyFilters ();
@@ -2085,7 +2069,6 @@ public class newMyGameController : MonoBehaviour
 		this.toSlideLeft=true;
 		this.toSlideRight=false;
 		this.filtersDisplayed=false;
-		this.skillSearchBar.SetActive(false);
 		TutorialObjectController.instance.tutorialTrackPoint();
 	}
 	public Camera returnCurrentCamera(bool isDeckCard)
@@ -2119,10 +2102,6 @@ public class newMyGameController : MonoBehaviour
 			}
 		}
 		return false;
-	}
-	public void setGUI(bool value)
-	{
-		this.skillSearchBar.GetComponent<newMyGameSkillSearchBarController>().setGUI(value);
 	}
 	#region TUTORIAL FUNCTIONS
 

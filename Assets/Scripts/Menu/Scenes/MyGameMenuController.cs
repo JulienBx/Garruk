@@ -42,9 +42,5 @@ public class MyGameMenuController : MenuController
 	{
 		newMyGameController.instance.backOfficeBackgroundClicked ();
 	}
-	public override void setGUI (bool value)
-	{
-		newMyGameController.instance.setGUI(value);
-	}
 }
 
