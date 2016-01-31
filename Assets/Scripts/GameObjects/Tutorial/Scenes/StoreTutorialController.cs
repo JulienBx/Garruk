@@ -29,8 +29,8 @@ public class StoreTutorialController : TutorialObjectController
 				this.displayArrow(false);
 				this.displayPopUp(2);
 				this.displayNextButton(true);
-				this.setPopUpTitle("Centre de recrutement");
-				this.setPopUpDescription("Dès leur arrivée sur Cristalia, les colons sont emmenés au centre de recrutement. Mieux vaut en effet ne pas se promener seul sur la planète... Votre pays vous a remis une somme d'argent que vous avez pu échanger contre la monnaie locale (le Cristal). Ceci devrait vous permettre de recruter quelques Cristaliens prets à se battre pour vous");
+				this.setPopUpTitle(WordingStoreTutorial.getTutorialContent(0));
+				this.setPopUpDescription(WordingStoreTutorial.getTutorialContent(1));
 				this.displayBackground(true);
 				this.displayExitButton(false);
 			}
@@ -84,8 +84,8 @@ public class StoreTutorialController : TutorialObjectController
 					this.displayArrow(false);
 					this.displayPopUp(0);
 					this.displayNextButton(true);
-					this.setPopUpTitle("Vos premières unités");
-					this.setPopUpDescription("Consultez-les attentivement pour comprendre leurs forces et faiblesses. Il est maintenant temps d'organiser vos troupes pour disputer votre premier combat");
+					this.setPopUpTitle(WordingStoreTutorial.getTutorialContent(2));
+					this.setPopUpDescription(WordingStoreTutorial.getTutorialContent(3));
 					this.displaySquareBackground(true);
 					this.displayExitButton(true);
 					this.setIsScrolling(false);
@@ -207,8 +207,8 @@ public class StoreTutorialController : TutorialObjectController
 				this.displayArrow(false);
 				this.displayPopUp(0);
 				this.displayNextButton(true);
-				this.setPopUpTitle("Les groupes");
-				this.setPopUpDescription("Certains cristaliens s'entrainent ensemble depuis leur enfance et peuvent etre recrutés à des tarifs intéressants");
+				this.setPopUpTitle(WordingStoreTutorial.getHelpContent(0));
+				this.setPopUpDescription(WordingStoreTutorial.getHelpContent(1));
 				this.displaySquareBackground(true);
 				this.displayExitButton(true);
 				this.displayDragHelp(false,false);
@@ -241,8 +241,8 @@ public class StoreTutorialController : TutorialObjectController
 				this.displayArrow(false);
 				this.displayPopUp(0);
 				this.displayNextButton(true);
-				this.setPopUpTitle("Acheter du Cristal");
-				this.setPopUpDescription("Pour investir sur de nouvelles unités et progresser plus rapidement");
+				this.setPopUpTitle(WordingStoreTutorial.getHelpContent(2));
+				this.setPopUpDescription(WordingStoreTutorial.getHelpContent(3));
 				this.displaySquareBackground(true);
 				this.displayExitButton(true);
 				this.displayDragHelp(false,false);
@@ -270,8 +270,8 @@ public class StoreTutorialController : TutorialObjectController
 				this.displayArrow(false);
 				this.displayPopUp(0);
 				this.displayNextButton(true);
-				this.setPopUpTitle("Les unités");
-				this.setPopUpDescription("Voici les unités que vous avez acquises au centre de recrutement. Elles sont directement transférées vers votre armée");
+				this.setPopUpTitle(WordingStoreTutorial.getHelpContent(4));
+				this.setPopUpDescription(WordingStoreTutorial.getHelpContent(5));
 				this.displaySquareBackground(true);
 				this.displayExitButton(false);
 

@@ -10,9 +10,9 @@ public class EditSellPricePopUpController : MonoBehaviour
 {
 	public void reset(int price)
 	{
-		gameObject.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Changer le prix de vente de l'unité sur le marché";
+		gameObject.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingEditSellPricePopUp.getReference(0);
 		gameObject.transform.FindChild ("Error").GetComponent<TextMeshPro> ().text = "";
-		gameObject.transform.FindChild ("Button").FindChild ("Title").GetComponent<TextMeshPro> ().text = "Confirmer";
+		gameObject.transform.FindChild ("Button").FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingEditSellPricePopUp.getReference(1);
 		gameObject.transform.FindChild ("Input").GetComponent<InputTextGuiController> ().setText (price.ToString());
 		gameObject.transform.FindChild ("Button").GetComponent<EditSellPricePopUpConfirmButtonController> ().reset ();
 		gameObject.transform.FindChild ("CloseButton").GetComponent<EditSellPricePopUpCloseButtonController> ().reset ();

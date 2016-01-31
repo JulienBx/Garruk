@@ -22,5 +22,6 @@ public class WordingStore
 		references.Add(new string[]{"Gagner des crédits",""}); //5
 		references.Add(new string[]{"J'y vais",""}); //6
 		references.Add(new string[]{"Merci de bien vouloir saisir une valeur",""}); //7
+		references.Add(new string[]{"Vendre",""}); //8
 	}
 }

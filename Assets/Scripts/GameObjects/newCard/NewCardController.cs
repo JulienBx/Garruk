@@ -181,7 +181,7 @@ public class NewCardController : NewFocusedCardController
 						skillPopUpXPosition=this.gameObject.transform.position.x;
 					}
 
-					this.skillPopUp.transform.FindChild("description").GetComponent<TextMeshPro>().text=this.c.getSkillText(this.c.Skills[skillDisplayed].Description);
+					this.skillPopUp.transform.FindChild("description").GetComponent<TextMeshPro>().text=this.c.getSkillText(WordingSkills.getDescription(this.c.Skills[skillDisplayed].Id,this.c.Skills[skillDisplayed].Power));
 					if(newSkillHovered==0)
 					{
 						this.skillPopUp.transform.position=new Vector3(skillPopUpXPosition,gameObject.transform.position.y-0.8f+(+0.6f)*(0.5f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y),-1f);
@@ -189,9 +189,9 @@ public class NewCardController : NewFocusedCardController
 					else
 					{
 						this.skillPopUp.transform.position=new Vector3(skillPopUpXPosition,gameObject.transform.position.y+0.8f+(-0.6f+(newSkillHovered-1f)*0.24f)*(0.5f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y),-1f);
-						this.skillPopUp.transform.FindChild("description").GetComponent<TextMeshPro>().text+=(". P : "+this.c.Skills[skillDisplayed].proba+"%");
+						this.skillPopUp.transform.FindChild("description").GetComponent<TextMeshPro>().text+=(WordingCard.getReference(0)+this.c.Skills[skillDisplayed].proba+WordingCard.getReference(1));
 					}
-					this.skillPopUp.transform.FindChild("title").GetComponent<TextMeshPro>().text=this.c.Skills[skillDisplayed].Name;
+					this.skillPopUp.transform.FindChild("title").GetComponent<TextMeshPro>().text=WordingSkills.getName(this.c.Skills[skillDisplayed].Id);
 				}
 			}
 			else

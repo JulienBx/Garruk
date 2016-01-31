@@ -75,8 +75,8 @@ public class MarketTutorialController : TutorialObjectController
 				this.displayArrow(false);
 				this.displayPopUp(1);
 				this.displayNextButton(true);
-				this.setPopUpTitle("Recruter sur le marché");
-				this.setPopUpDescription("Les colons peuvent acquérir des unités appartenant à leurs confrères, moyennant une compensation décidée par le vendeur. Les unités disponibles sur ce marché sont toutes visibles ici");
+				this.setPopUpTitle(WordingMarketTutorial.getHelpContent(0));
+				this.setPopUpDescription(WordingMarketTutorial.getHelpContent(1));
 				this.displaySquareBackground(true);
 				this.displayExitButton(true);
 				this.displayDragHelp(false,false);
@@ -113,8 +113,8 @@ public class MarketTutorialController : TutorialObjectController
 				this.displayArrow(false);
 				this.displayPopUp(0);
 				this.displayNextButton(true);
-				this.setPopUpTitle("Se repérer sur le marché");
-				this.setPopUpDescription("Le marché est immense, mais ces filtres vous permettront de mettre la main sur l'unité idéale pour vos équipes !");
+				this.setPopUpTitle(WordingMarketTutorial.getHelpContent(2));
+				this.setPopUpDescription(WordingMarketTutorial.getHelpContent(3));
 				this.displaySquareBackground(true);
 				this.displayExitButton(true);
 				this.displayDragHelp(false,false);

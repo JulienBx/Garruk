@@ -10,8 +10,8 @@ public class BuyXpPopUpController : MonoBehaviour
 {
 	public void reset(int price)
 	{
-		gameObject.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Confirmer la montée de niveau de l'unité (coûte " + price + " cristaux)";
-		gameObject.transform.FindChild ("Button").FindChild ("Title").GetComponent<TextMeshPro> ().text = "Confirmer";
+		gameObject.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingBuyXpPopUp.getReference(0) + price + WordingBuyXpPopUp.getReference(1);
+		gameObject.transform.FindChild ("Button").FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingBuyXpPopUp.getReference(2);
 		gameObject.transform.FindChild ("Button").GetComponent<BuyXpPopUpConfirmButtonController> ().reset ();
 		gameObject.transform.FindChild ("CloseButton").GetComponent<BuyXpPopUpCloseButtonController> ().reset ();
 	}

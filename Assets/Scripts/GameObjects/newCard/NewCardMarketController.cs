@@ -67,7 +67,7 @@ public class NewCardMarketController : NewCardController
 		if(this.c.onSale==0)
 		{
 			this.panelMarket.GetComponent<NewCardPanelMarketController>().setClickable(true);
-			this.panelMarket.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Vendre";
+			this.panelMarket.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingStore.getReference(8);
 			this.panelMarket.transform.FindChild("Cristal").gameObject.SetActive(false);
 		}
 		else 

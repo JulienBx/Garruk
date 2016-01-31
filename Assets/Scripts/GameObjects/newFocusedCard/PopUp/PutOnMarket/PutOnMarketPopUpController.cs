@@ -10,9 +10,9 @@ public class PutOnMarketPopUpController : MonoBehaviour
 {
 	public void reset()
 	{
-		gameObject.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Choisir le prix en vente de la carte sur le marché";
+		gameObject.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingPutOnMarketPopUp.getReference(0);
 		gameObject.transform.FindChild ("Error").GetComponent<TextMeshPro> ().text = "";
-		gameObject.transform.FindChild ("Button").FindChild ("Title").GetComponent<TextMeshPro> ().text = "Confirmer";
+		gameObject.transform.FindChild ("Button").FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingPutOnMarketPopUp.getReference(1);
 		gameObject.transform.FindChild ("Input").GetComponent<InputTextGuiController> ().setText ("");
 		gameObject.transform.FindChild ("Button").GetComponent<PutOnMarketPopUpConfirmButtonController> ().reset ();
 		gameObject.transform.FindChild ("CloseButton").GetComponent<PutOnMarketPopUpCloseButtonController> ().reset ();

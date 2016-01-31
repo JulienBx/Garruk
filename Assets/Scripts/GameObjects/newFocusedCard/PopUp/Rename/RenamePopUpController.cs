@@ -10,9 +10,9 @@ public class RenamePopUpController : MonoBehaviour
 {
 	public void reset(int price, string name)
 	{
-		gameObject.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Renommer l'unité pour " + price + " cristaux";
+		gameObject.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingRenamePopUp.getReference(0) + price + WordingRenamePopUp.getReference(1);
 		gameObject.transform.FindChild ("Error").GetComponent<TextMeshPro> ().text = "";
-		gameObject.transform.FindChild ("Button").FindChild ("Title").GetComponent<TextMeshPro> ().text = "Confirmer";
+		gameObject.transform.FindChild ("Button").FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingRenamePopUp.getReference(2);
 		gameObject.transform.FindChild ("Input").GetComponent<InputTextGuiController> ().setText (name);
 		gameObject.transform.FindChild ("Button").GetComponent<RenamePopUpConfirmButtonController> ().reset ();
 		gameObject.transform.FindChild ("CloseButton").GetComponent<RenamePopUpCloseButtonController> ().reset ();

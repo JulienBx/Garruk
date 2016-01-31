@@ -75,8 +75,8 @@ public class LobbyTutorialController : TutorialObjectController
 				this.displayArrow(false);
 				this.displayPopUp(1);
 				this.displayNextButton(true);
-				this.setPopUpTitle("Conquérir un satellite");
-				this.setPopUpDescription("La conquete des satellites de Cristalia vous permettra de gagner de plus en plus de cristal. Pour conquérir un satellite, il vous faudra défier de nombreux colons et les vaincre. Vous pouvez ici consulter l'état de la guerre sur le satellite sur lequel vous vous trouvez");
+				this.setPopUpTitle(WordingLobbyTutorial.getHelpContent(0));
+				this.setPopUpDescription(WordingLobbyTutorial.getHelpContent(1));
 				this.displaySquareBackground(true);
 				this.displayExitButton(true);
 				this.displayDragHelp(false,false);
@@ -109,8 +109,8 @@ public class LobbyTutorialController : TutorialObjectController
 				this.displayArrow(false);
 				this.displayPopUp(0);
 				this.displayNextButton(true);
-				this.setPopUpTitle("Mes derniers combats");
-				this.setPopUpDescription("Accédez ici à un compte-rendu de vos derniers combats sur le satellite");
+				this.setPopUpTitle(WordingLobbyTutorial.getHelpContent(2));
+				this.setPopUpDescription(WordingLobbyTutorial.getHelpContent(3));
 				this.displaySquareBackground(true);
 				this.displayExitButton(true);
 				this.displayDragHelp(false,false);
@@ -136,8 +136,8 @@ public class LobbyTutorialController : TutorialObjectController
 				this.displayArrow(false);
 				this.displayPopUp(1);
 				this.displayNextButton(true);
-				this.setPopUpTitle("Mon satellite");
-				this.setPopUpDescription("La guerre fait rage sur les satellites de Cristalia. Plus vous deviendrez fort, plus vous pourrez accéder à des satellites riches en ressources. Consultez ici la richesse du satellite et les conditions d'accès au suivant");
+				this.setPopUpTitle(WordingLobbyTutorial.getHelpContent(4));
+				this.setPopUpDescription(WordingLobbyTutorial.getHelpContent(5));
 				this.displaySquareBackground(true);
 				this.displayExitButton(true);
 				this.displayDragHelp(false,false);
@@ -163,8 +163,8 @@ public class LobbyTutorialController : TutorialObjectController
 				this.displayArrow(false);
 				this.displayPopUp(0);
 				this.displayNextButton(true);
-				this.setPopUpTitle("Mes statistiques");
-				this.setPopUpDescription("Ces statistiques vous permettront d'évaluer l'état de la conquete du satellite et votre niveau par rapport aux autres colons");
+				this.setPopUpTitle(WordingLobbyTutorial.getHelpContent(6));
+				this.setPopUpDescription(WordingLobbyTutorial.getHelpContent(7));
 				this.displaySquareBackground(true);
 				this.displayExitButton(true);
 				this.displayDragHelp(false,false);
