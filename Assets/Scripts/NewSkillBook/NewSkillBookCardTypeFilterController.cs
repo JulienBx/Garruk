@@ -3,7 +3,7 @@ using TMPro;
 
 public class NewSkillBookCardTypeFilterController : SpriteButtonController
 {	
-	public override void mainInstruction()
+	void OnMouseUp()
 	{
 		NewSkillBookController.instance.cardTypeFilterHandler (base.getId());	
 	}

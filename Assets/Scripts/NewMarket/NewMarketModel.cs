@@ -10,7 +10,7 @@ public class NewMarketModel
 {
 	
 	public string[] cardTypeList;
-	public IList<string> skillsList;
+	public IList<Skill> skillsList;
 	public IList<int> cardsSold;
 	public Cards cards;
 	public Cards newCards;
@@ -35,7 +35,7 @@ public class NewMarketModel
 		}
 		else
 
-		this.skillsList = new List<string> ();
+		this.skillsList = new List<Skill> ();
 		this.cards = new Cards();
 		this.newCards = new Cards ();
 		
@@ -209,13 +209,14 @@ public class NewMarketModel
 			}
 		}
 	}
-	private List<string> parseSkills(string[] skillsIds)
+	private List<Skill> parseSkills(string[] skillsIds)
 	{
-		List<string> skillsList = new List<string>();
+		List<Skill> skillsList = new List<Skill>();
 		for(int i = 0 ; i < skillsIds.Length-1 ; i++)
 		{
 			string [] tempString = skillsIds[i].Split(new string[] { "\\" }, System.StringSplitOptions.None); 
-			skillsList.Add (tempString[0]);
+			skillsList.Add(new Skill());
+			skillsList[i].Id=System.Convert.ToInt32(tempString[0]);
 		}
 		return skillsList;
 	}

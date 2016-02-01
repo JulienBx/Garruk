@@ -36,6 +36,5 @@ public class ProfileMenuController : MenuController
 	{
 		NewProfileController.instance.endMenuInitialization ();
 	}
-	
 }
 

@@ -73,8 +73,8 @@ public class SkillBookTutorialController : TutorialObjectController
 				this.displayArrow(false);
 				this.displayPopUp(1);
 				this.displayNextButton(true);
-				this.setPopUpTitle("Les compétences");
-				this.setPopUpDescription("Le cristal a entrainé des mutations inhabituelles sur les habitants de la planète, conférant à certains d'entre eux des compétences spécifiques. Bien connaitre ses compétences est la clé du succès dans ce monde, et la Cristalopedia vous permettra de vous documenter sur celles-ci.");
+				this.setPopUpTitle(WordingSkillBookTutorial.getHelpContent(0));
+				this.setPopUpDescription(WordingSkillBookTutorial.getHelpContent(1));
 				this.displaySquareBackground(true);
 				this.displayExitButton(true);
 				this.displayDragHelp(false,false);
@@ -111,8 +111,8 @@ public class SkillBookTutorialController : TutorialObjectController
 				this.displayArrow(false);
 				this.displayPopUp(0);
 				this.displayNextButton(true);
-				this.setPopUpTitle("Rechercher une compétence");
-				this.setPopUpDescription("Plus de 150 compétences étant disponibles, des filtres sont à votre disposition pour vous permettre de rechercher des compétences précises");
+				this.setPopUpTitle(WordingSkillBookTutorial.getHelpContent(2));
+				this.setPopUpDescription(WordingSkillBookTutorial.getHelpContent(3));
 				this.displaySquareBackground(true);
 				this.displayExitButton(true);
 				this.displayDragHelp(false,false);
@@ -141,8 +141,8 @@ public class SkillBookTutorialController : TutorialObjectController
 				this.displayArrow(false);
 				this.displayPopUp(0);
 				this.displayNextButton(true);
-				this.setPopUpTitle("Compétence");
-				this.setPopUpDescription("Le détail d'une compétence... bla bla bla bla");
+				this.setPopUpTitle(WordingSkillBookTutorial.getHelpContent(4));
+				this.setPopUpDescription(WordingSkillBookTutorial.getHelpContent(5));
 				this.displaySquareBackground(true);
 				this.displayExitButton(true);
 				this.displayDragHelp(false,false);

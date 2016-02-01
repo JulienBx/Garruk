@@ -101,7 +101,7 @@ public class NewStoreController : MonoBehaviour
 	
 	void Update () 
 	{
-		if (Input.touchCount == 1 && this.isSceneLoaded) 
+		if (Input.touchCount == 1 && this.isSceneLoaded  && TutorialObjectController.instance.getCanSwipe() && MenuController.instance.getCanSwipeAndScroll()) 
 		{
 			if(Input.touches[0].deltaPosition.x<-15f && Mathf.Abs(Input.touches[0].deltaPosition.y)<Mathf.Abs(Input.touches[0].deltaPosition.x))
 			{
@@ -196,7 +196,7 @@ public class NewStoreController : MonoBehaviour
 			this.mediumScrollCamera.transform.position=mediumCameraPosition;
 			this.lowerScrollCamera.transform.position=lowerCameraPosition;
 		}
-		if(ApplicationDesignRules.isMobileScreen && this.isSceneLoaded && this.mainContentDisplayed)
+		if(ApplicationDesignRules.isMobileScreen && this.isSceneLoaded && this.mainContentDisplayed && TutorialObjectController.instance.getCanScroll() && MenuController.instance.getCanSwipeAndScroll())
 		{
 			isScrolling = this.mediumScrollCamera.GetComponent<ScrollingController>().ScrollController();
 		}
@@ -239,7 +239,7 @@ public class NewStoreController : MonoBehaviour
 		this.packsBlock = Instantiate (this.blockObject) as GameObject;
 		this.packsBlockTitle = GameObject.Find ("PacksBlockTitle");
 		this.packsBlockTitle.GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
-		this.packsBlockTitle.GetComponent<TextMeshPro> ().text = "Acheter";
+		this.packsBlockTitle.GetComponent<TextMeshPro> ().text = WordingStore.getReference(0);
 		this.packsNumberTitle = GameObject.Find ("PacksNumberTitle");
 		this.packsNumberTitle.GetComponent<TextMeshPro> ().color = ApplicationDesignRules.whiteTextColor;
 
@@ -261,27 +261,27 @@ public class NewStoreController : MonoBehaviour
 		this.slideRightButton.AddComponent<NewStoreSlideRightButtonController> ();
 
 		this.backButton = GameObject.Find ("BackButton");
-		this.backButton.transform.FindChild("Title").GetComponent<TextMeshPro> ().text = "Retour";
+		this.backButton.transform.FindChild("Title").GetComponent<TextMeshPro> ().text = WordingStore.getReference(1);
 		this.backButton.AddComponent<NewStoreBackButtonController> ();
 		this.backButton.SetActive (false);
 
 		this.storeBlock = Instantiate (this.blockObject) as GameObject;
 		this.storeBlockTitle = GameObject.Find ("StoreBlockTitle");
 		this.storeBlockTitle.GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
-		this.storeBlockTitle.GetComponent<TextMeshPro> ().text = "La boutique";
+		this.storeBlockTitle.GetComponent<TextMeshPro> ().text = WordingStore.getReference(2);
 		this.storeSubtitle = GameObject.Find ("StoreSubtitle");
 		this.storeSubtitle.GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
-		this.storeSubtitle.GetComponent<TextMeshPro> ().text = "Faites l'acquisition de nouvelles recrues en sélectionnant le pack qui vous intéresse.";
+		this.storeSubtitle.GetComponent<TextMeshPro> ().text = WordingStore.getReference(3);
 
 		this.buyCreditsBlock = Instantiate (this.blockObject) as GameObject;
 		this.buyCreditsSubtitle = GameObject.Find ("BuyCreditsSubtitle");
 		this.buyCreditsSubtitle.GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
-		this.buyCreditsSubtitle.GetComponent<TextMeshPro> ().text = "Le meilleur moyen d'accéder aux cartes rares";
+		this.buyCreditsSubtitle.GetComponent<TextMeshPro> ().text = WordingStore.getReference(4);
 		this.buyCreditsBlockTitle = GameObject.Find ("BuyCreditsBlockTitle");
 		this.buyCreditsBlockTitle.GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
-		this.buyCreditsBlockTitle.GetComponent<TextMeshPro> ().text = "Gagner des crédits";
+		this.buyCreditsBlockTitle.GetComponent<TextMeshPro> ().text = WordingStore.getReference(5);
 		this.buyCreditsButton = GameObject.Find ("BuyCreditsButton");
-		this.buyCreditsButton.transform.FindChild("Title").GetComponent<TextMeshPro> ().text = "J'y vais";
+		this.buyCreditsButton.transform.FindChild("Title").GetComponent<TextMeshPro> ().text = WordingStore.getReference(6);
 		this.buyCreditsButton.AddComponent<NewStoreBuyCreditsButtonController> ();
 
 		this.focusedCard = GameObject.Find ("FocusedCard");
@@ -343,11 +343,11 @@ public class NewStoreController : MonoBehaviour
 	{
 		if(packsPagination.totalElements>0)
 		{
-			this.packsNumberTitle.GetComponent<TextMeshPro>().text=("pack " +this.packsPagination.elementDebut+" à "+this.packsPagination.elementFin+" sur "+this.packsPagination.totalElements ).ToUpper();
+			this.packsNumberTitle.GetComponent<TextMeshPro>().text=(WordingPagination.getReference(6) +this.packsPagination.elementDebut+WordingPagination.getReference(1)+this.packsPagination.elementFin+WordingPagination.getReference(2)+this.packsPagination.totalElements ).ToUpper();
 		}
 		else
 		{
-			this.packsNumberTitle.GetComponent<TextMeshPro>().text="aucun pack à afficher".ToUpper();
+			this.packsNumberTitle.GetComponent<TextMeshPro>().text=WordingPagination.getReference(7).ToUpper();
 		}
 	}
 	public void resize()
@@ -1082,7 +1082,7 @@ public class NewStoreController : MonoBehaviour
 				return System.Convert.ToInt32(credits);
 			}
 		}
-		this.addCreditsPopUp.transform.GetComponent<AddCreditsPopUpController>().setError("Merci de bien vouloir saisir une valeur");
+		this.addCreditsPopUp.transform.GetComponent<AddCreditsPopUpController>().setError(WordingStore.getReference(7));
 		return -1;
 	}
 	public void moneyUpdate()

@@ -130,7 +130,7 @@ public class NewHomePageController : MonoBehaviour
 		this.sliderTimer += Time.deltaTime;
 		this.notificationsTimer += Time.deltaTime;
 
-		if (Input.touchCount == 1 && this.isSceneLoaded) 
+		if (Input.touchCount == 1 && this.isSceneLoaded &&  TutorialObjectController.instance.getCanSwipe() && MenuController.instance.getCanSwipeAndScroll()) 
 		{
 			if(Mathf.Abs(Input.touches[0].deltaPosition.y)>1f && Mathf.Abs(Input.touches[0].deltaPosition.y)>Mathf.Abs(Input.touches[0].deltaPosition.x))
 			{
@@ -426,7 +426,7 @@ public class NewHomePageController : MonoBehaviour
 		this.deckBlock = Instantiate (this.blockObject) as GameObject;
 		this.deckBlockTitle = GameObject.Find ("DeckBlockTitle");
 		this.deckBlockTitle.GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
-		this.deckBlockTitle.GetComponent<TextMeshPro> ().text = "Mon armée";
+		this.deckBlockTitle.GetComponent<TextMeshPro> ().text = WordingHomePage.getReference(0);
 		this.deckSelectionButton = GameObject.Find ("DeckSelectionButton");
 		this.deckSelectionButton.AddComponent<NewHomePageDeckSelectionButtonController> ();
 		this.deckTitle = GameObject.Find ("DeckTitle");
@@ -452,14 +452,14 @@ public class NewHomePageController : MonoBehaviour
 			this.cardsHalos[i]=GameObject.Find ("CardHalo"+i);
 			this.cardsHalos[i].transform.FindChild("Title").GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
 		}
-		this.cardsHalos [0].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "CAPITAINE \n1er à jouer";
-		this.cardsHalos [1].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "LIEUTENANT \n2ème à jouer";
-		this.cardsHalos [2].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "SERGENT \n3ème à jouer";
-		this.cardsHalos [3].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "SOLDAT \n4ème à jouer";
+		this.cardsHalos [0].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingDeck.getReference(0);
+		this.cardsHalos [1].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text =WordingDeck.getReference(1);
+		this.cardsHalos [2].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingDeck.getReference(2);
+		this.cardsHalos [3].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingDeck.getReference(3);
 		this.playBlock = Instantiate (this.blockObject) as GameObject;
 		this.playBlockTitle = GameObject.Find ("PlayBlockTitle");
 		this.playBlockTitle.GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
-		this.playBlockTitle.GetComponent<TextMeshPro> ().text = "Jouer";
+		this.playBlockTitle.GetComponent<TextMeshPro> ().text =  WordingHomePage.getReference(1);
 		this.friendlyGameButton = GameObject.Find ("FriendlyGameButton");
 		this.friendlyGameButton.AddComponent<NewHomePageCompetitionController> ();
 		this.friendlyGameButton.GetComponent<NewHomePageCompetitionController> ().setId (0);
@@ -489,7 +489,7 @@ public class NewHomePageController : MonoBehaviour
 		this.storeBlock = Instantiate (this.blockObject) as GameObject;
 		this.storeBlockTitle = GameObject.Find ("StoreBlockTitle");
 		this.storeBlockTitle.GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
-		this.storeBlockTitle.GetComponent<TextMeshPro> ().text = "Recruter";
+		this.storeBlockTitle.GetComponent<TextMeshPro> ().text =  WordingHomePage.getReference(2);
 		this.newsfeedBlock = Instantiate (this.blockObject) as GameObject;
 		this.newsfeedBlockTitle = GameObject.Find ("NewsfeedBlockTitle");
 		this.newsfeedBlockTitle.GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
@@ -500,9 +500,9 @@ public class NewHomePageController : MonoBehaviour
 			this.tabs[i].AddComponent<NewHomePageTabController>();
 			this.tabs[i].GetComponent<NewHomePageTabController>().setId(i);
 		}
-		this.tabs[0].transform.FindChild("Title").GetComponent<TextMeshPro> ().text = ("Alertes");
-		this.tabs[1].transform.FindChild("Title").GetComponent<TextMeshPro> ().text = ("News");
-		this.tabs[2].transform.FindChild("Title").GetComponent<TextMeshPro> ().text = ("Amis");
+		this.tabs[0].transform.FindChild("Title").GetComponent<TextMeshPro> ().text =  WordingHomePage.getReference(3);
+		this.tabs[1].transform.FindChild("Title").GetComponent<TextMeshPro> ().text =  WordingHomePage.getReference(4);
+		this.tabs[2].transform.FindChild("Title").GetComponent<TextMeshPro> ().text =  WordingHomePage.getReference(5);
 		this.contents = new GameObject[0];
 		this.friendsStatusButtons=new GameObject[0];
 		this.challengeButtons = new GameObject[0];
@@ -656,7 +656,7 @@ public class NewHomePageController : MonoBehaviour
 		this.friendlyGamePicture.transform.position = new Vector3 (ApplicationDesignRules.blockHorizontalSpacing + playBlockUpperLeftPosition.x + competitionsBlockSize / 2f, playBlockUpperLeftPosition.y - 1.95f, 0f);
 		this.divisionGamePicture.transform.position = new Vector3 (ApplicationDesignRules.blockHorizontalSpacing+playBlockUpperLeftPosition.x + competitionsBlockSize / 2f + 1f * (competitionsBlockSize + gapBetweenCompetitionsBlock), playBlockUpperLeftPosition.y - 1.95f, 0f);
 		//this.cupGamePicture.transform.position = new Vector3 (0.3f+playBlockUpperLeftPosition.x + competitionsBlockSize / 2f + 2f * (competitionsBlockSize + gapBetweenCompetitionsBlock), playBlockUpperLeftPosition.y - 1.95f, 0f);
-		
+
 		this.friendlyGameButton.transform.position = new Vector3 (ApplicationDesignRules.blockHorizontalSpacing + playBlockUpperLeftPosition.x + competitionsBlockSize / 2f, playBlockUpperLeftPosition.y - 2.9f, 0f);
 		this.divisionGameButton.transform.position = new Vector3 (ApplicationDesignRules.blockHorizontalSpacing+playBlockUpperLeftPosition.x + competitionsBlockSize / 2f + 1f * (competitionsBlockSize + gapBetweenCompetitionsBlock), playBlockUpperLeftPosition.y - 2.9f, 0f);
 		//this.cupGameButton.transform.position = new Vector3 (0.3f+playBlockUpperLeftPosition.x + competitionsBlockSize / 2f + 2f * (competitionsBlockSize + gapBetweenCompetitionsBlock), playBlockUpperLeftPosition.y - 2.9f, 0f);
@@ -877,7 +877,7 @@ public class NewHomePageController : MonoBehaviour
 		else
 		{
 			this.deckSelectionButton.SetActive(false);
-			this.deckTitle.GetComponent<TextMeshPro> ().text = ("Aucune armée formée").ToUpper();
+			this.deckTitle.GetComponent<TextMeshPro> ().text = (WordingDeck.getReference(5)).ToUpper();
 		}
 		for(int i=0;i<this.deckCards.Length;i++)
 		{
@@ -1218,7 +1218,7 @@ public class NewHomePageController : MonoBehaviour
 				this.contents[i].SetActive(true);
 				this.contents[i].transform.FindChild("description").GetComponent<TextMeshPro>().text=model.notifications[this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i].Content;
 				this.contents[i].transform.FindChild("picture").GetComponent<SpriteRenderer>().sprite=MenuController.instance.returnThumbPicture(model.notifications[this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i].SendingUser.idProfilePicture);
-				this.contents[i].transform.FindChild("date").GetComponent<TextMeshPro>().text=model.notifications[this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i].Notification.Date.ToString("dd/MM/yyyy");
+				this.contents[i].transform.FindChild("date").GetComponent<TextMeshPro>().text=model.notifications[this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i].Notification.Date.ToString(WordingDates.getDateFormat());
 				this.contents[i].transform.FindChild("username").GetComponent<TextMeshPro>().text=model.notifications[this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i].SendingUser.Username;
 				if(!model.notifications[this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i].Notification.IsRead)
 				{
@@ -1259,7 +1259,7 @@ public class NewHomePageController : MonoBehaviour
 				this.contents[i].SetActive(true);
 				this.contents[i].transform.FindChild("description").GetComponent<TextMeshPro>().text=model.notifications[this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i].Content;
 				this.contents[i].transform.FindChild("picture").GetComponent<SpriteRenderer>().sprite=MenuController.instance.returnThumbPicture(model.notifications[this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i].SendingUser.idProfilePicture);
-				this.contents[i].transform.FindChild("date").GetComponent<TextMeshPro>().text=model.notifications[this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i].Notification.Date.ToString("dd/MM/yyyy");
+				this.contents[i].transform.FindChild("date").GetComponent<TextMeshPro>().text=model.notifications[this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i].Notification.Date.ToString(WordingDates.getDateFormat());
 				this.contents[i].transform.FindChild("username").GetComponent<TextMeshPro>().text=model.notifications[this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i].SendingUser.Username;
 				if(!model.notifications[this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i].Notification.IsRead)
 				{
@@ -1324,16 +1324,16 @@ public class NewHomePageController : MonoBehaviour
 				switch(model.users[this.friendsToBeDisplayed[this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i]].OnlineStatus)
 				{
 				case 0:
-					connectionState = "n'est pas en ligne";
+					connectionState = WordingSocial.getReference(3);
 					connectionStateColor=ApplicationDesignRules.whiteTextColor;
 					break;
 				case 1:
-					connectionState = "est disponible pour un défi !";
+					connectionState = WordingSocial.getReference(4);
 					connectionStateColor=ApplicationDesignRules.blueColor;
 					this.challengeButtons[i].SetActive(true);
 					break;
 				case 2:
-					connectionState = "est entrain de jouer";
+					connectionState = WordingSocial.getReference(5);
 					connectionStateColor=ApplicationDesignRules.redColor;
 					break;
 				}
@@ -1355,32 +1355,32 @@ public class NewHomePageController : MonoBehaviour
 	}
 	public void drawCompetitions()
 	{	
-		this.friendlyGameTitle.GetComponent<TextMeshPro> ().text = "Entrainement".ToUpper ();
-		this.divisionGameTitle.GetComponent<TextMeshPro> ().text = "Conquête".ToUpper ();
+		this.friendlyGameTitle.GetComponent<TextMeshPro> ().text = WordingGameModes.getReference(0).ToUpper ();
+		this.divisionGameTitle.GetComponent<TextMeshPro> ().text = WordingGameModes.getReference(1).ToUpper ();
 		//this.cupGameTitle.GetComponent<TextMeshPro> ().text = model.currentCup.Name.ToUpper ();
 
-		this.friendlyGameButton.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Jouer";
+		this.friendlyGameButton.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingGameModes.getReference(2);
 
 		string divisionState;
 		if(model.player.NbGamesDivision>0)
 		{
-			divisionState="Continuer";
+			divisionState=WordingGameModes.getReference(3);
 		}
 		else
 		{
-			divisionState="Commencer";
+			divisionState=WordingGameModes.getReference(4);
 		}
 		this.divisionGameButton.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = divisionState;
 
-		string cupState;
-		if(model.player.NbGamesCup>0)
-		{
-			divisionState="Rejoindre";
-		}
-		else
-		{
-			divisionState="Démarrer";
-		}
+//		string cupState;
+//		if(model.player.NbGamesCup>0)
+//		{
+//			divisionState="Rejoindre";
+//		}
+//		else
+//		{
+//			divisionState="Démarrer";
+//		}
 		//this.cupGameButton.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = divisionState.ToUpper ();
 
 	}
@@ -1494,7 +1494,7 @@ public class NewHomePageController : MonoBehaviour
 	{
 		if(this.deckDisplayed==-1)
 		{
-			MenuController.instance.displayErrorPopUp("Vous ne pouvez lancer de match sans avoir au préalable créé un deck");
+			MenuController.instance.displayErrorPopUp(WordingGameModes.getReference(5));
 		}
 		else
 		{
@@ -1601,11 +1601,11 @@ public class NewHomePageController : MonoBehaviour
 	{
 		if(this.deckDisplayed==-1)
 		{
-			MenuController.instance.displayErrorPopUp("Vous ne pouvez lancer de match sans avoir au préalable créé un deck");
+			MenuController.instance.displayErrorPopUp(WordingGameModes.getReference(5));
 		}
 		else if(model.users [this.friendsToBeDisplayed[this.friendsDisplayed[challengeButtonId]]].OnlineStatus!=1)
 		{
-			MenuController.instance.displayErrorPopUp("Votre adversaire n'est plus disponible");
+			MenuController.instance.displayErrorPopUp(WordingGameModes.getReference(6));
 		}
 		else
 		{
@@ -1740,7 +1740,7 @@ public class NewHomePageController : MonoBehaviour
 	{
 		for(int i=0;i<this.contents.Length;i++)
 		{
-			this.contents[i].transform.FindChild("new").GetComponent<TextMeshPro>().text="Nouveau !";
+			this.contents[i].transform.FindChild("new").GetComponent<TextMeshPro>().text=WordingNotifications.getReference(0);
 			this.contents[i].transform.FindChild("new").GetComponent<TextMeshPro>().color=ApplicationDesignRules.redColor;
 			this.contents[i].transform.FindChild("description").GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
 			this.contents[i].transform.FindChild("username").GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
@@ -1758,7 +1758,7 @@ public class NewHomePageController : MonoBehaviour
 		{
 			this.challengeButtons[i].AddComponent<NewHomePageChallengeButtonController>();
 			this.challengeButtons[i].GetComponent<NewHomePageChallengeButtonController>().setId(i);
-			this.challengeButtons[i].transform.FindChild("Title").GetComponent<TextMeshPro>().text="Défier";
+			this.challengeButtons[i].transform.FindChild("Title").GetComponent<TextMeshPro>().text=WordingSocial.getReference(0);
 		}
 	}
 	public void initializeFriendsStatusButton()
@@ -1771,8 +1771,8 @@ public class NewHomePageController : MonoBehaviour
 			this.friendsStatusButtons[2*i+1].GetComponent<NewHomePageFriendsStatusDeclineButtonController>().setId(i);
 			this.friendsStatusButtons[2*i].SetActive(false);
 			this.friendsStatusButtons[2*i+1].SetActive(false);
-			this.friendsStatusButtons[2*i].transform.FindChild("Title").GetComponent<TextMeshPro>().text="Oui";
-			this.friendsStatusButtons[2*i+1].transform.FindChild("Title").GetComponent<TextMeshPro>().text="Non";
+			this.friendsStatusButtons[2*i].transform.FindChild("Title").GetComponent<TextMeshPro>().text=WordingSocial.getReference(1);
+			this.friendsStatusButtons[2*i+1].transform.FindChild("Title").GetComponent<TextMeshPro>().text=WordingSocial.getReference(2);
 		}
 	}
 	#region TUTORIAL FUNCTIONS

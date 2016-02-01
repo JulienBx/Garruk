@@ -10,9 +10,9 @@ public class AddCreditsPopUpController : MonoBehaviour
 {
 	public void reset()
 	{
-		gameObject.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Combien de crédits souhaitez-vous ajouter ?";
+		gameObject.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingAddCreditsPopUp.getReference(0);
 		gameObject.transform.FindChild ("Error").GetComponent<TextMeshPro> ().text = "";
-		gameObject.transform.FindChild ("Button").FindChild ("Title").GetComponent<TextMeshPro> ().text = "Confirmer";
+		gameObject.transform.FindChild ("Button").FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingAddCreditsPopUp.getReference(1);
 		gameObject.transform.FindChild ("Input").GetComponent<InputTextGuiController> ().setText ("");
 		gameObject.transform.FindChild ("Button").GetComponent<AddCreditsPopUpConfirmButtonController> ().reset ();
 		gameObject.transform.FindChild ("CloseButton").GetComponent<AddCreditsPopUpCloseButtonController> ().reset ();

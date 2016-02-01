@@ -28,6 +28,7 @@ public class TutorialObjectController : MonoBehaviour
 	private bool moveHorizontal;
 	private bool inversedMove;
 	public bool isResizing;
+	public bool canScroll;
 
 	private GameObject arrow;
 	private GameObject popUpTitle;
@@ -111,6 +112,9 @@ public class TutorialObjectController : MonoBehaviour
 		this.dragHelp = gameObject.transform.FindChild ("DragHelp").gameObject;
 		this.scrollDownHelp = gameObject.transform.FindChild("ScrollDownHelp").gameObject;
 		this.scrollUpHelp=gameObject.transform.FindChild("ScrollUpHelp").gameObject;
+		gameObject.transform.FindChild ("PopUp").FindChild("NextButton").FindChild("Title").GetComponent<TextMeshPro>().text=WordingTutorial.getReference(3);
+		gameObject.transform.FindChild ("PopUpSmall").FindChild("NextButton").FindChild("Title").GetComponent<TextMeshPro>().text=WordingTutorial.getReference(3);
+		gameObject.transform.FindChild ("PopUpLarge").FindChild("NextButton").FindChild("Title").GetComponent<TextMeshPro>().text=WordingTutorial.getReference(3);
 	}
 	void Start () 
 	{	
@@ -123,7 +127,7 @@ public class TutorialObjectController : MonoBehaviour
 	{
 		this.isTutorialLaunched = true;
 		this.isTutorialDisplayed = isDisplayed;
-		this.exitButton.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Quitter le tutoriel";
+		this.exitButton.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingTutorial.getReference(0);
 		MenuController.instance.setIsUserBusy (true);
 		this.launchSequence (getStartSequenceId(tutorialStep));
 		if(!isDisplayed)
@@ -134,7 +138,7 @@ public class TutorialObjectController : MonoBehaviour
 	public void startHelp()
 	{
 		this.isHelpLaunched = true;
-		this.exitButton.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Quitter l'aide";
+		this.exitButton.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingTutorial.getReference(1);
 		MenuController.instance.setIsUserBusy (true);
 		this.launchHelpSequence(0);
 	}
@@ -145,6 +149,10 @@ public class TutorialObjectController : MonoBehaviour
 	public bool getIsTutorialDisplayed()
 	{
 		return this.isTutorialDisplayed;
+	}
+	public bool getIsHelpLaunched()
+	{
+		return this.isHelpLaunched;
 	}
 	public void setTutorialStep(int id)
 	{
@@ -349,8 +357,8 @@ public class TutorialObjectController : MonoBehaviour
 			{
 				this.displayPopUp(0);
 				this.displayNextButton(false);
-				this.setPopUpTitle("Une équipe, vite !");
-				this.setPopUpDescription("Avant de pouvoir aller plus loin, il vous faut créer une équipe de combattants prete à vous défendre dans cet environnement hostile");
+				this.setPopUpTitle(WordingTutorial.getTutorialContent(0));
+				this.setPopUpDescription(WordingTutorial.getTutorialContent(1));
 				this.displayBackground(true);
 				this.displayExitButton(true);
 				this.displayDragHelp(false,false);
@@ -372,10 +380,11 @@ public class TutorialObjectController : MonoBehaviour
 		case 101: // Texte pour indiquer au joueur qu'il doit cliquer sur "Jouer" pour faire un premier match
 			if(!isResizing)
 			{
+				this.canScroll=false;
 				this.displayPopUp(0);
 				this.displayNextButton(false);
-				this.setPopUpTitle("Premier combat");
-				this.setPopUpDescription("Il est temps de participer à votre premier combat, votre adversaire vous attend dans l'arène");
+				this.setPopUpTitle(WordingTutorial.getTutorialContent(2));
+				this.setPopUpDescription(WordingTutorial.getTutorialContent(3));
 				this.displayBackground(true);
 				this.displayExitButton(true);
 				this.displayDragHelp(false,false);
@@ -438,8 +447,8 @@ public class TutorialObjectController : MonoBehaviour
 				this.setUpArrow();
 				this.displayPopUp(1);
 				this.displayNextButton(true);
-				this.setPopUpTitle("Classe d'unité");
-				this.setPopUpDescription("Les cristaliens se divisent en dix classes d'unités, chacune possédant ses propres compétences. \n\nLa première compétence de l'unité est sa compétence passive, lui conférant des bonus permanents.Enfin l'expérience de l'unité lui permet d'acquérir de nouvelles compétences et de faire progresser ses caractéristiques");
+				this.setPopUpTitle(WordingTutorial.getHelpContent(0));
+				this.setPopUpDescription(WordingTutorial.getHelpContent(1));
 				this.displaySquareBackground(true);
 				this.displayExitButton(true);
 				this.displayDragHelp(false,false);
@@ -454,8 +463,8 @@ public class TutorialObjectController : MonoBehaviour
 				this.setDownArrow();
 				this.displayPopUp(0);
 				this.displayNextButton(true);
-				this.setPopUpTitle("Compétences");
-				this.setPopUpDescription("Chaque Cristalien a développé des compétences uniques au contact du Cristal (plus de 150 découvertes à ce jour). Chaque cristalien peut posséder 3 compétences en plus de sa compétence passive.");
+				this.setPopUpTitle(WordingTutorial.getHelpContent(2));
+				this.setPopUpDescription(WordingTutorial.getHelpContent(3));
 				this.displaySquareBackground(true);
 				this.displayExitButton(true);
 				this.displayDragHelp(false,false);
@@ -470,8 +479,8 @@ public class TutorialObjectController : MonoBehaviour
 				this.setDownArrow();
 				this.displayPopUp(1);
 				this.displayNextButton(true);
-				this.setPopUpTitle("Caractéristiques");
-				this.setPopUpDescription("Les caractéristiques déterminent la force et la santé de l'unité. Dépendantes de la classe, elles peuvent etre améliorées avec l'expérience. La santé se régènère à la fin de chaque combat, les blessures létales ayant été abolies il y a quelques années");
+				this.setPopUpTitle(WordingTutorial.getHelpContent(4));
+				this.setPopUpDescription(WordingTutorial.getHelpContent(5));
 				this.displaySquareBackground(true);
 				this.displayExitButton(true);
 				this.displayDragHelp(false,false);
@@ -490,8 +499,8 @@ public class TutorialObjectController : MonoBehaviour
 				this.displayArrow(false);
 				this.displayPopUp(0);
 				this.displayNextButton(true);
-				this.setPopUpTitle("Compétence");
-				this.setPopUpDescription("Le détail d'une compétence... bla bla bla bla");
+				this.setPopUpTitle(WordingTutorial.getHelpContent(6));
+				this.setPopUpDescription(WordingTutorial.getHelpContent(7));
 				this.displaySquareBackground(true);
 				this.displayExitButton(true);
 				this.displayDragHelp(false,false);
@@ -717,7 +726,7 @@ public class TutorialObjectController : MonoBehaviour
 	}
 	public void displayCantAccessPopUp ()
 	{
-		MenuController.instance.displayErrorPopUp ("Vous êtes encore en apprentissage !  \n Attendez d'avoir disputé votre premier match \npour pouvoir ensuite réaliser cette action");
+		MenuController.instance.displayErrorPopUp (WordingTutorial.getReference(3));
 	}
 	public virtual void hideTutorial()
 	{
@@ -790,6 +799,43 @@ public class TutorialObjectController : MonoBehaviour
 		else
 		{
 			return false;
+		}
+	}
+	public bool getCanSwipe()
+	{
+		if(isHelpLaunched)
+		{
+			return false;
+		}
+		else if(isTutorialLaunched && isTutorialDisplayed)
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
+	public bool getCanScroll()
+	{
+		if(isTutorialLaunched) 
+		{
+			if(!isTutorialDisplayed)
+			{
+				return true;
+			}
+			else
+			{
+				return canScroll;
+			}
+		}
+		else if(isHelpLaunched)
+		{
+			return false;
+		}
+		else
+		{
+			return true;
 		}
 	}
 }

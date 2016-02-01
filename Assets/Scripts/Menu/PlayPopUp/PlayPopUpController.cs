@@ -54,20 +54,20 @@ public class PlayPopUpController : MonoBehaviour
 	}
 	private void initializePopUp()
 	{
-		gameObject.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Choisir un type de match";
-		gameObject.transform.FindChild ("Button0").FindChild ("Title").GetComponent<TextMeshPro> ().text = "Entrainement";
-		gameObject.transform.FindChild ("quitButton").FindChild ("Title").GetComponent<TextMeshPro> ().text = "Annuler";
+		gameObject.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingPlayPopUp.getReference(0);
+		gameObject.transform.FindChild ("Button0").FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingGameModes.getReference(0);
+		gameObject.transform.FindChild ("quitButton").FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingPlayPopUp.getReference(1);
 		for(int i=0;i<3;i++)
 		{
 			gameObject.transform.FindChild("Button"+i).GetComponent<PlayPopUpCompetitionButtonController>().setId(i);
 		}
-		gameObject.transform.FindChild("deckList").FindChild("currentDeck").FindChild ("Title").GetComponent<TextMeshPro> ().text = "Armée sélectionnée";
-		gameObject.transform.FindChild("deckList").FindChild("currentDeck").FindChild("deckName").GetComponent<TextMeshPro> ().text="Aucune armée";
+		gameObject.transform.FindChild("deckList").FindChild("currentDeck").FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingDeck.getReference(6);
+		gameObject.transform.FindChild("deckList").FindChild("currentDeck").FindChild("deckName").GetComponent<TextMeshPro> ().text=WordingDeck.getReference(5);
 		this.deckList=new List<GameObject>();
 	}
 	public void show()
 	{
-		gameObject.transform.FindChild ("Button1").FindChild ("Title").GetComponent<TextMeshPro> ().text = "Conquête";
+		gameObject.transform.FindChild ("Button1").FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingGameModes.getReference(1);
 		//gameObject.transform.FindChild ("Button2").FindChild ("Title").GetComponent<TextMeshPro> ().text = model.currentCup.Name;
 		gameObject.transform.FindChild ("Button1").FindChild ("Picture").GetComponent<SpriteRenderer> ().sprite = MenuController.instance.returnCompetitionPicture(model.currentDivision.IdPicture);
 		gameObject.transform.FindChild ("Button2").FindChild ("Picture").GetComponent<SpriteRenderer> ().sprite = MenuController.instance.returnCompetitionPicture(model.currentCup.IdPicture);
@@ -89,7 +89,7 @@ public class PlayPopUpController : MonoBehaviour
 		}
 		else
 		{
-			gameObject.transform.FindChild("deckList").FindChild("currentDeck").FindChild("deckName").GetComponent<TextMeshPro> ().text="Aucun deck créé";
+			gameObject.transform.FindChild("deckList").FindChild("currentDeck").FindChild("deckName").GetComponent<TextMeshPro> ().text=WordingDeck.getReference(5);
 			gameObject.transform.FindChild("deckList").FindChild("currentDeck").FindChild("selectButton").gameObject.SetActive(false);
 		}
 

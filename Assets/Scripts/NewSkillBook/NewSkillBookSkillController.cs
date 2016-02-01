@@ -86,7 +86,7 @@ public class NewSkillBookSkillController : MonoBehaviour
 		//this.picto.GetComponent<SpriteRenderer> ().sprite = MenuController.instance.returnSkillPicture (s.IdPicture);
 		if(s.Power==0)
 		{
-			this.level.transform.GetComponent<TextMeshPro>().text="Non acquise";
+			this.level.transform.GetComponent<TextMeshPro>().text=WordingSkillBook.getReference(14);
 			//this.contour0.transform.GetComponent<SpriteRenderer>().color=new Color(0f,0f,0f);
 			this.contour1.SetActive(true);
 			this.contour1.GetComponent<SpriteRenderer>().color=ApplicationDesignRules.whiteSpriteColor;
@@ -101,7 +101,7 @@ public class NewSkillBookSkillController : MonoBehaviour
 			this.background.GetComponent<SpriteRenderer>().color=ApplicationDesignRules.whiteSpriteColor;
 			this.contour1.SetActive(false);
 			this.contour0.SetActive(false);
-			this.level.transform.GetComponent<TextMeshPro>().text="Acquise (niveau "+(s.Power).ToString()+")";
+			this.level.transform.GetComponent<TextMeshPro>().text=WordingSkillBook.getReference(15)+(s.Power).ToString()+WordingSkillBook.getReference(16);
 			if(s.Power>7)
 			{
 				//this.contour0.transform.GetComponent<SpriteRenderer>().color=ApplicationDesignRules.redColor;

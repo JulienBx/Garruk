@@ -20,7 +20,7 @@ TextureImporter:
   bumpmap:
     convertToNormalMap: 0
     externalNormalMap: 0
-    heightScale: .25
+    heightScale: 0.25
     normalMapFilter: 0
   isReadable: 0
   grayScaleToAlpha: 0
@@ -40,11 +40,12 @@ TextureImporter:
   lightmap: 0
   rGBM: 0
   compressionQuality: 50
+  allowsAlphaSplitting: 0
   spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
-  spritePivot: {x: .5, y: .5}
+  spritePivot: {x: 0.5, y: 0.5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 108
   alphaIsTransparency: 1
@@ -60,8 +61,22 @@ TextureImporter:
         width: 219
         height: 50
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -108.5, y: 25}
+        - {x: -109.5, y: 17}
+        - {x: -109.5, y: -18}
+        - {x: -101.5, y: -23}
+        - {x: -98.5, y: -25}
+        - {x: 98.5, y: -25}
+        - {x: 109.5, y: -18}
+        - {x: 109.5, y: 20}
+        - {x: 104.5, y: 25}
+      - - {x: -84.5, y: 11}
+        - {x: 84.5, y: 11}
+        - {x: 84.5, y: -11}
+        - {x: -85.5, y: -10}
     - name: inputText
       rect:
         serializedVersion: 2
@@ -70,8 +85,9 @@ TextureImporter:
         width: 200
         height: 20
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
     - name: mainLogo
       rect:
         serializedVersion: 2
@@ -80,8 +96,48 @@ TextureImporter:
         width: 321
         height: 85
       alignment: 9
-      pivot: {x: .503115237, y: .494117647}
+      pivot: {x: 0.50311524, y: 0.49411765}
       border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 82.500015, y: -2}
+        - {x: 46.500015, y: -2}
+        - {x: 44.500015, y: -9}
+        - {x: 40.500015, y: -16}
+        - {x: 41.500015, y: -15}
+        - {x: 39.500015, y: -12}
+        - {x: 38.500015, y: -2}
+        - {x: -161.49998, y: -2}
+        - {x: -161.49998, y: -20}
+        - {x: -27.499985, y: -42}
+        - {x: 118.500015, y: -42}
+        - {x: 120.500015, y: -33}
+        - {x: 120.500015, y: -11}
+        - {x: 119.500015, y: -6}
+      - - {x: 119.500015, y: -9}
+        - {x: 118.500015, y: -11}
+        - {x: 118.500015, y: -41}
+        - {x: 119.500015, y: -42}
+        - {x: 154.50002, y: -42}
+        - {x: 154.50002, y: -14}
+        - {x: 149.50002, y: -9}
+      - - {x: -159.49998, y: 41}
+        - {x: -159.49998, y: 7}
+        - {x: -148.49998, y: 0}
+        - {x: -118.499985, y: 0}
+        - {x: -118.499985, y: 41}
+      - - {x: -82.499985, y: 0}
+        - {x: 159.50002, y: 0}
+        - {x: 159.50002, y: 39}
+        - {x: 138.50002, y: 43}
+        - {x: -114.499985, y: 43}
+        - {x: -120.499985, y: 39}
+        - {x: -120.499985, y: 4}
+        - {x: -119.499985, y: 0}
+        - {x: -87.499985, y: 0}
+        - {x: -85.499985, y: 2}
+        - {x: -85.499985, y: 7}
+        - {x: -85.499985, y: 5}
+    outline: []
   spritePackingTag: 
   userData: 
   assetBundleName: 

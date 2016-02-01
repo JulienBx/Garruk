@@ -877,27 +877,27 @@ public class NewFocusedCardController : MonoBehaviour
 		string error="";
 		if(tempString=="")
 		{
-			error="Merci de bien vouloir saisir un nom";
+			error=WordingFocusedCard.getReference(0);
 			tempString="";
 		}
 		else if(tempString==this.c.Title)
 		{
-			error="Le nom saisi est identique à l'ancien";
+			error=WordingFocusedCard.getReference(1);
 			tempString="";
 		}
 		else if(tempString.Length<4 )
 		{
-			error= "Le nom doit au moins comporter 4 caractères";
+			error= WordingFocusedCard.getReference(2);
 			tempString="";
 		}
 		else if(tempString.Length>11 )
 		{
-			error="Le nom doit faire moins de 12 caractères";
+			error=WordingFocusedCard.getReference(3);
 			tempString="";
 		}
 		else if(!Regex.IsMatch(tempString, @"^[a-zA-Z0-9_]+$"))
 		{
-			error="Vous ne pouvez pas utiliser de caractères spéciaux";
+			error=WordingFocusedCard.getReference(4);
 			tempString="";
 		}
 		this.renamePopUp.transform.GetComponent<RenamePopUpController> ().setError (error);
@@ -915,7 +915,7 @@ public class NewFocusedCardController : MonoBehaviour
 				return System.Convert.ToInt32(priceString);
 			}
 		}
-		this.editSellPricePopUp.transform.GetComponent<EditSellPricePopUpController> ().setError("Merci de bien vouloir saisir un prix");
+		this.editSellPricePopUp.transform.GetComponent<EditSellPricePopUpController> ().setError(WordingFocusedCard.getReference(5));
 		return -1;
 	}
 	public int putOnMarketSyntaxCheck()
@@ -930,7 +930,7 @@ public class NewFocusedCardController : MonoBehaviour
 				return System.Convert.ToInt32(priceString);
 			}
 		}
-		this.putOnMarketPopUp.transform.GetComponent<PutOnMarketPopUpController> ().setError("Merci de bien vouloir saisir un prix");
+		this.putOnMarketPopUp.transform.GetComponent<PutOnMarketPopUpController> ().setError(WordingFocusedCard.getReference(5));
 		return -1;
 	}
 	public void cleanFocus()
@@ -1281,8 +1281,8 @@ public class NewFocusedCardController : MonoBehaviour
 	{
 		this.skillPopUp.SetActive (true);
 		this.isSkillPopUpDisplayed = true;
-		this.skillPopUp.transform.FindChild ("title").GetComponent<TextMeshPro> ().text = "Probabilité de succès";
-		this.skillPopUp.transform.FindChild ("description").GetComponent<TextMeshPro> ().text = "Cette compétence a un taux de réussite de : "+this.c.Skills[id].proba+" %.";
+		this.skillPopUp.transform.FindChild ("title").GetComponent<TextMeshPro> ().text = WordingFocusedCard.getReference(6);
+		this.skillPopUp.transform.FindChild ("description").GetComponent<TextMeshPro> ().text = WordingFocusedCard.getReference(7)+this.c.Skills[id].proba.ToString()+WordingFocusedCard.getReference(8);
 
 		float skillProbaPopUpWorldSize=0f;
 		float skillProbaPopUpXPosition=0f;

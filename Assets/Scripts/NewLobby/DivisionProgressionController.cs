@@ -138,13 +138,13 @@ public class DivisionProgressionController : MonoBehaviour
 			titleNbWinsPosition.x = titleCirclePosition.x+0.5f;
 			titleNbWinsPosition.y=titleCirclePosition.y;
 			gameObject.transform.FindChild ("Gauge").FindChild ("TitleNbWins").localPosition = titleNbWinsPosition;
-			gameObject.transform.FindChild ("Gauge").FindChild ("TitleNbWins").GetComponent<TextMeshPro>().text=d.NbWinsForTitle.ToString()+" Victoires";
+			gameObject.transform.FindChild ("Gauge").FindChild ("TitleNbWins").GetComponent<TextMeshPro>().text=d.NbWinsForTitle.ToString()+WordingLobby.getReference(27);
 
 			Vector3 titleTitlePosition = gameObject.transform.FindChild ("Gauge").FindChild ("TitleTitle").localPosition;
 			titleTitlePosition.x = -titleCirclePosition.x-0.5f;
 			titleTitlePosition.y=titleCirclePosition.y;
 			gameObject.transform.FindChild ("Gauge").FindChild ("TitleTitle").localPosition = titleTitlePosition;
-			gameObject.transform.FindChild ("Gauge").FindChild ("TitleTitle").GetComponent<TextMeshPro>().text="Hégémonie";
+			gameObject.transform.FindChild ("Gauge").FindChild ("TitleTitle").GetComponent<TextMeshPro>().text=WordingLobby.getReference(28);
 
 		}
 		else
@@ -177,13 +177,13 @@ public class DivisionProgressionController : MonoBehaviour
 			promotionNbWinsPosition.x = promotionCirclePosition.x+0.5f;
 			promotionNbWinsPosition.y=promotionCirclePosition.y;
 			gameObject.transform.FindChild ("Gauge").FindChild ("PromotionNbWins").localPosition = promotionNbWinsPosition;
-			gameObject.transform.FindChild ("Gauge").FindChild ("PromotionNbWins").GetComponent<TextMeshPro>().text=d.NbWinsForPromotion.ToString()+" Victoires";
+			gameObject.transform.FindChild ("Gauge").FindChild ("PromotionNbWins").GetComponent<TextMeshPro>().text=d.NbWinsForPromotion.ToString()+WordingLobby.getReference(27);
 			
 			Vector3 promotionTitlePosition = gameObject.transform.FindChild ("Gauge").FindChild ("PromotionTitle").localPosition;
 			promotionTitlePosition.x = -promotionCirclePosition.x-0.5f;
 			promotionTitlePosition.y=promotionCirclePosition.y;
 			gameObject.transform.FindChild ("Gauge").FindChild ("PromotionTitle").localPosition = promotionTitlePosition;
-			gameObject.transform.FindChild ("Gauge").FindChild ("PromotionTitle").GetComponent<TextMeshPro>().text="Colonisation";
+			gameObject.transform.FindChild ("Gauge").FindChild ("PromotionTitle").GetComponent<TextMeshPro>().text=WordingLobby.getReference(29);
 
 		}
 		else
@@ -216,13 +216,13 @@ public class DivisionProgressionController : MonoBehaviour
 			relegationNbWinsPosition.x = relegationCirclePosition.x+0.5f;
 			relegationNbWinsPosition.y=relegationCirclePosition.y;
 			gameObject.transform.FindChild ("Gauge").FindChild ("RelegationNbWins").localPosition = relegationNbWinsPosition;
-			gameObject.transform.FindChild ("Gauge").FindChild ("RelegationNbWins").GetComponent<TextMeshPro>().text=d.NbWinsForRelegation.ToString()+" Victoires";
+			gameObject.transform.FindChild ("Gauge").FindChild ("RelegationNbWins").GetComponent<TextMeshPro>().text=d.NbWinsForRelegation.ToString()+WordingLobby.getReference(27);
 			
 			Vector3 relegationTitlePosition = gameObject.transform.FindChild ("Gauge").FindChild ("RelegationTitle").localPosition;
 			relegationTitlePosition.x = -relegationCirclePosition.x-0.5f;
 			relegationTitlePosition.y=relegationCirclePosition.y;
 			gameObject.transform.FindChild ("Gauge").FindChild ("RelegationTitle").localPosition = relegationTitlePosition;
-			gameObject.transform.FindChild ("Gauge").FindChild ("RelegationTitle").GetComponent<TextMeshPro>().text="Stabilisation";
+			gameObject.transform.FindChild ("Gauge").FindChild ("RelegationTitle").GetComponent<TextMeshPro>().text=WordingLobby.getReference(30);
 		}
 		else
 		{
@@ -235,36 +235,36 @@ public class DivisionProgressionController : MonoBehaviour
 		string nbWinsText = "";
 		if(remainingGames>1)
 		{
-			remainingGamesText =remainingGames+" combats restants";
+			remainingGamesText =remainingGames+WordingLobby.getReference(31);
 		}
 		else
 		{
-			remainingGamesText =remainingGames+" combat restant";
+			remainingGamesText =remainingGames+WordingLobby.getReference(32);
 		}
 		if(nbWins>1)
 		{
-			nbWinsText =nbWins+" victoires";
+			nbWinsText =nbWins+WordingLobby.getReference(33);
 		}
 		else
 		{
-			nbWinsText =nbWins+" victoire";
+			nbWinsText =nbWins+WordingLobby.getReference(34);
 		}
 
 		if(nbWins>=d.NbWinsForTitle)
 		{
-			NewLobbyController.instance.updateSubMainBlockTitle("Hégémonie atteinte\n"+remainingGamesText+"\n"+nbWinsText);
+			NewLobbyController.instance.updateSubMainBlockTitle(WordingLobby.getReference(35)+remainingGamesText+"\n"+nbWinsText);
 		}
 		else if(nbWins>=d.NbWinsForPromotion && d.NbWinsForPromotion!=-1)
 		{
-			NewLobbyController.instance.updateSubMainBlockTitle("Colonisation atteinte\n"+remainingGamesText+"\n"+nbWinsText);
+			NewLobbyController.instance.updateSubMainBlockTitle(WordingLobby.getReference(36)+remainingGamesText+"\n"+nbWinsText);
 		}
 		else if(nbWins>=d.NbWinsForRelegation || d.NbWinsForRelegation==-1)
 		{
-			NewLobbyController.instance.updateSubMainBlockTitle("Stabilisation atteinte\n"+remainingGamesText+"\n"+nbWinsText);
+			NewLobbyController.instance.updateSubMainBlockTitle(WordingLobby.getReference(37)+remainingGamesText+"\n"+nbWinsText);
 		}
 		else
 		{
-			NewLobbyController.instance.updateSubMainBlockTitle("Stabilisation en cours\n"+remainingGamesText+"\n"+nbWinsText);
+			NewLobbyController.instance.updateSubMainBlockTitle(WordingLobby.getReference(38)+remainingGamesText+"\n"+nbWinsText);
 		}
 		this.setGaugeCamera (currentRatio);
 	}

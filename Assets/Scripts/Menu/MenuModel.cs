@@ -20,19 +20,19 @@ public class MenuModel {
 	{
 		this.player = new User ();
 		this.buttonsLabels = new string[6];
-		this.buttonsLabels [0] = "Accueil";
-		this.buttonsLabels [1] = "Mes unités";
-		this.buttonsLabels [2] = "Recruter";
-		this.buttonsLabels [3] = "Le marché";
-		this.buttonsLabels [4] = "Cristalopedia";
-		this.buttonsLabels [5] = "Jouer";
+		this.buttonsLabels [0] = WordingMenu.getReference(0);
+		this.buttonsLabels [1] = WordingMenu.getReference(1);
+		this.buttonsLabels [2] = WordingMenu.getReference(2);
+		this.buttonsLabels [3] = WordingMenu.getReference(3);
+		this.buttonsLabels [4] = WordingMenu.getReference(4);
+		this.buttonsLabels [5] = WordingMenu.getReference(5);
 		this.mobileButtonsLabels = new string[6];
-		this.mobileButtonsLabels [0] = "Home";
-		this.mobileButtonsLabels [1] = "Units";
-		this.mobileButtonsLabels [2] = "Shop";
-		this.mobileButtonsLabels [3] = "Market";
-		this.mobileButtonsLabels [4] = "Wiki";
-		this.mobileButtonsLabels [5] = "Play";
+		this.mobileButtonsLabels [0] = WordingMenu.getReference(6);
+		this.mobileButtonsLabels [1] = WordingMenu.getReference(7);
+		this.mobileButtonsLabels [2] = WordingMenu.getReference(8);
+		this.mobileButtonsLabels [3] = WordingMenu.getReference(9);
+		this.mobileButtonsLabels [4] = WordingMenu.getReference(10);
+		this.mobileButtonsLabels [5] = WordingMenu.getReference(11);
 	}
 	
 	public IEnumerator loadUserData(int totalNbResultLimit){

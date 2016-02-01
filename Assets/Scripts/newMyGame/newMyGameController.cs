@@ -68,7 +68,6 @@ public class newMyGameController : MonoBehaviour
 	private bool isSearchingDeck;
 	private bool isMouseOnSelectDeckButton;
 	private bool isSkillChosen;
-	private bool isMouseOnSearchBar;
 	private string valueSkill;
 	private IList<int> skillsDisplayed;
 	
@@ -128,13 +127,13 @@ public class newMyGameController : MonoBehaviour
 
 	void Update()
 	{	
-		if (Input.touchCount == 1 && this.isSceneLoaded) 
+		if (Input.touchCount == 1 && this.isSceneLoaded && !this.isDragging && !this.isSlidingCursors && !this.isCardFocusedDisplayed && TutorialObjectController.instance.getCanSwipe() && MenuController.instance.getCanSwipeAndScroll()) 
 		{
 			if(Mathf.Abs(Input.touches[0].deltaPosition.y)>1f && Mathf.Abs(Input.touches[0].deltaPosition.y)>Mathf.Abs(Input.touches[0].deltaPosition.x))
 			{
 				this.isLeftClicked=false;
 			}
-			else if(Input.touches[0].deltaPosition.x<-15f && !this.isCardFocusedDisplayed && !this.isDragging && !this.isSlidingCursors)
+			else if(Input.touches[0].deltaPosition.x<-15f )
 			{
 				this.isLeftClicked=false;
 				if(this.mainContentDisplayed || this.toSlideLeft)
@@ -142,7 +141,7 @@ public class newMyGameController : MonoBehaviour
 					this.slideRight();
 				}
 			}
-			else if(Input.touches[0].deltaPosition.x>15f && !this.isCardFocusedDisplayed && !this.isDragging && !this.isSlidingCursors)
+			else if(Input.touches[0].deltaPosition.x>15f)
 			{
 				this.isLeftClicked=false;
 				if(this.filtersDisplayed || this.toSlideRight)
@@ -162,50 +161,10 @@ public class newMyGameController : MonoBehaviour
 		}
 		if(isSearchingSkill)
 		{
-			if(!Input.GetKey(KeyCode.Delete))
+			if(this.skillSearchBar.GetComponent<newMyGameSkillSearchBarController>().getInputText().ToLower()!=this.valueSkill.ToLower())
 			{
-				foreach (char c in Input.inputString) 
-				{
-					if(c==(char)KeyCode.Backspace && this.valueSkill.Length>0)
-					{
-						this.valueSkill = this.valueSkill.Remove(this.valueSkill.Length - 1);
-						this.skillSearchBar.transform.FindChild ("Title").GetComponent<TextMeshPro>().text = this.valueSkill;
-						this.setSkillAutocompletion();
-						if(this.valueSkill.Length==0)
-						{
-							this.isSearchingSkill=false;
-							this.skillSearchBar.transform.FindChild ("Title").GetComponent<TextMeshPro>().text = "Rechercher";
-							this.skillSearchBar.GetComponent<newMyGameSkillSearchBarController>().reset();
-						}
-					}
-					else if (c == "\b"[0])
-					{
-						if (valueSkill.Length != 0)
-						{
-							valueSkill= valueSkill.Substring(0, valueSkill.Length - 1);
-						}
-					}
-					else
-					{
-						if (c == "\n"[0] || c == "\r"[0])
-						{
-							
-						}
-						else if(this.valueSkill.Length<12)
-						{
-							this.valueSkill += c;
-							this.valueSkill=this.valueSkill.ToLower();
-							this.setSkillAutocompletion();
-						}
-					}
-				}
-			}
-			if((Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))&& !this.isMouseOnSearchBar)
-			{
-					this.isSearchingSkill=false;
-					this.cleanSkillAutocompletion();
-					this.skillSearchBar.transform.FindChild ("Title").GetComponent<TextMeshPro>().text = "Rechercher";
-					this.skillSearchBar.GetComponent<newMyGameSkillSearchBarController>().reset();
+				this.valueSkill=this.skillSearchBar.GetComponent<newMyGameSkillSearchBarController>().getInputText();
+				this.setSkillAutocompletion();
 			}
 		}
 		if(this.isSearchingDeck)
@@ -216,7 +175,7 @@ public class newMyGameController : MonoBehaviour
 				this.cleanDeckList();
 			}
 		}
-		if(ApplicationDesignRules.isMobileScreen && this.isSceneLoaded && !this.isLeftClicked && !this.isDragging && this.mainContentDisplayed && !this.isCardFocusedDisplayed)
+		if(ApplicationDesignRules.isMobileScreen && this.isSceneLoaded && !this.isLeftClicked && !this.isDragging && this.mainContentDisplayed && !this.isCardFocusedDisplayed && TutorialObjectController.instance.getCanScroll() && MenuController.instance.getCanSwipeAndScroll())
 		{
 			if(!toScrollCards)
 			{
@@ -343,11 +302,11 @@ public class newMyGameController : MonoBehaviour
 	{
 		if(cardsPagination.totalElements>0)
 		{
-			this.cardsNumberTitle.GetComponent<TextMeshPro>().text=("carte " +this.cardsPagination.elementDebut+" à "+this.cardsPagination.elementFin+" sur "+this.cardsPagination.totalElements ).ToUpper();
+			this.cardsNumberTitle.GetComponent<TextMeshPro>().text=(WordingPagination.getReference(0) +this.cardsPagination.elementDebut+WordingPagination.getReference(1)+this.cardsPagination.elementFin+WordingPagination.getReference(2)+this.cardsPagination.totalElements ).ToUpper();
 		}
 		else
 		{
-			this.cardsNumberTitle.GetComponent<TextMeshPro>().text="aucune carte à afficher".ToUpper();
+			this.cardsNumberTitle.GetComponent<TextMeshPro>().text=WordingPagination.getReference(3).ToUpper();
 		}
 	}
 	public void paginationHandler()
@@ -366,7 +325,7 @@ public class newMyGameController : MonoBehaviour
 		this.deckBlock = Instantiate (this.blockObject) as GameObject;
 		this.deckBlockTitle = GameObject.Find ("DeckBlockTitle");
 		this.deckBlockTitle.GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
-		this.deckBlockTitle.GetComponent<TextMeshPro> ().text = "Mes armées";
+		this.deckBlockTitle.GetComponent<TextMeshPro> ().text = WordingMyGame.getReference(1);
 		this.deckSelectionButton = GameObject.Find ("DeckSelectionButton");
 		this.deckSelectionButton.AddComponent<newMyGameDeckSelectionButtonController> ();
 		this.deckCreationButton = GameObject.Find ("DeckCreationButton");
@@ -398,14 +357,14 @@ public class newMyGameController : MonoBehaviour
 			this.cardsHalos[i]=GameObject.Find ("CardHalo"+i);
 			this.cardsHalos[i].transform.FindChild("Title").GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
 		}
-		this.cardsHalos [0].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "CAPITAINE \n1er à jouer";
-		this.cardsHalos [1].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "LIEUTENANT \n2ème à jouer";
-		this.cardsHalos [2].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "SERGENT \n3ème à jouer";
-		this.cardsHalos [3].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "SOLDAT \n4ème à jouer";
+		this.cardsHalos [0].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingDeck.getReference(0);
+		this.cardsHalos [1].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingDeck.getReference(1);
+		this.cardsHalos [2].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingDeck.getReference(2);
+		this.cardsHalos [3].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingDeck.getReference(3);
 		this.cardsBlock = Instantiate (this.blockObject) as GameObject;
 		this.cardsBlockTitle = GameObject.Find ("CardsBlockTitle");
 		this.cardsBlockTitle.GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
-		this.cardsBlockTitle.GetComponent<TextMeshPro> ().text = "Mes unités";
+		this.cardsBlockTitle.GetComponent<TextMeshPro> ().text = WordingMyGame.getReference(0);
 		this.cardsNumberTitle = GameObject.Find ("CardsNumberTitle");
 		this.cardsNumberTitle.GetComponent<TextMeshPro> ().color = ApplicationDesignRules.whiteTextColor;
 		this.cards=new GameObject[0];
@@ -421,7 +380,7 @@ public class newMyGameController : MonoBehaviour
 		this.filtersBlock = Instantiate (this.blockObject) as GameObject;
 		this.filtersBlockTitle = GameObject.Find ("FiltersBlockTitle");
 		this.filtersBlockTitle.GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
-		this.filtersBlockTitle.GetComponent<TextMeshPro> ().text = "Filtrer";
+		this.filtersBlockTitle.GetComponent<TextMeshPro> ().text = WordingFilters.getReference(0);
 		this.cardsTypeFilters = new GameObject[10];
 		for(int i=0;i<this.cardsTypeFilters.Length;i++)
 		{
@@ -436,10 +395,9 @@ public class newMyGameController : MonoBehaviour
 		}
 		this.skillSearchBarTitle = GameObject.Find ("SkillSearchTitle");
 		this.skillSearchBarTitle.GetComponent<TextMeshPro> ().color = ApplicationDesignRules.whiteTextColor;
-		this.skillSearchBarTitle.GetComponent<TextMeshPro> ().text = "Compétence".ToUpper ();
+		this.skillSearchBarTitle.GetComponent<TextMeshPro> ().text = WordingFilters.getReference(1).ToUpper ();
 		this.skillSearchBar = GameObject.Find ("SkillSearchBar");
-		this.skillSearchBar.AddComponent<newMyGameSkillSearchBarController> ();
-		this.skillSearchBar.GetComponent<newMyGameSkillSearchBarController> ().setText ("Rechercher");
+		this.skillSearchBar.GetComponent<newMyGameSkillSearchBarController> ().setButtonText (WordingFilters.getReference(2));
 		this.skillChoices=new GameObject[3];
 		for(int i=0;i<this.skillChoices.Length;i++)
 		{
@@ -450,10 +408,10 @@ public class newMyGameController : MonoBehaviour
 		}
 		this.cardTypeFilterTitle = GameObject.Find ("CardTypeFilterTitle");
 		this.cardTypeFilterTitle.GetComponent<TextMeshPro> ().color = ApplicationDesignRules.whiteTextColor;
-		this.cardTypeFilterTitle.GetComponent<TextMeshPro> ().text = "Faction".ToUpper ();
+		this.cardTypeFilterTitle.GetComponent<TextMeshPro> ().text = WordingFilters.getReference(3).ToUpper ();
 		this.valueFilterTitle = GameObject.Find ("ValueFilterTitle");
 		this.valueFilterTitle.GetComponent<TextMeshPro> ().color = ApplicationDesignRules.whiteTextColor;
-		this.valueFilterTitle.GetComponent<TextMeshPro> ().text = "Attribut".ToUpper ();
+		this.valueFilterTitle.GetComponent<TextMeshPro> ().text = WordingFilters.getReference(4).ToUpper ();
 
 		this.cursors=new GameObject[this.valueFilters.Length];
 		for (int i=0;i<this.valueFilters.Length;i++)
@@ -527,7 +485,7 @@ public class newMyGameController : MonoBehaviour
 		this.isSkillChosen = false;
 
 		this.cleanSkillAutocompletion ();
-		this.skillSearchBar.transform.FindChild ("Title").GetComponent<TextMeshPro>().text ="Rechercher";
+		this.stopSearchingSkill();
 		if(this.sortingOrder!=-1)
 		{
 			this.sortButtons[this.sortingOrder].GetComponent<newMyGameSortButtonController>().setIsSelected(false);
@@ -829,9 +787,18 @@ public class newMyGameController : MonoBehaviour
 		if(ApplicationDesignRules.isMobileScreen)
 		{
 			this.cardsPaginationButtons.transform.localPosition=new Vector3 (cardsBlockUpperRightPosition.x - ApplicationDesignRules.blockHorizontalSpacing - 2.5f*ApplicationDesignRules.roundButtonWorldSize.x, cardsBlockUpperRightPosition.y - ApplicationDesignRules.buttonVerticalSpacing - ApplicationDesignRules.roundButtonWorldSize.y / 2f, 0f);
+			this.skillSearchBarTitle.GetComponent<TextContainer>().anchorPosition =  TextContainerAnchors.Left;
+			this.skillSearchBarTitle.GetComponent<TextMeshPro>().alignment = TextAlignmentOptions.Left;
+			this.skillSearchBarTitle.transform.position = new Vector3 (ApplicationDesignRules.blockHorizontalSpacing+filtersBlockUpperLeftPosition.x, filtersBlockUpperLeftPosition.y - ApplicationDesignRules.subMainTitleVerticalSpacing, 0f);
+			this.skillSearchBar.transform.position = new Vector3 (ApplicationDesignRules.blockHorizontalSpacing+filtersBlockUpperLeftPosition.x+ApplicationDesignRules.inputTextWorldSize.x/2f, filtersBlockUpperLeftPosition.y - 1.375f, 0f);
+			for(int i=0;i<this.skillChoices.Length;i++)
+			{
+				this.skillChoices[i].transform.localScale=ApplicationDesignRules.listElementScale;
+				this.skillChoices[i].transform.position=new Vector3(this.skillSearchBar.transform.position.x,this.skillSearchBar.transform.position.y-ApplicationDesignRules.inputTextWorldSize.y/2f-(i+0.5f)*ApplicationDesignRules.listElementWorldSize.y+i*0.02f,-1f);
+			}
 			this.cardTypeFilterTitle.GetComponent<TextContainer>().anchorPosition =  TextContainerAnchors.Left;
 			this.cardTypeFilterTitle.GetComponent<TextMeshPro>().alignment = TextAlignmentOptions.Left;
-			this.cardTypeFilterTitle.transform.position = new Vector3 (ApplicationDesignRules.blockHorizontalSpacing+filtersBlockUpperLeftPosition.x, filtersBlockUpperLeftPosition.y - ApplicationDesignRules.subMainTitleVerticalSpacing, 0f);
+			this.cardTypeFilterTitle.transform.position = new Vector3 (ApplicationDesignRules.blockHorizontalSpacing+filtersBlockUpperLeftPosition.x, filtersBlockUpperLeftPosition.y - 1.9f, 0f);
 			float gapBetweenCardTypesFilters = (filtersBlockSize.x-2f*ApplicationDesignRules.blockHorizontalSpacing-5f*ApplicationDesignRules.cardTypeFilterWorldSize.x)/4f;
 			for(int i = 0;i<this.cardsTypeFilters.Length;i++)
 			{
@@ -839,28 +806,20 @@ public class newMyGameController : MonoBehaviour
 
 				if(i<5)
 				{
-					cardTypeFilterPosition.y=filtersBlockUpperLeftPosition.y-1.75f;
+					cardTypeFilterPosition.y=filtersBlockUpperLeftPosition.y-2.65f;
 					cardTypeFilterPosition.x=filtersBlockUpperLeftPosition.x+ApplicationDesignRules.blockHorizontalSpacing+0.5f*ApplicationDesignRules.cardTypeFilterWorldSize.x+i*(ApplicationDesignRules.cardTypeFilterWorldSize.x+gapBetweenCardTypesFilters);
 
 				}
 				else
 				{
-					cardTypeFilterPosition.y=filtersBlockUpperLeftPosition.y-2.90f;
+					cardTypeFilterPosition.y=filtersBlockUpperLeftPosition.y-3.8f;
 					cardTypeFilterPosition.x=filtersBlockUpperLeftPosition.x+ApplicationDesignRules.blockHorizontalSpacing+0.5f*ApplicationDesignRules.cardTypeFilterWorldSize.x+(i-5)*(ApplicationDesignRules.cardTypeFilterWorldSize.x+gapBetweenCardTypesFilters);
 
 				}
 				this.cardsTypeFilters[i].transform.position=cardTypeFilterPosition;
 				this.cardsTypeFilters[i].transform.localScale=ApplicationDesignRules.cardTypeFilterScale;
 			}
-			this.skillSearchBarTitle.GetComponent<TextContainer>().anchorPosition =  TextContainerAnchors.Left;
-			this.skillSearchBarTitle.GetComponent<TextMeshPro>().alignment = TextAlignmentOptions.Left;
-			this.skillSearchBarTitle.transform.position = new Vector3 (ApplicationDesignRules.blockHorizontalSpacing+filtersBlockUpperLeftPosition.x, filtersBlockUpperLeftPosition.y - 3.75f, 0f);
-			this.skillSearchBar.transform.position = new Vector3 (ApplicationDesignRules.blockHorizontalSpacing+filtersBlockUpperLeftPosition.x+ApplicationDesignRules.inputTextWorldSize.x/2f, filtersBlockUpperLeftPosition.y - 4.20f, 0f);
-			for(int i=0;i<this.skillChoices.Length;i++)
-			{
-				this.skillChoices[i].transform.localScale=ApplicationDesignRules.listElementScale;
-				this.skillChoices[i].transform.position=new Vector3(this.skillSearchBar.transform.position.x,this.skillSearchBar.transform.position.y-ApplicationDesignRules.inputTextWorldSize.y/2f-(i+0.5f)*ApplicationDesignRules.listElementWorldSize.y+i*0.02f,-1f);
-			}
+
 			this.valueFilterTitle.GetComponent<TextContainer>().anchorPosition =  TextContainerAnchors.Left;
 			this.valueFilterTitle.GetComponent<TextMeshPro>().alignment = TextAlignmentOptions.Left;
 			this.valueFilterTitle.transform.position=new Vector3 (ApplicationDesignRules.blockHorizontalSpacing+filtersBlockUpperLeftPosition.x, filtersBlockUpperLeftPosition.y - 4.65f, 0f);
@@ -930,8 +889,8 @@ public class newMyGameController : MonoBehaviour
 				this.skillChoices[i].transform.localScale=ApplicationDesignRules.listElementScale;
 				this.skillChoices[i].transform.position=new Vector3(this.skillSearchBar.transform.position.x,this.skillSearchBar.transform.position.y-ApplicationDesignRules.inputTextWorldSize.y/2f-(i+0.5f)*ApplicationDesignRules.listElementWorldSize.y+i*0.02f,-1f);
 			}
-			this.skillSearchBarTitle.GetComponent<TextContainer>().anchorPosition =  TextContainerAnchors.Middle;
-			this.skillSearchBarTitle.GetComponent<TextMeshPro>().alignment = TextAlignmentOptions.Center;
+			this.valueFilterTitle.GetComponent<TextContainer>().anchorPosition =  TextContainerAnchors.Middle;
+			this.valueFilterTitle.GetComponent<TextMeshPro>().alignment = TextAlignmentOptions.Center;
 			this.valueFilterTitle.transform.position=new Vector3 (0.3f+filtersBlockUpperLeftPosition.x + filtersSubBlockSize / 2f + 1f*(filtersSubBlockSize+gapBetweenSubFiltersBlock), filtersBlockUpperLeftPosition.y - 1.2f, 0f);
 			for(int i=0;i<this.valueFilters.Length;i++)
 			{
@@ -944,6 +903,8 @@ public class newMyGameController : MonoBehaviour
 			}
 
 		}
+		this.skillSearchBar.GetComponent<newMyGameSkillSearchBarController>().resize();
+
 		if(newDeckPopUpDisplayed)
 		{
 			this.newDeckPopUpResize();
@@ -1030,7 +991,7 @@ public class newMyGameController : MonoBehaviour
 		}
 		else
 		{
-			this.deckTitle.GetComponent<TextMeshPro> ().text = "Aucune armée créé pour le moment".ToUpper();
+			this.deckTitle.GetComponent<TextMeshPro> ().text = WordingDeck.getReference(4).ToUpper();
 			this.deckDeletionButton.gameObject.SetActive(false);
 			this.deckRenameButton.gameObject.SetActive(false);
 			this.deckSelectionButton.gameObject.SetActive(false);
@@ -1106,6 +1067,7 @@ public class newMyGameController : MonoBehaviour
 			}
 			this.sceneCamera.transform.position=ApplicationDesignRules.sceneCameraFocusedCardPosition;
 		}
+
 	}
 	public void selectDeck(int id)
 	{
@@ -1156,54 +1118,68 @@ public class newMyGameController : MonoBehaviour
 			this.applyFilters();
 		}
 		this.cleanSkillAutocompletion();
-		this.isSearchingSkill = true;
 		this.valueSkill = "";
-		this.skillSearchBar.transform.FindChild("Title").GetComponent<TextMeshPro>().text = this.valueSkill;
-		this.skillSearchBar.transform.GetComponent<newMyGameSkillSearchBarController> ().setIsSelected (true);
-		this.skillSearchBar.transform.GetComponent<newMyGameSkillSearchBarController> ().setInitialState ();
+		this.isSearchingSkill = true;
+	}
+	public void stopSearchingSkill()
+	{
+		this.isSearchingSkill=false;
+		this.cleanSkillAutocompletion();
+		this.skillSearchBar.GetComponent<newMyGameSkillSearchBarController>().resetSearchBar();
+		this.skillSearchBar.GetComponent<newMyGameSkillSearchBarController>().setButtonText(WordingFilters.getReference(2));
+		this.valueSkill="Rechercher";
 	}
 	public void cardTypeFilterHandler(int id)
 	{
-		if(this.filtersCardType.Contains(id))
+		if(!ApplicationDesignRules.isMobileScreen || this.filtersDisplayed)
 		{
-			this.filtersCardType.Remove(id);
-			this.cardsTypeFilters[id].GetComponent<newMyGameCardTypeFilterController>().reset();
+			if(this.filtersCardType.Contains(id))
+			{
+				this.filtersCardType.Remove(id);
+				this.cardsTypeFilters[id].GetComponent<newMyGameCardTypeFilterController>().reset();
+			}
+			else
+			{
+				this.filtersCardType.Add (id);
+				this.cardsTypeFilters[id].GetComponent<newMyGameCardTypeFilterController>().setIsSelected(true);
+				this.cardsTypeFilters[id].GetComponent<newMyGameCardTypeFilterController>().setHoveredState();
+			}
+			this.cardsPagination.chosenPage = 0;
+			this.applyFilters ();
 		}
-		else
-		{
-			this.filtersCardType.Add (id);
-			this.cardsTypeFilters[id].GetComponent<newMyGameCardTypeFilterController>().setIsSelected(true);
-			this.cardsTypeFilters[id].GetComponent<newMyGameCardTypeFilterController>().setHoveredState();
-		}
-		this.cardsPagination.chosenPage = 0;
-		this.applyFilters ();
 	}
 	public void sortButtonHandler(int id)
 	{
-		if(this.sortingOrder==id)
+		if(!ApplicationDesignRules.isMobileScreen || this.filtersDisplayed)
 		{
-			this.sortingOrder = -1;
-			this.sortButtons[id].GetComponent<newMyGameSortButtonController>().reset();
+			if(this.sortingOrder==id)
+			{
+				this.sortingOrder = -1;
+				this.sortButtons[id].GetComponent<newMyGameSortButtonController>().reset();
+			}
+			else if(this.sortingOrder!=-1)
+			{
+				this.sortButtons[this.sortingOrder].GetComponent<newMyGameSortButtonController>().reset();
+				this.sortButtons[id].GetComponent<newMyGameSortButtonController>().setIsSelected(true);
+				this.sortButtons[id].GetComponent<newMyGameSortButtonController>().setHoveredState();
+				this.sortingOrder = id;
+			}
+			else
+			{
+				this.sortingOrder=id;
+				this.sortButtons[id].GetComponent<newMyGameSortButtonController>().setIsSelected(true);
+				this.sortButtons[id].GetComponent<newMyGameSortButtonController>().setHoveredState();
+			}
+			this.cardsPagination.chosenPage = 0;
+			this.applyFilters ();
 		}
-		else if(this.sortingOrder!=-1)
-		{
-			this.sortButtons[this.sortingOrder].GetComponent<newMyGameSortButtonController>().reset();
-			this.sortButtons[id].GetComponent<newMyGameSortButtonController>().setIsSelected(true);
-			this.sortButtons[id].GetComponent<newMyGameSortButtonController>().setHoveredState();
-			this.sortingOrder = id;
-		}
-		else
-		{
-			this.sortingOrder=id;
-			this.sortButtons[id].GetComponent<newMyGameSortButtonController>().setIsSelected(true);
-			this.sortButtons[id].GetComponent<newMyGameSortButtonController>().setHoveredState();
-		}
-		this.cardsPagination.chosenPage = 0;
-		this.applyFilters ();
+	}
+	public void startSlidingCursors()
+	{
+		this.isSlidingCursors=true;
 	}
 	public void moveCursors(int cursorId)
 	{
-		this.isSlidingCursors = true;
 		float offsetStep = 0f;
 		Vector3 mousePosition = new Vector3 ();
 		if (ApplicationDesignRules.isMobileScreen) 
@@ -1311,21 +1287,24 @@ public class newMyGameController : MonoBehaviour
 			this.cardsPagination.chosenPage = 0;
 			this.applyFilters();
 		}
-		this.isSlidingCursors = false;
+	}
+	public void endSlidingCursors()
+	{
+		this.isSlidingCursors=false;
 	}
 	public string getValueFilterLabel(int value)
 	{
 		if(value==1)
 		{
-			return "Rares";
+			return WordingFilters.getReference(5);
 		}
 		else if(value==2)
 		{
-			return "Très rares";
+			return WordingFilters.getReference(6);
 		}
 		else
 		{
-			return "Toutes";
+			return WordingFilters.getReference(7);
 		}
 	}
 	public Color getColorFilterIcon(int value)
@@ -1351,7 +1330,7 @@ public class newMyGameController : MonoBehaviour
 
 		for(int i=0;i<max;i++)
 		{
-			if(this.isSkillChosen && !model.cards.getCard(i).hasSkill(this.valueSkill))
+			if(this.isSkillChosen && !model.cards.getCard(i).hasSkill(this.valueSkill.ToLower()))
 			{
 				continue;
 			}
@@ -1453,17 +1432,17 @@ public class newMyGameController : MonoBehaviour
 	{
 		this.skillsDisplayed = new List<int> ();
 		this.cleanSkillAutocompletion ();
-		this.skillSearchBar.transform.FindChild("Title").GetComponent<TextMeshPro>().text = this.valueSkill;
+		this.skillSearchBar.GetComponent<newMyGameSkillSearchBarController>().setButtonText(this.valueSkill);
 		if(this.valueSkill.Length>0)
 		{
 			for (int i = 0; i < model.skillsList.Count; i++) 
 			{  
-				if (model.skillsList [i].ToLower ().Contains (this.valueSkill)) 
+				if (WordingSkills.getName(model.skillsList [i].Id).ToLower ().Contains (this.valueSkill.ToLower())) 
 				{
 					this.skillsDisplayed.Add (i);
 					this.skillChoices[this.skillsDisplayed.Count-1].SetActive(true);
 					this.skillChoices[this.skillsDisplayed.Count-1].GetComponent<newMyGameSkillChoiceController>().reset();
-					this.skillChoices[this.skillsDisplayed.Count-1].transform.FindChild("Title").GetComponent<TextMeshPro>().text = model.skillsList [i];
+					this.skillChoices[this.skillsDisplayed.Count-1].transform.FindChild("Title").GetComponent<TextMeshPro>().text = WordingSkills.getName(model.skillsList [i].Id);
 				}
 				if(this.skillsDisplayed.Count==this.skillChoices.Length)
 				{
@@ -1482,16 +1461,13 @@ public class newMyGameController : MonoBehaviour
 	public void filterASkill(int id)
 	{
 		this.isSearchingSkill = false;
-		this.valueSkill = this.skillChoices[id].transform.FindChild("Title").GetComponent<TextMeshPro>().text.ToLower();
+		this.valueSkill = this.skillChoices[id].transform.FindChild("Title").GetComponent<TextMeshPro>().text;
 		this.isSkillChosen = true;
-		this.skillSearchBar.transform.FindChild("Title").GetComponent<TextMeshPro>().text =valueSkill;
+		this.skillSearchBar.GetComponent<newMyGameSkillSearchBarController>().resetSearchBar();
+		this.skillSearchBar.GetComponent<newMyGameSkillSearchBarController>().setButtonText(this.valueSkill);
 		this.cleanSkillAutocompletion ();
 		this.cardsPagination.chosenPage = 0;
 		this.applyFilters ();
-	}
-	public void mouseOnSearchBar(bool value)
-	{
-		this.isMouseOnSearchBar = value;
 	}
 	public void mouseOnSelectDeckButton(bool value)
 	{
@@ -1660,22 +1636,22 @@ public class newMyGameController : MonoBehaviour
 	{
 		if(name.Length>12)
 		{
-			return "Le nom ne doit pas dépasser 12 caractères";
+			return WordingMyGame.getReference(7);
 		}
 		if(!Regex.IsMatch(name, @"^[a-zA-Z0-9_\s]+$"))
 		{
-			return "Vous ne pouvez pas utiliser de caractères spéciaux";
+			return WordingMyGame.getReference(8);
 		}
 		for(int i=0;i<model.decks.Count;i++)
 		{
 			if(model.decks[i].Name==name && i!=this.deckDisplayed)
 			{
-				return "Nom déjà utilisé";
+				return WordingMyGame.getReference(9);
 			}
 		}
 		if(name=="")
 		{
-			return "Veuillez saisir un nom";
+			return WordingMyGame.getReference(10);
 		}
 		return "";
 	}
@@ -1708,12 +1684,12 @@ public class newMyGameController : MonoBehaviour
 	{
 		if(this.deckDisplayed==-1)
 		{
-			MenuController.instance.displayErrorPopUp("Vous devez créer un deck avant de sélectionner une carte");
+			MenuController.instance.displayErrorPopUp(WordingDeck.getReference(11));
 			this.isLeftClicked=false;
 		}
 		else if(!isDeckCardClicked && this.checkForIdenticalSkills())
 		{
-			MenuController.instance.displayErrorPopUp("Vous ne pouvez pas posséder dans votre équipe 2 cartes ayant la même compétence passive");
+			MenuController.instance.displayErrorPopUp(WordingDeck.getReference(12));
 			this.isLeftClicked=false;
 		}
 		else

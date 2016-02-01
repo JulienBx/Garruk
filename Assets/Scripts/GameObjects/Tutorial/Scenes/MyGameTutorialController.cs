@@ -13,7 +13,6 @@ public class MyGameTutorialController : TutorialObjectController
 	{
 		newMyGameController.instance.endTutorialInitialization ();
 	}
-
 	#region TUTORIAL SEQUENCES
 
 	public override void launchSequence(int sequenceID)
@@ -30,8 +29,8 @@ public class MyGameTutorialController : TutorialObjectController
 					this.displayArrow(false);
 					this.displayPopUp(2);
 					this.displayNextButton(true);
-					this.setPopUpTitle("Mon armée");
-					this.setPopUpDescription("La meilleure manière de s'enrichir à Cristalia est de combattre d'autres colons ! Vous constituer une armée puissante sera donc cruciale pour survivre sur la planète. Vous pouvez ici consulter vos unités, et les organiser en équipes pretes à combattre pour acquérir de nouvelles ressources");
+					this.setPopUpTitle(WordingMyGameTutorial.getTutorialContent(0));
+					this.setPopUpDescription(WordingMyGameTutorial.getTutorialContent(1));
 					this.displayBackground(true);
 					this.displayExitButton(false);
 					this.displayDragHelp(false,false);
@@ -50,6 +49,7 @@ public class MyGameTutorialController : TutorialObjectController
 		case 1: // Demande à l'utilisateur de créer un deck (pas de texte)
 			if(!isResizing)
 			{
+				this.canScroll=true;
 				this.displayPopUp(-1);
 				this.displayNextButton(false);
 				this.displayBackground(true);
@@ -80,13 +80,14 @@ public class MyGameTutorialController : TutorialObjectController
 		case 3: // Demande à l'utilisateur de sélectionner des cartes
 			if(!isResizing)
 			{
+				this.canScroll=true;
 				this.displayArrow(false);
 				this.displayPopUp(0);
 				this.displayNextButton(false);
 				this.displaySquareBackground(true);
 				this.displayExitButton(false);
-				this.setPopUpTitle("Créer une équipe");
-				this.setPopUpDescription("A cause de massacres fréquents menaçant la survie de l'espèce humaine sur Cristalia, les combats sont depuis peu règlementés et opposent des équipes de 4 unités. Créer votre équipe en choisissant vos meilleures unités!");
+				this.setPopUpTitle(WordingMyGameTutorial.getTutorialContent(2));
+				this.setPopUpDescription(WordingMyGameTutorial.getTutorialContent(3));
 				this.displayExitButton(true);
 				this.setIsScrolling(false);
 			}
@@ -282,8 +283,8 @@ public class MyGameTutorialController : TutorialObjectController
 				this.displayArrow(false);
 				this.displayPopUp(0);
 				this.displayNextButton(true);
-				this.setPopUpTitle("Mes équipes");
-				this.setPopUpDescription("Organisez vos unités en équipes de 4 pretes à combattre. N'oubliez jamais que l'ordre des unités dans l'équipe se retrouve également dans l'ordre de jeu en combat.");
+				this.setPopUpTitle(WordingMyGameTutorial.getHelpContent(0));
+				this.setPopUpDescription(WordingMyGameTutorial.getHelpContent(1));
 				this.displaySquareBackground(true);
 				this.displayExitButton(true);
 				this.displayDragHelp(false,false);
@@ -316,8 +317,8 @@ public class MyGameTutorialController : TutorialObjectController
 				this.displayArrow(false);
 				this.displayPopUp(0);
 				this.displayNextButton(true);
-				this.setPopUpTitle("Mes unités");
-				this.setPopUpDescription("Accédez à l'ensemble de vos unités, et n'hésitez pas à cliquer sur une unité pour accéder au détail de ses compétences");
+				this.setPopUpTitle(WordingMyGameTutorial.getHelpContent(2));
+				this.setPopUpDescription(WordingMyGameTutorial.getHelpContent(3));
 				this.displaySquareBackground(true);
 				this.displayExitButton(true);
 				this.displayDragHelp(false,false);
@@ -342,8 +343,8 @@ public class MyGameTutorialController : TutorialObjectController
 				this.displayArrow(false);
 				this.displayPopUp(1);
 				this.displayNextButton(true);
-				this.setPopUpTitle("Les filtres");
-				this.setPopUpDescription("Plus vous posséderez d'unités, plus il sera difficile de bien toutes les connaitre. Les filtres vous permettront de trouver rapidement des unités répondant à des critères spécifiques");
+				this.setPopUpTitle(WordingMyGameTutorial.getHelpContent(4));
+				this.setPopUpDescription(WordingMyGameTutorial.getHelpContent(5));
 				this.displaySquareBackground(true);
 				this.displayExitButton(true);
 				this.displayDragHelp(false,false);

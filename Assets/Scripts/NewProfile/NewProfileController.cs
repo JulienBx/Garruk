@@ -101,9 +101,7 @@ public class NewProfileController : MonoBehaviour
 	private GameObject editInformationsPopUp;
 	private bool isEditInformationsPopUpDisplayed;
 
-	private bool isSearchingUsers;
 	private string searchValue;
-	private bool isMouseOnSearchBar;
 	private bool isScrolling;
 
 	private bool mainContentDisplayed;
@@ -122,7 +120,7 @@ public class NewProfileController : MonoBehaviour
 	{	
 		this.friendsCheckTimer += Time.deltaTime;
 		
-		if (Input.touchCount == 1 && this.isSceneLoaded) 
+		if (Input.touchCount == 1 && this.isSceneLoaded  && TutorialObjectController.instance.getCanSwipe() && MenuController.instance.getCanSwipeAndScroll()) 
 		{
 			if(Input.touches[0].deltaPosition.x<-15f)
 			{
@@ -183,53 +181,6 @@ public class NewProfileController : MonoBehaviour
 		if (this.isMyProfile && friendsCheckTimer > friendsRefreshInterval && this.isSceneLoaded) 
 		{
 			this.checkFriendsOnlineStatus();
-		}
-		if(isSearchingUsers)
-		{
-			if(!Input.GetKey(KeyCode.Delete))
-			{
-				foreach (char c in Input.inputString) 
-				{
-					if(c==(char)KeyCode.Backspace && this.searchValue.Length>0)
-					{
-						this.searchValue = this.searchValue.Remove(this.searchValue.Length - 1);
-						this.searchBar.transform.FindChild ("Title").GetComponent<TextMeshPro>().text = this.searchValue;
-						if(this.searchValue.Length==0)
-						{
-							this.isSearchingUsers=false;
-							this.searchBar.transform.FindChild ("Title").GetComponent<TextMeshPro>().text ="Entrez un pseudo";
-						}
-					}
-					else if (c == "\b"[0])
-					{
-						if (searchValue.Length != 0)
-						{
-							searchValue= searchValue.Substring(0, searchValue.Length - 1);
-						}
-					}
-					else
-					{
-						if (c == "\n"[0] || c == "\r"[0])
-						{
-							this.searchUsersHandler();	
-						}
-						else if(this.searchValue.Length<12)
-						{
-							this.searchValue += c;
-							this.searchValue=this.searchValue.ToLower();
-							this.searchBar.transform.FindChild ("Title").GetComponent<TextMeshPro>().text = this.searchValue;
-						}
-					}
-				}
-			}
-			if((Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))&& !this.isMouseOnSearchBar)
-			{
-				this.isSearchingUsers=false;
-				if(this.searchValue=="")
-				{
-					this.searchBar.transform.FindChild ("Title").GetComponent<TextMeshPro>().text ="Entrez un pseudo";
-				}
-			}
 		}
 	}
 	void Awake()
@@ -497,12 +448,12 @@ public class NewProfileController : MonoBehaviour
 		this.profilePicture.AddComponent<NewProfilePictureButtonController> ();
 		this.profileEditPictureButton = GameObject.Find ("EditProfilePicture");
 		this.profileEditPictureButton.AddComponent<NewProfileEditPictureButtonController> ();
-		this.profileEditPictureButton.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Modifier";
+		this.profileEditPictureButton.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingProfile.getReference(0);
 		this.profileEditPictureButton.transform.FindChild ("Title").GetComponent<TextMeshPro> ().color = ApplicationDesignRules.whiteTextColor;
 		this.profileEditPictureButton.SetActive (false);
 		this.cleanCardsButton = GameObject.Find ("CleanCardsButton");
 		this.cleanCardsButton.AddComponent<NewProfileCleanCardsButtonController> ();
-		this.cleanCardsButton.GetComponent<TextMeshPro> ().text = "- Vider -";
+		this.cleanCardsButton.GetComponent<TextMeshPro> ().text = WordingProfile.getReference(1);
 		if(isMyProfile&&ApplicationModel.isAdmin)
 		{
 			this.cleanCardsButton.SetActive(true);
@@ -542,27 +493,26 @@ public class NewProfileController : MonoBehaviour
 			this.profileStats[i].transform.FindChild("Title").GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
 			// A compléter !
 		}
-		this.profileStats[0].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text= "Victoires";
+		this.profileStats[0].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text= WordingProfile.getReference(2);
 		this.profileStats[0].transform.FindChild ("Subvalue").gameObject.SetActive (false);
-		this.profileStats[1].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text= "Défaites";
+		this.profileStats[1].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text= WordingProfile.getReference(3);
 		this.profileStats[1].transform.FindChild ("Subvalue").gameObject.SetActive (false);
-		this.profileStats[2].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text= "Classement combattant";
-		this.profileStats[3].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text= "Classement collectionneur";
+		this.profileStats[2].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text= WordingProfile.getReference(4);
+		this.profileStats[3].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text= WordingProfile.getReference(5);
 		this.profileLine = GameObject.Find ("ProfileLine");
 
 		this.searchBlock = Instantiate(this.blockObject)as GameObject;
 		this.searchBlockTitle = GameObject.Find ("SearchTitle");
 		this.searchBlockTitle.GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
-		this.searchBlockTitle.GetComponent<TextMeshPro>().text="Rechercher";
+		this.searchBlockTitle.GetComponent<TextMeshPro>().text=WordingProfile.getReference(6);
 		this.searchSubtitle=GameObject.Find ("SearchSubtitle");
 		this.searchSubtitle.GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
-		this.searchSubtitle.GetComponent<TextMeshPro>().text="Trouver un ami à l'aide de son pseudo".ToUpper();
+		this.searchSubtitle.GetComponent<TextMeshPro>().text=WordingProfile.getReference(7).ToUpper();
 		this.searchBar=GameObject.Find ("SearchBar");
-		this.searchBar.AddComponent<NewProfileSearchBarController>();
-		this.searchBar.GetComponent<NewProfileSearchBarController>().setText("Entrez un pseudo");
+		this.searchBar.GetComponent<NewProfileSearchBarController>().setButtonText(WordingProfile.getReference(8));
 		this.searchButton = GameObject.Find ("SearchButton");
 		this.searchButton.AddComponent<NewProfileSearchButtonController> ();
-		this.searchButton.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Ok";
+		this.searchButton.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingProfile.getReference(9);
 
 
 		this.resultsBlock = Instantiate (this.blockObject) as GameObject;
@@ -575,14 +525,14 @@ public class NewProfileController : MonoBehaviour
 			this.resultsTabs[i].AddComponent<NewProfileResultsTabController>();
 			this.resultsTabs[i].GetComponent<NewProfileResultsTabController>().setId(i);
 		}
-		this.resultsTabs[0].transform.FindChild("Title").GetComponent<TextMeshPro> ().text = ("Conquêtes");
+		this.resultsTabs[0].transform.FindChild("Title").GetComponent<TextMeshPro> ().text = WordingProfile.getReference(10);
 		if(this.isMyProfile)
 		{
-			this.resultsTabs[1].transform.FindChild("Title").GetComponent<TextMeshPro> ().text = ("Défis");
+			this.resultsTabs[1].transform.FindChild("Title").GetComponent<TextMeshPro> ().text = WordingProfile.getReference(11);
 		}
 		else
 		{
-			this.resultsTabs[1].transform.FindChild("Title").GetComponent<TextMeshPro> ().text = ("Confrontations");
+			this.resultsTabs[1].transform.FindChild("Title").GetComponent<TextMeshPro> ().text = WordingProfile.getReference(12);
 		}
 		this.resultsPaginationButtons = GameObject.Find("ResultsPagination");
 		this.resultsPaginationButtons.AddComponent<NewProfileResultsPaginationController> ();
@@ -598,8 +548,8 @@ public class NewProfileController : MonoBehaviour
 			this.friendsTabs[i].AddComponent<NewProfileFriendsTabController>();
 			this.friendsTabs[i].GetComponent<NewProfileFriendsTabController>().setId (i);
 		}
-		this.friendsTabs[0].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = ("Amis");
-		this.friendsTabs[1].transform.FindChild("Title").GetComponent<TextMeshPro>().text=("Invitations");
+		this.friendsTabs[0].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingProfile.getReference(13);
+		this.friendsTabs[1].transform.FindChild("Title").GetComponent<TextMeshPro>().text=WordingProfile.getReference(14);
 		this.friendsPaginationButtons = GameObject.Find("FriendsPagination");
 		this.friendsPaginationButtons.AddComponent<NewProfileFriendsPaginationController> ();
 		this.friendsPaginationButtons.GetComponent<NewProfileFriendsPaginationController> ().initialize ();
@@ -1018,7 +968,7 @@ public class NewProfileController : MonoBehaviour
 				this.friendshipStatusButtons[i].transform.localScale = ApplicationDesignRules.button62Scale;
 			}
 		}
-
+		this.searchBar.GetComponent<NewProfileSearchBarController>().resize();
 		TutorialObjectController.instance.resize ();
 
 		if(this.isCheckPasswordPopUpDisplayed)
@@ -1117,15 +1067,15 @@ public class NewProfileController : MonoBehaviour
 				int nbLooses = model.challengesRecords[this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i].NbLooses;
 				if(nbWins>nbLooses)
 				{
-					this.resultsContents[i].transform.FindChild("description").GetComponent<TextMeshPro> ().text = "Votre ami mène avec "+nbWins+" Victoire(s) contre "+nbLooses+" défaite(s)";
+					this.resultsContents[i].transform.FindChild("description").GetComponent<TextMeshPro> ().text = WordingProfile.getReference(15)+nbWins+WordingProfile.getReference(16)+nbLooses+WordingProfile.getReference(17);
 				}
 				else if(nbLooses > nbWins)
 				{
-					this.resultsContents[i].transform.FindChild("description").GetComponent<TextMeshPro> ().text = "Vous menez avec "+nbLooses+" Victoire(s) contre "+nbWins+" défaite(s)";
+					this.resultsContents[i].transform.FindChild("description").GetComponent<TextMeshPro> ().text = WordingProfile.getReference(18)+nbLooses+WordingProfile.getReference(19)+nbWins+WordingProfile.getReference(20);
 				}
 				else
 				{
-					this.resultsContents[i].transform.FindChild("description").GetComponent<TextMeshPro> ().text = "Ex eaquo ! vous avez gagné chacun "+nbLooses+" victoire(s)";
+					this.resultsContents[i].transform.FindChild("description").GetComponent<TextMeshPro> ().text = WordingProfile.getReference(21)+nbLooses+WordingProfile.getReference(22);
 				}
 
 				this.resultsContents[i].SetActive(true);
@@ -1147,32 +1097,32 @@ public class NewProfileController : MonoBehaviour
 				this.friendsRequestsDisplayed.Add (this.friendsPagination.chosenPage*this.friendsPagination.nbElementsPerPage+i);
 				if(this.model.friendsRequests[this.friendsPagination.chosenPage*this.friendsPagination.nbElementsPerPage+i].IsInvitingPlayer)
 				{
-					this.friendsContents[i].transform.FindChild ("description").GetComponent<TextMeshPro> ().text = "vous a invité à devenir son ami, accepter ?";
+					this.friendsContents[i].transform.FindChild ("description").GetComponent<TextMeshPro> ().text = WordingSocial.getReference(8);
 					friendsStatusButtonPosition=this.friendsStatusButtons[2*i].transform.position;
 					friendsStatusButtonPosition.y=0.2f+this.challengesButtons[i].transform.position.y;
 					this.friendsStatusButtons[2*i].SetActive(true);
 					this.friendsStatusButtons[2*i].transform.position=friendsStatusButtonPosition;
 					this.friendsStatusButtons[2*i].GetComponent<NewProfileFriendsStatusButtonController>().setId(i);
 					this.friendsStatusButtons[2*i].GetComponent<NewProfileFriendsStatusButtonController>().setToAcceptInvitation();
-					this.friendsStatusButtons[2*i].transform.FindChild("Title").GetComponent<TextMeshPro>().text="Oui";
+					this.friendsStatusButtons[2*i].transform.FindChild("Title").GetComponent<TextMeshPro>().text=WordingSocial.getReference(1);
 					friendsStatusButtonPosition=this.friendsStatusButtons[2*i+1].transform.position;
 					friendsStatusButtonPosition.y=-0.2f+this.challengesButtons[i].transform.position.y;
 					this.friendsStatusButtons[2*i+1].transform.position=friendsStatusButtonPosition;
 					this.friendsStatusButtons[2*i+1].SetActive(true);
 					this.friendsStatusButtons[2*i+1].GetComponent<NewProfileFriendsStatusButtonController>().setId(i);
 					this.friendsStatusButtons[2*i+1].GetComponent<NewProfileFriendsStatusButtonController>().setToDeclineInvitation();
-					this.friendsStatusButtons[2*i+1].transform.FindChild("Title").GetComponent<TextMeshPro>().text="Non";
+					this.friendsStatusButtons[2*i+1].transform.FindChild("Title").GetComponent<TextMeshPro>().text=WordingSocial.getReference(2);
 				}
 				else
 				{
-					this.friendsContents[i].transform.FindChild ("description").GetComponent<TextMeshPro> ().text = "n'a pas encore répondu à votre invitation, annuler ?";
+					this.friendsContents[i].transform.FindChild ("description").GetComponent<TextMeshPro> ().text =  WordingSocial.getReference(9);
 					friendsStatusButtonPosition=this.friendsStatusButtons[2*i].transform.position;
 					friendsStatusButtonPosition.y=0f+this.challengesButtons[i].transform.position.y;
 					this.friendsStatusButtons[2*i].transform.position=friendsStatusButtonPosition;
 					this.friendsStatusButtons[2*i].SetActive(true);
 					this.friendsStatusButtons[2*i].GetComponent<NewProfileFriendsStatusButtonController>().setId(i);
 					this.friendsStatusButtons[2*i].GetComponent<NewProfileFriendsStatusButtonController>().setToCancelInvitation();
-					this.friendsStatusButtons[2*i].transform.FindChild("Title").GetComponent<TextMeshPro>().text="Oui";
+					this.friendsStatusButtons[2*i].transform.FindChild("Title").GetComponent<TextMeshPro>().text=WordingSocial.getReference(1);
 					this.friendsStatusButtons[2*i+1].SetActive(false);
 				}
 				this.friendsContents[i].transform.FindChild("picture").GetComponent<SpriteRenderer>().sprite=MenuController.instance.returnThumbPicture(model.friendsRequests[this.friendsPagination.chosenPage*this.friendsPagination.nbElementsPerPage+i].User.idProfilePicture);
@@ -1203,17 +1153,17 @@ public class NewProfileController : MonoBehaviour
 				switch(model.users[this.friendsToBeDisplayed[this.friendsPagination.chosenPage*this.friendsPagination.nbElementsPerPage+i]].OnlineStatus)
 				{
 				case 0:
-					connectionState = "n'est pas en ligne";
+					connectionState = WordingSocial.getReference(3);
 					connectionStateColor=ApplicationDesignRules.whiteTextColor;
 					this.challengesButtons[i].SetActive(false);
 					break;
 				case 1:
-					connectionState = "est disponible pour un défi !";
+					connectionState =WordingSocial.getReference(4);
 					connectionStateColor=ApplicationDesignRules.blueColor;
 					this.challengesButtons[i].SetActive(true);
 					break;
 				case 2:
-					connectionState = "est entrain de jouer";
+					connectionState = WordingSocial.getReference(5);
 					connectionStateColor=ApplicationDesignRules.redColor;
 					this.challengesButtons[i].SetActive(false);
 					break;
@@ -1238,7 +1188,7 @@ public class NewProfileController : MonoBehaviour
 				this.trophiesDisplayed.Add (this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i);
 				this.resultsContents[i].transform.FindChild("title").GetComponent<TextMeshPro>().text=model.trophies[this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i].competition.Name;
 				this.resultsContents[i].transform.FindChild("picture").GetComponent<SpriteRenderer>().sprite=MenuController.instance.returnCompetitionPicture(model.trophies[this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i].competition.IdPicture);
-				this.resultsContents[i].transform.FindChild("description").GetComponent<TextMeshPro>().text="Hégémonie atteinte le "+model.trophies[this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i].Date.ToString("dd/MM/yyyy");
+				this.resultsContents[i].transform.FindChild("description").GetComponent<TextMeshPro>().text=WordingProfile.getReference(23)+model.trophies[this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i].Date.ToString(WordingDates.getDateFormat());
 				this.resultsContents[i].SetActive(true);
 			}
 			else
@@ -1260,15 +1210,15 @@ public class NewProfileController : MonoBehaviour
 				switch(model.confrontations[this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i].GameType)
 				{
 				case 1:
-					gameTypeName="Match de division";
+					gameTypeName=WordingGameModes.getReference(8);
 					idCompetitionPicture=1;
 					break;
-				case 2:
-					gameTypeName="Match de coupe";
-					idCompetitionPicture=2;
-					break;
+//				case 2:
+//					gameTypeName="Match de coupe";
+//					idCompetitionPicture=2;
+//					break;
 				default:
-					gameTypeName="Match amical";
+					gameTypeName=WordingGameModes.getReference(9);
 					idCompetitionPicture=0;
 					break;
 				}
@@ -1279,12 +1229,12 @@ public class NewProfileController : MonoBehaviour
 				Color textColor=new Color();
 				if(model.confrontations[this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i].IdWinner==model.activePlayerId)
 				{
-					description="Victoire le "+model.confrontations[this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i].Date.ToString("dd/MM/yyyy");
+					description="Victoire le "+model.confrontations[this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i].Date.ToString(WordingDates.getDateFormat());
 					textColor=ApplicationDesignRules.blueColor;
 				}
 				else
 				{
-					description="Défaite le "+model.confrontations[this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i].Date.ToString("dd/MM/yyyy");
+					description="Défaite le "+model.confrontations[this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i].Date.ToString(WordingDates.getDateFormat());
 					textColor=ApplicationDesignRules.redColor;
 				}
 				this.resultsContents[i].transform.FindChild("description").GetComponent<TextMeshPro>().text=description;
@@ -1303,9 +1253,9 @@ public class NewProfileController : MonoBehaviour
 		this.profileStats[0].transform.FindChild ("Value").GetComponent<TextMeshPro> ().text= model.player.TotalNbWins.ToString ();
 		this.profileStats[1].transform.FindChild ("Value").GetComponent<TextMeshPro> ().text= model.player.TotalNbLooses.ToString ();
 		this.profileStats[2].transform.FindChild ("Value").GetComponent<TextMeshPro> ().text= model.player.Ranking.ToString ();
-		this.profileStats[2].transform.FindChild ("Subvalue").GetComponent<TextMeshPro> ().text= "("+model.player.RankingPoints.ToString()+" pts)";
+		this.profileStats[2].transform.FindChild ("Subvalue").GetComponent<TextMeshPro> ().text= WordingProfile.getReference(24)+model.player.RankingPoints.ToString()+WordingProfile.getReference(25);
 		this.profileStats[3].transform.FindChild ("Value").GetComponent<TextMeshPro> ().text= model.player.CollectionRanking.ToString ();
-		this.profileStats[3].transform.FindChild ("Subvalue").GetComponent<TextMeshPro> ().text= "("+model.player.CollectionPoints.ToString()+" pts)";
+		this.profileStats[3].transform.FindChild ("Subvalue").GetComponent<TextMeshPro> ().text= WordingProfile.getReference(24)+model.player.CollectionPoints.ToString()+WordingProfile.getReference(25);
 		this.profileBlockTitle.GetComponent<TextMeshPro> ().text = model.player.Username;
 		if(this.isMyProfile)
 		{
@@ -1315,9 +1265,9 @@ public class NewProfileController : MonoBehaviour
 	}
 	private void drawPersonalInformations()
 	{
-		this.profileInformations [0].GetComponent<TextMeshPro> ().text = "prénom : "+model.player.FirstName;
-		this.profileInformations [1].GetComponent<TextMeshPro> ().text = "nom : "+model.player.Surname;
-		this.profileInformations [2].GetComponent<TextMeshPro> ().text = "mail : "+model.player.Mail;
+		this.profileInformations [0].GetComponent<TextMeshPro> ().text = WordingProfile.getReference(26)+model.player.FirstName;
+		this.profileInformations [1].GetComponent<TextMeshPro> ().text = WordingProfile.getReference(27)+model.player.Surname;
+		this.profileInformations [2].GetComponent<TextMeshPro> ().text = WordingProfile.getReference(28)+model.player.Mail;
 	}
 	private void drawProfilePicture()
 	{
@@ -1410,11 +1360,11 @@ public class NewProfileController : MonoBehaviour
 	{
 		if(!model.hasDeck)
 		{
-			MenuController.instance.displayErrorPopUp("Vous ne pouvez lancer de match sans avoir au préalable créé un deck");
+			MenuController.instance.displayErrorPopUp(WordingGameModes.getReference(5));
 		}
 		else if(model.users [this.friendsToBeDisplayed[this.friendsDisplayed[id]]].OnlineStatus!=1)
 		{
-			MenuController.instance.displayErrorPopUp("Votre adversaire n'est plus disponible");
+			MenuController.instance.displayErrorPopUp(WordingGameModes.getReference(6));
 		}
 		else
 		{
@@ -1464,7 +1414,10 @@ public class NewProfileController : MonoBehaviour
 	}
 	public void editProfilePictureHandler()
 	{
-		this.displaySelectPicturePopUp ();
+		if(this.isMyProfile)
+		{
+			this.displaySelectPicturePopUp ();
+		}
 	}
 	private void displaySelectPicturePopUp()
 	{
@@ -1595,11 +1548,11 @@ public class NewProfileController : MonoBehaviour
 	{
 		if(password.Length<5)
 		{
-			return "Le mot de passe doit comporter au moins 5 caractères";
+			return WordingProfile.getReference(29);
 		}
 		else if(!Regex.IsMatch(password, @"^[a-zA-Z0-9_.@]+$"))
 		{
-			return "Le mot de passe ne peut comporter de caractères spéciaux hormis @ _ et .";
+			return WordingProfile.getReference(30);
 		} 
 		return "";
 	}
@@ -1630,15 +1583,15 @@ public class NewProfileController : MonoBehaviour
 	{
 		if(password1=="")
 		{
-			return "Veuillez saisir un mot de passe";
+			return WordingProfile.getReference(31);
 		}
 		else if(password2=="")
 		{
-			return "Veuillez confirmer votre mot de passe";
+			return WordingProfile.getReference(32);
 		}
 		else if(password1!=password2)
 		{
-			return "Les deux mots de passes doivent être identiques";
+			return WordingProfile.getReference(33);
 		}
 		return "";
 	}
@@ -1678,7 +1631,7 @@ public class NewProfileController : MonoBehaviour
 	{
 		if(!Regex.IsMatch(name, @"^[a-zA-Z0-9_]+$"))
 		{
-			return "Vous ne pouvez pas utiliser de caractères spéciaux";
+			return WordingProfile.getReference(34);
 		}   
 		return "";
 	}
@@ -1686,30 +1639,16 @@ public class NewProfileController : MonoBehaviour
 	{
 		if(!Regex.IsMatch(email, @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z", RegexOptions.IgnoreCase))
 		{
-			return "Veuillez saisir une adresse email valide";
+			return WordingProfile.getReference(35);
 		}
 		return "";
 	}
-	public void mouseOnSearchBar(bool value)
-	{
-		this.isMouseOnSearchBar = value;
-	}
-	public void searchingUsers()
-	{
-		if(this.searchValue=="")
-		{
-			this.isSearchingUsers = true;
-			this.searchBar.transform.FindChild("Title").GetComponent<TextMeshPro>().text = this.searchValue;
-		}
-	}
 	public void searchUsersHandler()
 	{
+		this.searchValue = this.searchBar.GetComponent<NewProfileSearchBarController>().getInputText();
 		if(this.searchValue.Length>2)
 		{
-			this.isSearchingUsers = false;
 			this.displaySearchUsersPopUp(this.searchValue);
-			this.searchValue = "";
-			this.searchBar.transform.FindChild("Title").GetComponent<TextMeshPro>().text ="Entrez un pseudo";
 		}
 	}
 	private void displaySearchUsersPopUp(string searchValue)
@@ -1819,32 +1758,32 @@ public class NewProfileController : MonoBehaviour
 			if(model.connectionWithMe.IsAccepted)
 			{
 				this.friendshipStatusButtons[0].SetActive(true);
-				this.friendshipStatusButtons[0].transform.FindChild("Title").GetComponent<TextMeshPro>().text="Retirer";
+				this.friendshipStatusButtons[0].transform.FindChild("Title").GetComponent<TextMeshPro>().text=WordingSocial.getReference(10);
 				this.friendshipStatusButtons[1].SetActive(false);
-				this.friendshipStatus.GetComponent<TextMeshPro>().text="Vous êtes amis";
+				this.friendshipStatus.GetComponent<TextMeshPro>().text=WordingSocial.getReference(11);
 			}
 			else if(model.connectionWithMe.IdUser1==model.player.Id)
 			{
 				this.friendshipStatusButtons[0].SetActive(true);
-				this.friendshipStatusButtons[0].transform.FindChild("Title").GetComponent<TextMeshPro>().text="Accepter";
+				this.friendshipStatusButtons[0].transform.FindChild("Title").GetComponent<TextMeshPro>().text=WordingSocial.getReference(12);
 				this.friendshipStatusButtons[1].SetActive(true);
-				this.friendshipStatusButtons[1].transform.FindChild("Title").GetComponent<TextMeshPro>().text="Refuser";
-				this.friendshipStatus.GetComponent<TextMeshPro>().text="Souhaite faire parti de vos amis";
+				this.friendshipStatusButtons[1].transform.FindChild("Title").GetComponent<TextMeshPro>().text=WordingSocial.getReference(13);
+				this.friendshipStatus.GetComponent<TextMeshPro>().text=WordingSocial.getReference(14);
 			}
 			else if(model.connectionWithMe.IdUser1==model.activePlayerId)
 			{
 				this.friendshipStatusButtons[0].SetActive(true);
-				this.friendshipStatusButtons[0].transform.FindChild("Title").GetComponent<TextMeshPro>().text="Annuler";
+				this.friendshipStatusButtons[0].transform.FindChild("Title").GetComponent<TextMeshPro>().text=WordingSocial.getReference(15);
 				this.friendshipStatusButtons[1].SetActive(false);
-				this.friendshipStatus.GetComponent<TextMeshPro>().text="n'a pas encore répondu à votre invitation";
+				this.friendshipStatus.GetComponent<TextMeshPro>().text=WordingSocial.getReference(16);
 			}
 		}
 		else
 		{
 			this.friendshipStatusButtons[0].SetActive(true);
-			this.friendshipStatusButtons[0].transform.FindChild("Title").GetComponent<TextMeshPro>().text="Ajouter";
+			this.friendshipStatusButtons[0].transform.FindChild("Title").GetComponent<TextMeshPro>().text=WordingSocial.getReference(17);
 			this.friendshipStatusButtons[1].SetActive(false);
-			this.friendshipStatus.GetComponent<TextMeshPro>().text="ne fait pas partie de vos amis";
+			this.friendshipStatus.GetComponent<TextMeshPro>().text=WordingSocial.getReference(18);
 		}
 	}
 	public void friendshipStateHandler(int buttonId)
@@ -2026,7 +1965,7 @@ public class NewProfileController : MonoBehaviour
 		{
 			this.challengesButtons[i].AddComponent<NewProfileChallengeButtonController>();
 			this.challengesButtons[i].GetComponent<NewProfileChallengeButtonController>().setId(i);
-			this.challengesButtons[i].transform.FindChild("Title").GetComponent<TextMeshPro>().text="Défier";
+			this.challengesButtons[i].transform.FindChild("Title").GetComponent<TextMeshPro>().text=WordingSocial.getReference(0);
 		}
 	}
 	public void initializeResultsContent()

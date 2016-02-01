@@ -10,8 +10,8 @@ public class SellPopUpController : MonoBehaviour
 {
 	public void reset(int price)
 	{
-		gameObject.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Confirmer le bannissement de l'unité (rapporte " + price + " cristaux). \n\n Attention cette action est irréversible ! \n Vous perdrez définitivement votre unité.\n";
-		gameObject.transform.FindChild ("Button").FindChild ("Title").GetComponent<TextMeshPro> ().text = "Confirmer";
+		gameObject.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingSellPopUp.getReference(0) + price + WordingSellPopUp.getReference(1);
+		gameObject.transform.FindChild ("Button").FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingSellPopUp.getReference(2);
 		gameObject.transform.FindChild ("Button").GetComponent<SellPopUpConfirmButtonController> ().reset ();
 		gameObject.transform.FindChild ("CloseButton").GetComponent<SellPopUpCloseButtonController> ().reset ();
 	}
