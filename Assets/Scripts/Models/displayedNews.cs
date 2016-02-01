@@ -15,15 +15,15 @@ public class DisplayedNews
 	public IList<Trophy> Trophies;
 	public string Content;
 	
-	public DisplayedNews(News news, User user)
+	public DisplayedNews()
 	{
-		this.News = news;
+		this.News = new News();
 		this.Users = new List<User> ();
 		this.Cards = new List<Card> ();
 		this.Values = new List<string> ();
 		this.Results = new List<Result> ();
 		this.Trophies = new List<Trophy> ();
-		this.User = user;
+		this.Content="";
 	}
 }
 

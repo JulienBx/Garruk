@@ -16,6 +16,7 @@ public class NewProfileController : MonoBehaviour
 	public GameObject challengeButtonObject;
 	public GameObject friendsStatusButtonObject;
 	public GameObject resultObject;
+	public Sprite[] languageSprites;
 
 	private GameObject menu;
 	private GameObject tutorial;
@@ -29,6 +30,7 @@ public class NewProfileController : MonoBehaviour
 	private GameObject profileEditPictureButton;
 	private GameObject profileEditInformationsButton;
 	private GameObject profileEditPasswordButton;
+	private GameObject profileChooseLanguageButton;
 	private GameObject[] profileInformations;
 	private GameObject profileLine;
 	private GameObject[] profileStats;
@@ -100,6 +102,9 @@ public class NewProfileController : MonoBehaviour
 
 	private GameObject editInformationsPopUp;
 	private bool isEditInformationsPopUpDisplayed;
+
+	private GameObject chooseLanguagePopUp;
+	private bool isChooseLanguagePopUpDisplayed;
 
 	private string searchValue;
 	private bool isScrolling;
@@ -486,6 +491,10 @@ public class NewProfileController : MonoBehaviour
 		this.profileEditPasswordButton = GameObject.Find ("ProfileEditPasswordButton");
 		this.profileEditPasswordButton.AddComponent<NewProfileEditPasswordButtonController> ();
 		this.profileEditPasswordButton.SetActive (this.isMyProfile);
+		this.profileChooseLanguageButton = GameObject.Find("ProfileChooseLanguageButton");
+		this.profileChooseLanguageButton.AddComponent<NewProfileChooseLanguageButtonController>();
+		this.profileChooseLanguageButton.GetComponent<SpriteRenderer>().sprite=this.languageSprites[ApplicationModel.idLanguage];
+		this.profileChooseLanguageButton.SetActive(this.isMyProfile);
 		this.profileStats = new GameObject[4];
 		for(int i=0;i<this.profileStats.Length;i++)
 		{
@@ -513,7 +522,6 @@ public class NewProfileController : MonoBehaviour
 		this.searchButton = GameObject.Find ("SearchButton");
 		this.searchButton.AddComponent<NewProfileSearchButtonController> ();
 		this.searchButton.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingProfile.getReference(9);
-
 
 		this.resultsBlock = Instantiate (this.blockObject) as GameObject;
 		this.resultsBlockTitle = GameObject.Find ("ResultsBlockTitle");
@@ -567,6 +575,8 @@ public class NewProfileController : MonoBehaviour
 		this.changePasswordPopUp.SetActive (false);
 		this.editInformationsPopUp = GameObject.Find ("editInformationsPopUp");
 		this.editInformationsPopUp.SetActive (false);
+		this.chooseLanguagePopUp = GameObject.Find("chooseLanguagePopUp");
+		this.chooseLanguagePopUp.SetActive(false);
 		this.mainCamera = gameObject;
 		this.sceneCamera = GameObject.Find ("sceneCamera");
 		this.tutorialCamera = GameObject.Find ("TutorialCamera");
@@ -921,8 +931,9 @@ public class NewProfileController : MonoBehaviour
 
 			//float gapBetweenProfileButtons = (profileBlockSize.x-2f*ApplicationDesignRules.button62WorldSize.x)/3f;
 
-			this.profileEditInformationsButton.transform.position = new Vector3 (profileBlockUpperLeftPosition.x + ApplicationDesignRules.blockHorizontalSpacing + ApplicationDesignRules.roundButtonWorldSize.x / 2f, profileBlockUpperLeftPosition.y - 2.5f, 0f);
-			this.profileEditPasswordButton.transform.position  = new Vector3 (profileBlockUpperLeftPosition.x +ApplicationDesignRules.blockHorizontalSpacing + 1.5f*ApplicationDesignRules.roundButtonWorldSize.x, profileBlockUpperLeftPosition.y - 2.5f, 0f);
+			this.profileChooseLanguageButton.transform.position=new Vector3(profileBlockUpperLeftPosition.x +ApplicationDesignRules.blockHorizontalSpacing + 0.5f*ApplicationDesignRules.roundButtonWorldSize.x,profileBlockUpperLeftPosition.y - 2.5f,0f);
+			this.profileEditInformationsButton.transform.position = new Vector3 (profileBlockUpperLeftPosition.x +ApplicationDesignRules.blockHorizontalSpacing + 1.5f*ApplicationDesignRules.roundButtonWorldSize.x, profileBlockUpperLeftPosition.y - 2.5f, 0f);
+			this.profileEditPasswordButton.transform.position  = new Vector3 (profileBlockUpperLeftPosition.x +ApplicationDesignRules.blockHorizontalSpacing + 2.5f*ApplicationDesignRules.roundButtonWorldSize.x, profileBlockUpperLeftPosition.y - 2.5f, 0f);
 			this.profileLine.transform.position = new Vector3 (profileBlockLowerLeftPosition.x+profileBlockSize.x/2f, profileBlockUpperLeftPosition.y - 3f, 0f);
 
 			for(int i=0;i<this.friendshipStatusButtons.Length;i++)
@@ -955,9 +966,9 @@ public class NewProfileController : MonoBehaviour
 				this.resultsTabs[i].transform.localScale = ApplicationDesignRules.tabScale;
 				this.resultsTabs[i].transform.position = new Vector3 (resultsBlockUpperLeftPosition.x + ApplicationDesignRules.tabWorldSize.x / 2f+ i*(ApplicationDesignRules.tabWorldSize.x+gapBetweenResultsTab), resultsBlockUpperLeftPosition.y+ApplicationDesignRules.tabWorldSize.y/2f,0f);
 			}
-
-			this.profileEditInformationsButton.transform.position = new Vector3 (profileBlockUpperRightPosition.x - ApplicationDesignRules.blockHorizontalSpacing - ApplicationDesignRules.roundButtonWorldSize.x / 2f, profileBlockUpperLeftPosition.y - ApplicationDesignRules.buttonVerticalSpacing -ApplicationDesignRules.profilePictureWorldSize.y + ApplicationDesignRules.roundButtonWorldSize.y/2f+ApplicationDesignRules.roundButtonWorldSize.y, 0f);
-			this.profileEditPasswordButton.transform.position  = new Vector3 (profileBlockUpperRightPosition.x - ApplicationDesignRules.blockHorizontalSpacing - ApplicationDesignRules.roundButtonWorldSize.x / 2f, profileBlockUpperLeftPosition.y - ApplicationDesignRules.buttonVerticalSpacing - ApplicationDesignRules.profilePictureWorldSize.y+ ApplicationDesignRules.roundButtonWorldSize.y/2f, 0f);
+			this.profileChooseLanguageButton.transform.position=new Vector3(profileBlockUpperRightPosition.x - ApplicationDesignRules.blockHorizontalSpacing - ApplicationDesignRules.roundButtonWorldSize.x / 2f,profileBlockUpperLeftPosition.y - ApplicationDesignRules.buttonVerticalSpacing -ApplicationDesignRules.profilePictureWorldSize.y + ApplicationDesignRules.roundButtonWorldSize.y/2f+ApplicationDesignRules.roundButtonWorldSize.y,0f);
+			this.profileEditInformationsButton.transform.position = new Vector3 (profileBlockUpperRightPosition.x - ApplicationDesignRules.blockHorizontalSpacing - ApplicationDesignRules.roundButtonWorldSize.x / 2f, profileBlockUpperLeftPosition.y - ApplicationDesignRules.buttonVerticalSpacing - ApplicationDesignRules.profilePictureWorldSize.y+ ApplicationDesignRules.roundButtonWorldSize.y/2f, 0f);
+			this.profileEditPasswordButton.transform.position  = new Vector3 (profileBlockUpperRightPosition.x - ApplicationDesignRules.blockHorizontalSpacing - 1.5f*ApplicationDesignRules.roundButtonWorldSize.x, profileBlockUpperLeftPosition.y - ApplicationDesignRules.buttonVerticalSpacing - ApplicationDesignRules.profilePictureWorldSize.y+ ApplicationDesignRules.roundButtonWorldSize.y/2f, 0f);
 			this.profileLine.transform.position = new Vector3 (profileBlockLowerLeftPosition.x+profileBlockSize.x/2f, profileBlockUpperLeftPosition.y - 0.5f - ApplicationDesignRules.profilePictureWorldSize.y, 0f);
 
 			this.resultsPaginationButtons.transform.position=new Vector3 (resultsBlockLowerLeftPosition.x + resultsBlockSize.x / 2, resultsBlockLowerLeftPosition.y + 0.3f, 0f);
@@ -986,6 +997,10 @@ public class NewProfileController : MonoBehaviour
 		else if(this.isSelectPicturePopUpDisplayed)
 		{
 			this.selectPicturePopUpResize();
+		}
+		else if(this.isChooseLanguagePopUpDisplayed)
+		{
+			this.chooseLanguagePopUpResize();
 		}
 	}
 	public void returnPressed()
@@ -1025,6 +1040,10 @@ public class NewProfileController : MonoBehaviour
 		{
 			this.hideSearchUsersPopUp();
 		}
+		else if(this.isChooseLanguagePopUpDisplayed)
+		{
+			this.hideChooseLanguagePopUp();
+		}
 		else
 		{
 			MenuController.instance.leaveGame();
@@ -1051,6 +1070,10 @@ public class NewProfileController : MonoBehaviour
 		if(this.isSearchUsersPopUpDisplayed)
 		{
 			this.hideSearchUsersPopUp();
+		}
+		if(this.isChooseLanguagePopUpDisplayed)
+		{
+			this.hideChooseLanguagePopUp();
 		}
 	}
 	public void drawChallengesRecords()
@@ -1453,6 +1476,48 @@ public class NewProfileController : MonoBehaviour
 		this.drawProfilePicture ();
 		MenuController.instance.changeThumbPicture (id);
 		MenuController.instance.hideLoadingScreen();
+	}
+	public void displayChooseLanguagePopUp()
+	{
+		MenuController.instance.displayTransparentBackground ();
+		this.chooseLanguagePopUp.SetActive (true);
+		this.chooseLanguagePopUp.GetComponent<ChooseLanguagePopUpController> ().reset();
+		this.chooseLanguagePopUpResize ();
+		this.isChooseLanguagePopUpDisplayed = true;
+	}
+	private void chooseLanguagePopUpResize()
+	{
+		this.chooseLanguagePopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y, -2f);
+		this.chooseLanguagePopUp.transform.localScale = ApplicationDesignRules.popUpScale;
+	}
+	public void hideChooseLanguagePopUp()
+	{
+		this.chooseLanguagePopUp.SetActive(false);
+		MenuController.instance.hideTransparentBackground ();
+		this.isChooseLanguagePopUpDisplayed = false;
+	}
+	public void chooseLanguageHandler(int id)
+	{
+		this.hideChooseLanguagePopUp ();
+		if(id!=ApplicationModel.idLanguage)
+		{
+			StartCoroutine(this.chooseLanguage(id));
+		}
+	}
+	public IEnumerator chooseLanguage(int id)
+	{
+		MenuController.instance.displayLoadingScreen();
+		yield return StartCoroutine(ApplicationModel.chooseLanguage(id));
+		if(ApplicationModel.error=="")
+		{
+			MenuController.instance.profileLink();
+		}
+		else
+		{
+			MenuController.instance.displayErrorPopUp(ApplicationModel.error);
+			ApplicationModel.error="";
+			MenuController.instance.hideLoadingScreen();
+		}
 	}
 	public void displayCheckPasswordPopUp()
 	{

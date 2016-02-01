@@ -14,8 +14,8 @@ public class SelectPicturePopUpController : MonoBehaviour
 
 	void Awake()
 	{
-		gameObject.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Sélectionnez un avatar";
-		gameObject.transform.FindChild ("Button").FindChild ("Title").GetComponent<TextMeshPro> ().text = "Confirmer";
+		gameObject.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingSelectPicturePopUp.getReference(0);
+		gameObject.transform.FindChild ("Button").FindChild ("Title").GetComponent<TextMeshPro> ().text =  WordingSelectPicturePopUp.getReference(1);
 	}
 
 	public void selectPicture(int id)

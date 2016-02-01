@@ -20,7 +20,7 @@ public class WordingPagination
 		references.Add(new string[]{"aucune carte à afficher",""}); //3
 		references.Add(new string[]{"compétence",""}); //4
 		references.Add(new string[]{"aucune compétence à afficher",""}); //5
-		references.Add(new string[]{"pack",""}); //6
+		references.Add(new string[]{"pack ",""}); //6
 		references.Add(new string[]{"aucun pack à afficher",""}); //7
 	}
 }

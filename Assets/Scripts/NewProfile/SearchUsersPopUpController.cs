@@ -60,9 +60,9 @@ public class SearchUsersPopUpController : MonoBehaviour
 	}
 	public void initializePopUp()
 	{
-		this.gameObject.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Résultats";
-		this.gameObject.transform.FindChild ("Button").FindChild ("Title").GetComponent<TextMeshPro> ().text = "Quitter";
-		this.gameObject.transform.FindChild("NoResults").GetComponent<TextMeshPro>().text="Désolé, aucun résultat ne correspond à votre recherche !";
+		this.gameObject.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingSearchUsersPopUp.getReference(0);
+		this.gameObject.transform.FindChild ("Button").FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingSearchUsersPopUp.getReference(1);
+		this.gameObject.transform.FindChild("NoResults").GetComponent<TextMeshPro>().text=WordingSearchUsersPopUp.getReference(2);
 		this.paginationButtons = GameObject.Find ("Pagination");
 		this.paginationButtons.AddComponent<SearchUsersPopUpPaginationController> ();
 		this.paginationButtons.GetComponent<SearchUsersPopUpPaginationController> ().initialize ();

@@ -95,11 +95,11 @@ public class NewHomePageModel
 			string[] packData =array[i].Split(new string[] { "//" }, System.StringSplitOptions.None);
 			packs.Add (new Pack());
 			packs[i].Id= System.Convert.ToInt32(packData[0]);
-			packs[i].Name= packData[1];
-			packs[i].New= System.Convert.ToBoolean(System.Convert.ToInt32(packData[2]));
-			packs[i].Picture=packData[3];
-			packs[i].Price=System.Convert.ToInt32(packData[4]);
-			packs[i].IdPicture=System.Convert.ToInt32(packData[5]);
+			packs[i].Name =WordingPacks.getName(System.Convert.ToInt32(packData[0])-1);
+			packs[i].New= System.Convert.ToBoolean(System.Convert.ToInt32(packData[1]));
+			packs[i].Picture=packData[2];
+			packs[i].Price=System.Convert.ToInt32(packData[3]);
+			packs[i].IdPicture=System.Convert.ToInt32(packData[4]);
 		}
 		return packs;
 	}
@@ -226,20 +226,19 @@ public class NewHomePageModel
 			notifications.Add(new DisplayedNotification());
 
 			notifications[i].Notification.Id=System.Convert.ToInt32(notificationData[0]);
-			notifications[i].Notification.Date=DateTime.ParseExact(notificationData[2], "yyyy-MM-dd HH:mm:ss", null);
-			notifications[i].Notification.IsRead=System.Convert.ToBoolean(System.Convert.ToInt32(notificationData[3]));
-			notifications[i].Notification.IdNotificationType=System.Convert.ToInt32(notificationData[4]);
-			notifications[i].Notification.Description= notificationData[5];
-			notifications[i].Notification.HiddenParam= notificationData[6];
-			notifications[i].SendingUser=this.users[returnUsersIndex(System.Convert.ToInt32(notificationData[7]))];
+			notifications[i].Notification.Date=DateTime.ParseExact(notificationData[1], "yyyy-MM-dd HH:mm:ss", null);
+			notifications[i].Notification.IsRead=System.Convert.ToBoolean(System.Convert.ToInt32(notificationData[2]));
+			notifications[i].Notification.IdNotificationType=System.Convert.ToInt32(notificationData[3]);
+			notifications[i].Notification.HiddenParam= notificationData[4];
+			notifications[i].SendingUser=this.users[returnUsersIndex(System.Convert.ToInt32(notificationData[5]))];
 
 			if(this.player.readnotificationsystem && notifications[i].Notification.IdNotificationType==1)
 			{
 				notifications[i].Notification.IsRead=true;
 			}
 			
-			string tempContent=notificationData[1];
-			for(int j=8;j<notificationData.Length-1;j++)
+			string tempContent=WordingNotifications.getContent(notifications[i].Notification.IdNotificationType-1);
+			for(int j=6;j<notificationData.Length-1;j++)
 			{
 				string[] notificationObjectData = notificationData[j].Split (new char[] {':'},System.StringSplitOptions.None);
 				switch (notificationObjectData[0])
@@ -250,16 +249,29 @@ public class NewHomePageModel
 					tempContent=ReplaceFirst(tempContent,"#*user*#",notifications[i].Users[notifications[i].Users.Count-1].Username);
 					break;
 				case "card":
-					notifications[i].Cards.Add (new Card (notificationObjectData[1]));
-					tempContent=ReplaceFirst(tempContent,"#*card*#",notificationObjectData[1]);
+					string cardTitle ="";
+					if(notificationObjectData[1]=="")
+					{
+						cardTitle=WordingCardTypes.getName(System.Convert.ToInt32(notificationObjectData[2]));
+					}
+					else
+					{
+						cardTitle=notificationObjectData[1];
+					}
+					notifications[i].Cards.Add (new Card (cardTitle));
+					tempContent=ReplaceFirst(tempContent,"#*card*#",cardTitle);
+					break;
+				case "communication":
+					notifications[i].Values.Add (notificationObjectData[1+ApplicationModel.idLanguage]);
+					tempContent=ReplaceFirst(tempContent,"#*communication*#",notificationObjectData[1+ApplicationModel.idLanguage]);
 					break;
 				case "value":
 					notifications[i].Values.Add (notificationObjectData[1]);
 					tempContent=ReplaceFirst(tempContent,"#*value*#",notificationObjectData[1]);
 					break;
 				case "trophy":
-					notifications[i].Values.Add (notificationObjectData[1]);
-					tempContent=ReplaceFirst(tempContent,"#*trophy*#",notificationObjectData[1]);
+					notifications[i].Values.Add (WordingGameModes.getName(System.Convert.ToInt32(notificationObjectData[1])-1,System.Convert.ToInt32(notificationObjectData[1])-1));
+					tempContent=ReplaceFirst(tempContent,"#*trophy*#",WordingGameModes.getName(System.Convert.ToInt32(notificationObjectData[1])-1,System.Convert.ToInt32(notificationObjectData[1])-1));
 					break;
 				}
 			}
@@ -274,16 +286,15 @@ public class NewHomePageModel
 		for (int i=0;i<array.Length-1;i++)
 		{
 			string[] newsData =array[i].Split(new string[] { "//" }, System.StringSplitOptions.None);
-			
-			news.Add(new DisplayedNews(new News(System.Convert.ToInt32(newsData[1]),
-			                                    DateTime.ParseExact(newsData[2], "yyyy-MM-dd HH:mm:ss", null),
-			                                    newsData[3]),
-			                           new User())); 
 
-			news[i].User=this.users[returnUsersIndex(System.Convert.ToInt32(newsData[4]))];
+			news.Add(new DisplayedNews());
+
+			news[i].News.IdNewsType=System.Convert.ToInt32(newsData[0]);
+			news[i].News.Date=DateTime.ParseExact(newsData[1], "yyyy-MM-dd HH:mm:ss", null);
+			news[i].User=this.users[returnUsersIndex(System.Convert.ToInt32(newsData[2]))];
 			
-			string tempContent=newsData[0];
-			for(int j=5;j<newsData.Length-1;j++)
+			string tempContent=WordingNews.getContent(news[i].News.IdNewsType-1);
+			for(int j=3;j<newsData.Length-1;j++)
 			{
 				string[] newsObjectData = newsData[j].Split (new char[] {':'},System.StringSplitOptions.None);
 				switch (newsObjectData[0])
@@ -294,16 +305,25 @@ public class NewHomePageModel
 					tempContent=ReplaceFirst(tempContent,"#*user*#",news[i].Users[news[i].Users.Count-1].Username);
 					break;
 				case "card":
-					news[i].Cards.Add (new Card (newsObjectData[1]));
-					tempContent=ReplaceFirst(tempContent,"#*card*#",newsObjectData[1]);
+					string cardTitle ="";
+					if(newsObjectData[1]=="")
+					{
+						cardTitle=WordingCardTypes.getName(System.Convert.ToInt32(newsObjectData[2]));
+					}
+					else
+					{
+						cardTitle=newsObjectData[1];
+					}
+					news[i].Cards.Add (new Card (cardTitle));
+					tempContent=ReplaceFirst(tempContent,"#*card*#",cardTitle);
 					break;
 				case "value":
 					news[i].Values.Add (newsObjectData[1]);
 					tempContent=ReplaceFirst(tempContent,"#*value*#",newsObjectData[1]);
 					break;
 				case "trophy":
-					news[i].Values.Add (newsObjectData[1]);
-					tempContent=ReplaceFirst(tempContent,"#*trophy*#",newsObjectData[1]);
+					news[i].Values.Add (WordingGameModes.getName(System.Convert.ToInt32(newsObjectData[1])-1,System.Convert.ToInt32(newsObjectData[1])-1));
+					tempContent=ReplaceFirst(tempContent,"#*trophy*#",WordingGameModes.getName(System.Convert.ToInt32(newsObjectData[1])-1,System.Convert.ToInt32(newsObjectData[1])-1));
 					break;
 				}
 			}

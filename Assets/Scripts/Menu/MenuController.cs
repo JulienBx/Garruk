@@ -332,6 +332,7 @@ public class MenuController : MonoBehaviour
 		this.initializeScene ();
 		yield return StartCoroutine (model.loadUserData (this.ressources.totalNbResultLimit));
 		gameObject.transform.FindChild("UserBlock").FindChild ("Picture").GetComponent<SpriteRenderer> ().sprite = this.returnThumbPicture (model.player.idProfilePicture);
+		gameObject.transform.FindChild("MobilePicture").GetComponent<SpriteRenderer> ().sprite = this.returnThumbPicture (model.player.idProfilePicture);
 		if(Application.loadedLevelName!="NewHomePage")
 		{
 			ApplicationModel.nbNotificationsNonRead = model.player.nonReadNotifications;
@@ -881,6 +882,7 @@ public class MenuController : MonoBehaviour
 	{
 		model.player.idProfilePicture = id;
 		gameObject.transform.FindChild("UserBlock").FindChild ("Picture").GetComponent<SpriteRenderer> ().sprite = this.returnThumbPicture (model.player.idProfilePicture);
+		gameObject.transform.FindChild("MobilePicture").GetComponent<SpriteRenderer> ().sprite = this.returnThumbPicture (model.player.idProfilePicture);
 	}
 	public void setIsUserBusy(bool value)
 	{

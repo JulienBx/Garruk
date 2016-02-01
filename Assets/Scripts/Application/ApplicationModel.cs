@@ -41,6 +41,7 @@ public class ApplicationModel : MonoBehaviour
 
 	static private string URLCheckPassword = host + "check_password.php";
 	static private string URLEditPassword = host + "edit_password.php";
+	static private string URLChooseLanguage = host + "choose_language.php";
 	static private string URLCheckAuthentification = host + "check_authentication.php"; 
 	static private string URLCheckPermanentConnexion = host + "check_permanent_connexion.php";
 	static private string URLCreateAccount = host + "create_account.php";
@@ -82,6 +83,34 @@ public class ApplicationModel : MonoBehaviour
 			print(w.error); 										// donne l'erreur eventuelle
 		} 
 	}
+	static public IEnumerator chooseLanguage(int id)
+	{
+		WWWForm form = new WWWForm(); 								 //Création de la connexion
+		form.AddField("myform_hash", hash); 		 				//hashcode de sécurité, doit etre identique à celui sur le serveur
+		form.AddField("myform_nick", username); 
+		form.AddField("myform_idlanguage", id.ToString());
+		
+		WWW w = new WWW(URLChooseLanguage, form); 								// On envoie le formulaire à l'url sur le serveur 
+		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
+		
+		if (w.error != null)
+		{
+			print(w.error); 										// donne l'erreur eventuelle
+		} 
+		else
+		{
+			if (w.text.Contains("#ERROR#"))
+			{
+				string[] errors = w.text.Split(new string[] { "#ERROR#" }, System.StringSplitOptions.None);
+				error = errors [1];
+			} 
+			else
+			{
+				error = "";
+				idLanguage=id;
+			}		
+		}
+	}
 	static public IEnumerator permanentConnexion()
 	{
 		WWWForm form = new WWWForm(); 
@@ -109,6 +138,7 @@ public class ApplicationModel : MonoBehaviour
 				isAdmin = System.Convert.ToBoolean(System.Convert.ToInt32(data [2]));
 				credits = System.Convert.ToInt32(data [3]);
 				displayTutorial = System.Convert.ToBoolean(System.Convert.ToInt32(data [4]));
+				idLanguage=System.Convert.ToInt32(data[5]);
 			}		
 		}
 	}
@@ -151,6 +181,7 @@ public class ApplicationModel : MonoBehaviour
 				isAdmin = System.Convert.ToBoolean(System.Convert.ToInt32(data [2]));
 				credits = System.Convert.ToInt32(data [3]);
 				displayTutorial = System.Convert.ToBoolean(System.Convert.ToInt32(data [4]));
+				idLanguage=System.Convert.ToInt32(data[5]);
 			}											
 		}
 	}

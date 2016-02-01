@@ -74,7 +74,7 @@ public class NewFocusedCardExperienceController : MonoBehaviour
 	}
 	public virtual void updateExperienceLevel()
 	{
-		this.gameObject.transform.FindChild("ExperienceLevel").GetComponent<TextMeshPro>().text = "Niveau "+currentLevel.ToString();
+		this.gameObject.transform.FindChild("ExperienceLevel").GetComponent<TextMeshPro>().text =WordingFocusedCard.getReference(12)+currentLevel.ToString();
 	}
 	public virtual void startUpdatingXp(int endLevel, int endPercentage)
 	{

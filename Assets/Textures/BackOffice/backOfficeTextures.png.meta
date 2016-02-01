@@ -164,6 +164,10 @@ TextureImporter:
     21300314: statsButton
     21300316: editPasswordButton
     21300318: blackBlock
+    21300320: english
+    21300322: englishbig
+    21300324: french
+    21300326: frenchBig
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -213,8 +217,8 @@ TextureImporter:
     - name: BlockBackground
       rect:
         serializedVersion: 2
-        x: 768
-        y: 831
+        x: 428
+        y: 399
         width: 100
         height: 100
       alignment: 0
@@ -258,8 +262,8 @@ TextureImporter:
     - name: Cup
       rect:
         serializedVersion: 2
-        x: 2
-        y: 335
+        x: 391
+        y: 501
         width: 325
         height: 325
       alignment: 0
@@ -273,8 +277,8 @@ TextureImporter:
     - name: DarkBlockBackground
       rect:
         serializedVersion: 2
-        x: 490
-        y: 726
+        x: 530
+        y: 399
         width: 100
         height: 100
       alignment: 0
@@ -288,8 +292,8 @@ TextureImporter:
     - name: HoveredButton
       rect:
         serializedVersion: 2
-        x: 329
-        y: 174
+        x: 718
+        y: 611
         width: 300
         height: 200
       alignment: 0
@@ -426,8 +430,8 @@ TextureImporter:
     - name: atkicon
       rect:
         serializedVersion: 2
-        x: 391
-        y: 704
+        x: 329
+        y: 377
         width: 97
         height: 122
       alignment: 9
@@ -447,8 +451,8 @@ TextureImporter:
     - name: authenticationBackBlock
       rect:
         serializedVersion: 2
-        x: 592
-        y: 726
+        x: 632
+        y: 399
         width: 100
         height: 100
       alignment: 0
@@ -497,8 +501,8 @@ TextureImporter:
     - name: blackBlock
       rect:
         serializedVersion: 2
-        x: 329
-        y: 72
+        x: 606
+        y: 11
         width: 100
         height: 100
       alignment: 0
@@ -542,8 +546,8 @@ TextureImporter:
     - name: button22
       rect:
         serializedVersion: 2
-        x: 2311
-        y: 1675
+        x: 2310
+        y: 1551
         width: 121
         height: 120
       alignment: 0
@@ -575,8 +579,8 @@ TextureImporter:
     - name: button51
       rect:
         serializedVersion: 2
-        x: 533
-        y: 3
+        x: 718
+        y: 529
         width: 317
         height: 80
       alignment: 0
@@ -932,8 +936,8 @@ TextureImporter:
     - name: divisionTexture
       rect:
         serializedVersion: 2
-        x: 329
-        y: 376
+        x: 606
+        y: 113
         width: 294
         height: 284
       alignment: 9
@@ -1192,6 +1196,63 @@ TextureImporter:
         - {x: 38.5, y: -324}
         - {x: 46.5, y: -323}
         - {x: 59.5, y: -321}
+    - name: english
+      rect:
+        serializedVersion: 2
+        x: 2311
+        y: 1673
+        width: 121
+        height: 122
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -43.5, y: 61}
+        - {x: -60.5, y: 40}
+        - {x: -60.5, y: -47}
+        - {x: -54.5, y: -61}
+        - {x: 53.5, y: -61}
+        - {x: 60.5, y: -59}
+        - {x: 60.5, y: 46}
+        - {x: 31.5, y: 61}
+    - name: englishbig
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 33
+        width: 300
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 128, y: -86}
+        - {x: 145, y: -55}
+        - {x: 150, y: -34}
+        - {x: 150, y: 31}
+        - {x: 147, y: 46}
+        - {x: 131, y: 84}
+        - {x: 99, y: 120}
+        - {x: 55, y: 146}
+        - {x: 33, y: 150}
+        - {x: -33, y: 150}
+        - {x: -46, y: 148}
+        - {x: -84, y: 131}
+        - {x: -124, y: 94}
+        - {x: -145, y: 55}
+        - {x: -150, y: 34}
+        - {x: -150, y: -31}
+        - {x: -149, y: -34}
+        - {x: -146, y: -46}
+        - {x: -139, y: -67}
+        - {x: -123, y: -93}
+        - {x: -99, y: -120}
+        - {x: -55, y: -146}
+        - {x: -35, y: -150}
+        - {x: 33, y: -150}
+        - {x: 60, y: -143}
+        - {x: 87, y: -128}
+        - {x: 119, y: -98}
     - name: filterBar
       rect:
         serializedVersion: 2
@@ -1382,11 +1443,66 @@ TextureImporter:
         - {x: -2.5, y: 32.5}
         - {x: -24.5, y: 32.5}
         - {x: -25.5, y: 30.5}
+    - name: french
+      rect:
+        serializedVersion: 2
+        x: 2187
+        y: 1550
+        width: 121
+        height: 121
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -40.5, y: 60.5}
+        - {x: -60.5, y: 47.5}
+        - {x: -60.5, y: -43.5}
+        - {x: -35.5, y: -60.5}
+        - {x: 27.5, y: -60.5}
+        - {x: 60.5, y: -45.5}
+        - {x: 60.5, y: 35.5}
+        - {x: 40.5, y: 60.5}
+    - name: frenchBig
+      rect:
+        serializedVersion: 2
+        x: 304
+        y: 33
+        width: 300
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 125, y: -88}
+        - {x: 132, y: -80}
+        - {x: 150, y: -44}
+        - {x: 150, y: 33}
+        - {x: 143, y: 60}
+        - {x: 128, y: 90}
+        - {x: 90, y: 127}
+        - {x: 67, y: 139}
+        - {x: 39, y: 149}
+        - {x: 33, y: 150}
+        - {x: -30, y: 150}
+        - {x: -46, y: 147}
+        - {x: -73, y: 136}
+        - {x: -101, y: 118}
+        - {x: -134, y: 81}
+        - {x: -150, y: 39}
+        - {x: -150, y: -37}
+        - {x: -140, y: -67}
+        - {x: -119, y: -102}
+        - {x: -74, y: -138}
+        - {x: -39, y: -150}
+        - {x: 37, y: -150}
+        - {x: 67, y: -140}
+        - {x: 101, y: -117}
+        - {x: 121, y: -95}
     - name: friendly
       rect:
         serializedVersion: 2
         x: 2
-        y: 8
+        y: 335
         width: 325
         height: 325
       alignment: 0
@@ -1724,7 +1840,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 768
-        y: 933
+        y: 813
         width: 112
         height: 167
       alignment: 9
@@ -1862,8 +1978,8 @@ TextureImporter:
     - name: mainLogo
       rect:
         serializedVersion: 2
-        x: 533
-        y: 85
+        x: 810
+        y: 24
         width: 323
         height: 87
       alignment: 9
@@ -1969,7 +2085,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 768
-        y: 1102
+        y: 982
         width: 115
         height: 119
       alignment: 0
@@ -2446,7 +2562,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 768
-        y: 1223
+        y: 1103
         width: 118
         height: 138
       alignment: 9
@@ -3313,8 +3429,8 @@ TextureImporter:
     - name: square_pretresse
       rect:
         serializedVersion: 2
-        x: 2
-        y: 662
+        x: 889
+        y: 928
         width: 387
         height: 387
       alignment: 9
@@ -3367,8 +3483,8 @@ TextureImporter:
     - name: square_roublard
       rect:
         serializedVersion: 2
-        x: 888
-        y: 928
+        x: 2
+        y: 662
         width: 387
         height: 387
       alignment: 9
@@ -3507,8 +3623,8 @@ TextureImporter:
     - name: startlevelblue
       rect:
         serializedVersion: 2
-        x: 2311
-        y: 1615
+        x: 768
+        y: 1363
         width: 119
         height: 58
       alignment: 0
@@ -3524,8 +3640,8 @@ TextureImporter:
     - name: startlevelgrey
       rect:
         serializedVersion: 2
-        x: 2187
-        y: 1613
+        x: 768
+        y: 1303
         width: 119
         height: 58
       alignment: 0
@@ -3542,7 +3658,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 768
-        y: 1363
+        y: 1243
         width: 119
         height: 58
       alignment: 0
@@ -3919,8 +4035,8 @@ TextureImporter:
     - name: transparentBackGround
       rect:
         serializedVersion: 2
-        x: 431
-        y: 72
+        x: 708
+        y: 11
         width: 100
         height: 100
       alignment: 0

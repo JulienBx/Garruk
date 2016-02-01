@@ -23,7 +23,7 @@ public class WordingLobby
 		references.Add(new string[]{"Classement collectionneur",""}); //6
 		references.Add(new string[]{"Continuer",""}); //7
 		references.Add(new string[]{"(",""}); //8
-		references.Add(new string[]{" pts",""}); //9
+		references.Add(new string[]{" pts)",""}); //9
 		references.Add(new string[]{"Victoire le ",""}); //10
 		references.Add(new string[]{"Défaite le ",""}); //11
 		references.Add(new string[]{"Hégémonie : ",""}); //12

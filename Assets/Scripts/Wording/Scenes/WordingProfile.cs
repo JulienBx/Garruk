@@ -39,7 +39,7 @@ public class WordingProfile
 		references.Add(new string[]{" victoire(s)",""}); //22
 		references.Add(new string[]{"Hégémonie atteinte le ",""}); //23
 		references.Add(new string[]{"(",""}); //24
-		references.Add(new string[]{" pts",""}); //25
+		references.Add(new string[]{" pts)",""}); //25
 		references.Add(new string[]{"prénom : ",""}); //26
 		references.Add(new string[]{"nom : ",""}); //27
 		references.Add(new string[]{"mail : ",""}); //28

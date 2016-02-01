@@ -14,7 +14,7 @@ public class WordingHomePage
 	static WordingHomePage()
 	{
 		references=new List<string[]>();
-		references.Add(new string[]{"carte ",""}); //0
+		references.Add(new string[]{"Mon équipe",""}); //0
 		references.Add(new string[]{"Jouer",""}); //1
 		references.Add(new string[]{"Recruter",""}); //2
 		references.Add(new string[]{"Alertes",""}); //3

@@ -67,12 +67,12 @@ public class NewStoreModel
 			string[] packInformation = array[i].Split(new string[] { "\\" }, System.StringSplitOptions.None);
 			packList.Add (new Pack());
 			packList[i].Id = System.Convert.ToInt32(packInformation[0]);
-			packList[i].Name = packInformation[1];
-			packList[i].NbCards=System.Convert.ToInt32(packInformation[2]);
-			packList[i].CardType = System.Convert.ToInt32(packInformation[3]);
-			packList[i].Price=System.Convert.ToInt32(packInformation[4]);
-			packList[i].New=System.Convert.ToBoolean(System.Convert.ToInt32(packInformation[5]));
-			packList[i].IdPicture=System.Convert.ToInt32(packInformation[6]);
+			packList[i].Name = WordingPacks.getName(System.Convert.ToInt32(packInformation[0])-1);
+			packList[i].NbCards=System.Convert.ToInt32(packInformation[1]);
+			packList[i].CardType = System.Convert.ToInt32(packInformation[2]);
+			packList[i].Price=System.Convert.ToInt32(packInformation[3]);
+			packList[i].New=System.Convert.ToBoolean(System.Convert.ToInt32(packInformation[4]));
+			packList[i].IdPicture=System.Convert.ToInt32(packInformation[5]);
 		}
 		return packList;
 	}

@@ -69,7 +69,7 @@ public class NewLobbyModel
 		cup.NbWins= System.Convert.ToInt32(array [1]);
 		cup.NbLooses= System.Convert.ToInt32(array [2]);
 		cup.Status= System.Convert.ToInt32(array [3]);
-		cup.Name= array[4];
+		cup.Name= WordingGameModes.getName(1,System.Convert.ToInt32(array[4])-1);
 		cup.IdPicture= System.Convert.ToInt32(array[5]);
 		cup.CupPrize = System.Convert.ToInt32(array [6]);
 		cup.NbRounds = System.Convert.ToInt32(array [7]);
@@ -86,7 +86,7 @@ public class NewLobbyModel
 		division.NbWins= System.Convert.ToInt32(array [1]);
 		division.NbLooses= System.Convert.ToInt32(array [2]);
 		division.Status= System.Convert.ToInt32(array [3]);
-		division.Name= array[4];
+		division.Name= WordingGameModes.getName(0,System.Convert.ToInt32(array[4])-1);
 		division.IdPicture= System.Convert.ToInt32(array[5]);
 		division.TitlePrize = System.Convert.ToInt32(array [6]);
 		division.PromotionPrize = System.Convert.ToInt32(array [7]);
