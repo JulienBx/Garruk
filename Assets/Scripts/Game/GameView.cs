@@ -946,12 +946,6 @@ public class GameView : MonoBehaviour
 		this.getTileController(this.getPlayingCardTile(c).x,this.getPlayingCardTile(c).y).setCharacterID(-1);
 	}
 	
-	public void removeSkillEffects(){
-		for (int i = 0 ; i < playingCards.Count ; i++){
-			this.getTileController(i).displaySkillEffect(false);
-		}
-	}
-	
 	public void updateActionStatus(){
 		this.getPassZoneController().updateButtonStatus (this.getCard(this.currentPlayingCard));
 		this.getMoveZoneController().updateButtonStatus (this.getCard(this.currentPlayingCard));
@@ -1051,10 +1045,6 @@ public class GameView : MonoBehaviour
 					this.getPlayingCardController(i).addMoveTime(Time.deltaTime);
 				}
 			}
-		}
-		
-		for (int i = 0 ; i < this.skillEffects.Count; i++){
-			this.getTileController(this.skillEffects[i].x, this.skillEffects[i].y).addSETime(Time.deltaTime);
 		}
 		
 		if(this.interlude.GetComponent<InterludeController>().getIsRunning()){
