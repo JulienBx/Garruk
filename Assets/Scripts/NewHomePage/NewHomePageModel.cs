@@ -11,11 +11,7 @@ public class NewHomePageModel
 	public IList<User> users;
 	public IList<int> friends;
 	public string[] usernameList;
-	public User player;
 	public int notificationSystemIndex;
-	public Division currentDivision;
-	public Cup currentCup;
-	public FriendlyGame currentFriendlyGame;
 	public IList<Pack> packs;
 	public IList<Competition> competitions;
 	public IList<Deck> decks;
@@ -33,14 +29,13 @@ public class NewHomePageModel
 		this.notifications = new List<DisplayedNotification>();
 		this.news = new List<DisplayedNews>();
 		this.competitions = new List<Competition> ();
-		this.player = new User();
 		this.users = new List<User> ();
 		this.friends = new List<int> ();
 		this.notificationSystemIndex = -1;
 
 		WWWForm form = new WWWForm(); 											// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_nick", ApplicationModel.username);
+		form.AddField("myform_nick", ApplicationModel.player.Username);
 		form.AddField ("myform_totalnbresultlimit", totalNbResultLimit.ToString());
 		form.AddField ("myform_nbcardsbydeck", ApplicationModel.nbCardsByDeck.ToString ());
 		
@@ -51,32 +46,29 @@ public class NewHomePageModel
 		else 
 		{
 			string[] data=w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
-			this.player = parsePlayer(data[0].Split(new string[] { "//" }, System.StringSplitOptions.None));
+			this.parsePlayer(data[0].Split(new string[] { "//" }, System.StringSplitOptions.None));
 			this.users = parseUsers(data[9].Split(new string[] { "#U#"  }, System.StringSplitOptions.None));
-			this.users.Add(player);
+			this.users.Add(ApplicationModel.player);
 			this.decks = this.parseDecks(data[1].Split(new string[] { "#DECK#" }, System.StringSplitOptions.None));
 			this.notifications=parseNotifications(data[2].Split(new string[] { "#N#" }, System.StringSplitOptions.None));
 			this.friends=parseFriends(data[3].Split(new string[] { "//" }, System.StringSplitOptions.None));
-			this.news=this.filterNews(parseNews(data[4].Split(new string[] { "#N#" }, System.StringSplitOptions.None)),this.player.Id);
-			this.currentDivision=parseDivision(data[5].Split(new string[] { "//" }, System.StringSplitOptions.None));
-			this.currentCup=parseCup(data[6].Split(new string[] { "//" }, System.StringSplitOptions.None));
+			this.news=this.filterNews(parseNews(data[4].Split(new string[] { "#N#" }, System.StringSplitOptions.None)),ApplicationModel.player.Id);
+			ApplicationModel.player.CurrentDivision=parseDivision(data[5].Split(new string[] { "//" }, System.StringSplitOptions.None));
+			ApplicationModel.player.CurrentCup=parseCup(data[6].Split(new string[] { "//" }, System.StringSplitOptions.None));
 			this.packs=parsePacks(data[7].Split(new string[] { "#PACK#" }, System.StringSplitOptions.None));
-			this.currentFriendlyGame = this.parseFriendlyGame(data[8].Split(new string[] { "//" }, System.StringSplitOptions.None));
+			ApplicationModel.player.CurrentFriendlyGame = this.parseFriendlyGame(data[8].Split(new string[] { "//" }, System.StringSplitOptions.None));
 
 			this.lookForNonReadSystemNotification();
-			this.competitions.Add (this.currentDivision);
-			this.competitions.Add (this.currentCup);
-			ApplicationModel.currentFriendlyGame=this.currentFriendlyGame;
-			ApplicationModel.currentDivision=this.currentDivision;
-			ApplicationModel.currentCup=this.currentCup;
+			this.competitions.Add (ApplicationModel.player.CurrentDivision);
+			this.competitions.Add (ApplicationModel.player.CurrentCup);
 
 			if(this.decks.Count>0)
 			{
-				ApplicationModel.hasDeck=true;
+				ApplicationModel.player.HasDeck=true;
 			}
 			else
 			{
-				ApplicationModel.hasDeck=false;
+				ApplicationModel.player.HasDeck=false;
 			}
 
 			usernameList=new string[this.users.Count];
@@ -129,26 +121,24 @@ public class NewHomePageModel
 		division.EarnCredits_L = System.Convert.ToInt32 (array [7]);
 		return division;
 	}
-	private User parsePlayer(string[] array)
+	private void parsePlayer(string[] array)
 	{
-		User player = new User ();
-		player.readnotificationsystem=System.Convert.ToBoolean(System.Convert.ToInt32(array[0]));
-		player.Id= System.Convert.ToInt32(array[1]);
-		player.Ranking = System.Convert.ToInt32 (array [2]);
-		player.RankingPoints = System.Convert.ToInt32 (array [3]);
-		player.TotalNbWins = System.Convert.ToInt32 (array [4]);
-		player.TotalNbLooses = System.Convert.ToInt32 (array [5]);
-		player.CollectionPoints = System.Convert.ToInt32 (array [6]);
-		player.CollectionRanking = System.Convert.ToInt32 (array [7]);
-		player.TutorialStep = System.Convert.ToInt32 (array [8]);
-		player.displayTutorial=System.Convert.ToBoolean(System.Convert.ToInt32(array[9]));
-		player.SelectedDeckId = System.Convert.ToInt32 (array [10]);
-		player.ConnectionBonus = System.Convert.ToInt32 (array [11]);
-		player.Division = System.Convert.ToInt32 (array [12]);
-		player.NbGamesDivision = System.Convert.ToInt32 (array [13]);
-		player.Cup = System.Convert.ToInt32 (array [14]);
-		player.NbGamesCup = System.Convert.ToInt32 (array [15]);
-		return player;
+		ApplicationModel.player.Readnotificationsystem=System.Convert.ToBoolean(System.Convert.ToInt32(array[0]));
+		ApplicationModel.player.Id= System.Convert.ToInt32(array[1]);
+		ApplicationModel.player.Ranking = System.Convert.ToInt32 (array [2]);
+		ApplicationModel.player.RankingPoints = System.Convert.ToInt32 (array [3]);
+		ApplicationModel.player.TotalNbWins = System.Convert.ToInt32 (array [4]);
+		ApplicationModel.player.TotalNbLooses = System.Convert.ToInt32 (array [5]);
+		ApplicationModel.player.CollectionPoints = System.Convert.ToInt32 (array [6]);
+		ApplicationModel.player.CollectionRanking = System.Convert.ToInt32 (array [7]);
+		ApplicationModel.player.TutorialStep = System.Convert.ToInt32 (array [8]);
+		ApplicationModel.player.DisplayTutorial=System.Convert.ToBoolean(System.Convert.ToInt32(array[9]));
+		ApplicationModel.player.SelectedDeckId = System.Convert.ToInt32 (array [10]);
+		ApplicationModel.player.ConnectionBonus = System.Convert.ToInt32 (array [11]);
+		ApplicationModel.player.Division = System.Convert.ToInt32 (array [12]);
+		ApplicationModel.player.NbGamesDivision = System.Convert.ToInt32 (array [13]);
+		ApplicationModel.player.Cup = System.Convert.ToInt32 (array [14]);
+		ApplicationModel.player.NbGamesCup = System.Convert.ToInt32 (array [15]);
 	}
 	private IList<User> parseUsers(string[] array)
 	{
@@ -161,7 +151,7 @@ public class NewHomePageModel
 			users.Add (new User());
 			users[i].Id= System.Convert.ToInt32(userData[0]);
 			users[i].Username= userData[1];
-			users[i].idProfilePicture= System.Convert.ToInt32(userData[2]);
+			users[i].IdProfilePicture= System.Convert.ToInt32(userData[2]);
 			users[i].CollectionRanking = System.Convert.ToInt32 (userData [3]);
 			users[i].RankingPoints = System.Convert.ToInt32 (userData [4]);
 			users[i].Ranking = System.Convert.ToInt32 (userData [5]);
@@ -174,7 +164,7 @@ public class NewHomePageModel
 	{
 		for(int i =0; i<this.notifications.Count;i++)
 		{
-			if(!this.player.readnotificationsystem && this.notificationSystemIndex==-1 && notifications[i].Notification.IdNotificationType==1)
+			if(!ApplicationModel.player.Readnotificationsystem && this.notificationSystemIndex==-1 && notifications[i].Notification.IdNotificationType==1)
 			{
 				this.notificationSystemIndex=i;
 				break;
@@ -232,7 +222,7 @@ public class NewHomePageModel
 			notifications[i].Notification.HiddenParam= notificationData[4];
 			notifications[i].SendingUser=this.users[returnUsersIndex(System.Convert.ToInt32(notificationData[5]))];
 
-			if(this.player.readnotificationsystem && notifications[i].Notification.IdNotificationType==1)
+			if(ApplicationModel.player.Readnotificationsystem && notifications[i].Notification.IdNotificationType==1)
 			{
 				notifications[i].Notification.IsRead=true;
 			}
@@ -262,8 +252,8 @@ public class NewHomePageModel
 					tempContent=ReplaceFirst(tempContent,"#*card*#",cardTitle);
 					break;
 				case "communication":
-					notifications[i].Values.Add (notificationObjectData[1+ApplicationModel.idLanguage]);
-					tempContent=ReplaceFirst(tempContent,"#*communication*#",notificationObjectData[1+ApplicationModel.idLanguage]);
+					notifications[i].Values.Add (notificationObjectData[1+ApplicationModel.player.IdLanguage]);
+					tempContent=ReplaceFirst(tempContent,"#*communication*#",notificationObjectData[1+ApplicationModel.player.IdLanguage]);
 					break;
 				case "value":
 					notifications[i].Values.Add (notificationObjectData[1]);
@@ -341,7 +331,7 @@ public class NewHomePageModel
 			if(this.notifications[readNotifications[i]].Notification.IdNotificationType==1)
 			{
 				isSystemNotification=true;
-				this.player.readnotificationsystem=true;
+				ApplicationModel.player.Readnotificationsystem=true;
 			}
 			else
 			{
@@ -355,7 +345,7 @@ public class NewHomePageModel
 		
 		WWWForm form = new WWWForm(); 											
 		form.AddField("myform_hash", ApplicationModel.hash); 					
-		form.AddField("myform_nick", ApplicationModel.username);
+		form.AddField("myform_nick", ApplicationModel.player.Username);
 		form.AddField ("myform_query", query);
 		form.AddField ("myform_issystemnotification", isSystemNotification.ToString());
 		form.AddField ("myform_totalnbresultlimit", totalNbResultLimit.ToString());
@@ -368,7 +358,7 @@ public class NewHomePageModel
 		}
 		else
 		{
-			this.player.nonReadNotifications=System.Convert.ToInt32(w.text);
+			ApplicationModel.player.NonReadNotifications=System.Convert.ToInt32(w.text);
 		}
 	}
 	private string ReplaceFirst(string text, string search, string replace)

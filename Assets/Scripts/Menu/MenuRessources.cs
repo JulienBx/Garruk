@@ -8,18 +8,13 @@ using TMPro;
 
 public class MenuRessources : MonoBehaviour
 {
-	public Sprite logoBackground;
-	public Sprite userBackground;
 	public GameObject loadingScreenObject;
 	public int totalNbResultLimit;
-	public int refreshInterval;
+	//public int refreshInterval;
 	public GameObject playPopUpObject;
 	public GameObject newSkillPopUpObject;
 	public GameObject transparentBackgroundObject;
 	public GameObject invitationPopUpObject;
-	public float startButtonPosition;
-	public float endButtonPosition;
-	public float speed;
 	public GUISkin popUpSkin;
 	public Sprite[] profilePictures;
 	public Sprite[] largeProfilePictures;

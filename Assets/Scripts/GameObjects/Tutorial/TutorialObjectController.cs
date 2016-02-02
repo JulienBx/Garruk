@@ -95,9 +95,11 @@ public class TutorialObjectController : MonoBehaviour
 			}
 		}
 	}
-	void Awake () 
+	public void initialize()
 	{
 		instance = this;
+		this.move=false;
+		this.isScrolling=false;
 		this.player = new User ();
 		this.isResizing = false;
 		this.sequenceID = -1;
@@ -116,21 +118,14 @@ public class TutorialObjectController : MonoBehaviour
 		gameObject.transform.FindChild ("PopUpSmall").FindChild("NextButton").FindChild("Title").GetComponent<TextMeshPro>().text=WordingTutorial.getReference(3);
 		gameObject.transform.FindChild ("PopUpLarge").FindChild("NextButton").FindChild("Title").GetComponent<TextMeshPro>().text=WordingTutorial.getReference(3);
 	}
-	void Start () 
-	{	
-		this.endInitialization ();
-	}
-	public virtual void endInitialization()
-	{
-	}
-	public virtual void startTutorial(int tutorialStep, bool isDisplayed)
+	public virtual void startTutorial()
 	{
 		this.isTutorialLaunched = true;
-		this.isTutorialDisplayed = isDisplayed;
+		this.isTutorialDisplayed = ApplicationModel.player.DisplayTutorial;
 		this.exitButton.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingTutorial.getReference(0);
-		MenuController.instance.setIsUserBusy (true);
-		this.launchSequence (getStartSequenceId(tutorialStep));
-		if(!isDisplayed)
+		ApplicationModel.player.IsBusy=true;
+		this.launchSequence (getStartSequenceId(ApplicationModel.player.TutorialStep));
+		if(!ApplicationModel.player.DisplayTutorial)
 		{
 			MenuController.instance.setFlashingHelp(true);
 		}
@@ -139,7 +134,7 @@ public class TutorialObjectController : MonoBehaviour
 	{
 		this.isHelpLaunched = true;
 		this.exitButton.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingTutorial.getReference(1);
-		MenuController.instance.setIsUserBusy (true);
+		ApplicationModel.player.IsBusy=true;
 		this.launchHelpSequence(0);
 	}
 	public bool getIsTutorialLaunched()
@@ -156,7 +151,7 @@ public class TutorialObjectController : MonoBehaviour
 	}
 	public void setTutorialStep(int id)
 	{
-		StartCoroutine (this.player.setTutorialStep (id));
+		StartCoroutine (ApplicationModel.player.setTutorialStep (id));
 	}
 	public void displayDragHelp(bool value, bool isHorizontal)
 	{
@@ -649,14 +644,14 @@ public class TutorialObjectController : MonoBehaviour
 		switch(this.sequenceID)
 		{
 		case 101:
-			if(MenuController.instance.getIsPlayPopUpDisplayed())
+			if(BackOfficeController.instance.getIsPlayPopUpDisplayed())
 			{
 				this.sequenceID=102;
 				this.launchSequence(this.sequenceID);
 			}
 			break;
 		case 102:
-			if(!MenuController.instance.getIsPlayPopUpDisplayed())
+			if(!BackOfficeController.instance.getIsPlayPopUpDisplayed())
 			{
 				this.sequenceID=101;
 				this.launchSequence(this.sequenceID);
@@ -716,7 +711,7 @@ public class TutorialObjectController : MonoBehaviour
 				MenuController.instance.setFlashingHelp(false);
 				this.isTutorialDisplayed=true;
 				this.launchSequence(this.sequenceID);
-				StartCoroutine (player.setDisplayTutorial (true));
+				StartCoroutine (ApplicationModel.player.setDisplayTutorial (true));
 			}
 		}
 		else
@@ -726,7 +721,7 @@ public class TutorialObjectController : MonoBehaviour
 	}
 	public void displayCantAccessPopUp ()
 	{
-		MenuController.instance.displayErrorPopUp (WordingTutorial.getReference(3));
+		BackOfficeController.instance.displayErrorPopUp (WordingTutorial.getReference(3));
 	}
 	public virtual void hideTutorial()
 	{
@@ -734,14 +729,14 @@ public class TutorialObjectController : MonoBehaviour
 		this.isTutorialDisplayed = false;
 		this.exitButton.SetActive (false);
 		this.launchSequence (this.sequenceID);
-		StartCoroutine (player.setDisplayTutorial (false));
+		StartCoroutine (ApplicationModel.player.setDisplayTutorial (false));
 	}
 	public virtual int getStartSequenceId(int tutorialStep)
 	{
 		switch(tutorialStep)
 		{
 		case 2:
-			if(ApplicationModel.hasDeck)
+			if(ApplicationModel.player.HasDeck)
 			{
 				return 101;
 			}
@@ -766,11 +761,11 @@ public class TutorialObjectController : MonoBehaviour
 	}
 	public IEnumerator endTutorial()
 	{
-		MenuController.instance.displayLoadingScreen ();
-		yield return StartCoroutine(this.player.setTutorialStep(-1));
+		BackOfficeController.instance.displayLoadingScreen ();
+		yield return StartCoroutine(ApplicationModel.player.setTutorialStep(-1));
 		this.isTutorialLaunched = false;
 		this.disableTutorial ();
-		MenuController.instance.hideLoadingScreen ();
+		BackOfficeController.instance.hideLoadingScreen ();
 	}
 	public void disableTutorial()
 	{
@@ -783,7 +778,7 @@ public class TutorialObjectController : MonoBehaviour
 	public virtual void endHelp()
 	{
 		this.isHelpLaunched = false;
-		MenuController.instance.setIsUserBusy (false);
+		ApplicationModel.player.IsBusy=false;
 		this.disableTutorial ();
 	}
 	public virtual GameObject getCardFocused()

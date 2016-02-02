@@ -9,6 +9,7 @@ using System.Reflection;
 */
 public class ApplicationDesignRules : MonoBehaviour
 { 
+	static public bool initialized=false;
 	static public int widthScreen;
 	static public int heightScreen;
 	static public float worldWidth;
@@ -494,6 +495,8 @@ public class ApplicationDesignRules : MonoBehaviour
 		packWorldSize.y = 2.5f;
 		packScale.x = packWorldSize.x/(packSize.x / ApplicationDesignRules.pixelPerUnit);
 		packScale.y = packWorldSize.y / (packSize.y / ApplicationDesignRules.pixelPerUnit);
+
+		initialized=true;
 	}
 	static private Vector2 toWorldSize(Vector2 originalSize, Vector3 scale)
 	{

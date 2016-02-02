@@ -28,7 +28,7 @@ public class NewMyGameModel
 		
 		WWWForm form = new WWWForm(); 											// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_nick", ApplicationModel.username);
+		form.AddField("myform_nick", ApplicationModel.player.Username);
 		
 		WWW w = new WWW(URLGetMyGameData, form); 				// On envoie le formulaire à l'url sur le serveur 
 		yield return w;
@@ -46,7 +46,7 @@ public class NewMyGameModel
 				this.cards.parseCards(data[2]);
 			}
 			this.decks=parseDecks(data[3].Split(new string[] { "#D#" }, System.StringSplitOptions.None));
-			this.player=parseUser(data[4].Split(new string[] { "\\" }, System.StringSplitOptions.None));
+			this.parseUser(data[4].Split(new string[] { "\\" }, System.StringSplitOptions.None));
 			this.retrieveCardsDeck();
 		}
 	}
@@ -81,13 +81,11 @@ public class NewMyGameModel
 		}
 		return skillsList;
 	}
-	private User parseUser(string[] array)
+	private void parseUser(string[] array)
 	{
-		User user = new User ();
-		user.SelectedDeckId = System.Convert.ToInt32 (array [0]);
-		user.TutorialStep = System.Convert.ToInt32 (array [1]);
-		user.displayTutorial=System.Convert.ToBoolean(System.Convert.ToInt32(array[2]));
-		return user;
+		ApplicationModel.player.SelectedDeckId = System.Convert.ToInt32 (array [0]);
+		ApplicationModel.player.TutorialStep = System.Convert.ToInt32 (array [1]);
+		ApplicationModel.player.DisplayTutorial=System.Convert.ToBoolean(System.Convert.ToInt32(array[2]));
 	}
 	public List<Deck> parseDecks(string[] decksIds)
 	{

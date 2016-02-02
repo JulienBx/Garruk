@@ -16,6 +16,7 @@ public class NewMarketController : MonoBehaviour
 	public int totalNbResultLimit;
 	public int refreshInterval;
 
+	private GameObject backOfficeController;
 	private GameObject menu;
 	private GameObject tutorial;
 	private GameObject refreshMarketButton;
@@ -245,25 +246,28 @@ public class NewMarketController : MonoBehaviour
 		this.scrollIntersection = 1.85f;
 		this.mainContentDisplayed = true;
 		this.initializeScene ();
-		this.startMenuInitialization ();
+		this.initializeBackOffice();
+		this.initializeMenu();
+		this.initializeTutorial();
+		this.initialization ();
 	}
-	private void startMenuInitialization()
-	{
-		this.menu = GameObject.Find ("Menu");
-		this.menu.AddComponent<MarketMenuController> ();
-	}
-	public void endMenuInitialization()
-	{
-		this.startTutorialInitialization ();
-	}
-	private void startTutorialInitialization()
+	private void initializeTutorial()
 	{
 		this.tutorial = GameObject.Find ("Tutorial");
 		this.tutorial.AddComponent<MarketTutorialController>();
+		this.tutorial.GetComponent<MarketTutorialController>().initialize();
 	}
-	public void endTutorialInitialization()
+	private void initializeMenu()
 	{
-		this.initialization ();
+		this.menu = GameObject.Find ("Menu");
+		this.menu.AddComponent<MenuController>();
+		this.menu.GetComponent<MenuController>().initialize();
+	}
+	private void initializeBackOffice()
+	{
+		this.backOfficeController = GameObject.Find ("BackOfficeController");
+		this.backOfficeController.AddComponent<BackOfficeMarketController>();
+		this.backOfficeController.GetComponent<BackOfficeMarketController>().initialize();
 	}
 	public void initialization()
 	{

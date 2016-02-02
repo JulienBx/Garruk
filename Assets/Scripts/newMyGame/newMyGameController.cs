@@ -16,6 +16,7 @@ public class newMyGameController : MonoBehaviour
 	public GUISkin popUpSkin;
 
 	private GameObject menu;
+	private GameObject backOfficeController;
 	private GameObject tutorial;
 	private GameObject deckBlock;
 	private GameObject deckBlockTitle;
@@ -244,25 +245,28 @@ public class newMyGameController : MonoBehaviour
 		this.scrollIntersection = 3.8f;
 		this.mainContentDisplayed = true;
 		this.initializeScene ();
-		this.startMenuInitialization ();
+		this.initializeBackOffice();
+		this.initializeMenu();
+		this.initializeTutorial();
+		StartCoroutine (this.initialization ());
 	}
-	private void startMenuInitialization()
-	{
-		this.menu = GameObject.Find ("Menu");
-		this.menu.AddComponent<MyGameMenuController> ();
-	}
-	public void endMenuInitialization()
-	{
-		this.startTutorialInitialization ();
-	}
-	private void startTutorialInitialization()
+	private void initializeTutorial()
 	{
 		this.tutorial = GameObject.Find ("Tutorial");
-		this.tutorial.AddComponent<MyGameTutorialController>();
+		this.tutorial.AddComponent<HomePageTutorialController>();
+		this.tutorial.GetComponent<HomePageTutorialController>().initialize();
 	}
-	public void endTutorialInitialization()
+	private void initializeMenu()
 	{
-		StartCoroutine (this.initialization ());
+		this.menu = GameObject.Find ("Menu");
+		this.menu.AddComponent<MenuController>();
+		this.menu.GetComponent<MenuController>().initialize();
+	}
+	private void initializeBackOffice()
+	{
+		this.backOfficeController = GameObject.Find ("BackOfficeController");
+		this.backOfficeController.AddComponent<BackOfficeMyGameController>();
+		this.backOfficeController.GetComponent<BackOfficeMyGameController>().initialize();
 	}
 	public IEnumerator initialization()
 	{
@@ -271,11 +275,11 @@ public class newMyGameController : MonoBehaviour
 		this.retrieveDefaultDeck ();
 		this.initializeDecks ();
 		this.initializeCards ();
-		MenuController.instance.hideLoadingScreen ();
+		BackOfficeController.instance.hideLoadingScreen ();
 		this.isSceneLoaded = true;
-		if(model.player.TutorialStep!=-1)
+		if(ApplicationModel.player.TutorialStep!=-1)
 		{
-			TutorialObjectController.instance.startTutorial(model.player.TutorialStep,model.player.displayTutorial);
+			TutorialObjectController.instance.startTutorial();
 		}
 	}
 	private void initializeDecks()
@@ -501,7 +505,7 @@ public class newMyGameController : MonoBehaviour
 			this.deckDisplayed = 0;
 			for(int i=0;i<model.decks.Count;i++)
 			{
-				if(model.decks[i].Id==model.player.SelectedDeckId)
+				if(model.decks[i].Id==ApplicationModel.player.SelectedDeckId)
 				{
 					this.deckDisplayed=i;
 					break;
@@ -531,7 +535,7 @@ public class newMyGameController : MonoBehaviour
 				}
 			}
 		}
-		ApplicationModel.hasDeck = isADeckCompleted;
+		ApplicationModel.player.HasDeck = isADeckCompleted;
 	}
 	public void resize()
 	{
@@ -918,6 +922,7 @@ public class newMyGameController : MonoBehaviour
 			this.deleteDeckPopUpResize();
 		}
 		TutorialObjectController.instance.resize ();
+		BackOfficeController.instance.resize();
 	}
 	public void drawCards()
 	{
@@ -1475,7 +1480,7 @@ public class newMyGameController : MonoBehaviour
 	}
 	public void displayNewDeckPopUp()
 	{
-		MenuController.instance.displayTransparentBackground ();
+		BackOfficeController.instance.displayTransparentBackground ();
 		this.newDeckPopUp.transform.GetComponent<NewDeckPopUpController> ().reset ();
 		this.newDeckPopUpDisplayed = true;
 		this.newDeckPopUp.SetActive (true);
@@ -1484,7 +1489,7 @@ public class newMyGameController : MonoBehaviour
 	}
 	public void displayEditDeckPopUp()
 	{
-		MenuController.instance.displayTransparentBackground ();
+		BackOfficeController.instance.displayTransparentBackground ();
 		this.editDeckPopUp.transform.GetComponent<EditDeckPopUpController> ().reset (model.decks[this.deckDisplayed].Name);
 		this.editDeckPopUpDisplayed = true;
 		this.editDeckPopUp.SetActive (true);
@@ -1493,7 +1498,7 @@ public class newMyGameController : MonoBehaviour
 	}
 	public void displayDeleteDeckPopUp()
 	{
-		MenuController.instance.displayTransparentBackground ();
+		BackOfficeController.instance.displayTransparentBackground ();
 		this.deleteDeckPopUp.transform.GetComponent<DeleteDeckPopUpController> ().reset (model.decks[this.deckDisplayed].Name);
 		this.deleteDeckPopUpDisplayed = true;
 		this.deleteDeckPopUp.SetActive (true);
@@ -1503,21 +1508,21 @@ public class newMyGameController : MonoBehaviour
 	public void hideNewDeckPopUp()
 	{
 		this.newDeckPopUp.SetActive (false);
-		MenuController.instance.hideTransparentBackground();
+		BackOfficeController.instance.hideTransparentBackground();
 		this.newDeckPopUpDisplayed = false;
 		TutorialObjectController.instance.tutorialTrackPoint();
 	}
 	public void hideEditDeckPopUp()
 	{
 		this.editDeckPopUp.SetActive (false);
-		MenuController.instance.hideTransparentBackground();
+		BackOfficeController.instance.hideTransparentBackground();
 		this.editDeckPopUpDisplayed = false;
 		TutorialObjectController.instance.tutorialTrackPoint();
 	}
 	public void hideDeleteDeckPopUp()
 	{
 		this.deleteDeckPopUp.SetActive (false);
-		MenuController.instance.hideTransparentBackground();
+		BackOfficeController.instance.hideTransparentBackground();
 		this.deleteDeckPopUpDisplayed = false;
 		TutorialObjectController.instance.tutorialTrackPoint();
 	}
@@ -1550,13 +1555,13 @@ public class newMyGameController : MonoBehaviour
 		if(error=="")
 		{
 			this.hideNewDeckPopUp();
-			MenuController.instance.displayLoadingScreen();
+			BackOfficeController.instance.displayLoadingScreen();
 			model.decks.Add(new Deck());
 			yield return StartCoroutine(model.decks[model.decks.Count-1].create(name));
 			this.deckDisplayed=model.decks.Count-1;
 			this.initializeDecks();
 			this.initializeCards();
-			MenuController.instance.hideLoadingScreen();
+			BackOfficeController.instance.hideLoadingScreen();
 			TutorialObjectController.instance.tutorialTrackPoint();
 		}
 		this.newDeckPopUp.transform.GetComponent<NewDeckPopUpController> ().setError (error);
@@ -1574,11 +1579,11 @@ public class newMyGameController : MonoBehaviour
 			this.editDeckPopUp.transform.GetComponent<EditDeckPopUpController>().setError(error);
 			if(error=="")
 			{
-				MenuController.instance.displayLoadingScreen();
+				BackOfficeController.instance.displayLoadingScreen();
 				this.hideEditDeckPopUp();
 				yield return StartCoroutine(model.decks[this.deckDisplayed].edit(newName));
 				this.deckTitle.GetComponent<TextMeshPro> ().text = model.decks[this.deckDisplayed].Name;
-				MenuController.instance.hideLoadingScreen();
+				BackOfficeController.instance.hideLoadingScreen();
 			}
 		}
 		else
@@ -1593,14 +1598,14 @@ public class newMyGameController : MonoBehaviour
 	public IEnumerator deleteDeck()
 	{
 		this.hideDeleteDeckPopUp();
-		MenuController.instance.displayLoadingScreen ();
+		BackOfficeController.instance.displayLoadingScreen ();
 		yield return StartCoroutine(model.decks[this.deckDisplayed].delete());
 		this.removeDeckFromAllCards (model.decks[this.deckDisplayed].Id);
 		model.decks.RemoveAt (this.deckDisplayed);
 		this.retrieveDefaultDeck ();
 		this.initializeDecks ();
 		this.initializeCards ();
-		MenuController.instance.hideLoadingScreen ();
+		BackOfficeController.instance.hideLoadingScreen ();
 		TutorialObjectController.instance.tutorialTrackPoint ();
 	}
 	public void removeDeckFromAllCards(int id)
@@ -1684,12 +1689,12 @@ public class newMyGameController : MonoBehaviour
 	{
 		if(this.deckDisplayed==-1)
 		{
-			MenuController.instance.displayErrorPopUp(WordingDeck.getReference(11));
+			BackOfficeController.instance.displayErrorPopUp(WordingDeck.getReference(11));
 			this.isLeftClicked=false;
 		}
 		else if(!isDeckCardClicked && this.checkForIdenticalSkills())
 		{
-			MenuController.instance.displayErrorPopUp(WordingDeck.getReference(12));
+			BackOfficeController.instance.displayErrorPopUp(WordingDeck.getReference(12));
 			this.isLeftClicked=false;
 		}
 		else
@@ -1788,7 +1793,7 @@ public class newMyGameController : MonoBehaviour
 		this.deckCards[this.idCardClicked].SetActive(false);
 		this.deckCardsDisplayed[this.idCardClicked]=-1;
 		this.applyFilters();
-		if(ApplicationModel.hasDeck)
+		if(ApplicationModel.player.HasDeck)
 		{
 			bool isADeckCompleted = false;
 			for(int i=0;i<model.decks.Count;i++)
@@ -1799,7 +1804,7 @@ public class newMyGameController : MonoBehaviour
 					break;
 				}
 			}
-			ApplicationModel.hasDeck=isADeckCompleted;
+			ApplicationModel.player.HasDeck=isADeckCompleted;
 			TutorialObjectController.instance.tutorialTrackPoint();
 		}
 	}
@@ -1817,7 +1822,7 @@ public class newMyGameController : MonoBehaviour
 			this.deckCards[position].GetComponent<NewCardController>().show();
 			this.deckCardsDisplayed[position]=this.cardsDisplayed[this.idCardClicked];
 			this.applyFilters();
-			if(!ApplicationModel.hasDeck)
+			if(!ApplicationModel.player.HasDeck)
 			{
 				bool isDeckCompleted=true;
 				for(int i=0;i<this.deckCardsDisplayed.Length;i++)
@@ -1832,7 +1837,7 @@ public class newMyGameController : MonoBehaviour
 						break;
 					}
 				}
-				ApplicationModel.hasDeck = isDeckCompleted;
+				ApplicationModel.player.HasDeck = isDeckCompleted;
 				TutorialObjectController.instance.tutorialTrackPoint();
 			}
 		}
@@ -1952,7 +1957,7 @@ public class newMyGameController : MonoBehaviour
 	}
 	public void deleteCard()
 	{
-		StartCoroutine(MenuController.instance.getUserData ());
+		StartCoroutine(BackOfficeController.instance.getUserData ());
 		this.hideCardFocused ();
 		this.removeCardFromAllDecks(model.cards.getCard(this.focusedCardIndex).Id);
 		model.cards.cards.RemoveAt(this.focusedCardIndex);
@@ -2005,7 +2010,7 @@ public class newMyGameController : MonoBehaviour
 		}
 		else
 		{
-			MenuController.instance.leaveGame();
+			BackOfficeController.instance.leaveGame();
 		}
 	}
 	public void closeAllPopUp()

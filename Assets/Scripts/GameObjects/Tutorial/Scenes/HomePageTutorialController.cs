@@ -20,11 +20,6 @@ public class HomePageTutorialController : TutorialObjectController
 			base.startTutorial(tutorialStep,isDisplayed);
 		}
 	}
-	public override void endInitialization()
-	{
-		NewHomePageController.instance.endTutorialInitialization ();
-	}
-
 	#region TUTORIAL SEQUENCES
 
 	public override void launchSequence(int sequenceID)
