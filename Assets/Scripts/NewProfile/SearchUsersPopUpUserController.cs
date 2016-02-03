@@ -35,13 +35,13 @@ public class SearchUsersPopUpUserController : MonoBehaviour
 	}
 	void OnMouseDown()
 	{
-		ApplicationModel.profileChosen = gameObject.transform.FindChild ("Username").GetComponent<TextMeshPro> ().text;
+		ApplicationModel.player.ProfileChosen = gameObject.transform.FindChild ("Username").GetComponent<TextMeshPro> ().text;
 		Application.LoadLevel ("NewProfile");	
 	}
 	public void show()
 	{
 		gameObject.transform.FindChild ("Username").GetComponent<TextMeshPro> ().text = this.u.Username;
-		gameObject.transform.FindChild ("Picture").GetComponent<SpriteRenderer> ().sprite = MenuController.instance.returnLargeProfilePicture(this.u.idProfilePicture);
+		gameObject.transform.FindChild ("Picture").GetComponent<SpriteRenderer> ().sprite = BackOfficeController.instance.returnLargeProfilePicture(this.u.IdProfilePicture);
 	}
 	public void setId(int Id)
 	{

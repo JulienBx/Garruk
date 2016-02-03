@@ -14,7 +14,7 @@ public class NewFocusedCardHomePageController : NewFocusedCardController
 		{
 			this.gameObject.transform.FindChild("FocusFeature0").FindChild("Price").FindChild("Title").GetComponent<TextMeshPro>().text="- " + ApplicationDesignRules.priceToString(this.c.NextLevelPrice);
 			this.gameObject.transform.FindChild("FocusFeature0").GetComponent<NewFocusedFeaturesController>().showPrice(true);
-			if(this.c.NextLevelPrice>ApplicationModel.credits)
+			if(this.c.NextLevelPrice>ApplicationModel.player.Money)
 			{
 				this.gameObject.transform.FindChild("FocusFeature0").GetComponent<NewFocusedFeaturesController>().setIsClickable(false);
 			}
@@ -32,7 +32,7 @@ public class NewFocusedCardHomePageController : NewFocusedCardController
 		this.gameObject.transform.FindChild("FocusFeature1").FindChild("Price").FindChild("Title").GetComponent<TextMeshPro>().text="- " + ApplicationDesignRules.priceToString(this.c.RenameCost);
 		this.gameObject.transform.FindChild("FocusFeature1").GetComponent<NewFocusedFeaturesController>().showPrice(true);
 
-		if(this.c.RenameCost>ApplicationModel.credits)
+		if(this.c.RenameCost>ApplicationModel.player.Money)
 		{
 			this.gameObject.transform.FindChild("FocusFeature1").GetComponent<NewFocusedFeaturesController>().setIsClickable(false);
 		}

@@ -76,7 +76,7 @@ public class NewCardMarketController : NewCardController
 			this.panelMarket.transform.FindChild("Cristal").gameObject.SetActive(true);
 			if(this.c.IdOWner!=NewMarketController.instance.returnUserId())
 			{
-				if(this.c.Price<=ApplicationModel.credits)
+				if(this.c.Price<=ApplicationModel.player.Money)
 				{
 					this.panelMarket.GetComponent<NewCardPanelMarketController>().setClickable(true);
 				}

@@ -56,7 +56,7 @@ public class Deck : Cards
 	{
 		WWWForm form = new WWWForm(); 						
 		form.AddField("myform_hash", ApplicationModel.hash);
-		form.AddField("myform_nick", ApplicationModel.username);
+		form.AddField("myform_nick", ApplicationModel.player.Username);
 		form.AddField("myform_deck", Id);
 		form.AddField("myform_idCard", idCard);
 		form.AddField("myform_deckOrder", deckOrder);
@@ -77,7 +77,7 @@ public class Deck : Cards
 	{
 		WWWForm form = new WWWForm(); 						
 		form.AddField("myform_hash", ApplicationModel.hash);
-		form.AddField("myform_nick", ApplicationModel.username);
+		form.AddField("myform_nick", ApplicationModel.player.Username);
 		form.AddField("myform_deck", Id);
 		form.AddField("myform_idCard1", idCard1.ToString());
 		form.AddField("myform_deckOrder1", deckOrder1.ToString());
@@ -114,7 +114,7 @@ public class Deck : Cards
 	{
 		WWWForm form = new WWWForm(); 								// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_nick", ApplicationModel.username); 	// Pseudo de l'utilisateur connecté
+		form.AddField("myform_nick", ApplicationModel.player.Username); 	// Pseudo de l'utilisateur connecté
 		form.AddField("myform_deck", Id);
 		form.AddField("myform_idCard", idCard);
 		WWW w = new WWW(URLRemoveCardFromDeck, form); 				// On envoie le formulaire à l'url sur le serveur 
@@ -141,7 +141,7 @@ public class Deck : Cards
 	{
 		WWWForm form = new WWWForm(); 								// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_nick", ApplicationModel.username); 	// Pseudo de l'utilisateur connecté
+		form.AddField("myform_nick", ApplicationModel.player.Username); 	// Pseudo de l'utilisateur connecté
 		form.AddField("myform_name", decksName);
 		WWW w = new WWW(URLCreateDeck, form);						// On envoie le formulaire à l'url sur le serveur 
 		yield return w;
@@ -161,7 +161,7 @@ public class Deck : Cards
 	{
 		WWWForm form = new WWWForm(); 								// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_nick", ApplicationModel.username); 	// Pseudo de l'utilisateur connecté
+		form.AddField("myform_nick", ApplicationModel.player.Username); 	// Pseudo de l'utilisateur connecté
 		form.AddField("myform_id", Id);
 		WWW w = new WWW(URLDeleteDeck, form);						// On envoie le formulaire à l'url sur le serveur 
 		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
@@ -175,7 +175,7 @@ public class Deck : Cards
 	{
 		WWWForm form = new WWWForm(); 								// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_nick", ApplicationModel.username); 	// Pseudo de l'utilisateur connecté
+		form.AddField("myform_nick", ApplicationModel.player.Username); 	// Pseudo de l'utilisateur connecté
 		form.AddField("myform_id", Id);
 		form.AddField("myform_name", newName);
 		WWW w = new WWW(URLEditDeck, form); 						// On envoie le formulaire à l'url sur le serveur 

@@ -10,11 +10,11 @@ public class WordingNotifications
 
 	public static string getReference(int idReference)
 	{
-		return references[idReference][ApplicationModel.idLanguage];
+		return references[idReference][ApplicationModel.player.IdLanguage];
 	}
 	public static string getContent(int idNotificationType)
 	{
-		return contents[idNotificationType][ApplicationModel.idLanguage];
+		return contents[idNotificationType][ApplicationModel.player.IdLanguage];
 	}
 	static WordingNotifications()
 	{

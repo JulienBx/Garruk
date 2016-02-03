@@ -16,9 +16,10 @@ public class NewHomePageController : MonoBehaviour
 	public GameObject challengeButtonObject;
 	public GameObject friendsStatusButtonObject;
 	public Texture2D[] cursorTextures;
-	public int refreshInterval;
-	public int sliderRefreshInterval;
-	public int totalNbResultLimit;
+
+	private int refreshInterval;
+	private int sliderRefreshInterval;
+	private int totalNbResultLimit;
 	
 	private GameObject backOfficeController;
 	private GameObject deckBlock;
@@ -110,8 +111,6 @@ public class NewHomePageController : MonoBehaviour
 
 	private bool isMouseOnBuyPackButton;
 
-	private int nbNonReadNotifications;
-
 	private GameObject connectionBonusPopUp;
 	private bool isConnectionBonusPopUpDisplayed;
 
@@ -125,6 +124,8 @@ public class NewHomePageController : MonoBehaviour
 
 	private float newsfeedPositionX;
 	private float mainContentPositionX;
+
+	private int nonReadNotificationsOnCurrentPage;
 
 	void Update()
 	{	
@@ -225,6 +226,7 @@ public class NewHomePageController : MonoBehaviour
 					camerasXPosition=this.newsfeedPositionX;
 					this.toSlideLeft=false;
 					this.newsfeedDisplayed=true;
+					this.manageNonReadsNotifications();
 				}
 			}
 			sceneCameraPosition.x=camerasXPosition;
@@ -235,6 +237,9 @@ public class NewHomePageController : MonoBehaviour
 	{
 		instance = this;
 		this.activeTab = 0;
+		this.refreshInterval=5;
+		this.sliderRefreshInterval=5;
+		this.totalNbResultLimit=1000;
 		this.model = new NewHomePageModel ();
 		this.mainContentDisplayed = true;
 		this.friendsOnline = new List<int> ();
@@ -255,6 +260,7 @@ public class NewHomePageController : MonoBehaviour
 		this.menu = GameObject.Find ("Menu");
 		this.menu.AddComponent<MenuController>();
 		this.menu.GetComponent<MenuController>().initialize();
+		BackOfficeController.instance.setIsMenuLoaded(true);
 	}
 	private void initializeBackOffice()
 	{
@@ -292,13 +298,13 @@ public class NewHomePageController : MonoBehaviour
 		}
 		if(ApplicationModel.player.GoToNotifications)
 		{
-			ApplicationModel.player.GoToNotifications=false;
 			this.displayNotifications();
 		}
 	}
 	public void displayNotifications()
 	{
-		if(ApplicationDesignRules.isMobileScreen)
+		ApplicationModel.player.GoToNotifications=false;
+		if(ApplicationDesignRules.isMobileScreen && !this.newsfeedDisplayed)
 		{
 			this.slideLeft ();
 		}
@@ -360,7 +366,7 @@ public class NewHomePageController : MonoBehaviour
 			this.challengeButtons[i].SetActive(false);
 			this.contents[i].transform.FindChild("description").GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
 		}
-		this.drawNotifications (true);
+		this.drawNotifications ();
 	}
 	private void initializeNews()
 	{
@@ -405,7 +411,7 @@ public class NewHomePageController : MonoBehaviour
 		switch(this.activeTab)
 		{
 		case 0:
-			this.drawNotifications(false);
+			this.drawNotifications();
 			break;
 		case 1:
 			this.drawNews();
@@ -576,21 +582,17 @@ public class NewHomePageController : MonoBehaviour
 			playBlockLeftMargin=ApplicationDesignRules.leftMargin;
 			playBlockUpMargin=0f;
 			playBlockHeight=3.8f;
-
 			cardFirstLine=2.35f;
 			deckBlockHeight=4.2f;
 			deckBlockLeftMargin=ApplicationDesignRules.leftMargin;
 			deckBlockUpMargin=playBlockUpMargin+ApplicationDesignRules.gapBetweenBlocks+playBlockHeight;
-
 			storeBlockLeftMargin=ApplicationDesignRules.worldWidth+ApplicationDesignRules.leftMargin;
 			storeBlockUpMargin=0f;
-
 			newsfeedBlockLeftMargin=-ApplicationDesignRules.worldWidth;
 			newsfeedBlockUpMargin=ApplicationDesignRules.tabWorldSize.y;
 			newsfeedBlockHeight=ApplicationDesignRules.viewHeight-ApplicationDesignRules.tabWorldSize.y;
 			contentHeight=1f;
 			contentFirstLineY=1f;
-
 			this.socialButton.SetActive(true);
 			this.slideRightButton.SetActive(true);
 			this.newsfeedBlockTitle.SetActive(true);
@@ -602,20 +604,16 @@ public class NewHomePageController : MonoBehaviour
 			deckBlockHeight=ApplicationDesignRules.mediumBlockHeight;
 			deckBlockLeftMargin=ApplicationDesignRules.leftMargin;
 			deckBlockUpMargin=ApplicationDesignRules.upMargin;
-
 			playBlockHeight=ApplicationDesignRules.smallBlockHeight;
 			playBlockLeftMargin=ApplicationDesignRules.leftMargin;
 			playBlockUpMargin=deckBlockUpMargin+ApplicationDesignRules.gapBetweenBlocks+deckBlockHeight;
-			
 			newsfeedBlockLeftMargin=ApplicationDesignRules.leftMargin+ApplicationDesignRules.gapBetweenBlocks+ApplicationDesignRules.blockWidth;
 			newsfeedBlockUpMargin=deckBlockUpMargin+ApplicationDesignRules.tabWorldSize.y;
 			newsfeedBlockHeight=ApplicationDesignRules.mediumBlockHeight-ApplicationDesignRules.tabWorldSize.y;
 			contentHeight=0.9f;
 			contentFirstLineY=0.3f;
-			
 			storeBlockLeftMargin=ApplicationDesignRules.leftMargin+ApplicationDesignRules.gapBetweenBlocks+ApplicationDesignRules.blockWidth;
 			storeBlockUpMargin=newsfeedBlockUpMargin+ApplicationDesignRules.gapBetweenBlocks+newsfeedBlockHeight;
-
 			this.socialButton.SetActive(false);
 			this.slideRightButton.SetActive(false);
 			this.newsfeedBlockTitle.SetActive(false);
@@ -632,17 +630,14 @@ public class NewHomePageController : MonoBehaviour
 		}
 
 		this.centralWindow = new Rect (ApplicationDesignRules.widthScreen * 0.25f, 0.12f * ApplicationDesignRules.heightScreen, ApplicationDesignRules.widthScreen * 0.50f, 0.25f * ApplicationDesignRules.heightScreen);
-		
 		this.playBlock.GetComponent<NewBlockController> ().resize(playBlockLeftMargin,playBlockUpMargin,ApplicationDesignRules.blockWidth,playBlockHeight);
 		Vector3 playBlockUpperLeftPosition = this.playBlock.GetComponent<NewBlockController> ().getUpperLeftCornerPosition ();
 		Vector3 playBlockUpperRightPosition = this.playBlock.GetComponent<NewBlockController> ().getUpperRightCornerPosition ();
 		Vector2 playBlockSize = this.playBlock.GetComponent<NewBlockController> ().getSize ();
 		Vector2 playBlockOrigin = this.playBlock.GetComponent<NewBlockController> ().getOriginPosition ();
 		this.playBlockTitle.transform.position = new Vector3 (playBlockUpperLeftPosition.x + ApplicationDesignRules.blockHorizontalSpacing, playBlockUpperLeftPosition.y - 0.2f, 0f);
-
 		this.socialButton.transform.position = new Vector3 (playBlockUpperRightPosition.x - ApplicationDesignRules.blockHorizontalSpacing - ApplicationDesignRules.roundButtonWorldSize.x / 2f, playBlockUpperRightPosition.y - ApplicationDesignRules.buttonVerticalSpacing - ApplicationDesignRules.roundButtonWorldSize.y / 2f, 0f);
 		this.socialButton.transform.localScale = ApplicationDesignRules.roundButtonScale;
-
 		float gapBetweenCompetitionsBlock = 0f;
 		float competitionsBlockSize = (playBlockSize.x - 2f*ApplicationDesignRules.blockHorizontalSpacing - gapBetweenCompetitionsBlock) / 2f;
 
@@ -786,9 +781,6 @@ public class NewHomePageController : MonoBehaviour
 		this.mainContentPositionX = playBlockOrigin.x;
 		this.newsfeedPositionX = newsfeedBlockOrigin.x;
 
-		MenuController.instance.resize();
-		TutorialObjectController.instance.resize();
-
 		this.endGamePopUp.transform.position = new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y, -2f);
 
 		if(ApplicationDesignRules.isMobileScreen)
@@ -821,6 +813,12 @@ public class NewHomePageController : MonoBehaviour
 		{
 			this.endGamePopUpResize();
 		}
+
+		MenuController.instance.resize();
+		MenuController.instance.setCurrentPage(0);
+		MenuController.instance.refreshMenuObject();
+		TutorialObjectController.instance.resize();
+		BackOfficeController.instance.resize();
 	}
 	private void retrieveDefaultDeck()
 	{
@@ -1208,7 +1206,6 @@ public class NewHomePageController : MonoBehaviour
 	}
 	public void drawNotifications()
 	{
-		bool firstLoad=false;
 		this.notificationsDisplayed = new List<int> ();
 		for(int i =0;i<this.newsfeedPagination.nbElementsPerPage;i++)
 		{
@@ -1217,7 +1214,7 @@ public class NewHomePageController : MonoBehaviour
 				this.notificationsDisplayed.Add (this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i);
 				this.contents[i].SetActive(true);
 				this.contents[i].transform.FindChild("description").GetComponent<TextMeshPro>().text=model.notifications[this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i].Content;
-				this.contents[i].transform.FindChild("picture").GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnThumbPicture(model.notifications[this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i].SendingUser.idProfilePicture);
+				this.contents[i].transform.FindChild("picture").GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnThumbPicture(model.notifications[this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i].SendingUser.IdProfilePicture);
 				this.contents[i].transform.FindChild("date").GetComponent<TextMeshPro>().text=model.notifications[this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i].Notification.Date.ToString(WordingDates.getDateFormat());
 				this.contents[i].transform.FindChild("username").GetComponent<TextMeshPro>().text=model.notifications[this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i].SendingUser.Username;
 				if(!model.notifications[this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i].Notification.IsRead)
@@ -1246,48 +1243,7 @@ public class NewHomePageController : MonoBehaviour
 				this.friendsStatusButtons[2*i+1].SetActive(false);
 			}
 		}
-		this.manageNonReadsNotifications (firstLoad);
-	}
-	public void drawNotifications(bool firstLoad)
-	{
-		this.notificationsDisplayed = new List<int> ();
-		for(int i =0;i<this.newsfeedPagination.nbElementsPerPage;i++)
-		{
-			if(this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i<model.notifications.Count)
-			{
-				this.notificationsDisplayed.Add (this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i);
-				this.contents[i].SetActive(true);
-				this.contents[i].transform.FindChild("description").GetComponent<TextMeshPro>().text=model.notifications[this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i].Content;
-				this.contents[i].transform.FindChild("picture").GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnThumbPicture(model.notifications[this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i].SendingUser.idProfilePicture);
-				this.contents[i].transform.FindChild("date").GetComponent<TextMeshPro>().text=model.notifications[this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i].Notification.Date.ToString(WordingDates.getDateFormat());
-				this.contents[i].transform.FindChild("username").GetComponent<TextMeshPro>().text=model.notifications[this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i].SendingUser.Username;
-				if(!model.notifications[this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i].Notification.IsRead)
-				{
-					this.contents[i].transform.FindChild("new").gameObject.SetActive(true);
-				}
-				else
-				{
-					this.contents[i].transform.FindChild("new").gameObject.SetActive(false);
-				}
-				if(model.notifications[this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i].Notification.IdNotificationType==4)
-				{
-					this.friendsStatusButtons[2*i].SetActive(true);
-					this.friendsStatusButtons[2*i+1].SetActive(true);
-				}
-				else
-				{
-					this.friendsStatusButtons[2*i].SetActive(false);
-					this.friendsStatusButtons[2*i+1].SetActive(false);
-				}
-			}
-			else
-			{
-				this.contents[i].SetActive(false);
-				this.friendsStatusButtons[2*i].SetActive(false);
-				this.friendsStatusButtons[2*i+1].SetActive(false);
-			}
-		}
-		this.manageNonReadsNotifications (firstLoad);
+		this.manageNonReadsNotifications();
 	}
 	public void drawNews()
 	{
@@ -1299,7 +1255,7 @@ public class NewHomePageController : MonoBehaviour
 				this.newsDisplayed.Add (this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i);
 				this.contents[i].SetActive(true);
 				this.contents[i].transform.FindChild("description").GetComponent<TextMeshPro>().text=model.news[this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i].Content;
-				this.contents[i].transform.FindChild("picture").GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnThumbPicture(model.news[this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i].User.idProfilePicture);
+				this.contents[i].transform.FindChild("picture").GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnThumbPicture(model.news[this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i].User.IdProfilePicture);
 				this.contents[i].transform.FindChild("date").GetComponent<TextMeshPro>().text=model.news[this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i].News.Date.ToString("dd/MM/yyyy");
 				this.contents[i].transform.FindChild("username").GetComponent<TextMeshPro>().text=model.news[this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i].User.Username;
 
@@ -1339,7 +1295,7 @@ public class NewHomePageController : MonoBehaviour
 				}
 				this.contents[i].transform.FindChild("description").GetComponent<TextMeshPro>().text=connectionState;
 				this.contents[i].transform.FindChild("description").GetComponent<TextMeshPro>().color=connectionStateColor;
-				this.contents[i].transform.FindChild("picture").GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnThumbPicture(model.users[this.friendsToBeDisplayed[this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i]].idProfilePicture);
+				this.contents[i].transform.FindChild("picture").GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnThumbPicture(model.users[this.friendsToBeDisplayed[this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i]].IdProfilePicture);
 				this.contents[i].transform.FindChild("username").GetComponent<TextMeshPro>().text=model.users[this.friendsToBeDisplayed[this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i]].Username;
 			}
 			else
@@ -1390,27 +1346,20 @@ public class NewHomePageController : MonoBehaviour
 		PhotonNetwork.Disconnect();
 		Application.LoadLevel ("NewStore");
 	}
-	private void manageNonReadsNotifications(bool firstload)
+	private void manageNonReadsNotifications()
 	{
-		this.computeNonReadsNotifications ();
-		StartCoroutine(this.updateReadNotifications (firstload));
-	}
-	private void computeNonReadsNotifications()
-	{
-		this.nbNonReadNotifications = 0;
-		for(int i=0;i<model.notifications.Count;i++)
+		this.nonReadNotificationsOnCurrentPage=0;
+		if(!ApplicationDesignRules.isMobileScreen || (this.newsfeedDisplayed && this.activeTab==0))
 		{
-			if(i==model.notificationSystemIndex)
-			{
-				this.nbNonReadNotifications++;
-			}
-			else if(!model.notifications[i].Notification.IsRead)
-			{
-				this.nbNonReadNotifications++;
-			}
+			this.updateReadNotifications();	
+		}
+		else
+		{
+			menu.GetComponent<MenuController>().setNbNotificationsNonRead(ApplicationModel.player.NbNotificationsNonRead);
+			menu.GetComponent<MenuController>().refreshMenuObject();
 		}
 	}
-	private IEnumerator updateReadNotifications(bool firstLoad)
+	private void updateReadNotifications()
 	{
 		IList<int> tempList = new List<int> ();
 		for (int i=0;i<this.notificationsDisplayed.Count;i++)
@@ -1425,16 +1374,18 @@ public class NewHomePageController : MonoBehaviour
 				tempList.Add (this.notificationsDisplayed[i]);
 			}
 		}
-		if(firstLoad)
-		{
-			//backOfficeController.GetComponent<BackOfficeController>().setNbNotificationsNonRead(nbNonReadNotifications-tempList.Count);
-		}
+		menu.GetComponent<MenuController>().setNbNotificationsNonRead(ApplicationModel.player.NbNotificationsNonRead);
+		menu.GetComponent<MenuController>().refreshMenuObject();
 		if(tempList.Count>0)
 		{
-			yield return StartCoroutine(model.updateReadNotifications (tempList,this.totalNbResultLimit));
-			//backOfficeController.GetComponent<BackOfficeController>().setNbNotificationsNonRead(model.player.nonReadNotifications);
+			this.nonReadNotificationsOnCurrentPage=tempList.Count;
+			ApplicationModel.player.NbNotificationsNonRead=ApplicationModel.player.NbNotificationsNonRead-tempList.Count;
+			StartCoroutine(model.updateReadNotifications (tempList,this.totalNbResultLimit));
 		}
-		yield break;
+	}
+	public int getNonReadNotificationsOnCurrentPage()
+	{
+		return this.nonReadNotificationsOnCurrentPage;
 	}
 	public int getNbGamesCup()
 	{
@@ -1768,6 +1719,10 @@ public class NewHomePageController : MonoBehaviour
 			this.friendsStatusButtons[2*i].transform.FindChild("Title").GetComponent<TextMeshPro>().text=WordingSocial.getReference(1);
 			this.friendsStatusButtons[2*i+1].transform.FindChild("Title").GetComponent<TextMeshPro>().text=WordingSocial.getReference(2);
 		}
+	}
+	public void refreshCredits()
+	{
+		StartCoroutine(BackOfficeController.instance.getUserData ());
 	}
 	#region TUTORIAL FUNCTIONS
 

@@ -31,7 +31,7 @@ public class SearchUsersPopUpController : MonoBehaviour
 	}
 	public IEnumerator initialization(string search)
 	{
-		MenuController.instance.displayLoadingScreen ();
+		BackOfficeController.instance.displayLoadingScreen ();
 		this.gameObject.transform.FindChild ("Button").GetComponent<SearchUsersPopUpButtonController> ().reset ();
 		this.gameObject.transform.FindChild ("CloseButton").GetComponent<SearchUsersPopUpCloseButtonController> ().reset ();
 		yield return StartCoroutine (model.searchForUsers (search));
@@ -44,7 +44,7 @@ public class SearchUsersPopUpController : MonoBehaviour
 		{
 			this.gameObject.transform.FindChild("NoResults").gameObject.SetActive(false);
 		}
-		MenuController.instance.hideLoadingScreen ();
+		BackOfficeController.instance.hideLoadingScreen ();
 	}
 	private void initializeUsers()
 	{

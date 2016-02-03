@@ -8,11 +8,7 @@ using System.Reflection;
 public class ProfileTutorialController : TutorialObjectController 
 {
 	public static ProfileTutorialController instance;
-	
-	public override void endInitialization()
-	{
-		NewProfileController.instance.endTutorialInitialization ();
-	}
+
 	public override void launchSequence(int sequenceID)
 	{
 		Vector3 gameObjectPosition = new Vector3 ();

@@ -9,15 +9,16 @@ public class HomePageTutorialController : TutorialObjectController
 {
 	public static HomePageTutorialController instance;
 	
-	public override void startTutorial(int tutorialStep, bool isDisplayed)
+	public override void startTutorial()
 	{
-		if(tutorialStep==3 || tutorialStep ==4)
+		if(ApplicationModel.player.TutorialStep==3 || ApplicationModel.player.TutorialStep ==4)
 		{
-			base.startTutorial(tutorialStep,true);
+			ApplicationModel.player.DisplayTutorial=true;
+			base.startTutorial();
 		}
 		else
 		{
-			base.startTutorial(tutorialStep,isDisplayed);
+			base.startTutorial();
 		}
 	}
 	#region TUTORIAL SEQUENCES

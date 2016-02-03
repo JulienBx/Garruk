@@ -125,7 +125,7 @@ public class NewMarketController : MonoBehaviour
 	{	
 		this.timer += Time.deltaTime;
 
-		if (Input.touchCount == 1 && this.isSceneLoaded && !this.isSlidingCursors && !this.isCardFocusedDisplayed && TutorialObjectController.instance.getCanSwipe() && MenuController.instance.getCanSwipeAndScroll()) 
+		if (Input.touchCount == 1 && this.isSceneLoaded && !this.isSlidingCursors && !this.isCardFocusedDisplayed && TutorialObjectController.instance.getCanSwipe() && BackOfficeController.instance.getCanSwipeAndScroll()) 
 		{
 			if(Mathf.Abs(Input.touches[0].deltaPosition.y)>1f && Mathf.Abs(Input.touches[0].deltaPosition.y)>Mathf.Abs(Input.touches[0].deltaPosition.x))
 			{
@@ -232,7 +232,7 @@ public class NewMarketController : MonoBehaviour
 			this.upperScrollCamera.transform.position=mainCameraPosition;
 			this.lowerScrollCamera.transform.position=cardsCameraPosition;
 		}
-		if(ApplicationDesignRules.isMobileScreen && this.isSceneLoaded && !this.isLeftClicked && this.mainContentDisplayed && TutorialObjectController.instance.getCanScroll() && MenuController.instance.getCanSwipeAndScroll())
+		if(ApplicationDesignRules.isMobileScreen && this.isSceneLoaded && !this.isLeftClicked && this.mainContentDisplayed && TutorialObjectController.instance.getCanScroll() && BackOfficeController.instance.getCanSwipeAndScroll())
 		{
 			isScrolling = this.lowerScrollCamera.GetComponent<ScrollingController>().ScrollController();
 		}
@@ -262,6 +262,7 @@ public class NewMarketController : MonoBehaviour
 		this.menu = GameObject.Find ("Menu");
 		this.menu.AddComponent<MenuController>();
 		this.menu.GetComponent<MenuController>().initialize();
+		BackOfficeController.instance.setIsMenuLoaded(true);
 	}
 	private void initializeBackOffice()
 	{
@@ -327,29 +328,29 @@ public class NewMarketController : MonoBehaviour
 		{
 			if(i==this.activeTab)
 			{
-				this.tabs[i].GetComponent<SpriteRenderer>().sprite=MenuController.instance.returnTabPicture(1);
+				this.tabs[i].GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnTabPicture(1);
 				this.tabs[i].GetComponent<NewMarketTabController>().setIsSelected(true);
 				this.tabs[i].transform.FindChild("Title").GetComponent<TextMeshPro>().color=ApplicationDesignRules.blueColor;
 			}
 			else
 			{
-				this.tabs[i].GetComponent<SpriteRenderer>().sprite=MenuController.instance.returnTabPicture(0);
+				this.tabs[i].GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnTabPicture(0);
 				this.tabs[i].GetComponent<NewMarketTabController>().reset();
 			}
 		}
-		MenuController.instance.displayLoadingScreen ();
+		BackOfficeController.instance.displayLoadingScreen ();
 		this.isSceneLoaded = false;
 		yield return StartCoroutine (model.initializeMarket (this.totalNbResultLimit,this.activeTab,firstLoad));
 		this.initializeCards ();
 		this.isSceneLoaded = true;
-		MenuController.instance.hideLoadingScreen ();
+		BackOfficeController.instance.hideLoadingScreen ();
 		if(firstLoad)
 		{
-			if(model.player.TutorialStep!=-1)
+			if(ApplicationModel.player.TutorialStep!=-1)
 			{
-				TutorialObjectController.instance.startTutorial(model.player.TutorialStep,model.player.displayTutorial);
+				TutorialObjectController.instance.startTutorial();
 			}
-			else if(model.player.displayTutorial&&!model.player.MarketTutorial)
+			else if(ApplicationModel.player.DisplayTutorial&&!ApplicationModel.player.MarketTutorial)
 			{
 				TutorialObjectController.instance.startHelp();
 			}
@@ -359,10 +360,12 @@ public class NewMarketController : MonoBehaviour
 		case 0: case 1:
 			this.priceFilterTitle.SetActive(true);
 			this.priceFilter.SetActive(true);
+			this.refreshMarketButton.SetActive(false);
 			break;
 		case 2:
 			this.priceFilterTitle.SetActive(false);
 			this.priceFilter.SetActive(false);
+			this.refreshMarketButton.SetActive(false);
 			break;
 		}
 	}
@@ -372,29 +375,29 @@ public class NewMarketController : MonoBehaviour
 		{
 			if(i==this.activeTab)
 			{
-				this.tabs[i].GetComponent<SpriteRenderer>().sprite=MenuController.instance.returnTabPicture(1);
+				this.tabs[i].GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnTabPicture(1);
 				this.tabs[i].GetComponent<NewMarketTabController>().setIsSelected(true);
 				this.tabs[i].transform.FindChild("Title").GetComponent<TextMeshPro>().color=ApplicationDesignRules.blueColor;
 			}
 			else
 			{
-				this.tabs[i].GetComponent<SpriteRenderer>().sprite=MenuController.instance.returnTabPicture(0);
+				this.tabs[i].GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnTabPicture(0);
 				this.tabs[i].GetComponent<NewMarketTabController>().reset();
 			}
 		}
-		MenuController.instance.displayLoadingScreen ();
+		BackOfficeController.instance.displayLoadingScreen ();
 		this.isSceneLoaded = false;
 		yield return StartCoroutine (model.initializeMarket (this.totalNbResultLimit,this.activeTab,firstLoad));
 		this.initializeCards ();
 		this.isSceneLoaded = true;
-		MenuController.instance.hideLoadingScreen ();
+		BackOfficeController.instance.hideLoadingScreen ();
 		if(firstLoad)
 		{
-			if(model.player.TutorialStep!=-1)
+			if(ApplicationModel.player.TutorialStep!=-1)
 			{
-				TutorialObjectController.instance.startTutorial(model.player.TutorialStep,model.player.displayTutorial);
+				TutorialObjectController.instance.startTutorial();
 			}
-			else if(model.player.displayTutorial&&!model.player.MarketTutorial)
+			else if(ApplicationModel.player.DisplayTutorial&&!ApplicationModel.player.MarketTutorial)
 			{
 				TutorialObjectController.instance.startHelp();
 			}
@@ -404,10 +407,12 @@ public class NewMarketController : MonoBehaviour
 		case 0: case 1:
 			this.priceFilterTitle.SetActive(true);
 			this.priceFilter.SetActive(true);
+			this.refreshMarketButton.SetActive(false);
 			break;
 		case 2:
 			this.priceFilterTitle.SetActive(false);
 			this.priceFilter.SetActive(false);
+			this.refreshMarketButton.SetActive(false);
 			break;
 		}
 	}
@@ -443,9 +448,9 @@ public class NewMarketController : MonoBehaviour
 			this.tabs[i].AddComponent<NewMarketTabController>();
 			this.tabs[i].GetComponent<NewMarketTabController>().setId(i);
 		}
-		this.tabs[0].transform.FindChild("Title").GetComponent<TextMeshPro> ().text = (WordingMarket.getReference(0));
-		this.tabs[1].transform.FindChild("Title").GetComponent<TextMeshPro> ().text = (WordingMarket.getReference(1));
-		this.tabs[2].transform.FindChild("Title").GetComponent<TextMeshPro> ().text = (WordingMarket.getReference(2));
+		this.tabs[0].transform.FindChild("Title").GetComponent<TextMeshPro> ().text = (WordingMarket.getReference(1));
+		this.tabs[1].transform.FindChild("Title").GetComponent<TextMeshPro> ().text = (WordingMarket.getReference(2));
+		this.tabs[2].transform.FindChild("Title").GetComponent<TextMeshPro> ().text = (WordingMarket.getReference(3));
 	
 		this.cardsTypeFilters = new GameObject[10];
 		for(int i=0;i<this.cardsTypeFilters.Length;i++)
@@ -978,8 +983,12 @@ public class NewMarketController : MonoBehaviour
 
 		}
 		this.skillSearchBar.GetComponent<NewMarketSkillSearchBarController>().resize();
-		TutorialObjectController.instance.resize ();
 
+		MenuController.instance.resize();
+		MenuController.instance.setCurrentPage(3);
+		MenuController.instance.refreshMenuObject();
+		TutorialObjectController.instance.resize();
+		BackOfficeController.instance.resize();
 	}
 	public void drawCards()
 	{
@@ -1531,13 +1540,13 @@ public class NewMarketController : MonoBehaviour
 			}
 			else
 			{
-				MenuController.instance.displayErrorPopUp(WordingMarket.getReference(6));
+				BackOfficeController.instance.displayErrorPopUp(WordingMarket.getReference(6));
 			}
 		}
 	}
 	public void refreshCredits()
 	{
-		StartCoroutine(this.menu.GetComponent<MenuController> ().getUserData ());
+		StartCoroutine(this.backOfficeController.GetComponent<BackOfficeController> ().getUserData ());
 	}
 	public void backOfficeBackgroundClicked()
 	{
@@ -1565,7 +1574,7 @@ public class NewMarketController : MonoBehaviour
 		}
 		else if(!this.cards[this.idCardClicked].GetComponent<NewCardController>().closePopUps())
 		{
-			MenuController.instance.leaveGame();
+			BackOfficeController.instance.leaveGame();
 		}
 	}
 	public void closeAllPopUp()
@@ -1597,7 +1606,7 @@ public class NewMarketController : MonoBehaviour
 	}
 	public void deleteCard()
 	{
-		StartCoroutine(MenuController.instance.getUserData ());
+		StartCoroutine(BackOfficeController.instance.getUserData ());
 		if(this.isCardFocusedDisplayed)
 		{
 			this.hideCardFocused ();
@@ -1617,7 +1626,7 @@ public class NewMarketController : MonoBehaviour
 		}
 		else
 		{
-			StartCoroutine(MenuController.instance.getUserData ());
+			StartCoroutine(BackOfficeController.instance.getUserData ());
 			this.cards[this.idCardClicked].GetComponent<NewCardController>().show();
 			if(toUpdateCardsMarketFeatures)
 			{
@@ -1723,7 +1732,7 @@ public class NewMarketController : MonoBehaviour
 	}
 	public int returnUserId()
 	{
-		return model.player.Id;
+		return ApplicationModel.player.Id;
 	}
 	public void slideRight()
 	{
@@ -1844,11 +1853,11 @@ public class NewMarketController : MonoBehaviour
 	}
 	public IEnumerator endHelp()
 	{
-		if(!model.player.MarketTutorial)
+		if(!ApplicationModel.player.MarketTutorial)
 		{
-			MenuController.instance.displayLoadingScreen();
-			yield return StartCoroutine(model.player.setMarketTutorial(true));
-			MenuController.instance.hideLoadingScreen();
+			BackOfficeController.instance.displayLoadingScreen();
+			yield return StartCoroutine(ApplicationModel.player.setMarketTutorial(true));
+			BackOfficeController.instance.hideLoadingScreen();
 		}
 	}
 	public bool getAreFiltersDisplayed()

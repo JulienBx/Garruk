@@ -33,7 +33,7 @@ public class AuthenticationViewModel
 		this.toggleStyle = new GUIStyle ();
 
 		this.toMemorize = false;
-		this.username = ApplicationModel.username;
+		this.username = ApplicationModel.player.Username;
 		this.password = "";
 		this.guiEnabled = true;
 		this.error = "";

@@ -8,11 +8,6 @@ using System.Reflection;
 public class StoreTutorialController : TutorialObjectController 
 {
 	public static StoreTutorialController instance;
-	
-	public override void endInitialization()
-	{
-		NewStoreController.instance.endTutorialInitialization ();
-	}
 
 	#region TUTORIAL SEQUENCES
 

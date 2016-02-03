@@ -39,7 +39,7 @@ public class NewPackController : MonoBehaviour
 	public void show(Pack p)
 	{
 		this.gameObject.transform.FindChild("PackButton").FindChild("Title").GetComponent<TextMeshPro> ().text = WordingPacks.getReferences(0)+p.Price.ToString ();
-		this.gameObject.transform.FindChild("PackPicture").GetComponent<SpriteRenderer> ().sprite = MenuController.instance.returnPackPicture (p.IdPicture);
+		this.gameObject.transform.FindChild("PackPicture").GetComponent<SpriteRenderer> ().sprite = BackOfficeController.instance.returnPackPicture (p.IdPicture);
 		this.gameObject.transform.FindChild("PackTitle").GetComponent<TextMeshPro> ().text = p.Name;
 	}
 	public void activeButton(bool value)

@@ -17,6 +17,7 @@ public class NewStoreController : MonoBehaviour
 	public GameObject blockObject;
 	public GUISkin popUpSkin;
 
+	private GameObject backOfficeController;
 	private GameObject menu;
 	private GameObject tutorial;
 
@@ -101,7 +102,7 @@ public class NewStoreController : MonoBehaviour
 	
 	void Update () 
 	{
-		if (Input.touchCount == 1 && this.isSceneLoaded  && TutorialObjectController.instance.getCanSwipe() && MenuController.instance.getCanSwipeAndScroll()) 
+		if (Input.touchCount == 1 && this.isSceneLoaded  && TutorialObjectController.instance.getCanSwipe() && BackOfficeController.instance.getCanSwipeAndScroll()) 
 		{
 			if(Input.touches[0].deltaPosition.x<-15f && Mathf.Abs(Input.touches[0].deltaPosition.y)<Mathf.Abs(Input.touches[0].deltaPosition.x))
 			{
@@ -196,7 +197,7 @@ public class NewStoreController : MonoBehaviour
 			this.mediumScrollCamera.transform.position=mediumCameraPosition;
 			this.lowerScrollCamera.transform.position=lowerCameraPosition;
 		}
-		if(ApplicationDesignRules.isMobileScreen && this.isSceneLoaded && this.mainContentDisplayed && TutorialObjectController.instance.getCanScroll() && MenuController.instance.getCanSwipeAndScroll())
+		if(ApplicationDesignRules.isMobileScreen && this.isSceneLoaded && this.mainContentDisplayed && TutorialObjectController.instance.getCanScroll() && BackOfficeController.instance.getCanSwipeAndScroll())
 		{
 			isScrolling = this.mediumScrollCamera.GetComponent<ScrollingController>().ScrollController();
 		}
@@ -209,30 +210,29 @@ public class NewStoreController : MonoBehaviour
 		this.scrollIntersection = 1.2f;
 		this.mainContentDisplayed = true;
 		this.initializeScene ();
-		this.startMenuInitialization ();
+		this.initializeBackOffice();
+		this.initializeMenu();
+		this.initializeTutorial();
+		StartCoroutine (this.initialization ());
 	}
-	public void paginationHandler()
-	{
-		this.drawPaginationNumber ();
-		this.drawPacks ();
-	}
-	private void startMenuInitialization()
-	{
-		this.menu = GameObject.Find ("Menu");
-		this.menu.AddComponent<StoreMenuController> ();
-	}
-	public void endMenuInitialization()
-	{
-		this.startTutorialInitialization ();
-	}
-	private void startTutorialInitialization()
+	private void initializeTutorial()
 	{
 		this.tutorial = GameObject.Find ("Tutorial");
 		this.tutorial.AddComponent<StoreTutorialController>();
+		this.tutorial.GetComponent<StoreTutorialController>().initialize();
 	}
-	public void endTutorialInitialization()
+	private void initializeMenu()
 	{
-		StartCoroutine (this.initialization ());
+		this.menu = GameObject.Find ("Menu");
+		this.menu.AddComponent<MenuController>();
+		this.menu.GetComponent<MenuController>().initialize();
+		BackOfficeController.instance.setIsMenuLoaded(true);
+	}
+	private void initializeBackOffice()
+	{
+		this.backOfficeController = GameObject.Find ("BackOfficeController");
+		this.backOfficeController.AddComponent<BackOfficeStoreController>();
+		this.backOfficeController.GetComponent<BackOfficeStoreController>().initialize();
 	}
 	private void initializeScene()
 	{
@@ -303,21 +303,26 @@ public class NewStoreController : MonoBehaviour
 	private IEnumerator initialization()
 	{
 		this.resize ();
-		MenuController.instance.displayLoadingScreen ();
+		BackOfficeController.instance.displayLoadingScreen ();
 		yield return(StartCoroutine(this.model.initializeStore()));
 		this.initializePacks ();
 		this.initializeBuyCreditsButton ();
-		MenuController.instance.hideLoadingScreen ();
+		BackOfficeController.instance.hideLoadingScreen ();
 		this.isSceneLoaded = true;
-		if(ApplicationModel.packToBuy!=-1)
+		if(ApplicationModel.player.PackToBuy!=-1)
 		{
-			this.buyPackHandler(ApplicationModel.packToBuy,true);
-			ApplicationModel.packToBuy=-1;
+			this.buyPackHandler(ApplicationModel.player.PackToBuy,true);
+			ApplicationModel.player.PackToBuy=-1;
 		}
-		else if(model.player.TutorialStep!=-1)
+		else if(ApplicationModel.player.TutorialStep!=-1)
 		{
-			TutorialObjectController.instance.startTutorial(model.player.TutorialStep,model.player.displayTutorial);
+			TutorialObjectController.instance.startTutorial();
 		}
+	}
+	public void paginationHandler()
+	{
+		this.drawPaginationNumber();
+		this.drawPacks();
 	}
 	public void initializePacks()
 	{
@@ -330,7 +335,7 @@ public class NewStoreController : MonoBehaviour
 	}
 	private void initializeBuyCreditsButton()
 	{
-		if(!ApplicationModel.isAdmin)
+		if(!ApplicationModel.player.IsAdmin)
 		{
 			this.buyCreditsButton.GetComponent<NewStoreBuyCreditsButtonController>().setIsActive(false);
 		}
@@ -364,10 +369,7 @@ public class NewStoreController : MonoBehaviour
 		float buyCreditsBlockUpMargin;
 		float buyCreditsBlockHeight;
 
-
-
 		this.packsPagination = new Pagination ();
-
 		this.mainCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
 		this.mainCamera.transform.position = ApplicationDesignRules.mainCameraPosition;
 		this.sceneCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
@@ -592,7 +594,11 @@ public class NewStoreController : MonoBehaviour
 		{
 			this.addCreditsPopUpResize();
 		}
+		MenuController.instance.resize();
+		MenuController.instance.setCurrentPage(2);
+		MenuController.instance.refreshMenuObject();
 		TutorialObjectController.instance.resize();
+		BackOfficeController.instance.resize();
 	}
 	public void createRandomCards()
 	{
@@ -840,9 +846,9 @@ public class NewStoreController : MonoBehaviour
 	}
 	public IEnumerator buyPack()
 	{
-		MenuController.instance.displayLoadingScreen ();
+		BackOfficeController.instance.displayLoadingScreen ();
 		yield return StartCoroutine(model.buyPack (this.selectedPackIndex, this.selectedCardType, TutorialObjectController.instance.getIsTutorialLaunched()));
-		MenuController.instance.hideLoadingScreen ();
+		BackOfficeController.instance.hideLoadingScreen ();
 		if(model.Error=="")
 		{
 			this.randomCardsDisplayed = new bool[model.packList [this.selectedPackIndex].NbCards];
@@ -858,11 +864,11 @@ public class NewStoreController : MonoBehaviour
 				this.displayRandomCards();
 				if(this.model.CollectionPointsEarned>0)
 				{
-					MenuController.instance.displayCollectionPointsPopUp(model.CollectionPointsEarned,model.CollectionPointsRanking);
+					BackOfficeController.instance.displayCollectionPointsPopUp(model.CollectionPointsEarned,model.CollectionPointsRanking);
 				}
 				if(this.model.NewSkills.Count>0)
 				{
-					MenuController.instance.displayNewSkillsPopUps(model.NewSkills);
+					BackOfficeController.instance.displayNewSkillsPopUps(model.NewSkills);
 				}
 				TutorialObjectController.instance.tutorialTrackPoint ();
 			}
@@ -876,7 +882,7 @@ public class NewStoreController : MonoBehaviour
 		}
 		else
 		{
-			MenuController.instance.displayErrorPopUp(model.Error);
+			BackOfficeController.instance.displayErrorPopUp(model.Error);
 		}
 	}
 	public void hideCardFocused()
@@ -917,13 +923,13 @@ public class NewStoreController : MonoBehaviour
 	}
 	public int getCardTypeId(int value)
 	{
-		return model.player.CardTypesAllowed [value];
+		return ApplicationModel.player.CardTypesAllowed [value];
 	}
 	public void deleteCard()
 	{
 		if(this.areRandomCardsGenerated)
 		{
-			StartCoroutine(MenuController.instance.getUserData ());
+			StartCoroutine(BackOfficeController.instance.getUserData ());
 			this.randomCardsDisplayed[this.clickedCardId]=false;
 			this.randomCards[this.clickedCardId].SetActive(false);
 			this.hideCardFocused();
@@ -985,7 +991,7 @@ public class NewStoreController : MonoBehaviour
 		}
 		else
 		{
-			MenuController.instance.leaveGame();
+			BackOfficeController.instance.leaveGame();
 		}
 	}
 	public void closeAllPopUp()
@@ -1004,7 +1010,7 @@ public class NewStoreController : MonoBehaviour
 		this.toUpdatePackPrices = false;
 		for(int i=0;i<this.packsDisplayed.Count;i++)
 		{
-			if(ApplicationModel.credits<model.packList[this.packsDisplayed[i]].Price)
+			if(ApplicationModel.player.Money<model.packList[this.packsDisplayed[i]].Price)
 			{
 				this.packs[i].GetComponent<NewPackStoreController>().activeButton(false);
 			}
@@ -1016,7 +1022,7 @@ public class NewStoreController : MonoBehaviour
 	}
 	public void displayAddCreditsPopUp()
 	{
-		MenuController.instance.displayTransparentBackground ();
+		BackOfficeController.instance.displayTransparentBackground ();
 		this.isAddCreditsPopUpDisplayed = true;
 		this.addCreditsPopUp.SetActive (true);
 		this.addCreditsPopUp.transform.GetComponent<AddCreditsPopUpController> ().reset ();
@@ -1024,10 +1030,10 @@ public class NewStoreController : MonoBehaviour
 	}
 	public void displaySelectCardTypePopUp()
 	{
-		MenuController.instance.displayTransparentBackground ();
+		BackOfficeController.instance.displayTransparentBackground ();
 		this.isSelectCardTypePopUpDisplayed = true;
 		this.selectCardTypePopUp.SetActive (true);
-		this.selectCardTypePopUp.transform.GetComponent<SelectCardTypePopUpController> ().reset (model.player.CardTypesAllowed);
+		this.selectCardTypePopUp.transform.GetComponent<SelectCardTypePopUpController> ().reset (ApplicationModel.player.CardTypesAllowed);
 		this.selectCardPopUpResize ();
 	}
 	public void addCreditsPopUpResize()
@@ -1045,13 +1051,13 @@ public class NewStoreController : MonoBehaviour
 	public void hideSelectCardPopUp()
 	{
 		this.selectCardTypePopUp.SetActive (false);
-		MenuController.instance.hideTransparentBackground();
+		BackOfficeController.instance.hideTransparentBackground();
 		this.isSelectCardTypePopUpDisplayed = false;
 	}
 	public void hideAddCreditsPopUp()
 	{
 		this.addCreditsPopUp.SetActive (false);
-		MenuController.instance.hideTransparentBackground();
+		BackOfficeController.instance.hideTransparentBackground();
 		this.isAddCreditsPopUpDisplayed = false;
 	}
 	public void addCreditsHandler()
@@ -1065,10 +1071,10 @@ public class NewStoreController : MonoBehaviour
 	public IEnumerator addCredits(int value)
 	{
 		this.hideAddCreditsPopUp ();
-		MenuController.instance.displayLoadingScreen ();
-		yield return StartCoroutine (this.model.player.addMoney (value));
-		StartCoroutine(MenuController.instance.getUserData ());
-		MenuController.instance.hideLoadingScreen ();
+		BackOfficeController.instance.displayLoadingScreen ();
+		yield return StartCoroutine (ApplicationModel.player.addMoney (value));
+		StartCoroutine(BackOfficeController.instance.getUserData ());
+		BackOfficeController.instance.hideLoadingScreen ();
 	}
 	public int addCreditsSyntaxCheck()
 	{

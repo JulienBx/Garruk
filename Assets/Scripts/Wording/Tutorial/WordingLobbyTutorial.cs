@@ -9,7 +9,7 @@ public class WordingLobbyTutorial
 
 	public static string getHelpContent(int idReference)
 	{
-		return helpContents[idReference][ApplicationModel.idLanguage];
+		return helpContents[idReference][ApplicationModel.player.IdLanguage];
 	}
 	static WordingLobbyTutorial()
 	{

@@ -10,11 +10,11 @@ public class WordingPacks
 
 	public static string getName(int idPack)
 	{
-		return names[idPack][ApplicationModel.idLanguage];
+		return names[idPack][ApplicationModel.player.IdLanguage];
 	}
 	public static string getReferences(int idReference)
 	{
-		return references[idReference][ApplicationModel.idLanguage];
+		return references[idReference][ApplicationModel.player.IdLanguage];
 	}
 	static WordingPacks()
 	{

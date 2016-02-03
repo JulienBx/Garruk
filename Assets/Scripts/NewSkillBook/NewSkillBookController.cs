@@ -14,6 +14,7 @@ public class NewSkillBookController : MonoBehaviour
 	public GameObject skillObject;
 	public GameObject contentObject;
 
+	private GameObject backOfficeController;
 	private GameObject menu;
 	private GameObject tutorial;
 
@@ -109,7 +110,7 @@ public class NewSkillBookController : MonoBehaviour
 
 	void Update()
 	{
-		if (Input.touchCount == 1 && this.isSceneLoaded && !this.isFocusedSkillDisplayed && TutorialObjectController.instance.getCanSwipe() && MenuController.instance.getCanSwipeAndScroll()) 
+		if (Input.touchCount == 1 && this.isSceneLoaded && !this.isFocusedSkillDisplayed && TutorialObjectController.instance.getCanSwipe() && BackOfficeController.instance.getCanSwipeAndScroll()) 
 		{
 			if(Mathf.Abs(Input.touches[0].deltaPosition.y)>1f && Mathf.Abs(Input.touches[0].deltaPosition.y)>Mathf.Abs(Input.touches[0].deltaPosition.x))
 			{
@@ -184,7 +185,7 @@ public class NewSkillBookController : MonoBehaviour
 			this.upperScrollCamera.transform.position=mainCameraPosition;
 			this.lowerScrollCamera.transform.position=cardsCameraPosition;
 		}
-		if(ApplicationDesignRules.isMobileScreen && this.isSceneLoaded && this.mainContentDisplayed && !this.isFocusedSkillDisplayed && TutorialObjectController.instance.getCanScroll() && MenuController.instance.getCanSwipeAndScroll())
+		if(ApplicationDesignRules.isMobileScreen && this.isSceneLoaded && this.mainContentDisplayed && !this.isFocusedSkillDisplayed && TutorialObjectController.instance.getCanScroll() && BackOfficeController.instance.getCanSwipeAndScroll())
 		{
 			isScrolling = this.lowerScrollCamera.GetComponent<ScrollingController>().ScrollController();
 		}
@@ -198,42 +199,46 @@ public class NewSkillBookController : MonoBehaviour
 		this.scrollIntersection = 1.18f;
 		this.mainContentDisplayed = true;
 		this.initializeScene ();
-		this.startMenuInitialization ();
+		this.initializeBackOffice();
+		this.initializeMenu();
+		this.initializeTutorial();
+		StartCoroutine (this.initialization ());
 	}
-	private void startMenuInitialization()
-	{
-		this.menu = GameObject.Find ("Menu");
-		this.menu.AddComponent<SkillBookMenuController> ();
-	}
-	public void endMenuInitialization()
-	{
-		this.startTutorialInitialization ();
-	}
-	private void startTutorialInitialization()
+	private void initializeTutorial()
 	{
 		this.tutorial = GameObject.Find ("Tutorial");
 		this.tutorial.AddComponent<SkillBookTutorialController>();
+		this.tutorial.GetComponent<SkillBookTutorialController>().initialize();
 	}
-	public void endTutorialInitialization()
+	private void initializeMenu()
 	{
-		StartCoroutine(this.initialization ());
+		this.menu = GameObject.Find ("Menu");
+		this.menu.AddComponent<MenuController>();
+		this.menu.GetComponent<MenuController>().initialize();
+		BackOfficeController.instance.setIsMenuLoaded(true);
+	}
+	private void initializeBackOffice()
+	{
+		this.backOfficeController = GameObject.Find ("BackOfficeController");
+		this.backOfficeController.AddComponent<BackOfficeSkillBookController>();
+		this.backOfficeController.GetComponent<BackOfficeSkillBookController>().initialize();
 	}
 	public IEnumerator initialization()
 	{
 		this.resize ();
-		MenuController.instance.displayLoadingScreen ();
+		BackOfficeController.instance.displayLoadingScreen ();
 		yield return StartCoroutine (model.getSkillBookData ());
 		this.computeIndicators ();
 		this.selectATab ();
 		this.initializeFilters ();
 		this.initializeSkills ();
-		MenuController.instance.hideLoadingScreen ();
+		BackOfficeController.instance.hideLoadingScreen ();
 		this.isSceneLoaded = true;
-		if(model.player.TutorialStep!=-1)
+		if(ApplicationModel.player.TutorialStep!=-1)
 		{
-			TutorialObjectController.instance.startTutorial(model.player.TutorialStep,model.player.displayTutorial);
+			TutorialObjectController.instance.startTutorial();
 		}
-		else if(model.player.displayTutorial&&!model.player.SkillBookTutorial)
+		else if(ApplicationModel.player.DisplayTutorial&&!ApplicationModel.player.SkillBookTutorial)
 		{
 			TutorialObjectController.instance.startHelp();
 		}
@@ -253,13 +258,13 @@ public class NewSkillBookController : MonoBehaviour
 		{
 			if(i==this.activeTab)
 			{
-				this.tabs[i].GetComponent<SpriteRenderer>().sprite=MenuController.instance.returnTabPicture(1);
+				this.tabs[i].GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnTabPicture(1);
 				this.tabs[i].GetComponent<NewSkillBookTabController>().setIsSelected(true);
 				this.tabs[i].transform.FindChild("Title").GetComponent<TextMeshPro>().color=ApplicationDesignRules.blueColor;
 			}
 			else
 			{
-				this.tabs[i].GetComponent<SpriteRenderer>().sprite=MenuController.instance.returnTabPicture(0);
+				this.tabs[i].GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnTabPicture(0);
 				this.tabs[i].GetComponent<NewSkillBookTabController>().reset();
 			}
 		}
@@ -393,7 +398,7 @@ public class NewSkillBookController : MonoBehaviour
 		for(int i=0;i<this.skillTypeFilters.Length;i++)
 		{
 			this.skillTypeFilters[i].transform.FindChild("Title").GetComponent<TextMeshPro>().text=model.skillTypesList[i].Name.Substring (0, 1).ToUpper();
-			this.skillTypeFilters[i].GetComponent<SpriteRenderer>().sprite=MenuController.instance.returnSkillTypePicture(i);
+			this.skillTypeFilters[i].GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnSkillTypePicture(i);
 		}
 	}
 	private void applyFilters()
@@ -805,8 +810,6 @@ public class NewSkillBookController : MonoBehaviour
 			this.helpContents[i].transform.FindChild("Title").GetComponent<TextContainer>().width=(helpBlockSize.x-2f*ApplicationDesignRules.blockHorizontalSpacing-0.1f-helpContentPictureHeight)*1/(ApplicationDesignRules.reductionRatio);
 		}
 
-
-
 		this.mainContentPositionX = skillsBlockOrigin.x;
 		this.helpContentPositionX=helpBlockOrigin.x;
 		this.filtersPositionX = filtersBlockOrigin.x;
@@ -989,7 +992,11 @@ public class NewSkillBookController : MonoBehaviour
 			}
 		}
 		this.skillSearchBar.GetComponent<NewSkillBookSkillSearchBarController>().resize();
-		TutorialObjectController.instance.resize ();
+		MenuController.instance.resize();
+		MenuController.instance.setCurrentPage(4);
+		MenuController.instance.refreshMenuObject();
+		TutorialObjectController.instance.resize();
+		BackOfficeController.instance.resize();
 	}
 	public void cardTypeFilterHandler(int id)
 	{
@@ -1083,7 +1090,7 @@ public class NewSkillBookController : MonoBehaviour
 				this.cardsTypesDisplayed.Add (this.helpPagination.chosenPage*this.helpPagination.nbElementsPerPage+i);
 				this.contents[i].SetActive(true);
 				this.contents[i].transform.FindChild("description").GetComponent<TextMeshPro>().text=model.cardTypesList[this.helpPagination.chosenPage*this.helpPagination.nbElementsPerPage+i].Description;
-				this.contents[i].transform.FindChild("cardTypePicture").GetComponent<SpriteRenderer>().sprite=MenuController.instance.returnCardTypePicture(model.cardTypesList[this.helpPagination.chosenPage*this.helpPagination.nbElementsPerPage+i].IdPicture);
+				this.contents[i].transform.FindChild("cardTypePicture").GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnCardTypePicture(model.cardTypesList[this.helpPagination.chosenPage*this.helpPagination.nbElementsPerPage+i].IdPicture);
 				this.contents[i].transform.FindChild("title").GetComponent<TextMeshPro>().text=model.cardTypesList[this.helpPagination.chosenPage*this.helpPagination.nbElementsPerPage+i].Name;
 				
 			}
@@ -1103,7 +1110,7 @@ public class NewSkillBookController : MonoBehaviour
 				this.skillsTypesDisplayed.Add (this.helpPagination.chosenPage*this.helpPagination.nbElementsPerPage+i);
 				this.contents[i].SetActive(true);
 				this.contents[i].transform.FindChild("description").GetComponent<TextMeshPro>().text=model.skillTypesList[this.helpPagination.chosenPage*this.helpPagination.nbElementsPerPage+i].Description;
-				this.contents[i].transform.FindChild("skillTypePicture").GetComponent<SpriteRenderer>().sprite=MenuController.instance.returnSkillTypePicture(model.skillTypesList[this.helpPagination.chosenPage*this.helpPagination.nbElementsPerPage+i].IdPicture);
+				this.contents[i].transform.FindChild("skillTypePicture").GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnSkillTypePicture(model.skillTypesList[this.helpPagination.chosenPage*this.helpPagination.nbElementsPerPage+i].IdPicture);
 				this.contents[i].transform.FindChild("skillTypePicture").FindChild("Title").GetComponent<TextMeshPro>().text=model.skillTypesList[this.helpPagination.chosenPage*this.helpPagination.nbElementsPerPage+i].Name.Substring(0,1).ToUpper();
 				this.contents[i].transform.FindChild("title").GetComponent<TextMeshPro>().text=model.skillTypesList[this.helpPagination.chosenPage*this.helpPagination.nbElementsPerPage+i].Name;
 			}
@@ -1134,8 +1141,8 @@ public class NewSkillBookController : MonoBehaviour
 		this.helpSubtitle.transform.GetComponent<TextMeshPro> ().text = WordingSkillBook.getReference(13);
 		this.stats[0].transform.FindChild ("Value").GetComponent<TextMeshPro> ().text= model.ownSkillsIdList.Count.ToString();
 		this.stats[1].transform.FindChild ("Value").GetComponent<TextMeshPro> ().text= this.globalPercentage.ToString()+ " %";
-		this.stats[2].transform.FindChild ("Value").GetComponent<TextMeshPro> ().text= model.player.CollectionPoints.ToString ();
-		this.stats[3].transform.FindChild ("Value").GetComponent<TextMeshPro> ().text= model.player.CollectionRanking.ToString ();
+		this.stats[2].transform.FindChild ("Value").GetComponent<TextMeshPro> ().text= ApplicationModel.player.CollectionPoints.ToString ();
+		this.stats[3].transform.FindChild ("Value").GetComponent<TextMeshPro> ().text= ApplicationModel.player.CollectionRanking.ToString ();
 	}
 	public void availabilityFilterHandler(int id)
 	{
@@ -1319,7 +1326,7 @@ public class NewSkillBookController : MonoBehaviour
 	}
 	public void escapePressed()
 	{
-		MenuController.instance.leaveGame();
+		BackOfficeController.instance.leaveGame();
 	}
 	public void closeAllPopUp()
 	{
@@ -1539,11 +1546,11 @@ public class NewSkillBookController : MonoBehaviour
 	}
 	public IEnumerator endHelp()
 	{
-		if(!model.player.SkillBookTutorial)
+		if(!ApplicationModel.player.SkillBookTutorial)
 		{
-			MenuController.instance.displayLoadingScreen();
-			yield return StartCoroutine(model.player.setSkillBookTutorial(true));
-			MenuController.instance.hideLoadingScreen();
+			BackOfficeController.instance.displayLoadingScreen();
+			yield return StartCoroutine(ApplicationModel.player.setSkillBookTutorial(true));
+			BackOfficeController.instance.hideLoadingScreen();
 		}
 		yield break;
 	}

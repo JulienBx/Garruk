@@ -12,12 +12,12 @@ public class ChooseLanguagePopUpController : MonoBehaviour
 	{
 		gameObject.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingChooseLanguagePopUp.getReference(0);
 		gameObject.transform.FindChild ("CloseButton").GetComponent<ChooseLanguagePopUpCloseButtonController> ().reset ();
-		if(ApplicationModel.idLanguage==0)
+		if(ApplicationModel.player.IdLanguage==0)
 		{
 			gameObject.transform.FindChild("Picture0").GetComponent<ChooseLanguagePopUpSelectionButtonController>().setActive(true);
 			gameObject.transform.FindChild("Picture1").GetComponent<ChooseLanguagePopUpSelectionButtonController>().setActive(false);
 		}
-		else if(ApplicationModel.idLanguage==1)
+		else if(ApplicationModel.player.IdLanguage==1)
 		{
 			gameObject.transform.FindChild("Picture0").GetComponent<ChooseLanguagePopUpSelectionButtonController>().setActive(false);
 			gameObject.transform.FindChild("Picture1").GetComponent<ChooseLanguagePopUpSelectionButtonController>().setActive(true);

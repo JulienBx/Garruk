@@ -23,6 +23,7 @@ public class NewLobbyController : MonoBehaviour
 	private GameObject statsBlock;
 	private GameObject statsBlockTitle;
 	private GameObject popUp;
+	private GameObject backOfficeController;
 	private GameObject menu;
 	private GameObject tutorial;
 	private GameObject[] results;
@@ -73,7 +74,7 @@ public class NewLobbyController : MonoBehaviour
 	
 	void Update()
 	{	
-		if (Input.touchCount == 1 && this.isSceneLoaded  && TutorialObjectController.instance.getCanSwipe() && MenuController.instance.getCanSwipeAndScroll()) 
+		if (Input.touchCount == 1 && this.isSceneLoaded  && TutorialObjectController.instance.getCanSwipe() && BackOfficeController.instance.getCanSwipeAndScroll()) 
 		{
 			if(Input.touches[0].deltaPosition.x<-15f)
 			{
@@ -147,47 +148,51 @@ public class NewLobbyController : MonoBehaviour
 	{
 		instance = this;
 		this.model = new NewLobbyModel ();
-		if(ApplicationModel.gameType==1)
+		if(ApplicationModel.player.ChosenGameType==1)
 		{
 			this.isDivisionLobby=true;
 		}
-		if(ApplicationModel.launchEndGameSequence)
+		if(ApplicationModel.player.ToLaunchEndGameSequence)
 		{
 			this.isEndGameLobby=true;
-			ApplicationModel.launchEndGameSequence=false;
+			ApplicationModel.player.ToLaunchEndGameSequence=false;
 		}
-		if(ApplicationModel.hasWonLastGame)
+		if(ApplicationModel.player.HasWonLastGame)
 		{
 			this.hasWonLastGame=true;
-			ApplicationModel.hasWonLastGame=false;
+			ApplicationModel.player.HasWonLastGame=false;
 		}
 		this.mainContentDisplayed = true;
 		this.timer = 0f;
 		this.initializeScene ();
-		this.startMenuInitialization ();
+		this.initializeBackOffice();
+		this.initializeMenu();
+		this.initializeTutorial();
+		StartCoroutine (this.initialization ());
 	}
-	private void startMenuInitialization()
-	{
-		this.menu = GameObject.Find ("Menu");
-		this.menu.AddComponent<LobbyMenuController> ();
-	}
-	public void endMenuInitialization()
-	{
-		this.startTutorialInitialization ();
-	}
-	private void startTutorialInitialization()
+	private void initializeTutorial()
 	{
 		this.tutorial = GameObject.Find ("Tutorial");
 		this.tutorial.AddComponent<LobbyTutorialController>();
+		this.tutorial.GetComponent<LobbyTutorialController>().initialize();
 	}
-	public void endTutorialInitialization()
+	private void initializeMenu()
 	{
-		StartCoroutine(this.initialization ());
+		this.menu = GameObject.Find ("Menu");
+		this.menu.AddComponent<MenuController>();
+		this.menu.GetComponent<MenuController>().initialize();
+		BackOfficeController.instance.setIsMenuLoaded(true);
+	}
+	private void initializeBackOffice()
+	{
+		this.backOfficeController = GameObject.Find ("BackOfficeController");
+		this.backOfficeController.AddComponent<BackOfficeLobbyController>();
+		this.backOfficeController.GetComponent<BackOfficeLobbyController>().initialize();
 	}
 	public IEnumerator initialization()
 	{
 		this.resize ();
-		MenuController.instance.displayLoadingScreen ();
+		BackOfficeController.instance.displayLoadingScreen ();
 		yield return StartCoroutine(model.getLobbyData(this.isDivisionLobby,this.isEndGameLobby));
 		this.initializeResults ();
 		this.initializeCompetitions ();
@@ -206,12 +211,12 @@ public class NewLobbyController : MonoBehaviour
 		}
 		this.initializePlayButton ();
 		this.isSceneLoaded = true;
-		MenuController.instance.hideLoadingScreen ();
-		if(model.player.TutorialStep!=-1)
+		BackOfficeController.instance.hideLoadingScreen ();
+		if(ApplicationModel.player.TutorialStep!=-1)
 		{
-			TutorialObjectController.instance.startTutorial(model.player.TutorialStep,model.player.displayTutorial);
+			TutorialObjectController.instance.startTutorial();
 		}
-		else if(model.player.displayTutorial&&!model.player.LobbyTutorial)
+		else if(ApplicationModel.player.DisplayTutorial&&!ApplicationModel.player.LobbyTutorial)
 		{
 			TutorialObjectController.instance.startHelp();
 		}
@@ -498,8 +503,6 @@ public class NewLobbyController : MonoBehaviour
 		this.statsPositionX=statsOrigin.x;
 		this.lastResultsPositionX = lastResultsBlockOrigin.x;
 
-		TutorialObjectController.instance.resize ();
-
 		if(this.isDivisionLobby)
 		{
 			this.divisionProgression.GetComponent<DivisionProgressionController>().resize(new Rect(mainBlockOriginPosition.x,mainBlockOriginPosition.y,mainBlockSize.x,mainBlockSize.y));
@@ -530,6 +533,11 @@ public class NewLobbyController : MonoBehaviour
 				this.stats[i].transform.FindChild("Title").GetComponent<TextContainer>().width=statBlockSize.x;
 			}
 		}
+		MenuController.instance.resize();
+		MenuController.instance.setCurrentPage(5);
+		MenuController.instance.refreshMenuObject();
+		TutorialObjectController.instance.resize();
+		BackOfficeController.instance.resize();
 	}
 	public void returnPressed()
 	{
@@ -546,7 +554,7 @@ public class NewLobbyController : MonoBehaviour
 		}
 		else
 		{
-			MenuController.instance.leaveGame();
+			BackOfficeController.instance.leaveGame();
 		}
 	}
 	public void closeAllPopUp()
@@ -583,7 +591,7 @@ public class NewLobbyController : MonoBehaviour
 
 				this.results[i].transform.FindChild("description").GetComponent<TextMeshPro>().text=description;
 				this.results[i].transform.FindChild("description").GetComponent<TextMeshPro>().color=textColor;
-				this.results[i].transform.FindChild("picture").GetComponent<SpriteRenderer>().sprite=MenuController.instance.returnThumbPicture(model.lastResults[this.pagination.chosenPage*this.pagination.nbElementsPerPage+i].Opponent.idProfilePicture);
+				this.results[i].transform.FindChild("picture").GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnThumbPicture(model.lastResults[this.pagination.chosenPage*this.pagination.nbElementsPerPage+i].Opponent.IdProfilePicture);
 				this.results[i].transform.FindChild("username").GetComponent<TextMeshPro>().text=model.lastResults[this.pagination.chosenPage*this.pagination.nbElementsPerPage+i].Opponent.Username;
 				
 			}
@@ -595,12 +603,12 @@ public class NewLobbyController : MonoBehaviour
 	}
 	public void drawStats()
 	{
-		this.stats[0].transform.FindChild ("Value").GetComponent<TextMeshPro> ().text= model.player.TotalNbWins.ToString ();
-		this.stats[1].transform.FindChild ("Value").GetComponent<TextMeshPro> ().text= model.player.TotalNbLooses.ToString ();
-		this.stats[2].transform.FindChild ("Value").GetComponent<TextMeshPro> ().text= model.player.Ranking.ToString ();
-		this.stats[2].transform.FindChild ("Subvalue").GetComponent<TextMeshPro> ().text= WordingLobby.getReference(8)+model.player.RankingPoints.ToString()+WordingLobby.getReference(9);
-		this.stats[3].transform.FindChild ("Value").GetComponent<TextMeshPro> ().text= model.player.CollectionRanking.ToString ();
-		this.stats[3].transform.FindChild ("Subvalue").GetComponent<TextMeshPro> ().text= WordingLobby.getReference(8)+model.player.CollectionPoints.ToString()+WordingLobby.getReference(9);	
+		this.stats[0].transform.FindChild ("Value").GetComponent<TextMeshPro> ().text= ApplicationModel.player.TotalNbWins.ToString ();
+		this.stats[1].transform.FindChild ("Value").GetComponent<TextMeshPro> ().text= ApplicationModel.player.TotalNbLooses.ToString ();
+		this.stats[2].transform.FindChild ("Value").GetComponent<TextMeshPro> ().text= ApplicationModel.player.Ranking.ToString ();
+		this.stats[2].transform.FindChild ("Subvalue").GetComponent<TextMeshPro> ().text= WordingLobby.getReference(8)+ApplicationModel.player.RankingPoints.ToString()+WordingLobby.getReference(9);
+		this.stats[3].transform.FindChild ("Value").GetComponent<TextMeshPro> ().text= ApplicationModel.player.CollectionRanking.ToString ();
+		this.stats[3].transform.FindChild ("Subvalue").GetComponent<TextMeshPro> ().text= WordingLobby.getReference(8)+ApplicationModel.player.CollectionPoints.ToString()+WordingLobby.getReference(9);	
 	}
 	public void drawCompetition()
 	{
@@ -613,27 +621,27 @@ public class NewLobbyController : MonoBehaviour
 				description=description+WordingLobby.getReference(13)+model.currentDivision.PromotionPrize.ToString()+WordingLobby.getReference(14);
 			}
 			this.competitionDescription.GetComponent<TextMeshPro>().text=description;
-			this.competitionPicture.GetComponent<SpriteRenderer>().sprite=MenuController.instance.returnLargeCompetitionPicture(model.currentDivision.IdPicture);
+			this.competitionPicture.GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnLargeCompetitionPicture(model.currentDivision.IdPicture);
 		}
 		else
 		{
 			this.competitionBlockTitle.GetComponent<TextMeshPro>().text=model.currentCup.Name;
 			string description=WordingLobby.getReference(15)+model.currentCup.CupPrize.ToString()+WordingLobby.getReference(14);
 			this.competitionDescription.GetComponent<TextMeshPro>().text=description;
-			this.competitionPicture.GetComponent<SpriteRenderer>().sprite=MenuController.instance.returnLargeCompetitionPicture(model.currentCup.IdPicture);
+			this.competitionPicture.GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnLargeCompetitionPicture(model.currentCup.IdPicture);
 		}
 	}
 	private void displayPopUp()
 	{
 		this.isPopUpDisplayed = true;
 		this.popUp.SetActive (true);
-		MenuController.instance.displayTransparentBackground ();
+		BackOfficeController.instance.displayTransparentBackground ();
 	}
 	public void hidePopUp()
 	{
 		this.isPopUpDisplayed = false;
 		this.popUp.SetActive (false);
-		MenuController.instance.hideTransparentBackground ();
+		BackOfficeController.instance.hideTransparentBackground ();
 	}
 	public void playHandler()
 	{
@@ -643,7 +651,7 @@ public class NewLobbyController : MonoBehaviour
 		}
 		else
 		{
-			MenuController.instance.joinRandomRoomHandler();
+			BackOfficeController.instance.joinRandomRoomHandler();
 		}
 	}
 	public void drawGauge()
@@ -784,7 +792,7 @@ public class NewLobbyController : MonoBehaviour
 	}
 	public void clickOnResultsProfile(int id)
 	{
-		ApplicationModel.profileChosen = this.results [id].transform.FindChild ("username").GetComponent<TextMeshPro> ().text;
+		ApplicationModel.player.ProfileChosen = this.results [id].transform.FindChild ("username").GetComponent<TextMeshPro> ().text;
 		Application.LoadLevel("NewProfile");
 	}
 	public void updateSubMainBlockTitle(string s)
@@ -903,11 +911,11 @@ public class NewLobbyController : MonoBehaviour
 	}
 	public IEnumerator endHelp()
 	{
-		if(!model.player.LobbyTutorial)
+		if(!ApplicationModel.player.LobbyTutorial)
 		{
-			MenuController.instance.displayLoadingScreen();
-			yield return StartCoroutine(model.player.setLobbyTutorial(true));
-			MenuController.instance.hideLoadingScreen();
+			BackOfficeController.instance.displayLoadingScreen();
+			yield return StartCoroutine(ApplicationModel.player.setLobbyTutorial(true));
+			BackOfficeController.instance.hideLoadingScreen();
 		}
 	}
 	public bool getAreStatsDisplayed()

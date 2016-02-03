@@ -8,11 +8,7 @@ using System.Reflection;
 public class SkillBookTutorialController : TutorialObjectController 
 {
 	public static SkillBookTutorialController instance;
-	
-	public override void endInitialization()
-	{
-		NewSkillBookController.instance.endTutorialInitialization ();
-	}
+
 	public override void launchSequence(int sequenceID)
 	{
 		Vector3 gameObjectPosition = new Vector3 ();

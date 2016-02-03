@@ -5,7 +5,6 @@ using System.Collections.Generic;
 
 public class NewProfileModel 
 {
-	
 	public IList<ChallengesRecord> challengesRecords;
 	public IList<User> users;
 	public IList<int> friends;
@@ -13,14 +12,7 @@ public class NewProfileModel
 	public IList<Trophy> trophies;
 	public IList<Result> confrontations;
 	public string[] usernameList;
-	public User player;
-	public bool hasDeck;
-	public bool isConnectedToMe;
-	public Connection connectionWithMe;
-	public int activePlayerId;
-	public int tutorialStep;
-	public bool displayTutorial;
-	public bool profileTutorial;
+	public User displayedUser;
 	
 	private string URLGetProfileData = ApplicationModel.host+"get_profile_data.php";
 	private string URLSearchUsers = ApplicationModel.host + "search_users.php";
@@ -32,7 +24,7 @@ public class NewProfileModel
 
 		this.friendsRequests = new List<FriendsRequest> ();
 		this.trophies = new List<Trophy> ();
-		this.player = new User();
+		this.displayedUser = new User();
 		this.users = new List<User> ();
 		this.friends = new List<int> ();
 
@@ -51,7 +43,7 @@ public class NewProfileModel
 		WWWForm form = new WWWForm(); 											// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_nick", profileChosen);
-		form.AddField("myform_activeuser", ApplicationModel.username);
+		form.AddField("myform_activeuser", ApplicationModel.player.Username);
 		form.AddField("myform_nbcardsbydeck", ApplicationModel.nbCardsByDeck);
 		form.AddField("myform_ismyprofile", isMyProfileString);
 		
@@ -62,9 +54,9 @@ public class NewProfileModel
 		else 
 		{
 			string[] data=w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
-			this.player = parsePlayer(data[0].Split(new string[] { "//" }, System.StringSplitOptions.None),isMyProfile);
+			this.parsePlayer(data[0].Split(new string[] { "//" }, System.StringSplitOptions.None),isMyProfile);
 			this.users = parseUsers(data[9].Split(new string[] { "#U#"  }, System.StringSplitOptions.None));
-			this.users.Add(player);
+			this.users.Add(this.displayedUser);
 			this.trophies=parseTrophies(data[1].Split(new string[] {"#TROPHY#"},System.StringSplitOptions.None));
 			this.friends=parseFriends(data[2].Split(new string[] { "//" }, System.StringSplitOptions.None));
 
@@ -72,26 +64,25 @@ public class NewProfileModel
 			{
 				this.friendsRequests=parseFriendsRequests(data[3].Split(new string[] {"#FR#"}, System.StringSplitOptions.None));
 				this.challengesRecords=parseChallengesRecords(data[4].Split(new string[] {"#CR#"},System.StringSplitOptions.None));
-				this.hasDeck=System.Convert.ToBoolean(System.Convert.ToInt32(data[5]));
-				this.activePlayerId=this.player.Id;
+				ApplicationModel.player.HasDeck=System.Convert.ToBoolean(System.Convert.ToInt32(data[5]));
 			}
 			else
 			{
 				if(data[3]!="")
 				{
-					this.isConnectedToMe=true;
-					this.connectionWithMe=parseConnection(data[3].Split(new string[] {"//"}, System.StringSplitOptions.None));
+					this.displayedUser.IsConnectedToPlayer=true;
+					this.displayedUser.ConnectionWithPlayer=parseConnection(data[3].Split(new string[] {"//"}, System.StringSplitOptions.None));
 				}
 				else
 				{
-					this.isConnectedToMe=false;
+					this.displayedUser.IsConnectedToPlayer=false;
 				}
 				this.confrontations=parseConfrontations(data[4].Split(new string[] {"#CF#"},System.StringSplitOptions.None));
-				this.activePlayerId=System.Convert.ToInt32(data[5]);
+				ApplicationModel.player.Id=System.Convert.ToInt32(data[5]);
 			}
-			this.tutorialStep=System.Convert.ToInt32(data[6]);
-			this.displayTutorial=System.Convert.ToBoolean(System.Convert.ToInt32(data[7]));
-			this.profileTutorial=System.Convert.ToBoolean(System.Convert.ToInt32(data[8]));
+			ApplicationModel.player.TutorialStep=System.Convert.ToInt32(data[6]);
+			ApplicationModel.player.DisplayTutorial=System.Convert.ToBoolean(System.Convert.ToInt32(data[7]));
+			ApplicationModel.player.ProfileTutorial=System.Convert.ToBoolean(System.Convert.ToInt32(data[8]));
 			usernameList=new string[this.users.Count];
 			for(int i=0;i<this.users.Count;i++)
 			{
@@ -99,26 +90,27 @@ public class NewProfileModel
 			}
 		}
 	}
-	private User parsePlayer(string[] array, bool isMyProfile)
+	private void parsePlayer(string[] array, bool isMyProfile)
 	{
-
-		User player = new User ();
-		player.Id= System.Convert.ToInt32(array[0]);
-		player.Username = array [1];
-		player.Ranking = System.Convert.ToInt32 (array [2]);
-		player.RankingPoints = System.Convert.ToInt32 (array [3]);
-		player.TotalNbWins = System.Convert.ToInt32 (array [4]);
-		player.TotalNbLooses = System.Convert.ToInt32 (array [5]);
-		player.CollectionPoints = System.Convert.ToInt32 (array [6]);
-		player.CollectionRanking = System.Convert.ToInt32 (array [7]);
-		player.idProfilePicture = System.Convert.ToInt32(array [8]);
+		this.displayedUser.Username = array [1];
+		this.displayedUser.Ranking = System.Convert.ToInt32 (array [2]);
+		this.displayedUser.RankingPoints = System.Convert.ToInt32 (array [3]);
+		this.displayedUser.TotalNbWins = System.Convert.ToInt32 (array [4]);
+		this.displayedUser.TotalNbLooses = System.Convert.ToInt32 (array [5]);
+		this.displayedUser.CollectionPoints = System.Convert.ToInt32 (array [6]);
+		this.displayedUser.CollectionRanking = System.Convert.ToInt32 (array [7]);
+		this.displayedUser.IdProfilePicture = System.Convert.ToInt32(array [8]);
 		if(isMyProfile)
 		{
-			player.FirstName = array [9];
-			player.Surname = array [10];
-			player.Mail = array [11];
+			ApplicationModel.player.FirstName = array [9];
+			ApplicationModel.player.Surname = array [10];
+			ApplicationModel.player.Mail = array [11];
+			ApplicationModel.player.Id= System.Convert.ToInt32(array[0]);
 		}
-		return player;
+		else
+		{
+			this.displayedUser.Id = System.Convert.ToInt32(array[0]);
+		}
 	}
 	private IList<User> parseUsers(string[] array)
 	{
@@ -131,7 +123,7 @@ public class NewProfileModel
 			users.Add (new User());
 			users[i].Id= System.Convert.ToInt32(userData[0]);
 			users[i].Username= userData[1];
-			users[i].idProfilePicture= System.Convert.ToInt32(userData[2]);
+			users[i].IdProfilePicture= System.Convert.ToInt32(userData[2]);
 			users[i].CollectionRanking = System.Convert.ToInt32 (userData [3]);
 			users[i].RankingPoints = System.Convert.ToInt32 (userData [4]);
 			users[i].Ranking = System.Convert.ToInt32 (userData [5]);
@@ -236,6 +228,3 @@ public class NewProfileModel
 		this.friendsRequests.RemoveAt(id);
 	}
 }
-
-
-

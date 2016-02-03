@@ -11,16 +11,13 @@ public class NewLobbyModel
 	public IList<PlayerResult> lastResults;
 	public Cup currentCup;
 	public Division currentDivision;
-	public User player;
 	
 	public NewLobbyModel()
 	{
 	}
 	public IEnumerator getLobbyData(bool isDivisionLobby, bool isEndGameLobby)
 	{
-
 		this.lastResults = new List<PlayerResult> ();
-
 		int isDivisionLobbyInt = 0;
 		if(isDivisionLobby)
 		{
@@ -35,7 +32,7 @@ public class NewLobbyModel
 
 		WWWForm form = new WWWForm(); 											// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_nick", ApplicationModel.username);
+		form.AddField("myform_nick", ApplicationModel.player.Username);
 		form.AddField("myform_isdivisionlobby", isDivisionLobbyInt.ToString());
 		form.AddField("myform_isendgamelobby", isEndGameLobbyInt.ToString());
 		
@@ -46,17 +43,17 @@ public class NewLobbyModel
 		else 
 		{
 			string[] data=w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
-			this.player = parseUser(data[0].Split(new string[] { "//" }, System.StringSplitOptions.None));
+			this.parseUser(data[0].Split(new string[] { "//" }, System.StringSplitOptions.None));
 
 			if(isDivisionLobby)
 			{
 				this.currentDivision=parseDivision(data[1].Split(new string[] { "//" }, System.StringSplitOptions.None));
-				ApplicationModel.currentDivision=this.currentDivision;
+				ApplicationModel.player.CurrentDivision=this.currentDivision;
 			}
 			else
 			{
 				this.currentCup=parseCup(data[1].Split(new string[] { "//" }, System.StringSplitOptions.None));
-				ApplicationModel.currentCup=this.currentCup;
+				ApplicationModel.player.CurrentCup=this.currentCup;
 			}
 			this.lastResults=parseResults(data[2].Split(new string[] {"RESULT"},System.StringSplitOptions.None));
 		}
@@ -100,41 +97,35 @@ public class NewLobbyModel
 		division.EarnCredits_L= System.Convert.ToInt32(array [15]);
 		return division;
 	}
-	private User parseUser(string[] array)
+	private void parseUser(string[] array)
 	{
-		User player = new User ();
-		player.Ranking = System.Convert.ToInt32 (array [0]);
-		player.RankingPoints = System.Convert.ToInt32 (array [1]);
-		player.CollectionRanking = System.Convert.ToInt32 (array [2]);
-		player.CollectionPoints = System.Convert.ToInt32 (array [3]);
-		player.TotalNbWins = System.Convert.ToInt32 (array [4]);
-		player.TotalNbLooses = System.Convert.ToInt32 (array [5]);
-		player.TutorialStep = System.Convert.ToInt32 (array [6]);
-		player.displayTutorial=System.Convert.ToBoolean(System.Convert.ToInt32(array[7]));
-		player.LobbyTutorial=System.Convert.ToBoolean(System.Convert.ToInt32(array[8]));
-		return player;
+		ApplicationModel.player.Ranking = System.Convert.ToInt32 (array [0]);
+		ApplicationModel.player.RankingPoints = System.Convert.ToInt32 (array [1]);
+		ApplicationModel.player.CollectionRanking = System.Convert.ToInt32 (array [2]);
+		ApplicationModel.player.CollectionPoints = System.Convert.ToInt32 (array [3]);
+		ApplicationModel.player.TotalNbWins = System.Convert.ToInt32 (array [4]);
+		ApplicationModel.player.TotalNbLooses = System.Convert.ToInt32 (array [5]);
+		ApplicationModel.player.TutorialStep = System.Convert.ToInt32 (array [6]);
+		ApplicationModel.player.DisplayTutorial=System.Convert.ToBoolean(System.Convert.ToInt32(array[7]));
+		ApplicationModel.player.LobbyTutorial=System.Convert.ToBoolean(System.Convert.ToInt32(array[8]));
 	}
 	public IList<PlayerResult> parseResults(string[] array)
 	{
 		IList<PlayerResult> results = new List<PlayerResult> ();
-		
 		for (int i=0;i<array.Length-1;i++)
 		{
-			
 			string[] resultData=array[i].Split (new string[] {"//"}, System.StringSplitOptions.None);
 			results.Add(new PlayerResult());
 			results[i].HasWon=System.Convert.ToBoolean(System.Convert.ToInt32(resultData[0]));
 			results[i].Date = System.DateTime.ParseExact(resultData[1], "yyyy-MM-dd HH:mm:ss", null);
 			results[i].Opponent=new User();
 			results[i].Opponent.Username=resultData[2];
-			results[i].Opponent.idProfilePicture=System.Convert.ToInt32(resultData[3]);
+			results[i].Opponent.IdProfilePicture=System.Convert.ToInt32(resultData[3]);
 			results[i].Opponent.Ranking=System.Convert.ToInt32(resultData[4]);
 			results[i].Opponent.CollectionRanking=System.Convert.ToInt32(resultData[5]);
 			results[i].Opponent.TotalNbWins=System.Convert.ToInt32(resultData[6]);
 			results[i].Opponent.TotalNbLooses=System.Convert.ToInt32(resultData[7]);
-
 		}
-		
 		return results;
 	}
 	

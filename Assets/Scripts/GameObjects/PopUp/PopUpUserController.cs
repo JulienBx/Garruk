@@ -39,13 +39,13 @@ public class PopUpUserController : MonoBehaviour
 	}
 	void OnMouseDown()
 	{
-		ApplicationModel.profileChosen = gameObject.transform.FindChild ("username").GetComponent<TextMeshPro> ().text;
+		ApplicationModel.player.ProfileChosen = gameObject.transform.FindChild ("username").GetComponent<TextMeshPro> ().text;
 		Application.LoadLevel ("NewProfile");
 	}
 	public void show (User u)
 	{
 		gameObject.transform.FindChild ("username").GetComponent<TextMeshPro> ().text = u.Username;
-		gameObject.transform.FindChild ("picture").GetComponent<SpriteRenderer> ().sprite =MenuController.instance.returnThumbPicture(u.idProfilePicture);
+		gameObject.transform.FindChild ("picture").GetComponent<SpriteRenderer> ().sprite =BackOfficeController.instance.returnThumbPicture(u.IdProfilePicture);
 		gameObject.transform.FindChild ("nbWins").FindChild ("Title").GetComponent<TextMeshPro> ().text = "V";
 		gameObject.transform.FindChild ("nbWins").FindChild ("Value").GetComponent<TextMeshPro> ().text = u.TotalNbWins.ToString();
 		gameObject.transform.FindChild ("nbLooses").FindChild ("Title").GetComponent<TextMeshPro> ().text = "D";

@@ -58,7 +58,7 @@ public class NewHomePageModel
 			this.packs=parsePacks(data[7].Split(new string[] { "#PACK#" }, System.StringSplitOptions.None));
 			ApplicationModel.player.CurrentFriendlyGame = this.parseFriendlyGame(data[8].Split(new string[] { "//" }, System.StringSplitOptions.None));
 
-			this.lookForNonReadSystemNotification();
+			this.lookForNonReadNotification();
 			this.competitions.Add (ApplicationModel.player.CurrentDivision);
 			this.competitions.Add (ApplicationModel.player.CurrentCup);
 
@@ -160,16 +160,26 @@ public class NewHomePageModel
 		}
 		return users;
 	}
-	private void lookForNonReadSystemNotification ()
+	private void lookForNonReadNotification ()
 	{
+		int count=0;
 		for(int i =0; i<this.notifications.Count;i++)
 		{
 			if(!ApplicationModel.player.Readnotificationsystem && this.notificationSystemIndex==-1 && notifications[i].Notification.IdNotificationType==1)
 			{
 				this.notificationSystemIndex=i;
+				count++;
 				break;
 			}
 		}
+		for(int i =0; i<this.notifications.Count;i++)
+		{
+			if(i!=this.notificationSystemIndex && notifications[i].Notification.IdNotificationType!=1 && !notifications[i].Notification.IsRead)
+			{
+				count++;
+			}
+		}
+		ApplicationModel.player.NbNotificationsNonRead=count;
 	}
 	private IList<DisplayedNews> filterNews(IList<DisplayedNews> newsToFilter, int playerId)
 	{
@@ -358,7 +368,7 @@ public class NewHomePageModel
 		}
 		else
 		{
-			ApplicationModel.player.NonReadNotifications=System.Convert.ToInt32(w.text);
+			ApplicationModel.player.NbNotificationsNonRead=System.Convert.ToInt32(w.text);
 		}
 	}
 	private string ReplaceFirst(string text, string search, string replace)

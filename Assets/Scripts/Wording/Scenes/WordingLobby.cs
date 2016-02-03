@@ -9,7 +9,7 @@ public class WordingLobby
 
 	public static string getReference(int idReference)
 	{
-		return references[idReference][ApplicationModel.idLanguage];
+		return references[idReference][ApplicationModel.player.IdLanguage];
 	}
 	static WordingLobby()
 	{
@@ -53,6 +53,5 @@ public class WordingLobby
 		references.Add(new string[]{"Colonisation atteinte\n",""}); //36
 		references.Add(new string[]{"Stabilisation atteinte\n",""}); //37
 		references.Add(new string[]{"Stabilisation en cours\n",""}); //38
-
 	}
 }

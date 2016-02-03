@@ -42,7 +42,6 @@ public class Player : User
 	public int Money;
 	public List<Connection> Connections;
 	public bool Readnotificationsystem;
-	public int NonReadNotifications;
 	public int SelectedDeckId;
 	public List<int> CardTypesAllowed;
 	public bool IsAdmin;
@@ -109,11 +108,11 @@ public class Player : User
 		this.URLCheckPassword = ApplicationModel.host + "check_password.php";
 		this.URLEditPassword = ApplicationModel.host + "edit_password.php";
 		this.URLChooseLanguage = ApplicationModel.host + "choose_language.php";
-		this.URLCheckAuthentification = ApplicationModel.host + "check_authentication.php"; 
+		this.URLCheckAuthentification = ApplicationModel.host + "check_authentication.php";
 		this.URLCheckPermanentConnexion = ApplicationModel.host + "check_permanent_connexion.php";
 		this.URLCreateAccount = ApplicationModel.host + "create_account.php";
 		this.URLRefreshUserData = ApplicationModel.host+"refresh_user_data.php";
-		this.TotalNbResultLimit=100;
+		this.TotalNbResultLimit=1000;
 		this.Error="";
 		this.Connections=new List<Connection>();
 	}
@@ -173,7 +172,7 @@ public class Player : User
 		}
 		else
 		{
-			this.nonReadNotifications=System.Convert.ToInt32(w.text);
+			this.NbNotificationsNonRead=System.Convert.ToInt32(w.text);
 		}
 	}
 	public IEnumerator addMoney(int money)
@@ -436,7 +435,7 @@ public class Player : User
 		} 
 	}
 
-	static public IEnumerator checkPassword(string password)
+	public IEnumerator checkPassword(string password)
 	{
 		Error = "";
 		WWWForm form = new WWWForm(); 								// Création de la connexion
@@ -459,7 +458,7 @@ public class Player : User
 			}
 		}
 	}
-	static public IEnumerator editPassword(string password)
+	public IEnumerator editPassword(string password)
 	{
 		WWWForm form = new WWWForm(); 								 //Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 		 				//hashcode de sécurité, doit etre identique à celui sur le serveur
@@ -474,7 +473,7 @@ public class Player : User
 			Debug.Log(w.error); 										// donne l'erreur eventuelle
 		} 
 	}
-	static public IEnumerator chooseLanguage(int id)
+	public IEnumerator chooseLanguage(int id)
 	{
 		WWWForm form = new WWWForm(); 								 //Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 		 				//hashcode de sécurité, doit etre identique à celui sur le serveur
@@ -502,7 +501,7 @@ public class Player : User
 			}		
 		}
 	}
-	static public IEnumerator permanentConnexion()
+	public IEnumerator permanentConnexion()
 	{
 		WWWForm form = new WWWForm(); 
 		form.AddField("myform_hash", ApplicationModel.hash); 	
@@ -533,7 +532,7 @@ public class Player : User
 			}		
 		}
 	}
-	static public IEnumerator Login(string nick, string password, bool toMemorize)
+	public IEnumerator Login(string nick, string password, bool toMemorize)
 	{	
 		string toMemorizeString;
 		if (toMemorize)
@@ -576,7 +575,7 @@ public class Player : User
 			}											
 		}
 	}
-	static public IEnumerator createAccount(string nick, string email, string password)
+	public IEnumerator createAccount(string nick, string email, string password)
 	{	
 		WWWForm form = new WWWForm();
 		form.AddField("myform_hash", ApplicationModel.hash);
@@ -630,7 +629,7 @@ public class Player : User
 			string[] data=w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
 			string[] playerData =  data[0].Split(new string[] { "//" }, System.StringSplitOptions.None);
 			this.Money	= System.Convert.ToInt32(playerData[0]);
-			this.nonReadNotifications=System.Convert.ToInt32(playerData[1]);
+			this.NbNotificationsNonRead=System.Convert.ToInt32(playerData[1]);
 			this.IdProfilePicture=System.Convert.ToInt32(playerData[2]);
 			if(this.IsInviting)
 			{

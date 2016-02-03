@@ -8,11 +8,7 @@ using System.Reflection;
 public class MyGameTutorialController : TutorialObjectController 
 {
 	public static MyGameTutorialController instance;
-	
-	public override void endInitialization()
-	{
-		newMyGameController.instance.endTutorialInitialization ();
-	}
+
 	#region TUTORIAL SEQUENCES
 
 	public override void launchSequence(int sequenceID)
@@ -195,9 +191,9 @@ public class MyGameTutorialController : TutorialObjectController
 	}
 	public override void actionIsDone()
 	{
-		if(MenuController.instance.getIsPlayPopUpDisplayed())
+		if(BackOfficeController.instance.getIsPlayPopUpDisplayed())
 		{
-			if(ApplicationModel.hasDeck)
+			if(ApplicationModel.player.HasDeck)
 			{
 				this.sequenceID=102;
 			}
@@ -218,7 +214,7 @@ public class MyGameTutorialController : TutorialObjectController
 		{
 			this.sequenceID=6;
 		}
-		else if(ApplicationModel.hasDeck)
+		else if(ApplicationModel.player.HasDeck)
 		{
 			this.sequenceID=101;
 		}
@@ -237,7 +233,7 @@ public class MyGameTutorialController : TutorialObjectController
 		switch(tutorialStep)
 		{
 		case 2:
-			if(!ApplicationModel.hasDeck)
+			if(!ApplicationModel.player.HasDeck)
 			{
 				if(newMyGameController.instance.isADeckCurrentlySelected())
 				{

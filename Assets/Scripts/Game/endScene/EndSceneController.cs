@@ -34,8 +34,6 @@ public class EndSceneController : MonoBehaviour
 
 	private int xpDrawn;
 
-	private User player;
-
 	public int collectionPointsEarned;
 	public int newCollectionRanking;
 	public int idCardTypeUnlocked;
@@ -58,7 +56,6 @@ public class EndSceneController : MonoBehaviour
 		this.toUpdateCredits = false;
 		this.toStartExperienceUpdate = false;
 		this.areCreditsUpdated = false;
-		this.player = new User ();
 		this.idCardsToNextLevel = new List<int> ();
 	}
 	void Update () 
@@ -90,7 +87,6 @@ public class EndSceneController : MonoBehaviour
 	public void displayEndScene(bool hasWon)
 	{
 		this.retrieveBonus (hasWon);
-		this.player.Username = ApplicationModel.username;
 		this.endGamePanel = Instantiate(endGamePanelObject) as GameObject;
 		this.endGamePanel.transform.FindChild ("Button").gameObject.SetActive (false); 
 		this.endGamePanel.transform.position = new Vector3 (0f, 0f, -8f);
@@ -112,12 +108,12 @@ public class EndSceneController : MonoBehaviour
 		if(hasWon)
 		{
 			this.endGamePanel.transform.FindChild("Title").GetComponent<TextMeshPro>().text="BRAVO !";
-			ApplicationModel.hasWonLastGame=true;
+			ApplicationModel.player.HasWonLastGame=true;
 		}
 		else
 		{
 			this.endGamePanel.transform.FindChild("Title").GetComponent<TextMeshPro>().text="DOMMAGE !";
-			ApplicationModel.hasWonLastGame=false;
+			ApplicationModel.player.HasWonLastGame=false;
 		}
 
 		StartCoroutine (this.drawCredits());
@@ -126,51 +122,51 @@ public class EndSceneController : MonoBehaviour
 	
 	private void retrieveBonus(bool hasWon)
 	{
-		switch(ApplicationModel.gameType)
+		switch(ApplicationModel.player.ChosenGameType)
 		{
 		case 0:
 			if(hasWon)
 			{
-				this.earnXp=ApplicationModel.currentFriendlyGame.EarnXp_W;
-				this.earnCredits=ApplicationModel.currentFriendlyGame.EarnCredits_W;
+				this.earnXp=ApplicationModel.player.CurrentFriendlyGame.EarnXp_W;
+				this.earnCredits=ApplicationModel.player.CurrentFriendlyGame.EarnCredits_W;
 			}
 			else
 			{
-				this.earnXp=ApplicationModel.currentFriendlyGame.EarnXp_L;
-				this.earnCredits=ApplicationModel.currentFriendlyGame.EarnCredits_L;
+				this.earnXp=ApplicationModel.player.CurrentFriendlyGame.EarnXp_L;
+				this.earnCredits=ApplicationModel.player.CurrentFriendlyGame.EarnCredits_L;
 			}
 			break;
 		case 1:
 			if(hasWon)
 			{
-				this.earnXp=ApplicationModel.currentDivision.EarnXp_W;
-				this.earnCredits=ApplicationModel.currentDivision.EarnCredits_W;
+				this.earnXp=ApplicationModel.player.CurrentDivision.EarnXp_W;
+				this.earnCredits=ApplicationModel.player.CurrentDivision.EarnCredits_W;
 			}
 			else
 			{
-				this.earnXp=ApplicationModel.currentDivision.EarnXp_L;
-				this.earnCredits=ApplicationModel.currentDivision.EarnCredits_L;
+				this.earnXp=ApplicationModel.player.CurrentDivision.EarnXp_L;
+				this.earnCredits=ApplicationModel.player.CurrentDivision.EarnCredits_L;
 			}
 			break;
 		case 2:
 			if(hasWon)
 			{
-				this.earnXp=ApplicationModel.currentCup.EarnXp_W;
-				this.earnCredits=ApplicationModel.currentCup.EarnCredits_W;
+				this.earnXp=ApplicationModel.player.CurrentCup.EarnXp_W;
+				this.earnCredits=ApplicationModel.player.CurrentCup.EarnCredits_W;
 			}
 			else
 			{
-				this.earnXp=ApplicationModel.currentCup.EarnXp_L;
-				this.earnCredits=ApplicationModel.currentCup.EarnCredits_L;
+				this.earnXp=ApplicationModel.player.CurrentCup.EarnXp_L;
+				this.earnCredits=ApplicationModel.player.CurrentCup.EarnCredits_L;
 			}
 			break;
 		}
 	}
 	public IEnumerator drawCredits()
 	{
-		yield return StartCoroutine(player.addMoney(earnCredits));
-		this.endCredits = player.Money;
-		this.startCredits = player.Money - this.earnCredits;
+		yield return StartCoroutine(ApplicationModel.player.addMoney(earnCredits));
+		this.endCredits = ApplicationModel.player.Money;
+		this.startCredits = ApplicationModel.player.Money - this.earnCredits;
 		this.toUpdateCredits = true;
 	}
 	public IEnumerator addXp()
@@ -189,7 +185,7 @@ public class EndSceneController : MonoBehaviour
 		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_idcard", idCards);
 		form.AddField("myform_xp", this.earnXp);
-		form.AddField("myform_nick", ApplicationModel.username); 
+		form.AddField("myform_nick", ApplicationModel.player.Username); 
 		form.AddField ("myform_nbcardsbydeck", ApplicationModel.nbCardsByDeck);
 		
 		WWW w = new WWW(urlAddXpToDeck, form); 								// On envoie le formulaire à l'url sur le serveur 
@@ -252,8 +248,8 @@ public class EndSceneController : MonoBehaviour
 	public void quitEndSceneHandler()
 	{
 		//GameController.instance.disconnect ();
-		ApplicationModel.launchEndGameSequence=true;
-		if(ApplicationModel.gameType==1 || ApplicationModel.gameType==2)
+		ApplicationModel.player.ToLaunchEndGameSequence=true;
+		if(ApplicationModel.player.ChosenGameType==1 || ApplicationModel.player.ChosenGameType==2)
 		{
 			Application.LoadLevel("NewLobby");
 		}
@@ -323,7 +319,7 @@ public class EndSceneController : MonoBehaviour
 		WWWForm form = new WWWForm(); 								
 		form.AddField("myform_hash", ApplicationModel.hash); 		
 		form.AddField("myform_idcard", myDeck.cards[this.idCardsToNextLevel[0]].Id.ToString());
-		form.AddField("myform_nick", ApplicationModel.username);
+		form.AddField("myform_nick", ApplicationModel.player.Username);
 		form.AddField ("myform_attribute", attributeToUpgrade);
 		form.AddField ("myform_newpower", newPower);
 		form.AddField ("myform_newlevel", newLevel);

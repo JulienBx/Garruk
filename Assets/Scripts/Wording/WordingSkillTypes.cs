@@ -10,11 +10,11 @@ public class WordingSkillTypes
 
 	public static string getName(int idSkillType)
 	{
-		return names[idSkillType][ApplicationModel.idLanguage];
+		return names[idSkillType][ApplicationModel.player.IdLanguage];
 	}
 	public static string getDescription(int idSkillType)
 	{
-		return descriptions[idSkillType][ApplicationModel.idLanguage];
+		return descriptions[idSkillType][ApplicationModel.player.IdLanguage];
 	}
 	static WordingSkillTypes()
 	{

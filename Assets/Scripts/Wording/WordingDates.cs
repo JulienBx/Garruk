@@ -9,7 +9,7 @@ public class WordingDates
 
 	public static string getDateFormat()
 	{
-		return dateFormat[ApplicationModel.idLanguage];
+		return dateFormat[ApplicationModel.player.IdLanguage];
 	}
 	static WordingDates()
 	{

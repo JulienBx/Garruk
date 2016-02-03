@@ -149,7 +149,7 @@ public class NewFocusedCardController : MonoBehaviour
 			}
 			if(!this.isNextLevelPopUpHiding)
 			{
-				MenuController.instance.hideTransparentBackground ();
+				BackOfficeController.instance.hideTransparentBackground ();
 				this.endUpdatingCardToNextLevel();
 			}
 		}
@@ -273,22 +273,22 @@ public class NewFocusedCardController : MonoBehaviour
 			this.show ();
 			if(this.collectionPointsEarned>0)
 			{
-				MenuController.instance.displayCollectionPointsPopUp(this.collectionPointsEarned,this.newCollectionRanking);
+				BackOfficeController.instance.displayCollectionPointsPopUp(this.collectionPointsEarned,this.newCollectionRanking);
 			}
 			if(this.skillsUnlocked.Count>0)
 			{
-				MenuController.instance.displayNewSkillsPopUps(this.skillsUnlocked);
+				BackOfficeController.instance.displayNewSkillsPopUps(this.skillsUnlocked);
 			}
 			if(this.c.GetNewSkill)
 			{
 				this.setHighlightedSkills();
 			}
 			this.isNextLevelPopUpDisplaying=true;
-			MenuController.instance.displayTransparentBackground ();
+			BackOfficeController.instance.displayTransparentBackground ();
 		}
 		else
 		{
-			MenuController.instance.setIsUserBusy (false);
+			ApplicationModel.player.IsBusy=false;
 		}
 		this.setIsXpBeingUpdated (false);
 	}
@@ -302,11 +302,11 @@ public class NewFocusedCardController : MonoBehaviour
 		this.updateFocus ();
 		if(this.collectionPointsEarned>0)
 		{
-			MenuController.instance.displayCollectionPointsPopUp(this.collectionPointsEarned,this.newCollectionRanking);
+			BackOfficeController.instance.displayCollectionPointsPopUp(this.collectionPointsEarned,this.newCollectionRanking);
 		}
 		if(this.idCardTypeUnlocked!=-1)
 		{
-			MenuController.instance.displayNewCardTypePopUp(this.titleCardTypeUnlocked);
+			BackOfficeController.instance.displayNewCardTypePopUp(this.titleCardTypeUnlocked);
 		}
 		if(this.caracteristicUpgraded>-1&&this.caracteristicIncrease>0)
 		{
@@ -325,7 +325,7 @@ public class NewFocusedCardController : MonoBehaviour
 	public void displaySellCardPopUp()
 	{
 		this.closePopUps();
-		MenuController.instance.displayTransparentBackground ();
+		BackOfficeController.instance.displayTransparentBackground ();
 		this.sellPopUp.transform.GetComponent<SellPopUpController> ().reset (this.c.destructionPrice);
 		this.isSellPopUpDisplayed = true;
 		this.sellPopUp.SetActive (true);
@@ -334,7 +334,7 @@ public class NewFocusedCardController : MonoBehaviour
 	public void displayRenameCardPopUp()
 	{
 		this.closePopUps();
-		MenuController.instance.displayTransparentBackground ();
+		BackOfficeController.instance.displayTransparentBackground ();
 		this.renamePopUp.transform.GetComponent<RenamePopUpController> ().reset (this.c.RenameCost,this.c.Title);
 		this.isRenamePopUpDisplayed = true;
 		this.renamePopUp.SetActive (true);
@@ -343,7 +343,7 @@ public class NewFocusedCardController : MonoBehaviour
 	public void displayBuyXpCardPopUp()
 	{
 		this.closePopUps();
-		MenuController.instance.displayTransparentBackground ();
+		BackOfficeController.instance.displayTransparentBackground ();
 		this.buyXpPopUp.transform.GetComponent<BuyXpPopUpController> ().reset (this.c.NextLevelPrice);
 		this.isBuyXpPopUpDisplayed = true;
 		this.buyXpPopUp.SetActive (true);
@@ -352,7 +352,7 @@ public class NewFocusedCardController : MonoBehaviour
 	public void displayBuyCardPopUp()
 	{
 		this.closePopUps();
-		MenuController.instance.displayTransparentBackground ();
+		BackOfficeController.instance.displayTransparentBackground ();
 		this.buyPopUp.transform.GetComponent<BuyPopUpController> ().reset (this.c.Price);
 		this.isBuyPopUpDisplayed = true;
 		this.buyPopUp.SetActive (true);
@@ -361,7 +361,7 @@ public class NewFocusedCardController : MonoBehaviour
 	public void displayEditSellCardPopUp()
 	{
 		this.closePopUps();
-		MenuController.instance.displayTransparentBackground ();
+		BackOfficeController.instance.displayTransparentBackground ();
 		this.editSellPopUp.transform.GetComponent<EditSellPopUpController> ().reset (this.c.Price);
 		this.isEditSellPopUpDisplayed = true;
 		this.editSellPopUp.SetActive (true);
@@ -370,7 +370,7 @@ public class NewFocusedCardController : MonoBehaviour
 	public void displayEditSellPriceCardPopUp()
 	{
 		this.closePopUps();
-		MenuController.instance.displayTransparentBackground ();
+		BackOfficeController.instance.displayTransparentBackground ();
 		this.editSellPricePopUp.transform.GetComponent<EditSellPricePopUpController> ().reset (this.c.Price);
 		this.isEditSellPricePopUpDisplayed = true;
 		this.editSellPricePopUp.SetActive (true);
@@ -379,7 +379,7 @@ public class NewFocusedCardController : MonoBehaviour
 	public void displayputOnMarketCardPopUp()
 	{
 		this.closePopUps();
-		MenuController.instance.displayTransparentBackground ();
+		BackOfficeController.instance.displayTransparentBackground ();
 		this.putOnMarketPopUp.transform.GetComponent<PutOnMarketPopUpController> ().reset ();
 		this.isPutOnMarketPopUpDisplayed = true;
 		this.putOnMarketPopUp.SetActive (true);
@@ -388,7 +388,7 @@ public class NewFocusedCardController : MonoBehaviour
 	public void displaySoldPopUp()
 	{
 		this.closePopUps();
-		MenuController.instance.displayTransparentBackground ();
+		BackOfficeController.instance.displayTransparentBackground ();
 		this.soldCardPopUp.transform.GetComponent<SoldCardPopUpController> ().reset ();
 		this.isSoldCardPopUpDisplayed = true;
 		this.soldCardPopUp.SetActive (true);
@@ -445,49 +445,49 @@ public class NewFocusedCardController : MonoBehaviour
 	public void hideSellPopUp()
 	{
 		this.sellPopUp.SetActive (false);
-		MenuController.instance.hideTransparentBackground();
+		BackOfficeController.instance.hideTransparentBackground();
 		this.isSellPopUpDisplayed = false;
 	}
 	public void hideRenamePopUp()
 	{
 		this.renamePopUp.SetActive (false);
-		MenuController.instance.hideTransparentBackground();
+		BackOfficeController.instance.hideTransparentBackground();
 		this.isRenamePopUpDisplayed = false;
 	}
 	public void hideBuyXpPopUp()
 	{
 		this.buyXpPopUp.SetActive (false);
-		MenuController.instance.hideTransparentBackground();
+		BackOfficeController.instance.hideTransparentBackground();
 		this.isBuyXpPopUpDisplayed = false;
 	}
 	public void hideBuyPopUp()
 	{
 		this.buyPopUp.SetActive (false);
-		MenuController.instance.hideTransparentBackground();
+		BackOfficeController.instance.hideTransparentBackground();
 		this.isBuyPopUpDisplayed = false;
 	}
 	public void hideEditSellPopUp()
 	{
 		this.editSellPopUp.SetActive (false);
-		MenuController.instance.hideTransparentBackground();
+		BackOfficeController.instance.hideTransparentBackground();
 		this.isEditSellPopUpDisplayed = false;
 	}
 	public void hideEditSellPricePopUp()
 	{
 		this.editSellPricePopUp.SetActive (false);
-		MenuController.instance.hideTransparentBackground();
+		BackOfficeController.instance.hideTransparentBackground();
 		this.isEditSellPricePopUpDisplayed = false;
 	}
 	public void hidePutOnMarketPopUp()
 	{
 		this.putOnMarketPopUp.SetActive (false);
-		MenuController.instance.hideTransparentBackground();
+		BackOfficeController.instance.hideTransparentBackground();
 		this.isPutOnMarketPopUpDisplayed = false;
 	}
 	public void hideSoldCardPopUp()
 	{
 		this.soldCardPopUp.SetActive (false);
-		MenuController.instance.hideTransparentBackground();
+		BackOfficeController.instance.hideTransparentBackground();
 		this.isSoldCardPopUpDisplayed = false;
 	}
 	public void sellCardHandler()
@@ -501,13 +501,13 @@ public class NewFocusedCardController : MonoBehaviour
 
 		WWWForm form = new WWWForm(); 											// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_nick", ApplicationModel.username);
+		form.AddField("myform_nick", ApplicationModel.player.Username);
 		form.AddField("myform_idcard", this.c.Id);		
 		WWW w = new WWW(urlSellCard, form); 				// On envoie le formulaire à l'url sur le serveur 
 		yield return w;
 		if (w.error != null)
 		{
-			MenuController.instance.displayErrorPopUp(w.error);
+			BackOfficeController.instance.displayErrorPopUp(w.error);
 		} 
 		else
 		{
@@ -517,7 +517,7 @@ public class NewFocusedCardController : MonoBehaviour
 			}
 			else
 			{
-				MenuController.instance.displayErrorPopUp(w.text);
+				BackOfficeController.instance.displayErrorPopUp(w.text);
 			}
 		}
 		this.hideLoadingScreen ();
@@ -537,7 +537,7 @@ public class NewFocusedCardController : MonoBehaviour
 		WWWForm form = new WWWForm(); 								// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_idcard", this.c.Id.ToString());
-		form.AddField("myform_nick", ApplicationModel.username);
+		form.AddField("myform_nick", ApplicationModel.player.Username);
 		form.AddField ("myform_attribute", attributeToUpgrade);
 		form.AddField ("myform_newpower", newPower);
 		form.AddField ("myform_newlevel", newLevel);
@@ -547,14 +547,14 @@ public class NewFocusedCardController : MonoBehaviour
 		
 		if (w.error != null)
 		{
-			MenuController.instance.displayErrorPopUp(w.error);									// donne l'erreur eventuelle
+			BackOfficeController.instance.displayErrorPopUp(w.error);									// donne l'erreur eventuelle
 		} 
 		else
 		{
 			if (w.text.Contains("#ERROR#"))
 			{
 				string[] errors = w.text.Split(new string[] { "#ERROR#" }, System.StringSplitOptions.None);
-				MenuController.instance.displayErrorPopUp(errors[1]);
+				BackOfficeController.instance.displayErrorPopUp(errors[1]);
 			} 
 			else
 			{
@@ -578,7 +578,7 @@ public class NewFocusedCardController : MonoBehaviour
 		this.displayLoadingScreen ();
 		WWWForm form = new WWWForm(); 											// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_nick", ApplicationModel.username);
+		form.AddField("myform_nick", ApplicationModel.player.Username);
 		form.AddField("myform_idcard", this.c.Id);
 		form.AddField("myform_title", newName);
 		form.AddField("myform_cost", this.c.RenameCost);
@@ -588,7 +588,7 @@ public class NewFocusedCardController : MonoBehaviour
 		
 		if (w.error != null)
 		{
-			MenuController.instance.displayErrorPopUp(w.error);
+			BackOfficeController.instance.displayErrorPopUp(w.error);
 		} 
 		else
 		{
@@ -599,7 +599,7 @@ public class NewFocusedCardController : MonoBehaviour
 			}
 			else
 			{
-				MenuController.instance.displayErrorPopUp(w.text);
+				BackOfficeController.instance.displayErrorPopUp(w.text);
 			}
 		}
 		this.updateFocus ();
@@ -617,21 +617,21 @@ public class NewFocusedCardController : MonoBehaviour
 		WWWForm form = new WWWForm(); 								// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_idcard", this.c.Id.ToString());
-		form.AddField("myform_nick", ApplicationModel.username);
+		form.AddField("myform_nick", ApplicationModel.player.Username);
 		
 		WWW w = new WWW(urlAddXpLevel, form); 								// On envoie le formulaire à l'url sur le serveur 
 		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
 		
 		if (w.error != null)
 		{
-			MenuController.instance.displayErrorPopUp(w.error); 										// donne l'erreur eventuelle
+			BackOfficeController.instance.displayErrorPopUp(w.error); 										// donne l'erreur eventuelle
 		} 
 		else
 		{
 			if (w.text.Contains("#ERROR#"))
 			{
 				string[] errors = w.text.Split(new string[] { "#ERROR#" }, System.StringSplitOptions.None);
-				MenuController.instance.displayErrorPopUp(errors [1]);
+				BackOfficeController.instance.displayErrorPopUp(errors [1]);
 			} 
 			else
 			{
@@ -677,7 +677,7 @@ public class NewFocusedCardController : MonoBehaviour
 
 		WWWForm form = new WWWForm(); 											// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_nick", ApplicationModel.username);
+		form.AddField("myform_nick", ApplicationModel.player.Username);
 		form.AddField("myform_idcard", this.c.Id);
 		form.AddField ("myform_price", this.c.Price);
 		
@@ -686,8 +686,9 @@ public class NewFocusedCardController : MonoBehaviour
 		
 		if (w.error != null)
 		{
-			MenuController.instance.displayErrorPopUp(w.error);
-		} else
+			BackOfficeController.instance.displayErrorPopUp(w.error);
+		} 
+		else
 		{
 			if (w.text.Contains("#ERROR#"))
 			{
@@ -703,11 +704,11 @@ public class NewFocusedCardController : MonoBehaviour
 					string[] newPrice = w.text.Split(new string[] { "#PRICECHANGED#" }, System.StringSplitOptions.None);
 					this.c.Price=System.Convert.ToInt32(newPrice[0]);
 					this.actualizePrice();
-					MenuController.instance.displayErrorPopUp(errors [1]);
+					BackOfficeController.instance.displayErrorPopUp(errors [1]);
 				}
 				else
 				{
-					MenuController.instance.displayErrorPopUp(errors [1]);
+					BackOfficeController.instance.displayErrorPopUp(errors [1]);
 				}
 			}
 			else
@@ -732,15 +733,15 @@ public class NewFocusedCardController : MonoBehaviour
 
 				if(this.collectionPointsEarned>0)
 				{
-					MenuController.instance.displayCollectionPointsPopUp(this.collectionPointsEarned,this.newCollectionRanking);
+					BackOfficeController.instance.displayCollectionPointsPopUp(this.collectionPointsEarned,this.newCollectionRanking);
 				}
 				if(this.skillsUnlocked.Count>0)
 				{
-					MenuController.instance.displayNewSkillsPopUps(this.skillsUnlocked);
+					BackOfficeController.instance.displayNewSkillsPopUps(this.skillsUnlocked);
 				}
 				if(this.idCardTypeUnlocked!=-1)
 				{
-					MenuController.instance.displayNewCardTypePopUp(this.titleCardTypeUnlocked);
+					BackOfficeController.instance.displayNewCardTypePopUp(this.titleCardTypeUnlocked);
 				}
 				this.deleteCard();
 			}
@@ -770,7 +771,7 @@ public class NewFocusedCardController : MonoBehaviour
 		this.displayLoadingScreen ();
 		WWWForm form = new WWWForm(); 											// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_nick", ApplicationModel.username);
+		form.AddField("myform_nick", ApplicationModel.player.Username);
 		form.AddField("myform_idcard", this.c.Id);
 		form.AddField("myform_price", newPrice);
 		WWW w = new WWW(urlChangeMarketPrice, form); 				            // On envoie le formulaire à l'url sur le serveur 
@@ -778,7 +779,7 @@ public class NewFocusedCardController : MonoBehaviour
 		
 		if (w.error != null)
 		{
-			MenuController.instance.displayErrorPopUp(w.error);
+			BackOfficeController.instance.displayErrorPopUp(w.error);
 		} 
 		else
 		{
@@ -790,7 +791,7 @@ public class NewFocusedCardController : MonoBehaviour
 			}
 			else
 			{
-				MenuController.instance.displayErrorPopUp(w.text);
+				BackOfficeController.instance.displayErrorPopUp(w.text);
 			}
 		}
 		this.hideLoadingScreen ();
@@ -806,14 +807,14 @@ public class NewFocusedCardController : MonoBehaviour
 
 		WWWForm form = new WWWForm(); 											// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_nick", ApplicationModel.username);
+		form.AddField("myform_nick", ApplicationModel.player.Username);
 		form.AddField("myform_idcard", this.c.Id);
 		WWW w = new WWW(urlRemoveFromMarket, form);             				// On envoie le formulaire à l'url sur le serveur 
 		yield return w;
 		
 		if (w.error != null)
 		{
-			MenuController.instance.displayErrorPopUp(w.error);
+			BackOfficeController.instance.displayErrorPopUp(w.error);
 		} 
 		else
 		{
@@ -823,7 +824,7 @@ public class NewFocusedCardController : MonoBehaviour
 			}
 			else
 			{
-				MenuController.instance.displayErrorPopUp(w.text);
+				BackOfficeController.instance.displayErrorPopUp(w.text);
 			}
 		}
 		this.updateFocus ();
@@ -845,15 +846,15 @@ public class NewFocusedCardController : MonoBehaviour
 
 		WWWForm form = new WWWForm(); 											// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_nick", ApplicationModel.username);
+		form.AddField("myform_nick", ApplicationModel.player.Username);
 		form.AddField("myform_idcard", this.c.Id);
 		form.AddField("myform_price", price);	
 		WWW w = new WWW(urlPutOnMarket, form); 				// On envoie le formulaire à l'url sur le serveur 
 		yield return w;
-		
+
 		if (w.error != null)
 		{
-			MenuController.instance.displayErrorPopUp(w.error);
+			BackOfficeController.instance.displayErrorPopUp(w.error);
 		} 
 		else
 		{
@@ -864,7 +865,7 @@ public class NewFocusedCardController : MonoBehaviour
 			}
 			else
 			{
-				MenuController.instance.displayErrorPopUp(w.text);
+				BackOfficeController.instance.displayErrorPopUp(w.text);
 			}
 		}
 		this.updateFocus ();
@@ -1196,7 +1197,7 @@ public class NewFocusedCardController : MonoBehaviour
 	public virtual void animateExperience()
 	{
 		this.setIsXpBeingUpdated (true);
-		MenuController.instance.setIsUserBusy (true);
+		ApplicationModel.player.IsBusy=true;
 		this.experience.GetComponent<NewFocusedCardExperienceController>().startUpdatingXp(this.c.ExperienceLevel,this.c.PercentageToNextLevel);
 	}
 	public virtual Color getColors(int id)
@@ -1213,11 +1214,11 @@ public class NewFocusedCardController : MonoBehaviour
 	}
 	public void displayLoadingScreen()
 	{
-		MenuController.instance.displayLoadingScreen ();
+		BackOfficeController.instance.displayLoadingScreen ();
 	}
 	public void hideLoadingScreen()
 	{
-		MenuController.instance.hideLoadingScreen ();
+		BackOfficeController.instance.hideLoadingScreen ();
 	}
 	public void setIsXpBeingUpdated(bool value)
 	{
@@ -1238,7 +1239,7 @@ public class NewFocusedCardController : MonoBehaviour
 	}
 	public void hideNextLevelPopUp()
 	{
-		MenuController.instance.setIsUserBusy (false);
+		ApplicationModel.player.IsBusy=false;
 		Destroy (this.nextLevelPopUp);
 		this.isNextLevelPopUpDisplayed=false;
 	}

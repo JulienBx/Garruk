@@ -20,6 +20,8 @@ public class User
 	public int CollectionPoints;
 	public int CollectionRanking;
 	public int IdProfilePicture;
+	public bool IsConnectedToPlayer;
+	public Connection ConnectionWithPlayer;
 
 	public User()
 	{

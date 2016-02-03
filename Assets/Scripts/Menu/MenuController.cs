@@ -12,6 +12,7 @@ public class MenuController : MonoBehaviour
 
 	private int currentPage;
 	private float timer;
+	private int nbNotificationsNonRead;
 
 	private float totalNbResultLimit;
 	private float helpSpeed;
@@ -60,7 +61,6 @@ public class MenuController : MonoBehaviour
 		this.mobileButtonsLabels [5] = WordingMenu.getReference(11);
 		this.helpSpeed = 1f;
 		this.initializeMenuObject ();
-		this.refreshMenuObject();
 		this.changeThumbPicture();
 	}
 	public void setCurrentPage(int i)
@@ -237,12 +237,12 @@ public class MenuController : MonoBehaviour
 		if(ApplicationDesignRules.isMobileScreen)
 		{
 			this.gameObject.transform.FindChild ("MobileCristalsBar").FindChild ("Title").GetComponent<TextMeshPro> ().text = ApplicationModel.player.Money.ToString ();
-			if(ApplicationModel.player.NbNotificationsNonRead>0)
+			if(this.nbNotificationsNonRead>0)
 			{
 				this.gameObject.transform.FindChild("MobileNotificationsButton").GetComponent<MobileMenuNotificationsController>().reset();
 				this.gameObject.transform.FindChild("MobileNotifications").gameObject.SetActive(true);
 				this.gameObject.transform.FindChild("MobileNotificationsButton").GetComponent<SpriteRenderer>().color=ApplicationDesignRules.redColor;
-				this.gameObject.transform.FindChild("MobileNotifications").GetComponent<TextMeshPro>().text=ApplicationModel.player.NbNotificationsNonRead.ToString();
+				this.gameObject.transform.FindChild("MobileNotifications").GetComponent<TextMeshPro>().text=this.nbNotificationsNonRead.ToString();
 			}
 			else
 			{
@@ -254,12 +254,12 @@ public class MenuController : MonoBehaviour
 		else
 		{
 			this.gameObject.transform.FindChild("UserBlock").FindChild("Credits").GetComponent<TextMeshPro>().text=ApplicationModel.player.Money.ToString();
-			if(ApplicationModel.player.NbNotificationsNonRead>0)
+			if(this.nbNotificationsNonRead>0)
 			{
 				this.gameObject.transform.FindChild("UserBlock").FindChild("Bell").GetComponent<MenuNotificationsController>().reset();
 				this.gameObject.transform.FindChild("UserBlock").FindChild("Notifications").gameObject.SetActive(true);
 				this.gameObject.transform.FindChild("UserBlock").FindChild("Bell").GetComponent<SpriteRenderer>().color=ApplicationDesignRules.redColor;
-				this.gameObject.transform.FindChild("UserBlock").FindChild("Notifications").GetComponent<TextMeshPro>().text=ApplicationModel.player.NbNotificationsNonRead.ToString();
+				this.gameObject.transform.FindChild("UserBlock").FindChild("Notifications").GetComponent<TextMeshPro>().text=this.nbNotificationsNonRead.ToString();
 			}
 			else
 			{
@@ -268,6 +268,10 @@ public class MenuController : MonoBehaviour
 				this.gameObject.transform.FindChild("UserBlock").FindChild("Notifications").gameObject.SetActive(false);
 			}
 		}
+	}
+	public void setNbNotificationsNonRead(int nb)
+	{
+		this.nbNotificationsNonRead=nb;
 	}
 	public void changePage(int i)
 	{
@@ -300,7 +304,14 @@ public class MenuController : MonoBehaviour
 	public void notificationsLink()
 	{
 		ApplicationModel.player.GoToNotifications = true;
-		this.homePageLink ();
+		if(Application.loadedLevelName=="NewHomePage" && NewHomePageController.instance.getNonReadNotificationsOnCurrentPage()>0)
+		{
+			NewHomePageController.instance.displayNotifications();
+		}
+		else
+		{
+			this.homePageLink ();
+		}
 	}
 	public void homePageLink()
 	{

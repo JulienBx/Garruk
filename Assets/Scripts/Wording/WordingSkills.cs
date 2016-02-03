@@ -11,11 +11,11 @@ public class WordingSkills
 
 	public static string getName(int idSkill)
 	{
-		return names[idSkills.IndexOf(idSkill)][ApplicationModel.idLanguage];
+		return names[idSkills.IndexOf(idSkill)][ApplicationModel.player.IdLanguage];
 	}
 	public static string getDescription(int idSkill, int idDescription)
 	{
-		return descriptions[10*idSkills.IndexOf(idSkill)+idDescription][ApplicationModel.idLanguage];
+		return descriptions[10*idSkills.IndexOf(idSkill)+idDescription][ApplicationModel.player.IdLanguage];
 	}
 	static WordingSkills()
 	{

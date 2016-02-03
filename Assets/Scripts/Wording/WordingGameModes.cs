@@ -10,11 +10,11 @@ public class WordingGameModes
 
 	public static string getReference(int idReference)
 	{
-		return references[idReference][ApplicationModel.idLanguage];
+		return references[idReference][ApplicationModel.player.IdLanguage];
 	}
 	public static string getName(int idGameType, int id)
 	{
-		return names[10*idGameType+id][ApplicationModel.idLanguage];
+		return names[10*idGameType+id][ApplicationModel.player.IdLanguage];
 	}
 	static WordingGameModes()
 	{

@@ -24,7 +24,7 @@ public class NewFocusedCardMarketController : NewFocusedCardController
 			this.gameObject.transform.FindChild("FocusFeature0").FindChild("Button").FindChild("Picto").GetComponent<SpriteRenderer>().sprite=this.returnFocusFeaturePicto(5);
 			this.gameObject.transform.FindChild("FocusFeature0").FindChild("Price").FindChild("Title").GetComponent<TextMeshPro>().text="- " + ApplicationDesignRules.priceToString(this.c.Price);
 			this.gameObject.transform.FindChild("FocusFeature0").GetComponent<NewFocusedFeaturesController>().showPrice(true);
-			if(this.c.Price>ApplicationModel.credits  && this.c.IdOWner!=NewMarketController.instance.returnUserId())
+			if(this.c.Price>ApplicationModel.player.Money  && this.c.IdOWner!=NewMarketController.instance.returnUserId())
 			{
 				this.gameObject.transform.FindChild("FocusFeature0").transform.GetComponent<NewFocusedFeaturesController>().setIsClickable(false);
 			}

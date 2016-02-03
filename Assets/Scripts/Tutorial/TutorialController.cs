@@ -18,8 +18,6 @@ public class TutorialController : MonoBehaviour
 	private GameObject leftMargin;
 	private GameObject rightMargin;
 
-	private User player;
-
 	void Update()
 	{
 		if (Screen.width != ApplicationDesignRules.widthScreen || Screen.height != ApplicationDesignRules.heightScreen) 
@@ -47,12 +45,10 @@ public class TutorialController : MonoBehaviour
 		instance = this;
 		this.initializeScene ();
 		this.resize ();
-		this.player = new User ();
-		this.player.Username = ApplicationModel.username;
 	}
 	private IEnumerator quitTutorial()
 	{
-		yield return StartCoroutine(this.player.setTutorialStep (1));
+		yield return StartCoroutine(ApplicationModel.player.setTutorialStep (1));
 		Application.LoadLevel("NewStore");
 	}
 	public void resize()

@@ -9,7 +9,7 @@ public class WordingCollectionPointsPopUp
 
 	public static string getReference(int idReference)
 	{
-		return references[idReference][ApplicationModel.idLanguage];
+		return references[idReference][ApplicationModel.player.IdLanguage];
 	}
 	static WordingCollectionPointsPopUp()
 	{

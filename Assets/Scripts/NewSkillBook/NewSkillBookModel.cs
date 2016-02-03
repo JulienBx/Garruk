@@ -15,7 +15,6 @@ public class NewSkillBookModel
 	public IList<CardType> cardTypesList;
 	public IList<int> cardIdsList;
 	public IList<SkillType> skillTypesList;
-	public User player;
 	private string URLGetSkillBookData = ApplicationModel.host + "get_skillbook_data.php";
 	
 	public NewSkillBookModel ()
@@ -23,11 +22,9 @@ public class NewSkillBookModel
 	}
 	public IEnumerator getSkillBookData()
 	{
-		this.player = new User ();
-		
 		WWWForm form = new WWWForm(); 											// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_nick", ApplicationModel.username);
+		form.AddField("myform_nick", ApplicationModel.player.Username);
 		
 		WWW w = new WWW(URLGetSkillBookData, form); 				// On envoie le formulaire à l'url sur le serveur 
 		yield return w;
@@ -43,7 +40,7 @@ public class NewSkillBookModel
 			this.ownSkillsList = parseOwnSkills(data[2].Split(new string[] { "#SKILL#" }, System.StringSplitOptions.None));
 			this.ownSkillsIdList= parseIdSkills(data[2].Split(new string[] { "#SKILL#" }, System.StringSplitOptions.None));
 			this.cardIdsList = parseCards(data[3].Split(new string[] { "//" }, System.StringSplitOptions.None));
-			this.player=parsePlayer(data[4].Split (new string[]{"//"},System.StringSplitOptions.None));
+			this.parsePlayer(data[4].Split (new string[]{"//"},System.StringSplitOptions.None));
 			this.skillTypesList = parseSkillTypes(data[5].Split(new string[] {"#SKILLTYPE#"},System.StringSplitOptions.None));
 			this.affectUserSkills();
 		}
@@ -131,15 +128,13 @@ public class NewSkillBookModel
 		}
 		return skillTypes;
 	}
-	private User parsePlayer(string[] array)
+	private void parsePlayer(string[] array)
 	{
-		User player = new User ();
-		player.CollectionPoints = System.Convert.ToInt32 (array [0]);
-		player.CollectionRanking = System.Convert.ToInt32 (array [1]);
-		player.TutorialStep = System.Convert.ToInt32(array [2]);
-		player.displayTutorial= System.Convert.ToBoolean(System.Convert.ToInt32(array [3]));
-		player.SkillBookTutorial= System.Convert.ToBoolean(System.Convert.ToInt32(array [4]));
-		return player;
+		ApplicationModel.player.CollectionPoints = System.Convert.ToInt32 (array [0]);
+		ApplicationModel.player.CollectionRanking = System.Convert.ToInt32 (array [1]);
+		ApplicationModel.player.TutorialStep = System.Convert.ToInt32(array [2]);
+		ApplicationModel.player.DisplayTutorial= System.Convert.ToBoolean(System.Convert.ToInt32(array [3]));
+		ApplicationModel.player.SkillBookTutorial= System.Convert.ToBoolean(System.Convert.ToInt32(array [4]));
 	}
 	private void affectUserSkills()
 	{
@@ -159,4 +154,3 @@ public class NewSkillBookModel
 		}
 	}
 }
-

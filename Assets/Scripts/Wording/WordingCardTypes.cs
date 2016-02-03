@@ -10,11 +10,11 @@ public class WordingCardTypes
 
 	public static string getName(int idCardType)
 	{
-		return names[idCardType][ApplicationModel.idLanguage];
+		return names[idCardType][ApplicationModel.player.IdLanguage];
 	}
 	public static string getDescription(int idCardType)
 	{
-		return descriptions[idCardType][ApplicationModel.idLanguage];
+		return descriptions[idCardType][ApplicationModel.player.IdLanguage];
 	}
 	static WordingCardTypes()
 	{

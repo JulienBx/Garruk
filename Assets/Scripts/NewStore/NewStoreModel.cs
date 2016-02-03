@@ -8,7 +8,6 @@ using System.Linq;
 
 public class NewStoreModel
 {
-	public User player;
 	public IList<string> cardTypeList;
 	public IList<Pack> packList;
 	public IList<Skill> NewSkills;
@@ -21,7 +20,6 @@ public class NewStoreModel
 	
 	public NewStoreModel()
 	{
-		this.player = new User ();
 		this.cardTypeList = new List<string> ();
 		this.packList = new List<Pack> ();
 	}
@@ -29,7 +27,7 @@ public class NewStoreModel
 	{
 		WWWForm form = new WWWForm(); 											// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_nick", ApplicationModel.username);
+		form.AddField("myform_nick", ApplicationModel.player.Username);
 		
 		WWW w = new WWW(URLGetStoreData, form); 				// On envoie le formulaire à l'url sur le serveur 
 		yield return w;
@@ -41,22 +39,20 @@ public class NewStoreModel
 		{
 			string[] data=w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
 			this.cardTypeList = data[0].Split(new string[] { "\\" }, System.StringSplitOptions.None);
-			this.player=parsePlayer(data[1].Split(new string[] { "\\" }, System.StringSplitOptions.None));
+			this.parsePlayer(data[1].Split(new string[] { "\\" }, System.StringSplitOptions.None));
 			this.packList=parsePacks(data[2].Split (new string[] {"PACK"}, System.StringSplitOptions.None));
 		}
 	}
-	private User parsePlayer(string[] array)
+	private void parsePlayer(string[] array)
 	{
-		User player = new User();
-		player.CardTypesAllowed=new List<int>();
-		player.IsAdmin=System.Convert.ToBoolean(System.Convert.ToInt32(array[0]));
-		player.TutorialStep=System.Convert.ToInt32(array[1]);
-		player.displayTutorial = System.Convert.ToBoolean (System.Convert.ToInt32 (array [2]));
+		ApplicationModel.player.CardTypesAllowed=new List<int>();
+		ApplicationModel.player.IsAdmin=System.Convert.ToBoolean(System.Convert.ToInt32(array[0]));
+		ApplicationModel.player.TutorialStep=System.Convert.ToInt32(array[1]);
+		ApplicationModel.player.DisplayTutorial = System.Convert.ToBoolean (System.Convert.ToInt32 (array [2]));
 		for(int i = 3 ; i < array.Length-1 ; i++)
 		{
-			player.CardTypesAllowed.Add (System.Convert.ToInt32(array[i]));
+			ApplicationModel.player.CardTypesAllowed.Add (System.Convert.ToInt32(array[i]));
 		}
-		return player;
 	}
 	private IList<Pack> parsePacks(string[] array)
 	{
@@ -92,7 +88,7 @@ public class NewStoreModel
 		
 		WWWForm form = new WWWForm(); 											// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_nick", ApplicationModel.username);
+		form.AddField("myform_nick", ApplicationModel.player.Username);
 		form.AddField("myform_Id", this.packList[packId].Id.ToString());	
 		form.AddField("myform_cardtype", cardType.ToString());	
 		form.AddField("myform_istutorialpack", isTutorialPackToString);
@@ -143,7 +139,7 @@ public class NewStoreModel
 		
 		WWWForm form = new WWWForm(); 											// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_nick", ApplicationModel.username);
+		form.AddField("myform_nick", ApplicationModel.player.Username);
 		form.AddField("myform_Id", this.packList[packId].Id.ToString());	
 		form.AddField("myform_cardtype", cardType.ToString());	
 		form.AddField("myform_istutorialpack", isTutorialPackToString);

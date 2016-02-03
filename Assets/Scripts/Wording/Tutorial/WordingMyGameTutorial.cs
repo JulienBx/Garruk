@@ -10,11 +10,11 @@ public class WordingMyGameTutorial
 
 	public static string getTutorialContent(int idReference)
 	{
-		return tutorialContents[idReference][ApplicationModel.idLanguage];
+		return tutorialContents[idReference][ApplicationModel.player.IdLanguage];
 	}
 	public static string getHelpContent(int idReference)
 	{
-		return helpContents[idReference][ApplicationModel.idLanguage];
+		return helpContents[idReference][ApplicationModel.player.IdLanguage];
 	}
 	static WordingMyGameTutorial()
 	{

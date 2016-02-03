@@ -4,7 +4,7 @@ public class MenuDisconnectController : SpriteButtonController
 {
 	public override void mainInstruction()
 	{
-		MenuController.instance.displayDisconnectedPopUp ();
+		BackOfficeController.instance.displayDisconnectedPopUp ();
 	}
 }
 

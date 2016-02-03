@@ -32,7 +32,7 @@ public class PlayingCardMakerScript : MonoBehaviour {
 	
 	void Start () {
 		
-		ApplicationModel.credits = 100000;
+		ApplicationModel.player.Money = 100000;
 		
 		instance = this;
 		this.resize ();

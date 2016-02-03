@@ -26,7 +26,7 @@ public class SkillMakerScript : MonoBehaviour {
 	
 	void Start () {
 		
-		ApplicationModel.credits = 100000;
+		ApplicationModel.player.Money = 100000;
 	
 		this.resize ();
 		this.mySkill = Instantiate(skillObject) as GameObject;

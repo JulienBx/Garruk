@@ -8,12 +8,10 @@ using System.Linq;
 
 public class NewMyGameModel
 {
-	
 	public Cards cards;
 	public IList<Deck> decks;
 	public string[] cardTypeList;
 	public IList<Skill> skillsList;
-	public User player;
 	
 	private string URLGetMyGameData = ApplicationModel.host + "get_mygame_data.php"; 
 	

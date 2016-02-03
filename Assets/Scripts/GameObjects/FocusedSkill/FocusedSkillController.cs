@@ -11,8 +11,8 @@ public class FocusedSkillController : MonoBehaviour
 	{
 		gameObject.transform.FindChild ("closebutton").GetComponent<FocusedSkillExitButtonController> ().reset ();
 		gameObject.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingSkills.getName(s.Id);
-		gameObject.transform.FindChild("CardType").GetComponent<SpriteRenderer> ().sprite = MenuController.instance.returnCardTypePicture (s.IdCardType);
-		gameObject.transform.FindChild("SkillType").GetComponent<SpriteRenderer> ().sprite = MenuController.instance.returnSkillTypePicture (s.IdSkillType);
+		gameObject.transform.FindChild("CardType").GetComponent<SpriteRenderer> ().sprite = BackOfficeController.instance.returnCardTypePicture (s.IdCardType);
+		gameObject.transform.FindChild("SkillType").GetComponent<SpriteRenderer> ().sprite = BackOfficeController.instance.returnSkillTypePicture (s.IdSkillType);
 		gameObject.transform.FindChild("SkillType").FindChild("Title").GetComponent<TextMeshPro> ().text = WordingSkillTypes.getName(s.IdSkillType).Substring (0, 1).ToUpper();
 		gameObject.transform.FindChild ("CardTypeTitle").GetComponent<TextMeshPro> ().text =WordingCardTypes.getName(s.IdCardType);
 		gameObject.transform.FindChild ("SkillTypeTitle").GetComponent<TextMeshPro> ().text = WordingSkillTypes.getName(s.IdSkillType);

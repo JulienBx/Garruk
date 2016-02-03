@@ -9,7 +9,7 @@ public class WordingConnectionBonusPopUp
 
 	public static string getReference(int idReference)
 	{
-		return references[idReference][ApplicationModel.idLanguage];
+		return references[idReference][ApplicationModel.player.IdLanguage];
 	}
 	static WordingConnectionBonusPopUp()
 	{

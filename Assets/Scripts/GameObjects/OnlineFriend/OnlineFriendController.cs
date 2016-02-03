@@ -48,7 +48,7 @@ public class OnlineFriendController : MonoBehaviour
 	public void show()
 	{
 		gameObject.transform.FindChild ("Username").GetComponent<TextMeshPro> ().text = this.u.Username;
-		gameObject.transform.FindChild ("Picture").GetComponent<SpriteRenderer> ().sprite = MenuController.instance.returnThumbPicture(this.u.idProfilePicture);
+		gameObject.transform.FindChild ("Picture").GetComponent<SpriteRenderer> ().sprite = BackOfficeController.instance.returnThumbPicture(this.u.IdProfilePicture);
 		this.setOnlineStatus ();
 	}
 	public void setPicture(Sprite picture)

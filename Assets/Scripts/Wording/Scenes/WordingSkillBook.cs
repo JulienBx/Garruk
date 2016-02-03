@@ -9,7 +9,7 @@ public class WordingSkillBook
 
 	public static string getReference(int idReference)
 	{
-		return references[idReference][ApplicationModel.idLanguage];
+		return references[idReference][ApplicationModel.player.IdLanguage];
 	}
 	static WordingSkillBook()
 	{

@@ -8,13 +8,11 @@ using System.Linq;
 
 public class NewMarketModel
 {
-	
 	public string[] cardTypeList;
 	public IList<Skill> skillsList;
 	public IList<int> cardsSold;
 	public Cards cards;
 	public Cards newCards;
-	public User player;
 	private string URLGetMarketData = ApplicationModel.host + "get_market_data.php";
 	private string URLRefreshMarket = ApplicationModel.host + "refresh_market.php";
 	private string URLRefreshMyGame = ApplicationModel.host + "refresh_mygame.php";
@@ -41,7 +39,7 @@ public class NewMarketModel
 		
 		WWWForm form = new WWWForm(); 											// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_nick", ApplicationModel.username);
+		form.AddField("myform_nick", ApplicationModel.player.Username);
 		form.AddField ("myform_totalnbresultlimit", totalNbResultLimit.ToString());
 		form.AddField ("myform_activetab", activeTab.ToString ());
 		form.AddField ("myform_firstload", firstLoadString);
@@ -80,7 +78,7 @@ public class NewMarketModel
 			}
 			if(firstLoad)
 			{
-				this.player=parsePlayer(data[3].Split(new string[] { "\\" }, System.StringSplitOptions.None));
+				this.parsePlayer(data[3].Split(new string[] { "\\" }, System.StringSplitOptions.None));
 			}
 			if(activeTab==0 && cards.getCount()>0)
 			{
@@ -89,21 +87,19 @@ public class NewMarketModel
 			}
 		}
 	}
-	public User parsePlayer(string[] array)
+	public void parsePlayer(string[] array)
 	{
-		User player = new User ();
-		player.Id = System.Convert.ToInt32 (array [0]);
-		player.TutorialStep = System.Convert.ToInt32 (array [1]);
-		player.displayTutorial = System.Convert.ToBoolean (System.Convert.ToInt32 (array [2]));
-		player.MarketTutorial = System.Convert.ToBoolean (System.Convert.ToInt32 (array [3]));
-		return player;
+		ApplicationModel.player.Id = System.Convert.ToInt32 (array [0]);
+		ApplicationModel.player.TutorialStep = System.Convert.ToInt32 (array [1]);
+		ApplicationModel.player.DisplayTutorial = System.Convert.ToBoolean (System.Convert.ToInt32 (array [2]));
+		ApplicationModel.player.MarketTutorial = System.Convert.ToBoolean (System.Convert.ToInt32 (array [3]));
 	}
 	public IEnumerator refreshMarket (int totalNbResultLimit)
 	{	
 		Cards newCards = new Cards ();
 		WWWForm form = new WWWForm(); 											// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_nick", ApplicationModel.username);
+		form.AddField("myform_nick", ApplicationModel.player.Username);
 		form.AddField ("myform_totalnbresultlimit", totalNbResultLimit.ToString());
 		form.AddField("myform_newcardlimit",  this.newCardsTimeLimit.ToString("yyyy-MM-dd HH:mm:ss"));
 		form.AddField("myform_oldcardlimit",  this.oldCardsTimeLimit.ToString("yyyy-MM-dd HH:mm:ss"));
@@ -172,10 +168,10 @@ public class NewMarketModel
 	public IEnumerator refreshMyGame()
 	{
 		this.cardsSold = new List<int> ();
-		
+
 		WWWForm form = new WWWForm(); 											// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_nick", ApplicationModel.username);
+		form.AddField("myform_nick", ApplicationModel.player.Username);
 		
 		WWW w = new WWW(URLRefreshMyGame, form); 				// On envoie le formulaire à l'url sur le serveur 
 		yield return w;
@@ -221,4 +217,3 @@ public class NewMarketModel
 		return skillsList;
 	}
 }
-

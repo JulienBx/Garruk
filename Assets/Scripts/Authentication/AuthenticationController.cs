@@ -61,8 +61,8 @@ public class AuthenticationController : Photon.MonoBehaviour
 	private IEnumerator initialization()
 	{
 		this.displayLoadingScreen();
-		yield return StartCoroutine(ApplicationModel.permanentConnexion ());
-		if(ApplicationModel.username!=""&& !ApplicationModel.toDeconnect)
+		yield return StartCoroutine(ApplicationModel.player.permanentConnexion ());
+		if(ApplicationModel.player.Username!=""&& !ApplicationModel.player.ToDeconnect)
 		{
 			this.connectToPhoton();
 		}
@@ -74,7 +74,7 @@ public class AuthenticationController : Photon.MonoBehaviour
 	private void connectToPhoton()
 	{
 		this.loadingScreen.GetComponent<LoadingScreenController> ().changeLoadingScreenLabel ("Connexion au lobby ...");
-		PhotonNetwork.playerName = ApplicationModel.username;
+		PhotonNetwork.playerName = ApplicationModel.player.Username;
 		PhotonNetwork.ConnectUsingSettings(ApplicationModel.photonSettings);
 		PhotonNetwork.autoCleanUpPlayerObjects = false;
 	}
@@ -89,17 +89,17 @@ public class AuthenticationController : Photon.MonoBehaviour
 		{
 			this.displayLoadingScreen();
 			this.view.authenticationVM.guiEnabled=false;
-			yield return StartCoroutine(ApplicationModel.Login(this.view.authenticationVM.username,
+			yield return StartCoroutine(ApplicationModel.player.Login(this.view.authenticationVM.username,
 			                                                   this.view.authenticationVM.password,
 			                                                   this.view.authenticationVM.toMemorize));
-			if(ApplicationModel.username!=""&& !ApplicationModel.toDeconnect)
+			if(ApplicationModel.player.Username!=""&& !ApplicationModel.player.ToDeconnect)
 			{
 				this.connectToPhoton();
 			}
 			else
 			{
-				this.view.authenticationVM.error=ApplicationModel.error;
-				ApplicationModel.error="";
+				this.view.authenticationVM.error=ApplicationModel.player.Error;
+				ApplicationModel.player.Error="";
 				this.view.authenticationVM.guiEnabled=true;
 				this.hideLoadingScreen();
 			}
@@ -272,12 +272,12 @@ public class AuthenticationController : Photon.MonoBehaviour
 					if(this.authenticationWindowView.authenticationWindowPopUpVM.passwordError=="")
 					{
 						this.authenticationWindowView.authenticationWindowPopUpVM.guiEnabled = false;
-						yield return StartCoroutine(ApplicationModel.createAccount(this.authenticationWindowView.authenticationWindowPopUpVM.username,this.authenticationWindowView.authenticationWindowPopUpVM.email,this.authenticationWindowView.authenticationWindowPopUpVM.password1));
-						if(ApplicationModel.error!="")
+						yield return StartCoroutine(ApplicationModel.player.createAccount(this.authenticationWindowView.authenticationWindowPopUpVM.username,this.authenticationWindowView.authenticationWindowPopUpVM.email,this.authenticationWindowView.authenticationWindowPopUpVM.password1));
+						if(ApplicationModel.player.Error!="")
 						{
 							this.displayErrorPopUp();
-							errorView.errorPopUpVM.error=ApplicationModel.error;
-							ApplicationModel.error="";
+							errorView.errorPopUpVM.error=ApplicationModel.player.Error;
+							ApplicationModel.player.Error="";
 						}
 						else
 						{
@@ -374,9 +374,9 @@ public class AuthenticationController : Photon.MonoBehaviour
 	}
 	private void loadLevels()
 	{
-		if(ApplicationModel.tutorialStep!=-1)
+		if(ApplicationModel.player.TutorialStep!=-1)
 		{
-			switch(ApplicationModel.tutorialStep)
+			switch(ApplicationModel.player.TutorialStep)
 			{
 			case 0:
 				Application.LoadLevel("Tutorial");	
