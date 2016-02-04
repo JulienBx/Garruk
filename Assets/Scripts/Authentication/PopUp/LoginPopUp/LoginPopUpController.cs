@@ -36,11 +36,12 @@ public class LoginPopUpController : MonoBehaviour
 	}
 	public void rememberMeHandler()
 	{
+		this.rememberMe=!this.rememberMe;
+		this.applyRememberMeSprites();
 	}
 	public void loginHandler()
 	{
-		this.rememberMe=!this.rememberMe;
-		this.applyRememberMeSprites();
+		AuthenticationController.instance.loginHandler();
 	}
 	public void applyRememberMeSprites()
 	{
@@ -55,11 +56,11 @@ public class LoginPopUpController : MonoBehaviour
 	}
 	public string getPassword()
 	{
-		return gameObject.transform.FindChild ("Input").GetComponent<InputPasswordGuiController> ().getText ();
+		return gameObject.transform.FindChild ("Input").GetComponent<InputTextGuiController> ().getText ();
 	}
 	public string getLogin()
 	{
-		return gameObject.transform.FindChild ("Input1").GetComponent<InputTextGuiController> ().getText ();
+		return gameObject.transform.FindChild ("Input1").GetComponent<InputPasswordGuiController> ().getText ();
 	}
 	public bool getRememberMe()
 	{

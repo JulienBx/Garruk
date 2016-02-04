@@ -17,8 +17,8 @@ public class AuthenticationController : Photon.MonoBehaviour
 	private bool isLoginPopUpDisplayed;
 
 	private GameObject mainCamera;
-	private GameObject tutorialCamera;
 	private GameObject backgroundCamera;
+	private GameObject sceneCamera;
 
 	void Awake()
 	{
@@ -44,19 +44,19 @@ public class AuthenticationController : Photon.MonoBehaviour
 		}
 		else
 		{
+			ApplicationModel.player.ToDeconnect=false;
 			BackOfficeController.instance.hideLoadingScreen();
 		}
 	}
 	public void initializeScene()
 	{ 
 		this.createAccountButton = GameObject.Find ("createAccountButton");
-		//this.inscriptionButton.AddComponent<AuthenticationInscriptionButtonController> ();
 		this.createAccountButton.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text =WordingAuthentication.getReference(0);
 		this.loginPopUp=GameObject.Find("loginPopUp");
 		this.loginPopUp.SetActive(false);
 		this.mainCamera = gameObject;
-		this.tutorialCamera = GameObject.Find ("TutorialCamera");
 		this.backgroundCamera = GameObject.Find ("BackgroundCamera");
+		this.sceneCamera = GameObject.Find ("sceneCamera");
 	}
 	private void connectToPhoton()
 	{
@@ -82,6 +82,7 @@ public class AuthenticationController : Photon.MonoBehaviour
 	}
 	public IEnumerator login(string login, string password, bool rememberMe)
 	{
+		this.loginPopUp.SetActive(false);
 		BackOfficeController.instance.displayLoadingScreen();
 		yield return StartCoroutine(ApplicationModel.player.Login(login,password,rememberMe));
 		if(ApplicationModel.player.Error=="")
@@ -90,6 +91,7 @@ public class AuthenticationController : Photon.MonoBehaviour
 		}
 		else
 		{
+			this.loginPopUp.SetActive(true);
 			this.loginPopUp.transform.GetComponent<LoginPopUpController> ().setError(ApplicationModel.player.Error);
 			BackOfficeController.instance.hideLoadingScreen();
 		}
@@ -98,13 +100,13 @@ public class AuthenticationController : Photon.MonoBehaviour
 	{
 		this.mainCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
 		this.mainCamera.transform.position = ApplicationDesignRules.mainCameraPosition;
-		this.tutorialCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
-		this.tutorialCamera.transform.position = ApplicationDesignRules.tutorialCameraPositiion;
-		this.tutorialCamera.GetComponent<Camera> ().rect = new Rect (0f, 0f, 1f, 1f);
 		this.mainCamera.GetComponent<Camera>().rect= new Rect (0f,0f,1f,1f);
 		this.backgroundCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.backgroundCameraSize;
 		this.backgroundCamera.transform.position = ApplicationDesignRules.backgroundCameraPosition;
 		this.backgroundCamera.GetComponent<Camera> ().rect = new Rect (0f, 0f, 1f, 1f);
+		this.sceneCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
+		this.sceneCamera.GetComponent<Camera> ().rect = new Rect (0f,0f,1f,1f);
+		this.sceneCamera.transform.position = ApplicationDesignRules.sceneCameraStandardPosition;
 		if(this.isLoginPopUpDisplayed)
 		{
 			this.loginPopUpResize();
