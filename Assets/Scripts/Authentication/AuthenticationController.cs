@@ -14,6 +14,7 @@ public class AuthenticationController : Photon.MonoBehaviour
 	private GameObject backOfficeController;
 	private GameObject mainLogo;
 	private GameObject chooseLanguageButton;
+	private GameObject facebookButton;
 
 	private GameObject loginPopUp;
 	private bool isLoginPopUpDisplayed;
@@ -23,6 +24,8 @@ public class AuthenticationController : Photon.MonoBehaviour
 	private bool isAccountCreatedPopUpDisplayed;
 	public GameObject lostLoginPopUp;
 	private bool isLostLoginPopUpDisplayed;
+	private GameObject passwordResetPopUp;
+	private bool isPasswordResetPopUpDisplayed;
 
 	private GameObject mainCamera;
 	private GameObject backgroundCamera;
@@ -31,8 +34,7 @@ public class AuthenticationController : Photon.MonoBehaviour
 	void Awake()
 	{
 		instance = this;
-		ApplicationModel.player=new Player();
-		if(Application.systemLanguage==SystemLanguage.French)
+		if(ApplicationModel.player.Username=="" && Application.systemLanguage==SystemLanguage.French)
 		{
 			ApplicationModel.player.IdLanguage=0;
 		}
@@ -54,13 +56,13 @@ public class AuthenticationController : Photon.MonoBehaviour
 	{
 		this.resize ();
 		yield return StartCoroutine(ApplicationModel.player.permanentConnexion ());
-		this.displayLoginPopUp();
 		if(ApplicationModel.player.Username!=""&& !ApplicationModel.player.ToDeconnect)
 		{
 			this.connectToPhoton();
 		}
 		else
 		{
+			this.displayLoginPopUp();
 			ApplicationModel.player.ToDeconnect=false;
 			BackOfficeController.instance.hideLoadingScreen();
 			this.drawChooseLanguageButton();
@@ -76,11 +78,14 @@ public class AuthenticationController : Photon.MonoBehaviour
 		this.accountCreatedPopUp.SetActive(false);
 		this.lostLoginPopUp=GameObject.Find("lostLoginPopUp");
 		this.lostLoginPopUp.SetActive(false);
+		this.passwordResetPopUp=GameObject.Find("passwordResetPopUp");
+		this.passwordResetPopUp.SetActive(false);
 		this.mainCamera = gameObject;
 		this.backgroundCamera = GameObject.Find ("BackgroundCamera");
 		this.sceneCamera = GameObject.Find ("sceneCamera");
 		this.mainLogo = GameObject.Find("mainLogo");
 		this.chooseLanguageButton = GameObject.Find("chooseLanguageButton");
+		this.facebookButton=GameObject.Find("FacebookButton");
 	}
 	private void connectToPhoton()
 	{
@@ -145,6 +150,10 @@ public class AuthenticationController : Photon.MonoBehaviour
 		}
 		this.inscriptionPopUp.GetComponent<InscriptionPopUpController>().setError(error);	
 	}
+	public void lostLoginHandler()
+	{
+		this.displayPasswordResetPopUp();
+	}
 	public void resize()
 	{
 		this.mainCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
@@ -157,9 +166,11 @@ public class AuthenticationController : Photon.MonoBehaviour
 		this.sceneCamera.GetComponent<Camera> ().rect = new Rect (0f,0f,1f,1f);
 		this.sceneCamera.transform.position = ApplicationDesignRules.sceneCameraAuthenticationPosition;
 		this.mainLogo.transform.localScale=ApplicationDesignRules.mainLogoScale;
-		this.mainLogo.transform.position=new Vector3(0f,ApplicationDesignRules.worldHeight/2f-ApplicationDesignRules.mainLogoWorldSize.y/2f-0.5f,0f);
+		this.mainLogo.transform.position=new Vector3(0f,ApplicationDesignRules.worldHeight/2f-ApplicationDesignRules.mainLogoWorldSize.y/2f-0.25f,0f);
 		this.chooseLanguageButton.transform.localScale=ApplicationDesignRules.roundButtonScale;
-		this.chooseLanguageButton.transform.position= new Vector3(0f,-ApplicationDesignRules.popUpWorldSize.y/2f-0.5f-ApplicationDesignRules.roundButtonWorldSize.y/2f);
+		this.chooseLanguageButton.transform.position= new Vector3(0f,-ApplicationDesignRules.worldHeight/2f+0.25f+ApplicationDesignRules.roundButtonWorldSize.y/2f);
+		this.facebookButton.transform.localScale=ApplicationDesignRules.popUpScale;
+		this.facebookButton.transform.position= new Vector3(0f,ApplicationDesignRules.popUpWorldSize.y/2f-0.7f+0.25f+ApplicationDesignRules.roundButtonWorldSize.y/2f);
 
 		if(this.isLoginPopUpDisplayed)
 		{
@@ -193,6 +204,14 @@ public class AuthenticationController : Photon.MonoBehaviour
 		{
 			this.inscriptionPopUp.GetComponent<InscriptionPopUpController>().computeLabels();
 		}
+		if(this.isLostLoginPopUpDisplayed)
+		{
+			this.lostLoginPopUp.GetComponent<LostLoginPopUpController>().computeLabels();
+		}
+		if(this.isPasswordResetPopUpDisplayed)
+		{
+			this.passwordResetPopUp.GetComponent<PasswordResetPopUpController>().computeLabels();
+		}
 	}
 	public void drawChooseLanguageButton()
 	{
@@ -215,10 +234,30 @@ public class AuthenticationController : Photon.MonoBehaviour
 		{
 			this.hideAccountCreatedPopUp();
 		}
+		if(this.isLostLoginPopUpDisplayed)
+		{
+			this.hideLostLoginPopUp();
+		}
+		if(this.isPasswordResetPopUpDisplayed)
+		{
+			this.hidePasswordResetPopUp();
+		}
 		this.loginPopUp.transform.GetComponent<LoginPopUpController> ().reset(ApplicationModel.player.Username,false);
 		this.isLoginPopUpDisplayed = true;
 		this.loginPopUp.SetActive (true);
 		this.loginPopUpResize ();
+	}
+	public void displayLostLoginPopUp()
+	{
+		if(this.isLoginPopUpDisplayed)
+		{
+			this.hideLoginPopUp();
+		}
+		this.lostLoginPopUp.transform.GetComponent<LostLoginPopUpController> ().reset(ApplicationModel.player.Username);
+		this.isLostLoginPopUpDisplayed = true;
+		this.lostLoginPopUp.SetActive (true);
+		this.lostLoginPopUpResize ();
+		this.displayFacebookButton(false);
 	}
 	public void displayInscriptionPopUp()
 	{
@@ -242,23 +281,53 @@ public class AuthenticationController : Photon.MonoBehaviour
 		this.accountCreatedPopUp.SetActive (true);
 		this.accountCreatedPopUpResize ();
 	}
+	public void displayPasswordResetPopUp()
+	{
+		if(this.isLostLoginPopUpDisplayed)
+		{
+			this.hideLostLoginPopUp();
+		}
+		this.passwordResetPopUp.transform.GetComponent<PasswordResetPopUpController> ().reset();
+		this.isPasswordResetPopUpDisplayed = true;
+		this.passwordResetPopUp.SetActive (true);
+		this.passwordResetPopUpResize ();
+	}
 	public void loginPopUpResize()
 	{
-		this.loginPopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y, -2f);
+		this.loginPopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y-0.7f, -2f);
 		this.loginPopUp.transform.localScale = ApplicationDesignRules.popUpScale;
 		this.loginPopUp.GetComponent<LoginPopUpController> ().resize ();
+		this.displayFacebookButton(true);
+		this.facebookButton.transform.FindChild("Title").GetComponent<TextMeshPro>().text=WordingAuthentication.getReference(10);
 	}
 	public void inscriptionPopUpResize()
 	{
-		this.inscriptionPopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y, -2f);
+		this.inscriptionPopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y-0.7f, -2f);
 		this.inscriptionPopUp.transform.localScale = ApplicationDesignRules.popUpScale;
 		this.inscriptionPopUp.GetComponent<InscriptionPopUpController> ().resize ();
+		this.displayFacebookButton(true);
+		this.facebookButton.transform.FindChild("Title").GetComponent<TextMeshPro>().text=WordingAuthentication.getReference(11);
 	}
 	public void accountCreatedPopUpResize()
 	{
-		this.accountCreatedPopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y, -2f);
+		this.accountCreatedPopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y-0.7f, -2f);
 		this.accountCreatedPopUp.transform.localScale = ApplicationDesignRules.popUpScale;
 		this.accountCreatedPopUp.GetComponent<AccountCreatedPopUpController> ().resize ();
+		this.displayFacebookButton(false);
+	}
+	public void lostLoginPopUpResize()
+	{
+		this.lostLoginPopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y-0.7f, -2f);
+		this.lostLoginPopUp.transform.localScale = ApplicationDesignRules.popUpScale;
+		this.lostLoginPopUp.GetComponent<LostLoginPopUpController> ().resize ();
+		this.displayFacebookButton(false);
+	}
+	public void passwordResetPopUpResize()
+	{
+		this.passwordResetPopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y-0.7f, -2f);
+		this.passwordResetPopUp.transform.localScale = ApplicationDesignRules.popUpScale;
+		this.passwordResetPopUp.GetComponent<PasswordResetPopUpController> ().resize ();
+		this.displayFacebookButton(false);
 	}
 	public void hideLoginPopUp()
 	{
@@ -274,6 +343,27 @@ public class AuthenticationController : Photon.MonoBehaviour
 	{
 		this.accountCreatedPopUp.SetActive (false);
 		this.isAccountCreatedPopUpDisplayed = false;
+	}
+	public void hideLostLoginPopUp()
+	{
+		this.lostLoginPopUp.SetActive (false);
+		this.isLostLoginPopUpDisplayed = false;
+	}
+	public void hidePasswordResetPopUp()
+	{
+		this.passwordResetPopUp.SetActive (false);
+		this.isPasswordResetPopUpDisplayed = false;
+	}
+	public void displayFacebookButton(bool value)
+	{
+		if(ApplicationDesignRules.isMobileScreen) // A modifer plus tard par IsMobileDevice
+		{
+			this.facebookButton.SetActive(value);
+		}
+		else
+		{
+			this.facebookButton.SetActive(false);
+		}
 	}
 	public IEnumerator createNewAccount(string login, string password, string email)
 	{
@@ -356,16 +446,32 @@ public class AuthenticationController : Photon.MonoBehaviour
 		}
 		if(this.isAccountCreatedPopUpDisplayed)
 		{
-			this.hideAccountCreatedPopUp();
+			this.displayLoginPopUp();
+		}
+		if(this.isLostLoginPopUpDisplayed)
+		{
+			this.displayLoginPopUp();
+		}
+		if(this.isPasswordResetPopUpDisplayed)
+		{
+			this.displayLoginPopUp();
 		}
 	}
 	public void escapePressed()
 	{
 		if(this.isInscriptionPopUpDisplayed)
 		{
-			this.hideInscriptionPopUp();
+			this.displayLoginPopUp();
 		}
 		if(this.isAccountCreatedPopUpDisplayed)
+		{
+			this.displayLoginPopUp();
+		}
+		if(this.isLostLoginPopUpDisplayed)
+		{
+			this.displayLoginPopUp();
+		}
+		if(this.isPasswordResetPopUpDisplayed)
 		{
 			this.displayLoginPopUp();
 		}

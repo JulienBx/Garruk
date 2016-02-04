@@ -24,5 +24,7 @@ public class WordingAuthentication
 		references.Add(new string[]{"Le mot de passe doit comporter au moins 5 caractères",""});//7
 		references.Add(new string[]{"Le mot de passe ne peut comporter de caractères spéciaux hormis @ _ et .",""});//8
 		references.Add(new string[]{"Veuillez saisir une adresse email valide",""});//9
+		references.Add(new string[]{"Connexion avec Facebook",""});//10
+		references.Add(new string[]{"Inscription avec Facebook",""});//11
 	}
 }

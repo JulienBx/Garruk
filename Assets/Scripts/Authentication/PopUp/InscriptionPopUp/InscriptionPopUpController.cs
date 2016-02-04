@@ -10,7 +10,6 @@ public class InscriptionPopUpController : MonoBehaviour
 {
 	public void reset()
 	{
-		this.computeLabels();
 		gameObject.transform.FindChild("Title").GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
 		gameObject.transform.FindChild("Title1").GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
 		gameObject.transform.FindChild("Information1").GetComponent<TextMeshPro>().color=ApplicationDesignRules.greyTextColor;
@@ -28,7 +27,14 @@ public class InscriptionPopUpController : MonoBehaviour
 	}
 	public void computeLabels()
 	{
-		gameObject.transform.FindChild("Title").GetComponent<TextMeshPro>().text=WordingInscriptionPopUp.getReference(0);
+		if(ApplicationDesignRules.isMobileScreen) // A remplacer par MobileDevice
+		{
+			gameObject.transform.FindChild("Title").GetComponent<TextMeshPro>().text=WordingInscriptionPopUp.getReference(8);
+		}
+		else
+		{
+			gameObject.transform.FindChild("Title").GetComponent<TextMeshPro>().text=WordingInscriptionPopUp.getReference(0);
+		}
 		gameObject.transform.FindChild ("Title1").GetComponent<TextMeshPro> ().text = WordingInscriptionPopUp.getReference(1);
 		gameObject.transform.FindChild("Information1").GetComponent<TextMeshPro> ().text = WordingInscriptionPopUp.getReference(2);
 		gameObject.transform.FindChild ("Title2").GetComponent<TextMeshPro> ().text = WordingInscriptionPopUp.getReference(3);
@@ -43,6 +49,7 @@ public class InscriptionPopUpController : MonoBehaviour
 		gameObject.transform.FindChild("Input2").GetComponent<InputPasswordGuiController>().resize();
 		gameObject.transform.FindChild("Input3").GetComponent<InputPasswordGuiController>().resize();
 		gameObject.transform.FindChild("Input4").GetComponent<InputTextGuiController>().resize();
+		this.computeLabels();
 	}
 	public void setError(string error)
 	{

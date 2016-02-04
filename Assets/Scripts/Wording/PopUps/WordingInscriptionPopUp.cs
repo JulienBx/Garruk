@@ -22,5 +22,6 @@ public class WordingInscriptionPopUp
 		references.Add(new string[]{"Confirmer mot de passe",""}); //5
 		references.Add(new string[]{"Adresse email",""});//6
 		references.Add(new string[]{"C'est parti",""});//7
+		references.Add(new string[]{"Ou",""});//8
 	}
 }

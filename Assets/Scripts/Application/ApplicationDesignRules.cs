@@ -73,7 +73,7 @@ public class ApplicationDesignRules : MonoBehaviour
 
 	static private Vector2 mainLogoSize=new Vector2(323f,87f);
 	static public Vector2 mainLogoWorldSize;
-	static private Vector3 mainLogoOriginalScale=new Vector3(1f,1f,1f);
+	static private Vector3 mainLogoOriginalScale=new Vector3(1.2f,1.2f,1.2f);
 	static private Vector3 mainLogoMobileScale = new Vector3 (1f, 1f, 1f);
 	static public Vector3 mainLogoScale;
 
