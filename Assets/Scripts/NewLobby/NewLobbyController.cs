@@ -537,7 +537,6 @@ public class NewLobbyController : MonoBehaviour
 		MenuController.instance.setCurrentPage(5);
 		MenuController.instance.refreshMenuObject();
 		TutorialObjectController.instance.resize();
-		BackOfficeController.instance.resize();
 	}
 	public void returnPressed()
 	{

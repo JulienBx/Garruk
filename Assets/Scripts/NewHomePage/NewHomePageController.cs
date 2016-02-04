@@ -818,7 +818,6 @@ public class NewHomePageController : MonoBehaviour
 		MenuController.instance.setCurrentPage(0);
 		MenuController.instance.refreshMenuObject();
 		TutorialObjectController.instance.resize();
-		BackOfficeController.instance.resize();
 	}
 	private void retrieveDefaultDeck()
 	{

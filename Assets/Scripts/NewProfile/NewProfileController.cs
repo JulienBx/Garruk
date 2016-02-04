@@ -1010,7 +1010,6 @@ public class NewProfileController : MonoBehaviour
 		MenuController.instance.resize();
 		MenuController.instance.refreshMenuObject();
 		TutorialObjectController.instance.resize();
-		BackOfficeController.instance.resize();
 	}
 	public void returnPressed()
 	{

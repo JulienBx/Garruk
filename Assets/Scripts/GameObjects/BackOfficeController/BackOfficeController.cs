@@ -37,7 +37,6 @@ public class BackOfficeController : MonoBehaviour
 	private float timer;
 	private float collectionPointsTimer;
 	private float refreshInterval;
-	private bool isAuthenticationScene;
 
 	void Update()
 	{
@@ -67,18 +66,19 @@ public class BackOfficeController : MonoBehaviour
 			}
 		}
 		timer = timer+speed*Time.deltaTime;
-		if (timer > this.refreshInterval) 
+		if (timer > this.refreshInterval && this.isMenuLoaded) 
 		{
 			timer=timer-this.refreshInterval;
-			if(!this.isAuthenticationScene)
-			{
-				StartCoroutine (this.getUserData());
-			}
+			StartCoroutine (this.getUserData());
 		}
 	}
 	public void initialize()
 	{
 		instance = this;
+		if(!ApplicationDesignRules.initialized)
+		{
+			ApplicationDesignRules.computeDesignRules();
+		}
 		this.ressources = this.gameObject.GetComponent<BackOfficeRessources> ();
 		this.photon = this.gameObject.GetComponent<BackOfficePhotonController> ();
 		this.isMenuLoaded=false;
@@ -90,14 +90,6 @@ public class BackOfficeController : MonoBehaviour
 		this.errorPopUp = this.gameObject.transform.FindChild ("errorPopUp").gameObject;
 		this.collectionPointsPopUp = this.gameObject.transform.FindChild ("collectionPointsPopUp").gameObject;
 		this.newCardTypePopUp = this.gameObject.transform.FindChild ("newCardTypePopUp").gameObject;
-		if(!ApplicationDesignRules.initialized)
-		{
-			ApplicationDesignRules.computeDesignRules();
-		}
-		if(Application.loadedLevelName=="Authentication")
-		{
-			this.isAuthenticationScene=true;
-		}
 	}
 	public void setIsMenuLoaded(bool value)
 	{
@@ -551,12 +543,12 @@ public class BackOfficeController : MonoBehaviour
 		int money=ApplicationModel.player.Money;
 		int nbNotificationsNonReads=ApplicationModel.player.NbNotificationsNonRead;
 		yield return StartCoroutine (ApplicationModel.player.refreshUserData ());
-		if(money!=ApplicationModel.player.Money && this.isMenuLoaded)
+		if(money!=ApplicationModel.player.Money)
 		{
 			this.moneyUpdate();
 			MenuController.instance.refreshMenuObject();
 		}
-		if(nbNotificationsNonReads!=ApplicationModel.player.NbNotificationsNonRead && this.isMenuLoaded)
+		if(nbNotificationsNonReads!=ApplicationModel.player.NbNotificationsNonRead)
 		{
 			if(Application.loadedLevelName=="NewHomePage")
 			{

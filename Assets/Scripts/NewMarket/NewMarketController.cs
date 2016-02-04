@@ -988,7 +988,6 @@ public class NewMarketController : MonoBehaviour
 		MenuController.instance.setCurrentPage(3);
 		MenuController.instance.refreshMenuObject();
 		TutorialObjectController.instance.resize();
-		BackOfficeController.instance.resize();
 	}
 	public void drawCards()
 	{

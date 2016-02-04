@@ -8,6 +8,7 @@ public class TutorialController : MonoBehaviour
 	public static TutorialController instance;
 	public GameObject blockObject;
 
+	private GameObject backOfficeController;
 	private GameObject mainBlock;
 	private GameObject description;
 	private GameObject nextButton;
@@ -18,12 +19,19 @@ public class TutorialController : MonoBehaviour
 	private GameObject leftMargin;
 	private GameObject rightMargin;
 
-	void Update()
+	void Start ()
 	{
-		if (Screen.width != ApplicationDesignRules.widthScreen || Screen.height != ApplicationDesignRules.heightScreen) 
-		{
-			this.resize();
-		}
+		instance = this;
+		this.initializeBackOffice();
+		this.initializeScene ();
+		this.resize ();
+		BackOfficeController.instance.hideLoadingScreen();
+	}
+	private void initializeBackOffice()
+	{
+		this.backOfficeController = GameObject.Find ("BackOfficeController");
+		this.backOfficeController.AddComponent<BackOfficeTutorialController>();
+		this.backOfficeController.GetComponent<BackOfficeTutorialController>().initialize();
 	}
 	public void initializeScene()
 	{
@@ -34,17 +42,11 @@ public class TutorialController : MonoBehaviour
 		this.picture1 = GameObject.Find ("picture1");
 		this.nextButton = GameObject.Find ("NextButton");
 		this.title = GameObject.Find ("TitleLabel");
-		this.nextButton.transform.FindChild("Title").GetComponent<TextMeshPro> ().text = "Suivant";
-		this.title.transform.GetComponent<TextMeshPro>().text="Bienvenue à Cristalia !";
-		this.description.transform.GetComponent<TextMeshPro>().text="Après un long voyage de 17 années dans l'espace, vous voici enfin arrivé à Cristalia. La planète et ses satellites sont actuellement les proies de nombreuses convoitises. Vous êtes un colon missionné par votre pays pour amasser le plus de richesses et de connaissances sur ce fameux cristal. Cristal qui confèrerait aux habitants de la planète d'étranges capacités... Saurez-vous les mettre à profit pour triompher des colons ennemis ?";
+		this.nextButton.transform.FindChild("Title").GetComponent<TextMeshPro> ().text = WordingTutorialScene.getReference(0);
+		this.title.transform.GetComponent<TextMeshPro>().text=WordingTutorialScene.getReference(1);
+		this.description.transform.GetComponent<TextMeshPro>().text=WordingTutorialScene.getReference(2);
 		this.leftMargin = GameObject.Find ("leftMargin");
 		this.rightMargin = GameObject.Find ("rightMargin");
-	}
-	void Start ()
-	{
-		instance = this;
-		this.initializeScene ();
-		this.resize ();
 	}
 	private IEnumerator quitTutorial()
 	{
@@ -53,8 +55,6 @@ public class TutorialController : MonoBehaviour
 	}
 	public void resize()
 	{
-		ApplicationDesignRules.computeDesignRules ();
-
 		float mainBlockLeftMargin;
 		float mainBlockUpMargin;
 		float mainBlockHeight;

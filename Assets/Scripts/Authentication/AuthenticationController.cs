@@ -9,287 +9,157 @@ public class AuthenticationController : Photon.MonoBehaviour
 {
 
 	public static AuthenticationController instance;
-	private AuthenticationView view;
-	private AuthenticationWindowPopUpView authenticationWindowView;
 	
-	public GameObject loadingScreenObject;
-	public GUIStyle[] popUpVMStyle;
-	public GUIStyle[] authenticationVMStyle;
+	private GameObject backOfficeController;
+	private GameObject createAccountButton;
 
-	public GameObject blockObject;
-	public GameObject transparentBackgroundObject;
-	
-	private GameObject loadingScreen;
-	private GameObject mainBlock;
-	private GameObject transparentBackground;
-	private GameObject connectionButton;
-	private GameObject inscriptionButton;
-	private GameObject menuCamera;
+	private GameObject loginPopUp;
+	private bool isLoginPopUpDisplayed;
 
-	private AuthenticationErrorPopUpView errorView;
-	private AuthenticationAccountCreatedPopUpView accountCreatedView;
+	private GameObject mainCamera;
+	private GameObject tutorialCamera;
+	private GameObject backgroundCamera;
 
-	private Rect centralWindow;
-	private Rect messageWindow;
-
-	private bool isLoadingScreenDisplayed;
-
-	void Start ()
+	void Awake()
 	{
 		instance = this;
-		this.view = Camera.main.gameObject.AddComponent <AuthenticationView>();
-		this.initStyles ();
 		this.initializeScene ();
-		this.resize ();
+		this.initializeBackOffice();
 		StartCoroutine (this.initialization ());
 	}
-	void Update()
+	private void initializeBackOffice()
 	{
-		if (Screen.width != ApplicationDesignRules.widthScreen || Screen.height != ApplicationDesignRules.heightScreen) 
-		{
-			this.resize();
-		}
-		if(Input.GetKeyDown(KeyCode.Return)) 
-		{
-			this.returnPressed();
-		}
-		if(Input.GetKeyDown(KeyCode.Escape)) 
-		{
-			this.escapePressed();
-		}
+		this.backOfficeController = GameObject.Find ("BackOfficeController");
+		this.backOfficeController.AddComponent<BackOfficeAuthenticationController>();
+		this.backOfficeController.GetComponent<BackOfficeAuthenticationController>().initialize();
 	}
 	private IEnumerator initialization()
 	{
-		this.displayLoadingScreen();
+		this.resize ();
 		yield return StartCoroutine(ApplicationModel.player.permanentConnexion ());
+		this.displayLoginPopUp();
 		if(ApplicationModel.player.Username!=""&& !ApplicationModel.player.ToDeconnect)
 		{
 			this.connectToPhoton();
 		}
 		else
 		{
-			this.hideLoadingScreen();
+			BackOfficeController.instance.hideLoadingScreen();
 		}
+	}
+	public void initializeScene()
+	{ 
+		this.createAccountButton = GameObject.Find ("createAccountButton");
+		//this.inscriptionButton.AddComponent<AuthenticationInscriptionButtonController> ();
+		this.createAccountButton.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text =WordingAuthentication.getReference(0);
+		this.loginPopUp=GameObject.Find("loginPopUp");
+		this.loginPopUp.SetActive(false);
+		this.mainCamera = gameObject;
+		this.tutorialCamera = GameObject.Find ("TutorialCamera");
+		this.backgroundCamera = GameObject.Find ("BackgroundCamera");
 	}
 	private void connectToPhoton()
 	{
-		this.loadingScreen.GetComponent<LoadingScreenController> ().changeLoadingScreenLabel ("Connexion au lobby ...");
+		BackOfficeController.instance.changeLoadingScreenLabel ("Connexion au lobby ...");
 		PhotonNetwork.playerName = ApplicationModel.player.Username;
 		PhotonNetwork.ConnectUsingSettings(ApplicationModel.photonSettings);
 		PhotonNetwork.autoCleanUpPlayerObjects = false;
 	}
-	public IEnumerator login()
+	public void loginHandler()
 	{
-		this.view.authenticationVM.error=this.checkUsername(this.view.authenticationVM.username);
-		if(this.view.authenticationVM.error=="")
+		string login = this.loginPopUp.transform.GetComponent<LoginPopUpController>().getLogin();
+		string password = this.loginPopUp.transform.GetComponent<LoginPopUpController> ().getPassword();
+		string error = this.checkUsername(login);
+		if(error=="")
 		{
-			this.view.authenticationVM.error=this.checkPasswordComplexity(this.view.authenticationVM.password);
-		}
-		if(this.view.authenticationVM.error=="")
-		{
-			this.displayLoadingScreen();
-			this.view.authenticationVM.guiEnabled=false;
-			yield return StartCoroutine(ApplicationModel.player.Login(this.view.authenticationVM.username,
-			                                                   this.view.authenticationVM.password,
-			                                                   this.view.authenticationVM.toMemorize));
-			if(ApplicationModel.player.Username!=""&& !ApplicationModel.player.ToDeconnect)
+			error=this.checkPasswordComplexity(password);
+			if(error=="")
 			{
-				this.connectToPhoton();
-			}
-			else
-			{
-				this.view.authenticationVM.error=ApplicationModel.player.Error;
-				ApplicationModel.player.Error="";
-				this.view.authenticationVM.guiEnabled=true;
-				this.hideLoadingScreen();
+				StartCoroutine(this.login(login,password,this.loginPopUp.transform.GetComponent<LoginPopUpController> ().getRememberMe()));
 			}
 		}
+		this.loginPopUp.transform.GetComponent<LoginPopUpController> ().setError(error);
 	}
-	public void displayAuthenticationWindow()
+	public IEnumerator login(string login, string password, bool rememberMe)
 	{
-		view.authenticationVM.guiEnabled = false;
-		this.transparentBackground=Instantiate(this.transparentBackgroundObject) as GameObject;
-		this.transparentBackground.transform.position = new Vector3 (0, 0, -1f);
-		this.authenticationWindowView = Camera.main.gameObject.AddComponent <AuthenticationWindowPopUpView>();
-
-		authenticationWindowView.popUpVM.styles=new GUIStyle[this.popUpVMStyle.Length];
-		for(int i=0;i<this.popUpVMStyle.Length;i++)
+		BackOfficeController.instance.displayLoadingScreen();
+		yield return StartCoroutine(ApplicationModel.player.Login(login,password,rememberMe));
+		if(ApplicationModel.player.Error=="")
 		{
-			authenticationWindowView.popUpVM.styles[i]=this.popUpVMStyle[i];
-		}
-		authenticationWindowView.popUpVM.initStyles();
-		this.authenticationWindowPopUpResize ();
-	}
-	public void displayErrorPopUp()
-	{
-		//this.transparentBackground=Instantiate(this.transparentBackgroundObject) as GameObject;
-		//this.transparentBackground.transform.position = new Vector3 (0, 0, -1f);
-		this.errorView = Camera.main.gameObject.AddComponent <AuthenticationErrorPopUpView>();
-		
-		errorView.popUpVM.styles=new GUIStyle[this.popUpVMStyle.Length];
-		for(int i=0;i<this.popUpVMStyle.Length;i++)
-		{
-			errorView.popUpVM.styles[i]=this.popUpVMStyle[i];
-		}
-		errorView.popUpVM.initStyles();
-		this.errorPopUpResize ();
-	}
-	public void displayAccountCreatedPopUp()
-	{
-		view.authenticationVM.guiEnabled = false;
-		this.transparentBackground=Instantiate(this.transparentBackgroundObject) as GameObject;
-		this.transparentBackground.transform.position = new Vector3 (0, 0, -1f);
-		this.accountCreatedView = Camera.main.gameObject.AddComponent <AuthenticationAccountCreatedPopUpView>();
-		
-		accountCreatedView.popUpVM.styles=new GUIStyle[this.popUpVMStyle.Length];
-		for(int i=0;i<this.popUpVMStyle.Length;i++)
-		{
-			accountCreatedView.popUpVM.styles[i]=this.popUpVMStyle[i];
-		}
-		accountCreatedView.popUpVM.initStyles();
-		this.accountCreatedPopUpResize ();
-	}
-	public void hideErrorPopUp()
-	{
-		Destroy (this.errorView);
-		authenticationWindowView.authenticationWindowPopUpVM.guiEnabled = true;
-		//Destroy (this.transparentBackground);
-	}
-	public void hideAuthenticationWindowPopUp()
-	{
-		Destroy (this.authenticationWindowView);
-		view.authenticationVM.guiEnabled = true;
-		Destroy (this.transparentBackground);
-	}
-	public void hideAccountCreatedPopUp()
-	{
-		Destroy (this.accountCreatedView);
-		view.authenticationVM.guiEnabled = true;
-		Destroy (this.transparentBackground);
-	}
-	public void authenticationWindowPopUpResize()
-	{
-		authenticationWindowView.popUpVM.centralWindow = this.centralWindow;
-		authenticationWindowView.popUpVM.resize ();
-	}
-	public void errorPopUpResize()
-	{
-		errorView.popUpVM.centralWindow = this.messageWindow;
-		errorView.popUpVM.resize ();
-	}
-	public void accountCreatedPopUpResize()
-	{
-		accountCreatedView.popUpVM.centralWindow = this.messageWindow;
-		accountCreatedView.popUpVM.resize ();
-	}
-	public void initStyles()
-	{
-		view.authenticationVM.styles=new GUIStyle[this.authenticationVMStyle.Length];
-		for(int i=0;i<this.authenticationVMStyle.Length;i++)
-		{
-			view.authenticationVM.styles[i]=this.authenticationVMStyle[i];
-		}
-		view.authenticationVM.initStyles();
-	}
-	public void initializeScene()
-	{ 
-		this.mainBlock = Instantiate(this.blockObject) as GameObject;
-		this.inscriptionButton = GameObject.Find ("inscriptionButton");
-		this.inscriptionButton.AddComponent<AuthenticationInscriptionButtonController> ();
-		this.connectionButton = GameObject.Find ("connectionButton");
-		this.connectionButton.AddComponent<AuthenticationConnectionButtonController> ();
-		this.inscriptionButton.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Connexion";
-		this.connectionButton.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = "Inscription";
-		this.menuCamera = GameObject.Find ("MenuCamera");
-	}
-	public void resize()
-	{
-		ApplicationDesignRules.widthScreen=Screen.width;
-		ApplicationDesignRules.heightScreen=Screen.height;
-		ApplicationDesignRules.worldHeight = 2f*Camera.main.GetComponent<Camera>().orthographicSize;
-		ApplicationDesignRules.worldWidth = ((float)Screen.width/(float)Screen.height) * ApplicationDesignRules.worldHeight;
-		if((float)ApplicationDesignRules.widthScreen/(float)ApplicationDesignRules.heightScreen<1f)
-		{
-			this.menuCamera.GetComponent<Camera> ().orthographicSize=5f*((float)ApplicationDesignRules.heightScreen/(float)ApplicationDesignRules.widthScreen);
+			this.connectToPhoton();
 		}
 		else
 		{
-			this.menuCamera.GetComponent<Camera> ().orthographicSize=5f;
+			this.loginPopUp.transform.GetComponent<LoginPopUpController> ().setError(ApplicationModel.player.Error);
+			BackOfficeController.instance.hideLoadingScreen();
 		}
-
-		this.centralWindow = new Rect (ApplicationDesignRules.widthScreen * 0.25f, 0.12f * ApplicationDesignRules.heightScreen, ApplicationDesignRules.widthScreen * 0.50f, 0.70f * ApplicationDesignRules.heightScreen);
-		this.messageWindow = new Rect (ApplicationDesignRules.widthScreen * 0.25f, 0.2f * ApplicationDesignRules.heightScreen, ApplicationDesignRules.widthScreen * 0.50f, 0.25f * ApplicationDesignRules.heightScreen);
-		view.authenticationVM.resize (ApplicationDesignRules.heightScreen);
-		if(this.authenticationWindowView!=null)
-		{
-			this.authenticationWindowPopUpResize();
-		}
-		if(this.errorView!=null)
-		{
-			this.errorPopUpResize();
-		}
-		if(this.accountCreatedView!=null)
-		{
-			this.accountCreatedPopUpResize();
-		}
-		
-		float mainBlockWidth = ApplicationDesignRules.worldWidth-1f;
-		if(mainBlockWidth>8f)
-		{
-			mainBlockWidth=8f;
-		}
-		float mainBlockLeftMargin = (ApplicationDesignRules.worldWidth-mainBlockWidth)/2f;
-		float mainBlockRightMargin = mainBlockLeftMargin;
-		float mainBlockUpMargin = 3f;
-		float mainBlockDownMargin = 2f;
-		float mainBlockHeight = ApplicationDesignRules.worldHeight - mainBlockUpMargin - mainBlockDownMargin;
-
-		this.mainBlock.GetComponent<NewBlockController> ().resize(mainBlockLeftMargin,mainBlockUpMargin,mainBlockWidth,mainBlockHeight);
-
-		Vector2 mainBlockSize = this.mainBlock.GetComponent<NewBlockController> ().getSize ();
-		Vector2 mainBlockOrigin = this.mainBlock.GetComponent<NewBlockController> ().getOriginPosition ();
-		Vector2 mainBlockUpperLeft = this.mainBlock.GetComponent<NewBlockController> ().getUpperLeftCornerPosition ();
-
-		float mainBlockGUIWidth = ((mainBlockSize.x-1f) / (2f * Camera.main.GetComponent<Camera> ().orthographicSize)) * ApplicationDesignRules.heightScreen;
-		float mainBlockGUIHeight = ((mainBlockSize.y-1f)/(2f * Camera.main.GetComponent<Camera> ().orthographicSize))* ApplicationDesignRules.heightScreen;
-		float mainBlockGUIXOrigin = 0.5f * ApplicationDesignRules.widthScreen-mainBlockGUIWidth/2f;
-		float mainBlockGUIYOrigin = ((ApplicationDesignRules.worldHeight / 2f-(mainBlockOrigin.y + 0.5f+ (mainBlockSize.y-1f) / 2f)) / ApplicationDesignRules.worldHeight) * ApplicationDesignRules.heightScreen;
-
-		view.authenticationScreenVM.setMainBlock(new Rect(mainBlockGUIXOrigin,mainBlockGUIYOrigin,mainBlockGUIWidth,mainBlockGUIHeight));
 	}
-	public IEnumerator createNewAccount()
+	public void resize()
 	{
-		this.authenticationWindowView.authenticationWindowPopUpVM.usernameError=this.checkUsername(this.authenticationWindowView.authenticationWindowPopUpVM.username);
-		if(this.authenticationWindowView.authenticationWindowPopUpVM.usernameError=="")
+		this.mainCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
+		this.mainCamera.transform.position = ApplicationDesignRules.mainCameraPosition;
+		this.tutorialCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
+		this.tutorialCamera.transform.position = ApplicationDesignRules.tutorialCameraPositiion;
+		this.tutorialCamera.GetComponent<Camera> ().rect = new Rect (0f, 0f, 1f, 1f);
+		this.mainCamera.GetComponent<Camera>().rect= new Rect (0f,0f,1f,1f);
+		this.backgroundCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.backgroundCameraSize;
+		this.backgroundCamera.transform.position = ApplicationDesignRules.backgroundCameraPosition;
+		this.backgroundCamera.GetComponent<Camera> ().rect = new Rect (0f, 0f, 1f, 1f);
+		if(this.isLoginPopUpDisplayed)
 		{
-			this.authenticationWindowView.authenticationWindowPopUpVM.emailError=this.checkEmail(this.authenticationWindowView.authenticationWindowPopUpVM.email);
-			if(this.authenticationWindowView.authenticationWindowPopUpVM.emailError=="")
-			{
-				this.authenticationWindowView.authenticationWindowPopUpVM.passwordError=this.checkPasswordEgality(this.authenticationWindowView.authenticationWindowPopUpVM.password1,this.authenticationWindowView.authenticationWindowPopUpVM.password2);
-				if(this.authenticationWindowView.authenticationWindowPopUpVM.passwordError=="")
-				{
-					this.authenticationWindowView.authenticationWindowPopUpVM.passwordError=this.checkPasswordComplexity(this.authenticationWindowView.authenticationWindowPopUpVM.password1);
-					if(this.authenticationWindowView.authenticationWindowPopUpVM.passwordError=="")
-					{
-						this.authenticationWindowView.authenticationWindowPopUpVM.guiEnabled = false;
-						yield return StartCoroutine(ApplicationModel.player.createAccount(this.authenticationWindowView.authenticationWindowPopUpVM.username,this.authenticationWindowView.authenticationWindowPopUpVM.email,this.authenticationWindowView.authenticationWindowPopUpVM.password1));
-						if(ApplicationModel.player.Error!="")
-						{
-							this.displayErrorPopUp();
-							errorView.errorPopUpVM.error=ApplicationModel.player.Error;
-							ApplicationModel.player.Error="";
-						}
-						else
-						{
-							view.authenticationVM.username=this.authenticationWindowView.authenticationWindowPopUpVM.username;
-							this.hideAuthenticationWindowPopUp();
-							this.displayAccountCreatedPopUp();
-						}
-					}
-				}
-			}
+			this.loginPopUpResize();
 		}
 	}
+	public void displayLoginPopUp()
+	{
+		this.loginPopUp.transform.GetComponent<LoginPopUpController> ().reset(ApplicationModel.player.Username,false);
+		this.isLoginPopUpDisplayed = true;
+		this.loginPopUp.SetActive (true);
+		this.loginPopUpResize ();
+	}
+	public void loginPopUpResize()
+	{
+		this.loginPopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y, -2f);
+		this.loginPopUp.transform.localScale = ApplicationDesignRules.popUpScale;
+		this.loginPopUp.GetComponent<LoginPopUpController> ().resize ();
+	}
+	public void hideLoginPopUp()
+	{
+		this.loginPopUp.SetActive (false);
+		this.isLoginPopUpDisplayed = false;
+	}
+//	public IEnumerator createNewAccount()
+//	{
+//		this.authenticationWindowView.authenticationWindowPopUpVM.usernameError=this.checkUsername(this.authenticationWindowView.authenticationWindowPopUpVM.username);
+//		if(this.authenticationWindowView.authenticationWindowPopUpVM.usernameError=="")
+//		{
+//			this.authenticationWindowView.authenticationWindowPopUpVM.emailError=this.checkEmail(this.authenticationWindowView.authenticationWindowPopUpVM.email);
+//			if(this.authenticationWindowView.authenticationWindowPopUpVM.emailError=="")
+//			{
+//				this.authenticationWindowView.authenticationWindowPopUpVM.passwordError=this.checkPasswordEgality(this.authenticationWindowView.authenticationWindowPopUpVM.password1,this.authenticationWindowView.authenticationWindowPopUpVM.password2);
+//				if(this.authenticationWindowView.authenticationWindowPopUpVM.passwordError=="")
+//				{
+//					this.authenticationWindowView.authenticationWindowPopUpVM.passwordError=this.checkPasswordComplexity(this.authenticationWindowView.authenticationWindowPopUpVM.password1);
+//					if(this.authenticationWindowView.authenticationWindowPopUpVM.passwordError=="")
+//					{
+//						this.authenticationWindowView.authenticationWindowPopUpVM.guiEnabled = false;
+//						yield return StartCoroutine(ApplicationModel.player.createAccount(this.authenticationWindowView.authenticationWindowPopUpVM.username,this.authenticationWindowView.authenticationWindowPopUpVM.email,this.authenticationWindowView.authenticationWindowPopUpVM.password1));
+//						if(ApplicationModel.player.Error!="")
+//						{
+//							BackOfficeController.instance.displayErrorPopUp(ApplicationModel.player.Error);
+//							ApplicationModel.player.Error="";
+//						}
+//						else
+//						{
+//							view.authenticationVM.username=this.authenticationWindowView.authenticationWindowPopUpVM.username;
+//							this.hideAuthenticationWindowPopUp();
+//							this.displayAccountCreatedPopUp();
+//						}
+//					}
+//				}
+//			}
+//		}
+//	}
 	public string checkUsername(string username)
 	{
 		if(username=="")
@@ -344,33 +214,25 @@ public class AuthenticationController : Photon.MonoBehaviour
 	}
 	public void returnPressed()
 	{
-		if(this.errorView!=null)
-		{
-			this.hideErrorPopUp();
-		}
-		else if(this.authenticationWindowView!=null)
-		{
-			StartCoroutine(this.createNewAccount());
-		}
-		if(this.accountCreatedView!=null)
-		{
-			this.hideAccountCreatedPopUp();
-		}
+//		if(this.authenticationWindowView!=null)
+//		{
+//			StartCoroutine(this.createNewAccount());
+//		}
+//		if(this.accountCreatedView!=null)
+//		{
+//			this.hideAccountCreatedPopUp();
+//		}
 	}
 	public void escapePressed()
 	{
-		if(this.errorView!=null)
-		{
-			this.hideErrorPopUp();
-		}
-		else if(this.authenticationWindowView!=null)
-		{
-			this.hideAuthenticationWindowPopUp();
-		}
-		if(this.accountCreatedView!=null)
-		{
-			this.hideAccountCreatedPopUp();
-		}
+//		if(this.authenticationWindowView!=null)
+//		{
+//			this.hideAuthenticationWindowPopUp();
+//		}
+//		if(this.accountCreatedView!=null)
+//		{
+//			this.hideAccountCreatedPopUp();
+//		}
 	}
 	private void loadLevels()
 	{
@@ -402,26 +264,6 @@ public class AuthenticationController : Photon.MonoBehaviour
 	}
 	void OnJoinedLobby()
 	{
-		//TypedLobby sqlLobby = new TypedLobby("lobby", LobbyType.SqlLobby);    
 		this.loadLevels();
-		//print (PhotonNetwork.connectionState);
-	}
-	public void displayLoadingScreen()
-	{
-		Camera.main.gameObject.GetComponent <AuthenticationView> ().enabled = false;
-		if(!isLoadingScreenDisplayed)
-		{
-			this.loadingScreen=Instantiate(this.loadingScreenObject) as GameObject;
-			this.isLoadingScreenDisplayed=true;
-		}
-	}
-	public void hideLoadingScreen()
-	{
-		Camera.main.gameObject.GetComponent <AuthenticationView> ().enabled = true;
-		if(isLoadingScreenDisplayed)
-		{
-			Destroy (this.loadingScreen);
-			this.isLoadingScreenDisplayed=false;
-		}
 	}
 }

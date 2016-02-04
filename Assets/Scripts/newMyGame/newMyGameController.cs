@@ -926,7 +926,6 @@ public class newMyGameController : MonoBehaviour
 		MenuController.instance.resize();
 		MenuController.instance.setCurrentPage(1);
 		MenuController.instance.refreshMenuObject();
-		BackOfficeController.instance.resize();
 	}
 	public void drawCards()
 	{

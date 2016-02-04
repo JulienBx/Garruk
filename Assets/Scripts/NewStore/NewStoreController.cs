@@ -598,7 +598,6 @@ public class NewStoreController : MonoBehaviour
 		MenuController.instance.setCurrentPage(2);
 		MenuController.instance.refreshMenuObject();
 		TutorialObjectController.instance.resize();
-		BackOfficeController.instance.resize();
 	}
 	public void createRandomCards()
 	{
