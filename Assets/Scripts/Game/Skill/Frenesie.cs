@@ -73,6 +73,5 @@ public class Frenesie : GameSkill
 		
 		int lifeMalus = this.getLifeMalus(level);
 		GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).addDamagesModifyer(new Modifyer(lifeMalus, -1, 0, text, "+"+bonusAttack+" ATK\n-"+lifeMalus+" PV"));
-		GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).updateLife();
 	}
 }

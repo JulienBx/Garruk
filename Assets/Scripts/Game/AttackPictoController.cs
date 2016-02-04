@@ -13,12 +13,13 @@ public class AttackPictoController : MonoBehaviour
 	public void setTexts(string t, string d){
 		this.title = t;
 		this.description = d;
-		gameObject.transform.FindChild("TitleText").GetComponent<TextMeshPro>().text = this.title;
-		gameObject.transform.FindChild("DescriptionText").GetComponent<TextMeshPro>().text = this.description;
+		gameObject.transform.FindChild("AttackDB").FindChild("TitleText").GetComponent<TextMeshPro>().text = this.title;
+		gameObject.transform.FindChild("AttackDB").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = this.description;
 	}
 	
 	public void OnMouseEnter(){
 		GameView.instance.getPlayingCardController(this.idCard).showDescriptionAttack(true);
+		print("idC "+this.idCard);
 	}
 	
 	public void OnMouseExit(){

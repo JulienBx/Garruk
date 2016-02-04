@@ -42,7 +42,6 @@ public class Morphine : GameSkill
 		int soin = 4*level;
 		
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(-1*soin, -1, 0, text, "+"+soin+" PV"));
-		GameView.instance.getPlayingCardController(target).updateLife();
 		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 0);	
 	}	
 	

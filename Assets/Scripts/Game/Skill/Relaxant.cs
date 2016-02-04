@@ -60,12 +60,11 @@ public class Relaxant : GameSkill
 	}	
 
 	public override string getTargetText(int target){
-		string text = base.name;
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int level = -1*GameView.instance.getCurrentSkill().Power-2;
 		
-		text += "\n"+level+" ATK. Actif 1 tour";
+		string text = ""+level+" ATK. Actif 1 tour";
 		
 		int amount = GameView.instance.getCurrentSkill().proba;
 		int probaEsquive = targetCard.getMagicalEsquive();

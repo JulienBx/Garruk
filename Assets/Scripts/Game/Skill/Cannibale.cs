@@ -54,13 +54,11 @@ public class Cannibale : GameSkill
 		int bonusAttack = Mathf.FloorToInt(targetCard.getAttack()*percentage/100f);
 		
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 0, text, damages+" dégats subis"));
-		GameView.instance.getPlayingCardController(target).updateLife();
-		
+
 		GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).attackModifyers.Add(new Modifyer(bonusAttack, -1, 21, text, "+"+bonusAttack+" ATK. Permanent"));
 		GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).pvModifyers.Add(new Modifyer(bonusLife, -1, 21, text, "+"+bonusLife+" PV. Permanent"));
 		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name+"\n+"+bonusAttack+" ATK\n+"+bonusLife+" PV", 0);
 		GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).updateAttack();
-		GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).updateLife();
 	}
 
 	public override string getTargetText(int target){

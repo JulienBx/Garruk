@@ -29,9 +29,13 @@ public class PlayingCardController : GameObjectController
 	Vector3 initialP;
 	Vector3 finalP;
 	float timerDead;
-	float deadTime = 0.5f;
+	float deadTime = 2f;
 	public bool isShowingDead;
 	public List<Tile> destinations ;
+	public bool isUpdatingLife = true ;
+	int actualLife;
+	float timerLife = 0f ; 
+	float lifeTime = 1f ;
 	
 	void Awake()
 	{
@@ -145,20 +149,22 @@ public class PlayingCardController : GameObjectController
 		c.isMine = b ;
 		gameObject.transform.Find("Background").FindChild("Character").GetComponent<SpriteRenderer>().sprite = this.backgroundSprites[this.card.getSkills()[0].Id];
 		if (c.isMine){
-			gameObject.transform.Find("Background").FindChild("Character").transform.localScale = new Vector3(1,1,1);
+			gameObject.transform.Find("Background").FindChild("Character").transform.localScale = new Vector3(-1,1,1);
 			gameObject.transform.Find("Background").FindChild("Circle").GetComponent<SpriteRenderer>().sprite = this.backgroundSprites[0];
 			gameObject.transform.Find("Background").FindChild("AttackPicto").GetComponent<SpriteRenderer>().sprite = this.backgroundSprites[1];
 			gameObject.transform.Find("Background").FindChild("PVPicto").GetComponent<SpriteRenderer>().sprite = this.backgroundSprites[2];
 		}
 		else {
-			gameObject.transform.Find("Background").FindChild("Character").transform.localScale = new Vector3(-1,1,1);
+			gameObject.transform.Find("Background").FindChild("Character").transform.localScale = new Vector3(1,1,1);
 			gameObject.transform.Find("Background").FindChild("Circle").GetComponent<SpriteRenderer>().sprite = this.backgroundSprites[3];
 			gameObject.transform.Find("Background").FindChild("AttackPicto").GetComponent<SpriteRenderer>().sprite = this.backgroundSprites[4];
 			gameObject.transform.Find("Background").FindChild("PVPicto").GetComponent<SpriteRenderer>().sprite = this.backgroundSprites[5];
 		}
 		
 		transform.Find("Background").FindChild("AttackValue").GetComponent<TextMeshPro>().text = c.GetAttackString();
-		transform.Find("Background").FindChild("PVValue").GetComponent<TextMeshPro>().text = c.GetLifeString();
+		transform.Find("Background").FindChild("AttackValue").GetComponent<AttackPictoController>().setIDCard(i);
+		transform.Find("Background").FindChild("PVValue").GetComponent<PVPictoController>().setIDCard(i);
+
 		this.card.isMine = b ;
 		
 		if (b){
@@ -170,11 +176,15 @@ public class PlayingCardController : GameObjectController
 		
 		this.id = i ;
 		gameObject.name = "Card"+(i);
+
+		this.updateLife(0);
 	}
 	
-	public void updateLife(){
-		float f = 1.0f*this.card.getLife()/this.card.GetTotalLife();
-		this.updateLifePercentage(f);
+	public void updateLife(int value){
+		this.timerLife = 0f ;
+		this.actualLife = value;
+		this.isUpdatingLife = true ;
+
 		string title = "Points de vie";
 		string description = "Points de vie de base : "+this.card.Life+"\n";
 		List<string> textes = this.card.getIconLife();
@@ -285,14 +295,13 @@ public class PlayingCardController : GameObjectController
 	}
 	
 	public void addDamagesModifyer(Modifyer m){
-		
+		this.updateLife(this.card.getLife());
 		if(m.amount<0){
 			if (this.card.getLife()-m.amount>=this.card.GetTotalLife()){
 				m.amount = 0 ;	
 			}
 			else{
 				m.amount = Mathf.Min(m.amount, this.card.GetTotalLife()-this.card.getLife()) ;
-				GameView.instance.displaySkillEffect(this.id, m.title+"\nSoin de "+(-1*m.amount)+"PV", 1);
 			}
 		}
 		else{
@@ -300,7 +309,7 @@ public class PlayingCardController : GameObjectController
 				this.kill();
 			}
 			else{
-				GameView.instance.displaySkillEffect(this.id, m.title+"\n"+m.description, 1);
+	
 			}
 		}
 		this.card.damagesModifyers.Add(m);
@@ -368,7 +377,6 @@ public class PlayingCardController : GameObjectController
 	{
 		if(!this.isHidden){
 			this.updateAttack();
-			this.updateLife();
 			this.showIcons();
 		}
 	}
@@ -402,6 +410,38 @@ public class PlayingCardController : GameObjectController
 			gameObject.transform.localPosition = new Vector3(this.initialP.x+(this.finalP.x-this.initialP.x)*rapport, this.initialP.y+(this.finalP.y-this.initialP.y)*rapport, -0.5f);
 		}
 	}
+
+	public void addLifeTime(float t){
+		this.timerLife += t ;
+
+		if (this.timerLife>this.lifeTime){
+			this.isUpdatingLife = false ;
+			this.timerLife = this.lifeTime ;
+		}
+
+		float l = (this.actualLife-(1.0f*this.timerLife/lifeTime)*(this.actualLife-this.card.getLife()))/this.card.GetTotalLife();
+		this.updateLifePercentage(l);
+		int actualNumber = System.Convert.ToInt32(transform.Find("Background").FindChild("PVValue").GetComponent<TextMeshPro>().text);
+		int nextNumber = Mathf.RoundToInt(this.card.GetTotalLife()*l);
+		if(actualNumber!=nextNumber){
+			if(nextNumber<10){
+				transform.Find("Background").FindChild("PVValue").GetComponent<TextMeshPro>().text = "0"+nextNumber;
+			}
+			else{
+				transform.Find("Background").FindChild("PVValue").GetComponent<TextMeshPro>().text = ""+nextNumber;
+			}
+
+			if(this.card.GetTotalLife()>nextNumber){
+				transform.Find("Background").FindChild("PVValue").GetComponent<TextMeshPro>().color = new Color(231f/255f, 0f, 66f/255f, 1f);
+			}
+			else if(this.card.Life<nextNumber){
+				transform.Find("Background").FindChild("PVValue").GetComponent<TextMeshPro>().color = new Color(60f/255f, 160f/255f, 100f/255f, 1f);
+			}
+			else{
+				transform.Find("Background").FindChild("PVValue").GetComponent<TextMeshPro>().color = new Color(71f/255f,150f/255f,189f/255f, 1f);
+			}
+		}	
+	}
 	
 	public void addDeadTime(float t){
 		this.timerDead += t ;
@@ -418,13 +458,13 @@ public class PlayingCardController : GameObjectController
 		int attackBase = this.card.Attack ;
 		int attack = this.card.getAttack();
 		if(attackBase>attack){
-			gameObject.transform.FindChild("Background").FindChild("AttackValue").GetComponent<TextMeshPro>().color = Color.yellow;
+			gameObject.transform.FindChild("Background").FindChild("AttackValue").GetComponent<TextMeshPro>().color = new Color(231f/255f, 0f, 66f/255f, 1f);
 		}
 		else if(attackBase<attack){
-			gameObject.transform.FindChild("Background").FindChild("AttackValue").GetComponent<TextMeshPro>().color = Color.green;
+			gameObject.transform.FindChild("Background").FindChild("AttackValue").GetComponent<TextMeshPro>().color = new Color(60f/255f, 160f/255f, 100f/255f, 1f);
 		}
 		else{
-			gameObject.transform.FindChild("Background").FindChild("AttackValue").GetComponent<TextMeshPro>().color = Color.white;
+			gameObject.transform.FindChild("Background").FindChild("AttackValue").GetComponent<TextMeshPro>().color = new Color(71f/255f,150f/255f,189f/255f, 1f);
 		}
 		gameObject.transform.FindChild("Background").FindChild("AttackValue").GetComponent<TextMeshPro>().text = this.card.GetAttackString();
 		
@@ -493,23 +533,23 @@ public class PlayingCardController : GameObjectController
 	}
 	
 	public void showDescriptionAttack(bool b){
-		gameObject.transform.FindChild("Background").FindChild("AttackDB").GetComponent<SpriteRenderer>().enabled=b;
-		gameObject.transform.FindChild("Background").FindChild("AttackDB").FindChild("DescriptionText").GetComponent<MeshRenderer>().enabled=b;
-		gameObject.transform.FindChild("Background").FindChild("AttackDB").FindChild("TitleText").GetComponent<MeshRenderer>().enabled=b;
+		gameObject.transform.FindChild("Background").FindChild("AttackValue").FindChild("AttackDB").GetComponent<SpriteRenderer>().enabled=b;
+		gameObject.transform.FindChild("Background").FindChild("AttackValue").FindChild("AttackDB").FindChild("DescriptionText").GetComponent<MeshRenderer>().enabled=b;
+		gameObject.transform.FindChild("Background").FindChild("AttackValue").FindChild("AttackDB").FindChild("TitleText").GetComponent<MeshRenderer>().enabled=b;
 	}
 	
 	public void showDescriptionLife(bool b){
-		gameObject.transform.FindChild("Background").FindChild("PVDB").GetComponent<SpriteRenderer>().enabled=b;
-		gameObject.transform.FindChild("Background").FindChild("PVDB").FindChild("DescriptionText").GetComponent<MeshRenderer>().enabled=b;
-		gameObject.transform.FindChild("Background").FindChild("PVDB").FindChild("TitleText").GetComponent<MeshRenderer>().enabled=b;
+		gameObject.transform.FindChild("Background").FindChild("PVValue").FindChild("PVDB").GetComponent<SpriteRenderer>().enabled=b;
+		gameObject.transform.FindChild("Background").FindChild("PVValue").FindChild("PVDB").FindChild("DescriptionText").GetComponent<MeshRenderer>().enabled=b;
+		gameObject.transform.FindChild("Background").FindChild("PVValue").FindChild("PVDB").FindChild("TitleText").GetComponent<MeshRenderer>().enabled=b;
 	}
 
 	public void setAttackDescription(string title, string description){
-		gameObject.transform.FindChild("Background").FindChild("AttackDB").GetComponent<AttackPictoController>().setTexts(title, description);
+		gameObject.transform.FindChild("Background").FindChild("AttackValue").GetComponent<AttackPictoController>().setTexts(title, description);
 	}
 	
 	public void setPVDescription(string title, string description){
-		gameObject.transform.FindChild("Background").FindChild("PVDB").GetComponent<PVPictoController>().setTexts(title, description);
+		gameObject.transform.FindChild("Background").FindChild("PVValue").GetComponent<PVPictoController>().setTexts(title, description);
 	}
 	
 	public void displayDead(bool b){

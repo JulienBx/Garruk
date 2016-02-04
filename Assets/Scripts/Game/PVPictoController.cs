@@ -13,8 +13,8 @@ public class PVPictoController : MonoBehaviour
 	public void setTexts(string t, string d){
 		this.title = t;
 		this.description = d;
-		gameObject.transform.FindChild("TitleText").GetComponent<TextMeshPro>().text = this.title;
-		gameObject.transform.FindChild("DescriptionText").GetComponent<TextMeshPro>().text = this.description;
+		gameObject.transform.FindChild("PVDB").FindChild("TitleText").GetComponent<TextMeshPro>().text = this.title;
+		gameObject.transform.FindChild("PVDB").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = this.description;
 	}
 	
 	public void OnMouseEnter(){

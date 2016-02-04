@@ -41,10 +41,8 @@ public class Berserk : GameSkill
 		int lifeDamages = (int)Mathf.Min(currentCard.getLife(),currentCard.getLife()*this.getPercentageLife(level)/100f);
 		
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 0, text, "-"+damages+" PV"));
-		GameView.instance.getPlayingCardController(target).updateLife();
 		GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).addDamagesModifyer(new Modifyer(lifeDamages, -1, 0, text, "-"+damages+" PV"));
-		GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).updateLife();
-		
+
 		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 0);
 	}
 	

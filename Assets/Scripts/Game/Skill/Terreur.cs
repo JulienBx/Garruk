@@ -49,7 +49,6 @@ public class Terreur : GameSkill
 		
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 0, text, "-"+damages+" PV\nParalysé pour 1 tour"));
 		GameView.instance.getCard(target).setState(new Modifyer(0, 1, 4, text, "Paralysé. Ne peut pas agir pendant 1 tour"));
-		GameView.instance.getPlayingCardController(target).updateLife();
 		GameView.instance.getPlayingCardController(target).showIcons();
 		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 0);
 	}

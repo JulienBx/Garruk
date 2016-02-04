@@ -55,7 +55,6 @@ public class Soin : GameSkill
 		int soin = Mathf.Min(2*level,targetCard.GetTotalLife()-targetCard.getLife());
 		
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(-1*soin, -1, 0, text, "+"+soin+" PV"));
-		GameView.instance.getPlayingCardController(target).updateLife();
 		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 0);	
 	}	
 	

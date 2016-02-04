@@ -122,15 +122,15 @@ Material:
       data:
         first:
           name: _GlowOffset
-        second: 0.19
+        second: 0.096
       data:
         first:
           name: _GlowPower
-        second: 0.13
+        second: 0.723
       data:
         first:
           name: _GlowOuter
-        second: 1
+        second: 0.655
       data:
         first:
           name: _MaskID
@@ -170,7 +170,7 @@ Material:
       data:
         first:
           name: _ScaleRatioB
-        second: 0.7002801
+        second: 0.8333333
       data:
         first:
           name: _ScaleRatioC
@@ -246,7 +246,7 @@ Material:
       data:
         first:
           name: _GlowInner
-        second: 0
+        second: 0.169
     m_Colors:
       data:
         first:
@@ -271,7 +271,7 @@ Material:
       data:
         first:
           name: _GlowColor
-        second: {r: 1, g: 1, b: 1, a: 0.5}
+        second: {r: 1, g: 1, b: 1, a: 0.506}
       data:
         first:
           name: _MaskCoord

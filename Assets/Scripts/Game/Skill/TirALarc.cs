@@ -154,7 +154,6 @@ public class TirALarc : GameSkill
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(value, -1, 0, text, "-"+value+" PV"));
-		GameView.instance.getPlayingCardController(target).updateLife();
 		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 0);
 	}
 }
