@@ -71,6 +71,12 @@ public class ApplicationDesignRules : MonoBehaviour
 	static private Vector3 tabMobileScale = new Vector3 (0.575f, 0.575f, 0.575f);
 	static public Vector3 tabScale;
 
+	static private Vector2 mainLogoSize=new Vector2(323f,87f);
+	static public Vector2 mainLogoWorldSize;
+	static private Vector3 mainLogoOriginalScale=new Vector3(1f,1f,1f);
+	static private Vector3 mainLogoMobileScale = new Vector3 (1f, 1f, 1f);
+	static public Vector3 mainLogoScale;
+
 	static private Vector2 button61Size = new Vector2 (376f, 81f);
 	static public Vector2 button61WorldSize;
 	static private Vector3 button61OriginalScale=new Vector3(0.6f,0.6f,0.6f);
@@ -205,6 +211,8 @@ public class ApplicationDesignRules : MonoBehaviour
 	static private Vector3 skillMobileScale = new Vector3 (0.53f, 0.53f, 0.53f);
 	static public Vector3 skillScale;
 
+	static public Vector2 popUpSize = new Vector2(972f,972f);
+	static public Vector2 popUpWorldSize;
 	static public Vector3 popUpScale;
 	static private Vector3 popUpOriginalScale = new Vector3 (0.7f, 0.7f, 0.7f);
 	static private Vector3 popUpMobileScale = new Vector3 (0.55f, 0.55f, 0.55f);
@@ -244,6 +252,7 @@ public class ApplicationDesignRules : MonoBehaviour
 
 	static public Vector3 mainCameraPosition = new Vector3 (menuPosition.x, menuPosition.y, -10f);
 	static public Vector3 sceneCameraStandardPosition;
+	static public Vector3 sceneCameraAuthenticationPosition = new Vector3(0f,0f,-10f);
 	static public Vector3 sceneCameraFocusedCardPosition;
 	static public Vector3 sceneCameraRandomCardsPosition;
 	static public Vector3 scrollCameraStartPosition;
@@ -408,6 +417,9 @@ public class ApplicationDesignRules : MonoBehaviour
 
 		viewHeight = worldHeight - upMargin - downMargin;
 
+		mainLogoScale = toNewScale (mainLogoOriginalScale, mainLogoMobileScale);
+		mainLogoWorldSize = toWorldSize (mainLogoSize, mainLogoScale);
+
 		roundButtonScale = toNewScale (roundButtonOriginalScale, roundButtonMobileScale);
 		roundButtonWorldSize = toWorldSize (roundButtonSize, roundButtonScale);
 
@@ -480,6 +492,7 @@ public class ApplicationDesignRules : MonoBehaviour
 		skillWorldSize = toWorldSize (skillSize, skillScale);
 
 		popUpScale = toNewScale (popUpOriginalScale, popUpMobileScale);
+		popUpWorldSize = toWorldSize(popUpSize,popUpScale);
 
 		profileStatScale = toNewScale (profileStatOriginalScale, profileStatMobileScale);
 

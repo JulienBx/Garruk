@@ -7,14 +7,22 @@ using TMPro;
 
 public class AuthenticationController : Photon.MonoBehaviour 
 {
-
 	public static AuthenticationController instance;
+
+	public Sprite[] languagesSprites;
 	
 	private GameObject backOfficeController;
-	private GameObject createAccountButton;
+	private GameObject mainLogo;
+	private GameObject chooseLanguageButton;
 
 	private GameObject loginPopUp;
 	private bool isLoginPopUpDisplayed;
+	private GameObject inscriptionPopUp;
+	private bool isInscriptionPopUpDisplayed;
+	private GameObject accountCreatedPopUp;
+	private bool isAccountCreatedPopUpDisplayed;
+	public GameObject lostLoginPopUp;
+	private bool isLostLoginPopUpDisplayed;
 
 	private GameObject mainCamera;
 	private GameObject backgroundCamera;
@@ -23,6 +31,15 @@ public class AuthenticationController : Photon.MonoBehaviour
 	void Awake()
 	{
 		instance = this;
+		ApplicationModel.player=new Player();
+		if(Application.systemLanguage==SystemLanguage.French)
+		{
+			ApplicationModel.player.IdLanguage=0;
+		}
+		else
+		{
+			ApplicationModel.player.IdLanguage=1;
+		}
 		this.initializeScene ();
 		this.initializeBackOffice();
 		StartCoroutine (this.initialization ());
@@ -46,21 +63,28 @@ public class AuthenticationController : Photon.MonoBehaviour
 		{
 			ApplicationModel.player.ToDeconnect=false;
 			BackOfficeController.instance.hideLoadingScreen();
+			this.drawChooseLanguageButton();
 		}
 	}
 	public void initializeScene()
 	{ 
-		this.createAccountButton = GameObject.Find ("createAccountButton");
-		this.createAccountButton.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text =WordingAuthentication.getReference(0);
 		this.loginPopUp=GameObject.Find("loginPopUp");
 		this.loginPopUp.SetActive(false);
+		this.inscriptionPopUp=GameObject.Find("inscriptionPopUp");
+		this.inscriptionPopUp.SetActive(false);
+		this.accountCreatedPopUp=GameObject.Find("accountCreatedPopUp");
+		this.accountCreatedPopUp.SetActive(false);
+		this.lostLoginPopUp=GameObject.Find("lostLoginPopUp");
+		this.lostLoginPopUp.SetActive(false);
 		this.mainCamera = gameObject;
 		this.backgroundCamera = GameObject.Find ("BackgroundCamera");
 		this.sceneCamera = GameObject.Find ("sceneCamera");
+		this.mainLogo = GameObject.Find("mainLogo");
+		this.chooseLanguageButton = GameObject.Find("chooseLanguageButton");
 	}
 	private void connectToPhoton()
 	{
-		BackOfficeController.instance.changeLoadingScreenLabel ("Connexion au lobby ...");
+		BackOfficeController.instance.changeLoadingScreenLabel (WordingAuthentication.getReference(0));
 		PhotonNetwork.playerName = ApplicationModel.player.Username;
 		PhotonNetwork.ConnectUsingSettings(ApplicationModel.photonSettings);
 		PhotonNetwork.autoCleanUpPlayerObjects = false;
@@ -96,6 +120,31 @@ public class AuthenticationController : Photon.MonoBehaviour
 			BackOfficeController.instance.hideLoadingScreen();
 		}
 	}
+	public void inscriptionHandler()
+	{
+		string login = this.inscriptionPopUp.transform.GetComponent<InscriptionPopUpController>().getLogin();
+		string password1 = this.inscriptionPopUp.transform.GetComponent<InscriptionPopUpController> ().getFirstPassword();
+		string password2 = this.inscriptionPopUp.transform.GetComponent<InscriptionPopUpController> ().getSecondPassword();
+		string email = this.inscriptionPopUp.transform.GetComponent<InscriptionPopUpController>().getEmail();
+		string error = this.checkUsername(login);
+		if(error=="")
+		{
+		 	error=this.checkPasswordEgality(password1,password2);
+			if(error=="")
+			{
+				error=this.checkPasswordComplexity(password1);
+				if(error=="")
+				{
+					error=this.checkEmail(email);
+					if(error=="")
+					{
+						StartCoroutine(this.createNewAccount(login,password1,email));
+					}
+				}
+			}
+		}
+		this.inscriptionPopUp.GetComponent<InscriptionPopUpController>().setError(error);	
+	}
 	public void resize()
 	{
 		this.mainCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
@@ -106,18 +155,92 @@ public class AuthenticationController : Photon.MonoBehaviour
 		this.backgroundCamera.GetComponent<Camera> ().rect = new Rect (0f, 0f, 1f, 1f);
 		this.sceneCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
 		this.sceneCamera.GetComponent<Camera> ().rect = new Rect (0f,0f,1f,1f);
-		this.sceneCamera.transform.position = ApplicationDesignRules.sceneCameraStandardPosition;
+		this.sceneCamera.transform.position = ApplicationDesignRules.sceneCameraAuthenticationPosition;
+		this.mainLogo.transform.localScale=ApplicationDesignRules.mainLogoScale;
+		this.mainLogo.transform.position=new Vector3(0f,ApplicationDesignRules.worldHeight/2f-ApplicationDesignRules.mainLogoWorldSize.y/2f-0.5f,0f);
+		this.chooseLanguageButton.transform.localScale=ApplicationDesignRules.roundButtonScale;
+		this.chooseLanguageButton.transform.position= new Vector3(0f,-ApplicationDesignRules.popUpWorldSize.y/2f-0.5f-ApplicationDesignRules.roundButtonWorldSize.y/2f);
+
 		if(this.isLoginPopUpDisplayed)
 		{
 			this.loginPopUpResize();
 		}
+		if(this.isInscriptionPopUpDisplayed)
+		{
+			this.inscriptionPopUpResize();
+		}
+		if(this.isAccountCreatedPopUpDisplayed)
+		{
+			this.accountCreatedPopUpResize();
+		}
+	}
+	public void chooseLanguageHandler()
+	{
+		if(ApplicationModel.player.IdLanguage==1)
+		{
+			ApplicationModel.player.IdLanguage=0;
+		}
+		else
+		{
+			ApplicationModel.player.IdLanguage=1;
+		}
+		this.drawChooseLanguageButton();
+		if(this.isLoginPopUpDisplayed)
+		{
+			this.loginPopUp.GetComponent<LoginPopUpController>().computeLabels();
+		}
+		if(this.isInscriptionPopUpDisplayed)
+		{
+			this.inscriptionPopUp.GetComponent<InscriptionPopUpController>().computeLabels();
+		}
+	}
+	public void drawChooseLanguageButton()
+	{
+		if(ApplicationModel.player.IdLanguage==0)
+		{
+			this.chooseLanguageButton.GetComponent<SpriteRenderer>().sprite=this.languagesSprites[1];
+		}
+		else
+		{
+			this.chooseLanguageButton.GetComponent<SpriteRenderer>().sprite=this.languagesSprites[0];
+		}
 	}
 	public void displayLoginPopUp()
 	{
+		if(this.isInscriptionPopUpDisplayed)
+		{
+			this.hideInscriptionPopUp();
+		}
+		if(this.isAccountCreatedPopUpDisplayed)
+		{
+			this.hideAccountCreatedPopUp();
+		}
 		this.loginPopUp.transform.GetComponent<LoginPopUpController> ().reset(ApplicationModel.player.Username,false);
 		this.isLoginPopUpDisplayed = true;
 		this.loginPopUp.SetActive (true);
 		this.loginPopUpResize ();
+	}
+	public void displayInscriptionPopUp()
+	{
+		if(this.isLoginPopUpDisplayed)
+		{
+			this.hideLoginPopUp();
+		}
+		this.inscriptionPopUp.transform.GetComponent<InscriptionPopUpController> ().reset();
+		this.isInscriptionPopUpDisplayed = true;
+		this.inscriptionPopUp.SetActive (true);
+		this.inscriptionPopUpResize ();
+	}
+	public void displayAccountCreatedPopUp()
+	{
+		if(this.isInscriptionPopUpDisplayed)
+		{
+			this.hideInscriptionPopUp();
+		}
+		this.accountCreatedPopUp.transform.GetComponent<AccountCreatedPopUpController> ().reset();
+		this.isAccountCreatedPopUpDisplayed = true;
+		this.accountCreatedPopUp.SetActive (true);
+		this.accountCreatedPopUpResize ();
 	}
 	public void loginPopUpResize()
 	{
@@ -125,56 +248,63 @@ public class AuthenticationController : Photon.MonoBehaviour
 		this.loginPopUp.transform.localScale = ApplicationDesignRules.popUpScale;
 		this.loginPopUp.GetComponent<LoginPopUpController> ().resize ();
 	}
+	public void inscriptionPopUpResize()
+	{
+		this.inscriptionPopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y, -2f);
+		this.inscriptionPopUp.transform.localScale = ApplicationDesignRules.popUpScale;
+		this.inscriptionPopUp.GetComponent<InscriptionPopUpController> ().resize ();
+	}
+	public void accountCreatedPopUpResize()
+	{
+		this.accountCreatedPopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y, -2f);
+		this.accountCreatedPopUp.transform.localScale = ApplicationDesignRules.popUpScale;
+		this.accountCreatedPopUp.GetComponent<AccountCreatedPopUpController> ().resize ();
+	}
 	public void hideLoginPopUp()
 	{
 		this.loginPopUp.SetActive (false);
 		this.isLoginPopUpDisplayed = false;
 	}
-//	public IEnumerator createNewAccount()
-//	{
-//		this.authenticationWindowView.authenticationWindowPopUpVM.usernameError=this.checkUsername(this.authenticationWindowView.authenticationWindowPopUpVM.username);
-//		if(this.authenticationWindowView.authenticationWindowPopUpVM.usernameError=="")
-//		{
-//			this.authenticationWindowView.authenticationWindowPopUpVM.emailError=this.checkEmail(this.authenticationWindowView.authenticationWindowPopUpVM.email);
-//			if(this.authenticationWindowView.authenticationWindowPopUpVM.emailError=="")
-//			{
-//				this.authenticationWindowView.authenticationWindowPopUpVM.passwordError=this.checkPasswordEgality(this.authenticationWindowView.authenticationWindowPopUpVM.password1,this.authenticationWindowView.authenticationWindowPopUpVM.password2);
-//				if(this.authenticationWindowView.authenticationWindowPopUpVM.passwordError=="")
-//				{
-//					this.authenticationWindowView.authenticationWindowPopUpVM.passwordError=this.checkPasswordComplexity(this.authenticationWindowView.authenticationWindowPopUpVM.password1);
-//					if(this.authenticationWindowView.authenticationWindowPopUpVM.passwordError=="")
-//					{
-//						this.authenticationWindowView.authenticationWindowPopUpVM.guiEnabled = false;
-//						yield return StartCoroutine(ApplicationModel.player.createAccount(this.authenticationWindowView.authenticationWindowPopUpVM.username,this.authenticationWindowView.authenticationWindowPopUpVM.email,this.authenticationWindowView.authenticationWindowPopUpVM.password1));
-//						if(ApplicationModel.player.Error!="")
-//						{
-//							BackOfficeController.instance.displayErrorPopUp(ApplicationModel.player.Error);
-//							ApplicationModel.player.Error="";
-//						}
-//						else
-//						{
-//							view.authenticationVM.username=this.authenticationWindowView.authenticationWindowPopUpVM.username;
-//							this.hideAuthenticationWindowPopUp();
-//							this.displayAccountCreatedPopUp();
-//						}
-//					}
-//				}
-//			}
-//		}
-//	}
+	public void hideInscriptionPopUp()
+	{
+		this.inscriptionPopUp.SetActive (false);
+		this.isInscriptionPopUpDisplayed = false;
+	}
+	public void hideAccountCreatedPopUp()
+	{
+		this.accountCreatedPopUp.SetActive (false);
+		this.isAccountCreatedPopUpDisplayed = false;
+	}
+	public IEnumerator createNewAccount(string login, string password, string email)
+	{
+		this.inscriptionPopUp.SetActive(false);
+		BackOfficeController.instance.displayLoadingScreen();
+		yield return StartCoroutine(ApplicationModel.player.createAccount(login,email,password));
+		BackOfficeController.instance.hideLoadingScreen();
+		this.inscriptionPopUp.SetActive(true);
+		if(ApplicationModel.player.Error!="")
+		{
+			this.inscriptionPopUp.GetComponent<InscriptionPopUpController>().setError(ApplicationModel.player.Error);
+			ApplicationModel.player.Error="";
+		}
+		else
+		{
+			this.displayAccountCreatedPopUp();
+		}
+	}
 	public string checkUsername(string username)
 	{
 		if(username=="")
 		{
-			return "Veuillez saisir un pseudo";
+			return WordingAuthentication.getReference(1);
 		}
 		else if(username.Length<4 )
 		{
-			return "Le pseudo doit comporter au moins 3 caractères";
+			return WordingAuthentication.getReference(2);
 		}
 		else if(!Regex.IsMatch(username, @"^[a-zA-Z0-9_]+$"))
 		{
-			return "Vous ne pouvez pas utiliser de caractères spéciaux";
+			return WordingAuthentication.getReference(3);
 		}   
 		return "";
 	}
@@ -182,15 +312,15 @@ public class AuthenticationController : Photon.MonoBehaviour
 	{
 		if(password1=="")
 		{
-			return "Veuillez saisir un mot de passe";
+			return WordingAuthentication.getReference(4);
 		}
 		else if(password2=="")
 		{
-			return "Veuillez confirmer votre mot de passe";
+			return WordingAuthentication.getReference(5);
 		}
 		else if(password1!=password2)
 		{
-			return "Les deux mots de passes doivent être identiques";
+			return WordingAuthentication.getReference(6);
 		}
 		return "";
 	}
@@ -198,11 +328,11 @@ public class AuthenticationController : Photon.MonoBehaviour
 	{
 		if(password.Length<5)
 		{
-			return "Le mot de passe doit comporter au moins 5 caractères";
+			return WordingAuthentication.getReference(7);
 		}
 		else if(!Regex.IsMatch(password, @"^[a-zA-Z0-9_.@]+$"))
 		{
-			return "Le mot de passe ne peut comporter de caractères spéciaux hormis @ _ et .";
+			return WordingAuthentication.getReference(8);
 		} 
 		return "";
 	}
@@ -210,31 +340,35 @@ public class AuthenticationController : Photon.MonoBehaviour
 	{
 		if(!Regex.IsMatch(email, @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z", RegexOptions.IgnoreCase))
 		{
-				return "Veuillez saisir une adresse email valide";
+				return WordingAuthentication.getReference(9);
 		}
 		return "";
 	}
 	public void returnPressed()
 	{
-//		if(this.authenticationWindowView!=null)
-//		{
-//			StartCoroutine(this.createNewAccount());
-//		}
-//		if(this.accountCreatedView!=null)
-//		{
-//			this.hideAccountCreatedPopUp();
-//		}
+		if(this.isLoginPopUpDisplayed)
+		{
+			this.loginHandler();
+		}
+		if(this.isInscriptionPopUpDisplayed)
+		{
+			this.inscriptionHandler();
+		}
+		if(this.isAccountCreatedPopUpDisplayed)
+		{
+			this.hideAccountCreatedPopUp();
+		}
 	}
 	public void escapePressed()
 	{
-//		if(this.authenticationWindowView!=null)
-//		{
-//			this.hideAuthenticationWindowPopUp();
-//		}
-//		if(this.accountCreatedView!=null)
-//		{
-//			this.hideAccountCreatedPopUp();
-//		}
+		if(this.isInscriptionPopUpDisplayed)
+		{
+			this.hideInscriptionPopUp();
+		}
+		if(this.isAccountCreatedPopUpDisplayed)
+		{
+			this.displayLoginPopUp();
+		}
 	}
 	private void loadLevels()
 	{
