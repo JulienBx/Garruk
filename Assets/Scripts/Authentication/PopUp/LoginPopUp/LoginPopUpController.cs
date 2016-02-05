@@ -85,11 +85,11 @@ public class LoginPopUpController : MonoBehaviour
 	}
 	public string getPassword()
 	{
-		return gameObject.transform.FindChild ("Input").GetComponent<InputTextGuiController> ().getText ();
+		return gameObject.transform.FindChild ("Input1").GetComponent<InputPasswordGuiController> ().getText ();
 	}
 	public string getLogin()
 	{
-		return gameObject.transform.FindChild ("Input1").GetComponent<InputPasswordGuiController> ().getText ();
+		return gameObject.transform.FindChild ("Input").GetComponent<InputTextGuiController> ().getText ();
 	}
 	public bool getRememberMe()
 	{

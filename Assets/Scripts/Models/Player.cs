@@ -71,6 +71,7 @@ public class Player : User
 	public bool IsInviting;
 	public bool IsInvited;
 	public bool IsBusy;
+	public bool IsAccountActivated;
 
 	public Player()
 	{
@@ -610,24 +611,40 @@ public class Player : User
 		if (w.error != null)
 		{
 			Error = w.error;
-		} else
+		} 
+		else
 		{
 			if (w.text.Contains("#ERROR#"))
 			{
 				string[] errors = w.text.Split(new string[] { "#ERROR#" }, System.StringSplitOptions.None);
 				Error = errors [1];
-			} else
+			} 
+			else if(w.text.Contains("#SUCESS#"))
 			{
 				Error = "";
-				string[] data = w.text.Split(new string[] { "//" }, System.StringSplitOptions.None);
-				ToDeconnect = false;
-				Username = data [0];
-				TutorialStep = System.Convert.ToInt32(data [1]);
-				IsAdmin = System.Convert.ToBoolean(System.Convert.ToInt32(data [2]));
-				Money = System.Convert.ToInt32(data [3]);
-				DisplayTutorial = System.Convert.ToBoolean(System.Convert.ToInt32(data [4]));
-				IdLanguage=System.Convert.ToInt32(data[5]);
-			}											
+				string[] data = w.text.Split(new string[] { "#SUCESS#" }, System.StringSplitOptions.None);
+				string[] profileData = data[1].Split(new string[] { "\\" }, System.StringSplitOptions.None);
+				this.Username = profileData [0];
+				this.TutorialStep = System.Convert.ToInt32(profileData [1]);
+				this.IsAdmin = System.Convert.ToBoolean(System.Convert.ToInt32(profileData [2]));
+				this.Money = System.Convert.ToInt32(profileData [3]);
+				this.DisplayTutorial = System.Convert.ToBoolean(System.Convert.ToInt32(profileData [4]));
+				this.IdLanguage=System.Convert.ToInt32(profileData[5]);
+				this.IdProfilePicture=System.Convert.ToInt32(profileData[6]);
+				this.Id=System.Convert.ToInt32(profileData[7]);
+				this.IsAccountActivated=true;
+			}
+			else if(w.text.Contains("#NONACTIVE#"))
+			{
+				Error="";
+				this.Id=-1;
+				this.IsAccountActivated=false;
+			}
+			else
+			{
+				Error="";
+				this.Id=-1;
+			}												
 		}
 	}
 	public IEnumerator createAccount(string nick, string email, string password)

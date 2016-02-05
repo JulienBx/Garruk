@@ -102,7 +102,7 @@ public class AuthenticationController : Photon.MonoBehaviour
 	{
 		string login = this.loginPopUp.transform.GetComponent<LoginPopUpController>().getLogin();
 		string password = this.loginPopUp.transform.GetComponent<LoginPopUpController> ().getPassword();
-		string error = this.checkUsername(login);
+		string error = this.checkLogin(login);
 		if(error=="")
 		{
 			error=this.checkPasswordComplexity(password);
@@ -118,14 +118,20 @@ public class AuthenticationController : Photon.MonoBehaviour
 		this.loginPopUp.SetActive(false);
 		BackOfficeController.instance.displayLoadingScreen();
 		yield return StartCoroutine(ApplicationModel.player.Login(login,password,rememberMe));
-		if(ApplicationModel.player.Error=="")
+		if(ApplicationModel.player.Error=="" && ApplicationModel.player.Id!=-1 && ApplicationModel.player.IsAccountActivated)
 		{
 			this.connectToPhoton();
 		}
-		else
+		else if(ApplicationModel.player.Error!="")
 		{
 			this.loginPopUp.SetActive(true);
 			this.loginPopUp.transform.GetComponent<LoginPopUpController> ().setError(ApplicationModel.player.Error);
+			BackOfficeController.instance.hideLoadingScreen();
+		}
+		else if(!ApplicationModel.player.IsAccountActivated)
+		{
+			this.loginPopUp.SetActive(true);
+			this.loginPopUp.transform.GetComponent<LoginPopUpController> ().setError("Compte non activé, veuillez valider le mail");
 			BackOfficeController.instance.hideLoadingScreen();
 		}
 	}
@@ -385,6 +391,14 @@ public class AuthenticationController : Photon.MonoBehaviour
 		{
 			this.displayAccountCreatedPopUp();
 		}
+	}
+	public string checkLogin(string login)
+	{
+		if(login=="")
+		{
+			return WordingAuthentication.getReference(1);
+		} 
+		return "";
 	}
 	public string checkUsername(string username)
 	{
