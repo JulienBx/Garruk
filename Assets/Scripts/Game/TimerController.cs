@@ -28,7 +28,7 @@ public class TimerController : MonoBehaviour
 		this.isMyTurn = false ;
 		this.isDisplayed = true ;
 		
-		if(ApplicationModel.launchGameTutorial){
+		if(ApplicationModel.player.ToLaunchGameTutorial){
 			this.globalTime = 1200;
 		}
 		else{

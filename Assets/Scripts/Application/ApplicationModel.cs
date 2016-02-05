@@ -19,9 +19,9 @@ public class ApplicationModel
 	static public string hisPlayerName; // A voir si on le met pas dans un objet user ?
 
 
-	static public bool isFirstPlayer; // A REMPLACER PAR ApplicationModel.player.IsFirstPlayer
-	static public bool launchGameTutorial; // A REMPLACER PAR ApplicationModel.player.ToLaunchGameTutorial
-	static public int gameType; // A REMPLACER PAR ApplicationModel.player.ChosenGameType
+	//static public bool isFirstPlayer; // A REMPLACER PAR ApplicationModel.player.IsFirstPlayer
+	//static public bool launchGameTutorial; // A REMPLACER PAR ApplicationModel.player.ToLaunchGameTutorial
+	//static public int gameType; // A REMPLACER PAR ApplicationModel.player.ChosenGameType
 
 
 	static ApplicationModel()

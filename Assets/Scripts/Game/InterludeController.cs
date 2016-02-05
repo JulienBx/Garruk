@@ -121,7 +121,7 @@ public class InterludeController : MonoBehaviour
 			isEnabledUnderText = true;
 			
 			if(GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).isMine){
-				if(ApplicationModel.launchGameTutorial){
+				if(ApplicationModel.player.ToLaunchGameTutorial){
 					if(!GameView.instance.hasStep2){
 						GameView.instance.launchTutoStep(2);
 						GameView.instance.hasStep2 = true ;

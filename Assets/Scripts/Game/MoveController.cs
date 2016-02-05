@@ -35,7 +35,7 @@ public class MoveController : MonoBehaviour
 	}
 	
 	public void OnMouseDown(){
-		if(ApplicationModel.launchGameTutorial){
+		if(ApplicationModel.player.ToLaunchGameTutorial){
 			GameView.instance.hideTuto();
 		}
 		GameView.instance.cancelMove();

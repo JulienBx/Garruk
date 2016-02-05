@@ -12,10 +12,10 @@ public class GameSkills : MonoBehaviour
 		this.skills = new GameSkill[96];
 		this.skills [0] = new Attack();
 		this.skills [1] = new Pass();
-		this.skills [2] = new Soin();
+		this.skills [2] = new PistoSoin();
 		this.skills [3] = new Fortifiant();
 		this.skills [4] = new Relaxant();
-		this.skills [5] = new Lest();
+		this.skills [5] = new PistoLest();
 		this.skills [6] = new Adrenaline();
 		this.skills [7] = new Antibiotique();
 		this.skills [8] = new TirALarc();

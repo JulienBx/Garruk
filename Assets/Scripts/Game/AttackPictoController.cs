@@ -19,7 +19,6 @@ public class AttackPictoController : MonoBehaviour
 	
 	public void OnMouseEnter(){
 		GameView.instance.getPlayingCardController(this.idCard).showDescriptionAttack(true);
-		print("idC "+this.idCard);
 	}
 	
 	public void OnMouseExit(){

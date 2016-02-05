@@ -116,7 +116,7 @@ public class GameView : MonoBehaviour
 		this.audioEndTurn = GetComponent<AudioSource>();
 		this.setMyPlayerName(ApplicationModel.myPlayerName);
 		this.setHisPlayerName(ApplicationModel.hisPlayerName);
-		this.isFirstPlayer = ApplicationModel.isFirstPlayer;
+		this.isFirstPlayer = ApplicationModel.player.IsFirstPlayer;
 		this.runningSkill=-1;
 		this.createBackground();
 		this.targets = new List<Tile>();
@@ -227,7 +227,7 @@ public class GameView : MonoBehaviour
 		
 		GameController.instance.spawnCharacter(myDeck.Id);
 		GameView.instance.hideLoadingScreen ();
-		if(ApplicationModel.launchGameTutorial){
+		if(ApplicationModel.player.ToLaunchGameTutorial){
 			this.launchTutoStep(1);
 		}
 	}
@@ -387,7 +387,7 @@ public class GameView : MonoBehaviour
 		if(this.isFirstPlayer==b){
 			this.myTimerGO.GetComponent<TimerController>().setIsMyTurn(false);
 			this.amIReadyToFight = true;
-			if(ApplicationModel.launchGameTutorial){
+			if(ApplicationModel.player.ToLaunchGameTutorial){
 				this.hideTuto();
 				
 				List<Skill> skills = new List<Skill>();
@@ -553,7 +553,7 @@ public class GameView : MonoBehaviour
 			}
 		}
 		else{
-			if(this.currentPlayingCard==characterID && ApplicationModel.launchGameTutorial){
+			if(this.currentPlayingCard==characterID && ApplicationModel.player.ToLaunchGameTutorial){
 				this.hideTuto();
 			}
 		}
@@ -706,7 +706,6 @@ public class GameView : MonoBehaviour
 	}
 	
 	public int findNextAlivePlayer(int o, bool isM){
-		print("J'essaye de find le perso avec un DO de "+o+" - "+isM);
 		int i = o ;
 		if(i==3){
 			i=0;
@@ -716,7 +715,6 @@ public class GameView : MonoBehaviour
 		}
 		int card = -1;
 		while(i != o && card==-1){ 
-			print ("Je cherche "+i);
 			if(!this.getCard(this.findCardWithDO(i,isM)).isDead){
 				card = this.findCardWithDO(i,isM) ; 
 			}
@@ -769,7 +767,7 @@ public class GameView : MonoBehaviour
 		}
 		else{
 			this.interlude.GetComponent<InterludeController>().set("Tour de l'adversaire !", false, false);
-			if(ApplicationModel.launchGameTutorial){
+			if(ApplicationModel.player.ToLaunchGameTutorial){
 				if(!this.hasStep3){
 					interlude.GetComponent<InterludeController>().pause();
 					this.launchTutoStep(3);
@@ -847,7 +845,7 @@ public class GameView : MonoBehaviour
 		this.getMoveZoneController().show(false);
 		this.displayDestinations (this.currentPlayingCard);
 		
-		if(ApplicationModel.launchGameTutorial){
+		if(ApplicationModel.player.ToLaunchGameTutorial){
 			if(!this.getCurrentCard().isMine){
 				StartCoroutine(launchFury());
 			}
@@ -922,7 +920,7 @@ public class GameView : MonoBehaviour
 	
 	IEnumerator launchFury(){
 		
-		if(ApplicationModel.launchGameTutorial){
+		if(ApplicationModel.player.ToLaunchGameTutorial){
 			while(!this.blockFury){
 				yield return new WaitForSeconds(1f);
 			}
@@ -1447,6 +1445,24 @@ public class GameView : MonoBehaviour
 			}
 		}
 	}
+
+	public void displayAdjacentUnitsTargets(){
+		List<Tile> neighbourTiles = this.getOpponentImmediateNeighbours(this.getPlayingCardController(this.currentPlayingCard).getTile());
+		this.targets = new List<Tile>();
+		int playerID;
+		foreach (Tile t in neighbourTiles)
+		{
+			playerID = this.getTileController(t.x, t.y).getCharacterID();
+			if (playerID != -1)
+			{
+				if (this.getPlayingCardController(playerID).canBeTargeted()){
+					this.targets.Add(t);
+					this.getTileController(t.x,t.y).displayTarget(true);
+					this.getTileController(playerID).setTargetText(GameSkills.instance.getSkill(this.runningSkill).name, GameSkills.instance.getCurrentGameSkill().getTargetText(playerID));
+				}
+			}
+		}
+	}
 	
 	public void displayAdjacentAllyTargets()
 	{
@@ -1686,6 +1702,26 @@ public class GameView : MonoBehaviour
 		}
 		return isLaunchable;
 	}
+
+	public string canLaunchAdjacentUnits()
+	{
+		string isLaunchable = "Aucune unité à proximité";
+		
+		List<Tile> neighbourTiles = this.getOpponentImmediateNeighbours(this.getPlayingCardTile(this.currentPlayingCard));
+		int playerID;
+		foreach (Tile t in neighbourTiles)
+		{
+			playerID = this.tiles [t.x, t.y].GetComponent<TileController>().getCharacterID();
+			if (playerID != -1)
+			{
+				if (this.playingCards [playerID].GetComponent<PlayingCardController>().canBeTargeted())
+				{
+					isLaunchable = "";
+				}
+			}
+		}
+		return isLaunchable;
+	}
 	
 	public string canLaunchAdjacentTileTargets()
 	{
@@ -1854,7 +1890,7 @@ public class GameView : MonoBehaviour
 		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_nick1", user1); 	                    // Pseudo de l'utilisateur victorieux
 		form.AddField("myform_nick2", user2); 	                    // Pseudo de l'autre utilisateur
-		form.AddField("myform_gametype", ApplicationModel.gameType);
+		form.AddField("myform_gametype", ApplicationModel.player.ChosenGameType);
 		form.AddField ("myform_istutorialgame", isTutorialGameInt);
 		
 		WWW w = new WWW(URLStat, form); 							// On envoie le formulaire à l'url sur le serveur 
@@ -1874,7 +1910,7 @@ public class GameView : MonoBehaviour
 	{
 		bool hasFirstPlayerWon=false;
 		
-		if(ApplicationModel.launchGameTutorial)
+		if(ApplicationModel.player.ToLaunchGameTutorial)
 		{
 			if(this.areAllMyPlayersDead())
 			{
@@ -2054,7 +2090,7 @@ public class GameView : MonoBehaviour
 	
 	public bool areAllMyPlayersDead(){
 		bool areMyPlayersDead = true ;
-		if(ApplicationModel.launchGameTutorial){
+		if(ApplicationModel.player.ToLaunchGameTutorial){
 			areMyPlayersDead = false ;
 			for (int i = 0 ; i < this.playingCards.Count ; i++){
 				if (this.getCard(i).isMine){
@@ -2263,8 +2299,9 @@ public class GameView : MonoBehaviour
 		}
 	}
 	
-	public void addAnim(Tile t){
+	public void addAnim(Tile t, int i){
 		this.anims.Add(t);
+		this.getTileController(t).setAnimIndex(i);
 		this.getTileController(t).displayAnim(true);
 	}
 	

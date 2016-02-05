@@ -30,6 +30,7 @@ public class TileController : GameObjectController
 	float animTime = 0.08f ;
 	float skillEffectTime = 0.5f ;
 	int animIndex;
+	int basicAnimIndex ;
 
 	bool isHovering = false ;
 
@@ -278,6 +279,7 @@ public class TileController : GameObjectController
 		if(this.type!=1){
 			if(this.characterID!=-1){
 				if(GameView.instance.getTileController(this.characterID).isDisplayingTarget){
+					print("Je hit");
 					GameView.instance.hitTarget(this.characterID);
 				}
 				GameView.instance.clickCharacter(this.characterID);
@@ -293,7 +295,7 @@ public class TileController : GameObjectController
 					GameController.instance.clickDestination(this.tile, GameView.instance.getCurrentPlayingCard(), false);
 				}
 			}
-			if(ApplicationModel.launchGameTutorial){
+			if(ApplicationModel.player.ToLaunchGameTutorial){
 				GameView.instance.hideTuto();
 			}
 		}
@@ -352,7 +354,7 @@ public class TileController : GameObjectController
 				GameView.instance.removeAnim(this.tile);
 			}
 			else{
-				this.changeAnimSprite(animIndex);
+				this.changeAnimSprite(basicAnimIndex + animIndex);
 			}
 		}
 	}
@@ -387,6 +389,11 @@ public class TileController : GameObjectController
 	
 	public void showEffect(bool b){
 		gameObject.transform.FindChild("SkillEffect").FindChild("Text").GetComponent<MeshRenderer>().enabled = b ;
+	}
+
+
+	public void setAnimIndex(int i){
+		basicAnimIndex = i*10 ;
 	}
 }
 

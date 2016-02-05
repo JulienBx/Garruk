@@ -640,7 +640,7 @@ Transform:
   m_GameObject: {fileID: 135686}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 473330}
   m_RootOrder: 0
@@ -752,7 +752,7 @@ Transform:
   m_GameObject: {fileID: 113324}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 458984}
   m_RootOrder: 0
@@ -838,7 +838,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 153728}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.1, y: 0.45, z: -4}
+  m_LocalPosition: {x: 0.021, y: 0.34, z: -4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 435320}
@@ -954,7 +954,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 108200}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.35, y: 0.3, z: -4}
+  m_LocalPosition: {x: 0.33, y: 0.244, z: -4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 410252}
@@ -982,7 +982,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 148908}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.46, y: 0.03, z: -4}
+  m_LocalPosition: {x: 0.345, y: -0.084, z: -4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 435696}
@@ -1967,7 +1967,7 @@ MonoBehaviour:
   - {fileID: 21300142, guid: 075994fcb3c9ef54e9ee86a9f415b94e, type: 3}
   - {fileID: 21300144, guid: 075994fcb3c9ef54e9ee86a9f415b94e, type: 3}
   iconeSprites:
-  - {fileID: 21300146, guid: 075994fcb3c9ef54e9ee86a9f415b94e, type: 3}
+  - {fileID: 21300160, guid: 075994fcb3c9ef54e9ee86a9f415b94e, type: 3}
   - {fileID: 21300040, guid: 075994fcb3c9ef54e9ee86a9f415b94e, type: 3}
   - {fileID: 21300050, guid: 075994fcb3c9ef54e9ee86a9f415b94e, type: 3}
   - {fileID: 21300044, guid: 075994fcb3c9ef54e9ee86a9f415b94e, type: 3}
@@ -2986,7 +2986,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -483395861
   m_SortingOrder: 5
-  m_Sprite: {fileID: 21300040, guid: 075994fcb3c9ef54e9ee86a9f415b94e, type: 3}
+  m_Sprite: {fileID: 21300160, guid: 075994fcb3c9ef54e9ee86a9f415b94e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -3592,7 +3592,7 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: iconeSprites.Array.data[0]
       value: 
-      objectReference: {fileID: 21300146, guid: 075994fcb3c9ef54e9ee86a9f415b94e,
+      objectReference: {fileID: 21300160, guid: 075994fcb3c9ef54e9ee86a9f415b94e,
         type: 3}
     - target: {fileID: 0}
       propertyPath: iconeSprites.Array.data[1]

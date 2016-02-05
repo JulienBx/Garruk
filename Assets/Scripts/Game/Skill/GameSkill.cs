@@ -118,6 +118,9 @@ public class GameSkill
 			else if(this.ciblage==8){
 				launchability = GameView.instance.canLaunch1TileAwayOpponents();
 			}
+			else if(this.ciblage==9){
+				launchability = GameView.instance.canLaunchAdjacentUnits();
+			}
 			else{
 				launchability = "";
 			}
@@ -205,5 +208,6 @@ public class GameSkill
 			text = "Echec Morphine";
 		}
 		GameView.instance.displaySkillEffect(target, text, type);
+		GameView.instance.addSE(GameView.instance.getTile(target));
 	}
 }

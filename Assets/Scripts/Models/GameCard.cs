@@ -556,14 +556,14 @@ public class GameCard : Card
 		return new Skill("Attaque", "Inflige "+this.getAttack()+" dégats au contact",0,1,100);
 	}
 	
-	public int getDamagesAgainst(GameCard g){
-		int amount = Mathf.FloorToInt(this.getAttack()*(1f-(g.getBouclier()/100f)));
+	public int getDamagesAgainst(GameCard g, int attack){
+		int amount = Mathf.FloorToInt(attack*(1f-(g.getBouclier()/100f)));
 		amount = Mathf.Min(g.getLife(), amount);
 		return amount ;
 	}
 	
-	public int getDamagesAgainst(GameCard g, int percentage){
-		int amount = Mathf.FloorToInt(percentage*this.getAttack()*(1f-(g.getBouclier()/100f))/100f);
+	public int getDamagesAgainst(GameCard g, int attack, int percentage){
+		int amount = Mathf.FloorToInt(percentage*attack*(1f-(g.getBouclier()/100f))/100f);
 		amount = Mathf.Min(g.getLife(), amount);
 		return amount ;
 	}

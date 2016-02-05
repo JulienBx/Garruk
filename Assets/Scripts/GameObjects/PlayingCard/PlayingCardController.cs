@@ -297,12 +297,7 @@ public class PlayingCardController : GameObjectController
 	public void addDamagesModifyer(Modifyer m){
 		this.updateLife(this.card.getLife());
 		if(m.amount<0){
-			if (this.card.getLife()-m.amount>=this.card.GetTotalLife()){
-				m.amount = 0 ;	
-			}
-			else{
-				m.amount = Mathf.Min(m.amount, this.card.GetTotalLife()-this.card.getLife()) ;
-			}
+			m.amount = Mathf.Min(m.amount, this.card.GetTotalLife()-this.card.getLife()) ;
 		}
 		else{
 			if (this.card.getLife()-m.amount<=0){
@@ -341,6 +336,15 @@ public class PlayingCardController : GameObjectController
 			gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).FindChild("Picto").GetComponent<SpriteRenderer>().enabled = true;
 			gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).GetComponent<BoxCollider>().enabled = true;
 			gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).FindChild("Picto").GetComponent<SpriteRenderer>().sprite = this.iconeSprites[0];
+			if(this.card.getMove()<this.card.Move){
+				gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).FindChild("Picto").GetComponent<SpriteRenderer>().color = new Color(231f/255f, 0f, 66f/255f, 1f);
+			}
+			else if(this.card.getMove()>this.card.Move){
+				gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).FindChild("Picto").GetComponent<SpriteRenderer>().color = new Color(60f/255f, 160f/255f, 100f/255f, 1f);
+			}
+			else{
+				gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).FindChild("Picto").GetComponent<SpriteRenderer>().color = new Color(60f/255f, 160f/255f, 100f/255f, 0f);
+			}
 			gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).FindChild("DescriptionBox").FindChild("TitleText").GetComponent<TextMeshPro>().text = "Déplacement";
 			
 			for(int i = 0 ; i < listeTextes.Count ; i++){
