@@ -21,6 +21,6 @@ public class WordingLoginPopUp
 		references.Add(new string[]{"Pas de compte ? S'inscrire","Not registred yet, create an account"}); //4
 		references.Add(new string[]{"Pseudo ou mot de passe oublié ?","Forgot your login or password ?"}); //5
 		references.Add(new string[]{"Connectez-vous","Connection"});//6
-		references.Add(new string[]{"Ou","Connection"});//6
+		references.Add(new string[]{"Ou","Connection"});//7
 	}
 }

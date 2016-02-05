@@ -56,12 +56,16 @@ public class AuthenticationController : Photon.MonoBehaviour
 	{
 		this.resize ();
 		yield return StartCoroutine(ApplicationModel.player.permanentConnexion ());
-		if(ApplicationModel.player.Username!=""&& !ApplicationModel.player.ToDeconnect)
+		if(ApplicationModel.player.Error=="" && ApplicationModel.player.Id!=-1 && !ApplicationModel.player.ToDeconnect)
 		{
 			this.connectToPhoton();
 		}
 		else
 		{
+			if(ApplicationModel.player.Error!="")
+			{
+				ApplicationModel.player.Error="";
+			}
 			this.displayLoginPopUp();
 			ApplicationModel.player.ToDeconnect=false;
 			BackOfficeController.instance.hideLoadingScreen();

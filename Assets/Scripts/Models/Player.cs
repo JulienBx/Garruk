@@ -501,6 +501,50 @@ public class Player : User
 			}		
 		}
 	}
+	public IEnumerator refreshUserData()
+	{
+		string isInvitingString = "0";
+		if(this.IsInviting)
+		{
+			isInvitingString="1";
+		}
+
+		WWWForm form = new WWWForm(); 								// Création de la connexion
+		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
+		form.AddField("myform_nick", this.Username); 	// Pseudo de l'utilisateur connecté
+		form.AddField("myform_limit", TotalNbResultLimit); 
+		form.AddField("myform_isinviting", isInvitingString);
+		
+		WWW w = new WWW(URLRefreshUserData, form); 								// On envoie le formulaire à l'url sur le serveur 
+		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
+		if (w.error != null) 
+		{
+			Debug.Log(w.error); 										// donne l'erreur eventuelle
+		} 
+		else 
+		{
+			string[] data=w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
+			string[] playerData =  data[0].Split(new string[] { "//" }, System.StringSplitOptions.None);
+			this.Money	= System.Convert.ToInt32(playerData[0]);
+			this.NbNotificationsNonRead=System.Convert.ToInt32(playerData[1]);
+			this.IdProfilePicture=System.Convert.ToInt32(playerData[2]);
+			if(this.IsInviting)
+			{
+				this.Error=data[1];
+			}
+			if(data[2]!="-1")
+			{
+				this.IsInvited=true;
+			}
+			else
+			{
+				this.IsInvited=false;
+			}
+		}
+	}
+
+	#region AUTHENTICATION
+
 	public IEnumerator permanentConnexion()
 	{
 		WWWForm form = new WWWForm(); 
@@ -513,22 +557,33 @@ public class Player : User
 		if (w.error != null)
 		{
 			Error = w.error;
-		} else
+		} 
+		else
 		{
+			
 			if (w.text.Contains("#ERROR#"))
 			{
 				string[] errors = w.text.Split(new string[] { "#ERROR#" }, System.StringSplitOptions.None);
 				Error = errors [1];
-			} else
+			} 
+			else if(w.text.Contains("#SUCESS#"))
 			{
 				Error = "";
-				string[] data = w.text.Split(new string[] { "//" }, System.StringSplitOptions.None);
-				this.Username = data [0];
-				this.TutorialStep = System.Convert.ToInt32(data [1]);
-				this.IsAdmin = System.Convert.ToBoolean(System.Convert.ToInt32(data [2]));
-				this.Money = System.Convert.ToInt32(data [3]);
-				this.DisplayTutorial = System.Convert.ToBoolean(System.Convert.ToInt32(data [4]));
-				this.IdLanguage=System.Convert.ToInt32(data[5]);
+				string[] data = w.text.Split(new string[] { "#SUCESS#" }, System.StringSplitOptions.None);
+				string[] profileData = data[1].Split(new string[] { "\\" }, System.StringSplitOptions.None);
+				this.Username = profileData [0];
+				this.TutorialStep = System.Convert.ToInt32(profileData [1]);
+				this.IsAdmin = System.Convert.ToBoolean(System.Convert.ToInt32(profileData [2]));
+				this.Money = System.Convert.ToInt32(profileData [3]);
+				this.DisplayTutorial = System.Convert.ToBoolean(System.Convert.ToInt32(profileData [4]));
+				this.IdLanguage=System.Convert.ToInt32(profileData[5]);
+				this.IdProfilePicture=System.Convert.ToInt32(profileData[6]);
+				this.Id=System.Convert.ToInt32(profileData[7]);
+			}
+			else
+			{
+				Error="";
+				this.Id=-1;
 			}		
 		}
 	}
@@ -604,47 +659,8 @@ public class Player : User
 			}										
 		}
 	}
-	public IEnumerator refreshUserData()
-	{
-		string isInvitingString = "0";
-		if(this.IsInviting)
-		{
-			isInvitingString="1";
-		}
 
-		WWWForm form = new WWWForm(); 								// Création de la connexion
-		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_nick", this.Username); 	// Pseudo de l'utilisateur connecté
-		form.AddField("myform_limit", TotalNbResultLimit); 
-		form.AddField("myform_isinviting", isInvitingString);
-		
-		WWW w = new WWW(URLRefreshUserData, form); 								// On envoie le formulaire à l'url sur le serveur 
-		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
-		if (w.error != null) 
-		{
-			Debug.Log(w.error); 										// donne l'erreur eventuelle
-		} 
-		else 
-		{
-			string[] data=w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
-			string[] playerData =  data[0].Split(new string[] { "//" }, System.StringSplitOptions.None);
-			this.Money	= System.Convert.ToInt32(playerData[0]);
-			this.NbNotificationsNonRead=System.Convert.ToInt32(playerData[1]);
-			this.IdProfilePicture=System.Convert.ToInt32(playerData[2]);
-			if(this.IsInviting)
-			{
-				this.Error=data[1];
-			}
-			if(data[2]!="-1")
-			{
-				this.IsInvited=true;
-			}
-			else
-			{
-				this.IsInvited=false;
-			}
-		}
-	}
+	#endregion
 }
 
 
