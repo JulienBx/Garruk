@@ -72,10 +72,17 @@ public class Player : User
 	public bool IsInvited;
 	public bool IsBusy;
 	public bool IsAccountActivated;
+	public bool ToRememberLogins;
+	public string Password;
+	public string FacebookId;
+	public bool IsAccountCreated;
 
 	public Player()
 	{
 		this.Username = "";
+		this.FacebookId="";
+		this.Mail="";
+		this.Id=-1;
 		this.ProfileChosen="";
 		this.NbNotificationsNonRead=0;
 		this.IsFirstPlayer=false;
@@ -566,6 +573,7 @@ public class Player : User
 			{
 				string[] errors = w.text.Split(new string[] { "#ERROR#" }, System.StringSplitOptions.None);
 				Error = errors [1];
+				this.Id=-1;
 			} 
 			else if(w.text.Contains("#SUCESS#"))
 			{
@@ -588,10 +596,10 @@ public class Player : User
 			}		
 		}
 	}
-	public IEnumerator Login(string nick, string password, bool toMemorize)
+	public IEnumerator Login()
 	{	
 		string toMemorizeString;
-		if (toMemorize)
+		if (this.ToRememberLogins)
 		{
 			toMemorizeString = "1";
 		} else
@@ -600,10 +608,14 @@ public class Player : User
 		}
 		WWWForm form = new WWWForm();
 		form.AddField("myform_hash", ApplicationModel.hash);
-		form.AddField("myform_nick", nick);
-		form.AddField("myform_pass", password);
+		form.AddField("myform_nick", this.Username);
+		form.AddField("myform_pass", this.Password);
 		form.AddField("myform_memorize", toMemorizeString);
 		form.AddField("myform_macadress", this.MacAdress);
+		form.AddField("myform_facebookid", this.FacebookId);
+		form.AddField("myform_mail", this.Mail);
+
+		Debug.Log(this.FacebookId);
 		
 		WWW w = new WWW(URLCheckAuthentification, form);
 		yield return w;
@@ -633,11 +645,23 @@ public class Player : User
 				this.IdProfilePicture=System.Convert.ToInt32(profileData[6]);
 				this.Id=System.Convert.ToInt32(profileData[7]);
 				this.IsAccountActivated=true;
+				this.IsAccountCreated=true;
 			}
 			else if(w.text.Contains("#NONACTIVE#"))
 			{
 				Error="";
+				string[] data = w.text.Split(new string[] { "#NONACTIVE#" }, System.StringSplitOptions.None);
+				string[] profileData = data[1].Split(new string[] { "\\" }, System.StringSplitOptions.None);
+				this.Mail = profileData [0];
 				this.Id=-1;
+				this.IsAccountActivated=false;
+				this.IsAccountCreated=true;
+			}
+			else if(w.text.Contains("#FIRSTCONNECTION"))
+			{
+				Error="";
+				this.Id=-1;
+				this.IsAccountCreated=false;
 				this.IsAccountActivated=false;
 			}
 			else

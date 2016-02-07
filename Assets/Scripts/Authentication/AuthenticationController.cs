@@ -3,6 +3,8 @@ using UnityEngine.UI;
 using System.Collections;
 using System.Text.RegularExpressions;
 using TMPro;
+using Facebook.Unity;
+using System.Collections.Generic;
 
 
 public class AuthenticationController : Photon.MonoBehaviour 
@@ -22,7 +24,7 @@ public class AuthenticationController : Photon.MonoBehaviour
 	private bool isInscriptionPopUpDisplayed;
 	private GameObject accountCreatedPopUp;
 	private bool isAccountCreatedPopUpDisplayed;
-	public GameObject lostLoginPopUp;
+	private GameObject lostLoginPopUp;
 	private bool isLostLoginPopUpDisplayed;
 	private GameObject passwordResetPopUp;
 	private bool isPasswordResetPopUpDisplayed;
@@ -31,20 +33,55 @@ public class AuthenticationController : Photon.MonoBehaviour
 	private GameObject backgroundCamera;
 	private GameObject sceneCamera;
 
-	void Awake()
+	void Start()
 	{
+		//Debug.Log("AWAKE"+gameObject.GetInstanceID());
 		instance = this;
-		if(ApplicationModel.player.Username=="" && Application.systemLanguage==SystemLanguage.French)
+		this.initPlayer();
+		this.initLanguage();
+		this.initializeScene ();
+		this.initializeBackOffice();
+		this.initFacebookSDK();
+		this.resize ();
+		this.drawChooseLanguageButton();
+		if(ApplicationModel.player.ToDeconnect)
 		{
-			ApplicationModel.player.IdLanguage=0;
+			ApplicationModel.player.ToDeconnect=false;
+			this.displayLoginPopUp();
+			BackOfficeController.instance.hideLoadingScreen();
+		}
+		else if(this.isConnectedToFB())
+		{
+			StartCoroutine(this.login());
 		}
 		else
 		{
-			ApplicationModel.player.IdLanguage=1;
+			StartCoroutine (this.checkPermanentConnection ());
 		}
-		this.initializeScene ();
-		this.initializeBackOffice();
-		StartCoroutine (this.initialization ());
+	}
+	private void initLanguage()
+	{
+		if(ApplicationModel.player.Username=="")
+		{
+			if(Application.systemLanguage==SystemLanguage.French)
+			{
+				ApplicationModel.player.IdLanguage=0;
+			}
+			else
+			{
+				ApplicationModel.player.IdLanguage=1;
+			}
+		}
+	}
+	private void initPlayer()
+	{
+		string lastUsername = ApplicationModel.player.Username;
+		int lastIDLanguage = ApplicationModel.player.IdLanguage;
+		bool lastToDeconnect = ApplicationModel.player.ToDeconnect;
+		ApplicationModel.player=new Player();
+		ApplicationModel.player.Username=lastUsername;
+		ApplicationModel.player.IdLanguage=lastIDLanguage;
+		ApplicationModel.player.ToDeconnect=lastToDeconnect;
 	}
 	private void initializeBackOffice()
 	{
@@ -52,11 +89,10 @@ public class AuthenticationController : Photon.MonoBehaviour
 		this.backOfficeController.AddComponent<BackOfficeAuthenticationController>();
 		this.backOfficeController.GetComponent<BackOfficeAuthenticationController>().initialize();
 	}
-	private IEnumerator initialization()
+	private IEnumerator checkPermanentConnection()
 	{
-		this.resize ();
 		yield return StartCoroutine(ApplicationModel.player.permanentConnexion ());
-		if(ApplicationModel.player.Error=="" && ApplicationModel.player.Id!=-1 && !ApplicationModel.player.ToDeconnect)
+		if(ApplicationModel.player.Error=="" && ApplicationModel.player.Id!=-1)
 		{
 			this.connectToPhoton();
 		}
@@ -67,9 +103,7 @@ public class AuthenticationController : Photon.MonoBehaviour
 				ApplicationModel.player.Error="";
 			}
 			this.displayLoginPopUp();
-			ApplicationModel.player.ToDeconnect=false;
 			BackOfficeController.instance.hideLoadingScreen();
-			this.drawChooseLanguageButton();
 		}
 	}
 	public void initializeScene()
@@ -98,6 +132,10 @@ public class AuthenticationController : Photon.MonoBehaviour
 		PhotonNetwork.ConnectUsingSettings(ApplicationModel.photonSettings);
 		PhotonNetwork.autoCleanUpPlayerObjects = false;
 	}
+	public void facebookHandler()
+	{
+		StartCoroutine(this.login());
+	}
 	public void loginHandler()
 	{
 		string login = this.loginPopUp.transform.GetComponent<LoginPopUpController>().getLogin();
@@ -108,17 +146,20 @@ public class AuthenticationController : Photon.MonoBehaviour
 			error=this.checkPasswordComplexity(password);
 			if(error=="")
 			{
-				StartCoroutine(this.login(login,password,this.loginPopUp.transform.GetComponent<LoginPopUpController> ().getRememberMe()));
+				ApplicationModel.player.Username=login;
+				ApplicationModel.player.Password=password;
+				ApplicationModel.player.ToRememberLogins=this.loginPopUp.transform.GetComponent<LoginPopUpController> ().getRememberMe();
+				StartCoroutine(this.login());
 			}
 		}
 		this.loginPopUp.transform.GetComponent<LoginPopUpController> ().setError(error);
 	}
-	public IEnumerator login(string login, string password, bool rememberMe)
+	public IEnumerator login()
 	{
 		this.loginPopUp.SetActive(false);
 		BackOfficeController.instance.displayLoadingScreen();
-		yield return StartCoroutine(ApplicationModel.player.Login(login,password,rememberMe));
-		if(ApplicationModel.player.Error=="" && ApplicationModel.player.Id!=-1 && ApplicationModel.player.IsAccountActivated)
+		yield return StartCoroutine(ApplicationModel.player.Login());
+		if(ApplicationModel.player.Error=="" && ApplicationModel.player.Id!=-1 && ApplicationModel.player.IsAccountActivated && ApplicationModel.player.IsAccountCreated)
 		{
 			this.connectToPhoton();
 		}
@@ -128,7 +169,13 @@ public class AuthenticationController : Photon.MonoBehaviour
 			this.loginPopUp.transform.GetComponent<LoginPopUpController> ().setError(ApplicationModel.player.Error);
 			BackOfficeController.instance.hideLoadingScreen();
 		}
-		else if(!ApplicationModel.player.IsAccountActivated)
+		else if(!ApplicationModel.player.IsAccountCreated) // A MODIFIER
+		{
+			this.loginPopUp.SetActive(true);
+			this.loginPopUp.transform.GetComponent<LoginPopUpController> ().setError("Compte non créé, veuillez créer le compte");
+			BackOfficeController.instance.hideLoadingScreen();
+		}
+		else if(!ApplicationModel.player.IsAccountActivated) // A MODIFIER
 		{
 			this.loginPopUp.SetActive(true);
 			this.loginPopUp.transform.GetComponent<LoginPopUpController> ().setError("Compte non activé, veuillez valider le mail");
@@ -501,29 +548,110 @@ public class AuthenticationController : Photon.MonoBehaviour
 			switch(ApplicationModel.player.TutorialStep)
 			{
 			case 0:
-				Application.LoadLevel("Tutorial");	
+				Application.LoadLevelAsync("Tutorial");	
 				break;
 			case 1:
-				Application.LoadLevel("NewStore");	
+				Application.LoadLevelAsync("NewStore");	
 				break;
 			case 2:
-				Application.LoadLevel("newMyGame");	
+				Application.LoadLevelAsync("newMyGame");	
 				break;
 			case 3:case 4:
-				Application.LoadLevel("NewHomePage");
+				Application.LoadLevelAsync("NewHomePage");
 				break;
 			default:
-				Application.LoadLevel("NewHomePage");
+				Application.LoadLevelAsync("NewHomePage");
 				break;
 			}
 		}
 		else
 		{
-			Application.LoadLevel("NewHomePage");
+			Application.LoadLevelAsync("NewHomePage");
 		}
+
 	}
 	void OnJoinedLobby()
 	{
 		this.loadLevels();
 	}
+
+	#region Facebook
+
+	private bool isConnectedToFB()
+	{
+		if(ApplicationDesignRules.isMobileScreen)
+		{
+			return FB.IsLoggedIn;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	private void initFacebookSDK()
+	{
+		if(ApplicationDesignRules.isMobileScreen)
+		{
+			if(!FB.IsInitialized)
+			{
+				FB.Init(InitCallback,OnHideUnity);
+			}
+			else
+			{
+				FB.ActivateApp();
+			}
+		}
+	}
+	private void InitCallback()
+	{
+		if(FB.IsInitialized)
+		{
+			FB.ActivateApp();
+		}
+		else
+		{
+			Debug.Log("Failed to Initialize the Facebook SDK");
+		}
+	}
+	private void OnHideUnity(bool isGameShown)
+	{
+		if(!isGameShown)
+		{
+			Time.timeScale=0;
+		}
+		else
+		{
+			Time.timeScale=1;
+		}
+	}
+	private void facebookLogin()
+	{
+		var perms = new List<string>(){"public_profile","email","user_friends"};
+		FB.LogInWithReadPermissions(perms,AuthCallback);
+	}
+	private void AuthCallback(ILoginResult result)
+	{
+		if(FB.IsLoggedIn)
+		{
+			AccessToken aToken = Facebook.Unity.AccessToken.CurrentAccessToken;
+			ApplicationModel.player.FacebookId=aToken.UserId;
+			foreach (string perm in aToken.Permissions)
+			{
+				Debug.Log(perm);
+			}
+			FB.API("/me?fields=email",HttpMethod.GET,GraphResult =>
+			{
+				if(string.IsNullOrEmpty(GraphResult.Error)==false)
+				{
+					return;
+				}
+				ApplicationModel.player.Mail=GraphResult.ResultDictionary["email"] as string;
+			});
+		}
+		else
+		{
+			Debug.Log("User cancelled login");
+		}
+	}
+	#endregion facebook
 }

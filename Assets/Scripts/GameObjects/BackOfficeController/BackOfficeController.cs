@@ -440,7 +440,6 @@ public class BackOfficeController : MonoBehaviour
 		{
 			this.hideDisconnectedPopUp();
 		}
-		ApplicationModel.player=new Player();
 		ApplicationModel.player.ToDeconnect = true;
 		PhotonNetwork.Disconnect();
 		Application.LoadLevel("Authentication");
