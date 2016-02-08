@@ -48,7 +48,7 @@ public class Adrenaline : GameSkill
 		GameView.instance.getCard(target).moveModifyers.Add(new Modifyer(2, 1, 6, base.name, "+2MOV. Actif 1 tour"));
 		GameView.instance.getPlayingCardController(target).showIcons();
 
-		GameView.instance.displaySkillEffect(target, "+"+soin+"PV\n+2MOV pour un tour", 0);	
+		GameView.instance.displaySkillEffect(target, "+"+soin+"PV\n+2MOV pour un tour", 1);	
 		GameView.instance.addAnim(GameView.instance.getTile(target), 6);
 	}	
 	

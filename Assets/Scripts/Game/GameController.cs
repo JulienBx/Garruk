@@ -2,6 +2,7 @@ using UnityEngine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class GameController : Photon.MonoBehaviour
 {	
@@ -240,7 +241,7 @@ public class GameController : Photon.MonoBehaviour
 	
 	void OnDisconnectedFromPhoton()
 	{
-		Application.LoadLevel("Authentication");
+		SceneManager.LoadScene("Authentication");
 	}
 
 	public void quitGameHandler()

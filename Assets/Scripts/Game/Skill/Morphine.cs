@@ -18,19 +18,21 @@ public class Morphine : GameSkill
 	
 	public override void resolve(List<int> targetsPCC)
 	{	
-		bool isSuccess = false ;
 		GameController.instance.play(GameView.instance.runningSkill);
 		int target = targetsPCC[0];
+		int proba = GameView.instance.getCurrentSkill().proba;
 		
-		if (Random.Range(1,101) <= GameView.instance.getCard(target).getEsquive())
-		{                             
+		if (Random.Range(1,101) <= GameView.instance.getCard(target).getEsquive()){
 			GameController.instance.esquive(target,1);
 		}
 		else{
-			GameController.instance.applyOn(target);
-			isSuccess = true ;
+			if (Random.Range(1,101) <= proba){
+				GameController.instance.applyOn(target);
+			}
+			else{
+				GameController.instance.esquive(target,3);
+			}
 		}
-		GameController.instance.showResult(isSuccess);
 		GameController.instance.endPlay();
 	}
 	
@@ -38,24 +40,25 @@ public class Morphine : GameSkill
 		string text = base.name;
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
-		int level = GameView.instance.getCurrentSkill().Power;
-		int soin = 4*level;
+
+		int level = GameView.instance.getCurrentSkill().Power*4;
+		int soin = Mathf.Min(level,targetCard.GetTotalLife()-targetCard.getLife());
 		
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(-1*soin, -1, 0, text, "+"+soin+" PV"));
-		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 0);	
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(-1*soin, -1, 94, base.name, "+"+soin+" PV"));
+		GameView.instance.displaySkillEffect(target, "+"+soin+"PV", 1);	
+		GameView.instance.addAnim(GameView.instance.getTile(target), 94);
 	}	
 	
 	public override string getTargetText(int target){	
-		string text = base.name;
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
-		int level = GameView.instance.getCurrentSkill().Power;
-		int soin = 2*level;
-		
-		text += "\nSoigne "+soin+" PV";
+		int level = GameView.instance.getCurrentSkill().Power*4;
+		int soin = Mathf.Min(level,targetCard.GetTotalLife()-targetCard.getLife());
+
+		string text = "PV : "+targetCard.getLife()+" -> "+(targetCard.getLife()+soin);
 		
 		int amount = GameView.instance.getCurrentSkill().proba;
-		int probaEsquive = targetCard.getMagicalEsquive();
+		int probaEsquive = targetCard.getEsquive();
 		int probaHit = Mathf.Max(0,amount*(100-probaEsquive)/100) ;
 		text += "\nHIT% : "+probaHit;
 		
