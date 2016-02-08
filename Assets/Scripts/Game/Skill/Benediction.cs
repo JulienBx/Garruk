@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class Sermon : GameSkill
+public class Benediction : GameSkill
 {
-	public Sermon()
+	public Benediction()
 	{
 		this.numberOfExpectedTargets = 1 ;
 		base.name = "Bénédiction";
