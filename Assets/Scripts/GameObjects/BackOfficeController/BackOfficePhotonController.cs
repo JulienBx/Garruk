@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class BackOfficePhotonController : Photon.MonoBehaviour 
 {
@@ -62,7 +63,7 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 		{
 			print("Le tuto est lancé");
 			PhotonNetwork.room.open = false;
-			Application.LoadLevel("Game");
+			SceneManager.LoadScene("Game");
 			ApplicationModel.player.IsFirstPlayer = true ;
 		}
 	}
@@ -88,12 +89,12 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 			{
 				PhotonNetwork.room.open = false;
 			}
-			Application.LoadLevel("Game");
+			SceneManager.LoadScene("Game");
 		}
 	}
 	void OnDisconnectedFromPhoton()
 	{
-		Application.LoadLevel("Authentication");
+		SceneManager.LoadScene("Authentication");
 	}
 	
 }

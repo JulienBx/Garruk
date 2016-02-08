@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class BackOfficeController : MonoBehaviour 
 {
@@ -442,7 +443,7 @@ public class BackOfficeController : MonoBehaviour
 		}
 		ApplicationModel.player.ToDeconnect = true;
 		PhotonNetwork.Disconnect();
-		Application.LoadLevel("Authentication");
+		SceneManager.LoadScene("Authentication");
 	}
 	public IEnumerator sendInvitation(User invitedUser, User sendingUser)
 	{

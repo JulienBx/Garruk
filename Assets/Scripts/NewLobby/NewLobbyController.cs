@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class NewLobbyController : MonoBehaviour
 {
@@ -646,7 +647,7 @@ public class NewLobbyController : MonoBehaviour
 	{
 		if(this.isEndCompetition)
 		{
-			Application.LoadLevel("NewLobby");
+			SceneManager.LoadScene("NewLobby");
 		}
 		else
 		{
@@ -792,7 +793,7 @@ public class NewLobbyController : MonoBehaviour
 	public void clickOnResultsProfile(int id)
 	{
 		ApplicationModel.player.ProfileChosen = this.results [id].transform.FindChild ("username").GetComponent<TextMeshPro> ().text;
-		Application.LoadLevel("NewProfile");
+		SceneManager.LoadScene("NewProfile");
 	}
 	public void updateSubMainBlockTitle(string s)
 	{

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using TMPro;
 using System.Linq;
+using UnityEngine.SceneManagement;
 
 public class NewHomePageController : MonoBehaviour
 {
@@ -940,7 +941,7 @@ public class NewHomePageController : MonoBehaviour
 		}
 		else
 		{
-			Application.LoadLevel ("newMyGame");
+			SceneManager.LoadScene ("newMyGame");
 		}
 	}
 	public void displayDeckList()
@@ -1343,7 +1344,7 @@ public class NewHomePageController : MonoBehaviour
 	{
 		ApplicationModel.player.PackToBuy = model.packs [this.displayedPack].Id;
 		PhotonNetwork.Disconnect();
-		Application.LoadLevel ("NewStore");
+		SceneManager.LoadScene ("NewStore");
 	}
 	private void manageNonReadsNotifications()
 	{
@@ -1457,7 +1458,7 @@ public class NewHomePageController : MonoBehaviour
 		}
 		else
 		{
-			Application.LoadLevel("NewLobby");
+			SceneManager.LoadScene("NewLobby");
 		}
 	}
 	public Vector3 getEndGamePopUpButtonPosition()
@@ -1575,7 +1576,7 @@ public class NewHomePageController : MonoBehaviour
 	public void clickOnContentProfile(int id)
 	{
 		ApplicationModel.player.ProfileChosen = this.contents [id].transform.FindChild ("username").GetComponent<TextMeshPro> ().text;
-		Application.LoadLevel("NewProfile");
+		SceneManager.LoadScene("NewProfile");
 	}
 	public void acceptFriendsRequestHandler(int id)
 	{

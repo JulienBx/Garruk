@@ -67,10 +67,12 @@ public class LoginPopUpController : MonoBehaviour
 	public void inscriptionHandler()
 	{
 		AuthenticationController.instance.displayInscriptionPopUp();
+		AuthenticationController.instance.hideLoginPopUp();
 	}
 	public void lostLoginHandler()
 	{
 		AuthenticationController.instance.displayLostLoginPopUp();
+		AuthenticationController.instance.hideLoginPopUp();
 	}
 	public void applyRememberMeSprites()
 	{

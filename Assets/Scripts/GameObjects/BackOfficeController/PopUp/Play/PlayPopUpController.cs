@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class PlayPopUpController : MonoBehaviour 
 {
@@ -182,7 +183,7 @@ public class PlayPopUpController : MonoBehaviour
 		}
 		else
 		{
-			Application.LoadLevel("NewLobby");
+			SceneManager.LoadScene("NewLobby");
 		}
 	}
 	public void quitPopUp()

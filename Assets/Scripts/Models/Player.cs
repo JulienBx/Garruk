@@ -80,6 +80,7 @@ public class Player : User
 	public Player()
 	{
 		this.Username = "";
+		this.Password="";
 		this.FacebookId="";
 		this.Mail="";
 		this.Id=-1;
@@ -614,8 +615,6 @@ public class Player : User
 		form.AddField("myform_macadress", this.MacAdress);
 		form.AddField("myform_facebookid", this.FacebookId);
 		form.AddField("myform_mail", this.Mail);
-
-		Debug.Log(this.FacebookId);
 		
 		WWW w = new WWW(URLCheckAuthentification, form);
 		yield return w;
@@ -671,14 +670,27 @@ public class Player : User
 			}												
 		}
 	}
-	public IEnumerator createAccount(string nick, string email, string password)
+	public IEnumerator createAccount()
 	{	
+		string isAccountActivatedString;
+		if (this.IsAccountActivated)
+		{
+			isAccountActivatedString = "1";
+		} 
+		else
+		{
+			isAccountActivatedString = "0";
+		}
+
 		WWWForm form = new WWWForm();
 		form.AddField("myform_hash", ApplicationModel.hash);
-		form.AddField("myform_nick", nick);
-		form.AddField("myform_email", email);
-		form.AddField("myform_pass", password);
-		form.AddField("myform_macadress", this.MacAdress);
+		form.AddField("myform_nick", Username);
+		form.AddField("myform_email", Mail);
+		form.AddField("myform_pass", Password);
+		form.AddField("myform_macadress", MacAdress);
+		form.AddField("myform_facebookid",FacebookId);
+		form.AddField("myform_ismailactivated",isAccountActivatedString);
+		form.AddField("myform_idlanguage",IdLanguage.ToString());
 		
 		WWW w = new WWW(URLCreateAccount, form);
 		yield return w;
@@ -686,21 +698,42 @@ public class Player : User
 		if (w.error != null)
 		{
 			Error = w.error;
-		} else
+		} 
+		else
 		{
-			if (w.text == "")
-			{	 				
-				this.Username = nick;
-				this.ToDeconnect = false;
-				this.Mail=email;
-			} 
-			else
+			if (w.text.Contains("#ERROR#"))
 			{
-				Error = w.text;
-			}										
+				string[] errors = w.text.Split(new string[] { "#ERROR#" }, System.StringSplitOptions.None);
+				Error = errors [1];
+			} 
+			else if(w.text.Contains("#SUCESS#"))
+			{
+				Error = "";
+				string[] data = w.text.Split(new string[] { "#SUCESS#" }, System.StringSplitOptions.None);
+				string[] profileData = data[1].Split(new string[] { "\\" }, System.StringSplitOptions.None);
+				this.Username = profileData [0];
+				this.TutorialStep = System.Convert.ToInt32(profileData [1]);
+				this.IsAdmin = System.Convert.ToBoolean(System.Convert.ToInt32(profileData [2]));
+				this.Money = System.Convert.ToInt32(profileData [3]);
+				this.DisplayTutorial = System.Convert.ToBoolean(System.Convert.ToInt32(profileData [4]));
+				this.IdLanguage=System.Convert.ToInt32(profileData[5]);
+				this.IdProfilePicture=System.Convert.ToInt32(profileData[6]);
+				this.Id=System.Convert.ToInt32(profileData[7]);
+				this.IsAccountActivated=true;
+				this.IsAccountCreated=true;
+			}
+			else if(w.text.Contains("#NONACTIVE#"))
+			{
+				Error="";
+				string[] data = w.text.Split(new string[] { "#NONACTIVE#" }, System.StringSplitOptions.None);
+				string[] profileData = data[1].Split(new string[] { "\\" }, System.StringSplitOptions.None);
+				this.Mail = profileData [0];
+				this.Id=-1;
+				this.IsAccountActivated=false;
+				this.IsAccountCreated=true;
+			}							
 		}
 	}
-
 	#endregion
 }
 

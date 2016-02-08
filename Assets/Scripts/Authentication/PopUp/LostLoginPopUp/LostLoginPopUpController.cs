@@ -39,6 +39,7 @@ public class LostLoginPopUpController : MonoBehaviour
 	public void exitPopUp()
 	{
 		AuthenticationController.instance.displayLoginPopUp();
+		AuthenticationController.instance.hideLostLoginPopUp();
 	}
 	public string getLogin()
 	{

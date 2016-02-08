@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class TutorialController : MonoBehaviour 
 {
@@ -51,7 +52,7 @@ public class TutorialController : MonoBehaviour
 	private IEnumerator quitTutorial()
 	{
 		yield return StartCoroutine(ApplicationModel.player.setTutorialStep (1));
-		Application.LoadLevel("NewStore");
+		SceneManager.LoadScene("NewStore");
 	}
 	public void resize()
 	{

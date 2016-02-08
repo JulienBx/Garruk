@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class SearchUsersPopUpUserController : MonoBehaviour 
 {
@@ -36,7 +37,7 @@ public class SearchUsersPopUpUserController : MonoBehaviour
 	void OnMouseDown()
 	{
 		ApplicationModel.player.ProfileChosen = gameObject.transform.FindChild ("Username").GetComponent<TextMeshPro> ().text;
-		Application.LoadLevel ("NewProfile");	
+		SceneManager.LoadScene ("NewProfile");	
 	}
 	public void show()
 	{

@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using TMPro;
 using Facebook.Unity;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 
 public class AuthenticationController : Photon.MonoBehaviour 
@@ -22,12 +23,16 @@ public class AuthenticationController : Photon.MonoBehaviour
 	private bool isLoginPopUpDisplayed;
 	private GameObject inscriptionPopUp;
 	private bool isInscriptionPopUpDisplayed;
-	private GameObject accountCreatedPopUp;
-	private bool isAccountCreatedPopUpDisplayed;
+	private GameObject authenticationMessagePopUp;
+	private bool isAuthenticationMessagePopUpDisplayed;
 	private GameObject lostLoginPopUp;
 	private bool isLostLoginPopUpDisplayed;
-	private GameObject passwordResetPopUp;
-	private bool isPasswordResetPopUpDisplayed;
+	private GameObject emailNonActivatedPopUp;
+	private bool isEmailNonActivatedPopUpDisplayed;
+	private GameObject existingAccountPopUp;
+	private bool isExistingAccountPopUpDisplayed;
+	private GameObject inscriptionFacebookPopUp;
+	private bool isInscriptionFacebookPopUpDisplayed;
 
 	private GameObject mainCamera;
 	private GameObject backgroundCamera;
@@ -35,7 +40,6 @@ public class AuthenticationController : Photon.MonoBehaviour
 
 	void Start()
 	{
-		//Debug.Log("AWAKE"+gameObject.GetInstanceID());
 		instance = this;
 		this.initPlayer();
 		this.initLanguage();
@@ -112,12 +116,16 @@ public class AuthenticationController : Photon.MonoBehaviour
 		this.loginPopUp.SetActive(false);
 		this.inscriptionPopUp=GameObject.Find("inscriptionPopUp");
 		this.inscriptionPopUp.SetActive(false);
-		this.accountCreatedPopUp=GameObject.Find("accountCreatedPopUp");
-		this.accountCreatedPopUp.SetActive(false);
+		this.authenticationMessagePopUp=GameObject.Find("authenticationMessagePopUp");
+		this.authenticationMessagePopUp.SetActive(false);
+		this.emailNonActivatedPopUp=GameObject.Find("emailNonActivatedPopUp");
+		this.emailNonActivatedPopUp.SetActive(false);
 		this.lostLoginPopUp=GameObject.Find("lostLoginPopUp");
 		this.lostLoginPopUp.SetActive(false);
-		this.passwordResetPopUp=GameObject.Find("passwordResetPopUp");
-		this.passwordResetPopUp.SetActive(false);
+		this.existingAccountPopUp=GameObject.Find("existingAccountPopUp");
+		this.existingAccountPopUp.SetActive(false);
+		this.inscriptionFacebookPopUp=GameObject.Find("inscriptionFacebookPopUp");
+		this.inscriptionFacebookPopUp.SetActive(false);
 		this.mainCamera = gameObject;
 		this.backgroundCamera = GameObject.Find ("BackgroundCamera");
 		this.sceneCamera = GameObject.Find ("sceneCamera");
@@ -134,7 +142,7 @@ public class AuthenticationController : Photon.MonoBehaviour
 	}
 	public void facebookHandler()
 	{
-		StartCoroutine(this.login());
+		this.facebookLogin();
 	}
 	public void loginHandler()
 	{
@@ -169,16 +177,16 @@ public class AuthenticationController : Photon.MonoBehaviour
 			this.loginPopUp.transform.GetComponent<LoginPopUpController> ().setError(ApplicationModel.player.Error);
 			BackOfficeController.instance.hideLoadingScreen();
 		}
-		else if(!ApplicationModel.player.IsAccountCreated) // A MODIFIER
+		else if(!ApplicationModel.player.IsAccountCreated)
 		{
-			this.loginPopUp.SetActive(true);
-			this.loginPopUp.transform.GetComponent<LoginPopUpController> ().setError("Compte non créé, veuillez créer le compte");
+			this.hideLoginPopUp();
+			this.displayInscriptionFacebookPopUp(ApplicationModel.player.Mail);
 			BackOfficeController.instance.hideLoadingScreen();
 		}
-		else if(!ApplicationModel.player.IsAccountActivated) // A MODIFIER
+		else if(!ApplicationModel.player.IsAccountActivated)
 		{
-			this.loginPopUp.SetActive(true);
-			this.loginPopUp.transform.GetComponent<LoginPopUpController> ().setError("Compte non activé, veuillez valider le mail");
+			this.hideLoginPopUp();
+			this.displayEmailNonActivatedPopUp(ApplicationModel.player.Mail);
 			BackOfficeController.instance.hideLoadingScreen();
 		}
 	}
@@ -200,16 +208,124 @@ public class AuthenticationController : Photon.MonoBehaviour
 					error=this.checkEmail(email);
 					if(error=="")
 					{
-						StartCoroutine(this.createNewAccount(login,password1,email));
+						ApplicationModel.player.Username=login;
+						ApplicationModel.player.Password=password1;
+						ApplicationModel.player.Mail=email;
+						ApplicationModel.player.IsAccountActivated=false;
+						StartCoroutine(this.createNewAccount());
 					}
 				}
 			}
 		}
 		this.inscriptionPopUp.GetComponent<InscriptionPopUpController>().setError(error);	
 	}
+	public IEnumerator createNewAccount()
+	{
+		this.inscriptionPopUp.SetActive(false);
+		BackOfficeController.instance.displayLoadingScreen();
+		yield return StartCoroutine(ApplicationModel.player.createAccount());
+		BackOfficeController.instance.hideLoadingScreen();
+		if(ApplicationModel.player.Error!="")
+		{
+			this.inscriptionPopUp.SetActive(true);
+			this.inscriptionPopUp.transform.GetComponent<InscriptionPopUpController> ().setError(ApplicationModel.player.Error);
+			BackOfficeController.instance.hideLoadingScreen();
+		}
+		else if(!ApplicationModel.player.IsAccountActivated)
+		{
+			this.hideInscriptionPopUp();
+			this.displayAuthenticationMessagePopUp(1);
+			BackOfficeController.instance.hideLoadingScreen();
+		}
+	}
+	public void inscriptionFacebookHandler()
+	{
+		string login = this.inscriptionFacebookPopUp.transform.GetComponent<InscriptionFacebookPopUpController>().getLogin();
+		string password1 = this.inscriptionFacebookPopUp.transform.GetComponent<InscriptionFacebookPopUpController> ().getFirstPassword();
+		string password2 = this.inscriptionFacebookPopUp.transform.GetComponent<InscriptionFacebookPopUpController> ().getSecondPassword();
+		string email = this.inscriptionFacebookPopUp.transform.GetComponent<InscriptionFacebookPopUpController>().getEmail();
+		string error = this.checkUsername(login);
+		if(error=="")
+		{
+		 	error=this.checkPasswordEgality(password1,password2);
+			if(error=="")
+			{
+				error=this.checkPasswordComplexity(password1);
+				if(error=="")
+				{
+					error=this.checkEmail(email);
+					if(error=="")
+					{
+						ApplicationModel.player.Username=login;
+						ApplicationModel.player.Password=password1;
+						if(email!=ApplicationModel.player.Mail)
+						{
+							ApplicationModel.player.IsAccountActivated=false;
+						}
+						else
+						{
+							ApplicationModel.player.IsAccountActivated=true;
+						}
+						ApplicationModel.player.Mail=email;
+						StartCoroutine(this.createNewFacebookAccount());
+					}
+				}
+			}
+		}
+		this.inscriptionPopUp.GetComponent<InscriptionPopUpController>().setError(error);	
+	}
+	public IEnumerator createNewFacebookAccount()
+	{
+		this.inscriptionFacebookPopUp.SetActive(false);
+		BackOfficeController.instance.displayLoadingScreen();
+		yield return StartCoroutine(ApplicationModel.player.createAccount());
+		BackOfficeController.instance.hideLoadingScreen();
+		if(ApplicationModel.player.Error=="" && ApplicationModel.player.Id!=-1 && ApplicationModel.player.IsAccountActivated)
+		{
+			this.connectToPhoton();
+		}
+		else if(ApplicationModel.player.Error!="")
+		{
+			this.inscriptionFacebookPopUp.SetActive(true);
+			this.inscriptionFacebookPopUp.transform.GetComponent<InscriptionFacebookPopUpController> ().setError(ApplicationModel.player.Error);
+			BackOfficeController.instance.hideLoadingScreen();
+		}
+		else if(!ApplicationModel.player.IsAccountActivated)
+		{
+			this.hideInscriptionFacebookPopUp();
+			this.displayAuthenticationMessagePopUp(1);
+			BackOfficeController.instance.hideLoadingScreen();
+		}
+	}
 	public void lostLoginHandler()
 	{
-		this.displayPasswordResetPopUp();
+		// A MODIFIER 
+
+		//
+
+		//
+
+		//
+	}
+	public void emailNonActivatedHandler()
+	{
+		// A MODIFIER
+
+		//
+
+		//
+
+		//
+	}
+	public void existingAccountHandler()
+	{
+		// A MODIFIER
+
+		//
+
+		//
+
+		//
 	}
 	public void resize()
 	{
@@ -237,9 +353,25 @@ public class AuthenticationController : Photon.MonoBehaviour
 		{
 			this.inscriptionPopUpResize();
 		}
-		if(this.isAccountCreatedPopUpDisplayed)
+		if(this.isAuthenticationMessagePopUpDisplayed)
 		{
-			this.accountCreatedPopUpResize();
+			this.authenticationMessagePopUpResize();
+		}
+		if(this.isLostLoginPopUpDisplayed)
+		{
+			this.lostLoginPopUpResize();
+		}
+		if(this.isEmailNonActivatedPopUpDisplayed)
+		{
+			this.emailNonActivatedPopUpResize();
+		}
+		if(this.isExistingAccountPopUpDisplayed)
+		{
+			this.existingAccountPopUpResize();
+		}
+		if(this.isInscriptionFacebookPopUpDisplayed)
+		{
+			this.inscriptionFacebookPopUpResize();
 		}
 	}
 	public void chooseLanguageHandler()
@@ -265,9 +397,21 @@ public class AuthenticationController : Photon.MonoBehaviour
 		{
 			this.lostLoginPopUp.GetComponent<LostLoginPopUpController>().computeLabels();
 		}
-		if(this.isPasswordResetPopUpDisplayed)
+		if(this.isAuthenticationMessagePopUpDisplayed)
 		{
-			this.passwordResetPopUp.GetComponent<PasswordResetPopUpController>().computeLabels();
+			this.authenticationMessagePopUp.GetComponent<AuthenticationMessagePopUpController>().computeLabels();
+		}
+		if(this.isEmailNonActivatedPopUpDisplayed)
+		{
+			this.emailNonActivatedPopUp.GetComponent<EmailNonActivatedPopUpController>().computeLabels();
+		}
+		if(this.isInscriptionFacebookPopUpDisplayed)
+		{
+			this.inscriptionFacebookPopUp.GetComponent<InscriptionFacebookPopUpController>().computeLabels();
+		}
+		if(this.isExistingAccountPopUpDisplayed)
+		{
+			this.existingAccountPopUp.GetComponent<ExistingAccountPopUpController>().computeLabels();
 		}
 	}
 	public void drawChooseLanguageButton()
@@ -283,22 +427,6 @@ public class AuthenticationController : Photon.MonoBehaviour
 	}
 	public void displayLoginPopUp()
 	{
-		if(this.isInscriptionPopUpDisplayed)
-		{
-			this.hideInscriptionPopUp();
-		}
-		if(this.isAccountCreatedPopUpDisplayed)
-		{
-			this.hideAccountCreatedPopUp();
-		}
-		if(this.isLostLoginPopUpDisplayed)
-		{
-			this.hideLostLoginPopUp();
-		}
-		if(this.isPasswordResetPopUpDisplayed)
-		{
-			this.hidePasswordResetPopUp();
-		}
 		this.loginPopUp.transform.GetComponent<LoginPopUpController> ().reset(ApplicationModel.player.Username,false);
 		this.isLoginPopUpDisplayed = true;
 		this.loginPopUp.SetActive (true);
@@ -306,10 +434,6 @@ public class AuthenticationController : Photon.MonoBehaviour
 	}
 	public void displayLostLoginPopUp()
 	{
-		if(this.isLoginPopUpDisplayed)
-		{
-			this.hideLoginPopUp();
-		}
 		this.lostLoginPopUp.transform.GetComponent<LostLoginPopUpController> ().reset(ApplicationModel.player.Username);
 		this.isLostLoginPopUpDisplayed = true;
 		this.lostLoginPopUp.SetActive (true);
@@ -318,36 +442,38 @@ public class AuthenticationController : Photon.MonoBehaviour
 	}
 	public void displayInscriptionPopUp()
 	{
-		if(this.isLoginPopUpDisplayed)
-		{
-			this.hideLoginPopUp();
-		}
 		this.inscriptionPopUp.transform.GetComponent<InscriptionPopUpController> ().reset();
 		this.isInscriptionPopUpDisplayed = true;
 		this.inscriptionPopUp.SetActive (true);
 		this.inscriptionPopUpResize ();
 	}
-	public void displayAccountCreatedPopUp()
+	public void displayAuthenticationMessagePopUp(int idMessage)
 	{
-		if(this.isInscriptionPopUpDisplayed)
-		{
-			this.hideInscriptionPopUp();
-		}
-		this.accountCreatedPopUp.transform.GetComponent<AccountCreatedPopUpController> ().reset();
-		this.isAccountCreatedPopUpDisplayed = true;
-		this.accountCreatedPopUp.SetActive (true);
-		this.accountCreatedPopUpResize ();
+		this.authenticationMessagePopUp.transform.GetComponent<AuthenticationMessagePopUpController> ().reset(idMessage);
+		this.isAuthenticationMessagePopUpDisplayed = true;
+		this.authenticationMessagePopUp.SetActive (true);
+		this.authenticationMessagePopUpResize ();
 	}
-	public void displayPasswordResetPopUp()
+	public void displayEmailNonActivatedPopUp(string mail)
 	{
-		if(this.isLostLoginPopUpDisplayed)
-		{
-			this.hideLostLoginPopUp();
-		}
-		this.passwordResetPopUp.transform.GetComponent<PasswordResetPopUpController> ().reset();
-		this.isPasswordResetPopUpDisplayed = true;
-		this.passwordResetPopUp.SetActive (true);
-		this.passwordResetPopUpResize ();
+		this.emailNonActivatedPopUp.transform.GetComponent<EmailNonActivatedPopUpController> ().reset(mail);
+		this.isEmailNonActivatedPopUpDisplayed = true;
+		this.emailNonActivatedPopUp.SetActive (true);
+		this.emailNonActivatedPopUpResize ();
+	}
+	public void displayExistingAccountPopUp()
+	{
+		this.existingAccountPopUp.transform.GetComponent<ExistingAccountPopUpController> ().reset();
+		this.isExistingAccountPopUpDisplayed = true;
+		this.existingAccountPopUp.SetActive (true);
+		this.existingAccountPopUpResize ();
+	}
+	public void displayInscriptionFacebookPopUp(string mail)
+	{
+		this.inscriptionFacebookPopUp.transform.GetComponent<InscriptionFacebookPopUpController> ().reset(mail);
+		this.isInscriptionFacebookPopUpDisplayed = true;
+		this.inscriptionFacebookPopUp.SetActive (true);
+		this.inscriptionFacebookPopUpResize ();
 	}
 	public void loginPopUpResize()
 	{
@@ -365,11 +491,11 @@ public class AuthenticationController : Photon.MonoBehaviour
 		this.displayFacebookButton(true);
 		this.facebookButton.transform.FindChild("Title").GetComponent<TextMeshPro>().text=WordingAuthentication.getReference(11);
 	}
-	public void accountCreatedPopUpResize()
+	public void authenticationMessagePopUpResize()
 	{
-		this.accountCreatedPopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y-0.7f, -2f);
-		this.accountCreatedPopUp.transform.localScale = ApplicationDesignRules.popUpScale;
-		this.accountCreatedPopUp.GetComponent<AccountCreatedPopUpController> ().resize ();
+		this.authenticationMessagePopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y-0.7f, -2f);
+		this.authenticationMessagePopUp.transform.localScale = ApplicationDesignRules.popUpScale;
+		this.authenticationMessagePopUp.GetComponent<AuthenticationMessagePopUpController> ().resize ();
 		this.displayFacebookButton(false);
 	}
 	public void lostLoginPopUpResize()
@@ -379,11 +505,25 @@ public class AuthenticationController : Photon.MonoBehaviour
 		this.lostLoginPopUp.GetComponent<LostLoginPopUpController> ().resize ();
 		this.displayFacebookButton(false);
 	}
-	public void passwordResetPopUpResize()
+	public void emailNonActivatedPopUpResize()
 	{
-		this.passwordResetPopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y-0.7f, -2f);
-		this.passwordResetPopUp.transform.localScale = ApplicationDesignRules.popUpScale;
-		this.passwordResetPopUp.GetComponent<PasswordResetPopUpController> ().resize ();
+		this.emailNonActivatedPopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y-0.7f, -2f);
+		this.emailNonActivatedPopUp.transform.localScale = ApplicationDesignRules.popUpScale;
+		this.emailNonActivatedPopUp.GetComponent<EmailNonActivatedPopUpController> ().resize ();
+		this.displayFacebookButton(false);
+	}
+	public void inscriptionFacebookPopUpResize()
+	{
+		this.inscriptionFacebookPopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y-0.7f, -2f);
+		this.inscriptionFacebookPopUp.transform.localScale = ApplicationDesignRules.popUpScale;
+		this.inscriptionFacebookPopUp.GetComponent<InscriptionFacebookPopUpController> ().resize ();
+		this.displayFacebookButton(false);
+	}
+	public void existingAccountPopUpResize()
+	{
+		this.existingAccountPopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y-0.7f, -2f);
+		this.existingAccountPopUp.transform.localScale = ApplicationDesignRules.popUpScale;
+		this.existingAccountPopUp.GetComponent<ExistingAccountPopUpController> ().resize ();
 		this.displayFacebookButton(false);
 	}
 	public void hideLoginPopUp()
@@ -396,20 +536,30 @@ public class AuthenticationController : Photon.MonoBehaviour
 		this.inscriptionPopUp.SetActive (false);
 		this.isInscriptionPopUpDisplayed = false;
 	}
-	public void hideAccountCreatedPopUp()
-	{
-		this.accountCreatedPopUp.SetActive (false);
-		this.isAccountCreatedPopUpDisplayed = false;
-	}
 	public void hideLostLoginPopUp()
 	{
 		this.lostLoginPopUp.SetActive (false);
 		this.isLostLoginPopUpDisplayed = false;
 	}
-	public void hidePasswordResetPopUp()
+	public void hideAuthenticationMessagePopUp()
 	{
-		this.passwordResetPopUp.SetActive (false);
-		this.isPasswordResetPopUpDisplayed = false;
+		this.authenticationMessagePopUp.SetActive (false);
+		this.isAuthenticationMessagePopUpDisplayed = false;
+	}
+	public void hideEmailNonActivatedPopUp()
+	{
+		this.emailNonActivatedPopUp.SetActive (false);
+		this.isEmailNonActivatedPopUpDisplayed = false;
+	}
+	public void hideInscriptionFacebookPopUp()
+	{
+		this.inscriptionFacebookPopUp.SetActive (false);
+		this.isInscriptionFacebookPopUpDisplayed = false;
+	}
+	public void hideExistingAccountPopUp()
+	{
+		this.existingAccountPopUp.SetActive (false);
+		this.isExistingAccountPopUpDisplayed = false;
 	}
 	public void displayFacebookButton(bool value)
 	{
@@ -420,23 +570,6 @@ public class AuthenticationController : Photon.MonoBehaviour
 		else
 		{
 			this.facebookButton.SetActive(false);
-		}
-	}
-	public IEnumerator createNewAccount(string login, string password, string email)
-	{
-		this.inscriptionPopUp.SetActive(false);
-		BackOfficeController.instance.displayLoadingScreen();
-		yield return StartCoroutine(ApplicationModel.player.createAccount(login,email,password));
-		BackOfficeController.instance.hideLoadingScreen();
-		this.inscriptionPopUp.SetActive(true);
-		if(ApplicationModel.player.Error!="")
-		{
-			this.inscriptionPopUp.GetComponent<InscriptionPopUpController>().setError(ApplicationModel.player.Error);
-			ApplicationModel.player.Error="";
-		}
-		else
-		{
-			this.displayAccountCreatedPopUp();
 		}
 	}
 	public string checkLogin(string login)
@@ -509,17 +642,13 @@ public class AuthenticationController : Photon.MonoBehaviour
 		{
 			this.inscriptionHandler();
 		}
-		if(this.isAccountCreatedPopUpDisplayed)
-		{
-			this.displayLoginPopUp();
-		}
 		if(this.isLostLoginPopUpDisplayed)
 		{
-			this.displayLoginPopUp();
+			this.lostLoginHandler();
 		}
-		if(this.isPasswordResetPopUpDisplayed)
+		if(this.isEmailNonActivatedPopUpDisplayed)
 		{
-			this.displayLoginPopUp();
+			this.emailNonActivatedHandler();
 		}
 	}
 	public void escapePressed()
@@ -527,18 +656,17 @@ public class AuthenticationController : Photon.MonoBehaviour
 		if(this.isInscriptionPopUpDisplayed)
 		{
 			this.displayLoginPopUp();
-		}
-		if(this.isAccountCreatedPopUpDisplayed)
-		{
-			this.displayLoginPopUp();
+			this.hideInscriptionPopUp();
 		}
 		if(this.isLostLoginPopUpDisplayed)
 		{
 			this.displayLoginPopUp();
+			this.hideLostLoginPopUp();
 		}
-		if(this.isPasswordResetPopUpDisplayed)
+		if(this.isEmailNonActivatedPopUpDisplayed)
 		{
 			this.displayLoginPopUp();
+			this.hideEmailNonActivatedPopUp();
 		}
 	}
 	private void loadLevels()
@@ -548,25 +676,25 @@ public class AuthenticationController : Photon.MonoBehaviour
 			switch(ApplicationModel.player.TutorialStep)
 			{
 			case 0:
-				Application.LoadLevelAsync("Tutorial");	
+				SceneManager.LoadScene("Tutorial");	
 				break;
 			case 1:
-				Application.LoadLevelAsync("NewStore");	
+				SceneManager.LoadScene("NewStore");	
 				break;
 			case 2:
-				Application.LoadLevelAsync("newMyGame");	
+				SceneManager.LoadScene("newMyGame");	
 				break;
 			case 3:case 4:
-				Application.LoadLevelAsync("NewHomePage");
+				SceneManager.LoadScene("NewHomePage");
 				break;
 			default:
-				Application.LoadLevelAsync("NewHomePage");
+				SceneManager.LoadScene("NewHomePage");
 				break;
 			}
 		}
 		else
 		{
-			Application.LoadLevelAsync("NewHomePage");
+			SceneManager.LoadScene("NewHomePage");
 		}
 
 	}
@@ -626,6 +754,7 @@ public class AuthenticationController : Photon.MonoBehaviour
 	}
 	private void facebookLogin()
 	{
+		BackOfficeController.instance.displayLoadingScreen();
 		var perms = new List<string>(){"public_profile","email","user_friends"};
 		FB.LogInWithReadPermissions(perms,AuthCallback);
 	}
@@ -646,10 +775,12 @@ public class AuthenticationController : Photon.MonoBehaviour
 					return;
 				}
 				ApplicationModel.player.Mail=GraphResult.ResultDictionary["email"] as string;
+				StartCoroutine(this.login());
 			});
 		}
 		else
 		{
+			BackOfficeController.instance.hideLoadingScreen();
 			Debug.Log("User cancelled login");
 		}
 	}

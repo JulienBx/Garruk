@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class MenuController : MonoBehaviour 
 {
@@ -315,27 +316,27 @@ public class MenuController : MonoBehaviour
 	}
 	public void homePageLink()
 	{
-		Application.LoadLevel("NewHomePage");
+		SceneManager.LoadScene("NewHomePage");
 	}
 	public void profileLink() 
 	{
-		Application.LoadLevel("NewProfile");
+		SceneManager.LoadScene("NewProfile");
 	}
 	public void myGameLink() 
 	{
-		Application.LoadLevel("newMyGame");
+		SceneManager.LoadScene("newMyGame");
 	}
 	public void marketLink() 
 	{
-		Application.LoadLevel("newMarket");
+		SceneManager.LoadScene("newMarket");
 	}
 	public void skillBookLink() 
 	{
-		Application.LoadLevel("NewSkillBook");
+		SceneManager.LoadScene("NewSkillBook");
 	}
 	public void storeLink() 
 	{
-		Application.LoadLevel("newStore");
+		SceneManager.LoadScene("newStore");
 	}
 	public void playLink() 
 	{
@@ -343,7 +344,7 @@ public class MenuController : MonoBehaviour
 	}
 	public void adminBoardLink() 
 	{
-		Application.LoadLevel("AdminBoard");
+		SceneManager.LoadScene("AdminBoard");
 	}
 	public void changeThumbPicture()
 	{

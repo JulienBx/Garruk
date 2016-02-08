@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using TMPro;
 using System.Linq;
+using UnityEngine.SceneManagement;
 
 public class NewProfileController : MonoBehaviour
 {
@@ -1901,12 +1902,12 @@ public class NewProfileController : MonoBehaviour
 	public void clickOnFriendsContentProfile(int id)
 	{
 		ApplicationModel.player.ProfileChosen = this.friendsContents [id].transform.FindChild ("username").GetComponent<TextMeshPro> ().text;
-		Application.LoadLevel("NewProfile");
+		SceneManager.LoadScene("NewProfile");
 	}
 	public void clickOnResultsContentProfile(int id)
 	{
 		ApplicationModel.player.ProfileChosen = this.resultsContents [id].transform.FindChild ("title").GetComponent<TextMeshPro> ().text;
-		Application.LoadLevel("NewProfile");
+		SceneManager.LoadScene("NewProfile");
 	}
 	public void slideRight()
 	{

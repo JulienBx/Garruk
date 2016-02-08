@@ -2,6 +2,6 @@
 {
 	public override void mainInstruction ()
 	{
-		
+		AuthenticationController.instance.facebookHandler();	
 	}
 }
