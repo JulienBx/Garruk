@@ -34,6 +34,7 @@ public class Player : User
 	private string URLCheckPermanentConnexion;
 	private string URLCreateAccount;
 	private string URLRefreshUserData;
+	private string URLLostLogin;
 	private int TotalNbResultLimit;
 	public string Error;
 	public string Mail;
@@ -76,6 +77,7 @@ public class Player : User
 	public string Password;
 	public string FacebookId;
 	public bool IsAccountCreated;
+	public bool ToChangePassword;
 
 	public Player()
 	{
@@ -121,6 +123,7 @@ public class Player : User
 		this.URLCheckPermanentConnexion = ApplicationModel.host + "check_permanent_connexion.php";
 		this.URLCreateAccount = ApplicationModel.host + "create_account.php";
 		this.URLRefreshUserData = ApplicationModel.host+"refresh_user_data.php";
+		this.URLLostLogin=ApplicationModel.host+"lost_login.php";
 		this.TotalNbResultLimit=1000;
 		this.Error="";
 		this.Connections=new List<Connection>();
@@ -643,6 +646,7 @@ public class Player : User
 				this.IdLanguage=System.Convert.ToInt32(profileData[5]);
 				this.IdProfilePicture=System.Convert.ToInt32(profileData[6]);
 				this.Id=System.Convert.ToInt32(profileData[7]);
+				this.ToChangePassword=System.Convert.ToBoolean(System.Convert.ToInt32(profileData[8]));
 				this.IsAccountActivated=true;
 				this.IsAccountCreated=true;
 			}
@@ -732,6 +736,34 @@ public class Player : User
 				this.IsAccountActivated=false;
 				this.IsAccountCreated=true;
 			}							
+		}
+	}
+	public IEnumerator lostLogin()
+	{
+		WWWForm form = new WWWForm(); 
+		form.AddField("myform_hash", ApplicationModel.hash);
+		form.AddField("myform_nick", this.Username); 	
+		form.AddField("myform_macadress", this.MacAdress); 	
+		
+		WWW w = new WWW(URLLostLogin, form);
+		yield return w;
+		
+		if (w.error != null)
+		{
+			Error = w.error;
+		} 
+		else
+		{
+			
+			if (w.text.Contains("#ERROR#"))
+			{
+				string[] errors = w.text.Split(new string[] { "#ERROR#" }, System.StringSplitOptions.None);
+				Error = errors [1];
+			} 
+			else
+			{
+				Error="";
+			}		
 		}
 	}
 	#endregion

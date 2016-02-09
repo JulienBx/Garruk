@@ -33,6 +33,8 @@ public class AuthenticationController : Photon.MonoBehaviour
 	private bool isExistingAccountPopUpDisplayed;
 	private GameObject inscriptionFacebookPopUp;
 	private bool isInscriptionFacebookPopUpDisplayed;
+	private GameObject changePasswordPopUp;
+	private bool isChangePasswordPopUpDisplayed;
 
 	private GameObject mainCamera;
 	private GameObject backgroundCamera;
@@ -45,9 +47,12 @@ public class AuthenticationController : Photon.MonoBehaviour
 		this.initLanguage();
 		this.initializeScene ();
 		this.initializeBackOffice();
-		this.initFacebookSDK();
 		this.resize ();
 		this.drawChooseLanguageButton();
+		this.initFacebookSDK();
+	}
+	private void autoLogging()
+	{
 		if(ApplicationModel.player.ToDeconnect)
 		{
 			ApplicationModel.player.ToDeconnect=false;
@@ -126,6 +131,8 @@ public class AuthenticationController : Photon.MonoBehaviour
 		this.existingAccountPopUp.SetActive(false);
 		this.inscriptionFacebookPopUp=GameObject.Find("inscriptionFacebookPopUp");
 		this.inscriptionFacebookPopUp.SetActive(false);
+		this.changePasswordPopUp=GameObject.Find("changePasswordPopUp");
+		this.changePasswordPopUp.SetActive(false);
 		this.mainCamera = gameObject;
 		this.backgroundCamera = GameObject.Find ("BackgroundCamera");
 		this.sceneCamera = GameObject.Find ("sceneCamera");
@@ -167,11 +174,7 @@ public class AuthenticationController : Photon.MonoBehaviour
 		this.loginPopUp.SetActive(false);
 		BackOfficeController.instance.displayLoadingScreen();
 		yield return StartCoroutine(ApplicationModel.player.Login());
-		if(ApplicationModel.player.Error=="" && ApplicationModel.player.Id!=-1 && ApplicationModel.player.IsAccountActivated && ApplicationModel.player.IsAccountCreated)
-		{
-			this.connectToPhoton();
-		}
-		else if(ApplicationModel.player.Error!="")
+		if(ApplicationModel.player.Error!="")
 		{
 			this.loginPopUp.SetActive(true);
 			this.loginPopUp.transform.GetComponent<LoginPopUpController> ().setError(ApplicationModel.player.Error);
@@ -189,6 +192,16 @@ public class AuthenticationController : Photon.MonoBehaviour
 			this.hideLoginPopUp();
 			this.displayEmailNonActivatedPopUp(ApplicationModel.player.Mail);
 			BackOfficeController.instance.hideLoadingScreen();
+		}
+		else if(ApplicationModel.player.ToChangePassword)
+		{
+			this.hideLoginPopUp();
+			this.displayChangePasswordPopUp();
+			BackOfficeController.instance.hideLoadingScreen();
+		}
+		else
+		{
+			this.connectToPhoton();
 		}
 	}
 	public void inscriptionHandler()
@@ -298,7 +311,30 @@ public class AuthenticationController : Photon.MonoBehaviour
 	}
 	public void lostLoginHandler()
 	{
-		// A MODIFIER 
+		ApplicationModel.player.Username=this.lostLoginPopUp.GetComponent<LostLoginPopUpController>().getLogin();
+		StartCoroutine(this.lostLogin());
+	}
+	public IEnumerator lostLogin()
+	{
+		this.lostLoginPopUp.SetActive(false);
+		BackOfficeController.instance.displayLoadingScreen();
+		yield return StartCoroutine(ApplicationModel.player.lostLogin());
+		if(ApplicationModel.player.Error=="")
+		{
+			this.displayAuthenticationMessagePopUp(2);
+			this.hideLostLoginPopUp();
+		}
+		else 
+		{
+			this.lostLoginPopUp.SetActive(true);
+			this.lostLoginPopUp.GetComponent<LostLoginPopUpController>().setError(ApplicationModel.player.Error);
+			ApplicationModel.player.Error="";
+		}
+		BackOfficeController.instance.hideLoadingScreen();
+	}
+	public void changePasswordHandler()
+	{
+		// A MODIFIER
 
 		//
 
@@ -372,6 +408,10 @@ public class AuthenticationController : Photon.MonoBehaviour
 		{
 			this.inscriptionFacebookPopUpResize();
 		}
+		if(this.isChangePasswordPopUpDisplayed)
+		{
+			this.changePasswordPopUpResize();
+		}
 	}
 	public void chooseLanguageHandler()
 	{
@@ -411,6 +451,10 @@ public class AuthenticationController : Photon.MonoBehaviour
 		if(this.isExistingAccountPopUpDisplayed)
 		{
 			this.existingAccountPopUp.GetComponent<ExistingAccountPopUpController>().computeLabels();
+		}
+		if(this.isChangePasswordPopUpDisplayed)
+		{
+			this.changePasswordPopUp.GetComponent<AuthenticationChangePasswordPopUpController>().computeLabels();
 		}
 	}
 	public void drawChooseLanguageButton()
@@ -474,6 +518,13 @@ public class AuthenticationController : Photon.MonoBehaviour
 		this.inscriptionFacebookPopUp.SetActive (true);
 		this.inscriptionFacebookPopUpResize ();
 	}
+	public void displayChangePasswordPopUp()
+	{
+		this.changePasswordPopUp.transform.GetComponent<AuthenticationChangePasswordPopUpController> ().reset();
+		this.isChangePasswordPopUpDisplayed = true;
+		this.changePasswordPopUp.SetActive (true);
+		this.changePasswordPopUpResize ();
+	}
 	public void loginPopUpResize()
 	{
 		this.loginPopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y-0.7f, -2f);
@@ -525,6 +576,13 @@ public class AuthenticationController : Photon.MonoBehaviour
 		this.existingAccountPopUp.GetComponent<ExistingAccountPopUpController> ().resize ();
 		this.displayFacebookButton(false);
 	}
+	public void changePasswordPopUpResize()
+	{
+		this.changePasswordPopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y-0.7f, -2f);
+		this.changePasswordPopUp.transform.localScale = ApplicationDesignRules.popUpScale;
+		this.changePasswordPopUp.GetComponent<AuthenticationChangePasswordPopUpController> ().resize ();
+		this.displayFacebookButton(false);
+	}
 	public void hideLoginPopUp()
 	{
 		this.loginPopUp.SetActive (false);
@@ -559,6 +617,11 @@ public class AuthenticationController : Photon.MonoBehaviour
 	{
 		this.existingAccountPopUp.SetActive (false);
 		this.isExistingAccountPopUpDisplayed = false;
+	}
+	public void hideChangePasswordPopUp()
+	{
+		this.changePasswordPopUp.SetActive (false);
+		this.isChangePasswordPopUpDisplayed = false;
 	}
 	public void displayFacebookButton(bool value)
 	{
@@ -649,6 +712,10 @@ public class AuthenticationController : Photon.MonoBehaviour
 		{
 			this.emailNonActivatedHandler();
 		}
+		if(this.isChangePasswordPopUpDisplayed)
+		{
+			this.changePasswordHandler();
+		}
 	}
 	public void escapePressed()
 	{
@@ -666,6 +733,11 @@ public class AuthenticationController : Photon.MonoBehaviour
 		{
 			this.displayLoginPopUp();
 			this.hideEmailNonActivatedPopUp();
+		}
+		if(this.isChangePasswordPopUpDisplayed)
+		{
+			this.displayLoginPopUp();
+			this.hideChangePasswordPopUp();
 		}
 	}
 	private void loadLevels()
@@ -706,7 +778,7 @@ public class AuthenticationController : Photon.MonoBehaviour
 
 	private bool isConnectedToFB()
 	{
-		if(ApplicationDesignRules.isMobileScreen)
+		if(ApplicationDesignRules.isMobileDevice)
 		{
 			return FB.IsLoggedIn;
 		}
@@ -717,7 +789,7 @@ public class AuthenticationController : Photon.MonoBehaviour
 	}
 	private void initFacebookSDK()
 	{
-		if(ApplicationDesignRules.isMobileScreen)
+		if(ApplicationDesignRules.isMobileDevice)
 		{
 			if(!FB.IsInitialized)
 			{
@@ -727,6 +799,10 @@ public class AuthenticationController : Photon.MonoBehaviour
 			{
 				FB.ActivateApp();
 			}
+		}
+		else
+		{
+			this.autoLogging();
 		}
 	}
 	private void InitCallback()
@@ -739,6 +815,7 @@ public class AuthenticationController : Photon.MonoBehaviour
 		{
 			Debug.Log("Failed to Initialize the Facebook SDK");
 		}
+		this.autoLogging();
 	}
 	private void OnHideUnity(bool isGameShown)
 	{
@@ -774,7 +851,6 @@ public class AuthenticationController : Photon.MonoBehaviour
 					return;
 				}
 				ApplicationModel.player.Mail=GraphResult.ResultDictionary["email"] as string;
-				//Debug.Log(ApplicationModel.player.FacebookId);
 				StartCoroutine(this.login());
 			});
 		}

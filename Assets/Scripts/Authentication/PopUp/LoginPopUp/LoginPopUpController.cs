@@ -30,7 +30,7 @@ public class LoginPopUpController : MonoBehaviour
 	}
 	public void computeLabels()
 	{
-		if(ApplicationDesignRules.isMobileScreen) // A remplacer par MobileDevice
+		if(ApplicationDesignRules.isMobileDevice)
 		{
 			gameObject.transform.FindChild("Title").GetComponent<TextMeshPro>().text=WordingLoginPopUp.getReference(7);
 		}
