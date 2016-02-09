@@ -173,7 +173,7 @@ PlayerSettings:
   - m_BuildTarget: 
     m_Icons:
     - serializedVersion: 2
-      m_Icon: {fileID: 0}
+      m_Icon: {fileID: 2800000, guid: e366ce279da458f41a48d0c9d358a8e9, type: 3}
       m_Width: 128
       m_Height: 128
   m_BuildTargetBatching: []
@@ -336,6 +336,7 @@ PlayerSettings:
   scriptingDefineSymbols:
     1: 
     2: 
+    4: Input4
   metroPackageName: Garruk
   metroPackageVersion: 
   metroCertificatePath: 

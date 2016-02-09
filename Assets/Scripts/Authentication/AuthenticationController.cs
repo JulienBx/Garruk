@@ -180,6 +180,7 @@ public class AuthenticationController : Photon.MonoBehaviour
 		else if(!ApplicationModel.player.IsAccountCreated)
 		{
 			this.hideLoginPopUp();
+			this.hideInscriptionPopUp();
 			this.displayInscriptionFacebookPopUp(ApplicationModel.player.Mail);
 			BackOfficeController.instance.hideLoadingScreen();
 		}
@@ -224,7 +225,6 @@ public class AuthenticationController : Photon.MonoBehaviour
 		this.inscriptionPopUp.SetActive(false);
 		BackOfficeController.instance.displayLoadingScreen();
 		yield return StartCoroutine(ApplicationModel.player.createAccount());
-		BackOfficeController.instance.hideLoadingScreen();
 		if(ApplicationModel.player.Error!="")
 		{
 			this.inscriptionPopUp.SetActive(true);
@@ -279,7 +279,6 @@ public class AuthenticationController : Photon.MonoBehaviour
 		this.inscriptionFacebookPopUp.SetActive(false);
 		BackOfficeController.instance.displayLoadingScreen();
 		yield return StartCoroutine(ApplicationModel.player.createAccount());
-		BackOfficeController.instance.hideLoadingScreen();
 		if(ApplicationModel.player.Error=="" && ApplicationModel.player.Id!=-1 && ApplicationModel.player.IsAccountActivated)
 		{
 			this.connectToPhoton();
@@ -766,7 +765,7 @@ public class AuthenticationController : Photon.MonoBehaviour
 			ApplicationModel.player.FacebookId=aToken.UserId;
 			foreach (string perm in aToken.Permissions)
 			{
-				Debug.Log(perm);
+				//Debug.Log(perm);
 			}
 			FB.API("/me?fields=email",HttpMethod.GET,GraphResult =>
 			{
@@ -775,13 +774,14 @@ public class AuthenticationController : Photon.MonoBehaviour
 					return;
 				}
 				ApplicationModel.player.Mail=GraphResult.ResultDictionary["email"] as string;
+				//Debug.Log(ApplicationModel.player.FacebookId);
 				StartCoroutine(this.login());
 			});
 		}
 		else
 		{
 			BackOfficeController.instance.hideLoadingScreen();
-			Debug.Log("User cancelled login");
+			//Debug.Log("User cancelled login");
 		}
 	}
 	#endregion facebook
