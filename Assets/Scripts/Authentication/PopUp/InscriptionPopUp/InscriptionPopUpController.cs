@@ -27,7 +27,7 @@ public class InscriptionPopUpController : MonoBehaviour
 	}
 	public void computeLabels()
 	{
-		if(ApplicationDesignRules.isMobileDevice)
+		if(ApplicationDesignRules.isMobileDevice) // A remplacer
 		{
 			gameObject.transform.FindChild("Title").GetComponent<TextMeshPro>().text=WordingInscriptionPopUp.getReference(8);
 		}

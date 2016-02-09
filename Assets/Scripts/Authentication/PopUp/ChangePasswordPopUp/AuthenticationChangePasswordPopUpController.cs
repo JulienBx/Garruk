@@ -40,7 +40,7 @@ public class AuthenticationChangePasswordPopUpController : MonoBehaviour
 	}
 	public void changePasswordHandler()
 	{
-		AuthenticationController.instance.inscriptionHandler();
+		AuthenticationController.instance.changePasswordHandler();
 	}
 	public string getFirstPassword()
 	{

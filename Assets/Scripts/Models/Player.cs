@@ -35,6 +35,8 @@ public class Player : User
 	private string URLCreateAccount;
 	private string URLRefreshUserData;
 	private string URLLostLogin;
+	private string URLSentNewEmail;
+	private string URLLinkAccount;
 	private int TotalNbResultLimit;
 	public string Error;
 	public string Mail;
@@ -124,6 +126,8 @@ public class Player : User
 		this.URLCreateAccount = ApplicationModel.host + "create_account.php";
 		this.URLRefreshUserData = ApplicationModel.host+"refresh_user_data.php";
 		this.URLLostLogin=ApplicationModel.host+"lost_login.php";
+		this.URLSentNewEmail = ApplicationModel.host+"sent_newemail.php";
+		this.URLLinkAccount = ApplicationModel.host+"link_account.php";
 		this.TotalNbResultLimit=1000;
 		this.Error="";
 		this.Connections=new List<Connection>();
@@ -470,12 +474,12 @@ public class Player : User
 			}
 		}
 	}
-	public IEnumerator editPassword(string password)
+	public IEnumerator editPassword()
 	{
 		WWWForm form = new WWWForm(); 								 //Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 		 				//hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_nick", this.Username); 
-		form.AddField("myform_pass", password);
+		form.AddField("myform_pass",this.Password);
 		
 		WWW w = new WWW(URLEditPassword, form); 								// On envoie le formulaire à l'url sur le serveur 
 		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
@@ -484,6 +488,18 @@ public class Player : User
 		{
 			Debug.Log(w.error); 										// donne l'erreur eventuelle
 		} 
+		else
+		{
+			if (w.text.Contains("#ERROR#"))
+			{
+				string[] errors = w.text.Split(new string[] { "#ERROR#" }, System.StringSplitOptions.None);
+				Error = errors [1];
+			} 
+			else
+			{
+				Error = "";
+			}		
+		}
 	}
 	public IEnumerator chooseLanguage(int id)
 	{
@@ -764,6 +780,61 @@ public class Player : User
 			{
 				Error="";
 			}		
+		}
+	}
+	public IEnumerator sentNewEmail()
+	{	
+		WWWForm form = new WWWForm();
+		form.AddField("myform_hash", ApplicationModel.hash);
+		form.AddField("myform_nick", Username);
+		form.AddField("myform_email", Mail);
+		
+		WWW w = new WWW(URLSentNewEmail, form);
+		yield return w;
+		
+		if (w.error != null)
+		{
+			Error = w.error;
+		} 
+		else
+		{
+			if (w.text.Contains("#ERROR#"))
+			{
+				string[] errors = w.text.Split(new string[] { "#ERROR#" }, System.StringSplitOptions.None);
+				Error = errors [1];
+			} 
+			else
+			{
+				Error = "";
+			}					
+		}
+	}
+	public IEnumerator linkAccount()
+	{	
+		WWWForm form = new WWWForm();
+		form.AddField("myform_hash", ApplicationModel.hash);
+		form.AddField("myform_nick", Username);
+		form.AddField("myform_pass", Password);
+		form.AddField("myform_facebookid", FacebookId);
+		
+		WWW w = new WWW(URLLinkAccount, form);
+		yield return w;
+		
+		if (w.error != null)
+		{
+			Error = w.error;
+		} 
+		else
+		{
+			if (w.text.Contains("#ERROR#"))
+			{
+				string[] errors = w.text.Split(new string[] { "#ERROR#" }, System.StringSplitOptions.None);
+				Error = errors [1];
+			} 
+			else
+			{
+				Error = "";
+			}					
 		}
 	}
 	#endregion

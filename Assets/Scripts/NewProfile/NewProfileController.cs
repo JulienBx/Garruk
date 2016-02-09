@@ -1640,17 +1640,27 @@ public class NewProfileController : MonoBehaviour
 			passwordCheck=this.checkPasswordComplexity(firstPassword);
 			if(passwordCheck=="")
 			{
-				StartCoroutine(this.editPassword(firstPassword));
+				ApplicationModel.player.Password=firstPassword;
+				StartCoroutine(this.editPassword());
 			}
 		}
 		this.changePasswordPopUp.transform.GetComponent<ChangePasswordPopUpController> ().setError (passwordCheck);
 
 	}
-	private IEnumerator editPassword(string password)
+	private IEnumerator editPassword()
 	{
 		this.hideChangePasswordPopUp ();
 		BackOfficeController.instance.displayLoadingScreen ();
-		yield return StartCoroutine(ApplicationModel.player.editPassword(password));
+		yield return StartCoroutine(ApplicationModel.player.editPassword());
+		if(ApplicationModel.player.Error=="")
+		{
+			this.hideChangePasswordPopUp();
+		}
+		else
+		{
+			this.changePasswordPopUp.GetComponent<ChangePasswordPopUpController>().setError(ApplicationModel.player.Error);
+			ApplicationModel.player.Error="";
+		}
 		BackOfficeController.instance.hideLoadingScreen ();
 	}
 	public string checkPasswordEgality (string password1, string password2)
