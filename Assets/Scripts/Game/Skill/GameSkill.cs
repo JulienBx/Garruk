@@ -68,6 +68,16 @@ public class GameSkill
 	{ 
 		Debug.Log("Skill non implémenté");
 	}
+
+	public virtual void applyOnViro(int target, int value)
+	{ 
+		Debug.Log("Skill non implémenté");
+	}
+
+	public virtual void applyOnViro2(int target, int value, int value2)
+	{ 
+		Debug.Log("Skill non implémenté");
+	}
 	
 	public virtual void applyOn()
 	{ 

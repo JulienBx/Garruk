@@ -28,6 +28,14 @@ public class Adrenaline : GameSkill
 		else{
 			if (Random.Range(1,101) <= proba){
 				GameController.instance.applyOn(target);
+				if(GameView.instance.getCurrentCard().isVirologue()){
+					List<Tile> adjacents = GameView.instance.getPlayingCardTile(target).getImmediateNeighbourTiles();
+					for(int i = 0 ; i < adjacents.Count ; i++){
+						if(GameView.instance.getTileCharacterID(adjacents[i].x, adjacents[i].y)!=-1){
+							GameController.instance.applyOnViro(GameView.instance.getTileCharacterID(adjacents[i].x, adjacents[i].y), GameView.instance.getCurrentCard().Skills[0].Power*5);
+						}
+					}
+				}
 			}
 			else{
 				GameController.instance.esquive(target,6);
@@ -43,13 +51,44 @@ public class Adrenaline : GameSkill
 
 		int level = GameView.instance.getCurrentSkill().Power*2;
 		int soin = Mathf.Min(level,targetCard.GetTotalLife()-targetCard.getLife());
-		
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(-1*soin, -1, 6, base.name, "+"+soin+" PV"));
-		GameView.instance.getCard(target).moveModifyers.Add(new Modifyer(2, 1, 6, base.name, "+2MOV. Actif 1 tour"));
-		GameView.instance.getPlayingCardController(target).showIcons();
 
-		GameView.instance.displaySkillEffect(target, "+"+soin+"PV\n+2MOV pour un tour", 1);	
-		GameView.instance.addAnim(GameView.instance.getTile(target), 6);
+		if(soin==0){
+			GameView.instance.getCard(target).moveModifyers.Add(new Modifyer(2, 1, 6, base.name, "+2MOV. Actif 1 tour"));
+			GameView.instance.getPlayingCardController(target).showIcons();
+			GameView.instance.displaySkillEffect(target, "+2MOV pour un tour", 1);	
+			GameView.instance.addAnim(GameView.instance.getTile(target), 6);
+		}
+		else{
+			GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(-1*soin, -1, 6, base.name, "+"+soin+" PV"));
+			GameView.instance.getCard(target).moveModifyers.Add(new Modifyer(2, 1, 6, base.name, "+2MOV. Actif 1 tour"));
+			GameView.instance.getPlayingCardController(target).showIcons();
+			GameView.instance.displaySkillEffect(target, "Virus\n+"+soin+"PV\n+2MOV pour un tour", 1);	
+			GameView.instance.addAnim(GameView.instance.getTile(target), 6);
+		}
+	}
+
+	public override void applyOnViro(int target, int value){
+		string text = base.name;
+		GameCard targetCard = GameView.instance.getCard(target);
+		GameCard currentCard = GameView.instance.getCurrentCard();
+
+		int level = Mathf.RoundToInt(GameView.instance.getCurrentSkill().Power*2f*value/100f);
+		int soin = Mathf.Min(level,targetCard.GetTotalLife()-targetCard.getLife());
+		int move = Mathf.RoundToInt(2f*value/100f);
+
+		if(soin==0){
+			GameView.instance.getCard(target).moveModifyers.Add(new Modifyer(move, 1, 6, base.name, "+"+move+"MOV. Actif 1 tour"));
+			GameView.instance.getPlayingCardController(target).showIcons();
+			GameView.instance.displaySkillEffect(target, "Virus\n+"+move+"MOV pour un tour", 1);	
+			GameView.instance.addAnim(GameView.instance.getTile(target), 6);
+		}
+		else{
+			GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(-1*soin, -1, 6, base.name, "+"+soin+" PV"));
+			GameView.instance.getCard(target).moveModifyers.Add(new Modifyer(move, 1, 6, base.name, "+"+move+"MOV. Actif 1 tour"));
+			GameView.instance.getPlayingCardController(target).showIcons();
+			GameView.instance.displaySkillEffect(target, "Virus\n+"+soin+"PV\n+"+move+"MOV pour un tour", 1);	
+			GameView.instance.addAnim(GameView.instance.getTile(target), 6);
+		}
 	}	
 	
 	public override string getTargetText(int target){

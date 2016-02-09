@@ -52,16 +52,6 @@ public class GameCard : Card
 		this.state = m;
 	}
 	
-	public void checkPassiveSkills()
-	{
-		this.checkPacifiste();
-		this.checkAguerri();
-		this.checkRapide();
-		this.checkRobuste();
-		this.checkAgile();
-		this.checkCuirasse();
-	}
-	
 	public int getNbTurnsToWait(){
 		return this.nbTurnsToWait ;
 	}
@@ -115,69 +105,9 @@ public class GameCard : Card
 		return (base.Skills[0].Id == 69);
 	}	
 	
-	public bool isGenerous()
+	public bool isVirologue()
 	{
-		bool b = false ;
-		if (this.Skills[0].Id == 72){
-			if(UnityEngine.Random.Range(1,101)<this.Skills[0].Power*3){
-				b = true ;
-			}
-		}
-		return b;
-	}
-	
-	public void checkPacifiste(){
-		if((base.Skills[0].Id == 73)){
-			int level = base.Skills[0].Power;
-			float bonusLife = 0f ;
-			float malusAttack = 0f;
-			if (level==1){
-				bonusLife = 0.2f;
-				malusAttack = 0.5f;
-			}
-			else if (level==2){
-				bonusLife = 0.25f;
-				malusAttack = 0.5f;
-			}
-			else if (level==3){
-				bonusLife = 0.25f;
-				malusAttack = 0.4f;
-			}
-			else if (level==4){
-				bonusLife = 0.3f;
-				malusAttack = 0.4f;
-			}
-			else if (level==5){
-				bonusLife = 0.3f;
-				malusAttack = 0.3f;
-			}
-			else if (level==6){
-				bonusLife = 0.35f;
-				malusAttack = 0.3f;
-			}
-			else if (level==7){
-				bonusLife = 0.4f;
-				malusAttack = 0.3f;
-			}
-			else if (level==8){
-				bonusLife = 0.4f;
-				malusAttack = 0.2f;
-			}
-			else if (level==9){
-				bonusLife = 0.45f;
-				malusAttack = 0.2f;
-			}
-			else if (level==10){
-				bonusLife = 0.5f;
-				malusAttack = 0.2f;
-			}
-			
-			int amountLife = Mathf.CeilToInt(base.getLife()*bonusLife);
-			this.pvModifyers.Add (new Modifyer(amountLife, -1, 0, "Pacifisme", "Bonus permanent de "+amountLife+" PV"));
-			
-			int amountAttack = -1*Mathf.CeilToInt(base.getAttack()*malusAttack);
-			this.attackModifyers.Add (new Modifyer(amountAttack, -1, 0, "Pacifisme", "Malus permanent de "+amountAttack+" ATK"));
-		}
+		return (this.Skills[0].Id == 72);
 	}
 	
 	public void checkAguerri(){
@@ -480,9 +410,6 @@ public class GameCard : Card
 	{
 		List<string> iconLifeTexts = new List<string>();
 		int i = 0;
-		if(this.getLife()!=base.Life){
-		
-		}
 		while (i < this.pvModifyers.Count)
 		{
 			iconLifeTexts.Add(this.pvModifyers [i].title);
@@ -671,5 +598,10 @@ public class GameCard : Card
 	public bool isIntouchable()
 	{
 		return (this.state.type==2);
+	}
+
+	public bool isPoisoned()
+	{
+		return (this.state.type==4);
 	}
 }

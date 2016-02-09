@@ -1,12 +1,12 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class Relaxant : GameSkill
+public class Poison : GameSkill
 {
-	public Relaxant()
+	public Poison()
 	{
-		this.numberOfExpectedTargets = 1 ; 
-		base.name = "Relaxant";
+		this.numberOfExpectedTargets = 1 ;
+		base.name = "Poison";
 		base.ciblage = 1 ;
 	}
 	
@@ -38,42 +38,44 @@ public class Relaxant : GameSkill
 				}
 			}
 			else{
-				GameController.instance.esquive(target,4);
+				GameController.instance.esquive(target,94);
 			}
 		}
 		GameController.instance.endPlay();
 	}
-
+	
 	public override void applyOn(int target){
-		string text = base.name;
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
-		int level = Mathf.Max(1-targetCard.getAttack(), -5-2*GameView.instance.getCurrentSkill().Power);
-		
-		GameView.instance.getCard(target).attackModifyers.Add(new Modifyer(level, 1, 3, text, level+"ATK. Actif 1 tour"));
-		GameView.instance.getPlayingCardController(target).updateAttack();
-		GameView.instance.displaySkillEffect(target, level+"ATK pour 1 tour", 0);	
-		GameView.instance.addAnim(GameView.instance.getTile(target), 4);
-	}
+
+		int level = GameView.instance.getCurrentSkill().Power*2;
+
+		GameView.instance.getCard(target).setState(new Modifyer(level*100, -1, 4, base.name, "Empoisonné. Perd "+level+"PV par tour"));
+		GameView.instance.getPlayingCardController(target).showIcons();
+
+		GameView.instance.displaySkillEffect(target, "Poison\nPerd "+level+"PV par tour", 0);	
+		GameView.instance.addAnim(GameView.instance.getTile(target), 94);
+	}	
 
 	public override void applyOnViro(int target, int value){
-		string text = base.name;
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
-		int level = Mathf.RoundToInt((-5-2*GameView.instance.getCurrentSkill().Power)*value/100f);
 
-		GameView.instance.getCard(target).attackModifyers.Add(new Modifyer(level, 1, 3, text, level+"ATK. Actif 1 tour"));
-		GameView.instance.getPlayingCardController(target).updateAttack();
-		GameView.instance.displaySkillEffect(target, "Virus\n"+level+"ATK pour 1 tour", 0);	
-		GameView.instance.addAnim(GameView.instance.getTile(target), 4);
+		int level = Mathf.RoundToInt(GameView.instance.getCurrentSkill().Power*2f*value/100f);
+
+		GameView.instance.getCard(target).setState(new Modifyer(level*100, -1, 4, base.name, "Empoisonné. Perd "+level+"PV par tour"));
+		GameView.instance.getPlayingCardController(target).showIcons();
+
+		GameView.instance.displaySkillEffect(target, "Virus\nPoison\nPerd "+level+"PV par tour", 0);	
+		GameView.instance.addAnim(GameView.instance.getTile(target), 94);
 	}
-
-	public override string getTargetText(int target){
+	
+	public override string getTargetText(int target){	
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
-		int level = -5-2*GameView.instance.getCurrentSkill().Power;
+		int level = GameView.instance.getCurrentSkill().Power*2;
 
-		string text = ""+level+" ATK\nActif 1 tour";
+		string text = "Poison\nPerd "+level+"PV par tour";
 		
 		int amount = GameView.instance.getCurrentSkill().proba;
 		int probaEsquive = targetCard.getEsquive();

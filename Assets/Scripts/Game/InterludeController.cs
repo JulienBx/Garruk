@@ -112,6 +112,7 @@ public class InterludeController : MonoBehaviour
 		}
 		
 		if(this.time>4f*this.animationTime){
+			this.isRunning = false ;
 			gameObject.GetComponent<SpriteRenderer>().enabled = false ;
 			gameObject.transform.FindChild("Bar1").GetComponent<SpriteRenderer>().enabled = false ;
 			gameObject.transform.FindChild("Bar2").GetComponent<SpriteRenderer>().enabled = false ;
@@ -119,29 +120,63 @@ public class InterludeController : MonoBehaviour
 			gameObject.transform.FindChild("Text").GetComponent<MeshRenderer>().enabled = false ;
 			gameObject.transform.FindChild("UnderText").GetComponent<MeshRenderer>().enabled = false ;
 			isEnabledUnderText = true;
+
+			if(GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).isPoisoned()){
+				int value = Mathf.Min(GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).state.amount, GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).getLife());
+				GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), "Poison\nPerd "+value+"PV", 0);
+				GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).addDamagesModifyer(new Modifyer(value,-1,94,"Poison",value+" dégats subis"));
+				GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 94);
+			}
+			if(GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).getLife()>0){
+				if (GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).isMine){
+					GameView.instance.myTimerGO.GetComponent<TimerController>().setIsMyTurn(true);
+				}
+				else{
+					GameView.instance.hisTimerGO.GetComponent<TimerController>().setIsMyTurn(true);
+				}
+				GameView.instance.recalculateDestinations();
+				GameView.instance.removeDestinations();
+				GameView.instance.getPassZoneController().show(false);
+				GameView.instance.getSkillZoneController().showSkillButtons(false);
+				GameView.instance.getSkillZoneController().showCancelButton(false);
+				GameView.instance.getMoveZoneController().show(false);
+				GameView.instance.displayDestinations (GameView.instance.getCurrentPlayingCard());
 			
-			if(GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).isMine){
 				if(ApplicationModel.player.ToLaunchGameTutorial){
-					if(!GameView.instance.hasStep2){
-						GameView.instance.launchTutoStep(2);
-						GameView.instance.hasStep2 = true ;
+					if(!GameView.instance.getCurrentCard().isMine){
+						StartCoroutine(GameView.instance.launchFury());
 					}
 				}
-				
-				GameView.instance.SB.GetComponent<StartButtonController>().showText(false);
-				GameView.instance.updateActionStatus();
-				GameView.instance.getMyHoveredCardController().lowerCharacter();
+				else if(GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).isFurious()){
+					StartCoroutine(GameView.instance.launchFury());
+				}
+				GameView.instance.runningSkill = -1;
+				GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).previousTile = GameView.instance.getPlayingCardTile(GameView.instance.getCurrentPlayingCard());
+				GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).canCancelMove = false ;
+
+				if(GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).isMine){
+					if(ApplicationModel.player.ToLaunchGameTutorial){
+						if(!GameView.instance.hasStep2){
+							GameView.instance.launchTutoStep(2);
+							GameView.instance.hasStep2 = true ;
+						}
+					}
+					
+					GameView.instance.SB.GetComponent<StartButtonController>().showText(false);
+					GameView.instance.updateActionStatus();
+					GameView.instance.getMyHoveredCardController().lowerCharacter();
+				}
+				else{
+					GameView.instance.skillZone.GetComponent<SkillZoneController>().showCancelButton(false);
+					GameView.instance.skillZone.GetComponent<SkillZoneController>().showSkillButtons(false);
+					GameView.instance.getMoveZoneController().show(false);
+					GameView.instance.getPassZoneController().show(false);
+					GameView.instance.SB.GetComponent<StartButtonController>().setText("En attente du joueur adverse");
+					GameView.instance.SB.GetComponent<StartButtonController>().showText(true);
+					GameView.instance.getHisHoveredCardController().lowerCharacter();
+				}
 			}
-			else{
-				GameView.instance.skillZone.GetComponent<SkillZoneController>().showCancelButton(false);
-				GameView.instance.skillZone.GetComponent<SkillZoneController>().showSkillButtons(false);
-				GameView.instance.getMoveZoneController().show(false);
-				GameView.instance.getPassZoneController().show(false);
-				GameView.instance.SB.GetComponent<StartButtonController>().setText("En attente du joueur adverse");
-				GameView.instance.SB.GetComponent<StartButtonController>().showText(true);
-				GameView.instance.getHisHoveredCardController().lowerCharacter();
-			}
-			this.isRunning = false ;
+			GameView.instance.isFreezed = false ;
 		}
 		else if(this.time>3f*this.animationTime){
 			Vector3 position ;

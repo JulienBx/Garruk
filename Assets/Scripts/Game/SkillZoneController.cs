@@ -65,13 +65,15 @@ public class SkillZoneController : MonoBehaviour
 			gameObject.transform.FindChild("Text").GetComponent<TextMeshPro>().color = new Color(1f, 1f, 1f, 1f) ;
 		}
 	}
-	
+
 	public void OnMouseDown(){
 		if(ApplicationModel.player.ToLaunchGameTutorial){
 			GameView.instance.hideTuto();
 		}
 		if(this.isRunningSkill){
 			GameView.instance.hideTargets();
+			this.updateButtonStatus(GameView.instance.getCurrentCard());
+			this.isRunningSkill = false ;
 		}
 	}
 	

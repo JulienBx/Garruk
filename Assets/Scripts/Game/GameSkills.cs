@@ -86,7 +86,7 @@ public class GameSkills : MonoBehaviour
 		this.skills [73] = new GameSkill();
 		this.skills [74] = new GameSkill();
 		this.skills [75] = new GameSkill();
-		this.skills [76] = new Leader();
+		this.skills [76] = new GameSkill();
 		this.skills [77] = new GameSkill();
 		this.skills [78] = new GameSkill();
 		this.skills [79] = new GameSkill();
@@ -104,7 +104,7 @@ public class GameSkills : MonoBehaviour
 		this.skills [91] = new Lance();
 		this.skills [92] = new Desequilibre();
 		this.skills [93] = new Furie();
-		this.skills [94] = new Morphine();
+		this.skills [94] = new Poison();
 	}
 
 	public GameSkill getSkill(int i)

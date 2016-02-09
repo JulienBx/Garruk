@@ -28,7 +28,16 @@ public class Steroide : GameSkill
 		}
 		else{
 			if (Random.Range(1,101) <= proba){
-				GameController.instance.applyOn2(target, Random.Range(1,max));
+				int amount = Random.Range(1,max);
+				GameController.instance.applyOn2(target, amount);
+				if(GameView.instance.getCurrentCard().isVirologue()){
+					List<Tile> adjacents = GameView.instance.getPlayingCardTile(target).getImmediateNeighbourTiles();
+					for(int i = 0 ; i < adjacents.Count ; i++){
+						if(GameView.instance.getTileCharacterID(adjacents[i].x, adjacents[i].y)!=-1){
+							GameController.instance.applyOnViro(GameView.instance.getTileCharacterID(adjacents[i].x, adjacents[i].y), Mathf.RoundToInt(amount*GameView.instance.getCurrentCard().Skills[0].Power*5f/100f));
+						}
+					}
+				}
 			}
 			else{
 				GameController.instance.esquive(target,56);
@@ -44,6 +53,16 @@ public class Steroide : GameSkill
 		GameView.instance.getCard(target).attackModifyers.Add(new Modifyer(value, -1, 56, base.name, "+"+value+" ATK. Permanent"));
 		GameView.instance.getPlayingCardController(target).updateAttack();
 		GameView.instance.displaySkillEffect(target, "+"+value+" ATK", 1);
+		GameView.instance.addAnim(GameView.instance.getTile(target), 56);
+	}
+
+	public override void applyOnViro(int target, int value){
+		GameCard targetCard = GameView.instance.getCard(target);
+		GameCard currentCard = GameView.instance.getCurrentCard();
+
+		GameView.instance.getCard(target).attackModifyers.Add(new Modifyer(value, -1, 56, base.name, "+"+value+" ATK. Permanent"));
+		GameView.instance.getPlayingCardController(target).updateAttack();
+		GameView.instance.displaySkillEffect(target, "Virus\n+"+value+" ATK", 1);
 		GameView.instance.addAnim(GameView.instance.getTile(target), 56);
 	}
 

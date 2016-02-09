@@ -50,6 +50,7 @@ public class PlayingCardController : GameObjectController
 		Transform t = gameObject.transform;
 		this.toStop = false ;
 		this.isRunning = false;
+		this.destinations = new List<Tile>();
 	}
 	
 	public void stopAnim(){
@@ -454,6 +455,7 @@ public class PlayingCardController : GameObjectController
 			this.moveToDeadZone();
 			GameView.instance.emptyTile(this.id);
 			GameView.instance.recalculateDestinations();
+			GameView.instance.removeDead(this.id);
 		}
 	}
 
@@ -561,8 +563,32 @@ public class PlayingCardController : GameObjectController
 		this.timerDead = 0f;
 		this.isShowingDead = b;
 	}
-	
-	
+
+	public void checkPaladin(){
+		if((card.Skills[0].Id == 73)){
+			int level = card.Skills[0].Power;
+			int bonusAttack = Mathf.RoundToInt(level*10f*card.getAttack()/100f);
+			int bonusMove = -1*Mathf.Min(card.getMove()-1,2);
+
+			this.card.attackModifyers.Add(new Modifyer(bonusAttack, -1, 73, card.Skills[0].Name, "+"+bonusAttack+" ATK. Permanent"));
+			GameView.instance.getPlayingCardController(this.id).updateAttack();
+			this.card.moveModifyers.Add(new Modifyer(bonusMove, -1, 73, card.Skills[0].Name, bonusMove+"MOV. Permanent"));
+			GameView.instance.getPlayingCardController(this.id).showIcons();
+
+			GameView.instance.displaySkillEffect(this.id, "Paladin\n+"+bonusAttack+" ATK\n"+bonusMove+"MOV", 1);
+			GameView.instance.addAnim(GameView.instance.getTile(this.id), 73);
+		}
+	}
+
+	public void checkPassiveSkills()
+	{
+		this.checkPaladin();
+		this.card.checkAguerri();
+		this.card.checkRapide();
+		this.card.checkRobuste();
+		this.card.checkAgile();
+		this.card.checkCuirasse();
+	}
 }
 
 

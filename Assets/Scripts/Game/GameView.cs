@@ -42,7 +42,7 @@ public class GameView : MonoBehaviour
 	GameObject popUp;
 	GameObject tutorial;
 	public GameObject myTimerGO;
-	GameObject hisTimerGO;
+	public GameObject hisTimerGO;
 	
 	public GameObject SB;
 	GameObject interlude;
@@ -71,8 +71,8 @@ public class GameView : MonoBehaviour
 	
 	public List<Tile> anims ;
 	public List<Tile> skillEffects ;
-	
 	public List<Tile> targets ;
+	public List<int> deads ;
 	TargetPCCHandler targetPCCHandler ;
 	TargetTileHandler targetTileHandler ;
 	
@@ -85,6 +85,9 @@ public class GameView : MonoBehaviour
 	public bool hasStep3 ;
 	public bool hasStep2 ;
 	public bool blockFury ;
+	bool toPassDead = false ;
+
+	public bool isFreezed = false ;
 	
 	void Awake()
 	{
@@ -122,7 +125,9 @@ public class GameView : MonoBehaviour
 		this.targets = new List<Tile>();
 		this.skillEffects = new List<Tile>();
 		this.anims = new List<Tile>();
-		
+		this.deads = new List<int>();
+		//this.destinations
+
 		this.lastMyPlayingCardDeckOrder = 3 ; 
 		this.lastHisPlayingCardDeckOrder = 3 ; 
 		
@@ -271,17 +276,17 @@ public class GameView : MonoBehaviour
 			this.tiles [4-c.deckOrder, hauteur].GetComponent<TileController>().setCharacterID(index);
 			this.tiles [c.deckOrder + 1, hauteur].GetComponent<TileController>().setDestination(6);
 		}
-		
+
+		this.playingCards [index].GetComponentInChildren<PlayingCardController>().show();
+
+		this.playingCards [index].GetComponentInChildren<PlayingCardController>().checkPassiveSkills();
 		GameCard gc = this.getCard(index);
-		gc.checkPassiveSkills();
 		if(gc.isPiegeur() && this.isFirstPlayer){
 			List<Tile> tiles = ((Piegeur)GameSkills.instance.getSkill(64)).getTiles(gc.getPassiveSkillLevel(), this.boardWidth, this.boardHeight, this.nbFreeRowsAtBeginning);
 			for (int i = 0 ; i < tiles.Count ; i++){
 				GameController.instance.addPiegeurTrap(tiles[i], gc.getPassiveSkillLevel(), isFirstP);
 			}
 		}
-		
-		this.playingCards [index].GetComponentInChildren<PlayingCardController>().show();
 	}
 	
 	public void addTrap(Trap trap, Tile tile)
@@ -295,22 +300,29 @@ public class GameView : MonoBehaviour
 			this.createPlayingCard(deck.getGameCard(i), isFirstP);
 		}
 		
-		if(this.playingCards.Count==8){
+		if(this.playingCards.Count==8 || ApplicationModel.player.ToLaunchGameTutorial){
 			bool hasFoundMine = false;
 			bool hasFoundHis = false;
 			int level;
+			int attackValue ;
+			int pvValue ;
 			for(int i = 0 ; i < playingCards.Count ; i++){
 				if(this.getCard(i).isMine){
 					if(!hasFoundMine){
 						if(this.getCard(i).isLeader()){
-							level = this.getCard(i).getSkills()[0].Level;
+							level = this.getCard(i).getSkills()[0].Power;
 							for(int j = 0 ; j < playingCards.Count ; j++){
 								if(this.getCard(j).isMine && i!=j){
-									this.getCard(j).attackModifyers.Add(((Leader)GameSkills.instance.getSkill(76)).getBonusAttack(level));
-									this.getCard(j).pvModifyers.Add(((Leader)GameSkills.instance.getSkill(76)).getBonusPV(level));
+									attackValue = Mathf.RoundToInt(level*3f*this.getCard(j).getAttack()/100f);
+									pvValue = Mathf.RoundToInt(level*3f*this.getCard(j).GetTotalLife()/100f);
+									this.getCard(j).attackModifyers.Add(new Modifyer(attackValue, -1, 76, "Leader", "+"+attackValue+"ATK. Permanent"));
+									this.getCard(j).pvModifyers.Add(new Modifyer(pvValue, -1, 76, "Leader", "+"+pvValue+"PV. Permanent"));
 									this.getPlayingCardController(j).show();
+									this.getPlayingCardController(j).updateLife(0);
 								}
 							}
+							GameView.instance.displaySkillEffect(i, "Leader\nrenforce les alliés", 1);	
+							GameView.instance.addAnim(GameView.instance.getTile(i), 76);
 							hasFoundMine = true;
 						}
 					}	
@@ -318,14 +330,19 @@ public class GameView : MonoBehaviour
 				else{
 					if(!hasFoundHis){
 						if(this.getCard(i).isLeader()){
-							level = this.getCard(i).getSkills()[0].Level;
+							level = this.getCard(i).getSkills()[0].Power;
 							for(int j = 0 ; j < playingCards.Count ; j++){
 								if(!this.getCard(j).isMine && i!=j){
-									this.getCard(j).attackModifyers.Add(((Leader)GameSkills.instance.getSkill(76)).getBonusAttack(level));
-									this.getCard(j).pvModifyers.Add(((Leader)GameSkills.instance.getSkill(76)).getBonusPV(level));
+									attackValue = Mathf.RoundToInt(level*3f*this.getCard(j).getAttack()/100f);
+									pvValue = Mathf.RoundToInt(level*3f*this.getCard(j).GetTotalLife()/100f);
+									this.getCard(j).attackModifyers.Add(new Modifyer(attackValue, -1, 76, "Leader", "+"+attackValue+"ATK. Permanent"));
+									this.getCard(j).pvModifyers.Add(new Modifyer(pvValue, -1, 76, "Leader", "+"+pvValue+"PV. Permanent"));
 									this.getPlayingCardController(j).show();
+									this.getPlayingCardController(j).updateLife(0);
 								}
 							}
+							GameView.instance.displaySkillEffect(i, "Leader\nrenforce les alliés", 1);	
+							GameView.instance.addAnim(GameView.instance.getTile(i), 76);
 							hasFoundHis = true;
 						}
 					}
@@ -578,7 +595,6 @@ public class GameView : MonoBehaviour
 		if(this.hasFightStarted){
 			if(this.getCard(this.currentPlayingCard).isMine){
 				this.getMyHoveredCardController().setNextDisplayedCharacter(this.currentPlayingCard, this.getCard(this.currentPlayingCard));
-				
 			}
 			else{
 				this.getHisHoveredCardController().setNextDisplayedCharacter(this.currentPlayingCard, this.getCard(this.currentPlayingCard));
@@ -595,7 +611,7 @@ public class GameView : MonoBehaviour
 	}
 	
 	public IEnumerator clickDestination(Tile destination, int c, bool cancel){
-		if(c!=-1){
+		if(c!=-1 && !this.isFreezed){
 			Tile origine = this.getPlayingCardController(c).getTile();
 			this.tiles[origine.x, origine.y].GetComponentInChildren<TileController>().setCharacterID(-1);
 			this.tiles[origine.x, origine.y].GetComponentInChildren<TileController>().removeDestination();
@@ -645,48 +661,50 @@ public class GameView : MonoBehaviour
 	}
 	
 	public void hoverTile(){
-		if(this.currentPlayingCard!=-1){
-			if(this.getCard(this.currentPlayingCard).isMine){
-				this.getMyHoveredCardController().setNextDisplayedCharacter(this.currentPlayingCard, this.getCard(this.currentPlayingCard));
-			}
-			else{
-				this.getHisHoveredCardController().setNextDisplayedCharacter(this.currentPlayingCard, this.getCard(this.currentPlayingCard));
-			}
-		}
-		else{
-			if(this.getMyHoveredCardController().getStatus()==0){
-				if(this.getMyHoveredCardController().getCurrentCharacter()!=-1){
-					if(this.getMyHoveredCardController().getCurrentCharacter()!=this.currentPlayingCard){
-						this.getMyHoveredCardController().empty();
-					}
+		if(!this.interlude.GetComponent<InterludeController>().getIsRunning()){
+			if(this.currentPlayingCard!=-1){
+				if(this.getCard(this.currentPlayingCard).isMine){
+					this.getMyHoveredCardController().setNextDisplayedCharacter(this.currentPlayingCard, this.getCard(this.currentPlayingCard));
 				}
-				if(this.getHisHoveredCardController().getCurrentCharacter()!=-1){
-					if(this.getHisHoveredCardController().getCurrentCharacter()!=this.currentPlayingCard){	
-						this.getHisHoveredCardController().empty();
-					}
+				else{
+					this.getHisHoveredCardController().setNextDisplayedCharacter(this.currentPlayingCard, this.getCard(this.currentPlayingCard));
 				}
 			}
 			else{
-				if(this.getMyHoveredCardController().getNextDisplayedCharacter()!=-1){
-					if(this.getMyHoveredCardController().getNextDisplayedCharacter()!=-1){
-						if(this.getMyHoveredCardController().getNextDisplayedCharacter()!=this.currentPlayingCard){		
+				if(this.getMyHoveredCardController().getStatus()==0){
+					if(this.getMyHoveredCardController().getCurrentCharacter()!=-1){
+						if(this.getMyHoveredCardController().getCurrentCharacter()!=this.currentPlayingCard){
 							this.getMyHoveredCardController().empty();
 						}
 					}
-					if(this.getHisHoveredCardController().getNextDisplayedCharacter()!=-1){
-						if(this.getHisHoveredCardController().getNextDisplayedCharacter()!=this.currentPlayingCard){			
+					if(this.getHisHoveredCardController().getCurrentCharacter()!=-1){
+						if(this.getHisHoveredCardController().getCurrentCharacter()!=this.currentPlayingCard){	
 							this.getHisHoveredCardController().empty();
 						}
 					}
 				}
+				else{
+					if(this.getMyHoveredCardController().getNextDisplayedCharacter()!=-1){
+						if(this.getMyHoveredCardController().getNextDisplayedCharacter()!=-1){
+							if(this.getMyHoveredCardController().getNextDisplayedCharacter()!=this.currentPlayingCard){		
+								this.getMyHoveredCardController().empty();
+							}
+						}
+						if(this.getHisHoveredCardController().getNextDisplayedCharacter()!=-1){
+							if(this.getHisHoveredCardController().getNextDisplayedCharacter()!=this.currentPlayingCard){			
+								this.getHisHoveredCardController().empty();
+							}
+						}
+					}
+				}
 			}
-		}
-		
-		if(this.hasFightStarted){
-			this.removeDestinations();
-			if(this.currentPlayingCard!=-1){
-				if(!this.isDisplayedMyDestination && !this.getCard(this.currentPlayingCard).hasMoved){
-					this.displayDestinations(this.currentPlayingCard);
+			
+			if(this.hasFightStarted){
+				this.removeDestinations();
+				if(this.currentPlayingCard!=-1){
+					if(!this.isDisplayedMyDestination && !this.getCard(this.currentPlayingCard).hasMoved){
+						this.displayDestinations(this.currentPlayingCard);
+					}
 				}
 			}
 		}
@@ -735,9 +753,55 @@ public class GameView : MonoBehaviour
 	}
 	
 	public void setNextPlayer(){
-		int nextPlayingCard = -1;
+		isFreezed = true ;
 		int length = this.playingCards.Count;
+		this.hideButtons();
+		StartCoroutine(launchEndTurnEffects());
+	}
+
+	public IEnumerator launchEndTurnEffects(){
+		int nextPlayingCard = -1;
+		if(this.hasFightStarted){
+			bool isSuccess = false ;
 				
+			if(this.getCard(this.currentPlayingCard).isNurse()){
+				int power = this.getCurrentCard().Skills[0].Power;
+				List<Tile> neighbourTiles = this.getNeighbours(this.getPlayingCardController(this.currentPlayingCard).getTile());
+				this.targets = new List<Tile>();
+				int playerID;
+				int soin ;
+				foreach (Tile t in neighbourTiles)
+				{
+					playerID = this.getTileController(t.x, t.y).getCharacterID();
+					if (playerID != -1)
+					{
+						if (this.getCard(playerID).isMine==this.getCard(this.currentPlayingCard).isMine){
+							soin = Mathf.Min(this.getCard(playerID).GetTotalLife()-this.getCard(playerID).getLife(), power);
+							isSuccess = true ;
+							if(soin==0){
+								GameView.instance.displaySkillEffect(playerID, "Infirmier\nSans effet", 0);	
+								GameView.instance.addAnim(GameView.instance.getTile(playerID), 75);
+							}
+							else{
+								this.getPlayingCardController(playerID).addDamagesModifyer(new Modifyer(-1*soin, -1, 75, "Infirmier", "+"+(soin)+"PV"));
+								GameView.instance.displaySkillEffect(playerID, "Infirmier\n+"+soin+"PV", 1);	
+								GameView.instance.addAnim(GameView.instance.getTile(playerID), 75);
+							}
+						}
+					}
+				}
+
+			}
+			else if(this.getCard(this.currentPlayingCard).isFrenetique()){
+				this.getCard(this.currentPlayingCard).attackModifyers.Add(new Modifyer(this.getCurrentCard().Skills[0].Power, -1, 69, "Frénétique", this.getCurrentCard().Skills[0].Power+" ATK. Permanent"));
+				this.getPlayingCardController(this.currentPlayingCard).updateAttack();
+				GameView.instance.displaySkillEffect(this.currentPlayingCard, "Frénétique\n+"+this.getCurrentCard().Skills[0].Power+" ATK. Permanent", 1);
+			}
+			if(isSuccess){
+				yield return new WaitForSeconds(2f);
+			}
+		}
+
 		if(this.hasFightStarted){
 			if(this.getCurrentCard().isMine){
 				nextPlayingCard = this.findNextAlivePlayer(this.lastHisPlayingCardDeckOrder, false);
@@ -779,7 +843,6 @@ public class GameView : MonoBehaviour
 		
 		if(this.hasFightStarted){
 			this.hideTargets();
-			
 			hasMoved = false ;
 			hasPlayed = false ;
 			
@@ -795,29 +858,6 @@ public class GameView : MonoBehaviour
 			this.getCard(this.currentPlayingCard).setHasMoved(hasMoved);
 			this.getCard(this.currentPlayingCard).setHasPlayed(hasPlayed);
 			
-			if(this.getCard(this.currentPlayingCard).isNurse()){
-				int power = -1*this.getCurrentCard().Skills[0].Power;
-				List<Tile> neighbourTiles = this.getNeighbours(this.getPlayingCardController(this.currentPlayingCard).getTile());
-				this.targets = new List<Tile>();
-				int playerID;
-				foreach (Tile t in neighbourTiles)
-				{
-					playerID = this.getTileController(t.x, t.y).getCharacterID();
-					if (playerID != -1)
-					{
-						if (this.getCard(playerID).isMine==this.getCard(this.currentPlayingCard).isMine){
-							this.getPlayingCardController(playerID).addDamagesModifyer(new Modifyer(power, -1, 0, "Infirmier", (-1*power)+" PV soignés"));
-						}
-					}
-				}
-				
-			}
-			else if(this.getCard(this.currentPlayingCard).isFrenetique()){
-				this.getCard(this.currentPlayingCard).attackModifyers.Add(new Modifyer(this.getCurrentCard().Skills[0].Power, -1, 69, "Frénétique", this.getCurrentCard().Skills[0].Power+" ATK. Permanent"));
-				this.getPlayingCardController(this.currentPlayingCard).updateAttack();
-				GameView.instance.displaySkillEffect(this.currentPlayingCard, "Frénétique\n+"+this.getCurrentCard().Skills[0].Power+" ATK. Permanent", 1);
-			}
-			
 			if(this.getCurrentCard().isMine){
 				this.myTimerGO.GetComponent<TimerController>().setIsMyTurn(false);
 			}
@@ -828,35 +868,8 @@ public class GameView : MonoBehaviour
 		else{
 			this.hasFightStarted = true ;
 		}
-		
 		this.changeCurrentClickedCard(nextPlayingCard) ;
-		
-		if (this.getCard(currentPlayingCard).isMine){
-			this.myTimerGO.GetComponent<TimerController>().setIsMyTurn(true);
-		}
-		else{
-			this.hisTimerGO.GetComponent<TimerController>().setIsMyTurn(true);
-		}
-		this.recalculateDestinations();
-		this.removeDestinations();
-		this.getPassZoneController().show(false);
-		this.getSkillZoneController().showSkillButtons(false);
-		this.getSkillZoneController().showCancelButton(false);
-		this.getMoveZoneController().show(false);
-		this.displayDestinations (this.currentPlayingCard);
-		
-		if(ApplicationModel.player.ToLaunchGameTutorial){
-			if(!this.getCurrentCard().isMine){
-				StartCoroutine(launchFury());
-			}
-		}
-		else if(this.getCard(this.currentPlayingCard).isFurious()){
-			StartCoroutine(launchFury());
-		}
-		this.runningSkill = -1;
-		this.getCard(this.currentPlayingCard).previousTile = this.getPlayingCardTile(this.currentPlayingCard);
-		this.getCard(this.currentPlayingCard).canCancelMove = false ;
-		
+		yield break ; 
 	}
 	
 	public void checkField(){
@@ -918,7 +931,7 @@ public class GameView : MonoBehaviour
 		i++;	
 	}
 	
-	IEnumerator launchFury(){
+	public IEnumerator launchFury(){
 		
 		if(ApplicationModel.player.ToLaunchGameTutorial){
 			while(!this.blockFury){
@@ -950,12 +963,22 @@ public class GameView : MonoBehaviour
 	
 	public void emptyTile(int c){
 		this.getTileController(this.getPlayingCardTile(c).x,this.getPlayingCardTile(c).y).setCharacterID(-1);
+		this.getTileController(this.getPlayingCardTile(c).x,this.getPlayingCardTile(c).y).setDestination(-1);
+
+		print("setdestination");
 	}
 	
 	public void updateActionStatus(){
 		this.getPassZoneController().updateButtonStatus (this.getCard(this.currentPlayingCard));
 		this.getMoveZoneController().updateButtonStatus (this.getCard(this.currentPlayingCard));
 		this.getSkillZoneController().updateButtonStatus (this.getCard(this.currentPlayingCard));
+	}
+
+	public void hideButtons(){
+		this.getPassZoneController().show (false);
+		this.getMoveZoneController().show (false);
+		this.getSkillZoneController().showCancelButton (false);
+		this.getSkillZoneController().showSkillButtons(false);
 	}
 	
 	public void setTurn(int id, int rank){
@@ -1049,9 +1072,6 @@ public class GameView : MonoBehaviour
 			if(this.getPlayingCardController(i).isUpdatingLife){
 				this.getPlayingCardController(i).addLifeTime(Time.deltaTime);
 			}
-			if(this.getPlayingCardController(i).isShowingDead){
-				this.getPlayingCardController(i).addDeadTime(Time.deltaTime);
-			}
 			if(!this.getCard(i).isDead){
 				if(this.getPlayingCardController(i).getIsRunning()){
 					this.getPlayingCardController(i).addTime(Time.deltaTime);
@@ -1059,6 +1079,12 @@ public class GameView : MonoBehaviour
 				if(this.getPlayingCardController(i).getIsMoving()){
 					this.getPlayingCardController(i).addMoveTime(Time.deltaTime);
 				}
+			}
+		}
+
+		if(deads.Count>0){
+			for(int i = 0 ; i < deads.Count ; i++){
+				this.getPlayingCardController(deads[i]).addDeadTime(Time.deltaTime);
 			}
 		}
 		
@@ -1680,7 +1706,6 @@ public class GameView : MonoBehaviour
 		}
 		this.targets = new List<Tile>();
 		this.getSkillZoneController().isRunningSkill = false ;
-		this.getSkillZoneController().updateButtonStatus(this.getCurrentCard());
 	}
 	
 	public string canLaunchAdjacentOpponents()
@@ -1842,8 +1867,10 @@ public class GameView : MonoBehaviour
 			for(int j = 0 ; j < playingCards.Count ; j++){
 				if(this.getCard(j).isMine && target!=j){
 					this.getCard(j).removeLeaderEffect();
+					this.getPlayingCardController(j).updateLife(this.getCard(j).getLife());
 					this.getPlayingCardController(j).show();
-					this.displaySkillEffect(j, "Perd ses bonus car le leader est mort", 1);
+					this.displaySkillEffect(j, "Leader mort\nPerd ses bonus", 0);
+					GameView.instance.addAnim(GameView.instance.getTile(j), 76);
 				}
 			}
 		}
@@ -1851,8 +1878,10 @@ public class GameView : MonoBehaviour
 			for(int j = 0 ; j < playingCards.Count ; j++){
 				if(!this.getCard(j).isMine && target!=j){
 					this.getCard(j).removeLeaderEffect();
+					this.getPlayingCardController(j).updateLife(this.getCard(j).getLife());
 					this.getPlayingCardController(j).show();
-					this.displaySkillEffect(j, "Perd ses bonus car le leader est mort", 1);
+					this.displaySkillEffect(j, "Leader\nPerd ses bonus", 0);
+					GameView.instance.addAnim(GameView.instance.getTile(j), 76);
 				}
 			}
 		}
@@ -1863,19 +1892,25 @@ public class GameView : MonoBehaviour
 			StartCoroutine(quitGame());
 		}
 		else{
-			for (int i = 0 ; i < this.playingCards.Count ; i++){
-				if(this.getCard(i).nbTurnsToWait>this.getCard(c).nbTurnsToWait){
-					this.getCard(i).nbTurnsToWait--;
-					if(i!=this.currentPlayingCard){
-						this.getPlayingCardController(i).show();
-					}
-					else{
-						this.getPlayingCardController(i).show();
+			if(c!=this.currentPlayingCard){
+				for (int i = 0 ; i < this.playingCards.Count ; i++){
+					if(this.getCard(i).nbTurnsToWait>this.getCard(c).nbTurnsToWait){
+						this.getCard(i).nbTurnsToWait--;
+						if(i!=this.currentPlayingCard){
+							this.getPlayingCardController(i).show();
+						}
+						else{
+							this.getPlayingCardController(i).show();
+						}
 					}
 				}
 			}
+			else{
+				this.toPassDead = true ;
+			}
 		}
 		this.getPlayingCardController(c).displayDead(true);
+		this.deads.Add(c);
 	}
 	
 	IEnumerator sendStat(string user1, string user2, bool isTutorialGame)
@@ -2327,6 +2362,18 @@ public class GameView : MonoBehaviour
 			}
 		}
 		this.getTileController(t).showEffect(false);
+	}
+
+	public void removeDead(int c){
+		for(int i = deads.Count-1 ; i >= 0 ; i--){
+			if(deads[i]==c){
+				deads.RemoveAt(i);
+			}
+		}
+		if(toPassDead){
+			toPassDead = false ;
+			this.setNextPlayer();
+		}
 	}
 	
 	public Tile getTile(int c){

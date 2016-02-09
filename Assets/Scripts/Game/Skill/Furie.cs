@@ -30,6 +30,6 @@ public class Furie : GameSkill
 		int life =  -1*Mathf.Min(currentCard.GetTotalLife()-currentCard.getLife(),currentCard.GetTotalLife()*(20+5*level)/100);
 			
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(-1*life, -1, 0, text, "Furie\n+"+life+" PV"));
-		GameView.instance.getCard(target).setState(new Modifyer(0, 1, 93, text, "Furieux. Se déplace et attaque seul, ne peut plus etre controlé par son colon"));
+		GameView.instance.getCard(target).setState(new Modifyer(0, 1, 9, text, "Furieux. Se déplace et attaque seul, ne peut plus etre controlé par son colon"));
 	}
 }

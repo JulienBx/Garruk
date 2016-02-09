@@ -206,8 +206,11 @@ public class TileController : GameObjectController
 	{
 		if (this.isDestination>=0){
 			gameObject.transform.FindChild("DestinationLayer").GetComponent<SpriteRenderer>().sprite = this.destinationSprites[isDestination];
+			gameObject.transform.FindChild("DestinationLayer").GetComponent<SpriteRenderer>().enabled = true;
 		}
-		gameObject.transform.FindChild("DestinationLayer").GetComponent<SpriteRenderer>().enabled = b;
+		else{
+			gameObject.transform.FindChild("DestinationLayer").GetComponent<SpriteRenderer>().enabled = false;
+		}
 	}
 	
 	public void OnMouseEnter()

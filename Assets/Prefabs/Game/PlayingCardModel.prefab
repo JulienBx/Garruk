@@ -1971,7 +1971,7 @@ MonoBehaviour:
   - {fileID: 21300040, guid: 075994fcb3c9ef54e9ee86a9f415b94e, type: 3}
   - {fileID: 21300050, guid: 075994fcb3c9ef54e9ee86a9f415b94e, type: 3}
   - {fileID: 21300044, guid: 075994fcb3c9ef54e9ee86a9f415b94e, type: 3}
-  - {fileID: 0}
+  - {fileID: 21300162, guid: 075994fcb3c9ef54e9ee86a9f415b94e, type: 3}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -3612,7 +3612,7 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: iconeSprites.Array.data[4]
       value: 
-      objectReference: {fileID: 21300056, guid: 075994fcb3c9ef54e9ee86a9f415b94e,
+      objectReference: {fileID: 21300162, guid: 075994fcb3c9ef54e9ee86a9f415b94e,
         type: 3}
     - target: {fileID: 0}
       propertyPath: animSprites.Array.data[0]

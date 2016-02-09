@@ -28,6 +28,14 @@ public class Fortifiant : GameSkill
 		else{
 			if (Random.Range(1,101) <= proba){
 				GameController.instance.applyOn(target);
+				if(GameView.instance.getCurrentCard().isVirologue()){
+					List<Tile> adjacents = GameView.instance.getPlayingCardTile(target).getImmediateNeighbourTiles();
+					for(int i = 0 ; i < adjacents.Count ; i++){
+						if(GameView.instance.getTileCharacterID(adjacents[i].x, adjacents[i].y)!=-1){
+							GameController.instance.applyOnViro(GameView.instance.getTileCharacterID(adjacents[i].x, adjacents[i].y), GameView.instance.getCurrentCard().Skills[0].Power*5);
+						}
+					}
+				}
 			}
 			else{
 				GameController.instance.esquive(target,3);
@@ -47,6 +55,18 @@ public class Fortifiant : GameSkill
 		GameView.instance.displaySkillEffect(target, "+"+level+"ATK pour 1 tour", 1);	
 		GameView.instance.addAnim(GameView.instance.getTile(target), 3);
 	}	
+
+	public override void applyOnViro(int target, int value){
+		string text = base.name;
+		GameCard targetCard = GameView.instance.getCard(target);
+		GameCard currentCard = GameView.instance.getCurrentCard();
+		int level = Mathf.RoundToInt(GameView.instance.getCurrentSkill().Power*2f*value/100f);
+
+		GameView.instance.getCard(target).attackModifyers.Add(new Modifyer(level, 1, 3, text, "+"+level+"ATK. Actif 1 tour"));
+		GameView.instance.getPlayingCardController(target).updateAttack();
+		GameView.instance.displaySkillEffect(target, "Virus\n+"+level+"ATK pour 1 tour", 1);	
+		GameView.instance.addAnim(GameView.instance.getTile(target), 3);
+	}
 
 	public override string getTargetText(int target){
 		GameCard targetCard = GameView.instance.getCard(target);

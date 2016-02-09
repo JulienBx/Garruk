@@ -27,12 +27,17 @@ public class PistoLest : GameSkill
 			GameController.instance.esquive(target,1);
 		}
 		else{
-			for(int i = 0 ; i < 100 ; i++){
-				Debug.Log(Random.Range(1,101));
-			}
 			if (Random.Range(1,101) <= proba){
 				int amount = Random.Range(1,2*level+1);
 				GameController.instance.applyOn2(target, amount);
+				if(GameView.instance.getCurrentCard().isVirologue()){
+					List<Tile> adjacents = GameView.instance.getPlayingCardTile(target).getImmediateNeighbourTiles();
+					for(int i = 0 ; i < adjacents.Count ; i++){
+						if(GameView.instance.getTileCharacterID(adjacents[i].x, adjacents[i].y)!=-1){
+							GameController.instance.applyOnViro2(GameView.instance.getTileCharacterID(adjacents[i].x, adjacents[i].y), amount, GameView.instance.getCurrentCard().Skills[0].Power*5);
+						}
+					}
+				}
 			}
 			else{
 				GameController.instance.esquive(target,5);
@@ -45,15 +50,32 @@ public class PistoLest : GameSkill
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int damages = currentCard.getDamagesAgainst(targetCard, amount);
+		int move = -1*Mathf.Min(targetCard.getMove()-1,2);
 
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 5, base.name, damages+" dégats subis"));
-		GameView.instance.getCard(target).moveModifyers.Add(new Modifyer(-2, 1, 5, base.name, "-2MOV. Actif 1 tour"));
+		GameView.instance.getCard(target).moveModifyers.Add(new Modifyer(move, 1, 5, base.name, move+"MOV. Actif 1 tour"));
 		GameView.instance.getPlayingCardController(target).showIcons();
+		GameView.instance.recalculateDestinations();
 
-		GameView.instance.displaySkillEffect(target, "-"+damages+"PV\n-2MOV pour un tour", 0);	
+		GameView.instance.displaySkillEffect(target, "-"+damages+"PV\n"+move+"MOV pour un tour", 0);	
 		GameView.instance.addAnim(GameView.instance.getTile(target), 5);
 	}	
-	
+
+	public override void applyOnViro2(int target, int amount, int amount2){
+		GameCard targetCard = GameView.instance.getCard(target);
+		GameCard currentCard = GameView.instance.getCurrentCard();
+		int damages = Mathf.RoundToInt(currentCard.getDamagesAgainst(targetCard, amount)*amount2/100f);
+		int move = -1*Mathf.Min(targetCard.getMove(), Mathf.RoundToInt(2*amount2/100f));
+
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 5, base.name, damages+" dégats subis"));
+		GameView.instance.getCard(target).moveModifyers.Add(new Modifyer(move, 1, 5, base.name, move+"MOV. Actif 1 tour"));
+		GameView.instance.recalculateDestinations();
+		GameView.instance.getPlayingCardController(target).showIcons();
+
+		GameView.instance.displaySkillEffect(target, "Virus\n-"+damages+"PV\n-"+move+"MOV pour un tour", 0);	
+		GameView.instance.addAnim(GameView.instance.getTile(target), 5);
+	}	
+
 	public override string getTargetText(int target){
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
