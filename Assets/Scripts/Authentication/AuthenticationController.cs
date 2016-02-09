@@ -64,6 +64,8 @@ public class AuthenticationController : Photon.MonoBehaviour
 		}
 		else if(this.isConnectedToFB())
 		{
+			AccessToken aToken = Facebook.Unity.AccessToken.CurrentAccessToken;
+			ApplicationModel.player.FacebookId=aToken.UserId;
 			StartCoroutine(this.login());
 		}
 		else
