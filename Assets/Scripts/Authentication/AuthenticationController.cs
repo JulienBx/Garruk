@@ -56,10 +56,10 @@ public class AuthenticationController : Photon.MonoBehaviour
 	}
 	private void autoLogging()
 	{
+		this.displayLoginPopUp();
 		if(ApplicationModel.player.ToDeconnect)
 		{
 			ApplicationModel.player.ToDeconnect=false;
-			this.displayLoginPopUp();
 			BackOfficeController.instance.hideLoadingScreen();
 		}
 		else if(this.isConnectedToFB())
@@ -114,7 +114,6 @@ public class AuthenticationController : Photon.MonoBehaviour
 			{
 				ApplicationModel.player.Error="";
 			}
-			this.displayLoginPopUp();
 			BackOfficeController.instance.hideLoadingScreen();
 		}
 	}
