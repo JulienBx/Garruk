@@ -30,7 +30,7 @@ public class Antibiotique : GameSkill
 				GameController.instance.applyOn(target);
 			}
 			else{
-				GameController.instance.esquive(target,7);
+				GameController.instance.esquive(target,base.name);
 			}
 		}
 		GameController.instance.endPlay();

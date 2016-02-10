@@ -40,7 +40,7 @@ public class PistoLest : GameSkill
 				}
 			}
 			else{
-				GameController.instance.esquive(target,5);
+				GameController.instance.esquive(target,base.name);
 			}
 		}
 		GameController.instance.endPlay();

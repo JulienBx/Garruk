@@ -158,11 +158,14 @@ public class TileController : GameObjectController
 		return this.characterID ;
 	}
 	
-	public void checkTrap()
+	public bool checkTrap()
 	{
+		bool isSuccess = false ;
 		if(this.isTrapped){
 			if(this.trap.getType()==1){
 				GameView.instance.getPlayingCardController(this.characterID).addDamagesModifyer(new Modifyer(this.trap.getAmount(), -1, 0, "Electropiège", this.trap.getAmount()+" dégats subis"));
+				GameView.instance.displaySkillEffect(this.characterID, "Piège!\n-"+this.trap.getAmount()+"PV", 0);
+				GameView.instance.addAnim(GameView.instance.getTile(this.characterID), 13);
 			}
 			else if(this.trap.getType()==2){	
 				if(this.trap.getAmount()==2){
@@ -179,7 +182,9 @@ public class TileController : GameObjectController
 			this.showTrap(false);
 			GameView.instance.getCard(this.characterID).canCancelMove = false;
 			this.showDescription(false);
+			isSuccess = true ;
 		}
+		return isSuccess;
 	}
 	
 	public void removeTrap()
@@ -223,7 +228,7 @@ public class TileController : GameObjectController
 		if(this.characterID==-1){
 			gameObject.transform.FindChild("HoverLayer").GetComponent<SpriteRenderer>().enabled = true ;
 			if(this.isDisplayingTarget){
-				gameObject.transform.FindChild("DescriptionBox").FindChild("TitleText").GetComponent<TextMeshPro>().text = "Poser un piège";
+				gameObject.transform.FindChild("DescriptionBox").FindChild("TitleText").GetComponent<TextMeshPro>().text = GameSkills.instance.getCurrentGameSkill().name;
 				gameObject.transform.FindChild("DescriptionBox").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = GameSkills.instance.getCurrentGameSkill().getTargetText(-1);
 				gameObject.transform.FindChild("DescriptionBox").GetComponent<SpriteRenderer>().enabled = true;
 				gameObject.transform.FindChild("DescriptionBox").FindChild("DescriptionText").GetComponent<MeshRenderer>().enabled=true;
@@ -276,30 +281,40 @@ public class TileController : GameObjectController
 	
 	public void OnMouseDown()
 	{
-		if(this.isDisplayingTarget){
-			this.showDescription(false);
-		}
-		if(this.type!=1){
-			if(this.characterID!=-1){
-				if(GameView.instance.getTileController(this.characterID).isDisplayingTarget){
-					print("Je hit");
-					GameView.instance.hitTarget(this.characterID);
-				}
-				GameView.instance.clickCharacter(this.characterID);
+		if(GameView.instance.isDisplayedPopUp){
+			GameView.instance.hideValidationButton();
+			if(GameView.instance.getSkillZoneController().isRunningSkill){
+				GameView.instance.hideTargets();
+				GameView.instance.getSkillZoneController().updateButtonStatus(GameView.instance.getCurrentCard());
+				GameView.instance.getSkillZoneController().isRunningSkill = false ;
 			}
-			else{
-				if(this.isDisplayingTarget){
-					GameView.instance.hitTarget(this.tile);
-				}
-				else if(this.isDestination!=0 && this.isDestination!=1){
-					GameView.instance.clickEmpty();
+		}
+		else{
+			if(this.isDisplayingTarget){
+				this.showDescription(false);
+			}
+			if(this.type!=1){
+				if(this.characterID!=-1){
+					if(GameView.instance.getTileController(this.characterID).isDisplayingTarget){
+						print("Je hit");
+						GameView.instance.hitTarget(this.characterID);
+					}
+					GameView.instance.clickCharacter(this.characterID);
 				}
 				else{
-					GameController.instance.clickDestination(this.tile, GameView.instance.getCurrentPlayingCard(), false);
+					if(this.isDisplayingTarget){
+						GameView.instance.hitTarget(this.tile);
+					}
+					else if(this.isDestination!=0 && this.isDestination!=1){
+						GameView.instance.clickEmpty();
+					}
+					else{
+						GameController.instance.clickDestination(this.tile, GameView.instance.getCurrentPlayingCard(), false);
+					}
 				}
-			}
-			if(ApplicationModel.player.ToLaunchGameTutorial){
-				GameView.instance.hideTuto();
+				if(ApplicationModel.player.ToLaunchGameTutorial){
+					GameView.instance.hideTuto();
+				}
 			}
 		}
 	}

@@ -40,6 +40,8 @@ public class GameView : MonoBehaviour
 	GameObject[] horizontalBorders ;
 	List<GameObject> playingCards ;
 	GameObject popUp;
+	GameObject validationSkill;
+
 	GameObject tutorial;
 	public GameObject myTimerGO;
 	public GameObject hisTimerGO;
@@ -61,7 +63,7 @@ public class GameView : MonoBehaviour
 	public Deck myDeck ;
 	int nbPlayersReadyToFight = 0 ;
 	
-	bool hasFightStarted = false ;
+	public bool hasFightStarted = false ;
 	bool isBackgroundLoaded ;
 	
 	float realwidth ;
@@ -88,6 +90,7 @@ public class GameView : MonoBehaviour
 	bool toPassDead = false ;
 
 	public bool isFreezed = false ;
+	public bool isDisplayedPopUp = false ;
 	
 	void Awake()
 	{
@@ -113,8 +116,10 @@ public class GameView : MonoBehaviour
 		this.moveZone = GameObject.Find("MoveZone");
 		this.skillZone = GameObject.Find("SkillZone");
 		this.popUp = GameObject.Find("PopUp");
+		this.validationSkill = GameObject.Find("ValidationAutoSkill");
 		this.popUp.GetComponent<PopUpGameController>().show (false);
-		
+		this.validationSkill.GetComponent<SkillValidationController>().show(false);
+
 		this.SB.GetComponent<StartButtonController>().show(false);
 		this.audioEndTurn = GetComponent<AudioSource>();
 		this.setMyPlayerName(ApplicationModel.myPlayerName);
@@ -624,36 +629,46 @@ public class GameView : MonoBehaviour
 			else{
 				this.tiles[destination.x, destination.y].GetComponentInChildren<TileController>().setDestination(6);
 			}
-
-			if(this.hasFightStarted){
-				this.getCard(this.currentPlayingCard).setHasMoved(true);
+			if(GameView.instance.hasFightStarted){
+				this.getCard(GameView.instance.getCurrentPlayingCard()).setHasMoved(true);
 				this.getCard(c).canCancelMove = !cancel ;
 				this.getCard(c).hasMoved = !cancel ;
+			}
+		}
+		yield break;
+	}
+
+	public IEnumerator checkDestination(int c){
+		bool isSuccess ;
+		if(GameView.instance.hasFightStarted){
+			isSuccess = this.getTileController(c).checkTrap();
 				
-				this.getTileController(destination.x, destination.y).checkTrap();
-				if(this.getCard(this.currentPlayingCard).isMine){
-					this.updateActionStatus();
-				}
-				
-				this.removeDestinations();
-				
+			if(this.getCard(this.currentPlayingCard).isMine){
+				this.updateActionStatus();
+			}
+			
+			this.removeDestinations();
+			
+			if(this.getCard(this.currentPlayingCard).hasPlayed && this.getCard(this.currentPlayingCard).hasMoved){
+				this.getPassZoneController().show(false);
+			}
+			
+			yield return new WaitForSeconds(1f);
+			
+			if(this.getCard(this.currentPlayingCard).isMine){
 				if(this.getCard(this.currentPlayingCard).hasPlayed && this.getCard(this.currentPlayingCard).hasMoved){
-					this.getPassZoneController().show(false);
-				}
-				
-				yield return new WaitForSeconds(1f);
-				
-				if(this.getCard(this.currentPlayingCard).isMine){
-					if(this.getCard(this.currentPlayingCard).hasPlayed && this.getCard(this.currentPlayingCard).hasMoved){
+					if(isSuccess){
+						yield return new WaitForSeconds(2f);
+					}
+					if(this.deads.Contains(this.currentPlayingCard)){
 						GameController.instance.findNextPlayer ();
 					}
 				}
 			}
-			else{
-				this.setInitialDestinations(this.isFirstPlayer);
-			}
 		}
-		yield break;
+		else{
+			this.setInitialDestinations(this.isFirstPlayer);
+		}
 	}
 	
 	public int getCurrentPlayingCard(){
@@ -822,7 +837,6 @@ public class GameView : MonoBehaviour
 				this.lastHisPlayingCardDeckOrder = 0;
 			}
 		}
-		
 		bool hasMoved = false ;
 		bool hasPlayed = false ;
 		
@@ -964,8 +978,6 @@ public class GameView : MonoBehaviour
 	public void emptyTile(int c){
 		this.getTileController(this.getPlayingCardTile(c).x,this.getPlayingCardTile(c).y).setCharacterID(-1);
 		this.getTileController(this.getPlayingCardTile(c).x,this.getPlayingCardTile(c).y).setDestination(-1);
-
-		print("setdestination");
 	}
 	
 	public void updateActionStatus(){
@@ -2084,13 +2096,13 @@ public class GameView : MonoBehaviour
 	}
 	
 	public List<int> getOpponents(){
-		List<int> allys = new List<int>();
+		List<int> opponents = new List<int>();
 		for(int i = 0 ; i < this.playingCards.Count;i++){
 			if(!this.getCard(i).isDead && !this.getCard(i).isMine){
-				allys.Add(i);
+				opponents.Add(i);
 			}
 		}
-		return allys;
+		return opponents;
 	}
 	
 	public List<int> getEveryone(){
@@ -2241,8 +2253,10 @@ public class GameView : MonoBehaviour
 		this.getSkillZoneController().showSkillButtons(false);
 		this.getMoveZoneController().show(false);
 		this.hoverTile();
-		this.displaySkillEffect(this.currentPlayingCard,s,1);
-		this.addSE(this.getTile(this.currentPlayingCard));
+		if(GameSkills.instance.getSkill(this.runningSkill).ciblage!=0){
+			this.displaySkillEffect(this.currentPlayingCard,s,1);
+			this.addSE(this.getTile(this.currentPlayingCard));
+		}
 	}
 	
 	public IEnumerator endPlay()
@@ -2378,6 +2392,17 @@ public class GameView : MonoBehaviour
 	
 	public Tile getTile(int c){
 		return this.getPlayingCardController(c).getTile();
+	}
+
+	public void launchValidationButton(string s, string d){
+		this.validationSkill.GetComponent<SkillValidationController>().setTexts(s,d,"Lancer");
+		this.validationSkill.GetComponent<SkillValidationController>().show(true);
+		this.isDisplayedPopUp = true ;
+	}
+
+	public void hideValidationButton(){
+		this.validationSkill.GetComponent<SkillValidationController>().show(false);
+		this.isDisplayedPopUp = false ;
 	}
 }
 

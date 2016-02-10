@@ -38,7 +38,7 @@ public class Poison : GameSkill
 				}
 			}
 			else{
-				GameController.instance.esquive(target,94);
+				GameController.instance.esquive(target,base.name);
 			}
 		}
 		GameController.instance.endPlay();

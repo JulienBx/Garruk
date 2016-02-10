@@ -38,7 +38,7 @@ public class Adrenaline : GameSkill
 				}
 			}
 			else{
-				GameController.instance.esquive(target,6);
+				GameController.instance.esquive(target,base.name);
 			}
 		}
 		GameController.instance.endPlay();

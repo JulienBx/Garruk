@@ -40,7 +40,7 @@ public class PistoSoin : GameSkill
 				}
 			}
 			else{
-				GameController.instance.esquive(target,2);
+				GameController.instance.esquive(target,base.name);
 			}
 		}
 		GameController.instance.endPlay();

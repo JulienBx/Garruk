@@ -161,7 +161,14 @@ public class GameSkill
 	public virtual string getTimelineText(){
 		return "" ;
 	}
-	
+
+	public virtual void esquive(int target, string s)
+	{ 
+		string text = "Echec "+s;
+		GameView.instance.displaySkillEffect(target, text, 1);
+		GameView.instance.addSE(GameView.instance.getTile(target));
+	}
+
 	public virtual void esquive(int target, int result)
 	{ 
 		string text = "";
@@ -169,54 +176,7 @@ public class GameSkill
 		if(result==1){
 			text = "Esquive";
 		}
-		else if(result==2){
-			text = "Echec Soin";
-		}
-		else if(result==3){
-			text = "Echec Fortifiant";
-		}
-		else if(result==4){
-			text = "Echec Relaxant";
-		}
-		else if(result==5){
-			text = "Echec Lest";
-		}
-		else if(result==6){
-			text = "Echec Adrénaline";
-		}
-		else if(result==7){
-			text = "Echec Antibiotique";
-		}
-		else if(result==8){
-			text = "Echec Tir à l'arc";
-		}
-		else if(result==10){
-			text = "Echec Assassinat";
-		}
-		else if(result==15){
-			text = "Echec Coupe-Jambes";
-		}
-		else if(result==11){
-			text = "Echec Estoc";
-		}
-		else if(result==19){
-			text = "Echec Cri de rage";
-		}
-		else if(result==20){
-			text = "Echec Terreur";
-		}
-		else if(result==39){
-			text = "Echec Renfoderme";
-		}
-		else if(result==56){
-			text = "Echec Stéroide";
-		}
-		else if(result==92){
-			text = "Echec Déséquilibre";
-		}
-		else if(result==94){
-			text = "Echec Morphine";
-		}
+
 		GameView.instance.displaySkillEffect(target, text, type);
 		GameView.instance.addSE(GameView.instance.getTile(target));
 	}

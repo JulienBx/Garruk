@@ -40,7 +40,7 @@ public class Steroide : GameSkill
 				}
 			}
 			else{
-				GameController.instance.esquive(target,56);
+				GameController.instance.esquive(target,base.name);
 			}
 		}
 		GameController.instance.endPlay();

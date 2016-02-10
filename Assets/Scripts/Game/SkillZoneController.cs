@@ -7,8 +7,6 @@ public class SkillZoneController : MonoBehaviour
 {	
 	bool isAnimated;
 	float timer ;
-	float animationTime = 0.50f ;
-	float animationTime2 = 0.25f ;
 	float attackP;
 	float skill1P;
 	float skill2P;
@@ -71,6 +69,7 @@ public class SkillZoneController : MonoBehaviour
 			GameView.instance.hideTuto();
 		}
 		if(this.isRunningSkill){
+			GameView.instance.hideValidationButton();
 			GameView.instance.hideTargets();
 			this.updateButtonStatus(GameView.instance.getCurrentCard());
 			this.isRunningSkill = false ;

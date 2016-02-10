@@ -38,7 +38,7 @@ public class Fortifiant : GameSkill
 				}
 			}
 			else{
-				GameController.instance.esquive(target,3);
+				GameController.instance.esquive(target,base.name);
 			}
 		}
 		GameController.instance.endPlay();

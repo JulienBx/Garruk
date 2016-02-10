@@ -154,6 +154,17 @@ public class GameController : Photon.MonoBehaviour
 	{
 		GameSkills.instance.getCurrentGameSkill().esquive(target, result);
 	}
+
+	public void esquive(int target, string s)
+	{
+		photonView.RPC("esquiveSRPC", PhotonTargets.AllBuffered, target, s);
+	}
+	
+	[RPC]
+	public void esquiveSRPC(int target, string s)
+	{
+		GameSkills.instance.getCurrentGameSkill().esquive(target, s);
+	}
 	
 	public void applyOn(int target)
 	{

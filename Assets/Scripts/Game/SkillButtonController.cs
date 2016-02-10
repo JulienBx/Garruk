@@ -56,7 +56,9 @@ public class SkillButtonController : MonoBehaviour
 			gameObject.GetComponent<SpriteRenderer>().color = new Color(71f/255f,150f/255f,189f/255f, 1f);
 		}
 		GameView.instance.runningSkill = this.skill.Id ;
-		GameSkills.instance.getSkill(this.skill.Id).launch();
+		if(GameSkills.instance.getSkill(this.skill.Id).ciblage!=0){
+			GameSkills.instance.getSkill(this.skill.Id).launch();
+		}
 		this.showDescription(true);
 	}
 	
@@ -72,10 +74,16 @@ public class SkillButtonController : MonoBehaviour
 	
 	public void OnMouseDown(){
 		if (this.launchabilityText.Length<2){
+			if(GameSkills.instance.getSkill(this.skill.Id).ciblage==0){
+				GameSkills.instance.getSkill(this.skill.Id).launch();
+			}
 			GameView.instance.getSkillZoneController().isRunningSkill = true ;
 			GameView.instance.getSkillZoneController().updateButtonStatus(GameView.instance.getCurrentCard());
 			GameSkills.instance.getSkill(this.skill.Id).launch();
 			this.showDescription(false);
+		}
+		if(ApplicationModel.player.ToLaunchGameTutorial){
+			GameView.instance.hideTuto();
 		}
 	}
 }

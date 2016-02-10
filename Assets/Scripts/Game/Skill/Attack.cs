@@ -31,24 +31,23 @@ public class Attack : GameSkill
 	}
 	
 	public override void applyOn(int target){
-		string text = "";
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int damages = currentCard.getDamagesAgainst(targetCard, currentCard.getAttack());
 
-		text += "-"+damages+"PV";
+		string text = "-"+damages+"PV";
 						
 		if (currentCard.isLache()){
 			if(GameView.instance.getIsFirstPlayer() == currentCard.isMine){
 				if (GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).getTile().y-1==GameView.instance.getPlayingCardController(target).getTile().y){
 					damages = Mathf.Min(targetCard.getLife(), currentCard.getSkills()[0].Power+damages);
-					text+="\n(Bonus lache)";
+					text="-"+damages+"PV"+"\n(lache)";
 				}
 			}
 			else{
 				if (GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).getTile().y==GameView.instance.getPlayingCardController(target).getTile().y-1){
 					damages = Mathf.Min(targetCard.getLife(), currentCard.getSkills()[0].Power+damages);
-					text+="\n(Bonus lache)";
+					text="-"+damages+"PV"+"\n(lache)";
 				}
 			}
 		}
@@ -62,24 +61,22 @@ public class Attack : GameSkill
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int damages = currentCard.getDamagesAgainst(targetCard, currentCard.getAttack());
 
-		string text = "PV : "+targetCard.getLife()+" -> "+Mathf.Max(0,targetCard.getLife()-damages);
-
+		string text = "-"+damages+"PV";
+						
 		if (currentCard.isLache()){
 			if(GameView.instance.getIsFirstPlayer() == currentCard.isMine){
 				if (GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).getTile().y-1==GameView.instance.getPlayingCardController(target).getTile().y){
 					damages = Mathf.Min(targetCard.getLife(), currentCard.getSkills()[0].Power+damages);
-					text = "PV : "+targetCard.getLife()+" -> "+Mathf.Max(0,targetCard.getLife()-damages);
-					text+="\n(Bonus lache)";
+					text="-"+damages+"PV"+"\n(lache)";
 				}
 			}
 			else{
 				if (GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).getTile().y==GameView.instance.getPlayingCardController(target).getTile().y-1){
 					damages = Mathf.Min(targetCard.getLife(), currentCard.getSkills()[0].Power+damages);
-					text = "PV : "+targetCard.getLife()+" -> "+Mathf.Max(0,targetCard.getLife()-damages);
-					text+="\n(Bonus lache)";
+					text="-"+damages+"PV"+"\n(lache)";
 				}
 			}
-		}	
+		}
 
 		int probaEsquive = targetCard.getEsquive();
 		int probaHit = Mathf.Max(0,100-probaEsquive) ;

@@ -18,22 +18,14 @@ public class Electropiege : GameSkill
 	public override void resolve(List<Tile> targetsTile)
 	{	
 		GameController.instance.play(GameView.instance.runningSkill);
-		GameController.instance.applyOnTile(targetsTile[0]);
-		GameController.instance.showResult(true);
+		int amount = 200*GameView.instance.getCurrentSkill().Power;
+		GameController.instance.addElectropiege(amount, targetsTile[0]);
 		GameController.instance.endPlay();
 	}
-	
-	public override void applyOn(Tile t){
-		int amount = 4+GameView.instance.getCurrentSkill().Power;
-		GameController.instance.addElectropiege(amount, t);
-		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 0);
-	}
-	
+
 	public override string getTargetText(int i){
-		int amount = 4+GameView.instance.getCurrentSkill().Power;
-		string s = "Pose un electropiège infligeant "+amount+" dégats à l'unité piégée";
+		int amount = 2*GameView.instance.getCurrentSkill().Power;
+		string s = "Pose un piège qui infligera "+amount+" dégats à l'unité touchée";
 		return s ;
 	}
-	
-	
 }

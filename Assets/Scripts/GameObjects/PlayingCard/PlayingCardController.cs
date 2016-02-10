@@ -409,6 +409,7 @@ public class PlayingCardController : GameObjectController
 			this.isMoving = false ;
 			gameObject.transform.localPosition = this.finalP;
 			GameView.instance.recalculateDestinations();
+			StartCoroutine(GameView.instance.checkDestination(this.id));
 		}
 		else{
 			float rapport = this.timerMove/this.MoveTime;
