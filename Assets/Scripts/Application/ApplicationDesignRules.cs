@@ -545,6 +545,21 @@ public class ApplicationDesignRules : MonoBehaviour
 	{
 		return cardSize;
 	}
+	static public Color returnCardColor(int level)
+	{
+		if(level==1)
+		{
+			return greySpriteColor;
+		}
+		else if(level ==2)
+		{
+			return blueColor;
+		}
+		else
+		{
+			return redColor;
+		}
+	}
 	static public string priceToString(int price)
 	{
 		int divisionRest;

@@ -253,8 +253,8 @@ public class newMyGameController : MonoBehaviour
 	private void initializeTutorial()
 	{
 		this.tutorial = GameObject.Find ("Tutorial");
-		this.tutorial.AddComponent<HomePageTutorialController>();
-		this.tutorial.GetComponent<HomePageTutorialController>().initialize();
+		this.tutorial.AddComponent<MyGameTutorialController>();
+		this.tutorial.GetComponent<MyGameTutorialController>().initialize();
 	}
 	private void initializeMenu()
 	{

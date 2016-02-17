@@ -222,7 +222,14 @@ public class NewFocusedCardController : MonoBehaviour
 		{
 			if(i<this.c.Skills.Count && this.c.Skills[i].IsActivated==1)
 			{
-				this.skills[i].transform.GetComponent<NewFocusedCardSkillController>().setSkill(this.c.Skills[i]);
+				if(i==0)
+				{
+					this.skills[i].transform.GetComponent<NewFocusedCardSkillController>().setSkill(this.c.Skills[i],true);
+				}
+				else
+				{
+					this.skills[i].transform.GetComponent<NewFocusedCardSkillController>().setSkill(this.c.Skills[i],false);
+				}
 				this.skills[i].transform.GetComponent<NewFocusedCardSkillController>().setDescription(this.c.getSkillText(WordingSkills.getDescription(this.c.Skills[i].Id,this.c.Skills[i].Power-1)));
 				this.skills[i].SetActive(true);
 			}
@@ -1211,6 +1218,10 @@ public class NewFocusedCardController : MonoBehaviour
 	public Sprite getSkillTypeSprite(int id)
 	{
 		return this.ressources.skillTypes [id];
+	}
+	public int getCardType()
+	{
+		return this.c.IdClass;
 	}
 	public void displayLoadingScreen()
 	{

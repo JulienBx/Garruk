@@ -51,6 +51,7 @@ public class TutorialController : MonoBehaviour
 	}
 	private IEnumerator quitTutorial()
 	{
+		BackOfficeController.instance.displayLoadingScreen();
 		yield return StartCoroutine(ApplicationModel.player.setTutorialStep (1));
 		SceneManager.LoadScene("NewStore");
 	}

@@ -1,0 +1,307 @@
+fileFormatVersion: 2
+guid: fc5e269ca67b74355a1e8521b84b2d19
+timeCreated: 1455720781
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: Mystic
+    21300002: assassin
+    21300004: cristoid
+    21300006: droid
+    21300008: medic
+    21300010: predator
+    21300012: scientist
+    21300014: telepath
+    21300016: terraformer
+    21300018: trooper
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 4096
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 108
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: Mystic
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 824
+        width: 209
+        height: 243
+      alignment: 9
+      pivot: {x: 0.50717705, y: 0.5020576}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 94.99999, y: 65}
+        - {x: 3.9999924, y: 120}
+        - {x: -3.0000076, y: 120}
+        - {x: -37.000008, y: 103}
+        - {x: -106.00001, y: 61}
+        - {x: -106.00001, y: -61}
+        - {x: -92.00001, y: -71}
+        - {x: -6.0000076, y: -121}
+        - {x: 0.9999924, y: -121}
+        - {x: 7.9999924, y: -118}
+        - {x: 71.99999, y: -81}
+        - {x: 102.99999, y: -63}
+        - {x: 102.99999, y: 60}
+    - name: assassin
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 1314
+        width: 209
+        height: 243
+      alignment: 9
+      pivot: {x: 0.50717705, y: 0.5020576}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 94.99999, y: 65}
+        - {x: 3.9999924, y: 120}
+        - {x: -3.0000076, y: 120}
+        - {x: -37.000008, y: 103}
+        - {x: -106.00001, y: 61}
+        - {x: -106.00001, y: -61}
+        - {x: -92.00001, y: -71}
+        - {x: -6.0000076, y: -121}
+        - {x: 0.9999924, y: -121}
+        - {x: 7.9999924, y: -118}
+        - {x: 71.99999, y: -81}
+        - {x: 102.99999, y: -63}
+        - {x: 102.99999, y: 60}
+    - name: cristoid
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 1804
+        width: 209
+        height: 243
+      alignment: 9
+      pivot: {x: 0.50717705, y: 0.5020576}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 94.99999, y: 65}
+        - {x: 3.9999924, y: 120}
+        - {x: -3.0000076, y: 120}
+        - {x: -37.000008, y: 103}
+        - {x: -106.00001, y: 61}
+        - {x: -106.00001, y: -61}
+        - {x: -92.00001, y: -71}
+        - {x: -6.0000076, y: -121}
+        - {x: 0.9999924, y: -121}
+        - {x: 7.9999924, y: -118}
+        - {x: 71.99999, y: -81}
+        - {x: 102.99999, y: -63}
+        - {x: 102.99999, y: 60}
+    - name: droid
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 1559
+        width: 209
+        height: 243
+      alignment: 9
+      pivot: {x: 0.50717705, y: 0.5020576}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 94.99999, y: 65}
+        - {x: 3.9999924, y: 120}
+        - {x: -3.0000076, y: 120}
+        - {x: -37.000008, y: 103}
+        - {x: -106.00001, y: 61}
+        - {x: -106.00001, y: -61}
+        - {x: -92.00001, y: -71}
+        - {x: -6.0000076, y: -121}
+        - {x: 0.9999924, y: -121}
+        - {x: 7.9999924, y: -118}
+        - {x: 71.99999, y: -81}
+        - {x: 102.99999, y: -63}
+        - {x: 102.99999, y: 60}
+    - name: medic
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 1069
+        width: 209
+        height: 243
+      alignment: 9
+      pivot: {x: 0.50717705, y: 0.5020576}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 94.99999, y: 65}
+        - {x: 3.9999924, y: 120}
+        - {x: -3.0000076, y: 120}
+        - {x: -37.000008, y: 103}
+        - {x: -106.00001, y: 61}
+        - {x: -106.00001, y: -61}
+        - {x: -92.00001, y: -71}
+        - {x: -6.0000076, y: -121}
+        - {x: 0.9999924, y: -121}
+        - {x: 7.9999924, y: -118}
+        - {x: 71.99999, y: -81}
+        - {x: 102.99999, y: -63}
+        - {x: 102.99999, y: 60}
+    - name: predator
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 579
+        width: 209
+        height: 243
+      alignment: 9
+      pivot: {x: 0.50717705, y: 0.5020576}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 94.99999, y: 65}
+        - {x: 3.9999924, y: 120}
+        - {x: -3.0000076, y: 120}
+        - {x: -37.000008, y: 103}
+        - {x: -106.00001, y: 61}
+        - {x: -106.00001, y: -61}
+        - {x: -92.00001, y: -71}
+        - {x: -6.0000076, y: -121}
+        - {x: 0.9999924, y: -121}
+        - {x: 7.9999924, y: -118}
+        - {x: 71.99999, y: -81}
+        - {x: 102.99999, y: -63}
+        - {x: 102.99999, y: 60}
+    - name: scientist
+      rect:
+        serializedVersion: 2
+        x: 212
+        y: 1804
+        width: 209
+        height: 243
+      alignment: 9
+      pivot: {x: 0.50717705, y: 0.5020576}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 95, y: 65}
+        - {x: 4, y: 120}
+        - {x: -3, y: 120}
+        - {x: -37, y: 103}
+        - {x: -106, y: 61}
+        - {x: -106, y: -61}
+        - {x: -92, y: -71}
+        - {x: -6, y: -121}
+        - {x: 1, y: -121}
+        - {x: 8, y: -118}
+        - {x: 72, y: -81}
+        - {x: 103, y: -63}
+        - {x: 103, y: 60}
+    - name: telepath
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 334
+        width: 209
+        height: 243
+      alignment: 9
+      pivot: {x: 0.50717705, y: 0.5020576}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 94.99999, y: 65}
+        - {x: 3.9999924, y: 120}
+        - {x: -3.0000076, y: 120}
+        - {x: -37.000008, y: 103}
+        - {x: -106.00001, y: 61}
+        - {x: -106.00001, y: -61}
+        - {x: -92.00001, y: -71}
+        - {x: -6.0000076, y: -121}
+        - {x: 0.9999924, y: -121}
+        - {x: 7.9999924, y: -118}
+        - {x: 71.99999, y: -81}
+        - {x: 102.99999, y: -63}
+        - {x: 102.99999, y: 60}
+    - name: terraformer
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 89
+        width: 209
+        height: 243
+      alignment: 9
+      pivot: {x: 0.50717705, y: 0.5020576}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 94.99999, y: 65}
+        - {x: 3.9999924, y: 120}
+        - {x: -3.0000076, y: 120}
+        - {x: -37.000008, y: 103}
+        - {x: -106.00001, y: 61}
+        - {x: -106.00001, y: -61}
+        - {x: -92.00001, y: -71}
+        - {x: -6.0000076, y: -121}
+        - {x: 0.9999924, y: -121}
+        - {x: 7.9999924, y: -118}
+        - {x: 71.99999, y: -81}
+        - {x: 102.99999, y: -63}
+        - {x: 102.99999, y: 60}
+    - name: trooper
+      rect:
+        serializedVersion: 2
+        x: 212
+        y: 1559
+        width: 209
+        height: 243
+      alignment: 9
+      pivot: {x: 0.50717705, y: 0.5020576}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 95, y: 65}
+        - {x: 4, y: 120}
+        - {x: -3, y: 120}
+        - {x: -37, y: 103}
+        - {x: -106, y: 61}
+        - {x: -106, y: -61}
+        - {x: -92, y: -71}
+        - {x: -6, y: -121}
+        - {x: 1, y: -121}
+        - {x: 8, y: -118}
+        - {x: 72, y: -81}
+        - {x: 103, y: -63}
+        - {x: 103, y: 60}
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

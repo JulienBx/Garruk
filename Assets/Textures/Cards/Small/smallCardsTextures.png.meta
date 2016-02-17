@@ -41,6 +41,7 @@ TextureImporter:
     21300068: skillTypePiege
     21300070: skillTypeSoutien
     21300072: skillTypeTir
+    21300074: caracteristicsBackground
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -90,7 +91,7 @@ TextureImporter:
     - name: assassin
       rect:
         serializedVersion: 2
-        x: 813
+        x: 795
         y: 2389
         width: 561
         height: 655
@@ -337,6 +338,21 @@ TextureImporter:
         - {x: 84.5, y: 11}
         - {x: 84.5, y: -11}
         - {x: -85.5, y: -10}
+    - name: caracteristicsBackground
+      rect:
+        serializedVersion: 2
+        x: 183
+        y: 21
+        width: 505
+        height: 119
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -252.5, y: 59.5}
+        - {x: -252.5, y: -59.5}
+        - {x: 252.5, y: -59.5}
+        - {x: 252.5, y: 59.5}
     - name: cardbox
       rect:
         serializedVersion: 2
@@ -430,8 +446,8 @@ TextureImporter:
     - name: cardupgrade
       rect:
         serializedVersion: 2
-        x: 3978
-        y: 3013
+        x: 3976
+        y: 2488
         width: 90
         height: 69
       alignment: 0
@@ -738,38 +754,38 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: 343, y: -498}
-        - {x: 347, y: -496}
-        - {x: 353, y: -489}
-        - {x: 353, y: -488}
-        - {x: 356, y: -486}
-        - {x: 359, y: -479}
-        - {x: 360, y: -474}
-        - {x: 360, y: 477}
+      - - {x: 356, y: -486}
+        - {x: 360, y: -477}
+        - {x: 360, y: 474}
+        - {x: 359, y: 479}
         - {x: 356, y: 486}
-        - {x: 345, y: 497}
-        - {x: 344, y: 497}
-        - {x: 343, y: 499}
+        - {x: 353, y: 488}
+        - {x: 353, y: 489}
+        - {x: 346, y: 496}
+        - {x: 345, y: 496}
+        - {x: 341, y: 500}
         - {x: 336, y: 502}
         - {x: -336, y: 502}
-        - {x: -343, y: 499}
-        - {x: -344, y: 497}
-        - {x: -345, y: 497}
-        - {x: -354, y: 488}
-        - {x: -354, y: 487}
+        - {x: -341, y: 500}
+        - {x: -343, y: 498}
+        - {x: -347, y: 496}
+        - {x: -353, y: 489}
+        - {x: -353, y: 488}
         - {x: -356, y: 486}
-        - {x: -360, y: 477}
-        - {x: -360, y: -474}
-        - {x: -359, y: -479}
+        - {x: -359, y: 479}
+        - {x: -360, y: 474}
+        - {x: -360, y: -477}
         - {x: -356, y: -486}
-        - {x: -353, y: -488}
-        - {x: -353, y: -489}
-        - {x: -346, y: -496}
-        - {x: -345, y: -496}
-        - {x: -341, y: -500}
+        - {x: -354, y: -487}
+        - {x: -354, y: -488}
+        - {x: -345, y: -497}
+        - {x: -344, y: -497}
+        - {x: -343, y: -499}
         - {x: -336, y: -502}
         - {x: 336, y: -502}
-        - {x: 341, y: -500}
+        - {x: 343, y: -499}
+        - {x: 344, y: -497}
+        - {x: 345, y: -497}
     - name: face1
       rect:
         serializedVersion: 2
@@ -781,38 +797,38 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: 343, y: -498}
-        - {x: 347, y: -496}
-        - {x: 353, y: -489}
-        - {x: 353, y: -488}
-        - {x: 356, y: -486}
-        - {x: 359, y: -479}
-        - {x: 360, y: -474}
-        - {x: 360, y: 477}
+      - - {x: 356, y: -486}
+        - {x: 360, y: -477}
+        - {x: 360, y: 474}
+        - {x: 359, y: 479}
         - {x: 356, y: 486}
-        - {x: 345, y: 497}
-        - {x: 344, y: 497}
-        - {x: 343, y: 499}
+        - {x: 353, y: 488}
+        - {x: 353, y: 489}
+        - {x: 346, y: 496}
+        - {x: 345, y: 496}
+        - {x: 341, y: 500}
         - {x: 336, y: 502}
         - {x: -336, y: 502}
-        - {x: -343, y: 499}
-        - {x: -344, y: 497}
-        - {x: -345, y: 497}
-        - {x: -354, y: 488}
-        - {x: -354, y: 487}
+        - {x: -341, y: 500}
+        - {x: -343, y: 498}
+        - {x: -347, y: 496}
+        - {x: -353, y: 489}
+        - {x: -353, y: 488}
         - {x: -356, y: 486}
-        - {x: -360, y: 477}
-        - {x: -360, y: -474}
-        - {x: -359, y: -479}
+        - {x: -359, y: 479}
+        - {x: -360, y: 474}
+        - {x: -360, y: -477}
         - {x: -356, y: -486}
-        - {x: -353, y: -488}
-        - {x: -353, y: -489}
-        - {x: -346, y: -496}
-        - {x: -345, y: -496}
-        - {x: -341, y: -500}
+        - {x: -354, y: -487}
+        - {x: -354, y: -488}
+        - {x: -345, y: -497}
+        - {x: -344, y: -497}
+        - {x: -343, y: -499}
         - {x: -336, y: -502}
         - {x: 336, y: -502}
-        - {x: 341, y: -500}
+        - {x: 343, y: -499}
+        - {x: 344, y: -497}
+        - {x: 345, y: -497}
     - name: face2
       rect:
         serializedVersion: 2
@@ -824,38 +840,38 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: 343, y: -498}
-        - {x: 347, y: -496}
-        - {x: 353, y: -489}
-        - {x: 353, y: -488}
-        - {x: 356, y: -486}
-        - {x: 359, y: -479}
-        - {x: 360, y: -474}
-        - {x: 360, y: 477}
+      - - {x: 356, y: -486}
+        - {x: 360, y: -477}
+        - {x: 360, y: 474}
+        - {x: 359, y: 479}
         - {x: 356, y: 486}
-        - {x: 345, y: 497}
-        - {x: 344, y: 497}
-        - {x: 343, y: 499}
+        - {x: 353, y: 488}
+        - {x: 353, y: 489}
+        - {x: 346, y: 496}
+        - {x: 345, y: 496}
+        - {x: 341, y: 500}
         - {x: 336, y: 502}
         - {x: -336, y: 502}
-        - {x: -343, y: 499}
-        - {x: -344, y: 497}
-        - {x: -345, y: 497}
-        - {x: -354, y: 488}
-        - {x: -354, y: 487}
+        - {x: -341, y: 500}
+        - {x: -343, y: 498}
+        - {x: -347, y: 496}
+        - {x: -353, y: 489}
+        - {x: -353, y: 488}
         - {x: -356, y: 486}
-        - {x: -360, y: 477}
-        - {x: -360, y: -474}
-        - {x: -359, y: -479}
+        - {x: -359, y: 479}
+        - {x: -360, y: 474}
+        - {x: -360, y: -477}
         - {x: -356, y: -486}
-        - {x: -353, y: -488}
-        - {x: -353, y: -489}
-        - {x: -346, y: -496}
-        - {x: -345, y: -496}
-        - {x: -341, y: -500}
+        - {x: -354, y: -487}
+        - {x: -354, y: -488}
+        - {x: -345, y: -497}
+        - {x: -344, y: -497}
+        - {x: -343, y: -499}
         - {x: -336, y: -502}
         - {x: 336, y: -502}
-        - {x: 341, y: -500}
+        - {x: 343, y: -499}
+        - {x: 344, y: -497}
+        - {x: 345, y: -497}
     - name: geomancienne
       rect:
         serializedVersion: 2
@@ -1650,7 +1666,7 @@ TextureImporter:
     - name: popUp
       rect:
         serializedVersion: 2
-        x: 1376
+        x: 1358
         y: 2245
         width: 350
         height: 150
@@ -1938,7 +1954,7 @@ TextureImporter:
     - name: skillTypeAuto
       rect:
         serializedVersion: 2
-        x: 183
+        x: 690
         y: 37
         width: 103
         height: 103
@@ -1958,8 +1974,8 @@ TextureImporter:
     - name: skillTypeCombat
       rect:
         serializedVersion: 2
-        x: 288
-        y: 37
+        x: 3978
+        y: 2979
         width: 103
         height: 103
       alignment: 9
@@ -1978,8 +1994,8 @@ TextureImporter:
     - name: skillTypeDegenerescence
       rect:
         serializedVersion: 2
-        x: 393
-        y: 37
+        x: 3978
+        y: 2874
         width: 103
         height: 103
       alignment: 9
@@ -1998,8 +2014,8 @@ TextureImporter:
     - name: skillTypePiege
       rect:
         serializedVersion: 2
-        x: 498
-        y: 37
+        x: 3978
+        y: 2769
         width: 103
         height: 103
       alignment: 9
@@ -2018,8 +2034,8 @@ TextureImporter:
     - name: skillTypeSoutien
       rect:
         serializedVersion: 2
-        x: 603
-        y: 37
+        x: 3978
+        y: 2664
         width: 103
         height: 103
       alignment: 9
@@ -2038,8 +2054,8 @@ TextureImporter:
     - name: skillTypeTir
       rect:
         serializedVersion: 2
-        x: 708
-        y: 37
+        x: 3978
+        y: 2559
         width: 103
         height: 103
       alignment: 9
