@@ -16,7 +16,7 @@ public class Card
 	public int Attack;                                          // les points d'attaque de la carte
 	public int Energy;                                          // les points d'energie de la carte
 	public List<Skill> Skills;
-	public int IdClass;
+	public CardType CardType;
 	public string TitleClass;
 	public int IdOWner;
 	public string UsernameOwner;
@@ -81,7 +81,8 @@ public class Card
 		this.Title = title;
 		this.Life = life;
 		this.ArtIndex = artIndex;
-		this.IdClass = artIndex;
+		this.CardType=new CardType();
+		this.CardType.Id = artIndex;
 		this.Speed = speed;
 		this.Move = move;
 		this.Attack = attack;
@@ -109,7 +110,8 @@ public class Card
 		this.Speed = speed;
 		this.Move = move;
 		this.ArtIndex = artIndex;
-		this.IdClass = idClass;
+		this.CardType=new CardType();
+		this.CardType.Id = idClass;
 		this.TitleClass = titleClass;
 		this.LifeLevel = lifeLevel;
 		this.MoveLevel = moveLevel;
@@ -143,7 +145,8 @@ public class Card
 		this.Speed = speed;
 		this.Move = move;
 		this.ArtIndex = artIndex;
-		this.IdClass = idClass;
+		this.CardType=new CardType();
+		this.CardType.Id = idClass;
 		this.TitleClass = titleClass;
 		this.LifeLevel = lifeLevel;
 		this.MoveLevel = moveLevel;
@@ -182,7 +185,8 @@ public class Card
 		this.Speed = speed;
 		this.Move = move;
 		this.ArtIndex = artIndex;
-		this.IdClass = idClass;
+		this.CardType=new CardType();
+		this.CardType.Id = idClass;
 		this.TitleClass = titleClass;
 		this.LifeLevel = lifeLevel;
 		this.MoveLevel = moveLevel;
@@ -379,7 +383,8 @@ public class Card
 				this.Move=System.Convert.ToInt32(cardInfo[5]);
 				this.IdOWner=System.Convert.ToInt32(cardInfo[6]);
 				this.UsernameOwner=cardInfo[7];
-				this.IdClass=System.Convert.ToInt32(cardInfo[8]);
+				this.CardType=new CardType();
+				this.CardType.Id=System.Convert.ToInt32(cardInfo[8]);
 				this.PowerLevel=System.Convert.ToInt32(cardInfo[9]);
 				this.LifeLevel=System.Convert.ToInt32(cardInfo[10]);
 				this.AttackLevel=System.Convert.ToInt32(cardInfo[11]);

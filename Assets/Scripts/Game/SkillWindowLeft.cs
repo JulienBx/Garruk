@@ -91,7 +91,7 @@ public class SkillWindowLeft : MonoBehaviour
 			gameObject.transform.FindChild("HitMan"+i).FindChild("UpgradeBox").FindChild("BoxText").GetComponent<TextMeshPro>().text = textesUp[i];
 			gameObject.transform.FindChild("HitMan"+i).FindChild("DowngradeBox").FindChild("BoxText").GetComponent<TextMeshPro>().text = textesDown[i];
 			
-			gameObject.transform.FindChild("HitMan"+i).FindChild("characterBackground").GetComponent<SpriteRenderer>().sprite = GameView.instance.getCharacterSprite(receivers[i].IdClass);
+			gameObject.transform.FindChild("HitMan"+i).FindChild("characterBackground").GetComponent<SpriteRenderer>().sprite = GameView.instance.getCharacterSprite(receivers[i].CardType.Id);
 		}
 	}
 	
@@ -110,7 +110,7 @@ public class SkillWindowLeft : MonoBehaviour
 			//gameObject.transform.FindChild("HitMan"+i).FindChild("UpgradeBox").FindChild("BoxText").GetComponent<TextMeshPro>().text = textesUp[i];
 			//gameObject.transform.FindChild("HitMan"+i).FindChild("DowngradeBox").FindChild("BoxText").GetComponent<TextMeshPro>().text = textesDown[i];
 			
-			gameObject.transform.FindChild("HitMan"+i).FindChild("characterBackground").GetComponent<SpriteRenderer>().sprite = GameView.instance.getCharacterSprite(receivers[i].IdClass);
+			gameObject.transform.FindChild("HitMan"+i).FindChild("characterBackground").GetComponent<SpriteRenderer>().sprite = GameView.instance.getCharacterSprite(receivers[i].CardType.Id);
 			if(status[i]==0){
 				text = "Succès";
 				color = new Color(71f,150f,189f);

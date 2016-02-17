@@ -55,11 +55,10 @@ public class NewSkillBookModel
 			skills[i].Id=System.Convert.ToInt32(skillInformation[0]);
 			skills[i].IdCardType=System.Convert.ToInt32(skillInformation[1]);
 			skills[i].IdSkillType=System.Convert.ToInt32(skillInformation[2]);
-			skills[i].IdPicture=System.Convert.ToInt32(skillInformation[3]);
 			skills[i].AllProbas=new int[10];
 			for(int j=0;j<skills[i].AllProbas.Length;j++)
 			{
-				skills[i].AllProbas[j]=System.Convert.ToInt32(skillInformation[4+j]);
+				skills[i].AllProbas[j]=System.Convert.ToInt32(skillInformation[3+j]);
 			}
 		}
 		return skills;
@@ -73,8 +72,7 @@ public class NewSkillBookModel
 			cardTypes.Add (new CardType());
 			cardTypes[i].Id=System.Convert.ToInt32(cardTypeInformation[0]);
 			cardTypes[i].Name=cardTypeInformation[1];
-			cardTypes[i].IdPicture=System.Convert.ToInt32(cardTypeInformation[2]);
-			cardTypes[i].Description=cardTypeInformation[3];
+			cardTypes[i].Description=cardTypeInformation[2];
 		}
 		return cardTypes;
 	}

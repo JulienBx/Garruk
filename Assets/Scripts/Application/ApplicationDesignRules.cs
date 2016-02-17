@@ -615,4 +615,8 @@ public class ApplicationDesignRules : MonoBehaviour
 		}
 		return priceToString;
 	}
+	static public int getCardTypePictureId(int id)
+	{
+		return id;
+	}
 }

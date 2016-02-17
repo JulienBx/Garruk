@@ -136,7 +136,7 @@ public class BackOfficeController : MonoBehaviour
 		{
 			this.newSkillsPopUps[i]=Instantiate(this.ressources.newSkillPopUpObject) as GameObject;
 			this.newSkillsPopUps[i].transform.FindChild("Title").GetComponent<TextMeshPro>().text=newSkills[i].Name;
-			this.newSkillsPopUps[i].transform.FindChild("Picto").GetComponent<SpriteRenderer>().sprite=returnSkillPicture(newSkills[i].IdPicture);
+			this.newSkillsPopUps[i].transform.FindChild("Picto").GetComponent<SpriteRenderer>().sprite=returnSkillPicto(newSkills[i].getPictureId());
 		}
 		this.newSkillsPopUpsResize ();
 	}

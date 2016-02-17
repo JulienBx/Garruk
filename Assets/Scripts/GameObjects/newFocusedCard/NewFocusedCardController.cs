@@ -206,7 +206,7 @@ public class NewFocusedCardController : MonoBehaviour
 		}
 		else
 		{
-			this.name.transform.GetComponent<TextMeshPro>().text=WordingCardTypes.getName(this.c.IdClass);
+			this.name.transform.GetComponent<TextMeshPro>().text=WordingCardTypes.getName(this.c.CardType.Id);
 		}
 		//this.gameObject.transform.FindChild("Power").FindChild("Text").GetComponent<TextMeshPro>().text = this.c.Power.ToString();
 		//this.gameObject.transform.FindChild ("Power").FindChild ("Text").GetComponent<TextMeshPro> ().color = ressources.colors [this.c.PowerLevel - 1];
@@ -247,7 +247,7 @@ public class NewFocusedCardController : MonoBehaviour
 	}
 	public virtual void applyFrontTexture()
 	{
-		this.caracter.GetComponent<SpriteRenderer> ().sprite = ressources.caracters[this.c.IdClass];
+		this.caracter.GetComponent<SpriteRenderer> ().sprite = ressources.caracters[this.c.CardType.Id];
 		this.face.GetComponent<SpriteRenderer> ().sprite = ressources.faces [this.c.PowerLevel - 1];
 	}
 	public void setCardSold()
@@ -1219,9 +1219,9 @@ public class NewFocusedCardController : MonoBehaviour
 	{
 		return this.ressources.skillTypes [id];
 	}
-	public int getCardType()
+	public CardType getCardType()
 	{
-		return this.c.IdClass;
+		return this.c.CardType;
 	}
 	public void displayLoadingScreen()
 	{

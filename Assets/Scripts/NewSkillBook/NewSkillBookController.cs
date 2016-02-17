@@ -1089,7 +1089,7 @@ public class NewSkillBookController : MonoBehaviour
 				this.cardsTypesDisplayed.Add (this.helpPagination.chosenPage*this.helpPagination.nbElementsPerPage+i);
 				this.contents[i].SetActive(true);
 				this.contents[i].transform.FindChild("description").GetComponent<TextMeshPro>().text=model.cardTypesList[this.helpPagination.chosenPage*this.helpPagination.nbElementsPerPage+i].Description;
-				this.contents[i].transform.FindChild("cardTypePicture").GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnCardTypePicture(model.cardTypesList[this.helpPagination.chosenPage*this.helpPagination.nbElementsPerPage+i].IdPicture);
+				this.contents[i].transform.FindChild("cardTypePicture").GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnCardTypePicture(model.cardTypesList[this.helpPagination.chosenPage*this.helpPagination.nbElementsPerPage+i].getPictureId());
 				this.contents[i].transform.FindChild("title").GetComponent<TextMeshPro>().text=model.cardTypesList[this.helpPagination.chosenPage*this.helpPagination.nbElementsPerPage+i].Name;
 				
 			}

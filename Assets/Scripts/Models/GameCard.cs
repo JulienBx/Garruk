@@ -48,7 +48,7 @@ public class GameCard : Card
 		base.Move = c.Move;
 		base.Attack = c.Attack;
 		base.Skills = c.Skills;
-		base.IdClass = c.IdClass;
+		base.CardType.Id = c.CardType.Id;
 		base.TitleClass = c.TitleClass;
 		base.AttackLevel = c.AttackLevel;   
 		base.MoveLevel = c.MoveLevel;

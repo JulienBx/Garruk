@@ -131,7 +131,7 @@ public class SkillWindowRight : MonoBehaviour
 			}
 			
 			gameObject.transform.FindChild("HitMan"+i).FindChild("TextStatus").GetComponent<MeshRenderer>().enabled=true;
-			gameObject.transform.FindChild("HitMan"+i).FindChild("characterBackground").GetComponent<SpriteRenderer>().sprite = GameView.instance.getCharacterSprite(receivers[i].IdClass);
+			gameObject.transform.FindChild("HitMan"+i).FindChild("characterBackground").GetComponent<SpriteRenderer>().sprite = GameView.instance.getCharacterSprite(receivers[i].CardType.Id);
 			
 			gameObject.transform.FindChild("HitMan"+i).FindChild("TextStatus").localScale = new Vector3(0f, 0f, 0f);
 			
