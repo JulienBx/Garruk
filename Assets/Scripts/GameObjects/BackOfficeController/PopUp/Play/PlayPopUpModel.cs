@@ -43,6 +43,7 @@ public class PlayPopUpModel {
 	}
 	private void parseFriendlyGame(string[] friendlyGameData)
 	{
+		ApplicationModel.player.CurrentFriendlyGame = new FriendlyGame();
 		ApplicationModel.player.CurrentFriendlyGame.EarnXp_W = System.Convert.ToInt32 (friendlyGameData [0]);
 		ApplicationModel.player.CurrentFriendlyGame.EarnXp_L = System.Convert.ToInt32 (friendlyGameData [1]);
 		ApplicationModel.player.CurrentFriendlyGame.EarnCredits_W = System.Convert.ToInt32 (friendlyGameData [2]);
@@ -50,7 +51,8 @@ public class PlayPopUpModel {
 	}
 	private void parseCup(string[] array)
 	{
-		ApplicationModel.player.CurrentCup.Name= array[0];
+		ApplicationModel.player.CurrentCup=new Cup();
+		ApplicationModel.player.CurrentCup.Name= "";
 		ApplicationModel.player.CurrentCup.IdPicture= System.Convert.ToInt32(array[1]);
 		ApplicationModel.player.CurrentCup.NbRounds = System.Convert.ToInt32(array [2]);
 		ApplicationModel.player.CurrentCup.CupPrize = System.Convert.ToInt32(array [3]);
@@ -61,7 +63,8 @@ public class PlayPopUpModel {
 	}
 	private void parseDivision(string[] array)
 	{
-		ApplicationModel.player.CurrentDivision.Name= array[0];
+		ApplicationModel.player.CurrentDivision = new Division();
+		ApplicationModel.player.CurrentDivision.Name= WordingGameModes.getName(0,System.Convert.ToInt32(array[0])-1);
 		ApplicationModel.player.CurrentDivision.IdPicture= System.Convert.ToInt32(array[1]);
 		ApplicationModel.player.CurrentDivision.NbGames = System.Convert.ToInt32(array [2]);
 		ApplicationModel.player.CurrentDivision.TitlePrize = System.Convert.ToInt32(array [3]);

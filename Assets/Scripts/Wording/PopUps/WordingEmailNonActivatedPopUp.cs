@@ -17,6 +17,6 @@ public class WordingEmailNonActivatedPopUp
 		references.Add(new string[]{"Email en attente de validation",""}); //0
 		references.Add(new string[]{"Un lien d'activation vous a été envoyé précédemment dans un email  \nVous pouvez modifier votre email de contact et/ou envoyer un nouveau mail d'activation",""}); //1
 		references.Add(new string[]{"Envoyer",""}); //0
-		references.Add(new string[]{"Quitter",""}); //0
+		references.Add(new string[]{"Retour",""}); //0
 	}
 }
