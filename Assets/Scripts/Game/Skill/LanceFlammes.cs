@@ -7,7 +7,7 @@ public class LanceFlammes : GameSkill
 	{
 		this.numberOfExpectedTargets = 1 ; 
 		base.name = "Lanceflammes";
-		base.ciblage = 11 ;
+		base.ciblage = -2 ;
 	}
 	
 	public override void launch()
@@ -28,6 +28,20 @@ public class LanceFlammes : GameSkill
 		int maxDamages ;
 		GameCard targetCard ;
 		int proba = GameView.instance.getCurrentSkill().proba;
+		int isFou = 1 ;
+		if(currentCard.isFou()){
+			if(Random.Range(1,101)<26){
+				isFou = -1 ;
+				List<Tile> potentialTiles = GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()).getImmediateNeighbourTiles() ;
+				List<Tile> potentialTargets = new List<Tile>();
+				for (int i = 0 ; i < potentialTiles.Count ; i++){
+					if(tile.x!=potentialTiles[i].x || tile.y!=potentialTiles[i].y){
+						potentialTargets.Add(potentialTiles[i]);
+					}
+				}
+				tile = potentialTargets[Random.Range(0,potentialTargets.Count)];
+			}
+		}
 
 		if(tile.x==currentTile.x){
 			if(tile.y<currentTile.y){
@@ -109,7 +123,7 @@ public class LanceFlammes : GameSkill
 				}
 			}
 		}
-
+		GameController.instance.applyOn(isFou);
 		GameController.instance.endPlay();
 	}
 	
@@ -117,6 +131,17 @@ public class LanceFlammes : GameSkill
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(value, -1, 27, base.name, value+" dégats subis"));
 		GameView.instance.displaySkillEffect(target, "-"+value+"PV", 0);	
 		GameView.instance.addAnim(GameView.instance.getTile(target), 27);
+	}
+
+	public override void applyOn(int target){
+		if(target==-1){
+			GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), "Fou!\nse trompe de cible!", 0);	
+			GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 23);
+		}
+		else{
+			GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);	
+			GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 23);
+		}
 	}
 	
 	public override string getTargetText(int target){

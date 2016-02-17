@@ -17,10 +17,13 @@ public class Bombardier : GameSkill
 	public override void resolve(List<int> targetsPCC)
 	{	
 		GameController.instance.play(GameView.instance.runningSkill);
+		GameCard currentCard = GameView.instance.getCurrentCard();
 		List<int> targets = GameView.instance.getEveryone() ; 
 		int maxdamages = GameView.instance.getCurrentSkill().Power*3;
 		int proba = GameView.instance.getCurrentSkill().proba;
-
+		if(currentCard.isSniper()){
+			proba = 100 ;
+		}
 		for(int i = 0 ; i < targets.Count ; i++){
 			if (Random.Range(1,101) <= GameView.instance.getCard(targets[i]).getMagicalEsquive()){
 				GameController.instance.esquive(targets[i],1);

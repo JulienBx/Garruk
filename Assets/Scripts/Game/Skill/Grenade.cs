@@ -7,7 +7,7 @@ public class Grenade : GameSkill
 	{
 		this.numberOfExpectedTargets = 1 ; 
 		base.name = "Grenade";
-		base.ciblage = 11 ;
+		base.ciblage = -2 ;
 	}
 	
 	public override void launch()
@@ -22,10 +22,20 @@ public class Grenade : GameSkill
 		GameCard targetCard ;
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int proba = GameView.instance.getCurrentSkill().proba;
+		if(currentCard.isSniper()){
+			proba = 100 ;
+		}
 		int level = GameView.instance.getCurrentSkill().Power;
 		int minDamages;
 		int maxDamages;
 		int playerID;
+		int target = 1 ;
+		if(currentCard.isFou()){
+			if(Random.Range(1,101)<26){
+				target = -1 ;
+				targetsTile[0]=new Tile(Random.Range(0,GameView.instance.boardWidth), Random.Range(0,GameView.instance.boardHeight));
+			}
+		}
 	
 		playerID = GameView.instance.getTileController(new Tile(targetsTile[0].x, targetsTile[0].y)).getCharacterID();
 		if(playerID!=-1){
@@ -111,6 +121,7 @@ public class Grenade : GameSkill
 			}
 		}
 
+		GameController.instance.applyOn(target);
 		GameController.instance.endPlay();
 	}
 
@@ -118,6 +129,17 @@ public class Grenade : GameSkill
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(value, -1, 23, base.name, value+" dégats subis"));
 		GameView.instance.displaySkillEffect(target, "-"+value+"PV", 0);	
 		GameView.instance.addAnim(GameView.instance.getTile(target), 23);
+	}
+
+	public override void applyOn(int target){
+		if(target==-1){
+			GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), "Fou!\nse trompe de cible!", 0);	
+			GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 23);
+		}
+		else{
+			GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);	
+			GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 23);
+		}
 	}
 	
 	public override string getTargetText(int target){

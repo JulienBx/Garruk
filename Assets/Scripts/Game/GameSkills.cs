@@ -40,7 +40,7 @@ public class GameSkills : MonoBehaviour
 		this.skills [27] = new LanceFlammes();
 		this.skills [28] = new Implosion();
 		this.skills [29] = new Protection();
-		this.skills [30] = new GameSkill();
+		this.skills [30] = new Mitraillette();
 		this.skills [31] = new GameSkill();
 		this.skills [32] = new GameSkill();
 		this.skills [33] = new Reparation();

@@ -626,6 +626,28 @@ public class PlayingCardController : GameObjectController
 		}
 	}
 
+	public void checkEmbusque(){
+		if((card.Skills[0].Id == 32)){
+			int level = 5*card.Skills[0].Power;
+		
+			this.card.esquiveModifyers.Add(new Modifyer(level, -1, 32, "Embusqué", "Esquive aux compétences à distance : "+level+"%"));
+			GameView.instance.getPlayingCardController(this.id).showIcons();
+			GameView.instance.displaySkillEffect(this.id, "Embusqué\nEsquive : "+level+"%", 1);
+			GameView.instance.addAnim(GameView.instance.getTile(this.id), 32);
+		}
+	}
+
+	public void checkSniper(){
+		if((card.Skills[0].Id == 35)){
+			int bonus = 5*card.Skills[0].Power;
+		
+			GameView.instance.getCard(this.id).magicalBonusModifyers.Add(new Modifyer(-1*bonus, -1, 35, "Sniper", "-"+bonus+"% aux dégats à distance. Permanent"));
+			GameView.instance.getPlayingCardController(this.id).updateAttack();
+			GameView.instance.displaySkillEffect(this.id, "Dégats -"+bonus+"%", 1);
+			GameView.instance.addAnim(GameView.instance.getTile(this.id), 35);
+		}
+	}
+
 	public void checkPassiveSkills()
 	{
 		this.checkPaladin();
@@ -633,6 +655,8 @@ public class PlayingCardController : GameObjectController
 		this.checkRapide();
 		this.checkAgile();
 		this.checkCuirasse();
+		this.checkEmbusque();
+		this.checkSniper();
 	}
 }
 

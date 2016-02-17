@@ -113,10 +113,25 @@ public class GameCard : Card
 	{
 		return (base.Skills[0].Id == 67);
 	}
+
+	public bool isSanguinaire()
+	{
+		return (base.Skills[0].Id == 34);
+	}
+
+	public bool isSniper()
+	{
+		return (base.Skills[0].Id == 35);
+	}
 	
 	public bool isNurse()
 	{
 		return (base.Skills[0].Id == 75);
+	}
+
+	public bool isFou()
+	{
+		return (base.Skills[0].Id == 33);
 	}
 	
 	public bool isFrenetique()
@@ -407,18 +422,6 @@ public class GameCard : Card
 
 	public int getMagicalDamagesAgainst(GameCard g, int attack){
 		int amount = Mathf.FloorToInt(attack*(1f+this.getMagicalBonus()/100f)*(1f-(g.getBouclier()/100f)));
-		amount = Mathf.Min(g.getLife(), amount);
-		return amount ;
-	}
-	
-	public int getDamagesAgainst(GameCard g, int attack, int percentage){
-		int amount = Mathf.FloorToInt(percentage*attack*(1f-(g.getBouclier()/100f))/100f);
-		amount = Mathf.Min(g.getLife(), amount);
-		return amount ;
-	}
-	
-	public int getDamagesAgainstWS(GameCard g){
-		int amount = this.getAttack();
 		amount = Mathf.Min(g.getLife(), amount);
 		return amount ;
 	}
