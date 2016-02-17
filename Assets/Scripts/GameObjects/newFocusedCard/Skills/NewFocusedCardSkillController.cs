@@ -5,11 +5,12 @@ public class NewFocusedCardSkillController : MonoBehaviour
 {
 
 	public Skill s;
+	public bool isPassiveSkill;
 	public string d;
 	public int attributeIndex;
 	private bool isHovered;
 	
-	public virtual void show()
+	public virtual void show(bool isPassiveSkill)
 	{
 		this.isHovered=false;
 		this.setStandardState();
@@ -35,10 +36,11 @@ public class NewFocusedCardSkillController : MonoBehaviour
 		}
 		this.gameObject.transform.FindChild ("Proba").FindChild ("Title").GetComponent<TextMeshPro> ().color = probaColor;
 	}
-	public virtual void setSkill(Skill s)
+	public virtual void setSkill(Skill s, bool isPassiveSkill)
 	{
 		this.s = s;
-		this.show ();
+		this.isPassiveSkill=isPassiveSkill;
+		this.show (this.isPassiveSkill);
 	}
 	public virtual void setDescription(string d)
 	{
