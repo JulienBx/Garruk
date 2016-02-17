@@ -24,5 +24,6 @@ public class BackOfficeRessources : MonoBehaviour
 	public Sprite[] skillsPictures;
 	public Sprite[] skillsPictos;
 	public Sprite[] cardTypesPictos;
+	public Sprite[] smallCardsCaracters;
 }
 
