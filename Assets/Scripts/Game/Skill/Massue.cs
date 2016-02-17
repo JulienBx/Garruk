@@ -18,53 +18,47 @@ public class Massue : GameSkill
 
 	public override void resolve(List<int> targetsPCC)
 	{	
-		bool isSuccess = false ;
 		GameController.instance.play(GameView.instance.runningSkill);
+		int target = targetsPCC[0];
 		int proba = GameView.instance.getCurrentSkill().proba;
-		int level = GameView.instance.getCurrentSkill().Power;
-		int target = targetsPCC[0] ;
+		GameCard currentCard = GameView.instance.getCurrentCard();
 		
-		if (Random.Range(1,101) < GameView.instance.getCard(target).getEsquive()){
+		if (Random.Range(1,101) <= GameView.instance.getCard(target).getEsquive())
+		{                             
 			GameController.instance.esquive(target,1);
 		}
 		else{
-			int value = 131+level*10;
-			GameController.instance.applyOn2(target,value);
-			isSuccess = true ;
+			if (Random.Range(1,101) <= proba){
+				GameController.instance.applyOn2(target, Random.Range(Mathf.RoundToInt(currentCard.getAttack()*50f/100f),Mathf.RoundToInt(currentCard.getAttack()*(100f+10f*GameView.instance.getCurrentCard().Skills[0].Power)/100f)));
+			}
+			else{
+				GameController.instance.esquive(target,base.name);
+			}
 		}
-		GameController.instance.showResult(isSuccess);
 		GameController.instance.endPlay();
 	}
 		
 	public override void applyOn(int target, int value){
-		string text = base.name;
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
-		int damages = currentCard.getDamagesAgainst(targetCard, value);
-		
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 0, text, "-"+damages+" PV"));
-		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 0);
+		int damages = currentCard.getNormalDamagesAgainst(targetCard, value);
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,63,base.name,damages+" dégats subis"));
+		GameView.instance.displaySkillEffect(target, "-"+damages+"PV", 0);
+		GameView.instance.addAnim(GameView.instance.getTile(target), 63);
 	}
 
 	public override string getTargetText(int target){
-		string text = base.name;
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int level = GameView.instance.getCurrentSkill().Power;
-		int value = 131+level*10;
-		int damages = currentCard.getDamagesAgainst(targetCard, value);
-		
-		if(targetCard.getLife()>1){
-			text += "\nPV : "+targetCard.getLife()+" -> "+Mathf.Max(targetCard.getLife()-1,0)+"-"+Mathf.Max(targetCard.getLife()-damages,0);
-		}
-		else{
-			text += "\nPV : "+targetCard.getLife()+" -> 0";
-		}
+		int damagesMin = currentCard.getNormalDamagesAgainst(targetCard, Mathf.RoundToInt(currentCard.getAttack()*0.5f)); ;
+		int damagesMax = currentCard.getNormalDamagesAgainst(targetCard, Mathf.RoundToInt(currentCard.getAttack()*(100f+10f*GameView.instance.getCurrentCard().Skills[0].Power)/100f));
+		string text = "PV : "+targetCard.getLife()+" -> ["+(targetCard.getLife()-damagesMin)+"-"+(targetCard.getLife()-damagesMax)+"]";
 		
 		int probaEsquive = targetCard.getEsquive();
 		int probaHit = Mathf.Max(0,100-probaEsquive) ;
 		
-		text += "\nHIT% : "+probaHit;
+		text += "\n\nHIT% : "+probaHit;
 		
 		return text ;
 	}

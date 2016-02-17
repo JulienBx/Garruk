@@ -16,6 +16,8 @@ public class TargetTileHandler
 		this.targetsTile.Add(targetTile);
 		if (this.targetsTile.Count==this.numberOfExpectedTargets){
 			GameView.instance.hideTargets();
+			GameView.instance.hideAllTargets();
+			GameView.instance.hoveringZone = -1 ;
 			GameSkills.instance.getCurrentGameSkill().resolve(this.targetsTile);
 		}
 	}	

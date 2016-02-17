@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System;
 
 public class Desequilibre : GameSkill
 {
@@ -18,43 +19,35 @@ public class Desequilibre : GameSkill
 	
 	public override void resolve(List<int> targetsPCC)
 	{	
-		bool isSuccess = false ;
 		GameController.instance.play(GameView.instance.runningSkill);
 		int target = targetsPCC[0];
+		int proba = GameView.instance.getCurrentSkill().proba;
+		GameCard currentCard = GameView.instance.getCurrentCard();
 		
-		if (Random.Range(1,101) <= GameView.instance.getCard(target).getEsquive())
+		if (UnityEngine.Random.Range(1,101) <= GameView.instance.getCard(target).getEsquive())
 		{                             
-			Debug.Log("Esquive "+GameView.instance.getCard(target).getEsquive());
 			GameController.instance.esquive(target,1);
 		}
 		else{
-			int proba = GameView.instance.getCurrentSkill().proba;
-			if(Random.Range(1,101)<=proba){
+			if (UnityEngine.Random.Range(1,101) <= proba){
 				GameController.instance.applyOn(target);
-				isSuccess = true ;
 			}
 			else{
-				GameController.instance.esquive(target,92);
+				GameController.instance.esquive(target,base.name);
 			}
 		}
-		GameController.instance.showResult(isSuccess);
 		GameController.instance.endPlay();
 	}
 	
 	public override void applyOn(int target){
-		string text = base.name;
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int level = GameView.instance.getCurrentSkill().Power;
-		int damages = currentCard.getDamagesAgainst(targetCard,50+5*level);
-		
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 0, text, "-"+damages+" PV"));
-		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 0);
-		
-		Tile targetTile;
-		targetTile = GameView.instance.getPlayingCardController(target).getTile();
-		Tile currentTile;
-		currentTile = GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).getTile();
+		int damages = currentCard.getNormalDamagesAgainst(targetCard,Mathf.RoundToInt(currentCard.getAttack()*level/10f));
+		string text = "-"+damages+"PV";
+
+		Tile targetTile = GameView.instance.getPlayingCardController(target).getTile();
+		Tile currentTile = GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).getTile();
 		Tile nextTile;
 		
 		if(!targetCard.isMine){
@@ -63,22 +56,33 @@ public class Desequilibre : GameSkill
 		else{
 			nextTile = new Tile(targetTile.x+(targetTile.x-currentTile.x),targetTile.y+(targetTile.y-currentTile.y));
 		}
-		GameView.instance.clickDestination(nextTile,target,false);
+		Debug.Log("J'essaye de repousser sur ("+nextTile.x+","+nextTile.y+")");
+		if(nextTile.x>=0 && nextTile.x<GameView.instance.getBoardWidth() && nextTile.y>=0 && nextTile.y<GameView.instance.getBoardHeight()){
+			Debug.Log("Je passe le controle tile");
+			if(!GameView.instance.getTileController(nextTile).isRock() && GameView.instance.getTileController(nextTile).getCharacterID()==-1){
+				Debug.Log("Je passe le controle type");
+				GameView.instance.launchMove(nextTile,target,false);
+				text+="\nRepoussé!";
+			}
+		}
+
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 92, text, "-"+damages+" PV"));
+		GameView.instance.displaySkillEffect(target, text, 0);
+		GameView.instance.addAnim(GameView.instance.getTile(target), 92);
 	}
 	
 	public override string getTargetText(int target){
-		string text = base.name;
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int level = GameView.instance.getCurrentSkill().Power;
-		int damages = currentCard.getDamagesAgainst(targetCard,50+5*level);
-		
-		text += "\nPV : "+targetCard.getLife()+" -> "+(targetCard.getLife()-damages);
+		int damages = currentCard.getNormalDamagesAgainst(targetCard,Mathf.RoundToInt(currentCard.getAttack()*level/10f));
+
+		string text = "PV : "+targetCard.getLife()+" -> "+(targetCard.getLife()-damages)+"\nrepousse l'unité";
 		
 		int probaEsquive = targetCard.getEsquive();
 		int probaHit = Mathf.Max(0,100-probaEsquive) ;
 		
-		text += "\nHIT% : "+probaHit;
+		text += "\n\nHIT% : "+probaHit;
 		
 		return text ;
 	}

@@ -17,19 +17,23 @@ public class Lance : GameSkill
 	
 	public override void resolve(List<int> targetsPCC)
 	{	
-		bool isSuccess = false ;
 		GameController.instance.play(GameView.instance.runningSkill);
 		int target = targetsPCC[0];
+		int proba = GameView.instance.getCurrentSkill().proba;
+		GameCard currentCard = GameView.instance.getCurrentCard();
 		
 		if (Random.Range(1,101) <= GameView.instance.getCard(target).getEsquive())
 		{                             
 			GameController.instance.esquive(target,1);
 		}
 		else{
-			GameController.instance.applyOn(target);
-			isSuccess = true ;
+			if (Random.Range(1,101) <= proba){
+				GameController.instance.applyOn(target);
+			}
+			else{
+				GameController.instance.esquive(target,base.name);
+			}
 		}
-		GameController.instance.showResult(isSuccess);
 		GameController.instance.endPlay();
 	}
 	
@@ -38,25 +42,24 @@ public class Lance : GameSkill
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int level = GameView.instance.getCurrentSkill().Power;
-		int damages = currentCard.getDamagesAgainst(targetCard,50+5*level);
-		
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 0, text, "-"+damages+" PV"));
-		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 0);
+		int damages = currentCard.getNormalDamagesAgainst(targetCard,Mathf.RoundToInt(currentCard.getAttack()*level/10f));
+
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 91, text, "-"+damages+" PV"));
+		GameView.instance.displaySkillEffect(target, "-"+damages+"PV", 0);
+		GameView.instance.addAnim(GameView.instance.getTile(target), 91);
 	}
 
 	public override string getTargetText(int target){
-		string text = base.name;
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int level = GameView.instance.getCurrentSkill().Power;
-		int damages = currentCard.getDamagesAgainst(targetCard,50+5*level);
-		
-		text += "\nPV : "+targetCard.getLife()+" -> "+(targetCard.getLife()-damages);
+		int damages = currentCard.getNormalDamagesAgainst(targetCard, Mathf.RoundToInt(currentCard.getAttack()*level/10f)); ;
+		string text = "PV : "+targetCard.getLife()+" -> "+(targetCard.getLife()-damages);
 		
 		int probaEsquive = targetCard.getEsquive();
 		int probaHit = Mathf.Max(0,100-probaEsquive) ;
 		
-		text += "\nHIT% : "+probaHit;
+		text += "\n\nHIT% : "+probaHit;
 		
 		return text ;
 	}

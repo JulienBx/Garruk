@@ -50,20 +50,7 @@ public class Piegeur : GameSkill
 	public List<Tile> getTiles(int level, int w, int h, int nbFreeRows){
 		List<Tile> tiles = new List<Tile>();
 		
-		int nbTraps = 0 ;
-		
-		if (level<=3){
-			nbTraps = 1;
-		}
-		else if (level<=6){
-			nbTraps = 2;
-		}
-		else if (level<=9){
-			nbTraps = 3;
-		}
-		else if (level==10){
-			nbTraps = 4;
-		}
+		int nbTraps = 4 ;
 		
 		bool isNewTrap ;
 		int x = 0, y = 0;

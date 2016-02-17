@@ -65,6 +65,7 @@ public class Adrenaline : GameSkill
 			GameView.instance.displaySkillEffect(target, "Virus\n+"+soin+"PV\n+2MOV pour un tour", 1);	
 			GameView.instance.addAnim(GameView.instance.getTile(target), 6);
 		}
+		GameView.instance.recalculateDestinations();
 	}
 
 	public override void applyOnViro(int target, int value){
@@ -89,6 +90,7 @@ public class Adrenaline : GameSkill
 			GameView.instance.displaySkillEffect(target, "Virus\n+"+soin+"PV\n+"+move+"MOV pour un tour", 1);	
 			GameView.instance.addAnim(GameView.instance.getTile(target), 6);
 		}
+		GameView.instance.recalculateDestinations();
 	}	
 	
 	public override string getTargetText(int target){

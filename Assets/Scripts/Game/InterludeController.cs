@@ -121,11 +121,26 @@ public class InterludeController : MonoBehaviour
 			gameObject.transform.FindChild("UnderText").GetComponent<MeshRenderer>().enabled = false ;
 			isEnabledUnderText = true;
 
-			if(GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).isPoisoned()){
-				int value = Mathf.Min(GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).state.amount, GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).getLife());
-				GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), "Poison\nPerd "+value+"PV", 0);
-				GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).addDamagesModifyer(new Modifyer(value,-1,94,"Poison",value+" dégats subis"));
-				GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 94);
+			if(GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).isNinja()){
+				GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), "Ninja!", 1);
+				GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 67);
+				if(GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).isMine){
+					List<int> opponents = GameView.instance.getOpponents();
+					List<int> nbHits = new List<int>();
+					for (int i = 0 ; i < opponents.Count ; i++){
+						nbHits.Add(0);
+					}
+					int nbShurikens = UnityEngine.Random.Range(1,4);
+					for (int i = 1 ; i < nbShurikens+1 ;i++){
+						int chosenOne = UnityEngine.Random.Range(0,opponents.Count);
+						nbHits[chosenOne]++;
+					}
+					for (int i = 0 ; i < nbHits.Count ; i++){
+						if(nbHits[i]>0){
+							GameController.instance.sendShuriken(opponents[i], nbHits[i], GameView.instance.getCurrentPlayingCard());
+						}
+					}
+				}
 			}
 			if(GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).getLife()>0){
 				if (GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).isMine){
@@ -144,10 +159,10 @@ public class InterludeController : MonoBehaviour
 			
 				if(ApplicationModel.player.ToLaunchGameTutorial){
 					if(!GameView.instance.getCurrentCard().isMine){
-						StartCoroutine(GameView.instance.launchFury());
+						StartCoroutine(GameView.instance.launchIABourrin());
 					}
 				}
-				else if(GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).isFurious()){
+				if(GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).isFurious()){
 					StartCoroutine(GameView.instance.launchFury());
 				}
 				GameView.instance.runningSkill = -1;

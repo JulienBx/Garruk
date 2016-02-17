@@ -49,7 +49,7 @@ public class PistoLest : GameSkill
 	public override void applyOn(int target, int amount){
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
-		int damages = currentCard.getDamagesAgainst(targetCard, amount);
+		int damages = currentCard.getMagicalDamagesAgainst(targetCard, amount);
 		int move = -1*Mathf.Min(targetCard.getMove()-1,2);
 
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 5, base.name, damages+" dégats subis"));
@@ -64,7 +64,7 @@ public class PistoLest : GameSkill
 	public override void applyOnViro2(int target, int amount, int amount2){
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
-		int damages = Mathf.RoundToInt(currentCard.getDamagesAgainst(targetCard, amount)*amount2/100f);
+		int damages = Mathf.RoundToInt(currentCard.getMagicalDamagesAgainst(targetCard, amount)*amount2/100f);
 		int move = -1*Mathf.Min(targetCard.getMove(), Mathf.RoundToInt(2*amount2/100f));
 
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 5, base.name, damages+" dégats subis"));
@@ -80,7 +80,7 @@ public class PistoLest : GameSkill
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int level = GameView.instance.getCurrentSkill().Power;
-		int damages = currentCard.getDamagesAgainst(targetCard, 2*level);
+		int damages = currentCard.getMagicalDamagesAgainst(targetCard, 2*level);
 
 		string text = "PV : "+targetCard.getLife()+" -> ["+(targetCard.getLife()-1)+"-"+(targetCard.getLife()-damages)+"]\n-2MOV. Actif 1 tour";
 		

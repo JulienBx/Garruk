@@ -753,7 +753,7 @@ public class WordingSkills
 		descriptions.Add(new string[]{"L'unité adjacente ciblée perd [1-20] ATK (minimum 1) ",""}); 
 		//58 - Parapiège
 		idSkills.Add(58);
-		names.Add(new string[]{"Parapiège",""}); 
+		names.Add(new string[]{"Poisonpiège",""}); 
 		descriptions.Add(new string[]{"Pose un piège (50% de chances de paralyser l'unité)",""}); 
 		descriptions.Add(new string[]{" Pose un piège (55% de chances de paralyser l'unité)",""}); 
 		descriptions.Add(new string[]{" Pose un piège (60% de chances de paralyser l'unité)",""}); 

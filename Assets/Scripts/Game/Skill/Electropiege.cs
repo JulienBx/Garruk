@@ -18,7 +18,7 @@ public class Electropiege : GameSkill
 	public override void resolve(List<Tile> targetsTile)
 	{	
 		GameController.instance.play(GameView.instance.runningSkill);
-		int amount = 200*GameView.instance.getCurrentSkill().Power;
+		int amount = 2*GameView.instance.getCurrentSkill().Power;
 		GameController.instance.addElectropiege(amount, targetsTile[0]);
 		GameController.instance.endPlay();
 	}

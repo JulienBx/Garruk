@@ -91,6 +91,7 @@ public class GameView : MonoBehaviour
 
 	public bool isFreezed = false ;
 	public bool isDisplayedPopUp = false ;
+	public int hoveringZone = -1 ;
 	
 	void Awake()
 	{
@@ -104,7 +105,6 @@ public class GameView : MonoBehaviour
 		this.passButton = GameObject.Find("PassButton");
 		this.myHoveredRPC = GameObject.Find("MyHoveredPlayingCard");
 		this.hisHoveredRPC = GameObject.Find("HisHoveredPlayingCard");
-		this.popUp = GameObject.Find("PopUp");
 		this.myTimerGO = GameObject.Find("MyTimer");
 		this.myTimerGO.GetComponent<TimerController>().setIsMine(true);
 		this.hisTimerGO = GameObject.Find("HisTimer");
@@ -271,7 +271,7 @@ public class GameView : MonoBehaviour
 		int index = this.playingCards.Count-1;
 		
 		this.playingCards [index].GetComponentInChildren<PlayingCardController>().setCard(c, (isFirstP==isFirstPlayer), index);
-		if (isFirstP){
+		if (isFirstP==isFirstPlayer){
 			this.playingCards [index].GetComponentInChildren<PlayingCardController>().setTile(new Tile(c.deckOrder + 1, hauteur), tiles [c.deckOrder + 1, hauteur].GetComponent<TileController>().getPosition());
 			this.tiles [c.deckOrder + 1, hauteur].GetComponent<TileController>().setCharacterID(index);
 			this.tiles [c.deckOrder + 1, hauteur].GetComponent<TileController>().setDestination(5);
@@ -289,7 +289,7 @@ public class GameView : MonoBehaviour
 		if(gc.isPiegeur() && this.isFirstPlayer){
 			List<Tile> tiles = ((Piegeur)GameSkills.instance.getSkill(64)).getTiles(gc.getPassiveSkillLevel(), this.boardWidth, this.boardHeight, this.nbFreeRowsAtBeginning);
 			for (int i = 0 ; i < tiles.Count ; i++){
-				GameController.instance.addPiegeurTrap(tiles[i], gc.getPassiveSkillLevel(), isFirstP);
+				GameController.instance.addPiegeurTrap(tiles[i], 2*gc.getPassiveSkillLevel(), isFirstP);
 			}
 		}
 	}
@@ -615,6 +615,10 @@ public class GameView : MonoBehaviour
 		}
 	}
 	
+	public void launchMove(Tile destination, int c, bool cancel){
+		StartCoroutine(this.clickDestination(destination, c, cancel));
+	}
+
 	public IEnumerator clickDestination(Tile destination, int c, bool cancel){
 		if(c!=-1 && !this.isFreezed){
 			Tile origine = this.getPlayingCardController(c).getTile();
@@ -655,14 +659,15 @@ public class GameView : MonoBehaviour
 			
 			yield return new WaitForSeconds(1f);
 			
-			if(this.getCard(this.currentPlayingCard).isMine){
+			if(this.getCard(c).isMine){
 				if(this.getCard(this.currentPlayingCard).hasPlayed && this.getCard(this.currentPlayingCard).hasMoved){
 					if(isSuccess){
-						yield return new WaitForSeconds(2f);
+						yield return new WaitForSeconds(1f);
 					}
-					if(this.deads.Contains(this.currentPlayingCard)){
+					if(!this.deads.Contains(this.currentPlayingCard)){
 						GameController.instance.findNextPlayer ();
 					}
+					
 				}
 			}
 		}
@@ -677,6 +682,11 @@ public class GameView : MonoBehaviour
 	
 	public void hoverTile(){
 		if(!this.interlude.GetComponent<InterludeController>().getIsRunning()){
+			if(this.hoveringZone!=-1){
+				if(this.hoveringZone==1){
+					
+				}
+			}
 			if(this.currentPlayingCard!=-1){
 				if(this.getCard(this.currentPlayingCard).isMine){
 					this.getMyHoveredCardController().setNextDisplayedCharacter(this.currentPlayingCard, this.getCard(this.currentPlayingCard));
@@ -779,6 +789,13 @@ public class GameView : MonoBehaviour
 		if(this.hasFightStarted){
 			bool isSuccess = false ;
 				
+			if(GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).isPoisoned()){
+				int value = Mathf.Min(GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).state.amount, GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).getLife());
+				GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), "Poison\nPerd "+value+"PV", 0);
+				GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).addDamagesModifyer(new Modifyer(value,-1,94,"Poison",value+" dégats subis"));
+				GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 94);
+				isSuccess = true ;
+			}
 			if(this.getCard(this.currentPlayingCard).isNurse()){
 				int power = this.getCurrentCard().Skills[0].Power;
 				List<Tile> neighbourTiles = this.getNeighbours(this.getPlayingCardController(this.currentPlayingCard).getTile());
@@ -808,9 +825,15 @@ public class GameView : MonoBehaviour
 
 			}
 			else if(this.getCard(this.currentPlayingCard).isFrenetique()){
-				this.getCard(this.currentPlayingCard).attackModifyers.Add(new Modifyer(this.getCurrentCard().Skills[0].Power, -1, 69, "Frénétique", this.getCurrentCard().Skills[0].Power+" ATK. Permanent"));
-				this.getPlayingCardController(this.currentPlayingCard).updateAttack();
-				GameView.instance.displaySkillEffect(this.currentPlayingCard, "Frénétique\n+"+this.getCurrentCard().Skills[0].Power+" ATK. Permanent", 1);
+				int level = GameView.instance.getCurrentCard().Skills[0].Power;
+				int target = GameView.instance.getCurrentPlayingCard();
+
+				GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(5,-1,69,"Frenetique","5 dégats subis"));
+				GameView.instance.getCard(target).attackModifyers.Add(new Modifyer(level, -1, 18, "Frenetique", "+"+level+"ATK. Permanent"));
+				GameView.instance.getPlayingCardController(target).updateAttack();
+				GameView.instance.displaySkillEffect(target, "+"+level+" ATK\n-5PV", 1);
+				GameView.instance.addAnim(GameView.instance.getTile(target), 69);
+				isSuccess = true ;
 			}
 			if(isSuccess){
 				yield return new WaitForSeconds(2f);
@@ -952,7 +975,37 @@ public class GameView : MonoBehaviour
 				yield return new WaitForSeconds(1f);
 			}
 		}
-		yield return new WaitForSeconds(4f);
+		yield return new WaitForSeconds(2f);
+		
+		int enemy = GameView.instance.attackClosestCharacter();
+		
+		yield return new WaitForSeconds(1.2f);
+		
+		if(enemy!=-1){
+			GameController.instance.play(0);
+			
+			if (UnityEngine.Random.Range(1,101) <= this.getCard(enemy).getEsquive())
+			{                             
+				GameController.instance.esquive(enemy,1);
+			}
+			else{
+				GameController.instance.applyOn(enemy);
+			}
+			GameView.instance.displaySkillEffect(this.currentPlayingCard, "Attaque", 0);
+			yield return new WaitForSeconds(2.5f);
+			
+		}
+		GameController.instance.findNextPlayer();
+	}
+
+	public IEnumerator launchIABourrin(){
+		
+		if(ApplicationModel.player.ToLaunchGameTutorial){
+			while(!this.blockFury){
+				yield return new WaitForSeconds(1f);
+			}
+		}
+		yield return new WaitForSeconds(2f);
 		
 		int enemy = GameView.instance.attackClosestEnnemy();
 		
@@ -969,7 +1022,7 @@ public class GameView : MonoBehaviour
 				GameController.instance.applyOn(enemy);
 			}
 			GameView.instance.displaySkillEffect(this.currentPlayingCard, "Attaque", 0);
-			yield return new WaitForSeconds(3f);
+			yield return new WaitForSeconds(2.5f);
 			
 		}
 		GameController.instance.findNextPlayer();
@@ -1416,6 +1469,7 @@ public class GameView : MonoBehaviour
 				this.calculateDestinations(i);
 			}
 		}
+		GameView.instance.hoverTile();
 	}
 	
 	public Tile getRandomRock(int nbForbiddenRows){
@@ -1718,6 +1772,15 @@ public class GameView : MonoBehaviour
 		}
 		this.targets = new List<Tile>();
 		this.getSkillZoneController().isRunningSkill = false ;
+	}
+
+	public void hideAllTargets(){
+		for (int a = 0; a < this.boardWidth; a++){
+			for (int b = 0; b < this.boardHeight; b++){
+				this.getTileController(a,b).displayTarget(false);
+				this.getTileController(a,b).showDescription(false);
+			}
+		}
 	}
 	
 	public string canLaunchAdjacentOpponents()
@@ -2169,62 +2232,110 @@ public class GameView : MonoBehaviour
 		}
 		return areMyPlayersDead ;
 	}
-	
-	public int attackClosestEnnemy(){
-		bool[,] hasBeenPassages = new bool[this.boardWidth, this.boardHeight];
-		bool hasFoundEnnemy = false ;
-		int idEnnemyToAttack = -1 ;
-		Tile idPlaceToMoveTo = new Tile(-1,-1) ;
-		for(int l = 0 ; l < this.boardWidth ; l++){
-			for(int k = 0 ; k < this.boardHeight ; k++){
-				hasBeenPassages[l,k]=false;
+
+	public int attackClosestCharacter(){
+		List<Tile> destinations = this.getPlayingCardController(this.currentPlayingCard).getDestinations();
+		destinations.Add(this.getTile(this.currentPlayingCard));
+		List<Tile> tempTiles ;
+		Tile chosenTile = null;
+		int bestDistance = 20 ;
+		int distance = 0;
+		int character = -1;
+		Tile t;
+		for(int i = 0 ; i < destinations.Count ; i++){
+			t = destinations[i];
+			tempTiles = t.getImmediateNeighbourTiles();
+			for(int j = 0 ; j < tempTiles.Count ; j++){
+				if (this.getTileController(tempTiles[j]).getCharacterID()!=-1 && this.getTileController(tempTiles[j]).getCharacterID()!=this.currentPlayingCard){
+					distance = Mathf.Abs(tempTiles[j].x-t.x)+Mathf.Abs(tempTiles[j].y-t.y);
+					if(distance < bestDistance){
+						bestDistance = distance ;
+						chosenTile = t;
+						character = this.getTileController(tempTiles[j]).getCharacterID();
+					}
+				}
 			}
 		}
-		
-		int move = this.getCard(this.currentPlayingCard).getMove();
-		
-		List<Tile> destinations = new List<Tile>();
-		List<Tile> baseTiles = new List<Tile>();
-		List<Tile> tempTiles = new List<Tile>();
-		List<Tile> tempNeighbours = new List<Tile>();
-		baseTiles.Add(this.getPlayingCardTile(this.currentPlayingCard));
-		
-		int j = 0 ;
-		while (!hasFoundEnnemy && j<move){
-			tempTiles = new List<Tile>();
-			
-			for(int k = 0 ; k < baseTiles.Count ; k++){
-				tempNeighbours = this.getCharacterImmediateNeighbours(baseTiles[k]);
-				if(tempNeighbours.Count>0){
-					idEnnemyToAttack = GameView.instance.getTileCharacterID(tempNeighbours[0].x, tempNeighbours[0].y);
-					idPlaceToMoveTo = baseTiles[k];
-					hasFoundEnnemy = true ;
+
+		if(character!=-1){
+			if(distance > 0){
+				StartCoroutine(this.clickDestination(chosenTile, this.currentPlayingCard, false));
+			}
+		}
+		else{
+			List<int> opponents = GameView.instance.getOpponents();
+			Tile t2 ;
+			bestDistance = 20;
+			for(int i = 0 ; i < destinations.Count ; i++){
+				t = destinations[i];
+				for(int j = 0 ; j < opponents.Count ; j++){
+					t2 = this.getTile(opponents[j]);
+					distance = Mathf.Abs(t2.x-t.x)+Mathf.Abs(t2.y-t.y);
+					if(distance < bestDistance){
+						bestDistance = distance ;
+						chosenTile = t;
+					}
 				}
-				else{
-					tempNeighbours = this.getDestinationImmediateNeighbours(baseTiles[k]);
-					for(int l = 0 ; l < tempNeighbours.Count ; l++){
-						if(!hasBeenPassages[tempNeighbours[l].x, tempNeighbours[l].y]){
-							tempTiles.Add(tempNeighbours[l]);
-							hasBeenPassages[tempNeighbours[l].x, tempNeighbours[l].y]=true;
+			}
+			StartCoroutine(this.clickDestination(chosenTile, this.currentPlayingCard, false));
+		}
+		return character ;
+	}
+
+	public int attackClosestEnnemy(){
+		List<Tile> destinations = this.getPlayingCardController(this.currentPlayingCard).getDestinations();
+		destinations.Add(this.getTile(this.currentPlayingCard));
+		List<Tile> tempTiles ;
+		Tile chosenTile = null;
+		int bestDistance = 20 ;
+		int distance = 0;
+		int character = -1;
+		Tile t;
+		for(int i = 0 ; i < destinations.Count ; i++){
+			t = destinations[i];
+			tempTiles = t.getImmediateNeighbourTiles();
+			for(int j = 0 ; j < tempTiles.Count ; j++){
+				if (this.getTileController(tempTiles[j]).getCharacterID()!=-1 && this.getTileController(tempTiles[j]).getCharacterID()!=this.currentPlayingCard){
+					if (this.getCard(this.getTileController(tempTiles[j]).getCharacterID()).isMine){
+						distance = Mathf.Abs(tempTiles[j].x-t.x)+Mathf.Abs(tempTiles[j].y-t.y);
+						if(distance < bestDistance){
+							bestDistance = distance ;
+							chosenTile = t;
+							character = this.getTileController(tempTiles[j]).getCharacterID();
 						}
 					}
 				}
 			}
-			baseTiles = new List<Tile>();
-			for(int l = 0 ; l < tempTiles.Count ; l++){
-				baseTiles.Add(tempTiles[l]);
-			}
-			j++;
 		}
-		
-		if(hasFoundEnnemy==false){
-			StartCoroutine(this.clickDestination(baseTiles[0], this.currentPlayingCard, false));
+
+		if(character!=-1){
+			if(distance > 0){
+				StartCoroutine(this.clickDestination(chosenTile, this.currentPlayingCard, false));
+			}
 		}
 		else{
-			StartCoroutine(this.clickDestination(idPlaceToMoveTo, this.currentPlayingCard, false));
+			List<int> opponents = GameView.instance.getAllys();
+			Tile t2 ;
+			distance = 0 ;
+			bestDistance = 20;
+			for(int i = 0 ; i < destinations.Count ; i++){
+				t = destinations[i];
+				for(int j = 0 ; j < opponents.Count ; j++){
+					if (this.getCard(opponents[j]).isMine){
+						t2 = this.getTile(opponents[j]);
+						distance = Mathf.Abs(t2.x-t.x)+Mathf.Abs(t2.y-t.y);
+						if(distance < bestDistance){
+							bestDistance = distance ;
+							chosenTile = t;
+							print("Je trouve ("+chosenTile.x+","+chosenTile.y+")");
+						}
+					}
+				}
+			}
+			print("Je déplace sur ("+chosenTile.x+","+chosenTile.y+")");
+			StartCoroutine(this.clickDestination(chosenTile, this.currentPlayingCard, false));
 		}
-		
-		return idEnnemyToAttack;
+		return character ;
 	}
 	
 	public void hideLoadingScreen()
@@ -2253,7 +2364,7 @@ public class GameView : MonoBehaviour
 		this.getSkillZoneController().showSkillButtons(false);
 		this.getMoveZoneController().show(false);
 		this.hoverTile();
-		if(GameSkills.instance.getSkill(this.runningSkill).ciblage!=0){
+		if(GameSkills.instance.getSkill(this.runningSkill).ciblage>0){
 			this.displaySkillEffect(this.currentPlayingCard,s,1);
 			this.addSE(this.getTile(this.currentPlayingCard));
 		}
@@ -2267,11 +2378,16 @@ public class GameView : MonoBehaviour
 		if(this.runningSkill==9){
 			this.getCurrentSkill().hasBeenPlayed = true ;
 		}
+		else if(this.runningSkill==93){
+			this.getCard(this.currentPlayingCard).hasMoved = true ;
+		}
 		this.runningSkill = -1;
 		if(this.getCard(this.currentPlayingCard).isMine){
 			if(this.getCard(this.currentPlayingCard).hasPlayed && this.getCard(this.currentPlayingCard).hasMoved){
 				yield return new WaitForSeconds(3f);
-				GameController.instance.findNextPlayer ();
+				if(this.getCard(this.currentPlayingCard).getLife()>0){
+					GameController.instance.findNextPlayer ();
+				}
 			}
 			else{
 				this.updateActionStatus();
@@ -2403,6 +2519,43 @@ public class GameView : MonoBehaviour
 	public void hideValidationButton(){
 		this.validationSkill.GetComponent<SkillValidationController>().show(false);
 		this.isDisplayedPopUp = false ;
+	}
+
+	public void setHoveringZone(int i, string t, string d){
+		this.hoveringZone = i ;
+		if(i>0){
+			for (int a = 0; a < this.boardWidth; a++){
+				for (int b = 0; b < this.boardHeight; b++){
+					if(this.getTileController(a,b).getCharacterID()!=-1){
+						this.getTileController(a,b).setTargetText(GameSkills.instance.getSkill(this.runningSkill).name, GameSkills.instance.getCurrentGameSkill().getTargetText(this.getTileController(a,b).getCharacterID()));
+					}
+				}
+			}
+		}
+	}
+
+	public void addCharacter(int id, int atk, int pv, int x, int y, bool isFirstP){
+		this.playingCards.Add((GameObject)Instantiate(this.playingCardModel));
+		int index = this.playingCards.Count-1;
+		GameCard c = null ;
+		if(id==6){
+			c = new GameCard(atk, pv, "Bouclier", 0, 11, 0);
+			c.Skills = new List<Skill>();
+			c.Skills.Add(new Skill("Protection",6));
+		}
+		this.playingCards [index].GetComponentInChildren<PlayingCardController>().setCard(c, (isFirstP==isFirstPlayer), index);
+		if ((isFirstP==isFirstPlayer)){
+			this.playingCards [index].GetComponentInChildren<PlayingCardController>().setTile(new Tile(x,y), tiles [x,y].GetComponent<TileController>().getPosition());
+			this.tiles [x,y].GetComponent<TileController>().setCharacterID(index);
+			this.tiles [x,y].GetComponent<TileController>().setDestination(5);
+		}
+		else{
+			this.playingCards [index].GetComponentInChildren<PlayingCardController>().setTile(new Tile(x,y), tiles [x,y].GetComponent<TileController>().getPosition());
+			this.tiles [x,y].GetComponent<TileController>().setCharacterID(index);
+			this.tiles [x,y].GetComponent<TileController>().setDestination(6);
+		}
+
+		this.playingCards [index].GetComponentInChildren<PlayingCardController>().show();
 	}
 }
 

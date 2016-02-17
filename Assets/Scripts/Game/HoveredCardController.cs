@@ -63,7 +63,7 @@ public class HoveredCardController : MonoBehaviour
 		else{
 			gameObject.GetComponent<SpriteRenderer>().color = new Color(231f/255f, 0f, 66f/255f, 1f);
 		}
-		gameObject.transform.FindChild("Character").GetComponent<SpriteRenderer>().sprite = GameView.instance.getSprite(c.IdClass);
+		gameObject.transform.FindChild("Character").GetComponent<SpriteRenderer>().sprite = GameView.instance.getSprite(c.Skills[0].Id);
 		gameObject.transform.FindChild("Title").FindChild("Text").GetComponent<TextMeshPro>().text = c.Title;
 		gameObject.transform.FindChild("PassiveSkill").FindChild("TitleText").GetComponent<TextMeshPro>().text = c.getSkills()[0].Name+" Niv."+c.getSkills()[0].Power;
 		if(c.getSkills()[0].Power>8){

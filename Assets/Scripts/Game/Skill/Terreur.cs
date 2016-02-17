@@ -17,81 +17,51 @@ public class Terreur : GameSkill
 	
 	public override void resolve(List<int> targetsPCC)
 	{	
-		bool isSuccess = false ;
 		GameController.instance.play(GameView.instance.runningSkill);
 		int target = targetsPCC[0];
 		int proba = GameView.instance.getCurrentSkill().proba;
 		
-		if (Random.Range(1,101) < GameView.instance.getCard(target).getEsquive()){
+		if (Random.Range(1,101) <= GameView.instance.getCard(target).getEsquive())
+		{                             
 			GameController.instance.esquive(target,1);
 		}
 		else{
-			if (Random.Range(1,101) < proba){
+			if (Random.Range(1,101) <= proba){
 				GameController.instance.applyOn(target);
-				isSuccess = true ;
 			}
 			else{
-				GameController.instance.esquive(target,20);
+				GameController.instance.esquive(target,base.name);
 			}
 		}
-		GameController.instance.showResult(isSuccess);
 		GameController.instance.endPlay();
 	}
 	
 	public override void applyOn(int target){
-		string text = base.name;
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
-		int level = GameView.instance.getCurrentSkill().Power;
-		
-		int percentage = this.getPercentage(level);
-		int damages = currentCard.getDamagesAgainst(targetCard, percentage);
-		
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 0, text, "-"+damages+" PV\nParalysé pour 1 tour"));
-		GameView.instance.getCard(target).setState(new Modifyer(0, 1, 4, text, "Paralysé. Ne peut pas agir pendant 1 tour"));
+		int damages = currentCard.getNormalDamagesAgainst(targetCard, currentCard.getAttack());
+		string text = "-"+damages+"PV\nEffrayé";				
+
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,11,base.name,damages+" dégats subis"));
+		GameView.instance.getCard(target).setState(new Modifyer(0, 1, 3, base.name, "Ne peut pas utiliser ses compétences au prochain tour"));
 		GameView.instance.getPlayingCardController(target).showIcons();
-		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 0);
-	}
-	
-	public int getPercentage(int level){
-		int percentage = -1;
-		if(level<2){
-			percentage = 50;
-		}
-		else if(level<4){
-			percentage = 60;
-		}
-		else if(level<6){
-			percentage = 70;
-		}
-		else if(level<8){
-			percentage = 80;
-		}
-		else if(level<10){
-			percentage = 90;
-		}
-		else{
-			percentage = 100;
-		}
-		return percentage;
+
+		GameView.instance.displaySkillEffect(target, text, 0);
+		GameView.instance.addAnim(GameView.instance.getTile(target), 20);
 	}
 		
 	public override string getTargetText(int target){
-		string text = base.name;
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int level = GameView.instance.getCurrentSkill().Power;
-		
-		int percentage = this.getPercentage(level);
-		int damages = currentCard.getDamagesAgainst(targetCard, percentage);
-		
-		text += "\nPV : "+targetCard.getLife()+" -> "+(targetCard.getLife()-damages+"\nParalysé");
+		int damages = currentCard.getNormalDamagesAgainst(targetCard, currentCard.getAttack());
+		string text = "PV : "+targetCard.getLife()+" -> "+(targetCard.getLife()-damages)+"\nEffrayé";				
 		
 		int amount = GameView.instance.getCurrentSkill().proba;
-		int probaEsquive = targetCard.getMagicalEsquive();
+		int probaEsquive = targetCard.getEsquive();
 		int probaHit = Mathf.Max(0,amount*(100-probaEsquive)/100) ;
 		
-		text += "\nHIT% : "+probaHit;
+		text += "\n\nHIT% : "+probaHit;
 		
 		return text ;
 	}

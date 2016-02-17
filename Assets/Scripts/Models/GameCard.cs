@@ -13,6 +13,9 @@ public class GameCard : Card
 	public List<Modifyer> esquiveModifyers = new List<Modifyer>();
 	public List<Modifyer> magicalEsquiveModifyers = new List<Modifyer>();
 	public List<Modifyer> bouclierModifyers = new List<Modifyer>();
+	public List<Modifyer> magicalBonusModifyers = new List<Modifyer>();
+	public List<Modifyer> bonusModifyers = new List<Modifyer>();
+
 	public Modifyer state ;
 	public bool isStateModifyed;
 	public int nbTurnsToWait ;
@@ -25,7 +28,18 @@ public class GameCard : Card
 	public GameCard(){
 	
 	}
-	
+
+	public GameCard(int atk, int pv, string title, int move, int deckorder, int powerlevel){
+		base.Attack = atk;
+		base.Life = pv;
+		base.Title = title;
+		base.Move = move;
+		base.deckOrder = deckorder;
+		base.PowerLevel = powerlevel;
+		this.state = new Modifyer();
+		this.isStateModifyed = false;
+	}
+
 	public GameCard(Card c){
 		base.Title = c.Title; 									    
 		base.ArtIndex = c.ArtIndex;
@@ -94,6 +108,11 @@ public class GameCard : Card
 	{
 		return (base.Skills[0].Id == 65);
 	}
+
+	public bool isNinja()
+	{
+		return (base.Skills[0].Id == 67);
+	}
 	
 	public bool isNurse()
 	{
@@ -108,132 +127,6 @@ public class GameCard : Card
 	public bool isVirologue()
 	{
 		return (this.Skills[0].Id == 72);
-	}
-	
-	public void checkAguerri(){
-		if((base.Skills[0].Id == 68)){
-			int bonusAttack = base.Skills[0].Power;
-			this.attackModifyers.Add (new Modifyer(bonusAttack, -1, 0, "Aguerri", "Bonus permanent de "+bonusAttack+" ATK"));
-		}
-	}
-	
-	public void checkCuirasse(){
-		if((base.Skills[0].Id == 70)){
-			int bonusShield = base.Skills[0].Power*4;
-			this.bouclierModifyers.Add (new Modifyer(bonusShield, -1, 70, "Cuirassé", "Bouclier permanent : "+bonusShield+"%"));
-		}
-	}
-	
-	public void checkRapide(){
-		if((base.Skills[0].Id == 71)){
-			int level = base.Skills[0].Power;
-			int bonusMove = 0 ;
-			int malusAttack = 0;
-			if (level==1){
-				bonusMove = 1;
-				malusAttack = -10;
-			}
-			else if (level==2){
-				bonusMove = 1;
-				malusAttack = -9;
-			}
-			else if (level==3){
-				bonusMove = 1;
-				malusAttack = -8;
-			}
-			else if (level==4){
-				bonusMove = 1;
-				malusAttack = -7;
-			}
-			else if (level==5){
-				bonusMove = 1;
-				malusAttack = -6;
-			}
-			else if (level==6){
-				bonusMove = 1;
-				malusAttack = -5;
-			}
-			else if (level==7){
-				bonusMove = 1;
-				malusAttack = -4;
-			}
-			else if (level==8){
-				bonusMove = 2;
-				malusAttack = -4;
-			}
-			else if (level==9){
-				bonusMove = 2;
-				malusAttack = -3;
-			}
-			else if (level==10){
-				bonusMove = 2;
-				malusAttack = -2;
-			}
-			
-			this.moveModifyers.Add (new Modifyer(bonusMove, -1, 0, "Rapide", "Bonus permanent de "+bonusMove+" MOV"));
-			this.attackModifyers.Add (new Modifyer(malusAttack, -1, 0, "Rapide", "Malus permanent de "+malusAttack+" ATK"));
-		}
-	}
-	
-	public void checkRobuste(){
-		if((base.Skills[0].Id == 67)){
-			int level = base.Skills[0].Power;
-			int bonusAttack = 0;
-			int malusMove = 0;
-			if (level==1){
-				bonusAttack = 2;
-				malusMove = -3;
-			}
-			else if (level==2){
-				bonusAttack = 3;
-				malusMove = -3;
-			}
-			else if (level==3){
-				bonusAttack = 4;
-				malusMove = -3;
-			}
-			else if (level==4){
-				bonusAttack = 5;
-				malusMove = -3;
-			}
-			else if (level==5){
-				bonusAttack = 5;
-				malusMove = -2;
-			}
-			else if (level==6){
-				bonusAttack = 6;
-				malusMove = -2;
-			}
-			else if (level==7){
-				bonusAttack = 7;
-				malusMove = -2;
-			}
-			else if (level==8){
-				bonusAttack = 7;
-				malusMove = -1;
-			}
-			else if (level==9){
-				bonusAttack = 8;
-				malusMove = -1;
-			}
-			else if (level==10){
-				bonusAttack = 9;
-				malusMove = -1;
-			}
-			
-			this.attackModifyers.Add (new Modifyer(bonusAttack, -1, 0, "Robuste", "Bonus permanent de "+bonusAttack+" ATK"));
-			this.moveModifyers.Add (new Modifyer(malusMove, -1, 0, "Robuste", "Malus permanent de "+malusMove+" MOV"));
-			
-		}
-	}
-	
-	public void checkAgile(){
-		if((base.Skills[0].Id == 66)){
-			int level = base.Skills[0].Power;
-			int esquive = level * 5;
-						
-			this.esquiveModifyers.Add(new Modifyer(esquive, -1, 66, "Agilité", "Esquive aux compétences combat : "+esquive+"%"));
-		}
 	}
 	
 	public void checkModifyers(){
@@ -386,11 +279,11 @@ public class GameCard : Card
 	}
 	
 	public bool isParalyzed(){
-		return(this.state.type==4);
+		return(this.state.type==3);
 	}
 	
 	public bool isFurious(){
-		return(this.state.type==93);
+		return(this.state.type==2);
 	}
 	
 	public List<string> getIconAttack()
@@ -401,6 +294,13 @@ public class GameCard : Card
 		{			
 			iconAttackTexts.Add(this.attackModifyers [i].title);
 			iconAttackTexts.Add(this.attackModifyers [i].description);
+			i++;
+		}
+		i = 0;
+		while (i < this.magicalBonusModifyers.Count)
+		{			
+			iconAttackTexts.Add(this.magicalBonusModifyers [i].title);
+			iconAttackTexts.Add(this.magicalBonusModifyers [i].description);
 			i++;
 		}
 		return iconAttackTexts;
@@ -477,14 +377,36 @@ public class GameCard : Card
 		}
 		return b;
 	}
+
+	public int getMagicalBonus(){
+		int b = 0 ;
+		for(int i = 0 ; i < this.magicalBonusModifyers.Count ; i++){
+			b+=this.magicalBonusModifyers[i].amount;
+		}
+		return b;
+	}
+
+	public int getBonus(){
+		int b = 0 ;
+		for(int i = 0 ; i < this.bonusModifyers.Count ; i++){
+			b+=this.bonusModifyers[i].amount;
+		}
+		return b;
+	}
 	
 	public Skill GetAttackSkill()
 	{
 		return new Skill("Attaque", "Inflige "+this.getAttack()+" dégats au contact",0,1,100);
 	}
 	
-	public int getDamagesAgainst(GameCard g, int attack){
-		int amount = Mathf.FloorToInt(attack*(1f-(g.getBouclier()/100f)));
+	public int getNormalDamagesAgainst(GameCard g, int attack){
+		int amount = Mathf.FloorToInt(attack*(1f+this.getBonus()/100f)*(1f-(g.getBouclier()/100f)));
+		amount = Mathf.Min(g.getLife(), amount);
+		return amount ;
+	}
+
+	public int getMagicalDamagesAgainst(GameCard g, int attack){
+		int amount = Mathf.FloorToInt(attack*(1f+this.getMagicalBonus()/100f)*(1f-(g.getBouclier()/100f)));
 		amount = Mathf.Min(g.getLife(), amount);
 		return amount ;
 	}

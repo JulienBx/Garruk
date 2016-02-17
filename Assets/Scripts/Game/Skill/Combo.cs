@@ -40,7 +40,7 @@ public class Combo : GameSkill
 	public override void applyOn(int target, int value){
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
-		int damages = currentCard.getDamagesAgainst(targetCard,value*Mathf.RoundToInt(20*currentCard.getAttack()/100f));
+		int damages = currentCard.getNormalDamagesAgainst(targetCard,value*Mathf.RoundToInt(20*currentCard.getAttack()/100f));
 		string text = "HIT X"+value+"\n-"+damages+"PV";
 
 		if (currentCard.isLache()){
@@ -66,8 +66,8 @@ public class Combo : GameSkill
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int level = GameView.instance.getCurrentSkill().Power;
-		int damagesMin = currentCard.getDamagesAgainst(targetCard,Mathf.RoundToInt(20*currentCard.getAttack()/100f));
-		int damagesMax = currentCard.getDamagesAgainst(targetCard,(5+GameView.instance.getCurrentSkill().Power)*Mathf.RoundToInt(20*currentCard.getAttack()/100f));
+		int damagesMin = currentCard.getNormalDamagesAgainst(targetCard,Mathf.RoundToInt(20*currentCard.getAttack()/100f));
+		int damagesMax = currentCard.getNormalDamagesAgainst(targetCard,(5+GameView.instance.getCurrentSkill().Power)*Mathf.RoundToInt(20*currentCard.getAttack()/100f));
 		string text = "PV : "+currentCard.getLife()+" -> ["+(currentCard.getLife()-damagesMax)+"-"+(currentCard.getLife()-damagesMin)+"]";
 
 		if (currentCard.isLache()){

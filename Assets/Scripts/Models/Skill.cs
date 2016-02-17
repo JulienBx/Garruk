@@ -87,6 +87,13 @@ public class Skill
 		this.hasBeenPlayed = false ;
 	}
 
+	public Skill(string name, int id)
+	{
+		this.Name = name;
+		this.Id = id;
+		this.hasBeenPlayed = false ;
+	}
+
 	public Skill(int id)
 	{
 		this.Id = id;

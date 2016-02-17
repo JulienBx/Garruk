@@ -52,9 +52,18 @@ public class GameController : Photon.MonoBehaviour
 	
 	[RPC]
 	public void addPiegeurTrapRPC(int x, int y, bool isFirstP, int level){
-		Trap t = ((Piegeur)GameSkills.instance.getSkill(64)).getTrap(level, isFirstP);
-		t.setVisible((isFirstP==GameView.instance.getIsFirstPlayer()));
-		GameView.instance.addTrap(t, new Tile(x,y));
+		string description = "Inflige "+level+" dégats à l'unité piégée" ;
+		Trap trap = new Trap(level, 1, isFirstP, "Electropiège", description);
+		GameView.instance.getTileController(x,y).setTrap(trap);
+	}
+
+	public void addCharacter(int id, int atk, int pv, Tile t){
+		photonView.RPC("addCharacterRPC", PhotonTargets.AllBuffered, id, atk, pv, t.x, t.y, GameView.instance.getIsFirstPlayer());
+	}
+	
+	[RPC]
+	public void addCharacterRPC(int id, int atk, int pv, int x, int y, bool isFirstP){
+		GameView.instance.addCharacter(id, atk, pv, x, y, isFirstP);
 	}
 	
 	public void addElectropiege(int amount, Tile t){
@@ -68,14 +77,14 @@ public class GameController : Photon.MonoBehaviour
 		GameView.instance.getTileController(x,y).setTrap(trap);
 	}
 	
-	public void addParapiege(int amount, Tile t, int value){
-		photonView.RPC("addParapiegeRPC", PhotonTargets.AllBuffered, amount, t.x, t.y, value);
+	public void addPoisonPiege(int amount, Tile t){
+		photonView.RPC("addPoisonpiegeRPC", PhotonTargets.AllBuffered, amount, t.x, t.y);
 	}
 	
 	[RPC]
-	public void addParapiegeRPC(int amount, int x, int y, int value){
-		string description = "Paralyse l'unité piégee. HIT% : "+ value ;
-		Trap trap = new Trap(amount, 2, GameView.instance.getCurrentCard().isMine, "Parapiège", description);
+	public void addPoisonpiegeRPC(int amount, int x, int y){
+		string description = "Empoisonné. Inflige "+amount+" dégats en fin de tour" ;
+		Trap trap = new Trap(amount, 2, GameView.instance.getCurrentCard().isMine, "Poisonpiège", description);
 		GameView.instance.getTileController(x,y).setTrap(trap);
 	}
 	
@@ -97,6 +106,20 @@ public class GameController : Photon.MonoBehaviour
 	public void addRankedCharacterRPC(int id, int rank)
 	{	
 		GameView.instance.setTurn(id, rank);
+	}
+
+	public void sendShuriken(int target, int nb, int currentCard){
+		photonView.RPC("sendShurikenRPC", PhotonTargets.AllBuffered, target, nb, currentCard);
+	}
+
+	[RPC]
+	public void sendShurikenRPC(int target, int nb, int currentCard)
+	{	
+		int damages = GameView.instance.getCard(currentCard).Skills[0].Power*nb;
+		string text = "Shuriken\nHIT X"+nb+"\n-"+damages+"PV";
+		GameView.instance.displaySkillEffect(target, text, 0);
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,67,"Ninja",damages+" dégats subis"));
+		GameView.instance.addAnim(GameView.instance.getTile(target), 67);
 	}
 
 	public void findNextPlayer()
@@ -241,17 +264,6 @@ public class GameController : Photon.MonoBehaviour
 	public void endPlayRPC()
 	{
 		StartCoroutine(GameView.instance.endPlay());
-	}
-	
-	public void showResult(bool isSuccess)
-	{
-		photonView.RPC("showResultRPC", PhotonTargets.AllBuffered, isSuccess);
-	}
-	
-	[RPC]
-	public void showResultRPC(bool isSuccess)
-	{
-		GameView.instance.showResult(isSuccess);
 	}
 	
 	public void displaySkillEffect(int id, string text, int color){

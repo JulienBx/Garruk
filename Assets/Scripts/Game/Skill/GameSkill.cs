@@ -110,6 +110,9 @@ public class GameSkill
 			if(this.ciblage==1){
 				launchability = GameView.instance.canLaunchAdjacentOpponents();
 			}
+			else if(this.ciblage==-1){
+				launchability = GameView.instance.canLaunchAdjacentOpponents();
+			}
 			else if(this.ciblage==2){
 				launchability = GameView.instance.canLaunchAdjacentAllys();
 			}

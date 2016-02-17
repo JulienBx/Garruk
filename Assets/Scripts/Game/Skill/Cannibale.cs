@@ -17,48 +17,50 @@ public class Cannibale : GameSkill
 	
 	public override void resolve(List<int> targetsPCC)
 	{	
-		bool isSuccess = false ;
 		GameController.instance.play(GameView.instance.runningSkill);
 		int target = targetsPCC[0];
+		int proba = GameView.instance.getCurrentSkill().proba;
 		
-		if (Random.Range(1,101) <= GameView.instance.getCard(target).getEsquive())
-		{                             
+		if (Random.Range(1,101) <= GameView.instance.getCard(target).getEsquive()){
 			GameController.instance.esquive(target,1);
 		}
 		else{
-			GameController.instance.applyOn(target);
-			isSuccess = true ;
+			if (Random.Range(1,101) <= proba){
+				GameController.instance.applyOn(target);
+			}
+			else{
+				GameController.instance.esquive(target,base.name);
+			}
 		}
-		GameController.instance.showResult(isSuccess);
 		GameController.instance.endPlay();
 	}
-	
-	public int getBonusPercentage(int level){
-		int percentage = -1;
-		if(level<10){
-			percentage=5+5*level;
-		}
-		else{
-			percentage = 60 ;
-		}
-		return percentage ;
-	}
-	
+
 	public override void applyOn(int target){
-		string text = base.name;
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int damages = targetCard.getLife();
-		int percentage = this.getBonusPercentage(GameView.instance.getCurrentSkill().Power);
-		int bonusLife = Mathf.FloorToInt(targetCard.getLife()*percentage/100f);
-		int bonusAttack = Mathf.FloorToInt(targetCard.getAttack()*percentage/100f);
-		
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 0, text, damages+" dégats subis"));
+		int percentage = 10+GameView.instance.getCurrentSkill().Power*5;
 
-		GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).attackModifyers.Add(new Modifyer(bonusAttack, -1, 21, text, "+"+bonusAttack+" ATK. Permanent"));
-		GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).pvModifyers.Add(new Modifyer(bonusLife, -1, 21, text, "+"+bonusLife+" PV. Permanent"));
-		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name+"\n+"+bonusAttack+" ATK\n+"+bonusLife+" PV", 0);
-		GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).updateAttack();
+		int bonusLife = Mathf.Min(Mathf.RoundToInt(damages*percentage/100f),currentCard.GetTotalLife()-currentCard.getLife());
+		int bonusAttack = Mathf.RoundToInt(targetCard.getAttack()*percentage/100f);
+		string text = "";
+		if(bonusLife>0){
+			text+="+"+bonusLife+"PV\n";
+		}
+		text+="+"+bonusAttack+"ATK";
+
+
+		int targetMe = GameView.instance.getCurrentPlayingCard();
+
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 21, base.name, damages+" dégats subis"));
+		GameView.instance.getCard(targetMe).attackModifyers.Add(new Modifyer(bonusAttack, -1, 21, base.name, "+"+bonusAttack+" ATK. Permanent"));
+		GameView.instance.getCard(targetMe).damagesModifyers.Add(new Modifyer(-1*bonusLife, -1, 21, base.name, "+"+bonusLife+" PV. Permanent"));
+		GameView.instance.getPlayingCardController(targetMe).updateAttack();
+		GameView.instance.displaySkillEffect(targetMe, text, 1);
+		GameView.instance.addAnim(GameView.instance.getTile(targetMe), 21);
+
+		GameView.instance.displaySkillEffect(target, "Dévoré", 0);
+		GameView.instance.addAnim(GameView.instance.getTile(target), 21);
 	}
 
 	public override string getTargetText(int target){
@@ -66,16 +68,18 @@ public class Cannibale : GameSkill
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int damages = targetCard.getLife();
-		int percentage = this.getBonusPercentage(GameView.instance.getCurrentSkill().Power);
-		int bonusLife = Mathf.FloorToInt(targetCard.getLife()*percentage/100f);
-		int bonusAttack = Mathf.FloorToInt(targetCard.getAttack()*percentage/100f);
+		int percentage = 10+GameView.instance.getCurrentSkill().Power*5;
+
+		int bonusLife = -1*Mathf.RoundToInt(damages*percentage/100f);
+		int bonusAttack = Mathf.RoundToInt(targetCard.getAttack()*percentage/100f);
+		int targetMe = GameView.instance.getCurrentPlayingCard();
 		
 		text += "\nAbsorbe "+bonusAttack+" ATK et "+bonusLife+" PV";
 		
 		int probaEsquive = targetCard.getEsquive();
 		int probaHit = Mathf.Max(0,100-probaEsquive) ;
 		
-		text += "\nHIT% : "+probaHit;
+		text += "\n\nHIT% : "+probaHit;
 		
 		return text ;
 	}

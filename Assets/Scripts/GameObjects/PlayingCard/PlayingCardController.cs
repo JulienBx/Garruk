@@ -581,14 +581,58 @@ public class PlayingCardController : GameObjectController
 		}
 	}
 
+	public void checkAgile(){
+		if((card.Skills[0].Id == 66)){
+			int level = card.Skills[0].Power*5;
+						
+			this.card.esquiveModifyers.Add(new Modifyer(level, -1, 66, "Agile", "Esquive aux compétences de contact : "+level+"%"));
+			GameView.instance.getPlayingCardController(this.id).showIcons();
+			GameView.instance.displaySkillEffect(this.id, "Agile\nEsquive : "+level+"%", 1);
+			GameView.instance.addAnim(GameView.instance.getTile(this.id), 66);
+		}
+	}
+
+	public void checkAguerri(){
+		if((card.Skills[0].Id == 68)){
+			int bonusAttack = card.Skills[0].Power;
+			this.card.attackModifyers.Add (new Modifyer(bonusAttack, -1, 68, "Psycho", "+"+bonusAttack+"ATK. Permanent"));
+			GameView.instance.getPlayingCardController(this.id).updateAttack();
+			GameView.instance.displaySkillEffect(this.id, "+"+bonusAttack+"ATK", 1);
+			GameView.instance.addAnim(GameView.instance.getTile(this.id), 68);
+		}
+	}
+
+	public void checkCuirasse(){
+		if((card.Skills[0].Id == 70)){
+			int bonusShield = card.Skills[0].Power*4;
+			GameView.instance.getCard(this.id).addShieldModifyer(new Modifyer(bonusShield, -1, 70, "Cuirassé", "Bouclier "+bonusShield+"%. Permanent"));
+			GameView.instance.displaySkillEffect(this.id, "Bouclier "+bonusShield+"%", 1);
+			GameView.instance.getPlayingCardController(this.id).showIcons();
+			GameView.instance.addAnim(GameView.instance.getTile(this.id), 70);
+		}
+	}
+
+	public void checkRapide(){
+		if((card.Skills[0].Id == 71)){
+			int level = 11-card.Skills[0].Power;
+		
+			GameView.instance.getCard(this.id).moveModifyers.Add(new Modifyer(1, -1, 71, "Rapide", "+2MOV. Permanent"));
+			GameView.instance.getPlayingCardController(this.id).showIcons();
+			GameView.instance.getCard(this.id).attackModifyers.Add(new Modifyer(-1*level, -1, 71, "Rapide", "-"+level+"ATK. Permanent"));
+			GameView.instance.getPlayingCardController(this.id).updateAttack();
+
+			GameView.instance.displaySkillEffect(this.id, "+1MOV\n-"+level+"ATK", 1);	
+			GameView.instance.addAnim(GameView.instance.getTile(this.id), 71);
+		}
+	}
+
 	public void checkPassiveSkills()
 	{
 		this.checkPaladin();
-		this.card.checkAguerri();
-		this.card.checkRapide();
-		this.card.checkRobuste();
-		this.card.checkAgile();
-		this.card.checkCuirasse();
+		this.checkAguerri();
+		this.checkRapide();
+		this.checkAgile();
+		this.checkCuirasse();
 	}
 }
 

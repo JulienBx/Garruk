@@ -40,7 +40,7 @@ public class Estoc : GameSkill
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int level = GameView.instance.getCurrentSkill().Power;
-		int damages = currentCard.getDamagesAgainst(targetCard, Mathf.RoundToInt(currentCard.getAttack()*level/10f));
+		int damages = currentCard.getNormalDamagesAgainst(targetCard, Mathf.RoundToInt(currentCard.getAttack()*level/10f));
 		string text = "-"+damages+"PV\n-5ATK";				
 		if (currentCard.isLache()){
 			if(GameView.instance.getIsFirstPlayer() == currentCard.isMine){
@@ -67,7 +67,7 @@ public class Estoc : GameSkill
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int level = GameView.instance.getCurrentSkill().Power;
-		int damages = currentCard.getDamagesAgainst(targetCard, Mathf.RoundToInt(currentCard.getAttack()*level/10f));
+		int damages = currentCard.getNormalDamagesAgainst(targetCard, Mathf.RoundToInt(currentCard.getAttack()*level/10f));
 		string text = "PV : "+targetCard.getLife()+" -> "+(targetCard.getLife()-damages)+"\nATK : "+targetCard.getAttack()+" -> "+Mathf.Max(1, targetCard.getAttack()-5)+" pour 1 tour";				
 		if (currentCard.isLache()){
 			if(GameView.instance.getIsFirstPlayer() == currentCard.isMine){

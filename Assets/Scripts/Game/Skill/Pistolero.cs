@@ -76,7 +76,7 @@ public class Pistolero : GameSkill
 	public override void applyOn(int target, int value){
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
-		int damages = currentCard.getDamagesAgainst(targetCard, value);
+		int damages = currentCard.getMagicalDamagesAgainst(targetCard, value);
 
 		string text = "-"+damages+"PV";
 						

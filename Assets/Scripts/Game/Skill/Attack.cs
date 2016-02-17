@@ -33,7 +33,7 @@ public class Attack : GameSkill
 	public override void applyOn(int target){
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
-		int damages = currentCard.getDamagesAgainst(targetCard, currentCard.getAttack());
+		int damages = currentCard.getNormalDamagesAgainst(targetCard, currentCard.getAttack());
 
 		string text = "-"+damages+"PV";
 						
@@ -59,7 +59,7 @@ public class Attack : GameSkill
 	public override string getTargetText(int target){
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
-		int damages = currentCard.getDamagesAgainst(targetCard, currentCard.getAttack());
+		int damages = currentCard.getNormalDamagesAgainst(targetCard, currentCard.getAttack());
 
 		string text = "-"+damages+"PV";
 						

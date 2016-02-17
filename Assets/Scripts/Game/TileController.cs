@@ -75,7 +75,9 @@ public class TileController : GameObjectController
 	}
 	
 	public void showTarget(bool b){
-		gameObject.transform.FindChild("TargetLayer").GetComponent<SpriteRenderer>().enabled = b ;
+		if(GameView.instance.hoveringZone<1){
+			gameObject.transform.FindChild("TargetLayer").GetComponent<SpriteRenderer>().enabled = b ;
+		}
 		this.isDisplayingTarget = b ;
 	}
 	
@@ -168,15 +170,11 @@ public class TileController : GameObjectController
 				GameView.instance.addAnim(GameView.instance.getTile(this.characterID), 13);
 			}
 			else if(this.trap.getType()==2){	
-				if(this.trap.getAmount()==2){
-					GameView.instance.getCard(this.characterID).setState(new Modifyer(0, 1, 4, "Parapiège", "Paralysé. Ne peut pas agir pendant 1 tour"));
-					GameView.instance.getPlayingCardController(this.characterID).showIcons();
-					GameView.instance.displaySkillEffect(this.characterID, "Paralysé !", 1);
-				}
-				else{
-					GameView.instance.displaySkillEffect(this.characterID, "Parapiège : n'a pas fonctionné", 1);
-				}
-				
+				GameView.instance.getCard(this.characterID).setState(new Modifyer(this.trap.getAmount(), -1, 4, "Poison", "Empoisonné. Perd "+this.trap.getAmount()+"PV par tour"));
+				GameView.instance.getPlayingCardController(this.characterID).showIcons();
+
+				GameView.instance.displaySkillEffect(this.characterID, "Poison\nPerd "+this.trap.getAmount()+"PV par tour", 0);	
+				GameView.instance.addAnim(GameView.instance.getTile(this.characterID), 58);
 			}
 			this.isTrapped=false;
 			this.showTrap(false);
@@ -217,22 +215,82 @@ public class TileController : GameObjectController
 			gameObject.transform.FindChild("DestinationLayer").GetComponent<SpriteRenderer>().enabled = false;
 		}
 	}
-	
+
+	public void setTargetSprite(int i){
+		gameObject.transform.FindChild("TargetLayer").GetComponent<SpriteRenderer>().sprite = this.targetSprites[i] ;
+		gameObject.transform.FindChild("TargetLayer").GetComponent<SpriteRenderer>().enabled = true;
+		if(this.characterID!=-1){
+			this.showDescription(true);
+		}
+	}
+
 	public void OnMouseEnter()
 	{
 		this.isHovering = true ;
-		if(this.isDisplayingTarget){
+		if(GameView.instance.hoveringZone!=-1){
+			if(GameView.instance.hoveringZone==1){
+				GameView.instance.hideAllTargets();
+				this.setTargetSprite(3) ;
+				if(this.tile.x<GameView.instance.boardWidth-1){
+					GameView.instance.getTileController(new Tile(this.tile.x+1, this.tile.y)).setTargetSprite(3);
+				}
+				if(this.tile.x>0){
+					GameView.instance.getTileController(new Tile(this.tile.x-1, this.tile.y)).setTargetSprite(3);
+				}
+				if(this.tile.y<GameView.instance.boardHeight-1){
+					GameView.instance.getTileController(new Tile(this.tile.x, this.tile.y+1)).setTargetSprite(3);
+				}
+				if(this.tile.y>0){
+					GameView.instance.getTileController(new Tile(this.tile.x, this.tile.y-1)).setTargetSprite(3);
+				}
+			}
+			else if(GameView.instance.hoveringZone==2){
+				GameView.instance.hideAllTargets();
+				Tile currentTile = GameView.instance.getTile(GameView.instance.getCurrentPlayingCard());
+				if(this.tile.x == currentTile.x || this.tile.y == currentTile.y){
+					if(this.tile.x != currentTile.x || this.tile.y != currentTile.y){
+						if(this.tile.x==currentTile.x){
+							if(this.tile.y<currentTile.y){
+								for(int i = currentTile.y-1 ; i>=0 ; i--){
+									GameView.instance.getTileController(new Tile(this.tile.x, i)).setTargetSprite(3);
+								}
+							}
+							else if(this.tile.y>currentTile.y){
+								for(int i = currentTile.y+1 ; i<GameView.instance.boardHeight ; i++){
+									GameView.instance.getTileController(new Tile(this.tile.x, i)).setTargetSprite(3);
+								}
+							}
+						}
+						else if(this.tile.y==currentTile.y){
+							if(this.tile.x<currentTile.x){
+								for(int i = currentTile.x-1 ; i>=0 ; i--){
+									GameView.instance.getTileController(new Tile(i, this.tile.y)).setTargetSprite(3);
+								}
+							}
+							else if(this.tile.x>currentTile.x){
+								for(int i = currentTile.x+1 ; i<GameView.instance.boardWidth ; i++){
+									GameView.instance.getTileController(new Tile(i, this.tile.y)).setTargetSprite(3);
+								}
+							}
+						} 
+					}
+				}
+			}
+		}
+		else if(this.isDisplayingTarget){
 			gameObject.transform.FindChild("TargetLayer").GetComponent<SpriteRenderer>().sprite = this.targetSprites[2] ;
 			this.showDescription(true);
 		}
 		if(this.characterID==-1){
 			gameObject.transform.FindChild("HoverLayer").GetComponent<SpriteRenderer>().enabled = true ;
 			if(this.isDisplayingTarget){
-				gameObject.transform.FindChild("DescriptionBox").FindChild("TitleText").GetComponent<TextMeshPro>().text = GameSkills.instance.getCurrentGameSkill().name;
-				gameObject.transform.FindChild("DescriptionBox").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = GameSkills.instance.getCurrentGameSkill().getTargetText(-1);
-				gameObject.transform.FindChild("DescriptionBox").GetComponent<SpriteRenderer>().enabled = true;
-				gameObject.transform.FindChild("DescriptionBox").FindChild("DescriptionText").GetComponent<MeshRenderer>().enabled=true;
-				gameObject.transform.FindChild("DescriptionBox").FindChild("TitleText").GetComponent<MeshRenderer>().enabled=true;
+				if(GameView.instance.hoveringZone==-1){
+					gameObject.transform.FindChild("DescriptionBox").FindChild("TitleText").GetComponent<TextMeshPro>().text = GameSkills.instance.getCurrentGameSkill().name;
+					gameObject.transform.FindChild("DescriptionBox").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = GameSkills.instance.getCurrentGameSkill().getTargetText(-1);
+					gameObject.transform.FindChild("DescriptionBox").GetComponent<SpriteRenderer>().enabled = true;
+					gameObject.transform.FindChild("DescriptionBox").FindChild("DescriptionText").GetComponent<MeshRenderer>().enabled=true;
+					gameObject.transform.FindChild("DescriptionBox").FindChild("TitleText").GetComponent<MeshRenderer>().enabled=true;
+				}
 			}
 			else if(this.type==1){
 				gameObject.transform.FindChild("DescriptionBox").FindChild("TitleText").GetComponent<TextMeshPro>().text = "Cristal";
@@ -281,7 +339,20 @@ public class TileController : GameObjectController
 	
 	public void OnMouseDown()
 	{
-		if(GameView.instance.isDisplayedPopUp){
+		if(GameView.instance.hoveringZone!=-1){
+			if(GameView.instance.hoveringZone==1){
+				GameView.instance.hitTarget(this.tile);
+			}
+			else if(GameView.instance.hoveringZone==2){
+				Tile currentTile = GameView.instance.getTile(GameView.instance.getCurrentPlayingCard());
+				if(this.tile.x == currentTile.x || this.tile.y == currentTile.y){
+					if(this.tile.x != currentTile.x || this.tile.y != currentTile.y){
+						GameView.instance.hitTarget(this.tile);
+					}
+				}
+			}
+		}
+		else if(GameView.instance.isDisplayedPopUp){
 			GameView.instance.hideValidationButton();
 			if(GameView.instance.getSkillZoneController().isRunningSkill){
 				GameView.instance.hideTargets();
@@ -296,7 +367,6 @@ public class TileController : GameObjectController
 			if(this.type!=1){
 				if(this.characterID!=-1){
 					if(GameView.instance.getTileController(this.characterID).isDisplayingTarget){
-						print("Je hit");
 						GameView.instance.hitTarget(this.characterID);
 					}
 					GameView.instance.clickCharacter(this.characterID);

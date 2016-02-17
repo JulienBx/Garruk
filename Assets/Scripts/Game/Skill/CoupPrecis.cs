@@ -19,60 +19,60 @@ public class CoupPrecis : GameSkill
 	{	
 		GameController.instance.play(GameView.instance.runningSkill);
 		int target = targetsPCC[0];
-		GameController.instance.applyOn(target);
-		GameController.instance.showResult(true);
+		int proba = GameView.instance.getCurrentSkill().proba;
+		if (Random.Range(1,101) <= proba){
+			GameController.instance.applyOn(target);
+		}
 		GameController.instance.endPlay();
 	}
 	
 	public override void applyOn(int target){
-		string text = base.name;
-		
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
-		int damages = Mathf.FloorToInt((50+5*GameView.instance.getCurrentSkill().Power)*currentCard.getDamagesAgainstWS(targetCard)/100);
-		
+		int level = GameView.instance.getCurrentSkill().Power;
+		int damages = currentCard.getNormalDamagesAgainst(targetCard, Mathf.RoundToInt(currentCard.getAttack()*level/10f));
+		string text = "-"+damages+"PV";				
 		if (currentCard.isLache()){
 			if(GameView.instance.getIsFirstPlayer() == currentCard.isMine){
-				if (GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).getTile().y==GameView.instance.getPlayingCardController(target).getTile().y-1){
-					damages = Mathf.Min(targetCard.getLife(), currentCard.getSkills()[0].Level+damages);
-					text+="\nBonus lache";
+				if (GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).getTile().y-1==GameView.instance.getPlayingCardController(target).getTile().y){
+					damages = Mathf.Min(targetCard.getLife(), currentCard.getSkills()[0].Power+damages);
+					text="-"+damages+"PV"+"\n(lache)";
 				}
 			}
 			else{
-				if (GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).getTile().y-1==GameView.instance.getPlayingCardController(target).getTile().y){
-					damages = Mathf.Min(targetCard.getLife(), currentCard.getSkills()[0].Level+damages);
-					text+="\nBonus lache";
+				if (GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).getTile().y==GameView.instance.getPlayingCardController(target).getTile().y-1){
+					damages = Mathf.Min(targetCard.getLife(), currentCard.getSkills()[0].Power+damages);
+					text="-"+damages+"PV"+"\n(lache)";
 				}
 			}
 		}
-		
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 0, text, damages+" dégats subis"));
-		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 0);
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,11,base.name,damages+" dégats subis"));
+		GameView.instance.displaySkillEffect(target, text, 0);
+		GameView.instance.addAnim(GameView.instance.getTile(target), 59);
 	}
 	
 	public override string getTargetText(int target){
-		string text = base.name;
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
-		int damages = Mathf.FloorToInt((50+5*GameView.instance.getCurrentSkill().Power)*currentCard.getDamagesAgainstWS(targetCard)/100);
-		
+		int level = GameView.instance.getCurrentSkill().Power;
+		int damages = currentCard.getNormalDamagesAgainst(targetCard, Mathf.RoundToInt(currentCard.getAttack()*level/10f));
+		string text = "PV : "+targetCard.getLife()+" -> "+(targetCard.getLife()-damages);				
 		if (currentCard.isLache()){
 			if(GameView.instance.getIsFirstPlayer() == currentCard.isMine){
-				if (GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).getTile().y==GameView.instance.getPlayingCardController(target).getTile().y-1){
-					damages = Mathf.Min(targetCard.getLife(), currentCard.getSkills()[0].Level+damages);
-					text+="\nBonus lache";
+				if (GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).getTile().y-1==GameView.instance.getPlayingCardController(target).getTile().y){
+					damages = Mathf.Min(targetCard.getLife(), currentCard.getSkills()[0].Power+damages);
+					text = "PV : "+targetCard.getLife()+" -> "+(targetCard.getLife()-damages)+"\n(lache)";
 				}
 			}
 			else{
-				if (GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).getTile().y-1==GameView.instance.getPlayingCardController(target).getTile().y){
-					damages = Mathf.Min(targetCard.getLife(), currentCard.getSkills()[0].Level+damages);
-					text+="\nBonus lache";
+				if (GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).getTile().y==GameView.instance.getPlayingCardController(target).getTile().y-1){
+					damages = Mathf.Min(targetCard.getLife(), currentCard.getSkills()[0].Power+damages);
+					text = "PV : "+targetCard.getLife()+" -> "+(targetCard.getLife()-damages)+"\n(lache)";
 				}
 			}
 		}
 		
-		text += "\nPV : "+targetCard.getLife()+" -> "+(targetCard.getLife()-damages);	
-		text += "\nHIT% : 100";
+		text += "\n\nHIT% : 100";
 		
 		return text ;
 	}

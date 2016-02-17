@@ -46,7 +46,7 @@ public class Sermon : GameSkill
 			}
 			i++;
 		}
-		GameController.instance.showResult(isSuccess);
+		//GameController.instance.showResult(isSuccess);
 		GameController.instance.endPlay();
 	}
 
