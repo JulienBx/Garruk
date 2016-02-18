@@ -1254,15 +1254,15 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 21300000, guid: b1c87354a2dcc0745b8513e759375dcc, type: 3}
+  - {fileID: 21300002, guid: b1c87354a2dcc0745b8513e759375dcc, type: 3}
+  - {fileID: 21300004, guid: b1c87354a2dcc0745b8513e759375dcc, type: 3}
+  - {fileID: 21300006, guid: b1c87354a2dcc0745b8513e759375dcc, type: 3}
+  - {fileID: 21300008, guid: b1c87354a2dcc0745b8513e759375dcc, type: 3}
+  - {fileID: 21300010, guid: b1c87354a2dcc0745b8513e759375dcc, type: 3}
+  - {fileID: 21300012, guid: b1c87354a2dcc0745b8513e759375dcc, type: 3}
+  - {fileID: 21300014, guid: b1c87354a2dcc0745b8513e759375dcc, type: 3}
+  - {fileID: 21300016, guid: b1c87354a2dcc0745b8513e759375dcc, type: 3}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -5390,6 +5390,51 @@ Prefab:
         type: 3}
     - target: {fileID: 0}
       propertyPath: animSprites.Array.data[318]
+      value: 
+      objectReference: {fileID: 21300016, guid: b1c87354a2dcc0745b8513e759375dcc,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: animSprites.Array.data[510]
+      value: 
+      objectReference: {fileID: 21300000, guid: b1c87354a2dcc0745b8513e759375dcc,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: animSprites.Array.data[511]
+      value: 
+      objectReference: {fileID: 21300002, guid: b1c87354a2dcc0745b8513e759375dcc,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: animSprites.Array.data[512]
+      value: 
+      objectReference: {fileID: 21300004, guid: b1c87354a2dcc0745b8513e759375dcc,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: animSprites.Array.data[513]
+      value: 
+      objectReference: {fileID: 21300006, guid: b1c87354a2dcc0745b8513e759375dcc,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: animSprites.Array.data[514]
+      value: 
+      objectReference: {fileID: 21300008, guid: b1c87354a2dcc0745b8513e759375dcc,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: animSprites.Array.data[515]
+      value: 
+      objectReference: {fileID: 21300010, guid: b1c87354a2dcc0745b8513e759375dcc,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: animSprites.Array.data[516]
+      value: 
+      objectReference: {fileID: 21300012, guid: b1c87354a2dcc0745b8513e759375dcc,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: animSprites.Array.data[517]
+      value: 
+      objectReference: {fileID: 21300014, guid: b1c87354a2dcc0745b8513e759375dcc,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: animSprites.Array.data[518]
       value: 
       objectReference: {fileID: 21300016, guid: b1c87354a2dcc0745b8513e759375dcc,
         type: 3}

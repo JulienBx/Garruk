@@ -7,7 +7,7 @@ public class Illusion : GameSkill
 	{
 		this.numberOfExpectedTargets = 1 ;
 		base.name = "Illusion";
-		base.ciblage = 1 ;
+		base.ciblage = 6 ;
 	}
 	
 	public override void launch()

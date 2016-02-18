@@ -61,61 +61,12 @@ $RECYCLE.BIN/
 *.msi
 *.msm
 *.msp
-garruk_Data/level4
-garruk_Data/mainData
-garruk_Data/Managed/Assembly-CSharp-firstpass.dll
-garruk_Data/output_log.txt
-garruk_Data/resources.assets
-garruk_Data/sharedassets5.assets
-garruk_Data/sharedassets7.assets
-garruk_Data/sharedassets5.assets
+garruk_Data
 *.assets
-garruk_Data/sharedassets3.assets
-garruk_Data/Managed/Assembly-CSharp-firstpass.dll
 garruk.exe
-garruk_Data/output_log.txt
 ProjectSettings/EditorBuildSettings.asset
-garruk.exe
-garruk.exe
-garruk_Data/level0
-garruk_Data/level1
-garruk_Data/level2
-garruk_Data/level3
-garruk_Data/level5
-garruk_Data/level6
-garruk_Data/level7
-garruk_Data/level8
-garruk_Data/level9
-garruk_Data/Managed/Assembly-CSharp.dll
-*.dll
-*.aspx
-garruk_Data/Mono/etc/mono/1.0/machine.config
-garruk_Data/Mono/etc/mono/2.0/Browsers/Compat.browser
-garruk_Data/Mono/etc/mono/2.0/machine.config
-garruk_Data/Mono/etc/mono/2.0/settings.map
-garruk_Data/Mono/etc/mono/2.0/web.config
-garruk_Data/Mono/etc/mono/browscap.ini
-garruk_Data/Mono/etc/mono/config
-garruk_Data/Mono/etc/mono/mconfig/config.xml
-garruk_Data/PlayerConnectionConfigFile
-garruk_Data/Resources/unity_builtin_extra
-garruk_Data/Resources/unity default resources
-ProjectSettings/EditorBuildSettings.asset
-garruk_Data/PlayerConnectionConfigFile
-garruk_Data/PlayerConnectionConfigFile
-garruk_Data/Managed/System.dll
-garruk.exe
-garruk_Data/Managed/System.Core.dll
-garruk_Data/Managed/System.dll
 Assets/Photon Unity Networking/Demos/DemoRPGMovement/New Terrain.asset
-garruk_Data/Managed/mscorlib.dll
 Assets/TextMesh Pro/*
-garruk_Data/level10
-*.zip
-Zip/garruk_Data/level0
-Zip/garruk_Data/level0
-Zip/garruk_Data/level1
-garruk_Data/level10
 
 Assets/HOTween.meta
 
