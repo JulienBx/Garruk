@@ -230,7 +230,7 @@ public class NewFocusedCardController : MonoBehaviour
 	}
 	public virtual void applyFrontTexture()
 	{
-		this.caracter.GetComponent<SpriteRenderer> ().sprite = BackOfficeController.instance.returnSmallCardsCaracter(this.c.Skills[0].getPictureId());
+		this.caracter.GetComponent<SpriteRenderer> ().sprite = BackOfficeController.instance.returnLargeCardsCaracter(this.c.Skills[0].getPictureId());
 		this.face.GetComponent<SpriteRenderer> ().sprite = ressources.faces [this.c.PowerLevel - 1];
 	}
 	public void setCardSold()
@@ -1309,7 +1309,14 @@ public class NewFocusedCardController : MonoBehaviour
 		this.skillFocused = Instantiate(ressources.skillFocusedObject) as GameObject;
 		this.skillFocused.transform.parent=this.gameObject.transform;
 		this.skillFocused.AddComponent<FocusedSkillControllerFocusedCard> ();
-		this.skillFocused.transform.GetComponent<FocusedSkillController>().show(this.c.Skills[idSkill]);
+		if(idSkill==0)
+		{
+			this.skillFocused.transform.GetComponent<FocusedSkillController>().show(this.c.Skills[idSkill],true);
+		}
+		else
+		{
+			this.skillFocused.transform.GetComponent<FocusedSkillController>().show(this.c.Skills[idSkill],false);
+		}
 		this.skillFocused.transform.GetComponent<FocusedSkillController>().highlightLevel(c.Skills[idSkill].Power-1);
 		this.resizeSkillFocused();
 	}

@@ -547,6 +547,10 @@ public class BackOfficeController : MonoBehaviour
 	{
 		return ressources.smallCardsCaracters[id];
 	}
+	public Sprite returnLargeCardsCaracter(int id)
+	{
+		return ressources.largeCardsCaracters[id];
+	}
 	public void leaveGame()
 	{
 		this.displayDisconnectedPopUp ();

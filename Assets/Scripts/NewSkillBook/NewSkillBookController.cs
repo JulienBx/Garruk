@@ -1448,7 +1448,7 @@ public class NewSkillBookController : MonoBehaviour
 		this.isFocusedSkillDisplayed= true;
 		this.displayBackUI (false);
 		this.focusedSkill.SetActive (true);
-		this.focusedSkill.GetComponent<FocusedSkillController> ().show (model.skillsList [this.skillsToBeDisplayed [this.skillsPagination.chosenPage * this.skillsPagination.nbElementsPerPage + id]]);
+		this.focusedSkill.GetComponent<FocusedSkillController> ().show (model.skillsList [this.skillsToBeDisplayed [this.skillsPagination.chosenPage * this.skillsPagination.nbElementsPerPage + id]],true);
 	}
 	public void hideFocusedSkill()
 	{

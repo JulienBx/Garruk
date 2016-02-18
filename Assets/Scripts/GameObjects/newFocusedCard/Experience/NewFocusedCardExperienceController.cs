@@ -108,5 +108,7 @@ public class NewFocusedCardExperienceController : MonoBehaviour
 	{
 		this.toUpdateXp=value;
 	}
+
+
 }
 
