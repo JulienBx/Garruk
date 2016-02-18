@@ -21,7 +21,8 @@ public class GameView : MonoBehaviour
 	public Sprite[] sprites;
 	public Sprite[] skillSprites;
 	public Sprite[] skillTypeSprites;
-	
+	public Sprite[] cardTypeSprites;
+
 	public int boardWidth ;
 	public int boardHeight ;
 	public int nbCardsPerPlayer ;
@@ -2359,6 +2360,14 @@ public class GameView : MonoBehaviour
 		}
 	}
 	
+	public Sprite getSkillSprite(int i){
+		return this.skillSprites[i];
+	}
+
+	public Sprite getCardTypeSprite(int i){
+		return this.cardTypeSprites[i];
+	}
+
 	public Sprite getSkillTypeSprite(int i){
 		return this.skillTypeSprites[i];
 	}

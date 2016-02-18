@@ -17,17 +17,6 @@ public class MyHoveredCardController : HoveredCardController
 		position.x = -0.50f*this.realwidth-5f;
 		tempTransform.localPosition = position;	
 		
-		tempTransform = gameObject.transform.FindChild("PassiveSkill").FindChild("Picto");
-		position = tempTransform.localPosition ;
-		position.x = 5f-(realwidth/2f-3f)+0.5f;
-		tempTransform.localPosition = position;
-		
-		tempTransform = gameObject.transform.FindChild("PassiveSkill").FindChild("TitleText");
-		position = tempTransform.localPosition ;
-		position.x = 5f-(realwidth/2f-3f)+1f;
-		tempTransform.localPosition = position;
-		tempTransform.GetComponent<TextContainer>().width = (realwidth/2f-3f)-2.5f;
-		
 		tempTransform = gameObject.transform.FindChild("Skill1").FindChild("Picto");
 		position = tempTransform.localPosition ;
 		position.x = 5f-(realwidth/2f-3f)+0.5f;

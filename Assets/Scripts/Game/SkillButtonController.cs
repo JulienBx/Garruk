@@ -17,6 +17,7 @@ public class SkillButtonController : MonoBehaviour
 	
 	public void setSkill(Skill s){
 		this.skill = s  ;
+		gameObject.GetComponent<SpriteRenderer>().sprite = GameView.instance.getSkillSprite(s.Id);
 		gameObject.transform.FindChild("SkillTextZone").FindChild("Description").GetComponent<TextMeshPro>().text = s.Name;
 		gameObject.transform.FindChild("DescriptionZone").FindChild("TitleText").GetComponent<TextMeshPro>().text = s.Name;
 		gameObject.transform.FindChild("DescriptionZone").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = GameView.instance.getCurrentCard().getSkillText(s.Description)+"\n\nProbabilité de succès : "+s.proba+"%";

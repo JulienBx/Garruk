@@ -64,23 +64,15 @@ public class HoveredCardController : MonoBehaviour
 			gameObject.GetComponent<SpriteRenderer>().color = new Color(231f/255f, 0f, 66f/255f, 1f);
 		}
 		gameObject.transform.FindChild("Character").GetComponent<SpriteRenderer>().sprite = GameView.instance.getSprite(c.Skills[0].Id);
-		gameObject.transform.FindChild("Title").FindChild("Text").GetComponent<TextMeshPro>().text = c.Title;
-		gameObject.transform.FindChild("PassiveSkill").FindChild("TitleText").GetComponent<TextMeshPro>().text = c.getSkills()[0].Name+" Niv."+c.getSkills()[0].Power;
-		if(c.getSkills()[0].Power>8){
-			gameObject.transform.FindChild("PassiveSkill").FindChild("Picto").GetComponent<SpriteRenderer>().color = new Color(231f/255f, 0f, 66f/255f, 1f);
-		}
-		else if(c.getSkills()[0].Power>5){
-			gameObject.transform.FindChild("PassiveSkill").FindChild("Picto").GetComponent<SpriteRenderer>().color = new Color(71f/255f,150f/255f,189f/255f, 1f);
-		}
-		else{
-			gameObject.transform.FindChild("PassiveSkill").FindChild("Picto").GetComponent<SpriteRenderer>().color = new Color(1f,1f,1f,1f);
-		}
+		gameObject.transform.FindChild("Title").FindChild("Text").GetComponent<TextMeshPro>().text = c.getSkills()[0].Name;
+		gameObject.transform.FindChild("Title").FindChild("Picto").GetComponent<SpriteRenderer>().sprite = GameView.instance.getCardTypeSprite(c.CardType.Id);
 		for (int i = 1 ; i < c.getSkills().Count ; i++){
 			if(c.getSkills()[i].IsActivated==1){
 				gameObject.transform.FindChild("Skill"+i).GetComponent<SpriteRenderer>().enabled = true;
 				gameObject.transform.FindChild("Skill"+i).FindChild("TitleText").GetComponent<MeshRenderer>().enabled = true ;
 				gameObject.transform.FindChild("Skill"+i).FindChild("Picto").GetComponent<SpriteRenderer>().enabled = true ;
 				gameObject.transform.FindChild("Skill"+i).FindChild("TitleText").GetComponent<TextMeshPro>().text = c.getSkills()[i].Name+" Niv."+c.getSkills()[i].Power;
+				gameObject.transform.FindChild("Skill"+i).FindChild("Picto").GetComponent<SpriteRenderer>().sprite = GameView.instance.getSkillSprite(c.getSkills()[i].Id);
 				if(c.getSkills()[i].Power>8){
 					gameObject.transform.FindChild("Skill"+i).FindChild("Picto").GetComponent<SpriteRenderer>().color = new Color(231f/255f, 0f, 66f/255f, 1f);
 				}

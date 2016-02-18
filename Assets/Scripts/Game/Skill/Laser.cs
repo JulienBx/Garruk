@@ -22,6 +22,9 @@ public class Laser : GameSkill
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int target = targetsPCC[0];
 		int proba = GameView.instance.getCurrentSkill().proba;
+		if(currentCard.isSniper()){
+			proba = 100 ;
+		}
 		int isFou = 1 ;
 		if(currentCard.isFou()){
 			if(Random.Range(1,101)<26){

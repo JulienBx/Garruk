@@ -28,6 +28,9 @@ public class LanceFlammes : GameSkill
 		int maxDamages ;
 		GameCard targetCard ;
 		int proba = GameView.instance.getCurrentSkill().proba;
+		if(currentCard.isSniper()){
+			proba = 100 ;
+		}
 		int isFou = 1 ;
 		if(currentCard.isFou()){
 			if(Random.Range(1,101)<26){

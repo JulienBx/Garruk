@@ -18,13 +18,15 @@ public class Implosion : GameSkill
 	public override void resolve(List<int> targetsPCC)
 	{	
 		GameController.instance.play(GameView.instance.runningSkill);
+		GameCard currentCard = GameView.instance.getCurrentCard();
 		int proba = GameView.instance.getCurrentSkill().proba;
-
+		if(currentCard.isSniper()){
+			proba = 100 ;
+		}
 		List<Tile> tempTiles;
 		Tile t = GameView.instance.getPlayingCardTile(GameView.instance.getCurrentPlayingCard());
 		tempTiles = t.getImmediateNeighbourTiles();
 		GameCard targetCard ;
-		GameCard currentCard = GameView.instance.getCurrentCard();
 
 		int i = 0 ;
 		int tempInt ;

@@ -18,6 +18,8 @@ public class Mitraillette : GameSkill
 	public override void resolve(List<int> targetsPCC)
 	{	
 		GameController.instance.play(GameView.instance.runningSkill);
+		GameCard currentCard = GameView.instance.getCurrentCard();
+
 		List<int> potentialTargets = GameView.instance.getOpponents();
 		List<int> targets = new List<int>();
 		List<int> chosenTargets = new List<int>();
@@ -25,6 +27,9 @@ public class Mitraillette : GameSkill
 		Tile currentTile = GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()); 
 		Tile targetTile ; 
 		int proba = GameView.instance.getCurrentSkill().proba;
+		if(currentCard.isSniper()){
+			proba = 100 ;
+		}
 		int maxDamages = GameView.instance.getCurrentSkill().Power*2;
 
 		for(int i = 0 ; i < potentialTargets.Count ; i++){

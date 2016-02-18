@@ -41,6 +41,7 @@ public class GameCard : Card
 	}
 
 	public GameCard(Card c){
+		base.CardType = new CardType();
 		base.Title = c.Title; 									    
 		base.ArtIndex = c.ArtIndex;
 		base.Life = c.Life;
