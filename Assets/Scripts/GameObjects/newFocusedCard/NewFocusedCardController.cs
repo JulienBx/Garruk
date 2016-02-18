@@ -17,8 +17,6 @@ public class NewFocusedCardController : MonoBehaviour
 	public GameObject nextLevelPopUp;
 	public GameObject attack;
 	public GameObject life;
-	public GameObject quickness;
-	public GameObject name;
 	public GameObject face;
 	public GameObject caracter;
 	public GameObject cardbox;
@@ -177,10 +175,8 @@ public class NewFocusedCardController : MonoBehaviour
 		{
 			this.skills[i]=this.gameObject.transform.FindChild("Card").FindChild("Skill"+i).gameObject;
 		}
-		this.name = this.gameObject.transform.FindChild ("Card").FindChild ("Name").gameObject;
 		this.attack = this.gameObject.transform.FindChild ("Card").FindChild ("Attack").gameObject;
 		this.life = this.gameObject.transform.FindChild ("Card").FindChild ("Life").gameObject;
-		this.quickness = this.gameObject.transform.FindChild ("Card").FindChild ("Quickness").gameObject;
 		this.cardbox = this.gameObject.transform.FindChild ("Card").FindChild ("cardbox").gameObject;
 		this.face = this.gameObject.transform.FindChild("Card").FindChild ("Face").gameObject;
 		this.caracter = this.gameObject.transform.FindChild("Card").FindChild ("Caracter").gameObject;
@@ -200,23 +196,10 @@ public class NewFocusedCardController : MonoBehaviour
 	public virtual void show()
 	{
 		this.applyFrontTexture ();
-		if(this.c.Title!="")
-		{
-			this.name.transform.GetComponent<TextMeshPro> ().text = this.c.Title.ToUpper();
-		}
-		else
-		{
-			this.name.transform.GetComponent<TextMeshPro>().text=WordingCardTypes.getName(this.c.CardType.Id);
-		}
-		//this.gameObject.transform.FindChild("Power").FindChild("Text").GetComponent<TextMeshPro>().text = this.c.Power.ToString();
-		//this.gameObject.transform.FindChild ("Power").FindChild ("Text").GetComponent<TextMeshPro> ().color = ressources.colors [this.c.PowerLevel - 1];
-		this.life.transform.FindChild("Text").GetComponent<TextMeshPro>().text = this.c.Life.ToString();
+		this.life.transform.FindChild("Text").GetComponent<TextMeshPro>().text = this.c.GetLifeString();
 		this.life.transform.FindChild("Picto").GetComponent<SpriteRenderer> ().color = ressources.colors [this.c.LifeLevel - 1];
-		//this.gameObject.transform.FindChild("Move").FindChild("Text").GetComponent<TextMeshPro>().text = this.c.Move.ToString();
-		this.attack.transform.FindChild("Text").GetComponent<TextMeshPro>().text = this.c.Attack.ToString();
+		this.attack.transform.FindChild("Text").GetComponent<TextMeshPro>().text = this.c.GetAttackString();
 		this.attack.transform.FindChild("Picto").GetComponent<SpriteRenderer> ().color = ressources.colors [this.c.AttackLevel - 1];
-		this.quickness.transform.FindChild("Text").GetComponent<TextMeshPro>().text = this.c.Speed.ToString();
-		this.quickness.transform.FindChild("Picto").GetComponent<SpriteRenderer> ().color = ressources.colors [this.c.SpeedLevel - 1];
 
 		for(int i=0;i<this.skills.Length;i++)
 		{
@@ -247,7 +230,7 @@ public class NewFocusedCardController : MonoBehaviour
 	}
 	public virtual void applyFrontTexture()
 	{
-		this.caracter.GetComponent<SpriteRenderer> ().sprite = ressources.caracters[this.c.CardType.Id];
+		this.caracter.GetComponent<SpriteRenderer> ().sprite = BackOfficeController.instance.returnSmallCardsCaracter(this.c.Skills[0].getPictureId());
 		this.face.GetComponent<SpriteRenderer> ().sprite = ressources.faces [this.c.PowerLevel - 1];
 	}
 	public void setCardSold()
@@ -602,7 +585,7 @@ public class NewFocusedCardController : MonoBehaviour
 			if (w.text == "")
 			{
 				this.c.Title = newName;
-				this.name.GetComponent<TextMeshPro> ().text = this.c.Title.ToUpper();
+				//this.name.GetComponent<TextMeshPro> ().text = this.c.Title.ToUpper();
 			}
 			else
 			{
@@ -1162,9 +1145,6 @@ public class NewFocusedCardController : MonoBehaviour
 			break;
 		case 1:
 			refObject=this.life.transform.FindChild("Text").gameObject;
-			break;
-		case 2:
-			refObject=this.quickness.transform.FindChild("Text").gameObject;
 			break;
 		case 3:
 			refObject=this.skills[0].transform.FindChild ("Power").gameObject;

@@ -26,6 +26,6 @@ public class WordingFocusedCard
 		references.Add(new string[]{" Victoires \n",""}); //9
 		references.Add(new string[]{" Défaites",""}); //10
 		references.Add(new string[]{"Niv ",""}); //11
-		references.Add(new string[]{"Niveau ",""}); //12
+		references.Add(new string[]{"Niv ",""}); //12
 	}
 }

@@ -4,7 +4,7 @@ using TMPro;
 public class NewCardSkillController : NewFocusedCardSkillController 
 {
 
-	public override void show(bool isPassiveSkill)
+	public override void show()
 	{
 		if(this.isPassiveSkill)
 		{

@@ -38,7 +38,7 @@ public class ApplicationDesignRules : MonoBehaviour
 	static public Color redColor = new Color (218f / 255f, 70f / 255f, 70f / 255f);
 	static public Color whiteTextColor = new Color(218f/255f,218f/255f,218f/255f);
 	static public Color whiteSpriteColor = new Color(1f,1f,1f);
-	static public Color greySpriteColor = new Color(175/255f,175f/255f,175f/255f);
+	static public Color greySpriteColor = new Color(255f/255f,255f/255f,255f/255f);
 	static public Color greyTextColor = new Color(171/255f,171f/255f,171f/255f);
 	static public Color[] cardsColor = {new Color(75f/255f,163f/255f,174f/255f),new Color (196f/255f,196f/255f,196f/255f),new Color(171/255f,171f/255f,171f/255f)};
 

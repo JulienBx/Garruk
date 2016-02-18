@@ -101,8 +101,8 @@ public class NewFocusedCardExperienceController : MonoBehaviour
 	}
 	public virtual void updateGauge(float currentPercentage)
 	{
-		this.gameObject.transform.FindChild ("ExperienceGauge").localPosition = new Vector3 (-0.216f+currentPercentage*0.578f, 0f, 0);
-		this.gameObject.transform.FindChild ("ExperienceGauge").localScale = new Vector3 (currentPercentage*1.26f, 1.25f, 1.25f);
+		this.gameObject.transform.FindChild ("ExperienceGauge").localPosition = new Vector3 (-0.272f+currentPercentage*0.232f, 0f, 0);
+		this.gameObject.transform.FindChild ("ExperienceGauge").localScale = new Vector3 (currentPercentage*0.509f, 2.51f, 1.25f);
 	}
 	public void setToUpdateXp(bool value)
 	{
