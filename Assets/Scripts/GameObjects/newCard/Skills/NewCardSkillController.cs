@@ -8,7 +8,7 @@ public class NewCardSkillController : NewFocusedCardSkillController
 	{
 		if(this.isPassiveSkill)
 		{
-			this.gameObject.GetComponent<SpriteRenderer> ().sprite = BackOfficeController.instance.returnCardTypePicto(gameObject.transform.parent.GetComponent<NewCardController>().getCardType().getPictureId());
+			this.gameObject.GetComponent<SpriteRenderer> ().sprite = BackOfficeController.instance.returnCardTypePicto(gameObject.transform.parent.GetComponent<NewCardController>().getCardType().getPictureId(),this.s.Level);
 		}
 		else
 		{

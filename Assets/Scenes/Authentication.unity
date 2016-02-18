@@ -8525,6 +8525,18 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 11486180, guid: f9e46e076b89cf74b9139ef4fb6bd38c, type: 2}
+      propertyPath: redCardTypesPictos.Array.size
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 11486180, guid: f9e46e076b89cf74b9139ef4fb6bd38c, type: 2}
+      propertyPath: greyCardTypesPictos.Array.size
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 11486180, guid: f9e46e076b89cf74b9139ef4fb6bd38c, type: 2}
+      propertyPath: blueCardTypesPictos.Array.size
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 423700, guid: f9e46e076b89cf74b9139ef4fb6bd38c, type: 2}
       propertyPath: m_LocalPosition.x
       value: -18.535374
@@ -8557,6 +8569,156 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 11486180, guid: f9e46e076b89cf74b9139ef4fb6bd38c, type: 2}
+      propertyPath: greyCardTypesPictos.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300040, guid: fc5e269ca67b74355a1e8521b84b2d19,
+        type: 3}
+    - target: {fileID: 11486180, guid: f9e46e076b89cf74b9139ef4fb6bd38c, type: 2}
+      propertyPath: greyCardTypesPictos.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300022, guid: fc5e269ca67b74355a1e8521b84b2d19,
+        type: 3}
+    - target: {fileID: 11486180, guid: f9e46e076b89cf74b9139ef4fb6bd38c, type: 2}
+      propertyPath: greyCardTypesPictos.Array.data[2]
+      value: 
+      objectReference: {fileID: 21300052, guid: fc5e269ca67b74355a1e8521b84b2d19,
+        type: 3}
+    - target: {fileID: 11486180, guid: f9e46e076b89cf74b9139ef4fb6bd38c, type: 2}
+      propertyPath: greyCardTypesPictos.Array.data[3]
+      value: 
+      objectReference: {fileID: 21300076, guid: fc5e269ca67b74355a1e8521b84b2d19,
+        type: 3}
+    - target: {fileID: 11486180, guid: f9e46e076b89cf74b9139ef4fb6bd38c, type: 2}
+      propertyPath: greyCardTypesPictos.Array.data[4]
+      value: 
+      objectReference: {fileID: 21300064, guid: fc5e269ca67b74355a1e8521b84b2d19,
+        type: 3}
+    - target: {fileID: 11486180, guid: f9e46e076b89cf74b9139ef4fb6bd38c, type: 2}
+      propertyPath: greyCardTypesPictos.Array.data[5]
+      value: 
+      objectReference: {fileID: 21300034, guid: fc5e269ca67b74355a1e8521b84b2d19,
+        type: 3}
+    - target: {fileID: 11486180, guid: f9e46e076b89cf74b9139ef4fb6bd38c, type: 2}
+      propertyPath: greyCardTypesPictos.Array.data[6]
+      value: 
+      objectReference: {fileID: 21300028, guid: fc5e269ca67b74355a1e8521b84b2d19,
+        type: 3}
+    - target: {fileID: 11486180, guid: f9e46e076b89cf74b9139ef4fb6bd38c, type: 2}
+      propertyPath: greyCardTypesPictos.Array.data[7]
+      value: 
+      objectReference: {fileID: 21300046, guid: fc5e269ca67b74355a1e8521b84b2d19,
+        type: 3}
+    - target: {fileID: 11486180, guid: f9e46e076b89cf74b9139ef4fb6bd38c, type: 2}
+      propertyPath: greyCardTypesPictos.Array.data[8]
+      value: 
+      objectReference: {fileID: 21300058, guid: fc5e269ca67b74355a1e8521b84b2d19,
+        type: 3}
+    - target: {fileID: 11486180, guid: f9e46e076b89cf74b9139ef4fb6bd38c, type: 2}
+      propertyPath: greyCardTypesPictos.Array.data[9]
+      value: 
+      objectReference: {fileID: 21300070, guid: fc5e269ca67b74355a1e8521b84b2d19,
+        type: 3}
+    - target: {fileID: 11486180, guid: f9e46e076b89cf74b9139ef4fb6bd38c, type: 2}
+      propertyPath: blueCardTypesPictos.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300038, guid: fc5e269ca67b74355a1e8521b84b2d19,
+        type: 3}
+    - target: {fileID: 11486180, guid: f9e46e076b89cf74b9139ef4fb6bd38c, type: 2}
+      propertyPath: blueCardTypesPictos.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300020, guid: fc5e269ca67b74355a1e8521b84b2d19,
+        type: 3}
+    - target: {fileID: 11486180, guid: f9e46e076b89cf74b9139ef4fb6bd38c, type: 2}
+      propertyPath: blueCardTypesPictos.Array.data[2]
+      value: 
+      objectReference: {fileID: 21300050, guid: fc5e269ca67b74355a1e8521b84b2d19,
+        type: 3}
+    - target: {fileID: 11486180, guid: f9e46e076b89cf74b9139ef4fb6bd38c, type: 2}
+      propertyPath: blueCardTypesPictos.Array.data[3]
+      value: 
+      objectReference: {fileID: 21300074, guid: fc5e269ca67b74355a1e8521b84b2d19,
+        type: 3}
+    - target: {fileID: 11486180, guid: f9e46e076b89cf74b9139ef4fb6bd38c, type: 2}
+      propertyPath: blueCardTypesPictos.Array.data[4]
+      value: 
+      objectReference: {fileID: 21300062, guid: fc5e269ca67b74355a1e8521b84b2d19,
+        type: 3}
+    - target: {fileID: 11486180, guid: f9e46e076b89cf74b9139ef4fb6bd38c, type: 2}
+      propertyPath: blueCardTypesPictos.Array.data[5]
+      value: 
+      objectReference: {fileID: 21300032, guid: fc5e269ca67b74355a1e8521b84b2d19,
+        type: 3}
+    - target: {fileID: 11486180, guid: f9e46e076b89cf74b9139ef4fb6bd38c, type: 2}
+      propertyPath: blueCardTypesPictos.Array.data[6]
+      value: 
+      objectReference: {fileID: 21300026, guid: fc5e269ca67b74355a1e8521b84b2d19,
+        type: 3}
+    - target: {fileID: 11486180, guid: f9e46e076b89cf74b9139ef4fb6bd38c, type: 2}
+      propertyPath: blueCardTypesPictos.Array.data[7]
+      value: 
+      objectReference: {fileID: 21300044, guid: fc5e269ca67b74355a1e8521b84b2d19,
+        type: 3}
+    - target: {fileID: 11486180, guid: f9e46e076b89cf74b9139ef4fb6bd38c, type: 2}
+      propertyPath: blueCardTypesPictos.Array.data[8]
+      value: 
+      objectReference: {fileID: 21300056, guid: fc5e269ca67b74355a1e8521b84b2d19,
+        type: 3}
+    - target: {fileID: 11486180, guid: f9e46e076b89cf74b9139ef4fb6bd38c, type: 2}
+      propertyPath: blueCardTypesPictos.Array.data[9]
+      value: 
+      objectReference: {fileID: 21300068, guid: fc5e269ca67b74355a1e8521b84b2d19,
+        type: 3}
+    - target: {fileID: 11486180, guid: f9e46e076b89cf74b9139ef4fb6bd38c, type: 2}
+      propertyPath: redCardTypesPictos.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300042, guid: fc5e269ca67b74355a1e8521b84b2d19,
+        type: 3}
+    - target: {fileID: 11486180, guid: f9e46e076b89cf74b9139ef4fb6bd38c, type: 2}
+      propertyPath: redCardTypesPictos.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300024, guid: fc5e269ca67b74355a1e8521b84b2d19,
+        type: 3}
+    - target: {fileID: 11486180, guid: f9e46e076b89cf74b9139ef4fb6bd38c, type: 2}
+      propertyPath: redCardTypesPictos.Array.data[2]
+      value: 
+      objectReference: {fileID: 21300054, guid: fc5e269ca67b74355a1e8521b84b2d19,
+        type: 3}
+    - target: {fileID: 11486180, guid: f9e46e076b89cf74b9139ef4fb6bd38c, type: 2}
+      propertyPath: redCardTypesPictos.Array.data[3]
+      value: 
+      objectReference: {fileID: 21300078, guid: fc5e269ca67b74355a1e8521b84b2d19,
+        type: 3}
+    - target: {fileID: 11486180, guid: f9e46e076b89cf74b9139ef4fb6bd38c, type: 2}
+      propertyPath: redCardTypesPictos.Array.data[4]
+      value: 
+      objectReference: {fileID: 21300066, guid: fc5e269ca67b74355a1e8521b84b2d19,
+        type: 3}
+    - target: {fileID: 11486180, guid: f9e46e076b89cf74b9139ef4fb6bd38c, type: 2}
+      propertyPath: redCardTypesPictos.Array.data[5]
+      value: 
+      objectReference: {fileID: 21300036, guid: fc5e269ca67b74355a1e8521b84b2d19,
+        type: 3}
+    - target: {fileID: 11486180, guid: f9e46e076b89cf74b9139ef4fb6bd38c, type: 2}
+      propertyPath: redCardTypesPictos.Array.data[6]
+      value: 
+      objectReference: {fileID: 21300030, guid: fc5e269ca67b74355a1e8521b84b2d19,
+        type: 3}
+    - target: {fileID: 11486180, guid: f9e46e076b89cf74b9139ef4fb6bd38c, type: 2}
+      propertyPath: redCardTypesPictos.Array.data[7]
+      value: 
+      objectReference: {fileID: 21300048, guid: fc5e269ca67b74355a1e8521b84b2d19,
+        type: 3}
+    - target: {fileID: 11486180, guid: f9e46e076b89cf74b9139ef4fb6bd38c, type: 2}
+      propertyPath: redCardTypesPictos.Array.data[8]
+      value: 
+      objectReference: {fileID: 21300060, guid: fc5e269ca67b74355a1e8521b84b2d19,
+        type: 3}
+    - target: {fileID: 11486180, guid: f9e46e076b89cf74b9139ef4fb6bd38c, type: 2}
+      propertyPath: redCardTypesPictos.Array.data[9]
+      value: 
+      objectReference: {fileID: 21300072, guid: fc5e269ca67b74355a1e8521b84b2d19,
+        type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f9e46e076b89cf74b9139ef4fb6bd38c, type: 2}
   m_IsPrefabParent: 0

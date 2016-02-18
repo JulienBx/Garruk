@@ -163,13 +163,9 @@ public class NewCardController : NewFocusedCardController
 					}
 
 					this.skillPopUp.transform.FindChild("description").GetComponent<TextMeshPro>().text=this.c.getSkillText(WordingSkills.getDescription(this.c.Skills[skillDisplayed].Id,this.c.Skills[skillDisplayed].Power-1));
-					if(newSkillHovered==0)
+					this.skillPopUp.transform.position=new Vector3(skillPopUpXPosition,gameObject.transform.position.y+1.8f+(-newSkillHovered*0.40f)*(0.5f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y),-1f);
+					if(newSkillHovered!=0)
 					{
-						this.skillPopUp.transform.position=new Vector3(skillPopUpXPosition,gameObject.transform.position.y-0.8f+(+0.6f)*(0.5f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y),-1f);
-					}
-					else
-					{
-						this.skillPopUp.transform.position=new Vector3(skillPopUpXPosition,gameObject.transform.position.y+0.8f+(-0.6f+(newSkillHovered-1f)*0.24f)*(0.5f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y),-1f);
 						this.skillPopUp.transform.FindChild("description").GetComponent<TextMeshPro>().text+=(WordingCard.getReference(0)+this.c.Skills[skillDisplayed].proba+WordingCard.getReference(1));
 					}
 					this.skillPopUp.transform.FindChild("title").GetComponent<TextMeshPro>().text=WordingSkills.getName(this.c.Skills[skillDisplayed].Id);
@@ -209,28 +205,28 @@ public class NewCardController : NewFocusedCardController
 	{
 		Vector3 cursorPosition = this.getCurrentCamera().ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, Input.mousePosition.z));
 
-		if(cursorPosition.x>this.gameObject.transform.position.x-(0.45f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.x) && 
+		if(cursorPosition.x>this.gameObject.transform.position.x+(0.2f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.x) && 
 		   cursorPosition.x<this.gameObject.transform.position.x+(0.45f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.x))
 		{
-			if(cursorPosition.y>this.gameObject.transform.position.y+(0.5f*0.50f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y) && 
-			   cursorPosition.y<this.gameObject.transform.position.y+(0.5f*0.70f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y))
+			if(cursorPosition.y>this.gameObject.transform.position.y+(0.5f*0.5f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y) && 
+			   cursorPosition.y<this.gameObject.transform.position.y+(0.5f*0.90f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y))
 			{
 				return 0;
 			}
-			else if(cursorPosition.y>this.gameObject.transform.position.y-(0.5f*0.30f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y) && 
-			        cursorPosition.y<this.gameObject.transform.position.y-(0.5f*0.10f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y))
+			else if(cursorPosition.y>this.gameObject.transform.position.y+(0.5f*0.1f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y) && 
+			        cursorPosition.y<this.gameObject.transform.position.y+(0.5f*0.5f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y))
 			{
-				return 3;
+				return 1;
 			}
-			else if(cursorPosition.y>this.gameObject.transform.position.y-(0.5f*0.50f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y) && 
-			        cursorPosition.y<this.gameObject.transform.position.y-(0.5f*0.30f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y))
+			else if(cursorPosition.y>this.gameObject.transform.position.y-(0.5f*0.3f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y) && 
+			        cursorPosition.y<this.gameObject.transform.position.y+(0.5f*0.1f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y))
 			{
 				return 2;
 			}
-			else if(cursorPosition.y>this.gameObject.transform.position.y-(0.5f*0.70f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y) && 
-			        cursorPosition.y<this.gameObject.transform.position.y-(0.5f*0.50f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y))
+			else if(cursorPosition.y>this.gameObject.transform.position.y-(0.5f*0.7f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y) && 
+			        cursorPosition.y<this.gameObject.transform.position.y-(0.5f*0.3f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y))
 			{
-				return 1;
+				return 3;
 			}
 			else
 			{
