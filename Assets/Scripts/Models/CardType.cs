@@ -5,11 +5,14 @@ public class CardType
 {
 	public string Name;
 	public int Id;
-	public int IdPicture;
 	public string Description;
 	
 	public CardType()
 	{
+	}
+	public int getPictureId()
+	{
+		return this.Id;
 	}
 }
 

@@ -1386,7 +1386,7 @@ public class NewMarketController : MonoBehaviour
 				bool testCardTypes=false;
 				for(int j=0;j<nbFilters;j++)
 				{
-					if (model.cards.getCard (i).IdClass == this.filtersCardType [j])
+					if (model.cards.getCard (i).CardType.Id == this.filtersCardType [j])
 					{
 						testCardTypes=true;
 						break;
