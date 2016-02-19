@@ -901,6 +901,7 @@ public class NewStoreController : MonoBehaviour
 		{
 			this.displayBackUI(true);
 		}
+		TutorialObjectController.instance.tutorialTrackPoint();
 	}
 	public void leftClickedHandler(int id)
 	{
@@ -915,6 +916,7 @@ public class NewStoreController : MonoBehaviour
 	public void displayCardFocused()
 	{
 		this.sceneCamera.transform.position = ApplicationDesignRules.sceneCameraFocusedCardPosition;
+		TutorialObjectController.instance.tutorialTrackPoint();
 	}
 	public void displayRandomCards()
 	{

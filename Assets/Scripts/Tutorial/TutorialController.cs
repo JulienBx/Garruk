@@ -64,7 +64,7 @@ public class TutorialController : MonoBehaviour
 
 		float caractersYPosition;
 
-		Vector2 backgroundSize = new Vector2 (1913f,1080f);
+		Vector2 backgroundSize = new Vector2 (1920f,1080f);
 		Vector2 backgroundWorldSize = new Vector2 ();
 		Vector3 backgroundScale = new Vector3 ();
 		float backgroundYScale;

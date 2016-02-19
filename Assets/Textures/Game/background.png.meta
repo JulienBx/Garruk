@@ -57,16 +57,16 @@ TextureImporter:
         serializedVersion: 2
         x: 1
         y: 967
-        width: 1913
+        width: 1920
         height: 1080
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -956.5, y: 540}
-        - {x: -956.5, y: -540}
-        - {x: 956.5, y: -540}
-        - {x: 956.5, y: 540}
+      - - {x: -960, y: 540}
+        - {x: -960, y: -540}
+        - {x: 960, y: -540}
+        - {x: 960, y: 540}
     - name: popUpBackground
       rect:
         serializedVersion: 2

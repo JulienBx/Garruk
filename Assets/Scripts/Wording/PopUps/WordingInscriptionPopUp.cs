@@ -16,7 +16,7 @@ public class WordingInscriptionPopUp
 		references=new List<string[]>();
 		references.Add(new string[]{"Inscription rapide",""}); //0
 		references.Add(new string[]{"Pseudo",""}); //1
-		references.Add(new string[]{"3 caractères minimum",""}); //2
+		references.Add(new string[]{"Entre 3 et 12 caractères",""}); //2
 		references.Add(new string[]{"Mot de passe",""}); //3
 		references.Add(new string[]{"5 caractères minimum",""}); //4
 		references.Add(new string[]{"Confirmer mot de passe",""}); //5
