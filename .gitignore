@@ -61,7 +61,9 @@ $RECYCLE.BIN/
 *.msi
 *.msm
 *.msp
+
 garruk_Data
+garruk_Data/
 *.assets
 garruk.exe
 ProjectSettings/EditorBuildSettings.asset
@@ -109,3 +111,5 @@ Assets/HOTween/readme.txt
 Assets/HOTween/readme.txt.meta
 
 Assets/codeandweb.com/*
+
+garruk.exe

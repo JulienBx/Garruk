@@ -56,12 +56,9 @@ public class Desequilibre : GameSkill
 		else{
 			nextTile = new Tile(targetTile.x+(targetTile.x-currentTile.x),targetTile.y+(targetTile.y-currentTile.y));
 		}
-		Debug.Log("J'essaye de repousser sur ("+nextTile.x+","+nextTile.y+")");
 		if(nextTile.x>=0 && nextTile.x<GameView.instance.getBoardWidth() && nextTile.y>=0 && nextTile.y<GameView.instance.getBoardHeight()){
-			Debug.Log("Je passe le controle tile");
 			if(!GameView.instance.getTileController(nextTile).isRock() && GameView.instance.getTileController(nextTile).getCharacterID()==-1){
-				Debug.Log("Je passe le controle type");
-				GameView.instance.launchMove(nextTile,target,false);
+				GameView.instance.clickDestination(nextTile,target);
 				text+="\nRepoussé!";
 			}
 		}

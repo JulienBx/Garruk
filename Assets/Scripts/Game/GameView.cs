@@ -50,7 +50,6 @@ public class GameView : MonoBehaviour
 	public GameObject SB;
 	GameObject interlude;
 	public GameObject passZone;
-	public GameObject moveZone;
 	public GameObject skillZone;
 	
 	int heightScreen = -1;
@@ -114,7 +113,6 @@ public class GameView : MonoBehaviour
 		this.SB = GameObject.Find("SB");
 		this.interlude = GameObject.Find("Interlude");
 		this.passZone = GameObject.Find("PassZone");
-		this.moveZone = GameObject.Find("MoveZone");
 		this.skillZone = GameObject.Find("SkillZone");
 		this.popUp = GameObject.Find("PopUp");
 		this.validationSkill = GameObject.Find("ValidationAutoSkill");
@@ -175,10 +173,6 @@ public class GameView : MonoBehaviour
 	
 	public PassController getPassZoneController(){
 		return this.passZone.GetComponent<PassController>();
-	}
-	
-	public MoveController getMoveZoneController(){
-		return this.moveZone.GetComponent<MoveController>();
 	}
 	
 	public SkillZoneController getSkillZoneController(){
@@ -622,12 +616,8 @@ public class GameView : MonoBehaviour
 			this.getHisHoveredCardController().setNextDisplayedCharacter(-1, new GameCard());
 		}
 	}
-	
-	public void launchMove(Tile destination, int c, bool cancel){
-		StartCoroutine(this.clickDestination(destination, c, cancel));
-	}
 
-	public IEnumerator clickDestination(Tile destination, int c, bool cancel){
+	public void clickDestination(Tile destination, int c){
 		if(c!=-1 && !this.isFreezed){
 			Tile origine = this.getPlayingCardController(c).getTile();
 			this.tiles[origine.x, origine.y].GetComponentInChildren<TileController>().setCharacterID(-1);
@@ -643,11 +633,12 @@ public class GameView : MonoBehaviour
 			}
 			if(GameView.instance.hasFightStarted){
 				this.getCard(GameView.instance.getCurrentPlayingCard()).setHasMoved(true);
-				this.getCard(c).canCancelMove = !cancel ;
-				this.getCard(c).hasMoved = !cancel ;
+				this.getCard(c).hasMoved = true ;
+			}
+			else{
+				
 			}
 		}
-		yield break;
 	}
 
 	public IEnumerator checkDestination(int c){
@@ -1043,13 +1034,11 @@ public class GameView : MonoBehaviour
 	
 	public void updateActionStatus(){
 		this.getPassZoneController().updateButtonStatus (this.getCard(this.currentPlayingCard));
-		this.getMoveZoneController().updateButtonStatus (this.getCard(this.currentPlayingCard));
 		this.getSkillZoneController().updateButtonStatus (this.getCard(this.currentPlayingCard));
 	}
 
 	public void hideButtons(){
 		this.getPassZoneController().show (false);
-		this.getMoveZoneController().show (false);
 		this.getSkillZoneController().showCancelButton (false);
 		this.getSkillZoneController().showSkillButtons(false);
 	}
@@ -1095,10 +1084,6 @@ public class GameView : MonoBehaviour
 	
 	public void displayCurrentMove(){
 		this.displayDestinations(this.currentPlayingCard);
-	}
-	
-	public void resetMoveButton(){
-		this.getMoveZoneController().updateButtonStatus(this.getCard(this.currentPlayingCard));
 	}
 	
 	void Update()
@@ -2279,7 +2264,7 @@ public class GameView : MonoBehaviour
 
 		if(character!=-1){
 			if(distance > 0){
-				StartCoroutine(this.clickDestination(chosenTile, this.currentPlayingCard, false));
+				this.clickDestination(chosenTile, this.currentPlayingCard);
 			}
 		}
 		else{
@@ -2297,7 +2282,7 @@ public class GameView : MonoBehaviour
 					}
 				}
 			}
-			StartCoroutine(this.clickDestination(chosenTile, this.currentPlayingCard, false));
+			this.clickDestination(chosenTile, this.currentPlayingCard);
 		}
 		return character ;
 	}
@@ -2330,7 +2315,7 @@ public class GameView : MonoBehaviour
 
 		if(character!=-1){
 			if(distance > 0){
-				StartCoroutine(this.clickDestination(chosenTile, this.currentPlayingCard, false));
+				this.clickDestination(chosenTile, this.currentPlayingCard);
 			}
 		}
 		else{
@@ -2353,7 +2338,7 @@ public class GameView : MonoBehaviour
 				}
 			}
 			print("Je déplace sur ("+chosenTile.x+","+chosenTile.y+")");
-			StartCoroutine(this.clickDestination(chosenTile, this.currentPlayingCard, false));
+			this.clickDestination(chosenTile, this.currentPlayingCard);
 		}
 		return character ;
 	}
@@ -2390,7 +2375,6 @@ public class GameView : MonoBehaviour
 		this.getPassZoneController().show(false);
 		this.getSkillZoneController().showCancelButton(false);
 		this.getSkillZoneController().showSkillButtons(false);
-		this.getMoveZoneController().show(false);
 		this.hoverTile();
 		if(GameSkills.instance.getSkill(this.runningSkill).ciblage>0){
 			this.displaySkillEffect(this.currentPlayingCard,s,1);
@@ -2401,7 +2385,6 @@ public class GameView : MonoBehaviour
 	public IEnumerator endPlay()
 	{
 		this.getCard(this.currentPlayingCard).hasPlayed = true ;
-		this.getCard(this.currentPlayingCard).canCancelMove = false;
 		this.getSkillZoneController().isRunningSkill=false;
 		if(this.runningSkill==9){
 			this.getCurrentSkill().hasBeenPlayed = true ;
@@ -2474,12 +2457,6 @@ public class GameView : MonoBehaviour
 	public void hideTuto(){
 		this.popUp.GetComponent<PopUpGameController>().show(false);
 		this.interlude.GetComponent<InterludeController>().unPause();
-	}
-	
-	public void cancelMove(){
-		GameController.instance.clickDestination(this.getCard(this.currentPlayingCard).previousTile,this.currentPlayingCard, true);
-		this.getMoveZoneController().updateButtonStatus(this.getCurrentCard());
-		this.getSkillZoneController().updateButtonStatus(this.getCurrentCard());
 	}
 	
 	public void showResult(bool isSuccess)

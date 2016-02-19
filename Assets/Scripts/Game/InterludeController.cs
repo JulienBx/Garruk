@@ -154,7 +154,6 @@ public class InterludeController : MonoBehaviour
 				GameView.instance.getPassZoneController().show(false);
 				GameView.instance.getSkillZoneController().showSkillButtons(false);
 				GameView.instance.getSkillZoneController().showCancelButton(false);
-				GameView.instance.getMoveZoneController().show(false);
 				GameView.instance.displayDestinations (GameView.instance.getCurrentPlayingCard());
 			
 				if(ApplicationModel.player.ToLaunchGameTutorial){
@@ -166,8 +165,6 @@ public class InterludeController : MonoBehaviour
 					StartCoroutine(GameView.instance.launchFury());
 				}
 				GameView.instance.runningSkill = -1;
-				GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).previousTile = GameView.instance.getPlayingCardTile(GameView.instance.getCurrentPlayingCard());
-				GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).canCancelMove = false ;
 
 				if(GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).isMine){
 					if(ApplicationModel.player.ToLaunchGameTutorial){
@@ -184,7 +181,6 @@ public class InterludeController : MonoBehaviour
 				else{
 					GameView.instance.skillZone.GetComponent<SkillZoneController>().showCancelButton(false);
 					GameView.instance.skillZone.GetComponent<SkillZoneController>().showSkillButtons(false);
-					GameView.instance.getMoveZoneController().show(false);
 					GameView.instance.getPassZoneController().show(false);
 					GameView.instance.SB.GetComponent<StartButtonController>().setText("En attente du joueur adverse");
 					GameView.instance.SB.GetComponent<StartButtonController>().showText(true);

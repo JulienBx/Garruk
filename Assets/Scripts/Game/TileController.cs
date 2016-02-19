@@ -178,7 +178,6 @@ public class TileController : GameObjectController
 			}
 			this.isTrapped=false;
 			this.showTrap(false);
-			GameView.instance.getCard(this.characterID).canCancelMove = false;
 			this.showDescription(false);
 			isSuccess = true ;
 		}
@@ -379,7 +378,7 @@ public class TileController : GameObjectController
 						GameView.instance.clickEmpty();
 					}
 					else{
-						GameController.instance.clickDestination(this.tile, GameView.instance.getCurrentPlayingCard(), false);
+						GameController.instance.clickDestination(this.tile, GameView.instance.getCurrentPlayingCard());
 					}
 				}
 				if(ApplicationModel.player.ToLaunchGameTutorial){
