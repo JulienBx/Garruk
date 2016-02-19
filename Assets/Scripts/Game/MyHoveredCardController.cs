@@ -16,39 +16,6 @@ public class MyHoveredCardController : HoveredCardController
 		position = tempTransform.localPosition ;
 		position.x = -0.50f*this.realwidth-5f;
 		tempTransform.localPosition = position;	
-		
-		tempTransform = gameObject.transform.FindChild("Skill1").FindChild("Picto");
-		position = tempTransform.localPosition ;
-		position.x = 5f-(realwidth/2f-3f)+0.5f;
-		tempTransform.localPosition = position;
-		
-		tempTransform = gameObject.transform.FindChild("Skill1").FindChild("TitleText");
-		position = tempTransform.localPosition ;
-		position.x = 5f-(realwidth/2f-3f)+1f;
-		tempTransform.localPosition = position;
-		tempTransform.GetComponent<TextContainer>().width = (realwidth/2f-3f)-2.5f;
-		
-		tempTransform = gameObject.transform.FindChild("Skill2").FindChild("Picto");
-		position = tempTransform.localPosition ;
-		position.x = 5f-(realwidth/2f-3f)+0.5f;
-		tempTransform.localPosition = position;
-		
-		tempTransform = gameObject.transform.FindChild("Skill2").FindChild("TitleText");
-		position = tempTransform.localPosition ;
-		position.x = 5f-(realwidth/2f-3f)+1f;
-		tempTransform.localPosition = position;
-		tempTransform.GetComponent<TextContainer>().width = (realwidth/2f-3f)-2.5f;
-		
-		tempTransform = gameObject.transform.FindChild("Skill3").FindChild("Picto");
-		position = tempTransform.localPosition ;
-		position.x = 5f-(realwidth/2f-3f)+0.5f;
-		tempTransform.localPosition = position;
-		
-		tempTransform = gameObject.transform.FindChild("Skill3").FindChild("TitleText");
-		position = tempTransform.localPosition ;
-		position.x = 5f-(realwidth/2f-3f)+1f;
-		tempTransform.localPosition = position;
-		tempTransform.GetComponent<TextContainer>().width = (realwidth/2f-3f)-2.5f;
 	}
 	
 	public void addTime(float f){

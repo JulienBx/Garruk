@@ -1930,7 +1930,7 @@ MonoBehaviour:
   - {fileID: 21300088, guid: 075994fcb3c9ef54e9ee86a9f415b94e, type: 3}
   - {fileID: 21300090, guid: 075994fcb3c9ef54e9ee86a9f415b94e, type: 3}
   - {fileID: 21300086, guid: 075994fcb3c9ef54e9ee86a9f415b94e, type: 3}
-  - {fileID: 21300092, guid: 075994fcb3c9ef54e9ee86a9f415b94e, type: 3}
+  - {fileID: 21300102, guid: 075994fcb3c9ef54e9ee86a9f415b94e, type: 3}
   - {fileID: 21300076, guid: 075994fcb3c9ef54e9ee86a9f415b94e, type: 3}
   - {fileID: 21300092, guid: 075994fcb3c9ef54e9ee86a9f415b94e, type: 3}
   - {fileID: 21300078, guid: 075994fcb3c9ef54e9ee86a9f415b94e, type: 3}
@@ -3726,6 +3726,11 @@ Prefab:
       propertyPath: backgroundSprites.Array.data[6]
       value: 
       objectReference: {fileID: 21300076, guid: 075994fcb3c9ef54e9ee86a9f415b94e,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: backgroundSprites.Array.data[72]
+      value: 
+      objectReference: {fileID: 21300102, guid: 075994fcb3c9ef54e9ee86a9f415b94e,
         type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

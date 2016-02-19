@@ -65,7 +65,7 @@ public class HoveredCardController : MonoBehaviour
 		}
 		gameObject.transform.FindChild("Character").GetComponent<SpriteRenderer>().sprite = GameView.instance.getSprite(c.Skills[0].Id);
 		gameObject.transform.FindChild("Title").FindChild("Text").GetComponent<TextMeshPro>().text = c.getSkills()[0].Name;
-		gameObject.transform.FindChild("Title").FindChild("Picto").GetComponent<SpriteRenderer>().sprite = GameView.instance.getCardTypeSprite(c.CardType.Id);
+		gameObject.transform.FindChild("Title").FindChild("Picto").GetComponent<SpriteRenderer>().sprite = GameView.instance.getCardTypeSprite(10*(c.getSkills()[0].Level-1)+c.CardType.Id);
 		for (int i = 1 ; i < c.getSkills().Count ; i++){
 			if(c.getSkills()[i].IsActivated==1){
 				gameObject.transform.FindChild("Skill"+i).GetComponent<SpriteRenderer>().enabled = true;

@@ -145,6 +145,13 @@ public class GameView : MonoBehaviour
 		this.hasStep3 = false ;
 		this.hasStep2 = false;
 		this.blockFury = false;
+
+		if(ApplicationModel.player.ToLaunchGameTutorial){
+			this.turnTime = 1200;
+		}
+		else{
+			this.turnTime = 480;
+		}
 	}
 	
 	public void displayLoadingScreen()
