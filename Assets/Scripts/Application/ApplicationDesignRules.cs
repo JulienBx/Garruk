@@ -71,10 +71,10 @@ public class ApplicationDesignRules : MonoBehaviour
 	static private Vector3 tabMobileScale = new Vector3 (0.575f, 0.575f, 0.575f);
 	static public Vector3 tabScale;
 
-	static private Vector2 mainLogoSize=new Vector2(323f,87f);
+	static private Vector2 mainLogoSize=new Vector2(1237f,254f);
 	static public Vector2 mainLogoWorldSize;
-	static private Vector3 mainLogoOriginalScale=new Vector3(1.2f,1.2f,1.2f);
-	static private Vector3 mainLogoMobileScale = new Vector3 (1f, 1f, 1f);
+	static private Vector3 mainLogoOriginalScale=new Vector3(0.5f,0.5f,0.5f);
+	static private Vector3 mainLogoMobileScale = new Vector3 (0.4f, 0.4f, 0.4f);
 	static public Vector3 mainLogoScale;
 
 	static private Vector2 button61Size = new Vector2 (376f, 81f);
