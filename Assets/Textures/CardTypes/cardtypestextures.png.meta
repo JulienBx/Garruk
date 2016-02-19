@@ -44,6 +44,7 @@ TextureImporter:
     21300074: trooper-b
     21300076: trooper-g
     21300078: trooper-r
+    21300080: terra-b
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -769,7 +770,7 @@ TextureImporter:
         - {x: 72, y: -81}
         - {x: 103, y: -63}
         - {x: 103, y: 61}
-    - name: terr&a-b
+    - name: terra-b
       rect:
         serializedVersion: 2
         x: 529

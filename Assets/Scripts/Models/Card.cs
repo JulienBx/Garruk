@@ -425,6 +425,7 @@ public class Card
 				this.Skills[j-1].nextDescription=cardInfo[9];
 				this.Skills[j-1].nextProba=System.Convert.ToInt32(cardInfo[10]);
 				this.Skills[j-1].nextLevel=System.Convert.ToInt32(cardInfo[11]);
+				this.Skills[j-1].CardType=new CardType();
 			}
 		}
 

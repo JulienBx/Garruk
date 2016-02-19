@@ -11,14 +11,14 @@ public class FocusedSkillController : MonoBehaviour
 	{
 		gameObject.transform.FindChild ("closebutton").GetComponent<FocusedSkillExitButtonController> ().reset ();
 		gameObject.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingSkills.getName(s.Id);
-		gameObject.transform.FindChild("CardType").GetComponent<SpriteRenderer> ().sprite = BackOfficeController.instance.returnCardTypePicto (s.IdCardType,1);
+		gameObject.transform.FindChild("CardType").GetComponent<SpriteRenderer> ().sprite = BackOfficeController.instance.returnCardTypePicto (s.CardType.getPictureId(),1);
 		gameObject.transform.FindChild("SkillType").GetComponent<SpriteRenderer> ().sprite = BackOfficeController.instance.returnSkillTypePicture (s.IdSkillType);
 		gameObject.transform.FindChild("SkillType").FindChild("Title").GetComponent<TextMeshPro> ().text = WordingSkillTypes.getName(s.IdSkillType).Substring (0, 1).ToUpper();
-		gameObject.transform.FindChild ("CardTypeTitle").GetComponent<TextMeshPro> ().text =WordingCardTypes.getName(s.IdCardType);
+		gameObject.transform.FindChild ("CardTypeTitle").GetComponent<TextMeshPro> ().text =WordingCardTypes.getName(s.CardType.Id);
 		gameObject.transform.FindChild ("SkillTypeTitle").GetComponent<TextMeshPro> ().text = WordingSkillTypes.getName(s.IdSkillType);
 		if(isPassiveSkill)
 		{
-			this.gameObject.transform.FindChild("Picto").GetComponent<SpriteRenderer> ().sprite = BackOfficeController.instance.returnCardTypePicto(s.IdCardType,1);
+			this.gameObject.transform.FindChild("Picto").GetComponent<SpriteRenderer> ().sprite = BackOfficeController.instance.returnCardTypePicto(s.CardType.getPictureId(),1);
 		}
 		else
 		{

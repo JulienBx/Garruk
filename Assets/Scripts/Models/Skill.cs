@@ -17,7 +17,7 @@ public class Skill
 	public float Ponderation;
 	public int XMin;
 	public string Action;
-	public int IdCardType;
+	public CardType CardType;
 	public Texture2D texture;
 	public string Picture;
 	public bool IsNew;
@@ -28,6 +28,7 @@ public class Skill
 	public int[] AllProbas;
 	public int IdSkillType;
 	public bool hasBeenPlayed ;
+	public bool IsActiveSkill;
 	
 	public Skill(string name, string description, int id, int c, int p)
 	{

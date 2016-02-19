@@ -1234,7 +1234,7 @@ public class NewSkillBookController : MonoBehaviour
 				bool testCardTypes=false;
 				for(int j=0;j<nbCardTypeFilters;j++)
 				{
-					if (model.skillsList[i].IdCardType == this.filtersCardType [j])
+					if (model.skillsList[i].CardType.Id == this.filtersCardType [j])
 					{
 						testCardTypes=true;
 						break;
@@ -1289,7 +1289,7 @@ public class NewSkillBookController : MonoBehaviour
 				{
 					if(!idCards.Contains(model.cardIdsList[j]))
 					{
-						this.cardTypesNbCards[model.skillsList[i].IdCardType]++;
+						this.cardTypesNbCards[model.skillsList[i].CardType.Id]++;
 						idCards.Add (model.cardIdsList[j]);
 					}
 					this.skillsNbCards[i]++;
@@ -1309,7 +1309,7 @@ public class NewSkillBookController : MonoBehaviour
 		{
 			for(int j=0;j<model.skillsList.Count;j++)
 			{
-				if(model.skillsList[j].IdCardType==i)
+				if(model.skillsList[j].CardType.Id==i)
 				{
 					this.cardTypesNbSkills[i]++;
 					if(this.skillsNbCards[j]>0)
