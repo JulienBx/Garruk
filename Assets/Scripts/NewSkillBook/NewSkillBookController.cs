@@ -4,6 +4,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using TMPro;
+using System.Text;
+using System.Globalization;
 
 public class NewSkillBookController : MonoBehaviour
 {
@@ -466,6 +468,10 @@ public class NewSkillBookController : MonoBehaviour
 		this.helpContents [0].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text =  WordingSkillBook.getReference(5);
 		this.helpContents [1].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text =  WordingSkillBook.getReference(6);
 		this.helpContents [2].transform.FindChild ("Title").GetComponent<TextMeshPro> ().text =  WordingSkillBook.getReference(7);
+		this.helpContents [0].transform.FindChild("Picture").FindChild("Title").GetComponent<TextMeshPro> ().text =  WordingSkills.getName(2);
+		this.helpContents [1].transform.FindChild("Picture").FindChild("Title").GetComponent<TextMeshPro> ().text =  WordingSkills.getName(72);
+		this.helpContents [2].transform.FindChild("Picture").FindChild("Title").GetComponent<TextMeshPro> ().text =  WordingSkills.getName(3);
+
 		this.helpPaginationButtons = GameObject.Find ("HelpPagination");
 		this.helpPaginationButtons.AddComponent<NewSkillBookHelpPaginationController> ();
 		this.helpPaginationButtons.GetComponent<NewSkillBookHelpPaginationController> ().initialize ();
@@ -601,7 +607,7 @@ public class NewSkillBookController : MonoBehaviour
 			helpSubTitleFirstLine=ApplicationDesignRules.subMainTitleVerticalSpacing;
 			helpLinePositionY=2.2f;
 			helpContentsFirstLine=2.2f;
-			helpContentsHeight=0.9f;
+			helpContentsHeight=1.5f;
 			helpBlockHeight=ApplicationDesignRules.viewHeight-ApplicationDesignRules.tabWorldSize.y;
 			helpBlockLeftMargin=-ApplicationDesignRules.worldWidth;
 			helpBlockUpMargin=0f+ApplicationDesignRules.tabWorldSize.y;
@@ -798,17 +804,7 @@ public class NewSkillBookController : MonoBehaviour
 		this.helpSubtitle.GetComponent<TextContainer> ().width = (helpBlockSize.x - 2f*ApplicationDesignRules.blockHorizontalSpacing)*1/ApplicationDesignRules.subMainTitleScale.x;
 		this.helpSubtitle.GetComponent<TextContainer> ().height = (helpBlockSize.y - 2f*ApplicationDesignRules.blockHorizontalSpacing)*1/ApplicationDesignRules.subMainTitleScale.y;
 
-		float helpContentPictureHeight = helpContentsHeight - 0.1f;
 
-		for(int i=0;i<this.helpContents.Length;i++)
-		{
-			float scale = helpContentPictureHeight/(this.helpContents[i].transform.FindChild("Picture").GetComponent<SpriteRenderer>().bounds.size.x);
-			this.helpContents[i].transform.FindChild("Picture").localScale=scale*this.helpContents[i].transform.FindChild("Picture").localScale;
-			this.helpContents[i].transform.FindChild("Picture").position=new Vector3(helpBlockUpperLeftPosition.x+ApplicationDesignRules.blockHorizontalSpacing+helpContentPictureHeight/2f,helpBlockUpperLeftPosition.y-helpContentsFirstLine-helpContentsHeight/2f-i*(helpContentsHeight),0f);
-			this.helpContents[i].transform.FindChild("Title").localScale=new Vector3(ApplicationDesignRules.reductionRatio,ApplicationDesignRules.reductionRatio,ApplicationDesignRules.reductionRatio);
-			this.helpContents[i].transform.FindChild("Title").position=new Vector3(helpBlockUpperLeftPosition.x+ApplicationDesignRules.blockHorizontalSpacing+0.1f+helpContentPictureHeight,helpBlockUpperLeftPosition.y-helpContentsFirstLine-helpContentsHeight/2f-i*(helpContentsHeight),0f);
-			this.helpContents[i].transform.FindChild("Title").GetComponent<TextContainer>().width=(helpBlockSize.x-2f*ApplicationDesignRules.blockHorizontalSpacing-0.1f-helpContentPictureHeight)*1/(ApplicationDesignRules.reductionRatio);
-		}
 
 		this.mainContentPositionX = skillsBlockOrigin.x;
 		this.helpContentPositionX=helpBlockOrigin.x;
@@ -893,6 +889,20 @@ public class NewSkillBookController : MonoBehaviour
 				this.stats[i].transform.position=new Vector3(helpBlockLowerLeftPosition.x+helpBlockSize.x/2f,helpBlockUpperLeftPosition.y-3.1f-i*1.2f);
 				this.stats[i].transform.localScale= ApplicationDesignRules.reductionRatio*statsScale;
 				this.stats[i].transform.FindChild("Title").GetComponent<TextContainer>().width=helpBlockSize.x;
+			}
+
+			float helpContentPictureHeight = helpContentsHeight - 0.8f;
+
+			for(int i=0;i<this.helpContents.Length;i++)
+			{
+				this.helpContents[i].transform.FindChild("Title").GetComponent<TextContainer>().anchorPosition =  TextContainerAnchors.Middle;
+				this.helpContents[i].transform.FindChild("Title").GetComponent<TextMeshPro>().alignment = TextAlignmentOptions.Center;
+				float scale = helpContentPictureHeight/(this.helpContents[i].transform.FindChild("Picture").GetComponent<SpriteRenderer>().bounds.size.y);
+				this.helpContents[i].transform.FindChild("Picture").localScale=scale*this.helpContents[i].transform.FindChild("Picture").localScale;
+				this.helpContents[i].transform.FindChild("Picture").position=new Vector3(helpBlockOrigin.x,helpBlockUpperLeftPosition.y-helpContentsFirstLine-helpContentsHeight/2f-i*(helpContentsHeight),0f);
+				this.helpContents[i].transform.FindChild("Title").localScale=new Vector3(ApplicationDesignRules.reductionRatio,ApplicationDesignRules.reductionRatio,ApplicationDesignRules.reductionRatio);
+				this.helpContents[i].transform.FindChild("Title").position=new Vector3(helpBlockOrigin.x,helpBlockUpperLeftPosition.y-helpContentsFirstLine-1.5f-i*(helpContentsHeight),0f);
+				this.helpContents[i].transform.FindChild("Title").GetComponent<TextContainer>().width=(helpBlockSize.x-2f*ApplicationDesignRules.blockHorizontalSpacing)*1/(ApplicationDesignRules.reductionRatio);
 			}
 		}
 		else
@@ -989,6 +999,21 @@ public class NewSkillBookController : MonoBehaviour
 				this.stats[i].transform.position=new Vector3(helpBlockLowerLeftPosition.x+0.3f+statsBlockSize.x/2f+i*statsBlockSize.x,helpBlockUpperLeftPosition.y-2.2f-statsBlockSize.y/2f);
 				this.stats[i].transform.localScale= ApplicationDesignRules.reductionRatio*statsScale;
 				this.stats[i].transform.FindChild("Title").GetComponent<TextContainer>().width=statsBlockSize.x;
+			}
+
+			float helpContentPictureHeight = helpContentsHeight - 0.2f;
+
+			for(int i=0;i<this.helpContents.Length;i++)
+			{
+				this.helpContents[i].transform.FindChild("Title").GetComponent<TextContainer>().anchorPosition =  TextContainerAnchors.Left;
+				this.helpContents[i].transform.FindChild("Title").GetComponent<TextMeshPro>().alignment = TextAlignmentOptions.Left;
+				float scale = helpContentPictureHeight/(this.helpContents[i].transform.FindChild("Picture").GetComponent<SpriteRenderer>().bounds.size.y);
+				this.helpContents[i].transform.FindChild("Picture").localScale=scale*this.helpContents[i].transform.FindChild("Picture").localScale;
+				float helpContentPictureWidth = this.helpContents[i].transform.FindChild("Picture").GetComponent<SpriteRenderer>().bounds.size.x;
+				this.helpContents[i].transform.FindChild("Picture").position=new Vector3(helpBlockUpperLeftPosition.x+ApplicationDesignRules.blockHorizontalSpacing+helpContentPictureWidth/2f,helpBlockUpperLeftPosition.y-helpContentsFirstLine-helpContentsHeight/2f-i*(helpContentsHeight),0f);
+				this.helpContents[i].transform.FindChild("Title").localScale=new Vector3(ApplicationDesignRules.reductionRatio,ApplicationDesignRules.reductionRatio,ApplicationDesignRules.reductionRatio);
+				this.helpContents[i].transform.FindChild("Title").position=new Vector3(helpBlockUpperLeftPosition.x+ApplicationDesignRules.blockHorizontalSpacing+0.1f+helpContentPictureWidth,helpBlockUpperLeftPosition.y-helpContentsFirstLine-helpContentsHeight/2f-i*(helpContentsHeight),0f);
+				this.helpContents[i].transform.FindChild("Title").GetComponent<TextContainer>().width=(helpBlockSize.x-2f*ApplicationDesignRules.blockHorizontalSpacing-0.1f-helpContentPictureWidth)*1/(ApplicationDesignRules.reductionRatio);
 			}
 		}
 		this.skillSearchBar.GetComponent<NewSkillBookSkillSearchBarController>().resize();
@@ -1347,7 +1372,7 @@ public class NewSkillBookController : MonoBehaviour
 		this.isSearchingSkill=false;
 		this.cleanSkillAutocompletion();
 		this.skillSearchBar.GetComponent<NewSkillBookSkillSearchBarController>().resetSearchBar();
-		this.skillSearchBar.GetComponent<NewSkillBookSkillSearchBarController>().setButtonText(WordingSkillBook.getReference(2));
+		this.skillSearchBar.GetComponent<NewSkillBookSkillSearchBarController>().setButtonText(WordingFilters.getReference(2));
 		this.valueSkill="Rechercher";
 	}
 	public void filterASkill(int id)
@@ -1370,7 +1395,7 @@ public class NewSkillBookController : MonoBehaviour
 		{
 			for (int i = 0; i < model.skillsList.Count; i++) 
 			{  
-				if (WordingSkills.getName(model.skillsList [i].Id).ToLower ().Contains (this.valueSkill.ToLower())) 
+				if(this.removeDiacritics(WordingSkills.getName(model.skillsList [i].Id).ToLower()).Contains(this.removeDiacritics(this.valueSkill).ToLower()))
 				{
 					this.skillsDisplayed.Add (i);
 					this.skillChoices[this.skillsDisplayed.Count-1].SetActive(true);
@@ -1520,6 +1545,21 @@ public class NewSkillBookController : MonoBehaviour
 			this.showFocusedSkill(id);
 			this.isLeftClicked=false;
 		}
+	}
+	private string removeDiacritics(string text) 
+	{
+	    var normalizedString = text.Normalize(NormalizationForm.FormD);
+	    var stringBuilder = new StringBuilder();
+
+	    foreach (var c in normalizedString)
+	    {
+	        var unicodeCategory = CharUnicodeInfo.GetUnicodeCategory(c);
+	        if (unicodeCategory != UnicodeCategory.NonSpacingMark)
+	        {
+	            stringBuilder.Append(c);
+	        }
+	    }
+	    return stringBuilder.ToString().Normalize(NormalizationForm.FormC);
 	}
 	#region TUTORIAL FUNCTIONS
 	
