@@ -276,18 +276,16 @@ public class GameView : MonoBehaviour
 
 		if (!isFirstP){
 			this.playingCards [index].GetComponentInChildren<PlayingCardController>().setTile(new Tile(4-c.deckOrder, hauteur), tiles [4-c.deckOrder, hauteur].GetComponent<TileController>().getPosition());
+			this.tiles [4-c.deckOrder, hauteur].GetComponent<TileController>().setCharacterID(index);
 		}
 		else{
 			this.playingCards [index].GetComponentInChildren<PlayingCardController>().setTile(new Tile(1+c.deckOrder, hauteur), tiles [c.deckOrder + 1, hauteur].GetComponent<TileController>().getPosition());
+			this.tiles [c.deckOrder + 1, hauteur].GetComponent<TileController>().setCharacterID(index);
+
 		}
 
 		if (isFirstP==isFirstPlayer){
-			this.tiles [c.deckOrder + 1, hauteur].GetComponent<TileController>().setCharacterID(index);
 			this.tiles [c.deckOrder + 1, hauteur].GetComponent<TileController>().setDestination(5);
-		}
-		else{
-			this.tiles [4-c.deckOrder, hauteur].GetComponent<TileController>().setCharacterID(index);
-			//this.tiles [c.deckOrder + 1, hauteur].GetComponent<TileController>().setDestination(6);
 		}
 
 		this.playingCards [index].GetComponentInChildren<PlayingCardController>().show();
