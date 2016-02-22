@@ -273,13 +273,19 @@ public class GameView : MonoBehaviour
 		int index = this.playingCards.Count-1;
 		
 		this.playingCards [index].GetComponentInChildren<PlayingCardController>().setCard(c, (isFirstP==isFirstPlayer), index);
+
+		if (!isFirstP){
+			this.playingCards [index].GetComponentInChildren<PlayingCardController>().setTile(new Tile(4-c.deckOrder, hauteur), tiles [4-c.deckOrder, hauteur].GetComponent<TileController>().getPosition());
+		}
+		else{
+			this.playingCards [index].GetComponentInChildren<PlayingCardController>().setTile(new Tile(1+c.deckOrder, hauteur), tiles [c.deckOrder + 1, hauteur].GetComponent<TileController>().getPosition());
+		}
+
 		if (isFirstP==isFirstPlayer){
-			this.playingCards [index].GetComponentInChildren<PlayingCardController>().setTile(new Tile(c.deckOrder + 1, hauteur), tiles [c.deckOrder + 1, hauteur].GetComponent<TileController>().getPosition());
 			this.tiles [c.deckOrder + 1, hauteur].GetComponent<TileController>().setCharacterID(index);
 			this.tiles [c.deckOrder + 1, hauteur].GetComponent<TileController>().setDestination(5);
 		}
 		else{
-			this.playingCards [index].GetComponentInChildren<PlayingCardController>().setTile(new Tile(4-c.deckOrder, hauteur), tiles [4-c.deckOrder, hauteur].GetComponent<TileController>().getPosition());
 			this.tiles [4-c.deckOrder, hauteur].GetComponent<TileController>().setCharacterID(index);
 			//this.tiles [c.deckOrder + 1, hauteur].GetComponent<TileController>().setDestination(6);
 		}
@@ -289,9 +295,9 @@ public class GameView : MonoBehaviour
 		this.playingCards [index].GetComponentInChildren<PlayingCardController>().checkPassiveSkills(isFirstP==this.isFirstPlayer);
 		GameCard gc = this.getCard(index);
 		if(gc.isPiegeur() && this.isFirstPlayer){
-			List<Tile> tiles = ((Piegeur)GameSkills.instance.getSkill(64)).getTiles(gc.getPassiveSkillLevel(), this.boardWidth, this.boardHeight, this.nbFreeRowsAtBeginning);
-			for (int i = 0 ; i < tiles.Count ; i++){
-				GameController.instance.addPiegeurTrap(tiles[i], 2*gc.getPassiveSkillLevel(), gc.isMine);
+			List<Tile> tiles2 = ((Piegeur)GameSkills.instance.getSkill(64)).getTiles(gc.getPassiveSkillLevel(), this.boardWidth, this.boardHeight, this.nbFreeRowsAtBeginning);
+			for (int i = 0 ; i < tiles2.Count ; i++){
+				GameController.instance.addPiegeurTrap(tiles2[i], 2*gc.getPassiveSkillLevel(), gc.isMine);
 			}
 		}
 	}
@@ -586,8 +592,9 @@ public class GameView : MonoBehaviour
 		if(c!=-1 && !this.isFreezed){
 			this.setLaunchability("Déplacement en cours !");
 			Tile origine = this.getPlayingCardController(c).getTile();
+			this.tiles[origine.x, origine.y].GetComponentInChildren<TileController>().setDestination(1);
+			this.removeDestinations();
 			this.tiles[origine.x, origine.y].GetComponentInChildren<TileController>().setCharacterID(-1);
-			this.tiles[origine.x, origine.y].GetComponentInChildren<TileController>().removeDestination();
 
 			this.getPlayingCardController(c).changeTile(new Tile(destination.x,destination.y), this.tiles[destination.x,destination.y].GetComponentInChildren<TileController>().getPosition());
 			this.tiles[destination.x, destination.y].GetComponentInChildren<TileController>().setCharacterID(c);
@@ -602,7 +609,6 @@ public class GameView : MonoBehaviour
 				else{
 					this.tiles[destination.x, destination.y].GetComponentInChildren<TileController>().setDestination(6);
 				}
-				this.tiles[origine.x, origine.y].GetComponentInChildren<TileController>().setDestination(1);
 			}
 			else{
 				if(this.getPlayingCardController(c).getIsMine()){
@@ -752,6 +758,7 @@ public class GameView : MonoBehaviour
 		isFreezed = true ;
 		int length = this.playingCards.Count;
 		this.hideButtons();
+
 		StartCoroutine(launchEndTurnEffects());
 	}
 
@@ -863,8 +870,8 @@ public class GameView : MonoBehaviour
 			}
 		
 			this.getPlayingCardController(this.currentPlayingCard).checkModyfiers();
-			this.getCard(this.currentPlayingCard).setHasMoved(hasMoved);
-			this.getCard(this.currentPlayingCard).setHasPlayed(hasPlayed);
+			this.getCard(nextPlayingCard).setHasMoved(hasMoved);
+			this.getCard(nextPlayingCard).setHasPlayed(hasPlayed);
 			
 			if(this.getCurrentCard().isMine){
 				this.myTimerGO.GetComponent<TimerController>().setIsMyTurn(false);
@@ -2523,7 +2530,7 @@ public class GameView : MonoBehaviour
 			c.Skills = new List<Skill>();
 			c.Skills.Add(new Skill("Protection",6));
 		}
-		this.playingCards [index].GetComponentInChildren<PlayingCardController>().setCard(c, (isFirstP==isFirstPlayer), index);
+		this.playingCards [index].GetComponentInChildren<PlayingCardController>().setCard(c, true, index);
 		if ((isFirstP==isFirstPlayer)){
 			this.playingCards [index].GetComponentInChildren<PlayingCardController>().setTile(new Tile(x,y), tiles [x,y].GetComponent<TileController>().getPosition());
 			this.tiles [x,y].GetComponent<TileController>().setCharacterID(index);

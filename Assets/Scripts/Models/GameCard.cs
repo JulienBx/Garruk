@@ -450,6 +450,10 @@ public class GameCard : Card
 			textes.Add (esquiveModifyers[i].title);
 			textes.Add (esquiveModifyers[i].description);
 		}
+		for (int i = 0 ; i < this.magicalEsquiveModifyers.Count ; i++){
+			textes.Add (magicalEsquiveModifyers[i].title);
+			textes.Add (magicalEsquiveModifyers[i].description);
+		}
 		for (int i = 0 ; i < this.bouclierModifyers.Count ; i++){
 			textes.Add (bouclierModifyers[i].title);
 			textes.Add (bouclierModifyers[i].description);

@@ -870,7 +870,7 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Au début du tour, lance [1-3] shurikens infligeant 10 dégats",""}); 
 		//68 - Aguerri
 		idSkills.Add(68);
-		names.Add(new string[]{"Aguerri",""}); 
+		names.Add(new string[]{"Monstrueux",""}); 
 		descriptions.Add(new string[]{"Bonus permanent de 1 ATK",""}); 
 		descriptions.Add(new string[]{"Bonus permanent de 2 ATK",""}); 
 		descriptions.Add(new string[]{"Bonus permanent de 3 ATK",""}); 
@@ -883,7 +883,7 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Bonus permanent de 10 ATK",""}); 
 		//69 - Frénétique
 		idSkills.Add(69);
-		names.Add(new string[]{"Frénétique",""}); 
+		names.Add(new string[]{"Berserk",""}); 
 		descriptions.Add(new string[]{"A la fin de son tour, gagne 1 ATK et s'inflige 5 dégats",""}); 
 		descriptions.Add(new string[]{"A la fin de son tour, gagne 2 ATK et s'inflige 5 dégats",""}); 
 		descriptions.Add(new string[]{"A la fin de son tour, gagne 3 ATK et s'inflige 5 dégats",""}); 

@@ -121,7 +121,12 @@ public class InterludeController : MonoBehaviour
 					}
 					for (int i = 0 ; i < nbHits.Count ; i++){
 						if(nbHits[i]>0){
-							GameController.instance.sendShuriken(opponents[i], nbHits[i], GameView.instance.getCurrentPlayingCard());
+							if(UnityEngine.Random.Range(1,101)<=GameView.instance.getCard(opponents[i]).getMagicalEsquive()){
+								GameController.instance.sendEsquiveShuriken(opponents[i], GameView.instance.getCurrentPlayingCard());
+							}
+							else{
+								GameController.instance.sendShuriken(opponents[i], nbHits[i], GameView.instance.getCurrentPlayingCard());
+							}
 						}
 					}
 				}
@@ -135,9 +140,6 @@ public class InterludeController : MonoBehaviour
 				}
 				GameView.instance.recalculateDestinations();
 				GameView.instance.removeDestinations();
-				GameView.instance.getPassZoneController().show(false);
-				GameView.instance.getSkillZoneController().showSkillButtons(false);
-				GameView.instance.getSkillZoneController().showCancelButton(false);
 				GameView.instance.displayDestinations (GameView.instance.getCurrentPlayingCard());
 			
 				if(ApplicationModel.player.ToLaunchGameTutorial){

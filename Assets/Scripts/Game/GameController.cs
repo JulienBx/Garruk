@@ -122,6 +122,18 @@ public class GameController : Photon.MonoBehaviour
 		GameView.instance.addAnim(GameView.instance.getTile(target), 67);
 	}
 
+	public void sendEsquiveShuriken(int target, int currentCard){
+		photonView.RPC("sendEsquiveShurikenRPC", PhotonTargets.AllBuffered, target, currentCard);
+	}
+
+	[RPC]
+	public void sendEsquiveShurikenRPC(int target, int currentCard)
+	{	
+		string text = "Shuriken\nEsquive!";
+		GameView.instance.displaySkillEffect(target, text, 1);
+		GameView.instance.addAnim(GameView.instance.getTile(target), 67);
+	}
+
 	public void findNextPlayer()
 	{
 		photonView.RPC("findNextPlayerRPC", PhotonTargets.AllBuffered);
