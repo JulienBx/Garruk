@@ -9,6 +9,7 @@ public class Desequilibre : GameSkill
 		this.numberOfExpectedTargets = 1 ; 
 		base.name = "Déséquilibre";
 		base.ciblage = 1 ;
+		base.auto = false;
 	}
 	
 	public override void launch()

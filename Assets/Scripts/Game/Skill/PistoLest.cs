@@ -8,6 +8,7 @@ public class PistoLest : GameSkill
 		this.numberOfExpectedTargets = 1 ; 
 		base.name = "PistoLest";
 		base.ciblage = 3 ;
+		base.auto = false;
 	}
 	
 	public override void launch()
@@ -33,7 +34,7 @@ public class PistoLest : GameSkill
 				if(GameView.instance.getCurrentCard().isVirologue()){
 					List<Tile> adjacents = GameView.instance.getPlayingCardTile(target).getImmediateNeighbourTiles();
 					for(int i = 0 ; i < adjacents.Count ; i++){
-						if(GameView.instance.getTileCharacterID(adjacents[i].x, adjacents[i].y)!=-1){
+						if(GameView.instance.getTileCharacterID(adjacents[i].x, adjacents[i].y)!=-1 && GameView.instance.getTileCharacterID(adjacents[i].x, adjacents[i].y)!=GameView.instance.getCurrentPlayingCard()){
 							GameController.instance.applyOnViro2(GameView.instance.getTileCharacterID(adjacents[i].x, adjacents[i].y), amount, GameView.instance.getCurrentCard().Skills[0].Power*5);
 						}
 					}

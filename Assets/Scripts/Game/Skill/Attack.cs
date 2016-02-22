@@ -7,6 +7,7 @@ public class Attack : GameSkill
 		this.numberOfExpectedTargets = 1 ; 
 		base.name = "Attaque";
 		base.ciblage = 1 ;
+		base.auto = false;
 	}
 	
 	public override void launch()
@@ -61,7 +62,7 @@ public class Attack : GameSkill
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int damages = currentCard.getNormalDamagesAgainst(targetCard, currentCard.getAttack());
 
-		string text = "-"+damages+"PV";
+		string text = "PV : "+currentCard.getLife()+" -> "+(currentCard.getLife()-damages);
 						
 		if (currentCard.isLache()){
 			if(GameView.instance.getIsFirstPlayer() == currentCard.isMine){

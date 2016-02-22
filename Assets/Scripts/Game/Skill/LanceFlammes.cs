@@ -8,6 +8,7 @@ public class LanceFlammes : GameSkill
 		this.numberOfExpectedTargets = 1 ; 
 		base.name = "Lanceflammes";
 		base.ciblage = -2 ;
+		base.auto = false;
 	}
 	
 	public override void launch()

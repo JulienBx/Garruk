@@ -7,6 +7,7 @@ public class Berserk : GameSkill
 		this.numberOfExpectedTargets = 1 ;
 		base.name = "Berserk";
 		base.ciblage = 1 ;
+		base.auto = false;
 	}
 	
 	public override void launch()

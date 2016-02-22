@@ -7,6 +7,7 @@ public class Lance : GameSkill
 		this.numberOfExpectedTargets = 1 ;
 		base.name = "Lance";
 		base.ciblage = 8 ;
+		base.auto = false;
 	}
 	
 	public override void launch()

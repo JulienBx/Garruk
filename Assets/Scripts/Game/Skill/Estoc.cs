@@ -7,6 +7,7 @@ public class Estoc : GameSkill
 		this.numberOfExpectedTargets = 1 ; 
 		base.name = "Estoc";
 		base.ciblage = 1 ; 
+		base.auto = false;
 	}
 	
 	public override void launch()

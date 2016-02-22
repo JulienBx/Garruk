@@ -28,11 +28,28 @@ public class SkillButtonController : MonoBehaviour
 		if(this.launchabilityText.Length>1){
 			gameObject.transform.FindChild("DescriptionZone").FindChild("LaunchabilityText").GetComponent<TextMeshPro>().color = new Color(231f/255f, 0f, 66f/255f, 1f) ;
 			gameObject.transform.FindChild("DescriptionZone").FindChild("TitleText").GetComponent<TextMeshPro>().color = new Color(231f/255f, 0f, 66f/255f, 1f) ;
-			gameObject.GetComponent<SpriteRenderer>().color = new Color(231f/255f, 0f, 66f/255f, 1f) ; ;
+			gameObject.transform.FindChild("SkillTextZone").FindChild("Description").GetComponent<TextMeshPro>().color = new Color(80f/255f, 80f/255f, 80f/255f, 255f/255f) ;
+			gameObject.GetComponent<SpriteRenderer>().color = new Color(80f/255f, 80f/255f, 80f/255f, 255f/255f) ;
 		}
 		else{
-			gameObject.transform.FindChild("DescriptionZone").FindChild("LaunchabilityText").GetComponent<TextMeshPro>().color = new Color(71f/255f,150f/255f,189f/255f, 1f);
 			gameObject.transform.FindChild("DescriptionZone").FindChild("TitleText").GetComponent<TextMeshPro>().color = new Color(71f/255f,150f/255f,189f/255f, 1f);
+			gameObject.transform.FindChild("SkillTextZone").FindChild("Description").GetComponent<TextMeshPro>().color = new Color(1f, 1f, 1f, 1f) ;
+			gameObject.GetComponent<SpriteRenderer>().color = new Color(1f,1f,1f,1f);
+		}
+		gameObject.transform.FindChild("DescriptionZone").FindChild("LaunchabilityText").GetComponent<TextMeshPro>().text = this.launchabilityText;
+	}
+
+	public void setLaunchability(string s){
+		this.launchabilityText = s ;
+		if(this.launchabilityText.Length>1){
+			gameObject.transform.FindChild("DescriptionZone").FindChild("LaunchabilityText").GetComponent<TextMeshPro>().color = new Color(231f/255f, 0f, 66f/255f, 1f) ;
+			gameObject.transform.FindChild("DescriptionZone").FindChild("TitleText").GetComponent<TextMeshPro>().color = new Color(231f/255f, 0f, 66f/255f, 1f) ;
+			gameObject.transform.FindChild("SkillTextZone").FindChild("Description").GetComponent<TextMeshPro>().color = new Color(80f/255f, 80f/255f, 80f/255f, 255f/255f) ;
+			gameObject.GetComponent<SpriteRenderer>().color = new Color(80f/255f, 80f/255f, 80f/255f, 255f/255f) ;
+		}
+		else{
+			gameObject.transform.FindChild("DescriptionZone").FindChild("TitleText").GetComponent<TextMeshPro>().color = new Color(71f/255f,150f/255f,189f/255f, 1f);
+			gameObject.transform.FindChild("SkillTextZone").FindChild("Description").GetComponent<TextMeshPro>().color = new Color(1f, 1f, 1f, 1f) ;
 			gameObject.GetComponent<SpriteRenderer>().color = new Color(1f,1f,1f,1f);
 		}
 		gameObject.transform.FindChild("DescriptionZone").FindChild("LaunchabilityText").GetComponent<TextMeshPro>().text = this.launchabilityText;
@@ -57,6 +74,9 @@ public class SkillButtonController : MonoBehaviour
 			gameObject.GetComponent<SpriteRenderer>().color = new Color(71f/255f,150f/255f,189f/255f, 1f);
 		}
 		GameView.instance.runningSkill = this.skill.Id ;
+		if(!GameSkills.instance.getCurrentGameSkill().auto){
+			GameSkills.instance.getSkill(this.skill.Id).launch();
+		}
 		this.showDescription(true);
 	}
 	

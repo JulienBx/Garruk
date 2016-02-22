@@ -7,6 +7,7 @@ public class Assassinat : GameSkill
 		this.numberOfExpectedTargets = 1 ;
 		base.name = "Assassinat";
 		base.ciblage = 1 ;
+		base.auto = false;
 	}
 	
 	public override void launch()
@@ -51,8 +52,10 @@ public class Assassinat : GameSkill
 		int chances = GameView.instance.getCurrentSkill().proba;
 		string text = "Assassiné!";
 
+		int amount = GameView.instance.getCurrentSkill().proba;
 		int probaEsquive = targetCard.getEsquive();
-		int probaHit = Mathf.Max(0,100-probaEsquive) ;
+		int probaHit = Mathf.Max(0,amount*(100-probaEsquive)/100) ;
+		
 		text += "\n\nHIT% : "+probaHit;
 		return text ;
 	}

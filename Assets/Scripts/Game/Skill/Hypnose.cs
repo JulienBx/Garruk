@@ -8,6 +8,7 @@ public class Hypnose : GameSkill
 		this.numberOfExpectedTargets = 1 ;
 		base.name = "Hypnose";
 		base.ciblage = 1 ;
+		base.auto = false;
 	}
 	
 	public override void launch()

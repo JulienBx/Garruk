@@ -429,16 +429,16 @@ public class WordingSkills
 		//33 - Fou
 		idSkills.Add(33);
 		names.Add(new string[]{"Fou",""}); 
-		descriptions.Add(new string[]{"Bonus de 5% aux dégats à distance mais 25% de chances de se tromper de cible",""}); 
-		descriptions.Add(new string[]{"Bonus de 10% aux dégats à distance mais 25% de chances de se tromper de cible",""}); 
-		descriptions.Add(new string[]{"Bonus de 15% aux dégats à distance mais 25% de chances de se tromper de cible",""}); 
-		descriptions.Add(new string[]{"Bonus de 20% aux dégats à distance mais 25% de chances de se tromper de cible",""}); 
-		descriptions.Add(new string[]{"Bonus de 25% aux dégats à distance mais 25% de chances de se tromper de cible",""}); 
-		descriptions.Add(new string[]{"Bonus de 30% aux dégats à distance mais 25% de chances de se tromper de cible",""}); 
-		descriptions.Add(new string[]{"Bonus de 35% aux dégats à distance mais 25% de chances de se tromper de cible",""}); 
-		descriptions.Add(new string[]{"Bonus de 40% aux dégats à distance mais 25% de chances de se tromper de cible",""}); 
-		descriptions.Add(new string[]{"Bonus de 45% aux dégats mais 15% de chances de se tromper de cible",""}); 
-		descriptions.Add(new string[]{"Bonus de 50% aux dégats à distance mais 25% de chances de se tromper de cible",""}); 
+		descriptions.Add(new string[]{"Bonus de 5% aux dégats à distance mais peut se tromper de cible (25%)",""}); 
+		descriptions.Add(new string[]{"Bonus de 10% aux dégats à distance mais peut se tromper de cible (25%)",""}); 
+		descriptions.Add(new string[]{"Bonus de 15% aux dégats à distance mais peut se tromper de cible (25%)",""}); 
+		descriptions.Add(new string[]{"Bonus de 20% aux dégats à distance mais peut se tromper de cible (25%)",""}); 
+		descriptions.Add(new string[]{"Bonus de 25% aux dégats à distance mais peut se tromper de cible (25%)",""}); 
+		descriptions.Add(new string[]{"Bonus de 30% aux dégats à distance mais peut se tromper de cible (25%)",""}); 
+		descriptions.Add(new string[]{"Bonus de 35% aux dégats à distance mais peut se tromper de cible (25%)",""}); 
+		descriptions.Add(new string[]{"Bonus de 40% aux dégats à distance mais peut se tromper de cible (25%)",""}); 
+		descriptions.Add(new string[]{"Bonus de 45% aux dégats à distance mais peut se tromper de cible (25%)",""}); 
+		descriptions.Add(new string[]{"Bonus de 50% aux dégats à distance mais peut se tromper de cible (25%)",""}); 
 		//34 - Sanguinaire
 		idSkills.Add(34);
 		names.Add(new string[]{"Sanguinaire",""}); 
@@ -923,16 +923,16 @@ public class WordingSkills
 		//72 - Virologue
 		idSkills.Add(72);
 		names.Add(new string[]{"Virologue",""}); 
-		descriptions.Add(new string[]{"Les compétences touchent aussi les unités adjacentes à la cible (5% des effets)",""}); 
-		descriptions.Add(new string[]{"Les compétences touchent aussi les unités adjacentes à la cible (10% des effets)",""}); 
-		descriptions.Add(new string[]{"Les compétences touchent aussi les unités adjacentes à la cible (15% des effets)",""}); 
-		descriptions.Add(new string[]{"Les compétences touchent aussi les unités adjacentes à la cible (20% des effets)",""}); 
-		descriptions.Add(new string[]{"Les compétences touchent aussi les unités adjacentes à la cible (25% des effets)",""}); 
-		descriptions.Add(new string[]{"Les compétences touchent aussi les unités adjacentes à la cible (30% des effets)",""}); 
-		descriptions.Add(new string[]{"Les compétences touchent aussi les unités adjacentes à la cible (35% des effets)",""}); 
-		descriptions.Add(new string[]{"Les compétences touchent aussi les unités adjacentes à la cible (40% des effets)",""}); 
-		descriptions.Add(new string[]{"Les compétences touchent aussi les unités adjacentes à la cible (45% des effets)",""}); 
-		descriptions.Add(new string[]{"Les compétences touchent aussi les unités adjacentes à la cible (50% des effets)",""}); 
+		descriptions.Add(new string[]{"Touche également les voisins des unités ciblées (5% des effets)",""}); 
+		descriptions.Add(new string[]{"Touche également les voisins des unités ciblées (10% des effets)",""}); 
+		descriptions.Add(new string[]{"Touche également les voisins des unités ciblées (15% des effets)",""}); 
+		descriptions.Add(new string[]{"Touche également les voisins des unités ciblées (20% des effets)",""}); 
+		descriptions.Add(new string[]{"Touche également les voisins des unités ciblées (25% des effets)",""}); 
+		descriptions.Add(new string[]{"Touche également les voisins des unités ciblées (30% des effets)",""}); 
+		descriptions.Add(new string[]{"Touche également les voisins des unités ciblées (35% des effets)",""}); 
+		descriptions.Add(new string[]{"Touche également les voisins des unités ciblées (40% des effets)",""}); 
+		descriptions.Add(new string[]{"Touche également les voisins des unités ciblées (45% des effets)",""}); 
+		descriptions.Add(new string[]{"Touche également les voisins des unités ciblées (50% des effets)",""}); 
 		//73 - Paladin
 		idSkills.Add(73);
 		names.Add(new string[]{"Paladin",""}); 

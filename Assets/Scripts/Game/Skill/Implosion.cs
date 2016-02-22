@@ -8,6 +8,7 @@ public class Implosion : GameSkill
 		this.numberOfExpectedTargets = 0 ;
 		base.name = "Implosion";
 		base.ciblage = -1 ;
+		base.auto = true;
 	}
 	
 	public override void launch()

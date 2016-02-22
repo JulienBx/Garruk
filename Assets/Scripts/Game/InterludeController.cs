@@ -9,7 +9,6 @@ public class InterludeController : MonoBehaviour
 	public float animationTime = 0.4f;
 	public float time;
 	public bool isRunning;
-	public bool isDisplayedCharacter;
 	public Sprite[] sprites ;
 	public Sprite[] characterSprites ;
 	bool isEnabledUnderText ;
@@ -52,8 +51,7 @@ public class InterludeController : MonoBehaviour
 		GameView.instance.blockFury = true ;
 	}
 	
-	public void set(string s, bool isMine, bool displayCharacter){
-		this.isDisplayedCharacter = displayCharacter;
+	public void set(string s, bool isMine){
 		gameObject.GetComponent<SpriteRenderer>().enabled = true ;
 		Vector3 position ;
 		position = gameObject.transform.FindChild("Bar1").localPosition ;
@@ -75,16 +73,10 @@ public class InterludeController : MonoBehaviour
 			gameObject.transform.FindChild("Bar2").GetComponent<SpriteRenderer>().sprite = this.sprites[4];
 			gameObject.transform.FindChild("Bar3").GetComponent<SpriteRenderer>().sprite = this.sprites[5];
 		}
-		if(displayCharacter){
-			gameObject.transform.FindChild("Bar1").GetComponent<SpriteRenderer>().enabled = true;
-			gameObject.transform.FindChild("Bar2").GetComponent<SpriteRenderer>().enabled = true;
-			gameObject.transform.FindChild("Bar3").GetComponent<SpriteRenderer>().enabled = true ;
-		}
-		else{
-			gameObject.transform.FindChild("Bar1").GetComponent<SpriteRenderer>().enabled = false;
-			gameObject.transform.FindChild("Bar2").GetComponent<SpriteRenderer>().enabled = false;
-			gameObject.transform.FindChild("Bar3").GetComponent<SpriteRenderer>().enabled = false ;
-		}
+
+		gameObject.transform.FindChild("Bar1").GetComponent<SpriteRenderer>().enabled = true;
+		gameObject.transform.FindChild("Bar2").GetComponent<SpriteRenderer>().enabled = true;
+		gameObject.transform.FindChild("Bar3").GetComponent<SpriteRenderer>().enabled = true ;
 		
 		gameObject.transform.FindChild("Text").GetComponent<TextMeshPro>().text = s ;
 		gameObject.transform.FindChild("Text").GetComponent<MeshRenderer>().enabled = true ;
@@ -93,15 +85,7 @@ public class InterludeController : MonoBehaviour
 		
 		GameView.instance.getMyHoveredCardController().lowerCharacter();
 		GameView.instance.getHisHoveredCardController().lowerCharacter();
-		if(displayCharacter){
-			if(GameView.instance.getCurrentCard().isMine){
-				GameView.instance.getMyHoveredCardController().raiseCharacter();
-			}
-			else{
-				GameView.instance.getHisHoveredCardController().raiseCharacter();
-			}
-		}
-		
+			
 		this.time=0f;
 		this.isRunning = true ;
 	}

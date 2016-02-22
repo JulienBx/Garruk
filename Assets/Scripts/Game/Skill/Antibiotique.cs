@@ -8,6 +8,7 @@ public class Antibiotique : GameSkill
 		this.numberOfExpectedTargets = 1 ;
 		base.name = "Antibiotique";
 		base.ciblage = 9 ;
+		base.auto = false;
 	}
 	
 	public override void launch()

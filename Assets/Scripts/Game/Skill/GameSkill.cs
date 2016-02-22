@@ -12,6 +12,7 @@ public class GameSkill
 	public string name ;
 	
 	public int ciblage ;
+	public bool auto ;
 	
 	public virtual void init(Skill s){
 		this.targets = new List<int>();

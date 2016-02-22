@@ -8,6 +8,7 @@ public class GrosCalibre : GameSkill
 		this.numberOfExpectedTargets = 1 ;
 		base.name = "Gros Calibre";
 		base.ciblage = 1 ;
+		base.auto = false;
 	}
 	
 	public override void launch()

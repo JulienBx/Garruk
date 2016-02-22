@@ -8,6 +8,7 @@ public class Relaxant : GameSkill
 		this.numberOfExpectedTargets = 1 ; 
 		base.name = "Relaxant";
 		base.ciblage = 1 ;
+		base.auto = false;
 	}
 	
 	public override void launch()
@@ -31,7 +32,7 @@ public class Relaxant : GameSkill
 				if(GameView.instance.getCurrentCard().isVirologue()){
 					List<Tile> adjacents = GameView.instance.getPlayingCardTile(target).getImmediateNeighbourTiles();
 					for(int i = 0 ; i < adjacents.Count ; i++){
-						if(GameView.instance.getTileCharacterID(adjacents[i].x, adjacents[i].y)!=-1){
+						if(GameView.instance.getTileCharacterID(adjacents[i].x, adjacents[i].y)!=-1 && GameView.instance.getTileCharacterID(adjacents[i].x, adjacents[i].y)!=GameView.instance.getCurrentPlayingCard()){
 							GameController.instance.applyOnViro(GameView.instance.getTileCharacterID(adjacents[i].x, adjacents[i].y), GameView.instance.getCurrentCard().Skills[0].Power*5);
 						}
 					}

@@ -8,6 +8,7 @@ public class Etouffement : GameSkill
 		this.numberOfExpectedTargets = 1 ;
 		base.name = "Etouffement";
 		base.ciblage = 1 ;
+		base.auto = true;
 	}
 	
 	public override void launch()

@@ -7,6 +7,7 @@ public class CoupPrecis : GameSkill
 		this.numberOfExpectedTargets = 1 ; 
 		base.name = "Coup précis";
 		base.ciblage = 1 ;
+		base.auto = false;
 	}
 	
 	public override void launch()

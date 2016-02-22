@@ -8,6 +8,7 @@ public class Frenesie : GameSkill
 		this.numberOfExpectedTargets = 0 ; 
 		base.name = "Frénésie";
 		base.ciblage = 0 ;
+		base.auto = true;
 	}
 	
 	public override void launch()

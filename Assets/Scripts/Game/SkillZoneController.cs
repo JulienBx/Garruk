@@ -25,6 +25,13 @@ public class SkillZoneController : MonoBehaviour
 		gameObject.transform.FindChild("SkillButton1").GetComponent<SkillButtonController>().show(b);
 		gameObject.transform.FindChild("SkillButton2").GetComponent<SkillButtonController>().show(b);
 	}
+
+	public void setLaunchability(string s){
+		gameObject.transform.FindChild("AttackButton").GetComponent<SkillButtonController>().setLaunchability(s);
+		gameObject.transform.FindChild("SkillButton0").GetComponent<SkillButtonController>().setLaunchability(s);
+		gameObject.transform.FindChild("SkillButton1").GetComponent<SkillButtonController>().setLaunchability(s);
+		gameObject.transform.FindChild("SkillButton2").GetComponent<SkillButtonController>().setLaunchability(s);
+	}
 	
 	public void showCancelButton(bool b){
 		gameObject.GetComponent<SpriteRenderer>().enabled = b ;

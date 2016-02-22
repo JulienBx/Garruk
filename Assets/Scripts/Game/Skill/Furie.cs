@@ -8,6 +8,7 @@ public class Furie : GameSkill
 		this.numberOfExpectedTargets = 0 ; 
 		base.name = "Furie";
 		base.ciblage = 0 ;
+		base.auto = true;
 	}
 	
 	public override void launch()

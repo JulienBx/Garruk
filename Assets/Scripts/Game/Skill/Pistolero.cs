@@ -8,6 +8,7 @@ public class Pistolero : GameSkill
 		this.numberOfExpectedTargets = 1 ;
 		base.name = "Pistolero";
 		base.ciblage = 0 ;
+		base.auto = true;
 	}
 	
 	public override void launch()

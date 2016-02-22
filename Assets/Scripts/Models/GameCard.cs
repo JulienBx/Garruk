@@ -345,6 +345,9 @@ public class GameCard : Card
 			if(pvModifyers[i].type==76){
 				pvModifyers.RemoveAt(i);
 			}
+			if(this.getLife()<1){
+				this.damagesModifyers.Add(new Modifyer(this.getLife()-1,-1,1,"Remove Leader",""));
+			}
 		}
 	}
 	

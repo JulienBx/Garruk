@@ -8,6 +8,7 @@ public class Visee : GameSkill
 		this.numberOfExpectedTargets = 0 ; 
 		base.name = "Visee";
 		base.ciblage = 0 ;
+		base.auto = true;
 	}
 
 	public override void launch()

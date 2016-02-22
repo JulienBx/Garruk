@@ -56,7 +56,7 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 	{
 		photonView.RPC("AddPlayerToList", PhotonTargets.AllBuffered, PhotonNetwork.player.ID, ApplicationModel.player.Username);
 
-
+		//ApplicationModel.player.ToLaunchGameTutorial = true ;
 		if (ApplicationModel.player.ToLaunchGameTutorial)
 		{
 			print("Le tuto est lancé");

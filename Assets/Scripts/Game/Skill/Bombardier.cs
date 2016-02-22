@@ -7,6 +7,7 @@ public class Bombardier : GameSkill
 		this.numberOfExpectedTargets = 0 ; 
 		base.name = "Bombardier";
 		base.ciblage = 0 ;
+		base.auto = true;
 	}
 	
 	public override void launch()

@@ -8,6 +8,7 @@ public class Laser : GameSkill
 		this.numberOfExpectedTargets = 1 ; 
 		base.name = "Laser";
 		base.ciblage = 3 ;
+		base.auto = false;
 	}
 	
 	public override void launch()

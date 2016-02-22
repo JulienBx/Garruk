@@ -8,6 +8,7 @@ public class Criderage : GameSkill
 		this.numberOfExpectedTargets = 0 ;
 		base.name = "Cri de rage";
 		base.ciblage = 2 ;
+		base.auto = true;
 	}
 	
 	public override void launch()

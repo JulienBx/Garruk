@@ -7,6 +7,7 @@ public class Poisonpiege : GameSkill
 		this.numberOfExpectedTargets = 1 ; 
 		base.name = "Parapiège";
 		base.ciblage = 6 ;
+		base.auto = false;
 	}
 	
 	public override void launch()

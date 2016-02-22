@@ -121,7 +121,7 @@ public class TileController : GameObjectController
 	}
 	
 	public bool isRock(){
-		return (this.type==1);
+		return (this.type==1 || this.type==2);
 	}
 	
 	public bool getIsTrapped(){
@@ -141,7 +141,7 @@ public class TileController : GameObjectController
 	public void changeType(int a)
 	{
 		this.type = a;
-		if (this.type==1){
+		if (this.type==1 || this.type==2){
 			this.showRock();
 		}
 	}
@@ -202,6 +202,9 @@ public class TileController : GameObjectController
 	{
 		gameObject.transform.FindChild("TrapLayer").GetComponent<SpriteRenderer>().sprite = this.trapSprites[0];
 		gameObject.transform.FindChild("TrapLayer").GetComponent<SpriteRenderer>().enabled = true;
+		if(this.type==2){
+			gameObject.transform.FindChild("TrapLayer").GetComponent<SpriteRenderer>().color = new Color(231f/255f, 0f, 66f/255f, 1f);
+		}
 	}
 	
 	public void showDestination(bool b)
@@ -294,6 +297,13 @@ public class TileController : GameObjectController
 			else if(this.type==1){
 				gameObject.transform.FindChild("DescriptionBox").FindChild("TitleText").GetComponent<TextMeshPro>().text = "Cristal";
 				gameObject.transform.FindChild("DescriptionBox").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = "Les unités ne peuvent pas se déplacer sur cette case";
+				gameObject.transform.FindChild("DescriptionBox").GetComponent<SpriteRenderer>().enabled = true;
+				gameObject.transform.FindChild("DescriptionBox").FindChild("DescriptionText").GetComponent<MeshRenderer>().enabled=true;
+				gameObject.transform.FindChild("DescriptionBox").FindChild("TitleText").GetComponent<MeshRenderer>().enabled=true;
+			}
+			else if(this.type==2){
+				gameObject.transform.FindChild("DescriptionBox").FindChild("TitleText").GetComponent<TextMeshPro>().text = "Red Cristal";
+				gameObject.transform.FindChild("DescriptionBox").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = "Ce cristal n'autorise ni déplacement, ni utilisation de compétences";
 				gameObject.transform.FindChild("DescriptionBox").GetComponent<SpriteRenderer>().enabled = true;
 				gameObject.transform.FindChild("DescriptionBox").FindChild("DescriptionText").GetComponent<MeshRenderer>().enabled=true;
 				gameObject.transform.FindChild("DescriptionBox").FindChild("TitleText").GetComponent<MeshRenderer>().enabled=true;

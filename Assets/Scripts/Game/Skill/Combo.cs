@@ -7,6 +7,7 @@ public class Combo : GameSkill
 		this.numberOfExpectedTargets = 1 ;
 		base.name = "Combo";
 		base.ciblage = 1 ;
+		base.auto = false;
 	}
 	
 	public override void launch()

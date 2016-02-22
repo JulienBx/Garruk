@@ -8,6 +8,7 @@ public class Agilite : GameSkill
 		this.numberOfExpectedTargets = 0 ;
 		base.name = "Agilité";
 		base.ciblage = 0 ;
+		base.auto = true;
 	}
 	
 	public override void launch()

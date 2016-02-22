@@ -8,6 +8,7 @@ public class PerfoTir : GameSkill
 		this.numberOfExpectedTargets = 1 ; 
 		base.name = "PerfoTir";
 		base.ciblage = 3 ;
+		base.auto = false;
 	}
 	
 	public override void launch()

@@ -7,6 +7,7 @@ public class Protection : GameSkill
 		this.numberOfExpectedTargets = 1 ;
 		base.name = "Protection";
 		base.ciblage = 6 ;
+		base.auto = false;
 	}
 	
 	public override void launch()

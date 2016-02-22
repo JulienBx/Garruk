@@ -8,6 +8,7 @@ public class Attaque360 : GameSkill
 		this.numberOfExpectedTargets = 0 ;
 		base.name = "Attaque 360";
 		base.ciblage = 1 ;
+		base.auto = true;
 	}
 	
 	public override void launch()

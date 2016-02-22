@@ -8,6 +8,7 @@ public class Furtivite : GameSkill
 		this.numberOfExpectedTargets = 0 ; 
 		base.name = "Furtivité";
 		base.ciblage = 0 ;
+		base.auto = true;
 	}
 	
 	public override void launch()

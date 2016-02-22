@@ -142,6 +142,7 @@ public class PlayingCardController : GameObjectController
 		t.Find("Background").FindChild("LifeBarEnd").GetComponent<SpriteRenderer>().enabled = true ;
 		t.Find("Background").FindChild("Life").GetComponent<SpriteRenderer>().enabled = true ;
 		t.Find("Background").FindChild("LifeEnd").GetComponent<SpriteRenderer>().enabled = true ;
+		this.show();
 	}
 	
 	public void setCard(GameCard c, bool b, int i)
@@ -312,69 +313,70 @@ public class PlayingCardController : GameObjectController
 	}
 
 	public void showIcons(){
-		string text = "";
-		int compteurIcones = 1;
-		List<string> listeTextes = this.card.getEsquiveIcon();
-		if(listeTextes.Count>0){
-			gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).GetComponent<SpriteRenderer>().enabled = true;
-			gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).FindChild("Picto").GetComponent<SpriteRenderer>().enabled = true;
-			gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).GetComponent<BoxCollider>().enabled = true;
-			gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).FindChild("Picto").GetComponent<SpriteRenderer>().sprite = this.iconeSprites[1];
-			gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).FindChild("DescriptionBox").FindChild("TitleText").GetComponent<TextMeshPro>().text = "Protection";
-		
-			for(int i = 0 ; i < listeTextes.Count ; i++){
-				text+="<b>"+listeTextes[i]+"</b> : ";
-				i++;
-				text+=listeTextes[i]+"\n";
-			}
-			gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).FindChild("DescriptionBox").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = text;
-			compteurIcones++;
-		}
-		
-		listeTextes = this.card.getMoveIcon();
-		if(listeTextes.Count>0){
-			gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).GetComponent<SpriteRenderer>().enabled = true;
-			gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).FindChild("Picto").GetComponent<SpriteRenderer>().enabled = true;
-			gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).GetComponent<BoxCollider>().enabled = true;
-			gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).FindChild("Picto").GetComponent<SpriteRenderer>().sprite = this.iconeSprites[0];
-			if(this.card.getMove()<this.card.Move){
-				gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).FindChild("Picto").GetComponent<SpriteRenderer>().color = new Color(231f/255f, 0f, 66f/255f, 1f);
-			}
-			else if(this.card.getMove()>this.card.Move){
-				gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).FindChild("Picto").GetComponent<SpriteRenderer>().color = new Color(60f/255f, 160f/255f, 100f/255f, 1f);
-			}
-			else{
-				gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).FindChild("Picto").GetComponent<SpriteRenderer>().color = new Color(60f/255f, 160f/255f, 100f/255f, 0f);
-			}
-			gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).FindChild("DescriptionBox").FindChild("TitleText").GetComponent<TextMeshPro>().text = "Déplacement";
+		if(!this.isHidden){
+			string text = "";
+			int compteurIcones = 1;
+			List<string> listeTextes = this.card.getEsquiveIcon();
+			if(listeTextes.Count>0){
+				gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).GetComponent<SpriteRenderer>().enabled = true;
+				gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).FindChild("Picto").GetComponent<SpriteRenderer>().enabled = true;
+				gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).GetComponent<BoxCollider>().enabled = true;
+				gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).FindChild("Picto").GetComponent<SpriteRenderer>().sprite = this.iconeSprites[1];
+				gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).FindChild("DescriptionBox").FindChild("TitleText").GetComponent<TextMeshPro>().text = "Protection";
 			
-			for(int i = 0 ; i < listeTextes.Count ; i++){
-				text+="<b>"+listeTextes[i]+"</b> : ";
-				i++;
-				text+=listeTextes[i]+"\n";
+				for(int i = 0 ; i < listeTextes.Count ; i++){
+					text+="<b>"+listeTextes[i]+"</b> : ";
+					i++;
+					text+=listeTextes[i]+"\n";
+				}
+				gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).FindChild("DescriptionBox").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = text;
+				compteurIcones++;
 			}
-			gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).FindChild("DescriptionBox").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = text;
-			compteurIcones++;
-		}
-		
-		if(this.card.isStateModifyed){
-			gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).GetComponent<SpriteRenderer>().enabled = true;
-			gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).FindChild("Picto").GetComponent<SpriteRenderer>().enabled = true;
-			gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).GetComponent<BoxCollider>().enabled = true;
-			gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).FindChild("Picto").GetComponent<SpriteRenderer>().sprite = this.iconeSprites[this.card.state.type];
-			gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).FindChild("DescriptionBox").FindChild("TitleText").GetComponent<TextMeshPro>().text = this.card.state.title;
-			gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).FindChild("DescriptionBox").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = this.card.state.description;
-			compteurIcones++;
-		}
-		
-		for(int j = compteurIcones ; j < 4 ; j++){
-			gameObject.transform.Find("Background").FindChild("Icon"+j).GetComponent<SpriteRenderer>().enabled = false;
-			gameObject.transform.Find("Background").FindChild("Icon"+j).FindChild("Picto").GetComponent<SpriteRenderer>().enabled = false;
-			gameObject.transform.Find("Background").FindChild("Icon"+j).FindChild("DescriptionBox").GetComponent<SpriteRenderer>().enabled = false;
-			gameObject.transform.Find("Background").FindChild("Icon"+j).FindChild("DescriptionBox").FindChild("TitleText").GetComponent<MeshRenderer>().enabled = false;
-			gameObject.transform.Find("Background").FindChild("Icon"+j).FindChild("DescriptionBox").FindChild("DescriptionText").GetComponent<MeshRenderer>().enabled = false;
-			gameObject.transform.Find("Background").FindChild("Icon"+j).GetComponent<BoxCollider>().enabled = false;
 			
+			listeTextes = this.card.getMoveIcon();
+			if(listeTextes.Count>0){
+				gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).GetComponent<SpriteRenderer>().enabled = true;
+				gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).FindChild("Picto").GetComponent<SpriteRenderer>().enabled = true;
+				gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).GetComponent<BoxCollider>().enabled = true;
+				gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).FindChild("Picto").GetComponent<SpriteRenderer>().sprite = this.iconeSprites[0];
+				if(this.card.getMove()<this.card.Move){
+					gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).FindChild("Picto").GetComponent<SpriteRenderer>().color = new Color(231f/255f, 0f, 66f/255f, 1f);
+				}
+				else if(this.card.getMove()>this.card.Move){
+					gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).FindChild("Picto").GetComponent<SpriteRenderer>().color = new Color(60f/255f, 160f/255f, 100f/255f, 1f);
+				}
+				else{
+					gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).FindChild("Picto").GetComponent<SpriteRenderer>().color = new Color(60f/255f, 160f/255f, 100f/255f, 0f);
+				}
+				gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).FindChild("DescriptionBox").FindChild("TitleText").GetComponent<TextMeshPro>().text = "Déplacement";
+				
+				for(int i = 0 ; i < listeTextes.Count ; i++){
+					text+="<b>"+listeTextes[i]+"</b> : ";
+					i++;
+					text+=listeTextes[i]+"\n";
+				}
+				gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).FindChild("DescriptionBox").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = text;
+				compteurIcones++;
+			}
+			
+			if(this.card.isStateModifyed){
+				gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).GetComponent<SpriteRenderer>().enabled = true;
+				gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).FindChild("Picto").GetComponent<SpriteRenderer>().enabled = true;
+				gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).GetComponent<BoxCollider>().enabled = true;
+				gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).FindChild("Picto").GetComponent<SpriteRenderer>().sprite = this.iconeSprites[this.card.state.type];
+				gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).FindChild("DescriptionBox").FindChild("TitleText").GetComponent<TextMeshPro>().text = this.card.state.title;
+				gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).FindChild("DescriptionBox").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = this.card.state.description;
+				compteurIcones++;
+			}
+			
+			for(int j = compteurIcones ; j < 4 ; j++){
+				gameObject.transform.Find("Background").FindChild("Icon"+j).GetComponent<SpriteRenderer>().enabled = false;
+				gameObject.transform.Find("Background").FindChild("Icon"+j).FindChild("Picto").GetComponent<SpriteRenderer>().enabled = false;
+				gameObject.transform.Find("Background").FindChild("Icon"+j).FindChild("DescriptionBox").GetComponent<SpriteRenderer>().enabled = false;
+				gameObject.transform.Find("Background").FindChild("Icon"+j).FindChild("DescriptionBox").FindChild("TitleText").GetComponent<MeshRenderer>().enabled = false;
+				gameObject.transform.Find("Background").FindChild("Icon"+j).FindChild("DescriptionBox").FindChild("DescriptionText").GetComponent<MeshRenderer>().enabled = false;
+				gameObject.transform.Find("Background").FindChild("Icon"+j).GetComponent<BoxCollider>().enabled = false;
+			}
 		}
 	}
 	
@@ -410,6 +412,7 @@ public class PlayingCardController : GameObjectController
 			gameObject.transform.localPosition = this.finalP;
 			GameView.instance.recalculateDestinations();
 			StartCoroutine(GameView.instance.checkDestination(this.id));
+			GameView.instance.updateActionStatus();
 		}
 		else{
 			float rapport = this.timerMove/this.MoveTime;
@@ -462,34 +465,36 @@ public class PlayingCardController : GameObjectController
 
 	public void updateAttack()
 	{
-		int attackBase = this.card.Attack ;
-		int attack = this.card.getAttack();
-		if(attackBase>attack){
-			gameObject.transform.FindChild("Background").FindChild("AttackValue").GetComponent<TextMeshPro>().color = new Color(231f/255f, 0f, 66f/255f, 1f);
+		if(!this.isHidden){
+			int attackBase = this.card.Attack ;
+			int attack = this.card.getAttack();
+			if(attackBase>attack){
+				gameObject.transform.FindChild("Background").FindChild("AttackValue").GetComponent<TextMeshPro>().color = new Color(231f/255f, 0f, 66f/255f, 1f);
+			}
+			else if(attackBase<attack){
+				gameObject.transform.FindChild("Background").FindChild("AttackValue").GetComponent<TextMeshPro>().color = new Color(60f/255f, 160f/255f, 100f/255f, 1f);
+			}
+			else{
+				gameObject.transform.FindChild("Background").FindChild("AttackValue").GetComponent<TextMeshPro>().color = new Color(71f/255f,150f/255f,189f/255f, 1f);
+			}
+			gameObject.transform.FindChild("Background").FindChild("AttackValue").GetComponent<TextMeshPro>().text = this.card.GetAttackString();
+			
+			string title = "Points d'attaque";
+			string description = "Attaque de base : "+this.card.Attack+"\n";
+			List<string> textes = this.card.getIconAttack();
+			for(int i = 0 ; i < textes.Count ; i++){
+				description += "<b>"+textes[i]+" : "+"</b>";
+				i++;
+				description += textes[i]+"\n";
+			}
+			if (textes.Count>0){
+				description += "---> TOTAL : "+this.card.getAttack();
+			}
+			else{
+				description += "Pas de bonus ou malus en cours";
+			}
+			this.setAttackDescription(title, description);
 		}
-		else if(attackBase<attack){
-			gameObject.transform.FindChild("Background").FindChild("AttackValue").GetComponent<TextMeshPro>().color = new Color(60f/255f, 160f/255f, 100f/255f, 1f);
-		}
-		else{
-			gameObject.transform.FindChild("Background").FindChild("AttackValue").GetComponent<TextMeshPro>().color = new Color(71f/255f,150f/255f,189f/255f, 1f);
-		}
-		gameObject.transform.FindChild("Background").FindChild("AttackValue").GetComponent<TextMeshPro>().text = this.card.GetAttackString();
-		
-		string title = "Points d'attaque";
-		string description = "Attaque de base : "+this.card.Attack+"\n";
-		List<string> textes = this.card.getIconAttack();
-		for(int i = 0 ; i < textes.Count ; i++){
-			description += "<b>"+textes[i]+" : "+"</b>";
-			i++;
-			description += textes[i]+"\n";
-		}
-		if (textes.Count>0){
-			description += "---> TOTAL : "+this.card.getAttack();
-		}
-		else{
-			description += "Pas de bonus ou malus en cours";
-		}
-		this.setAttackDescription(title, description);
 	}
 	
 	public void kill()
@@ -565,7 +570,7 @@ public class PlayingCardController : GameObjectController
 		this.isShowingDead = b;
 	}
 
-	public void checkPaladin(){
+	public void checkPaladin(bool toDisplay){
 		if((card.Skills[0].Id == 73)){
 			int level = card.Skills[0].Power;
 			int bonusAttack = Mathf.RoundToInt(level*10f*card.getAttack()/100f);
@@ -576,43 +581,52 @@ public class PlayingCardController : GameObjectController
 			this.card.moveModifyers.Add(new Modifyer(bonusMove, -1, 73, card.Skills[0].Name, bonusMove+"MOV. Permanent"));
 			GameView.instance.getPlayingCardController(this.id).showIcons();
 
-			GameView.instance.displaySkillEffect(this.id, "Paladin\n+"+bonusAttack+" ATK\n"+bonusMove+"MOV", 1);
-			GameView.instance.addAnim(GameView.instance.getTile(this.id), 73);
+			if(toDisplay){
+				GameView.instance.displaySkillEffect(this.id, "Paladin\n+"+bonusAttack+" ATK\n"+bonusMove+"MOV", 1);
+				GameView.instance.addAnim(GameView.instance.getTile(this.id), 73);
+			}
 		}
 	}
 
-	public void checkAgile(){
+	public void checkAgile(bool toDisplay){
 		if((card.Skills[0].Id == 66)){
 			int level = card.Skills[0].Power*5;
 						
 			this.card.esquiveModifyers.Add(new Modifyer(level, -1, 66, "Agile", "Esquive aux compétences de contact : "+level+"%"));
 			GameView.instance.getPlayingCardController(this.id).showIcons();
-			GameView.instance.displaySkillEffect(this.id, "Agile\nEsquive : "+level+"%", 1);
-			GameView.instance.addAnim(GameView.instance.getTile(this.id), 66);
+
+			if(toDisplay){
+				GameView.instance.displaySkillEffect(this.id, "Agile\nEsquive : "+level+"%", 1);
+				GameView.instance.addAnim(GameView.instance.getTile(this.id), 66);
+			}
 		}
 	}
 
-	public void checkAguerri(){
+	public void checkAguerri(bool toDisplay){
 		if((card.Skills[0].Id == 68)){
 			int bonusAttack = card.Skills[0].Power;
 			this.card.attackModifyers.Add (new Modifyer(bonusAttack, -1, 68, "Psycho", "+"+bonusAttack+"ATK. Permanent"));
 			GameView.instance.getPlayingCardController(this.id).updateAttack();
-			GameView.instance.displaySkillEffect(this.id, "+"+bonusAttack+"ATK", 1);
-			GameView.instance.addAnim(GameView.instance.getTile(this.id), 68);
+			if(toDisplay){
+				GameView.instance.displaySkillEffect(this.id, "+"+bonusAttack+"ATK", 1);
+				GameView.instance.addAnim(GameView.instance.getTile(this.id), 68);
+			}
 		}
 	}
 
-	public void checkCuirasse(){
+	public void checkCuirasse(bool toDisplay){
 		if((card.Skills[0].Id == 70)){
 			int bonusShield = card.Skills[0].Power*4;
 			GameView.instance.getCard(this.id).addShieldModifyer(new Modifyer(bonusShield, -1, 70, "Cuirassé", "Bouclier "+bonusShield+"%. Permanent"));
 			GameView.instance.displaySkillEffect(this.id, "Bouclier "+bonusShield+"%", 1);
-			GameView.instance.getPlayingCardController(this.id).showIcons();
-			GameView.instance.addAnim(GameView.instance.getTile(this.id), 70);
+			if(toDisplay){
+				GameView.instance.getPlayingCardController(this.id).showIcons();
+				GameView.instance.addAnim(GameView.instance.getTile(this.id), 70);
+			}
 		}
 	}
 
-	public void checkRapide(){
+	public void checkRapide(bool toDisplay){
 		if((card.Skills[0].Id == 71)){
 			int level = 11-card.Skills[0].Power;
 		
@@ -620,43 +634,50 @@ public class PlayingCardController : GameObjectController
 			GameView.instance.getPlayingCardController(this.id).showIcons();
 			GameView.instance.getCard(this.id).attackModifyers.Add(new Modifyer(-1*level, -1, 71, "Rapide", "-"+level+"ATK. Permanent"));
 			GameView.instance.getPlayingCardController(this.id).updateAttack();
-
-			GameView.instance.displaySkillEffect(this.id, "+1MOV\n-"+level+"ATK", 1);	
-			GameView.instance.addAnim(GameView.instance.getTile(this.id), 71);
+			if(toDisplay){
+				GameView.instance.displaySkillEffect(this.id, "+1MOV\n-"+level+"ATK", 1);	
+				GameView.instance.addAnim(GameView.instance.getTile(this.id), 71);
+			}
 		}
 	}
 
-	public void checkEmbusque(){
+	public void checkEmbusque(bool toDisplay){
 		if((card.Skills[0].Id == 32)){
 			int level = 5*card.Skills[0].Power;
 		
 			this.card.esquiveModifyers.Add(new Modifyer(level, -1, 32, "Embusqué", "Esquive aux compétences à distance : "+level+"%"));
 			GameView.instance.getPlayingCardController(this.id).showIcons();
-			GameView.instance.displaySkillEffect(this.id, "Embusqué\nEsquive : "+level+"%", 1);
-			GameView.instance.addAnim(GameView.instance.getTile(this.id), 32);
+
+			if(toDisplay){
+				GameView.instance.displaySkillEffect(this.id, "Embusqué\nEsquive : "+level+"%", 1);
+				GameView.instance.addAnim(GameView.instance.getTile(this.id), 32);
+			}
 		}
 	}
 
-	public void checkSniper(){
+	public void checkSniper(bool toDisplay){
 		if((card.Skills[0].Id == 35)){
 			int bonus = 5*card.Skills[0].Power;
 		
 			GameView.instance.getCard(this.id).magicalBonusModifyers.Add(new Modifyer(-1*bonus, -1, 35, "Sniper", "-"+bonus+"% aux dégats à distance. Permanent"));
 			GameView.instance.getPlayingCardController(this.id).updateAttack();
-			GameView.instance.displaySkillEffect(this.id, "Dégats -"+bonus+"%", 1);
-			GameView.instance.addAnim(GameView.instance.getTile(this.id), 35);
+
+			if(toDisplay){
+				GameView.instance.displaySkillEffect(this.id, "Dégats -"+bonus+"%", 1);
+				GameView.instance.addAnim(GameView.instance.getTile(this.id), 35);
+			}
 		}
 	}
 
-	public void checkPassiveSkills()
+	public void checkPassiveSkills(bool toDisplay)
 	{
-		this.checkPaladin();
-		this.checkAguerri();
-		this.checkRapide();
-		this.checkAgile();
-		this.checkCuirasse();
-		this.checkEmbusque();
-		this.checkSniper();
+		this.checkPaladin(toDisplay);
+		this.checkAguerri(toDisplay);
+		this.checkRapide(toDisplay);
+		this.checkAgile(toDisplay);
+		this.checkCuirasse(toDisplay);
+		this.checkEmbusque(toDisplay);
+		this.checkSniper(toDisplay);
 	}
 }
 

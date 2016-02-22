@@ -8,6 +8,7 @@ public class Massue : GameSkill
 		this.numberOfExpectedTargets = 1 ; 
 		base.name = "Massue";
 		base.ciblage = 1 ;
+		base.auto = false;
 	}
 	
 	public override void launch()

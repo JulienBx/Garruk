@@ -8,6 +8,7 @@ public class Confusion : GameSkill
 		this.numberOfExpectedTargets = 1 ;
 		base.name = "Confusion";
 		base.ciblage = 1 ;
+		base.auto = false;
 	}
 	
 	public override void launch()

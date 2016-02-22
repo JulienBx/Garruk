@@ -8,6 +8,7 @@ public class Mitraillette : GameSkill
 		this.numberOfExpectedTargets = 1 ;
 		base.name = "Mitraillette";
 		base.ciblage = 0 ;
+		base.auto = true;
 	}
 	
 	public override void launch()

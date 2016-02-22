@@ -7,6 +7,7 @@ public class Electropiege : GameSkill
 		this.numberOfExpectedTargets = 1 ;
 		base.name = "Electropiège";
 		base.ciblage = 6 ;
+		base.auto = false;
 	}
 	
 	public override void launch()
