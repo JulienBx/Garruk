@@ -5,7 +5,10 @@ public class newMyGameCardTypeFilterController : SpriteButtonController
 {	
 	public void OnMouseUp()
 	{
-		newMyGameController.instance.cardTypeFilterHandler (base.getId());	
+		if(!TutorialObjectController.instance.getIsTutorialDisplayed())
+		{
+			newMyGameController.instance.cardTypeFilterHandler (base.getId());
+		}
 	}
 }
 

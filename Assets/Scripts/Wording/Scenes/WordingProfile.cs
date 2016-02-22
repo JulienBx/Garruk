@@ -50,5 +50,6 @@ public class WordingProfile
 		references.Add(new string[]{"Les deux mots de passes doivent être identiques",""}); //33
 		references.Add(new string[]{"Vous ne pouvez pas utiliser de caractères spéciaux",""}); //34
 		references.Add(new string[]{"Veuillez saisir une adresse email valide",""}); //35
+		references.Add(new string[]{"2 caractères minimum pour lancer la recherche",""}); //36
 	}
 }

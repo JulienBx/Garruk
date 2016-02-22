@@ -125,7 +125,8 @@ public class StoreTutorialController : TutorialObjectController
 				}
 				gameObjectPosition = this.getCardFocused().transform.FindChild("FocusFeature4").position;
 				gameObjectPosition=new Vector3(gameObjectPosition.x-ApplicationDesignRules.focusedCardPosition.x,gameObjectPosition.y+1.5f*ApplicationDesignRules.roundButtonWorldSize.y-ApplicationDesignRules.focusedCardPosition.y-System.Convert.ToInt32(!ApplicationDesignRules.isMobileScreen)*ApplicationDesignRules.upMargin/2f,0f);
-				this.adjustDownArrowY(gameObjectPosition);
+				this.resizeArrow(gameObjectPosition);
+				this.setStartTranslation(gameObjectPosition.y);
 			}
 			else
 			{

@@ -96,7 +96,7 @@ public class MyGameTutorialController : TutorialObjectController
 			else
 			{
 				this.displayDragHelp(true,true);
-				this.resizeBackground(new Rect(0,-1.25f,ApplicationDesignRules.worldWidth+1,6),1f,0.9f);
+				this.resizeBackground(new Rect(0,-2f,ApplicationDesignRules.worldWidth+1,8f),1f,0.9f);
 				this.resizePopUp(new Vector3(0,-3f,-9.5f));
 			}
 			this.resizeDragHelp(new Vector3(0f,0f,0f));
