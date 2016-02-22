@@ -4,6 +4,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using TMPro;
+using System.Text;
+using System.Globalization;
 
 public class newMyGameController : MonoBehaviour
 {
@@ -1445,9 +1447,9 @@ public class newMyGameController : MonoBehaviour
 		{
 			for (int i = 0; i < model.skillsList.Count; i++) 
 			{  
-				if (WordingSkills.getName(model.skillsList [i].Id).ToLower ().Contains (this.valueSkill.ToLower())) 
+				if(this.removeDiacritics(WordingSkills.getName(model.skillsList [i].Id).ToLower()).Contains(this.removeDiacritics(this.valueSkill).ToLower()))
 				{
-					this.skillsDisplayed.Add (i);
+				    this.skillsDisplayed.Add (i);
 					this.skillChoices[this.skillsDisplayed.Count-1].SetActive(true);
 					this.skillChoices[this.skillsDisplayed.Count-1].GetComponent<newMyGameSkillChoiceController>().reset();
 					this.skillChoices[this.skillsDisplayed.Count-1].transform.FindChild("Title").GetComponent<TextMeshPro>().text = WordingSkills.getName(model.skillsList [i].Id);
@@ -2110,6 +2112,21 @@ public class newMyGameController : MonoBehaviour
 			}
 		}
 		return false;
+	}
+	private string removeDiacritics(string text) 
+	{
+	    var normalizedString = text.Normalize(NormalizationForm.FormD);
+	    var stringBuilder = new StringBuilder();
+
+	    foreach (var c in normalizedString)
+	    {
+	        var unicodeCategory = CharUnicodeInfo.GetUnicodeCategory(c);
+	        if (unicodeCategory != UnicodeCategory.NonSpacingMark)
+	        {
+	            stringBuilder.Append(c);
+	        }
+	    }
+	    return stringBuilder.ToString().Normalize(NormalizationForm.FormC);
 	}
 	#region TUTORIAL FUNCTIONS
 
