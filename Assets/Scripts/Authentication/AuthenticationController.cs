@@ -727,7 +727,11 @@ public class AuthenticationController : Photon.MonoBehaviour
 		else if(!Regex.IsMatch(username, @"^[a-zA-Z0-9_]+$"))
 		{
 			return WordingAuthentication.getReference(3);
-		}   
+		}
+		else if(username.Length>12)
+		{
+			return WordingAuthentication.getReference(12);
+		}      
 		return "";
 	}
 	public string checkPasswordEgality (string password1, string password2)

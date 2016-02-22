@@ -608,11 +608,10 @@ public class TutorialObjectController : MonoBehaviour
 		arrowLocalPosition.y=correction+0.3f-backgroundRect.height/2f;
 		this.arrow.transform.localPosition=arrowLocalPosition;
 	}
-	public void adjustDownArrowY(float correction)
+	public void adjustDownArrowY(Vector3 correction)
 	{
-		Vector3 arrowLocalPosition = this.arrow.transform.localPosition;
-		arrowLocalPosition.y=correction+0.3f+backgroundRect.height/2f;
-		this.arrow.transform.localPosition=arrowLocalPosition;
+		this.arrow.transform.localPosition=correction;
+		this.startTranslation=correction.y;
 	}
 	public void adjustLeftArrowY(float correction)
 	{

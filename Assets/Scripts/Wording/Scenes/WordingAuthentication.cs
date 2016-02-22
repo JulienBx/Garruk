@@ -26,5 +26,6 @@ public class WordingAuthentication
 		references.Add(new string[]{"Veuillez saisir une adresse email valide",""});//9
 		references.Add(new string[]{"Connexion avec Facebook",""});//10
 		references.Add(new string[]{"Inscription avec Facebook",""});//11
+		references.Add(new string[]{"Le pseudo ne doit pas comporter plus de 12 caractères",""}); //12
 	}
 }

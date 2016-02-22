@@ -24,7 +24,7 @@ public class WordingNotifications
 		contents=new List<string[]>();
 		contents.Add(new string[]{"#*communication*#","#*communication*#"}); //0
 		contents.Add(new string[]{"a acheté votre #*card*# pour #*value*# crédits"," #*card*#  #*value*# "}); //1
-		contents.Add(new string[]{"a accepté votre demaine et est désormais votre ami"," "}); //2
-		contents.Add(new string[]{"souhaite faire parti de vos amis. Accepter ?"," "}); //3
+		contents.Add(new string[]{"a accepté votre demande et est désormais votre ami"," "}); //2
+		contents.Add(new string[]{"souhaite faire partie de vos amis. Accepter ?"," "}); //3
 	}
 }
