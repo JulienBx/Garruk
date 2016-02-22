@@ -68,7 +68,7 @@ public class StoreTutorialController : TutorialObjectController
 			}
 			else
 			{
-				this.resizeBackground(new Rect(0,-0.25f,ApplicationDesignRules.worldWidth+1,5.5f),0f,0f);
+				this.resizeBackground(new Rect(0,-0.25f,ApplicationDesignRules.worldWidth+1f,5.5f),0f,0f);
 			}
 			break;
 		case 3: // Affichage des premières recrues
@@ -87,12 +87,12 @@ public class StoreTutorialController : TutorialObjectController
 				}
 				if(ApplicationDesignRules.isMobileScreen)
 				{
-					this.resizeBackground(new Rect(0,1f,ApplicationDesignRules.worldWidth+1,6f),1f,1f);
+					this.resizeBackground(new Rect(0,0.1f,ApplicationDesignRules.worldWidth+1,7.8f),1f,1f);
 					this.resizePopUp(new Vector3(0,-3.5f,-9.5f));
 				}
 				else
 				{
-					this.resizeBackground(new Rect(0,-0.25f,ApplicationDesignRules.worldWidth+1,5.5f),1f,1f);
+					this.resizeBackground(new Rect(0,-1f,ApplicationDesignRules.worldWidth+1f,8f),1f,1f);
 					this.resizePopUp(new Vector3(0,-3.5f,-9.5f));
 				}
 			}
@@ -117,15 +117,15 @@ public class StoreTutorialController : TutorialObjectController
 				}
 				if(ApplicationDesignRules.isMobileScreen)
 				{
-					this.resizeBackground(new Rect(0,1f,ApplicationDesignRules.worldWidth+1,6f),1f,1f);
+					this.resizeBackground(new Rect(0,0.1f,ApplicationDesignRules.worldWidth+1,7.8f),1f,1f);
 				}
 				else
 				{
-					this.resizeBackground(new Rect(0,-0.25f,ApplicationDesignRules.worldWidth+1,5.5f),1f,1f);
+					this.resizeBackground(new Rect(0,-1f,ApplicationDesignRules.worldWidth+1f,8f),1f,1f);
 				}
 				gameObjectPosition = this.getCardFocused().transform.FindChild("FocusFeature4").position;
-				gameObjectPosition=new Vector3(gameObjectPosition.x-ApplicationDesignRules.focusedCardPosition.x,gameObjectPosition.y-ApplicationDesignRules.focusedCardPosition.y-System.Convert.ToInt32(!ApplicationDesignRules.isMobileScreen)*ApplicationDesignRules.upMargin/2f,0f);
-				this.resizeArrow(gameObjectPosition);
+				gameObjectPosition=new Vector3(gameObjectPosition.x-ApplicationDesignRules.focusedCardPosition.x,gameObjectPosition.y+1.5f*ApplicationDesignRules.roundButtonWorldSize.y-ApplicationDesignRules.focusedCardPosition.y-System.Convert.ToInt32(!ApplicationDesignRules.isMobileScreen)*ApplicationDesignRules.upMargin/2f,0f);
+				this.adjustDownArrowY(gameObjectPosition);
 			}
 			else
 			{
