@@ -5,15 +5,24 @@ public class newMyGameCursorController : SpriteButtonController
 {
 	void OnMouseDrag()
 	{
-		newMyGameController.instance.moveCursors (base.getId ());	
+		if(!TutorialObjectController.instance.getIsTutorialDisplayed())
+		{
+			newMyGameController.instance.moveCursors (base.getId ());
+		}
 	}
 	void OnMouseDown()
 	{
-		newMyGameController.instance.startSlidingCursors();
+		if(!TutorialObjectController.instance.getIsTutorialDisplayed())
+		{
+			newMyGameController.instance.startSlidingCursors();
+		}
 	}
 	void OnMouseUp()
 	{
-		newMyGameController.instance.endSlidingCursors();
+		if(!TutorialObjectController.instance.getIsTutorialDisplayed())
+		{
+			newMyGameController.instance.endSlidingCursors();
+		}
 	}
 	public override void setHoveredState()
 	{

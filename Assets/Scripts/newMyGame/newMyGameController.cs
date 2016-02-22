@@ -922,10 +922,10 @@ public class newMyGameController : MonoBehaviour
 		{
 			this.deleteDeckPopUpResize();
 		}
-		TutorialObjectController.instance.resize ();
 		MenuController.instance.resize();
 		MenuController.instance.setCurrentPage(1);
 		MenuController.instance.refreshMenuObject();
+		TutorialObjectController.instance.resize ();
 	}
 	public void drawCards()
 	{
@@ -1644,22 +1644,22 @@ public class newMyGameController : MonoBehaviour
 	{
 		if(name.Length>12)
 		{
-			return WordingMyGame.getReference(7);
+			return WordingDeck.getReference(7);
 		}
 		if(!Regex.IsMatch(name, @"^[a-zA-Z0-9_\s]+$"))
 		{
-			return WordingMyGame.getReference(8);
+			return WordingDeck.getReference(8);
 		}
 		for(int i=0;i<model.decks.Count;i++)
 		{
 			if(model.decks[i].Name==name && i!=this.deckDisplayed)
 			{
-				return WordingMyGame.getReference(9);
+				return WordingDeck.getReference(9);
 			}
 		}
 		if(name=="")
 		{
-			return WordingMyGame.getReference(10);
+			return WordingDeck.getReference(10);
 		}
 		return "";
 	}

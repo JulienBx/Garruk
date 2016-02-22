@@ -50,7 +50,10 @@ public class newMyGameSkillSearchBarController : InterfaceController
 	}
 	void OnMouseUp()
 	{
-		this.startInput();
+		if(!TutorialObjectController.instance.getIsTutorialDisplayed())
+		{
+			this.startInput();
+		}
 	}
 	void OnGUI()
 	{

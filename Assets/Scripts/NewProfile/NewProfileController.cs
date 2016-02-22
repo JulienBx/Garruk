@@ -42,6 +42,7 @@ public class NewProfileController : MonoBehaviour
 	private GameObject searchSubtitle;
 	private GameObject searchBar;
 	private GameObject searchButton;
+	private GameObject searchError;
 
 	private GameObject resultsBlock;
 	private GameObject resultsBlockTitle;
@@ -528,6 +529,8 @@ public class NewProfileController : MonoBehaviour
 		this.searchButton = GameObject.Find ("SearchButton");
 		this.searchButton.AddComponent<NewProfileSearchButtonController> ();
 		this.searchButton.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingProfile.getReference(9);
+		this.searchError = GameObject.Find("SearchError");
+		this.searchError.GetComponent<TextMeshPro>().color=ApplicationDesignRules.redColor;
 
 		this.resultsBlock = Instantiate (this.blockObject) as GameObject;
 		this.resultsBlockTitle = GameObject.Find ("ResultsBlockTitle");
@@ -787,6 +790,9 @@ public class NewProfileController : MonoBehaviour
 
 		this.searchButton.transform.position = new Vector3(searchBlockUpperRightPosition.x-searchMargin-ApplicationDesignRules.button61WorldSize.x/2f,searchOrigin.y-searchElementsLine,searchOrigin.z);
 		this.searchButton.transform.localScale = ApplicationDesignRules.largeInputTextScale;
+
+		this.searchError.transform.position=new Vector3(searchOrigin.x,searchOrigin.y-searchElementsLine-0.45f,0f);
+		this.searchError.transform.localScale=ApplicationDesignRules.largeInputTextScale;
 
 		this.friendsBlock.GetComponent<NewBlockController> ().resize(friendsBlockLeftMargin,friendsBlockUpMargin,ApplicationDesignRules.blockWidth,friendsBlockHeight);
 		Vector3 friendsBlockUpperLeftPosition = this.friendsBlock.GetComponent<NewBlockController> ().getUpperLeftCornerPosition ();
@@ -1733,6 +1739,11 @@ public class NewProfileController : MonoBehaviour
 		if(this.searchValue.Length>2)
 		{
 			this.displaySearchUsersPopUp(this.searchValue);
+			this.searchError.GetComponent<TextMeshPro>().text="";
+		}
+		else
+		{
+			this.searchError.GetComponent<TextMeshPro>().text=WordingProfile.getReference(36);
 		}
 	}
 	private void displaySearchUsersPopUp(string searchValue)
