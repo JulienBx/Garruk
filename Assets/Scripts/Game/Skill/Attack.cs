@@ -62,7 +62,7 @@ public class Attack : GameSkill
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int damages = currentCard.getNormalDamagesAgainst(targetCard, currentCard.getAttack());
 
-		string text = "PV : "+currentCard.getLife()+" -> "+(currentCard.getLife()-damages);
+		string text = "PV : "+targetCard.getLife()+" -> "+(targetCard.getLife()-damages);
 						
 		if (currentCard.isLache()){
 			if(GameView.instance.getIsFirstPlayer() == currentCard.isMine){

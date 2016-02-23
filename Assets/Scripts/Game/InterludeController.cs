@@ -147,7 +147,7 @@ public class InterludeController : MonoBehaviour
 						StartCoroutine(GameView.instance.launchIABourrin());
 					}
 				}
-				if(GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).isFurious()){
+				if(GameView.instance.getCurrentCard().isMine && GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).isFurious()){
 					StartCoroutine(GameView.instance.launchFury());
 				}
 				GameView.instance.runningSkill = -1;

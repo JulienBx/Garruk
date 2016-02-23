@@ -528,7 +528,7 @@ public class GameCard : Card
 	
 	public bool isIntouchable()
 	{
-		return (this.state.type==2);
+		return (this.state.type==11);
 	}
 
 	public bool isPoisoned()

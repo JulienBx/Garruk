@@ -85,7 +85,10 @@ public class TimerController : MonoBehaviour
 			}
 		}
 		else{
-			GameController.instance.quitGameHandler();
+			GameView.instance.stopCountingTime();
+			if(isMine){
+				GameController.instance.quitGameHandler();
+			}
 		}
 	}
 }

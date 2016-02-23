@@ -260,16 +260,16 @@ public class WordingSkills
 		//20 - Terreur
 		idSkills.Add(20);
 		names.Add(new string[]{"Terreur",""}); 
-		descriptions.Add(new string[]{"Attaque et effraye l'unité ciblée (ne peut utiliser de compétences au prochain tour)",""}); 
-		descriptions.Add(new string[]{"Attaque et effraye l'unité ciblée (ne peut utiliser de compétences au prochain tour)",""}); 
-		descriptions.Add(new string[]{"Attaque et effraye l'unité ciblée (ne peut utiliser de compétences au prochain tour)",""}); 
-		descriptions.Add(new string[]{"Attaque et effraye l'unité ciblée (ne peut utiliser de compétences au prochain tour)",""}); 
-		descriptions.Add(new string[]{"Attaque et effraye l'unité ciblée (ne peut utiliser de compétences au prochain tour)",""}); 
-		descriptions.Add(new string[]{"Attaque et effraye l'unité ciblée (ne peut utiliser de compétences au prochain tour)",""}); 
-		descriptions.Add(new string[]{"Attaque et effraye l'unité ciblée (ne peut utiliser de compétences au prochain tour)",""}); 
-		descriptions.Add(new string[]{"Attaque et effraye l'unité ciblée (ne peut utiliser de compétences au prochain tour)",""}); 
-		descriptions.Add(new string[]{"Attaque et effraye l'unité ciblée (ne peut utiliser de compétences au prochain tour)",""}); 
-		descriptions.Add(new string[]{"Attaque et effraye l'unité ciblée (ne peut utiliser de compétences au prochain tour)",""}); 
+		descriptions.Add(new string[]{"Attaque et effraye l'unité ciblée (ne peut agir au tour suivant)",""}); 
+		descriptions.Add(new string[]{"Attaque et effraye l'unité ciblée (ne peut agir au tour suivant)",""}); 
+		descriptions.Add(new string[]{"Attaque et effraye l'unité ciblée (ne peut agir au tour suivant)",""}); 
+		descriptions.Add(new string[]{"Attaque et effraye l'unité ciblée (ne peut agir au tour suivant)",""}); 
+		descriptions.Add(new string[]{"Attaque et effraye l'unité ciblée (ne peut agir au tour suivant)",""}); 
+		descriptions.Add(new string[]{"Attaque et effraye l'unité ciblée (ne peut agir au tour suivant)",""}); 
+		descriptions.Add(new string[]{"Attaque et effraye l'unité ciblée (ne peut agir au tour suivant)",""}); 
+		descriptions.Add(new string[]{"Attaque et effraye l'unité ciblée (ne peut agir au tour suivant)",""}); 
+		descriptions.Add(new string[]{"Attaque et effraye l'unité ciblée (ne peut agir au tour suivant)",""}); 
+		descriptions.Add(new string[]{"Attaque et effraye l'unité ciblée (ne peut agir au tour suivant)",""}); 
 		//21 - Cannibale
 		idSkills.Add(21);
 		names.Add(new string[]{"Cannibale",""}); 

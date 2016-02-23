@@ -200,10 +200,13 @@ public class TileController : GameObjectController
 	
 	public void showRock()
 	{
-		gameObject.transform.FindChild("TrapLayer").GetComponent<SpriteRenderer>().sprite = this.trapSprites[0];
-		gameObject.transform.FindChild("TrapLayer").GetComponent<SpriteRenderer>().enabled = true;
 		if(this.type==2){
-			gameObject.transform.FindChild("TrapLayer").GetComponent<SpriteRenderer>().color = new Color(231f/255f, 0f, 66f/255f, 1f);
+			gameObject.transform.FindChild("TrapLayer").GetComponent<SpriteRenderer>().sprite = this.trapSprites[3];
+			gameObject.transform.FindChild("TrapLayer").GetComponent<SpriteRenderer>().enabled = true;
+		}
+		else{
+			gameObject.transform.FindChild("TrapLayer").GetComponent<SpriteRenderer>().sprite = this.trapSprites[0];
+			gameObject.transform.FindChild("TrapLayer").GetComponent<SpriteRenderer>().enabled = true;
 		}
 	}
 	
@@ -425,7 +428,7 @@ public class TileController : GameObjectController
 			GameView.instance.getPlayingCardController(characterID).showHover(false);
 		}
 		
-		if(this.type==1 || this.isTrapped){
+		if(this.type==1 || this.type==2 || this.isTrapped){
 			this.showDescription(false);
 		}
 	}
