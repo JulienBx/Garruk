@@ -723,6 +723,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 7a21bed42c055b84085efde435b9c407, type: 3}
   - {fileID: 21300012, guid: 7a21bed42c055b84085efde435b9c407, type: 3}
   - {fileID: 21300010, guid: 7a21bed42c055b84085efde435b9c407, type: 3}
+  - {fileID: 21300066, guid: 7e1b4151ad140b74da11c36c23719857, type: 3}
   destinationSprites:
   - {fileID: 21300006, guid: 7a21bed42c055b84085efde435b9c407, type: 3}
   - {fileID: 21300006, guid: 7a21bed42c055b84085efde435b9c407, type: 3}
@@ -2969,6 +2970,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: animSprites.Array.size
       value: 2000
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: trapSprites.Array.size
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: targetSprites.Array.size
@@ -5437,6 +5442,11 @@ Prefab:
       propertyPath: animSprites.Array.data[518]
       value: 
       objectReference: {fileID: 21300016, guid: b1c87354a2dcc0745b8513e759375dcc,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: trapSprites.Array.data[3]
+      value: 
+      objectReference: {fileID: 21300066, guid: 7e1b4151ad140b74da11c36c23719857,
         type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
