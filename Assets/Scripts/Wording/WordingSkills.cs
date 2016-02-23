@@ -2079,16 +2079,16 @@ public class WordingSkills
 		//93 - Furie
 		idSkills.Add(93);
 		names.Add(new string[]{"Furie",""}); 
-		descriptions.Add(new string[]{"Gagne 2PV, 1ATK et devient incontrolable (peut attaquer alliés ou ennemis)",""}); 
-		descriptions.Add(new string[]{"Gagne 4PV, 2ATK et devient incontrolable (peut attaquer alliés ou ennemis)",""}); 
-		descriptions.Add(new string[]{"Gagne 6PV, 3ATK et devient incontrolable (peut attaquer alliés ou ennemis)",""}); 
-		descriptions.Add(new string[]{"Gagne 8PV, 4ATK et devient incontrolable (peut attaquer alliés ou ennemis)",""}); 
-		descriptions.Add(new string[]{"Gagne 10PV, 5ATK et devient incontrolable (peut attaquer alliés ou ennemis)",""}); 
-		descriptions.Add(new string[]{"Gagne 12PV, 6ATK et devient incontrolable (peut attaquer alliés ou ennemis)",""}); 
-		descriptions.Add(new string[]{"Gagne 14PV, 7ATK et devient incontrolable (peut attaquer alliés ou ennemis)",""}); 
-		descriptions.Add(new string[]{"Gagne 16PV, 8ATK et devient incontrolable (peut attaquer alliés ou ennemis)",""}); 
-		descriptions.Add(new string[]{"Gagne 18PV, 9ATK et devient incontrolable (peut attaquer alliés ou ennemis)",""}); 
-		descriptions.Add(new string[]{"Gagne 20PV, 10ATK et devient incontrolable (peut attaquer alliés ou ennemis)",""}); 
+		descriptions.Add(new string[]{"Gagne 2PV, 1ATK et devient incontrolable (attaque alliés et ennemis)",""}); 
+		descriptions.Add(new string[]{"Gagne 4PV, 2ATK et devient incontrolable (attaque alliés et ennemis)",""}); 
+		descriptions.Add(new string[]{"Gagne 6PV, 3ATK et devient incontrolable (attaque alliés et ennemis)",""}); 
+		descriptions.Add(new string[]{"Gagne 8PV, 4ATK et devient incontrolable (attaque alliés et ennemis)",""}); 
+		descriptions.Add(new string[]{"Gagne 10PV, 5ATK et devient incontrolable (attaque alliés et ennemis)",""}); 
+		descriptions.Add(new string[]{"Gagne 12PV, 6ATK et devient incontrolable (attaque alliés et ennemis)",""}); 
+		descriptions.Add(new string[]{"Gagne 14PV, 7ATK et devient incontrolable (attaque alliés et ennemis)",""}); 
+		descriptions.Add(new string[]{"Gagne 16PV, 8ATK et devient incontrolable (attaque alliés et ennemis)",""}); 
+		descriptions.Add(new string[]{"Gagne 18PV, 9ATK et devient incontrolable (attaque alliés et ennemis)",""}); 
+		descriptions.Add(new string[]{"Gagne 20PV, 10ATK et devient incontrolable (attaque alliés et ennemis)",""}); 
 		probas.Add(100); 
 		probas.Add(100); 
 		probas.Add(100); 

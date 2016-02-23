@@ -758,10 +758,11 @@ public class GameView : MonoBehaviour
 	}
 	
 	public void setNextPlayer(){
+
 		isFreezed = true ;
 		int length = this.playingCards.Count;
 		this.hideButtons();
-
+		this.hoveringZone=-1 ;
 		StartCoroutine(launchEndTurnEffects());
 	}
 
@@ -2252,7 +2253,7 @@ public class GameView : MonoBehaviour
 
 		if(character!=-1){
 			if(distance > 0){
-				this.clickDestination(chosenTile, this.currentPlayingCard);
+				GameController.instance.clickDestination(chosenTile, this.currentPlayingCard);
 			}
 		}
 		else{
@@ -2270,7 +2271,7 @@ public class GameView : MonoBehaviour
 					}
 				}
 			}
-			this.clickDestination(chosenTile, this.currentPlayingCard);
+			GameController.instance.clickDestination(chosenTile, this.currentPlayingCard);
 		}
 		return character ;
 	}

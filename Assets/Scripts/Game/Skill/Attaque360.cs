@@ -58,7 +58,7 @@ public class Attaque360 : GameSkill
 		string text = base.name;
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
-		int percentage = Mathf.RoundToInt(currentCard.getAttack()*(GameView.instance.getCurrentSkill().Power*5f+50f));
+		int percentage = Mathf.RoundToInt(currentCard.getAttack()*(GameView.instance.getCurrentSkill().Power*5f+50f)/100f);
 		int damages = currentCard.getNormalDamagesAgainst(targetCard, percentage);
 		
 		GameView.instance.displaySkillEffect(target, "-"+damages+"PV", 0);
