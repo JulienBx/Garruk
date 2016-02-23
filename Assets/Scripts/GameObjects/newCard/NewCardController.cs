@@ -255,30 +255,36 @@ public class NewCardController : NewFocusedCardController
 	public override Vector3 getCardUpgradePosition (int caracteristicUpgraded)
 	{
 		GameObject refObject = new GameObject ();
+		float refSizeX=0f;
 		float gap = 0.165f;
 		switch(caracteristicUpgraded)
 		{
 		case 0:
 			refObject = this.attack.transform.FindChild("Text").gameObject;
+			refSizeX = refObject.transform.GetComponent<MeshRenderer> ().bounds.size.x;
 			break;
 		case 1:
 			refObject=this.life.transform.FindChild("Text").gameObject.gameObject;
+			refSizeX = refObject.transform.GetComponent<MeshRenderer> ().bounds.size.x;
 			break;
 		case 3:
-			refObject=this.skills[0].transform.FindChild ("Name").gameObject;
+			refObject=this.skills[0].gameObject;
+			refSizeX = refObject.transform.GetComponent<SpriteRenderer> ().bounds.size.x;
 			break;
 		case 4:
-			refObject=this.skills[1].transform.FindChild ("Name").gameObject;
+			refObject=this.skills[1].gameObject;
+			refSizeX = refObject.transform.GetComponent<SpriteRenderer> ().bounds.size.x;
 			break;
 		case 5:
-			refObject=this.skills[2].transform.FindChild ("Name").gameObject;
+			refObject=this.skills[2].gameObject;
+			refSizeX = refObject.transform.GetComponent<SpriteRenderer> ().bounds.size.x;
 			break;
 		case 6:
-			refObject=this.skills[3].transform.FindChild ("Name").gameObject;
+			refObject=this.skills[3].gameObject;
+			refSizeX = refObject.transform.GetComponent<SpriteRenderer> ().bounds.size.x;
 			break;
 		}
 		Vector3 refPosition =refObject.transform.position;
-		float refSizeX = refObject.transform.GetComponent<MeshRenderer> ().bounds.size.x;
 		return new Vector3 (refPosition.x+gap+refSizeX/2f,refPosition.y,0f);
 	}
 	public virtual Sprite getSkillSprite(int id)

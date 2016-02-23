@@ -1157,7 +1157,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 190900}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -15.721763, y: 45.676388, z: 0}
+  m_LocalPosition: {x: -0.5907817, y: -201.35086, z: 0}
   m_LocalScale: {x: 0.26944447, y: 0.26944447, z: 0.26944447}
   m_Children:
   - {fileID: 487878}
@@ -1448,8 +1448,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 104406}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.5398283, y: 1.25, z: 1.25}
+  m_LocalPosition: {x: 0, y: 0.011, z: 0}
+  m_LocalScale: {x: 1.5, y: 1.25, z: 1.25}
   m_Children: []
   m_Father: {fileID: 480652}
   m_RootOrder: 0
@@ -1637,7 +1637,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 150586}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 3.68, z: 0}
+  m_LocalPosition: {x: 0, y: -3.3, z: 0}
   m_LocalScale: {x: 4.487573, y: 4.487573, z: 4.487573}
   m_Children:
   - {fileID: 446620}
@@ -4075,25 +4075,25 @@ MonoBehaviour:
   - {fileID: 21300008, guid: 93aa04ff847cf4287b8b32a81c753a46, type: 3}
   - {fileID: 21300032, guid: 93aa04ff847cf4287b8b32a81c753a46, type: 3}
   caracters:
-  - {fileID: 21300004, guid: 93aa04ff847cf4287b8b32a81c753a46, type: 3}
+  - {fileID: 0}
   - {fileID: 21300000, guid: 93aa04ff847cf4287b8b32a81c753a46, type: 3}
-  - {fileID: 21300022, guid: 93aa04ff847cf4287b8b32a81c753a46, type: 3}
-  - {fileID: 21300018, guid: 93aa04ff847cf4287b8b32a81c753a46, type: 3}
-  - {fileID: 21300016, guid: 93aa04ff847cf4287b8b32a81c753a46, type: 3}
-  - {fileID: 21300006, guid: 93aa04ff847cf4287b8b32a81c753a46, type: 3}
-  - {fileID: 21300020, guid: 93aa04ff847cf4287b8b32a81c753a46, type: 3}
-  - {fileID: 21300024, guid: 93aa04ff847cf4287b8b32a81c753a46, type: 3}
-  - {fileID: 21300012, guid: 93aa04ff847cf4287b8b32a81c753a46, type: 3}
-  - {fileID: 21300010, guid: 93aa04ff847cf4287b8b32a81c753a46, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   colors:
   - {r: 0.67058825, g: 0.67058825, b: 0.67058825, a: 1}
   - {r: 0.29411766, g: 0.6392157, b: 0.68235296, a: 1}
   - {r: 0.85294116, g: 0.27595156, b: 0.27595156, a: 1}
   backFace: {fileID: 21300040, guid: 93aa04ff847cf4287b8b32a81c753a46, type: 3}
   skills:
-  - {fileID: 21300038, guid: 93aa04ff847cf4287b8b32a81c753a46, type: 3}
-  - {fileID: 21300030, guid: 93aa04ff847cf4287b8b32a81c753a46, type: 3}
-  - {fileID: 21300036, guid: 93aa04ff847cf4287b8b32a81c753a46, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!114 &11467912
 MonoBehaviour:
   m_ObjectHideFlags: 1

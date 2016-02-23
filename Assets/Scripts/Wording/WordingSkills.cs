@@ -7,6 +7,7 @@ public class WordingSkills
 {
 	public static IList<string[]> descriptions;
 	public static IList<string[]> names;
+	public static IList<int> probas;
 	private static IList<int> idSkills;
 
 	public static string getName(int idSkill)
@@ -17,11 +18,16 @@ public class WordingSkills
 	{
 		return descriptions[10*idSkills.IndexOf(idSkill)+idDescription][ApplicationModel.player.IdLanguage];
 	}
+	public static int getProba(int idSkill, int idProba)
+	{
+		return probas[10*idSkills.IndexOf(idSkill)+idProba];
+	}
 	static WordingSkills()
 	{
 		descriptions=new List<string[]>();
 		names = new List<string[]>();
 		idSkills=new List<int>();
+		probas = new List<int>();
 
 		//2 - PistoSoin
 		idSkills.Add(2);
@@ -35,7 +41,17 @@ public class WordingSkills
 		descriptions.Add(new string[]{"L'unité à distance ciblée gagne [7-21] PV",""}); 
 		descriptions.Add(new string[]{"L'unité à distance ciblée gagne [8-24] PV",""}); 
 		descriptions.Add(new string[]{"L'unité à distance ciblée gagne [9-27] PV",""}); 
-		descriptions.Add(new string[]{"L'unité à distance ciblée gagne [10-30] PV",""}); 
+		descriptions.Add(new string[]{"L'unité à distance ciblée gagne [10-30] PV",""});
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75);  
 		//3 - Fortifiant
 		idSkills.Add(3);
 		names.Add(new string[]{"Fortifiant",""}); 
@@ -49,6 +65,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"L'unité adjacente ciblée gagne 16 ATK au prochain tour",""}); 
 		descriptions.Add(new string[]{"L'unité adjacente ciblée gagne 18 ATK au prochain tour",""}); 
 		descriptions.Add(new string[]{"L'unité adjacente ciblée gagne 20 ATK au prochain tour",""}); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100);  
 		//4 - Relaxant
 		idSkills.Add(4);
 		names.Add(new string[]{"Relaxant",""}); 
@@ -61,7 +87,17 @@ public class WordingSkills
 		descriptions.Add(new string[]{"L'unité adjacente ciblée perd 19 ATK au prochain tour [minimum 1 ATK]",""}); 
 		descriptions.Add(new string[]{"L'unité adjacente ciblée perd 21 ATK au prochain tour [minimum 1 ATK]",""}); 
 		descriptions.Add(new string[]{"L'unité adjacente ciblée perd 23 ATK au prochain tour [minimum 1 ATK]",""}); 
-		descriptions.Add(new string[]{"L'unité adjacente ciblée perd 25 ATK au prochain tour [minimum 1 ATK]",""}); 
+		descriptions.Add(new string[]{"L'unité adjacente ciblée perd 25 ATK au prochain tour [minimum 1 ATK]",""});
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100);   
 		//5 - PistoLest
 		idSkills.Add(5);
 		names.Add(new string[]{"PistoLest",""}); 
@@ -75,6 +111,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Inflige [1-16] dégats à l'unité ciblée et -2MOV au prochain tour (minimum 1)",""}); 
 		descriptions.Add(new string[]{"Inflige [1-18] dégats à l'unité ciblée et -2MOV au prochain tour (minimum 1)",""}); 
 		descriptions.Add(new string[]{"Inflige [1-20] dégats à l'unité ciblée et -2MOV au prochain tour (minimum 1)",""}); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75);  
 		//6 - Adrénaline
 		idSkills.Add(6);
 		names.Add(new string[]{"Adrénaline",""}); 
@@ -87,7 +133,17 @@ public class WordingSkills
 		descriptions.Add(new string[]{"L'unité adjacente ciblée gagne 14PV et 2MOV au prochain tour",""}); 
 		descriptions.Add(new string[]{"L'unité adjacente ciblée gagne 16PV et 2MOV au prochain tour",""}); 
 		descriptions.Add(new string[]{"L'unité adjacente ciblée gagne 18PV et 2MOV au prochain tour",""}); 
-		descriptions.Add(new string[]{"L'unité adjacente ciblée gagne 20PV et 2MOV au prochain tour",""}); 
+		descriptions.Add(new string[]{"L'unité adjacente ciblée gagne 20PV et 2MOV au prochain tour",""});
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100);  
 		//7 - Antibiotique
 		idSkills.Add(7);
 		names.Add(new string[]{"Antibiotique",""}); 
@@ -100,7 +156,17 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Dissipe tous les effets de l'unité adjacente ciblée",""}); 
 		descriptions.Add(new string[]{"Dissipe tous les effets de l'unité adjacente ciblée",""}); 
 		descriptions.Add(new string[]{"Dissipe tous les effets de l'unité adjacente ciblée",""}); 
-		descriptions.Add(new string[]{"Dissipe tous les effets de l'unité adjacente ciblée",""}); 
+		descriptions.Add(new string[]{"Dissipe tous les effets de l'unité adjacente ciblée",""});
+		probas.Add(10); 
+		probas.Add(20); 
+		probas.Add(30); 
+		probas.Add(40); 
+		probas.Add(50); 
+		probas.Add(60); 
+		probas.Add(70); 
+		probas.Add(80); 
+		probas.Add(90); 
+		probas.Add(100);   
 		//8 - Pistolero
 		idSkills.Add(8);
 		names.Add(new string[]{"Pistolero",""}); 
@@ -114,6 +180,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Inflige [4-13] dégats à un ennemi aléatoire",""}); 
 		descriptions.Add(new string[]{"Inflige [5-14] dégats à un ennemi aléatoire",""}); 
 		descriptions.Add(new string[]{"Inflige [5-16] dégats à un ennemi aléatoire",""}); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100);  
 		//9 - Furtivité
 		idSkills.Add(9);
 		names.Add(new string[]{"Furtivité",""}); 
@@ -127,6 +203,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Gagne 8 ATK et esquive les attaques à distance pour un tour",""}); 
 		descriptions.Add(new string[]{"Gagne 9 ATK et esquive les attaques à distance pour un tour",""}); 
 		descriptions.Add(new string[]{"Gagne 10 ATK et esquive les attaques à distance pour un tour",""}); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100);  
 		//10 - Assassinat
 		idSkills.Add(10);
 		names.Add(new string[]{"Assassinat",""}); 
@@ -139,7 +225,17 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Anéantit l'unité ciblée",""}); 
 		descriptions.Add(new string[]{"Anéantit l'unité ciblée",""}); 
 		descriptions.Add(new string[]{"Anéantit l'unité ciblée",""}); 
-		descriptions.Add(new string[]{"Anéantit l'unité ciblée",""}); 
+		descriptions.Add(new string[]{"Anéantit l'unité ciblée",""});
+		probas.Add(5); 
+		probas.Add(10); 
+		probas.Add(15); 
+		probas.Add(20); 
+		probas.Add(25); 
+		probas.Add(30); 
+		probas.Add(35); 
+		probas.Add(40); 
+		probas.Add(45); 
+		probas.Add(50);   
 		//11 - Estoc
 		idSkills.Add(11);
 		names.Add(new string[]{"Estoc",""}); 
@@ -153,6 +249,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Inflige 080%ATK dégats et enlève 5 ATK à l'unité ciblée pour un tour",""}); 
 		descriptions.Add(new string[]{"Inflige 090%ATK dégats et enlève 5 ATK à l'unité ciblée pour un tour",""}); 
 		descriptions.Add(new string[]{"Inflige 100%ATK dégats et enlève 5 ATK à l'unité ciblée pour un tour",""}); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
 		//12 - Combo
 		idSkills.Add(12);
 		names.Add(new string[]{"Combo",""}); 
@@ -166,6 +272,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Inflige [1-13] fois 020%ATK dégats à l'unité ciblée",""}); 
 		descriptions.Add(new string[]{"Inflige [1-14] fois 020%ATK dégats à l'unité ciblée",""}); 
 		descriptions.Add(new string[]{"Inflige [1-15] fois 020%ATK dégats à l'unité ciblée",""}); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
 		//13 - Electropiège
 		idSkills.Add(13);
 		names.Add(new string[]{"Electropiège",""}); 
@@ -179,6 +295,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Pose un piège (inflige 16 dégats) sur le terrain ciblé",""}); 
 		descriptions.Add(new string[]{"Pose un piège (inflige 18 dégats) sur le terrain ciblé",""}); 
 		descriptions.Add(new string[]{"Pose un piège (inflige 20 dégats) sur le terrain ciblé",""}); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
 		//14 - Agilite
 		idSkills.Add(14);
 		names.Add(new string[]{"Agilite",""}); 
@@ -192,6 +318,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Confère 40% d'esquive au contact à l'unité",""}); 
 		descriptions.Add(new string[]{"Confère 45% d'esquive au contact à l'unité",""}); 
 		descriptions.Add(new string[]{"Confère 50% d'esquive au contact à l'unité",""}); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
 		//15 - Coupejambe
 		idSkills.Add(15);
 		names.Add(new string[]{"Coupejambe",""}); 
@@ -205,6 +341,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Inflige 050%ATK dégats et enlève 2 MOV à l'unité ciblée (minimum 1)",""}); 
 		descriptions.Add(new string[]{"Inflige 060%ATK dégats et enlève 2 MOV à l'unité ciblée (minimum 1)",""}); 
 		descriptions.Add(new string[]{"Inflige 070%ATK dégats et enlève 2 MOV à l'unité ciblée (minimum 1)",""}); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
 		//16 - Berserk
 		idSkills.Add(16);
 		names.Add(new string[]{"Berserk",""}); 
@@ -218,6 +364,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Inflige 140%ATK dégats à l'unité ciblée et s'inflige 025%PV dégats",""}); 
 		descriptions.Add(new string[]{"Inflige 145%ATK dégats à l'unité ciblée et s'inflige 025%PV dégats",""}); 
 		descriptions.Add(new string[]{"Inflige 150%ATK dégats à l'unité ciblée et s'inflige 025%PV dégats",""}); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
 		//17 - Attaque 360
 		idSkills.Add(17);
 		names.Add(new string[]{"Attaque 360",""}); 
@@ -231,6 +387,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Inflige 090%ATK dégats aux unités adjacentes",""}); 
 		descriptions.Add(new string[]{"Inflige 095%ATK dégats aux unités adjacentes",""}); 
 		descriptions.Add(new string[]{"Inflige 100%ATK dégats aux unités adjacentes",""}); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
 		//18 - Frenesie
 		idSkills.Add(18);
 		names.Add(new string[]{"Frenesie",""}); 
@@ -244,6 +410,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Gagne 5 ATK et s'inflige 6 dégats",""}); 
 		descriptions.Add(new string[]{"Gagne 5 ATK et s'inflige 4 dégats",""}); 
 		descriptions.Add(new string[]{"Gagne 5 ATK et s'inflige 2 dégats",""}); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
 		//19 - Cri de rage
 		idSkills.Add(19);
 		names.Add(new string[]{"Cri de rage",""}); 
@@ -257,6 +433,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Ajoute 8ATK pour 1 tour à toutes les unités adjacentes",""}); 
 		descriptions.Add(new string[]{"Ajoute 9ATK pour 1 tour à toutes les unités adjacentes",""}); 
 		descriptions.Add(new string[]{"Ajoute 10ATK pour 1 tour à toutes les unités adjacentes",""}); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
 		//20 - Terreur
 		idSkills.Add(20);
 		names.Add(new string[]{"Terreur",""}); 
@@ -270,6 +456,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Attaque et effraye l'unité ciblée (ne peut agir au tour suivant)",""}); 
 		descriptions.Add(new string[]{"Attaque et effraye l'unité ciblée (ne peut agir au tour suivant)",""}); 
 		descriptions.Add(new string[]{"Attaque et effraye l'unité ciblée (ne peut agir au tour suivant)",""}); 
+		probas.Add(15); 
+		probas.Add(20); 
+		probas.Add(25); 
+		probas.Add(30); 
+		probas.Add(35); 
+		probas.Add(40); 
+		probas.Add(45); 
+		probas.Add(50); 
+		probas.Add(55); 
+		probas.Add(60); 
 		//21 - Cannibale
 		idSkills.Add(21);
 		names.Add(new string[]{"Cannibale",""}); 
@@ -283,6 +479,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Dévore l'unité adjacente et gagne 50% de son ATK et de ses PV",""}); 
 		descriptions.Add(new string[]{"Dévore l'unité adjacente et gagne 55% de son ATK et de ses PV",""}); 
 		descriptions.Add(new string[]{"Dévore l'unité adjacente et gagne 60% de son ATK et de ses PV",""}); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
 		//22 - Laser
 		idSkills.Add(22);
 		names.Add(new string[]{"Laser",""}); 
@@ -296,6 +502,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Inflige 16 dégats à l'unité ciblée",""}); 
 		descriptions.Add(new string[]{"Inflige 18 dégats à l'unité ciblée",""}); 
 		descriptions.Add(new string[]{"Inflige 20 dégats à l'unité ciblée",""}); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75);  
 		//23 - Grenade
 		idSkills.Add(23);
 		names.Add(new string[]{"Grenade",""}); 
@@ -309,6 +525,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Inflige [8-18] dégats sur une zone ciblée",""}); 
 		descriptions.Add(new string[]{"Inflige [9-20] dégats sur une zone ciblée",""}); 
 		descriptions.Add(new string[]{"Inflige [10-22] dégats sur une zone ciblée",""}); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75);  
 		//24 - Bombardier
 		idSkills.Add(24);
 		names.Add(new string[]{"Bombardier",""}); 
@@ -322,6 +548,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Inflige [1-24] dégats à toutes les unités",""}); 
 		descriptions.Add(new string[]{"Inflige [1-27] dégats à toutes les unités",""}); 
 		descriptions.Add(new string[]{"Inflige [1-30] dégats à toutes les unités",""}); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75);  
 		//25 - Visée
 		idSkills.Add(25);
 		names.Add(new string[]{"Visée",""}); 
@@ -335,6 +571,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Bonus de 130% aux dégats de la prochaine compétence utilisée par l'unité",""}); 
 		descriptions.Add(new string[]{"Bonus de 140% aux dégats de la prochaine compétence utilisée par l'unité",""}); 
 		descriptions.Add(new string[]{"Bonus de 150% aux dégats de la prochaine compétence utilisée par l'unité",""}); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
 		//26 - Gros calibre
 		idSkills.Add(26);
 		names.Add(new string[]{"Gros calibre",""}); 
@@ -348,6 +594,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Inflige 180%ATK dégats à une unité adjacente",""}); 
 		descriptions.Add(new string[]{"Inflige 190%ATK dégats à une unité adjacente",""}); 
 		descriptions.Add(new string[]{"Inflige 200%ATK dégats à une unité adjacente",""}); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75);  
 		//27 - Lanceflammes
 		idSkills.Add(27);
 		names.Add(new string[]{"Lanceflammes",""}); 
@@ -361,6 +617,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Choisit une direction et inflige [8-18] dégats aux unités touchées",""}); 
 		descriptions.Add(new string[]{"Choisit une direction et inflige [9-20] dégats aux unités touchées",""}); 
 		descriptions.Add(new string[]{"Choisit une direction et inflige [10-22] dégats aux unités touchées",""}); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75);  
 		//28 - Implosion
 		idSkills.Add(28);
 		names.Add(new string[]{"Implosion",""}); 
@@ -374,6 +640,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Explose en infligeant [15-33] dégats aux unités adjacentes",""}); 
 		descriptions.Add(new string[]{"Explose en infligeant [17-37] dégats aux unités adjacentes",""}); 
 		descriptions.Add(new string[]{"Explose en infligeant [19-41] dégats aux unités adjacentes",""}); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
 		//29 - Protection
 		idSkills.Add(29);
 		names.Add(new string[]{"Protection",""}); 
@@ -386,7 +662,17 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Déploie un robot bouclier (0 ATK, 35 PV) sur une case adjacente ",""}); 
 		descriptions.Add(new string[]{"Déploie un robot bouclier (0 ATK, 40 PV) sur une case adjacente ",""}); 
 		descriptions.Add(new string[]{"Déploie un robot bouclier (0 ATK, 45 PV) sur une case adjacente ",""}); 
-		descriptions.Add(new string[]{"Déploie un robot bouclier (0 ATK, 50 PV) sur une case adjacente ",""}); 
+		descriptions.Add(new string[]{"Déploie un robot bouclier (0 ATK, 50 PV) sur une case adjacente ",""});
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75);   
 		//30 - Mitraillette
 		idSkills.Add(30);
 		names.Add(new string[]{"Mitraillette",""}); 
@@ -400,6 +686,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Inflige [1-16] dégats à 3 unités aléatoires situées devant l'unité",""}); 
 		descriptions.Add(new string[]{"Inflige [1-18] dégats à 3 unités aléatoires situées devant l'unité",""}); 
 		descriptions.Add(new string[]{"Inflige [1-20] dégats à 3 unités aléatoires situées devant l'unité",""}); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75);  
 		//31 - PerfoTir
 		idSkills.Add(31);
 		names.Add(new string[]{"PerfoTir",""}); 
@@ -413,6 +709,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Inflige 8 dégats et détruit l'armure de l'unité ciblée",""}); 
 		descriptions.Add(new string[]{"Inflige 9 dégats et détruit l'armure de l'unité ciblée",""}); 
 		descriptions.Add(new string[]{"Inflige 10 dégats et détruit l'armure de l'unité ciblée",""}); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75);  
 		//32 - Embusqué
 		idSkills.Add(32);
 		names.Add(new string[]{"Embusqué",""}); 
@@ -426,6 +732,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"40% de chances d'esquiver les dégats à distance. Permanent",""}); 
 		descriptions.Add(new string[]{"45% de chances d'esquiver les dégats à distance. Permanent",""}); 
 		descriptions.Add(new string[]{"50% de chances d'esquiver les dégats à distance. Permanent",""}); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
 		//33 - Fou
 		idSkills.Add(33);
 		names.Add(new string[]{"Fou",""}); 
@@ -439,6 +755,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"+40% aux dégats à distance mais peut se tromper de cible (25%)",""}); 
 		descriptions.Add(new string[]{"+45% aux dégats à distance mais peut se tromper de cible (25%)",""}); 
 		descriptions.Add(new string[]{"+50% aux dégats à distance mais peut se tromper de cible (25%)",""}); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
 		//34 - Sanguinaire
 		idSkills.Add(34);
 		names.Add(new string[]{"Sanguinaire",""}); 
@@ -452,6 +778,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Bonus de 24% aux dégats à distance à chaque ennemi tué",""}); 
 		descriptions.Add(new string[]{"Bonus de 27% aux dégats à distance à chaque ennemi tué",""}); 
 		descriptions.Add(new string[]{"Bonus de 30% aux dégats à distance à chaque ennemi tué",""}); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
 		//35 - Sniper
 		idSkills.Add(35);
 		names.Add(new string[]{"Sniper",""}); 
@@ -465,6 +801,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Touche sa cible à chaque fois mais -15% aux dégats à distance",""}); 
 		descriptions.Add(new string[]{"Touche sa cible à chaque fois mais -10% aux dégats à distance",""}); 
 		descriptions.Add(new string[]{"Touche sa cible à chaque fois mais -5% aux dégats à distance",""}); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
 		//36 - Réparation
 		idSkills.Add(36);
 		names.Add(new string[]{"Réparation",""}); 
@@ -478,6 +824,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Récupère [9-18] PV",""}); 
 		descriptions.Add(new string[]{"Récupère [10-20] PV",""}); 
 		descriptions.Add(new string[]{"Récupère [11-22] PV",""}); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
 		//37 - Virus
 		idSkills.Add(37);
 		names.Add(new string[]{"Virus",""}); 
@@ -491,6 +847,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"",""}); 
 		descriptions.Add(new string[]{"",""}); 
 		descriptions.Add(new string[]{"",""}); 
+		probas.Add(0); 
+		probas.Add(0); 
+		probas.Add(0); 
+		probas.Add(0); 
+		probas.Add(0); 
+		probas.Add(0); 
+		probas.Add(0); 
+		probas.Add(0); 
+		probas.Add(0); 
+		probas.Add(0); 
 		//38 - Tourelle
 		idSkills.Add(38);
 		names.Add(new string[]{"Tourelle",""}); 
@@ -504,6 +870,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Ne peut plus se déplacer. En fin de tour inflige 10 dégats à tous les ennemis dans un rayon de 2 cases. ",""}); 
 		descriptions.Add(new string[]{"Ne peut plus se déplacer. En fin de tour inflige 11 dégats à tous les ennemis dans un rayon de 2 cases. ",""}); 
 		descriptions.Add(new string[]{"Ne peut plus se déplacer. En fin de tour inflige 12 dégats à tous les ennemis dans un rayon de 2 cases. ",""}); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
 		//39 - Renfoderme
 		idSkills.Add(39);
 		names.Add(new string[]{"Renfoderme",""}); 
@@ -517,6 +893,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"L'unité adjacente ciblée gagne un bouclier 40%.",""}); 
 		descriptions.Add(new string[]{"L'unité adjacente ciblée gagne un bouclier 45%",""}); 
 		descriptions.Add(new string[]{"L'unité adjacente ciblée gagne un bouclier 50%",""}); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
 		//40 - Temple sacre
 		idSkills.Add(40);
 		names.Add(new string[]{"Temple sacre",""}); 
@@ -530,6 +916,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"",""}); 
 		descriptions.Add(new string[]{"",""}); 
 		descriptions.Add(new string[]{"",""}); 
+		probas.Add(0); 
+		probas.Add(0); 
+		probas.Add(0); 
+		probas.Add(0); 
+		probas.Add(0); 
+		probas.Add(0); 
+		probas.Add(0); 
+		probas.Add(0); 
+		probas.Add(0); 
+		probas.Add(0); 
 		//41 - Forestier
 		idSkills.Add(41);
 		names.Add(new string[]{"Forestier",""}); 
@@ -543,6 +939,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"",""}); 
 		descriptions.Add(new string[]{"",""}); 
 		descriptions.Add(new string[]{"",""}); 
+		probas.Add(0); 
+		probas.Add(0); 
+		probas.Add(0); 
+		probas.Add(0); 
+		probas.Add(0); 
+		probas.Add(0); 
+		probas.Add(0); 
+		probas.Add(0); 
+		probas.Add(0); 
+		probas.Add(0); 
 		//42 - Sable maudit
 		idSkills.Add(42);
 		names.Add(new string[]{"Sable maudit",""}); 
@@ -556,6 +962,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"",""}); 
 		descriptions.Add(new string[]{"",""}); 
 		descriptions.Add(new string[]{"",""}); 
+		probas.Add(0); 
+		probas.Add(0); 
+		probas.Add(0); 
+		probas.Add(0); 
+		probas.Add(0); 
+		probas.Add(0); 
+		probas.Add(0); 
+		probas.Add(0); 
+		probas.Add(0); 
+		probas.Add(0); 
 		//43 - Caméléon
 		idSkills.Add(43);
 		names.Add(new string[]{"Caméléon",""}); 
@@ -569,6 +985,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"",""}); 
 		descriptions.Add(new string[]{"",""}); 
 		descriptions.Add(new string[]{"",""}); 
+		probas.Add(0); 
+		probas.Add(0); 
+		probas.Add(0); 
+		probas.Add(0); 
+		probas.Add(0); 
+		probas.Add(0); 
+		probas.Add(0); 
+		probas.Add(0); 
+		probas.Add(0); 
+		probas.Add(0); 
 		//44 - Fontaine
 		idSkills.Add(44);
 		names.Add(new string[]{"Fontaine",""}); 
@@ -582,6 +1008,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"",""}); 
 		descriptions.Add(new string[]{"",""}); 
 		descriptions.Add(new string[]{"",""}); 
+		probas.Add(0); 
+		probas.Add(0); 
+		probas.Add(0); 
+		probas.Add(0); 
+		probas.Add(0); 
+		probas.Add(0); 
+		probas.Add(0); 
+		probas.Add(0); 
+		probas.Add(0); 
+		probas.Add(0); 
 		//45 - Loup sauvage
 		idSkills.Add(45);
 		names.Add(new string[]{"Loup sauvage",""}); 
@@ -594,7 +1030,17 @@ public class WordingSkills
 		descriptions.Add(new string[]{"",""}); 
 		descriptions.Add(new string[]{"",""}); 
 		descriptions.Add(new string[]{"",""}); 
-		descriptions.Add(new string[]{"",""}); 
+		descriptions.Add(new string[]{"",""});
+		probas.Add(0); 
+		probas.Add(0); 
+		probas.Add(0); 
+		probas.Add(0); 
+		probas.Add(0); 
+		probas.Add(0); 
+		probas.Add(0); 
+		probas.Add(0); 
+		probas.Add(0); 
+		probas.Add(0);  
 		//46 - Resurrection
 		idSkills.Add(46);
 		names.Add(new string[]{"Resurrection",""}); 
@@ -608,6 +1054,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"",""}); 
 		descriptions.Add(new string[]{"",""}); 
 		descriptions.Add(new string[]{"",""}); 
+		probas.Add(0); 
+		probas.Add(0); 
+		probas.Add(0); 
+		probas.Add(0); 
+		probas.Add(0); 
+		probas.Add(0); 
+		probas.Add(0); 
+		probas.Add(0); 
+		probas.Add(0); 
+		probas.Add(0); 
 		//47 - Blindé
 		idSkills.Add(47);
 		names.Add(new string[]{"Blindé",""}); 
@@ -621,6 +1077,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Perd 1 MOV et gagne un bouclier 40%. Permanent",""}); 
 		descriptions.Add(new string[]{"Perd 1 MOV et gagne un bouclier 45%. Permanent",""}); 
 		descriptions.Add(new string[]{"Perd 1 MOV et gagne un bouclier 50%. Permanent",""}); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
 		//48 - Drone
 		idSkills.Add(48);
 		names.Add(new string[]{"Drone",""}); 
@@ -634,6 +1100,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Gagne 2 MOV et perd 040%PV",""}); 
 		descriptions.Add(new string[]{"Gagne 2 MOV et perd 035%PV",""}); 
 		descriptions.Add(new string[]{"Gagne 2 MOV et perd 030%PV",""}); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
 		//49 - Pacifista
 		idSkills.Add(49);
 		names.Add(new string[]{"Pacifista",""}); 
@@ -647,6 +1123,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Ne peut pas attaquer. Gagne 80% PV. Permanent",""}); 
 		descriptions.Add(new string[]{"Ne peut pas attaquer. Gagne 90% PV. Permanent",""}); 
 		descriptions.Add(new string[]{"Ne peut pas attaquer. Gagne 100% PV. Permanent",""}); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
 		//50 - Trouble
 		idSkills.Add(50);
 		names.Add(new string[]{"Trouble",""}); 
@@ -660,6 +1146,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"24% de chances de rendre confus chaque unité adverse au début de chaque tour",""}); 
 		descriptions.Add(new string[]{"27% de chances de rendre confus chaque unité adverse au début de chaque tour",""}); 
 		descriptions.Add(new string[]{"30% de chances de rendre confus chaque unité adverse au début de chaque tour",""}); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
 		//51 - Etouffement
 		idSkills.Add(51);
 		names.Add(new string[]{"Etouffement",""}); 
@@ -673,6 +1169,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Diminue de 16% l'oxygène du colon ennemi",""}); 
 		descriptions.Add(new string[]{"Diminue de 18% l'oxygène du colon ennemi",""}); 
 		descriptions.Add(new string[]{"Diminue de 20% l'oxygène du colon ennemi",""}); 
+		probas.Add(90); 
+		probas.Add(90); 
+		probas.Add(90); 
+		probas.Add(90); 
+		probas.Add(90); 
+		probas.Add(90); 
+		probas.Add(90); 
+		probas.Add(90); 
+		probas.Add(90); 
+		probas.Add(90); 
 		//52 - Illusion
 		idSkills.Add(52);
 		names.Add(new string[]{"Illusion",""}); 
@@ -686,6 +1192,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Crée 2 copies de soi même, l'ennemi ne sait pas qui est la copie. Dure 3 tours",""}); 
 		descriptions.Add(new string[]{"Crée 2 copies de soi même, l'ennemi ne sait pas qui est la copie. Dure 4 tours",""}); 
 		descriptions.Add(new string[]{"Crée 2 copies de soi même, l'ennemi ne sait pas qui est la copie. Dure 5 tours",""}); 
+		probas.Add(80); 
+		probas.Add(80); 
+		probas.Add(80); 
+		probas.Add(80); 
+		probas.Add(80); 
+		probas.Add(80); 
+		probas.Add(80); 
+		probas.Add(80); 
+		probas.Add(80); 
+		probas.Add(80); 
 		//53 - Hacking
 		idSkills.Add(53);
 		names.Add(new string[]{"Hacking",""}); 
@@ -699,6 +1215,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Désactive un robot adverse à distance",""}); 
 		descriptions.Add(new string[]{"Désactive un robot adverse à distance",""}); 
 		descriptions.Add(new string[]{"Désactive un robot adverse à distance",""}); 
+		probas.Add(30); 
+		probas.Add(35); 
+		probas.Add(40); 
+		probas.Add(45); 
+		probas.Add(50); 
+		probas.Add(55); 
+		probas.Add(60); 
+		probas.Add(65); 
+		probas.Add(70); 
+		probas.Add(75); 
 		//54 - Manipulation
 		idSkills.Add(54);
 		names.Add(new string[]{"Manipulation",""}); 
@@ -712,6 +1238,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Prend le controle d'une unité alliée pour ce tour",""}); 
 		descriptions.Add(new string[]{"Prend le controle d'une unité alliée pour ce tour",""}); 
 		descriptions.Add(new string[]{"Prend le controle d'une unité alliée pour ce tour",""}); 
+		probas.Add(30); 
+		probas.Add(35); 
+		probas.Add(40); 
+		probas.Add(45); 
+		probas.Add(50); 
+		probas.Add(55); 
+		probas.Add(60); 
+		probas.Add(65); 
+		probas.Add(70); 
+		probas.Add(75);
 		//55 - Confusion
 		idSkills.Add(55);
 		names.Add(new string[]{"Confusion",""}); 
@@ -725,6 +1261,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Rend confuse une unité ennemie à distance",""}); 
 		descriptions.Add(new string[]{"Rend confuse une unité ennemie à distance",""}); 
 		descriptions.Add(new string[]{"Rend confuse une unité ennemie à distance",""}); 
+		probas.Add(55); 
+		probas.Add(60); 
+		probas.Add(65); 
+		probas.Add(70); 
+		probas.Add(75); 
+		probas.Add(80); 
+		probas.Add(85); 
+		probas.Add(90); 
+		probas.Add(95); 
+		probas.Add(100);
 		//56 - Stéroide
 		idSkills.Add(56);
 		names.Add(new string[]{"Stéroide",""}); 
@@ -738,6 +1284,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"L'unité adjacente ciblée gagne [1-16 ATK]. Permanent.",""}); 
 		descriptions.Add(new string[]{"L'unité adjacente ciblée gagne [1-18 ATK]. Permanent.",""}); 
 		descriptions.Add(new string[]{"L'unité adjacente ciblée gagne [1-20 ATK]. Permanent.",""}); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
 		//57 - Sénilité
 		idSkills.Add(57);
 		names.Add(new string[]{"Sénilité",""}); 
@@ -751,6 +1307,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"L'unité adjacente ciblée perd [1-16] ATK (minimum 1) ",""}); 
 		descriptions.Add(new string[]{"L'unité adjacente ciblée perd [1-18] ATK (minimum 1) ",""}); 
 		descriptions.Add(new string[]{"L'unité adjacente ciblée perd [1-20] ATK (minimum 1) ",""}); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
 		//58 - Poisonpiège
 		idSkills.Add(58);
 		names.Add(new string[]{"Poisonpiège",""}); 
@@ -764,6 +1330,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Pose un piège (empoisonne, inflige 10 dégats en fin de tour)",""}); 
 		descriptions.Add(new string[]{"Pose un piège (empoisonne, inflige 11 dégats en fin de tour)",""}); 
 		descriptions.Add(new string[]{"Pose un piège (empoisonne, inflige 12 dégats en fin de tour)",""}); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
 		//59 - Coup précis
 		idSkills.Add(59);
 		names.Add(new string[]{"Coup précis",""}); 
@@ -777,6 +1353,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Inflige 080%ATK dégats. L'ennemi est touché quelque soit son esquive / bouclier",""}); 
 		descriptions.Add(new string[]{"Inflige 090%ATK dégats. L'ennemi est touché quelque soit son esquive / bouclier",""}); 
 		descriptions.Add(new string[]{"Inflige 100%ATK dégats. L'ennemi est touché quelque soit son esquive / bouclier",""}); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
 		//60 - Copiage
 		idSkills.Add(60);
 		names.Add(new string[]{"Copiage",""}); 
@@ -789,7 +1375,17 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Choisit une unité et apprend une de ses compétences au niveau 7",""}); 
 		descriptions.Add(new string[]{"Choisit une unité et apprend une de ses compétences au niveau 8",""}); 
 		descriptions.Add(new string[]{"Choisit une unité et apprend une de ses compétences au niveau 9",""}); 
-		descriptions.Add(new string[]{"Choisit une unité et apprend une de ses compétences au niveau 10",""}); 
+		descriptions.Add(new string[]{"Choisit une unité et apprend une de ses compétences au niveau 10",""});
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100);  
 		//61 - Hypnose
 		idSkills.Add(61);
 		names.Add(new string[]{"Hypnose",""}); 
@@ -803,6 +1399,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Endort un ennemi",""}); 
 		descriptions.Add(new string[]{"Endort un ennemi",""}); 
 		descriptions.Add(new string[]{"Endort un ennemi",""}); 
+		probas.Add(45); 
+		probas.Add(50); 
+		probas.Add(55); 
+		probas.Add(60); 
+		probas.Add(65); 
+		probas.Add(70); 
+		probas.Add(75); 
+		probas.Add(80); 
+		probas.Add(85); 
+		probas.Add(90);  
 		//63 - Massue
 		idSkills.Add(63);
 		names.Add(new string[]{"Massue",""}); 
@@ -816,6 +1422,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Inflige [050%ATK-180%ATK] dégats à l'unité ciblée",""}); 
 		descriptions.Add(new string[]{"Inflige [050%ATK-190%ATK] dégats à l'unité ciblée",""}); 
 		descriptions.Add(new string[]{"Inflige [050%ATK-200%ATK] dégats à l'unité ciblée",""}); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100);  
 		//64 - Piégeur
 		idSkills.Add(64);
 		names.Add(new string[]{"Piégeur",""}); 
@@ -829,6 +1445,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Pose 4 électropièges (infligent 16 dégats à l'unité touchée) avant le combat",""}); 
 		descriptions.Add(new string[]{"Pose trois pièges (infligent 18 dégats) aléatoire avant le début du combat",""}); 
 		descriptions.Add(new string[]{"Pose quatre pièges (infligent 20 dégats) aléatoire avant le début du combat",""}); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100);  
 		//65 - Lâche
 		idSkills.Add(65);
 		names.Add(new string[]{"Lâche",""}); 
@@ -842,6 +1468,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Les attaques par derrière infligent 8 dégats supplémentaires",""}); 
 		descriptions.Add(new string[]{"Les attaques par derrière infligent 9 dégats supplémentaire",""}); 
 		descriptions.Add(new string[]{"Les attaques par derrière infligent 10 dégats supplémentaire",""}); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100);  
 		//66 - Agile
 		idSkills.Add(66);
 		names.Add(new string[]{"Agile",""}); 
@@ -854,7 +1490,17 @@ public class WordingSkills
 		descriptions.Add(new string[]{"L'unité a une esquive permanente de 35%",""}); 
 		descriptions.Add(new string[]{"L'unité a une esquive permanente de 40%",""}); 
 		descriptions.Add(new string[]{"L'unité a une esquive permanente de 45%",""}); 
-		descriptions.Add(new string[]{"L'unité a une esquive permanente de 50%",""}); 
+		descriptions.Add(new string[]{"L'unité a une esquive permanente de 50%",""});
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100);   
 		//67 - Ninja
 		idSkills.Add(67);
 		names.Add(new string[]{"Ninja",""}); 
@@ -868,6 +1514,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Au début du tour, lance [1-3] shurikens infligeant 8 dégats",""}); 
 		descriptions.Add(new string[]{"Au début du tour, lance [1-3] shurikens infligeant 9 dégats",""}); 
 		descriptions.Add(new string[]{"Au début du tour, lance [1-3] shurikens infligeant 10 dégats",""}); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100);  
 		//68 - Aguerri
 		idSkills.Add(68);
 		names.Add(new string[]{"Monstrueux",""}); 
@@ -881,6 +1537,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Bonus permanent de 8 ATK",""}); 
 		descriptions.Add(new string[]{"Bonus permanent de 9 ATK",""}); 
 		descriptions.Add(new string[]{"Bonus permanent de 10 ATK",""}); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100);  
 		//69 - Frénétique
 		idSkills.Add(69);
 		names.Add(new string[]{"Berserk",""}); 
@@ -894,6 +1560,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"A la fin de son tour, gagne 8 ATK et s'inflige 5 dégats",""}); 
 		descriptions.Add(new string[]{"A la fin de son tour, gagne 9 ATK et s'inflige 5 dégats",""}); 
 		descriptions.Add(new string[]{"A la fin de son tour, gagne 10 ATK et s'inflige 5 dégats",""}); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100);  
 		//70 - Cuirassé
 		idSkills.Add(70);
 		names.Add(new string[]{"Cuirassé",""}); 
@@ -907,6 +1583,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Est équipé d'un bouclier absorbant 32% des dégats subis",""}); 
 		descriptions.Add(new string[]{"Est équipé d'un bouclier absorbant 36% des dégats subis",""}); 
 		descriptions.Add(new string[]{"Est équipé d'un bouclier absorbant 40% des dégats subis",""}); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100);  
 		//71 - Rapide
 		idSkills.Add(71);
 		names.Add(new string[]{"Rapide",""}); 
@@ -920,6 +1606,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Gagne 2 MOV et perd 4 ATK. Permanent.",""}); 
 		descriptions.Add(new string[]{"Gagne 2 MOV et perd 3 ATK. Permanent.",""}); 
 		descriptions.Add(new string[]{"Gagne 2 MOV et perd 2 ATK. Permanent.",""}); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100);  
 		//72 - Virologue
 		idSkills.Add(72);
 		names.Add(new string[]{"Virologue",""}); 
@@ -933,6 +1629,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Touche également les voisins des unités ciblées (40% des effets)",""}); 
 		descriptions.Add(new string[]{"Touche également les voisins des unités ciblées (45% des effets)",""}); 
 		descriptions.Add(new string[]{"Touche également les voisins des unités ciblées (50% des effets)",""}); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100);  
 		//73 - Paladin
 		idSkills.Add(73);
 		names.Add(new string[]{"Paladin",""}); 
@@ -946,6 +1652,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Gagne 080%ATK et perd 2 MOV. Permanent",""}); 
 		descriptions.Add(new string[]{"Gagne 090%ATK et perd 2 MOV. Permanent",""}); 
 		descriptions.Add(new string[]{"Gagne 100%ATK et perd 2 MOV. Permanent",""}); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100);  
 		//74 - Maladroit
 		idSkills.Add(74);
 		names.Add(new string[]{"Maladroit",""}); 
@@ -959,6 +1675,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"",""}); 
 		descriptions.Add(new string[]{"",""}); 
 		descriptions.Add(new string[]{"",""}); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100);  
 		//75 - Infirmier
 		idSkills.Add(75);
 		names.Add(new string[]{"Infirmier",""}); 
@@ -972,6 +1698,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Rend 8 PV aux alliés adjacents en fin de tour",""}); 
 		descriptions.Add(new string[]{"Rend 9 PV aux alliés adjacents en fin de tour",""}); 
 		descriptions.Add(new string[]{"Rend 10 PV aux alliés adjacents en fin de tour",""}); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100);  
 		//76 - Leader
 		idSkills.Add(76);
 		names.Add(new string[]{"Leader",""}); 
@@ -985,6 +1721,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Bonus de 24% ATK et 24% PV aux alliés tant que le leader est en vie",""}); 
 		descriptions.Add(new string[]{"Bonus de 27% ATK et 27% PV aux alliés tant que le leader est en vie",""}); 
 		descriptions.Add(new string[]{"Bonus de 30% ATK et 30% PV aux alliés tant que le leader est en vie",""}); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100);  
 		//77 - Fou
 		idSkills.Add(77);
 		names.Add(new string[]{"Fou",""}); 
@@ -998,6 +1744,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"",""}); 
 		descriptions.Add(new string[]{"",""}); 
 		descriptions.Add(new string[]{"",""}); 
+		probas.Add(0); 
+		probas.Add(0); 
+		probas.Add(0); 
+		probas.Add(0); 
+		probas.Add(0); 
+		probas.Add(0); 
+		probas.Add(0); 
+		probas.Add(0); 
+		probas.Add(0); 
+		probas.Add(0); 
 		//78 - Joueur
 		idSkills.Add(78);
 		names.Add(new string[]{"Joueur",""}); 
@@ -1011,6 +1767,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Ajoute 8 cadeaux sur le terrain. Le cadeau inflige 15 dégats ou rend 15 PV (Aléatoire)",""}); 
 		descriptions.Add(new string[]{"Ajoute 9 cadeaux sur le terrain. Le cadeau inflige 15 dégats ou rend 15 PV (Aléatoire)",""}); 
 		descriptions.Add(new string[]{"Ajoute 10 cadeaux sur le terrain. Le cadeau inflige 15 dégats ou rend 15 PV (Aléatoire)",""}); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100);  
 		//79 - Copycat
 		idSkills.Add(79);
 		names.Add(new string[]{"Copycat",""}); 
@@ -1024,6 +1790,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Au début du tour, devient la copie d'un allié aléatoire (malus 15%). Conserve sa première compétence",""}); 
 		descriptions.Add(new string[]{"Au début du tour, devient la copie d'un allié aléatoire (malus 10%). Conserve sa première compétence",""}); 
 		descriptions.Add(new string[]{"Au début du tour, devient la copie d'un allié aléatoire (malus 5%). Conserve sa première compétence",""}); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100);  
 		//80 - Vampire
 		idSkills.Add(80);
 		names.Add(new string[]{"Vampire",""}); 
@@ -1037,6 +1813,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Gagne 16 PV à chaque fois qu'une unité meurt",""}); 
 		descriptions.Add(new string[]{"Gagne 18 PV à chaque fois qu'une unité meurt",""}); 
 		descriptions.Add(new string[]{"Gagne 20 PV à chaque fois qu'une unité meurt",""}); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100);  
 		//81 - Gundam
 		idSkills.Add(81);
 		names.Add(new string[]{"Gundam",""}); 
@@ -1050,6 +1836,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Bonus de 8 ATK par robot adjacent",""}); 
 		descriptions.Add(new string[]{"Bonus de 9 ATK par robot adjacent",""}); 
 		descriptions.Add(new string[]{"Bonus de 10 ATK par robot adjacent",""}); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100);  
 		//82 - Labyrinthe
 		idSkills.Add(82);
 		names.Add(new string[]{"Labyrinthe",""}); 
@@ -1062,7 +1858,17 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Ajoute [4-11] obstacles (15 PV) sur le champ de bataille",""}); 
 		descriptions.Add(new string[]{"Ajoute [4-11] obstacles (20 PV) sur le champ de bataille",""}); 
 		descriptions.Add(new string[]{"Ajoute [5-13] obstacles (20 PV) sur le champ de bataille",""}); 
-		descriptions.Add(new string[]{"Ajoute [5-13] obstacles (25 PV) sur le champ de bataille",""}); 
+		descriptions.Add(new string[]{"Ajoute [5-13] obstacles (25 PV) sur le champ de bataille",""});
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100);   
 		//83 - Cristo-Blast
 		idSkills.Add(83);
 		names.Add(new string[]{"Cristo-Blast",""}); 
@@ -1075,7 +1881,17 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Fait exploser un cristal a distance. Inflige [12-24] dégats aux unités adjacentes",""}); 
 		descriptions.Add(new string[]{"Fait exploser un cristal a distance. Inflige [13-26] dégats aux unités adjacentes",""}); 
 		descriptions.Add(new string[]{"Fait exploser un cristal a distance. Inflige [14-28] dégats aux unités adjacentes",""}); 
-		descriptions.Add(new string[]{"Fait exploser un cristal a distance. Inflige [15-30] dégats aux unités adjacentes",""}); 
+		descriptions.Add(new string[]{"Fait exploser un cristal a distance. Inflige [15-30] dégats aux unités adjacentes",""});
+		probas.Add(80); 
+		probas.Add(80); 
+		probas.Add(80); 
+		probas.Add(80); 
+		probas.Add(80); 
+		probas.Add(80); 
+		probas.Add(80); 
+		probas.Add(80); 
+		probas.Add(80); 
+		probas.Add(80);   
 		//84 - Séisme
 		idSkills.Add(84);
 		names.Add(new string[]{"Séisme",""}); 
@@ -1089,6 +1905,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Toutes les unités dans la zone d'effet subissent [8-18] dégats",""}); 
 		descriptions.Add(new string[]{"Toutes les unités dans la zone d'effet subissent [9-20] dégats",""}); 
 		descriptions.Add(new string[]{"Toutes les unités dans la zone d'effet subissent [10-22] dégats",""}); 
+		probas.Add(60); 
+		probas.Add(60); 
+		probas.Add(60); 
+		probas.Add(60); 
+		probas.Add(60); 
+		probas.Add(60); 
+		probas.Add(60); 
+		probas.Add(60); 
+		probas.Add(60); 
+		probas.Add(60);   
 		//85 - Tectonique
 		idSkills.Add(85);
 		names.Add(new string[]{"Tectonique",""}); 
@@ -1101,7 +1927,17 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Déplace un cristal du terrain. Le cristal inflige 7X dégats, X étant la distance parcourue par le cristal.",""}); 
 		descriptions.Add(new string[]{"Déplace un cristal du terrain. Le cristal inflige 8X dégats, X étant la distance parcourue par le cristal.",""}); 
 		descriptions.Add(new string[]{"Déplace un cristal du terrain. Le cristal inflige 9X dégats, X étant la distance parcourue par le cristal.",""}); 
-		descriptions.Add(new string[]{"Déplace un cristal du terrain. Le cristal inflige 10X dégats, X étant la distance parcourue par le cristal.",""}); 
+		descriptions.Add(new string[]{"Déplace un cristal du terrain. Le cristal inflige 10X dégats, X étant la distance parcourue par le cristal.",""});
+		probas.Add(80); 
+		probas.Add(80); 
+		probas.Add(80); 
+		probas.Add(80); 
+		probas.Add(80); 
+		probas.Add(80); 
+		probas.Add(80); 
+		probas.Add(80); 
+		probas.Add(80); 
+		probas.Add(80);    
 		//86 - Tunnel
 		idSkills.Add(86);
 		names.Add(new string[]{"Tunnel",""}); 
@@ -1114,7 +1950,17 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Creuse un tunnel jusqu'au terrain ciblé et inflige 085%ATK aux unités adjacentes ",""}); 
 		descriptions.Add(new string[]{"Creuse un tunnel jusqu'au terrain ciblé et inflige 090%ATK aux unités adjacentes ",""}); 
 		descriptions.Add(new string[]{"Creuse un tunnel jusqu'au terrain ciblé et inflige 095%ATK aux unités adjacentes ",""}); 
-		descriptions.Add(new string[]{"Creuse un tunnel jusqu'au terrain ciblé et inflige 100%ATK aux unités adjacentes ",""}); 
+		descriptions.Add(new string[]{"Creuse un tunnel jusqu'au terrain ciblé et inflige 100%ATK aux unités adjacentes ",""});
+		probas.Add(50); 
+		probas.Add(50); 
+		probas.Add(50); 
+		probas.Add(50); 
+		probas.Add(50); 
+		probas.Add(50); 
+		probas.Add(50); 
+		probas.Add(50); 
+		probas.Add(50); 
+		probas.Add(50);   
 		//87 - Blitz
 		idSkills.Add(87);
 		names.Add(new string[]{"Blitz",""}); 
@@ -1128,6 +1974,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Se téléporte à coté d'une unité ennemie pour lui infliger 090%ATK puis revient",""}); 
 		descriptions.Add(new string[]{"Se téléporte à coté d'une unité ennemie pour lui infliger 095%ATK puis revient",""}); 
 		descriptions.Add(new string[]{"Se téléporte à coté d'une unité ennemie pour lui infliger 100%ATK puis revient",""}); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100);   
 		//88 - Terraformeur
 		idSkills.Add(88);
 		names.Add(new string[]{"Terraformeur",""}); 
@@ -1141,6 +1997,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Choisit un type d'unité. Ces unités gagnent un bonus de 80% aux déplacements",""}); 
 		descriptions.Add(new string[]{"Choisit un type d'unité. Ces unités gagnent un bonus de 90% aux déplacements",""}); 
 		descriptions.Add(new string[]{"Choisit un type d'unité. Ces unités gagnent un bonus de 100% aux déplacements",""}); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100);   
 		//89 - Enraciner
 		idSkills.Add(89);
 		names.Add(new string[]{"Enraciner",""}); 
@@ -1154,6 +2020,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Inflige 090%ATK et immobilise le personnage pendant 2 tours",""}); 
 		descriptions.Add(new string[]{"Inflige 095%ATK et immobilise le personnage pendant 2 tours",""}); 
 		descriptions.Add(new string[]{"Inflige 100%ATK et immobilise le personnage pendant 2 tours",""}); 
+		probas.Add(80); 
+		probas.Add(80); 
+		probas.Add(80); 
+		probas.Add(80); 
+		probas.Add(80); 
+		probas.Add(80); 
+		probas.Add(80); 
+		probas.Add(80); 
+		probas.Add(80); 
+		probas.Add(80);   
 		//91 - Lance
 		idSkills.Add(91);
 		names.Add(new string[]{"Lance",""}); 
@@ -1167,6 +2043,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Inflige 080%ATK dégats à une unité située à 2 cases",""}); 
 		descriptions.Add(new string[]{"Inflige 090%ATK dégats à une unité située à 2 cases",""}); 
 		descriptions.Add(new string[]{"Inflige 100%ATK dégats à une unité située à 2 cases",""}); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100);  
 		//92 - Deséquilibre
 		idSkills.Add(92);
 		names.Add(new string[]{"Deséquilibre",""}); 
@@ -1180,6 +2066,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Inflige 080%ATK dégats et repousse l'unité ciblée d'une case",""}); 
 		descriptions.Add(new string[]{"Inflige 090%ATK dégats et repousse l'unité ciblée d'une case",""}); 
 		descriptions.Add(new string[]{"Inflige 100%ATK dégats et repousse l'unité ciblée d'une case",""}); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100);  
 		//93 - Furie
 		idSkills.Add(93);
 		names.Add(new string[]{"Furie",""}); 
@@ -1193,6 +2089,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Gagne 16PV, 8ATK et devient incontrolable (peut attaquer alliés ou ennemis)",""}); 
 		descriptions.Add(new string[]{"Gagne 18PV, 9ATK et devient incontrolable (peut attaquer alliés ou ennemis)",""}); 
 		descriptions.Add(new string[]{"Gagne 20PV, 10ATK et devient incontrolable (peut attaquer alliés ou ennemis)",""}); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100);  
 		//94 - Poison
 		idSkills.Add(94);
 		names.Add(new string[]{"Poison",""}); 
@@ -1206,6 +2112,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Empoisonne un ennemi adjacent (16 dégats par tour)",""}); 
 		descriptions.Add(new string[]{"Empoisonne un ennemi adjacent (18 dégats par tour)",""}); 
 		descriptions.Add(new string[]{"Empoisonne un ennemi adjacent (20 dégats par tour)",""}); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100);  
 		//95 - Division
 		idSkills.Add(95);
 		names.Add(new string[]{"Division",""}); 
@@ -1219,6 +2135,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"",""}); 
 		descriptions.Add(new string[]{"",""}); 
 		descriptions.Add(new string[]{"",""}); 
+		probas.Add(0); 
+		probas.Add(0); 
+		probas.Add(0); 
+		probas.Add(0); 
+		probas.Add(0); 
+		probas.Add(0); 
+		probas.Add(0); 
+		probas.Add(0); 
+		probas.Add(0); 
+		probas.Add(0); 
 		//96 - Cristalien
 		idSkills.Add(96);
 		names.Add(new string[]{"Cristalien",""}); 
@@ -1232,6 +2158,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Crée un terrain cristal sur une case adjacente à la fin de son tour",""}); 
 		descriptions.Add(new string[]{"Crée un terrain cristal sur une case adjacente à la fin de son tour",""}); 
 		descriptions.Add(new string[]{"Crée un terrain cristal sur une case adjacente à la fin de son tour",""}); 
+		probas.Add(50); 
+		probas.Add(55); 
+		probas.Add(60); 
+		probas.Add(65); 
+		probas.Add(70); 
+		probas.Add(75); 
+		probas.Add(80); 
+		probas.Add(85); 
+		probas.Add(90); 
+		probas.Add(95);  
 		//97 - Tacticien
 		idSkills.Add(97);
 		names.Add(new string[]{"Tacticien",""}); 
@@ -1245,6 +2181,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Au début de chaque combat, le joueur dispose de 16 cases supplémentaires ou placer ses unités",""}); 
 		descriptions.Add(new string[]{"Au début de chaque combat, le joueur dispose de 18 cases supplémentaires ou placer ses unités",""}); 
 		descriptions.Add(new string[]{"Au début de chaque combat, le joueur dispose de 20 cases supplémentaires ou placer ses unités",""}); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100);  
 		//98 - Cristophile
 		idSkills.Add(98);
 		names.Add(new string[]{"Cristophile",""}); 
@@ -1257,7 +2203,17 @@ public class WordingSkills
 		descriptions.Add(new string[]{"En fin de tour, les unités adjacentes aux cristaux subissent 7 dégats",""}); 
 		descriptions.Add(new string[]{"En fin de tour, les unités adjacentes aux cristaux subissent 8 dégats",""}); 
 		descriptions.Add(new string[]{"En fin de tour, les unités adjacentes aux cristaux subissent 9 dégats",""}); 
-		descriptions.Add(new string[]{"En fin de tour, les unités adjacentes aux cristaux subissent 10 dégats",""}); 
+		descriptions.Add(new string[]{"En fin de tour, les unités adjacentes aux cristaux subissent 10 dégats",""});
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100);   
 		//99 - Furtif
 		idSkills.Add(99);
 		names.Add(new string[]{"Furtif",""}); 
@@ -1271,6 +2227,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Confère 90% d'esquive aux dégats à distance",""}); 
 		descriptions.Add(new string[]{"Confère 95% d'esquive aux dégats à distance",""}); 
 		descriptions.Add(new string[]{"Confère 100% d'esquive aux dégats à distance",""}); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100);  
 		//100 - Renaissance
 		idSkills.Add(100);
 		names.Add(new string[]{"Renaissance",""}); 
@@ -1283,7 +2249,17 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Ressuscite une unité alliée et lui rend 35% de ses PV",""}); 
 		descriptions.Add(new string[]{"Ressuscite une unité alliée et lui rend 40% de ses PV",""}); 
 		descriptions.Add(new string[]{"Ressuscite une unité alliée et lui rend 45% de ses PV",""}); 
-		descriptions.Add(new string[]{"Ressuscite une unité alliée et lui rend 50% de ses PV",""}); 
+		descriptions.Add(new string[]{"Ressuscite une unité alliée et lui rend 50% de ses PV",""});
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75); 
+		probas.Add(75);   
 		//101 - Fatalité
 		idSkills.Add(101);
 		names.Add(new string[]{"Fatalité",""}); 
@@ -1297,6 +2273,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"L'unité ciblée meurt après avoir joué 2 tours. ",""}); 
 		descriptions.Add(new string[]{"L'unité ciblée meurt après avoir joué 2 tours. ",""}); 
 		descriptions.Add(new string[]{"L'unité ciblée meurt après avoir joué 2 tours. ",""}); 
+		probas.Add(35); 
+		probas.Add(40); 
+		probas.Add(45); 
+		probas.Add(50); 
+		probas.Add(55); 
+		probas.Add(60); 
+		probas.Add(65); 
+		probas.Add(70); 
+		probas.Add(75); 
+		probas.Add(80);  
 		//102 - Sermon
 		idSkills.Add(102);
 		names.Add(new string[]{"Sermon",""}); 
@@ -1310,6 +2296,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Ajoute [1-9] ATK à toutes les unités. Permanent",""}); 
 		descriptions.Add(new string[]{"Ajoute [1-10] ATK à toutes les unités. Permanent",""}); 
 		descriptions.Add(new string[]{"Ajoute [1-11] ATK à toutes les unités. Permanent",""}); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100);  
 		//103 - Bénédiction
 		idSkills.Add(103);
 		names.Add(new string[]{"Bénédiction",""}); 
@@ -1323,6 +2319,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"L'unité alliée ciblée devient sacrée (gagne 24% PV à la fin de son tour). Permanent.",""}); 
 		descriptions.Add(new string[]{"L'unité alliée ciblée devient sacrée (gagne 27% PV à la fin de son tour). Permanent.",""}); 
 		descriptions.Add(new string[]{"L'unité alliée ciblée devient sacrée (gagne 30% PV à la fin de son tour). Permanent.",""}); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100);  
 		//105 - Sacrifice
 		idSkills.Add(105);
 		names.Add(new string[]{"Sacrifice",""}); 
@@ -1336,6 +2342,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Tue une unité alliée qui inflige son ATK à toutes les unités adjacentes",""}); 
 		descriptions.Add(new string[]{"Tue une unité alliée qui inflige son ATK à toutes les unités adjacentes",""}); 
 		descriptions.Add(new string[]{"Tue une unité alliée qui inflige son ATK à toutes les unités adjacentes",""}); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100);  
 		//106 - Malédiction
 		idSkills.Add(106);
 		names.Add(new string[]{"Malédiction",""}); 
@@ -1348,7 +2364,17 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Choisit un type d'unité. Toutes les unités de ce type perdent 35% ATK",""}); 
 		descriptions.Add(new string[]{"Choisit un type d'unité. Toutes les unités de ce type perdent 40% ATK",""}); 
 		descriptions.Add(new string[]{"Choisit un type d'unité. Toutes les unités de ce type perdent 45% ATK",""}); 
-		descriptions.Add(new string[]{"Choisit un type d'unité. Toutes les unités de ce type perdent 50% ATK",""}); 
+		descriptions.Add(new string[]{"Choisit un type d'unité. Toutes les unités de ce type perdent 50% ATK",""});
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100);   
 		//107 - Miracle
 		idSkills.Add(107);
 		names.Add(new string[]{"Miracle",""}); 
@@ -1362,6 +2388,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Une unité alliée aléatoire double son attaque et ses PV",""}); 
 		descriptions.Add(new string[]{"Une unité alliée aléatoire double son attaque et ses PV",""}); 
 		descriptions.Add(new string[]{"Une unité alliée aléatoire double son attaque et ses PV",""}); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100);  
 		//110 - Cristomaitre
 		idSkills.Add(110);
 		names.Add(new string[]{"Cristomaitre",""}); 
@@ -1375,6 +2411,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Gagne [1-9] PV à la fin du tour par cristal présent sur le champ de bataille",""}); 
 		descriptions.Add(new string[]{"Gagne [1-10] PV à la fin du tour par cristal présent sur le champ de bataille",""}); 
 		descriptions.Add(new string[]{"Gagne [1-11] PV à la fin du tour par cristal présent sur le champ de bataille",""}); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100);  
 		//111 - Apotre
 		idSkills.Add(111);
 		names.Add(new string[]{"Apotre",""}); 
@@ -1388,6 +2434,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Renvoie à l'agresseur 40% des dégats subis à chaque attaque",""}); 
 		descriptions.Add(new string[]{"Renvoie à l'agresseur 45% des dégats subis à chaque attaque",""}); 
 		descriptions.Add(new string[]{"Renvoie à l'agresseur 50% des dégats subis à chaque attaque",""}); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100);  
 		//112 - Fanatique
 		idSkills.Add(112);
 		names.Add(new string[]{"Fanatique",""}); 
@@ -1401,6 +2457,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Chaque fois qu'un allié meurt, gagne 5 ATK et 4 PV",""}); 
 		descriptions.Add(new string[]{"Chaque fois qu'un allié meurt, gagne 5 ATK et 5 PV",""}); 
 		descriptions.Add(new string[]{"Chaque fois qu'un allié meurt, gagne 6 ATK et 1 PV",""}); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100);  
 		//113 - Purificateur
 		idSkills.Add(113);
 		names.Add(new string[]{"Purificateur",""}); 
@@ -1414,6 +2480,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Au début de chaque tour, 60% de chances de supprimer tous les effets négatifs sur vos unités",""}); 
 		descriptions.Add(new string[]{"Au début de chaque tour, 65% de chances de supprimer tous les effets négatifs sur vos unités",""}); 
 		descriptions.Add(new string[]{"Au début de chaque tour, 70% de chances de supprimer tous les effets négatifs sur vos unités",""}); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100);  
 		//114 - Géant
 		idSkills.Add(114);
 		names.Add(new string[]{"Géant",""}); 
@@ -1427,6 +2503,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Sculpte un cristal adjacent en géant (1 MOV, 17 ATK, [40-80 PV]). Un seul géant par armée. ",""}); 
 		descriptions.Add(new string[]{"Sculpte un cristal adjacent en géant (1 MOV, 17 ATK, [50-90 PV]). Un seul géant par armée. ",""}); 
 		descriptions.Add(new string[]{"Sculpte un cristal adjacent en géant (1 MOV, 20 ATK, [50-90 PV]). Un seul géant par armée. ",""}); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100);  
 		//115 - Loup
 		idSkills.Add(115);
 		names.Add(new string[]{"Loup",""}); 
@@ -1440,6 +2526,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Sculpte un cristal adjacent en loup (6 MOV, 20 ATK, [25-50 PV])",""}); 
 		descriptions.Add(new string[]{"Sculpte un cristal adjacent en loup (6 MOV, 25 ATK, [20-50 PV])",""}); 
 		descriptions.Add(new string[]{"Sculpte un cristal adjacent en loup (6 MOV, 30 ATK, [20-50 PV])",""}); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100);  
 		//116 - Infirmerie
 		idSkills.Add(116);
 		names.Add(new string[]{"Infirmerie",""}); 
@@ -1453,6 +2549,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Construit une infirmerie (Rend 40% PV aux unités stationnées) sur une case adjacente.",""}); 
 		descriptions.Add(new string[]{"Construit une infirmerie (Rend 45% PV aux unités stationnées) sur une case adjacente.",""}); 
 		descriptions.Add(new string[]{"Construit une infirmerie (Rend 50% PV aux unités stationnées) sur une case adjacente.",""}); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100);  
 		//117 - Arène
 		idSkills.Add(117);
 		names.Add(new string[]{"Arène",""}); 
@@ -1466,6 +2572,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Construit une arène (Bonus de 40% ATK aux unités stationnées) sur une case adjacente.",""}); 
 		descriptions.Add(new string[]{"Construit une arène (Bonus de 45% ATK aux unités stationnées) sur une case adjacente.",""}); 
 		descriptions.Add(new string[]{"Construit une arène (Bonus de 50% ATK aux unités stationnées) sur une case adjacente.",""}); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100);  
 		//118 - Abri
 		idSkills.Add(118);
 		names.Add(new string[]{"Abri",""}); 
@@ -1479,6 +2595,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Construit un abri autour d'une unité isolée (4 cases adjacentes libres). Murs de 16 PV",""}); 
 		descriptions.Add(new string[]{"Construit un abri autour d'une unité isolée (4 cases adjacentes libres). Murs de 18 PV",""}); 
 		descriptions.Add(new string[]{"Construit un abri autour d'une unité isolée (4 cases adjacentes libres). Murs de 20 PV",""}); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100);  
 		//119 - Armure
 		idSkills.Add(119);
 		names.Add(new string[]{"Armure",""}); 
@@ -1492,6 +2618,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Construit une armure (protection 40%) sur une unité alliée adjacente",""}); 
 		descriptions.Add(new string[]{"Construit une armure (protection 45%) sur une unité alliée adjacente",""}); 
 		descriptions.Add(new string[]{"Construit une armure (protection 50%) sur une unité alliée adjacente",""}); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100);  
 		//124 - Sculpteur
 		idSkills.Add(124);
 		names.Add(new string[]{"Sculpteur",""}); 
@@ -1505,6 +2641,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Chacune des création du sculpteur gagne 24% ATK et 24% PV à la fin de son tour",""}); 
 		descriptions.Add(new string[]{"Chacune des création du sculpteur gagne 27% ATK et 27% PV à la fin de son tour",""}); 
 		descriptions.Add(new string[]{"Chacune des création du sculpteur gagne 30% ATK et 30% PV à la fin de son tour",""}); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100);  
 		//125 - Génie
 		idSkills.Add(125);
 		names.Add(new string[]{"Génie",""}); 
@@ -1518,6 +2664,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Augmente de 16% la probabilité de réussite des compétences",""}); 
 		descriptions.Add(new string[]{"Augmente de 18% la probabilité de réussite des compétences",""}); 
 		descriptions.Add(new string[]{"Augmente de 20% la probabilité de réussite des compétences",""}); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100);  
 		//126 - Roboticien
 		idSkills.Add(126);
 		names.Add(new string[]{"Roboticien",""}); 
@@ -1530,7 +2686,17 @@ public class WordingSkills
 		descriptions.Add(new string[]{"En fin de tour, rend 21 PV à tous les robots adjacents",""}); 
 		descriptions.Add(new string[]{"En fin de tour, rend 24 PV à tous les robots adjacents",""}); 
 		descriptions.Add(new string[]{"En fin de tour, rend 27 PV à tous les robots adjacents",""}); 
-		descriptions.Add(new string[]{"En fin de tour, rend 30 PV à tous les robots adjacents",""}); 
+		descriptions.Add(new string[]{"En fin de tour, rend 30 PV à tous les robots adjacents",""});
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100);   
 		//127 - Armurier
 		idSkills.Add(127);
 		names.Add(new string[]{"Armurier",""}); 
@@ -1544,6 +2710,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Equipe tous les alliés d'un bouclier de protection 24%",""}); 
 		descriptions.Add(new string[]{"Equipe tous les alliés d'un bouclier de protection 27%",""}); 
 		descriptions.Add(new string[]{"Equipe tous les alliés d'un bouclier de protection 30%",""}); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100);  
 		//128 - Cristo Power
 		idSkills.Add(128);
 		names.Add(new string[]{"Cristo Power",""}); 
@@ -1557,6 +2733,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Dévore un cristal adjacent et gagne [8-18] ATK",""}); 
 		descriptions.Add(new string[]{"Dévore un cristal adjacent et gagne [9-20] ATK",""}); 
 		descriptions.Add(new string[]{"Dévore un cristal adjacent et gagne [10-22] ATK",""}); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100);  
 		//129 - Cristo Life
 		idSkills.Add(129);
 		names.Add(new string[]{"Cristo Life",""}); 
@@ -1570,6 +2756,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Dévore un cristal adjacent et gagne un bonus de [16-24] PV",""}); 
 		descriptions.Add(new string[]{"Dévore un cristal adjacent et gagne un bonus de [18-27] PV",""}); 
 		descriptions.Add(new string[]{"Dévore un cristal adjacent et gagne un bonus de [20-30] PV",""}); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100);  
 		//130 - Pluie Bleue
 		idSkills.Add(130);
 		names.Add(new string[]{"Pluie Bleue",""}); 
@@ -1583,6 +2779,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Fait pleuvoir autour de l'unité. La pluie rend [8-18] PV aux cristoides et inflige [8-18] dégats aux autres unités",""}); 
 		descriptions.Add(new string[]{"Fait pleuvoir autour de l'unité. La pluie rend [9-20] PV aux cristoides et inflige [9-20] dégats aux autres unités",""}); 
 		descriptions.Add(new string[]{"Fait pleuvoir autour de l'unité. La pluie rend [10-22] PV aux cristoides et inflige [10-22] dégats aux autres unités",""}); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100);  
 		//131 - Chasseur
 		idSkills.Add(131);
 		names.Add(new string[]{"Chasseur",""}); 
@@ -1596,6 +2802,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Choisit un type d'unité. Gagne un bonus de 40% aux dégats face à ce type",""}); 
 		descriptions.Add(new string[]{"Choisit un type d'unité. Gagne un bonus de 45% aux dégats face à ce type",""}); 
 		descriptions.Add(new string[]{"Choisit un type d'unité. Gagne un bonus de 50% aux dégats face à ce type",""}); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100);  
 		//132 - Choc bleu
 		idSkills.Add(132);
 		names.Add(new string[]{"Choc bleu",""}); 
@@ -1609,6 +2825,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Inflige 160%ATK dégats et perd 030%ATK ATK. Permanent",""}); 
 		descriptions.Add(new string[]{"Inflige 160%ATK dégats et perd 020%ATK ATK. Permanent",""}); 
 		descriptions.Add(new string[]{"Inflige 170%ATK dégats et perd 020%ATK ATK. Permanent",""}); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100);  
 		//133 - Synergie
 		idSkills.Add(133);
 		names.Add(new string[]{"Synergie",""}); 
@@ -1622,6 +2848,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Inflige 080%ATK dégats à une unité adjacente à un cristoide allié",""}); 
 		descriptions.Add(new string[]{"Inflige 090%ATK dégats à une unité adjacente à un cristoide allié",""}); 
 		descriptions.Add(new string[]{"Inflige 100%ATK dégats à une unité adjacente à un cristoide allié",""}); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100);  
 		//138 - Mutant
 		idSkills.Add(138);
 		names.Add(new string[]{"Mutant",""}); 
@@ -1635,6 +2871,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Au bout de 3 tours, se transforme en dieu cristoide (60 ATK, 90 PV)",""}); 
 		descriptions.Add(new string[]{"Au bout de 3 tours, se transforme en dieu cristoide (65 ATK, 95 PV)",""}); 
 		descriptions.Add(new string[]{"Au bout de 3 tours, se transforme en dieu cristoide (70 ATK, 99 PV)",""}); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100);  
 		//139 - Symbiote
 		idSkills.Add(139);
 		names.Add(new string[]{"Symbiote",""}); 
@@ -1648,6 +2894,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Gagne 8% ATK par cristal sur le champ de bataille",""}); 
 		descriptions.Add(new string[]{"Gagne 9% ATK par cristal sur le champ de bataille",""}); 
 		descriptions.Add(new string[]{"Gagne 10% ATK par cristal sur le champ de bataille",""}); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100);  
 		//140 - Alchimiste
 		idSkills.Add(140);
 		names.Add(new string[]{"Alchimiste",""}); 
@@ -1661,6 +2917,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"70% de chances de créer un cristal derrière lui à chaque déplacement",""}); 
 		descriptions.Add(new string[]{"75% de chances de créer un cristal derrière lui à chaque déplacement",""}); 
 		descriptions.Add(new string[]{"80% de chances de créer un cristal derrière lui à chaque déplacement",""}); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100);  
 		//141 - Human Killer
 		idSkills.Add(141);
 		names.Add(new string[]{"Human Killer",""}); 
@@ -1674,6 +2940,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Bonus de 40% ATK, 40% PV. Permanent. Ne peut développer qu'une seule compétence",""}); 
 		descriptions.Add(new string[]{"Bonus de 45% ATK, 45% PV. Permanent. Ne peut développer qu'une seule compétence",""}); 
 		descriptions.Add(new string[]{"Bonus de 50% ATK, 50% PV. Permanent. Ne peut développer qu'une seule compétence",""}); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100);  
 		//143 - Arme
 		idSkills.Add(143);
 		names.Add(new string[]{"Arme",""}); 
@@ -1687,6 +2963,15 @@ public class WordingSkills
 		descriptions.Add(new string[]{"S'auto-détruit pour ajouter 100%ATK à un allié adjacent",""}); 
 		descriptions.Add(new string[]{"S'auto-détruit pour ajouter 110%ATK à un allié adjacent",""}); 
 		descriptions.Add(new string[]{"S'auto-détruit pour ajouter 120%ATK à un allié adjacent",""});
- 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100);  
 	}
 }
