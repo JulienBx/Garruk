@@ -50,14 +50,7 @@ public class NewCardController : NewFocusedCardController
 		{
 			if(i<this.c.Skills.Count && this.c.Skills[i].IsActivated==1)
 			{
-				if(i==0)
-				{
-					this.skills[i].transform.GetComponent<NewCardSkillController>().setSkill(this.c.Skills[i],true);
-				}
-				else
-				{
-					this.skills[i].transform.GetComponent<NewCardSkillController>().setSkill(this.c.Skills[i],false);
-				}
+				this.skills[i].transform.GetComponent<NewCardSkillController>().setSkill(this.c.Skills[i]);
 				this.skills[i].transform.GetComponent<NewCardSkillController>().setDescription(this.c.getSkillText(WordingSkills.getDescription(this.c.Skills[i].Id,this.c.Skills[i].Power-1)));
 				this.skills[i].SetActive(true);
 			}
@@ -156,7 +149,7 @@ public class NewCardController : NewFocusedCardController
 					}
 
 					this.skillPopUp.transform.FindChild("description").GetComponent<TextMeshPro>().text=this.c.getSkillText(WordingSkills.getDescription(this.c.Skills[skillDisplayed].Id,this.c.Skills[skillDisplayed].Power-1));
-					this.skillPopUp.transform.position=new Vector3(skillPopUpXPosition,gameObject.transform.position.y+1.8f+(-newSkillHovered*0.40f)*(0.5f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y),-1f);
+					this.skillPopUp.transform.position=new Vector3(skillPopUpXPosition,gameObject.transform.position.y+1.85f+(-newSkillHovered*0.375f)*(0.5f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y),-1f);
 					if(newSkillHovered!=0)
 					{
 						this.skillPopUp.transform.FindChild("description").GetComponent<TextMeshPro>().text+=(WordingCard.getReference(0)+this.c.Skills[skillDisplayed].proba+WordingCard.getReference(1));
@@ -201,23 +194,23 @@ public class NewCardController : NewFocusedCardController
 		if(cursorPosition.x>this.gameObject.transform.position.x+(0.2f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.x) && 
 		   cursorPosition.x<this.gameObject.transform.position.x+(0.45f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.x))
 		{
-			if(cursorPosition.y>this.gameObject.transform.position.y+(0.5f*0.5f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y) && 
+			if(cursorPosition.y>this.gameObject.transform.position.y+(0.5f*0.55f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y) && 
 			   cursorPosition.y<this.gameObject.transform.position.y+(0.5f*0.90f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y))
 			{
 				return 0;
 			}
-			else if(cursorPosition.y>this.gameObject.transform.position.y+(0.5f*0.1f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y) && 
-			        cursorPosition.y<this.gameObject.transform.position.y+(0.5f*0.5f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y))
+			else if(cursorPosition.y>this.gameObject.transform.position.y+(0.5f*0.20f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y) && 
+			        cursorPosition.y<this.gameObject.transform.position.y+(0.5f*0.55f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y))
 			{
 				return 1;
 			}
-			else if(cursorPosition.y>this.gameObject.transform.position.y-(0.5f*0.3f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y) && 
-			        cursorPosition.y<this.gameObject.transform.position.y+(0.5f*0.1f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y))
+			else if(cursorPosition.y>this.gameObject.transform.position.y-(0.5f*0.15f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y) && 
+			        cursorPosition.y<this.gameObject.transform.position.y+(0.5f*0.20f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y))
 			{
 				return 2;
 			}
-			else if(cursorPosition.y>this.gameObject.transform.position.y-(0.5f*0.7f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y) && 
-			        cursorPosition.y<this.gameObject.transform.position.y-(0.5f*0.3f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y))
+			else if(cursorPosition.y>this.gameObject.transform.position.y-(0.5f*0.50f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y) && 
+			        cursorPosition.y<this.gameObject.transform.position.y-(0.5f*0.15f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y))
 			{
 				return 3;
 			}

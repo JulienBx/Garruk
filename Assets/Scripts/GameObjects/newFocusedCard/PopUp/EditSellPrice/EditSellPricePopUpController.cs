@@ -19,6 +19,7 @@ public class EditSellPricePopUpController : MonoBehaviour
 	}
 	public void resize()
 	{
+		gameObject.transform.FindChild ("Input").GetComponent<InputTextGuiController> ().resize ();
 	}
 	public void setError(string error)
 	{
@@ -30,7 +31,7 @@ public class EditSellPricePopUpController : MonoBehaviour
 	}
 	public void exitPopUp()
 	{
-		gameObject.transform.parent.GetComponent<NewFocusedCardController> ().hideEditSellPopUp();
+		gameObject.transform.parent.GetComponent<NewFocusedCardController> ().hideEditSellPricePopUp();
 	}
 	public string getFirstInput()
 	{

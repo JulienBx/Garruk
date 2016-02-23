@@ -55,11 +55,11 @@ public class NewSkillBookSkillController : MonoBehaviour
 		
 		this.contour1.transform.localScale = new Vector3 (contour1Scale, 1.9f, 1f);
 
-		Vector3 pictoPosition = new Vector3 (-2.55f, 0f, 0f);
-		pictoPosition.x = pictoPosition.x - (worldIncrease / 2f)*(1/skillScale);
+		Vector3 pictoPosition = new Vector3 (2.55f, 0f, 0f);
+		pictoPosition.x = pictoPosition.x + (worldIncrease / 2f)*(1/skillScale);
 		this.picto.transform.localPosition = pictoPosition;
-		Vector3 cardTypePosition = new Vector3 (2.55f, 0f, 0f);
-		cardTypePosition.x = cardTypePosition.x + (worldIncrease / 2f)*(1/skillScale);
+		Vector3 cardTypePosition = new Vector3 (-2.55f, 0f, 0f);
+		cardTypePosition.x = cardTypePosition.x - (worldIncrease / 2f)*(1/skillScale);
 		this.cardType.transform.localPosition = cardTypePosition;
 		Vector3 titlePosition = new Vector3 (-2.08f, 0.22f, 0f);
 		titlePosition.x = titlePosition.x - (worldIncrease / 2f)*(1/skillScale);
@@ -109,20 +109,16 @@ public class NewSkillBookSkillController : MonoBehaviour
 		{
 			level=1;
 		}
-		if(!s.IsActiveSkill)
+		this.cardType.GetComponent<SpriteRenderer> ().sprite = BackOfficeController.instance.returnCardTypePicto(s.CardType.getPictureId());
+		this.picto.GetComponent<SpriteRenderer> ().sprite = BackOfficeController.instance.returnSkillPicto(this.s.getPictureId());
+		this.picto.GetComponent<SpriteRenderer>().color=ApplicationDesignRules.returnCardColor(level);
+		if(this.s.IsActiveSkill)
 		{
-			this.cardType.SetActive(false);
-			this.picto.GetComponent<SpriteRenderer> ().sprite = BackOfficeController.instance.returnCardTypePicto(s.CardType.getPictureId(),level);
-			this.picto.GetComponent<SpriteRenderer>().color=ApplicationDesignRules.returnCardColor(1);
-			this.gameObject.transform.FindChild("Background").GetComponent<SpriteRenderer>().color=new Color(0f,0f,0f);
+			this.background.GetComponent<SpriteRenderer>().color=ApplicationDesignRules.whiteSpriteColor;
 		}
 		else
 		{
-			this.cardType.SetActive(true);
-			this.cardType.GetComponent<SpriteRenderer> ().sprite = BackOfficeController.instance.returnCardTypePicto(s.CardType.getPictureId(),1);
-			this.picto.GetComponent<SpriteRenderer> ().sprite = BackOfficeController.instance.returnSkillPicto(this.s.getPictureId());
-			this.picto.GetComponent<SpriteRenderer>().color=ApplicationDesignRules.returnCardColor(level);
-			this.gameObject.transform.FindChild("Background").GetComponent<SpriteRenderer>().color=ApplicationDesignRules.whiteSpriteColor;
+			this.background.GetComponent<SpriteRenderer>().color=new Color(0f,0f,0f);
 		}
 	}
 	void OnMouseOver()

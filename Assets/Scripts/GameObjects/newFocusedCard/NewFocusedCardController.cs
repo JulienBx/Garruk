@@ -21,6 +21,7 @@ public class NewFocusedCardController : MonoBehaviour
 	public GameObject caracter;
 	public GameObject cardbox;
 	public GameObject card;
+	public GameObject cardType;
 
 	public Card c;
 	public int collectionPointsEarned;
@@ -159,6 +160,7 @@ public class NewFocusedCardController : MonoBehaviour
 		this.setUpdateSpeed ();
 		this.cardUpgrade = this.gameObject.transform.FindChild ("CardUpgrade").gameObject;
 		this.panelSold = this.gameObject.transform.FindChild ("PanelSold").gameObject;
+		this.panelSold.transform.FindChild("Title").GetComponent<TextMeshPro>().text=WordingCard.getReference(2);
 		this.skillPopUp = this.gameObject.transform.FindChild ("SkillPopUp").gameObject;
 		this.buyPopUp = this.gameObject.transform.FindChild ("BuyPopUp").gameObject;
 		this.editSellPopUp = this.gameObject.transform.FindChild ("EditSellPopUp").gameObject;
@@ -184,6 +186,7 @@ public class NewFocusedCardController : MonoBehaviour
 		this.sellPopUp = this.gameObject.transform.FindChild ("SellPopUp").gameObject;
 		this.renamePopUp = this.gameObject.transform.FindChild ("RenamePopUp").gameObject;
 		this.buyXpPopUp = this.gameObject.transform.FindChild ("BuyXpPopUp").gameObject;
+		this.cardType = this.gameObject.transform.FindChild("Card").FindChild("CardType").gameObject;
 	}
 	public virtual void getRessources()
 	{
@@ -200,19 +203,13 @@ public class NewFocusedCardController : MonoBehaviour
 		this.life.transform.FindChild("Picto").GetComponent<SpriteRenderer> ().color = ressources.colors [this.c.LifeLevel - 1];
 		this.attack.transform.FindChild("Text").GetComponent<TextMeshPro>().text = this.c.GetAttackString();
 		this.attack.transform.FindChild("Picto").GetComponent<SpriteRenderer> ().color = ressources.colors [this.c.AttackLevel - 1];
+		this.cardType.transform.GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnCardTypePicto(this.c.CardType.getPictureId());
 
 		for(int i=0;i<this.skills.Length;i++)
 		{
 			if(i<this.c.Skills.Count && this.c.Skills[i].IsActivated==1)
 			{
-				if(i==0)
-				{
-					this.skills[i].transform.GetComponent<NewFocusedCardSkillController>().setSkill(this.c.Skills[i],true);
-				}
-				else
-				{
-					this.skills[i].transform.GetComponent<NewFocusedCardSkillController>().setSkill(this.c.Skills[i],false);
-				}
+				this.skills[i].transform.GetComponent<NewFocusedCardSkillController>().setSkill(this.c.Skills[i]);
 				this.skills[i].transform.GetComponent<NewFocusedCardSkillController>().setDescription(this.c.getSkillText(WordingSkills.getDescription(this.c.Skills[i].Id,this.c.Skills[i].Power-1)));
 				this.skills[i].SetActive(true);
 			}
@@ -1309,14 +1306,7 @@ public class NewFocusedCardController : MonoBehaviour
 		this.skillFocused = Instantiate(ressources.skillFocusedObject) as GameObject;
 		this.skillFocused.transform.parent=this.gameObject.transform;
 		this.skillFocused.AddComponent<FocusedSkillControllerFocusedCard> ();
-		if(idSkill==0)
-		{
-			this.skillFocused.transform.GetComponent<FocusedSkillController>().show(this.c.Skills[idSkill],true);
-		}
-		else
-		{
-			this.skillFocused.transform.GetComponent<FocusedSkillController>().show(this.c.Skills[idSkill],false);
-		}
+		this.skillFocused.transform.GetComponent<FocusedSkillController>().show(this.c.Skills[idSkill]);
 		this.skillFocused.transform.GetComponent<FocusedSkillController>().highlightLevel(c.Skills[idSkill].Power-1);
 		this.resizeSkillFocused();
 	}

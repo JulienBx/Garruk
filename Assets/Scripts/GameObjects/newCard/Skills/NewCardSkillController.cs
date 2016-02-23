@@ -6,19 +6,12 @@ public class NewCardSkillController : NewFocusedCardSkillController
 
 	public override void show()
 	{
-		if(this.isPassiveSkill)
-		{
-			this.gameObject.GetComponent<SpriteRenderer> ().sprite = BackOfficeController.instance.returnCardTypePicto(gameObject.transform.parent.GetComponent<NewCardController>().getCardType().getPictureId(),this.s.Level);
-		}
-		else
-		{
-			this.gameObject.GetComponent<SpriteRenderer> ().sprite = BackOfficeController.instance.returnSkillPicto(this.s.getPictureId());
-			this.gameObject.GetComponent<SpriteRenderer>().color=ApplicationDesignRules.returnCardColor(this.s.Level);
-		}
+		this.gameObject.GetComponent<SpriteRenderer> ().sprite = BackOfficeController.instance.returnSkillPicto(this.s.getPictureId());
+		this.gameObject.GetComponent<SpriteRenderer>().color=ApplicationDesignRules.returnCardColor(this.s.Level);
 	}
-	public override void setSkill(Skill s, bool isPassiveSkill)
+	public override void setSkill(Skill s)
 	{
-		base.setSkill (s,isPassiveSkill);
+		base.setSkill (s);
 	}
 	public override void setDescription(string d)
 	{

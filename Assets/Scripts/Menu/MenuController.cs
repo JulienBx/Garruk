@@ -115,7 +115,7 @@ public class MenuController : MonoBehaviour
 		}
 		this.gameObject.transform.FindChild("UserBlock").FindChild("Username").GetComponent<TextMeshPro>().text=ApplicationModel.player.Username;
 		this.gameObject.transform.FindChild ("MobileUsername").GetComponent<TextMeshPro> ().text = ApplicationModel.player.Username;
-
+		this.nbNotificationsNonRead=ApplicationModel.player.NbNotificationsNonRead;
 	}
 	public void resize()
 	{
