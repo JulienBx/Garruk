@@ -44,9 +44,11 @@ public class InterludeController : MonoBehaviour
 	
 	public void pause(){
 		this.isPaused = true;
+		Debug.Log("Je pause");
 	}
 	
 	public void unPause(){
+		Debug.Log("Je unpause");
 		this.isPaused = false;
 		GameView.instance.blockFury = true ;
 	}
@@ -131,7 +133,7 @@ public class InterludeController : MonoBehaviour
 					}
 				}
 			}
-			if(GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).getLife()>0){
+			if(!GameView.instance.deads.Contains(GameView.instance.getCurrentPlayingCard())){
 				if (GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).isMine){
 					GameView.instance.myTimerGO.GetComponent<TimerController>().setIsMyTurn(true);
 				}
@@ -153,13 +155,6 @@ public class InterludeController : MonoBehaviour
 				GameView.instance.runningSkill = -1;
 
 				if(GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).isMine){
-					if(ApplicationModel.player.ToLaunchGameTutorial){
-						if(!GameView.instance.hasStep2){
-							GameView.instance.launchTutoStep(2);
-							GameView.instance.hasStep2 = true ;
-						}
-					}
-					
 					GameView.instance.SB.GetComponent<StartButtonController>().showText(false);
 					GameView.instance.updateActionStatus();
 					GameView.instance.getMyHoveredCardController().lowerCharacter();
@@ -173,6 +168,15 @@ public class InterludeController : MonoBehaviour
 					GameView.instance.getHisHoveredCardController().lowerCharacter();
 				}
 			}
+			if(GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).isMine){
+				if(ApplicationModel.player.ToLaunchGameTutorial){
+					if(!GameView.instance.hasStep2){
+						GameView.instance.launchTutoStep(2);
+						GameView.instance.hasStep2 = true ;
+					}
+				}
+			}
+
 			GameView.instance.isFreezed = false ;
 		}
 		else if(this.time>3f*this.animationTime){

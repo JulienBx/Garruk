@@ -305,8 +305,8 @@ public class TileController : GameObjectController
 				gameObject.transform.FindChild("DescriptionBox").FindChild("TitleText").GetComponent<MeshRenderer>().enabled=true;
 			}
 			else if(this.type==2){
-				gameObject.transform.FindChild("DescriptionBox").FindChild("TitleText").GetComponent<TextMeshPro>().text = "Red Cristal";
-				gameObject.transform.FindChild("DescriptionBox").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = "Ce cristal n'autorise ni déplacement, ni utilisation de compétences";
+				gameObject.transform.FindChild("DescriptionBox").FindChild("TitleText").GetComponent<TextMeshPro>().text = "No man's land";
+				gameObject.transform.FindChild("DescriptionBox").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = "Ces terres abandonnées ne font plus partie du champ de bataille";
 				gameObject.transform.FindChild("DescriptionBox").GetComponent<SpriteRenderer>().enabled = true;
 				gameObject.transform.FindChild("DescriptionBox").FindChild("DescriptionText").GetComponent<MeshRenderer>().enabled=true;
 				gameObject.transform.FindChild("DescriptionBox").FindChild("TitleText").GetComponent<MeshRenderer>().enabled=true;

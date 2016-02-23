@@ -98,7 +98,7 @@ public class PassController : MonoBehaviour
 			GameController.instance.findNextPlayer();
 		}
 		if(ApplicationModel.player.ToLaunchGameTutorial){
-			GameView.instance.hideTuto();
+			
 		}
 	}
 }

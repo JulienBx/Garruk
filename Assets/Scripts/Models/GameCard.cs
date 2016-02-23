@@ -489,7 +489,14 @@ public class GameCard : Card
 			
 			tempstring = s.Substring(index-3,3);
 			percentage = Mathf.CeilToInt(Int32.Parse(tempstring)*this.getAttack()/100f);
-			s = s.Substring(0,index-4)+" "+percentage+" "+s.Substring(index+5,s.Length-index-5);
+			s = s.Substring(0,index-3)+percentage+s.Substring(index+4,s.Length-index-4);
+		}
+		if (s.Contains("%ATK")){
+			index = s.IndexOf("%ATK");
+			
+			tempstring = s.Substring(index-3,3);
+			percentage = Mathf.CeilToInt(Int32.Parse(tempstring)*this.getAttack()/100f);
+			s = s.Substring(0,index-3)+percentage+s.Substring(index+4,s.Length-index-4);
 		}
 		if (s.Contains("%PV")){
 			index = s.IndexOf("%PV");

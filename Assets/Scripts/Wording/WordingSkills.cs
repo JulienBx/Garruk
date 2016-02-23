@@ -936,16 +936,16 @@ public class WordingSkills
 		//73 - Paladin
 		idSkills.Add(73);
 		names.Add(new string[]{"Paladin",""}); 
-		descriptions.Add(new string[]{"Gagne 010%ATK et perd 2 MOV. Permanent",""}); 
-		descriptions.Add(new string[]{"Gagne 020%ATK et perd 2 MOV. Permanent",""}); 
-		descriptions.Add(new string[]{"Gagne 030%ATK et perd 2 MOV. Permanent",""}); 
-		descriptions.Add(new string[]{"Gagne 040%ATK et perd 2 MOV. Permanent",""}); 
-		descriptions.Add(new string[]{"Gagne 050%ATK et perd 2 MOV. Permanent",""}); 
-		descriptions.Add(new string[]{"Gagne 060%ATK et perd 2 MOV. Permanent",""}); 
-		descriptions.Add(new string[]{"Gagne 070%ATK et perd 2 MOV. Permanent",""}); 
-		descriptions.Add(new string[]{"Gagne 080%ATK et perd 2 MOV. Permanent",""}); 
-		descriptions.Add(new string[]{"Gagne 090%ATK et perd 2 MOV. Permanent",""}); 
-		descriptions.Add(new string[]{"Gagne 100%ATK et perd 2 MOV. Permanent",""}); 
+		descriptions.Add(new string[]{"Gagne 010%ATK ATK et perd 2 MOV. Permanent",""}); 
+		descriptions.Add(new string[]{"Gagne 020%ATK ATK et perd 2 MOV. Permanent",""}); 
+		descriptions.Add(new string[]{"Gagne 030%ATK ATK et perd 2 MOV. Permanent",""}); 
+		descriptions.Add(new string[]{"Gagne 040%ATK ATK et perd 2 MOV. Permanent",""}); 
+		descriptions.Add(new string[]{"Gagne 050%ATK ATK et perd 2 MOV. Permanent",""}); 
+		descriptions.Add(new string[]{"Gagne 060%ATK ATK et perd 2 MOV. Permanent",""}); 
+		descriptions.Add(new string[]{"Gagne 070%ATK ATK et perd 2 MOV. Permanent",""}); 
+		descriptions.Add(new string[]{"Gagne 080%ATK ATK et perd 2 MOV. Permanent",""}); 
+		descriptions.Add(new string[]{"Gagne 090%ATK ATK et perd 2 MOV. Permanent",""}); 
+		descriptions.Add(new string[]{"Gagne 100%ATK ATK et perd 2 MOV. Permanent",""}); 
 		//74 - Maladroit
 		idSkills.Add(74);
 		names.Add(new string[]{"Maladroit",""}); 

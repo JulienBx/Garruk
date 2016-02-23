@@ -474,6 +474,7 @@ public class GameView : MonoBehaviour
 				this.SB.GetComponent<StartButtonController>().show(false);
 				this.removeDestinations();
 				this.displayOpponentCards();
+				this.setNextPlayer();
 			}
 		}
 		else{
@@ -592,7 +593,9 @@ public class GameView : MonoBehaviour
 		if(c!=-1 && !this.isFreezed){
 			this.setLaunchability("Déplacement en cours !");
 			Tile origine = this.getPlayingCardController(c).getTile();
-			this.tiles[origine.x, origine.y].GetComponentInChildren<TileController>().setDestination(1);
+			if(this.getCard(c).isMine || hasFightStarted){
+				this.tiles[origine.x, origine.y].GetComponentInChildren<TileController>().setDestination(1);
+			}
 			if(this.hasFightStarted){
 				this.removeDestinations();
 			}
@@ -678,7 +681,6 @@ public class GameView : MonoBehaviour
 			if(this.getMyHoveredCardController().getStatus()==0){
 				if(this.getMyHoveredCardController().getCurrentCharacter()!=-1){
 					if(this.getMyHoveredCardController().getCurrentCharacter()!=this.currentPlayingCard){
-						print("EMPTY");
 						this.getMyHoveredCardController().empty();
 					}
 				}
@@ -831,7 +833,6 @@ public class GameView : MonoBehaviour
 				this.lastMyPlayingCardDeckOrder = this.getCard(nextPlayingCard).deckOrder;
 			}
 			this.checkField();
-			print("NextTurn "+nextPlayingCard);
 		}
 		else{
 			nextPlayingCard = this.findCardWithDO(0, this.isFirstPlayer);
@@ -936,12 +937,12 @@ public class GameView : MonoBehaviour
 				}
 			}
 			if(toDestroy){
-				this.getTileController(0,i).changeType(1);
-				this.getTileController(1,i).changeType(1);
-				this.getTileController(2,i).changeType(1);
-				this.getTileController(3,i).changeType(1);
-				this.getTileController(4,i).changeType(1);
-				this.getTileController(5,i).changeType(1);
+				this.getTileController(0,i).changeType(2);
+				this.getTileController(1,i).changeType(2);
+				this.getTileController(2,i).changeType(2);
+				this.getTileController(3,i).changeType(2);
+				this.getTileController(4,i).changeType(2);
+				this.getTileController(5,i).changeType(2);
 				isDestroyed = true;
 				toDestroy = false ;
 			}
@@ -2319,7 +2320,6 @@ public class GameView : MonoBehaviour
 						if(distance < bestDistance){
 							bestDistance = distance ;
 							chosenTile = t;
-							print("Je trouve ("+chosenTile.x+","+chosenTile.y+")");
 						}
 					}
 				}
@@ -2383,7 +2383,7 @@ public class GameView : MonoBehaviour
 		if(this.getCard(this.currentPlayingCard).isMine){
 			if(this.getCard(this.currentPlayingCard).hasPlayed && this.getCard(this.currentPlayingCard).hasMoved){
 				yield return new WaitForSeconds(3f);
-				if(this.getCard(this.currentPlayingCard).getLife()>0){
+				if(!this.deads.Contains(this.currentPlayingCard)){
 					GameController.instance.findNextPlayer ();
 				}
 			}
