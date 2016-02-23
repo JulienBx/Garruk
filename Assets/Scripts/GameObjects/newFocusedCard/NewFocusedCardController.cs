@@ -210,7 +210,12 @@ public class NewFocusedCardController : MonoBehaviour
 			if(i<this.c.Skills.Count && this.c.Skills[i].IsActivated==1)
 			{
 				this.skills[i].transform.GetComponent<NewFocusedCardSkillController>().setSkill(this.c.Skills[i]);
-				this.skills[i].transform.GetComponent<NewFocusedCardSkillController>().setDescription(this.c.getSkillText(WordingSkills.getDescription(this.c.Skills[i].Id,this.c.Skills[i].Power-1)));
+				string description = this.c.getSkillText(WordingSkills.getDescription(this.c.Skills[i].Id,this.c.Skills[i].Power-1));
+				if(i!=0)
+				{
+					description +=WordingCard.getReference(0)+this.c.Skills[i].getProba(c.Skills[i].Power-1)+WordingCard.getReference(1);
+				}
+				this.skills[i].transform.GetComponent<NewFocusedCardSkillController>().setDescription(description);
 				this.skills[i].SetActive(true);
 			}
 			else
