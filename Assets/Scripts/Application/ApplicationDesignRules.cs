@@ -38,7 +38,7 @@ public class ApplicationDesignRules : MonoBehaviour
 	static public Color redColor = new Color (218f / 255f, 70f / 255f, 70f / 255f);
 	static public Color whiteTextColor = new Color(218f/255f,218f/255f,218f/255f);
 	static public Color whiteSpriteColor = new Color(1f,1f,1f);
-	static public Color greySpriteColor = new Color(255f/255f,255f/255f,255f/255f);
+	static public Color greySpriteColor = new Color(180f/255f,180f/255f,180f/255f);
 	static public Color greyTextColor = new Color(171/255f,171f/255f,171f/255f);
 	static public Color[] cardsColor = {new Color(75f/255f,163f/255f,174f/255f),new Color (196f/255f,196f/255f,196f/255f),new Color(171/255f,171f/255f,171f/255f)};
 
@@ -161,16 +161,16 @@ public class ApplicationDesignRules : MonoBehaviour
 	static public Vector2 nextLevelPopUpWorldSize;
 	static public Vector3 nextLevelPopUpScale = new Vector3(1.014f, 1.014f,1.014f);
 
-	static private Vector2 cardTypeFilterSize = new Vector2(386f,386f);
+	static private Vector2 cardTypeFilterSize = new Vector2(209f,243f);
 	static public Vector2 cardTypeFilterWorldSize;
-	static private Vector3 cardTypeFilterOriginalScale=new Vector3(0.17f,0.17f,0.17f);
-	static private Vector3 cardTypeFilterMobileScale = new Vector3 (0.3f, 0.3f, 0.3f);
+	static private Vector3 cardTypeFilterOriginalScale=new Vector3(0.35f,0.35f,0.35f);
+	static private Vector3 cardTypeFilterMobileScale = new Vector3 (0.45f, 0.45f, 0.45f);
 	static public Vector3 cardTypeFilterScale;
 
-	static private Vector2 skillTypeFilterSize = new Vector2(101f,101f);
+	static private Vector2 skillTypeFilterSize = new Vector2(244f,244f);
 	static public Vector2 skillTypeFilterWorldSize;
-	static private Vector3 skillTypeFilterOriginalScale=new Vector3(0.7f,0.7f,0.7f);
-	static private Vector3 skillTypeFilterMobileScale = new Vector3 (1f, 1f, 1f);
+	static private Vector3 skillTypeFilterOriginalScale=new Vector3(0.25f,0.25f,0.25f);
+	static private Vector3 skillTypeFilterMobileScale = new Vector3 (0.35f, 0.35f, 0.35f);
 	static public Vector3 skillTypeFilterScale;
 
 	static private Vector2 inputTextSize = new Vector2(406f,80f);
@@ -549,7 +549,7 @@ public class ApplicationDesignRules : MonoBehaviour
 	{
 		if(level==1)
 		{
-			return greySpriteColor;
+			return whiteSpriteColor;
 		}
 		else if(level ==2)
 		{

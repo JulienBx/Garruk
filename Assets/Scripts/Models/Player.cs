@@ -262,12 +262,6 @@ public class Player : User
 				string[] errors = w.text.Split(new string[] { "#ERROR#" }, System.StringSplitOptions.None);
 				Debug.Log (errors[1]);
 			}
-			else
-			{
-				string[] data = w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
-				this.CollectionPoints=System.Convert.ToInt32(data[1]);
-				this.CollectionRanking=System.Convert.ToInt32(data[2]);
-			}
 		}
 	}
 	public IEnumerator setTutorialStep(int step)

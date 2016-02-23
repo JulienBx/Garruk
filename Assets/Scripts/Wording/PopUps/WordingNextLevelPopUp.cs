@@ -15,7 +15,7 @@ public class WordingNextLevelPopUp
 	{
 		references=new List<string[]>();
 		references.Add(new string[]{"NOUVEAU NIVEAU !",""}); //0
-		references.Add(new string[]{" est passé au niveau ",""}); //1
+		references.Add(new string[]{"Votre carte atteint le niveau ",""}); //1
 		references.Add(new string[]{".\nChoisissez une caractéristique à augmenter",""}); //2
 		references.Add(new string[]{"Cette compétence sera accessible à partir du niveau 4",""}); //3
 		references.Add(new string[]{"Cette compétence sera accessible à partir du niveau 8",""}); //4

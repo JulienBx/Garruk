@@ -178,7 +178,7 @@ public class NewStoreModel
 		for(int i = 0 ; i < array.Length-1 ; i++)
 		{
 			newSkills.Add(new Skill());
-			newSkills[i].Name=array[i];
+			newSkills[i].Id=System.Convert.ToInt32(array[i]);
 		}
 		return newSkills;
 	}

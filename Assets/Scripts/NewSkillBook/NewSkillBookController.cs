@@ -399,7 +399,6 @@ public class NewSkillBookController : MonoBehaviour
 	{
 		for(int i=0;i<this.skillTypeFilters.Length;i++)
 		{
-			this.skillTypeFilters[i].transform.FindChild("Title").GetComponent<TextMeshPro>().text=model.skillTypesList[i].Name.Substring (0, 1).ToUpper();
 			this.skillTypeFilters[i].GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnSkillTypePicture(i);
 		}
 	}
@@ -499,12 +498,13 @@ public class NewSkillBookController : MonoBehaviour
 			this.cardsTypeFilters[i].AddComponent<NewSkillBookCardTypeFilterController>();
 			this.cardsTypeFilters[i].GetComponent<NewSkillBookCardTypeFilterController>().setId(i);
 		}
-		this.skillTypeFilters = new GameObject[6];
+		this.skillTypeFilters = new GameObject[7];
 		for(int i=0;i<this.skillTypeFilters.Length;i++)
 		{
 			this.skillTypeFilters[i]=GameObject.Find("SkillTypeFilter"+i);
 			this.skillTypeFilters[i].AddComponent<NewSkillBookSkillTypeFilterController>();
 			this.skillTypeFilters[i].GetComponent<NewSkillBookSkillTypeFilterController>().setId(i);
+			this.skillTypeFilters[i].transform.FindChild("Title").GetComponent<TextMeshPro>().text=WordingSkillTypes.getLetter(i);
 		}
 		this.availableFilters = new GameObject[2];
 		for (int i=0; i<this.availableFilters.Length; i++) 
@@ -784,9 +784,9 @@ public class NewSkillBookController : MonoBehaviour
 			this.contents[i]=Instantiate (this.contentObject) as GameObject;
 			this.contents[i].transform.position=new Vector3(helpBlockUpperLeftPosition.x+helpBlockSize.x/2f,helpBlockUpperLeftPosition.y-firstLineContents-(i+1f)*contentsHeight,0f);
 			this.contents[i].transform.FindChild("line").localScale=new Vector3(lineScale,1f,1f);
-			this.contents[i].transform.FindChild("skillTypePicture").localScale=ApplicationDesignRules.skillTypeThumbScale;
+			this.contents[i].transform.FindChild("skillTypePicture").localScale=ApplicationDesignRules.skillTypeFilterScale;
 			this.contents[i].transform.FindChild("skillTypePicture").localPosition=new Vector3(-helpBlockSize.x/2f+ApplicationDesignRules.thumbWorldSize.x/2f,(contentsHeight-ApplicationDesignRules.thumbWorldSize.y)/2f+ApplicationDesignRules.thumbWorldSize.y/2f,0f);
-			this.contents[i].transform.FindChild("cardTypePicture").localScale=ApplicationDesignRules.cardTypeThumbScale;
+			this.contents[i].transform.FindChild("cardTypePicture").localScale=ApplicationDesignRules.cardTypeFilterScale;
 			this.contents[i].transform.FindChild("cardTypePicture").localPosition=new Vector3(-helpBlockSize.x/2f+ApplicationDesignRules.thumbWorldSize.x/2f,(contentsHeight-ApplicationDesignRules.thumbWorldSize.y)/2f+ApplicationDesignRules.thumbWorldSize.y/2f,0f);
 			this.contents[i].transform.FindChild("title").localScale=new Vector3(ApplicationDesignRules.reductionRatio,ApplicationDesignRules.reductionRatio,ApplicationDesignRules.reductionRatio);
 			this.contents[i].transform.FindChild("title").GetComponent<TextMeshPro>().textContainer.width=(helpBlockSize.x/2f)-0.1f-ApplicationDesignRules.thumbWorldSize.x;
@@ -803,8 +803,6 @@ public class NewSkillBookController : MonoBehaviour
 		this.helpSubtitle.transform.position = new Vector3 (helpBlockUpperLeftPosition.x + ApplicationDesignRules.blockHorizontalSpacing, helpBlockUpperLeftPosition.y - helpSubTitleFirstLine, 0f);
 		this.helpSubtitle.GetComponent<TextContainer> ().width = (helpBlockSize.x - 2f*ApplicationDesignRules.blockHorizontalSpacing)*1/ApplicationDesignRules.subMainTitleScale.x;
 		this.helpSubtitle.GetComponent<TextContainer> ().height = (helpBlockSize.y - 2f*ApplicationDesignRules.blockHorizontalSpacing)*1/ApplicationDesignRules.subMainTitleScale.y;
-
-
 
 		this.mainContentPositionX = skillsBlockOrigin.x;
 		this.helpContentPositionX=helpBlockOrigin.x;
@@ -916,17 +914,7 @@ public class NewSkillBookController : MonoBehaviour
 			this.skillsPaginationButtons.transform.localPosition=new Vector3(skillsBlockLowerLeftPosition.x+skillsBlockSize.x/2f, skillsBlockLowerLeftPosition.y + 0.3f, 0f);
 			this.skillsBlockTitle.transform.GetComponent<TextContainer>().width=ApplicationDesignRules.blockWidth-2f*ApplicationDesignRules.blockHorizontalSpacing;
 			this.cardTypeFilterTitle.transform.position = new Vector3 (0.3f+filtersBlockUpperLeftPosition.x + filtersSubBlockSize / 2f, filtersBlockUpperLeftPosition.y - 1.2f, 0f);
-			
-			float gapBetweenCardTypesFilters = (filtersSubBlockSize - 4f * ApplicationDesignRules.cardTypeFilterWorldSize.x) / 3f;
-			float gapBetweenLines;
-			if(gapBetweenCardTypesFilters>0.05f)
-			{
-				gapBetweenLines=0.05f;
-			}
-			else
-			{
-				gapBetweenLines=gapBetweenCardTypesFilters;
-			}
+
 			for(int i=0;i<this.cardsTypeFilters.Length;i++)
 			{
 				int column=0;
@@ -944,15 +932,15 @@ public class NewSkillBookController : MonoBehaviour
 						column=i;
 						line=0;
 					}
-					position.x=filtersBlockUpperLeftPosition.x+0.3f+ApplicationDesignRules.cardTypeFilterWorldSize.x+column*(gapBetweenCardTypesFilters+ApplicationDesignRules.cardTypeFilterWorldSize.x);
+					position.x=filtersBlockUpperLeftPosition.x+0.3f+ApplicationDesignRules.cardTypeFilterWorldSize.x+column*(ApplicationDesignRules.cardTypeFilterWorldSize.x);
 				}
 				else if(i>=3&& i<7)
 				{
 					column=i-3;
 					line=1;
-					position.x=filtersBlockUpperLeftPosition.x+0.3f+ApplicationDesignRules.cardTypeFilterWorldSize.x/2f+column*(gapBetweenCardTypesFilters+ApplicationDesignRules.cardTypeFilterWorldSize.x);
+					position.x=filtersBlockUpperLeftPosition.x+0.3f+ApplicationDesignRules.cardTypeFilterWorldSize.x/2f+column*(ApplicationDesignRules.cardTypeFilterWorldSize.x);
 				}
-				position.y=filtersBlockUpperLeftPosition.y-1.7f-line*(ApplicationDesignRules.cardTypeFilterWorldSize.y+gapBetweenLines);
+				position.y=filtersBlockUpperLeftPosition.y-1.75f-line*(0.7f*ApplicationDesignRules.cardTypeFilterWorldSize.y);
 				position.z=0;
 				this.cardsTypeFilters[i].transform.localScale=ApplicationDesignRules.cardTypeFilterScale;
 				this.cardsTypeFilters[i].transform.position=position;
@@ -969,18 +957,36 @@ public class NewSkillBookController : MonoBehaviour
 			this.skillTypeFilterTitle.GetComponent<TextContainer>().anchorPosition =  TextContainerAnchors.Middle;
 			this.skillTypeFilterTitle.GetComponent<TextMeshPro>().alignment = TextAlignmentOptions.Center;
 			this.skillTypeFilterTitle.transform.position=new Vector3 (ApplicationDesignRules.blockHorizontalSpacing+filtersBlockUpperLeftPosition.x + filtersSubBlockSize / 2f + 1f*(filtersSubBlockSize+gapBetweenSubFiltersBlock), filtersBlockUpperLeftPosition.y - ApplicationDesignRules.subMainTitleVerticalSpacing, 0f);
-			
+
 			for(int i=0;i<this.skillTypeFilters.Length;i++)
 			{
+				int column=0;
+				int line=0;
+				Vector3 position=new Vector3();
+				if((i>=0 && i<2)||(i>=5))
+				{
+					if(i>=5)
+					{
+						column=i-5;
+						line=2;
+					}
+					else
+					{
+						column=i;
+						line=0;
+					}
+					position.x=filtersBlockUpperLeftPosition.x+ApplicationDesignRules.blockHorizontalSpacing+gapBetweenSubFiltersBlock+1.5f*filtersSubBlockSize-0.5f*ApplicationDesignRules.skillTypeFilterWorldSize.x-0.05f+column*(0.1f+ApplicationDesignRules.skillTypeFilterWorldSize.x);
+				}
+				else if(i>=2&& i<5)
+				{
+					column=i-2;
+					line=1;
+					position.x=filtersBlockUpperLeftPosition.x+ApplicationDesignRules.blockHorizontalSpacing+gapBetweenSubFiltersBlock+1.5f*filtersSubBlockSize-1f*ApplicationDesignRules.skillTypeFilterWorldSize.x-0.1f+column*(0.1f+ApplicationDesignRules.skillTypeFilterWorldSize.x);
+				}
+				position.y=filtersBlockUpperLeftPosition.y-1.75f-line*(1.05f*ApplicationDesignRules.skillTypeFilterWorldSize.y);
+				position.z=0;
 				this.skillTypeFilters[i].transform.localScale=ApplicationDesignRules.skillTypeFilterScale;
-				if(i<3)
-				{
-					this.skillTypeFilters[i].transform.position=new Vector3(skillTypeFilterTitle.transform.position.x-0.025f-ApplicationDesignRules.skillTypeFilterWorldSize.x/2f,filtersBlockUpperLeftPosition.y - 1.7f-i*(ApplicationDesignRules.skillTypeFilterWorldSize.y+0.025f),0f);
-				}
-				else
-				{
-					this.skillTypeFilters[i].transform.position=new Vector3(skillTypeFilterTitle.transform.position.x+0.025f+ApplicationDesignRules.skillTypeFilterWorldSize.x/2f,filtersBlockUpperLeftPosition.y - 1.7f-(i-3)*(ApplicationDesignRules.skillTypeFilterWorldSize.y+0.025f),0f);
-				}
+				this.skillTypeFilters[i].transform.position=position;
 			}
 			this.availabilityFilterTitle.GetComponent<TextContainer>().anchorPosition =  TextContainerAnchors.Middle;
 			this.availabilityFilterTitle.GetComponent<TextMeshPro>().alignment = TextAlignmentOptions.Center;
@@ -1113,9 +1119,9 @@ public class NewSkillBookController : MonoBehaviour
 			{
 				this.cardsTypesDisplayed.Add (this.helpPagination.chosenPage*this.helpPagination.nbElementsPerPage+i);
 				this.contents[i].SetActive(true);
-				this.contents[i].transform.FindChild("description").GetComponent<TextMeshPro>().text=model.cardTypesList[this.helpPagination.chosenPage*this.helpPagination.nbElementsPerPage+i].Description;
-				this.contents[i].transform.FindChild("cardTypePicture").GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnCardTypePicture(model.cardTypesList[this.helpPagination.chosenPage*this.helpPagination.nbElementsPerPage+i].getPictureId());
-				this.contents[i].transform.FindChild("title").GetComponent<TextMeshPro>().text=model.cardTypesList[this.helpPagination.chosenPage*this.helpPagination.nbElementsPerPage+i].Name;
+				this.contents[i].transform.FindChild("description").GetComponent<TextMeshPro>().text=WordingCardTypes.getDescription(this.helpPagination.chosenPage*this.helpPagination.nbElementsPerPage+i);
+				this.contents[i].transform.FindChild("cardTypePicture").GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnCardTypePicto(model.cardTypesList[this.helpPagination.chosenPage*this.helpPagination.nbElementsPerPage+i].getPictureId());
+				this.contents[i].transform.FindChild("title").GetComponent<TextMeshPro>().text=WordingCardTypes.getName(this.helpPagination.chosenPage*this.helpPagination.nbElementsPerPage+i);
 				
 			}
 			else
@@ -1133,10 +1139,10 @@ public class NewSkillBookController : MonoBehaviour
 			{
 				this.skillsTypesDisplayed.Add (this.helpPagination.chosenPage*this.helpPagination.nbElementsPerPage+i);
 				this.contents[i].SetActive(true);
-				this.contents[i].transform.FindChild("description").GetComponent<TextMeshPro>().text=model.skillTypesList[this.helpPagination.chosenPage*this.helpPagination.nbElementsPerPage+i].Description;
+				this.contents[i].transform.FindChild("description").GetComponent<TextMeshPro>().text=WordingSkillTypes.getDescription(this.helpPagination.chosenPage*this.helpPagination.nbElementsPerPage+i);
 				this.contents[i].transform.FindChild("skillTypePicture").GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnSkillTypePicture(model.skillTypesList[this.helpPagination.chosenPage*this.helpPagination.nbElementsPerPage+i].IdPicture);
-				this.contents[i].transform.FindChild("skillTypePicture").FindChild("Title").GetComponent<TextMeshPro>().text=model.skillTypesList[this.helpPagination.chosenPage*this.helpPagination.nbElementsPerPage+i].Name.Substring(0,1).ToUpper();
-				this.contents[i].transform.FindChild("title").GetComponent<TextMeshPro>().text=model.skillTypesList[this.helpPagination.chosenPage*this.helpPagination.nbElementsPerPage+i].Name;
+				this.contents[i].transform.FindChild("skillTypePicture").FindChild("Title").GetComponent<TextMeshPro>().text=WordingSkillTypes.getLetter(this.helpPagination.chosenPage*this.helpPagination.nbElementsPerPage+i);
+				this.contents[i].transform.FindChild("title").GetComponent<TextMeshPro>().text=WordingSkillTypes.getName(this.helpPagination.chosenPage*this.helpPagination.nbElementsPerPage+i);
 			}
 			else
 			{
@@ -1473,7 +1479,7 @@ public class NewSkillBookController : MonoBehaviour
 		this.isFocusedSkillDisplayed= true;
 		this.displayBackUI (false);
 		this.focusedSkill.SetActive (true);
-		this.focusedSkill.GetComponent<FocusedSkillController> ().show (model.skillsList [this.skillsToBeDisplayed [this.skillsPagination.chosenPage * this.skillsPagination.nbElementsPerPage + id]],true);
+		this.focusedSkill.GetComponent<FocusedSkillController> ().show (model.skillsList [this.skillsToBeDisplayed [this.skillsPagination.chosenPage * this.skillsPagination.nbElementsPerPage + id]]);
 	}
 	public void hideFocusedSkill()
 	{

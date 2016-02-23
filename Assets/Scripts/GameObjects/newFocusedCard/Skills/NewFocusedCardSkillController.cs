@@ -5,7 +5,6 @@ public class NewFocusedCardSkillController : MonoBehaviour
 {
 
 	public Skill s;
-	public bool isPassiveSkill;
 	public string d;
 	public int attributeIndex;
 	private bool isHovered;
@@ -14,25 +13,14 @@ public class NewFocusedCardSkillController : MonoBehaviour
 	{
 		this.isHovered=false;
 		this.setStandardState();
-
-		if(this.isPassiveSkill)
-		{
-			this.gameObject.transform.FindChild("Picto").GetComponent<SpriteRenderer> ().sprite = BackOfficeController.instance.returnCardTypePicto(gameObject.transform.parent.transform.parent.GetComponent<NewFocusedCardController>().getCardType().getPictureId(),this.s.Level);
-			this.gameObject.transform.FindChild("Background").GetComponent<SpriteRenderer>().color=ApplicationDesignRules.returnCardColor(this.s.Level);
-		}
-		else
-		{
-			this.gameObject.transform.FindChild("Picto").GetComponent<SpriteRenderer> ().sprite = BackOfficeController.instance.returnSkillPicto(this.s.getPictureId());
-			this.gameObject.transform.FindChild("Picto").GetComponent<SpriteRenderer>().color=ApplicationDesignRules.returnCardColor(this.s.Level);
-		}
-
+		this.gameObject.transform.FindChild("Picto").GetComponent<SpriteRenderer> ().sprite = BackOfficeController.instance.returnSkillPicto(this.s.getPictureId());
+		this.gameObject.transform.FindChild("Picto").GetComponent<SpriteRenderer>().color=ApplicationDesignRules.returnCardColor(this.s.Level);
 		this.gameObject.transform.FindChild ("Name").GetComponent<TextMeshPro> ().text = WordingSkills.getName(this.s.Id);
 		this.gameObject.transform.FindChild ("Power").GetComponent<TextMeshPro> ().text = WordingFocusedCard.getReference(11)+this.s.Power.ToString();
 	}
-	public virtual void setSkill(Skill s, bool isPassiveSkill)
+	public virtual void setSkill(Skill s)
 	{
 		this.s = s;
-		this.isPassiveSkill=isPassiveSkill;
 		this.show ();
 	}
 	public virtual void setDescription(string d)

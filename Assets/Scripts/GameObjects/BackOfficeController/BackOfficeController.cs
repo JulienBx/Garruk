@@ -135,7 +135,7 @@ public class BackOfficeController : MonoBehaviour
 		for(int i=0;i<newSkills.Count;i++)
 		{
 			this.newSkillsPopUps[i]=Instantiate(this.ressources.newSkillPopUpObject) as GameObject;
-			this.newSkillsPopUps[i].transform.FindChild("Title").GetComponent<TextMeshPro>().text=newSkills[i].Name;
+			this.newSkillsPopUps[i].transform.FindChild("Title").GetComponent<TextMeshPro>().text=WordingSkills.getName(newSkills[i].Id);
 			this.newSkillsPopUps[i].transform.FindChild("Picto").GetComponent<SpriteRenderer>().sprite=returnSkillPicto(newSkills[i].getPictureId());
 		}
 		this.newSkillsPopUpsResize ();
@@ -528,20 +528,9 @@ public class BackOfficeController : MonoBehaviour
 	{
 		return ressources.skillsPictos[id];
 	}
-	public Sprite returnCardTypePicto(int id, int level)
+	public Sprite returnCardTypePicto(int id)
 	{
-		if(level==1)
-		{
-			return ressources.greyCardTypesPictos[id];
-		}
-		else if(level==2)
-		{
-			return ressources.blueCardTypesPictos[id];
-		}
-		else 
-		{
-			return ressources.redCardTypesPictos[id];
-		}
+		return ressources.cardTypesPictos[id];
 	}
 	public Sprite returnSmallCardsCaracter(int id)
 	{
