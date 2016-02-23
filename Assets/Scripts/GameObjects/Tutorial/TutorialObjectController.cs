@@ -725,7 +725,7 @@ public class TutorialObjectController : MonoBehaviour
 	}
 	public void displayCantAccessPopUp ()
 	{
-		BackOfficeController.instance.displayErrorPopUp (WordingTutorial.getReference(3));
+		BackOfficeController.instance.displayErrorPopUp (WordingTutorial.getReference(2));
 	}
 	public virtual void hideTutorial()
 	{
