@@ -39,7 +39,7 @@ public class BackOfficeController : MonoBehaviour
 	private float collectionPointsTimer;
 	private float refreshInterval;
 
-	void Update()
+	public virtual void Update()
 	{
 		if(Input.GetKeyDown(KeyCode.Return)) 
 		{
@@ -73,7 +73,7 @@ public class BackOfficeController : MonoBehaviour
 			StartCoroutine (this.getUserData());
 		}
 	}
-	public void initialize()
+	public virtual void initialize()
 	{
 		instance = this;
 		if(!ApplicationDesignRules.initialized)

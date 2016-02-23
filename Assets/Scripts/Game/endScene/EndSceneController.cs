@@ -10,6 +10,8 @@ public class EndSceneController : MonoBehaviour
 {
 	public static EndSceneController instance;
 
+	private GameObject backOfficeController;
+
 	public GameObject endGamePanelObject;
 	public GameObject cardObject;
 	public GameObject nextLevelPopUpObject;
@@ -84,15 +86,21 @@ public class EndSceneController : MonoBehaviour
 			this.toStartExperienceUpdate=false;
 		}
 	}
+	private void initializeBackOffice()
+	{
+		this.backOfficeController = GameObject.Find ("BackOfficeController");
+		this.backOfficeController.AddComponent<BackOfficeGameController>();
+		this.backOfficeController.GetComponent<BackOfficeGameController>().initialize();
+	}
 	public void displayEndScene(bool hasWon)
 	{
-		this.retrieveBonus (hasWon);
+		this.initializeBackOffice();
+		this.retrieveBonus (ApplicationModel.player.HasWonLastGame);
 		this.endGamePanel = Instantiate(endGamePanelObject) as GameObject;
 		this.endGamePanel.transform.FindChild ("Button").gameObject.SetActive (false); 
 		this.endGamePanel.transform.position = new Vector3 (0f, 0f, -8f);
 		this.cards=new GameObject[ApplicationModel.nbCardsByDeck];
 		Deck myDeck = GameView.instance.getMyDeck();
-		
 		for(int i=0;i<ApplicationModel.nbCardsByDeck;i++)
 		{
 			cards[i]=Instantiate(cardObject) as GameObject;
@@ -104,7 +112,6 @@ public class EndSceneController : MonoBehaviour
 			cards[i].GetComponent<NewCardEndSceneController>().setId(i);
 			cards[i].transform.localScale=new Vector3(0.3108f,0.3108f,0.3108f);
 		}
-
 		if(hasWon)
 		{
 			this.endGamePanel.transform.FindChild("Title").GetComponent<TextMeshPro>().text="BRAVO !";
@@ -115,11 +122,9 @@ public class EndSceneController : MonoBehaviour
 			this.endGamePanel.transform.FindChild("Title").GetComponent<TextMeshPro>().text="DOMMAGE !";
 			ApplicationModel.player.HasWonLastGame=false;
 		}
-
 		StartCoroutine (this.drawCredits());
 		StartCoroutine (this.addXp ());
 	}
-	
 	private void retrieveBonus(bool hasWon)
 	{
 		switch(ApplicationModel.player.ChosenGameType)

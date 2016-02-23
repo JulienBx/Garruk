@@ -126,6 +126,10 @@ public class Skill
 	{
 		return this.Id;
 	}
+	public int getProba(int level)
+	{
+		
+	}
 }
 
 
