@@ -633,18 +633,16 @@ public class GameView : MonoBehaviour
 			if(this.getCard(this.currentPlayingCard).hasPlayed && this.getCard(this.currentPlayingCard).hasMoved){
 				this.getPassZoneController().show(false);
 			}
-			
-			yield return new WaitForSeconds(1f);
-			
+
 			if(this.getCard(c).isMine){
 				if(this.getCard(this.currentPlayingCard).hasPlayed && this.getCard(this.currentPlayingCard).hasMoved){
 					if(isSuccess){
+						yield return new WaitForSeconds(1f);
 						yield return new WaitForSeconds(1f);
 					}
 					if(!this.deads.Contains(this.currentPlayingCard) && !this.getCurrentCard().isFurious()){
 						GameController.instance.findNextPlayer ();
 					}
-					
 				}
 			}
 		}

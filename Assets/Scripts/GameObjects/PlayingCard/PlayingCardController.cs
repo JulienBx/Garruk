@@ -410,7 +410,9 @@ public class PlayingCardController : GameObjectController
 		if (this.timerMove>this.MoveTime){
 			this.isMoving = false ;
 			gameObject.transform.localPosition = this.finalP;
-			GameView.instance.recalculateDestinations();
+			if(GameView.instance.getCard(this.id).isMine){
+				GameView.instance.recalculateDestinations();
+			}
 			StartCoroutine(GameView.instance.checkDestination(this.id));
 			if(GameView.instance.hasFightStarted){
 				GameView.instance.updateActionStatus();

@@ -136,6 +136,7 @@ public class GameController : Photon.MonoBehaviour
 
 	public void findNextPlayer()
 	{
+		print("FINDNEXT");
 		photonView.RPC("findNextPlayerRPC", PhotonTargets.AllBuffered);
 	}
 	
