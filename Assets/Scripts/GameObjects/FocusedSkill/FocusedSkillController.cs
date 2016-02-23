@@ -17,46 +17,43 @@ public class FocusedSkillController : MonoBehaviour
 		gameObject.transform.FindChild("CardTypeTitle").GetComponent<TextMeshPro> ().text =WordingCardTypes.getName(s.CardType.Id);
 		gameObject.transform.FindChild("SkillTypeTitle").GetComponent<TextMeshPro> ().text = WordingSkillTypes.getName(s.IdSkillType);
 		gameObject.transform.FindChild("Picto").GetComponent<SpriteRenderer> ().sprite = BackOfficeController.instance.returnSkillPicto(s.getPictureId());
-		if(s.IdSkillType!=6)
+		for(int i=0;i<10;i++)
 		{
-			for(int i=0;i<10;i++)
+			gameObject.transform.FindChild("Skill"+i).FindChild("Title").GetComponent<TextMeshPro>().text=this.getDescription(s.Id,i);
+			if(s.getProba(i)>0 && s.IdSkillType!=6)
 			{
-				gameObject.transform.FindChild("Skill"+i).FindChild("Title").GetComponent<TextMeshPro>().text=this.getDescription(s.Id,i);
-				if(s.getProba(i)>0)
+				gameObject.transform.FindChild("Skill"+i).FindChild("Proba").gameObject.SetActive(true);
+				gameObject.transform.FindChild("Skill"+i).FindChild("Proba").FindChild("Title").GetComponent<TextMeshPro>().text=s.getProba(i).ToString();
+				if(s.getProba(i)<50)
 				{
-					gameObject.transform.FindChild("Skill"+i).FindChild("Proba").gameObject.SetActive(true);
-					gameObject.transform.FindChild("Skill"+i).FindChild("Proba").FindChild("Title").GetComponent<TextMeshPro>().text=s.getProba(i).ToString();
-					if(s.getProba(i)<50)
-					{
-						gameObject.transform.FindChild("Skill"+i).FindChild("Proba").FindChild("Title").GetComponent<TextMeshPro>().color=ApplicationDesignRules.greyTextColor;
-					}
-					else if(s.getProba(i)<80)
-					{
-						gameObject.transform.FindChild("Skill"+i).FindChild("Proba").FindChild("Title").GetComponent<TextMeshPro>().color=ApplicationDesignRules.blueColor;
-					}
-					else
-					{
-						gameObject.transform.FindChild("Skill"+i).FindChild("Proba").FindChild("Title").GetComponent<TextMeshPro>().color=ApplicationDesignRules.redColor;
-					}
+					gameObject.transform.FindChild("Skill"+i).FindChild("Proba").FindChild("Title").GetComponent<TextMeshPro>().color=ApplicationDesignRules.greyTextColor;
+				}
+				else if(s.getProba(i)<80)
+				{
+					gameObject.transform.FindChild("Skill"+i).FindChild("Proba").FindChild("Title").GetComponent<TextMeshPro>().color=ApplicationDesignRules.blueColor;
 				}
 				else
 				{
-					gameObject.transform.FindChild("Skill"+i).FindChild("Proba").gameObject.SetActive(false);
+					gameObject.transform.FindChild("Skill"+i).FindChild("Proba").FindChild("Title").GetComponent<TextMeshPro>().color=ApplicationDesignRules.redColor;
 				}
-				if(i>7)
-				{
-					gameObject.transform.FindChild("Skill"+i).FindChild("Level").GetComponent<TextMeshPro>().color=ApplicationDesignRules.redColor;
-				}
-				else if(i>4)
-				{
-					gameObject.transform.FindChild("Skill"+i).FindChild("Level").GetComponent<TextMeshPro>().color=ApplicationDesignRules.blueColor;
-				}
-				else
-				{
-					gameObject.transform.FindChild("Skill"+i).FindChild("Level").GetComponent<TextMeshPro>().color=ApplicationDesignRules.greyTextColor;
-				}
-
 			}
+			else
+			{
+				gameObject.transform.FindChild("Skill"+i).FindChild("Proba").gameObject.SetActive(false);
+			}
+			if(i>7)
+			{
+				gameObject.transform.FindChild("Skill"+i).FindChild("Level").GetComponent<TextMeshPro>().color=ApplicationDesignRules.redColor;
+			}
+			else if(i>4)
+			{
+				gameObject.transform.FindChild("Skill"+i).FindChild("Level").GetComponent<TextMeshPro>().color=ApplicationDesignRules.blueColor;
+			}
+			else
+			{
+				gameObject.transform.FindChild("Skill"+i).FindChild("Level").GetComponent<TextMeshPro>().color=ApplicationDesignRules.greyTextColor;
+			}
+
 		}
 	}
 	public virtual string getDescription(int idSkill, int level)
