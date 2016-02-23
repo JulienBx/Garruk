@@ -1549,7 +1549,7 @@ public class WordingSkills
 		probas.Add(100);  
 		//69 - Frénétique
 		idSkills.Add(69);
-		names.Add(new string[]{"Berserk",""}); 
+		names.Add(new string[]{"Frénétique",""}); 
 		descriptions.Add(new string[]{"A la fin de son tour, gagne 1 ATK et s'inflige 5 dégats",""}); 
 		descriptions.Add(new string[]{"A la fin de son tour, gagne 2 ATK et s'inflige 5 dégats",""}); 
 		descriptions.Add(new string[]{"A la fin de son tour, gagne 3 ATK et s'inflige 5 dégats",""}); 
