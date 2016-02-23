@@ -27,14 +27,14 @@ public class WordingTutorial
 		references=new List<string[]>();
 		references.Add(new string[]{"Quitter le tutoriel",""}); //0
 		references.Add(new string[]{"Quitter l'aide",""}); //1
-		references.Add(new string[]{"Vous êtes encore en apprentissage !  \n Attendez d'avoir disputé votre premier match \npour pouvoir ensuite réaliser cette action",""}); //2
+		references.Add(new string[]{"Vous êtes encore en apprentissage !\n Attendez d'avoir disputé votre première bataille \npour pouvoir ensuite réaliser cette action",""}); //2
 		references.Add(new string[]{"Continuer",""}); //3
 
 		tutorialContents=new List<string[]>();
 		tutorialContents.Add(new string[]{"Une équipe, vite !",""}); //0
-		tutorialContents.Add(new string[]{"Avant de pouvoir aller plus loin, il vous faut créer une équipe de combattants prete à vous défendre dans cet environnement hostile",""}); //1
+		tutorialContents.Add(new string[]{"Avant de pouvoir aller plus loin, il vous faut créer une équipe de combattants prête à vous défendre dans cet environnement hostile",""}); //1
 		tutorialContents.Add(new string[]{"Premier combat",""}); //2
-		tutorialContents.Add(new string[]{"Il est temps de participer à votre premier combat, votre adversaire vous attend dans l'arène",""}); //3
+		tutorialContents.Add(new string[]{"Il est temps de participer à votre première bataille, votre adversaire vous attend dans l'arène",""}); //3
 
 		helpContents=new List<string[]>();
 		helpContents.Add(new string[]{"Classe d'unité",""}); //0

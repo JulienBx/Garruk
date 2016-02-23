@@ -16,6 +16,6 @@ public class WordingTutorialScene
 		references=new List<string[]>();
 		references.Add(new string[]{"Suivant",""}); //0
 		references.Add(new string[]{"Bienvenue à Cristalia !",""}); //1
-		references.Add(new string[]{"Après un long voyage de 17 années dans l'espace, vous voici enfin arrivé à Cristalia. La planète et ses satellites sont actuellement les proies de nombreuses convoitises. Vous êtes un colon missionné par votre pays pour amasser le plus de richesses et de connaissances sur ce fameux cristal. Cristal qui confèrerait aux habitants de la planète d'étranges capacités... Saurez-vous les mettre à profit pour triompher des colons ennemis ?",""}); //2
+		references.Add(new string[]{"Après un long voyage de 17 années dans l'espace, vous voici enfin arrivé à Cristalia. Votre planète de naissance vous a missionné d'en apprendre plus sur le Cristal, cette ressource dont seule Cristalia dispose dans l'univers connu. Ce minéral confèrerait aux habitants de la planète d'étranges pouvoirs, et de nombreux colons ont afflué récemment pour tenter de s'en emparer!",""}); //2
 	}
 }

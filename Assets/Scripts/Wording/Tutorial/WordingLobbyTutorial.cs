@@ -14,13 +14,13 @@ public class WordingLobbyTutorial
 	static WordingLobbyTutorial()
 	{
 		helpContents=new List<string[]>();
-		helpContents.Add(new string[]{"Conquérir un satellite",""}); //0
-		helpContents.Add(new string[]{"La conquete des satellites de Cristalia vous permettra de gagner de plus en plus de cristal. Pour conquérir un satellite, il vous faudra défier de nombreux colons et les vaincre. Vous pouvez ici consulter l'état de la guerre sur le satellite sur lequel vous vous trouvez",""}); //1
-		helpContents.Add(new string[]{"Mes derniers combats",""}); //2
-		helpContents.Add(new string[]{"Accédez ici à un compte-rendu de vos derniers combats sur le satellite",""}); //3
+		helpContents.Add(new string[]{"Conquête des satellites",""}); //0
+		helpContents.Add(new string[]{"Les gisements de cristal les plus riches découverts à ce jour se trouvent sur les satellites de Cristalia. Votre périple sur Cristalia vous amènera à découvrir et à coloniser de nombreux satellites. Chaque satellite colonisé vous donnera accès à un astre plus important, mais prenez garde à ne pas vous faire éjecter car vous pourriez revenir au satellite précédent ",""}); //1
+		helpContents.Add(new string[]{"Mes dernières batailles",""}); //2
+		helpContents.Add(new string[]{"Accédez ici à un compte-rendu de vos dernières batailles",""}); //3
 		helpContents.Add(new string[]{"Mon satellite",""}); //4
-		helpContents.Add(new string[]{"La guerre fait rage sur les satellites de Cristalia. Plus vous deviendrez fort, plus vous pourrez accéder à des satellites riches en ressources. Consultez ici la richesse du satellite et les conditions d'accès au suivant",""}); //5
+		helpContents.Add(new string[]{"Chaque satellite dispose de ces propres richesses. Chaque satellite dispose de ses réserves de cristal, à vous de découvrir les satellites les plus intéressants!",""}); //5
 		helpContents.Add(new string[]{"Mes statistiques",""}); //6
-		helpContents.Add(new string[]{"Ces statistiques vous permettront d'évaluer l'état de la conquete du satellite et votre niveau par rapport aux autres colons",""}); //7
+		helpContents.Add(new string[]{"Ces statistiques vous permettront d'évaluer l'état de la colinisation du satellite et votre niveau par rapport aux autres colons",""}); //7
 	}
 }
