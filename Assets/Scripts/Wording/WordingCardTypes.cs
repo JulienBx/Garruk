@@ -31,7 +31,7 @@ public class WordingCardTypes
 		names.Add(new string[]{"Terraformeur",""});
 
 		descriptions=new List<string[]>();
-		descriptions.Add(new string[]{"Le medic est une unité de soutient dont le rôle est d'aider ses coéquipiers ou de les rendre meilleurs",""});
+		descriptions.Add(new string[]{"Le medic est une unité de soutient dont le rôle est d'aider ses coéquipiers ou de les rendre meilleures",""});
 		descriptions.Add(new string[]{"Description de Assassin",""});
 		descriptions.Add(new string[]{"Description de Prédateur",""});
 		descriptions.Add(new string[]{"Description de Soldat",""});
