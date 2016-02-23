@@ -152,7 +152,7 @@ public class NewCardController : NewFocusedCardController
 					this.skillPopUp.transform.position=new Vector3(skillPopUpXPosition,gameObject.transform.position.y+1.85f+(-newSkillHovered*0.375f)*(0.5f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y),-1f);
 					if(newSkillHovered!=0)
 					{
-						this.skillPopUp.transform.FindChild("description").GetComponent<TextMeshPro>().text+=(WordingCard.getReference(0)+this.c.Skills[skillDisplayed].proba+WordingCard.getReference(1));
+						this.skillPopUp.transform.FindChild("description").GetComponent<TextMeshPro>().text+=(WordingCard.getReference(0)+this.c.Skills[skillDisplayed].getProba(c.Skills[skillDisplayed].Power-1)+WordingCard.getReference(1));
 					}
 					this.skillPopUp.transform.FindChild("title").GetComponent<TextMeshPro>().text=WordingSkills.getName(this.c.Skills[skillDisplayed].Id);
 				}
