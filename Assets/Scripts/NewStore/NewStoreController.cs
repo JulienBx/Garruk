@@ -861,14 +861,6 @@ public class NewStoreController : MonoBehaviour
 				this.rotateRandomCards();
 				this.displayBackUI(false);
 				this.displayRandomCards();
-				if(this.model.CollectionPointsEarned>0)
-				{
-					BackOfficeController.instance.displayCollectionPointsPopUp(model.CollectionPointsEarned,model.CollectionPointsRanking);
-				}
-				if(this.model.NewSkills.Count>0)
-				{
-					BackOfficeController.instance.displayNewSkillsPopUps(model.NewSkills);
-				}
 				TutorialObjectController.instance.tutorialTrackPoint ();
 			}
 			else
@@ -877,6 +869,17 @@ public class NewStoreController : MonoBehaviour
 				this.rotateSingleCard();
 				this.displayBackUI(false);
 				this.displayCardFocused();
+			}
+			if(!TutorialObjectController.instance.getIsTutorialDisplayed())
+			{
+				if(this.model.CollectionPointsEarned>0)
+				{
+					BackOfficeController.instance.displayCollectionPointsPopUp(model.CollectionPointsEarned,model.CollectionPointsRanking);
+				}
+				if(this.model.NewSkills.Count>0)
+				{
+					BackOfficeController.instance.displayNewSkillsPopUps(model.NewSkills);
+				}
 			}
 		}
 		else

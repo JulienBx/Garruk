@@ -711,7 +711,7 @@ public class NewFocusedCardController : MonoBehaviour
 				for (int i=0; i<newSkills.Length-1; i++)
 				{
 					this.skillsUnlocked.Add(new Skill());
-					this.skillsUnlocked [i].Name = newSkills [i];
+					this.skillsUnlocked [i].Id = System.Convert.ToInt32(newSkills [i]);
 				}
 				int newIdOwner = System.Convert.ToInt32(data[2]);
 				Notification tempNotification = new Notification(c.IdOWner,newIdOwner,false,2,"",c.Id.ToString(),c.Price.ToString(),"");

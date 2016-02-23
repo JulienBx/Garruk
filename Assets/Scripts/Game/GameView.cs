@@ -1993,14 +1993,14 @@ public class GameView : MonoBehaviour
 		if (w.error != null)
 		{
 			print(w.error); 										// donne l'erreur eventuelle
-		} else
+		} 
+		else if(w.text.Contains("#ERROR#"))
 		{
-			print(w.text);
+			string[] errors = w.text.Split(new string[] { "#ERROR#" }, System.StringSplitOptions.None);
+			Debug.Log (errors[1]);
 		}
 		yield break;
 	}
-	
-	
 	public IEnumerator quitGame()
 	{
 		bool hasFirstPlayerWon=false;
@@ -2030,7 +2030,6 @@ public class GameView : MonoBehaviour
 		
 		yield break;
 	}
-	
 	public List<Tile> getFreeImmediateNeighbours(Tile t){
 		List<Tile> freeNeighbours = new List<Tile>();
 		List<Tile> neighbours = t.getImmediateNeighbourTiles();
