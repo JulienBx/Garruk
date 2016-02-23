@@ -128,7 +128,7 @@ public class Skill
 	}
 	public int getProba(int level)
 	{
-		
+		return 0;
 	}
 }
 
