@@ -2637,7 +2637,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 114438}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -14.80634, y: 46.69276, z: 0}
+  m_LocalPosition: {x: -4.4551854, y: 42.450966, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 493060}
@@ -3131,7 +3131,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 143958}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.65, y: -0.22000146, z: 0}
+  m_LocalPosition: {x: -1.6499995, y: -0.22000146, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 469004}
@@ -3629,7 +3629,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 116184}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.83, y: -0.22000003, z: 0}
+  m_LocalPosition: {x: -2.83, y: -0.21999848, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 416936}
@@ -6218,7 +6218,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 3.854456
+    width: 3.8527203
     height: 0.61816925
   m_margins: {x: 0, y: 0, z: 0, w: 0}
 --- !u!114 &11414476
@@ -6738,7 +6738,7 @@ MonoBehaviour:
   m_charSpacingMax: 0
   m_lineSpacingMax: 0
   m_charWidthMaxAdj: 0
-  m_characterSpacing: 0
+  m_characterSpacing: -2
   m_lineSpacing: -20
   m_paragraphSpacing: 0
   m_lineLength: 0
@@ -7668,7 +7668,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 5.074113
+    width: 5
     height: 0.61816925
   m_margins: {x: 0, y: 0, z: 0, w: 0}
 --- !u!114 &11446318
@@ -8124,7 +8124,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 5.074113
+    width: 5
     height: 0.61816925
   m_margins: {x: 0, y: 0, z: 0, w: 0}
 --- !u!114 &11458092
@@ -8712,7 +8712,7 @@ MonoBehaviour:
   m_charSpacingMax: 0
   m_lineSpacingMax: 0
   m_charWidthMaxAdj: 0
-  m_characterSpacing: 0
+  m_characterSpacing: -2
   m_lineSpacing: -20
   m_paragraphSpacing: 0
   m_lineLength: 0
@@ -8781,7 +8781,7 @@ MonoBehaviour:
   m_charSpacingMax: 0
   m_lineSpacingMax: 0
   m_charWidthMaxAdj: 0
-  m_characterSpacing: 0
+  m_characterSpacing: -2
   m_lineSpacing: -20
   m_paragraphSpacing: 0
   m_lineLength: 0
@@ -8829,7 +8829,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 5.074113
+    width: 5
     height: 0.61816925
   m_margins: {x: 0, y: 0, z: 0, w: 0}
 --- !u!114 &11470262
@@ -9139,7 +9139,7 @@ MonoBehaviour:
   m_charSpacingMax: 0
   m_lineSpacingMax: 0
   m_charWidthMaxAdj: 0
-  m_characterSpacing: 0
+  m_characterSpacing: -2
   m_lineSpacing: -20
   m_paragraphSpacing: 0
   m_lineLength: 0
@@ -9836,32 +9836,32 @@ MonoBehaviour:
   - {fileID: 21300008, guid: 93aa04ff847cf4287b8b32a81c753a46, type: 3}
   - {fileID: 21300032, guid: 93aa04ff847cf4287b8b32a81c753a46, type: 3}
   caracters:
-  - {fileID: 21300004, guid: 93aa04ff847cf4287b8b32a81c753a46, type: 3}
+  - {fileID: 0}
   - {fileID: 21300000, guid: 93aa04ff847cf4287b8b32a81c753a46, type: 3}
-  - {fileID: 21300022, guid: 93aa04ff847cf4287b8b32a81c753a46, type: 3}
-  - {fileID: 21300018, guid: 93aa04ff847cf4287b8b32a81c753a46, type: 3}
-  - {fileID: 21300016, guid: 93aa04ff847cf4287b8b32a81c753a46, type: 3}
-  - {fileID: 21300006, guid: 93aa04ff847cf4287b8b32a81c753a46, type: 3}
-  - {fileID: 21300020, guid: 93aa04ff847cf4287b8b32a81c753a46, type: 3}
-  - {fileID: 21300024, guid: 93aa04ff847cf4287b8b32a81c753a46, type: 3}
-  - {fileID: 21300012, guid: 93aa04ff847cf4287b8b32a81c753a46, type: 3}
-  - {fileID: 21300010, guid: 93aa04ff847cf4287b8b32a81c753a46, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   colors:
   - {r: 0.67058825, g: 0.67058825, b: 0.67058825, a: 1}
   - {r: 0.29411766, g: 0.6392157, b: 0.68235296, a: 1}
   - {r: 0.85490197, g: 0.27450982, b: 0.27450982, a: 1}
   backFace: {fileID: 21300040, guid: 93aa04ff847cf4287b8b32a81c753a46, type: 3}
   skills:
-  - {fileID: 21300038, guid: 93aa04ff847cf4287b8b32a81c753a46, type: 3}
-  - {fileID: 21300030, guid: 93aa04ff847cf4287b8b32a81c753a46, type: 3}
-  - {fileID: 21300036, guid: 93aa04ff847cf4287b8b32a81c753a46, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   skillTypes:
-  - {fileID: 21300064, guid: 93aa04ff847cf4287b8b32a81c753a46, type: 3}
-  - {fileID: 21300072, guid: 93aa04ff847cf4287b8b32a81c753a46, type: 3}
-  - {fileID: 21300070, guid: 93aa04ff847cf4287b8b32a81c753a46, type: 3}
-  - {fileID: 21300066, guid: 93aa04ff847cf4287b8b32a81c753a46, type: 3}
-  - {fileID: 21300062, guid: 93aa04ff847cf4287b8b32a81c753a46, type: 3}
-  - {fileID: 21300068, guid: 93aa04ff847cf4287b8b32a81c753a46, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   nextLevelPopUpObject: {fileID: 103580, guid: 948c744d343f14833b4cd28a62f6f3d4, type: 2}
   focusPictos:
   - {fileID: 21300258, guid: ec8fe55bfa35c4d46ba7d026602e8928, type: 3}
