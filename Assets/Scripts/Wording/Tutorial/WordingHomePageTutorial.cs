@@ -19,8 +19,8 @@ public class WordingHomePageTutorial
 	static WordingHomePageTutorial()
 	{
 		tutorialContents=new List<string[]>();
-		tutorialContents.Add(new string[]{"Bravo !",""}); //0
-		tutorialContents.Add(new string[]{"Vous avez gagné votre premier combat. Défiez de nouveaux colons pour tester l'étendue de vos capacités, et continuez à améliorer votre équipe pour pouvoir triompher de tous types d'ennemis",""}); //1
+		tutorialContents.Add(new string[]{"Bravo!","Congratulations!"}); //0
+		tutorialContents.Add(new string[]{"Vous avez gagné votre première bataille sur Cristalia. D'autres colons ",""}); //1
 		tutorialContents.Add(new string[]{"Défaite !",""}); //2
 		tutorialContents.Add(new string[]{"Vos unités se sont bien débrouillées pour leur premier combat, mais l'adversaire était trop fort ! Continuez à entrainer vos troupes pour les préparer aux combats qui les attendent !",""}); //3
 		tutorialContents.Add(new string[]{"Aidez-moi !",""}); //4

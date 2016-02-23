@@ -429,16 +429,16 @@ public class WordingSkills
 		//33 - Fou
 		idSkills.Add(33);
 		names.Add(new string[]{"Fou",""}); 
-		descriptions.Add(new string[]{"Bonus de 5% aux dégats à distance mais peut se tromper de cible (25%)",""}); 
-		descriptions.Add(new string[]{"Bonus de 10% aux dégats à distance mais peut se tromper de cible (25%)",""}); 
-		descriptions.Add(new string[]{"Bonus de 15% aux dégats à distance mais peut se tromper de cible (25%)",""}); 
-		descriptions.Add(new string[]{"Bonus de 20% aux dégats à distance mais peut se tromper de cible (25%)",""}); 
-		descriptions.Add(new string[]{"Bonus de 25% aux dégats à distance mais peut se tromper de cible (25%)",""}); 
-		descriptions.Add(new string[]{"Bonus de 30% aux dégats à distance mais peut se tromper de cible (25%)",""}); 
-		descriptions.Add(new string[]{"Bonus de 35% aux dégats à distance mais peut se tromper de cible (25%)",""}); 
-		descriptions.Add(new string[]{"Bonus de 40% aux dégats à distance mais peut se tromper de cible (25%)",""}); 
-		descriptions.Add(new string[]{"Bonus de 45% aux dégats à distance mais peut se tromper de cible (25%)",""}); 
-		descriptions.Add(new string[]{"Bonus de 50% aux dégats à distance mais peut se tromper de cible (25%)",""}); 
+		descriptions.Add(new string[]{"+5% aux dégats à distance mais peut se tromper de cible (25%)",""}); 
+		descriptions.Add(new string[]{"+10% aux dégats à distance mais peut se tromper de cible (25%)",""}); 
+		descriptions.Add(new string[]{"+15% aux dégats à distance mais peut se tromper de cible (25%)",""}); 
+		descriptions.Add(new string[]{"+20% aux dégats à distance mais peut se tromper de cible (25%)",""}); 
+		descriptions.Add(new string[]{"+25% aux dégats à distance mais peut se tromper de cible (25%)",""}); 
+		descriptions.Add(new string[]{"+30% aux dégats à distance mais peut se tromper de cible (25%)",""}); 
+		descriptions.Add(new string[]{"+35% aux dégats à distance mais peut se tromper de cible (25%)",""}); 
+		descriptions.Add(new string[]{"+40% aux dégats à distance mais peut se tromper de cible (25%)",""}); 
+		descriptions.Add(new string[]{"+45% aux dégats à distance mais peut se tromper de cible (25%)",""}); 
+		descriptions.Add(new string[]{"+50% aux dégats à distance mais peut se tromper de cible (25%)",""}); 
 		//34 - Sanguinaire
 		idSkills.Add(34);
 		names.Add(new string[]{"Sanguinaire",""}); 
@@ -455,16 +455,16 @@ public class WordingSkills
 		//35 - Sniper
 		idSkills.Add(35);
 		names.Add(new string[]{"Sniper",""}); 
-		descriptions.Add(new string[]{"Touche sa cible à chaque fois mais malus de 50% aux dégats à distance",""}); 
-		descriptions.Add(new string[]{"Touche sa cible à chaque fois mais malus de 45% aux dégats à distance",""}); 
-		descriptions.Add(new string[]{"Touche sa cible à chaque fois mais malus de 40% aux dégats à distance",""}); 
-		descriptions.Add(new string[]{"Touche sa cible à chaque fois mais malus de 35% aux dégats à distance",""}); 
-		descriptions.Add(new string[]{"Touche sa cible à chaque fois mais malus de 30% aux dégats à distance",""}); 
-		descriptions.Add(new string[]{"Touche sa cible à chaque fois mais malus de 25% aux dégats à distance",""}); 
-		descriptions.Add(new string[]{"Touche sa cible à chaque fois mais malus de 20% aux dégats à distance",""}); 
-		descriptions.Add(new string[]{"Touche sa cible à chaque fois mais malus de 15% aux dégats à distance",""}); 
-		descriptions.Add(new string[]{"Touche sa cible à chaque fois mais malus de 10% aux dégats à distance",""}); 
-		descriptions.Add(new string[]{"Touche sa cible à chaque fois mais malus de 5% aux dégats à distance",""}); 
+		descriptions.Add(new string[]{"Touche sa cible à chaque fois mais -50% aux dégats à distance",""}); 
+		descriptions.Add(new string[]{"Touche sa cible à chaque fois mais -45% aux dégats à distance",""}); 
+		descriptions.Add(new string[]{"Touche sa cible à chaque fois mais -40% aux dégats à distance",""}); 
+		descriptions.Add(new string[]{"Touche sa cible à chaque fois mais -35% aux dégats à distance",""}); 
+		descriptions.Add(new string[]{"Touche sa cible à chaque fois mais -30% aux dégats à distance",""}); 
+		descriptions.Add(new string[]{"Touche sa cible à chaque fois mais -25% aux dégats à distance",""}); 
+		descriptions.Add(new string[]{"Touche sa cible à chaque fois mais -20% aux dégats à distance",""}); 
+		descriptions.Add(new string[]{"Touche sa cible à chaque fois mais -15% aux dégats à distance",""}); 
+		descriptions.Add(new string[]{"Touche sa cible à chaque fois mais -10% aux dégats à distance",""}); 
+		descriptions.Add(new string[]{"Touche sa cible à chaque fois mais -5% aux dégats à distance",""}); 
 		//36 - Réparation
 		idSkills.Add(36);
 		names.Add(new string[]{"Réparation",""}); 
