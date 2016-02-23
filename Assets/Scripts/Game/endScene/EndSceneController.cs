@@ -95,7 +95,6 @@ public class EndSceneController : MonoBehaviour
 	public void displayEndScene(bool hasWon)
 	{
 		this.initializeBackOffice();
-		this.retrieveBonus (ApplicationModel.player.HasWonLastGame);
 		this.endGamePanel = Instantiate(endGamePanelObject) as GameObject;
 		this.endGamePanel.transform.FindChild ("Button").gameObject.SetActive (false); 
 		this.endGamePanel.transform.position = new Vector3 (0f, 0f, -8f);
@@ -122,6 +121,7 @@ public class EndSceneController : MonoBehaviour
 			this.endGamePanel.transform.FindChild("Title").GetComponent<TextMeshPro>().text="DOMMAGE !";
 			ApplicationModel.player.HasWonLastGame=false;
 		}
+		this.retrieveBonus (ApplicationModel.player.HasWonLastGame);
 		StartCoroutine (this.drawCredits());
 		StartCoroutine (this.addXp ());
 	}
