@@ -1970,7 +1970,7 @@ public class GameView : MonoBehaviour
 		if(this.getCard(this.currentPlayingCard).isSanguinaire()){
 			GameCard currentCard = GameView.instance.getCurrentCard();
 			int target = GameView.instance.getCurrentPlayingCard();
-			int bonus = GameView.instance.getCurrentSkill().Power*3;
+			int bonus = GameView.instance.getCurrentCard().Skills[0].Power*3;
 
 			GameView.instance.getCard(target).magicalBonusModifyers.Add(new Modifyer(bonus, -1, 34, "Sanguinaire", "+"+bonus+"% aux dégats à distance. Permanent"));
 			GameView.instance.getPlayingCardController(target).updateAttack();

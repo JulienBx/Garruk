@@ -26,7 +26,7 @@ public class Furie : GameSkill
 	public override void applyOn(int target){
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int level = GameView.instance.getCurrentSkill().Power;
-		int bonusLife =  -1*Mathf.Min(currentCard.GetTotalLife()-currentCard.getLife(),level*2);
+		int bonusLife =  Mathf.Min(currentCard.GetTotalLife()-currentCard.getLife(),level*2);
 		int bonusAttack = level;
 		target = GameView.instance.getCurrentPlayingCard();
 
