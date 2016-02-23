@@ -22,7 +22,7 @@ public class WordingMyGameTutorial
 		tutorialContents.Add(new string[]{"Mon armée",""}); //0
 		tutorialContents.Add(new string[]{"La meilleure manière de s'enrichir à Cristalia sera de combattre d'autres colons avec vos équipes! Le cristal récupéré vous permettra d'entrainer vos unités ou de recruter d'autres combattants. Vous pouvez ici consulter vos unités, et les organiser en équipes prêtes à combattre pour récupérer le précieux cristal",""}); //1
 		tutorialContents.Add(new string[]{"Créer une équipe",""}); //2
-		tutorialContents.Add(new string[]{"A cause de massacres fréquents menaçant la survie de l'espèce humaine sur Cristalia, les combats sont depuis peu règlementés et opposent des équipes de 4 unités.\n\nATTENTION : Un seule unité de même type par équipe sera autorisée",""}); //3
+		tutorialContents.Add(new string[]{"A cause de massacres fréquents menaçant la survie de l'espèce humaine sur Cristalia, les combats sont depuis peu règlementés et opposent des équipes de 4 unités.\nATTENTION : Un seule unité de même type par équipe sera autorisée",""}); //3
 
 		helpContents=new List<string[]>();
 		helpContents.Add(new string[]{"Mes équipes",""}); //0

@@ -2424,17 +2424,17 @@ public class GameView : MonoBehaviour
 	
 	public void launchTutoStep(int i){
 		if (i==1){
-			this.popUp.GetComponent<PopUpGameController>().setTexts("Etape 1 : L'arène", "Bienvenue dans l'arène de combat de Cristalia.\nChaque case peut etre normale, infranchissable, ou meme piégée. Prenez garde où vous mettez vos pieds ! (ou plutot ceux de vos unités)\n\nVos unités sont disposées à l'entrée de l'arène, vous pouvez les déplacer avant le début du combat en cliquant dessus!");
+			this.popUp.GetComponent<PopUpGameController>().setTexts("Etape 1 : L'arène", "Bienvenue dans l'arène de combat de Cristalia, conforme aux normes UWA1954 du code de guerre cristalien.\nLe terrain est constitué de cases, celles contenant du Cristal ne pouvant être franchies. Certaines cases peuvent réserver des surprises... que vous découvrirez bien assez tôt.\n\nAvant le début du combat, vous pouvez déplacer vos unités sur les deux premières rangées. Protégez les faibles (et sacrifiez les forts)!");
 			this.popUp.GetComponent<PopUpGameController>().changePosition(new Vector3(-0.05f, 0f, 0f));
 			this.popUp.GetComponent<PopUpGameController>().show(true);
 		}
 		else if (i==2){
-			this.popUp.GetComponent<PopUpGameController>().setTexts("Etape 2 : Chacun son tour", "Chaque colon joue à son tour, l'ordre des personnages étant déterminé par leur position dans l'équipe. Un personnage peut à chaque tour se déplacer et/ou utiliser une compétence, dans n'importe quel ordre.\n\nCristalia et ses lunes ne possèdent pas d'atmosphère, ce qui rend les combats difficiles : prenez bien garde à ne pas épuiser vos réserves d'oxygène ou vous unités perdront le combat !\n\nA vous de jouer désormais, profitez de votre tour pour vous rapprocher des unités du colon ennemi.");
+			this.popUp.GetComponent<PopUpGameController>().setTexts("Etape 2 : Chacun son tour", "Chaque colon joue à son tour, selon l'ordre de ses unités dans l'équipe. Chacune d'entre elles peut à chaque tour se déplacer ET utiliser une compétence, dans n'importe quel ordre.\n\nCristalia et ses lunes ne possèdent pas d'atmosphère, ce qui rend les combats difficiles : prenez bien garde à ne pas épuiser vos réserves d'oxygène ou vous unités perdront le combat !\n\nA vous de jouer désormais, profitez de votre tour pour vous rapprocher des unités du colon ennemi.");
 			this.popUp.GetComponent<PopUpGameController>().changePosition(new Vector3(-0.05f, 0f, 0f));
 			this.popUp.GetComponent<PopUpGameController>().show(true);
 		}
 		else if (i==3){
-			this.popUp.GetComponent<PopUpGameController>().setTexts("Etape 3 : Règles du combat", "Félicitations, vous avez donné vos premiers ordres de chef de guerre. Mais la bataille n'est pas terminée !\n\nLe combat se termine quand un colon ne dispose plus d'unités pour se battre OU s'il a épuisé le temps mis à sa disposition. Je vous laisse désormais seul pour terminer le combat, bon courage !");
+			this.popUp.GetComponent<PopUpGameController>().setTexts("Etape 3 : Règles du combat", "Félicitations, vous avez donné vos premiers ordres, chef de guerre. Mais la bataille n'est pas terminée !\n\nLe combat se termine quand un colon ne dispose plus d'unités pour se battre OU s'il a épuisé le temps mis à sa disposition. Je vous laisse désormais seul pour terminer le combat, bon courage !");
 			this.popUp.GetComponent<PopUpGameController>().changePosition(new Vector3(-0.05f, 0f, 0f));
 			this.popUp.GetComponent<PopUpGameController>().show(true);
 		}
